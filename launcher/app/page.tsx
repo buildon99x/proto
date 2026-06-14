@@ -2,6 +2,8 @@ import { projects } from "@prototype-lab/registry";
 import { ProjectCard } from "../components/project-card";
 
 export default function HomePage() {
+  const projectCount: number = projects.length;
+
   return (
     <div className="page">
       <section className="intro">
@@ -18,7 +20,7 @@ export default function HomePage() {
 
       <section className="section-heading">
         <h2>Registered Projects</h2>
-        <p>{projects.length} project{projects.length === 1 ? "" : "s"} available</p>
+        <p>{projectCount} project{projectCount === 1 ? "" : "s"} available</p>
       </section>
 
       <div className="project-grid">
