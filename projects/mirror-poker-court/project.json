@@ -1,0 +1,29 @@
+{
+  "id": "mirror-poker-court",
+  "name": "Mirror Poker Court",
+  "status": "prototype",
+  "type": "webapp",
+  "runtime": "static-artifact",
+  "summary": "A playable poker-court prototype where players flip evidence cards into verdict momentum while preserving jury trust.",
+  "tags": ["game", "card", "prototype"],
+  "projectRoot": "projects/mirror-poker-court",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/mirror-poker-court/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md"
+  },
+  "assets": {
+    "cover": "assets/screenshots/cover.png"
+  },
+  "commands": {
+    "dev": "pnpm --filter mirror-poker-court dev",
+    "build": "pnpm --filter mirror-poker-court build",
+    "test": "pnpm --filter mirror-poker-court test"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "museum-heist-deck",
+  "name": "Museum Heist Deck",
+  "status": "prototype",
+  "type": "webapp",
+  "runtime": "static-artifact",
+  "summary": "A playable stealth-deck prototype about reading guard intent, spending tools, and escaping with cursed loot.",
+  "tags": ["game", "stealth", "prototype"],
+  "projectRoot": "projects/museum-heist-deck",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/museum-heist-deck/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md"
+  },
+  "assets": {
+    "cover": "assets/screenshots/cover.png"
+  },
+  "commands": {
+    "dev": "pnpm --filter museum-heist-deck dev",
+    "build": "pnpm --filter museum-heist-deck build",
+    "test": "pnpm --filter museum-heist-deck test"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "origami-fleet",
+  "name": "Origami Fleet",
+  "status": "prototype",
+  "type": "webapp",
+  "runtime": "static-artifact",
+  "summary": "A playable fold-and-position fleet tactics prototype about building formation before paper hulls tear.",
+  "tags": ["game", "tactics", "prototype"],
+  "projectRoot": "projects/origami-fleet",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/origami-fleet/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md"
+  },
+  "assets": {
+    "cover": "assets/screenshots/cover.png"
+  },
+  "commands": {
+    "dev": "pnpm --filter origami-fleet dev",
+    "build": "pnpm --filter origami-fleet build",
+    "test": "pnpm --filter origami-fleet test"
+  }
+}
