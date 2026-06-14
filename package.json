@@ -1,0 +1,24 @@
+{
+  "name": "prototype-lab-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {
+    "dev": "corepack pnpm --filter launcher dev",
+    "build": "node scripts/run-turbo.cjs build",
+    "build:vercel": "corepack pnpm sync:registry && corepack pnpm build:projects && corepack pnpm --filter launcher build",
+    "build:projects": "tsx scripts/build-all-projects.ts",
+    "build:project": "tsx scripts/build-project.ts",
+    "sync:registry": "tsx scripts/sync-launcher-registry.ts",
+    "validate:projects": "tsx scripts/validate-project.ts",
+    "create:project": "tsx scripts/create-project.ts",
+    "test": "node scripts/run-turbo.cjs test",
+    "lint": "node scripts/run-turbo.cjs lint"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.16",
+    "tsx": "^4.19.2",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.3"
+  }
+}

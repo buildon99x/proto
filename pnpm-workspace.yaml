@@ -1,0 +1,4 @@
+packages:
+  - "launcher"
+  - "packages/*"
+  - "projects/*/app"
