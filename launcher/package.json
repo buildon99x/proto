@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",
     "build": "next build",
+    "build:vercel": "cd .. && corepack pnpm build:vercel",
     "lint": "tsc --noEmit",
     "test": "tsc --noEmit"
   },
