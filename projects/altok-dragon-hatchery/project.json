@@ -1,0 +1,34 @@
+{
+  "id": "altok-dragon-hatchery",
+  "name": "알톡! 드래곤 부화장",
+  "status": "prototype",
+  "type": "demo",
+  "runtime": "static-artifact",
+  "summary": "드래곤 알을 클릭해 부화시키고, 수집한 드래곤의 자동 생산으로 성장하는 2D 클릭커 프로토타입.",
+  "tags": [
+    "game",
+    "clicker",
+    "collection",
+    "prototype"
+  ],
+  "projectRoot": "projects/altok-dragon-hatchery",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/altok-dragon-hatchery/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md"
+  },
+  "assets": {
+    "cover": "assets/screenshots/cover.png"
+  },
+  "commands": {
+    "dev": "pnpm --filter altok-dragon-hatchery dev",
+    "build": "pnpm --filter altok-dragon-hatchery build",
+    "test": "pnpm --filter altok-dragon-hatchery test"
+  }
+}
