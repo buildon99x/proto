@@ -1,0 +1,442 @@
+:root {
+  color: #2f251f;
+  font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+  background: #35221d;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+}
+
+.game-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(380px, 1fr) minmax(250px, 330px);
+  gap: 16px;
+  padding: 18px;
+  background:
+    radial-gradient(circle at 48% 38%, rgba(255, 171, 76, 0.24), transparent 34%),
+    linear-gradient(135deg, #58362a 0%, #241a1b 54%, #17181e 100%);
+}
+
+.resource-panel,
+.upgrade-panel,
+.progress-card,
+.recent-log,
+.collection-panel {
+  border: 1px solid rgba(255, 230, 183, 0.22);
+  border-radius: 8px;
+  background: rgba(255, 241, 207, 0.9);
+  box-shadow: 0 14px 30px rgba(26, 14, 10, 0.24);
+}
+
+.resource-panel,
+.upgrade-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: #a64d22;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  color: #3b2316;
+  font-size: 30px;
+  line-height: 1.12;
+}
+
+h2 {
+  color: #2c1c15;
+  font-size: 28px;
+  line-height: 1.18;
+}
+
+.gold-box {
+  min-height: 84px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px;
+  border-radius: 8px;
+  color: #3d220d;
+  background: linear-gradient(135deg, #ffd978, #f3a33d);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.gold-box span,
+.material span,
+.panel-title span {
+  font-size: 13px;
+  font-weight: 800;
+  color: rgba(55, 31, 15, 0.72);
+}
+
+.gold-box strong {
+  font-size: 38px;
+  line-height: 1;
+}
+
+.material-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.material {
+  min-height: 66px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid rgba(103, 70, 38, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.material strong {
+  color: #2c1d18;
+  font-size: 24px;
+}
+
+.collection-panel,
+.recent-log,
+.progress-card {
+  padding: 14px;
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.panel-title strong {
+  color: #7b3219;
+}
+
+.collection-panel p {
+  margin-top: 8px;
+  color: #674022;
+  font-weight: 800;
+}
+
+.stored-list,
+.log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.stored-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+  min-height: 34px;
+  padding: 8px;
+  border-radius: 6px;
+  background: #fff7e7;
+  color: #3b2921;
+  font-size: 12px;
+}
+
+.empty-state {
+  color: rgba(59, 41, 33, 0.62);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.forge-stage {
+  position: relative;
+  min-height: calc(100vh - 36px);
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  gap: 12px;
+}
+
+.forge-canvas {
+  min-height: 420px;
+  overflow: hidden;
+  border: 4px solid #1c1413;
+  border-radius: 8px;
+  background: #221819;
+  box-shadow: inset 0 0 80px rgba(255, 111, 50, 0.18), 0 18px 40px rgba(0, 0, 0, 0.34);
+}
+
+.progress-card {
+  background: rgba(255, 243, 220, 0.94);
+}
+
+.progress-head,
+.stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: #55341f;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.progress-track {
+  height: 18px;
+  margin: 10px 0;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #2b2020;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #f3bf58, #ff6f35, #fff0a1);
+  box-shadow: 0 0 18px rgba(255, 130, 54, 0.72);
+  transition: width 120ms ease-out;
+}
+
+.feedback-line {
+  min-height: 42px;
+  display: grid;
+  place-items: center;
+  padding: 10px 16px;
+  border-radius: 8px;
+  color: #ffedc2;
+  font-weight: 900;
+  text-align: center;
+  background: rgba(24, 15, 14, 0.74);
+  border: 1px solid rgba(255, 214, 145, 0.18);
+}
+
+.log-list {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.log-chip {
+  padding: 7px 9px;
+  border-radius: 999px;
+  color: #38251d;
+  background: #fff4d8;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.upgrade-panel {
+  overflow: auto;
+}
+
+.upgrade-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.upgrade-button {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  min-height: 78px;
+  padding: 12px;
+  border: 1px solid rgba(97, 61, 31, 0.22);
+  border-radius: 8px;
+  color: #38251d;
+  background: #fff9ec;
+  cursor: pointer;
+  text-align: left;
+}
+
+.upgrade-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: rgba(175, 83, 32, 0.52);
+  background: #fff4d4;
+}
+
+.upgrade-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.54;
+}
+
+.upgrade-button strong,
+.upgrade-button small,
+.upgrade-cost {
+  display: block;
+}
+
+.upgrade-button small {
+  margin-top: 4px;
+  color: rgba(55, 37, 29, 0.64);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.upgrade-cost {
+  min-width: 62px;
+  color: #8b3a19;
+  font-size: 12px;
+  font-weight: 900;
+  text-align: right;
+}
+
+.upgrade-cost b {
+  display: block;
+  margin-top: 4px;
+  color: #342018;
+}
+
+.result-backdrop {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(18, 10, 8, 0.58);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+.result-modal {
+  width: min(560px, 100%);
+  padding: 24px;
+  border: 2px solid rgba(255, 232, 171, 0.55);
+  border-radius: 8px;
+  background: linear-gradient(145deg, #fff6df, #ffdca2);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.46), 0 0 48px rgba(255, 175, 64, 0.42);
+}
+
+.weapon-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 18px 0;
+}
+
+.weapon-stats span {
+  min-height: 52px;
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  color: #412819;
+  background: rgba(255, 255, 255, 0.45);
+  font-size: 13px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.result-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.result-actions button {
+  min-height: 56px;
+  border: 0;
+  border-radius: 8px;
+  color: #fff3da;
+  background: #663622;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.result-actions button:hover {
+  background: #8f4522;
+}
+
+.result-actions small {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 243, 218, 0.76);
+  font-size: 10px;
+}
+
+.grade-rare {
+  border-color: #4a93ff;
+  box-shadow: inset 0 0 0 1px rgba(74, 147, 255, 0.35);
+}
+
+.grade-epic {
+  border-color: #a66bff;
+  box-shadow: inset 0 0 0 1px rgba(166, 107, 255, 0.38);
+}
+
+.grade-legendary {
+  border-color: #ffb22e;
+  box-shadow: inset 0 0 0 1px rgba(255, 178, 46, 0.5), 0 0 26px rgba(255, 166, 45, 0.36);
+}
+
+@media (max-width: 1040px) {
+  .game-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .forge-stage {
+    min-height: 680px;
+    order: -1;
+  }
+
+  .resource-panel,
+  .upgrade-panel {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start;
+  }
+
+  .collection-panel,
+  .upgrade-list {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 680px) {
+  .game-shell {
+    padding: 10px;
+  }
+
+  .forge-stage {
+    min-height: 620px;
+  }
+
+  .forge-canvas {
+    min-height: 340px;
+  }
+
+  .resource-panel,
+  .upgrade-panel,
+  .weapon-stats,
+  .result-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
