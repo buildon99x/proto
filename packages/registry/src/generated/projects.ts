@@ -2,6 +2,39 @@ import type { ProjectMetadata } from "../schema";
 
 export const projects = [
   {
+    "id": "blacksmith-clicker",
+    "name": "대장장이 클릭커",
+    "status": "prototype",
+    "type": "webapp",
+    "runtime": "static-artifact",
+    "summary": "Click to forge random fantasy weapons, then sell, salvage, enhance, or collect them to grow an automated blacksmith shop.",
+    "tags": [
+      "game",
+      "clicker",
+      "prototype"
+    ],
+    "projectRoot": "projects/blacksmith-clicker",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/blacksmith-clicker/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md"
+    },
+    "assets": {
+      "cover": "assets/screenshots/cover.png"
+    },
+    "commands": {
+      "dev": "pnpm --filter blacksmith-clicker dev",
+      "build": "pnpm --filter blacksmith-clicker build",
+      "test": "pnpm --filter blacksmith-clicker test"
+    }
+  },
+  {
     "id": "altok-dragon-hatchery",
     "name": "알톡! 드래곤 부화장",
     "status": "prototype",
