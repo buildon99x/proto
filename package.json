@@ -12,6 +12,7 @@
     "sync:registry": "tsx scripts/sync-launcher-registry.ts",
     "validate:projects": "tsx scripts/validate-project.ts",
     "create:project": "tsx scripts/create-project.ts",
+    "playtest": "node scripts/playtest/run.mjs",
     "test": "node scripts/run-turbo.cjs test",
     "lint": "node scripts/run-turbo.cjs lint"
   },
