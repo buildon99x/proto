@@ -29,6 +29,7 @@
 | 04 | [eval-and-rubric.md](./04-eval-and-rubric.md) | **컨셉 기획 채점 루브릭** — 골든셋 기반 12항목 점수표 + 8대 레드플래그 체크리스트 + "골든셋이 품질을 높이는가" 자체 검증 |
 | 05 | [genre-index.md](./05-genre-index.md) | **장르 인덱스** — 117종을 10대 장르로 재분류, *장르별 10종 이상* 충족 검증 + 교차분류·읽기 우선순위 |
 | 06 | [mainstream-market.md](./06-mainstream-market.md) | **현 시장 주류 보강 40종(M1–M40)** — 경쟁 FPS·택티컬(G7) · MOBA(G8) · MMORPG(G9) · 샌드박스·UGC·라이프(G10) + 주류 횡단 교훈(네트워크 효과·F2P·리텐션·라이브옵스) |
+| 07 | [implementation-lessons.md](./07-implementation-lessons.md) | **구현 실패 회고** — 5개 컨셉을 공통 카드/트랙 셸로 만든 접근을 폐기한 이유와, 향후 concept-to-game 구현의 기계적 합격 기준 |
 | 📦 | [data/golden-set.json](./data/golden-set.json) | **골든셋 단일 소스(기계 판독용)** — 117종을 구조화(id·장르·판정·X+Y·교훈·인사이트·신뢰도). 마크다운 문서는 사람용, JSON은 질의·도구용. |
 | 🛠 | [tools/score_concept.py](./tools/score_concept.py) | **질의·린트 도구** — `stats`(장르 ≥10 검증)·`compare`(동급 사례)·`find`(키워드)·`lint`(컨셉 문서 구조 점검). |
 | 🎯 | `.claude/skills/concept-design/` | **컨셉 기획 스킬** — `/concept-design`으로 템플릿·골든셋·루브릭을 한 번에 구동(작성→비교→린트→채점). |
