@@ -108,8 +108,6 @@ export class DanmakuScene extends Phaser.Scene {
   private btnLaser = false;
   private bombEdge = false;
   private awakenEdge = false;
-  private prevBombKey = false;
-  private prevAwakenKey = false;
 
   // 포인터(모바일/드래그 이동).
   private pointerActive = false;
@@ -186,6 +184,14 @@ export class DanmakuScene extends Phaser.Scene {
     };
     // 게임 입력 키가 페이지 스크롤을 유발하지 않도록.
     kb.disableGlobalCapture();
+
+    // 봄/각성은 에지 액션 — 프레임 폴링은 빠른 탭을 놓칠 수 있어 keydown 이벤트로 래치.
+    this.keys.bomb.on("down", () => {
+      this.bombEdge = true;
+    });
+    this.keys.awaken.on("down", () => {
+      this.awakenEdge = true;
+    });
 
     this.input.on("pointerdown", (p: Phaser.Input.Pointer) => {
       this.pointerActive = true;
@@ -327,16 +333,10 @@ export class DanmakuScene extends Phaser.Scene {
     this.px = Phaser.Math.Clamp(this.px, 12, GAME_W - 12);
     this.py = Phaser.Math.Clamp(this.py, 12, GAME_H - 12);
 
-    // 봄(에지).
-    const bombKey = k.bomb.isDown;
-    if ((bombKey && !this.prevBombKey) || this.bombEdge) this.triggerBomb(false);
-    this.prevBombKey = bombKey;
+    // 봄/각성(에지) — keydown 이벤트(키보드)·DOM 버튼이 모두 bombEdge/awakenEdge로 모임.
+    if (this.bombEdge) this.triggerBomb(false);
     this.bombEdge = false;
-
-    // 각성(에지).
-    const awKey = k.awaken.isDown;
-    if ((awKey && !this.prevAwakenKey) || this.awakenEdge) this.triggerAwaken();
-    this.prevAwakenKey = awKey;
+    if (this.awakenEdge) this.triggerAwaken();
     this.awakenEdge = false;
   }
 
