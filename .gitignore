@@ -152,5 +152,6 @@ launcher/public/runs/*
 
 # Playtest harness: isolated browser tooling (puppeteer + cached chrome)
 .playtest/
-# Per-run playtest report (timestamped; screenshots are kept as evidence)
+# Per-run playtest/verify reports (timestamped; screenshots are kept as evidence)
 **/assets/screenshots/shots/playtest-report.json
+**/assets/screenshots/shots/verify-report.json
