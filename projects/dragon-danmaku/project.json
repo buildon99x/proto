@@ -1,0 +1,29 @@
+{
+  "id": "dragon-danmaku",
+  "name": "용린난무 龍鱗亂舞",
+  "status": "prototype",
+  "type": "demo",
+  "runtime": "static-artifact",
+  "summary": "도돈파치 계보의 연환(체인) 스코어링 종스크롤 탄막 슈팅에 드래곤·동양 신화 테마를 입힌 웹 게임. 샷/레이저 이원 무기, 봄/각성, 6스테이지 + 영구 성장 메타.",
+  "tags": ["game", "danmaku", "shmup", "bullet-hell", "dragon", "prototype"],
+  "projectRoot": "projects/dragon-danmaku",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/dragon-danmaku/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md"
+  },
+  "assets": {
+    "cover": "assets/screenshots/cover.png"
+  },
+  "commands": {
+    "dev": "pnpm --filter dragon-danmaku dev",
+    "build": "pnpm --filter dragon-danmaku build",
+    "test": "pnpm --filter dragon-danmaku test"
+  }
+}

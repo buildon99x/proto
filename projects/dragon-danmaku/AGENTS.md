@@ -2,9 +2,8 @@
 
 This project is managed as an individual Prototype Lab project.
 
-- Current stage: **concept/design (기획)** — design docs only, no app code or registry entry yet.
+- Current stage: **prototype** — design docs in `docs/` + a playable app in `app/` (Vite + React + TS + Phaser), registered in the launcher registry via `project.json`.
 - Keep project-specific app code, assets, data, prompts, tests, notes, and docs inside this project root.
 - Do not move project-specific assets into `launcher` or `packages`.
-- Keep `brief.md`, `spec.md`, and `eval.md` aligned with the design docs in `docs/`.
-- Do NOT register this project in the launcher registry or run `pnpm build:vercel` until app code exists — registering an empty app can break the launcher build.
-- When implementation starts: create the app under this root, add `project.json`, then run `pnpm sync:registry` and verify the launcher run path.
+- Keep `brief.md`, `spec.md`, `eval.md`, and `changelog.md` aligned with behavior changes.
+- After project or metadata changes, run `pnpm sync:registry`; before release, run `pnpm build:vercel` and verify the `/runs/dragon-danmaku/` run path.

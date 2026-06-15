@@ -34,10 +34,12 @@
 - 교차 일관성 점검: `concept.md`(§3 톤 ↔ §8 비주얼 ↔ §9 사운드), `mechanics.md` 수치 ↔ `meta-progression.md` 경제 ↔ `stages-bosses.md` 분량이 모순 없는지.
 - 레포 무영향 확인: `projects/dragon-danmaku/`는 레지스트리 미등록 → `pnpm build:vercel` 영향 없음.
 
-## F. 향후 구현 빌드 수용 기준 (참고 — 구현 착수 시 적용)
+## F. 프로토타입 빌드 수용 기준 (`app/`)
 
-- 첫 화면에서 드래곤·난이도 선택 후 즉시 1스테이지 진입, 샷/레이저/봄/각성이 모두 동작.
-- 연속 격파로 연환 배수가 오르고 끊기면 리셋, 점수에 반영.
-- 보스 격파 → 리절트에서 점수·수집량 기반 용비늘 정산 → 허브에서 해금 반영.
-- 데스크톱·모바일 폭에서 HUD/허브/패널이 겹치지 않음.
-- 검증: `pnpm --filter dragon-danmaku test` / `pnpm sync:registry` / `pnpm build:vercel` / 브라우저 플레이테스트.
+- [x] 첫 화면에서 드래곤·난이도 선택 후 즉시 1스테이지 진입, 샷/레이저/봄/각성이 모두 동작.
+- [x] 연속 격파로 연환 배수가 오르고 끊기면 리셋, 점수에 반영.
+- [x] 보스 격파 → 리절트에서 점수·수집량 기반 용비늘 정산 → 허브에서 해금 반영(localStorage 영속).
+- [x] 잔기 0 → 컨티뉴/게임오버 분기, 노컨티뉴 시 심연·진보스(아카식) 경로.
+- [x] 데스크톱(키보드)·모바일(드래그 이동 + 빔/포효/각성 버튼) 입력.
+- **자동 검증(완료)**: `pnpm --filter dragon-danmaku lint`(tsc) / `build`(tsc+vite) / `pnpm sync:registry` / `pnpm validate:projects` / `pnpm build:vercel`.
+- **수동 플레이테스트(권장)**: `pnpm --filter dragon-danmaku dev` 후 타이틀→출격→연환 빌드→보스→리절트→허브 해금 1사이클.

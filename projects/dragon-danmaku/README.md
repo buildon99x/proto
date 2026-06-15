@@ -2,7 +2,12 @@
 
 > 고전 탄막 슈팅 **도돈파치(DoDonPachi)**를 카피 베이스로, **드래곤·동양 신화** 테마를 입힌 종스크롤 탄막 슈팅 게임. 6스테이지 캠페인 + 영구 성장 메타로 **3–4시간 이상** 플레이타임.
 
-**Status:** `concept / design (기획)` — 설계 문서 단계. 앱 코드·런처 등록 없음.
+**Status:** `prototype` — 설계 문서(`docs/`) + 플레이 가능 앱(`app/`). 런처에 등록되어 브라우저로 바로 실행.
+
+```bash
+pnpm --filter dragon-danmaku dev    # 로컬 개발 서버
+pnpm --filter dragon-danmaku build  # 프로덕션 빌드(tsc + vite)
+```
 
 ## 무엇을 베끼고 무엇을 더했나
 
@@ -23,8 +28,16 @@
 | [`docs/design/meta-progression.md`](./docs/design/meta-progression.md) | 용비늘 경제 · 해금 트리 · 난이도 · 플레이타임 예산 |
 | [`docs/design/ux-flow.md`](./docs/design/ux-flow.md) | 전 화면·상태 E2E 플로우 |
 
-## 구현 착수 시 할 일 (현재 미수행)
+## 코드 지도 (`app/src/`)
 
-1. `projects/dragon-danmaku/app` 생성 (Vite + React + TS + Phaser 제안).
-2. `project.json` 작성 후 런처 레지스트리 등록.
-3. `pnpm sync:registry` → `pnpm build:vercel` 검증.
+| 파일 | 역할 |
+|---|---|
+| `game/DanmakuScene.ts` | Phaser 탄막 엔진(플레이어/적/탄막/보스/연환/봄/각성/스테이지) |
+| `game/GameCanvas.tsx` | Phaser ↔ React 브리지(HUD/이벤트 콜백) |
+| `screens/GameScreen.tsx` | 인게임 HUD·일시정지·컨티뉴·모바일 컨트롤 |
+| `screens/Menus.tsx` · `screens/Hub.tsx` | 타이틀·선택·리절트·옵션·용소 허브 |
+| `data.ts` · `meta.ts` · `types.ts` | 게임 데이터 · 메타 경제(localStorage) · 타입 |
+
+## 향후 확장
+
+- 오디오(BGM/SFX), 2주차 전 스테이지 리믹스, 탄막 패턴 DSL화. (`changelog.md` 참조)

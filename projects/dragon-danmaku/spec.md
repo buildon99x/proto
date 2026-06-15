@@ -4,8 +4,9 @@
 
 ## 1. 산출물 범위 (현 단계)
 
-- **이번 산출물 = 기획서**: `brief.md` / `spec.md` / `eval.md` + `docs/concept.md`(13섹션 컨셉 기획서) + `docs/design/*`(메커닉·스테이지·캐릭터·메타·UX 플로우).
-- **구현 미포함**: 앱 코드·에셋·런처 레지스트리 등록·빌드는 후속 작업. 따라서 현재 `pnpm sync:registry` / `pnpm build:vercel`는 **실행하지 않는다**(빈 앱 등록으로 런처 빌드가 깨지는 것을 방지). 구현 착수 조건은 §8에 명시.
+- **기획서**: `brief.md` / `spec.md` / `eval.md` + `docs/concept.md`(13섹션 컨셉 기획서) + `docs/design/*`(메커닉·스테이지·캐릭터·메타·UX 플로우).
+- **플레이 가능 프로토타입**: `app/`(Vite + React + TS + Phaser). 코어 시스템(샷/레이저·연환·봄·각성·6스테이지+보스·2주차/진보스·메타 해금)과 E2E 화면 플로우를 구현. 런처 레지스트리(`project.json`) 등록 완료 → `pnpm build:vercel`로 `/runs/dragon-danmaku/`에 빌드.
+- 구현 매핑은 §8, 미구현/축약 항목은 `changelog.md` 참조.
 
 ## 2. 카피 베이스 → 드래곤 매핑 (메커닉 정체성)
 
@@ -55,8 +56,10 @@
 
 부팅 → 타이틀 → 드래곤 선택 → 난이도 선택 → 인게임(HUD/일시정지) → 사망/컨티뉴/게임오버 → 리절트(점수·용비늘 정산) → 용소 허브(해금·업글) → 연습/도감/옵션 → 재도전. 모든 화면 구성요소·전이 조건·되돌아가기 경로는 `docs/design/ux-flow.md`에 정의(막다른 화면 없음).
 
-## 8. 구현 메모 (후속 작업 — 착수 시 적용)
+## 8. 구현 매핑 (현 프로토타입)
 
-- **스택 제안**: Vite + React + TypeScript + Phaser(레포 `altok-dragon-hatchery` 패턴 재사용). 탄막·충돌은 Phaser 캔버스, 텍스트 UI(도감·허브·옵션)는 DOM.
-- **결정성 주의**: 점수·연환 곱연산은 정수 수학으로 결정적 처리. 탄막 패턴은 데이터(JSON/DSL)로 분리해 튜닝 가능하게.
-- **구현 착수 조건(현재 미수행)**: ① `projects/dragon-danmaku/app` 생성 ② `project.json` 레지스트리 등록 ③ `pnpm sync:registry` ④ `pnpm build:vercel` 검증. 본 기획서 단계에서는 수행하지 않는다.
+- **스택**: Vite + React + TypeScript + Phaser(`altok-dragon-hatchery` 패턴). 탄막·충돌·렌더는 `src/game/DanmakuScene.ts`(Phaser, 단일 Graphics 수동 렌더), 화면 전환·HUD·메뉴는 React DOM(`src/screens/*`).
+- **데이터/로직 분리**: 게임 데이터 `src/data.ts`, 메타 경제·해금·localStorage `src/meta.ts`, 공유 타입 `src/types.ts`.
+- **결정성**: 점수·연환 곱연산은 `Math.floor` 정수 처리.
+- **검증 완료**: `pnpm --filter dragon-danmaku lint/build`, `pnpm sync:registry`, `pnpm build:vercel`(launcher 라우트·`/runs/dragon-danmaku/` 산출 확인).
+- **후속 확장**: 오디오(BGM/SFX), 2주차 전 스테이지 리믹스(현재 진보스 단독 축약), 탄막 패턴 DSL화 — `changelog.md` 참조.
