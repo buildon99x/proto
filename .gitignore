@@ -149,3 +149,9 @@ launcher/public/runs/*
 # Local script shims/cache
 .cache/
 .turbo/
+
+# Playtest harness: isolated browser tooling (puppeteer + cached chrome)
+.playtest/
+# Per-run playtest/verify reports (timestamped; screenshots are kept as evidence)
+**/assets/screenshots/shots/playtest-report.json
+**/assets/screenshots/shots/verify-report.json

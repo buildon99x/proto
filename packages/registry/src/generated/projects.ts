@@ -2,6 +2,38 @@ import type { ProjectMetadata } from "../schema";
 
 export const projects = [
   {
+    "id": "sample-project",
+    "name": "Sample Project",
+    "status": "prototype",
+    "type": "webapp",
+    "runtime": "static-artifact",
+    "summary": "Prototype Lab Monorepo의 기본 샘플 프로젝트입니다.",
+    "tags": [
+      "sample",
+      "prototype"
+    ],
+    "projectRoot": "projects/sample-project",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/sample-project/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md"
+    },
+    "assets": {
+      "cover": "assets/screenshots/cover.png"
+    },
+    "commands": {
+      "dev": "pnpm --filter sample-project dev",
+      "build": "pnpm --filter sample-project build",
+      "test": "pnpm --filter sample-project test"
+    }
+  },
+  {
     "id": "blacksmith-clicker",
     "name": "대장장이 클릭커",
     "status": "prototype",
@@ -69,20 +101,24 @@ export const projects = [
     }
   },
   {
-    "id": "sample-project",
-    "name": "Sample Project",
+    "id": "dragon-danmaku",
+    "name": "용린난무 龍鱗亂舞",
     "status": "prototype",
-    "type": "webapp",
+    "type": "demo",
     "runtime": "static-artifact",
-    "summary": "Prototype Lab Monorepo의 기본 샘플 프로젝트입니다.",
+    "summary": "도돈파치 계보의 연환(체인) 스코어링 종스크롤 탄막 슈팅에 드래곤·동양 신화 테마를 입힌 웹 게임. 샷/레이저 이원 무기, 봄/각성, 6스테이지 + 영구 성장 메타.",
     "tags": [
-      "sample",
+      "game",
+      "danmaku",
+      "shmup",
+      "bullet-hell",
+      "dragon",
       "prototype"
     ],
-    "projectRoot": "projects/sample-project",
+    "projectRoot": "projects/dragon-danmaku",
     "entry": {
       "kind": "iframe",
-      "path": "/runs/sample-project/index.html"
+      "path": "/runs/dragon-danmaku/index.html"
     },
     "docs": {
       "brief": "brief.md",
@@ -95,9 +131,9 @@ export const projects = [
       "cover": "assets/screenshots/cover.png"
     },
     "commands": {
-      "dev": "pnpm --filter sample-project dev",
-      "build": "pnpm --filter sample-project build",
-      "test": "pnpm --filter sample-project test"
+      "dev": "pnpm --filter dragon-danmaku dev",
+      "build": "pnpm --filter dragon-danmaku build",
+      "test": "pnpm --filter dragon-danmaku test"
     }
   }
 ] as const satisfies readonly ProjectMetadata[];
