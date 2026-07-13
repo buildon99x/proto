@@ -2,6 +2,44 @@ import type { ProjectMetadata } from "../schema";
 
 export const projects = [
   {
+    "id": "retro-bowling",
+    "name": "Retro Bowling",
+    "status": "prototype",
+    "type": "demo",
+    "runtime": "static-artifact",
+    "summary": "도트 그래픽 8비트 볼링 게임. 원근 레인을 배경으로 파워 미터·스핀(훅) 미터·조준으로 공을 굴려 10프레임 표준 볼링을 즐긴다. 실시간 2D 핀 물리로 스트라이크·스페어·스플릿이 자연스럽게 발생하고, 칩튠 사운드와 CRT 스캔라인 연출을 입혔다.",
+    "tags": [
+      "game",
+      "bowling",
+      "retro",
+      "pixel-art",
+      "8bit",
+      "canvas",
+      "arcade",
+      "prototype"
+    ],
+    "projectRoot": "projects/retro-bowling",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/retro-bowling/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md"
+    },
+    "assets": {
+      "cover": "assets/screenshots/cover.png"
+    },
+    "commands": {
+      "dev": "pnpm --filter retro-bowling dev",
+      "build": "pnpm --filter retro-bowling build",
+      "test": "pnpm --filter retro-bowling test"
+    }
+  },
+  {
     "id": "sample-project",
     "name": "Sample Project",
     "status": "prototype",

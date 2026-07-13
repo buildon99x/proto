@@ -1,0 +1,157 @@
+:root {
+  color: #f4f4ec;
+  font-family: "Courier New", monospace;
+  background: #05070f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.app-shell {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 12px;
+  background: radial-gradient(circle at 50% 20%, #1a2140 0%, #05070f 70%);
+}
+
+.game-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+}
+
+/* 픽셀 확대: nearest-neighbor 로 도트 유지. */
+.screen-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 256 / 384;
+  border: 4px solid #2b3560;
+  border-radius: 8px;
+  box-shadow: 0 0 0 3px #0b1020, 0 8px 30px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  background: #05070f;
+}
+
+.game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  touch-action: none;
+  cursor: pointer;
+}
+
+/* CRT 스캔라인 오버레이. */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.18) 3px
+  );
+  mix-blend-mode: multiply;
+}
+
+.mute-btn {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-family: inherit;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #8a93a3;
+  background: rgba(5, 7, 15, 0.7);
+  border: 1px solid #2b3560;
+  border-radius: 3px;
+  padding: 3px 5px;
+  cursor: pointer;
+}
+.mute-btn:hover {
+  color: #ffd23f;
+}
+
+.oil-btn {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  font-family: inherit;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #8a93a3;
+  background: rgba(5, 7, 15, 0.7);
+  border: 1px solid #2b3560;
+  border-radius: 3px;
+  padding: 3px 5px;
+  cursor: pointer;
+}
+.oil-btn:hover {
+  color: #ffd23f;
+}
+.oil-btn.on {
+  color: #ff8a3f;
+  border-color: #ff8a3f;
+}
+
+.controls {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.ctrl {
+  font-family: inherit;
+  border: 3px solid #2b3560;
+  background: #141d38;
+  color: #f4f4ec;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+  transition: background 0.05s, transform 0.05s;
+}
+.ctrl:active {
+  background: #ffd23f;
+  color: #0b1020;
+  transform: translateY(2px);
+}
+.ctrl-dir {
+  width: 64px;
+  height: 52px;
+  font-size: 22px;
+}
+.ctrl-action {
+  width: 84px;
+  height: 60px;
+  font-size: 26px;
+  border-color: #ff5277;
+}
+
+.hint {
+  color: #6b7488;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  margin: 0;
+  line-height: 1.5;
+}
+
+@media (min-width: 600px) {
+  .controls {
+    display: none; /* 데스크톱은 키보드 위주 */
+  }
+}
