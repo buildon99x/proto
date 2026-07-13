@@ -1,0 +1,19 @@
+{
+  "name": "Dragon Post Office",
+  "slug": "dragon-post-office",
+  "pitch": "용이 우체국을 운영하는 경영 게임",
+  "theme": "mystic",
+  "actionLabel": "마력 불어넣기",
+  "resourceName": "마력",
+  "itemName": "유물",
+  "goalCount": 5,
+  "rewardPerAction": 3,
+  "upgradeCost": 9,
+  "tags": [
+    "factory-generated",
+    "mystic",
+    "microgame"
+  ],
+  "playerGoal": "유물 5개를 완성하고 작업 효율을 한 번 강화하세요.",
+  "successMessage": "Dragon Post Office의 첫 번째 운영 사이클을 완성했습니다!"
+}

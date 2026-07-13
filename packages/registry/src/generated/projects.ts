@@ -2,38 +2,6 @@ import type { ProjectMetadata } from "../schema";
 
 export const projects = [
   {
-    "id": "sample-project",
-    "name": "Sample Project",
-    "status": "prototype",
-    "type": "webapp",
-    "runtime": "static-artifact",
-    "summary": "Prototype Lab Monorepo의 기본 샘플 프로젝트입니다.",
-    "tags": [
-      "sample",
-      "prototype"
-    ],
-    "projectRoot": "projects/sample-project",
-    "entry": {
-      "kind": "iframe",
-      "path": "/runs/sample-project/index.html"
-    },
-    "docs": {
-      "brief": "brief.md",
-      "spec": "spec.md",
-      "eval": "eval.md",
-      "readme": "README.md",
-      "changelog": "changelog.md"
-    },
-    "assets": {
-      "cover": "assets/screenshots/cover.png"
-    },
-    "commands": {
-      "dev": "pnpm --filter sample-project dev",
-      "build": "pnpm --filter sample-project build",
-      "test": "pnpm --filter sample-project test"
-    }
-  },
-  {
     "id": "blacksmith-clicker",
     "name": "대장장이 클릭커",
     "status": "prototype",
@@ -134,6 +102,69 @@ export const projects = [
       "dev": "pnpm --filter dragon-danmaku dev",
       "build": "pnpm --filter dragon-danmaku build",
       "test": "pnpm --filter dragon-danmaku test"
+    }
+  },
+  {
+    "id": "dragon-post-office",
+    "name": "Dragon Post Office",
+    "status": "prototype",
+    "type": "demo",
+    "runtime": "static-artifact",
+    "summary": "용이 우체국을 운영하는 경영 게임",
+    "tags": [
+      "factory-generated",
+      "mystic",
+      "microgame"
+    ],
+    "projectRoot": "projects/dragon-post-office",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/dragon-post-office/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md"
+    },
+    "assets": {},
+    "commands": {
+      "dev": "pnpm --filter dragon-post-office dev",
+      "build": "pnpm --filter dragon-post-office build",
+      "test": "pnpm --filter dragon-post-office test"
+    }
+  },
+  {
+    "id": "sample-project",
+    "name": "Sample Project",
+    "status": "prototype",
+    "type": "webapp",
+    "runtime": "static-artifact",
+    "summary": "Prototype Lab Monorepo의 기본 샘플 프로젝트입니다.",
+    "tags": [
+      "sample",
+      "prototype"
+    ],
+    "projectRoot": "projects/sample-project",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/sample-project/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md"
+    },
+    "assets": {
+      "cover": "assets/screenshots/cover.png"
+    },
+    "commands": {
+      "dev": "pnpm --filter sample-project dev",
+      "build": "pnpm --filter sample-project build",
+      "test": "pnpm --filter sample-project test"
     }
   }
 ] as const satisfies readonly ProjectMetadata[];
