@@ -244,6 +244,14 @@ export default function App() {
 
   const progressPercent = Math.min(100, (progress / targetProgress) * 100);
   const heatLevel = Math.min(1, progressPercent / 100);
+  const remainingClicks = Math.max(0, Math.ceil((targetProgress - progress) / clickPower));
+  const affordableUpgrades = upgrades.filter(
+    (upgrade) => gold >= upgradeCost(upgrade, levels[upgrade.key])
+  );
+  const nextUpgrade = [...upgrades].sort(
+    (a, b) => upgradeCost(a, levels[a.key]) - upgradeCost(b, levels[b.key])
+  )[0];
+  const nextUpgradeCost = upgradeCost(nextUpgrade, levels[nextUpgrade.key]);
 
   const collectionStats = useMemo(() => {
     const legendary = storedWeapons.filter((weapon) => weapon.rarity === "Legendary").length;
@@ -449,6 +457,12 @@ export default function App() {
           <span>자동 제작 {autoPower.toFixed(1)} / 초</span>
         </div>
 
+        <div className="onboarding-callout" data-director="onboarding">
+          <span>{weaponCounter === 1 ? "첫 주문" : `주문 #${weaponCounter}`}</span>
+          <strong>중앙 모루를 클릭해 무기를 완성하세요</strong>
+          <small>완성 후 판매하거나 재료로 분해해 대장간을 성장시킬 수 있습니다.</small>
+        </div>
+
         <button
           className="forge-button"
           type="button"
@@ -480,7 +494,8 @@ export default function App() {
             <span style={{ width: `${progressPercent}%` }} />
           </div>
           <p>
-            클릭 +{clickPower.toFixed(1)} · 목표치 {Math.floor(targetProgress)}
+            클릭 +{clickPower.toFixed(1)} · 목표치 {Math.floor(targetProgress)} ·{" "}
+            <strong data-director="remaining-clicks">약 {remainingClicks}회 남음</strong>
           </p>
         </div>
 
@@ -504,6 +519,19 @@ export default function App() {
         <div className="panel-heading">
           <p>성장</p>
           <h2>업그레이드 패널</h2>
+        </div>
+        <div className="upgrade-goal" data-director="upgrade-goal">
+          {affordableUpgrades.length > 0 ? (
+            <>
+              <span>지금 구매 가능</span>
+              <strong>{affordableUpgrades.map((upgrade) => upgrade.name).join(" · ")}</strong>
+            </>
+          ) : (
+            <>
+              <span>다음 성장 목표</span>
+              <strong>{nextUpgrade.name}까지 {nextUpgradeCost - gold}G</strong>
+            </>
+          )}
         </div>
         <div className="upgrade-list">
           {upgrades.map((upgrade) => {
@@ -536,6 +564,16 @@ export default function App() {
           <section className={`result-modal rarity-${completedWeapon.rarity.toLowerCase()}`}>
             <p className="eyebrow">무기 완성</p>
             <h2>{weaponLabel(completedWeapon)}</h2>
+            <div className="result-recommendation" data-director="recommendation">
+              <span>추천</span>
+              <strong>
+                {completedWeapon.id === 1
+                  ? "첫 무기는 분해해 강화 재료를 확보하세요."
+                  : storedWeapons.length === 0
+                    ? "도감을 시작하려면 이 무기를 보관하세요."
+                    : "판매해 다음 업그레이드 자금을 마련하세요."}
+              </strong>
+            </div>
             <div className="result-weapon" aria-hidden="true">
               <span className="result-blade" />
               <span className="result-guard" />
@@ -563,20 +601,24 @@ export default function App() {
             <div className="modal-actions">
               <button type="button" onClick={() => sellWeapon(completedWeapon)}>
                 판매
+                <small>골드를 얻어 업그레이드</small>
                 <span>{Math.floor(completedWeapon.value * sellMultiplier * (1 + completedWeapon.enhanceLevel * 0.22))}G</span>
               </button>
               <button type="button" onClick={() => salvageWeapon(completedWeapon)}>
                 분해
+                <small>강화용 재료 확보</small>
                 <span>{materialSummary(completedWeapon.materialValue) || "철광석 +1"}</span>
               </button>
               <button type="button" onClick={() => enhanceWeapon(completedWeapon)} disabled={!canPayEnhance(completedWeapon)}>
                 강화
+                <small>가치를 높여 더 큰 보상</small>
                 <span>
                   {pendingEnhanceGold}G · 철광석 {pendingEnhanceCost?.iron}
                 </span>
               </button>
               <button type="button" onClick={() => keepWeapon(completedWeapon)}>
                 보관
+                <small>도감과 최고가 기록 갱신</small>
                 <span>도감 등록</span>
               </button>
             </div>

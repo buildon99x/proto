@@ -1,0 +1,30 @@
+{
+  "project": "blacksmith-clicker",
+  "schemaVersion": 1,
+  "capturedAt": "2026-07-13T01:37:37.161Z",
+  "onboardingVisible": true,
+  "remainingClicksVisible": true,
+  "clicksToFirstCraft": 15,
+  "clicksToSecondCraft": 15,
+  "craftCompleted": true,
+  "actionCount": 4,
+  "explainedActions": 4,
+  "recommendationVisible": true,
+  "recommendedAction": "분해",
+  "recommendationExecuted": true,
+  "actionLabels": [
+    "판매골드를 얻어 업그레이드75G",
+    "분해강화용 재료 확보철광석 +4",
+    "강화가치를 높여 더 큰 보상54G · 철광석 2",
+    "보관도감과 최고가 기록 갱신도감 등록"
+  ],
+  "goldBeforeSale": 120,
+  "goldAfterSale": 191,
+  "saleIncreasedGold": true,
+  "affordableUpgrades": 3,
+  "upgradeGoalVisible": true,
+  "upgradeGoalText": "지금 구매 가능망치 강화 · 제작대 확장 · 분해 기술",
+  "upgradePurchased": true,
+  "mobileHasHorizontalOverflow": false,
+  "mobileModalActionsReachable": true
+}

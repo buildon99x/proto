@@ -188,7 +188,7 @@ button {
 .forge-stage {
   position: relative;
   display: grid;
-  grid-template-rows: auto minmax(320px, 1fr) auto auto;
+  grid-template-rows: auto auto minmax(320px, 1fr) auto auto;
   gap: 14px;
   min-width: 0;
   overflow: hidden;
@@ -591,13 +591,15 @@ button {
   display: grid;
   place-items: center;
   padding: 18px;
+  overflow-y: auto;
   background: rgba(35, 20, 13, 0.62);
   backdrop-filter: blur(4px);
 }
 
 .result-modal {
   width: min(560px, 100%);
-  overflow: hidden;
+  max-height: calc(100vh - 36px);
+  overflow-y: auto;
   padding: 20px;
   background:
     radial-gradient(circle at 50% 22%, rgba(255, 244, 178, 0.82), transparent 34%),
@@ -708,6 +710,95 @@ button {
 .result-modal.rarity-legendary {
   box-shadow: 0 0 0 2px #e4a124, 0 24px 90px rgba(255, 192, 64, 0.42);
   animation: legendaryShake 480ms ease;
+}
+
+.onboarding-callout {
+  z-index: 2;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3px 10px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 8px;
+  color: #fff8e5;
+  background: rgba(83, 42, 24, 0.82);
+  box-shadow: 0 8px 24px rgba(66, 35, 20, 0.2);
+}
+
+.onboarding-callout span {
+  grid-row: 1 / 3;
+  align-self: center;
+  padding: 5px 8px;
+  border-radius: 6px;
+  color: #5d310f;
+  background: #ffd86f;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.onboarding-callout strong {
+  font-size: 15px;
+}
+
+.onboarding-callout small {
+  color: #f2d8b7;
+}
+
+.progress-card p strong {
+  color: #a93d1e;
+}
+
+.upgrade-goal {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid rgba(189, 127, 39, 0.36);
+  border-radius: 8px;
+  background: #fff0bc;
+}
+
+.upgrade-goal span {
+  color: #9b4b21;
+  font-size: 11px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.upgrade-goal strong {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.result-recommendation {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #57320f;
+  background: #ffe596;
+}
+
+.result-recommendation span {
+  padding: 4px 7px;
+  border-radius: 5px;
+  color: white;
+  background: #a84a20;
+  font-size: 11px;
+  font-weight: 950;
+}
+
+.result-recommendation strong {
+  font-size: 13px;
+}
+
+.modal-actions button small {
+  min-height: 30px;
+  color: #4f3822;
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 1.3;
 }
 
 @keyframes hammerIdle {
