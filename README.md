@@ -20,6 +20,18 @@ pnpm create:project -- --name "Customer Insight Dashboard"
 
 The script copies `templates/vite-react-project`, updates metadata, writes a placeholder initial request, and refreshes the launcher registry.
 
+## AI Prototype Factory
+
+Turn a one-line idea into a documented, runnable, browser-verified micro prototype:
+
+```bash
+pnpm prototype:factory -- --name "Dragon Post Office" --prompt "용이 우체국을 운영하는 경영 게임" --offline
+```
+
+The factory creates the project under `projects/{slug}`, writes `brief.md`, `spec.md`, and `eval.md`, generates a safe data-driven React microgame, syncs the registry, builds it, and runs a strict browser scenario. When `OPENAI_API_KEY` is configured, omit `--offline` to generate the structured blueprint with the OpenAI Responses API. Model output is validated and injected as data; generated code is never executed directly.
+
+Use `--dry-run` to inspect a blueprint without writing files, `--blueprint path.json` to use a reviewed blueprint, `--resume` to continue a failed run with the same blueprint, or `--no-verify` to skip build and browser checks.
+
 ## Run A Project Directly
 
 ```bash

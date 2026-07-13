@@ -1,0 +1,63 @@
+{
+  "project": "dragon-post-office",
+  "status": "pass",
+  "startedAt": "2026-07-13T04:54:29.894Z",
+  "completedAt": "2026-07-13T04:54:41.174Z",
+  "stages": [
+    {
+      "name": "blueprint",
+      "status": "pass",
+      "ms": 1,
+      "detail": "offline: dragon-post-office"
+    },
+    {
+      "name": "scaffold",
+      "status": "pass",
+      "ms": 3,
+      "detail": "resumed projects/dragon-post-office"
+    },
+    {
+      "name": "registry",
+      "status": "pass",
+      "ms": 511,
+      "detail": "launcher registry synchronized"
+    },
+    {
+      "name": "dependencies",
+      "status": "pass",
+      "ms": 1782,
+      "detail": "workspace dependencies linked and lockfile updated"
+    },
+    {
+      "name": "build",
+      "status": "pass",
+      "ms": 2576,
+      "detail": "TypeScript and Vite production build passed"
+    },
+    {
+      "name": "playtest",
+      "status": "pass",
+      "ms": 6407,
+      "detail": "4 screenshots, core loop and mobile gates passed"
+    }
+  ],
+  "blueprint": {
+    "name": "Dragon Post Office",
+    "slug": "dragon-post-office",
+    "pitch": "용이 우체국을 운영하는 경영 게임",
+    "theme": "mystic",
+    "actionLabel": "마력 불어넣기",
+    "resourceName": "마력",
+    "itemName": "유물",
+    "goalCount": 5,
+    "rewardPerAction": 3,
+    "upgradeCost": 9,
+    "tags": [
+      "factory-generated",
+      "mystic",
+      "microgame"
+    ],
+    "playerGoal": "유물 5개를 완성하고 작업 효율을 한 번 강화하세요.",
+    "successMessage": "Dragon Post Office의 첫 번째 운영 사이클을 완성했습니다!"
+  }
+}

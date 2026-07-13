@@ -1,0 +1,31 @@
+{
+  "id": "dragon-post-office",
+  "name": "Dragon Post Office",
+  "status": "prototype",
+  "type": "demo",
+  "runtime": "static-artifact",
+  "summary": "용이 우체국을 운영하는 경영 게임",
+  "tags": [
+    "factory-generated",
+    "mystic",
+    "microgame"
+  ],
+  "projectRoot": "projects/dragon-post-office",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/dragon-post-office/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md"
+  },
+  "assets": {},
+  "commands": {
+    "dev": "pnpm --filter dragon-post-office dev",
+    "build": "pnpm --filter dragon-post-office build",
+    "test": "pnpm --filter dragon-post-office test"
+  }
+}
