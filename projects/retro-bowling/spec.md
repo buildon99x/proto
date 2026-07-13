@@ -77,3 +77,12 @@
   벌어지면 스플릿. "SPLIT!" 배너 + 조준 마커를 붉게 표시.
 - **적응형 조준(`recommendedAimX`, `targetLabel`)**: 풀랙이면 포켓(x≈30), 스페어면 잔핀
   중심을 겨냥하도록 마커가 이동(라벨 POCKET/SPARE/SPLIT). 스페어 접근성↑, 스플릿은 유지.
+
+## 미터 튜닝 & 재미 요소 (v0.4)
+- **미터 속도**: POWER_SPEED 0.9, SPIN_SPEED 0.68(스핀이 존이 좁아 더 느리게).
+  램프 최대 +35%. 타이밍 윈도우 — GOOD ~180~244ms(접근성), PERFECT ~66~99ms(스킬).
+- **콤보(`streak`, `streakName`)**: 연속 스트라이크 2 DOUBLE / 3 TURKEY / 4 HAMBONE /
+  5+ N-BAGGER. 풀랙 미스 시 리셋. 전용 사운드·배너 배수·ON FIRE 배지.
+- **파티클(`Particle`, `spawnBurst`)**: 핀 낙하·스트라이크 시 레인 좌표계 픽셀 파편.
+- **화면 흔들림(`shake`)**: 타격 세기에 따라 감쇠하는 흔들림. 렌더에서 translate 적용.
+- **온파이어 볼**: streak≥2 에서 볼 색/글로우 변경.

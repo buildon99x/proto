@@ -18,7 +18,8 @@ const getState = (page) =>
       standing: g.pins.filter((p) => !p.removed).length,
       target: g.targetLabel(),
       recAim: g.recommendedAimX(),
-      meterMul: g.meterMul()
+      meterMul: g.meterMul(),
+      streak: g.streak
     };
   });
 
@@ -61,9 +62,9 @@ async function throwBall(page, sleep, targetAim) {
   const aim = targetAim == null ? s.recAim : targetAim;
   await aimTo(page, sleep, aim);
   await page.keyboard.press(" "); // aim -> power (meterT=0)
-  await sleep(300); // 파워 스윗스팟(≈0.73) 근처에서 락
+  await sleep(380); // 파워 스윗스팟(≈0.73) 근처에서 락(새 속도 0.9 기준)
   await page.keyboard.press(" "); // power -> spin (meterT=0)
-  await sleep(150); // 스핀 스윗스팟(≈-0.1) 근처에서 락 + 투구
+  await sleep(300); // 스핀 스윗스팟(≈-0.1) 근처에서 락 + 투구(새 속도 0.68 기준)
   await page.keyboard.press(" ");
   s = await waitPhase(page, sleep, (st) => st.phase === "aim" || st.phase === "gameover", 9000);
   return s;
@@ -100,6 +101,7 @@ export async function run({ page, sleep, shot, log }) {
   let guard = 0;
   let gotSpare = false;
   let gotLate = false;
+  let gotCombo = false;
   const aims = [30, 30, 29.5, 30.5, 30, 29.5, 30, 30.5, 30, 29.5];
   while (guard < 40) {
     const s = await getState(page);
@@ -117,6 +119,12 @@ export async function run({ page, sleep, shot, log }) {
       await sleep(120);
       await shot("10-late-frame-speed");
       gotLate = true;
+    }
+    // 연속 스트라이크 콤보(ON FIRE) 캡처.
+    if (!gotCombo && s.streak >= 2 && s.phase === "aim") {
+      await sleep(120);
+      await shot("11-on-fire-combo");
+      gotCombo = true;
     }
 
     // 스페어(부분 랙)면 엔진 추천 조준을 따르고, 아니면 포켓 조준.

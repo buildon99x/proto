@@ -94,11 +94,19 @@ export function render(ctx: CanvasRenderingContext2D, game: BowlingGame, time: n
     return;
   }
 
+  // 화면 흔들림(핀 타격/스트라이크 손맛).
+  const sh = game.shake;
+  ctx.save();
+  if (sh > 0.15) {
+    ctx.translate(Math.round((Math.random() - 0.5) * sh), Math.round((Math.random() - 0.5) * sh));
+  }
   // 레인을 먼저 그린 뒤 상단 스코어보드를 위에 올린다(레인 뒷벽이 덮지 않도록).
   drawLaneScene(ctx, game, time);
   drawScoreboard(ctx, game);
+  drawStreak(ctx, game, time);
   drawMeters(ctx, game, time);
   drawBanner(ctx, game);
+  ctx.restore();
 }
 
 // ── 레인 + 핀 + 볼 ────────────────────────────────────────
@@ -177,6 +185,17 @@ function drawLaneScene(ctx: CanvasRenderingContext2D, game: BowlingGame, time: n
 
   // 볼.
   drawBall(ctx, game, time);
+
+  // 파티클(핀 파편).
+  for (const pt of game.particles) {
+    const pr = project(pt.x, pt.y);
+    const a = Math.max(0, pt.life / pt.maxLife);
+    const sz = a > 0.5 ? 2 : 1;
+    ctx.globalAlpha = a;
+    ctx.fillStyle = pt.color;
+    ctx.fillRect(Math.round(pr.sx - sz / 2), Math.round(pr.sy - sz / 2), sz, sz);
+  }
+  ctx.globalAlpha = 1;
 
   // 추천 조준 마커 + 궤도 프리뷰(조준/파워/스핀 단계).
   if (game.phase === "aim" || game.phase === "power" || game.phase === "spin") {
@@ -282,12 +301,21 @@ function drawBall(ctx: CanvasRenderingContext2D, game: BowlingGame, time: number
   ctx.beginPath();
   ctx.ellipse(pr.sx, pr.sy + r * 0.5, r, r * 0.4, 0, 0, Math.PI * 2);
   ctx.fill();
+  // 온파이어(연속 스트라이크 2+): 볼이 불붙은 색 + 깜빡이는 글로우.
+  const onFire = game.streak >= 2;
+  if (onFire) {
+    const glow = 1 + Math.sin(time * 18) * 0.15;
+    ctx.fillStyle = "rgba(255,138,63,0.35)";
+    ctx.beginPath();
+    ctx.arc(pr.sx, pr.sy - r * 0.12, r * 1.4 * glow, 0, Math.PI * 2);
+    ctx.fill();
+  }
   // 공 본체.
-  ctx.fillStyle = C.ballDark;
+  ctx.fillStyle = onFire ? "#7a2a10" : C.ballDark;
   ctx.beginPath();
   ctx.arc(pr.sx, pr.sy, r, 0, Math.PI * 2);
   ctx.fill();
-  ctx.fillStyle = b.gutter ? "#7a3a4a" : C.ball;
+  ctx.fillStyle = b.gutter ? "#7a3a4a" : onFire ? C.orange : C.ball;
   ctx.beginPath();
   ctx.arc(pr.sx, pr.sy - r * 0.12, r * 0.86, 0, Math.PI * 2);
   ctx.fill();
@@ -462,6 +490,13 @@ function drawBar(
   ctx.fillRect(mx - 1, y - 1, 2, h + 2);
 }
 
+// 연속 스트라이크 배지(스코어보드 아래 여백).
+function drawStreak(ctx: CanvasRenderingContext2D, game: BowlingGame, time: number): void {
+  if (game.streak < 2) return;
+  const flicker = Math.floor(time * 8) % 2 === 0 ? C.orange : C.yellow;
+  drawTextCentered(ctx, `ON FIRE  X${game.streak}`, CX, 42, 1, flicker, 1);
+}
+
 function drawBanner(ctx: CanvasRenderingContext2D, game: BowlingGame): void {
   const b = game.banner;
   if (!b) return;
@@ -474,6 +509,10 @@ function drawBanner(ctx: CanvasRenderingContext2D, game: BowlingGame): void {
   // 그림자 + 본문.
   drawTextCentered(ctx, b.text, CX + 2, y + 2, scale, "rgba(0,0,0,0.6)", 1);
   drawTextCentered(ctx, b.text, CX, y, scale, b.color, 1);
+  // 콤보 배수(있으면).
+  if (b.sub) {
+    drawTextCentered(ctx, b.sub, CX, y + 7 * scale + 4, 2, C.orange, 1);
+  }
 }
 
 // ── 타이틀 / 게임오버 ──────────────────────────────────────

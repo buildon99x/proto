@@ -37,6 +37,17 @@ export interface Ball {
   gutter: boolean;
 }
 
+// 파티클(레인 좌표계). 핀이 쓰러질 때 튀는 픽셀 조각 — 도트 특유의 손맛.
+export interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  life: number;
+  maxLife: number;
+  color: string;
+}
+
 export type Phase = "title" | "aim" | "power" | "spin" | "rolling" | "result" | "gameover";
 
 export interface ResultBanner {
@@ -63,6 +74,9 @@ export class BowlingGame {
   powerQ: LockQuality = "off"; // 마지막 파워 락 품질
   spinQ: LockQuality = "off"; // 마지막 스핀 락 품질
   lockFlash: { text: string; color: string; timer: number } | null = null;
+  streak = 0; // 연속 스트라이크(콤보)
+  shake = 0; // 화면 흔들림 세기
+  particles: Particle[] = [];
 
   highScore = 0;
   lastTotal = 0;
@@ -111,6 +125,24 @@ export class BowlingGame {
       removed: false,
       down: false
     }));
+  }
+
+  // 파티클 버스트(레인 좌표계).
+  private spawnBurst(x: number, y: number, count: number, colors: string[]): void {
+    for (let i = 0; i < count; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const sp = 6 + Math.random() * 16;
+      this.particles.push({
+        x,
+        y,
+        vx: Math.cos(ang) * sp,
+        vy: Math.sin(ang) * sp,
+        life: 0.35 + Math.random() * 0.4,
+        maxLife: 0.75,
+        color: colors[(Math.random() * colors.length) | 0]
+      });
+    }
+    if (this.particles.length > 140) this.particles.splice(0, this.particles.length - 140);
   }
 
   // ── 입력 ──────────────────────────────────────────────────
@@ -162,6 +194,10 @@ export class BowlingGame {
     this.power = 0;
     this.spin = 0;
     this.banner = null;
+    this.lockFlash = null;
+    this.streak = 0;
+    this.shake = 0;
+    this.particles = [];
     this.resetRack();
     this.beginAim();
   }
@@ -201,6 +237,17 @@ export class BowlingGame {
     if (this.lockFlash) {
       this.lockFlash.timer -= dt;
       if (this.lockFlash.timer <= 0) this.lockFlash = null;
+    }
+    if (this.shake > 0) this.shake = Math.max(0, this.shake - dt * 32);
+    if (this.particles.length) {
+      for (const p of this.particles) {
+        p.life -= dt;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        p.vx *= 0.92;
+        p.vy *= 0.92;
+      }
+      this.particles = this.particles.filter((p) => p.life > 0);
     }
 
     if (this.phase === "aim") {
@@ -301,11 +348,13 @@ export class BowlingGame {
       }
     }
 
-    // 쓰러짐 표시 + 타격음.
+    // 쓰러짐 표시 + 타격음 + 파티클.
     for (const p of this.pins) {
       if (p.removed || p.down) continue;
       if (Math.hypot(p.x - p.homeX, p.y - p.homeY) > TUNE.tip) {
         p.down = true;
+        this.spawnBurst(p.x, p.y, 3, ["#f4f2e6", "#e23b3b", "#f4f2e6"]);
+        this.shake = Math.max(this.shake, 2.2);
         if (this.pinSoundCooldown <= 0) {
           audio.play("pin");
           this.pinSoundCooldown = 0.035;
@@ -346,10 +395,18 @@ export class BowlingGame {
     const isStrike = clearedAll && this.standingAtLaunch === 10;
     const isSpare = clearedAll && this.standingAtLaunch < 10 && knocked > 0;
 
+    // 콤보 스트릭: 스트라이크마다 +1, 풀랙에서 못 뚫으면 리셋.
+    if (isStrike) this.streak += 1;
+    else if (this.standingAtLaunch === 10) this.streak = 0;
+
     let banner: ResultBanner;
     if (isStrike) {
-      banner = { text: "STRIKE!", sub: "", color: "#ffd23f", timer: 1.1 };
-      audio.play("strike");
+      const name = streakName(this.streak);
+      banner = { text: name, sub: this.streak >= 2 ? `X${this.streak}` : "", color: "#ffd23f", timer: 1.2 };
+      audio.play(this.streak >= 3 ? "turkey" : "strike");
+      // 풀랙 폭발 + 강한 흔들림(손맛).
+      this.shake = this.streak >= 3 ? 9 : 7;
+      for (const p of this.pins) this.spawnBurst(p.homeX, p.homeY, 4, ["#f4f2e6", "#e23b3b", "#ffd23f"]);
     } else if (isSpare) {
       banner = { text: "SPARE!", sub: "", color: "#3fd0ff", timer: 1.0 };
       audio.play("spare");
@@ -459,9 +516,10 @@ export class BowlingGame {
 }
 
 // ── 헬퍼 ────────────────────────────────────────────────────
-const POWER_SPEED = 1.15;
-const SPIN_SPEED = 1.45;
-const METER_RAMP = 0.6; // 10프레임에서 미터 속도 최대 +60%
+// 미터 오실레이션 속도(초당 왕복). 스핀은 존이 좁아 파워보다 느리게 둔다.
+const POWER_SPEED = 0.9;
+const SPIN_SPEED = 0.68;
+const METER_RAMP = 0.35; // 10프레임에서 미터 속도 최대 +35%(과하지 않게)
 
 // 물리 튜닝(시뮬·프리뷰·검증 하니스가 공유). 값은 스트라이크 분지가
 // 응집되도록 헤드리스 스트라이크맵으로 튜닝했다.
@@ -490,10 +548,10 @@ export const POCKET = {
 // 스윗스팟(PERFECT/GOOD) 존. 미터에 표시하며, 여기에 맞출수록 기대 핀 수·
 // 스트라이크 확률이 높다(카오스 때문에 보장은 아님 — "잘 굴렸다"의 지표).
 export const SWEET = {
-  powerPerfect: [0.66, 0.8] as [number, number],
-  powerGood: [0.56, 0.88] as [number, number],
-  spinPerfect: [-0.22, 0.02] as [number, number], // -1..1 공간
-  spinGood: [-0.38, 0.14] as [number, number]
+  powerPerfect: [0.65, 0.81] as [number, number],
+  powerGood: [0.48, 0.92] as [number, number],
+  spinPerfect: [-0.24, 0.03] as [number, number], // -1..1 공간
+  spinGood: [-0.46, 0.2] as [number, number]
 };
 
 export type LockQuality = "perfect" | "good" | "off";
@@ -556,6 +614,23 @@ function lerp(a: number, b: number, t: number): number {
 function triWave(t: number, speed: number): number {
   const p = (t * speed) % 1;
   return p < 0.5 ? p * 2 : 2 - p * 2;
+}
+
+/** 연속 스트라이크 콤보 이름(볼링 은어). */
+function streakName(streak: number): string {
+  switch (streak) {
+    case 0:
+    case 1:
+      return "STRIKE!";
+    case 2:
+      return "DOUBLE!";
+    case 3:
+      return "TURKEY!";
+    case 4:
+      return "HAMBONE!";
+    default:
+      return `${streak}-BAGGER`;
+  }
 }
 
 interface Body {

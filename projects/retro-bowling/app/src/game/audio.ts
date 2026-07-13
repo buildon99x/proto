@@ -109,6 +109,14 @@ class Chip {
         this.noise(now, 0.1, 0.25, 2000);
         break;
       }
+      case "turkey": {
+        // 더 화려한 팡파르(연속 스트라이크 3+).
+        const notes = [523, 659, 784, 1047, 1319, 1047, 1319, 1568];
+        notes.forEach((f, i) => this.tone("square", f, now + i * 0.07, 0.16, 0.28));
+        [392, 523].forEach((f, i) => this.tone("triangle", f, now + i * 0.07, 0.5, 0.2));
+        this.noise(now, 0.14, 0.3, 2200);
+        break;
+      }
       case "spare": {
         const notes = [523, 784, 1047];
         notes.forEach((f, i) => this.tone("square", f, now + i * 0.09, 0.14, 0.24));
@@ -135,6 +143,7 @@ export type SfxName =
   | "pin"
   | "gutter"
   | "strike"
+  | "turkey"
   | "spare"
   | "miss"
   | "start"

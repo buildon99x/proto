@@ -12,6 +12,8 @@
 조준(`< >`) → 파워 미터 고정(Space) → 스핀 미터 고정+투구(Space) → 핀 정산 → 반복.
 10프레임 종료 시 최종 점수·랭크·하이스코어 표시.
 
+연속 스트라이크는 DOUBLE→TURKEY→HAMBONE 콤보로 이어지고, 볼에 불이 붙는다.
+
 ## 개발
 ```bash
 pnpm --filter retro-bowling dev      # 개발 서버
