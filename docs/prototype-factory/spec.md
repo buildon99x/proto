@@ -37,6 +37,14 @@ pnpm prototype:factory -- --name "Dragon Post Office" --prompt "용이 우체국
 - 범용 selector를 사용하는 `tests/e2e/scenario.mjs`
 - 검증 후 `assets/screenshots/shots/factory-report.json`과 스크린샷
 
+## 안전성과 복구
+
+- scaffold는 `projects/.{slug}.factory-*` 임시 디렉터리에서 완성한 뒤 원자적 rename으로 공개한다.
+- 중간 실패 시 임시 디렉터리를 제거하며 기존 동일 slug 프로젝트를 삭제하거나 덮어쓰지 않는다.
+- 모든 실행은 프로젝트 내부 리포트와 별개로 `.factory-reports/{slug}.json`에 최신 성공·실패 상태를 남긴다.
+- `--resume`은 원자적 scaffold 이후 build 또는 playtest에서 실패한 프로젝트만 동일 블루프린트로 재개한다.
+- API 오류는 상태 코드와 제한된 request ID만 출력하고 공급자 응답 본문은 로그에 기록하지 않는다.
+
 ## 앱 루프
 
 - 주 행동 버튼을 누르면 진행도와 자원이 증가한다.

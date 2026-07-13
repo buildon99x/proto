@@ -159,6 +159,12 @@ function extractResponseText(response: Record<string, unknown>) {
   throw new Error("AI response did not contain JSON text");
 }
 
+export function describeAiError(response: Pick<Response, "status" | "statusText" | "headers">) {
+  const requestId = response.headers.get("x-request-id");
+  const requestSuffix = requestId ? `, request ${requestId.slice(0, 80)}` : "";
+  return `AI blueprint request failed (${response.status} ${response.statusText}${requestSuffix})`;
+}
+
 export async function createAiBlueprint(name: string, prompt: string): Promise<FactoryBlueprint> {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error("OPENAI_API_KEY is not configured; rerun with --offline");
@@ -180,7 +186,7 @@ export async function createAiBlueprint(name: string, prompt: string): Promise<F
     })
   });
   if (!response.ok) {
-    throw new Error(`AI blueprint request failed (${response.status}): ${await response.text()}`);
+    throw new Error(describeAiError(response));
   }
   const payload = (await response.json()) as Record<string, unknown>;
   const generated = validateBlueprint(JSON.parse(extractResponseText(payload)));
