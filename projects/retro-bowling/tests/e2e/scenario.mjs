@@ -14,7 +14,11 @@ const getState = (page) =>
       frameIndex: g.frameIndex,
       total: g.score.total,
       banner: g.banner?.text ?? null,
-      aimX: g.aimX
+      aimX: g.aimX,
+      standing: g.pins.filter((p) => !p.removed).length,
+      target: g.targetLabel(),
+      recAim: g.recommendedAimX(),
+      meterMul: g.meterMul()
     };
   });
 
@@ -48,12 +52,14 @@ async function tap(page, sleep, ms = 160) {
   await sleep(ms);
 }
 
-// 한 번의 투구: 포켓 조준 → 스윗스팟 타이밍(파워≈0.73, 스핀≈-0.1) → 굴림 완료.
-async function throwBall(page, sleep, targetAim = 30) {
+// 한 번의 투구: 조준 → 스윗스팟 타이밍(파워≈0.73, 스핀≈-0.1) → 굴림 완료.
+// targetAim 이 null 이면 엔진 추천 조준(스페어 시 잔핀 중심)을 따른다.
+async function throwBall(page, sleep, targetAim) {
   await waitPhase(page, sleep, (s) => s.phase === "aim" || s.phase === "gameover");
   let s = await getState(page);
   if (!s || s.phase === "gameover") return s;
-  await aimTo(page, sleep, targetAim);
+  const aim = targetAim == null ? s.recAim : targetAim;
+  await aimTo(page, sleep, aim);
   await page.keyboard.press(" "); // aim -> power (meterT=0)
   await sleep(300); // 파워 스윗스팟(≈0.73) 근처에서 락
   await page.keyboard.press(" "); // power -> spin (meterT=0)
@@ -92,12 +98,30 @@ export async function run({ page, sleep, shot, log }) {
 
   // 나머지 프레임 자동 진행(포켓 조준 + 스윗스팟 타이밍).
   let guard = 0;
+  let gotSpare = false;
+  let gotLate = false;
   const aims = [30, 30, 29.5, 30.5, 30, 29.5, 30, 30.5, 30, 29.5];
   while (guard < 40) {
     const s = await getState(page);
     if (!s) break;
     if (s.phase === "gameover") break;
-    await throwBall(page, sleep, aims[guard % aims.length]);
+
+    // 스페어/스플릿 조준(부분 랙) 캡처 — 적응형 마커 확인.
+    if (!gotSpare && s.phase === "aim" && s.standing < 10 && s.standing > 0) {
+      await sleep(180);
+      await shot("09-spare-aim");
+      gotSpare = true;
+    }
+    // 후반 프레임(난이도 램프 SPD 표시) 캡처.
+    if (!gotLate && s.phase === "aim" && s.frameIndex >= 8) {
+      await sleep(120);
+      await shot("10-late-frame-speed");
+      gotLate = true;
+    }
+
+    // 스페어(부분 랙)면 엔진 추천 조준을 따르고, 아니면 포켓 조준.
+    const target = s.standing < 10 && s.standing > 0 ? null : aims[guard % aims.length];
+    await throwBall(page, sleep, target);
     guard++;
     if (guard === 6) await shot("07-midgame");
   }

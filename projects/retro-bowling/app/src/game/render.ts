@@ -44,7 +44,8 @@ const C = {
   yellow: "#ffd23f",
   cyan: "#3fd0ff",
   green: "#5ad86a",
-  red: "#ff5a5a"
+  red: "#ff5a5a",
+  orange: "#ff8a3f"
 };
 
 // ── 레인 원근 투영 ─────────────────────────────────────────
@@ -179,7 +180,7 @@ function drawLaneScene(ctx: CanvasRenderingContext2D, game: BowlingGame, time: n
 
   // 추천 조준 마커 + 궤도 프리뷰(조준/파워/스핀 단계).
   if (game.phase === "aim" || game.phase === "power" || game.phase === "spin") {
-    drawAimMarker(ctx);
+    drawAimMarker(ctx, game);
     drawTrajectory(ctx, game);
   }
 
@@ -191,17 +192,18 @@ function drawLaneScene(ctx: CanvasRenderingContext2D, game: BowlingGame, time: n
   }
 }
 
-// 추천 조준 마커(포켓 라인). 어디로 조준하면 좋은지 안내.
-function drawAimMarker(ctx: CanvasRenderingContext2D): void {
-  const mp = project(POCKET.aimX, LANE_LEN * 0.32);
+// 추천 조준 마커. 풀랙이면 포켓, 스페어면 남은 핀을 겨냥. 스플릿이면 붉게.
+function drawAimMarker(ctx: CanvasRenderingContext2D, game: BowlingGame): void {
+  const label = game.targetLabel();
+  const color = label === "SPLIT" ? C.orange : C.cyan;
+  const mp = project(game.recommendedAimX(), LANE_LEN * 0.32);
   const s = Math.max(2, Math.round(2.4 * mp.ppu));
-  // 아래를 향한 시안 쐐기(핀 쪽 표적).
-  ctx.fillStyle = C.cyan;
+  ctx.fillStyle = color;
   for (let r = 0; r < s; r++) {
     const w = (s - r) * 1.3;
     ctx.fillRect(Math.round(mp.sx - w / 2), Math.round(mp.sy - r), Math.max(1, Math.round(w)), 1);
   }
-  drawTextCentered(ctx, "POCKET", mp.sx, mp.sy - s - 8, 1, C.cyan, 1);
+  drawTextCentered(ctx, label, mp.sx, mp.sy - s - 8, 1, color, 1);
 }
 
 // 핀을 무시한 예상 궤도. 스핀 단계에선 오실레이터 값으로 실시간 곡선 표시.
@@ -413,6 +415,13 @@ function drawMeters(ctx: CanvasRenderingContext2D, game: BowlingGame, time: numb
   }
   const blink = game.phase === "aim" ? Math.floor(time * 2) % 2 === 0 : true;
   if (prompt && blink) drawTextCentered(ctx, prompt, VW / 2, 364, 1, C.dim, 1);
+
+  // 난이도 램프: 후반 프레임일수록 미터 속도가 빨라짐을 표시.
+  const mul = game.meterMul();
+  if (mul > 1.05) {
+    const col = mul > 1.4 ? C.red : mul > 1.2 ? C.orange : C.yellow;
+    drawText(ctx, `SPD X${mul.toFixed(1)}`, 6, 356, 1, col, 1);
+  }
 }
 
 function drawBar(

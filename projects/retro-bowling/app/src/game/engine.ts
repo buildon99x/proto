@@ -130,13 +130,13 @@ export class BowlingGame {
         audio.play("ui");
         break;
       case "power":
-        this.power = triWave(this.meterT, POWER_SPEED);
+        this.power = triWave(this.meterT, this.powerSpeed());
         this.phase = "spin";
         this.meterT = 0;
         audio.play("lock");
         break;
       case "spin":
-        this.spin = triWave(this.meterT, SPIN_SPEED) * 2 - 1; // -1..1
+        this.spin = triWave(this.meterT, this.spinSpeed()) * 2 - 1; // -1..1
         this.launch();
         audio.play("lock");
         break;
@@ -363,6 +363,12 @@ export class BowlingGame {
       banner = { text: `${knocked} PIN${knocked > 1 ? "S" : ""}`, sub: "", color: "#ffffff", timer: 0.8 };
     }
 
+    // 첫 공에서 스플릿이 남으면 알림(전환 난이도↑).
+    if (frame.length === 1 && !isStrike && this.leaveIsSplit()) {
+      banner = { text: "SPLIT!", sub: "", color: "#ff8a3f", timer: 1.1 };
+      audio.play("miss");
+    }
+
     this.banner = banner;
     this.phase = "result";
   }
@@ -407,16 +413,55 @@ export class BowlingGame {
 
   // 미터 현재값(렌더용).
   currentPowerT(): number {
-    return this.phase === "power" ? triWave(this.meterT, POWER_SPEED) : this.power;
+    return this.phase === "power" ? triWave(this.meterT, this.powerSpeed()) : this.power;
   }
   currentSpinT(): number {
-    return this.phase === "spin" ? triWave(this.meterT, SPIN_SPEED) * 2 - 1 : this.spin;
+    return this.phase === "spin" ? triWave(this.meterT, this.spinSpeed()) * 2 - 1 : this.spin;
+  }
+
+  // 난이도 램프: 프레임이 진행될수록 미터가 빨라져 타이밍이 어려워진다.
+  meterMul(): number {
+    return 1 + (this.frameIndex / 9) * METER_RAMP;
+  }
+  private powerSpeed(): number {
+    return POWER_SPEED * this.meterMul();
+  }
+  private spinSpeed(): number {
+    return SPIN_SPEED * this.meterMul();
+  }
+
+  // 추천 조준 x. 풀랙이면 포켓, 스페어면 남은 핀 중심(직구로 겨냥).
+  recommendedAimX(): number {
+    const standing = this.pins.filter((p) => !p.removed);
+    if (standing.length === 10 || standing.length === 0) return POCKET.aimX;
+    return standing.reduce((s, p) => s + p.homeX, 0) / standing.length;
+  }
+
+  // 조준 마커 라벨: 풀랙=포켓, 스페어=스플릿 여부에 따라.
+  targetLabel(): string {
+    const standing = this.pins.filter((p) => !p.removed).length;
+    if (standing === 10 || standing === 0) return "POCKET";
+    return this.leaveIsSplit() ? "SPLIT" : "SPARE";
+  }
+
+  // 현재 남은 핀이 스플릿 배치인지(헤드핀 없이 좌우로 벌어진 잔핀).
+  leaveIsSplit(): boolean {
+    const headDown = this.pins.find((p) => p.id === 1)?.removed ?? false;
+    if (!headDown) return false;
+    const standing = this.pins.filter((p) => !p.removed);
+    if (standing.length < 2) return false;
+    const xs = Array.from(new Set(standing.map((p) => Math.round(p.homeX)))).sort((a, b) => a - b);
+    for (let i = 1; i < xs.length; i++) {
+      if (xs[i] - xs[i - 1] > PIN_SPACING * 1.4) return true;
+    }
+    return false;
   }
 }
 
 // ── 헬퍼 ────────────────────────────────────────────────────
 const POWER_SPEED = 1.15;
 const SPIN_SPEED = 1.45;
+const METER_RAMP = 0.6; // 10프레임에서 미터 속도 최대 +60%
 
 // 물리 튜닝(시뮬·프리뷰·검증 하니스가 공유). 값은 스트라이크 분지가
 // 응집되도록 헤드리스 스트라이크맵으로 튜닝했다.
