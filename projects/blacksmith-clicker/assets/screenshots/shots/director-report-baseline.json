@@ -1,0 +1,102 @@
+{
+  "project": "blacksmith-clicker",
+  "label": "baseline",
+  "score": 35,
+  "maximumScore": 100,
+  "verdict": "improve",
+  "requiredCriteriaPassed": true,
+  "criteria": [
+    {
+      "name": "첫 행동 명확성",
+      "weight": 20,
+      "score": 0,
+      "passed": false,
+      "evidence": "전용 첫 행동 안내가 없음",
+      "recommendation": "첫 화면 중앙에 현재 목표와 즉시 수행할 행동을 표시하세요."
+    },
+    {
+      "name": "진행 예측 가능성",
+      "weight": 15,
+      "score": 0,
+      "passed": false,
+      "evidence": "게이지만 표시되며 남은 행동량은 알 수 없음(실측 15회)",
+      "recommendation": "진행 영역에 첫 제작까지 남은 예상 클릭 수를 표시하세요."
+    },
+    {
+      "name": "핵심 루프 완결성",
+      "weight": 25,
+      "score": 25,
+      "passed": true,
+      "evidence": "제작=true, 판매 후 골드=120→160",
+      "recommendation": null
+    },
+    {
+      "name": "선택 이해도",
+      "weight": 20,
+      "score": 0,
+      "passed": false,
+      "evidence": "선택 4개, 목적 설명 0개, 추천=false",
+      "recommendation": "네 선택에 목적 설명을 추가하고 현재 상황에 맞는 추천 선택을 표시하세요."
+    },
+    {
+      "name": "성장 목표 명확성",
+      "weight": 10,
+      "score": 0,
+      "passed": false,
+      "evidence": "구매 가능 업그레이드 3개, 목표 안내=false",
+      "recommendation": "구매 가능한 업그레이드와 다음 업그레이드까지 필요한 골드를 함께 표시하세요."
+    },
+    {
+      "name": "런타임 안정성",
+      "weight": 10,
+      "score": 10,
+      "passed": true,
+      "evidence": "page errors 0, console errors 0",
+      "recommendation": null
+    }
+  ],
+  "priorities": [
+    {
+      "criterion": "첫 행동 명확성",
+      "weight": 20,
+      "action": "첫 화면 중앙에 현재 목표와 즉시 수행할 행동을 표시하세요."
+    },
+    {
+      "criterion": "선택 이해도",
+      "weight": 20,
+      "action": "네 선택에 목적 설명을 추가하고 현재 상황에 맞는 추천 선택을 표시하세요."
+    },
+    {
+      "criterion": "진행 예측 가능성",
+      "weight": 15,
+      "action": "진행 영역에 첫 제작까지 남은 예상 클릭 수를 표시하세요."
+    },
+    {
+      "criterion": "성장 목표 명확성",
+      "weight": 10,
+      "action": "구매 가능한 업그레이드와 다음 업그레이드까지 필요한 골드를 함께 표시하세요."
+    }
+  ],
+  "metrics": {
+    "capturedAt": "2026-07-13T01:04:46.018Z",
+    "onboardingVisible": false,
+    "remainingClicksVisible": false,
+    "clicksToFirstCraft": 15,
+    "craftCompleted": true,
+    "actionCount": 4,
+    "explainedActions": 0,
+    "recommendationVisible": false,
+    "actionLabels": [
+      "판매40G",
+      "분해철광석 +4",
+      "강화54G · 철광석 2",
+      "보관도감 등록"
+    ],
+    "goldBeforeSale": 120,
+    "goldAfterSale": 160,
+    "saleIncreasedGold": true,
+    "affordableUpgrades": 3,
+    "upgradeGoalVisible": false
+  },
+  "evaluatedAt": "2026-07-13T01:04:46.166Z"
+}

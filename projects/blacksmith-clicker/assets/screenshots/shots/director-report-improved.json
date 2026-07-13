@@ -1,0 +1,90 @@
+{
+  "project": "blacksmith-clicker",
+  "label": "improved",
+  "score": 100,
+  "maximumScore": 100,
+  "verdict": "pass",
+  "requiredCriteriaPassed": true,
+  "criteria": [
+    {
+      "name": "첫 행동 명확성",
+      "weight": 20,
+      "score": 20,
+      "passed": true,
+      "evidence": "현재 단계와 모루 클릭 안내가 표시됨",
+      "recommendation": null
+    },
+    {
+      "name": "진행 예측 가능성",
+      "weight": 15,
+      "score": 15,
+      "passed": true,
+      "evidence": "첫 제작에 필요한 예상 클릭 수를 표시함(실측 15회)",
+      "recommendation": null
+    },
+    {
+      "name": "핵심 루프 완결성",
+      "weight": 25,
+      "score": 25,
+      "passed": true,
+      "evidence": "제작=true, 추천 실행=true, 판매 골드=120→191, 업그레이드=true",
+      "recommendation": null
+    },
+    {
+      "name": "선택 이해도",
+      "weight": 20,
+      "score": 20,
+      "passed": true,
+      "evidence": "선택 4개, 목적 설명 4개, 추천=true",
+      "recommendation": null
+    },
+    {
+      "name": "성장 목표 명확성",
+      "weight": 10,
+      "score": 10,
+      "passed": true,
+      "evidence": "구매 가능 3개, 목표 안내=true, 문구=지금 구매 가능망치 강화 · 제작대 확장 · 분해 기술",
+      "recommendation": null
+    },
+    {
+      "name": "런타임 안정성",
+      "weight": 10,
+      "score": 10,
+      "passed": true,
+      "evidence": "page errors 0, console errors 0, mobile overflow=false, modal reachable=true",
+      "recommendation": null
+    }
+  ],
+  "priorities": [],
+  "metrics": {
+    "project": "blacksmith-clicker",
+    "schemaVersion": 1,
+    "capturedAt": "2026-07-13T01:37:37.161Z",
+    "onboardingVisible": true,
+    "remainingClicksVisible": true,
+    "clicksToFirstCraft": 15,
+    "clicksToSecondCraft": 15,
+    "craftCompleted": true,
+    "actionCount": 4,
+    "explainedActions": 4,
+    "recommendationVisible": true,
+    "recommendedAction": "분해",
+    "recommendationExecuted": true,
+    "actionLabels": [
+      "판매골드를 얻어 업그레이드75G",
+      "분해강화용 재료 확보철광석 +4",
+      "강화가치를 높여 더 큰 보상54G · 철광석 2",
+      "보관도감과 최고가 기록 갱신도감 등록"
+    ],
+    "goldBeforeSale": 120,
+    "goldAfterSale": 191,
+    "saleIncreasedGold": true,
+    "affordableUpgrades": 3,
+    "upgradeGoalVisible": true,
+    "upgradeGoalText": "지금 구매 가능망치 강화 · 제작대 확장 · 분해 기술",
+    "upgradePurchased": true,
+    "mobileHasHorizontalOverflow": false,
+    "mobileModalActionsReachable": true
+  },
+  "evaluatedAt": "2026-07-13T01:37:38.145Z"
+}
