@@ -145,6 +145,8 @@ export default function GameCanvas() {
       </div>
       <p className="hint">
         키보드: ← → 조준 · SPACE 파워/스핀/투구 · M 음소거
+        <br />
+        POCKET 마커에 조준하고, 미터 노란 존(PERFECT)에 멈춰 스트라이크를 노리세요
       </p>
     </div>
   );

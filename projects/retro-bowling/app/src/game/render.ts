@@ -1,7 +1,18 @@
 // 픽셀 렌더러. 낮은 내부 해상도(VW x VH)에 그린 뒤 CSS로 nearest-neighbor 확대해
 // 도트 그래픽 느낌을 낸다. 원근 투영 레인 + 핀 + 볼 + 스코어보드 + 미터.
 
-import { BowlingGame, BOARD_W, GUTTER, LANE_LEN, BALL_R, PIN_R, type Pin } from "./engine";
+import {
+  BowlingGame,
+  BOARD_W,
+  GUTTER,
+  LANE_LEN,
+  BALL_R,
+  PIN_R,
+  POCKET,
+  SWEET,
+  predictPath,
+  type Pin
+} from "./engine";
 import { drawText, drawTextCentered, textWidth } from "./pixelfont";
 import { rankFor } from "./scoring";
 
@@ -166,9 +177,62 @@ function drawLaneScene(ctx: CanvasRenderingContext2D, game: BowlingGame, time: n
   // 볼.
   drawBall(ctx, game, time);
 
-  // 조준 가이드(조준/파워/스핀 단계).
+  // 추천 조준 마커 + 궤도 프리뷰(조준/파워/스핀 단계).
   if (game.phase === "aim" || game.phase === "power" || game.phase === "spin") {
-    drawAimGuide(ctx, game);
+    drawAimMarker(ctx);
+    drawTrajectory(ctx, game);
+  }
+
+  // 락 피드백(PERFECT POCKET / GOOD LINE).
+  if (game.lockFlash) {
+    const lf = game.lockFlash;
+    drawTextCentered(ctx, lf.text, CX, 118, 2, "rgba(0,0,0,0.6)", 1);
+    drawTextCentered(ctx, lf.text, CX - 1, 117, 2, lf.color, 1);
+  }
+}
+
+// 추천 조준 마커(포켓 라인). 어디로 조준하면 좋은지 안내.
+function drawAimMarker(ctx: CanvasRenderingContext2D): void {
+  const mp = project(POCKET.aimX, LANE_LEN * 0.32);
+  const s = Math.max(2, Math.round(2.4 * mp.ppu));
+  // 아래를 향한 시안 쐐기(핀 쪽 표적).
+  ctx.fillStyle = C.cyan;
+  for (let r = 0; r < s; r++) {
+    const w = (s - r) * 1.3;
+    ctx.fillRect(Math.round(mp.sx - w / 2), Math.round(mp.sy - r), Math.max(1, Math.round(w)), 1);
+  }
+  drawTextCentered(ctx, "POCKET", mp.sx, mp.sy - s - 8, 1, C.cyan, 1);
+}
+
+// 핀을 무시한 예상 궤도. 스핀 단계에선 오실레이터 값으로 실시간 곡선 표시.
+function drawTrajectory(ctx: CanvasRenderingContext2D, game: BowlingGame): void {
+  let power: number;
+  let spin: number;
+  if (game.phase === "aim") {
+    power = POCKET.power; // 대표 파워로 도달 거리 힌트
+    spin = 0;
+  } else if (game.phase === "power") {
+    power = game.currentPowerT();
+    spin = 0;
+  } else {
+    power = game.power;
+    spin = game.currentSpinT();
+  }
+  const path = predictPath(game.aimX, power, spin);
+  for (let i = 0; i < path.length; i++) {
+    if (i % 2 === 1) continue; // 점선
+    const pr = project(path[i].x, path[i].y);
+    const sz = Math.max(1, Math.round(1.5 * pr.ppu));
+    const a = 0.75 - (i / path.length) * 0.5;
+    ctx.fillStyle = `rgba(255,210,63,${a.toFixed(2)})`;
+    ctx.fillRect(Math.round(pr.sx - sz / 2), Math.round(pr.sy - sz / 2), sz, sz);
+  }
+  // 조준 화살표(파울라인 앞).
+  const ap = project(game.aimX, 1);
+  ctx.fillStyle = C.yellow;
+  for (let r = 0; r < 5; r++) {
+    const w = (5 - r) * 1.4;
+    ctx.fillRect(Math.round(ap.sx - w / 2), Math.round(ap.sy - 10 + r), Math.max(1, Math.round(w)), 1);
   }
 }
 
@@ -238,27 +302,6 @@ function drawBall(ctx: CanvasRenderingContext2D, game: BowlingGame, time: number
     const dotY = pr.sy - r * 0.12 + Math.sin(ang) * r * 0.4;
     ctx.fillStyle = C.ballDark;
     ctx.fillRect(Math.round(dotX) - 1, Math.round(dotY) - 1, 2, 2);
-  }
-}
-
-function drawAimGuide(ctx: CanvasRenderingContext2D, game: BowlingGame): void {
-  const startY = 4;
-  const endY = LANE_LEN * 0.55;
-  const steps = 12;
-  for (let i = 0; i <= steps; i++) {
-    if (i % 2 === 1) continue; // 점선
-    const y = lerp(startY, endY, i / steps);
-    const pr = project(game.aimX, y);
-    const s = Math.max(1, Math.round(1.6 * pr.ppu));
-    ctx.fillStyle = "rgba(255,210,63,0.7)";
-    ctx.fillRect(Math.round(pr.sx - s / 2), Math.round(pr.sy - s / 2), s, s);
-  }
-  // 조준 화살표(파울라인 앞).
-  const ap = project(game.aimX, 1);
-  ctx.fillStyle = C.yellow;
-  for (let r = 0; r < 5; r++) {
-    const w = (5 - r) * 1.4;
-    ctx.fillRect(Math.round(ap.sx - w / 2), Math.round(ap.sy - 10 + r), Math.max(1, Math.round(w)), 1);
   }
 }
 
@@ -335,13 +378,19 @@ function drawMeters(ctx: CanvasRenderingContext2D, game: BowlingGame, time: numb
   const barX = 54;
   const barW = VW - barX - 12;
 
-  // 파워.
+  // 파워(스윗스팟 존 표시). 마커가 노란/초록 존에 들면 좋은 라인.
   drawText(ctx, "POWER", 6, 326, 1, game.phase === "power" ? C.yellow : C.dim, 1);
-  drawBar(ctx, barX, 325, barW, 7, game.currentPowerT(), C.green, C.red, false);
+  drawBar(ctx, barX, 325, barW, 7, game.currentPowerT(), false, {
+    perfect: SWEET.powerPerfect,
+    good: SWEET.powerGood
+  });
 
-  // 스핀.
+  // 스핀(중앙 0, 스윗스팟 존 표시).
   drawText(ctx, "SPIN", 6, 344, 1, game.phase === "spin" ? C.yellow : C.dim, 1);
-  drawBar(ctx, barX, 343, barW, 7, (game.currentSpinT() + 1) / 2, C.cyan, C.cyan, true);
+  drawBar(ctx, barX, 343, barW, 7, (game.currentSpinT() + 1) / 2, true, {
+    perfect: [(SWEET.spinPerfect[0] + 1) / 2, (SWEET.spinPerfect[1] + 1) / 2],
+    good: [(SWEET.spinGood[0] + 1) / 2, (SWEET.spinGood[1] + 1) / 2]
+  });
 
   // 프롬프트.
   let prompt = "";
@@ -373,37 +422,35 @@ function drawBar(
   w: number,
   h: number,
   t: number,
-  colLo: string,
-  colHi: string,
-  centered: boolean
+  centered: boolean,
+  zones: { perfect: [number, number]; good: [number, number] }
 ): void {
   ctx.fillStyle = "#05070f";
   ctx.fillRect(x, y, w, h);
+
+  // 스윗스팟 존(GOOD=초록 어둡게, PERFECT=노랑 밝게).
+  const zoneRect = (lo: number, hi: number, color: string) => {
+    const x0 = x + 1 + Math.round(Math.max(0, lo) * (w - 2));
+    const x1 = x + 1 + Math.round(Math.min(1, hi) * (w - 2));
+    ctx.fillStyle = color;
+    ctx.fillRect(x0, y + 1, Math.max(1, x1 - x0), h - 2);
+  };
+  zoneRect(zones.good[0], zones.good[1], "#1f5a2a");
+  zoneRect(zones.perfect[0], zones.perfect[1], "#b8991f");
+
   ctx.strokeStyle = C.scoreBorder;
   ctx.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1);
+
   if (centered) {
-    // 중앙 0 기준 좌우.
     const mid = x + w / 2;
-    ctx.fillStyle = "#2a3358";
-    ctx.fillRect(Math.round(mid), y + 1, 1, h - 2);
-    const off = (t - 0.5) * (w - 4);
-    ctx.fillStyle = colHi;
-    if (off >= 0) ctx.fillRect(Math.round(mid), y + 1, Math.round(off), h - 2);
-    else ctx.fillRect(Math.round(mid + off), y + 1, Math.round(-off), h - 2);
-    // 마커.
-    ctx.fillStyle = C.white;
-    ctx.fillRect(Math.round(mid + off) - 1, y, 2, h);
-  } else {
-    const fillW = Math.round((w - 2) * t);
-    for (let i = 0; i < fillW; i++) {
-      const frac = i / (w - 2);
-      ctx.fillStyle = frac > 0.8 ? colHi : frac > 0.55 ? C.yellow : colLo;
-      ctx.fillRect(x + 1 + i, y + 1, 1, h - 2);
-    }
-    // 마커.
-    ctx.fillStyle = C.white;
-    ctx.fillRect(x + 1 + fillW, y, 2, h);
+    ctx.fillStyle = "#3a4468";
+    ctx.fillRect(Math.round(mid), y, 1, h);
   }
+
+  // 오실레이팅 마커(이걸 존에 멈춰야 함).
+  const mx = x + 1 + Math.round(t * (w - 2));
+  ctx.fillStyle = C.white;
+  ctx.fillRect(mx - 1, y - 1, 2, h + 2);
 }
 
 function drawBanner(ctx: CanvasRenderingContext2D, game: BowlingGame): void {

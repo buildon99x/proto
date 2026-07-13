@@ -46,7 +46,7 @@ export interface ResultBanner {
   timer: number;
 }
 
-const TIP_DIST = 2.4; // 홈에서 이만큼 벗어나면 쓰러진 것으로 판정
+
 
 export class BowlingGame {
   phase: Phase = "title";
@@ -60,6 +60,9 @@ export class BowlingGame {
   spin = 0; // 확정된 스핀 -1..1
   meterT = 0; // 미터 오실레이터용 시각
   banner: ResultBanner | null = null;
+  powerQ: LockQuality = "off"; // 마지막 파워 락 품질
+  spinQ: LockQuality = "off"; // 마지막 스핀 락 품질
+  lockFlash: { text: string; color: string; timer: number } | null = null;
 
   highScore = 0;
   lastTotal = 0;
@@ -172,7 +175,18 @@ export class BowlingGame {
 
   private launch(): void {
     this.standingAtLaunch = this.standingCount();
-    const vy0 = lerp(96, 178, this.power);
+    // 락 품질 판정 + 피드백(카오스라 스트라이크 보장은 아니고 "잘 굴렸다" 지표).
+    this.powerQ = classify(this.power, SWEET.powerPerfect, SWEET.powerGood);
+    this.spinQ = classify(this.spin, SWEET.spinPerfect, SWEET.spinGood);
+    if (this.powerQ === "perfect" && this.spinQ === "perfect") {
+      this.lockFlash = { text: "PERFECT POCKET", color: "#ffd23f", timer: 1.0 };
+      audio.play("spare");
+    } else if (this.powerQ !== "off" && this.spinQ !== "off") {
+      this.lockFlash = { text: "GOOD LINE", color: "#5ad86a", timer: 0.8 };
+    } else {
+      this.lockFlash = null;
+    }
+    const vy0 = lerp(TUNE.vyMin, TUNE.vyMax, this.power);
     this.ball = { x: this.aimX, y: 3, vx: 0, vy: vy0, active: true, gutter: false };
     this.phase = "rolling";
     this.settleTimer = 0;
@@ -184,6 +198,10 @@ export class BowlingGame {
   update(dt: number): void {
     this.meterT += dt;
     if (this.pinSoundCooldown > 0) this.pinSoundCooldown -= dt;
+    if (this.lockFlash) {
+      this.lockFlash.timer -= dt;
+      if (this.lockFlash.timer <= 0) this.lockFlash = null;
+    }
 
     if (this.phase === "aim") {
       const speed = 22 * dt;
@@ -218,12 +236,12 @@ export class BowlingGame {
     if (ball.active) {
       // 스핀에 의한 곡선(훅): 공이 느려질수록 휘어짐이 커진다.
       if (!ball.gutter && ball.vy > 0) {
-        const slowness = 1 - Math.min(1, ball.vy / 178);
-        ball.vx += this.spin * (14 + 42 * slowness) * h;
+        const slowness = 1 - Math.min(1, ball.vy / TUNE.vyMax);
+        ball.vx += this.spin * (TUNE.spinBase + TUNE.spinSlow * slowness) * h;
       }
       // 마찰(속도 벡터 감쇠).
       const sp = Math.hypot(ball.vx, ball.vy);
-      const dec = 12 * h;
+      const dec = TUNE.friction * h;
       if (sp > 0) {
         const ns = Math.max(0, sp - dec);
         ball.vx *= ns / sp;
@@ -249,7 +267,7 @@ export class BowlingGame {
       if (!ball.gutter) {
         for (const p of this.pins) {
           if (p.removed) continue;
-          collide(ball, p, BALL_R, PIN_R, 6, 1);
+          collide(ball, p, BALL_R, PIN_R, TUNE.ballMass, TUNE.pinMass);
         }
       }
 
@@ -279,14 +297,14 @@ export class BowlingGame {
       for (let j = i + 1; j < this.pins.length; j++) {
         const b = this.pins[j];
         if (b.removed) continue;
-        collide(a, b, PIN_R, PIN_R, 1, 1);
+        collide(a, b, PIN_R, PIN_R, TUNE.pinMass, TUNE.pinMass);
       }
     }
 
     // 쓰러짐 표시 + 타격음.
     for (const p of this.pins) {
       if (p.removed || p.down) continue;
-      if (Math.hypot(p.x - p.homeX, p.y - p.homeY) > TIP_DIST) {
+      if (Math.hypot(p.x - p.homeX, p.y - p.homeY) > TUNE.tip) {
         p.down = true;
         if (this.pinSoundCooldown <= 0) {
           audio.play("pin");
@@ -400,6 +418,91 @@ export class BowlingGame {
 const POWER_SPEED = 1.15;
 const SPIN_SPEED = 1.45;
 
+// 물리 튜닝(시뮬·프리뷰·검증 하니스가 공유). 값은 스트라이크 분지가
+// 응집되도록 헤드리스 스트라이크맵으로 튜닝했다.
+export const TUNE = {
+  vyMin: 96,
+  vyMax: 178,
+  friction: 14,
+  spinBase: 14,
+  spinSlow: 46,
+  tip: 2.1,
+  restitution: 0.93,
+  ballMass: 3,
+  pinMass: 1
+};
+
+// 포켓(스윗스팟) 기준값: 이 조준/파워/스핀 조합이 스트라이크 라인.
+// 미터의 PERFECT 존과 궤도 프리뷰·추천 조준 마커의 기준.
+// 헤드리스 스트라이크맵 검증 결과: 정중앙 직구는 스트라이크가 나지 않고,
+// 헤드핀 우측 + 좌향 훅으로 1-3 포켓에 각을 넣어야 스트라이크가 응집된다.
+export const POCKET = {
+  aimX: 30, // 헤드핀보다 오른쪽(1-3 포켓 진입) — 추천 조준 마커
+  power: 0.73, // 이상적 캐리 속도
+  spin: -0.1 // 좌측 훅으로 포켓에 각을 넣음
+};
+
+// 스윗스팟(PERFECT/GOOD) 존. 미터에 표시하며, 여기에 맞출수록 기대 핀 수·
+// 스트라이크 확률이 높다(카오스 때문에 보장은 아님 — "잘 굴렸다"의 지표).
+export const SWEET = {
+  powerPerfect: [0.66, 0.8] as [number, number],
+  powerGood: [0.56, 0.88] as [number, number],
+  spinPerfect: [-0.22, 0.02] as [number, number], // -1..1 공간
+  spinGood: [-0.38, 0.14] as [number, number]
+};
+
+export type LockQuality = "perfect" | "good" | "off";
+
+function classify(v: number, perfect: [number, number], good: [number, number]): LockQuality {
+  if (v >= perfect[0] && v <= perfect[1]) return "perfect";
+  if (v >= good[0] && v <= good[1]) return "good";
+  return "off";
+}
+
+/**
+ * 핀을 무시한 볼 경로 예측(프리뷰용). 실제 physicsStep 과 동일한 공식을 사용한다.
+ * @returns 레인 좌표계 {x,y} 표본 배열.
+ */
+export function predictPath(aimX: number, power: number, spin: number): Array<{ x: number; y: number }> {
+  const pts: Array<{ x: number; y: number }> = [];
+  let x = aimX;
+  let y = 3;
+  let vx = 0;
+  let vy = lerp(TUNE.vyMin, TUNE.vyMax, power);
+  const h = 1 / 240;
+  let gutter = false;
+  const maxY = LANE_LEN - 20;
+  for (let i = 0; i < 4000 && y < maxY; i++) {
+    if (!gutter && vy > 0) {
+      const slowness = 1 - Math.min(1, vy / TUNE.vyMax);
+      vx += spin * (TUNE.spinBase + TUNE.spinSlow * slowness) * h;
+    }
+    const sp = Math.hypot(vx, vy);
+    if (sp > 0) {
+      const ns = Math.max(0, sp - TUNE.friction * h);
+      vx *= ns / sp;
+      vy *= ns / sp;
+    }
+    x += vx * h;
+    y += vy * h;
+    if (!gutter) {
+      if (x <= GUTTER + BALL_R * 0.4) {
+        gutter = true;
+        x = GUTTER * 0.5;
+        vx = 0;
+      } else if (x >= BOARD_W - GUTTER - BALL_R * 0.4) {
+        gutter = true;
+        x = BOARD_W - GUTTER * 0.5;
+        vx = 0;
+      }
+    }
+    if (vy < 3) break;
+    if (i % 12 === 0) pts.push({ x, y });
+  }
+  pts.push({ x, y });
+  return pts;
+}
+
 function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t;
 }
@@ -441,7 +544,7 @@ function collide(a: Body, b: Body, ra: number, rb: number, ma: number, mb: numbe
   const rvy = b.vy - a.vy;
   const velN = rvx * nx + rvy * ny;
   if (velN > 0) return; // 이미 벌어지는 중
-  const restitution = 0.85;
+  const restitution = TUNE.restitution;
   const impulse = (-(1 + restitution) * velN) / (1 / ma + 1 / mb);
   const ix = impulse * nx;
   const iy = impulse * ny;
