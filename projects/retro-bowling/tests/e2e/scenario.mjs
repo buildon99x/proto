@@ -82,6 +82,14 @@ export async function run({ page, sleep, shot, log }) {
   await sleep(200);
   await shot("02-aim");
 
+  // 오일 패턴(상급 모드) 캡처: O 키로 켜면 이번 레인 훅 배수에 맞춰
+  // 추천 조준·궤도가 보정되고 OIL 인디케이터가 표시된다. 캡처 후 다시 끔.
+  await page.keyboard.press("o");
+  await sleep(250);
+  await shot("12-oil-pattern");
+  await page.keyboard.press("o");
+  await sleep(150);
+
   // 파워 미터(스윗스팟 존) 캡처.
   await page.keyboard.press(" "); // -> power
   await sleep(250);

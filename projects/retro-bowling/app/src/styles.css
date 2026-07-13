@@ -83,6 +83,28 @@ body {
   color: #ffd23f;
 }
 
+.oil-btn {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  font-family: inherit;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #8a93a3;
+  background: rgba(5, 7, 15, 0.7);
+  border: 1px solid #2b3560;
+  border-radius: 3px;
+  padding: 3px 5px;
+  cursor: pointer;
+}
+.oil-btn:hover {
+  color: #ffd23f;
+}
+.oil-btn.on {
+  color: #ff8a3f;
+  border-color: #ff8a3f;
+}
+
 .controls {
   display: flex;
   gap: 14px;

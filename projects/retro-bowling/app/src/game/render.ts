@@ -239,7 +239,7 @@ function drawTrajectory(ctx: CanvasRenderingContext2D, game: BowlingGame): void 
     power = game.power;
     spin = game.currentSpinT();
   }
-  const path = predictPath(game.aimX, power, spin);
+  const path = predictPath(game.aimX, power, spin, game.hookMul());
   for (let i = 0; i < path.length; i++) {
     if (i % 2 === 1) continue; // 점선
     const pr = project(path[i].x, path[i].y);
@@ -450,6 +450,15 @@ function drawMeters(ctx: CanvasRenderingContext2D, game: BowlingGame, time: numb
     const col = mul > 1.4 ? C.red : mul > 1.2 ? C.orange : C.yellow;
     drawText(ctx, `SPD X${mul.toFixed(1)}`, 6, 356, 1, col, 1);
   }
+
+  // 오일 패턴(상급 모드): 이번 레인의 오일 상태 + 조정 방향 힌트.
+  if (game.oilEnabled) {
+    const label = game.oilLabel();
+    const hint = game.oilHint();
+    const col = label === "DRY" ? C.orange : label === "OILY" ? C.cyan : C.green;
+    const arrow = hint > 0 ? " >" : hint < 0 ? " <" : "";
+    drawText(ctx, `OIL ${label}${arrow}`, VW - 66, 356, 1, col, 1);
+  }
 }
 
 function drawBar(
@@ -535,7 +544,18 @@ function drawTitle(ctx: CanvasRenderingContext2D, game: BowlingGame, time: numbe
   if (Math.floor(time * 1.6) % 2 === 0) {
     drawTextCentered(ctx, "PRESS SPACE / TAP TO PLAY", CX, 330, 1, C.yellow, 1);
   }
-  drawTextCentered(ctx, "< > AIM   SPACE POWER SPIN THROW", CX, 352, 1, C.dim, 1);
+  drawTextCentered(ctx, "< > AIM   SPACE POWER SPIN THROW", CX, 344, 1, C.dim, 1);
+  // 오일 패턴 상급 모드 토글 안내(O 키).
+  const oilOn = game.oilEnabled;
+  drawTextCentered(
+    ctx,
+    `[O] OIL PATTERN: ${oilOn ? "ON" : "OFF"}`,
+    CX,
+    358,
+    1,
+    oilOn ? C.orange : C.dim,
+    1
+  );
 }
 
 function drawMiniLane(ctx: CanvasRenderingContext2D): void {

@@ -81,14 +81,58 @@ export class BowlingGame {
   highScore = 0;
   lastTotal = 0;
 
+  // ── 오일 패턴(상급 모드) ──────────────────────────────────
+  // 레인마다 오일 분포가 달라 볼의 훅(휘어짐) 양이 바뀐다. 게임마다 새로
+  // 뽑혀 "읽고 조정"하는 진짜 볼링 스킬을 요구한다. 기본은 꺼짐(균형 유지).
+  oilEnabled = false;
+  oilHook = 1; // 이번 게임 레인의 훅 배수(≈0.7 기름많음 ~ 1.3 건조)
+
   private held = { left: false, right: false };
   private settleTimer = 0;
   private pinSoundCooldown = 0;
   private standingAtLaunch = 10; // 이번 공을 굴리기 직전 서있던 핀 수
+  private oilSeed = 0.5; // 오일 난수 시드(결정적 재현용)
 
   constructor() {
     this.resetRack();
     this.highScore = loadHigh();
+    this.oilEnabled = loadOil();
+    this.generateOil();
+  }
+
+  /** 이번 게임의 오일 패턴(훅 배수)을 새로 뽑는다. */
+  private generateOil(): void {
+    // 결정적 LCG로 시드를 굴려 0..1 값을 얻고 [0.7,1.3] 훅 배수로 매핑.
+    this.oilSeed = (this.oilSeed * 1103515245 + 12345) % 2147483648;
+    const r = this.oilSeed / 2147483648;
+    this.oilHook = 0.7 + r * 0.6;
+  }
+
+  /** 현재 적용 중인 훅 배수(오일 off면 1). */
+  hookMul(): number {
+    return this.oilEnabled ? this.oilHook : 1;
+  }
+
+  /** 오일 상태 라벨(HUD 표시용). */
+  oilLabel(): string {
+    if (!this.oilEnabled) return "";
+    if (this.oilHook < 0.88) return "OILY";
+    if (this.oilHook > 1.12) return "DRY";
+    return "MEDIUM";
+  }
+
+  /** 오일에 따른 조정 힌트 방향(-1: 훅 적음/오른쪽 겨냥, +1: 훅 많음/왼쪽). */
+  oilHint(): number {
+    if (!this.oilEnabled) return 0;
+    if (this.oilHook < 0.88) return -1;
+    if (this.oilHook > 1.12) return 1;
+    return 0;
+  }
+
+  /** 오일 패턴 상급 모드 토글. */
+  setOil(on: boolean): void {
+    this.oilEnabled = on;
+    saveOil(on);
   }
 
   get score(): GameScore {
@@ -198,6 +242,7 @@ export class BowlingGame {
     this.streak = 0;
     this.shake = 0;
     this.particles = [];
+    this.generateOil(); // 새 게임 = 새 레인 오일 패턴
     this.resetRack();
     this.beginAim();
   }
@@ -284,7 +329,7 @@ export class BowlingGame {
       // 스핀에 의한 곡선(훅): 공이 느려질수록 휘어짐이 커진다.
       if (!ball.gutter && ball.vy > 0) {
         const slowness = 1 - Math.min(1, ball.vy / TUNE.vyMax);
-        ball.vx += this.spin * (TUNE.spinBase + TUNE.spinSlow * slowness) * h;
+        ball.vx += this.spin * (TUNE.spinBase + TUNE.spinSlow * slowness) * this.hookMul() * h;
       }
       // 마찰(속도 벡터 감쇠).
       const sp = Math.hypot(ball.vx, ball.vy);
@@ -488,10 +533,19 @@ export class BowlingGame {
   }
 
   // 추천 조준 x. 풀랙이면 포켓, 스페어면 남은 핀 중심(직구로 겨냥).
+  // 오일 모드에선 이번 레인의 훅 배수만큼 조준을 보정해 마커가 정확히 안내한다
+  // (읽는 부담은 덜어주되, 최적 진입각·타이밍 정복은 여전히 스킬).
   recommendedAimX(): number {
     const standing = this.pins.filter((p) => !p.removed);
-    if (standing.length === 10 || standing.length === 0) return POCKET.aimX;
-    return standing.reduce((s, p) => s + p.homeX, 0) / standing.length;
+    const base =
+      standing.length === 10 || standing.length === 0
+        ? POCKET.aimX
+        : standing.reduce((s, p) => s + p.homeX, 0) / standing.length;
+    if (!this.oilEnabled) return base;
+    // 대표 투구의 훅 변위 차이만큼 보정(오일 많음=훅 적음→왼쪽 겨냥).
+    const shift = hookDisplacement(1) - hookDisplacement(this.oilHook);
+    const aim = base + shift;
+    return Math.max(GUTTER + BALL_R, Math.min(BOARD_W - GUTTER - BALL_R, aim));
   }
 
   // 조준 마커 라벨: 풀랙=포켓, 스페어=스플릿 여부에 따라.
@@ -566,7 +620,12 @@ function classify(v: number, perfect: [number, number], good: [number, number]):
  * 핀을 무시한 볼 경로 예측(프리뷰용). 실제 physicsStep 과 동일한 공식을 사용한다.
  * @returns 레인 좌표계 {x,y} 표본 배열.
  */
-export function predictPath(aimX: number, power: number, spin: number): Array<{ x: number; y: number }> {
+export function predictPath(
+  aimX: number,
+  power: number,
+  spin: number,
+  hookMul = 1
+): Array<{ x: number; y: number }> {
   const pts: Array<{ x: number; y: number }> = [];
   let x = aimX;
   let y = 3;
@@ -578,7 +637,7 @@ export function predictPath(aimX: number, power: number, spin: number): Array<{ 
   for (let i = 0; i < 4000 && y < maxY; i++) {
     if (!gutter && vy > 0) {
       const slowness = 1 - Math.min(1, vy / TUNE.vyMax);
-      vx += spin * (TUNE.spinBase + TUNE.spinSlow * slowness) * h;
+      vx += spin * (TUNE.spinBase + TUNE.spinSlow * slowness) * hookMul * h;
     }
     const sp = Math.hypot(vx, vy);
     if (sp > 0) {
@@ -608,6 +667,13 @@ export function predictPath(aimX: number, power: number, spin: number): Array<{ 
 
 function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t;
+}
+
+// 대표 투구(POCKET 파워·스핀)가 주어진 훅 배수에서 만드는 좌우 변위.
+// 오일 보정 조준 계산에 쓴다(중앙에서 출발한 볼이 핀라인까지 얼마나 휘는지).
+function hookDisplacement(hookMul: number): number {
+  const path = predictPath(CENTER_X, POCKET.power, POCKET.spin, hookMul);
+  return path[path.length - 1].x - CENTER_X;
 }
 
 /** 0→1→0 삼각파. speed는 초당 왕복 비율. */
@@ -688,6 +754,24 @@ function saveHigh(v: number): void {
   if (typeof window === "undefined") return;
   try {
     window.localStorage.setItem(HIGH_KEY, String(v));
+  } catch {
+    /* 무시 */
+  }
+}
+
+const OIL_KEY = "retro-bowling/oil/v1";
+function loadOil(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return window.localStorage.getItem(OIL_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+function saveOil(v: boolean): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(OIL_KEY, v ? "1" : "0");
   } catch {
     /* 무시 */
   }

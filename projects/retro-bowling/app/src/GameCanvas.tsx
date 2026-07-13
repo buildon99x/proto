@@ -7,6 +7,7 @@ export default function GameCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const gameRef = useRef<BowlingGame | null>(null);
   const [muted, setMuted] = useState(false);
+  const [oil, setOil] = useState(false);
 
   if (!gameRef.current) gameRef.current = new BowlingGame();
 
@@ -19,6 +20,7 @@ export default function GameCanvas() {
 
     // 디버그/자동화 검증용으로 게임 인스턴스 노출.
     (window as unknown as { __bowling?: BowlingGame }).__bowling = game;
+    setOil(game.oilEnabled); // 저장된 설정 반영
 
     let raf = 0;
     let last = performance.now();
@@ -69,6 +71,11 @@ export default function GameCanvas() {
           audio.enabled = !audio.enabled;
           setMuted(!audio.enabled);
           break;
+        case "o":
+        case "O":
+          game.setOil(!game.oilEnabled);
+          setOil(game.oilEnabled);
+          break;
       }
     };
     const up = (e: KeyboardEvent) => {
@@ -104,6 +111,11 @@ export default function GameCanvas() {
     setMuted(!audio.enabled);
   };
 
+  const toggleOil = () => {
+    game.setOil(!game.oilEnabled);
+    setOil(game.oilEnabled);
+  };
+
   return (
     <div className="game-wrap">
       <div className="screen-frame">
@@ -117,6 +129,13 @@ export default function GameCanvas() {
         <div className="scanlines" />
         <button className="mute-btn" onClick={toggleMute} aria-label="toggle sound">
           {muted ? "SOUND OFF" : "SOUND ON"}
+        </button>
+        <button
+          className={`oil-btn${oil ? " on" : ""}`}
+          onClick={toggleOil}
+          aria-label="toggle oil pattern"
+        >
+          {oil ? "OIL ON" : "OIL OFF"}
         </button>
       </div>
 
@@ -144,9 +163,11 @@ export default function GameCanvas() {
         </button>
       </div>
       <p className="hint">
-        키보드: ← → 조준 · SPACE 파워/스핀/투구 · M 음소거
+        키보드: ← → 조준 · SPACE 파워/스핀/투구 · M 음소거 · O 오일 패턴
         <br />
         POCKET 마커에 조준하고, 미터 노란 존(PERFECT)에 멈춰 스트라이크를 노리세요
+        <br />
+        오일 패턴(상급): 레인마다 훅 양이 달라져 매 게임 읽고 조정해야 합니다
       </p>
     </div>
   );
