@@ -76,19 +76,21 @@ export function tryRotate(
   return null;
 }
 
-/** write the piece's blocks into a cloned grid */
+/** write the piece's blocks into a cloned grid (per-cell colors) */
 export function deposit(g: Grid, p: ActivePiece): Grid {
   const out = cloneGrid(g);
-  for (const [c, r] of pieceCells(p)) {
-    out[r][c] = { type: p.def.blockType, color: blockColor(p), group: p.def.group };
+  const cells = pieceCells(p);
+  for (let i = 0; i < cells.length; i++) {
+    const [c, r] = cells[i];
+    out[r][c] = { type: p.def.blockType, color: cellColor(p, i), group: p.def.group };
   }
   return out;
 }
 
-function blockColor(p: ActivePiece): number {
+export function cellColor(p: ActivePiece, i: number): number {
   if (p.def.blockType === "obsidian" || p.def.blockType === "junk") return -1;
   if (p.def.blockType === "prism") return -2;
-  return p.color;
+  return p.colors[i] ?? p.colors[0] ?? 0;
 }
 
 /**

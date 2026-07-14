@@ -257,7 +257,7 @@ describe("determinism (§G)", () => {
         g.move(i % 3 === 0 ? -1 : 1, 0);
         g.rotate(1);
         const out = g.hardDrop();
-        trace.push([g.score, g.placements, out?.maxLink, g.queue[0]?.def.id, g.queue[0]?.color]);
+        trace.push([g.score, g.placements, out?.maxLink, g.queue[0]?.def.id, g.queue[0]?.colors.join("")]);
         if ((g.phase as string) === "cleared") g.press();
       }
       return JSON.stringify(trace);
@@ -266,12 +266,26 @@ describe("determinism (§G)", () => {
     expect(play(12345)).not.toBe(play(54321));
   });
 
+  it("4-cell pieces always mix ≥2 colors — a piece can never self-clear on lock", () => {
+    const g = new Game(99);
+    g.startRun();
+    g.hookQueue = []; // past the scripted opening, only random draws
+    g.queue = [];
+    g.bag = [];
+    for (let i = 0; i < 60; i++) {
+      const q = (g as unknown as { drawPiece(): { def: { cells: unknown[]; blockType: string }; colors: number[] } }).drawPiece();
+      if (q.def.blockType === "normal" && q.def.cells.length >= 4) {
+        expect(new Set(q.colors).size).toBeGreaterThanOrEqual(2);
+      }
+    }
+  });
+
   it("stage 1 hook: the seeded board + opening bag detonates a multi-link chain", () => {
     const g = new Game(777);
     g.startRun();
-    // first piece is the scripted I in color A; drop it in column 1
+    // first piece is the scripted mono-color I detonator; drop it in column 1
     expect(g.active?.def.id).toBe("I");
-    expect(g.active?.color).toBe(0);
+    expect(g.active?.colors).toEqual([0, 0, 0, 0]);
     g.rotate(1); // vertical
     while (g.active && g.active.col > 1) if (!g.move(-1, 0)) break;
     while (g.active && g.active.col < 1) if (!g.move(1, 0)) break;

@@ -59,7 +59,8 @@ import type {
 
 export interface QueuedPiece {
   def: PieceDef;
-  color: number;
+  /** per-cell colors, parallel to def.cells */
+  colors: number[];
 }
 
 export interface LockOutcome {
@@ -96,13 +97,15 @@ const HOOK_ROWS: number[][] = [
   [-9, -9, 1, 1, 2, 2, 2, -9],
   [-9, 0, 0, 0, 1, 1, 1, 2],
 ];
-const HOOK_BAG: { id: string; color: number }[] = [
-  { id: "I", color: 0 },
-  { id: "O", color: 0 },
-  { id: "T", color: 1 },
-  { id: "L", color: 2 },
-  { id: "S", color: 0 },
-  { id: "J", color: 1 },
+// scripted opening bag: the mono I piece is the detonator, the rest are
+// mixed so nothing self-clears while the player learns the loop.
+const HOOK_BAG: { id: string; colors: number[] }[] = [
+  { id: "I", colors: [0, 0, 0, 0] },
+  { id: "O", colors: [1, 1, 2, 2] },
+  { id: "T", colors: [2, 2, 0, 0] },
+  { id: "L", colors: [1, 2, 1, 2] },
+  { id: "S", colors: [0, 1, 0, 1] },
+  { id: "J", colors: [2, 0, 0, 2] },
 ];
 
 export class Game {
@@ -140,7 +143,7 @@ export class Game {
   session = { chain: 0, clear: 0, perfectClears: 0 };
   discovered: Set<string>;
   drawCount = 0;
-  hookQueue: { id: string; color: number }[] = [];
+  hookQueue: { id: string; colors: number[] }[] = [];
   gameOverReason = "";
   lastOutcome: LockOutcome | null = null;
 
@@ -201,24 +204,45 @@ export class Game {
     this.hookQueue = [...HOOK_BAG];
   }
 
+  /**
+   * Per-cell piece colors [DEF]: special pieces are mono; small (<4-cell)
+   * normal pieces are mono; 4-cell normal pieces always mix exactly two
+   * distinct colors with both present — so no piece can self-clear on
+   * lock (the ≥4 group must be assembled across placements).
+   */
+  private pieceColors(def: PieceDef): number[] {
+    const n = def.cells.length;
+    const a = this.rng.int(scoring.colorCount);
+    if (def.blockType !== "normal" || n < scoring.groupClearMin) {
+      return Array(n).fill(a);
+    }
+    let b = this.rng.int(scoring.colorCount - 1);
+    if (b >= a) b++;
+    const colors = def.cells.map(() => (this.rng.next() < 0.5 ? a : b));
+    if (!colors.includes(b)) colors[this.rng.int(n)] = b;
+    else if (!colors.includes(a)) colors[this.rng.int(n)] = a;
+    return colors;
+  }
+
   private drawPiece(): QueuedPiece {
     this.drawCount++;
     if (this.hookQueue.length > 0) {
       const h = this.hookQueue.shift()!;
       const def = basePieces.find((p) => p.id === h.id)!;
-      return { def, color: h.color };
+      return { def, colors: [...h.colors] };
     }
     const every = bossRandomPieceEvery(this.boss);
     if (every > 0 && this.drawCount % every === 0) {
       const all = [...basePieces, ...smallPieces];
-      return { def: all[this.rng.int(all.length)], color: this.rng.int(scoring.colorCount) };
+      const def = all[this.rng.int(all.length)];
+      return { def, colors: this.pieceColors(def) };
     }
     if (this.bag.length === 0) {
       const source = [...this.pool];
       if (this.mods.smallPieces) source.push(...smallPieces);
       this.bag = source.map((def) => ({
         def,
-        color: this.rng.int(scoring.colorCount),
+        colors: this.pieceColors(def),
       }));
       this.rng.shuffle(this.bag);
     }
@@ -240,7 +264,7 @@ export class Game {
       rot: 0,
       col: Math.floor(stagesCfg.cols / 2) - 1,
       row: up ? stagesCfg.rows - 2 : 0,
-      color: q.color,
+      colors: q.colors,
     };
     // nudge into bounds
     for (const off of [0, -1, 1, -2, 2]) {
@@ -299,7 +323,7 @@ export class Game {
   holdPiece(): boolean {
     if (!this.mods.hold || this.phase !== "play" || !this.active || this.holdUsed)
       return false;
-    const cur: QueuedPiece = { def: this.active.def, color: this.active.color };
+    const cur: QueuedPiece = { def: this.active.def, colors: this.active.colors };
     if (this.hold) this.queue.unshift(this.hold);
     this.hold = cur;
     this.holdUsed = true;

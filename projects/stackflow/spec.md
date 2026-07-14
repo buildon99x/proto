@@ -93,6 +93,11 @@ the run's shop purchases add to. `[SRC]`
 - Pieces are drawn from the pool. `[DEF]` Use a shuffled-bag draw
   (Tetris-style 7-bag when pool is the 7 base pieces; generalize to a
   weighted bag as the pool grows).
+- **Colors are per cell, not per piece `[DEF]`:** a 4-cell normal piece
+  always mixes exactly two distinct colors (both present), so no piece
+  can satisfy the ≥N same-color rule by itself and self-clear on lock —
+  clears must be assembled across placements (see `notes/decisions.md`,
+  balance fix).
 - Show current piece + a **next/preview** of at least 1 upcoming piece
   `[DEF]`. A hold slot is optional `[DEF]`.
 

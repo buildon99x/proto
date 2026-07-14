@@ -110,3 +110,23 @@ where spec.md left room, all `[DEF]` (tunable):
   `floor(overkill / (target × 0.25))`, config `overkillCreditPer`.
 - **Pressing risk is real**: topping out while pressing ends the run
   (spec §8.3 calls it a genuine gamble; banking stays always-safe).
+
+## Balance fix (2026-07-14, follow-up): per-cell piece colors
+
+**Blind spot found in play:** pieces were colored *per piece* (all 4
+cells one color) while the shape-clear rule is "same-color group ≥ 4" —
+so every tetromino was already a qualifying group and **self-cleared on
+lock**. The board never accumulated blocks, DANGER never engaged, and
+mashing the drop key cleared stages.
+
+**Fix `[DEF]`:** colors are now assigned **per cell**. 4-cell normal
+pieces always mix **exactly two distinct colors with both present**
+(max same-color run = 3 < N), so a clear can only be *assembled across
+placements* — restoring the Puyo-style setup game. Special pieces and
+small (<4-cell) pieces stay mono-color. The stage-1 scripted bag keeps
+one mono I piece as the hook detonator; its other pieces are mixed.
+
+Verified: a drop-key-mash bot now tops out at stages 3–6 (stages 1–2
+still pass — intended onboarding), while the greedy 1-ply bot keeps
+2/5 full-run wins with losses coming from board fill, not stalling.
+Unit test added ("4-cell pieces always mix ≥2 colors").
