@@ -103,6 +103,40 @@ export const projects = [
     }
   },
   {
+    "id": "stackflow",
+    "name": "Stackflow",
+    "status": "idea",
+    "type": "webapp",
+    "runtime": "static-artifact",
+    "summary": "Reverse-planning teardown of the Steam block-placement roguelike Stackflow, specced for a faithful clone.",
+    "tags": [
+      "reverse-planning",
+      "roguelike",
+      "puzzle",
+      "spec-only"
+    ],
+    "projectRoot": "projects/stackflow",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/stackflow/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md"
+    },
+    "assets": {
+      "cover": "assets/screenshots/cover.png"
+    },
+    "commands": {
+      "dev": "pnpm --filter stackflow dev",
+      "build": "pnpm --filter stackflow build",
+      "test": "pnpm --filter stackflow test"
+    }
+  },
+  {
     "id": "blacksmith-clicker",
     "name": "대장장이 클릭커",
     "status": "prototype",
