@@ -41,7 +41,9 @@ export interface ActivePiece {
   rot: number; // 0..3
   col: number;
   row: number;
-  color: number;
+  /** per-cell colors, parallel to def.cells. 4-cell normal pieces always
+   * carry ≥2 distinct colors so a piece can never self-clear on lock. */
+  colors: number[];
 }
 
 export type AdvantageKind = "automation" | "reward-multiplier" | "rule-changer";

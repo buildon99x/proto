@@ -1,6 +1,6 @@
 // DOM-rendered board (see notes/decisions.md: DOM over Canvas).
 // Colorblind-safe palette + per-color glyphs — never color alone (§8.7).
-import { pieceCells } from "../engine/grid";
+import { cellColor, pieceCells } from "../engine/grid";
 import { stagesCfg } from "../engine/config";
 import type { Game } from "../engine/run";
 import type { Block, Grid } from "../engine/types";
@@ -38,25 +38,20 @@ export function Board({ game, fx, busy }: { game: Game; fx: Fx; busy: boolean })
   const rows = stagesCfg.rows;
   const cols = stagesCfg.cols;
   const locked = new Set(game.lockedCols());
-  const activeCells = new Set<string>();
-  const ghostCells = new Set<string>();
+  const activeCells = new Map<string, Block>();
+  const ghostCells = new Map<string, Block>();
   if (!busy && game.phase === "play" && game.active) {
-    for (const [c, r] of pieceCells(game.active)) activeCells.add(`${r},${c}`);
+    const p = game.active;
+    const mk = (i: number): Block => ({
+      type: p.def.blockType,
+      color: cellColor(p, i),
+      group: p.def.group,
+    });
+    pieceCells(p).forEach(([c, r], i) => activeCells.set(`${r},${c}`, mk(i)));
     const ghost = game.dropPosition();
-    if (ghost) for (const [c, r] of pieceCells(ghost)) ghostCells.add(`${r},${c}`);
+    if (ghost)
+      pieceCells(ghost).forEach(([c, r], i) => ghostCells.set(`${r},${c}`, mk(i)));
   }
-  const activeBlock: Block | null = game.active
-    ? {
-        type: game.active.def.blockType,
-        color:
-          game.active.def.blockType === "obsidian" || game.active.def.blockType === "junk"
-            ? -1
-            : game.active.def.blockType === "prism"
-              ? -2
-              : game.active.color,
-        group: game.active.def.group,
-      }
-    : null;
 
   const dangerRows = stagesCfg.dangerRows;
   const up = game.gravityUp();
@@ -66,16 +61,16 @@ export function Board({ game, fx, busy }: { game: Game; fx: Fx; busy: boolean })
     for (let c = 0; c < cols; c++) {
       const key = `${r},${c}`;
       const b = grid[r][c];
-      const isActive = activeCells.has(key);
-      const isGhost = !isActive && ghostCells.has(key);
+      const activeB = activeCells.get(key);
+      const ghostB = !activeB ? ghostCells.get(key) : undefined;
       const isClearing = fx.clearing.has(key);
       const inDangerBand = up ? r >= rows - dangerRows : r < dangerRows;
-      const shown = isActive ? activeBlock : b;
+      const shown = activeB ?? b;
       const cls = [
         "cell",
         shown ? blockClass(shown) : "b-empty",
-        isActive && "active",
-        isGhost && "ghost",
+        activeB && "active",
+        ghostB && "ghost",
         isClearing && "clearing",
         locked.has(c) && "locked-col",
         inDangerBand && !shown && "danger-band",
@@ -84,7 +79,7 @@ export function Board({ game, fx, busy }: { game: Game; fx: Fx; busy: boolean })
         .join(" ");
       cells.push(
         <div key={key} className={cls}>
-          {shown ? blockGlyph(shown) : isGhost && activeBlock ? blockGlyph(activeBlock) : ""}
+          {shown ? blockGlyph(shown) : ghostB ? blockGlyph(ghostB) : ""}
         </div>,
       );
     }

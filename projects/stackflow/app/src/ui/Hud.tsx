@@ -7,7 +7,7 @@ import type { Game, QueuedPiece } from "../engine/run";
 import { blockClass, blockGlyph } from "./Board";
 import type { Block } from "../engine/types";
 
-function qpBlock(q: QueuedPiece): Block {
+function qpBlock(q: QueuedPiece, i: number): Block {
   return {
     type: q.def.blockType,
     color:
@@ -15,7 +15,7 @@ function qpBlock(q: QueuedPiece): Block {
         ? -1
         : q.def.blockType === "prism"
           ? -2
-          : q.color,
+          : (q.colors[i] ?? q.colors[0] ?? 0),
     group: q.def.group,
   };
 }
@@ -24,19 +24,18 @@ export function PiecePreview({ q }: { q: QueuedPiece }) {
   const cells = rotatedCells(q.def.cells, 0);
   const maxC = Math.max(...cells.map(([c]) => c)) + 1;
   const maxR = Math.max(...cells.map(([, r]) => r)) + 1;
-  const b = qpBlock(q);
-  const set = new Set(cells.map(([c, r]) => `${r},${c}`));
+  const byPos = new Map<string, Block>();
+  cells.forEach(([c, r], i) => byPos.set(`${r},${c}`, qpBlock(q, i)));
   const out = [];
   for (let r = 0; r < maxR; r++)
-    for (let c = 0; c < maxC; c++)
+    for (let c = 0; c < maxC; c++) {
+      const b = byPos.get(`${r},${c}`);
       out.push(
-        <div
-          key={`${r},${c}`}
-          className={`pcell ${set.has(`${r},${c}`) ? blockClass(b) : "pcell-empty"}`}
-        >
-          {set.has(`${r},${c}`) ? blockGlyph(b) : ""}
+        <div key={`${r},${c}`} className={`pcell ${b ? blockClass(b) : "pcell-empty"}`}>
+          {b ? blockGlyph(b) : ""}
         </div>,
       );
+    }
   return (
     <div className="preview" style={{ gridTemplateColumns: `repeat(${maxC}, 14px)` }}>
       {out}

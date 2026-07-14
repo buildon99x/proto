@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.1
+
+- **Balance fix — per-cell piece colors.** Mono-colored 4-cell pieces
+  were themselves qualifying ≥4 same-color groups, so every drop
+  self-cleared: the board never filled and mashing the drop key cleared
+  stages. Pieces now mix two colors per 4-cell piece (both always
+  present), so clears must be set up across placements. Verified with a
+  drop-mash bot (now dies at stages 3–6), the greedy-bot curve sim
+  (still 2/5 wins, losses now from board fill), 30 unit tests, and a
+  fresh browser playtest. Spec §3.2 and `notes/decisions.md` updated.
+
 ## 0.2.0
 
 - **Implemented the full game** (spec §13 build order steps 1–8): grid,
