@@ -1,0 +1,31 @@
+{
+  "id": "deck-building",
+  "name": "Deck Building",
+  "status": "prototype",
+  "type": "webapp",
+  "runtime": "static-artifact",
+  "summary": "Deck Building prototype.",
+  "tags": [
+    "prototype"
+  ],
+  "projectRoot": "projects/deck-building",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/deck-building/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md"
+  },
+  "assets": {
+    "cover": "assets/screenshots/cover.png"
+  },
+  "commands": {
+    "dev": "pnpm --filter deck-building dev",
+    "build": "pnpm --filter deck-building build",
+    "test": "pnpm --filter deck-building test"
+  }
+}
