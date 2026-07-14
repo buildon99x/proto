@@ -4,7 +4,7 @@
   "cols": 8,
   "rows": 12,
   "dangerRows": 3,
-  "actBase": [100, 1200, 12000],
+  "actBase": [100, 1200, 9000],
   "stageRamp": 0.18,
   "miniBossStages": [3, 6, 9],
   "actBossStage": 10,

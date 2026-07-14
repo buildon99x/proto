@@ -63,6 +63,8 @@ export interface QueuedPiece {
 }
 
 export interface LockOutcome {
+  /** board right after deposit + vine growth, before any clear (for playback) */
+  gridAfterDeposit: Grid;
   links: LinkResult[];
   autoLinks: LinkResult[]; // automation-triggered detonations
   totalScore: number;
@@ -325,6 +327,7 @@ export class Game {
     if (!landed) return null;
     const up = this.gravityUp();
     const out: LockOutcome = {
+      gridAfterDeposit: this.grid,
       links: [],
       autoLinks: [],
       totalScore: 0,
@@ -357,6 +360,7 @@ export class Game {
     const vg = growVines(grid);
     grid = vg.grid;
     out.vineGrew = vg.grew;
+    out.gridAfterDeposit = cloneGrid(grid);
 
     // 3. resolve cascade
     const res = resolve(grid, {

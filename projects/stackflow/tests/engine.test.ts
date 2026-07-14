@@ -187,7 +187,7 @@ describe("run structure & targets (§8.1)", () => {
     expect(stageTarget(3)).toBe(177);
     expect(stageTarget(10)).toBe(419);
     expect(stageTarget(11)).toBe(1200); // act 2 base
-    expect(stageTarget(30)).toBe(50304); // act 3 finale
+    expect(stageTarget(30)).toBe(37728); // act 3 finale (actBase3 = 9000, see decisions.md)
   });
 
   it("boss cadence: mini at 3/6/9, act boss at 10", () => {
