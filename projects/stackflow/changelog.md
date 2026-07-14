@@ -24,3 +24,11 @@
   economy pacing, board-carry-within-act, and UX/juice/accessibility
   beats. Added `[DES]` confidence tag and `notes/design-acts.md`; updated
   spec §8, state model, eval, decisions, and README.
+- Reviewed the design with the **MDA framework** (aesthetics-first, per
+  `docs/kb/concept-planning`), focused on *박진감 (thrill) & fun*. Added
+  `notes/mda-review.md`: diagnosed the core tension (slow-thinky identity
+  vs thrill), realigned the target aesthetic to combo-catharsis, and
+  derived a prioritized improvement backlog (P0 T1–T5: top-out tension,
+  payoff crescendo, shop-pacing, guaranteed first-60s hook, active-boss
+  set-pieces; P1/P2 T6–T14) with a premortem and spec-delta mapping. Not
+  yet applied to `spec.md` — pending requester go-ahead.

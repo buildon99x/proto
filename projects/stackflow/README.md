@@ -23,9 +23,12 @@ target score, spend credits between rounds on new blocks and roguelike
    A) + open questions to verify on the live game.
 4. [`notes/design-acts.md`](./notes/design-acts.md) — our original
    act/stage/progression design (UX- and fun-focused) and its rationale.
-5. [`notes/decisions.md`](./notes/decisions.md) — clone design choices for
+5. [`notes/mda-review.md`](./notes/mda-review.md) — **MDA-framework design
+   review** focused on *박진감 (thrill) & fun*; prioritized improvement
+   backlog (T1–T14) with spec-delta mapping. Read before the next spec pass.
+6. [`notes/decisions.md`](./notes/decisions.md) — clone design choices for
    undocumented / delegated details.
-6. [`eval.md`](./eval.md) — checks that prove a build matches.
+7. [`eval.md`](./eval.md) — checks that prove a build matches.
 
 ## Run structure
 
