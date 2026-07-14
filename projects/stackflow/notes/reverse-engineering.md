@@ -84,6 +84,25 @@ claims in `spec.md`.
   (Note: some community feedback said the economy/shop was thin — the
   clone treats a between-round shop as a first-class system.)
 
+## 7b. Play meta, run length & collection (confirmed)
+
+- **Meta is mostly in-run.** Lineage: before the economy patch the game
+  was described by the community as "**Balatro without the shop — just
+  playing poker hands over and over.**" Credits + a between-round shop
+  were added specifically to give runs a build/decision layer. The run
+  itself is the primary meta loop.
+- **Blockipedia**: an in-game screen to **discover and catalog all blocks
+  encountered.** Blocks are **unlocked/discovered** through play — the one
+  confirmed cross-run persistent element (a compendium, not power carryover).
+- **Session length ≈ 42 minutes** on average.
+- **Run is bounded/escalating, not endless by default** — an **endless /
+  infinite mode is a community *request*, not shipped.** Implies the
+  standard run has an end state (grid fills / finite ladder).
+- **No confirmed heavy cross-run progression** (persistent stat upgrades,
+  unlockable characters/decks, ascension/difficulty tiers). Public sources
+  do not mention any → treated as minimal in the spec, and listed as an
+  open question. Do **not** assume Balatro-style deck/stake meta exists.
+
 ## 8. Bosses (confirmed)
 
 - "Bosses arrive... **every third level brings a new rule** to challenge
@@ -102,7 +121,11 @@ These are unconfirmed by public sources; the spec uses `[DEF]` values.
 
 1. **Exact grid dimensions** (spec assumes 8×12).
 2. **Exact scoring formula** and chain-multiplier curve.
-3. **Target-score curve** per level and total number of levels per run.
+3. **Stage composition**: total number of levels per run, the exact
+   target-score curve, and whether the run ends at a **defined final
+   boss/ending** or escalates until the grid fills. (Confirmed: boss every
+   3rd level, escalating targets, ~42 min sessions, no shipped endless
+   mode. Unconfirmed: the ladder's length and terminus.)
 4. **Draw model**: true bag/7-bag vs. weighted random; hold slot? number
    of previews?
 5. **Placement commit**: manual hard-drop vs. timed gravity settle; is
@@ -114,6 +137,19 @@ These are unconfirmed by public sources; the spec uses `[DEF]` values.
 9. **Full boss roster** beyond the two confirmed rules.
 10. **Shape-clear catalog**: which shapes (besides full lines) count, and
     how color/shape matching for Combo Tiles is defined.
+11. **Cross-run meta depth**: is there ANY persistent progression beyond
+    the Blockipedia compendium (meta-currency, unlockable
+    characters/decks, difficulty ascension)? No public evidence found;
+    assumed minimal — confirm on the live build.
+
+> Access note: Steam, the app stores, and several aggregators are blocked
+> for this session (store pages 403 to automated fetch AND the egress
+> policy denies the Steam host at the proxy). Evidence is limited to
+> search-engine snippets; the store page's full long-description, the full
+> patch-note bodies, and Discord/forum threads could not be read directly.
+> The open questions above are exactly the details those blocked sources
+> would likely resolve — re-verify on the live game or an unblocked
+> network.
 
 ## 11. Sources
 
@@ -132,6 +168,9 @@ These are unconfirmed by public sources; the spec uses `[DEF]` values.
 - Steambase — Stackflow: https://steambase.io/games/stackflow/info
 - YouTube — "THIS TETRIS ROGUELIKE IS AMAZING! (Stackflow)":
   https://www.youtube.com/watch?v=n3PYD2Vgk-A
+- Kotaku — Stackflow: https://kotaku.com/games/stackflow
+- Playin — Stackflow: https://www.playin.gg/games/stackflow
+- steam-games.org — Stackflow: https://steam-games.org/game/361687/stackflow
 
 (Research date: 2026-07-14. Store pages returned 403 to automated fetch;
 claims are from indexed snippets — re-verify against the live build before

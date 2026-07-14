@@ -247,6 +247,45 @@ Example advantages `[DEF]` (three per documented kind):
 - Rule-changer: pieces are smaller; two next-previews; a free hold slot;
   lines clear at 90% fill.
 
+### 8.5 Play meta / progression layers `[SRC]/[INF]`
+
+Stackflow's "meta" is **primarily in-run build-crafting**, not heavy
+cross-run persistence. Its lineage confirms this: before the economy
+update the game was described by the community as "**Balatro without the
+shop** — just playing poker hands over and over", and the developers
+added **credits + a between-round shop** specifically to give runs a
+build/decision layer `[SRC]`. So the run *is* the meta.
+
+**In-run meta (the main loop, well-documented) `[SRC]`:**
+- Build a **block pool** by buying blocks in the shop (§8.3).
+- Stack **advantages** (§8.4) that compound (automation / multipliers /
+  rule-changers).
+- Exploit **block-group synergies** (Explosives/Colony/Arcane/Harmony,
+  §5.3) and permanent on-board multipliers (Obsidian).
+- Target: survive escalating levels + a boss every 3rd level.
+
+**Cross-run meta (light; collection-oriented) `[SRC]/[INF]`:**
+- **Blockipedia** — an in-game screen to **discover and catalog all
+  blocks you have encountered.** `[SRC]` This is a compendium/collection
+  layer; new blocks are **unlocked/discovered** through play `[SRC]`.
+- Beyond the Blockipedia, **no persistent power-progression, unlockable
+  characters/decks, or difficulty-ascension tiers are confirmed** in
+  public sources `[INF]`. The clone should treat cross-run persistence as
+  **minimal by default**: (a) a Blockipedia that unlocks discovered
+  blocks into a catalog, and optionally (b) high-score / best-level
+  tracking. Anything more (meta-currency, ascensions) is an **open
+  question** (see `notes/reverse-engineering.md`) — add only if validated.
+
+**Run length / bounds `[SRC]/[INF]`:**
+- Average session ≈ **42 minutes** `[SRC]`.
+- The base run is **bounded/escalating**, not endless — an **endless /
+  infinite mode is a community request, not a shipped default** `[SRC]`,
+  which implies the standard run ends (death by filling the grid, or a
+  finite stage ladder). **The exact stage count and whether there is a
+  defined final boss/ending are undocumented** `[INF]` — the clone
+  defaults to "escalate until the board can no longer accept a piece"
+  (see §8.1 curve) and flags this as an open question.
+
 ## 9. Game state model `[DEF]`
 
 ```ts
@@ -278,6 +317,9 @@ from a single seeded PRNG so a run is reproducible for testing `[DEF]`.
    buy/skip/reroll; "continue".
 4. **Game over / run summary** — level reached, final Stack, blocks
    destroyed, advantages taken; restart.
+5. **Blockipedia** `[SRC]` — a compendium of all blocks discovered across
+   runs, with each block's effect; entries unlock as blocks are
+   encountered. The one confirmed cross-run persistent screen.
 
 ## 11. Controls `[SRC]/[DEF]`
 

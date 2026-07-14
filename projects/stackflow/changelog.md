@@ -7,3 +7,9 @@
   authored `brief.md`, `spec.md` (buildable clone spec), `eval.md`, and
   `notes/reverse-engineering.md` (source-backed teardown + open questions)
   and `notes/decisions.md`. App implementation not started.
+- Deepened stage-composition and play-meta research: added spec §8.5
+  (Play meta / progression layers) and a Blockipedia screen; recorded
+  confirmed facts (Blockipedia catalog, ~42 min sessions, endless-mode is
+  a request not shipped, "Balatro-without-shop" lineage) and flagged what
+  remains undocumented (stage count/ending, cross-run meta depth) as open
+  questions. Noted Steam/store sources are egress-blocked for this session.
