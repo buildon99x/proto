@@ -58,3 +58,55 @@ Repo convention (`AGENTS.md`): "Before implementing a project, write or
 update brief.md, spec.md, and eval.md." Housing the teardown as a proper
 `projects/stackflow` makes it discoverable via the launcher registry and
 ready for a future implementation pass to build against in place.
+
+## Implementation pass (2026-07-14) — decisions made while building
+
+The full clone is implemented in `app/` (engine in `app/src/engine`,
+config in `app/src/data/*.json`, tests in `tests/`). Decisions taken
+where spec.md left room, all `[DEF]` (tunable):
+
+- **Rendering: DOM grid, not Canvas.** The board is only 8×12 = 96 cells
+  and the juice layer (per-cell pop, shake, flash, counters) maps cleanly
+  onto CSS animation with far less code than a Canvas renderer; at this
+  cell count React reconciliation is nowhere near a bottleneck. Revisit
+  only if effects outgrow the CSS budget.
+- **Colors: 4** (`colorCount` in `data/scoring.json`), Okabe–Ito
+  colorblind-safe palette + per-color glyphs (●▲■◆) so color is never the
+  only channel.
+- **The Turner rotates the board 180°, not 90°** — a 90° turn is
+  impossible on the non-square 8×12 grid without remapping dimensions;
+  180° keeps the "your careful stack is now upside down" effect. Spec
+  §8.2 updated to match.
+- **"Crusher" mini-boss redefined** ("heavier gravity" in the original
+  pool): with always-on per-cell gravity a "stronger pull" is a no-op, so
+  Crusher now *crushes the bottom row without scoring* every 5 placements
+  — it eats chain setups, which is the same pressure the rule wanted.
+- **"Chroma Pulse" automation** (was "gravity pulse", same reasoning as
+  Crusher): every 4th lock it recolors one random block to match a
+  neighbor, which can ignite a chain — an added detonation per §8.4's
+  automation-as-spectacle rule.
+- **`junk` block type added** (indestructible, no multiplier) for boss
+  garbage (Warden injections, nudges). Obsidian stays a *buff* obstacle;
+  junk is a pure obstacle.
+- **Extra group members authored**: Bomb (Explosives, bigger radius),
+  Spore (Colony, 1-cell vine), Rune (Arcane, multiplies clears it joins),
+  Prism (Harmony, wildcard color) — spec §5.3's member-block slots.
+- **Hold is advantage-gated** ("Pocket") rather than a base control —
+  spec §3.2 marks hold optional; selling it as a rule-changer makes it a
+  build choice.
+- **Vine growth**: one growth step per placement, closest disconnected
+  pair, into an empty *supported* cell (no floating vines).
+- **Stage-1 hook layout**: two seeded bottom rows + a scripted 6-piece
+  opening bag; any A-colored drop touching the A-cluster detonates an
+  A→B→C 3-link chain (verified by unit test + browser playtest).
+- **Crescendo re-validation (spec §8.1)**: a greedy 1-ply bot playing
+  five full seeded runs showed Act 3 stages at `actBase = 12000` taking
+  40–60 placements (~3–5 min) against the ~80 s/stage pacing target, so
+  **Act 3 base was tuned 12000 → 9000** (`data/stages.json`). Bot results
+  after tuning: 2/5 full-run wins, Act 3 stages ~15–40 placements — hard
+  but reachable, with human play + build synergy expected to beat the
+  bot. Acts 1/2 kept as specced.
+- **Overkill credit rate**: `+1 credit per 25% of target` implemented as
+  `floor(overkill / (target × 0.25))`, config `overkillCreditPer`.
+- **Pressing risk is real**: topping out while pressing ends the run
+  (spec §8.3 calls it a genuine gamble; banking stays always-safe).

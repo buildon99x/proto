@@ -269,7 +269,10 @@ Indexing: global stage `n = 1..30`; `act = ceil(n/10)`; within-act
 **Target formula `[DES]`:**
 ```
 target(n) = round( actBase(act) × (1 + 0.18·(s-1)) × bossBump(s) )
-actBase   = { Act1: 100, Act2: 1200, Act3: 12000 }   // ~10× per act
+actBase   = { Act1: 100, Act2: 1200, Act3: 9000 }
+// Act3 was 12000 (~10× per act); re-validated against the §7.1 crescendo
+// with a greedy-bot sim and tuned to 9000 to hold the ~80 s/stage pacing
+// (see notes/decisions.md, implementation pass).
 bossBump  = 1.30 at s∈{3,6,9} (mini-boss) ; 1.60 at s=10 (Act Boss) ; else 1
 ```
 Each act is ~10× the previous because the player's **scoring engine also
@@ -293,7 +296,7 @@ like gates. Tunable in `data/stages.json`.
 | 10 | 10 | **Act Boss** | 419 |
 
 Acts 2 and 3 use the same shape scaled by `actBase` (Act 2 finale ≈ 5,030;
-Act 3 finale / final boss ≈ 50,300).
+Act 3 finale / final boss ≈ 37,700 after the re-validation tune).
 
 **Pacing target `[DES]`:** ~42 min/run `[SRC]` ⇒ ~80 s/stage average.
 Targets are tuned to be reachable in roughly 1–2 min of deliberate play so
@@ -336,7 +339,8 @@ sitting still. (Piece-count based, never a timer.)
 **Signature Act Bosses `[DES]`:**
 - **Act 1 — "The Inverter":** permanently reverses fall direction for the
   stage (teaches adaptation gently).
-- **Act 2 — "The Turner":** rotates the whole board 90° at intervals.
+- **Act 2 — "The Turner":** rotates the whole board 180° at intervals
+  (90° is impossible on the non-square grid — see `notes/decisions.md`).
 - **Act 3 — "The Warden":** injects indestructible junk every few pieces
   and narrows the usable width — the run's final gate.
 
