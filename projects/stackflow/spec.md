@@ -21,6 +21,16 @@ stages = 30 stages**. Everything hanging off that skeleton (target curve,
 boss placement, per-act content, economy pacing, UX beats) is designed
 here under `[DES]`.
 
+**Design intent — the thrill layer `[DES]`:** the primary aesthetic is
+the **catharsis of a chain you set up detonating** (MDA *Sensation*
+crescendo). **Thrill (박진감) is delivered through stakes + payoff
+spectacle + tension–release rhythm, never through speed** — the game stays
+**no-timer**. This principle drives the `[DES]` systems marked *(thrill
+layer)* below: payoff crescendo (§7.1), top-out tension (§8.7), active
+boss set-pieces (§8.2), push-your-luck economy (§8.3), and a guaranteed
+first-run hook (§8.7). Rationale and the full improvement backlog:
+`notes/mda-review.md`.
+
 ---
 
 ## 1. High-level loop `[SRC]`
@@ -172,10 +182,15 @@ A **clear** removes blocks and scores. Two documented triggers `[SRC]`:
    `[SRC]` A full row (all columns filled) clears. `[INF]` (Optionally full
    columns too `[DEF]`.)
 2. **Shape clear** — "fill a specific shape" → the game registers a combo
-   and clears those blocks. `[SRC]` The clone supports a table of
-   qualifying shapes (e.g. 2×2 square, plus-shape, a same-color connected
-   group of ≥ N) `[DEF]`. **Combo Tiles** and **color/shape matches**
-   detonate here `[SRC]`.
+   and clears those blocks. `[SRC]` **Catalog (confirmed for the clone,
+   T11) `[DES]`:** the **primary cascade engine is a same-color connected
+   group of size ≥ N** (default **N = 4**, 4-connectivity) — this is the
+   Puyo-style match that produces most chains and is the main tuning knob
+   for chain frequency (with the color count, §13/`data/scoring.json`).
+   2×2 squares and plus-shapes are naturally covered by the ≥N group rule.
+   **Combo Tile trigger `[DES]`:** a Combo Tile detonates when it becomes
+   **adjacent to any cleared group in a resolve pass** (a "certain shape or
+   color match" `[SRC]`), clearing its neighborhood and feeding the chain.
 
 Obsidian is exempt (indestructible) `[SRC]`. Cleared blocks fire their
 on-destroy powers (Stone burst, Vine chain, etc.) which can cause further
@@ -194,16 +209,52 @@ clearScore = baseBlockValue × blocksCleared
 ```
 - `baseBlockValue` — default 10 per cleared block `[DEF]`.
 - `chainMultiplier(k)` — grows with cascade depth `k` (the chain counter
-  from §4): default `1, 2, 4, 6, 8, ...` i.e. `max(1, 2·(k-1))` for
-  `k ≥ 2` `[DEF]`. Chains are the primary score amplifier `[SRC]`.
+  from §4). **`[DES]` (thrill layer): super-linear** so a deep chain feels
+  *overwhelming*, not merely additive:
+  `chainMultiplier(k) = 1 + k·(k−1)/2` for `k ≥ 1`
+  → `1, 2, 4, 7, 11, 16, 22, …`. (Old linear `max(1, 2·(k−1))` =
+  `1,2,4,6,8,…` kept as a tunable fallback; the super-linear curve is the
+  crescendo default and MUST be re-validated against the §8.1 target curve
+  — see §7.1 and `data/scoring.json`.) Chains are the primary score
+  amplifier `[SRC]`.
 - Multipliers stack multiplicatively; Obsidian's is **permanent** while it
   sits on the board `[SRC]`.
 - **Stone** adds a flat burst on destroy; **Vine** adds `+1 Stack per
   connected vine` on destroy `[SRC]`.
 
-**"Perfect fit" flourish `[INF]/[DEF]`:** placing a piece that completes a
-clear with no wasted gap gives extra feedback and a small bonus (design
-pillar #1). `[DEF]`
+**"Perfect fit" flourish `[DES]`:** placing a piece that completes a clear
+with **no wasted gap** gives a spark + a small bonus **×1.1** to that
+clear (design pillar #1). Small on purpose — it rewards precision without
+dominating the chain crescendo.
+
+### 7.1 Payoff crescendo (thrill layer) `[DES]`
+
+The catharsis is the *primary aesthetic*, so scoring is built to make a
+big detonation feel enormous and legible. All numbers live in
+`data/scoring.json`.
+
+- **Super-linear chain multiplier** (above) — deep chains dwarf flat
+  clears, so setting up a cascade is the highest-skill, highest-reward
+  play.
+- **Live chain counter** — an on-screen counter ratchets up **per cascade
+  link** (`×2 → ×4 → ×7 …`) with rising pitch, so the player *watches the
+  stakes climb* mid-resolve (the dopamine is in reading it — §12).
+- **Perfect-clear bonus** — emptying the **entire board** in one commit is
+  the spectacle peak: **×4** to that commit's score + a full-board flash.
+  Tracked as a run-best stat (§8.5).
+- **Overdrive meter** `[DES]` — a meter fills from chain activity
+  (`+1 per cleared block`, `+5 bonus per link ≥ 5`). At full it triggers
+  **Overdrive**: the **next N placements** (default **N = 3**, *piece-count
+  based — no timer*) score **×2** and render at max juice — a designed
+  climax the player can *aim* for. Overdrive empties the meter; it never
+  fires on a clock.
+- **Big-chain tier-up** — a chain reaching **link ≥ 5** escalates the
+  visual/audio treatment one tier (§12), signalling "this is a big one."
+
+> Balance note: the super-linear curve + Overdrive interact with the
+> §8.1 target curve; §8.1 flags a re-validation pass. Guardrail (I12): the
+> crescendo must be *assemblable via build* (group synergies, advantages),
+> not pure RNG — see `notes/mda-review.md` §6.
 
 ## 8. Roguelike run structure `[SRC]`
 
@@ -248,6 +299,19 @@ Act 3 finale / final boss ≈ 50,300).
 Targets are tuned to be reachable in roughly 1–2 min of deliberate play so
 the run breathes rather than grinds.
 
+**Crescendo re-validation `[DES]`:** the §7.1 super-linear chain multiplier
+and Overdrive change how fast a skilled player scores, so the target curve
+above MUST be re-checked against them (a top-tier chain should *beat* a
+stage, not trivialize the whole act). Treat `actBase`, the `0.18/stage`
+ramp, and the chain curve as **paired tuning knobs** in
+`data/stages.json` + `data/scoring.json`.
+
+**Stage 1 = guaranteed hook `[DES]` (thrill layer, T4):** stage 1 is not a
+dry tutorial — its opening bag + a low target (100) are seeded so the
+player triggers a **satisfying multi-link chain within the first ~60
+seconds** (see §8.7 Onboarding). The hook must land *before* any rule
+complexity.
+
 ### 8.2 Bosses `[SRC]/[DES]`
 
 Confirmed: bosses arrive on a **"every third level"** cadence and each
@@ -263,7 +327,11 @@ direction blocks fall; periodically rotate your blocks.
 
 **Mini-boss rule pool `[DES]`** (each = one clear twist): hide the next
 preview; heavier/faster gravity; every Nth piece is randomized; a column
-is temporarily locked; a garbage row rises; target raised mid-stage.
+is temporarily locked; a garbage row rises; target raised mid-stage. Each
+mini-boss also carries **one light active nudge** `[DES]` (thrill layer):
+if the player idles (many placements with no clear) the boss adds a single
+junk cell — a gentle push so the encounter *pushes back* instead of
+sitting still. (Piece-count based, never a timer.)
 
 **Signature Act Bosses `[DES]`:**
 - **Act 1 — "The Inverter":** permanently reverses fall direction for the
@@ -272,8 +340,22 @@ is temporarily locked; a garbage row rises; target raised mid-stage.
 - **Act 3 — "The Warden":** injects indestructible junk every few pieces
   and narrows the usable width — the run's final gate.
 
-A boss stage is defeated by hitting its (spiked) target under the active
-rule; clearing an Act Boss grants a **Treasure** reward pick (§8.3).
+**Act Boss as an active set-piece `[DES]` (thrill layer, T5):** an Act Boss
+is a *duel with a climax*, not just a higher number.
+- **Break gauge:** the Act Boss shows a **Break bar** the player fills by
+  scoring; hitting the (spiked) target **breaks** the boss. This reframes
+  the target as an on-screen enemy you're beating down.
+- **Two phases:** at **60% of target** the rule **intensifies** (e.g., The
+  Warden narrows another column; The Turner turns more often) — a
+  telegraphed escalation that raises tension before the finish.
+- **Defeat crescendo:** on break, a **board-clear spectacle** fires
+  (screen flash + max juice, §12), *then* the **Treasure** pick (§8.3)
+  appears — the milestone power-spike moment roguelike players chase.
+
+A **mini-boss** stage is cleared by hitting its (spiked) target under the
+active rule + nudge. An **Act Boss** is cleared by breaking its gauge
+(same target), which triggers the defeat crescendo and a **Treasure**
+reward pick (§8.3). The "every 3rd level" cadence `[SRC]` is preserved.
 
 ### 8.3 Economy / shop `[SRC]/[DES]`
 - **Credits** are earned by **destroying blocks and clearing stages.**
@@ -282,10 +364,23 @@ rule; clearing an Act Boss grants a **Treasure** reward pick (§8.3).
 - **Credit rewards `[DES]`:** on stage clear, `reward = actBase-tier
   stipend + 1 per block destroyed this stage`; stipend `{Act1: 6, Act2:
   10, Act3: 16}`, boss stages pay **×2**. Unspent credits carry over.
-- **Shop cadence `[DES]`:** a shop appears **after every stage** (a calm
-  beat between tense stages), offering **3 items** — a mix of new
-  **blocks** (join the pool, §3.2) and purchasable **advantages** (§8.4).
-  **Reroll** costs a small, rising fee.
+- **Push-your-luck / overkill `[DES]` (thrill layer, T6):** clearing a
+  stage does **not** auto-advance. On hitting the target the player
+  chooses **Bank & advance** (safe) or **Press** — keep placing to rack up
+  **overkill** score, which converts to **bonus credits**
+  (`+1 credit per 25% of target scored beyond it`). Pressing is pure
+  upside *except* the board keeps filling toward top-out (§8.7) — a real
+  gamble, never forced. Banking is always safe, so greed is optional
+  (guardrail: no unfair loss).
+- **Shop cadence `[DES]` (thrill layer, T3):** to keep the run's rhythm
+  tight, full-screen shops don't interrupt *every* stage. **Full shop**
+  (3 offers + rising-cost **reroll**) after **even within-act stages
+  (2, 4, 6, 8, 10)**; after **odd stages (1, 3, 5, 7, 9)** an **inline
+  quick-buy** — a single 1-tap offer you buy or skip without leaving the
+  board. Offers mix new **blocks** (join the pool, §3.2) and **advantages**
+  (§8.4). This halves menu downtime (~15 full shops/run instead of 30)
+  while **total offer volume is preserved** (guardrail: build expression
+  intact — see `notes/mda-review.md` §6).
 - **Treasure `[DES]`:** after each **Act Boss** the player gets a **free
   1-of-3 rare pick** (a rare block or a strong advantage) — a visible
   milestone reward that re-tools the engine for the next, harder act.
@@ -310,10 +405,15 @@ type Advantage = {
 };
 ```
 Example advantages `[DEF]` (three per documented kind):
-- Automation: auto-rotate to best fit; auto-clear a color each N pieces;
-  gravity auto-compacts each turn.
+- **Automation `[DES]` (redesigned, T8): make it a *spectacle trigger*, not
+  silent convenience.** Automating away the player's decisions lowers felt
+  competence (P3) and drains thrill, so automation perks instead *add*
+  detonations: **"every N placements a random color group detonates"** (a
+  free bonus cascade); **"each lock fires a gravity pulse that can chain"**;
+  **"best-fit ghost"** as an *assist toggle* (accessibility, not a core
+  slot). Convenience that removes spectacle is avoided.
 - Reward-multiplier: +50% credits per clear; chain multiplier +1 per
-  link; Obsidian multiplier doubled.
+  link; Obsidian multiplier doubled; Overdrive lasts +1 placement.
 - Rule-changer: pieces are smaller; two next-previews; a free hold slot;
   lines clear at 90% fill.
 
@@ -345,6 +445,14 @@ build/decision layer `[SRC]`. So the run *is* the meta.
   blocks into a catalog, and optionally (b) high-score / best-level
   tracking. Anything more (meta-currency, ascensions) is an **open
   question** (see `notes/reverse-engineering.md`) — add only if validated.
+- **Bragging meta `[DES]` (thrill layer, T10):** track and persist
+  **run-bests** — **biggest chain (links)**, **highest single-clear
+  score**, **most perfect-clears**, **furthest act**. During play, crossing
+  a threshold (e.g., a chain of **link ≥ 7**, or beating your run-best
+  single clear) fires an **"INSANE COMBO!"** callout. This is a
+  **discovery-type variable reward** (P7) — earned by skill/build, **no
+  MTX, no gacha** (guardrail ④). It powers the "one more run" loop
+  (*Submission*) by giving the player a number to beat.
 
 **Run length / bounds `[SRC]/[INF]`:**
 - Average session ≈ **42 minutes** `[SRC]`.
@@ -377,7 +485,10 @@ Focused on user experience and fun (the explicit brief):
 
 - **Rhythm per act:** warm-up (1–2) → twist (3) → build (4–5) → twist (6)
   → build (7–8) → twist (9) → **climax boss (10)** → Treasure. Tension
-  rises and releases four times per act instead of one long grind.
+  rises and releases four times per act instead of one long grind. The
+  **calm beats are the full shops** (even stages) and the **bank/press
+  decision** (§8.3); the spikes are the bosses (§8.2). Odd-stage inline
+  quick-buys keep momentum between beats (thrill layer, T3).
 - **Board carry `[DES]`:** the board **persists across stages within an
   act** and **resets at each act start**. This makes **Obsidian's
   permanent multiplier** and board planning genuinely strategic (your
@@ -385,19 +496,35 @@ Focused on user experience and fun (the explicit brief):
   from compounding forever. *Score* resets to 0 each stage (earn the
   target fresh). Tunable alternative: full board reset each stage (more
   accessible, weaker Obsidian) — see `notes/decisions.md`.
-- **Loss condition `[SRC]/[DES]`:** you must hit the stage target **before
-  the board tops out** (a placed piece has nowhere to go) `[SRC]/[INF]`.
-  Pressure is spatial, not a timer — matching the slow, thinky feel.
-- **Onboarding `[DES]`:** Act 1 stages 1–2 introduce move/rotate, the
-  first line clear, and the first chain with light contextual prompts; no
-  boss before stage 3.
-- **Juice `[DES]`:** animate cascades **step-by-step** so the player reads
-  each chain link; SFX pitch climbs per link; screen-shake scales with
-  chain size; combo/'+score' popups; target bar fills with a threshold
-  flash on clear. (Deliberately legible, not seizure-fast.)
-- **Fail-forward `[DES]`:** the run summary celebrates furthest act,
-  biggest chain, blocks destroyed, and the build assembled; one-key
-  restart to keep the "one more run" loop tight.
+- **Loss condition + top-out tension `[SRC]/[DES]` (thrill layer, T1):**
+  you must hit the stage target **before the board tops out** (a placed
+  piece has nowhere to go) `[SRC]/[INF]`. Pressure is spatial, not a timer.
+  Crucially, this pressure is **dramatized**: as the stack rises into the
+  **top rows** the game enters an escalating **DANGER state** — board-edge
+  glow, a **heartbeat SFX whose tempo scales with fill %**, a color/vignette
+  shift, and a "DANGER" banner. The squeeze becomes a *felt* second
+  tension axis alongside the score bar (this is what makes push-your-luck,
+  §8.3, thrilling rather than abstract).
+- **Onboarding `[DES]` (thrill layer, T4):** **stage 1 is engineered to
+  detonate the hook in the first ~60 s** — its seeded opening bag makes a
+  **multi-link chain almost unavoidable**, so the player *feels* the core
+  dopamine before learning anything else (I3/P12 toy-first). Stages 1–2
+  then introduce move/rotate and the shop with light contextual prompts;
+  no boss before stage 3. Teach *after* the wow, not before.
+- **Juice `[DES]` (thrill layer, T7):** animate cascades **step-by-step**
+  so the player reads each chain link; **SFX pitch climbs per link**;
+  **screen-shake scales with chain size**; a brief **time-dilation
+  (~120 ms slow-mo then snap) on the biggest link**; combo/'+score' popups
+  that scale with size; the live chain counter (§7.1); a **tier-up** at
+  link ≥ 5. **Juice budget `[DES]`:** a hard cap on concurrent
+  effects + a **reduce-motion / photosensitivity toggle** keep it
+  **legible, never seizure-fast** (guardrail ⑥; premortem `mda-review.md`
+  §6). Legibility always wins over spectacle.
+- **Fail-forward `[DES]`:** the run summary is a **spectacle of your best
+  moments** — furthest act, **biggest chain (links)**, highest single
+  clear, perfect-clears, blocks destroyed, and the build assembled
+  (run-bests, §8.5) shown big; one-key restart to keep the "one more run"
+  loop tight.
 - **Accessibility `[DES]`:** colorblind-safe block palette **plus**
   shape/icon coding (never color alone), remappable keys, no reflex time
   pressure. (See the `dataviz` palette guidance for color choices.)
@@ -417,26 +544,46 @@ type RunState = {
   active: ActivePiece | null; // piece being positioned
   advantages: Advantage[];    // max 5 active slots (§8.3)
   boss: BossRule | null;      // set on stages 3/6/9 (mini) and 10 (Act Boss)
-  phase: "play" | "resolving" | "shop" | "treasure" | "gameover";
+  // --- thrill layer [DES] ---
+  chainLink: number;          // live cascade depth this resolve (§7.1 counter)
+  overdrive: number;          // Overdrive meter 0..100; at full → N ×2 placements (§7.1)
+  overdriveLeft: number;      // remaining ×2 placements while Overdrive active
+  bossGauge: number | null;   // Act Boss "Break" progress (§8.2); null off-boss
+  danger: number;             // 0..1 top-out proximity → DANGER juice (§8.7)
+  placements: number;         // pieces locked this stage (drives boss nudges, Overdrive)
+  runBest: { chain: number; clear: number; perfectClears: number; act: number }; // persisted (§8.5)
+  phase: "play" | "resolving" | "cleared"   // "cleared" = bank/press choice (§8.3)
+       | "quickbuy" | "shop" | "treasure" | "gameover";
   seed: number;               // deterministic RNG for reproducible runs
 };
 // bossFor(stage): mini-boss if s∈{3,6,9}, Act Boss if s==10, else null (s = ((stage-1)%10)+1)
+// shopFor(stage): full "shop" if s even; inline "quickbuy" if s odd (§8.3)
 
 ```
 All randomness (bag, shop offers, advantage offers, boss selection) draws
 from a single seeded PRNG so a run is reproducible for testing `[DEF]`.
+`runBest` is the only cross-run persistent state beyond the Blockipedia
+(§8.5).
 
 ## 10. Screens / UI `[INF]`
 
 1. **Title / run setup** — start run, choose/confirm starting pool.
 2. **Play screen** — grid center; current score vs. target (progress
-   bar); level & boss banner; next-piece preview; credits; active
-   advantages; controls hint.
-3. **Shop / between-level** — offered blocks & advantages with prices;
-   buy/skip/reroll; "continue".
-4. **Game over / run summary** — level reached, final Stack, blocks
-   destroyed, advantages taken; restart.
-5. **Blockipedia** `[SRC]` — a compendium of all blocks discovered across
+   bar); level & boss banner (Act Boss shows the **Break gauge**, §8.2);
+   next-piece preview; credits; active advantages; controls hint. **Thrill
+   HUD `[DES]`:** live **chain counter** + **Overdrive meter** (§7.1), and
+   the **DANGER** treatment (edge glow / heartbeat / banner) as the board
+   nears top-out (§8.7).
+3. **Bank/press prompt `[DES]`** — on hitting target: **Bank & advance**
+   vs **Press for overkill credits** (§8.3).
+4. **Shop / between-level** — full shop (even stages) with offered blocks &
+   advantages, prices, buy/skip/**reroll**, "continue"; or the **inline
+   quick-buy** (odd stages, §8.3) — a single offer over the board.
+5. **Treasure `[DES]`** — free 1-of-3 rare pick after an Act Boss (§8.3).
+6. **Game over / run summary** — level reached, final Stack, blocks
+   destroyed, advantages taken, and **run-bests** (biggest chain, best
+   single clear, perfect-clears — §8.5) shown big; one-key restart.
+7. **Blockipedia** `[SRC]` — a compendium of all blocks discovered across
    runs, with each block's effect; entries unlock as blocks are
    encountered. The one confirmed cross-run persistent screen.
 
@@ -462,19 +609,39 @@ keyboard first, gamepad optional.
   Stone/Explosives.
 - Cadence deliberately **slower than Tetris** `[SRC]`; animations should
   read the cascade step-by-step so the player sees each chain link.
+- **Thrill-layer feel model `[DES]`:** feedback is **tiered by chain
+  depth** — per-link pitch climb + shake scaling, a ~120 ms time-dilation
+  on the biggest link, a tier-up at link ≥ 5, and a full-board flash on a
+  perfect-clear (§7.1). The **DANGER state** (§8.7) layers heartbeat SFX +
+  edge glow as the board fills. All of it lives inside a **juice budget**
+  (concurrent-effect cap) with a **reduce-motion / photosensitivity
+  toggle** so the slow, legible identity holds (guardrail ⑥).
 
 ## 13. Build order for the clone (recommended)
 
-1. Grid + 7 pieces + move/rotate(3-way)/lock + line clear + basic score.
-2. Gravity + cascade chain counter + chain multiplier (the core feel).
-3. Level targets + advance/lose + game-over summary.
-4. Special blocks: Stone, Obsidian, Vine, Combo Tile, Booster.
-5. Shop economy (credits, buy blocks) + block groups/synergies.
-6. Advantages (perk system with event hooks).
-7. Bosses (rule modifiers, every 3rd level).
-8. Juice: animations, SFX, screen-shake; balance the target/score curves.
+Revised so the **MVP itself is thrilling** — the thrill layer (§0 intent)
+is pulled forward, not bolted on last.
 
-Milestone 1–3 is a complete, fun MVP; 4–8 layer on the roguelike depth.
+1. Grid + colored pieces (color count = a tuning knob) + move/rotate
+   (3-way)/lock + line clear + same-color group-≥N shape clear (§6).
+2. Gravity + cascade + **live chain counter + super-linear chain
+   multiplier (§7.1)** — the core feel *and* first crescendo, together.
+3. Level targets + advance/lose + **top-out DANGER viz (T1)** +
+   **stage-1 scripted hook (T4)** + game-over summary with run-bests.
+   → *This is the fun, thrilling MVP: the hook lands in the first minute.*
+4. Special blocks: Stone, Obsidian, Vine, Combo Tile, Booster +
+   perfect-clear/Overdrive (§7.1).
+5. Shop economy with **pacing (full/quick-buy) + bank-press overkill
+   (§8.3)** + block groups/synergies.
+6. Advantages (perk system with event hooks; automation = spectacle
+   triggers, §8.4).
+7. Bosses (rule modifiers every 3rd level; **Act Boss break gauge +
+   phases + defeat crescendo, §8.2**).
+8. Full juice tiering within the **juice budget** + reduce-motion;
+   **re-validate the target/score curves against the §7.1 crescendo**.
+
+Milestones 1–3 are a complete, **thrilling** MVP; 4–8 layer on the
+roguelike depth.
 
 ---
 

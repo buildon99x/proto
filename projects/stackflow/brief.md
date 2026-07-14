@@ -25,22 +25,41 @@ combo setup, not reflexes.
 
 ## Core fantasy / the "dopamine" hook
 
-"Fit the piece perfectly, then watch one placement cascade into a
-board-clearing chain." The reward loop is the visual + score payoff of a
-chain reaction the player *set up* several moves earlier.
+"Fit the piece perfectly, then watch one placement **detonate** into a
+board-clearing chain that keeps escalating." The reward loop is the
+crescendo — visual + score payoff building link by link — of a chain
+reaction the player *set up* several moves earlier.
+
+## Primary aesthetic & the thrill principle `[DES]`
+
+- **Primary aesthetic = the catharsis of a chain you set up detonating**
+  (MDA *Sensation* crescendo). "Perfect fit" is the *setup* pleasure that
+  feeds it, not the top-line emotion. See `notes/mda-review.md`.
+- **Thrill (박진감) comes from stakes + payoff spectacle + tension–release
+  rhythm — never from speed.** The game stays **no-timer** (no soft-drop
+  race, no lock clock); pressure is spatial (the board fills) and
+  dramatic (the payoff), so a thinky player still feels the rush. This is
+  the invariant that keeps the slow, deliberate identity intact.
 
 ## Design pillars
 
-1. **Perfect fit is the pleasure.** Placement and rotation must feel
-   precise and "buttery"; a piece visibly locks into the exact slot.
-2. **Combos over speed.** Reward setting up multi-step chain reactions,
-   not fast clearing. Slower cadence, thinkier decisions.
+1. **Set-up → detonation is the pleasure.** Perfect, "buttery" placement
+   and rotation are the *setup*; the payoff is a chain that visibly
+   crescendos. Reward reading your own chain resolve.
+2. **Thrill without a clock.** Reward setting up multi-step chain
+   reactions, not fast clearing — but make the payoff *loud* and the
+   board-space squeeze *tense*. Slower cadence, thinkier decisions, high
+   drama.
 3. **Build-crafting run variety.** Each run diverges through the block
    pool you buy and the advantages you pick; special blocks create
-   synergies.
+   synergies that let you *assemble* bigger detonations.
 4. **Escalating pressure with rule-breaking bosses.** Every third level a
    boss changes one rule (reverses fall direction, periodically rotates
-   your pieces, etc.), forcing adaptation.
+   your pieces, etc.) and *actively pushes back*, forcing adaptation and
+   building to a climax.
+5. **Legible spectacle, not chaos.** Juice escalates step-by-step within a
+   fixed "juice budget"; colorblind-safe + shape/icon coding; reduce-motion
+   option. The dopamine is in *reading* the chain, never in visual noise.
 
 ## First useful workflow (MVP slice)
 
