@@ -226,9 +226,11 @@ pillar #1). `[DEF]`
 - Reroll for credits optional `[DEF]`.
 
 ### 8.4 Advantages (roguelike perks) `[SRC]`
-"Advantages act like roguelike perks that shape each run differently — some
-**automate basic actions**, others **multiply rewards**, and some
-**introduce new mechanics that flip the usual flow.**" `[SRC]`
+Store text (verbatim): "Powerful advantages that completely revolutionize
+your playstyle! **Smart automation, explosive multipliers, and unique
+mechanics** that make every run unpredictable and addictive." `[SRC]` The
+three named categories map 1:1 to the model's three kinds below —
+automation, reward-multiplier, rule-changer.
 
 Model `[DEF]`:
 ```ts

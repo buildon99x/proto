@@ -13,3 +13,8 @@
   a request not shipped, "Balatro-without-shop" lineage) and flagged what
   remains undocumented (stage count/ending, cross-run meta depth) as open
   questions. Noted Steam/store sources are egress-blocked for this session.
+- Added the official Steam store long-description (supplied verbatim by the
+  requester) as Appendix A primary source in
+  `notes/reverse-engineering.md`; added a per-surface provenance split;
+  strengthened spec §8.4 advantages with the verbatim "smart automation,
+  explosive multipliers, unique mechanics" wording.

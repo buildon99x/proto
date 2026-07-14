@@ -6,11 +6,28 @@ developer Caue Ferrareto, publisher Pixel Purrfect). Early Access
 claims in `spec.md`.
 
 > Method note: Steam / Google Play / App Store pages block automated
-> fetching (HTTP 403), so evidence below was assembled from search-engine
-> result snippets of the store page, Steam patch notes/announcements,
-> user reviews, and coverage. Anything not directly stated is marked
-> `[INF]` (inferred) or `[DEF]` (clone default) in the spec. Items in
-> §"Open questions" should be confirmed by playing the live build.
+> fetching (HTTP 403, and the Steam host is egress-blocked for the research
+> session), so most evidence below was assembled from search-engine result
+> snippets of the store page, Steam patch notes/announcements, user
+> reviews, and coverage. **Exception — the official Steam store
+> long-description was supplied verbatim by the requester** and is quoted
+> in Appendix A; claims it directly states are the highest-confidence
+> `[SRC]`. Anything not directly stated is marked `[INF]` (inferred) or
+> `[DEF]` (clone default) in the spec. Items in §"Open questions" should be
+> confirmed by playing the live build.
+>
+> Provenance split (which Steam surface a fact came from):
+> - **Store long-description (verbatim, Appendix A):** target-score
+>   escalation; special blocks are *unlocked*; Obsidian (permanent
+>   multipliers); Stone (explodes into points) "and much more"; advantages
+>   = "smart automation, explosive multipliers, and unique mechanics".
+> - **Patch notes / news posts:** bosses every 3rd level (+ the two boss
+>   rules); rotation system (CW/CCW/180°, controller); gravity fix + chain
+>   reactions; the four block groups; Vine / Combo Tile / Score Booster;
+>   Blockipedia; credits + between-round shop.
+> - **Reviews / coverage:** Puyo-like feel, slower than Tetris; ~42 min
+>   sessions; "Balatro without the shop" lineage; endless mode is a
+>   request, not shipped.
 
 ## 1. Identity & positioning
 
@@ -150,6 +167,46 @@ These are unconfirmed by public sources; the spec uses `[DEF]` values.
 > The open questions above are exactly the details those blocked sources
 > would likely resolve — re-verify on the live game or an unblocked
 > network.
+
+## Appendix A — Primary source: official Steam store description (verbatim)
+
+Supplied by the requester (2026-07-14) as the original Steam store page
+copy. Quoted verbatim as the highest-confidence primary source.
+
+> Stackflow is a hypnotically addictive strategic roguelike about the pure
+> pleasure of fitting pieces perfectly. Discover unique blocks, create
+> satisfying connections, and trigger explosive combos that release pure
+> dopamine. Overcome escalating challenges in each level by hitting target
+> scores through clever strategies and perfect timing.
+>
+> **SPECIAL GAME-BREAKING BLOCKS**
+> Unlock unique blocks with devastating powers! Indestructible Obsidian
+> with permanent multipliers, Stone that explodes into points, and much
+> more. Every choice redefines your strategy and opens infinite
+> possibilities for insane combos.
+>
+> **GAME-CHANGING ADVANTAGES**
+> Powerful advantages that completely revolutionize your playstyle! Smart
+> automation, explosive multipliers, and unique mechanics that make every
+> run unpredictable and addictive.
+
+What it pins down directly:
+- Genre & fantasy: strategic roguelike; "fitting pieces perfectly";
+  combos → dopamine.
+- Progression: **escalating challenges per level via target scores** +
+  "clever strategies and perfect timing".
+- Special blocks are **unlocked**; confirmed members **Obsidian**
+  (permanent multipliers) and **Stone** (explodes into points); "**and
+  much more**" ⇒ a larger roster (consistent with Vine / Combo Tile /
+  Score Booster from patch notes).
+- **Advantages** map exactly to the three modeled kinds: **automation**
+  ("smart automation"), **reward-multiplier** ("explosive multipliers"),
+  **rule-changer** ("unique mechanics").
+
+What it does NOT mention (so those facts rely on other Steam surfaces, not
+this blurb): bosses, credits/shop economy, Blockipedia, the four block
+groups, and the specific Vine / Combo Tile / Booster blocks. "Infinite
+possibilities" here is marketing, **not** an endless mode.
 
 ## 11. Sources
 
