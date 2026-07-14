@@ -1,8 +1,14 @@
-# Stackflow (reverse-planning)
+# Stackflow (reverse-planning + playable clone)
 
 A **역기획 (reverse-planning) teardown** of the Steam strategic roguelike
 **Stackflow** (App ID `3908810`), captured so a team can build a
-mechanically identical game from this project alone.
+mechanically identical game from this project alone — **and the full
+playable clone built from that spec** (`app/`, spec §13 steps 1–8:
+chains, special blocks, shop/advantages, bosses, all seven screens).
+
+Run it: `pnpm --filter stackflow dev` · test it:
+`pnpm --filter stackflow test` · browser playtest:
+`pnpm playtest --project stackflow`.
 
 Stackflow = **Tetris piece handling + Puyo-Puyo combo brain + roguelike
 run structure**: drop and rotate polyomino pieces on a grid, clear lines

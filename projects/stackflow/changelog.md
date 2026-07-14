@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.2.0
+
+- **Implemented the full game** (spec §13 build order steps 1–8): grid,
+  polyomino pieces with CW/CCW/180° rotation + wall kicks, per-cell
+  gravity cascades with the super-linear chain multiplier and live chain
+  counter, stage targets with DANGER top-out state and the seeded
+  stage-1 hook, all five confirmed special blocks (+ Bomb/Spore/Rune/
+  Prism group members), perfect-clear ×4 and the Overdrive meter, the
+  bank/press overkill economy with full-shop/quick-buy pacing and
+  Treasure picks, the advantage system (automation-as-spectacle,
+  reward-multipliers, rule-changers, 5-slot cap), mini-bosses 3/6/9 and
+  signature Act Bosses (Inverter/Turner/Warden) with Break gauge,
+  60% phase-2 and defeat crescendo, plus tiered juice with a
+  reduce-motion toggle and remappable keys.
+- All seven screens (§10) including Blockipedia; run-bests + discovered
+  blocks persist in localStorage — the only cross-run state.
+- Engineering: single seeded PRNG (reproducible runs), all tunables in
+  `app/src/data/*.json`, 29 unit tests (`tests/engine.test.ts`) covering
+  eval §G, browser playtest scenario (`tests/e2e/scenario.mjs`).
+- Re-validated the §8.1 target curve against the §7.1 crescendo with a
+  greedy-bot simulation; tuned Act 3 `actBase` 12000 → 9000 (pacing).
+  Implementation decisions recorded in `notes/decisions.md`; spec §8.1,
+  §8.2 and eval.md updated to match behavior.
+
 ## 0.1.0
 
 - Created from the Vite React project template.

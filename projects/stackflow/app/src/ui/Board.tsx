@@ -1,0 +1,122 @@
+// DOM-rendered board (see notes/decisions.md: DOM over Canvas).
+// Colorblind-safe palette + per-color glyphs — never color alone (§8.7).
+import { pieceCells } from "../engine/grid";
+import { stagesCfg } from "../engine/config";
+import type { Game } from "../engine/run";
+import type { Block, Grid } from "../engine/types";
+import type { Fx } from "./useGame";
+
+export const COLOR_GLYPHS = ["●", "▲", "■", "◆", "✚"];
+
+const TYPE_ICONS: Partial<Record<Block["type"], string>> = {
+  stone: "🪨",
+  bomb: "💣",
+  obsidian: "🟪",
+  vine: "🌿",
+  combo: "✳",
+  booster: "⭐",
+  rune: "🔮",
+  prism: "🔷",
+  junk: "▦",
+};
+
+export function blockGlyph(b: Block): string {
+  if (b.type !== "normal") return TYPE_ICONS[b.type] ?? "?";
+  if (b.color < 0) return "▦";
+  return COLOR_GLYPHS[b.color % COLOR_GLYPHS.length];
+}
+
+export function blockClass(b: Block): string {
+  if (b.type === "obsidian") return "b-obsidian";
+  if (b.type === "junk" || b.color === -1) return "b-junk";
+  if (b.color === -2) return "b-prism";
+  return `b-c${b.color % 5}`;
+}
+
+export function Board({ game, fx, busy }: { game: Game; fx: Fx; busy: boolean }) {
+  const grid: Grid = fx.grid ?? game.grid;
+  const rows = stagesCfg.rows;
+  const cols = stagesCfg.cols;
+  const locked = new Set(game.lockedCols());
+  const activeCells = new Set<string>();
+  const ghostCells = new Set<string>();
+  if (!busy && game.phase === "play" && game.active) {
+    for (const [c, r] of pieceCells(game.active)) activeCells.add(`${r},${c}`);
+    const ghost = game.dropPosition();
+    if (ghost) for (const [c, r] of pieceCells(ghost)) ghostCells.add(`${r},${c}`);
+  }
+  const activeBlock: Block | null = game.active
+    ? {
+        type: game.active.def.blockType,
+        color:
+          game.active.def.blockType === "obsidian" || game.active.def.blockType === "junk"
+            ? -1
+            : game.active.def.blockType === "prism"
+              ? -2
+              : game.active.color,
+        group: game.active.def.group,
+      }
+    : null;
+
+  const dangerRows = stagesCfg.dangerRows;
+  const up = game.gravityUp();
+
+  const cells = [];
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const key = `${r},${c}`;
+      const b = grid[r][c];
+      const isActive = activeCells.has(key);
+      const isGhost = !isActive && ghostCells.has(key);
+      const isClearing = fx.clearing.has(key);
+      const inDangerBand = up ? r >= rows - dangerRows : r < dangerRows;
+      const shown = isActive ? activeBlock : b;
+      const cls = [
+        "cell",
+        shown ? blockClass(shown) : "b-empty",
+        isActive && "active",
+        isGhost && "ghost",
+        isClearing && "clearing",
+        locked.has(c) && "locked-col",
+        inDangerBand && !shown && "danger-band",
+      ]
+        .filter(Boolean)
+        .join(" ");
+      cells.push(
+        <div key={key} className={cls}>
+          {shown ? blockGlyph(shown) : isGhost && activeBlock ? blockGlyph(activeBlock) : ""}
+        </div>,
+      );
+    }
+  }
+
+  const boardCls = [
+    "board",
+    fx.shake > 0 && `shake-${fx.shake}`,
+    fx.flash && "flash",
+    fx.slowmo && "slowmo",
+    game.danger >= 0.15 && game.phase === "play" && "danger",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return (
+    <div
+      className={boardCls}
+      style={{ gridTemplateColumns: `repeat(${cols}, var(--cell))` }}
+    >
+      {cells}
+      {fx.popup && <div className="popup">{fx.popup}</div>}
+      {fx.link > 0 && (
+        <div className={`chain-counter ${fx.link >= 5 ? "chain-huge" : ""}`}>
+          CHAIN ×{fx.multiplier % 1 === 0 ? fx.multiplier : fx.multiplier.toFixed(1)}
+          <span className="chain-link">link {fx.link}</span>
+        </div>
+      )}
+      {fx.banner && <div className="banner">{fx.banner}</div>}
+      {game.danger >= 0.4 && game.phase === "play" && (
+        <div className="danger-banner">DANGER</div>
+      )}
+    </div>
+  );
+}

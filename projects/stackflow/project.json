@@ -1,15 +1,15 @@
 {
   "id": "stackflow",
   "name": "Stackflow",
-  "status": "idea",
+  "status": "prototype",
   "type": "webapp",
   "runtime": "static-artifact",
-  "summary": "Reverse-planning teardown of the Steam block-placement roguelike Stackflow, specced for a faithful clone.",
+  "summary": "Playable clone of the Steam block-placement roguelike Stackflow: chain-cascade scoring, 3 acts x 30 stages, bosses, shop and advantages.",
   "tags": [
     "reverse-planning",
     "roguelike",
     "puzzle",
-    "spec-only"
+    "game"
   ],
   "projectRoot": "projects/stackflow",
   "entry": {

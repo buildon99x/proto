@@ -1,0 +1,29 @@
+{
+  "baseBlockValue": 10,
+  "colorCount": 4,
+  "groupClearMin": 4,
+  "chainCurve": "superlinear",
+  "chainCurves": {
+    "superlinear": "1 + k*(k-1)/2",
+    "linear": "max(1, 2*(k-1))"
+  },
+  "perfectFitBonus": 1.1,
+  "perfectClearMultiplier": 4,
+  "obsidianMultiplierPer": 0.25,
+  "boosterClearMultiplier": 2,
+  "arcaneClearMultiplierPer": 1.25,
+  "stoneBurstFlat": 50,
+  "stoneBlastRadius": 1,
+  "bombBlastRadius": 2,
+  "vineBonusBase": 1,
+  "overdrive": {
+    "max": 100,
+    "perClearedBlock": 1,
+    "bigLinkBonus": 5,
+    "bigLinkThreshold": 5,
+    "placements": 3,
+    "scoreMultiplier": 2
+  },
+  "insaneComboLink": 7,
+  "juiceTierUpLink": 5
+}
