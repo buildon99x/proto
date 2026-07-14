@@ -66,6 +66,44 @@ are checked for internal consistency, not exact parity.
 - [ ] Cadence is **slower than Tetris**, rewarding planning over speed.
 - [ ] Clears/chains produce **juicy** escalating visual + audio feedback.
 
+## F2. Thrill layer (박진감) `[DES]`
+
+Checks for the MDA-review improvements (see `notes/mda-review.md`,
+`spec.md` §0 intent). Internal-consistency checks, not source parity.
+
+- [ ] **Identity invariant:** there is **no timer / no drop-clock**
+      anywhere; all pressure is spatial or dramatic (T-principle, §0).
+- [ ] **Payoff crescendo (T2):** chain multiplier is **super-linear**
+      (`1,2,4,7,11,16,…`); a deep chain scores *overwhelmingly* more than a
+      flat clear; a **live chain counter** ratchets per link (§7.1).
+- [ ] **Perfect-clear + Overdrive (T2):** emptying the board bonuses that
+      commit; an **Overdrive meter** fills from chains and grants **N ×2
+      placements** (piece-count based, never timed).
+- [ ] **Top-out tension (T1):** a **DANGER state** (edge glow / heartbeat
+      SFX scaling with fill / banner) escalates as the stack nears the top.
+- [ ] **First-60s hook (T4):** stage 1 reliably triggers a multi-link
+      chain within ~60 s before any rule complexity.
+- [ ] **Active boss set-piece (T5):** Act Boss has a **Break gauge**, a
+      **phase-2 intensify at ~60%**, and a **defeat crescendo** → Treasure;
+      mini-bosses apply a light active nudge.
+- [ ] **Shop pacing (T3):** full shop on even stages + **inline quick-buy**
+      on odd stages; total offer volume preserved (build expression intact).
+- [ ] **Push-your-luck (T6):** hitting target offers **Bank vs Press**;
+      overkill converts to bonus credits; banking is always safe (no forced
+      greed / no unfair loss).
+- [ ] **Automation = spectacle (T8):** automation advantages *add*
+      detonations rather than silently removing player decisions; **≤ 5**
+      active advantage slots.
+- [ ] **Bragging meta (T10):** run-bests (biggest chain, best single clear,
+      perfect-clears, furthest act) persist; an "INSANE COMBO!" callout
+      fires on threshold; **no MTX / no gacha**.
+- [ ] **Juice budget (T7/T13):** a concurrent-effect cap + a **reduce-motion
+      / photosensitivity toggle**; step-by-step cascade legibility is never
+      sacrificed to spectacle.
+- [ ] **Fairness guardrail (I12):** the crescendo is **assemblable via
+      build** (group synergies / advantages), not pure RNG; RNG-mitigation
+      levers exist.
+
 ## G. Engineering / determinism `[DEF]`
 
 - [ ] All RNG derives from a single **seed**; the same seed reproduces a

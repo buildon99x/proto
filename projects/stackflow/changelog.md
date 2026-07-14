@@ -30,5 +30,16 @@
   vs thrill), realigned the target aesthetic to combo-catharsis, and
   derived a prioritized improvement backlog (P0 T1–T5: top-out tension,
   payoff crescendo, shop-pacing, guaranteed first-60s hook, active-boss
-  set-pieces; P1/P2 T6–T14) with a premortem and spec-delta mapping. Not
-  yet applied to `spec.md` — pending requester go-ahead.
+  set-pieces; P1/P2 T6–T14) with a premortem and spec-delta mapping.
+- Applied the MDA review to the design (`[DES]`): realigned the primary
+  aesthetic to combo-catharsis and pinned a no-timer "thrill principle"
+  (`brief.md` pillars, `spec.md` §0). Spec deltas — §6 shape-clear catalog
+  (same-color group ≥N + Combo Tile trigger); §7/§7.1 super-linear chain
+  multiplier + live counter + perfect-clear + Overdrive; §8.1 crescendo
+  re-validation + stage-1 hook; §8.2 Act-Boss Break gauge/phases/defeat
+  crescendo + mini-boss nudge; §8.3 shop pacing (full/quick-buy) +
+  bank/press overkill; §8.4 automation-as-spectacle; §8.5 bragging-meta
+  run-bests; §8.7 top-out DANGER + engineered onboarding + juice budget;
+  §9 state fields; §10 screens; §12 feel; §13 build order pulled the
+  thrill layer into the MVP. Added eval §F2 (thrill-layer checks). T9
+  balance left for post-implementation play-data tuning.
