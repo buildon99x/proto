@@ -18,3 +18,9 @@
   `notes/reverse-engineering.md`; added a per-surface provenance split;
   strengthened spec §8.4 advantages with the verbatim "smart automation,
   explosive multipliers, unique mechanics" wording.
+- Locked the requester-confirmed run structure (3 Acts × 10 stages = 30)
+  and designed the rest for UX/fun: target curve, boss cadence (mini-boss
+  3/6/9 + Act Boss 10 + roster), per-act content rollout, shop/Treasure
+  economy pacing, board-carry-within-act, and UX/juice/accessibility
+  beats. Added `[DES]` confidence tag and `notes/design-acts.md`; updated
+  spec §8, state model, eval, decisions, and README.

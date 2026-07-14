@@ -12,6 +12,14 @@ Stackflow (Steam App `3908810`) from this document alone.
 - `[DEF]` — clone design default chosen to make the spec buildable where
   the original's exact value is undocumented. Tunable; see
   `notes/decisions.md`.
+- `[DES]` — **original design for this clone**, authored to fit the game
+  feel with a focus on UX and fun (not a claim about the source). Used for
+  the systems the requester delegated to us. See `notes/design-acts.md`.
+
+**Known structure (requester-confirmed) `[SRC]`:** a run is **3 Acts × 10
+stages = 30 stages**. Everything hanging off that skeleton (target curve,
+boss placement, per-act content, economy pacing, UX beats) is designed
+here under `[DES]`.
 
 ---
 
@@ -199,31 +207,91 @@ pillar #1). `[DEF]`
 
 ## 8. Roguelike run structure `[SRC]`
 
-### 8.1 Levels & escalation `[SRC]`
-- Sequential levels, each with a rising **target score**. `[SRC]`
-- **Target curve `[DEF]`:** `target(level) = round(100 × 1.6^(level-1))`
-  (level 1 ≈ 100, level 5 ≈ 650, level 10 ≈ 6800). Tunable.
-- With each level: bigger targets, new blocks appear, more aggressive
-  modifiers. `[SRC]`
+### 8.1 Acts, stages & target curve `[SRC]/[DES]`
 
-### 8.2 Bosses `[SRC]`
-- **Every third level is a boss** that "brings a new rule to challenge
-  your skills." `[SRC]`
-- Confirmed boss rule modifiers `[SRC]`:
-  - Reverse the direction that blocks fall. `[SRC]`
-  - Periodically rotate your (placed/active) blocks. `[SRC]`
-- Additional boss modifiers `[DEF]`: shrink the board, hide the next
-  piece, inject junk/obstacle blocks, raise the target mid-level. A boss
-  is defeated by hitting the (higher) boss target under its active rule.
+A run is **3 Acts × 10 stages = 30 stages** `[SRC]`. Each stage has its own
+**target score**; escalation is confirmed `[SRC]`, the numbers are `[DES]`.
 
-### 8.3 Economy / shop `[SRC]`
+Indexing: global stage `n = 1..30`; `act = ceil(n/10)`; within-act
+`s = ((n-1) mod 10) + 1`.
+
+**Target formula `[DES]`:**
+```
+target(n) = round( actBase(act) × (1 + 0.18·(s-1)) × bossBump(s) )
+actBase   = { Act1: 100, Act2: 1200, Act3: 12000 }   // ~10× per act
+bossBump  = 1.30 at s∈{3,6,9} (mini-boss) ; 1.60 at s=10 (Act Boss) ; else 1
+```
+Each act is ~10× the previous because the player's **scoring engine also
+scales** each act (a new block group + more advantages, §8.6). Within an
+act the target ramps ~18%/stage, with spikes on boss stages so bosses feel
+like gates. Tunable in `data/stages.json`.
+
+**Act 1 target table `[DES]` (illustrative):**
+
+| Stage n | s | Kind | Target |
+|---|---|------|-------:|
+| 1 | 1 | intro (tutorial beat) | 100 |
+| 2 | 2 | normal | 118 |
+| 3 | 3 | **mini-boss** | 177 |
+| 4 | 4 | normal | 154 |
+| 5 | 5 | normal | 172 |
+| 6 | 6 | **mini-boss** | 247 |
+| 7 | 7 | normal | 208 |
+| 8 | 8 | normal | 226 |
+| 9 | 9 | **mini-boss** | 317 |
+| 10 | 10 | **Act Boss** | 419 |
+
+Acts 2 and 3 use the same shape scaled by `actBase` (Act 2 finale ≈ 5,030;
+Act 3 finale / final boss ≈ 50,300).
+
+**Pacing target `[DES]`:** ~42 min/run `[SRC]` ⇒ ~80 s/stage average.
+Targets are tuned to be reachable in roughly 1–2 min of deliberate play so
+the run breathes rather than grinds.
+
+### 8.2 Bosses `[SRC]/[DES]`
+
+Confirmed: bosses arrive on a **"every third level"** cadence and each
+"brings a new rule." `[SRC]` Mapped onto the 3×10 structure `[DES]`:
+
+- **Mini-bosses** at within-act stages **3, 6, 9** (honoring "every 3rd") —
+  one readable rule modifier, drawn from a pool.
+- **Act Boss** at stage **10** — a signature, tougher encounter that caps
+  the act (a rule + the target spike above) and gates the next act.
+
+**Confirmed boss rules `[SRC]`** (seed the mini-boss pool): reverse the
+direction blocks fall; periodically rotate your blocks.
+
+**Mini-boss rule pool `[DES]`** (each = one clear twist): hide the next
+preview; heavier/faster gravity; every Nth piece is randomized; a column
+is temporarily locked; a garbage row rises; target raised mid-stage.
+
+**Signature Act Bosses `[DES]`:**
+- **Act 1 — "The Inverter":** permanently reverses fall direction for the
+  stage (teaches adaptation gently).
+- **Act 2 — "The Turner":** rotates the whole board 90° at intervals.
+- **Act 3 — "The Warden":** injects indestructible junk every few pieces
+  and narrows the usable width — the run's final gate.
+
+A boss stage is defeated by hitting its (spiked) target under the active
+rule; clearing an Act Boss grants a **Treasure** reward pick (§8.3).
+
+### 8.3 Economy / shop `[SRC]/[DES]`
 - **Credits** are earned by **destroying blocks and clearing stages.**
-  `[SRC]`
-- Spent **between rounds** to **buy new blocks and shape your strategy.**
-  `[SRC]`
-- The between-level screen offers a small randomized selection `[DEF]` of:
-  new **blocks/pieces** (added to the pool, §3.2) and **advantages** (§8.4).
-- Reroll for credits optional `[DEF]`.
+  `[SRC]` Spent **between rounds** to **buy new blocks and shape your
+  strategy.** `[SRC]`
+- **Credit rewards `[DES]`:** on stage clear, `reward = actBase-tier
+  stipend + 1 per block destroyed this stage`; stipend `{Act1: 6, Act2:
+  10, Act3: 16}`, boss stages pay **×2**. Unspent credits carry over.
+- **Shop cadence `[DES]`:** a shop appears **after every stage** (a calm
+  beat between tense stages), offering **3 items** — a mix of new
+  **blocks** (join the pool, §3.2) and purchasable **advantages** (§8.4).
+  **Reroll** costs a small, rising fee.
+- **Treasure `[DES]`:** after each **Act Boss** the player gets a **free
+  1-of-3 rare pick** (a rare block or a strong advantage) — a visible
+  milestone reward that re-tools the engine for the next, harder act.
+- **Advantage draft `[DES]`:** advantages are bought in the shop, plus a
+  **guaranteed pick** at each Act Boss Treasure. Cap **active advantages
+  at 5 slots** so choices stay meaningful (drop/replace to add more).
 
 ### 8.4 Advantages (roguelike perks) `[SRC]`
 Store text (verbatim): "Powerful advantages that completely revolutionize
@@ -288,23 +356,72 @@ build/decision layer `[SRC]`. So the run *is* the meta.
   defaults to "escalate until the board can no longer accept a piece"
   (see §8.1 curve) and flags this as an open question.
 
+## 8.6 Act themes & content rollout `[DES]`
+
+Each act introduces a **new "toy"** so the run keeps surprising the player
+and the escalating targets stay winnable (a fresh scoring tool arrives as
+the numbers grow). This is the primary variety/fun driver.
+
+| Act | Theme | New content introduced | Boss flavor |
+|-----|-------|------------------------|-------------|
+| **1 — Foundations** | Learn the loop, first combos | 7 base pieces, **Obsidian**, **Stone**, the **Explosives** group; Combo Tiles | Gentle single-rule twists (reverse fall, slow rotation) |
+| **2 — Growth** | Setup-heavy chains | **Colony** (Vine) + **Arcane** (Combo Tile synergies, Rune) groups | Board-turning / gravity-flip pressure |
+| **3 — Harmony / Chaos** | Everything synergizes; payoff | **Harmony** (Booster, Prism) group; highest-tier blocks | Combined rules, junk injection, board narrowing |
+
+Design intent: by Act 3 the player is detonating multi-group chains they
+spent the run assembling — the "insane combos" the store promises. `[SRC]`
+
+## 8.7 Session pacing, board carry & UX beats `[DES]`
+
+Focused on user experience and fun (the explicit brief):
+
+- **Rhythm per act:** warm-up (1–2) → twist (3) → build (4–5) → twist (6)
+  → build (7–8) → twist (9) → **climax boss (10)** → Treasure. Tension
+  rises and releases four times per act instead of one long grind.
+- **Board carry `[DES]`:** the board **persists across stages within an
+  act** and **resets at each act start**. This makes **Obsidian's
+  permanent multiplier** and board planning genuinely strategic (your
+  past placements help *and* clutter you), while act resets stop clutter
+  from compounding forever. *Score* resets to 0 each stage (earn the
+  target fresh). Tunable alternative: full board reset each stage (more
+  accessible, weaker Obsidian) — see `notes/decisions.md`.
+- **Loss condition `[SRC]/[DES]`:** you must hit the stage target **before
+  the board tops out** (a placed piece has nowhere to go) `[SRC]/[INF]`.
+  Pressure is spatial, not a timer — matching the slow, thinky feel.
+- **Onboarding `[DES]`:** Act 1 stages 1–2 introduce move/rotate, the
+  first line clear, and the first chain with light contextual prompts; no
+  boss before stage 3.
+- **Juice `[DES]`:** animate cascades **step-by-step** so the player reads
+  each chain link; SFX pitch climbs per link; screen-shake scales with
+  chain size; combo/'+score' popups; target bar fills with a threshold
+  flash on clear. (Deliberately legible, not seizure-fast.)
+- **Fail-forward `[DES]`:** the run summary celebrates furthest act,
+  biggest chain, blocks destroyed, and the build assembled; one-key
+  restart to keep the "one more run" loop tight.
+- **Accessibility `[DES]`:** colorblind-safe block palette **plus**
+  shape/icon coding (never color alone), remappable keys, no reflex time
+  pressure. (See the `dataviz` palette guidance for color choices.)
+
 ## 9. Game state model `[DEF]`
 
 ```ts
 type RunState = {
-  level: number;
-  score: number;              // "Stack"
-  target: number;
+  act: number;                // 1..3
+  stage: number;              // global 1..30 (act = ceil(stage/10))
+  score: number;              // "Stack" this stage (resets each stage)
+  target: number;             // target(stage), see §8.1
   credits: number;
-  grid: (Block | null)[][];   // [row][col]
-  pool: PieceShape[];         // draw bag
+  grid: (Block | null)[][];   // [row][col]; carries within act, resets per act (§8.7)
+  pool: PieceShape[];         // draw bag (grown by shop, §8.3)
   queue: PieceShape[];        // current + previews
   active: ActivePiece | null; // piece being positioned
-  advantages: Advantage[];
-  boss: BossRule | null;      // active when level % 3 === 0
-  phase: "play" | "resolving" | "shop" | "gameover";
+  advantages: Advantage[];    // max 5 active slots (§8.3)
+  boss: BossRule | null;      // set on stages 3/6/9 (mini) and 10 (Act Boss)
+  phase: "play" | "resolving" | "shop" | "treasure" | "gameover";
   seed: number;               // deterministic RNG for reproducible runs
 };
+// bossFor(stage): mini-boss if s∈{3,6,9}, Act Boss if s==10, else null (s = ((stage-1)%10)+1)
+
 ```
 All randomness (bag, shop offers, advantage offers, boss selection) draws
 from a single seeded PRNG so a run is reproducible for testing `[DEF]`.

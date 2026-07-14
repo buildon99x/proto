@@ -138,11 +138,12 @@ These are unconfirmed by public sources; the spec uses `[DEF]` values.
 
 1. **Exact grid dimensions** (spec assumes 8×12).
 2. **Exact scoring formula** and chain-multiplier curve.
-3. **Stage composition**: total number of levels per run, the exact
-   target-score curve, and whether the run ends at a **defined final
-   boss/ending** or escalates until the grid fills. (Confirmed: boss every
-   3rd level, escalating targets, ~42 min sessions, no shipped endless
-   mode. Unconfirmed: the ladder's length and terminus.)
+3. **Stage composition** — *partially resolved.* **Confirmed by
+   requester: 3 Acts × 10 stages = 30 stages per run** `[SRC]`. Still
+   unconfirmed from public sources: the exact target-score curve and
+   whether there is a distinct final-boss set-piece. The clone **designs**
+   the curve, boss placement (mini-boss 3/6/9 + Act Boss 10), and per-act
+   content as `[DES]` — see `spec.md` §8.1–8.7 and `notes/design-acts.md`.
 4. **Draw model**: true bag/7-bag vs. weighted random; hold slot? number
    of previews?
 5. **Placement commit**: manual hard-drop vs. timed gravity settle; is

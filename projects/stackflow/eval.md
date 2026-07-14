@@ -37,18 +37,22 @@ are checked for internal consistency, not exact parity.
 - [ ] The four **block groups** (Explosives, Colony, Arcane, Harmony)
       exist and each exposes a synergy.
 
-## D. Roguelike run structure `[SRC]`
+## D. Roguelike run structure `[SRC]/[DES]`
 
-- [ ] Each level has a **target score**; reaching it advances the run.
-- [ ] Targets **escalate** across levels.
-- [ ] **Every 3rd level is a boss** with an active rule modifier.
+- [ ] A run is **3 Acts × 10 stages = 30 stages** `[SRC]`.
+- [ ] Each stage has a **target score**; reaching it advances the run.
+- [ ] Targets **escalate** across stages and step up **per act** `[DES]`.
+- [ ] **Mini-boss at within-act stages 3/6/9** and an **Act Boss at stage
+      10**, each with an active rule modifier `[SRC]/[DES]`.
 - [ ] Boss rules include **reversed fall direction** and **periodic block
-      rotation**.
+      rotation** `[SRC]`.
+- [ ] Each act introduces **new content** (a new block group) `[DES]`.
 - [ ] **Credits** are earned from destroying blocks and clearing stages.
-- [ ] A **between-round shop** spends credits on **new blocks** and
-      **advantages**.
+- [ ] A **shop after each stage** spends credits on **new blocks** and
+      **advantages**; an **Act Boss grants a free Treasure pick** `[DES]`.
 - [ ] **Advantages** exist in all three kinds: **automation**,
-      **reward-multiplier**, **rule-changer**.
+      **reward-multiplier**, **rule-changer**; **max 5 active** `[DES]`.
+- [ ] **Board carries within an act and resets each act** `[DES]`.
 
 ## E. Loss & session `[INF]`
 

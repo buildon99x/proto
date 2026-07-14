@@ -17,6 +17,18 @@ against the live game (see open questions in
 - We replicate **mechanics and feel only** — no proprietary art, audio,
   names, or store copy.
 
+## Confirmed structure + delegated design (2026-07-14)
+- **Run = 3 Acts × 10 stages = 30 stages** — confirmed by the requester
+  (`[SRC]`). The requester delegated everything else, asking us to
+  **design it for UX and fun**. Those systems are tagged `[DES]` in the
+  spec (distinct from `[DEF]` fallbacks) and detailed in
+  `notes/design-acts.md`.
+- Key `[DES]` decisions: boss cadence (mini-boss at within-act 3/6/9 + Act
+  Boss at 10); ~10×/act target scaling paired with a new block group each
+  act; **board carries within an act, resets per act** (to make Obsidian
+  and planning matter); shop after every stage + free Treasure pick after
+  each Act Boss; 5 active-advantage slots; spatial (not timed) loss.
+
 ## Mechanical defaults (tunable)
 - **Grid:** 8×12. Rationale: reviews stress compact, spatial, "maximize
   space" play, slower than Tetris — a short well doesn't fit.
