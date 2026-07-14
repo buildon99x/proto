@@ -2,6 +2,37 @@ import type { ProjectMetadata } from "../schema";
 
 export const projects = [
   {
+    "id": "deck-building",
+    "name": "Deck Building",
+    "status": "prototype",
+    "type": "webapp",
+    "runtime": "static-artifact",
+    "summary": "Deck Building prototype.",
+    "tags": [
+      "prototype"
+    ],
+    "projectRoot": "projects/deck-building",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/deck-building/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md"
+    },
+    "assets": {
+      "cover": "assets/screenshots/cover.png"
+    },
+    "commands": {
+      "dev": "pnpm --filter deck-building dev",
+      "build": "pnpm --filter deck-building build",
+      "test": "pnpm --filter deck-building test"
+    }
+  },
+  {
     "id": "retro-bowling",
     "name": "Retro Bowling",
     "status": "prototype",
@@ -69,6 +100,40 @@ export const projects = [
       "dev": "pnpm --filter sample-project dev",
       "build": "pnpm --filter sample-project build",
       "test": "pnpm --filter sample-project test"
+    }
+  },
+  {
+    "id": "stackflow",
+    "name": "Stackflow",
+    "status": "idea",
+    "type": "webapp",
+    "runtime": "static-artifact",
+    "summary": "Reverse-planning teardown of the Steam block-placement roguelike Stackflow, specced for a faithful clone.",
+    "tags": [
+      "reverse-planning",
+      "roguelike",
+      "puzzle",
+      "spec-only"
+    ],
+    "projectRoot": "projects/stackflow",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/stackflow/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md"
+    },
+    "assets": {
+      "cover": "assets/screenshots/cover.png"
+    },
+    "commands": {
+      "dev": "pnpm --filter stackflow dev",
+      "build": "pnpm --filter stackflow build",
+      "test": "pnpm --filter stackflow test"
     }
   },
   {
