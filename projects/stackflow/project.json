@@ -4,12 +4,13 @@
   "status": "prototype",
   "type": "webapp",
   "runtime": "static-artifact",
-  "summary": "Playable clone of the Steam block-placement roguelike Stackflow: chain-cascade scoring, 3 acts x 30 stages, bosses, shop and advantages.",
+  "summary": "Korean-localized clone of the Steam block-placement roguelike Stackflow: chain-cascade scoring, a rising tide that raises the floor every move, 3 acts x 10 stages, bosses, shop and advantages.",
   "tags": [
     "reverse-planning",
     "roguelike",
     "puzzle",
-    "game"
+    "game",
+    "korean"
   ],
   "projectRoot": "projects/stackflow",
   "entry": {

@@ -11,34 +11,34 @@ export interface MiniBossDef {
 
 // Confirmed rules [SRC] seed the pool: reversed fall, periodic rotation.
 export const MINI_BOSS_POOL: MiniBossDef[] = [
-  { id: "reverseFall", name: "Riptide", desc: "Blocks fall UP for this stage." },
-  { id: "periodicRotate", name: "Spinner", desc: "Every 5 placements the board rotates 180°." },
-  { id: "hiddenPreview", name: "Shroud", desc: "The next-piece preview is hidden." },
-  { id: "heavyGravity", name: "Crusher", desc: "Every 5 placements the press crushes the bottom row — no points." },
-  { id: "randomPiece", name: "Trickster", desc: "Every 3rd piece is randomized." },
-  { id: "lockedColumn", name: "Jailer", desc: "One column is sealed for the stage." },
-  { id: "garbageRow", name: "Tide", desc: "Every 6 placements a garbage row rises from below." },
-  { id: "targetRaise", name: "Extortion", desc: "At 60% progress the target rises 15%." },
+  { id: "reverseFall", name: "역류", desc: "이번 스테이지 동안 블록이 위로 떨어집니다." },
+  { id: "periodicRotate", name: "회전자", desc: "5수마다 보드가 180° 회전합니다." },
+  { id: "hiddenPreview", name: "장막", desc: "다음 조각 미리보기가 가려집니다." },
+  { id: "heavyGravity", name: "분쇄기", desc: "5수마다 바닥 한 줄이 점수 없이 으스러집니다." },
+  { id: "randomPiece", name: "협잡꾼", desc: "3번째 조각마다 무작위로 바뀝니다." },
+  { id: "lockedColumn", name: "간수", desc: "한 열이 스테이지 내내 봉인됩니다." },
+  { id: "garbageRow", name: "밀물", desc: "6수마다 정크 줄이 추가로 아래에서 차오릅니다." },
+  { id: "targetRaise", name: "갈취", desc: "진행 60%에서 목표가 15% 오릅니다." },
 ];
 
 export const ACT_BOSSES: Record<number, { id: ActBossId; name: string; desc: string; phase2: string }> = {
   1: {
     id: "inverter",
-    name: "The Inverter",
-    desc: "Fall direction is permanently reversed — blocks settle upward.",
-    phase2: "Phase 2: every 4 placements a junk cell drops in.",
+    name: "인버터",
+    desc: "낙하 방향이 영구히 뒤집힙니다 — 블록이 위로 쌓입니다.",
+    phase2: "페이즈 2: 4수마다 정크 칸이 하나 떨어집니다.",
   },
   2: {
     id: "turner",
-    name: "The Turner",
-    desc: "The board rotates 180° every 5 placements.",
-    phase2: "Phase 2: the board rotates every 3 placements.",
+    name: "터너",
+    desc: "5수마다 보드가 180° 회전합니다.",
+    phase2: "페이즈 2: 3수마다 보드가 회전합니다.",
   },
   3: {
     id: "warden",
-    name: "The Warden",
-    desc: "Injects indestructible junk every 3 pieces; one column is sealed.",
-    phase2: "Phase 2: a second column seals shut.",
+    name: "워든",
+    desc: "3조각마다 파괴 불가 정크를 주입하고, 한 열이 봉인됩니다.",
+    phase2: "페이즈 2: 두 번째 열이 봉인됩니다.",
   },
 };
 

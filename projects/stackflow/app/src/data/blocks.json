@@ -14,27 +14,27 @@
     { "id": "tri", "cells": [[0, 0], [1, 0], [2, 0]] }
   ],
   "specialPieces": [
-    { "id": "stone", "name": "Stone", "cells": [[0, 0], [1, 0]], "blockType": "stone", "group": "explosives", "act": 1, "price": 5, "desc": "Explodes into points when destroyed; damages neighbors." },
-    { "id": "bomb", "name": "Bomb", "cells": [[0, 0]], "blockType": "bomb", "group": "explosives", "act": 1, "price": 7, "desc": "A bigger blast radius Stone.", "rare": true },
-    { "id": "obsidian", "name": "Obsidian", "cells": [[0, 0]], "blockType": "obsidian", "group": "arcane", "act": 1, "price": 8, "desc": "Indestructible; grants a permanent score multiplier while on the board." },
-    { "id": "combo", "name": "Combo Tile", "cells": [[0, 0]], "blockType": "combo", "group": "arcane", "act": 1, "price": 6, "desc": "Detonates its neighborhood when adjacent to any clear." },
-    { "id": "vine", "name": "Vine", "cells": [[0, 0], [0, 1]], "blockType": "vine", "group": "colony", "act": 2, "price": 6, "desc": "Grows toward nearby Vines; destroying one destroys the whole chain, +1 Stack per block." },
-    { "id": "spore", "name": "Spore", "cells": [[0, 0]], "blockType": "vine", "group": "colony", "act": 2, "price": 4, "desc": "A single Vine seed." },
-    { "id": "rune", "name": "Rune", "cells": [[0, 0]], "blockType": "rune", "group": "arcane", "act": 2, "price": 7, "desc": "Multiplies the score of any clear it participates in." },
-    { "id": "booster", "name": "Score Booster", "cells": [[0, 0]], "blockType": "booster", "group": "harmony", "act": 3, "price": 9, "desc": "Multiplies the points of the clear it joins.", "rare": true },
-    { "id": "prism", "name": "Prism", "cells": [[0, 0]], "blockType": "prism", "group": "harmony", "act": 3, "price": 9, "desc": "Wildcard color: joins any color group.", "rare": true }
+    { "id": "stone", "name": "돌", "cells": [[0, 0], [1, 0]], "blockType": "stone", "group": "explosives", "act": 1, "price": 5, "desc": "파괴되면 점수로 폭발하고 이웃 블록을 손상시킵니다." },
+    { "id": "bomb", "name": "폭탄", "cells": [[0, 0]], "blockType": "bomb", "group": "explosives", "act": 1, "price": 7, "desc": "폭발 반경이 더 큰 돌.", "rare": true },
+    { "id": "obsidian", "name": "흑요석", "cells": [[0, 0]], "blockType": "obsidian", "group": "arcane", "act": 1, "price": 8, "desc": "파괴 불가. 보드에 있는 동안 영구 점수 배수를 부여합니다." },
+    { "id": "combo", "name": "콤보 타일", "cells": [[0, 0]], "blockType": "combo", "group": "arcane", "act": 1, "price": 6, "desc": "어떤 클리어와 인접하면 주변을 연쇄 폭발시킵니다." },
+    { "id": "vine", "name": "덩굴", "cells": [[0, 0], [0, 1]], "blockType": "vine", "group": "colony", "act": 2, "price": 6, "desc": "가까운 덩굴을 향해 자랍니다. 하나를 파괴하면 이어진 전체가 파괴되고 블록당 +1 스택." },
+    { "id": "spore", "name": "포자", "cells": [[0, 0]], "blockType": "vine", "group": "colony", "act": 2, "price": 4, "desc": "덩굴 씨앗 하나." },
+    { "id": "rune", "name": "룬", "cells": [[0, 0]], "blockType": "rune", "group": "arcane", "act": 2, "price": 7, "desc": "참여한 모든 클리어의 점수를 배가합니다." },
+    { "id": "booster", "name": "점수 부스터", "cells": [[0, 0]], "blockType": "booster", "group": "harmony", "act": 3, "price": 9, "desc": "합류한 클리어의 점수를 배가합니다.", "rare": true },
+    { "id": "prism", "name": "프리즘", "cells": [[0, 0]], "blockType": "prism", "group": "harmony", "act": 3, "price": 9, "desc": "와일드카드 색: 어떤 색 그룹에도 합류합니다.", "rare": true }
   ],
   "advantages": [
-    { "id": "detonator", "name": "Detonator", "kind": "automation", "price": 10, "desc": "Every 6 placements, the largest color group detonates for free." },
-    { "id": "pulse", "name": "Chroma Pulse", "kind": "automation", "price": 8, "desc": "Every 4th lock recolors a random block to match a neighbor — it can start a chain." },
-    { "id": "sparker", "name": "Sparker", "kind": "automation", "price": 12, "desc": "Automation-triggered chains start at link 2.", "rare": true },
-    { "id": "greed", "name": "Greed Engine", "kind": "reward-multiplier", "price": 9, "desc": "+50% credits from destroyed blocks." },
-    { "id": "chainplus", "name": "Chain Amplifier", "kind": "reward-multiplier", "price": 12, "desc": "Chain multiplier +1 per link.", "rare": true },
-    { "id": "obsidianx2", "name": "Dark Resonance", "kind": "reward-multiplier", "price": 11, "desc": "Obsidian multipliers are doubled." },
-    { "id": "overplus", "name": "Overcharge", "kind": "reward-multiplier", "price": 8, "desc": "Overdrive lasts +1 placement." },
-    { "id": "small", "name": "Fragmenter", "kind": "rule-changer", "price": 8, "desc": "Small pieces (1-3 cells) join your bag." },
-    { "id": "foresight", "name": "Foresight", "kind": "rule-changer", "price": 7, "desc": "See two next previews." },
-    { "id": "pocket", "name": "Pocket", "kind": "rule-changer", "price": 7, "desc": "A free hold slot." },
-    { "id": "looselines", "name": "Loose Lines", "kind": "rule-changer", "price": 13, "desc": "Lines clear at 90% fill.", "rare": true }
+    { "id": "detonator", "name": "폭파기", "kind": "automation", "price": 10, "desc": "6수마다 가장 큰 색 그룹이 무료로 폭발합니다." },
+    { "id": "pulse", "name": "크로마 펄스", "kind": "automation", "price": 8, "desc": "4수마다 무작위 블록을 이웃 색으로 바꿔 체인을 시작할 수 있습니다." },
+    { "id": "sparker", "name": "스파커", "kind": "automation", "price": 12, "desc": "자동 발동 체인이 링크 2부터 시작합니다.", "rare": true },
+    { "id": "greed", "name": "탐욕 엔진", "kind": "reward-multiplier", "price": 9, "desc": "파괴 블록에서 얻는 크레딧 +50%." },
+    { "id": "chainplus", "name": "체인 증폭기", "kind": "reward-multiplier", "price": 12, "desc": "링크당 체인 배수 +1.", "rare": true },
+    { "id": "obsidianx2", "name": "암흑 공명", "kind": "reward-multiplier", "price": 11, "desc": "흑요석 배수가 2배가 됩니다." },
+    { "id": "overplus", "name": "오버차지", "kind": "reward-multiplier", "price": 8, "desc": "오버드라이브가 +1수 더 지속됩니다." },
+    { "id": "small", "name": "파편화", "kind": "rule-changer", "price": 8, "desc": "작은 조각(1~3칸)이 봉지에 합류합니다." },
+    { "id": "foresight", "name": "예지", "kind": "rule-changer", "price": 7, "desc": "다음 조각 2개를 미리 봅니다." },
+    { "id": "pocket", "name": "포켓", "kind": "rule-changer", "price": 7, "desc": "무료 홀드 슬롯." },
+    { "id": "looselines", "name": "느슨한 줄", "kind": "rule-changer", "price": 13, "desc": "90%만 채워도 줄이 지워집니다.", "rare": true }
   ]
 }

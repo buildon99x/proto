@@ -791,3 +791,69 @@ kbd {
     width: min(92vw, 420px);
   }
 }
+
+/* ---------- tooltips (localization §10: per-item explanations) ----------
+   `data-tip="…"` on any element shows a Korean explanation on hover/focus.
+   Hosts get position:relative; the only absolutely-positioned overlays
+   (popup/banner/danger) deliberately carry no data-tip. */
+[data-tip] {
+  position: relative;
+}
+[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 8px);
+  transform: translateX(-50%);
+  min-width: 130px;
+  max-width: 260px;
+  width: max-content;
+  padding: 8px 11px;
+  background: #0b1017;
+  color: #e8ecf1;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: none;
+  white-space: normal;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 60;
+  transition: opacity 0.12s ease;
+}
+[data-tip]::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 2px);
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: var(--line);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 61;
+  transition: opacity 0.12s ease;
+}
+[data-tip]:hover::after,
+[data-tip]:hover::before,
+[data-tip]:focus-visible::after,
+[data-tip]:focus-visible::before {
+  opacity: 1;
+  visibility: visible;
+}
+[data-tip]:focus-visible {
+  outline: 2px solid var(--c4);
+  outline-offset: 2px;
+}
+/* photosensitivity / reduce-motion: show instantly, no fade */
+.reduce-motion [data-tip]::after,
+.reduce-motion [data-tip]::before {
+  transition: none;
+}

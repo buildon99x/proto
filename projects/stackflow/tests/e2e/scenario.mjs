@@ -1,5 +1,6 @@
-// Stackflow playtest scenario — exercises the stage-1 hook (a 3-link
-// chain from the first drop), bank/press, and the quick-buy flow.
+// Stackflow playtest scenario (Korean UI) — exercises the stage-1 hook (a
+// 3-link chain from the first drop), the rising tide, bank/press, tooltips,
+// and the quick-buy flow.
 //   pnpm playtest --project stackflow
 
 export const meta = {
@@ -10,22 +11,28 @@ export async function run({ page, sleep, shot, clickText, log }) {
   await sleep(600);
   await shot("01-title");
 
-  // Blockipedia + settings from the title screen.
-  await clickText("Blockipedia");
+  // Blockipedia + settings from the title screen (Korean labels).
+  await clickText("블록도감");
   await sleep(300);
   await shot("02-blockipedia");
-  await clickText("Back");
+  await clickText("뒤로");
   await sleep(200);
-  await clickText("Settings");
+  await clickText("설정");
   await sleep(300);
   await shot("03-settings");
-  await clickText("Back");
+  await clickText("뒤로");
   await sleep(200);
 
   // Start a run → stage 1 with the seeded hook board.
-  await clickText("Start Run");
+  await clickText("게임 시작");
   await sleep(500);
   await shot("04-stage1");
+
+  // Real hover over a HUD item so the CSS :hover tooltip renders (localization
+  // check — each item explains itself).
+  await page.hover(".meter-label");
+  await sleep(300);
+  await shot("04b-tooltip");
 
   // The scripted first piece is a color-A I piece. Rotate vertical,
   // slide to the drop lane (col 1), drop → 3-link chain.
@@ -43,7 +50,7 @@ export async function run({ page, sleep, shot, clickText, log }) {
 
   const banked = await page.evaluate(() => {
     const btn = [...document.querySelectorAll("button")].find((b) =>
-      b.textContent.includes("Bank")
+      b.textContent.includes("뱅크")
     );
     if (btn) btn.click();
     return !!btn;
@@ -54,7 +61,7 @@ export async function run({ page, sleep, shot, clickText, log }) {
 
   const skipped = await page.evaluate(() => {
     const btn = [...document.querySelectorAll("button")].find((b) =>
-      b.textContent.includes("Skip")
+      b.textContent.includes("건너뛰기")
     );
     if (btn) btn.click();
     return !!btn;
@@ -63,14 +70,14 @@ export async function run({ page, sleep, shot, clickText, log }) {
   await sleep(400);
   await shot("08-stage2");
 
-  // A few free-play drops on stage 2 to exercise gravity + HUD.
+  // A few free-play drops on stage 2 to exercise the rising tide + HUD.
   for (let i = 0; i < 6; i++) {
     await page.keyboard.press(i % 2 ? "ArrowLeft" : "ArrowRight");
     await sleep(80);
     await page.keyboard.press("Space");
     await sleep(500);
   }
-  await shot("09-stage2-play");
+  await shot("09-stage2-tide");
 
   const state = await page.evaluate(() => document.body.innerText.slice(0, 400));
   log("final HUD text:", state.replace(/\n+/g, " | ").slice(0, 200));

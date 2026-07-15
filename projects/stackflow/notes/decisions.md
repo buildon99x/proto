@@ -130,3 +130,53 @@ Verified: a drop-key-mash bot now tops out at stages 3–6 (stages 1–2
 still pass — intended onboarding), while the greedy 1-ply bot keeps
 2/5 full-run wins with losses coming from board fill, not stalling.
 Unit test added ("4-cell pieces always mix ≥2 colors").
+
+## Gameplay update (2026-07-15): rising tide, ≥1-min pacing, Korean UI
+
+Three requester-approved changes to sharpen the roguelike loop (repetition
+mastery) and raise difficulty (the game was "too easy" — clears out-paced
+board fill). All `[DES]`, tunable via `data/*.json`.
+
+- **Rising tide `[DES]`** (`data/stages.json` `tide`, `run.ts raiseTide`):
+  every placement inserts a **clearable colored floor row** (2 gaps),
+  pushing the stack toward the spawn edge. Chosen over indestructible junk
+  so skilled play always survives (honors the §F2 "no unfair loss" / "bank
+  is always safe" guardrail) — the loop is *plug the gaps / match colors to
+  drain the tide*. It is **piece-count based, never a clock**, so the §0/§F2
+  no-timer identity holds (the tide reuses the mechanism the boss-only
+  `raiseGarbageRow` already used, generalized to the base loop, made
+  gravity-aware, and given explicit insert-time top-out detection). A short
+  **warmup (2 placements)** gives setup room before the first rise.
+- **Board resets every stage `[DES]`** (was "carries within an act"): with
+  a tide filling the board each stage, carrying it across stages would
+  guarantee an unfair top-out. This also *strengthens* the repetition
+  appeal the requester asked for — each stage is a fresh, escalating tide
+  survival puzzle. Supersedes the earlier "board carries within an act"
+  decision above; spec §8.7 and eval §D updated.
+- **"Minimum 1 minute per stage" via balancing, not a clock `[DES]`.** A
+  minimum length is the *inverse* of a deadline, so it never adds reflex
+  pressure — but it must not be a real-clock gate either (that would
+  reintroduce a time element). Operationalized through the design's own
+  placement→time model (`pacing.placementsPerMinute = 12`, so ~1 min ≈ 12
+  placements) and enforced purely by tuning targets + tide so stages
+  *naturally* take ≥1 min. Stage 1 is the deliberate exception — the
+  scripted onboarding hook (T4, spec §8.1) is meant to one-shot as the
+  "first-60s wow", so the ≥1-min floor applies from stage 2.
+- **Rebalance `[DEF]`** (`data/stages.json`): re-validated with a committed
+  greedy-bot sim (`tests/sim/balance.ts`, `pnpm --filter stackflow sim`)
+  over 40 seeds. Target curve retuned `actBase [100,1200,9000] → [1000,3600,
+  6500]`, `stageRamp 0.18 → 0.13` (flatter, so the 10×/act steepness doesn't
+  outrun the bot's scoring engine in act 3). Result: **every stage 2–30 has
+  a p50 ≥ 1 min**, median ~1.5 min/stage, and a **30% full-run win rate for
+  the greedy bot** (matches the prior "hard but reachable" 2/5 baseline; a
+  drop-mash bot now tops out in <10 placements). The sim is committed as
+  both the tuning tool and a regression record (supersedes the earlier
+  uncommitted greedy-bot run). Pinned target tests updated.
+- **Korean UI + per-item tooltips `[DES]`** (spec §10 localization): all UI
+  strings routed through `app/src/ui/strings.ts` (Korean); block/advantage/
+  boss names + descriptions translated in `data/blocks.json` and
+  `bosses.ts` (ids unchanged — logic keys). Every meaningful item carries a
+  `data-tip` tooltip (CSS `:hover`/`:focus-visible`, keyboard-accessible,
+  instant under reduce-motion) explaining it; the shared `OfferCard` and the
+  map-rendered HUD/pedia/settings items pick up tooltips once each. No
+  language toggle — the requester asked for a full switch to Korean.

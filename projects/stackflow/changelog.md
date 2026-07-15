@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.3.0
+
+- **Rising tide (new base mechanic).** Every placement now raises a
+  **clearable colored floor row** (2 gaps) from the bottom, pushing the
+  stack toward the top — constant spatial pressure that rewards repetition
+  mastery (plug the gaps / match colors to drain it). Gravity-aware
+  (mirrors under reversed-fall bosses) with explicit insert-time top-out
+  detection so a sealed board never silently overflows. Piece-count based,
+  **no timer** — the §0/§F2 identity invariant holds. `run.ts raiseTide`,
+  configurable in `data/stages.json` `tide`.
+- **Board resets every stage** (was "carries within an act"): the tide
+  would otherwise carry over and force an unfair top-out. Each stage is now
+  a fresh escalating survival puzzle.
+- **"≥1 minute per stage" by balancing, not a clock.** Added a
+  placement→time model (`pacing.placementsPerMinute`), retuned the target
+  curve (`actBase [100,1200,9000] → [1000,3600,6500]`, `stageRamp 0.18 →
+  0.13`) so every stage 2–30 takes a median ≥1 min while staying reachable
+  (30% greedy-bot full-run win rate; a drop-mash bot now dies in <10
+  placements). Stage 1 stays the scripted onboarding hook. Re-validated
+  with a committed sim, `tests/sim/balance.ts` (`pnpm --filter stackflow
+  sim`).
+- **Korean UI + per-item tooltips.** Every screen is fully localized to
+  Korean via `app/src/ui/strings.ts`; block/advantage/boss names and
+  descriptions translated in `data/blocks.json` and `bosses.ts`. Each item
+  (blocks, advantages, bosses, meters, buttons, stats, settings) carries a
+  keyboard-accessible `data-tip` tooltip explaining it.
+- Engineering: `LockOutcome.tideRose`, 6 new tide unit tests (insert /
+  gravity-aware / top-out / warmup / stage-reset / mash-tops-out), pinned
+  target tests updated; 36 tests pass. Browser playtest + fresh screenshots
+  confirm the tide, Korean UI, and tooltips render with no errors.
+
 ## 0.2.1
 
 - **Balance fix — per-cell piece colors.** Mono-colored 4-cell pieces

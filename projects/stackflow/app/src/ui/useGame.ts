@@ -5,6 +5,7 @@ import { Game, type LockOutcome } from "../engine/run";
 import { scoring } from "../engine/config";
 import type { Grid, LinkResult } from "../engine/types";
 import { loadSettings, saveSettings, type Settings } from "../engine/persist";
+import { T } from "./strings";
 import * as sfx from "./audio";
 
 export interface Fx {
@@ -108,8 +109,8 @@ export function useGame() {
             clearing: new Set(l.cleared.map((c) => `${c.r},${c.c}`)),
             link: l.link,
             multiplier: l.multiplier,
-            popup: `+${l.score.toLocaleString()}`,
-            banner: l.link >= scoring.juiceTierUpLink ? "HUGE CHAIN!" : null,
+            popup: T.scorePopup(l.score),
+            banner: l.link >= scoring.juiceTierUpLink ? T.hugeChain : null,
             shake: Math.min(3, Math.floor(l.link / 2)),
             flash: false,
             slowmo: isBiggest,
@@ -123,10 +124,10 @@ export function useGame() {
       });
       schedule(() => {
         const banners: string[] = [];
-        if (out.perfectClear) banners.push("PERFECT CLEAR ×4!");
-        if (out.overdriveTriggered) banners.push("OVERDRIVE!");
-        if (out.insaneCombo) banners.push("INSANE COMBO!");
-        if (out.newBest === "chain") banners.push("NEW BEST CHAIN!");
+        if (out.perfectClear) banners.push(T.perfectClearBanner);
+        if (out.overdriveTriggered) banners.push(T.overdriveBanner);
+        if (out.insaneCombo) banners.push(T.insaneCombo);
+        if (out.newBest === "chain") banners.push(T.newBestChain);
         if (banners.length) {
           if (out.perfectClear || out.overdriveTriggered) sfx.overdriveFanfare();
           if (out.insaneCombo) sfx.insaneCombo();
@@ -134,7 +135,7 @@ export function useGame() {
             ...f,
             banner: banners.join("  "),
             flash: out.perfectClear,
-            popup: `+${out.totalScore.toLocaleString()}`,
+            popup: T.scorePopup(out.totalScore),
           }));
           schedule(() => finishOutcome(out), 900);
         } else {

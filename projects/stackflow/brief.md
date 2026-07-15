@@ -37,9 +37,13 @@ reaction the player *set up* several moves earlier.
   feeds it, not the top-line emotion. See `notes/mda-review.md`.
 - **Thrill (박진감) comes from stakes + payoff spectacle + tension–release
   rhythm — never from speed.** The game stays **no-timer** (no soft-drop
-  race, no lock clock); pressure is spatial (the board fills) and
-  dramatic (the payoff), so a thinky player still feels the rush. This is
-  the invariant that keeps the slow, deliberate identity intact.
+  race, no lock clock); pressure is spatial (the board fills — sharpened by
+  the **rising tide** that raises a clearable floor row every placement) and
+  dramatic (the payoff), so a thinky player still feels the rush. Even the
+  **≥1-minute-per-stage** floor is enforced by *balancing*, never a clock.
+  This is the invariant that keeps the slow, deliberate identity intact.
+- **Localized (Korean).** The whole UI is Korean, and every item carries a
+  tooltip explaining it — the depth is legible, not buried.
 
 ## Design pillars
 
@@ -48,8 +52,9 @@ reaction the player *set up* several moves earlier.
    crescendos. Reward reading your own chain resolve.
 2. **Thrill without a clock.** Reward setting up multi-step chain
    reactions, not fast clearing — but make the payoff *loud* and the
-   board-space squeeze *tense*. Slower cadence, thinkier decisions, high
-   drama.
+   board-space squeeze *tense* (the **rising tide** creeps up every
+   placement, so idling is never safe — yet it is always drainable by skill,
+   never a clock). Slower cadence, thinkier decisions, high drama.
 3. **Build-crafting run variety.** Each run diverges through the block
    pool you buy and the advantages you pick; special blocks create
    synergies that let you *assemble* bigger detonations.
