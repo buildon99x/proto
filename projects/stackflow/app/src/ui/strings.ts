@@ -121,6 +121,20 @@ export const T = {
   bestsLine: (chain: number, clear: number) => `체인 ${chain} · 클리어 ${ko(clear)}`,
   thisRun: (chain: number, perfects: number) => `이번 런: 체인 ${chain} · 퍼펙트 ${perfects}`,
   controlsHint: "←→↓ 이동 · ↑/X 시계 · Z 반시계 · A 180° · Space 드롭",
+  // on-screen touch controls (mobile)
+  controlsAria: "게임 조작",
+  holdBtn: "홀드",
+  dropBtn: "드롭",
+  aria: {
+    left: "왼쪽 이동",
+    right: "오른쪽 이동",
+    down: "아래로",
+    rotateCw: "시계 방향 회전",
+    rotateCcw: "반시계 방향 회전",
+    rotate180: "180도 회전",
+    hold: "홀드",
+    drop: "드롭",
+  },
   score: (n: number) => ko(n),
   target: (n: number) => `/ ${ko(n)}`,
 

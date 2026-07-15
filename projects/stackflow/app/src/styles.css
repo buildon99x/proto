@@ -68,8 +68,8 @@ button {
 }
 
 .title-screen h1 {
-  font-size: 64px;
-  letter-spacing: 8px;
+  font-size: clamp(38px, 11vw, 64px);
+  letter-spacing: clamp(3px, 1.2vw, 8px);
   background: linear-gradient(180deg, #fff, #56b4e9);
   -webkit-background-clip: text;
   background-clip: text;
@@ -792,6 +792,92 @@ kbd {
   }
 }
 
+/* ---------- touch controls (mobile) ----------
+   On-screen D-pad wired to the `act` seam (see ui/TouchControls.tsx).
+   Hidden by default; revealed only on coarse (touch) pointers so desktop
+   is provably unaffected. */
+.touch-controls {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .touch-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    width: 100%;
+    position: sticky;
+    bottom: 0;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    background: linear-gradient(180deg, transparent, rgba(13, 17, 23, 0.92) 32%);
+    z-index: 40; /* below tooltips (60) and overlays */
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  .touch-controls[data-busy="true"] {
+    opacity: 0.45;
+  }
+
+  /* board/page must not scroll or pinch-zoom while playing */
+  body {
+    overscroll-behavior: none;
+  }
+  .game-shell {
+    touch-action: pan-y; /* allow vertical scroll if content overflows, block pinch */
+  }
+  .board {
+    touch-action: none; /* taps on the board never scroll/zoom */
+  }
+}
+
+.tc-cluster {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tc-btn {
+  min-width: 48px; /* ≥44px touch target */
+  min-height: 48px;
+  padding: 0 12px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #e8ecf1;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.tc-btn:active {
+  background: #22303f;
+  transform: translateY(1px);
+}
+.tc-drop {
+  background: #0072b2;
+  border-color: #0072b2;
+}
+.tc-hold {
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+/* leave room for the board + HUD + control bar on narrow portrait screens */
+@media (pointer: coarse) and (max-width: 760px) {
+  :root {
+    --cell: clamp(22px, 4vmin, 34px);
+  }
+  .game-shell {
+    padding: 12px 8px 0;
+    gap: 12px;
+  }
+}
+
 /* ---------- tooltips (localization §10: per-item explanations) ----------
    `data-tip="…"` on any element shows a Korean explanation on hover/focus.
    Hosts get position:relative; the only absolutely-positioned overlays
@@ -856,4 +942,12 @@ kbd {
 .reduce-motion [data-tip]::after,
 .reduce-motion [data-tip]::before {
   transition: none;
+}
+/* touch: no hover, so reveal tooltips on tap-focus too */
+@media (pointer: coarse) {
+  [data-tip]:focus::after,
+  [data-tip]:focus::before {
+    opacity: 1;
+    visibility: visible;
+  }
 }
