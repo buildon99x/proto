@@ -2,7 +2,7 @@
 // counting, Vine chain scoring, Obsidian multiplier, boss rule
 // application, seed reproducibility, targets/config.
 import { describe, expect, it } from "vitest";
-import { makeGrid, applyGravity, rotatedCells, rotateGrid180 } from "../app/src/engine/grid";
+import { makeGrid, applyGravity, rotatedCells, rotateGrid180, countBlocks } from "../app/src/engine/grid";
 import {
   countObsidian,
   findColorGroups,
@@ -10,7 +10,7 @@ import {
   growVines,
   resolve,
 } from "../app/src/engine/resolve";
-import { chainMultiplier, stageTarget, stageKind, shopKind } from "../app/src/engine/config";
+import { chainMultiplier, stageTarget, stageKind, shopKind, stagesCfg } from "../app/src/engine/config";
 import { makeRng } from "../app/src/engine/rng";
 import { makeBoss, bossGravityUp, bossLockedCols, ACT_BOSSES } from "../app/src/engine/bosses";
 import { Game } from "../app/src/engine/run";
@@ -182,12 +182,12 @@ describe("special blocks (§5)", () => {
 
 describe("run structure & targets (§8.1)", () => {
   it("targets follow the act/ramp/boss-bump formula", () => {
-    expect(stageTarget(1)).toBe(100);
-    expect(stageTarget(2)).toBe(118);
-    expect(stageTarget(3)).toBe(177);
-    expect(stageTarget(10)).toBe(419);
-    expect(stageTarget(11)).toBe(1200); // act 2 base
-    expect(stageTarget(30)).toBe(37728); // act 3 finale (actBase3 = 9000, see decisions.md)
+    expect(stageTarget(1)).toBe(1000);
+    expect(stageTarget(2)).toBe(1130);
+    expect(stageTarget(3)).toBe(1638); // mini-boss ×1.3
+    expect(stageTarget(10)).toBe(3472); // act boss ×1.6
+    expect(stageTarget(11)).toBe(3600); // act 2 base
+    expect(stageTarget(30)).toBe(22568); // act 3 finale (rebalanced for the tide, see decisions.md)
   });
 
   it("boss cadence: mini at 3/6/9, act boss at 10", () => {
@@ -292,6 +292,94 @@ describe("determinism (§G)", () => {
     const out = g.hardDrop()!;
     expect(out.maxLink).toBeGreaterThanOrEqual(3);
     expect(g.score).toBeGreaterThanOrEqual(g.target); // one move clears stage 1
+  });
+});
+
+describe("rising tide (§4/§8.7)", () => {
+  // raiseTide is private; drive it directly for focused assertions.
+  const tideOf = (g: Game) => (g as unknown as { raiseTide(o: unknown): void }).raiseTide.bind(g);
+
+  it("inserts a clearable colored floor row with the configured gaps", () => {
+    const g = new Game(9);
+    g.startRun();
+    g.startStage(2); // clean board (past the stage-1 hook), no boss
+    g.placements = stagesCfg.tide.warmupPlacements + 1;
+    const out = { gameOver: false, tideRose: false };
+    tideOf(g)(out);
+    expect(out.tideRose).toBe(true);
+    const R = g.grid.length;
+    const C = g.grid[0].length;
+    const floor = g.grid[R - 1]; // gravity-down floor = bottom row
+    expect(floor.filter((b) => b === null).length).toBe(stagesCfg.tide.holes);
+    expect(floor.filter((b) => b !== null).length).toBe(C - stagesCfg.tide.holes);
+    for (const b of floor) {
+      if (!b) continue;
+      expect(b.type).toBe("normal"); // clearable — never indestructible junk
+      expect(b.color).toBeGreaterThanOrEqual(0);
+    }
+  });
+
+  it("does not rise during the warmup placements", () => {
+    const g = new Game(9);
+    g.startRun();
+    g.startStage(2);
+    g.placements = 1; // within warmup (warmupPlacements = 2)
+    const out = { gameOver: false, tideRose: false };
+    tideOf(g)(out);
+    expect(out.tideRose).toBe(false);
+    expect(countBlocks(g.grid)).toBe(0);
+  });
+
+  it("tops out (no silent overflow) when the floor row would push a block off the top", () => {
+    const g = new Game(7);
+    g.startRun();
+    g.startStage(2);
+    const C = g.grid[0].length;
+    for (let c = 0; c < C; c++) g.grid[0][c] = { type: "obsidian", color: -1 };
+    g.placements = stagesCfg.tide.warmupPlacements + 1;
+    const out = { gameOver: false, tideRose: false };
+    tideOf(g)(out);
+    expect(out.gameOver).toBe(true);
+    expect(g.gameOverReason).toContain("바닥"); // "차오르는 바닥이 판을 막았습니다."
+  });
+
+  it("is gravity-aware: under reversed fall it rises from the top edge", () => {
+    const g = new Game(13);
+    g.startRun();
+    g.startStage(10); // act-1 boss = inverter → reversed fall
+    expect(g.gravityUp()).toBe(true);
+    g.grid = makeGrid(stagesCfg.rows, stagesCfg.cols); // isolate the tide
+    g.placements = stagesCfg.tide.warmupPlacements + 1;
+    const out = { gameOver: false, tideRose: false };
+    tideOf(g)(out);
+    expect(out.tideRose).toBe(true);
+    const floor = g.grid[0]; // gravity-up floor = top row
+    expect(floor.filter((b) => b === null).length).toBe(stagesCfg.tide.holes);
+  });
+
+  it("resets the board every stage (the tide would otherwise carry over)", () => {
+    const g = new Game(11);
+    g.startRun();
+    g.startStage(2);
+    g.grid[11][0] = { type: "normal", color: 0 };
+    g.grid[11][1] = { type: "normal", color: 1 };
+    g.startStage(3);
+    expect(countBlocks(g.grid)).toBe(0);
+  });
+
+  it("mashing drops into a wall tops out under the tide (not too easy)", () => {
+    const g = new Game(21);
+    g.startRun();
+    g.startStage(2);
+    let placements = 0;
+    while (g.phase === "play" && placements < 60) {
+      while (g.move(-1, 0)) {} // shove to the left wall — no line clears
+      g.hardDrop();
+      placements++;
+      if ((g.phase as string) === "cleared") g.bank();
+    }
+    expect(g.phase).toBe("gameover"); // the rising floor seals the board
+    expect(placements).toBeLessThan(40);
   });
 });
 

@@ -1,10 +1,12 @@
 // HUD (spec §10.2): progress vs target, boss banner + Break gauge,
 // Overdrive meter, credits, advantages, previews, hold, run-bests.
+// Korean UI with per-item tooltips (spec §10).
 import { scoring, stagesCfg, withinAct } from "../engine/config";
 import { advantageById } from "../engine/advantages";
 import { rotatedCells } from "../engine/grid";
 import type { Game, QueuedPiece } from "../engine/run";
 import { blockClass, blockGlyph } from "./Board";
+import { T, TIP } from "./strings";
 import type { Block } from "../engine/types";
 
 function qpBlock(q: QueuedPiece, i: number): Block {
@@ -52,22 +54,22 @@ export function Hud({ game, onBank }: { game: Game; onBank: () => void }) {
   return (
     <aside className="hud">
       <div className="hud-block">
-        <div className="stage-line">
-          <strong>Act {game.act}</strong> · Stage {withinAct(game.stage)}/10
-          <span className="stage-global"> (#{game.stage})</span>
+        <div className="stage-line" data-tip={TIP.stage} tabIndex={0}>
+          <strong>{T.actLabel(game.act)}</strong> · {T.stageWithin(withinAct(game.stage))}
+          <span className="stage-global"> {T.globalStage(game.stage)}</span>
         </div>
         {boss && (
-          <div className={`boss-banner ${isActBoss ? "boss-act" : "boss-mini"}`}>
+          <div className={`boss-banner ${isActBoss ? "boss-act" : "boss-mini"}`} data-tip={boss.desc} tabIndex={0}>
             <div className="boss-name">
-              {isActBoss ? "⚔ ACT BOSS — " : "☠ "}
+              {isActBoss ? T.actBossPrefix : T.miniBossPrefix}
               {boss.name}
-              {boss.phase === 2 && " · PHASE 2"}
+              {boss.phase === 2 && T.phase2}
             </div>
             <div className="boss-desc">{boss.desc}</div>
             {isActBoss && (
-              <div className="break-gauge">
+              <div className="break-gauge" data-tip={TIP.breakGauge} tabIndex={0}>
                 <div className="break-fill" style={{ width: `${pct * 100}%` }} />
-                <span className="break-label">BREAK {Math.floor(pct * 100)}%</span>
+                <span className="break-label">{T.breakGauge(Math.floor(pct * 100))}</span>
               </div>
             )}
           </div>
@@ -75,45 +77,45 @@ export function Hud({ game, onBank }: { game: Game; onBank: () => void }) {
       </div>
 
       <div className="hud-block">
-        <div className="score-line">
-          <span className="score">{game.score.toLocaleString()}</span>
-          <span className="target">/ {game.target.toLocaleString()}</span>
+        <div className="score-line" data-tip={TIP.score} tabIndex={0}>
+          <span className="score">{T.score(game.score)}</span>
+          <span className="target">{T.target(game.target)}</span>
         </div>
         {!isActBoss && (
-          <div className="progress">
+          <div className="progress" data-tip={TIP.progress}>
             <div className="progress-fill" style={{ width: `${pct * 100}%` }} />
           </div>
         )}
         {pressing && (
           <div className="press-line">
-            PRESSING · overkill +{game.overkillCredits()}c
-            <button className="mini-btn" onClick={onBank}>
-              Bank now
+            {T.pressing(game.overkillCredits())}
+            <button className="mini-btn" data-tip={TIP.bank} onClick={onBank}>
+              {T.bankNow}
             </button>
           </div>
         )}
       </div>
 
       <div className="hud-block">
-        <div className="meter-label">
-          Overdrive{" "}
+        <div className="meter-label" data-tip={TIP.overdrive} tabIndex={0}>
+          {T.overdrive}{" "}
           {game.overdriveLeft > 0 && (
-            <strong className="od-active">×2 ({game.overdriveLeft} left)</strong>
+            <strong className="od-active">{T.overdriveActive(game.overdriveLeft)}</strong>
           )}
         </div>
-        <div className="od-meter">
+        <div className="od-meter" data-tip={TIP.overdrive}>
           <div
             className={`od-fill ${game.overdriveLeft > 0 ? "od-burning" : ""}`}
             style={{ width: `${(game.overdrive / scoring.overdrive.max) * 100}%` }}
           />
         </div>
-        <div className="credits">💰 {game.credits} credits</div>
+        <div className="credits" data-tip={TIP.credits} tabIndex={0}>{T.creditsLine(game.credits)}</div>
       </div>
 
       <div className="hud-block">
-        <div className="meter-label">Next</div>
+        <div className="meter-label" data-tip={TIP.next} tabIndex={0}>{T.next}</div>
         {game.hidesPreview() ? (
-          <div className="preview-hidden">?? hidden ??</div>
+          <div className="preview-hidden">{T.hidden}</div>
         ) : (
           <div className="previews">
             {game.queue.slice(0, game.mods.previews).map((q, i) => (
@@ -123,22 +125,22 @@ export function Hud({ game, onBank }: { game: Game; onBank: () => void }) {
         )}
         {game.mods.hold && (
           <>
-            <div className="meter-label">Hold (C)</div>
-            {game.hold ? <PiecePreview q={game.hold} /> : <div className="preview-hidden">—</div>}
+            <div className="meter-label" data-tip={TIP.hold} tabIndex={0}>{T.holdSlot}</div>
+            {game.hold ? <PiecePreview q={game.hold} /> : <div className="preview-hidden">{T.dash}</div>}
           </>
         )}
       </div>
 
       {game.advantages.length > 0 && (
         <div className="hud-block">
-          <div className="meter-label">
-            Advantages {game.advantages.length}/{stagesCfg.advantageSlots}
+          <div className="meter-label" data-tip={TIP.advantages} tabIndex={0}>
+            {T.advantages(game.advantages.length, stagesCfg.advantageSlots)}
           </div>
           <ul className="adv-list">
             {game.advantages.map((id) => {
               const a = advantageById(id);
               return (
-                <li key={id} title={a?.desc}>
+                <li key={id} data-tip={a?.desc} tabIndex={0}>
                   {a?.name ?? id}
                 </li>
               );
@@ -148,15 +150,13 @@ export function Hud({ game, onBank }: { game: Game; onBank: () => void }) {
       )}
 
       <div className="hud-block bests">
-        <div className="meter-label">Run bests</div>
-        <div>chain {game.runBests.chain} · clear {game.runBests.clear.toLocaleString()}</div>
-        <div>
-          this run: chain {game.session.chain} · perfects {game.session.perfectClears}
-        </div>
+        <div className="meter-label" data-tip={TIP.bests} tabIndex={0}>{T.runBests}</div>
+        <div>{T.bestsLine(game.runBests.chain, game.runBests.clear)}</div>
+        <div>{T.thisRun(game.session.chain, game.session.perfectClears)}</div>
       </div>
 
-      <div className="hud-block controls-hint">
-        ←→↓ move · ↑/X cw · Z ccw · A 180° · Space drop
+      <div className="hud-block controls-hint" data-tip={TIP.controls} tabIndex={0}>
+        {T.controlsHint}
       </div>
     </aside>
   );

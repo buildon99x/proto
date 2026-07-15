@@ -1,4 +1,6 @@
 // The seven screens (spec §10) + settings (remappable keys, reduce-motion).
+// Korean UI (spec §10 localization); every string comes from ./strings, and
+// each item carries a `data-tip` tooltip explanation.
 import { useState } from "react";
 import blocksJson from "../data/blocks.json";
 import { stagesCfg, stageKind } from "../engine/config";
@@ -6,6 +8,7 @@ import type { Game } from "../engine/run";
 import type { ShopOffer } from "../engine/types";
 import { DEFAULT_KEYS, type Settings } from "../engine/persist";
 import { advantageById } from "../engine/advantages";
+import { T, TIP } from "./strings";
 import * as sfx from "./audio";
 
 // ---- 1. Title ----
@@ -25,43 +28,39 @@ export function TitleScreen({
   const bests = game.runBests;
   return (
     <div className="screen title-screen">
-      <p className="eyebrow">Prototype Lab</p>
+      <p className="eyebrow">{T.eyebrow}</p>
       <h1>STACKFLOW</h1>
-      <p className="tagline">
-        Set up the chain. Watch it detonate. 3 acts · 30 stages · no timer, ever.
-      </p>
+      <p className="tagline">{T.tagline}</p>
       <div className="title-actions">
         <button
           className="big-btn"
+          data-tip={TIP.start}
           onClick={() => onStart(seedText ? hashSeed(seedText) : undefined)}
         >
-          ▶ Start Run
+          {T.start}
         </button>
         <input
           className="seed-input"
-          placeholder="seed (optional)"
+          placeholder={T.seedPlaceholder}
+          data-tip={TIP.seed}
           value={seedText}
           onChange={(e) => setSeedText(e.target.value)}
         />
       </div>
       <div className="title-links">
-        <button className="link-btn" onClick={onPedia}>
-          📖 Blockipedia
+        <button className="link-btn" data-tip={TIP.pedia} onClick={onPedia}>
+          {T.pedia}
         </button>
-        <button className="link-btn" onClick={onSettings}>
-          ⚙ Settings
+        <button className="link-btn" data-tip={TIP.settings} onClick={onSettings}>
+          {T.settings}
         </button>
       </div>
       {bests.stage > 0 && (
-        <div className="title-bests">
-          Bests — chain {bests.chain} · single clear {bests.clear.toLocaleString()} ·
-          perfects {bests.perfectClears} · act {bests.act} (stage {bests.stage})
+        <div className="title-bests" data-tip={TIP.bests} tabIndex={0}>
+          {T.bests(bests)}
         </div>
       )}
-      <p className="hint">
-        Your starting pool is the 7 classic pieces. Match 4+ of a color or fill a
-        line. Chains multiply: ×1, ×2, ×4, ×7, ×11…
-      </p>
+      <p className="hint">{T.titleHint}</p>
     </div>
   );
 }
@@ -82,27 +81,22 @@ export function BankPressOverlay({ game, onBank, onPress }: { game: Game; onBank
   return (
     <div className="overlay">
       <div className="dialog">
-        <h2>{boss?.kind === "act" ? `💥 ${boss.name} BROKEN!` : "Target reached!"}</h2>
+        <h2>{boss?.kind === "act" ? T.bossBroken(boss.name) : T.targetReached}</h2>
         <p className="reward-line">
-          Stage reward: <strong>{game.stageReward()} credits</strong>
+          {T.stageReward} <strong>{T.creditsUnit(game.stageReward())}</strong>
           <span className="reward-detail">
-            {" "}
-            (stipend + {game.stageBlocksDestroyed} blocks
-            {game.overkillCredits() > 0 && ` + ${game.overkillCredits()} overkill`})
+            {T.rewardDetail(game.stageBlocksDestroyed, game.overkillCredits())}
           </span>
         </p>
         <div className="dialog-actions">
-          <button className="big-btn" onClick={onBank} autoFocus>
-            🏦 Bank &amp; advance
+          <button className="big-btn" data-tip={TIP.bank} onClick={onBank} autoFocus>
+            {T.bank}
           </button>
-          <button className="big-btn press-btn" onClick={onPress}>
-            🔥 Press — keep stacking for overkill credits
+          <button className="big-btn press-btn" data-tip={TIP.press} onClick={onPress}>
+            {T.press}
           </button>
         </div>
-        <p className="hint">
-          Pressing is pure upside… except the board keeps filling toward top-out.
-          Banking is always safe.
-        </p>
+        <p className="hint">{T.bankPressHint}</p>
       </div>
     </div>
   );
@@ -122,14 +116,14 @@ function OfferCard({
   free?: boolean;
 }) {
   return (
-    <div className={`offer ${canAfford ? "" : "offer-poor"}`}>
+    <div className={`offer ${canAfford ? "" : "offer-poor"}`} data-tip={offer.desc} tabIndex={0}>
       <div className="offer-head">
         <strong>{offer.name}</strong>
-        <span className="offer-kind">{offer.kind === "piece" ? "block" : "advantage"}</span>
+        <span className="offer-kind">{offer.kind === "piece" ? T.kindBlock : T.kindAdvantage}</span>
       </div>
       <p className="offer-desc">{offer.desc}</p>
       <button className="mini-btn" disabled={!canAfford} onClick={onBuy}>
-        {free ? "Take" : `Buy · ${offer.price}c`}
+        {free ? T.take : T.buy(offer.price)}
       </button>
     </div>
   );
@@ -139,9 +133,9 @@ export function ShopScreen({ game, onDone, onBuy, onReroll }: { game: Game; onDo
   const full = game.advantages.length >= stagesCfg.advantageSlots;
   return (
     <div className="screen shop-screen">
-      <h2>🛒 Shop — after stage {game.stage}</h2>
-      <p className="credits-line">💰 {game.credits} credits</p>
-      {full && <p className="hint">Advantage slots full ({stagesCfg.advantageSlots}/{stagesCfg.advantageSlots}) — buying a new one replaces your first.</p>}
+      <h2>{T.shopTitle(game.stage)}</h2>
+      <p className="credits-line" data-tip={TIP.credits} tabIndex={0}>{T.creditsLine(game.credits)}</p>
+      {full && <p className="hint">{T.slotsFull(stagesCfg.advantageSlots)}</p>}
       <div className="offers">
         {game.shopOffers.map((o, i) => (
           <OfferCard
@@ -151,18 +145,19 @@ export function ShopScreen({ game, onDone, onBuy, onReroll }: { game: Game; onDo
             onBuy={() => onBuy(o)}
           />
         ))}
-        {game.shopOffers.length === 0 && <p>Sold out!</p>}
+        {game.shopOffers.length === 0 && <p>{T.soldOut}</p>}
       </div>
       <div className="dialog-actions">
         <button
           className="mini-btn"
+          data-tip={TIP.reroll}
           disabled={game.credits < game.rerollCost()}
           onClick={onReroll}
         >
-          🎲 Reroll · {game.rerollCost()}c
+          {T.reroll(game.rerollCost())}
         </button>
         <button className="big-btn" onClick={onDone} autoFocus>
-          Continue → stage {game.stage + 1}
+          {T.continueTo(game.stage + 1)}
         </button>
       </div>
     </div>
@@ -174,15 +169,15 @@ export function QuickBuyOverlay({ game, onDone, onBuy }: { game: Game; onDone: (
   return (
     <div className="overlay">
       <div className="dialog quickbuy">
-        <h3>⚡ Quick buy</h3>
+        <h3>{T.quickBuy}</h3>
         {offer ? (
           <OfferCard offer={offer} canAfford={game.credits >= offer.price} onBuy={() => onBuy(offer)} />
         ) : (
-          <p>Nothing on offer.</p>
+          <p>{T.nothingOnOffer}</p>
         )}
-        <p className="credits-line">💰 {game.credits}c</p>
+        <p className="credits-line" data-tip={TIP.credits} tabIndex={0}>{T.creditsShort(game.credits)}</p>
         <button className="big-btn" onClick={onDone} autoFocus>
-          Skip → stage {game.stage + 1}
+          {T.skipTo(game.stage + 1)}
         </button>
       </div>
     </div>
@@ -194,8 +189,8 @@ export function QuickBuyOverlay({ game, onDone, onBuy }: { game: Game; onDone: (
 export function TreasureScreen({ game, onPick }: { game: Game; onPick: (i: number) => void }) {
   return (
     <div className="screen treasure-screen">
-      <h2>🏆 TREASURE — pick one, on the house</h2>
-      <p className="tagline">The Act Boss is broken. Re-tool your engine for the next act.</p>
+      <h2>{T.treasureTitle}</h2>
+      <p className="tagline">{T.treasureSub}</p>
       <div className="offers">
         {game.treasureOffers.map((o, i) => (
           <OfferCard key={i} offer={o} canAfford onBuy={() => onPick(i)} free />
@@ -211,43 +206,41 @@ export function SummaryScreen({ game, victory, onRestart, onTitle }: { game: Gam
   const s = game.session;
   return (
     <div className="screen summary-screen">
-      <h1>{victory ? "🎉 RUN COMPLETE" : "RUN OVER"}</h1>
+      <h1>{victory ? T.runComplete : T.runOver}</h1>
       {!victory && <p className="tagline">{game.gameOverReason}</p>}
       <div className="summary-stats">
         <div className="stat-big">
           <span className="stat-num">{s.chain}</span>
-          <span className="stat-label">biggest chain{s.chain >= game.runBests.chain && s.chain > 0 ? " ★ best" : ""}</span>
+          <span className="stat-label">{T.statBiggestChain}{s.chain >= game.runBests.chain && s.chain > 0 ? T.best : ""}</span>
         </div>
         <div className="stat-big">
-          <span className="stat-num">{s.clear.toLocaleString()}</span>
-          <span className="stat-label">highest single clear</span>
+          <span className="stat-num">{s.clear.toLocaleString("ko-KR")}</span>
+          <span className="stat-label">{T.statSingleClear}</span>
         </div>
         <div className="stat-big">
           <span className="stat-num">{s.perfectClears}</span>
-          <span className="stat-label">perfect clears</span>
+          <span className="stat-label">{T.statPerfects}</span>
         </div>
         <div className="stat-big">
-          <span className="stat-num">
-            Act {game.act} · {game.stage}
-          </span>
-          <span className="stat-label">reached</span>
+          <span className="stat-num">{T.reached(game.act, game.stage)}</span>
+          <span className="stat-label">{T.statReached}</span>
         </div>
         <div className="stat-big">
           <span className="stat-num">{game.totalBlocksDestroyed}</span>
-          <span className="stat-label">blocks destroyed</span>
+          <span className="stat-label">{T.statBlocks}</span>
         </div>
       </div>
       {game.advantages.length > 0 && (
         <p className="build-line">
-          Build: {game.advantages.map((id) => advantageById(id)?.name ?? id).join(" · ")}
+          {T.buildLine(game.advantages.map((id) => advantageById(id)?.name ?? id).join(" · "))}
         </p>
       )}
       <div className="dialog-actions">
         <button className="big-btn" onClick={onRestart} autoFocus>
-          ↻ One more run (R)
+          {T.oneMore}
         </button>
         <button className="link-btn" onClick={onTitle}>
-          Title
+          {T.toTitle}
         </button>
       </div>
     </div>
@@ -257,14 +250,14 @@ export function SummaryScreen({ game, victory, onRestart, onTitle }: { game: Gam
 // ---- 7. Blockipedia (spec §10.7) ----
 
 const PEDIA: { type: string; name: string; desc: string; icon: string }[] = [
-  { type: "normal", name: "Block", icon: "●", desc: "Plain scoring block. Clears in full lines or same-color groups of 4+." },
+  { type: "normal", name: T.normalBlockName, icon: "●", desc: T.normalBlockDesc },
   ...blocksJson.specialPieces.map((p) => ({
     type: p.blockType,
     name: p.name,
     icon: { stone: "🪨", bomb: "💣", obsidian: "🟪", vine: "🌿", combo: "✳", booster: "⭐", rune: "🔮", prism: "🔷" }[p.blockType] ?? "?",
     desc: p.desc,
   })),
-  { type: "junk", name: "Junk", icon: "▦", desc: "Indestructible debris injected by bosses. Plan around it." },
+  { type: "junk", name: T.junkName, icon: "▦", desc: T.junkDesc },
 ];
 
 export function BlockipediaScreen({ game, onBack }: { game: Game; onBack: () => void }) {
@@ -276,24 +269,27 @@ export function BlockipediaScreen({ game, onBack }: { game: Game; onBack: () => 
   });
   return (
     <div className="screen pedia-screen">
-      <h2>📖 Blockipedia</h2>
-      <p className="tagline">
-        Every block you have encountered across runs. {game.discovered.size} discovered.
-      </p>
+      <h2>{T.pediaTitle}</h2>
+      <p className="tagline">{T.pediaSub(game.discovered.size)}</p>
       <div className="pedia-grid">
         {entries.map((e) => {
           const known = game.discovered.has(e.type);
           return (
-            <div key={e.type + e.name} className={`pedia-card ${known ? "" : "pedia-locked"}`}>
+            <div
+              key={e.type + e.name}
+              className={`pedia-card ${known ? "" : "pedia-locked"}`}
+              data-tip={known ? e.desc : T.lockedDesc}
+              tabIndex={0}
+            >
               <div className="pedia-icon">{known ? e.icon : "❓"}</div>
-              <strong>{known ? e.name : "???"}</strong>
-              <p>{known ? e.desc : "Encounter this block in a run to unlock it."}</p>
+              <strong>{known ? e.name : T.locked}</strong>
+              <p>{known ? e.desc : T.lockedDesc}</p>
             </div>
           );
         })}
       </div>
       <button className="big-btn" onClick={onBack} autoFocus>
-        Back
+        {T.back}
       </button>
     </div>
   );
@@ -301,17 +297,7 @@ export function BlockipediaScreen({ game, onBack }: { game: Game; onBack: () => 
 
 // ---- Settings (accessibility: reduce-motion, sound, key remap — §8.7) ----
 
-const KEY_LABELS: Record<string, string> = {
-  left: "Move left",
-  right: "Move right",
-  down: "Move down",
-  rotateCw: "Rotate CW",
-  rotateCw2: "Rotate CW (alt)",
-  rotateCcw: "Rotate CCW",
-  rotate180: "Rotate 180°",
-  lock: "Drop & lock",
-  hold: "Hold",
-};
+const KEY_LABELS = T.keyLabels;
 
 export function SettingsScreen({ settings, onChange, onBack }: { settings: Settings; onChange: (s: Settings) => void; onBack: () => void }) {
   const [listening, setListening] = useState<string | null>(null);
@@ -327,14 +313,14 @@ export function SettingsScreen({ settings, onChange, onBack }: { settings: Setti
         }
       }}
     >
-      <h2>⚙ Settings</h2>
+      <h2>{T.settingsTitle}</h2>
       <label className="setting-row">
         <input
           type="checkbox"
           checked={settings.reduceMotion}
           onChange={(e) => onChange({ ...settings, reduceMotion: e.target.checked })}
         />
-        Reduce motion / photosensitivity mode (skips shakes, flashes &amp; step animation)
+        {T.reduceMotion}
       </label>
       <label className="setting-row">
         <input
@@ -345,9 +331,9 @@ export function SettingsScreen({ settings, onChange, onBack }: { settings: Setti
             sfx.setSoundEnabled(e.target.checked);
           }}
         />
-        Sound
+        {T.sound}
       </label>
-      <h3>Keys {listening && <em>— press a key for “{KEY_LABELS[listening]}”…</em>}</h3>
+      <h3>{T.keys} {listening && <em>{T.pressKeyFor(KEY_LABELS[listening])}</em>}</h3>
       <div className="key-grid">
         {Object.keys(KEY_LABELS).map((k) => (
           <button
@@ -356,7 +342,7 @@ export function SettingsScreen({ settings, onChange, onBack }: { settings: Setti
             onClick={() => setListening(k)}
           >
             <span>{KEY_LABELS[k]}</span>
-            <kbd>{settings.keys[k] ?? "—"}</kbd>
+            <kbd>{settings.keys[k] ?? T.dash}</kbd>
           </button>
         ))}
       </div>
@@ -365,10 +351,10 @@ export function SettingsScreen({ settings, onChange, onBack }: { settings: Setti
           className="link-btn"
           onClick={() => onChange({ ...settings, keys: { ...DEFAULT_KEYS } })}
         >
-          Reset keys
+          {T.resetKeys}
         </button>
         <button className="big-btn" onClick={onBack}>
-          Back
+          {T.back}
         </button>
       </div>
     </div>
@@ -377,5 +363,5 @@ export function SettingsScreen({ settings, onChange, onBack }: { settings: Setti
 
 export function stageKindLabel(stage: number): string {
   const k = stageKind(stage);
-  return k === "act" ? "ACT BOSS" : k === "mini" ? "MINI-BOSS" : "";
+  return k === "act" ? T.actBossLabel : k === "mini" ? T.miniBossLabel : "";
 }

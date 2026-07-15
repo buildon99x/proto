@@ -135,6 +135,12 @@ Rules `[INF]/[DEF]`:
    resolve in one commit increases the **chain counter** → higher combo
    multiplier (§7). This cascading is the "chain reaction that can clear
    large sections of the board at once." `[SRC]`
+5. **Rising tide `[DES]`:** once the cascade settles, a new **clearable
+   colored floor row** (with gaps) is inserted at the floor and the whole
+   stack shifts one row toward the spawn edge (§8.7). Piece-count based, so
+   pressure builds every placement without a clock (§0). Skipped on the
+   placement that hits the stage target (the clear wins). If the row pushed
+   off the far edge is occupied, the board is sealed → top-out.
 
 ## 5. Blocks & block groups
 
@@ -273,52 +279,64 @@ Indexing: global stage `n = 1..30`; `act = ceil(n/10)`; within-act
 
 **Target formula `[DES]`:**
 ```
-target(n) = round( actBase(act) × (1 + 0.18·(s-1)) × bossBump(s) )
-actBase   = { Act1: 100, Act2: 1200, Act3: 9000 }
-// Act3 was 12000 (~10× per act); re-validated against the §7.1 crescendo
-// with a greedy-bot sim and tuned to 9000 to hold the ~80 s/stage pacing
-// (see notes/decisions.md, implementation pass).
+target(n) = round( actBase(act) × (1 + 0.13·(s-1)) × bossBump(s) )
+actBase   = { Act1: 1000, Act2: 3600, Act3: 6500 }
+// Retuned 2026-07-15 for the rising tide (§4/§8.7): the tide adds spatial
+// pressure and makes stages take real time, so early targets were raised
+// (no more one-shot stages) and the intra-act ramp flattened 0.18 → 0.13 so
+// act 3's steepness doesn't outrun the scoring engine. Re-validated with the
+// committed sim tests/sim/balance.ts (see notes/decisions.md 2026-07-15).
 bossBump  = 1.30 at s∈{3,6,9} (mini-boss) ; 1.60 at s=10 (Act Boss) ; else 1
 ```
-Each act is ~10× the previous because the player's **scoring engine also
-scales** each act (a new block group + more advantages, §8.6). Within an
-act the target ramps ~18%/stage, with spikes on boss stages so bosses feel
-like gates. Tunable in `data/stages.json`.
+Within an act the target ramps ~13%/stage, with spikes on boss stages so
+bosses feel like gates; each act steps up via `actBase` as the player's
+**scoring engine scales** (a new block group + more advantages, §8.6).
+Tunable in `data/stages.json`.
 
-**Act 1 target table `[DES]` (illustrative):**
+**Act 1 target table `[DES]`:**
 
 | Stage n | s | Kind | Target |
 |---|---|------|-------:|
-| 1 | 1 | intro (tutorial beat) | 100 |
-| 2 | 2 | normal | 118 |
-| 3 | 3 | **mini-boss** | 177 |
-| 4 | 4 | normal | 154 |
-| 5 | 5 | normal | 172 |
-| 6 | 6 | **mini-boss** | 247 |
-| 7 | 7 | normal | 208 |
-| 8 | 8 | normal | 226 |
-| 9 | 9 | **mini-boss** | 317 |
-| 10 | 10 | **Act Boss** | 419 |
+| 1 | 1 | intro (scripted hook) | 1000 |
+| 2 | 2 | normal | 1130 |
+| 3 | 3 | **mini-boss** | 1638 |
+| 4 | 4 | normal | 1390 |
+| 5 | 5 | normal | 1520 |
+| 6 | 6 | **mini-boss** | 2145 |
+| 7 | 7 | normal | 1780 |
+| 8 | 8 | normal | 1910 |
+| 9 | 9 | **mini-boss** | 2652 |
+| 10 | 10 | **Act Boss** | 3472 |
 
-Acts 2 and 3 use the same shape scaled by `actBase` (Act 2 finale ≈ 5,030;
-Act 3 finale / final boss ≈ 37,700 after the re-validation tune).
+Acts 2 and 3 use the same shape scaled by `actBase` (Act 2 finale ≈ 12,499;
+Act 3 finale / final boss ≈ 22,568).
 
-**Pacing target `[DES]`:** ~42 min/run `[SRC]` ⇒ ~80 s/stage average.
-Targets are tuned to be reachable in roughly 1–2 min of deliberate play so
-the run breathes rather than grinds.
+**Pacing target `[DES]`:** ~42 min/run `[SRC]` ⇒ ~1–2 min/stage. The design
+reasons in **placements, not seconds** (`pacing.placementsPerMinute = 12` in
+`data/stages.json`, i.e. ~1 min ≈ 12 placements of deliberate play).
+
+**Minimum stage length `[DES]` — balancing, not a clock.** A stage should
+last **≥ ~1 min**. This is the *inverse* of a deadline (it never punishes
+slow play) and is enforced **purely by tuning** targets + the rising tide so
+stages naturally run long enough — there is **no real-clock gate**, keeping
+the §0/§F2 no-timer identity intact. Verified by the sim: every stage 2–30
+has a median ≥ 1 min (≥ ~12 placements). **Stage 1 is the exception** — the
+scripted onboarding hook below is meant to one-shot as the "first-60s wow",
+so the ≥1-min floor applies from stage 2.
 
 **Crescendo re-validation `[DES]`:** the §7.1 super-linear chain multiplier
 and Overdrive change how fast a skilled player scores, so the target curve
 above MUST be re-checked against them (a top-tier chain should *beat* a
-stage, not trivialize the whole act). Treat `actBase`, the `0.18/stage`
+stage, not trivialize the whole act). Treat `actBase`, the `0.13/stage`
 ramp, and the chain curve as **paired tuning knobs** in
 `data/stages.json` + `data/scoring.json`.
 
 **Stage 1 = guaranteed hook `[DES]` (thrill layer, T4):** stage 1 is not a
-dry tutorial — its opening bag + a low target (100) are seeded so the
-player triggers a **satisfying multi-link chain within the first ~60
-seconds** (see §8.7 Onboarding). The hook must land *before* any rule
-complexity.
+dry tutorial — its opening bag + a target sized so the seeded first drop
+**one-shots the stage with a satisfying multi-link chain within the first
+~60 seconds** (see §8.7 Onboarding). The hook must land *before* any rule
+complexity, and is the one deliberate exception to the ≥1-min-per-stage
+floor (§8.1).
 
 ### 8.2 Bosses `[SRC]/[DES]`
 
@@ -498,16 +516,24 @@ Focused on user experience and fun (the explicit brief):
   **calm beats are the full shops** (even stages) and the **bank/press
   decision** (§8.3); the spikes are the bosses (§8.2). Odd-stage inline
   quick-buys keep momentum between beats (thrill layer, T3).
-- **Board carry `[DES]`:** the board **persists across stages within an
-  act** and **resets at each act start**. This makes **Obsidian's
-  permanent multiplier** and board planning genuinely strategic (your
-  past placements help *and* clutter you), while act resets stop clutter
-  from compounding forever. *Score* resets to 0 each stage (earn the
-  target fresh). Tunable alternative: full board reset each stage (more
-  accessible, weaker Obsidian) — see `notes/decisions.md`.
+- **Rising tide `[DES]` (2026-07-15, thrill layer):** **every placement
+  raises a clearable colored floor row** (with gaps) from the bottom,
+  pushing the stack toward the spawn edge (§4). It is the primary source of
+  intra-stage pressure and repetition mastery — *plug the gaps / match
+  colors to drain the tide before it seals the board*. **Piece-count based,
+  never a clock** (§0). Chosen clearable (not indestructible junk) so
+  skilled play always survives (no unfair loss, §8.3 guardrail). Config in
+  `data/stages.json` `tide` (cadence, gap count, warmup).
+- **Board carry `[DES]`:** with the rising tide the board **resets at the
+  start of every stage** (superseding the earlier "carries within an act" —
+  a tide-filled board carried across stages would force an unfair top-out).
+  Each stage is a fresh, escalating tide-survival puzzle, which *strengthens*
+  the roguelike repetition appeal. *Score* also resets to 0 each stage.
+  Obsidian's permanent multiplier now matters *within* a stage.
 - **Loss condition + top-out tension `[SRC]/[DES]` (thrill layer, T1):**
-  you must hit the stage target **before the board tops out** (a placed
-  piece has nowhere to go) `[SRC]/[INF]`. Pressure is spatial, not a timer.
+  you must hit the stage target **before the board tops out** — either a
+  placed piece has nowhere to go, or the **rising tide seals the board**
+  `[SRC]/[INF]`. Pressure is spatial, not a timer.
   Crucially, this pressure is **dramatized**: as the stack rises into the
   **top rows** the game enters an escalating **DANGER state** — board-edge
   glow, a **heartbeat SFX whose tempo scales with fill %**, a color/vignette
@@ -547,7 +573,7 @@ type RunState = {
   score: number;              // "Stack" this stage (resets each stage)
   target: number;             // target(stage), see §8.1
   credits: number;
-  grid: (Block | null)[][];   // [row][col]; carries within act, resets per act (§8.7)
+  grid: (Block | null)[][];   // [row][col]; resets every stage — the rising tide fills it (§4/§8.7)
   pool: PieceShape[];         // draw bag (grown by shop, §8.3)
   queue: PieceShape[];        // current + previews
   active: ActivePiece | null; // piece being positioned
@@ -595,6 +621,16 @@ from a single seeded PRNG so a run is reproducible for testing `[DEF]`.
 7. **Blockipedia** `[SRC]` — a compendium of all blocks discovered across
    runs, with each block's effect; entries unlock as blocks are
    encountered. The one confirmed cross-run persistent screen.
+
+**Localization `[DES]` (2026-07-15):** the UI ships in **Korean**. All
+UI copy routes through a single string module (`app/src/ui/strings.ts`);
+block / advantage / boss names + descriptions live (also Korean) in
+`data/blocks.json` and `engine/bosses.ts` (ids stay English — they are logic
+keys). **Per-item tooltips:** every meaningful element (blocks, advantages,
+bosses, meters, buttons, stats, settings) carries a `data-tip` tooltip
+explaining it — hover **or** keyboard focus, shown instantly under
+reduce-motion. Numbers use the `ko-KR` locale. No language toggle (full
+switch to Korean).
 
 ## 11. Controls `[SRC]/[DEF]`
 

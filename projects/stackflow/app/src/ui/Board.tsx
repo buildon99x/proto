@@ -5,6 +5,7 @@ import { stagesCfg } from "../engine/config";
 import type { Game } from "../engine/run";
 import type { Block, Grid } from "../engine/types";
 import type { Fx } from "./useGame";
+import { T } from "./strings";
 
 export const COLOR_GLYPHS = ["●", "▲", "■", "◆", "✚"];
 
@@ -104,13 +105,13 @@ export function Board({ game, fx, busy }: { game: Game; fx: Fx; busy: boolean })
       {fx.popup && <div className="popup">{fx.popup}</div>}
       {fx.link > 0 && (
         <div className={`chain-counter ${fx.link >= 5 ? "chain-huge" : ""}`}>
-          CHAIN ×{fx.multiplier % 1 === 0 ? fx.multiplier : fx.multiplier.toFixed(1)}
-          <span className="chain-link">link {fx.link}</span>
+          {T.chain(fx.multiplier % 1 === 0 ? String(fx.multiplier) : fx.multiplier.toFixed(1))}
+          <span className="chain-link">{T.link(fx.link)}</span>
         </div>
       )}
       {fx.banner && <div className="banner">{fx.banner}</div>}
       {game.danger >= 0.4 && game.phase === "play" && (
-        <div className="danger-banner">DANGER</div>
+        <div className="danger-banner">{T.danger}</div>
       )}
     </div>
   );

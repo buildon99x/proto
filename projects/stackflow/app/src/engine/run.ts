@@ -11,7 +11,6 @@ import {
   stageTarget,
   stagesCfg,
   shopKind,
-  withinAct,
 } from "./config";
 import {
   applyGravity,
@@ -84,6 +83,7 @@ export interface LockOutcome {
   boardRotated: boolean;
   crushed: boolean;
   garbageRose: boolean;
+  tideRose: boolean; // base rising-tide raised the floor this placement (spec §4/§8.7)
   junkDropped: boolean;
   vineGrew: [number, number] | null;
 }
@@ -171,8 +171,9 @@ export class Game {
   startStage(stage: number): void {
     this.stage = stage;
     const act = actOf(stage);
-    const isActStart = withinAct(stage) === 1;
-    if (isActStart) this.grid = makeGrid(stagesCfg.rows, stagesCfg.cols); // board resets per act (§8.7)
+    // board resets every stage (§8.7): the rising tide fills the board within a
+    // stage, so carrying it across stages would guarantee an unfair top-out.
+    this.grid = makeGrid(stagesCfg.rows, stagesCfg.cols);
     this.act = act;
     this.score = 0;
     this.target = stageTarget(stage);
@@ -370,6 +371,7 @@ export class Game {
       boardRotated: false,
       crushed: false,
       garbageRose: false,
+      tideRose: false,
       junkDropped: false,
       vineGrew: null,
     };
@@ -511,17 +513,22 @@ export class Game {
       }
     }
 
-    this.updateDanger();
-
     // 9. next piece / top-out (spec §8.7: pressure is spatial, no timer)
     if (out.targetHit) {
+      this.updateDanger();
       this.phase = "cleared"; // bank/press prompt (spec §8.3)
       this.active = null;
     } else {
-      const ok = this.spawn();
-      if (!ok) {
-        out.gameOver = true;
-        this.endRun("The board topped out.");
+      // rising tide (spec §4/§8.7): every placement raises the floor one row,
+      // so pressure keeps building even while the player idles — no clock.
+      this.raiseTide(out);
+      this.updateDanger();
+      if (!out.gameOver) {
+        const ok = this.spawn();
+        if (!ok) {
+          out.gameOver = true;
+          this.endRun("보드가 탑아웃됐습니다.");
+        }
       }
     }
     this.lastOutcome = out;
@@ -620,6 +627,61 @@ export class Game {
     this.grid = g;
   }
 
+  /**
+   * Rising tide (spec §4/§8.7 [DES]): a new floor row of *clearable* colored
+   * blocks (with gaps) is inserted each placement, pushing the stack toward
+   * the spawn edge. Pressure is spatial and piece-count based — never a clock
+   * (§0 identity invariant). Gravity-aware: mirrors the insert/discard sides
+   * when a boss reverses fall. If the row about to be pushed off-grid is
+   * occupied, the tide has no room → top-out (must be detected here, because
+   * the shift silently discards that row).
+   */
+  private raiseTide(out: LockOutcome): void {
+    const cfg = stagesCfg.tide;
+    if (!cfg || !cfg.enabled) return;
+    if (this.placements <= (cfg.warmupPlacements ?? 0)) return;
+    const every = Math.max(1, cfg.everyPlacements ?? 1);
+    if (this.placements % every !== 0) return;
+
+    const up = this.gravityUp();
+    const C = stagesCfg.cols;
+    const R = stagesCfg.rows;
+
+    // the far row is pushed off the grid by the rise; occupied → sealed board
+    const farRow = up ? R - 1 : 0;
+    for (let c = 0; c < C; c++) {
+      if (this.grid[farRow][c]) {
+        out.gameOver = true;
+        this.endRun("차오르는 바닥이 판을 막았습니다.");
+        return;
+      }
+    }
+
+    // clearable colored row with `holes` gaps (line/color clears drain the tide)
+    const holes = Math.max(1, Math.min(C - 1, cfg.holes ?? 1));
+    const order = Array.from({ length: C }, (_, c) => c);
+    this.rng.shuffle(order);
+    const holeSet = new Set(order.slice(0, holes));
+    const row: (Block | null)[] = [];
+    for (let c = 0; c < C; c++)
+      row.push(
+        holeSet.has(c)
+          ? null
+          : { type: "normal", color: this.rng.int(scoring.colorCount) },
+      );
+
+    const g = cloneGrid(this.grid);
+    if (up) {
+      g.pop(); // discard far row (spawn edge side)
+      g.unshift(row); // insert at the floor (pile side)
+    } else {
+      g.shift(); // discard far row (top)
+      g.push(row); // insert at the floor (bottom)
+    }
+    this.grid = applyGravity(g, up).grid;
+    out.tideRose = true;
+  }
+
   private crushBottomRow(up: boolean): void {
     const r = up ? 0 : stagesCfg.rows - 1;
     const g = cloneGrid(this.grid);
@@ -676,7 +738,7 @@ export class Game {
     this.phase = "play";
     if (!this.active) {
       const ok = this.spawn();
-      if (!ok) this.endRun("The board topped out while pressing.");
+      if (!ok) this.endRun("프레스 중 보드가 탑아웃됐습니다.");
     }
   }
 

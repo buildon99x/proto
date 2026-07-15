@@ -7,8 +7,13 @@ playable clone built from that spec** (`app/`, spec §13 steps 1–8:
 chains, special blocks, shop/advantages, bosses, all seven screens).
 
 Run it: `pnpm --filter stackflow dev` · test it:
-`pnpm --filter stackflow test` · browser playtest:
+`pnpm --filter stackflow test` · balance sim:
+`pnpm --filter stackflow sim` · browser playtest:
 `pnpm playtest --project stackflow`.
+
+The UI is **Korean** (every item has a tooltip). A **rising tide** raises a
+clearable floor row every placement, so stages last **≥ ~1 min** by
+balancing — never a clock (see `changelog.md` 0.3.0).
 
 Stackflow = **Tetris piece handling + Puyo-Puyo combo brain + roguelike
 run structure**: drop and rotate polyomino pieces on a grid, clear lines
@@ -52,5 +57,7 @@ in `spec.md` §8.1–8.7.
 
 ## Status
 
-Reverse-planning complete; **implementation not started** — `app/` is
-still the Vite/React template. Build order is in `spec.md` §13.
+Reverse-planning **and the full playable clone** are complete (`app/`, spec
+§13 steps 1–8). Latest: **v0.3.0** — rising tide, ≥1-min-per-stage balancing,
+and a fully **Korean** UI with per-item tooltips (`changelog.md`). 36 unit
+tests + a committed balance sim + a browser playtest all pass.
