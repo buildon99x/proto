@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Auto-increment version on commit
+echo "🔄 Auto-incrementing versions..."
+
+# Run the bump-version script
+if ! ./node_modules/.bin/tsx scripts/bump-version.ts; then
+  echo "❌ Failed to bump version"
+  exit 1
+fi
+
+# Stage the updated version files
+git add package.json
+git add "projects/*/project.json"
+
+echo "✅ Versions bumped and staged"

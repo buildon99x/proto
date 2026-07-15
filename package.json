@@ -1,11 +1,11 @@
 {
   "name": "prototype-lab-monorepo",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "private": true,
   "packageManager": "pnpm@9.15.4",
   "scripts": {
     "dev": "corepack pnpm --filter launcher dev",
-    "build": "node scripts/run-turbo.cjs build",
+    "build": "tsx scripts/bump-version.ts && node scripts/run-turbo.cjs build",
     "build:vercel": "corepack pnpm sync:registry && corepack pnpm build:projects && corepack pnpm --filter launcher build",
     "build:projects": "tsx scripts/build-all-projects.ts",
     "build:project": "tsx scripts/build-project.ts",
@@ -16,7 +16,10 @@
     "game-director": "node scripts/game-director/evaluate.mjs",
     "verify": "node scripts/verify/run.mjs",
     "test": "node scripts/run-turbo.cjs test",
-    "lint": "node scripts/run-turbo.cjs lint"
+    "lint": "node scripts/run-turbo.cjs lint",
+    "bump-version": "tsx scripts/bump-version.ts",
+    "bump-version:minor": "tsx scripts/bump-version.ts minor",
+    "bump-version:major": "tsx scripts/bump-version.ts major"
   },
   "devDependencies": {
     "@types/node": "^20.17.16",
