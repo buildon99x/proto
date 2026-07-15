@@ -1,6 +1,7 @@
 import { getProjectBySlug, projects } from "@prototype-lab/registry";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { formatDate } from "@/lib/format";
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.id }));
@@ -14,6 +15,8 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
     notFound();
   }
 
+  const updated = formatDate(project.updatedAt);
+
   return (
     <div className="page">
       <section className="detail-header">
@@ -24,6 +27,8 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           <div className="meta">
             <span>{project.type}</span>
             <span>{project.runtime}</span>
+            <span className="version">v{project.version}</span>
+            {updated ? <span className="updated-chip">Updated {updated}</span> : null}
             {project.tags.map((tag) => (
               <span key={tag}>{tag}</span>
             ))}

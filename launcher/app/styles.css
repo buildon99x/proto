@@ -154,6 +154,23 @@ a {
   padding: 6px 10px;
 }
 
+.meta span.version {
+  background: #e7f0ee;
+  color: var(--accent-strong);
+  font-weight: 700;
+}
+
+.meta span.updated-chip {
+  background: transparent;
+  border: 1px solid var(--line);
+}
+
+.updated {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0;
+}
+
 .actions {
   display: flex;
   gap: 10px;

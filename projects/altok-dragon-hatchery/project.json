@@ -4,6 +4,7 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
+  "version": "0.1.0",
   "summary": "드래곤 알을 클릭해 부화시키고, 수집한 드래곤의 자동 생산으로 성장하는 2D 클릭커 프로토타입.",
   "tags": [
     "game",

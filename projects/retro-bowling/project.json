@@ -4,6 +4,7 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
+  "version": "0.1.0",
   "summary": "도트 그래픽 8비트 볼링 게임. 원근 레인을 배경으로 파워 미터·스핀(훅) 미터·조준으로 공을 굴려 10프레임 표준 볼링을 즐긴다. 실시간 2D 핀 물리로 스트라이크·스페어·스플릿이 자연스럽게 발생하고, 칩튠 사운드와 CRT 스캔라인 연출을 입혔다.",
   "tags": ["game", "bowling", "retro", "pixel-art", "8bit", "canvas", "arcade", "prototype"],
   "projectRoot": "projects/retro-bowling",

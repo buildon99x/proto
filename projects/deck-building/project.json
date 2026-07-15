@@ -4,6 +4,7 @@
   "status": "prototype",
   "type": "webapp",
   "runtime": "static-artifact",
+  "version": "0.1.0",
   "summary": "Deck Building prototype.",
   "tags": [
     "prototype"

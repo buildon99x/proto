@@ -49,6 +49,7 @@ async function main() {
     status: "prototype",
     type: "webapp",
     runtime: "static-artifact",
+    version: "0.1.0",
     summary: `${name} prototype.`,
     tags: ["prototype"],
     projectRoot: `projects/${slug}`,
