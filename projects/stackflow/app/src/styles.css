@@ -803,8 +803,6 @@ kbd {
   flex-wrap: wrap;
   gap: 14px;
   width: 100%;
-  position: sticky;
-  bottom: 0;
   padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
   background: linear-gradient(180deg, transparent, rgba(13, 17, 23, 0.92) 32%);
   z-index: 40; /* below tooltips (60) and overlays */
@@ -826,6 +824,30 @@ body {
 }
 .board {
   touch-action: none; /* taps on the board never scroll/zoom */
+}
+
+/* on mobile portrait screens, use fixed positioning for reliable display */
+@media (pointer: coarse) and (max-width: 760px) {
+  body {
+    padding-bottom: 78px; /* space for fixed controls */
+  }
+
+  .game-shell {
+    min-height: auto;
+    padding-bottom: 0;
+  }
+
+  .touch-controls {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    padding-left: max(10px, env(safe-area-inset-left));
+    padding-right: max(10px, env(safe-area-inset-right));
+  }
 }
 
 /* desktop/mouse: hide touch controls if pointer is fine AND hover is available */
