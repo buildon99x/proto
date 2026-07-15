@@ -11,6 +11,7 @@ import {
   TitleScreen,
   TreasureScreen,
 } from "./ui/screens";
+import { TouchControls } from "./ui/TouchControls";
 import { useGame } from "./ui/useGame";
 import * as sfx from "./ui/audio";
 
@@ -153,6 +154,7 @@ export default function App() {
               }}
             />
           )}
+          <TouchControls act={act} showHold={game.mods.hold} busy={busy} />
         </main>
       );
     }
