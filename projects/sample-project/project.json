@@ -4,6 +4,7 @@
   "status": "prototype",
   "type": "webapp",
   "runtime": "static-artifact",
+  "version": "0.1.0",
   "summary": "Prototype Lab Monorepo의 기본 샘플 프로젝트입니다.",
   "tags": ["sample", "prototype"],
   "projectRoot": "projects/sample-project",

@@ -23,3 +23,8 @@ This repo is a single Git repo and single Vercel project for early production ap
 - Before implementing a project, write or update `brief.md`, `spec.md`, and `eval.md`.
 - After project or metadata changes, run `pnpm sync:registry`.
 - Before release, run `pnpm build:vercel`.
+
+## Project Metadata
+
+- Each `project.json` carries an explicit semantic `version` (for example `0.3.0`). Bump it when you cut a release so the launcher shows the current version.
+- The launcher also shows each project's last-updated time. `updatedAt` is derived automatically from git history during `pnpm sync:registry`, so it is generated (not hand-written) in the registry.

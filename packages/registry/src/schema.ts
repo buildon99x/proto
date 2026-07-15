@@ -8,6 +8,13 @@ export type ProjectMetadata = {
   status: ProjectStatus;
   type: ProjectType;
   runtime: ProjectRuntime;
+  version: string;
+  /**
+   * ISO-8601 timestamp of the project's last change. Derived automatically
+   * from git history when the launcher registry is synced, so it is not part
+   * of the hand-written project.json and may be absent until the first sync.
+   */
+  updatedAt?: string;
   summary: string;
   tags: string[];
   projectRoot: string;
@@ -60,11 +67,18 @@ export function validateProjectMetadata(value: unknown): ProjectMetadata {
   const status = requireString(value, "status", errors);
   const type = requireString(value, "type", errors);
   const runtime = requireString(value, "runtime", errors);
+  const version = requireString(value, "version", errors);
   const summary = requireString(value, "summary", errors);
   const projectRoot = requireString(value, "projectRoot", errors);
 
   if (id && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)) {
     errors.push("id must be a lowercase kebab-case slug");
+  }
+  if (version && !/^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)*$/.test(version)) {
+    errors.push("version must be a semantic version like 1.2.3");
+  }
+  if (value.updatedAt !== undefined && typeof value.updatedAt !== "string") {
+    errors.push("updatedAt must be a string when present");
   }
   if (status && !statuses.has(status as ProjectStatus)) {
     errors.push(`status must be one of ${Array.from(statuses).join(", ")}`);

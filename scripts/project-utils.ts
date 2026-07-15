@@ -1,7 +1,7 @@
 import { existsSync } from "node:fs";
 import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { validateProjectMetadata, type ProjectMetadata } from "../packages/registry/src/schema";
 
 export const repoRoot = process.cwd();
@@ -40,6 +40,27 @@ export async function readAllProjects(): Promise<ProjectMetadata[]> {
   );
 
   return projects.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/**
+ * Returns the ISO-8601 committer date of the most recent commit that touched
+ * `targetPath`, or null when git is unavailable, the path is untracked, or the
+ * clone is too shallow to contain the relevant commit. Callers can fall back to
+ * a previously computed value in that case.
+ */
+export function gitLastCommitISO(targetPath: string): string | null {
+  const result = spawnSync(
+    "git",
+    ["log", "-1", "--format=%cI", "--", targetPath],
+    { cwd: repoRoot, encoding: "utf8" }
+  );
+
+  if (result.status !== 0 || result.error) {
+    return null;
+  }
+
+  const iso = result.stdout.trim();
+  return iso === "" ? null : iso;
 }
 
 export async function copyDirectory(from: string, to: string): Promise<void> {
