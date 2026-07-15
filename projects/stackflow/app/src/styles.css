@@ -794,19 +794,17 @@ kbd {
 
 /* ---------- touch controls (mobile) ----------
    On-screen D-pad wired to the `act` seam (see ui/TouchControls.tsx).
-   Shown on touch devices (coarse pointer or no hover support) to ensure
-   mobile/Android always displays controls regardless of pointer detection. */
+   Shown on touch devices; hidden only where a fine pointer + hover prove a
+   desktop/mouse. Base is a normal in-flow flex row; touch devices upgrade it
+   to a viewport-pinned bar below. */
 .touch-controls {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 12px;
   width: 100%;
-  position: sticky;
-  bottom: 0;
   padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-  background: linear-gradient(180deg, transparent, rgba(13, 17, 23, 0.92) 32%);
   z-index: 40; /* below tooltips (60) and overlays */
   user-select: none;
   -webkit-user-select: none;
@@ -826,6 +824,31 @@ body {
 }
 .board {
   touch-action: none; /* taps on the board never scroll/zoom */
+}
+
+/* Touch devices: pin the control bar to the viewport bottom.
+   Root cause of the Android/Chrome "controls don't show" bug was a tall
+   board + HUD pushing the bar below the fold; `position: sticky` only pins
+   once you scroll, so the bar sat off-screen. `fixed` keeps it on screen
+   at all times. `.game-shell` reserves matching bottom space so the bar
+   never overlaps the board/HUD (default single-row height ~72px). */
+@media (pointer: coarse) {
+  .touch-controls {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    border-top: 1px solid var(--line);
+    background: rgba(13, 17, 23, 0.97);
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+  }
+  .game-shell {
+    padding-bottom: 96px;
+  }
 }
 
 /* desktop/mouse: hide touch controls if pointer is fine AND hover is available */
@@ -869,13 +892,15 @@ body {
   letter-spacing: 1px;
 }
 
-/* leave room for the board + HUD + control bar on narrow portrait screens */
+/* Narrow portrait phones: shrink cells to fit, and reserve extra bottom
+   space — the control bar wraps to two rows here (~130px tall), so 150px
+   keeps the last HUD block scrollable clear of the fixed bar. */
 @media (pointer: coarse) and (max-width: 760px) {
   :root {
     --cell: clamp(22px, 4vmin, 34px);
   }
   .game-shell {
-    padding: 12px 8px 0;
+    padding: 12px 8px 150px;
     gap: 12px;
   }
 }
