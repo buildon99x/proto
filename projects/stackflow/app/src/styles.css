@@ -794,42 +794,44 @@ kbd {
 
 /* ---------- touch controls (mobile) ----------
    On-screen D-pad wired to the `act` seam (see ui/TouchControls.tsx).
-   Hidden by default; revealed only on coarse (touch) pointers so desktop
-   is provably unaffected. */
+   Shown on touch devices (coarse pointer or no hover support) to ensure
+   mobile/Android always displays controls regardless of pointer detection. */
 .touch-controls {
-  display: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, transparent, rgba(13, 17, 23, 0.92) 32%);
+  z-index: 40; /* below tooltips (60) and overlays */
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
 
-@media (pointer: coarse) {
-  .touch-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 14px;
-    width: 100%;
-    position: sticky;
-    bottom: 0;
-    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-    background: linear-gradient(180deg, transparent, rgba(13, 17, 23, 0.92) 32%);
-    z-index: 40; /* below tooltips (60) and overlays */
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-  }
-  .touch-controls[data-busy="true"] {
-    opacity: 0.45;
-  }
+.touch-controls[data-busy="true"] {
+  opacity: 0.45;
+}
 
-  /* board/page must not scroll or pinch-zoom while playing */
-  body {
-    overscroll-behavior: none;
-  }
-  .game-shell {
-    touch-action: pan-y; /* allow vertical scroll if content overflows, block pinch */
-  }
-  .board {
-    touch-action: none; /* taps on the board never scroll/zoom */
+/* board/page must not scroll or pinch-zoom while playing */
+body {
+  overscroll-behavior: none;
+}
+.game-shell {
+  touch-action: pan-y; /* allow vertical scroll if content overflows, block pinch */
+}
+.board {
+  touch-action: none; /* taps on the board never scroll/zoom */
+}
+
+/* desktop/mouse: hide touch controls if pointer is fine AND hover is available */
+@media (pointer: fine) and (hover: hover) {
+  .touch-controls {
+    display: none;
   }
 }
 
