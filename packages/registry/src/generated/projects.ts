@@ -64,7 +64,8 @@ export const projects = [
       "dev": "pnpm --filter money-machine dev",
       "build": "pnpm --filter money-machine build",
       "test": "pnpm --filter money-machine test"
-    }
+    },
+    "updatedAt": "2026-07-18T21:08:37+00:00"
   },
   {
     "id": "retro-bowling",
