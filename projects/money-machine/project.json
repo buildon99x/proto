@@ -1,0 +1,32 @@
+{
+  "id": "money-machine",
+  "name": "Money Machine",
+  "status": "prototype",
+  "type": "webapp",
+  "runtime": "static-artifact",
+  "version": "0.1.0",
+  "summary": "Money Machine prototype.",
+  "tags": [
+    "prototype"
+  ],
+  "projectRoot": "projects/money-machine",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/money-machine/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md"
+  },
+  "assets": {
+    "cover": "assets/screenshots/cover.png"
+  },
+  "commands": {
+    "dev": "pnpm --filter money-machine dev",
+    "build": "pnpm --filter money-machine build",
+    "test": "pnpm --filter money-machine test"
+  }
+}
