@@ -19,6 +19,9 @@ export type Runner = {
   prevY: number;
   dir: Direction;
   queuedDir: Direction | null;
+  /** 방향 전환을 받아들인 칸. 같은 칸에서 두 번 바꾸지 못하게 막는다. */
+  turnedAtX: number;
+  turnedAtY: number;
   trail: Cell[];
   tickMs: number;
   /** 다음 칸까지 남은 시간 누적값(ms). */

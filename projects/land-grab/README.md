@@ -21,7 +21,7 @@
 
 ```bash
 pnpm --filter land-grab dev      # 개발 서버
-pnpm --filter land-grab test     # 타입 검사
+pnpm --filter land-grab test     # 타입 검사 + 규칙 검사 18건
 pnpm build:project -- land-grab  # 빌드 후 launcher/public/runs/land-grab 로 복사
 pnpm playtest --project land-grab
 ```

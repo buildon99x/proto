@@ -40,7 +40,8 @@ export class AiController {
       }
 
       const state = this.stateOf(runner);
-      if (state.decidedX === runner.x && state.decidedY === runner.y && runner.queuedDir !== null) {
+      // 한 칸에서 한 번만 판단한다. 엔진도 같은 칸의 두 번째 전환은 무시한다.
+      if (state.decidedX === runner.x && state.decidedY === runner.y) {
         continue;
       }
 

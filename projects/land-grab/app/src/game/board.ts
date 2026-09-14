@@ -131,12 +131,16 @@ export class Board {
 
   /**
    * 꼬리를 닫았을 때의 점령. 꼬리를 영토로 바꾼 뒤, 영토+꼬리의 경계 상자 안에서
-   * 바깥과 이어지지 않는 칸을 전부 가져온다. `blocked`(다른 유닛이 서 있는 칸)는
-   * 채우기의 장벽이 되고 점령 대상에서도 빠진다.
+   * 바깥과 이어지지 않는 칸을 전부 가져온다.
+   *
+   * `opponents`(살아 있는 다른 유닛의 위치)는 장벽이 아니라 **채우기의 추가 출발점**이다.
+   * 상대가 서 있는 칸의 상하좌우에서 채우기를 시작하므로, 상대를 가둔 영역은
+   * "바깥"으로 취급돼 한 칸도 넘어오지 않는다. 상대를 크게 둘러싸는 것만으로
+   * 넓은 땅을 공짜로 먹는 구멍을 막는 규칙이다.
    *
    * @returns 새로 내 것이 된 칸 목록 (꼬리 칸 포함). 점령 연출이 이 목록을 쓴다.
    */
-  capture(id: PlayerId, trailCells: Cell[], blocked: Cell[]): Cell[] {
+  capture(id: PlayerId, trailCells: Cell[], opponents: Cell[]): Cell[] {
     if (trailCells.length === 0) {
       return [];
     }
@@ -160,13 +164,6 @@ export class Board {
       return gained;
     }
 
-    const blockedSet = new Set<number>();
-    for (const cell of blocked) {
-      if (this.isPlayable(cell.x, cell.y)) {
-        blockedSet.add(this.index(cell.x, cell.y));
-      }
-    }
-
     this.visitStamp += 1;
     const stamp = this.visitStamp;
     const stack = this.stack;
@@ -178,8 +175,7 @@ export class Board {
       x <= bounds.maxX &&
       y >= bounds.minY &&
       y <= bounds.maxY &&
-      this.owner[this.index(x, y)] !== id &&
-      !blockedSet.has(this.index(x, y));
+      this.owner[this.index(x, y)] !== id;
 
     const push = (x: number, y: number): void => {
       if (!canFlow(x, y)) {
@@ -193,6 +189,7 @@ export class Board {
       stack.push(i);
     };
 
+    // 경계 상자의 테두리 = 바깥 세계.
     for (let x = bounds.minX; x <= bounds.maxX; x += 1) {
       push(x, bounds.minY);
       push(x, bounds.maxY);
@@ -200,6 +197,15 @@ export class Board {
     for (let y = bounds.minY; y <= bounds.maxY; y += 1) {
       push(bounds.minX, y);
       push(bounds.maxX, y);
+    }
+
+    // 상대가 서 있는 자리도 바깥이다. 상대가 내 영토 위에 서 있으면 네 방향 모두
+    // 막혀 있어 아무 효과가 없다.
+    for (const cell of opponents) {
+      push(cell.x + 1, cell.y);
+      push(cell.x - 1, cell.y);
+      push(cell.x, cell.y + 1);
+      push(cell.x, cell.y - 1);
     }
 
     while (stack.length > 0) {
@@ -218,7 +224,7 @@ export class Board {
           continue;
         }
         const i = this.index(x, y);
-        if (this.owner[i] === id || this.visited[i] === stamp || blockedSet.has(i)) {
+        if (this.owner[i] === id || this.visited[i] === stamp) {
           continue;
         }
         this.owner[i] = id;

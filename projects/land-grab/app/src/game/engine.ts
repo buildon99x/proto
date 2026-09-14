@@ -73,8 +73,10 @@ export class Match {
         y: home.y,
         prevX: home.x,
         prevY: home.y,
-        dir: this.directionTowardCenter(home),
+        dir: this.spawnDirection(home),
         queuedDir: null,
+        turnedAtX: -1,
+        turnedAtY: -1,
         trail: [],
         tickMs: slot === 0 ? PLAYER_TICK_MS : difficulty.aiTickMs,
         tickAccMs: 0,
@@ -145,16 +147,26 @@ export class Match {
     }
   }
 
-  /** 다음 칸 경계에서 반영될 방향을 예약한다. 180° 전환은 버린다. */
+  /**
+   * 다음 칸 경계에서 반영될 방향을 예약한다.
+   *
+   * 180° 전환은 버린다. 한 칸에서는 한 번만 방향을 바꿀 수 있다 — 같은 자리에서
+   * 방향 전환을 연달아 보내는 것을 막는 splix의 규칙을 그대로 따른다. 결과적으로
+   * 한 칸 안에서는 **먼저 누른 입력이 이긴다**.
+   */
   queueDirection(runner: Runner, dir: Direction): void {
     if (!runner.alive) {
       return;
     }
-    const reference = runner.queuedDir ?? runner.dir;
-    if (OPPOSITE[reference] === dir) {
+    if (runner.turnedAtX === runner.x && runner.turnedAtY === runner.y) {
+      return;
+    }
+    if (OPPOSITE[runner.dir] === dir || runner.dir === dir) {
       return;
     }
     runner.queuedDir = dir;
+    runner.turnedAtX = runner.x;
+    runner.turnedAtY = runner.y;
   }
 
   pause(): void {
@@ -273,10 +285,10 @@ export class Match {
 
     if (this.board.ownerAt(nextX, nextY) === runner.id) {
       if (runner.trail.length > 0) {
-        const blocked = this.runners
+        const opponents = this.runners
           .filter((item) => item.alive && item.id !== runner.id)
           .map<Cell>((item) => ({ x: item.x, y: item.y }));
-        const gained = this.board.capture(runner.id, runner.trail, blocked);
+        const gained = this.board.capture(runner.id, runner.trail, opponents);
         runner.trail = [];
         if (gained.length > 0) {
           this.events.push({
@@ -360,8 +372,10 @@ export class Match {
     runner.y = home.y;
     runner.prevX = home.x;
     runner.prevY = home.y;
-    runner.dir = this.directionTowardCenter(home);
+    runner.dir = this.spawnDirection(home);
     runner.queuedDir = null;
+    runner.turnedAtX = -1;
+    runner.turnedAtY = -1;
     runner.trail = [];
     runner.alive = true;
     runner.tickAccMs = 0;
@@ -384,14 +398,18 @@ export class Match {
     return quadrants.slice(0, count);
   }
 
-  private directionTowardCenter(from: Cell): Direction {
-    const center = BOARD_SIZE / 2;
-    const dx = center - from.x;
-    const dy = center - from.y;
-    if (Math.abs(dx) >= Math.abs(dy)) {
-      return dx >= 0 ? "right" : "left";
-    }
-    return dy >= 0 ? "down" : "up";
+  /** 가장 가까운 벽의 반대쪽을 향해 출발한다. 스폰 직후 벽에 박히지 않게 하는 규칙. */
+  private spawnDirection(from: Cell): Direction {
+    const low = WALL_THICKNESS;
+    const high = BOARD_SIZE - WALL_THICKNESS - 1;
+    const gaps: Array<{ dir: Direction; gap: number }> = [
+      { dir: "down", gap: from.y - low },
+      { dir: "up", gap: high - from.y },
+      { dir: "right", gap: from.x - low },
+      { dir: "left", gap: high - from.x }
+    ];
+    // gap 이 가장 작은 쪽이 가장 가까운 벽이고, 그 항목의 dir 이 이미 반대 방향이다.
+    return gaps.reduce((best, item) => (item.gap < best.gap ? item : best)).dir;
   }
 
   /**

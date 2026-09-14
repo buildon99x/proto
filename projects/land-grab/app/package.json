@@ -7,7 +7,7 @@
     "dev": "vite --host 127.0.0.1",
     "build": "tsc && vite build",
     "lint": "tsc --noEmit",
-    "test": "tsc --noEmit"
+    "test": "tsc --noEmit && tsx ../tests/rules/check.ts"
   },
   "dependencies": {
     "@types/react": "^18.3.18",
