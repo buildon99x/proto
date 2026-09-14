@@ -23,15 +23,21 @@ type AiState = {
 export class AiController {
   private readonly states = new Map<PlayerId, AiState>();
 
+  /**
+   * @param only 조종할 유닛 번호. 비우면 `kind === "ai"` 인 유닛을 전부 조종한다.
+   *             규칙 실험에서 플레이어 자리를 봇에게 맡길 때 쓴다.
+   */
   constructor(
     private readonly match: Match,
     private readonly difficulty: Difficulty,
-    private readonly rng: () => number = Math.random
+    private readonly rng: () => number = Math.random,
+    private readonly only: PlayerId[] | null = null
   ) {}
 
   update(): void {
     for (const runner of this.match.runners) {
-      if (runner.kind !== "ai") {
+      const mine = this.only ? this.only.includes(runner.id) : runner.kind === "ai";
+      if (!mine) {
         continue;
       }
       if (!runner.alive) {

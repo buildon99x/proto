@@ -26,7 +26,10 @@ export function ResultScreen({ result, difficulty, onRestart, onExit }: Props) {
         <h1>{HEADLINE[result.outcome]}</h1>
         <p>
           {difficulty.label} 난이도 · {result.playerRank}위
-          {me ? ` · 최고 점유율 ${((me.peakTiles / PLAYABLE_TILES) * 100).toFixed(1)}% · 킬 ${me.kills}` : ""}
+          {me
+            ? ` · 최고 점유율 ${((me.peakTiles / PLAYABLE_TILES) * 100).toFixed(1)}%` +
+              ` · 한 번에 가장 넓게 막은 땅 ${me.bestCapture}칸 · 킬 ${me.kills}`
+            : ""}
         </p>
       </header>
 

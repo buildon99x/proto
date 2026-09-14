@@ -9,7 +9,14 @@
  */
 
 import { Match } from "../../app/src/game/engine";
-import { BOARD_SIZE, HOME_RADIUS, PLAYER_TICK_MS, WALL_THICKNESS, findDifficulty } from "../../app/src/game/config";
+import {
+  BOARD_SIZE,
+  HOME_RADIUS,
+  PLAYER_TICK_MS,
+  WALL_THICKNESS,
+  captureMultiplier,
+  findDifficulty
+} from "../../app/src/game/config";
 import type { Direction, PlayerId, Runner } from "../../app/src/game/types";
 
 const PLAY_LOW = WALL_THICKNESS;
@@ -224,6 +231,40 @@ console.log("땅따먹기 규칙 검사");
     "각자 5×5 = 25칸으로 시작한다",
     match.runners.every((runner) => match.tilesOf(runner.id) === (HOME_RADIUS * 2 + 1) ** 2),
     match.runners.map((runner) => match.tilesOf(runner.id)).join("/")
+  );
+}
+
+// --- 8. 물막이 배율 (기본은 꺼져 있다. 실험 결과는 docs/design/differentiation.md) ---
+{
+  check("배율 구간: 24칸 ×1", captureMultiplier(24) === 1);
+  check("배율 구간: 25칸 ×1.5", captureMultiplier(25) === 1.5);
+  check("배율 구간: 60칸 ×2", captureMultiplier(60) === 2);
+
+  const off = new Match(findDifficulty("easy"), 3, false);
+  const on = new Match(findDifficulty("easy"), 3, true);
+  for (const match of [off, on]) {
+    for (const runner of match.runners.slice(1)) {
+      park(runner);
+    }
+    match.board.clearPlayer(match.human.id);
+    match.board.claimHome(match.human.id, 30, 30, HOME_RADIUS);
+    place(match, match.human, 30, 30, "right");
+    go(match, match.human, "right", 9);
+    go(match, match.human, "down", 9);
+    go(match, match.human, "left", 9);
+    go(match, match.human, "up", 9);
+  }
+
+  check("배율을 끄면 보너스가 쌓이지 않는다", off.human.bonusPoints === 0, `${off.human.bonusPoints}`);
+  check(
+    "배율을 켜면 넓게 막은 만큼 보너스가 쌓인다",
+    on.human.bonusPoints > 0 && on.human.bestCapture >= 60,
+    `보너스=${on.human.bonusPoints} 최대점령=${on.human.bestCapture}`
+  );
+  check(
+    "최대 점령 기록은 배율과 무관하게 남는다",
+    off.human.bestCapture === on.human.bestCapture,
+    `${off.human.bestCapture} vs ${on.human.bestCapture}`
   );
 }
 

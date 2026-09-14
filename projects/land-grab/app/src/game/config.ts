@@ -24,6 +24,25 @@ export const SELF_TRAIL_GRACE = 2;
 
 export const KILL_SCORE = 500;
 
+/**
+ * 물막이 배율 — 한 번에 닫은 면적이 클수록 점수를 더 준다.
+ * 얕은 왕복을 반복하는 것이 최적해가 되지 않게 하려는 규칙이다.
+ * 위에서부터 먼저 맞는 구간을 쓴다.
+ */
+export const CAPTURE_BONUS_TIERS: Array<{ minCells: number; multiplier: number }> = [
+  { minCells: 60, multiplier: 2 },
+  { minCells: 25, multiplier: 1.5 }
+];
+
+export function captureMultiplier(cells: number): number {
+  for (const tier of CAPTURE_BONUS_TIERS) {
+    if (cells >= tier.minCells) {
+      return tier.multiplier;
+    }
+  }
+  return 1;
+}
+
 /** 플레이어 번호(1..4)별 고정 팔레트. 0번 자리는 중립이다. */
 export const PALETTE = [
   { territory: "#1b2437", unit: "#1b2437", name: "중립" },

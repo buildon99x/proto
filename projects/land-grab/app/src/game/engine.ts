@@ -4,6 +4,7 @@ import {
   HOME_RADIUS,
   KILL_SCORE,
   MATCH_DURATION_MS,
+  captureMultiplier,
   PLAYER_LIVES,
   PLAYER_TICK_MS,
   RESPAWN_DELAY_MS,
@@ -51,8 +52,15 @@ export class Match {
   private tileCounts: number[];
   private tileSampleAccMs = 0;
   private events: MatchEvent[] = [];
+  private readonly captureBonus: boolean;
 
-  constructor(difficulty: Difficulty, seed = Date.now()) {
+  /**
+   * @param captureBonus 물막이 배율을 적용할지. **기본은 끔** — 측정 결과 목적을 달성하지
+   *   못했다(`docs/design/differentiation.md` 「물막이 배율 실험」). 규칙과 실험을
+   *   재현할 수 있게 코드는 남겨 둔다.
+   */
+  constructor(difficulty: Difficulty, seed = Date.now(), captureBonus = false) {
+    this.captureBonus = captureBonus;
     this.difficulty = difficulty;
     this.rng = mulberry32(seed);
     this.board = new Board(BOARD_SIZE);
@@ -83,6 +91,8 @@ export class Match {
         lives: slot === 0 ? PLAYER_LIVES : Number.POSITIVE_INFINITY,
         kills: 0,
         deaths: 0,
+        bonusPoints: 0,
+        bestCapture: 0,
         peakTiles: 0
       };
       this.board.claimHome(id, home.x, home.y, HOME_RADIUS);
@@ -205,8 +215,14 @@ export class Match {
     return this.tilesOf(id) / this.board.playableTiles;
   }
 
+  /**
+   * 점수 = 지금 가진 땅 + 물막이 배율로 쌓은 보너스 + 킬.
+   *
+   * 보너스는 사망해도 남는다. 죽으면 땅을 전부 잃는 규칙은 그대로라,
+   * "크게 한 번 걸어서 확정 성과를 은행에 넣는다"는 선택지를 만들기 위한 예외다.
+   */
   scoreOf(runner: Runner): number {
-    return this.tilesOf(runner.id) + runner.kills * KILL_SCORE;
+    return this.tilesOf(runner.id) + runner.bonusPoints + runner.kills * KILL_SCORE;
   }
 
   standings(): Standing[] {
@@ -219,6 +235,8 @@ export class Match {
         kills: runner.kills,
         score: this.scoreOf(runner),
         peakTiles: runner.peakTiles,
+        bonusPoints: runner.bonusPoints,
+        bestCapture: runner.bestCapture,
         alive: runner.alive
       }))
       .sort((a, b) => b.score - a.score || b.peakTiles - a.peakTiles || a.id - b.id);
@@ -290,6 +308,15 @@ export class Match {
           .map<Cell>((item) => ({ x: item.x, y: item.y }));
         const gained = this.board.capture(runner.id, runner.trail, opponents);
         runner.trail = [];
+
+        if (gained.length > runner.bestCapture) {
+          runner.bestCapture = gained.length;
+        }
+        if (this.captureBonus) {
+          const multiplier = captureMultiplier(gained.length);
+          runner.bonusPoints += Math.round(gained.length * (multiplier - 1));
+        }
+
         if (gained.length > 0) {
           this.events.push({
             type: "capture",

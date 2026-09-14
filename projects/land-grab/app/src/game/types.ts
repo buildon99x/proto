@@ -29,6 +29,10 @@ export type Runner = {
   lives: number;
   kills: number;
   deaths: number;
+  /** 물막이 배율로 쌓은 점수. 사망해도 사라지지 않는다. */
+  bonusPoints: number;
+  /** 한 번에 가장 넓게 닫은 면적. 결과 화면에 기록으로 보여 준다. */
+  bestCapture: number;
   peakTiles: number;
 };
 
@@ -42,6 +46,8 @@ export type Standing = {
   kills: number;
   score: number;
   peakTiles: number;
+  bonusPoints: number;
+  bestCapture: number;
   alive: boolean;
 };
 

@@ -4,7 +4,7 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "summary": "격자 위를 달리며 폐곡선을 그려 영토를 넓히는 실시간 영역 점령 게임. AI 3인과 90초 동안 점유율을 겨루고, 남의 꼬리를 밟아 탈락시킬 수 있다.",
   "tags": [
     "game",
