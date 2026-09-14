@@ -215,7 +215,8 @@ export const projects = [
       "dev": "pnpm --filter land-grab dev",
       "build": "pnpm --filter land-grab build",
       "test": "pnpm --filter land-grab test"
-    }
+    },
+    "updatedAt": "2026-09-14T14:39:18+00:00"
   },
   {
     "id": "altok-dragon-hatchery",
