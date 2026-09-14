@@ -1,0 +1,38 @@
+{
+  "id": "wave-runner",
+  "name": "Wave Runner",
+  "status": "prototype",
+  "type": "demo",
+  "runtime": "static-artifact",
+  "version": "0.1.0",
+  "summary": "원버튼 지그재그 회피 게임. 누르면 오르고 놓으면 내려가며 중립은 없다. 원작 계열에서 비어 있던 Optimization 축을 로그라이트 문법으로 여는 것이 목표이고, 현재는 빌드·게이트 없이 기저 비행만 묻는 1단계 수직 슬라이스다.",
+  "tags": [
+    "game",
+    "one-button",
+    "arcade",
+    "dodge",
+    "roguelite",
+    "canvas",
+    "prototype"
+  ],
+  "projectRoot": "projects/wave-runner",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/wave-runner/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md"
+  },
+  "assets": {
+    "cover": "assets/screenshots/cover.png"
+  },
+  "commands": {
+    "dev": "pnpm --filter wave-runner dev",
+    "build": "pnpm --filter wave-runner build",
+    "test": "pnpm --filter wave-runner test"
+  }
+}

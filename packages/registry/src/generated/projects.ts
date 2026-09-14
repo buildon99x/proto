@@ -7,7 +7,7 @@ export const projects = [
     "status": "prototype",
     "type": "webapp",
     "runtime": "static-artifact",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "summary": "Deck Building prototype.",
     "tags": [
       "prototype"
@@ -32,7 +32,7 @@ export const projects = [
       "build": "pnpm --filter deck-building build",
       "test": "pnpm --filter deck-building test"
     },
-    "updatedAt": "2026-07-14T14:23:02+00:00"
+    "updatedAt": "2026-07-15T15:28:50+00:00"
   },
   {
     "id": "retro-bowling",
@@ -40,7 +40,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "summary": "도트 그래픽 8비트 볼링 게임. 원근 레인을 배경으로 파워 미터·스핀(훅) 미터·조준으로 공을 굴려 10프레임 표준 볼링을 즐긴다. 실시간 2D 핀 물리로 스트라이크·스페어·스플릿이 자연스럽게 발생하고, 칩튠 사운드와 CRT 스캔라인 연출을 입혔다.",
     "tags": [
       "game",
@@ -72,7 +72,7 @@ export const projects = [
       "build": "pnpm --filter retro-bowling build",
       "test": "pnpm --filter retro-bowling test"
     },
-    "updatedAt": "2026-07-13T13:24:23+00:00"
+    "updatedAt": "2026-07-15T15:28:50+00:00"
   },
   {
     "id": "sample-project",
@@ -80,7 +80,7 @@ export const projects = [
     "status": "prototype",
     "type": "webapp",
     "runtime": "static-artifact",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "summary": "Prototype Lab Monorepo의 기본 샘플 프로젝트입니다.",
     "tags": [
       "sample",
@@ -106,7 +106,7 @@ export const projects = [
       "build": "pnpm --filter sample-project build",
       "test": "pnpm --filter sample-project test"
     },
-    "updatedAt": "2026-06-14T19:42:06+09:00"
+    "updatedAt": "2026-07-15T15:28:50+00:00"
   },
   {
     "id": "stackflow",
@@ -114,7 +114,7 @@ export const projects = [
     "status": "prototype",
     "type": "webapp",
     "runtime": "static-artifact",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "summary": "Korean-localized clone of the Steam block-placement roguelike Stackflow: chain-cascade scoring, a rising tide that raises the floor every move, 3 acts x 10 stages, bosses, shop and advantages.",
     "tags": [
       "reverse-planning",
@@ -143,7 +143,45 @@ export const projects = [
       "build": "pnpm --filter stackflow build",
       "test": "pnpm --filter stackflow test"
     },
-    "updatedAt": "2026-07-15T04:45:47+00:00"
+    "updatedAt": "2026-07-15T15:28:50+00:00"
+  },
+  {
+    "id": "wave-runner",
+    "name": "Wave Runner",
+    "status": "prototype",
+    "type": "demo",
+    "runtime": "static-artifact",
+    "version": "0.1.0",
+    "summary": "원버튼 지그재그 회피 게임. 누르면 오르고 놓으면 내려가며 중립은 없다. 원작 계열에서 비어 있던 Optimization 축을 로그라이트 문법으로 여는 것이 목표이고, 현재는 빌드·게이트 없이 기저 비행만 묻는 1단계 수직 슬라이스다.",
+    "tags": [
+      "game",
+      "one-button",
+      "arcade",
+      "dodge",
+      "roguelite",
+      "canvas",
+      "prototype"
+    ],
+    "projectRoot": "projects/wave-runner",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/wave-runner/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md"
+    },
+    "assets": {
+      "cover": "assets/screenshots/cover.png"
+    },
+    "commands": {
+      "dev": "pnpm --filter wave-runner dev",
+      "build": "pnpm --filter wave-runner build",
+      "test": "pnpm --filter wave-runner test"
+    }
   },
   {
     "id": "blacksmith-clicker",
@@ -151,7 +189,7 @@ export const projects = [
     "status": "prototype",
     "type": "webapp",
     "runtime": "static-artifact",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "summary": "Click to forge random fantasy weapons, then sell, salvage, enhance, or collect them to grow an automated blacksmith shop.",
     "tags": [
       "game",
@@ -178,7 +216,7 @@ export const projects = [
       "build": "pnpm --filter blacksmith-clicker build",
       "test": "pnpm --filter blacksmith-clicker test"
     },
-    "updatedAt": "2026-07-13T10:52:45+09:00"
+    "updatedAt": "2026-07-15T15:28:50+00:00"
   },
   {
     "id": "altok-dragon-hatchery",
@@ -186,7 +224,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "summary": "드래곤 알을 클릭해 부화시키고, 수집한 드래곤의 자동 생산으로 성장하는 2D 클릭커 프로토타입.",
     "tags": [
       "game",
@@ -214,7 +252,7 @@ export const projects = [
       "build": "pnpm --filter altok-dragon-hatchery build",
       "test": "pnpm --filter altok-dragon-hatchery test"
     },
-    "updatedAt": "2026-06-14T20:18:38+09:00"
+    "updatedAt": "2026-07-15T15:28:50+00:00"
   },
   {
     "id": "dragon-danmaku",
@@ -222,7 +260,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "summary": "도돈파치 계보의 연환(체인) 스코어링 종스크롤 탄막 슈팅에 드래곤·동양 신화 테마를 입힌 웹 게임. 샷/레이저 이원 무기, 봄/각성, 6스테이지 + 영구 성장 메타.",
     "tags": [
       "game",
@@ -252,6 +290,6 @@ export const projects = [
       "build": "pnpm --filter dragon-danmaku build",
       "test": "pnpm --filter dragon-danmaku test"
     },
-    "updatedAt": "2026-06-15T13:54:50+00:00"
+    "updatedAt": "2026-07-15T15:28:50+00:00"
   }
 ] as const satisfies readonly ProjectMetadata[];

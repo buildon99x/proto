@@ -1,0 +1,276 @@
+:root {
+  color-scheme: dark;
+  --bg: #070b14;
+  --panel: #0d1423;
+  --line: #1c2740;
+  --text: #e8f1ff;
+  --dim: #7f90ad;
+  --accent: #ffe66d;
+  --ok: #7dffb0;
+  --bad: #ff5e7a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  overscroll-behavior: none;
+}
+
+.app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- 스테이지 선택 ---------- */
+
+.select {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px 20px;
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.select-head h1 {
+  margin: 0 0 8px;
+  font-size: 30px;
+  letter-spacing: -0.02em;
+}
+
+.select-head p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.dim {
+  color: var(--dim);
+}
+
+.stage-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stage-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.1s ease;
+}
+
+.stage-card:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.stage-card:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.stage-card.locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.stage-card.cleared {
+  border-color: rgba(125, 255, 176, 0.45);
+}
+
+.stage-no {
+  font-variant-numeric: tabular-nums;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dim);
+}
+
+.stage-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.stage-body strong {
+  font-size: 15px;
+}
+
+.stage-body small {
+  font-size: 12px;
+  color: var(--dim);
+}
+
+.stage-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-size: 12px;
+  color: var(--ok);
+  font-variant-numeric: tabular-nums;
+}
+
+.stage-meta em {
+  font-style: normal;
+  color: var(--dim);
+}
+
+.select-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  font-size: 12px;
+  color: var(--dim);
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+/* ---------- 플레이 ---------- */
+
+.play {
+  flex: 1;
+  min-height: 0;
+}
+
+.game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: pointer;
+}
+
+/* ---------- 개발 패널 ---------- */
+
+.tuning {
+  position: fixed;
+  right: 12px;
+  top: 12px;
+  width: 248px;
+  max-width: calc(100vw - 24px);
+  padding: 14px;
+  background: rgba(13, 20, 35, 0.95);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 12px;
+  backdrop-filter: blur(6px);
+}
+
+.tuning header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.tuning-hint {
+  color: var(--dim);
+}
+
+.tuning-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tuning-label {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tuning-label em {
+  font-style: normal;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.tuning-row input {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.tuning-row small {
+  color: var(--dim);
+  line-height: 1.4;
+}
+
+.tuning-readout {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+.tuning-readout > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tuning-readout dt,
+.tuning-readout dd {
+  margin: 0;
+}
+
+.tuning-readout dt {
+  color: var(--dim);
+}
+
+.tuning-readout dd {
+  font-variant-numeric: tabular-nums;
+}
+
+.ok {
+  color: var(--ok);
+}
+
+.bad {
+  color: var(--bad);
+}
+
+.tuning button {
+  padding: 7px 10px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.tuning button:hover {
+  border-color: var(--accent);
+}
