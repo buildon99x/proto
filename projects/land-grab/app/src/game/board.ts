@@ -14,6 +14,8 @@ export class Board {
   readonly size: number;
   readonly owner: Uint8Array;
   readonly trail: Uint8Array;
+  /** 폐허 해제 시각(경기 경과 ms). `0`이면 폐허가 아니다. */
+  readonly rubbleUntil: Float64Array;
 
   /** flood fill 방문 표시. 매번 0으로 되돌리지 않으려고 스탬프를 증가시킨다. */
   private readonly visited: Int32Array;
@@ -24,6 +26,7 @@ export class Board {
     this.size = size;
     this.owner = new Uint8Array(size * size);
     this.trail = new Uint8Array(size * size);
+    this.rubbleUntil = new Float64Array(size * size);
     this.visited = new Int32Array(size * size);
 
     for (let y = 0; y < size; y += 1) {
@@ -56,6 +59,14 @@ export class Board {
     return this.owner[this.index(x, y)];
   }
 
+  /** 지금 이 칸이 폐허로 잠겨 있는지. 잠긴 칸은 누구도 점령할 수 없다. */
+  isLocked(x: number, y: number, nowMs: number): boolean {
+    if (!this.isPlayable(x, y)) {
+      return false;
+    }
+    return this.rubbleUntil[this.index(x, y)] > nowMs;
+  }
+
   trailAt(x: number, y: number): number {
     if (!this.isPlayable(x, y)) {
       return 0;
@@ -73,6 +84,8 @@ export class Board {
         const i = this.index(x, y);
         this.owner[i] = id;
         this.trail[i] = 0;
+        // 리스폰 자리는 폐허라도 내준다. 그러지 않으면 돌아올 곳이 없다.
+        this.rubbleUntil[i] = 0;
       }
     }
   }
@@ -80,13 +93,15 @@ export class Board {
   /**
    * 사망 처리: 소유 영토와 꼬리를 모두 지운다.
    *
+   * @param lockUntilMs `0`보다 크면 비워진 칸을 그 시각까지 폐허로 잠근다.
    * @returns 비워진 영토 칸 목록. 파편 연출이 이 목록을 쓴다.
    */
-  clearPlayer(id: PlayerId): Cell[] {
+  clearPlayer(id: PlayerId, lockUntilMs = 0): Cell[] {
     const cleared: Cell[] = [];
     for (let i = 0; i < this.owner.length; i += 1) {
       if (this.owner[i] === id) {
         this.owner[i] = 0;
+        this.rubbleUntil[i] = lockUntilMs;
         const x = i % this.size;
         cleared.push({ x, y: (i - x) / this.size });
       }
@@ -140,7 +155,7 @@ export class Board {
    *
    * @returns 새로 내 것이 된 칸 목록 (꼬리 칸 포함). 점령 연출이 이 목록을 쓴다.
    */
-  capture(id: PlayerId, trailCells: Cell[], opponents: Cell[]): Cell[] {
+  capture(id: PlayerId, trailCells: Cell[], opponents: Cell[], nowMs = 0): Cell[] {
     if (trailCells.length === 0) {
       return [];
     }
@@ -152,6 +167,11 @@ export class Board {
         continue;
       }
       const i = this.index(cell.x, cell.y);
+      // 폐허는 꼬리가 지나가도 가져오지 못한다.
+      if (this.rubbleUntil[i] > nowMs) {
+        this.trail[i] = 0;
+        continue;
+      }
       if (this.owner[i] !== id) {
         gained.push({ x: cell.x, y: cell.y });
       }
@@ -224,7 +244,7 @@ export class Board {
           continue;
         }
         const i = this.index(x, y);
-        if (this.owner[i] === id || this.visited[i] === stamp) {
+        if (this.owner[i] === id || this.visited[i] === stamp || this.rubbleUntil[i] > nowMs) {
           continue;
         }
         this.owner[i] = id;

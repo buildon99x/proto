@@ -240,8 +240,8 @@ console.log("땅따먹기 규칙 검사");
   check("배율 구간: 25칸 ×1.5", captureMultiplier(25) === 1.5);
   check("배율 구간: 60칸 ×2", captureMultiplier(60) === 2);
 
-  const off = new Match(findDifficulty("easy"), 3, false);
-  const on = new Match(findDifficulty("easy"), 3, true);
+  const off = new Match(findDifficulty("easy"), 3, { captureBonus: false });
+  const on = new Match(findDifficulty("easy"), 3, { captureBonus: true });
   for (const match of [off, on]) {
     for (const runner of match.runners.slice(1)) {
       park(runner);
@@ -266,6 +266,64 @@ console.log("땅따먹기 규칙 검사");
     off.human.bestCapture === on.human.bestCapture,
     `${off.human.bestCapture} vs ${on.human.bestCapture}`
   );
+}
+
+// --- 9. 폐허 잠금 (기본은 꺼짐. 실험 규칙) -----------------------------------
+{
+  const LOCK_MS = 6_000;
+  const match = new Match(findDifficulty("easy"), 5, { rubbleLockMs: LOCK_MS });
+  for (const runner of match.runners.slice(2)) {
+    park(runner);
+  }
+  const me = match.human;
+  const rival = match.runners[1];
+
+  match.board.clearPlayer(rival.id);
+  match.board.claimHome(rival.id, 40, 40, HOME_RADIUS);
+  const rivalTiles = match.tilesOf(rival.id);
+  place(match, rival, 40, 40, "right");
+  freeze(rival);
+
+  // 상대를 벽으로 몰아 죽인다 — 꼬리를 깔고 플레이어가 밟게 한다.
+  rival.trail.push({ x: 41, y: 40 });
+  match.board.markTrail(rival.id, 41, 40);
+  place(match, me, 43, 40, "left");
+  step(match, 2);
+
+  check("폐허 실험: 상대가 죽었다", !rival.alive, `alive=${rival.alive}`);
+  check(
+    "죽은 영토는 폐허로 잠긴다",
+    match.board.isLocked(40, 40, match.elapsedMs),
+    `rubbleUntil=${match.board.rubbleUntil[match.board.index(40, 40)]} now=${match.elapsedMs}`
+  );
+  check("폐허는 아무도 소유하지 않는다", match.board.ownerAt(40, 40) === 0);
+  check("잠긴 칸 수가 상대의 영토만큼이다", rivalTiles === (HOME_RADIUS * 2 + 1) ** 2);
+
+  // 폐허를 고리 안에 넣어도 가져오지 못한다.
+  match.board.clearPlayer(me.id);
+  match.board.claimHome(me.id, 37, 40, HOME_RADIUS);
+  place(match, me, 37, 40, "right");
+  go(match, me, "right", 7);
+  go(match, me, "down", 4);
+  go(match, me, "left", 7);
+  go(match, me, "up", 4);
+
+  check(
+    "폐허는 고리 안에 넣어도 넘어오지 않는다",
+    match.board.ownerAt(40, 40) !== me.id,
+    `owner=${match.board.ownerAt(40, 40)}`
+  );
+
+  // 시간이 지나면 풀린다.
+  const stillLocked = match.board.isLocked(40, 40, match.elapsedMs);
+  const laterUnlocked = !match.board.isLocked(40, 40, match.elapsedMs + LOCK_MS);
+  check("잠금은 아직 유효하다", stillLocked, `elapsed=${Math.round(match.elapsedMs)}`);
+  check("시간이 지나면 잠금이 풀린다", laterUnlocked);
+
+  const noLock = new Match(findDifficulty("easy"), 5, { rubbleLockMs: 0 });
+  noLock.board.claimHome(noLock.human.id, 30, 30, HOME_RADIUS);
+  noLock.board.clearPlayer(noLock.human.id, 0);
+  check("잠금을 끄면 폐허가 생기지 않는다", !noLock.board.isLocked(30, 30, 0));
 }
 
 console.log(failures === 0 ? "\n모든 규칙 검사 통과" : `\n실패 ${failures}건`);

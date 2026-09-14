@@ -24,6 +24,7 @@ pnpm --filter land-grab dev      # 개발 서버
 pnpm --filter land-grab test     # 타입 검사 + 규칙 검사 18건
 pnpm build:project -- land-grab  # 빌드 후 launcher/public/runs/land-grab 로 복사
 pnpm playtest --project land-grab
+pnpm exec tsx projects/land-grab/tests/bench/rule-sweep.ts   # 규칙 실험 하니스
 ```
 
 문서: [brief.md](brief.md) · [spec.md](spec.md) · [eval.md](eval.md) · [changelog.md](changelog.md)

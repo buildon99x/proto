@@ -52,6 +52,31 @@ export const PALETTE = [
   { territory: "#a3e635", unit: "#f7fee7", name: "연두" }
 ] as const;
 
+/**
+ * 판마다 켜고 끌 수 있는 규칙. 설계 가설을 측정하려고 열어 둔다.
+ * 측정 결과는 `docs/design/differentiation.md` 에 남긴다.
+ */
+export type MatchRules = {
+  /** 물막이 배율. 기본 꺼짐 — 측정 결과 목적을 달성하지 못했다. */
+  captureBonus: boolean;
+  /**
+   * 사망한 영토가 **아무도 못 먹는 폐허**로 남는 시간(ms). `0`이면 즉시 중립이 된다.
+   * 내가 죽으면 그 땅을 옆의 상대가 먹어 눈덩이가 넘어가는 경로를 끊으려는 규칙이다.
+   */
+  rubbleLockMs: number;
+  /**
+   * 킬 1회의 점수. splix 의 값은 `500` 이지만, 그 값은 거대한 아레나에 수십 명이 있어
+   * 킬이 드문 환경의 수치다. `60 × 60` 에 4명이 90초를 겨루면 조우가 훨씬 잦다.
+   */
+  killScore: number;
+};
+
+export const DEFAULT_RULES: MatchRules = {
+  captureBonus: false,
+  rubbleLockMs: 0,
+  killScore: KILL_SCORE
+};
+
 export type DifficultyId = "easy" | "normal" | "hard";
 
 export type Difficulty = {

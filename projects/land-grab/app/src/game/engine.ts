@@ -2,7 +2,6 @@ import { Board } from "./board";
 import {
   BOARD_SIZE,
   HOME_RADIUS,
-  KILL_SCORE,
   MATCH_DURATION_MS,
   captureMultiplier,
   PLAYER_LIVES,
@@ -10,7 +9,9 @@ import {
   RESPAWN_DELAY_MS,
   SELF_TRAIL_GRACE,
   WALL_THICKNESS,
-  type Difficulty
+  DEFAULT_RULES,
+  type Difficulty,
+  type MatchRules
 } from "./config";
 import { DELTA, OPPOSITE, type Cell, type Direction, type PlayerId, type MatchPhase, type Runner, type Standing } from "./types";
 
@@ -52,15 +53,14 @@ export class Match {
   private tileCounts: number[];
   private tileSampleAccMs = 0;
   private events: MatchEvent[] = [];
-  private readonly captureBonus: boolean;
+  readonly rules: MatchRules;
 
   /**
-   * @param captureBonus 물막이 배율을 적용할지. **기본은 끔** — 측정 결과 목적을 달성하지
-   *   못했다(`docs/design/differentiation.md` 「물막이 배율 실험」). 규칙과 실험을
-   *   재현할 수 있게 코드는 남겨 둔다.
+   * @param rules 켜고 끌 수 있는 실험 규칙. 기본값은 `DEFAULT_RULES` —
+   *   측정 결과와 근거는 `docs/design/differentiation.md` 에 있다.
    */
-  constructor(difficulty: Difficulty, seed = Date.now(), captureBonus = false) {
-    this.captureBonus = captureBonus;
+  constructor(difficulty: Difficulty, seed = Date.now(), rules: Partial<MatchRules> = {}) {
+    this.rules = { ...DEFAULT_RULES, ...rules };
     this.difficulty = difficulty;
     this.rng = mulberry32(seed);
     this.board = new Board(BOARD_SIZE);
@@ -222,7 +222,7 @@ export class Match {
    * "크게 한 번 걸어서 확정 성과를 은행에 넣는다"는 선택지를 만들기 위한 예외다.
    */
   scoreOf(runner: Runner): number {
-    return this.tilesOf(runner.id) + runner.bonusPoints + runner.kills * KILL_SCORE;
+    return this.tilesOf(runner.id) + runner.bonusPoints + runner.kills * this.rules.killScore;
   }
 
   standings(): Standing[] {
@@ -306,13 +306,13 @@ export class Match {
         const opponents = this.runners
           .filter((item) => item.alive && item.id !== runner.id)
           .map<Cell>((item) => ({ x: item.x, y: item.y }));
-        const gained = this.board.capture(runner.id, runner.trail, opponents);
+        const gained = this.board.capture(runner.id, runner.trail, opponents, this.elapsedMs);
         runner.trail = [];
 
         if (gained.length > runner.bestCapture) {
           runner.bestCapture = gained.length;
         }
-        if (this.captureBonus) {
+        if (this.rules.captureBonus) {
           const multiplier = captureMultiplier(gained.length);
           runner.bonusPoints += Math.round(gained.length * (multiplier - 1));
         }
@@ -358,7 +358,9 @@ export class Match {
 
     this.board.clearTrail(runner.trail);
     runner.trail = [];
-    const cleared = this.board.clearPlayer(runner.id);
+    const lockUntil =
+      this.rules.rubbleLockMs > 0 ? this.elapsedMs + this.rules.rubbleLockMs : 0;
+    const cleared = this.board.clearPlayer(runner.id, lockUntil);
     this.events.push({
       type: "death",
       id: runner.id,
@@ -478,6 +480,9 @@ export class Match {
           return false;
         }
         if (this.board.ownerAt(x, y) !== 0 || this.board.trailAt(x, y) !== 0) {
+          return false;
+        }
+        if (this.board.isLocked(x, y, this.elapsedMs)) {
           return false;
         }
       }

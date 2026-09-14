@@ -9,6 +9,8 @@ const EMPTY_TILE = "#2c2a27";
 const EMPTY_TILE_EDGE = "#211f1d";
 const WALL_TILE = "#3b3733";
 const WALL_STRIPE = "#26231f";
+const RUBBLE = "#4b4238";
+const RUBBLE_CRACK = "#7b6a57";
 
 /** 타일 사이 간격 비율. splix 계열 특유의 "블록이 따로 놓인" 느낌을 만든다. */
 const TILE_GAP = 0.12;
@@ -132,6 +134,7 @@ export function drawMatch(
   ctx.drawImage(backdrop.get(match, size, scale), 0, 0, size, size);
 
   drawTerritory(ctx, match, cell);
+  drawRubble(ctx, match, cell);
   drawCaptureSweeps(ctx, effects, cell);
   drawTrails(ctx, match, cell);
   drawShards(ctx, effects, cell);
@@ -167,6 +170,42 @@ function drawTerritory(ctx: CanvasRenderingContext2D, match: Match, cell: number
     ctx.strokeStyle = color;
     ctx.lineWidth = Math.max(1, cell * 0.1);
     ctx.stroke();
+  }
+}
+
+/**
+ * 폐허 — 누군가 죽어서 잠긴 땅. 아무도 가져갈 수 없고, 잠금이 풀릴수록 옅어진다.
+ * 잠금 규칙이 꺼져 있으면 아무것도 그리지 않는다.
+ */
+function drawRubble(ctx: CanvasRenderingContext2D, match: Match, cell: number): void {
+  const lockMs = match.rules.rubbleLockMs;
+  if (lockMs <= 0) {
+    return;
+  }
+
+  const board = match.board;
+  const now = match.elapsedMs;
+
+  for (let y = 0; y < board.size; y += 1) {
+    for (let x = 0; x < board.size; x += 1) {
+      const until = board.rubbleUntil[board.index(x, y)];
+      if (until <= now) {
+        continue;
+      }
+      const remaining = Math.min(1, (until - now) / lockMs);
+
+      ctx.fillStyle = withAlpha(RUBBLE, 0.25 + remaining * 0.55);
+      ctx.beginPath();
+      tilePath(ctx, x, y, cell);
+      ctx.fill();
+
+      ctx.strokeStyle = withAlpha(RUBBLE_CRACK, 0.3 + remaining * 0.5);
+      ctx.lineWidth = Math.max(1, cell * 0.12);
+      ctx.beginPath();
+      ctx.moveTo((x + 0.25) * cell, (y + 0.25) * cell);
+      ctx.lineTo((x + 0.75) * cell, (y + 0.75) * cell);
+      ctx.stroke();
+    }
   }
 }
 
