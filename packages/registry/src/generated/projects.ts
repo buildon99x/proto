@@ -181,7 +181,8 @@ export const projects = [
       "dev": "pnpm --filter wave-runner dev",
       "build": "pnpm --filter wave-runner build",
       "test": "pnpm --filter wave-runner test"
-    }
+    },
+    "updatedAt": "2026-09-14T17:47:33+00:00"
   },
   {
     "id": "blacksmith-clicker",
