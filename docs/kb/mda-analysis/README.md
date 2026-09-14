@@ -22,6 +22,7 @@
 | 파일 | 대상 | 모드 | 용도 |
 |---|---|---|---|
 | [space-waves.md](./space-waves.md) | Space Waves (do.games/Xelluf, 2024) | A 역설계 + G 변주설계 | `space wave + 로그라이크` 신규 프로젝트의 설계 근거 |
+| [one-button-roguelite-direction.md](./one-button-roguelite-direction.md) | 원버튼 회피 × 로그라이크 | B 순설계 + G 변주설계 | 신규 프로젝트의 장르 방향 결정. `brief.md`의 직접 입력 |
 
 ## 출처 규약
 
