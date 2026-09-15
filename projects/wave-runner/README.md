@@ -2,7 +2,9 @@
 
 원버튼 지그재그 회피 게임. 누르면 오르고 놓으면 내려간다. 가만히 있는 선택지는 없다.
 
-**현재 범위는 1단계 수직 슬라이스다** — 빌드도 게이트도 로그라이크 요소도 없이, 기저 비행만으로 재미있는지를 묻는다. 그 답이 아니오면 프로젝트를 중단한다.
+갈림길을 지날 때마다 **한 축이 오르고 다른 축이 내린다.** 순수한 상승은 없으므로 빌드는 세기가 아니라 형태다.
+
+**현재 범위는 2단계다** — 부사 3축(각도·속도·편향), 교환 게이트, 섹터 4유형, Stage·Endless 두 모드, 메타 해금. 런타임 절차 생성과 정확한 솔버는 3단계다.
 
 ## 실행
 
@@ -20,10 +22,16 @@ pnpm build:project -- wave-runner    # 빌드 → launcher/public/runs/wave-runn
 ## 검증
 
 ```bash
-pnpm --filter wave-runner lint              # 타입
-node projects/wave-runner/tests/smoke/lookahead.test.mjs   # 선행 가시 시간 상수
-pnpm playtest --project wave-runner         # 5개 스테이지 통과 가능성(오토파일럿)
+pnpm --filter wave-runner lint                                    # 타입
+node projects/wave-runner/tests/smoke/lookahead.test.mjs          # 선행 가시 시간 상수
+pnpm exec tsx projects/wave-runner/tests/verify/sector-probe.ts   # 3축이 정말 양날인가
+pnpm exec tsx projects/wave-runner/tests/verify/stage-paths.ts    # 모든 빌드 경로가 통과 가능한가
+pnpm exec tsx projects/wave-runner/tests/verify/endless-ramp.ts   # Endless 난이도가 실제로 조이는가
+pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts  # 스테이지 시드 재선별
+pnpm playtest --project wave-runner                               # 브라우저 자동 플레이테스트
 ```
+
+검증이 무엇을 증명하고 무엇을 증명하지 못하는지는 [eval.md](./eval.md)에 적었다.
 
 ## 문서
 

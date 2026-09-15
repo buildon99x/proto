@@ -1,9 +1,10 @@
 import { computeView } from "./game/camera";
+import { BASE_TUNING } from "./game/engine";
 import type { Tuning } from "./game/types";
 
 interface Props {
-  tuning: Tuning;
-  onChange: (next: Tuning) => void;
+  overrides: Partial<Tuning>;
+  onChange: (next: Partial<Tuning>) => void;
   onReset: () => void;
   fps: number;
 }
@@ -18,23 +19,23 @@ interface Row {
 }
 
 /**
- * 개발 전용 패널. 본 플레이에서는 숨어 있다(T 로 토글).
+ * 개발 전용 계측기(T 로 토글). 본 플레이에서는 숨어 있다.
  *
- * 존재 이유는 하나다 — core-loop.md §12 ①의 미해결 쟁점, 즉
- * "크기 축에 하방이 없으니 관성으로 바꿔야 하는가"를 문서가 아니라
- * 손끝으로 판정하기 위한 계측기다. 각도·속도·관성·크기를 실시간으로
- * 바꿔가며 어느 축이 진짜 양날인지 비교한다.
+ * 여기서 조정하는 것은 **축 눈금 0 의 기준값**이다. 런 안의 빌드는 이 기준값을
+ * 표에 따라 밀고 당길 뿐이므로, 기준이 바뀌면 전 구간의 감각이 함께 움직인다.
  */
 const ROWS: Row[] = [
-  { key: "slope", label: "각도", min: 0.4, max: 2.0, step: 0.05, note: "대각 기울기. 1.0 = 45°" },
-  { key: "speed", label: "속도", min: 20, max: 90, step: 1, note: "전진 속도. 선행 가시 시간에 직결" },
-  { key: "inertiaMs", label: "관성", min: 0, max: 220, step: 5, note: "0 = 즉시 반응(원작). 크면 부드럽고 늦다" },
-  { key: "radius", label: "크기", min: 0.8, max: 3.2, step: 0.1, note: "히트박스 반지름" }
+  { key: "slope", label: "각도 기준", min: 0.5, max: 1.8, step: 0.02, note: "1.0 = 45°" },
+  { key: "speed", label: "속도 기준", min: 24, max: 80, step: 1, note: "선행 가시 시간에 직결" },
+  { key: "bias", label: "편향 기준", min: -0.4, max: 0.4, step: 0.02, note: "+면 상승이 빠르고 하강이 느리다" },
+  { key: "radius", label: "크기", min: 0.8, max: 3.2, step: 0.1, note: "히트박스 반지름" },
+  { key: "inertiaMs", label: "관성", min: 0, max: 200, step: 5, note: "0 = 즉시 반응" }
 ];
 
-export function TuningPanel({ tuning, onChange, onReset, fps }: Props) {
-  const view = computeView(window.innerWidth, window.innerHeight, tuning);
-  const lookaheadOk = view.lookaheadSec >= tuning.lookaheadMinSec;
+export function TuningPanel({ overrides, onChange, onReset, fps }: Props) {
+  const merged: Tuning = { ...BASE_TUNING, ...overrides };
+  const view = computeView(window.innerWidth, window.innerHeight, merged);
+  const lookaheadOk = view.lookaheadSec >= merged.lookaheadMinSec;
 
   return (
     <aside className="tuning">
@@ -47,15 +48,15 @@ export function TuningPanel({ tuning, onChange, onReset, fps }: Props) {
         <label key={row.key} className="tuning-row">
           <span className="tuning-label">
             {row.label}
-            <em>{tuning[row.key]}</em>
+            <em>{merged[row.key] as number}</em>
           </span>
           <input
             type="range"
             min={row.min}
             max={row.max}
             step={row.step}
-            value={tuning[row.key] as number}
-            onChange={(e) => onChange({ ...tuning, [row.key]: Number(e.target.value) })}
+            value={merged[row.key] as number}
+            onChange={(e) => onChange({ ...overrides, [row.key]: Number(e.target.value) })}
           />
           <small>{row.note}</small>
         </label>
@@ -65,7 +66,7 @@ export function TuningPanel({ tuning, onChange, onReset, fps }: Props) {
         <div>
           <dt>선행 가시</dt>
           <dd className={lookaheadOk ? "ok" : "bad"}>
-            {view.lookaheadSec.toFixed(2)}s / 최소 {tuning.lookaheadMinSec}s
+            {view.lookaheadSec.toFixed(2)}s / 최소 {merged.lookaheadMinSec}s
           </dd>
         </div>
         <div>

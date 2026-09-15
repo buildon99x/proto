@@ -1,45 +1,51 @@
 import { useEffect, useRef } from "react";
-import { createState, currentStage, goToStage, launch, update } from "./game/engine";
-import type { GameState } from "./game/engine";
+import { applyOverrides, createState, launch, restart, update } from "./game/engine";
+import type { GameState, RunConfig } from "./game/engine";
 import { render } from "./game/render";
-import { sample } from "./game/stages";
 import { sfx } from "./game/audio";
-import type { Tuning } from "./game/types";
+import { targetY } from "./game/pilot";
+import type { Build, Phase, Tuning } from "./game/types";
 
-interface WaveDebug {
-  readonly state: GameState | null;
-  centerAt(worldX: number): number;
+export interface RunReport {
+  cleared: boolean;
+  sec: number;
+  distance: number;
+  attempts: number;
+  build: Build;
 }
 
 interface Props {
-  stageIndex: number;
-  tuning: Tuning;
-  onClear: (stageId: number, sec: number, attempts: number) => void;
-  onAttempt: (stageId: number) => void;
+  config: RunConfig;
+  onPhase: (phase: Phase) => void;
+  onAttempt: () => void;
+  onRunEnd: (report: RunReport) => void;
   onExit: () => void;
-  /** 개발 패널이 읽는 상태 스냅샷 */
-  onSample?: (snapshot: { fps: number; attempts: number; best: number }) => void;
+  onSample?: (s: { fps: number; attempts: number }) => void;
+  /** 개발 튜닝 패널의 값. 실행 중에도 즉시 반영된다 */
+  overrides?: Partial<Tuning>;
 }
 
-export function GameCanvas({ stageIndex, tuning, onClear, onAttempt, onExit, onSample }: Props) {
+interface WaveDebug {
+  readonly state: GameState | null;
+  /** 오토파일럿이 지금 향해야 할 y. 자동 플레이테스트가 쓴다 */
+  targetY(lookaheadSec: number, lane: "top" | "bot"): number;
+}
+
+export function GameCanvas({ config, onPhase, onAttempt, onRunEnd, onExit, onSample, overrides }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const stateRef = useRef<GameState | null>(null);
-  const cbRef = useRef({ onClear, onAttempt, onExit, onSample });
-  cbRef.current = { onClear, onAttempt, onExit, onSample };
+  const cbRef = useRef({ onPhase, onAttempt, onRunEnd, onExit, onSample });
+  cbRef.current = { onPhase, onAttempt, onRunEnd, onExit, onSample };
 
-  // 스테이지 전환. 상태 객체는 유지하고 내용만 갈아끼워 rAF 루프를 끊지 않는다.
   useEffect(() => {
-    if (!stateRef.current) {
-      stateRef.current = createState(stageIndex, tuning);
-    } else {
-      goToStage(stateRef.current, stageIndex);
-    }
-  }, [stageIndex, tuning]);
+    stateRef.current = createState(config);
+    cbRef.current.onPhase("ready");
+  }, [config]);
 
-  // 튜닝 값이 바뀌면 즉시 반영한다 — 개발 패널에서 손끝으로 비교하기 위한 것.
+  // 개발 패널은 문서가 아니라 손끝으로 축을 비교하기 위한 계측기다 — 실행 중 즉시 반영한다.
   useEffect(() => {
-    if (stateRef.current) stateRef.current.tuning = tuning;
-  }, [tuning]);
+    if (stateRef.current && overrides) applyOverrides(stateRef.current, overrides);
+  }, [overrides]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -47,17 +53,13 @@ export function GameCanvas({ stageIndex, tuning, onClear, onAttempt, onExit, onS
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // e2e 훅. 자동 플레이테스트가 상태를 읽고 통로 중앙을 질의한다.
-    // (repo 관례 — retro-bowling 의 window.__bowling 과 같은 목적)
     const debug: WaveDebug = {
       get state() {
         return stateRef.current;
       },
-      centerAt(worldX: number) {
+      targetY(lookaheadSec: number, lane: "top" | "bot") {
         const s = stateRef.current;
-        if (!s) return 0;
-        const { top, bot } = sample(currentStage(s).nodes, worldX);
-        return (top + bot) / 2;
+        return s ? targetY(s, lookaheadSec, lane) : 50;
       }
     };
     (window as unknown as { __wave?: WaveDebug }).__wave = debug;
@@ -67,6 +69,7 @@ export function GameCanvas({ stageIndex, tuning, onClear, onAttempt, onExit, onS
     let fpsAccum = 0;
     let fpsFrames = 0;
     let sampleAt = 0;
+    let reported: Phase = "ready";
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -85,10 +88,13 @@ export function GameCanvas({ stageIndex, tuning, onClear, onAttempt, onExit, onS
       s.holding = true;
       if (s.phase === "ready") {
         launch(s);
-        cbRef.current.onAttempt(currentStage(s).id);
+        cbRef.current.onAttempt();
         sfx.launch();
       } else if (s.phase === "cleared" && s.sincePhase > 0.5) {
         cbRef.current.onExit();
+      } else if (s.phase === "dead" && s.mode === "endless" && s.sincePhase > 0.6) {
+        restart(s);
+        cbRef.current.onAttempt();
       }
     };
     const release = () => {
@@ -96,8 +102,7 @@ export function GameCanvas({ stageIndex, tuning, onClear, onAttempt, onExit, onS
       if (s) s.holding = false;
     };
 
-    const isHoldKey = (e: KeyboardEvent) =>
-      e.code === "Space" || e.code === "KeyW" || e.code === "ArrowUp";
+    const isHoldKey = (e: KeyboardEvent) => e.code === "Space" || e.code === "KeyW" || e.code === "ArrowUp";
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.code === "Escape") {
@@ -139,13 +144,33 @@ export function GameCanvas({ stageIndex, tuning, onClear, onAttempt, onExit, onS
       const s = stateRef.current;
       if (!s) return;
 
-      const wasPhase = s.phase;
       const result = update(s, dt);
-      if (result.event === "died") sfx.die();
-      if (result.event === "restarted") cbRef.current.onAttempt(currentStage(s).id);
-      if (wasPhase !== "cleared" && s.phase === "cleared") {
+      if (result.event === "died") {
+        sfx.die();
+        if (s.mode === "endless") {
+          cbRef.current.onRunEnd({
+            cleared: false,
+            sec: s.elapsed,
+            distance: s.x,
+            attempts: s.attempts,
+            build: { ...s.build }
+          });
+        }
+      }
+      if (result.event === "restarted") cbRef.current.onAttempt();
+      if (result.event === "cleared") {
         sfx.clear();
-        cbRef.current.onClear(currentStage(s).id, s.elapsed, s.attempts);
+        cbRef.current.onRunEnd({
+          cleared: true,
+          sec: s.elapsed,
+          distance: s.x,
+          attempts: s.attempts,
+          build: { ...s.build }
+        });
+      }
+      if (s.phase !== reported) {
+        reported = s.phase;
+        cbRef.current.onPhase(s.phase);
       }
 
       const rect = canvas.getBoundingClientRect();
@@ -155,11 +180,7 @@ export function GameCanvas({ stageIndex, tuning, onClear, onAttempt, onExit, onS
       fpsFrames += 1;
       if (now - sampleAt > 400) {
         sampleAt = now;
-        cbRef.current.onSample?.({
-          fps: fpsFrames / Math.max(fpsAccum, 1e-6),
-          attempts: s.attempts,
-          best: s.best
-        });
+        cbRef.current.onSample?.({ fps: fpsFrames / Math.max(fpsAccum, 1e-6), attempts: s.attempts });
         fpsAccum = 0;
         fpsFrames = 0;
       }

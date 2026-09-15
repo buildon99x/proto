@@ -1,7 +1,10 @@
+import { AXES, AXIS_COLOR } from "./axes";
 import { cameraX, computeView } from "./camera";
-import { currentStage, stageLength } from "./engine";
-import { sample } from "./stages";
+import { pieceAt } from "./course";
+import { gateLanes, squeezeBounds } from "./engine";
 import type { GameState } from "./engine";
+import { sample, shutterDepth } from "./sectors";
+import type { AxisTrade, Block } from "./types";
 
 const COLOR = {
   bg: "#070b14",
@@ -10,15 +13,64 @@ const COLOR = {
   block: "#ff5e7a",
   blockEdge: "#ffd0d8",
   player: "#ffe66d",
-  trail: "#ffe66d",
   finish: "#7dffb0",
-  dim: "rgba(7, 11, 20, 0.72)",
+  dim: "rgba(7, 11, 20, 0.74)",
   text: "#e8f1ff",
   textDim: "#7f90ad"
 };
 
+interface Bounds {
+  top: number;
+  bot: number;
+  divTop: number | null;
+  divBot: number | null;
+}
+
+function boundsAt(state: GameState, worldX: number): Bounds {
+  const piece = pieceAt(state.course, worldX);
+  if (!piece) return { top: 20, bot: 80, divTop: null, divBot: null };
+  if (piece.kind === "sector" && piece.sector) {
+    const { top, bot } = squeezeBounds(
+      sample(piece.sector.nodes, worldX - piece.startX),
+      piece.squeeze ?? 1
+    );
+    return { top, bot, divTop: null, divBot: null };
+  }
+  if (piece.kind === "gate" && piece.gate) {
+    const l = gateLanes(piece.gate, worldX, state.tuning);
+    return { top: l.outerTop, bot: l.outerBot, divTop: l.dividerTop, divBot: l.dividerBot };
+  }
+  return { top: 20, bot: 80, divTop: null, divBot: null };
+}
+
+function hexToRgb(hex: string): [number, number, number] {
+  return [
+    parseInt(hex.slice(1, 3), 16),
+    parseInt(hex.slice(3, 5), 16),
+    parseInt(hex.slice(5, 7), 16)
+  ];
+}
+
+/**
+ * 빌드가 궤적의 색이 된다. HUD 를 늘리지 않고 빌드를 보여주는 유일한 자리이고,
+ * 빌드가 다르면 스크린샷 한 장으로 구분되는 근거이기도 하다.
+ */
+export function buildColor(state: GameState): [number, number, number] {
+  let [r, g, b] = hexToRgb(COLOR.player);
+  const cap = Math.max(1, state.base.axisMax);
+  for (const axis of AXES) {
+    const w = Math.max(0, state.build[axis]) / cap;
+    if (w <= 0) continue;
+    const [ar, ag, ab] = hexToRgb(AXIS_COLOR[axis]);
+    r += (ar - r) * w * 0.7;
+    g += (ag - g) * w * 0.7;
+    b += (ab - b) * w * 0.7;
+  }
+  return [Math.round(r), Math.round(g), Math.round(b)];
+}
+
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
-  const rr = Math.min(r, w / 2, h / 2);
+  const rr = Math.max(0, Math.min(r, w / 2, h / 2));
   ctx.beginPath();
   ctx.moveTo(x + rr, y);
   ctx.arcTo(x + w, y, x + w, y + h, rr);
@@ -28,9 +80,43 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: numbe
   ctx.closePath();
 }
 
+/** 관 입구의 교환 표시. 글자 없이 색과 방향으로만 말한다. */
+function drawTradeMark(
+  ctx: CanvasRenderingContext2D,
+  trade: AxisTrade,
+  cx: number,
+  cy: number,
+  size: number
+) {
+  const plus = AXIS_COLOR[trade.plus];
+  const minus = AXIS_COLOR[trade.minus];
+
+  ctx.save();
+  ctx.translate(cx, cy);
+  // 위로 향한 두꺼운 쐐기 = 오르는 축
+  ctx.fillStyle = plus;
+  ctx.shadowColor = plus;
+  ctx.shadowBlur = 12;
+  ctx.beginPath();
+  ctx.moveTo(0, -size * 0.75);
+  ctx.lineTo(size * 0.62, size * 0.1);
+  ctx.lineTo(size * 0.24, size * 0.1);
+  ctx.lineTo(size * 0.24, size * 0.42);
+  ctx.lineTo(-size * 0.24, size * 0.42);
+  ctx.lineTo(-size * 0.24, size * 0.1);
+  ctx.lineTo(-size * 0.62, size * 0.1);
+  ctx.closePath();
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  // 아래 가느다란 막대 = 내리는 축
+  ctx.fillStyle = minus;
+  roundRect(ctx, -size * 0.55, size * 0.62, size * 1.1, size * 0.26, size * 0.13);
+  ctx.fill();
+  ctx.restore();
+}
+
 export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: number, cssH: number): void {
   const t = state.tuning;
-  const stage = currentStage(state);
   const view = computeView(cssW, cssH, t);
   const camX = cameraX(state.x, view, t);
   const offsetY = (cssH - t.worldHeight * view.zoom) / 2;
@@ -38,18 +124,21 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
   const sx = (wx: number) => (wx - camX) * view.zoom;
   const sy = (wy: number) => wy * view.zoom + offsetY;
 
+  if (state.endless) state.endless.ensure(camX + view.viewWorldW + 200);
+
   ctx.fillStyle = COLOR.bg;
   ctx.fillRect(0, 0, cssW, cssH);
 
-  // 통로 바깥을 벽으로 칠한다. 화면 픽셀 간격으로 경계를 샘플링.
   const stepPx = 4;
   const topPts: Array<[number, number]> = [];
   const botPts: Array<[number, number]> = [];
+  const divider: Array<[number, number, number]> = [];
   for (let px = -stepPx; px <= cssW + stepPx; px += stepPx) {
     const wx = camX + px / view.zoom;
-    const { top, bot } = sample(stage.nodes, wx);
-    topPts.push([px, sy(top)]);
-    botPts.push([px, sy(bot)]);
+    const b = boundsAt(state, wx);
+    topPts.push([px, sy(b.top)]);
+    botPts.push([px, sy(b.bot)]);
+    if (b.divTop !== null && b.divBot !== null) divider.push([px, sy(b.divTop), sy(b.divBot)]);
   }
 
   ctx.fillStyle = COLOR.wall;
@@ -67,6 +156,17 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
   ctx.closePath();
   ctx.fill();
 
+  // 칸막이 — 구멍 두 개가 아니라 길이 둘로 갈라진 것으로 읽혀야 한다
+  if (divider.length > 1) {
+    ctx.fillStyle = COLOR.wall;
+    ctx.beginPath();
+    ctx.moveTo(divider[0][0], divider[0][1]);
+    for (const [px, dt] of divider) ctx.lineTo(px, dt);
+    for (let i = divider.length - 1; i >= 0; i -= 1) ctx.lineTo(divider[i][0], divider[i][2]);
+    ctx.closePath();
+    ctx.fill();
+  }
+
   ctx.strokeStyle = COLOR.wallEdge;
   ctx.lineWidth = 2;
   ctx.shadowColor = COLOR.wallEdge;
@@ -76,49 +176,82 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
     pts.forEach(([px, py], i) => (i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py)));
     ctx.stroke();
   }
+  if (divider.length > 1) {
+    for (const idx of [1, 2]) {
+      ctx.beginPath();
+      divider.forEach((d, i) => (i === 0 ? ctx.moveTo(d[0], d[idx]) : ctx.lineTo(d[0], d[idx])));
+      ctx.stroke();
+    }
+  }
   ctx.shadowBlur = 0;
 
-  // 이빨
-  for (const b of stage.blocks) {
-    const bx = sx(b.x);
-    if (bx > cssW + 40 || bx + b.w * view.zoom < -40) continue;
-    ctx.fillStyle = COLOR.block;
-    ctx.shadowColor = COLOR.block;
-    ctx.shadowBlur = 12;
-    roundRect(ctx, bx, sy(b.y), b.w * view.zoom, b.h * view.zoom, 2 * view.zoom * 0.4);
-    ctx.fill();
-    ctx.shadowBlur = 0;
-    ctx.strokeStyle = COLOR.blockEdge;
-    ctx.lineWidth = 1;
-    ctx.stroke();
+  // 섹터 장애물과 셔터
+  const fromX = camX - 60;
+  const toX = camX + view.viewWorldW + 60;
+  for (const piece of state.course.pieces) {
+    if (piece.endX < fromX || piece.startX > toX) continue;
+    if (piece.kind === "sector" && piece.sector) {
+      const base = piece.startX;
+      const drawRect = (b: Block) => {
+        ctx.fillStyle = COLOR.block;
+        ctx.shadowColor = COLOR.block;
+        ctx.shadowBlur = 12;
+        roundRect(ctx, sx(base + b.x), sy(b.y), b.w * view.zoom, b.h * view.zoom, 3);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = COLOR.blockEdge;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      };
+      for (const b of piece.sector.blocks) drawRect(b);
+      for (const s of piece.sector.shutters) {
+        const depth = shutterDepth(s, state.elapsed);
+        if (depth <= 0.2) continue;
+        const { top, bot } = squeezeBounds(sample(piece.sector.nodes, s.x), piece.squeeze ?? 1);
+        drawRect(
+          s.side === "top"
+            ? { x: s.x, y: top, w: s.w, h: depth }
+            : { x: s.x, y: bot - depth, w: s.w, h: depth }
+        );
+      }
+    }
+    if (piece.kind === "gate" && piece.gate) {
+      const g = piece.gate;
+      const markX = sx((g.startX + g.endX) / 2);
+      const size = 7 * view.zoom;
+      drawTradeMark(ctx, g.top, markX, sy(50 - 15), size);
+      drawTradeMark(ctx, g.bot, markX, sy(50 + 15), size);
+    }
   }
 
-  // 종료선
-  const finishX = sx(stageLength(stage));
-  if (finishX < cssW + 20) {
-    ctx.strokeStyle = COLOR.finish;
-    ctx.lineWidth = 3;
-    ctx.setLineDash([10, 8]);
-    ctx.shadowColor = COLOR.finish;
-    ctx.shadowBlur = 14;
-    ctx.beginPath();
-    ctx.moveTo(finishX, 0);
-    ctx.lineTo(finishX, cssH);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.shadowBlur = 0;
+  if (Number.isFinite(state.course.finishX)) {
+    const finishX = sx(state.course.finishX);
+    if (finishX < cssW + 20) {
+      ctx.strokeStyle = COLOR.finish;
+      ctx.lineWidth = 3;
+      ctx.setLineDash([10, 8]);
+      ctx.shadowColor = COLOR.finish;
+      ctx.shadowBlur = 14;
+      ctx.beginPath();
+      ctx.moveTo(finishX, 0);
+      ctx.lineTo(finishX, cssH);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.shadowBlur = 0;
+    }
   }
 
-  // 잔상
+  const [cr, cg, cb] = buildColor(state);
+
   if (state.trail.length > 1) {
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     for (let i = 1; i < state.trail.length; i += 1) {
       const a = state.trail[i - 1];
       const b = state.trail[i];
-      const alpha = (i / state.trail.length) * 0.55;
-      ctx.strokeStyle = `rgba(255, 230, 109, ${alpha.toFixed(3)})`;
-      ctx.lineWidth = Math.max(1, t.radius * view.zoom * 0.5 * (i / state.trail.length));
+      const k = i / state.trail.length;
+      ctx.strokeStyle = `rgba(${cr}, ${cg}, ${cb}, ${(k * 0.55).toFixed(3)})`;
+      ctx.lineWidth = Math.max(1, t.radius * view.zoom * 0.5 * k);
       ctx.beginPath();
       ctx.moveTo(sx(a.x), sy(a.y));
       ctx.lineTo(sx(b.x), sy(b.y));
@@ -126,15 +259,13 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
     }
   }
 
-  // 아바타 — 진행 방향으로 기운 삼각형
   const px = sx(state.x);
   const py = sy(state.y);
   const r = t.radius * view.zoom;
-  const angle = Math.atan2(state.vy, t.speed);
   ctx.save();
   ctx.translate(px, py);
-  ctx.rotate(angle);
-  ctx.fillStyle = state.phase === "dead" ? COLOR.block : COLOR.player;
+  ctx.rotate(Math.atan2(state.vy, Math.max(1e-6, t.speed)));
+  ctx.fillStyle = state.phase === "dead" ? COLOR.block : `rgb(${cr}, ${cg}, ${cb})`;
   ctx.shadowColor = ctx.fillStyle;
   ctx.shadowBlur = state.phase === "dead" ? 24 : 14;
   ctx.beginPath();
@@ -147,6 +278,18 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
   ctx.restore();
   ctx.shadowBlur = 0;
 
+  // 교환 직후 0.6초 — 무엇이 올랐는지 글자 없이 알린다
+  if (state.lastTrade && state.elapsed - state.lastTrade.at < 0.6) {
+    const k = 1 - (state.elapsed - state.lastTrade.at) / 0.6;
+    ctx.strokeStyle = AXIS_COLOR[state.lastTrade.trade.plus];
+    ctx.globalAlpha = k;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(px, py, r * 1.5 + (1 - k) * r * 6, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+
   if (state.phase === "dead") {
     const k = Math.min(1, (state.sincePhase * 1000) / t.retryDelayMs);
     ctx.strokeStyle = `rgba(255, 94, 122, ${(1 - k).toFixed(3)})`;
@@ -154,39 +297,5 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
     ctx.beginPath();
     ctx.arc(px, py, r + k * r * 5, 0, Math.PI * 2);
     ctx.stroke();
-  }
-
-  if (state.phase === "ready" || state.phase === "cleared") {
-    ctx.fillStyle = COLOR.dim;
-    ctx.fillRect(0, 0, cssW, cssH);
-    const cx = cssW / 2;
-    const cy = cssH / 2;
-    ctx.textAlign = "center";
-
-    if (state.phase === "ready") {
-      ctx.fillStyle = COLOR.textDim;
-      ctx.font = "600 13px ui-sans-serif, system-ui, sans-serif";
-      ctx.fillText(`STAGE ${stage.id}`, cx, cy - 46);
-      ctx.fillStyle = COLOR.text;
-      ctx.font = "700 30px ui-sans-serif, system-ui, sans-serif";
-      ctx.fillText(stage.name, cx, cy - 10);
-      ctx.fillStyle = COLOR.textDim;
-      ctx.font = "400 14px ui-sans-serif, system-ui, sans-serif";
-      ctx.fillText(stage.asks, cx, cy + 20);
-      ctx.fillStyle = COLOR.player;
-      ctx.font = "600 14px ui-sans-serif, system-ui, sans-serif";
-      ctx.fillText("누르면 오른다", cx, cy + 58);
-    } else {
-      ctx.fillStyle = COLOR.finish;
-      ctx.font = "700 34px ui-sans-serif, system-ui, sans-serif";
-      ctx.fillText("CLEAR", cx, cy - 8);
-      ctx.fillStyle = COLOR.textDim;
-      ctx.font = "400 14px ui-sans-serif, system-ui, sans-serif";
-      ctx.fillText(`${state.elapsed.toFixed(2)}초 · 시도 ${state.attempts}회`, cx, cy + 22);
-      if (state.sincePhase > 0.5) {
-        ctx.fillStyle = COLOR.text;
-        ctx.fillText("계속하려면 누르세요", cx, cy + 56);
-      }
-    }
   }
 }

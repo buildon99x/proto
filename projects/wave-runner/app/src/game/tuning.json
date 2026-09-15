@@ -2,10 +2,17 @@
   "worldHeight": 100,
   "speed": 42,
   "slope": 1.0,
+  "bias": 0,
   "inertiaMs": 0,
   "radius": 1.6,
   "lookaheadMinSec": 1.2,
   "cameraAnchor": 0.28,
   "retryDelayMs": 500,
-  "fixedStepHz": 240
+  "fixedStepHz": 240,
+  "axisMin": -3,
+  "axisMax": 3,
+  "gateLeadInSec": 1.5,
+  "gateSpanSec": 0.8,
+  "gateDivider": 7,
+  "endlessRampPerSector": 0.13
 }

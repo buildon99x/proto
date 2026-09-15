@@ -1,11 +1,19 @@
-/** 코스는 상/하 경계 폴리라인 + 내부 블록으로 표현한다. y는 0(위)~worldHeight(아래). */
+/** 부사 3축. 동사(홀드=상승 / 릴리스=하강)는 불변이고 이 계수만 런마다 조립된다. */
+export type AxisKey = "slope" | "speed" | "bias";
+
+/** 각 축의 현재 눈금. tuning.axisMin ~ axisMax 로 클램프된다. */
+export type Build = Record<AxisKey, number>;
+
+/** 섹터 유형. 어떤 빌드가 유리한지가 유형마다 다르고, 그것이 Optimization 축의 원천이다. */
+export type SectorType = "gorge" | "corridor" | "scatter" | "pulse";
+
 export interface CorridorNode {
   x: number;
   top: number;
   bot: number;
 }
 
-/** 통로 안에 박힌 장애물. 축 정렬 사각형. */
+/** 통로 안에 고정된 장애물. */
 export interface Block {
   x: number;
   y: number;
@@ -13,18 +21,77 @@ export interface Block {
   h: number;
 }
 
-export interface Stage {
-  id: number;
-  name: string;
-  /** 한 줄 설명 — 이 스테이지가 무엇을 묻는가 */
-  asks: string;
+/**
+ * 맥동 셔터. 주기적으로 벽에서 자라났다 물러난다.
+ * 도착 위상이 통과 여부를 가르므로 **전진 속도가 양날이 되는 유일한 자리**다.
+ */
+export interface Shutter {
+  x: number;
+  w: number;
+  /** 벽에서 뻗는 최대 깊이 */
+  depth: number;
+  /** "top" 이면 천장에서, "bot" 이면 바닥에서 */
+  side: "top" | "bot";
+  /** 개폐 주기(초) */
+  period: number;
+  /** 위상 0..1 */
+  phase: number;
+  /** 주기 중 열려 있는 비율 0..1 */
+  openFrac: number;
+}
+
+export interface Sector {
+  id: string;
+  type: SectorType;
+  /** 1(쉬움) ~ 3(어려움) */
+  difficulty: number;
+  /** 한 줄 — 이 섹터가 어떤 빌드를 묻는가 */
+  favors: string;
   nodes: CorridorNode[];
   blocks: Block[];
-  /** 시작 y. 통로 중앙이 기본. */
-  startY: number;
-  /** 시작 시 상승 중인지 */
-  startRising: boolean;
+  shutters: Shutter[];
 }
+
+/** 게이트의 한쪽 길이 주는 교환. 한 축 +1, 다른 축 −1. 순수 상승은 없다. */
+export interface AxisTrade {
+  plus: AxisKey;
+  minus: AxisKey;
+}
+
+/**
+ * 분기 게이트. 통로가 두 개의 관으로 갈라지고, 어느 관을 지나느냐가 곧 선택이다.
+ * 게임은 멈추지 않는다 — 선택 행위 자체가 회피 조작이다.
+ */
+export interface Gate {
+  /** 저밀도 리드인이 시작되는 x */
+  leadInX: number;
+  /** 분기 시작 x */
+  startX: number;
+  /** 분기 종료 x. 이 지점에서 어느 관에 있었는지가 확정된다 */
+  endX: number;
+  top: AxisTrade;
+  bot: AxisTrade;
+}
+
+export type PieceKind = "sector" | "gate";
+
+export interface CoursePiece {
+  kind: PieceKind;
+  startX: number;
+  endX: number;
+  sector?: Sector;
+  gate?: Gate;
+  /** 통로를 중앙으로 조이는 계수(1 = 그대로). Endless 후반 난이도용 */
+  squeeze?: number;
+}
+
+export interface Course {
+  pieces: CoursePiece[];
+  /** 종료선. Endless 는 Infinity */
+  finishX: number;
+}
+
+export type RunMode = "stage" | "endless";
 
 export type Phase = "ready" | "running" | "dead" | "cleared";
 
@@ -32,10 +99,17 @@ export interface Tuning {
   worldHeight: number;
   speed: number;
   slope: number;
+  bias: number;
   inertiaMs: number;
   radius: number;
   lookaheadMinSec: number;
   cameraAnchor: number;
   retryDelayMs: number;
   fixedStepHz: number;
+  axisMin: number;
+  axisMax: number;
+  gateLeadInSec: number;
+  gateSpanSec: number;
+  gateDivider: number;
+  endlessRampPerSector: number;
 }
