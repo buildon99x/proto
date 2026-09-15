@@ -43,5 +43,7 @@ pnpm playtest --project wave-runner                               # 브라우저
 - [spec.md](./spec.md) — 좌표계·물리·코스·상태 머신·상수
 - [eval.md](./eval.md) — 중단 판정과 확인 목록
 - [notes/decisions.md](./notes/decisions.md) — 구현하며 내린 결정
+- [docs/design/margin-space.md](./docs/design/margin-space.md) — 통로 여백 공간 활용 아이데이션 (10안·선정·기각)
+- [docs/design/margin-space-e2e.md](./docs/design/margin-space-e2e.md) — 채택분의 e2e 기획 (메커니즘·데이터 모델·심사 파이프라인·검증)
 
 설계 근거는 저장소 지식베이스에 있다 — [MDA 역설계](../../docs/kb/mda-analysis/space-waves.md) · [장르 방향](../../docs/kb/mda-analysis/one-button-roguelite-direction.md) · [코어 루프](../../docs/kb/mda-analysis/core-loop.md).
