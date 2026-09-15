@@ -54,6 +54,8 @@ export default function App() {
   const [muted, setMutedState] = useState(isMuted());
   const [transfer, setTransfer] = useState("");
   const [practice, setPractice] = useState(false);
+  /** 방금 끝난 클리어가 실제로 지급한 코어. 반복 클리어는 0 이다 */
+  const [reward, setReward] = useState(0);
 
   const commit = useCallback((next: Meta) => setMetaState(saveMeta(next)), []);
 
@@ -76,6 +78,7 @@ export default function App() {
   const startStage = useCallback(
     (tier: number, stageNo: number) => {
       setReport(null);
+      setReward(0);
       setScreen({
         kind: "play",
         config: {
@@ -121,6 +124,7 @@ export default function App() {
       if (cfg.mode === "stage" && r.cleared && !cfg.practice) {
         const key = stageKey(cfg.tier, cfg.stageNo);
         const first = !meta.clearedStages.includes(key);
+        setReward(first ? coresForStage(cfg.tier) : 0);
         commit({
           ...meta,
           cores: meta.cores + (first ? coresForStage(cfg.tier) : 0),
@@ -417,7 +421,9 @@ export default function App() {
               <p className="dim">
                 {screen.config.practice
                   ? "연습 통과 — 기록에 남지 않는다"
-                  : `+${coresForStage(screen.config.tier)} 코어 (최초 1회)`}
+                  : reward > 0
+                    ? `+${reward} 코어`
+                    : "이미 클리어한 스테이지 — 코어는 최초 1회만"}
               </p>
               <p className="cue">누르면 계속</p>
             </div>

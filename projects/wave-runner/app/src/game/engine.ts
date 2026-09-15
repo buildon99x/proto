@@ -157,6 +157,17 @@ export function createState(config: RunConfig): GameState {
 }
 
 /**
+ * 재시도마다 Endless 시드를 한 칸 굴린다.
+ *
+ * Stage 는 같은 코스를 다시 푸는 것이 전부이지만, Endless 에서 같은 코스를 다시 주면
+ * "얼마나 멀리"가 암기 게임이 된다. 난수 대신 LCG 한 스텝을 쓰는 것은 런 전체가
+ * 여전히 (최초 시드, 재시도 횟수)로 재현되게 두기 위해서다.
+ */
+function nextSeed(seed: number): number {
+  return (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+}
+
+/**
  * 같은 설정으로 다시. 기본은 처음부터이고 빌드도 시작 프리셋으로 되돌아간다 —
  * 재시도는 실행을 다듬을지 해법을 바꿀지 고르는 기회다.
  *
@@ -170,7 +181,11 @@ export function restart(state: GameState): void {
   const checkpoints = state.checkpoints;
   const last = state.config.practice ? checkpoints[checkpoints.length - 1] : undefined;
 
-  const fresh = createState(state.config);
+  const config =
+    state.config.mode === "endless"
+      ? { ...state.config, seed: nextSeed(state.config.seed) }
+      : state.config;
+  const fresh = createState(config);
   Object.assign(state, fresh, { phase: "running", attempts, best, holding, checkpoints });
 
   if (last) {
