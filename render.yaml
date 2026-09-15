@@ -25,7 +25,10 @@ services:
     # 깨어나는 데 1분쯤 걸린다. 상시 가동이 필요해지면 starter 로 올린다.
     plan: free
     region: singapore
-    branch: main
+    # 첫 배포 확인을 위해 작업 브랜치를 가리킨다. `main` 에는 아직 server/ 도
+    # 이 파일도 없다. main 에 병합하는 순간 이 값을 main 으로 되돌린다 —
+    # 그러지 않으면 병합 뒤에도 서버가 계속 작업 브랜치를 따라간다.
+    branch: claude/jolly-cray-7vb707
     healthCheckPath: /healthz
 
     # 워크스페이스 글롭이 projects/*/app 이라 server/ 는 pnpm 워크스페이스 밖이다.
