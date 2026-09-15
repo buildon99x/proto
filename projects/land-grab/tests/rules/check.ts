@@ -12,6 +12,9 @@ import { Match } from "../../app/src/game/engine";
 import {
   BOARD_SIZE,
   HOME_RADIUS,
+  WORLD_BOARD_SIZE,
+  WORLD_BOTS,
+  WORLD_VIEW_TILES,
   MAX_PLAYERS,
   PLAYER_KEYS,
   PLAYER_LIVES,
@@ -297,7 +300,7 @@ console.log("땅따먹기 규칙 검사");
   check(
     "죽은 영토는 폐허로 잠긴다",
     match.board.isLocked(40, 40, match.elapsedMs),
-    `rubbleUntil=${match.board.rubbleUntil[match.board.index(40, 40)]} now=${match.elapsedMs}`
+    `rubbleUntil=${match.board.rubbleUntilAt(40, 40)} now=${match.elapsedMs}`
   );
   check("폐허는 아무도 소유하지 않는다", match.board.ownerAt(40, 40) === 0);
   check("잠긴 칸 수가 상대의 영토만큼이다", rivalTiles === (HOME_RADIUS * 2 + 1) ** 2);
@@ -432,6 +435,47 @@ console.log("땅따먹기 규칙 검사");
   }
   check("여럿이 하면 사람이 죽어도 판이 안 끝난다", party.phase === "playing", party.phase);
   check("사망은 그대로 집계된다", first.deaths >= 1, `${first.deaths}`);
+}
+
+// --- 12. 월드 모드 (io 문법) ---------------------------------------------------
+{
+  const world = new Match(findDifficulty("normal"), { mode: "world", seed: 4 });
+
+  check("월드 보드는 600×600 이다", world.board.size === WORLD_BOARD_SIZE, `${world.board.size}`);
+  check("봇으로 가득 찬다", world.runners.length === WORLD_BOTS + 1, `${world.runners.length}`);
+  check("사람은 한 명뿐이다", world.humans === 1);
+  check("끝이 없다", world.durationMs === Number.POSITIVE_INFINITY);
+  check("목숨 개념이 없다", world.human.lives === Number.POSITIVE_INFINITY);
+  check(
+    "카메라가 보드보다 좁다",
+    world.viewTiles === WORLD_VIEW_TILES && world.viewTiles < world.board.size,
+    `${world.viewTiles}`
+  );
+  check(
+    "시작 영토가 서로 떨어져 있다",
+    world.runners.every((runner) => world.tilesOf(runner.id) === (HOME_RADIUS * 2 + 1) ** 2),
+    world.runners.map((runner) => world.tilesOf(runner.id)).join("/")
+  );
+  check("상위 10명만 추려진다", world.leaderboard().length === 10, `${world.leaderboard().length}`);
+
+  // io 문법: 죽으면 그 판이 끝난다.
+  const me = world.human;
+  place(world, me, WALL_THICKNESS + 2, 300, "left");
+  step(world, 3);
+  check("죽으면 그 판이 끝난다", world.phase === "result" && !me.alive, `${world.phase}`);
+  check("사망이 집계된다", me.deaths === 1, `${me.deaths}`);
+  const outcome = world.result();
+  check("결과가 생존 시간을 담는다", outcome.elapsedMs > 0 && outcome.mode === "world");
+  check("결과가 전체 인원을 담는다", outcome.players === WORLD_BOTS + 1, `${outcome.players}`);
+
+  // 큰 맵에서도 전면 스캔 없이 칸 수를 안다.
+  const counted = world.board.countTiles(world.runners.length);
+  const byBounds = world.runners.reduce((sum, runner) => sum + world.tilesOf(runner.id), 0);
+  check(
+    "증분 집계가 전체 합과 맞는다",
+    counted.slice(1).reduce((a, b) => a + b, 0) === byBounds,
+    `${counted.slice(1).reduce((a, b) => a + b, 0)} vs ${byBounds}`
+  );
 }
 
 console.log(failures === 0 ? "\n모든 규칙 검사 통과" : `\n실패 ${failures}건`);

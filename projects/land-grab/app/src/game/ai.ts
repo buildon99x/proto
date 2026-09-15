@@ -87,7 +87,7 @@ export class AiController {
       state.mode = "return";
     }
 
-    const target = state.mode === "hunt" && state.target ? state.target : this.nearestOwnCell(runner);
+    const target = state.mode === "hunt" && state.target ? state.target : this.ownAnchor(runner);
     if (!target) {
       return this.preferStraight(runner, safe);
     }
@@ -278,6 +278,10 @@ export class AiController {
       if (!other.alive || other.id === runner.id || other.trail.length < huntTrailThreshold) {
         continue;
       }
+      // 머리가 멀면 꼬리도 멀다. 꼬리를 훑기 전에 싸게 거른다.
+      if (Math.abs(other.x - runner.x) + Math.abs(other.y - runner.y) > huntRange * 3) {
+        continue;
+      }
       for (const cell of other.trail) {
         const distance = Math.abs(cell.x - runner.x) + Math.abs(cell.y - runner.y);
         if (distance <= huntRange && distance < bestDistance) {
@@ -290,25 +294,27 @@ export class AiController {
     return best;
   }
 
-  private nearestOwnCell(runner: Runner): Cell | null {
+  /**
+   * 돌아갈 지점. 전면 스캔은 하지 않는다 —
+   * `600 × 600` 에서 봇마다 36만 칸을 훑으면 그것만으로 프레임이 죽는다.
+   *
+   * 마지막으로 자기 땅을 밟았던 칸을 먼저 본다. 그 칸이 아직 내 것이면 그리로 간다.
+   * 남에게 뺏겼으면 내 영토 경계 상자의 중심으로 향한다.
+   */
+  private ownAnchor(runner: Runner): Cell | null {
     const board = this.match.board;
-    let best: Cell | null = null;
-    let bestDistance = Number.POSITIVE_INFINITY;
-
-    for (let i = 0; i < board.owner.length; i += 1) {
-      if (board.owner[i] !== runner.id) {
-        continue;
-      }
-      const x = i % board.size;
-      const y = (i - x) / board.size;
-      const distance = Math.abs(x - runner.x) + Math.abs(y - runner.y);
-      if (distance < bestDistance) {
-        bestDistance = distance;
-        best = { x, y };
-      }
+    if (board.ownerAt(runner.homeX, runner.homeY) === runner.id) {
+      return { x: runner.homeX, y: runner.homeY };
     }
 
-    return best;
+    const box = board.boundsOf(runner.id);
+    if (!box) {
+      return null;
+    }
+    return {
+      x: Math.round((box.minX + box.maxX) / 2),
+      y: Math.round((box.minY + box.maxY) / 2)
+    };
   }
 
   private stepToward(runner: Runner, safe: Direction[], target: Cell): Direction {

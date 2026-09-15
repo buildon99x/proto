@@ -1,3 +1,4 @@
+import type { GameMode } from "./game/config";
 import type { Match } from "./game/engine";
 import type { Direction } from "./game/types";
 
@@ -15,6 +16,11 @@ export type LandGrabHook = {
   deaths: number;
   /** 한 화면에서 함께 하는 사람 수. */
   humans: number;
+  mode: GameMode;
+  boardSize: number;
+  players: number;
+  /** 점수 기준 내 순위 (1부터). */
+  rank: number;
   trailLength: number;
   x: number;
   y: number;
@@ -48,6 +54,10 @@ export function hookFromMatch(match: Match, difficulty: string): LandGrabHook {
     kills: human.kills,
     deaths: human.deaths,
     humans: match.humans,
+    mode: match.mode,
+    boardSize: match.board.size,
+    players: match.runners.length,
+    rank: match.standings().findIndex((entry) => entry.id === human.id) + 1,
     trailLength: human.trail.length,
     x: human.x,
     y: human.y,

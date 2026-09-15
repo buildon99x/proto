@@ -18,10 +18,20 @@ const HEADLINE: Record<MatchResult["outcome"], string> = {
 };
 
 export function ResultScreen({ result, difficulty, onRestart, onExit }: Props) {
+  const world = result.mode === "world";
   const multi = result.humans > 1;
   const me = result.standings.find((entry) => entry.kind === "human");
-  const headline = multi ? `${result.winner.label} 승리` : HEADLINE[result.outcome];
-  const subtitle = multi
+  const seconds = Math.floor(result.elapsedMs / 1000);
+  const headline = world
+    ? `${result.playerRank}위 / ${result.players}명`
+    : multi
+      ? `${result.winner.label} 승리`
+      : HEADLINE[result.outcome];
+  const subtitle = world
+    ? `생존 ${Math.floor(seconds / 60)}분 ${seconds % 60}초 · ` +
+      `${me ? `${me.score.toLocaleString("ko-KR")}점 (땅 ${me.tiles.toLocaleString("ko-KR")}칸 · 킬 ${me.kills})` : ""}` +
+      `${me ? ` · 한 번에 가장 넓게 막은 땅 ${me.bestCapture}칸` : ""}`
+    : multi
     ? `${result.humans}인 · AI ${result.standings.length - result.humans}명 · ` +
       `${difficulty.label} 난이도 · ` +
       `${result.winner.label} ${result.winner.score.toLocaleString("ko-KR")}점` +
@@ -40,8 +50,12 @@ export function ResultScreen({ result, difficulty, onRestart, onExit }: Props) {
       </header>
 
       <section className="panel">
-        <h2>최종 순위</h2>
-        <Standings standings={result.standings} detailed meId={multi ? undefined : me?.id} />
+        <h2>{world ? "순위 (상위 10)" : "최종 순위"}</h2>
+        <Standings
+          standings={world ? result.standings.slice(0, 10) : result.standings}
+          detailed
+          meId={multi ? undefined : me?.id}
+        />
       </section>
 
       <div className="overlay__actions">

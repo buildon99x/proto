@@ -5,7 +5,40 @@ import type { Direction } from "./types";
  * splix.io의 이동 속도(0.006 타일/ms = 초당 6칸)와 시작 영토 반지름 2를 그대로 쓴다.
  */
 
-export const BOARD_SIZE = 60;
+/**
+ * 판의 종류.
+ *
+ * - `party` — `60 × 60` 한 화면, 90초, 한 키보드로 1~4인.
+ * - `world` — `600 × 600` 끝없는 세계, 카메라가 따라다니고 봇이 가득하다. io 문법.
+ *
+ * 큰 맵과 한 화면 멀티는 양립하지 않는다. 600칸을 한 화면에 넣으면 말이 점 하나가 된다.
+ * 그래서 둘을 나눴다.
+ */
+export type GameMode = "party" | "world";
+
+export const PARTY_BOARD_SIZE = 60;
+
+/** splix 기본 아레나와 같은 크기. 한 변을 가로지르는 데 100초가 걸린다. */
+export const WORLD_BOARD_SIZE = 600;
+
+/** 기본 보드 크기(파티 모드). 규칙 검사와 기존 코드가 참조한다. */
+export const BOARD_SIZE = PARTY_BOARD_SIZE;
+
+/** 세계 모드의 봇 수. */
+export const WORLD_BOTS = 40;
+
+/** 한 화면에 보이는 타일 수(가로). splix 는 최소 20칸을 보장한다. */
+export const WORLD_VIEW_TILES = 44;
+
+/** 미니맵 한 변의 픽셀 수. 보드를 이 해상도로 줄여 그린다. */
+export const MINIMAP_PIXELS = 120;
+
+/** 미니맵을 4등분해 한 번에 한 조각씩 갱신한다. splix 와 같은 방식. */
+export const MINIMAP_PARTS = 4;
+export const MINIMAP_PART_MS = 250;
+
+export const LEADERBOARD_SIZE = 10;
+export const LEADERBOARD_UPDATE_MS = 500;
 
 /** 가장 바깥 한 줄은 벽이다. 닿으면 죽고, 소유할 수 없다. */
 export const WALL_THICKNESS = 1;
@@ -90,14 +123,38 @@ export function captureMultiplier(cells: number): number {
   return 1;
 }
 
-/** 플레이어 번호(1..4)별 고정 팔레트. 0번 자리는 중립이다. */
+/**
+ * 플레이어 색. 0번 자리는 중립이고, 1번부터 차례로 쓴다.
+ * 세계 모드에서는 참가자가 팔레트보다 많을 수 있어 `playerStyle` 이 돌려 쓴다.
+ * 앞의 넷은 파티 모드의 고정 색이라 순서를 바꾸지 않는다.
+ */
 export const PALETTE = [
   { territory: "#1b2437", unit: "#1b2437", name: "중립" },
-  { territory: "#22d3ee", unit: "#ecfeff", name: "나" },
+  { territory: "#22d3ee", unit: "#ecfeff", name: "청록" },
   { territory: "#fb923c", unit: "#fff7ed", name: "주황" },
   { territory: "#c084fc", unit: "#faf5ff", name: "보라" },
-  { territory: "#a3e635", unit: "#f7fee7", name: "연두" }
+  { territory: "#a3e635", unit: "#f7fee7", name: "연두" },
+  { territory: "#fb7185", unit: "#fff1f2", name: "산호" },
+  { territory: "#38bdf8", unit: "#f0f9ff", name: "하늘" },
+  { territory: "#fbbf24", unit: "#fffbeb", name: "호박" },
+  { territory: "#34d399", unit: "#ecfdf5", name: "옥" },
+  { territory: "#e879f9", unit: "#fdf4ff", name: "자홍" },
+  { territory: "#2dd4bf", unit: "#f0fdfa", name: "비취" },
+  { territory: "#818cf8", unit: "#eef2ff", name: "쪽" },
+  { territory: "#facc15", unit: "#fefce8", name: "노랑" },
+  { territory: "#f87171", unit: "#fef2f2", name: "진홍" },
+  { territory: "#4ade80", unit: "#f0fdf4", name: "풀" },
+  { territory: "#a78bfa", unit: "#f5f3ff", name: "제비꽃" },
+  { territory: "#f472b6", unit: "#fdf2f8", name: "분홍" }
 ] as const;
+
+/** 참가자 수가 팔레트보다 많으면 색을 돌려 쓴다. */
+export function playerStyle(id: number): (typeof PALETTE)[number] {
+  if (id <= 0) {
+    return PALETTE[0];
+  }
+  return PALETTE[((id - 1) % (PALETTE.length - 1)) + 1];
+}
 
 /**
  * 판마다 켜고 끌 수 있는 규칙. 설계 가설을 측정하려고 열어 둔다.

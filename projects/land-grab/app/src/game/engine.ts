@@ -1,10 +1,14 @@
 import { Board } from "./board";
 import {
-  BOARD_SIZE,
   HOME_RADIUS,
+  LEADERBOARD_SIZE,
   MATCH_DURATION_MS,
   MAX_PLAYERS,
-  PALETTE,
+  PARTY_BOARD_SIZE,
+  WORLD_BOARD_SIZE,
+  WORLD_BOTS,
+  WORLD_VIEW_TILES,
+  playerStyle,
   PLAYER_KEYS,
   captureMultiplier,
   PLAYER_LIVES,
@@ -14,6 +18,7 @@ import {
   WALL_THICKNESS,
   DEFAULT_RULES,
   type Difficulty,
+  type GameMode,
   type MatchRules
 } from "./config";
 import { DELTA, OPPOSITE, type Cell, type Direction, type PlayerId, type MatchPhase, type Runner, type Standing } from "./types";
@@ -53,9 +58,16 @@ export type MatchResult = {
   playerRank: number;
   winner: Standing;
   humans: number;
+  mode: GameMode;
+  /** 세계 모드에서는 생존 시간이다. */
+  elapsedMs: number;
+  /** 전체 참가자 수. */
+  players: number;
 };
 
 export type MatchOptions = {
+  /** `party` 는 작은 보드·90초·한 화면 멀티, `world` 는 큰 보드·끝없음·봇 다수. */
+  mode?: GameMode;
   seed?: number;
   /** 켜고 끌 수 있는 실험 규칙. 근거는 `docs/design/differentiation.md`. */
   rules?: Partial<MatchRules>;
@@ -66,7 +78,9 @@ export type MatchOptions = {
 export class Match {
   readonly board: Board;
   readonly runners: Runner[];
-  readonly durationMs = MATCH_DURATION_MS;
+  readonly mode: GameMode;
+  /** 세계 모드는 끝이 없다. `Infinity`. */
+  readonly durationMs: number;
   readonly difficulty: Difficulty;
 
   phase: MatchPhase = "playing";
@@ -81,16 +95,20 @@ export class Match {
   readonly humans: number;
 
   constructor(difficulty: Difficulty, options: MatchOptions = {}) {
-    const { seed = Date.now(), rules = {}, humans = 1 } = options;
+    const { mode = "party", seed = Date.now(), rules = {}, humans = 1 } = options;
 
+    this.mode = mode;
     this.rules = { ...DEFAULT_RULES, ...rules };
-    this.humans = Math.min(MAX_PLAYERS, Math.max(1, Math.floor(humans)));
+    // 큰 맵은 카메라가 따라다녀야 해서 한 화면 멀티와 양립하지 않는다.
+    this.humans = mode === "world" ? 1 : Math.min(MAX_PLAYERS, Math.max(1, Math.floor(humans)));
+    this.durationMs = mode === "world" ? Number.POSITIVE_INFINITY : MATCH_DURATION_MS;
     this.difficulty = difficulty;
     this.rng = mulberry32(seed);
-    this.board = new Board(BOARD_SIZE);
+    this.board = new Board(mode === "world" ? WORLD_BOARD_SIZE : PARTY_BOARD_SIZE);
 
     // 혼자면 난이도가 AI 수를 정한다. 둘 이상이면 빈 자리를 AI 로 채워 항상 4명이 된다.
-    const total = this.humans === 1 ? difficulty.aiCount + 1 : MAX_PLAYERS;
+    // 세계 모드는 봇으로 가득 채운다 — io 게임은 상대가 늘 어딘가에 있어야 한다.
+    const total = mode === "world" ? WORLD_BOTS + 1 : this.humans === 1 ? difficulty.aiCount + 1 : MAX_PLAYERS;
     this.runners = [];
 
     const homes = this.homeAnchors(total);
@@ -107,6 +125,8 @@ export class Match {
         y: home.y,
         prevX: home.x,
         prevY: home.y,
+        homeX: home.x,
+        homeY: home.y,
         dir: this.spawnDirection(home),
         queuedDir: null,
         turnedAtX: -1,
@@ -116,7 +136,8 @@ export class Match {
         tickAccMs: 0,
         // 여럿이 하면 아무도 중간에 탈락하지 않는다. 한 명이 목숨을 잃어서
         // 판이 끝나 버리면 나머지 사람들의 90초가 사라진다.
-        lives: isHuman && this.humans === 1 ? PLAYER_LIVES : Number.POSITIVE_INFINITY,
+        // 세계 모드는 io 문법 그대로 — 목숨 없이, 죽으면 그 판이 끝난다.
+        lives: isHuman && this.mode === "party" && this.humans === 1 ? PLAYER_LIVES : Number.POSITIVE_INFINITY,
         kills: 0,
         deaths: 0,
         bonusPoints: 0,
@@ -146,10 +167,17 @@ export class Match {
     return this.runners[0];
   }
 
+  /** 화면에 보여 줄 타일 수(가로). 보드보다 크면 보드 전체가 보인다. */
+  get viewTiles(): number {
+    return this.mode === "world" ? WORLD_VIEW_TILES : this.board.size;
+  }
+
   /** 화면에 보여 줄 이름. */
   labelOf(runner: Runner): string {
     if (runner.kind !== "human") {
-      return `AI ${PALETTE[runner.id].name}`;
+      return this.mode === "world"
+        ? `봇 ${playerStyle(runner.id).name}${runner.id}`
+        : `AI ${playerStyle(runner.id).name}`;
     }
     if (this.humans === 1) {
       return "나";
@@ -283,6 +311,11 @@ export class Match {
       .sort((a, b) => b.score - a.score || b.peakTiles - a.peakTiles || a.id - b.id);
   }
 
+  /** 상위 몇 명만. 참가자가 많은 세계 모드에서 화면에 쓰는 목록이다. */
+  leaderboard(limit = LEADERBOARD_SIZE): Standing[] {
+    return this.standings().slice(0, limit);
+  }
+
   result(): MatchResult {
     const standings = this.standings();
     const playerRank = standings.findIndex((item) => item.id === this.human.id) + 1;
@@ -294,7 +327,16 @@ export class Match {
           : playerRank === 1
             ? "win"
             : "ranked";
-    return { outcome, standings, playerRank, winner: standings[0], humans: this.humans };
+    return {
+      outcome,
+      standings,
+      playerRank,
+      winner: standings[0],
+      humans: this.humans,
+      mode: this.mode,
+      elapsedMs: this.elapsedMs,
+      players: this.runners.length
+    };
   }
 
   // --- 시뮬레이션 내부 ---
@@ -349,6 +391,8 @@ export class Match {
     runner.y = nextY;
 
     if (this.board.ownerAt(nextX, nextY) === runner.id) {
+      runner.homeX = nextX;
+      runner.homeY = nextY;
       if (runner.trail.length > 0) {
         const opponents = this.runners
           .filter((item) => item.alive && item.id !== runner.id)
@@ -430,9 +474,14 @@ export class Match {
     this.tileCounts = this.board.countTiles(this.runners.length);
 
     if (runner.kind === "human") {
-      runner.lives -= 1;
-      if (runner.lives <= 0) {
+      if (this.mode === "world") {
+        // io 문법: 목숨이 없다. 죽으면 그 판이 끝나고 새로 들어간다.
         this.finish();
+      } else {
+        runner.lives -= 1;
+        if (runner.lives <= 0) {
+          this.finish();
+        }
       }
     }
   }
@@ -449,6 +498,8 @@ export class Match {
     runner.y = home.y;
     runner.prevX = home.x;
     runner.prevY = home.y;
+    runner.homeX = home.x;
+    runner.homeY = home.y;
     runner.dir = this.spawnDirection(home);
     runner.queuedDir = null;
     runner.turnedAtX = -1;
@@ -460,25 +511,58 @@ export class Match {
     this.tileCounts = this.board.countTiles(this.runners.length);
   }
 
-  /** 네 구역에 고르게 배치한 시작 지점. 슬롯 수가 3이면 세 구역만 쓴다. */
+  /**
+   * 시작 지점. 파티 모드는 네 구역에 고르게, 세계 모드는 넓게 흩뿌린다.
+   * 흩뿌릴 때는 서로 최소 거리를 두되, 못 찾으면 그냥 아무 데나 둔다 —
+   * 자리를 못 잡아 게임이 시작되지 않는 편이 훨씬 나쁘다.
+   */
   private homeAnchors(count: number): Cell[] {
+    const size = this.board.size;
     const low = WALL_THICKNESS + HOME_RADIUS + 1;
-    const high = BOARD_SIZE - WALL_THICKNESS - HOME_RADIUS - 2;
-    const near = Math.round(low + (high - low) * 0.22);
-    const far = Math.round(low + (high - low) * 0.78);
-    const quadrants: Cell[] = [
-      { x: near, y: far },
-      { x: far, y: near },
-      { x: far, y: far },
-      { x: near, y: near }
-    ];
-    return quadrants.slice(0, count);
+    const high = size - WALL_THICKNESS - HOME_RADIUS - 2;
+
+    if (this.mode === "party") {
+      const near = Math.round(low + (high - low) * 0.22);
+      const far = Math.round(low + (high - low) * 0.78);
+      return [
+        { x: near, y: far },
+        { x: far, y: near },
+        { x: far, y: far },
+        { x: near, y: near }
+      ].slice(0, count);
+    }
+
+    const span = high - low;
+    const minDistance = Math.floor(size / Math.sqrt(count) / 1.6);
+    const anchors: Cell[] = [];
+
+    for (let i = 0; i < count; i += 1) {
+      let picked: Cell | null = null;
+      for (let attempt = 0; attempt < 200 && !picked; attempt += 1) {
+        const x = low + Math.floor(this.rng() * (span + 1));
+        const y = low + Math.floor(this.rng() * (span + 1));
+        const clear = anchors.every(
+          (other) => Math.abs(other.x - x) + Math.abs(other.y - y) >= minDistance
+        );
+        if (clear) {
+          picked = { x, y };
+        }
+      }
+      anchors.push(
+        picked ?? {
+          x: low + Math.floor(this.rng() * (span + 1)),
+          y: low + Math.floor(this.rng() * (span + 1))
+        }
+      );
+    }
+
+    return anchors;
   }
 
   /** 가장 가까운 벽의 반대쪽을 향해 출발한다. 스폰 직후 벽에 박히지 않게 하는 규칙. */
   private spawnDirection(from: Cell): Direction {
     const low = WALL_THICKNESS;
-    const high = BOARD_SIZE - WALL_THICKNESS - 1;
+    const high = this.board.size - WALL_THICKNESS - 1;
     const gaps: Array<{ dir: Direction; gap: number }> = [
       { dir: "down", gap: from.y - low },
       { dir: "up", gap: high - from.y },
@@ -495,7 +579,7 @@ export class Match {
    */
   private findSpawn(): Cell {
     const low = WALL_THICKNESS + HOME_RADIUS;
-    const high = BOARD_SIZE - WALL_THICKNESS - HOME_RADIUS - 1;
+    const high = this.board.size - WALL_THICKNESS - HOME_RADIUS - 1;
     const span = high - low;
     const passes = [
       { attempts: 120, requireEmpty: true, minDistance: 10 },
@@ -518,7 +602,7 @@ export class Match {
       }
     }
 
-    return { x: Math.floor(BOARD_SIZE / 2), y: Math.floor(BOARD_SIZE / 2) };
+    return { x: Math.floor(this.board.size / 2), y: Math.floor(this.board.size / 2) };
   }
 
   private isAreaEmpty(centerX: number, centerY: number): boolean {

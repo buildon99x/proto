@@ -1,4 +1,4 @@
-import { PALETTE } from "./config";
+import { playerStyle } from "./config";
 import type { MatchEvent } from "./engine";
 import type { Cell, PlayerId } from "./types";
 
@@ -80,11 +80,11 @@ export class Effects {
         continue;
       }
 
-      this.spawnShards(event.cells, PALETTE[event.id].territory);
+      this.spawnShards(event.cells, playerStyle(event.id).territory);
       this.shockwaves.push({
         x: event.x + 0.5,
         y: event.y + 0.5,
-        color: PALETTE[event.killerId ?? event.id].territory,
+        color: playerStyle(event.killerId ?? event.id).territory,
         ageMs: 0,
         lifeMs: SHOCKWAVE_LIFE_MS
       });
@@ -94,7 +94,7 @@ export class Effects {
           x: event.x + 0.5,
           y: event.y + 0.5,
           text: `+${event.awardedScore.toLocaleString("ko-KR")}`,
-          color: PALETTE[event.killerId].territory,
+          color: playerStyle(event.killerId).territory,
           ageMs: 0,
           lifeMs: SCORE_POP_LIFE_MS
         });

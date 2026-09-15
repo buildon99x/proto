@@ -17,6 +17,9 @@ export type Runner = {
   /** 보간용 직전 칸. */
   prevX: number;
   prevY: number;
+  /** 마지막으로 자기 땅을 밟은 칸. 큰 맵에서 전면 스캔 없이 복귀 지점을 찾는 데 쓴다. */
+  homeX: number;
+  homeY: number;
   dir: Direction;
   queuedDir: Direction | null;
   /** 방향 전환을 받아들인 칸. 같은 칸에서 두 번 바꾸지 못하게 막는다. */

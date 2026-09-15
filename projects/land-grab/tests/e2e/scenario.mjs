@@ -16,8 +16,11 @@ export const meta = {
 /** 한 칸 이동 시간(ms). app/src/game/config.ts 의 PLAYER_TICK_MS 와 맞춘다. */
 const TICK_MS = 167;
 
-/** app/src/game/config.ts 의 BOARD_SIZE. */
+/** app/src/game/config.ts 의 PARTY_BOARD_SIZE. 규칙 검사는 파티 모드에서 한다. */
 const BOARD_SIZE = 60;
+
+/** app/src/game/config.ts 의 WORLD_BOARD_SIZE. */
+const WORLD_BOARD_SIZE = 600;
 
 const KEY = { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" };
 const OPPOSITE = { up: "down", down: "up", left: "right", right: "left" };
@@ -141,9 +144,19 @@ export async function run({ page, sleep, shot, clickText, log }) {
   await sleep(700);
   await shot("01-title");
 
+  // 규칙 검사(R1~R6)는 파티 모드에서 한다 — 보드가 한 화면에 들어오고 90초로 끝난다.
+  await clickText("파티");
+  await sleep(200);
   await clickText("게임 시작");
   await sleep(700);
   await shot("02-ingame-start");
+
+  const opening = await readState(page);
+  assert(opening, "테스트 훅(window.__landGrab)이 없다");
+  assert(
+    opening.mode === "party" && opening.boardSize === BOARD_SIZE,
+    `파티 모드가 아니다: mode=${opening.mode} board=${opening.boardSize}`
+  );
 
   // R1 — 시작 영토가 있다.
   const started = await readState(page);
@@ -299,4 +312,43 @@ export async function run({ page, sleep, shot, clickText, log }) {
   await shot("08-result");
   assert(resultVisible, "경기가 끝났는데 결과 화면이 뜨지 않았다");
   log("R5 결과 화면 확인");
+
+  // --- W1~W3 — 월드 모드: 큰 맵, 카메라, 미니맵, 리더보드 ---
+  await clickText("타이틀로");
+  await sleep(400);
+  await clickText("월드");
+  await sleep(200);
+  await clickText("게임 시작");
+  await sleep(800);
+
+  const world = await readState(page);
+  assert(world, "월드 모드에서 테스트 훅이 없다");
+  assert(
+    world.mode === "world" && world.boardSize === WORLD_BOARD_SIZE,
+    `월드 보드가 ${WORLD_BOARD_SIZE} 이 아니다: ${world.boardSize}`
+  );
+  assert(world.players > 10, `참가자가 너무 적다: ${world.players}`);
+  log(`W1 월드 ${world.boardSize}×${world.boardSize}, 참가자 ${world.players}명`);
+
+  const chrome = await page.evaluate(() => ({
+    minimap: Boolean(document.querySelector(".minimap")),
+    leaderboard: document.querySelectorAll(".board__row").length
+  }));
+  assert(chrome.minimap, "미니맵이 없다");
+  assert(chrome.leaderboard >= 10, `리더보드 줄이 모자라다: ${chrome.leaderboard}`);
+  log(`W2 미니맵과 리더보드 ${chrome.leaderboard}줄 확인`);
+
+  // 카메라가 따라오는지: 잠깐 달린 뒤 좌표가 바뀌어야 한다.
+  const spawned = await readState(page);
+  await sleep(2_000);
+  const moved = await readState(page);
+  assert(
+    moved.phase !== "playing" || spawned.x !== moved.x || spawned.y !== moved.y,
+    "월드 모드에서 말이 움직이지 않는다"
+  );
+  await shot("09-world");
+  log(
+    `W3 이동 확인 (${spawned.x},${spawned.y}) → (${moved.x},${moved.y}),` +
+      ` 순위 ${moved.rank}/${moved.players}`
+  );
 }

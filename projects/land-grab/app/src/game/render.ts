@@ -1,8 +1,8 @@
-import { PALETTE, PLAYER_KEYS } from "./config";
+import { PLAYER_KEYS, playerStyle } from "./config";
 import { WALL } from "./board";
 import type { Match } from "./engine";
 import type { Effects } from "./effects";
-import { DELTA, type Runner } from "./types";
+import { DELTA, type Cell, type Runner } from "./types";
 
 const BACKGROUND = "#0d1220";
 const EMPTY_TILE = "#2c2a27";
@@ -12,9 +12,21 @@ const WALL_STRIPE = "#26231f";
 const RUBBLE = "#4b4238";
 const RUBBLE_CRACK = "#7b6a57";
 
-/** 타일 사이 간격 비율. splix 계열 특유의 "블록이 따로 놓인" 느낌을 만든다. */
+/** 타일 사이 간격 비율. 블록이 따로 놓인 느낌을 만든다. */
 const TILE_GAP = 0.12;
 const TILE_RADIUS = 0.22;
+
+/**
+ * 보이는 범위. 큰 맵에서는 화면에 들어오는 칸만 그린다 —
+ * `600 × 600` 은 36만 칸이라 전부 훑으면 한 프레임도 못 그린다.
+ */
+export type Camera = {
+  /** 화면 중앙에 오는 타일 좌표. */
+  x: number;
+  y: number;
+  /** 가로로 보이는 타일 수. */
+  tiles: number;
+};
 
 function withAlpha(hex: string, alpha: number): string {
   const value = hex.replace("#", "");
@@ -34,162 +46,203 @@ function shade(hex: string, amount: number): string {
   return `rgb(${channels[0]}, ${channels[1]}, ${channels[2]})`;
 }
 
-function tilePath(ctx: CanvasRenderingContext2D, x: number, y: number, cell: number): void {
-  const gap = cell * TILE_GAP;
-  ctx.roundRect(x * cell + gap, y * cell + gap, cell - gap * 2, cell - gap * 2, cell * TILE_RADIUS);
+/** 화면에 그릴 때 쓰는 좌표 변환. 타일 좌표 → 논리 픽셀. */
+type View = {
+  cell: number;
+  left: number;
+  top: number;
+  minX: number;
+  minY: number;
+  maxX: number;
+  maxY: number;
+  toX: (tileX: number) => number;
+  toY: (tileY: number) => number;
+};
+
+function makeView(match: Match, size: number, camera: Camera): View {
+  const cell = size / camera.tiles;
+  const half = camera.tiles / 2;
+  const left = camera.x - half;
+  const top = camera.y - half;
+  const board = match.board;
+
+  return {
+    cell,
+    left,
+    top,
+    minX: Math.max(0, Math.floor(left)),
+    minY: Math.max(0, Math.floor(top)),
+    maxX: Math.min(board.size - 1, Math.ceil(left + camera.tiles)),
+    maxY: Math.min(board.size - 1, Math.ceil(top + camera.tiles)),
+    toX: (tileX: number) => (tileX - left) * cell,
+    toY: (tileY: number) => (tileY - top) * cell
+  };
 }
 
-/** 빈 타일과 벽은 매 프레임 바뀌지 않으므로 한 번만 그려 두고 재사용한다. */
-export class BoardBackdrop {
-  private canvas: HTMLCanvasElement | null = null;
-  private renderedSize = 0;
-  private renderedCells = 0;
-  private renderedScale = 0;
+function tilePath(ctx: CanvasRenderingContext2D, view: View, x: number, y: number): void {
+  const gap = view.cell * TILE_GAP;
+  ctx.roundRect(
+    view.toX(x) + gap,
+    view.toY(y) + gap,
+    view.cell - gap * 2,
+    view.cell - gap * 2,
+    view.cell * TILE_RADIUS
+  );
+}
 
-  get(match: Match, size: number, scale: number): HTMLCanvasElement {
-    if (
-      this.canvas &&
-      this.renderedSize === size &&
-      this.renderedCells === match.board.size &&
-      this.renderedScale === scale
-    ) {
-      return this.canvas;
-    }
+/** 소유자별로 칸을 모아 한 번에 칠하려고 쓰는 버퍼. 프레임마다 재사용한다. */
+const ownerBuckets: number[][] = Array.from({ length: 256 }, () => []);
+const touchedOwners: number[] = [];
 
-    const canvas = document.createElement("canvas");
-    canvas.width = Math.round(size * scale);
-    canvas.height = Math.round(size * scale);
-    const ctx = canvas.getContext("2d");
-    if (!ctx) {
-      throw new Error("2D 컨텍스트를 만들 수 없습니다.");
-    }
-    ctx.setTransform(scale, 0, 0, scale, 0, 0);
+/**
+ * 빈 칸 격자는 모양이 늘 같다. 매 프레임 둥근 사각형 수천 개를 다시 그릴 이유가 없어
+ * 한 번 그려 두고 카메라의 소수점 어긋남만큼 밀어서 붙인다.
+ */
+const emptyGrid: {
+  canvas: HTMLCanvasElement | null;
+  cell: number;
+  span: number;
+} = { canvas: null, cell: 0, span: 0 };
 
-    const board = match.board;
-    const cell = size / board.size;
-
-    ctx.fillStyle = BACKGROUND;
-    ctx.fillRect(0, 0, size, size);
-
-    ctx.beginPath();
-    for (let y = 0; y < board.size; y += 1) {
-      for (let x = 0; x < board.size; x += 1) {
-        if (!board.isWall(x, y)) {
-          tilePath(ctx, x, y, cell);
-        }
-      }
-    }
-    ctx.fillStyle = EMPTY_TILE;
-    ctx.fill();
-    ctx.strokeStyle = EMPTY_TILE_EDGE;
-    ctx.lineWidth = Math.max(1, cell * 0.08);
-    ctx.stroke();
-
-    ctx.save();
-    ctx.beginPath();
-    for (let y = 0; y < board.size; y += 1) {
-      for (let x = 0; x < board.size; x += 1) {
-        if (board.isWall(x, y)) {
-          ctx.rect(x * cell, y * cell, cell, cell);
-        }
-      }
-    }
-    ctx.fillStyle = WALL_TILE;
-    ctx.fill();
-    ctx.clip();
-    ctx.strokeStyle = WALL_STRIPE;
-    ctx.lineWidth = Math.max(2, cell * 0.55);
-    ctx.beginPath();
-    for (let offset = -size; offset < size * 2; offset += cell * 1.8) {
-      ctx.moveTo(offset, 0);
-      ctx.lineTo(offset + size, size);
-    }
-    ctx.stroke();
-    ctx.restore();
-
-    this.canvas = canvas;
-    this.renderedSize = size;
-    this.renderedCells = board.size;
-    this.renderedScale = scale;
-    return canvas;
+function emptyGridCanvas(cell: number, span: number): HTMLCanvasElement {
+  if (emptyGrid.canvas && emptyGrid.cell === cell && emptyGrid.span === span) {
+    return emptyGrid.canvas;
   }
+
+  const canvas = document.createElement("canvas");
+  const side = Math.ceil(span * cell);
+  canvas.width = side;
+  canvas.height = side;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    throw new Error("2D 컨텍스트를 만들 수 없습니다.");
+  }
+
+  ctx.fillStyle = BACKGROUND;
+  ctx.fillRect(0, 0, side, side);
+
+  const gap = cell * TILE_GAP;
+  ctx.beginPath();
+  for (let y = 0; y < span; y += 1) {
+    for (let x = 0; x < span; x += 1) {
+      ctx.roundRect(x * cell + gap, y * cell + gap, cell - gap * 2, cell - gap * 2, cell * TILE_RADIUS);
+    }
+  }
+  ctx.fillStyle = EMPTY_TILE;
+  ctx.fill();
+  ctx.strokeStyle = EMPTY_TILE_EDGE;
+  ctx.lineWidth = Math.max(0.5, cell * 0.08);
+  ctx.stroke();
+
+  emptyGrid.canvas = canvas;
+  emptyGrid.cell = cell;
+  emptyGrid.span = span;
+  return canvas;
 }
 
 /**
  * 한 프레임을 그린다. 시뮬레이션 상태는 읽기만 한다.
  *
  * @param size 캔버스의 논리 픽셀 한 변 길이(정사각형).
+ * @param scale 장치 픽셀 비율.
  */
 export function drawMatch(
   ctx: CanvasRenderingContext2D,
   match: Match,
   effects: Effects,
-  backdrop: BoardBackdrop,
   size: number,
-  scale: number
+  scale: number,
+  camera: Camera
 ): void {
-  const cell = size / match.board.size;
+  void scale;
+  const view = makeView(match, size, camera);
 
-  ctx.clearRect(0, 0, size, size);
-  ctx.drawImage(backdrop.get(match, size, scale), 0, 0, size, size);
+  ctx.fillStyle = BACKGROUND;
+  ctx.fillRect(0, 0, size, size);
 
-  drawTerritory(ctx, match, cell);
-  drawRubble(ctx, match, cell);
-  drawCaptureSweeps(ctx, effects, cell);
-  drawTrails(ctx, match, cell);
-  drawShards(ctx, effects, cell);
-  drawShockwaves(ctx, effects, cell);
-  drawRunners(ctx, match, cell, size);
-  drawScorePops(ctx, effects, cell);
+  drawTiles(ctx, match, view);
+  drawRubble(ctx, match, view);
+  drawCaptureSweeps(ctx, effects, view);
+  drawTrails(ctx, match, view);
+  drawShards(ctx, effects, view);
+  drawShockwaves(ctx, effects, view);
+  drawRunners(ctx, match, view, size, camera);
+  drawScorePops(ctx, effects, view);
 }
 
-function drawTerritory(ctx: CanvasRenderingContext2D, match: Match, cell: number): void {
+/** 빈 격자는 통째로 붙이고, 주인이 있는 칸과 벽만 위에 덧그린다. */
+function drawTiles(ctx: CanvasRenderingContext2D, match: Match, view: View): void {
   const board = match.board;
+  const span = Math.ceil(view.maxX - view.minX + 2);
+  const grid = emptyGridCanvas(view.cell, Math.max(span, 2));
+  const fracX = view.left - Math.floor(view.left);
+  const fracY = view.top - Math.floor(view.top);
+  ctx.drawImage(grid, -fracX * view.cell, -fracY * view.cell);
 
-  for (let id = 1; id < PALETTE.length; id += 1) {
-    let any = false;
-    ctx.beginPath();
+  for (const owner of touchedOwners) {
+    ownerBuckets[owner].length = 0;
+  }
+  touchedOwners.length = 0;
 
-    for (let y = 0; y < board.size; y += 1) {
-      for (let x = 0; x < board.size; x += 1) {
-        const owner = board.owner[board.index(x, y)];
-        if (owner !== id || owner === WALL) {
-          continue;
-        }
-        tilePath(ctx, x, y, cell);
-        any = true;
+  for (let y = view.minY; y <= view.maxY; y += 1) {
+    const row = y * board.size;
+    for (let x = view.minX; x <= view.maxX; x += 1) {
+      const owner = board.owner[row + x];
+      if (owner === 0) {
+        continue;
       }
+      const bucket = ownerBuckets[owner];
+      if (bucket.length === 0) {
+        touchedOwners.push(owner);
+      }
+      bucket.push(x, y);
+    }
+  }
+
+  for (const owner of touchedOwners) {
+    const cells = ownerBuckets[owner];
+
+    ctx.beginPath();
+    for (let i = 0; i < cells.length; i += 2) {
+      tilePath(ctx, view, cells[i], cells[i + 1]);
     }
 
-    if (!any) {
+    if (owner === WALL) {
+      ctx.fillStyle = WALL_TILE;
+      ctx.fill();
+      ctx.strokeStyle = WALL_STRIPE;
+      ctx.lineWidth = Math.max(1, view.cell * 0.3);
+      ctx.beginPath();
+      for (let i = 0; i < cells.length; i += 2) {
+        const left = view.toX(cells[i]);
+        const top = view.toY(cells[i + 1]);
+        ctx.moveTo(left, top + view.cell);
+        ctx.lineTo(left + view.cell, top);
+      }
+      ctx.stroke();
       continue;
     }
 
-    const color = PALETTE[id].territory;
+    const color = playerStyle(owner).territory;
     ctx.fillStyle = shade(color, -0.32);
     ctx.fill();
     ctx.strokeStyle = color;
-    ctx.lineWidth = Math.max(1, cell * 0.1);
+    ctx.lineWidth = Math.max(0.5, view.cell * 0.1);
     ctx.stroke();
   }
 }
 
-/**
- * 폐허 — 누군가 죽어서 잠긴 땅. 아무도 가져갈 수 없고, 잠금이 풀릴수록 옅어진다.
- * 잠금 규칙이 꺼져 있으면 아무것도 그리지 않는다.
- */
-function drawRubble(ctx: CanvasRenderingContext2D, match: Match, cell: number): void {
+/** 폐허 — 누군가 죽어서 잠긴 땅. 잠금이 풀릴수록 옅어진다. */
+function drawRubble(ctx: CanvasRenderingContext2D, match: Match, view: View): void {
   const lockMs = match.rules.rubbleLockMs;
-  if (lockMs <= 0) {
+  if (lockMs <= 0 || !match.board.hasRubble) {
     return;
   }
 
-  const board = match.board;
   const now = match.elapsedMs;
-
-  for (let y = 0; y < board.size; y += 1) {
-    for (let x = 0; x < board.size; x += 1) {
-      const until = board.rubbleUntil[board.index(x, y)];
+  for (let y = view.minY; y <= view.maxY; y += 1) {
+    for (let x = view.minX; x <= view.maxX; x += 1) {
+      const until = match.board.rubbleUntilAt(x, y);
       if (until <= now) {
         continue;
       }
@@ -197,30 +250,37 @@ function drawRubble(ctx: CanvasRenderingContext2D, match: Match, cell: number): 
 
       ctx.fillStyle = withAlpha(RUBBLE, 0.25 + remaining * 0.55);
       ctx.beginPath();
-      tilePath(ctx, x, y, cell);
+      tilePath(ctx, view, x, y);
       ctx.fill();
 
       ctx.strokeStyle = withAlpha(RUBBLE_CRACK, 0.3 + remaining * 0.5);
-      ctx.lineWidth = Math.max(1, cell * 0.12);
+      ctx.lineWidth = Math.max(1, view.cell * 0.12);
       ctx.beginPath();
-      ctx.moveTo((x + 0.25) * cell, (y + 0.25) * cell);
-      ctx.lineTo((x + 0.75) * cell, (y + 0.75) * cell);
+      ctx.moveTo(view.toX(x + 0.25), view.toY(y + 0.25));
+      ctx.lineTo(view.toX(x + 0.75), view.toY(y + 0.75));
       ctx.stroke();
     }
   }
 }
 
+function visible(view: View, x: number, y: number): boolean {
+  return x >= view.minX - 1 && x <= view.maxX + 1 && y >= view.minY - 1 && y <= view.maxY + 1;
+}
+
 /** 점령 직후 새 영역 위를 훑고 지나가는 사선 쐐기. */
-function drawCaptureSweeps(ctx: CanvasRenderingContext2D, effects: Effects, cell: number): void {
+function drawCaptureSweeps(ctx: CanvasRenderingContext2D, effects: Effects, view: View): void {
   for (const sweep of effects.sweeps) {
     const progress = sweep.ageMs / sweep.lifeMs;
     const front = progress * (sweep.reach + 6);
-    const color = PALETTE[sweep.id].territory;
+    const color = playerStyle(sweep.id).territory;
 
     ctx.save();
     ctx.globalCompositeOperation = "lighter";
 
     for (const spot of sweep.cells) {
+      if (!visible(view, spot.x, spot.y)) {
+        continue;
+      }
       const distance = Math.abs(spot.x - sweep.originX) + Math.abs(spot.y - sweep.originY);
       const local = (front - distance) / 4;
       if (local <= 0 || local >= 1.6) {
@@ -229,7 +289,7 @@ function drawCaptureSweeps(ctx: CanvasRenderingContext2D, effects: Effects, cell
       const intensity = local < 1 ? local : 1.6 - local;
       ctx.fillStyle = withAlpha(color, Math.min(0.55, intensity * 0.5));
       ctx.beginPath();
-      tilePath(ctx, spot.x, spot.y, cell);
+      tilePath(ctx, view, spot.x, spot.y);
       ctx.fill();
     }
 
@@ -237,55 +297,73 @@ function drawCaptureSweeps(ctx: CanvasRenderingContext2D, effects: Effects, cell
   }
 }
 
+const trailBuffer: Cell[] = [];
+
 /** 꼬리는 영토와 같은 색이지만 사선 빗금을 넣어 한눈에 구분되게 한다. */
-function drawTrails(ctx: CanvasRenderingContext2D, match: Match, cell: number): void {
+function drawTrails(ctx: CanvasRenderingContext2D, match: Match, view: View): void {
   for (const runner of match.runners) {
     if (!runner.alive || runner.trail.length === 0) {
       continue;
     }
 
-    const color = PALETTE[runner.id].territory;
+    const cells = trailBuffer;
+    cells.length = 0;
+    for (const spot of runner.trail) {
+      if (visible(view, spot.x, spot.y)) {
+        cells.push(spot);
+      }
+    }
+    if (cells.length === 0) {
+      continue;
+    }
+    const color = playerStyle(runner.id).territory;
 
     ctx.save();
     ctx.beginPath();
-    for (const spot of runner.trail) {
-      ctx.rect(spot.x * cell, spot.y * cell, cell, cell);
+    for (const spot of cells) {
+      ctx.rect(view.toX(spot.x), view.toY(spot.y), view.cell, view.cell);
     }
     ctx.clip();
 
     ctx.fillStyle = shade(color, -0.45);
-    for (const spot of runner.trail) {
-      ctx.fillRect(spot.x * cell, spot.y * cell, cell, cell);
+    for (const spot of cells) {
+      ctx.fillRect(view.toX(spot.x), view.toY(spot.y), view.cell, view.cell);
     }
 
     ctx.strokeStyle = withAlpha(color, 0.85);
-    ctx.lineWidth = cell * 0.45;
+    ctx.lineWidth = view.cell * 0.45;
     ctx.beginPath();
-    const span = match.board.size * cell;
-    for (let offset = -span; offset < span * 2; offset += cell * 1.1) {
-      ctx.moveTo(offset, 0);
-      ctx.lineTo(offset + span, span);
+    for (const spot of cells) {
+      const left = view.toX(spot.x);
+      const top = view.toY(spot.y);
+      for (let offset = -1; offset <= 1; offset += 1) {
+        ctx.moveTo(left + offset * view.cell, top + view.cell);
+        ctx.lineTo(left + (offset + 1) * view.cell, top);
+      }
     }
     ctx.stroke();
     ctx.restore();
 
     ctx.strokeStyle = color;
-    ctx.lineWidth = Math.max(1, cell * 0.12);
+    ctx.lineWidth = Math.max(1, view.cell * 0.12);
     ctx.beginPath();
-    for (const spot of runner.trail) {
-      ctx.rect(spot.x * cell, spot.y * cell, cell, cell);
+    for (const spot of cells) {
+      ctx.rect(view.toX(spot.x), view.toY(spot.y), view.cell, view.cell);
     }
     ctx.stroke();
   }
 }
 
-function drawShards(ctx: CanvasRenderingContext2D, effects: Effects, cell: number): void {
+function drawShards(ctx: CanvasRenderingContext2D, effects: Effects, view: View): void {
   for (const shard of effects.shards) {
+    if (!visible(view, shard.x, shard.y)) {
+      continue;
+    }
     const life = 1 - shard.ageMs / shard.lifeMs;
-    const reach = shard.size * cell;
+    const reach = shard.size * view.cell;
 
     ctx.save();
-    ctx.translate(shard.x * cell, shard.y * cell);
+    ctx.translate(view.toX(shard.x), view.toY(shard.y));
     ctx.rotate(shard.rotation);
     ctx.globalAlpha = Math.max(0, life);
     ctx.fillStyle = shard.color;
@@ -299,58 +377,28 @@ function drawShards(ctx: CanvasRenderingContext2D, effects: Effects, cell: numbe
   }
 }
 
-function drawShockwaves(ctx: CanvasRenderingContext2D, effects: Effects, cell: number): void {
+function drawShockwaves(ctx: CanvasRenderingContext2D, effects: Effects, view: View): void {
   for (const wave of effects.shockwaves) {
+    if (!visible(view, wave.x, wave.y)) {
+      continue;
+    }
     const progress = wave.ageMs / wave.lifeMs;
-    const radius = cell * (1 + progress * 9);
+    const radius = view.cell * (1 + progress * 9);
 
     ctx.strokeStyle = withAlpha(wave.color, Math.max(0, 0.75 * (1 - progress)));
-    ctx.lineWidth = Math.max(1.5, cell * 0.5 * (1 - progress));
+    ctx.lineWidth = Math.max(1.5, view.cell * 0.5 * (1 - progress));
     ctx.beginPath();
-    ctx.arc(wave.x * cell, wave.y * cell, radius, 0, Math.PI * 2);
+    ctx.arc(view.toX(wave.x), view.toY(wave.y), radius, 0, Math.PI * 2);
     ctx.stroke();
   }
-}
-
-/**
- * 킬 점수를 그 자리에 띄운다. 킬이 점수의 대부분인데 결과 화면에서야 알게 되는 문제를
- * 그 순간 보이게 만드는 장치다. 다른 무엇보다 위에 그린다.
- */
-function drawScorePops(ctx: CanvasRenderingContext2D, effects: Effects, cell: number): void {
-  if (effects.scorePops.length === 0) {
-    return;
-  }
-
-  ctx.save();
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.font = `700 ${Math.max(13, cell * 1.7)}px "Pretendard", system-ui, sans-serif`;
-  ctx.lineJoin = "round";
-
-  for (const pop of effects.scorePops) {
-    const progress = pop.ageMs / pop.lifeMs;
-    // 처음엔 빠르게 솟았다가 잦아든다.
-    const rise = (1 - (1 - progress) ** 2) * cell * 3.2;
-    const alpha = progress < 0.75 ? 1 : 1 - (progress - 0.75) / 0.25;
-    const x = pop.x * cell;
-    const y = pop.y * cell - rise;
-
-    ctx.globalAlpha = Math.max(0, alpha);
-    ctx.strokeStyle = "rgba(8, 12, 22, 0.85)";
-    ctx.lineWidth = Math.max(3, cell * 0.5);
-    ctx.strokeText(pop.text, x, y);
-    ctx.fillStyle = pop.color;
-    ctx.fillText(pop.text, x, y);
-  }
-
-  ctx.restore();
 }
 
 function drawRunners(
   ctx: CanvasRenderingContext2D,
   match: Match,
-  cell: number,
-  size: number
+  view: View,
+  size: number,
+  camera: Camera
 ): void {
   for (const runner of match.runners) {
     if (!runner.alive) {
@@ -358,12 +406,19 @@ function drawRunners(
     }
 
     const progress = match.moveProgress(runner);
-    const x = (runner.prevX + (runner.x - runner.prevX) * progress + 0.5) * cell;
-    const y = (runner.prevY + (runner.y - runner.prevY) * progress + 0.5) * cell;
-    const color = PALETTE[runner.id].territory;
+    const tileX = runner.prevX + (runner.x - runner.prevX) * progress + 0.5;
+    const tileY = runner.prevY + (runner.y - runner.prevY) * progress + 0.5;
+    if (!visible(view, tileX, tileY)) {
+      continue;
+    }
+
+    const x = view.toX(tileX);
+    const y = view.toY(tileY);
+    const cell = view.cell;
+    const color = playerStyle(runner.id).territory;
 
     if (runner.kind === "human") {
-      drawFocusRing(ctx, x, y, cell, size, color, match.humans === 1);
+      drawFocusRing(ctx, x, y, cell, size, color, match.humans === 1 && camera.tiles >= match.board.size);
     }
 
     const delta = DELTA[runner.dir];
@@ -383,7 +438,6 @@ function drawRunners(
     ctx.fill();
     ctx.stroke();
 
-    // 한 화면에 사람이 여럿이면 누가 누군지 색만으로는 헷갈린다.
     if (match.humans > 1 && runner.kind === "human") {
       drawSeatBadge(ctx, x, y, cell, color, PLAYER_KEYS[runner.id - 1]?.label ?? `P${runner.id}`);
     }
@@ -412,8 +466,8 @@ function drawSeatBadge(
 }
 
 /**
- * 60×60 격자에서 내 말을 놓치지 않도록 링을 얹는다.
- * 십자선은 혼자일 때만 — 넷이 그으면 화면이 격자무늬가 된다.
+ * 내 말을 놓치지 않도록 링을 얹는다.
+ * 십자선은 보드 전체가 한 화면에 들어올 때만 — 카메라가 따라다니면 내 말은 늘 가운데다.
  */
 function drawFocusRing(
   ctx: CanvasRenderingContext2D,
@@ -440,4 +494,35 @@ function drawFocusRing(
   ctx.beginPath();
   ctx.arc(x, y, cell * 1.7, 0, Math.PI * 2);
   ctx.stroke();
+}
+
+/** 킬 점수를 그 자리에 띄운다. 다른 무엇보다 위에 그린다. */
+function drawScorePops(ctx: CanvasRenderingContext2D, effects: Effects, view: View): void {
+  if (effects.scorePops.length === 0) {
+    return;
+  }
+
+  ctx.save();
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = `700 ${Math.max(13, view.cell * 1.7)}px "Pretendard", system-ui, sans-serif`;
+  ctx.lineJoin = "round";
+
+  for (const pop of effects.scorePops) {
+    if (!visible(view, pop.x, pop.y)) {
+      continue;
+    }
+    const progress = pop.ageMs / pop.lifeMs;
+    const rise = (1 - (1 - progress) ** 2) * view.cell * 3.2;
+    const alpha = progress < 0.75 ? 1 : 1 - (progress - 0.75) / 0.25;
+
+    ctx.globalAlpha = Math.max(0, alpha);
+    ctx.strokeStyle = "rgba(8, 12, 22, 0.85)";
+    ctx.lineWidth = Math.max(3, view.cell * 0.5);
+    ctx.strokeText(pop.text, view.toX(pop.x), view.toY(pop.y) - rise);
+    ctx.fillStyle = pop.color;
+    ctx.fillText(pop.text, view.toX(pop.x), view.toY(pop.y) - rise);
+  }
+
+  ctx.restore();
 }

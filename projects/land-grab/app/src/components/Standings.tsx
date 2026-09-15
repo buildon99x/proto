@@ -1,4 +1,4 @@
-import { PALETTE } from "../game/config";
+import { playerStyle } from "../game/config";
 import type { Standing } from "../game/types";
 
 type Props = {
@@ -19,7 +19,7 @@ export function Standings({ standings, detailed = false, meId }: Props) {
       {standings.map((entry, rank) => (
         <li key={entry.id} className={entry.id === meId ? "standing standing--me" : "standing"}>
           <span className="standing__rank">{rank + 1}</span>
-          <span className="standing__chip" style={{ background: PALETTE[entry.id].territory }} />
+          <span className="standing__chip" style={{ background: playerStyle(entry.id).territory }} />
           <span className="standing__name">{entry.label}</span>
           <span className={entry.kills > 0 ? "standing__kills standing__kills--on" : "standing__kills"}>
             킬 {entry.kills}

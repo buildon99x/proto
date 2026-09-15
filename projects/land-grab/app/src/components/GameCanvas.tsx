@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import type { AiController } from "../game/ai";
 import type { Effects } from "../game/effects";
 import type { Match } from "../game/engine";
-import { BoardBackdrop, drawMatch } from "../game/render";
+import { drawMatch, type Camera } from "../game/render";
 import type { Direction } from "../game/types";
 
 type Props = {
@@ -15,6 +15,31 @@ type Props = {
 };
 
 const SWIPE_THRESHOLD_PX = 24;
+
+/**
+ * 보드가 한 화면에 들어오면 전부 보여 주고, 그렇지 않으면 내 말을 따라간다.
+ * 카메라는 보드 밖을 비추지 않도록 가장자리에서 멈춘다.
+ */
+function cameraFor(match: Match): Camera {
+  const board = match.board;
+  const tiles = Math.min(board.size, match.viewTiles);
+
+  if (tiles >= board.size) {
+    return { x: board.size / 2, y: board.size / 2, tiles: board.size };
+  }
+
+  const me = match.human;
+  const progress = me.alive ? match.moveProgress(me) : 1;
+  const half = tiles / 2;
+  const targetX = me.prevX + (me.x - me.prevX) * progress + 0.5;
+  const targetY = me.prevY + (me.y - me.prevY) * progress + 0.5;
+
+  return {
+    x: Math.min(board.size - half, Math.max(half, targetX)),
+    y: Math.min(board.size - half, Math.max(half, targetY)),
+    tiles
+  };
+}
 
 export function GameCanvas({ match, effects, ai, onFrame, onSwipe }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -34,7 +59,6 @@ export function GameCanvas({ match, effects, ai, onFrame, onSwipe }: Props) {
       return;
     }
 
-    const backdrop = new BoardBackdrop();
     let logicalSize = 0;
     let scale = 1;
     let running = true;
@@ -67,7 +91,7 @@ export function GameCanvas({ match, effects, ai, onFrame, onSwipe }: Props) {
       }
 
       if (logicalSize > 0) {
-        drawMatch(ctx, match, effects, backdrop, logicalSize, scale);
+        drawMatch(ctx, match, effects, logicalSize, scale, cameraFor(match));
       }
       frameRef.current(match);
       handle = window.requestAnimationFrame(loop);

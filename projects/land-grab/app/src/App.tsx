@@ -3,7 +3,7 @@ import { GameScreen } from "./screens/GameScreen";
 import { ResultScreen } from "./screens/ResultScreen";
 import { TitleScreen } from "./screens/TitleScreen";
 import { AiController } from "./game/ai";
-import { findDifficulty, type DifficultyId } from "./game/config";
+import { findDifficulty, type DifficultyId, type GameMode } from "./game/config";
 import { Effects } from "./game/effects";
 import { Match, type MatchResult } from "./game/engine";
 import { hookFromMatch, publishHook } from "./testHook";
@@ -14,9 +14,9 @@ type Session = {
   ai: AiController;
 };
 
-function createSession(difficultyId: DifficultyId, humans: number): Session {
+function createSession(difficultyId: DifficultyId, humans: number, mode: GameMode): Session {
   const difficulty = findDifficulty(difficultyId);
-  const match = new Match(difficulty, { humans });
+  const match = new Match(difficulty, { mode, humans });
   return {
     match,
     effects: new Effects(),
@@ -27,6 +27,7 @@ function createSession(difficultyId: DifficultyId, humans: number): Session {
 export default function App() {
   const [difficultyId, setDifficultyId] = useState<DifficultyId>("normal");
   const [humans, setHumans] = useState(1);
+  const [mode, setMode] = useState<GameMode>("world");
   const [session, setSession] = useState<Session | null>(null);
   const [result, setResult] = useState<MatchResult | null>(null);
   const sampleRef = useRef(0);
@@ -35,8 +36,8 @@ export default function App() {
 
   const start = useCallback(() => {
     setResult(null);
-    setSession(createSession(difficultyId, humans));
-  }, [difficultyId, humans]);
+    setSession(createSession(difficultyId, humans, mode));
+  }, [difficultyId, humans, mode]);
 
   const exit = useCallback(() => {
     setSession(null);
@@ -53,6 +54,10 @@ export default function App() {
       kills: 0,
       deaths: 0,
       humans,
+      mode,
+      boardSize: 0,
+      players: 0,
+      rank: 0,
       trailLength: 0,
       x: 0,
       y: 0,
@@ -60,7 +65,7 @@ export default function App() {
       alive: false,
       onOwnLand: false
     });
-  }, [difficultyId, humans]);
+  }, [difficultyId, humans, mode]);
 
   const sample = useCallback(
     (match: Match) => {
@@ -106,6 +111,8 @@ export default function App() {
       onSelect={setDifficultyId}
       humans={humans}
       onHumansChange={setHumans}
+      mode={mode}
+      onModeChange={setMode}
       onStart={start}
     />
   );
