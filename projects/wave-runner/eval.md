@@ -68,3 +68,4 @@ pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts        # 스테
 - **런 초반 3섹터는 생성되지 않는다.** 공장에 줄 시간이 없는 자리라 수제 섹터로 **고정했다**(0.3.1). 재현성은 그래서 성립하지만 첫 30초의 다양성은 수제 12개 안에서만 나온다.
 - **Endless 도입부 3섹터 고정.** 재현성을 위해 그 자리를 수제 섹터로 못박은 대가다. 난이도 1.0~1.26 구간에는 유형별 후보가 하나뿐이라 변주가 유형 순환에서만 온다.
 - **1단계 중단 판정.** 여전히 미수행이다.
+- **4단계 기체 베리에이션.** 기획만 끝났고 검증기는 아직 없다 — `runner-probe.ts`(기체가 양날인가) · `runner-paths.ts`(2304경로 공정성) · `skill-solver-parity.ts`(솔버가 스킬을 엔진과 같게 푸는가) · `rune-determinism.ts`. 수용 기준과 중단 판정은 [notes/runner-variation.md](./notes/runner-variation.md) §14~15.

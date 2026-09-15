@@ -43,5 +43,6 @@ pnpm playtest --project wave-runner                               # 브라우저
 - [spec.md](./spec.md) — 좌표계·물리·코스·상태 머신·상수
 - [eval.md](./eval.md) — 중단 판정과 확인 목록
 - [notes/decisions.md](./notes/decisions.md) — 구현하며 내린 결정
+- [notes/runner-variation.md](./notes/runner-variation.md) — **4단계 기획: 기체 베리에이션·스킬·해금** (구현 미착수)
 
 설계 근거는 저장소 지식베이스에 있다 — [MDA 역설계](../../docs/kb/mda-analysis/space-waves.md) · [장르 방향](../../docs/kb/mda-analysis/one-button-roguelite-direction.md) · [코어 루프](../../docs/kb/mda-analysis/core-loop.md).

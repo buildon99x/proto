@@ -26,7 +26,8 @@
     "spec": "spec.md",
     "eval": "eval.md",
     "readme": "README.md",
-    "changelog": "changelog.md"
+    "changelog": "changelog.md",
+    "plan": "notes/runner-variation.md"
   },
   "assets": {
     "cover": "assets/screenshots/cover.png"

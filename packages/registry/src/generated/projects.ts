@@ -173,7 +173,8 @@ export const projects = [
       "spec": "spec.md",
       "eval": "eval.md",
       "readme": "README.md",
-      "changelog": "changelog.md"
+      "changelog": "changelog.md",
+      "plan": "notes/runner-variation.md"
     },
     "assets": {
       "cover": "assets/screenshots/cover.png"
@@ -183,7 +184,7 @@ export const projects = [
       "build": "pnpm --filter wave-runner build",
       "test": "pnpm --filter wave-runner test"
     },
-    "updatedAt": "2026-09-15T15:27:17+00:00"
+    "updatedAt": "2026-09-15T15:55:51+00:00"
   },
   {
     "id": "blacksmith-clicker",
