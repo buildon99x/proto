@@ -186,14 +186,16 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.8.0",
-    "summary": "600×600 열린 세계에서 봇 40기와 겨루는 실시간 영역 점령 io 게임. 고리를 그려 땅을 넓히고 남의 꼬리를 밟아 탈락시킨다. 한 화면 1~4인 파티 모드도 함께 들어 있다.",
+    "version": "0.9.0",
+    "summary": "600×600 열린 세계에서 겨루는 실시간 영역 점령 io 게임. 고리를 그려 땅을 넓히고 남의 꼬리를 밟아 탈락시킨다. 전용 서버에 접속하는 온라인, 혼자 하는 솔로, 한 화면 1~4인 파티 세 가지로 즐길 수 있다.",
     "tags": [
       "game",
       "io",
       "territory",
       "arcade",
       "canvas",
+      "multiplayer",
+      "websocket",
       "local-multiplayer",
       "ai-opponent",
       "prototype"
@@ -218,7 +220,7 @@ export const projects = [
       "build": "pnpm --filter land-grab build",
       "test": "pnpm --filter land-grab test"
     },
-    "updatedAt": "2026-09-15T15:12:48+00:00"
+    "updatedAt": "2026-09-15T16:24:02+00:00"
   },
   {
     "id": "altok-dragon-hatchery",
