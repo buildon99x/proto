@@ -13,9 +13,14 @@ import type { Sector } from "./types";
 
 const DEFAULT_BUDGET_MS = 3;
 
+interface Job {
+  gen: Generator<Candidate | null, Candidate | null, void>;
+  tag: number;
+}
+
 export class SectorFactory {
-  private job: Generator<Candidate | null, Candidate | null, void> | null = null;
-  private ready: Sector[] = [];
+  private job: Job | null = null;
+  private ready: { sector: Sector; tag: number }[] = [];
   /** 진행 상황 관찰용 — 개발 패널과 검증이 읽는다 */
   stats = { produced: 0, fallbacks: 0, ticks: 0, lastMs: 0 };
 
@@ -29,24 +34,31 @@ export class SectorFactory {
     return this.ready.length;
   }
 
-  /** 대기열에 여유가 있고 노는 중이면 새 작업을 건다. */
-  request(req: GenerateRequest): boolean {
+  /**
+   * 대기열에 여유가 있고 노는 중이면 새 작업을 건다.
+   *
+   * tag 는 "이 주문이 코스의 몇 번째 자리를 위한 것인가"를 기록한다. 생성이
+   * 몇 프레임에 걸쳐 끝나므로, 태그가 없으면 늦게 도착한 섹터가 이미 지나간
+   * 자리의 사양으로 만들어진 채 엉뚱한 자리에 끼어든다.
+   */
+  request(req: GenerateRequest, tag = 0): boolean {
     if (this.job || this.ready.length >= this.maxReady) return false;
-    this.job = generateCandidates(req);
+    this.job = { gen: generateCandidates(req), tag };
     return true;
   }
 
   /** 예산만큼만 후보를 평가한다. */
   tick(budgetMs = DEFAULT_BUDGET_MS): void {
-    if (!this.job) return;
+    const job = this.job;
+    if (!job) return;
     const start = performance.now();
     this.stats.ticks += 1;
     for (;;) {
-      const step = this.job.next();
+      const step = job.gen.next();
       if (step.done) {
         const best = step.value;
         if (best) {
-          this.ready.push(best.sector);
+          this.ready.push({ sector: best.sector, tag: job.tag });
           this.stats.produced += 1;
         }
         this.job = null;
@@ -57,10 +69,25 @@ export class SectorFactory {
     this.stats.lastMs = performance.now() - start;
   }
 
-  /** 완성된 섹터를 하나 꺼낸다. 없으면 null — 호출자가 폴백을 쓴다. */
-  take(): Sector | null {
-    const s = this.ready.shift() ?? null;
-    if (!s) this.stats.fallbacks += 1;
-    return s;
+  /**
+   * 완성된 섹터를 하나 꺼낸다. 없으면 null — 호출자가 폴백을 쓴다.
+   *
+   * tag 를 주면 그 자리를 위해 주문한 것만 꺼낸다. 더 앞자리의 생성물이
+   * 남아 있으면 이미 지나간 자리의 것이므로 버린다.
+   */
+  take(tag?: number): Sector | null {
+    if (tag !== undefined) {
+      while (this.ready.length > 0 && this.ready[0].tag < tag) this.ready.shift();
+      if (this.ready.length === 0 || this.ready[0].tag !== tag) {
+        this.stats.fallbacks += 1;
+        return null;
+      }
+    }
+    const entry = this.ready.shift();
+    if (!entry) {
+      this.stats.fallbacks += 1;
+      return null;
+    }
+    return entry.sector;
   }
 }

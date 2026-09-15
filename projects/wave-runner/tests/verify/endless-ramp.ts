@@ -11,7 +11,8 @@
  */
 import { NEUTRAL_BUILD } from "../../app/src/game/axes";
 import { createState, launch, startYFor, update } from "../../app/src/game/engine";
-import { SECTOR_LEN, squeezeFor } from "../../app/src/game/course";
+import { squeezeFor } from "../../app/src/game/course";
+import { SECTOR_LEN } from "../../app/src/game/sectors";
 import { targetY } from "../../app/src/game/pilot";
 
 const DT = 1 / 120;

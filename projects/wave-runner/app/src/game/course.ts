@@ -15,6 +15,20 @@ const MAX_SPEED = 58;
  * 통로를 중앙으로 조이는 것이 그 천장을 여는 가장 싼 방법이고,
  * 3단계의 런타임 생성이 들어오면 회랑 폭 목표치가 이 역할을 대신한다.
  */
+/**
+ * 런타임 생성은 몇 번째 자리부터 쓰는가.
+ *
+ * 0·1번 자리는 생성자가 곧바로 채우고, 2번 자리는 첫 프레임에 지평선 안으로
+ * 들어온다 — 공장에 줄 시간이 사실상 0이다. 그래서 이 세 자리는 기기 속도에
+ * 따라 생성물이 되기도 폴백이 되기도 했고, 그것이 같은 시드의 코스를 갈랐다.
+ *
+ * 세 자리를 **항상** 사전 검증된 수제 섹터로 고정한다. 3번 자리는 14초쯤 뒤에
+ * 필요해지므로 공장이 질 수 없고(생성 한 번은 100ms 남짓, 주어지는 예산은
+ * 14초 × 3ms/프레임 ≈ 2.5초), 결과적으로 배달 패턴이 프레임 속도와 무관해진다.
+ * 런 시작 30초를 손으로 검증한 코스로 여는 것은 그 자체로도 낫다.
+ */
+const GEN_FROM_INDEX = 3;
+
 export function squeezeFor(index: number): number {
   return Math.max(0.55, 1 - Math.max(0, index - 3) * 0.045);
 }
@@ -101,9 +115,10 @@ export const STAGE_SECTORS = 5;
 /**
  * 티어·번호로 결정되는 시드. 같은 스테이지는 언제나 같은 코스다.
  *
- * 값은 큐레이션의 산물이다 — curate-stages.ts 가 후보 시드를 훑어 통과율이
- * 목표 구간(45~85%)에 드는 것만 남겼다. 너무 낮으면 시행착오 강요이고,
- * 너무 높으면 무슨 선택을 해도 통과돼 게이트가 무의미해진다.
+ * 값은 큐레이션의 산물이다 — curate-stages.ts 가 후보 시드를 솔버로 훑어
+ * (1) 모든 경로가 통과 가능하고 (2) 최선 경로의 여유가 티어별 목표 구간에 들며
+ * (3) 최선과 최악 경로의 여유 차이가 충분한 것만 남겼다. 차이가 없으면 어느
+ * 관으로 가든 같으므로 게이트가 아무것도 묻지 않는다.
  */
 export function stageSeed(tier: number, stageNo: number): number {
   const curated = (SEEDS as Record<string, number>)[`${tier}:${stageNo}`];
@@ -130,14 +145,26 @@ export function buildStageCourse(
  * Endless 코스. 앞서 나가며 계속 이어 붙인다.
  * 난이도는 섹터마다 조금씩 올라가고, 램프는 목표 난이도 하나로만 관리한다.
  */
+interface SectorSpec {
+  /** 코스에서 이 섹터가 놓일 자리 */
+  index: number;
+  type: SectorType;
+  difficulty: number;
+  seed: number;
+  /** 공장이 제때 끝내지 못했을 때 쓸 수제 섹터. 사양과 함께 미리 정해 둔다 */
+  fallback: Sector;
+}
+
 export class EndlessCourse {
   readonly course: Course = { pieces: [], finishX: Number.POSITIVE_INFINITY };
   readonly factory = new SectorFactory();
   private readonly rand: () => number;
   private index = 0;
   private cursor = 0;
-  /** 다음에 만들어야 할 조각의 사양. pump 가 이걸 보고 공장에 건다 */
-  private nextSpec: { type: SectorType; difficulty: number; seed: number } | null = null;
+  /** 다음에 붙일 섹터의 사양. pump 의 주문과 ensure 의 폴백이 **같은 사양**을 본다 */
+  private spec: SectorSpec;
+  /** 공장에 이미 걸어 둔 사양의 자리. 같은 자리를 두 번 주문하지 않는다 */
+  private requested = -1;
 
   constructor(
     seed: number,
@@ -145,7 +172,23 @@ export class EndlessCourse {
     private readonly maxDifficulty = 3
   ) {
     this.rand = mulberry32(seed >>> 0);
+    this.spec = this.makeSpec(0);
     this.ensure(0);
+  }
+
+  /**
+   * index 번째 섹터의 사양을 뽑는다. **난수 소비량이 고정되어야 한다.**
+   *
+   * 폴백 섹터까지 여기서 미리 고르는 이유가 그것이다. 공장이 제때 끝냈는지에
+   * 따라 난수를 더 쓰거나 덜 쓰면 프레임 타이밍이 코스를 바꾼다 — 같은 시드가
+   * 같은 코스를 주지 못한다.
+   */
+  private makeSpec(index: number): SectorSpec {
+    const difficulty = 1 + index * this.t.endlessRampPerSector;
+    const type = typeAt(index, this.rand);
+    const fallback = pickSector(type, difficulty, this.rand, this.maxDifficulty);
+    const seed = (this.rand() * 0xffffffff) >>> 0;
+    return { index, type, difficulty, seed, fallback };
   }
 
   /**
@@ -156,18 +199,22 @@ export class EndlessCourse {
    * 코스라서 전 경로 검증이 필요한 것과 정확히 대비되는 지점이다.
    */
   pump(build: Build, budgetMs = 3): void {
-    if (!this.factory.busy && this.nextSpec) {
-      const spec = this.nextSpec;
-      const squeeze = squeezeFor(this.index);
-      this.factory.request({
-        type: spec.type,
-        targetWidth: widthForDifficulty(spec.difficulty) / Math.max(0.5, squeeze),
-        seed: spec.seed,
-        build,
-        base: this.t,
-        squeeze,
-        candidates: 10
-      });
+    if (this.spec.index >= GEN_FROM_INDEX && !this.factory.busy && this.requested !== this.spec.index) {
+      const spec = this.spec;
+      const squeeze = squeezeFor(spec.index);
+      const ok = this.factory.request(
+        {
+          type: spec.type,
+          targetWidth: widthForDifficulty(spec.difficulty) / Math.max(0.5, squeeze),
+          seed: spec.seed,
+          build,
+          base: this.t,
+          squeeze,
+          candidates: 10
+        },
+        spec.index
+      );
+      if (ok) this.requested = spec.index;
     }
     this.factory.tick(budgetMs);
   }
@@ -176,28 +223,23 @@ export class EndlessCourse {
   ensure(x: number): void {
     const horizon = x + (SECTOR_LEN + gateTotalLen(this.t)) * 2;
     while (this.cursor < horizon) {
-      const difficulty = 1 + this.index * this.t.endlessRampPerSector;
-      const type = typeAt(this.index, this.rand);
-      // 공장이 제때 끝냈으면 생성물을, 아니면 사전 검증된 수제 섹터를 쓴다.
-      const sector =
-        this.factory.take() ?? pickSector(type, difficulty, this.rand, this.maxDifficulty);
-      this.nextSpec = {
-        type: typeAt(this.index + 1, this.rand),
-        difficulty: 1 + (this.index + 1) * this.t.endlessRampPerSector,
-        seed: (this.rand() * 0xffffffff) >>> 0
-      };
+      const spec = this.spec;
+      // 공장이 이 자리의 것을 제때 끝냈으면 생성물을, 아니면 사양이 지목한 수제 섹터를 쓴다.
+      // 어느 쪽이든 유형은 spec.type 으로 같다 — 유형 순환이 예측 가능해야 빌드 판단에 지평이 생긴다.
+      const sector = this.factory.take(spec.index) ?? spec.fallback;
       this.course.pieces.push({
         kind: "sector",
         startX: this.cursor,
         endX: this.cursor + SECTOR_LEN,
         sector,
-        squeeze: squeezeFor(this.index)
+        squeeze: squeezeFor(spec.index)
       });
       this.cursor += SECTOR_LEN;
       const gate = makeGate(this.cursor, this.rand, this.t);
       this.course.pieces.push({ kind: "gate", startX: gate.leadInX, endX: gate.endX, gate });
       this.cursor = gate.endX;
       this.index += 1;
+      this.spec = this.makeSpec(this.index);
     }
   }
 }
