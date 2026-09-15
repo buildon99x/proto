@@ -24,7 +24,7 @@
  * 객관적 난이도다. 정밀 플랫포머가 보통 못 하는 일이며, 3단계의 생성기는
  * 이 곡선을 목표치에 맞춰 코스를 만든다.
  */
-import { resolve } from "./axes";
+import { gateOffer, resolve } from "./axes";
 import { intersect, measure, pieceFreeSpans, union } from "./geometry";
 import type { Span } from "./geometry";
 import type { Build, CoursePiece, Tuning } from "./types";
@@ -164,6 +164,10 @@ export interface CourseSolveResult {
  *
  * 빌드는 게이트를 지날 때마다 바뀌므로 조각마다 다시 해석한다. 시간은 누적되며,
  * 한 조각의 생존 집합이 다음 조각의 출발 집합이 된다 — 그래서 결과가 정확하다.
+ *
+ * 게이트의 제안도 미리 박혀 있는 값이 아니라 **그 자리에서의 빌드로** 다시 뽑는다.
+ * 엔진이 직전 게이트를 지나며 하는 일과 같은 함수를 부르므로, 경로마다 제안이
+ * 달라지는 것까지 포함해 실제로 플레이될 코스를 푼다.
  */
 export function solveCourse(
   pieces: CoursePiece[],
@@ -195,8 +199,8 @@ export function solveCourse(
     }
     spans = res.endSpans;
     if (piece.kind === "gate" && piece.gate) {
-      const trade = lane === "bot" ? piece.gate.bot : piece.gate.top;
-      build = applyTrade(build, trade);
+      const offer = gateOffer(piece.gate.seed, build, base);
+      build = applyTrade(build, lane === "bot" ? offer.bot : offer.top);
       gateIndex += 1;
     }
   }

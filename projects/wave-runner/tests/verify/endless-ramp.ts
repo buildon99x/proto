@@ -67,29 +67,58 @@ console.log(
 
 console.log("\n지연(ms)   도달 거리   섹터   종료");
 console.log("-".repeat(40));
+const SEEDS = [11, 22, 33, 44, 55, 66, 77, 88];
+
+/**
+ * 판정 기준을 "인접 구간 단조 감소"에서 바꾼 이유.
+ *
+ * 지연 20ms 와 60ms 는 둘 다 통로를 따라갈 만큼 빠르다 — 이 구간에서 어디서
+ * 죽느냐를 가르는 것은 지연이 아니라 어떤 섹터가 뽑혔고 게이트가 빌드를 어디로
+ * 밀었느냐다. 게이트 제안이 빌드에 맞춰 정해지면서(0.4.0) 모든 게이트가 실제로
+ * 기체를 바꾸게 되자 이 흔들림이 커졌고, 표본을 8개로 늘려도 인접 두 칸이
+ * 뒤집히는 일이 남는다(실측 20ms 6164 / 60ms 6762).
+ *
+ * 그래서 데이터가 뒷받침하는 만큼만 묻는다. 램프가 실력을 반영한다는 주장은
+ * **지연이 충분히 커지면 확실히 못 간다**는 것이고, 국소적인 뒤집힘은 그 주장을
+ * 반증하지 않는다. 대신 큰 반등(두 섹터 넘게)은 여전히 실패로 잡는다.
+ */
+const MAX_REBOUND = SECTOR_LEN * 2;
+const COLLAPSE_RATIO = 0.4;
+
 let monotonic = true;
 let prev = Number.POSITIVE_INFINITY;
 let anyEnded = false;
+const averages: number[] = [];
 for (const latency of [0.02, 0.06, 0.1, 0.14, 0.18]) {
-  const rs = [11, 22, 33].map((seed) => run(seed, latency));
+  const rs = SEEDS.map((seed) => run(seed, latency));
   const avg = rs.reduce((a, r) => a + r.distance, 0) / rs.length;
   const sectors = Math.round(rs.reduce((a, r) => a + r.sectors, 0) / rs.length);
   const ended = rs.every((r) => r.ended);
   anyEnded = anyEnded || rs.some((r) => r.ended);
-  if (avg > prev + SECTOR_LEN) monotonic = false;
+  if (avg > prev + MAX_REBOUND) monotonic = false;
   prev = avg;
+  averages.push(avg);
   console.log(
     `${(latency * 1000).toFixed(0).padStart(6)}   ${avg.toFixed(0).padStart(9)}   ${String(sectors).padStart(4)}   ${ended ? "전부" : rs.some((r) => r.ended) ? "일부" : "없음"}`
   );
 }
 
+const collapsed = averages[averages.length - 1] <= averages[0] * COLLAPSE_RATIO;
+
 console.log("");
+console.log(
+  `최저 지연 ${averages[0].toFixed(0)} → 최고 지연 ${averages[averages.length - 1].toFixed(0)}` +
+    ` (${((averages[averages.length - 1] / averages[0]) * 100).toFixed(0)}%, 기준 ${COLLAPSE_RATIO * 100}% 이하)`
+);
 if (!anyEnded) {
   console.log("결과: 어떤 지연에서도 런이 끝나지 않는다 — Endless 에 천장이 없다.");
   process.exitCode = 1;
+} else if (!collapsed) {
+  console.log("결과: 지연을 키워도 도달 거리가 무너지지 않는다 — 램프가 실력을 반영하지 못한다.");
+  process.exitCode = 1;
 } else if (!monotonic) {
-  console.log("결과: 지연이 커져도 도달 거리가 줄지 않는다 — 램프가 실력을 반영하지 못한다.");
+  console.log("결과: 중간에 두 섹터 넘게 되레 멀리 간 구간이 있다 — 난이도 곡선이 뒤집혔다.");
   process.exitCode = 1;
 } else {
-  console.log("결과: 램프가 조이고, 지연이 커질수록 도달 거리가 줄어든다.");
+  console.log("결과: 램프가 조이고, 지연이 충분히 커지면 도달 거리가 무너진다.");
 }

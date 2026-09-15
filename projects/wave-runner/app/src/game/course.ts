@@ -1,9 +1,10 @@
-import { AXES } from "./axes";
+import { NEUTRAL_BUILD, gateOffer } from "./axes";
 import { SectorFactory } from "./factory";
 import { widthForDifficulty } from "./generate";
+import { mulberry32 } from "./rand";
 import SEEDS from "./stage-seeds.json";
 import { SECTORS, SECTOR_LEN, sectorsOfType } from "./sectors";
-import type { AxisKey, AxisTrade, Build, Course, CoursePiece, Gate, Sector, SectorType, Tuning } from "./types";
+import type { Build, Course, CoursePiece, Gate, Sector, SectorType, Tuning } from "./types";
 
 /** 게이트 길이를 시간이 아니라 월드 길이로 고정하되, 가장 빠른 빌드에서도 시간 제약이 성립하게 잡는다. */
 const MAX_SPEED = 58;
@@ -33,16 +34,6 @@ export function squeezeFor(index: number): number {
   return Math.max(0.55, 1 - Math.max(0, index - 3) * 0.045);
 }
 
-export function mulberry32(seed: number): () => number {
-  let s = seed >>> 0;
-  return () => {
-    s = (s + 0x6d2b79f5) >>> 0;
-    let t = Math.imul(s ^ (s >>> 15), 1 | s);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
 export function gateLeadInLen(t: Tuning): number {
   return t.gateLeadInSec * MAX_SPEED;
 }
@@ -51,23 +42,25 @@ export function gateSpanLen(t: Tuning): number {
   return t.gateSpanSec * MAX_SPEED;
 }
 
-function pickTrade(rand: () => number, exclude?: AxisTrade): AxisTrade {
-  for (let guard = 0; guard < 40; guard += 1) {
-    const plus = AXES[Math.floor(rand() * AXES.length)] as AxisKey;
-    const minus = AXES[Math.floor(rand() * AXES.length)] as AxisKey;
-    if (plus === minus) continue;
-    if (exclude && exclude.plus === plus && exclude.minus === minus) continue;
-    return { plus, minus };
-  }
-  return { plus: "slope", minus: "speed" };
-}
-
+/**
+ * 게이트를 놓는다. 제안은 여기서 확정하지 않는다 —
+ * 시드만 고정하고, 지나갈 때의 빌드로 `gateOffer` 가 정한다(axes.ts 참고).
+ * top/bot 에 담는 것은 아직 확정 전에 읽히더라도 말이 되게 하는 잠정값이다.
+ */
 function makeGate(x: number, rand: () => number, t: Tuning): Gate {
-  const top = pickTrade(rand);
-  const bot = pickTrade(rand, top);
+  const seed = (rand() * 0xffffffff) >>> 0;
   const leadIn = gateLeadInLen(t);
   const span = gateSpanLen(t);
-  return { leadInX: x, startX: x + leadIn, endX: x + leadIn + span, top, bot };
+  const provisional = gateOffer(seed, NEUTRAL_BUILD, t);
+  return {
+    seed,
+    armed: false,
+    leadInX: x,
+    startX: x + leadIn,
+    endX: x + leadIn + span,
+    top: provisional.top,
+    bot: provisional.bot
+  };
 }
 
 export function gateTotalLen(t: Tuning): number {
@@ -125,18 +118,20 @@ export function stageSeed(tier: number, stageNo: number): number {
   return curated !== undefined ? curated >>> 0 : (tier * 1000 + stageNo * 37 + 12345) >>> 0;
 }
 
-export function buildStageCourse(
-  tier: number,
-  stageNo: number,
-  t: Tuning,
-  maxDifficulty = 3,
-  seedOverride?: number
-): Course {
+/**
+ * 스테이지 코스. **수제 섹터 12개 전부**를 풀로 쓴다.
+ *
+ * Endless 와 달리 여기서는 해금 상태(`maxSectorDifficulty`)를 보지 않는다.
+ * 보게 두면 확장 섹터 풀을 사는 순간 같은 번호의 스테이지가 다른 코스가 되어
+ * "같은 스테이지는 언제나 같은 코스"가 깨지고, 큐레이션한 여유 수치도 그 즉시
+ * 다른 코스의 것이 된다.
+ */
+export function buildStageCourse(tier: number, stageNo: number, t: Tuning, seedOverride?: number): Course {
   const rand = mulberry32(seedOverride ?? stageSeed(tier, stageNo));
   const sectors: Sector[] = [];
   for (let i = 0; i < STAGE_SECTORS; i += 1) {
     const difficulty = 1 + ((tier - 1) * 2 + i) / 5;
-    sectors.push(pickSector(typeAt(i, rand), difficulty, rand, maxDifficulty));
+    sectors.push(pickSector(typeAt(i, rand), difficulty, rand, 3));
   }
   return assemble(sectors, t, rand, true);
 }

@@ -28,7 +28,7 @@ import type { AxisKey, Build } from "../../app/src/game/types";
 
 const GATES = STAGE_SECTORS - 1;
 const PATHS = 1 << GATES;
-const CANDIDATES = 40;
+const CANDIDATES = 240;
 
 /** 티어가 오를수록 최선 경로의 여유가 좁아진다. 사람이 체감하는 난이도 곡선. */
 const targetSlackMs = (tier: number) => 190 - (tier - 1) * 30;
@@ -36,8 +36,20 @@ const SLACK_BAND_MS = 38;
 /** 최선과 최악 경로의 여유 차이. 작으면 게이트가 아무것도 묻지 않는다. */
 const MIN_SPREAD_MS = 35;
 
-const trade = (b: Build, t: { plus: keyof Build; minus: keyof Build }) =>
-  applyTrade(b, { plus: t.plus as AxisKey, minus: t.minus as AxisKey }, BASE_TUNING);
+/**
+ * 큐레이션은 **출발 상한 ±2** 로 판정한다.
+ *
+ * 축 상한 ±3 은 해금 상품이므로 처음 이 스테이지를 만나는 사람은 ±2 다. 게이트
+ * 제안이 상한에 걸린 쌍을 거르게 된 뒤로는 상한이 제안 자체를 바꾸므로, 넓은
+ * 쪽으로 재면 실제로 플레이될 코스가 아닌 것을 재게 된다.
+ */
+const START_CAP = 2;
+const TUNING = { ...BASE_TUNING, axisMax: START_CAP, axisMin: -START_CAP };
+/** 해금한 사람의 조건. 여유 목표는 ±2 로 재되, 공정성은 여기서도 지켜져야 한다. */
+const OPEN_TUNING = { ...BASE_TUNING, axisMax: 3, axisMin: -3 };
+
+const tradeWith = (t: typeof BASE_TUNING) => (b: Build, tr: { plus: keyof Build; minus: keyof Build }) =>
+  applyTrade(b, { plus: tr.plus as AxisKey, minus: tr.minus as AxisKey }, t);
 
 interface Score {
   allPassable: boolean;
@@ -46,17 +58,23 @@ interface Score {
   spreadMs: number;
 }
 
-function score(seed: number, tier: number): Score {
-  const course = buildStageCourse(tier, 1, BASE_TUNING, 3, seed);
+const LANES_OF = (path: number): Array<"top" | "bot"> => {
+  const lanes: Array<"top" | "bot"> = [];
+  for (let g = 0; g < GATES; g += 1) lanes.push((path >> g) & 1 ? "bot" : "top");
+  return lanes;
+};
+
+/** 한 상한에서 16경로를 모두 풀어 통과 여부와 여유 범위를 낸다. */
+function sweep(seed: number, tier: number, tuning: typeof BASE_TUNING) {
+  const course = buildStageCourse(tier, 1, tuning, seed);
   const startY = startYFor(course);
+  const trade = tradeWith(tuning);
   let best = 0;
   let worst = Number.POSITIVE_INFINITY;
   let allPassable = true;
 
   for (let path = 0; path < PATHS; path += 1) {
-    const lanes: Array<"top" | "bot"> = [];
-    for (let g = 0; g < GATES; g += 1) lanes.push((path >> g) & 1 ? "bot" : "top");
-    const res = solveCourse(course.pieces, { ...NEUTRAL_BUILD }, BASE_TUNING, startY, lanes, trade, 1 / 90);
+    const res = solveCourse(course.pieces, { ...NEUTRAL_BUILD }, tuning, startY, LANES_OF(path), trade, 1 / 90);
     if (!res.passable) {
       allPassable = false;
       continue;
@@ -65,8 +83,22 @@ function score(seed: number, tier: number): Score {
     best = Math.max(best, ms);
     worst = Math.min(worst, ms);
   }
-  const w = Number.isFinite(worst) ? worst : 0;
-  return { allPassable, bestMs: best, worstMs: w, spreadMs: best - w };
+  return { allPassable, best, worst: Number.isFinite(worst) ? worst : 0 };
+}
+
+/**
+ * 여유 목표는 처음 만나는 조건(±2)으로 재고, 공정성은 두 상한 모두에서 묻는다.
+ * 축 상한을 해금했다고 보이지 않는 막다른 길이 생기면 그건 해금이 아니라 함정이다.
+ */
+function score(seed: number, tier: number): Score {
+  const start = sweep(seed, tier, TUNING);
+  const open = sweep(seed, tier, OPEN_TUNING);
+  return {
+    allPassable: start.allPassable && open.allPassable,
+    bestMs: start.best,
+    worstMs: start.worst,
+    spreadMs: start.best - start.worst
+  };
 }
 
 function accepts(s: Score, tier: number): boolean {

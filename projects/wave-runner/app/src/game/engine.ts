@@ -1,4 +1,4 @@
-import { NEUTRAL_BUILD, applyBuild, applyTrade, resolve } from "./axes";
+import { NEUTRAL_BUILD, applyBuild, applyTrade, gateOffer, resolve } from "./axes";
 import { EndlessCourse, buildStageCourse, pieceAt } from "./course";
 import { contains, gateLanes, pieceFreeSpans, sectorFreeSpans, squeezeBounds } from "./geometry";
 import type { Lanes, Span } from "./geometry";
@@ -81,6 +81,8 @@ export interface GameState {
   checkpoints: Checkpoint[];
   /** 사망 지점에서 "지나갈 수 있었던 자리" — 원인을 글자 없이 알린다 */
   deathGap: Span[] | null;
+  /** 제안을 확정할 다음 게이트를 찾기 시작할 조각 인덱스 */
+  armCursor: number;
 }
 
 export interface Checkpoint {
@@ -100,12 +102,41 @@ function capTuning(base: Tuning, cap: number): Tuning {
 }
 
 function makeCourse(config: RunConfig, t: Tuning): { course: Course; endless: EndlessCourse | null } {
-  const maxDiff = config.maxSectorDifficulty;
   if (config.mode === "stage") {
-    return { course: buildStageCourse(config.tier, config.stageNo, t, maxDiff), endless: null };
+    return { course: buildStageCourse(config.tier, config.stageNo, t), endless: null };
   }
-  const endless = new EndlessCourse(config.seed, t, maxDiff);
+  const endless = new EndlessCourse(config.seed, t, config.maxSectorDifficulty);
   return { course: endless.course, endless };
+}
+
+/**
+ * 앞으로 만날 첫 게이트의 제안을 지금 빌드로 확정한다.
+ *
+ * 한 칸만 앞서 확정하는 것이 핵심이다. 게이트 사이는 섹터 하나(460)이고 화면에
+ * 들어오는 폭은 아무리 넓어도 300 남짓이므로, 직전 게이트를 지나며 확정하면
+ * **보이기 전에 정해진다** — 본 것과 다른 것이 적용되는 일이 없다. 더 멀리까지
+ * 미리 정해 두면 그 사이의 선택이 반영되지 못해 다시 상한에 걸린 제안이 나온다.
+ */
+function armNextGate(state: GameState): void {
+  const pieces = state.course.pieces;
+  for (let i = state.armCursor; i < pieces.length; i += 1) {
+    const piece = pieces[i];
+    if (piece.kind !== "gate" || !piece.gate) continue;
+    if (piece.endX <= state.x) {
+      state.armCursor = i + 1;
+      continue;
+    }
+    const gate = piece.gate;
+    if (!gate.armed) {
+      const offer = gateOffer(gate.seed, state.build, state.base);
+      gate.top = offer.top;
+      gate.bot = offer.bot;
+      gate.armed = true;
+    }
+    state.armCursor = i;
+    return;
+  }
+  state.armCursor = pieces.length;
 }
 
 /**
@@ -129,7 +160,7 @@ export function createState(config: RunConfig): GameState {
   const tuning = applyBuild(base, build);
   const { course, endless } = makeCourse(config, base);
   const r = resolve(build, base);
-  return {
+  const state: GameState = {
     base,
     config,
     build,
@@ -152,8 +183,11 @@ export function createState(config: RunConfig): GameState {
     lastTrade: null,
     lane: null,
     checkpoints: [],
-    deathGap: null
+    deathGap: null,
+    armCursor: 0
   };
+  armNextGate(state);
+  return state;
 }
 
 /**
@@ -197,6 +231,9 @@ export function restart(state: GameState): void {
     state.elapsed = last.elapsed;
     state.gatesPassed = last.gatesPassed;
     state.sectorsPassed = last.sectorsPassed;
+    // 체크포인트는 코스 중간이다 — 거기서부터 다시 앞의 게이트를 확정한다.
+    state.armCursor = 0;
+    armNextGate(state);
   }
 }
 
@@ -277,6 +314,8 @@ function resolveGateCrossing(state: GameState, prevX: number, piece: CoursePiece
   state.gatesPassed += 1;
   state.lastTrade = { trade, at: state.elapsed };
   state.lane = null;
+  // 바뀐 빌드로 다음 게이트의 제안을 정한다. 그 게이트는 아직 화면 밖이다.
+  armNextGate(state);
   if (state.config.practice) {
     state.checkpoints.push({
       x: state.x,
@@ -371,7 +410,11 @@ export function update(state: GameState, dtRaw: number): UpdateResult {
   if (state.phase !== "running") return { event: "none" };
 
   // 생성은 프레임당 예산만큼만 — 코어 루프가 프레임을 잃으면 게임이 성립하지 않는다.
-  if (state.endless) state.endless.pump(state.build, 3);
+  if (state.endless) {
+    state.endless.pump(state.build, 3);
+    // Endless 는 달리는 중에 게이트가 새로 붙는다. 커서가 있어 사실상 O(1) 이다.
+    armNextGate(state);
+  }
 
   const h = 1 / state.tuning.fixedStepHz;
   let remaining = dt;

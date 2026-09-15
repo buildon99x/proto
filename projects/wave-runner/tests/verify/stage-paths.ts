@@ -22,39 +22,55 @@ const GATES = STAGE_SECTORS - 1;
 const PATHS = 1 << GATES;
 const MIN_RATE = 0.3;
 
-const trade = (b: Build, t: { plus: keyof Build; minus: keyof Build }) =>
-  applyTrade(b, { plus: t.plus as AxisKey, minus: t.minus as AxisKey }, BASE_TUNING);
+/**
+ * 두 축 상한 모두에서 확인한다.
+ *
+ * 게이트 제안이 "이미 상한에 닿은 축은 내놓지 않는다"가 된 뒤로, 상한은 코스가
+ * 묻는 질문 자체를 바꾼다. ±2 는 처음 만나는 사람의 조건이고 ±3 은 해금한
+ * 사람의 조건이므로, 어느 쪽에서도 통과 가능해야 스테이지가 성립한다.
+ */
+const CAPS = [2, 3];
+
+const tuningFor = (cap: number) => ({ ...BASE_TUNING, axisMax: cap, axisMin: -cap });
+const tradeWith = (t: typeof BASE_TUNING) => (b: Build, tr: { plus: keyof Build; minus: keyof Build }) =>
+  applyTrade(b, { plus: tr.plus as AxisKey, minus: tr.minus as AxisKey }, t);
 
 let failures = 0;
 const lines: string[] = [];
 
 for (let tier = 1; tier <= MAX_TIER; tier += 1) {
   for (let no = 1; no <= STAGES_PER_TIER; no += 1) {
-    const course = buildStageCourse(tier, no, BASE_TUNING, 3);
-    const startY = startYFor(course);
-    let cleared = 0;
-    let bestSlack = 0;
-    let worstSlack = Number.POSITIVE_INFINITY;
+    const cells: string[] = [];
+    for (const cap of CAPS) {
+      const tuning = tuningFor(cap);
+      const trade = tradeWith(tuning);
+      const course = buildStageCourse(tier, no, tuning);
+      const startY = startYFor(course);
+      let cleared = 0;
+      let bestSlack = 0;
+      let worstSlack = Number.POSITIVE_INFINITY;
 
-    for (let path = 0; path < PATHS; path += 1) {
-      const lanes: Array<"top" | "bot"> = [];
-      for (let g = 0; g < GATES; g += 1) lanes.push((path >> g) & 1 ? "bot" : "top");
-      const res = solveCourse(course.pieces, { ...NEUTRAL_BUILD }, BASE_TUNING, startY, lanes, trade, 1 / 90);
-      if (res.passable) {
-        cleared += 1;
-        bestSlack = Math.max(bestSlack, res.minSlackSec);
-        worstSlack = Math.min(worstSlack, res.minSlackSec);
+      for (let path = 0; path < PATHS; path += 1) {
+        const lanes: Array<"top" | "bot"> = [];
+        for (let g = 0; g < GATES; g += 1) lanes.push((path >> g) & 1 ? "bot" : "top");
+        const res = solveCourse(course.pieces, { ...NEUTRAL_BUILD }, tuning, startY, lanes, trade, 1 / 90);
+        if (res.passable) {
+          cleared += 1;
+          bestSlack = Math.max(bestSlack, res.minSlackSec);
+          worstSlack = Math.min(worstSlack, res.minSlackSec);
+        }
       }
-    }
 
-    const rate = cleared / PATHS;
-    const ok = cleared > 0 && rate >= MIN_RATE;
-    if (!ok) failures += 1;
-    lines.push(
-      `티어 ${tier} · ${no}   통과 ${String(cleared).padStart(2)}/${PATHS} (${(rate * 100).toFixed(0)}%)` +
-        `   최선 경로 여유 ${(bestSlack * 1000).toFixed(0)}ms` +
-        `   최악 통과 경로 ${(Number.isFinite(worstSlack) ? worstSlack * 1000 : 0).toFixed(0)}ms   ${ok ? "✓" : "✗"}`
-    );
+      const rate = cleared / PATHS;
+      const ok = cleared > 0 && rate >= MIN_RATE;
+      if (!ok) failures += 1;
+      cells.push(
+        `±${cap}: ${String(cleared).padStart(2)}/${PATHS} (${String(Math.round(rate * 100)).padStart(3)}%)` +
+          ` 최선 ${String((bestSlack * 1000).toFixed(0)).padStart(3)}ms` +
+          ` 최악 ${String((Number.isFinite(worstSlack) ? worstSlack * 1000 : 0).toFixed(0)).padStart(3)}ms ${ok ? "✓" : "✗"}`
+      );
+    }
+    lines.push(`티어 ${tier} · ${no}   ${cells.join("   |   ")}`);
   }
 }
 

@@ -1,4 +1,5 @@
-import type { AxisKey, Build, Tuning } from "./types";
+import { mulberry32 } from "./rand";
+import type { AxisKey, AxisTrade, Build, Tuning } from "./types";
 
 /**
  * 축 눈금 −3..+3 을 실제 계수로 옮기는 표.
@@ -89,4 +90,31 @@ export function canOffer(build: Build, trade: { plus: AxisKey; minus: AxisKey },
 
 export function tradeLabel(trade: { plus: AxisKey; minus: AxisKey }): string {
   return `${AXIS_LABEL[trade.plus]}+ ${AXIS_LABEL[trade.minus]}−`;
+}
+
+const ALL_TRADES: AxisTrade[] = AXES.flatMap((plus) =>
+  AXES.filter((minus) => minus !== plus).map((minus) => ({ plus, minus }))
+);
+
+/**
+ * 게이트가 내놓을 두 제안.
+ *
+ * **빌드를 입력으로 받는 것이 핵심이다.** 코스를 조립할 때 미리 뽑아 두면 그 사이
+ * 플레이어의 축이 상한에 닿아, 오를 축은 삼켜지고 내릴 축만 먹히는 일이 생긴다 —
+ * 화면은 여전히 화살표와 막대를 그리는데 실제로는 순손해다. 그래서 제안은 지날
+ * 때가 되어서야 정해지고, `canOffer` 로 양쪽이 모두 살아 있는 쌍만 남긴다.
+ *
+ * 시드가 고정이므로 (코스 시드, 지나온 선택)이 같으면 제안도 같다 —
+ * "같은 스테이지는 같은 코스"는 그대로다.
+ */
+export function gateOffer(seed: number, build: Build, t: Tuning): { top: AxisTrade; bot: AxisTrade } {
+  const rand = mulberry32(seed);
+  const usable = ALL_TRADES.filter((trade) => canOffer(build, trade, t));
+  // 모든 축이 막힌 빌드는 세 축 합이 0 인 이상 나오지 않지만, 상한을 바꾸는
+  // 개발 패널 같은 경로가 있으므로 전체 목록으로 물러난다.
+  const pool = usable.length >= 2 ? usable : ALL_TRADES;
+  const i = Math.floor(rand() * pool.length);
+  let j = Math.floor(rand() * (pool.length - 1));
+  if (j >= i) j += 1;
+  return { top: pool[i], bot: pool[j] };
 }
