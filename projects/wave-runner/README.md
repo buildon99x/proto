@@ -6,7 +6,9 @@
 
 **현재 범위는 3단계다** — 부사 3축(각도·속도·편향), 교환 게이트, 섹터 4유형, Stage·Endless 두 모드, 메타 해금, 그리고 **정확한 솔버 위에 올린 절차적 생성**.
 
-난이도는 눈대중이 아니라 **생존 회랑 폭**으로 겨냥한다. 솔버가 "지금 여기서 출발해 끝까지 살아남을 수 있는 높이의 집합"을 정확히 계산하고, 그 폭을 시간으로 환산하면 "허용되는 타이밍 오차 190ms" 같은 사람의 단위가 된다. 생성기는 그 수치를 목표로 코스를 만든다.
+난이도는 눈대중이 아니라 **생존 회랑 폭**으로 겨냥한다. 솔버가 "지금 여기서 출발해 끝까지 살아남을 수 있는 높이의 집합"을 정확히 계산하고, 그 폭을 시간으로 환산하면 "허용되는 타이밍 오차 190ms" 같은 사람의 단위가 된다. 생성기는 그 수치를 목표로 코스를 만든다. 다만 그 값은 **상한이지 사람의 지연 허용치가 아니다** — 실측 비가 0.35~1.00 으로 갈린다([difficulty-relief.md](./notes/difficulty-relief.md) §1.3).
+
+같은 스테이지에서 실패가 쌓이면 **반복 완화**가 붙는다. 아바타가 작아지고 벽이 물러날 뿐, 새 입력도 메뉴도 HUD 도 없다. 완화가 걸린 통과는 코어도 티어 지표도 받지 못하고 따로 기록된다.
 
 ## 실행
 
@@ -32,6 +34,9 @@ pnpm exec tsx projects/wave-runner/tests/verify/sector-probe.ts   # 3축이 정�
 pnpm exec tsx projects/wave-runner/tests/verify/stage-paths.ts    # 모든 빌드 경로가 통과 가능한가
 pnpm exec tsx projects/wave-runner/tests/verify/endless-ramp.ts   # Endless 난이도가 실제로 조이는가
 pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts  # 스테이지 시드 재선별
+pnpm exec tsx projects/wave-runner/tests/verify/repetition-gain.ts   # 반복이 이미 완화하는 양(ms)
+pnpm exec tsx projects/wave-runner/tests/verify/relief-curve.ts      # 반복 완화 곡선·상한·코스 불변
+pnpm exec tsx projects/wave-runner/tests/verify/relief-pilot.ts      # 완화 교차 검증 + 여유↔지연 환산
 pnpm playtest --project wave-runner                               # 브라우저 자동 플레이테스트
 ```
 
@@ -43,5 +48,6 @@ pnpm playtest --project wave-runner                               # 브라우저
 - [spec.md](./spec.md) — 좌표계·물리·코스·상태 머신·상수
 - [eval.md](./eval.md) — 중단 판정과 확인 목록
 - [notes/decisions.md](./notes/decisions.md) — 구현하며 내린 결정
+- [notes/difficulty-relief.md](./notes/difficulty-relief.md) — 너무 어렵다는 문제를 수치로 바꾸고, 반복 완화를 설계·검증한 기록
 
 설계 근거는 저장소 지식베이스에 있다 — [MDA 역설계](../../docs/kb/mda-analysis/space-waves.md) · [장르 방향](../../docs/kb/mda-analysis/one-button-roguelite-direction.md) · [코어 루프](../../docs/kb/mda-analysis/core-loop.md).

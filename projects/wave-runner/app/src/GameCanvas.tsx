@@ -12,12 +12,16 @@ export interface RunReport {
   distance: number;
   attempts: number;
   build: Build;
+  /** 이 통과에 걸려 있던 완화 단계. 0 이 아니면 기록이 따로 남는다 */
+  relief: number;
 }
 
 interface Props {
   config: RunConfig;
   onPhase: (phase: Phase) => void;
   onAttempt: () => void;
+  /** Stage 에서 한 번 죽을 때마다. 반복 완화가 이 횟수만 입력으로 받는다 */
+  onFail: () => void;
   onRunEnd: (report: RunReport) => void;
   onExit: () => void;
   onSample?: (s: { fps: number; attempts: number }) => void;
@@ -31,11 +35,11 @@ interface WaveDebug {
   targetY(lookaheadSec: number, lane: "top" | "bot"): number;
 }
 
-export function GameCanvas({ config, onPhase, onAttempt, onRunEnd, onExit, onSample, overrides }: Props) {
+export function GameCanvas({ config, onPhase, onAttempt, onFail, onRunEnd, onExit, onSample, overrides }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const stateRef = useRef<GameState | null>(null);
-  const cbRef = useRef({ onPhase, onAttempt, onRunEnd, onExit, onSample });
-  cbRef.current = { onPhase, onAttempt, onRunEnd, onExit, onSample };
+  const cbRef = useRef({ onPhase, onAttempt, onFail, onRunEnd, onExit, onSample });
+  cbRef.current = { onPhase, onAttempt, onFail, onRunEnd, onExit, onSample };
 
   useEffect(() => {
     stateRef.current = createState(config);
@@ -147,13 +151,15 @@ export function GameCanvas({ config, onPhase, onAttempt, onRunEnd, onExit, onSam
       const result = update(s, dt);
       if (result.event === "died") {
         sfx.die();
+        if (s.mode === "stage") cbRef.current.onFail();
         if (s.mode === "endless") {
           cbRef.current.onRunEnd({
             cleared: false,
             sec: s.elapsed,
             distance: s.x,
             attempts: s.attempts,
-            build: { ...s.build }
+            build: { ...s.build },
+            relief: s.relief
           });
         }
       }
@@ -165,7 +171,8 @@ export function GameCanvas({ config, onPhase, onAttempt, onRunEnd, onExit, onSam
           sec: s.elapsed,
           distance: s.x,
           attempts: s.attempts,
-          build: { ...s.build }
+          build: { ...s.build },
+          relief: s.relief
         });
       }
       if (s.phase !== reported) {

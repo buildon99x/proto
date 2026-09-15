@@ -266,6 +266,26 @@ body {
   border-color: rgba(125, 255, 176, 0.45);
 }
 
+/* 완화 통과 — 클리어와 같은 칸이지만 같은 표시를 쓰지 않는다.
+   기록이 "그 난이도를 실제로 넘었다"를 뜻하려면 눈으로도 갈려야 한다. */
+.stage-cell.assisted {
+  border-color: rgba(255, 179, 71, 0.45);
+  border-style: dashed;
+}
+
+.stage-cell.assisted small {
+  color: var(--axis-speed, #ffb347);
+}
+
+/* 쌓인 완화 단계. 글자가 아니라 점이고, running 중에는 보이지 않는다. */
+.relief-dots {
+  font-style: normal;
+  font-size: 12px;
+  line-height: 6px;
+  letter-spacing: 2px;
+  color: rgba(255, 179, 71, 0.8);
+}
+
 .stage-cell strong {
   font-size: 16px;
 }

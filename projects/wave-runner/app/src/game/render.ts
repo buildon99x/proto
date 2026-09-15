@@ -1,7 +1,7 @@
 import { AXES, AXIS_COLOR } from "./axes";
 import { cameraX, computeView } from "./camera";
 import { pieceAt } from "./course";
-import { gateLanes, squeezeBounds } from "./engine";
+import { gateLanes, pieceSqueeze, squeezeBounds } from "./engine";
 import type { GameState } from "./engine";
 import { sample, shutterDepth } from "./sectors";
 import type { AxisTrade, Block } from "./types";
@@ -32,7 +32,7 @@ function boundsAt(state: GameState, worldX: number): Bounds {
   if (piece.kind === "sector" && piece.sector) {
     const { top, bot } = squeezeBounds(
       sample(piece.sector.nodes, worldX - piece.startX),
-      piece.squeeze ?? 1
+      pieceSqueeze(piece, state.tuning)
     );
     return { top, bot, divTop: null, divBot: null };
   }
@@ -207,7 +207,7 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
       for (const s of piece.sector.shutters) {
         const depth = shutterDepth(s, state.elapsed);
         if (depth <= 0.2) continue;
-        const { top, bot } = squeezeBounds(sample(piece.sector.nodes, s.x), piece.squeeze ?? 1);
+        const { top, bot } = squeezeBounds(sample(piece.sector.nodes, s.x), pieceSqueeze(piece, t));
         drawRect(
           s.side === "top"
             ? { x: s.x, y: top, w: s.w, h: depth }

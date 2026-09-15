@@ -13,13 +13,15 @@ import {
   SECTOR_POOL_COST,
   STAGES_PER_TIER,
   coresForDistance,
-  coresForStage,
   countClearedInTier,
+  countProgressInTier,
   endlessUnlocked,
+  recordStageClear,
   stageKey,
   tierUnlocked
 } from "./game/meta";
 import type { Meta } from "./game/meta";
+import { RELIEF_MAX, reliefLevel } from "./game/relief";
 import { exportMeta, importMeta, loadMeta, saveMeta } from "./game/storage";
 import type { Phase, Tuning } from "./game/types";
 
@@ -54,7 +56,7 @@ export default function App() {
   const [muted, setMutedState] = useState(isMuted());
   const [transfer, setTransfer] = useState("");
   const [practice, setPractice] = useState(false);
-  /** 방금 끝난 클리어가 실제로 지급한 코어. 반복 클리어는 0 이다 */
+  /** 방금 끝난 클리어가 실제로 지급한 코어. 반복 클리어와 완화 통과는 0 이다 */
   const [reward, setReward] = useState(0);
 
   const commit = useCallback((next: Meta) => setMetaState(saveMeta(next)), []);
@@ -90,11 +92,15 @@ export default function App() {
           axisCap: meta.axisCap,
           maxSectorDifficulty: meta.fullPool ? 3 : 2,
           overrides,
-          practice
+          practice,
+          // 연습 모드는 이미 체크포인트라는 다른 완화를 쓴다 — 둘을 겹치면
+          // 무엇 덕분에 통과했는지 알 수 없어진다.
+          relief: !practice,
+          priorFails: meta.fails[stageKey(tier, stageNo)] ?? 0
         }
       });
     },
-    [meta.axisCap, meta.fullPool, overrides, practice, preset]
+    [meta.axisCap, meta.fullPool, meta.fails, overrides, practice, preset]
   );
 
   const startEndless = useCallback(() => {
@@ -122,18 +128,9 @@ export default function App() {
       // 연습 통과는 클리어가 아니다 — 긴장이 빠진 주행을 기록으로 남기면
       // 티어 지표의 의미가 사라진다.
       if (cfg.mode === "stage" && r.cleared && !cfg.practice) {
-        const key = stageKey(cfg.tier, cfg.stageNo);
-        const first = !meta.clearedStages.includes(key);
-        setReward(first ? coresForStage(cfg.tier) : 0);
-        commit({
-          ...meta,
-          cores: meta.cores + (first ? coresForStage(cfg.tier) : 0),
-          clearedStages: first ? [...meta.clearedStages, key] : meta.clearedStages,
-          bestStageSec: {
-            ...meta.bestStageSec,
-            [key]: Math.min(meta.bestStageSec[key] ?? Number.POSITIVE_INFINITY, r.sec)
-          }
-        });
+        const next = recordStageClear(meta, cfg.tier, cfg.stageNo, r.sec, r.relief);
+        setReward(next.cores);
+        commit(next.meta);
       }
       if (cfg.mode === "endless" && !r.cleared) {
         commit({
@@ -145,6 +142,20 @@ export default function App() {
     },
     [commit, meta, screen]
   );
+
+  /**
+   * Stage 사망. 반복 완화의 **유일한 입력**이다.
+   *
+   * 연습 모드에서는 세지 않는다 — 체크포인트에서 이어가는 죽음은 같은 무게가 아니고,
+   * 두 완화를 겹치면 무엇 덕분에 통과했는지 구분할 수 없게 된다.
+   */
+  const handleFail = useCallback(() => {
+    if (screen.kind !== "play") return;
+    const cfg = screen.config;
+    if (cfg.mode !== "stage" || cfg.practice) return;
+    const key = stageKey(cfg.tier, cfg.stageNo);
+    setMetaState((m) => saveMeta({ ...m, fails: { ...m.fails, [key]: (m.fails[key] ?? 0) + 1 } }));
+  }, [screen]);
 
   const handleAttempt = useCallback(() => {
     if (screen.kind !== "play") return;
@@ -167,6 +178,16 @@ export default function App() {
   );
 
   const tiers = useMemo(() => Array.from({ length: MAX_TIER }, (_, i) => i + 1), []);
+
+  /**
+   * 지금 이 런에 걸릴 완화 단계. `running` 중에는 화면에 아무것도 띄우지 않고,
+   * 시작 전 오버레이에서만 알린다 — 완화된 통과가 기록에서 갈린다는 사실을
+   * 나중에 알게 되는 것이 더 나쁘기 때문이다.
+   */
+  const reliefNow =
+    screen.kind === "play" && screen.config.relief
+      ? reliefLevel(screen.config.priorFails ?? 0)
+      : 0;
 
   return (
     <main className="app">
@@ -254,25 +275,42 @@ export default function App() {
               <div key={tier} className={`tier${open ? "" : " locked"}`}>
                 <h2>
                   티어 {tier}
-                  <span>{open ? `${countClearedInTier(meta, tier)}/${STAGES_PER_TIER}` : "잠김"}</span>
+                  <span>
+                    {open
+                      ? `${countClearedInTier(meta, tier)}/${STAGES_PER_TIER}` +
+                        (countProgressInTier(meta, tier) > countClearedInTier(meta, tier)
+                          ? ` (+완화 ${countProgressInTier(meta, tier) - countClearedInTier(meta, tier)})`
+                          : "")
+                      : "잠김"}
+                  </span>
                 </h2>
                 <div className="tier-row">
                   {Array.from({ length: STAGES_PER_TIER }, (_, i) => i + 1).map((no) => {
                     const key = stageKey(tier, no);
                     const cleared = meta.clearedStages.includes(key);
+                    const assisted = !cleared && meta.assistedStages.includes(key);
                     const best = meta.bestStageSec[key];
                     const tries = meta.attempts[key] ?? 0;
+                    const level = reliefLevel(meta.fails[key] ?? 0);
                     return (
                       <button
                         key={no}
                         type="button"
-                        className={`stage-cell${cleared ? " cleared" : ""}`}
+                        className={`stage-cell${cleared ? " cleared" : ""}${assisted ? " assisted" : ""}`}
                         disabled={!open}
                         onClick={() => startStage(tier, no)}
+                        title={
+                          assisted
+                            ? "완화 통과 — 기록과 코어에는 들어가지 않는다. 완화 없이 다시 넘으면 승격된다"
+                            : undefined
+                        }
                       >
                         <strong>{no}</strong>
-                        <small>{cleared && best !== undefined ? `${best.toFixed(1)}초` : "—"}</small>
+                        <small>
+                          {cleared && best !== undefined ? `${best.toFixed(1)}초` : assisted ? "완화 통과" : "—"}
+                        </small>
                         {tries > 0 ? <em>{tries}회</em> : null}
+                        {level > 0 ? <i className="relief-dots">{"·".repeat(level)}</i> : null}
                       </button>
                     );
                   })}
@@ -392,6 +430,7 @@ export default function App() {
             config={screen.config}
             onPhase={setPhase}
             onAttempt={handleAttempt}
+            onFail={handleFail}
             onRunEnd={handleRunEnd}
             onExit={exitPlay}
             onSample={(s) => setFps(s.fps)}
@@ -408,6 +447,11 @@ export default function App() {
               <h2>{preset.name}</h2>
               <p className="dim">{preset.note}</p>
               <AxisLegend />
+              {reliefNow > 0 ? (
+                <p className="dim">
+                  완화 {reliefNow}/{RELIEF_MAX} — 아바타가 작아지고 통로가 넓어진다. 이 상태의 통과는 기록에 남지 않는다
+                </p>
+              ) : null}
               <p className="cue">누르면 오른다</p>
             </div>
           ) : null}
@@ -421,9 +465,11 @@ export default function App() {
               <p className="dim">
                 {screen.config.practice
                   ? "연습 통과 — 기록에 남지 않는다"
-                  : reward > 0
-                    ? `+${reward} 코어`
-                    : "이미 클리어한 스테이지 — 코어는 최초 1회만"}
+                  : report.relief > 0
+                    ? `완화 ${report.relief}/${RELIEF_MAX} 통과 — 기록은 따로 남는다. 완화 없이 다시 넘으면 승격된다`
+                    : reward > 0
+                      ? `+${reward} 코어`
+                      : "이미 클리어한 스테이지 — 코어는 최초 1회만"}
               </p>
               <p className="cue">누르면 계속</p>
             </div>

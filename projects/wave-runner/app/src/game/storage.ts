@@ -14,9 +14,11 @@ export function loadMeta(): Meta {
       axisCap: p.axisCap === 3 ? 3 : 2,
       fullPool: Boolean(p.fullPool),
       clearedStages: Array.isArray(p.clearedStages) ? p.clearedStages : [],
+      assistedStages: Array.isArray(p.assistedStages) ? p.assistedStages : [],
       bestStageSec: p.bestStageSec ?? {},
       bestDistance: p.bestDistance ?? 0,
-      attempts: p.attempts ?? {}
+      attempts: p.attempts ?? {},
+      fails: p.fails ?? {}
     };
   } catch {
     return { ...EMPTY_META, presets: [...EMPTY_META.presets] };

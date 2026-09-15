@@ -72,6 +72,14 @@ export interface SolveResult {
   minWidth: number;
   tightestX: number;
   /**
+   * 가장 좁은 지점에서의 **가장 넓은 단일 구간** 폭.
+   *
+   * `minWidth` 는 생존 집합의 총 길이라 구간이 여럿으로 쪼개져 있으면 난이도를
+   * 과소평가한다 — 아바타는 한 구간 안에 있고 다른 구간으로 건너뛸 수 없기
+   * 때문이다. 산개 섹터에서 둘이 크게 갈린다(측정: 총 길이 29.4 / 단일 구간 9.6).
+   */
+  minSpanWidth: number;
+  /**
    * 최소 폭을 시간으로 환산한 값(초).
    *
    * 폭 W 인 생존 회랑에서 위치 오차 δ 는 δ/rate 초면 만회되므로, 허용되는 타이밍
@@ -79,8 +87,17 @@ export interface SolveResult {
    * 단위가 되어 생성기의 목표치를 사람의 체감으로 말할 수 있게 한다.
    */
   minSlackSec: number;
+  /** `minSpanWidth` 를 같은 방식으로 시간 환산한 값(초). 프로브의 지연 허용치와 더 잘 맞는다 */
+  minSpanSlackSec: number;
   /** 통과에 걸리는 시간(초) */
   duration: number;
+}
+
+/** 구간 집합에서 가장 넓은 한 구간의 길이. */
+function widestSpan(spans: Span[]): number {
+  let w = 0;
+  for (const s of spans) w = Math.max(w, s.hi - s.lo);
+  return w;
 }
 
 export function solvePiece(opts: SolveOptions): SolveResult {
@@ -124,6 +141,7 @@ export function solvePiece(opts: SolveOptions): SolveResult {
 
   const widths = new Float32Array(steps + 1);
   let minWidth = Number.POSITIVE_INFINITY;
+  let minSpan = Number.POSITIVE_INFINITY;
   let tightestStep = 0;
   const settle = Math.min(steps, Math.ceil(SETTLE_SEC / dt));
   for (let k = 0; k <= steps; k += 1) {
@@ -133,17 +151,22 @@ export function solvePiece(opts: SolveOptions): SolveResult {
       minWidth = widths[k];
       tightestStep = k;
     }
+    if (k >= settle) minSpan = Math.min(minSpan, widestSpan(s));
   }
 
   const endSpans = intersect(forward[steps] ?? [], free[steps]);
   const safeMin = Number.isFinite(minWidth) ? minWidth : 0;
+  const safeSpan = Number.isFinite(minSpan) ? minSpan : 0;
+  const rate = 2 * Math.max(r.riseRate, r.fallRate);
   return {
     passable: measure(endSpans) > 1e-6,
     endSpans,
     widths,
     minWidth: safeMin,
     tightestX: piece.startX + tightestStep * dx,
-    minSlackSec: safeMin / (2 * Math.max(r.riseRate, r.fallRate)),
+    minSpanWidth: safeSpan,
+    minSlackSec: safeMin / rate,
+    minSpanSlackSec: safeSpan / rate,
     duration: steps * dt
   };
 }
@@ -154,8 +177,10 @@ export interface CourseSolveResult {
   failedAt: number;
   minWidth: number;
   minSlackSec: number;
+  /** 구간이 쪼개진 것을 반영한 여유. `minSlackSec` 이하이며 사람의 체감에 더 가깝다 */
+  minSpanSlackSec: number;
   /** 조각별 최소 폭 */
-  perPiece: Array<{ index: number; minWidth: number; slackSec: number; passable: boolean }>;
+  perPiece: Array<{ index: number; minWidth: number; slackSec: number; spanSlackSec: number; passable: boolean }>;
   duration: number;
 }
 
@@ -184,18 +209,34 @@ export function solveCourse(
   let gateIndex = 0;
   let minWidth = Number.POSITIVE_INFINITY;
   let minSlack = Number.POSITIVE_INFINITY;
+  let minSpanSlack = Number.POSITIVE_INFINITY;
   const perPiece: CourseSolveResult["perPiece"] = [];
 
   for (let i = 0; i < pieces.length; i += 1) {
     const piece = pieces[i];
     const lane = piece.kind === "gate" ? lanes[Math.min(lanes.length - 1, gateIndex)] ?? "top" : undefined;
     const res = solvePiece({ piece, build, base, startSpans: spans, startTime: time, lane, dt });
-    perPiece.push({ index: i, minWidth: res.minWidth, slackSec: res.minSlackSec, passable: res.passable });
+    perPiece.push({
+      index: i,
+      minWidth: res.minWidth,
+      slackSec: res.minSlackSec,
+      spanSlackSec: res.minSpanSlackSec,
+      passable: res.passable
+    });
     minWidth = Math.min(minWidth, res.minWidth);
     minSlack = Math.min(minSlack, res.minSlackSec);
+    minSpanSlack = Math.min(minSpanSlack, res.minSpanSlackSec);
     time += res.duration;
     if (!res.passable) {
-      return { passable: false, failedAt: i, minWidth, minSlackSec: minSlack, perPiece, duration: time };
+      return {
+        passable: false,
+        failedAt: i,
+        minWidth,
+        minSlackSec: minSlack,
+        minSpanSlackSec: minSpanSlack,
+        perPiece,
+        duration: time
+      };
     }
     spans = res.endSpans;
     if (piece.kind === "gate" && piece.gate) {
@@ -205,5 +246,13 @@ export function solveCourse(
     }
   }
 
-  return { passable: true, failedAt: -1, minWidth, minSlackSec: minSlack, perPiece, duration: time };
+  return {
+    passable: true,
+    failedAt: -1,
+    minWidth,
+    minSlackSec: minSlack,
+    minSpanSlackSec: minSpanSlack,
+    perPiece,
+    duration: time
+  };
 }

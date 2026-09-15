@@ -28,12 +28,33 @@ export function smooth(u: number): number {
   return c * c * (3 - 2 * c);
 }
 
-/** 통로를 중앙 기준으로 조인다. squeeze 1 이면 그대로. */
+/** 월드 상/하한. 통로를 벌릴 때 여기서 멈춘다. */
+const WORLD_TOP = 0;
+const WORLD_BOT = 100;
+
+/**
+ * 통로를 중앙 기준으로 조이거나 **벌린다**. squeeze 1 이면 그대로.
+ *
+ * 1 미만은 Endless 후반의 난이도 천장(`squeezeFor`), 1 초과는 반복 완화
+ * (`relief.ts`)가 쓴다. 어느 쪽이든 **중심선은 움직이지 않는다** — 그래서
+ * 외운 주행선이 그대로 살아 있고 바뀌는 것은 벽까지의 여백뿐이다.
+ */
 export function squeezeBounds(b: { top: number; bot: number }, squeeze: number): { top: number; bot: number } {
-  if (squeeze >= 1) return b;
+  if (squeeze === 1) return b;
   const mid = (b.top + b.bot) / 2;
   const half = ((b.bot - b.top) / 2) * squeeze;
-  return { top: mid - half, bot: mid + half };
+  return { top: Math.max(WORLD_TOP, mid - half), bot: Math.min(WORLD_BOT, mid + half) };
+}
+
+/**
+ * 이 조각에 실제로 걸리는 통로 배율.
+ *
+ * 코스가 들고 있는 조임(Endless 램프)과 런이 들고 있는 완화(반복 완화)는
+ * 서로 다른 축이므로 곱한다. 엔진·솔버·렌더·오토파일럿이 전부 이 하나를 읽어야
+ * "솔버는 통과 가능하다는데 실제로는 죽는다" 가 생기지 않는다.
+ */
+export function pieceSqueeze(piece: CoursePiece, t: Tuning): number {
+  return (piece.squeeze ?? 1) * (t.relief ?? 1);
 }
 
 /**
@@ -57,6 +78,11 @@ export function gateLanes(gate: Gate, x: number, t: Tuning): Lanes {
     top = GATE_OPEN_TOP + (CUFF_TOP - GATE_OPEN_TOP) * closing;
     bot = GATE_OPEN_BOT + (CUFF_BOT - GATE_OPEN_BOT) * closing;
   }
+  // 완화는 게이트의 바깥 벽에도 똑같이 걸어야 한다. 섹터만 벌리면 규격 입구
+  // (CUFF)에서 벽이 어긋나 이음매에 없던 턱이 생긴다 — 2단계에서 이미 낸 버그다.
+  const widened = squeezeBounds({ top, bot }, t.relief ?? 1);
+  top = widened.top;
+  bot = widened.bot;
   const outer = { outerTop: top, outerBot: bot };
   if (x < gate.startX) return { ...outer, dividerTop: null, dividerBot: null };
 
@@ -186,7 +212,7 @@ export function pieceFreeSpans(
   lane?: "top" | "bot"
 ): Span[] {
   if (piece.kind === "sector" && piece.sector) {
-    return sectorFreeSpans(piece.sector, x - piece.startX, r, time, piece.squeeze ?? 1);
+    return sectorFreeSpans(piece.sector, x - piece.startX, r, time, pieceSqueeze(piece, t));
   }
   if (piece.kind === "gate" && piece.gate) {
     return gateFreeSpans(piece.gate, x, r, t, lane);
