@@ -10,6 +10,7 @@ export type LandGrabHook = {
   elapsedMs: number;
   remainingMs: number;
   lives: number;
+  kills: number;
   deaths: number;
   trailLength: number;
   x: number;
@@ -41,6 +42,7 @@ export function hookFromMatch(match: Match, difficulty: string): LandGrabHook {
     elapsedMs: Math.round(match.elapsedMs),
     remainingMs: Math.round(match.remainingMs),
     lives: Math.max(0, human.lives),
+    kills: human.kills,
     deaths: human.deaths,
     trailLength: human.trail.length,
     x: human.x,

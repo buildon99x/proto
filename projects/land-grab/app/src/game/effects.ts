@@ -28,6 +28,16 @@ export type Shard = {
   lifeMs: number;
 };
 
+/** 킬이 났을 때 그 자리에 떠오르는 점수. 킬이 점수의 대부분이라는 걸 그 순간 알린다. */
+export type ScorePop = {
+  x: number;
+  y: number;
+  text: string;
+  color: string;
+  ageMs: number;
+  lifeMs: number;
+};
+
 /** 충돌 지점에서 퍼지는 링. */
 export type Shockwave = {
   x: number;
@@ -40,6 +50,7 @@ export type Shockwave = {
 const CAPTURE_LIFE_MS = 420;
 const SHARD_LIFE_MS = 780;
 const SHOCKWAVE_LIFE_MS = 520;
+const SCORE_POP_LIFE_MS = 1_100;
 const MAX_SHARDS_PER_DEATH = 220;
 
 /**
@@ -50,6 +61,7 @@ export class Effects {
   readonly sweeps: CaptureSweep[] = [];
   readonly shards: Shard[] = [];
   readonly shockwaves: Shockwave[] = [];
+  readonly scorePops: ScorePop[] = [];
 
   constructor(private readonly rng: () => number = Math.random) {}
 
@@ -76,12 +88,24 @@ export class Effects {
         ageMs: 0,
         lifeMs: SHOCKWAVE_LIFE_MS
       });
+
+      if (event.killerId !== null && event.awardedScore > 0) {
+        this.scorePops.push({
+          x: event.x + 0.5,
+          y: event.y + 0.5,
+          text: `+${event.awardedScore.toLocaleString("ko-KR")}`,
+          color: PALETTE[event.killerId].territory,
+          ageMs: 0,
+          lifeMs: SCORE_POP_LIFE_MS
+        });
+      }
     }
   }
 
   update(deltaMs: number): void {
     advance(this.sweeps, deltaMs);
     advance(this.shockwaves, deltaMs);
+    advance(this.scorePops, deltaMs);
 
     for (let i = this.shards.length - 1; i >= 0; i -= 1) {
       const shard = this.shards[i];
@@ -103,6 +127,7 @@ export class Effects {
     this.sweeps.length = 0;
     this.shards.length = 0;
     this.shockwaves.length = 0;
+    this.scorePops.length = 0;
   }
 
   private reachOf(cells: Cell[], originX: number, originY: number): number {

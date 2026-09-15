@@ -148,7 +148,7 @@ type Match = {
 
 - `<canvas>` 2D. 보드는 항상 정사각형이며 컨테이너에 맞춰 셀 크기를 계산한다.
 - `devicePixelRatio`를 반영해 백버퍼를 확대한다.
-- 레이어 순서: 벽 → 영토 → 꼬리(반투명) → 영토 경계선 → 유닛 → 리스폰 표시.
+- 레이어 순서: 벽 → 영토 → 폐허 → 점령 쐐기 → 꼬리(반투명) → 파편 → 충격파 → 유닛 → 킬 점수.
 - 팔레트 4색(청록/주황/보라/연두). 꼬리는 같은 색 알파 `0.45`, 영토 경계선은 항상 그린다.
 
 ## 8. 테스트 훅
@@ -165,6 +165,7 @@ type Match = {
   elapsedMs: number;
   remainingMs: number;
   lives: number;
+  kills: number;
   deaths: number;          // 플레이어 사망 누적
   trailLength: number;
   x: number;               // 플레이어 격자 좌표

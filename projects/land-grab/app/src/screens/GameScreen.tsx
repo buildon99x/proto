@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { GameCanvas } from "../components/GameCanvas";
 import { Standings } from "../components/Standings";
 import type { AiController } from "../game/ai";
-import { PALETTE, type Difficulty } from "../game/config";
+import { KILL_SCORE, PALETTE, type Difficulty } from "../game/config";
 import type { Effects } from "../game/effects";
 import type { Match, MatchResult } from "../game/engine";
 import type { Direction, Standing } from "../game/types";
@@ -36,6 +36,7 @@ type Hud = {
   share: number;
   lives: number;
   score: number;
+  kills: number;
   standings: Standing[];
   paused: boolean;
 };
@@ -46,6 +47,7 @@ function readHud(match: Match): Hud {
     share: match.shareOf(match.human.id),
     lives: Math.max(0, match.human.lives),
     score: match.scoreOf(match.human),
+    kills: match.human.kills,
     standings: match.standings(),
     paused: match.phase === "paused"
   };
@@ -140,6 +142,12 @@ export function GameScreen({
           <strong className="hud__value">{hud.score.toLocaleString("ko-KR")}</strong>
         </div>
         <div className="hud__cell">
+          <span className="hud__label">킬 (1회 {KILL_SCORE}점)</span>
+          <strong className={hud.kills > 0 ? "hud__value hud__value--kill" : "hud__value"}>
+            {hud.kills}
+          </strong>
+        </div>
+        <div className="hud__cell">
           <span className="hud__label">목숨</span>
           <strong className="hud__value">{"●".repeat(hud.lives) || "—"}</strong>
         </div>
@@ -174,7 +182,7 @@ export function GameScreen({
           <h2>순위</h2>
           <Standings standings={hud.standings} />
           <p className="hint hint--tight">
-            남의 꼬리를 밟으면 그 상대가 죽는다. 내 꼬리가 길수록 위험하다.
+            남의 꼬리를 밟으면 그 상대가 죽고 <b>{KILL_SCORE}점</b> — 땅 {KILL_SCORE}칸과 같다.
           </p>
         </aside>
       </div>

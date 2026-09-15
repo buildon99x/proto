@@ -32,7 +32,16 @@ function mulberry32(seed: number): () => number {
 
 export type MatchEvent =
   | { type: "capture"; id: PlayerId; cells: Cell[]; originX: number; originY: number }
-  | { type: "death"; id: PlayerId; killerId: PlayerId | null; x: number; y: number; cells: Cell[] };
+  | {
+      type: "death";
+      id: PlayerId;
+      killerId: PlayerId | null;
+      /** 죽인 쪽이 받은 점수. 킬이 아니면 `0`. 연출이 이 숫자를 띄운다. */
+      awardedScore: number;
+      x: number;
+      y: number;
+      cells: Cell[];
+    };
 
 export type MatchResult = {
   outcome: "win" | "lose" | "ranked";
@@ -365,6 +374,7 @@ export class Match {
       type: "death",
       id: runner.id,
       killerId: killer ? killer.id : null,
+      awardedScore: killer && killer.id !== runner.id ? this.rules.killScore : 0,
       x: runner.x,
       y: runner.y,
       cells: cleared

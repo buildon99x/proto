@@ -326,6 +326,52 @@ console.log("땅따먹기 규칙 검사");
   check("잠금을 끄면 폐허가 생기지 않는다", !noLock.board.isLocked(30, 30, 0));
 }
 
+// --- 10. 킬 연출용 이벤트 ------------------------------------------------------
+{
+  const match = soloMatch();
+  const me = match.human;
+  const rival = match.runners[1];
+
+  match.board.clearPlayer(rival.id);
+  place(match, rival, 40, 30, "right");
+  freeze(rival);
+  for (let x = 35; x <= 39; x += 1) {
+    rival.trail.push({ x, y: 30 });
+    match.board.markTrail(rival.id, x, 30);
+  }
+
+  match.drainEvents();
+  place(match, me, 33, 30, "right");
+  step(match, 3);
+
+  const events = match.drainEvents();
+  const death = events.find((event) => event.type === "death");
+  check("킬이 나면 사망 이벤트가 발행된다", Boolean(death));
+  if (death && death.type === "death") {
+    check("사망 이벤트가 죽인 쪽을 알려 준다", death.killerId === me.id, `killerId=${death.killerId}`);
+    check(
+      "사망 이벤트가 킬 보상 금액을 싣는다",
+      death.awardedScore === match.rules.killScore,
+      `awardedScore=${death.awardedScore}`
+    );
+  }
+
+  // 자살은 보상이 없다.
+  const solo = soloMatch();
+  solo.board.claimHome(solo.human.id, 30, 30, HOME_RADIUS);
+  place(solo, solo.human, 30, 30, "right");
+  go(solo, solo.human, "right", 8);
+  go(solo, solo.human, "down", 2);
+  go(solo, solo.human, "left", 2);
+  solo.drainEvents();
+  go(solo, solo.human, "up", 3);
+  const selfDeath = solo.drainEvents().find((event) => event.type === "death");
+  check(
+    "자살에는 킬 보상이 붙지 않는다",
+    Boolean(selfDeath) && selfDeath?.type === "death" && selfDeath.awardedScore === 0
+  );
+}
+
 console.log(failures === 0 ? "\n모든 규칙 검사 통과" : `\n실패 ${failures}건`);
 if (failures > 0) {
   process.exitCode = 1;

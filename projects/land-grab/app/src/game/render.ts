@@ -140,6 +140,7 @@ export function drawMatch(
   drawShards(ctx, effects, cell);
   drawShockwaves(ctx, effects, cell);
   drawRunners(ctx, match, cell, size);
+  drawScorePops(ctx, effects, cell);
 }
 
 function drawTerritory(ctx: CanvasRenderingContext2D, match: Match, cell: number): void {
@@ -309,6 +310,40 @@ function drawShockwaves(ctx: CanvasRenderingContext2D, effects: Effects, cell: n
     ctx.arc(wave.x * cell, wave.y * cell, radius, 0, Math.PI * 2);
     ctx.stroke();
   }
+}
+
+/**
+ * 킬 점수를 그 자리에 띄운다. 킬이 점수의 대부분인데 결과 화면에서야 알게 되는 문제를
+ * 그 순간 보이게 만드는 장치다. 다른 무엇보다 위에 그린다.
+ */
+function drawScorePops(ctx: CanvasRenderingContext2D, effects: Effects, cell: number): void {
+  if (effects.scorePops.length === 0) {
+    return;
+  }
+
+  ctx.save();
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = `700 ${Math.max(13, cell * 1.7)}px "Pretendard", system-ui, sans-serif`;
+  ctx.lineJoin = "round";
+
+  for (const pop of effects.scorePops) {
+    const progress = pop.ageMs / pop.lifeMs;
+    // 처음엔 빠르게 솟았다가 잦아든다.
+    const rise = (1 - (1 - progress) ** 2) * cell * 3.2;
+    const alpha = progress < 0.75 ? 1 : 1 - (progress - 0.75) / 0.25;
+    const x = pop.x * cell;
+    const y = pop.y * cell - rise;
+
+    ctx.globalAlpha = Math.max(0, alpha);
+    ctx.strokeStyle = "rgba(8, 12, 22, 0.85)";
+    ctx.lineWidth = Math.max(3, cell * 0.5);
+    ctx.strokeText(pop.text, x, y);
+    ctx.fillStyle = pop.color;
+    ctx.fillText(pop.text, x, y);
+  }
+
+  ctx.restore();
 }
 
 function drawRunners(

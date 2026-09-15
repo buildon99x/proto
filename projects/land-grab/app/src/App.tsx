@@ -49,6 +49,7 @@ export default function App() {
       elapsedMs: 0,
       remainingMs: 0,
       lives: 0,
+      kills: 0,
       deaths: 0,
       trailLength: 0,
       x: 0,

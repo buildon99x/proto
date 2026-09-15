@@ -186,7 +186,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "summary": "격자 위를 달리며 폐곡선을 그려 영토를 넓히는 실시간 영역 점령 게임. AI 3인과 90초 동안 점유율을 겨루고, 남의 꼬리를 밟아 탈락시킬 수 있다.",
     "tags": [
       "game",
@@ -216,7 +216,7 @@ export const projects = [
       "build": "pnpm --filter land-grab build",
       "test": "pnpm --filter land-grab test"
     },
-    "updatedAt": "2026-09-14T17:26:25+00:00"
+    "updatedAt": "2026-09-14T17:42:44+00:00"
   },
   {
     "id": "altok-dragon-hatchery",

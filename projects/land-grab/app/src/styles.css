@@ -183,6 +183,10 @@ button {
   color: var(--danger);
 }
 
+.hud__value--kill {
+  color: var(--danger);
+}
+
 .hud .ghost {
   margin-left: auto;
   padding: 8px 14px;
@@ -272,7 +276,7 @@ button {
 
 .standing {
   display: grid;
-  grid-template-columns: 18px 12px 1fr auto;
+  grid-template-columns: 18px 12px minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 8px;
   padding: 7px 8px;
@@ -283,7 +287,7 @@ button {
 }
 
 .standings--detailed .standing {
-  grid-template-columns: 20px 12px 1fr auto auto auto;
+  grid-template-columns: 20px 12px minmax(0, 1fr) auto auto auto;
   gap: 12px;
   padding: 10px 12px;
   font-size: 15px;
@@ -312,6 +316,13 @@ button {
 .standing__kills,
 .standing__share {
   color: var(--ink-dim);
+  font-size: 13px;
+}
+
+/* 킬을 한 번이라도 한 쪽은 눈에 띄게 — 누가 왜 앞서는지 읽혀야 한다. */
+.standing__kills--on {
+  color: var(--danger);
+  font-weight: 600;
 }
 
 .standing__score {
