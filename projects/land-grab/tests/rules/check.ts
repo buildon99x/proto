@@ -12,6 +12,9 @@ import { Match } from "../../app/src/game/engine";
 import {
   BOARD_SIZE,
   HOME_RADIUS,
+  MAX_PLAYERS,
+  PLAYER_KEYS,
+  PLAYER_LIVES,
   PLAYER_TICK_MS,
   WALL_THICKNESS,
   captureMultiplier,
@@ -35,7 +38,7 @@ function check(name: string, condition: boolean, detail = ""): void {
 
 /** AI를 전부 치워 플레이어만 움직이는 판을 만든다. */
 function soloMatch(): Match {
-  const match = new Match(findDifficulty("easy"), 1);
+  const match = new Match(findDifficulty("easy"), { seed: 1 });
   for (const runner of match.runners.slice(1)) {
     park(runner);
   }
@@ -211,7 +214,7 @@ console.log("땅따먹기 규칙 검사");
 
 // --- 7. 스폰 방향은 가장 가까운 벽의 반대쪽 -----------------------------------
 {
-  const match = new Match(findDifficulty("normal"), 7);
+  const match = new Match(findDifficulty("normal"), { seed: 7 });
   const expected = (x: number, y: number): Direction => {
     const gaps: Array<{ dir: Direction; gap: number }> = [
       { dir: "down", gap: y - PLAY_LOW },
@@ -240,8 +243,8 @@ console.log("땅따먹기 규칙 검사");
   check("배율 구간: 25칸 ×1.5", captureMultiplier(25) === 1.5);
   check("배율 구간: 60칸 ×2", captureMultiplier(60) === 2);
 
-  const off = new Match(findDifficulty("easy"), 3, { captureBonus: false });
-  const on = new Match(findDifficulty("easy"), 3, { captureBonus: true });
+  const off = new Match(findDifficulty("easy"), { seed: 3, rules: { captureBonus: false } });
+  const on = new Match(findDifficulty("easy"), { seed: 3, rules: { captureBonus: true } });
   for (const match of [off, on]) {
     for (const runner of match.runners.slice(1)) {
       park(runner);
@@ -271,7 +274,7 @@ console.log("땅따먹기 규칙 검사");
 // --- 9. 폐허 잠금 (기본은 꺼짐. 실험 규칙) -----------------------------------
 {
   const LOCK_MS = 6_000;
-  const match = new Match(findDifficulty("easy"), 5, { rubbleLockMs: LOCK_MS });
+  const match = new Match(findDifficulty("easy"), { seed: 5, rules: { rubbleLockMs: LOCK_MS } });
   for (const runner of match.runners.slice(2)) {
     park(runner);
   }
@@ -320,7 +323,7 @@ console.log("땅따먹기 규칙 검사");
   check("잠금은 아직 유효하다", stillLocked, `elapsed=${Math.round(match.elapsedMs)}`);
   check("시간이 지나면 잠금이 풀린다", laterUnlocked);
 
-  const noLock = new Match(findDifficulty("easy"), 5, { rubbleLockMs: 0 });
+  const noLock = new Match(findDifficulty("easy"), { seed: 5, rules: { rubbleLockMs: 0 } });
   noLock.board.claimHome(noLock.human.id, 30, 30, HOME_RADIUS);
   noLock.board.clearPlayer(noLock.human.id, 0);
   check("잠금을 끄면 폐허가 생기지 않는다", !noLock.board.isLocked(30, 30, 0));
@@ -370,6 +373,65 @@ console.log("땅따먹기 규칙 검사");
     "자살에는 킬 보상이 붙지 않는다",
     Boolean(selfDeath) && selfDeath?.type === "death" && selfDeath.awardedScore === 0
   );
+}
+
+// --- 11. 한 화면 멀티 ----------------------------------------------------------
+{
+  const solo = new Match(findDifficulty("normal"), { seed: 9 });
+  check("혼자면 난이도가 AI 수를 정한다", solo.runners.length === findDifficulty("normal").aiCount + 1);
+  check("혼자면 목숨이 3개다", solo.human.lives === PLAYER_LIVES, `${solo.human.lives}`);
+  check("혼자면 이름이 '나'다", solo.labelOf(solo.human) === "나", solo.labelOf(solo.human));
+
+  for (const humans of [2, 3, 4]) {
+    const match = new Match(findDifficulty("normal"), { seed: 9, humans });
+    const people = match.runners.filter((runner) => runner.kind === "human");
+    const bots = match.runners.filter((runner) => runner.kind === "ai");
+
+    check(`${humans}인: 항상 4명이 참가한다`, match.runners.length === MAX_PLAYERS, `${match.runners.length}`);
+    check(`${humans}인: 사람 ${humans}명 + AI ${MAX_PLAYERS - humans}명`,
+      people.length === humans && bots.length === MAX_PLAYERS - humans,
+      `사람 ${people.length} / AI ${bots.length}`);
+    check(`${humans}인: 아무도 목숨 제한이 없다`,
+      people.every((runner) => runner.lives === Number.POSITIVE_INFINITY));
+    check(`${humans}인: 사람은 모두 같은 속도다`,
+      people.every((runner) => runner.tickMs === PLAYER_TICK_MS));
+    check(`${humans}인: 자리 이름이 P1..P${humans} 이다`,
+      people.every((runner, index) => match.labelOf(runner) === `P${index + 1}`),
+      people.map((runner) => match.labelOf(runner)).join("/"));
+    check(`${humans}인: 시작 영토가 겹치지 않는다`,
+      match.runners.every((runner) => match.tilesOf(runner.id) === (HOME_RADIUS * 2 + 1) ** 2),
+      match.runners.map((runner) => match.tilesOf(runner.id)).join("/"));
+  }
+
+  // 자리마다 키가 겹치지 않아야 한 키보드에서 네 명이 칠 수 있다.
+  const seen = new Map<string, string>();
+  let clash = "";
+  for (const player of PLAYER_KEYS) {
+    for (const code of Object.keys(player.map)) {
+      const owner = seen.get(code);
+      if (owner) {
+        clash = `${code}: ${owner} vs ${player.label}`;
+      }
+      seen.set(code, player.label);
+    }
+  }
+  check("네 자리의 키가 서로 겹치지 않는다", clash === "", clash);
+
+  // 목숨이 무한이라 중간에 끝나지 않는다.
+  const party = new Match(findDifficulty("normal"), { seed: 9, humans: 4 });
+  const first = party.runners[0];
+  for (let i = 0; i < 5; i += 1) {
+    party.board.clearTrail(first.trail);
+    first.trail = [];
+    place(party, first, WALL_THICKNESS + 2, 30, "left");
+    step(party, 3);
+    if (!first.alive) {
+      first.alive = true;
+      first.respawnAt = 0;
+    }
+  }
+  check("여럿이 하면 사람이 죽어도 판이 안 끝난다", party.phase === "playing", party.phase);
+  check("사망은 그대로 집계된다", first.deaths >= 1, `${first.deaths}`);
 }
 
 console.log(failures === 0 ? "\n모든 규칙 검사 통과" : `\n실패 ${failures}건`);

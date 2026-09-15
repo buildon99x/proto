@@ -1,3 +1,5 @@
+import type { Direction } from "./types";
+
 /**
  * 규칙 수치의 근거는 docs/design/splix-analysis.md 에 정리돼 있다.
  * splix.io의 이동 속도(0.006 타일/ms = 초당 6칸)와 시작 영토 반지름 2를 그대로 쓴다.
@@ -23,6 +25,51 @@ export const HOME_RADIUS = 2;
 export const SELF_TRAIL_GRACE = 2;
 
 export const KILL_SCORE = 500;
+
+/** 한 판의 최대 참가자 수. 팔레트 색 수와 시작 지점 수에 묶여 있다. */
+export const MAX_PLAYERS = 4;
+
+/**
+ * 한 화면 멀티용 키 배치. 네 명이 한 키보드를 나눠 쓴다 —
+ * 왼쪽부터 WASD · TFGH · IJKL · 방향키 순으로 앉으면 팔이 겹치지 않는다.
+ * 1번 자리는 싱글 플레이와 같은 방향키라, 혼자 할 때 배치가 바뀌지 않는다.
+ */
+export const PLAYER_KEYS: Array<{
+  label: string;
+  hint: string;
+  map: Record<string, Direction>;
+}> = [
+  {
+    label: "P1",
+    hint: "방향키 · 숫자패드",
+    map: {
+      ArrowUp: "up",
+      ArrowDown: "down",
+      ArrowLeft: "left",
+      ArrowRight: "right",
+      Numpad8: "up",
+      Numpad5: "down",
+      Numpad2: "down",
+      Numpad4: "left",
+      Numpad6: "right"
+    }
+  },
+  {
+    label: "P2",
+    hint: "W A S D",
+    map: { KeyW: "up", KeyS: "down", KeyA: "left", KeyD: "right" }
+  },
+  {
+    label: "P3",
+    hint: "I J K L",
+    map: { KeyI: "up", KeyK: "down", KeyJ: "left", KeyL: "right" }
+  },
+  {
+    label: "P4",
+    hint: "T F G H",
+    map: { KeyT: "up", KeyG: "down", KeyF: "left", KeyH: "right" }
+  }
+];
 
 /**
  * 물막이 배율 — 한 번에 닫은 면적이 클수록 점수를 더 준다.

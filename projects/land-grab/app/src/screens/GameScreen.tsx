@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { GameCanvas } from "../components/GameCanvas";
 import { Standings } from "../components/Standings";
 import type { AiController } from "../game/ai";
-import { KILL_SCORE, PALETTE, type Difficulty } from "../game/config";
+import { KILL_SCORE, PALETTE, PLAYER_KEYS, type Difficulty } from "../game/config";
 import type { Effects } from "../game/effects";
 import type { Match, MatchResult } from "../game/engine";
 import type { Direction, Standing } from "../game/types";
@@ -18,16 +18,23 @@ type Props = {
   onSample: (match: Match) => void;
 };
 
-const KEY_DIRECTIONS: Record<string, Direction> = {
-  ArrowUp: "up",
-  ArrowDown: "down",
-  ArrowLeft: "left",
-  ArrowRight: "right",
-  KeyW: "up",
-  KeyS: "down",
-  KeyA: "left",
-  KeyD: "right"
-};
+/**
+ * 눌린 키가 어느 자리의 어느 방향인지 찾는다.
+ * 혼자일 때는 1번 자리가 방향키와 WASD 를 같이 받는다 — 싱글 조작을 좁히지 않기 위해서다.
+ */
+function resolveKey(code: string, humans: number): { slot: number; dir: Direction } | null {
+  if (humans === 1) {
+    const solo = PLAYER_KEYS[0].map[code] ?? PLAYER_KEYS[1].map[code];
+    return solo ? { slot: 0, dir: solo } : null;
+  }
+  for (let slot = 0; slot < humans; slot += 1) {
+    const dir = PLAYER_KEYS[slot].map[code];
+    if (dir) {
+      return { slot, dir };
+    }
+  }
+  return null;
+}
 
 const HUD_INTERVAL_MS = 100;
 
@@ -45,7 +52,8 @@ function readHud(match: Match): Hud {
   return {
     remainingMs: match.remainingMs,
     share: match.shareOf(match.human.id),
-    lives: Math.max(0, match.human.lives),
+    // 여럿이 하면 목숨이 무한이다. `Infinity` 를 그대로 흘리면 표시에서 터진다.
+    lives: Number.isFinite(match.human.lives) ? Math.max(0, match.human.lives) : Number.POSITIVE_INFINITY,
     score: match.scoreOf(match.human),
     kills: match.human.kills,
     standings: match.standings(),
@@ -68,8 +76,11 @@ export function GameScreen({
   const finishedRef = useRef(false);
 
   const steer = useCallback(
-    (dir: Direction) => {
-      match.queueDirection(match.human, dir);
+    (dir: Direction, slot = 0) => {
+      const runner = match.runners[slot];
+      if (runner) {
+        match.queueDirection(runner, dir);
+      }
     },
     [match]
   );
@@ -90,17 +101,17 @@ export function GameScreen({
         togglePause();
         return;
       }
-      const dir = KEY_DIRECTIONS[event.code];
-      if (!dir) {
+      const pressed = resolveKey(event.code, match.humans);
+      if (!pressed) {
         return;
       }
       event.preventDefault();
-      steer(dir);
+      steer(pressed.dir, pressed.slot);
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [steer, togglePause]);
+  }, [match, steer, togglePause]);
 
   const onFrame = useCallback(
     (current: Match) => {
@@ -131,25 +142,33 @@ export function GameScreen({
             {seconds}초
           </strong>
         </div>
-        <div className="hud__cell">
+        {match.humans > 1 ? (
+          <div className="hud__cell">
+            <span className="hud__label">사람</span>
+            <strong className="hud__value">{match.humans}명</strong>
+          </div>
+        ) : null}
+        <div className="hud__cell" hidden={match.humans > 1}>
           <span className="hud__label">내 점유율</span>
           <strong className="hud__value" style={{ color: PALETTE[1].territory }}>
             {(hud.share * 100).toFixed(1)}%
           </strong>
         </div>
-        <div className="hud__cell">
+        <div className="hud__cell" hidden={match.humans > 1}>
           <span className="hud__label">점수</span>
           <strong className="hud__value">{hud.score.toLocaleString("ko-KR")}</strong>
         </div>
-        <div className="hud__cell">
+        <div className="hud__cell" hidden={match.humans > 1}>
           <span className="hud__label">킬 (1회 {KILL_SCORE}점)</span>
           <strong className={hud.kills > 0 ? "hud__value hud__value--kill" : "hud__value"}>
             {hud.kills}
           </strong>
         </div>
-        <div className="hud__cell">
+        <div className="hud__cell" hidden={match.humans > 1}>
           <span className="hud__label">목숨</span>
-          <strong className="hud__value">{"●".repeat(hud.lives) || "—"}</strong>
+          <strong className="hud__value">
+            {Number.isFinite(hud.lives) ? "●".repeat(hud.lives) || "—" : "∞"}
+          </strong>
         </div>
         <button type="button" className="ghost" onClick={togglePause}>
           {hud.paused ? "계속" : "일시정지"}
@@ -162,7 +181,10 @@ export function GameScreen({
           {hud.paused ? (
             <div className="overlay">
               <h2>일시정지</h2>
-              <p>{difficulty.label} 난이도</p>
+              <p>
+                {difficulty.label} 난이도
+                {match.humans > 1 ? ` · ${match.humans}인` : ""}
+              </p>
               <div className="overlay__actions">
                 <button type="button" className="primary" onClick={togglePause}>
                   계속하기
@@ -180,14 +202,17 @@ export function GameScreen({
 
         <aside className="sidebar">
           <h2>순위</h2>
-          <Standings standings={hud.standings} />
+          <Standings
+            standings={hud.standings}
+            meId={match.humans === 1 ? match.human.id : undefined}
+          />
           <p className="hint hint--tight">
             남의 꼬리를 밟으면 그 상대가 죽고 <b>{KILL_SCORE}점</b> — 땅 {KILL_SCORE}칸과 같다.
           </p>
         </aside>
       </div>
 
-      <nav className="dpad" aria-label="방향 조작">
+      <nav className="dpad" aria-label="방향 조작" hidden={match.humans > 1}>
         <button type="button" onClick={() => steer("up")} aria-label="위">
           ↑
         </button>

@@ -1,4 +1,4 @@
-import { PALETTE } from "./config";
+import { PALETTE, PLAYER_KEYS } from "./config";
 import { WALL } from "./board";
 import type { Match } from "./engine";
 import type { Effects } from "./effects";
@@ -363,7 +363,7 @@ function drawRunners(
     const color = PALETTE[runner.id].territory;
 
     if (runner.kind === "human") {
-      drawFocusRing(ctx, x, y, cell, size, color);
+      drawFocusRing(ctx, x, y, cell, size, color, match.humans === 1);
     }
 
     const delta = DELTA[runner.dir];
@@ -382,26 +382,58 @@ function drawRunners(
     ctx.arc(x, y, cell * 0.62, 0, Math.PI * 2);
     ctx.fill();
     ctx.stroke();
+
+    // 한 화면에 사람이 여럿이면 누가 누군지 색만으로는 헷갈린다.
+    if (match.humans > 1 && runner.kind === "human") {
+      drawSeatBadge(ctx, x, y, cell, color, PLAYER_KEYS[runner.id - 1]?.label ?? `P${runner.id}`);
+    }
   }
 }
 
-/** 60×60 격자에서 내 말을 놓치지 않도록 십자선과 링을 얹는다. */
+function drawSeatBadge(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  cell: number,
+  color: string,
+  label: string
+): void {
+  ctx.save();
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = `700 ${Math.max(10, cell * 1.05)}px "Pretendard", system-ui, sans-serif`;
+  ctx.lineJoin = "round";
+  ctx.strokeStyle = "rgba(8, 12, 22, 0.9)";
+  ctx.lineWidth = Math.max(2.5, cell * 0.42);
+  ctx.strokeText(label, x, y - cell * 1.5);
+  ctx.fillStyle = color;
+  ctx.fillText(label, x, y - cell * 1.5);
+  ctx.restore();
+}
+
+/**
+ * 60×60 격자에서 내 말을 놓치지 않도록 링을 얹는다.
+ * 십자선은 혼자일 때만 — 넷이 그으면 화면이 격자무늬가 된다.
+ */
 function drawFocusRing(
   ctx: CanvasRenderingContext2D,
   x: number,
   y: number,
   cell: number,
   size: number,
-  color: string
+  color: string,
+  crosshair: boolean
 ): void {
-  ctx.strokeStyle = withAlpha(color, 0.22);
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(x, 0);
-  ctx.lineTo(x, size);
-  ctx.moveTo(0, y);
-  ctx.lineTo(size, y);
-  ctx.stroke();
+  if (crosshair) {
+    ctx.strokeStyle = withAlpha(color, 0.22);
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, size);
+    ctx.moveTo(0, y);
+    ctx.lineTo(size, y);
+    ctx.stroke();
+  }
 
   ctx.strokeStyle = withAlpha(color, 0.6);
   ctx.lineWidth = Math.max(1, cell * 0.12);

@@ -41,6 +41,8 @@ export type MatchPhase = "playing" | "paused" | "result";
 export type Standing = {
   id: PlayerId;
   kind: RunnerKind;
+  /** 화면에 보여 줄 이름. 혼자면 "나", 여럿이면 "P2", AI 면 색 이름. */
+  label: string;
   tiles: number;
   share: number;
   kills: number;

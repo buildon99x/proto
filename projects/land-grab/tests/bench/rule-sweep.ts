@@ -105,7 +105,7 @@ function runMatch(
   botHunts: boolean
 ): Outcome {
   const difficulty = findDifficulty("normal");
-  const match = new Match(difficulty, seed, rules);
+  const match = new Match(difficulty, { seed, rules });
 
   // 목숨 제한을 풀어 90초를 끝까지 돌린다. 재려는 것은 생존이 아니라 효율이다.
   match.human.lives = Number.POSITIVE_INFINITY;

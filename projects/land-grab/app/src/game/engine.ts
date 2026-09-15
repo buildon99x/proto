@@ -3,6 +3,9 @@ import {
   BOARD_SIZE,
   HOME_RADIUS,
   MATCH_DURATION_MS,
+  MAX_PLAYERS,
+  PALETTE,
+  PLAYER_KEYS,
   captureMultiplier,
   PLAYER_LIVES,
   PLAYER_TICK_MS,
@@ -46,7 +49,18 @@ export type MatchEvent =
 export type MatchResult = {
   outcome: "win" | "lose" | "ranked";
   standings: Standing[];
+  /** 1번 자리(싱글이면 나) 의 순위. */
   playerRank: number;
+  winner: Standing;
+  humans: number;
+};
+
+export type MatchOptions = {
+  seed?: number;
+  /** 켜고 끌 수 있는 실험 규칙. 근거는 `docs/design/differentiation.md`. */
+  rules?: Partial<MatchRules>;
+  /** 한 화면에서 함께 플레이하는 사람 수 (1~4). */
+  humans?: number;
 };
 
 export class Match {
@@ -63,27 +77,30 @@ export class Match {
   private tileSampleAccMs = 0;
   private events: MatchEvent[] = [];
   readonly rules: MatchRules;
+  /** 한 화면에서 함께 하는 사람 수. 1이면 기존 싱글 플레이. */
+  readonly humans: number;
 
-  /**
-   * @param rules 켜고 끌 수 있는 실험 규칙. 기본값은 `DEFAULT_RULES` —
-   *   측정 결과와 근거는 `docs/design/differentiation.md` 에 있다.
-   */
-  constructor(difficulty: Difficulty, seed = Date.now(), rules: Partial<MatchRules> = {}) {
+  constructor(difficulty: Difficulty, options: MatchOptions = {}) {
+    const { seed = Date.now(), rules = {}, humans = 1 } = options;
+
     this.rules = { ...DEFAULT_RULES, ...rules };
+    this.humans = Math.min(MAX_PLAYERS, Math.max(1, Math.floor(humans)));
     this.difficulty = difficulty;
     this.rng = mulberry32(seed);
     this.board = new Board(BOARD_SIZE);
 
-    const total = difficulty.aiCount + 1;
+    // 혼자면 난이도가 AI 수를 정한다. 둘 이상이면 빈 자리를 AI 로 채워 항상 4명이 된다.
+    const total = this.humans === 1 ? difficulty.aiCount + 1 : MAX_PLAYERS;
     this.runners = [];
 
     const homes = this.homeAnchors(total);
     for (let slot = 0; slot < total; slot += 1) {
       const id = (slot + 1) as PlayerId;
       const home = homes[slot];
+      const isHuman = slot < this.humans;
       const runner: Runner = {
         id,
-        kind: slot === 0 ? "human" : "ai",
+        kind: isHuman ? "human" : "ai",
         alive: true,
         respawnAt: 0,
         x: home.x,
@@ -95,9 +112,11 @@ export class Match {
         turnedAtX: -1,
         turnedAtY: -1,
         trail: [],
-        tickMs: slot === 0 ? PLAYER_TICK_MS : difficulty.aiTickMs,
+        tickMs: isHuman ? PLAYER_TICK_MS : difficulty.aiTickMs,
         tickAccMs: 0,
-        lives: slot === 0 ? PLAYER_LIVES : Number.POSITIVE_INFINITY,
+        // 여럿이 하면 아무도 중간에 탈락하지 않는다. 한 명이 목숨을 잃어서
+        // 판이 끝나 버리면 나머지 사람들의 90초가 사라진다.
+        lives: isHuman && this.humans === 1 ? PLAYER_LIVES : Number.POSITIVE_INFINITY,
         kills: 0,
         deaths: 0,
         bonusPoints: 0,
@@ -122,8 +141,20 @@ export class Match {
     return drained;
   }
 
+  /** 1번 자리. 싱글 플레이의 "나"이고, 테스트 훅이 보는 대상이다. */
   get human(): Runner {
     return this.runners[0];
+  }
+
+  /** 화면에 보여 줄 이름. */
+  labelOf(runner: Runner): string {
+    if (runner.kind !== "human") {
+      return `AI ${PALETTE[runner.id].name}`;
+    }
+    if (this.humans === 1) {
+      return "나";
+    }
+    return PLAYER_KEYS[runner.id - 1]?.label ?? `P${runner.id}`;
   }
 
   get remainingMs(): number {
@@ -239,6 +270,7 @@ export class Match {
       .map<Standing>((runner) => ({
         id: runner.id,
         kind: runner.kind,
+        label: this.labelOf(runner),
         tiles: this.tilesOf(runner.id),
         share: this.shareOf(runner.id),
         kills: runner.kills,
@@ -253,10 +285,16 @@ export class Match {
 
   result(): MatchResult {
     const standings = this.standings();
-    const playerRank = standings.findIndex((item) => item.kind === "human") + 1;
+    const playerRank = standings.findIndex((item) => item.id === this.human.id) + 1;
     const outcome: MatchResult["outcome"] =
-      this.human.lives <= 0 ? "lose" : playerRank === 1 ? "win" : "ranked";
-    return { outcome, standings, playerRank };
+      this.humans > 1
+        ? "ranked"
+        : this.human.lives <= 0
+          ? "lose"
+          : playerRank === 1
+            ? "win"
+            : "ranked";
+    return { outcome, standings, playerRank, winner: standings[0], humans: this.humans };
   }
 
   // --- 시뮬레이션 내부 ---

@@ -14,9 +14,9 @@ type Session = {
   ai: AiController;
 };
 
-function createSession(difficultyId: DifficultyId): Session {
+function createSession(difficultyId: DifficultyId, humans: number): Session {
   const difficulty = findDifficulty(difficultyId);
-  const match = new Match(difficulty);
+  const match = new Match(difficulty, { humans });
   return {
     match,
     effects: new Effects(),
@@ -26,6 +26,7 @@ function createSession(difficultyId: DifficultyId): Session {
 
 export default function App() {
   const [difficultyId, setDifficultyId] = useState<DifficultyId>("normal");
+  const [humans, setHumans] = useState(1);
   const [session, setSession] = useState<Session | null>(null);
   const [result, setResult] = useState<MatchResult | null>(null);
   const sampleRef = useRef(0);
@@ -34,8 +35,8 @@ export default function App() {
 
   const start = useCallback(() => {
     setResult(null);
-    setSession(createSession(difficultyId));
-  }, [difficultyId]);
+    setSession(createSession(difficultyId, humans));
+  }, [difficultyId, humans]);
 
   const exit = useCallback(() => {
     setSession(null);
@@ -51,6 +52,7 @@ export default function App() {
       lives: 0,
       kills: 0,
       deaths: 0,
+      humans,
       trailLength: 0,
       x: 0,
       y: 0,
@@ -58,7 +60,7 @@ export default function App() {
       alive: false,
       onOwnLand: false
     });
-  }, [difficultyId]);
+  }, [difficultyId, humans]);
 
   const sample = useCallback(
     (match: Match) => {
@@ -98,5 +100,13 @@ export default function App() {
     );
   }
 
-  return <TitleScreen selected={difficultyId} onSelect={setDifficultyId} onStart={start} />;
+  return (
+    <TitleScreen
+      selected={difficultyId}
+      onSelect={setDifficultyId}
+      humans={humans}
+      onHumansChange={setHumans}
+      onStart={start}
+    />
+  );
 }

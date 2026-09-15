@@ -9,9 +9,12 @@ export type LandGrabHook = {
   scores: number[];
   elapsedMs: number;
   remainingMs: number;
+  /** 남은 목숨. `-1`이면 제한 없음(여럿이 할 때). */
   lives: number;
   kills: number;
   deaths: number;
+  /** 한 화면에서 함께 하는 사람 수. */
+  humans: number;
   trailLength: number;
   x: number;
   y: number;
@@ -41,9 +44,10 @@ export function hookFromMatch(match: Match, difficulty: string): LandGrabHook {
     scores: match.runners.map((runner) => match.scoreOf(runner)),
     elapsedMs: Math.round(match.elapsedMs),
     remainingMs: Math.round(match.remainingMs),
-    lives: Math.max(0, human.lives),
+    lives: Number.isFinite(human.lives) ? Math.max(0, human.lives) : -1,
     kills: human.kills,
     deaths: human.deaths,
+    humans: match.humans,
     trailLength: human.trail.length,
     x: human.x,
     y: human.y,
