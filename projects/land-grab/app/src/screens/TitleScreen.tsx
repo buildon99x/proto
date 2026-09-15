@@ -11,22 +11,35 @@ import {
   type GameMode
 } from "../game/config";
 
+/**
+ * 타이틀에서 고르는 것. `online` 은 `Match` 의 모드가 아니라 **다른 화면**이다 —
+ * 시뮬레이션이 서버에 있어서 이쪽에는 판이 없다.
+ */
+export type TitleMode = GameMode | "online";
+
 type Props = {
   selected: DifficultyId;
   onSelect: (id: DifficultyId) => void;
   humans: number;
   onHumansChange: (humans: number) => void;
-  mode: GameMode;
-  onModeChange: (mode: GameMode) => void;
+  mode: TitleMode;
+  onModeChange: (mode: TitleMode) => void;
+  name: string;
+  onNameChange: (name: string) => void;
   onStart: () => void;
 };
 
 const HUMAN_OPTIONS = [1, 2, 3, 4];
 
-const MODES: Array<{ id: GameMode; label: string; line: string }> = [
+const MODES: Array<{ id: TitleMode; label: string; line: string }> = [
+  {
+    id: "online",
+    label: "온라인",
+    line: `${WORLD_BOARD_SIZE}×${WORLD_BOARD_SIZE} 공용 세계 · 다른 사람과 함께 · 죽을 때까지`
+  },
   {
     id: "world",
-    label: "월드",
+    label: "솔로",
     line: `${WORLD_BOARD_SIZE}×${WORLD_BOARD_SIZE} 열린 세계 · 봇 ${WORLD_BOTS}기 · 죽을 때까지`
   },
   {
@@ -43,9 +56,13 @@ export function TitleScreen({
   onHumansChange,
   mode,
   onModeChange,
+  name,
+  onNameChange,
   onStart
 }: Props) {
-  const world = mode === "world";
+  const online = mode === "online";
+  // 온라인도 큰 맵이라 월드와 같은 설명을 쓴다.
+  const world = mode === "world" || online;
   const aiCount = world
     ? WORLD_BOTS
     : humans === 1
@@ -75,9 +92,11 @@ export function TitleScreen({
           ))}
         </div>
         <p className="hint hint--tight">
-          {world
-            ? "한 변을 가로지르는 데 100초가 걸린다. 화면은 내 말을 따라가고, 오른쪽 미니맵이 전체를 보여 준다."
-            : "보드 전체가 한 화면에 들어온다. 한 키보드를 나눠 쓴다."}
+          {online
+            ? "모두가 같은 세계에 들어간다. 서버가 판정하고, 죽으면 그 자리에서 나가 다시 들어간다."
+            : world
+              ? "한 변을 가로지르는 데 100초가 걸린다. 화면은 내 말을 따라가고, 오른쪽 미니맵이 전체를 보여 준다."
+              : "보드 전체가 한 화면에 들어온다. 한 키보드를 나눠 쓴다."}
         </p>
       </section>
 
@@ -95,6 +114,24 @@ export function TitleScreen({
           </li>
         </ul>
       </section>
+
+      {online ? (
+        <section className="panel">
+          <h2>이름</h2>
+          <input
+            className="name-input"
+            type="text"
+            value={name}
+            maxLength={8}
+            placeholder="익명"
+            aria-label="세계에서 쓸 이름"
+            onChange={(event) => onNameChange(event.target.value)}
+          />
+          <p className="hint hint--tight">
+            다른 사람 화면에 이 이름이 뜬다. 한글 8자까지.
+          </p>
+        </section>
+      ) : null}
 
       {world ? null : (
         <section className="panel">
@@ -134,6 +171,7 @@ export function TitleScreen({
         </section>
       )}
 
+      {online ? null : (
       <section className="panel">
         <h2>{world ? "봇 성격" : "난이도"}</h2>
         <div className="difficulty">
@@ -150,9 +188,10 @@ export function TitleScreen({
           ))}
         </div>
       </section>
+      )}
 
       <button type="button" className="primary" onClick={onStart}>
-        게임 시작
+        {online ? "세계에 들어가기" : "게임 시작"}
       </button>
 
       <p className="hint">

@@ -24,6 +24,11 @@ export type NetPlayer = {
   name: string;
   x: number;
   y: number;
+  /** 직전 칸. 방송 주기(100ms)와 이동 주기(167ms)가 달라 보간이 필요하다. */
+  prevX: number;
+  prevY: number;
+  /** 마지막으로 칸이 바뀐 시각. 보간 진행률을 여기서 잰다. */
+  movedAt: number;
   dir: Direction;
   alive: boolean;
   hasTrail: boolean;
@@ -57,6 +62,14 @@ export type NetDeath = {
 
 /** 한 번에 들고 있을 사망 연출 수. 넘치면 오래된 것부터 버린다. */
 const DEATH_BUFFER = 32;
+
+/**
+ * 단조 증가하는 시각(ms). 보간에 쓰므로 벽시계가 아니라 성능 타이머를 본다 —
+ * 시스템 시간이 조정되면 말이 순간이동한다.
+ */
+function now(): number {
+  return typeof performance !== "undefined" ? performance.now() : Date.now();
+}
 
 export class NetWorld {
   mapSize = WORLD_BOARD_SIZE;
@@ -271,7 +284,19 @@ export class NetWorld {
   private ensurePlayer(id: number): NetPlayer {
     let player = this.players.get(id);
     if (!player) {
-      player = { id, name: "", x: 0, y: 0, dir: DIRECTIONS[0], alive: true, hasTrail: false, trail: [] };
+      player = {
+        id,
+        name: "",
+        x: 0,
+        y: 0,
+        prevX: 0,
+        prevY: 0,
+        movedAt: now(),
+        dir: DIRECTIONS[0],
+        alive: true,
+        hasTrail: false,
+        trail: []
+      };
       this.players.set(id, player);
     }
     return player;
@@ -293,6 +318,7 @@ export class NetWorld {
   ): void {
     const player = this.ensurePlayer(id);
     const first = player.x === 0 && player.y === 0 && player.trail.length === 0 && !player.hasTrail;
+    const jumped = Math.abs(x - player.x) + Math.abs(y - player.y) > 2;
 
     if (hasTrail && !first) {
       const dx = Math.sign(x - player.x);
@@ -308,6 +334,12 @@ export class NetWorld {
       player.trail.length = 0;
     }
 
+    if (player.x !== x || player.y !== y) {
+      // 순간이동(리스폰·시야 진입)은 보간하지 않는다. 화면을 가로질러 미끄러진다.
+      player.prevX = first || jumped ? x : player.x;
+      player.prevY = first || jumped ? y : player.y;
+      player.movedAt = now();
+    }
     player.x = x;
     player.y = y;
     player.dir = dir;

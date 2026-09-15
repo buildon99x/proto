@@ -8,6 +8,10 @@ This project is managed as an individual Prototype Lab project.
 - 게임 규칙을 바꾸면 `spec.md`의 규칙 표와 `eval.md`의 규칙 검사(R1~R6)를 같이 고친다.
 - 시뮬레이션(`app/src/game/`)은 렌더와 분리해 둔다. 렌더 코드가 보드 상태를 직접 바꾸지 않는다.
 - `window.__landGrab` 테스트 훅의 필드를 바꾸면 `tests/e2e/scenario.mjs`도 같이 고친다.
+  온라인 쪽 훅은 `window.__landGrabNet` (`app/src/net/testHook.ts`) 이다.
+- 렌더러는 `Match` 를 받지 않는다. `Scene`(`game/render.ts`)만 받고, 그 모양을
+  `game/scene.ts`(로컬)와 `net/scene.ts`(온라인)가 만든다. 렌더러에 `Match` 를 다시
+  끌어들이면 화면을 두 벌 써야 한다.
 - 모드(`Match.mode`)와 인원(`Match.humans`)에 따라 규칙과 화면이 갈린다. 한쪽만 고치지 않는다.
 - `600 × 600` 에서는 **판 전체를 훑는 코드를 새로 쓰지 않는다.** 경계 상자(`Board.boundsOf`),
   증분 집계(`Board.tilesOf`), 시야 렌더링이 그래서 있다. 자세한 내용은 `spec.md` §0.

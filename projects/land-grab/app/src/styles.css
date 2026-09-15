@@ -655,3 +655,139 @@ button {
     grid-row: 2;
   }
 }
+
+/* --- 온라인 --- */
+
+.screen--net {
+  position: relative;
+}
+
+/* 서버를 깨우는 동안, 그리고 접속에 실패했을 때 보여 주는 화면. */
+.net-wait {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 28px 24px;
+  max-width: 420px;
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-radius: 16px;
+}
+
+.net-wait h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.net-wait p {
+  margin: 0;
+  color: var(--ink-dim);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.net-wait__note {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.net-wait button {
+  margin-top: 8px;
+}
+
+/* 탈락 화면. 보드를 가리지 않고 위에 얹는다 — 세계는 계속 돌고 있다. */
+.net-over {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 12, 22, 0.72);
+  backdrop-filter: blur(2px);
+  z-index: 5;
+}
+
+.net-over__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 26px 30px;
+  min-width: 300px;
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-radius: 16px;
+}
+
+.net-over__card h2 {
+  margin: 0;
+  font-size: 22px;
+  color: var(--danger);
+}
+
+.net-over__rank {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.net-over__rank small {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--ink-dim);
+}
+
+.net-over__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 22px;
+  margin: 0;
+  width: 100%;
+}
+
+.net-over__stats div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.net-over__stats dt {
+  color: var(--ink-dim);
+}
+
+.net-over__stats dd {
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.net-over__actions {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.net-over__actions button {
+  flex: 1;
+}
+
+.name-input {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--panel-edge);
+  background: #0d1626;
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+}
+
+.name-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}

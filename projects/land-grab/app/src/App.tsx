@@ -1,7 +1,8 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { GameScreen } from "./screens/GameScreen";
 import { ResultScreen } from "./screens/ResultScreen";
-import { TitleScreen } from "./screens/TitleScreen";
+import { TitleScreen, type TitleMode } from "./screens/TitleScreen";
+import { OnlineScreen } from "./screens/OnlineScreen";
 import { AiController } from "./game/ai";
 import { findDifficulty, type DifficultyId, type GameMode } from "./game/config";
 import { Effects } from "./game/effects";
@@ -13,6 +14,30 @@ type Session = {
   effects: Effects;
   ai: AiController;
 };
+
+const NAME_KEY = "land-grab:name";
+
+/** 온라인은 `Match` 의 모드가 아니다. 로컬 계기판에 적을 때는 큰 맵 쪽으로 친다. */
+function localMode(mode: TitleMode): GameMode {
+  return mode === "online" ? "world" : mode;
+}
+
+function readStoredName(): string {
+  try {
+    return window.localStorage.getItem(NAME_KEY) ?? "";
+  } catch {
+    // 사생활 보호 모드에서는 접근이 막힌다. 이름이 없어도 게임은 된다.
+    return "";
+  }
+}
+
+function storeName(name: string): void {
+  try {
+    window.localStorage.setItem(NAME_KEY, name);
+  } catch {
+    // 저장하지 못해도 이번 판에는 영향이 없다.
+  }
+}
 
 function createSession(difficultyId: DifficultyId, humans: number, mode: GameMode): Session {
   const difficulty = findDifficulty(difficultyId);
@@ -27,7 +52,9 @@ function createSession(difficultyId: DifficultyId, humans: number, mode: GameMod
 export default function App() {
   const [difficultyId, setDifficultyId] = useState<DifficultyId>("normal");
   const [humans, setHumans] = useState(1);
-  const [mode, setMode] = useState<GameMode>("world");
+  const [mode, setMode] = useState<TitleMode>("online");
+  const [name, setName] = useState(() => readStoredName());
+  const [online, setOnline] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
   const [result, setResult] = useState<MatchResult | null>(null);
   const sampleRef = useRef(0);
@@ -36,12 +63,18 @@ export default function App() {
 
   const start = useCallback(() => {
     setResult(null);
+    if (mode === "online") {
+      storeName(name);
+      setOnline(true);
+      return;
+    }
     setSession(createSession(difficultyId, humans, mode));
-  }, [difficultyId, humans, mode]);
+  }, [difficultyId, humans, mode, name]);
 
   const exit = useCallback(() => {
     setSession(null);
     setResult(null);
+    setOnline(false);
     publishHook({
       phase: "title",
       difficulty: difficultyId,
@@ -54,7 +87,7 @@ export default function App() {
       kills: 0,
       deaths: 0,
       humans,
-      mode,
+      mode: localMode(mode),
       boardSize: 0,
       players: 0,
       rank: 0,
@@ -78,6 +111,10 @@ export default function App() {
     },
     [difficultyId]
   );
+
+  if (online) {
+    return <OnlineScreen name={name} onExit={exit} />;
+  }
 
   if (session && !result) {
     return (
@@ -113,6 +150,8 @@ export default function App() {
       onHumansChange={setHumans}
       mode={mode}
       onModeChange={setMode}
+      name={name}
+      onNameChange={setName}
       onStart={start}
     />
   );

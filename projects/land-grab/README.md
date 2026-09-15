@@ -46,7 +46,16 @@ npm run dev     # 로컬에서 띄우기 → http://127.0.0.1:8080/status
 [docs/design/render-deploy.md](docs/design/render-deploy.md) 에 있다.
 **인스턴스는 항상 하나여야 한다** — 늘리면 세계가 쪼개진다.
 
-브라우저 클라이언트는 아직 서버에 붙지 않는다. 남은 작업은 같은 문서 §8.
+타이틀에서 **온라인**을 고르면 그 서버에 붙는다. 서버 주소는 `VITE_LAND_GRAB_SERVER`
+로 바꿀 수 있고, 비우면 배포된 주소를 쓴다. 로컬 서버로 확인하려면:
+
+```bash
+cd server && npm run build && PORT=18090 node dist/main.mjs   # 한쪽 터미널
+VITE_LAND_GRAB_SERVER=http://127.0.0.1:18090 pnpm --filter land-grab dev
+```
+
+무료 인스턴스라 아무도 없으면 잠든다. 처음 들어갈 때 1분쯤 기다리는 화면이 뜬다.
+
 서버 구조는 [docs/design/io-server.md](docs/design/io-server.md),
 한 화면 멀티는 [docs/design/multiplayer.md](docs/design/multiplayer.md).
 

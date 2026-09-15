@@ -1,8 +1,7 @@
-import { PLAYER_KEYS, playerStyle } from "./config";
+import { playerStyle } from "./config";
 import { WALL } from "./board";
-import type { Match } from "./engine";
 import type { Effects } from "./effects";
-import { DELTA, type Cell, type Runner } from "./types";
+import { DELTA, type Cell, type Direction } from "./types";
 
 const BACKGROUND = "#0d1220";
 const EMPTY_TILE = "#2c2a27";
@@ -15,6 +14,46 @@ const RUBBLE_CRACK = "#7b6a57";
 /** 타일 사이 간격 비율. 블록이 따로 놓인 느낌을 만든다. */
 const TILE_GAP = 0.12;
 const TILE_RADIUS = 0.22;
+
+/**
+ * 렌더러가 한 프레임에 필요로 하는 전부.
+ *
+ * 일부러 `Match` 를 받지 않는다. 온라인에서는 시뮬레이션이 서버에 있고 이쪽에는
+ * 받아 적은 상태뿐이라, 렌더러가 `Match` 에 묶여 있으면 화면을 두 벌 써야 한다.
+ * 로컬 판은 `game/scene.ts` 가, 온라인은 `net/scene.ts` 가 이 모양을 만들어 준다.
+ */
+export type Scene = {
+  /** 보드 한 변. */
+  size: number;
+  /** 타일 소유자. 길이 `size * size`, 인덱스는 `y * size + x`. */
+  owner: Uint8Array;
+  runners: readonly SceneRunner[];
+  /** 십자 조준선을 허용하는가. 실제로는 보드 전체가 보일 때만 그린다. */
+  crosshair: boolean;
+  /** 폐허 규칙. 0이면 폐허를 그리지 않는다. */
+  rubbleLockMs: number;
+  elapsedMs: number;
+  hasRubble: boolean;
+  rubbleUntilAt: (x: number, y: number) => number;
+};
+
+export type SceneRunner = {
+  id: number;
+  alive: boolean;
+  x: number;
+  y: number;
+  /** 보간용 직전 칸. */
+  prevX: number;
+  prevY: number;
+  dir: Direction;
+  trail: readonly Cell[];
+  /** 칸과 칸 사이 보간 진행률(0~1). */
+  progress: number;
+  /** 내 말인가. 링을 얹어 놓치지 않게 한다. */
+  focus: boolean;
+  /** 머리 위에 띄울 이름. 없으면 안 그린다. */
+  label?: string;
+};
 
 /**
  * 보이는 범위. 큰 맵에서는 화면에 들어오는 칸만 그린다 —
@@ -59,12 +98,11 @@ type View = {
   toY: (tileY: number) => number;
 };
 
-function makeView(match: Match, size: number, camera: Camera): View {
+function makeView(boardSize: number, size: number, camera: Camera): View {
   const cell = size / camera.tiles;
   const half = camera.tiles / 2;
   const left = camera.x - half;
   const top = camera.y - half;
-  const board = match.board;
 
   return {
     cell,
@@ -72,8 +110,8 @@ function makeView(match: Match, size: number, camera: Camera): View {
     top,
     minX: Math.max(0, Math.floor(left)),
     minY: Math.max(0, Math.floor(top)),
-    maxX: Math.min(board.size - 1, Math.ceil(left + camera.tiles)),
-    maxY: Math.min(board.size - 1, Math.ceil(top + camera.tiles)),
+    maxX: Math.min(boardSize - 1, Math.ceil(left + camera.tiles)),
+    maxY: Math.min(boardSize - 1, Math.ceil(top + camera.tiles)),
     toX: (tileX: number) => (tileX - left) * cell,
     toY: (tileY: number) => (tileY - top) * cell
   };
@@ -146,33 +184,32 @@ function emptyGridCanvas(cell: number, span: number): HTMLCanvasElement {
  * @param size 캔버스의 논리 픽셀 한 변 길이(정사각형).
  * @param scale 장치 픽셀 비율.
  */
-export function drawMatch(
+export function drawScene(
   ctx: CanvasRenderingContext2D,
-  match: Match,
+  scene: Scene,
   effects: Effects,
   size: number,
   scale: number,
   camera: Camera
 ): void {
   void scale;
-  const view = makeView(match, size, camera);
+  const view = makeView(scene.size, size, camera);
 
   ctx.fillStyle = BACKGROUND;
   ctx.fillRect(0, 0, size, size);
 
-  drawTiles(ctx, match, view);
-  drawRubble(ctx, match, view);
+  drawTiles(ctx, scene, view);
+  drawRubble(ctx, scene, view);
   drawCaptureSweeps(ctx, effects, view);
-  drawTrails(ctx, match, view);
+  drawTrails(ctx, scene, view);
   drawShards(ctx, effects, view);
   drawShockwaves(ctx, effects, view);
-  drawRunners(ctx, match, view, size, camera);
+  drawRunners(ctx, scene, view, size, camera);
   drawScorePops(ctx, effects, view);
 }
 
 /** 빈 격자는 통째로 붙이고, 주인이 있는 칸과 벽만 위에 덧그린다. */
-function drawTiles(ctx: CanvasRenderingContext2D, match: Match, view: View): void {
-  const board = match.board;
+function drawTiles(ctx: CanvasRenderingContext2D, scene: Scene, view: View): void {
   const span = Math.ceil(view.maxX - view.minX + 2);
   const grid = emptyGridCanvas(view.cell, Math.max(span, 2));
   const fracX = view.left - Math.floor(view.left);
@@ -185,9 +222,9 @@ function drawTiles(ctx: CanvasRenderingContext2D, match: Match, view: View): voi
   touchedOwners.length = 0;
 
   for (let y = view.minY; y <= view.maxY; y += 1) {
-    const row = y * board.size;
+    const row = y * scene.size;
     for (let x = view.minX; x <= view.maxX; x += 1) {
-      const owner = board.owner[row + x];
+      const owner = scene.owner[row + x];
       if (owner === 0) {
         continue;
       }
@@ -233,16 +270,16 @@ function drawTiles(ctx: CanvasRenderingContext2D, match: Match, view: View): voi
 }
 
 /** 폐허 — 누군가 죽어서 잠긴 땅. 잠금이 풀릴수록 옅어진다. */
-function drawRubble(ctx: CanvasRenderingContext2D, match: Match, view: View): void {
-  const lockMs = match.rules.rubbleLockMs;
-  if (lockMs <= 0 || !match.board.hasRubble) {
+function drawRubble(ctx: CanvasRenderingContext2D, scene: Scene, view: View): void {
+  const lockMs = scene.rubbleLockMs;
+  if (lockMs <= 0 || !scene.hasRubble) {
     return;
   }
 
-  const now = match.elapsedMs;
+  const now = scene.elapsedMs;
   for (let y = view.minY; y <= view.maxY; y += 1) {
     for (let x = view.minX; x <= view.maxX; x += 1) {
-      const until = match.board.rubbleUntilAt(x, y);
+      const until = scene.rubbleUntilAt(x, y);
       if (until <= now) {
         continue;
       }
@@ -300,8 +337,8 @@ function drawCaptureSweeps(ctx: CanvasRenderingContext2D, effects: Effects, view
 const trailBuffer: Cell[] = [];
 
 /** 꼬리는 영토와 같은 색이지만 사선 빗금을 넣어 한눈에 구분되게 한다. */
-function drawTrails(ctx: CanvasRenderingContext2D, match: Match, view: View): void {
-  for (const runner of match.runners) {
+function drawTrails(ctx: CanvasRenderingContext2D, scene: Scene, view: View): void {
+  for (const runner of scene.runners) {
     if (!runner.alive || runner.trail.length === 0) {
       continue;
     }
@@ -395,17 +432,17 @@ function drawShockwaves(ctx: CanvasRenderingContext2D, effects: Effects, view: V
 
 function drawRunners(
   ctx: CanvasRenderingContext2D,
-  match: Match,
+  scene: Scene,
   view: View,
   size: number,
   camera: Camera
 ): void {
-  for (const runner of match.runners) {
+  for (const runner of scene.runners) {
     if (!runner.alive) {
       continue;
     }
 
-    const progress = match.moveProgress(runner);
+    const progress = runner.progress;
     const tileX = runner.prevX + (runner.x - runner.prevX) * progress + 0.5;
     const tileY = runner.prevY + (runner.y - runner.prevY) * progress + 0.5;
     if (!visible(view, tileX, tileY)) {
@@ -417,8 +454,8 @@ function drawRunners(
     const cell = view.cell;
     const color = playerStyle(runner.id).territory;
 
-    if (runner.kind === "human") {
-      drawFocusRing(ctx, x, y, cell, size, color, match.humans === 1 && camera.tiles >= match.board.size);
+    if (runner.focus) {
+      drawFocusRing(ctx, x, y, cell, size, color, scene.crosshair && camera.tiles >= scene.size);
     }
 
     const delta = DELTA[runner.dir];
@@ -438,8 +475,8 @@ function drawRunners(
     ctx.fill();
     ctx.stroke();
 
-    if (match.humans > 1 && runner.kind === "human") {
-      drawSeatBadge(ctx, x, y, cell, color, PLAYER_KEYS[runner.id - 1]?.label ?? `P${runner.id}`);
+    if (runner.label !== undefined) {
+      drawSeatBadge(ctx, x, y, cell, color, runner.label);
     }
   }
 }
