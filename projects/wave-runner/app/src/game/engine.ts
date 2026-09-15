@@ -83,6 +83,16 @@ export interface GameState {
   deathGap: Span[] | null;
   /** 제안을 확정할 다음 게이트를 찾기 시작할 조각 인덱스 */
   armCursor: number;
+
+  /** 주행 표시를 그릴지. 런 도중에도 바뀐다(H) */
+  hud: boolean;
+  /**
+   * 이 런이 겨루는 자기 기록 — Endless 는 최고 거리, Stage 는 최고 초. 0 이면 기록 없음.
+   *
+   * `RunConfig` 가 아니라 상태에 두는 이유는 수명이다. config 가 바뀌면 런이 통째로
+   * 다시 만들어지므로, 표시 설정이나 방금 깬 기록 때문에 주행이 리셋되어서는 안 된다.
+   */
+  record: number;
 }
 
 export interface Checkpoint {
@@ -184,7 +194,9 @@ export function createState(config: RunConfig): GameState {
     lane: null,
     checkpoints: [],
     deathGap: null,
-    armCursor: 0
+    armCursor: 0,
+    hud: true,
+    record: 0
   };
   armNextGate(state);
   return state;
@@ -213,6 +225,9 @@ export function restart(state: GameState): void {
   const best = state.best;
   const holding = state.holding;
   const checkpoints = state.checkpoints;
+  // 표시 설정과 기록은 런의 산물이 아니라 런을 감싸는 것이다 — 재시도로 되돌아가지 않는다.
+  const hud = state.hud;
+  const record = state.record;
   const last = state.config.practice ? checkpoints[checkpoints.length - 1] : undefined;
 
   const config =
@@ -220,7 +235,7 @@ export function restart(state: GameState): void {
       ? { ...state.config, seed: nextSeed(state.config.seed) }
       : state.config;
   const fresh = createState(config);
-  Object.assign(state, fresh, { phase: "running", attempts, best, holding, checkpoints });
+  Object.assign(state, fresh, { phase: "running", attempts, best, holding, checkpoints, hud, record });
 
   if (last) {
     state.x = last.x;

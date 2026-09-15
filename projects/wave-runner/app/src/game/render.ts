@@ -115,6 +115,76 @@ function drawTradeMark(
   ctx.restore();
 }
 
+/**
+ * 주행 표시.
+ *
+ * brief 의 "HUD 없음"은 **시선 예산**을 지키려는 조항이었다 — 화면 정보가 늘면
+ * 통로에서 눈을 떼야 하고 그것이 곧 난이도다. 그래서 표시를 없애는 대신 시선을
+ * 요구하지 않는 자리로 밀었다.
+ *
+ *  - 레일은 화면 맨 위 3px 이고 숫자가 없다. 초점이 아니라 **주변시**로 읽힌다.
+ *  - 숫자는 좌상단, 즉 아바타(`cameraAnchor` 0.28)의 **뒤쪽**이다. 선행 가시는
+ *    아바타에서 오른쪽으로 훑으므로, 그 시선 경로와 겹치지 않는 유일한 구석이다.
+ *  - 그래도 0 은 아니므로 끌 수 있다(H). 끄면 3단계까지의 무표시 주행 그대로다.
+ *
+ * 기록과의 비교는 **거짓말하지 않는 것만** 표시한다. Endless 는 지금 거리가 최고
+ * 거리를 넘었는가(참·거짓이 확정된다), Stage 는 경과가 최고 기록을 넘었는가(넘은
+ * 순간 이번 주행의 경신은 불가능이 확정된다). 빌드마다 속도가 다르므로 "기록 페이스
+ * 대비 앞서는가"는 주행 궤적을 저장하지 않는 한 추정일 뿐이고, 추정을 기록처럼
+ * 보여주지는 않는다.
+ */
+function drawHud(ctx: CanvasRenderingContext2D, state: GameState, cssW: number, cssH: number): void {
+  const railH = 3;
+  const isEndless = state.mode === "endless";
+  const record = state.record;
+
+  // 레일이 채워지는 범위. Endless 는 최고 거리를 80% 지점에 두어 **넘어서는 것이 보이게** 한다.
+  const railMax = isEndless ? record * 1.25 : state.course.finishX;
+  const progress = railMax > 0 && Number.isFinite(railMax) ? Math.min(1, Math.max(0, state.x / railMax)) : 0;
+  const beatRecord = isEndless && record > 0 && state.x > record;
+  const lostRecord = !isEndless && record > 0 && state.elapsed > record;
+
+  ctx.save();
+  ctx.fillStyle = "rgba(232, 241, 255, 0.1)";
+  ctx.fillRect(0, 0, cssW, railH);
+
+  if (progress > 0) {
+    ctx.fillStyle = beatRecord ? COLOR.finish : COLOR.wallEdge;
+    ctx.globalAlpha = beatRecord ? 0.95 : 0.5;
+    if (beatRecord) {
+      ctx.shadowColor = COLOR.finish;
+      ctx.shadowBlur = 10;
+    }
+    ctx.fillRect(0, 0, cssW * progress, railH);
+    ctx.shadowBlur = 0;
+    ctx.globalAlpha = 1;
+  }
+
+  // 최고 거리 눈금. 넘어야 할 선이 화면에 실제로 그어져 있다.
+  if (isEndless && record > 0) {
+    ctx.fillStyle = COLOR.finish;
+    ctx.globalAlpha = beatRecord ? 0.55 : 0.85;
+    ctx.fillRect(Math.round(cssW * 0.8) - 1, 0, 2, railH + 4);
+    ctx.globalAlpha = 1;
+  }
+
+  const size = Math.round(Math.max(13, Math.min(20, cssH * 0.03)));
+  ctx.font = `600 ${size}px ui-monospace, SFMono-Regular, Menlo, monospace`;
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+  ctx.fillStyle = beatRecord
+    ? COLOR.finish
+    : lostRecord
+      ? "rgba(127, 144, 173, 0.34)"
+      : "rgba(232, 241, 255, 0.4)";
+  ctx.fillText(
+    isEndless ? `${Math.round(state.x)}m` : `${state.elapsed.toFixed(1)}초`,
+    14,
+    railH + 9
+  );
+  ctx.restore();
+}
+
 export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: number, cssH: number): void {
   const t = state.tuning;
   const view = computeView(cssW, cssH, t);
@@ -316,6 +386,14 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
     ctx.arc(px, py, r + k * r * 5, 0, Math.PI * 2);
     ctx.stroke();
   }
+
+  // 주행 표시는 맨 마지막이다 — 통로 위에 겹치는 것이 아니라 화면 가장자리에 얹힌다.
+  //
+  // Stage 는 사망 중에도 그린다. 0.5초 뒤 스스로 재시작하므로 그 사이 표시가 사라지면
+  // 깜빡임이 된다. Endless 는 사망이 곧 런의 끝이고 결과 오버레이가 덮으므로 끈다 —
+  // 오버레이 위로 삐져나온 숫자는 같은 값을 두 번 말하는 것이다.
+  const hudPhase = state.phase === "running" || (state.phase === "dead" && state.mode === "stage");
+  if (state.hud && hudPhase) drawHud(ctx, state, cssW, cssH);
 
   // 연습 모드 체크포인트 — 다시 시작될 지점
   if (state.config.practice && state.checkpoints.length > 0) {

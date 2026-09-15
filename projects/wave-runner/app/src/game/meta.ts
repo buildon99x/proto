@@ -38,6 +38,14 @@ export interface Meta {
   /** Endless 최고 거리 */
   bestDistance: number;
   attempts: Record<string, number>;
+  /**
+   * 주행 표시(거리·경과·진행 레일)를 켤지.
+   *
+   * brief 의 "HUD 없음"은 시선 예산을 지키려는 조항이었다. 표시를 아바타 뒤쪽
+   * 주변시로 밀어 비용을 거의 0 으로 만들었지만 0 은 아니므로, 끌 수 있게 두어
+   * 원래의 무표시 주행이 언제든 성립하게 한다.
+   */
+  hud: boolean;
 }
 
 export const EMPTY_META: Meta = {
@@ -48,7 +56,8 @@ export const EMPTY_META: Meta = {
   clearedStages: [],
   bestStageSec: {},
   bestDistance: 0,
-  attempts: {}
+  attempts: {},
+  hud: true
 };
 
 export const STAGES_PER_TIER = 3;

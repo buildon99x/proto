@@ -21,13 +21,51 @@ import {
 } from "./game/meta";
 import type { Meta } from "./game/meta";
 import { exportMeta, importMeta, loadMeta, saveMeta } from "./game/storage";
-import type { Phase, Tuning } from "./game/types";
+import type { Phase, RunMode, Tuning } from "./game/types";
 
 type Screen =
   | { kind: "home" }
   | { kind: "stages" }
   | { kind: "shop" }
   | { kind: "play"; config: RunConfig };
+
+/**
+ * 끝난 런의 결과. `RunReport` 가 엔진이 말하는 것이라면 이쪽은 **메타와 대조한 뒤**의
+ * 것이다 — 기록을 갱신했는지, 직전 최고가 무엇이었는지는 저장본을 덮어쓰기 전에만
+ * 알 수 있으므로 여기서 한 번 얼려 둔다.
+ */
+interface RunResult {
+  mode: RunMode;
+  cleared: boolean;
+  sec: number;
+  distance: number;
+  attempts: number;
+  /** 이 런 직전까지의 최고 기록. Stage 는 초, Endless 는 거리. 없으면 null */
+  prevBest: number | null;
+  /** 이번 주행이 기록을 갱신했는가 */
+  record: boolean;
+  /** 실제로 지급된 코어. 반복 클리어는 0 이다 */
+  reward: number;
+  /** 기록으로 집계되는 주행인가 (연습 통과는 아니다) */
+  counted: boolean;
+}
+
+const fmtSec = (v: number) => `${v.toFixed(2)}초`;
+const fmtDist = (v: number) => `${Math.round(v)}m`;
+
+/** 결과 화면의 기록 표. 이번과 최고를 같은 크기로 나란히 둔다 — 비교가 곧 내용이다. */
+function RecordRow({ items }: { items: Array<{ label: string; value: string; tone?: "good" | "dim" }> }) {
+  return (
+    <dl className="record-row">
+      {items.map((it) => (
+        <div key={it.label}>
+          <dt>{it.label}</dt>
+          <dd className={it.tone ?? ""}>{it.value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
 
 function AxisLegend() {
   return (
@@ -47,15 +85,13 @@ export default function App() {
   const [meta, setMetaState] = useState<Meta>(() => loadMeta());
   const [presetId, setPresetId] = useState("neutral");
   const [phase, setPhase] = useState<Phase>("ready");
-  const [report, setReport] = useState<RunReport | null>(null);
+  const [result, setResult] = useState<RunResult | null>(null);
   const [overrides, setOverrides] = useState<Partial<Tuning>>({});
   const [showTuning, setShowTuning] = useState(false);
   const [fps, setFps] = useState(60);
   const [muted, setMutedState] = useState(isMuted());
   const [transfer, setTransfer] = useState("");
   const [practice, setPractice] = useState(false);
-  /** 방금 끝난 클리어가 실제로 지급한 코어. 반복 클리어는 0 이다 */
-  const [reward, setReward] = useState(0);
 
   const commit = useCallback((next: Meta) => setMetaState(saveMeta(next)), []);
 
@@ -77,8 +113,7 @@ export default function App() {
 
   const startStage = useCallback(
     (tier: number, stageNo: number) => {
-      setReport(null);
-      setReward(0);
+      setResult(null);
       setScreen({
         kind: "play",
         config: {
@@ -98,7 +133,7 @@ export default function App() {
   );
 
   const startEndless = useCallback(() => {
-    setReport(null);
+    setResult(null);
     setScreen({
       kind: "play",
       config: {
@@ -116,35 +151,65 @@ export default function App() {
 
   const handleRunEnd = useCallback(
     (r: RunReport) => {
-      setReport(r);
       if (screen.kind !== "play") return;
       const cfg = screen.config;
-      // 연습 통과는 클리어가 아니다 — 긴장이 빠진 주행을 기록으로 남기면
-      // 티어 지표의 의미가 사라진다.
-      if (cfg.mode === "stage" && r.cleared && !cfg.practice) {
+
+      if (cfg.mode === "stage") {
         const key = stageKey(cfg.tier, cfg.stageNo);
-        const first = !meta.clearedStages.includes(key);
-        setReward(first ? coresForStage(cfg.tier) : 0);
-        commit({
-          ...meta,
-          cores: meta.cores + (first ? coresForStage(cfg.tier) : 0),
-          clearedStages: first ? [...meta.clearedStages, key] : meta.clearedStages,
-          bestStageSec: {
-            ...meta.bestStageSec,
-            [key]: Math.min(meta.bestStageSec[key] ?? Number.POSITIVE_INFINITY, r.sec)
-          }
+        const prev = meta.bestStageSec[key];
+        const prevBest = typeof prev === "number" && Number.isFinite(prev) ? prev : null;
+        // 연습 통과는 클리어가 아니다 — 긴장이 빠진 주행을 기록으로 남기면
+        // 티어 지표의 의미가 사라진다.
+        const counted = r.cleared && !cfg.practice;
+        const first = counted && !meta.clearedStages.includes(key);
+        const reward = first ? coresForStage(cfg.tier) : 0;
+        setResult({
+          mode: "stage",
+          cleared: r.cleared,
+          sec: r.sec,
+          distance: r.distance,
+          attempts: r.attempts,
+          prevBest,
+          record: counted && (prevBest === null || r.sec < prevBest),
+          reward,
+          counted
         });
+        if (counted) {
+          commit({
+            ...meta,
+            cores: meta.cores + reward,
+            clearedStages: first ? [...meta.clearedStages, key] : meta.clearedStages,
+            bestStageSec: { ...meta.bestStageSec, [key]: Math.min(prevBest ?? Number.POSITIVE_INFINITY, r.sec) }
+          });
+        }
+        return;
       }
-      if (cfg.mode === "endless" && !r.cleared) {
-        commit({
-          ...meta,
-          cores: meta.cores + coresForDistance(r.distance),
-          bestDistance: Math.max(meta.bestDistance, r.distance)
-        });
-      }
+
+      const prevBest = meta.bestDistance > 0 ? meta.bestDistance : null;
+      const reward = coresForDistance(r.distance);
+      setResult({
+        mode: "endless",
+        cleared: r.cleared,
+        sec: r.sec,
+        distance: r.distance,
+        attempts: r.attempts,
+        prevBest,
+        record: r.distance > meta.bestDistance,
+        reward,
+        counted: true
+      });
+      commit({
+        ...meta,
+        cores: meta.cores + reward,
+        bestDistance: Math.max(meta.bestDistance, r.distance)
+      });
     },
     [commit, meta, screen]
   );
+
+  const toggleHud = useCallback(() => {
+    setMetaState((m) => saveMeta({ ...m, hud: !m.hud }));
+  }, []);
 
   const handleAttempt = useCallback(() => {
     if (screen.kind !== "play") return;
@@ -155,7 +220,7 @@ export default function App() {
 
   const exitPlay = useCallback(() => {
     setScreen({ kind: "home" });
-    setReport(null);
+    setResult(null);
   }, []);
 
   const buy = useCallback(
@@ -167,6 +232,22 @@ export default function App() {
   );
 
   const tiers = useMemo(() => Array.from({ length: MAX_TIER }, (_, i) => i + 1), []);
+
+  /** 이 런이 겨루는 자기 기록. 주행 중 표시와 결과 화면이 같은 값을 읽는다. */
+  const runRecord = useMemo(() => {
+    if (screen.kind !== "play") return 0;
+    const cfg = screen.config;
+    if (cfg.mode === "endless") return meta.bestDistance;
+    const best = meta.bestStageSec[stageKey(cfg.tier, cfg.stageNo)];
+    return typeof best === "number" && Number.isFinite(best) ? best : 0;
+  }, [meta, screen]);
+
+  /** 지금 화면 스테이지의 최고 기록. 저장본을 갱신한 뒤의 값이라 결과 화면이 그대로 읽는다. */
+  const stageBest = useMemo(() => {
+    if (screen.kind !== "play" || screen.config.mode !== "stage") return null;
+    const b = meta.bestStageSec[stageKey(screen.config.tier, screen.config.stageNo)];
+    return typeof b === "number" && Number.isFinite(b) ? b : null;
+  }, [meta, screen]);
 
   return (
     <main className="app">
@@ -213,7 +294,11 @@ export default function App() {
             <button type="button" className="mode" onClick={() => setScreen({ kind: "stages" })}>
               <strong>Stage</strong>
               <small>정해진 코스. 얼마나 어려운 것을 넘는가</small>
-              <em>최고 티어 {tiers.filter((t) => countClearedInTier(meta, t) > 0).length}</em>
+              <em>
+                {meta.clearedStages.length > 0
+                  ? `최고 티어 ${tiers.filter((t) => countClearedInTier(meta, t) > 0).length}`
+                  : "아직 기록 없음"}
+              </em>
             </button>
             <button
               type="button"
@@ -227,9 +312,19 @@ export default function App() {
                   ? "끝이 없다. 얼마나 멀리 가는가"
                   : "Stage 하나를 클리어하면 열린다"}
               </small>
-              <em>최고 {Math.round(meta.bestDistance)}m</em>
+              <em>{meta.bestDistance > 0 ? `최고 ${fmtDist(meta.bestDistance)}` : "아직 기록 없음"}</em>
             </button>
           </div>
+
+          <label className="toggle compact">
+            <input type="checkbox" checked={meta.hud} onChange={() => toggleHud()} />
+            <span>
+              <strong>주행 표시</strong>
+              <small>
+                화면 위 진행 레일과 거리·경과. 끄면 3단계까지의 무표시 주행 그대로다 — 주행 중 H
+              </small>
+            </span>
+          </label>
 
           <button type="button" className="link" onClick={() => setScreen({ kind: "shop" })}>
             해금 →
@@ -237,7 +332,10 @@ export default function App() {
 
           <footer className="panel-foot">
             <AxisLegend />
-            <span>스페이스 · 클릭 · 탭 = 상승 · T 튜닝 · M 음소거{muted ? "(꺼짐)" : ""}</span>
+            <span>
+              스페이스 · 클릭 · 탭 = 상승 · H 주행 표시{meta.hud ? "" : "(꺼짐)"} · T 튜닝 · M 음소거
+              {muted ? "(꺼짐)" : ""}
+            </span>
           </footer>
         </section>
       ) : null}
@@ -271,8 +369,16 @@ export default function App() {
                         onClick={() => startStage(tier, no)}
                       >
                         <strong>{no}</strong>
-                        <small>{cleared && best !== undefined ? `${best.toFixed(1)}초` : "—"}</small>
-                        {tries > 0 ? <em>{tries}회</em> : null}
+                        <small>
+                          {cleared && best !== undefined ? (
+                            <>
+                              <i>최고</i> {best.toFixed(2)}초
+                            </>
+                          ) : (
+                            "—"
+                          )}
+                        </small>
+                        {tries > 0 ? <em>{tries}회 시도</em> : null}
                       </button>
                     );
                   })}
@@ -394,8 +500,11 @@ export default function App() {
             onAttempt={handleAttempt}
             onRunEnd={handleRunEnd}
             onExit={exitPlay}
+            onToggleHud={toggleHud}
             onSample={(s) => setFps(s.fps)}
             overrides={overrides}
+            hud={meta.hud}
+            record={runRecord}
           />
 
           {phase === "ready" ? (
@@ -407,34 +516,96 @@ export default function App() {
               </p>
               <h2>{preset.name}</h2>
               <p className="dim">{preset.note}</p>
+              {/* 겨룰 상대를 출발 전에 말해 둔다 — 주행 중에 읽게 하면 그게 곧 시선 비용이다 */}
+              {runRecord > 0 ? (
+                <p className="target">
+                  최고 <strong>{screen.config.mode === "stage" ? fmtSec(runRecord) : fmtDist(runRecord)}</strong>
+                </p>
+              ) : null}
               <AxisLegend />
               <p className="cue">누르면 오른다</p>
             </div>
           ) : null}
 
-          {phase === "cleared" && report ? (
+          {phase === "cleared" && result ? (
             <div className="overlay">
-              <h2 className="good">CLEAR</h2>
-              <p>
-                {report.sec.toFixed(2)}초 · 시도 {report.attempts}회
+              <p className="eyebrow">
+                티어 {screen.config.tier} · {screen.config.stageNo}
+                {screen.config.practice ? " · 연습" : ""}
               </p>
+              <h2 className="good">CLEAR</h2>
+              {result.record ? <p className="badge">신기록</p> : null}
+              <RecordRow
+                items={[
+                  { label: "이번", value: fmtSec(result.sec), tone: result.record ? "good" : undefined },
+                  {
+                    label: "최고",
+                    value:
+                      stageBest === null ? "—" : fmtSec(stageBest),
+                    tone: result.record ? "good" : "dim"
+                  },
+                  { label: "시도", value: `${result.attempts}회`, tone: "dim" }
+                ]}
+              />
+              {result.prevBest !== null && !result.record ? (
+                <p className="delta">이전 최고보다 +{(result.sec - result.prevBest).toFixed(2)}초</p>
+              ) : null}
+              {result.record && result.prevBest !== null ? (
+                <p className="delta good">−{(result.prevBest - result.sec).toFixed(2)}초 단축</p>
+              ) : null}
+              {result.record && result.prevBest === null ? <p className="delta good">첫 기록</p> : null}
+
+              {/* "Stage 별 최고 기록" — 방금 푼 것만이 아니라 이 티어 전체를 한 줄로 */}
+              <div className="tier-bests">
+                <span className="field-label">티어 {screen.config.tier} 최고 기록</span>
+                <ul>
+                  {Array.from({ length: STAGES_PER_TIER }, (_, i) => i + 1).map((no) => {
+                    const b = meta.bestStageSec[stageKey(screen.config.tier, no)];
+                    const has = typeof b === "number" && Number.isFinite(b);
+                    return (
+                      <li key={no} className={no === screen.config.stageNo ? "here" : ""}>
+                        <em>{no}</em>
+                        <strong>{has ? `${b.toFixed(2)}초` : "—"}</strong>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+
               <p className="dim">
                 {screen.config.practice
                   ? "연습 통과 — 기록에 남지 않는다"
-                  : reward > 0
-                    ? `+${reward} 코어`
+                  : result.reward > 0
+                    ? `+${result.reward} 코어`
                     : "이미 클리어한 스테이지 — 코어는 최초 1회만"}
               </p>
               <p className="cue">누르면 계속</p>
             </div>
           ) : null}
 
-          {phase === "dead" && screen.config.mode === "endless" && report ? (
+          {phase === "dead" && screen.config.mode === "endless" && result ? (
             <div className="overlay">
-              <h2>{Math.round(report.distance)}m</h2>
-              <p className="dim">
-                +{coresForDistance(report.distance)} 코어 · 최고 {Math.round(meta.bestDistance)}m
-              </p>
+              <p className="eyebrow">ENDLESS</p>
+              <h2 className={result.record ? "good" : ""}>{fmtDist(result.distance)}</h2>
+              {result.record ? <p className="badge">신기록</p> : null}
+              <RecordRow
+                items={[
+                  { label: "최고", value: fmtDist(meta.bestDistance), tone: result.record ? "good" : undefined },
+                  {
+                    label: "이전 최고",
+                    value: result.prevBest === null ? "—" : fmtDist(result.prevBest),
+                    tone: "dim"
+                  },
+                  { label: "코어", value: `+${result.reward}`, tone: "dim" }
+                ]}
+              />
+              {result.record && result.prevBest !== null ? (
+                <p className="delta good">+{Math.round(result.distance - result.prevBest)}m 경신</p>
+              ) : null}
+              {result.record && result.prevBest === null ? <p className="delta good">첫 기록</p> : null}
+              {!result.record && result.prevBest !== null ? (
+                <p className="delta">최고까지 {Math.round(result.prevBest - result.distance)}m</p>
+              ) : null}
               <p className="cue">누르면 다시 · Esc 나가기</p>
             </div>
           ) : null}

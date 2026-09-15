@@ -13,6 +13,15 @@ export const meta = {
 
 const LOOKAHEAD = 0.14;
 
+/**
+ * 한 번의 오토파일럿 주행 상한(초).
+ *
+ * 주행 전체가 `page.evaluate` 하나 안에서 돌기 때문에 이 값은 puppeteer 의
+ * `protocolTimeout`(기본 180초)보다 넉넉히 작아야 한다. 같아지면 Endless 가
+ * 오래 버틴 날에 시나리오가 아니라 **프로토콜이** 먼저 끊긴다.
+ */
+const RUN_LIMIT_SEC = 120;
+
 async function autoplay(page, limitSec) {
   return page.evaluate(
     async ({ lookahead, limit }) => {
@@ -93,7 +102,12 @@ export async function run({ page, sleep, shot, log }) {
   await sleep(300);
   await shot("03-ready");
 
-  const stage = await autoplay(page, 150);
+  // 주행 중 화면을 한 장 남긴다. 오토파일럿은 페이지 안에서 도는 promise 이므로
+  // 기다리지 않고 그 사이에 찍으면 **달리는 중**이 그대로 잡힌다.
+  const stageRun = autoplay(page, RUN_LIMIT_SEC);
+  await sleep(6000);
+  await shot("03b-stage-running");
+  const stage = await stageRun;
   log("stage:", JSON.stringify(stage));
   if (!stage.ok) throw new Error(`Stage 통과 실패: ${JSON.stringify(stage)}`);
   if (!stage.gates) throw new Error("게이트를 하나도 통과하지 않았다 — 교환이 적용되지 않는다");
@@ -110,11 +124,22 @@ export async function run({ page, sleep, shot, log }) {
   if (locked) throw new Error("Stage 를 클리어했는데 Endless 가 열리지 않았다");
   await modes2[1].click();
   await sleep(300);
-  const endless = await autoplay(page, 180);
+  const endless = await autoplay(page, RUN_LIMIT_SEC);
   log("endless:", JSON.stringify(endless));
   if (!endless.ok) throw new Error(`Endless 런이 끝나지 않았다: ${JSON.stringify(endless)}`);
   await sleep(400);
   await shot("06-endless-result");
+
+  // 두 번째 Endless 런 — 최고 거리가 생긴 뒤라 진행 레일에 기록 눈금이 그어진다.
+  // 사망 후 0.6초가 지나야 재시작 입력을 받으므로 먼저 그 문턱을 넘긴다.
+  await sleep(900);
+  await page.keyboard.press("Space");
+  await sleep(200);
+  const secondRun = autoplay(page, 30);
+  await sleep(7000);
+  await shot("06b-endless-running");
+  // 이 런은 스크린샷용이다 — 상한에서 끊겨도(ok:false) 실패가 아니다.
+  log("endless(2nd, 스크린샷용):", JSON.stringify(await secondRun));
 
   await page.keyboard.press("Escape");
   await sleep(300);

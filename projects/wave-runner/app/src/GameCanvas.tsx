@@ -20,9 +20,14 @@ interface Props {
   onAttempt: () => void;
   onRunEnd: (report: RunReport) => void;
   onExit: () => void;
+  onToggleHud: () => void;
   onSample?: (s: { fps: number; attempts: number }) => void;
   /** 개발 튜닝 패널의 값. 실행 중에도 즉시 반영된다 */
   overrides?: Partial<Tuning>;
+  /** 주행 표시를 그릴지 */
+  hud: boolean;
+  /** 이 런이 겨루는 자기 기록. Stage 는 초, Endless 는 거리. 0 이면 기록 없음 */
+  record: number;
 }
 
 interface WaveDebug {
@@ -31,16 +36,36 @@ interface WaveDebug {
   targetY(lookaheadSec: number, lane: "top" | "bot"): number;
 }
 
-export function GameCanvas({ config, onPhase, onAttempt, onRunEnd, onExit, onSample, overrides }: Props) {
+export function GameCanvas({
+  config,
+  onPhase,
+  onAttempt,
+  onRunEnd,
+  onExit,
+  onToggleHud,
+  onSample,
+  overrides,
+  hud,
+  record
+}: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const stateRef = useRef<GameState | null>(null);
-  const cbRef = useRef({ onPhase, onAttempt, onRunEnd, onExit, onSample });
-  cbRef.current = { onPhase, onAttempt, onRunEnd, onExit, onSample };
+  const cbRef = useRef({ onPhase, onAttempt, onRunEnd, onExit, onToggleHud, onSample });
+  cbRef.current = { onPhase, onAttempt, onRunEnd, onExit, onToggleHud, onSample };
 
   useEffect(() => {
     stateRef.current = createState(config);
     cbRef.current.onPhase("ready");
   }, [config]);
+
+  // 표시 설정과 기록은 상태에 밀어 넣는다 — config 에 담으면 값이 바뀔 때마다
+  // 런이 통째로 다시 만들어져 주행 중에 리셋된다.
+  useEffect(() => {
+    const s = stateRef.current;
+    if (!s) return;
+    s.hud = hud;
+    s.record = record;
+  }, [config, hud, record]);
 
   // 개발 패널은 문서가 아니라 손끝으로 축을 비교하기 위한 계측기다 — 실행 중 즉시 반영한다.
   useEffect(() => {
@@ -107,6 +132,10 @@ export function GameCanvas({ config, onPhase, onAttempt, onRunEnd, onExit, onSam
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.code === "Escape") {
         cbRef.current.onExit();
+        return;
+      }
+      if (e.code === "KeyH") {
+        cbRef.current.onToggleHud();
         return;
       }
       if (isHoldKey(e)) {

@@ -272,8 +272,19 @@ body {
 
 .stage-cell small {
   font-size: 11px;
-  color: var(--ok);
+  color: var(--dim);
   font-variant-numeric: tabular-nums;
+}
+
+.stage-cell.cleared small {
+  color: var(--ok);
+}
+
+.stage-cell small i {
+  font-style: normal;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--dim);
 }
 
 .stage-cell em {
@@ -517,6 +528,36 @@ body {
   pointer-events: none;
 }
 
+/* 결과가 나타나는 방식도 완성도다 — 짧게(160ms) 두어 재시도 루프를 늦추지 않는다 */
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes badge-in {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+}
+
+.overlay > * {
+  animation: overlay-in 160ms ease-out both;
+}
+
+.overlay .badge {
+  animation: badge-in 220ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay > *,
+  .overlay .badge {
+    animation: none;
+  }
+}
+
 .overlay h2 {
   margin: 0;
   font-size: 30px;
@@ -543,6 +584,134 @@ body {
   color: var(--accent);
   font-size: 14px;
   font-weight: 600;
+}
+
+/* ---------- 결과 화면의 기록 ---------- */
+
+.overlay .target {
+  font-size: 13px;
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.overlay .target strong {
+  color: var(--ok);
+  margin-left: 4px;
+}
+
+.badge {
+  align-self: center;
+  padding: 3px 12px;
+  border: 1px solid var(--ok);
+  border-radius: 999px;
+  color: var(--ok);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.record-row {
+  display: flex;
+  gap: 2px;
+  margin: 2px 0 0;
+  padding: 0;
+}
+
+.record-row div {
+  min-width: 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(232, 241, 255, 0.04);
+}
+
+.record-row div + div {
+  margin-left: 6px;
+}
+
+.record-row dt {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--dim);
+}
+
+.record-row dd {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.record-row dd.good {
+  color: var(--ok);
+}
+
+.record-row dd.dim {
+  color: var(--dim);
+}
+
+.delta {
+  font-size: 12px;
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.delta.good {
+  color: var(--ok);
+}
+
+/* 방금 푼 스테이지만이 아니라 티어 전체의 기록을 한 줄로 */
+.tier-bests {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.tier-bests .field-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--dim);
+}
+
+.tier-bests ul {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tier-bests li {
+  min-width: 62px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.tier-bests li.here {
+  border-color: var(--ok);
+  background: rgba(125, 255, 176, 0.08);
+}
+
+.tier-bests em {
+  font-style: normal;
+  font-size: 10px;
+  color: var(--dim);
+}
+
+.tier-bests strong {
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ---------- 토글 ---------- */
@@ -576,4 +745,17 @@ body {
 .toggle small {
   font-size: 12px;
   color: var(--dim);
+}
+
+.toggle.compact {
+  padding: 9px 12px;
+  background: none;
+}
+
+.toggle.compact strong {
+  font-size: 13px;
+}
+
+.toggle.compact small {
+  font-size: 11px;
 }
