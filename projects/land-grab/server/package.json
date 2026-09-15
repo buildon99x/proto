@@ -1,0 +1,28 @@
+{
+  "name": "land-grab-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "땅따먹기 온라인 세계 서버 — 프로세스 하나가 세계 하나를 들고 돈다",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "esbuild src/main.ts --bundle --platform=node --format=esm --packages=external --target=node20 --outfile=dist/main.mjs",
+    "start": "node dist/main.mjs",
+    "dev": "tsx watch src/main.ts",
+    "lint": "tsc --noEmit",
+    "test": "tsc --noEmit && tsx src/check.ts",
+    "smoke": "tsx src/smoke.ts"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.16",
+    "@types/ws": "^8.5.13",
+    "esbuild": "^0.24.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

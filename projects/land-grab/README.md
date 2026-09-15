@@ -29,9 +29,26 @@
 | 스와이프 · 방향 패드 | 이동 방향 전환 (터치, 혼자일 때만) |
 | `Esc` / `P` | 일시정지 |
 
-온라인 멀티는 이 저장소의 배포 구조(정적 산출물)로는 불가능하다.
-선택지와 제약은 [docs/design/multiplayer.md](docs/design/multiplayer.md),
-서버를 짓게 될 때의 설계는 [docs/design/io-server.md](docs/design/io-server.md).
+## 온라인
+
+세계 서버가 `server/` 에 있다. 프로세스 하나가 `600 × 600` 세계 하나를 들고
+초당 6회 돌린다. 시뮬레이션은 브라우저와 같은 코드(`app/src/game`)를 쓴다.
+
+```bash
+cd server
+npm ci --include=dev
+npm test        # 타입 검사 + 규칙 검사 56개 (소켓 없이)
+npm run build && npm run smoke   # 빌드된 서버 + 진짜 WebSocket 3개 (14개)
+npm run dev     # 로컬에서 띄우기 → http://127.0.0.1:8080/status
+```
+
+배포는 Render 다. 저장소 루트의 `render.yaml` 이 설정이고, 조사와 제약은
+[docs/design/render-deploy.md](docs/design/render-deploy.md) 에 있다.
+**인스턴스는 항상 하나여야 한다** — 늘리면 세계가 쪼개진다.
+
+브라우저 클라이언트는 아직 서버에 붙지 않는다. 남은 작업은 같은 문서 §8.
+서버 구조는 [docs/design/io-server.md](docs/design/io-server.md),
+한 화면 멀티는 [docs/design/multiplayer.md](docs/design/multiplayer.md).
 
 ## 개발
 

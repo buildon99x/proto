@@ -4,7 +4,12 @@ This repo is a single Git repo and single Vercel project for early production ap
 
 ## Structure
 
-- `launcher` is the only deployed browser site.
+- `launcher` is the only deployed browser site, and Vercel is the only deployment for it.
+- A project may additionally ship a long-running service outside the Vercel build. `render.yaml`
+  at the repo root is the Render Blueprint for those. A service lives in `projects/{slug}/server`,
+  which is outside the pnpm workspace globs (`projects/*/app`) and outside `pnpm build:vercel`,
+  so it needs its own lockfile and does not change the registry schema. The project's own
+  `AGENTS.md` carries its operating constraints.
 - `launcher` is a catalog and runner. It must discover projects through registry metadata.
 - New projects must be created under `projects/{slug}`.
 - Each project manages its own app code, assets, data, prompts, tests, notes, docs, and project-specific instructions.

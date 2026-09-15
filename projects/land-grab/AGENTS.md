@@ -11,6 +11,10 @@ This project is managed as an individual Prototype Lab project.
 - 모드(`Match.mode`)와 인원(`Match.humans`)에 따라 규칙과 화면이 갈린다. 한쪽만 고치지 않는다.
 - `600 × 600` 에서는 **판 전체를 훑는 코드를 새로 쓰지 않는다.** 경계 상자(`Board.boundsOf`),
   증분 집계(`Board.tilesOf`), 시야 렌더링이 그래서 있다. 자세한 내용은 `spec.md` §0.
-  온라인 멀티는 저장소의 `static-artifact` 제약 때문에 불가능하다 —
-  `docs/design/multiplayer.md` 를 먼저 읽는다.
+- 온라인 세계 서버는 `server/` 에 있고 Vercel 이 아니라 **Render** 로 나간다.
+  `server/` 는 pnpm 워크스페이스 밖이라 자체 `package-lock.json` 으로 npm 설치한다.
+  시뮬레이션은 `app/src/game` 을 그대로 가져다 쓴다 — 서버용으로 다시 짜지 않는다.
+  규약(`app/src/net/protocol.ts`)을 바꾸면 `PROTOCOL_VERSION` 을 올리고 양쪽을 같이 고친다.
+  **인스턴스는 항상 하나여야 한다.** 늘리면 세계가 쪼개진다 —
+  `docs/design/render-deploy.md` 를 먼저 읽는다.
 - After project or metadata changes, run `pnpm sync:registry`; before release, run `pnpm build:vercel` and verify the `/runs/land-grab/` run path.

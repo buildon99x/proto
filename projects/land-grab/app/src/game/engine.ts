@@ -1,4 +1,4 @@
-import { Board } from "./board";
+import { Board, MAX_OWNER_ID } from "./board";
 import {
   HOME_RADIUS,
   LEADERBOARD_SIZE,
@@ -21,7 +21,17 @@ import {
   type GameMode,
   type MatchRules
 } from "./config";
-import { DELTA, OPPOSITE, type Cell, type Direction, type PlayerId, type MatchPhase, type Runner, type Standing } from "./types";
+import {
+  DELTA,
+  OPPOSITE,
+  type Cell,
+  type Direction,
+  type PlayerId,
+  type MatchPhase,
+  type Runner,
+  type RunnerKind,
+  type Standing
+} from "./types";
 
 /** 한 프레임에 처리할 최대 시간. 탭 복귀 시 한꺼번에 수십 틱이 도는 것을 막는다. */
 const MAX_FRAME_MS = 120;
@@ -73,6 +83,14 @@ export type MatchOptions = {
   rules?: Partial<MatchRules>;
   /** 한 화면에서 함께 플레이하는 사람 수 (1~4). */
   humans?: number;
+  /**
+   * 판이 참가자보다 오래 사는가. 서버가 도는 세계가 여기 해당한다.
+   *
+   * 켜면 사람이 죽어도 판이 끝나지 않는다. 죽은 사람은 `removeRunner` 로 자리를
+   * 비우고 새로 들어온다 — 로컬 판에서는 "내 판이 끝났다"가 맞지만, 공유 세계에서
+   * 한 명의 죽음이 세계를 끝내면 나머지 접속자의 판이 같이 사라진다.
+   */
+  shared?: boolean;
 };
 
 export class Match {
@@ -93,14 +111,23 @@ export class Match {
   readonly rules: MatchRules;
   /** 한 화면에서 함께 하는 사람 수. 1이면 기존 싱글 플레이. */
   readonly humans: number;
+  /** 참가자보다 오래 사는 판인가. 서버 세계면 true. */
+  readonly shared: boolean;
 
   constructor(difficulty: Difficulty, options: MatchOptions = {}) {
-    const { mode = "party", seed = Date.now(), rules = {}, humans = 1 } = options;
+    const { mode = "party", seed = Date.now(), rules = {}, humans = 1, shared = false } = options;
 
     this.mode = mode;
+    this.shared = shared;
     this.rules = { ...DEFAULT_RULES, ...rules };
     // 큰 맵은 카메라가 따라다녀야 해서 한 화면 멀티와 양립하지 않는다.
-    this.humans = mode === "world" ? 1 : Math.min(MAX_PLAYERS, Math.max(1, Math.floor(humans)));
+    // 공유 세계는 사람 없이 시작한다 — 접속이 들어올 때 `addRunner` 로 자리를 연다.
+    this.humans =
+      mode === "world"
+        ? shared
+          ? 0
+          : 1
+        : Math.min(MAX_PLAYERS, Math.max(1, Math.floor(humans)));
     this.durationMs = mode === "world" ? Number.POSITIVE_INFINITY : MATCH_DURATION_MS;
     this.difficulty = difficulty;
     this.rng = mulberry32(seed);
@@ -108,48 +135,116 @@ export class Match {
 
     // 혼자면 난이도가 AI 수를 정한다. 둘 이상이면 빈 자리를 AI 로 채워 항상 4명이 된다.
     // 세계 모드는 봇으로 가득 채운다 — io 게임은 상대가 늘 어딘가에 있어야 한다.
-    const total = mode === "world" ? WORLD_BOTS + 1 : this.humans === 1 ? difficulty.aiCount + 1 : MAX_PLAYERS;
+    const total =
+      mode === "world" ? WORLD_BOTS + this.humans : this.humans === 1 ? difficulty.aiCount + 1 : MAX_PLAYERS;
     this.runners = [];
 
     const homes = this.homeAnchors(total);
     for (let slot = 0; slot < total; slot += 1) {
       const id = (slot + 1) as PlayerId;
-      const home = homes[slot];
-      const isHuman = slot < this.humans;
-      const runner: Runner = {
-        id,
-        kind: isHuman ? "human" : "ai",
-        alive: true,
-        respawnAt: 0,
-        x: home.x,
-        y: home.y,
-        prevX: home.x,
-        prevY: home.y,
-        homeX: home.x,
-        homeY: home.y,
-        dir: this.spawnDirection(home),
-        queuedDir: null,
-        turnedAtX: -1,
-        turnedAtY: -1,
-        trail: [],
-        tickMs: isHuman ? PLAYER_TICK_MS : difficulty.aiTickMs,
-        tickAccMs: 0,
-        // 여럿이 하면 아무도 중간에 탈락하지 않는다. 한 명이 목숨을 잃어서
-        // 판이 끝나 버리면 나머지 사람들의 90초가 사라진다.
-        // 세계 모드는 io 문법 그대로 — 목숨 없이, 죽으면 그 판이 끝난다.
-        lives: isHuman && this.mode === "party" && this.humans === 1 ? PLAYER_LIVES : Number.POSITIVE_INFINITY,
-        kills: 0,
-        deaths: 0,
-        bonusPoints: 0,
-        bestCapture: 0,
-        peakTiles: 0
-      };
-      this.board.claimHome(id, home.x, home.y, HOME_RADIUS);
-      this.runners.push(runner);
+      this.spawnRunner(id, slot < this.humans ? "human" : "ai", homes[slot]);
     }
 
-    this.tileCounts = this.board.countTiles(this.runners.length);
+    this.tileCounts = this.board.countTiles(this.countPlayers());
     this.syncPeaks();
+  }
+
+  /**
+   * 판이 도는 중에 자리를 하나 더 연다. 서버가 접속을 받거나 빈 세계를 봇으로
+   * 채울 때 쓴다. 번호는 **비어 있는 가장 작은 값을 재사용한다** — 소유자 코드가
+   * 1바이트라 번호를 계속 늘려 나갈 수 없다.
+   *
+   * @returns 자리가 없으면 `null`.
+   */
+  addRunner(kind: RunnerKind, tickMs?: number): Runner | null {
+    const id = this.freeId();
+    if (id === null) {
+      return null;
+    }
+    const runner = this.spawnRunner(id, kind, this.findSpawn());
+    if (tickMs !== undefined) {
+      runner.tickMs = tickMs;
+    }
+    this.tileCounts = this.board.countTiles(this.countPlayers());
+    this.syncPeaks();
+    return runner;
+  }
+
+  /**
+   * 자리를 비운다. 남긴 땅과 꼬리는 그 자리에서 중립으로 돌아간다.
+   * 접속이 끊기거나, 공유 세계에서 죽은 사람을 내보낼 때 쓴다.
+   */
+  removeRunner(id: PlayerId): boolean {
+    const index = this.runners.findIndex((item) => item.id === id);
+    if (index < 0) {
+      return false;
+    }
+    const [runner] = this.runners.splice(index, 1);
+    this.board.clearTrail(runner.trail);
+    runner.trail = [];
+    this.board.clearPlayer(id);
+    this.tileCounts = this.board.countTiles(this.countPlayers());
+    return true;
+  }
+
+  private spawnRunner(id: PlayerId, kind: RunnerKind, home: Cell): Runner {
+    const isHuman = kind === "human";
+    const runner: Runner = {
+      id,
+      kind: isHuman ? "human" : "ai",
+      alive: true,
+      respawnAt: 0,
+      x: home.x,
+      y: home.y,
+      prevX: home.x,
+      prevY: home.y,
+      homeX: home.x,
+      homeY: home.y,
+      dir: this.spawnDirection(home),
+      queuedDir: null,
+      turnedAtX: -1,
+      turnedAtY: -1,
+      trail: [],
+      tickMs: isHuman ? PLAYER_TICK_MS : this.difficulty.aiTickMs,
+      tickAccMs: 0,
+      // 여럿이 하면 아무도 중간에 탈락하지 않는다. 한 명이 목숨을 잃어서
+      // 판이 끝나 버리면 나머지 사람들의 90초가 사라진다.
+      // 세계 모드는 io 문법 그대로 — 목숨 없이, 죽으면 그 판이 끝난다.
+      lives: isHuman && this.mode === "party" && this.humans === 1 ? PLAYER_LIVES : Number.POSITIVE_INFINITY,
+      kills: 0,
+      deaths: 0,
+      bonusPoints: 0,
+      bestCapture: 0,
+      peakTiles: 0
+    };
+    this.board.claimHome(id, home.x, home.y, HOME_RADIUS);
+    this.runners.push(runner);
+    return runner;
+  }
+
+  /** 쓰이지 않는 가장 작은 번호. 전부 찼으면 `null`. */
+  private freeId(): PlayerId | null {
+    const taken = new Set<number>(this.runners.map((item) => item.id));
+    for (let id = 1; id <= MAX_OWNER_ID; id += 1) {
+      if (!taken.has(id)) {
+        return id as PlayerId;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * `countTiles` 에 넘길 상한. 번호를 재사용하면 참가자 수와 최대 번호가
+   * 어긋나므로 둘 중 큰 값을 쓴다.
+   */
+  private countPlayers(): number {
+    let max = this.runners.length;
+    for (const runner of this.runners) {
+      if (runner.id > max) {
+        max = runner.id;
+      }
+    }
+    return max;
   }
 
   /** 렌더 레이어가 연출을 띄우려고 매 프레임 비워 간다. */
@@ -216,7 +311,7 @@ export class Match {
     this.tileSampleAccMs += dt;
     if (this.tileSampleAccMs >= TILE_SAMPLE_MS) {
       this.tileSampleAccMs = 0;
-      this.tileCounts = this.board.countTiles(this.runners.length);
+      this.tileCounts = this.board.countTiles(this.countPlayers());
       this.syncPeaks();
     }
 
@@ -261,7 +356,7 @@ export class Match {
 
   finish(): void {
     if (this.phase !== "result") {
-      this.tileCounts = this.board.countTiles(this.runners.length);
+      this.tileCounts = this.board.countTiles(this.countPlayers());
       this.syncPeaks();
       this.phase = "result";
     }
@@ -417,7 +512,7 @@ export class Match {
             originY: nextY
           });
         }
-        this.tileCounts = this.board.countTiles(this.runners.length);
+        this.tileCounts = this.board.countTiles(this.countPlayers());
         this.syncPeaks();
       }
       return;
@@ -471,9 +566,10 @@ export class Match {
       killer.kills += 1;
     }
 
-    this.tileCounts = this.board.countTiles(this.runners.length);
+    this.tileCounts = this.board.countTiles(this.countPlayers());
 
-    if (runner.kind === "human") {
+    // 공유 세계에서는 서버가 죽은 사람을 내보내고 판은 계속 돈다.
+    if (runner.kind === "human" && !this.shared) {
       if (this.mode === "world") {
         // io 문법: 목숨이 없다. 죽으면 그 판이 끝나고 새로 들어간다.
         this.finish();
@@ -508,7 +604,7 @@ export class Match {
     runner.alive = true;
     runner.tickAccMs = 0;
 
-    this.tileCounts = this.board.countTiles(this.runners.length);
+    this.tileCounts = this.board.countTiles(this.countPlayers());
   }
 
   /**

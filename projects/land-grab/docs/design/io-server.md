@@ -1,6 +1,10 @@
 # io 서버 설계 — splix 서버 구조를 따라간다
 
-상태: **설계만.** 서버는 아직 짓지 않았다. 이유는 §4.
+상태: **서버는 지어져 있다.** `projects/land-grab/server/` — §5.
+배포는 Render 로 정했다 — [render-deploy.md](render-deploy.md).
+
+아래 §1~§3 은 splix 서버를 읽고 정리한 설계이고, §4 는 이 문서가 처음에 잘못 적었던
+것을 정정한 기록이다.
 
 지금 월드 모드는 **한 브라우저 안에서 도는 io 게임**이다. `600 × 600` 보드에 봇 40기,
 카메라 추적, 미니맵, 상위 10 리더보드까지 io 문법을 갖췄지만 상대가 전부 봇이다.
@@ -78,36 +82,91 @@
 대역폭은 걱정거리가 아니다. 상태 갱신은 플레이어당 5바이트,
 타일은 시야 가장자리 조각뿐이다.
 
-## 4. 왜 아직 안 지었나
+## 4. 앞서 "지을 수 없다"고 쓴 것은 틀렸다
 
-이 저장소가 서버를 둘 수 없다. 추측이 아니라 코드로 막혀 있다.
+이 절에는 원래 "저장소가 서버를 둘 수 없다"고 적혀 있었다. 근거로 든 두 가지가 모두
+사실이 아니었다. 코드를 다시 읽고 확인한 결과다.
 
-- `packages/registry/src/schema.ts` 가 `runtime` 을 `"static-artifact"` 하나로 제한한다.
-  다른 값을 넣으면 `pnpm validate:projects` 가 실패한다.
-- `launcher` 에 API 라우트가 없고 `vercel.json` 은 정적 Next.js 빌드만 한다.
-  Vercel 의 서버리스 함수로는 오래 살아 있는 WebSocket 을 들 수 없다.
+**① `runtime` 스키마를 열어야 한다 — 아니다.**
+서버는 레지스트리에 등록되지 않는다. 클라이언트만 `static-artifact` 로 남는다.
 
-즉 **코드를 쓴다고 해결되지 않는다.** 두 가지 결정이 먼저다.
+| 확인한 것 | 결과 |
+| --- | --- |
+| `pnpm-workspace.yaml` | 워크스페이스는 `launcher`, `packages/*`, `projects/*/app` |
+| `scripts/build-all-projects.ts` | `runtime === "static-artifact"` 인 것만 빌드한다 |
+| `scripts/sync-launcher-registry.ts` | `projects/*/project.json` 만 읽는다 |
 
-1. `runtime` 에 값을 하나 더 열 것인가 (`node-service` 같은).
-   레지스트리 스키마와 런처 카드가 같이 바뀐다.
-2. 그 서버를 어디에 둘 것인가. WebSocket 을 들 수 있는 곳이어야 한다 —
-   Fly.io · Railway · Render · 직접 띄운 VM 중 하나. Vercel 은 안 된다.
+`projects/land-grab/server/` 는 워크스페이스 글롭에 걸리지 않고 Vercel 빌드 경로에도
+없다. 스키마는 손댈 일이 없었다.
 
-둘 다 이 프로젝트 하나가 아니라 저장소 전체에 영향을 준다.
-그래서 결정 전에 코드를 먼저 쓰지 않았다.
+**② Vercel 서버리스로는 WebSocket 을 못 든다 — 지금은 든다.**
+2026-06-22 에 Vercel Functions 의 네이티브 WebSocket 지원이 퍼블릭 베타로 나왔다.
+그래도 이 게임은 Vercel 에 못 올라가는데, 이유가 전송이 아니라 **구조**로 바뀌었다 —
+연결이 함수 인스턴스에 핀되고 다음 연결이 같은 인스턴스로 간다는 보장이 없어서
+같은 세계에 있다고 믿는 사람들이 서로 다른 세계에 앉는다.
 
-## 5. 결정이 나면 밟을 순서
+실제로 필요했던 결정은 하나뿐이었다. **그 프로세스를 어디에 둘 것인가.**
+Render 로 정했고, 조사와 설정은 [render-deploy.md](render-deploy.md) 에 있다.
 
-1. `runtime` 확장 + 런처가 그 종류를 어떻게 보여 줄지 정한다.
-2. `projects/land-grab/server/` — 의존성 없는 Node 스크립트로 시작한다.
-   시뮬레이션은 `app/src/game` 을 그대로 가져다 쓴다.
-3. 프로토콜 v1: 접속 · 방향 · 상태 · 시야 조각 · 사망 · 리더보드. 스킨과 혼은 나중에.
-4. 클라이언트에 접속 모드를 붙인다. 서버 주소는 설정값으로 둔다.
-5. 봇을 서버에서 돌려 빈 서버를 채운다. 지금 `ai.ts` 를 그대로 쓴다.
+## 5. 지금 지어져 있는 것
+
+`projects/land-grab/server/` 에 있다. 위 설계를 그대로 따랐다.
+
+| 파일 | 하는 일 | splix 대응 |
+| --- | --- | --- |
+| `src/main.ts` | HTTP(헬스·상태) + WebSocket, 고정 간격 루프 | `Main` / `WebSocketManager` |
+| `src/world.ts` | 세계 하나. 자리 추가·제거, 바뀐 영역 수집 | `Game` |
+| `src/session.ts` | 접속 하나. 시야·꼬리·점수 동기화 | `WebSocketConnection` |
+| `src/viewport.ts` | 접속별로 어느 타일까지 보냈는지 | 시야 조각 전송 |
+| `app/src/net/protocol.ts` | 바이너리 규약 v1 (서버·브라우저 공용) | 메시지 인코딩 |
+| `app/src/net/client-state.ts` | 받은 것을 쌓아 두는 곳 (서버·브라우저 공용) | 클라이언트 상태 |
+
+시뮬레이션은 다시 짜지 않았다. `app/src/game` 을 그대로 가져다 쓴다. 엔진에 새로
+연 것은 두 가지뿐이다.
+
+- `MatchOptions.shared` — 켜면 사람이 죽어도 판이 끝나지 않는다. 로컬에서는 "내 판이
+  끝났다"가 맞지만, 공유 세계에서 한 명의 죽음이 세계를 끝내면 나머지 접속자의 판이
+  같이 사라진다.
+- `Match.addRunner` / `Match.removeRunner` — 판이 도는 중에 자리를 열고 닫는다.
+  번호는 비어 있는 가장 작은 값을 재사용한다. 소유자 코드가 1바이트라 계속 늘려
+  나갈 수 없다.
+
+§3 에서 필요하다고 적은 다섯 가지의 현재 상태.
+
+| 필요한 것 | 상태 |
+| --- | --- |
+| 시드 고정 | 됨. `AiController` 에 시드 난수를 넣었다 |
+| 연결별 시야 상태 | 됨. `ViewportSync` 가 보낸 사각형을 기억하고 차이만 보낸다 |
+| 프로토콜 | 됨. v1, 바이너리. `PROTOCOL_VERSION` 핸드셰이크 포함 |
+| 입력 검증 | 됨. 클라이언트는 방향만 보낸다. 위치는 받지 않는다 |
+| 지연 보정 | **아직.** 되돌리기는 넣지 않았다. 아래 참조 |
+
+되돌리기(`UNDO_PLAYER_DIE`)를 빼 둔 것은 의도적이다. 그것을 넣으려면 서버가 최근
+몇 틱의 상태를 들고 되감을 수 있어야 하는데, 지금은 **한 지역(싱가포르) 한 세계**로
+시작하므로 왕복 시간이 크지 않다. 실제로 억울한 죽음이 관측되면 그때 넣는다.
+먼저 재는 것이 순서다.
+
+측정값은 [render-deploy.md](render-deploy.md) §3 에 있다 —
+`600 × 600` 에 사람 56명 + 봇 40기가 붙어도 110 MB, 60초 시뮬레이션이 327ms,
+1인당 대역폭 1.6 KB/s.
+
+### 확인
+
+```bash
+cd projects/land-grab/server
+npm test       # 타입 검사 + 규칙 검사 56개 (소켓 없이 세션을 직접 돌린다)
+npm run smoke  # 빌드된 서버를 띄우고 진짜 WebSocket 3개로 붙는다 (14개)
+```
+
+### 아직 안 된 것
+
+**브라우저 클라이언트가 서버에 붙지 않는다.** 규약과 상태 컨테이너는 서버와 같은
+파일을 쓰도록 `app/src/net/` 에 있지만, 화면이 아직 그걸 읽지 않는다.
+남은 작업은 [render-deploy.md](render-deploy.md) §8 에 적어 두었다.
 
 ## 6. 참고
 
 - [splix 게임 서버 소스 (GitHub, MIT)](https://github.com/jespertheend/splix)
 - 규칙과 수치는 [splix-analysis.md](splix-analysis.md)
 - 지금 되는 멀티와 온라인 선택지는 [multiplayer.md](multiplayer.md)
+- 배포 조사와 설정은 [render-deploy.md](render-deploy.md)
