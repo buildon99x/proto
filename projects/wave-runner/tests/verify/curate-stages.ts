@@ -1,99 +1,119 @@
 /**
- * 스테이지 시드 큐레이션 — core-loop.md §6 "생성은 자동, 선별은 수동".
+ * 스테이지 시드 큐레이션 — 정확한 솔버로 **여유(slack)** 를 겨냥한다.
  *
- * 스테이지는 시드 하나로 결정된다. 아무 시드나 쓰면 어떤 스테이지는 16개 경로 중
- * 2개만 통과 가능한 시행착오 강요가 되고, 어떤 스테이지는 무슨 선택을 해도 통과돼
- * 게이트가 무의미해진다. 그래서 후보 시드를 훑어 **통과율이 목표 구간에 드는
- * 시드만 남긴다.**
+ * 2단계에서는 오토파일럿 통과율로 골랐다. 3단계의 솔버로 다시 재보니 통과 가능성은
+ * 거의 모든 경로에서 참이었고(94~100%), 대신 **여유가 최선 198ms 와 최악 10ms 로**
+ * 갈렸다. 통과 가능하지만 여유 10ms 인 경로는 사람에게는 불가능하다.
  *
- * 남긴 결과는 app/src/game/stage-seeds.json 으로 굽는다 — 게임은 그 표만 읽으므로
- * 런타임에 검증 비용이 들지 않는다.
+ * 그래서 기준을 바꾼다. 좋은 스테이지는 세 가지를 만족한다.
+ *
+ *  1. **공정성** — 모든 경로가 통과 가능해야 한다(보이지 않는 막다른 길 금지).
+ *  2. **난이도** — 최선 경로의 여유가 티어별 목표 구간에 들어야 한다.
+ *  3. **선택의 의미** — 최선과 최악 경로의 여유 차이가 충분해야 한다.
+ *     차이가 없으면 어느 관으로 가든 같으므로 게이트가 아무것도 묻지 않는다.
+ *
+ * 세 번째가 3단계에서 비로소 가능해진 판정이다 — 근사로는 "여유"를 잴 수 없다.
  *
  * 실행: pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts
  */
 import { writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { NEUTRAL_BUILD } from "../../app/src/game/axes";
+import { NEUTRAL_BUILD, applyTrade } from "../../app/src/game/axes";
 import { STAGE_SECTORS, buildStageCourse } from "../../app/src/game/course";
-import { BASE_TUNING, createState, launch, startYFor, update } from "../../app/src/game/engine";
+import { BASE_TUNING, startYFor } from "../../app/src/game/engine";
 import { MAX_TIER, STAGES_PER_TIER, stageKey } from "../../app/src/game/meta";
-import { targetY } from "../../app/src/game/pilot";
+import { solveCourse } from "../../app/src/game/solver";
+import type { AxisKey, Build } from "../../app/src/game/types";
 
-const DT = 1 / 120;
-const LOOKAHEAD = 0.14;
 const GATES = STAGE_SECTORS - 1;
 const PATHS = 1 << GATES;
+const CANDIDATES = 40;
 
-/** 너무 낮으면 시행착오 강요, 너무 높으면 게이트가 무의미해진다. */
-const MIN_RATE = 0.45;
-const MAX_RATE = 0.85;
-const CANDIDATES = 60;
+/** 티어가 오를수록 최선 경로의 여유가 좁아진다. 사람이 체감하는 난이도 곡선. */
+const targetSlackMs = (tier: number) => 190 - (tier - 1) * 30;
+const SLACK_BAND_MS = 38;
+/** 최선과 최악 경로의 여유 차이. 작으면 게이트가 아무것도 묻지 않는다. */
+const MIN_SPREAD_MS = 35;
 
-function clearRate(seed: number, tier: number): number {
-  let cleared = 0;
+const trade = (b: Build, t: { plus: keyof Build; minus: keyof Build }) =>
+  applyTrade(b, { plus: t.plus as AxisKey, minus: t.minus as AxisKey }, BASE_TUNING);
+
+interface Score {
+  allPassable: boolean;
+  bestMs: number;
+  worstMs: number;
+  spreadMs: number;
+}
+
+function score(seed: number, tier: number): Score {
+  const course = buildStageCourse(tier, 1, BASE_TUNING, 3, seed);
+  const startY = startYFor(course);
+  let best = 0;
+  let worst = Number.POSITIVE_INFINITY;
+  let allPassable = true;
+
   for (let path = 0; path < PATHS; path += 1) {
-    const state = createState({
-      mode: "stage",
-      tier,
-      stageNo: 1,
-      seed: 0,
-      startBuild: { ...NEUTRAL_BUILD },
-      axisCap: 3,
-      maxSectorDifficulty: 3
-    });
-    state.course = buildStageCourse(tier, 1, BASE_TUNING, 3, seed);
-    state.y = startYFor(state.course);
-    launch(state);
-
-    let ok = false;
-    for (let t = 0; t < 200; t += DT) {
-      const lane = (path >> Math.min(GATES - 1, state.gatesPassed)) & 1 ? "bot" : "top";
-      state.holding = state.y > targetY(state, LOOKAHEAD, lane);
-      const r = update(state, DT);
-      if (r.event === "died") break;
-      if (state.phase === "cleared") {
-        ok = true;
-        break;
-      }
+    const lanes: Array<"top" | "bot"> = [];
+    for (let g = 0; g < GATES; g += 1) lanes.push((path >> g) & 1 ? "bot" : "top");
+    const res = solveCourse(course.pieces, { ...NEUTRAL_BUILD }, BASE_TUNING, startY, lanes, trade, 1 / 90);
+    if (!res.passable) {
+      allPassable = false;
+      continue;
     }
-    if (ok) cleared += 1;
+    const ms = res.minSlackSec * 1000;
+    best = Math.max(best, ms);
+    worst = Math.min(worst, ms);
   }
-  return cleared / PATHS;
+  const w = Number.isFinite(worst) ? worst : 0;
+  return { allPassable, bestMs: best, worstMs: w, spreadMs: best - w };
+}
+
+function accepts(s: Score, tier: number): boolean {
+  if (!s.allPassable) return false;
+  if (Math.abs(s.bestMs - targetSlackMs(tier)) > SLACK_BAND_MS) return false;
+  return s.spreadMs >= MIN_SPREAD_MS;
 }
 
 const table: Record<string, number> = {};
-const report: string[] = [];
 
 for (let tier = 1; tier <= MAX_TIER; tier += 1) {
   for (let no = 1; no <= STAGES_PER_TIER; no += 1) {
     let chosen = -1;
-    let chosenRate = 0;
-    let bestFallback = -1;
-    let bestFallbackRate = -1;
+    let chosenScore: Score | null = null;
+    let fallback = -1;
+    let fallbackScore: Score | null = null;
+    let fallbackErr = Number.POSITIVE_INFINITY;
 
     for (let i = 0; i < CANDIDATES; i += 1) {
       const seed = (tier * 7919 + no * 104729 + i * 2654435761) >>> 0;
-      const rate = clearRate(seed, tier);
-      if (rate > bestFallbackRate) {
-        bestFallbackRate = rate;
-        bestFallback = seed;
+      const s = score(seed, tier);
+      const err = Math.abs(s.bestMs - targetSlackMs(tier)) + Math.max(0, MIN_SPREAD_MS - s.spreadMs);
+      if (s.allPassable && err < fallbackErr) {
+        fallbackErr = err;
+        fallback = seed;
+        fallbackScore = s;
       }
-      if (rate >= MIN_RATE && rate <= MAX_RATE) {
+      if (accepts(s, tier)) {
         chosen = seed;
-        chosenRate = rate;
+        chosenScore = s;
         break;
       }
     }
 
     if (chosen < 0) {
-      chosen = bestFallback;
-      chosenRate = bestFallbackRate;
+      chosen = fallback;
+      chosenScore = fallbackScore;
     }
     table[stageKey(tier, no)] = chosen;
-    const mark = chosenRate >= MIN_RATE && chosenRate <= MAX_RATE ? "✓" : "△";
-    report.push(`티어 ${tier} · ${no}  seed ${String(chosen).padStart(10)}  통과율 ${(chosenRate * 100).toFixed(0)}%  ${mark}`);
-    console.log(report[report.length - 1]);
+    const s = chosenScore;
+    const mark = s && accepts(s, tier) ? "✓" : "△";
+    console.log(
+      `티어 ${tier} · ${no}  seed ${String(chosen).padStart(10)}` +
+        `  최선 ${s ? s.bestMs.toFixed(0) : "?"}ms (목표 ${targetSlackMs(tier)})` +
+        `  최악 ${s ? s.worstMs.toFixed(0) : "?"}ms` +
+        `  차이 ${s ? s.spreadMs.toFixed(0) : "?"}ms  ${mark}`
+    );
   }
 }
 

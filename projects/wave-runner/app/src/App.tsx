@@ -53,6 +53,7 @@ export default function App() {
   const [fps, setFps] = useState(60);
   const [muted, setMutedState] = useState(isMuted());
   const [transfer, setTransfer] = useState("");
+  const [practice, setPractice] = useState(false);
 
   const commit = useCallback((next: Meta) => setMetaState(saveMeta(next)), []);
 
@@ -85,11 +86,12 @@ export default function App() {
           startBuild: { ...preset.build },
           axisCap: meta.axisCap,
           maxSectorDifficulty: meta.fullPool ? 3 : 2,
-          overrides
+          overrides,
+          practice
         }
       });
     },
-    [meta.axisCap, meta.fullPool, overrides, preset]
+    [meta.axisCap, meta.fullPool, overrides, practice, preset]
   );
 
   const startEndless = useCallback(() => {
@@ -114,7 +116,9 @@ export default function App() {
       setReport(r);
       if (screen.kind !== "play") return;
       const cfg = screen.config;
-      if (cfg.mode === "stage" && r.cleared) {
+      // 연습 통과는 클리어가 아니다 — 긴장이 빠진 주행을 기록으로 남기면
+      // 티어 지표의 의미가 사라진다.
+      if (cfg.mode === "stage" && r.cleared && !cfg.practice) {
         const key = stageKey(cfg.tier, cfg.stageNo);
         const first = !meta.clearedStages.includes(key);
         commit({
@@ -272,6 +276,14 @@ export default function App() {
               </div>
             );
           })}
+          <label className="toggle">
+            <input type="checkbox" checked={practice} onChange={(e) => setPractice(e.target.checked)} />
+            <span>
+              <strong>연습 모드</strong>
+              <small>게이트마다 체크포인트. 막힌 구간만 반복한다 — 기록에는 남지 않는다</small>
+            </span>
+          </label>
+
           <button type="button" className="link" onClick={() => setScreen({ kind: "home" })}>
             ← 돌아가기
           </button>
@@ -386,7 +398,7 @@ export default function App() {
             <div className="overlay">
               <p className="eyebrow">
                 {screen.config.mode === "stage"
-                  ? `티어 ${screen.config.tier} · ${screen.config.stageNo}`
+                  ? `티어 ${screen.config.tier} · ${screen.config.stageNo}${screen.config.practice ? " · 연습" : ""}`
                   : "ENDLESS"}
               </p>
               <h2>{preset.name}</h2>
@@ -402,7 +414,11 @@ export default function App() {
               <p>
                 {report.sec.toFixed(2)}초 · 시도 {report.attempts}회
               </p>
-              <p className="dim">+{coresForStage(screen.config.tier)} 코어 (최초 1회)</p>
+              <p className="dim">
+                {screen.config.practice
+                  ? "연습 통과 — 기록에 남지 않는다"
+                  : `+${coresForStage(screen.config.tier)} 코어 (최초 1회)`}
+              </p>
               <p className="cue">누르면 계속</p>
             </div>
           ) : null}

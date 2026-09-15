@@ -1,7 +1,9 @@
 import { AXES } from "./axes";
+import { SectorFactory } from "./factory";
+import { widthForDifficulty } from "./generate";
 import SEEDS from "./stage-seeds.json";
 import { SECTORS, SECTOR_LEN, sectorsOfType } from "./sectors";
-import type { AxisKey, AxisTrade, Course, CoursePiece, Gate, Sector, SectorType, Tuning } from "./types";
+import type { AxisKey, AxisTrade, Build, Course, CoursePiece, Gate, Sector, SectorType, Tuning } from "./types";
 
 /** 게이트 길이를 시간이 아니라 월드 길이로 고정하되, 가장 빠른 빌드에서도 시간 제약이 성립하게 잡는다. */
 const MAX_SPEED = 58;
@@ -130,9 +132,12 @@ export function buildStageCourse(
  */
 export class EndlessCourse {
   readonly course: Course = { pieces: [], finishX: Number.POSITIVE_INFINITY };
+  readonly factory = new SectorFactory();
   private readonly rand: () => number;
   private index = 0;
   private cursor = 0;
+  /** 다음에 만들어야 할 조각의 사양. pump 가 이걸 보고 공장에 건다 */
+  private nextSpec: { type: SectorType; difficulty: number; seed: number } | null = null;
 
   constructor(
     seed: number,
@@ -143,12 +148,44 @@ export class EndlessCourse {
     this.ensure(0);
   }
 
+  /**
+   * 매 프레임 호출. 앞으로 필요한 섹터를 **현재 빌드 기준으로** 미리 만들어 둔다.
+   *
+   * 빌드를 입력으로 받는 것이 핵심이다 — 코스를 플레이어의 지금 기체에 맞춰 뽑으므로
+   * "생성했는데 이 빌드로는 통과 불가"가 원천적으로 생기지 않는다. Stage 가 고정
+   * 코스라서 전 경로 검증이 필요한 것과 정확히 대비되는 지점이다.
+   */
+  pump(build: Build, budgetMs = 3): void {
+    if (!this.factory.busy && this.nextSpec) {
+      const spec = this.nextSpec;
+      const squeeze = squeezeFor(this.index);
+      this.factory.request({
+        type: spec.type,
+        targetWidth: widthForDifficulty(spec.difficulty) / Math.max(0.5, squeeze),
+        seed: spec.seed,
+        build,
+        base: this.t,
+        squeeze,
+        candidates: 10
+      });
+    }
+    this.factory.tick(budgetMs);
+  }
+
   /** x 기준 두 조각 앞까지 채워 둔다. */
   ensure(x: number): void {
     const horizon = x + (SECTOR_LEN + gateTotalLen(this.t)) * 2;
     while (this.cursor < horizon) {
       const difficulty = 1 + this.index * this.t.endlessRampPerSector;
-      const sector = pickSector(typeAt(this.index, this.rand), difficulty, this.rand, this.maxDifficulty);
+      const type = typeAt(this.index, this.rand);
+      // 공장이 제때 끝냈으면 생성물을, 아니면 사전 검증된 수제 섹터를 쓴다.
+      const sector =
+        this.factory.take() ?? pickSector(type, difficulty, this.rand, this.maxDifficulty);
+      this.nextSpec = {
+        type: typeAt(this.index + 1, this.rand),
+        difficulty: 1 + (this.index + 1) * this.t.endlessRampPerSector,
+        seed: (this.rand() * 0xffffffff) >>> 0
+      };
       this.course.pieces.push({
         kind: "sector",
         startX: this.cursor,

@@ -1,6 +1,8 @@
 import { NEUTRAL_BUILD, applyBuild, applyTrade, resolve } from "./axes";
 import { EndlessCourse, buildStageCourse, pieceAt } from "./course";
-import { CUFF_BOT, CUFF_TOP, sample, shutterDepth } from "./sectors";
+import { contains, gateLanes, pieceFreeSpans, sectorFreeSpans, squeezeBounds } from "./geometry";
+import type { Lanes, Span } from "./geometry";
+import { sample } from "./sectors";
 import tuningJson from "./tuning.json";
 import type {
   AxisTrade,
@@ -37,6 +39,12 @@ export interface RunConfig {
   maxSectorDifficulty: number;
   /** 개발 튜닝 패널이 덮어쓰는 값. 본 플레이에서는 비어 있다 */
   overrides?: Partial<Tuning>;
+  /**
+   * 연습 모드. 게이트를 지날 때마다 체크포인트를 남기고 사망 시 거기서 다시 시작한다.
+   * 정밀 게임의 학습성에 필요하지만 기록에는 반영하지 않는다 — 긴장이 빠진 통과는
+   * 클리어가 아니다.
+   */
+  practice?: boolean;
 }
 
 export interface GameState {
@@ -69,6 +77,20 @@ export interface GameState {
   lastTrade: { trade: AxisTrade; at: number } | null;
   /** 현재 게이트 스팬 안에서 어느 관에 있는지 */
   lane: "top" | "bot" | null;
+  /** 연습 모드 체크포인트. 게이트를 지날 때마다 쌓인다 */
+  checkpoints: Checkpoint[];
+  /** 사망 지점에서 "지나갈 수 있었던 자리" — 원인을 글자 없이 알린다 */
+  deathGap: Span[] | null;
+}
+
+export interface Checkpoint {
+  x: number;
+  y: number;
+  vy: number;
+  build: Build;
+  elapsed: number;
+  gatesPassed: number;
+  sectorsPassed: number;
 }
 
 const TRAIL_MAX = 110;
@@ -128,17 +150,39 @@ export function createState(config: RunConfig): GameState {
     gatesPassed: 0,
     sectorsPassed: 0,
     lastTrade: null,
-    lane: null
+    lane: null,
+    checkpoints: [],
+    deathGap: null
   };
 }
 
-/** 같은 설정으로 처음부터. 빌드도 시작 프리셋으로 되돌아간다 — 재시도는 해법을 다시 고를 기회다. */
+/**
+ * 같은 설정으로 다시. 기본은 처음부터이고 빌드도 시작 프리셋으로 되돌아간다 —
+ * 재시도는 실행을 다듬을지 해법을 바꿀지 고르는 기회다.
+ *
+ * 연습 모드에서는 마지막 체크포인트에서 이어간다. 코스와 빌드가 그대로 복원되므로
+ * 막힌 구간만 반복할 수 있다.
+ */
 export function restart(state: GameState): void {
-  const fresh = createState(state.config);
   const attempts = state.attempts + 1;
   const best = state.best;
   const holding = state.holding;
-  Object.assign(state, fresh, { phase: "running", attempts, best, holding });
+  const checkpoints = state.checkpoints;
+  const last = state.config.practice ? checkpoints[checkpoints.length - 1] : undefined;
+
+  const fresh = createState(state.config);
+  Object.assign(state, fresh, { phase: "running", attempts, best, holding, checkpoints });
+
+  if (last) {
+    state.x = last.x;
+    state.y = last.y;
+    state.vy = last.vy;
+    state.build = { ...last.build };
+    state.tuning = applyBuild(state.base, state.build);
+    state.elapsed = last.elapsed;
+    state.gatesPassed = last.gatesPassed;
+    state.sectorsPassed = last.sectorsPassed;
+  }
 }
 
 function setPhase(state: GameState, phase: Phase): void {
@@ -155,64 +199,6 @@ export function launch(state: GameState): void {
 
 // ── 지오메트리 ────────────────────────────────────────────────
 
-export interface Lanes {
-  outerTop: number;
-  outerBot: number;
-  /** 분기 중이면 칸막이 상/하단. 아니면 null */
-  dividerTop: number | null;
-  dividerBot: number | null;
-}
-
-const GATE_OPEN_TOP = 18;
-const GATE_OPEN_BOT = 82;
-
-function smooth(u: number): number {
-  const c = Math.max(0, Math.min(1, u));
-  return c * c * (3 - 2 * c);
-}
-
-/**
- * 게이트 구간의 통로 형상.
- *
- * 바깥 벽은 섹터의 규격 출구(CUFF)에서 넓게 벌어졌다가 다시 규격 입구로 좁혀진다 —
- * 어느 이음매에서도 갑자기 벽이 생기지 않아야 한다. 칸막이는 0에서 서서히 자라
- * 구멍 두 개가 아니라 길이 둘로 갈라지는 것으로 읽힌다.
- */
-export function gateLanes(gate: Gate, x: number, t: Tuning): Lanes {
-  const span = Math.max(1e-6, gate.endX - gate.startX);
-  let top: number;
-  let bot: number;
-  if (x < gate.startX) {
-    const w = smooth((x - gate.leadInX) / Math.max(1e-6, gate.startX - gate.leadInX));
-    top = CUFF_TOP + (GATE_OPEN_TOP - CUFF_TOP) * w;
-    bot = CUFF_BOT + (GATE_OPEN_BOT - CUFF_BOT) * w;
-  } else {
-    const closing = smooth(((x - gate.startX) / span - 0.75) / 0.25);
-    top = GATE_OPEN_TOP + (CUFF_TOP - GATE_OPEN_TOP) * closing;
-    bot = GATE_OPEN_BOT + (CUFF_BOT - GATE_OPEN_BOT) * closing;
-  }
-  const outer = { outerTop: top, outerBot: bot };
-  if (x < gate.startX) return { ...outer, dividerTop: null, dividerBot: null };
-
-  // 칸막이는 자랐다가 **끝나기 전에 다시 사라진다.** 갈라진 두 길이 도로 합쳐져야
-  // 출구에서 바깥벽이 좁아지는 것과 겹쳐 아바타를 끼우지 않는다.
-  // 어느 관을 탔는지는 칸막이가 서 있는 동안 이미 기록되므로 판정에는 영향이 없다.
-  const u = (x - gate.startX) / span;
-  const grow = smooth(u / 0.35);
-  const fade = 1 - smooth((u - 0.7) / 0.3);
-  const d = t.gateDivider * Math.min(grow, fade);
-  if (d <= 1e-6) return { ...outer, dividerTop: null, dividerBot: null };
-  return { ...outer, dividerTop: 50 - d / 2, dividerBot: 50 + d / 2 };
-}
-
-/** 통로를 중앙 기준으로 조인다. squeeze 1 이면 그대로. */
-export function squeezeBounds(b: { top: number; bot: number }, squeeze: number): { top: number; bot: number } {
-  if (squeeze >= 1) return b;
-  const mid = (b.top + b.bot) / 2;
-  const half = ((b.bot - b.top) / 2) * squeeze;
-  return { top: mid - half, bot: mid + half };
-}
-
 function circleHitsBlock(cx: number, cy: number, r: number, b: Block): boolean {
   const nx = Math.max(b.x, Math.min(cx, b.x + b.w));
   const ny = Math.max(b.y, Math.min(cy, b.y + b.h));
@@ -222,11 +208,10 @@ function circleHitsBlock(cx: number, cy: number, r: number, b: Block): boolean {
 }
 
 /**
- * 섹터 안에서의 충돌. 셔터는 시각에 따라 깊이가 변한다.
+ * 섹터 안에서의 충돌.
  *
- * squeeze 는 통로를 중앙으로 조이는 계수다. Endless 에서 손으로 만든 가장 어려운
- * 섹터를 다 쓴 뒤에도 난이도를 계속 올리기 위한 장치이고, 3단계의 런타임 생성이
- * 들어오면 회랑 폭 목표치가 이 역할을 대신한다.
+ * 판정은 geometry 의 자유 구간 하나로 통일한다 — 엔진·오토파일럿·솔버가 서로 다른
+ * 충돌 규칙을 갖게 되면 "솔버는 통과 가능하다는데 실제로는 죽는다"가 발생한다.
  */
 export function hitsSector(
   sector: Sector,
@@ -236,21 +221,7 @@ export function hitsSector(
   time: number,
   squeeze = 1
 ): boolean {
-  const { top, bot } = squeezeBounds(sample(sector.nodes, localX), squeeze);
-  if (y - r < top || y + r > bot) return true;
-  for (const b of sector.blocks) {
-    if (circleHitsBlock(localX, y, r, b)) return true;
-  }
-  for (const s of sector.shutters) {
-    const depth = shutterDepth(s, time);
-    if (depth <= 0) continue;
-    const rect: Block =
-      s.side === "top"
-        ? { x: s.x, y: top, w: s.w, h: depth }
-        : { x: s.x, y: bot - depth, w: s.w, h: depth };
-    if (circleHitsBlock(localX, y, r, rect)) return true;
-  }
-  return false;
+  return !contains(sectorFreeSpans(sector, localX, r, time, squeeze), y);
 }
 
 function hitsGate(gate: Gate, x: number, y: number, r: number, t: Tuning): { hit: boolean; lane: "top" | "bot" | null } {
@@ -291,6 +262,17 @@ function resolveGateCrossing(state: GameState, prevX: number, piece: CoursePiece
   state.gatesPassed += 1;
   state.lastTrade = { trade, at: state.elapsed };
   state.lane = null;
+  if (state.config.practice) {
+    state.checkpoints.push({
+      x: state.x,
+      y: state.y,
+      vy: state.vy,
+      build: { ...state.build },
+      elapsed: state.elapsed,
+      gatesPassed: state.gatesPassed,
+      sectorsPassed: state.sectorsPassed
+    });
+  }
 }
 
 function step(state: GameState, dt: number): StepOutcome {
@@ -322,6 +304,11 @@ function step(state: GameState, dt: number): StepOutcome {
     if (res.hit) {
       state.x = sx;
       state.y = sy;
+      // 사망 지점에서 "지나갈 수 있었던 자리". 정지 화면 없이 원인을 알리는 유일한 수단이다.
+      const piece = pieceAt(state.course, sx);
+      state.deathGap = piece
+        ? pieceFreeSpans(piece, sx, state.tuning.radius, state.elapsed, state.tuning, state.lane ?? undefined)
+        : null;
       setPhase(state, "dead");
       return "died";
     }
@@ -368,6 +355,9 @@ export function update(state: GameState, dtRaw: number): UpdateResult {
 
   if (state.phase !== "running") return { event: "none" };
 
+  // 생성은 프레임당 예산만큼만 — 코어 루프가 프레임을 잃으면 게임이 성립하지 않는다.
+  if (state.endless) state.endless.pump(state.build, 3);
+
   const h = 1 / state.tuning.fixedStepHz;
   let remaining = dt;
   let outcome: StepOutcome = "none";
@@ -389,5 +379,5 @@ export function applyOverrides(state: GameState, overrides: Partial<Tuning>): vo
   state.tuning = applyBuild(state.base, state.build);
 }
 
-export { NEUTRAL_BUILD };
+export { NEUTRAL_BUILD, gateLanes, squeezeBounds };
 export type { Build, RunMode };

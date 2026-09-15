@@ -291,11 +291,45 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
   }
 
   if (state.phase === "dead") {
-    const k = Math.min(1, (state.sincePhase * 1000) / t.retryDelayMs);
+    const k = Math.min(1, (state.sincePhase * 1000) / Math.max(1, t.retryDelayMs));
+
+    // 지나갈 수 있었던 자리. 정지 화면을 넣으면 재시도 루프가 죽으므로
+    // 사망 순간의 연출로만 원인을 알린다.
+    if (state.deathGap) {
+      for (const span of state.deathGap) {
+        ctx.fillStyle = `rgba(125, 255, 176, ${(0.3 * (1 - k)).toFixed(3)})`;
+        ctx.fillRect(px - r * 2, sy(span.lo), r * 5, (span.hi - span.lo) * view.zoom);
+        ctx.strokeStyle = `rgba(125, 255, 176, ${(0.85 * (1 - k)).toFixed(3)})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(px - r * 2, sy(span.lo));
+        ctx.lineTo(px + r * 3, sy(span.lo));
+        ctx.moveTo(px - r * 2, sy(span.hi));
+        ctx.lineTo(px + r * 3, sy(span.hi));
+        ctx.stroke();
+      }
+    }
+
     ctx.strokeStyle = `rgba(255, 94, 122, ${(1 - k).toFixed(3)})`;
     ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.arc(px, py, r + k * r * 5, 0, Math.PI * 2);
     ctx.stroke();
+  }
+
+  // 연습 모드 체크포인트 — 다시 시작될 지점
+  if (state.config.practice && state.checkpoints.length > 0) {
+    const cp = state.checkpoints[state.checkpoints.length - 1];
+    const cx = sx(cp.x);
+    if (cx > -40 && cx < cssW + 40) {
+      ctx.strokeStyle = "rgba(125, 255, 176, 0.5)";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 6]);
+      ctx.beginPath();
+      ctx.moveTo(cx, 0);
+      ctx.lineTo(cx, cssH);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
   }
 }
