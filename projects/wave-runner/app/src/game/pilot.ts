@@ -12,7 +12,7 @@
  * 사람처럼 잘 하기 위한 것이 아니라 코스가 통과 가능한지를 기계적으로 묻기 위한 것이다.
  */
 import { pieceAt } from "./course";
-import { gateLanes, squeezeBounds } from "./engine";
+import { gateLanes, pieceSqueeze, squeezeBounds } from "./engine";
 import type { GameState } from "./engine";
 import { sample, shutterDepth } from "./sectors";
 import type { Sector } from "./types";
@@ -98,7 +98,7 @@ function windowAt(state: GameState, dt: number, lane: "top" | "bot"): Window | n
 
   if (piece.kind !== "sector" || !piece.sector) return null;
   const localX = aheadX - piece.startX;
-  const squeeze = piece.squeeze ?? 1;
+  const squeeze = pieceSqueeze(piece, state.tuning);
   const { top, bot } = squeezeBounds(sample(piece.sector.nodes, localX), squeeze);
   const height = bot - top;
   if (height <= 2 * r) return null;

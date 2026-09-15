@@ -96,6 +96,32 @@ const ALL_TRADES: AxisTrade[] = AXES.flatMap((plus) =>
   AXES.filter((minus) => minus !== plus).map((minus) => ({ plus, minus }))
 );
 
+/** 이 교환을 받으면 빌드가 중립에서 얼마나 멀어지는가. 작을수록 순한 제안이다. */
+function tension(build: Build, trade: AxisTrade, t: Tuning): number {
+  const next = applyTrade(build, trade, t);
+  return AXES.reduce((a, k) => a + Math.abs(next[k]), 0);
+}
+
+/**
+ * 제안 풀 좁히기 — **반복 완화의 둘째 레버**(`relief.ts`).
+ *
+ * 통로를 넓히는 것은 최선 경로를 올리지만 최악 경로는 못 올린다. 최악 경로는
+ * 형상이 아니라 **선택**이 만든 것이기 때문이다. 빌드를 극단으로 미는 교환을
+ * 빼면 "고를 수 있는 가장 나쁜 길"이 통째로 사라진다.
+ *
+ * 순서는 완전히 결정적이어야 한다 — 시드가 같으면 제안도 같아야 하므로,
+ * 긴장도가 같을 때는 원래 목록의 순서로 가른다.
+ */
+function temper(pool: AxisTrade[], build: Build, t: Tuning): AxisTrade[] {
+  const keep = t.gateOfferPool ?? 0;
+  if (keep <= 0 || keep >= pool.length) return pool;
+  return pool
+    .map((trade, i) => ({ trade, cost: tension(build, trade, t), i }))
+    .sort((a, b) => a.cost - b.cost || a.i - b.i)
+    .slice(0, Math.max(2, keep))
+    .map((x) => x.trade);
+}
+
 /**
  * 게이트가 내놓을 두 제안.
  *
@@ -112,7 +138,7 @@ export function gateOffer(seed: number, build: Build, t: Tuning): { top: AxisTra
   const usable = ALL_TRADES.filter((trade) => canOffer(build, trade, t));
   // 모든 축이 막힌 빌드는 세 축 합이 0 인 이상 나오지 않지만, 상한을 바꾸는
   // 개발 패널 같은 경로가 있으므로 전체 목록으로 물러난다.
-  const pool = usable.length >= 2 ? usable : ALL_TRADES;
+  const pool = temper(usable.length >= 2 ? usable : ALL_TRADES, build, t);
   const i = Math.floor(rand() * pool.length);
   let j = Math.floor(rand() * (pool.length - 1));
   if (j >= i) j += 1;

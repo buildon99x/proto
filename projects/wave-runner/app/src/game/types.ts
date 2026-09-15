@@ -110,6 +110,16 @@ export interface Tuning {
   bias: number;
   inertiaMs: number;
   radius: number;
+  /**
+   * 반복 완화로 통로를 벌리는 배율(1 = 그대로). 상수가 아니라 **런이 들고 다니는
+   * 값**이라 tuning.json 에는 없다 — 엔진이 완화 단계를 보고 채운다.
+   */
+  relief?: number;
+  /**
+   * 게이트 제안 풀에서 남길 교환 쌍의 수(0 = 제한 없음). 완화가 상위 단계에서
+   * 빌드를 극단으로 미는 교환을 빼는 데 쓴다. 상수가 아니라 런이 들고 다니는 값이다.
+   */
+  gateOfferPool?: number;
   lookaheadMinSec: number;
   cameraAnchor: number;
   retryDelayMs: number;

@@ -1,7 +1,8 @@
 import { NEUTRAL_BUILD, applyBuild, applyTrade, gateOffer, resolve } from "./axes";
 import { EndlessCourse, buildStageCourse, pieceAt } from "./course";
-import { contains, gateLanes, pieceFreeSpans, sectorFreeSpans, squeezeBounds } from "./geometry";
+import { contains, gateLanes, pieceFreeSpans, pieceSqueeze, sectorFreeSpans, squeezeBounds } from "./geometry";
 import type { Lanes, Span } from "./geometry";
+import { reliefLevel, reliefShape } from "./relief";
 import { sample } from "./sectors";
 import tuningJson from "./tuning.json";
 import type {
@@ -45,6 +46,17 @@ export interface RunConfig {
    * 클리어가 아니다.
    */
   practice?: boolean;
+  /**
+   * 이 스테이지에서 이미 쌓인 실패 횟수. 반복 완화의 유일한 입력이다
+   * (`relief.ts`). 이 화면에서 새로 죽은 횟수는 엔진이 따로 센다.
+   */
+  priorFails?: number;
+  /**
+   * 반복 완화를 걸 것인가. Stage 본 플레이에서만 켠다 —
+   * Endless 는 지표가 거리라 완화가 곧 기록 부풀리기이고,
+   * 연습 모드는 이미 체크포인트라는 다른 완화를 쓰고 있다.
+   */
+  relief?: boolean;
 }
 
 export interface GameState {
@@ -83,6 +95,10 @@ export interface GameState {
   deathGap: Span[] | null;
   /** 제안을 확정할 다음 게이트를 찾기 시작할 조각 인덱스 */
   armCursor: number;
+  /** 이 화면에 들어온 뒤 죽은 횟수. config.priorFails 와 합쳐 완화 단계를 정한다 */
+  fails: number;
+  /** 지금 걸려 있는 완화 단계 0..RELIEF_MAX. 한 판 안에서는 절대 바뀌지 않는다 */
+  relief: number;
 }
 
 export interface Checkpoint {
@@ -99,6 +115,30 @@ const TRAIL_MAX = 110;
 
 function capTuning(base: Tuning, cap: number): Tuning {
   return { ...base, axisMax: cap, axisMin: -cap };
+}
+
+/**
+ * 완화 단계를 기준 튜닝에 녹인다.
+ *
+ * 두 값만 건드린다 — 히트박스 반지름과 통로 배율. 코스의 조각은 한 바이트도
+ * 바뀌지 않으므로 "같은 스테이지는 언제나 같은 코스" 가 유지되고, 솔버·엔진·
+ * 렌더·오토파일럿은 전부 이 튜닝 하나를 읽으므로 넷의 판정이 갈라지지 않는다.
+ */
+export function applyRelief(base: Tuning, level: number): Tuning {
+  if (level <= 0) return { ...base, relief: 1, gateOfferPool: 0 };
+  const shape = reliefShape(level);
+  return {
+    ...base,
+    radius: base.radius * shape.radiusScale,
+    relief: shape.widen,
+    gateOfferPool: shape.offerPool
+  };
+}
+
+/** 이 런에 걸릴 완화 단계. 완화를 끈 모드에서는 언제나 0 이다. */
+export function reliefFor(config: RunConfig, fails: number): number {
+  if (!config.relief) return 0;
+  return reliefLevel((config.priorFails ?? 0) + fails);
 }
 
 function makeCourse(config: RunConfig, t: Tuning): { course: Course; endless: EndlessCourse | null } {
@@ -154,8 +194,9 @@ export function startYFor(course: Course): number {
 }
 
 
-export function createState(config: RunConfig): GameState {
-  const base = capTuning({ ...BASE_TUNING, ...config.overrides }, config.axisCap);
+export function createState(config: RunConfig, fails = 0): GameState {
+  const relief = reliefFor(config, fails);
+  const base = applyRelief(capTuning({ ...BASE_TUNING, ...config.overrides }, config.axisCap), relief);
   const build = { ...config.startBuild };
   const tuning = applyBuild(base, build);
   const { course, endless } = makeCourse(config, base);
@@ -184,7 +225,9 @@ export function createState(config: RunConfig): GameState {
     lane: null,
     checkpoints: [],
     deathGap: null,
-    armCursor: 0
+    armCursor: 0,
+    fails,
+    relief
   };
   armNextGate(state);
   return state;
@@ -214,13 +257,16 @@ export function restart(state: GameState): void {
   const holding = state.holding;
   const checkpoints = state.checkpoints;
   const last = state.config.practice ? checkpoints[checkpoints.length - 1] : undefined;
+  // 실패는 여기서 센다. Stage 는 사망 0.5초 뒤 스스로 다시 시작하므로 셸로
+  // 돌아가지 않고, 완화 단계가 오르는 자리도 여기뿐이다.
+  const fails = state.fails + 1;
 
   const config =
     state.config.mode === "endless"
       ? { ...state.config, seed: nextSeed(state.config.seed) }
       : state.config;
-  const fresh = createState(config);
-  Object.assign(state, fresh, { phase: "running", attempts, best, holding, checkpoints });
+  const fresh = createState(config, fails);
+  Object.assign(state, fresh, { phase: "running", attempts, best, holding, checkpoints, fails });
 
   if (last) {
     state.x = last.x;
@@ -293,7 +339,7 @@ function collide(state: GameState, x: number, y: number): { hit: boolean; lane: 
   if (piece.kind === "sector" && piece.sector) {
     const localX = x - piece.startX;
     return {
-      hit: hitsSector(piece.sector, localX, y, state.tuning.radius, state.elapsed, piece.squeeze ?? 1),
+      hit: hitsSector(piece.sector, localX, y, state.tuning.radius, state.elapsed, pieceSqueeze(piece, state.tuning)),
       lane: null
     };
   }
@@ -433,9 +479,9 @@ export function update(state: GameState, dtRaw: number): UpdateResult {
 
 /** 개발 튜닝 패널 전용 — 실행 중인 런의 기준 튜닝을 갈아끼운다. */
 export function applyOverrides(state: GameState, overrides: Partial<Tuning>): void {
-  state.base = capTuning({ ...BASE_TUNING, ...overrides }, state.config.axisCap);
+  state.base = applyRelief(capTuning({ ...BASE_TUNING, ...overrides }, state.config.axisCap), state.relief);
   state.tuning = applyBuild(state.base, state.build);
 }
 
-export { NEUTRAL_BUILD, gateLanes, squeezeBounds };
+export { NEUTRAL_BUILD, gateLanes, pieceSqueeze, squeezeBounds };
 export type { Build, RunMode };
