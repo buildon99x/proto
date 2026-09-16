@@ -40,6 +40,12 @@ node projects/wave-runner/tests/verify/course-map/run.mjs         # 12스테이�
 `assets/screenshots/courses/` 에 굽는다 — 화면에 그려진 통로와 실제로 플레이되는 통로의
 차이, 여유가 좁아지는 자리, 최악 경로가 무너지는 지점이 한 장에 들어온다.
 puppeteer 는 playtest 하네스가 설치한 것을 빌려 쓰므로 먼저 playtest 를 한 번 돌려야 한다.
+수치 짝은 `tests/verify/course-map/stats.ts` 다 — 티어 곡선, 함정 경로, 코스 중복, 섹터 사용 빈도,
+통로 활용률, 최난 구간 길이를 한 표로 낸다. 그림과 어긋나면 수치가 원본이다.
+
+보고서까지 한 번에 내려면 `/course-report` 를 쓴다 — 무거운 판독은
+[`wave-course-analyst`](../../.claude/agents/wave-course-analyst.md) 서브에이전트가 맡고,
+결과는 `notes/course-difficulty/<날짜>.md` 에 쌓인다.
 
 검증이 무엇을 증명하고 무엇을 증명하지 못하는지는 [eval.md](./eval.md)에 적었다.
 
