@@ -79,6 +79,11 @@ vercel blob list-stores --all    # 팀 전체 스토어
 **연결은 선택이 아니다.** `BLOB_STORE_ID` 를 손으로 넣으면 로컬 도구는 돌지만 수집은
 되지 않는다 — 배포된 함수도 같은 자격이 필요하고 그것은 연결에서만 오기 때문이다.
 
+연결이 되면 자격은 `VERCEL_OIDC_TOKEN` + `BLOB_STORE_ID` 로 온다(`BLOB_READ_WRITE_TOKEN`
+대신일 수 있다 — 문서가 OIDC 를 권한다. 자동 회전 때문이다). **OIDC 토큰은 만료되므로**
+며칠 뒤 도구가 갑자기 인증에 실패하면 스토어가 아니라 토큰 문제이고, `vercel env pull` 을
+다시 돌리면 된다.
+
 이름은 레포 공용임이 드러나게 짓는다. 저장 경로가 `tele/<프로젝트>/…` 로 이미 갈라져 있고
 엔드포인트도 `/api/telemetry/[project]` 라 프로젝트별 스토어가 아니며, 지금 코드는
 `BLOB_READ_WRITE_TOKEN` 하나만 읽으므로 스토어도 하나여야 한다.

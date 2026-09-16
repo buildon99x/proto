@@ -61,6 +61,11 @@ async function main() {
     process.exit(1);
   }
   ok(`자격 ${cred.note}`);
+  if (cred.kind === "oidc") {
+    // OIDC 토큰은 짧게 돌고 만료된다. 며칠 뒤 도구가 갑자기 인증에 실패하면 그것이지
+    // 스토어가 잘못된 것이 아니다 — 한 번 겪으면 한참 헤매는 종류라 미리 말해 둔다.
+    info("OIDC 토큰은 만료된다. 나중에 인증이 실패하면 `vercel env pull` 을 다시 돌린다.");
+  }
 
   const probe = `tele/_doctor/${Date.now()}.ndjson`;
   const payload = `{"probe":${Date.now()}}\n`;
