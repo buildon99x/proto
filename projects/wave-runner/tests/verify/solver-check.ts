@@ -95,12 +95,12 @@ console.log("중립 빌드에서 각 섹터의 최소 생존 회랑 폭 — 좁�
 console.log(widthRows.join("\n"));
 
 // 통과할 수 없는 코스를 실제로 잡는지
-const impossible = sectorPiece(SECTORS.find((s) => s.id === "corridor-flat")!, 0.05);
+const impossible = sectorPiece(SECTORS.find((s) => s.id === "corridor-flat-3")!, 0.05);
 const verdict = solverSays(impossible, { ...NEUTRAL_BUILD });
 console.log(`\n극단으로 조인 통로(squeeze 0.05): 솔버 판정 ${verdict.passable ? "통과 가능 ✗" : "통과 불가 ✓"}`);
 
 // 편향으로 따라잡을 수 없는 상승 회랑
-const climb = sectorPiece(SECTORS.find((s) => s.id === "corridor-up")!);
+const climb = sectorPiece(SECTORS.find((s) => s.id === "corridor-up-3")!);
 const biasDown = solverSays(climb, { slope: -2, speed: 0, bias: -3 } as Build);
 console.log(
   `상승 회랑 + 각도−2/편향−3: 솔버 판정 ${biasDown.passable ? "통과 가능" : "통과 불가"} (최소 폭 ${biasDown.minWidth.toFixed(2)})`

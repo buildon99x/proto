@@ -232,20 +232,47 @@ export interface CorridorSpec {
  * **상승 한계의 최악은 0.62** 인데, (각도 −3, 편향 +3)은 존재하므로 **하강 한계의 최악은
  * 0.397** 이다. 하강 회랑이 감당해야 하는 뒤처짐이 훨씬 크다.
  */
-export const CORRIDOR_SPEC: Record<number, CorridorSpec> = {
-  // 오르는 회랑과 내려가는 회랑은 같은 형상을 쓴다. 난이도 번호가 드리프트에 용접돼
-  // 있어(1=상승 · 2=하강 · 3=평탄) 여기서 난이도를 가를 자리가 사실상 없다 — 회랑의
-  // 난이도 표기가 명목뿐인 것은 별도의 알려진 문제다.
-  1: { width: 30, grade: 1.3, rise: 64, segments: 2, recover: 55 },
-  2: { width: 30, grade: 1.3, rise: 64, segments: 2, recover: 55 },
-  // 평탄한 회랑에는 경사가 없다. 좁은 관을 탭 연타로 유지하는 것 자체가 시험이다.
-  3: { width: 16, grade: 1.3, rise: 0, segments: 1, recover: 0 }
+export type CorridorDrift = "up" | "down" | "flat";
+
+/**
+ * 회랑 9종 — **드리프트 × 난이도**.
+ *
+ * 0.5.4 까지는 난이도 번호가 드리프트에 용접돼 있었다(1=상승 · 2=하강 · 3=평탄).
+ * 그래서 사양이 약속한 세 질문(평탄은 각도 − · 상승은 편향 + · 하강은 편향 −)이
+ * **티어마다 한 종류씩만** 물어졌다 — 티어 1 에서는 상승만, 티어 2~3 에서는 하강만,
+ * 평탄은 티어 4 에서만. 축을 가르는 자리가 난이도에 묶여 낭비되고 있었다.
+ *
+ * 둘을 떼어 9칸으로 만들면 어느 티어에서도 세 질문을 다 물을 수 있고, 수제 섹터 풀이
+ * 12개에서 18개로 늘어 큐레이션의 다양성 여지도 함께 커진다.
+ *
+ * 난이도는 **폭과 오르내리는 높이**로 가른다. 둘을 함께 움직이는 이유는 월드 크기다 —
+ * 중앙선이 `50 ± rise/2` 를 오가므로 `rise + width` 가 94 를 넘으면 통로가 월드 밖으로
+ * 나간다. 쉬운 칸은 넓고 짧게, 어려운 칸은 좁고 길게.
+ *
+ * 값은 전부 솔버로 골랐다 — 9칸 모두 도달 가능한 빌드를 하나도 막지 않으면서
+ * (`sector-fairness.ts`) 난이도가 드리프트마다 단조로 내려간다.
+ */
+export const CORRIDOR_SPEC: Record<string, CorridorSpec> = {
+  //                     폭   경사   높이  토막 회복      최소 여유   축 선호
+  "up-1":   { width: 34, grade: 1.3, rise: 44, segments: 2, recover: 55 }, // 126ms  편향+ 139
+  "up-2":   { width: 32, grade: 1.3, rise: 54, segments: 2, recover: 55 }, //  98ms  편향+ 148
+  "up-3":   { width: 30, grade: 1.3, rise: 64, segments: 2, recover: 55 }, //  69ms  편향+ 158
+  "down-1": { width: 30, grade: 1.3, rise: 54, segments: 2, recover: 55 }, // 115ms  편향− 58
+  "down-2": { width: 28, grade: 1.3, rise: 54, segments: 2, recover: 55 }, //  87ms  편향− 63
+  "down-3": { width: 30, grade: 1.3, rise: 64, segments: 2, recover: 55 }, //  62ms  편향− 81
+  // 평탄한 회랑에는 경사가 없다. 좁은 관을 탭 연타로 유지하는 것 자체가 시험이고,
+  // 큰 각도는 진폭을 키워 불리하다 — 그래서 각도가 양날이 되는 유일한 자리다.
+  "flat-1": { width: 22, grade: 1.3, rise: 0, segments: 1, recover: 0 }, // 107ms  각도− 166
+  "flat-2": { width: 18, grade: 1.3, rise: 0, segments: 1, recover: 0 }, //  84ms  각도− 131
+  "flat-3": { width: 14, grade: 1.3, rise: 0, segments: 1, recover: 0 } //   61ms  각도−  95
 };
+
+export const corridorSpecKey = (drift: CorridorDrift, difficulty: number) => `${drift}-${difficulty}`;
 
 export function makeCorridor(
   difficulty: number,
-  drift: "up" | "down" | "flat",
-  spec: CorridorSpec = CORRIDOR_SPEC[difficulty]
+  drift: CorridorDrift,
+  spec: CorridorSpec = CORRIDOR_SPEC[corridorSpecKey(drift, difficulty)]
 ): Sector {
   const { width, grade, rise, segments, recover } = spec;
   const span = drift === "flat" ? 0 : rise * (drift === "up" ? -1 : 1);
@@ -281,7 +308,7 @@ export function makeCorridor(
   }
   const nodes = withCuffs(raw);
   return {
-    id: `corridor-${drift}`,
+    id: `corridor-${drift}-${difficulty}`,
     type: "corridor",
     difficulty,
     favors: drift === "flat" ? "각도 −" : drift === "up" ? "편향 + (상승)" : "편향 − (하강)",
@@ -291,7 +318,7 @@ export function makeCorridor(
   };
 }
 
-const corridor = (difficulty: number, drift: "up" | "down" | "flat") => makeCorridor(difficulty, drift);
+const corridor = (difficulty: number, drift: CorridorDrift) => makeCorridor(difficulty, drift);
 
 /**
  * 산개 — 넓은 통로에 흩뿌려진 장애물. 경로를 찾아 엮는 구간이라
@@ -351,13 +378,25 @@ function pulse(difficulty: number, tuned: number, label: string): Sector {
   };
 }
 
-/** 수제 섹터 12개 — 4유형 × 3. 런타임 생성은 3단계 사안이므로 여기서는 조합만 한다. */
+/**
+ * 수제 섹터 18개.
+ *
+ * 협곡·산개·맥동은 3난이도씩이고, 회랑만 **드리프트 × 난이도로 9종**이다. 회랑은
+ * 유형 하나가 축 세 개를 서로 다른 방향으로 묻는 유일한 자리라(평탄 각도 − · 상승
+ * 편향 + · 하강 편향 −), 그 셋이 난이도에 묶이면 티어마다 한 질문씩만 물어진다.
+ */
 export const SECTORS: Sector[] = [
   gorge(1),
   gorge(2),
   gorge(3),
   corridor(1, "up"),
+  corridor(2, "up"),
+  corridor(3, "up"),
+  corridor(1, "down"),
   corridor(2, "down"),
+  corridor(3, "down"),
+  corridor(1, "flat"),
+  corridor(2, "flat"),
   corridor(3, "flat"),
   scatter(1),
   scatter(2),

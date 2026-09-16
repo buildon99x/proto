@@ -119,7 +119,7 @@ export function stageSeed(tier: number, stageNo: number): number {
 }
 
 /**
- * 스테이지 코스. **수제 섹터 12개 전부**를 풀로 쓴다.
+ * 스테이지 코스. **수제 섹터 18개 전부**를 풀로 쓴다.
  *
  * Endless 와 달리 여기서는 해금 상태(`maxSectorDifficulty`)를 보지 않는다.
  * 보게 두면 확장 섹터 풀을 사는 순간 같은 번호의 스테이지가 다른 코스가 되어
