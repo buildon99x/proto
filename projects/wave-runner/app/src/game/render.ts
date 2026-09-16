@@ -2,6 +2,7 @@ import { AXES, AXIS_COLOR } from "./axes";
 import { cameraX, computeView } from "./camera";
 import { pieceAt } from "./course";
 import { gateLanes, squeezeBounds } from "./engine";
+import { drawMargin } from "./margin";
 import type { GameState } from "./engine";
 import { sample, shutterDepth } from "./sectors";
 import type { AxisTrade, Block } from "./types";
@@ -166,6 +167,9 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
     ctx.closePath();
     ctx.fill();
   }
+
+  // 여백 레이어 — 벽 단색 위, 통로 엣지 아래. 근접대는 스스로 도려낸다.
+  drawMargin(ctx, state, { view, camX, offsetY, cssW, cssH, topPts, botPts });
 
   ctx.strokeStyle = COLOR.wallEdge;
   ctx.lineWidth = 2;
