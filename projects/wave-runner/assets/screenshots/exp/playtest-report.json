@@ -1,0 +1,14 @@
+{
+  "project": "wave-runner",
+  "passed": true,
+  "screenshots": [
+    "20-gate-leadin",
+    "21-gate-marks",
+    "22-gate-split",
+    "23-gate-after"
+  ],
+  "outDir": "projects/wave-runner/assets/screenshots/exp",
+  "pageErrors": [],
+  "consoleErrors": [],
+  "capturedAt": "2026-09-16T05:25:53.549Z"
+}
