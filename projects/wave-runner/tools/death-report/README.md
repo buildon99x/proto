@@ -39,19 +39,36 @@ CLI 한 번 호출로는 조용히 잘린다.** `pull.ts` 는 커서로 끝까�
 
 ## 스토어 준비 (한 번만, 사람이 한다)
 
-1. Vercel 대시보드 → Storage → Create Database → **Blob**.
-   - **비공개(Private)** — 공개 스토어는 URL 만 알면 누구나 수집본을 받아 간다.
-   - 지역 **`icn1`(Seoul)** — `vercel.json` 의 `regions` 와 라우트의 `preferredRegion`
-     이 같은 값이다. Blob 은 한 지역에 실물이 있고 **쓰기는 CDN 캐시를 타지 못하므로**,
-     쓰는 주체인 함수와 붙어 있어야 한다.
-   - 이름은 레포 공용임이 드러나게. 저장 경로가 `tele/<프로젝트>/…` 로 이미 갈라져 있고
-     엔드포인트도 `/api/telemetry/[project]` 라 프로젝트별 스토어가 아니다.
+```bash
+vercel link                     # 레포 루트에서. Vercel 프로젝트는 loop-lab (buildon99x/proto)
+vercel blob create-store prototype-lab-telemetry --access private --region icn1
+vercel env pull                 # BLOB_READ_WRITE_TOKEN 이 .env 로 온다 (커밋하지 않는다)
+pnpm exec tsx projects/wave-runner/tools/death-report/doctor.ts
+```
 
-   **지역과 공개/비공개는 만든 뒤에 바꿀 수 없다.** 바꾸려면 새 스토어를 만들어 옮겨야 한다.
-2. 그 스토어를 이 프로젝트에 연결한다. 배포 함수에 `BLOB_READ_WRITE_TOKEN` 이 자동으로 주입된다.
-3. 로컬에서 `vercel link` 후 `vercel env pull` — 도구들이 읽을 토큰이 `.env` 에 떨어진다
-   (`.env` 는 커밋하지 않는다).
-4. `doctor.ts` 로 왕복을 확인한다.
+대시보드(Storage → Create Database → Blob)로도 같은 일을 하지만 CLI 를 권한다 —
+못 바꾸는 값 둘이 플래그로 눈에 보이기 때문이다.
+
+- `--access private` — **필수 플래그다.** 공개 스토어는 URL 만 알면 누구나 수집본을 받아 간다.
+- `--region icn1` — **빼면 기본이 `iad1` 이다.** `vercel.json` 의 `regions` 와 라우트의
+  `preferredRegion` 이 같은 값이어야 한다. Blob 은 한 지역에 실물이 있고 **쓰기는 CDN
+  캐시를 타지 못하므로** 쓰는 주체인 함수와 붙어 있어야 한다.
+
+**지역과 공개/비공개는 만든 뒤에 바꿀 수 없다.** 바꾸려면 새 스토어를 만들어 옮겨야 한다.
+
+이름은 레포 공용임이 드러나게 짓는다. 저장 경로가 `tele/<프로젝트>/…` 로 이미 갈라져 있고
+엔드포인트도 `/api/telemetry/[project]` 라 프로젝트별 스토어가 아니며, 지금 코드는
+`BLOB_READ_WRITE_TOKEN` 하나만 읽으므로 스토어도 하나여야 한다.
+
+`vercel link` 된 디렉터리에서 만들면 그 프로젝트에 붙고, 배포 함수에
+`BLOB_READ_WRITE_TOKEN` 이 자동으로 주입된다.
+
+## 배포 뒤 — 수집이 실제로 도착하는가
+
+`doctor.ts` 는 스토어가 도는지까지만 본다. 엔드포인트가 실제로 호출되고 있는지는 런타임
+로그에서 읽는다. Vercel MCP 가 붙어 있으면 `get_runtime_logs` · `get_runtime_errors` 로
+바로 볼 수 있고, 아니면 대시보드의 Logs 탭이다. 라우트가 503 을 돌려주면 그 이유를
+`[telemetry] … put 실패` 로 찍어 두었으므로, 토큰 미설정과 한도 잠금이 거기서 갈린다.
 
 스토어가 없어도 개발은 된다. 토큰이 없고 프로덕션이 아니면 엔드포인트가 같은 경로 모양으로
 `.telemetry/` 에 떨어뜨리므로, `pull.ts --local` 로 같은 분석을 돌릴 수 있다.

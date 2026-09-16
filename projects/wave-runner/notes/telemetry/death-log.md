@@ -477,11 +477,14 @@ brief 는 "설치도 **계정도** 튜토리얼도 없다"고 못박았다. 그 
 
 ## 10. 배포 전에 할 일
 
-1. Vercel 프로젝트에 **비공개 · `icn1`** Blob 스토어를 연결한다(`BLOB_READ_WRITE_TOKEN`
-   자동 주입). **지역과 공개/비공개는 만든 뒤에 바꿀 수 없다.** 공개 스토어는 URL 만 알면
-   누구나 읽고, 지역은 쓰기가 CDN 캐시를 타지 못하므로 함수와 붙어 있어야 한다 —
-   `vercel.json` 의 `regions` 와 라우트의 `preferredRegion` 이 같은 `icn1` 이다.
-   바꿀 수 있는 쪽(함수)이 못 바꾸는 쪽(스토어)에 맞추는 것이 순서다.
+1. 스토어를 만든다. `vercel blob create-store prototype-lab-telemetry --access private
+   --region icn1` — `--access` 는 필수이고 `--region` 을 빼면 기본이 `iad1` 이다.
+   **지역과 공개/비공개는 만든 뒤에 바꿀 수 없다.** 공개 스토어는 URL 만 알면 누구나 읽고,
+   지역은 쓰기가 CDN 캐시를 타지 못하므로 함수와 붙어 있어야 한다 — `vercel.json` 의
+   `regions` 와 라우트의 `preferredRegion` 이 같은 `icn1` 이다. 바꿀 수 있는 쪽(함수)이
+   못 바꾸는 쪽(스토어)에 맞추는 것이 순서다.
+   (Vercel MCP 에는 스토어를 만드는 도구가 없다 — 프로젝트·배포·로그·문서만 다룬다.
+   대신 배포 뒤 `get_runtime_logs` 로 수집이 실제로 도착하는지 볼 수 있다.)
 2. 필요하면 `TELEMETRY_PROJECTS` 를 설정한다. 비워 두면 `wave-runner` 만 허용된다.
 3. 로컬에서 `vercel link` 를 해 둔다 — 확인 경로(§4.4)가 OIDC 로 인증한다.
 4. 주 1회 `pull.sh` 로 덤프해 레포 밖에 보관한다(§4.5). **한도 잠금은 내보내기도 막는다.**
