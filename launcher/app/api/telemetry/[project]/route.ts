@@ -131,7 +131,12 @@ const stamp = (ts: number) => new Date(ts).toISOString().slice(0, 10);
  * 절대 파일로 새지 않도록 두 조건(토큰 없음 + 프로덕션 아님)을 모두 요구한다.
  */
 async function store(pathname: string, ndjson: string): Promise<void> {
-  if (!process.env.BLOB_READ_WRITE_TOKEN && process.env.NODE_ENV !== "production") {
+  // OIDC 도 자격이다 — `vercel dev` 처럼 토큰 대신 OIDC 가 오는 환경에서 파일로 새면
+  // "로컬에서는 되는데 배포하면 다르다"가 생긴다.
+  const hasStore =
+    Boolean(process.env.BLOB_READ_WRITE_TOKEN) ||
+    (Boolean(process.env.VERCEL_OIDC_TOKEN) && Boolean(process.env.BLOB_STORE_ID));
+  if (!hasStore && process.env.NODE_ENV !== "production") {
     // Blob 의 addRandomSuffix 와 같은 자리에 접미사를 넣는다 — 확장자가 살아 있어야
     // 같은 도구로 읽힌다.
     const suffix = Math.random().toString(36).slice(2, 8);

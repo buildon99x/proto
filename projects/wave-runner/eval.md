@@ -23,7 +23,8 @@ pnpm exec tsx projects/wave-runner/tests/verify/telemetry.ts            # 수집
 수집이 모이면 분석은 `tools/death-report/` 세 걸음이다 — 자세한 것은 그 안의 README.
 
 ```bash
-projects/wave-runner/tools/death-report/pull.sh tele/wave-runner/<지문>/ deaths.ndjson
+pnpm exec tsx projects/wave-runner/tools/death-report/doctor.ts                    # 스토어가 도는가
+pnpm exec tsx projects/wave-runner/tools/death-report/pull.ts --fp <지문>          # 내려받기
 pnpm exec tsx projects/wave-runner/tools/death-report/report.ts deaths.ndjson --json summary.json
 node projects/wave-runner/tools/death-report/figure.mjs summary.json deaths.png
 ```

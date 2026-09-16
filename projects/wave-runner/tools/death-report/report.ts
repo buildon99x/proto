@@ -332,7 +332,14 @@ for (const [tier, t] of [...byTier.entries()].sort()) {
     }
   }
 }
-out.push(hotspots.length > 0 ? hotspots.map((h) => `- ${h}`).join("\n") : "- 한 섹터가 티어 사망의 40% 를 넘는 자리는 없다.");
+const judgedTiers = [...byTier.values()].filter((t) => t.total >= FLOOR_TIER_DEATHS).length;
+if (hotspots.length > 0) out.push(hotspots.map((h) => `- ${h}`).join("\n"));
+else if (judgedTiers === 0) {
+  // 편중이 없는 것과 판정을 못 한 것은 다르다. 섞어서 말하면 "괜찮다"로 읽힌다.
+  out.push(`- **판정 보류** — 티어별 사망이 ${FLOOR_TIER_DEATHS}건에 못 미쳐 편중을 가릴 수 없다.`);
+} else {
+  out.push(`- 판정이 선 티어 ${judgedTiers}개 중 한 섹터가 사망의 40% 를 넘는 자리는 없다.`);
+}
 
 // ── 표 B ──
 out.push("");

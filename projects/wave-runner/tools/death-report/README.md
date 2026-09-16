@@ -3,13 +3,24 @@
 수집한 런 결말로 **솔버의 난이도 수치가 사람 체감과 어디서 어긋나는지**를 본다.
 솔버는 난이도를 이미 수치로 안다 — 여기서 새로 얻는 것은 그 어긋남뿐이다.
 
+## 먼저 — 스토어가 도는가
+
+```bash
+pnpm exec tsx projects/wave-runner/tools/death-report/doctor.ts
+```
+
+쓰기 → 비공개 확인 → 목록 → 읽기 → 삭제를 한 번 돌려 **어디서 끊기는지 이름을 붙인다.**
+코드가 있다고 수집이 되는 것이 아니다 — 토큰이 없거나, 스토어가 공개로 만들어졌거나,
+한도에 걸려 잠겼거나, 프로젝트에 연결되지 않았을 수 있고 넷은 증상이 전부 다르다.
+점검이 쓴 객체는 같은 실행에서 지운다.
+
 ## 세 걸음
 
 ```bash
 # 1) 내려받기 — 배포본(Vercel Blob)
-./pull.sh tele/wave-runner/8f3a91c2/ deaths.ndjson
+pnpm exec tsx projects/wave-runner/tools/death-report/pull.ts --fp 8f3a91c2 --out deaths.ndjson
 #    개발 중 .telemetry/ 에 쌓인 것
-./pull.sh --local deaths.ndjson
+pnpm exec tsx projects/wave-runner/tools/death-report/pull.ts --local --out deaths.ndjson
 
 # 2) 보고서 — 표 A~D 를 찍고 그림용 요약을 남긴다
 pnpm exec tsx projects/wave-runner/tools/death-report/report.ts deaths.ndjson --json summary.json
@@ -18,9 +29,25 @@ pnpm exec tsx projects/wave-runner/tools/death-report/report.ts deaths.ndjson --
 node projects/wave-runner/tools/death-report/figure.mjs summary.json deaths.png
 ```
 
-접두사에 **코스 지문**을 넣는 것이 기본이다. 0.5.5 에서 시드표가 통째로 갈렸듯 코스는
+`--fp` 로 **코스 지문**을 골라 받는 것이 기본이다. 0.5.5 에서 시드표가 통째로 갈렸듯 코스는
 버전마다 다른 코스이고, 섞으면 어긋난 티가 나지 않는다. 전부 받았다면 보고서가 가장 큰
-지문만 쓰고 나머지는 세어서 알려 준다.
+지문만 쓰고 나머지는 세어서 알려 준다. 그 밖에 `--since YYYY-MM-DD`, `--project` 가 있다.
+
+CLI(`vercel blob list` / `get`)로도 같은 일을 할 수 있지만 도구는 SDK 를 쓴다 —
+표 출력 형식과 플래그 이름에 기대지 않고, 무엇보다 **객체가 1000개를 넘는 순간
+CLI 한 번 호출로는 조용히 잘린다.** `pull.ts` 는 커서로 끝까지 돈다.
+
+## 스토어 준비 (한 번만, 사람이 한다)
+
+1. Vercel 대시보드 → Storage → Create Database → **Blob**. **비공개로 만든다** —
+   공개 스토어는 URL 만 알면 누구나 수집본을 받아 간다.
+2. 그 스토어를 이 프로젝트에 연결한다. 배포 함수에 `BLOB_READ_WRITE_TOKEN` 이 자동으로 주입된다.
+3. 로컬에서 `vercel link` 후 `vercel env pull` — 도구들이 읽을 토큰이 `.env` 에 떨어진다
+   (`.env` 는 커밋하지 않는다).
+4. `doctor.ts` 로 왕복을 확인한다.
+
+스토어가 없어도 개발은 된다. 토큰이 없고 프로덕션이 아니면 엔드포인트가 같은 경로 모양으로
+`.telemetry/` 에 떨어뜨리므로, `pull.ts --local` 로 같은 분석을 돌릴 수 있다.
 
 ## 무엇을 답하는가
 
@@ -33,6 +60,9 @@ node projects/wave-runner/tools/death-report/figure.mjs summary.json deaths.png
 
 ## 알아 둘 것
 
+- **한도 잠금**: Hobby 는 저장 1GB · 전송 월 10GB 다. 넘기면 스토어가 30일 잠기고
+  **이미 모은 것을 내보내는 것까지 막힌다.** 그래서 주기적으로 덤프해 레포 밖에 두는 것이
+  유일한 실질적 방어다. `doctor.ts` 가 현재 사용량을 한도 대비로 찍는다.
 - **표본 바닥**: 섹터당 **진입** 30건, 스테이지당 주행 20건. 분모를 사망이 아니라 진입으로
   잡는 것이 중요하다 — 진입 174 에 사망 0 이면 "여기서는 안 죽는다"가 충분히 서지만,
   사망 수로 바닥을 재면 그 행이 영원히 보류로 남는다. 미만이면 표가 `보류` 로 표시하고
