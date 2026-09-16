@@ -14,10 +14,10 @@
  */
 import { AXES, NEUTRAL_BUILD } from "../../app/src/game/axes";
 import { createState, launch, startYFor, update } from "../../app/src/game/engine";
-import type { GameState } from "../../app/src/game/engine";
+import type { GameState, RunConfig } from "../../app/src/game/engine";
 import { MAX_TIER, STAGES_PER_TIER } from "../../app/src/game/meta";
 import { targetY } from "../../app/src/game/pilot";
-import type { Build, RunConfig } from "../../app/src/game/types";
+import type { Build } from "../../app/src/game/types";
 
 const DT = 1 / 120;
 const LOOKAHEAD = 0.14;

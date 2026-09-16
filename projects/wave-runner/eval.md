@@ -20,6 +20,14 @@ pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts        # 스테
 pnpm exec tsx projects/wave-runner/tests/verify/telemetry.ts            # 수집한 이벤트로 코스가 재현되는가
 ```
 
+수집이 모이면 분석은 `tools/death-report/` 세 걸음이다 — 자세한 것은 그 안의 README.
+
+```bash
+projects/wave-runner/tools/death-report/pull.sh tele/wave-runner/<지문>/ deaths.ndjson
+pnpm exec tsx projects/wave-runner/tools/death-report/report.ts deaths.ndjson --json summary.json
+node projects/wave-runner/tools/death-report/figure.mjs summary.json deaths.png
+```
+
 | 검사 | 현재 결과 |
 |---|---|
 | 타입·빌드·런처 전체 빌드 | 통과 |
@@ -34,6 +42,18 @@ pnpm exec tsx projects/wave-runner/tests/verify/telemetry.ts            # 수집
 | 브라우저 플레이테스트 | Stage 클리어(73초·게이트 4개) · 런타임 생성 4섹터 + 폴백 3 · 프레임 p50 16.7ms / p99 17.5ms · 콘솔 오류 0 |
 | **수집 이벤트의 재구성 가능성** | 스테이지 12개 × 축 상한 2종 = 24주행에서 `lanes` 재현 빌드와 기록 빌드 **불일치 0**. 조각 인덱스·id·자유 구간 폭도 전부 일치. 건당 250~262B (`tests/verify/telemetry.ts`) |
 | **수집 경로 실주행** | 브라우저에서 13회 사망 → 배치 1건(11 이벤트·2.9KB) POST 204 → NDJSON 저장, 탭 종료에서 `abort` 까지 도착. 큐 잔여 0 |
+| **분석기** | 합성 305건(가상 16명)으로 표 A~D + 그림 전부 산출. 재구성 캐시 적중으로 스테이지당 경로 16개만 솔브 |
+
+### 분석기가 먼저 답한 것 — 설계 전제 하나가 틀렸다
+
+설계는 "사망 좌표는 원인보다 한참 하류다"에서 출발했다. 중립이 없는 조작에서는 회랑을
+벗어난 지점과 벽에 닿는 지점이 떨어져 있으니, 사망 x 를 집계하면 좁은 섹터가 앞 섹터의
+죄를 뒤집어쓴다는 것이었다. 그래서 이탈 지점의 상계 `k*` 를 계산하게 만들었다.
+
+**재 보니 그 거리가 중앙 1.1 · 최대 5.2 월드 단위였다.** 섹터 하나가 460 단위다.
+생존 회랑을 죄는 쪽 경계가 곧 부딪히는 벽이라 두 자리가 사실상 같다. 결과는 둘이다 —
+사망 x 로 집계해도 섹터 단위에서는 틀리지 않고, 대신 `k*` 는 상계로서 아무것도 배제하지
+못한다. 상류 원인을 짚으려면 궤적 표본(`tail`)이 있어야 한다.
 
 ### 수집이 답할 수 있게 되는 것 (표본이 모이면)
 

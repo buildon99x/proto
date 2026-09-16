@@ -75,6 +75,15 @@ export interface SolveTrace {
   dt: number;
   /** 폭을 시간으로 환산할 때 쓰는 계수 — slack = width / (2·rate) */
   rate: number;
+  /**
+   * 한 스텝 동안의 상승·하강 이동량(월드 단위). 전진 전파가 쓰는 것과 같은 값이다.
+   *
+   * 추적에 함께 싣는 이유는 **역추적이 추적만으로 가능해야** 하기 때문이다. 사망
+   * 지점에서 뒤로 되짚는 분석은 조각마다 다른 빌드를 다시 풀 필요 없이 이 두 값만
+   * 있으면 되고, 그래야 분석기가 솔버의 내부 계산을 복제하지 않는다.
+   */
+  up: number;
+  down: number;
   /** 스텝별 자유 구간(아바타 반지름을 뺀 중심 좌표 기준) */
   free: Span[][];
   /** 스텝별 생존 집합 S[k] = F[k] ∩ B[k] */
@@ -175,6 +184,8 @@ export function solvePiece(opts: SolveOptions): SolveResult {
           dx,
           dt,
           rate: Math.max(r.riseRate, r.fallRate),
+          up,
+          down,
           free,
           survival
         }
