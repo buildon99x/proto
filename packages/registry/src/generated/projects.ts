@@ -151,7 +151,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "summary": "원버튼 지그재그 회피 로그라이트. 홀드=상승/릴리스=하강 하나뿐인 문법은 고정하고, 갈림길을 지날 때마다 한 축이 오르고 다른 축이 내리는 교환으로 기체의 각도·속도·편향을 조립한다. 고정 코스를 푸는 Stage와 끝이 없는 Endless가 같은 엔진을 쓴다.",
     "tags": [
       "game",
@@ -183,7 +183,7 @@ export const projects = [
       "build": "pnpm --filter wave-runner build",
       "test": "pnpm --filter wave-runner test"
     },
-    "updatedAt": "2026-09-16T01:37:02+00:00"
+    "updatedAt": "2026-09-16T05:38:13+00:00"
   },
   {
     "id": "blacksmith-clicker",
