@@ -11,6 +11,10 @@
 ```bash
 pnpm --filter wave-runner lint                                          # 타입
 node projects/wave-runner/tests/smoke/lookahead.test.mjs                # 선행 가시 시간 상수
+pnpm exec tsx projects/wave-runner/tests/verify/angles.ts               # 눈금 ↔ 화면 각도, 속도 독립성
+pnpm exec tsx projects/wave-runner/tests/verify/runner-probe.ts         # 기체가 정말 양날인가
+pnpm exec tsx projects/wave-runner/tests/verify/runner-paths.ts         # 어떤 기체로도 막다른 길이 없는가
+pnpm exec tsx projects/wave-runner/tests/verify/runner-grades.ts        # 기체 성격을 재서 피커가 읽을 표를 굽는다
 pnpm exec tsx projects/wave-runner/tests/verify/solver-check.ts         # 솔버가 신뢰 가능한가
 pnpm exec tsx projects/wave-runner/tests/verify/generation.ts           # 생성기가 난이도를 겨냥하는가
 pnpm exec tsx projects/wave-runner/tests/verify/sector-probe.ts         # 축이 양날인가
@@ -29,7 +33,30 @@ pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts        # 스테
 | **전 경로 통과 가능성** | 12개 스테이지 × 16경로 — 94~100% 통과, 최선 경로 여유 122~198ms |
 | **Endless 램프** | 지연 60ms 5339 → 180ms 1008. 모든 지연에서 런이 종료됨 |
 | 게이트 교환 성립 | 실제 주행 352게이트 전부 한 축 +1 / 다른 축 −1 · 축합 이탈 0 (`gate-offers.ts`) |
-| 브라우저 플레이테스트 | Stage 클리어(73초·게이트 4개) · 런타임 생성 4섹터 + 폴백 3 · 프레임 p50 16.7ms / p99 17.5ms · 콘솔 오류 0 |
+| **각도 계측** | 기본 45.0°/45.0°(꼭지각 90.0°) · 축 전 범위 21.6°~64.5° · **속도에 의한 각도 변동 1.4e-14°** |
+| **표준 기체 동일성** | 2단계 표와 편차 0 — 기존 검증 8종이 전부 같은 값으로 통과 |
+| **기체가 양날인가** | 3기체 전부 부호가 뒤집힘. 둔각 회랑평탄 +24% / 협곡 −27%, 예봉 협곡 +64% / 회랑평탄 −19%, 환 상승회랑 +41% / 하강회랑 −12% |
+| **기체별 공정성** | 4기체 × 12스테이지 × 16경로 × 2상한 = **1536경로**, 전부 통과 가능하며 최선 경로의 여유 ≥ 40ms |
+| **기체 성격 측정** | 여유 70/0/110/80ms · 길 11.5/9.4/5.7/10.7 (표준·둔각·예봉·환). 두 축이 각각 110ms · 5.8경로만큼 갈린다 |
+| 브라우저 플레이테스트 | Stage 클리어(73.0초·게이트 4개) · Endless 6703m · 콘솔 오류 0 · 페이지 오류 0 |
+
+### 기체는 무엇으로 판정하는가
+
+두 가지를 **따로** 묻는다. 하나로 합치면 답이 흐려진다.
+
+- **양날인가**(`runner-probe.ts`) — 빌드 표본 9개를 훑은 여유의 평균을 섹터 12개 각각에서
+  표준과 비교해, ≥1 섹터에서 +8% 이상이고 ≥1 섹터에서 −8% 이하일 것. 한쪽만 유리하면
+  기체가 아니라 난이도 슬라이더다
+- **함정이 아닌가**(`runner-paths.ts`) — 모든 (기체, 스테이지, 축 상한) 에서 최소 한 경로가
+  통과 가능하고, **최선 경로의 여유가 40ms 이상**일 것
+
+둘째의 하한이 필요한 이유는 첫 실행에서 드러났다. 통과 가능성만 보면 여유 11ms 인 경로도
+통과로 세어진다 — 솔버가 맞아도 사람의 타이밍 산포보다 좁다. 기체를 고르는 것은 난이도를
+고르는 일이지 **보이지 않는 벽**을 고르는 일이 아니다.
+
+**여유 목표는 기체별로 다시 재지 않는다.** 스테이지 시드는 표준 기체로 큐레이션한 것을
+그대로 쓴다. 기체마다 다시 구우면 같은 번호의 스테이지가 기체마다 다른 코스가 되어,
+0.4.0 이 "확장 섹터 풀이 스테이지 코스를 바꾼다"를 버그로 고친 것과 같은 문제가 된다.
 
 ### 왜 통과율이 아니라 여유(slack)로 고르는가
 
@@ -47,16 +74,47 @@ pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts        # 스테
 - **오토파일럿** — 여전히 필요하다. 솔버가 옳은지 교차 검증하고(모순이 있으면 솔버가 틀린 것), 브라우저에서 실제 엔진을 구동한다.
 - **섹터 프로브** — 반응 지연 허용치로 **사람 체감**을 근사한다. 솔버의 여유(ms)와 같은 단위라 서로 대조된다.
 
+### 화면 확인 (puppeteer)
+
+```bash
+pnpm playtest --project wave-runner --scenario projects/wave-runner/tests/e2e/picker-shot.mjs     --out projects/wave-runner/assets/screenshots/exp
+pnpm playtest --project wave-runner --scenario projects/wave-runner/tests/e2e/gate-shot.mjs       --out projects/wave-runner/assets/screenshots/exp
+pnpm playtest --project wave-runner --scenario projects/wave-runner/tests/e2e/runner-identity.mjs --out projects/wave-runner/assets/screenshots/exp
+pnpm playtest --project wave-runner --scenario projects/wave-runner/tests/e2e/runner-experience.mjs --out projects/wave-runner/assets/screenshots/exp
+```
+
+뷰포트는 전부 **390×720** 이다. 더 높게 찍으면 접힘 아래로 밀린 것이 안 보인다 — 실제로
+그래서 주 동선이 화면 밖에 있는 것을 한 판 놓쳤다.
+
+`runner-identity.mjs` 는 기체를 바꿔 가며 같은 x 에서 멈춰 찍는데, 화면 이동에 **나가기
+버튼**을 쓴다. `Escape` 로 나가던 시나리오들이 "폰에서는 나갈 방법이 없다"를 덮고 있었다.
+
 ## 손으로 확인할 것
 
+- [ ] **기체 4종을 이름 없이 구분하는가** — 피커의 지그재그 뒤에 표준(45°)이 점선으로 깔려 있어 차이가 "기준선에서 벌어지는 폭"으로 읽힌다. 도형만으로는 5.6° 가 안 잡혔고, 봉우리 수로 가르려던 판본도 실패했다(실제로 1·1·2·1 이었다)
+- [ ] **미리보기를 보고 그 기체의 거동을 예측하는가** — 플레이 중 궤적과 같은 모양이어야 성립한다
+- [ ] **성격 막대 두 개(여유·길)의 차이를 설명 없이 이해하는가** — 예봉의 "길은 짧고 여유는 길다"가 읽히는가
+- [ ] **설명문이 실제 체감과 맞는가** — 0.5.0 에서 정확히 반대로 읽혔던 항목이다
+- [ ] **스테이지 칸의 빈 자리를 "저 기체로는 아직"으로 읽는가**
+- [ ] **기록이 기체별로 나뉘는 것을 설명 없이 납득하는가**
+- [ ] **표준으로 티어 1 을 깬 사람이 지시 없이 다른 기체를 고르는가** ← 4a 중단 판정
+- [ ] 새로고침 후 v2 진행이 그대로 이관되어 있는가 (환급 코어 포함)
 - [ ] 조작 설명 없이 첫 10초 안에 버튼의 의미를 파악하는가
 - [ ] **게이트를 지난 직후, 무엇과 무엇을 바꿨는지 글자 없이 아는가**
 - [ ] **서로 다른 두 빌드의 궤적을 스크린샷 한 장으로 구분할 수 있는가**
+- [ ] **런 안에서 기체가 구분되는가** ← **현재 실패로 알려져 있다.** 도형에 게인을 걸면 읽히지만 그게 거짓말이라 미해결로 둔 항목이다. 사람이 "구분이 필요하다"고 말하는지를 먼저 확인할 것
 - [ ] **두 모드를 각각 해본 사람이 "왜 둘 다 있는지"를 한 문장으로 말할 수 있는가**
 - [ ] **Stage 재시도 중 빌드를 바꿔본 비율이 30% 이상인가** (0%면 Stage의 로그라이크 성분이 죽은 것)
 - [ ] Endless 사망 후 자기 빌드 선택을 원인으로 지목하는가
 - [ ] 섹터 4유형을 이름 없이 실루엣만으로 구분하는가
 - [ ] `running` 중 화면에 HUD가 하나도 없는가
+- [ ] **폰에서 런 도중 나갈 수 있는가** — 좌상단 버튼. `Escape` 만 있던 판본에서는 불가능했다
+- [ ] **두 엄지로 번갈아 눌러도 홀드가 끊기지 않는가**
+- [ ] **게이트 표식이 "고를 수 있을 때" 보이는가** — 분기에 들어가기 전에 읽고 결정할 시간이 있는가
+- [ ] **두 관이 같은 축을 올릴 때, 무엇이 갈리는지가 한눈에 보이는가** (내주는 축의 막대)
+- [ ] **밝은 쪽이 갈 수 있는 곳으로 읽히는가** — 벽이 통로보다 밝던 판본에서는 반사가 반대로 걸렸다
+- [ ] **죽은 뒤 "무엇에 맞았는지"와 "어디로 갈 수 있었는지"가 같은 프레임에 있는가**
+- [ ] **아바타가 닿아 보이는 순간에 실제로 죽는가** — 그려진 도형의 최원점이 판정 반지름이어야 한다
 - [ ] 세로 화면에서 한 손으로 플레이되는가
 - [ ] 60fps가 유지되는가 (T 패널)
 - [ ] 새로고침 후 해금과 기록이 남아 있는가
@@ -68,3 +126,7 @@ pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts        # 스테
 - **런 초반 3섹터는 생성되지 않는다.** 공장에 줄 시간이 없는 자리라 수제 섹터로 **고정했다**(0.3.1). 재현성은 그래서 성립하지만 첫 30초의 다양성은 수제 12개 안에서만 나온다.
 - **Endless 도입부 3섹터 고정.** 재현성을 위해 그 자리를 수제 섹터로 못박은 대가다. 난이도 1.0~1.26 구간에는 유형별 후보가 하나뿐이라 변주가 유형 순환에서만 온다.
 - **1단계 중단 판정.** 여전히 미수행이다.
+- **4a 중단 판정.** 미수행 — *표준 기체로 티어 1 을 클리어한 사람이 아무 설명 없이 둘째 기체를 골라 5회 이상 시도하는가.* 스킬 없이 기체만으로 "다시 해보고 싶다"가 성립하지 않으면 스킬을 붙여도 소용없다.
+- **속도 곡선.** `speedCenter`/`speedSpan` 은 필드로만 있고 전 기체가 1.0 이다. 각도와 직교하므로 분리해서 넣는다.
+- **룬과 스킬.** 미착수 — `skill-solver-parity.ts`(솔버가 스킬을 엔진과 같게 푸는가) · `rune-determinism.ts` 가 함께 필요하다. 설계는 [notes/runner-variation.md](./notes/runner-variation.md) §5~6.
+- **기체 해금.** 4종 전부 열려 있다. 조건+코어 구조는 기획만 되어 있다.

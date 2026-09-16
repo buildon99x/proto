@@ -6,6 +6,8 @@ import type { AxisKey, AxisTrade, Build, Tuning } from "./types";
  *
  * 눈금 0 이 1단계 기저 비행과 같은 값이다 — 문법도 기준선도 바뀌지 않고,
  * 바뀌는 것은 그 하나의 동작을 얼마나 날카롭게 / 빠르게 / 치우치게 수행하느냐뿐이다.
+ *
+ * **이 표는 표준 기체의 것이고, 기체는 이 표를 다시 읽는 방식이 다르다**(아래 `curve`).
  */
 const TABLE: Record<AxisKey, number[]> = {
   //         −3    −2    −1     0    +1    +2    +3
@@ -13,6 +15,60 @@ const TABLE: Record<AxisKey, number[]> = {
   speed: [30, 34, 38, 42, 47, 52, 58],
   bias: [-0.36, -0.24, -0.12, 0, 0.12, 0.24, 0.36]
 };
+
+const TABLE_MID = 3;
+
+/**
+ * 표를 **소수 눈금**에서 읽는다. 폭(span)이 눈금을 늘이거나 줄여 읽게 하는 장치이고,
+ * 정수 눈금에서 폭 1.0 이면 표의 값을 그대로 돌려준다 — 그래서 **표준 기체의 계수는
+ * 2단계의 표와 소수점까지 같고**, 그 위에서 구운 스테이지 시드와 여유 수치가 그대로 산다.
+ *
+ * 표 밖(|눈금×폭| > 3)은 끝의 비율로 기하 외삽한다. 잘라 버리면 폭이 큰 기체에서
+ * +2 와 +3 이 같은 값이 되어 **그 기체만 축이 죽는다.**
+ */
+function readTable(axis: AxisKey, tick: number): number {
+  const table = TABLE[axis];
+  const pos = tick + TABLE_MID;
+  if (pos >= 0 && pos <= table.length - 1) {
+    const lo = Math.floor(pos);
+    const hi = Math.min(table.length - 1, lo + 1);
+    return table[lo] + (table[hi] - table[lo]) * (pos - lo);
+  }
+  if (axis === "bias") {
+    // 편향은 원래 선형이므로 외삽도 선형이다.
+    return table[TABLE_MID] + (table[TABLE_MID + 1] - table[TABLE_MID]) * tick;
+  }
+  if (pos > table.length - 1) {
+    const last = table[table.length - 1];
+    const ratio = last / table[table.length - 2];
+    return last * Math.pow(ratio, pos - (table.length - 1));
+  }
+  const first = table[0];
+  const ratio = first / table[1];
+  return first * Math.pow(ratio, -pos);
+}
+
+/**
+ * 기체의 곡선으로 읽은 축 값.
+ *
+ * - **중심**은 눈금 0 의 값을 통째로 민다. 부호를 바꾸지 못한다
+ * - **폭**은 눈금 한 칸의 크기다. 여기서 양날이 나온다 — 좁으면 극단이 없고 넓으면 다루기 어렵다
+ *
+ * 편향에는 중심이 없다. 0 을 중심으로 대칭인 축이라 중심을 밀면 "가만히 두면 한쪽으로
+ * 흐른다"가 기체의 성질이 되어, 세 축의 합이 0 이라는 불변식과 어긋난다.
+ */
+function curve(axis: AxisKey, tick: number, t: Tuning): number {
+  if (axis === "slope") return t.slope * t.slopeCenter * (readTable("slope", tick * t.slopeSpan) / TABLE.slope[TABLE_MID]);
+  if (axis === "speed") return t.speed * t.speedCenter * (readTable("speed", tick * t.speedSpan) / TABLE.speed[TABLE_MID]);
+  return readTable("bias", tick * t.biasSpan) + t.bias;
+}
+
+/**
+ * 편향의 절대 상한. |편향| ≥ 1 이면 한쪽 수직 속도가 0 이하가 되어 **중립이 생긴다** —
+ * "가만히 있는 선택지는 없다"는 문법층의 첫 조항이 깨진다. 폭이 큰 기체에서 실제로
+ * 닿을 수 있는 거리이므로 규칙으로 막는다. `runner-probe.ts` 가 이 불변식을 검사한다.
+ */
+const BIAS_LIMIT = 0.92;
 
 export const AXES: AxisKey[] = ["slope", "speed", "bias"];
 
@@ -36,9 +92,9 @@ export function clampAxis(value: number, t: Tuning): number {
 }
 
 function valueOf(axis: AxisKey, tick: number, t: Tuning): number {
-  const idx = clampAxis(tick, t) - t.axisMin;
-  const table = TABLE[axis];
-  return table[Math.max(0, Math.min(table.length - 1, idx))];
+  const v = curve(axis, clampAxis(tick, t), t);
+  if (axis === "bias") return Math.max(-BIAS_LIMIT, Math.min(BIAS_LIMIT, v));
+  return v;
 }
 
 export interface Resolved {

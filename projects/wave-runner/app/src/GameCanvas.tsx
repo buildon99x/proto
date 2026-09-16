@@ -70,10 +70,19 @@ export function GameCanvas({ config, onPhase, onAttempt, onRunEnd, onExit, onSam
     let fpsFrames = 0;
     let sampleAt = 0;
     let reported: Phase = "ready";
+    // 엔진은 노드 검증기에서도 도는 순수 모듈이라 오디오를 모른다. 교환 시각의
+    // 변화를 여기서 관찰해 소리를 낸다.
+    let tradeAt = -1;
 
+    // 프레임마다 getBoundingClientRect() 를 부르면 매 프레임 강제 리플로우가 걸린다.
+    // 크기는 resize 에서만 바뀌므로 거기서 캐시한다.
+    let cssW = 1;
+    let cssH = 1;
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const rect = canvas.getBoundingClientRect();
+      cssW = rect.width;
+      cssH = rect.height;
       canvas.width = Math.max(1, Math.round(rect.width * dpr));
       canvas.height = Math.max(1, Math.round(rect.height * dpr));
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -120,14 +129,22 @@ export function GameCanvas({ config, onPhase, onAttempt, onRunEnd, onExit, onSam
         release();
       }
     };
+    /**
+     * 세로 모바일에서 두 엄지로 번갈아 누르는 건 홀드 게임의 자연스러운 조작인데,
+     * `pointerup` 하나만 와도 홀드가 풀려 손가락을 바꾸는 순간 낙하했다. 활성 포인터를
+     * 세서 **하나라도 닿아 있으면** 홀드로 친다.
+     */
+    const down = new Set<number>();
     const onPointerDown = (e: PointerEvent) => {
       e.preventDefault();
       canvas.setPointerCapture(e.pointerId);
+      down.add(e.pointerId);
       press();
     };
     const onPointerUp = (e: PointerEvent) => {
       e.preventDefault();
-      release();
+      down.delete(e.pointerId);
+      if (down.size === 0) release();
     };
 
     window.addEventListener("keydown", onKeyDown);
@@ -135,7 +152,11 @@ export function GameCanvas({ config, onPhase, onAttempt, onRunEnd, onExit, onSam
     canvas.addEventListener("pointerdown", onPointerDown);
     window.addEventListener("pointerup", onPointerUp);
     window.addEventListener("pointercancel", onPointerUp);
-    window.addEventListener("blur", release);
+    const onBlur = () => {
+      down.clear();
+      release();
+    };
+    window.addEventListener("blur", onBlur);
 
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame);
@@ -168,13 +189,16 @@ export function GameCanvas({ config, onPhase, onAttempt, onRunEnd, onExit, onSam
           build: { ...s.build }
         });
       }
+      if (s.lastTrade && s.lastTrade.at !== tradeAt) {
+        tradeAt = s.lastTrade.at;
+        sfx.trade(s.lastTrade.trade.plus);
+      }
       if (s.phase !== reported) {
         reported = s.phase;
         cbRef.current.onPhase(s.phase);
       }
 
-      const rect = canvas.getBoundingClientRect();
-      render(ctx, s, rect.width, rect.height);
+      render(ctx, s, cssW, cssH);
 
       fpsAccum += dt;
       fpsFrames += 1;
@@ -196,7 +220,7 @@ export function GameCanvas({ config, onPhase, onAttempt, onRunEnd, onExit, onSam
       canvas.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("pointerup", onPointerUp);
       window.removeEventListener("pointercancel", onPointerUp);
-      window.removeEventListener("blur", release);
+      window.removeEventListener("blur", onBlur);
     };
   }, []);
 

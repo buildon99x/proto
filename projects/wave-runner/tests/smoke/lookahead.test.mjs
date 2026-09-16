@@ -8,6 +8,11 @@
  *
  * 줌 공식은 camera.ts 와 동일하다(TS 모듈을 .mjs 에서 직접 못 읽으므로 2줄만 재기술).
  * tuning.json 이 유일한 상수 출처이므로 값이 어긋날 일은 없다.
+ *
+ * **재기술은 공짜가 아니었다.** 첫 판본은 화면 전체 폭을 건너는 시간을 쟀는데, 아바타는
+ * cameraAnchor 지점에 있으므로 그 왼쪽은 선행이 아니다. camera.ts 와 이 파일이 같은
+ * 오식을 복사하고 있어서 회귀 테스트가 제 구멍을 못 봤다. 이제 둘 다 (1 - cameraAnchor)
+ * 를 곱하고, 아래에 **공식과 무관한 독립 검산**을 하나 더 둔다.
  */
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -26,12 +31,13 @@ const MIN_VIEWPORT = { w: 360, h: 640 };
 const MIN_VISIBLE_HEIGHT_RATIO = 0.6;
 
 function computeView(canvasW, canvasH, t) {
-  const zoom = Math.min(canvasH / t.worldHeight, canvasW / (t.speed * t.lookaheadMinSec));
+  const ahead = 1 - t.cameraAnchor;
+  const zoom = Math.min(canvasH / t.worldHeight, (canvasW * ahead) / (t.speed * t.lookaheadMinSec));
   return {
     zoom,
     viewWorldW: canvasW / zoom,
     viewWorldH: canvasH / zoom,
-    lookaheadSec: canvasW / zoom / t.speed
+    lookaheadSec: ((canvasW / zoom) * ahead) / t.speed
   };
 }
 
@@ -40,6 +46,19 @@ const view = computeView(MIN_VIEWPORT.w, MIN_VIEWPORT.h, tuning);
 assert.ok(
   view.lookaheadSec >= tuning.lookaheadMinSec - 1e-9,
   `선행 가시 시간 ${view.lookaheadSec.toFixed(2)}s < 설계 상수 ${tuning.lookaheadMinSec}s`
+);
+
+/**
+ * 공식을 믿지 않는 검산: 아바타를 화면에 실제로 놓고, 우측 끝 픽셀이 월드 어디인지
+ * 역산해 도달 시간을 잰다. computeView 가 어떻게 바뀌든 이 줄은 코앞 시간을 잰다.
+ */
+const playerScreenX = MIN_VIEWPORT.w * tuning.cameraAnchor;
+const worldPerPx = 1 / view.zoom;
+const aheadWorld = (MIN_VIEWPORT.w - playerScreenX) * worldPerPx;
+assert.ok(
+  aheadWorld / tuning.speed >= tuning.lookaheadMinSec - 1e-9,
+  `코앞 선행 ${(aheadWorld / tuning.speed).toFixed(3)}s < ${tuning.lookaheadMinSec}s ` +
+    `— 아바타(화면 x ${playerScreenX.toFixed(0)}px)에서 우측 끝까지 ${aheadWorld.toFixed(1)} 월드뿐이다`
 );
 
 const visibleRatio = Math.min(view.viewWorldH, tuning.worldHeight) / tuning.worldHeight;
@@ -51,5 +70,6 @@ assert.ok(
 
 console.log(
   `lookahead ok — ${MIN_VIEWPORT.w}x${MIN_VIEWPORT.h}: ` +
-    `${view.lookaheadSec.toFixed(2)}s 선행, 세로 가시 ${(visibleRatio * 100).toFixed(0)}%`
+    `코앞 ${view.lookaheadSec.toFixed(2)}s 선행(독립 검산 ${(aheadWorld / tuning.speed).toFixed(2)}s), ` +
+    `세로 가시 ${(visibleRatio * 100).toFixed(0)}%`
 );
