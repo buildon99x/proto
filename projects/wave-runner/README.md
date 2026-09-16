@@ -45,5 +45,8 @@ pnpm playtest --project wave-runner                               # 브라우저
 - [notes/decisions.md](./notes/decisions.md) — 구현하며 내린 결정
 - [docs/design/margin-space.md](./docs/design/margin-space.md) — 통로 여백 공간 활용 아이데이션 (10안·선정·기각)
 - [docs/design/margin-space-e2e.md](./docs/design/margin-space-e2e.md) — 채택분의 e2e 기획 (메커니즘·데이터 모델·심사 파이프라인·검증)
+- [docs/design/margin-texture.md](./docs/design/margin-texture.md) — 섹터 유형 질감 e2e 설계 (M1)
+- [docs/design/margin-milestone.md](./docs/design/margin-milestone.md) — 기록 이정표 e2e 설계 (M2)
+- [docs/design/margin-billboard.md](./docs/design/margin-billboard.md) — 플레이어 광고판 e2e 설계 (M4)
 
 설계 근거는 저장소 지식베이스에 있다 — [MDA 역설계](../../docs/kb/mda-analysis/space-waves.md) · [장르 방향](../../docs/kb/mda-analysis/one-button-roguelite-direction.md) · [코어 루프](../../docs/kb/mda-analysis/core-loop.md).

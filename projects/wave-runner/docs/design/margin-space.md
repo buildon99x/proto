@@ -194,3 +194,11 @@
 ## 6. 다음
 
 채택분의 메커니즘·데이터 모델·심사 파이프라인·검증 계획은 [margin-space-e2e.md](./margin-space-e2e.md).
+
+그중 셋은 개별 e2e 설계로 전개했다.
+
+- [margin-texture.md](./margin-texture.md) — **8 섹터 유형 질감** (M1). 대비가 아니라 결의 방향으로 유형을 가르고, 게이트 리드인을 크로스페이드 구간으로 쓴다.
+- [margin-milestone.md](./margin-milestone.md) — **6 기록 이정표** (M2). 마커 셋(도달·스플릿·거리), 전부 정보량 1비트.
+- [margin-billboard.md](./margin-billboard.md) — **1 플레이어 광고판** (M4). 12스테이지 58자리, 게시권 경제, 백엔드 0 파이프라인.
+
+세 문서를 쓰는 과정에서 e2e 문서의 네 군데를 정정했다 — 목록은 [margin-space-e2e.md §16](./margin-space-e2e.md#16-후속-문서와-정정).
