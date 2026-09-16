@@ -156,3 +156,6 @@ launcher/public/runs/*
 # Per-run playtest/verify reports (timestamped; screenshots are kept as evidence)
 **/assets/screenshots/shots/playtest-report.json
 **/assets/screenshots/shots/verify-report.json
+
+# 개발용 런 결말 수집 폴백 (Blob 토큰이 없을 때만 쓴다)
+.telemetry/

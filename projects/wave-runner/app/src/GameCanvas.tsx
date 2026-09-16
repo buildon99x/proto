@@ -3,6 +3,7 @@ import { applyOverrides, createState, launch, restart, update } from "./game/eng
 import type { GameState, RunConfig } from "./game/engine";
 import { render } from "./game/render";
 import { sfx } from "./game/audio";
+import { flushTelemetry, recordDeath, recordEnd, setTelemetryFps } from "./game/telemetry";
 import { targetY } from "./game/pilot";
 import type { Build, Phase, Tuning } from "./game/types";
 
@@ -176,6 +177,9 @@ export function GameCanvas({
       const result = update(s, dt);
       if (result.event === "died") {
         sfx.die();
+        // Stage 사망은 셸로 올라오지 않는다(0.5초 뒤 스스로 재시작한다). 기록은
+        // 두 모드 모두 남겨야 한다 — 티어별 난이도는 Stage 사망에서만 읽힌다.
+        recordDeath(s);
         if (s.mode === "endless") {
           cbRef.current.onRunEnd({
             cleared: false,
@@ -189,6 +193,7 @@ export function GameCanvas({
       if (result.event === "restarted") cbRef.current.onAttempt();
       if (result.event === "cleared") {
         sfx.clear();
+        recordEnd(s, "clear");
         cbRef.current.onRunEnd({
           cleared: true,
           sec: s.elapsed,
@@ -209,16 +214,36 @@ export function GameCanvas({
       fpsFrames += 1;
       if (now - sampleAt > 400) {
         sampleAt = now;
-        cbRef.current.onSample?.({ fps: fpsFrames / Math.max(fpsAccum, 1e-6), attempts: s.attempts });
+        const fps = fpsFrames / Math.max(fpsAccum, 1e-6);
+        setTelemetryFps(fps);
+        cbRef.current.onSample?.({ fps, attempts: s.attempts });
         fpsAccum = 0;
         fpsFrames = 0;
       }
     };
     raf = requestAnimationFrame(frame);
 
+    /**
+     * 주행 도중에 사라지는 것. 나가기(언마운트)와 탭 종료 둘 다 여기로 온다.
+     *
+     * `running` 일 때만 남긴다 — `dead` 는 이미 사망 이벤트를 냈고, `cleared` 는
+     * 클리어를 냈다. 거기서 또 남기면 한 주행이 두 번 집계된다.
+     *
+     * 자기 배치를 스스로 비우는 것이 중요하다. telemetry 모듈도 `pagehide` 를 듣지만
+     * 먼저 등록되어 있어 이 이벤트보다 앞서 돌기 때문이다.
+     */
+    const bail = () => {
+      const s = stateRef.current;
+      if (s && s.phase === "running") recordEnd(s, "abort");
+      flushTelemetry(true);
+    };
+    window.addEventListener("pagehide", bail);
+
     return () => {
       delete (window as unknown as { __wave?: WaveDebug }).__wave;
       cancelAnimationFrame(raf);
+      window.removeEventListener("pagehide", bail);
+      bail();
       ro.disconnect();
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);

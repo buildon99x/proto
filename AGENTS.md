@@ -10,6 +10,10 @@ This repo is a single Git repo and single Vercel project for early production ap
 - Each project manages its own app code, assets, data, prompts, tests, notes, docs, and project-specific instructions.
 - Project-specific assets must stay inside that project's root.
 - `launcher/public/runs` is generated build output.
+- `launcher/app/api` is the repo's only server surface. Projects are static artifacts and
+  cannot host endpoints, so anything a project needs from a server lives here, keyed by
+  project id (see `api/telemetry/[project]`). Project-specific *assets* still stay in the
+  project root — only the shared endpoint lives in `launcher`.
 - `packages` is only for genuinely shared code.
 
 ## Project Instructions

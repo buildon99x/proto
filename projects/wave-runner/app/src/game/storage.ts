@@ -18,7 +18,8 @@ export function loadMeta(): Meta {
       bestDistance: p.bestDistance ?? 0,
       attempts: p.attempts ?? {},
       // 저장본이 이 키를 모르던 시절에 만들어졌으면 켠 상태로 읽는다.
-      hud: p.hud ?? true
+      hud: p.hud ?? true,
+      telemetry: p.telemetry ?? true
     };
   } catch {
     return { ...EMPTY_META, presets: [...EMPTY_META.presets] };

@@ -21,6 +21,7 @@ import {
 } from "./game/meta";
 import type { Meta } from "./game/meta";
 import { exportMeta, importMeta, loadMeta, saveMeta } from "./game/storage";
+import { initTelemetry, setTelemetryEnabled } from "./game/telemetry";
 import type { Phase, RunMode, Tuning } from "./game/types";
 
 type Screen =
@@ -95,6 +96,13 @@ export default function App() {
 
   const commit = useCallback((next: Meta) => setMetaState(saveMeta(next)), []);
 
+  // 앱이 뜰 때 한 번. 지난 실행이 못 보낸 배치를 먼저 비운다.
+  useEffect(() => {
+    initTelemetry(meta.telemetry);
+    // 최초 1회만 — 이후의 켬/끔은 토글이 직접 알린다.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.code === "KeyT") setShowTuning((v) => !v);
@@ -122,6 +130,7 @@ export default function App() {
           stageNo,
           seed: 0,
           startBuild: { ...preset.build },
+          presetId: preset.id,
           axisCap: meta.axisCap,
           maxSectorDifficulty: meta.fullPool ? 3 : 2,
           overrides,
@@ -142,6 +151,7 @@ export default function App() {
         stageNo: 0,
         seed: (Date.now() & 0xffff) >>> 0,
         startBuild: { ...preset.build },
+        presetId: preset.id,
         axisCap: meta.axisCap,
         maxSectorDifficulty: meta.fullPool ? 3 : 2,
         overrides
@@ -209,6 +219,14 @@ export default function App() {
 
   const toggleHud = useCallback(() => {
     setMetaState((m) => saveMeta({ ...m, hud: !m.hud }));
+  }, []);
+
+  const toggleTelemetry = useCallback(() => {
+    setMetaState((m) => {
+      const next = !m.telemetry;
+      setTelemetryEnabled(next);
+      return saveMeta({ ...m, telemetry: next });
+    });
   }, []);
 
   const handleAttempt = useCallback(() => {
@@ -322,6 +340,16 @@ export default function App() {
               <strong>주행 표시</strong>
               <small>
                 화면 위 진행 레일과 거리·경과. 끄면 3단계까지의 무표시 주행 그대로다 — 주행 중 H
+              </small>
+            </span>
+          </label>
+
+          <label className="toggle compact">
+            <input type="checkbox" checked={meta.telemetry} onChange={() => toggleTelemetry()} />
+            <span>
+              <strong>기록 보내기</strong>
+              <small>
+                죽은 자리와 클리어를 익명으로 모아 난이도를 다듬는 데만 쓴다. 계정도 개인정보도 없다
               </small>
             </span>
           </label>

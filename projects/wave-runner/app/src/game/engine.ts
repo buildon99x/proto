@@ -1,5 +1,5 @@
 import { NEUTRAL_BUILD, applyBuild, applyTrade, gateOffer, resolve } from "./axes";
-import { EndlessCourse, buildStageCourse, pieceAt } from "./course";
+import { EndlessCourse, buildStageCourse, pieceAt, pieceIndexAt } from "./course";
 import { contains, gateLanes, pieceFreeSpans, sectorFreeSpans, squeezeBounds } from "./geometry";
 import type { Lanes, Span } from "./geometry";
 import { sample } from "./sectors";
@@ -33,6 +33,8 @@ export interface RunConfig {
   seed: number;
   /** 시작 빌드(프리셋). 해금으로 넓어진다 */
   startBuild: Build;
+  /** 그 빌드를 준 프리셋 id. 기록 수집이 "어떤 출발점이었나"를 말할 때만 쓴다 */
+  presetId?: string;
   /** 축 상한. 메타 해금으로 2 → 3 */
   axisCap: number;
   /** 생성기가 쓸 수 있는 섹터 난이도 상한. 확장 풀 해금 전에는 2 */
@@ -81,6 +83,19 @@ export interface GameState {
   checkpoints: Checkpoint[];
   /** 사망 지점에서 "지나갈 수 있었던 자리" — 원인을 글자 없이 알린다 */
   deathGap: Span[] | null;
+  /**
+   * 사망한 조각. 기록 수집이 "몇 번째 조각의 어디에서 죽었는가"를 말하는 데 쓴다.
+   * 같은 섹터가 코스에 두 번 나올 수 있으므로 id 만으로는 자리가 특정되지 않는다.
+   */
+  deathPiece: { index: number; id: string; localX: number } | null;
+  /**
+   * 지나온 게이트 선택열. 관마다 t(위) / b(아래) 한 글자씩 쌓인다.
+   *
+   * 이것이 코스 재구성의 전부다 — 게이트 제안은 (게이트 시드, 통과 시점의 빌드) 의
+   * 결정적 함수이고 빌드는 선택열로 결정되므로, 이 문자열만 있으면 나중에 솔버가
+   * **그 사람이 실제로 탄 코스**를 정확히 되살린다.
+   */
+  lanes: string;
   /** 제안을 확정할 다음 게이트를 찾기 시작할 조각 인덱스 */
   armCursor: number;
 
@@ -103,6 +118,7 @@ export interface Checkpoint {
   elapsed: number;
   gatesPassed: number;
   sectorsPassed: number;
+  lanes: string;
 }
 
 const TRAIL_MAX = 110;
@@ -194,6 +210,8 @@ export function createState(config: RunConfig): GameState {
     lane: null,
     checkpoints: [],
     deathGap: null,
+    deathPiece: null,
+    lanes: "",
     armCursor: 0,
     hud: true,
     record: 0
@@ -246,6 +264,7 @@ export function restart(state: GameState): void {
     state.elapsed = last.elapsed;
     state.gatesPassed = last.gatesPassed;
     state.sectorsPassed = last.sectorsPassed;
+    state.lanes = last.lanes;
     // 체크포인트는 코스 중간이다 — 거기서부터 다시 앞의 게이트를 확정한다.
     state.armCursor = 0;
     armNextGate(state);
@@ -324,6 +343,8 @@ function resolveGateCrossing(state: GameState, prevX: number, piece: CoursePiece
   if (!gate) return;
   if (!(prevX < gate.endX && state.x >= gate.endX)) return;
   const trade = state.lane === "bot" ? gate.bot : gate.top;
+  // 어느 관을 탔는지를 한 글자로 남긴다. 이 문자열이 코스 재구성의 유일한 입력이다.
+  state.lanes += state.lane === "bot" ? "b" : "t";
   state.build = applyTrade(state.build, trade, state.base);
   state.tuning = applyBuild(state.base, state.build);
   state.gatesPassed += 1;
@@ -339,7 +360,8 @@ function resolveGateCrossing(state: GameState, prevX: number, piece: CoursePiece
       build: { ...state.build },
       elapsed: state.elapsed,
       gatesPassed: state.gatesPassed,
-      sectorsPassed: state.sectorsPassed
+      sectorsPassed: state.sectorsPassed,
+      lanes: state.lanes
     });
   }
 }
@@ -374,9 +396,17 @@ function step(state: GameState, dt: number): StepOutcome {
       state.x = sx;
       state.y = sy;
       // 사망 지점에서 "지나갈 수 있었던 자리". 정지 화면 없이 원인을 알리는 유일한 수단이다.
-      const piece = pieceAt(state.course, sx);
+      const pi = pieceIndexAt(state.course, sx);
+      const piece = pi < 0 ? null : state.course.pieces[pi];
       state.deathGap = piece
         ? pieceFreeSpans(piece, sx, state.tuning.radius, state.elapsed, state.tuning, state.lane ?? undefined)
+        : null;
+      state.deathPiece = piece
+        ? {
+            index: pi,
+            id: piece.kind === "gate" ? "gate" : (piece.sector?.id ?? "unknown"),
+            localX: sx - piece.startX
+          }
         : null;
       setPhase(state, "dead");
       return "died";

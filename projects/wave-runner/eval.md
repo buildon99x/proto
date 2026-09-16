@@ -17,6 +17,7 @@ pnpm exec tsx projects/wave-runner/tests/verify/sector-probe.ts         # 축이
 pnpm exec tsx projects/wave-runner/tests/verify/stage-paths.ts          # 전 경로 통과 가능성(정확)
 pnpm exec tsx projects/wave-runner/tests/verify/endless-ramp.ts         # Endless 난이도 램프
 pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts        # 스테이지 시드 재선별(표를 다시 굽는다)
+pnpm exec tsx projects/wave-runner/tests/verify/telemetry.ts            # 수집한 이벤트로 코스가 재현되는가
 ```
 
 | 검사 | 현재 결과 |
@@ -31,6 +32,20 @@ pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts        # 스테
 | **Endless 램프** | 지연 60ms 5339 → 180ms 1008. 모든 지연에서 런이 종료됨 |
 | 게이트 교환 성립 | 실제 주행 352게이트 전부 한 축 +1 / 다른 축 −1 · 축합 이탈 0 (`gate-offers.ts`) |
 | 브라우저 플레이테스트 | Stage 클리어(73초·게이트 4개) · 런타임 생성 4섹터 + 폴백 3 · 프레임 p50 16.7ms / p99 17.5ms · 콘솔 오류 0 |
+| **수집 이벤트의 재구성 가능성** | 스테이지 12개 × 축 상한 2종 = 24주행에서 `lanes` 재현 빌드와 기록 빌드 **불일치 0**. 조각 인덱스·id·자유 구간 폭도 전부 일치. 건당 250~262B (`tests/verify/telemetry.ts`) |
+| **수집 경로 실주행** | 브라우저에서 13회 사망 → 배치 1건(11 이벤트·2.9KB) POST 204 → NDJSON 저장, 탭 종료에서 `abort` 까지 도착. 큐 잔여 0 |
+
+### 수집이 답할 수 있게 되는 것 (표본이 모이면)
+
+지금 티어 목표치(200/180/150/130ms)는 프로브 추정에서 나온 값이고 **사람으로 검증된
+적이 없다.** 여유 구간별 실측 사망률이 그 목표치를 데이터로 다시 정하는 근거가 되고,
+그것이 이 기능이 존재하는 이유다. 판정 규칙과 표본 바닥은
+[notes/telemetry/death-log.md §7](notes/telemetry/death-log.md) 에 있다.
+
+수집이 직접 답하는 것이 하나 더 있다 — **미수행인 1단계 중단 판정**이다. 세션당 시도
+횟수와 몇 번째 시도에서 떠났는지가 `abort` 이벤트에 그대로 들어오므로, "지시 없이
+5회 이상 재시도하는가"를 사람에게 물어보지 않고도 센다. 붙여넣기식 수집으로는 그만두고
+떠난 사람의 데이터가 영원히 오지 않으므로, 이 판정 하나가 서버를 세운 이유다.
 
 ### 왜 통과율이 아니라 여유(slack)로 고르는가
 
@@ -58,6 +73,7 @@ pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts        # 스테
 - [ ] Endless 사망 후 자기 빌드 선택을 원인으로 지목하는가
 - [ ] 섹터 4유형을 이름 없이 실루엣만으로 구분하는가
 - [ ] **주행 표시를 켠 채로도 통로에서 눈을 떼지 않는가** (떼게 된다면 자리가 틀린 것이다)
+- [ ] **기록 보내기 고지를 보고 불쾌해하지 않는가** (불쾌하다면 기본값이 틀린 것이다)
 - [ ] **끝난 직후 "이번이 최고보다 나은가"를 읽지 않고 아는가**
 - [ ] 주행 표시를 끄면 `running` 중 화면에 아무것도 없는가
 - [ ] **티어 4 가 "더 좁다" 가 아니라 "더 오래 좁다" 로 느껴지는가** (0.5.2 에서 바꾼 축)

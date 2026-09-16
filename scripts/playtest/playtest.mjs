@@ -241,7 +241,9 @@ export async function runPlaytest(opts = {}) {
     page.on("console", (m) => {
       if (m.type() === "error") consoleErrors.push(m.text());
     });
-    await page.goto(baseUrl, { waitUntil: "networkidle0" });
+    // 오토파일럿의 사망이 사람의 사망으로 집계되면 난이도 표가 통째로 무의미해진다.
+    // 프로젝트가 기록을 수집한다면 이 파라미터로 스스로 꺼야 한다.
+    await page.goto(`${baseUrl}/?telemetry=off`, { waitUntil: "networkidle0" });
 
     const helpers = makeHelpers(page, outDir, manifest);
     const run = scenarioMod.run || defaultScenario;
