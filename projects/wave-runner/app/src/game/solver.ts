@@ -60,6 +60,25 @@ export interface SolveOptions {
   lane?: "top" | "bot";
   /** 결정 간격(초). 작을수록 정확하고 느리다 */
   dt?: number;
+  /**
+   * 스텝별 자유 구간과 생존 집합을 함께 내보낸다. 분석·시각화 전용이고 기본은 꺼져 있다 —
+   * 켜면 스텝 수만큼 배열을 쌓으므로 런타임 경로에서는 절대 켜지 않는다.
+   */
+  trace?: boolean;
+}
+
+/** `trace` 를 켰을 때만 채워지는 스텝별 기록. x = startX + k·dx, 시각 = startTime + k·dt. */
+export interface SolveTrace {
+  startX: number;
+  startTime: number;
+  dx: number;
+  dt: number;
+  /** 폭을 시간으로 환산할 때 쓰는 계수 — slack = width / (2·rate) */
+  rate: number;
+  /** 스텝별 자유 구간(아바타 반지름을 뺀 중심 좌표 기준) */
+  free: Span[][];
+  /** 스텝별 생존 집합 S[k] = F[k] ∩ B[k] */
+  survival: Span[][];
 }
 
 export interface SolveResult {
@@ -81,6 +100,8 @@ export interface SolveResult {
   minSlackSec: number;
   /** 통과에 걸리는 시간(초) */
   duration: number;
+  /** `trace` 를 켰을 때만 있다 */
+  trace?: SolveTrace;
 }
 
 export function solvePiece(opts: SolveOptions): SolveResult {
@@ -123,12 +144,14 @@ export function solvePiece(opts: SolveOptions): SolveResult {
   }
 
   const widths = new Float32Array(steps + 1);
+  const survival: Span[][] | null = opts.trace ? new Array(steps + 1) : null;
   let minWidth = Number.POSITIVE_INFINITY;
   let tightestStep = 0;
   const settle = Math.min(steps, Math.ceil(SETTLE_SEC / dt));
   for (let k = 0; k <= steps; k += 1) {
     const s = intersect(forward[k] ?? [], backward[k] ?? []);
     widths[k] = measure(s);
+    if (survival) survival[k] = s;
     if (k >= settle && widths[k] < minWidth) {
       minWidth = widths[k];
       tightestStep = k;
@@ -144,7 +167,18 @@ export function solvePiece(opts: SolveOptions): SolveResult {
     minWidth: safeMin,
     tightestX: piece.startX + tightestStep * dx,
     minSlackSec: safeMin / (2 * Math.max(r.riseRate, r.fallRate)),
-    duration: steps * dt
+    duration: steps * dt,
+    trace: survival
+      ? {
+          startX: piece.startX,
+          startTime,
+          dx,
+          dt,
+          rate: Math.max(r.riseRate, r.fallRate),
+          free,
+          survival
+        }
+      : undefined
   };
 }
 
@@ -154,8 +188,14 @@ export interface CourseSolveResult {
   failedAt: number;
   minWidth: number;
   minSlackSec: number;
-  /** 조각별 최소 폭 */
-  perPiece: Array<{ index: number; minWidth: number; slackSec: number; passable: boolean }>;
+  /** 조각별 최소 폭. `trace` 를 켰으면 스텝별 기록이 함께 온다 */
+  perPiece: Array<{
+    index: number;
+    minWidth: number;
+    slackSec: number;
+    passable: boolean;
+    trace?: SolveTrace;
+  }>;
   duration: number;
 }
 
@@ -176,7 +216,8 @@ export function solveCourse(
   startY: number,
   lanes: Array<"top" | "bot">,
   applyTrade: (build: Build, trade: { plus: keyof Build; minus: keyof Build }) => Build,
-  dt = 1 / 120
+  dt = 1 / 120,
+  trace = false
 ): CourseSolveResult {
   let build = { ...startBuild };
   let spans: Span[] = [{ lo: startY - 1e-6, hi: startY + 1e-6 }];
@@ -189,8 +230,14 @@ export function solveCourse(
   for (let i = 0; i < pieces.length; i += 1) {
     const piece = pieces[i];
     const lane = piece.kind === "gate" ? lanes[Math.min(lanes.length - 1, gateIndex)] ?? "top" : undefined;
-    const res = solvePiece({ piece, build, base, startSpans: spans, startTime: time, lane, dt });
-    perPiece.push({ index: i, minWidth: res.minWidth, slackSec: res.minSlackSec, passable: res.passable });
+    const res = solvePiece({ piece, build, base, startSpans: spans, startTime: time, lane, dt, trace });
+    perPiece.push({
+      index: i,
+      minWidth: res.minWidth,
+      slackSec: res.minSlackSec,
+      passable: res.passable,
+      trace: res.trace
+    });
     minWidth = Math.min(minWidth, res.minWidth);
     minSlack = Math.min(minSlack, res.minSlackSec);
     time += res.duration;

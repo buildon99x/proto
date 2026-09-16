@@ -33,7 +33,13 @@ pnpm exec tsx projects/wave-runner/tests/verify/stage-paths.ts    # 모든 빌�
 pnpm exec tsx projects/wave-runner/tests/verify/endless-ramp.ts   # Endless 난이도가 실제로 조이는가
 pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts  # 스테이지 시드 재선별
 pnpm playtest --project wave-runner                               # 브라우저 자동 플레이테스트
+node projects/wave-runner/tests/verify/course-map/run.mjs         # 12스테이지 통로 지도(난이도 시각화)
 ```
+
+`course-map` 은 판정이 아니라 **눈으로 보는 도구**다. 솔버의 생존 회랑을 코스 전체에 칠해
+`assets/screenshots/courses/` 에 굽는다 — 화면에 그려진 통로와 실제로 플레이되는 통로의
+차이, 여유가 좁아지는 자리, 최악 경로가 무너지는 지점이 한 장에 들어온다.
+puppeteer 는 playtest 하네스가 설치한 것을 빌려 쓰므로 먼저 playtest 를 한 번 돌려야 한다.
 
 검증이 무엇을 증명하고 무엇을 증명하지 못하는지는 [eval.md](./eval.md)에 적었다.
 
