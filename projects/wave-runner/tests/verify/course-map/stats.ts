@@ -14,6 +14,7 @@ import { measure } from "../../../app/src/game/geometry";
 import { MAX_TIER, STAGES_PER_TIER } from "../../../app/src/game/meta";
 import { SECTORS } from "../../../app/src/game/sectors";
 import { solveCourse } from "../../../app/src/game/solver";
+import { PEAK_RUN_NOTE, PEAK_RUN_RULE, targetSlackMs } from "../tiers";
 import type { AxisKey, Build } from "../../../app/src/game/types";
 
 const GATES = STAGE_SECTORS - 1;
@@ -21,8 +22,7 @@ const PATHS = 1 << GATES;
 const DT = 1 / 90;
 /** 출발 집합이 점 하나라 좁게 나오는 구간. 난이도가 아니라 초기 조건이므로 집계에서 뺀다. */
 const SETTLE_X = 24;
-/** 큐레이션의 티어별 목표 여유. curate-stages.ts 와 같은 값이어야 한다. */
-const targetMs = (tier: number) => 190 - (tier - 1) * 30;
+
 /** 사람의 탭 타이밍 산포보다 좁은 구간 — 이론상 통과 가능해도 실제로는 불가능하다. */
 const HUMAN_FLOOR_MS = 30;
 
@@ -105,13 +105,16 @@ for (const cap of [2, 3]) {
 
 for (const cap of [2, 3]) {
   console.log(`\n═══ 축 상한 ±${cap} ${cap === 2 ? "(처음 만나는 조건 — 큐레이션 기준)" : "(해금 후)"} ═══`);
+  console.log(
+    "티어 요구 — " + [1, 2, 3, 4].map((t) => `T${t} ${targetSlackMs(t)}ms · ${PEAK_RUN_NOTE[t]}`).join("  |  ")
+  );
   console.log("스테이지  최선  중앙  최악  차이  <60 <30   목표  편차   통로활용  최난구간  병목");
   for (const r of rows.filter((r) => r.cap === cap)) {
-    const off = r.best - targetMs(r.tier);
+    const off = r.best - targetSlackMs(r.tier);
     console.log(
       `T${r.tier}·${r.no}   ${pad(r.best, 5)} ${pad(r.med, 5)} ${pad(r.worst, 5)} ${pad(r.spread, 5)}` +
-      ` ${pad(r.under60, 4)}${pad(r.under30, 4)}  ${pad(targetMs(r.tier), 5)} ${pad((off >= 0 ? "+" : "") + off, 5)}` +
-      `   ${pad((r.utilisation * 100).toFixed(0) + "%", 6)}  ${pad(r.peakRun, 5)}단위  ${r.bottleneck}`
+      ` ${pad(r.under60, 4)}${pad(r.under30, 4)}  ${pad(targetSlackMs(r.tier), 5)} ${pad((off >= 0 ? "+" : "") + off, 5)}` +
+      `   ${pad((r.utilisation * 100).toFixed(0) + "%", 6)}  ${pad(r.peakRun, 5)}단위${PEAK_RUN_RULE[r.tier](r.peakRun) ? " " : "⚠"} ${r.bottleneck}`
     );
   }
   const tiers = [1, 2, 3, 4].map((t) => {
@@ -120,7 +123,7 @@ for (const cap of [2, 3]) {
   });
   console.log("\n티어 곡선 (최선 여유 평균)");
   for (const { t, avg, v } of tiers) {
-    console.log(`  티어 ${t}  목표 ${pad(targetMs(t), 3)}ms   실측 ${pad(avg.toFixed(0), 3)}ms  [${v.join(", ")}]`);
+    console.log(`  티어 ${t}  목표 ${pad(targetSlackMs(t), 3)}ms   실측 ${pad(avg.toFixed(0), 3)}ms  [${v.join(", ")}]`);
   }
   const inverted = tiers.filter((a, i) => i > 0 && a.avg > tiers[i - 1].avg);
   if (inverted.length) console.log(`  ⚠ 곡선 역전: ` + inverted.map((a) => `티어 ${a.t}이 티어 ${a.t - 1}보다 쉽다`).join(", "));
