@@ -61,6 +61,20 @@ pnpm telemetry:doctor
 
 **지역과 공개/비공개는 만든 뒤에 바꿀 수 없다.** 바꾸려면 새 스토어를 만들어 옮겨야 한다.
 
+**만드는 것과 프로젝트에 붙이는 것은 다른 일이다.** `vercel env pull` 이
+`VERCEL_OIDC_TOKEN` 만 주고 `BLOB_READ_WRITE_TOKEN`·`BLOB_STORE_ID` 를 주지 않으면
+스토어가 이 프로젝트에 연결되지 않은 것이다 — OIDC 토큰은 링크만 하면 오기 때문에
+"토큰이 왔으니 됐겠지"가 되기 쉽다. 어느 쪽인지는 한 줄로 갈린다.
+
+```bash
+vercel blob list-stores          # 이 프로젝트에 연결된 것만 나온다
+vercel blob list-stores --all    # 팀 전체 스토어
+```
+
+위가 비어 있고 아래에 있으면 연결이 빠진 것이다. 대시보드 Storage → 그 스토어 →
+Connect Project 로 붙이고 `vercel env pull` 을 다시 돌린다. `doctor.ts` 가 이 상태를
+따로 알아보고 같은 안내를 찍는다.
+
 이름은 레포 공용임이 드러나게 짓는다. 저장 경로가 `tele/<프로젝트>/…` 로 이미 갈라져 있고
 엔드포인트도 `/api/telemetry/[project]` 라 프로젝트별 스토어가 아니며, 지금 코드는
 `BLOB_READ_WRITE_TOKEN` 하나만 읽으므로 스토어도 하나여야 한다.

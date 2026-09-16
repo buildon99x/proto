@@ -76,8 +76,46 @@ export function diagnose(): string[] {
   return out;
 }
 
+/**
+ * 자격 상태별로 **다음에 칠 명령**을 돌려준다.
+ *
+ * 상태마다 할 일이 전혀 다르다 — 링크를 안 한 것, 스토어가 안 붙은 것, 스토어 id 만
+ * 없는 것은 같은 "자격 없음"으로 보이지만 해법이 셋 다 다르다.
+ */
+export function nextSteps(kind: Credentials["kind"]): string[] {
+  if (kind === "need-store-id") {
+    return [
+      "OIDC 토큰은 왔다. 스토어가 이 프로젝트에 연결됐는지부터 본다:",
+      "",
+      "    vercel blob list-stores          # 이 프로젝트에 연결된 것만 나온다",
+      "    vercel blob list-stores --all    # 팀 전체 스토어",
+      "",
+      "위가 비어 있고 아래에 있으면 → 연결이 안 된 것이다.",
+      "  대시보드 Storage → 그 스토어 → Connect Project 에서 loop-lab 을 붙인다.",
+      "  붙인 뒤 `vercel env pull` 을 다시 돌린다.",
+      "",
+      "둘 다 비어 있으면 → 스토어가 다른 팀/스코프에 있거나 아직 없는 것이다:",
+      "    vercel blob create-store prototype-lab-telemetry --access private --region icn1",
+      "",
+      "연결은 됐는데 env 에 안 오면, 스토어 id 를 직접 넣어도 된다.",
+      "  `vercel blob list-stores` 가 찍어 주는 store_… 를 .env.local 에 한 줄 추가:",
+      "    BLOB_STORE_ID=store_xxxxxxxx"
+    ];
+  }
+  return [
+    "스토어가 없다면:  vercel blob create-store <이름> --access private --region icn1",
+    "스토어가 있다면:  vercel link  후  vercel env pull   (레포 루트에서)",
+    "`vercel env pull` 의 기본 출력은 .env.local 이다. 커밋하지 않는다."
+  ];
+}
+
 export interface Credentials {
-  kind: "token" | "oidc" | "none";
+  /**
+   * `need-store-id` 는 **한 변수 차이**라는 뜻이다. OIDC 토큰은 링크만 하면 오지만
+   * 스토어 id 는 스토어가 프로젝트에 **연결**돼야 오므로, 이 상태는 "스토어가 붙지
+   * 않았다"를 가리킨다. `none` 과 섞으면 무엇을 해야 하는지가 가려진다.
+   */
+  kind: "token" | "oidc" | "need-store-id" | "none";
   /** SDK 호출에 그대로 펼쳐 넣는 옵션 */
   options: { token?: string; oidcToken?: string; storeId?: string };
   note: string;
@@ -94,12 +132,17 @@ export function credentials(): Credentials {
   if (oidcToken && storeId) {
     return { kind: "oidc", options: { oidcToken, storeId }, note: `OIDC · 스토어 ${storeId}` };
   }
+  if (oidcToken) {
+    return {
+      kind: "need-store-id",
+      options: {},
+      note: "VERCEL_OIDC_TOKEN 은 있는데 BLOB_STORE_ID 가 없다 — 스토어가 이 프로젝트에 연결되지 않았다"
+    };
+  }
   return {
     kind: "none",
     options: {},
-    note:
-      "자격 없음 — `vercel env pull` 로 BLOB_READ_WRITE_TOKEN 을 받거나, " +
-      "Vercel 프로젝트에 Blob 스토어를 연결해야 한다"
+    note: "자격 없음 — 링크도 토큰도 없다"
   };
 }
 
