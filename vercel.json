@@ -1,5 +1,8 @@
 {
   "buildCommand": "pnpm build:vercel",
   "installCommand": "pnpm install --frozen-lockfile",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "regions": [
+    "icn1"
+  ]
 }

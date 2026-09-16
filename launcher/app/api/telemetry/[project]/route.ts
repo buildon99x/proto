@@ -16,6 +16,19 @@ import { put } from "@vercel/blob";
  */
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+/**
+ * Blob 스토어와 **같은 지역**이어야 한다.
+ *
+ * Blob 은 한 지역에 실물이 있고 나머지는 CDN 캐시로 읽는 구조라 **쓰기는 캐시를 타지
+ * 못한다.** 쓰는 주체는 브라우저가 아니라 이 함수이므로, 플레이어가 어디 있든 상관없고
+ * 함수와 스토어가 붙어 있는지만 문제가 된다. 스토어를 `icn1` 로 만들었고 스토어 지역은
+ * 나중에 바꿀 수 없으므로, 바꿀 수 있는 쪽인 함수가 거기에 맞춘다.
+ *
+ * `vercel.json` 의 `regions` 가 같은 값을 갖고 있지만 여기에도 적는다 — Next.js 의
+ * 세그먼트 설정이 우선이고, 수집이 태평양을 건너는지는 배포 설정 파일 하나에 맡기기에는
+ * 조용히 틀어지기 쉬운 값이다.
+ */
+export const preferredRegion = "icn1";
 
 /** 본문 상한. 이벤트 50건이 10KB 남짓이라 세 배의 여유다 */
 const MAX_BYTES = 32 * 1024;
