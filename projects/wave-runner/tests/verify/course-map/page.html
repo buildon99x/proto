@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>course map</title>
+<style>
+  :root{
+    --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
+    --grid:#e1e0d9; --baseline:#c3c2b7; --critical:#d03b3b;
+  }
+  html,body{margin:0;background:var(--surface);
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink)}
+  .sheet{padding:26px 20px 30px;width:max-content}
+  canvas{display:block}
+</style></head>
+<body>
+<div class="sheet" id="sheet"></div>
+<script>
+const C = {
+  surface:"#fcfcfb", ink:"#0b0b0b", ink2:"#52514e", muted:"#898781",
+  grid:"#e1e0d9", baseline:"#c3c2b7", critical:"#d03b3b",
+  wall:"#c3c2b7",      // 벽·장애물 — 물리적으로 갈 수 없는 곳
+  dead:"#eceae4",      // 빈 공간이지만 거기 있으면 결국 죽는 곳
+};
+// 순차 램프(파랑 한 색, 밝음→어두움). 어두울수록 빡빡하다.
+const RAMP = [
+  { min:200, hex:"#9ec5f4" },
+  { min:150, hex:"#6da7ec" },
+  { min:110, hex:"#3987e5" },
+  { min: 80, hex:"#256abf" },
+  { min: 55, hex:"#184f95" },
+  { min: 30, hex:"#123f79" },
+  { min:  0, hex:"#0d366b" },
+];
+const rampColor = (ms) => (RAMP.find(b => ms >= b.min) || RAMP[RAMP.length-1]).hex;
+
+function px(v){ return Math.round(v*2)/2; }
+
+/** 한 스테이지 스트립을 그린다. 반환값은 블록 높이. */
+function drawStage(ctx, st, ox, oy, SX, SY, opts){
+  const MAIN = st.worldHeight * SY;
+  const SUB  = opts.sub ? Math.round(MAIN*0.26) : 0;
+  const W    = st.finishX * SX;
+  const fs   = opts.fontScale || 1;
+
+  // ── 머리글 ────────────────────────────────────────────────
+  const s = st.stats;
+  ctx.font = `700 ${Math.round(15*fs)}px system-ui,sans-serif`;
+  ctx.fillStyle = C.ink; ctx.textBaseline = "alphabetic";
+  ctx.fillText(`티어 ${st.tier} · ${st.no}`, ox, oy + Math.round(14*fs));
+  ctx.font = `400 ${Math.round(13*fs)}px system-ui,sans-serif`;
+  ctx.fillStyle = C.ink2;
+  const off = s.best - s.target;
+  const head = `최선 ${s.best}ms  ·  중앙 ${s.med}ms  ·  최악 ${s.worst}ms`
+             + `   |   티어 목표 ${s.target}ms (${off>=0?"+":""}${off})`
+             + `   |   16경로 중 60ms 미만 ${s.under60}개`
+             + (s.under30 ? ` · 30ms 미만 ${s.under30}개` : "");
+    ctx.fillText(head, ox + Math.round(108*fs), oy + Math.round(14*fs));
+  if (s.under30) {
+    const wHead = ctx.measureText(head).width;
+    ctx.fillStyle = C.critical;
+    ctx.font = `700 ${Math.round(13*fs)}px system-ui,sans-serif`;
+    ctx.fillText("▲ 함정 경로", ox + Math.round(108*fs) + wHead + 14, oy + Math.round(14*fs));
+  }
+
+  const top = oy + Math.round(38*fs);
+
+  // ── 본 스트립 ─────────────────────────────────────────────
+  ctx.fillStyle = C.wall;
+  ctx.fillRect(ox, top, W, MAIN);
+  const cols = st.best;
+  // 출발 정착 구간 — 출발 집합이 점 하나라서 생존 회랑이 좁게 나오는 자리다.
+  // 난이도가 아니라 초기 조건이므로 최난점 집계에서 빼고 따로 표시한다.
+  const SETTLE_X = 24;
+  for (let x = 0; x < cols.length; x += 1){
+    const [free, surv, ms] = cols[x];
+    // 정수 타일링 — 인접 열이 정확히 맞물려야 안티에일리어싱 줄무늬가 생기지 않는다
+    const gx = Math.round(ox + x*SX);
+    const cw = Math.round(ox + (x+1)*SX) - gx + 1;
+    ctx.fillStyle = C.dead;
+    for (let i = 0; i < free.length; i += 2)
+      ctx.fillRect(gx, top + free[i]*SY, cw, Math.max(0.6,(free[i+1]-free[i])*SY));
+    ctx.fillStyle = rampColor(ms);
+    for (let i = 0; i < surv.length; i += 2)
+      ctx.fillRect(gx, top + surv[i]*SY, cw, Math.max(0.6,(surv[i+1]-surv[i])*SY));
+  }
+  // 정착 구간을 덮어 "여기 좁은 것은 난이도가 아니다"를 말한다
+  const settleW = SETTLE_X*SX;
+  ctx.fillStyle = "rgba(252,252,251,0.62)";
+  ctx.fillRect(ox, top, settleW, MAIN);
+  ctx.strokeStyle = "rgba(11,11,11,0.30)"; ctx.setLineDash([3,3]); ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(px(ox+settleW), top); ctx.lineTo(px(ox+settleW), top+MAIN); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // 조각 경계와 라벨
+  ctx.textBaseline = "alphabetic";
+  let gi = 0;
+  for (const p of st.pieces){
+    const x0 = ox + p.startX*SX, x1 = ox + p.endX*SX;
+    ctx.strokeStyle = "rgba(11,11,11,0.16)"; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(px(x0), top); ctx.lineTo(px(x0), top+MAIN); ctx.stroke();
+    if (p.kind === "gate"){
+      gi += 1;
+      ctx.fillStyle = "rgba(11,11,11,0.05)";
+      ctx.fillRect(x0, top, x1-x0, MAIN);
+      ctx.fillStyle = C.muted;
+      ctx.font = `600 ${Math.round(11*fs)}px system-ui,sans-serif`;
+      ctx.textAlign = "center";
+      ctx.fillText(`게이트 ${gi}`, (x0+x1)/2, top + MAIN + Math.round(13*fs));
+      ctx.textAlign = "left";
+    } else {
+      ctx.fillStyle = C.ink2;
+      ctx.font = `600 ${Math.round(12*fs)}px system-ui,sans-serif`;
+      ctx.textAlign = "center";
+      ctx.fillText(p.id, (x0+x1)/2, top + MAIN + Math.round(13*fs));
+      ctx.textAlign = "left";
+    }
+  }
+  ctx.strokeStyle = "rgba(11,11,11,0.28)"; ctx.lineWidth = 1.5;
+  ctx.strokeRect(px(ox), px(top), W, MAIN);
+
+  // 최선 경로의 최난점
+  let tight = SETTLE_X;
+  for (let x = SETTLE_X + 1; x < cols.length; x += 1) if (cols[x][2] < cols[tight][2]) tight = x;
+  const tx = ox + tight*SX;
+  ctx.fillStyle = C.ink;
+  ctx.beginPath();
+  ctx.moveTo(tx, top-2); ctx.lineTo(tx-Math.round(5*fs), top-Math.round(11*fs));
+  ctx.lineTo(tx+Math.round(5*fs), top-Math.round(11*fs)); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = C.ink2; ctx.font = `600 ${Math.round(11*fs)}px system-ui,sans-serif`;
+  ctx.textAlign = "center";
+  ctx.fillText(`최난점 ${cols[tight][2]}ms`, tx, top - Math.round(14*fs));
+  ctx.textAlign = "left";
+
+  let bottom = top + MAIN + Math.round(18*fs);
+
+  // ── 최악 경로 여유 프로파일 ───────────────────────────────
+  if (opts.sub){
+    const sy = bottom + Math.round(16*fs);
+    const MAXMS = 180;
+    ctx.fillStyle = C.ink2; ctx.font = `500 ${Math.round(11*fs)}px system-ui,sans-serif`;
+    ctx.fillText("최악 경로의 여유 (0–180ms · 점선 30ms)", ox, sy - Math.round(3*fs));
+    ctx.fillStyle = "#f7f6f2"; ctx.fillRect(ox, sy, W, SUB);
+    const dz = SUB * (1 - 30/MAXMS);
+    ctx.fillStyle = "rgba(208,59,59,0.09)"; ctx.fillRect(ox, sy+dz, W, SUB-dz);
+    ctx.strokeStyle = "rgba(208,59,59,0.65)"; ctx.setLineDash([5,4]); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(ox, px(sy+dz)); ctx.lineTo(ox+W, px(sy+dz)); ctx.stroke();
+    ctx.setLineDash([]);
+    // 2px 선 — 30ms 아래 구간만 위험색으로 끊어 그린다
+    const wm = st.worstMs;
+    const yOf = (v) => sy + SUB - SUB*(Math.min(MAXMS, Math.max(0,v))/MAXMS);
+    ctx.lineWidth = 2; ctx.lineJoin = "round"; ctx.lineCap = "round";
+    let seg = null, segDanger = null;
+    const flush = () => {
+      if (!seg || seg.length < 2) { seg = null; return; }
+      ctx.strokeStyle = segDanger ? C.critical : "#256abf";
+      ctx.beginPath(); ctx.moveTo(seg[0][0], seg[0][1]);
+      for (let i = 1; i < seg.length; i += 1) ctx.lineTo(seg[i][0], seg[i][1]);
+      ctx.stroke(); seg = null;
+    };
+    for (let x = 24; x < wm.length; x += 1){
+      const danger = wm[x] < 30;
+      if (seg && danger !== segDanger){ seg.push([ox + x*SX, yOf(wm[x])]); flush(); }
+      if (!seg){ seg = []; segDanger = danger; if (x > 24) seg.push([ox + (x-1)*SX, yOf(wm[x-1])]); }
+      seg.push([ox + x*SX, yOf(wm[x])]);
+    }
+    flush();
+    ctx.strokeStyle = "rgba(11,11,11,0.20)"; ctx.lineWidth = 1;
+    ctx.strokeRect(px(ox), px(sy), W, SUB);
+    bottom = sy + SUB + Math.round(6*fs);
+  }
+  return bottom - oy;
+}
+
+function drawLegend(ctx, ox, oy, fs){
+  const f = (w,s)=>`${w} ${Math.round(s*fs)}px system-ui,sans-serif`;
+  ctx.textBaseline = "alphabetic";
+  ctx.fillStyle = C.ink; ctx.font = f(700,14);
+  ctx.fillText("읽는 법", ox, oy);
+  let y = oy + Math.round(22*fs);
+  const sw = Math.round(22*fs), sh = Math.round(13*fs);
+  const row = (hex, label, note) => {
+    ctx.fillStyle = hex; ctx.fillRect(ox, y - sh + 3, sw, sh);
+    ctx.strokeStyle = "rgba(11,11,11,0.18)"; ctx.lineWidth=1;
+    ctx.strokeRect(px(ox), px(y - sh + 3), sw, sh);
+    ctx.fillStyle = C.ink; ctx.font = f(600,12.5); ctx.fillText(label, ox + sw + 9, y);
+    ctx.fillStyle = C.ink2; ctx.font = f(400,12.5);
+    ctx.fillText(note, ox + sw + 9 + ctx.measureText(label).width + 10, y);
+    y += Math.round(19*fs);
+  };
+  row(C.wall, "벽 · 장애물", "물리적으로 갈 수 없다");
+  row(C.dead, "죽는 빈 공간", "들어갈 수는 있지만 거기서는 끝까지 못 간다");
+  row("#256abf", "생존 회랑", "실제로 플레이되는 통로 — 여기 있어야만 클리어할 수 있다");
+
+  y += Math.round(6*fs);
+  ctx.fillStyle = C.ink; ctx.font = f(600,12.5);
+  ctx.fillText("생존 회랑의 색 = 그 지점의 여유(ms). 진할수록 빡빡하다", ox, y);
+  y += Math.round(10*fs);
+  const bw = Math.round(74*fs), bh = Math.round(15*fs);
+  const labels = ["200+","150","110","80","55","30","0"];
+  RAMP.forEach((b,i) => {
+    ctx.fillStyle = b.hex; ctx.fillRect(ox + i*bw, y, bw, bh);
+    ctx.fillStyle = C.ink2; ctx.font = f(500,11.5); ctx.textAlign="left";
+    ctx.fillText(labels[i], ox + i*bw + 3, y + bh + Math.round(13*fs));
+  });
+  ctx.strokeStyle="rgba(11,11,11,0.18)"; ctx.lineWidth=1;
+  ctx.strokeRect(px(ox), px(y), bw*RAMP.length, bh);
+  y += bh + Math.round(30*fs);
+  ctx.fillStyle = C.critical; ctx.font = f(600,12.5);
+  ctx.fillText("빨강 — 여유 30ms 미만. 사람의 탭 타이밍 산포보다 좁아 사실상 통과 불가", ox, y);
+  y += Math.round(19*fs);
+  ctx.fillStyle = C.ink2; ctx.font = f(400,12.5);
+  ctx.fillText("세로는 월드 높이 100 전체. 가로는 코스 전체(약 2834단위). 아바타 반지름을 뺀 중심 좌표 기준.", ox, y);
+  y += Math.round(18*fs);
+  ctx.fillText("본 스트립은 16경로 중 최선 경로, 아래 선은 최악 경로. 축 상한 ±2(처음 만나는 조건).", ox, y);
+  y += Math.round(18*fs);
+  ctx.fillText("왼쪽 끝 흐린 구간은 출발 정착 구간이다 — 출발 집합이 점 하나라 좁게 나오는 것이지 난이도가 아니다.", ox, y);
+  return y - oy + Math.round(10*fs);
+}
+
+function makeCanvas(id, w, h){
+  const cv = document.createElement("canvas");
+  cv.id = id; cv.width = w; cv.height = h;
+  cv.style.width = w+"px"; cv.style.height = h+"px";
+  document.getElementById("sheet").appendChild(cv);
+  const ctx = cv.getContext("2d");
+  ctx.fillStyle = C.surface; ctx.fillRect(0,0,w,h);
+  return ctx;
+}
+
+function renderAll(){
+// ── 전체 시트 ───────────────────────────────────────────────
+(function overview(){
+  const SX = 1.15, SY = 1.85, fs = 1;
+  const ox = 26, W = 2833.6*SX;
+  const blockH = 38 + 100*SY + 18 + 16 + Math.round(100*SY*0.26) + 6 + 26;
+  const legendH = 300;
+  const w = Math.round(ox*2 + W);
+  const h = Math.round(76 + blockH*12 + legendH);
+  const ctx = makeCanvas("overview", w, h);
+  ctx.fillStyle = C.ink; ctx.font = "700 24px system-ui,sans-serif"; ctx.textBaseline="alphabetic";
+  ctx.fillText("Wave Runner — 12 스테이지 통로 전체와 난이도", ox, 34);
+  ctx.fillStyle = C.ink2; ctx.font = "400 14px system-ui,sans-serif";
+  ctx.fillText("정확한 솔버가 계산한 생존 회랑을 코스 위에 그대로 칠했다. 파란 띠가 실제로 플레이되는 통로다.", ox, 56);
+  let y = 76;
+  for (const st of window.STAGES){
+    y += drawStage(ctx, st, ox, y, SX, SY, { sub:true, fontScale:fs }) + 10;
+  }
+  drawLegend(ctx, ox, y + 18, 1);
+})();
+
+// ── 스테이지별 상세 ─────────────────────────────────────────
+for (const st of window.STAGES){
+  const SX = 1.42, SY = 2.7, fs = 1.7;
+  const ox = 34, W = st.finishX*SX;
+  const w = Math.round(ox*2 + W);
+  const h = Math.round(34 + 38*fs + 100*SY + 18*fs + 16*fs + 100*SY*0.26 + 6*fs + 34);
+  const ctx = makeCanvas(`stage-${st.tier}-${st.no}`, w, h);
+  drawStage(ctx, st, ox, 30, SX, SY, { sub:true, fontScale:fs });
+}
+window.__ready = true;
+}
+window.renderAll = renderAll;
+</script>
+</body></html>

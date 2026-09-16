@@ -37,8 +37,9 @@
 import { createState, launch, startYFor, update } from "../../app/src/game/engine";
 import { targetY } from "../../app/src/game/pilot";
 import { RUNNERS } from "../../app/src/game/runners";
+import type { Runner } from "../../app/src/game/runners";
 import { SECTORS, SECTOR_LEN, SECTOR_TYPE_LABEL } from "../../app/src/game/sectors";
-import type { Build, Course, Runner, Sector, SectorType } from "../../app/src/game/types";
+import type { Build, Course, Sector, SectorType } from "../../app/src/game/types";
 
 const DT = 1 / 120;
 const LOOKAHEAD = 0.14;

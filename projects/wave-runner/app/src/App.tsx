@@ -25,6 +25,7 @@ import { RUNNERS, runnerById, silhouetteOf, zigzagPoints } from "./game/runners"
 import GRADES from "./game/runner-grades.json";
 import type { Runner } from "./game/runners";
 import { exportMeta, importMeta, loadMeta, saveMeta } from "./game/storage";
+import { initTelemetry, setTelemetryEnabled } from "./game/telemetry";
 import type { Phase, Tuning } from "./game/types";
 
 type Screen =
@@ -109,6 +110,23 @@ function RunnerBars({ id }: { id: string }) {
   );
 }
 
+const fmtSec = (v: number) => `${v.toFixed(2)}초`;
+const fmtDist = (v: number) => `${Math.round(v)}m`;
+
+/** 결과 화면의 기록 표. 이번과 최고를 같은 크기로 나란히 둔다 — 비교가 곧 내용이다. */
+function RecordRow({ items }: { items: Array<{ label: string; value: string; tone?: "good" | "dim" }> }) {
+  return (
+    <dl className="record-row">
+      {items.map((it) => (
+        <div key={it.label}>
+          <dt>{it.label}</dt>
+          <dd className={it.tone ?? ""}>{it.value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 function AxisLegend() {
   return (
     <ul className="legend">
@@ -136,8 +154,22 @@ export default function App() {
   const [practice, setPractice] = useState(false);
   /** 방금 끝난 클리어가 실제로 지급한 코어. 반복 클리어는 0 이다 */
   const [reward, setReward] = useState(0);
+  /**
+   * 이 런 직전까지의 자기 기록과 갱신 여부.
+   *
+   * 저장본을 덮어쓰기 전에만 알 수 있으므로 `handleRunEnd` 에서 한 번 얼려 둔다 —
+   * 결과 화면이 렌더될 때는 `meta` 가 이미 새 기록으로 바뀌어 있다.
+   */
+  const [prev, setPrev] = useState<{ best: number | null; beat: boolean }>({ best: null, beat: false });
 
   const commit = useCallback((next: Meta) => setMetaState(saveMeta(next)), []);
+
+  // 앱이 뜰 때 한 번. 지난 실행이 못 보낸 배치를 먼저 비운다.
+  useEffect(() => {
+    initTelemetry(meta.telemetry);
+    // 최초 1회만 — 이후의 켬/끔은 토글이 직접 알린다.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -205,6 +237,9 @@ export default function App() {
       // 티어 지표의 의미가 사라진다.
       if (cfg.mode === "stage" && r.cleared && !cfg.practice) {
         const key = stageKey(cfg.runner ?? "dart", cfg.tier, cfg.stageNo);
+        const before = meta.bestStageSec[key];
+        const had = typeof before === "number" && Number.isFinite(before);
+        setPrev({ best: had ? before : null, beat: !had || r.sec < before });
         const first = !meta.clearedStages.includes(key);
         setReward(first ? coresForStage(cfg.tier) : 0);
         commit({
@@ -219,6 +254,8 @@ export default function App() {
       }
       if (cfg.mode === "endless" && !r.cleared) {
         const id = cfg.runner ?? "dart";
+        const before = meta.bestDistance[id] ?? 0;
+        setPrev({ best: before > 0 ? before : null, beat: r.distance > before });
         commit({
           ...meta,
           cores: meta.cores + coresForDistance(r.distance),
@@ -236,6 +273,18 @@ export default function App() {
     setMetaState((m) => saveMeta({ ...m, attempts: { ...m.attempts, [key]: (m.attempts[key] ?? 0) + 1 } }));
   }, [screen]);
 
+  const toggleHud = useCallback(() => {
+    setMetaState((m) => saveMeta({ ...m, hud: !m.hud }));
+  }, []);
+
+  const toggleTelemetry = useCallback(() => {
+    setMetaState((m) => {
+      const next = !m.telemetry;
+      setTelemetryEnabled(next);
+      return saveMeta({ ...m, telemetry: next });
+    });
+  }, []);
+
   const exitPlay = useCallback(() => {
     setScreen({ kind: "home" });
     setReport(null);
@@ -250,6 +299,16 @@ export default function App() {
   );
 
   const tiers = useMemo(() => Array.from({ length: MAX_TIER }, (_, i) => i + 1), []);
+
+  /** 이 런이 겨루는 자기 기록. 주행 중 표시와 결과 화면이 같은 값을 읽는다. */
+  const runRecord = useMemo(() => {
+    if (screen.kind !== "play") return 0;
+    const cfg = screen.config;
+    const id = cfg.runner ?? "dart";
+    if (cfg.mode === "endless") return meta.bestDistance[id] ?? 0;
+    const best = meta.bestStageSec[stageKey(id, cfg.tier, cfg.stageNo)];
+    return typeof best === "number" && Number.isFinite(best) ? best : 0;
+  }, [meta, screen]);
 
   return (
     <main className="app">
@@ -317,6 +376,25 @@ export default function App() {
             </div>
           </div>
 
+          <label className="toggle compact">
+            <input type="checkbox" checked={meta.hud} onChange={() => toggleHud()} />
+            <span>
+              <strong>주행 표시</strong>
+              <small>
+                화면 위 진행 레일과 거리·경과. 끄면 3단계까지의 무표시 주행 그대로다 — 주행 중 H
+              </small>
+            </span>
+          </label>
+
+          <label className="toggle compact">
+            <input type="checkbox" checked={meta.telemetry} onChange={() => toggleTelemetry()} />
+            <span>
+              <strong>기록 보내기</strong>
+              <small>
+                죽은 자리와 클리어를 익명으로 모아 난이도를 다듬는 데만 쓴다. 계정도 개인정보도 없다
+              </small>
+            </span>
+          </label>
 
           <footer className="panel-foot">
             <AxisLegend />
@@ -499,8 +577,11 @@ export default function App() {
             onAttempt={handleAttempt}
             onRunEnd={handleRunEnd}
             onExit={exitPlay}
+            onToggleHud={toggleHud}
             onSample={(s) => setFps(s.fps)}
             overrides={overrides}
+            hud={meta.hud}
+            record={runRecord}
           />
 
           {/*
@@ -522,6 +603,13 @@ export default function App() {
               </p>
               <h2>{runner.name}</h2>
               <p className="dim">{runner.note}</p>
+              {/* 겨룰 상대를 출발 전에 말해 둔다 — 주행 중에 읽게 하면 그게 곧 시선 비용이다 */}
+              {runRecord > 0 ? (
+                <p className="target">
+                  최고{" "}
+                  <strong>{screen.config.mode === "stage" ? fmtSec(runRecord) : fmtDist(runRecord)}</strong>
+                </p>
+              ) : null}
               <AxisLegend />
               <p className="cue">누르면 오른다</p>
             </div>
@@ -530,9 +618,45 @@ export default function App() {
           {phase === "cleared" && report ? (
             <div className="overlay">
               <h2 className="good">CLEAR</h2>
-              <p>
-                {report.sec.toFixed(2)}초 · 시도 {report.attempts}회
-              </p>
+              {prev.beat && !screen.config.practice ? <p className="badge">신기록</p> : null}
+              <RecordRow
+                items={[
+                  { label: "이번", value: fmtSec(report.sec), tone: prev.beat ? "good" : undefined },
+                  {
+                    label: "최고",
+                    value: runRecord > 0 ? fmtSec(runRecord) : fmtSec(report.sec),
+                    tone: prev.beat ? "good" : "dim"
+                  },
+                  { label: "시도", value: `${report.attempts}회`, tone: "dim" }
+                ]}
+              />
+              {prev.best !== null && !prev.beat ? (
+                <p className="delta">이전 최고보다 +{(report.sec - prev.best).toFixed(2)}초</p>
+              ) : null}
+              {prev.beat && prev.best !== null ? (
+                <p className="delta good">−{(prev.best - report.sec).toFixed(2)}초 단축</p>
+              ) : null}
+              {prev.beat && prev.best === null ? <p className="delta good">첫 기록</p> : null}
+
+              {/* 방금 푼 것만이 아니라 이 티어 전체를 한 줄로 — 이 기체 기준이다 */}
+              <div className="tier-bests">
+                <span className="field-label">
+                  {runner.name} · 티어 {screen.config.tier} 최고 기록
+                </span>
+                <ul>
+                  {Array.from({ length: STAGES_PER_TIER }, (_, i) => i + 1).map((no) => {
+                    const b = meta.bestStageSec[stageKey(runner.id, screen.config.tier, no)];
+                    const has = typeof b === "number" && Number.isFinite(b);
+                    return (
+                      <li key={no} className={no === screen.config.stageNo ? "here" : ""}>
+                        <em>{no}</em>
+                        <strong>{has ? `${b.toFixed(2)}초` : "—"}</strong>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+
               <p className="dim">
                 {screen.config.practice
                   ? "연습 통과 — 기록에 남지 않는다"
@@ -546,12 +670,28 @@ export default function App() {
 
           {phase === "dead" && screen.config.mode === "endless" && report ? (
             <div className="overlay">
-              <h2>{Math.round(report.distance)}m</h2>
-              <p className="dim">
-                +{coresForDistance(report.distance)} 코어 · {runner.name} 최고{" "}
-                {Math.round(meta.bestDistance[runner.id] ?? 0)}m
-              </p>
-              <p className="cue">누르면 다시</p>
+              <p className="eyebrow">ENDLESS · {runner.name}</p>
+              <h2 className={prev.beat ? "good" : ""}>{fmtDist(report.distance)}</h2>
+              {prev.beat ? <p className="badge">신기록</p> : null}
+              <RecordRow
+                items={[
+                  {
+                    label: "최고",
+                    value: fmtDist(meta.bestDistance[runner.id] ?? report.distance),
+                    tone: prev.beat ? "good" : undefined
+                  },
+                  { label: "이전 최고", value: prev.best === null ? "—" : fmtDist(prev.best), tone: "dim" },
+                  { label: "코어", value: `+${coresForDistance(report.distance)}`, tone: "dim" }
+                ]}
+              />
+              {prev.beat && prev.best !== null ? (
+                <p className="delta good">+{Math.round(report.distance - prev.best)}m 경신</p>
+              ) : null}
+              {prev.beat && prev.best === null ? <p className="delta good">첫 기록</p> : null}
+              {!prev.beat && prev.best !== null ? (
+                <p className="delta">최고까지 {Math.round(prev.best - report.distance)}m</p>
+              ) : null}
+              <p className="cue">누르면 다시 · Esc 나가기</p>
             </div>
           ) : null}
         </section>

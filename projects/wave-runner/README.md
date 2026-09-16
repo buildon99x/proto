@@ -10,6 +10,8 @@
 
 피커는 별점 대신 **잰 값**을 보여준다. 그 기체의 실제 지그재그를 그리고 그 뒤에 표준(45°)의 지그재그를 점선으로 깔아, 도형으로는 안 잡히는 5.6° 차이를 **기준선에서 벌어지는 폭**으로 보여준다. 여기에 **여유**(굼떠도 깨지는가)와 **길**(아무 길로나 가도 되는가) 두 막대를 붙인다. 예봉은 길이 절반뿐인데 가장 너그럽다.
 
+0.6.0 에서 두 줄기가 합쳐졌다. 코스 쪽은 수제 섹터가 **18개**로 늘고(회랑이 드리프트 × 난이도 9종) 스테이지 시드를 다시 골라 함정 경로가 0 이 됐다. 그 위에 **런 결말 수집**과 **사망 보고서**가 붙어, 솔버가 계산한 난이도와 사람이 실제로 죽는 자리를 처음으로 대조할 수 있다.
+
 난이도는 눈대중이 아니라 **생존 회랑 폭**으로 겨냥한다. 솔버가 "지금 여기서 출발해 끝까지 살아남을 수 있는 높이의 집합"을 정확히 계산하고, 그 폭을 시간으로 환산하면 "허용되는 타이밍 오차 190ms" 같은 사람의 단위가 된다. 생성기는 그 수치를 목표로 코스를 만든다.
 
 ## 실행
@@ -23,7 +25,7 @@ pnpm build:project -- wave-runner    # 빌드 → launcher/public/runs/wave-runn
 
 ## 조작
 
-스페이스 · 클릭 · 탭을 **누르고 있으면 상승**, 떼면 하강. `T` 튜닝 패널, `M` 음소거, `Esc` 목록.
+스페이스 · 클릭 · 탭을 **누르고 있으면 상승**, 떼면 하강. `H` 주행 표시(거리·경과·진행 레일) 켜고 끄기, `T` 튜닝 패널, `M` 음소거, `Esc` 목록.
 
 ## 검증
 
@@ -37,11 +39,24 @@ pnpm exec tsx projects/wave-runner/tests/verify/runner-grades.ts  # 기체 성�
 pnpm exec tsx projects/wave-runner/tests/verify/solver-check.ts   # 솔버를 신뢰할 수 있는가
 pnpm exec tsx projects/wave-runner/tests/verify/generation.ts     # 생성기가 난이도를 겨냥하는가
 pnpm exec tsx projects/wave-runner/tests/verify/sector-probe.ts   # 3축이 정말 양날인가
+pnpm exec tsx projects/wave-runner/tests/verify/sector-fairness.ts # 모든 빌드로 모든 섹터를 지날 수 있는가
 pnpm exec tsx projects/wave-runner/tests/verify/stage-paths.ts    # 모든 빌드 경로가 통과 가능한가
 pnpm exec tsx projects/wave-runner/tests/verify/endless-ramp.ts   # Endless 난이도가 실제로 조이는가
 pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts  # 스테이지 시드 재선별
 pnpm playtest --project wave-runner                               # 브라우저 자동 플레이테스트
+node projects/wave-runner/tests/verify/course-map/run.mjs         # 12스테이지 통로 지도(난이도 시각화)
 ```
+
+`course-map` 은 판정이 아니라 **눈으로 보는 도구**다. 솔버의 생존 회랑을 코스 전체에 칠해
+`assets/screenshots/courses/` 에 굽는다 — 화면에 그려진 통로와 실제로 플레이되는 통로의
+차이, 여유가 좁아지는 자리, 최악 경로가 무너지는 지점이 한 장에 들어온다.
+puppeteer 는 playtest 하네스가 설치한 것을 빌려 쓰므로 먼저 playtest 를 한 번 돌려야 한다.
+수치 짝은 `tests/verify/course-map/stats.ts` 다 — 티어 곡선, 함정 경로, 코스 중복, 섹터 사용 빈도,
+통로 활용률, 최난 구간 길이를 한 표로 낸다. 그림과 어긋나면 수치가 원본이다.
+
+보고서까지 한 번에 내려면 `/course-report` 를 쓴다 — 무거운 판독은
+[`wave-course-analyst`](../../.claude/agents/wave-course-analyst.md) 서브에이전트가 맡고,
+결과는 `notes/course-difficulty/<날짜>.md` 에 쌓인다.
 
 검증이 무엇을 증명하고 무엇을 증명하지 못하는지는 [eval.md](./eval.md)에 적었다.
 

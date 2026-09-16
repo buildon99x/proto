@@ -119,7 +119,7 @@ export function stageSeed(tier: number, stageNo: number): number {
 }
 
 /**
- * 스테이지 코스. **수제 섹터 12개 전부**를 풀로 쓴다.
+ * 스테이지 코스. **수제 섹터 18개 전부**를 풀로 쓴다.
  *
  * Endless 와 달리 여기서는 해금 상태(`maxSectorDifficulty`)를 보지 않는다.
  * 보게 두면 확장 섹터 풀을 사는 순간 같은 번호의 스테이지가 다른 코스가 되어
@@ -239,19 +239,31 @@ export class EndlessCourse {
   }
 }
 
-export function pieceAt(course: Course, x: number): CoursePiece | null {
+/**
+ * x 가 놓인 조각의 인덱스. 없으면 −1.
+ *
+ * 인덱스를 따로 내보내는 이유는 사망 기록이다 — "몇 번째 조각에서 죽었는가"가
+ * 있어야 "0번부터 그 조각까지는 진입했다"가 유도되고, 그것이 사망률의 분모다.
+ * 조각 자체만으로는 같은 섹터가 코스에 두 번 나올 때 자리를 구분하지 못한다.
+ */
+export function pieceIndexAt(course: Course, x: number): number {
   const pieces = course.pieces;
-  if (pieces.length === 0) return null;
+  if (pieces.length === 0) return -1;
   let lo = 0;
   let hi = pieces.length - 1;
-  if (x < pieces[0].startX) return pieces[0];
-  if (x >= pieces[hi].endX) return pieces[hi];
+  if (x < pieces[0].startX) return 0;
+  if (x >= pieces[hi].endX) return hi;
   while (lo < hi) {
     const mid = (lo + hi + 1) >> 1;
     if (pieces[mid].startX <= x) lo = mid;
     else hi = mid - 1;
   }
-  return pieces[lo];
+  return lo;
+}
+
+export function pieceAt(course: Course, x: number): CoursePiece | null {
+  const i = pieceIndexAt(course, x);
+  return i < 0 ? null : course.pieces[i];
 }
 
 export { SECTORS };

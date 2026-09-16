@@ -50,6 +50,10 @@ function migrateV2(raw: string): Meta {
   }
   if (typeof p.bestDistance === "number" && p.bestDistance > 0) out.bestDistance[id] = p.bestDistance;
 
+  // 표시·수집 설정은 해금이 아니라 취향이다. 넘기지 않으면 조용히 기본값으로 되돌아간다.
+  if (typeof p.hud === "boolean") out.hud = p.hud;
+  if (typeof p.telemetry === "boolean") out.telemetry = p.telemetry;
+
   return out;
 }
 
@@ -64,7 +68,10 @@ function coerce(p: Partial<Meta>): Meta {
     clearedStages: Array.isArray(p.clearedStages) ? p.clearedStages : [],
     bestStageSec: p.bestStageSec ?? {},
     bestDistance: p.bestDistance ?? {},
-    attempts: p.attempts ?? {}
+    attempts: p.attempts ?? {},
+    // 저장본이 이 키들을 모르던 시절에 만들어졌으면 켠 상태로 읽는다.
+    hud: p.hud ?? true,
+    telemetry: p.telemetry ?? true
   };
 }
 

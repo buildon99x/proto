@@ -1,0 +1,164 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>사망 지도</title>
+<style>
+  html,body{margin:0;background:#fcfcfb}
+  canvas{display:block}
+</style>
+<div id="sheet"></div>
+<script>
+/**
+ * 솔버가 예측한 최난 구간과 사람이 실제로 죽는 구간이 겹치는가.
+ * 위 띠는 생존 회랑의 여유(진할수록 빡빡), 아래 막대는 실측 사망이다.
+ * 색 램프는 코스 지도(tests/verify/course-map)와 같은 것을 쓴다 — 두 그림을 나란히 읽는다.
+ */
+const C = {
+  surface:"#fcfcfb", ink:"#0b0b0b", ink2:"#52514e", muted:"#898781",
+  grid:"#e1e0d9", gate:"#cfcdc4", death:"#d03b3b", deathSoft:"#eab6b6"
+};
+const RAMP = [
+  { min:200, hex:"#9ec5f4" }, { min:150, hex:"#6da7ec" }, { min:110, hex:"#3987e5" },
+  { min: 80, hex:"#256abf" }, { min: 55, hex:"#184f95" }, { min: 30, hex:"#123f79" },
+  { min:  0, hex:"#0d366b" }
+];
+const rampColor = (ms) => (RAMP.find(b => ms >= b.min) || RAMP[RAMP.length-1]).hex;
+const f = (w,s)=>`${w} ${s}px system-ui,-apple-system,sans-serif`;
+
+const PAD = 28, LABEL = 96, RIGHT = 150;
+const BAND = 24, HIST = 34, GAP = 30, HEAD = 78;
+
+function drawRow(ctx, st, oy, SX, maxHist){
+  const ox = PAD + LABEL;
+  const W = st.finishX * SX;
+
+  // 왼쪽 라벨
+  ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+  ctx.fillStyle = C.ink; ctx.font = f(700, 15);
+  ctx.fillText(st.stage, PAD, oy + 16);
+  ctx.fillStyle = C.muted; ctx.font = f(400, 11);
+  ctx.fillText(`티어 ${st.tier}`, PAD, oy + 32);
+  const short = st.lanesRecorded < st.gates;
+  ctx.fillText(st.lanes ? `경로 ${st.lanes}${short ? "…" : ""}` : "경로 —", PAD, oy + 46);
+
+  // 여유 띠 — 월드 1단위 격자를 정수 픽셀로 타일링한다(AA 이음매를 만들지 않는다)
+  for (let x = 0; x < st.slack.length; x += 1){
+    const gx = Math.round(ox + x*SX);
+    const cw = Math.round(ox + (x+1)*SX) - gx + 1;
+    ctx.fillStyle = rampColor(st.slack[x]);
+    ctx.fillRect(gx, oy, cw, BAND);
+  }
+
+  // 조각 경계. 게이트는 옅게 덮어 "여기는 섹터가 아니다"를 표시한다
+  ctx.save();
+  for (const p of st.pieces){
+    const x0 = ox + p.startX*SX, x1 = ox + p.endX*SX;
+    if (p.kind === "gate"){
+      ctx.fillStyle = "rgba(252,252,251,0.55)";
+      ctx.fillRect(x0, oy, x1-x0, BAND);
+    }
+    ctx.strokeStyle = C.surface; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(Math.round(x0)+0.5, oy); ctx.lineTo(Math.round(x0)+0.5, oy+BAND); ctx.stroke();
+  }
+  ctx.restore();
+
+  // 사망 히스토그램
+  const hy = oy + BAND + HIST;
+  ctx.strokeStyle = C.grid; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(ox, hy+0.5); ctx.lineTo(ox+W, hy+0.5); ctx.stroke();
+  const B = st.histBin;
+  for (let b = 0; b < st.hist.length; b += 1){
+    const n = st.hist[b];
+    if (!n) continue;
+    const h = Math.max(2, Math.round((n/maxHist) * HIST));
+    const gx = Math.round(ox + b*B*SX);
+    const cw = Math.max(2, Math.round(ox + (b+1)*B*SX) - gx - 1);
+    ctx.fillStyle = C.death;
+    ctx.fillRect(gx, hy - h, cw, h);
+  }
+
+  // 섹터 이름 — 사망이 있는 조각만 적는다. 전부 적으면 읽히지 않는다
+  ctx.font = f(400, 10); ctx.fillStyle = C.ink2; ctx.textAlign = "center";
+  for (const p of st.pieces){
+    if (p.kind !== "sector") continue;
+    let n = 0;
+    for (let b = Math.floor(p.startX/B); b < Math.min(Math.ceil(p.endX/B), st.hist.length); b += 1) n += st.hist[b];
+    if (n === 0) continue;
+    const cx = ox + ((p.startX + p.endX)/2)*SX;
+    ctx.fillText(`${p.id} · ${n}`, cx, hy + 13);
+  }
+
+  // 오른쪽 수치
+  ctx.textAlign = "left";
+  const rx = PAD + LABEL + st.finishX*SX + 14;
+  // 표본이 얇으면 숫자는 나오지만 판정은 서지 않는다. 그 경계를 색으로 숨기지 않는다.
+  const thin = st.entries < 20;
+  const rate = st.entries ? (st.deaths/st.entries*100).toFixed(0) : "—";
+  ctx.fillStyle = thin ? C.muted : C.ink; ctx.font = f(700, 14);
+  ctx.fillText(`${rate}%`, rx, oy + 16);
+  ctx.fillStyle = C.muted; ctx.font = f(400, 11);
+  ctx.fillText(`진입 ${st.entries}`, rx, oy + 32);
+  ctx.fillText(`사망 ${st.deaths}`, rx, oy + 46);
+  if (thin) { ctx.fillStyle = C.deathSoft; ctx.fillText("표본 부족", rx, oy + 60); }
+}
+
+function drawHead(ctx, w, meta){
+  ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+  ctx.fillStyle = C.ink; ctx.font = f(700, 19);
+  ctx.fillText("솔버가 예측한 최난 구간과 실제 사망", PAD, 30);
+  ctx.fillStyle = C.ink2; ctx.font = f(400, 12);
+  ctx.fillText(
+    `지문 ${meta.fp} · 사용 ${meta.usable}건(사망 ${meta.deaths} · 클리어 ${meta.clears} · 이탈 ${meta.aborts})` +
+    ` · 세션 ${meta.sessions}` + (meta.synthetic ? "  —  합성 데이터. 사람 데이터가 아니다" : ""),
+    PAD, 50
+  );
+
+  // 범례
+  const lx = w - PAD - 320;
+  ctx.font = f(400, 10); ctx.fillStyle = C.muted; ctx.textAlign = "left";
+  ctx.fillText("여유 빡빡 ←", lx - 62, 30);
+  const bw = 30, bh = 12;
+  RAMP.slice().reverse().forEach((b, i) => {
+    ctx.fillStyle = b.hex; ctx.fillRect(lx + i*bw, 20, bw, bh);
+  });
+  ctx.fillStyle = C.muted; ctx.fillText("→ 넉넉", lx + RAMP.length*bw + 6, 30);
+  ctx.fillStyle = C.death; ctx.fillRect(lx, 40, 12, 10);
+  ctx.fillStyle = C.ink2; ctx.fillText("아래 막대 = 그 자리의 사망 수", lx + 18, 49);
+}
+
+window.renderAll = function(){
+  const R = window.REPORT;
+  const figs = R.figures;
+  const maxFinish = Math.max(...figs.map(s => s.finishX));
+  const W = 1480;
+  const SX = (W - PAD*2 - LABEL - RIGHT) / maxFinish;
+  const rowH = BAND + HIST + GAP;
+  const H = HEAD + figs.length*rowH + PAD;
+
+  const cv = document.createElement("canvas");
+  cv.id = "deaths";
+  const dpr = 2;
+  cv.width = W*dpr; cv.height = H*dpr;
+  cv.style.width = W+"px"; cv.style.height = H+"px";
+  document.getElementById("sheet").appendChild(cv);
+  const ctx = cv.getContext("2d");
+  ctx.scale(dpr, dpr);
+  ctx.fillStyle = C.surface; ctx.fillRect(0, 0, W, H);
+
+  drawHead(ctx, W, {
+    fp: R.fp,
+    usable: R.counts.usable,
+    deaths: R.counts.deaths,
+    clears: R.counts.clears,
+    aborts: R.counts.aborts,
+    sessions: R.sessions,
+    synthetic: R.fp === "synthetic"
+  });
+
+  // 막대 높이는 **전 스테이지 공통 기준**이다. 스테이지마다 정규화하면
+  // 사망이 적은 스테이지가 많은 스테이지처럼 보인다.
+  const maxHist = Math.max(1, ...figs.flatMap(s => s.hist));
+  figs.forEach((st, i) => drawRow(ctx, st, HEAD + i*rowH, SX, maxHist));
+
+  window.__ready = true;
+};
+</script>

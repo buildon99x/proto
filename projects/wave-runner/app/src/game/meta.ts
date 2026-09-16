@@ -35,6 +35,21 @@ export interface Meta {
   bestDistance: Record<string, number>;
   /** "runner:tier:no" -> 시도 수 */
   attempts: Record<string, number>;
+  /**
+   * 주행 표시(거리·경과·진행 레일)를 켤지.
+   *
+   * brief 의 "HUD 없음"은 시선 예산을 지키려는 조항이었다. 표시를 아바타 뒤쪽
+   * 주변시로 밀어 비용을 거의 0 으로 만들었지만 0 은 아니므로, 끌 수 있게 두어
+   * 원래의 무표시 주행이 언제든 성립하게 한다.
+   */
+  hud: boolean;
+  /**
+   * 런 결말(사망·클리어·이탈)을 서버로 보낼지.
+   *
+   * 보내는 것은 좌표·시각·빌드 눈금뿐이고 계정도 개인정보도 없다. 기본을 켬으로 두는
+   * 이유는 표본이 0 이면 기능 자체가 무의미해지기 때문이고, 끄기는 한 번의 클릭이다.
+   */
+  telemetry: boolean;
 }
 
 export const EMPTY_META: Meta = {
@@ -46,7 +61,9 @@ export const EMPTY_META: Meta = {
   clearedStages: [],
   bestStageSec: {},
   bestDistance: {},
-  attempts: {}
+  attempts: {},
+  hud: true,
+  telemetry: true
 };
 
 export const STAGES_PER_TIER = 3;
