@@ -122,15 +122,53 @@ export function shutterDepth(s: Shutter, t: number): number {
 
 // ── 섹터 제작 ────────────────────────────────────────────────
 
+/** 협곡의 형상 파라미터. 튜닝 도구가 이 표를 스윕한다. */
+export interface GorgeSpec {
+  /** 중앙선이 위아래로 흔들리는 폭 */
+  amp: number;
+  /** 계단 수 */
+  count: number;
+  /** 통로 폭 */
+  width: number;
+  /** 램프의 dy/dx. 기체가 낼 수 있는 dy/dx 가 이보다 작으면 램프에서 뒤처진다 */
+  rampSlope: number;
+}
+
+/**
+ * 협곡 3종의 형상.
+ *
+ * **램프 기울기는 기체가 낼 수 있는 값보다 크게 잡아도 된다** — 뒤처진 만큼을 통로
+ * 폭이 흡수하기 때문이다. 램프 하나에서 벌어지는 거리는 `(rampSlope − 기체 dy/dx) ×
+ * 램프 길이` 이고, 이것이 통로의 여유 폭보다 작으면 통과한다. 협곡이 각도를 묻는
+ * 방식이 바로 이 뒤처짐이다.
+ *
+ * 0.5.3 에서 이 관계를 처음 계산에 넣었다. 그전 `gorge-3`(폭 22 · 램프 1.15)은
+ * 뒤처짐이 폭을 넘어서, **도달 가능한 19개 빌드 중 5개가 어떤 조작으로도 통과할 수
+ * 없었다.** 묻는 것이 아니라 막는 섹터였다. `gorge-2` 도 ±3 에서 최소 여유가 10ms 라
+ * 사람에게는 사실상 같은 문제였다.
+ *
+ * 그래서 **진폭은 고정하고 램프 기울기와 계단 수로만 난이도를 올린다.** 뒤처짐을
+ * 흡수할 폭은 넉넉히 두되(30~32) 램프를 가파르게 해서 각도를 묻는다 — 그러면
+ * 낮은 각도가 벌을 받되 죽지는 않는다. 계단 수가 늘어나는 것은 같은 질문을 더 여러 번
+ * 묻는다는 뜻이다.
+ *
+ * 부수 효과로 협곡이 처음으로 사양대로 각도를 묻게 됐다. 그전 `gorge-1` 은 각도를
+ * 올려도 여유가 오히려 8ms 줄었다 — 통로가 충분히 넓어 램프를 따라잡을 필요가 없었고,
+ * 큰 각도는 오버슈트만 키웠기 때문이다. 지금은 셋 다 각도가 오를수록 여유가 늘고
+ * (+60 / +84 / +104ms) 어려운 협곡일수록 더 강하게 묻는다.
+ */
+export const GORGE_SPEC: Record<number, GorgeSpec> = {
+  1: { amp: 17, count: 3, width: 32, rampSlope: 1.05 },
+  2: { amp: 17, count: 5, width: 30, rampSlope: 1.15 },
+  3: { amp: 17, count: 7, width: 30, rampSlope: 1.35 }
+};
+
 /**
  * 협곡 — 중앙선이 빠르게 오르내린다. 계단을 따라잡으려면 높은 각도가 필요하고,
  * 빠른 속도는 계단 하나에 쓸 수 있는 시간을 줄여 불리하다.
  */
-function gorge(difficulty: number): Sector {
-  const amp = [16, 19, 22][difficulty - 1];
-  const count = [3, 4, 4][difficulty - 1];
-  const width = [30, 26, 22][difficulty - 1];
-  const rampSlope = [0.95, 1.05, 1.15][difficulty - 1];
+export function makeGorge(difficulty: number, spec: GorgeSpec = GORGE_SPEC[difficulty]): Sector {
+  const { amp, count, width, rampSlope } = spec;
   return {
     id: `gorge-${difficulty}`,
     type: "gorge",
@@ -142,18 +180,59 @@ function gorge(difficulty: number): Sector {
   };
 }
 
+const gorge = (difficulty: number) => makeGorge(difficulty);
+
 /**
  * 회랑 — 좁고 긴 통로. 큰 각도는 진폭이 커져 벽을 때리므로 불리하다.
  * 오르는 회랑과 내려가는 회랑이 있어 **편향의 유불리가 정확히 뒤집힌다.**
  * 중립이 없는 통로를 유지하려면 짧은 탭 연타로 직진을 합성해야 한다 —
  * 원작에서 플레이어가 스스로 발명한 기술이 여기서는 의도된 해법이다.
  */
-function corridor(difficulty: number, drift: "up" | "down" | "flat"): Sector {
-  const width = [22, 20, 16][difficulty - 1];
-  // 가파른 지속 경사. 상승 한계는 각도×(1+편향), 하강 한계는 각도×(1−편향)이므로
-  // 오르는 회랑과 내려가는 회랑에서 편향의 유불리가 정확히 뒤집힌다.
-  const grade = 0.92;
-  const span = drift === "flat" ? 0 : SECTOR_LEN * grade * (drift === "up" ? -1 : 1);
+export interface CorridorSpec {
+  /** 통로 폭 */
+  width: number;
+  /**
+   * 지속 경사의 dy/dx. 상승 한계는 각도×(1+편향), 하강 한계는 각도×(1−편향)이므로
+   * 오르는 회랑과 내려가는 회랑에서 편향의 유불리가 정확히 뒤집힌다.
+   */
+  grade: number;
+  /** 경사 구간에서 오르내리는 총 높이 */
+  rise: number;
+}
+
+/**
+ * 회랑의 형상.
+ *
+ * **협곡과 같은 함정이 여기에도 있고, 아직 고치지 못했다.** 경사에서 뒤처지는 거리가
+ * 통로 폭을 넘으면 조작과 무관하게 벽에 닿는데, `corridor-up` 은 7개 · `corridor-down`
+ * 은 13개 빌드를 그렇게 봉쇄한다(`tests/verify/sector-fairness.ts`).
+ *
+ * 협곡처럼 파라미터로 풀리지 않는다. 경사를 낮추면 통과는 되지만 **편향의 유불리
+ * 뒤집힘이 사라진다** — 하강 회랑인데 편향 + 가 유리해진다. 경사가 하강 속도를 실제로
+ * 압박해야만 편향이 의미를 갖기 때문이다.
+ *
+ * 게다가 두 방향이 대칭이 아니다. 세 축의 합이 0 이라 (각도 −3, 편향 −3)은 존재하지
+ * 않으므로 **상승 한계의 최악은 0.62**인데, (각도 −3, 편향 +3)은 존재하므로 **하강
+ * 한계의 최악은 0.397**이다. 하강 회랑이 감당해야 하는 폭이 훨씬 크다.
+ *
+ * 답은 협곡의 수법이다 — 경사를 유지한 채 **짧게 끊고 사이에 평탄한 회복 구간**을 두면
+ * 뒤처짐이 누적되지 않는다. 계산상 0.92 경사를 두 토막(각 29단위)으로 끊고 50단위
+ * 평탄을 끼우면 토막당 뒤처짐이 16.5 로 폭 22 의 여유(18.8) 안에 든다. 형상 생성을
+ * 다시 써야 하므로 별도 작업으로 둔다.
+ */
+export const CORRIDOR_SPEC: Record<number, CorridorSpec> = {
+  1: { width: 22, grade: 0.92, rise: 64 },
+  2: { width: 20, grade: 0.92, rise: 64 },
+  3: { width: 16, grade: 0.92, rise: 64 }
+};
+
+export function makeCorridor(
+  difficulty: number,
+  drift: "up" | "down" | "flat",
+  spec: CorridorSpec = CORRIDOR_SPEC[difficulty]
+): Sector {
+  const { width, grade, rise } = spec;
+  const span = drift === "flat" ? 0 : rise * (drift === "up" ? -1 : 1);
   const clamped = Math.max(-64, Math.min(64, span));
   const mid = drift === "flat" ? 50 : 50 - clamped / 2;
   const useLen = drift === "flat" ? SECTOR_LEN : Math.abs(clamped) / grade;
@@ -176,6 +255,8 @@ function corridor(difficulty: number, drift: "up" | "down" | "flat"): Sector {
     shutters: []
   };
 }
+
+const corridor = (difficulty: number, drift: "up" | "down" | "flat") => makeCorridor(difficulty, drift);
 
 /**
  * 산개 — 넓은 통로에 흩뿌려진 장애물. 경로를 찾아 엮는 구간이라
