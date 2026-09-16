@@ -229,7 +229,10 @@ export async function runPlaytest(opts = {}) {
   const pageErrors = [];
   const consoleErrors = [];
   const manifest = [];
-  const browser = await puppeteer.launch({ headless: true, args: CHROME_FLAGS });
+  // protocolTimeout 기본값은 180초다. 시나리오의 오토플레이가 page.evaluate 하나 안에서
+  // 도는 프로젝트에서는 이 값이 곧 "한 주행의 상한"이 되어, 게임이 아니라 프로토콜이
+  // 먼저 끊긴다. 시나리오가 자기 상한을 스스로 정할 수 있게 넉넉히 연다.
+  const browser = await puppeteer.launch({ headless: true, args: CHROME_FLAGS, protocolTimeout: 600_000 });
   let passed = false;
   try {
     const page = await browser.newPage();

@@ -17,10 +17,13 @@ const LOOKAHEAD = 0.14;
  * 한 번의 오토파일럿 주행 상한(초).
  *
  * 주행 전체가 `page.evaluate` 하나 안에서 돌기 때문에 이 값은 puppeteer 의
- * `protocolTimeout`(기본 180초)보다 넉넉히 작아야 한다. 같아지면 Endless 가
- * 오래 버틴 날에 시나리오가 아니라 **프로토콜이** 먼저 끊긴다.
+ * `protocolTimeout` 보다 작아야 한다 — 같아지면 시나리오가 아니라 **프로토콜이**
+ * 먼저 끊긴다. 하네스가 그 값을 600초로 열어 두므로 여기서 자유롭게 정한다.
+ *
+ * Stage 는 사망하면 처음부터 다시 시작하므로 상한은 **한 주행이 아니라 몇 번의
+ * 재시도**를 담을 수 있어야 한다. 한 바퀴가 약 70초이니 240초면 세 번이다.
  */
-const RUN_LIMIT_SEC = 120;
+const RUN_LIMIT_SEC = 240;
 
 async function autoplay(page, limitSec) {
   return page.evaluate(
