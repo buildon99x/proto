@@ -15,6 +15,9 @@ export function loadMeta(): Meta {
       fullPool: Boolean(p.fullPool),
       clearedStages: Array.isArray(p.clearedStages) ? p.clearedStages : [],
       bestStageSec: p.bestStageSec ?? {},
+      // v2 문자열을 그대로 읽는다 — 추가 항목은 양방향 호환이라 키를 올릴 이유가 없다
+      bestStageProgress: p.bestStageProgress ?? {},
+      bestStageSplits: p.bestStageSplits ?? {},
       bestDistance: p.bestDistance ?? 0,
       attempts: p.attempts ?? {}
     };

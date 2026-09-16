@@ -45,6 +45,22 @@ export interface RunConfig {
    * 클리어가 아니다.
    */
   practice?: boolean;
+  /**
+   * 기록 이정표(여백 레이어)가 읽는 값. **렌더 전용이고 물리에 닿지 않는다.**
+   *
+   * 메타를 여기에 실어 보내는 것은 여백이 게임 상태를 읽지도 쓰지도 않게 하기
+   * 위해서다 — 런 시작 시점에 확정되고 런 중에는 바뀌지 않는다.
+   */
+  milestone?: MilestoneData;
+}
+
+export interface MilestoneData {
+  /** Stage 미클리어 — 최고 도달 진행률 0..1 */
+  bestProgress?: number;
+  /** Stage 클리어 — 최고 기록 런의 섹터 경계 도착 시각(초) */
+  splits?: number[];
+  /** Endless — 최고 거리 */
+  bestDistance?: number;
 }
 
 export interface GameState {
@@ -73,6 +89,8 @@ export interface GameState {
   gatesPassed: number;
   /** 통과한 섹터 수 */
   sectorsPassed: number;
+  /** 섹터 경계를 지난 시각(초). 기록 이정표의 스플릿 비교가 읽는다 */
+  splits: number[];
   /** 가장 최근 교환 — 통과 직후 잠깐 연출한다 */
   lastTrade: { trade: AxisTrade; at: number } | null;
   /** 현재 게이트 스팬 안에서 어느 관에 있는지 */
@@ -93,6 +111,7 @@ export interface Checkpoint {
   elapsed: number;
   gatesPassed: number;
   sectorsPassed: number;
+  splits: number[];
 }
 
 const TRAIL_MAX = 110;
@@ -143,6 +162,34 @@ function armNextGate(state: GameState): void {
  * 코스 시작점의 통로 중앙. 섹터마다 중앙선이 다르므로 고정 y 로 출발하면
  * 첫 프레임에 벽 안에서 시작하는 섹터가 생긴다.
  */
+export interface Bounds {
+  top: number;
+  bot: number;
+  divTop: number | null;
+  divBot: number | null;
+}
+
+/**
+ * 그 x 에서의 통로 형상. 렌더와 여백 레이어가 같은 함수를 본다 —
+ * 둘이 다른 경계를 믿으면 여백이 통로를 침범해도 알 수 없다.
+ */
+export function boundsAt(state: GameState, worldX: number): Bounds {
+  const piece = pieceAt(state.course, worldX);
+  if (!piece) return { top: 20, bot: 80, divTop: null, divBot: null };
+  if (piece.kind === "sector" && piece.sector) {
+    const { top, bot } = squeezeBounds(
+      sample(piece.sector.nodes, worldX - piece.startX),
+      piece.squeeze ?? 1
+    );
+    return { top, bot, divTop: null, divBot: null };
+  }
+  if (piece.kind === "gate" && piece.gate) {
+    const l = gateLanes(piece.gate, worldX, state.tuning);
+    return { top: l.outerTop, bot: l.outerBot, divTop: l.dividerTop, divBot: l.dividerBot };
+  }
+  return { top: 20, bot: 80, divTop: null, divBot: null };
+}
+
 export function startYFor(course: Course): number {
   const first = course.pieces[0];
   if (!first) return 50;
@@ -180,6 +227,7 @@ export function createState(config: RunConfig): GameState {
     trail: [],
     gatesPassed: 0,
     sectorsPassed: 0,
+    splits: [],
     lastTrade: null,
     lane: null,
     checkpoints: [],
@@ -231,6 +279,7 @@ export function restart(state: GameState): void {
     state.elapsed = last.elapsed;
     state.gatesPassed = last.gatesPassed;
     state.sectorsPassed = last.sectorsPassed;
+    state.splits = [...last.splits];
     // 체크포인트는 코스 중간이다 — 거기서부터 다시 앞의 게이트를 확정한다.
     state.armCursor = 0;
     armNextGate(state);
@@ -324,7 +373,8 @@ function resolveGateCrossing(state: GameState, prevX: number, piece: CoursePiece
       build: { ...state.build },
       elapsed: state.elapsed,
       gatesPassed: state.gatesPassed,
-      sectorsPassed: state.sectorsPassed
+      sectorsPassed: state.sectorsPassed,
+      splits: [...state.splits]
     });
   }
 }
@@ -373,7 +423,12 @@ function step(state: GameState, dt: number): StepOutcome {
   const leaving = pieceAt(state.course, px);
   if (leaving) {
     if (leaving.kind === "gate" && state.x >= leaving.endX) resolveGateCrossing(state, px, leaving);
-    if (leaving.kind === "sector" && state.x >= leaving.endX) state.sectorsPassed += 1;
+    if (leaving.kind === "sector" && state.x >= leaving.endX) {
+      state.sectorsPassed += 1;
+      // 스플릿은 여기서만 쌓인다. 마지막 섹터의 끝이 곧 종료선이므로
+      // splits 의 마지막 값과 기록 시간이 같은 수가 된다.
+      state.splits.push(state.elapsed);
+    }
   }
 
   if (state.endless) {

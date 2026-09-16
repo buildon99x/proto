@@ -35,6 +35,17 @@ export interface Meta {
   /** 클리어한 스테이지 "tier:no" */
   clearedStages: string[];
   bestStageSec: Record<string, number>;
+  /**
+   * 스테이지별 최고 도달 진행률 0..1. 미클리어 스테이지의 기록 이정표가 읽는다.
+   * `clearedStages` 만으로는 "어디까지 갔는가"를 알 수 없다.
+   */
+  bestStageProgress: Record<string, number>;
+  /**
+   * **최고 기록 런**의 섹터 경계 도착 시각(초) 5개. `bestStageSec` 과 반드시 같은
+   * 순간에 쓴다 — 구간별 최고를 모으면 서로 양립 불가능한 빌드의 합이 되어
+   * 달성 불가능한 값이 된다.
+   */
+  bestStageSplits: Record<string, number[]>;
   /** Endless 최고 거리 */
   bestDistance: number;
   attempts: Record<string, number>;
@@ -47,6 +58,8 @@ export const EMPTY_META: Meta = {
   fullPool: false,
   clearedStages: [],
   bestStageSec: {},
+  bestStageProgress: {},
+  bestStageSplits: {},
   bestDistance: 0,
   attempts: {}
 };

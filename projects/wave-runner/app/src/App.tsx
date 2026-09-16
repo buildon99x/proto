@@ -90,11 +90,16 @@ export default function App() {
           axisCap: meta.axisCap,
           maxSectorDifficulty: meta.fullPool ? 3 : 2,
           overrides,
-          practice
+          practice,
+          // 클리어한 스테이지는 도달 진행률이 1로 고정돼 각인이 종료선과 겹친다.
+          // 그때부터는 최고 기록 런의 스플릿을 비교한다.
+          milestone: meta.clearedStages.includes(stageKey(tier, stageNo))
+            ? { splits: meta.bestStageSplits[stageKey(tier, stageNo)] }
+            : { bestProgress: meta.bestStageProgress[stageKey(tier, stageNo)] ?? 0 }
         }
       });
     },
-    [meta.axisCap, meta.fullPool, overrides, practice, preset]
+    [meta.axisCap, meta.bestStageProgress, meta.bestStageSplits, meta.clearedStages, meta.fullPool, overrides, practice, preset]
   );
 
   const startEndless = useCallback(() => {
@@ -109,10 +114,11 @@ export default function App() {
         startBuild: { ...preset.build },
         axisCap: meta.axisCap,
         maxSectorDifficulty: meta.fullPool ? 3 : 2,
-        overrides
+        overrides,
+        milestone: { bestDistance: meta.bestDistance }
       }
     });
-  }, [meta.axisCap, meta.fullPool, overrides, preset]);
+  }, [meta.axisCap, meta.bestDistance, meta.fullPool, overrides, preset]);
 
   const handleRunEnd = useCallback(
     (r: RunReport) => {
@@ -124,15 +130,20 @@ export default function App() {
       if (cfg.mode === "stage" && r.cleared && !cfg.practice) {
         const key = stageKey(cfg.tier, cfg.stageNo);
         const first = !meta.clearedStages.includes(key);
+        const prev = meta.bestStageSec[key];
+        const improved = prev === undefined || r.sec < prev;
         setReward(first ? coresForStage(cfg.tier) : 0);
         commit({
           ...meta,
           cores: meta.cores + (first ? coresForStage(cfg.tier) : 0),
           clearedStages: first ? [...meta.clearedStages, key] : meta.clearedStages,
-          bestStageSec: {
-            ...meta.bestStageSec,
-            [key]: Math.min(meta.bestStageSec[key] ?? Number.POSITIVE_INFINITY, r.sec)
-          }
+          bestStageSec: improved ? { ...meta.bestStageSec, [key]: r.sec } : meta.bestStageSec,
+          // 기록과 스플릿은 **반드시 한 번에** 쓴다. 어긋나면 "최고 기록 런의
+          // 스플릿"이라는 정의 자체가 깨진다.
+          bestStageSplits: improved
+            ? { ...meta.bestStageSplits, [key]: r.splits }
+            : meta.bestStageSplits,
+          bestStageProgress: { ...meta.bestStageProgress, [key]: 1 }
         });
       }
       if (cfg.mode === "endless" && !r.cleared) {
@@ -146,12 +157,25 @@ export default function App() {
     [commit, meta, screen]
   );
 
-  const handleAttempt = useCallback(() => {
-    if (screen.kind !== "play") return;
-    const cfg = screen.config;
-    const key = cfg.mode === "stage" ? stageKey(cfg.tier, cfg.stageNo) : "endless";
-    setMetaState((m) => saveMeta({ ...m, attempts: { ...m.attempts, [key]: (m.attempts[key] ?? 0) + 1 } }));
-  }, [screen]);
+  const handleAttempt = useCallback(
+    (progress: number) => {
+      if (screen.kind !== "play") return;
+      const cfg = screen.config;
+      const key = cfg.mode === "stage" ? stageKey(cfg.tier, cfg.stageNo) : "endless";
+      // 연습 통과는 기록이 아니므로 도달 진행률도 남기지 않는다
+      const track = cfg.mode === "stage" && !cfg.practice && progress > 0;
+      setMetaState((m) =>
+        saveMeta({
+          ...m,
+          attempts: { ...m.attempts, [key]: (m.attempts[key] ?? 0) + 1 },
+          bestStageProgress: track
+            ? { ...m.bestStageProgress, [key]: Math.max(m.bestStageProgress[key] ?? 0, progress) }
+            : m.bestStageProgress
+        })
+      );
+    },
+    [screen]
+  );
 
   const exitPlay = useCallback(() => {
     setScreen({ kind: "home" });

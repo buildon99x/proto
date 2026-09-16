@@ -1,7 +1,6 @@
 import { AXES, AXIS_COLOR } from "./axes";
 import { cameraX, computeView } from "./camera";
-import { pieceAt } from "./course";
-import { gateLanes, squeezeBounds } from "./engine";
+import { boundsAt, gateLanes, squeezeBounds } from "./engine";
 import { drawMargin } from "./margin";
 import type { GameState } from "./engine";
 import { sample, shutterDepth } from "./sectors";
@@ -19,30 +18,6 @@ const COLOR = {
   text: "#e8f1ff",
   textDim: "#7f90ad"
 };
-
-interface Bounds {
-  top: number;
-  bot: number;
-  divTop: number | null;
-  divBot: number | null;
-}
-
-function boundsAt(state: GameState, worldX: number): Bounds {
-  const piece = pieceAt(state.course, worldX);
-  if (!piece) return { top: 20, bot: 80, divTop: null, divBot: null };
-  if (piece.kind === "sector" && piece.sector) {
-    const { top, bot } = squeezeBounds(
-      sample(piece.sector.nodes, worldX - piece.startX),
-      piece.squeeze ?? 1
-    );
-    return { top, bot, divTop: null, divBot: null };
-  }
-  if (piece.kind === "gate" && piece.gate) {
-    const l = gateLanes(piece.gate, worldX, state.tuning);
-    return { top: l.outerTop, bot: l.outerBot, divTop: l.dividerTop, divBot: l.dividerBot };
-  }
-  return { top: 20, bot: 80, divTop: null, divBot: null };
-}
 
 function hexToRgb(hex: string): [number, number, number] {
   return [

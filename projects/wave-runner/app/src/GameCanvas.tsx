@@ -12,12 +12,18 @@ export interface RunReport {
   distance: number;
   attempts: number;
   build: Build;
+  /** 섹터 경계 도착 시각. 최고 기록을 갱신했을 때만 메타에 실린다 */
+  splits: number[];
 }
 
 interface Props {
   config: RunConfig;
   onPhase: (phase: Phase) => void;
-  onAttempt: () => void;
+  /**
+   * 시도가 시작될 때. `progress` 는 이 세션에서 도달한 최고 진행률(Stage 0..1)이고
+   * 기록 이정표가 읽는다 — 이미 시도마다 저장하고 있으므로 **추가 쓰기가 0** 이다.
+   */
+  onAttempt: (progress: number) => void;
   onRunEnd: (report: RunReport) => void;
   onExit: () => void;
   onSample?: (s: { fps: number; attempts: number }) => void;
@@ -88,13 +94,13 @@ export function GameCanvas({ config, onPhase, onAttempt, onRunEnd, onExit, onSam
       s.holding = true;
       if (s.phase === "ready") {
         launch(s);
-        cbRef.current.onAttempt();
+        cbRef.current.onAttempt(s.best);
         sfx.launch();
       } else if (s.phase === "cleared" && s.sincePhase > 0.5) {
         cbRef.current.onExit();
       } else if (s.phase === "dead" && s.mode === "endless" && s.sincePhase > 0.6) {
         restart(s);
-        cbRef.current.onAttempt();
+        cbRef.current.onAttempt(s.best);
       }
     };
     const release = () => {
@@ -153,11 +159,12 @@ export function GameCanvas({ config, onPhase, onAttempt, onRunEnd, onExit, onSam
             sec: s.elapsed,
             distance: s.x,
             attempts: s.attempts,
-            build: { ...s.build }
+            build: { ...s.build },
+            splits: [...s.splits]
           });
         }
       }
-      if (result.event === "restarted") cbRef.current.onAttempt();
+      if (result.event === "restarted") cbRef.current.onAttempt(s.best);
       if (result.event === "cleared") {
         sfx.clear();
         cbRef.current.onRunEnd({
@@ -165,7 +172,8 @@ export function GameCanvas({ config, onPhase, onAttempt, onRunEnd, onExit, onSam
           sec: s.elapsed,
           distance: s.x,
           attempts: s.attempts,
-          build: { ...s.build }
+          build: { ...s.build },
+          splits: [...s.splits]
         });
       }
       if (s.phase !== reported) {

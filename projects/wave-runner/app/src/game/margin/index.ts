@@ -16,6 +16,7 @@
 import { KEEPOUT, insetWallPath, textureRegions } from "./bands";
 import type { WallPoints } from "./bands";
 import { MarginBudget } from "./budget";
+import { drawMarks, milestoneMarks } from "./markers";
 import { drawTexture, prebakeTiles } from "./texture";
 import type { MarginView } from "./texture";
 import type { GameState } from "../engine";
@@ -23,6 +24,7 @@ import type { View } from "../camera";
 
 export { KEEPOUT };
 export { resetTextureCache } from "./texture";
+export { milestoneMarks } from "./markers";
 export type { MarginTier } from "./budget";
 
 const budget = new MarginBudget();
@@ -76,7 +78,15 @@ export function drawMargin(
   ctx.save();
   insetWallPath(ctx, topPts, botPts, cssW, cssH, view.zoom);
   ctx.clip();
+  // 아래에서 위로: 유형 질감 → 기록 이정표
   drawTexture(ctx, regions, marginView);
+  drawMarks(ctx, milestoneMarks(state), state, {
+    camX,
+    zoom: view.zoom,
+    offsetY,
+    cssW,
+    worldHeight: state.base.worldHeight
+  });
   ctx.restore();
 
   budget.end(performance.now());

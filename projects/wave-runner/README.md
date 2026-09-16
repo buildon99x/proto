@@ -6,7 +6,7 @@
 
 **현재 범위는 3단계다** — 부사 3축(각도·속도·편향), 교환 게이트, 섹터 4유형, Stage·Endless 두 모드, 메타 해금, 그리고 **정확한 솔버 위에 올린 절차적 생성**.
 
-통로 밖 벽면에는 **섹터 유형 질감**이 깔린다. 대비 상한이 1.5:1 이라 밝기로는 네 유형을 가를 수 없으므로 결의 **방향**으로 가르고, 게이트 리드인에서 다음 유형으로 크로스페이드한다 — 유형이 어떤 축을 원하는지를 선택 전에 읽게 한다.
+통로 밖 벽면에는 **섹터 유형 질감**과 **기록 이정표**가 깔린다. 대비 상한이 1.5:1 이라 밝기로는 네 유형을 가를 수 없으므로 결의 **방향**으로 가르고, 게이트 리드인에서 다음 유형으로 크로스페이드한다 — 유형이 어떤 축을 원하는지를 선택 전에 읽게 한다. 이정표는 숫자 없이 "지금 자기 기록을 넘었다"만 1비트로 알린다.
 
 난이도는 눈대중이 아니라 **생존 회랑 폭**으로 겨냥한다. 솔버가 "지금 여기서 출발해 끝까지 살아남을 수 있는 높이의 집합"을 정확히 계산하고, 그 폭을 시간으로 환산하면 "허용되는 타이밍 오차 190ms" 같은 사람의 단위가 된다. 생성기는 그 수치를 목표로 코스를 만든다.
 
@@ -35,6 +35,7 @@ pnpm exec tsx projects/wave-runner/tests/verify/stage-paths.ts    # 모든 빌�
 pnpm exec tsx projects/wave-runner/tests/verify/endless-ramp.ts   # Endless 난이도가 실제로 조이는가
 pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts  # 스테이지 시드 재선별
 pnpm exec tsx projects/wave-runner/tests/verify/margin-texture.ts # 여백 질감이 색·이음매·결정성 사양을 지키는가
+pnpm exec tsx projects/wave-runner/tests/verify/margin-markers.ts # 기록 이정표의 자리·섬광·배타성·스플릿
 pnpm playtest --project wave-runner                               # 브라우저 자동 플레이테스트
 ```
 

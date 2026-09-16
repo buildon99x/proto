@@ -18,6 +18,7 @@ pnpm exec tsx projects/wave-runner/tests/verify/stage-paths.ts          # 전 �
 pnpm exec tsx projects/wave-runner/tests/verify/endless-ramp.ts         # Endless 난이도 램프
 pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts        # 스테이지 시드 재선별(표를 다시 굽는다)
 pnpm exec tsx projects/wave-runner/tests/verify/margin-texture.ts       # 여백 질감의 색·이음매·잉크 총량·결정성
+pnpm exec tsx projects/wave-runner/tests/verify/margin-markers.ts       # 기록 이정표의 자리·섬광·배타성·스플릿
 ```
 
 | 검사 | 현재 결과 |
@@ -31,8 +32,9 @@ pnpm exec tsx projects/wave-runner/tests/verify/margin-texture.ts       # 여백
 | **Endless 램프** | 지연 60ms 5339 → 180ms 1008. 모든 지연에서 런이 종료됨 |
 | 게이트 교환 성립 | 실제 주행 352게이트 전부 한 축 +1 / 다른 축 −1 · 축합 이탈 0 (`gate-offers.ts`) |
 | **여백 질감 사양** | 대비 목표 일치(상한 1.50:1 이내) · 잉크 총량 최대/최소 1.033 · 이음매 이탈 0 · 코스 난수 불간섭 |
+| **기록 이정표 사양** | 각인 자리 최악 18.0월드(필요 14) · 섬광 2.49:1(상한 3.0) · 7개 모드 조합에서 정확히 한 종류 · 스플릿과 기록 시간 차 0.0000초 |
 | **여백이 통로를 침범하는가** | 172장면 1280×720 DPR2 픽셀 대조 — 통로 안 **0 픽셀**, 근접대 **0 픽셀**(최소 여유 7.88월드) |
-| **여백의 프레임 비용** | 렌더 p50 +0.1ms · p99 +0.3ms (0.5/1.2ms 대 0.4/0.9ms). 타일 굽기는 `ready` 첫 프레임 7.1ms |
+| **여백의 프레임 비용** | 질감 + 이정표 합쳐 렌더 p50 +0.1ms · p99 +0.3ms (3회 시행). 타일 굽기는 `ready` 첫 프레임 7.1ms |
 | 브라우저 플레이테스트 | Stage 클리어(73초·게이트 4개) · 런타임 생성 4섹터 + 폴백 3 · 프레임 p50 16.7ms / p99 17.5ms · 콘솔 오류 0 |
 
 ### 왜 통과율이 아니라 여유(slack)로 고르는가
@@ -63,6 +65,14 @@ pnpm exec tsx projects/wave-runner/tests/verify/margin-texture.ts       # 여백
 
 목적 지표는 **게이트 선택이 다음 섹터 유형에 맞는 비율**이다(기저 50%, 목표 +10%p). 계측 방식은 [margin-texture.md](./docs/design/margin-texture.md) §8.
 
+### 기록 이정표 — 자동 검증이 증명하지 못하는 것
+
+M-A(도달 각인)는 **아직 지나지 않은 자리에 선다.** 앞 구간 표시는 예고이고, 사망 지층을 `running` 중 금지한 것과 같은 범주다. 장애물에 대해 아무 말도 하지 않는다는 점이 다르지만 시선을 뺏는지는 여전히 측정 대상이다.
+
+**아직 수행되지 않은 것.** 질감 A/B 에 이정표 on/off 조건을 하나 더 붙인다. 1차 지표는 최초 클리어까지의 시도 수이고, **15% 이상 늘면 "넘은 뒤에만 보이는" 사후 표시로 후퇴한다**(각인을 그리지 않고 넘는 순간의 섬광만 남긴다 — 정보량은 그대로 1비트다).
+
+2차 지표는 Endless 세션당 런 수(도입 전 대비 증가)와 경신 직후 10초 내 재시도율(넘지 못한 런보다 높을 것)이다.
+
 ## 손으로 확인할 것
 
 - [ ] 조작 설명 없이 첫 10초 안에 버튼의 의미를 파악하는가
@@ -74,6 +84,8 @@ pnpm exec tsx projects/wave-runner/tests/verify/margin-texture.ts       # 여백
 - [ ] 섹터 4유형을 이름 없이 실루엣만으로 구분하는가
 - [ ] **벽 질감만 보고 섹터 유형을 구분하는가** (통로 형상을 가린 채)
 - [ ] **게이트에서 다음 유형을 읽고 교환을 고르는가** — 질감이 없을 때와 선택이 달라지는가
+- [ ] **각인을 넘는 순간을 알아차리는가** — 숫자 없이 "기록을 넘었다"가 전달되는가
+- [ ] **각인이 질감과 구별되는가** — 특히 맥동 섹터의 세로 리브 위에서
 - [ ] `running` 중 화면에 HUD가 하나도 없는가
 - [ ] 세로 화면에서 한 손으로 플레이되는가
 - [ ] 60fps가 유지되는가 (T 패널)
