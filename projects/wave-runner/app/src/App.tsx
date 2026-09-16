@@ -8,10 +8,10 @@ import { isMuted, setMuted } from "./game/audio";
 import {
   AXIS_CAP_COST,
   MAX_TIER,
-  PRESETS,
-  PRESET_BY_ID,
   SECTOR_POOL_COST,
   STAGES_PER_TIER,
+  bestDistanceOverall,
+  clearedByAny,
   coresForDistance,
   coresForStage,
   countClearedInTier,
@@ -20,6 +20,8 @@ import {
   tierUnlocked
 } from "./game/meta";
 import type { Meta } from "./game/meta";
+import { RUNNERS, RUNNER_BY_ID, runnerById, silhouetteOf } from "./game/runners";
+import type { Runner } from "./game/runners";
 import { exportMeta, importMeta, loadMeta, saveMeta } from "./game/storage";
 import type { Phase, Tuning } from "./game/types";
 
@@ -28,6 +30,18 @@ type Screen =
   | { kind: "stages" }
   | { kind: "shop" }
   | { kind: "play"; config: RunConfig };
+
+/** 기체 실루엣. 모양이 수치의 함수이므로 코의 벌어짐이 곧 그 기체의 기준 각도다. */
+function RunnerMark({ runner, size = 46 }: { runner: Runner; size?: number }) {
+  const pts = silhouetteOf(runner)
+    .points.map(([x, y]) => `${(size / 2 + (x * size) / 2).toFixed(2)},${(size / 2 + (y * size) / 2).toFixed(2)}`)
+    .join(" ");
+  return (
+    <svg className="runner-mark" width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
+      <polygon points={pts} />
+    </svg>
+  );
+}
 
 function AxisLegend() {
   return (
@@ -45,7 +59,7 @@ function AxisLegend() {
 export default function App() {
   const [screen, setScreen] = useState<Screen>({ kind: "home" });
   const [meta, setMetaState] = useState<Meta>(() => loadMeta());
-  const [presetId, setPresetId] = useState("neutral");
+  const [runnerId, setRunnerId] = useState(() => loadMeta().runner);
   const [phase, setPhase] = useState<Phase>("ready");
   const [report, setReport] = useState<RunReport | null>(null);
   const [overrides, setOverrides] = useState<Partial<Tuning>>({});
@@ -73,7 +87,7 @@ export default function App() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const preset = PRESET_BY_ID.get(presetId) ?? PRESETS[0];
+  const runner = runnerById(runnerId);
 
   const startStage = useCallback(
     (tier: number, stageNo: number) => {
@@ -86,7 +100,8 @@ export default function App() {
           tier,
           stageNo,
           seed: 0,
-          startBuild: { ...preset.build },
+          runner: runner.id,
+          startBuild: { ...runner.startBuild },
           axisCap: meta.axisCap,
           maxSectorDifficulty: meta.fullPool ? 3 : 2,
           overrides,
@@ -94,7 +109,7 @@ export default function App() {
         }
       });
     },
-    [meta.axisCap, meta.fullPool, overrides, practice, preset]
+    [meta.axisCap, meta.fullPool, overrides, practice, runner]
   );
 
   const startEndless = useCallback(() => {
@@ -106,13 +121,14 @@ export default function App() {
         tier: 1,
         stageNo: 0,
         seed: (Date.now() & 0xffff) >>> 0,
-        startBuild: { ...preset.build },
+        runner: runner.id,
+        startBuild: { ...runner.startBuild },
         axisCap: meta.axisCap,
         maxSectorDifficulty: meta.fullPool ? 3 : 2,
         overrides
       }
     });
-  }, [meta.axisCap, meta.fullPool, overrides, preset]);
+  }, [meta.axisCap, meta.fullPool, overrides, runner]);
 
   const handleRunEnd = useCallback(
     (r: RunReport) => {
@@ -122,7 +138,7 @@ export default function App() {
       // 연습 통과는 클리어가 아니다 — 긴장이 빠진 주행을 기록으로 남기면
       // 티어 지표의 의미가 사라진다.
       if (cfg.mode === "stage" && r.cleared && !cfg.practice) {
-        const key = stageKey(cfg.tier, cfg.stageNo);
+        const key = stageKey(cfg.runner ?? "dart", cfg.tier, cfg.stageNo);
         const first = !meta.clearedStages.includes(key);
         setReward(first ? coresForStage(cfg.tier) : 0);
         commit({
@@ -136,10 +152,11 @@ export default function App() {
         });
       }
       if (cfg.mode === "endless" && !r.cleared) {
+        const id = cfg.runner ?? "dart";
         commit({
           ...meta,
           cores: meta.cores + coresForDistance(r.distance),
-          bestDistance: Math.max(meta.bestDistance, r.distance)
+          bestDistance: { ...meta.bestDistance, [id]: Math.max(meta.bestDistance[id] ?? 0, r.distance) }
         });
       }
     },
@@ -149,7 +166,7 @@ export default function App() {
   const handleAttempt = useCallback(() => {
     if (screen.kind !== "play") return;
     const cfg = screen.config;
-    const key = cfg.mode === "stage" ? stageKey(cfg.tier, cfg.stageNo) : "endless";
+    const key = cfg.mode === "stage" ? stageKey(cfg.runner ?? "dart", cfg.tier, cfg.stageNo) : "endless";
     setMetaState((m) => saveMeta({ ...m, attempts: { ...m.attempts, [key]: (m.attempts[key] ?? 0) + 1 } }));
   }, [screen]);
 
@@ -188,24 +205,24 @@ export default function App() {
           </div>
 
           <div className="preset-row">
-            <span className="field-label">출발 형태</span>
+            <span className="field-label">기체</span>
             <div className="chips">
-              {PRESETS.map((p) => {
-                const owned = meta.presets.includes(p.id);
-                return (
-                  <button
-                    key={p.id}
-                    type="button"
-                    className={`chip${presetId === p.id ? " on" : ""}${owned ? "" : " locked"}`}
-                    disabled={!owned}
-                    onClick={() => setPresetId(p.id)}
-                    title={p.note}
-                  >
-                    {p.name}
-                    <em>{owned ? p.note : `${p.cost} 코어`}</em>
-                  </button>
-                );
-              })}
+              {RUNNERS.map((r) => (
+                <button
+                  key={r.id}
+                  type="button"
+                  className={`chip runner${runnerId === r.id ? " on" : ""}`}
+                  onClick={() => {
+                    setRunnerId(r.id);
+                    commit({ ...meta, runner: r.id });
+                  }}
+                  title={r.note}
+                >
+                  <RunnerMark runner={r} />
+                  {r.name}
+                  <em>{r.note}</em>
+                </button>
+              ))}
             </div>
           </div>
 
@@ -227,7 +244,7 @@ export default function App() {
                   ? "끝이 없다. 얼마나 멀리 가는가"
                   : "Stage 하나를 클리어하면 열린다"}
               </small>
-              <em>최고 {Math.round(meta.bestDistance)}m</em>
+              <em>최고 {Math.round(bestDistanceOverall(meta))}m</em>
             </button>
           </div>
 
@@ -258,8 +275,9 @@ export default function App() {
                 </h2>
                 <div className="tier-row">
                   {Array.from({ length: STAGES_PER_TIER }, (_, i) => i + 1).map((no) => {
-                    const key = stageKey(tier, no);
+                    const key = stageKey(runner.id, tier, no);
                     const cleared = meta.clearedStages.includes(key);
+                    const byAny = clearedByAny(meta, tier, no);
                     const best = meta.bestStageSec[key];
                     const tries = meta.attempts[key] ?? 0;
                     return (
@@ -272,6 +290,13 @@ export default function App() {
                       >
                         <strong>{no}</strong>
                         <small>{cleared && best !== undefined ? `${best.toFixed(1)}초` : "—"}</small>
+                        {/* 어느 기체로 깼는지 — 기록이 기체별이므로 칸마다 실루엣이 쌓인다 */}
+                        <span className="cleared-by">
+                          {byAny.map((id) => {
+                            const r = RUNNER_BY_ID.get(id);
+                            return r ? <RunnerMark key={id} runner={r} size={12} /> : null;
+                          })}
+                        </span>
                         {tries > 0 ? <em>{tries}회</em> : null}
                       </button>
                     );
@@ -307,24 +332,6 @@ export default function App() {
           </div>
 
           <ul className="shop">
-            {PRESETS.filter((p) => p.cost > 0).map((p) => {
-              const owned = meta.presets.includes(p.id);
-              return (
-                <li key={p.id}>
-                  <div>
-                    <strong>프리셋 · {p.name}</strong>
-                    <small>{p.note}</small>
-                  </div>
-                  <button
-                    type="button"
-                    disabled={owned || meta.cores < p.cost}
-                    onClick={() => buy(p.cost, (m) => ({ ...m, presets: [...m.presets, p.id] }))}
-                  >
-                    {owned ? "보유" : `${p.cost}`}
-                  </button>
-                </li>
-              );
-            })}
             <li>
               <div>
                 <strong>축 상한 ±3</strong>
@@ -405,8 +412,8 @@ export default function App() {
                   ? `티어 ${screen.config.tier} · ${screen.config.stageNo}${screen.config.practice ? " · 연습" : ""}`
                   : "ENDLESS"}
               </p>
-              <h2>{preset.name}</h2>
-              <p className="dim">{preset.note}</p>
+              <h2>{runner.name}</h2>
+              <p className="dim">{runner.note}</p>
               <AxisLegend />
               <p className="cue">누르면 오른다</p>
             </div>
@@ -433,7 +440,8 @@ export default function App() {
             <div className="overlay">
               <h2>{Math.round(report.distance)}m</h2>
               <p className="dim">
-                +{coresForDistance(report.distance)} 코어 · 최고 {Math.round(meta.bestDistance)}m
+                +{coresForDistance(report.distance)} 코어 · {runner.name} 최고{" "}
+                {Math.round(meta.bestDistance[runner.id] ?? 0)}m
               </p>
               <p className="cue">누르면 다시 · Esc 나가기</p>
             </div>

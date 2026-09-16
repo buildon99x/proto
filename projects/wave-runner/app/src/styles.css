@@ -577,3 +577,33 @@ body {
   font-size: 12px;
   color: var(--dim);
 }
+
+/* 기체 — 색은 빌드가 쓰고 있으므로 기체는 실루엣으로만 말한다 */
+.runner-mark {
+  display: block;
+  fill: currentColor;
+  opacity: 0.85;
+}
+
+.chip.runner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 96px;
+}
+
+.chip.runner em {
+  font-size: 10px;
+  line-height: 1.25;
+  text-align: center;
+  max-width: 11ch;
+}
+
+.stage-cell .cleared-by {
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+  min-height: 12px;
+  color: #7dffb0;
+}

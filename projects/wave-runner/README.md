@@ -4,7 +4,9 @@
 
 갈림길을 지날 때마다 **한 축이 오르고 다른 축이 내린다.** 순수한 상승은 없으므로 빌드는 세기가 아니라 형태다.
 
-**현재 범위는 3단계다** — 부사 3축(각도·속도·편향), 교환 게이트, 섹터 4유형, Stage·Endless 두 모드, 메타 해금, 그리고 **정확한 솔버 위에 올린 절차적 생성**.
+**현재 범위는 4단계의 각도 축까지다** — 부사 3축(각도·속도·편향), 교환 게이트, 섹터 4유형, Stage·Endless 두 모드, 메타 해금, 정확한 솔버 위에 올린 절차적 생성, 그리고 **기체 4종**.
+
+기체는 프리셋이 아니라 **축 곡선**이다. 시작 눈금이 아니라 눈금을 계수로 옮기는 방식이 달라서, 같은 스테이지가 기체마다 다른 문제가 된다 — 같은 협곡에서 예봉은 여유 +64%, 둔각은 −27%다. 기본 지그재그는 45°/45°(꼭지각 90°)이고 축으로 21.6°~64.5°까지 간다.
 
 난이도는 눈대중이 아니라 **생존 회랑 폭**으로 겨냥한다. 솔버가 "지금 여기서 출발해 끝까지 살아남을 수 있는 높이의 집합"을 정확히 계산하고, 그 폭을 시간으로 환산하면 "허용되는 타이밍 오차 190ms" 같은 사람의 단위가 된다. 생성기는 그 수치를 목표로 코스를 만든다.
 
@@ -26,6 +28,9 @@ pnpm build:project -- wave-runner    # 빌드 → launcher/public/runs/wave-runn
 ```bash
 pnpm --filter wave-runner lint                                    # 타입
 node projects/wave-runner/tests/smoke/lookahead.test.mjs          # 선행 가시 시간 상수
+pnpm exec tsx projects/wave-runner/tests/verify/angles.ts         # 눈금 ↔ 화면 각도, 속도 독립성
+pnpm exec tsx projects/wave-runner/tests/verify/runner-probe.ts   # 기체가 정말 양날인가
+pnpm exec tsx projects/wave-runner/tests/verify/runner-paths.ts   # 어떤 기체로도 막다른 길이 없는가
 pnpm exec tsx projects/wave-runner/tests/verify/solver-check.ts   # 솔버를 신뢰할 수 있는가
 pnpm exec tsx projects/wave-runner/tests/verify/generation.ts     # 생성기가 난이도를 겨냥하는가
 pnpm exec tsx projects/wave-runner/tests/verify/sector-probe.ts   # 3축이 정말 양날인가

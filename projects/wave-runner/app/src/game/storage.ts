@@ -1,25 +1,86 @@
 import { EMPTY_META } from "./meta";
 import type { Meta } from "./meta";
+import { DEFAULT_RUNNER, RUNNER_BY_ID } from "./runners";
+import type { RunnerId } from "./types";
 
-const KEY = "wave-runner/meta/v2";
+const KEY = "wave-runner/meta/v3";
+/** v2 는 지우지 않는다 — 마이그레이션이 잘못됐을 때 되돌릴 자리가 없으면 영구 해금을 날린다. */
+const KEY_V2 = "wave-runner/meta/v2";
+
+/** 프리셋은 기체에 흡수됐다. 구매액을 코어로 되돌린다(표준은 무료였다). */
+const PRESET_REFUND = 120;
+
+function asRunner(id: unknown): RunnerId {
+  return typeof id === "string" && RUNNER_BY_ID.has(id as RunnerId)
+    ? (id as RunnerId)
+    : DEFAULT_RUNNER.id;
+}
+
+function fresh(): Meta {
+  return { ...EMPTY_META, clearedStages: [], bestStageSec: {}, bestDistance: {}, attempts: {} };
+}
+
+/**
+ * v2 → v3.
+ *
+ * v2 의 기록에는 기체 개념이 없었으므로 **전부 표준 기체의 것으로 이관한다.** 실제로
+ * 그때 쓰던 곡선이 표준 기체의 곡선과 소수점까지 같으므로(`tests/verify/angles.ts`)
+ * 이건 편의가 아니라 사실이다.
+ */
+function migrateV2(raw: string): Meta {
+  const p = JSON.parse(raw) as Record<string, unknown>;
+  const out = fresh();
+  const id = DEFAULT_RUNNER.id;
+
+  out.cores = typeof p.cores === "number" ? p.cores : 0;
+  out.axisCap = p.axisCap === 3 ? 3 : 2;
+  out.fullPool = Boolean(p.fullPool);
+
+  const presets = Array.isArray(p.presets) ? p.presets : [];
+  out.cores += Math.max(0, presets.length - 1) * PRESET_REFUND;
+
+  if (Array.isArray(p.clearedStages)) {
+    out.clearedStages = p.clearedStages.filter((k): k is string => typeof k === "string").map((k) => `${id}:${k}`);
+  }
+  for (const [k, v] of Object.entries((p.bestStageSec ?? {}) as Record<string, number>)) {
+    out.bestStageSec[`${id}:${k}`] = v;
+  }
+  for (const [k, v] of Object.entries((p.attempts ?? {}) as Record<string, number>)) {
+    out.attempts[k === "endless" ? k : `${id}:${k}`] = v;
+  }
+  if (typeof p.bestDistance === "number" && p.bestDistance > 0) out.bestDistance[id] = p.bestDistance;
+
+  return out;
+}
+
+function coerce(p: Partial<Meta>): Meta {
+  const out = fresh();
+  return {
+    ...out,
+    cores: typeof p.cores === "number" ? p.cores : 0,
+    runner: asRunner(p.runner),
+    axisCap: p.axisCap === 3 ? 3 : 2,
+    fullPool: Boolean(p.fullPool),
+    clearedStages: Array.isArray(p.clearedStages) ? p.clearedStages : [],
+    bestStageSec: p.bestStageSec ?? {},
+    bestDistance: p.bestDistance ?? {},
+    attempts: p.attempts ?? {}
+  };
+}
 
 export function loadMeta(): Meta {
   try {
     const raw = localStorage.getItem(KEY);
-    if (!raw) return { ...EMPTY_META, presets: [...EMPTY_META.presets] };
-    const p = JSON.parse(raw) as Partial<Meta>;
-    return {
-      cores: p.cores ?? 0,
-      presets: Array.isArray(p.presets) && p.presets.length > 0 ? p.presets : ["neutral"],
-      axisCap: p.axisCap === 3 ? 3 : 2,
-      fullPool: Boolean(p.fullPool),
-      clearedStages: Array.isArray(p.clearedStages) ? p.clearedStages : [],
-      bestStageSec: p.bestStageSec ?? {},
-      bestDistance: p.bestDistance ?? 0,
-      attempts: p.attempts ?? {}
-    };
+    if (raw) return coerce(JSON.parse(raw) as Partial<Meta>);
+    const legacy = localStorage.getItem(KEY_V2);
+    if (legacy) {
+      const migrated = migrateV2(legacy);
+      saveMeta(migrated);
+      return migrated;
+    }
+    return fresh();
   } catch {
-    return { ...EMPTY_META, presets: [...EMPTY_META.presets] };
+    return fresh();
   }
 }
 
@@ -28,7 +89,7 @@ export function saveMeta(meta: Meta): Meta {
     localStorage.setItem(KEY, JSON.stringify(meta));
   } catch {
     // 저장 불가(프라이빗 모드 등)여도 플레이는 계속된다.
-    // 영구 해금이 생긴 이상 이건 2단계의 알려진 부채다 — 내보내기/가져오기가 필요하다.
+    // 계정 동기화가 제대로 된 답이고, 이건 알려진 부채다.
   }
   return meta;
 }
@@ -38,15 +99,14 @@ export function exportMeta(meta: Meta): string {
   return btoa(unescape(encodeURIComponent(JSON.stringify(meta))));
 }
 
+/** v2 로 내보낸 문자열도 받는다 — 버전이 올랐다고 남이 가진 진행도를 버릴 수는 없다. */
 export function importMeta(text: string): Meta | null {
   try {
-    const parsed = JSON.parse(decodeURIComponent(escape(atob(text.trim())))) as Partial<Meta>;
+    const json = decodeURIComponent(escape(atob(text.trim())));
+    const parsed = JSON.parse(json) as Partial<Meta> & { presets?: unknown };
     if (typeof parsed !== "object" || parsed === null) return null;
-    return {
-      ...EMPTY_META,
-      ...parsed,
-      presets: Array.isArray(parsed.presets) && parsed.presets.length ? parsed.presets : ["neutral"]
-    } as Meta;
+    if (parsed.version === 3) return coerce(parsed);
+    return migrateV2(json);
   } catch {
     return null;
   }

@@ -1,6 +1,7 @@
 import { AXES, AXIS_COLOR } from "./axes";
 import { cameraX, computeView } from "./camera";
 import { pieceAt } from "./course";
+import { runnerById, silhouetteOf } from "./runners";
 import { gateLanes, squeezeBounds } from "./engine";
 import type { GameState } from "./engine";
 import { sample, shutterDepth } from "./sectors";
@@ -268,11 +269,12 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
   ctx.fillStyle = state.phase === "dead" ? COLOR.block : `rgb(${cr}, ${cg}, ${cb})`;
   ctx.shadowColor = ctx.fillStyle;
   ctx.shadowBlur = state.phase === "dead" ? 24 : 14;
+  // 실루엣은 기체의 곡선에서 파생된다 — 코의 벌어짐이 그 기체의 기준 각도다.
+  const shape = silhouetteOf(runnerById(state.config.runner ?? "dart")).points;
+  const reach = r * 1.7;
   ctx.beginPath();
-  ctx.moveTo(r * 1.7, 0);
-  ctx.lineTo(-r * 1.1, -r * 1.05);
-  ctx.lineTo(-r * 0.45, 0);
-  ctx.lineTo(-r * 1.1, r * 1.05);
+  ctx.moveTo(shape[0][0] * reach, shape[0][1] * reach);
+  for (let i = 1; i < shape.length; i += 1) ctx.lineTo(shape[i][0] * reach, shape[i][1] * reach);
   ctx.closePath();
   ctx.fill();
   ctx.restore();

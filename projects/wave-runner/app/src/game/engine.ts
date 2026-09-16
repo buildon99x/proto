@@ -2,6 +2,7 @@ import { NEUTRAL_BUILD, applyBuild, applyTrade, gateOffer, resolve } from "./axe
 import { EndlessCourse, buildStageCourse, pieceAt } from "./course";
 import { contains, gateLanes, pieceFreeSpans, sectorFreeSpans, squeezeBounds } from "./geometry";
 import type { Lanes, Span } from "./geometry";
+import { DEFAULT_RUNNER, applyRunner, runnerById } from "./runners";
 import { sample } from "./sectors";
 import tuningJson from "./tuning.json";
 import type {
@@ -31,7 +32,12 @@ export interface RunConfig {
   stageNo: number;
   /** endless 모드 시드 */
   seed: number;
-  /** 시작 빌드(프리셋). 해금으로 넓어진다 */
+  /**
+   * 기체. 축을 늘리지 않고 **축 눈금을 읽는 곡선**을 바꾼다(`runners.ts`).
+   * 비어 있으면 표준 기체다 — 그때 계수는 2단계와 소수점까지 같다.
+   */
+  runner?: string;
+  /** 시작 빌드. 기체가 정한다 */
   startBuild: Build;
   /** 축 상한. 메타 해금으로 2 → 3 */
   axisCap: number;
@@ -97,8 +103,16 @@ export interface Checkpoint {
 
 const TRAIL_MAX = 110;
 
-function capTuning(base: Tuning, cap: number): Tuning {
-  return { ...base, axisMax: cap, axisMin: -cap };
+/**
+ * 런의 기준 튜닝. 축 상한과 기체 곡선을 **여기 한 곳에서** 접는다.
+ *
+ * 물리·카메라·솔버·오토파일럿이 전부 Tuning 하나만 받으므로, 둘 다 여기 들어가면
+ * 그 전부에 자동으로 반영된다. 기체를 위해 새로 뚫은 배선이 한 줄도 없다.
+ */
+function runTuning(config: RunConfig): Tuning {
+  const runner = config.runner ? runnerById(config.runner) : DEFAULT_RUNNER;
+  const base = { ...BASE_TUNING, ...config.overrides };
+  return applyRunner({ ...base, axisMax: config.axisCap, axisMin: -config.axisCap }, runner);
 }
 
 function makeCourse(config: RunConfig, t: Tuning): { course: Course; endless: EndlessCourse | null } {
@@ -155,7 +169,7 @@ export function startYFor(course: Course): number {
 
 
 export function createState(config: RunConfig): GameState {
-  const base = capTuning({ ...BASE_TUNING, ...config.overrides }, config.axisCap);
+  const base = runTuning(config);
   const build = { ...config.startBuild };
   const tuning = applyBuild(base, build);
   const { course, endless } = makeCourse(config, base);
@@ -433,7 +447,8 @@ export function update(state: GameState, dtRaw: number): UpdateResult {
 
 /** 개발 튜닝 패널 전용 — 실행 중인 런의 기준 튜닝을 갈아끼운다. */
 export function applyOverrides(state: GameState, overrides: Partial<Tuning>): void {
-  state.base = capTuning({ ...BASE_TUNING, ...overrides }, state.config.axisCap);
+  // 기체 곡선이 튜닝에 접혀 있으므로 덮어쓸 때도 같이 다시 접어야 한다.
+  state.base = runTuning({ ...state.config, overrides });
   state.tuning = applyBuild(state.base, state.build);
 }
 
