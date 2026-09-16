@@ -1,3 +1,5 @@
+import { resolve } from "./axes";
+import tuningJson from "./tuning.json";
 import type { Build, RunnerId, Tuning } from "./types";
 
 /**
@@ -29,6 +31,13 @@ import type { Build, RunnerId, Tuning } from "./types";
  * 그대로 뒤집힌다.
  *
  * `tests/verify/runner-probe.ts` 가 그 양날을 수용 시험으로 검사한다.
+ *
+ * ## 설명문은 측정에서 온다
+ *
+ * `note` 는 인상이 아니라 `runner-grades.json` 의 수치를 사람 말로 옮긴 것이다. 첫 판본은
+ * 설계 의도를 적었는데 플레이테스트에서 **체감과 반대로** 읽혔다 — "완만하다"는 둔각이
+ * 실제로는 가장 빡빡했고 "오버슈트한다"는 예봉이 가장 너그러웠다. 수치가 바뀌면 이 줄도
+ * 바뀌어야 한다.
  */
 export interface Runner {
   id: RunnerId;
@@ -100,11 +109,60 @@ export function silhouetteOf(runner: Runner): Silhouette {
  *   하방이 아니라 상방이 없는 것이라 방향만 반대일 뿐, 축이 아니라 스탯인 것은 같다.
  *   잔상의 정체성은 원래 재생 스킬의 대가였으므로 스킬 단계에서 다시 본다.
  */
+/**
+ * 기체의 지그재그를 그대로 그린 미리보기.
+ *
+ * 실루엣만으로는 기체가 구분되지 않는다는 것이 플레이테스트의 결론이었다. 표준 45.0° 와
+ * 둔각 39.4° 는 실제로 5.6° 차이라, 도형 하나에 담으면 눈에 잡히지 않는다. **각도를 과장하면
+ * 읽히지만 그 순간 "코가 벌어진 각이 곧 꼭지각"이 거짓말이 된다.**
+ *
+ * 그래서 과장 대신 **여러 주기를 보여준다.** 같은 가로 폭에 담기는 주기 수가 기울기에 반비례하므로,
+ * 5.6° 차이가 "봉우리가 몇 개인가"로 누적된다 — 예봉은 촘촘하고 둔각은 성기다. 편향이 걸린
+ * 기체는 톱니가 한쪽으로 기운다. 전부 실제 궤적이므로 과장이 한 줄도 없고, 플레이 중 궤적과
+ * 같은 모양이라 그대로 예고가 된다.
+ *
+ * x 축과 y 축의 픽셀 배율을 같게 유지하는 것이 요점이다. 다르면 각도가 왜곡된다.
+ */
+export function zigzagPoints(runner: Runner, w: number, h: number): Array<[number, number]> {
+  const t = applyRunner(tuningJson as Tuning, runner);
+  const r = resolve({ slope: 0, speed: 0, bias: 0 }, t);
+  const up = r.riseRate / r.speed;
+  const down = r.fallRate / r.speed;
+
+  /** 가로로 보여줄 월드 폭. 표준 기체가 약 2.2 주기 보이는 값이다. */
+  const window = 4.4;
+  const scale = w / window;
+  const amp = (h * 0.42) / scale;
+
+  const pts: Array<[number, number]> = [];
+  const push = (x: number, y: number) => pts.push([x * scale, h / 2 - y * scale]);
+
+  let x = 0;
+  let y = -amp;
+  let rising = true;
+  push(x, y);
+  while (x < window) {
+    const slope = rising ? up : down;
+    const dx = (2 * amp) / slope;
+    x += dx;
+    y += rising ? 2 * amp : -2 * amp;
+    if (x > window) {
+      // 마지막 조각은 상자 끝에서 자른다 — 주기 수가 폭에 정확히 비례해야 한다.
+      const over = x - window;
+      y -= (rising ? 1 : -1) * over * slope;
+      x = window;
+    }
+    push(x, y);
+    rising = !rising;
+  }
+  return pts;
+}
+
 export const RUNNERS: Runner[] = [
   {
     id: "dart",
     name: "표준",
-    note: "45° 기준선. 모든 측정의 기준",
+    note: "45° 기준선. 길도 넓고 여유도 중간",
     slopeCenter: 1.0,
     slopeSpan: 1.0,
     biasSpan: 1.0,
@@ -114,7 +172,7 @@ export const RUNNERS: Runner[] = [
   {
     id: "blunt",
     name: "둔각",
-    note: "완만하다. 미세 조정이 필요한 곳에 강하고 램프를 못 따라간다",
+    note: "완만하다. 회랑은 편한데 협곡의 램프를 못 쫓아 전체로는 가장 빡빡하다",
     slopeCenter: 0.82,
     slopeSpan: 0.8,
     biasSpan: 0.9,
@@ -124,7 +182,7 @@ export const RUNNERS: Runner[] = [
   {
     id: "spike",
     name: "예봉",
-    note: "가파르다. 램프를 따라잡지만 좁은 통로에서 오버슈트한다",
+    note: "가파르다. 통하는 길이 절반뿐이지만 그 길은 가장 너그럽다",
     slopeCenter: 1.24,
     slopeSpan: 1.1,
     biasSpan: 1.1,
@@ -134,7 +192,7 @@ export const RUNNERS: Runner[] = [
   {
     id: "ring",
     name: "환",
-    note: "가만 두면 위로 흐른다. 오르는 회랑과 내려가는 회랑이 딴판이다",
+    note: "가만 두면 위로 흐른다. 오르는 회랑이 편하고 내려가는 회랑이 딴판이다",
     slopeCenter: 1.0,
     slopeSpan: 0.95,
     biasSpan: 0.95,

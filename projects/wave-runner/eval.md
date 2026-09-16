@@ -14,6 +14,7 @@ node projects/wave-runner/tests/smoke/lookahead.test.mjs                # 선행
 pnpm exec tsx projects/wave-runner/tests/verify/angles.ts               # 눈금 ↔ 화면 각도, 속도 독립성
 pnpm exec tsx projects/wave-runner/tests/verify/runner-probe.ts         # 기체가 정말 양날인가
 pnpm exec tsx projects/wave-runner/tests/verify/runner-paths.ts         # 어떤 기체로도 막다른 길이 없는가
+pnpm exec tsx projects/wave-runner/tests/verify/runner-grades.ts        # 기체 성격을 재서 피커가 읽을 표를 굽는다
 pnpm exec tsx projects/wave-runner/tests/verify/solver-check.ts         # 솔버가 신뢰 가능한가
 pnpm exec tsx projects/wave-runner/tests/verify/generation.ts           # 생성기가 난이도를 겨냥하는가
 pnpm exec tsx projects/wave-runner/tests/verify/sector-probe.ts         # 축이 양날인가
@@ -36,6 +37,7 @@ pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts        # 스테
 | **표준 기체 동일성** | 2단계 표와 편차 0 — 기존 검증 8종이 전부 같은 값으로 통과 |
 | **기체가 양날인가** | 3기체 전부 부호가 뒤집힘. 둔각 회랑평탄 +24% / 협곡 −27%, 예봉 협곡 +64% / 회랑평탄 −19%, 환 상승회랑 +41% / 하강회랑 −12% |
 | **기체별 공정성** | 4기체 × 12스테이지 × 16경로 × 2상한 = **1536경로**, 전부 통과 가능하며 최선 경로의 여유 ≥ 40ms |
+| **기체 성격 측정** | 여유 70/0/110/80ms · 길 11.5/9.4/5.7/10.7 (표준·둔각·예봉·환). 두 축이 각각 110ms · 5.8경로만큼 갈린다 |
 | 브라우저 플레이테스트 | Stage 클리어(73.0초·게이트 4개) · Endless 6703m · 콘솔 오류 0 · 페이지 오류 0 |
 
 ### 기체는 무엇으로 판정하는가
@@ -74,8 +76,11 @@ pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts        # 스테
 
 ## 손으로 확인할 것
 
-- [ ] **기체 4종을 이름 없이 실루엣만으로 구분하는가** — 표준과 둔각은 실제 각도 차이가 5.6°뿐이라 가장 어려운 쌍이다
-- [ ] **실루엣을 보고 그 기체의 거동을 예측하는가** (코가 벌어진 각 = 꼭지각)
+- [ ] **기체 4종을 이름 없이 구분하는가** — 피커의 지그재그 미리보기가 봉우리 수(둔각 2 · 표준 3 · 예봉 4)로 갈라 준다. 도형만으로는 5.6° 차이가 잡히지 않아 실패했던 항목이다
+- [ ] **미리보기를 보고 그 기체의 거동을 예측하는가** — 플레이 중 궤적과 같은 모양이어야 성립한다
+- [ ] **성격 막대 두 개(여유·길)의 차이를 설명 없이 이해하는가** — 예봉의 "길은 짧고 여유는 길다"가 읽히는가
+- [ ] **설명문이 실제 체감과 맞는가** — 0.5.0 에서 정확히 반대로 읽혔던 항목이다
+- [ ] **스테이지 칸의 빈 자리를 "저 기체로는 아직"으로 읽는가**
 - [ ] **기록이 기체별로 나뉘는 것을 설명 없이 납득하는가**
 - [ ] **표준으로 티어 1 을 깬 사람이 지시 없이 다른 기체를 고르는가** ← 4a 중단 판정
 - [ ] 새로고침 후 v2 진행이 그대로 이관되어 있는가 (환급 코어 포함)

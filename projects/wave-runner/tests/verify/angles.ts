@@ -8,6 +8,7 @@
  * 값은 엔진의 단일 출처인 `resolve()` 에서 뽑는다.
  */
 import { AXES, resolve } from "../../app/src/game/axes";
+import GRADES from "../../app/src/game/runner-grades.json";
 import { RUNNERS, applyRunner } from "../../app/src/game/runners";
 import { BASE_TUNING } from "../../app/src/game/engine";
 import type { Build, Tuning } from "../../app/src/game/types";
@@ -177,5 +178,18 @@ for (const s of spread.slice(1)) {
   }
 }
 if (fails === 0) console.log("OK 기체 구분: 모든 기체가 표준과 각도 범위 또는 중심에서 1° 이상 다르다");
+
+// ④ 피커가 읽는 등급표가 모든 기체를 덮는가.
+//    기체를 더하고 `runner-grades.ts` 를 다시 굽지 않으면 그 기체만 막대가 비어 버린다.
+const missing = RUNNERS.filter((r) => !(r.id in (GRADES.runners as Record<string, unknown>)));
+if (missing.length > 0) {
+  console.error(
+    `FAIL 등급표 누락: ${missing.map((r) => r.name).join(", ")} — ` +
+      "pnpm exec tsx projects/wave-runner/tests/verify/runner-grades.ts 를 다시 돌려야 한다"
+  );
+  fails += 1;
+} else {
+  console.log(`OK 등급표: 기체 ${RUNNERS.length}종 전부 덮는다 (측정 ${GRADES.measuredAt})`);
+}
 
 process.exit(fails === 0 ? 0 : 1);

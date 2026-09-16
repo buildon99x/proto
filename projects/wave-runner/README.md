@@ -8,6 +8,8 @@
 
 기체는 프리셋이 아니라 **축 곡선**이다. 시작 눈금이 아니라 눈금을 계수로 옮기는 방식이 달라서, 같은 스테이지가 기체마다 다른 문제가 된다 — 같은 협곡에서 예봉은 여유 +64%, 둔각은 −27%다. 기본 지그재그는 45°/45°(꼭지각 90°)이고 축으로 21.6°~64.5°까지 간다.
 
+피커는 별점 대신 **잰 값**을 보여준다. 그 기체의 실제 지그재그를 그려(봉우리 수가 기울기에 반비례한다) 도형으로는 안 잡히는 5.6° 차이를 눈에 보이게 하고, **여유**(굼떠도 깨지는가)와 **길**(아무 길로나 가도 되는가) 두 막대를 붙인다. 예봉은 길이 절반뿐인데 가장 너그럽다.
+
 난이도는 눈대중이 아니라 **생존 회랑 폭**으로 겨냥한다. 솔버가 "지금 여기서 출발해 끝까지 살아남을 수 있는 높이의 집합"을 정확히 계산하고, 그 폭을 시간으로 환산하면 "허용되는 타이밍 오차 190ms" 같은 사람의 단위가 된다. 생성기는 그 수치를 목표로 코스를 만든다.
 
 ## 실행
@@ -31,6 +33,7 @@ node projects/wave-runner/tests/smoke/lookahead.test.mjs          # 선행 가�
 pnpm exec tsx projects/wave-runner/tests/verify/angles.ts         # 눈금 ↔ 화면 각도, 속도 독립성
 pnpm exec tsx projects/wave-runner/tests/verify/runner-probe.ts   # 기체가 정말 양날인가
 pnpm exec tsx projects/wave-runner/tests/verify/runner-paths.ts   # 어떤 기체로도 막다른 길이 없는가
+pnpm exec tsx projects/wave-runner/tests/verify/runner-grades.ts  # 기체 성격을 재서 피커의 표를 굽는다
 pnpm exec tsx projects/wave-runner/tests/verify/solver-check.ts   # 솔버를 신뢰할 수 있는가
 pnpm exec tsx projects/wave-runner/tests/verify/generation.ts     # 생성기가 난이도를 겨냥하는가
 pnpm exec tsx projects/wave-runner/tests/verify/sector-probe.ts   # 3축이 정말 양날인가

@@ -20,7 +20,8 @@ import {
   tierUnlocked
 } from "./game/meta";
 import type { Meta } from "./game/meta";
-import { RUNNERS, RUNNER_BY_ID, runnerById, silhouetteOf } from "./game/runners";
+import { RUNNERS, runnerById, silhouetteOf, zigzagPoints } from "./game/runners";
+import GRADES from "./game/runner-grades.json";
 import type { Runner } from "./game/runners";
 import { exportMeta, importMeta, loadMeta, saveMeta } from "./game/storage";
 import type { Phase, Tuning } from "./game/types";
@@ -31,15 +32,53 @@ type Screen =
   | { kind: "shop" }
   | { kind: "play"; config: RunConfig };
 
-/** 기체 실루엣. 모양이 수치의 함수이므로 코의 벌어짐이 곧 그 기체의 기준 각도다. */
-function RunnerMark({ runner, size = 46 }: { runner: Runner; size?: number }) {
-  const pts = silhouetteOf(runner)
-    .points.map(([x, y]) => `${(size / 2 + (x * size) / 2).toFixed(2)},${(size / 2 + (y * size) / 2).toFixed(2)}`)
+const PREVIEW_W = 116;
+const PREVIEW_H = 44;
+
+/**
+ * 기체의 실제 지그재그. 같은 폭에 담기는 봉우리 수가 기울기에 반비례하므로, 도형 하나로는
+ * 잡히지 않던 5.6° 차이가 눈에 들어온다. 과장은 한 줄도 없고 플레이 중 궤적과 같은 모양이다.
+ */
+function RunnerTrace({ runner }: { runner: Runner }) {
+  const pts = zigzagPoints(runner, PREVIEW_W, PREVIEW_H);
+  const d = pts.map(([x, y], i) => `${i === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
+  const [hx, hy] = pts[pts.length - 1];
+  const [px, py] = pts[pts.length - 2];
+  const angle = (Math.atan2(hy - py, hx - px) * 180) / Math.PI;
+  const shape = silhouetteOf(runner)
+    .points.map(([x, y]) => `${(x * 9).toFixed(2)},${(y * 9).toFixed(2)}`)
     .join(" ");
   return (
-    <svg className="runner-mark" width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
-      <polygon points={pts} />
+    <svg className="runner-trace" width={PREVIEW_W} height={PREVIEW_H} viewBox={`0 0 ${PREVIEW_W} ${PREVIEW_H}`} aria-hidden="true">
+      <path d={d} />
+      <polygon points={shape} transform={`translate(${hx.toFixed(1)} ${hy.toFixed(1)}) rotate(${angle.toFixed(1)})`} />
     </svg>
+  );
+}
+
+/**
+ * 측정된 성격 두 축. 절대값이 아니라 **기체 사이의 비교**이므로 막대로만 그린다 —
+ * 오토파일럿이 잰 값이라 사람의 밀리초와 같은 눈금이 아니다. (`runner-grades.json`)
+ */
+function RunnerBars({ id }: { id: string }) {
+  const g = (GRADES.runners as Record<string, { slackBar: number; routeBar: number }>)[id];
+  if (!g) return null;
+  const rows: Array<[string, number]> = [
+    ["여유", g.slackBar],
+    ["길", g.routeBar]
+  ];
+  return (
+    <dl className="runner-bars">
+      {rows.map(([label, v]) => (
+        <div key={label}>
+          <dt>{label}</dt>
+          <dd>
+            {/* 최하위(0)와 "데이터 없음"이 같아 보이면 안 되므로 바닥을 깐다 */}
+            <i style={{ width: `${Math.round(Math.max(0.07, v) * 100)}%` }} />
+          </dd>
+        </div>
+      ))}
+    </dl>
   );
 }
 
@@ -218,8 +257,9 @@ export default function App() {
                   }}
                   title={r.note}
                 >
-                  <RunnerMark runner={r} />
-                  {r.name}
+                  <RunnerTrace runner={r} />
+                  <strong>{r.name}</strong>
+                  <RunnerBars id={r.id} />
                   <em>{r.note}</em>
                 </button>
               ))}
@@ -290,12 +330,19 @@ export default function App() {
                       >
                         <strong>{no}</strong>
                         <small>{cleared && best !== undefined ? `${best.toFixed(1)}초` : "—"}</small>
-                        {/* 어느 기체로 깼는지 — 기록이 기체별이므로 칸마다 실루엣이 쌓인다 */}
+                        {/*
+                          어느 기체로 깼는지. 작은 실루엣을 나열했더니 개수만 읽히고 어느
+                          기체인지는 읽히지 않았다 — 12px 에서 네 도형이 구분되지 않는다.
+                          **자리를 고정해 위치가 기체를 지정하게** 했다. 빈 칸이 곧 남은 숙제다.
+                        */}
                         <span className="cleared-by">
-                          {byAny.map((id) => {
-                            const r = RUNNER_BY_ID.get(id);
-                            return r ? <RunnerMark key={id} runner={r} size={12} /> : null;
-                          })}
+                          {RUNNERS.map((r) => (
+                            <i
+                              key={r.id}
+                              className={byAny.includes(r.id) ? "on" : ""}
+                              title={r.name}
+                            />
+                          ))}
                         </span>
                         {tries > 0 ? <em>{tries}회</em> : null}
                       </button>
