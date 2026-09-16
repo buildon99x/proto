@@ -84,8 +84,8 @@ body {
 }
 
 .chips {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
 }
 
@@ -112,11 +112,6 @@ body {
 
 .chip.on {
   border-color: var(--accent);
-}
-
-.chip.locked {
-  opacity: 0.4;
-  cursor: not-allowed;
 }
 
 .mode-row {
@@ -167,13 +162,22 @@ body {
 
 .link {
   align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-left: -8px;
   background: none;
   border: 0;
   color: var(--dim);
   font: inherit;
   font-size: 13px;
   cursor: pointer;
-  padding: 4px 0;
+  padding: 0 8px;
+}
+
+/* 돌아가기는 티어 네 개를 스크롤해 내려간 끝이 아니라 위에 있어야 한다 */
+.link.back {
+  margin-bottom: 2px;
 }
 
 .link:hover {
@@ -230,8 +234,13 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-.tier.locked {
-  opacity: 0.4;
+/* opacity 를 통째로 걸면 "티어 3 · 잠김" 헤딩까지 40% 가 된다 — 죽일 것은 칸이다 */
+.tier.locked .tier-row {
+  opacity: 0.3;
+}
+
+.tier.locked h2 {
+  color: var(--dim);
 }
 
 .tier-row {
@@ -276,9 +285,15 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* 기록 없음(—)은 성취가 아니다 */
+.stage-cell:not(.cleared) small {
+  color: #55637d;
+}
+
 .stage-cell em {
   font-style: normal;
   font-size: 10px;
+  min-height: 13px;
   color: var(--dim);
 }
 
@@ -322,7 +337,8 @@ body {
 
 .shop button {
   flex: 0 0 auto;
-  padding: 7px 14px;
+  min-height: 44px;
+  padding: 7px 18px;
   background: transparent;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -338,6 +354,12 @@ body {
   cursor: not-allowed;
 }
 
+/* 이미 산 것과 코어가 모자란 것이 같은 회색이었다 */
+.shop button.owned:disabled {
+  color: var(--ok);
+  border-color: rgba(125, 255, 176, 0.35);
+}
+
 .transfer {
   font-size: 12px;
   color: var(--dim);
@@ -345,7 +367,7 @@ body {
 
 .transfer summary {
   cursor: pointer;
-  padding: 6px 0;
+  padding: 12px 0;
 }
 
 .transfer textarea {
@@ -579,16 +601,24 @@ body {
 }
 
 /* 기체 — 색은 빌드가 쓰고 있으므로 기체는 모양으로만 말한다 */
-.runner-mark {
-  display: block;
-  fill: currentColor;
-  opacity: 0.85;
-}
-
 /* 실제 지그재그. 봉우리 수가 기울기에 반비례해 각도 차이를 눈에 보이게 누적한다 */
 .runner-trace {
   display: block;
+  width: 100%;
+  aspect-ratio: 116 / 44;
+  height: auto;
   overflow: visible;
+}
+
+/*
+ * 표준(45°)의 지그재그를 점선으로 깔아 둔다. 봉우리를 세는 대신 기준선에서 얼마나
+ * 어긋나는지로 읽힌다 — 오른쪽으로 갈수록 위상차가 벌어진다. 깔린 선도 실제 궤적이므로
+ * 과장이 아니다.
+ */
+.runner-trace path.base {
+  stroke: #33405e;
+  stroke-width: 1.5;
+  stroke-dasharray: 3 4;
 }
 
 .runner-trace path {
@@ -616,8 +646,9 @@ body {
   flex-direction: column;
   align-items: stretch;
   gap: 6px;
-  width: 148px;
+  width: auto; /* 148px 고정이면 2열 합 304px 로 패널 안폭 350px 과 우변이 안 맞는다 */
   padding: 10px 12px 12px;
+  border-radius: 12px; /* 카드 12 · 아이템 10 · 컨트롤 8 */
   text-align: left;
 }
 
@@ -642,29 +673,30 @@ body {
 
 .runner-bars > div {
   display: grid;
-  grid-template-columns: 22px 1fr;
+  grid-template-columns: 30px 1fr;
   align-items: center;
   gap: 6px;
 }
 
 .runner-bars dt {
-  font-size: 9.5px;
-  color: #6d7d99;
+  font-size: 11px;
+  color: #8b9ab5; /* 패널 대비 6.3:1 — 9.5px #6d7d99 는 4.48:1 로 AA 미달이었다 */
 }
 
 .runner-bars dd {
   margin: 0;
-  height: 4px;
-  border-radius: 2px;
-  background: #1a2237;
+  height: 5px;
+  border-radius: 3px;
+  background: #26304a;
   overflow: hidden;
 }
 
 .runner-bars dd i {
   display: block;
   height: 100%;
-  border-radius: 2px;
-  background: #4a6fa5;
+  min-width: 3px; /* 0 이 "데이터 없음"과 갈리되 폭은 값 그대로 */
+  border-radius: 3px;
+  background: #6f92c8;
 }
 
 .chip.runner.on .runner-bars dd i {
@@ -674,20 +706,181 @@ body {
 /* 스테이지 칸의 기체별 클리어. 자리가 기체를 지정하므로 빈 칸이 곧 남은 숙제다 */
 .stage-cell .cleared-by {
   display: flex;
-  gap: 3px;
+  gap: 4px;
   justify-content: center;
-  min-height: 7px;
+  min-height: 9px;
+  margin-top: 5px;
 }
 
 .stage-cell .cleared-by i {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   border-radius: 2px;
-  border: 1px solid #2c3852;
+  border: 1px solid #3a4a6b; /* #2c3852 는 1.57:1 로 빈 칸이 세어지지 않았다 */
   background: transparent;
 }
 
 .stage-cell .cleared-by i.on {
   background: #7dffb0;
   border-color: #7dffb0;
+}
+
+/* 현재 기체의 자리. 홈에서 기체를 바꾸면 링이 옮겨가며 "자리 = 기체"를 가르친다 */
+.stage-cell .cleared-by i.self {
+  box-shadow: 0 0 0 1.5px var(--accent);
+}
+
+/* ---------- 리뷰 반영: 손끝과 눈 ---------- */
+
+/*
+ * 눌린 상태와 포커스 상태가 693줄 어디에도 없었다. `:hover` 만 있었는데 모바일에서는
+ * 뜻이 없다 — 탭해도 다음 화면이 뜰 때까지 아무 반응이 없었다.
+ */
+.chip,
+.mode,
+.stage-cell,
+.shop button,
+.cores-link,
+.icon-btn,
+.link {
+  transition:
+    border-color 120ms ease,
+    color 120ms ease,
+    transform 90ms ease;
+}
+
+.chip:active,
+.mode:not(:disabled):active,
+.stage-cell:not(:disabled):active,
+.shop button:not(:disabled):active,
+.cores-link:active {
+  transform: scale(0.975);
+}
+
+/* 키보드로도 플레이되는 게임이다 */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* 코어 줄이 곧 해금 진입이다 — 별개 링크 하나와 스크롤 한 번이 준다 */
+.cores-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0;
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cores-link span {
+  margin-left: auto;
+  color: var(--dim);
+  font-size: 13px;
+}
+
+.cores-link:hover span {
+  color: var(--accent);
+}
+
+.icon-btn {
+  align-self: flex-start;
+  min-height: 44px;
+  padding: 0 10px;
+  margin-left: -10px;
+  background: none;
+  border: 0;
+  color: var(--dim);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.icon-btn[aria-pressed="true"] {
+  color: var(--bad);
+}
+
+/* 스테이지 화면의 현재 기체. 기록과 슬롯이 누구의 것인지를 세운다 */
+.now-runner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 0;
+}
+
+.now-runner .runner-trace {
+  width: 56px;
+  flex: 0 0 auto;
+}
+
+.now-runner .runner-trace path {
+  stroke: var(--accent);
+}
+
+.now-runner .runner-trace polygon {
+  fill: var(--accent);
+}
+
+.now-runner span {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/*
+ * 런 탈출. 폰에는 Esc 가 없고 오버레이는 `pointer-events:none` 이라, 스테이지에
+ * 들어가면 완주 전까지 나올 방법이 없었다. 달리는 동안에는 거의 투명해 시야를
+ * 가리지 않지만 자리는 늘 같다.
+ */
+.exit-btn {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(7, 11, 20, 0.5);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text);
+  font: inherit;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0.22;
+}
+
+.exit-btn:hover,
+.exit-btn:focus-visible {
+  opacity: 1;
+}
+
+.play[data-phase="ready"] .exit-btn,
+.play[data-phase="dead"] .exit-btn,
+.play[data-phase="cleared"] .exit-btn {
+  opacity: 0.75;
+}
+
+/* 0 은 성취가 아니다 */
+.mode em.zero {
+  color: var(--dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip,
+  .mode,
+  .stage-cell,
+  .shop button,
+  .cores-link,
+  .icon-btn,
+  .link {
+    transition: none;
+  }
 }

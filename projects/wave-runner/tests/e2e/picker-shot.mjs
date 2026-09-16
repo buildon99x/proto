@@ -1,5 +1,6 @@
 // 피커와 스테이지 목록의 가독성만 본다.
-export const meta = { viewport: { width: 390, height: 860, deviceScaleFactor: 2 } };
+// 타깃 해상도 그대로 본다. 860 으로 찍으면 접힘 아래로 밀린 것이 안 보인다.
+export const meta = { viewport: { width: 390, height: 720, deviceScaleFactor: 2 } };
 
 export async function run({ page, sleep, shot }) {
   await sleep(400);
@@ -22,4 +23,19 @@ export async function run({ page, sleep, shot }) {
   await modes[0].click();
   await sleep(300);
   await shot("31-stage-slots");
+
+  // 기체를 바꾸면 현재 기체 표시와 슬롯의 링이 함께 옮겨가는가
+  const back = await page.$(".link.back");
+  await back.click();
+  await sleep(250);
+  const chips = await page.$$(".chip.runner");
+  if (chips.length > 2) {
+    await chips[2].click();
+    await sleep(250);
+    await shot("32-picker-spike");
+    const modes2 = await page.$$(".mode");
+    await modes2[0].click();
+    await sleep(300);
+    await shot("33-stage-slots-spike");
+  }
 }

@@ -40,4 +40,16 @@ export async function run({ page, sleep, shot, log }) {
     log(`${name}:`, JSON.stringify(r));
     await shot(name);
   }
+
+  // 사망 프레임 — 무엇에 맞았고 어디로 갈 수 있었는지가 한 화면에 있는가
+  await page.evaluate(async () => {
+    window.dispatchEvent(new KeyboardEvent("keydown", { code: "Space", bubbles: true }));
+    const deadline = Date.now() + 20000;
+    while (Date.now() < deadline) {
+      const s = window.__wave.state;
+      if (s && s.phase === "dead") return;
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+  });
+  await shot("24-death");
 }

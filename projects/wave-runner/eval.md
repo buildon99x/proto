@@ -74,9 +74,24 @@ pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts        # 스테
 - **오토파일럿** — 여전히 필요하다. 솔버가 옳은지 교차 검증하고(모순이 있으면 솔버가 틀린 것), 브라우저에서 실제 엔진을 구동한다.
 - **섹터 프로브** — 반응 지연 허용치로 **사람 체감**을 근사한다. 솔버의 여유(ms)와 같은 단위라 서로 대조된다.
 
+### 화면 확인 (puppeteer)
+
+```bash
+pnpm playtest --project wave-runner --scenario projects/wave-runner/tests/e2e/picker-shot.mjs     --out projects/wave-runner/assets/screenshots/exp
+pnpm playtest --project wave-runner --scenario projects/wave-runner/tests/e2e/gate-shot.mjs       --out projects/wave-runner/assets/screenshots/exp
+pnpm playtest --project wave-runner --scenario projects/wave-runner/tests/e2e/runner-identity.mjs --out projects/wave-runner/assets/screenshots/exp
+pnpm playtest --project wave-runner --scenario projects/wave-runner/tests/e2e/runner-experience.mjs --out projects/wave-runner/assets/screenshots/exp
+```
+
+뷰포트는 전부 **390×720** 이다. 더 높게 찍으면 접힘 아래로 밀린 것이 안 보인다 — 실제로
+그래서 주 동선이 화면 밖에 있는 것을 한 판 놓쳤다.
+
+`runner-identity.mjs` 는 기체를 바꿔 가며 같은 x 에서 멈춰 찍는데, 화면 이동에 **나가기
+버튼**을 쓴다. `Escape` 로 나가던 시나리오들이 "폰에서는 나갈 방법이 없다"를 덮고 있었다.
+
 ## 손으로 확인할 것
 
-- [ ] **기체 4종을 이름 없이 구분하는가** — 피커의 지그재그 미리보기가 봉우리 수(둔각 2 · 표준 3 · 예봉 4)로 갈라 준다. 도형만으로는 5.6° 차이가 잡히지 않아 실패했던 항목이다
+- [ ] **기체 4종을 이름 없이 구분하는가** — 피커의 지그재그 뒤에 표준(45°)이 점선으로 깔려 있어 차이가 "기준선에서 벌어지는 폭"으로 읽힌다. 도형만으로는 5.6° 가 안 잡혔고, 봉우리 수로 가르려던 판본도 실패했다(실제로 1·1·2·1 이었다)
 - [ ] **미리보기를 보고 그 기체의 거동을 예측하는가** — 플레이 중 궤적과 같은 모양이어야 성립한다
 - [ ] **성격 막대 두 개(여유·길)의 차이를 설명 없이 이해하는가** — 예봉의 "길은 짧고 여유는 길다"가 읽히는가
 - [ ] **설명문이 실제 체감과 맞는가** — 0.5.0 에서 정확히 반대로 읽혔던 항목이다
@@ -87,11 +102,19 @@ pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts        # 스테
 - [ ] 조작 설명 없이 첫 10초 안에 버튼의 의미를 파악하는가
 - [ ] **게이트를 지난 직후, 무엇과 무엇을 바꿨는지 글자 없이 아는가**
 - [ ] **서로 다른 두 빌드의 궤적을 스크린샷 한 장으로 구분할 수 있는가**
+- [ ] **런 안에서 기체가 구분되는가** ← **현재 실패로 알려져 있다.** 도형에 게인을 걸면 읽히지만 그게 거짓말이라 미해결로 둔 항목이다. 사람이 "구분이 필요하다"고 말하는지를 먼저 확인할 것
 - [ ] **두 모드를 각각 해본 사람이 "왜 둘 다 있는지"를 한 문장으로 말할 수 있는가**
 - [ ] **Stage 재시도 중 빌드를 바꿔본 비율이 30% 이상인가** (0%면 Stage의 로그라이크 성분이 죽은 것)
 - [ ] Endless 사망 후 자기 빌드 선택을 원인으로 지목하는가
 - [ ] 섹터 4유형을 이름 없이 실루엣만으로 구분하는가
 - [ ] `running` 중 화면에 HUD가 하나도 없는가
+- [ ] **폰에서 런 도중 나갈 수 있는가** — 좌상단 버튼. `Escape` 만 있던 판본에서는 불가능했다
+- [ ] **두 엄지로 번갈아 눌러도 홀드가 끊기지 않는가**
+- [ ] **게이트 표식이 "고를 수 있을 때" 보이는가** — 분기에 들어가기 전에 읽고 결정할 시간이 있는가
+- [ ] **두 관이 같은 축을 올릴 때, 무엇이 갈리는지가 한눈에 보이는가** (내주는 축의 막대)
+- [ ] **밝은 쪽이 갈 수 있는 곳으로 읽히는가** — 벽이 통로보다 밝던 판본에서는 반사가 반대로 걸렸다
+- [ ] **죽은 뒤 "무엇에 맞았는지"와 "어디로 갈 수 있었는지"가 같은 프레임에 있는가**
+- [ ] **아바타가 닿아 보이는 순간에 실제로 죽는가** — 그려진 도형의 최원점이 판정 반지름이어야 한다
 - [ ] 세로 화면에서 한 손으로 플레이되는가
 - [ ] 60fps가 유지되는가 (T 패널)
 - [ ] 새로고침 후 해금과 기록이 남아 있는가

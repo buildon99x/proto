@@ -15,6 +15,7 @@ import {
   coresForDistance,
   coresForStage,
   countClearedInTier,
+  highestTierCleared,
   endlessUnlocked,
   stageKey,
   tierUnlocked
@@ -36,11 +37,24 @@ const PREVIEW_W = 116;
 const PREVIEW_H = 44;
 
 /**
- * 기체의 실제 지그재그. 같은 폭에 담기는 봉우리 수가 기울기에 반비례하므로, 도형 하나로는
- * 잡히지 않던 5.6° 차이가 눈에 들어온다. 과장은 한 줄도 없고 플레이 중 궤적과 같은 모양이다.
+ * 기체의 실제 지그재그.
+ *
+ * ## 봉우리 수로는 벌어지지 않는다 — 세어 보고 알았다
+ *
+ * 앞 판본은 "같은 폭에 담기는 봉우리 수가 기울기에 반비례한다"에 기댔는데, 실제로 극값을
+ * 세 보니 표준 1 · 둔각 1 · 예봉 2 · 환 1 이었다. 표준과 둔각이 같은 그림이었다는 뜻이다.
+ * 이유는 식에 있다 — 카드 안의 다리 개수는 `w × slope / (2 × h × amp)` 라 **창 너비가
+ * 약분되어** 누적이라는 레버 자체가 없다. 남는 것은 진폭과 카드 비율뿐이고, 둘 다 기체
+ * 값이 바뀌면 정수 경계를 넘나들어 부서진다.
+ *
+ * 그래서 누적 대신 **비교**로 바꿨다. 표준(45°)의 지그재그를 점선으로 깔면, 차이는 세는
+ * 것이 아니라 보이는 것이 된다 — 오른쪽으로 갈수록 위상차가 벌어져 카드 끝에서 진폭의
+ * 절반만큼 어긋난다. 과장은 한 줄도 없다. 깔린 선도 실제 궤적이고 위의 선도 실제 궤적이다.
+ * 표준 카드에만 기준선이 없는데, 그 카드에서는 본선이 곧 기준선이기 때문이다.
  */
 function RunnerTrace({ runner }: { runner: Runner }) {
   const pts = zigzagPoints(runner, PREVIEW_W, PREVIEW_H);
+  const base = runner.id === "dart" ? null : zigzagPoints(RUNNERS[0], PREVIEW_W, PREVIEW_H);
   const d = pts.map(([x, y], i) => `${i === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
   const [hx, hy] = pts[pts.length - 1];
   const [px, py] = pts[pts.length - 2];
@@ -48,8 +62,17 @@ function RunnerTrace({ runner }: { runner: Runner }) {
   const shape = silhouetteOf(runner)
     .points.map(([x, y]) => `${(x * 9).toFixed(2)},${(y * 9).toFixed(2)}`)
     .join(" ");
+  const baseD = base
+    ? base.map(([x, y], i) => `${i === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ")
+    : null;
   return (
-    <svg className="runner-trace" width={PREVIEW_W} height={PREVIEW_H} viewBox={`0 0 ${PREVIEW_W} ${PREVIEW_H}`} aria-hidden="true">
+    <svg
+      className="runner-trace"
+      viewBox={`0 0 ${PREVIEW_W} ${PREVIEW_H}`}
+      preserveAspectRatio="xMidYMid meet"
+      aria-hidden="true"
+    >
+      {baseD ? <path className="base" d={baseD} /> : null}
       <path d={d} />
       <polygon points={shape} transform={`translate(${hx.toFixed(1)} ${hy.toFixed(1)}) rotate(${angle.toFixed(1)})`} />
     </svg>
@@ -73,8 +96,12 @@ function RunnerBars({ id }: { id: string }) {
         <div key={label}>
           <dt>{label}</dt>
           <dd>
-            {/* 최하위(0)와 "데이터 없음"이 같아 보이면 안 되므로 바닥을 깐다 */}
-            <i style={{ width: `${Math.round(Math.max(0.07, v) * 100)}%` }} />
+            {/*
+              바닥을 비율(7%)로 깔았더니 0 이 "짧은 막대"가 아니라 렌더 오류처럼 읽혔다.
+              폭은 값 그대로 두고 최소 두께는 CSS 의 min-width 3px 이 맡는다 — 눈금의
+              바닥과 데이터 없음이 갈리면서 값은 거짓말하지 않는다.
+            */}
+            <i style={{ width: `${(v * 100).toFixed(1)}%` }} />
           </dd>
         </div>
       ))}
@@ -239,8 +266,31 @@ export default function App() {
             </p>
           </header>
 
-          <div className="cores">
+          <button type="button" className="cores cores-link" onClick={() => setScreen({ kind: "shop" })}>
             코어 <strong>{meta.cores}</strong>
+            <span>해금 →</span>
+          </button>
+
+          <div className="mode-row">
+            <button type="button" className="mode" onClick={() => setScreen({ kind: "stages" })}>
+              <strong>Stage</strong>
+              <small>정해진 코스. 얼마나 어려운 것을 넘는가</small>
+              <em className={highestTierCleared(meta) > 0 ? "" : "zero"}>최고 티어 {highestTierCleared(meta)}</em>
+            </button>
+            <button
+              type="button"
+              className="mode"
+              disabled={!endlessUnlocked(meta)}
+              onClick={startEndless}
+            >
+              <strong>Endless</strong>
+              <small>
+                {endlessUnlocked(meta)
+                  ? "끝이 없다. 얼마나 멀리 가는가"
+                  : "Stage 하나를 클리어하면 열린다"}
+              </small>
+              <em className={bestDistanceOverall(meta) > 0 ? "" : "zero"}>최고 {Math.round(bestDistanceOverall(meta))}m</em>
+            </button>
           </div>
 
           <div className="preset-row">
@@ -255,55 +305,55 @@ export default function App() {
                     setRunnerId(r.id);
                     commit({ ...meta, runner: r.id });
                   }}
-                  title={r.note}
                 >
                   <RunnerTrace runner={r} />
                   <strong>{r.name}</strong>
                   <RunnerBars id={r.id} />
-                  <em>{r.note}</em>
+                  {/* 설명문은 고른 기체에만. 넷을 다 펴면 그리드가 370px 이라 주 동선인
+                      Stage 가 720px 화면의 접힘 아래로 밀려난다. */}
+                  {runnerId === r.id ? <em>{r.note}</em> : null}
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="mode-row">
-            <button type="button" className="mode" onClick={() => setScreen({ kind: "stages" })}>
-              <strong>Stage</strong>
-              <small>정해진 코스. 얼마나 어려운 것을 넘는가</small>
-              <em>최고 티어 {tiers.filter((t) => countClearedInTier(meta, t) > 0).length}</em>
-            </button>
-            <button
-              type="button"
-              className="mode"
-              disabled={!endlessUnlocked(meta)}
-              onClick={startEndless}
-            >
-              <strong>Endless</strong>
-              <small>
-                {endlessUnlocked(meta)
-                  ? "끝이 없다. 얼마나 멀리 가는가"
-                  : "Stage 하나를 클리어하면 열린다"}
-              </small>
-              <em>최고 {Math.round(bestDistanceOverall(meta))}m</em>
-            </button>
-          </div>
-
-          <button type="button" className="link" onClick={() => setScreen({ kind: "shop" })}>
-            해금 →
-          </button>
 
           <footer className="panel-foot">
             <AxisLegend />
-            <span>스페이스 · 클릭 · 탭 = 상승 · T 튜닝 · M 음소거{muted ? "(꺼짐)" : ""}</span>
+            {/* 폰에는 없는 키를 누르라고 쓰지 않는다. 음소거는 실제 버튼이 맡는다. */}
+            <button
+              type="button"
+              className="icon-btn"
+              aria-pressed={muted}
+              onClick={() => {
+                setMuted(!muted);
+                setMutedState(!muted);
+              }}
+            >
+              {muted ? "소리 꺼짐" : "소리 켜짐"}
+            </button>
           </footer>
         </section>
       ) : null}
 
       {screen.kind === "stages" ? (
         <section className="panel">
+          <button type="button" className="link back" onClick={() => setScreen({ kind: "home" })}>
+            ← 돌아가기
+          </button>
           <header className="panel-head">
             <h1>Stage</h1>
             <p className="dim">같은 스테이지는 언제나 같은 코스다. 해법을 찾고, 그 해법을 관철한다.</p>
+            {/*
+              기록도 초록 테두리도 **현재 기체의 것**인데 화면 어디에도 그게 누구인지가
+              없었다. 아래 네 칸 슬롯의 "자리가 기체를 지정한다"는 규칙도 배울 길이
+              없었다 — 현재 기체의 슬롯에 링을 둘러, 홈에서 기체를 바꾸면 링이 옮겨
+              가며 매핑이 스스로 가르쳐진다.
+            */}
+            <p className="now-runner">
+              <RunnerTrace runner={runner} />
+              <span>{runner.name}</span>
+            </p>
           </header>
           {tiers.map((tier) => {
             const open = tierUnlocked(meta, tier);
@@ -339,12 +389,14 @@ export default function App() {
                           {RUNNERS.map((r) => (
                             <i
                               key={r.id}
-                              className={byAny.includes(r.id) ? "on" : ""}
-                              title={r.name}
+                              className={`${byAny.includes(r.id) ? "on" : ""}${
+                                r.id === runner.id ? " self" : ""
+                              }`}
                             />
                           ))}
                         </span>
-                        {tries > 0 ? <em>{tries}회</em> : null}
+                        {/* 자리를 고정하지 않으면 티어마다 칸 높이가 달라진다 */}
+                        <em style={tries > 0 ? undefined : { visibility: "hidden" }}>{tries || 0}회</em>
                       </button>
                     );
                   })}
@@ -360,9 +412,6 @@ export default function App() {
             </span>
           </label>
 
-          <button type="button" className="link" onClick={() => setScreen({ kind: "home" })}>
-            ← 돌아가기
-          </button>
         </section>
       ) : null}
 
@@ -381,11 +430,12 @@ export default function App() {
           <ul className="shop">
             <li>
               <div>
-                <strong>축 상한 ±3</strong>
+                <strong>축 상한 ±{meta.axisCap} → ±3</strong>
                 <small>각 축이 더 멀리까지 간다. 극단이 열린다</small>
               </div>
               <button
                 type="button"
+                className={meta.axisCap >= 3 ? "owned" : ""}
                 disabled={meta.axisCap >= 3 || meta.cores < AXIS_CAP_COST}
                 onClick={() => buy(AXIS_CAP_COST, (m) => ({ ...m, axisCap: 3 }))}
               >
@@ -399,6 +449,7 @@ export default function App() {
               </div>
               <button
                 type="button"
+                className={meta.fullPool ? "owned" : ""}
                 disabled={meta.fullPool || meta.cores < SECTOR_POOL_COST}
                 onClick={() => buy(SECTOR_POOL_COST, (m) => ({ ...m, fullPool: true }))}
               >
@@ -441,7 +492,7 @@ export default function App() {
       ) : null}
 
       {screen.kind === "play" ? (
-        <section className="play">
+        <section className="play" data-phase={phase}>
           <GameCanvas
             config={screen.config}
             onPhase={setPhase}
@@ -451,6 +502,16 @@ export default function App() {
             onSample={(s) => setFps(s.fps)}
             overrides={overrides}
           />
+
+          {/*
+            **폰에서 런을 빠져나갈 방법이 없었다.** 종료는 Escape 키 하나뿐이고,
+            오버레이는 `pointer-events:none` 이며, 스테이지 사망은 자동 재시작이라
+            죽어도 못 나간다 — 들어가면 73초를 완주할 때까지 갇혔다.
+            오버레이 안에 두면 running 중에 사라지므로 캔버스의 형제로 항상 둔다.
+          */}
+          <button type="button" className="exit-btn" onClick={exitPlay} aria-label="나가기">
+            ←
+          </button>
 
           {phase === "ready" ? (
             <div className="overlay">
@@ -490,7 +551,7 @@ export default function App() {
                 +{coresForDistance(report.distance)} 코어 · {runner.name} 최고{" "}
                 {Math.round(meta.bestDistance[runner.id] ?? 0)}m
               </p>
-              <p className="cue">누르면 다시 · Esc 나가기</p>
+              <p className="cue">누르면 다시</p>
             </div>
           ) : null}
         </section>

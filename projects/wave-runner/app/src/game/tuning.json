@@ -6,7 +6,7 @@
   "inertiaMs": 0,
   "radius": 1.6,
   "lookaheadMinSec": 1.2,
-  "cameraAnchor": 0.28,
+  "cameraAnchor": 0.18,
   "retryDelayMs": 500,
   "fixedStepHz": 240,
   "axisMin": -3,
