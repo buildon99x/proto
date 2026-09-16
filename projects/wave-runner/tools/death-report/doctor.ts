@@ -13,7 +13,7 @@
 import { del, get, list, put } from "@vercel/blob";
 import { existsSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
-import { LOCAL_DIR, credentials, prefixFor } from "./blob";
+import { LOCAL_DIR, credentials, diagnose, prefixFor } from "./blob";
 
 const argv = process.argv.slice(2);
 const i = argv.indexOf("--project");
@@ -52,10 +52,14 @@ async function main() {
   const cred = credentials();
   if (cred.kind === "none") {
     bad("자격 없음");
-    info(cred.note);
+    console.log("");
+    for (const line of diagnose()) info(line);
+    console.log("");
     info("스토어가 없다면:  vercel blob create-store <이름> --access private --region icn1");
     info("스토어가 있다면:  vercel link  후  vercel env pull   (레포 루트에서)");
-    info("토큰은 .env 로 온다. 커밋하지 않는다.");
+    info("`vercel env pull` 의 기본 출력은 .env.local 이다. 커밋하지 않는다.");
+    info("스토어를 만들었는데도 키가 없으면, 그 스토어가 이 프로젝트에 연결됐는지 본다");
+    info("(대시보드의 Storage 탭에서 loop-lab 이 Connected Projects 에 있어야 한다).");
     console.log("");
     localSummary();
     process.exit(1);
