@@ -358,7 +358,9 @@ for (let tier = 1; tier <= MAX_TIER; tier += 1) {
       `        전경로통과 ${nPassable}/${CANDIDATES} → 공정성 하한 통과 ${pool.length} → 채택 ${picked.length}/${STAGES_PER_TIER} (${usedRelaxation})`
   );
   picked.forEach((c, i) => {
-    table[stageKey(tier, i + 1)] = c.seed;
+    // 시드표 키는 `tier:no` 다. meta 의 `stageKey` 는 기체가 붙은 다른 키이고,
+    // course.ts 의 SEEDS 조회가 이 형식을 읽는다.
+    table[`${tier}:${i + 1}`] = c.seed;
     const off = c.s.bestMs - targetSlackMs(tier);
     const drift = c.s.openBestMs - c.s.bestMs;
     lines.push(

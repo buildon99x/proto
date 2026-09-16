@@ -1,6 +1,9 @@
 /** 부사 3축. 동사(홀드=상승 / 릴리스=하강)는 불변이고 이 계수만 런마다 조립된다. */
 export type AxisKey = "slope" | "speed" | "bias";
 
+/** 기체. 축을 늘리는 것이 아니라 축 눈금을 읽는 **곡선**이 다르다(`runners.ts`). */
+export type RunnerId = "dart" | "blunt" | "spike" | "ring";
+
 /** 각 축의 현재 눈금. tuning.axisMin ~ axisMax 로 클램프된다. */
 export type Build = Record<AxisKey, number>;
 
@@ -116,6 +119,19 @@ export interface Tuning {
   fixedStepHz: number;
   axisMin: number;
   axisMax: number;
+  /**
+   * 기체의 축 곡선. 눈금 0 의 값을 미는 **중심**과 눈금 한 칸의 크기인 **폭**이다.
+   * 전부 1.0 이면 표준 기체이고, 그때 계수는 2단계의 표와 소수점까지 같다.
+   *
+   * 여기(Tuning)에 두는 것이 요점이다 — 솔버·오토파일럿·카메라가 전부 Tuning 하나만
+   * 받으므로, 곡선이 여기 들어가면 기체가 그 전부에 자동으로 반영된다.
+   */
+  slopeCenter: number;
+  slopeSpan: number;
+  biasSpan: number;
+  /** 속도 곡선. 속도는 각도와 직교하므로(`tests/verify/angles.ts`) 아직 전 기체가 1.0 이다. */
+  speedCenter: number;
+  speedSpan: number;
   gateLeadInSec: number;
   gateSpanSec: number;
   gateDivider: number;

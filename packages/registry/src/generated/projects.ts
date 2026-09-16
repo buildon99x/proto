@@ -151,8 +151,8 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.5.8",
-    "summary": "원버튼 지그재그 회피 로그라이트. 홀드=상승/릴리스=하강 하나뿐인 문법은 고정하고, 갈림길을 지날 때마다 한 축이 오르고 다른 축이 내리는 교환으로 기체의 각도·속도·편향을 조립한다. 고정 코스를 푸는 Stage와 끝이 없는 Endless가 같은 엔진을 쓴다.",
+    "version": "0.6.0",
+    "summary": "원버튼 지그재그 회피 로그라이트. 홀드=상승/릴리스=하강 하나뿐인 문법은 고정하고, 갈림길을 지날 때마다 한 축이 오르고 다른 축이 내리는 교환으로 기체의 각도·속도·편향을 조립한다. 기체 4종은 축을 늘리는 대신 눈금을 계수로 옮기는 곡선이 달라 같은 스테이지가 기체마다 다른 문제가 되고, 수제 섹터 18개로 큐레이션한 Stage와 끝이 없는 Endless가 같은 엔진을 쓴다.",
     "tags": [
       "game",
       "one-button",
@@ -161,7 +161,8 @@ export const projects = [
       "roguelite",
       "procedural",
       "canvas",
-      "prototype"
+      "prototype",
+      "runner"
     ],
     "projectRoot": "projects/wave-runner",
     "entry": {
@@ -173,7 +174,8 @@ export const projects = [
       "spec": "spec.md",
       "eval": "eval.md",
       "readme": "README.md",
-      "changelog": "changelog.md"
+      "changelog": "changelog.md",
+      "plan": "notes/runner-variation.md"
     },
     "assets": {
       "cover": "assets/screenshots/cover.png"
@@ -183,7 +185,7 @@ export const projects = [
       "build": "pnpm --filter wave-runner build",
       "test": "pnpm --filter wave-runner test"
     },
-    "updatedAt": "2026-09-16T14:14:19+00:00"
+    "updatedAt": "2026-09-16T15:51:51+00:00"
   },
   {
     "id": "blacksmith-clicker",

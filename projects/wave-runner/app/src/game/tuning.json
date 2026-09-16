@@ -6,7 +6,7 @@
   "inertiaMs": 0,
   "radius": 1.6,
   "lookaheadMinSec": 1.2,
-  "cameraAnchor": 0.28,
+  "cameraAnchor": 0.18,
   "retryDelayMs": 500,
   "fixedStepHz": 240,
   "axisMin": -3,
@@ -14,5 +14,10 @@
   "gateLeadInSec": 1.5,
   "gateSpanSec": 0.8,
   "gateDivider": 7,
-  "endlessRampPerSector": 0.13
+  "endlessRampPerSector": 0.13,
+  "slopeCenter": 1,
+  "slopeSpan": 1,
+  "biasSpan": 1,
+  "speedCenter": 1,
+  "speedSpan": 1
 }

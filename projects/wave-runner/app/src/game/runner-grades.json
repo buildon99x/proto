@@ -1,0 +1,35 @@
+{
+  "note": "runner-grades.ts 가 굽는다. 손으로 고치지 말 것.",
+  "measuredAt": "2026-09-16",
+  "axisCap": 2,
+  "runners": {
+    "dart": {
+      "slackMs": 120,
+      "routes": 0.667,
+      "walls": 0,
+      "slackBar": 1,
+      "routeBar": 0.79
+    },
+    "blunt": {
+      "slackMs": 80,
+      "routes": 0.844,
+      "walls": 0,
+      "slackBar": 0.667,
+      "routeBar": 1
+    },
+    "spike": {
+      "slackMs": -1,
+      "routes": 0.359,
+      "walls": 0,
+      "slackBar": 0,
+      "routeBar": 0.426
+    },
+    "ring": {
+      "slackMs": 90,
+      "routes": 0.781,
+      "walls": 0,
+      "slackBar": 0.75,
+      "routeBar": 0.926
+    }
+  }
+}

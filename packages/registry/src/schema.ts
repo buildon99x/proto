@@ -28,6 +28,11 @@ export type ProjectMetadata = {
     eval: string;
     readme: string;
     changelog: string;
+    /**
+     * 프로젝트가 추가로 노출하는 문서. 런처는 `docs` 를 그대로 훑어 보여주므로
+     * 위 다섯 외의 키도 화면에 뜬다 — 타입만 막고 있었다.
+     */
+    [key: string]: string;
   };
   assets: {
     cover?: string;
