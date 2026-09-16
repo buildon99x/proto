@@ -53,8 +53,9 @@ async function main() {
   if (cred.kind === "none") {
     bad("자격 없음");
     info(cred.note);
-    info("Vercel 대시보드에서 Storage → Create Database → Blob 을 만들고 이 프로젝트에 연결한다.");
-    info("그 뒤 `vercel env pull` 로 로컬에 BLOB_READ_WRITE_TOKEN 을 받는다.");
+    info("스토어가 없다면:  vercel blob create-store <이름> --access private --region icn1");
+    info("스토어가 있다면:  vercel link  후  vercel env pull   (레포 루트에서)");
+    info("토큰은 .env 로 온다. 커밋하지 않는다.");
     console.log("");
     localSummary();
     process.exit(1);

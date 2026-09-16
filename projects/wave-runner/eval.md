@@ -23,11 +23,14 @@ pnpm exec tsx projects/wave-runner/tests/verify/telemetry.ts            # 수집
 수집이 모이면 분석은 `tools/death-report/` 세 걸음이다 — 자세한 것은 그 안의 README.
 
 ```bash
-pnpm exec tsx projects/wave-runner/tools/death-report/doctor.ts                    # 스토어가 도는가
-pnpm exec tsx projects/wave-runner/tools/death-report/pull.ts --fp <지문>          # 내려받기
-pnpm exec tsx projects/wave-runner/tools/death-report/report.ts deaths.ndjson --json summary.json
-node projects/wave-runner/tools/death-report/figure.mjs summary.json deaths.png
+pnpm telemetry:doctor                                  # 스토어가 도는가
+pnpm telemetry:pull --fp <지문> --out deaths.ndjson    # 내려받기
+pnpm telemetry:report deaths.ndjson --json summary.json
+pnpm telemetry:figure summary.json deaths.png
 ```
+
+**레포 루트에서 실행한다.** `pnpm exec tsx <경로>` 는 워크스페이스 하위 패키지로 내려가
+`tsx` 를 못 찾는다 — `tsx` 는 루트에만 있다.
 
 | 검사 | 현재 결과 |
 |---|---|

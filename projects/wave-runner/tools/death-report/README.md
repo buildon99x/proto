@@ -6,8 +6,13 @@
 ## 먼저 — 스토어가 도는가
 
 ```bash
-pnpm exec tsx projects/wave-runner/tools/death-report/doctor.ts
+pnpm telemetry:doctor
 ```
+
+**레포 루트에서 실행한다.** `pnpm exec tsx <경로>` 로 부르면 pnpm 이 워크스페이스 하위
+패키지로 내려가 `tsx` 를 못 찾는다(`ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL`) — `tsx` 는
+루트에만 있기 때문이다. 루트 스크립트로 부르면 루트의 `node_modules/.bin` 이 PATH 에
+올라가므로 pnpm 버전과 무관하게 돈다. 처음이라면 `pnpm install` 이 먼저다.
 
 쓰기 → 비공개 확인 → 목록 → 읽기 → 삭제를 한 번 돌려 **어디서 끊기는지 이름을 붙인다.**
 코드가 있다고 수집이 되는 것이 아니다 — 토큰이 없거나, 스토어가 공개로 만들어졌거나,
@@ -18,15 +23,15 @@ pnpm exec tsx projects/wave-runner/tools/death-report/doctor.ts
 
 ```bash
 # 1) 내려받기 — 배포본(Vercel Blob)
-pnpm exec tsx projects/wave-runner/tools/death-report/pull.ts --fp 8f3a91c2 --out deaths.ndjson
+pnpm telemetry:pull --fp 8f3a91c2 --out deaths.ndjson
 #    개발 중 .telemetry/ 에 쌓인 것
-pnpm exec tsx projects/wave-runner/tools/death-report/pull.ts --local --out deaths.ndjson
+pnpm telemetry:pull --local --out deaths.ndjson
 
 # 2) 보고서 — 표 A~D 를 찍고 그림용 요약을 남긴다
-pnpm exec tsx projects/wave-runner/tools/death-report/report.ts deaths.ndjson --json summary.json
+pnpm telemetry:report deaths.ndjson --json summary.json
 
 # 3) 그림 — 여유 곡선 위에 실측 사망을 겹친다
-node projects/wave-runner/tools/death-report/figure.mjs summary.json deaths.png
+pnpm telemetry:figure summary.json deaths.png
 ```
 
 `--fp` 로 **코스 지문**을 골라 받는 것이 기본이다. 0.5.5 에서 시드표가 통째로 갈렸듯 코스는
@@ -43,7 +48,7 @@ CLI 한 번 호출로는 조용히 잘린다.** `pull.ts` 는 커서로 끝까�
 vercel link                     # 레포 루트에서. Vercel 프로젝트는 loop-lab (buildon99x/proto)
 vercel blob create-store prototype-lab-telemetry --access private --region icn1
 vercel env pull                 # BLOB_READ_WRITE_TOKEN 이 .env 로 온다 (커밋하지 않는다)
-pnpm exec tsx projects/wave-runner/tools/death-report/doctor.ts
+pnpm telemetry:doctor
 ```
 
 대시보드(Storage → Create Database → Blob)로도 같은 일을 하지만 CLI 를 권한다 —
@@ -106,7 +111,7 @@ pnpm exec tsx projects/wave-runner/tools/death-report/doctor.ts
 빌더를 쓰므로 스키마와 좌표는 수집본과 같은 모양이다.
 
 ```bash
-pnpm exec tsx projects/wave-runner/tools/death-report/simulate.ts synth.ndjson 16
+pnpm telemetry:simulate synth.ndjson 16
 ```
 
 **이것은 사람 데이터가 아니다.** 오토파일럿은 시야가 완벽하고 통로 중앙이 아니라 빈 틈을
