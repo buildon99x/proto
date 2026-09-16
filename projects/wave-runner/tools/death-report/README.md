@@ -71,9 +71,13 @@ vercel blob list-stores          # 이 프로젝트에 연결된 것만 나온�
 vercel blob list-stores --all    # 팀 전체 스토어
 ```
 
-위가 비어 있고 아래에 있으면 연결이 빠진 것이다. 대시보드 Storage → 그 스토어 →
-Connect Project 로 붙이고 `vercel env pull` 을 다시 돌린다. `doctor.ts` 가 이 상태를
-따로 알아보고 같은 안내를 찍는다.
+위가 비어 있고 아래에 있으면 **떠 있는 스토어(orphan)** 다. 프로젝트를 지정하지 않고
+만들면 팀 기본 자리(`vercel-blob-default-project`)에 붙고, 그러면 이 프로젝트의 env 에
+아무것도 오지 않는다. 대시보드 Storage → 그 스토어 → Connect Project 로 `loop-lab` 을
+붙이고 `vercel env pull` 을 다시 돌린다. `doctor.ts` 가 이 상태를 따로 알아본다.
+
+**연결은 선택이 아니다.** `BLOB_STORE_ID` 를 손으로 넣으면 로컬 도구는 돌지만 수집은
+되지 않는다 — 배포된 함수도 같은 자격이 필요하고 그것은 연결에서만 오기 때문이다.
 
 이름은 레포 공용임이 드러나게 짓는다. 저장 경로가 `tele/<프로젝트>/…` 로 이미 갈라져 있고
 엔드포인트도 `/api/telemetry/[project]` 라 프로젝트별 스토어가 아니며, 지금 코드는

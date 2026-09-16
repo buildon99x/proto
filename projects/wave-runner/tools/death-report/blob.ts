@@ -90,16 +90,17 @@ export function nextSteps(kind: Credentials["kind"]): string[] {
       "    vercel blob list-stores          # 이 프로젝트에 연결된 것만 나온다",
       "    vercel blob list-stores --all    # 팀 전체 스토어",
       "",
-      "위가 비어 있고 아래에 있으면 → 연결이 안 된 것이다.",
+      "위가 비어 있고 아래에 있으면 → **떠 있는 스토어(orphan)** 다. 프로젝트를 지정하지",
+      "않고 만들면 팀 기본 자리에 붙고, 그러면 이 프로젝트의 env 에 아무것도 오지 않는다.",
       "  대시보드 Storage → 그 스토어 → Connect Project 에서 loop-lab 을 붙인다.",
       "  붙인 뒤 `vercel env pull` 을 다시 돌린다.",
       "",
       "둘 다 비어 있으면 → 스토어가 다른 팀/스코프에 있거나 아직 없는 것이다:",
       "    vercel blob create-store prototype-lab-telemetry --access private --region icn1",
       "",
-      "연결은 됐는데 env 에 안 오면, 스토어 id 를 직접 넣어도 된다.",
-      "  `vercel blob list-stores` 가 찍어 주는 store_… 를 .env.local 에 한 줄 추가:",
-      "    BLOB_STORE_ID=store_xxxxxxxx"
+      "BLOB_STORE_ID 를 .env.local 에 손으로 넣으면 이 도구들은 돌아간다. **다만 그것으로",
+      "수집이 되지는 않는다** — 배포된 함수도 같은 자격이 필요하고, 그것은 연결에서만 온다.",
+      "연결은 선택이 아니라 필수다."
     ];
   }
   return [
