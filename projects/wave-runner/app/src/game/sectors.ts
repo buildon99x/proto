@@ -198,32 +198,48 @@ export interface CorridorSpec {
   grade: number;
   /** 경사 구간에서 오르내리는 총 높이 */
   rise: number;
+  /** 경사를 몇 토막으로 끊는가. 1 이면 한 번에 내려간다(0.5.3 이전) */
+  segments: number;
+  /** 토막 사이 평탄 회복 구간의 길이 */
+  recover: number;
 }
 
 /**
  * 회랑의 형상.
  *
- * **협곡과 같은 함정이 여기에도 있고, 아직 고치지 못했다.** 경사에서 뒤처지는 거리가
- * 통로 폭을 넘으면 조작과 무관하게 벽에 닿는데, `corridor-up` 은 7개 · `corridor-down`
- * 은 13개 빌드를 그렇게 봉쇄한다(`tests/verify/sector-fairness.ts`).
+ * **경사를 한 번에 내려가면 뒤처짐이 누적돼 통로 폭을 넘는다.** 0.5.3 이전의 회랑은
+ * 경사 0.92 를 64단위 내리 달려서, 그 기울기를 못 내는 기체가 조작과 무관하게 벽에
+ * 닿았다 — `corridor-up` 7개 · `corridor-down` 13개 빌드가 그렇게 봉쇄돼 있었다.
  *
- * 협곡처럼 파라미터로 풀리지 않는다. 경사를 낮추면 통과는 되지만 **편향의 유불리
- * 뒤집힘이 사라진다** — 하강 회랑인데 편향 + 가 유리해진다. 경사가 하강 속도를 실제로
- * 압박해야만 편향이 의미를 갖기 때문이다.
+ * 경사를 낮추는 것은 답이 아니다. 낮추면 통과는 되지만 **편향의 유불리 뒤집힘이
+ * 사라진다** — 경사가 하강 속도를 실제로 압박해야만 편향이 의미를 갖기 때문이다.
+ * 0.5 로 낮춰 보니 하강 회랑인데 편향 + 가 +60ms 유리해졌고, 최소 여유가 224ms 로
+ * 뛰면서 "좁고 긴 통로" 라는 성격도 함께 사라졌다.
  *
- * 게다가 두 방향이 대칭이 아니다. 세 축의 합이 0 이라 (각도 −3, 편향 −3)은 존재하지
- * 않으므로 **상승 한계의 최악은 0.62**인데, (각도 −3, 편향 +3)은 존재하므로 **하강
- * 한계의 최악은 0.397**이다. 하강 회랑이 감당해야 하는 폭이 훨씬 크다.
+ * 그래서 **경사를 짧게 끊고 사이에 평탄한 회복 구간을 둔다.** 토막 하나에서 벌어지는
+ * 거리는 `(경사 − 기체 dy/dx) × 토막 길이` 로 토막 수에 반비례하고, 평탄 구간에서
+ * 그만큼을 도로 메운다. **압박은 남고 누적만 사라진다.**
  *
- * 답은 협곡의 수법이다 — 경사를 유지한 채 **짧게 끊고 사이에 평탄한 회복 구간**을 두면
- * 뒤처짐이 누적되지 않는다. 계산상 0.92 경사를 두 토막(각 29단위)으로 끊고 50단위
- * 평탄을 끼우면 토막당 뒤처짐이 16.5 로 폭 22 의 여유(18.8) 안에 든다. 형상 생성을
- * 다시 써야 하므로 별도 작업으로 둔다.
+ * 끊고 나면 경사를 오히려 **더 가파르게**(0.92 → 1.3) 해야 한다. 토막이 짧아진 만큼
+ * 기울기를 올리지 않으면 하강 속도를 압박하지 못해, 하강 회랑인데 편향 0 이 편향 ±
+ * 양쪽보다 유리해진다(실측: 편− 189 · 편0 229 · 편+ 178). 지금은 편− 266 · 편0 254 ·
+ * 편+ 185 로 뒤집힘이 제자리를 찾았다.
+ *
+ * 회복 구간은 덤이 아니다 — 중립이 없는 좁은 평탄 통로는 짧은 탭 연타로 직진을
+ * 합성해야 유지되므로, 회랑이 본래 묻던 기술을 한 번 더 묻는다.
+ *
+ * 두 방향은 대칭이 아니다. 세 축의 합이 0 이라 (각도 −3, 편향 −3)은 존재하지 않으므로
+ * **상승 한계의 최악은 0.62** 인데, (각도 −3, 편향 +3)은 존재하므로 **하강 한계의 최악은
+ * 0.397** 이다. 하강 회랑이 감당해야 하는 뒤처짐이 훨씬 크다.
  */
 export const CORRIDOR_SPEC: Record<number, CorridorSpec> = {
-  1: { width: 22, grade: 0.92, rise: 64 },
-  2: { width: 20, grade: 0.92, rise: 64 },
-  3: { width: 16, grade: 0.92, rise: 64 }
+  // 오르는 회랑과 내려가는 회랑은 같은 형상을 쓴다. 난이도 번호가 드리프트에 용접돼
+  // 있어(1=상승 · 2=하강 · 3=평탄) 여기서 난이도를 가를 자리가 사실상 없다 — 회랑의
+  // 난이도 표기가 명목뿐인 것은 별도의 알려진 문제다.
+  1: { width: 30, grade: 1.3, rise: 64, segments: 2, recover: 55 },
+  2: { width: 30, grade: 1.3, rise: 64, segments: 2, recover: 55 },
+  // 평탄한 회랑에는 경사가 없다. 좁은 관을 탭 연타로 유지하는 것 자체가 시험이다.
+  3: { width: 16, grade: 1.3, rise: 0, segments: 1, recover: 0 }
 };
 
 export function makeCorridor(
@@ -231,19 +247,38 @@ export function makeCorridor(
   drift: "up" | "down" | "flat",
   spec: CorridorSpec = CORRIDOR_SPEC[difficulty]
 ): Sector {
-  const { width, grade, rise } = spec;
+  const { width, grade, rise, segments, recover } = spec;
   const span = drift === "flat" ? 0 : rise * (drift === "up" ? -1 : 1);
   const clamped = Math.max(-64, Math.min(64, span));
   const mid = drift === "flat" ? 50 : 50 - clamped / 2;
-  const useLen = drift === "flat" ? SECTOR_LEN : Math.abs(clamped) / grade;
-  const raw =
-    drift === "flat"
-      ? run(0, SECTOR_LEN, flat(mid), flat(width), 7)
-      : [
-          ...run(0, 60, flat(mid), flat(width + 6), 6),
-          ...run(60, useLen, lerp(mid, mid + clamped), flat(width), 4),
-          ...run(60 + useLen, Math.max(20, SECTOR_LEN - 60 - useLen), flat(mid + clamped), flat(width + 6), 6)
-        ];
+
+  let raw: CorridorNode[];
+  if (drift === "flat") {
+    raw = run(0, SECTOR_LEN, flat(mid), flat(width), 7);
+  } else {
+    const legRise = clamped / segments;
+    const legLen = Math.abs(legRise) / grade;
+    const LEAD = 60;
+    raw = [...run(0, LEAD, flat(mid), flat(width + 6), 6)];
+    let x = LEAD;
+    let y = mid;
+    for (let i = 0; i < segments; i += 1) {
+      raw.push(...run(x, legLen, lerp(y, y + legRise), flat(width), 4));
+      x += legLen;
+      y += legRise;
+      // 마지막 토막 뒤에는 회복 구간을 두지 않는다 — 남은 자리가 곧 꼬리다.
+      //
+      // 회복 구간은 리드인·꼬리와 같은 폭으로 넓힌다. 이 구간의 일은 **뒤처짐을
+      // 메우게 해 주는 것**이지 새 시험을 내는 것이 아니다. 같은 폭으로 두면 한쪽으로
+      // 치우친 기체가 평탄 구간에서 벌을 받아, 경사가 묻는 편향의 질문을 도로 상쇄한다
+      // (실측: 하강 회랑에서 편향 0 이 편향 ± 양쪽보다 유리해졌다).
+      if (i < segments - 1) {
+        raw.push(...run(x, recover, flat(y), flat(width + 6), 5));
+        x += recover;
+      }
+    }
+    raw.push(...run(x, Math.max(20, SECTOR_LEN - x), flat(y), flat(width + 6), 6));
+  }
   const nodes = withCuffs(raw);
   return {
     id: `corridor-${drift}`,
