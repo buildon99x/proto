@@ -52,6 +52,11 @@ export interface RunConfig {
    * 위해서다 — 런 시작 시점에 확정되고 런 중에는 바뀌지 않는다.
    */
   milestone?: MilestoneData;
+  /**
+   * 벽 도료 id. 렌더 전용이고 물리·코스·솔버에 닿지 않는다 —
+   * 도료가 무엇이든 같은 시드는 같은 코스이고 같은 여유다.
+   */
+  paint?: string;
 }
 
 export interface MilestoneData {

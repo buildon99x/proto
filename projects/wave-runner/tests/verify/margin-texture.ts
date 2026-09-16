@@ -15,7 +15,7 @@ import {
   ACHROMATIC_SAT,
   DEFAULT_PAINT,
   TEXTURE_CONTRAST_CAP,
-  WALL,
+  DEFAULT_WALL,
   WALL_AREA,
   accentContrast,
   contrastRatio,
@@ -40,8 +40,8 @@ const fail = (msg: string) => {
 console.log("① 색 예산 — 대비 상한과 허용 색상대");
 for (const type of TYPES) {
   const { ink, accent } = inkFor(type);
-  const ci = contrastRatio(WALL, ink);
-  const ca = contrastRatio(WALL, accent);
+  const ci = contrastRatio(DEFAULT_WALL, ink);
+  const ca = contrastRatio(DEFAULT_WALL, accent);
   const want = textureContrast(type);
   const wantAccent = accentContrast(type);
   const ok =

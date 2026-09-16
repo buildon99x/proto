@@ -1,4 +1,6 @@
 import { NEUTRAL_BUILD } from "./axes";
+import { DEFAULT_PAINT, PAINTS } from "./margin/palette";
+import type { Paint } from "./margin/palette";
 import type { Build } from "./types";
 
 /**
@@ -49,6 +51,13 @@ export interface Meta {
   /** Endless 최고 거리 */
   bestDistance: number;
   attempts: Record<string, number>;
+  /**
+   * 선택한 벽 도료 id.
+   *
+   * **해금 목록은 저장하지 않는다.** 진행도에서 파생하므로 어긋날 상태가 없고,
+   * 진행도를 내보내 옮기면 도료도 따라온다. 저장이 늘지 않는 것은 덤이다.
+   */
+  paint: string;
 }
 
 export const EMPTY_META: Meta = {
@@ -61,7 +70,8 @@ export const EMPTY_META: Meta = {
   bestStageProgress: {},
   bestStageSplits: {},
   bestDistance: 0,
-  attempts: {}
+  attempts: {},
+  paint: DEFAULT_PAINT.id
 };
 
 export const STAGES_PER_TIER = 3;
@@ -105,4 +115,43 @@ export function coresForStage(tier: number): number {
 export function endlessUnlocked(meta: Meta): boolean {
   // 첫 실행에 Endless 를 주면 학습 곡선이 없어 30초 만에 죽고 이탈한다.
   return meta.clearedStages.length > 0;
+}
+
+/**
+ * 도료 해금 — 진행도에서 파생한다. 코어로 살 수 없고 코어를 주지도 않는다.
+ *
+ * 두 경제를 붙이면 "꾸미기를 사면 해금이 느려진다"나 그 반대가 성립해, 실력으로
+ * 얻어야 할 것과 취향으로 고르는 것이 한 저울에 올라간다.
+ */
+export function paintUnlocked(meta: Meta, paint: Paint): boolean {
+  switch (paint.unlock.kind) {
+    case "default":
+      return true;
+    case "tier":
+      return countClearedInTier(meta, paint.unlock.tier) >= STAGES_PER_TIER;
+    case "distance":
+      return meta.bestDistance >= paint.unlock.meters;
+  }
+}
+
+export function unlockedPaints(meta: Meta): Paint[] {
+  return PAINTS.filter((p) => paintUnlocked(meta, p));
+}
+
+/** 저장된 도료가 아직 잠겨 있으면(진행도를 옮겨 왔을 때) 기본으로 되돌린다 */
+export function activePaint(meta: Meta): Paint {
+  const chosen = PAINTS.find((p) => p.id === meta.paint);
+  return chosen && paintUnlocked(meta, chosen) ? chosen : DEFAULT_PAINT;
+}
+
+/** 다음 도료까지 무엇이 남았는가. 홈 화면이 한 줄로 보여준다 */
+export function paintRequirement(paint: Paint): string {
+  switch (paint.unlock.kind) {
+    case "default":
+      return "기본";
+    case "tier":
+      return `티어 ${paint.unlock.tier} 전부 클리어`;
+    case "distance":
+      return `Endless ${paint.unlock.meters}m`;
+  }
 }

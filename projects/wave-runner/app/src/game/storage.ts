@@ -19,7 +19,8 @@ export function loadMeta(): Meta {
       bestStageProgress: p.bestStageProgress ?? {},
       bestStageSplits: p.bestStageSplits ?? {},
       bestDistance: p.bestDistance ?? 0,
-      attempts: p.attempts ?? {}
+      attempts: p.attempts ?? {},
+      paint: typeof p.paint === "string" ? p.paint : EMPTY_META.paint
     };
   } catch {
     return { ...EMPTY_META, presets: [...EMPTY_META.presets] };

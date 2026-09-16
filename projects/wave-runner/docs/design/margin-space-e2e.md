@@ -420,6 +420,7 @@ SLA는 3영업일. 제출 화면에 그대로 적는다.
 - [margin-texture.md](./margin-texture.md) — 섹터 유형 질감(아이디어 8, M1)
 - [margin-milestone.md](./margin-milestone.md) — 기록 이정표(아이디어 6, M2)
 - [margin-billboard.md](./margin-billboard.md) — 플레이어 광고판(아이디어 1, M4)
+- [margin-paint.md](./margin-paint.md) — 벽 도료(아이디어 5, M3)
 
 전개 과정에서 이 문서의 네 군데가 실측·계산과 어긋나는 것이 드러났다. **후속 문서의 값이 맞다.**
 
@@ -429,6 +430,7 @@ SLA는 3영업일. 제출 화면에 그대로 적는다.
 | §5 헤드라인 14자 · 부제 24자 | **8자 · 12자** | 슬롯 34월드에서 14자는 720p 기준 12px이 된다 ([billboard](./margin-billboard.md) §3.2) |
 | §3.7 "게이트 리드인에서 질감이 사라진다" | 리드인은 **현재 → 다음 유형 크로스페이드 구간** | 세로 모바일에서 다음 섹터 벽이 관 선택보다 0.24초 늦게 보인다 ([texture](./margin-texture.md) §1.3) |
 | §3.6 기록 이정표 "새 저장 항목 없음" | `bestStageProgress`·`bestStageSplits` 두 항목이 필요하다 (쓰기 횟수는 늘지 않는다) | 미클리어 스테이지의 최고 도달 지점이 `meta` 어디에도 없다 ([milestone](./margin-milestone.md) §1) |
+| §3.6 "도료는 벽 **색**만 바꾸고" (잉크 틴트로 해석) | 잉크와 **벽 바탕색**을 함께 바꾼다 | 잉크는 벽의 13%만 덮어 잉크만 바꾸면 도료끼리 ΔE 0.00~3.22 로 구분되지 않는다 ([paint](./margin-paint.md) §1) |
 | §7 `tools/` 아래의 스크립트 | `tests/verify/` 아래 | 이 프로젝트의 생성·검증 스크립트는 전부 `tests/verify/`에 있다(`curate-stages.ts`). `tools/`는 존재하지 않는 디렉터리다 |
 
 §15 ①(질감층 패럴랙스)은 [texture](./margin-texture.md) §4에서 **1.0 고정**으로 닫았다. §15 ②(슬롯 우선권)는 [billboard](./margin-billboard.md) §2.1에서 Phase A 선착순 + 전환 규약으로 닫았다.

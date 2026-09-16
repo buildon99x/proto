@@ -8,7 +8,8 @@
  * 설계 근거: docs/design/margin-milestone.md
  */
 import { KEEPOUT } from "./bands";
-import { solveTint } from "./palette";
+import { DEFAULT_PAINT, solveTint } from "./palette";
+import type { Paint } from "./palette";
 import { boundsAt } from "../engine";
 import type { GameState } from "../engine";
 
@@ -131,12 +132,15 @@ export function drawMarks(
   ctx: CanvasRenderingContext2D,
   marks: readonly Mark[],
   state: Readonly<GameState>,
-  view: MarkView
+  view: MarkView,
+  paint: Paint = DEFAULT_PAINT
 ): void {
   if (marks.length === 0) return;
   const { camX, zoom, offsetY, cssW, worldHeight } = view;
-  const base = solveTint(MARK_HUE, MARK_SAT, MARK_CONTRAST);
-  const lit = solveTint(MARK_HUE, MARK_SAT, FLASH_CONTRAST);
+  // 대비는 **그 도료의 벽**을 기준으로 다시 푼다. 벽이 밝아졌는데 각인이 그대로면
+  // 각인만 어두워져 질감 아래로 내려간다.
+  const base = solveTint(MARK_HUE, MARK_SAT, MARK_CONTRAST, paint.wall);
+  const lit = solveTint(MARK_HUE, MARK_SAT, FLASH_CONTRAST, paint.wall);
   const sx = (wx: number) => (wx - camX) * zoom;
   const sy = (wy: number) => wy * zoom + offsetY;
 

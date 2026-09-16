@@ -1,14 +1,13 @@
 import { AXES, AXIS_COLOR } from "./axes";
 import { cameraX, computeView } from "./camera";
 import { boundsAt, gateLanes, squeezeBounds } from "./engine";
-import { drawMargin } from "./margin";
+import { drawMargin, paintFor } from "./margin";
 import type { GameState } from "./engine";
 import { sample, shutterDepth } from "./sectors";
 import type { AxisTrade, Block } from "./types";
 
 const COLOR = {
   bg: "#070b14",
-  wall: "#121a2e",
   wallEdge: "#3de1ff",
   block: "#ff5e7a",
   blockEdge: "#ffd0d8",
@@ -105,6 +104,9 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
   ctx.fillStyle = COLOR.bg;
   ctx.fillRect(0, 0, cssW, cssH);
 
+  // 도료는 벽 바탕색만 바꾼다. 통로 형상·엣지·장애물·아바타는 손대지 않는다
+  const wall = paintFor(state.config.paint).wall;
+
   const stepPx = 4;
   const topPts: Array<[number, number]> = [];
   const botPts: Array<[number, number]> = [];
@@ -117,7 +119,7 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
     if (b.divTop !== null && b.divBot !== null) divider.push([px, sy(b.divTop), sy(b.divBot)]);
   }
 
-  ctx.fillStyle = COLOR.wall;
+  ctx.fillStyle = wall;
   ctx.beginPath();
   ctx.moveTo(-stepPx, -cssH);
   for (const [px, py] of topPts) ctx.lineTo(px, py);
@@ -134,7 +136,7 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
 
   // 칸막이 — 구멍 두 개가 아니라 길이 둘로 갈라진 것으로 읽혀야 한다
   if (divider.length > 1) {
-    ctx.fillStyle = COLOR.wall;
+    ctx.fillStyle = wall;
     ctx.beginPath();
     ctx.moveTo(divider[0][0], divider[0][1]);
     for (const [px, dt] of divider) ctx.lineTo(px, dt);

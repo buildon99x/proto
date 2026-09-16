@@ -24,7 +24,7 @@ import {
   TICK_H,
   milestoneMarks
 } from "../../app/src/game/margin/markers";
-import { WALL, contrastRatio, hueAllowed, solveTint } from "../../app/src/game/margin/palette";
+import { DEFAULT_WALL, contrastRatio, hueAllowed, solveTint } from "../../app/src/game/margin/palette";
 import { exportMeta, importMeta } from "../../app/src/game/storage";
 import { EMPTY_META } from "../../app/src/game/meta";
 import { targetY } from "../../app/src/game/pilot";
@@ -88,8 +88,8 @@ console.log("\n② 색과 섬광 예산");
 {
   const base = solveTint(MARK_HUE, MARK_SAT, MARK_CONTRAST);
   const lit = solveTint(MARK_HUE, MARK_SAT, FLASH_CONTRAST);
-  const cb = contrastRatio(WALL, base);
-  const cl = contrastRatio(WALL, lit);
+  const cb = contrastRatio(DEFAULT_WALL, base);
+  const cl = contrastRatio(DEFAULT_WALL, lit);
   console.log(`  상시 ${base} ${cb.toFixed(2)}:1 (상한 ${STANDING_CAP}) · 섬광 ${lit} ${cl.toFixed(2)}:1 (상한 ${FLASH_CONTRAST_CAP})`);
   console.log(`  색상 ${MARK_HUE}° · 지속 ${FLASH_SEC}초 · 눈금 ${TICK_H} · 꼬리 ${TAIL_LEN}`);
   if (!hueAllowed(MARK_HUE, MARK_SAT)) fail(`색상 ${MARK_HUE}° 가 허용 대역 밖이다`);

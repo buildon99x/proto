@@ -17,6 +17,7 @@ import { KEEPOUT, insetWallPath, textureRegions } from "./bands";
 import type { WallPoints } from "./bands";
 import { MarginBudget } from "./budget";
 import { drawMarks, milestoneMarks } from "./markers";
+import { paintFor } from "./palette";
 import { drawTexture, prebakeTiles } from "./texture";
 import type { MarginView } from "./texture";
 import type { GameState } from "../engine";
@@ -24,6 +25,8 @@ import type { View } from "../camera";
 
 export { KEEPOUT };
 export { resetTextureCache } from "./texture";
+export { PAINTS, DEFAULT_PAINT, paintFor } from "./palette";
+export type { Paint } from "./palette";
 export { milestoneMarks } from "./markers";
 export type { MarginTier } from "./budget";
 
@@ -65,8 +68,9 @@ export function drawMargin(
   const dpr = typeof ctx.getTransform === "function" ? ctx.getTransform().a || 1 : 1;
   const marginView: MarginView = { camX, zoom: view.zoom, offsetY, cssW, cssH, dpr };
 
+  const paint = paintFor(state.config.paint);
   // 입력 전에 네 유형을 다 구워 둔다 — 주행 중 첫 등장 프레임에 비용이 몰리지 않게
-  if (state.phase === "ready") prebakeTiles(ctx, view.zoom, dpr);
+  if (state.phase === "ready") prebakeTiles(ctx, view.zoom, dpr, paint);
 
   const regions = textureRegions(
     state.course,
@@ -79,14 +83,20 @@ export function drawMargin(
   insetWallPath(ctx, topPts, botPts, cssW, cssH, view.zoom);
   ctx.clip();
   // 아래에서 위로: 유형 질감 → 기록 이정표
-  drawTexture(ctx, regions, marginView);
-  drawMarks(ctx, milestoneMarks(state), state, {
-    camX,
-    zoom: view.zoom,
-    offsetY,
-    cssW,
-    worldHeight: state.base.worldHeight
-  });
+  drawTexture(ctx, regions, marginView, paint);
+  drawMarks(
+    ctx,
+    milestoneMarks(state),
+    state,
+    {
+      camX,
+      zoom: view.zoom,
+      offsetY,
+      cssW,
+      worldHeight: state.base.worldHeight
+    },
+    paint
+  );
   ctx.restore();
 
   budget.end(performance.now());

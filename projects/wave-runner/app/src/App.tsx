@@ -21,6 +21,8 @@ import {
 } from "./game/meta";
 import type { Meta } from "./game/meta";
 import { exportMeta, importMeta, loadMeta, saveMeta } from "./game/storage";
+import { activePaint, paintRequirement, paintUnlocked } from "./game/meta";
+import { PAINTS } from "./game/margin/palette";
 import type { Phase, Tuning } from "./game/types";
 
 type Screen =
@@ -74,6 +76,8 @@ export default function App() {
   }, []);
 
   const preset = PRESET_BY_ID.get(presetId) ?? PRESETS[0];
+  // 진행도를 옮겨 왔는데 그 도료가 아직 잠겨 있으면 기본으로 되돌린다
+  const paint = activePaint(meta);
 
   const startStage = useCallback(
     (tier: number, stageNo: number) => {
@@ -93,13 +97,24 @@ export default function App() {
           practice,
           // 클리어한 스테이지는 도달 진행률이 1로 고정돼 각인이 종료선과 겹친다.
           // 그때부터는 최고 기록 런의 스플릿을 비교한다.
+          paint: paint.id,
           milestone: meta.clearedStages.includes(stageKey(tier, stageNo))
             ? { splits: meta.bestStageSplits[stageKey(tier, stageNo)] }
             : { bestProgress: meta.bestStageProgress[stageKey(tier, stageNo)] ?? 0 }
         }
       });
     },
-    [meta.axisCap, meta.bestStageProgress, meta.bestStageSplits, meta.clearedStages, meta.fullPool, overrides, practice, preset]
+    [
+      meta.axisCap,
+      meta.bestStageProgress,
+      meta.bestStageSplits,
+      meta.clearedStages,
+      meta.fullPool,
+      overrides,
+      paint,
+      practice,
+      preset
+    ]
   );
 
   const startEndless = useCallback(() => {
@@ -115,10 +130,11 @@ export default function App() {
         axisCap: meta.axisCap,
         maxSectorDifficulty: meta.fullPool ? 3 : 2,
         overrides,
+        paint: paint.id,
         milestone: { bestDistance: meta.bestDistance }
       }
     });
-  }, [meta.axisCap, meta.bestDistance, meta.fullPool, overrides, preset]);
+  }, [meta.axisCap, meta.bestDistance, meta.fullPool, overrides, paint, preset]);
 
   const handleRunEnd = useCallback(
     (r: RunReport) => {
@@ -227,6 +243,29 @@ export default function App() {
                   >
                     {p.name}
                     <em>{owned ? p.note : `${p.cost} 코어`}</em>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="preset-row">
+            <span className="field-label">벽 도료</span>
+            <div className="chips">
+              {PAINTS.map((p) => {
+                const owned = paintUnlocked(meta, p);
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    disabled={!owned}
+                    className={`chip paint${paint.id === p.id ? " on" : ""}${owned ? "" : " locked"}`}
+                    onClick={() => commit({ ...meta, paint: p.id })}
+                    title={owned ? p.name : paintRequirement(p)}
+                  >
+                    <span className="swatch" style={{ background: p.wall }} aria-hidden="true" />
+                    {p.name}
+                    <em>{owned ? "꾸미기 전용" : paintRequirement(p)}</em>
                   </button>
                 );
               })}
