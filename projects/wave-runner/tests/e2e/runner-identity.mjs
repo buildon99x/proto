@@ -21,7 +21,7 @@ async function driveTo(page, untilX) {
         setHold(false);
         return { ok: true, x: s.x, build: { ...s.build } };
       }
-      if (s.phase === "running") setHold(s.y > w.targetY(0.14, "top"));
+      if (s.phase === "running") setHold(s.y > w.targetY("top"));
       await new Promise((r) => requestAnimationFrame(r));
     }
     return { ok: false };

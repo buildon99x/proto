@@ -53,7 +53,6 @@ const MIN_SEC = 50;
 const MAX_SEC = 60;
 
 const DT = 1 / 120;
-const LOOKAHEAD = 0.14;
 const GATES = STAGE_SECTORS - 1;
 /** 처음 만나는 사람의 조건으로 잰다 — `runner-grades.ts` 와 같은 조건이라 수치가 대조된다. */
 const CAP = 2;
@@ -86,7 +85,7 @@ function clearSec(runner: Runner, tier: number, no: number): number | null {
   });
   launch(state);
   for (let t = 0; t < 300; t += DT) {
-    state.holding = state.y - targetY(state, LOOKAHEAD, laneNeutral(state)) > 0;
+    state.holding = state.y - targetY(state, laneNeutral(state)) > 0;
     const r = update(state, DT);
     if (r.event === "died") return null;
     if (state.phase === "cleared") return t + DT;

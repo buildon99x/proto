@@ -11,7 +11,6 @@ export const meta = {
   viewport: { width: 390, height: 720, deviceScaleFactor: 2 }
 };
 
-const LOOKAHEAD = 0.14;
 
 /**
  * 한 번의 오토파일럿 주행 상한(초).
@@ -27,7 +26,7 @@ const RUN_LIMIT_SEC = 240;
 
 async function autoplay(page, limitSec) {
   return page.evaluate(
-    async ({ lookahead, limit }) => {
+    async ({ limit }) => {
       const w = window.__wave;
       if (!w) return { ok: false, why: "debug hook 없음" };
 
@@ -77,14 +76,14 @@ async function autoplay(page, limitSec) {
           }
         }
         lastPhase = s.phase;
-        if (s.phase === "running") setHold(s.y > w.targetY(lookahead, laneFor(s)));
+        if (s.phase === "running") setHold(s.y > w.targetY(laneFor(s)));
         await new Promise((r) => requestAnimationFrame(r));
       }
 
       setHold(false);
       return { ok: false, why: "timeout", deaths, x: w.state ? w.state.x : 0 };
     },
-    { lookahead: LOOKAHEAD, limit: limitSec }
+    { limit: limitSec }
   );
 }
 

@@ -16,7 +16,6 @@ import { SECTOR_LEN } from "../../app/src/game/sectors";
 import { targetY } from "../../app/src/game/pilot";
 
 const DT = 1 / 120;
-const LOOKAHEAD = 0.14;
 
 function run(seed: number, latencySec: number): { distance: number; sectors: number; ended: boolean } {
   const state = createState({
@@ -46,7 +45,7 @@ function run(seed: number, latencySec: number): { distance: number; sectors: num
       };
       lane = cost(gate.bot) < cost(gate.top) ? "bot" : "top";
     }
-    history.push(state.y - targetY(state, LOOKAHEAD, lane));
+    history.push(state.y - targetY(state, lane));
     const seen = history.length > delayFrames ? history[history.length - 1 - delayFrames] : history[0];
     state.holding = seen > 0;
 

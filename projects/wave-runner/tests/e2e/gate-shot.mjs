@@ -19,7 +19,7 @@ async function driveTo(page, untilX) {
       if (s.phase === "running" && s.x >= untilX) {
         return { ok: true, x: s.x, build: { ...s.build }, gates: s.gatesPassed, lane: s.lane };
       }
-      if (s.phase === "running") setHold(s.y > w.targetY(0.14, "top"));
+      if (s.phase === "running") setHold(s.y > w.targetY("top"));
       await new Promise((r) => requestAnimationFrame(r));
     }
     return { ok: false };

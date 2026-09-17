@@ -34,7 +34,7 @@ interface Props {
 interface WaveDebug {
   readonly state: GameState | null;
   /** 오토파일럿이 지금 향해야 할 y. 자동 플레이테스트가 쓴다 */
-  targetY(lookaheadSec: number, lane: "top" | "bot"): number;
+  targetY(lane: "top" | "bot", lookaheadSec?: number): number;
 }
 
 export function GameCanvas({
@@ -83,9 +83,9 @@ export function GameCanvas({
       get state() {
         return stateRef.current;
       },
-      targetY(lookaheadSec: number, lane: "top" | "bot") {
+      targetY(lane: "top" | "bot", lookaheadSec?: number) {
         const s = stateRef.current;
-        return s ? targetY(s, lookaheadSec, lane) : 50;
+        return s ? targetY(s, lane, lookaheadSec) : 50;
       }
     };
     (window as unknown as { __wave?: WaveDebug }).__wave = debug;

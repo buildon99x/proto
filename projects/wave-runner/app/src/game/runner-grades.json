@@ -4,32 +4,32 @@
   "axisCap": 2,
   "runners": {
     "dart": {
-      "slackMs": 110,
-      "routes": 0.688,
+      "slackMs": 70,
+      "routes": 0.906,
       "walls": 0,
-      "slackBar": 1,
-      "routeBar": 0.943
+      "slackBar": 0.778,
+      "routeBar": 0.916
     },
     "blunt": {
-      "slackMs": 60,
-      "routes": 0.688,
+      "slackMs": 40,
+      "routes": 0.719,
       "walls": 0,
-      "slackBar": 0.545,
-      "routeBar": 0.943
+      "slackBar": 0.444,
+      "routeBar": 0.726
     },
     "spike": {
-      "slackMs": 80,
-      "routes": 0.583,
-      "walls": 3,
-      "slackBar": 0.727,
-      "routeBar": 0.8
+      "slackMs": 90,
+      "routes": 0.99,
+      "walls": 0,
+      "slackBar": 1,
+      "routeBar": 1
     },
     "ring": {
       "slackMs": 70,
-      "routes": 0.729,
+      "routes": 0.844,
       "walls": 0,
-      "slackBar": 0.636,
-      "routeBar": 1
+      "slackBar": 0.778,
+      "routeBar": 0.853
     }
   }
 }

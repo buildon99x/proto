@@ -8,12 +8,11 @@ export const meta = {
   viewport: { width: 390, height: 720, deviceScaleFactor: 2 }
 };
 
-const LOOKAHEAD = 0.14;
 
 /** x 가 목표를 넘을 때까지 달린다. 넘으면 그 자리에 선 채로 돌려준다(스크린샷용). */
 async function autoplayUntil(page, { untilX = null, limitSec = 150, latencyMs = 0 }) {
   return page.evaluate(
-    async ({ lookahead, limit, untilX, latencyMs }) => {
+    async ({ limit, untilX, latencyMs }) => {
       const w = window.__wave;
       if (!w) return { ok: false, why: "debug hook 없음" };
 
@@ -70,7 +69,7 @@ async function autoplayUntil(page, { untilX = null, limitSec = 150, latencyMs = 
 
         if (s.phase === "running") {
           // 지연을 주면 사람에 가까워진다 — 완전 정보 오토파일럿은 사람보다 훨씬 잘한다.
-          const err = s.y - w.targetY(lookahead, laneFor(s));
+          const err = s.y - w.targetY(laneFor(s));
           history.push(err);
           const back = Math.max(0, Math.round(latencyMs / 16.7));
           const seen = history.length > back ? history[history.length - 1 - back] : history[0];
@@ -81,7 +80,7 @@ async function autoplayUntil(page, { untilX = null, limitSec = 150, latencyMs = 
       setHold(false);
       return { ok: false, why: "timeout", deaths, x: w.state ? w.state.x : 0 };
     },
-    { lookahead: LOOKAHEAD, limit: limitSec, untilX, latencyMs }
+    { limit: limitSec, untilX, latencyMs }
   );
 }
 

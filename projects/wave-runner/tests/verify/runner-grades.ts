@@ -32,7 +32,6 @@ import type { Runner } from "../../app/src/game/runners";
 import type { AxisKey } from "../../app/src/game/types";
 
 const DT = 1 / 120;
-const LOOKAHEAD = 0.14;
 const GATES = STAGE_SECTORS - 1;
 const PATHS = 1 << GATES;
 /** 처음 만나는 사람의 조건으로 잰다. 해금한 사람은 어차피 더 넓다. */
@@ -76,7 +75,7 @@ function clears(runner: Runner, tier: number, no: number, latencySec: number, pa
       path === null
         ? laneNeutral(state)
         : ((path >> Math.min(GATES - 1, state.gatesPassed)) & 1 ? "bot" : "top");
-    history.push(state.y - targetY(state, LOOKAHEAD, lane));
+    history.push(state.y - targetY(state, lane));
     const seen = history.length > delayFrames ? history[history.length - 1 - delayFrames] : history[0];
     state.holding = seen > 0;
     const r = update(state, DT);

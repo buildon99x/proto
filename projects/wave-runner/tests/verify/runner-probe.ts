@@ -42,7 +42,6 @@ import { SECTORS, SECTOR_LEN, SECTOR_TYPE_LABEL } from "../../app/src/game/secto
 import type { Build, Course, Sector, SectorType } from "../../app/src/game/types";
 
 const DT = 1 / 120;
-const LOOKAHEAD = 0.14;
 /** 유불리로 인정하는 최소 차이. 이보다 작으면 측정 잡음과 구분되지 않는다. */
 const EDGE_PCT = 8;
 
@@ -70,7 +69,7 @@ function attempt(sector: Sector, runner: Runner, build: Build, latencySec: numbe
   const delayFrames = Math.max(0, Math.round(latencySec / DT));
 
   for (let t = 0; t < 60; t += DT) {
-    const want = targetY(state, LOOKAHEAD, "top");
+    const want = targetY(state, "top");
     history.push(state.y - want);
     const seen = history.length > delayFrames ? history[history.length - 1 - delayFrames] : history[0];
     state.holding = seen > 0;
