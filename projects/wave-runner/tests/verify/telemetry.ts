@@ -28,7 +28,6 @@ import type { RunEvent } from "../../app/src/game/telemetry";
 import type { Build, Tuning } from "../../app/src/game/types";
 
 const DT = 1 / 120;
-const LOOKAHEAD = 0.14;
 
 const fail: string[] = [];
 const check = (ok: boolean, msg: string) => {
@@ -74,7 +73,7 @@ function drive(tier: number, no: number, cap: number, latencySec: number): GameS
   for (let t = 0; t < 200; t += DT) {
     const gate = state.course.pieces.find((p) => p.kind === "gate" && p.endX > state.x)?.gate;
     const lane: "top" | "bot" = gate && gate.seed % 2 === 0 ? "bot" : "top";
-    history.push(state.y - targetY(state, LOOKAHEAD, lane));
+    history.push(state.y - targetY(state, lane));
     const seen = history.length > delayFrames ? history[history.length - 1 - delayFrames] : history[0];
     state.holding = seen > 0;
     const r = update(state, DT);

@@ -13,7 +13,7 @@
  * 뭉치면 이 대비가 사라지므로 두 축을 따로 낸다.
  *
  * - **실행 여유(slackMs)** — 클리어되는 최대 입력 지연. 크면 굼떠도 깬다
- * - **경로 폭(routes)** — 16경로 중 통과 가능한 비율. 크면 아무 길로나 가도 된다
+ * - **경로 폭(routes)** — 전 경로 중 통과 가능한 비율. 크면 아무 길로나 가도 된다
  *
  * 둘 다 "지연을 준 오토파일럿"이라는 같은 도구로 재므로 서로 대조된다. 오토파일럿은 사람이
  * 아니므로 **절대값이 아니라 기체 사이의 비교**로만 쓴다 — 피커도 막대(상대값)로만 그린다.
@@ -32,7 +32,6 @@ import type { Runner } from "../../app/src/game/runners";
 import type { AxisKey } from "../../app/src/game/types";
 
 const DT = 1 / 120;
-const LOOKAHEAD = 0.14;
 const GATES = STAGE_SECTORS - 1;
 const PATHS = 1 << GATES;
 /** 처음 만나는 사람의 조건으로 잰다. 해금한 사람은 어차피 더 넓다. */
@@ -76,7 +75,7 @@ function clears(runner: Runner, tier: number, no: number, latencySec: number, pa
       path === null
         ? laneNeutral(state)
         : ((path >> Math.min(GATES - 1, state.gatesPassed)) & 1 ? "bot" : "top");
-    history.push(state.y - targetY(state, LOOKAHEAD, lane));
+    history.push(state.y - targetY(state, lane));
     const seen = history.length > delayFrames ? history[history.length - 1 - delayFrames] : history[0];
     state.holding = seen > 0;
     const r = update(state, DT);
@@ -106,7 +105,7 @@ interface Grade {
   id: string;
   /** 스테이지별 최대 지연의 중앙값(ms). −1 은 지연 0 에서도 못 깨는 스테이지 */
   slackMs: number;
-  /** 16경로 중 통과 가능한 평균 비율 0..1 */
+  /** 전 경로(`PATHS`) 중 통과 가능한 평균 비율 0..1 */
   routes: number;
   /** 지연 0 에서도 한 경로도 못 깨는 스테이지 수 */
   walls: number;
@@ -116,7 +115,7 @@ const median = (a: number[]) => [...a].sort((x, y) => x - y)[Math.floor(a.length
 
 const grades: Grade[] = [];
 console.log("스테이지 12개를 끝까지 달려 잰다 (축 상한 ±2)\n");
-console.log("기체     실행 여유(중앙값)   경로 폭(평균/16)   벽(0/16 스테이지)");
+console.log(`기체     실행 여유(중앙값)   경로 폭(평균/${PATHS})   벽(0/${PATHS} 스테이지)`);
 console.log("-".repeat(64));
 
 for (const runner of RUNNERS) {
@@ -175,4 +174,4 @@ if (spreadSlack < 20 && spreadRoutes < 0.1) {
   console.error("\nFAIL: 기체 사이의 차이가 두 축 모두에서 미미하다 — 피커에 그릴 성격이 없다.");
   process.exit(1);
 }
-console.log(`\n결과: 실행 여유 ${spreadSlack}ms · 경로 폭 ${(spreadRoutes * PATHS).toFixed(1)}/16 만큼 갈린다.`);
+console.log(`\n결과: 실행 여유 ${spreadSlack}ms · 경로 폭 ${(spreadRoutes * PATHS).toFixed(1)}/${PATHS} 만큼 갈린다.`);

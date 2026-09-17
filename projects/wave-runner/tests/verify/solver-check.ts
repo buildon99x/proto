@@ -44,7 +44,7 @@ function pilotClears(piece: CoursePiece, build: Build): boolean {
   state.y = startYFor(state.course);
   launch(state);
   for (let t = 0; t < 60; t += DT) {
-    state.holding = state.y > targetY(state, 0.14, "top");
+    state.holding = state.y > targetY(state, "top");
     const r = update(state, DT);
     if (r.event === "died") return false;
     if (state.phase === "cleared") return true;

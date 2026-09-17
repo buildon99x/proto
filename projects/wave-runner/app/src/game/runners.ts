@@ -162,7 +162,7 @@ export const RUNNERS: Runner[] = [
   {
     id: "dart",
     name: "표준",
-    note: "45° 기준선. 길도 넓고 여유도 중간",
+    note: "45° 기준선. 여유도 길도 한가운데 — 비교의 기준점이다",
     slopeCenter: 1.0,
     slopeSpan: 1.0,
     biasSpan: 1.0,
@@ -182,7 +182,7 @@ export const RUNNERS: Runner[] = [
   {
     id: "spike",
     name: "예봉",
-    note: "가파르다. 통하는 길이 절반뿐이지만 그 길은 가장 너그럽다",
+    note: "가파르다. 통로를 가장 좁게 지나가지만 그만큼 빨리 되돌아온다",
     slopeCenter: 1.24,
     slopeSpan: 1.1,
     biasSpan: 1.1,

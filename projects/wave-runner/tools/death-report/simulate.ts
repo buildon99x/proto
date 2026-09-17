@@ -22,7 +22,6 @@ import { mulberry32 } from "../../app/src/game/rand";
 import { buildDeathEvent, buildEndEvent, setTelemetryFps } from "../../app/src/game/telemetry";
 
 const DT = 1 / 120;
-const LOOKAHEAD = 0.14;
 /** 한 스테이지에서 이만큼 죽으면 그만둔다 — 이탈이 생겨야 표 D 가 의미를 가진다 */
 const PATIENCE = 14;
 
@@ -72,7 +71,7 @@ function play(
   for (let t = 0; t < 200; t += DT) {
     const gate = state.course.pieces.find((p) => p.kind === "gate" && p.endX > state.x)?.gate;
     const lane: "top" | "bot" = gate && ((gate.seed % 1000) / 1000 + bias) % 1 > 0.5 ? "bot" : "top";
-    history.push(state.y - targetY(state, LOOKAHEAD, lane));
+    history.push(state.y - targetY(state, lane));
     const seen = history.length > delay ? history[history.length - 1 - delay] : history[0];
     state.holding = seen > 0;
     const r = update(state, DT);

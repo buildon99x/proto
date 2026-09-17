@@ -18,7 +18,6 @@ import type { AxisKey, Build, Course, Sector } from "../../app/src/game/types";
 import { targetY } from "../../app/src/game/pilot";
 
 const DT = 1 / 120;
-const LOOKAHEAD = 0.14;
 
 function singleSectorCourse(sector: Sector): Course {
   return { pieces: [{ kind: "sector", startX: 0, endX: SECTOR_LEN, sector }], finishX: SECTOR_LEN };
@@ -43,7 +42,7 @@ function attempt(sector: Sector, build: Build, latencySec: number): boolean {
   const delayFrames = Math.max(0, Math.round(latencySec / DT));
 
   for (let t = 0; t < 60; t += DT) {
-    const want = targetY(state, LOOKAHEAD, "top");
+    const want = targetY(state, "top");
     history.push(state.y - want);
     const seen = history.length > delayFrames ? history[history.length - 1 - delayFrames] : history[0];
     state.holding = seen > 0;

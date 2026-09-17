@@ -42,9 +42,22 @@ pnpm exec tsx projects/wave-runner/tests/verify/sector-probe.ts   # 3축이 정�
 pnpm exec tsx projects/wave-runner/tests/verify/sector-fairness.ts # 모든 빌드로 모든 섹터를 지날 수 있는가
 pnpm exec tsx projects/wave-runner/tests/verify/stage-paths.ts    # 모든 빌드 경로가 통과 가능한가
 pnpm exec tsx projects/wave-runner/tests/verify/endless-ramp.ts   # Endless 난이도가 실제로 조이는가
+pnpm exec tsx projects/wave-runner/tests/verify/stage-time.ts     # 한 판이 50~60초 안인가
+pnpm exec tsx projects/wave-runner/tests/verify/flatness.ts       # 어디가 아무것도 묻지 않는가
 pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts  # 스테이지 시드 재선별
 pnpm playtest --project wave-runner                               # 브라우저 자동 플레이테스트
 node projects/wave-runner/tests/verify/course-map/run.mjs         # 12스테이지 통로 지도(난이도 시각화)
+```
+
+`curate-stages.ts` 는 기준 상수(티어 사다리·밴드·기체 편차 상한·최난 구간 경계)를 전부
+**측정한 분포에서** 읽어 정한다. 구조를 바꿨다면 — 섹터 수, 섹터 풀, 축 표 — 굽기 전에
+분포부터 다시 봐야 한다.
+
+```bash
+# 분포만 본다(굽지 않는다). CURATE_CACHE 를 주면 채점 결과를 떨어뜨린다
+CURATE_CACHE=/tmp/cand.json pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts --probe
+# 그 캐시 위에서 기준만 바꿔 가며 결과를 본다 — 전수 채점(10분)을 건너뛴다
+CURATE_CACHE=/tmp/cand.json pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts --from-cache --dry
 ```
 
 `course-map` 은 판정이 아니라 **눈으로 보는 도구**다. 솔버의 생존 회랑을 코스 전체에 칠해
@@ -65,6 +78,7 @@ puppeteer 는 playtest 하네스가 설치한 것을 빌려 쓰므로 먼저 pla
 - [brief.md](./brief.md) — 왜 만드는가, 무엇을 지키고 무엇을 더하는가
 - [spec.md](./spec.md) — 좌표계·물리·코스·상태 머신·상수
 - [eval.md](./eval.md) — 중단 판정과 확인 목록
+- [notes/handoff.md](./notes/handoff.md) — **인수인계: 지금 무엇이 참이고, 무엇을 믿으면 안 되고, 어디를 먼저 볼 것인가**
 - [notes/decisions.md](./notes/decisions.md) — 구현하며 내린 결정
 - [notes/runner-variation.md](./notes/runner-variation.md) — **4단계 기획: 기체 베리에이션·스킬·해금** (구현 미착수)
 

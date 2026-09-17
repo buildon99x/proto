@@ -11,14 +11,17 @@
 // 그 사이에 스크린샷을 찍거나 상태를 들여다볼 수 있게 한다 — 장면을 잡는 데 맞다.
 // **판단 함수는 하나여야 하므로** 아래 `PILOT_SRC` 를 둘 다 먼저 주입한다.
 
-/**
- * 선행 가시 시간(초).
+/*
+ * 선행 시간 상수는 여기 없다 — `app/src/game/pilot.ts` 의 `aimLookahead` 가 정한다.
  *
- * 0.14 는 **실측으로 정해진 값**이다. 크게 잡으면 오토파일럿이 게이트 리드인에서
- * 관을 늦게 고르고 칸막이에 끼인다.
+ * 0.7.3 이전에는 이 파일을 포함해 **11개 파일이 `0.14`(초)를 각자 들고** 있었고,
+ * 그보다 나쁘게 그 값이 기체마다 다른 뜻이었다 — 조종기가 조준점을 지나치는 양은
+ * `수직 속도 × 조준 시간` 이므로, 시간을 고정하면 수직으로 빠른 기체일수록 나쁘게
+ * 튜닝된 채로 측정되고 그 핸디캡이 그 기체의 "성격" 으로 보고된다. 실제로 예봉은
+ * 솔버가 93~121ms 여유로 통과 가능하다고 한 스테이지 3개를 8경로 전부 실패했다.
+ *
+ * 지금은 `targetY(lane)` 이 선행을 스스로 정하므로 호출부는 관만 고르면 된다.
  */
-export const LOOKAHEAD = 0.14;
-
 /**
  * 페이지 안에 `window.__pilot` 을 세운다.
  *
@@ -49,8 +52,8 @@ const PILOT_SRC = `(() => {
       };
       return cost(gate.bot) < cost(gate.top) ? "bot" : "top";
     },
-    shouldHold(s, lookahead) {
-      return s.y > w.__wave.targetY(lookahead, w.__pilot.laneFor(s));
+    shouldHold(s) {
+      return s.y > w.__wave.targetY(w.__pilot.laneFor(s));
     },
     /**
      * 홀드는 **실제 입력 경로로만** 바꾼다. state.holding 을 직접 건드리면 엔진이
@@ -83,7 +86,7 @@ export const installPilot = (page) => page.evaluate(PILOT_SRC);
 export async function autoplay(page, limitSec) {
   await installPilot(page);
   return page.evaluate(
-    async ({ lookahead, limit }) => {
+    async ({ limit }) => {
       const w = window.__wave;
       const pilot = window.__pilot;
       if (!w) return { ok: false, why: "debug hook 없음" };
@@ -110,14 +113,14 @@ export async function autoplay(page, limitSec) {
           }
         }
         lastPhase = s.phase;
-        if (s.phase === "running") pilot.setHold(pilot.shouldHold(s, lookahead));
+        if (s.phase === "running") pilot.setHold(pilot.shouldHold(s));
         await new Promise((r) => requestAnimationFrame(r));
       }
 
       pilot.forceHold(false);
       return { ok: false, why: "timeout", deaths, x: w.state ? w.state.x : 0 };
     },
-    { lookahead: LOOKAHEAD, limit: limitSec }
+    { limit: limitSec }
   );
 }
 
@@ -131,7 +134,7 @@ export async function drive(page, on) {
   // 주입은 멱등이고 싸다. 런이 새로 만들어져도 같은 판단이 다시 선다.
   await installPilot(page);
   await page.evaluate(
-    ({ on, lookahead }) => {
+    ({ on }) => {
       const w = window;
       if (w.__driveRaf) {
         cancelAnimationFrame(w.__driveRaf);
@@ -146,11 +149,11 @@ export async function drive(page, on) {
         w.__driveRaf = requestAnimationFrame(tick);
         const s = w.__wave && w.__wave.state;
         if (!s || s.phase !== "running") return;
-        w.__pilot.setHold(w.__pilot.shouldHold(s, lookahead));
+        w.__pilot.setHold(w.__pilot.shouldHold(s));
       };
       w.__driveRaf = requestAnimationFrame(tick);
     },
-    { on, lookahead: LOOKAHEAD }
+    { on }
   );
 }
 

@@ -20,7 +20,6 @@ import { targetY } from "../../app/src/game/pilot";
 import type { Build } from "../../app/src/game/types";
 
 const DT = 1 / 120;
-const LOOKAHEAD = 0.14;
 
 interface Tally {
   gates: number;
@@ -52,7 +51,7 @@ function run(config: RunConfig, maxSec: number, tally: Tally): void {
     const gate = state.course.pieces.find((p) => p.kind === "gate" && p.endX > state.x)?.gate;
     // 어느 관이든 상관없다 — 여기서 묻는 것은 선택의 질이 아니라 교환의 성립이다.
     const lane = gate && gate.seed % 2 === 0 ? "bot" : "top";
-    state.holding = state.y - targetY(state, LOOKAHEAD, lane) > 0;
+    state.holding = state.y - targetY(state, lane) > 0;
     const r = update(state, DT);
 
     if (state.gatesPassed > gates) {
