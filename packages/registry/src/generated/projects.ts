@@ -300,11 +300,11 @@ export const projects = [
   {
     "id": "relic-king",
     "name": "유물왕",
-    "status": "idea",
+    "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
     "version": "0.1.0",
-    "summary": "실존 유물을 발굴·감정·소장해 세계 자산 순위 1위에 오르는 방치형. 유물의 현실 현존 개체 수를 그대로 게임 공급량으로 써서, 세상에 하나뿐인 유물은 먼저 찾는 쪽이 영구히 가진다. 도트 그래픽 지층 단면, NPC 라이벌과의 선점 레이스. 설계 완료 · 구현 대기.",
+    "summary": "실존 유물을 발굴·감정·소장해 세계 자산 순위 1위에 오르는 방치형. 유물의 현실 현존 개체 수가 그대로 게임 공급량이라 신라 금관은 6점, 로제타 석은 1점뿐이고, 세상에 하나뿐인 유물은 제보 레이스에서 먼저 도달한 쪽이 영구히 가진다. 도트 지층 단면을 파내려가며 깊이가 곧 연대가 되고, 팔면 자금이 늘고 순위는 떨어진다.",
     "tags": [
       "game",
       "idle",
@@ -334,8 +334,10 @@ export const projects = [
     "commands": {
       "dev": "pnpm --filter relic-king dev",
       "build": "pnpm --filter relic-king build",
-      "test": "pnpm --filter relic-king test"
+      "test": "pnpm --filter relic-king test",
+      "sim": "pnpm --filter relic-king sim",
+      "smoke": "pnpm --filter relic-king smoke"
     },
-    "updatedAt": "2026-09-17T15:27:18+00:00"
+    "updatedAt": "2026-09-17T16:27:39+00:00"
   }
 ] as const satisfies readonly ProjectMetadata[];
