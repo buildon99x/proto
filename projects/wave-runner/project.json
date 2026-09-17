@@ -28,7 +28,8 @@
     "eval": "eval.md",
     "readme": "README.md",
     "changelog": "changelog.md",
-    "plan": "notes/runner-variation.md"
+    "plan": "notes/runner-variation.md",
+    "handoff": "notes/handoff.md"
   },
   "assets": {
     "cover": "assets/screenshots/cover.png"

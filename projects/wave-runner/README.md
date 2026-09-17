@@ -78,6 +78,7 @@ puppeteer 는 playtest 하네스가 설치한 것을 빌려 쓰므로 먼저 pla
 - [brief.md](./brief.md) — 왜 만드는가, 무엇을 지키고 무엇을 더하는가
 - [spec.md](./spec.md) — 좌표계·물리·코스·상태 머신·상수
 - [eval.md](./eval.md) — 중단 판정과 확인 목록
+- [notes/handoff.md](./notes/handoff.md) — **인수인계: 지금 무엇이 참이고, 무엇을 믿으면 안 되고, 어디를 먼저 볼 것인가**
 - [notes/decisions.md](./notes/decisions.md) — 구현하며 내린 결정
 - [notes/runner-variation.md](./notes/runner-variation.md) — **4단계 기획: 기체 베리에이션·스킬·해금** (구현 미착수)
 
