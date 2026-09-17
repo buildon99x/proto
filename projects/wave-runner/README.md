@@ -43,6 +43,7 @@ pnpm exec tsx projects/wave-runner/tests/verify/sector-fairness.ts # 모든 빌�
 pnpm exec tsx projects/wave-runner/tests/verify/stage-paths.ts    # 모든 빌드 경로가 통과 가능한가
 pnpm exec tsx projects/wave-runner/tests/verify/endless-ramp.ts   # Endless 난이도가 실제로 조이는가
 pnpm exec tsx projects/wave-runner/tests/verify/stage-time.ts     # 한 판이 50~60초 안인가
+pnpm exec tsx projects/wave-runner/tests/verify/flatness.ts       # 어디가 아무것도 묻지 않는가
 pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts  # 스테이지 시드 재선별
 pnpm playtest --project wave-runner                               # 브라우저 자동 플레이테스트
 node projects/wave-runner/tests/verify/course-map/run.mjs         # 12스테이지 통로 지도(난이도 시각화)

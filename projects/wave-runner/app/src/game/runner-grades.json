@@ -5,17 +5,17 @@
   "runners": {
     "dart": {
       "slackMs": 110,
-      "routes": 0.698,
+      "routes": 0.688,
       "walls": 0,
       "slackBar": 1,
-      "routeBar": 0.957
+      "routeBar": 0.943
     },
     "blunt": {
-      "slackMs": 80,
-      "routes": 0.729,
+      "slackMs": 60,
+      "routes": 0.688,
       "walls": 0,
-      "slackBar": 0.727,
-      "routeBar": 1
+      "slackBar": 0.545,
+      "routeBar": 0.943
     },
     "spike": {
       "slackMs": 80,
@@ -25,11 +25,11 @@
       "routeBar": 0.8
     },
     "ring": {
-      "slackMs": 70,
-      "routes": 0.708,
+      "slackMs": 80,
+      "routes": 0.729,
       "walls": 0,
-      "slackBar": 0.636,
-      "routeBar": 0.971
+      "slackBar": 0.727,
+      "routeBar": 1
     }
   }
 }
