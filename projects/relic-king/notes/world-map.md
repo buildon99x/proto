@@ -33,7 +33,13 @@ v0.1의 "발굴지"(권역, `SITES: SiteDef[]`, 한반도·이집트·로마 3�
 결과 중 **테마 카테고리**(그 거점이 구조적으로 유리한 유물 종류 2종)만 표에 요약한다.
 초기 보너스는 §5의 통일 공식을 그 거점의 `dropMod`·테마 카테고리에 대입한 값이다.
 
-| 거점 | 인근 유적(앵커) | 인구 | `dropMod` | `layerCostMod` | `unlockCost`(₩) | 테마 카테고리 | 초기 보너스(첫 12h) |
+> **`unlockCost`의 의미가 바뀌었다**(`notes/decisions.md` G17/A10). 원정 대상은
+> 12거점 전부이고 보유 여부와 무관하게 언제나 파견 가능하다(거리비용만 부과).
+> `unlockCost`는 오직 그 거점을 **base로 승격**(박물관·경매장 건립 자격 + 그
+> 거점의 로컬 시세 프리미엄이 붙는 본거지 지위)하는 데만 든다 — "원정 자격 비용"이
+> 아니라 "base 승격 비용"이다.
+
+| 거점 | 인근 유적(앵커) | 인구 | `dropMod` | `layerCostMod` | `unlockCost`(₩, **base 승격 비용** — 원정 자격 아님) | 테마 카테고리 | 초기 보너스(첫 12h) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 경주 | 경주 고분군 | 264,000 | 1.00 | 1.00 | 0(항상 무료) | 도자기·장신구 | dropMod ×0.85 |
 | 아테네 | 아크로폴리스 | 3,153,000 | 0.95 | 1.10 | 3,000,000 | 조각·화폐 | dropMod ×0.85 |
@@ -178,14 +184,20 @@ EXPEDITION_DISTANCE_COST_MULT = 1 + EXPEDITION_DISTANCE_COST_COEFF × min(1, DIS
 자금 효율과 무관하게 먼 거점을 가야 한다 — 세계지도가 이동시간 계산기로 남지
 않는 이유다.
 
-## 5. 거점 이전 규칙과 동시 보유 수
+## 5. base와 원정 대상의 분리, 거점 이전 규칙
+
+**원정 대상 선택과 base 승격은 별개 액션이다**(`notes/decisions.md` G17/A10).
+발굴단은 12거점 중 어디든, base로 승격했는지와 무관하게 파견할 수 있다 —
+`unlockCost`는 원정을 막지 않는다(§1). "도감을 완주하려면 12거점을 전부
+방문해야 한다"(§4)는 이 분리 덕분에 문자 그대로 성립한다 — 방문(원정)은
+자유롭고, base 슬롯(아래 `MAX_OWNED_SITES`)만 3개로 제한된다.
 
 ```
 MAX_OWNED_SITES = 3
 ```
 
-시작 시 12거점 중 하나를 **무료로** 고른다. 이후 추가 거점을 얻는 경로는 두
-가지로 나뉜다.
+시작 시 12거점 중 하나를 **무료로 base로** 고른다. 이후 추가 base를 얻는
+경로는 두 가지로 나뉜다.
 
 - **거점 확장**(2번째·3번째 거점): 기존 거점을 유지한 채 새 거점을 추가한다.
   비용은 해당 거점의 `unlockCost`(§1 표)뿐이고 쿨다운이 없다. `MAX_OWNED_SITES`에
@@ -338,6 +350,46 @@ ARBITRAGE_MAX_SPREAD_RATIO = REGIONAL_PRICE_MULT_MAX / REGIONAL_PRICE_MULT_MIN =
 직접매각·경매장의 최종 가격에 곱해진다(`notes/economy.md` §3.2의 가격식에 이어
 `× LOCAL_PRICE_MULT(그 거점, 그 유물의 shape, 현재 시각)`을 추가한다).
 
+### 8.5 정보 공개 규칙 — 미탐사 거점의 시세는 가려진다 (`notes/decisions.md` G19/B4)
+
+`LOCAL_PRICE_MULT`가 완전 공개된 결정론 함수(해시+sin 드리프트)라 "어디가
+비싼지 아는 것"의 가치가 0이었다 — 계산기만 있으면 최적해가 상수였다. 위
+§8.2~§8.4의 수식·상수(`REGIONAL_PRICE_MULT_MIN/MAX`, `THEMATIC_PREFERENCE_BONUS`,
+`PRICE_DRIFT_AMPLITUDE` 등)는 **바꾸지 않는다** — 그 위에 "정보"라는 축만 얹는다.
+
+```
+PRICE_INTEL_WINDOW_HOURS = 48
+REMOTE_ARBITRAGE_BONUS_MAX = 1.60
+REMOTE_ARBITRAGE_MIN_DISTANCE_KM = 3_000
+REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX = REGIONAL_PRICE_MULT_MAX × (REMOTE_ARBITRAGE_BONUS_MAX / ARBITRAGE_MAX_SPREAD_RATIO)
+                                  = 1.26 × (1.60 / 1.40) = 1.44
+```
+
+1. **미탐사 = 비공개**: 한 번도 발굴단을 파견하지 않은 거점의 `LOCAL_PRICE_MULT`는
+   지도·시장 UI에 "미탐사"로만 표시된다.
+2. **정보 획득**: 발굴단이 그 거점에 처음 `on_site`로 진입하는 순간, 그 시점부터
+   `PRICE_INTEL_WINDOW_HOURS`(48h) 동안의 `LOCAL_PRICE_MULT` 미래값이 즉시
+   "정보"로 공개된다(§8.2~§8.4가 전부 결정론적 폐쇄형 함수이므로 미래를 미리
+   계산해 보여줄 수 있다 — 서버 부정행위 우려가 없는 정적 계산). 48h는 델리(편도
+   12.25h)급 중간 거리 왕복 원정의 총 소요(24.5h 이동 + 12.25h 현지작업 ≈
+   36.75h)를 한 번은 덮는 값이다. 창을 넘기면 다시 가려지고, 재방문하면 48h가
+   갱신된다.
+3. **원거리 교역 상한(정보를 가진 경우에만)**: base로부터
+   `REMOTE_ARBITRAGE_MIN_DISTANCE_KM`(3,000km) 이상 떨어진 거점에서, 그 거점의
+   시세 정보를 **사전에 획득한 상태로** 직접매각·경매장에 팔면 `LOCAL_PRICE_MULT`
+   클램프 상한이 `REGIONAL_PRICE_MULT_MAX`(1.26)에서 `REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX`
+   (1.44)로 확장된다. 정보 없이 도박으로 파견해도 기본 클램프(1.26)는 그대로
+   받지만, 확장분(1.26~1.44)은 정보를 가진 쪽만 실현한다 — 이게 정보 우위의
+   실제 가치다. 이동시간·미스헵 리스크를 이미 지불한 거리에만 적용되므로,
+   `notes/decisions.md` G3의 "손대면 20~40%"(비용 없는 개입에 대한 상한)와는
+   성격이 다르다 — 위험수당이라 그 밴드를 넘어도 된다.
+
+**버린 선택지**: (i) 시세 완전 비공개(사전 스냅샷도 없음) — 편도 최장 44.3시간인
+원정에서 "도착해서야 안다"로 두면 계획 자체를 세울 수 없어 세계지도 활용이
+오히려 더 준다. (ii) `ARBITRAGE_MAX_SPREAD_RATIO` 자체를 올린다 — B3(개입 이득
+8.3%, 이번 실행 범위 밖)과 얽힌 기존 수치를 다시 열게 된다. 정보라는 새 축을
+쌓는 쪽이 기존 수치를 안 건드리고도 문제를 푼다.
+
 ## 9. `balance.ts` 상수 총람
 
 ```ts
@@ -408,6 +460,12 @@ export const PRICE_CYCLE_HOURS = 72;
 export const PRICE_DRIFT_AMPLITUDE = 0.06;
 export const SUPPLY_SHOCK_MAGNITUDE = 0.10;
 export const SUPPLY_SHOCK_DECAY_HOURS = 48;
+
+// 정보 비대칭·원거리 교역(§8.5, G19/B4)
+export const PRICE_INTEL_WINDOW_HOURS = 48;
+export const REMOTE_ARBITRAGE_BONUS_MAX = 1.60;
+export const REMOTE_ARBITRAGE_MIN_DISTANCE_KM = 3_000;
+export const REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX = 1.44; // = REGIONAL_PRICE_MULT_MAX × (1.60/1.40)
 
 // 신규 9거점의 unlockCost·layerCostMod·dropMod·tierBias(§1) — 기존 SITES 배열에 추가
 export const NEW_SITE_DEFS: Record<SiteId, {

@@ -123,7 +123,7 @@
 | --- | --- | --- | --- |
 | 1 | 결정 게이트 11개가 전부 `notes/decisions.md`에 버린 선택지·이유 포함해 기록 | ✅ | `notes/decisions.md` G1~G11, 각 게이트마다 "버린 선택지" 절 존재 |
 | 2 | 플레이스홀더 0("TBD"·"추후"·"적절히"·"예시" 없음) | ✅ | 이번 개정 문서(A~F) 전체에 미확정 표현 대신 명명된 상수·공식·"미구현·미측정" 같은 명시적 상태 표기만 사용 |
-| 3 | 모든 수치가 수식 또는 상수로 존재, 기획 문서 숫자와 `balance.ts` 상수명이 1:1 대응 | ✅ | `notes/economy.md` §8, `notes/world-map.md` §9, `notes/staff.md` §10, `spec.md` §12, `notes/artifacts-dataset.md` §13에 상수 총람 |
+| 3 | 모든 수치가 수식 또는 상수로 존재, 기획 문서 숫자와 `balance.ts` 상수명이 1:1 대응 | ✅ | `notes/economy.md` §8, `notes/world-map.md` §9, `notes/staff.md` §10, `spec.md` §14(리뷰 1회차 대응으로 §12·§13이 신설되며 balance.ts 총람이 §12→§14로 밀렸다, `notes/decisions.md` G12~G20), `notes/artifacts-dataset.md` §13에 상수 총람 |
 | 4 | 척추 5개 항목별 판정표(유지/수정/폐기 + 대가) | ✅ | `notes/decisions.md` 말미 + 아래 §10(이 문서 자체 판정표) |
 | 5 | 경제 모델이 소스·싱크 전량을 덮는다 | ✅ | `notes/economy.md` §1(소스 총괄표)·§2(싱크 전량표) |
 | 6 | 조작 단계 수 표, 3 넘는 항목 없음 | ✅ | `notes/ux-v02.md` §2(16종, 재설계 사례의 이유·완화책 포함) |

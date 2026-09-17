@@ -39,6 +39,13 @@ FOREMAN_APPRAISAL_COEFF = 0.003            // APPRAISAL_EYE=100 → 감정시간
 D_team = (BASE_DIG + WORKERS_team × WORKER_DIG + LEADERSHIP × FOREMAN_DIG_COEFF) × GEAR_MULT^gearLevel_team
 ```
 
+**라이벌 각주**(`notes/decisions.md` G18/A14): 라이벌에게도 v0.2 원정 규칙이
+동일 적용되지만 라이벌은 단장 개체가 없다. 미스헵 감소항(`CRISIS_MGMT`)만
+스탯 중앙값 `RIVAL_CRISIS_MGMT_EQUIV = 50`으로 대체하고, 나머지(통솔력·항해술·
+감식안에 대응하는 발굴력·이동속도·감정시간 보정)는 라이벌의 기존 `baseDig`
+등 단순화된 파라미터가 대신한다 — 라이벌 스텝 전체의 정교화(단장 개체 도입
+등)는 이번 실행 범위 밖이고 후속 실행이 맡는다.
+
 `GEAR_MULT^gearLevel_team`(기존 v0.1 장비 배율, 지수형)은 그대로 유지한다 — 이건
 스탯이 아니라 장비 업그레이드이고, v0.1에서 이미 검증된 폭주 방지 구조(드랍
 임계와 상쇄)의 대상이다. `LEADERSHIP`은 그 **밖**이 아니라 지수 곱셈 **전** 기반항에
