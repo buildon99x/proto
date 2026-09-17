@@ -285,8 +285,22 @@ export default function App() {
     });
   }, []);
 
+  /** 그만두기. 좌상단 버튼과 Escape 가 쓴다 — 목적지는 언제나 홈이다. */
   const exitPlay = useCallback(() => {
     setScreen({ kind: "home" });
+    setReport(null);
+  }, []);
+
+  /**
+   * 클리어 화면에서 누른 것.
+   *
+   * **오버레이가 티어 세 칸의 기록을 나란히 보여주면서 홈으로 떨어뜨리고 있었다** —
+   * "다음은 2번이다" 라고 말해 놓고 길을 끊는 셈이라, 다음 칸을 하려면 홈 → Stage →
+   * 셀로 세 번을 더 눌러야 했다. 목록으로 돌려보내면 방금 채워진 클리어 표시 옆에
+   * 다음 칸이 그대로 있다. Endless 에는 클리어가 없으므로 그쪽은 방어적으로만 둔다.
+   */
+  const advanceFromClear = useCallback(() => {
+    setScreen((s) => (s.kind === "play" && s.config.mode === "stage" ? { kind: "stages" } : { kind: "home" }));
     setReport(null);
   }, []);
 
@@ -577,6 +591,7 @@ export default function App() {
             onAttempt={handleAttempt}
             onRunEnd={handleRunEnd}
             onExit={exitPlay}
+            onAdvance={advanceFromClear}
             onToggleHud={toggleHud}
             onSample={(s) => setFps(s.fps)}
             overrides={overrides}
@@ -664,7 +679,8 @@ export default function App() {
                     ? `+${reward} 코어`
                     : "이미 클리어한 스테이지 — 코어는 최초 1회만"}
               </p>
-              <p className="cue">누르면 계속</p>
+              {/* 문구는 결과와 같아야 한다. 이 줄이 "계속" 이던 판본은 실제로 홈으로 나갔다 */}
+              <p className="cue">누르면 목록으로</p>
             </div>
           ) : null}
 

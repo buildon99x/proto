@@ -21,6 +21,12 @@ interface Props {
   onAttempt: () => void;
   onRunEnd: (report: RunReport) => void;
   onExit: () => void;
+  /**
+   * 클리어 화면에서 누른 것. **나가기와 갈라 둔다** — 여기서 누르는 것은 그만두기가
+   * 아니라 다음이고, 목적지가 다르다. 한 콜백으로 합쳐 두면 오버레이가 티어 기록표로
+   * "다음은 2번" 이라 말해 놓고 홈으로 떨어뜨린다.
+   */
+  onAdvance: () => void;
   onToggleHud: () => void;
   onSample?: (s: { fps: number; attempts: number }) => void;
   /** 개발 튜닝 패널의 값. 실행 중에도 즉시 반영된다 */
@@ -43,6 +49,7 @@ export function GameCanvas({
   onAttempt,
   onRunEnd,
   onExit,
+  onAdvance,
   onToggleHud,
   onSample,
   overrides,
@@ -51,8 +58,8 @@ export function GameCanvas({
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const stateRef = useRef<GameState | null>(null);
-  const cbRef = useRef({ onPhase, onAttempt, onRunEnd, onExit, onToggleHud, onSample });
-  cbRef.current = { onPhase, onAttempt, onRunEnd, onExit, onToggleHud, onSample };
+  const cbRef = useRef({ onPhase, onAttempt, onRunEnd, onExit, onAdvance, onToggleHud, onSample });
+  cbRef.current = { onPhase, onAttempt, onRunEnd, onExit, onAdvance, onToggleHud, onSample };
 
   useEffect(() => {
     stateRef.current = createState(config);
@@ -126,7 +133,7 @@ export function GameCanvas({
         cbRef.current.onAttempt();
         sfx.launch();
       } else if (s.phase === "cleared" && s.sincePhase > 0.5) {
-        cbRef.current.onExit();
+        cbRef.current.onAdvance();
       } else if (s.phase === "dead" && s.mode === "endless" && s.sincePhase > 0.6) {
         restart(s);
         cbRef.current.onAttempt();
