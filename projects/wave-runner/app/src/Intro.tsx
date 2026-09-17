@@ -47,6 +47,11 @@ const ARM_SEC = 0.35;
 
 type Step = "hold" | "release" | "go";
 
+/**
+ * 큐는 **한 자리뿐이다.** 카드 안과 화면 아래 둘로 나누던 판본은 같은 순간에 두 곳을
+ * 읽게 만들었고, 글자 수도 그만큼 늘었다. 지금은 궤적 바로 아래 한 줄이 지시에서
+ * 출발 신호까지 전부 맡는다 — 시선이 옮겨 다닐 자리가 없다.
+ */
 const CUE: Record<Step, string> = {
   hold: "누르고 있어 보세요",
   release: "이제 놓아 보세요",
@@ -207,12 +212,15 @@ export function Intro({ first, onDone }: { first: boolean; onDone: () => void })
   }, []);
 
   return (
-    <section className="panel intro" data-step={step}>
+    <section className="panel intro" data-step={step} data-armed={armed ? "1" : "0"}>
+      {/*
+        **읽을 것을 줄이는 것이 이 화면의 사양이다.** 첫 판본은 부제 한 줄과 규칙 세 줄을
+        더 달아 읽을 글자가 155자였고, 초당 5~7자로 읽으면 20~30초짜리다 — 한 신에서
+        10초 안에 파악된다는 조건과 정면으로 어긋난다. 지금은 47자이고 그나마 절반은
+        손을 움직이는 동안 읽힌다.
+      */}
       <header className="panel-head">
         <h1>Wave Runner</h1>
-        <p>
-          버튼은 하나뿐이고, 그 하나가 위아래를 정한다.
-        </p>
       </header>
 
       <div className="intro-stage">
@@ -220,7 +228,9 @@ export function Intro({ first, onDone }: { first: boolean; onDone: () => void })
           <path ref={pathRef} d="" />
           <polygon ref={shipRef} points="" />
         </svg>
-        <p className="intro-cue">{CUE[step]}</p>
+        <p className="intro-cue">
+          {armed ? (first ? "누르면 첫 판이 시작된다" : "누르면 돌아간다") : CUE[step]}
+        </p>
       </div>
 
       <ol className="intro-steps">
@@ -232,15 +242,15 @@ export function Intro({ first, onDone }: { first: boolean; onDone: () => void })
         </li>
       </ol>
 
-      <ul className="intro-facts">
-        <li>가만히 있는 선택지는 없다 — 누르거나, 놓거나</li>
-        <li>벽에 닿으면 즉시 죽고 0.5초 뒤 스스로 처음부터 다시 시작한다</li>
-        <li>갈림길을 지나면 한 축이 오르고 다른 축이 내린다. 순수한 상승은 없다</li>
-      </ul>
-
-      <p className={`cue${armed ? "" : " waiting"}`}>
-        {armed ? (first ? "누르면 첫 판이 시작된다" : "누르면 돌아간다") : "먼저 손끝으로 익힌다"}
-      </p>
+      {/*
+        세 줄이던 것을 한 줄로 잘랐다. 나머지 둘은 **글이 필요 없다는 것이 이미 설계**다 —
+        "가만히 있는 선택지는 없다" 는 지금 손끝으로 증명되고 있고(궤적이 한 번도 평평해지지
+        않는다), 갈림길의 교환은 코스 안에서 색과 방향으로 가르치기로 정해 둔 것이라 여기서
+        글로 앞질러 말하면 그 설계를 스스로 부정한다. 남긴 한 줄도 규칙이 아니라 **실패해도
+        비용이 없다**는 약속이라, 첫 사망 전에 알아야 값이 있다.
+      */}
+      {/* 숫자는 뺐다. "0.5초" 는 여기서 값이 없고, 필요한 것은 실패가 싸다는 약속뿐이다 */}
+      <p className="intro-note">닿으면 죽지만 곧장 다시 시작한다</p>
     </section>
   );
 }

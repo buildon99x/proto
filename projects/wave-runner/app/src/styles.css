@@ -1120,8 +1120,13 @@ body {
  * "다시 보지 않기" 도 없다 — 한 번 누르고 한 번 놓으면 끝나고, 그 마지막 누름이
  * 곧 첫 판의 출발이다.
  */
-.intro .panel-head p {
-  color: var(--dim);
+/* 읽을 것이 적으므로 위로 몰지 않고 화면 한가운데에 모은다 — 손이 닿는 자리이기도 하다 */
+.intro {
+  justify-content: center;
+}
+
+.intro .panel-head {
+  text-align: center;
 }
 
 .intro-stage {
@@ -1166,6 +1171,11 @@ body {
 
 .intro[data-step="go"] .intro-cue {
   color: var(--ok);
+}
+
+/* 출발 신호. 큐가 한 자리뿐이므로 색만 바뀐다 */
+.intro[data-armed="1"] .intro-cue {
+  color: var(--accent);
 }
 
 /* 두 동작. 체크박스가 아니라 **해낸 것**의 기록이라 손댈 수 없다 */
@@ -1215,39 +1225,13 @@ body {
   font-weight: 700;
 }
 
-/* 나머지 규칙 셋. 읽지 않아도 첫 판은 시작된다 — 그래서 흐리게 둔다 */
-.intro-facts {
-  list-style: none;
+/* 남은 한 줄. 읽지 않아도 첫 판은 시작되므로 흐리게 둔다 */
+.intro-note {
   margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  text-align: center;
   font-size: 12px;
   line-height: 1.6;
   color: var(--dim);
-}
-
-.intro-facts li {
-  padding-left: 12px;
-  text-indent: -12px;
-}
-
-.intro-facts li::before {
-  content: "· ";
-}
-
-.intro .cue {
-  margin: 4px 0 0;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.intro .cue.waiting {
-  color: var(--dim);
-  font-weight: 400;
 }
 
 @media (prefers-reduced-motion: reduce) {
