@@ -35,9 +35,10 @@
  * 배열이 **완전히 같아졌다.** 이제 후보를 모두 모은 뒤, 이미 채택한 코스와 같은 자리
  * 섹터가 정해진 수를 넘게 겹치면 건너뛴다(티어를 가로질러 본다).
  *
- * **④ 티어마다 성격을 요구한다.** 시드가 만들 수 있는 골격은 티어당 480여 가지로
+ * **④ 티어마다 성격을 선호한다.** 시드가 만들 수 있는 골격은 티어당 480여 가지로
  * 충분한데, 기준이 여유만 보니 전부 비슷한 것으로 수렴했다. 무엇을 묻는 티어인지를
- * 기준에 적어 둔다.
+ * 기준에 적어 둔다. (0.5.1 에서는 관문이었고 0.7.0 에서 동점 처리의 선호가 됐다 —
+ * 아래 ⑬.)
  *
  * ## 0.5.2 에서 더해진 것
  *
@@ -93,19 +94,33 @@
  * 줄이기 위한 것이고, 게이트가 3개가 되어 경로가 8가지다. 여유의 의미는 그대로다 —
  * 섹터 기하를 건드리지 않았으므로 어느 한 순간의 난이도도 바뀌지 않았다.
  *
+ * 다만 **티어 곡선이 눌렸다.** 좁은 자리를 만날 기회가 하나 줄었고, 티어 1~3 에서는
+ * 코스의 최소 여유를 대체로 **게이트 통로**가 지배한다(최난 구간이 25단위 안팎 —
+ * 섹터가 아니라 게이트 크기다). 게이트는 모든 코스에 같은 모양으로 들어가므로 섹터
+ * 난이도 램프가 여유에 잘 나타나지 않는다. 실제로 세 티어의 도달 가능 범위가
+ * 139~181ms 로 사실상 같다. 티어 4 만 섹터가 지배해서(최난 구간 370단위) 분명히 낮다.
+ *
+ * **⑬ 그래서 성격이 관문에서 선호로 내려왔다.** 아래 `TIER_CHARACTER` 를 보라 —
+ * 관문으로 두면 티어 2 의 후보가 9개로 줄고 그 전부가 170~180ms 라 사다리가 무너진다.
+ *
  * ## 완화 순서
  *
- * 조건을 다 만족하는 후보가 3개에 못 미치면 **성격 → 지속 → 편차 → 밴드 → 드리프트**
+ * 조건을 다 만족하는 후보가 3개에 못 미치면 **지속 → 밴드 → 기체편차 → 드리프트**
  * 순으로 푼다. **공정성과 차별화는 절대 풀지 않는다.** 함정을 되살리거나 같은 코스를
  * 다시 내느니 목표 여유에서 벗어나는 편이 낫다. 드리프트를 맨 뒤에 두는 것은 ±3 역전이
- * 0.5.2 에서 고친 바로 그 문제이기 때문이다.
+ * 0.5.2 에서 고친 바로 그 문제이기 때문이다. 성격은 관문이 아니므로 여기 없다.
  *
- * **지속을 성격보다 뒤에 푸는 이유**(0.5.5 에서 순서를 바꿨다): 지속 규칙은 티어 1~3 에
- * 뾰족함을, 티어 4 에 지속을 요구한다. 먼저 풀면 티어 3 에 지속형 코스가 들어와
- * **티어 4 의 정체성이 흐려진다.** 성격(유형 구성)은 그보다 무른 선호다.
+ * **지속을 가장 먼저 푸는 이유**: 지속 규칙은 티어 1~3 에 뾰족함을, 티어 4 에 지속을
+ * 요구한다. 티어 1~3 쪽 요구는 후보의 70%가 이미 만족하므로 푸는 대가가 작고, 티어 4
+ * 쪽은 밴드보다 먼저 풀면 정체성이 흐려지지만 — 티어 4 는 후보가 100개 넘게 남아
+ * 완화까지 가지 않는다.
  *
- * **기체 편차를 밴드보다 먼저 푸는 이유**: 편차가 커도 네 기체 모두 공정성 하한은 넘긴
- * 코스다. 목표 여유에서 통째로 벗어나는 것보다는 기체 사이가 고르지 않은 편이 낫다.
+ * **기체 편차를 밴드보다 뒤에 푸는 이유**: 공정성 하한이 이미 기체별로 걸려 있으므로
+ * 편차가 커도 막힌 기체는 없다. 둘 다 "곡선" 에 관한 기준인데, 밴드는 곡선의
+ * **정확도**이고 편차는 곡선이 **기체를 가로질러 같은 뜻인가**이다. 이 판본이 하려는
+ * 말이 후자이므로 목표에서 벗어나는 쪽을 먼저 받아들인다.
+ *
+ * 현재 설정에서는 네 티어 모두 완화 없이 채워진다.
  *
  * 실행:
  *   pnpm exec tsx projects/wave-runner/tests/verify/curate-stages.ts
@@ -166,14 +181,26 @@ const AXIS_CAP_DRIFT_MS = 20;
  *
  * 난이도 밴드를 기체 평균으로 재기 때문에 필요한 짝이다. 평균만 보면 표준에게 200ms
  * 이고 예봉에게 90ms 인 코스가 "목표 145ms" 로 통과해 버린다 — 티어 곡선이 기체마다
- * 다른 사다리가 된다. 값은 `--probe` 의 편차 분포에서 읽는다.
+ * 다른 사다리가 된다.
+ *
+ * 값은 `--probe` 의 편차 분포에서 읽었다. **손대지 않은 편차의 중앙값이 75~92ms** 라
+ * 이 기준이 실제로 거르는 것이 많다. 60 은 티어별로 9~144개를 남기는데(병목은 성격
+ * 조건이 걸린 티어 2·3 이다), 50 까지 조이면 티어 3 에 5개만 남아 중복 제약과 겹칠 때
+ * 3개를 못 채운다. 그 사이에서 남는 쪽을 골랐다.
  */
-const RUNNER_SPREAD_MS = 70;
+const RUNNER_SPREAD_MS = 60;
 /**
- * 목표 근접도가 이만큼 안에서 비슷하면, 아직 안 쓴 섹터를 데려오는 후보를 먼저 고른다.
- * 난이도를 희생하지 않으면서 섹터를 고루 쓰기 위한 동점 처리다.
+ * 목표 근접도가 이만큼 안에서 비슷하면, 티어의 성격을 맞추고 아직 안 쓴 섹터를
+ * 데려오는 후보를 먼저 고른다. 난이도를 희생하지 않으면서 성격과 섹터 커버리지를
+ * 챙기기 위한 동점 처리다.
+ *
+ * **사다리 간격의 절반보다 좁아야 한다.** 0.7.0 에서 16 → 8 로 좁혔다. 사다리가
+ * 175/160/145/120 으로 눌리면서 간격이 15ms 가 됐는데, 창이 16ms 이면 "동점" 이
+ * 옆 티어의 목표까지 삼킨다 — 실제로 티어 2 의 채택이 목표 160 에서 +10~17ms 로
+ * 밀려 티어 1(174~177)과 구분되지 않았다. 창은 선호가 목표를 이기지 못하게 막는
+ * 장치이므로 목표 간격에 매여 있어야 한다.
  */
-const COVERAGE_TIE_MS = 16;
+const COVERAGE_TIE_MS = 8;
 /** 출발 정착 구간 — 출발 집합이 점 하나라 좁게 나오는 자리이고 난이도가 아니다. */
 const SETTLE_X = 24;
 /**
@@ -361,8 +388,18 @@ function score(seed: number, tier: number): Score {
 /**
  * 티어마다 주로 묻는 것. 유형 구성으로 표현한다.
  *
- * 자리가 5개에서 4개로 줄어 개수 기준을 다시 읽었다. 티어 1 은 4자리 중 3자리를
- * 요구하면 후보가 말라 2자리(절반)로 내렸다 — 5자리 시절의 3/5 과 같은 비율이다.
+ * **0.7.0 에서 관문이 아니라 선호가 됐다.** 자리가 5개에서 4개로 줄면서 기본 유형
+ * 순환이 협곡·회랑·산개·맥동 하나씩 딱 떨어지게 됐고, "같은 유형 2개" 는 25% 치환이
+ * 그 유형에 떨어져야만 생긴다. 그렇게 생긴 코스는 대체로 너그러워서 — 산개·맥동은
+ * 넓은 유형이다 — 성격을 관문으로 걸면 **티어 2 의 후보가 9개로 줄고 그 전부가
+ * 170~180ms 에 몰린다.** 티어 1 의 목표가 175 인데 티어 2 가 170 아래로 못 내려가면
+ * 사다리가 무너진다.
+ *
+ * 그래서 목표 근접도가 `COVERAGE_TIE_MS` 안에서 비슷한 후보들 사이의 **첫 번째
+ * 정렬 키**로 옮겼다. 난이도를 희생하지 않는 선에서만 성격을 챙긴다는 뜻이고,
+ * 0.5.1 이 이 기준을 완화 순서의 맨 앞에 둔 판단("그보다 무른 선호")과 같은 방향이다.
+ *
+ * 티어 1 의 개수 기준은 4자리 중 2자리다 — 5자리 시절 3/5 과 같은 비율이다.
  */
 const TIER_CHARACTER: Record<number, { note: string; holds: (types: SectorType[]) => boolean }> = {
   1: {
@@ -446,15 +483,18 @@ if (PROBE) {
     console.log(
       `        현 기준 각각 남는 수 — 성격 ${chars} · 밴드 ${band} · 지속 ${peakOk} · 편차 ${spreadOk} · 드리프트 ${driftOk}`
     );
-    const joint = pool.filter(
+    // 성격은 관문이 아니라 동점 처리의 선호라 관문 교집합에 넣지 않는다.
+    const gated = pool.filter(
       (c) =>
-        TIER_CHARACTER[tier].holds(c.types) &&
         Math.abs(c.s.bestMs - targetSlackMs(tier)) <= SLACK_BAND_MS &&
         PEAK_RUN_RULE[tier](c.s.peakRun) &&
         c.s.runnerSpreadMs <= RUNNER_SPREAD_MS &&
         c.s.driftMs <= AXIS_CAP_DRIFT_MS
-    ).length;
-    console.log(`        전부 동시에 만족 ${joint} (필요 ${STAGES_PER_TIER})\n`);
+    );
+    const withChar = gated.filter((c) => TIER_CHARACTER[tier].holds(c.types)).length;
+    console.log(
+      `        관문 전부 통과 ${gated.length} (필요 ${STAGES_PER_TIER}) — 그중 성격까지 맞는 것 ${withChar}\n`
+    );
   }
   const cacheOut = process.env.CURATE_CACHE;
   if (cacheOut) {
@@ -475,12 +515,11 @@ const lines: string[] = [];
 
 interface Gates {
   peak: boolean;
-  character: boolean;
   spread: boolean;
   band: boolean;
   drift: boolean;
 }
-const ALL_GATES: Gates = { peak: true, character: true, spread: true, band: true, drift: true };
+const ALL_GATES: Gates = { peak: true, spread: true, band: true, drift: true };
 
 /** `--from-cache` 일 때만 채워진다. 티어별로 미리 갈라 둔다. */
 const cached = new Map<number, Candidate[]>();
@@ -521,14 +560,13 @@ for (let tier = 1; tier <= MAX_TIER; tier += 1) {
     (!g.drift || c.s.driftMs <= AXIS_CAP_DRIFT_MS) &&
     (!g.spread || c.s.runnerSpreadMs <= RUNNER_SPREAD_MS) &&
     (!g.peak || PEAK_RUN_RULE[tier](c.s.peakRun)) &&
-    (!g.character || TIER_CHARACTER[tier].holds(c.types)) &&
     !picked.includes(c) &&
     takenCourses.every((t) => sameSlots(t, c.ids) <= MAX_SAME_SLOT);
 
   /**
    * 목표에 가장 가까운 것을 고르되, `COVERAGE_TIE_MS` 안에서 비슷한 후보들 사이에서는
-   * 아직 안 쓴 섹터를 더 많이 데려오는 쪽을 택한다. 매번 다시 훑는 이유는 채택할
-   * 때마다 "안 쓴 섹터" 집합과 중복 제약이 함께 바뀌기 때문이다.
+   * **티어의 성격 → 아직 안 쓴 섹터 → 목표 근접도** 순으로 택한다. 매번 다시 훑는
+   * 이유는 채택할 때마다 "안 쓴 섹터" 집합과 중복 제약이 함께 바뀌기 때문이다.
    */
   const take = (g: Gates) => {
     while (picked.length < STAGES_PER_TIER) {
@@ -537,10 +575,11 @@ for (let tier = 1; tier <= MAX_TIER; tier += 1) {
       const dist = (c: Candidate) => Math.abs(c.s.bestMs - targetSlackMs(tier));
       const nearest = Math.min(...avail.map(dist));
       const tied = avail.filter((c) => dist(c) <= nearest + COVERAGE_TIE_MS);
+      const character = (c: Candidate) => (TIER_CHARACTER[tier].holds(c.types) ? 1 : 0);
       tied.sort((a, b) => {
         const na = new Set(a.ids.filter((id) => !usedSectors.has(id))).size;
         const nb = new Set(b.ids.filter((id) => !usedSectors.has(id))).size;
-        return nb - na || dist(a) - dist(b);
+        return character(b) - character(a) || nb - na || dist(a) - dist(b);
       });
       const chosen = tied[0];
       picked.push(chosen);
@@ -550,13 +589,13 @@ for (let tier = 1; tier <= MAX_TIER; tier += 1) {
   };
 
   // 완화 순서 — 공정성과 차별화는 여기 없다. 절대 풀지 않는다.
+  // 성격도 여기 없다. 관문이 아니라 동점 처리의 선호이므로 풀 것이 없다.
   const relaxations: Array<[string, Gates]> = [
     ["완화 없음", ALL_GATES],
-    ["성격 완화", { ...ALL_GATES, character: false }],
-    ["지속까지 완화", { ...ALL_GATES, character: false, peak: false }],
-    ["기체편차까지 완화", { ...ALL_GATES, character: false, peak: false, spread: false }],
-    ["밴드까지 완화", { peak: false, character: false, spread: false, band: false, drift: true }],
-    ["드리프트까지 완화", { peak: false, character: false, spread: false, band: false, drift: false }]
+    ["지속까지 완화", { ...ALL_GATES, peak: false }],
+    ["밴드까지 완화", { ...ALL_GATES, peak: false, band: false }],
+    ["기체편차까지 완화", { peak: false, band: false, spread: false, drift: true }],
+    ["드리프트까지 완화", { peak: false, band: false, spread: false, drift: false }]
   ];
   let usedRelaxation = relaxations[0][0];
   for (const [label, gates] of relaxations) {
@@ -585,7 +624,8 @@ for (let tier = 1; tier <= MAX_TIER; tier += 1) {
         `  최악 ${c.s.worstMs.toFixed(0).padStart(3)}ms` +
         `  기체편차 ${c.s.runnerSpreadMs.toFixed(0).padStart(3)}ms` +
         `  해금드리프트 ${c.s.driftMs.toFixed(0)}ms` +
-        `  최난구간 ${String(c.s.peakRun).padStart(3)}단위\n` +
+        `  최난구간 ${String(c.s.peakRun).padStart(3)}단위` +
+        `  성격 ${TIER_CHARACTER[tier].holds(c.types) ? "○" : "×"}\n` +
         `         ${c.ids.join(" → ")}\n` +
         `         기체별 최선 ${per}`
     );
