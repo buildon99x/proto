@@ -1,8 +1,8 @@
 import {
   APPRAISE_FEE, BASE_DIG, BLIND_SELL_RATE, CATCHUP_MAX, CATCHUP_SLOPE,
   CLICK_COMBO_MAX, CLICK_COMBO_STEP, CLICK_COMBO_WINDOW, CLICK_FACTOR, CLICK_RATE_CAP,
-  CODEX_GOAL, GEAR_MULT, LAYERS_PER_SITE, OFFLINE_CAP_SECONDS, OFFLINE_EFFICIENCY,
-  PENDING_CAP, SITES, SITE_BY_ID, TIER_STOCK, TIP_DURATION_MAX, TIP_DURATION_MIN,
+  CODEX_GOAL, GEAR_MULT, LAYERS_PER_SITE, MAX_GEAR_LEVEL, OFFLINE_CAP_SECONDS, OFFLINE_EFFICIENCY,
+  PENDING_CAP, SITES, SITE_BY_ID, TIER_STOCK_PER_SPECIES, TIP_DURATION_MAX, TIP_DURATION_MIN,
   TIP_FIRST_DELAY, TIP_MEAN_INTERVAL, TIP_PLAYER_HIT, TIP_RIVAL_HIT, WORKER_DIG,
   appraiseSeconds, dropThreshold, gearCost, labCost, layerCost, layerExpectedValue,
   tierValue, tierWeights, workerCost
@@ -31,7 +31,7 @@ export function nextUid(): number {
 export function createLedger(): Ledger {
   const ledger: Ledger = {};
   for (const a of ARTIFACTS) {
-    const total = TIER_STOCK[a.tier];
+    const total = TIER_STOCK_PER_SPECIES[a.tier];
     ledger[a.id] = { total, remaining: total, owners: [] };
   }
   return ledger;
@@ -269,11 +269,11 @@ function digRival(w: World, r: RivalState, rng: Rng, dt: number, eff: number, re
     rollDrop(w, rng, site, r.layer, r.id, eff < 1, report);
   }
 
-  // 라이벌도 같은 비용 곡선으로 재투자한다 (Fair Progression: 같은 규칙)
+  // 라이벌도 같은 비용 곡선·같은 상한으로 재투자한다 (Fair Progression: 같은 규칙)
   for (let i = 0; i < 12; i++) {
     const wc = workerCost(r.workers);
     const gc = gearCost(r.gear);
-    if (gc <= wc * 6 && r.funds >= gc) {
+    if (r.gear < MAX_GEAR_LEVEL && gc <= wc * 6 && r.funds >= gc) {
       r.funds -= gc;
       r.gear += 1;
     } else if (r.funds >= wc) {
@@ -467,6 +467,7 @@ export function buyWorker(w: World): boolean {
 }
 
 export function buyGear(w: World): boolean {
+  if (w.gear >= MAX_GEAR_LEVEL) return false;
   const cost = gearCost(w.gear);
   if (w.funds < cost) return false;
   w.funds -= cost;

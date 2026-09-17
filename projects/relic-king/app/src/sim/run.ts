@@ -9,7 +9,7 @@
  */
 import { ARTIFACTS, ARTIFACT_BY_ID } from "../game/artifacts";
 import {
-  CODEX_GOAL, LAYERS_PER_SITE, SITES, SITE_BY_ID,
+  CODEX_GOAL, LAYERS_PER_SITE, MAX_GEAR_LEVEL, SITES, SITE_BY_ID,
   dropThreshold, gearCost, labCost, layerCost, layerExpectedValue, workerCost
 } from "../game/balance";
 import {
@@ -55,7 +55,7 @@ function act(w: World) {
     const lc = labCost(w.lab);
     if (w.lab < 6 && w.funds >= lc && lc <= wc * 3) {
       buyLab(w);
-    } else if (gc <= wc * 6 && w.funds >= gc) {
+    } else if (w.gear < MAX_GEAR_LEVEL && gc <= wc * 6 && w.funds >= gc) {
       buyGear(w);
     } else if (w.funds >= wc) {
       buyWorker(w);

@@ -10,8 +10,13 @@ export const LAYERS_PER_SITE = 12;
 
 export const TIER_NAME = ["흔함", "희귀", "진귀", "국보", "유일"] as const;
 export const TIER_VALUE = [12_000, 380_000, 9_000_000, 260_000_000, 6_000_000_000] as const;
-/** 세계 재고. 현실의 현존 개체 수를 그대로 쓴다(notes/artifacts-dataset.md) */
-export const TIER_STOCK = [Infinity, 2_000, 60, 6, 1] as const;
+/**
+ * 종(species) 1개당 세계 재고. 현실의 현존 개체 수를 그대로 쓴다(notes/artifacts-dataset.md).
+ * "종당" 임을 이름에 못박는다 — economy.md의 `TIER3_SEASON_SUPPLY`가 이 값과 같은 뜻인데도
+ * 이름 때문에 "시즌 전체 공급량"으로 잘못 읽혀 세계 총가치 표가 24배 어긋난 적이 있다
+ * (notes/decisions.md G23/A9).
+ */
+export const TIER_STOCK_PER_SPECIES = [Infinity, 2_000, 60, 6, 1] as const;
 export const TIER_MIN_LAYER = [1, 2, 5, 8, 10] as const;
 
 export type SiteDef = {
@@ -119,6 +124,14 @@ function layerBaseWeights(layer: number): number[] {
 export const BASE_DIG = 1;
 export const WORKER_DIG = 1.1;
 export const GEAR_MULT = 1.6;
+/**
+ * 장비 레벨 하드 상한. σ=1(전량 즉시매각) + 전액 재투자 실측에서 무상한 장비가
+ * 194만~1,446만/s급 폭주를 냈다(notes/decisions.md G21/A7) — GEAR_MULT가 지수이고
+ * gearCost 성장률(2.4)이 σ=1의 현금 유입 가속을 못 따라가기 때문이다. 상한 이후엔
+ * 인부(선형)만 늘어 자기제동된다. 기본 정책(σ<1)은 장비 9레벨 선에서 자연 정체하므로
+ * (실측 5,209/s) 이 상한에 닿지 않는다 — 정상 플레이는 전혀 느려지지 않는다.
+ */
+export const MAX_GEAR_LEVEL = 16;
 
 export function workerCost(owned: number): number {
   return Math.round(18_000 * Math.pow(1.15, owned));

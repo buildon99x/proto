@@ -31,13 +31,30 @@
 | 감식안 `APPRAISAL_EYE` | 1~100 | 그 발굴단이 캐 온 유물의 감정 소요시간 | `appraiseSeconds(lab) × (1 − APPRAISAL_EYE × FOREMAN_APPRAISAL_COEFF)` |
 
 ```
-FOREMAN_DIG_COEFF = 0.8                    // LEADERSHIP=100 → D_team 기반항에 +80
+FOREMAN_DIG_COEFF = 0.05                   // LEADERSHIP=100 → D_team 기반항에 +5 (무료 인부 5명분 수준)
 FOREMAN_NAV_SPEED_COEFF = 0.003            // NAVIGATION=100 → 이동속도 +30%
 FOREMAN_MISHAP_REDUCTION_COEFF = 0.005     // CRISIS_MGMT=100 → 미스헵 확률 −50%
 FOREMAN_APPRAISAL_COEFF = 0.003            // APPRAISAL_EYE=100 → 감정시간 −30%
+FOREMAN_HIRE_COST = 200_000                // 단장 고용비(신설 — notes/decisions.md G21/A6)
 
 D_team = (BASE_DIG + WORKERS_team × WORKER_DIG + LEADERSHIP × FOREMAN_DIG_COEFF) × GEAR_MULT^gearLevel_team
 ```
+
+**(개정 — `notes/decisions.md` G21/A6)** `FOREMAN_DIG_COEFF`를 기존 0.8에서
+**0.05로 대폭 하향**하고 **`FOREMAN_HIRE_COST`를 신설**했다. 기존 0.8은
+`LEADERSHIP=100`인 단장 1명을 고용하는 즉시(무료로) `D_team` 기반항에 +80을
+더했다 — `BASE_DIG=1`이므로 "무료로 81배"였다(review-r1.md 실측). 0.05는 같은
+조건에서 +5(무료 인부 4.5명 상당)로, 단장의 존재감은 유지하되 폭주 기여분은
+없앤다. `workerCost`·`gearCost`도 **팀별 독립 인덱스가 아니라 플레이어 전체
+누적 구매 횟수(팀 합산)로 통일**한다 — `workerCost(Σ_teams workers)`·
+`gearCost(Σ_teams gearLevel)`. 팀을 여러 개 굴려도 장비 1레벨의 가격은 "그
+플레이어가 지금까지 산 장비 총 레벨"에 매겨지므로, 예산을 4팀에 분산해 같은
+지수 배율을 4번 싸게 사는 경로(review-r1.md 검산: 수입 ×244)가 막힌다. 장비를
+어느 팀에 집중하든 합산 총량이 같으면 비용이 같으므로, 집중이 항상 분산보다
+산술적으로 유리해진다(지수 배율 `GEAR_MULT^n`은 `n`을 한 팀에 몰아줄 때 최대).
+`MAX_GEAR_LEVEL = 16`(`app/src/game/balance.ts` 신설, v0.1 실코드 반영 완료 — 이건
+팀·단장과 무관하게 재투자 피드백 자체가 무상한이었던 v0.1의 더 근본적인 결함을
+닫는다)도 이 합산 인덱스에 그대로 적용된다.
 
 **라이벌 각주**(`notes/decisions.md` G18/A14): 라이벌에게도 v0.2 원정 규칙이
 동일 적용되지만 라이벌은 단장 개체가 없다. 미스헵 감소항(`CRISIS_MGMT`)만
@@ -86,7 +103,7 @@ CURATOR_UPKEEP_CAP = 0.30                   // MAINTENANCE=100 → 유지비 −
 
 | 스탯 | 범위 | 들어가는 수식 | 항 |
 | --- | --- | --- | --- |
-| 협상력 `NEGOTIATION` | 1~100 | 경매장 가격배율(economy.md `AUCTION_PRICE_MULT`) | `실제배율 = AUCTION_PRICE_MULT_MIN + (AUCTION_PRICE_MULT_MAX − AUCTION_PRICE_MULT_MIN) × min(1, 등급진행도 + NEGOTIATION × AUCTIONEER_NEGOTIATION_COEFF)` |
+| 협상력 `NEGOTIATION` | 1~100 | 경매장 가격배율(economy.md `AUCTION_PRICE_MULT`) | `실제배율 = AUCTION_PRICE_MULT_MIN + (AUCTION_PRICE_MULT_MAX − AUCTION_PRICE_MULT_MIN) × min(1, 등급진행도 + NEGOTIATION × AUCTIONEER_NEGOTIATION_COEFF)`, `등급진행도 = (경매장등급−1)/(AUCTION_GRADE_MAX−1)`(신설, `notes/decisions.md` G30/C) |
 | 물류처리력 `LOGISTICS` | 1~100 | 경매장 물량 상한(`AUCTION_SLOT_CAP`) | `실질슬롯 = AUCTION_SLOT_CAP_BY_GRADE[grade] + floor(LOGISTICS × AUCTIONEER_LOGISTICS_COEFF)` |
 | 진행속도 `PACE` | 1~100 | 낙찰 소요시간(`AUCTION_SETTLE_HOURS`) | `실제소요 = AUCTION_SETTLE_HOURS × (1 − min(AUCTIONEER_PACE_CAP, PACE × AUCTIONEER_PACE_COEFF))` |
 | 고객관리 `CLIENTELE` | 1~100 | 경매장 수수료(economy.md K7, `AUCTION_FEE_RATE`) | `실제수수료 = AUCTION_FEE_RATE × (1 − min(AUCTIONEER_FEE_CAP, CLIENTELE × AUCTIONEER_FEE_DISCOUNT_COEFF))` |
@@ -98,7 +115,18 @@ AUCTIONEER_PACE_COEFF = 0.004
 AUCTIONEER_PACE_CAP = 0.35                  // PACE=100 → 소요시간 −35% 상한
 AUCTIONEER_FEE_DISCOUNT_COEFF = 0.002
 AUCTIONEER_FEE_CAP = 0.20                   // CLIENTELE=100 → 수수료 −20% 상한(8% → 6.4%)
+AUCTION_GRADE_MAX = 4
 ```
+
+**(신설 — `notes/decisions.md` G30/C)** 경매장 등급별 `AUCTION_PRICE_MULT`
+대응표(`NEGOTIATION=0` 기준, 위 등급진행도 식을 대입한 값):
+
+| 등급 | 등급진행도 | `AUCTION_PRICE_MULT` |
+| --- | --- | --- |
+| 1 | 0.000 | 1.000 |
+| 2 | 0.333 | 1.133 |
+| 3 | 0.667 | 1.267 |
+| 4 | 1.000 | 1.400 |
 
 ## 4. 고용 시장 갱신 규칙
 
@@ -114,27 +142,51 @@ STAFF_MARKET_CANDIDATE_COUNT = 3      // 직군당 후보 3명
 플레이어가 재화를 써서 다시 굴릴 수 없다 — 재화를 써서 갱신을 반복할 수 있게
 만드는 순간 그게 가챠다(§8).
 
-## 5. 급여 공식
+**(신설 — `notes/decisions.md` G30/C)** 해시 1개가 어떻게 스탯 4개가 되는지가
+정의돼 있지 않았다. `world-map.md` §8.2의 `PREFERENCE` 해시와 같은 패턴을
+재사용한다 — 스탯마다 문자열 한 자리만 바꿔 독립적으로 해시한다:
+
+```
+CANDIDATE_STAT(site, cycle, role, statName) = STAFF_STAT_MIN
+  + (STAFF_STAT_MAX − STAFF_STAT_MIN) × frac(FNV1a32(`${site}:${cycle}:${role}:${statName}`) / 2^32)
+```
+
+예: 경주의 3번째 갱신에서 나온 단장 후보의 통솔력 =
+`CANDIDATE_STAT("korea", 3, "foreman", "LEADERSHIP")`. 네 스탯(단장:
+`LEADERSHIP`·`NAVIGATION`·`CRISIS_MGMT`·`APPRAISAL_EYE`, 관장·경매관장도 각자의
+4개 이름)은 이 함수에 각각 다른 `statName`을 넣어 독립적으로, 결정론적으로 구한다 —
+새 절차 생성 방식을 만들지 않고 기존 해시 패턴을 그대로 재사용했다.
+
+## 5. 급여 공식 (개정 — `notes/decisions.md` G29/B7)
 
 `notes/economy.md` §0의 원칙("v0.2가 추가하는 모든 신규 싱크는 소득 또는 자산에
-대한 비율로만 정의한다")은 급여에도 그대로 적용된다. 급여를 고정 ₩/h로 두면
-초반(발굴력이 작을 때)에는 급여가 소득을 넘어 즉시 파산 직전 상태가 되고, 후반에는
-소득에 비해 무의미해진다 — 그래서 **급여는 그 스텝이 관여하는 소득의 비율**로
-정의한다. 스탯은 그 비율 안에서 급여를 얼마나 더 받는지만 움직인다.
+대한 비율로만 정의한다")은 급여에도 그대로 적용된다. **급여는 그 스텝이 관여하는
+소득의 비율**로 정의하는 원칙 자체는 유지하되, **"잠재"(그 팀이 캐낸 값, 아직
+안 판 것도 포함) 기준을 "실현"(실제로 판 순간) 기준으로 바꾼다** — review-r1.md
+B7이 지적한 대로, 잠재 기준은 σ<1(들고만 있는) 플레이에서 실현 현금 없이도
+계속 청구되는 구조라 체납이라는 상태 자체가 애매했다(정상 방치 범위에선
+발생하지 않고, 어쩌다 발생하면 스탯 페널티 나선이 되는 양자택일).
 
 ```
 STAFF_SALARY_STAT_COEFF = 0.6
-FOREMAN_SALARY_INCOME_SHARE = 0.03      // 그 발굴단이 벌어들이는 잠재화폐의 3%
-CURATOR_SALARY_INCOME_SHARE = 0.15      // 그 박물관 관람수입(캡 적용 전)의 15%
-AUCTIONEER_SALARY_FEE_SHARE = 0.05      // 그 경매장이 처리한 시간당 낙찰총액의 5%
+FOREMAN_SALARY_INCOME_SHARE = 0.03      // 판매액의 3% — 그 유물을 캐낸 발굴단의 단장에게
+CURATOR_SALARY_INCOME_SHARE = 0.15      // 그 박물관 시간당 관람수입 정산액(캡 적용 전)의 15%
+AUCTIONEER_SALARY_FEE_SHARE = 0.05      // 그 경매장 낙찰액의 5%
 
 스탯배율 = 1 + STAFF_SALARY_STAT_COEFF × (Σstat_i / 4) / STAFF_STAT_MAX   // 1.0 ~ 1.6
 
-급여(단장, 시간당) = FOREMAN_SALARY_INCOME_SHARE
-  × D_team × PROGRESS_VALUE × bonus(L) / dropMod(site) × 3600 × 스탯배율
-급여(관장, 시간당) = CURATOR_SALARY_INCOME_SHARE × 관람수입(시간당, 캡 적용 전) × 스탯배율
-급여(경매관장, 시간당) = AUCTIONEER_SALARY_FEE_SHARE × 그 경매장의 시간당 낙찰총액 × 스탯배율
+급여(단장) = FOREMAN_SALARY_INCOME_SHARE × 스탯배율 × 그 판매 건의 실현 금액
+  — 판매(직접매각·경매장 낙찰·미감정매각 전부) 시점에 그 판매액에서 즉시 원천징수한다.
+급여(관장, 시간당) = CURATOR_SALARY_INCOME_SHARE × 관람수입(시간당 정산, 캡 적용 전) × 스탯배율
+  — 시간당 관람수입이 실제로 정산되는 시점에 원천징수한다(관람수입 자체가 이미 "실현"이다).
+급여(경매관장) = AUCTIONEER_SALARY_FEE_SHARE × 스탯배율 × 그 경매 낙찰액
+  — 낙찰 확정(대금 실현) 시점에 원천징수한다.
 ```
+
+**돈이 실제로 들어오는 바로 그 순간에만 급여가 나가므로, 어떤 상태에서도 급여가
+잔고를 갉아먹을 수 없다** — 체납이라는 상태 자체가 구조적으로 존재할 수 없다.
+`notes/decisions.md` G10("파산 불가")을 유예 밴드가 아니라 **원천징수 구조 자체로**
+만족시킨다. 이에 따라 §6·§9의 체납·강제은퇴 계열 상수를 삭제한다(아래).
 
 각 급여가 **그 스텝이 관여하는 도메인 자신의 소득**에 매여 있으므로, 발굴력이
 작은 초반에는 급여도 작고 발굴력이 커지면 급여도 같이 커진다 — 절대값 싱크가
@@ -152,32 +204,31 @@ G5 캡)의 15%이므로 발굴 소득 대비로는 최대 4.5%이고, 경매관�
 스탯이 높을수록 **결정론적으로** 오른다 — "돈을 더 내면 더 좋은 인력이 확정적으로
 온다"는 구조라, 확률에 재화를 태우는 가챠 구조와 근본적으로 다르다.
 
-## 6. 승급·이직·은퇴
+## 6. 승급 (개정 — `notes/decisions.md` G29/B7, 이직·은퇴 삭제)
 
 ```
 STAFF_PROMOTION_INTERVAL_HOURS = 168     // 1주
 STAFF_PROMOTION_STAT_GAIN = 2
-STAFF_QUIT_CHANCE_PER_HOUR_IN_ARREARS = 0.02   // 체납 유예(72h) 초과 후에만 적용
-STAFF_RETIREMENT_TENURE_HOURS = 720      // 30일
-STAFF_RETIREMENT_WARNING_HOURS = 48
-STAFF_RETIREMENT_SEVERANCE_MULT = 4      // 시급 × 4시간분
 ```
 
 - **승급**: `STAFF_PROMOTION_INTERVAL_HOURS`마다, 근속 중인 스텝의 **가장 낮은
   스탯 하나**에 `STAFF_PROMOTION_STAT_GAIN`을 더한다(무작위 스탯이 아니라 최저
   스탯을 결정론적으로 보완 — 이 역시 §8의 가챠 방지 장치다). `STAFF_STAT_MAX`에서
   멈춘다.
-- **이직**: `notes/decisions.md` G10의 급여 체납 유예(`SALARY_ARREARS_GRACE_HOURS
-  = 72`, `notes/economy.md`에 정의) **안에서는 이직하지 않는다** — 유예 자체가
-  "72시간 안에 해결하면 아무 일도 없다"는 안전판이다. 유예를 넘긴 뒤에만 시간당
-  `STAFF_QUIT_CHANCE_PER_HOUR_IN_ARREARS`로 이직한다. 오프라인 상한
-  (`OFFLINE_CAP_SECONDS = 12시간`)이 72시간보다 훨씬 짧으므로, 정상적인 방치
-  범위 안에서는 이직이 구조적으로 일어날 수 없다 — G3의 "방치 중 손실로
-  처벌하지 않는다"가 급여 체납에도 성립하는 이유다.
-- **은퇴**: 근속 `STAFF_RETIREMENT_TENURE_HOURS`(30일)에 닿으면 자동 은퇴하고
-  퇴직금(`STAFF_RETIREMENT_SEVERANCE_MULT`시간분 급여)을 받는다.
-  `STAFF_RETIREMENT_WARNING_HOURS`(48시간) 전에 예고가 뜬다. 은퇴는 처벌이 아니라
-  인력 순환 장치다 — 자리는 다음 고용 시장 갱신에 바로 다시 등장한다.
+
+**이직·은퇴는 삭제한다.** §5의 급여 원천징수 전환으로 체납이라는 상태 자체가
+구조적으로 발생할 수 없어졌으므로(잔고가 0이어도 급여가 밀릴 일이 없다 — 팔 때만
+떼어 간다), 체납에서 파생되던 `STAFF_QUIT_CHANCE_PER_HOUR_IN_ARREARS`(이직)도
+트리거 조건 자체가 사라졌다. 30일 강제은퇴(`STAFF_RETIREMENT_TENURE_HOURS`)도
+review-r1.md B7이 지적한 대로 "재고용 노동"에 가까워 함께 없앤다 — 스텝은
+**"고용하면 끝, 승급만 쌓인다"**로 단순화한다. 고용 결정 1회에 Optimization
+재미를 몰아주는 쪽이 G3의 관여 예산(하루 2~3회×180초)에도 더 맞는다.
+`SALARY_ARREARS_GRACE_HOURS`·`STAFF_ARREARS_STAT_PENALTY_MULT`·
+`STAFF_QUIT_CHANCE_PER_HOUR_IN_ARREARS`·`STAFF_RETIREMENT_TENURE_HOURS`·
+`STAFF_RETIREMENT_WARNING_HOURS`·`STAFF_RETIREMENT_SEVERANCE_MULT`는
+`balance.ts` 상수 총람(§10)에서도 뺀다. `notes/decisions.md` G10("파산 불가")은
+뒤집지 않는다 — 목표는 그대로고, 달성 방식이 유예 밴드에서 원천징수 구조로
+바뀌었을 뿐이다.
 
 ## 7. 동일 직군 복수 고용
 
@@ -204,20 +255,13 @@ STAFF_RETIREMENT_SEVERANCE_MULT = 4      // 시급 × 4시간분
 4. **승급이 최저 스탯을 결정론적으로 보완**: 성장도 무작위 스탯 재굴림이 아니라
    약점 보완이다.
 
-## 9. 급여 체납 규칙(G10 구체화)
+## 9. (삭제됨 — 급여 체납 규칙, `notes/decisions.md` G29/B7)
 
-```
-SALARY_ARREARS_GRACE_HOURS = 72         // notes/economy.md에 이미 정의(재정의하지 않음)
-STAFF_ARREARS_STAT_PENALTY_MULT = 0.5
-```
-
-자금이 0 이하가 되어 그 시점 급여를 못 주면 체납 상태로 들어간다. 체납 중에는
-전원의 스탯 기여가 `STAFF_ARREARS_STAT_PENALTY_MULT`(50%)로 깎인다 —
-연쇄적으로 D·관람객·경매 배율이 낮아져 자금 회복이 느려지지만, 0 밑으로
-더 내려가거나(음수 자금 없음), 유물이 압류되거나, 시설이 멈추는 일은 없다
-(G10 그대로). 유예 72시간 안에 급여를 지불하면(자금이 다시 양수가 되는 순간
-자동 정산) 페널티는 즉시 풀린다. 유예를 넘기면 §6의 이직 확률이 시간당으로
-누적된다 — 이게 체납의 유일한 "진짜" 대가다.
+§5의 급여 원천징수 전환으로 체납이라는 상태 자체가 구조적으로 발생할 수 없다.
+기존 §9는 review-r1.md B7이 지적한 대로 "정상 방치 범위에서는 절대 안 걸리는
+UI이거나, 걸리면 스탯 페널티 나선"이라는 양자택일이었다 — 트리거 조건(자금이
+0 이하인데 그 순간 급여를 별도로 청구해야 함) 자체가 새 급여 모델에서 사라졌다.
+이 절 번호는 재사용하지 않는다.
 
 ## 10. `balance.ts` 상수 총람
 
@@ -225,11 +269,13 @@ STAFF_ARREARS_STAT_PENALTY_MULT = 0.5
 export const STAFF_STAT_MIN = 1;
 export const STAFF_STAT_MAX = 100;
 
-// 발굴단 단장(§1)
-export const FOREMAN_DIG_COEFF = 0.8;
+// 발굴단 단장(§1) — FOREMAN_DIG_COEFF는 0.8→0.05로 하향, FOREMAN_HIRE_COST 신설(G21/A6)
+export const FOREMAN_DIG_COEFF = 0.05;
 export const FOREMAN_NAV_SPEED_COEFF = 0.003;
 export const FOREMAN_MISHAP_REDUCTION_COEFF = 0.005;
 export const FOREMAN_APPRAISAL_COEFF = 0.003;
+export const FOREMAN_HIRE_COST = 200_000;
+export const MAX_GEAR_LEVEL = 16; // app/src/game/balance.ts에 이미 실코드로 존재(v0.1). 팀 합산 인덱스에도 동일 적용
 
 // 박물관 관장(§2)
 export const MUSEUM_CURATOR_COEFF = 0.005;
@@ -248,6 +294,7 @@ export const AUCTIONEER_PACE_COEFF = 0.004;
 export const AUCTIONEER_PACE_CAP = 0.35;
 export const AUCTIONEER_FEE_DISCOUNT_COEFF = 0.002;
 export const AUCTIONEER_FEE_CAP = 0.20;
+export const AUCTION_GRADE_MAX = 4; // "등급진행도" 분모(G30/C)
 
 // 고용 시장(§4)
 export const STAFF_MARKET_REFRESH_HOURS = 24;
@@ -259,14 +306,8 @@ export const FOREMAN_SALARY_INCOME_SHARE = 0.03;
 export const CURATOR_SALARY_INCOME_SHARE = 0.15;
 export const AUCTIONEER_SALARY_FEE_SHARE = 0.05;
 
-// 승급·이직·은퇴(§6)
+// 승급(§6) — 이직·은퇴 계열(STAFF_QUIT_CHANCE_PER_HOUR_IN_ARREARS·STAFF_RETIREMENT_*)은
+// G29/B7로 삭제. §9(체납, SALARY_ARREARS_GRACE_HOURS·STAFF_ARREARS_STAT_PENALTY_MULT)도 삭제.
 export const STAFF_PROMOTION_INTERVAL_HOURS = 168;
 export const STAFF_PROMOTION_STAT_GAIN = 2;
-export const STAFF_QUIT_CHANCE_PER_HOUR_IN_ARREARS = 0.02;
-export const STAFF_RETIREMENT_TENURE_HOURS = 720;
-export const STAFF_RETIREMENT_WARNING_HOURS = 48;
-export const STAFF_RETIREMENT_SEVERANCE_MULT = 4;
-
-// 체납(§9) — SALARY_ARREARS_GRACE_HOURS = 72 는 notes/economy.md에 이미 정의됨
-export const STAFF_ARREARS_STAT_PENALTY_MULT = 0.5;
 ```

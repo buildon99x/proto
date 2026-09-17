@@ -135,33 +135,55 @@ DISTANCE_KM(a, b) = 6371 × 2 × atan2(√h, √(1−h))
 ```
 EXPEDITION_SPEED_KMH = 400          // 대항해시대풍 선박·대상(隊商) 속도. 여객기 속도가 아니다
 EXPEDITION_ONSITE_MIN_HOURS = 0.1   // 6분. 거점 로컬 유적의 최소 현지 작업 시간
+EXPEDITION_ONSITE_RATIO = 3.0       // 개정 — notes/decisions.md G27/B5
 
 이동시간(편도, h) = DISTANCE_KM / EXPEDITION_SPEED_KMH
-현지작업시간(h) = max(EXPEDITION_ONSITE_MIN_HOURS, 이동시간)
+현지작업시간(h) = max(EXPEDITION_ONSITE_MIN_HOURS, 이동시간 × EXPEDITION_ONSITE_RATIO)
 원정 총 소요시간(h) = 2 × 이동시간 + 현지작업시간
 ```
 
-거점 로컬 유적(거리 0)은 총 소요 0.1시간(6분) — G11의 "20분 안에 거점 선택 → 첫
-원정 → 첫 감정 → 첫 전시" 마일스톤이 여기서 성립한다. 최장거리(쿠스코-시안,
-17,707km)는 이동편도 44.3시간, 총 소요 132.9시간(약 5.5일) — 매일 들여다볼 필요가
-없는 장기 원정으로, `notes/decisions.md` G3의 관여 예산(하루 2~3회)과 자연히
-어긋나지 않는다. 발굴단 단장의 항해술 스탯(`notes/staff.md` §1)이 `EXPEDITION_SPEED_KMH`
-자체가 아니라 실효 이동시간의 분모에 곱해져 이 값을 최대 30%까지 줄인다.
+**(개정 — `notes/decisions.md` G27/B5)** 기존 `현지작업시간 = max(ONSITE_MIN,
+이동시간)`은 거리가 `EXPEDITION_ONSITE_MIN_HOURS`(6분)만 넘으면 가동률
+(`현지작업/총소요`)이 `이동시간/(2×이동시간+이동시간) = 1/3`로 **거리와 무관하게
+고정**됐다 — 게다가 원정비는 거리에 비례해 최대 1.5배까지 오르므로 원거리는
+"동일 시간당 4.5배 불리"했다. `EXPEDITION_ONSITE_RATIO = 3.0`을 곱해 가동률을
+`3/(2+3) = 60%`로 끌어올렸다(거리와 무관하게 일정 — 왕복 총 소요는 길어지지만
+회차당 실작업 비중이 커진다). 검산: 601km(경주-교토) 편도 1.5h → 현지작업 4.5h,
+총 7.5h, 가동률 60%(기존 33.3%). 17,707km(쿠스코-시안) 편도 44.3h → 현지작업
+132.9h, 총 221.5h, 가동률 여전히 60%.
+
+거점 로컬 유적(거리 0)은 여전히 총 소요 0.1시간(6분, `EXPEDITION_ONSITE_MIN_HOURS`가
+`× RATIO`보다 크므로 바닥값이 그대로 적용된다) — G11의 "20분 안에 거점 선택 → 첫
+원정 → 첫 감정 → 첫 전시" 마일스톤이 여기서 성립한다. 발굴단 단장의 항해술 스탯
+(`notes/staff.md` §1)이 `EXPEDITION_SPEED_KMH` 자체가 아니라 실효 이동시간의
+분모에 곱해져 이 값을 최대 30%까지 줄인다(현지작업시간도 이동시간에 연동되므로
+같이 줄어든다).
 
 원정비(`notes/economy.md` K5, `EXPEDITION_COST_INCOME_RATIO = 0.15`)에 거리
-가산을 곱한다:
+가산을 곱하고, **후불(귀환 시 원천징수)로 지급 시점을 바꾼다**(개정 —
+G27/B5 — 기존 "선지급"은 자금 0에서 파견 자체가 불가능해 수입도 0인 채 영원히
+회복 못 하는 데드락을 만들었다, `notes/decisions.md` G10 "파산 불가" 위반):
 
 ```
 EXPEDITION_DISTANCE_COST_COEFF = 0.5
 EXPEDITION_DISTANCE_REF_KM = 10,000
+EXPEDITION_DISTANCE_YIELD_COEFF = 0.5     // 신설 — 비용 계수와 대칭
 
 EXPEDITION_DISTANCE_COST_MULT = 1 + EXPEDITION_DISTANCE_COST_COEFF × min(1, DISTANCE_KM / EXPEDITION_DISTANCE_REF_KM)
-실제 원정비 = 원정 기대소득 × EXPEDITION_COST_INCOME_RATIO × EXPEDITION_DISTANCE_COST_MULT
+DISTANCE_YIELD_BONUS = 1 + EXPEDITION_DISTANCE_YIELD_COEFF × min(1, DISTANCE_KM / EXPEDITION_DISTANCE_REF_KM)
+
+원정 기대소득 = D_team × PROGRESS_VALUE × bonus(L) / dropMod(site) × 현지작업시간(h) × 3600   // 신설 수식(C — 기존엔 이름만 있었다)
+실제 원정비 = 그 원정의 실현소득(귀환 시 확정) × EXPEDITION_COST_INCOME_RATIO × EXPEDITION_DISTANCE_COST_MULT
+  — 귀환 시 원천징수(기존: 파견 시 선지급)
+그 원정의 bonus(L)은 실제로는 DISTANCE_YIELD_BONUS가 곱해진 값을 쓴다: bonus(L) × DISTANCE_YIELD_BONUS
 ```
 
-거리 0 → ×1.0. 10,000km 이상(쿠스코↔유라시아 대부분)에서 ×1.5로 상한. K5 비율형
-싱크 원칙(economy.md §0)을 유지한 채 곱연산 가산만 얹었으므로 인플레이션 방어
-구조(economy.md §4)는 그대로 성립한다.
+거리 0 → 비용·수확 모두 ×1.0. 10,000km 이상(쿠스코↔유라시아 대부분)에서 비용은
+×1.5로 상한, 수확도 **동일 계수로 ×1.5까지** 오른다 — 원거리 원정이 자산 축에서도
+"멀리 갈 이유"를 갖게 된다(기존엔 도감·명성 업사이드만 있었다, §4). 위험(이동시간·
+미스헵)을 이미 지불한 대가와 정확히 상쇄되는 설계라 "위험 없이 공짜로 버는" 구조가
+아니다. K5 비율형 싱크 원칙(economy.md §0)을 유지한 채 곱연산 가산과 지급 시점만
+바뀌었으므로 인플레이션 방어 구조(economy.md §4)는 그대로 성립한다.
 
 ## 4. 거리에 상응하는 업사이드
 
@@ -287,9 +309,21 @@ mechanism`) 10종을 그대로 시세 카테고리로 쓴다. 새 분류를 만�
 
 ### 8.2 거점별 수요·유물 종류별 선호
 
+**(개정 — `notes/decisions.md` G26/B3)** `REGIONAL_PRICE_MULT_MIN/MAX`를
+`0.90/1.26 → 0.60/1.40`으로 재조정했다 — 두 문제를 동시에 닫는 값이다. (1)
+`economy.md` §1.1이 이 배율을 곱하지 않고 규모를 추정해 실제 수입이 문서
+가정보다 상시 +8~15% 높았다(균등분포 평균이 1.08~1.151이었기 때문) — 새 값의
+평균은 정확히 `(0.60+1.40)/2 = 1.00`이라 이 편향이 사라진다. (2) `MAX_OWNED_SITES=3`
+거점 중 최고가를 골라 파는 "개입"의 기대이득이 `1.170/1.080−1=8.3%`로
+`ENGAGEMENT_UPSIDE_MIN(0.20)`에 못 미쳤다 — 균등분포 n개 표본 최댓값 기대식
+`MIN+(MAX−MIN)×n/(n+1)`에 `n=3`을 대입하면 새 값에서는
+`0.60+(1.40−0.60)×3/4=1.20`, 이득 `1.20/1.00−1=20.0%`로 **정확히 하한에 닿는다**
+(테마 보너스·시간 드리프트가 추가로 얹히므로 실측 이득은 여유 있게 20%를 넘길
+것이다 — 과소추정이지 과대추정이 아니다).
+
 ```
-REGIONAL_PRICE_MULT_MIN = 0.90
-REGIONAL_PRICE_MULT_MAX = 1.26
+REGIONAL_PRICE_MULT_MIN = 0.60   // 기존 0.90
+REGIONAL_PRICE_MULT_MAX = 1.40   // 기존 1.26
 THEMATIC_PREFERENCE_BONUS = 0.08
 
 BASE_HASH_PREF(city, category) = REGIONAL_PRICE_MULT_MIN
@@ -338,16 +372,18 @@ LOCAL_PRICE_MULT(city, category, t) = clamp(
   REGIONAL_PRICE_MULT_MIN, REGIONAL_PRICE_MULT_MAX
 )
 
-ARBITRAGE_MAX_SPREAD_RATIO = REGIONAL_PRICE_MULT_MAX / REGIONAL_PRICE_MULT_MIN = 1.40
+ARBITRAGE_MAX_SPREAD_RATIO = REGIONAL_PRICE_MULT_MAX / REGIONAL_PRICE_MULT_MIN = 1.40 / 0.60 ≈ 2.33   // 개정 G26/B3(기존 1.40)
 ```
 
 하드 클램프이므로 어떤 시점에도 (같은 유물, 최고가 거점 / 최저가 거점)의 비율은
-1.40을 넘지 못한다 — 무한 차익거래 루프가 될 수 없다. 그리고 1.40은 우연이
-아니다: `notes/decisions.md` G3가 정한 개입 이득 상한(`ENGAGEMENT_UPSIDE_MAX =
-0.40`, 손대면 이득이 20~40% 늘어난다)과 **정확히 일치**하도록 두 상수를 맞췄다.
-가장 비싼 거점에서 팔도록 직접 챙기면 안 챙겼을 때보다 최대 40% 더 버는 구조라,
-세계지도의 "어디서 팔까"라는 개입이 G3의 예산 안에 정확히 들어간다. 이 배율은
-직접매각·경매장의 최종 가격에 곱해진다(`notes/economy.md` §3.2의 가격식에 이어
+`ARBITRAGE_MAX_SPREAD_RATIO`(≈2.33)를 넘지 못한다 — 무한 차익거래 루프가 될 수
+없다. **(정정 — G26/B3)** "1.40이 `ENGAGEMENT_UPSIDE_MAX`(0.40)와 정확히
+일치한다"는 기존 서술은 **틀렸다** — 1.40은 12거점 전역 최대/최소 비율인데,
+직접매각·경매장에서 실제로 체감하는 개입은 **보유 3거점 중 선택**(로컬)이라 전역
+스프레드와는 다른 수치다(재검산 결과 실제 개입 이득은 8.3%에 불과했다). 이
+서술은 삭제했다 — 개입 이득 20% 보장은 위 `REGIONAL_PRICE_MULT_MIN/MAX` 값
+자체의 재조정(G26)으로 달성한다. 이 배율은 직접매각·경매장의 최종 가격에
+곱해진다(`notes/economy.md` §3.2의 가격식에 이어
 `× LOCAL_PRICE_MULT(그 거점, 그 유물의 shape, 현재 시각)`을 추가한다).
 
 ### 8.5 정보 공개 규칙 — 미탐사 거점의 시세는 가려진다 (`notes/decisions.md` G19/B4)
@@ -359,11 +395,20 @@ ARBITRAGE_MAX_SPREAD_RATIO = REGIONAL_PRICE_MULT_MAX / REGIONAL_PRICE_MULT_MIN =
 
 ```
 PRICE_INTEL_WINDOW_HOURS = 48
-REMOTE_ARBITRAGE_BONUS_MAX = 1.60
 REMOTE_ARBITRAGE_MIN_DISTANCE_KM = 3_000
-REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX = REGIONAL_PRICE_MULT_MAX × (REMOTE_ARBITRAGE_BONUS_MAX / ARBITRAGE_MAX_SPREAD_RATIO)
-                                  = 1.26 × (1.60 / 1.40) = 1.44
+REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX = 1.60   // 개정 G26/B3 — 아래 참조
 ```
+
+**(개정 — `notes/decisions.md` G26/B3)** `REGIONAL_PRICE_MULT_MIN/MAX`를
+0.60/1.40으로 재조정하면서 `ARBITRAGE_MAX_SPREAD_RATIO`(≈2.33)가
+`REMOTE_ARBITRAGE_BONUS_MAX`(1.60)보다 커졌다 — 기존 비율식
+(`REGIONAL_PRICE_MULT_MAX × (REMOTE_ARBITRAGE_BONUS_MAX/ARBITRAGE_MAX_SPREAD_RATIO)`)을
+그대로 두면 원거리 보너스가 로컬 최댓값보다 **낮아져** 정보 우위의 가치가
+사라진다. 그래서 `REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX`를 비율식에서 분리해
+**고정 절대값 1.60**으로 재정의했다 — 새 로컬 최댓값(1.40) 대비 `1.60/1.40=
+14.3%` 보너스로, 기존(`1.44/1.26=14.3%`)과 **정확히 같은 비율의 보너스**를
+유지한다(체감상 바뀌는 게 없다). `REMOTE_ARBITRAGE_BONUS_MAX`라는 별도 이름은
+더 이상 쓰지 않는다 — `REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX` 하나로 충분하다.
 
 1. **미탐사 = 비공개**: 한 번도 발굴단을 파견하지 않은 거점의 `LOCAL_PRICE_MULT`는
    지도·시장 UI에 "미탐사"로만 표시된다.
@@ -377,12 +422,12 @@ REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX = REGIONAL_PRICE_MULT_MAX × (REMOTE_ARBITRAGE_
 3. **원거리 교역 상한(정보를 가진 경우에만)**: base로부터
    `REMOTE_ARBITRAGE_MIN_DISTANCE_KM`(3,000km) 이상 떨어진 거점에서, 그 거점의
    시세 정보를 **사전에 획득한 상태로** 직접매각·경매장에 팔면 `LOCAL_PRICE_MULT`
-   클램프 상한이 `REGIONAL_PRICE_MULT_MAX`(1.26)에서 `REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX`
-   (1.44)로 확장된다. 정보 없이 도박으로 파견해도 기본 클램프(1.26)는 그대로
-   받지만, 확장분(1.26~1.44)은 정보를 가진 쪽만 실현한다 — 이게 정보 우위의
-   실제 가치다. 이동시간·미스헵 리스크를 이미 지불한 거리에만 적용되므로,
-   `notes/decisions.md` G3의 "손대면 20~40%"(비용 없는 개입에 대한 상한)와는
-   성격이 다르다 — 위험수당이라 그 밴드를 넘어도 된다.
+   클램프 상한이 `REGIONAL_PRICE_MULT_MAX`(1.40, G26/B3로 재조정됨)에서
+   `REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX`(1.60)로 확장된다. 정보 없이 도박으로
+   파견해도 기본 클램프(1.40)는 그대로 받지만, 확장분(1.40~1.60)은 정보를 가진
+   쪽만 실현한다 — 이게 정보 우위의 실제 가치다. 이동시간·미스헵 리스크를 이미
+   지불한 거리에만 적용되므로, `notes/decisions.md` G3의 "손대면 20~40%"(비용
+   없는 개입에 대한 상한)와는 성격이 다르다 — 위험수당이라 그 밴드를 넘어도 된다.
 
 **버린 선택지**: (i) 시세 완전 비공개(사전 스냅샷도 없음) — 편도 최장 44.3시간인
 원정에서 "도착해서야 안다"로 두면 계획 자체를 세울 수 없어 세계지도 활용이
@@ -423,10 +468,12 @@ export const SITE_THEMATIC_CATEGORY: Record<SiteId, [Shape, Shape]> = {
   mexico: ["ornament", "statue"], peru: ["ornament", "mechanism"],
 };
 
-// 이동(§3)
+// 이동(§3, EXPEDITION_ONSITE_RATIO·EXPEDITION_DISTANCE_YIELD_COEFF는 G27/B5로 신설)
 export const EXPEDITION_SPEED_KMH = 400;
 export const EXPEDITION_ONSITE_MIN_HOURS = 0.1;
+export const EXPEDITION_ONSITE_RATIO = 3.0;
 export const EXPEDITION_DISTANCE_COST_COEFF = 0.5;
+export const EXPEDITION_DISTANCE_YIELD_COEFF = 0.5;
 export const EXPEDITION_DISTANCE_REF_KM = 10_000;
 
 // 초기 보너스(§1)
@@ -450,22 +497,21 @@ export const COASTLINE_LAND_THRESHOLD = 0.5;
 export const MAP_BOOKMARK_CAP = 10;
 export const RECOMMEND_TOP_N = 3;
 
-// 거점별 시세 모델(§8)
-export const REGIONAL_PRICE_MULT_MIN = 0.90;
-export const REGIONAL_PRICE_MULT_MAX = 1.26;
+// 거점별 시세 모델(§8, MIN/MAX는 G26/B3로 재조정 — 기존 0.90/1.26)
+export const REGIONAL_PRICE_MULT_MIN = 0.60;
+export const REGIONAL_PRICE_MULT_MAX = 1.40;
 export const THEMATIC_PREFERENCE_BONUS = 0.08;
-export const ARBITRAGE_MAX_SPREAD_RATIO = 1.40; // = MAX / MIN, 파생값이지만 명시적으로 상수화
+export const ARBITRAGE_MAX_SPREAD_RATIO = 2.33; // = MAX / MIN(파생값). "ENGAGEMENT_UPSIDE_MAX와 정확히 일치" 서술은 G26/B3로 삭제(틀린 서술이었다)
 export const PRICE_UPDATE_INTERVAL_HOURS = 6;
 export const PRICE_CYCLE_HOURS = 72;
 export const PRICE_DRIFT_AMPLITUDE = 0.06;
 export const SUPPLY_SHOCK_MAGNITUDE = 0.10;
 export const SUPPLY_SHOCK_DECAY_HOURS = 48;
 
-// 정보 비대칭·원거리 교역(§8.5, G19/B4)
+// 정보 비대칭·원거리 교역(§8.5, G19/B4. CLAMP_MAX는 G26/B3로 고정 절대값 재정의 — 기존 1.44)
 export const PRICE_INTEL_WINDOW_HOURS = 48;
-export const REMOTE_ARBITRAGE_BONUS_MAX = 1.60;
 export const REMOTE_ARBITRAGE_MIN_DISTANCE_KM = 3_000;
-export const REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX = 1.44; // = REGIONAL_PRICE_MULT_MAX × (1.60/1.40)
+export const REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX = 1.60; // 로컬 최댓값(1.40) 대비 +14.3%, 기존과 동일 비율
 
 // 신규 9거점의 unlockCost·layerCostMod·dropMod·tierBias(§1) — 기존 SITES 배열에 추가
 export const NEW_SITE_DEFS: Record<SiteId, {
