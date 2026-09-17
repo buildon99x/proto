@@ -338,6 +338,6 @@ export const projects = [
       "sim": "pnpm --filter relic-king sim",
       "smoke": "pnpm --filter relic-king smoke"
     },
-    "updatedAt": "2026-09-17T18:36:26+00:00"
+    "updatedAt": "2026-09-17T20:08:03+00:00"
   }
 ] as const satisfies readonly ProjectMetadata[];
