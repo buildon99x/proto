@@ -50,6 +50,24 @@ export interface Meta {
    * 이유는 표본이 0 이면 기능 자체가 무의미해지기 때문이고, 끄기는 한 번의 클릭이다.
    */
   telemetry: boolean;
+  /**
+   * 연습 모드(게이트마다 체크포인트)를 켤지.
+   *
+   * 런 안에서 바뀌지 않고 Stage 목록에서만 고르므로 `RunConfig` 가 아니라 여기에 둔다.
+   * 저장하는 이유는 **꺼진 것으로 착각하는 쪽이 더 나쁘기 때문**이다 — 새로고침마다
+   * 조용히 꺼지면 "죽었는데 왜 처음으로 가지" 가 되고, 그건 조작 실수처럼 보인다.
+   * 반대 방향의 위험(켠 줄 모르고 계속 달려 기록이 안 남는 것)은 주행 중 테두리와
+   * 결과 화면의 한 줄이 막는다.
+   */
+  practice: boolean;
+  /**
+   * 첫 실행 안내를 이미 받았는가.
+   *
+   * 끄는 스위치가 따로 없다 — 안내를 끝내는 누름이 곧 첫 판의 출발이고, 그때 켜진다.
+   * "다시 보지 않기" 를 두면 그것 자체가 읽고 판단해야 하는 일이 되어, 지시를 읽게
+   * 만들지 않겠다는 brief 의 대상 조항을 안내가 스스로 어긴다.
+   */
+  taught: boolean;
 }
 
 export const EMPTY_META: Meta = {
@@ -63,7 +81,9 @@ export const EMPTY_META: Meta = {
   bestDistance: {},
   attempts: {},
   hud: true,
-  telemetry: true
+  telemetry: true,
+  practice: false,
+  taught: false
 };
 
 export const STAGES_PER_TIER = 3;

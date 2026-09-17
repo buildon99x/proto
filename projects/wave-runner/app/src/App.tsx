@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { GameCanvas } from "./GameCanvas";
 import type { RunReport } from "./GameCanvas";
+import { Intro } from "./Intro";
 import { TuningPanel } from "./TuningPanel";
 import { AXES, AXIS_COLOR, AXIS_LABEL } from "./game/axes";
 import type { RunConfig } from "./game/engine";
@@ -29,6 +30,8 @@ import { initTelemetry, setTelemetryEnabled } from "./game/telemetry";
 import type { Phase, Tuning } from "./game/types";
 
 type Screen =
+  /** 첫 실행 안내. `first` 면 끝나는 누름이 그대로 첫 판의 출발이다 */
+  | { kind: "intro"; first: boolean }
   | { kind: "home" }
   | { kind: "stages" }
   | { kind: "shop" }
@@ -141,9 +144,17 @@ function AxisLegend() {
 }
 
 export default function App() {
-  const [screen, setScreen] = useState<Screen>({ kind: "home" });
   const [meta, setMetaState] = useState<Meta>(() => loadMeta());
-  const [runnerId, setRunnerId] = useState(() => loadMeta().runner);
+  // 저장본을 세 번 읽던 것을 한 번으로 줄였다 — 같은 값을 세 번 파싱할 이유가 없다.
+  const [runnerId, setRunnerId] = useState(() => meta.runner);
+  /**
+   * 첫 실행이면 홈이 아니라 안내로 연다. 홈을 먼저 보여주고 안내를 덮으면 두 번
+   * 결정해야 하고(무엇을 고를까 → 안내를 닫을까), 그 첫 결정이 아무것도 모르는
+   * 상태에서 내려진다.
+   */
+  const [screen, setScreen] = useState<Screen>(() =>
+    meta.taught ? { kind: "home" } : { kind: "intro", first: true }
+  );
   const [phase, setPhase] = useState<Phase>("ready");
   const [report, setReport] = useState<RunReport | null>(null);
   const [overrides, setOverrides] = useState<Partial<Tuning>>({});
@@ -151,7 +162,6 @@ export default function App() {
   const [fps, setFps] = useState(60);
   const [muted, setMutedState] = useState(isMuted());
   const [transfer, setTransfer] = useState("");
-  const [practice, setPractice] = useState(false);
   /** 방금 끝난 클리어가 실제로 지급한 코어. 반복 클리어는 0 이다 */
   const [reward, setReward] = useState(0);
   /**
@@ -203,11 +213,11 @@ export default function App() {
           axisCap: meta.axisCap,
           maxSectorDifficulty: meta.fullPool ? 3 : 2,
           overrides,
-          practice
+          practice: meta.practice
         }
       });
     },
-    [meta.axisCap, meta.fullPool, overrides, practice, runner]
+    [meta.axisCap, meta.fullPool, meta.practice, overrides, runner]
   );
 
   const startEndless = useCallback(() => {
@@ -227,6 +237,19 @@ export default function App() {
       }
     });
   }, [meta.axisCap, meta.fullPool, overrides, runner]);
+
+  /**
+   * 안내를 끝낸 누름. **이 한 번이 안내를 끄는 동작이자 첫 판의 출발이다** —
+   * 사이에 버튼을 하나 더 두면 방금 익힌 것을 쓰기 전에 읽어야 할 것이 생긴다.
+   */
+  const finishIntro = useCallback(
+    (first: boolean) => {
+      if (!meta.taught) commit({ ...meta, taught: true });
+      if (first) startStage(1, 1);
+      else setScreen({ kind: "home" });
+    },
+    [commit, meta, startStage]
+  );
 
   const handleRunEnd = useCallback(
     (r: RunReport) => {
@@ -285,8 +308,22 @@ export default function App() {
     });
   }, []);
 
+  /** 그만두기. 좌상단 버튼과 Escape 가 쓴다 — 목적지는 언제나 홈이다. */
   const exitPlay = useCallback(() => {
     setScreen({ kind: "home" });
+    setReport(null);
+  }, []);
+
+  /**
+   * 클리어 화면에서 누른 것.
+   *
+   * **오버레이가 티어 세 칸의 기록을 나란히 보여주면서 홈으로 떨어뜨리고 있었다** —
+   * "다음은 2번이다" 라고 말해 놓고 길을 끊는 셈이라, 다음 칸을 하려면 홈 → Stage →
+   * 셀로 세 번을 더 눌러야 했다. 목록으로 돌려보내면 방금 채워진 클리어 표시 옆에
+   * 다음 칸이 그대로 있다. Endless 에는 클리어가 없으므로 그쪽은 방어적으로만 둔다.
+   */
+  const advanceFromClear = useCallback(() => {
+    setScreen((s) => (s.kind === "play" && s.config.mode === "stage" ? { kind: "stages" } : { kind: "home" }));
     setReport(null);
   }, []);
 
@@ -312,6 +349,10 @@ export default function App() {
 
   return (
     <main className="app">
+      {screen.kind === "intro" ? (
+        <Intro first={screen.first} onDone={() => finishIntro(screen.first)} />
+      ) : null}
+
       {screen.kind === "home" ? (
         <section className="panel">
           <header className="panel-head">
@@ -398,6 +439,14 @@ export default function App() {
 
           <footer className="panel-foot">
             <AxisLegend />
+            {/*
+              안내를 한 번 끄면 영영 못 보는 것은 다른 종류의 실패다. 첫 실행에만 뜨는
+              것과 다시 볼 수 있는 것은 충돌하지 않는다 — 여기서 여는 것은 사용자의
+              결정이고, 끝나면 첫 판이 아니라 홈으로 돌아간다.
+            */}
+            <button type="button" className="icon-btn" onClick={() => setScreen({ kind: "intro", first: false })}>
+              조작 안내
+            </button>
             {/* 폰에는 없는 키를 누르라고 쓰지 않는다. 음소거는 실제 버튼이 맡는다. */}
             <button
               type="button"
@@ -482,11 +531,18 @@ export default function App() {
               </div>
             );
           })}
-          <label className="toggle">
-            <input type="checkbox" checked={practice} onChange={(e) => setPractice(e.target.checked)} />
+          <label className={`toggle practice-toggle${meta.practice ? " on" : ""}`}>
+            <input
+              type="checkbox"
+              checked={meta.practice}
+              onChange={(e) => commit({ ...meta, practice: e.target.checked })}
+            />
             <span>
               <strong>연습 모드</strong>
-              <small>게이트마다 체크포인트. 막힌 구간만 반복한다 — 기록에는 남지 않는다</small>
+              <small>
+                게이트마다 체크포인트. 막힌 구간만 반복한다 —{" "}
+                <b>기록·코어·티어 해금에 남지 않는다</b>
+              </small>
             </span>
           </label>
 
@@ -570,13 +626,23 @@ export default function App() {
       ) : null}
 
       {screen.kind === "play" ? (
-        <section className="play" data-phase={phase}>
+        /*
+          `practice` 클래스 — 연습은 **런 내내** 보여야 한다. ready 오버레이의 한 줄뿐이던
+          판본은 켠 것을 잊은 채 달리게 두었고, 그 사실은 클리어하고 나서야("기록에 남지
+          않는다") 드러났다 — 30분을 버리는 종류의 침묵이다. 그렇다고 주행 화면에 글자를
+          늘리면 시선 예산 조항과 정면으로 부딪히므로, 통로 위가 아니라 **화면 가장자리**에
+          띠를 두른다. 시선은 아바타(좌측 0.18)에서 오른쪽으로 훑으므로 테두리는 그 경로
+          밖이고, 주행 표시(H)를 꺼도 남는다 — 잊는 것을 막는 표시가 설정에 따라 사라지면
+          그게 정확히 실패하는 자리다.
+        */
+        <section className={`play${screen.config.practice ? " practice" : ""}`} data-phase={phase}>
           <GameCanvas
             config={screen.config}
             onPhase={setPhase}
             onAttempt={handleAttempt}
             onRunEnd={handleRunEnd}
             onExit={exitPlay}
+            onAdvance={advanceFromClear}
             onToggleHud={toggleHud}
             onSample={(s) => setFps(s.fps)}
             overrides={overrides}
@@ -597,9 +663,21 @@ export default function App() {
           {phase === "ready" ? (
             <div className="overlay">
               <p className="eyebrow">
-                {screen.config.mode === "stage"
-                  ? `티어 ${screen.config.tier} · ${screen.config.stageNo}${screen.config.practice ? " · 연습" : ""}`
-                  : "ENDLESS"}
+                {screen.config.mode === "stage" ? (
+                  <>
+                    티어 {screen.config.tier} · {screen.config.stageNo}
+                    {/* 테두리와 같은 파선이다 — 무엇이 저 띠를 세웠는지는 여기서 한 번만 배운다.
+                        가운뎃점은 상자 밖이다 — 안에 넣으면 앞 숫자와 붙어 읽힌다 */}
+                    {screen.config.practice ? (
+                      <>
+                        {" · "}
+                        <b>연습</b>
+                      </>
+                    ) : null}
+                  </>
+                ) : (
+                  "ENDLESS"
+                )}
               </p>
               <h2>{runner.name}</h2>
               <p className="dim">{runner.note}</p>
@@ -664,7 +742,8 @@ export default function App() {
                     ? `+${reward} 코어`
                     : "이미 클리어한 스테이지 — 코어는 최초 1회만"}
               </p>
-              <p className="cue">누르면 계속</p>
+              {/* 문구는 결과와 같아야 한다. 이 줄이 "계속" 이던 판본은 실제로 홈으로 나갔다 */}
+              <p className="cue">누르면 목록으로</p>
             </div>
           ) : null}
 
