@@ -41,6 +41,11 @@ export type ProjectMetadata = {
     dev: string;
     build: string;
     test: string;
+    /**
+     * 프로젝트가 추가로 노출하는 명령. 런처는 `commands` 를 그대로 훑어 보여주므로
+     * 위 셋 외의 키도 화면에 뜬다 — `docs` 와 같이 타입만 막고 있었다.
+     */
+    [key: string]: string;
   };
 };
 
