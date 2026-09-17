@@ -1,0 +1,33 @@
+{
+  "id": "relic-king",
+  "name": "유물왕",
+  "status": "idea",
+  "type": "webapp",
+  "runtime": "static-artifact",
+  "version": "0.1.0",
+  "summary": "유물왕 — 기획 대기 중인 신규 프로젝트. 스캐폴드만 올라가 있고 brief·spec·eval은 아직 비어 있다.",
+  "tags": [
+    "prototype",
+    "pending"
+  ],
+  "projectRoot": "projects/relic-king",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/relic-king/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md"
+  },
+  "assets": {
+    "cover": "assets/screenshots/cover.png"
+  },
+  "commands": {
+    "dev": "pnpm --filter relic-king dev",
+    "build": "pnpm --filter relic-king build",
+    "test": "pnpm --filter relic-king test"
+  }
+}

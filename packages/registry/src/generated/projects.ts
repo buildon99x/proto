@@ -186,7 +186,7 @@ export const projects = [
       "build": "pnpm --filter wave-runner build",
       "test": "pnpm --filter wave-runner test"
     },
-    "updatedAt": "2026-09-17T11:56:25+00:00"
+    "updatedAt": "2026-09-17T12:08:02+00:00"
   },
   {
     "id": "blacksmith-clicker",
@@ -296,5 +296,39 @@ export const projects = [
       "test": "pnpm --filter dragon-danmaku test"
     },
     "updatedAt": "2026-07-15T15:28:50+00:00"
+  },
+  {
+    "id": "relic-king",
+    "name": "유물왕",
+    "status": "idea",
+    "type": "webapp",
+    "runtime": "static-artifact",
+    "version": "0.1.0",
+    "summary": "유물왕 — 기획 대기 중인 신규 프로젝트. 스캐폴드만 올라가 있고 brief·spec·eval은 아직 비어 있다.",
+    "tags": [
+      "prototype",
+      "pending"
+    ],
+    "projectRoot": "projects/relic-king",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/relic-king/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md"
+    },
+    "assets": {
+      "cover": "assets/screenshots/cover.png"
+    },
+    "commands": {
+      "dev": "pnpm --filter relic-king dev",
+      "build": "pnpm --filter relic-king build",
+      "test": "pnpm --filter relic-king test"
+    },
+    "updatedAt": "2026-09-17T15:27:17+00:00"
   }
 ] as const satisfies readonly ProjectMetadata[];
