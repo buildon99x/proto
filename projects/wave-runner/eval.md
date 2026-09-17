@@ -116,6 +116,22 @@ pnpm telemetry:figure summary.json deaths.png
 - **오토파일럿** — 여전히 필요하다. 솔버가 옳은지 교차 검증하고(모순이 있으면 솔버가 틀린 것), 브라우저에서 실제 엔진을 구동한다.
 - **섹터 프로브** — 반응 지연 허용치로 **사람 체감**을 근사한다. 솔버의 여유(ms)와 같은 단위라 서로 대조된다.
 
+### 첫 실행 흐름 (puppeteer)
+
+```bash
+pnpm playtest --project wave-runner --scenario projects/wave-runner/tests/e2e/first-run.mjs
+```
+
+저장본이 없는 사람의 열두 장면을 `assets/screenshots/first-run-flow.png` 한 장으로 굽는다.
+그림을 만드는 김에 **흐름을 단언한다** — 첫 화면이 안내인가, 두 동작을 익히면 문구가
+출발 신호로 바뀌는가, 그 누름이 곧 런을 여는가, 사망이 스스로 재시작하는가, 클리어가
+홈이 아니라 목록으로 가는가. 하나라도 어긋나면 그림이 아니라 예외가 나온다.
+
+조작은 `tests/e2e/autopilot.mjs` 로 `scenario.mjs` 와 공유한다. 홀드를 **실제 키 이벤트**
+로만 보내므로 사람 손으로 못 낼 입력이 섞이지 않는다. 클리어 한 장면만 `state.x` 를
+종료선 직전으로 밀어 만드는데, 경과 시간만 그 방식의 산물이고 신기록 판정·기록표·코어
+지급은 실제 코드 경로다. 완주 자체는 `scenario.mjs` 가 매번 검증한다.
+
 ### 화면 확인 (puppeteer)
 
 ```bash

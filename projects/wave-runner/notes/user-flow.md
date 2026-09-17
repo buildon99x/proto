@@ -1,12 +1,14 @@
 # 사용자 흐름 — 진입에서 이탈까지
 
-> 코드에서 읽어 낸 현재(0.6.0) 동작이다. 기획 의도가 아니라 **지금 실제로 도는 것**을 적는다.
+> 코드에서 읽어 낸 현재 동작이다. 기획 의도가 아니라 **지금 실제로 도는 것**을 적는다.
+> 첫 실행 흐름은 `tests/e2e/first-run.mjs` 가 실제로 눌러 보며 단언하고 그림까지 굽는다
+> (`assets/screenshots/first-run-flow.png`) — 이 문서가 낡으면 그쪽이 먼저 깨진다.
 > 출처: `app/src/App.tsx`, `app/src/GameCanvas.tsx`, `app/src/game/engine.ts`,
 > `app/src/game/meta.ts`, `app/src/game/storage.ts`, `app/src/styles.css`.
 
 ## 요약
 
-상태는 두 층이다. **React 셸의 화면 4종**(`Screen`)과 **엔진의 런 페이즈 4종**(`Phase`)이
+상태는 두 층이다. **React 셸의 화면 5종**(`Screen`)과 **엔진의 런 페이즈 4종**(`Phase`)이
 있고, 둘은 `onPhase` 콜백 하나로만 이어진다. 화면 전환은 전부 사용자의 명시적 클릭이고,
 페이즈 전환은 하나(Stage 사망 → 재시작)를 빼면 전부 입력이나 충돌 판정이 일으킨다.
 
