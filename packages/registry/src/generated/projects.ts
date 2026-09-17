@@ -301,13 +301,18 @@ export const projects = [
     "id": "relic-king",
     "name": "유물왕",
     "status": "idea",
-    "type": "webapp",
+    "type": "demo",
     "runtime": "static-artifact",
     "version": "0.1.0",
-    "summary": "유물왕 — 기획 대기 중인 신규 프로젝트. 스캐폴드만 올라가 있고 brief·spec·eval은 아직 비어 있다.",
+    "summary": "실존 유물을 발굴·감정·소장해 세계 자산 순위 1위에 오르는 방치형. 유물의 현실 현존 개체 수를 그대로 게임 공급량으로 써서, 세상에 하나뿐인 유물은 먼저 찾는 쪽이 영구히 가진다. 도트 그래픽 지층 단면, NPC 라이벌과의 선점 레이스. 설계 완료 · 구현 대기.",
     "tags": [
-      "prototype",
-      "pending"
+      "game",
+      "idle",
+      "incremental",
+      "collection",
+      "artifact",
+      "pixel-art",
+      "prototype"
     ],
     "projectRoot": "projects/relic-king",
     "entry": {
@@ -319,7 +324,9 @@ export const projects = [
       "spec": "spec.md",
       "eval": "eval.md",
       "readme": "README.md",
-      "changelog": "changelog.md"
+      "changelog": "changelog.md",
+      "mda": "notes/mda.md",
+      "dataset": "notes/artifacts-dataset.md"
     },
     "assets": {
       "cover": "assets/screenshots/cover.png"
@@ -329,6 +336,6 @@ export const projects = [
       "build": "pnpm --filter relic-king build",
       "test": "pnpm --filter relic-king test"
     },
-    "updatedAt": "2026-09-17T15:27:17+00:00"
+    "updatedAt": "2026-09-17T15:27:18+00:00"
   }
 ] as const satisfies readonly ProjectMetadata[];
