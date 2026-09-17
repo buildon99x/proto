@@ -1113,3 +1113,145 @@ body {
     transition: none;
   }
 }
+
+/* ── 첫 실행 안내 ─────────────────────────────────────────────
+ *
+ * 읽히는 튜토리얼이 아니라 손끝 핸드셰이크다. 그래서 진행 막대도, 넘기기 버튼도,
+ * "다시 보지 않기" 도 없다 — 한 번 누르고 한 번 놓으면 끝나고, 그 마지막 누름이
+ * 곧 첫 판의 출발이다.
+ */
+.intro .panel-head p {
+  color: var(--dim);
+}
+
+.intro-stage {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  padding: 10px;
+  /* 여기가 눌리는 자리라고 손이 먼저 안다 */
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+
+.intro-stage svg {
+  display: block;
+  width: 100%;
+  aspect-ratio: 90 / 44;
+  height: auto;
+}
+
+/* 궤적은 아바타 색(--accent = player)을 쓰지 않는다. 축 팔레트도 아니다 */
+.intro-stage path {
+  fill: none;
+  stroke: #4a5a78;
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.intro-stage polygon {
+  fill: #ffe66d;
+}
+
+.intro-cue {
+  margin: 6px 0 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.intro[data-step="go"] .intro-cue {
+  color: var(--ok);
+}
+
+/* 두 동작. 체크박스가 아니라 **해낸 것**의 기록이라 손댈 수 없다 */
+.intro-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+}
+
+.intro-steps li {
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: var(--dim);
+  transition: color 140ms ease, border-color 140ms ease;
+}
+
+.intro-steps li b {
+  color: var(--dim);
+  font-weight: 600;
+}
+
+.intro-steps li.now {
+  border-color: #33405e;
+  color: var(--text);
+}
+
+.intro-steps li.now b {
+  color: var(--text);
+}
+
+.intro-steps li.done {
+  border-color: rgba(125, 255, 176, 0.35);
+  color: var(--ok);
+}
+
+.intro-steps li.done b {
+  color: var(--ok);
+}
+
+.intro-steps li.done::after {
+  content: " ✓";
+  font-weight: 700;
+}
+
+/* 나머지 규칙 셋. 읽지 않아도 첫 판은 시작된다 — 그래서 흐리게 둔다 */
+.intro-facts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--dim);
+}
+
+.intro-facts li {
+  padding-left: 12px;
+  text-indent: -12px;
+}
+
+.intro-facts li::before {
+  content: "· ";
+}
+
+.intro .cue {
+  margin: 4px 0 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.intro .cue.waiting {
+  color: var(--dim);
+  font-weight: 400;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-steps li {
+    transition: none;
+  }
+}

@@ -60,6 +60,14 @@ export interface Meta {
    * 결과 화면의 한 줄이 막는다.
    */
   practice: boolean;
+  /**
+   * 첫 실행 안내를 이미 받았는가.
+   *
+   * 끄는 스위치가 따로 없다 — 안내를 끝내는 누름이 곧 첫 판의 출발이고, 그때 켜진다.
+   * "다시 보지 않기" 를 두면 그것 자체가 읽고 판단해야 하는 일이 되어, 지시를 읽게
+   * 만들지 않겠다는 brief 의 대상 조항을 안내가 스스로 어긴다.
+   */
+  taught: boolean;
 }
 
 export const EMPTY_META: Meta = {
@@ -74,7 +82,8 @@ export const EMPTY_META: Meta = {
   attempts: {},
   hud: true,
   telemetry: true,
-  practice: false
+  practice: false,
+  taught: false
 };
 
 export const STAGES_PER_TIER = 3;

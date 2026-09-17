@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { GameCanvas } from "./GameCanvas";
 import type { RunReport } from "./GameCanvas";
+import { Intro } from "./Intro";
 import { TuningPanel } from "./TuningPanel";
 import { AXES, AXIS_COLOR, AXIS_LABEL } from "./game/axes";
 import type { RunConfig } from "./game/engine";
@@ -29,6 +30,8 @@ import { initTelemetry, setTelemetryEnabled } from "./game/telemetry";
 import type { Phase, Tuning } from "./game/types";
 
 type Screen =
+  /** 첫 실행 안내. `first` 면 끝나는 누름이 그대로 첫 판의 출발이다 */
+  | { kind: "intro"; first: boolean }
   | { kind: "home" }
   | { kind: "stages" }
   | { kind: "shop" }
@@ -141,9 +144,17 @@ function AxisLegend() {
 }
 
 export default function App() {
-  const [screen, setScreen] = useState<Screen>({ kind: "home" });
   const [meta, setMetaState] = useState<Meta>(() => loadMeta());
-  const [runnerId, setRunnerId] = useState(() => loadMeta().runner);
+  // 저장본을 세 번 읽던 것을 한 번으로 줄였다 — 같은 값을 세 번 파싱할 이유가 없다.
+  const [runnerId, setRunnerId] = useState(() => meta.runner);
+  /**
+   * 첫 실행이면 홈이 아니라 안내로 연다. 홈을 먼저 보여주고 안내를 덮으면 두 번
+   * 결정해야 하고(무엇을 고를까 → 안내를 닫을까), 그 첫 결정이 아무것도 모르는
+   * 상태에서 내려진다.
+   */
+  const [screen, setScreen] = useState<Screen>(() =>
+    meta.taught ? { kind: "home" } : { kind: "intro", first: true }
+  );
   const [phase, setPhase] = useState<Phase>("ready");
   const [report, setReport] = useState<RunReport | null>(null);
   const [overrides, setOverrides] = useState<Partial<Tuning>>({});
@@ -226,6 +237,19 @@ export default function App() {
       }
     });
   }, [meta.axisCap, meta.fullPool, overrides, runner]);
+
+  /**
+   * 안내를 끝낸 누름. **이 한 번이 안내를 끄는 동작이자 첫 판의 출발이다** —
+   * 사이에 버튼을 하나 더 두면 방금 익힌 것을 쓰기 전에 읽어야 할 것이 생긴다.
+   */
+  const finishIntro = useCallback(
+    (first: boolean) => {
+      if (!meta.taught) commit({ ...meta, taught: true });
+      if (first) startStage(1, 1);
+      else setScreen({ kind: "home" });
+    },
+    [commit, meta, startStage]
+  );
 
   const handleRunEnd = useCallback(
     (r: RunReport) => {
@@ -325,6 +349,10 @@ export default function App() {
 
   return (
     <main className="app">
+      {screen.kind === "intro" ? (
+        <Intro first={screen.first} onDone={() => finishIntro(screen.first)} />
+      ) : null}
+
       {screen.kind === "home" ? (
         <section className="panel">
           <header className="panel-head">
@@ -411,6 +439,14 @@ export default function App() {
 
           <footer className="panel-foot">
             <AxisLegend />
+            {/*
+              안내를 한 번 끄면 영영 못 보는 것은 다른 종류의 실패다. 첫 실행에만 뜨는
+              것과 다시 볼 수 있는 것은 충돌하지 않는다 — 여기서 여는 것은 사용자의
+              결정이고, 끝나면 첫 판이 아니라 홈으로 돌아간다.
+            */}
+            <button type="button" className="icon-btn" onClick={() => setScreen({ kind: "intro", first: false })}>
+              조작 안내
+            </button>
             {/* 폰에는 없는 키를 누르라고 쓰지 않는다. 음소거는 실제 버튼이 맡는다. */}
             <button
               type="button"
