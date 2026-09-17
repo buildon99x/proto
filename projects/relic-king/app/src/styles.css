@@ -158,7 +158,19 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 .recent em { font-style: normal; font-size: 11px; }
 
 /* ── 소장고 ───────────────────────────── */
-.pending-list { list-style: none; margin: 0 0 8px; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+/* 미감정과 소장고를 **열로 나눈다.** 위아래로 쌓으면 미감정 항목이 생기고 사라질 때마다
+   아래 소장고 전체가 밀려서, 겨냥한 버튼이 손가락 아래에서 움직인다. */
+.vault {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  gap: 12px;
+  align-items: start;
+}
+.vault .card { margin-bottom: 0; }
+.vault-pending { position: sticky; top: 92px; }
+/* 미감정 목록 자체도 높이를 고정해 제 열 안에서도 요동치지 않게 한다 */
+.pending-body { min-height: 232px; max-height: 300px; overflow-y: auto; margin-bottom: 8px; }
+.pending-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .pending-list li { display: flex; align-items: center; gap: 10px; }
 .card-back {
   width: 34px; height: 34px; display: grid; place-items: center; flex: none;
@@ -181,6 +193,14 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 
 .vault-grid, .codex-grid { display: flex; flex-wrap: wrap; gap: 6px; }
 .vault-grid button, .codex-grid button { padding: 0; border: 0; background: none; }
+.stack { position: relative; border-radius: 5px; }
+.stack.picked { outline: 2px solid var(--accent); outline-offset: 2px; }
+.stack-count {
+  position: absolute; right: -3px; top: -4px; min-width: 17px; padding: 0 4px;
+  border-radius: 9px; background: var(--panel-2); border: 1px solid var(--line);
+  color: var(--text); font-size: 10px; font-style: normal; line-height: 15px;
+  font-variant-numeric: tabular-nums;
+}
 
 .sprite {
   position: relative; display: grid; place-items: center;
@@ -196,7 +216,7 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 .disputed { color: #d99a4a; font-size: 12px; margin: 4px 0; }
 .lost-note { color: #c06a56; }
 .stalled { color: #d99a4a; font-style: normal; }
-.detail-actions { display: flex; align-items: center; gap: 10px; }
+.detail-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
 /* ── 세계 ─────────────────────────────── */
 .rank-list, .ledger-list, .log-list, .offline-list, .rules-notes { list-style: none; margin: 0; padding: 0; }
@@ -266,7 +286,9 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 @media (max-width: 720px) {
   .header { grid-template-columns: repeat(2, 1fr); gap: 6px 12px; }
   .header-depth { grid-column: 1 / -1; }
-  .dig, .codex { grid-template-columns: 1fr; }
+  .dig, .codex, .vault { grid-template-columns: 1fr; }
+  .vault-pending { position: static; }
+  .pending-body { min-height: 0; max-height: 260px; }
   .dig-canvas-wrap { max-width: 280px; margin: 0 auto; }
   .codex-detail { position: static; }
   .rank-list li { grid-template-columns: 20px 64px 1fr 76px; }

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
   advance, applyOffline, blindSell, blindSellAll, buyGear, buyLab, buyWorker, click,
-  createWorld, sellTierAtMost, sellVaultItem, switchSite, unlockSite
+  createWorld, sellArtifactCopies, sellTierAtMost, switchSite, unlockSite
 } from "../game/engine";
 import { clear, exportText, importText, load, save } from "../game/save";
 import type { SiteId, Tier, World } from "../game/types";
@@ -111,7 +111,7 @@ export function useGame() {
     buyLab: () => act(buyLab),
     unlock: (site: SiteId) => act((w) => unlockSite(w, site)),
     goTo: (site: SiteId) => act((w) => switchSite(w, site)),
-    sell: (uid: number) => act((w) => sellVaultItem(w, uid)),
+    sell: (artifactId: string, count: number) => act((w) => sellArtifactCopies(w, artifactId, count)),
     sellTier: (tier: Tier) => act((w) => sellTierAtMost(w, tier)),
     blind: (uid: number) => act((w) => blindSell(w, uid)),
     blindAll: () => act(blindSellAll),

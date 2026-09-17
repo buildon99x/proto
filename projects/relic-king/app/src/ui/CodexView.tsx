@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ARTIFACTS } from "../game/artifacts";
 import { SITES, TIER_NAME } from "../game/balance";
 import { codexProgress } from "../game/engine";
-import { percent } from "../game/format";
+import { josa, percent } from "../game/format";
 import { TIER_COLOR } from "../render/palette";
 import { Sprite } from "./Sprite";
 import type { Artifact } from "../game/types";
@@ -79,7 +79,8 @@ function Entry({ artifact, game }: { artifact: Artifact; game: Game }) {
           </p>
           {state === "lost" ? (
             <p className="lost-note">
-              {ownerName ?? "다른 수집가"}가 가졌다. 세계에 남은 수량 0 — 더는 발굴로 얻을 수 없다.
+              {ownerName ?? "다른 수집가"}{josa(ownerName ?? "다른 수집가", "이가")} 가졌다.
+              세계에 남은 수량 0 — 더는 발굴로 얻을 수 없다.
             </p>
           ) : null}
         </>

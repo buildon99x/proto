@@ -8,6 +8,7 @@ import {
   tierValue, tierWeights, workerCost
 } from "./balance";
 import { ARTIFACTS, ARTIFACT_BY_ID, artifactsOf } from "./artifacts";
+import { josa } from "./format";
 import { Rng } from "./rng";
 import type {
   Artifact, Ledger, LogKind, OwnerId, RivalState, SiteId, StepReport, Tier, World
@@ -167,9 +168,9 @@ function take(w: World, a: Artifact, owner: OwnerId, report: StepReport) {
     if (entry.remaining === 0 && w.codex[a.id] !== "owned") {
       w.codex[a.id] = "lost";
       report.lost.push({ artifactId: a.id, owner: rival.name });
-      log(w, "lost", `${rival.name}이(가) '${a.name}'을(를) 가져갔다. 세계에 남은 수량 0.`);
+      log(w, "lost", `${rival.name}${josa(rival.name, "이가")} '${a.name}'${josa(a.name, "을를")} 가져갔다. 세계에 남은 수량 0.`);
     } else if (a.tier >= 2) {
-      log(w, "rival", `${rival.name}이(가) '${a.name}'을(를) 발굴했다. (남은 수량 ${entry.remaining})`);
+      log(w, "rival", `${rival.name}${josa(rival.name, "이가")} '${a.name}'${josa(a.name, "을를")} 발굴했다. (남은 수량 ${entry.remaining})`);
     }
   }
 }
@@ -202,7 +203,7 @@ function rollDrop(
         if (owner === "player") {
           w.stats.racesWon += 1;
           report.won.push(target.id);
-          log(w, "won", `제보를 따라 '${target.name}'을(를) 먼저 확보했다.`);
+          log(w, "won", `제보를 따라 '${target.name}'${josa(target.name, "을를")} 먼저 확보했다.`);
         } else {
           w.stats.racesLost += 1;
         }
@@ -387,7 +388,8 @@ export function step(w: World, dt: number, offline = false): StepReport {
     if (w.tip) {
       w.tip.remain -= dt;
       if (w.tip.remain <= 0) {
-        log(w, "system", `제보가 만료됐다. '${ARTIFACT_BY_ID[w.tip.artifactId].name}'은(는) 아직 세상에 남아 있다.`);
+        const expired = ARTIFACT_BY_ID[w.tip.artifactId].name;
+        log(w, "system", `제보가 만료됐다. '${expired}'${josa(expired, "은는")} 아직 세상에 남아 있다.`);
         w.tip = null;
         w.nextTipIn = rng.range(TIP_MEAN_INTERVAL * 0.5, TIP_MEAN_INTERVAL * 1.5);
       }
@@ -497,15 +499,6 @@ export function switchSite(w: World, site: SiteId): boolean {
   return true;
 }
 
-export function sellVaultItem(w: World, uid: number): boolean {
-  const idx = w.vault.findIndex((v) => v.uid === uid);
-  if (idx < 0) return false;
-  const [item] = w.vault.splice(idx, 1);
-  w.funds += item.value;
-  w.stats.sold += 1;
-  return true;
-}
-
 export function blindSell(w: World, uid: number): boolean {
   const idx = w.pending.findIndex((p) => p.uid === uid);
   if (idx < 0) return false;
@@ -522,6 +515,23 @@ export function blindSellAll(w: World): number {
     w.stats.blindSold += 1;
   }
   w.pending = [];
+  w.funds += gained;
+  return gained;
+}
+
+/** 같은 유물의 사본을 n점 판다. 소장고가 유물 종류별로 묶여 있으므로 이 단위가 필요하다 */
+export function sellArtifactCopies(w: World, artifactId: string, count: number): number {
+  let gained = 0;
+  let left = count;
+  const keep: typeof w.vault = [];
+  for (const item of w.vault) {
+    if (left > 0 && item.artifactId === artifactId) {
+      gained += item.value;
+      w.stats.sold += 1;
+      left -= 1;
+    } else keep.push(item);
+  }
+  w.vault = keep;
   w.funds += gained;
   return gained;
 }

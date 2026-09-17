@@ -303,7 +303,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "summary": "실존 유물을 발굴·감정·소장해 세계 자산 순위 1위에 오르는 방치형. 유물의 현실 현존 개체 수가 그대로 게임 공급량이라 신라 금관은 6점, 로제타 석은 1점뿐이고, 세상에 하나뿐인 유물은 제보 레이스에서 먼저 도달한 쪽이 영구히 가진다. 도트 지층 단면을 파내려가며 깊이가 곧 연대가 되고, 팔면 자금이 늘고 순위는 떨어진다.",
     "tags": [
       "game",
@@ -338,6 +338,6 @@ export const projects = [
       "sim": "pnpm --filter relic-king sim",
       "smoke": "pnpm --filter relic-king smoke"
     },
-    "updatedAt": "2026-09-17T16:27:39+00:00"
+    "updatedAt": "2026-09-17T18:36:26+00:00"
   }
 ] as const satisfies readonly ProjectMetadata[];

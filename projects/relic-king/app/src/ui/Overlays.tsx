@@ -1,6 +1,6 @@
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import { SITE_BY_ID, TIER_NAME } from "../game/balance";
-import { clock, duration, won } from "../game/format";
+import { clock, duration, josa, won } from "../game/format";
 import { TIER_COLOR, TIER_GLOW } from "../render/palette";
 import { Sprite } from "./Sprite";
 import type { Game } from "./useGame";
@@ -66,11 +66,14 @@ export function OfflineModal({ game }: { game: Game }) {
           {o.lost.length === 0 ? (
             <li className="muted">잃은 유물 없음 — 자는 동안 국보·유일은 빼앗기지 않는다.</li>
           ) : (
-            o.lost.map((l, i) => (
-              <li key={i} className="lost-note">
-                {l.owner}이(가) '{ARTIFACT_BY_ID[l.artifactId].name}'을(를) 가져갔다.
-              </li>
-            ))
+            o.lost.map((l, i) => {
+              const name = ARTIFACT_BY_ID[l.artifactId].name;
+              return (
+                <li key={i} className="lost-note">
+                  {l.owner}{josa(l.owner, "이가")} '{name}'{josa(name, "을를")} 가져갔다.
+                </li>
+              );
+            })
           )}
         </ul>
         <button type="button" onClick={game.dismissOffline}>확인</button>

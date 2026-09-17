@@ -30,6 +30,12 @@ const MIME = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css
 function serve() {
   const server = createServer(async (req, res) => {
     const url = (req.url || "/").split("?")[0];
+    // 세이브를 되감는 동안 잠깐 머무를, 같은 오리진의 빈 문서
+    if (url === "/__blank") {
+      res.writeHead(200, { "content-type": "text/html" });
+      res.end("<!doctype html><title>blank</title>");
+      return;
+    }
     const file = path.join(DIST, url === "/" ? "index.html" : url);
     try {
       const body = await readFile(file);
@@ -137,7 +143,10 @@ async function main() {
     const after = await evaluate(`document.body.innerText`);
     if (!/도감 [1-9]/.test(after) && !/소장고/.test(after)) failures.push("진행 신호를 찾지 못했다");
     const drops = /도감 (\d+)\/60/.exec(after);
-    if (!drops || Number(drops[1]) < 1) failures.push(`${SECONDS}초 방치 후에도 유물이 0점이다`);
+    // 첫 드랍이 24초쯤이라 그보다 짧게 돌리면 0점이 정상이다
+    if (SECONDS >= 35 && (!drops || Number(drops[1]) < 1)) {
+      failures.push(`${SECONDS}초 방치 후에도 유물이 0점이다`);
+    }
     await shoot("02-dig-running");
 
     // 3) 탭 전환이 모두 뜬다
@@ -159,11 +168,70 @@ async function main() {
     }`);
     await new Promise((r) => setTimeout(r, 600));
 
-    // 5) 표지 이미지 (런처 카드용)
+    // 5) 소장고: 미감정이 변해도 소장고 버튼이 제자리에 있는가
+    //    미감정과 소장고를 한 열에 쌓아 두면 항목이 생기고 사라질 때마다 아래가 밀려
+    //    겨냥한 버튼이 손가락 아래에서 움직인다. 열 분할 + 종류별 묶음으로 고쳤고,
+    //    이 검사가 그 회귀를 잡는다.
+    // 게임 페이지를 먼저 떠난다. beforeunload 가 현재 시각으로 세이브를 덮어쓰므로,
+    // 세이브를 되감는 건 페이지를 떠난 **뒤여야** 한다. (되감기를 먼저 하면 덮어써진다 —
+    // 이건 버그가 아니라 리로드로 오프라인 시간을 위조하지 못하게 막는 정상 동작이다.)
+    await cdp.send("Page.navigate", { url: `http://127.0.0.1:${PORT}/__blank` });
+    await new Promise((r) => setTimeout(r, 1500));
+    await evaluate(`{
+      const k = 'relic-king/save/v1';
+      const w = JSON.parse(localStorage.getItem(k));
+      w.lastTickAt = Date.now() - 8 * 3600 * 1000;   // 8시간 자리 비우기
+      localStorage.setItem(k, JSON.stringify(w));
+      true;
+    }`);
+    await cdp.send("Page.navigate", { url: `http://127.0.0.1:${PORT}/` });
+    await new Promise((r) => setTimeout(r, 6000));
+    await evaluate(`document.querySelector('.modal button')?.click()`);
+    await new Promise((r) => setTimeout(r, 1200));
+    await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('소장고')).click()`);
+    await new Promise((r) => setTimeout(r, 1200));
+    await shoot("06-vault-full");
+
+    const probe = `(() => {
+      const b = [...document.querySelectorAll('.vault-grid .stack')];
+      const r = (el) => { const x = el.getBoundingClientRect(); return [Math.round(x.x), Math.round(x.y)]; };
+      return {
+        pending: document.querySelectorAll('.pending-list li').length,
+        stacks: b.length,
+        first: b[0] ? r(b[0]).join(',') : null,
+        last: b.length ? r(b[b.length - 1]).join(',') : null
+      };
+    })()`;
+    const posA = await evaluate(probe);
+    await new Promise((r) => setTimeout(r, 4500));
+    const posB = await evaluate(probe);
+    if (posA.stacks === 0) {
+      failures.push("8시간 오프라인 후에도 소장고가 비어 있다");
+    } else {
+      if (posA.first !== posB.first) failures.push(`소장고 첫 칸이 움직였다: ${posA.first} → ${posB.first}`);
+      if (posA.last !== posB.last) failures.push(`소장고 끝 칸이 움직였다: ${posA.last} → ${posB.last}`);
+    }
+    await evaluate(`document.querySelectorAll('.vault-grid .stack')[0]?.click()`);
+    await new Promise((r) => setTimeout(r, 600));
+    const detail = await evaluate(`document.querySelector('.detail')?.innerText ?? null`);
+    if (!detail) failures.push("소장고 유물을 눌러도 상세가 열리지 않는다");
+    await shoot("07-vault-detail");
+
+    // 6) 조사: "이(가)" 같은 병기가 화면에 남아 있으면 안 된다
+    await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('세계')).click()`);
+    await new Promise((r) => setTimeout(r, 1000));
+    const logText = await evaluate(`document.querySelector('.log-list')?.innerText ?? ''`);
+    const badJosa = ["이(가)", "을(를)", "은(는)", "와(과)"].filter((j) => logText.includes(j));
+    if (badJosa.length) failures.push(`조사 병기가 남아 있다: ${badJosa.join(" ")}`);
+    if (!logText.trim()) failures.push("활동 기록이 비어 있다");
+
+    // 7) 표지 이미지 (런처 카드용)
+    await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('발굴')).click()`);
+    await new Promise((r) => setTimeout(r, 800));
     await new Promise((r) => setTimeout(r, 1200));
     await shoot("cover", { x: 0, y: 0, width: 1180, height: 640, scale: 0.82 });
 
-    // 6) 콘솔 오류
+    // 8) 콘솔 오류
     const errors = cdp.events
       .filter((e) => e.method === "Runtime.exceptionThrown"
         || (e.method === "Log.entryAdded" && e.params.entry.level === "error")
@@ -176,6 +244,8 @@ async function main() {
     console.log(`스크린샷 ${shots.length}장 → ${OUT}`);
     const codex = /도감 (\d+)\/60/.exec(after);
     console.log(`${SECONDS}초 방치 후 도감 ${codex ? codex[1] : "?"}점`);
+    console.log(`8시간 오프라인 후 소장고 ${posB.stacks}종 · 미감정 ${posB.pending}점, 칸 이동 ${posA.first === posB.first && posA.last === posB.last ? "없음" : "있음"}`);
+    console.log(`조사 병기 ${badJosa.length === 0 ? "없음" : badJosa.join(" ")}`);
     console.log(failures.length ? `❌ FAIL\n- ${failures.join("\n- ")}` : "✅ PASS");
   } finally {
     chrome.kill();
