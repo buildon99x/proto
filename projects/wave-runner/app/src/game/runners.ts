@@ -162,7 +162,7 @@ export const RUNNERS: Runner[] = [
   {
     id: "dart",
     name: "표준",
-    note: "45° 기준선. 길도 넓고 여유도 중간",
+    note: "45° 기준선. 실행 여유가 가장 커서 굼떠도 깬다",
     slopeCenter: 1.0,
     slopeSpan: 1.0,
     biasSpan: 1.0,
@@ -172,7 +172,7 @@ export const RUNNERS: Runner[] = [
   {
     id: "blunt",
     name: "둔각",
-    note: "완만하다. 회랑은 편한데 협곡의 램프를 못 쫓아 전체로는 가장 빡빡하다",
+    note: "완만하다. 통하는 길이 가장 넓어 경로를 덜 가리는 대신 여유는 중간이다",
     slopeCenter: 0.82,
     slopeSpan: 0.8,
     biasSpan: 0.9,
@@ -182,7 +182,7 @@ export const RUNNERS: Runner[] = [
   {
     id: "spike",
     name: "예봉",
-    note: "가파르다. 통하는 길이 절반뿐이지만 그 길은 가장 너그럽다",
+    note: "가파르다. 통하는 길이 가장 좁아 경로를 골라야 한다",
     slopeCenter: 1.24,
     slopeSpan: 1.1,
     biasSpan: 1.1,
@@ -192,7 +192,7 @@ export const RUNNERS: Runner[] = [
   {
     id: "ring",
     name: "환",
-    note: "가만 두면 위로 흐른다. 오르는 회랑이 편하고 내려가는 회랑이 딴판이다",
+    note: "가만 두면 위로 흐른다. 여유가 가장 빡빡하고 오르내리는 회랑이 딴판이다",
     slopeCenter: 1.0,
     slopeSpan: 0.95,
     biasSpan: 0.95,
