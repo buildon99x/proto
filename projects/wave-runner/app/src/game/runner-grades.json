@@ -25,10 +25,10 @@
       "routeBar": 0.8
     },
     "ring": {
-      "slackMs": 80,
+      "slackMs": 70,
       "routes": 0.729,
       "walls": 0,
-      "slackBar": 0.727,
+      "slackBar": 0.636,
       "routeBar": 1
     }
   }
