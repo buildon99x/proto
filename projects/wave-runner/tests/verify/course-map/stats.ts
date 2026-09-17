@@ -12,6 +12,7 @@ import { STAGE_SECTORS, buildStageCourse } from "../../../app/src/game/course";
 import { BASE_TUNING, startYFor } from "../../../app/src/game/engine";
 import { measure } from "../../../app/src/game/geometry";
 import { MAX_TIER, STAGES_PER_TIER } from "../../../app/src/game/meta";
+import { RUNNERS, applyRunner } from "../../../app/src/game/runners";
 import { SECTORS } from "../../../app/src/game/sectors";
 import { solveCourse } from "../../../app/src/game/solver";
 import { PEAK_RUN_NOTE, PEAK_RUN_RULE, targetSlackMs } from "../tiers";
@@ -27,6 +28,10 @@ const SETTLE_X = 24;
 const HUMAN_FLOOR_MS = 30;
 
 const tuningFor = (cap: number) => ({ ...BASE_TUNING, axisMax: cap, axisMin: -cap });
+/** 한 코스에 놓이는 섹터 자리 수 — 12스테이지를 합친 전체 자리 수의 분모가 된다. */
+const SLOTS = STAGE_SECTORS * MAX_TIER * STAGES_PER_TIER;
+/** 코스가 "사실상 같다" 고 볼 일치 자리 수. 자리가 줄면 이 기준도 같이 줄어야 한다. */
+const DUP_SLOTS = STAGE_SECTORS - 1;
 const tradeWith = (t: typeof BASE_TUNING) => (b: Build, tr: { plus: keyof Build; minus: keyof Build }) =>
   applyTrade(b, { plus: tr.plus as AxisKey, minus: tr.minus as AxisKey }, t);
 const lanesOf = (p: number): Array<"top" | "bot"> =>
@@ -35,6 +40,10 @@ const pad = (v: string | number, n: number) => String(v).padStart(n);
 
 interface Row {
   tier: number; no: number; cap: number;
+  /** 기체 4종의 최선 경로 여유 평균. **티어 목표가 정의된 단위가 이것이다** */
+  bestMean: number;
+  /** 기체별 최선 경로 여유 — 어느 기체가 튀는지 보려고 함께 낸다 */
+  perRunner: number[];
   best: number; med: number; worst: number; spread: number;
   under60: number; under30: number;
   bottleneck: string; sectors: string[];
@@ -63,6 +72,21 @@ for (const cap of [2, 3]) {
       }
       all.sort((a, b) => a - b);
 
+      // 티어 목표는 **기체 4종 평균**으로 정의돼 있다(`curate-stages.ts` ⑨). 여기서
+      // 표준 기체만 재서 그 목표와 대 보면 단위가 어긋난 "편차" 가 나온다 — `tiers.ts`
+      // 가 상수 사본을 금지한 것과 같은 종류의 거짓말이라 같은 값을 다시 잰다.
+      const perRunner = RUNNERS.map((runner) => {
+        const rt = applyRunner(tuning, runner);
+        const rtrade = tradeWith(rt);
+        let top = 0;
+        for (let p = 0; p < PATHS; p += 1) {
+          const r = solveCourse(course.pieces, { ...runner.startBuild }, rt, startY, lanesOf(p), rtrade, DT);
+          if (r.passable) top = Math.max(top, r.minSlackSec * 1000);
+        }
+        return Math.round(top);
+      });
+      const bestMean = perRunner.reduce((a, b) => a + b, 0) / perRunner.length;
+
       // 최선 경로를 한 번 더, 이번엔 추적을 켜서 — 통로 활용률과 최난 구간의 길이를 잰다
       const traced = solveCourse(course.pieces, { ...NEUTRAL_BUILD }, tuning, startY, lanesOf(bestPath), trade, DT, true);
       const bn = traced.perPiece.reduce((a, b) => (b.slackSec < a.slackSec ? b : a), traced.perPiece[0]);
@@ -89,6 +113,7 @@ for (const cap of [2, 3]) {
 
       rows.push({
         tier, no, cap,
+        bestMean: Math.round(bestMean), perRunner,
         best: Math.round(bestMs), med: Math.round(all[Math.floor(all.length / 2)]),
         worst: Math.round(all[0]), spread: Math.round(bestMs - all[0]),
         under60: all.filter((v) => v < 60).length,
@@ -108,20 +133,23 @@ for (const cap of [2, 3]) {
   console.log(
     "티어 요구 — " + [1, 2, 3, 4].map((t) => `T${t} ${targetSlackMs(t)}ms · ${PEAK_RUN_NOTE[t]}`).join("  |  ")
   );
-  console.log("스테이지  최선  중앙  최악  차이  <60 <30   목표  편차   통로활용  최난구간  병목");
+  console.log("            ───── 표준 기체 ─────    ── 기체 4종 평균 ──");
+  console.log("스테이지  최선  중앙  최악  차이  <60 <30   평균  목표  편차   통로활용  최난구간  병목");
   for (const r of rows.filter((r) => r.cap === cap)) {
-    const off = r.best - targetSlackMs(r.tier);
+    const off = r.bestMean - targetSlackMs(r.tier);
     console.log(
       `T${r.tier}·${r.no}   ${pad(r.best, 5)} ${pad(r.med, 5)} ${pad(r.worst, 5)} ${pad(r.spread, 5)}` +
-      ` ${pad(r.under60, 4)}${pad(r.under30, 4)}  ${pad(targetSlackMs(r.tier), 5)} ${pad((off >= 0 ? "+" : "") + off, 5)}` +
+      ` ${pad(r.under60, 4)}${pad(r.under30, 4)}  ${pad(r.bestMean, 5)} ${pad(targetSlackMs(r.tier), 5)}` +
+      ` ${pad((off >= 0 ? "+" : "") + off, 5)}` +
       `   ${pad((r.utilisation * 100).toFixed(0) + "%", 6)}  ${pad(r.peakRun, 5)}단위${PEAK_RUN_RULE[r.tier](r.peakRun) ? " " : "⚠"} ${r.bottleneck}`
     );
+    console.log(`          기체별 최선 ${RUNNERS.map((x, i) => `${x.name} ${r.perRunner[i]}`).join(" · ")}`);
   }
   const tiers = [1, 2, 3, 4].map((t) => {
-    const v = rows.filter((r) => r.cap === cap && r.tier === t).map((r) => r.best);
+    const v = rows.filter((r) => r.cap === cap && r.tier === t).map((r) => r.bestMean);
     return { t, avg: v.reduce((a, b) => a + b, 0) / v.length, v };
   });
-  console.log("\n티어 곡선 (최선 여유 평균)");
+  console.log("\n티어 곡선 (기체 4종 평균의 티어 평균 — 목표가 정의된 단위)");
   for (const { t, avg, v } of tiers) {
     console.log(`  티어 ${t}  목표 ${pad(targetSlackMs(t), 3)}ms   실측 ${pad(avg.toFixed(0), 3)}ms  [${v.join(", ")}]`);
   }
@@ -129,25 +157,28 @@ for (const cap of [2, 3]) {
   if (inverted.length) console.log(`  ⚠ 곡선 역전: ` + inverted.map((a) => `티어 ${a.t}이 티어 ${a.t - 1}보다 쉽다`).join(", "));
 }
 
-console.log("\n═══ 코스 중복 (±2 기준, 5자리 중 4자리 이상 일치) ═══");
+console.log(`\n═══ 코스 중복 (±2 기준, ${STAGE_SECTORS}자리 중 ${DUP_SLOTS}자리 이상 일치) ═══`);
 const s2 = rows.filter((r) => r.cap === 2);
 let dup = 0;
 for (let i = 0; i < s2.length; i += 1)
   for (let j = i + 1; j < s2.length; j += 1) {
     const n = s2[i].sectors.filter((v, k) => v === s2[j].sectors[k]).length;
-    if (n >= 4) {
+    if (n >= DUP_SLOTS) {
       dup += 1;
-      console.log(`  T${s2[i].tier}·${s2[i].no} vs T${s2[j].tier}·${s2[j].no}   ${n === 5 ? "완전 동일" : `${n}/5 일치`}`);
+      console.log(
+        `  T${s2[i].tier}·${s2[i].no} vs T${s2[j].tier}·${s2[j].no}   ` +
+        `${n === STAGE_SECTORS ? "완전 동일" : `${n}/${STAGE_SECTORS} 일치`}`
+      );
     }
   }
 if (!dup) console.log("  없음");
 
-console.log("\n═══ 섹터 사용 빈도 (60자리) ═══");
+console.log(`\n═══ 섹터 사용 빈도 (${SLOTS}자리) ═══`);
 const freq = new Map<string, number>();
 for (const r of s2) for (const id of r.sectors) freq.set(id, (freq.get(id) ?? 0) + 1);
 for (const s of SECTORS) {
   const n = freq.get(s.id) ?? 0;
-  console.log(`  ${s.id.padEnd(15)} ${pad(n, 2)}회  ${((n / 60) * 100).toFixed(0).padStart(2)}%  ${"█".repeat(n)}`);
+  console.log(`  ${s.id.padEnd(15)} ${pad(n, 2)}회  ${((n / SLOTS) * 100).toFixed(0).padStart(2)}%  ${"█".repeat(n)}`);
 }
 const unused = SECTORS.filter((s) => !freq.has(s.id)).map((s) => s.id);
 if (unused.length) console.log(`  ⚠ 한 번도 쓰이지 않음: ${unused.join(", ")}`);
