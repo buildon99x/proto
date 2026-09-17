@@ -103,7 +103,24 @@ function assemble(sectors: Sector[], t: Tuning, rand: () => number, finish: bool
   return { pieces, finishX: finish ? x : Number.POSITIVE_INFINITY };
 }
 
-export const STAGE_SECTORS = 5;
+/**
+ * 스테이지 한 판의 섹터 수. 한 판의 **길이**를 정하는 유일한 손잡이다.
+ *
+ * 코스 길이는 `STAGE_SECTORS × SECTOR_LEN + (STAGE_SECTORS − 1) × gateTotalLen` 이고
+ * 플레이 타임은 그것을 전진 속도로 나눈 값이다 — 중립(42)에서 5개는 67.5초, 4개는 53.3초.
+ *
+ * **5 → 4 로 줄인 이유는 시간뿐이고, 다른 레버가 전부 난이도를 함께 건드리기 때문이다.**
+ * 섹터 길이를 줄이면 수제 섹터 18개의 내부 기하가 통째로 압축돼 계단이 좁아지고 램프가
+ * 가팔라진다. 전진 속도를 올리면 여유가 `W/2·rate`, `rate = slope×speed` 이므로 속도에
+ * 반비례해 모든 여유가 깎인다. 섹터를 하나 빼는 것만이 **어느 한 순간의 난이도도 바꾸지
+ * 않고** 노출 시간만 줄인다.
+ *
+ * 대가는 게이트가 4개에서 3개로 줄어 한 런의 교환 결정이 하나 사라지고 경로가 16가지에서
+ * 8가지가 되는 것이다. 축 상한이 ±2 이므로 3번의 교환으로도 상한에는 닿아 빌드 깊이는
+ * 유지된다. 이 값을 바꾸면 **시드표·티어 사다리·최난 구간 기준이 전부 다른 코스의 것이
+ * 되므로** `curate-stages.ts` 와 `tiers.ts` 를 다시 재야 한다.
+ */
+export const STAGE_SECTORS = 4;
 
 /**
  * 티어·번호로 결정되는 시드. 같은 스테이지는 언제나 같은 코스다.
@@ -130,7 +147,11 @@ export function buildStageCourse(tier: number, stageNo: number, t: Tuning, seedO
   const rand = mulberry32(seedOverride ?? stageSeed(tier, stageNo));
   const sectors: Sector[] = [];
   for (let i = 0; i < STAGE_SECTORS; i += 1) {
-    const difficulty = 1 + ((tier - 1) * 2 + i) / 5;
+    // 자리별 램프는 **자리 수가 아니라 비율**로 잡는다. 티어 1 의 첫 자리가 1.0,
+    // 티어 4 의 마지막 자리가 3.0 이라는 양끝이 섹터 수와 무관하게 유지돼야
+    // 난이도 1~3 으로 매긴 수제 섹터 18개가 전부 쓰인다. `STAGE_SECTORS = 5`
+    // 에서는 `(i × 4) / 4 = i` 라 이전 공식과 소수점까지 같다.
+    const difficulty = 1 + ((tier - 1) * 2 + (i * 4) / (STAGE_SECTORS - 1)) / 5;
     sectors.push(pickSector(typeAt(i, rand), difficulty, rand, 3));
   }
   return assemble(sectors, t, rand, true);

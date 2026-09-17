@@ -15,6 +15,7 @@ import { measure } from "../../../app/src/game/geometry";
 import { MAX_TIER, STAGES_PER_TIER } from "../../../app/src/game/meta";
 import { solveCourse } from "../../../app/src/game/solver";
 import type { CourseSolveResult } from "../../../app/src/game/solver";
+import { targetSlackMs } from "../tiers";
 import type { AxisKey, Build } from "../../../app/src/game/types";
 
 const GATES = STAGE_SECTORS - 1;
@@ -98,7 +99,9 @@ for (let tier = 1; tier <= MAX_TIER; tier += 1) {
         under60: all.filter((v) => v < 60).length,
         under30: all.filter((v) => v < 30).length,
         paths: all.length,
-        target: 190 - (tier - 1) * 30
+        // 사다리는 `../tiers` 하나에서만 온다. 여기 사본이 있던 동안 그림은 0.5.2 에서
+        // 버린 옛 공식(190 − (tier−1)×30)으로 "티어 목표" 를 찍고 있었다.
+        target: targetSlackMs(tier)
       },
       best: bestCols.map((c) => [c.free.map(round2), c.surv.map(round2), Math.round(c.ms)]),
       worstMs: worstCols.map((c) => Math.round(c.ms))
@@ -110,5 +113,11 @@ for (let tier = 1; tier <= MAX_TIER; tier += 1) {
 const out = process.argv[2];
 if (!out) throw new Error("사용법: tsx extract.ts <출력 파일>");
 // 렌더러가 file:// 에서 <script> 로 읽을 수 있게 전역 대입문으로 감싼다.
-writeFileSync(out, `window.STAGES=${JSON.stringify(stages)};`);
+// 경로 수와 코스 길이는 구조(`STAGE_SECTORS`)를 따라 움직이므로 그림이 제 손으로
+// 세지 않고 여기서 받아 간다 — 하드코딩된 "16경로" 가 그림에 두 군데 있었다.
+writeFileSync(
+  out,
+  `window.COURSE=${JSON.stringify({ paths: PATHS, gates: GATES, sectors: STAGE_SECTORS })};` +
+    `window.STAGES=${JSON.stringify(stages)};`
+);
 console.error(`written → ${out}`);

@@ -155,4 +155,4 @@ if (unused.length) console.log(`  ⚠ 한 번도 쓰이지 않음: ${unused.join
 const traps = s2.filter((r) => r.under30 > 0);
 console.log(`\n═══ 함정 경로 (여유 ${HUMAN_FLOOR_MS}ms 미만 — 통과 가능하지만 사람에게는 불가능) ═══`);
 if (traps.length === 0) console.log("  없음");
-else for (const r of traps) console.log(`  T${r.tier}·${r.no}  16경로 중 ${r.under30}개 (최악 ${r.worst}ms)`);
+else for (const r of traps) console.log(`  T${r.tier}·${r.no}  ${PATHS}경로 중 ${r.under30}개 (최악 ${r.worst}ms)`);

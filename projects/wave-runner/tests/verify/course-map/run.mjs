@@ -37,7 +37,7 @@ const puppeteer = require("puppeteer");
 const work = mkdtempSync(path.join(tmpdir(), "wave-course-map-"));
 const dataJs = path.join(work, "data.js");
 
-console.log("[course-map] 12스테이지 × 16경로 솔브 …");
+console.log("[course-map] 12스테이지 전 경로 솔브 …");
 const ex = spawnSync("npx", ["tsx", path.join(HERE, "extract.ts"), dataJs], {
   cwd: REPO,
   stdio: "inherit"

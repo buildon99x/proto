@@ -13,6 +13,10 @@
 <body>
 <div class="sheet" id="sheet"></div>
 <script>
+// 코스 구조(경로 수·게이트 수·섹터 수)는 extract.ts 가 실어 보낸다. 그림이 제 손으로
+// 세면 STAGE_SECTORS 를 바꿀 때 설명문만 옛 수치로 남는다 — 실제로 "16경로" 가 그렇게 남아 있었다.
+const CO = window.COURSE ?? { paths: 0, gates: 0, sectors: 0 };
+const STAGES = window.STAGES ?? [];
 const C = {
   surface:"#fcfcfb", ink:"#0b0b0b", ink2:"#52514e", muted:"#898781",
   grid:"#e1e0d9", baseline:"#c3c2b7", critical:"#d03b3b",
@@ -50,7 +54,7 @@ function drawStage(ctx, st, ox, oy, SX, SY, opts){
   const off = s.best - s.target;
   const head = `최선 ${s.best}ms  ·  중앙 ${s.med}ms  ·  최악 ${s.worst}ms`
              + `   |   티어 목표 ${s.target}ms (${off>=0?"+":""}${off})`
-             + `   |   16경로 중 60ms 미만 ${s.under60}개`
+             + `   |   ${CO.paths}경로 중 60ms 미만 ${s.under60}개`
              + (s.under30 ? ` · 30ms 미만 ${s.under30}개` : "");
     ctx.fillText(head, ox + Math.round(108*fs), oy + Math.round(14*fs));
   if (s.under30) {
@@ -207,9 +211,9 @@ function drawLegend(ctx, ox, oy, fs){
   ctx.fillText("빨강 — 여유 30ms 미만. 사람의 탭 타이밍 산포보다 좁아 사실상 통과 불가", ox, y);
   y += Math.round(19*fs);
   ctx.fillStyle = C.ink2; ctx.font = f(400,12.5);
-  ctx.fillText("세로는 월드 높이 100 전체. 가로는 코스 전체(약 2834단위). 아바타 반지름을 뺀 중심 좌표 기준.", ox, y);
+  ctx.fillText(`세로는 월드 높이 100 전체. 가로는 코스 전체(섹터 ${CO.sectors} + 게이트 ${CO.gates}, 약 ${Math.round(STAGES[0].finishX)}단위). 아바타 반지름을 뺀 중심 좌표 기준.`, ox, y);
   y += Math.round(18*fs);
-  ctx.fillText("본 스트립은 16경로 중 최선 경로, 아래 선은 최악 경로. 축 상한 ±2(처음 만나는 조건).", ox, y);
+  ctx.fillText(`본 스트립은 ${CO.paths}경로 중 최선 경로, 아래 선은 최악 경로. 표준 기체 · 축 상한 ±2(처음 만나는 조건).`, ox, y);
   y += Math.round(18*fs);
   ctx.fillText("왼쪽 끝 흐린 구간은 출발 정착 구간이다 — 출발 집합이 점 하나라 좁게 나오는 것이지 난이도가 아니다.", ox, y);
   return y - oy + Math.round(10*fs);
