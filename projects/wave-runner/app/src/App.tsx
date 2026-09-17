@@ -151,7 +151,6 @@ export default function App() {
   const [fps, setFps] = useState(60);
   const [muted, setMutedState] = useState(isMuted());
   const [transfer, setTransfer] = useState("");
-  const [practice, setPractice] = useState(false);
   /** 방금 끝난 클리어가 실제로 지급한 코어. 반복 클리어는 0 이다 */
   const [reward, setReward] = useState(0);
   /**
@@ -203,11 +202,11 @@ export default function App() {
           axisCap: meta.axisCap,
           maxSectorDifficulty: meta.fullPool ? 3 : 2,
           overrides,
-          practice
+          practice: meta.practice
         }
       });
     },
-    [meta.axisCap, meta.fullPool, overrides, practice, runner]
+    [meta.axisCap, meta.fullPool, meta.practice, overrides, runner]
   );
 
   const startEndless = useCallback(() => {
@@ -496,11 +495,18 @@ export default function App() {
               </div>
             );
           })}
-          <label className="toggle">
-            <input type="checkbox" checked={practice} onChange={(e) => setPractice(e.target.checked)} />
+          <label className={`toggle practice-toggle${meta.practice ? " on" : ""}`}>
+            <input
+              type="checkbox"
+              checked={meta.practice}
+              onChange={(e) => commit({ ...meta, practice: e.target.checked })}
+            />
             <span>
               <strong>연습 모드</strong>
-              <small>게이트마다 체크포인트. 막힌 구간만 반복한다 — 기록에는 남지 않는다</small>
+              <small>
+                게이트마다 체크포인트. 막힌 구간만 반복한다 —{" "}
+                <b>기록·코어·티어 해금에 남지 않는다</b>
+              </small>
             </span>
           </label>
 
@@ -584,7 +590,16 @@ export default function App() {
       ) : null}
 
       {screen.kind === "play" ? (
-        <section className="play" data-phase={phase}>
+        /*
+          `practice` 클래스 — 연습은 **런 내내** 보여야 한다. ready 오버레이의 한 줄뿐이던
+          판본은 켠 것을 잊은 채 달리게 두었고, 그 사실은 클리어하고 나서야("기록에 남지
+          않는다") 드러났다 — 30분을 버리는 종류의 침묵이다. 그렇다고 주행 화면에 글자를
+          늘리면 시선 예산 조항과 정면으로 부딪히므로, 통로 위가 아니라 **화면 가장자리**에
+          띠를 두른다. 시선은 아바타(좌측 0.18)에서 오른쪽으로 훑으므로 테두리는 그 경로
+          밖이고, 주행 표시(H)를 꺼도 남는다 — 잊는 것을 막는 표시가 설정에 따라 사라지면
+          그게 정확히 실패하는 자리다.
+        */
+        <section className={`play${screen.config.practice ? " practice" : ""}`} data-phase={phase}>
           <GameCanvas
             config={screen.config}
             onPhase={setPhase}
@@ -612,9 +627,21 @@ export default function App() {
           {phase === "ready" ? (
             <div className="overlay">
               <p className="eyebrow">
-                {screen.config.mode === "stage"
-                  ? `티어 ${screen.config.tier} · ${screen.config.stageNo}${screen.config.practice ? " · 연습" : ""}`
-                  : "ENDLESS"}
+                {screen.config.mode === "stage" ? (
+                  <>
+                    티어 {screen.config.tier} · {screen.config.stageNo}
+                    {/* 테두리와 같은 파선이다 — 무엇이 저 띠를 세웠는지는 여기서 한 번만 배운다.
+                        가운뎃점은 상자 밖이다 — 안에 넣으면 앞 숫자와 붙어 읽힌다 */}
+                    {screen.config.practice ? (
+                      <>
+                        {" · "}
+                        <b>연습</b>
+                      </>
+                    ) : null}
+                  </>
+                ) : (
+                  "ENDLESS"
+                )}
               </p>
               <h2>{runner.name}</h2>
               <p className="dim">{runner.note}</p>

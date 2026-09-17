@@ -536,6 +536,53 @@ body {
   position: relative;
 }
 
+/*
+ * 연습 모드가 켜져 있음. 주행 화면에 얹히는 유일한 상시 표시이고, 통로 위가 아니라
+ * 화면 가장자리에 있다 — 시선은 아바타(좌측 0.18)에서 오른쪽으로 훑으므로 테두리는
+ * 그 경로 밖이다. 주행 표시(H)와 독립인 것이 요점이다. 잊는 것을 막으려는 표시가
+ * 설정에 따라 사라지면 그게 정확히 실패하는 자리다.
+ *
+ * **색이 아니라 파선으로 말한다.** 처음 판본은 `--accent` 를 썼는데 그 값(`#ffe66d`)이
+ * 렌더의 `player` 와 **같은 색**이었다 — 아바타와 같은 색을 화면 테두리에 두르는 것은
+ * `wallEdge` 가 각도 축과 같은 청록이던 사고와 같은 종류다. 남은 색이 마땅치 않은 게
+ * 아니라(팔레트는 축 셋·벽·블록·완주선·아바타로 이미 차 있다) **애초에 색이 아니어야
+ * 한다.** 파선은 월드 어디에도 없으므로 그 자체로 "이건 게임이 아니라 껍데기다" 다.
+ */
+.play.practice::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px dashed rgba(127, 144, 173, 0.6);
+  pointer-events: none;
+}
+
+/* 테두리를 세운 것이 무엇인지는 출발 전에 한 번 말한다. 색이 아니라 같은 파선이 잇는다 */
+.overlay .eyebrow b {
+  color: var(--text);
+  font-weight: 600;
+  padding: 1px 5px;
+  border: 1px dashed rgba(127, 144, 173, 0.6);
+  border-radius: 4px;
+}
+
+.practice-toggle.on strong {
+  color: var(--text);
+}
+
+.practice-toggle.on strong::after {
+  content: "";
+  display: inline-block;
+  width: 26px;
+  margin-left: 6px;
+  vertical-align: 3px;
+  border-top: 2px dashed rgba(127, 144, 173, 0.6);
+}
+
+.practice-toggle small b {
+  color: var(--text);
+  font-weight: 600;
+}
+
 .overlay {
   position: absolute;
   inset: 0;

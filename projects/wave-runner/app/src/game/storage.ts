@@ -71,7 +71,9 @@ function coerce(p: Partial<Meta>): Meta {
     attempts: p.attempts ?? {},
     // 저장본이 이 키들을 모르던 시절에 만들어졌으면 켠 상태로 읽는다.
     hud: p.hud ?? true,
-    telemetry: p.telemetry ?? true
+    telemetry: p.telemetry ?? true,
+    // 연습만 반대다 — 모르는 저장본을 연습으로 열면 그 사람의 기록이 조용히 사라진다.
+    practice: p.practice ?? false
   };
 }
 
