@@ -7,89 +7,32 @@
 // 완전한 상태 접근을 가지므로 사람보다 훨씬 잘한다. 따라서 이 시나리오가 통과한다는
 // 것은 **통과 가능성의 증명이지 난이도의 검증이 아니다.**
 
+import { autoplay } from "./autopilot.mjs";
+
 export const meta = {
   viewport: { width: 390, height: 720, deviceScaleFactor: 2 }
 };
 
-const LOOKAHEAD = 0.14;
-
 /**
  * 한 번의 오토파일럿 주행 상한(초).
- *
- * 주행 전체가 `page.evaluate` 하나 안에서 돌기 때문에 이 값은 puppeteer 의
- * `protocolTimeout` 보다 작아야 한다 — 같아지면 시나리오가 아니라 **프로토콜이**
- * 먼저 끊긴다. 하네스가 그 값을 600초로 열어 두므로 여기서 자유롭게 정한다.
  *
  * Stage 는 사망하면 처음부터 다시 시작하므로 상한은 **한 주행이 아니라 몇 번의
  * 재시도**를 담을 수 있어야 한다. 한 바퀴가 약 70초이니 240초면 세 번이다.
  */
 const RUN_LIMIT_SEC = 240;
 
-async function autoplay(page, limitSec) {
-  return page.evaluate(
-    async ({ lookahead, limit }) => {
-      const w = window.__wave;
-      if (!w) return { ok: false, why: "debug hook 없음" };
-
-      let holding = false;
-      const setHold = (v) => {
-        if (v === holding) return;
-        holding = v;
-        window.dispatchEvent(
-          new KeyboardEvent(v ? "keydown" : "keyup", { code: "Space", bubbles: true, cancelable: true })
-        );
-      };
-
-      // 빌드를 중립 가까이 유지하는 관을 고른다. 무작정 번갈아 고르면
-      // 축이 극단으로 밀려 후반 섹터가 막힌다.
-      const laneFor = (s) => {
-        const piece = s.course.pieces.find((p) => p.kind === "gate" && p.endX > s.x);
-        const gate = piece && piece.gate;
-        if (!gate) return "top";
-        const cost = (tr) => {
-          const b = { ...s.build };
-          b[tr.plus] = Math.min(s.base.axisMax, b[tr.plus] + 1);
-          b[tr.minus] = Math.max(s.base.axisMin, b[tr.minus] - 1);
-          return Math.abs(b.slope) + Math.abs(b.speed) + Math.abs(b.bias);
-        };
-        return cost(gate.bot) < cost(gate.top) ? "bot" : "top";
-      };
-
-      setHold(true);
-      await new Promise((r) => setTimeout(r, 50));
-
-      const deadline = Date.now() + limit * 1000;
-      let deaths = 0;
-      let lastPhase = "ready";
-
-      while (Date.now() < deadline) {
-        const s = w.state;
-        if (!s) break;
-        if (s.phase === "cleared") {
-          setHold(false);
-          return { ok: true, deaths, sec: s.elapsed, gates: s.gatesPassed, build: { ...s.build } };
-        }
-        if (s.phase === "dead") {
-          if (lastPhase !== "dead") deaths += 1;
-          if (s.mode === "endless") {
-            setHold(false);
-            return { ok: true, endlessOver: true, deaths, distance: s.x, gates: s.gatesPassed };
-          }
-        }
-        lastPhase = s.phase;
-        if (s.phase === "running") setHold(s.y > w.targetY(lookahead, laneFor(s)));
-        await new Promise((r) => requestAnimationFrame(r));
-      }
-
-      setHold(false);
-      return { ok: false, why: "timeout", deaths, x: w.state ? w.state.x : 0 };
-    },
-    { lookahead: LOOKAHEAD, limit: limitSec }
-  );
-}
-
 export async function run({ page, sleep, shot, log }) {
+  /*
+    이 시나리오가 묻는 것은 **안내를 받은 뒤의 동선**이다(코스 통과·해금·기록). 0.7.0
+    부터 저장본이 없으면 홈 대신 첫 실행 안내가 뜨므로, 여기서는 배운 것으로 표시하고
+    시작한다. 안내 자체는 `first-run.mjs` 가 실제 입력으로 통과시키며 검증한다.
+  */
+  await page.evaluate(() => {
+    localStorage.setItem("wave-runner/meta/v3", JSON.stringify({ version: 3, taught: true }));
+  });
+  await page.reload({ waitUntil: "networkidle0" });
   await sleep(400);
+  if (!(await page.$(".mode"))) throw new Error("홈이 열리지 않았다 — 안내 건너뛰기가 깨졌다");
   await shot("01-home");
 
   // Stage — 티어 1 첫 스테이지
@@ -147,13 +90,16 @@ export async function run({ page, sleep, shot, log }) {
   await page.keyboard.press("Escape");
   await sleep(300);
 
-  // 해금 화면
-  const links = await page.$$(".link");
-  if (links.length > 0) {
-    await links[links.length - 1].click();
-    await sleep(250);
-    await shot("08-shop");
-  }
+  /*
+    해금 화면. 진입점은 홈의 **코어 줄**(`.cores-link`)이다 — 예전 판본은 `.link` 를
+    찾았는데 홈에는 그 클래스가 없어 `if` 가 언제나 거짓이었고, 이 스크린샷은 조용히
+    한 장도 찍히지 않고 있었다.
+  */
+  const shopLink = await page.$(".cores-link");
+  if (!shopLink) throw new Error("홈에서 해금 진입점을 찾지 못했다");
+  await shopLink.click();
+  await sleep(250);
+  await shot("08-shop");
 
   log("ok");
 }

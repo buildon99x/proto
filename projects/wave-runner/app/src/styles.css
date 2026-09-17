@@ -536,6 +536,53 @@ body {
   position: relative;
 }
 
+/*
+ * 연습 모드가 켜져 있음. 주행 화면에 얹히는 유일한 상시 표시이고, 통로 위가 아니라
+ * 화면 가장자리에 있다 — 시선은 아바타(좌측 0.18)에서 오른쪽으로 훑으므로 테두리는
+ * 그 경로 밖이다. 주행 표시(H)와 독립인 것이 요점이다. 잊는 것을 막으려는 표시가
+ * 설정에 따라 사라지면 그게 정확히 실패하는 자리다.
+ *
+ * **색이 아니라 파선으로 말한다.** 처음 판본은 `--accent` 를 썼는데 그 값(`#ffe66d`)이
+ * 렌더의 `player` 와 **같은 색**이었다 — 아바타와 같은 색을 화면 테두리에 두르는 것은
+ * `wallEdge` 가 각도 축과 같은 청록이던 사고와 같은 종류다. 남은 색이 마땅치 않은 게
+ * 아니라(팔레트는 축 셋·벽·블록·완주선·아바타로 이미 차 있다) **애초에 색이 아니어야
+ * 한다.** 파선은 월드 어디에도 없으므로 그 자체로 "이건 게임이 아니라 껍데기다" 다.
+ */
+.play.practice::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px dashed rgba(127, 144, 173, 0.6);
+  pointer-events: none;
+}
+
+/* 테두리를 세운 것이 무엇인지는 출발 전에 한 번 말한다. 색이 아니라 같은 파선이 잇는다 */
+.overlay .eyebrow b {
+  color: var(--text);
+  font-weight: 600;
+  padding: 1px 5px;
+  border: 1px dashed rgba(127, 144, 173, 0.6);
+  border-radius: 4px;
+}
+
+.practice-toggle.on strong {
+  color: var(--text);
+}
+
+.practice-toggle.on strong::after {
+  content: "";
+  display: inline-block;
+  width: 26px;
+  margin-left: 6px;
+  vertical-align: 3px;
+  border-top: 2px dashed rgba(127, 144, 173, 0.6);
+}
+
+.practice-toggle small b {
+  color: var(--text);
+  font-weight: 600;
+}
+
 .overlay {
   position: absolute;
   inset: 0;
@@ -1063,6 +1110,132 @@ body {
   .cores-link,
   .icon-btn,
   .link {
+    transition: none;
+  }
+}
+
+/* ── 첫 실행 안내 ─────────────────────────────────────────────
+ *
+ * 읽히는 튜토리얼이 아니라 손끝 핸드셰이크다. 그래서 진행 막대도, 넘기기 버튼도,
+ * "다시 보지 않기" 도 없다 — 한 번 누르고 한 번 놓으면 끝나고, 그 마지막 누름이
+ * 곧 첫 판의 출발이다.
+ */
+/* 읽을 것이 적으므로 위로 몰지 않고 화면 한가운데에 모은다 — 손이 닿는 자리이기도 하다 */
+.intro {
+  justify-content: center;
+}
+
+.intro .panel-head {
+  text-align: center;
+}
+
+.intro-stage {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  padding: 10px;
+  /* 여기가 눌리는 자리라고 손이 먼저 안다 */
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+
+.intro-stage svg {
+  display: block;
+  width: 100%;
+  aspect-ratio: 90 / 44;
+  height: auto;
+}
+
+/* 궤적은 아바타 색(--accent = player)을 쓰지 않는다. 축 팔레트도 아니다 */
+.intro-stage path {
+  fill: none;
+  stroke: #4a5a78;
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.intro-stage polygon {
+  fill: #ffe66d;
+}
+
+.intro-cue {
+  margin: 6px 0 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.intro[data-step="go"] .intro-cue {
+  color: var(--ok);
+}
+
+/* 출발 신호. 큐가 한 자리뿐이므로 색만 바뀐다 */
+.intro[data-armed="1"] .intro-cue {
+  color: var(--accent);
+}
+
+/* 두 동작. 체크박스가 아니라 **해낸 것**의 기록이라 손댈 수 없다 */
+.intro-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+}
+
+.intro-steps li {
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: var(--dim);
+  transition: color 140ms ease, border-color 140ms ease;
+}
+
+.intro-steps li b {
+  color: var(--dim);
+  font-weight: 600;
+}
+
+.intro-steps li.now {
+  border-color: #33405e;
+  color: var(--text);
+}
+
+.intro-steps li.now b {
+  color: var(--text);
+}
+
+.intro-steps li.done {
+  border-color: rgba(125, 255, 176, 0.35);
+  color: var(--ok);
+}
+
+.intro-steps li.done b {
+  color: var(--ok);
+}
+
+.intro-steps li.done::after {
+  content: " ✓";
+  font-weight: 700;
+}
+
+/* 남은 한 줄. 읽지 않아도 첫 판은 시작되므로 흐리게 둔다 */
+.intro-note {
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-steps li {
     transition: none;
   }
 }
