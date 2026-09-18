@@ -30,7 +30,7 @@ export function OfflineSummary({ game, onNavigate }: { game: Game; onNavigate: (
   if (actionCount === 0) {
     return (
       <div className="offline-toast">
-        {duration(o.seconds)} 동안 자금 +{won(fundsDelta)} ₩
+        <span>{duration(o.seconds)} 동안 자금 +{won(fundsDelta)} ₩</span>
         <button type="button" onClick={game.dismissOffline}>확인</button>
       </div>
     );

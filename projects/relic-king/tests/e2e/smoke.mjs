@@ -247,7 +247,30 @@ async function main() {
     await new Promise((r) => setTimeout(r, 1200));
     await shoot("cover", { x: 0, y: 0, width: 1180, height: 640, scale: 0.82 });
 
-    // 8) 콘솔 오류
+    // 8) 세계지도 (데스크톱, 세계 줌 상태 — 결함3 라벨 겹침 고정 검증용, G57.5/G58)
+    await evaluate(`document.querySelector('.onboarding-keep')?.click()`);
+    await new Promise((r) => setTimeout(r, 300));
+    await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('발굴')).click()`);
+    await new Promise((r) => setTimeout(r, 600));
+    await evaluate(`{ document.querySelector('.worldmap-wrap')?.scrollIntoView({ block: 'center' }); true; }`);
+    await new Promise((r) => setTimeout(r, 300));
+    const mapRect = await evaluate(`{
+      const el = document.querySelector('.worldmap-wrap');
+      const r = el ? el.getBoundingClientRect() : null;
+      // captureBeyondViewport 는 clip 좌표를 뷰포트가 아니라 페이지 기준으로 읽으므로
+      // scroll 오프셋을 더해야 한다 — 안 그러면 스크롤된 만큼 위쪽(헤더)이 대신 찍힌다.
+      r ? { x: r.x + window.scrollX, y: r.y + window.scrollY, width: r.width, height: r.height } : null;
+    }`);
+    if (!mapRect) {
+      failures.push("세계지도 패널을 찾지 못했다");
+    } else {
+      await shoot("08-worldmap", {
+        x: Math.max(0, mapRect.x - 8), y: Math.max(0, mapRect.y - 8),
+        width: mapRect.width + 16, height: mapRect.height + 16, scale: 1
+      });
+    }
+
+    // 9) 콘솔 오류
     const errors = cdp.events
       .filter((e) => e.method === "Runtime.exceptionThrown"
         || (e.method === "Log.entryAdded" && e.params.entry.level === "error")
@@ -256,7 +279,7 @@ async function main() {
       .filter((text) => !text.includes("favicon.ico"));
     if (errors.length) failures.push(`콘솔 오류 ${errors.length}건:\n  ${errors.join("\n  ")}`);
 
-    // 9) 모바일 375px 스크린샷 (notes/ux-v02.md 가 설계한 모바일 레이아웃 검증용)
+    // 10) 모바일 375px 스크린샷 (notes/ux-v02.md 가 설계한 모바일 레이아웃 검증용)
     // 콘솔 오류 수집이 끝난 뒤라 여기서 뷰포트를 바꿔도 이후 로직(요약 출력뿐)에는
     // 영향이 없다 — 그래서 데스크톱 1180×1000 으로 되돌리지 않고 그대로 종료한다.
     await cdp.send("Emulation.setDeviceMetricsOverride", { width: 375, height: 812, deviceScaleFactor: 2, mobile: true });
@@ -270,6 +293,17 @@ async function main() {
       const body = await evaluate(`document.querySelector('.body').innerText.length`);
       if (body < 30) failures.push(`모바일 ${label} 탭이 비어 있다`);
       await shoot(`mobile-0${i + 1}-${["dig", "market", "vault"][i]}`);
+
+      if (label === "발굴") {
+        // 세계지도는 "🗺 지도로 보기" 토글 뒤에 숨어 있다(결함3 검증, G58) — 펼친 상태로 찍는다.
+        await evaluate(`document.querySelector('.explorer-map-toggle')?.click()`);
+        await new Promise((r) => setTimeout(r, 700));
+        const mapOpen = await evaluate(`document.querySelector('.explorer.mobile-map-open .worldmap-wrap') ? true : false`);
+        if (!mapOpen) failures.push("모바일 지도로 보기 토글이 지도를 펼치지 않았다");
+        await shoot("mobile-04-worldmap");
+        await evaluate(`document.querySelector('.explorer-map-toggle')?.click()`);
+        await new Promise((r) => setTimeout(r, 300));
+      }
     }
 
     console.log("──────── SMOKE ────────");

@@ -32,6 +32,14 @@ export default function App() {
   const [tab, setTab] = useState<TabId>("dig");
   const [modal, setModal] = useState<"settings" | "rules" | "rank" | null>(null);
 
+  // 탭 전환 시 스크롤을 유지하면 이전 탭에서 스크롤해 둔 위치 그대로 새 탭이 열려,
+  // 짧은 탭에서는 콘텐츠가 상단 sticky 헤더 밑에 가려 보인다(G58, mobile-03-vault
+  // 스크린샷에서 실측 — "다음 드랍" 줄과 미감정 항목이 겹쳐 보였다).
+  const changeTab = (id: TabId) => {
+    setTab(id);
+    window.scrollTo(0, 0);
+  };
+
   const sealedT2 = world.pending.filter(
     (p) => ARTIFACT_BY_ID[p.artifactId].tier === 2 && world.lab < APPRAISAL_UNLOCK_LAB_LEVEL[2]
   ).length;
@@ -64,7 +72,7 @@ export default function App() {
             role="tab"
             aria-selected={tab === t.id}
             className={tab === t.id ? "active" : ""}
-            onClick={() => setTab(t.id)}
+            onClick={() => changeTab(t.id)}
           >
             {t.label}
             {badges[t.id] ? <i className="dot">{badges[t.id]}</i> : null}
@@ -81,7 +89,7 @@ export default function App() {
       </main>
 
       <RevealModal game={game} />
-      <OfflineSummary game={game} onNavigate={(t) => setTab(t)} />
+      <OfflineSummary game={game} onNavigate={(t) => changeTab(t)} />
       {game.onboardingPending ? <OnboardingOverlay game={game} onDone={game.dismissOnboarding} /> : null}
       {modal === "settings" ? <SettingsModal game={game} onClose={() => setModal(null)} /> : null}
       {modal === "rules" ? <RulesModal game={game} onClose={() => setModal(null)} /> : null}
