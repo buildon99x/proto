@@ -1,5 +1,5 @@
 import { ARTIFACTS, ARTIFACT_BY_ID } from "./artifacts";
-import { CONDITION_INITIAL_BASE_BY_TIER, SEASON_LENGTH_WEEKS } from "./balance";
+import { CONDITION_INITIAL_BASE_BY_TIER, MAX_EXPEDITION_TEAMS_INITIAL, SEASON_LENGTH_WEEKS, SITES } from "./balance";
 import { createWorld, nextUid } from "./engine";
 import type { World } from "./types";
 
@@ -40,6 +40,37 @@ const MIGRATIONS: Record<number, Migration> = {
       season: 1, startedAt: 0, endsAt: SEASON_LENGTH_SECONDS, titleHolderId: null, titleHeldSinceT: null
     };
     return { ...raw, version: 2, vault, stats, seasonState };
+  },
+  /**
+   * v2 → v3 (2단계 — 세계지도·거점·원정·스텝, notes/decisions.md G52). v2는
+   * 3거점(korea/egypt/rome)만 알았다. 손실 없이 그대로 옮기고:
+   * - `sites`에 신규 9거점 항목을 기본값(층1·미보유)으로 채운다.
+   * - 기존 3거점에 `baseSince`가 없으면 `unlocked` 여부로 보수적으로 채운다
+   *   (이미 보유 중이면 0 — 즉시 재적용되는 12시간 본거지 보너스는 실질 손실이 아니다).
+   * - 발굴단·스텝·거점별 시세 정보 비대칭 관련 신규 필드를 빈 상태로 채운다.
+   */
+  2: (raw: any) => {
+    const sites: Record<string, any> = { ...raw.sites };
+    for (const s of SITES) {
+      const cur = sites[s.id];
+      if (!cur) {
+        sites[s.id] = { layer: 1, layerProgress: 0, dropProgress: 0, unlocked: false, baseSince: null };
+      } else if (cur.baseSince === undefined) {
+        sites[s.id] = { ...cur, baseSince: cur.unlocked ? 0 : null };
+      }
+    }
+    return {
+      ...raw,
+      version: 3,
+      sites,
+      teams: raw.teams ?? [],
+      maxTeams: raw.maxTeams ?? MAX_EXPEDITION_TEAMS_INITIAL,
+      staff: raw.staff ?? [],
+      appraisalVouchers: raw.appraisalVouchers ?? 0,
+      visitedSites: raw.visitedSites ?? {},
+      unexploredBonusGranted: raw.unexploredBonusGranted ?? {},
+      lastRelocationAt: raw.lastRelocationAt ?? null
+    };
   }
 };
 

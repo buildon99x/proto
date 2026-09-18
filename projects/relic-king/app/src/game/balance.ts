@@ -1,4 +1,10 @@
 import type { SiteId, Tier } from "./types";
+import { SITE_BY_ID } from "./sites";
+
+export type { SiteDef } from "./sites";
+export {
+  SITES, SITE_BY_ID, WORLD_CITY_COORDS, CITY_POPULATION, SITE_THEMATIC_CATEGORY, distanceKm
+} from "./sites";
 
 /**
  * 밸런스 상수 전부를 한 곳에 둔다. 프로토타입 배속으로 잡혀 있다 —
@@ -18,70 +24,6 @@ export const TIER_VALUE = [12_000, 380_000, 9_000_000, 260_000_000, 6_000_000_00
  */
 export const TIER_STOCK_PER_SPECIES = [Infinity, 2_000, 60, 6, 1] as const;
 export const TIER_MIN_LAYER = [1, 2, 5, 8, 10] as const;
-
-export type SiteDef = {
-  id: SiteId;
-  name: string;
-  anchor: string;
-  unlockCost: number;
-  /** 층 비용 계수 — 높을수록 파기 어렵다 */
-  layerCostMod: number;
-  /** 드랍 임계 계수 — 낮을수록 자주 나온다 */
-  dropMod: number;
-  /** 층별 시대 라벨 (1층 = 가장 얕고 최근) */
-  eras: string[];
-  /** 티어 가중 보정 (곱) */
-  tierBias: [number, number, number, number, number];
-};
-
-export const SITES: SiteDef[] = [
-  {
-    id: "korea",
-    name: "한반도",
-    anchor: "경주 고분군",
-    unlockCost: 0,
-    layerCostMod: 1,
-    dropMod: 1,
-    eras: [
-      "조선 후기", "조선 전기", "고려 후기", "고려 전기",
-      "통일신라", "남북국 초", "신라 전성", "신라 중고",
-      "가야", "삼국 초", "원삼국", "초기 철기"
-    ],
-    tierBias: [1, 1, 1, 1, 1]
-  },
-  {
-    id: "egypt",
-    name: "이집트",
-    anchor: "룩소르 왕가의 계곡",
-    unlockCost: 5_000_000,
-    layerCostMod: 1.4,
-    dropMod: 1.15,
-    eras: [
-      "로마 이집트", "프톨레마이오스", "말기 왕조", "제3중간기",
-      "신왕국 말", "람세스 시대", "투트모세 시대", "제2중간기",
-      "중왕국", "제1중간기", "고왕국", "초기 왕조"
-    ],
-    tierBias: [0.85, 1, 1.2, 1.6, 1.5]
-  },
-  {
-    id: "rome",
-    name: "로마",
-    anchor: "폼페이 유적",
-    unlockCost: 300_000_000,
-    layerCostMod: 1.15,
-    dropMod: 0.8,
-    eras: [
-      "중세 초", "서로마 말", "제정 후기", "제정 중기",
-      "5현제 시대", "율리우스 왕조", "제정 초", "공화정 말",
-      "공화정 중기", "포에니 전쟁기", "공화정 초", "왕정기"
-    ],
-    tierBias: [1.15, 1.1, 0.95, 0.8, 0.9]
-  }
-];
-
-export const SITE_BY_ID: Record<SiteId, SiteDef> = Object.fromEntries(
-  SITES.map((s) => [s.id, s])
-) as Record<SiteId, SiteDef>;
 
 /** 층 L 돌파에 필요한 진척. 깊이가 이 게임의 페이싱 척추다 */
 export function layerCost(site: SiteId, layer: number): number {
@@ -112,11 +54,16 @@ export const DEPTH_INCOME_BONUS = 0.12;
  * 따랐다 — spec 원문의 유보 문구와 상위 작업 지시가 정면으로 어긋나는 지점이다
  * (notes/decisions.md G51 참조). 3거점·60종 규모에서는 §2.3 표(기존 층별
  * 가중표)와 실제로 값이 달라진다.
+ *
+ * `dropModOverride`(2단계 신설): 첫 12시간 본거지 보너스(world-map.md §1,
+ * `HOME_BASE_BONUS_DROPMOD_MULT`)가 `SITE_BY_ID[site].dropMod` 대신 쓸 실효
+ * dropMod를 넘긴다. 생략하면 그 거점의 원래 dropMod를 쓴다.
  */
-export function dropThreshold(site: SiteId, layer: number, dig = 0): number {
+export function dropThreshold(site: SiteId, layer: number, dig = 0, dropModOverride?: number): number {
   const expected = layerExpectedValue(site, layer);
   const bonus = 1 + DEPTH_INCOME_BONUS * (layer - 1);
-  const base = (expected / (PROGRESS_VALUE * bonus)) * SITE_BY_ID[site].dropMod;
+  const dropMod = dropModOverride ?? SITE_BY_ID[site].dropMod;
+  const base = (expected / (PROGRESS_VALUE * bonus)) * dropMod;
   return Math.max(base, DROP_INTERVAL_FLOOR_SECONDS * dig);
 }
 
@@ -261,7 +208,8 @@ export const EMERGENCY_DISPATCH_MISHAP_MULT = 2.0;
 export const AUTO_SELL_MAX_TIER = 1;
 export const AUTO_SELL_KEEP_ONE_PER_SPECIES = true;
 
-// ── 발굴단·원정 (§8. 이번 단계 범위 밖 — 토대(타입)만 선언) ───────────────
+// ── 발굴단·원정 (§8, world-map.md §2·§3·§5 — 2단계에서 실제로 구현. 회차제·
+// 거리·미스헵·후불 원정비는 app/src/game/expedition.ts가 쓴다) ─────────────
 export const MAX_EXPEDITION_TEAMS_INITIAL = 1;
 export const MAX_EXPEDITION_TEAMS_CAP = 4;
 export const EXPEDITION_TEAM_UNLOCK_BASE = 50_000_000;
@@ -274,6 +222,19 @@ export const EXPEDITION_MISHAP_CHANCE_CAP = 0.25;
 export const EXPEDITION_MISHAP_TIME_LOSS_RATIO = 0.5;
 export const EXPEDITION_ONSITE_RATIO = 3.0;
 export const EXPEDITION_DISTANCE_YIELD_COEFF = 0.5;
+export const EXPEDITION_SPEED_KMH = 400; // 대항해시대풍 선박·대상(隊商) 속도. 여객기 속도가 아니다
+export const EXPEDITION_ONSITE_MIN_HOURS = 0.1; // 6분 — 거점 로컬 유적의 최소 현지 작업 시간
+export const EXPEDITION_DISTANCE_COST_COEFF = 0.5;
+export const EXPEDITION_DISTANCE_REF_KM = 10_000;
+/** 발굴 원정비 — 수입 대비 비율(notes/economy.md K5). 귀환 시 후불 원천징수된다. */
+export const EXPEDITION_COST_INCOME_RATIO = 0.15;
+export const MAX_OWNED_SITES = 3; // base 슬롯 수(world-map.md §5) — 원정 가능 거점 수와는 무관하다
+export const HOME_BASE_BONUS_DROPMOD_MULT = 0.85;
+export const HOME_BASE_BONUS_DURATION_HOURS = 12;
+export const UNEXPLORED_BONUS_APPRAISAL_VOUCHER = 1;
+export const RELOCATION_COST_ASSET_RATIO = 0.10; // notes/economy.md K6
+export const RELOCATION_COOLDOWN_HOURS = 168;
+export const FIRST_RELOCATION_FREE_WINDOW_HOURS = 12;
 
 // ── 감정소·보관소 (§9). DROP_INTERVAL_FLOOR_SECONDS·AUTO_SELL 계열 외에는
 // 아직 로직에 연결되지 않았다(봉인 보관·도난·습도·복원은 시설 시스템 후속 단계) ──
@@ -363,13 +324,53 @@ export const BLACK_MARKET_BUY_PRICE_RATIO = 0.75;
 export const STOLEN_TO_BLACKMARKET_CHANCE = 0.5;
 export const BLACK_MARKET_STOLEN_PRICE_RATIO = 0.32;
 
-// ── 거점별 시세 모델 (§11.4) — 이번 단계 범위 밖 ───────────────────────────
+// ── 거점별 시세 모델 (§11.4, world-map.md §8 — 2단계에서 실제로 구현.
+// app/src/game/market.ts가 쓴다) ────────────────────────────────────────────
 export const REGIONAL_PRICE_MULT_MIN = 0.60;
 export const REGIONAL_PRICE_MULT_MAX = 1.40;
+export const THEMATIC_PREFERENCE_BONUS = 0.08;
+export const ARBITRAGE_MAX_SPREAD_RATIO = REGIONAL_PRICE_MULT_MAX / REGIONAL_PRICE_MULT_MIN; // ≈2.33(파생값)
+export const PRICE_UPDATE_INTERVAL_HOURS = 6;
+export const PRICE_CYCLE_HOURS = 72;
+export const PRICE_DRIFT_AMPLITUDE = 0.06;
+export const SUPPLY_SHOCK_MAGNITUDE = 0.10;
+export const SUPPLY_SHOCK_DECAY_HOURS = 48;
 
-// ── 정보 비대칭·원거리 교역 (§11.4) — 이번 단계 범위 밖 ────────────────────
+// ── 정보 비대칭·원거리 교역 (§11.4, world-map.md §8.5 — 2단계에서 실제로 구현) ──
 export const REMOTE_ARBITRAGE_MIN_DISTANCE_KM = 3_000;
 export const REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX = 1.60;
+
+// ── 세계지도 렌더(world-map.md §6) — 2단계, app/src/render/worldmap.ts가 쓴다 ──
+export const MAP_ZOOM_LEVELS = 3; // 세계 → 권역 → 유적. 이번 단계는 세계 줌 1단계만 구현한다
+export const MAP_WORLD_DOT_GRID_W = 320;
+export const MAP_WORLD_DOT_GRID_H = 160;
+export const MAP_DOT_PX = 2;
+export const MAP_REGION_ZOOM_FACTOR = 4;
+export const COASTLINE_LAND_THRESHOLD = 0.5;
+export const MAP_BOOKMARK_CAP = 10; // 탐색 UX(§7) — 북마크·추천 UI 자체는 5단계 몫, 상수만 선언
+export const RECOMMEND_TOP_N = 3;
+
+// ── 스텝(고용) — notes/staff.md, 2단계에서 실제로 구현. app/src/game/staff.ts가 쓴다.
+// 관장·경매관장은 박물관·경매장(3단계 이후)이 없어 급여·능력치 공식만 미리 둔다 ──
+export const STAFF_STAT_MIN = 1;
+export const STAFF_STAT_MAX = 100;
+export const FOREMAN_DIG_COEFF = 0.05; // LEADERSHIP=100 → D_team 기반항에 +5
+export const FOREMAN_NAV_SPEED_COEFF = 0.003; // NAVIGATION=100 → 이동속도 +30%
+export const MUSEUM_CURATOR_COEFF = 0.005;
+export const MUSEUM_CURATOR_CONTRIB_CAP = 1.5;
+export const THEFT_RECOVERY_BASE = 0.20;
+export const CURATOR_RECOVERY_COEFF = 0.006;
+export const THEFT_RECOVERY_CHANCE_CAP = 0.80;
+export const AUCTIONEER_NEGOTIATION_COEFF = 0.006;
+export const AUCTIONEER_LOGISTICS_COEFF = 0.1;
+export const STAFF_MARKET_REFRESH_HOURS = 24;
+export const STAFF_MARKET_CANDIDATE_COUNT = 3;
+export const STAFF_SALARY_STAT_COEFF = 0.6;
+export const FOREMAN_SALARY_INCOME_SHARE = 0.03;
+export const CURATOR_SALARY_INCOME_SHARE = 0.15;
+export const AUCTIONEER_SALARY_FEE_SHARE = 0.05;
+export const STAFF_PROMOTION_INTERVAL_HOURS = 168;
+export const STAFF_PROMOTION_STAT_GAIN = 2;
 
 // 급여 원천징수 전환(G29/B7)으로 STAFF_ARREARS_*·STAFF_RETIREMENT_*·
 // SALARY_ARREARS_GRACE_HOURS 계열은 삭제됐다 — 여기 선언하지 않는다.

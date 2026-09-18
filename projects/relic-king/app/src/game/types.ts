@@ -1,6 +1,12 @@
 export type Tier = 0 | 1 | 2 | 3 | 4;
 
-export type SiteId = "korea" | "egypt" | "rome";
+/**
+ * 12거점(v0.2, notes/world-map.md §0·§1). 기존 3거점(korea/egypt/rome)은
+ * 이름을 바꾸지 않는다 — 이미 앵커 도시 하나짜리 지역이었다.
+ */
+export type SiteId =
+  | "korea" | "egypt" | "rome" | "greece" | "china" | "turkey" | "iraq"
+  | "india" | "mexico" | "peru" | "japan" | "israel";
 
 export type Shape =
   | "jar" | "sword" | "crown" | "mask" | "scroll"
@@ -40,7 +46,12 @@ export type SiteProgress = {
   layer: number;
   layerProgress: number;
   dropProgress: number;
+  /** base(본거지) 승격 여부. `unlockCost`는 이제 원정 자격이 아니라 이 승격에만 든다
+   *  (notes/decisions.md G17/A10). 필드 이름은 v0.1을 유지하지만 의미가 넓어졌다. */
   unlocked: boolean;
+  /** base로 승격된 world.t 시각. HOME_BASE_BONUS_DURATION_HOURS 창 판정에 쓴다.
+   *  base가 아니면 null. */
+  baseSince: number | null;
 };
 
 export type PendingItem = {
@@ -49,6 +60,9 @@ export type PendingItem = {
   /** 감정 완료까지 남은 초. 큐 전체가 병렬로 처리되므로 대기 중인 모든 항목이 동시에 줄어든다. */
   remain: number;
   estimate: number;
+  /** 이 유물을 캐낸 발굴단의 단장 id(있으면). 단장 급여(staff.md §5) 원천징수의 근거다 —
+   *  레거시 단독 발굴(클릭·인부)이나 라이벌 발굴은 undefined다. */
+  diggerForemanId?: string;
 };
 
 /** 보존 상태 축(0=파손 ~ 4=관급). 희소도(Tier)와 독립이다(notes/decisions.md G6) */
@@ -65,6 +79,9 @@ export type VaultItem = {
    *  false/undefined다 — ASSET_SCORE(§13.1, G49/B4)가 전시 중 유물을 자산 축에서
    *  제외해야 하므로 그 필터가 걸 수 있게 필드만 미리 선언해 둔다. */
   displayed?: boolean;
+  /** PendingItem.diggerForemanId가 감정을 거쳐 그대로 넘어온 값 — 매각 시점 단장
+   *  급여 원천징수(staff.md §5)의 근거. */
+  diggerForemanId?: string;
 };
 
 /**
@@ -145,7 +162,7 @@ export type SeasonState = {
 };
 
 export type World = {
-  version: 2;
+  version: 2 | 3;
   t: number;
   lastTickAt: number;
   funds: number;
@@ -173,6 +190,22 @@ export type World = {
   ended: boolean;
   /** v0.2 신설(spec.md §13.2·§13.4) — 기본값(시즌 1, t=0 시작)으로 항상 안전하게 채워진다 */
   seasonState: SeasonState;
+
+  // ── v0.2 2단계: 세계지도·거점·원정·스텝(신설) ───────────────────────────
+  /** 발굴단(spec.md §8.1). 초기엔 0개 — 단장을 고용해 팀을 만들어야 생긴다. */
+  teams: ExpeditionTeam[];
+  /** 해금된 발굴단 슬롯 수(1~MAX_EXPEDITION_TEAMS_CAP). `teams.length`의 상한이다. */
+  maxTeams: number;
+  /** 고용한 스텝 전원(단장·관장·경매관장, notes/staff.md). */
+  staff: Staff[];
+  /** 무료 감정권 보유 수(world-map.md §4 미탐사 보너스). runAppraisal이 소비한다. */
+  appraisalVouchers: number;
+  /** 한 번이라도 on_site로 도달한 거점(영구 플래그, 시즌 한정 — world-map.md §8.5). */
+  visitedSites: Partial<Record<SiteId, boolean>>;
+  /** 그 거점에서 미탐사 보너스(층1 최초 돌파)를 이미 지급했는가(시즌 한정). */
+  unexploredBonusGranted: Partial<Record<SiteId, boolean>>;
+  /** 마지막 거점 이전(relocateBase) 시각. 쿨다운(RELOCATION_COOLDOWN_HOURS) 판정용 */
+  lastRelocationAt: number | null;
 };
 
 export type StepReport = {
@@ -183,13 +216,8 @@ export type StepReport = {
   layerUps: number;
 };
 
-// ════════════════════════════════════════════════════════════════════════
-// v0.2 후속 단계 타입 — 선언만 한다(spec.md §5·§8.1·§13.4). 원정·시설·시장·
-// 라이벌 확장 로직은 이번 1단계 범위가 아니다. 아래 타입은 아직 World의 어떤
-// 필드에도 연결돼 있지 않다 — 후속 단계가 실제로 배선한다.
-// ════════════════════════════════════════════════════════════════════════
-
-/** 발굴단(spec.md §8.1). 감정소·보관소와 달리 거점에 종속되지 않는 전역 자원이다 */
+/** 발굴단(spec.md §8.1). 감정소·보관소와 달리 거점에 종속되지 않는 전역 자원이다.
+ *  `World.teams`에 실제로 연결된다(2단계 — app/src/game/expedition.ts). */
 export type ExpeditionTeam = {
   id: string;
   foremanId: string;
@@ -202,6 +230,7 @@ export type ExpeditionTeam = {
   arrivesAt: number;
   /** status가 idle로 바뀌는 시각(귀환 완료) */
   returnsAt: number;
+  /** 이 원정에 미스헵이 발생했는가(파견 시점 1회 판정, spec.md §8.3) */
   mishapRolled: boolean;
   routine: { enabled: boolean; target: SiteId } | null;
 };
@@ -209,12 +238,21 @@ export type ExpeditionTeam = {
 /**
  * 고용 스텝 3직군(notes/staff.md §1~§3). 직군마다 스탯 이름이 달라 판별
  * 유니온으로 선언한다 — `any`로 뭉개지 않는다. 스탯 범위는 공통으로 1~100
- * (`STAFF_STAT_MIN`~`STAFF_STAT_MAX`, notes/staff.md §0).
+ * (`STAFF_STAT_MIN`~`STAFF_STAT_MAX`, notes/staff.md §0). `World.staff`에
+ * 실제로 연결된다(2단계 — app/src/game/staff.ts). 단, 관장·경매관장은 박물관·
+ * 경매장 시설(3단계 이후 범위)이 없어 아직 고용 액션이 없다 — 급여·능력치
+ * 공식만 미리 구현해 둔다.
  */
 export type Foreman = { id: string; name: string; role: "foreman"; leadership: number; navigation: number };
 export type Curator = { id: string; name: string; role: "curator"; curation: number; securitySense: number };
 export type Auctioneer = { id: string; name: string; role: "auctioneer"; negotiation: number; logistics: number };
 export type Staff = Foreman | Curator | Auctioneer;
+
+// ════════════════════════════════════════════════════════════════════════
+// v0.2 후속 단계 타입 — 선언만 한다(spec.md §9·§13.4). 시설·시즌 영속화는
+// 이번 2단계 범위가 아니다. 아래 타입은 아직 World의 어떤 필드에도 연결돼
+// 있지 않다 — 후속 단계가 실제로 배선한다.
+// ════════════════════════════════════════════════════════════════════════
 
 /** 감정소·보관소(전역)와 박물관·경매장(거점 종속, spec.md §8.1)을 함께 표현한다.
  *  등급/레벨의 의미는 kind에 따라 다르다(§9.1·§10.4·§11.1의 비용 곡선 참조). */

@@ -11,7 +11,8 @@
     "sim": "tsx src/sim/run.ts",
     "smoke": "node ../tests/e2e/smoke.mjs",
     "qa:migration": "tsx src/sim/qa_migration.ts",
-    "qa:season": "tsx src/sim/qa_season_rollover.ts"
+    "qa:season": "tsx src/sim/qa_season_rollover.ts",
+    "qa:expedition": "tsx src/sim/qa_expedition.ts"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.4",
