@@ -215,10 +215,22 @@ const WORLD_LABEL_CANDIDATES: LabelCandidate[] = [
   { dx: -5, dy: -3, align: "right" }, // 좌상단
   { dx: 5, dy: 12, align: "left" }, // 우하단
   { dx: -5, dy: 12, align: "right" }, // 좌하단
-  { dx: 11, dy: -12, align: "left", leader: true }, // 우상단, 더 멀리(리더선)
-  { dx: -11, dy: -12, align: "right", leader: true }, // 좌상단, 더 멀리(리더선)
-  { dx: 11, dy: 18, align: "left", leader: true }, // 우하단, 더 멀리(리더선)
-  { dx: -11, dy: 18, align: "right", leader: true } // 좌하단, 더 멀리(리더선)
+  // 아래부터는 리더선을 달고 사다리처럼 멀어진다. 지중해~메소포타미아 구간은
+  // 6거점이 가로 40px 안에 몰려 있어 위 4개만으로는 자리가 안 난다 — 실제
+  // 스크린샷에서 튀르키예·그리스와 이스라엘·이집트가 붙어 읽히지 않았다.
+  // 세로 사다리를 4단 더 파서 각 라벨이 제 줄을 갖게 한다.
+  { dx: 11, dy: -13, align: "left", leader: true },
+  { dx: -11, dy: -13, align: "right", leader: true },
+  { dx: 11, dy: 22, align: "left", leader: true },
+  { dx: -11, dy: 22, align: "right", leader: true },
+  { dx: 14, dy: -23, align: "left", leader: true },
+  { dx: -14, dy: -23, align: "right", leader: true },
+  { dx: 14, dy: 32, align: "left", leader: true },
+  { dx: -14, dy: 32, align: "right", leader: true },
+  { dx: 17, dy: -33, align: "left", leader: true },
+  { dx: -17, dy: -33, align: "right", leader: true },
+  { dx: 17, dy: 42, align: "left", leader: true },
+  { dx: -17, dy: 42, align: "right", leader: true }
 ];
 
 type LabelRect = { x0: number; y0: number; x1: number; y1: number };
@@ -228,7 +240,12 @@ function rectsOverlap(a: LabelRect, b: LabelRect): boolean {
 }
 
 const LABEL_FONT_H = 8; // "9px monospace" 대략 높이
-const LABEL_PAD = 1;
+/** 라벨 사각형의 여백. 1px로 두면 두 라벨이 경계를 딱 맞대 "붙어 보이는" 상태가
+ *  충돌 판정을 통과한다 — 겹치지 않아도 읽히지 않으면 같은 결함이다. */
+const LABEL_PAD = 2;
+/** 마커 자체도 라벨이 피해야 할 장애물이다. 이게 없으면 다른 거점의 점 위에
+ *  글자가 얹혀 점과 획이 섞인다. */
+const MARKER_HALF = 3;
 
 function candidateRect(x: number, y: number, textW: number, c: LabelCandidate): LabelRect {
   const ax = x + c.dx;
@@ -333,7 +350,12 @@ export function drawWorldMap(ctx: CanvasRenderingContext2D, view: WorldMapView, 
       const pb = priority[view.markerState[b.id] ?? "unvisited"];
       return pa - pb;
     });
-    const placedRects: LabelRect[] = [];
+    // 모든 마커를 먼저 장애물로 깔아 둔다 — 라벨이 남의 점 위에 얹히면
+    // 점과 획이 섞여 둘 다 안 읽힌다.
+    const placedRects: LabelRect[] = SITES.map((s) => {
+      const { x, y } = positions[s.id];
+      return { x0: x - MARKER_HALF, y0: y - MARKER_HALF, x1: x + MARKER_HALF, y1: y + MARKER_HALF };
+    });
     for (const s of order) {
       const { x, y } = positions[s.id];
       if (x < -20 || x > MAP_W + 20 || y < -20 || y > MAP_H + 20) continue;

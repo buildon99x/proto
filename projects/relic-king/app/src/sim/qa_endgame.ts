@@ -25,13 +25,13 @@ import { staffCandidates } from "../game/staff";
 import type { SiteId, World } from "../game/types";
 
 const STEP = 10;
-// 12거점을 순회하며 발굙단을 분산 배치한다(korea가 시작 base라 첫 팀은 그대로 둔다)
+// 12거점을 순회하며 발굴단을 분산 배치한다(korea가 시작 base라 첫 팀은 그대로 둔다)
 const TOUR_ORDER: SiteId[] = [
   "korea", "egypt", "rome", "greece", "turkey", "israel", "india", "china", "iraq", "japan", "mexico", "peru"
 ];
 
 function ensureTeams(w: World) {
-  // 자금이 허락하는 한 발굙단 슬롯을 최대(4)까지 늘린다
+  // 자금이 허락하는 한 발굴단 슬롯을 최대(4)까지 늘린다
   while (w.teams.length >= w.maxTeams && w.maxTeams < MAX_EXPEDITION_TEAMS_CAP) {
     if (!unlockTeamSlot(w)) break;
   }

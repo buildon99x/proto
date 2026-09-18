@@ -294,7 +294,7 @@ export const AUTO_SELL_KEEP_ONE_PER_SPECIES = true;
  *  재투자) 점검 주기(초). `useGame.ts`가 탭을 열어 둔 채 방치하는 동안 이
  *  주기로 직접 부른다(엔진의 `advance()`/`step()` 내부에서는 부르지 않는다 —
  *  오프라인 적분 스텝 무관성이 깨지기 때문, engine.ts의 `applyOffline` 주석
- *  참조). 발굙단 루틴 재파견과 비슷한 체감 빈도로 잡았다. */
+ *  참조). 발굴단 루틴 재파견과 비슷한 체감 빈도로 잡았다. */
 export const AUTO_ROUTINE_INTERVAL_SECONDS = 60;
 /** 인부·장비·감정소 자동 재투자가 항상 남겨 두는 자금 여유분 — 다음 몇 건의
  *  감정비 정도는 항상 감당할 수 있게, 재투자가 감정 파이프라인의 현금을

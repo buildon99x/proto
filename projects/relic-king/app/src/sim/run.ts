@@ -12,7 +12,7 @@
  * 12거점·시설(박물관·경매장·보관소)을 전혀 쓰지 않았다. `MAX_OWNED_SITES=3`
  * (base 슬롯)에 묶여 신규 9거점의 효과가 이 기준선에는 전혀 보이지 않았다
  * (eval.md §13.3(a) 참조 — 도감이 24h 만에 멈췄다). 이번 패스가 정책을
- * "발굙단 파견·거점 확장·시설 건립·스텝 고용을 포함한 합리적인 방치 플레이어"로
+ * "발굴단 파견·거점 확장·시설 건립·스텝 고용을 포함한 합리적인 방치 플레이어"로
  * 교체해, v0.2 시스템이 실제로 쓰이는 기준선으로 만든다. 그리고 이 정책으로
  * v0.2 엔딩(spec.md §13.2, RANK_SCORE 종합 1위 + CODEX_SCORE≥CODEX_GOAL_V2를
  * 1시간 연속 유지)에 실제로 도달하는지 측정한다 — 척추 4번(클릭 0회 완주)의
@@ -40,11 +40,11 @@ import { auctioneerSlotBonus } from "../game/staff";
 import type { AuctionHouse, Auctioneer, PersistentRecord, SiteId, World } from "../game/types";
 
 const STEP_EARLY = 2; // 초반 1200초(드랍 간격·20분 통계)는 v0.1과 동일한 정밀도를 유지한다
-const STEP_LATE = 15; // 12거점·발굙단·시설을 다 쓰는 장시간 시뮬은 성능을 위해 굵게 쪼갠다
+const STEP_LATE = 15; // 12거점·발굴단·시설을 다 쓰는 장시간 시뮬은 성능을 위해 굵게 쪼갠다
 
 /**
- * 12거점을 순회하는 발굙단 배정 순서(qa_endgame.ts와 같은 방식 — korea는 레거시
- * 단독 발굴이 이미 파고 있으니 발굙단은 egypt부터 채운다).
+ * 12거점을 순회하는 발굴단 배정 순서(qa_endgame.ts와 같은 방식 — korea는 레거시
+ * 단독 발굴이 이미 파고 있으니 발굴단은 egypt부터 채운다).
  */
 const TOUR_ORDER: SiteId[] = [
   "korea", "egypt", "rome", "greece", "turkey", "israel", "india", "china", "iraq", "japan", "mexico", "peru"
@@ -85,7 +85,7 @@ function nextTarget(w: World): SiteId {
   return [...rank].sort((a, b) => siteCoverageGap(w, b) - siteCoverageGap(w, a))[0];
 }
 
-/** 발굙단 슬롯 해금 → 단장 고용 → 새 거점 파견까지 — 방치형 정책의 "발굙단 파견" 축 */
+/** 발굴단 슬롯 해금 → 단장 고용 → 새 거점 파견까지 — 방치형 정책의 "발굴단 파견" 축 */
 function ensureTeams(w: World) {
   while (w.teams.length >= w.maxTeams && w.maxTeams < MAX_EXPEDITION_TEAMS_CAP) {
     if (!unlockTeamSlot(w)) break;
@@ -147,7 +147,7 @@ function liquidateSurplus(w: World) {
 }
 
 /** 종당 2점 이상 보유한 T0~T2 잉여를 경매에 돌린다(자산 축은 이미 쉽게 포화되므로
- *  환금해 발굙단·시설 확장에 재투자하는 쪽이 낫다) */
+ *  환금해 발굴단·시설 확장에 재투자하는 쪽이 낫다) */
 function listSparesAtAuction(w: World, house: AuctionHouse) {
   const auctioneer = w.staff.find((s) => s.id === house.auctioneerId && s.role === "auctioneer") as
     | Auctioneer
@@ -168,7 +168,7 @@ function listSparesAtAuction(w: World, house: AuctionHouse) {
 }
 
 /** 보관소·습도·복원·보안·박물관·경매장 — "시설 건립" 축. 급하지 않은 지출이라
- *  발굙단·레거시 확장보다 뒤에 붙되, 매 틱 조금씩 흘려 넣는다. */
+ *  발굴단·레거시 확장보다 뒤에 붙되, 매 틱 조금씩 흘려 넣는다. */
 function ensureFacilities(w: World) {
   const home = teamHomeSite(w);
 
@@ -224,7 +224,7 @@ function bestSite(w: World): SiteId {
  * 1) 안전판(vault 잉여 직접매각) — 종당 1점을 남기고 파는 vault 정리로,
  *    아래 2)~5)가 쓸 유동성을 만든다.
  * 2) base 확장(최대 3) — 레거시 단독 발굴의 무대.
- * 3) 발굙단 파견·재배정 — 12거점 전역 도감 커버리지를 만드는 핵심 축.
+ * 3) 발굴단 파견·재배정 — 12거점 전역 도감 커버리지를 만드는 핵심 축.
  * 4) 시설 건립(보관소·박물관·경매장·스텝) — 자산·명성 축과 환금을 돕는다.
  *
  * **미감정 적체 시 블라인드 매각·레거시 단독 발굴 업그레이드(감정소·장비·
@@ -255,8 +255,8 @@ function act(w: World) {
 
   ensureTeams(w);
   redispatchIdleTeams(w);
-  // 다음 발굙단 슬롯 해금 비용의 1.5배를 먼저 비축한다 — 그 전까지는 팀
-  // 인원·장비 증강을 미룬다. 팀 발굙력을 계속 올리면 원정비(노셔널 수입 비례)도
+  // 다음 발굴단 슬롯 해금 비용의 1.5배를 먼저 비축한다 — 그 전까지는 팀
+  // 인원·장비 증강을 미룬다. 팀 발굴력을 계속 올리면 원정비(노셔널 수입 비례)도
   // 같이 커져 "슬롯 하나를 더 늘려 12거점 커버리지를 넓히는" 더 나은 투자로
   // 갈 자금이 한 팀의 점증 업그레이드에 계속 흡수돼 버린다(마무리 패스 실측 —
   // 48시간이든 336시간이든 팀이 1개에서 멈췄다, notes/decisions.md G56).
@@ -380,7 +380,7 @@ function main() {
   const rank = ranking(w);
   const codex = codexProgress(w);
 
-  console.log("──────── 방치 기준선(클릭 0회, v0.2 — 발굙단·거점 확장·시설·스텝) ────────");
+  console.log("──────── 방치 기준선(클릭 0회, v0.2 — 발굴단·거점 확장·시설·스텝) ────────");
   console.log(`시뮬 길이        ${duration(w.t)}`);
   console.log(`첫 유물 드랍     ${fmt(idle.marks.firstDrop)}   (기준 40초 이내)`);
   console.log(`20분 내 드랍     ${idle.dropsIn20}점, 평균 간격 ${idle.avgGap.toFixed(1)}초   (기준 300초 이하)`);
@@ -393,7 +393,7 @@ function main() {
   console.log(`자산             ${won(playerAssets(w))} ₩   자산순위(v0.1식) ${rank.findIndex((r) => r.id === "player") + 1}위`);
   console.log(`도감             소장 ${codex.owned} / 소실 ${codex.lost} / 검증 총 ${codex.total}종  (${((codex.owned / codex.total) * 100).toFixed(0)}%, CODEX_GOAL_V2 ${CODEX_GOAL_V2 * 100}%)`);
   console.log(`발굴력(레거시)   ${digPower(w).toFixed(0)}/s   인부 ${w.workers} 장비 Lv.${w.gear} 감정소 Lv.${w.lab}`);
-  console.log(`발굙단           ${w.teams.length}팀, 방문 거점 ${SITES.filter((s) => w.visitedSites[s.id]).length}/12`);
+  console.log(`발굴단           ${w.teams.length}팀, 방문 거점 ${SITES.filter((s) => w.visitedSites[s.id]).length}/12`);
   console.log(`레이스           승 ${w.stats.racesWon} / 패 ${w.stats.racesLost}`);
   console.log("순위표(v0.1 자산 단독 기준 — 참고용, 실제 엔딩 판정은 RANK_SCORE 3축이다)");
   for (const r of rank) {
