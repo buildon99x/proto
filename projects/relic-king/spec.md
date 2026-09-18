@@ -286,10 +286,25 @@ G23/A9)와 일치한다.
 
 ### 3.4 제보 배너
 
+> 이 절은 v0.1 규칙(즉시 전환 가능한 세계, 조작 없이 대상 발굴지로 바로 이동)이다.
+> v0.2는 §8.6이 이 절을 대체한다 — 원정 회차제 위에서 배너가 `[집중 굴착]`·`[급파]`
+> 두 조작으로 다시 그려진다(아래 v0.2 배너 참조, `notes/decisions.md` G45/A8).
+
 상단 전면, 붉은 계열, 카운트다운 숫자와 `[이 발굴지로 이동]` 버튼.
 **게임 안에서 유일하게 플레이어를 방해하는 UI.** 이 특권을 다른 알림에 주지 않는다.
 
+**v0.2 배너**(§8.6 최신 설계 반영 — G45/A8): `[이 발굴지로 이동]` 단일 버튼은
+v0.2 원정 회차제와 맞지 않는다(이동은 즉시가 아니라 회차제 원정이다). 배너는
+항상 60~150초만 뜨고, 대상 거점의 발굴단 상태에 따라 버튼이 둘 중 하나로
+갈린다 — `on_site` 팀이 있으면 `[집중 굴착]`(명중률 28%→60%, 원정비 2배),
+유휴 팀만 있고 압축 이동시간이 `EMERGENCY_DISPATCH_MAX_REACH_HOURS`(4h)
+이내면 `[급파]`(즉시 출발, 배너와 무관하게 도착 후 판정). 반응 불가능한
+거점(둘 다 없음)이면 조작 버튼 없이 정보 표시로만 뜬다. §8.6에 전체 규칙이 있다.
+
 ### 3.5 도감
+
+> 이 절은 v0.1 규칙(`CodexState` 3종)이다. v0.2는 §13.3이 5종으로 확장한다
+> (아래 v0.2 상태 참조, `notes/decisions.md` G20/B8·G16/A5).
 
 격자 배치. 상태 3종:
 
@@ -298,6 +313,14 @@ G23/A9)와 일치한다.
 - **영구 소실** — 회색 + 소유자 이름 (T4만 해당)
 
 하단 상시 문구: *평가액은 게임 내 가상 단위이며 실제 감정가가 아닙니다.*
+
+**v0.2 상태 5종**(§13.3): 위 3종에 두 상태가 더해진다. **발견했으나 비소장**
+(`discovered_not_owned`, G20/B8 — 전량 매각한 종. 실루엣이 아니라 흐린 컬러
+윤곽 + "이전에 소장함" 표기로 미발견과 구분한다) · **소장(미감정)**
+(`owned_unidentified`, G16/A5 — T4가 드랍 즉시 소유는 확정됐지만 아직 감정
+전이라 이름이 "???"인 상태. 컬러 스프라이트는 뜨지만 이름 칸만 "???"다).
+`CODEX_SCORE`(§13.1)는 "owned"와 "owned_unidentified" 둘 다 센다 — 소유
+확정이 기준이지 이름 공개 여부가 기준이 아니다.
 
 ### 3.6 접근성·편의
 
@@ -332,6 +355,13 @@ G23/A9)와 일치한다.
 
 ## 5. 데이터 모델
 
+> **(정정 — 실제 코드와의 불일치, B11)** 아래는 `app/src/game/types.ts`의 실제
+> 타입과 지금 일치시켰다. 이전 버전은 `unlocked` 필드가 빠져 있었고
+> (`SiteProgress.unlocked: boolean`, 실코드에 존재), `settings.autoAppraise`라는
+> 실제로 존재하지 않는 유령 설정을 실었었다(`Settings`의 실제 필드는
+> `autoSellBelow`·`muted` 둘뿐이다 — 자동 감정은 애초에 토글이 아니라 상시 동작이라
+> 별도 설정이 필요 없다, §3.6).
+
 ```ts
 type Tier = 0 | 1 | 2 | 3 | 4;
 
@@ -354,44 +384,64 @@ type Artifact = {
 
 type WorldLedger = Record<string, { total: number; remaining: number; owners: OwnerId[] }>;
 
+// SaveV1은 별도 타입이 아니라 game/types.ts의 World를 그대로 직렬화한다
+// (game/save.ts). 실제 필드는 아래와 같다 — 문서화 목적으로 옮겨 적되,
+// 정본은 언제나 types.ts다.
 type SaveV1 = {
   version: 1;
-  startedAt: number; lastTickAt: number;
+  t: number; lastTickAt: number;
   funds: number;
-  sites: Record<SiteId, { layer: number; layerProgress: number; dropProgress: number }>;
+  sites: Record<SiteId, { layer: number; layerProgress: number; dropProgress: number; unlocked: boolean }>;
   activeSite: SiteId;
-  workers: number; gearLevel: number; labLevel: number;
-  unappraised: { artifactId: string; at: number }[];
-  vault: { artifactId: string; value: number }[];
+  workers: number; gear: number; lab: number;
+  pending: { uid: number; artifactId: string; remain: number; estimate: number }[];
+  vault: { uid: number; artifactId: string; value: number }[];
   ledger: WorldLedger;
   rivals: RivalState[];
-  codex: Record<string, "unseen" | "owned" | "lost">;
-  settings: { autoAppraise: boolean; autoSellBelow: Tier | null; muted: boolean };
+  codex: Record<string, "unseen" | "owned" | "lost">;   // v0.2는 §13.3의 5종으로 확장(아직 미구현)
+  settings: { autoSellBelow: Tier | null; muted: boolean };   // autoAppraise는 존재하지 않는다 — 자동 감정은 토글이 아니라 상시 동작
+  stats: { drops: number; clicks: number; sold: number; blindSold: number; racesWon: number; racesLost: number };
 };
 ```
 
 ## 6. 모듈 구조
 
+> **(정정 — 실제 코드와의 불일치, B11)** 아래는 이 저장소의 **실제 파일 목록**이다.
+> 이전 버전이 나열한 `dig.ts`·`ledger.ts`·`appraise.ts`·`rivals.ts`·`tips.ts`·
+> `economy.ts`·`data/`는 존재하지 않는다 — v0.1은 이 로직 전부를 `engine.ts`
+> 하나에 담았다. v0.2 구현이 이 모듈들로 쪼갤지는 아직 결정되지 않았으므로
+> **"신규"로 표시한 것 외에는 전부 지금 존재하는 실제 파일이다.**
+
 ```
 app/src/
   App.tsx                 얇은 셸
+  main.tsx                진입점
   game/
-    engine.ts             1초 틱 + 오프라인 적분
-    dig.ts                굴착·드랍 진척
-    ledger.ts             세계 원장
-    appraise.ts           감정·매각
-    rivals.ts             라이벌 시뮬
-    tips.ts               제보 생성·레이스 판정
-    economy.ts            가격·업그레이드 곡선
-    save.ts               직렬화·마이그레이션·백업
+    engine.ts             1초 틱 + 오프라인 적분 + 굴착·드랍·감정·매각·라이벌·제보 로직 전부
+    balance.ts             밸런스 상수·수식
+    artifacts.ts            유물 데이터셋(v0.1: 60점. `data/` 분리는 480종과 함께 검토할 신규 사항)
+    types.ts                World·Artifact 등 타입 정의
+    format.ts               숫자·조사 포맷 유틸
+    rng.ts                   결정론적 난수
+    save.ts                  직렬화·마이그레이션·백업
   render/
-    strata.ts             지층 단면 캔버스
-    sprite.ts             절차적 유물 스프라이트 생성기
-    palette.ts            40색 팔레트
-  data/
-    artifacts.ts          유물 데이터셋
-    sites.ts              발굴지·층 구성
-  ui/                     헤더·소장고·세계·도감·모달
+    strata.ts               지층 단면 캔버스
+    sprite.ts                절차적 유물 스프라이트 생성기
+    palette.ts               40색 팔레트
+    worldmap-raster.ts       [신규 — G8, 세계지도 빌드타임 래스터 결과]
+  sim/
+    run.ts                   헤드리스 시뮬 본체
+    qa_growth.ts              통화 성장 계측
+    qa_sigma1.ts               σ=1 정책 재현
+  ui/
+    Header.tsx                상시 헤더
+    DigView.tsx                발굴 탭(v0.1) → v0.2는 세계지도·발굴단 UI로 확장
+    VaultView.tsx               소장고 탭
+    WorldView.tsx                세계 탭(v0.1) → v0.2는 ux-v02.md §1.4 헤더 아이콘 2개로 대체
+    CodexView.tsx                도감 탭
+    Overlays.tsx                  모달(온보딩·복귀 요약 등)
+    Sprite.tsx                     스프라이트 렌더 컴포넌트
+    useGame.ts                     게임 루프 React 훅
 ```
 
 게임 로직은 순수 TypeScript, React는 셸만. (retro-bowling·wave-runner와 같은 구조)
@@ -1144,9 +1194,25 @@ RivalState.teams: {
 `notes/staff.md` §5)를 판매 시점에 원천징수당한다. §5의 급여 모델이 실현
 매각액에서 즉시 떼는 방식으로 바뀌면서 체납이라는 상태 자체가 구조적으로
 발생할 수 없어졌으므로, 라이벌에게도 별도의 체납 처리가 없다(§9.4의 "체납"
-절이 삭제됨과 동일하게 적용). 도난(§9.4·G9)은 라이벌의 전시 유물(라이벌이
-박물관을 지었다면, 후속 실행에서 라이벌 박물관 건립 로직을 구체화한다)에
-동일하게 적용된다.
+절이 삭제됨과 동일하게 적용).
+
+**라이벌은 v0.2에서 박물관을 짓지 않는다**(범위 확정 — B10, 이전 버전의
+"후속 실행에서 라이벌 박물관 건립 로직을 구체화한다"는 떠넘기기를 여기서
+닫는다). 근거: 박물관은 명성 축의 획득 경로이자(G5) 전시 슬롯·관장 고용·
+캡 계산이 딸린 시설이라, 라이벌 6인 전원에게 같은 체계를 동일하게 시뮬레이션
+하려면 이번 실행 범위를 넘는 새 설계(라이벌의 건립 의사결정·슬롯 채우기
+전략)가 필요하다 — "정의하거나 빼라"의 선택지 중 더 싼 쪽을 택했다. 결과:
+
+```
+FAME_SCORE(라이벌) = min(1, (유일 최초발굴 횟수 / TIER4_SPECIES_TOTAL) × FAME_FIRST_T4_WEIGHT)
+```
+
+라이벌의 `FAME_SCORE`는 관람객 항 없이 유일 최초발굴 항만으로 계산된다
+(§13.1 공식에서 관람객 항을 0으로 고정한 특수형이다 — 새 식을 만들지 않는다).
+**도난(§9.4·G9)은 오직 플레이어의 전시 유물에만 적용된다** — 라이벌에게는
+박물관도 전시 슬롯도 없으므로 적용 대상 자체가 없다. 라이벌이 박물관을
+지을 수 있게 하는 것은 v0.3 이후 라이벌 고도화(`brief.md` 범위표의 v0.5
+"도난 시스템 고도화" 항목과 같은 층위)로 명시적으로 미룬다.
 
 ### 12.3 제보 레이스의 동일 규칙 (§8.6과 직결)
 
@@ -1173,7 +1239,7 @@ ASSET_SCORE = min(1, 자산 / ASSET_SCORE_REF)
 ASSET_SCORE_REF = ARTIFACT_WORLD_VALUE_CEILING × ASSET_SCORE_REF_SHARE   // notes/economy.md §6.1
 ASSET_SCORE_REF_SHARE = 0.15   // 375억. 플레이어+라이벌 6인의 "평균 몫"(1/7≈14.3%)보다 살짝 높게
 
-CODEX_SCORE = (state == "owned"인 고유 종수) / ARTIFACT_SPECIES_TARGET   // 480. "owned" 정의는 §9.2·아래 CodexState 참조. 전시 여부와 무관 — 전시해도 "소장" 상태는 유지된다
+CODEX_SCORE = (state가 "owned" 또는 "owned_unidentified"인 고유 종수) / ARTIFACT_SPECIES_TARGET   // 480. 정의는 §9.2·§13.3 CodexState 참조. 전시 여부와 무관 — 전시해도 "소장" 상태는 유지된다
 
 FAME_SCORE = min(1,
   (박물관 누적 관람객 / FAME_VISITOR_NORMALIZATION)
@@ -1212,17 +1278,42 @@ SEASON_TITLE_HOLD_HOURS = 1
 D7(3시간) 시점 실측 누적 최고 자금(1억 7,777만₩, `notes/decisions.md`
 G44/A7)으로 충분히 도달 가능하다.
 
-### 13.3 도감(CodexState) v0.2 개정
+### 13.3 도감(CodexState) v0.2 개정 — 5종 (개정 — `notes/decisions.md` G16/A5)
 
 ```ts
-type CodexState = "unseen" | "discovered_not_owned" | "owned" | "lost";
+type CodexState = "unseen" | "discovered_not_owned" | "owned_unidentified" | "owned" | "lost";
 ```
 
-"owned"는 **현재 소장 중**(vault에 그 종이 1점 이상)일 때만 성립한다. 전부
-매각하면 "discovered_not_owned"로 내려가고 `CODEX_SCORE`에서 빠진다 — "팔면
-순위가 떨어진다"는 v0.1의 창발이 도감 축에서도 성립한다. 단 "최초 발견 여부"
-(`FAME_SCORE`의 유일 최초발굴 횟수)는 매각과 무관하게 계정 영구 기록으로 별도
-유지한다 — 도감(순위용)과 최초발견(명성용)은 다른 값이다.
+G20(B8)이 "owned" 재정의로 3종에 `discovered_not_owned`를 더해 4종을 만들었고,
+G16(A5)이 별도로 "소장(미감정)"이 "정식 CodexState 값 중 하나가 된다"고
+약속했다(§9.2). 두 결정이 실제로는 같은 타입을 가리키므로, 이 절이 그 약속을
+이행해 5번째 값 `owned_unidentified`를 정식으로 추가한다(철회하지 않는다).
+
+- **"owned"**는 **현재 소장 중**(vault에 그 종이 1점 이상, 감정 완료로 이름·
+  평가액 확정)일 때만 성립한다.
+- **"owned_unidentified"**는 T4가 드랍(롤 성공)된 직후 §9.2 (a)~(c)가 일어난
+  시점부터 감정 완료 전까지의 상태다 — 소유는 확정됐지만 이름은 아직 "???"다.
+  감정이 끝나면 "owned"로 전이한다.
+- 전부 매각하면(마지막 1점까지) "discovered_not_owned"로 내려가고
+  `CODEX_SCORE`에서 빠진다 — "팔면 순위가 떨어진다"는 v0.1의 창발이 도감
+  축에서도 성립한다.
+
+`CODEX_SCORE`(§13.1)는 "owned"와 "owned_unidentified" 둘 다 고유 종수에
+포함한다 — 이 축이 재는 것은 "이름을 아는가"가 아니라 "지금 갖고 있는가"이므로,
+감정 대기 중이라는 이유로 순위에서 일시적으로 빠지면 T4를 막 손에 넣은
+순간에 오히려 도감 순위가 내려가는 역설이 생긴다. `ASSET_SCORE`(§13.1,
+확정 평가액 기준)는 감정 완료(=`"owned"` 전이) 전까지 그 유물을 반영하지
+않는다 — 자산과 도감이 "소유 확정" 시점을 다르게 취급하는 것이 아니라,
+애초에 서로 다른 것(자산은 확정 평가액의 합, 도감은 소유 여부)을 재기
+때문이다. 단 "최초 발견 여부"(`FAME_SCORE`의 유일 최초발굴 횟수)는 매각과
+무관하게 계정 영구 기록으로 별도 유지한다 — 도감(순위용)과 최초발견(명성용)은
+다른 값이다.
+
+**v0.1과의 관계**: `app/src/game/types.ts`의 `CodexState`는 3종
+(`"unseen" | "owned" | "lost"`)으로 유지한다 — v0.2 발굴단·박물관 시스템이
+아직 코드가 없으므로 `"owned_unidentified"`(T4 드랍-감정 분리)·
+`"discovered_not_owned"`(재판매 후 하락)가 실제로 발생할 경로 자체가 없다.
+v0.2 구현 착수 시점에 이 타입을 5종으로 확장한다.
 
 ### 13.4 시즌 롤오버 — vault·funds·시설·스텝·거점
 

@@ -46,13 +46,18 @@ export type SiteProgress = {
 export type PendingItem = {
   uid: number;
   artifactId: string;
-  /** 감정 완료까지 남은 초. 큐의 맨 앞 1점만 줄어든다. */
+  /** 감정 완료까지 남은 초. 큐 전체가 병렬로 처리되므로 대기 중인 모든 항목이 동시에 줄어든다. */
   remain: number;
   estimate: number;
 };
 
 export type VaultItem = { uid: number; artifactId: string; value: number };
 
+/**
+ * v0.1 3종 상태. v0.2는 이 타입을 5종으로 확장한다(spec.md §13.3) — 아직
+ * 코드가 없는 v0.2 시스템이라 여기서는 반영하지 않는다(v0.1 실코드 유지 원칙,
+ * DROP_INTERVAL_FLOOR_SECONDS 등과 같은 패턴).
+ */
 export type CodexState = "unseen" | "owned" | "lost";
 
 export type RivalState = {

@@ -326,7 +326,12 @@ export const projects = [
       "readme": "README.md",
       "changelog": "changelog.md",
       "mda": "notes/mda.md",
-      "dataset": "notes/artifacts-dataset.md"
+      "dataset": "notes/artifacts-dataset.md",
+      "decisions": "notes/decisions.md",
+      "economy": "notes/economy.md",
+      "worldMap": "notes/world-map.md",
+      "staff": "notes/staff.md",
+      "uxV02": "notes/ux-v02.md"
     },
     "assets": {
       "cover": "assets/screenshots/cover.png"
@@ -338,6 +343,6 @@ export const projects = [
       "sim": "pnpm --filter relic-king sim",
       "smoke": "pnpm --filter relic-king smoke"
     },
-    "updatedAt": "2026-09-17T21:21:27+00:00"
+    "updatedAt": "2026-09-18T02:26:15+00:00"
   }
 ] as const satisfies readonly ProjectMetadata[];
