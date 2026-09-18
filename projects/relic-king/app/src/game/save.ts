@@ -1,5 +1,8 @@
 import { ARTIFACTS, ARTIFACT_BY_ID } from "./artifacts";
-import { CONDITION_INITIAL_BASE_BY_TIER, MAX_EXPEDITION_TEAMS_INITIAL, SEASON_LENGTH_WEEKS, SITES } from "./balance";
+import {
+  CONDITION_INITIAL_BASE_BY_TIER, MAX_EXPEDITION_TEAMS_INITIAL, RESTORATION_BASE_HOURS,
+  SEASON_LENGTH_WEEKS, SITES
+} from "./balance";
 import { createWorld, nextUid } from "./engine";
 import type { World } from "./types";
 
@@ -83,6 +86,29 @@ const MIGRATIONS: Record<number, Migration> = {
     ...raw,
     version: 4,
     rivals: (raw.rivals ?? []).map((r: any) => ({ ...r, homeSite: r.homeSite ?? r.favSite }))
+  }),
+  /**
+   * v4 → v5 (4단계 — 시설과 시장, notes/decisions.md G54). v4까지는 감정소
+   * 확장·보관소·박물관·경매장·암시장·도난 관련 필드가 World에 전혀 없었다.
+   * 손실 없이 그대로 옮기고 신규 필드를 안전한 기본값(레벨1·빈 배열·0)으로
+   * 채운다 — 등급1 시작 레벨들은 labCost 등 기존 업그레이드 규약과 맞춘 것이라
+   * "업그레이드를 산 적 없다"는 기존 세이브의 실제 상태를 정확히 반영한다.
+   */
+  4: (raw: any) => ({
+    ...raw,
+    version: 5,
+    vaultLevel: raw.vaultLevel ?? 1,
+    humidityLevel: raw.humidityLevel ?? 1,
+    restorationLevel: raw.restorationLevel ?? 1,
+    securityLevel: raw.securityLevel ?? 1,
+    lastConditionDay: raw.lastConditionDay ?? Math.floor((raw.t ?? 0) / 86400),
+    nextRestorationAttemptAt: raw.nextRestorationAttemptAt ?? (raw.t ?? 0) + RESTORATION_BASE_HOURS * 3600,
+    museumDigEma: raw.museumDigEma ?? 0,
+    museums: raw.museums ?? [],
+    auctionHouses: raw.auctionHouses ?? [],
+    blackMarket: raw.blackMarket ?? { listings: [] },
+    theftEvents: raw.theftEvents ?? [],
+    onlineElapsedSeconds: raw.onlineElapsedSeconds ?? 0
   })
 };
 

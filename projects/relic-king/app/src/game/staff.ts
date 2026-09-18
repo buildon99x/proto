@@ -1,5 +1,7 @@
 import {
-  AUCTIONEER_LOGISTICS_COEFF, CURATOR_RECOVERY_COEFF, CURATOR_SALARY_INCOME_SHARE,
+  AUCTIONEER_LOGISTICS_COEFF, AUCTIONEER_NEGOTIATION_COEFF, AUCTION_GRADE_MAX,
+  AUCTION_PRICE_MULT_MAX, AUCTION_PRICE_MULT_MIN, AUCTION_SLOT_CAP_BY_GRADE,
+  CURATOR_RECOVERY_COEFF, CURATOR_SALARY_INCOME_SHARE,
   FOREMAN_DIG_COEFF, FOREMAN_NAV_SPEED_COEFF, FOREMAN_SALARY_INCOME_SHARE,
   AUCTIONEER_SALARY_FEE_SHARE, MUSEUM_CURATOR_COEFF, MUSEUM_CURATOR_CONTRIB_CAP,
   STAFF_MARKET_CANDIDATE_COUNT, STAFF_PROMOTION_STAT_GAIN, STAFF_SALARY_STAT_COEFF,
@@ -83,7 +85,7 @@ export function foremanSpeedMult(navigation: number): number {
   return 1 + navigation * FOREMAN_NAV_SPEED_COEFF;
 }
 
-// ── 박물관 관장(staff.md §2, 아직 박물관 시설이 없어 미배선 — 공식만 구현) ──
+// ── 박물관 관장(staff.md §2, 4단계에서 실제로 구현) ────────────────────────
 
 export function museumCuratorContribution(curation: number): number {
   return Math.min(MUSEUM_CURATOR_CONTRIB_CAP, 1 + MUSEUM_CURATOR_COEFF * curation);
@@ -93,12 +95,24 @@ export function theftRecoveryChance(securitySense: number): number {
   return Math.min(THEFT_RECOVERY_CHANCE_CAP, THEFT_RECOVERY_BASE + CURATOR_RECOVERY_COEFF * securitySense);
 }
 
-// ── 경매장 관장(staff.md §3, 아직 경매장 시설이 없어 미배선 — 슬롯 공식만 구현.
-// 가격배율 공식은 AUCTION_PRICE_MULT_MIN/MAX가 아직 balance.ts에 없어(economy.md
-// 쪽 상수, 이번 2단계 총람 밖) 구현하지 않는다 — 경매장 시설 단계에서 함께 붙인다) ──
+// ── 경매장 관장(staff.md §3, 4단계에서 실제로 구현) ────────────────────────
 
+/**
+ * 실질 슬롯 = AUCTION_SLOT_CAP_BY_GRADE[grade] + floor(LOGISTICS × COEFF)(staff.md §3).
+ * **버그 수정**(notes/decisions.md G54): 2단계 구현은 `AUCTION_SLOT_CAP_BY_GRADE`가
+ * 아직 balance.ts에 없어 `grade`(1~4 숫자) 자체를 슬롯 수 근사치로 대신 썼다
+ * (G52.4 — "물류 슬롯 보너스만 먼저 구현"). 이제 그 상수가 있으니 문서 공식대로
+ * 고친다. grade는 1부터 시작 — 배열은 0-index라 grade-1로 조회한다.
+ */
 export function auctioneerSlotBonus(grade: number, logistics: number): number {
-  return grade + Math.floor(logistics * AUCTIONEER_LOGISTICS_COEFF);
+  return AUCTION_SLOT_CAP_BY_GRADE[grade - 1] + Math.floor(logistics * AUCTIONEER_LOGISTICS_COEFF);
+}
+
+/** 경매장 가격배율(staff.md §3, G30/C·G50/C#6). auctioneer가 없으면 negotiation=0을 넘긴다 */
+export function auctionPriceMult(grade: number, negotiation: number): number {
+  const gradeProgress = (grade - 1) / (AUCTION_GRADE_MAX - 1);
+  const reach = Math.min(1, gradeProgress + negotiation * AUCTIONEER_NEGOTIATION_COEFF);
+  return AUCTION_PRICE_MULT_MIN + (AUCTION_PRICE_MULT_MAX - AUCTION_PRICE_MULT_MIN) * reach;
 }
 
 // ── 급여(staff.md §5, G29/B7 — 판매 시점 원천징수) ───────────────────────
@@ -112,12 +126,12 @@ export function foremanSalary(saleAmount: number, foreman: Foreman): number {
   return FOREMAN_SALARY_INCOME_SHARE * statMultiplier(foreman.leadership, foreman.navigation) * saleAmount;
 }
 
-/** 아직 박물관이 없어 미배선 — 박물관 시설 단계에서 시간당 관람수입 정산에 연결한다 */
+/** 박물관 시간당 관람수입 정산(engine.ts accrueMuseumIncome)에 연결된다 */
 export function curatorSalary(visitorIncome: number, curator: Curator): number {
   return CURATOR_SALARY_INCOME_SHARE * statMultiplier(curator.curation, curator.securitySense) * visitorIncome;
 }
 
-/** 아직 경매장이 없어 미배선 — 경매장 시설 단계에서 낙찰 확정에 연결한다 */
+/** 경매 낙찰 확정(engine.ts settleAuctionListing)에 연결된다 */
 export function auctioneerSalary(hammerPrice: number, auctioneer: Auctioneer): number {
   return AUCTIONEER_SALARY_FEE_SHARE * statMultiplier(auctioneer.negotiation, auctioneer.logistics) * hammerPrice;
 }

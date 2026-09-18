@@ -107,6 +107,80 @@ export function labCost(level: number): number {
   return Math.round(200_000 * Math.pow(2.6, level - 1));
 }
 
+// ════════════════════════════════════════════════════════════════════════
+// v0.2 4단계 — 시설·시장 비용 곡선 7종(spec.md §9.1, notes/decisions.md G30/C).
+// 전부 기존 업그레이드(labCost 등)와 동일한 규약이다 — 인자는 "지금 레벨"(구매
+// 전, 1부터 시작)이고 반환값은 그 레벨에서 다음 레벨로 올리는 비용이다.
+// ════════════════════════════════════════════════════════════════════════
+export function auctionGradeCost(grade: number): number {
+  return Math.round(AUCTION_GRADE_COST_BASE * Math.pow(AUCTION_GRADE_COST_GROWTH, grade - 1));
+}
+export function museumGradeCost(grade: number): number {
+  return Math.round(MUSEUM_GRADE_COST_BASE * Math.pow(MUSEUM_GRADE_COST_GROWTH, grade - 1));
+}
+export function marketingLevelCost(level: number): number {
+  return Math.round(MARKETING_LEVEL_COST_BASE * Math.pow(MARKETING_LEVEL_COST_GROWTH, level - 1));
+}
+export function humidityLevelCost(level: number): number {
+  return Math.round(HUMIDITY_LEVEL_COST_BASE * Math.pow(HUMIDITY_LEVEL_COST_GROWTH, level - 1));
+}
+export function restorationLevelCost(level: number): number {
+  return Math.round(RESTORATION_LEVEL_COST_BASE * Math.pow(RESTORATION_LEVEL_COST_GROWTH, level - 1));
+}
+export function securityLevelCost(level: number): number {
+  return Math.round(SECURITY_LEVEL_COST_BASE * Math.pow(SECURITY_LEVEL_COST_GROWTH, level - 1));
+}
+export function vaultLevelCost(level: number): number {
+  return Math.round(VAULT_LEVEL_COST_BASE * Math.pow(VAULT_LEVEL_COST_GROWTH, level - 1));
+}
+
+/**
+ * 경매장 건립비(1~3번째 건립, 등급1). spec.md·economy.md 어디에도 명시적
+ * "n번째 건립비" 곡선이 없다(박물관만 MUSEUM_BUILD_COST_BASE/GROWTH가 있음) —
+ * 문서 공백이라 새 상수를 만들지 않고 같은 지수 형태로 AUCTION_GRADE_COST_BASE/
+ * GROWTH를 재사용해 채운다(notes/decisions.md G54 참조. 3천만/9천만/2.7억).
+ */
+export function auctionHouseBuildCost(n: number): number {
+  return Math.round(AUCTION_GRADE_COST_BASE * Math.pow(AUCTION_GRADE_COST_GROWTH, n - 1));
+}
+export function museumBuildCost(n: number): number {
+  return Math.round(MUSEUM_BUILD_COST_BASE * Math.pow(MUSEUM_BUILD_COST_GROWTH, n - 1));
+}
+
+/** 보관소 정원(§9.3). level은 1부터 시작(레벨1 = 업그레이드 전 기본 정원) */
+export function vaultCapacity(level: number): number {
+  return VAULT_CAPACITY_BASE + VAULT_CAPACITY_PER_LEVEL * (level - 1);
+}
+
+/**
+ * 감정량(§9.1) — "실제 변수에 배선"하되 PENDING_CAP은 G39/A1 이후 순수 UI
+ * 경고 임계값이지 처분 트리거가 아니다(파괴·강제매각 없음). 그 결정을 뒤집지
+ * 않는다 — 이 함수는 w.lab에 연동된 올바른 숫자를 계산해 노출할 뿐, 큐 길이를
+ * 강제로 제한하지 않는다.
+ */
+export function pendingCap(lab: number): number {
+  return PENDING_CAP_BASE + PENDING_CAP_PER_LEVEL * lab;
+}
+
+/** 습도조절(§9.4). humidityLevel·overflow(야적 여부)를 받아 일일 저하 확률을 낸다 */
+export function conditionDecayChancePerDay(humidityLevel: number, overflow: boolean): number {
+  const base = CONDITION_DECAY_BASE_RATE_PER_DAY / (1 + HUMIDITY_DECAY_REDUCTION_COEFF * humidityLevel);
+  return overflow ? base * VAULT_OVERFLOW_CONDITION_DECAY_MULT : base;
+}
+
+/** 복원기술(§9.4) */
+export function restorationAttemptHours(level: number): number {
+  return RESTORATION_BASE_HOURS / level;
+}
+export function restorationSuccessChance(level: number): number {
+  return Math.min(RESTORATION_SUCCESS_CAP, RESTORATION_SUCCESS_BASE + level * RESTORATION_SUCCESS_COEFF);
+}
+
+/** 보안(§9.4) — 반출 직후 도난 판정 유예 시간 */
+export function theftInitialGraceHours(securityLevel: number): number {
+  return VAULT_SECURITY_BASE_GRACE_HOURS * (1 + securityLevel * VAULT_SECURITY_GRACE_COEFF);
+}
+
 /** 클릭 1회가 주는 진척 = D × CLICK_FACTOR × combo */
 export const CLICK_FACTOR = 0.06;
 export const CLICK_COMBO_MAX = 1.4;
@@ -263,6 +337,14 @@ export const VAULT_SECURITY_BASE_GRACE_HOURS = 2;
 export const VAULT_SECURITY_GRACE_COEFF = 0.5;
 export const THEFT_RATE_BASE = 0.0014;
 export const THEFT_JUDGEMENT_ONLINE_ONLY = true;
+/**
+ * notes/economy.md §8 정본(spec.md §14 총람에는 없지만 §9.4·§11.1·§11.5 본문이
+ * 그대로 인용한다). `THEFT_RECOVERY_WINDOW_HOURS`는 **온라인 경과 시간 기준**이다
+ * (economy.md 원문 각주) — World.onlineElapsedSeconds가 이 요구를 그대로 구현한다
+ * (척추 3번: 오프라인 중에는 회수기간 타이머가 흐르지 않는다).
+ */
+export const THEFT_APPLICABLE_MAX_TIER = 3;
+export const THEFT_RECOVERY_WINDOW_HOURS = 72;
 
 /**
  * 보존 상태(condition) 축 — 희소도(티어)와 분리된 품질 축이다
@@ -309,6 +391,10 @@ export const VAULT_LEVEL_COST_GROWTH = 1.7;
 export const TEMP_EXHIBIT_GRADE = 0;
 export const TEMP_EXHIBIT_SLOT_COUNT = 1;
 export const TEMP_EXHIBIT_COST = 0;
+/** notes/economy.md §8 정본(spec.md §14 총람에는 없지만 §10.1~10.2 본문이 그대로
+ *  인용한다) — G5·G24가 확정한 30% 캡과 20% 유지비. */
+export const MUSEUM_NET_INCOME_CAP = 0.30;
+export const MUSEUM_UPKEEP_RATE = 0.20;
 export const MUSEUM_VISITOR_BASE = 300;
 export const MUSEUM_POP_REF = 1_000_000;
 export const MUSEUM_POP_EXPONENT = 0.4;
@@ -327,15 +413,29 @@ export const MUSEUM_FATIGUE_DECAY_RATE = 0.02;
 export const MUSEUM_FRESHNESS_FLOOR = 0.3;
 export const MUSEUM_FRESHNESS_RECOVERY_RATE = 0.05;
 
-// ── 경매장·암시장 (§11) — 이번 단계 범위 밖 ────────────────────────────────
+// ── 경매장·암시장 (§11, 4단계에서 실제로 구현) ─────────────────────────────
 export const AUCTION_HOUSE_MAX_COUNT = 3;
 export const AUCTION_SETTLE_HOURS = 6;
 export const AUCTION_SLOT_CAP_BY_GRADE = [3, 5, 8, 12] as const;
 export const AUCTION_GRADE_MAX = 4;
+/**
+ * `notes/economy.md` §8·§3.2 정본. spec.md §14 총람 자체에는 없지만(§11.1 채널표에만
+ * 인용) economy.md가 실제 선언부라 여기서 그대로 옮긴다(G50/C#6 — 기존 1.0→1.15).
+ */
+export const AUCTION_PRICE_MULT_MIN = 1.15;
+export const AUCTION_PRICE_MULT_MAX = 1.4;
+export const AUCTION_FEE_RATE = 0.08;
 export const BLACK_MARKET_RESTOCK_INTERVAL_HOURS = 2;
 export const BLACK_MARKET_BUY_PRICE_RATIO = 0.75;
+export const BLACK_MARKET_SLOT_CAPACITY = 12;
 export const STOLEN_TO_BLACKMARKET_CHANCE = 0.5;
 export const BLACK_MARKET_STOLEN_PRICE_RATIO = 0.32;
+/** 암시장 일반(미감정) 매물의 대상 티어 상한(4단계 신설 — spec.md 미명시 공백을
+ *  채운 설계 판단, notes/decisions.md G54 참조). T3 이상을 원장과 무관하게 찍어내면
+ *  척추 1번(현실 개체수=재고)이 깨진다 — 일반 매물은 원장에서 실제로 빼내 만든다
+ *  (takeForBlackMarket, engine.ts)는 이 상한 안에서만 유일성이 자연히 보존된다.
+ *  T3 이상은 오직 장물(도난) 경로로만 암시장에 등장한다(§11.5, THEFT_APPLICABLE_MAX_TIER). */
+export const BLACK_MARKET_LOOSE_MAX_TIER = 2;
 
 // ── 거점별 시세 모델 (§11.4, world-map.md §8 — 2단계에서 실제로 구현.
 // app/src/game/market.ts가 쓴다) ────────────────────────────────────────────

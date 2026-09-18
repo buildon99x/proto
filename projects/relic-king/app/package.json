@@ -13,7 +13,8 @@
     "qa:migration": "tsx src/sim/qa_migration.ts",
     "qa:season": "tsx src/sim/qa_season_rollover.ts",
     "qa:expedition": "tsx src/sim/qa_expedition.ts",
-    "qa:artifacts": "tsx src/sim/qa_artifacts.ts"
+    "qa:artifacts": "tsx src/sim/qa_artifacts.ts",
+    "qa:economy": "tsx src/sim/qa_economy.ts"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.4",

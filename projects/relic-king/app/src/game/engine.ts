@@ -1,25 +1,34 @@
 import {
-  APPRAISE_FEE, ARTIFACT_SPECIES_TARGET, ARTIFACT_WORLD_VALUE_CEILING, ASSET_SCORE_REF_SHARE,
-  AUTO_SELL_KEEP_ONE_PER_SPECIES, AUTO_SELL_MAX_TIER, BASE_DIG, BLIND_SELL_RATE, CATCHUP_MAX,
-  CATCHUP_SLOPE, CLICK_COMBO_MAX, CLICK_COMBO_STEP, CLICK_COMBO_WINDOW, CLICK_FACTOR, CLICK_RATE_CAP,
-  CODEX_GOAL, CONDITION_INITIAL_BASE_BY_TIER, DEPTH_INCOME_BONUS, EMERGENCY_DISPATCH_COST_MULT,
-  EMERGENCY_DISPATCH_MAX_REACH_HOURS, EMERGENCY_DISPATCH_MISHAP_MULT, EMERGENCY_DISPATCH_TRAVEL_MULT,
-  EXPEDITION_COST_INCOME_RATIO, EXPEDITION_MISHAP_CHANCE_CAP, EXPEDITION_MISHAP_TIME_LOSS_RATIO,
-  EXPEDITION_SPEED_KMH, EXPEDITION_TEAM_UNLOCK_BASE, EXPEDITION_TEAM_UNLOCK_GROWTH,
-  FAME_FIRST_T4_WEIGHT, FAME_PER_DEDICATED, FAME_PER_DEDICATED_T4, FAME_VISITOR_NORMALIZATION,
-  FIRST_RELOCATION_FREE_WINDOW_HOURS, FOREMAN_HIRE_COST, FOREMAN_SALARY_INCOME_SHARE, GEAR_MULT,
-  HOME_BASE_BONUS_DROPMOD_MULT, HOME_BASE_BONUS_DURATION_HOURS, LAYERS_PER_SITE,
-  LOCKED_HOLD_TIER_EXEMPT_MIN_TIER, MAX_EXPEDITION_TEAMS_CAP, MAX_EXPEDITION_TEAMS_INITIAL,
-  MAX_GEAR_LEVEL, MAX_OWNED_SITES, OFFLINE_CAP_SECONDS, OFFLINE_EFFICIENCY, PROGRESS_VALUE,
+  APPRAISAL_HIGH_TIER_TIME_MULT, APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE, ARTIFACT_SPECIES_TARGET,
+  ARTIFACT_WORLD_VALUE_CEILING, ASSET_SCORE_REF_SHARE, AUCTION_FEE_RATE, AUCTION_HOUSE_MAX_COUNT,
+  AUCTION_SETTLE_HOURS, AUCTION_SLOT_CAP_BY_GRADE, AUTO_SELL_KEEP_ONE_PER_SPECIES, AUTO_SELL_MAX_TIER,
+  BASE_DIG, BLACK_MARKET_BUY_PRICE_RATIO, BLACK_MARKET_LOOSE_MAX_TIER,
+  BLACK_MARKET_RESTOCK_INTERVAL_HOURS, BLACK_MARKET_SLOT_CAPACITY, BLACK_MARKET_STOLEN_PRICE_RATIO,
+  BLIND_SELL_RATE, CATCHUP_MAX, CATCHUP_SLOPE, CLICK_COMBO_MAX, CLICK_COMBO_STEP, CLICK_COMBO_WINDOW,
+  CLICK_FACTOR, CLICK_RATE_CAP, CODEX_GOAL, CONDITION_VALUE_FACTOR, DEPTH_INCOME_BONUS,
+  EMERGENCY_DISPATCH_COST_MULT, EMERGENCY_DISPATCH_MAX_REACH_HOURS, EMERGENCY_DISPATCH_MISHAP_MULT,
+  EMERGENCY_DISPATCH_TRAVEL_MULT, EXPEDITION_COST_INCOME_RATIO, EXPEDITION_MISHAP_CHANCE_CAP,
+  EXPEDITION_MISHAP_TIME_LOSS_RATIO, EXPEDITION_SPEED_KMH, EXPEDITION_TEAM_UNLOCK_BASE,
+  EXPEDITION_TEAM_UNLOCK_GROWTH, FAME_FIRST_T4_WEIGHT, FAME_PER_DEDICATED, FAME_PER_DEDICATED_T4,
+  FAME_VISITOR_NORMALIZATION, FIRST_RELOCATION_FREE_WINDOW_HOURS, FOREMAN_HIRE_COST,
+  FOREMAN_SALARY_INCOME_SHARE, GEAR_MULT, HOME_BASE_BONUS_DROPMOD_MULT, HOME_BASE_BONUS_DURATION_HOURS,
+  LAYERS_PER_SITE, LOCKED_HOLD_TIER_EXEMPT_MIN_TIER, MAX_EXPEDITION_TEAMS_CAP,
+  MAX_EXPEDITION_TEAMS_INITIAL, MAX_GEAR_LEVEL, MAX_OWNED_SITES, MUSEUM_MAX_COUNT,
+  MUSEUM_NET_INCOME_CAP, MUSEUM_SLOT_BY_GRADE, OFFLINE_CAP_SECONDS, OFFLINE_EFFICIENCY, PROGRESS_VALUE,
   RANK_WEIGHT, REGIONAL_PRICE_MULT_MAX, REGIONAL_PRICE_MULT_MIN, RELOCATION_COOLDOWN_HOURS,
   RELOCATION_COST_ASSET_RATIO, REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX, REMOTE_ARBITRAGE_MIN_DISTANCE_KM,
+  RESTORATION_BASE_HOURS,
   SEASON_CASHOUT_RATIO, SEASON_CARRYOVER_FUNDS_CAP_MULT, SEASON_LENGTH_WEEKS, SITES, SITE_BY_ID,
-  STAFF_MARKET_REFRESH_HOURS, STAFF_PROMOTION_INTERVAL_HOURS, TIER4_SPECIES_TOTAL,
+  STAFF_MARKET_REFRESH_HOURS, STAFF_PROMOTION_INTERVAL_HOURS, STOLEN_TO_BLACKMARKET_CHANCE,
+  THEFT_APPLICABLE_MAX_TIER, THEFT_RATE_BASE, THEFT_RECOVERY_WINDOW_HOURS, TIER4_SPECIES_TOTAL,
   TIER_STOCK_PER_SPECIES, TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN, TIP_FIRST_DELAY,
   TIP_FOCUS_DIG_COST_MULT, TIP_FOCUS_DIG_HIT_CHANCE, TIP_MEAN_INTERVAL, TIP_PLAYER_HIT,
   TIP_RIVAL_HIT, UNEXPLORED_BONUS_APPRAISAL_VOUCHER, WORKER_DIG,
-  appraiseSeconds, distanceKm, dropThreshold, gearCost, labCost, layerCost, layerExpectedValue,
-  tierValue, tierWeights, workerCost
+  appraiseSeconds, auctionGradeCost, auctionHouseBuildCost, conditionDecayChancePerDay, distanceKm,
+  dropThreshold, gearCost, humidityLevelCost, labCost, layerCost, layerExpectedValue, marketingLevelCost,
+  museumBuildCost, museumGradeCost, restorationAttemptHours, restorationLevelCost,
+  restorationSuccessChance, securityLevelCost, theftInitialGraceHours, tierValue, tierWeights,
+  vaultCapacity, vaultLevelCost, workerCost
 } from "./balance";
 import { ARTIFACTS, ARTIFACT_BY_ID, artifactsOf } from "./artifacts";
 import {
@@ -28,11 +37,19 @@ import {
 } from "./expedition";
 import { josa } from "./format";
 import { localPriceMult } from "./market";
+import {
+  freshnessOnDisplay, freshnessRecovered, museumUpkeepHourly, museumVisitorIncomeHourly,
+  museumVisitorsPerDay
+} from "./museum";
 import { Rng } from "./rng";
-import { foremanSalary, foremanSpeedMult, promote, staffCandidates } from "./staff";
+import {
+  auctionPriceMult, auctioneerSalary, auctioneerSlotBonus, curatorSalary, foremanSalary,
+  foremanSpeedMult, museumCuratorContribution, promote, staffCandidates, theftRecoveryChance
+} from "./staff";
 import type {
-  Artifact, ExpeditionTeam, Foreman, Ledger, LogKind, OwnerId, PersistentRecord, RivalState,
-  SeasonState, Shape, SiteId, Staff, StepReport, Tier, VaultItem, World
+  Artifact, AuctionHouse, AuctionListing, Auctioneer, Curator, ExpeditionTeam, Foreman,
+  Ledger, LogKind, Museum, OwnerId, PersistentRecord, RivalState, SeasonState, Shape, SiteId, Staff,
+  StepReport, TheftEvent, Tier, VaultItem, World
 } from "./types";
 
 const SEASON_LENGTH_SECONDS = SEASON_LENGTH_WEEKS * 7 * 24 * 3600;
@@ -87,7 +104,7 @@ export function createWorld(seed = 20260917): World {
   for (const a of ARTIFACTS) codex[a.id] = "unseen";
 
   return {
-    version: 4,
+    version: 5,
     t: 0,
     lastTickAt: Date.now(),
     // 감정에는 추정가의 2%가 든다. 종잣돈이 0이면 첫 유물을 감정조차 못 해
@@ -136,7 +153,19 @@ export function createWorld(seed = 20260917): World {
     appraisalVouchers: 0,
     visitedSites: {},
     unexploredBonusGranted: {},
-    lastRelocationAt: null
+    lastRelocationAt: null,
+    vaultLevel: 1,
+    humidityLevel: 1,
+    restorationLevel: 1,
+    securityLevel: 1,
+    lastConditionDay: 0,
+    nextRestorationAttemptAt: RESTORATION_BASE_HOURS * 3600,
+    museumDigEma: 0,
+    museums: [],
+    auctionHouses: [],
+    blackMarket: { listings: [] },
+    theftEvents: [],
+    onlineElapsedSeconds: 0
   };
 }
 
@@ -216,6 +245,282 @@ export function fameScore(w: World, record: PersistentRecord): number {
 
 export function rankScore(w: World, record: PersistentRecord): number {
   return RANK_WEIGHT.asset * assetScore(w) + RANK_WEIGHT.codex * codexScore(w) + RANK_WEIGHT.fame * fameScore(w, record);
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// v0.2 4단계 — 시설과 시장(감정소 확장·보관소·박물관·경매장·암시장)
+// spec.md §9~§11, notes/decisions.md G16·G24·G49·G-A5·G9·G-C1이 이 절의 전제다.
+// ════════════════════════════════════════════════════════════════════════
+
+/** 그 site의 박물관. 건립한 적 없으면 등급0(임시 전시대, 무료 1슬롯, spec.md §10.1
+ *  G44/A7)을 가상으로 돌려준다 — base마다 항상 존재하는 자동 시설이라 별도
+ *  레코드 없이 "museums 배열에 없다"는 사실 자체가 등급0이다. */
+export function museumOf(w: World, site: SiteId): { grade: number; marketingLevel: number; curatorId?: string } {
+  return w.museums.find((m) => m.site === site) ?? { grade: 0, marketingLevel: 1, curatorId: undefined };
+}
+
+export function museumSlotCount(w: World, site: SiteId): number {
+  if (!w.sites[site].unlocked) return 0;
+  return MUSEUM_SLOT_BY_GRADE[museumOf(w, site).grade];
+}
+
+export function auctionHouseOf(w: World, site: SiteId): AuctionHouse | undefined {
+  return w.auctionHouses.find((a) => a.site === site);
+}
+
+/** 감정 완료 시점 또는 상태(condition) 변화 시마다 호출해 value를 다시 맞춘다
+ *  (notes/decisions.md G6·G51.7 — 1단계가 미배선으로 남긴 항목을 여기서 잇는다). */
+function recomputeVaultValue(item: VaultItem) {
+  const artifact = ARTIFACT_BY_ID[item.artifactId];
+  item.value = Math.round(tierValue(artifact.tier, artifact.valueFactor) * CONDITION_VALUE_FACTOR[item.condition]);
+}
+
+/**
+ * 지금 시각(t)의 FRESHNESS(spec.md §10.4). displaySessionStart/restBaseline/restSince
+ * 타임스탬프만의 순수 함수라 스텝 크기와 무관하다(qa_expedition.ts와 같은 원칙 —
+ * 누적 감쇠가 아니라 "언제부터"를 저장해 언제든 그 시점 값을 다시 계산한다).
+ */
+export function freshnessOf(item: VaultItem, t: number): number {
+  if (item.displayed && item.displaySessionStart !== undefined) {
+    return freshnessOnDisplay((t - item.displaySessionStart) / 3600);
+  }
+  if (item.restSince !== undefined && item.restBaseline !== undefined) {
+    return freshnessRecovered(item.restBaseline, (t - item.restSince) / 3600);
+  }
+  return 1;
+}
+
+/** 지금 순간 발굴 잠재 화폐창출률(₩/s) — 레거시 단독 발굴 + on_site 발굴단 전부 합산.
+ *  박물관 30% 캡(G24 — "플레이어 전체 발굴단 D 합" 기준)의 분모다. */
+function instantDigIncomeRate(w: World): number {
+  let sum = 0;
+  const d0 = digPower(w);
+  if (d0 > 0) {
+    const layer0 = w.sites[w.activeSite].layer;
+    const bonus0 = 1 + DEPTH_INCOME_BONUS * (layer0 - 1);
+    sum += (d0 * PROGRESS_VALUE * bonus0) / SITE_BY_ID[w.activeSite].dropMod;
+  }
+  for (const team of w.teams) {
+    if (team.status !== "on_site") continue;
+    const foreman = w.staff.find((s) => s.id === team.foremanId && s.role === "foreman") as Foreman | undefined;
+    const d = teamDigPower(team.workers, team.gearLevel, foreman?.leadership ?? 0);
+    const layer = w.sites[team.targetSite].layer;
+    const bonus = 1 + DEPTH_INCOME_BONUS * (layer - 1);
+    sum += (d * PROGRESS_VALUE * bonus) / SITE_BY_ID[team.targetSite].dropMod;
+  }
+  return sum;
+}
+
+/**
+ * 박물관 관람 순수입을 30% 캡(G24) 아래로 매 틱 적산한다(spec.md §10.1~10.2).
+ * 캡 기준 D 합은 1차 저역통과 필터(museumDigEma)로 "1시간 이동평균"을 근사한다
+ * (World.museumDigEma 주석 참조) — 발굴 공백기에 캡이 순간적으로 0이 되는 걸 막는다.
+ * 전시 중 유물이 없는 등급0 임시 전시대는 계산을 건너뛴다(관람객 0이므로 무해하지만
+ * 매 틱 순회 비용을 아낀다).
+ */
+function accrueMuseums(w: World, dt: number) {
+  const digRate = instantDigIncomeRate(w);
+  const decay = Math.exp(-dt / 3600);
+  w.museumDigEma = digRate + (w.museumDigEma - digRate) * decay;
+  const capHourly = MUSEUM_NET_INCOME_CAP * w.museumDigEma * 3600;
+
+  for (const site of SITES) {
+    if (!w.sites[site.id].unlocked) continue;
+    const museum = museumOf(w, site.id);
+    const slots = w.vault.filter((v) => v.displayed && v.museumSite === site.id);
+    if (slots.length === 0) continue;
+    const curator = w.staff.find((s) => s.id === museum.curatorId && s.role === "curator") as Curator | undefined;
+    const displayed = slots.map((v) => ({ tier: ARTIFACT_BY_ID[v.artifactId].tier, freshness: freshnessOf(v, w.t) }));
+    const visitors = museumVisitorsPerDay(site.population, displayed, curator?.curation ?? 0, museum.marketingLevel);
+    const income = museumVisitorIncomeHourly(visitors);
+    const upkeep = museumUpkeepHourly(income);
+    const salary = curator ? curatorSalary(income, curator) : 0;
+    const netBeforeCap = Math.max(0, income - upkeep - salary);
+    const netAfterCap = Math.min(netBeforeCap, Math.max(0, capHourly));
+    w.funds += (netAfterCap * dt) / 3600;
+  }
+}
+
+/**
+ * 습도 저하(spec.md §9.4) — 하루 경계를 넘을 때 한 번씩, vault의 비전시 유물 중
+ * 정원(vaultCapacity) 초과분("야적")에는 2배 확률을 적용한다. promoteStaffTick과
+ * 같은 결정론 경계 패턴(스텝 크기 무관, floor 비교).
+ */
+function conditionDecayTick(w: World, t0: number, dt: number, rng: Rng) {
+  const day = Math.floor((t0 + dt) / 86400);
+  if (day <= w.lastConditionDay) return;
+  w.lastConditionDay = day;
+
+  const stored = w.vault.filter((v) => !v.displayed).length;
+  const overflow = stored > vaultCapacity(w.vaultLevel);
+
+  for (const item of w.vault) {
+    if (item.condition <= 0) continue;
+    const itemOverflow = overflow && !item.displayed;
+    if (rng.chance(conditionDecayChancePerDay(w.humidityLevel, itemOverflow))) {
+      item.condition = (item.condition - 1) as VaultItem["condition"];
+      recomputeVaultValue(item);
+    }
+  }
+}
+
+/**
+ * 복원(spec.md §9.4) — 백그라운드 자동 시도(플레이어 조작 없음, 방치형 원칙).
+ * 간격(RESTORATION_BASE_HOURS/level)이 레벨업마다 짧아지는 동적 값이라 요일
+ * 나머지 연산 대신 "다음 시도 시각"을 직접 들고 다니며, 발동 때마다 그 시점의
+ * 레벨로 다시 예약한다 — tickExpeditions의 (arrivesAt, returnsAt) 경계 판정과
+ * 같은 원칙(스텝 크기 무관).
+ */
+function restorationTick(w: World, t0: number, dt: number, rng: Rng) {
+  if (t0 >= w.nextRestorationAttemptAt || w.nextRestorationAttemptAt > t0 + dt) return;
+  w.nextRestorationAttemptAt = w.t + restorationAttemptHours(w.restorationLevel) * 3600;
+  const chance = restorationSuccessChance(w.restorationLevel);
+  for (const item of w.vault) {
+    if (item.condition >= 4) continue; // "관급"에서는 시도하지 않는다
+    if (rng.chance(chance)) {
+      item.condition = (item.condition + 1) as VaultItem["condition"];
+      recomputeVaultValue(item);
+    }
+  }
+}
+
+/**
+ * 도난 판정(spec.md §9.4, G9·G39/A1) — **온라인 중에만** 수행한다(THEFT_JUDGEMENT_ONLINE_ONLY,
+ * spawnTip의 `if(!offline)` 패턴과 동일). 전시 중·THEFT_APPLICABLE_MAX_TIER(3) 이하·
+ * 보안 유예(THEFT_INITIAL_GRACE_HOURS)를 지난 유물만 대상이다. 유예는 w.t(게임 시각,
+ * 오프라인 경과 포함) 기준이어도 척추 3번과 무관하다 — 실제 확률 판정 자체가 이
+ * 함수 호출 자체(온라인 전용)로 이미 막혀 있어, 유예가 오프라인 동안 "먼저 끝나
+ * 있는" 것 자체는 손실을 만들지 않는다.
+ */
+function theftJudgeTick(w: World, dt: number, rng: Rng) {
+  for (const item of w.vault) {
+    if (!item.displayed || item.museumSite === undefined || item.displaySessionStart === undefined) continue;
+    const artifact = ARTIFACT_BY_ID[item.artifactId];
+    if (artifact.tier > THEFT_APPLICABLE_MAX_TIER) continue;
+    const graceHours = theftInitialGraceHours(w.securityLevel);
+    const elapsedHours = (w.t - item.displaySessionStart) / 3600;
+    if (elapsedHours < graceHours) continue;
+    const p = THEFT_RATE_BASE * (dt / 3600);
+    if (!rng.chance(p)) continue;
+
+    // 도난 확정 — 즉시 영구 상실이 아니라 72h 회수 창(onlineElapsedSeconds 기준)을 연다.
+    const site = item.museumSite;
+    const stolenAt = w.onlineElapsedSeconds;
+    const event: TheftEvent = {
+      id: `theft-${nextUid()}`,
+      artifactId: item.artifactId,
+      tier: artifact.tier,
+      value: item.value,
+      site,
+      stolenAtOnlineSeconds: stolenAt,
+      recoveryDeadlineOnlineSeconds: stolenAt + THEFT_RECOVERY_WINDOW_HOURS * 3600,
+      nextRecoveryAttemptOnlineSeconds: stolenAt + 3600
+    };
+    w.theftEvents.push(event);
+    w.vault = w.vault.filter((v) => v.uid !== item.uid);
+    demoteIfEmptied(w, artifact.id);
+    log(w, "system", `${SITE_BY_ID[site].name} 박물관에서 '${artifact.name}'${josa(artifact.name, "을를")} 도난당했다. 회수 기한 ${THEFT_RECOVERY_WINDOW_HOURS}시간(온라인 기준).`);
+  }
+}
+
+/**
+ * 도난 회수 시도 + 창 만료 처리(spec.md §9.4·§11.5). **전부 onlineElapsedSeconds
+ * 기준**이다 — 척추 3번(오프라인 중 영구 상실 금지)의 핵심 장치. 오프라인 동안은
+ * onlineElapsedSeconds가 늘지 않으므로 이 함수의 경계 조건이 전혀 넘어가지 않는다
+ * (호출 자체는 매 스텝 해도 안전하다 — 데이터가 안 바뀌면 아무 것도 하지 않는다).
+ */
+function theftResolveTick(w: World, rng: Rng, report: StepReport) {
+  const remaining: TheftEvent[] = [];
+  for (const event of w.theftEvents) {
+    if (w.onlineElapsedSeconds >= event.recoveryDeadlineOnlineSeconds) {
+      // 회수 실패 — 소유권이 넘어간다. 50%는 암시장 장물로, 50%는 라이벌 소장고로.
+      if (rng.chance(STOLEN_TO_BLACKMARKET_CHANCE)) {
+        w.blackMarket.listings.push({
+          id: nextUid(), kind: "stolen", artifactId: event.artifactId, estimate: event.value, theftEventId: event.id
+        });
+        evictBlackMarketOverflow(w);
+      } else if (w.rivals.length > 0) {
+        const rival = rng.pick(w.rivals);
+        rival.owned.push(event.artifactId);
+        rival.vaultValue += event.value;
+      }
+      report.lost.push({ artifactId: event.artifactId, owner: "theft" });
+      continue;
+    }
+    if (w.onlineElapsedSeconds >= event.nextRecoveryAttemptOnlineSeconds) {
+      const museum = museumOf(w, event.site);
+      const curator = w.staff.find((s) => s.id === museum.curatorId && s.role === "curator") as Curator | undefined;
+      const chance = theftRecoveryChance(curator?.securitySense ?? 0);
+      if (rng.chance(chance)) {
+        w.vault.push({
+          uid: nextUid(), artifactId: event.artifactId, value: event.value,
+          condition: ARTIFACT_BY_ID[event.artifactId].condition
+        });
+        if (w.codex[event.artifactId] !== "owned") w.codex[event.artifactId] = "owned";
+        log(w, "system", `'${ARTIFACT_BY_ID[event.artifactId].name}'${josa(ARTIFACT_BY_ID[event.artifactId].name, "을를")} 회수했다.`);
+        continue;
+      }
+      event.nextRecoveryAttemptOnlineSeconds = w.onlineElapsedSeconds + 3600;
+    }
+    remaining.push(event);
+  }
+  w.theftEvents = remaining;
+}
+
+/** 경매 정산(spec.md §11.1·§11.3, AUCTION_SETTLE_HOURS 경과 후) — w.t(게임 시각,
+ *  오프라인 포함) 기준으로 둔다. 상실 위험이 없는 지연 정산일 뿐이라 척추 3번과 무관하다. */
+function settleAuctions(w: World, t0: number, dt: number) {
+  for (const house of w.auctionHouses) {
+    const settled: AuctionListing[] = [];
+    const keep: AuctionListing[] = [];
+    for (const listing of house.listings) {
+      if (t0 < listing.settleAt && listing.settleAt <= t0 + dt) settled.push(listing);
+      else keep.push(listing);
+    }
+    house.listings = keep;
+    for (const listing of settled) {
+      const auctioneer = w.staff.find((s) => s.id === house.auctioneerId && s.role === "auctioneer") as
+        | import("./types").Auctioneer
+        | undefined;
+      const mult = auctionPriceMult(house.grade, auctioneer?.negotiation ?? 0);
+      const localMult = bestLocalPriceMult(w, ARTIFACT_BY_ID[listing.artifactId].shape);
+      const hammer = Math.round(listing.value * mult * localMult);
+      const afterFee = hammer * (1 - AUCTION_FEE_RATE);
+      const auctioneerCut = auctioneer ? auctioneerSalary(hammer, auctioneer) : 0;
+      const foreman = w.staff.find((s) => s.id === listing.diggerForemanId && s.role === "foreman") as Foreman | undefined;
+      const foremanCut = foreman ? foremanSalary(hammer, foreman) : 0;
+      const net = Math.round(afterFee - auctioneerCut - foremanCut);
+      w.funds += net;
+      w.stats.sold += 1;
+      demoteIfEmptied(w, listing.artifactId);
+      log(w, "system", `경매 낙찰 — '${ARTIFACT_BY_ID[listing.artifactId].name}' ${net.toLocaleString("ko-KR")}₩.`);
+    }
+  }
+}
+
+function evictBlackMarketOverflow(w: World) {
+  while (w.blackMarket.listings.length > BLACK_MARKET_SLOT_CAPACITY) w.blackMarket.listings.shift();
+}
+
+/**
+ * 암시장 일반(미감정) 매물 누적 재입고(spec.md §11.1, G3 — 시간 리셋이 아니라
+ * 누적 슬롯). BLACK_MARKET_RESTOCK_INTERVAL_HOURS 경계를 넘을 때마다 1점씩
+ * 원장에서 실제로 빼내 채운다 — T0~T2(BLACK_MARKET_LOOSE_MAX_TIER)로 제한해
+ * 척추 1번(유일성)을 지킨다(T3 이상은 오직 장물로만 암시장에 등장한다, §11.5).
+ */
+function restockBlackMarket(w: World, t0: number, dt: number, rng: Rng) {
+  const interval = BLACK_MARKET_RESTOCK_INTERVAL_HOURS * 3600;
+  if (Math.floor(t0 / interval) >= Math.floor((t0 + dt) / interval)) return;
+  const pool = ARTIFACTS.filter((a) => a.tier <= BLACK_MARKET_LOOSE_MAX_TIER && a.sourceStatus === "verified" && available(w, a));
+  if (pool.length === 0) return;
+  const artifact = rng.pick(pool);
+  w.ledger[artifact.id].remaining -= 1;
+  w.ledger[artifact.id].owners.push("blackmarket");
+  w.blackMarket.listings.push({
+    id: nextUid(), kind: "loose", artifactId: artifact.id,
+    estimate: layerExpectedValue(artifact.site, artifact.minLayer)
+  });
+  evictBlackMarketOverflow(w);
 }
 
 // ── 스텝 ──────────────────────────────────────────────────
@@ -785,6 +1090,11 @@ function promoteStaffTick(w: World, t0: number, dt: number) {
   w.staff = w.staff.map((s) => promote(s));
 }
 
+/** 감정 총 소요시간(초) — 감정소 레벨(속도) × 티어별 배율(spec.md §9.2 APPRAISAL_HIGH_TIER_TIME_MULT) */
+function totalAppraisalSeconds(lab: number, tier: Tier): number {
+  return appraiseSeconds(lab) * APPRAISAL_HIGH_TIER_TIME_MULT[tier];
+}
+
 function runAppraisal(w: World, dt: number, report: StepReport) {
   if (w.pending.length === 0) return;
   const done: typeof w.pending = [];
@@ -794,6 +1104,16 @@ function runAppraisal(w: World, dt: number, report: StepReport) {
   // 무료 감정권(appraisalVouchers, world-map.md §4 미탐사 보너스)이 있으면 수수료를
   // 면제한다 — 자금 게이트도 함께 풀린다(수수료가 0이 될 것이므로).
   for (const item of w.pending) {
+    const artifact = ARTIFACT_BY_ID[item.artifactId];
+    // 종류 해금(spec.md §9.2) — 감정소 레벨이 그 티어의 해금 레벨에 못 미치면
+    // "봉인 보관" 상태로 큐를 건너뛴다(카운트다운도, 처분도 없다 — G39/A1: 파괴·
+    // 강제매각 없는 무기한 대기. LOCKED_HOLD_CAP은 이제 순수 UI 경고치라 여기선
+    // 강제하지 않는다). 레벨이 오르면 다음 틱부터 자동으로 정상 큐에 합류한다.
+    if (w.lab < APPRAISAL_UNLOCK_LAB_LEVEL[artifact.tier]) {
+      keep.push(item);
+      continue;
+    }
+    item.remain = Math.min(item.remain, totalAppraisalSeconds(w.lab, artifact.tier));
     const fee = Math.round(item.estimate * APPRAISE_FEE);
     const covered = w.appraisalVouchers > 0 || w.funds >= fee;
     if (!covered) {
@@ -812,7 +1132,11 @@ function runAppraisal(w: World, dt: number, report: StepReport) {
 
   for (const item of done) {
     const artifact = ARTIFACT_BY_ID[item.artifactId];
-    const value = tierValue(artifact.tier, artifact.valueFactor);
+    // 보존 상태(condition)를 평가액에 실제로 곱한다(notes/decisions.md G6·G51.7).
+    // 초기값은 artifacts.ts가 이미 종별로 결정론 지터를 매긴 artifact.condition을
+    // 그대로 쓴다(티어 기준값을 다시 평평하게 매기지 않는다).
+    const condition = artifact.condition;
+    const value = Math.round(tierValue(artifact.tier, artifact.valueFactor) * CONDITION_VALUE_FACTOR[condition]);
     report.appraised.push({ artifactId: artifact.id, tier: artifact.tier, value });
     // 감정 완료 = 지식 공개(③) — 이름·평가액이 확정되고 도감은 "owned"로 전이한다(§9.2·§13.3)
     w.codex[artifact.id] = "owned";
@@ -822,25 +1146,44 @@ function runAppraisal(w: World, dt: number, report: StepReport) {
       w.stats.sold += 1;
     } else {
       w.vault.push({
-        uid: nextUid(), artifactId: artifact.id, value,
-        condition: CONDITION_INITIAL_BASE_BY_TIER[artifact.tier],
+        uid: nextUid(), artifactId: artifact.id, value, condition,
         diggerForemanId: item.diggerForemanId
       });
     }
   }
 }
 
-/**
- * 거점별 시세(world-map.md §8, G48/B3)를 반영한 최종 매각가에서 단장 급여
- * (staff.md §5, G29/B7 — 판매 시점 원천징수)까지 뗀 순수 입금액을 계산한다.
- * 직접매각·미감정매각·자동매각이 전부 이 경로를 공유한다.
- */
-function settleSale(w: World, artifact: Artifact, baseValue: number, diggerForemanId?: string): number {
-  const gross = Math.round(baseValue * bestLocalPriceMult(w, artifact.shape));
+/** 단장 급여(staff.md §5, G29/B7 — 판매 시점 원천징수)를 뗀다. 모든 판매 채널이 공유한다. */
+function withholdForemanSalary(w: World, gross: number, diggerForemanId?: string): number {
   if (!diggerForemanId) return gross;
   const foreman = w.staff.find((s) => s.id === diggerForemanId && s.role === "foreman") as Foreman | undefined;
   if (!foreman) return gross;
   return Math.round(gross - foremanSalary(gross, foreman));
+}
+
+/**
+ * 거점별 시세(world-map.md §8, G48/B3)를 반영한 최종 매각가에서 단장 급여까지
+ * 뗀 순수 입금액을 계산한다. 직접매각·자동매각(감정 완료 후 설정 기반)이
+ * 이 경로를 쓴다 — spec.md §11.1 채널표에서 두 채널 모두 "로컬"이다.
+ */
+function settleSale(w: World, artifact: Artifact, baseValue: number, diggerForemanId?: string): number {
+  const gross = Math.round(baseValue * bestLocalPriceMult(w, artifact.shape));
+  return withholdForemanSalary(w, gross, diggerForemanId);
+}
+
+/**
+ * 미감정 즉시매각(§11.1 채널표 — 지역성 "무관")은 `LOCAL_PRICE_MULT`를 곱하지
+ * 않는다(notes/decisions.md G54 — 4단계에서 발견한 수정). 곱하면 암시장 일반
+ * 매입가(추정가×0.75, 역시 지역 무관 기준)와 조합했을 때 LOCAL_PRICE_MULT가
+ * 높은 site·shape 조합을 골라 사서 그 자리에서 미감정매각하는 것만으로
+ * 무위험 차익이 생긴다 — G42/A5가 "0.75>0.7이라 무위험 차익이 없다"고 닫은
+ * 계산이 애초에 양쪽 다 "추정가" 기준(로컬 배율 없음)이라는 전제였는데, 이
+ * 전제가 이 함수에서 깨져 있었다(blindSell·blindSellAll 전부 이 버그의 영향을
+ * 받았다 — 1단계부터 있던 결함이었지만 암시장 매입이 없던 3단계까지는 이
+ * 결함을 이용할 진입 경로 자체가 없었다).
+ */
+function settleBlindSale(w: World, baseValue: number, diggerForemanId?: string): number {
+  return withholdForemanSalary(w, Math.round(baseValue), diggerForemanId);
 }
 
 /** 보유 base(최대 MAX_OWNED_SITES) 중 그 카테고리 기준 최댓값을 자동 적용한다(G48/B3) */
@@ -1025,7 +1368,22 @@ export function step(w: World, dt: number, offline = false): StepReport {
   runAppraisal(w, dt, report);
   promoteStaffTick(w, t0, dt);
 
+  // 시설(4단계) — 박물관 수입·습도저하·복원은 온·오프라인 무관하게 흐른다(손실
+  // 위험이 없는 배경 자동화). 암시장 재입고·경매 정산도 지연일 뿐 상실이 아니라
+  // 오프라인에도 흐른다. 도난 "판정"만 온라인 전용(아래)이고, 도난 "회수기간"은
+  // onlineElapsedSeconds 기준이라 이 두 틱을 매번 불러도 오프라인 동안은
+  // 경계 자체가 넘어가지 않는다(척추 3번).
+  accrueMuseums(w, dt);
+  conditionDecayTick(w, t0, dt, rng);
+  restorationTick(w, t0, dt, rng);
+  settleAuctions(w, t0, dt);
+  restockBlackMarket(w, t0, dt, rng);
+
   if (!offline) {
+    w.onlineElapsedSeconds += dt;
+    theftJudgeTick(w, dt, rng);
+    theftResolveTick(w, rng, report);
+
     if (w.tip) {
       w.tip.remain -= dt;
       if (w.tip.remain <= 0) {
@@ -1038,6 +1396,10 @@ export function step(w: World, dt: number, offline = false): StepReport {
       w.nextTipIn -= dt;
       if (w.nextTipIn <= 0) spawnTip(w, rng);
     }
+  } else {
+    // 회수기간 만료 판정도 onlineElapsedSeconds 기준이라 오프라인 중엔 경계가
+    // 넘어가지 않지만, theftResolveTick 자체는 부르지 않는다 — 도난이라는 사건의
+    // 관측(로그·소유권 이전)까지 오프라인에 노출되지 않게 제보와 동일하게 막는다.
   }
 
   updateCatchup(w);
@@ -1178,8 +1540,7 @@ export function blindSell(w: World, uid: number): boolean {
   const idx = w.pending.findIndex((p) => p.uid === uid);
   if (idx < 0) return false;
   const [item] = w.pending.splice(idx, 1);
-  const artifact = ARTIFACT_BY_ID[item.artifactId];
-  w.funds += settleSale(w, artifact, Math.round(item.estimate * BLIND_SELL_RATE), item.diggerForemanId);
+  w.funds += settleBlindSale(w, item.estimate * BLIND_SELL_RATE, item.diggerForemanId);
   w.stats.blindSold += 1;
   demoteIfEmptied(w, item.artifactId);
   return true;
@@ -1189,8 +1550,7 @@ export function blindSellAll(w: World): number {
   let gained = 0;
   const ids = new Set<string>();
   for (const item of w.pending) {
-    const artifact = ARTIFACT_BY_ID[item.artifactId];
-    gained += settleSale(w, artifact, Math.round(item.estimate * BLIND_SELL_RATE), item.diggerForemanId);
+    gained += settleBlindSale(w, item.estimate * BLIND_SELL_RATE, item.diggerForemanId);
     w.stats.blindSold += 1;
     ids.add(item.artifactId);
   }
@@ -1200,13 +1560,15 @@ export function blindSellAll(w: World): number {
   return gained;
 }
 
-/** 같은 유물의 사본을 n점 판다. 소장고가 유물 종류별로 묶여 있으므로 이 단위가 필요하다 */
+/** 같은 유물의 사본을 n점 판다. 소장고가 유물 종류별로 묶여 있으므로 이 단위가 필요하다.
+ *  전시 중(displayed) 유물은 건너뛴다 — 팔려면 먼저 undisplayArtifact로 내려야 한다
+ *  (전시 중 유물은 자산 축에서 이미 빠져 있으므로, 몰래 팔리는 상태를 만들지 않는다). */
 export function sellArtifactCopies(w: World, artifactId: string, count: number): number {
   let gained = 0;
   let left = count;
   const keep: typeof w.vault = [];
   for (const item of w.vault) {
-    if (left > 0 && item.artifactId === artifactId) {
+    if (left > 0 && !item.displayed && item.artifactId === artifactId) {
       gained += settleSale(w, ARTIFACT_BY_ID[item.artifactId], item.value, item.diggerForemanId);
       w.stats.sold += 1;
       left -= 1;
@@ -1223,7 +1585,7 @@ export function sellTierAtMost(w: World, tier: Tier): number {
   const keep: typeof w.vault = [];
   const soldIds = new Set<string>();
   for (const item of w.vault) {
-    if (ARTIFACT_BY_ID[item.artifactId].tier <= tier) {
+    if (!item.displayed && ARTIFACT_BY_ID[item.artifactId].tier <= tier) {
       gained += settleSale(w, ARTIFACT_BY_ID[item.artifactId], item.value, item.diggerForemanId);
       w.stats.sold += 1;
       soldIds.add(item.artifactId);
@@ -1233,6 +1595,212 @@ export function sellTierAtMost(w: World, tier: Tier): number {
   w.funds += gained;
   for (const id of soldIds) demoteIfEmptied(w, id);
   return gained;
+}
+
+// ── 시설 업그레이드 액션(spec.md §9.1, 비용 곡선 G30/C) ────────────────────
+
+export function buyVaultLevel(w: World): boolean {
+  const cost = vaultLevelCost(w.vaultLevel);
+  if (w.funds < cost) return false;
+  w.funds -= cost;
+  w.vaultLevel += 1;
+  return true;
+}
+export function buyHumidityLevel(w: World): boolean {
+  const cost = humidityLevelCost(w.humidityLevel);
+  if (w.funds < cost) return false;
+  w.funds -= cost;
+  w.humidityLevel += 1;
+  return true;
+}
+export function buyRestorationLevel(w: World): boolean {
+  const cost = restorationLevelCost(w.restorationLevel);
+  if (w.funds < cost) return false;
+  w.funds -= cost;
+  w.restorationLevel += 1;
+  return true;
+}
+export function buySecurityLevel(w: World): boolean {
+  const cost = securityLevelCost(w.securityLevel);
+  if (w.funds < cost) return false;
+  w.funds -= cost;
+  w.securityLevel += 1;
+  return true;
+}
+
+// ── 박물관(spec.md §10) ─────────────────────────────────────────────────
+
+/** 등급1 박물관 건립(base에만, MUSEUM_MAX_COUNT=MAX_OWNED_SITES 상한) —
+ *  등급0 임시 전시대를 실제 건물로 승격시킨다. */
+export function buildMuseum(w: World, site: SiteId): boolean {
+  if (!w.sites[site].unlocked) return false;
+  if (w.museums.some((m) => m.site === site)) return false;
+  if (w.museums.length >= MUSEUM_MAX_COUNT) return false;
+  const cost = museumBuildCost(w.museums.length + 1);
+  if (w.funds < cost) return false;
+  w.funds -= cost;
+  // 등급0에 전시 중이던 유물은 그대로 슬롯을 유지한다(등급1도 최소 1슬롯 이상이라
+  // 자리가 남는다 — MUSEUM_SLOT_BY_GRADE=[1,3,6,10,15]).
+  w.museums.push({ id: `museum-${nextUid()}`, site, grade: 1, marketingLevel: 1 });
+  log(w, "system", `${SITE_BY_ID[site].name}에 박물관을 세웠다.`);
+  return true;
+}
+
+export function upgradeMuseumGrade(w: World, site: SiteId): boolean {
+  const museum = w.museums.find((m) => m.site === site);
+  if (!museum || museum.grade >= MUSEUM_SLOT_BY_GRADE.length - 1) return false;
+  const cost = museumGradeCost(museum.grade);
+  if (w.funds < cost) return false;
+  w.funds -= cost;
+  museum.grade += 1;
+  return true;
+}
+
+export function buyMuseumMarketing(w: World, site: SiteId): boolean {
+  const museum = w.museums.find((m) => m.site === site);
+  if (!museum) return false;
+  const cost = marketingLevelCost(museum.marketingLevel);
+  if (w.funds < cost) return false;
+  w.funds -= cost;
+  museum.marketingLevel += 1;
+  return true;
+}
+
+/** 관장 고용(staff.md §2·§4) — 그 거점(등급0 임시 전시대도 가능, 실제 박물관 여부 무관) */
+/** 등급0 임시 전시대에는 배정할 필요가 없다(관장이 없어도 기본 스탯으로 동작한다,
+ *  accrueMuseums) — 그래서 등급1 이상 박물관이 그 거점에 실제로 건립돼 있어야
+ *  고용할 수 있다(hireAuctioneer와 동일한 요구조건으로 통일). */
+export function hireCurator(w: World, site: SiteId, slot: number): string | null {
+  const museum = w.museums.find((m) => m.site === site);
+  if (!museum) return null;
+  const cost = FOREMAN_HIRE_COST; // 스텝 고용비는 직군 무관 공통값(notes/staff.md — 단장만 명시, 관장·경매관장도 동일 적용)
+  if (w.funds < cost) return null;
+  const candidate = staffCandidates(site, staffMarketCycle(w), "curator")[slot];
+  if (!candidate || candidate.role !== "curator") return null;
+  w.funds -= cost;
+  const id = `curator-${nextUid()}`;
+  const curator: Curator = { id, name: candidate.name, role: "curator", curation: candidate.curation, securitySense: candidate.securitySense };
+  w.staff.push(curator);
+  museum.curatorId = id;
+  log(w, "system", `관장 ${curator.name}${josa(curator.name, "을를")} 고용했다.`);
+  return id;
+}
+
+/** 전시(spec.md §10.5) — 빈 슬롯이면 즉시, 다 찼으면 실패(호출부가 내릴 유물을 먼저 골라야 한다) */
+export function displayArtifact(w: World, uid: number, site: SiteId, slot: number): boolean {
+  if (slot < 0 || slot >= museumSlotCount(w, site)) return false;
+  const item = w.vault.find((v) => v.uid === uid);
+  if (!item || item.displayed) return false;
+  if (w.vault.some((v) => v.displayed && v.museumSite === site && v.slot === slot)) return false;
+  item.displayed = true;
+  item.museumSite = site;
+  item.slot = slot;
+  item.displaySessionStart = w.t;
+  return true;
+}
+
+export function undisplayArtifact(w: World, uid: number): boolean {
+  const item = w.vault.find((v) => v.uid === uid);
+  if (!item || !item.displayed) return false;
+  item.restBaseline = freshnessOf(item, w.t);
+  item.restSince = w.t;
+  item.displayed = false;
+  item.museumSite = undefined;
+  item.slot = undefined;
+  item.displaySessionStart = undefined;
+  return true;
+}
+
+// ── 경매장(spec.md §11.1·§11.3) ─────────────────────────────────────────
+
+export function buildAuctionHouse(w: World, site: SiteId): boolean {
+  if (!w.sites[site].unlocked) return false;
+  if (w.auctionHouses.some((a) => a.site === site)) return false;
+  if (w.auctionHouses.length >= AUCTION_HOUSE_MAX_COUNT) return false;
+  const cost = auctionHouseBuildCost(w.auctionHouses.length + 1);
+  if (w.funds < cost) return false;
+  w.funds -= cost;
+  w.auctionHouses.push({ id: `auction-${nextUid()}`, site, grade: 1, listings: [] });
+  log(w, "system", `${SITE_BY_ID[site].name}에 경매장을 세웠다.`);
+  return true;
+}
+
+export function upgradeAuctionGrade(w: World, site: SiteId): boolean {
+  const house = w.auctionHouses.find((a) => a.site === site);
+  if (!house || house.grade >= AUCTION_SLOT_CAP_BY_GRADE.length) return false;
+  const cost = auctionGradeCost(house.grade);
+  if (w.funds < cost) return false;
+  w.funds -= cost;
+  house.grade += 1;
+  return true;
+}
+
+export function hireAuctioneer(w: World, site: SiteId, slot: number): string | null {
+  const cost = FOREMAN_HIRE_COST;
+  if (w.funds < cost) return null;
+  const candidate = staffCandidates(site, staffMarketCycle(w), "auctioneer")[slot];
+  if (!candidate || candidate.role !== "auctioneer") return null;
+  const house = w.auctionHouses.find((a) => a.site === site);
+  if (!house) return null;
+  w.funds -= cost;
+  const id = `auctioneer-${nextUid()}`;
+  const auctioneer: Auctioneer = {
+    id, name: candidate.name, role: "auctioneer", negotiation: candidate.negotiation, logistics: candidate.logistics
+  };
+  w.staff.push(auctioneer);
+  house.auctioneerId = id;
+  log(w, "system", `경매관장 ${auctioneer.name}${josa(auctioneer.name, "을를")} 고용했다.`);
+  return id;
+}
+
+/** 경매 상장 — vault에서 빼내 AUCTION_SETTLE_HOURS 뒤 자동 정산된다(settleAuctions) */
+export function listAtAuction(w: World, uid: number, site: SiteId): boolean {
+  const house = w.auctionHouses.find((a) => a.site === site);
+  if (!house) return false;
+  const auctioneer = w.staff.find((s) => s.id === house.auctioneerId && s.role === "auctioneer") as Auctioneer | undefined;
+  const slotCap = auctioneer
+    ? auctioneerSlotBonus(house.grade, auctioneer.logistics)
+    : AUCTION_SLOT_CAP_BY_GRADE[house.grade - 1];
+  if (house.listings.length >= slotCap) return false;
+  const idx = w.vault.findIndex((v) => v.uid === uid);
+  if (idx < 0 || w.vault[idx].displayed) return false;
+  const [item] = w.vault.splice(idx, 1);
+  house.listings.push({
+    vaultUid: item.uid, artifactId: item.artifactId, value: item.value,
+    listedAt: w.t, settleAt: w.t + AUCTION_SETTLE_HOURS * 3600, diggerForemanId: item.diggerForemanId
+  });
+  return true;
+}
+
+// ── 암시장(spec.md §11.5) ────────────────────────────────────────────────
+
+export function buyBlackMarketListing(w: World, listingId: number): boolean {
+  const idx = w.blackMarket.listings.findIndex((l) => l.id === listingId);
+  if (idx < 0) return false;
+  const listing = w.blackMarket.listings[idx];
+  const ratio = listing.kind === "stolen" ? BLACK_MARKET_STOLEN_PRICE_RATIO : BLACK_MARKET_BUY_PRICE_RATIO;
+  const cost = Math.round(listing.estimate * ratio);
+  if (w.funds < cost) return false;
+  w.funds -= cost;
+  w.blackMarket.listings.splice(idx, 1);
+
+  if (listing.kind === "stolen") {
+    // 장물 — 이미 감정된 값이라 즉시 vault로 들어간다. 최초발굴이 아니므로 codex는
+    // 건드리지 않는다(자산 축에는 기여, 도감·명성 축에는 기여하지 않는다, spec.md §11.5).
+    w.vault.push({
+      uid: nextUid(), artifactId: listing.artifactId, value: listing.estimate,
+      condition: ARTIFACT_BY_ID[listing.artifactId].condition
+    });
+  } else {
+    // 미감정 매물 — 정상 감정 파이프라인으로 들어간다(codexProgress가 owned_unidentified로 반영)
+    const artifact = ARTIFACT_BY_ID[listing.artifactId];
+    if (w.codex[artifact.id] !== "owned") w.codex[artifact.id] = "owned_unidentified";
+    w.pending.push({
+      uid: nextUid(), artifactId: artifact.id,
+      remain: totalAppraisalSeconds(w.lab, artifact.tier), estimate: listing.estimate
+    });
+  }
+  return true;
 }
 
 export const costs = { workerCost, gearCost, labCost };
@@ -1286,10 +1854,23 @@ export function applySeasonRollover(w: World, record: PersistentRecord): Persist
   record.carryoverFundsCredit += w.funds * SEASON_CASHOUT_RATIO;
   w.funds = 30_000 + Math.min(record.carryoverFundsCredit, 30_000 * SEASON_CARRYOVER_FUNDS_CAP_MULT);
 
-  // 3. 시설 초기화 — 위 함수 주석 참조
+  // 3. 시설 초기화 — 위 함수 주석 참조. 4단계로 늘어난 시설(보관소·박물관·경매장·
+  // 암시장)도 전부 시즌 한정 자산이라 함께 리셋한다(spec.md §13.4 3항).
   w.lab = 1;
   w.workers = 0;
   w.gear = 0;
+  w.vaultLevel = 1;
+  w.humidityLevel = 1;
+  w.restorationLevel = 1;
+  w.securityLevel = 1;
+  w.lastConditionDay = Math.floor(w.t / 86400);
+  w.nextRestorationAttemptAt = w.t + RESTORATION_BASE_HOURS * 3600;
+  w.museumDigEma = 0;
+  w.museums = [];
+  w.auctionHouses = [];
+  w.blackMarket = { listings: [] };
+  w.theftEvents = [];
+  w.onlineElapsedSeconds = 0;
 
   // 4. 스텝(단장·관장·경매관장) 전원 계약 종료(spec.md §13.4 4항) — 급여가 판매
   // 시점 원천징수라 미지급 잔액이 없으므로 정산할 것도 없이 그대로 비운다.

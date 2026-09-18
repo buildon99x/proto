@@ -85,13 +85,24 @@ export type VaultItem = {
   uid: number;
   artifactId: string;
   value: number;
-  /** 드랍 시점 결정론적 기준값으로 채워진다(CONDITION_INITIAL_BASE_BY_TIER).
-   *  습도·복원에 의한 변화(spec.md §9.4)는 시설 시스템과 함께 후속 단계에서 붙는다. */
+  /** 드랍 시점 결정론적 기준값(artifact.condition — artifacts.ts의 티어별 기준값+지터)
+   *  으로 채워지고, 이후 습도(저하)·복원(상승) 틱이 갱신한다(spec.md §9.4, 4단계).
+   *  `value`는 condition이 바뀔 때마다 CONDITION_VALUE_FACTOR를 다시 곱해 갱신된다
+   *  (engine.ts recomputeVaultValue) — G6/G51.7이 미배선으로 남긴 항목을 여기서 잇는다. */
   condition: Condition;
-  /** 박물관에 전시 중이면 true. 박물관 시스템이 아직 없어 이번 단계에서는 항상
-   *  false/undefined다 — ASSET_SCORE(§13.1, G49/B4)가 전시 중 유물을 자산 축에서
-   *  제외해야 하므로 그 필터가 걸 수 있게 필드만 미리 선언해 둔다. */
+  /** 박물관에 전시 중이면 true(spec.md §10, 4단계). ASSET_SCORE(§13.1, G49/B4)가
+   *  전시 중 유물을 자산 축에서 제외한다. */
   displayed?: boolean;
+  /** 전시 중인 거점·슬롯(displayed=true일 때만 유효) */
+  museumSite?: SiteId;
+  slot?: number;
+  /** 이번 전시 세션이 시작된 world.t — FRESHNESS(전시경과시간) 계산의 기준점.
+   *  전시를 내리는 순간 그 시점의 freshness를 restBaseline에 스냅샷하고 비운다. */
+  displaySessionStart?: number;
+  /** 마지막으로 전시에서 내려온 시각의 freshness 값(회복 곡선의 시작점) */
+  restBaseline?: number;
+  /** 마지막으로 전시에서 내려온 world.t(회복 경과시간 계산 기준) */
+  restSince?: number;
   /** PendingItem.diggerForemanId가 감정을 거쳐 그대로 넘어온 값 — 매각 시점 단장
    *  급여 원천징수(staff.md §5)의 근거. */
   diggerForemanId?: string;
@@ -192,7 +203,7 @@ export type SeasonState = {
 };
 
 export type World = {
-  version: 2 | 3 | 4;
+  version: 2 | 3 | 4 | 5;
   t: number;
   lastTickAt: number;
   funds: number;
@@ -236,6 +247,97 @@ export type World = {
   unexploredBonusGranted: Partial<Record<SiteId, boolean>>;
   /** 마지막 거점 이전(relocateBase) 시각. 쿨다운(RELOCATION_COOLDOWN_HOURS) 판정용 */
   lastRelocationAt: number | null;
+
+  // ── v0.2 4단계: 시설과 시장(신설) ────────────────────────────────────────
+  /** 보관소 정원 레벨(1부터, vaultCapacity(level)) */
+  vaultLevel: number;
+  /** 습도조절 레벨(1부터, conditionDecayChancePerDay) */
+  humidityLevel: number;
+  /** 복원기술 레벨(1부터, restorationAttemptHours·restorationSuccessChance) */
+  restorationLevel: number;
+  /** 보안 레벨(1부터, theftInitialGraceHours) */
+  securityLevel: number;
+  /** 마지막으로 습도저하 판정을 처리한 일(day) 인덱스 — floor(t/86400) 경계
+   *  판정용(스텝 크기 무관, promoteStaffTick과 같은 패턴). */
+  lastConditionDay: number;
+  /** 다음 복원 시도 예정 world.t. RESTORATION_BASE_HOURS/level 간격이 복원기술
+   *  레벨이 오를 때마다 짧아지므로(동적 간격), 고정 나머지 연산 대신 다음 시각을
+   *  직접 들고 다니며 발동 때마다 그 시점의 레벨로 재계산한다. */
+  nextRestorationAttemptAt: number;
+  /** 박물관 30% 캡(G24) 분모의 지수이동평균 근사(₩/s). spec.md의 "1시간 이동평균"을
+   *  버퍼 없이 구현한 것 — 표준 1차 저역통과 필터로, 짧은 발굴 공백에서 캡이
+   *  순간적으로 0으로 붕괴하는 걸 막는다(§10.2 취지 그대로). */
+  museumDigEma: number;
+  /** 건립된 박물관(등급1~4만 — 등급0 임시 전시대는 별도 레코드 없이 base마다
+   *  암묵적으로 존재한다, museum.ts의 museumOf() 참조). */
+  museums: Museum[];
+  /** 건립된 경매장 */
+  auctionHouses: AuctionHouse[];
+  /** 암시장 — 누적 슬롯(시간 리셋 아님, G3) */
+  blackMarket: BlackMarketState;
+  /** 진행 중인 도난 사건(72h 회수 창). 회수기간 타이머는 world.t가 아니라
+   *  onlineElapsedSeconds로 잰다 — 척추 3번(오프라인 중 영구 상실 금지)의 핵심 장치. */
+  theftEvents: TheftEvent[];
+  /** 플레이어가 온라인이었던 시간의 누적 합(초). step(w, dt, offline=false)일 때만
+   *  증가한다. 도난 회수기간·회수 시도 주기가 전부 이 값만 참조해야
+   *  "오프라인 중 회수기간이 흐르면 안 된다"(척추 3번)를 만족한다. */
+  onlineElapsedSeconds: number;
+};
+
+/** 박물관(spec.md §10). 등급0(임시 전시대)은 건립 액션이 없어(TEMP_EXHIBIT_COST=0)
+ *  이 배열에 들어가지 않는다 — base인데 이 배열에 항목이 없으면 등급0으로 취급한다
+ *  (museum.ts museumOf() 참조). */
+export type Museum = {
+  id: string;
+  site: SiteId;
+  grade: number; // 1~4
+  marketingLevel: number; // 1부터
+  curatorId?: string;
+};
+
+export type AuctionListing = {
+  vaultUid: number;
+  artifactId: string;
+  /** 상장 시점 평가액(감정 완료 값) — 낙찰가는 정산 시점의 LOCAL_PRICE_MULT·
+   *  AUCTION_PRICE_MULT를 곱해 재계산한다(engine.ts settleAuctionListing). */
+  value: number;
+  listedAt: number;
+  settleAt: number;
+  diggerForemanId?: string;
+};
+
+export type AuctionHouse = {
+  id: string;
+  site: SiteId;
+  grade: number; // 1~4
+  auctioneerId?: string;
+  listings: AuctionListing[];
+};
+
+export type BlackMarketListing = {
+  id: number;
+  kind: "loose" | "stolen";
+  artifactId: string;
+  /** loose: 추정가(층 기대평가액). stolen: 평가액(이미 감정된 값) — 기준이 다르다(§11.5) */
+  estimate: number;
+  theftEventId?: string; // kind==="stolen"일 때만
+};
+
+export type BlackMarketState = {
+  listings: BlackMarketListing[];
+};
+
+/** 도난 사건(spec.md §9.4·§11.5, G9). 72h 회수 창은 onlineElapsedSeconds 기준 —
+ *  World.onlineElapsedSeconds 주석 참조(척추 3번). */
+export type TheftEvent = {
+  id: string;
+  artifactId: string;
+  tier: Tier;
+  value: number;
+  site: SiteId; // 도난이 발생한 박물관 거점 — 회수 시 그 거점 관장의 SECURITY_SENSE를 쓴다
+  stolenAtOnlineSeconds: number;
+  recoveryDeadlineOnlineSeconds: number;
+  nextRecoveryAttemptOnlineSeconds: number;
 };
 
 export type StepReport = {
@@ -290,21 +392,11 @@ export type Auctioneer = { id: string; name: string; role: "auctioneer"; negotia
 export type Staff = Foreman | Curator | Auctioneer;
 
 // ════════════════════════════════════════════════════════════════════════
-// v0.2 후속 단계 타입 — 선언만 한다(spec.md §9·§13.4). 시설·시즌 영속화는
-// 이번 2단계 범위가 아니다. 아래 타입은 아직 World의 어떤 필드에도 연결돼
-// 있지 않다 — 후속 단계가 실제로 배선한다.
+// v0.2 시즌 롤오버 타입(spec.md §13.4) — 시설(박물관·경매장·보관소)은 위에서
+// World에 직접 연결된 구체 타입(Museum·AuctionHouse 등, 4단계)으로 배선됐다.
+// 여기 남는 건 계정 영구 기록뿐이다 — localStorage 영속화는 여전히 후속(UI)
+// 단계가 맡는다.
 // ════════════════════════════════════════════════════════════════════════
-
-/** 감정소·보관소(전역)와 박물관·경매장(거점 종속, spec.md §8.1)을 함께 표현한다.
- *  등급/레벨의 의미는 kind에 따라 다르다(§9.1·§10.4·§11.1의 비용 곡선 참조). */
-export type FacilityKind = "lab" | "vault" | "museum" | "auctionHouse";
-export type Facility = {
-  id: string;
-  kind: FacilityKind;
-  /** 박물관·경매장은 거점에 종속된 건물이라 site가 있다. 감정소·보관소는 전역이라 없다 */
-  site?: SiteId;
-  grade: number;
-};
 
 /** 시즌 종료 시 vault에서 헌정된 T4 유물의 영구 기록(spec.md §13.4 1항) */
 export type HallOfFameEntry = { artifactId: string; dedicatedSeason: number; ownerName: string };
