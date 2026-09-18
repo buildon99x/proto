@@ -1,14 +1,33 @@
 import { useState } from "react";
 import { ARTIFACTS } from "../game/artifacts";
-import { SITES, TIER_NAME } from "../game/balance";
+import { SEASON_LENGTH_WEEKS, SITES, TIER_NAME } from "../game/balance";
 import { codexProgress } from "../game/engine";
-import { josa, percent } from "../game/format";
+import { duration, josa, percent } from "../game/format";
 import { TIER_COLOR } from "../render/palette";
 import { Sprite } from "./Sprite";
 import type { Artifact } from "../game/types";
 import type { Game } from "./useGame";
 
+type SubTab = "codex" | "ledger";
+
+/**
+ * 도감 탭(notes/ux-v02.md §1.3·§1.6) — [도감][원장] 서브탭. 원장 서브탭이
+ * v0.1 세계 탭의 "세계 원장"·"활동 기록" 두 섹션을 흡수한다(A12 대응표).
+ */
 export function CodexView({ game }: { game: Game }) {
+  const [sub, setSub] = useState<SubTab>("codex");
+  return (
+    <div className="codex-wrap">
+      <nav className="subtabs" role="tablist">
+        <button type="button" className={sub === "codex" ? "active" : ""} onClick={() => setSub("codex")}>도감</button>
+        <button type="button" className={sub === "ledger" ? "active" : ""} onClick={() => setSub("ledger")}>원장</button>
+      </nav>
+      {sub === "codex" ? <CodexGrid game={game} /> : <Ledger game={game} />}
+    </div>
+  );
+}
+
+function CodexGrid({ game }: { game: Game }) {
   const { world } = game;
   const [picked, setPicked] = useState<Artifact | null>(null);
   const progress = codexProgress(world);
@@ -93,6 +112,59 @@ function Entry({ artifact, game }: { artifact: Artifact; game: Game }) {
           {entry.total === Infinity ? "무한" : `${entry.remaining} / ${entry.total}`}.
         </p>
       )}
+    </div>
+  );
+}
+
+function Ledger({ game }: { game: Game }) {
+  const { world } = game;
+  const uniques = ARTIFACTS.filter((a) => a.tier === 4);
+  const daysLeft = Math.max(0, Math.ceil((world.seasonState.endsAt - world.t) / 86400));
+
+  return (
+    <div className="ledger-wrap">
+      <section className="card season-card">
+        <h3>시즌 {world.seasonState.season}</h3>
+        <p className="muted small">
+          {SEASON_LENGTH_WEEKS}주 시즌 · 종료까지 D-{daysLeft}. 종료 시점 종합 순위 1위가 그 시즌의 "유물왕"으로
+          영구 기록된다.
+        </p>
+      </section>
+
+      <section className="card">
+        <h3>세계 원장 — 유일 유물</h3>
+        <ul className="ledger-list">
+          {uniques.map((a) => {
+            const e = world.ledger[a.id];
+            const owner = e.owners[0];
+            const mine = owner === "player";
+            return (
+              <li key={a.id}>
+                <span style={{ color: TIER_COLOR[4] }}>✦</span>
+                <span className="ledger-name">{a.name}</span>
+                <span className={`ledger-state ${owner ? (mine ? "mine" : "gone") : "open"}`}>
+                  {owner === undefined
+                    ? "세상에 남아 있음"
+                    : mine
+                      ? "내 소장"
+                      : `${world.rivals.find((r) => r.id === owner)?.name ?? owner} 소장`}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
+      <section className="card">
+        <h3>활동 기록</h3>
+        <ul className="log-list">
+          {world.log.slice(0, 40).map((l, i) => (
+            <li key={`${l.t}-${i}`} className={`log-${l.kind}`}>
+              <em className="muted">{duration(l.t)}</em> {l.text}
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }

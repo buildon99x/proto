@@ -1,141 +1,184 @@
 import { useMemo, useState } from "react";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
-import { APPRAISE_FEE, BLIND_SELL_RATE, TIER_NAME, appraiseSeconds } from "../game/balance";
+import {
+  APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE, BLIND_SELL_RATE, CONDITION_NAME, LOCKED_HOLD_CAP,
+  SITES, SITE_BY_ID, TIER_NAME, appraiseSeconds
+} from "../game/balance";
+import { museumOf, museumSlotCount } from "../game/engine";
 import { won } from "../game/format";
 import { TIER_COLOR } from "../render/palette";
+import { Modal } from "./Modal";
 import { Sprite } from "./Sprite";
-import type { Artifact, Tier } from "../game/types";
+import type { Artifact, Condition, SiteId, Tier, VaultItem } from "../game/types";
 import type { Game } from "./useGame";
 
-const AUTO_OPTIONS: { label: string; value: Tier | null }[] = [
-  { label: "끄기", value: null },
-  { label: "흔함", value: 0 },
-  { label: "희귀 이하", value: 1 },
-  { label: "진귀 이하", value: 2 }
-];
+type Stack = { artifact: Artifact; items: VaultItem[] };
 
-type Stack = { artifact: Artifact; count: number; unit: number; total: number };
-
+/**
+ * 소장고 탭(spec.md §3.1.1, notes/ux-v02.md §6.5) — 미감정·봉인 보관·소장고
+ * 세 블록. 미감정·봉인 보관은 고정 높이(내부 스크롤)라 요소 수가 늘어도 그
+ * 옆(또는 아래) 소장고 그리드가 밀리지 않는다(B12-c).
+ */
 export function VaultView({ game }: { game: Game }) {
   const { world } = game;
   const [selected, setSelected] = useState<string | null>(null);
+  const [tierFilter, setTierFilter] = useState<Tier | null>(null);
+  const [conditionFilter, setConditionFilter] = useState<Condition | null>(null);
+  const [siteFilter, setSiteFilter] = useState<SiteId | null>(null);
 
-  /**
-   * 소장고는 사본이 아니라 **유물 종류**로 묶는다.
-   * 낱개로 늘어놓으면 새 유물이 들어올 때마다 격자 전체가 한 칸씩 밀려서,
-   * 겨냥해 둔 버튼이 손가락 아래에서 다른 유물로 바뀐다. 묶어서 티어·이름 순으로
-   * 고정하면 수량만 올라가고 자리는 그대로다.
-   */
   const stacks = useMemo<Stack[]>(() => {
     const byId = new Map<string, Stack>();
     for (const item of world.vault) {
       const hit = byId.get(item.artifactId);
-      if (hit) {
-        hit.count += 1;
-        hit.total += item.value;
-      } else {
-        byId.set(item.artifactId, {
-          artifact: ARTIFACT_BY_ID[item.artifactId],
-          count: 1,
-          unit: item.value,
-          total: item.value
-        });
-      }
+      if (hit) hit.items.push(item);
+      else byId.set(item.artifactId, { artifact: ARTIFACT_BY_ID[item.artifactId], items: [item] });
     }
     return [...byId.values()].sort(
       (a, b) => b.artifact.tier - a.artifact.tier || a.artifact.name.localeCompare(b.artifact.name, "ko")
     );
   }, [world.vault]);
 
+  const filtered = stacks.filter((s) => {
+    if (tierFilter !== null && s.artifact.tier !== tierFilter) return false;
+    if (siteFilter !== null && s.artifact.site !== siteFilter) return false;
+    if (conditionFilter !== null && !s.items.some((i) => i.condition === conditionFilter)) return false;
+    return true;
+  });
+
   const picked = stacks.find((s) => s.artifact.id === selected) ?? null;
+  const usedSites = [...new Set(stacks.map((s) => s.artifact.site))];
+
+  const sealed = world.pending.filter((p) => world.lab < APPRAISAL_UNLOCK_LAB_LEVEL[ARTIFACT_BY_ID[p.artifactId].tier]);
+  const activeQueue = world.pending.filter((p) => !sealed.includes(p));
+  const sealedT2 = sealed.filter((p) => ARTIFACT_BY_ID[p.artifactId].tier === 2).length;
 
   return (
     <div className="vault">
-      <section className="card vault-pending">
-        <h3>
-          미감정 <span className="muted">{world.pending.length} / 20</span>
-        </h3>
-        <p className="muted small">
-          감정을 기다릴 것인가, 지금 {Math.round(BLIND_SELL_RATE * 100)}%에 털 것인가.
-          감정에는 1점당 {appraiseSeconds(world.lab).toFixed(1)}초와 추정가의 2%가 든다.
-        </p>
-        <div className="pending-body">
-          {world.pending.length === 0 ? (
-            <p className="empty">대기 중인 유물이 없다.</p>
-          ) : (
-            <ul className="pending-list">
-              {world.pending.slice(0, 20).map((p) => {
-                const fee = Math.round(p.estimate * APPRAISE_FEE);
-                const stalled = world.funds < fee;
-                return (
-                  <li key={p.uid}>
-                    <span className="card-back">?</span>
-                    <span className="pending-info">
-                      <em className={stalled ? "stalled" : "muted"}>
-                        {stalled ? `자금 부족 — 감정비 ${won(fee)} ₩ 필요` : `감정까지 ${p.remain.toFixed(1)}초`}
-                      </em>
-                      <span>추정 {won(p.estimate)} ₩</span>
-                    </span>
-                    <button type="button" className="ghost" onClick={() => game.blind(p.uid)}>
-                      {won(Math.round(p.estimate * BLIND_SELL_RATE))} ₩
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </div>
-        <button
-          type="button"
-          className="ghost wide"
-          disabled={world.pending.length === 0}
-          onClick={game.blindAll}
-        >
-          전부 미감정 매각
-        </button>
-      </section>
+      <div className="vault-left">
+        <section className="card vault-pending">
+          <h3>
+            미감정 <span className="muted">{activeQueue.length}</span>
+          </h3>
+          <p className="muted small">
+            감정을 기다릴 것인가, 지금 {Math.round(BLIND_SELL_RATE * 100)}%에 털 것인가.
+            감정에는 1점당 {appraiseSeconds(world.lab).toFixed(1)}초와 추정가의 2%가 든다.
+          </p>
+          <div className="pending-body">
+            {activeQueue.length === 0 ? (
+              <p className="empty">대기 중인 유물이 없다.</p>
+            ) : (
+              <ul className="pending-list">
+                {activeQueue.map((p) => {
+                  const fee = Math.round(p.estimate * APPRAISE_FEE);
+                  const stalled = world.funds < fee && world.appraisalVouchers === 0;
+                  return (
+                    <li key={p.uid}>
+                      <span className="card-back">?</span>
+                      <span className="pending-info">
+                        <em className={stalled ? "stalled" : "muted"}>
+                          {stalled ? `자금 부족 — 감정비 ${won(fee)} ₩ 필요` : `감정까지 ${p.remain.toFixed(1)}초`}
+                        </em>
+                        <span>추정 {won(p.estimate)} ₩</span>
+                      </span>
+                      <button type="button" className="ghost" onClick={() => game.blind(p.uid)}>
+                        {won(Math.round(p.estimate * BLIND_SELL_RATE))} ₩
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+          <button type="button" className="ghost wide" disabled={world.pending.length === 0} onClick={game.blindAll}>
+            전부 미감정 매각
+          </button>
+        </section>
+
+        <section className="card vault-sealed">
+          <h3>
+            봉인 보관 <span className={`muted${sealedT2 >= LOCKED_HOLD_CAP ? " stalled" : ""}`}>{sealed.length}</span>
+          </h3>
+          <p className="muted small">
+            감정소 티어가 못 미치는 유물은 여기서 무기한 기다린다 — 파손·강제매각 없음. 감정소를 올리면 다음 틱부터
+            자동으로 합류한다.
+          </p>
+          <div className="sealed-body">
+            {sealed.length === 0 ? (
+              <p className="empty">봉인된 유물이 없다.</p>
+            ) : (
+              <ul className="pending-list">
+                {sealed.map((p) => {
+                  const a = ARTIFACT_BY_ID[p.artifactId];
+                  return (
+                    <li key={p.uid}>
+                      <span className="card-back">🔒</span>
+                      <span className="pending-info">
+                        <em style={{ color: TIER_COLOR[a.tier] }}>{TIER_NAME[a.tier]}</em>
+                        <span className="muted small">감정소 Lv.{APPRAISAL_UNLOCK_LAB_LEVEL[a.tier]} 필요</span>
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+          {sealedT2 >= LOCKED_HOLD_CAP ? (
+            <p className="stalled small">진귀 봉인 {sealedT2}점 — 감정소를 올려 정리하는 걸 권한다(방치해도 손실은 없다).</p>
+          ) : null}
+        </section>
+      </div>
 
       <section className="card vault-main">
         <div className="card-head">
           <h3>
             소장고 <span className="muted">{world.vault.length}점 · {stacks.length}종</span>
           </h3>
-          <label className="auto-sell">
-            자동 매각
-            <select
-              value={world.settings.autoSellBelow === null ? "off" : String(world.settings.autoSellBelow)}
-              onChange={(e) =>
-                game.setAutoSell(e.target.value === "off" ? null : (Number(e.target.value) as Tier))
-              }
-            >
-              {AUTO_OPTIONS.map((o) => (
-                <option key={o.label} value={o.value === null ? "off" : String(o.value)}>
-                  {o.label}
-                </option>
-              ))}
-            </select>
-          </label>
         </div>
         <p className="muted small">
-          팔면 자금이 늘고 <strong>순위는 떨어진다.</strong> 자산 점수는 소장 중인 유물의 평가액 합이다.
+          팔면 자금이 늘고 <strong>순위는 떨어진다.</strong> 자산 점수는 전시 중이 아닌 소장 유물의 평가액 합이다.
         </p>
 
-        {stacks.length === 0 ? (
-          <p className="empty">아직 소장한 유물이 없다.</p>
+        <div className="filter-chips">
+          <FilterSelect
+            label="티어"
+            value={tierFilter}
+            onChange={setTierFilter}
+            options={TIER_NAME.map((n, i) => ({ label: n, value: i as Tier }))}
+          />
+          <FilterSelect
+            label="상태"
+            value={conditionFilter}
+            onChange={setConditionFilter}
+            options={CONDITION_NAME.map((n, i) => ({ label: n, value: i as Condition }))}
+          />
+          <FilterSelect
+            label="거점"
+            value={siteFilter}
+            onChange={setSiteFilter}
+            options={usedSites.map((id) => ({ label: SITES.find((s) => s.id === id)!.name, value: id }))}
+          />
+        </div>
+
+        {filtered.length === 0 ? (
+          <p className="empty">{stacks.length === 0 ? "아직 소장한 유물이 없다." : "필터에 맞는 유물이 없다."}</p>
         ) : (
           <div className="vault-grid">
-            {stacks.map((s) => (
-              <button
-                key={s.artifact.id}
-                type="button"
-                className={`stack${selected === s.artifact.id ? " picked" : ""}`}
-                onClick={() => setSelected(s.artifact.id)}
-                title={`${s.artifact.name} ×${s.count}`}
-              >
-                <Sprite artifact={s.artifact} size={44} />
-                {s.count > 1 ? <i className="stack-count">{s.count}</i> : null}
-              </button>
-            ))}
+            {filtered.map((s) => {
+              const displayedCount = s.items.filter((i) => i.displayed).length;
+              return (
+                <button
+                  key={s.artifact.id}
+                  type="button"
+                  className={`stack${selected === s.artifact.id ? " picked" : ""}`}
+                  onClick={() => setSelected(s.artifact.id)}
+                  title={`${s.artifact.name} ×${s.items.length}`}
+                >
+                  <Sprite artifact={s.artifact} size={44} />
+                  {s.items.length > 1 ? <i className="stack-count">{s.items.length}</i> : null}
+                  {displayedCount > 0 ? <i className="stack-displayed" title="전시 중">🖼</i> : null}
+                </button>
+              );
+            })}
           </div>
         )}
 
@@ -145,31 +188,155 @@ export function VaultView({ game }: { game: Game }) {
   );
 }
 
+function FilterSelect<T extends string | number>({ label, value, onChange, options }: {
+  label: string; value: T | null; onChange: (v: T | null) => void; options: { label: string; value: T }[];
+}) {
+  return (
+    <label className="filter-chip">
+      {label}
+      <select
+        value={value === null ? "all" : String(value)}
+        onChange={(e) => {
+          if (e.target.value === "all") return onChange(null);
+          const match = options.find((o) => String(o.value) === e.target.value);
+          onChange(match ? match.value : null);
+        }}
+      >
+        <option value="all">전체</option>
+        {options.map((o) => (
+          <option key={String(o.value)} value={String(o.value)}>{o.label}</option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
 function Detail({ game, stack }: { game: Game; stack: Stack }) {
   const a = stack.artifact;
+  const { world } = game;
+  const available = stack.items.filter((i) => !i.displayed);
+  const displayed = stack.items.filter((i) => i.displayed);
+  const total = available.reduce((sum, i) => sum + i.value, 0);
+  const unit = available[0]?.value ?? stack.items[0]?.value ?? 0;
+
   return (
     <div className="detail">
       <Sprite artifact={a} size={72} />
       <div className="detail-body">
         <h4>
-          {a.name} {stack.count > 1 ? <span className="muted">×{stack.count}</span> : null}{" "}
+          {a.name} {stack.items.length > 1 ? <span className="muted">×{stack.items.length}</span> : null}{" "}
           <em style={{ color: TIER_COLOR[a.tier] }}>{TIER_NAME[a.tier]}</em>
         </h4>
         <p className="muted small">{a.era} · {a.origin} · 현 소장처 {a.holder}</p>
         <p className="note">{a.note}</p>
         {a.disputed ? <p className="disputed">반환 논쟁 — {a.disputed}</p> : null}
+        {available.length > 0 ? (
+          <p className="muted small">
+            상태 {available.map((i) => CONDITION_NAME[i.condition]).join(", ")}
+          </p>
+        ) : null}
+
         <div className="detail-actions">
-          <strong>{won(stack.total)} ₩</strong>
-          <button type="button" className="ghost" onClick={() => game.sell(a.id, 1)}>
-            1점 매각 {won(stack.unit)} ₩
-          </button>
-          {stack.count > 1 ? (
-            <button type="button" className="ghost" onClick={() => game.sell(a.id, stack.count)}>
-              전부 매각
-            </button>
-          ) : null}
+          {available.length > 0 ? (
+            <>
+              <strong>{won(total)} ₩</strong>
+              <button type="button" className="ghost" onClick={() => game.sell(a.id, 1)}>
+                1점 매각 {won(unit)} ₩
+              </button>
+              {available.length > 1 ? (
+                <button type="button" className="ghost" onClick={() => game.sell(a.id, available.length)}>
+                  전부 매각
+                </button>
+              ) : null}
+              <DisplayAction game={game} uid={available[0].uid} />
+              <AuctionAction game={game} uid={available[0].uid} />
+            </>
+          ) : (
+            <p className="muted small">전부 전시 중이다 — 팔거나 경매에 내려면 먼저 내려야 한다.</p>
+          )}
         </div>
+
+        {displayed.length > 0 ? (
+          <ul className="displayed-list">
+            {displayed.map((i) => (
+              <li key={i.uid}>
+                <span className="muted small">{SITE_BY_ID[i.museumSite!].name} 전시 중</span>
+                <button type="button" className="ghost" onClick={() => game.undisplay(i.uid)}>
+                  내리기
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </div>
     </div>
+  );
+}
+
+/** 전시(표#3, spec.md §10.5) — 빈 슬롯이면 즉시(2단계), 다 찼으면 내릴 유물을
+ *  고르는 확인이 1탭 더 붙는다(3단계). 여러 base를 보유해도 첫 번째 base
+ *  박물관을 대상으로 한다(구현 판단, notes/decisions.md G55 보고 대상). */
+function DisplayAction({ game, uid }: { game: Game; uid: number }) {
+  const { world } = game;
+  const [swapping, setSwapping] = useState(false);
+  const bases = SITES.filter((s) => world.sites[s.id].unlocked);
+  if (bases.length === 0) return null;
+  const site = bases[0].id;
+  const slotCount = museumSlotCount(world, site);
+  const displayedHere = world.vault.filter((v) => v.displayed && v.museumSite === site);
+  const takenSlots = new Set(displayedHere.map((v) => v.slot));
+  let emptySlot: number | null = null;
+  for (let i = 0; i < slotCount; i++) {
+    if (!takenSlots.has(i)) { emptySlot = i; break; }
+  }
+
+  return (
+    <>
+      <button
+        type="button"
+        className="ghost"
+        onClick={() => {
+          if (emptySlot !== null) game.display(uid, site, emptySlot);
+          else setSwapping(true);
+        }}
+      >
+        전시({museumOf(world, site).grade === 0 ? "임시 전시대" : `${bases[0].name} 박물관`})
+      </button>
+      {swapping ? (
+        <Modal title="내릴 유물 선택" onClose={() => setSwapping(false)}>
+          <ul className="swap-list">
+            {displayedHere.map((d) => (
+              <li key={d.uid}>
+                <span>{ARTIFACT_BY_ID[d.artifactId].name}</span>
+                <button
+                  type="button"
+                  className="ghost"
+                  onClick={() => {
+                    game.undisplay(d.uid);
+                    game.display(uid, site, d.slot!);
+                    setSwapping(false);
+                  }}
+                >
+                  이 자리와 교체
+                </button>
+              </li>
+            ))}
+          </ul>
+        </Modal>
+      ) : null}
+    </>
+  );
+}
+
+/** 경매 등록(표#6) — 경매장은 거점 종속이라 "경매장 선택" 단계 자체가 없다.
+ *  첫 번째 base의 경매장을 쓴다(전시와 같은 단순화). */
+function AuctionAction({ game, uid }: { game: Game; uid: number }) {
+  const { world } = game;
+  const house = world.auctionHouses[0];
+  if (!house) return null;
+  return (
+    <button type="button" className="ghost" onClick={() => game.listAtAuction(uid, house.site)}>
+      경매 등록
+    </button>
   );
 }

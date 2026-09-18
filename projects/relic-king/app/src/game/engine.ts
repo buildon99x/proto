@@ -15,7 +15,7 @@ import {
   LAYERS_PER_SITE, LOCKED_HOLD_TIER_EXEMPT_MIN_TIER, MAX_EXPEDITION_TEAMS_CAP,
   MAX_EXPEDITION_TEAMS_INITIAL, MAX_GEAR_LEVEL, MAX_OWNED_SITES, MUSEUM_MAX_COUNT,
   MUSEUM_NET_INCOME_CAP, MUSEUM_SLOT_BY_GRADE, OFFLINE_CAP_SECONDS, OFFLINE_EFFICIENCY, PROGRESS_VALUE,
-  RANK_WEIGHT, REGIONAL_PRICE_MULT_MAX, REGIONAL_PRICE_MULT_MIN, RELOCATION_COOLDOWN_HOURS,
+  RANK_WEIGHT, RECOMMEND_TOP_N, REGIONAL_PRICE_MULT_MAX, REGIONAL_PRICE_MULT_MIN, RELOCATION_COOLDOWN_HOURS,
   RELOCATION_COST_ASSET_RATIO, REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX, REMOTE_ARBITRAGE_MIN_DISTANCE_KM,
   RESTORATION_BASE_HOURS,
   SEASON_CASHOUT_RATIO, SEASON_CARRYOVER_FUNDS_CAP_MULT, SEASON_LENGTH_WEEKS, SITES, SITE_BY_ID,
@@ -245,6 +245,43 @@ export function fameScore(w: World, record: PersistentRecord): number {
 
 export function rankScore(w: World, record: PersistentRecord): number {
   return RANK_WEIGHT.asset * assetScore(w) + RANK_WEIGHT.codex * codexScore(w) + RANK_WEIGHT.fame * fameScore(w, record);
+}
+
+export type AxisRankRow = { id: OwnerId; name: string; asset: number; codex: number; fame: number; rank: number };
+
+/**
+ * 헤더의 3축 순위표(spec.md §13.1, notes/ux-v02.md §1.1) — 플레이어뿐 아니라
+ * 라이벌 전원을 같은 3축·같은 가중식으로 나란히 채점한다. `assetScore`·
+ * `codexScore`·`fameScore`는 플레이어 전용 World 필드(vault·codex·Stats)만
+ * 읽어서 라이벌에게 그대로 적용할 수 없다 — 라이벌이 가진 필드로 같은 정의를
+ * 최대한 그대로 근사한다(5단계 UI 배선, notes/decisions.md G55 보고 대상):
+ * - 자산: `RivalState.vaultValue`(라이벌도 매각 안 한 사본의 평가액 합을 그대로
+ *   누적하는 필드다) / ASSET_SCORE_REF.
+ * - 도감: `RivalState.owned`(사본을 얻을 때마다 push, 매각해도 제거하지 않는다)의
+ *   고유 종수 / ARTIFACT_SPECIES_TARGET — "지금 소장 중"이 아니라 "한 번이라도
+ *   얻음" 기준이라 플레이어의 CODEX_SCORE(현재 소장 기준)보다 관대한 근사치다.
+ * - 명성: 라이벌은 박물관이 없어 관람객 항은 0 그대로다. 유일 최초발굴 항은
+ *   `owned`에서 티어4 종 수를 세어 정확히 구할 수 있다 — 유일은 세계 재고가
+ *   1개뿐이라 "지금 owned 배열에 있다"는 사실 자체가 "그 라이벌이 그 유일을
+ *   처음이자 유일하게 가져갔다"는 뜻이기 때문이다(근사가 아니라 정확한 값).
+ *
+ * **참고(범위 밖 보고)**: `fameScore`의 관람객 항은 플레이어에게도 항상 0이다
+ * — 4단계(G54)가 박물관 수입은 배선했지만 FAME_SCORE가 요구하는 "누적 관람객"
+ * 카운터 자체를 World에 추가하지 않았다. 이번 5단계(UI)는 시뮬레이션 상태를
+ * 늘리는 작업이 아니므로 그 배선은 손대지 않고 있는 그대로 표시한다.
+ */
+export function fullRanking(w: World, record: PersistentRecord): AxisRankRow[] {
+  return [
+    { id: "player", name: "나", asset: assetScore(w), codex: codexScore(w), fame: fameScore(w, record), rank: rankScore(w, record) },
+    ...w.rivals.map((r) => {
+      const asset = Math.min(1, r.vaultValue / ASSET_SCORE_REF);
+      const codex = new Set(r.owned).size / ARTIFACT_SPECIES_TARGET;
+      const firstT4 = r.owned.filter((id) => ARTIFACT_BY_ID[id]?.tier === 4).length;
+      const fame = Math.min(1, (firstT4 / TIER4_SPECIES_TOTAL) * FAME_FIRST_T4_WEIGHT);
+      const rank = RANK_WEIGHT.asset * asset + RANK_WEIGHT.codex * codex + RANK_WEIGHT.fame * fame;
+      return { id: r.id, name: r.name, asset, codex, fame, rank };
+    })
+  ];
 }
 
 // ════════════════════════════════════════════════════════════════════════
@@ -701,7 +738,7 @@ function rollDrop(
 /** 그 거점이 base로 승격된 지 HOME_BASE_BONUS_DURATION_HOURS 안이면 dropMod를
  *  낮춰 준다(world-map.md §1 통일 공식). 레거시 단독 발굴·발굴단 원정 모두 이
  *  하나의 거점별 실효 dropMod를 공유한다(§9.2 SiteProgress가 플레이어 공용이므로). */
-function effectiveDropMod(w: World, site: SiteId): number {
+export function effectiveDropMod(w: World, site: SiteId): number {
   const sp = w.sites[site];
   const base = SITE_BY_ID[site].dropMod;
   if (sp.baseSince === null) return base;
@@ -841,7 +878,7 @@ function digRival(w: World, r: RivalState, rng: Rng, dt: number, eff: number, re
  * (notes/decisions.md G52 보고 대상) — UI가 팀별 본거지를 고르게 하는 건
  * 5단계(세계지도 UI) 몫이다.
  */
-function teamHomeSite(w: World): SiteId {
+export function teamHomeSite(w: World): SiteId {
   const bases = SITES.filter((s) => w.sites[s.id].unlocked);
   let home: SiteId = bases[0]?.id ?? "korea";
   let earliest = w.sites[home].baseSince ?? Infinity;
@@ -1324,6 +1361,30 @@ export function rivalExpeditions(w: World): RivalExpeditionInfo[] {
     }
     return { id: r.id, name: r.name, site: r.homeSite, status: "home", arrivesAt: null };
   });
+}
+
+/**
+ * 세계지도 추천(notes/world-map.md §7 — "현재 발굙력 대비, 아직 방문 안 했거나
+ * 오래 방치된 거점 중 도감 기여도가 높은 상위 3곳", RECOMMEND_TOP_N=3). 5단계
+ * UI 배선 — 순수 조회 함수다(World를 바꾸지 않는다). "도감 기여도"는 그
+ * 거점에 검증된 종 중 아직 소장하지 않은(unseen 또는 discovered_not_owned) 종의
+ * 수로 근사한다. 방문 이력(마지막 방문 시각)은 World가 boolean 플래그만 들고
+ * 있어 "얼마나 오래" 방치됐는지는 알 수 없다 — 대신 "한 번도 안 가본 거점"에
+ * 큰 가산점을 줘 최우선으로 추천한다(notes/decisions.md G55 보고 대상).
+ */
+export function recommendSites(w: World, topN = RECOMMEND_TOP_N): SiteId[] {
+  const scored = SITES.map((s) => {
+    const contribution = ARTIFACTS.filter(
+      (a) => a.site === s.id && a.sourceStatus === "verified" && w.codex[a.id] !== "owned" && w.codex[a.id] !== "owned_unidentified"
+    ).length;
+    const visited = !!w.visitedSites[s.id];
+    return { id: s.id, score: contribution + (visited ? 0 : 1000) };
+  });
+  return scored
+    .filter((s) => s.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, topN)
+    .map((s) => s.id);
 }
 
 function updateCatchup(w: World) {

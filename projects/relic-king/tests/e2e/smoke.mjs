@@ -141,21 +141,26 @@ async function main() {
     }; document.querySelector('.stat-value').innerText`);
     await new Promise((r) => setTimeout(r, SECONDS * 1000));
     const after = await evaluate(`document.body.innerText`);
-    if (!/도감 [1-9]/.test(after) && !/소장고/.test(after)) failures.push("진행 신호를 찾지 못했다");
-    const drops = /도감 (\d+)\/60/.exec(after);
+    if (!/소장고/.test(after)) failures.push("진행 신호를 찾지 못했다");
+    // 드랍 여부는 텍스트 패턴이 아니라 저장된 world 상태(vault+pending)로 직접 확인한다 —
+    // v0.2는 헤더에 "도감 X/Y" 같은 고정 문구를 더 이상 찍지 않는다(notes/ux-v02.md §1.1).
+    const dropCount = await evaluate(`{
+      const w = JSON.parse(localStorage.getItem('relic-king/save/v1') || 'null');
+      w ? w.vault.length + w.pending.length : 0;
+    }`);
     // 첫 드랍이 24초쯤이라 그보다 짧게 돌리면 0점이 정상이다
-    if (SECONDS >= 35 && (!drops || Number(drops[1]) < 1)) {
+    if (SECONDS >= 35 && dropCount < 1) {
       failures.push(`${SECONDS}초 방치 후에도 유물이 0점이다`);
     }
     await shoot("02-dig-running");
 
-    // 3) 탭 전환이 모두 뜬다
-    for (const [i, label] of ["소장고", "세계", "도감"].entries()) {
+    // 3) 탭 전환이 모두 뜬다(v0.2 5탭 — 발굴/소장고/시설/시장/도감)
+    for (const [i, label] of ["소장고", "시설", "시장", "도감"].entries()) {
       await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('${label}')).click()`);
       await new Promise((r) => setTimeout(r, 900));
       const body = await evaluate(`document.querySelector('.body').innerText.length`);
       if (body < 30) failures.push(`${label} 탭이 비어 있다`);
-      await shoot(`0${3 + i}-${["vault", "world", "codex"][i]}`);
+      await shoot(`0${3 + i}-${["vault", "facility", "market", "codex"][i]}`);
     }
 
     // 4) 클릭이 진척을 준다
@@ -218,8 +223,11 @@ async function main() {
     await shoot("07-vault-detail");
 
     // 6) 조사: "이(가)" 같은 병기가 화면에 남아 있으면 안 된다
-    await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('세계')).click()`);
-    await new Promise((r) => setTimeout(r, 1000));
+    // 활동 기록은 v0.2에서 도감 탭의 "원장" 서브탭으로 옮겨갔다(notes/ux-v02.md §1.6)
+    await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('도감')).click()`);
+    await new Promise((r) => setTimeout(r, 600));
+    await evaluate(`[...document.querySelectorAll('.subtabs button')].find(b => b.innerText.trim().startsWith('원장')).click()`);
+    await new Promise((r) => setTimeout(r, 800));
     const logText = await evaluate(`document.querySelector('.log-list')?.innerText ?? ''`);
     const badJosa = ["이(가)", "을(를)", "은(는)", "와(과)"].filter((j) => logText.includes(j));
     if (badJosa.length) failures.push(`조사 병기가 남아 있다: ${badJosa.join(" ")}`);
@@ -242,8 +250,7 @@ async function main() {
 
     console.log("──────── SMOKE ────────");
     console.log(`스크린샷 ${shots.length}장 → ${OUT}`);
-    const codex = /도감 (\d+)\/60/.exec(after);
-    console.log(`${SECONDS}초 방치 후 도감 ${codex ? codex[1] : "?"}점`);
+    console.log(`${SECONDS}초 방치 후 vault+pending ${dropCount}점`);
     console.log(`8시간 오프라인 후 소장고 ${posB.stacks}종 · 미감정 ${posB.pending}점, 칸 이동 ${posA.first === posB.first && posA.last === posB.last ? "없음" : "있음"}`);
     console.log(`조사 병기 ${badJosa.length === 0 ? "없음" : badJosa.join(" ")}`);
     console.log(failures.length ? `❌ FAIL\n- ${failures.join("\n- ")}` : "✅ PASS");
