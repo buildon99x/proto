@@ -41,6 +41,14 @@ export function SettingsModal({ game, onClose }: { game: Game; onClose: () => vo
             onChange={(e) => game.setMuted(e.target.checked)}
           />
         </label>
+        <label className="settings-row">
+          <span>자동 재투자 <em className="muted small">남는 자금을 인부·장비·감정소에 자동으로 쓴다</em></span>
+          <input
+            type="checkbox"
+            checked={world.settings.autoReinvest}
+            onChange={(e) => game.setAutoReinvest(e.target.checked)}
+          />
+        </label>
       </section>
 
       <section className="settings-section">

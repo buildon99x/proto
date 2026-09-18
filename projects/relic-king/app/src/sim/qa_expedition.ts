@@ -38,6 +38,14 @@ function setupDispatched(): World {
   // 제보를 꺼서 그 잡음을 걷어낸다(china가 3단계로 제보 대상 자격을 얻으면서 실제로
   // 이 테스트에 이 잡음이 새로 섞여 들어왔다 — notes/decisions.md G53 보고 대상).
   w.nextTipIn = Number.MAX_SAFE_INTEGER;
+  // 자동매각(`settings.autoSellBelow`, notes/decisions.md G57부터 기본 켬)도 같은
+  // 이유로 끈다 — 감정 완료마다 `settleSale()`이 로컬 시세(bestLocalPriceMult, 시각
+  // 의존)를 곱해 즉시 funds를 바꾸는데, 이 테스트 구간(~20시간, 레거시 단독 발굴도
+  // 계속 함께 돈다)에는 그런 감정-즉시매각 이벤트가 수백 건 쌓인다. 이 테스트의
+  // 목적은 원정비·귀환 정산의 스텝 무관성이지 일반 감정→자동매각 파이프라인의
+  // 스텝 무관성이 아니므로(그건 이미 사용 중인 다른 스텝-청크 잔차, G53.10과 같은
+  // 부류이고 qa_economy.ts가 별도로 다룬다), 꺼서 잡음을 걷어낸다.
+  w.settings.autoSellBelow = null;
   const foremanId = hireForeman(w, "korea", 0)!;
   const teamId = createTeam(w, foremanId)!;
   buyTeamWorker(w, teamId);

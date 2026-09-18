@@ -135,6 +135,11 @@ console.log("\n──────── 3. 박물관 순수익 30% 캡 ───
   // 최대 스탯 관장 + 고희귀도 전시로 "캡이 없었다면" 순수익이 훨씬 컸을 시나리오를 만든다.
   const w = createWorld();
   w.funds = 10_000_000_000;
+  // 이 구간의 자금 증가는 "거의 전부 박물관 순수익"이어야 캡 검증이 의미가 있다
+  // (아래 178번째 줄 주석 그대로) — 자동매각(기본 켬, notes/decisions.md G57)을
+  // 켜 두면 최소 발굴력이라도 만들어 내는 T0·T1 드랍이 감정 즉시 팔려 나가
+  // 박물관 수입과 섞인 별도 funds 증가원이 생긴다. 꺼서 격리한다.
+  w.settings.autoSellBelow = null;
   buildMuseum(w, "korea");
   const museum = w.museums.find((m) => m.site === "korea")!;
   for (let i = 0; i < 3; i++) {

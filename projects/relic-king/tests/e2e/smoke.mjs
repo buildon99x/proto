@@ -155,7 +155,15 @@ async function main() {
     await shoot("02-dig-running");
 
     // 3) 탭 전환이 모두 뜬다(v0.2 5탭 — 발굴/소장고/시설/시장/도감)
+    // 첫 감정 완료 후 20~40초 안에 "본거지를 정하자" 온보딩 오버레이가 자동으로 뜬다.
+    // SECONDS 만큼 방치한 뒤라 이미 떠 있을 가능성이 높으므로, 탭을 누르기 전에
+    // 먼저 닫아 둔다 — 안 그러면 아래 스크린샷들이 실제 화면이 아니라 오버레이만 찍힌다.
+    await evaluate(`document.querySelector('.onboarding-keep')?.click()`);
+    await new Promise((r) => setTimeout(r, 400));
     for (const [i, label] of ["소장고", "시설", "시장", "도감"].entries()) {
+      // 탭을 옮기는 도중에도 온보딩이 뒤늦게 뜰 수 있어 매 클릭 전에 한 번 더 방어한다.
+      await evaluate(`document.querySelector('.onboarding-keep')?.click()`);
+      await new Promise((r) => setTimeout(r, 300));
       await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('${label}')).click()`);
       await new Promise((r) => setTimeout(r, 900));
       const body = await evaluate(`document.querySelector('.body').innerText.length`);
@@ -247,6 +255,22 @@ async function main() {
       .map((e) => JSON.stringify(e.params).slice(0, 300))
       .filter((text) => !text.includes("favicon.ico"));
     if (errors.length) failures.push(`콘솔 오류 ${errors.length}건:\n  ${errors.join("\n  ")}`);
+
+    // 9) 모바일 375px 스크린샷 (notes/ux-v02.md 가 설계한 모바일 레이아웃 검증용)
+    // 콘솔 오류 수집이 끝난 뒤라 여기서 뷰포트를 바꿔도 이후 로직(요약 출력뿐)에는
+    // 영향이 없다 — 그래서 데스크톱 1180×1000 으로 되돌리지 않고 그대로 종료한다.
+    await cdp.send("Emulation.setDeviceMetricsOverride", { width: 375, height: 812, deviceScaleFactor: 2, mobile: true });
+    await new Promise((r) => setTimeout(r, 500));
+    for (const [i, label] of ["발굴", "시장", "소장고"].entries()) {
+      // 여기서도 온보딩이 뒤늦게 떠 있을 수 있으니 탭을 누르기 전에 먼저 닫는다.
+      await evaluate(`document.querySelector('.onboarding-keep')?.click()`);
+      await new Promise((r) => setTimeout(r, 300));
+      await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('${label}')).click()`);
+      await new Promise((r) => setTimeout(r, 900));
+      const body = await evaluate(`document.querySelector('.body').innerText.length`);
+      if (body < 30) failures.push(`모바일 ${label} 탭이 비어 있다`);
+      await shoot(`mobile-0${i + 1}-${["dig", "market", "vault"][i]}`);
+    }
 
     console.log("──────── SMOKE ────────");
     console.log(`스크린샷 ${shots.length}장 → ${OUT}`);

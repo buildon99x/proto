@@ -139,6 +139,26 @@ const MIGRATIONS: Record<number, Migration> = {
     blackMarket: {
       listings: (raw.blackMarket?.listings ?? []).map((l: any) => ({ ...l, listedAt: l.listedAt ?? 0 }))
     }
+  }),
+  /**
+   * v6 → v7 (v0.2 결함 1 수정 — 8시간 방치가 굴러가지 않던 교착, notes/decisions.md
+   * G57). `Settings.autoReinvest`(신설)를 채우고, 이번 패스로 새 기본값이 된
+   * `autoSellBelow`(기존 null → 1)도 함께 올려 준다 — 이 defect가 "기본 상태에서
+   * 방치가 죽는다"는 것이었으므로, 새 게임뿐 아니라 이미 그 교착에 걸려 있었을
+   * 기존 세이브도 같은 처방을 받아야 한다(returning player도 같은 defect의
+   * 피해자다). 플레이어가 설정 화면에서 이미 명시적으로 끔(null)을 골랐던
+   * 경우와 "한 번도 안 건드려서 초기값 그대로인" 경우를 이 세이브만으로는
+   * 구분할 수 없다 — 다만 값을 올린 뒤에도 설정 화면에서 언제든 다시 끌 수
+   * 있으므로(클릭 1회) 척추 4번("클릭은 언제나 선택")을 어기지 않는다.
+   */
+  6: (raw: any) => ({
+    ...raw,
+    version: 7,
+    settings: {
+      ...raw.settings,
+      autoSellBelow: raw.settings?.autoSellBelow ?? 1,
+      autoReinvest: raw.settings?.autoReinvest ?? true
+    }
   })
 };
 

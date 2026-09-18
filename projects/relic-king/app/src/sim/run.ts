@@ -21,18 +21,18 @@
 import { ARTIFACTS, ARTIFACT_BY_ID } from "../game/artifacts";
 import {
   AUCTION_SLOT_CAP_BY_GRADE, CODEX_GOAL_V2, EXPEDITION_TEAM_UNLOCK_BASE, EXPEDITION_TEAM_UNLOCK_GROWTH,
-  LAYERS_PER_SITE, MAX_EXPEDITION_TEAMS_CAP, MAX_GEAR_LEVEL, RANK_WEIGHT, SITES, SITE_BY_ID,
-  auctionHouseBuildCost, auctionGradeCost, dropThreshold, gearCost, humidityLevelCost, labCost,
+  LAYERS_PER_SITE, MAX_EXPEDITION_TEAMS_CAP, RANK_WEIGHT, SITES, SITE_BY_ID,
+  auctionHouseBuildCost, auctionGradeCost, dropThreshold, humidityLevelCost,
   layerCost, layerExpectedValue, marketingLevelCost, museumBuildCost, museumGradeCost,
-  restorationLevelCost, securityLevelCost, vaultLevelCost, workerCost
+  restorationLevelCost, securityLevelCost, vaultLevelCost
 } from "../game/balance";
 import {
-  advance, assetScore, auctionHouseOf, blindSellAll, buildAuctionHouse, buildMuseum, buyGear,
-  buyHumidityLevel, buyLab, buyMuseumMarketing, buyRestorationLevel, buySecurityLevel, buyTeamGear,
-  buyTeamWorker, buyVaultLevel, buyWorker, click, codexProgress, codexScore, createPersistentRecord,
+  advance, assetScore, auctionHouseOf, buildAuctionHouse, buildMuseum,
+  buyHumidityLevel, buyMuseumMarketing, buyRestorationLevel, buySecurityLevel, buyTeamGear,
+  buyTeamWorker, buyVaultLevel, click, codexProgress, codexScore, createPersistentRecord,
   createTeam, createWorld, digPower, dispatchExpedition, displayArtifact, fameScore, fullRanking,
   hireAuctioneer, hireCurator, hireForeman, listAtAuction, museumOf, museumSlotCount, playerAssets,
-  ranking, rankScore, sellArtifactCopies, staffMarketCycle, switchSite, teamHomeSite,
+  ranking, rankScore, runAutoRoutine, sellArtifactCopies, staffMarketCycle, switchSite, teamHomeSite,
   unlockSite, unlockTeamSlot, upgradeAuctionGrade, upgradeMuseumGrade
 } from "../game/engine";
 import { duration, won } from "../game/format";
@@ -221,17 +221,29 @@ function bestSite(w: World): SiteId {
 
 /**
  * 방치 정책 — 클릭 0회(척추 4번). 매 틱:
- * 1) 안전판(잉여 매각·미감정 적체 시 블라인드 매각) — 이게 없으면 자금이 막혀
- *    감정비를 못 내는 교착이 생긴다(마무리 패스에서 실측으로 확인, notes/decisions.md
- *    G56 참조 — qa_endgame.ts가 바로 이 교착에 걸려 있었다).
+ * 1) 안전판(vault 잉여 직접매각) — 종당 1점을 남기고 파는 vault 정리로,
+ *    아래 2)~5)가 쓸 유동성을 만든다.
  * 2) base 확장(최대 3) — 레거시 단독 발굴의 무대.
  * 3) 발굙단 파견·재배정 — 12거점 전역 도감 커버리지를 만드는 핵심 축.
  * 4) 시설 건립(보관소·박물관·경매장·스텝) — 자산·명성 축과 환금을 돕는다.
- * 5) 레거시 단독 발굴 업그레이드(감정소·장비·인부) — 남는 자금으로.
+ *
+ * **미감정 적체 시 블라인드 매각·레거시 단독 발굴 업그레이드(감정소·장비·
+ * 인부)는 더 이상 이 정책이 직접 구현하지 않는다** — `engine.ts`의
+ * `runAutoRoutine`(엔진 기본 자동화, notes/decisions.md G57 — 결함 수정
+ * 패스)을 그대로 가져다 쓴다. 전에는 이게 없으면 자금이 막혀 감정비를 못
+ * 내는 교착이 생겼는데(G56 실측), 그건 "sim 정책만 아는 요령"이었다 — 실제
+ * 브라우저에서 클릭 0회로 방치하는 진짜 플레이어는 이 정책을 실행하지
+ * 않으므로 똑같이 교착에 걸렸다(사람 스크린샷 8시간 방치 실측).
+ * `runAutoRoutine`은 **`advance()`가 자동으로 불러주지 않는다** — 그 안에서
+ * 부르면 잉여 처분·재투자 둘 다 지수 비용 곡선·다건 매각의 "문턱" 판단이라
+ * 오프라인 적분 스텝 무관성(`qa_expedition.ts`)을 깬다는 게 실측으로
+ * 확인됐다(engine.ts의 `applyOffline` 주석 참조). sim은 원래부터 자체
+ * 정책이 매 틱 이 자리에서 큐 정리·인부·장비·감정소를 직접 사 왔으므로,
+ * 같은 함수를 그대로 가져다 쓰는 게 로직 중복 없이 자연스럽다.
  */
 function act(w: World) {
   liquidateSurplus(w);
-  if (w.pending.length >= 24) blindSellAll(w);
+  runAutoRoutine(w);
 
   for (const s of SITES) {
     if (!w.sites[s.id].unlocked && w.funds >= s.unlockCost) unlockSite(w, s.id);
@@ -259,16 +271,6 @@ function act(w: World) {
   }
 
   ensureFacilities(w);
-
-  for (let i = 0; i < 20; i++) {
-    const wc = workerCost(w.workers);
-    const gc = gearCost(w.gear);
-    const lc = labCost(w.lab);
-    if (w.lab < 6 && w.funds >= lc && lc <= wc * 3) buyLab(w);
-    else if (w.gear < MAX_GEAR_LEVEL && gc <= wc * 6 && w.funds >= gc) buyGear(w);
-    else if (w.funds >= wc) buyWorker(w);
-    else break;
-  }
 }
 
 function ledgerOk(w: World): string | null {

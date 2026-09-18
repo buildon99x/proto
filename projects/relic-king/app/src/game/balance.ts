@@ -282,6 +282,25 @@ export const EMERGENCY_DISPATCH_MISHAP_MULT = 2.0;
 export const AUTO_SELL_MAX_TIER = 1;
 export const AUTO_SELL_KEEP_ONE_PER_SPECIES = true;
 
+// ── 기본 자동화 루틴(notes/decisions.md G57 — v0.2 결함 1 수정) ────────────
+// 감정비를 낼 자금이 없으면 그 항목은 spec.md §9.2가 이미 정한 대로 "대기"한다
+// (파괴·강제매각 없음, G39/A1). 단 그 탈출구("미감정 매각으로 언제든 풀 수
+// 있다")가 지금까지 순수 수동 액션이었다 — 클릭 0회 기본 상태에선 아무도
+// 그 액션을 누르지 않으니 큐가 무기한 쌓이고 자금이 영원히 0에 머무는
+// 교착이 생겼다(척추 4번 위반, 사람 스크린샷 실측). 아래 두 상수는 그
+// 탈출구를 배경에서 자동으로 쓰게 하는 주기·여유값이다 — 새 매각 채널을
+// 만드는 게 아니라 기존 blindSell을 기본 자동화로 승격시킬 뿐이다.
+/** 자동 루틴(`engine.ts`의 `runAutoRoutine` — 미감정 잉여 처분·인부/장비/감정소
+ *  재투자) 점검 주기(초). `useGame.ts`가 탭을 열어 둔 채 방치하는 동안 이
+ *  주기로 직접 부른다(엔진의 `advance()`/`step()` 내부에서는 부르지 않는다 —
+ *  오프라인 적분 스텝 무관성이 깨지기 때문, engine.ts의 `applyOffline` 주석
+ *  참조). 발굙단 루틴 재파견과 비슷한 체감 빈도로 잡았다. */
+export const AUTO_ROUTINE_INTERVAL_SECONDS = 60;
+/** 인부·장비·감정소 자동 재투자가 항상 남겨 두는 자금 여유분 — 다음 몇 건의
+ *  감정비 정도는 항상 감당할 수 있게, 재투자가 감정 파이프라인의 현금을
+ *  전부 흡수하지 않도록 막는다. */
+export const AUTO_INVEST_RESERVE = 5_000;
+
 // ── 발굴단·원정 (§8, world-map.md §2·§3·§5 — 2단계에서 실제로 구현. 회차제·
 // 거리·미스헵·후불 원정비는 app/src/game/expedition.ts가 쓴다) ─────────────
 export const MAX_EXPEDITION_TEAMS_INITIAL = 1;

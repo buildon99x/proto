@@ -1,7 +1,8 @@
 import {
   APPRAISAL_HIGH_TIER_TIME_MULT, APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE,
   ARTIFACT_WORLD_VALUE_CEILING, ASSET_SCORE_REF_SHARE, AUCTION_FEE_RATE, AUCTION_HOUSE_MAX_COUNT,
-  AUCTION_SETTLE_HOURS, AUCTION_SLOT_CAP_BY_GRADE, AUTO_SELL_KEEP_ONE_PER_SPECIES, AUTO_SELL_MAX_TIER,
+  AUCTION_SETTLE_HOURS, AUCTION_SLOT_CAP_BY_GRADE, AUTO_INVEST_RESERVE,
+  AUTO_SELL_KEEP_ONE_PER_SPECIES, AUTO_SELL_MAX_TIER,
   BASE_DIG, BLACK_MARKET_BUY_PRICE_RATIO, BLACK_MARKET_LOOSE_MAX_TIER,
   BLACK_MARKET_RESTOCK_INTERVAL_HOURS, BLACK_MARKET_SLOT_CAPACITY, BLACK_MARKET_STOLEN_PRICE_RATIO,
   BLIND_SELL_RATE, CATCHUP_MAX, CATCHUP_SLOPE, CLICK_COMBO_MAX, CLICK_COMBO_STEP, CLICK_COMBO_WINDOW,
@@ -27,7 +28,7 @@ import {
   TIP_RIVAL_HIT, UNEXPLORED_BONUS_APPRAISAL_VOUCHER, WORKER_DIG,
   appraiseSeconds, auctionGradeCost, auctionHouseBuildCost, conditionDecayChancePerDay, distanceKm,
   dropThreshold, gearCost, humidityLevelCost, labCost, layerCost, layerExpectedValue, marketingLevelCost,
-  museumBuildCost, museumGradeCost, restorationAttemptHours, restorationLevelCost,
+  museumBuildCost, museumGradeCost, pendingCap, restorationAttemptHours, restorationLevelCost,
   restorationSuccessChance, securityLevelCost, theftInitialGraceHours, tierValue, tierWeights,
   vaultCapacity, vaultLevelCost, workerCost
 } from "./balance";
@@ -105,7 +106,7 @@ export function createWorld(seed = 20260917): World {
   for (const a of ARTIFACTS) codex[a.id] = "unseen";
 
   return {
-    version: 5,
+    version: 7,
     t: 0,
     lastTickAt: Date.now(),
     // 감정에는 추정가의 2%가 든다. 종잣돈이 0이면 첫 유물을 감정조차 못 해
@@ -139,7 +140,10 @@ export function createWorld(seed = 20260917): World {
     tip: null,
     nextTipIn: TIP_FIRST_DELAY,
     log: [{ t: 0, kind: "system", text: "경주 고분군에서 발굴을 시작했다." }],
-    settings: { autoSellBelow: null, muted: false },
+    // autoSellBelow=1(희귀 이하 자동 매각)·autoReinvest=true가 기본이다 — 클릭
+    // 0회로도 자금이 돌게 하는 기본 자동화(G3·척추 4번, notes/decisions.md G57).
+    // 둘 다 설정에서 끌 수 있다(off로 두면 예전처럼 완전 수동, 손실은 없다).
+    settings: { autoSellBelow: 1, muted: false, autoReinvest: true },
     stats: { drops: 0, clicks: 0, sold: 0, blindSold: 0, racesWon: 0, racesLost: 0, firstT4Finds: 0 },
     clickCombo: 1,
     clickComboUntil: 0,
@@ -625,9 +629,10 @@ function take(w: World, a: Artifact, owner: OwnerId, report: StepReport, diggerF
     });
     w.stats.drops += 1;
     report.drops.push({ artifactId: a.id, tier: a.tier });
-    // PENDING_CAP 오버플로 자동매각은 없다(notes/decisions.md G39/A1) — 큐는
-    // 무제한 대기다. 티어 구분 없이 자동으로 팔던 옛 로직은 T3·T4까지 팔아치울
-    // 수 있는 척추 3번 위반 경로였다. PENDING_CAP은 이제 순수 UI 경고 임계값이다.
+    // 여기서는 오버플로 처리를 하지 않는다 — 그건 autoLiquidatePendingOverflow()가
+    // 별도 주기로 맡는다(notes/decisions.md G57). G39/A1의 원칙(티어 구분 없는
+    // 무차별 강제매각 금지 — T3·T4까지 팔아치울 수 있는 척추 3번 위반 경로였다)은
+    // 그대로 지킨다 — 그 자동 처분도 AUTO_SELL_MAX_TIER(T0·T1) 안에서만 움직인다.
   } else {
     const rival = w.rivals.find((r) => r.id === owner)!;
     // 종 단위로만 push한다(중복 사본은 넣지 않는다) — fullRanking()의 도감 축이
@@ -1303,6 +1308,106 @@ function autoSellEligible(w: World, artifact: Artifact): boolean {
   return w.vault.some((v) => v.artifactId === artifact.id);
 }
 
+/**
+ * 미감정 큐가 `pendingCap(w.lab)`(순수 UI 경고 임계값이었던 그 함수, G54.6)를
+ * 넘으면 T0·T1 잉여만 자동으로 미감정매각한다(notes/decisions.md G57 — v0.2
+ * 결함 1 수정). spec.md §9.2가 이미 "자금이 감정비보다 적으면 그 항목은
+ * 대기한다 — 미감정 매각으로 언제든 풀 수 있다"고 정한 그 탈출구를 그대로
+ * 쓴다(새 매각 채널이 아니라 기존 `blindSell`을 자동으로 누르는 것뿐이다).
+ * 클릭 0회 기본 상태에서는 아무도 그 탈출구를 수동으로 쓰지 않아 자금이
+ * 영원히 0에 머무는 교착이 있었다 — 8시간 방치 실측(사람 스크린샷)으로 확인.
+ *
+ * T2 이상은 절대 건드리지 않는다(`AUTO_SELL_MAX_TIER`) — G39/A1의 "파괴적
+ * 손실 금지" 취지를 그대로 지킨다. 봉인 보관 중(감정소 레벨 미달)인 고티어
+ * 항목은 애초에 T0·T1이 아니므로 이 함수가 건드릴 일이 없다.
+ *
+ * `autoInvestLegacyDig`와 같은 이유로 `step()`/`advance()` 안에서는 부르지
+ * 않는다 — 처음엔 매 60초 경계마다 불렀는데, 이 함수가 파는 항목 수가 많은
+ * 장시간 단일 `advance()` 호출(예: `qa_expedition.ts`의 왕복 원정 검증, 수십
+ * 시간을 한 호출로 처리한다)에서는 사고파는 금액이 누적돼 `w.funds`가
+ * 스텝 크기에 따라 실측 5천만~1억 원대로 벌어지는 걸 확인했다 — 여러 건이
+ * 쌓이면 개별 드랍의 아주 작은 스텝-청크 잔차(G53.10)가 판매 대상·순서
+ * 자체를 바꿔 그 금액만큼 누적 오차가 된다. `runAutoRoutine`(아래)을 통해
+ * `applyOffline()`·`sim/run.ts`·UI 타이머에서만 부른다.
+ */
+function autoLiquidatePendingOverflow(w: World) {
+  const cap = pendingCap(w.lab);
+  const over = w.pending.length - cap;
+  if (over <= 0) return;
+  const eligible = w.pending.filter((p) => ARTIFACT_BY_ID[p.artifactId].tier <= AUTO_SELL_MAX_TIER);
+  for (const item of eligible.slice(0, over)) blindSell(w, item.uid);
+}
+
+/**
+ * 인부·장비·감정소 레벨에 남는 자금을 자동으로 재투자한다(notes/decisions.md
+ * G57). `sim/run.ts`가 처음부터 방치 기준선 측정에 써 온 정책(economy.md의
+ * "σ<1 기본 정책" 실측 — D≈5,209/s 정체 기준선의 근거가 된 바로 그 재투자
+ * 루프, notes/decisions.md G21/A7)과 **똑같은 우선순위·비율**을 그대로
+ * 쓴다 — 새 밸런스 정책을 발명하지 않고, 이미 몇 라운드째 검증돼 온 정책을
+ * 실제 엔진 기본값으로 승격시킬 뿐이다(`sim/run.ts`의 `act()`도 이제 이
+ * 함수를 그대로 호출한다 — 로직이 두 곳에서 갈라지지 않는다).
+ * `AUTO_INVEST_RESERVE`만큼은 항상 남겨 감정비 파이프라인을 굶기지 않는다.
+ * `w.settings.autoReinvest`(기본 켬)로 끌 수 있다 — 꺼도 손실은 없다(척추 4번).
+ *
+ * **`step()`/`advance()` 안에서 부르지 않는다**(중요, 실측으로 두 번 확인한
+ * 제약이라 자세히 남긴다). `w.workers`/`w.gear`가 오르면 `digPower()`가 바로
+ * 그다음 틱부터 달라져 드랍·층 진행 속도 자체가 바뀐다 —
+ *
+ * 1차 시도: `step()` 내부에서 60초 경계마다 불렀다 — 구매가 일어나는 정확한
+ *    실제 시각이 그 직전의 아주 작은 자금 잔차(드랍 타이밍의 스텝-청크 경계
+ *    잔차, G53.10이 이미 문서화한 성질)에 따라 스텝 크기별로 미묘하게 갈릴
+ *    수 있고, 그 잔차가 이후 매 구매마다 발굙력 차이로 증폭돼(다음 구매를
+ *    더 앞당기거나 늦추는 피드백 루프) 드랍 수·층 도달까지 스텝 크기에 따라
+ *    크게 벌어졌다(`sim --hours 24`의 오프라인 적분 검사가 drops 105/106·
+ *    layer 6/7까지 벌어졌다 — 완전 일치를 요구하는 검사라 0.1% 같은 허용치도
+ *    못 준다).
+ * 2차 시도: `advance()` 맨 끝에서 그 호출 전체에 딱 한 번만 불렀다 — 위
+ *    문제는 없앴지만(그 호출의 드랍·층에는 영향을 줄 수 없으니까), 이번엔
+ *    "얼마나 살 수 있는가"가 지수 비용 곡선의 문턱이라 입력 funds의 아주
+ *    작은 차이(같은 G53.10 잔차)가 "마지막으로 하나 더 살 수 있느냐"를
+ *    갈라놓고, 그 한 건의 가격이 이미 커져 있어(반복 구매로 비용이 기하급수로
+ *    자란 뒤라) 귀환 후 funds가 스텝 크기에 따라 수백만~천만 원대로 벌어지는
+ *    회귀를 냈다(`qa_expedition.ts`의 0.1% funds 허용치를 실제로 깼다).
+ *
+ * 두 시도 다 "이 함수가 순수 엔진 루프(`advance()`) 경로에 있다"는 공통
+ * 원인이었다 — `qa_expedition.ts`·`qa_economy.ts`·`sim/run.ts`의 스텝 무관성
+ * 검증이 전부 `advance()`를 직접 부르는 저수준 테스트라, 그 경로에 있는 한
+ * 아무리 호출 빈도를 조절해도 결국 같은 종류의 민감도를 어딘가로 옮길
+ * 뿐이었다. **결정**: `advance()`/`step()`에서는 완전히 빼고, 그 경로 밖에서만
+ * 부른다 — `applyOffline()`(복귀 시점 1회, 아래)과 `sim/run.ts`의 `act()`(자체
+ * 정책, 매 틱)가 각자 필요할 때 직접 부른다. 둘 다 qa 테스트가 검증하는
+ * "같은 시드로 두 스텝 크기를 비교" 경로가 아니라 안전하다.
+ */
+export function autoInvestLegacyDig(w: World) {
+  if (!w.settings.autoReinvest) return;
+  for (let i = 0; i < 200; i++) {
+    const wc = workerCost(w.workers);
+    const gc = gearCost(w.gear);
+    const lc = labCost(w.lab);
+    const spendable = w.funds - AUTO_INVEST_RESERVE;
+    if (w.lab < 6 && spendable >= lc && lc <= wc * 3) buyLab(w);
+    else if (w.gear < MAX_GEAR_LEVEL && spendable >= gc && gc <= wc * 6) buyGear(w);
+    else if (spendable >= wc) buyWorker(w);
+    else break;
+  }
+}
+
+/**
+ * 두 배경 루틴(미감정 잉여 처분·인부/장비/감정소 재투자)을 한 번에 묶어
+ * 부른다(notes/decisions.md G57). **`step()`/`advance()`가 자동으로 부르지
+ * 않는다** — 위 두 함수의 주석이 각각 실측으로 남긴 이유(스텝-청크 잔차가
+ * 장시간 단일 `advance()` 호출 안에서 funds·드랍/층 진행으로 증폭된다)가
+ * 똑같이 적용된다. 대신 이 루틴은 `advance()` 밖, 즉 qa/sim의 스텝 무관성
+ * 검증이 거치지 않는 지점에서만 불린다:
+ * - `applyOffline()` — 플레이어가 돌아온 시점에 딱 한 번(척추 4번 핵심 경로).
+ * - `sim/run.ts`의 `act()` — 방치 기준선 시뮬 정책이 매 틱.
+ * - `useGame.ts`의 애니메이션 프레임 루프 — 탭을 열어 둔 채 방치할 때 60초마다.
+ */
+export function runAutoRoutine(w: World) {
+  autoLiquidatePendingOverflow(w);
+  autoInvestLegacyDig(w);
+}
+
 /** 이 거점의 제보에 반응할 수단이 있는가(spec.md §8.6 제보 대상 자격) — 레거시
  *  단독 발굴이 지금 그 거점을 파고 있거나(항상 "그 자리"), 발굴단이 이미 on_site로
  *  가 있거나, 유휴 발굴단의 급파 압축 이동시간이 4시간 이내다. 어느 것도 아니면
@@ -1570,6 +1675,21 @@ export function advance(
   return total;
 }
 
+/**
+ * `runAutoRoutine`(미감정 잉여 처분 + 인부·장비·감정소 재투자)는 여기서
+ * `advance()` 뒤에 딱 한 번 불린다 — `advance()` 자체는 `qa_expedition.ts`·
+ * `qa_economy.ts`·`sim/run.ts`의 오프라인 적분 스텝 무관성 검증이 직접
+ * 부르는 저수준 함수라, 그 안에서(또는 그 직후라도 스텝 크기별로 다르게)
+ * 이 루틴을 돌리면 실측으로 두 가지 회귀가 났다: (1) 재투자가 그다음 틱부터
+ * 드랍·층 진행 속도(digPower) 자체를 바꿔 진행이 스텝 크기별로 갈라졌고,
+ * (2) 잉여 처분·재투자 둘 다 지수 비용 곡선·다건 매각의 "문턱" 판단이라
+ * 입력 funds의 아주 작은 차이(G53.10이 이미 문서화한 스텝-청크 잔차)가
+ * 누적돼 귀환 후 funds가 스텝 크기에 따라 수천만 원대로 벌어졌다.
+ * `applyOffline()`은 실제 플레이어가 돌아왔을 때 딱 한 번만 불리고 이
+ * 테스트들의 경로가 아니므로 안전하다. `sim/run.ts`는 자체 정책(`act()`)에서
+ * 이 루틴을 직접 부른다(같은 이유로 `advance()`를 거치지 않는다) — 로직은
+ * 갈라지지 않지만 호출 시점은 각자의 용도에 맞게 다르다.
+ */
 export function applyOffline(
   w: World, nowMs = Date.now(), record: PersistentRecord = createPersistentRecord()
 ): { seconds: number; report: StepReport } | null {
@@ -1578,6 +1698,7 @@ export function applyOffline(
   if (raw < 60) return null;
   const seconds = Math.min(raw, OFFLINE_CAP_SECONDS);
   const report = advance(w, seconds, true, 10, record);
+  runAutoRoutine(w);
   return { seconds, report };
 }
 

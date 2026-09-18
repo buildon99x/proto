@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
+import { AUTO_ROUTINE_INTERVAL_SECONDS } from "../game/balance";
 import {
-  advance, applyOffline, blindSell, blindSellAll, buyBlackMarketListing, buyGear, buyHumidityLevel,
-  buyLab, buyMuseumMarketing, buyRestorationLevel, buySecurityLevel, buyTeamGear, buyTeamWorker,
+  advance, applyOffline, blindSell, blindSellAll, buyBlackMarketListing, buyGear,
+  buyHumidityLevel, buyLab, buyMuseumMarketing, buyRestorationLevel, buySecurityLevel, buyTeamGear, buyTeamWorker,
   buyVaultLevel, buyWorker, buildAuctionHouse, buildMuseum, click, createPersistentRecord, createTeam,
   createWorld, dispatchExpedition, displayArtifact, emergencyDispatch, focusDig, fullRanking,
-  hireAuctioneer, hireCurator, hireForeman, listAtAuction, relocateBase, sellArtifactCopies,
+  hireAuctioneer, hireCurator, hireForeman, listAtAuction, relocateBase, runAutoRoutine, sellArtifactCopies,
   sellTierAtMost, setRoutine, switchSite, undisplayArtifact, unlockSite, unlockTeamSlot,
   upgradeAuctionGrade, upgradeMuseumGrade
 } from "../game/engine";
@@ -33,6 +34,14 @@ function rankSnapshot(w: World, record: PersistentRecord): RankSnapshot {
 
 const SAVE_INTERVAL = 10;
 const UI_INTERVAL = 100;
+/** 탭을 열어 둔 채 진짜로 방치할 때도 미감정 잉여가 정리되고 인부·장비·
+ *  감정소가 자란다(척추 4번) — `advance()`/`step()` 자체는 이 배경 자동화를
+ *  부르지 않는다(오프라인 적분 스텝 무관성을 깨기 때문, `engine.ts`의
+ *  `runAutoRoutine`·`applyOffline` 주석 참조). 대신 UI 애니메이션 프레임
+ *  루프가 이 주기로 직접 불러 준다 — 이 타이머 자체는 "언제 부를지"만 정할
+ *  뿐 무엇을 팔지·살지·살 수 있는지는 전부 엔진 함수 안의 판단이라 "게임
+ *  로직을 UI에 두지 않는다"는 원칙과 부딪히지 않는다. qa/sim 스크립트는 이
+ *  UI 코드를 전혀 거치지 않으므로 스텝 무관성 검증과도 무관하다. */
 const ONBOARDING_SEEN_KEY = "relic-king/onboarding-seen-v1";
 
 function readOnboardingSeen(): boolean {
@@ -100,12 +109,19 @@ export function useGame() {
     let last = performance.now();
     let uiAcc = 0;
     let saveAcc = 0;
+    let routineAcc = 0;
     const revealQueue: Reveal[] = [];
 
     const frame = (now: number) => {
       const dt = Math.min(0.5, (now - last) / 1000);
       last = now;
       const report = advance(world, dt, false, 0.25, recordRef.current);
+
+      routineAcc += dt;
+      if (routineAcc >= AUTO_ROUTINE_INTERVAL_SECONDS) {
+        routineAcc = 0;
+        runAutoRoutine(world);
+      }
 
       for (const a of report.appraised) {
         if (a.tier >= 3) revealQueue.push({ artifactId: a.artifactId, value: a.value });
@@ -197,6 +213,10 @@ export function useGame() {
     setMuted: (muted: boolean) =>
       act((w) => {
         w.settings.muted = muted;
+      }),
+    setAutoReinvest: (enabled: boolean) =>
+      act((w) => {
+        w.settings.autoReinvest = enabled;
       }),
 
     // ── 발굴단·스텝(spec.md §8) ─────────────────────────────────────────

@@ -173,6 +173,10 @@ export type LogEntry = { t: number; kind: LogKind; text: string };
 export type Settings = {
   autoSellBelow: Tier | null;
   muted: boolean;
+  /** 인부·장비·감정소 잉여 자금 자동 재투자(notes/decisions.md G57) — 기본 켬.
+   *  클릭 없이도 발굴력이 자라게 하는 배경 루틴의 온/오프 스위치일 뿐, 꺼도
+   *  손실이 생기지 않는다(척추 4번 — 클릭은 항상 선택). */
+  autoReinvest: boolean;
 };
 
 export type Stats = {
@@ -207,7 +211,7 @@ export type SeasonState = {
 };
 
 export type World = {
-  version: 2 | 3 | 4 | 5 | 6;
+  version: 2 | 3 | 4 | 5 | 6 | 7;
   t: number;
   lastTickAt: number;
   funds: number;
