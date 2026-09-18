@@ -111,7 +111,19 @@ G23/A9)와 일치한다.
 
 ### 2.4 감정
 
-- 드랍 유물은 `미감정` 큐에 쌓인다(최대 20점, 초과 시 가장 오래된 것부터 자동 매각).
+- 드랍 유물은 `미감정` 큐에 쌓인다. **(정정 — `notes/decisions.md` G39/A1)**
+  기존 "최대 20점, 초과 시 가장 오래된 것부터 자동 매각"은 티어 구분이 없어
+  v0.2에서 T3·T4도 이 경로로 자동 처분될 수 있는 척추 3번 위반 경로였다.
+  자동매각을 **완전히 없앤다** — 큐는 무제한 대기다(§9.3의 "야적" 패턴과
+  동일). `PENDING_CAP`(20)은 이제 순수 UI 경고 임계값(정리를 권하는 신호)일
+  뿐 처분 트리거가 아니다. `pnpm --filter relic-king sim`으로 재검증한 결과
+  이 변경은 v0.1 기본 정책(σ<1)의 실측치를 **바꾼다**(예상과 달리 무영향이
+  아니었다 — 고 발굴력 구간에서 한 스텝(2초) 안에 드랍이 몰리면 `act()`의
+  선제적 비우기보다 먼저 20점을 넘는 버스트가 실제로 발생한다) — 엔딩이
+  1시간 0분→29분 36초로 빨라지고 자산이 133억→138억으로 오른다(`notes/decisions.md`
+  G39 실측표). 이전에는 일부 T2 이상 유물이 제대로 감정받지 못한 채 추정가의
+  70%로 헐값 처분되고 있었다는 뜻이라 **개선이지 회귀가 아니다** — 원장
+  보존·오프라인 T3·T4 상실 0건 같은 불변식은 그대로 유지된다.
 - 감정 시간 `20 / 감정소 레벨` 초, 비용 = 추정가의 2%. 추정가는 그 층의 기대 평가액이다.
 - 큐는 **병렬로** 처리된다. 순차 처리로 두면 감정소가 드랍 속도의 병목이 되어
   수집 자체가 막힌다(시뮬에서 소장고가 텅 빈 채로 전량 자동 처분됐다).
@@ -124,6 +136,13 @@ G23/A9)와 일치한다.
   설정과 무관하게 루틴이 그 유물에 대해서만 멈추고 "보류함"에 넣어 플레이어의
   확인을 기다린다(`notes/decisions.md` G20/B8 — 매각의 대가가 자산 축뿐이던
   구조에서 자동화가 결정을 대행하는 것을 막는다).
+  **(추가 — `notes/decisions.md` G47/B1+B2)** 자동매각 루틴은
+  `AUTO_SELL_KEEP_ONE_PER_SPECIES = true`를 하드 보장한다 — 그 종을 이미
+  1점 소장 중이면 나머지 사본만 판다. 종의 마지막 1점은 자동으로 팔리지
+  않는다. `CODEX_GOAL_V2`(360/480종)는 T0 300종을 상시 소장해야 달성 가능한데
+  이 보장이 없으면 자동매각이 도감 축을 구조적으로 0에 수렴시킨다. 동시에
+  "종당 1점만 남기고 판다"는 수동 미시관리를 자동화가 흡수해, 남는 결정은
+  "마지막 1점까지 팔 것인가"라는 의식적 선택 하나로 좁아진다.
 
 ### 2.5 라이벌 (v0.1: 6인)
 
@@ -165,6 +184,9 @@ G23/A9)와 일치한다.
 - **영구 상실 규칙**: 오프라인 중 라이벌은 T0~T2만 획득한다.
   **T3·T4는 오프라인에 소실되지 않는다.** 영구 상실은 플레이어가 접속해 레이스에 참여했고
   거기서 졌을 때만 일어난다. (근거: notes/mda.md §5.2)
+  **이 원칙은 v0.2의 도난(§9.4)에도 그대로 적용된다** — 도난 판정은 제보와
+  동일하게 **온라인 중에만** 일어난다(`notes/decisions.md` G39/A1). 오프라인
+  부재만으로는 전시 중인 T3 이하 유물도 영구 상실에 이르지 않는다.
 
 ### 2.8 자산과 순위
 
@@ -237,6 +259,13 @@ G23/A9)와 일치한다.
 
 ### 3.3 연출 밀도 — 두 교차점에 몰아준다
 
+**드랍 시점 연출**(신설 — `notes/decisions.md` G40/A2, G16이 "옮겼다"고
+서술만 하고 실제로 옮기지 않았던 항목을 여기로 실제 이동)
+
+| 티어 | 연출 |
+| --- | --- |
+| T4 유일 | 드랍(롤 성공) 즉시 화면 전체 연출 + "세계에 단 하나" 배지 + 원장 갱신 애니메이션. 감정소 레벨과 무관하게 이 시점에 재생된다(§9.2) — 소유 확정(①)은 여기서, 이름·내력 공개(③)는 아래 감정 완료 시점에서 각각 일어난다 |
+
 **감정 결과 공개**
 
 | 티어 | 연출 |
@@ -245,7 +274,6 @@ G23/A9)와 일치한다.
 | T1 희귀 | 뒤집기 + 짧은 효과음 |
 | T2 진귀 | 뒤집기 + 테두리 발광 + 화면 살짝 어두워짐 |
 | T3 국보 | 전체 정지 + 카드 확대 + 내력 텍스트 타이핑 |
-| T4 유일 | 화면 전체 연출 + "세계에 단 하나" 배지 + 원장 갱신 애니메이션 |
 
 **복귀 요약** — 손실을 숨기지 않는다.
 
@@ -493,8 +521,11 @@ EXPEDITION_MISHAP_TIME_LOSS_RATIO = 0.5
 
 EXPEDITION_MISHAP_CHANCE(distance) = min(EXPEDITION_MISHAP_CHANCE_CAP,
   EXPEDITION_MISHAP_BASE + EXPEDITION_MISHAP_PER_1000KM × distance_km / 1000)
-  × (1 − CRISIS_MGMT × FOREMAN_MISHAP_REDUCTION_COEFF)   // notes/staff.md §1
 ```
+
+**(개정 — `notes/decisions.md` G50/C#5)** 단장의 `CRISIS_MGMT` 스탯 보정항을
+없앴다 — 직군당 스탯을 4개에서 2개로 줄이면서 미스헵 확률은 이제 거리 기반
+기본 공식만 따른다(단장·라이벌 구분 없이 동일).
 
 파견 시점에 1회 판정한다. **실패해도 총 소요시간은 늘지 않는다** — 대신 그
 원정의 현지작업시간 중 `EXPEDITION_MISHAP_TIME_LOSS_RATIO`(50%)만큼이 장비
@@ -542,59 +573,71 @@ layerProgress·dropProgress)는 v0.1과 동일한 구조로, 이제 12거점 전
 티어 가중(`tierWeights`)은 그대로다. 여러 발굴단이 같은 거점에 배치되면
 그 거점의 `SiteProgress`를 공유해 함께 밀어붙인다.
 
-### 8.6 제보 — v0.2 절 (원정 회차제와의 통합)
+### 8.6 제보 — v0.2 절 (재설계 — `notes/decisions.md` G45/A8)
 
-`notes/decisions.md` G12/A1의 산출물. §2.6(v0.1 절)은 이동시간 없이 즉시
-전환 가능한 세계를 전제했다 — v0.2는 원정 회차제(§8.3)와 충돌하므로 이 절이
-대체한다.
+`notes/decisions.md` G12/A1의 1차 대응이 원정 회차제와의 충돌은 닫았지만
+역효과를 냈다 — 온사이트는 "조작 없음"이라 배경 확률로 느껴졌고, 급파의
+거리비례 유효시간(`2×압축이동+60초`)은 교토 61분부터 4시간 상한 대상
+8.0시간까지 배너를 띄워 그동안 후속 제보(`TIP_MEAN_INTERVAL`=180초)를
+전부 막아 제보 빈도가 회당 1/20~1/160로 붕괴했다. **G12는 이 게이트로
+개정됐다.** 근본 원인은 하나의 타이머가 "배너가 뜨는 시간"과 "레이스가
+끝나는 시간"을 동시에 맡은 것이다 — 둘을 분리한다.
 
-**온사이트 즉시 반응(조작 없음)**: 제보 대상 거점에 이미 `on_site` 발굴단이
-있으면 그 팀의 드랍 롤에 `TIP_PLAYER_HIT`(28%) 가중이 자동 적용된다. 미리 그
-거점에 발굴단을 심어 둔 선구안 자체가 보상이므로 별도 조작이 없다(클릭 가속은
-여전히 선택 사항). v0.2의 층은 유적별로 단조 증가하고 여러 발굴단이 같은 거점의
-`SiteProgress`를 공유하므로(§8.5), "굴착 층을 바꾸는" 조작 개념은 이 데이터
-모델에 없다 — 있지도 않은 조작을 문서화하지 않는다.
+**배너는 항상 60~150초만 뜬다**(`TIP_DURATION_ONSITE_MIN/MAX`, v0.1과
+동일). 케이스와 무관하게 이 창을 넘기면 배너는 무조건 사라지고 L1 슬롯이
+즉시 비어 다음 제보가 `TIP_MEAN_INTERVAL`(180초) 뒤 정상적으로 뜬다. 이
+창 안에 플레이어가 볼 수 있는 조작은 대상 거점의 발굴단 상태에 따라
+둘 중 하나다.
 
-**급파(`EMERGENCY_DISPATCH`)**: 대상 거점에 `on_site` 팀이 없으면, 유휴
-발굴단을 1단계 버튼으로 급파할 수 있다.
+- **`on_site` 팀이 있으면 `[집중 굴착]` 버튼**(신설, 온사이트를 다시
+  실제 조작으로 되돌린다): 탭하면 그 팀의 `TIP_PLAYER_HIT`이 28%→60%로
+  오르는 대신, 그 원정의 귀환 시 원천징수 원정비가 2배가 된다. 탭하지
+  않아도 기존처럼 28%는 자동 적용된다(안 건드려도 손실 0, G3).
+  ```
+  TIP_FOCUS_DIG_HIT_CHANCE = 0.60
+  TIP_FOCUS_DIG_COST_MULT = 2.0   // K5(EXPEDITION_COST_INCOME_RATIO) 위에 곱한다
+  ```
+- **유휴 팀이 있고 압축 이동시간이 `EMERGENCY_DISPATCH_MAX_REACH_HOURS`
+  (4시간) 이내면 `[급파]` 버튼**: 탭하면 그 팀이 즉시 출발한다
+  (`traveling_out`). **배너는 탭 여부와 무관하게 150초 창이 끝나면
+  사라진다** — 급파는 배너에 종속되지 않는 별개의 원정이 된다.
+  ```
+  EMERGENCY_DISPATCH_MAX_REACH_HOURS = 4    // 압축 이동시간 기준, 버튼 노출 조건일 뿐 유효시간 타이머가 아니다
+  EMERGENCY_DISPATCH_TRAVEL_MULT = 1/3      // 변경 없음
+  EMERGENCY_DISPATCH_COST_MULT = 3.0        // 변경 없음
+  EMERGENCY_DISPATCH_MISHAP_MULT = 2.0      // 변경 없음(EXPEDITION_MISHAP_CHANCE_CAP=0.25가 최종 상한)
+  ```
+  급파한 팀이 실제 압축 이동시간(수 분~4시간) 뒤 `on_site`로 전환되면,
+  **그 시점에 대상 유물이 세계 원장에 여전히 남아 있는지**만 확인한다.
+  남아 있으면 막 도착한 팀도 정상적으로 `TIP_PLAYER_HIT`(28% + `[집중
+  굴착]` 선택지) 적용 대상이 된다. 다른 라이벌이나 자신의 다른 팀이 먼저
+  가져갔으면 헛걸음이다 — **"놓쳤을 수도 있다"는 리스크가 별도 만료
+  타이머가 아니라 세계 원장의 실제 잔여 수량에서 자연히 나온다.** 급파
+  후를 위한 별도의 "제보 만료" 개념을 두지 않는다(상태 기계를 늘리지
+  않는다).
+- **둘 다 아니면** 배너는 대상 위치를 알리는 정보 표시로만 150초간 뜨고
+  조용히 사라진다(v0.1의 "제보를 무시해도 게임은 계속된다"와 동일 — 모든
+  제보에 반응할 수 있어야 하는 건 아니다).
 
-```
-EMERGENCY_DISPATCH_TRAVEL_MULT = 1/3     // 이동시간을 1/3로 압축
-EMERGENCY_DISPATCH_COST_MULT = 3.0       // 원정비 3배(EXPEDITION_COST_INCOME_RATIO 위에 곱한다)
-EMERGENCY_DISPATCH_MISHAP_MULT = 2.0     // 미스헵 확률 2배. EXPEDITION_MISHAP_CHANCE_CAP(0.25)이 계산 후에도 최종 상한
-```
+**제보 대상 자격**: 온사이트·급파 어느 쪽으로도 반응 불가능한 거점(유휴
+팀도 없고 4시간 이내 도달도 안 되는 거점)만 대상에서 제외한다. 자격을
+만족하는 거점이 하나도 없으면 그 주기의 제보를 건너뛴다(`TIP_MEAN_INTERVAL`
+뒤 재시도) — 제보는 "보너스이자 유일한 긴장원"이지 진행 조건이 아니므로
+(§2.6), 가끔 안 뜨는 것이 구조적 필패보다 낫다.
 
-급파 팀이 `on_site`로 전환되는 순간부터 `TIP_PLAYER_HIT` 가중을 받는다 — 남은
-유효시간 안에 도착해야 의미가 있다.
+**제보 대상 층 조건**(누락 보완): v0.1 `spawnTip()`과 동일하게, 제보
+대상은 **플레이어가 그 거점에서 이미 도달한 층 이하**로 한정한다
+(`a.minLayer <= w.sites[a.site].layer`) — 로직 자체는 기존에도 있었으나
+이 문서에 명시가 빠져 있었다.
 
-**제보 대상 자격**: 아래 둘 중 하나를 만족하는 거점만 제보 대상이 된다.
-1. `on_site` 발굴단이 있다(즉시 반응 가능).
-2. 유휴 발굴단이 있고, 급파 압축 이동시간이 `TIP_DURATION_EMERGENCY_MAX_HOURS`
-   (4시간) 이내다.
+삭제(더 이상 필요 없다 — 위 재설계가 "얼마나 오래 유효한가"라는 질문
+자체를 "아직 남아 있는가"로 바꿨다): `TIP_DURATION_EMERGENCY_TRAVEL_MULT`·
+`TIP_DURATION_EMERGENCY_BUFFER_SECONDS`·`TIP_DURATION_EMERGENCY_MAX_HOURS`
+(→ `EMERGENCY_DISPATCH_MAX_REACH_HOURS`로 개명·의미 축소해 대체).
 
-자격을 만족하는 거점이 하나도 없으면 그 주기의 제보를 건너뛴다
-(`TIP_MEAN_INTERVAL` 뒤 재시도). 제보는 "보너스이자 유일한 긴장원"이지 진행
-조건이 아니므로(§2.6), 가끔 안 뜨는 것이 구조적 필패보다 낫다.
-
-**거리 종속 유효시간**:
-
-```
-TIP_DURATION_ONSITE_MIN = 60, TIP_DURATION_ONSITE_MAX = 150   // 기존 TIP_DURATION_MIN/MAX를 이 이름으로 개명. on_site 즉시반응 케이스에만 적용(v0.1과 동일한 60~150초)
-TIP_DURATION_EMERGENCY_TRAVEL_MULT = 2
-TIP_DURATION_EMERGENCY_BUFFER_SECONDS = 60
-TIP_DURATION_EMERGENCY_MAX_HOURS = 4
-
-급파가 필요한 대상의 유효시간(초) = TIP_DURATION_EMERGENCY_TRAVEL_MULT
-  × (EMERGENCY_DISPATCH_TRAVEL_MULT × 이동시간(편도, h) × 3600) + TIP_DURATION_EMERGENCY_BUFFER_SECONDS
-```
-
-예: 경주(홈)→교토 601km, 편도 이동시간 1.5h → 압축 0.5h → 유효시간
-2×0.5×3600+60 = 3,660초(61분). 4시간 상한 안에 든다. 쿠스코↔시안(17,707km,
-편도 44.3h)처럼 압축해도 4시간을 넘는 거리는 제보 대상에서 제외된다 — 해당
-거점의 T4는 여전히 정상 원정(10층+ 도달)으로 얻을 수 있으므로, 제보 대상 제외가
-그 거점의 T4 획득 경로를 막지 않는다.
-
-라이벌에게도 이 절이 동일하게 적용된다(`notes/decisions.md` G18/A14 §12).
+라이벌에게도 이 절이 동일하게 적용된다(`notes/decisions.md` G18/A14 §12) —
+`[집중 굴착]`은 라이벌의 경우 결정론적 조건(자금이 2배 원정비를 감당
+가능하면 항상 발동)으로 시뮬레이션한다.
 
 ## 9. 감정소·보관소
 
@@ -604,12 +647,11 @@ TIP_DURATION_EMERGENCY_MAX_HOURS = 4
 | --- | --- |
 | 감정량 | `PENDING_CAP(level) = PENDING_CAP_BASE + PENDING_CAP_PER_LEVEL × level` |
 | 감정속도 | `appraiseSeconds(lab) = 20 / lab`(기존, 변경 없음) |
-| 종류 해금 | `APPRAISAL_UNLOCK_LAB_LEVEL[tier]`(아래) — 그 레벨에 닿기 전에는 그 티어를 감정할 수 없다 |
+| 종류 해금 | `APPRAISAL_UNLOCK_LAB_LEVEL[tier]` — **§9.2를 유일한 정본으로 참조한다**(정정 — `notes/decisions.md` G40/A2: 이 자리에 구 값 `[1,1,3,6,10]`이 §9.2의 `[1,1,2,3,4]`와 나란히 있어, 구현자가 이 표를 먼저 읽고 구 값을 쓰면 §9.2가 닫은 T4 자동 소멸(A5)이 재발했다. 값을 여기 중복 선언하지 않는다) |
 
 ```
 PENDING_CAP_BASE = 20            // 기존 PENDING_CAP과 동일한 값에서 시작
 PENDING_CAP_PER_LEVEL = 4
-APPRAISAL_UNLOCK_LAB_LEVEL = [1, 1, 3, 6, 10]   // T0~T4. lab ≥ 이 값이어야 그 티어를 감정 가능
 ```
 
 **업그레이드 비용 곡선 7종(신설 — `notes/decisions.md` G30/C)**: 경매장 등급·
@@ -644,22 +686,21 @@ APPRAISAL_HIGH_TIER_TIME_MULT = [1, 1, 1.5, 2, 3]    // T0~T4. appraiseSeconds(l
 `lab < APPRAISAL_UNLOCK_LAB_LEVEL[tier]`인 항목은 일반 미감정 큐(`PENDING_CAP`)가
 아니라 별도의 "봉인 보관" 목록(최대 `LOCKED_HOLD_CAP`)에 들어간다. 감정 서비싱은
 봉인 항목을 건너뛰고 나머지를 정상 처리한다(봉인 항목이 큐 병목이 되지 않는다).
-**단, 이 정원과 자동매각 안전판은 T0~T2에만 적용된다** — T3·T4(`tier ≥
-LOCKED_HOLD_TIER_EXEMPT_MIN_TIER`)는 정원 계산에서 하드 예외라 봉인 목록에
-쌓이지 않고 무제한 대기한다. `LOCKED_HOLD_CAP`이 가득 차는 건 이제 T2뿐이고,
-가득 차면(재고 60점으로 충분히 완만하다) T0~T2에 한해서만 가장 오래된 항목부터
-미감정 즉시매각(`BLIND_SELL_RATE`)으로 처리된다.
 
-**T3·T4에 대해서는 자동매각을 완전히 없앤다.** v0.1은 티어 게이트가 없어 T3·T4가
-봉인될 일 자체가 없었으므로, 리뷰가 지적한 대로 이건 v0.1의 `PENDING_CAP` 안전판과
-"같은 패턴"이 아니라 **새로 생긴 손실 경로**였다(척추 3번 위반 — 오프라인 여부와
-무관하게 자동 실행되는 처분). 대신 §9.3(보관소 정원 초과)과 동일한 "야적" 패턴을
-쓴다: 정원을 넘는 T3·T4는 파괴·강제매각 없이 계속 보유되고, 감정소 레벨이
-`APPRAISAL_UNLOCK_LAB_LEVEL[tier]`에 닿으면 다음 틱에 정상 큐로 옮겨가 감정된다
-(그동안은 `appraiseSeconds(lab) × APPRAISAL_HIGH_TIER_TIME_MULT[tier]`로 느리게
-감정된다 — 감정소 업그레이드가 여전히 의미를 갖는 이유). 검산: `labCost(4) =
-200,000 × 2.6³ = 351.5만₩` — v0.1 실측 1시간 시점 자금(2,228만₩)으로 충분히
-도달 가능하다(기존 `labCost(10) = 10.86억₩`은 도달 불가였다).
+**자동매각을 전 티어에서 완전히 없앤다**(정정 — `notes/decisions.md` G39/A1).
+기존에는 T3·T4만 `LOCKED_HOLD_TIER_EXEMPT_MIN_TIER` 하드 예외로 빼고 T0~T2는
+`LOCKED_HOLD_CAP` 오버플로 시 미감정 즉시매각(`BLIND_SELL_RATE`)으로 처리했는데,
+`notes/ux-v02.md` §8이 이걸 "유일하게 안 하면 손실이 생기는 카드"라고 스스로
+인정할 만큼 G3("안 하면 잃는다 설계 전면 금지") 위반이었다. T0~T2도 T3·T4와
+동일하게 §9.3(보관소 정원 초과)의 "야적" 패턴을 쓴다 — 정원을 넘는 항목은
+파괴·강제매각 없이 계속 대기하고, 감정소 레벨이 `APPRAISAL_UNLOCK_LAB_LEVEL[tier]`
+에 닿으면 다음 틱에 정상 큐로 옮겨가 감정된다(그동안은
+`appraiseSeconds(lab) × APPRAISAL_HIGH_TIER_TIME_MULT[tier]`로 느리게 감정된다 —
+감정소 업그레이드가 여전히 의미를 갖는 이유). `LOCKED_HOLD_CAP`은 이제 모든
+티어에서 순수 UI 경고 임계값(정리를 권하는 신호)이지 처분 트리거가 아니다.
+검산: `labCost(4) = 200,000 × 2.6³ = 351.5만₩` — v0.1 실측 1시간 시점 자금
+(2,228만₩)으로 충분히 도달 가능하다(기존 `labCost(10) = 10.86억₩`은 도달
+불가였다).
 
 **소유 확정(①)과 지식 공개(③)의 분리**: T4가 드랍(롤 성공)되는 즉시, 감정소
 레벨과 무관하게 다음이 일어난다 — (a) `WorldLedger` 재고 차감과 소유자 배정
@@ -718,23 +759,86 @@ THEFT_RATE_BASE = 0.0014   // 신설 — notes/decisions.md G28/B6
   유물의 **도난 판정 유예**를 늘린다: `THEFT_INITIAL_GRACE_HOURS(S) =
   VAULT_SECURITY_BASE_GRACE_HOURS × (1 + S × VAULT_SECURITY_GRACE_COEFF)`. 유예
   안에는 도난 확률 계산 자체를 하지 않는다.
-- **도난 발생률**(개정 — `notes/decisions.md` G28/B6): 유예가 끝난 뒤에는
-  전시 중·`THEFT_APPLICABLE_MAX_TIER`(3) 이하 유물에 시간당 `THEFT_RATE_BASE =
-  0.0014`로 도난 판정을 한다(`notes/economy.md` §2의 상한 `0.00167`에 16% 여유를
-  둔 값 — 보험사 마진이 양수라 화폐 복제 루프가 안 된다). "보안이 발생률을
-  움직인다"(G9)와 "보안은 발생률이 아니라 유예를 늘린다"(이 절)는 충돌이 아니라
-  같은 결과를 다른 항으로 낸다 — 유예가 **노출 시간**을 줄여 실효 발생률을
-  낮추는 방식이다.
-- **보험금-회수권 상호배타**(신설 — G28/B6): 보험금(평가액의
-  `THEFT_INSURANCE_PAYOUT_RATE=0.6`)을 청구하면 그 유물의 `THEFT_RECOVERY_WINDOW_HOURS`
-  (72h) 회수 권리를 동시에 포기한다 — 그 유물은 즉시 도감에 "영구 소실" 확정
-  처리되고, 이후 암시장에 떠도 "당신의 유물" 우선권이 붙지 않는다. 보험(현금)과
-  회수(현물)를 양자택일로 만들어, 보험금을 받고도 §11.5의 암시장 장물 되사기로
-  헐값에 현물까지 챙기는 이중 수취를 막는다.
+- **도난 발생률**(개정 — `notes/decisions.md` G28/B6, 온라인 전용 판정은
+  G39/A1): 유예가 끝난 뒤에는 전시 중·`THEFT_APPLICABLE_MAX_TIER`(3) 이하
+  유물에 시간당 `THEFT_RATE_BASE = 0.0014`로 도난 판정을 한다(`notes/economy.md`
+  §2의 상한 `0.00167`에 16% 여유를 둔 값). "보안이 발생률을 움직인다"(G9)와
+  "보안은 발생률이 아니라 유예를 늘린다"(이 절)는 충돌이 아니라 같은 결과를
+  다른 항으로 낸다 — 유예가 **노출 시간**을 줄여 실효 발생률을 낮추는 방식이다.
+  **이 판정은 제보(§8.6)와 동일하게 플레이어가 온라인일 때만 수행된다**
+  (`THEFT_JUDGEMENT_ONLINE_ONLY = true`, `engine.ts`의 `spawnTip()`이 이미
+  `if (!offline)` 블록 안에만 있는 것과 같은 패턴) — 오프라인 동안은 도난이
+  아예 발생하지 않으므로 72시간 회수 창도 오프라인 시간으로는 소진되지
+  않는다. 오프라인 부재만으로는 T3 이하 전시 유물도 영구 상실에 이를 수
+  없다 — 척추 3번(영구 상실은 플레이어가 그 자리에 있었을 때만)을 도난
+  경로에도 그대로 적용한다.
+- **보험은 없다**(삭제 — `notes/decisions.md` G50/C#1). 도난 보험(프리미엄
+  구매·평가액의 60% 페이아웃)은 투명한 규칙 공개 하에서 기대값이 항상
+  음수(`0.0014×0.6=0.00084 < 0.001`)라 아무도 들지 않는 "산수로 죽은"
+  하위 시스템이었다 — 거래소(G15)와 같은 판정 기준을 적용해 잘라낸다.
+  `THEFT_INSURANCE_PREMIUM_RATE`·`THEFT_INSURANCE_PAYOUT_RATE`와 "보험금-
+  회수권 상호배타" 규칙(구 G28)은 전부 폐기한다. 도난 대응은 이제
+  **72시간 회수 창 + 관장 `SECURITY_SENSE` 기반 회수 성공률**(`notes/staff.md`
+  §2) + §11.5의 암시장 장물 재발견, 세 가지만 남는다 — 보험이 메우던
+  "리스크 완충"은 이 회수 경로가 이미 맡고 있었으므로 빈 자리가 남지 않는다.
+
+### 9.5 드랍 간격 하한 + 심층 티어 가중 재역산 (v0.2 설계값 — `notes/decisions.md` G41/A3+A4)
+
+**충돌**: G23(A9)의 심층 티어 가중 재설계(L10-12 T4=0.000025%)가 T3·T4
+소진 속도는 늦췄지만, 부수효과로 `layerExpectedValue`가 낮아져
+`dropThreshold`도 같이 작아졌다 — 집계 모델로 재계산한 결과 `D≈5,209`
+기준 L12 드랍 간격이 **0.15초**(초당 6.5드랍)까지 떨어진다(review-r1.md의
+×9.7 배 주장과 review-r2.md의 "초당 6.5드랍" 주장을 독립 재현). "다음
+드랍까지 남은 시간" 헤더, 감정 큐, 카드 뒤집기 연출이 이 빈도를 전제하지
+않는다 — 드랍이 결정이 아니라 배경 소음이 된다.
+
+**간격과 희소성을 분리한다** — 지금까지 하나의 가중치가 둘 다 결정해서
+서로를 침범했다.
+
+```
+DROP_INTERVAL_FLOOR_SECONDS = 20
+dropThreshold_v2(site, layer, D) = max(dropThreshold(site, layer), DROP_INTERVAL_FLOOR_SECONDS × D)
+```
+
+`D`는 고정 참조값이 아니라 **그 순간의 실제 발굴력**이다 — 초반 층(L1~9)은
+플레이어가 지나가는 구간이라 그 시점 실제 D가 낮아 하한이 걸리지 않고
+(첫 드랍 12초 등 기존 마일스톤 불변), L10~12에 오래 머무는 후반부만
+실제 D가 정체 기준(≈5,209) 근방이라 하한이 정확히 그 지점에서 작동한다.
+
+가중치는 이제 순수하게 희소성만 담당한다:
+
+```
+LAYER_BASE_WEIGHTS_8_9   = [52, 36, 11, 0.01, 0]        // 기존 [52, 36, 11, 0.00004, 0]
+LAYER_BASE_WEIGHTS_10_12 = [38, 40, 18, 0.03, 0.005]    // 기존 [38, 40, 18, 0.00015, 0.000025]
+```
+
+**검증**(집계 모델, `D≈5,209`): 드랍 간격 **20.0초**(하한 정확히 작동,
+기존 대비 ×133). T4 기대 대기 99.9h/거점 → 12거점 단일 팀 순차 50.0일,
+4팀 병렬(3파도) 12.5일 — 시즌 84일 안에 여유 있게 들어온다. T3 로컬
+재고(12점) 소진 199.8h(8.3일) — 시즌 내내 희소성 유지.
+
+review가 "12거점 순차 방문이 구조적으로 불가능(85.2일 > 84일)"이라고
+주장한 원 계산(G23 가중치 기준)은 **단일 팀 순차 방문을 암묵적으로
+전제**한 것이었다 — `MAX_EXPEDITION_TEAMS_CAP=4`가 이미 존재하고,
+`CODEX_GOAL_V2`(360/480종)는 T0~T3(468종)만으로 달성 가능해 T4 12종을
+전혀 요구하지 않는다. 이 반박은 숫자로 검증했지만, 단일 팀 순차 완주가
+84.0일 시즌에 85.2일 걸린다는 여유 없음 자체는 실재하는 문제라 위
+가중치 재역산으로 50.0일까지 낮췄다.
+
+**제약**: `app/src/game/balance.ts`에는 반영하지 않는다(G23와 동일한
+이유 — 현재 코드는 3거점·60종 v0.1 상태다). 480종·12거점 데이터
+파이프라인과 함께 적용한다.
 
 ## 10. 박물관
 
 ### 10.1 관람객 수식(완전형)
+
+**등급 0 — 임시 전시대**(신설 — `notes/decisions.md` G44/A7): 모든 base는
+처음부터 무료로 1슬롯짜리 "임시 전시대"를 갖는다(`TEMP_EXHIBIT_GRADE=0`,
+`TEMP_EXHIBIT_SLOT_COUNT=1`, `TEMP_EXHIBIT_COST=0` — 건립 액션이 없다).
+아래 수식을 슬롯 1개(등급0)로 그대로 적용한다 — 새 수식이 아니라
+`MUSEUM_SLOT_BY_GRADE`(§10.3)의 첫 항일 뿐이다. 이걸 신설한 이유는
+§10.3 뒤에 나온다(첫 세션 20분 목표가 진짜 박물관 건립비를 감당 못 한다).
 
 **(개정 — `notes/decisions.md` G24/B1)** `MUSEUM_POP_CONTRIB_CAP`(6.0)은 실제로
 도달 가능한 최댓값(최대 인구 델리 기준 (32.065760)^0.4 ≈ 4.003)보다 높아 **사문**
@@ -757,22 +861,25 @@ MUSEUM_TICKET_PRICE = 20_000                // ₩/명, 가상 단위. 기존 8,
   × min(MUSEUM_POP_CONTRIB_CAP, (인근도시인구 / MUSEUM_POP_REF) ^ MUSEUM_POP_EXPONENT)
   × min(MUSEUM_RARITY_CONTRIB_CAP, 1 + MUSEUM_RARITY_COEFF × Σ_slot RARITY_WEIGHT[tier_slot] × FRESHNESS_slot)
   × min(MUSEUM_CURATOR_CONTRIB_CAP, 1 + MUSEUM_CURATOR_COEFF × CURATION)              // notes/staff.md §2
-  × (1 + MUSEUM_MARKETING_COEFF × min(MUSEUM_MARKETING_LEVEL_CAP, 마케팅레벨) × (1 + MARKETING_SENSE × CURATOR_MKT_COEFF))
+  × (1 + MUSEUM_MARKETING_COEFF × min(MUSEUM_MARKETING_LEVEL_CAP, 마케팅레벨))
 ```
 
-네 항 전부에 상한이 있다 — 인구 항은 ×4.0(정정, 기존 ×6.0은 실제 도달 불가능한
+**(개정 — `notes/decisions.md` G50/C#5)** 마케팅 항에서 관장의 `MARKETING_SENSE`
+보정을 없앴다 — 직군당 스탯을 4개에서 2개로 줄이면서 마케팅 효과는 이제
+마케팅 레벨에만 의존한다(관장 보정 없음).
+
+세 항 전부에 상한이 있다 — 인구 항은 ×4.0(정정, 기존 ×6.0은 실제 도달 불가능한
 사문 값이었다), 희귀도 항은 ×15.0(정정, 기존 ×5.0), 관장 항은 ×1.5,
 마케팅 항은 마케팅 레벨 자체를 `MUSEUM_MARKETING_LEVEL_CAP`(10)에서 멈춰
-`MUSEUM_MARKETING_COEFF`(아래)와 `CURATOR_MKT_COEFF`(`notes/staff.md` §2, 최대
-×1.4)를 곱해도 최대 ×2.12로 갇힌다. "인근 도시 인구"는 그 박물관이 지어진
-거점의 `CITY_POPULATION`(`notes/world-map.md` §9)이다.
+`MUSEUM_MARKETING_COEFF`(아래)를 곱해도 최대 ×1.8로 갇힌다. "인근 도시 인구"는
+그 박물관이 지어진 거점의 `CITY_POPULATION`(`notes/world-map.md` §9)이다.
 
 ```
 MUSEUM_MARKETING_COEFF = 0.08
 MUSEUM_MARKETING_LEVEL_CAP = 10
 관람수입(시간당) = 관람객(1일) × MUSEUM_TICKET_PRICE / 24
-유지비(시간당) = MUSEUM_UPKEEP_RATE × 관람수입 × (1 − min(CURATOR_UPKEEP_CAP, MAINTENANCE × CURATOR_UPKEEP_COEFF))   // notes/staff.md §2
-급여(시간당) = CURATOR_SALARY_INCOME_SHARE × 관람수입 × 스탯배율   // notes/staff.md §5
+유지비(시간당) = MUSEUM_UPKEEP_RATE × 관람수입   // 고정 20%(개정 — G50/C#5, MAINTENANCE 스탯·보정 삭제)
+급여(시간당) = CURATOR_SALARY_INCOME_SHARE × 관람수입 × 스탯배율   // notes/staff.md §5, 스탯배율은 이제 CURATION·SECURITY_SENSE 2개 평균
 순수익(시간당, 캡 적용 전) = 관람수입 − 유지비 − 급여
 ```
 
@@ -801,29 +908,31 @@ MUSEUM_NET_INCOME_CAP = 0.30   // notes/economy.md에 이미 정의됨
 
 ```
 MUSEUM_MAX_COUNT = MAX_OWNED_SITES = 3      // 박물관은 거점에 짓는 건물이라 보유 거점 수를 넘을 수 없다
-MUSEUM_SLOT_BY_GRADE = [3, 6, 10, 15]       // 등급 1~4의 전시 슬롯 수, 소장 총량과 무관
+MUSEUM_SLOT_BY_GRADE = [1, 3, 6, 10, 15]    // 등급 0~4의 전시 슬롯 수(개정 — G44/A7, 등급0 무료 1슬롯 신설). 등급1~4는 기존값 그대로
 MUSEUM_BUILD_COST_BASE = 50_000_000
 MUSEUM_BUILD_COST_GROWTH = 3.0
 
-건립비(n번째) = MUSEUM_BUILD_COST_BASE × MUSEUM_BUILD_COST_GROWTH^(n-1)   // 5천만 / 1.5억 / 4.5억
+건립비(n번째, n=1이 등급1) = MUSEUM_BUILD_COST_BASE × MUSEUM_BUILD_COST_GROWTH^(n-1)   // 5천만 / 1.5억 / 4.5억
 ```
 
 **회수 기간 계산**(구현자가 그대로 재현 가능하도록 입력값을 전부 명시한다):
-경주(인구 264,000), 등급1(슬롯 3, T2 3점 전시·`FRESHNESS=1`), `CURATION=50`,
-마케팅레벨 2·`MARKETING_SENSE=50`, `MAINTENANCE=50`, 플레이어 발굴력 `D=50`.
+경주(인구 264,000), 등급1(슬롯 3, T2 3점 전시·`FRESHNESS=1`), 관장 2스탯
+(G50/C#5로 4→2) `CURATION=SECURITY_SENSE=50`, 마케팅레벨 2, 플레이어 발굴력
+`D=50`.
 
 ```
 인구항 = (264,000/1,000,000)^0.4 ≈ 0.587
 희귀도항 = min(15.0, 1+0.03×(3×10)) = 1.9
 관장항 = min(1.5, 1+0.005×50) = 1.25
-마케팅항 = 1+0.08×2×(1+50×0.004) = 1.192
-관람객/일 ≈ 300×0.587×1.9×1.25×1.192 ≈ 499명
-관람수입/시간 ≈ 499×20,000/24 ≈ 415,417₩   (정정 — 티켓가 20,000으로 인상, notes/decisions.md G24/B1)
-유지비/시간 ≈ 415,417×0.20×(1−0.15) ≈ 70,621₩
-급여/시간 ≈ 415,417×0.15 ≈ 62,313₩
-순수익/시간(캡 적용 전) ≈ 282,483₩
+마케팅항 = 1+0.08×2 = 1.16   (개정 — G50/C#5, MARKETING_SENSE 보정 삭제. 기존 1.192)
+관람객/일 ≈ 300×0.587×1.9×1.25×1.16 ≈ 485명
+관람수입/시간 ≈ 485×20,000/24 ≈ 404,299₩
+유지비/시간 ≈ 404,299×0.20 ≈ 80,860₩   (개정 — G50/C#5, MAINTENANCE 할인 삭제. 기존 70,621₩)
+스탯배율(급여) = 1 + STAFF_SALARY_STAT_COEFF(0.6) × (Σstat_i/2)/STAFF_STAT_MAX = 1 + 0.6×(50/100) = 1.3   (분모 2로 개정 — G50/C#5)
+급여/시간 ≈ 404,299×0.15×1.3 ≈ 78,838₩
+순수익/시간(캡 적용 전) ≈ 404,299 − 80,860 − 78,838 ≈ 244,601₩
 캡 = 0.30×50×1000×1×3600 = 54,000,000₩/시간 → 캡에 걸리지 않음(의도됨, §10.2)
-회수기간 = 50,000,000 / 282,483 ≈ 177.0시간 ≈ 약 7.4일   (기존 442시간=18.4일에서 절반 이하로)
+회수기간 = 50,000,000 / 244,601 ≈ 204.4시간 ≈ 약 8.5일   (재계산 — 스탯 축소(G50/C#5)와 급여 스탯배율 누락 정정(G49/B4)을 모두 반영. 기존 442h(1회차 원안) → 177.0h(오기) → 189.5h(정정) → 204.4h(스탯 축소 반영, 최종))
 ```
 
 **(정정 — `notes/decisions.md` G24/B1)** "발굴력이 자라는 동안 회수 기간이
@@ -859,6 +968,25 @@ FRESHNESS_회복(보관소휴식시간h) = min(1, 전시하강시점값 + MUSEUM
 바뀌지 않는다)을 그대로 적용한다 — 전시 슬롯 그리드는 소장고 그리드와 같은 고정
 칸 방식을 쓴다.
 
+### 10.6 박물관을 자르지 않는다 — 판정 (`notes/decisions.md` G49/B4)
+
+박물관 순수익이 발굴 소득의 0.0017% 수준이라는 이유로 거래소(G15)와 같은
+논리("산수로 지배당한 죽은 채널")를 적용해 잘라야 하는가라는 질문에 **자르지
+않는다**로 답한다. 거래소는 자신이 표방한 목적(처분 경로) 안에서 직접매각에
+**항상** 열등했다(1.128<1.26, 모든 경우에 진다) — 그게 "산수로 지배당했다"는
+판정의 실제 기준이다. 박물관은 애초에 자금 채널로 설계되지 않았다(G5 "명성의
+주축") — 자금 기준으로 재는 것 자체가 잘못된 잣대다. 명성 기준으로는 등급1·
+저마케팅 예시 하나만으로도 `FAME_SCORE`에 유의미한 기여(관람객 항 0.042,
+`RANK_SCORE`에 0.0147)를 보태고, 3관·고등급·마케팅 성장을 12주에 걸쳐
+반영하면 기여가 더 커진다 — 다른 축(자산이 아니라 명성)에서 작동하도록
+설계됐고 그 축에서 무의미하지 않다.
+
+**대신 자산 축과의 관계를 명문화한다**: `ASSET_SCORE`(§13.1) 계산에서
+**현재 전시 중인 유물은 제외**한다 — 전시하면 명성은 오르고 자산은
+내려간다(v0.1의 "팔면 순위가 떨어진다"를 박물관 버전으로 복제). `CODEX_SCORE`
+는 영향받지 않는다("소장" 상태는 전시 여부와 무관, §13.3). 이 규칙이 G5가
+말한 "박물관이 북극성에 붙는 유일한 방법"을 실제로 구현한다.
+
 ## 11. 경매장·암시장 (거래소는 v0.4로 이연 — `notes/decisions.md` G15/A4)
 
 > **거래소(유저 간 P2P 거래)는 v0.2에서 제거됐다.** 실현 배율을 재검산한 결과
@@ -883,8 +1011,8 @@ FRESHNESS_회복(보관소휴식시간h) = min(1, 전시하강시점값 + MUSEUM
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 직접 매각 | 판매 | T0~T4 | 로컬 | 즉시 | 무제한 | 평가액 × 1.0 × `LOCAL_PRICE_MULT` | 없음 |
 | 미감정 즉시매각 | 판매 | 전체(미감정) | 무관 | 즉시 | 무제한 | 추정가 × `BLIND_SELL_RATE`(0.7) | 없음 |
-| 경매장 | 판매 | T0~T3(T4 제외) | 로컬 | `AUCTION_SETTLE_HOURS`(6h) | `AUCTION_SLOT_CAP_BY_GRADE`([3,5,8,12]) | 평가액 × `AUCTION_PRICE_MULT`(1.0~1.4) × `LOCAL_PRICE_MULT` | `AUCTION_FEE_RATE`(8%) |
-| 암시장 | **매입** | 미감정·장물 | 로컬(매물 구성만) | 즉시 | `BLACK_MARKET_SLOT_CAPACITY`(12) | 미감정 매물은 추정가 × `BLACK_MARKET_BUY_PRICE_RATIO`(0.4), **장물은 평가액 × 0.32**(정정, 아래 §11.5) | 없음 |
+| 경매장 | 판매 | T0~T3(T4 제외) | 로컬 | `AUCTION_SETTLE_HOURS`(6h) | `AUCTION_SLOT_CAP_BY_GRADE`([3,5,8,12]) | 평가액 × `AUCTION_PRICE_MULT`(1.15~1.4, 개정 — G50/C#6) × `LOCAL_PRICE_MULT` | `AUCTION_FEE_RATE`(8%, 고정 — CLIENTELE 할인 스탯 삭제) |
+| 암시장 | **매입** | 미감정·장물 | 로컬(매물 구성만) | 즉시 | `BLACK_MARKET_SLOT_CAPACITY`(12) | 미감정 매물은 추정가 × `BLACK_MARKET_BUY_PRICE_RATIO`(0.75, 개정 — G42/A5), **장물은 평가액 × 0.32**(아래 §11.5) | 없음 |
 
 ```
 AUCTION_HOUSE_MAX_COUNT = 3   // = MAX_OWNED_SITES, 경매장도 박물관과 같은 이유로 거점 수를 넘지 않는다
@@ -892,8 +1020,17 @@ AUCTION_SETTLE_HOURS = 6
 AUCTION_SLOT_CAP_BY_GRADE = [3, 5, 8, 12]
 BLACK_MARKET_RESTOCK_INTERVAL_HOURS = 2
 STOLEN_TO_BLACKMARKET_CHANCE = 0.5
-BLACK_MARKET_STOLEN_PRICE_RATIO = 0.32   // = BLACK_MARKET_BUY_PRICE_RATIO × 0.8. 기준을 "미감정 추정가"→"평가액"으로 통일(G28/B6)
+BLACK_MARKET_STOLEN_PRICE_RATIO = 0.32   // 평가액 기준(도난 대상은 정의상 전시 중이라 이미 감정을 마쳤다). BLACK_MARKET_BUY_PRICE_RATIO(미감정 매입가)와는 독립된 값이다
 ```
+
+**(개정 — `notes/decisions.md` G42/A5)** `BLACK_MARKET_BUY_PRICE_RATIO`를
+`0.4 → 0.75`로 올렸다. 기존 0.4는 `BLIND_SELL_RATE`(0.7, 같은 "추정가"
+분모)보다 낮아, 암시장에서 사서 그 자리에서 미감정 즉시매각하면 무위험으로
++75% 차익이 났다(economy.md의 소스표가 이 되팔기 경로를 누락해 발견되지
+않았다). 0.75(>0.7)로 올리면 즉시 되팔기는 항상 손해(-6.7%)가 되어 이
+루프가 닫힌다. "싸게 사서 감정 후 고티어를 노리는" 도박성 재미(G15가
+암시장을 지킨 근거)는 그대로 산다 — 실제 개체값이 추정가(층 평균)를
+크게 웃돌면 차액은 여전히 크다.
 
 경매장과 직접매각은 같은 "판매"를 놓고 경쟁하는 것처럼 보이지만, 실제로는
 빠름(직접매각, 즉시·수수료 0·기대값 최저) — 비쌈(경매장, 몇 시간 후 확정·
@@ -926,13 +1063,28 @@ BLACK_MARKET_STOLEN_PRICE_RATIO = 0.32   // = BLACK_MARKET_BUY_PRICE_RATIO × 0.
 거점, 유물의 shape, 현재 시각)`이 곱해진다(위 §11.1 표). `REGIONAL_PRICE_MULT_MIN/MAX`는
 0.60/1.40으로 재조정됐다(정정 — `notes/decisions.md` G26/B3, 기존 0.90/1.26).
 거래소가 없어지면서 "거래소는 전역이라 지역성이 없다"는 구분도 함께 사라진다 —
-v0.2의 판매 채널(직접매각·경매장) 전부가 로컬이다. 그 대신
-`notes/world-map.md` §8.5(정보 공개 규칙, `notes/decisions.md` G19/B4)가
-"미탐사 거점은 시세를 모른다"는 정보 비대칭을 얹는다 — `REMOTE_ARBITRAGE_MIN_DISTANCE_KM`
-(3,000km) 이상 떨어진 거점에서, 그 거점의 시세 정보를 사전에 획득한 상태로
-직접매각·경매장에 팔면 `LOCAL_PRICE_MULT` 클램프 상한이 1.40 →
-`REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX`(1.60)까지 확장된다. 정보 없이 파견해도
-기본 클램프(1.40)는 그대로 받는다 — 확장분만 정보를 가진 쪽의 몫이다.
+v0.2의 판매 채널(직접매각·경매장) 전부가 로컬이다.
+
+**어느 거점의 시세를 적용하는가**(신설 — `notes/decisions.md` G48/B3): 소장고는
+전역 단일이라 유물이 실제로 어느 거점에 있는지 개념이 없다. G26이 "보유 3거점
+중 최고가를 골라 판다"(`E[max of 3]=1.20`)는 계산으로 개입 이득 20%를
+정당화했는데, 그 "선택"을 어떤 규칙이 만드는지가 빠져 있었다. 매각 시
+`LOCAL_PRICE_MULT`는 **그 유물이 발굴된 거점이 아니라, 플레이어가 현재 보유한
+base(최대 3곳) 중 그 유물의 shape 카테고리 기준 최댓값**을 자동 적용한다 —
+유물이 물리적으로 이동하는 게 아니라, 판매 행위 자체가 보유 base의 거래
+인프라를 통해 최적 경로로 라우팅되는 것으로 추상화한다(`notes/world-map.md`
+§1의 "본거지 = 로컬 시세 프리미엄이 붙는 지위"라는 기존 서술과 정확히
+일치한다). 원정으로 방문만 하고 base로 승격하지 않은 거점은 거래 인프라가
+없으므로 매각가에 영향을 주지 않는다. 이 규칙으로 G26의 `E[max of 3]=1.20`
+계산이 문자 그대로 성립한다 — 수치 재조정은 필요 없었다.
+
+그 대신 `notes/world-map.md` §8.5(정보 공개 규칙, `notes/decisions.md`
+G19/B4, 단순화는 G50/C#3)가 "미탐사 거점은 시세를 모른다"는 정보 비대칭을
+얹는다 — `REMOTE_ARBITRAGE_MIN_DISTANCE_KM`(3,000km) 이상 떨어진 base에서,
+그 거점을 **한 번이라도 방문한 적 있으면**(영구 플래그, 갱신 불필요) 직접매각·
+경매장의 `LOCAL_PRICE_MULT` 클램프 상한이 1.40 → `REMOTE_ARBITRAGE_LOCAL_
+CLAMP_MAX`(1.60)까지 확장된다. 방문한 적 없으면 기본 클램프(1.40)만 받는다
+— 확장분만 탐사를 마친 쪽의 몫이다.
 
 ### 11.5 암시장 · 도난 연결
 
@@ -940,25 +1092,23 @@ v0.2의 판매 채널(직접매각·경매장) 전부가 로컬이다. 그 대�
 STOLEN_TO_BLACKMARKET_CHANCE = 0.5
 ```
 
-도난(`notes/decisions.md` G9) 발생 후 `THEFT_RECOVERY_WINDOW_HOURS`(72h) 안에
-회수하지 못하면 소유권이 넘어간다. 그 시점에 `STOLEN_TO_BLACKMARKET_CHANCE`
-(50%) 확률로 그 유물이 암시장 매물(장물 태그)로 등장한다(나머지 50%는 그
-라이벌의 소장고로 편입되고 도감은 "영구 소실"로 유지된다). **내가 도난당한
-유물이 암시장에 나올 수 있다** — 뜨면 "당신의 유물" 배지가 붙고, 아직
-`THEFT_RECOVERY_WINDOW_HOURS` 안이면 보험/추적 결과에 따라 무료로 회수할 수
-있다(§9.4·G9). 72시간을 넘기면 우선권이 없어져 다른 매물과 똑같이 사야 한다.
-**단, 보험금을 이미 청구했다면 이 우선권 자체가 없다**(§9.4 — 보험금과 회수권은
-상호배타, `notes/decisions.md` G28/B6).
+도난(`notes/decisions.md` G9) 발생 후 `THEFT_RECOVERY_WINDOW_HOURS`(72h, 온라인
+경과 시간 기준 — §9.4·G39) 안에 회수하지 못하면 소유권이 넘어간다. 그 시점에
+`STOLEN_TO_BLACKMARKET_CHANCE`(50%) 확률로 그 유물이 암시장 매물(장물 태그)로
+등장한다(나머지 50%는 그 라이벌의 소장고로 편입되고 도감은 "영구 소실"로
+유지된다). **내가 도난당한 유물이 암시장에 나올 수 있다** — 뜨면 "당신의
+유물" 배지가 붙고, 아직 `THEFT_RECOVERY_WINDOW_HOURS` 안이면 관장
+`SECURITY_SENSE` 기반 회수 성공률(§9.4·`notes/staff.md` §2)에 따라 무료로
+회수할 수 있다. 72시간을 넘기면 우선권이 없어져 다른 매물과 똑같이 사야 한다.
 
 **남의 장물을 사면 대가가 있다** — 값은 싸다(`BLACK_MARKET_STOLEN_PRICE_RATIO
-= 0.32`, **기준은 평가액이다**(정정 — 기존 "미감정 추정가"는 틀린 서술이었다.
-도난 대상은 정의상 전시 중이라 이미 감정을 마친 상태다, `notes/decisions.md`
-G28/B6). 일반 암시장 매입가(추정가의 0.4, 미감정 매물에만 적용)와는 기준 자체가
-다르다). 그 유물의 도감 등록은 "최초 발굴"이 아니므로 명성 축(G4, 최초 발굴
-횟수)에 전혀 기여하지 않는다 — 자산 축에는 기여하지만 도감·명성 축에는
-기여하지 않는다는 규칙이 자동으로 적용될 뿐, 별도 페널티를 추가하지 않는다.
-수치적 손실은 없다(G3) — 대가는 순전히 "이건 훔친 물건이다"라는 서사적
-낙인이다.
+= 0.32`, **기준은 평가액이다** — 도난 대상은 정의상 전시 중이라 이미 감정을
+마친 상태다. 일반 암시장 매입가(추정가의 0.75, 미감정 매물에만 적용, G42/A5)와는
+기준 자체가 다르다). 그 유물의 도감 등록은 "최초 발굴"이 아니므로 명성 축(G4,
+최초 발굴 횟수)에 전혀 기여하지 않는다 — 자산 축에는 기여하지만 도감·명성
+축에는 기여하지 않는다는 규칙이 자동으로 적용될 뿐, 별도 페널티를 추가하지
+않는다. 수치적 손실은 없다(G3) — 대가는 순전히 "이건 훔친 물건이다"라는
+서사적 낙인이다.
 
 ## 12. 라이벌의 v0.2 규칙 (`notes/decisions.md` G18/A14)
 
@@ -983,12 +1133,10 @@ RivalState.teams: {
 `EXPEDITION_ONSITE_RATIO`(§8.3)로 이동시간·현지작업시간을 계산하고, 원정비
 (`EXPEDITION_COST_INCOME_RATIO` × 거리 가산, §8.3)를 귀환 시 실현소득에서
 후불로 원천징수한다(정정 — 기존 "선지급"은 K5 지급 시점 변경과 함께
-`notes/decisions.md` G27/B5로 바뀌었다). 미스헵도 동일 공식을 쓰되, 라이벌에게는
-단장 개체가 없으므로 스탯 대체값을 쓴다:
-
-```
-RIVAL_CRISIS_MGMT_EQUIV = 50   // STAFF_STAT_MIN~MAX(1~100)의 중앙값. notes/staff.md §1 각주
-```
+`notes/decisions.md` G27/B5로 바뀌었다). 미스헵도 동일 공식을 쓴다 — 단장의
+`CRISIS_MGMT` 스탯이 G50/C#5로 삭제되면서 미스헵 확률이 거리 기반 기본
+공식만 따르게 됐으므로, 라이벌도 같은 공식을 그대로 쓴다(스탯 대체값
+`RIVAL_CRISIS_MGMT_EQUIV`는 더 이상 필요 없어 삭제했다).
 
 ### 12.2 고정비 (개정 — `notes/decisions.md` G29/B7, 체납 삭제)
 
@@ -1020,11 +1168,12 @@ RIVAL_CRISIS_MGMT_EQUIV = 50   // STAFF_STAT_MIN~MAX(1~100)의 중앙값. notes/
 ### 13.1 정규화식과 종합 가중식
 
 ```
+자산 = Σ(전시 중이 아닌 소장 유물의 평가액)   // 개정 — notes/decisions.md G49/B4: 전시 중인 유물은 자산에서 제외한다
 ASSET_SCORE = min(1, 자산 / ASSET_SCORE_REF)
 ASSET_SCORE_REF = ARTIFACT_WORLD_VALUE_CEILING × ASSET_SCORE_REF_SHARE   // notes/economy.md §6.1
 ASSET_SCORE_REF_SHARE = 0.15   // 375억. 플레이어+라이벌 6인의 "평균 몫"(1/7≈14.3%)보다 살짝 높게
 
-CODEX_SCORE = (state == "owned"인 고유 종수) / ARTIFACT_SPECIES_TARGET   // 480. "owned" 정의는 §9.2·아래 CodexState 참조
+CODEX_SCORE = (state == "owned"인 고유 종수) / ARTIFACT_SPECIES_TARGET   // 480. "owned" 정의는 §9.2·아래 CodexState 참조. 전시 여부와 무관 — 전시해도 "소장" 상태는 유지된다
 
 FAME_SCORE = min(1,
   (박물관 누적 관람객 / FAME_VISITOR_NORMALIZATION)
@@ -1055,6 +1204,13 @@ SEASON_TITLE_HOLD_HOURS = 1
    `RANK_SCORE` 최종 1위가 그 시즌의 공식 "유물왕"으로 `PersistentRecord`의
    명예의 전당에 영구 기록된다. 조건 1을 충족하지 못했어도 시즌 종료 시점
    1위는 기록된다.
+
+**보관소 레벨 검산**(신설 — `notes/decisions.md` G47/B1): `CODEX_GOAL_V2`
+(360종)를 상시 소장하려면 `VAULT_CAPACITY_BASE(100) + VAULT_CAPACITY_PER_LEVEL(40)
+× level ≥ 360` → `level ≥ 6.5` → **레벨 7이 필요**하다. 누적 비용
+`Σ_{L=1}^{6} vaultLevelCost(L) = 1,000,000 × (1.7⁰+…+1.7⁵) ≈ 3,305만₩`은
+D7(3시간) 시점 실측 누적 최고 자금(1억 7,777만₩, `notes/decisions.md`
+G44/A7)으로 충분히 도달 가능하다.
 
 ### 13.3 도감(CodexState) v0.2 개정
 
@@ -1126,21 +1282,21 @@ export const SEASON_CARRYOVER_FUNDS_CAP_MULT = 500;
 export const SEASON_CARRYOVER_DIG_MULT_CAP = 1.5;
 export const SEASON_CARRYOVER_FAME_REF = 500;
 
-// 라이벌의 v0.2 규칙(§12)
-export const RIVAL_CRISIS_MGMT_EQUIV = 50;
+// 라이벌의 v0.2 규칙(§12) — RIVAL_CRISIS_MGMT_EQUIV는 G50/C#5로 삭제(CRISIS_MGMT 스탯 자체가 없어졌다)
 
-// 제보 v0.2(§8.6)
+// 제보 v0.2(§8.6, 재설계 — G45/A8. TIP_DURATION_EMERGENCY_* 계열은 삭제됐다)
 export const TIP_DURATION_ONSITE_MIN = 60;
 export const TIP_DURATION_ONSITE_MAX = 150;
-export const TIP_DURATION_EMERGENCY_TRAVEL_MULT = 2;
-export const TIP_DURATION_EMERGENCY_BUFFER_SECONDS = 60;
-export const TIP_DURATION_EMERGENCY_MAX_HOURS = 4;
+export const TIP_FOCUS_DIG_HIT_CHANCE = 0.60;
+export const TIP_FOCUS_DIG_COST_MULT = 2.0;
+export const EMERGENCY_DISPATCH_MAX_REACH_HOURS = 4; // 개명(구 TIP_DURATION_EMERGENCY_MAX_HOURS) — 버튼 노출 조건일 뿐 유효시간 타이머가 아니다
 export const EMERGENCY_DISPATCH_TRAVEL_MULT = 1 / 3;
 export const EMERGENCY_DISPATCH_COST_MULT = 3.0;
 export const EMERGENCY_DISPATCH_MISHAP_MULT = 2.0;
 
-// 자동매각 상한(§2.4, B8)
+// 자동매각(§2.4, B8. KEEP_ONE_PER_SPECIES는 G47/B1+B2로 신설)
 export const AUTO_SELL_MAX_TIER = 1;
+export const AUTO_SELL_KEEP_ONE_PER_SPECIES = true;
 
 // 발굴단·원정(§8. FOREMAN_HIRE_COST·MAX_GEAR_LEVEL·EXPEDITION_ONSITE_RATIO·
 // EXPEDITION_DISTANCE_YIELD_COEFF는 G21/A6·G27/B5로 신설)
@@ -1157,13 +1313,16 @@ export const EXPEDITION_MISHAP_TIME_LOSS_RATIO = 0.5;
 export const EXPEDITION_ONSITE_RATIO = 3.0; // 가동률 33%→60%
 export const EXPEDITION_DISTANCE_YIELD_COEFF = 0.5; // 거리 업사이드(비용 계수와 대칭)
 
-// 감정소·보관소(§9, APPRAISAL_UNLOCK_LAB_LEVEL·LOCKED_HOLD_TIER_EXEMPT_MIN_TIER는 G16/A5로 개정)
+// 감정소·보관소(§9, APPRAISAL_UNLOCK_LAB_LEVEL은 G16/A5로 개정. 자동매각은
+// G39/A1로 전 티어에서 완전히 제거됐다 — LOCKED_HOLD_CAP·PENDING_CAP은 이제
+// 순수 UI 경고 임계값이다)
 export const PENDING_CAP_BASE = 20;
 export const PENDING_CAP_PER_LEVEL = 4;
-export const APPRAISAL_UNLOCK_LAB_LEVEL = [1, 1, 2, 3, 4] as const; // 기존 [1,1,3,6,10]에서 하향
+export const APPRAISAL_UNLOCK_LAB_LEVEL = [1, 1, 2, 3, 4] as const; // 기존 [1,1,3,6,10]에서 하향. §9.1에 중복 선언하지 않는다(G40/A2)
 export const APPRAISAL_HIGH_TIER_TIME_MULT = [1, 1, 1.5, 2, 3] as const;
 export const LOCKED_HOLD_CAP = 5;
-export const LOCKED_HOLD_TIER_EXEMPT_MIN_TIER = 3; // T3 이상은 이 정원·자동매각 대상에서 하드 예외
+export const LOCKED_HOLD_TIER_EXEMPT_MIN_TIER = 3; // T3 이상은 이 정원 계산에서 하드 예외(무제한 대기) — 자동매각은 애초에 전 티어에서 없다
+export const DROP_INTERVAL_FLOOR_SECONDS = 20; // 신설 — G41/A3+A4. v0.2 설계값, 480종 파이프라인과 함께 balance.ts에 반영
 export const VAULT_CAPACITY_BASE = 100;
 export const VAULT_CAPACITY_PER_LEVEL = 40;
 export const VAULT_OVERFLOW_CONDITION_DECAY_MULT = 2.0;
@@ -1175,7 +1334,8 @@ export const RESTORATION_SUCCESS_COEFF = 0.05;
 export const RESTORATION_SUCCESS_CAP = 0.6;
 export const VAULT_SECURITY_BASE_GRACE_HOURS = 2;
 export const VAULT_SECURITY_GRACE_COEFF = 0.5;
-export const THEFT_RATE_BASE = 0.0014; // 신설 — G28/B6. 상한 0.00167의 16% 여유
+export const THEFT_RATE_BASE = 0.0014; // G28/B6. 상한 0.00167의 16% 여유. 온라인 중에만 판정(G39/A1)
+export const THEFT_JUDGEMENT_ONLINE_ONLY = true; // 신설 — G39/A1
 
 // 업그레이드 비용 곡선 7종(§9.1, 신설 — G30/C)
 export const AUCTION_GRADE_COST_BASE = 30_000_000;
@@ -1193,7 +1353,11 @@ export const SECURITY_LEVEL_COST_GROWTH = 1.8;
 export const VAULT_LEVEL_COST_BASE = 1_000_000;
 export const VAULT_LEVEL_COST_GROWTH = 1.7;
 
-// 박물관(§10. POP/RARITY 캡·TICKET_PRICE는 G24/B1로 개정 — 기존 6.0/5.0/8,000)
+// 박물관(§10. POP/RARITY 캡·TICKET_PRICE는 G24/B1로 개정 — 기존 6.0/5.0/8,000.
+// 등급0 임시 전시대는 G44/A7로 신설)
+export const TEMP_EXHIBIT_GRADE = 0;
+export const TEMP_EXHIBIT_SLOT_COUNT = 1;
+export const TEMP_EXHIBIT_COST = 0;
 export const MUSEUM_VISITOR_BASE = 300;
 export const MUSEUM_POP_REF = 1_000_000;
 export const MUSEUM_POP_EXPONENT = 0.4;
@@ -1205,7 +1369,7 @@ export const MUSEUM_TICKET_PRICE = 20_000;
 export const MUSEUM_MARKETING_COEFF = 0.08;
 export const MUSEUM_MARKETING_LEVEL_CAP = 10;
 export const MUSEUM_MAX_COUNT = 3; // = MAX_OWNED_SITES
-export const MUSEUM_SLOT_BY_GRADE = [3, 6, 10, 15] as const;
+export const MUSEUM_SLOT_BY_GRADE = [1, 3, 6, 10, 15] as const; // 등급0~4(기존 [3,6,10,15]는 등급1~4, G44/A7로 등급0 추가)
 export const MUSEUM_BUILD_COST_BASE = 50_000_000;
 export const MUSEUM_BUILD_COST_GROWTH = 3.0;
 export const MUSEUM_FATIGUE_DECAY_RATE = 0.02;
@@ -1213,24 +1377,30 @@ export const MUSEUM_FRESHNESS_FLOOR = 0.3;
 export const MUSEUM_FRESHNESS_RECOVERY_RATE = 0.05;
 
 // 경매장·암시장(§11. 거래소 TRADE_*는 G15/A4로 v0.2에서 삭제 — v0.4에서 다시 정의한다.
-// AUCTION_GRADE_MAX는 G30/C로 신설)
+// AUCTION_GRADE_MAX는 G30/C로 신설. AUCTIONEER_FEE_DISCOUNT_COEFF/CAP·PACE_COEFF/CAP은
+// G50/C#5로 삭제(CLIENTELE·PACE 스탯 제거) — 수수료·낙찰시간은 이제 스탯 보정 없이 고정값이다)
 export const AUCTION_HOUSE_MAX_COUNT = 3;
 export const AUCTION_SETTLE_HOURS = 6;
 export const AUCTION_SLOT_CAP_BY_GRADE = [3, 5, 8, 12] as const;
 export const AUCTION_GRADE_MAX = 4;
 export const BLACK_MARKET_RESTOCK_INTERVAL_HOURS = 2;
+export const BLACK_MARKET_BUY_PRICE_RATIO = 0.75; // 개정 — G42/A5(기존 0.4). BLIND_SELL_RATE(0.7)보다 높여 즉시 되팔기 차익을 없앤다
 export const STOLEN_TO_BLACKMARKET_CHANCE = 0.5;
-export const BLACK_MARKET_STOLEN_PRICE_RATIO = 0.32; // 기준을 평가액으로 통일(G28/B6)
+export const BLACK_MARKET_STOLEN_PRICE_RATIO = 0.32; // 평가액 기준, BLACK_MARKET_BUY_PRICE_RATIO와 독립
 
-// 거점별 시세 모델(§11.4, world-map.md §8, G26/B3로 재조정 — 기존 0.90/1.26)
+// 거점별 시세 모델(§11.4, world-map.md §8, G26/B3로 재조정 — 기존 0.90/1.26.
+// 적용 규칙은 G48/B3 — 보유 base 중 최댓값 자동 적용)
 export const REGIONAL_PRICE_MULT_MIN = 0.60;
 export const REGIONAL_PRICE_MULT_MAX = 1.40;
 
-// 정보 비대칭·원거리 교역(§11.4, world-map.md §8.5, G19/B4. CLAMP_MAX는 G26/B3로 고정값 재정의 — 기존 1.44)
-export const PRICE_INTEL_WINDOW_HOURS = 48;
+// 정보 비대칭·원거리 교역(§11.4, world-map.md §8.5, G19/B4. CLAMP_MAX는 G26/B3로
+// 고정값 재정의 — 기존 1.44. PRICE_INTEL_WINDOW_HOURS는 G50/C#3로 삭제 — 48시간
+// 갱신 창 대신 "한 번 방문하면 영구히 공개"로 단순화했다)
 export const REMOTE_ARBITRAGE_MIN_DISTANCE_KM = 3_000;
 export const REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX = 1.60;
 
 // 급여 원천징수 전환(G29/B7)으로 STAFF_ARREARS_*·STAFF_RETIREMENT_*·SALARY_ARREARS_GRACE_HOURS
 // 계열은 전부 삭제됐다 — 더 이상 balance.ts에 없다. 체납·강제은퇴 UI도 없다.
+// 도난 보험(G50/C#1)으로 THEFT_INSURANCE_PREMIUM_RATE·THEFT_INSURANCE_PAYOUT_RATE와
+// K10(보험료 싱크)도 삭제됐다 — 더 이상 balance.ts에 없다.
 ```

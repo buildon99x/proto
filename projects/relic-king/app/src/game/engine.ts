@@ -2,7 +2,7 @@ import {
   APPRAISE_FEE, BASE_DIG, BLIND_SELL_RATE, CATCHUP_MAX, CATCHUP_SLOPE,
   CLICK_COMBO_MAX, CLICK_COMBO_STEP, CLICK_COMBO_WINDOW, CLICK_FACTOR, CLICK_RATE_CAP,
   CODEX_GOAL, GEAR_MULT, LAYERS_PER_SITE, MAX_GEAR_LEVEL, OFFLINE_CAP_SECONDS, OFFLINE_EFFICIENCY,
-  PENDING_CAP, SITES, SITE_BY_ID, TIER_STOCK_PER_SPECIES, TIP_DURATION_MAX, TIP_DURATION_MIN,
+  SITES, SITE_BY_ID, TIER_STOCK_PER_SPECIES, TIP_DURATION_MAX, TIP_DURATION_MIN,
   TIP_FIRST_DELAY, TIP_MEAN_INTERVAL, TIP_PLAYER_HIT, TIP_RIVAL_HIT, WORKER_DIG,
   appraiseSeconds, dropThreshold, gearCost, labCost, layerCost, layerExpectedValue,
   tierValue, tierWeights, workerCost
@@ -150,14 +150,9 @@ function take(w: World, a: Artifact, owner: OwnerId, report: StepReport) {
     });
     w.stats.drops += 1;
     report.drops.push({ artifactId: a.id, tier: a.tier });
-    if (w.pending.length > PENDING_CAP) {
-      const overflow = w.pending.shift();
-      if (overflow) {
-        w.funds += Math.round(overflow.estimate * BLIND_SELL_RATE);
-        w.stats.blindSold += 1;
-        log(w, "system", `미감정 큐가 넘쳐 1점을 자동으로 처분했다.`);
-      }
-    }
+    // PENDING_CAP 오버플로 자동매각은 없다(notes/decisions.md G39/A1) — 큐는
+    // 무제한 대기다. 티어 구분 없이 자동으로 팔던 옛 로직은 T3·T4까지 팔아치울
+    // 수 있는 척추 3번 위반 경로였다. PENDING_CAP은 이제 순수 UI 경고 임계값이다.
   } else {
     const rival = w.rivals.find((r) => r.id === owner)!;
     rival.owned.push(a.id);

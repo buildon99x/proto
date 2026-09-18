@@ -20,25 +20,37 @@
 
 ## 1. 발굴단 단장 (Foreman)
 
-발굴단(`spec.md` v0.2 §발굴단과 원정)마다 단장 1명이 필수다. 스탯 4개, 전부
-가산항이거나 시간·확률의 분모/승수다 — D 자체를 곱하는 스탯은 없다.
+발굴단(`spec.md` v0.2 §발굴단과 원정)마다 단장 1명이 필수다. **(개정 —
+`notes/decisions.md` G50/C#5)** 스탯을 4개에서 **2개**로 줄였다 — 원래
+4스탯(통솔력·항해술·위기대응·감식안) 전 효과가 ±30% 미만 계수이고 고용 1회로
+끝나, "2스탯으로 줄여도 재미 손실이 없다"는 반박 근거가 없었다. 가장
+핵심적인 2스탯만 남긴다: `LEADERSHIP`(발굴력 기반항, 직접적)과
+`NAVIGATION`(이동시간, 거리·탐험이라는 v0.2의 주제와 직결). 나머지는
+제거하고 그 자리를 **기본 공식(스탯 보정 없음)**이 메운다 — 새 상태를
+만들지 않는다.
 
 | 스탯 | 범위 | 들어가는 수식 | 항 |
 | --- | --- | --- | --- |
 | 통솔력 `LEADERSHIP` | 1~100 | `D_team`의 기반항(장비 배율 곱셈 **이전**) | `FOREMAN_DIG_CONTRIBUTION = LEADERSHIP × FOREMAN_DIG_COEFF`, 가산 |
 | 항해술 `NAVIGATION` | 1~100 | `notes/world-map.md` §3 이동시간 공식의 속도 분모 | `EXPEDITION_SPEED_KMH × (1 + NAVIGATION × FOREMAN_NAV_SPEED_COEFF)` |
-| 위기대응 `CRISIS_MGMT` | 1~100 | `spec.md` v0.2 원정 실패 공식의 미스헵 확률 | `EXPEDITION_MISHAP_CHANCE × (1 − CRISIS_MGMT × FOREMAN_MISHAP_REDUCTION_COEFF)` |
-| 감식안 `APPRAISAL_EYE` | 1~100 | 그 발굴단이 캐 온 유물의 감정 소요시간 | `appraiseSeconds(lab) × (1 − APPRAISAL_EYE × FOREMAN_APPRAISAL_COEFF)` |
+
+**제거됨**(G50/C#5): 위기대응 `CRISIS_MGMT`(미스헵 확률 감소) — 미스헵
+확률은 이제 거리 기반 기본 공식만 적용한다(`spec.md` §8.3의
+`EXPEDITION_MISHAP_CHANCE(distance)`에서 스탯 보정항을 뺀다). 감식안
+`APPRAISAL_EYE`(감정 소요시간 단축) — 감정 시간은 이제 감정소 레벨에만
+의존한다(`appraiseSeconds(lab)`, 단장 보정 없음).
 
 ```
 FOREMAN_DIG_COEFF = 0.05                   // LEADERSHIP=100 → D_team 기반항에 +5 (무료 인부 5명분 수준)
 FOREMAN_NAV_SPEED_COEFF = 0.003            // NAVIGATION=100 → 이동속도 +30%
-FOREMAN_MISHAP_REDUCTION_COEFF = 0.005     // CRISIS_MGMT=100 → 미스헵 확률 −50%
-FOREMAN_APPRAISAL_COEFF = 0.003            // APPRAISAL_EYE=100 → 감정시간 −30%
 FOREMAN_HIRE_COST = 200_000                // 단장 고용비(신설 — notes/decisions.md G21/A6)
 
 D_team = (BASE_DIG + WORKERS_team × WORKER_DIG + LEADERSHIP × FOREMAN_DIG_COEFF) × GEAR_MULT^gearLevel_team
 ```
+
+라이벌 미스헵 계산의 `RIVAL_CRISIS_MGMT_EQUIV` 각주(구 G18/A14)는 `CRISIS_MGMT`
+스탯 자체가 삭제되며 함께 삭제됐다 — 라이벌도 플레이어와 동일한 거리 기반
+기본 공식(스탯 보정 없음)을 쓴다.
 
 **(개정 — `notes/decisions.md` G21/A6)** `FOREMAN_DIG_COEFF`를 기존 0.8에서
 **0.05로 대폭 하향**하고 **`FOREMAN_HIRE_COST`를 신설**했다. 기존 0.8은
@@ -56,12 +68,13 @@ D_team = (BASE_DIG + WORKERS_team × WORKER_DIG + LEADERSHIP × FOREMAN_DIG_COEF
 팀·단장과 무관하게 재투자 피드백 자체가 무상한이었던 v0.1의 더 근본적인 결함을
 닫는다)도 이 합산 인덱스에 그대로 적용된다.
 
-**라이벌 각주**(`notes/decisions.md` G18/A14): 라이벌에게도 v0.2 원정 규칙이
-동일 적용되지만 라이벌은 단장 개체가 없다. 미스헵 감소항(`CRISIS_MGMT`)만
-스탯 중앙값 `RIVAL_CRISIS_MGMT_EQUIV = 50`으로 대체하고, 나머지(통솔력·항해술·
-감식안에 대응하는 발굴력·이동속도·감정시간 보정)는 라이벌의 기존 `baseDig`
-등 단순화된 파라미터가 대신한다 — 라이벌 스텝 전체의 정교화(단장 개체 도입
-등)는 이번 실행 범위 밖이고 후속 실행이 맡는다.
+**라이벌 각주**(`notes/decisions.md` G18/A14, 개정 G50/C#5): 라이벌에게도
+v0.2 원정 규칙이 동일 적용되지만 라이벌은 단장 개체가 없다. 통솔력·항해술에
+대응하는 발굴력·이동속도 보정은 라이벌의 기존 `baseDig` 등 단순화된
+파라미터가 대신한다. 미스헵은 `CRISIS_MGMT` 스탯 자체가 삭제돼(§1) 라이벌도
+플레이어와 동일한 거리 기반 기본 공식을 그대로 쓴다 — 더 이상 스탯 대체값이
+필요 없다. 라이벌 스텝 전체의 정교화(단장 개체 도입 등)는 이번 실행 범위
+밖이고 후속 실행이 맡는다.
 
 `GEAR_MULT^gearLevel_team`(기존 v0.1 장비 배율, 지수형)은 그대로 유지한다 — 이건
 스탯이 아니라 장비 업그레이드이고, v0.1에서 이미 검증된 폭주 방지 구조(드랍
@@ -73,14 +86,20 @@ D_team = (BASE_DIG + WORKERS_team × WORKER_DIG + LEADERSHIP × FOREMAN_DIG_COEF
 
 ## 2. 박물관 관장 (Museum Curator)
 
-박물관 1관당 관장 1명이 필수다.
+박물관 1관당 관장 1명이 필수다. **(개정 — `notes/decisions.md` G50/C#5)**
+스탯을 4개에서 **2개**로 줄였다. 남긴 기준: `CURATION`(명성 축 핵심 — 관람객
+수식에 직접 곱연산), `SECURITY_SENSE`(도난 회수, #1(G50/C#1)에서 축소된 도난
+시스템의 유일한 능동 완화 수단과 직결). 뺀 것: `MARKETING_SENSE`·`MAINTENANCE`.
 
 | 스탯 | 범위 | 들어가는 수식 | 항 |
 | --- | --- | --- | --- |
 | 전시노하우 `CURATION` | 1~100 | 관람객 수식(`spec.md` v0.2 §박물관)의 관장 항 | `min(MUSEUM_CURATOR_CONTRIB_CAP, 1 + MUSEUM_CURATOR_COEFF × CURATION)`, 관람객 수식에 곱연산 |
 | 보안감각 `SECURITY_SENSE` | 1~100 | 도난 회수 성공률(G9) | `min(THEFT_RECOVERY_CHANCE_CAP, THEFT_RECOVERY_BASE + SECURITY_SENSE × CURATOR_RECOVERY_COEFF)` |
-| 마케팅감각 `MARKETING_SENSE` | 1~100 | 마케팅 업그레이드 레벨의 실제 효과 | `마케팅항 = 1 + MUSEUM_MARKETING_COEFF × 마케팅레벨 × (1 + MARKETING_SENSE × CURATOR_MKT_COEFF)` |
-| 유지관리 `MAINTENANCE` | 1~100 | 박물관 유지비(economy.md K4) | `실제유지비 = MUSEUM_UPKEEP_RATE × 관람수입 × (1 − min(CURATOR_UPKEEP_CAP, MAINTENANCE × CURATOR_UPKEEP_COEFF))` |
+
+**제거됨**(G50/C#5): 마케팅감각 `MARKETING_SENSE` — 마케팅 업그레이드
+레벨의 효과는 이제 레벨에만 의존한다(관장 보정 없음). 유지관리
+`MAINTENANCE` — 박물관 유지비는 이제 `MUSEUM_UPKEEP_RATE`(고정 20%)만
+적용한다(관장 보정 없음).
 
 ```
 MUSEUM_CURATOR_COEFF = 0.005
@@ -88,9 +107,6 @@ MUSEUM_CURATOR_CONTRIB_CAP = 1.5            // CURATION=100 → 관람객 ×1.5 
 THEFT_RECOVERY_BASE = 0.20
 CURATOR_RECOVERY_COEFF = 0.006
 THEFT_RECOVERY_CHANCE_CAP = 0.80            // SECURITY_SENSE=100 → 회수 성공률 80%
-CURATOR_MKT_COEFF = 0.004                   // MARKETING_SENSE=100 → 마케팅 효과 ×1.4
-CURATOR_UPKEEP_COEFF = 0.003
-CURATOR_UPKEEP_CAP = 0.30                   // MAINTENANCE=100 → 유지비 −30% 상한
 ```
 
 `CURATION`은 G5의 30% 캡(`MUSEUM_NET_INCOME_CAP`) **안에서** 관람 수입을 올릴
@@ -99,34 +115,40 @@ CURATOR_UPKEEP_CAP = 0.30                   // MAINTENANCE=100 → 유지비 −
 
 ## 3. 경매장 관장 (Auction Master)
 
-경매장 1관당 관장 1명이 필수다.
+경매장 1관당 관장 1명이 필수다. **(개정 — `notes/decisions.md` G50/C#5)**
+스탯을 4개에서 **2개**로 줄였다. 남긴 기준: `NEGOTIATION`+`LOGISTICS`는
+요청 원문이 "운영 규모에 따라 유물의 **처분 금액과 처분 가능량**이 증가"로
+명시한 바로 그 두 값이다. 뺀 것: `PACE`·`CLIENTELE`.
 
 | 스탯 | 범위 | 들어가는 수식 | 항 |
 | --- | --- | --- | --- |
 | 협상력 `NEGOTIATION` | 1~100 | 경매장 가격배율(economy.md `AUCTION_PRICE_MULT`) | `실제배율 = AUCTION_PRICE_MULT_MIN + (AUCTION_PRICE_MULT_MAX − AUCTION_PRICE_MULT_MIN) × min(1, 등급진행도 + NEGOTIATION × AUCTIONEER_NEGOTIATION_COEFF)`, `등급진행도 = (경매장등급−1)/(AUCTION_GRADE_MAX−1)`(신설, `notes/decisions.md` G30/C) |
 | 물류처리력 `LOGISTICS` | 1~100 | 경매장 물량 상한(`AUCTION_SLOT_CAP`) | `실질슬롯 = AUCTION_SLOT_CAP_BY_GRADE[grade] + floor(LOGISTICS × AUCTIONEER_LOGISTICS_COEFF)` |
-| 진행속도 `PACE` | 1~100 | 낙찰 소요시간(`AUCTION_SETTLE_HOURS`) | `실제소요 = AUCTION_SETTLE_HOURS × (1 − min(AUCTIONEER_PACE_CAP, PACE × AUCTIONEER_PACE_COEFF))` |
-| 고객관리 `CLIENTELE` | 1~100 | 경매장 수수료(economy.md K7, `AUCTION_FEE_RATE`) | `실제수수료 = AUCTION_FEE_RATE × (1 − min(AUCTIONEER_FEE_CAP, CLIENTELE × AUCTIONEER_FEE_DISCOUNT_COEFF))` |
+
+**제거됨**(G50/C#5): 진행속도 `PACE` — 낙찰 소요시간은 이제
+`AUCTION_SETTLE_HOURS`(고정 6h)만 적용한다(관장 보정 없음). 고객관리
+`CLIENTELE` — 수수료는 이제 `AUCTION_FEE_RATE`(고정 8%)만 적용한다.
+`CLIENTELE` 삭제로 수수료가 고정되면서 **등급1 경매장이 직접매각보다
+항상 손해인 구간**이 새로 생겼다(`1.0×(1−0.08)=0.92<1.0`) — `notes/economy.md`
+§8·§3.2가 `AUCTION_PRICE_MULT_MIN`을 `1.0→1.15`로 올려 이 부수효과를
+닫았다(등급1도 `1.15×0.92=1.058>1.0`로 항상 유리, G50/C#6).
 
 ```
 AUCTIONEER_NEGOTIATION_COEFF = 0.006        // NEGOTIATION=100 → 등급진행도 +0.6 가산
 AUCTIONEER_LOGISTICS_COEFF = 0.1            // LOGISTICS=100 → 슬롯 +10
-AUCTIONEER_PACE_COEFF = 0.004
-AUCTIONEER_PACE_CAP = 0.35                  // PACE=100 → 소요시간 −35% 상한
-AUCTIONEER_FEE_DISCOUNT_COEFF = 0.002
-AUCTIONEER_FEE_CAP = 0.20                   // CLIENTELE=100 → 수수료 −20% 상한(8% → 6.4%)
 AUCTION_GRADE_MAX = 4
 ```
 
-**(신설 — `notes/decisions.md` G30/C)** 경매장 등급별 `AUCTION_PRICE_MULT`
-대응표(`NEGOTIATION=0` 기준, 위 등급진행도 식을 대입한 값):
+**(신설 — `notes/decisions.md` G30/C, 값 개정 — G50/C#6)** 경매장 등급별
+`AUCTION_PRICE_MULT` 대응표(`NEGOTIATION=0` 기준, 위 등급진행도 식을 대입한
+값. `AUCTION_PRICE_MULT_MIN`이 1.0→1.15로 오르며 전 등급이 함께 올랐다):
 
-| 등급 | 등급진행도 | `AUCTION_PRICE_MULT` |
-| --- | --- | --- |
-| 1 | 0.000 | 1.000 |
-| 2 | 0.333 | 1.133 |
-| 3 | 0.667 | 1.267 |
-| 4 | 1.000 | 1.400 |
+| 등급 | 등급진행도 | `AUCTION_PRICE_MULT` | 수수료(8%) 차감 후 | 직접매각(1.0) 대비 |
+| --- | --- | --- | --- | --- |
+| 1 | 0.000 | 1.150 | 1.058 | 유리(+5.8%) |
+| 2 | 0.333 | 1.233 | 1.135 | 유리(+13.5%) |
+| 3 | 0.667 | 1.317 | 1.211 | 유리(+21.1%) |
+| 4 | 1.000 | 1.400 | 1.288 | 유리(+28.8%) |
 
 ## 4. 고용 시장 갱신 규칙
 
@@ -138,11 +160,11 @@ STAFF_MARKET_CANDIDATE_COUNT = 3      // 직군당 후보 3명
 거점의 "인력사무소"가 24시간마다 직군별 후보 3명을 새로 낸다. 후보의 스탯은
 `STAFF_STAT_MIN`~`STAFF_STAT_MAX` 구간에서 결정론적 시드(그 거점 id + 갱신 회차 +
 직군을 입력으로 하는 `FNV1a32` 해시, `notes/world-map.md` §8.2와 같은 방식)로
-정해지고, **고용하기 전에 스탯 4개가 전부 화면에 보인다.** 갱신은 무료이고
-플레이어가 재화를 써서 다시 굴릴 수 없다 — 재화를 써서 갱신을 반복할 수 있게
-만드는 순간 그게 가챠다(§8).
+정해지고, **고용하기 전에 스탯 2개가 전부 화면에 보인다**(개정 — G50/C#5,
+직군당 4→2스탯). 갱신은 무료이고 플레이어가 재화를 써서 다시 굴릴 수 없다 —
+재화를 써서 갱신을 반복할 수 있게 만드는 순간 그게 가챠다(§8).
 
-**(신설 — `notes/decisions.md` G30/C)** 해시 1개가 어떻게 스탯 4개가 되는지가
+**(신설 — `notes/decisions.md` G30/C)** 해시 1개가 어떻게 스탯이 되는지가
 정의돼 있지 않았다. `world-map.md` §8.2의 `PREFERENCE` 해시와 같은 패턴을
 재사용한다 — 스탯마다 문자열 한 자리만 바꿔 독립적으로 해시한다:
 
@@ -152,10 +174,11 @@ CANDIDATE_STAT(site, cycle, role, statName) = STAFF_STAT_MIN
 ```
 
 예: 경주의 3번째 갱신에서 나온 단장 후보의 통솔력 =
-`CANDIDATE_STAT("korea", 3, "foreman", "LEADERSHIP")`. 네 스탯(단장:
-`LEADERSHIP`·`NAVIGATION`·`CRISIS_MGMT`·`APPRAISAL_EYE`, 관장·경매관장도 각자의
-4개 이름)은 이 함수에 각각 다른 `statName`을 넣어 독립적으로, 결정론적으로 구한다 —
-새 절차 생성 방식을 만들지 않고 기존 해시 패턴을 그대로 재사용했다.
+`CANDIDATE_STAT("korea", 3, "foreman", "LEADERSHIP")`. 두 스탯(단장:
+`LEADERSHIP`·`NAVIGATION`, 관장: `CURATION`·`SECURITY_SENSE`, 경매관장:
+`NEGOTIATION`·`LOGISTICS`)은 이 함수에 각각 다른 `statName`을 넣어 독립적으로,
+결정론적으로 구한다 — 새 절차 생성 방식을 만들지 않고 기존 해시 패턴을 그대로
+재사용했다.
 
 ## 5. 급여 공식 (개정 — `notes/decisions.md` G29/B7)
 
@@ -173,7 +196,7 @@ FOREMAN_SALARY_INCOME_SHARE = 0.03      // 판매액의 3% — 그 유물을 캐
 CURATOR_SALARY_INCOME_SHARE = 0.15      // 그 박물관 시간당 관람수입 정산액(캡 적용 전)의 15%
 AUCTIONEER_SALARY_FEE_SHARE = 0.05      // 그 경매장 낙찰액의 5%
 
-스탯배율 = 1 + STAFF_SALARY_STAT_COEFF × (Σstat_i / 4) / STAFF_STAT_MAX   // 1.0 ~ 1.6
+스탯배율 = 1 + STAFF_SALARY_STAT_COEFF × (Σstat_i / 2) / STAFF_STAT_MAX   // 1.0 ~ 1.6. 분모는 그 직군의 스탯 수(개정 — G50/C#5, 4→2)
 
 급여(단장) = FOREMAN_SALARY_INCOME_SHARE × 스탯배율 × 그 판매 건의 실현 금액
   — 판매(직접매각·경매장 낙찰·미감정매각 전부) 시점에 그 판매액에서 즉시 원천징수한다.
@@ -244,8 +267,8 @@ review-r1.md B7이 지적한 대로 "재고용 노동"에 가까워 함께 없�
 
 비목표(가챠 금지)를 지키는 구조적 장치 4가지:
 
-1. **고용 전 전수 공개**: 후보 스탯 4개가 고용하기 전에 전부 보인다. "뽑고 나서
-   확인"하는 구조가 아니다.
+1. **고용 전 전수 공개**: 후보 스탯(직군당 2개, G50/C#5)이 고용하기 전에 전부
+   보인다. "뽑고 나서 확인"하는 구조가 아니다.
 2. **갱신은 무료, 재화로 다시 굴릴 수 없다**: 24시간마다 자동으로 후보가 바뀌지만,
    플레이어가 재화를 써서 즉시 재추첨하는 기능은 없다. 가챠의 핵심 구조(재화를
    반복 투입해 무작위 보상을 다시 뽑는 것)가 성립할 지점이 없다.
@@ -269,38 +292,34 @@ UI이거나, 걸리면 스탯 페널티 나선"이라는 양자택일이었다 �
 export const STAFF_STAT_MIN = 1;
 export const STAFF_STAT_MAX = 100;
 
-// 발굴단 단장(§1) — FOREMAN_DIG_COEFF는 0.8→0.05로 하향, FOREMAN_HIRE_COST 신설(G21/A6)
+// 발굴단 단장(§1) — FOREMAN_DIG_COEFF는 0.8→0.05로 하향, FOREMAN_HIRE_COST 신설(G21/A6).
+// CRISIS_MGMT·APPRAISAL_EYE 스탯과 그 계수(FOREMAN_MISHAP_REDUCTION_COEFF·
+// FOREMAN_APPRAISAL_COEFF)는 G50/C#5로 삭제됐다 — 더 이상 balance.ts에 없다.
 export const FOREMAN_DIG_COEFF = 0.05;
 export const FOREMAN_NAV_SPEED_COEFF = 0.003;
-export const FOREMAN_MISHAP_REDUCTION_COEFF = 0.005;
-export const FOREMAN_APPRAISAL_COEFF = 0.003;
 export const FOREMAN_HIRE_COST = 200_000;
 export const MAX_GEAR_LEVEL = 16; // app/src/game/balance.ts에 이미 실코드로 존재(v0.1). 팀 합산 인덱스에도 동일 적용
 
-// 박물관 관장(§2)
+// 박물관 관장(§2) — MARKETING_SENSE·MAINTENANCE 스탯과 그 계수(CURATOR_MKT_COEFF·
+// CURATOR_UPKEEP_COEFF·CURATOR_UPKEEP_CAP)는 G50/C#5로 삭제됐다
 export const MUSEUM_CURATOR_COEFF = 0.005;
 export const MUSEUM_CURATOR_CONTRIB_CAP = 1.5;
 export const THEFT_RECOVERY_BASE = 0.20;
 export const CURATOR_RECOVERY_COEFF = 0.006;
 export const THEFT_RECOVERY_CHANCE_CAP = 0.80;
-export const CURATOR_MKT_COEFF = 0.004;
-export const CURATOR_UPKEEP_COEFF = 0.003;
-export const CURATOR_UPKEEP_CAP = 0.30;
 
-// 경매장 관장(§3)
+// 경매장 관장(§3) — PACE·CLIENTELE 스탯과 그 계수(AUCTIONEER_PACE_COEFF/CAP·
+// AUCTIONEER_FEE_DISCOUNT_COEFF/CAP)는 G50/C#5로 삭제됐다. AUCTION_PRICE_MULT_MIN은
+// 1.15로 인상됐다(economy.md §8, G50/C#6)
 export const AUCTIONEER_NEGOTIATION_COEFF = 0.006;
 export const AUCTIONEER_LOGISTICS_COEFF = 0.1;
-export const AUCTIONEER_PACE_COEFF = 0.004;
-export const AUCTIONEER_PACE_CAP = 0.35;
-export const AUCTIONEER_FEE_DISCOUNT_COEFF = 0.002;
-export const AUCTIONEER_FEE_CAP = 0.20;
 export const AUCTION_GRADE_MAX = 4; // "등급진행도" 분모(G30/C)
 
 // 고용 시장(§4)
 export const STAFF_MARKET_REFRESH_HOURS = 24;
 export const STAFF_MARKET_CANDIDATE_COUNT = 3;
 
-// 급여(§5)
+// 급여(§5) — 스탯배율 분모는 이제 2(직군당 스탯 수, G50/C#5)
 export const STAFF_SALARY_STAT_COEFF = 0.6;
 export const FOREMAN_SALARY_INCOME_SHARE = 0.03;
 export const CURATOR_SALARY_INCOME_SHARE = 0.15;

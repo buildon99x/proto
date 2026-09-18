@@ -17,7 +17,9 @@ v0.1의 "발굴지"(권역, `SITES: SiteDef[]`, 한반도·이집트·로마 3�
 §1.1이 이미 이 값들로 화폐 창출률 범위(`bonus/dropMod ∈ [0.87, 2.9]`)를 계산해
 문서에 박아 놓았으므로 **바꾸지 않는다.** 신규 9곳의 `dropMod`도 기존 범위
 `[0.8, 1.15]` 안에서만 고른다 — 벗어나면 economy.md §1.1의 시간당 규모 표
-(31.3억~104.4억 ₩)가 전부 틀어진다.
+(163.15억~543.82억 ₩, 정정 — `notes/decisions.md` G46/A9. 기존 "31.3억~104.4억"은
+`D=1,000` 기준이었는데 economy.md §1.1은 `D≈5,209` 기준을 자처해 분모가
+달랐다 — 이제 세 문서가 같은 분모를 쓴다)가 전부 틀어진다.
 
 `types.ts`의 `SiteId`는 지역명 3개(`"korea" | "egypt" | "rome"`)에서 12개로
 늘어난다: `"korea" | "egypt" | "rome" | "greece" | "china" | "turkey" | "iraq" |
@@ -395,7 +397,22 @@ ARBITRAGE_MAX_SPREAD_RATIO = REGIONAL_PRICE_MULT_MAX / REGIONAL_PRICE_MULT_MIN =
 곱해진다(`notes/economy.md` §3.2의 가격식에 이어
 `× LOCAL_PRICE_MULT(그 거점, 그 유물의 shape, 현재 시각)`을 추가한다).
 
-### 8.5 정보 공개 규칙 — 미탐사 거점의 시세는 가려진다 (`notes/decisions.md` G19/B4)
+**어느 거점의 `LOCAL_PRICE_MULT`를 적용하는가**(신설 — `notes/decisions.md`
+G48/B3): 소장고는 §8.1(v0.1과의 관계)이 이미 전역 단일로 확정했고 유물을
+거점 간에 옮기는 액션이 데이터 모델에 없다 — G26이 "보유 3거점 중 최고가를
+골라 판다"고 정당화한 계산이 실제로는 **어떻게 그 선택을 하는지** 정의하지
+않고 있었다. 매각 시 `LOCAL_PRICE_MULT`는 **그 유물이 발굴된 거점이 아니라,
+플레이어가 현재 보유한 base(최대 `MAX_OWNED_SITES`=3곳) 중 그 유물의 shape
+카테고리 기준 최댓값**을 자동 적용한다 — 유물이 물리적으로 이동하는 게
+아니라, 판매 행위 자체가 보유 base의 거래 인프라를 통해 최적 경로로
+라우팅되는 것으로 추상화한다(§1의 "base = 로컬 시세 프리미엄이 붙는
+본거지 지위"라는 서술과 정확히 일치한다). 원정으로 방문만 하고 base로
+승격하지 않은 거점은 거래 인프라가 없어 매각가에 영향을 주지 않는다. 이
+규칙으로 G26의 `E[max of 3]=1.20` 계산이 문자 그대로 성립한다 — 수치
+재조정은 필요 없었다. 개입의 실제 가치는 "어느 거점에서 파는가"가 아니라
+§8.3의 72시간 주기 시세 드리프트 안에서 **언제 파는가**에서 나온다.
+
+### 8.5 정보 공개 규칙 — 미탐사 거점의 시세는 가려진다 (`notes/decisions.md` G19/B4, 단순화 G50/C#3)
 
 `LOCAL_PRICE_MULT`가 완전 공개된 결정론 함수(해시+sin 드리프트)라 "어디가
 비싼지 아는 것"의 가치가 0이었다 — 계산기만 있으면 최적해가 상수였다. 위
@@ -403,10 +420,18 @@ ARBITRAGE_MAX_SPREAD_RATIO = REGIONAL_PRICE_MULT_MAX / REGIONAL_PRICE_MULT_MIN =
 `PRICE_DRIFT_AMPLITUDE` 등)는 **바꾸지 않는다** — 그 위에 "정보"라는 축만 얹는다.
 
 ```
-PRICE_INTEL_WINDOW_HOURS = 48
 REMOTE_ARBITRAGE_MIN_DISTANCE_KM = 3_000
 REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX = 1.60   // 개정 G26/B3 — 아래 참조
 ```
+
+**(단순화 — `notes/decisions.md` G50/C#3)** 기존 설계는 `PRICE_INTEL_WINDOW_
+HOURS=48h` 갱신 창을 뒀다 — 방문 시점부터 48시간만 정보가 유효하고, 넘기면
+다시 가려지고 재방문해야 갱신됐다. 이건 원거리(그 자체로 편도 수 시간~수십
+시간) 거점에서 "정보를 유지하려면 48시간 안에 다시 왕복하라"는 비현실적
+요구였다 — 클램프 확장분(+14.3%) 하나를 위해 시한부 추적 상태를 관리해야
+했다. **한 번이라도 `on_site`로 방문한 거점은 그 정보가 영구히 남는다**로
+바꾼다 — 갱신·만료 개념 자체를 없앤다. 탐사 보상(Discovery)은 그대로 살고,
+시한부 추적이라는 구현·UX 비용만 제거된다.
 
 **(개정 — `notes/decisions.md` G26/B3)** `REGIONAL_PRICE_MULT_MIN/MAX`를
 0.60/1.40으로 재조정하면서 `ARBITRAGE_MAX_SPREAD_RATIO`(≈2.33)가
@@ -421,28 +446,28 @@ REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX = 1.60   // 개정 G26/B3 — 아래 참조
 
 1. **미탐사 = 비공개**: 한 번도 발굴단을 파견하지 않은 거점의 `LOCAL_PRICE_MULT`는
    지도·시장 UI에 "미탐사"로만 표시된다.
-2. **정보 획득**: 발굴단이 그 거점에 처음 `on_site`로 진입하는 순간, 그 시점부터
-   `PRICE_INTEL_WINDOW_HOURS`(48h) 동안의 `LOCAL_PRICE_MULT` 미래값이 즉시
-   "정보"로 공개된다(§8.2~§8.4가 전부 결정론적 폐쇄형 함수이므로 미래를 미리
-   계산해 보여줄 수 있다 — 서버 부정행위 우려가 없는 정적 계산). 48h는 델리(편도
-   12.25h)급 중간 거리 왕복 원정의 총 소요(24.5h 이동 + 12.25h 현지작업 ≈
-   36.75h)를 한 번은 덮는 값이다. 창을 넘기면 다시 가려지고, 재방문하면 48h가
-   갱신된다.
+2. **정보 획득(영구)**: 발굴단이 그 거점에 처음 `on_site`로 진입하는 순간,
+   그 거점의 `LOCAL_PRICE_MULT`가 즉시 "정보"로 공개되고 **다시 가려지지
+   않는다**(§8.2~§8.4가 전부 결정론적 폐쇄형 함수이므로 미래값도 언제든
+   계산해 보여줄 수 있다 — 서버 부정행위 우려가 없는 정적 계산).
 3. **원거리 교역 상한(정보를 가진 경우에만)**: base로부터
-   `REMOTE_ARBITRAGE_MIN_DISTANCE_KM`(3,000km) 이상 떨어진 거점에서, 그 거점의
-   시세 정보를 **사전에 획득한 상태로** 직접매각·경매장에 팔면 `LOCAL_PRICE_MULT`
+   `REMOTE_ARBITRAGE_MIN_DISTANCE_KM`(3,000km) 이상 떨어진 거점에서, 그 거점을
+   **한 번이라도 방문한 적 있으면** 직접매각·경매장에 팔 때 `LOCAL_PRICE_MULT`
    클램프 상한이 `REGIONAL_PRICE_MULT_MAX`(1.40, G26/B3로 재조정됨)에서
-   `REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX`(1.60)로 확장된다. 정보 없이 도박으로
-   파견해도 기본 클램프(1.40)는 그대로 받지만, 확장분(1.40~1.60)은 정보를 가진
-   쪽만 실현한다 — 이게 정보 우위의 실제 가치다. 이동시간·미스헵 리스크를 이미
-   지불한 거리에만 적용되므로, `notes/decisions.md` G3의 "손대면 20~40%"(비용
-   없는 개입에 대한 상한)와는 성격이 다르다 — 위험수당이라 그 밴드를 넘어도 된다.
+   `REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX`(1.60)로 확장된다. 방문한 적 없으면 기본
+   클램프(1.40)만 받는다 — 확장분(1.40~1.60)은 탐사를 마친 쪽의 몫이다. 이건
+   이동시간·미스헵 리스크를 이미 지불한 거리에만 적용되므로, `notes/decisions.md`
+   G3의 "손대면 20~40%"(비용 없는 개입에 대한 상한)와는 성격이 다르다 —
+   위험수당이라 그 밴드를 넘어도 된다.
 
 **버린 선택지**: (i) 시세 완전 비공개(사전 스냅샷도 없음) — 편도 최장 44.3시간인
 원정에서 "도착해서야 안다"로 두면 계획 자체를 세울 수 없어 세계지도 활용이
-오히려 더 준다. (ii) `ARBITRAGE_MAX_SPREAD_RATIO` 자체를 올린다 — B3(개입 이득
-8.3%, 이번 실행 범위 밖)과 얽힌 기존 수치를 다시 열게 된다. 정보라는 새 축을
-쌓는 쪽이 기존 수치를 안 건드리고도 문제를 푼다.
+오히려 더 준다. (ii) `ARBITRAGE_MAX_SPREAD_RATIO` 자체를 올린다 — B3(개입
+이득)과 얽힌 기존 수치를 다시 열게 된다. 정보라는 새 축을 쌓는 쪽이 기존
+수치를 안 건드리고도 문제를 푼다. (iii) 48시간 갱신 창을 유지한다 — 리뷰
+2회차 C#3이 지적한 대로 원거리일수록 갱신 자체가 비현실적이 되는 자기모순이
+있다. 영구 플래그로 바꾸면 "미탐사=비공개"(1번)와 동일한 패턴이 돼 상태
+관리가 하나로 단순해진다.
 
 ## 9. `balance.ts` 상수 총람
 
@@ -517,8 +542,8 @@ export const PRICE_DRIFT_AMPLITUDE = 0.06;
 export const SUPPLY_SHOCK_MAGNITUDE = 0.10;
 export const SUPPLY_SHOCK_DECAY_HOURS = 48;
 
-// 정보 비대칭·원거리 교역(§8.5, G19/B4. CLAMP_MAX는 G26/B3로 고정 절대값 재정의 — 기존 1.44)
-export const PRICE_INTEL_WINDOW_HOURS = 48;
+// 정보 비대칭·원거리 교역(§8.5, G19/B4. CLAMP_MAX는 G26/B3로 고정 절대값 재정의 — 기존 1.44.
+// PRICE_INTEL_WINDOW_HOURS는 G50/C#3로 삭제 — 48시간 갱신 창 대신 영구 방문 플래그로 단순화)
 export const REMOTE_ARBITRAGE_MIN_DISTANCE_KM = 3_000;
 export const REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX = 1.60; // 로컬 최댓값(1.40) 대비 +14.3%, 기존과 동일 비율
 
