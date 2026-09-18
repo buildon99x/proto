@@ -110,7 +110,7 @@ console.log("\n──────── 2. 무위험 차익(암시장 매입 →
   const estimate = layerExpectedValue(loose.site, loose.minLayer);
   const w = createWorld();
   w.funds = 1_000_000_000;
-  w.blackMarket.listings.push({ id: 77, kind: "loose", artifactId: loose.id, estimate });
+  w.blackMarket.listings.push({ id: 77, kind: "loose", artifactId: loose.id, estimate, listedAt: w.t });
   const fundsBefore = w.funds;
   const bought = buyBlackMarketListing(w, 77);
   check("암시장 매입 성공", bought);

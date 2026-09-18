@@ -4,12 +4,14 @@ import {
   APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE, BLIND_SELL_RATE, CONDITION_NAME, LOCKED_HOLD_CAP,
   SITES, SITE_BY_ID, TIER_NAME, appraiseSeconds
 } from "../game/balance";
-import { museumOf, museumSlotCount } from "../game/engine";
+import { freshnessOf, museumOf, museumSlotCount } from "../game/engine";
 import { won } from "../game/format";
+import { museumVisitorIncomeHourly, museumVisitorsPerDay } from "../game/museum";
 import { TIER_COLOR } from "../render/palette";
+import { auctionPriceMult } from "../game/staff";
 import { Modal } from "./Modal";
 import { Sprite } from "./Sprite";
-import type { Artifact, Condition, SiteId, Tier, VaultItem } from "../game/types";
+import type { Artifact, Auctioneer, Condition, Curator, SiteId, Tier, VaultItem, World } from "../game/types";
 import type { Game } from "./useGame";
 
 type Stack = { artifact: Artifact; items: VaultItem[] };
@@ -273,15 +275,39 @@ function Detail({ game, stack }: { game: Game; stack: Stack }) {
   );
 }
 
+/** 그 거점에 지금 이 유물을 전시하면 기대되는 시간당 관람수입(₩/s 아니라 ₩/h) —
+ *  base 비교 칩(마무리 패스, notes/decisions.md G56)의 "가격" 지표다. 기존
+ *  전시 슬롯 구성 + 이 유물(신선도 1.0)을 더해 museumVisitorsPerDay를 그대로
+ *  재사용한다(엔진이 accrueMuseums에서 쓰는 것과 같은 순수 함수 — UI가 점수
+ *  계산식을 새로 만들지 않는다). */
+function estimateDisplayIncome(world: World, site: SiteId, artifact: Artifact): number {
+  const museum = museumOf(world, site);
+  const curator = world.staff.find((s) => s.id === museum.curatorId && s.role === "curator") as Curator | undefined;
+  const existing = world.vault
+    .filter((v) => v.displayed && v.museumSite === site)
+    .map((v) => ({ tier: ARTIFACT_BY_ID[v.artifactId].tier, freshness: freshnessOf(v, world.t) }));
+  const displayed = [...existing, { tier: artifact.tier, freshness: 1 }];
+  const population = SITE_BY_ID[site].population;
+  const visitors = museumVisitorsPerDay(population, displayed, curator?.curation ?? 0, museum.marketingLevel);
+  return museumVisitorIncomeHourly(visitors);
+}
+
 /** 전시(표#3, spec.md §10.5) — 빈 슬롯이면 즉시(2단계), 다 찼으면 내릴 유물을
- *  고르는 확인이 1탭 더 붙는다(3단계). 여러 base를 보유해도 첫 번째 base
- *  박물관을 대상으로 한다(구현 판단, notes/decisions.md G55 보고 대상). */
+ *  고르는 확인이 1탭 더 붙는다(3단계). base가 여럿이면 base 비교 칩(가격 =
+ *  기대 관람수입)을 상시 노출하고 최고가를 기본 선택한다 — 칩을 안 건드려도
+ *  버튼 1탭으로 그대로 실행되므로 조작 단계 수(표#3, ux-v02.md §2)는 늘지
+ *  않는다(notes/decisions.md G56, G55.7 보고를 닫는다). */
 function DisplayAction({ game, uid }: { game: Game; uid: number }) {
   const { world } = game;
+  const artifact = ARTIFACT_BY_ID[world.vault.find((v) => v.uid === uid)!.artifactId];
   const [swapping, setSwapping] = useState(false);
+  const [chosenId, setChosenId] = useState<SiteId | null>(null);
   const bases = SITES.filter((s) => world.sites[s.id].unlocked);
   if (bases.length === 0) return null;
-  const site = bases[0].id;
+  const ranked = [...bases].sort(
+    (a, b) => estimateDisplayIncome(world, b.id, artifact) - estimateDisplayIncome(world, a.id, artifact)
+  );
+  const site = chosenId ?? ranked[0].id;
   const slotCount = museumSlotCount(world, site);
   const displayedHere = world.vault.filter((v) => v.displayed && v.museumSite === site);
   const takenSlots = new Set(displayedHere.map((v) => v.slot));
@@ -292,6 +318,21 @@ function DisplayAction({ game, uid }: { game: Game; uid: number }) {
 
   return (
     <>
+      {ranked.length > 1 ? (
+        <div className="base-chips" role="group" aria-label="전시할 거점 선택">
+          {ranked.map((b) => (
+            <button
+              key={b.id}
+              type="button"
+              className={`base-chip${b.id === site ? " picked" : ""}`}
+              onClick={() => setChosenId(b.id)}
+              title={`시간당 기대 관람수입 ${won(estimateDisplayIncome(world, b.id, artifact))} ₩`}
+            >
+              {b.name} {won(estimateDisplayIncome(world, b.id, artifact))}₩/h
+            </button>
+          ))}
+        </div>
+      ) : null}
       <button
         type="button"
         className="ghost"
@@ -300,7 +341,7 @@ function DisplayAction({ game, uid }: { game: Game; uid: number }) {
           else setSwapping(true);
         }}
       >
-        전시({museumOf(world, site).grade === 0 ? "임시 전시대" : `${bases[0].name} 박물관`})
+        전시({museumOf(world, site).grade === 0 ? "임시 전시대" : `${SITE_BY_ID[site].name} 박물관`})
       </button>
       {swapping ? (
         <Modal title="내릴 유물 선택" onClose={() => setSwapping(false)}>
@@ -328,15 +369,52 @@ function DisplayAction({ game, uid }: { game: Game; uid: number }) {
   );
 }
 
-/** 경매 등록(표#6) — 경매장은 거점 종속이라 "경매장 선택" 단계 자체가 없다.
- *  첫 번째 base의 경매장을 쓴다(전시와 같은 단순화). */
+/** 그 경매장에 지금 등록하면 적용될 가격배율(staff.md §3) — settleAuctions의
+ *  hammer 계산이 실제로 쓰는 항(house.grade + auctioneer.negotiation)과 같은
+ *  함수를 그대로 재사용한다. bestLocalPriceMult(지역시세)는 정산 시점에 보유
+ *  base 전체에서 다시 최댓값을 뽑아 등록한 경매장과 무관하게 적용되므로
+ *  (engine.ts settleAuctions) base별로 갈리는 항은 이것뿐이다. */
+function auctionPriceMultAt(world: World, house: { grade: number; auctioneerId?: string }): number {
+  const auctioneer = world.staff.find((s) => s.id === house.auctioneerId && s.role === "auctioneer") as
+    | Auctioneer
+    | undefined;
+  return auctionPriceMult(house.grade, auctioneer?.negotiation ?? 0);
+}
+
+/** 경매 등록(표#6) — 경매장은 거점 종속이라 "경매장 선택" 단계 자체가 없다는
+ *  원래 판단(spec.md §10.5 표#6)은 유지한다. 경매장이 여럿이면 base 비교
+ *  칩(가격 = 등급·경매관장이 만드는 가격배율)을 상시 노출하고 최고가를 기본
+ *  선택한다 — 등록 버튼은 여전히 1탭이라 표#6의 3단계를 넘기지 않는다
+ *  (notes/decisions.md G56, G55.7 보고를 닫는다). */
 function AuctionAction({ game, uid }: { game: Game; uid: number }) {
   const { world } = game;
-  const house = world.auctionHouses[0];
-  if (!house) return null;
+  const [chosenSite, setChosenSite] = useState<SiteId | null>(null);
+  if (world.auctionHouses.length === 0) return null;
+  const ranked = [...world.auctionHouses].sort(
+    (a, b) => auctionPriceMultAt(world, b) - auctionPriceMultAt(world, a)
+  );
+  const house = ranked.find((h) => h.site === chosenSite) ?? ranked[0];
+
   return (
-    <button type="button" className="ghost" onClick={() => game.listAtAuction(uid, house.site)}>
-      경매 등록
-    </button>
+    <>
+      {ranked.length > 1 ? (
+        <div className="base-chips" role="group" aria-label="경매 등록할 거점 선택">
+          {ranked.map((h) => (
+            <button
+              key={h.site}
+              type="button"
+              className={`base-chip${h.site === house.site ? " picked" : ""}`}
+              onClick={() => setChosenSite(h.site)}
+              title={`가격배율 ×${auctionPriceMultAt(world, h).toFixed(2)}`}
+            >
+              {SITE_BY_ID[h.site].name} ×{auctionPriceMultAt(world, h).toFixed(2)}
+            </button>
+          ))}
+        </div>
+      ) : null}
+      <button type="button" className="ghost" onClick={() => game.listAtAuction(uid, house.site)}>
+        경매 등록({SITE_BY_ID[house.site].name})
+      </button>
+    </>
   );
 }

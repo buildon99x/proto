@@ -9,7 +9,7 @@ import {
   sellTierAtMost, setRoutine, switchSite, undisplayArtifact, unlockSite, unlockTeamSlot,
   upgradeAuctionGrade, upgradeMuseumGrade
 } from "../game/engine";
-import { clear, exportText, importText, load, save } from "../game/save";
+import { clear, clearRecord, exportText, importText, load, loadRecord, save, saveRecord } from "../game/save";
 import type { PersistentRecord, SiteId, Tier, World } from "../game/types";
 
 export type Reveal = { artifactId: string; value: number };
@@ -53,10 +53,10 @@ function writeOnboardingSeen() {
 
 export function useGame() {
   const worldRef = useRef<World | null>(null);
-  // 계정 영구 기록(spec.md §13.4) — 이번 단계는 시즌 롤오버 자동 발동을 배선하지
-  // 않는다(엔진 루프에 트리거가 없다, notes/decisions.md G55 보고 대상). 그래도
-  // fameScore·fullRanking이 이 타입을 요구하므로 빈 기록을 세션 동안 들고 있는다.
-  const recordRef = useRef<PersistentRecord>(createPersistentRecord());
+  // 계정 영구 기록(spec.md §13.4) — save.ts의 별도 키(RECORD_KEY)에서 불러온다
+  // (마무리 패스 G56이 G51.4의 "영속화 미구현" 보고를 닫는다). step()/advance()가
+  // 이 같은 참조를 계속 돌려써야 시즌 롤오버·엔딩 판정이 세션 내내 일관된다.
+  const recordRef = useRef<PersistentRecord>(loadRecord() ?? createPersistentRecord());
   const [, bump] = useState(0);
   const [reveal, setReveal] = useState<Reveal | null>(null);
   const [offline, setOffline] = useState<OfflineSummary | null>(null);
@@ -78,7 +78,7 @@ export function useGame() {
       const fundsBefore = w.funds;
       const codexBefore = Object.values(w.codex).filter((s) => s === "owned" || s === "owned_unidentified").length;
       const rankBefore = rankSnapshot(w, recordRef.current);
-      const result = applyOffline(w);
+      const result = applyOffline(w, Date.now(), recordRef.current);
       if (result) {
         setOffline({
           seconds: result.seconds,
@@ -105,7 +105,7 @@ export function useGame() {
     const frame = (now: number) => {
       const dt = Math.min(0.5, (now - last) / 1000);
       last = now;
-      const report = advance(world, dt, false, 0.25);
+      const report = advance(world, dt, false, 0.25, recordRef.current);
 
       for (const a of report.appraised) {
         if (a.tier >= 3) revealQueue.push({ artifactId: a.artifactId, value: a.value });
@@ -129,6 +129,7 @@ export function useGame() {
       if (saveAcc >= SAVE_INTERVAL) {
         saveAcc = 0;
         save(world);
+        saveRecord(recordRef.current);
       }
       raf = requestAnimationFrame(frame);
     };
@@ -137,6 +138,7 @@ export function useGame() {
     const onHide = () => {
       world.lastTickAt = Date.now();
       save(world);
+      saveRecord(recordRef.current);
     };
     window.addEventListener("visibilitychange", onHide);
     window.addEventListener("beforeunload", onHide);
@@ -242,6 +244,7 @@ export function useGame() {
     },
     reset: () => {
       clear();
+      clearRecord();
       try {
         localStorage.removeItem(ONBOARDING_SEEN_KEY);
       } catch {

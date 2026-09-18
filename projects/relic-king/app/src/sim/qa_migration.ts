@@ -1,18 +1,20 @@
 /**
- * 세이브 마이그레이션 v1→v2→v3→v4→v5 직접 검증.
+ * 세이브 마이그레이션 v1→v2→v3→v4→v5→v6 직접 검증.
  *
  *   pnpm --filter relic-king exec tsx src/sim/qa_migration.ts
  *
  * `save.ts`의 `deserialize()`는 localStorage를 거치지 않고 순수 텍스트 → World
- * 변환만 하므로, 여기서는 실제 v1~v4 스키마 모양의 JSON을 직접 만들어 넣고
- * 체인 끝(v5)까지 정확히 올라오는지 필드 단위로 확인한다. v0.2 구현 1단계
+ * 변환만 하므로, 여기서는 실제 v1~v5 스키마 모양의 JSON을 직접 만들어 넣고
+ * 체인 끝(v6)까지 정확히 올라오는지 필드 단위로 확인한다. v0.2 구현 1단계
  * (spec.md §2.9·§5)가 요구하는 "v1 세이브가 깨지지 않고 마이그레이션되어야
  * 한다"와, 2단계(세계지도·거점·원정·스텝)가 v2→v3에 추가한 신규 필드
  * (teams·staff·appraisalVouchers·visitedSites·unexploredBonusGranted·
  * lastRelocationAt·9거점 sites 항목), 3단계(제보 v0.2·라이벌 v0.2,
  * notes/decisions.md G53)가 v3→v4에 추가한 `rivals[].homeSite`, 4단계(시설과
  * 시장, notes/decisions.md G54)가 v4→v5에 추가한 감정소·보관소·박물관·경매장·
- * 암시장·도난 필드 전부가 같은 방식으로 무손실 승계되는지의 실제 증거다.
+ * 암시장·도난 필드, 마무리 패스(notes/decisions.md G56)가 v5→v6에 추가한
+ * `museumCumulativeVisitors`·`blackMarket.listings[].listedAt`까지 전부 같은
+ * 방식으로 무손실 승계되는지의 실제 증거다.
  */
 import { deserialize, serialize } from "../game/save";
 import { ARTIFACTS } from "../game/artifacts";
@@ -67,8 +69,8 @@ console.log("──────── qa_migration: v1 → v2 → v3 ───�
 
 const migrated = deserialize(JSON.stringify(v1Raw)) as World;
 
-// ── 2) 스키마 버전 — 체인 끝(v5)까지 올라간다 ───────────────────────────
-check("version이 5로 올라간다(체인 끝까지)", migrated.version === 5);
+// ── 2) 스키마 버전 — 체인 끝(v6)까지 올라간다 ───────────────────────────
+check("version이 6으로 올라간다(체인 끝까지)", migrated.version === 6);
 check("rivals[].homeSite가 채워진다(체인 끝까지)",
   migrated.rivals.every((r) => typeof (r as any).homeSite === "string"));
 
@@ -116,12 +118,12 @@ check("lastRelocationAt이 null로 채워진다", migrated.lastRelocationAt === 
 // ── 6) 마이그레이션 결과가 다시 직렬화·역직렬화돼도 안정적이다(왕복) ──────────
 const roundTrip = deserialize(serialize(migrated)) as World;
 check("마이그레이션 결과를 다시 직렬화→역직렬화해도 동일하다",
-  roundTrip.version === 5 && roundTrip.funds === migrated.funds && roundTrip.vault.length === migrated.vault.length
+  roundTrip.version === 6 && roundTrip.funds === migrated.funds && roundTrip.vault.length === migrated.vault.length
     && roundTrip.teams.length === migrated.teams.length);
 
 // ── 7) v4 세이브(이미 최신)를 다시 넣으면 아무 변환도 일어나지 않는다(체인 정지) ──
 const v5Again = deserialize(serialize(migrated)) as World;
-check("이미 v5인 세이브는 재마이그레이션되지 않는다", v5Again.version === 5);
+check("이미 v6인 세이브는 재마이그레이션되지 않는다", v5Again.version === 6);
 
 // ── 8) v2 → v3 단독 구간도 같은 방식으로 검증한다(손으로 만든 실제 v2 세이브 모양) ──
 console.log("\n──────── qa_migration: v2 → v3 ────────");
@@ -149,7 +151,7 @@ const v2Raw = {
 const migratedV3 = deserialize(JSON.stringify(v2Raw)) as World;
 // v2Raw를 넣으면 체인이 끝(v4)까지 이어진다 — 2→3에서 멈추지 않는다(체인 자체가
 // while(MIGRATIONS[version])이라 다음 칸(3→4)이 있으면 계속 올라간다).
-check("v2 → v5 버전 승격(체인 끝까지)", migratedV3.version === 5);
+check("v2 → v6 버전 승격(체인 끝까지)", migratedV3.version === 6);
 check("v2 funds·t 무손실 보존", migratedV3.funds === 500_000 && migratedV3.t === 999);
 check("v2에 있던 base(korea·egypt)는 baseSince 0으로 채워진다",
   migratedV3.sites.korea.baseSince === 0 && migratedV3.sites.egypt.baseSince === 0);
@@ -157,7 +159,7 @@ check("v2 신규 9거점이 채워진다", migratedV3.sites.peru !== undefined &
 check("v2 vault 항목(condition 이미 있음)은 그대로 보존된다", migratedV3.vault[0].condition === 1);
 check("v2 → v3 신규 필드도 기본값으로 채워진다",
   migratedV3.teams.length === 0 && migratedV3.staff.length === 0 && migratedV3.appraisalVouchers === 0);
-check("v2 → v5 라이벌 homeSite도 채워진다",
+check("v2 → v6 라이벌 homeSite도 채워진다",
   migratedV3.rivals.every((r) => typeof (r as any).homeSite === "string"));
 
 // ── 9) v3 → v4 단독 구간(손으로 만든 실제 v3 세이브 모양, rivals에 homeSite 없음) ──
@@ -184,7 +186,7 @@ const v3Raw = {
 };
 // v3 → v4 → v5로 체인이 계속 이어진다(위 §8과 같은 이유) — v4 필드까지 함께 확인한다.
 const migratedV4 = deserialize(JSON.stringify(v3Raw)) as World;
-check("v3 → v5 버전 승격(체인 끝까지)", migratedV4.version === 5);
+check("v3 → v6 버전 승격(체인 끝까지)", migratedV4.version === 6);
 check("v3 funds·t 무손실 보존", migratedV4.funds === 100_000 && migratedV4.t === 42);
 check("homeSite가 없던 라이벌마다 favSite 값으로 채워진다",
   migratedV4.rivals.every((r) => (r as any).homeSite === r.favSite));
@@ -211,8 +213,9 @@ const v4Raw = {
   teams: [], maxTeams: 1, staff: [], appraisalVouchers: 0,
   visitedSites: {}, unexploredBonusGranted: {}, lastRelocationAt: null
 };
+// v4Raw를 넣으면 체인이 끝(v6)까지 이어진다(위 §8·§9와 같은 이유) — v5 필드까지 함께 확인한다.
 const migratedV5 = deserialize(JSON.stringify(v4Raw)) as World;
-check("v4 → v5 버전 승격", migratedV5.version === 5);
+check("v4 → v6 버전 승격(체인 끝까지)", migratedV5.version === 6);
 check("v4 funds·t·vault 무손실 보존",
   migratedV5.funds === 250_000 && migratedV5.t === 500_000 && migratedV5.vault.length === 1);
 check("vaultLevel·humidityLevel·restorationLevel·securityLevel이 1로 채워진다(레벨1 = 업그레이드 전)",
@@ -224,6 +227,62 @@ check("blackMarket이 빈 매물 목록으로 채워진다", migratedV5.blackMar
 check("onlineElapsedSeconds가 0으로 채워진다", migratedV5.onlineElapsedSeconds === 0);
 check("nextRestorationAttemptAt이 t 기준으로 채워진다(과거로 밀리지 않는다)",
   migratedV5.nextRestorationAttemptAt > migratedV5.t);
+check("museumCumulativeVisitors가 0으로 채워진다(체인 끝까지, v5에는 필드 자체가 없었다)",
+  migratedV5.museumCumulativeVisitors === 0);
+
+// ── 11) v5 → v6 단독 구간(마무리 패스, notes/decisions.md G56 — 명성 축 관람객
+// 누적·암시장 장물 72h 배지). 손으로 만든 실제 v5 세이브 모양 — museums 1채,
+// blackMarket에 listedAt 없는 loose·stolen 매물 각 1건씩(v5 스키마 그대로) ────
+console.log("\n──────── qa_migration: v5 → v6 ────────");
+const v5Raw = {
+  version: 5,
+  t: 1_000_000,
+  lastTickAt: Date.now(),
+  funds: 400_000,
+  sites: createWorld().sites,
+  activeSite: "korea",
+  workers: 8, gear: 3, lab: 4,
+  pending: [],
+  vault: [],
+  ledger: createLedger(),
+  rivals: createWorld().rivals,
+  codex: {},
+  settings: { autoSellBelow: null, muted: false },
+  stats: { drops: 10, clicks: 0, sold: 2, blindSold: 0, racesWon: 0, racesLost: 0, firstT4Finds: 0 },
+  seasonState: { season: 1, startedAt: 0, endsAt: 7_257_600, titleHolderId: null, titleHeldSinceT: null },
+  // v5 ExpeditionTeam에는 layerAtDispatch가 없다 — 이게 이번 구간의 또 다른 핵심 대상이다
+  teams: [{
+    id: "team-1", foremanId: "foreman-1", workers: 2, gearLevel: 1, status: "on_site",
+    targetSite: "egypt", dispatchedAt: 900_000, arrivesAt: 950_000, returnsAt: 1_050_000,
+    mishapRolled: false, routine: null
+  }],
+  maxTeams: 1, staff: [], appraisalVouchers: 0,
+  visitedSites: {}, unexploredBonusGranted: {}, lastRelocationAt: null,
+  vaultLevel: 1, humidityLevel: 1, restorationLevel: 1, securityLevel: 1,
+  lastConditionDay: 11, nextRestorationAttemptAt: 1_100_000, museumDigEma: 500,
+  museums: [{ id: "museum-1", site: "korea", grade: 1, marketingLevel: 1 }],
+  auctionHouses: [],
+  // v5 BlackMarketListing에는 listedAt이 없다 — 이게 이번 구간의 핵심 대상이다
+  blackMarket: { listings: [
+    { id: 1, kind: "loose", artifactId: t0.id, estimate: 12_000 },
+    { id: 2, kind: "stolen", artifactId: t2.id, estimate: 9_000_000, theftEventId: "theft-1" }
+  ] },
+  theftEvents: [],
+  onlineElapsedSeconds: 3600
+};
+const migratedV6 = deserialize(JSON.stringify(v5Raw)) as World;
+check("v5 → v6 버전 승격", migratedV6.version === 6);
+check("v5 funds·t·museums 무손실 보존",
+  migratedV6.funds === 400_000 && migratedV6.t === 1_000_000 && migratedV6.museums.length === 1);
+check("museumCumulativeVisitors가 0으로 채워진다", migratedV6.museumCumulativeVisitors === 0);
+check("blackMarket.listings[].listedAt이 0으로 채워진다(과거 매물은 보수적으로 '이미 만료'로 취급)",
+  migratedV6.blackMarket.listings.every((l) => l.listedAt === 0));
+check("blackMarket.listings 2건 무손실 보존(kind·estimate·theftEventId)",
+  migratedV6.blackMarket.listings.length === 2
+    && migratedV6.blackMarket.listings[1].kind === "stolen"
+    && migratedV6.blackMarket.listings[1].theftEventId === "theft-1");
+check("teams[].layerAtDispatch이 없으면 그 팀 targetSite의 현재 층으로 채워진다",
+  migratedV6.teams.length === 1 && migratedV6.teams[0].layerAtDispatch === migratedV6.sites.egypt.layer);
 
 console.log(failed === 0 ? "\n✅ qa_migration 전체 통과" : `\n❌ qa_migration ${failed}건 실패`);
 process.exit(failed === 0 ? 0 : 1);

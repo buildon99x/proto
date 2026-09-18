@@ -8,6 +8,7 @@ import { staffMarketCycle, teamHomeSite } from "../game/engine";
 import { clock, won } from "../game/format";
 import type { ExpeditionTeam, Foreman } from "../game/types";
 import { SitePickerModal } from "./SitePickerModal";
+import { useTeamPreset } from "./useTeamPreset";
 import type { Game } from "./useGame";
 
 const STATUS_LABEL: Record<ExpeditionTeam["status"], string> = {
@@ -24,16 +25,19 @@ const STATUS_LABEL: Record<ExpeditionTeam["status"], string> = {
  */
 export function TeamPanel({ game }: { game: Game }) {
   const { world } = game;
+  const teamPreset = useTeamPreset();
   return (
     <section className="card team-panel">
       <h3>발굴단</h3>
       <div className="team-slots">
         {Array.from({ length: MAX_EXPEDITION_TEAMS_CAP }, (_, i) => i).map((slot) => {
           if (slot < world.teams.length) {
-            return <TeamCard key={world.teams[slot].id} game={game} team={world.teams[slot]} index={slot} />;
+            return (
+              <TeamCard key={world.teams[slot].id} game={game} team={world.teams[slot]} index={slot} teamPreset={teamPreset} />
+            );
           }
           if (slot < world.maxTeams) {
-            return <HireForemanCard key={`hire-${slot}`} game={game} />;
+            return <HireForemanCard key={`hire-${slot}`} game={game} teamPreset={teamPreset} />;
           }
           return <LockedSlotCard key={`locked-${slot}`} game={game} n={slot + 1} />;
         })}
@@ -42,7 +46,9 @@ export function TeamPanel({ game }: { game: Game }) {
   );
 }
 
-function TeamCard({ game, team, index }: { game: Game; team: ExpeditionTeam; index: number }) {
+function TeamCard({
+  game, team, index, teamPreset
+}: { game: Game; team: ExpeditionTeam; index: number; teamPreset: ReturnType<typeof useTeamPreset> }) {
   const { world } = game;
   const [open, setOpen] = useState(false);
   const [pickingNewSite, setPickingNewSite] = useState(false);
@@ -90,12 +96,14 @@ function TeamCard({ game, team, index }: { game: Game; team: ExpeditionTeam; ind
       <button type="button" className="ghost wide" onClick={() => setOpen((v) => !v)}>
         상세 {open ? "▴" : "▾"}
       </button>
-      {open ? <TeamDetail game={game} team={team} foreman={foreman} /> : null}
+      {open ? <TeamDetail game={game} team={team} foreman={foreman} teamPreset={teamPreset} /> : null}
     </div>
   );
 }
 
-function TeamDetail({ game, team, foreman }: { game: Game; team: ExpeditionTeam; foreman?: Foreman }) {
+function TeamDetail({
+  game, team, foreman, teamPreset
+}: { game: Game; team: ExpeditionTeam; foreman?: Foreman; teamPreset: ReturnType<typeof useTeamPreset> }) {
   const { world } = game;
   const [picking, setPicking] = useState(false);
   const wCost = workerCost(world.teams.reduce((s, t) => s + t.workers, 0));
@@ -132,6 +140,14 @@ function TeamDetail({ game, team, foreman }: { game: Game; team: ExpeditionTeam;
       <button type="button" className="ghost wide" onClick={() => setPicking(true)}>
         루틴 대상 거점 변경
       </button>
+      <button
+        type="button"
+        className="ghost wide"
+        onClick={() => teamPreset.save({ workers: team.workers, gearLevel: team.gearLevel })}
+        title="지금 이 팀의 인원·장비 조합을 저장해 두면, 새 팀을 만들 때 후보 카드에서 1탭으로 똑같이 적용할 수 있다."
+      >
+        빠른 설정으로 저장(인원 {team.workers} · 장비 Lv.{team.gearLevel})
+      </button>
       {picking ? (
         <SitePickerModal
           game={game}
@@ -144,14 +160,18 @@ function TeamDetail({ game, team, foreman }: { game: Game; team: ExpeditionTeam;
   );
 }
 
-function HireForemanCard({ game }: { game: Game }) {
+function HireForemanCard({ game, teamPreset }: { game: Game; teamPreset: ReturnType<typeof useTeamPreset> }) {
   const { world } = game;
   const home = teamHomeSite(world);
   const candidates = staffCandidates(home, staffMarketCycle(world), "foreman");
+  const preset = teamPreset.preset;
   return (
     <div className="team-card team-card-empty">
       <h4>빈 슬롯 — 단장 고용</h4>
-      <p className="muted small">단장을 고용하면 그 자리에 새 발굴단이 꾸려진다.</p>
+      <p className="muted small">
+        단장을 고용하면 그 자리에 새 발굴단이 꾸려진다.
+        {preset ? ` 빠른 설정(인원 ${preset.workers}·장비 Lv.${preset.gearLevel})이 그 자리에 그대로 적용된다.` : ""}
+      </p>
       <div className="candidate-list">
         {candidates.map((c, slot) => (
           <button
@@ -160,8 +180,12 @@ function HireForemanCard({ game }: { game: Game }) {
             className="candidate-row"
             disabled={world.funds < FOREMAN_HIRE_COST || c.role !== "foreman"}
             onClick={() => {
-              const id = game.hireForeman(home, slot);
-              if (id) game.createTeam(id);
+              const foremanId = game.hireForeman(home, slot);
+              if (!foremanId) return;
+              const teamId = game.createTeam(foremanId);
+              if (!teamId || !preset) return;
+              for (let i = 0; i < preset.workers; i++) game.buyTeamWorker(teamId);
+              for (let i = 0; i < preset.gearLevel; i++) game.buyTeamGear(teamId);
             }}
           >
             <strong>{c.name}</strong>

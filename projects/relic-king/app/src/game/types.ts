@@ -133,6 +133,10 @@ export type RivalState = {
   layerProgress: number;
   dropProgress: number;
   vaultValue: number;
+  /** 이 라이벌이 한 번이라도 얻은 종 id 목록(고유 종 단위). **종 단위로만** 채운다
+   *  (마무리 패스 — 사본을 매번 push하면 fullRanking()의 도감 축이 step()마다
+   *  이 배열을 읽어 O(n²)로 느려진다, notes/decisions.md G56). 매각해도 빠지지
+   *  않는다 — "한 번이라도 소유"를 영구히 기록한다. */
   owned: string[];
   catchup: number;
   /**
@@ -203,7 +207,7 @@ export type SeasonState = {
 };
 
 export type World = {
-  version: 2 | 3 | 4 | 5;
+  version: 2 | 3 | 4 | 5 | 6;
   t: number;
   lastTickAt: number;
   funds: number;
@@ -282,6 +286,15 @@ export type World = {
    *  증가한다. 도난 회수기간·회수 시도 주기가 전부 이 값만 참조해야
    *  "오프라인 중 회수기간이 흐르면 안 된다"(척추 3번)를 만족한다. */
   onlineElapsedSeconds: number;
+
+  // ── 마무리 패스: G51.2/G55.1이 남긴 명성 축 공백 ─────────────────────────
+  /** 박물관 누적 관람객(spec.md §13.1 FAME_SCORE의 첫 항). 4단계(G54)가
+   *  순간 관람객(museumVisitorsPerDay)만 계산하고 누적 카운터를 두지 않아
+   *  명성 축이 항상 0이었다(G55.1 보고) — 이 필드가 그 누적분을 받는다.
+   *  시즌 한정(applySeasonRollover가 0으로 되돌린다) — PersistentRecord로
+   *  이월되는 건 legacyFame·firstT4Finds뿐이다(spec.md §13.4가 관람객 이월을
+   *  요구하지 않는다). */
+  museumCumulativeVisitors: number;
 };
 
 /** 박물관(spec.md §10). 등급0(임시 전시대)은 건립 액션이 없어(TEMP_EXHIBIT_COST=0)
@@ -321,6 +334,10 @@ export type BlackMarketListing = {
   /** loose: 추정가(층 기대평가액). stolen: 평가액(이미 감정된 값) — 기준이 다르다(§11.5) */
   estimate: number;
   theftEventId?: string; // kind==="stolen"일 때만
+  /** 이 매물이 암시장에 상장된 world.t. G55.9가 남긴 공백(72h 우선권 배지가
+   *  감쇠를 추적하지 못함)을 닫는 데 쓴다 — kind==="stolen"인 매물의 L2 배지가
+   *  이 값 기준으로 THEFT_RECOVERY_WINDOW_HOURS(72h)가 지나면 사라진다. */
+  listedAt: number;
 };
 
 export type BlackMarketState = {
@@ -364,6 +381,14 @@ export type ExpeditionTeam = {
   returnsAt: number;
   /** 이 원정에 미스헵이 발생했는가(파견 시점 1회 판정, spec.md §8.3) */
   mishapRolled: boolean;
+  /** 파견 시점의 targetSite 층수(마무리 패스 신설, notes/decisions.md G56) —
+   *  finalizeExpedition의 원정비 노셔널 계산이 귀환 시점(최종) 층만 쓰면, 한
+   *  회차 안에서 여러 층을 오른 원정의 초반 저층 구간까지 최종(최고)층 단가로
+   *  소급 청구해 원정비가 실제 벌어들인 현금 유동성보다 훨씬 크게 튄다(실측 —
+   *  팀 하나가 왕복 한 번에 수천만~수억 원을 청구당해 funds가 영구 마이너스로
+   *  고정됐다). 파견 시점 층과 귀환 시점 층 두 지점의 단가를 평균해 이 소급
+   *  과청구를 완화한다. */
+  layerAtDispatch: number;
   routine: { enabled: boolean; target: SiteId } | null;
   /** 이번 회차 원정비 배수 누적(집중 굴착 ×2, 급파 ×3, spec.md §8.6). 귀환 정산
    *  (finalizeExpedition) 후 1로 리셋된다. 생략 시 1(배수 없음)로 취급한다. */

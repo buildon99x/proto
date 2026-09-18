@@ -3,8 +3,8 @@ import {
   CONDITION_INITIAL_BASE_BY_TIER, MAX_EXPEDITION_TEAMS_INITIAL, RESTORATION_BASE_HOURS,
   SEASON_LENGTH_WEEKS, SITES
 } from "./balance";
-import { createWorld, nextUid } from "./engine";
-import type { World } from "./types";
+import { createPersistentRecord, createWorld, nextUid } from "./engine";
+import type { PersistentRecord, World } from "./types";
 
 // 키 이름의 "v1"은 고정된 네임스페이스 라벨일 뿐 스키마 버전이 아니다(spec.md §2.9) —
 // 실제 스키마 버전은 페이로드 내부의 `version` 필드가 맡고, 마이그레이션 체인이
@@ -12,6 +12,11 @@ import type { World } from "./types";
 // (키를 바꾸면 예전 세이브를 아예 못 찾게 되어 마이그레이션 자체가 무의미해진다).
 const KEY = "relic-king/save/v1";
 const BACKUP_KEYS = ["relic-king/backup/0", "relic-king/backup/1", "relic-king/backup/2"];
+// PersistentRecord(계정 영구 기록, spec.md §13.4·G2)는 SaveV1(=World, 시즌 한정)과
+// 분리된 스키마라 별도 키에 둔다(G51.4가 "영속화는 안 만들었다"고 보고한 것을
+// 마무리 패스 G56에서 닫는다) — World가 시즌 롤오버·세이브 가져오기로 통째로
+// 바뀌어도 명예의 전당·영구 명성은 그대로 남아야 한다.
+const RECORD_KEY = "relic-king/record/v1";
 
 type Migration = (raw: any) => any;
 
@@ -109,6 +114,31 @@ const MIGRATIONS: Record<number, Migration> = {
     blackMarket: raw.blackMarket ?? { listings: [] },
     theftEvents: raw.theftEvents ?? [],
     onlineElapsedSeconds: raw.onlineElapsedSeconds ?? 0
+  }),
+  /**
+   * v5 → v6 (마무리 패스, notes/decisions.md G56). 손실 없이 그대로 옮기고:
+   * - `museumCumulativeVisitors`(명성 축 신설 필드)를 0으로 채운다 — 과거
+   *   관람객 이력은 애초에 집계된 적이 없어 복원 불가하다(G51.4의 firstT4Finds=0
+   *   마이그레이션과 같은 성격의 손실 없는 기본값이다).
+   * - `blackMarket.listings[].listedAt`이 없으면 0으로 채운다 — "이미 아주
+   *   오래전에 상장됐다"로 보수적으로 취급해, 마이그레이션 직후 72시간 우선권
+   *   배지(G55.9)가 과거 매물에 대해 거짓으로 뜨지 않게 한다.
+   * - `teams[].layerAtDispatch`(원정비 소급 과청구 버그 수정 신설 필드)가
+   *   없으면 그 팀이 지금 향하는 거점의 **현재** 층으로 채운다 — 파견 시점의
+   *   실제 층은 이미 지나간 값이라 복원 불가능하지만, "지금 층"을 쓰면 다음
+   *   귀환 정산에서 두 지점(파견·귀환) 단가가 같아져(평균해도 그대로) 최소한
+   *   이 필드가 아예 없을 때의 과청구보다 나쁠 게 없다 — 안전한 보수적 기본값.
+   */
+  5: (raw: any) => ({
+    ...raw,
+    version: 6,
+    museumCumulativeVisitors: raw.museumCumulativeVisitors ?? 0,
+    teams: (raw.teams ?? []).map((t: any) => ({
+      ...t, layerAtDispatch: t.layerAtDispatch ?? raw.sites?.[t.targetSite]?.layer ?? 1
+    })),
+    blackMarket: {
+      listings: (raw.blackMarket?.listings ?? []).map((l: any) => ({ ...l, listedAt: l.listedAt ?? 0 }))
+    }
   })
 };
 
@@ -206,6 +236,38 @@ export function clear() {
   const s = storage();
   if (!s) return;
   for (const key of [KEY, ...BACKUP_KEYS]) s.removeItem(key);
+}
+
+/** `PersistentRecord`(계정 영구 기록) 저장 — World와 별도 키(RECORD_KEY)를 쓴다.
+ *  스키마가 아직 한 형태뿐이라 마이그레이션 체인 없이 `createPersistentRecord()`
+ *  기본값 위에 저장분을 얕게 덮어써 필드 누락에 방어적으로 대응한다(새 필드가
+ *  생겨도 기존 저장을 못 읽는 일이 없다). */
+export function saveRecord(record: PersistentRecord) {
+  const s = storage();
+  if (!s) return;
+  try {
+    s.setItem(RECORD_KEY, JSON.stringify(record));
+  } catch {
+    /* 사생활 모드·용량 초과. 게임은 계속 돈다 */
+  }
+}
+
+export function loadRecord(): PersistentRecord | null {
+  const s = storage();
+  if (!s) return null;
+  const text = s.getItem(RECORD_KEY);
+  if (!text) return null;
+  try {
+    return { ...createPersistentRecord(), ...JSON.parse(text) };
+  } catch {
+    return null;
+  }
+}
+
+export function clearRecord() {
+  const s = storage();
+  if (!s) return;
+  s.removeItem(RECORD_KEY);
 }
 
 export function exportText(w: World): string {

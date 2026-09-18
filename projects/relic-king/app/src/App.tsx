@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ARTIFACT_BY_ID } from "./game/artifacts";
-import { APPRAISAL_UNLOCK_LAB_LEVEL, LOCKED_HOLD_CAP } from "./game/balance";
+import { APPRAISAL_UNLOCK_LAB_LEVEL, LOCKED_HOLD_CAP, THEFT_RECOVERY_WINDOW_HOURS } from "./game/balance";
 import { CodexView } from "./ui/CodexView";
 import { ExpeditionView } from "./ui/ExpeditionView";
 import { FacilityView } from "./ui/FacilityView";
@@ -36,7 +36,12 @@ export default function App() {
     (p) => ARTIFACT_BY_ID[p.artifactId].tier === 2 && world.lab < APPRAISAL_UNLOCK_LAB_LEVEL[2]
   ).length;
   const vaultBadge = world.theftEvents.length + (sealedT2 >= LOCKED_HOLD_CAP ? 1 : 0);
-  const marketBadge = world.blackMarket.listings.filter((l) => l.kind === "stolen").length;
+  // 장물 배지는 "72시간 우선권"이 살아 있는 동안만 센다(notes/decisions.md G55.9
+  // 공백을 G56에서 listedAt 필드로 닫는다) — 그냥 kind==="stolen" 전체가 아니라
+  // 상장 후 THEFT_RECOVERY_WINDOW_HOURS가 지나지 않은 것만 카운트한다.
+  const marketBadge = world.blackMarket.listings.filter(
+    (l) => l.kind === "stolen" && world.t - l.listedAt <= THEFT_RECOVERY_WINDOW_HOURS * 3600
+  ).length;
   const badges: Partial<Record<TabId, number>> = { vault: vaultBadge, market: marketBadge };
 
   return (

@@ -16,7 +16,7 @@
 import { ARTIFACTS } from "../game/artifacts";
 import { CODEX_GOAL, MAX_EXPEDITION_TEAMS_CAP, SITES } from "../game/balance";
 import {
-  advance, buyGear, buyLab, buyTeamGear, buyTeamWorker, buyWorker, codexProgress,
+  advance, blindSellAll, buyGear, buyLab, buyTeamGear, buyTeamWorker, buyWorker, codexProgress,
   createTeam, createWorld, digPower, dispatchExpedition, hireForeman, playerAssets, ranking,
   sellTierAtMost, setRoutine, staffMarketCycle, unlockSite, unlockTeamSlot
 } from "../game/engine";
@@ -81,6 +81,13 @@ function redirectClearedTeams(w: World) {
 
 function act(w: World) {
   sellTierAtMost(w, 1);
+  // 안전판(마무리 패스, notes/decisions.md G56) — 이 정책은 감정비(추정가의 2%,
+  // 층 기대평가액 기준이라 실제 티어와 무관하게 클 수 있다)를 위한 자금을 따로
+  // 비축하지 않는다. 인부·장비·감정소 구매가 매 틱 먼저 자금을 끌어다 쓰면
+  // 미감정 큐가 무한정 쌓이고 vault가 비어 매각 수입도 0인 채로 영구히 멈추는
+  // 교착이 생긴다(실측으로 발견 — 이 스크립트가 24~336h 내내 도감 21종에서
+  // 멈춘 원인이었다). sim/run.ts와 동일한 블라인드 매각 안전판으로 막는다.
+  if (w.pending.length >= 24) blindSellAll(w);
   for (const s of SITES) {
     if (!w.sites[s.id].unlocked && w.funds >= s.unlockCost) unlockSite(w, s.id);
   }

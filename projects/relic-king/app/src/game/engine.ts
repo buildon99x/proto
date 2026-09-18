@@ -1,11 +1,11 @@
 import {
-  APPRAISAL_HIGH_TIER_TIME_MULT, APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE, ARTIFACT_SPECIES_TARGET,
+  APPRAISAL_HIGH_TIER_TIME_MULT, APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE,
   ARTIFACT_WORLD_VALUE_CEILING, ASSET_SCORE_REF_SHARE, AUCTION_FEE_RATE, AUCTION_HOUSE_MAX_COUNT,
   AUCTION_SETTLE_HOURS, AUCTION_SLOT_CAP_BY_GRADE, AUTO_SELL_KEEP_ONE_PER_SPECIES, AUTO_SELL_MAX_TIER,
   BASE_DIG, BLACK_MARKET_BUY_PRICE_RATIO, BLACK_MARKET_LOOSE_MAX_TIER,
   BLACK_MARKET_RESTOCK_INTERVAL_HOURS, BLACK_MARKET_SLOT_CAPACITY, BLACK_MARKET_STOLEN_PRICE_RATIO,
   BLIND_SELL_RATE, CATCHUP_MAX, CATCHUP_SLOPE, CLICK_COMBO_MAX, CLICK_COMBO_STEP, CLICK_COMBO_WINDOW,
-  CLICK_FACTOR, CLICK_RATE_CAP, CODEX_GOAL, CONDITION_VALUE_FACTOR, DEPTH_INCOME_BONUS,
+  CLICK_FACTOR, CLICK_RATE_CAP, CODEX_GOAL_V2, CONDITION_VALUE_FACTOR, DEPTH_INCOME_BONUS,
   EMERGENCY_DISPATCH_COST_MULT, EMERGENCY_DISPATCH_MAX_REACH_HOURS, EMERGENCY_DISPATCH_MISHAP_MULT,
   EMERGENCY_DISPATCH_TRAVEL_MULT, EXPEDITION_COST_INCOME_RATIO, EXPEDITION_MISHAP_CHANCE_CAP,
   EXPEDITION_MISHAP_TIME_LOSS_RATIO, EXPEDITION_SPEED_KMH, EXPEDITION_TEAM_UNLOCK_BASE,
@@ -18,7 +18,8 @@ import {
   RANK_WEIGHT, RECOMMEND_TOP_N, REGIONAL_PRICE_MULT_MAX, REGIONAL_PRICE_MULT_MIN, RELOCATION_COOLDOWN_HOURS,
   RELOCATION_COST_ASSET_RATIO, REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX, REMOTE_ARBITRAGE_MIN_DISTANCE_KM,
   RESTORATION_BASE_HOURS,
-  SEASON_CASHOUT_RATIO, SEASON_CARRYOVER_FUNDS_CAP_MULT, SEASON_LENGTH_WEEKS, SITES, SITE_BY_ID,
+  SEASON_CASHOUT_RATIO, SEASON_CARRYOVER_FUNDS_CAP_MULT, SEASON_LENGTH_WEEKS, SEASON_TITLE_HOLD_HOURS,
+  SITES, SITE_BY_ID,
   STAFF_MARKET_REFRESH_HOURS, STAFF_PROMOTION_INTERVAL_HOURS, STOLEN_TO_BLACKMARKET_CHANCE,
   THEFT_APPLICABLE_MAX_TIER, THEFT_RATE_BASE, THEFT_RECOVERY_WINDOW_HOURS, TIER4_SPECIES_TOTAL,
   TIER_STOCK_PER_SPECIES, TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN, TIP_FIRST_DELAY,
@@ -165,7 +166,8 @@ export function createWorld(seed = 20260917): World {
     auctionHouses: [],
     blackMarket: { listings: [] },
     theftEvents: [],
-    onlineElapsedSeconds: 0
+    onlineElapsedSeconds: 0,
+    museumCumulativeVisitors: 0
   };
 }
 
@@ -231,14 +233,25 @@ export function assetScore(w: World): number {
   return Math.min(1, assets / ASSET_SCORE_REF);
 }
 
+/**
+ * 분모는 `ARTIFACT_SPECIES_TARGET`(480, 문서가 잡은 최종 목표치)이 아니라
+ * `codexProgress(w).total`(검증된 종의 실제 수, 지금 182종)을 쓴다(마무리 패스
+ * — notes/decisions.md G56 참조). 480을 그대로 쓰면 검증된 종을 전부 소장해도
+ * CODEX_SCORE가 182/480≈37.9%에서 멈춰 `CODEX_GOAL_V2`(75%)에 영원히 못 미친다
+ * — 엔딩 자체가 구조적으로 불가능해지는 버그였다. `codexProgress()`가 이미
+ * "분모는 검증된 종만"(G53.4) 원칙을 쓰고 있으므로, 3축 점수식도 같은 원칙을
+ * 그대로 확장한 것뿐이다.
+ */
 export function codexScore(w: World): number {
-  return codexProgress(w).owned / ARTIFACT_SPECIES_TARGET;
+  const { owned, total } = codexProgress(w);
+  return total > 0 ? owned / total : 0;
 }
 
-/** 박물관 관람객 축은 시설 시스템이 없어 항상 0이다. 유일 최초발굴 항은
- *  이번 시즌분(Stats.firstT4Finds) + 계정 영구분(PersistentRecord.firstT4Finds)을 더한다 */
+/** 유일 최초발굴 항은 이번 시즌분(Stats.firstT4Finds) + 계정 영구분
+ *  (PersistentRecord.firstT4Finds)을 더한다. 관람객 항은 World.museumCumulativeVisitors
+ *  (마무리 패스 신설 — G51.2/G55.1이 남긴 공백, accrueMuseums가 누적한다)를 쓴다. */
 export function fameScore(w: World, record: PersistentRecord): number {
-  const visitors = 0;
+  const visitors = w.museumCumulativeVisitors;
   const firstT4 = record.firstT4Finds + w.stats.firstT4Finds;
   return Math.min(1, visitors / FAME_VISITOR_NORMALIZATION + (firstT4 / TIER4_SPECIES_TOTAL) * FAME_FIRST_T4_WEIGHT);
 }
@@ -258,24 +271,24 @@ export type AxisRankRow = { id: OwnerId; name: string; asset: number; codex: num
  * - 자산: `RivalState.vaultValue`(라이벌도 매각 안 한 사본의 평가액 합을 그대로
  *   누적하는 필드다) / ASSET_SCORE_REF.
  * - 도감: `RivalState.owned`(사본을 얻을 때마다 push, 매각해도 제거하지 않는다)의
- *   고유 종수 / ARTIFACT_SPECIES_TARGET — "지금 소장 중"이 아니라 "한 번이라도
- *   얻음" 기준이라 플레이어의 CODEX_SCORE(현재 소장 기준)보다 관대한 근사치다.
+ *   고유 종수 / (검증된 종의 실제 수, `codexProgress(w).total`과 같다 — 마무리
+ *   패스가 480 고정값 대신 실측치로 바꿨다, 아래 codexScore 주석 참조) —
+ *   "지금 소장 중"이 아니라 "한 번이라도 얻음" 기준이라 플레이어의
+ *   CODEX_SCORE(현재 소장 기준)보다 관대한 근사치다.
  * - 명성: 라이벌은 박물관이 없어 관람객 항은 0 그대로다. 유일 최초발굴 항은
  *   `owned`에서 티어4 종 수를 세어 정확히 구할 수 있다 — 유일은 세계 재고가
  *   1개뿐이라 "지금 owned 배열에 있다"는 사실 자체가 "그 라이벌이 그 유일을
  *   처음이자 유일하게 가져갔다"는 뜻이기 때문이다(근사가 아니라 정확한 값).
- *
- * **참고(범위 밖 보고)**: `fameScore`의 관람객 항은 플레이어에게도 항상 0이다
- * — 4단계(G54)가 박물관 수입은 배선했지만 FAME_SCORE가 요구하는 "누적 관람객"
- * 카운터 자체를 World에 추가하지 않았다. 이번 5단계(UI)는 시뮬레이션 상태를
- * 늘리는 작업이 아니므로 그 배선은 손대지 않고 있는 그대로 표시한다.
  */
 export function fullRanking(w: World, record: PersistentRecord): AxisRankRow[] {
+  const verifiedTotal = codexProgress(w).total;
   return [
     { id: "player", name: "나", asset: assetScore(w), codex: codexScore(w), fame: fameScore(w, record), rank: rankScore(w, record) },
     ...w.rivals.map((r) => {
       const asset = Math.min(1, r.vaultValue / ASSET_SCORE_REF);
-      const codex = new Set(r.owned).size / ARTIFACT_SPECIES_TARGET;
+      // owned는 이제 종 단위로만 push되므로(위 take() 주석 참조) 길이 자체가
+      // 고유 종수다 — Set 변환이 필요 없다(스텝마다 부르는 경로라 성능이 중요하다).
+      const codex = verifiedTotal > 0 ? r.owned.length / verifiedTotal : 0;
       const firstT4 = r.owned.filter((id) => ARTIFACT_BY_ID[id]?.tier === 4).length;
       const fame = Math.min(1, (firstT4 / TIER4_SPECIES_TOTAL) * FAME_FIRST_T4_WEIGHT);
       const rank = RANK_WEIGHT.asset * asset + RANK_WEIGHT.codex * codex + RANK_WEIGHT.fame * fame;
@@ -369,6 +382,9 @@ function accrueMuseums(w: World, dt: number) {
     const curator = w.staff.find((s) => s.id === museum.curatorId && s.role === "curator") as Curator | undefined;
     const displayed = slots.map((v) => ({ tier: ARTIFACT_BY_ID[v.artifactId].tier, freshness: freshnessOf(v, w.t) }));
     const visitors = museumVisitorsPerDay(site.population, displayed, curator?.curation ?? 0, museum.marketingLevel);
+    // FAME_SCORE의 "박물관 누적 관람객" 항(spec.md §13.1, G51.2/G55.1이 남긴
+    // 공백) — visitors는 1일당 방문자 수이므로 이번 dt(초)만큼의 몫만 더한다.
+    w.museumCumulativeVisitors += visitors * (dt / 86400);
     const income = museumVisitorIncomeHourly(visitors);
     const upkeep = museumUpkeepHourly(income);
     const salary = curator ? curatorSalary(income, curator) : 0;
@@ -473,12 +489,13 @@ function theftResolveTick(w: World, rng: Rng, report: StepReport) {
       // 회수 실패 — 소유권이 넘어간다. 50%는 암시장 장물로, 50%는 라이벌 소장고로.
       if (rng.chance(STOLEN_TO_BLACKMARKET_CHANCE)) {
         w.blackMarket.listings.push({
-          id: nextUid(), kind: "stolen", artifactId: event.artifactId, estimate: event.value, theftEventId: event.id
+          id: nextUid(), kind: "stolen", artifactId: event.artifactId, estimate: event.value,
+          theftEventId: event.id, listedAt: w.t
         });
         evictBlackMarketOverflow(w);
       } else if (w.rivals.length > 0) {
         const rival = rng.pick(w.rivals);
-        rival.owned.push(event.artifactId);
+        if (!rival.owned.includes(event.artifactId)) rival.owned.push(event.artifactId);
         rival.vaultValue += event.value;
       }
       report.lost.push({ artifactId: event.artifactId, owner: "theft" });
@@ -554,7 +571,7 @@ function restockBlackMarket(w: World, t0: number, dt: number, rng: Rng) {
   w.ledger[artifact.id].remaining -= 1;
   w.ledger[artifact.id].owners.push("blackmarket");
   w.blackMarket.listings.push({
-    id: nextUid(), kind: "loose", artifactId: artifact.id,
+    id: nextUid(), kind: "loose", artifactId: artifact.id, listedAt: w.t,
     estimate: layerExpectedValue(artifact.site, artifact.minLayer)
   });
   evictBlackMarketOverflow(w);
@@ -613,7 +630,13 @@ function take(w: World, a: Artifact, owner: OwnerId, report: StepReport, diggerF
     // 수 있는 척추 3번 위반 경로였다. PENDING_CAP은 이제 순수 UI 경고 임계값이다.
   } else {
     const rival = w.rivals.find((r) => r.id === owner)!;
-    rival.owned.push(a.id);
+    // 종 단위로만 push한다(중복 사본은 넣지 않는다) — fullRanking()의 도감 축이
+    // 매 step()마다 이 배열의 고유 종수를 읽는데(checkEnding 경유), 사본까지
+    // 전부 넣으면 배열이 무한정 자라 그 조회가 스텝마다 O(n²)로 느려진다
+    // (마무리 패스에서 qa_expedition.ts가 몇 분씩 걸리는 걸로 실측 — notes/decisions.md
+    // G56). "종 단위 소유 여부"만 쓰는 현재 용도(fullRanking·T4 카운트)엔
+    // 사본 중복이 애초에 필요 없다 — vaultValue는 별도 누적 필드가 이미 맡는다.
+    if (!rival.owned.includes(a.id)) rival.owned.push(a.id);
     const value = tierValue(a.tier, a.valueFactor);
     // 라이벌도 실현(매각) 시점에 단장 급여(G29/B7) + 원정비(K5, spec.md §12.1)를
     // 함께 원천징수당한다 — 플레이어의 두 비용(판매 시 급여·귀환 시 원정비)을
@@ -939,7 +962,8 @@ export function createTeam(w: World, foremanId: string): string | null {
   const home = teamHomeSite(w);
   const team: ExpeditionTeam = {
     id, foremanId, workers: 0, gearLevel: 0, status: "idle", targetSite: home,
-    dispatchedAt: w.t, arrivesAt: w.t, returnsAt: w.t, mishapRolled: false, routine: null
+    dispatchedAt: w.t, arrivesAt: w.t, returnsAt: w.t, mishapRolled: false,
+    layerAtDispatch: w.sites[home].layer, routine: null
   };
   w.teams.push(team);
   return id;
@@ -988,6 +1012,7 @@ export function dispatchExpedition(w: World, teamId: string, target: SiteId): bo
   team.arrivesAt = w.t + travel * 3600;
   team.returnsAt = team.arrivesAt + onsite * 3600 + travel * 3600;
   team.mishapRolled = mishap;
+  team.layerAtDispatch = w.sites[target].layer;
   team.tipChase = null; // 일반 파견은 제보 추적을 새로 시작하지 않는다(급파 전용, emergencyDispatch)
   log(w, "system", `발굴단이 ${SITE_BY_ID[target].name}(으)로 출발했다.`);
   return true;
@@ -1022,6 +1047,7 @@ export function emergencyDispatch(w: World, teamId: string): boolean {
   team.arrivesAt = w.t + travel * 3600;
   team.returnsAt = team.arrivesAt + onsite * 3600 + travel * 3600;
   team.mishapRolled = mishap;
+  team.layerAtDispatch = w.sites[target].layer;
   team.costMult = (team.costMult ?? 1) * EMERGENCY_DISPATCH_COST_MULT;
   team.tipChase = { artifactId: w.tip.artifactId, layer: w.tip.layer };
   log(w, "system", `발굴단이 제보를 쫓아 ${SITE_BY_ID[target].name}(으)로 급파됐다.`);
@@ -1069,9 +1095,24 @@ function finalizeExpedition(w: World, team: ExpeditionTeam) {
 
   const d = teamDigPower(team.workers, team.gearLevel, foreman?.leadership ?? 0);
   const layer = w.sites[team.targetSite].layer;
-  const bonus = (1 + DEPTH_INCOME_BONUS * (layer - 1)) * distanceYieldBonus(dist);
-  const notionalIncome =
-    ((d * PROGRESS_VALUE * bonus) / SITE_BY_ID[team.targetSite].dropMod) * effectiveOnsiteHours * 3600;
+  /**
+   * 노셔널 수입률(₩/s) — **DROP_INTERVAL_FLOOR_SECONDS 하한까지 반영한다**
+   * (마무리 패스 버그 수정, notes/decisions.md G56). 이전엔 `d * PROGRESS_VALUE *
+   * bonus / dropMod`로 직접 계산해 `dropThreshold()`가 실제 드랍 판정에 적용하는
+   * 하한(드랍 1점당 최소 20초, §9.5)을 건너뛰었다 — dig power가 하한을 넘어서는
+   * 순간(대략 d>1~2) 실제 드랍 빈도는 더 안 오르는데 노셔널 수입만 d에 비례해
+   * 무한정 커져, 팀 하나가 왕복 한 번에 수천만~수억 원을 청구당하고 그걸
+   * 못 갚아 funds가 영구히 마이너스로 고정되는 실측 버그로 이어졌다(실측: 발굙단
+   * 파견을 실제로 쓰는 정책으로 48시간만 돌려도 funds가 -80억까지 떨어져
+   * 이후 모든 성장이 멈췄다). `dropThreshold()`를 그대로 불러써 실제 판정과
+   * 항상 같은 하한을 쓴다 — 두 계산이 다시 어긋날 일이 없다.
+   */
+  const rateAt = (l: number) => (layerExpectedValue(team.targetSite, l) * d) / dropThreshold(team.targetSite, l, d);
+  // 파견 시점 층과 귀환 시점 층 두 단가를 평균한다 — 한 회차 안에 여러 층을
+  // 오른 원정은 초반을 저층 단가로, 후반을 고층 단가로 보냈으므로 최종(최고)층
+  // 단가 하나로 전체를 소급 청구하면 과청구가 된다(위 주석 참조).
+  const realRate = (rateAt(team.layerAtDispatch) + rateAt(layer)) / 2;
+  const notionalIncome = realRate * distanceYieldBonus(dist) * effectiveOnsiteHours * 3600;
   // 집중 굴착(×2)·급파(×3) 배수가 이번 회차에 걸려 있으면 여기서 함께 적용한다
   // (spec.md §8.6, notes/decisions.md G45/A8). 다음 회차를 위해 적용 즉시 리셋한다.
   const cost = Math.round(
@@ -1396,19 +1437,58 @@ function updateCatchup(w: World) {
   }
 }
 
-function checkEnding(w: World) {
+/**
+ * v0.2 엔딩(spec.md §13.2). v0.1 정의(자산 단독 1위 + CODEX_GOAL=75%, `codexProgress()`
+ * 기준)를 버리고 "RANK_SCORE 종합 1위 **그리고** CODEX_SCORE≥CODEX_GOAL_V2를
+ * SEASON_TITLE_HOLD_HOURS(1시간) 연속 유지"로 교체한다(notes/decisions.md
+ * G55.2가 "손대지 않고 보고"로 남긴 것을 마무리 패스 G56에서 닫는다 — 이게 없으면
+ * v0.2 게임에 끝이 없다).
+ *
+ * `seasonState.titleHolderId`/`titleHeldSinceT`는 "지금 두 조건을 모두 만족하는
+ * 소유자가 언제부터 그 상태였는가"를 추적한다 — 조건 중 하나라도 깨지면(종합
+ * 1위가 바뀌거나, player의 도감이 다시 목표 밑으로 떨어지면) 그 즉시 리셋된다.
+ * **판단**(보고 대상): spec 원문 "X이고 Y를 SEASON_TITLE_HOLD_HOURS 연속 유지"는
+ * "두 조건을 동시에 계속 만족"으로도, "종합 1위만 계속 유지한 상태에서 도감은
+ * 마지막 순간에만 확인"으로도 읽힌다 — 더 엄격하고 실제로 "칭호를 들고 있다"는
+ * 직관에 맞는 전자로 구현했다(HOLD_HOURS=1이 짧아 두 해석의 실질 차이도 작다).
+ * 라이벌이 종합 1위를 오래 유지해도 이 화면은 끝나지 않는다(v0.1과 같은
+ * "플레이어 중심" 엔딩 패턴) — 라이벌의 1위는 시즌 종료 시점 명예의 전당
+ * (§13.2 2번, applySeasonRollover)이 별도로 처리할 몫이다.
+ */
+function checkEnding(w: World, record: PersistentRecord) {
   if (w.ended) return;
-  const { owned, total } = codexProgress(w);
-  if (owned / total < CODEX_GOAL) return;
-  if (ranking(w)[0].id !== "player") return;
+  const rows = fullRanking(w, record);
+  const leader = [...rows].sort((a, b) => b.rank - a.rank)[0];
+  if (w.seasonState.titleHolderId !== leader.id) {
+    w.seasonState.titleHolderId = leader.id;
+    w.seasonState.titleHeldSinceT = w.t;
+  }
+  if (leader.id !== "player") return;
+  if (leader.codex < CODEX_GOAL_V2) return;
+  if (w.t - (w.seasonState.titleHeldSinceT ?? w.t) < SEASON_TITLE_HOLD_HOURS * 3600) return;
   w.ended = true;
-  log(w, "system", "도감을 채우고 자산 1위에 올랐다. 유물왕.");
+  log(w, "system", "3축 종합 1위를 유지하며 도감을 채웠다. 유물왕.");
+}
+
+/** 시즌 경계(seasonState.endsAt)를 이번 dt 구간에서 실제로 지났으면 롤오버를
+ *  트리거한다(spec.md §13.4, notes/decisions.md G51.5가 "순수 함수로만 존재"라고
+ *  보고한 것을 마무리 패스 G56에서 닫는다). 오프라인 적분 중에도 흐른다 —
+ *  시즌 롤오버는 라이벌과의 경쟁에서 지는 "상실"이 아니라 예정된 정산이라
+ *  척추 3번(영구 상실은 접속 중에만) 대상이 아니다. */
+function maybeRolloverSeason(w: World, t0: number, record: PersistentRecord) {
+  if (t0 >= w.seasonState.endsAt || w.t < w.seasonState.endsAt) return;
+  applySeasonRollover(w, record);
+  log(w, "system", `시즌 ${w.seasonState.season - 1} 종료 — 새 시즌이 시작됐다.`);
 }
 
 const emptyReport = (): StepReport => ({ drops: [], appraised: [], lost: [], won: [], layerUps: 0 });
 
-/** dt 초만큼 세계를 전진시킨다. offline=true 면 효율 60% + 라이벌 상위 티어 차단 */
-export function step(w: World, dt: number, offline = false): StepReport {
+/** dt 초만큼 세계를 전진시킨다. offline=true 면 효율 60% + 라이벌 상위 티어 차단.
+ *  `record`(계정 영구 기록)는 엔딩 판정(명성 축)과 시즌 롤오버(§13.4)가 참조·
+ *  갱신한다 — 생략하면 호출마다 새로 만든 빈 기록을 쓴다(그 record는 이번
+ *  호출이 끝나면 버려진다 — 세션에 걸쳐 영속시키려면 호출부가 직접 들고
+ *  다니며 넘겨야 한다, useGame.ts·sim/run.ts 참조). */
+export function step(w: World, dt: number, offline = false, record: PersistentRecord = createPersistentRecord()): StepReport {
   const report = emptyReport();
   if (dt <= 0) return report;
   const rng = new Rng(w.rngState);
@@ -1464,19 +1544,22 @@ export function step(w: World, dt: number, offline = false): StepReport {
   }
 
   updateCatchup(w);
-  checkEnding(w);
+  checkEnding(w, record);
+  maybeRolloverSeason(w, t0, record);
   w.rngState = rng.state;
   return report;
 }
 
 /** 큰 dt 를 고정 스텝으로 쪼개 적분한다. 오프라인 복귀와 시뮬이 같은 경로를 탄다 */
-export function advance(w: World, seconds: number, offline = false, stepSize = 1): StepReport {
+export function advance(
+  w: World, seconds: number, offline = false, stepSize = 1, record: PersistentRecord = createPersistentRecord()
+): StepReport {
   const total = emptyReport();
   let left = Math.max(0, seconds);
   let guard = 0;
   while (left > 1e-6 && guard++ < 200_000) {
     const dt = Math.min(stepSize, left);
-    const r = step(w, dt, offline);
+    const r = step(w, dt, offline, record);
     total.drops.push(...r.drops);
     total.appraised.push(...r.appraised);
     total.lost.push(...r.lost);
@@ -1487,12 +1570,14 @@ export function advance(w: World, seconds: number, offline = false, stepSize = 1
   return total;
 }
 
-export function applyOffline(w: World, nowMs = Date.now()): { seconds: number; report: StepReport } | null {
+export function applyOffline(
+  w: World, nowMs = Date.now(), record: PersistentRecord = createPersistentRecord()
+): { seconds: number; report: StepReport } | null {
   const raw = (nowMs - w.lastTickAt) / 1000;
   w.lastTickAt = nowMs;
   if (raw < 60) return null;
   const seconds = Math.min(raw, OFFLINE_CAP_SECONDS);
-  const report = advance(w, seconds, true, 10);
+  const report = advance(w, seconds, true, 10, record);
   return { seconds, report };
 }
 
@@ -1927,6 +2012,7 @@ export function applySeasonRollover(w: World, record: PersistentRecord): Persist
   w.lastConditionDay = Math.floor(w.t / 86400);
   w.nextRestorationAttemptAt = w.t + RESTORATION_BASE_HOURS * 3600;
   w.museumDigEma = 0;
+  w.museumCumulativeVisitors = 0;
   w.museums = [];
   w.auctionHouses = [];
   w.blackMarket = { listings: [] };
