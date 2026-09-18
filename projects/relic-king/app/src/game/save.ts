@@ -1,17 +1,47 @@
-import { ARTIFACTS } from "./artifacts";
+import { ARTIFACTS, ARTIFACT_BY_ID } from "./artifacts";
+import { CONDITION_INITIAL_BASE_BY_TIER, SEASON_LENGTH_WEEKS } from "./balance";
 import { createWorld, nextUid } from "./engine";
 import type { World } from "./types";
 
+// 키 이름의 "v1"은 고정된 네임스페이스 라벨일 뿐 스키마 버전이 아니다(spec.md §2.9) —
+// 실제 스키마 버전은 페이로드 내부의 `version` 필드가 맡고, 마이그레이션 체인이
+// 그 필드를 보고 같은 키 위에서 순차 변환한다. 버전이 오른다고 키를 바꾸지 않는다
+// (키를 바꾸면 예전 세이브를 아예 못 찾게 되어 마이그레이션 자체가 무의미해진다).
 const KEY = "relic-king/save/v1";
 const BACKUP_KEYS = ["relic-king/backup/0", "relic-king/backup/1", "relic-king/backup/2"];
 
 type Migration = (raw: any) => any;
 
+const SEASON_LENGTH_SECONDS = SEASON_LENGTH_WEEKS * 7 * 24 * 3600;
+
 /**
  * 스키마 버전별 마이그레이션 체인. 방치형에서 세이브 소실은 곧 게임 종료라
  * (notes/mda.md §5) 버전을 올릴 때마다 여기에 한 칸씩 붙인다.
  */
-const MIGRATIONS: Record<number, Migration> = {};
+const MIGRATIONS: Record<number, Migration> = {
+  /**
+   * v1 → v2 (spec.md §5·§13.3, notes/decisions.md G51). v1 저장분은 손실 없이
+   * 그대로 옮기고, v2가 새로 요구하는 필드만 안전한 기본값으로 채운다:
+   * - vault 항목에 `condition`(티어별 기준값)·`displayed`(false)를 채운다.
+   * - `stats.firstT4Finds`를 0으로 채운다(과거 이력은 복원 불가 — 명성 점수의
+   *   시작값 손실일 뿐 자산·도감·유물 소유권은 전혀 건드리지 않는다).
+   * - `seasonState`를 시즌 1·t=0 시작으로 채운다.
+   * - `codex` 값 3종(unseen/owned/lost)은 5종 CodexState의 부분집합이라
+   *   변환 없이 그대로 유효하다.
+   */
+  1: (raw: any) => {
+    const vault = (raw.vault ?? []).map((v: any) => {
+      if (v.condition !== undefined) return v;
+      const tier = ARTIFACT_BY_ID[v.artifactId]?.tier ?? 0;
+      return { ...v, condition: CONDITION_INITIAL_BASE_BY_TIER[tier], displayed: false };
+    });
+    const stats = { firstT4Finds: 0, ...raw.stats };
+    const seasonState = raw.seasonState ?? {
+      season: 1, startedAt: 0, endsAt: SEASON_LENGTH_SECONDS, titleHolderId: null, titleHeldSinceT: null
+    };
+    return { ...raw, version: 2, vault, stats, seasonState };
+  }
+};
 
 function storage(): Storage | null {
   try {

@@ -10,7 +10,7 @@ export function Header({ world }: { world: World }) {
   const place = rank.findIndex((r) => r.id === "player") + 1;
   const d = digPower(world);
   const layerPct = Math.min(1, sp.layerProgress / layerCost(site.id, sp.layer));
-  const nextDrop = Math.max(0, (dropThreshold(site.id, sp.layer) - sp.dropProgress) / Math.max(d, 0.001));
+  const nextDrop = Math.max(0, (dropThreshold(site.id, sp.layer, d) - sp.dropProgress) / Math.max(d, 0.001));
   const codex = codexProgress(world);
 
   return (

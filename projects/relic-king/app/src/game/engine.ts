@@ -1,8 +1,12 @@
 import {
-  APPRAISE_FEE, BASE_DIG, BLIND_SELL_RATE, CATCHUP_MAX, CATCHUP_SLOPE,
-  CLICK_COMBO_MAX, CLICK_COMBO_STEP, CLICK_COMBO_WINDOW, CLICK_FACTOR, CLICK_RATE_CAP,
-  CODEX_GOAL, GEAR_MULT, LAYERS_PER_SITE, MAX_GEAR_LEVEL, OFFLINE_CAP_SECONDS, OFFLINE_EFFICIENCY,
-  SITES, SITE_BY_ID, TIER_STOCK_PER_SPECIES, TIP_DURATION_MAX, TIP_DURATION_MIN,
+  APPRAISE_FEE, ARTIFACT_SPECIES_TARGET, ARTIFACT_WORLD_VALUE_CEILING, ASSET_SCORE_REF_SHARE,
+  AUTO_SELL_KEEP_ONE_PER_SPECIES, AUTO_SELL_MAX_TIER, BASE_DIG, BLIND_SELL_RATE, CATCHUP_MAX,
+  CATCHUP_SLOPE, CLICK_COMBO_MAX, CLICK_COMBO_STEP, CLICK_COMBO_WINDOW, CLICK_FACTOR, CLICK_RATE_CAP,
+  CODEX_GOAL, CONDITION_INITIAL_BASE_BY_TIER, FAME_FIRST_T4_WEIGHT, FAME_PER_DEDICATED,
+  FAME_PER_DEDICATED_T4, FAME_VISITOR_NORMALIZATION, GEAR_MULT, LAYERS_PER_SITE,
+  LOCKED_HOLD_TIER_EXEMPT_MIN_TIER, MAX_GEAR_LEVEL, OFFLINE_CAP_SECONDS, OFFLINE_EFFICIENCY,
+  RANK_WEIGHT, SEASON_CASHOUT_RATIO, SEASON_CARRYOVER_FUNDS_CAP_MULT, SEASON_LENGTH_WEEKS,
+  SITES, SITE_BY_ID, TIER4_SPECIES_TOTAL, TIER_STOCK_PER_SPECIES, TIP_DURATION_MAX, TIP_DURATION_MIN,
   TIP_FIRST_DELAY, TIP_MEAN_INTERVAL, TIP_PLAYER_HIT, TIP_RIVAL_HIT, WORKER_DIG,
   appraiseSeconds, dropThreshold, gearCost, labCost, layerCost, layerExpectedValue,
   tierValue, tierWeights, workerCost
@@ -11,8 +15,11 @@ import { ARTIFACTS, ARTIFACT_BY_ID, artifactsOf } from "./artifacts";
 import { josa } from "./format";
 import { Rng } from "./rng";
 import type {
-  Artifact, Ledger, LogKind, OwnerId, RivalState, SiteId, StepReport, Tier, World
+  Artifact, Ledger, LogKind, OwnerId, PersistentRecord, RivalState, SeasonState,
+  SiteId, StepReport, Tier, World
 } from "./types";
+
+const SEASON_LENGTH_SECONDS = SEASON_LENGTH_WEEKS * 7 * 24 * 3600;
 
 const RIVAL_SEED: { id: string; name: string; baseDig: number; favSite: SiteId; sellBelow: Tier }[] = [
   { id: "r1", name: "이무진", baseDig: 1.35, favSite: "korea", sellBelow: 1 },
@@ -37,16 +44,29 @@ export function createLedger(): Ledger {
   return ledger;
 }
 
-export function createWorld(seed = 20260917): World {
+function initialSites(): World["sites"] {
   const sites = {} as World["sites"];
   for (const s of SITES) {
     sites[s.id] = { layer: 1, layerProgress: 0, dropProgress: 0, unlocked: s.unlockCost === 0 };
   }
+  return sites;
+}
+
+function initialSeasonState(season = 1, startedAt = 0): SeasonState {
+  return { season, startedAt, endsAt: startedAt + SEASON_LENGTH_SECONDS, titleHolderId: null, titleHeldSinceT: null };
+}
+
+export function createPersistentRecord(): PersistentRecord {
+  return { legacyFame: 0, hallOfFame: [], carryoverFundsCredit: 0, firstT4Finds: 0, championHistory: [] };
+}
+
+export function createWorld(seed = 20260917): World {
+  const sites = initialSites();
   const codex: Record<string, "unseen"> = {};
   for (const a of ARTIFACTS) codex[a.id] = "unseen";
 
   return {
-    version: 1,
+    version: 2,
     t: 0,
     lastTickAt: Date.now(),
     // 감정에는 추정가의 2%가 든다. 종잣돈이 0이면 첫 유물을 감정조차 못 해
@@ -77,13 +97,14 @@ export function createWorld(seed = 20260917): World {
     nextTipIn: TIP_FIRST_DELAY,
     log: [{ t: 0, kind: "system", text: "경주 고분군에서 발굴을 시작했다." }],
     settings: { autoSellBelow: null, muted: false },
-    stats: { drops: 0, clicks: 0, sold: 0, blindSold: 0, racesWon: 0, racesLost: 0 },
+    stats: { drops: 0, clicks: 0, sold: 0, blindSold: 0, racesWon: 0, racesLost: 0, firstT4Finds: 0 },
     clickCombo: 1,
     clickComboUntil: 0,
     clickSecond: 0,
     clickAccum: 0,
     rngState: seed >>> 0,
-    ended: false
+    ended: false,
+    seasonState: initialSeasonState()
   };
 }
 
@@ -97,6 +118,7 @@ export function rivalDig(r: RivalState): number {
   return (BASE_DIG + r.workers * WORKER_DIG) * Math.pow(GEAR_MULT, r.gear) * r.baseDig * r.catchup;
 }
 
+/** v0.1 자산(팀 전시 여부와 무관하게 vault 전체 합) — 순위표·엔딩은 계속 이 값을 쓴다 */
 export function playerAssets(w: World): number {
   return w.vault.reduce((sum, v) => sum + v.value, 0);
 }
@@ -113,15 +135,44 @@ export function ranking(w: World): RankRow[] {
   return rows.sort((a, b) => b.assets - a.assets);
 }
 
+/** owned_unidentified도 "지금 갖고 있다"로 센다(spec.md §13.3) — 이름을 아는지가 아니라
+ *  소유 여부가 도감 진행도의 기준이다. v0.1 엔딩 조건(checkEnding)도 이 값을 그대로 쓴다. */
 export function codexProgress(w: World): { owned: number; lost: number; total: number } {
   let owned = 0;
   let lost = 0;
   for (const a of ARTIFACTS) {
     const s = w.codex[a.id];
-    if (s === "owned") owned++;
+    if (s === "owned" || s === "owned_unidentified") owned++;
     else if (s === "lost") lost++;
   }
   return { owned, lost, total: ARTIFACTS.length };
+}
+
+// ── v0.2 3축 순위 (spec.md §13.1) ────────────────────────────────────────
+
+const ASSET_SCORE_REF = ARTIFACT_WORLD_VALUE_CEILING * ASSET_SCORE_REF_SHARE;
+
+/** 전시 중(vault[].displayed)인 유물은 자산 축에서 제외한다(G49/B4). 박물관이
+ *  아직 없어 displayed는 항상 falsy이므로 이번 단계에서는 playerAssets(w)와 같다 */
+export function assetScore(w: World): number {
+  const assets = w.vault.reduce((sum, v) => (v.displayed ? sum : sum + v.value), 0);
+  return Math.min(1, assets / ASSET_SCORE_REF);
+}
+
+export function codexScore(w: World): number {
+  return codexProgress(w).owned / ARTIFACT_SPECIES_TARGET;
+}
+
+/** 박물관 관람객 축은 시설 시스템이 없어 항상 0이다. 유일 최초발굴 항은
+ *  이번 시즌분(Stats.firstT4Finds) + 계정 영구분(PersistentRecord.firstT4Finds)을 더한다 */
+export function fameScore(w: World, record: PersistentRecord): number {
+  const visitors = 0;
+  const firstT4 = record.firstT4Finds + w.stats.firstT4Finds;
+  return Math.min(1, visitors / FAME_VISITOR_NORMALIZATION + (firstT4 / TIER4_SPECIES_TOTAL) * FAME_FIRST_T4_WEIGHT);
+}
+
+export function rankScore(w: World, record: PersistentRecord): number {
+  return RANK_WEIGHT.asset * assetScore(w) + RANK_WEIGHT.codex * codexScore(w) + RANK_WEIGHT.fame * fameScore(w, record);
 }
 
 // ── 스텝 ──────────────────────────────────────────────────
@@ -135,13 +186,34 @@ function available(w: World, a: Artifact): boolean {
   return w.ledger[a.id].remaining > 0;
 }
 
+/** 플레이어가 그 종을 지금 물리적으로 갖고 있는가(vault 또는 미감정 큐) — CodexState를
+ *  "discovered_not_owned"로 내릴지 판정하는 데만 쓴다 */
+function playerHoldsSpecies(w: World, artifactId: string): boolean {
+  return w.vault.some((v) => v.artifactId === artifactId) || w.pending.some((p) => p.artifactId === artifactId);
+}
+
+/** 종의 마지막 사본을 놓았을 때(매각 등) codex를 "discovered_not_owned"로 내린다.
+ *  "lost"(라이벌이 세계 재고 마지막 1점을 가져간 경우)는 건드리지 않는다 — 다른 사건이다 */
+function demoteIfEmptied(w: World, artifactId: string) {
+  const s = w.codex[artifactId];
+  if ((s === "owned" || s === "owned_unidentified") && !playerHoldsSpecies(w, artifactId)) {
+    w.codex[artifactId] = "discovered_not_owned";
+  }
+}
+
 function take(w: World, a: Artifact, owner: OwnerId, report: StepReport) {
   const entry = w.ledger[a.id];
   if (entry.remaining !== Infinity) entry.remaining -= 1;
   entry.owners.push(owner);
 
   if (owner === "player") {
-    w.codex[a.id] = "owned";
+    const prior = w.codex[a.id];
+    // 소유 확정(①)과 지식 공개(③)의 분리(spec.md §9.2) — 드랍 즉시 "owned_unidentified"로
+    // 전이한다. 이미 "owned"(다른 사본을 이미 감정해 이름을 안다)면 내리지 않는다.
+    if (prior !== "owned") w.codex[a.id] = "owned_unidentified";
+    // 유일 최초발굴은 매각과 무관한 계정 영구 기록의 재료다(§13.3) — "처음 갖는 순간"만 센다.
+    if (a.tier === 4 && prior !== "owned" && prior !== "owned_unidentified") w.stats.firstT4Finds += 1;
+
     w.pending.push({
       uid: nextUid(),
       artifactId: a.id,
@@ -160,7 +232,8 @@ function take(w: World, a: Artifact, owner: OwnerId, report: StepReport) {
     if (a.tier <= rival.sellBelow) rival.funds += value;
     else rival.vaultValue += value;
 
-    if (entry.remaining === 0 && w.codex[a.id] !== "owned") {
+    const playerHasIt = w.codex[a.id] === "owned" || w.codex[a.id] === "owned_unidentified";
+    if (entry.remaining === 0 && !playerHasIt) {
       w.codex[a.id] = "lost";
       report.lost.push({ artifactId: a.id, owner: rival.name });
       log(w, "lost", `${rival.name}${josa(rival.name, "이가")} '${a.name}'${josa(a.name, "을를")} 가져갔다. 세계에 남은 수량 0.`);
@@ -226,7 +299,8 @@ function rollDrop(
 function digPlayer(w: World, rng: Rng, dt: number, eff: number, report: StepReport) {
   const site = w.activeSite;
   const sp = w.sites[site];
-  const progress = digPower(w) * dt * eff;
+  const d = digPower(w);
+  const progress = d * dt * eff;
   sp.layerProgress += progress;
   sp.dropProgress += progress;
 
@@ -240,15 +314,16 @@ function digPlayer(w: World, rng: Rng, dt: number, eff: number, report: StepRepo
   if (sp.layer >= LAYERS_PER_SITE) sp.layerProgress = Math.min(sp.layerProgress, layerCost(site, sp.layer));
 
   guard = 0;
-  while (sp.dropProgress >= dropThreshold(site, sp.layer) && guard++ < 512) {
-    sp.dropProgress -= dropThreshold(site, sp.layer);
+  while (sp.dropProgress >= dropThreshold(site, sp.layer, d) && guard++ < 512) {
+    sp.dropProgress -= dropThreshold(site, sp.layer, d);
     rollDrop(w, rng, site, sp.layer, "player", eff < 1, report);
   }
 }
 
 function digRival(w: World, r: RivalState, rng: Rng, dt: number, eff: number, report: StepReport) {
   const site = r.favSite;
-  const progress = rivalDig(r) * dt * eff;
+  const d = rivalDig(r);
+  const progress = d * dt * eff;
   r.layerProgress += progress;
   r.dropProgress += progress;
 
@@ -259,8 +334,8 @@ function digRival(w: World, r: RivalState, rng: Rng, dt: number, eff: number, re
   }
 
   guard = 0;
-  while (r.dropProgress >= dropThreshold(site, r.layer) && guard++ < 512) {
-    r.dropProgress -= dropThreshold(site, r.layer);
+  while (r.dropProgress >= dropThreshold(site, r.layer, d) && guard++ < 512) {
+    r.dropProgress -= dropThreshold(site, r.layer, d);
     rollDrop(w, rng, site, r.layer, r.id, eff < 1, report);
   }
 
@@ -303,15 +378,40 @@ function runAppraisal(w: World, dt: number, report: StepReport) {
     const artifact = ARTIFACT_BY_ID[item.artifactId];
     const value = tierValue(artifact.tier, artifact.valueFactor);
     report.appraised.push({ artifactId: artifact.id, tier: artifact.tier, value });
+    // 감정 완료 = 지식 공개(③) — 이름·평가액이 확정되고 도감은 "owned"로 전이한다(§9.2·§13.3)
+    w.codex[artifact.id] = "owned";
 
-    const auto = w.settings.autoSellBelow;
-    if (auto !== null && artifact.tier <= auto) {
+    if (autoSellEligible(w, artifact)) {
       w.funds += value;
       w.stats.sold += 1;
     } else {
-      w.vault.push({ uid: nextUid(), artifactId: artifact.id, value });
+      w.vault.push({
+        uid: nextUid(), artifactId: artifact.id, value,
+        condition: CONDITION_INITIAL_BASE_BY_TIER[artifact.tier]
+      });
     }
   }
+}
+
+/**
+ * 자동매각(spec.md §2.4 개정분 — notes/decisions.md G39/A1·G47/B1+B2).
+ * v0.1의 "미감정 큐 초과 시 티어 무구분 자동매각"은 완전히 삭제됐다(위 runAppraisal
+ * 주석 참조) — 이 함수는 그것과 무관한, 감정 **완료 후** 설정 기반 자동매각이다.
+ *
+ * - `AUTO_SELL_MAX_TIER`(=1) 상한: 설정값이 무엇이든 T2 이상은 대상이 될 수 없다.
+ * - T3·T4는 `LOCKED_HOLD_TIER_EXEMPT_MIN_TIER` 기준 하드 예외로 한 번 더 막는다
+ *   (AUTO_SELL_MAX_TIER=1이 이미 T2+를 막지만, 설정 상수가 바뀌어도 T3·T4는
+ *   무너지지 않도록 이중으로 방어한다).
+ * - `AUTO_SELL_KEEP_ONE_PER_SPECIES`: 그 종을 vault에 이미 1점 이상 갖고 있을 때만
+ *   판다 — 지금 감정된 사본이 그 종의 유일한 소장분이면 절대 팔지 않는다.
+ */
+function autoSellEligible(w: World, artifact: Artifact): boolean {
+  const auto = w.settings.autoSellBelow;
+  if (auto === null) return false;
+  if (artifact.tier >= LOCKED_HOLD_TIER_EXEMPT_MIN_TIER) return false;
+  if (artifact.tier > Math.min(auto, AUTO_SELL_MAX_TIER)) return false;
+  if (!AUTO_SELL_KEEP_ONE_PER_SPECIES) return true;
+  return w.vault.some((v) => v.artifactId === artifact.id);
 }
 
 function spawnTip(w: World, rng: Rng) {
@@ -501,17 +601,21 @@ export function blindSell(w: World, uid: number): boolean {
   const [item] = w.pending.splice(idx, 1);
   w.funds += Math.round(item.estimate * BLIND_SELL_RATE);
   w.stats.blindSold += 1;
+  demoteIfEmptied(w, item.artifactId);
   return true;
 }
 
 export function blindSellAll(w: World): number {
   let gained = 0;
+  const ids = new Set<string>();
   for (const item of w.pending) {
     gained += Math.round(item.estimate * BLIND_SELL_RATE);
     w.stats.blindSold += 1;
+    ids.add(item.artifactId);
   }
   w.pending = [];
   w.funds += gained;
+  for (const id of ids) demoteIfEmptied(w, id);
   return gained;
 }
 
@@ -529,21 +633,93 @@ export function sellArtifactCopies(w: World, artifactId: string, count: number):
   }
   w.vault = keep;
   w.funds += gained;
+  demoteIfEmptied(w, artifactId);
   return gained;
 }
 
 export function sellTierAtMost(w: World, tier: Tier): number {
   let gained = 0;
   const keep: typeof w.vault = [];
+  const soldIds = new Set<string>();
   for (const item of w.vault) {
     if (ARTIFACT_BY_ID[item.artifactId].tier <= tier) {
       gained += item.value;
       w.stats.sold += 1;
+      soldIds.add(item.artifactId);
     } else keep.push(item);
   }
   w.vault = keep;
   w.funds += gained;
+  for (const id of soldIds) demoteIfEmptied(w, id);
   return gained;
 }
 
 export const costs = { workerCost, gearCost, labCost };
+
+// ── 시즌 롤오버 (spec.md §13.4) ──────────────────────────────────────────
+
+/**
+ * 시즌 롤오버(spec.md §13.4, notes/decisions.md G2). vault 헌정 → funds 환전+소각 →
+ * 시설 초기화 → 스텝 초기화 → 거점 리셋 순서로 실행하고, `record`(계정 영구 기록)를
+ * 갱신해 반환한다. `w`는 그 자리에서 다음 시즌의 초기 상태로 고쳐진다(순수 함수가
+ * 아니라 World를 직접 돌려쓴다 — 오프라인 적분·세이브가 같은 World 참조를 계속
+ * 쓰는 v0.1 패턴과 맞춘다).
+ *
+ * **범위(보고 대상, notes/decisions.md G51)**: 이번 단계는 플레이어분만 처리한다.
+ * spec.md §13.4 말미는 "라이벌 전원에게도 동일하게 적용된다"고 요구하지만, 라이벌의
+ * v0.2 규칙(§12·원정·스텝)이 아직 엔진에 없어(후속 단계 범위) 라이벌 쪽 롤오버는
+ * 그 스텝과 함께 붙여야 한다 — 지금 흉내만 내면 나중에 두 번 깨진다.
+ *
+ * "시설 초기화"(3항) 대상 중 이번 엔진에 실제로 존재하는 필드는 `lab`뿐이다(보관소
+ * 레벨·박물관·경매장은 아직 World 필드가 없다). `workers`·`gear`는 §13.4 목록에
+ * 문자 그대로는 없지만(발굴단·단장 모델로 이관될 예정) 리셋하지 않으면 자금만
+ * 소액으로 리셋된 채 무비용 고발굴력이 다음 시즌으로 그대로 넘어가는 구멍이 생겨
+ * (발굴단 시스템이 아직 없어 "팀 해체로 자연히 사라진다"는 전제가 성립하지 않는다)
+ * 함께 리셋했다 — 판단 근거는 notes/decisions.md G51에 남겼다.
+ */
+export function applySeasonRollover(w: World, record: PersistentRecord): PersistentRecord {
+  const season = w.seasonState.season;
+
+  // 1. vault 헌정 — T0~T3는 legacyFame, T4는 hallOfFame(+legacyFame)
+  for (const item of w.vault) {
+    const artifact = ARTIFACT_BY_ID[item.artifactId];
+    if (artifact.tier === 4) {
+      record.hallOfFame.push({ artifactId: artifact.id, dedicatedSeason: season, ownerName: "나" });
+      record.legacyFame += FAME_PER_DEDICATED_T4;
+    } else {
+      record.legacyFame += FAME_PER_DEDICATED[artifact.tier];
+    }
+  }
+  w.vault = [];
+  w.pending = [];
+  record.firstT4Finds += w.stats.firstT4Finds;
+
+  // 도감: CodexState는 5종뿐이라 "헌정됨" 전용 표시값이 없다(spec.md §13.4가 요구하는
+  // 6번째 상태 — 보고 대상, notes/decisions.md G51). vault·원장이 모두 리셋되므로
+  // 알았던 종은 전부 가장 가까운 기존 값인 "discovered_not_owned"로 근사한다.
+  for (const a of ARTIFACTS) {
+    if (w.codex[a.id] !== "unseen") w.codex[a.id] = "discovered_not_owned";
+  }
+
+  // 2. funds — 10%는 환전(상한 있음), 나머지 90%는 소각
+  record.carryoverFundsCredit += w.funds * SEASON_CASHOUT_RATIO;
+  w.funds = 30_000 + Math.min(record.carryoverFundsCredit, 30_000 * SEASON_CARRYOVER_FUNDS_CAP_MULT);
+
+  // 3. 시설 초기화 — 위 함수 주석 참조
+  w.lab = 1;
+  w.workers = 0;
+  w.gear = 0;
+
+  // 4. 스텝 — World에 아직 Staff가 배치되지 않는다(선언만 존재) — no-op
+
+  // 5. 거점 리셋 + 세계 원장을 초기 스톡으로 복원(G2)
+  w.sites = initialSites();
+  w.activeSite = SITES.find((s) => s.unlockCost === 0)?.id ?? SITES[0].id;
+  w.ledger = createLedger();
+
+  w.ended = false;
+  w.stats = { drops: 0, clicks: 0, sold: 0, blindSold: 0, racesWon: 0, racesLost: 0, firstT4Finds: 0 };
+  w.seasonState = initialSeasonState(season + 1, w.t);
+
+  return record;
+}

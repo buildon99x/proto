@@ -31,8 +31,9 @@ export function CodexView({ game }: { game: Game }) {
                 .sort((a, b) => b.tier - a.tier)
                 .map((a) => {
                   const state = world.codex[a.id];
+                  const title = state === "unseen" ? "미발견" : state === "owned_unidentified" ? "감정 중 — ???" : a.name;
                   return (
-                    <button key={a.id} type="button" onClick={() => setPicked(a)} title={state === "unseen" ? "미발견" : a.name}>
+                    <button key={a.id} type="button" onClick={() => setPicked(a)} title={title}>
                       <Sprite artifact={a} size={44} state={state} />
                     </button>
                   );
@@ -56,19 +57,18 @@ function Entry({ artifact, game }: { artifact: Artifact; game: Game }) {
   const owner = entry.owners.find((o) => o !== "player");
   const ownerName = game.world.rivals.find((r) => r.id === owner)?.name;
 
+  const known = state === "owned" || state === "discovered_not_owned" || state === "lost";
+
   return (
     <div className="entry">
       <Sprite artifact={artifact} size={96} state={state} />
       <h4>
-        {state === "unseen" ? "미발견 유물" : artifact.name}{" "}
+        {state === "unseen" ? "미발견 유물" : state === "owned_unidentified" ? "감정 중인 유물" : artifact.name}{" "}
         <em style={{ color: TIER_COLOR[artifact.tier] }}>{TIER_NAME[artifact.tier]}</em>
       </h4>
-      {state === "unseen" ? (
-        <p className="muted">
-          {artifact.minLayer}층 이상에서 나온다. 세계 재고{" "}
-          {entry.total === Infinity ? "무한" : `${entry.remaining} / ${entry.total}`}.
-        </p>
-      ) : (
+      {state === "owned_unidentified" ? (
+        <p className="muted">소유는 확정됐지만 아직 감정 전이다. 감정이 끝나면 이름·내력·평가액이 공개된다.</p>
+      ) : known ? (
         <>
           <p className="muted small">{artifact.era} · {artifact.origin}</p>
           <p className="muted small">현 소장처 {artifact.holder}</p>
@@ -77,6 +77,9 @@ function Entry({ artifact, game }: { artifact: Artifact; game: Game }) {
           <p className="muted small">
             세계 재고 {entry.total === Infinity ? "무한" : `${entry.remaining} / ${entry.total}`}
           </p>
+          {state === "discovered_not_owned" ? (
+            <p className="muted small">현재는 소장 중이 아니다 — 다시 발굴하거나 얻어야 한다.</p>
+          ) : null}
           {state === "lost" ? (
             <p className="lost-note">
               {ownerName ?? "다른 수집가"}{josa(ownerName ?? "다른 수집가", "이가")} 가졌다.
@@ -84,6 +87,11 @@ function Entry({ artifact, game }: { artifact: Artifact; game: Game }) {
             </p>
           ) : null}
         </>
+      ) : (
+        <p className="muted">
+          {artifact.minLayer}층 이상에서 나온다. 세계 재고{" "}
+          {entry.total === Infinity ? "무한" : `${entry.remaining} / ${entry.total}`}.
+        </p>
       )}
     </div>
   );

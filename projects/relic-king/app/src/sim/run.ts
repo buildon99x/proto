@@ -13,8 +13,9 @@ import {
   dropThreshold, gearCost, labCost, layerCost, layerExpectedValue, workerCost
 } from "../game/balance";
 import {
-  advance, click, blindSellAll, buyGear, buyLab, buyWorker, codexProgress, createWorld,
-  digPower, playerAssets, ranking, sellTierAtMost, switchSite, unlockSite
+  advance, assetScore, click, blindSellAll, buyGear, buyLab, buyWorker, codexProgress,
+  codexScore, createPersistentRecord, createWorld, digPower, fameScore, playerAssets,
+  ranking, rankScore, sellTierAtMost, switchSite, unlockSite
 } from "../game/engine";
 import { duration, won } from "../game/format";
 import type { SiteId, World } from "../game/types";
@@ -30,9 +31,10 @@ function bestSite(w: World): SiteId {
   if (young) return young.id;
   let best = unlocked[0].id;
   let bestRate = -1;
+  const d = digPower(w);
   for (const s of unlocked) {
     const sp = w.sites[s.id];
-    const rate = layerExpectedValue(s.id, sp.layer) / dropThreshold(s.id, sp.layer);
+    const rate = layerExpectedValue(s.id, sp.layer) / dropThreshold(s.id, sp.layer, d);
     if (rate > bestRate) {
       bestRate = rate;
       best = s.id;
@@ -200,6 +202,16 @@ function main() {
     return art.tier >= 3;
   });
   console.log(`오프라인 T3·T4 상실 ${highLost.length}건   (기준 0건)`);
+
+  // v0.2 3축 순위(spec.md §13.1) — 이번 단계는 함수만 구현했고 엔딩 조건에는
+  // 아직 연결하지 않았다. 3거점·60종 데이터셋에서 ASSET_SCORE_REF(480종·12거점
+  // 기준 375억)가 얼마나 과대한 기준인지 눈으로 보기 위해 참고 출력한다.
+  const record = createPersistentRecord();
+  console.log("\n──────── v0.2 3축 순위(참고 — 아직 엔딩에 미연결) ────────");
+  console.log(`자산 축   ${assetScore(w).toFixed(4)}   (자산 ${won(playerAssets(w))} ₩ / 기준 375억 ₩)`);
+  console.log(`도감 축   ${codexScore(w).toFixed(4)}   (${codexProgress(w).owned}종 / ARTIFACT_SPECIES_TARGET 480)`);
+  console.log(`명성 축   ${fameScore(w, record).toFixed(4)}   (유일 최초발굴 ${w.stats.firstT4Finds}회)`);
+  console.log(`종합      ${rankScore(w, record).toFixed(4)}`);
 }
 
 main();
