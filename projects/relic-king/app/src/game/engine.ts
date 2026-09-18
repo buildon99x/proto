@@ -2,20 +2,22 @@ import {
   APPRAISE_FEE, ARTIFACT_SPECIES_TARGET, ARTIFACT_WORLD_VALUE_CEILING, ASSET_SCORE_REF_SHARE,
   AUTO_SELL_KEEP_ONE_PER_SPECIES, AUTO_SELL_MAX_TIER, BASE_DIG, BLIND_SELL_RATE, CATCHUP_MAX,
   CATCHUP_SLOPE, CLICK_COMBO_MAX, CLICK_COMBO_STEP, CLICK_COMBO_WINDOW, CLICK_FACTOR, CLICK_RATE_CAP,
-  CODEX_GOAL, CONDITION_INITIAL_BASE_BY_TIER, DEPTH_INCOME_BONUS, EXPEDITION_COST_INCOME_RATIO,
-  EXPEDITION_MISHAP_TIME_LOSS_RATIO, EXPEDITION_SPEED_KMH, EXPEDITION_TEAM_UNLOCK_BASE,
-  EXPEDITION_TEAM_UNLOCK_GROWTH, FAME_FIRST_T4_WEIGHT, FAME_PER_DEDICATED,
-  FAME_PER_DEDICATED_T4, FAME_VISITOR_NORMALIZATION, FIRST_RELOCATION_FREE_WINDOW_HOURS,
-  FOREMAN_HIRE_COST, GEAR_MULT, HOME_BASE_BONUS_DROPMOD_MULT, HOME_BASE_BONUS_DURATION_HOURS,
-  LAYERS_PER_SITE, LOCKED_HOLD_TIER_EXEMPT_MIN_TIER, MAX_EXPEDITION_TEAMS_CAP,
-  MAX_EXPEDITION_TEAMS_INITIAL, MAX_GEAR_LEVEL, MAX_OWNED_SITES, OFFLINE_CAP_SECONDS,
-  OFFLINE_EFFICIENCY, PROGRESS_VALUE, RANK_WEIGHT, REGIONAL_PRICE_MULT_MAX,
-  REGIONAL_PRICE_MULT_MIN, RELOCATION_COOLDOWN_HOURS, RELOCATION_COST_ASSET_RATIO,
-  REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX, REMOTE_ARBITRAGE_MIN_DISTANCE_KM, SEASON_CASHOUT_RATIO,
-  SEASON_CARRYOVER_FUNDS_CAP_MULT, SEASON_LENGTH_WEEKS, SITES, SITE_BY_ID,
+  CODEX_GOAL, CONDITION_INITIAL_BASE_BY_TIER, DEPTH_INCOME_BONUS, EMERGENCY_DISPATCH_COST_MULT,
+  EMERGENCY_DISPATCH_MAX_REACH_HOURS, EMERGENCY_DISPATCH_MISHAP_MULT, EMERGENCY_DISPATCH_TRAVEL_MULT,
+  EXPEDITION_COST_INCOME_RATIO, EXPEDITION_MISHAP_CHANCE_CAP, EXPEDITION_MISHAP_TIME_LOSS_RATIO,
+  EXPEDITION_SPEED_KMH, EXPEDITION_TEAM_UNLOCK_BASE, EXPEDITION_TEAM_UNLOCK_GROWTH,
+  FAME_FIRST_T4_WEIGHT, FAME_PER_DEDICATED, FAME_PER_DEDICATED_T4, FAME_VISITOR_NORMALIZATION,
+  FIRST_RELOCATION_FREE_WINDOW_HOURS, FOREMAN_HIRE_COST, FOREMAN_SALARY_INCOME_SHARE, GEAR_MULT,
+  HOME_BASE_BONUS_DROPMOD_MULT, HOME_BASE_BONUS_DURATION_HOURS, LAYERS_PER_SITE,
+  LOCKED_HOLD_TIER_EXEMPT_MIN_TIER, MAX_EXPEDITION_TEAMS_CAP, MAX_EXPEDITION_TEAMS_INITIAL,
+  MAX_GEAR_LEVEL, MAX_OWNED_SITES, OFFLINE_CAP_SECONDS, OFFLINE_EFFICIENCY, PROGRESS_VALUE,
+  RANK_WEIGHT, REGIONAL_PRICE_MULT_MAX, REGIONAL_PRICE_MULT_MIN, RELOCATION_COOLDOWN_HOURS,
+  RELOCATION_COST_ASSET_RATIO, REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX, REMOTE_ARBITRAGE_MIN_DISTANCE_KM,
+  SEASON_CASHOUT_RATIO, SEASON_CARRYOVER_FUNDS_CAP_MULT, SEASON_LENGTH_WEEKS, SITES, SITE_BY_ID,
   STAFF_MARKET_REFRESH_HOURS, STAFF_PROMOTION_INTERVAL_HOURS, TIER4_SPECIES_TOTAL,
-  TIER_STOCK_PER_SPECIES, TIP_DURATION_MAX, TIP_DURATION_MIN, TIP_FIRST_DELAY, TIP_MEAN_INTERVAL,
-  TIP_PLAYER_HIT, TIP_RIVAL_HIT, UNEXPLORED_BONUS_APPRAISAL_VOUCHER, WORKER_DIG,
+  TIER_STOCK_PER_SPECIES, TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN, TIP_FIRST_DELAY,
+  TIP_FOCUS_DIG_COST_MULT, TIP_FOCUS_DIG_HIT_CHANCE, TIP_MEAN_INTERVAL, TIP_PLAYER_HIT,
+  TIP_RIVAL_HIT, UNEXPLORED_BONUS_APPRAISAL_VOUCHER, WORKER_DIG,
   appraiseSeconds, distanceKm, dropThreshold, gearCost, labCost, layerCost, layerExpectedValue,
   tierValue, tierWeights, workerCost
 } from "./balance";
@@ -85,7 +87,7 @@ export function createWorld(seed = 20260917): World {
   for (const a of ARTIFACTS) codex[a.id] = "unseen";
 
   return {
-    version: 3,
+    version: 4,
     t: 0,
     lastTickAt: Date.now(),
     // 감정에는 추정가의 2%가 든다. 종잣돈이 0이면 첫 유물을 감정조차 못 해
@@ -109,7 +111,11 @@ export function createWorld(seed = 20260917): World {
       dropProgress: 0,
       vaultValue: 0,
       owned: [],
-      catchup: 1
+      catchup: 1,
+      // 라이벌도 플레이어와 동일하게 무료 base 1곳에서 시작한다(spec.md §12.1,
+      // notes/decisions.md G18/A14) — favSite를 홈 거점으로 그대로 쓴다.
+      homeSite: r.favSite,
+      tipChase: null
     })),
     codex,
     tip: null,
@@ -161,17 +167,28 @@ export function ranking(w: World): RankRow[] {
   return rows.sort((a, b) => b.assets - a.assets);
 }
 
-/** owned_unidentified도 "지금 갖고 있다"로 센다(spec.md §13.3) — 이름을 아는지가 아니라
- *  소유 여부가 도감 진행도의 기준이다. v0.1 엔딩 조건(checkEnding)도 이 값을 그대로 쓴다. */
+/**
+ * owned_unidentified도 "지금 갖고 있다"로 센다(spec.md §13.3) — 이름을 아는지가 아니라
+ * 소유 여부가 도감 진행도의 기준이다. v0.1 엔딩 조건(checkEnding)도 이 값을 그대로 쓴다.
+ *
+ * **분모는 검증된(sourceStatus="verified") 종만 센다**(notes/decisions.md G53, G-B8의
+ * 자연스러운 귀결). "pending" 종은 드랍 풀에서 원천 제외되므로 영원히 "owned"가 될 수
+ * 없다 — 분모에 포함시키면 도감 완주율이 검증 파이프라인 진행 속도에 발이 묶여 75%
+ * 달성이 구조적으로 불가능해질 수 있다. pending 종은 데이터로는 존재하되(향후 검증되면
+ * 자동으로 드랍 풀에 편입) 이번 시즌의 "수집 대상 목록"에서는 빠져 있다는 뜻이다.
+ */
 export function codexProgress(w: World): { owned: number; lost: number; total: number } {
   let owned = 0;
   let lost = 0;
+  let total = 0;
   for (const a of ARTIFACTS) {
+    if (a.sourceStatus !== "verified") continue;
+    total++;
     const s = w.codex[a.id];
     if (s === "owned" || s === "owned_unidentified") owned++;
     else if (s === "lost") lost++;
   }
-  return { owned, lost, total: ARTIFACTS.length };
+  return { owned, lost, total };
 }
 
 // ── v0.2 3축 순위 (spec.md §13.1) ────────────────────────────────────────
@@ -256,7 +273,18 @@ function take(w: World, a: Artifact, owner: OwnerId, report: StepReport, diggerF
     const rival = w.rivals.find((r) => r.id === owner)!;
     rival.owned.push(a.id);
     const value = tierValue(a.tier, a.valueFactor);
-    if (a.tier <= rival.sellBelow) rival.funds += value;
+    // 라이벌도 실현(매각) 시점에 단장 급여(G29/B7) + 원정비(K5, spec.md §12.1)를
+    // 함께 원천징수당한다 — 플레이어의 두 비용(판매 시 급여·귀환 시 원정비)을
+    // 하나의 실현 시점 공제로 합쳤다. **의도적 단순화**(notes/decisions.md G53
+    // 재보고): 처음엔 홈 거점 채굴에 원정비를 매 틱 연속 차감했으나, 그 연속
+    // 차감이 재투자 임계값(`r.funds >= cost`) 판정 시점을 스텝 크기에 따라
+    // 미묘하게 갈라놓아 `qa_expedition.ts`의 스텝 무관성(원정 자체와는 무관한
+    // 라이벌 곁가지 효과)을 깼다(china가 3단계로 실제 드랍 가능해지며 그 갈라짐이
+    // 처음으로 표면화됐다). 이산적인 실현 시점 공제로 바꾸면 기존에 이미 스텝
+    // 무관성이 검증된 "드랍(take) 이벤트 단위" 위에 얹히므로 같은 문제가 생기지
+    // 않는다 — 공정성 요구(라이벌도 고정비를 낸다)는 그대로 만족한다.
+    const rivalWithholdRate = FOREMAN_SALARY_INCOME_SHARE + EXPEDITION_COST_INCOME_RATIO;
+    if (a.tier <= rival.sellBelow) rival.funds += Math.round(value * (1 - rivalWithholdRate));
     else rival.vaultValue += value;
 
     const playerHasIt = w.codex[a.id] === "owned" || w.codex[a.id] === "owned_unidentified";
@@ -280,22 +308,59 @@ function pickTier(w: World, rng: Rng, site: SiteId, layer: number, cap: Tier): T
   return 0;
 }
 
+/** sourceStatus="pending"인 종은 드랍 풀에서 제외한다(notes/artifacts-dataset.md §5, G-B8).
+ *  검증을 마치는 대로 데이터의 sourceStatus만 "verified"로 바꾸면 자동으로 편입된다. */
 function candidates(w: World, site: SiteId, tier: Tier, layer: number): Artifact[] {
-  return artifactsOf(site, tier).filter((a) => a.minLayer <= layer && available(w, a));
+  return artifactsOf(site, tier).filter(
+    (a) => a.minLayer <= layer && a.sourceStatus === "verified" && available(w, a)
+  );
+}
+
+/** 그 site·layer에서 지금 "쫓는 중"인 제보 목표(있으면). 배너(w.tip)가 아직 살아
+ *  있으면 그걸 쓰고, 배너가 만료됐어도 그 자리에 급파로 도착한 발굴단이 추적 중인
+ *  유물이 있으면 그쪽을 쓴다(spec.md §8.6, notes/decisions.md G45/A8·G53) — 배너
+ *  수명과 레이스 종료 시점을 분리한 설계의 핵심이다. */
+function activeTipTarget(w: World, site: SiteId, layer: number): { artifactId: string; focused: boolean } | null {
+  if (w.tip && w.tip.site === site && layer >= w.tip.layer) {
+    return { artifactId: w.tip.artifactId, focused: !!w.tip.focused };
+  }
+  for (const team of w.teams) {
+    if (team.status === "on_site" && team.targetSite === site && team.tipChase && layer >= team.tipChase.layer) {
+      return { artifactId: team.tipChase.artifactId, focused: false };
+    }
+  }
+  return null;
+}
+
+/** artifactId를 쫓던 팀·라이벌의 추적 상태를 비운다(획득 성공 또는 세계 재고 소진 시) */
+function clearTipChases(w: World, artifactId: string) {
+  for (const team of w.teams) {
+    if (team.tipChase?.artifactId === artifactId) team.tipChase = null;
+  }
+  for (const r of w.rivals) {
+    if (r.tipChase?.artifactId === artifactId) r.tipChase = null;
+  }
 }
 
 function rollDrop(
   w: World, rng: Rng, site: SiteId, layer: number, owner: OwnerId, offline: boolean, report: StepReport,
-  diggerForemanId?: string
+  diggerForemanId?: string, chaseTarget?: { artifactId: string; focused: boolean } | null
 ) {
-  // 제보 레이스: 조건을 만족하면 대상 유물이 직접 걸린다
+  // 제보 레이스: 조건을 만족하면 대상 유물이 직접 걸린다. 플레이어는 (배너 또는
+  // 급파 추적 중인) chaseTarget을, 라이벌은 배너(w.tip.rivals)에 있을 때만 반응한다
+  // (원거리 라이벌 급파는 resolveRivalTipChases가 별도로 처리한다, spec.md §12.3).
   const tip = w.tip;
-  if (tip && tip.site === site && layer >= tip.layer) {
-    const target = ARTIFACT_BY_ID[tip.artifactId];
+  const raceTarget =
+    owner === "player" ? chaseTarget : tip && tip.site === site && layer >= tip.layer && tip.rivals.includes(owner)
+      ? { artifactId: tip.artifactId, focused: false }
+      : null;
+  if (raceTarget) {
+    const target = ARTIFACT_BY_ID[raceTarget.artifactId];
     if (available(w, target)) {
-      const hit = owner === "player" ? TIP_PLAYER_HIT : tip.rivals.includes(owner) ? TIP_RIVAL_HIT : 0;
-      if (hit > 0 && rng.chance(hit)) {
+      const hit = owner === "player" ? (raceTarget.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) : TIP_RIVAL_HIT;
+      if (rng.chance(hit)) {
         take(w, target, owner, report, diggerForemanId);
+        clearTipChases(w, target.id);
         if (owner === "player") {
           w.stats.racesWon += 1;
           report.won.push(target.id);
@@ -303,10 +368,14 @@ function rollDrop(
         } else {
           w.stats.racesLost += 1;
         }
-        w.tip = null;
-        w.nextTipIn = rng.range(TIP_MEAN_INTERVAL * 0.5, TIP_MEAN_INTERVAL * 1.5);
+        if (tip && tip.artifactId === target.id) {
+          w.tip = null;
+          w.nextTipIn = rng.range(TIP_MEAN_INTERVAL * 0.5, TIP_MEAN_INTERVAL * 1.5);
+        }
         return;
       }
+    } else {
+      clearTipChases(w, target.id); // 이미 남이 가져가 세계 재고가 없다 — 추적 종료
     }
   }
 
@@ -388,7 +457,8 @@ function drainSiteDrops(w: World, rng: Rng, site: SiteId, contributors: SiteCont
   let guard = 0;
   while (sp.dropProgress >= dropThreshold(site, sp.layer, totalDig, dropMod) && guard++ < 512) {
     sp.dropProgress -= dropThreshold(site, sp.layer, totalDig, dropMod);
-    rollDrop(w, rng, site, sp.layer, "player", false, report, pickContributor(rng, contributors, totalDig));
+    const chaseTarget = activeTipTarget(w, site, sp.layer);
+    rollDrop(w, rng, site, sp.layer, "player", false, report, pickContributor(rng, contributors, totalDig), chaseTarget);
   }
 }
 
@@ -418,7 +488,7 @@ function pushContribution(contributions: Map<SiteId, SiteContributor[]>, site: S
 }
 
 function digRival(w: World, r: RivalState, rng: Rng, dt: number, eff: number, report: StepReport) {
-  const site = r.favSite;
+  const site = r.homeSite;
   const d = rivalDig(r);
   const progress = d * dt * eff;
   r.layerProgress += progress;
@@ -576,7 +646,58 @@ export function dispatchExpedition(w: World, teamId: string, target: SiteId): bo
   team.arrivesAt = w.t + travel * 3600;
   team.returnsAt = team.arrivesAt + onsite * 3600 + travel * 3600;
   team.mishapRolled = mishap;
+  team.tipChase = null; // 일반 파견은 제보 추적을 새로 시작하지 않는다(급파 전용, emergencyDispatch)
   log(w, "system", `발굴단이 ${SITE_BY_ID[target].name}(으)로 출발했다.`);
+  return true;
+}
+
+/**
+ * 급파(spec.md §8.6, notes/decisions.md G45/A8) — 배너(w.tip)가 떠 있고 유휴 팀이
+ * 있을 때만 쓸 수 있다. 이동시간을 1/3로 압축하고, 원정비 3배·미스헵 확률 2배를
+ * 적용한다(상한 EXPEDITION_MISHAP_CHANCE_CAP은 그대로 유지). 배너는 탭 여부와
+ * 무관하게 자기 수명대로 사라지지만, 이 팀은 도착 후에도 그 유물을 계속 쫓는다
+ * (team.tipChase — activeTipTarget()·rollDrop이 참조한다).
+ */
+export function emergencyDispatch(w: World, teamId: string): boolean {
+  if (!w.tip) return false;
+  const team = w.teams.find((t) => t.id === teamId);
+  if (!team || team.status !== "idle") return false;
+  const foreman = w.staff.find((s) => s.id === team.foremanId && s.role === "foreman") as Foreman | undefined;
+  if (!foreman) return false;
+
+  const target = w.tip.site;
+  const dist = distanceKm(teamHomeSite(w), target);
+  const travel = travelHoursOneWay(dist, foreman.navigation) * EMERGENCY_DISPATCH_TRAVEL_MULT;
+  if (travel > EMERGENCY_DISPATCH_MAX_REACH_HOURS) return false;
+  const onsite = onsiteHoursOf(travel);
+  const rng = new Rng(w.rngState);
+  const mishap = rng.chance(Math.min(EXPEDITION_MISHAP_CHANCE_CAP, mishapChance(dist) * EMERGENCY_DISPATCH_MISHAP_MULT));
+  w.rngState = rng.state;
+
+  team.status = "traveling_out";
+  team.targetSite = target;
+  team.dispatchedAt = w.t;
+  team.arrivesAt = w.t + travel * 3600;
+  team.returnsAt = team.arrivesAt + onsite * 3600 + travel * 3600;
+  team.mishapRolled = mishap;
+  team.costMult = (team.costMult ?? 1) * EMERGENCY_DISPATCH_COST_MULT;
+  team.tipChase = { artifactId: w.tip.artifactId, layer: w.tip.layer };
+  log(w, "system", `발굴단이 제보를 쫓아 ${SITE_BY_ID[target].name}(으)로 급파됐다.`);
+  return true;
+}
+
+/**
+ * 집중 굴착(spec.md §8.6, G45/A8) — 대상 거점에 이미 on_site인 팀이 있을 때만 쓸 수
+ * 있다. 배너가 떠 있는 동안 그 거점의 TIP_PLAYER_HIT을 TIP_FOCUS_DIG_HIT_CHANCE로
+ * 올리는 대신, 그 팀의 이번 회차 원정비가 2배(TIP_FOCUS_DIG_COST_MULT)가 된다
+ * (finalizeExpedition에서 정산). 안 눌러도 기존 28%는 자동 적용된다(G3 — 손실 0).
+ */
+export function focusDig(w: World, teamId: string): boolean {
+  if (!w.tip) return false;
+  const team = w.teams.find((t) => t.id === teamId);
+  if (!team || team.status !== "on_site" || team.targetSite !== w.tip.site) return false;
+  w.tip.focused = true;
+  team.costMult = (team.costMult ?? 1) * TIP_FOCUS_DIG_COST_MULT;
   return true;
 }
 
@@ -609,8 +730,13 @@ function finalizeExpedition(w: World, team: ExpeditionTeam) {
   const bonus = (1 + DEPTH_INCOME_BONUS * (layer - 1)) * distanceYieldBonus(dist);
   const notionalIncome =
     ((d * PROGRESS_VALUE * bonus) / SITE_BY_ID[team.targetSite].dropMod) * effectiveOnsiteHours * 3600;
-  const cost = Math.round(notionalIncome * EXPEDITION_COST_INCOME_RATIO * distanceCostMult(dist));
+  // 집중 굴착(×2)·급파(×3) 배수가 이번 회차에 걸려 있으면 여기서 함께 적용한다
+  // (spec.md §8.6, notes/decisions.md G45/A8). 다음 회차를 위해 적용 즉시 리셋한다.
+  const cost = Math.round(
+    notionalIncome * EXPEDITION_COST_INCOME_RATIO * distanceCostMult(dist) * (team.costMult ?? 1)
+  );
   w.funds -= cost;
+  team.costMult = 1;
   log(w, "system", `발굴단이 ${SITE_BY_ID[team.targetSite].name}에서 귀환했다. 원정비 ${cost.toLocaleString("ko-KR")}₩ 정산.`);
 
   team.status = "idle";
@@ -756,12 +882,27 @@ function autoSellEligible(w: World, artifact: Artifact): boolean {
   return w.vault.some((v) => v.artifactId === artifact.id);
 }
 
+/** 이 거점의 제보에 반응할 수단이 있는가(spec.md §8.6 제보 대상 자격) — 레거시
+ *  단독 발굴이 지금 그 거점을 파고 있거나(항상 "그 자리"), 발굴단이 이미 on_site로
+ *  가 있거나, 유휴 발굴단의 급파 압축 이동시간이 4시간 이내다. 어느 것도 아니면
+ *  그 거점의 제보는 뽑히지 않는다 — 반응 불가능한 제보를 띄우지 않는다. */
+function playerCanReactAt(w: World, site: SiteId): boolean {
+  if (w.activeSite === site) return true;
+  if (w.teams.some((t) => t.status === "on_site" && t.targetSite === site)) return true;
+  if (!w.teams.some((t) => t.status === "idle")) return false;
+  const dist = distanceKm(teamHomeSite(w), site);
+  // 후보 단계에선 어느 단장이 갈지 특정할 수 없으니 항해술 보너스 없는 보수적 기준으로 잰다
+  const compressed = travelHoursOneWay(dist, 0) * EMERGENCY_DISPATCH_TRAVEL_MULT;
+  return compressed <= EMERGENCY_DISPATCH_MAX_REACH_HOURS;
+}
+
 function spawnTip(w: World, rng: Rng) {
   const pool = ARTIFACTS.filter((a) => {
     if (a.tier < 2) return false;
-    if (!w.sites[a.site].unlocked) return false;
+    if (a.sourceStatus !== "verified") return false;
     if (!available(w, a)) return false;
-    return a.minLayer <= w.sites[a.site].layer;
+    if (a.minLayer > w.sites[a.site].layer) return false;
+    return playerCanReactAt(w, a.site);
   });
   if (pool.length === 0) {
     w.nextTipIn = 30;
@@ -774,19 +915,72 @@ function spawnTip(w: World, rng: Rng) {
     for (let i = 0; i < n; i++) weighted.push(a);
   }
   const target = rng.pick(weighted);
+  // 같은 거점에 홈을 둔 라이벌 — on_site와 동격이라 배너 안에 즉시 반응한다
   const rivalIds = w.rivals
-    .filter((r) => r.favSite === target.site && r.layer >= target.minLayer)
+    .filter((r) => r.homeSite === target.site && r.layer >= target.minLayer)
     .map((r) => r.id);
   const chosen = rivalIds.slice(0, 1 + rng.int(0, 3));
+
+  // 원거리 라이벌 급파(spec.md §12.3) — 가장 가까운 유휴(추적 중이 아닌) 라이벌
+  // 1명만 시도한다. 배너 수명과 무관하게 압축 이동시간 뒤 resolveRivalTipChases가
+  // 판정한다(플레이어의 급파와 대칭 — G53 범위: 미스헵은 적용하지 않는다).
+  const remoteCandidates = w.rivals
+    .filter((r) => r.homeSite !== target.site && !r.tipChase)
+    .map((r) => ({ r, dist: distanceKm(r.homeSite, target.site) }))
+    .filter(({ dist }) => travelHoursOneWay(dist, 0) * EMERGENCY_DISPATCH_TRAVEL_MULT <= EMERGENCY_DISPATCH_MAX_REACH_HOURS)
+    .sort((a, b) => a.dist - b.dist);
+  if (remoteCandidates.length > 0) {
+    const { r, dist } = remoteCandidates[0];
+    const notionalCost =
+      tierValue(target.tier, target.valueFactor) * EXPEDITION_COST_INCOME_RATIO *
+      EMERGENCY_DISPATCH_COST_MULT * distanceCostMult(dist);
+    if (r.funds >= notionalCost) {
+      const travel = travelHoursOneWay(dist, 0) * EMERGENCY_DISPATCH_TRAVEL_MULT;
+      r.funds -= notionalCost;
+      r.tipChase = { artifactId: target.id, layer: target.minLayer, arrivesAt: w.t + travel * 3600 };
+    }
+  }
 
   w.tip = {
     artifactId: target.id,
     site: target.site,
     layer: target.minLayer,
-    remain: rng.range(TIP_DURATION_MIN, TIP_DURATION_MAX),
-    rivals: chosen
+    remain: rng.range(TIP_DURATION_ONSITE_MIN, TIP_DURATION_ONSITE_MAX),
+    rivals: chosen,
+    focused: false
   };
   log(w, "system", `제보 — ${SITE_BY_ID[target.site].name} ${target.minLayer}층에서 반응. 대상: ${target.name}`);
+}
+
+/** 원거리 급파 라이벌의 도착 판정(spec.md §12.3) — 압축 이동시간이 지나면 그
+ *  시점에 세계 재고가 남아 있는지만 확인해 1회 판정한다(플레이어의 team.tipChase와
+ *  대칭). 매 스텝 호출된다. */
+function resolveRivalTipChases(w: World, rng: Rng, report: StepReport) {
+  for (const r of w.rivals) {
+    if (!r.tipChase || w.t < r.tipChase.arrivesAt) continue;
+    const target = ARTIFACT_BY_ID[r.tipChase.artifactId];
+    if (available(w, target) && rng.chance(TIP_RIVAL_HIT)) {
+      take(w, target, r.id, report);
+      w.stats.racesLost += 1;
+    }
+    r.tipChase = null;
+  }
+}
+
+export type RivalExpeditionInfo = {
+  id: string; name: string; site: SiteId; status: "home" | "chasing"; arrivesAt: number | null;
+};
+
+/** 라이벌의 현재 원정 대상·ETA(spec.md §12.4, notes/decisions.md G18/A14) — 세계지도
+ *  마커용 조회 API. UI 배선은 5단계 몫이라 여기서는 순수 조회 함수만 제공한다. */
+export function rivalExpeditions(w: World): RivalExpeditionInfo[] {
+  return w.rivals.map((r) => {
+    if (r.tipChase) {
+      const target = ARTIFACT_BY_ID[r.tipChase.artifactId];
+      return { id: r.id, name: r.name, site: target.site, status: "chasing", arrivesAt: r.tipChase.arrivesAt };
+    }
+    return { id: r.id, name: r.name, site: r.homeSite, status: "home", arrivesAt: null };
+  });
 }
 
 function updateCatchup(w: World) {
@@ -827,6 +1021,7 @@ export function step(w: World, dt: number, offline = false): StepReport {
   tickExpeditions(w, t0, dt, eff, report, contributions);
   for (const [site, contributors] of contributions) drainSiteDrops(w, rng, site, contributors, report);
   for (const r of w.rivals) digRival(w, r, rng, dt, eff, report);
+  resolveRivalTipChases(w, rng, report);
   runAppraisal(w, dt, report);
   promoteStaffTick(w, t0, dt);
 

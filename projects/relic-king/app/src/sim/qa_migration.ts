@@ -1,16 +1,17 @@
 /**
- * 세이브 마이그레이션 v1→v2→v3 직접 검증.
+ * 세이브 마이그레이션 v1→v2→v3→v4 직접 검증.
  *
  *   pnpm --filter relic-king exec tsx src/sim/qa_migration.ts
  *
  * `save.ts`의 `deserialize()`는 localStorage를 거치지 않고 순수 텍스트 → World
- * 변환만 하므로, 여기서는 실제 v1·v2 스키마 모양의 JSON을 직접 만들어 넣고
- * 체인 끝(v3)까지 정확히 올라오는지 필드 단위로 확인한다. v0.2 구현 1단계
+ * 변환만 하므로, 여기서는 실제 v1·v2·v3 스키마 모양의 JSON을 직접 만들어 넣고
+ * 체인 끝(v4)까지 정확히 올라오는지 필드 단위로 확인한다. v0.2 구현 1단계
  * (spec.md §2.9·§5)가 요구하는 "v1 세이브가 깨지지 않고 마이그레이션되어야
  * 한다"와, 2단계(세계지도·거점·원정·스텝)가 v2→v3에 추가한 신규 필드
  * (teams·staff·appraisalVouchers·visitedSites·unexploredBonusGranted·
- * lastRelocationAt·9거점 sites 항목)가 같은 방식으로 무손실 승계되는지의
- * 실제 증거다.
+ * lastRelocationAt·9거점 sites 항목), 3단계(제보 v0.2·라이벌 v0.2,
+ * notes/decisions.md G53)가 v3→v4에 추가한 `rivals[].homeSite`가 같은 방식으로
+ * 무손실 승계되는지의 실제 증거다.
  */
 import { deserialize, serialize } from "../game/save";
 import { ARTIFACTS } from "../game/artifacts";
@@ -65,8 +66,10 @@ console.log("──────── qa_migration: v1 → v2 → v3 ───�
 
 const migrated = deserialize(JSON.stringify(v1Raw)) as World;
 
-// ── 2) 스키마 버전 — 체인 끝(v3)까지 올라간다 ───────────────────────────
-check("version이 3으로 올라간다(체인 끝까지)", migrated.version === 3);
+// ── 2) 스키마 버전 — 체인 끝(v4)까지 올라간다 ───────────────────────────
+check("version이 4로 올라간다(체인 끝까지)", migrated.version === 4);
+check("rivals[].homeSite가 채워진다(체인 끝까지)",
+  migrated.rivals.every((r) => typeof (r as any).homeSite === "string"));
 
 // ── 3) 기존 v1 데이터가 그대로 보존된다(무손실) ────────────────────────────
 check("t 보존", migrated.t === v1Raw.t);
@@ -112,12 +115,12 @@ check("lastRelocationAt이 null로 채워진다", migrated.lastRelocationAt === 
 // ── 6) 마이그레이션 결과가 다시 직렬화·역직렬화돼도 안정적이다(왕복) ──────────
 const roundTrip = deserialize(serialize(migrated)) as World;
 check("마이그레이션 결과를 다시 직렬화→역직렬화해도 동일하다",
-  roundTrip.version === 3 && roundTrip.funds === migrated.funds && roundTrip.vault.length === migrated.vault.length
+  roundTrip.version === 4 && roundTrip.funds === migrated.funds && roundTrip.vault.length === migrated.vault.length
     && roundTrip.teams.length === migrated.teams.length);
 
-// ── 7) v3 세이브(이미 최신)를 다시 넣으면 아무 변환도 일어나지 않는다(체인 정지) ──
-const v3Again = deserialize(serialize(migrated)) as World;
-check("이미 v3인 세이브는 재마이그레이션되지 않는다", v3Again.version === 3);
+// ── 7) v4 세이브(이미 최신)를 다시 넣으면 아무 변환도 일어나지 않는다(체인 정지) ──
+const v4Again = deserialize(serialize(migrated)) as World;
+check("이미 v4인 세이브는 재마이그레이션되지 않는다", v4Again.version === 4);
 
 // ── 8) v2 → v3 단독 구간도 같은 방식으로 검증한다(손으로 만든 실제 v2 세이브 모양) ──
 console.log("\n──────── qa_migration: v2 → v3 ────────");
@@ -143,7 +146,9 @@ const v2Raw = {
   seasonState: { season: 1, startedAt: 0, endsAt: 7_257_600, titleHolderId: null, titleHeldSinceT: null }
 };
 const migratedV3 = deserialize(JSON.stringify(v2Raw)) as World;
-check("v2 → v3 버전 승격", migratedV3.version === 3);
+// v2Raw를 넣으면 체인이 끝(v4)까지 이어진다 — 2→3에서 멈추지 않는다(체인 자체가
+// while(MIGRATIONS[version])이라 다음 칸(3→4)이 있으면 계속 올라간다).
+check("v2 → v4 버전 승격(체인 끝까지)", migratedV3.version === 4);
 check("v2 funds·t 무손실 보존", migratedV3.funds === 500_000 && migratedV3.t === 999);
 check("v2에 있던 base(korea·egypt)는 baseSince 0으로 채워진다",
   migratedV3.sites.korea.baseSince === 0 && migratedV3.sites.egypt.baseSince === 0);
@@ -151,6 +156,36 @@ check("v2 신규 9거점이 채워진다", migratedV3.sites.peru !== undefined &
 check("v2 vault 항목(condition 이미 있음)은 그대로 보존된다", migratedV3.vault[0].condition === 1);
 check("v2 → v3 신규 필드도 기본값으로 채워진다",
   migratedV3.teams.length === 0 && migratedV3.staff.length === 0 && migratedV3.appraisalVouchers === 0);
+check("v2 → v4 라이벌 homeSite도 채워진다",
+  migratedV3.rivals.every((r) => typeof (r as any).homeSite === "string"));
+
+// ── 9) v3 → v4 단독 구간(손으로 만든 실제 v3 세이브 모양, rivals에 homeSite 없음) ──
+console.log("\n──────── qa_migration: v3 → v4 ────────");
+const v3Rivals = createWorld().rivals.map(({ homeSite, tipChase, ...rest }) => rest); // v3에는 homeSite가 없었다
+const v3Raw = {
+  version: 3,
+  t: 42,
+  lastTickAt: Date.now(),
+  funds: 100_000,
+  sites: createWorld().sites,
+  activeSite: "korea",
+  workers: 0, gear: 0, lab: 1,
+  pending: [],
+  vault: [],
+  ledger: createLedger(),
+  rivals: v3Rivals,
+  codex: {},
+  settings: { autoSellBelow: null, muted: false },
+  stats: { drops: 0, clicks: 0, sold: 0, blindSold: 0, racesWon: 0, racesLost: 0, firstT4Finds: 0 },
+  seasonState: { season: 1, startedAt: 0, endsAt: 7_257_600, titleHolderId: null, titleHeldSinceT: null },
+  teams: [], maxTeams: 1, staff: [], appraisalVouchers: 0,
+  visitedSites: {}, unexploredBonusGranted: {}, lastRelocationAt: null
+};
+const migratedV4 = deserialize(JSON.stringify(v3Raw)) as World;
+check("v3 → v4 버전 승격", migratedV4.version === 4);
+check("v3 funds·t 무손실 보존", migratedV4.funds === 100_000 && migratedV4.t === 42);
+check("homeSite가 없던 라이벌마다 favSite 값으로 채워진다",
+  migratedV4.rivals.every((r) => (r as any).homeSite === r.favSite));
 
 console.log(failed === 0 ? "\n✅ qa_migration 전체 통과" : `\n❌ qa_migration ${failed}건 실패`);
 process.exit(failed === 0 ? 0 : 1);

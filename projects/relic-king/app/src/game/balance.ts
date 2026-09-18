@@ -276,6 +276,19 @@ export const CONDITION_VALUE_FACTOR = [0.4, 0.7, 1.0, 1.3, 1.6] as const;
  *  데이터 파이프라인 몫이라 이번 단계는 기준값만 결정론적으로 쓴다. */
 export const CONDITION_INITIAL_BASE_BY_TIER = [1, 1, 2, 3, 4] as const;
 
+// ── 유물 데이터셋 검증 상수 (notes/artifacts-dataset.md §5·§8·§13, 3단계 신설) ──
+/** 모든 종 최소 출처 개수(T0~T3). T4는 T4_MIN_INDEPENDENT_SOURCES로 별도 상향 */
+export const ARTIFACT_MIN_SOURCES = 1;
+/** T4(유일)는 서로 다른 발행주체 출처 이 개수 이상이어야 verified가 될 수 있다 */
+export const T4_MIN_INDEPENDENT_SOURCES = 2;
+/** note가 출처 원문과 연속 이 단어 수 이상 일치하면 안 된다(n-gram 대조는 수집
+ *  파이프라인 몫 — qa_artifacts.ts는 이 상수를 문서화 목적으로만 재노출한다) */
+export const NOTE_MAX_VERBATIM_RUN_WORDS = 8;
+/** 거점당 티어별 목표 종수(T0~T4). 480종(12거점×40종) 목표의 입력값 —
+ *  notes/economy.md §8·notes/artifacts-dataset.md §8. 실존성이 우선이라 이 목표를
+ *  전부 채우지 못해도 된다(qa_artifacts.ts는 미달을 실패로 치지 않고 보고만 한다). */
+export const SPECIES_PER_SITE_BY_TIER = [25, 8, 4, 2, 1] as const;
+
 // ── 업그레이드 비용 곡선 7종 (§9.1, 신설 — G30/C) — 이번 단계 범위 밖 ──────
 export const AUCTION_GRADE_COST_BASE = 30_000_000;
 export const AUCTION_GRADE_COST_GROWTH = 3.0;

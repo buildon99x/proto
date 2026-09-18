@@ -71,7 +71,19 @@ const MIGRATIONS: Record<number, Migration> = {
       unexploredBonusGranted: raw.unexploredBonusGranted ?? {},
       lastRelocationAt: raw.lastRelocationAt ?? null
     };
-  }
+  },
+  /**
+   * v3 → v4 (3단계 — 제보 v0.2·라이벌 v0.2, notes/decisions.md G53). 손실 없이
+   * 그대로 옮기고 `rivals[].homeSite`만 채운다 — v3까지는 라이벌에게 홈 거점
+   * 개념이 없었다(favSite가 유일한 위치 정보였다). `favSite`와 같은 값으로
+   * 채우는 게 안전하다 — 라이벌은 항상 favSite에서 시작·거주했으므로 실질적인
+   * 의미 변화가 없다(spec.md §12.1).
+   */
+  3: (raw: any) => ({
+    ...raw,
+    version: 4,
+    rivals: (raw.rivals ?? []).map((r: any) => ({ ...r, homeSite: r.homeSite ?? r.favSite }))
+  })
 };
 
 function storage(): Storage | null {

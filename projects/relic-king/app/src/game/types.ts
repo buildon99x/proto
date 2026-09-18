@@ -1,5 +1,10 @@
 export type Tier = 0 | 1 | 2 | 3 | 4;
 
+/** 유물 데이터 검증 상태(notes/artifacts-dataset.md §5, G-B8). "pending"은
+ *  드랍 풀에서 제외된다(engine.ts의 candidates()·spawnTip()) — 데이터는 존재하되
+ *  아직 세계 원장에 등재되지 않은 상태다. */
+export type SourceStatus = "verified" | "pending";
+
 /**
  * 12거점(v0.2, notes/world-map.md §0·§1). 기존 3거점(korea/egypt/rome)은
  * 이름을 바꾸지 않는다 — 이미 앵커 도시 하나짜리 지역이었다.
@@ -35,6 +40,14 @@ export type Artifact = {
   shape: Shape;
   palette: PaletteId;
   seed: number;
+  /** 드랍 시점 보존 상태 기준값(notes/artifacts-dataset.md §4 공식으로 결정론
+   *  산출). VaultItem.condition의 초기값으로 그대로 쓰인다. */
+  condition: Condition;
+  /** 출처. 기관 공식 소장품 페이지·공공 DB·학술자료. 최소 1개, T4는 독립 출처 2개
+   *  이상(notes/artifacts-dataset.md §5). */
+  source: string[];
+  /** "pending"은 드랍 풀에서 제외된다(G-B8, engine.ts candidates()·spawnTip()). */
+  sourceStatus: SourceStatus;
 };
 
 export type OwnerId = "player" | string;
@@ -111,6 +124,20 @@ export type RivalState = {
   vaultValue: number;
   owned: string[];
   catchup: number;
+  /**
+   * 라이벌의 홈 거점(spec.md §12.1, notes/decisions.md G18/A14). 시작 시
+   * favSite와 같은 곳으로 고정된다 — 라이벌도 플레이어처럼 무료 base 1곳에서
+   * 시작한다는 규칙을 그대로 반영한 것이다. 원정 이동시간·제보 급파 거리 계산의
+   * 기준점이다.
+   */
+  homeSite: SiteId;
+  /**
+   * 제보 레이스 중 원거리(§8.6 급파) 추적 상태. 홈 거점이 아닌 곳의 제보를
+   * 쫓을 때만 채워진다(같은 거점이면 즉시 반응이라 필요 없다) — spawnTip이
+   * 가장 가까운 유휴(추적 중이 아닌) 라이벌 1명에게만 부여한다(§12.3).
+   * arrivesAt에 도달하면 engine.ts의 resolveRivalTipChases가 1회 판정하고 비운다.
+   */
+  tipChase?: { artifactId: string; layer: number; arrivesAt: number } | null;
 };
 
 export type Tip = {
@@ -118,8 +145,11 @@ export type Tip = {
   site: SiteId;
   layer: number;
   remain: number;
-  /** 같은 제보를 받은 라이벌 id */
+  /** 같은 제보를 받은 라이벌 id(같은 거점에 홈을 둔 라이벌 — 즉시 반응 대상) */
   rivals: string[];
+  /** [집중 굴착]을 눌렀는가(spec.md §8.6, G45/A8) — TIP_PLAYER_HIT 대신
+   *  TIP_FOCUS_DIG_HIT_CHANCE를 적용하고, 그 팀의 원정비를 2배로 만든다. */
+  focused?: boolean;
 };
 
 export type LogKind = "drop" | "rival" | "lost" | "won" | "system";
@@ -162,7 +192,7 @@ export type SeasonState = {
 };
 
 export type World = {
-  version: 2 | 3;
+  version: 2 | 3 | 4;
   t: number;
   lastTickAt: number;
   funds: number;
@@ -233,6 +263,17 @@ export type ExpeditionTeam = {
   /** 이 원정에 미스헵이 발생했는가(파견 시점 1회 판정, spec.md §8.3) */
   mishapRolled: boolean;
   routine: { enabled: boolean; target: SiteId } | null;
+  /** 이번 회차 원정비 배수 누적(집중 굴착 ×2, 급파 ×3, spec.md §8.6). 귀환 정산
+   *  (finalizeExpedition) 후 1로 리셋된다. 생략 시 1(배수 없음)로 취급한다. */
+  costMult?: number;
+  /**
+   * 제보 급파로 파견됐을 때, 배너(w.tip)가 만료된 뒤에도 그 팀이 이 특정 유물을
+   * 계속 쫓고 있음을 기록한다(spec.md §8.6 — "제보 만료와 무관하게 세계 원장의
+   * 실제 잔여 수량으로 판정한다"). on_site 전환 시 engine.ts가 이 값을 참조해
+   * TIP_PLAYER_HIT을 적용한다. 그 유물을 얻거나(성공) 세계 재고가 바닥나면(실패)
+   * null로 비운다.
+   */
+  tipChase?: { artifactId: string; layer: number } | null;
 };
 
 /**
