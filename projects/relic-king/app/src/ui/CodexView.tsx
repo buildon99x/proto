@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { ARTIFACTS } from "../game/artifacts";
-import { SEASON_LENGTH_WEEKS, SITES, TIER_NAME } from "../game/balance";
+import { SEASON_LENGTH_WEEKS, SITES, SITE_BY_ID, TIER_NAME } from "../game/balance";
 import { codexProgress } from "../game/engine";
 import { duration, josa, percent } from "../game/format";
 import { TIER_COLOR } from "../render/palette";
 import { Sprite } from "./Sprite";
-import type { Artifact } from "../game/types";
+import type { Artifact, SiteId } from "../game/types";
 import type { Game } from "./useGame";
 
 type SubTab = "codex" | "ledger";
@@ -27,10 +27,31 @@ export function CodexView({ game }: { game: Game }) {
   );
 }
 
+type CodexFilter = "all" | "missing" | "owned";
+
+/**
+ * 도감 격자. v0.3에서 데이터셋이 280종 → 2000종이 되면서 **거점 하나씩만** 그린다.
+ * 12거점을 한 번에 펼치면 버튼이 1,900개라 스크롤로는 못 찾고 DOM도 그만큼 무겁다.
+ * 기본 선택은 지금 파고 있는 거점(`world.activeSite`)이다 — 방금 나온 유물이
+ * 어디에 꽂혔는지 보려고 여는 경우가 가장 흔해서다. 액션 깊이는 그대로
+ * 3단계 이내다(탭 → 거점 칩 → 유물).
+ */
 function CodexGrid({ game }: { game: Game }) {
   const { world } = game;
   const [picked, setPicked] = useState<Artifact | null>(null);
+  const [siteId, setSiteId] = useState<SiteId>(world.activeSite);
+  const [filter, setFilter] = useState<CodexFilter>("all");
   const progress = codexProgress(world);
+
+  const owned = (id: string) => {
+    const st = world.codex[id];
+    return st === "owned" || st === "owned_unidentified";
+  };
+  const site = SITE_BY_ID[siteId];
+  const all = ARTIFACTS.filter((a) => a.site === siteId);
+  const shown = all
+    .filter((a) => (filter === "missing" ? !owned(a.id) : filter === "owned" ? owned(a.id) : true))
+    .sort((a, b) => b.tier - a.tier);
 
   return (
     <div className="codex">
@@ -42,24 +63,51 @@ function CodexGrid({ game }: { game: Game }) {
           </span>
         </div>
 
-        {SITES.map((site) => (
-          <div key={site.id} className="codex-site">
-            <h4>{site.name} <em className="muted">{site.anchor}</em></h4>
-            <div className="codex-grid">
-              {ARTIFACTS.filter((a) => a.site === site.id)
-                .sort((a, b) => b.tier - a.tier)
-                .map((a) => {
-                  const state = world.codex[a.id];
-                  const title = state === "unseen" ? "미발견" : state === "owned_unidentified" ? "감정 중 — ???" : a.name;
-                  return (
-                    <button key={a.id} type="button" onClick={() => setPicked(a)} title={title}>
-                      <Sprite artifact={a} size={44} state={state} />
-                    </button>
-                  );
-                })}
-            </div>
+        <div className="base-chips">
+          {SITES.map((s) => {
+            const list = ARTIFACTS.filter((a) => a.site === s.id);
+            const have = list.filter((a) => owned(a.id)).length;
+            return (
+              <button
+                key={s.id}
+                type="button"
+                className={`base-chip${s.id === siteId ? " picked" : ""}`}
+                onClick={() => setSiteId(s.id)}
+              >
+                {s.name} {have}/{list.length}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="filter-chips">
+          <label className="filter-chip">
+            표시
+            <select value={filter} onChange={(e) => setFilter(e.target.value as CodexFilter)}>
+              <option value="all">전체</option>
+              <option value="missing">미소장만</option>
+              <option value="owned">소장만</option>
+            </select>
+          </label>
+          <span className="filter-chip">{shown.length}종 표시 중</span>
+        </div>
+
+        <div className="codex-site">
+          <h4>{site.name} <em className="muted">{site.anchor}</em></h4>
+          <div className="bar"><i style={{ width: `${(all.filter((a) => owned(a.id)).length / all.length) * 100}%` }} /></div>
+          <div className="codex-grid">
+            {shown.map((a) => {
+              const state = world.codex[a.id];
+              const title = state === "unseen" ? "미발견" : state === "owned_unidentified" ? "감정 중 — ???" : a.name;
+              return (
+                <button key={a.id} type="button" onClick={() => setPicked(a)} title={title}>
+                  <Sprite artifact={a} size={44} state={state} />
+                </button>
+              );
+            })}
           </div>
-        ))}
+          {shown.length === 0 ? <p className="empty">이 조건에 해당하는 유물이 없다.</p> : null}
+        </div>
         <p className="disclaimer">평가액은 게임 내 가상 단위이며 실제 감정가가 아닙니다.</p>
       </section>
 

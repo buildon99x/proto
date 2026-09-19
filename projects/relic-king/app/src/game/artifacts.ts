@@ -1,4 +1,5 @@
 import { CONDITION_INITIAL_BASE_BY_TIER, TIER_MIN_LAYER } from "./balance";
+import { GENERATED_BY_SITE } from "./artifacts.generated";
 import { hashFrac } from "./hash";
 import type { Artifact, Condition, PaletteId, Shape, SiteId, SourceStatus, Tier } from "./types";
 
@@ -30,6 +31,25 @@ type Row = [
   source: string[],
   sourceStatus: SourceStatus,
   disputed?: string
+];
+
+/**
+ * 자동 생성분(`artifacts.generated.ts`)의 행 형식. 손글씨 `Row`에서 두 필드가 빠졌다:
+ * `sourceStatus`는 전부 "verified"라 고정이고(출처가 메트 소장품 페이지 그 자체다),
+ * `disputed`는 반환 논쟁이 실제로 있는 항목에만 쓰는 필드라 파이프라인이 채우지 않는다.
+ */
+export type GeneratedRow = [
+  id: string,
+  name: string,
+  era: string,
+  origin: string,
+  holder: string,
+  note: string,
+  tier: Tier,
+  valueFactor: number,
+  shape: Shape,
+  palette: PaletteId,
+  source: string[]
 ];
 
 function initialCondition(id: string, tier: Tier): Condition {
@@ -3693,7 +3713,32 @@ export const PERU_ROWS: Row[] = [
   ]
 ];
 
-export const ARTIFACTS: Artifact[] = [
+/**
+ * 자동 생성분을 Artifact로 만든다. `build()`와 같은 규칙을 쓰되 `seed`만 다른
+ * 계열(오프셋 500_000)에서 뽑는다 — 손글씨 종과 스프라이트가 우연히 겹치지 않게.
+ */
+function buildGenerated(site: SiteId, rows: GeneratedRow[]): Artifact[] {
+  return rows.map((r, i) => ({
+    id: r[0],
+    name: r[1],
+    era: r[2],
+    origin: r[3],
+    holder: r[4],
+    note: r[5],
+    tier: r[6],
+    valueFactor: r[7],
+    shape: r[8],
+    palette: r[9],
+    source: r[10],
+    sourceStatus: "verified" as SourceStatus,
+    site,
+    minLayer: TIER_MIN_LAYER[r[6]],
+    condition: initialCondition(r[0], r[6]),
+    seed: (500_000 + site.charCodeAt(0) * 7919 + i * 104729) >>> 0
+  }));
+}
+
+const HANDWRITTEN_ARTIFACTS: Artifact[] = [
   ...build("korea", KOREA),
   ...build("egypt", EGYPT),
   ...build("rome", ROME),
@@ -3706,6 +3751,17 @@ export const ARTIFACTS: Artifact[] = [
   ...build("japan", JAPAN_ROWS),
   ...build("mexico", MEXICO_ROWS),
   ...build("peru", PERU_ROWS)
+];
+
+/**
+ * 손으로 쓴 280종 + 파이프라인이 만든 확장분. 상위 티어(T3 국보·T4 유일)는
+ * 전량 손글씨 쪽에만 있다 — 파이프라인은 T2까지만 만든다(scripts/build-artifacts.mjs).
+ */
+export const ARTIFACTS: Artifact[] = [
+  ...HANDWRITTEN_ARTIFACTS,
+  ...Object.entries(GENERATED_BY_SITE).flatMap(([site, rows]) =>
+    buildGenerated(site as SiteId, rows)
+  )
 ];
 
 export const ARTIFACT_BY_ID: Record<string, Artifact> = Object.fromEntries(

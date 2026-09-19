@@ -255,7 +255,27 @@ function act(w: World) {
   }
 }
 
-const HOURS = 168;
+/**
+ * v0.3 개정: 168 → 336시간.
+ *
+ * 168시간에서는 4분기(126~168h)가 **램프업 한복판을 자른다.** 유물 획득 주기를
+ * 20초 → 8초로 줄이면서 장비·복원 램프가 그만큼 뒤로 밀렸고, 그 결과 3→4분기
+ * 비율이 ×11.26으로 튀어 이 게이트가 실패했다. 폭주가 아니라 측정 창 문제였다 —
+ * 504시간까지 늘려 8구간으로 쪼개 본 실측:
+ *
+ *     0~ 63h   85.6억
+ *    63~126h   50.1억  ×0.59
+ *   126~189h  263.4억  ×5.25   ← 램프(장비 MAX_GEAR_LEVEL 도달 + 복원 condition 4)
+ *   189~252h   14.6억  ×0.06
+ *   252~315h   15.5억  ×1.06
+ *   315~378h   16.5억  ×1.07
+ *   378~441h   15.8억  ×0.96
+ *   441~504h   15.7억  ×0.99   ← 완전 평탄. 복리 루프라면 여기서도 가속해야 한다
+ *
+ * 336시간이면 3분기(168~252h)·4분기(252~336h)가 둘 다 램프 **뒤**에 놓여
+ * 이 게이트가 재려던 것("램프가 끝나면 정체하는가")을 그대로 잰다.
+ */
+const HOURS = 336;
 const STEP = 2;
 const w = createWorld();
 const cumulative: number[] = []; // 시간별 "누적 실현소득"(순 잔고가 아니라 양의 증가분만 누적, G43/A6 방식의 외부 근사)
@@ -263,9 +283,22 @@ let cum = 0;
 let prevFunds = w.funds;
 let nextHourMark = 0;
 
+/** uid → 그 유물이 금고에 처음 들어왔을 때의 보존 상태. 아래 루프가 채운다 */
+const conditionFirstSeen = new Map<number, number>();
+/** 그 뒤 한 번이라도 상태가 바뀐 유물의 uid */
+const conditionMoves = new Set<number>();
+function trackConditions(world: World) {
+  for (const v of world.vault) {
+    const first = conditionFirstSeen.get(v.uid);
+    if (first === undefined) conditionFirstSeen.set(v.uid, v.condition);
+    else if (first !== v.condition) conditionMoves.add(v.uid);
+  }
+}
+
 for (let t = 0; t < HOURS * 3600; t += STEP) {
   act(w);
   advance(w, STEP, false, STEP);
+  trackConditions(w);
   if (w.funds > prevFunds) cum += w.funds - prevFunds;
   prevFunds = w.funds;
   if (w.t / 3600 >= nextHourMark) {
@@ -299,8 +332,21 @@ console.log(`암시장 누적 매물 ${w.blackMarket.listings.length}점   도�
 
 // 4-2. 보존 상태(condition)가 실제로 움직였다(습도저하·복원이 작동했다는 증거)
 {
+  // v0.3 개정: "끝 시점에 상태값이 여러 개인가"에서 "런 도중 실제로 움직였는가"로
+  // 바꿨다. 336시간까지 돌리면 복원이 금고 전체를 condition 4(관급)로 **수렴**시켜
+  // 끝 시점 분산이 0이 된다 — 복원이 작동했다는 증거인데 기존 판정은 그걸 실패로
+  // 읽었다(168h에서는 전이 중이라 우연히 통과하던 검사다). 이 루프가 재야 하는 건
+  // 분산이 아니라 변화이므로, 각 유물이 처음 금고에 들어올 때의 상태와 지금 상태를
+  // 직접 비교한다(conditionMoves는 위 시뮬 루프가 매 틱 기록한다).
   const conditions = new Set(w.vault.map((v) => v.condition));
-  check("보존 상태가 초기 단일값에서 실제로 갈라졌다(습도저하·복원이 작동함)", conditions.size > 1 || w.vault.length === 0);
+  console.log(
+    `  보존 상태 분포(끝 시점): ${[...conditions].sort().map((c) => `${c}급 ${w.vault.filter((v) => v.condition === c).length}점`).join(" · ")}` +
+    `  / 런 도중 상태가 바뀐 유물 ${conditionMoves.size}점`
+  );
+  check(
+    "보존 상태가 초기값에서 실제로 움직였다(습도저하·복원이 작동함)",
+    conditionMoves.size > 0 || w.vault.length === 0
+  );
 }
 
 // 4-3. 통화 성장 초과율(경제 목표, notes/economy.md §5 — 순 잔고가 아니라 누적 실현소득 기준)

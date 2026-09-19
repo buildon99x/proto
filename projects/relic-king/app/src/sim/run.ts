@@ -20,7 +20,7 @@
  */
 import { ARTIFACTS, ARTIFACT_BY_ID } from "../game/artifacts";
 import {
-  AUCTION_SLOT_CAP_BY_GRADE, CODEX_GOAL_V2, EXPEDITION_TEAM_UNLOCK_BASE, EXPEDITION_TEAM_UNLOCK_GROWTH,
+  ARTIFACT_WORLD_VALUE_CEILING, ASSET_SCORE_REF_SHARE, AUCTION_SLOT_CAP_BY_GRADE, CODEX_GOAL_V2, EXPEDITION_TEAM_UNLOCK_BASE, EXPEDITION_TEAM_UNLOCK_GROWTH,
   LAYERS_PER_SITE, MAX_EXPEDITION_TEAMS_CAP, RANK_WEIGHT, SITES, SITE_BY_ID,
   auctionHouseBuildCost, auctionGradeCost, dropThreshold, humidityLevelCost,
   layerCost, layerExpectedValue, marketingLevelCost, museumBuildCost, museumGradeCost,
@@ -447,7 +447,10 @@ function main() {
 
   // v0.2 3축 순위(spec.md §13.1) — 이제 엔딩 판정과 실제로 연결돼 있다(checkEnding).
   console.log("\n──────── v0.2 3축 순위(RANK_SCORE — 엔딩 판정에 실제로 쓰인다) ────────");
-  console.log(`자산 축   ${assetScore(w).toFixed(4)}   (자산 ${won(playerAssets(w))} ₩ / 기준 375억 ₩)`);
+  console.log(
+    `자산 축   ${assetScore(w).toFixed(4)}   (전시 제외 자산 기준. 총자산 ${won(playerAssets(w))} ₩ / ` +
+    `ASSET_SCORE_REF ${won(ARTIFACT_WORLD_VALUE_CEILING * ASSET_SCORE_REF_SHARE)} ₩)`
+  );
   console.log(`도감 축   ${codexScore(w).toFixed(4)}   (${codex.owned}종 / 검증 총 ${codex.total}종)`);
   console.log(`명성 축   ${fameScore(w, record).toFixed(4)}   (누적 관람객 ${w.museumCumulativeVisitors.toFixed(0)}명, 유일 최초발굴 ${record.firstT4Finds + w.stats.firstT4Finds}회)`);
   console.log(`종합      ${rankScore(w, record).toFixed(4)}`);

@@ -22,8 +22,8 @@
  */
 import { ARTIFACTS } from "../game/artifacts";
 import {
-  ARTIFACT_MIN_SOURCES, LAYERS_PER_SITE, SPECIES_PER_SITE_BY_TIER, T4_MIN_INDEPENDENT_SOURCES,
-  TIER_MIN_LAYER
+  ARTIFACT_MIN_SOURCES, ARTIFACT_SPECIES_TARGET, ARTIFACT_WORLD_VALUE_CEILING, LAYERS_PER_SITE, SPECIES_PER_SITE_BY_TIER,
+  T4_MIN_INDEPENDENT_SOURCES, TIER_MIN_LAYER, TIER_STOCK_PER_SPECIES, TIER_VALUE
 } from "../game/balance";
 import { SITES } from "../game/sites";
 import type { PaletteId, Shape, SiteId, Tier } from "../game/types";
@@ -113,7 +113,27 @@ for (const s of SITES) {
 }
 check("모든 거점이 T4 쿼터(최대 1종) 이내", t4Over === 0);
 console.log(`\n전체 verified ${totalVerified}종 / pending ${totalPending}종 / 합계 ${ARTIFACTS.length}종`);
-console.log(`(참고) ARTIFACT_SPECIES_TARGET=480 목표 대비 verified 비율: ${((totalVerified / 480) * 100).toFixed(1)}%`);
+console.log(`(참고) ARTIFACT_SPECIES_TARGET=${ARTIFACT_SPECIES_TARGET} 목표 대비 verified 비율: ${((totalVerified / ARTIFACT_SPECIES_TARGET) * 100).toFixed(1)}%`);
+
+// ── 3.5) 세계 총가치 상한이 실제 데이터셋과 맞는가 ───────────────────────────
+// notes/economy.md §6.1: Σ(종수 × 종당재고 × 기준가 × 1.2), T0(무한 재고)는 제외.
+// 이 상수는 ASSET_SCORE의 분모라 데이터셋이 커질 때 같이 안 올리면 자산 축이
+// 즉시 포화돼 3축 순위가 1축으로 무너진다 — 그래서 보고가 아니라 **실패**로 잡는다.
+{
+  const ECONOMY_AVG_VALUE_FACTOR = 1.2;
+  let computed = 0;
+  for (let t = 1 as Tier; t <= 4; t = (t + 1) as Tier) {
+    const species = ARTIFACTS.filter((a) => a.tier === t).length;
+    computed += species * TIER_STOCK_PER_SPECIES[t] * TIER_VALUE[t] * ECONOMY_AVG_VALUE_FACTOR;
+  }
+  const drift = Math.abs(computed - ARTIFACT_WORLD_VALUE_CEILING) / computed;
+  console.log(
+    `\n세계 총가치(실측) ${(computed / 1e8).toFixed(1)}억 vs ` +
+    `ARTIFACT_WORLD_VALUE_CEILING ${(ARTIFACT_WORLD_VALUE_CEILING / 1e8).toFixed(1)}억 ` +
+    `(오차 ${(drift * 100).toFixed(2)}%)`
+  );
+  check("ARTIFACT_WORLD_VALUE_CEILING이 실제 데이터셋과 1% 이내로 일치", drift <= 0.01);
+}
 
 // ── 4) era ↔ 거점 eras 12층 라벨 정합(휴리스틱, 보고만) ──────────────────────
 console.log("\n── era 정합 휴리스틱(수동 확인용 — 실패로 치지 않음) ──");

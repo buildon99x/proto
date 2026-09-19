@@ -244,12 +244,16 @@ export const ASSET_SCORE_REF_SHARE = 0.15;
  * ASSET_SCORE_REF 계산에 쓰는 "세계 총가치 상한". spec §14 총람 자체에는 없지만
  * ASSET_SCORE_REF = ARTIFACT_WORLD_VALUE_CEILING × ASSET_SCORE_REF_SHARE(§13.1)
  * 공식이 요구하는 값이라 notes/economy.md §6.1(이미 리뷰를 거쳐 확정된 상수)에서
- * 가져와 선언한다. 480종·12거점 기준으로 산출된 값이라(economy.md §6.1) 현재
- * 3거점·60종 데이터셋의 실제 달성 가능 자산 총합보다 훨씬 크다 — 그 결과
- * ASSET_SCORE가 이 데이터셋 규모에서는 구조적으로 낮게 나온다(보고 대상).
+ * 가져왔다.
+ *
+ * **v0.3 재산정**: 데이터셋이 480종 설계치에서 실제 2000종으로 커지면서 유한재고
+ * (T1~T4) 총가치가 2,500억 → 11,710억으로 늘었다. §6.1의 공식(Σ 종수 × 종당재고 ×
+ * 기준가 × 1.2)을 실제 `ARTIFACTS` 배열에 그대로 적용한 값이다 —
+ * `qa_artifacts.ts`가 매번 다시 계산해 이 상수와 어긋나면 실패로 잡는다. 늘어난
+ * 몫의 대부분(9,375억)은 T1이다(종수 1,028 × 종당 2,000점).
  */
-export const ARTIFACT_WORLD_VALUE_CEILING = 250_000_000_000; // notes/economy.md §6.1
-export const ARTIFACT_SPECIES_TARGET = 480; // notes/economy.md §8. 도감 480종 목표(§9.2 G7)
+export const ARTIFACT_WORLD_VALUE_CEILING = 1_171_000_000_000; // notes/economy.md §6.1 (v0.3 재산정)
+export const ARTIFACT_SPECIES_TARGET = 2000; // notes/economy.md §8. 도감 2000종 목표(v0.3)
 export const CODEX_GOAL_V2 = 0.75;
 export const FAME_VISITOR_NORMALIZATION = 1_000_000;
 export const TIER4_SPECIES_TOTAL = 12;
@@ -339,7 +343,31 @@ export const LOCKED_HOLD_CAP = 5;
 /** T3 이상은 정원 계산에서 하드 예외(무제한 대기) — 자동매각 T3·T4 예외에도 그대로 쓴다 */
 export const LOCKED_HOLD_TIER_EXEMPT_MIN_TIER = 3;
 /** 드랍 간격 하한(초). dropThreshold()가 실제로 적용한다 — 위 함수 주석 참조 */
-export const DROP_INTERVAL_FLOOR_SECONDS = 20;
+/**
+ * 유물 1점이 나오기까지의 **최소 간격(초)**. v0.3에서 20초 → 8초로 줄였다
+ * ("획득 주기 단축" 작업 지시).
+ *
+ * 중반 이후 이 값이 사실상 유일한 드랍 속도 조절기다. `dropThreshold`의 base항은
+ * 층마다 고정인데 발굴력 D는 계속 커지므로, D가 조금만 자라면 `FLOOR × D`가 base를
+ * 넘어 간격이 이 상수로 고정된다(실측: 20분 시점에 이미 평균 간격 = 바닥값).
+ *
+ * **중립적인 변경이 아니다.** 간격을 K배 줄이면 같은 진척당 유물이 K배 나오므로
+ * 화폐 창출률도 K배가 된다(economy.md §1.1). 실측으로 폭주는 없었다 — 기본
+ * 재투자 정책이 장비 Lv.10·감정소 Lv.6에서 자연 정체해 발굴력이 바닥값과 무관하게
+ * 9,423/s로 같았다. 엔딩만 앞당겨졌다:
+ *
+ *   바닥값  20초 → 평균 간격 20.3초 · 엔딩 177시간 46분   (v0.2)
+ *   바닥값  12초 → 평균 간격 12.6초 · 엔딩 144시간 45분
+ *   바닥값   8초 → 평균 간격  9.9초 · 엔딩 140시간 44분   ← 채택
+ *   바닥값   5초 → 평균 간격  7.2초 · 엔딩 123시간  6분
+ *
+ * 5초까지 내려도 불변식(원장 보존·오프라인 적분 스텝 무관·T3/T4 오프라인 상실 0·
+ * 클릭 가속 1.35)은 전부 유지됐다. 8초에서 멈춘 건 밸런스가 아니라 **체감** 때문이다
+ * — 이 바닥값이 애초에 "드랍이 배경 소음이 되는 구간"을 막으려고 생긴 값이라
+ * (아래 dropThreshold 주석), 발굴단 4팀이 동시에 돌 때 5초면 한 점 한 점이
+ * 사건으로 읽히지 않는다.
+ */
+export const DROP_INTERVAL_FLOOR_SECONDS = 8;
 /** §9.5 재역산 가중 — layerBaseWeights()가 실제로 적용한다(위 함수 주석의 보고 참조) */
 export const LAYER_BASE_WEIGHTS_8_9 = [52, 36, 11, 0.01, 0] as const;
 export const LAYER_BASE_WEIGHTS_10_12 = [38, 40, 18, 0.03, 0.005] as const;
@@ -388,7 +416,15 @@ export const NOTE_MAX_VERBATIM_RUN_WORDS = 8;
 /** 거점당 티어별 목표 종수(T0~T4). 480종(12거점×40종) 목표의 입력값 —
  *  notes/economy.md §8·notes/artifacts-dataset.md §8. 실존성이 우선이라 이 목표를
  *  전부 채우지 못해도 된다(qa_artifacts.ts는 미달을 실패로 치지 않고 보고만 한다). */
-export const SPECIES_PER_SITE_BY_TIER = [25, 8, 4, 2, 1] as const;
+/**
+ * 거점당 티어별 목표 종수(T0~T4). v0.3에서 480종 → 2000종으로 확대하며 재산정했다.
+ *
+ * 상위 두 티어가 거의 안 늘어난 건 데이터가 모자라서가 아니라 **현실이 상한이기
+ * 때문이다.** T4는 정의상 "세상에 하나"라 거점당 1종이 끝이고, T3("현존 한 자릿수")도
+ * 사람이 근거를 들고 판정해야 하는 티어라 자동 수집 파이프라인이 만들지 않는다
+ * (scripts/build-artifacts.mjs 머리말). 늘어난 1,720종은 전부 T0~T2다.
+ */
+export const SPECIES_PER_SITE_BY_TIER = [66, 85, 12, 3, 1] as const;
 
 // ── 업그레이드 비용 곡선 7종 (§9.1, 신설 — G30/C) — 이번 단계 범위 밖 ──────
 export const AUCTION_GRADE_COST_BASE = 30_000_000;
