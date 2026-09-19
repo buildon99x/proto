@@ -1335,7 +1335,28 @@ function autoLiquidatePendingOverflow(w: World) {
   const over = w.pending.length - cap;
   if (over <= 0) return;
   const eligible = w.pending.filter((p) => ARTIFACT_BY_ID[p.artifactId].tier <= AUTO_SELL_MAX_TIER);
-  for (const item of eligible.slice(0, over)) blindSell(w, item.uid);
+  // AUTO_SELL_KEEP_ONE_PER_SPECIES를 이 경로에도 적용한다. `autoSellEligible()`
+  // (감정 경로)에는 "이미 금고에 그 종이 있을 때만 판다"는 가드가 있는데 잉여
+  // 처분 경로에는 없었다 — 여기서 그 종의 유일한 소장분을 팔면 blindSell() 안의
+  // demoteIfEmptied()가 codex를 "discovered_not_owned"로 되돌려 도감(엔딩 판정
+  // 축, checkEnding → codexScore ≥ CODEX_GOAL_V2)이 방치 중에 감소한다.
+  //
+  // **실측 주의**: 이 경로가 도감 감소를 실제로 일으킨 사례는 아직 관측되지
+  // 않았다(이 가드 추가 전후로 `sim --hours 12/24/48/96/168/336` 결과가 전부
+  // 동일했다). 관측된 감소는 전부 경매 출품 경로였고 그건 `sim/run.ts`의
+  // `listSparesAtAuction()`에서 따로 고쳤다. 이 가드는 같은 종류의 구멍을
+  // 선제적으로 막아 두는 것이다.
+  //
+  // 그렇다고 유일 소장분을 무조건 지키면 큐가 안 빠져 G57이 고친 교착이
+  // 되살아난다. 그래서 **중복분을 먼저 전부 소진하고, 그러고도 상한을 넘을
+  // 때만** 유일 소장분에 손댄다 — 탈출구는 그대로 두고 도감만 지킨다.
+  const heldElsewhere = (p: (typeof eligible)[number]) =>
+    w.vault.some((v) => v.artifactId === p.artifactId) ||
+    w.pending.some((q) => q.uid !== p.uid && q.artifactId === p.artifactId);
+  const order = AUTO_SELL_KEEP_ONE_PER_SPECIES
+    ? [...eligible.filter(heldElsewhere), ...eligible.filter((p) => !heldElsewhere(p))]
+    : eligible;
+  for (const item of order.slice(0, over)) blindSell(w, item.uid);
 }
 
 /**

@@ -156,14 +156,28 @@ function listSparesAtAuction(w: World, house: AuctionHouse) {
     ? auctioneerSlotBonus(house.grade, auctioneer.logistics)
     : AUCTION_SLOT_CAP_BY_GRADE[house.grade - 1];
   if (house.listings.length >= slotCap) return;
+  // counts는 "지금 금고에 남아 있는 사본 수"다. 출품할 때마다 반드시 차감한다 —
+  // 차감하지 않으면 2점짜리 종은 첫 사본을 출품한 뒤에도 count가 그대로 2라
+  // 두 번째(=마지막) 사본까지 출품돼 낙찰과 동시에 도감이 "owned"에서
+  // "discovered_not_owned"로 떨어졌다. liquidateSurplus()가 직접매각 경로에서
+  // 이미 막아 둔 바로 그 요동이 경매 경로에만 남아 있었다(실측: 도감이
+  // 48h 58종 → 96h 55종으로 **감소**. 강등된 4종은 전부 T2 —
+  // celadon-cloud-crane-maebyeong·goryeo-najeon-sutra-box·gold-scarab-pectoral·
+  // gr-jockey-of-artemision). 도감은 엔딩 판정 축이라(checkEnding → codexScore
+  // ≥ CODEX_GOAL_V2) 이 요동이 그대로 엔딩 지연으로 이어진다.
+  // 전시 중(displayed)인 사본은 아래 루프가 출품 대상에서 빼므로 집계에서도 뺀다.
   const counts = new Map<string, number>();
-  for (const v of w.vault) counts.set(v.artifactId, (counts.get(v.artifactId) ?? 0) + 1);
+  for (const v of w.vault) {
+    if (v.displayed) continue;
+    counts.set(v.artifactId, (counts.get(v.artifactId) ?? 0) + 1);
+  }
   for (const item of w.vault) {
     if (house.listings.length >= slotCap) break;
     if (item.displayed) continue;
     if (ARTIFACT_BY_ID[item.artifactId].tier > 2) continue;
-    if ((counts.get(item.artifactId) ?? 0) <= 1) continue;
-    listAtAuction(w, item.uid, house.site);
+    const have = counts.get(item.artifactId) ?? 0;
+    if (have <= 1) continue;
+    if (listAtAuction(w, item.uid, house.site)) counts.set(item.artifactId, have - 1);
   }
 }
 
