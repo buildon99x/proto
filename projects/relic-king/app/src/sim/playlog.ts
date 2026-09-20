@@ -33,14 +33,62 @@ const arg = (k: string, d: string) => {
 };
 const HOURS = Number(arg("--hours", "168"));
 const JSON_OUT = arg("--json", "");
+/** 0이면 끄고, N이면 N분 간격으로 타임라인을 찍는다 (`--bucket 10` = 10분 단위) */
+const BUCKET_MIN = Number(arg("--bucket", "0"));
 
-type RunResult = { label: string; world: World; events: PlayEvent[]; seconds: number };
+/**
+ * 구간 끝의 **세계 상태**. 이벤트만 세면 "무슨 일이 일어났나"는 알지만 "그때
+ * 플레이어가 어떤 화면을 보고 있었나"는 모른다 — 도감 숫자, 지갑, 발굴력,
+ * 파 내려간 층은 전부 화면에 상시 떠 있는 값이라 경험의 배경이 된다.
+ */
+type Sample = {
+  t: number; funds: number; assets: number; dig: number;
+  codex: number; layers: number; teams: number; sites: number;
+  vault: number; pending: number; displayed: number;
+};
+
+function sample(w: World, t: number): Sample {
+  let layers = 0;
+  for (const id of Object.keys(w.sites)) layers += w.sites[id as keyof typeof w.sites].layer;
+  return {
+    t,
+    funds: w.funds,
+    assets: playerAssets(w),
+    dig: digPower(w),
+    codex: codexProgress(w).owned,
+    layers,
+    teams: w.teams.length,
+    sites: Object.values(w.sites).filter((s) => s.unlocked).length,
+    vault: w.vault.filter((v) => !v.displayed).length,
+    pending: w.pending.length,
+    displayed: w.vault.filter((v) => v.displayed).length
+  };
+}
+
+/** 틱마다 불러 두면 구간 경계를 넘는 순간의 상태를 모아 준다 */
+function sampler(bucketSeconds: number) {
+  const samples: Sample[] = [];
+  let next = bucketSeconds;
+  return {
+    samples,
+    tick(w: World) {
+      if (bucketSeconds <= 0) return;
+      while (w.t >= next) {
+        samples.push(sample(w, next));
+        next += bucketSeconds;
+      }
+    }
+  };
+}
+
+type RunResult = { label: string; world: World; events: PlayEvent[]; seconds: number; samples: Sample[] };
 
 /** 탭만 열어 둔 플레이 — UI 프레임 루프와 같은 일만 한다 */
 function runIdle(hours: number): RunResult {
   const w = createWorld();
   const record = createPersistentRecord();
   const rec = new PlayRecorder(w);
+  const smp = sampler(BUCKET_MIN * 60);
   const total = hours * 3600;
   let routineAcc = 0;
   while (w.t < total && !w.ended) {
@@ -54,8 +102,9 @@ function runIdle(hours: number): RunResult {
       // 자동 루틴은 **사람이 아니라 게임이** 한다 — auto 로 센다.
       rec.mark(w, "auto");
     }
+    smp.tick(w);
   }
-  return { label: "idle", world: w, events: rec.events, seconds: w.t };
+  return { label: "idle", world: w, events: rec.events, seconds: w.t, samples: smp.samples };
 }
 
 /** 거점·발굴단·시설을 실제로 운영하는 플레이 — act()가 곧 "사람이 눌렀어야 할 것" */
@@ -63,6 +112,7 @@ function runActive(hours: number): RunResult {
   const w = createWorld();
   const record = createPersistentRecord();
   const rec = new PlayRecorder(w);
+  const smp = sampler(BUCKET_MIN * 60);
   const total = hours * 3600;
   while (w.t < total && !w.ended) {
     const stepNow = w.t < 1200 ? STEP_EARLY : STEP_LATE;
@@ -76,8 +126,9 @@ function runActive(hours: number): RunResult {
     rec.mark(w, "player");
     const report = advance(w, stepNow, false, stepNow, record);
     rec.mark(w, "auto", report);
+    smp.tick(w);
   }
-  return { label: "active", world: w, events: rec.events, seconds: w.t };
+  return { label: "active", world: w, events: rec.events, seconds: w.t, samples: smp.samples };
 }
 
 // ── 분석 ────────────────────────────────────────────────────────────────
@@ -227,6 +278,46 @@ function density(events: PlayEvent[], seconds: number) {
     });
 }
 
+/**
+ * 고정 폭 타임라인 — "10분마다 플레이어 앞에서 무슨 일이 일어났는가".
+ *
+ * `density()`의 구간은 미리 정해 둔 국면(0~20분, 1~6시간…)이라 **국면이 언제
+ * 바뀌는지**는 보여 주지 못한다. 같은 폭으로 잘라 나란히 놓으면 밀도가 꺾이는
+ * 지점이 표에서 그대로 읽힌다. 각 줄 끝의 "처음"은 그 구간에서 **이 판 통틀어
+ * 처음** 일어난 이벤트 종류다 — 경험이 어디서 새로 열리는지의 지표.
+ */
+function timeline(events: PlayEvent[], samples: Sample[], bucketSeconds: number, seconds: number) {
+  const firstSeen = new Map<EventKind, number>();
+  for (const e of events) {
+    if (!firstSeen.has(e.kind)) firstSeen.set(e.kind, e.t);
+  }
+  const rows: {
+    from: number; to: number; ambient: number; meaningful: number;
+    newSpecies: number; layerUp: number; tips: number; won: number; lost: number;
+    ops: number; firsts: EventKind[]; state: Sample | null;
+  }[] = [];
+  for (let from = 0; from < seconds; from += bucketSeconds) {
+    const to = Math.min(from + bucketSeconds, seconds);
+    const inBucket = events.filter((e) => e.t >= from && e.t < to);
+    const sum = (pred: (e: PlayEvent) => boolean) =>
+      inBucket.filter(pred).reduce((a, e) => a + e.n, 0);
+    rows.push({
+      from, to,
+      ambient: sum((e) => AMBIENT.includes(e.kind)),
+      meaningful: sum((e) => MEANINGFUL.includes(e.kind)),
+      newSpecies: sum((e) => e.kind === "newSpecies"),
+      layerUp: sum((e) => e.kind === "layerUp"),
+      tips: sum((e) => e.kind === "tipOpened"),
+      won: sum((e) => e.kind === "raceWon"),
+      lost: sum((e) => e.kind === "raceLost"),
+      ops: sum((e) => e.phase === "player"),
+      firsts: [...firstSeen].filter(([, t]) => t >= from && t < to).map(([k]) => k),
+      state: samples.find((s) => s.t > from && s.t <= to + 1e-6) ?? null
+    });
+  }
+  return rows;
+}
+
 /** 사람이 눌렀어야 할 조작량 — 건수와, 실측 단계 수를 곱한 총 조작 수 */
 function effort(events: PlayEvent[], seconds: number) {
   const rows: { kind: EventKind; n: number; steps: number | null; total: number | null }[] = [];
@@ -305,6 +396,25 @@ function report(r: RunResult) {
     );
   }
 
+  if (BUCKET_MIN > 0) {
+    console.log(`\n── ${BUCKET_MIN}분 단위 타임라인 ──────────────────────────────────`);
+    // 자금은 지갑(`w.funds`), 자산은 소장고 평가액 합(`playerAssets` — 순위표가
+    // 쓰는 값이다). 둘이 갈라지는 지점이 곧 "돈은 버는데 쓸 데가 없다"의 신호다.
+    console.log("구간        반복  의미  신규종  층↑  제보(승/패)  조작 │ 도감  발굴력      자금      자산  소장고 │ 처음");
+    for (const b of timeline(events, r.samples, BUCKET_MIN * 60, seconds)) {
+      const s = b.state;
+      console.log(
+        `${fmtSec(b.from).padStart(9)} ${String(b.ambient).padStart(6)} ${String(b.meaningful).padStart(5)} ` +
+        `${String(b.newSpecies).padStart(6)} ${String(b.layerUp).padStart(4)} ` +
+        `${`${b.tips}(${b.won}/${b.lost})`.padStart(11)} ${String(b.ops).padStart(5)} │ ` +
+        `${(s ? String(s.codex) : "—").padStart(5)} ${(s ? s.dig.toFixed(0) : "—").padStart(7)} ` +
+        `${(s ? `${won(s.funds)}₩` : "—").padStart(9)} ${(s ? `${won(s.assets)}₩` : "—").padStart(9)} ` +
+        `${(s ? String(s.vault) : "—").padStart(6)} │ ` +
+        b.firsts.map(label).join(", ")
+      );
+    }
+  }
+
   const e = effort(events, seconds);
   console.log("\n── 사람이 눌렀어야 할 조작 ────────────────────────────────");
   if (e.actions === 0) {
@@ -356,7 +466,7 @@ if (JSON_OUT) {
   writeFileSync(JSON_OUT, JSON.stringify({
     hours: HOURS,
     runs: [idle, active].map((r) => ({
-      label: r.label, seconds: r.seconds, ended: r.world.ended, events: r.events
+      label: r.label, seconds: r.seconds, ended: r.world.ended, events: r.events, samples: r.samples
     }))
   }));
   console.log(`\n원본 이벤트 → ${JSON_OUT}`);

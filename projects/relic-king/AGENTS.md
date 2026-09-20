@@ -27,7 +27,7 @@ pnpm --filter relic-king build    타입체크 + 빌드
 pnpm --filter relic-king sim      헤드리스 밸런스 시뮬 (--hours N)
 pnpm --filter relic-king smoke    실시간 브라우저 스모크 + 스크린샷
 pnpm --filter relic-king play     실제 앱을 사람처럼 조작하는 UI 검사 (시나리오 11종)
-pnpm --filter relic-king playlog  플레이 계측 — 이벤트 타임라인·조작 노력 (--hours N)
+pnpm --filter relic-king playlog  플레이 계측 — 이벤트 타임라인·조작 노력 (--hours N, --bucket N분)
 ```
 
 **밸런스 상수를 건드렸으면 `sim`을 돌리고 eval.md의 측정표를 갱신한다.** 방치형은
@@ -48,6 +48,12 @@ v0.3.3에서 2일차부터 죽어 있었다(도감 125/1,902종에서 정지) �
 발굴단·자동 순회로 2,090건·298종까지 살아났지만 3~4일차에 다시 멈춘다.
 페이싱·자동화를 건드릴 때는 `pnpm playlog`로 **두 극단을 같이** 재고 `eval.md`
 §20·§21 표를 갱신한다.
+
+**168시간 지표가 좋아져도 첫 10시간은 따로 재라.** v0.3.4의 시작 발굴단·자동
+순회는 168시간 스케일에서 방치 플레이를 되살렸지만, `--bucket 10`으로 첫
+10시간을 보면 **그 발굴단이 35.3시간째 이동 중**이라 첫 세션에는 없는 것과
+같다. 같은 이유로 제보 공급도 3시간 30분에 끊긴다 — 두 현상 모두 168시간
+합계에서는 보이지 않는다(`notes/play-first-10h.md`, `eval.md` §22).
 
 **테스트가 깨지면 전제부터 의심한다.** v0.3.4의 처방 하나(시작 발굴단)가
 `qa_migration`·`qa_expedition`·`play` 5곳·`smoke` 1곳을 깼는데, 전부 **단언이
