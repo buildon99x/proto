@@ -39,6 +39,7 @@ import {
   teamDigPower, travelHoursOneWay
 } from "./expedition";
 import { josa, withJosa, won } from "./format";
+import { siteAnchorLabel } from "./sites";
 import { localPriceMult } from "./market";
 import {
   freshnessOnDisplay, freshnessRecovered, museumUpkeepHourly, museumVisitorIncomeHourly,
@@ -1805,7 +1806,7 @@ export function unlockSite(w: World, site: SiteId): boolean {
   w.sites[site].baseSince = w.t;
   w.visitedSites[site] = true;
   w.activeSite = site;
-  log(w, "system", `${def.city} — ${def.anchor} 발굴을 시작했다.`);
+  log(w, "system", `${def.city} — ${siteAnchorLabel(def)} 발굴을 시작했다.`);
   return true;
 }
 

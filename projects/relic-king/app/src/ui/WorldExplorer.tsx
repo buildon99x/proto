@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { SITES, SITE_BY_ID } from "../game/balance";
-import { distanceKm, siteSearchText } from "../game/sites";
+import { distanceKm, siteAnchorLabel, siteSearchText } from "../game/sites";
 import { recommendSites, teamHomeSite } from "../game/engine";
 import { won } from "../game/format";
 import type { SiteId } from "../game/types";
@@ -111,7 +111,7 @@ export function WorldExplorer({ game, onSelectSite }: { game: Game; onSelectSite
                     <span className="worldmap-legend-glyph" style={{ color: MARKER_STYLE[state].color }} aria-hidden="true">
                       {MARKER_STYLE[state].glyph}
                     </span>
-                    {s.city} <em className="muted small">{s.anchor} · {s.country}</em>
+                    {s.city} <em className="muted small">{siteAnchorLabel(s)} · {s.country}</em>
                   </span>
                   <span className="muted small">
                     {MARKER_STYLE[state].label} · {formatHours(distanceOf(s.id))} · {sp.layer}층

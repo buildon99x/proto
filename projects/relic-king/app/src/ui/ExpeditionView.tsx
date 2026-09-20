@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FIRST_RELOCATION_FREE_WINDOW_HOURS, RELOCATION_COOLDOWN_HOURS, RELOCATION_COST_ASSET_RATIO, SITES, SITE_BY_ID } from "../game/balance";
 import { playerAssets } from "../game/engine";
 import { josa, won } from "../game/format";
+import { siteAnchorLabel } from "../game/sites";
 import type { SiteId } from "../game/types";
 import { DispatchSheet } from "./DispatchSheet";
 import { LegacyDigCard } from "./LegacyDigCard";
@@ -55,7 +56,7 @@ function MyBasesPanel({ world, onRelocate }: { world: Game["world"]; onRelocate:
       <ul className="my-bases-list">
         {owned.map((s) => (
           <li key={s.id}>
-            {s.city} <em className="muted small">{s.anchor}</em>
+            {s.city} <em className="muted small">{siteAnchorLabel(s)}</em>
           </li>
         ))}
       </ul>

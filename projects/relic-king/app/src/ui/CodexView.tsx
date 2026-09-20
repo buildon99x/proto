@@ -3,6 +3,7 @@ import { ARTIFACTS } from "../game/artifacts";
 import { SEASON_LENGTH_WEEKS, SITES, SITE_BY_ID, TIER_NAME } from "../game/balance";
 import { codexProgress } from "../game/engine";
 import { duration, josa, percent } from "../game/format";
+import { siteAnchorLabel } from "../game/sites";
 import { TIER_COLOR } from "../render/palette";
 import { Sprite } from "./Sprite";
 import type { Artifact, SiteId } from "../game/types";
@@ -93,7 +94,7 @@ function CodexGrid({ game }: { game: Game }) {
         </div>
 
         <div className="codex-site">
-          <h4>{site.city} <em className="muted">{site.anchor}</em> <span className="muted small">{site.country}</span></h4>
+          <h4>{site.city} <em className="muted">{siteAnchorLabel(site)}</em> <span className="muted small">{site.country}</span></h4>
           <div className="bar"><i style={{ width: `${(all.filter((a) => owned(a.id)).length / all.length) * 100}%` }} /></div>
           <div className="codex-grid">
             {shown.map((a) => {

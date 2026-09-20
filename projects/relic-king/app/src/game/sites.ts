@@ -290,12 +290,23 @@ export const SHAPE_LABEL: Record<Shape, string> = {
  * 화면마다 제각기 조합하면 어느 화면은 나라를, 어느 화면은 도시를 부르게 된다.
  *
  *   siteTitle("egypt")    → "룩소르 — 왕가의 계곡"   (시트·모달 제목)
+ *   siteTitle("korea")    → "경주 — 고분군"           (앵커의 도시명 중복은 떼어 낸다)
  *   siteSubtitle("egypt") → "이집트"                 (그 밑 부제)
  *   SITE_BY_ID.egypt.city → "룩소르"                 (목록·로그·상태줄의 단독 표기)
  */
 export function siteTitle(id: SiteId): string {
   const s = SITE_BY_ID[id];
-  return `${s.city} — ${s.anchor}`;
+  return `${s.city} — ${siteAnchorLabel(s)}`;
+}
+
+/**
+ * 도시명 옆에 붙일 앵커 표기. 앵커가 도시명으로 시작하면 그 앞머리를 떼어 낸다 —
+ * 떼지 않으면 "경주 경주 고분군", "델리 델리 술탄왕조 유적군", "폼페이 폼페이 유적"이
+ * 된다(실제 화면 3곳에서 그렇게 나왔다). 도시명이 안 들어간 앵커는 그대로 둔다.
+ * 단독으로 쓰는 자리(검색·상세)는 `def.anchor` 원문을 그대로 쓴다.
+ */
+export function siteAnchorLabel(def: SiteDef): string {
+  return def.anchor.startsWith(`${def.city} `) ? def.anchor.slice(def.city.length + 1) : def.anchor;
 }
 
 export function siteSubtitle(id: SiteId): string {

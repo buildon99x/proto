@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FIRST_RELOCATION_FREE_WINDOW_HOURS, SITES } from "../game/balance";
 import type { SiteDef } from "../game/balance";
-import { siteTitle } from "../game/sites";
+import { siteAnchorLabel, siteSubtitle, siteTitle } from "../game/sites";
 import { won } from "../game/format";
 import type { Game } from "./useGame";
 
@@ -52,7 +52,7 @@ export function OnboardingOverlay({ game, onDone }: { game: Game; onDone: () => 
           <ul className="onboarding-all-list">
             {SITES.map((s) => (
               <li key={s.id}>
-                <span>{s.city} <em className="muted small">{s.anchor}</em></span>
+                <span>{s.city} <em className="muted small">{siteAnchorLabel(s)}</em></span>
                 {s.id === "korea" ? (
                   <em className="muted small">현재 base</em>
                 ) : (
@@ -87,7 +87,7 @@ function SiteCard({ site, onChoose }: { site: SiteDef; onChoose: () => void }) {
   return (
     <div className="onboarding-card">
       <h4>{siteTitle(site.id)}</h4>
-      <p className="muted small">{site.anchor}</p>
+      <p className="muted small">{siteSubtitle(site.id)}</p>
       <ul className="onboarding-card-lines">
         {lines.map((l) => <li key={l}>{l}</li>)}
       </ul>
