@@ -22,11 +22,18 @@ Prototype Lab 개별 프로젝트. 레포 공통 규칙은 루트 `AGENTS.md`를
 ## 명령
 
 ```
-pnpm --filter relic-king dev      개발 서버
-pnpm --filter relic-king build    타입체크 + 빌드
-pnpm --filter relic-king sim      헤드리스 밸런스 시뮬 (--hours N)
-pnpm --filter relic-king smoke    실시간 브라우저 스모크 + 스크린샷
+pnpm --filter relic-king dev         개발 서버
+pnpm --filter relic-king build       타입체크 + 빌드
+pnpm --filter relic-king sim         헤드리스 밸런스 시뮬 (--hours N)
+pnpm --filter relic-king smoke       실시간 브라우저 스모크 + 스크린샷
+pnpm --filter relic-king qa:sprites  아이콘 중복·거점 구분력·유일 12종 분리
+pnpm --filter relic-king sheets      컨택트 시트 굽기 → assets/generated/
 ```
+
+**아이콘을 건드렸으면 `qa:sprites`를 돌리고 `sheets`로 구운 컨택트 시트를 눈으로
+본다.** 스프라이트 결함은 화면에서 안 보인다 — v0.3까지 `statue` 종 1,900여 개가
+"머리 + 바닥 막대"로만 그려지고 있었는데 어떤 QA도 잡지 못했고, 컨택트 시트를
+처음 구운 날 드러났다(notes/decisions.md G69).
 
 **밸런스 상수를 건드렸으면 `sim`을 돌리고 eval.md의 측정표를 갱신한다.** 방치형은
 눈으로 봐서 알 수 없다 — 첫 구현은 20분 만에 발굴력 194만/s가 나왔는데 화면상으론 멀쩡했다.
