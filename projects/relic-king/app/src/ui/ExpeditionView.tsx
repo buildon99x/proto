@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FIRST_RELOCATION_FREE_WINDOW_HOURS, RELOCATION_COOLDOWN_HOURS, RELOCATION_COST_ASSET_RATIO, SITES, SITE_BY_ID } from "../game/balance";
 import { playerAssets } from "../game/engine";
-import { won } from "../game/format";
+import { josa, won } from "../game/format";
 import type { SiteId } from "../game/types";
 import { DispatchSheet } from "./DispatchSheet";
 import { LegacyDigCard } from "./LegacyDigCard";
@@ -55,7 +55,7 @@ function MyBasesPanel({ world, onRelocate }: { world: Game["world"]; onRelocate:
       <ul className="my-bases-list">
         {owned.map((s) => (
           <li key={s.id}>
-            {s.name} <em className="muted small">{s.anchor}</em>
+            {s.city} <em className="muted small">{s.anchor}</em>
           </li>
         ))}
       </ul>
@@ -80,7 +80,7 @@ function RelocateConfirm({ game, site, onClose }: { game: Game; site: SiteId; on
   return (
     <Modal title="본거지 이전 확인" onClose={onClose}>
       <p>
-        본거지를 <strong>{SITE_BY_ID[site].name}</strong>(으)로 옮긴다. 그 거점의 초기 보너스를 새로 받는 대신,
+        본거지를 <strong>{SITE_BY_ID[site].city}</strong>{josa(SITE_BY_ID[site].city, "로으로")} 옮긴다. 그 거점의 초기 보너스를 새로 받는 대신,
         지금 배치된 발굴단은 새 본거지 기준으로 거리가 다시 계산된다.
       </p>
       <p className="muted small">

@@ -74,7 +74,7 @@ function CodexGrid({ game }: { game: Game }) {
                 className={`base-chip${s.id === siteId ? " picked" : ""}`}
                 onClick={() => setSiteId(s.id)}
               >
-                {s.name} {have}/{list.length}
+                {s.city} {have}/{list.length}
               </button>
             );
           })}
@@ -93,7 +93,7 @@ function CodexGrid({ game }: { game: Game }) {
         </div>
 
         <div className="codex-site">
-          <h4>{site.name} <em className="muted">{site.anchor}</em></h4>
+          <h4>{site.city} <em className="muted">{site.anchor}</em> <span className="muted small">{site.country}</span></h4>
           <div className="bar"><i style={{ width: `${(all.filter((a) => owned(a.id)).length / all.length) * 100}%` }} /></div>
           <div className="codex-grid">
             {shown.map((a) => {

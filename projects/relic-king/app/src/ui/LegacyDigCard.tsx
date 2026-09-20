@@ -47,7 +47,7 @@ export function LegacyDigCard({ game }: { game: Game }) {
         {ownedBases.length > 1 ? (
           <select value={world.activeSite} onChange={(e) => game.goTo(e.target.value as typeof world.activeSite)}>
             {ownedBases.map((s) => (
-              <option key={s.id} value={s.id}>{s.name}</option>
+              <option key={s.id} value={s.id}>{s.city}</option>
             ))}
           </select>
         ) : null}
@@ -72,7 +72,7 @@ export function LegacyDigCard({ game }: { game: Game }) {
           <Upgrade label="장비" detail={`Lv.${world.gear} · 발굴력 ×1.6`} cost={gearCost(world.gear)} funds={world.funds} onBuy={game.buyGear} />
           <Upgrade label="감정소" detail={`Lv.${world.lab} · 1점당 ${appraiseSeconds(world.lab).toFixed(1)}초`} cost={labCost(world.lab)} funds={world.funds} onBuy={game.buyLab} />
           <p className="muted small">
-            직접 발굴력 {rate(digGuard(digPower(world)))}/s — {site.name} {sp.layer}층({site.eras[sp.layer - 1]})
+            직접 발굴력 {rate(digGuard(digPower(world)))}/s — {site.city} {sp.layer}층({site.eras[sp.layer - 1]})
           </p>
         </div>
       </div>

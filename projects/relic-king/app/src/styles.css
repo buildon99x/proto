@@ -310,6 +310,7 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 .modal-wide { max-width: 720px; }
 .modal-sheet-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
 .modal-sheet-head h2 { margin: 0; font-size: 18px; }
+.modal-sheet-sub { margin: 1px 0 0; }
 .modal-close { border: 0; background: none; font-size: 16px; padding: 4px 8px; }
 .modal-sheet-body { max-height: 70vh; overflow-y: auto; }
 
@@ -357,8 +358,24 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 }
 .explorer-map-toggle { display: none; margin-bottom: 10px; }
 .worldmap-wrap { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #14202a; }
+.worldmap-stage { position: relative; line-height: 0; }
 .worldmap-canvas { width: 100%; height: auto; display: block; image-rendering: pixelated; cursor: pointer; }
+/* 포커스 오버레이 — 키보드·스크린리더 전용. 포인터 판정은 캔버스가 "가장 가까운
+   마커가 이긴다"로 처리하므로(밀집 구간에서 44px 버튼끼리 겹쳐 서로를 가리는 걸
+   막는다) 이 레이어는 포인터를 통과시킨다. Enter 키의 click은 그대로 발생한다. */
+.worldmap-hitlayer { position: absolute; inset: 0; pointer-events: none; }
+.worldmap-hit {
+  position: absolute; width: 44px; height: 44px; margin: -22px 0 0 -22px;
+  padding: 0; border: 0; background: none; border-radius: 50%; pointer-events: none;
+}
+.worldmap-hit:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
 .worldmap-controls { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 6px 10px; }
+.worldmap-legend, .worldmap-status {
+  list-style: none; margin: 0; padding: 0 10px 8px; display: flex; flex-wrap: wrap;
+  gap: 4px 12px; font-size: 11px; color: var(--muted);
+}
+.worldmap-status { flex-direction: column; gap: 2px; border-top: 1px solid var(--line); padding-top: 6px; }
+.worldmap-legend-glyph { margin-right: 4px; font-size: 12px; }
 /* 데스크톱: 지도가 기본, 전체 목록은 보조(숨김). 모바일 기본값은 media query가 뒤집는다(§5) */
 .explorer-list-panel { display: none; margin-top: 10px; }
 .site-list { display: flex; flex-direction: column; gap: 4px; max-height: 320px; overflow-y: auto; }

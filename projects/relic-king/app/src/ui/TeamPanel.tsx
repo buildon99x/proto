@@ -5,7 +5,7 @@ import {
 } from "../game/balance";
 import { staffCandidates } from "../game/staff";
 import { staffMarketCycle, teamHomeSite } from "../game/engine";
-import { clock, won } from "../game/format";
+import { clock, josa, withJosa, won } from "../game/format";
 import type { ExpeditionTeam, Foreman } from "../game/types";
 import { SitePickerModal } from "./SitePickerModal";
 import { useTeamPreset } from "./useTeamPreset";
@@ -57,8 +57,8 @@ function TeamCard({
 
   let statusLine: string;
   if (team.status === "idle") statusLine = "다음 파견을 기다리는 중";
-  else if (team.status === "traveling_out") statusLine = `${SITE_BY_ID[team.targetSite].name}(으)로 이동 중 · 도착 ${clock(Math.max(0, team.arrivesAt - world.t))} 후`;
-  else if (team.status === "on_site") statusLine = `${SITE_BY_ID[team.targetSite].name} ${sp.layer}층 발굴 중`;
+  else if (team.status === "traveling_out") statusLine = `${withJosa(SITE_BY_ID[team.targetSite].city, "로으로")} 이동 중 · 도착 ${clock(Math.max(0, team.arrivesAt - world.t))} 후`;
+  else if (team.status === "on_site") statusLine = `${SITE_BY_ID[team.targetSite].city} ${sp.layer}층 발굴 중`;
   else statusLine = `귀환 중 · ${clock(Math.max(0, team.returnsAt - world.t))} 후 복귀`;
 
   return (
@@ -77,7 +77,7 @@ function TeamCard({
       {team.status === "idle" ? (
         <div className="team-card-actions">
           <button type="button" className="ghost" onClick={() => game.dispatch(team.id, team.targetSite)}>
-            재파견({SITE_BY_ID[team.targetSite].name})
+            재파견({SITE_BY_ID[team.targetSite].city})
           </button>
           <button type="button" className="ghost" onClick={() => setPickingNewSite(true)}>
             새 유적 선택
@@ -129,7 +129,7 @@ function TeamDetail({
       </div>
       <label className="team-detail-row">
         <span>
-          루틴 — 귀환 시 <strong>{SITE_BY_ID[routineTarget].name}</strong>(으)로 자동 재파견
+          루틴 — 귀환 시 <strong>{SITE_BY_ID[routineTarget].city}</strong>{josa(SITE_BY_ID[routineTarget].city, "로으로")} 자동 재파견
         </span>
         <input
           type="checkbox"

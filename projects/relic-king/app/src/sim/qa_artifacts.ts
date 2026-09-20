@@ -100,15 +100,15 @@ for (const s of SITES) {
   totalPending += pending;
   const total = counts[0] + counts[1] + counts[2] + counts[3] + counts[4];
   console.log(
-    `${s.name.padEnd(6, " ")} T0=${counts[0]}/${target[0]} T1=${counts[1]}/${target[1]} ` +
+    `${s.city.padEnd(6, " ")} T0=${counts[0]}/${target[0]} T1=${counts[1]}/${target[1]} ` +
     `T2=${counts[2]}/${target[2]} T3=${counts[3]}/${target[3]} T4=${counts[4]}/${target[4]}  ` +
     `합계 ${total}종 (verified ${verified} / pending ${pending})`
   );
   if (counts[4] > 1) {
     t4Over++;
-    console.log(`  ❌ ${s.name}: T4가 ${counts[4]}종 — 거점당 정확히 1종 쿼터 위반`);
+    console.log(`  ❌ ${s.city}: T4가 ${counts[4]}종 — 거점당 정확히 1종 쿼터 위반`);
   } else if (counts[4] === 0) {
-    warn(`${s.name}: T4(유일) 미확보 — 지어내지 않고 비워 둔 상태(차기 확장 대상)`);
+    warn(`${s.city}: T4(유일) 미확보 — 지어내지 않고 비워 둔 상태(차기 확장 대상)`);
   }
 }
 check("모든 거점이 T4 쿼터(최대 1종) 이내", t4Over === 0);

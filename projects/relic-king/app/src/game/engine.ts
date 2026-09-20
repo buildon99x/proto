@@ -38,7 +38,7 @@ import {
   distanceCostMult, distanceYieldBonus, mishapChance, onsiteHoursOf, onsiteWindow,
   teamDigPower, travelHoursOneWay
 } from "./expedition";
-import { josa, won } from "./format";
+import { josa, withJosa, won } from "./format";
 import { localPriceMult } from "./market";
 import {
   freshnessOnDisplay, freshnessRecovered, museumUpkeepHourly, museumVisitorIncomeHourly,
@@ -477,7 +477,7 @@ function theftJudgeTick(w: World, dt: number, rng: Rng) {
     w.theftEvents.push(event);
     w.vault = w.vault.filter((v) => v.uid !== item.uid);
     demoteIfEmptied(w, artifact.id);
-    log(w, "system", `${SITE_BY_ID[site].name} 박물관에서 '${artifact.name}'${josa(artifact.name, "을를")} 도난당했다. 회수 기한 ${THEFT_RECOVERY_WINDOW_HOURS}시간(온라인 기준).`);
+    log(w, "system", `${SITE_BY_ID[site].city} 박물관에서 '${artifact.name}'${josa(artifact.name, "을를")} 도난당했다. 회수 기한 ${THEFT_RECOVERY_WINDOW_HOURS}시간(온라인 기준).`);
   }
 }
 
@@ -802,12 +802,12 @@ function addSiteProgress(w: World, site: SiteId, effSeconds: number, d: number, 
     sp.layerProgress -= layerCost(site, sp.layer);
     sp.layer += 1;
     report.layerUps += 1;
-    log(w, "system", `${SITE_BY_ID[site].name} ${sp.layer}층 — ${SITE_BY_ID[site].eras[sp.layer - 1]}`);
+    log(w, "system", `${SITE_BY_ID[site].city} ${sp.layer}층 — ${SITE_BY_ID[site].eras[sp.layer - 1]}`);
     // 미탐사 보너스(world-map.md §4) — 그 거점 층1 최초 돌파(이번 시즌 한정) 1회
     if (sp.layer === 2 && !w.unexploredBonusGranted[site]) {
       w.unexploredBonusGranted[site] = true;
       w.appraisalVouchers += UNEXPLORED_BONUS_APPRAISAL_VOUCHER;
-      log(w, "system", `${SITE_BY_ID[site].name}을(를) 처음 탐사했다 — 무료 감정권 ${UNEXPLORED_BONUS_APPRAISAL_VOUCHER}장 획득.`);
+      log(w, "system", `${withJosa(SITE_BY_ID[site].city, "을를")} 처음 탐사했다 — 무료 감정권 ${UNEXPLORED_BONUS_APPRAISAL_VOUCHER}장 획득.`);
     }
   }
   if (sp.layer >= LAYERS_PER_SITE) sp.layerProgress = Math.min(sp.layerProgress, layerCost(site, sp.layer));
@@ -1020,7 +1020,7 @@ export function dispatchExpedition(w: World, teamId: string, target: SiteId): bo
   team.mishapRolled = mishap;
   team.layerAtDispatch = w.sites[target].layer;
   team.tipChase = null; // 일반 파견은 제보 추적을 새로 시작하지 않는다(급파 전용, emergencyDispatch)
-  log(w, "system", `발굴단이 ${SITE_BY_ID[target].name}(으)로 출발했다.`);
+  log(w, "system", `발굴단이 ${withJosa(SITE_BY_ID[target].city, "로으로")} 출발했다.`);
   return true;
 }
 
@@ -1056,7 +1056,7 @@ export function emergencyDispatch(w: World, teamId: string): boolean {
   team.layerAtDispatch = w.sites[target].layer;
   team.costMult = (team.costMult ?? 1) * EMERGENCY_DISPATCH_COST_MULT;
   team.tipChase = { artifactId: w.tip.artifactId, layer: w.tip.layer };
-  log(w, "system", `발굴단이 제보를 쫓아 ${SITE_BY_ID[target].name}(으)로 급파됐다.`);
+  log(w, "system", `발굴단이 제보를 쫓아 ${withJosa(SITE_BY_ID[target].city, "로으로")} 급파됐다.`);
   return true;
 }
 
@@ -1126,7 +1126,7 @@ function finalizeExpedition(w: World, team: ExpeditionTeam) {
   );
   w.funds -= cost;
   team.costMult = 1;
-  log(w, "system", `발굴단이 ${SITE_BY_ID[team.targetSite].name}에서 귀환했다. 원정비 ${cost.toLocaleString("ko-KR")}₩ 정산.`);
+  log(w, "system", `발굴단이 ${SITE_BY_ID[team.targetSite].city}에서 귀환했다. 원정비 ${cost.toLocaleString("ko-KR")}₩ 정산.`);
 
   team.status = "idle";
   if (team.routine?.enabled) dispatchExpedition(w, team.id, team.routine.target);
@@ -1514,7 +1514,7 @@ function spawnTip(w: World, rng: Rng) {
     rivals: chosen,
     focused: false
   };
-  log(w, "system", `제보 — ${SITE_BY_ID[target.site].name} ${target.minLayer}층에서 반응. 대상: ${target.name}`);
+  log(w, "system", `제보 — ${SITE_BY_ID[target.site].city} ${target.minLayer}층에서 반응. 대상: ${target.name}`);
 }
 
 /** 원거리 급파 라이벌의 도착 판정(spec.md §12.3) — 압축 이동시간이 지나면 그
@@ -1805,7 +1805,7 @@ export function unlockSite(w: World, site: SiteId): boolean {
   w.sites[site].baseSince = w.t;
   w.visitedSites[site] = true;
   w.activeSite = site;
-  log(w, "system", `${def.name} — ${def.anchor} 발굴을 시작했다.`);
+  log(w, "system", `${def.city} — ${def.anchor} 발굴을 시작했다.`);
   return true;
 }
 
@@ -1832,7 +1832,7 @@ export function relocateBase(w: World, newSite: SiteId): boolean {
   w.sites[newSite].baseSince = w.t;
   w.visitedSites[newSite] = true;
   w.activeSite = newSite;
-  log(w, "system", `본거지를 ${SITE_BY_ID[newSite].name}(으)로 옮겼다.`);
+  log(w, "system", `본거지를 ${withJosa(SITE_BY_ID[newSite].city, "로으로")} 옮겼다.`);
   return true;
 }
 
@@ -2031,7 +2031,7 @@ export function buildMuseum(w: World, site: SiteId): boolean {
   // 등급0에 전시 중이던 유물은 그대로 슬롯을 유지한다(등급1도 최소 1슬롯 이상이라
   // 자리가 남는다 — MUSEUM_SLOT_BY_GRADE=[1,3,6,10,15]).
   w.museums.push({ id: `museum-${nextUid()}`, site, grade: 1, marketingLevel: 1 });
-  log(w, "system", `${SITE_BY_ID[site].name}에 박물관을 세웠다.`);
+  log(w, "system", `${SITE_BY_ID[site].city}에 박물관을 세웠다.`);
   return true;
 }
 
@@ -2110,7 +2110,7 @@ export function buildAuctionHouse(w: World, site: SiteId): boolean {
   if (w.funds < cost) return false;
   w.funds -= cost;
   w.auctionHouses.push({ id: `auction-${nextUid()}`, site, grade: 1, listings: [] });
-  log(w, "system", `${SITE_BY_ID[site].name}에 경매장을 세웠다.`);
+  log(w, "system", `${SITE_BY_ID[site].city}에 경매장을 세웠다.`);
   return true;
 }
 

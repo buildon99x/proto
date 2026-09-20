@@ -8,7 +8,12 @@ import type { Shape, SiteId } from "./types";
  */
 export type SiteDef = {
   id: SiteId;
-  name: string;
+  /** 표시 1차 — 거점 도시명. `SiteId`(지역 슬러그)와 다르다: id는 세이브에 박힌
+   *  영속 키라 바꾸지 않고, 화면에 나가는 이름은 전부 이 필드 하나에서 나온다. */
+  city: string;
+  /** 표시 3차 — 나라. 검색어로도 걸린다("이집트"로 찾으면 룩소르가 나와야 한다) */
+  country: string;
+  /** 표시 2차 — 그 도시의 발굴 앵커 유적 */
   anchor: string;
   lat: number;
   lon: number;
@@ -29,7 +34,8 @@ export type SiteDef = {
 export const SITES: SiteDef[] = [
   {
     id: "korea",
-    name: "한반도",
+    city: "경주",
+    country: "대한민국",
     anchor: "경주 고분군",
     lat: 35.84,
     lon: 129.22,
@@ -47,7 +53,8 @@ export const SITES: SiteDef[] = [
   },
   {
     id: "greece",
-    name: "그리스",
+    city: "아테네",
+    country: "그리스",
     anchor: "아크로폴리스",
     lat: 37.98,
     lon: 23.73,
@@ -65,8 +72,9 @@ export const SITES: SiteDef[] = [
   },
   {
     id: "egypt",
-    name: "이집트",
-    anchor: "룩소르 왕가의 계곡",
+    city: "룩소르",
+    country: "이집트",
+    anchor: "왕가의 계곡",
     lat: 25.68,
     lon: 32.64,
     population: 506_000,
@@ -83,7 +91,8 @@ export const SITES: SiteDef[] = [
   },
   {
     id: "turkey",
-    name: "튀르키예",
+    city: "이스탄불",
+    country: "튀르키예",
     anchor: "콘스탄티노플 유적",
     lat: 41.01,
     lon: 28.98,
@@ -102,7 +111,8 @@ export const SITES: SiteDef[] = [
   },
   {
     id: "israel",
-    name: "이스라엘",
+    city: "예루살렘",
+    country: "이스라엘",
     anchor: "구시가 발굴지구",
     lat: 31.78,
     lon: 35.22,
@@ -121,7 +131,8 @@ export const SITES: SiteDef[] = [
   },
   {
     id: "india",
-    name: "인도",
+    city: "델리",
+    country: "인도",
     anchor: "델리 술탄왕조 유적군",
     lat: 28.61,
     lon: 77.21,
@@ -139,7 +150,8 @@ export const SITES: SiteDef[] = [
   },
   {
     id: "china",
-    name: "중국",
+    city: "시안",
+    country: "중국",
     anchor: "병마용 갱",
     lat: 34.27,
     lon: 108.95,
@@ -156,7 +168,8 @@ export const SITES: SiteDef[] = [
   },
   {
     id: "iraq",
-    name: "이라크",
+    city: "바그다드",
+    country: "이라크",
     anchor: "바빌론·우르 유적",
     lat: 33.31,
     lon: 44.36,
@@ -174,7 +187,8 @@ export const SITES: SiteDef[] = [
   },
   {
     id: "japan",
-    name: "일본",
+    city: "교토",
+    country: "일본",
     anchor: "헤이안쿄 유적·고찰군",
     lat: 35.01,
     lon: 135.77,
@@ -192,10 +206,15 @@ export const SITES: SiteDef[] = [
   },
   {
     id: "rome",
-    name: "로마",
+    city: "폼페이",
+    country: "이탈리아",
     anchor: "폼페이 유적",
-    lat: 40.85,
-    lon: 14.27,
+    // 폼페이 유적(40.75/14.49). v0.3까지 박혀 있던 40.85/14.27은 나폴리였다 —
+    // 이름("로마")·앵커("폼페이 유적")·좌표(나폴리) 셋이 서로 다른 곳을 가리켰다
+    // (notes/decisions.md G69.3). 인구 218.5만은 §1이 밝힌 대로 광역권 근사치라
+    // 나폴리 광역권 기준이고, 폼페이는 그 안에 있으므로 그대로 둔다.
+    lat: 40.75,
+    lon: 14.49,
     population: 2_185_000,
     unlockCost: 300_000_000,
     layerCostMod: 1.15,
@@ -210,7 +229,8 @@ export const SITES: SiteDef[] = [
   },
   {
     id: "mexico",
-    name: "멕시코",
+    city: "멕시코시티",
+    country: "멕시코",
     anchor: "테오티우아칸·템플로 마요르",
     lat: 19.43,
     lon: -99.13,
@@ -228,7 +248,8 @@ export const SITES: SiteDef[] = [
   },
   {
     id: "peru",
-    name: "페루",
+    city: "쿠스코",
+    country: "페루",
     anchor: "마추픽추·삭사이우아만",
     lat: -13.53,
     lon: -71.97,
@@ -245,6 +266,53 @@ export const SITES: SiteDef[] = [
     thematicCategory: ["ornament", "mechanism"]
   }
 ];
+
+/**
+ * 유물 종류의 한국어 라벨(notes/world-map.md §1 테마 카테고리 표기). 검색이
+ * "도자기"·"장신구"로도 걸려야 하는데 `Shape`는 영문 슬러그뿐이라 여기서 잇는다.
+ * 게임 데이터라 `game/`에 둔다 — UI가 제 나름의 번역표를 또 갖게 하지 않는다.
+ */
+export const SHAPE_LABEL: Record<Shape, string> = {
+  jar: "도자기",
+  sword: "검",
+  crown: "관",
+  mask: "가면",
+  scroll: "두루마리",
+  coin: "화폐",
+  tablet: "석판",
+  statue: "조각",
+  ornament: "장신구",
+  mechanism: "기물"
+};
+
+/**
+ * 거점 표시 규칙(작업 지시 B4, 전 화면 공통) — **1차 도시명 · 2차 앵커 유적 · 3차 나라**.
+ * 화면마다 제각기 조합하면 어느 화면은 나라를, 어느 화면은 도시를 부르게 된다.
+ *
+ *   siteTitle("egypt")    → "룩소르 — 왕가의 계곡"   (시트·모달 제목)
+ *   siteSubtitle("egypt") → "이집트"                 (그 밑 부제)
+ *   SITE_BY_ID.egypt.city → "룩소르"                 (목록·로그·상태줄의 단독 표기)
+ */
+export function siteTitle(id: SiteId): string {
+  const s = SITE_BY_ID[id];
+  return `${s.city} — ${s.anchor}`;
+}
+
+export function siteSubtitle(id: SiteId): string {
+  return SITE_BY_ID[id].country;
+}
+
+/** 검색 대상 문자열 — 도시명·나라·앵커·유물 종류(한국어·영문 슬러그) 전부.
+ *  나라 이름을 화면 1차에서 내렸다고 검색에서까지 내리면 플레이어가 길을 잃는다. */
+export function siteSearchText(def: SiteDef): string {
+  return [
+    def.city,
+    def.country,
+    def.anchor,
+    ...def.thematicCategory,
+    ...def.thematicCategory.map((c) => SHAPE_LABEL[c])
+  ].join(" ").toLowerCase();
+}
 
 export const SITE_BY_ID: Record<SiteId, SiteDef> = Object.fromEntries(
   SITES.map((s) => [s.id, s])

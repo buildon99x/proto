@@ -270,6 +270,107 @@ async function main() {
       });
     }
 
+    // 8a) 라벨 생략 0건 (v0.4 — 거점 표기가 나라명에서 도시명으로 길어지면서
+    //     그리디 배치가 자리를 못 찾고 라벨을 버릴 수 있다. 렌더가 스스로 센 값을
+    //     data-labels-omitted 로 내보내므로 그대로 읽는다.)
+    const labelStats = await evaluate(`{
+      const c = document.querySelector('.worldmap-canvas');
+      c ? { drawn: Number(c.dataset.labelsDrawn), omitted: Number(c.dataset.labelsOmitted) } : null;
+    }`);
+    if (!labelStats) {
+      failures.push("세계지도 캔버스를 찾지 못했다");
+    } else {
+      if (labelStats.omitted !== 0) failures.push(`세계 줌 라벨 생략 ${labelStats.omitted}건 (0이어야 한다)`);
+      if (labelStats.drawn !== 12) failures.push(`세계 줌 라벨이 ${labelStats.drawn}개만 그려졌다 (12개여야 한다)`);
+    }
+
+    // 8b) 권역 줌 — 확대 배경에도 해안선이 있어야 한다(v0.3은 맨 바다였다).
+    //     캔버스 픽셀을 직접 읽어 바다색(PALETTE.sky)이 아닌 픽셀의 비율을 센다.
+    const zoomShot = await evaluate(`{
+      const hits = [...document.querySelectorAll('.worldmap-hit')];
+      const t = hits.find(b => (b.getAttribute('aria-label') || '').startsWith('경주'));
+      if (t) t.click();
+      !!t;
+    }`);
+    if (!zoomShot) failures.push("권역 줌: 경주 마커 타겟을 찾지 못했다");
+    await new Promise((r) => setTimeout(r, 600));
+    const regionState = await evaluate(`{
+      const c = document.querySelector('.worldmap-canvas');
+      const ctx = c.getContext('2d');
+      const d = ctx.getImageData(0, 0, c.width, c.height).data;
+      // PALETTE.sky = #2b3a4a. 바다·그리드선을 뺀 "그 밖의 픽셀" 비율 = 지형+마커+라벨.
+      let other = 0;
+      for (let i = 0; i < d.length; i += 4) {
+        if (!(Math.abs(d[i] - 0x2b) < 6 && Math.abs(d[i + 1] - 0x3a) < 6 && Math.abs(d[i + 2] - 0x4a) < 6)) other++;
+      }
+      ({
+        ratio: other / (c.width * c.height),
+        zoom: document.querySelector('.worldmap-wrap')?.dataset.zoom ?? '',
+        omitted: Number(c.dataset.labelsOmitted)
+      });
+    }`);
+    // 경주 권역(동아시아)은 화면의 상당 부분이 육지다. 5% 미만이면 배경이 맨 바다라는 뜻.
+    if (regionState.ratio < 0.05) {
+      failures.push(`권역 줌 배경에 해안선이 없다 (비-바다 픽셀 ${(regionState.ratio * 100).toFixed(1)}%)`);
+    }
+    if (regionState.zoom !== "korea") failures.push(`권역 줌으로 전환되지 않았다 (data-zoom="${regionState.zoom}")`);
+    await shoot("08b-worldmap-region", {
+      x: Math.max(0, mapRect.x - 8), y: Math.max(0, mapRect.y - 8),
+      width: mapRect.width + 16, height: mapRect.height + 16, scale: 1
+    });
+
+    // 8c) ESC로 세계 줌 복귀
+    await evaluate(`{
+      const hits = [...document.querySelectorAll('.worldmap-hit')];
+      hits[0]?.focus();
+      hits[0]?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+      true;
+    }`);
+    await new Promise((r) => setTimeout(r, 500));
+    const backToWorld = await evaluate(`(document.querySelector('.worldmap-wrap')?.dataset.zoom ?? 'x') === ''`);
+    if (!backToWorld) failures.push("ESC를 눌러도 권역 줌이 풀리지 않았다");
+
+    // 8d) 키보드만으로 거점 선택 → 파견 시트 도달
+    //     Tab 순회 대신 실제 포커스 타겟에 focus() + Enter 를 넣는다 — CDP 로
+    //     OS 레벨 Tab 을 쏘는 것보다 "그 요소가 포커스 가능하고 Enter 로 진행되는가"를
+    //     더 정확히 본다. 순서(거리순)는 aria-label 로 따로 확인한다.
+    const kbd = await evaluate(`{
+      const hits = [...document.querySelectorAll('.worldmap-hit')];
+      const labels = hits.map(b => b.getAttribute('aria-label'));
+      const first = hits[1];   // [0] = 본거지(경주). 다음으로 가까운 거점을 고른다
+      first.focus();
+      const focused = document.activeElement === first;
+      first.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+      first.click();           // 브라우저가 Enter 를 click 으로 바꾸는 그 동작
+      ({ focused, labels, target: first.getAttribute('aria-label') });
+    }`);
+    if (!kbd.focused) failures.push("지도 마커가 키보드 포커스를 받지 못한다");
+    if (kbd.labels.length !== 12) failures.push(`지도 포커스 타겟이 ${kbd.labels.length}개다 (12개여야 한다)`);
+    const kmOf = (l) => Number((l.match(/·\s([\d,]+)km/) || [0, "0"])[1].replace(/,/g, ""));
+    const distances = kbd.labels.map(kmOf);
+    if (distances.some((d, i) => i > 0 && d < distances[i - 1])) {
+      failures.push(`지도 포커스 순서가 거리순이 아니다: ${distances.join(" ")}`);
+    }
+    await new Promise((r) => setTimeout(r, 500));
+    // 권역 줌으로 들어갔으니 같은 거점을 한 번 더 눌러 파견 시트까지 간다(3단계 규칙)
+    await evaluate(`{
+      const hits = [...document.querySelectorAll('.worldmap-hit')];
+      const t = hits.find(b => b.getAttribute('aria-label') === ${JSON.stringify("__TARGET__")});
+      (t || hits[1]).click();
+      true;
+    }`.replace(JSON.stringify("__TARGET__"), JSON.stringify(kbd.target.replace("권역으로 확대", "파견 시트 열기"))));
+    await new Promise((r) => setTimeout(r, 700));
+    const sheet = await evaluate(`document.querySelector('.modal-sheet-head h2')?.innerText ?? null`);
+    if (!sheet || !/—/.test(sheet)) {
+      failures.push(`키보드 경로로 파견 시트에 도달하지 못했다 (제목: ${sheet})`);
+    } else {
+      // 표시 규칙 — 제목은 "도시명 — 앵커 유적", 부제는 "나라 · 편도 N km"
+      const sub = await evaluate(`document.querySelector('.modal-sheet-sub')?.innerText ?? ''`);
+      if (!/·\s*편도\s/.test(sub)) failures.push(`파견 시트 부제가 표시 규칙과 다르다: "${sub}"`);
+    }
+    await evaluate(`document.querySelector('.modal-close')?.click()`);
+    await new Promise((r) => setTimeout(r, 400));
+
     // 9) 콘솔 오류
     const errors = cdp.events
       .filter((e) => e.method === "Runtime.exceptionThrown"
@@ -300,6 +401,35 @@ async function main() {
         await new Promise((r) => setTimeout(r, 700));
         const mapOpen = await evaluate(`document.querySelector('.explorer.mobile-map-open .worldmap-wrap') ? true : false`);
         if (!mapOpen) failures.push("모바일 지도로 보기 토글이 지도를 펼치지 않았다");
+        // 앞 절(8d)이 권역 줌을 남겨 두고 왔을 수 있다 — 세계 줌에서 12마커를 센다
+        await evaluate(`{
+          const b = [...document.querySelectorAll('.worldmap-controls button')].find(x => x.innerText.includes('세계 지도로'));
+          if (b) b.click();
+          true;
+        }`);
+        await new Promise((r) => setTimeout(r, 500));
+        // 12마커가 전부 뷰포트 안에 있고 가로 스크롤이 없어야 한다(작업 지시 C4)
+        const mobileMap = await evaluate(`{
+          const c = document.querySelector('.worldmap-canvas');
+          const hits = [...document.querySelectorAll('.worldmap-hit')];
+          const vw = document.documentElement.clientWidth;
+          const inside = hits.filter(b => {
+            const r = b.getBoundingClientRect();
+            return r.left >= -1 && r.right <= vw + 1 && r.top >= -1;
+          }).length;
+          ({
+            markers: hits.length,
+            inside,
+            omitted: Number(c.dataset.labelsOmitted),
+            hOverflow: document.documentElement.scrollWidth - vw
+          });
+        }`);
+        if (mobileMap.markers !== 12) failures.push(`모바일 지도 마커가 ${mobileMap.markers}개다 (12개여야 한다)`);
+        if (mobileMap.inside !== mobileMap.markers) {
+          failures.push(`모바일 지도 마커 ${mobileMap.markers - mobileMap.inside}개가 화면 밖이다`);
+        }
+        if (mobileMap.hOverflow > 0) failures.push(`모바일에서 가로 스크롤이 ${mobileMap.hOverflow}px 생겼다`);
+        if (mobileMap.omitted !== 0) failures.push(`모바일 지도 라벨 생략 ${mobileMap.omitted}건`);
         await shoot("mobile-04-worldmap");
         await evaluate(`document.querySelector('.explorer-map-toggle')?.click()`);
         await new Promise((r) => setTimeout(r, 300));
@@ -311,6 +441,8 @@ async function main() {
     console.log(`${SECONDS}초 방치 후 vault+pending ${dropCount}점`);
     console.log(`8시간 오프라인 후 소장고 ${posB.stacks}종 · 미감정 ${posB.pending}점, 칸 이동 ${posA.first === posB.first && posA.last === posB.last ? "없음" : "있음"}`);
     console.log(`조사 병기 ${badJosa.length === 0 ? "없음" : badJosa.join(" ")}`);
+    console.log(`세계지도 라벨 ${labelStats ? `${labelStats.drawn}개 · 생략 ${labelStats.omitted}건` : "미측정"}`);
+    console.log(`권역 줌 비-바다 픽셀 ${(regionState.ratio * 100).toFixed(1)}% · 키보드 파견 ${sheet ? "도달" : "실패"}`);
     console.log(failures.length ? `❌ FAIL\n- ${failures.join("\n- ")}` : "✅ PASS");
   } finally {
     chrome.kill();

@@ -26,6 +26,9 @@ pnpm --filter relic-king dev      개발 서버
 pnpm --filter relic-king build    타입체크 + 빌드
 pnpm --filter relic-king sim      헤드리스 밸런스 시뮬 (--hours N)
 pnpm --filter relic-king smoke    실시간 브라우저 스모크 + 스크린샷
+
+node scripts/build-worldmap.mjs           세계지도 해안선 베이크(생성 파일을 다시 굽는다)
+node scripts/build-worldmap.mjs --check   커밋된 산출물이 최신인지만 검사
 ```
 
 **밸런스 상수를 건드렸으면 `sim`을 돌리고 eval.md의 측정표를 갱신한다.** 방치형은
@@ -33,14 +36,23 @@ pnpm --filter relic-king smoke    실시간 브라우저 스모크 + 스크린�
 
 ## 환경 제약
 
-- 외부 네트워크가 차단돼 있다(박물관 오픈액세스 API 403 확인). 유물 도트는 절차 생성이고,
-  런타임에 외부 리소스를 받지 않는다.
+- **런타임에 외부 리소스를 받지 않는다.** 이건 협상 대상이 아니다 — 타일 서버·CDN·폰트·API
+  전부. 유물 도트는 절차 생성이다.
+- **빌드타임은 다르다.** "외부 네트워크가 차단돼 있다"는 기록은 박물관 오픈액세스 API
+  403 하나에서 나왔는데, 실제로는 절반만 맞다: API는 막혀 있지만 `raw`/`media`
+  githubusercontent와 **npm 레지스트리는 열려 있다**(`notes/decisions.md` G59·G69.1).
+  이 전제를 잘못 넓게 읽어 두 번 실기했다 — 유물 데이터 확대(G59)와 세계지도
+  해안선(G69.1)이 각각 "불가능"으로 미뤄져 있었다. **받아서 정적 산출물로 구워 커밋하는
+  것은 허용이고, 그 경로로 들어온 산출물이 이미 둘 있다**(`artifacts.generated.ts`,
+  `render/worldmap-raster.ts`). 막혔다고 적기 전에 실제로 한 번 찔러 봐라.
 - 레포 공용 `pnpm playtest`는 puppeteer가 크롬을 내려받아야 해서 쓸 수 없다. 대신
   미리 깔린 크로미움을 CDP로 직접 모는 `tests/e2e/smoke.mjs`를 쓴다.
 
 ## 구조
 
 - `app/src/game/` — 순수 TypeScript 엔진. React 없이 단독으로 돌고, 시뮬도 같은 코드를 탄다.
-- `app/src/render/` — 팔레트, 절차적 스프라이트 생성기, 지층 캔버스.
+- `app/src/render/` — 팔레트, 절차적 스프라이트 생성기, 지층 캔버스, 세계지도.
+  `worldmap-raster.ts`는 **생성 파일이다** — 손으로 고치지 말고 `scripts/build-worldmap.mjs`를
+  다시 돌려라.
 - `app/src/ui/` — React 셸. 게임 로직을 여기에 두지 않는다.
 - `app/src/sim/` — 헤드리스 시뮬. 앱 번들에는 포함되지 않는다(진입점에서 import 하지 않음).

@@ -160,7 +160,7 @@ export function VaultView({ game }: { game: Game }) {
             label="거점"
             value={siteFilter}
             onChange={setSiteFilter}
-            options={usedSites.map((id) => ({ label: SITES.find((s) => s.id === id)!.name, value: id }))}
+            options={usedSites.map((id) => ({ label: SITE_BY_ID[id].city, value: id }))}
           />
         </div>
 
@@ -336,7 +336,7 @@ function Detail({ game, stack }: { game: Game; stack: Stack }) {
           <ul className="displayed-list">
             {displayed.map((i) => (
               <li key={i.uid}>
-                <span className="muted small">{SITE_BY_ID[i.museumSite!].name} 전시 중</span>
+                <span className="muted small">{SITE_BY_ID[i.museumSite!].city} 전시 중</span>
                 <button type="button" className="ghost" onClick={() => game.undisplay(i.uid)}>
                   내리기
                 </button>
@@ -402,7 +402,7 @@ function DisplayAction({ game, uid }: { game: Game; uid: number }) {
               onClick={() => setChosenId(b.id)}
               title={`시간당 기대 관람수입 ${won(estimateDisplayIncome(world, b.id, artifact))} ₩`}
             >
-              {b.name} {won(estimateDisplayIncome(world, b.id, artifact))}₩/h
+              {b.city} {won(estimateDisplayIncome(world, b.id, artifact))}₩/h
             </button>
           ))}
         </div>
@@ -415,7 +415,7 @@ function DisplayAction({ game, uid }: { game: Game; uid: number }) {
           else setSwapping(true);
         }}
       >
-        전시({museumOf(world, site).grade === 0 ? "임시 전시대" : `${SITE_BY_ID[site].name} 박물관`})
+        전시({museumOf(world, site).grade === 0 ? "임시 전시대" : `${SITE_BY_ID[site].city} 박물관`})
       </button>
       {swapping ? (
         <Modal title="내릴 유물 선택" onClose={() => setSwapping(false)}>
@@ -481,13 +481,13 @@ function AuctionAction({ game, uid }: { game: Game; uid: number }) {
               onClick={() => setChosenSite(h.site)}
               title={`가격배율 ×${auctionPriceMultAt(world, h).toFixed(2)}`}
             >
-              {SITE_BY_ID[h.site].name} ×{auctionPriceMultAt(world, h).toFixed(2)}
+              {SITE_BY_ID[h.site].city} ×{auctionPriceMultAt(world, h).toFixed(2)}
             </button>
           ))}
         </div>
       ) : null}
       <button type="button" className="ghost" onClick={() => game.listAtAuction(uid, house.site)}>
-        경매 등록({SITE_BY_ID[house.site].name})
+        경매 등록({SITE_BY_ID[house.site].city})
       </button>
     </>
   );
