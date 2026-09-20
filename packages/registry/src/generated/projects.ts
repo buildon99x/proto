@@ -303,8 +303,8 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.1.1",
-    "summary": "실존 유물을 발굴·감정·소장해 세계 자산 순위 1위에 오르는 방치형. 유물의 현실 현존 개체 수가 그대로 게임 공급량이라 신라 금관은 6점, 로제타 석은 1점뿐이고, 세상에 하나뿐인 유물은 제보 레이스에서 먼저 도달한 쪽이 영구히 가진다. 도트 지층 단면을 파내려가며 깊이가 곧 연대가 되고, 팔면 자금이 늘고 순위는 떨어진다.",
+    "version": "0.3.1",
+    "summary": "실존 유물을 발굴·감정·소장해 3축 순위(자산·도감·명성) 종합 1위에 오르는 방치형. 유물의 현실 현존 개체 수가 그대로 게임 공급량이고, 세상에 하나뿐인 유물은 제보 레이스에서 먼저 도달한 쪽이 영구히 가진다. 12거점 세계지도를 발굴단이 회차제로 원정하고, 감정소·보관소·박물관·경매장·암시장까지 갖춘 5탭(발굴·소장고·시설·시장·도감) UI로 돌아간다. v0.3에서 유물이 280종 → 2000종(검증 1,902종)으로 늘었다 — 메트로폴리탄 미술관 오픈액세스(CC0) 메타데이터를 거점·연대·유물종류로 갈라 만든 종 1,720개를 손으로 쓴 280종 위에 얹었고, 국보·유일 등급은 사람이 판정한 손글씨 쪽에만 둔다. 유물 획득 주기도 20초 → 8초로 줄였다. 클릭 0회로 약 141시간 방치만으로 엔딩에 도달한다. v0.3.1은 소장 중인 유물에 희귀도 조건을 걸어 중복분만 자동으로 파는 기능을 더했다 — 종당 1점·전시 중·국보·유일은 설정과 무관하게 남고, 기본값은 꺼짐이다(켜면 자산 축이 실제로 내려간다).",
     "tags": [
       "game",
       "idle",
@@ -326,7 +326,13 @@ export const projects = [
       "readme": "README.md",
       "changelog": "changelog.md",
       "mda": "notes/mda.md",
-      "dataset": "notes/artifacts-dataset.md"
+      "dataset": "notes/artifacts-dataset.md",
+      "decisions": "notes/decisions.md",
+      "economy": "notes/economy.md",
+      "worldMap": "notes/world-map.md",
+      "staff": "notes/staff.md",
+      "uxV02": "notes/ux-v02.md",
+      "pipeline": "scripts/README.md"
     },
     "assets": {
       "cover": "assets/screenshots/cover.png"
@@ -338,6 +344,6 @@ export const projects = [
       "sim": "pnpm --filter relic-king sim",
       "smoke": "pnpm --filter relic-king smoke"
     },
-    "updatedAt": "2026-09-17T18:36:26+00:00"
+    "updatedAt": "2026-09-19T10:00:41+00:00"
   }
 ] as const satisfies readonly ProjectMetadata[];
