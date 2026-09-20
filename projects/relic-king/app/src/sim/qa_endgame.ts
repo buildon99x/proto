@@ -16,7 +16,7 @@
 import { ARTIFACTS } from "../game/artifacts";
 import { CODEX_GOAL, MAX_EXPEDITION_TEAMS_CAP, SITES } from "../game/balance";
 import {
-  advance, blindSellAll, buyGear, buyLab, buyTeamGear, buyTeamWorker, buyWorker, codexProgress,
+  advance, nextRoutineTarget, blindSellAll, buyGear, buyLab, buyTeamGear, buyTeamWorker, buyWorker, codexProgress,
   createTeam, createWorld, digPower, dispatchExpedition, hireForeman, playerAssets, ranking,
   sellTierAtMost, setRoutine, staffMarketCycle, unlockSite, unlockTeamSlot
 } from "../game/engine";
@@ -73,7 +73,9 @@ function siteCleared(w: World, site: SiteId): boolean {
 function redirectClearedTeams(w: World) {
   for (const team of w.teams) {
     const target = team.routine?.target;
-    if (!target || !siteCleared(w, target)) continue;
+    // 루틴 대상이 "auto"면 엔진이 귀환마다 알아서 고른다 — 이 스크립트가 따로
+    // 재배정할 필요가 없다(v0.3.4, `engine.ts`의 `nextRoutineTarget`).
+    if (!target || target === "auto" || !siteCleared(w, target)) continue;
     const next = TOUR_ORDER.find((s) => !siteCleared(w, s) && !w.teams.some((t) => t.routine?.target === s));
     if (next) dispatchOrRoute(w, team.id, next);
   }
@@ -101,7 +103,10 @@ function act(w: World) {
   redirectClearedTeams(w);
   for (const team of w.teams) {
     // 루틴이 있는데 아직 idle이면(예: 귀환 직후 재파견이 막 걸리기 전) 직접 재파견한다
-    if (team.status === "idle" && team.routine?.enabled) dispatchExpedition(w, team.id, team.routine.target);
+    if (team.status === "idle" && team.routine?.enabled) {
+      const rt = team.routine.target;
+      dispatchExpedition(w, team.id, rt === "auto" ? nextRoutineTarget(w, team) : rt);
+    }
     if (w.funds >= 200_000) buyTeamWorker(w, team.id);
     if (w.funds >= 2_000_000) buyTeamGear(w, team.id);
   }

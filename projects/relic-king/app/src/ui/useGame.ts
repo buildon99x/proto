@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import { AUTO_ROUTINE_INTERVAL_SECONDS } from "../game/balance";
 import {
-  advance, applyOffline, blindSell, blindSellAll, buyBlackMarketListing, buyGear,
+  advance, applyOffline, auctionSpares, blindSell, blindSellAll, buyBlackMarketListing, buyGear,
   buyHumidityLevel, buyLab, buyMuseumMarketing, buyRestorationLevel, buySecurityLevel, buyTeamGear, buyTeamWorker,
   buyVaultLevel, buyWorker, buildAuctionHouse, buildMuseum, click, createPersistentRecord, createTeam,
   createWorld, dispatchExpedition, displayArtifact, emergencyDispatch, focusDig, fullRanking,
@@ -332,7 +332,13 @@ export function useGame() {
       act((w) => {
         w.settings.autoSellSpareBelow = tier;
       }),
-    sellSpares: (tier: Tier | null) => act((w) => sellSpares(w, tier)),
+    sellSpares: (tier: Tier | null) =>
+      act((w) => (w.settings.spareDestination === "auction" ? auctionSpares(w, tier) : sellSpares(w, tier))),
+    /** 중복분을 어디로 보낼지(v0.3.4) — 기준 티어와 별개의 축이다. */
+    setSpareDestination: (dest: "sell" | "auction") =>
+      act((w) => {
+        w.settings.spareDestination = dest;
+      }),
     setMuted: (muted: boolean) =>
       act((w) => {
         w.settings.muted = muted;
@@ -351,7 +357,7 @@ export function useGame() {
     dispatch: (teamId: string, target: SiteId) => act((w) => dispatchExpedition(w, teamId, target)),
     emergencyDispatch: (teamId: string) => act((w) => emergencyDispatch(w, teamId)),
     focusDig: (teamId: string) => act((w) => focusDig(w, teamId)),
-    setRoutine: (teamId: string, enabled: boolean, target?: SiteId) =>
+    setRoutine: (teamId: string, enabled: boolean, target?: SiteId | "auto") =>
       act((w) => setRoutine(w, teamId, enabled, target)),
 
     // ── 시설 업그레이드(spec.md §9) ─────────────────────────────────────

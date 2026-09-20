@@ -106,8 +106,8 @@ export function createWorld(seed = 20260917): World {
   const codex: Record<string, "unseen"> = {};
   for (const a of ARTIFACTS) codex[a.id] = "unseen";
 
-  return {
-    version: 8,
+  const world: World = {
+    version: 9,
     t: 0,
     lastTickAt: Date.now(),
     // 감정에는 추정가의 2%가 든다. 종잣돈이 0이면 첫 유물을 감정조차 못 해
@@ -144,7 +144,10 @@ export function createWorld(seed = 20260917): World {
     // autoSellBelow=1(희귀 이하 자동 매각)·autoReinvest=true가 기본이다 — 클릭
     // 0회로도 자금이 돌게 하는 기본 자동화(G3·척추 4번, notes/decisions.md G57).
     // 둘 다 설정에서 끌 수 있다(off로 두면 예전처럼 완전 수동, 손실은 없다).
-    settings: { autoSellBelow: 1, autoSellSpareBelow: null, muted: false, autoReinvest: true },
+    settings: {
+      autoSellBelow: 1, autoSellSpareBelow: null, spareDestination: "sell",
+      muted: false, autoReinvest: true
+    },
     stats: { drops: 0, clicks: 0, sold: 0, blindSold: 0, racesWon: 0, racesLost: 0, firstT4Finds: 0 },
     clickCombo: 1,
     clickComboUntil: 0,
@@ -174,6 +177,42 @@ export function createWorld(seed = 20260917): World {
     onlineElapsedSeconds: 0,
     museumCumulativeVisitors: 0
   };
+
+  grantStartingTeam(world);
+  return world;
+}
+
+/**
+ * 시작 발굴단 1팀(v0.3.4) — `brief.md` §첫 세션 1이 처음부터 약속했던 것이고
+ * (G69.5에서 "구현된 적 없다"로 문서 쪽을 고쳤던 그 항목), v0.3.3 계측이 그
+ * 판단을 뒤집을 근거를 냈다.
+ *
+ * **근거**: 탭만 열어 두는 플레이어는 단장 고용비 200,000₩ 앞에서 멈춘다.
+ * 발굴단이 없으면 다른 거점의 종을 영영 못 만나고, 도감이 125/1,902종(6.6%)에서
+ * 정지한다 — 의미 있는 이벤트가 1일차 279건에서 2일차 1건으로 떨어지고, 이후
+ * 66시간 53분 동안 아무 일도 없다. 그 정적 속에서 일어나는 유일한 사건이
+ * **라이벌에게 빼앗기는 것**(6~24시간 구간 의미 이벤트 15건 전원)이라,
+ * 척추 4번("클릭은 언제나 선택 — 안 눌러도 손실 0")이 실측으로 깨져 있었다.
+ *
+ * 단장은 무료로 배정한다(`FOREMAN_HIRE_COST`를 받지 않는다) — 시작 자금
+ * 30,000₩으로는 낼 수 없고, 이건 "첫 세션의 무대 장치"이지 플레이어가 사는
+ * 물건이 아니기 때문이다. 후보는 `staffCandidates`의 결정론 목록 첫 번째라
+ * 같은 시드면 같은 단장이 온다.
+ */
+export function grantStartingTeam(w: World) {
+  if (w.teams.length > 0 || w.staff.some((s) => s.role === "foreman")) return;
+  const home = teamHomeSite(w);
+  const candidate = staffCandidates(home, staffMarketCycle(w), "foreman")[0];
+  if (!candidate || candidate.role !== "foreman") return;
+  const foreman: Foreman = {
+    id: `foreman-${nextUid()}`, name: candidate.name, role: "foreman",
+    leadership: candidate.leadership, navigation: candidate.navigation
+  };
+  w.staff.push(foreman);
+  const teamId = createTeam(w, foreman.id);
+  if (!teamId) return;
+  dispatchExpedition(w, teamId, nextRoutineTarget(w, w.teams[w.teams.length - 1]));
+  log(w, "system", `단장 ${foreman.name}${josa(foreman.name, "이가")} 합류했다. 발굴단이 원정을 시작한다.`);
 }
 
 // ── 파생값 ────────────────────────────────────────────────
@@ -969,7 +1008,11 @@ export function createTeam(w: World, foremanId: string): string | null {
   const team: ExpeditionTeam = {
     id, foremanId, workers: 0, gearLevel: 0, status: "idle", targetSite: home,
     dispatchedAt: w.t, arrivesAt: w.t, returnsAt: w.t, mishapRolled: false,
-    layerAtDispatch: w.sites[home].layer, routine: null
+    layerAtDispatch: w.sites[home].layer,
+    // 기본은 자동 순회(v0.3.4) — 켜 두는 쪽이 "안 눌러도 진행된다"는 척추 4번에
+    // 맞고, 끄는 건 상세 패널에서 2단계다(`eval.md` §20.3). 루틴이 꺼진 채로는
+    // 팀이 한 거점만 왕복하거나 유휴로 멈춘다(`notes/play-telemetry.md` §1).
+    routine: { enabled: true, target: "auto" }
   };
   w.teams.push(team);
   return id;
@@ -1077,11 +1120,29 @@ export function focusDig(w: World, teamId: string): boolean {
 
 /** 루틴(spec.md §8.4) — "어디로 갈지"는 대행하지 않는다. 이미 한 번 수동으로
  *  보낸 target을 계속 반복할지만 자동화한다 */
-export function setRoutine(w: World, teamId: string, enabled: boolean, target?: SiteId): boolean {
+export function setRoutine(w: World, teamId: string, enabled: boolean, target?: SiteId | "auto"): boolean {
   const team = w.teams.find((t) => t.id === teamId);
   if (!team) return false;
-  team.routine = enabled ? { enabled: true, target: target ?? team.targetSite } : null;
+  team.routine = enabled ? { enabled: true, target: target ?? "auto" } : null;
   return true;
+}
+
+/**
+ * 루틴 대상이 `"auto"`일 때 다음에 갈 곳(v0.3.4). `recommendSites()`를 그대로 쓴다 —
+ * 미방문 거점을 크게 우대하고(+1000) 그다음 아직 못 채운 검증 종이 많은 순이다.
+ * 다른 팀이 이미 향하고 있는 거점은 뺀다(같은 곳에 겹쳐 보내면 커버리지가 안 는다).
+ * 추천이 비면(더 채울 게 없으면) 가던 곳을 그대로 유지한다.
+ *
+ * **왜 자동 순회가 필요한가**: 고정 대상 루틴은 그 거점을 다 캐고 나면 그 뒤로
+ * 아무것도 더 주지 못한다. 계측에서 탭만 열어 둔 플레이의 도감이 125/1,902종에서
+ * 멈춘 이유가 정확히 이것이다(`notes/play-telemetry.md` §1).
+ */
+export function nextRoutineTarget(w: World, team: ExpeditionTeam): SiteId {
+  const taken = new Set(
+    w.teams.filter((t) => t.id !== team.id && t.status !== "idle").map((t) => t.targetSite)
+  );
+  const pick = recommendSites(w, SITES.length).find((id) => !taken.has(id));
+  return pick ?? team.targetSite;
 }
 
 /**
@@ -1129,7 +1190,10 @@ function finalizeExpedition(w: World, team: ExpeditionTeam) {
   log(w, "system", `발굴단이 ${SITE_BY_ID[team.targetSite].name}에서 귀환했다. 원정비 ${cost.toLocaleString("ko-KR")}₩ 정산.`);
 
   team.status = "idle";
-  if (team.routine?.enabled) dispatchExpedition(w, team.id, team.routine.target);
+  if (team.routine?.enabled) {
+    const target = team.routine.target === "auto" ? nextRoutineTarget(w, team) : team.routine.target;
+    dispatchExpedition(w, team.id, target);
+  }
 }
 
 /**
@@ -1447,6 +1511,38 @@ export function autoInvestLegacyDig(w: World) {
 }
 
 /**
+ * 중복분을 **경매장에 출품**한다(v0.3.4). 대상 선정은 `spareVaultItems()` 하나가
+ * 그대로 맡으므로 종당 1점·전시 중·국보/유일·티어 상한 네 겹이 전부 같이 지켜진다
+ * — 출구만 `blindSell`/직접매각에서 경매로 바뀐다.
+ *
+ * **왜 만들었나**: 168시간 계측에서 경매 출품이 플레이어 조작의 **64%**
+ * (189회 × 3단계 = 567단계)를 차지했다. 한 점씩 손으로 등록하는 것 말고는 길이
+ * 없었다(`notes/play-telemetry.md` §2.1).
+ *
+ * **경매장이 없거나 슬롯이 차 있으면 아무 일도 하지 않는다.** 직접매각으로 몰래
+ * 바꾸지 않는다 — 플레이어가 고른 건 "경매로 보내라"이지 "어떻게든 팔아라"가 아니다.
+ * 슬롯은 다음 낙찰이 비워 주므로 다음 루틴 틱에 이어서 나간다.
+ */
+export function auctionSpares(w: World, tier: Tier | null): { count: number; listed: number } {
+  const items = spareVaultItems(w, tier);
+  if (items.length === 0 || w.auctionHouses.length === 0) return { count: 0, listed: 0 };
+  // 가격 배율이 높은 경매장부터 채운다(`VaultView`의 base 칩과 같은 기준).
+  const houses = [...w.auctionHouses].sort(
+    (a, b) => auctionPriceMult(b.grade, auctioneerOf(w, b)?.negotiation ?? 0)
+      - auctionPriceMult(a.grade, auctioneerOf(w, a)?.negotiation ?? 0)
+  );
+  let listed = 0;
+  for (const item of items) {
+    if (houses.some((h) => listAtAuction(w, item.uid, h.site))) listed += 1;
+  }
+  return { count: items.length, listed };
+}
+
+function auctioneerOf(w: World, house: AuctionHouse): Auctioneer | undefined {
+  return w.staff.find((s) => s.id === house.auctioneerId && s.role === "auctioneer") as Auctioneer | undefined;
+}
+
+/**
  * 설정(`settings.autoSellSpareBelow`)이 켜져 있으면 소장고 중복분을 정리한다
  * (v0.3.1, notes/decisions.md G68). `autoLiquidatePendingOverflow`와 같은 이유로
  * `step()`/`advance()` 안에서는 부르지 않는다 — 판매액이 스텝 크기에 따라
@@ -1457,6 +1553,11 @@ export function autoInvestLegacyDig(w: World) {
  * 그 틱의 재투자에 바로 쓰이게 하려는 것이다.
  */
 function autoSellVaultSpares(w: World) {
+  if (w.settings.spareDestination === "auction") {
+    const { listed } = auctionSpares(w, w.settings.autoSellSpareBelow);
+    if (listed > 0) log(w, "system", `중복 유물 ${listed}점을 경매에 올렸다.`);
+    return;
+  }
   const { count, gained } = sellSpares(w, w.settings.autoSellSpareBelow);
   if (count === 0) return;
   log(w, "system", `중복 유물 ${count}점을 정리해 ${won(gained)} ₩를 회수했다.`);

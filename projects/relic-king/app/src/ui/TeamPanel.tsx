@@ -108,7 +108,10 @@ function TeamDetail({
   const [picking, setPicking] = useState(false);
   const wCost = workerCost(world.teams.reduce((s, t) => s + t.workers, 0));
   const gCost = gearCost(world.teams.reduce((s, t) => s + t.gearLevel, 0));
-  const routineTarget = team.routine?.target ?? team.targetSite;
+  // "auto"는 거점 하나가 아니라 **자동 순회**다(v0.3.4) — 귀환할 때마다
+  // 아직 못 채운 거점 중에서 고른다. 화면도 그렇게 말해야 한다.
+  const routineTarget = team.routine?.target ?? "auto";
+  const routineLabel = routineTarget === "auto" ? "아직 못 채운 거점" : `${SITE_BY_ID[routineTarget].name}(으)로`;
 
   return (
     <div className="team-detail">
@@ -129,7 +132,7 @@ function TeamDetail({
       </div>
       <label className="team-detail-row">
         <span>
-          루틴 — 귀환 시 <strong>{SITE_BY_ID[routineTarget].name}</strong>(으)로 자동 재파견
+          루틴 — 귀환 시 <strong>{routineLabel}</strong> 자동 재파견
         </span>
         <input
           type="checkbox"
@@ -138,8 +141,13 @@ function TeamDetail({
         />
       </label>
       <button type="button" className="ghost wide" onClick={() => setPicking(true)}>
-        루틴 대상 거점 변경
+        루틴 대상 거점 고정
       </button>
+      {routineTarget !== "auto" ? (
+        <button type="button" className="ghost wide" onClick={() => game.setRoutine(team.id, true, "auto")}>
+          자동 순회로 되돌리기
+        </button>
+      ) : null}
       <button
         type="button"
         className="ghost wide"

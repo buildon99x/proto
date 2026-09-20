@@ -51,6 +51,21 @@ export function SettingsModal({ game, onClose }: { game: Game; onClose: () => vo
           </select>
         </label>
         <label className="settings-row">
+          <span>
+            중복분을 보낼 곳{" "}
+            <em className="muted small">
+              경매는 직접매각보다 배율이 높지만 낙찰까지 기다려야 한다 — 경매장이 없거나 칸이 차 있으면 그 회차는 그냥 넘어간다
+            </em>
+          </span>
+          <select
+            value={world.settings.spareDestination}
+            onChange={(e) => game.setSpareDestination(e.target.value as "sell" | "auction")}
+          >
+            <option value="sell">직접 매각</option>
+            <option value="auction">경매 출품</option>
+          </select>
+        </label>
+        <label className="settings-row">
           <span>음소거</span>
           <input
             type="checkbox"

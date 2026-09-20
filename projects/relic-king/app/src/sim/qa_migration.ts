@@ -72,8 +72,8 @@ console.log("──────── qa_migration: v1 → v2 → v3 ───�
 
 const migrated = deserialize(JSON.stringify(v1Raw)) as World;
 
-// ── 2) 스키마 버전 — 체인 끝(v8)까지 올라간다 ───────────────────────────
-check("version이 8로 올라간다(체인 끝까지)", migrated.version === 8);
+// ── 2) 스키마 버전 — 체인 끝(v9)까지 올라간다 ───────────────────────────
+check("version이 9로 올라간다(체인 끝까지)", migrated.version === 9);
 check("autoSellBelow가 기본값(1)으로 올라간다(체인 끝까지)", migrated.settings.autoSellBelow === 1);
 check("autoReinvest가 채워진다(체인 끝까지)", migrated.settings.autoReinvest === true);
 check("rivals[].homeSite가 채워진다(체인 끝까지)",
@@ -113,7 +113,15 @@ check("기존 보유 거점(korea)은 baseSince 0으로 보수적으로 채워�
   migrated.sites.korea.unlocked === true && migrated.sites.korea.baseSince === 0);
 check("기존 미보유 거점(rome)은 baseSince null로 채워진다",
   migrated.sites.rome.unlocked === false && migrated.sites.rome.baseSince === null);
-check("teams·staff가 빈 배열로 채워진다", migrated.teams.length === 0 && migrated.staff.length === 0);
+// v0.3.4부터는 **빈 채로 두지 않는다.** 발굴단도 단장도 가져 본 적 없는 세이브는
+// 지금도 단장 고용비 200,000₩ 앞에 멈춰 있고, 그게 "탭만 열어 두면 2일차부터
+// 아무 일도 안 일어난다"의 직접 원인이다(notes/play-telemetry.md §1). 결함 수정이라
+// 기존 세이브에도 처방을 적용한다(v6→v7이 autoSellBelow를 올려 준 것과 같은 논리).
+check("발굴단도 단장도 없던 세이브에는 시작 발굴단이 지급된다",
+  migrated.teams.length === 1 && migrated.staff.filter((s) => s.role === "foreman").length === 1);
+check("그 발굴단은 자동 순회 루틴을 켠 채 파견돼 있다",
+  migrated.teams[0].routine?.enabled === true && migrated.teams[0].routine?.target === "auto"
+    && migrated.teams[0].status !== "idle");
 check("maxTeams가 초기값(1)으로 채워진다", migrated.maxTeams === 1);
 check("appraisalVouchers가 0으로 채워진다", migrated.appraisalVouchers === 0);
 check("visitedSites·unexploredBonusGranted가 빈 객체로 채워진다",
@@ -123,12 +131,12 @@ check("lastRelocationAt이 null로 채워진다", migrated.lastRelocationAt === 
 // ── 6) 마이그레이션 결과가 다시 직렬화·역직렬화돼도 안정적이다(왕복) ──────────
 const roundTrip = deserialize(serialize(migrated)) as World;
 check("마이그레이션 결과를 다시 직렬화→역직렬화해도 동일하다",
-  roundTrip.version === 8 && roundTrip.funds === migrated.funds && roundTrip.vault.length === migrated.vault.length
+  roundTrip.version === 9 && roundTrip.funds === migrated.funds && roundTrip.vault.length === migrated.vault.length
     && roundTrip.teams.length === migrated.teams.length);
 
 // ── 7) v4 세이브(이미 최신)를 다시 넣으면 아무 변환도 일어나지 않는다(체인 정지) ──
 const v5Again = deserialize(serialize(migrated)) as World;
-check("이미 최신 버전인 세이브는 재마이그레이션되지 않는다", v5Again.version === 8);
+check("이미 최신 버전인 세이브는 재마이그레이션되지 않는다", v5Again.version === 9);
 
 // ── 8) v2 → v3 단독 구간도 같은 방식으로 검증한다(손으로 만든 실제 v2 세이브 모양) ──
 console.log("\n──────── qa_migration: v2 → v3 ────────");
@@ -156,14 +164,17 @@ const v2Raw = {
 const migratedV3 = deserialize(JSON.stringify(v2Raw)) as World;
 // v2Raw를 넣으면 체인이 끝(v4)까지 이어진다 — 2→3에서 멈추지 않는다(체인 자체가
 // while(MIGRATIONS[version])이라 다음 칸(3→4)이 있으면 계속 올라간다).
-check("v2 → v8 버전 승격(체인 끝까지)", migratedV3.version === 8);
+check("v2 → v9 버전 승격(체인 끝까지)", migratedV3.version === 9);
 check("v2 funds·t 무손실 보존", migratedV3.funds === 500_000 && migratedV3.t === 999);
 check("v2에 있던 base(korea·egypt)는 baseSince 0으로 채워진다",
   migratedV3.sites.korea.baseSince === 0 && migratedV3.sites.egypt.baseSince === 0);
 check("v2 신규 9거점이 채워진다", migratedV3.sites.peru !== undefined && migratedV3.sites.peru.unlocked === false);
 check("v2 vault 항목(condition 이미 있음)은 그대로 보존된다", migratedV3.vault[0].condition === 1);
-check("v2 → v3 신규 필드도 기본값으로 채워진다",
-  migratedV3.teams.length === 0 && migratedV3.staff.length === 0 && migratedV3.appraisalVouchers === 0);
+check("v2 → v3 신규 필드도 기본값으로 채워진다", migratedV3.appraisalVouchers === 0);
+// 발굴단·단장은 더 이상 "빈 배열"이 기본값이 아니다 — v8→v9가 시작 발굴단을 준다
+// (위 v1 체인의 같은 검사 주석 참조).
+check("v2 체인에도 시작 발굴단이 지급된다",
+  migratedV3.teams.length === 1 && migratedV3.teams[0].routine?.target === "auto");
 check("v2 → v7 라이벌 homeSite도 채워진다",
   migratedV3.rivals.every((r) => typeof (r as any).homeSite === "string"));
 
@@ -191,7 +202,7 @@ const v3Raw = {
 };
 // v3 → v4 → v5로 체인이 계속 이어진다(위 §8과 같은 이유) — v4 필드까지 함께 확인한다.
 const migratedV4 = deserialize(JSON.stringify(v3Raw)) as World;
-check("v3 → v8 버전 승격(체인 끝까지)", migratedV4.version === 8);
+check("v3 → v9 버전 승격(체인 끝까지)", migratedV4.version === 9);
 check("v3 funds·t 무손실 보존", migratedV4.funds === 100_000 && migratedV4.t === 42);
 check("homeSite가 없던 라이벌마다 favSite 값으로 채워진다",
   migratedV4.rivals.every((r) => (r as any).homeSite === r.favSite));
@@ -220,7 +231,7 @@ const v4Raw = {
 };
 // v4Raw를 넣으면 체인이 끝(v7)까지 이어진다(위 §8·§9와 같은 이유) — v5 필드까지 함께 확인한다.
 const migratedV5 = deserialize(JSON.stringify(v4Raw)) as World;
-check("v4 → v8 버전 승격(체인 끝까지)", migratedV5.version === 8);
+check("v4 → v9 버전 승격(체인 끝까지)", migratedV5.version === 9);
 check("v4 funds·t·vault 무손실 보존",
   migratedV5.funds === 250_000 && migratedV5.t === 500_000 && migratedV5.vault.length === 1);
 check("vaultLevel·humidityLevel·restorationLevel·securityLevel이 1로 채워진다(레벨1 = 업그레이드 전)",
@@ -277,7 +288,7 @@ const v5Raw = {
   onlineElapsedSeconds: 3600
 };
 const migratedV6 = deserialize(JSON.stringify(v5Raw)) as World;
-check("v5 → v8 버전 승격(체인 끝까지)", migratedV6.version === 8);
+check("v5 → v9 버전 승격(체인 끝까지)", migratedV6.version === 9);
 check("v5 funds·t·museums 무손실 보존",
   migratedV6.funds === 400_000 && migratedV6.t === 1_000_000 && migratedV6.museums.length === 1);
 check("museumCumulativeVisitors가 0으로 채워진다", migratedV6.museumCumulativeVisitors === 0);
@@ -323,7 +334,7 @@ const v6Raw = {
   onlineElapsedSeconds: 0, museumCumulativeVisitors: 0
 };
 const migratedV7 = deserialize(JSON.stringify(v6Raw)) as World;
-check("v6 → v8 버전 승격(체인 끝까지)", migratedV7.version === 8);
+check("v6 → v9 버전 승격(체인 끝까지)", migratedV7.version === 9);
 check("v6 funds·t·pending 무손실 보존",
   migratedV7.funds === 12_000 && migratedV7.t === 2_000_000 && migratedV7.pending.length === 1);
 check("이미 꺼져 있던(null) autoSellBelow가 기본값(1)으로 올라간다(척추 4번 — 방치 교착 수정)",
@@ -345,7 +356,7 @@ const v7Raw = {
   settings: { autoSellBelow: 0, muted: true, autoReinvest: false }
 };
 const migratedV8 = deserialize(JSON.stringify(v7Raw)) as World;
-check("v7 → v8 버전 승격", migratedV8.version === 8);
+check("v7 → v9 버전 승격", migratedV8.version === 9);
 check("v7 funds·vault 무손실 보존", migratedV8.funds === 33_000 && migratedV8.vault.length === 1);
 check("autoSellSpareBelow가 끔(null)으로 채워진다 — 기존 플레이어의 소장품을 임의로 팔지 않는다",
   migratedV8.settings.autoSellSpareBelow === null);
@@ -354,6 +365,38 @@ check("플레이어가 직접 고른 기존 설정값은 덮어쓰지 않는다(
     && migratedV8.settings.autoReinvest === false);
 check("새 게임 기본값과 같다(신규·기존 플레이어가 같은 상태에서 시작한다)",
   migratedV8.settings.autoSellSpareBelow === createWorld().settings.autoSellSpareBelow);
+
+// ── 9) v8 → v9 (v0.3.4 — 계측 처방, notes/decisions.md G71) ─────────────
+const v8Raw = {
+  ...v7Raw,
+  version: 8,
+  funds: 44_000,
+  settings: { autoSellBelow: 0, autoSellSpareBelow: 2, muted: true, autoReinvest: false },
+  // 플레이어가 직접 고정 대상을 고른 팀 하나 — 이건 건드리면 안 된다
+  staff: [{ id: "foreman-x", name: "테스트", role: "foreman", leadership: 30, navigation: 30 }],
+  teams: [{
+    id: "team-x", foremanId: "foreman-x", workers: 2, gearLevel: 1, status: "on_site",
+    targetSite: "egypt", dispatchedAt: 0, arrivesAt: 0, returnsAt: 9e9, mishapRolled: false,
+    layerAtDispatch: 1, routine: { enabled: true, target: "egypt" }
+  }]
+};
+const migratedV9 = deserialize(JSON.stringify(v8Raw)) as World;
+check("v8 → v9 버전 승격", migratedV9.version === 9);
+check("v8 funds 무손실 보존", migratedV9.funds === 44_000);
+check("spareDestination이 'sell'(기존 동작)로 채워진다 — 경매 출품은 선택지 추가이지 결함 수정이 아니다",
+  migratedV9.settings.spareDestination === "sell");
+check("플레이어가 고정한 루틴 대상은 자동 순회로 덮어쓰지 않는다",
+  migratedV9.teams[0].routine?.target === "egypt");
+check("이미 발굴단이 있으면 시작 발굴단을 또 주지 않는다", migratedV9.teams.length === 1);
+
+// 루틴이 꺼진 채로 저장된 팀 — 이쪽은 결함이므로 자동 순회를 켜 준다
+const v8NoRoutine = {
+  ...v8Raw,
+  teams: [{ ...v8Raw.teams[0], routine: null }]
+};
+const migratedV9b = deserialize(JSON.stringify(v8NoRoutine)) as World;
+check("루틴이 없던 팀은 자동 순회로 켜진다(귀환 후 영원히 유휴로 멈추는 결함의 처방)",
+  migratedV9b.teams[0].routine?.enabled === true && migratedV9b.teams[0].routine?.target === "auto");
 
 console.log(failed === 0 ? "\n✅ qa_migration 전체 통과" : `\n❌ qa_migration ${failed}건 실패`);
 process.exit(failed === 0 ? 0 : 1);

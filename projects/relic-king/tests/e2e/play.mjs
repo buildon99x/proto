@@ -296,63 +296,58 @@ async function scenarioFirstSession() {
     await h.shot("first-displayed");
 
     // ④ 제보 — 첫 세션의 긴장 장치가 실제로 작동하는가(brief.md §첫 세션 10)
+    //
+    // **세이브가 아니라 DOM 을 본다.** 세이브는 10 게임초마다 쓰이는데 제보는
+    // 초반 중앙 15초 만에 닫힌다(eval.md §20.5) — 세이브에서 tip 을 보고 그다음
+    // 화면을 확인하면 이미 사라진 뒤인 경우가 흔하다. 배너가 떠 있는 그 순간의
+    // 내용을 한 번에 읽어야 한다.
     await h.tab("발굴");
-    let tipSeen = null;
-    for (let i = 0; i < 400; i++) {
+    let tipSnapshot = null;
+    for (let i = 0; i < 500; i++) {
+      tipSnapshot = await h.evaluate(`(() => {
+        const el = document.querySelector('.tip');
+        if (!el) return null;
+        return {
+          text: el.innerText.replace(/\\n/g, ' · '),
+          actionable: !!el.querySelector('button, .tip-racing')
+        };
+      })()`);
+      if (tipSnapshot) break;
       const w = await h.world();
-      if (w?.tip) { tipSeen = w; break; }
       if (w && w.t > BUDGET) break;
-      await h.sleepReal(250);
+      await h.sleepReal(200);
     }
-    c.ok("④ 제보 — 20분 안에 제보 배너가 뜬다", !!tipSeen, tipSeen ? `t=${fmt(tipSeen.t)}초` : "안 뜸");
-    if (tipSeen) {
-      const actionable = await h.evaluate(`!!document.querySelector('.tip button, .tip .tip-racing')`);
+    const tipAt = (await h.state())?.t ?? null;
+    c.ok("④ 제보 — 20분 안에 제보 배너가 뜬다", !!tipSnapshot, tipSnapshot ? `t≈${fmt(tipAt)}초` : "안 뜸");
+    if (tipSnapshot) {
       c.ok("④ 제보 — 배너가 '내가 레이스에 참가 중'임을 말한다",
-        actionable, actionable ? "" : "배너가 정보 표시로만 떴다 — 첫 세션에 긴장 장치가 죽는다");
+        tipSnapshot.actionable,
+        tipSnapshot.actionable ? tipSnapshot.text.slice(0, 80) : "배너가 정보 표시로만 떴다 — 첫 세션에 긴장 장치가 죽는다");
       await h.shot("first-tip");
     }
 
-    // ⑤ 원정 — 발굴단 축(단장 고용비 200,000₩).
-    //
-    // **한 시점의 자금으로 판정하지 않는다.** 자금은 자동 재투자와 감정 수수료
-    // 때문에 60초 주기로 크게 요동쳐서(실측: 같은 t=1200초를 두 번 재니 97,585₩와
-    // 340,415₩), "20분 시점에 얼마인가"는 언제 보느냐에 달린 값이다. 그래서
-    // **고용 버튼이 한 번이라도 열렸는가와 그 시각**을 본다 — 그게 플레이어가
-    // 실제로 겪는 것이다(brief.md §첫 세션, notes/decisions.md G69.5).
-    let firstAffordable = null;
-    let peakFunds = 0;
-    let affordTicks = 0;
-    let ticks = 0;
-    for (let i = 0; i < 600; i++) {
-      const cur = await h.world();
-      if (!cur) { await h.sleepReal(250); continue; }
-      peakFunds = Math.max(peakFunds, cur.funds);
-      const open = await h.evaluate(`!!document.querySelector('.candidate-row:not([disabled])')`);
-      ticks++;
-      if (open) {
-        affordTicks++;
-        if (firstAffordable === null) firstAffordable = cur.t;
-      }
-      if (cur.t > 40 * 60) break;
-      await h.sleepReal(250);
-    }
-    m.firstAffordable = firstAffordable === null ? null : Math.round(firstAffordable);
-    m.peakFunds = Math.round(peakFunds);
-    m.affordRatio = ticks > 0 ? +(affordTicks / ticks).toFixed(3) : 0;
-    c.ok("⑤ 원정 — 40분 안에 발굴단을 꾸릴 수 있게 된다", firstAffordable !== null,
-      firstAffordable !== null
-        ? `처음 고용 가능 t=${fmt(firstAffordable)}초 · 최고 자금 ${fmt(m.peakFunds)}₩`
-        : `40분 동안 한 번도 200,000₩에 닿지 못했다(최고 ${fmt(m.peakFunds)}₩)`);
-    c.note("⑤ 원정 — 고용 가능 상태가 유지되는 비율",
-      `${(m.affordRatio * 100).toFixed(1)}% — 자금이 자동 재투자·감정 수수료로 요동쳐 버튼이 켜졌다 꺼졌다 한다`);
+    // ⑤ 원정 — v0.3.4부터 발굴단 1팀이 처음부터 나와 있다(notes/decisions.md G71).
+    // 그래서 이 마일스톤의 질문이 바뀌었다: "20분 안에 꾸릴 수 있는가"가 아니라
+    // **"처음부터 돌고 있는가"**다. 두 번째 팀을 꾸리는 시점은 따로 기록만 한다.
+    const w = await h.state();
+    m.teams = w.teams.length;
+    m.dispatchedAt = w.teams[0]?.dispatchedAt ?? null;
+    c.ok("⑤ 원정 — 발굴단이 처음부터 원정을 돌고 있다",
+      w.teams.length >= 1 && w.teams.some((t) => t.status !== "idle"),
+      `${w.teams.length}팀 · ${w.teams.map((t) => t.status).join(",")}`);
+    c.ok("⑤ 원정 — 그 팀은 자동 순회 루틴을 켠 채다(한 거점에 갇히지 않는다)",
+      w.teams.every((t) => t.routine?.enabled && t.routine?.target === "auto"),
+      JSON.stringify(w.teams.map((t) => t.routine)));
+    c.note("⑤ 원정 — 두 번째 발굴단(슬롯 해금 5,000만₩)",
+      `20분 시점 자금 ${fmt(Math.round(w.funds))}₩ · 슬롯 ${w.maxTeams}칸`);
 
     c.note("첫 세션 마일스톤(게임초)", JSON.stringify(m));
     // brief.md §첫 세션이 20분 예산 안에 약속하는 것 — 거점·감정·전시·제보.
     // 원정(발굴단)은 자금 곡선에 달려 있어 별도 판정한다(G69.5).
     const reached = ["base", "appraise", "display"].filter((k) => m[k] != null && m[k] <= BUDGET).length;
-    c.ok("brief.md §첫 세션 — 거점·감정·전시·제보가 전부 20분 안에 성립한다",
-      reached === 3 && !!tipSeen,
-      `거점·감정·전시 ${reached}/3 · 제보 ${tipSeen ? "달성" : "미달"}`);
+    c.ok("brief.md §첫 세션 — 거점·원정·감정·전시·제보가 전부 20분 안에 성립한다",
+      reached === 3 && !!tipSnapshot && m.teams >= 1,
+      `거점·감정·전시 ${reached}/3 · 원정 ${m.teams}팀 · 제보 ${tipSnapshot ? "달성" : "미달"}`);
   });
 }
 
@@ -503,6 +498,14 @@ async function scenarioSteps() {
       w.lab = 6;
       w.vaultLevel = 5;
       for (const id of Object.keys(w.sites)) { w.sites[id].unlocked = true; w.sites[id].baseSince = 0; w.sites[id].layer = 6; }
+      // v0.3.4부터 첫 발굴단은 처음부터 있고 자동 순회 중이다(notes/decisions.md G71).
+      // "파견" 조작을 재는 자리이므로, 사람이 그 버튼을 마주하는 조건 — 즉 팀이
+      // 귀환해 유휴인 상태 — 을 만들어 둔다. 루틴을 꺼야 자동 재파견이 유휴를
+      // 도로 지우지 않는다.
+      for (const t of w.teams) {
+        t.status = 'idle'; t.arrivesAt = w.t; t.returnsAt = w.t;
+        t.routine = { enabled: false, target: 'auto' };
+      }
       w.lastTickAt = Date.now();
     }`);
     await h.goto("/");
@@ -529,9 +532,8 @@ async function scenarioSteps() {
       (x) => x.clickText(".legacy-dig-upgrades .upgrade", "인부")
     ]);
     await measure("#2 발굴단 파견(신규 거점)", 3, [
-      (x) => x.click(".candidate-row:not([disabled])").then((r) => r || x.exists(".team-card-actions")),
       (x) => x.clickText(".team-card-actions button", "새 유적 선택"),
-      (x) => x.click(".site-picker-list button, .modal .site-list button, .modal button:not(.ghost)")
+      (x) => x.click(".site-picker-list button, .modal .site-list button, .modal .site-row-main")
     ]);
     await measure("#3 소장고에서 매각", 3, [
       (x) => x.tab("소장고"),
@@ -540,7 +542,16 @@ async function scenarioSteps() {
     ]);
     await measure("#4 미감정 즉시 매각", 3, [
       (x) => x.tab("소장고"),
-      (x) => x.clickText(".vault-pending button", "즉시 매각").then((r) => r || x.click(".pending-list .ghost"))
+      // 미감정 대기열은 감정소 Lv.6에서 금방 비워진다 — 큐가 마침 차 있느냐는
+      // 운이고, 여기서 재는 건 "몇 단계냐"다. 한 점이 들어오는 순간을 기다렸다
+      // 누른다(대기 시간은 단계 수에 들어가지 않는다).
+      async (x) => {
+        for (let i = 0; i < 80; i++) {
+          if (await x.click(".pending-list .ghost")) return true;
+          await x.sleepReal(250);
+        }
+        return false;
+      }
     ]);
     await measure("#5 박물관 전시", 3, [
       (x) => x.tab("시설"),
@@ -781,6 +792,13 @@ async function scenarioEffort() {
       w.funds = 5e11;
       w.lab = 6;
       for (const id of Object.keys(w.sites)) { w.sites[id].unlocked = true; w.sites[id].baseSince = 0; w.sites[id].layer = 8; }
+      // 첫 발굴단은 v0.3.4부터 처음부터 있고 루틴이 켜진 채 원정을 돈다
+      // (notes/decisions.md G71). "파견"과 "루틴 켜기"는 사람이 그 버튼을 실제로
+      // 마주하는 조건에서만 잴 수 있으므로 — 유휴 + 루틴 꺼짐 — 그 상태를 만든다.
+      for (const t of w.teams) {
+        t.status = 'idle'; t.arrivesAt = w.t; t.returnsAt = w.t;
+        t.routine = { enabled: false, target: 'auto' };
+      }
       w.lastTickAt = Date.now();
     }`);
     await h.goto("/");
@@ -848,40 +866,48 @@ async function scenarioEffort() {
       (x) => x.clickText(".legacy-dig-upgrades .upgrade", "인부")
     ], async () => (await h.state()).workers > 0);
 
-    await measure("발굴단 꾸리기(단장 고용)", [
-      (x) => x.click(".candidate-row:not([disabled])")
-    ], async () => (await h.state()).teams.length > 0);
-
     await measure("발굴단 파견(새 거점 선택)", [
       (x) => x.clickText(".team-card-actions button", "새 유적 선택"),
       (x) => x.click(".modal .site-row-main")
     ], async () => (await h.state()).teams.some((t) => t.status !== "idle"));
 
+    // 단장 고용 카드는 **빈 슬롯**에만 뜬다(TeamPanel). 첫 팀이 1번 슬롯을 쓰고
+    // 초기 maxTeams가 1이므로, 두 번째 팀을 꾸리려면 슬롯 해금이 먼저다 —
+    // 측정 순서도 사람이 실제로 밟는 순서를 따른다.
     await measure("발굴단 슬롯 해금", [
       (x) => x.clickText(".team-card-locked button", "해금")
     ], async () => (await h.state()).maxTeams > 1);
+
+    await measure("발굴단 꾸리기(단장 고용)", [
+      (x) => x.click(".candidate-row:not([disabled])")
+    ], async () => (await h.state()).teams.length > 1);
 
     await measure("발굴단 인원 증강", [
       (x) => x.clickText(".team-card button", "상세"),
       (x) => x.clickText(".team-detail button", "+1")
     ], async () => (await h.state()).teams.some((t) => t.workers > 0));
 
+    // 새로 꾸린 2팀은 루틴이 켜진 채 태어난다(createTeam 기본값). 그러니 "켜는
+    // 조작"은 루틴을 꺼 둔 1팀에서만 잰다 — some(...)으로 재면 2팀 때문에 늘 통과한다.
     await measure("루틴 켜기(자동 재파견)", [
       // 상세가 이미 펼쳐져 있으면 다시 누르면 닫힌다 — 접혀 있을 때만 누른다.
       (x) => x.evaluate(`(() => {
-        if (document.querySelector('.team-detail')) return true;
-        const btn = [...document.querySelectorAll('.team-card button')].find((b) => b.innerText.includes('상세'));
+        const card = document.querySelector('.team-slots .team-card:not(.team-card-empty):not(.team-card-locked)');
+        if (!card) return false;
+        if (card.querySelector('.team-detail')) return true;
+        const btn = [...card.querySelectorAll('button')].find((b) => b.innerText.includes('상세'));
         if (!btn) return false;
         btn.click();
         return true;
       })()`),
       (x) => x.evaluate(`(() => {
-        const el = document.querySelector('.team-detail input[type=checkbox]');
+        const card = document.querySelector('.team-slots .team-card:not(.team-card-empty):not(.team-card-locked)');
+        const el = card && card.querySelector('.team-detail input[type=checkbox]');
         if (!el || el.checked) return false;
         el.click();
         return true;
       })()`)
-    ], async () => (await h.state()).teams.some((t) => t.routine?.enabled));
+    ], async () => (await h.state()).teams[0]?.routine?.enabled === true);
 
     await measure("박물관 건립", [
       (x) => x.tab("시설"),

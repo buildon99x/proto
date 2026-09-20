@@ -11,13 +11,12 @@
  */
 import { ARTIFACTS, ARTIFACT_BY_ID } from "../game/artifacts";
 import {
-  AUCTION_SLOT_CAP_BY_GRADE, CODEX_GOAL_V2, EXPEDITION_TEAM_UNLOCK_BASE, EXPEDITION_TEAM_UNLOCK_GROWTH, MAX_EXPEDITION_TEAMS_CAP, SITES, auctionHouseBuildCost, auctionGradeCost, dropThreshold, humidityLevelCost, layerExpectedValue, marketingLevelCost, museumBuildCost, museumGradeCost, restorationLevelCost, securityLevelCost, vaultLevelCost
+  AUTO_SELL_SPARE_MAX_TIER, CODEX_GOAL_V2, EXPEDITION_TEAM_UNLOCK_BASE, EXPEDITION_TEAM_UNLOCK_GROWTH, MAX_EXPEDITION_TEAMS_CAP, SITES, auctionHouseBuildCost, auctionGradeCost, dropThreshold, humidityLevelCost, layerExpectedValue, marketingLevelCost, museumBuildCost, museumGradeCost, restorationLevelCost, securityLevelCost, vaultLevelCost
 } from "../game/balance";
 import {
   advance, auctionHouseOf, buildAuctionHouse, buildMuseum, buyHumidityLevel, buyMuseumMarketing, buyRestorationLevel, buySecurityLevel, buyTeamGear, buyTeamWorker, buyVaultLevel, codexScore, createTeam, digPower, dispatchExpedition, displayArtifact, hireAuctioneer, hireCurator, hireForeman, listAtAuction, museumOf, museumSlotCount, runAutoRoutine, sellArtifactCopies, switchSite, teamHomeSite, unlockSite, unlockTeamSlot, upgradeAuctionGrade, upgradeMuseumGrade
 } from "../game/engine";
-import { auctioneerSlotBonus } from "../game/staff";
-import type { AuctionHouse, Auctioneer, SiteId, World } from "../game/types";
+import type { SiteId, World } from "../game/types";
 
 export const STEP_EARLY = 2; // 초반 1200초(드랍 간격·20분 통계)는 v0.1과 동일한 정밀도를 유지한다
 export const STEP_LATE = 15; // 12거점·발굴단·시설을 다 쓰는 장시간 시뮬은 성능을 위해 굵게 쪼갠다
@@ -126,41 +125,6 @@ export function liquidateSurplus(w: World) {
   }
 }
 
-/** 종당 2점 이상 보유한 T0~T2 잉여를 경매에 돌린다(자산 축은 이미 쉽게 포화되므로
- *  환금해 발굴단·시설 확장에 재투자하는 쪽이 낫다) */
-export function listSparesAtAuction(w: World, house: AuctionHouse) {
-  const auctioneer = w.staff.find((s) => s.id === house.auctioneerId && s.role === "auctioneer") as
-    | Auctioneer
-    | undefined;
-  const slotCap = auctioneer
-    ? auctioneerSlotBonus(house.grade, auctioneer.logistics)
-    : AUCTION_SLOT_CAP_BY_GRADE[house.grade - 1];
-  if (house.listings.length >= slotCap) return;
-  // counts는 "지금 금고에 남아 있는 사본 수"다. 출품할 때마다 반드시 차감한다 —
-  // 차감하지 않으면 2점짜리 종은 첫 사본을 출품한 뒤에도 count가 그대로 2라
-  // 두 번째(=마지막) 사본까지 출품돼 낙찰과 동시에 도감이 "owned"에서
-  // "discovered_not_owned"로 떨어졌다. liquidateSurplus()가 직접매각 경로에서
-  // 이미 막아 둔 바로 그 요동이 경매 경로에만 남아 있었다(실측: 도감이
-  // 48h 58종 → 96h 55종으로 **감소**. 강등된 4종은 전부 T2 —
-  // celadon-cloud-crane-maebyeong·goryeo-najeon-sutra-box·gold-scarab-pectoral·
-  // gr-jockey-of-artemision). 도감은 엔딩 판정 축이라(checkEnding → codexScore
-  // ≥ CODEX_GOAL_V2) 이 요동이 그대로 엔딩 지연으로 이어진다.
-  // 전시 중(displayed)인 사본은 아래 루프가 출품 대상에서 빼므로 집계에서도 뺀다.
-  const counts = new Map<string, number>();
-  for (const v of w.vault) {
-    if (v.displayed) continue;
-    counts.set(v.artifactId, (counts.get(v.artifactId) ?? 0) + 1);
-  }
-  for (const item of w.vault) {
-    if (house.listings.length >= slotCap) break;
-    if (item.displayed) continue;
-    if (ARTIFACT_BY_ID[item.artifactId].tier > 2) continue;
-    const have = counts.get(item.artifactId) ?? 0;
-    if (have <= 1) continue;
-    if (listAtAuction(w, item.uid, house.site)) counts.set(item.artifactId, have - 1);
-  }
-}
-
 /** 보관소·습도·복원·보안·박물관·경매장 — "시설 건립" 축. 급하지 않은 지출이라
  *  발굴단·레거시 확장보다 뒤에 붙되, 매 틱 조금씩 흘려 넣는다. */
 export function ensureFacilities(w: World) {
@@ -190,7 +154,16 @@ export function ensureFacilities(w: World) {
     if (!house.auctioneerId && w.funds >= 400_000) {
       for (let slot = 0; slot < 3; slot++) if (hireAuctioneer(w, home, slot)) break;
     }
-    listSparesAtAuction(w, house);
+    /**
+     * 경매장이 생기면 **중복분 자동 정리를 경매로 한 번 설정하고 손을 뗀다**(v0.3.4).
+     *
+     * 예전엔 이 자리에서 `listSparesAtAuction(w, house)`가 매 틱 돌며 한 점씩 직접
+     * 출품했다 — 계측에서 그게 168시간 동안 **189회, 플레이어 조작의 64%**로 나왔다
+     * (`notes/play-telemetry.md` §2.1). 사람이 실제로 그렇게 논다면 3단계짜리 조작을
+     * 189번 반복한다는 뜻이다. 이제 같은 일을 설정 두 번으로 끝낸다.
+     */
+    if (w.settings.autoSellSpareBelow === null) w.settings.autoSellSpareBelow = AUTO_SELL_SPARE_MAX_TIER;
+    if (w.settings.spareDestination !== "auction") w.settings.spareDestination = "auction";
   }
 }
 

@@ -46,11 +46,21 @@ function setupDispatched(): World {
   // 스텝 무관성이 아니므로(그건 이미 사용 중인 다른 스텝-청크 잔차, G53.10과 같은
   // 부류이고 qa_economy.ts가 별도로 다룬다), 꺼서 잡음을 걷어낸다.
   w.settings.autoSellBelow = null;
+  // v0.3.4부터 새 월드에는 시작 발굴단 1팀이 이미 파견된 채로 온다. 이 테스트는
+  // **원정 한 회차**의 스텝 무관성을 보는 것이라 그 팀을 비우고 통제된 조건으로
+  // 다시 꾸린다 — 시작 발굴단 자체는 qa_migration·playlog가 따로 본다.
+  w.teams = [];
+  w.staff = [];
   const foremanId = hireForeman(w, "korea", 0)!;
   const teamId = createTeam(w, foremanId)!;
   buyTeamWorker(w, teamId);
   buyTeamWorker(w, teamId);
   buyTeamGear(w, teamId);
+  // 루틴은 끈다 — 이 전제는 **왕복 한 회차**를 보는 것이고, 켜 두면 귀환 즉시
+  // 다시 나가 "둘 다 idle" 단언이 성립하지 않는다(v0.3.4부터 새 팀의 기본값이
+  // 자동 순회다). 루틴 자체의 스텝 무관성은 아래 별도 블록이 따로 본다.
+  const team = w.teams.find((t) => t.id === teamId)!;
+  team.routine = null;
   const dispatched = dispatchExpedition(w, teamId, TARGET);
   if (!dispatched) throw new Error("파견 실패 — 테스트 전제 붕괴");
   return w;

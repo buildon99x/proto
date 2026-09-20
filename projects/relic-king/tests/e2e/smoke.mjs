@@ -205,15 +205,18 @@ async function main() {
     await new Promise((r) => setTimeout(r, 1200));
     await shoot("06-vault-full");
 
+    // 검사 대상은 "이미 있던 칸이 손가락 밑에서 움직이는가"다. 새 종이 들어와
+    // 칸이 하나 느는 건 정상이고(v0.3.4부터 발굴단이 다른 거점의 종을 계속
+    // 물어 온다), 그때 "마지막 칸"은 아예 다른 종이 된다 — 그래서 위치를
+    // 순번이 아니라 **종 id(data-aid)**로 짝지어 대조한다.
     const probe = `(() => {
       const b = [...document.querySelectorAll('.vault-grid .stack')];
-      const r = (el) => { const x = el.getBoundingClientRect(); return [Math.round(x.x), Math.round(x.y)]; };
-      return {
-        pending: document.querySelectorAll('.pending-list li').length,
-        stacks: b.length,
-        first: b[0] ? r(b[0]).join(',') : null,
-        last: b.length ? r(b[b.length - 1]).join(',') : null
-      };
+      const pos = {};
+      for (const el of b) {
+        const x = el.getBoundingClientRect();
+        pos[el.dataset.aid] = Math.round(x.x) + ',' + Math.round(x.y);
+      }
+      return { pending: document.querySelectorAll('.pending-list li').length, stacks: b.length, pos };
     })()`;
     const posA = await evaluate(probe);
     await new Promise((r) => setTimeout(r, 4500));
@@ -221,8 +224,11 @@ async function main() {
     if (posA.stacks === 0) {
       failures.push("8시간 오프라인 후에도 소장고가 비어 있다");
     } else {
-      if (posA.first !== posB.first) failures.push(`소장고 첫 칸이 움직였다: ${posA.first} → ${posB.first}`);
-      if (posA.last !== posB.last) failures.push(`소장고 끝 칸이 움직였다: ${posA.last} → ${posB.last}`);
+      const moved = Object.keys(posA.pos).filter((aid) => posB.pos[aid] && posB.pos[aid] !== posA.pos[aid]);
+      if (moved.length) {
+        const a = moved[0];
+        failures.push(`소장고 칸이 움직였다: ${moved.length}종(예: ${a} ${posA.pos[a]} → ${posB.pos[a]})`);
+      }
     }
     await evaluate(`document.querySelectorAll('.vault-grid .stack')[0]?.click()`);
     await new Promise((r) => setTimeout(r, 600));
@@ -309,7 +315,7 @@ async function main() {
     console.log("──────── SMOKE ────────");
     console.log(`스크린샷 ${shots.length}장 → ${OUT}`);
     console.log(`${SECONDS}초 방치 후 vault+pending ${dropCount}점`);
-    console.log(`8시간 오프라인 후 소장고 ${posB.stacks}종 · 미감정 ${posB.pending}점, 칸 이동 ${posA.first === posB.first && posA.last === posB.last ? "없음" : "있음"}`);
+    console.log(`8시간 오프라인 후 소장고 ${posB.stacks}종 · 미감정 ${posB.pending}점, 칸 이동 ${Object.keys(posA.pos).every((aid) => !posB.pos[aid] || posB.pos[aid] === posA.pos[aid]) ? "없음" : "있음"}`);
     console.log(`조사 병기 ${badJosa.length === 0 ? "없음" : badJosa.join(" ")}`);
     console.log(failures.length ? `❌ FAIL\n- ${failures.join("\n- ")}` : "✅ PASS");
   } finally {

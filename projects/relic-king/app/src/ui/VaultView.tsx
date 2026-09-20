@@ -189,6 +189,10 @@ export function VaultView({ game }: { game: Game }) {
                 <button
                   key={s.artifact.id}
                   type="button"
+                  // 칸이 손가락 밑에서 재배열되지 않는지 검사가 종 단위로 대조한다
+                  // (tests/e2e/smoke.mjs). 새 종이 들어와 칸이 하나 느는 것과,
+                  // 이미 있던 칸이 움직이는 것은 다른 일이다.
+                  data-aid={s.artifact.id}
                   className={`stack${selected === s.artifact.id ? " picked" : ""}`}
                   onClick={() => setSelected(s.artifact.id)}
                   title={`${s.artifact.name} ×${s.items.length}`}
@@ -231,6 +235,8 @@ function SpareStrip({ game }: { game: Game }) {
   const targetedValue = targeted.reduce((sum, i) => sum + i.value, 0);
   const stored = world.vault.filter((v) => !v.displayed).length;
   const capacity = vaultCapacity(world.vaultLevel);
+  const toAuction = world.settings.spareDestination === "auction";
+  const noHouse = toAuction && world.auctionHouses.length === 0;
 
   return (
     <div className="spare-strip">
@@ -253,6 +259,16 @@ function SpareStrip({ game }: { game: Game }) {
             ))}
           </select>
         </label>
+        <label className="filter-chip">
+          보낼 곳
+          <select
+            value={world.settings.spareDestination}
+            onChange={(e) => game.setSpareDestination(e.target.value as "sell" | "auction")}
+          >
+            <option value="sell">직접 매각</option>
+            <option value="auction">경매 출품</option>
+          </select>
+        </label>
         <button
           type="button"
           className="ghost"
@@ -261,13 +277,20 @@ function SpareStrip({ game }: { game: Game }) {
         >
           {rule === null
             ? "지금 정리 — 기준을 고르면 켜진다"
-            : `지금 정리 ${targeted.length}점 · ${won(targetedValue)} ₩`}
+            : toAuction
+              ? `지금 경매로 ${targeted.length}점`
+              : `지금 정리 ${targeted.length}점 · ${won(targetedValue)} ₩`}
         </button>
       </div>
       {stored > capacity ? (
         <p className="stalled small">
           소장고 정원 {capacity}점을 {stored - capacity}점 넘겼다 — 넘긴 동안은 <strong>모든</strong> 소장 유물의
           보존 상태 저하 확률이 2배가 된다.
+        </p>
+      ) : noHouse ? (
+        <p className="stalled small">
+          보낼 곳이 <strong>경매 출품</strong>인데 경매장이 없다 — 시설 탭에서 먼저 짓는다. 그때까지 중복분은
+          그대로 쌓인다(직접매각으로 몰래 바꾸지 않는다).
         </p>
       ) : (
         <p className="muted small">
