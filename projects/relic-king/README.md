@@ -8,6 +8,8 @@
   구현은 아직 착수 전이다**(설계 문서 단계, 아래 "다음 단계" 참조).
 - 실행: `pnpm --filter relic-king dev` / 빌드: `pnpm --filter relic-king build`
 - 검증: `pnpm --filter relic-king sim` (밸런스 시뮬) · `pnpm --filter relic-king smoke` (브라우저 스모크)
+- QA 게이트: `qa:migration` (세이브 v1→v8) · `qa:artifacts` (데이터셋·세계 총가치) · `qa:economy` (통화 성장·원장 보존) ·
+  `qa:expedition` (원정 스텝 무관성) · `qa:season` (시즌 롤오버) · `qa:autosell` (소장고 중복분 자동 매각)
 
 ## 문서
 

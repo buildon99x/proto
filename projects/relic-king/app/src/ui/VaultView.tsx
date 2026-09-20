@@ -1,15 +1,16 @@
 import { useMemo, useState } from "react";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
-  APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE, BLIND_SELL_RATE, CONDITION_NAME, LOCKED_HOLD_CAP,
-  SITES, SITE_BY_ID, TIER_NAME, appraiseSeconds
+  APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE, AUTO_SELL_SPARE_MAX_TIER, BLIND_SELL_RATE, CONDITION_NAME,
+  LOCKED_HOLD_CAP, SITES, SITE_BY_ID, TIER_NAME, appraiseSeconds, vaultCapacity
 } from "../game/balance";
-import { freshnessOf, museumOf, museumSlotCount } from "../game/engine";
+import { freshnessOf, museumOf, museumSlotCount, spareVaultItems } from "../game/engine";
 import { won } from "../game/format";
 import { museumVisitorIncomeHourly, museumVisitorsPerDay } from "../game/museum";
 import { TIER_COLOR } from "../render/palette";
 import { auctionPriceMult } from "../game/staff";
 import { Modal } from "./Modal";
+import { SPARE_SELL_OPTIONS } from "./sellOptions";
 import { Sprite } from "./Sprite";
 import type { Artifact, Auctioneer, Condition, Curator, SiteId, Tier, VaultItem, World } from "../game/types";
 import type { Game } from "./useGame";
@@ -140,6 +141,8 @@ export function VaultView({ game }: { game: Game }) {
           팔면 자금이 늘고 <strong>순위는 떨어진다.</strong> 자산 점수는 전시 중이 아닌 소장 유물의 평가액 합이다.
         </p>
 
+        <SpareStrip game={game} />
+
         <div className="filter-chips">
           <FilterSelect
             label="티어"
@@ -186,6 +189,77 @@ export function VaultView({ game }: { game: Game }) {
 
         {picked ? <Detail game={game} stack={picked} /> : null}
       </section>
+    </div>
+  );
+}
+
+/**
+ * 중복 정리 스트립(v0.3.1, notes/decisions.md G68) — 희귀도 조건을 고르고, 지금
+ * 정리하고, 왜 정리해야 하는지(정원 초과 시 보존 저하 2배)를 한 줄에 모은다.
+ *
+ * 설정 모달(ux-v02.md §1.4가 설정을 한자리로 모은 그곳)에도 같은 항목이 있지만,
+ * 여기 있는 것은 **같은 설정값 하나**를 유물이 실제로 쌓이는 화면에서 만지게
+ * 하는 것이다(두 번째 설정이 아니다 — 둘 다 `world.settings.autoSellSpareBelow`를
+ * 읽고 쓴다). 조건을 정하는 화면과 결과를 보는 화면이 다르면 "몇 점이 팔리는가"를
+ * 확인할 방법이 없다.
+ *
+ * 대상 점수·금액은 엔진의 `spareVaultItems()`를 그대로 불러 센다 — 화면이 규칙을
+ * 다시 구현하지 않는다.
+ */
+function SpareStrip({ game }: { game: Game }) {
+  const { world } = game;
+  const rule = world.settings.autoSellSpareBelow;
+  // 설정과 무관한 "지금 소장고에 있는 중복분 전체"(상한 티어 기준) — 기능을 꺼 둔
+  // 플레이어에게도 정리할 거리가 얼마나 쌓였는지는 보여야 한다.
+  const all = spareVaultItems(world, AUTO_SELL_SPARE_MAX_TIER);
+  const targeted = spareVaultItems(world, rule);
+  const targetedValue = targeted.reduce((sum, i) => sum + i.value, 0);
+  const stored = world.vault.filter((v) => !v.displayed).length;
+  const capacity = vaultCapacity(world.vaultLevel);
+
+  return (
+    <div className="spare-strip">
+      <div className="spare-line">
+        <span>
+          중복 <strong>{all.length}</strong>점 <em className="muted small">진귀 이하 · 종당 1점은 제외</em>
+        </span>
+        <label className="filter-chip">
+          자동 정리
+          <select
+            value={rule === null ? "off" : String(rule)}
+            onChange={(e) =>
+              game.setAutoSellSpare(e.target.value === "off" ? null : (Number(e.target.value) as Tier))
+            }
+          >
+            {SPARE_SELL_OPTIONS.map((o) => (
+              <option key={o.label} value={o.value === null ? "off" : String(o.value)}>
+                {o.label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <button
+          type="button"
+          className="ghost"
+          disabled={targeted.length === 0}
+          onClick={() => game.sellSpares(rule)}
+        >
+          {rule === null
+            ? "지금 정리 — 기준을 고르면 켜진다"
+            : `지금 정리 ${targeted.length}점 · ${won(targetedValue)} ₩`}
+        </button>
+      </div>
+      {stored > capacity ? (
+        <p className="stalled small">
+          소장고 정원 {capacity}점을 {stored - capacity}점 넘겼다 — 넘긴 동안은 <strong>모든</strong> 소장 유물의
+          보존 상태 저하 확률이 2배가 된다.
+        </p>
+      ) : (
+        <p className="muted small">
+          종당 1점, 전시 중인 사본, 국보·유일은 설정과 무관하게 남는다(방치 중에도 돈다). 회수한 자금은
+          거점 해금·시설·원정에 <strong>쓸 때만</strong> 순위로 돌아온다 — 쌓아 두기만 하면 자산 축만 깎인다.
+        </p>
+      )}
     </div>
   );
 }

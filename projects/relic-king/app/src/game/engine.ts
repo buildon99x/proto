@@ -2,7 +2,8 @@ import {
   APPRAISAL_HIGH_TIER_TIME_MULT, APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE,
   ARTIFACT_WORLD_VALUE_CEILING, ASSET_SCORE_REF_SHARE, AUCTION_FEE_RATE, AUCTION_HOUSE_MAX_COUNT,
   AUCTION_SETTLE_HOURS, AUCTION_SLOT_CAP_BY_GRADE, AUTO_INVEST_RESERVE,
-  AUTO_SELL_KEEP_ONE_PER_SPECIES, AUTO_SELL_MAX_TIER,
+  AUTO_SELL_KEEP_ONE_PER_SPECIES, AUTO_SELL_MAX_TIER, AUTO_SELL_SPARE_KEEP_PER_SPECIES,
+  AUTO_SELL_SPARE_MAX_TIER,
   BASE_DIG, BLACK_MARKET_BUY_PRICE_RATIO, BLACK_MARKET_LOOSE_MAX_TIER,
   BLACK_MARKET_RESTOCK_INTERVAL_HOURS, BLACK_MARKET_SLOT_CAPACITY, BLACK_MARKET_STOLEN_PRICE_RATIO,
   BLIND_SELL_RATE, CATCHUP_MAX, CATCHUP_SLOPE, CLICK_COMBO_MAX, CLICK_COMBO_STEP, CLICK_COMBO_WINDOW,
@@ -37,7 +38,7 @@ import {
   distanceCostMult, distanceYieldBonus, mishapChance, onsiteHoursOf, onsiteWindow,
   teamDigPower, travelHoursOneWay
 } from "./expedition";
-import { josa } from "./format";
+import { josa, won } from "./format";
 import { localPriceMult } from "./market";
 import {
   freshnessOnDisplay, freshnessRecovered, museumUpkeepHourly, museumVisitorIncomeHourly,
@@ -106,7 +107,7 @@ export function createWorld(seed = 20260917): World {
   for (const a of ARTIFACTS) codex[a.id] = "unseen";
 
   return {
-    version: 7,
+    version: 8,
     t: 0,
     lastTickAt: Date.now(),
     // 감정에는 추정가의 2%가 든다. 종잣돈이 0이면 첫 유물을 감정조차 못 해
@@ -143,7 +144,7 @@ export function createWorld(seed = 20260917): World {
     // autoSellBelow=1(희귀 이하 자동 매각)·autoReinvest=true가 기본이다 — 클릭
     // 0회로도 자금이 돌게 하는 기본 자동화(G3·척추 4번, notes/decisions.md G57).
     // 둘 다 설정에서 끌 수 있다(off로 두면 예전처럼 완전 수동, 손실은 없다).
-    settings: { autoSellBelow: 1, muted: false, autoReinvest: true },
+    settings: { autoSellBelow: 1, autoSellSpareBelow: null, muted: false, autoReinvest: true },
     stats: { drops: 0, clicks: 0, sold: 0, blindSold: 0, racesWon: 0, racesLost: 0, firstT4Finds: 0 },
     clickCombo: 1,
     clickComboUntil: 0,
@@ -1414,9 +1415,25 @@ export function autoInvestLegacyDig(w: World) {
 }
 
 /**
- * 두 배경 루틴(미감정 잉여 처분·인부/장비/감정소 재투자)을 한 번에 묶어
- * 부른다(notes/decisions.md G57). **`step()`/`advance()`가 자동으로 부르지
- * 않는다** — 위 두 함수의 주석이 각각 실측으로 남긴 이유(스텝-청크 잔차가
+ * 설정(`settings.autoSellSpareBelow`)이 켜져 있으면 소장고 중복분을 정리한다
+ * (v0.3.1, notes/decisions.md G68). `autoLiquidatePendingOverflow`와 같은 이유로
+ * `step()`/`advance()` 안에서는 부르지 않는다 — 판매액이 스텝 크기에 따라
+ * 누적 오차를 만든다(그 함수 주석의 실측 참조). `runAutoRoutine`을 통해
+ * `applyOffline()`·`sim/run.ts`·UI 타이머에서만 불린다.
+ *
+ * 재투자(`autoInvestLegacyDig`)보다 **먼저** 부른다 — 같은 틱에 회수한 자금이
+ * 그 틱의 재투자에 바로 쓰이게 하려는 것이다.
+ */
+function autoSellVaultSpares(w: World) {
+  const { count, gained } = sellSpares(w, w.settings.autoSellSpareBelow);
+  if (count === 0) return;
+  log(w, "system", `중복 유물 ${count}점을 정리해 ${won(gained)} ₩를 회수했다.`);
+}
+
+/**
+ * 세 배경 루틴(미감정 잉여 처분·소장고 중복분 정리·인부/장비/감정소 재투자)을
+ * 한 번에 묶어 부른다(notes/decisions.md G57·G68). **`step()`/`advance()`가 자동으로 부르지
+ * 않는다** — 위 세 함수의 주석이 각각 실측으로 남긴 이유(스텝-청크 잔차가
  * 장시간 단일 `advance()` 호출 안에서 funds·드랍/층 진행으로 증폭된다)가
  * 똑같이 적용된다. 대신 이 루틴은 `advance()` 밖, 즉 qa/sim의 스텝 무관성
  * 검증이 거치지 않는 지점에서만 불린다:
@@ -1426,6 +1443,7 @@ export function autoInvestLegacyDig(w: World) {
  */
 export function runAutoRoutine(w: World) {
   autoLiquidatePendingOverflow(w);
+  autoSellVaultSpares(w);
   autoInvestLegacyDig(w);
 }
 
@@ -1866,6 +1884,89 @@ export function sellArtifactCopies(w: World, artifactId: string, count: number):
   w.funds += gained;
   demoteIfEmptied(w, artifactId);
   return gained;
+}
+
+/**
+ * 소장고 **중복분** 자동 매각의 대상 선정(v0.3.1, notes/decisions.md G68).
+ * 엔진(`autoSellVaultSpares`)과 UI 미리보기(`VaultView`)가 **같은 이 함수**를
+ * 쓴다 — 화면이 규칙을 따로 구현하면 "정리 대상 12점"과 실제로 팔리는 점수가
+ * 어긋난다(척추 5번 "규칙은 공개한다"는 표시한 수와 실제가 같을 때만 성립한다).
+ *
+ * 남기는 규칙(네 겹, 전부 설정과 무관하게 강제된다):
+ * 1. **종당 `AUTO_SELL_SPARE_KEEP_PER_SPECIES`(=1)점 보존** — 2점째부터가 대상이다.
+ *    이게 없으면 방치 중에 도감(엔딩 판정 축)이 감소한다.
+ * 2. **전시 중(`displayed`) 사본 제외** — 박물관에서 몰래 사라지지 않는다.
+ *    전시 사본이 있으면 그게 보존분 역할을 하므로 나머지는 전부 대상이 된다.
+ * 3. **국보(T3)·유일(T4) 하드 예외**(`LOCKED_HOLD_TIER_EXEMPT_MIN_TIER`) — 설정이
+ *    무엇이든, 상한 상수를 누가 올려도 대상이 되지 않는다.
+ * 4. **`AUTO_SELL_SPARE_MAX_TIER`(=2) 상한** — 설정값이 그 위여도 잘린다.
+ *
+ * 보존할 1점은 "전시 중 > 평가액 높은 순 > uid 작은 순"으로 고른다. 결정론
+ * 타이브레이크가 필요한 이유는 이 함수가 오프라인 복귀·UI 타이머·시뮬에서
+ * 각각 다른 시점에 불리기 때문이다 — 같은 월드 상태면 같은 사본이 남아야 한다.
+ */
+export function spareVaultItems(w: World, tier: Tier | null): VaultItem[] {
+  if (tier === null) return [];
+  const cap = Math.min(tier, AUTO_SELL_SPARE_MAX_TIER);
+  const bySpecies = new Map<string, VaultItem[]>();
+  for (const item of w.vault) {
+    const list = bySpecies.get(item.artifactId);
+    if (list) list.push(item);
+    else bySpecies.set(item.artifactId, [item]);
+  }
+  const kept = new Set<number>();
+  for (const list of bySpecies.values()) {
+    for (const item of [...list].sort(keeperOrder).slice(0, AUTO_SELL_SPARE_KEEP_PER_SPECIES)) {
+      kept.add(item.uid);
+    }
+  }
+  return w.vault.filter((item) => {
+    if (item.displayed) return false;
+    if (kept.has(item.uid)) return false;
+    const a = ARTIFACT_BY_ID[item.artifactId];
+    if (a.tier >= LOCKED_HOLD_TIER_EXEMPT_MIN_TIER) return false;
+    return a.tier <= cap;
+  });
+}
+
+/** 보존분 우선순위 — 전시 중 > 평가액 높은 순 > uid 작은 순(결정론 타이브레이크) */
+function keeperOrder(a: VaultItem, b: VaultItem): number {
+  const ad = a.displayed ? 1 : 0;
+  const bd = b.displayed ? 1 : 0;
+  if (ad !== bd) return bd - ad;
+  if (a.value !== b.value) return b.value - a.value;
+  return a.uid - b.uid;
+}
+
+/**
+ * 중복분을 지금 전부 판다(수동 "지금 정리" 버튼과 자동 루틴이 공유한다).
+ * 매각 채널은 직접매각과 완전히 같다(`settleSale` — 지역시세 × 단장 급여 원천징수).
+ * 새 채널을 만들지 않는 게 핵심이다 — 자동화는 플레이어가 이미 누를 수 있는
+ * 버튼을 대신 눌러 줄 뿐이어야 한다(척추 4번 "클릭은 언제나 선택").
+ */
+export function sellSpares(w: World, tier: Tier | null): { count: number; gained: number } {
+  const spares = spareVaultItems(w, tier);
+  if (spares.length === 0) return { count: 0, gained: 0 };
+  const uids = new Set(spares.map((s) => s.uid));
+  const soldIds = new Set<string>();
+  let gained = 0;
+  const keep: VaultItem[] = [];
+  for (const item of w.vault) {
+    if (!uids.has(item.uid)) {
+      keep.push(item);
+      continue;
+    }
+    gained += settleSale(w, ARTIFACT_BY_ID[item.artifactId], item.value, item.diggerForemanId);
+    w.stats.sold += 1;
+    soldIds.add(item.artifactId);
+  }
+  w.vault = keep;
+  w.funds += gained;
+  // 종당 1점 보존이 지켜졌다면 이 호출은 전부 no-op이다. 그래도 부르는 건
+  // 다른 매각 경로와 같은 규율을 유지하기 위해서다 — 나중에 보존 규칙이
+  // 바뀌어도 도감이 조용히 어긋나지 않는다.
+  for (const id of soldIds) demoteIfEmptied(w, id);
+  return { count: uids.size, gained };
 }
 
 export function sellTierAtMost(w: World, tier: Tier): number {

@@ -286,6 +286,23 @@ export const EMERGENCY_DISPATCH_MISHAP_MULT = 2.0;
 export const AUTO_SELL_MAX_TIER = 1;
 export const AUTO_SELL_KEEP_ONE_PER_SPECIES = true;
 
+// ── 소장고 중복분 자동 매각 (v0.3.1 신설, notes/decisions.md G68) ──────────
+// 위의 `AUTO_SELL_MAX_TIER`(감정 직후 자동매각)와 **다른 상한**을 쓴다. 감정
+// 직후 경로는 플레이어가 그 유물을 한 번도 못 본 상태에서 파는 것이라 희귀(T1)
+// 까지로 묶어 뒀다(G39/A1 "파괴적 손실 금지"). 소장고 경로는 전제가 다르다 —
+// 이미 감정이 끝나 이름·평가액이 공개됐고, 도감에도 올라 있고, 종당 1점은
+// 무조건 남으며, 화면에서 몇 점이 정리 대상인지 미리 보인다. 그래서 진귀(T2)
+// 까지 연다. 실질적으로 이 상한이 T2여야 기능이 의미가 있기도 하다: 기본
+// 설정(`autoSellBelow=1`)에서 T0·T1 중복분은 감정 시점에 이미 걸러져 소장고에
+// 들어오지도 않으므로, 소장고에 실제로 쌓이는 중복은 대부분 T2다.
+//
+// 국보(T3)·유일(T4)은 `LOCKED_HOLD_TIER_EXEMPT_MIN_TIER`로 한 번 더 막는다 —
+// 이 상수를 나중에 누가 올려도 그 둘은 자동 매각 대상이 되지 않는다.
+export const AUTO_SELL_SPARE_MAX_TIER = 2;
+/** 종당 보존 점수. 끌 수 없다 — 이걸 0으로 두면 방치 중에 도감(엔딩 판정 축)이
+ *  감소한다(G57 주석과 `sim/run.ts`의 `listSparesAtAuction` 참조). */
+export const AUTO_SELL_SPARE_KEEP_PER_SPECIES = 1;
+
 // ── 기본 자동화 루틴(notes/decisions.md G57 — v0.2 결함 1 수정) ────────────
 // 감정비를 낼 자금이 없으면 그 항목은 spec.md §9.2가 이미 정한 대로 "대기"한다
 // (파괴·강제매각 없음, G39/A1). 단 그 탈출구("미감정 매각으로 언제든 풀 수

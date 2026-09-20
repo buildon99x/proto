@@ -1,11 +1,11 @@
 /**
- * 세이브 마이그레이션 v1→v2→v3→v4→v5→v6→v7 직접 검증.
+ * 세이브 마이그레이션 v1→v2→v3→v4→v5→v6→v7→v8 직접 검증.
  *
  *   pnpm --filter relic-king exec tsx src/sim/qa_migration.ts
  *
  * `save.ts`의 `deserialize()`는 localStorage를 거치지 않고 순수 텍스트 → World
- * 변환만 하므로, 여기서는 실제 v1~v6 스키마 모양의 JSON을 직접 만들어 넣고
- * 체인 끝(v7)까지 정확히 올라오는지 필드 단위로 확인한다. v0.2 구현 1단계
+ * 변환만 하므로, 여기서는 실제 v1~v7 스키마 모양의 JSON을 직접 만들어 넣고
+ * 체인 끝(v8)까지 정확히 올라오는지 필드 단위로 확인한다. v0.2 구현 1단계
  * (spec.md §2.9·§5)가 요구하는 "v1 세이브가 깨지지 않고 마이그레이션되어야
  * 한다"와, 2단계(세계지도·거점·원정·스텝)가 v2→v3에 추가한 신규 필드
  * (teams·staff·appraisalVouchers·visitedSites·unexploredBonusGranted·
@@ -15,8 +15,9 @@
  * 암시장·도난 필드, 마무리 패스(notes/decisions.md G56)가 v5→v6에 추가한
  * `museumCumulativeVisitors`·`blackMarket.listings[].listedAt`, 결함 수정
  * 패스(notes/decisions.md G57)가 v6→v7에 추가한 `settings.autoReinvest`·
- * 기존 `autoSellBelow` 기본값 승격까지 전부 같은 방식으로 무손실 승계되는지의
- * 실제 증거다.
+ * 기존 `autoSellBelow` 기본값 승격, 그리고 소장고 중복분 자동 매각(G68)이
+ * v7→v8에 추가한 `settings.autoSellSpareBelow`까지 전부 같은 방식으로 무손실
+ * 승계되는지의 실제 증거다.
  */
 import { deserialize, serialize } from "../game/save";
 import { ARTIFACTS } from "../game/artifacts";
@@ -71,8 +72,8 @@ console.log("──────── qa_migration: v1 → v2 → v3 ───�
 
 const migrated = deserialize(JSON.stringify(v1Raw)) as World;
 
-// ── 2) 스키마 버전 — 체인 끝(v7)까지 올라간다 ───────────────────────────
-check("version이 7로 올라간다(체인 끝까지)", migrated.version === 7);
+// ── 2) 스키마 버전 — 체인 끝(v8)까지 올라간다 ───────────────────────────
+check("version이 8로 올라간다(체인 끝까지)", migrated.version === 8);
 check("autoSellBelow가 기본값(1)으로 올라간다(체인 끝까지)", migrated.settings.autoSellBelow === 1);
 check("autoReinvest가 채워진다(체인 끝까지)", migrated.settings.autoReinvest === true);
 check("rivals[].homeSite가 채워진다(체인 끝까지)",
@@ -122,12 +123,12 @@ check("lastRelocationAt이 null로 채워진다", migrated.lastRelocationAt === 
 // ── 6) 마이그레이션 결과가 다시 직렬화·역직렬화돼도 안정적이다(왕복) ──────────
 const roundTrip = deserialize(serialize(migrated)) as World;
 check("마이그레이션 결과를 다시 직렬화→역직렬화해도 동일하다",
-  roundTrip.version === 7 && roundTrip.funds === migrated.funds && roundTrip.vault.length === migrated.vault.length
+  roundTrip.version === 8 && roundTrip.funds === migrated.funds && roundTrip.vault.length === migrated.vault.length
     && roundTrip.teams.length === migrated.teams.length);
 
 // ── 7) v4 세이브(이미 최신)를 다시 넣으면 아무 변환도 일어나지 않는다(체인 정지) ──
 const v5Again = deserialize(serialize(migrated)) as World;
-check("이미 v7인 세이브는 재마이그레이션되지 않는다", v5Again.version === 7);
+check("이미 최신 버전인 세이브는 재마이그레이션되지 않는다", v5Again.version === 8);
 
 // ── 8) v2 → v3 단독 구간도 같은 방식으로 검증한다(손으로 만든 실제 v2 세이브 모양) ──
 console.log("\n──────── qa_migration: v2 → v3 ────────");
@@ -155,7 +156,7 @@ const v2Raw = {
 const migratedV3 = deserialize(JSON.stringify(v2Raw)) as World;
 // v2Raw를 넣으면 체인이 끝(v4)까지 이어진다 — 2→3에서 멈추지 않는다(체인 자체가
 // while(MIGRATIONS[version])이라 다음 칸(3→4)이 있으면 계속 올라간다).
-check("v2 → v7 버전 승격(체인 끝까지)", migratedV3.version === 7);
+check("v2 → v8 버전 승격(체인 끝까지)", migratedV3.version === 8);
 check("v2 funds·t 무손실 보존", migratedV3.funds === 500_000 && migratedV3.t === 999);
 check("v2에 있던 base(korea·egypt)는 baseSince 0으로 채워진다",
   migratedV3.sites.korea.baseSince === 0 && migratedV3.sites.egypt.baseSince === 0);
@@ -190,7 +191,7 @@ const v3Raw = {
 };
 // v3 → v4 → v5로 체인이 계속 이어진다(위 §8과 같은 이유) — v4 필드까지 함께 확인한다.
 const migratedV4 = deserialize(JSON.stringify(v3Raw)) as World;
-check("v3 → v7 버전 승격(체인 끝까지)", migratedV4.version === 7);
+check("v3 → v8 버전 승격(체인 끝까지)", migratedV4.version === 8);
 check("v3 funds·t 무손실 보존", migratedV4.funds === 100_000 && migratedV4.t === 42);
 check("homeSite가 없던 라이벌마다 favSite 값으로 채워진다",
   migratedV4.rivals.every((r) => (r as any).homeSite === r.favSite));
@@ -219,7 +220,7 @@ const v4Raw = {
 };
 // v4Raw를 넣으면 체인이 끝(v7)까지 이어진다(위 §8·§9와 같은 이유) — v5 필드까지 함께 확인한다.
 const migratedV5 = deserialize(JSON.stringify(v4Raw)) as World;
-check("v4 → v7 버전 승격(체인 끝까지)", migratedV5.version === 7);
+check("v4 → v8 버전 승격(체인 끝까지)", migratedV5.version === 8);
 check("v4 funds·t·vault 무손실 보존",
   migratedV5.funds === 250_000 && migratedV5.t === 500_000 && migratedV5.vault.length === 1);
 check("vaultLevel·humidityLevel·restorationLevel·securityLevel이 1로 채워진다(레벨1 = 업그레이드 전)",
@@ -276,7 +277,7 @@ const v5Raw = {
   onlineElapsedSeconds: 3600
 };
 const migratedV6 = deserialize(JSON.stringify(v5Raw)) as World;
-check("v5 → v7 버전 승격(체인 끝까지)", migratedV6.version === 7);
+check("v5 → v8 버전 승격(체인 끝까지)", migratedV6.version === 8);
 check("v5 funds·t·museums 무손실 보존",
   migratedV6.funds === 400_000 && migratedV6.t === 1_000_000 && migratedV6.museums.length === 1);
 check("museumCumulativeVisitors가 0으로 채워진다", migratedV6.museumCumulativeVisitors === 0);
@@ -288,9 +289,11 @@ check("blackMarket.listings 2건 무손실 보존(kind·estimate·theftEventId)"
     && migratedV6.blackMarket.listings[1].theftEventId === "theft-1");
 check("teams[].layerAtDispatch이 없으면 그 팀 targetSite의 현재 층으로 채워진다",
   migratedV6.teams.length === 1 && migratedV6.teams[0].layerAtDispatch === migratedV6.sites.egypt.layer);
-check("v5 → v7 체인 끝까지 autoSellBelow가 기본값(1)으로 올라간다",
+check("v5 → v8 체인 끝까지 autoSellBelow가 기본값(1)으로 올라간다",
   migratedV6.settings.autoSellBelow === 1);
-check("v5 → v7 체인 끝까지 autoReinvest가 채워진다", migratedV6.settings.autoReinvest === true);
+check("v5 → v8 체인 끝까지 autoReinvest가 채워진다", migratedV6.settings.autoReinvest === true);
+check("v5 → v8 체인 끝까지 autoSellSpareBelow가 끔(null)으로 채워진다",
+  migratedV6.settings.autoSellSpareBelow === null);
 
 // ── 12) v6 → v7 단독 구간(결함 수정 패스, notes/decisions.md G57 — 8시간 방치가
 // 굴러가지 않던 교착을 닫는다. 손으로 만든 실제 v6 세이브 모양 — settings에
@@ -320,13 +323,37 @@ const v6Raw = {
   onlineElapsedSeconds: 0, museumCumulativeVisitors: 0
 };
 const migratedV7 = deserialize(JSON.stringify(v6Raw)) as World;
-check("v6 → v7 버전 승격", migratedV7.version === 7);
+check("v6 → v8 버전 승격(체인 끝까지)", migratedV7.version === 8);
 check("v6 funds·t·pending 무손실 보존",
   migratedV7.funds === 12_000 && migratedV7.t === 2_000_000 && migratedV7.pending.length === 1);
 check("이미 꺼져 있던(null) autoSellBelow가 기본값(1)으로 올라간다(척추 4번 — 방치 교착 수정)",
   migratedV7.settings.autoSellBelow === 1);
 check("autoReinvest가 없던 세이브에도 기본값(true)으로 채워진다", migratedV7.settings.autoReinvest === true);
 check("muted 등 기존 설정값은 그대로 보존된다", migratedV7.settings.muted === false);
+
+// ── 13) v7 → v8 단독 구간(소장고 중복분 자동 매각 신설, notes/decisions.md G68).
+// v6→v7이 autoSellBelow를 **올려** 준 것과 정반대로, 이 필드는 **끔(null)** 으로
+// 채워야 한다 — 결함 수정이 아니라 선택지 추가라서다. 켜면 소장 유물이 실제로
+// 팔려 자산 축(가중치 .30)이 내려가므로, 돌아온 플레이어의 순위를 그가 고르지
+// 않은 설정으로 깎을 수 없다. 새 게임 기본값(createWorld)과도 같은 값이다. ──
+console.log("\n──────── qa_migration: v7 → v8 ────────");
+const v7Raw = {
+  ...v6Raw,
+  version: 7,
+  funds: 33_000,
+  vault: [{ uid: 70, artifactId: t0.id, value: 9_000, condition: 1, displayed: false }],
+  settings: { autoSellBelow: 0, muted: true, autoReinvest: false }
+};
+const migratedV8 = deserialize(JSON.stringify(v7Raw)) as World;
+check("v7 → v8 버전 승격", migratedV8.version === 8);
+check("v7 funds·vault 무손실 보존", migratedV8.funds === 33_000 && migratedV8.vault.length === 1);
+check("autoSellSpareBelow가 끔(null)으로 채워진다 — 기존 플레이어의 소장품을 임의로 팔지 않는다",
+  migratedV8.settings.autoSellSpareBelow === null);
+check("플레이어가 직접 고른 기존 설정값은 덮어쓰지 않는다(autoSellBelow 0 · muted true · autoReinvest false)",
+  migratedV8.settings.autoSellBelow === 0 && migratedV8.settings.muted === true
+    && migratedV8.settings.autoReinvest === false);
+check("새 게임 기본값과 같다(신규·기존 플레이어가 같은 상태에서 시작한다)",
+  migratedV8.settings.autoSellSpareBelow === createWorld().settings.autoSellSpareBelow);
 
 console.log(failed === 0 ? "\n✅ qa_migration 전체 통과" : `\n❌ qa_migration ${failed}건 실패`);
 process.exit(failed === 0 ? 0 : 1);

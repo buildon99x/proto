@@ -159,6 +159,24 @@ const MIGRATIONS: Record<number, Migration> = {
       autoSellBelow: raw.settings?.autoSellBelow ?? 1,
       autoReinvest: raw.settings?.autoReinvest ?? true
     }
+  }),
+  /**
+   * v7 → v8 (소장고 중복분 자동 매각 신설, notes/decisions.md G68).
+   * `Settings.autoSellSpareBelow`를 **끔(null)** 으로 채운다 — v6→v7이
+   * `autoSellBelow`를 올려 준 것과 정반대의 처방이고, 이유도 정반대다.
+   * 그건 "기본 상태에서 방치가 죽는" 결함의 수정이라 기존 세이브도 같은 처방을
+   * 받아야 했다. 이건 결함 수정이 아니라 **선택지 추가**이고, 켜면 소장 유물이
+   * 실제로 팔려 자산 축 점수가 내려간다 — 돌아온 플레이어의 순위를 그가
+   * 고르지 않은 설정으로 깎을 수는 없다. 새 게임 기본값(`createWorld`)과도
+   * 같은 값이라 신규·기존 플레이어가 같은 상태에서 시작한다.
+   */
+  7: (raw: any) => ({
+    ...raw,
+    version: 8,
+    settings: {
+      ...raw.settings,
+      autoSellSpareBelow: raw.settings?.autoSellSpareBelow ?? null
+    }
   })
 };
 

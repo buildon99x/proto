@@ -143,6 +143,23 @@ G23/A9)와 일치한다.
   이 보장이 없으면 자동매각이 도감 축을 구조적으로 0에 수렴시킨다. 동시에
   "종당 1점만 남기고 판다"는 수동 미시관리를 자동화가 흡수해, 남는 결정은
   "마지막 1점까지 팔 것인가"라는 의식적 선택 하나로 좁아진다.
+- **소장고 중복분 자동 매각** (v0.3.1 신설, `notes/decisions.md` G68). 위 설정이
+  감정 **직후**에 거는 필터라면, 이쪽은 **이미 소장 중인** 유물에 거는 필터다.
+  설정은 `settings.autoSellSpareBelow: Tier | null`, 기본값 **꺼짐**.
+  상한은 `AUTO_SELL_SPARE_MAX_TIER = 2`(진귀까지) — 감정 직후 경로(T1)보다
+  한 칸 높다. 그쪽은 플레이어가 유물을 한 번도 못 본 채 팔리지만, 이쪽은 이미
+  감정이 끝나 이름·평가액이 공개됐고 화면에 "정리 대상 N점 · M원"이 미리 뜬다.
+  기본 설정에서 T0·T1 중복분은 감정 시점에 이미 걸러져 소장고에 들어오지도
+  않으므로, 상한이 T2여야 기능이 실제로 할 일이 있다.
+  절대 팔지 않는 것(설정과 무관, 네 겹): 종당 1점
+  (`AUTO_SELL_SPARE_KEEP_PER_SPECIES = 1`) · 전시 중인 사본 · 국보(T3)·유일(T4)
+  (`LOCKED_HOLD_TIER_EXEMPT_MIN_TIER`) · 상한 초과 티어. 보존할 1점은
+  "전시 중 > 평가액 높은 순 > uid 작은 순"으로 고른다(결정론).
+  매각 채널은 직접매각과 동일하다(지역시세 × 단장 급여 원천징수) — 자동화는
+  플레이어가 이미 누를 수 있는 버튼을 대신 누를 뿐 새 채널을 만들지 않는다.
+  기본값이 꺼짐인 이유: 켜면 자산 축(가중치 .30)이 실제로 내려간다
+  (`assetScore`의 분자는 소장 유물 평가액 합이고 자금은 포함되지 않는다).
+  결함 수정이 아니라 선택지 추가이므로, 세이브 v7→v8도 꺼짐으로 채운다.
 
 ### 2.5 라이벌 (v0.1: 6인)
 
@@ -399,7 +416,9 @@ type SaveV1 = {
   ledger: WorldLedger;
   rivals: RivalState[];
   codex: Record<string, "unseen" | "owned" | "lost">;   // v0.2는 §13.3의 5종으로 확장(아직 미구현)
-  settings: { autoSellBelow: Tier | null; muted: boolean };   // autoAppraise는 존재하지 않는다 — 자동 감정은 토글이 아니라 상시 동작
+  // autoAppraise는 존재하지 않는다 — 자동 감정은 토글이 아니라 상시 동작.
+  // autoReinvest는 G57, autoSellSpareBelow(소장고 중복분)는 G68에서 신설됐다.
+  settings: { autoSellBelow: Tier | null; autoSellSpareBelow: Tier | null; muted: boolean; autoReinvest: boolean };
   stats: { drops: number; clicks: number; sold: number; blindSold: number; racesWon: number; racesLost: number };
 };
 ```
@@ -1388,6 +1407,9 @@ export const EMERGENCY_DISPATCH_MISHAP_MULT = 2.0;
 // 자동매각(§2.4, B8. KEEP_ONE_PER_SPECIES는 G47/B1+B2로 신설)
 export const AUTO_SELL_MAX_TIER = 1;
 export const AUTO_SELL_KEEP_ONE_PER_SPECIES = true;
+// 소장고 중복분 자동매각(§2.4, G68) — 감정 직후 경로와 상한을 따로 둔다
+export const AUTO_SELL_SPARE_MAX_TIER = 2;
+export const AUTO_SELL_SPARE_KEEP_PER_SPECIES = 1;
 
 // 발굴단·원정(§8. FOREMAN_HIRE_COST·MAX_GEAR_LEVEL·EXPEDITION_ONSITE_RATIO·
 // EXPEDITION_DISTANCE_YIELD_COEFF는 G21/A6·G27/B5로 신설)

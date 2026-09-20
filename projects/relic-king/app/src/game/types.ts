@@ -171,7 +171,14 @@ export type LogKind = "drop" | "rival" | "lost" | "won" | "system";
 export type LogEntry = { t: number; kind: LogKind; text: string };
 
 export type Settings = {
+  /** 감정 **직후** 자동 매각 기준(§2.4) — `AUTO_SELL_MAX_TIER`(=1)로 한 번 더
+   *  잘린다. 그 종을 이미 갖고 있을 때만 판다. */
   autoSellBelow: Tier | null;
+  /** 소장고에 **이미 들어와 있는** 중복분의 자동 매각 기준(v0.3.1, G68) —
+   *  `AUTO_SELL_SPARE_MAX_TIER`(=2)로 잘리고, 종당 1점·전시 중·국보·유일은
+   *  절대 건드리지 않는다. null이면 끔(기본값) — 매각은 자산 축을 깎으므로
+   *  켜고 끄는 것 자체가 전략적 선택이다. */
+  autoSellSpareBelow: Tier | null;
   muted: boolean;
   /** 인부·장비·감정소 잉여 자금 자동 재투자(notes/decisions.md G57) — 기본 켬.
    *  클릭 없이도 발굴력이 자라게 하는 배경 루틴의 온/오프 스위치일 뿐, 꺼도
@@ -211,7 +218,7 @@ export type SeasonState = {
 };
 
 export type World = {
-  version: 2 | 3 | 4 | 5 | 6 | 7;
+  version: 2 | 3 | 4 | 5 | 6 | 7 | 8;
   t: number;
   lastTickAt: number;
   funds: number;

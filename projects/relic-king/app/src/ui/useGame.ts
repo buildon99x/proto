@@ -7,7 +7,7 @@ import {
   buyVaultLevel, buyWorker, buildAuctionHouse, buildMuseum, click, createPersistentRecord, createTeam,
   createWorld, dispatchExpedition, displayArtifact, emergencyDispatch, focusDig, fullRanking,
   hireAuctioneer, hireCurator, hireForeman, listAtAuction, relocateBase, runAutoRoutine, sellArtifactCopies,
-  sellTierAtMost, setRoutine, switchSite, undisplayArtifact, unlockSite, unlockTeamSlot,
+  sellSpares, sellTierAtMost, setRoutine, switchSite, undisplayArtifact, unlockSite, unlockTeamSlot,
   upgradeAuctionGrade, upgradeMuseumGrade
 } from "../game/engine";
 import { clear, clearRecord, exportText, importText, load, loadRecord, save, saveRecord } from "../game/save";
@@ -210,6 +210,14 @@ export function useGame() {
       act((w) => {
         w.settings.autoSellBelow = tier;
       }),
+    /** 소장고 중복분 자동 매각 기준(G68). 기준을 바꾼 그 순간에는 팔지 않는다 —
+     *  실제 정리는 다음 자동 루틴 틱이나 "지금 정리" 버튼이 한다. 드롭다운을
+     *  훑어보는 것만으로 소장품이 사라지면 안 된다. */
+    setAutoSellSpare: (tier: Tier | null) =>
+      act((w) => {
+        w.settings.autoSellSpareBelow = tier;
+      }),
+    sellSpares: (tier: Tier | null) => act((w) => sellSpares(w, tier)),
     setMuted: (muted: boolean) =>
       act((w) => {
         w.settings.muted = muted;
