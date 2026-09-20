@@ -85,6 +85,8 @@ function rgbToLab(r: number, g: number, b: number): [number, number, number] {
 export type SpriteFeature = {
   id: string;
   site: string;
+  /** 재질(`PaletteId`). 거점 신호가 재질을 덮지 않았는지 재는 축이다 — qa_sprites의 재질 분류 */
+  palette: string;
   tier: number;
   /** 길이 192: 칸별 [L, a, b] */
   lab: Float64Array;
@@ -94,6 +96,16 @@ export type SpriteFeature = {
   area: number;
   /** 거점 신호용 특징: 색상 히스토그램 + 평균 L*·채도 + 무늬 변화율 2칸 */
   hue: Float64Array;
+  /**
+   * 재질 판독용 특징: 같은 구성이되 **채도 가중을 빼고 면적으로** 센다.
+   *
+   * `hue`는 채도로 가중한다 — 거점 악센트를 크게 잡으려는 설계다(HUE_BINS 머리말).
+   * 그 특징으로 재질을 재면 결과가 구조적으로 왜곡된다: 채도 높은 테두리 1~2px이
+   * 무채색에 가까운 석재 몸통 수백 px을 채도 합에서 이긴다. 사람이 44px 아이콘을
+   * 보고 "돌이네"라고 읽는 건 면적이지 채도가 아니므로, 재질 축은 면적 가중으로
+   * 잰다. 두 특징 모두 악센트 색표를 모르는 일반 기술자다.
+   */
+  materialHue: Float64Array;
 };
 
 export function featureOf(a: Artifact): SpriteFeature {
@@ -123,20 +135,30 @@ export function featureOf(a: Artifact): SpriteFeature {
   const n = BLOCK * BLOCK;
   const lab = new Float64Array(CELLS * CELLS * 3);
   for (let i = 0; i < lab.length; i++) lab[i] = sums[i] / n;
-  return { id: a.id, site: a.site, tier: a.tier, lab, alpha, area, hue: hueHistogram(rgba) };
+  return {
+    id: a.id, site: a.site, palette: a.palette, tier: a.tier,
+    lab, alpha, area,
+    hue: hueHistogram(rgba, true),
+    materialHue: hueHistogram(rgba, false)
+  };
 }
 
 /**
  * 불투명 픽셀의 색상 히스토그램. 칸마다 채도 합을 넣고 전체로 정규화한 뒤,
  * 평균 L*·평균 채도를 두 칸 더 붙인다(길이 HUE_BINS+2).
  *
+ * `chromaWeighted`면 칸마다 채도 합을, 아니면 픽셀 수(면적)를 넣는다.
+ *
  * 채도로 가중하는 이유: 석재·목재 램프처럼 무채색에 가까운 픽셀은 색상값이
  * 불안정해 잡음만 된다. 거점 악센트는 채도가 높아 자연히 가중치를 크게 받는다.
+ * 바로 그 성질 때문에 재질 축에는 쓸 수 없어서(SpriteFeature.materialHue 주석)
+ * 면적 가중 판을 같이 만든다.
  */
-function hueHistogram(rgba: Uint8ClampedArray): Float64Array {
+function hueHistogram(rgba: Uint8ClampedArray, chromaWeighted: boolean): Float64Array {
   const bins = new Float64Array(HUE_BINS + 4);
   let lSum = 0;
   let cSum = 0;
+  let weight = 0;
   let count = 0;
   for (let i = 0; i < SPRITE_SIZE * SPRITE_SIZE; i++) {
     const o = i * 4;
@@ -145,12 +167,14 @@ function hueHistogram(rgba: Uint8ClampedArray): Float64Array {
     const c = Math.hypot(a, b);
     const h = Math.atan2(b, a);
     const bin = Math.min(HUE_BINS - 1, Math.floor(((h + Math.PI) / (2 * Math.PI)) * HUE_BINS));
-    bins[bin] += c;
+    const w = chromaWeighted ? c : 1;
+    bins[bin] += w;
+    weight += w;
     lSum += L;
     cSum += c;
     count++;
   }
-  const total = cSum || 1;
+  const total = weight || 1;
   for (let i = 0; i < HUE_BINS; i++) bins[i] /= total;
   // 명도·채도는 히스토그램과 같은 크기(0~1 부근)로 맞춰 거리 계산에서 한쪽이
   // 지배하지 않게 한다

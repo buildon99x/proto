@@ -22,6 +22,7 @@ import {
   bitmapHash, featureOf, NEAR_DUPLICATE_DELTA_E, perceptualDistance, silhouetteIou,
   type SpriteFeature
 } from "../render/metric";
+import { RAMPS } from "../render/palette";
 import { SITES } from "../game/sites";
 import type { SiteId } from "../game/types";
 
@@ -40,6 +41,21 @@ const T4_MIN_TO_OTHERS = 10;
  * 구조라, 실루엣이 작은 종(coin·ornament)은 신호가 실릴 면적 자체가 적다.
  */
 const SITE_ACCURACY_FLOOR = 0.85;
+/**
+ * 재질 분류 정확도 하한 (v0.4.1 — notes/decisions.md G74).
+ *
+ * 거점 신호와 **정반대 방향으로 당기는** 합격선이다. 거점을 색으로 읽히게 만들수록
+ * 재질(청자·금·은·질그릇·석재·목재·유리) 정보가 그 색에 덮인다. v0.4 초판이 실제로
+ * 그랬다 — 램프 전체를 거점색으로 기울여서 로마 유물은 청동이든 대리석이든 전부
+ * 자주색으로 읽혔다. 두 축을 같이 걸어 두면 한쪽을 올리려고 다른 쪽을 희생한
+ * 변경이 자동으로 실패로 잡힌다.
+ *
+ * 7재질 무작위 추측은 14.3%다. 거점 신호를 완전히 끈 상태(v0.3.1 상당)의 실측
+ * 상한이 93.0%이고, 그 상태의 거점 분류는 11.8% — 무작위와 다름없다. 두 축은
+ * 이렇게 서로를 깎으므로 하한은 상한이 아니라 **타협선**으로 잡는다. 80%는
+ * 상한의 86%를 지키는 선이고, 실측은 81.7%다(eval.md §19.5의 배분표 참조).
+ */
+const MATERIAL_ACCURACY_FLOOR = 0.8;
 
 let failed = 0;
 function check(label: string, cond: boolean) {
@@ -161,63 +177,70 @@ check(`T4 ↔ 비T4 최소거리 ≥ ${T4_MIN_TO_OTHERS}`, minToOthers >= T4_MIN
 // HUE_BINS 머리말에 있다.
 const siteIds = SITES.map((s) => s.id);
 
-function classify(vectorOf: (f: SpriteFeature) => Float64Array) {
+function classify(
+  vectorOf: (f: SpriteFeature) => Float64Array,
+  labelOf: (f: SpriteFeature) => string,
+  labels: string[]
+) {
   const DIM = vectorOf(feats[0]).length;
   const vecs = feats.map(vectorOf);
-  const sum = new Map<SiteId, Float64Array>();
-  const count = new Map<SiteId, number>();
-  for (const s of siteIds) {
+  const sum = new Map<string, Float64Array>();
+  const count = new Map<string, number>();
+  for (const s of labels) {
     sum.set(s, new Float64Array(DIM));
     count.set(s, 0);
   }
   feats.forEach((f, k) => {
-    const acc = sum.get(f.site as SiteId)!;
+    const label = labelOf(f);
+    const acc = sum.get(label)!;
     for (let i = 0; i < DIM; i++) acc[i] += vecs[k][i];
-    count.set(f.site as SiteId, count.get(f.site as SiteId)! + 1);
+    count.set(label, count.get(label)! + 1);
   });
   let hits = 0;
   let top3 = 0;
   const confusion = new Map<string, number>();
-  const perSite = new Map<SiteId, { hit: number; n: number }>();
-  for (const s of siteIds) perSite.set(s, { hit: 0, n: 0 });
+  const perLabel = new Map<string, { hit: number; n: number }>();
+  for (const s of labels) perLabel.set(s, { hit: 0, n: 0 });
   feats.forEach((f, k) => {
     const v = vecs[k];
-    const ranked: { site: SiteId; d: number }[] = [];
-    for (const s of siteIds) {
-      const n = count.get(s)! - (s === f.site ? 1 : 0);
+    const mine = labelOf(f);
+    const ranked: { label: string; d: number }[] = [];
+    for (const s of labels) {
+      const n = count.get(s)! - (s === mine ? 1 : 0);
       if (n <= 0) continue;
       const acc = sum.get(s)!;
       let d = 0;
       for (let i = 0; i < DIM; i++) {
-        const c = (acc[i] - (s === f.site ? v[i] : 0)) / n;
+        const c = (acc[i] - (s === mine ? v[i] : 0)) / n;
         const e = c - v[i];
         d += e * e;
       }
-      ranked.push({ site: s, d });
+      ranked.push({ label: s, d });
     }
     ranked.sort((a, b) => a.d - b.d);
-    const row = perSite.get(f.site as SiteId)!;
+    const row = perLabel.get(mine)!;
     row.n++;
-    if (ranked[0].site === f.site) {
+    if (ranked[0].label === mine) {
       hits++;
       row.hit++;
     } else {
-      const key = `${f.site} → ${ranked[0].site}`;
+      const key = `${mine} → ${ranked[0].label}`;
       confusion.set(key, (confusion.get(key) ?? 0) + 1);
     }
-    if (ranked.slice(0, 3).some((r) => r.site === f.site)) top3++;
+    if (ranked.slice(0, 3).some((r) => r.label === mine)) top3++;
   });
   return {
     accuracy: hits / feats.length,
     top3: top3 / feats.length,
     hits,
-    perSite,
+    perLabel,
     confusion: [...confusion.entries()].sort((a, b) => b[1] - a[1])
   };
 }
 
-const byColor = classify((f) => f.hue);
-const byLook = classify((f) => f.lab);
+const bySite = (v: (f: SpriteFeature) => Float64Array) => classify(v, (f) => f.site, siteIds);
+const byColor = bySite((f) => f.hue);
+const byLook = bySite((f) => f.lab);
 
 console.log("");
 console.log("거점 분류 (아이콘만, LOO 최근접 중심, 12지 선다 — 무작위 8.3%)");
@@ -225,7 +248,7 @@ console.log(`  (가) 거점 신호 채널 — 색상 히스토그램+무늬율: 
 console.log(`  (나) 전체 외형 — 8×8 Lab 지도:          ${(byLook.accuracy * 100).toFixed(1)}%  (${byLook.hits}/${feats.length}) · top-3 ${(byLook.top3 * 100).toFixed(1)}%`);
 console.log("  거점별 (가):");
 for (const s of siteIds) {
-  const r = byColor.perSite.get(s)!;
+  const r = byColor.perLabel.get(s)!;
   const name = SITES.find((x) => x.id === s)!.name;
   console.log(`    ${s.padEnd(7)} ${name.padEnd(8)} ${r.hit}/${r.n} = ${((r.hit / Math.max(1, r.n)) * 100).toFixed(0)}%`);
 }
@@ -235,7 +258,28 @@ if (byColor.confusion.length > 0) {
 const accuracy = byColor.accuracy;
 check(`거점 분류(거점 신호 채널) 정확도 ≥ ${(SITE_ACCURACY_FLOOR * 100).toFixed(0)}%`, accuracy >= SITE_ACCURACY_FLOOR);
 
-// ── 5) 결정론 ─────────────────────────────────────────────────────────────
+// ── 5) 재질 분류 (LOO 최근접 중심) ────────────────────────────────────────
+// 거점 신호가 재질을 덮지 않았는지 재는 축이다(G74). 같은 특징·같은 분류기로
+// 라벨만 `palette`로 바꿔 잰다 — 거점이 잘 읽히는데 재질이 안 읽히면, 그건
+// "아이콘이 거점 색표로 칠해졌다"는 뜻이다.
+const paletteIds = Object.keys(RAMPS);
+const byMaterial = classify((f) => f.materialHue, (f) => f.palette, paletteIds);
+
+console.log("");
+console.log(`재질 분류 (아이콘만, LOO 최근접 중심, ${paletteIds.length}지 선다 — 무작위 ${(100 / paletteIds.length).toFixed(1)}%)`);
+console.log(`  색상 히스토그램+무늬율: ${(byMaterial.accuracy * 100).toFixed(1)}%  (${byMaterial.hits}/${feats.length}) · top-3 ${(byMaterial.top3 * 100).toFixed(1)}%`);
+console.log("  재질별:");
+for (const pid of paletteIds) {
+  const r = byMaterial.perLabel.get(pid)!;
+  if (r.n === 0) continue;
+  console.log(`    ${pid.padEnd(12)} ${r.hit}/${r.n} = ${((r.hit / r.n) * 100).toFixed(0)}%`);
+}
+if (byMaterial.confusion.length > 0) {
+  console.log(`  혼동 상위: ${byMaterial.confusion.slice(0, 6).map(([k, v]) => `${k}(${v})`).join(", ")}`);
+}
+check(`재질 분류 정확도 ≥ ${(MATERIAL_ACCURACY_FLOOR * 100).toFixed(0)}%`, byMaterial.accuracy >= MATERIAL_ACCURACY_FLOOR);
+
+// ── 6) 결정론 ─────────────────────────────────────────────────────────────
 // 같은 유물을 두 번 구워 바이트가 같은지. spriteUrl 캐시가 uid가 아니라 종 id
 // 단위인 구조(세이브에 아이콘을 저장하지 않는다)의 전제다.
 let deterministic = true;
@@ -249,5 +293,5 @@ check("같은 유물을 두 번 구워 바이트 동일(결정론)", determinist
 
 console.log("");
 console.log(`──────── ${failed === 0 ? "통과" : `실패 ${failed}건`} ────────`);
-console.log(`요약: 완전중복 ${dupUpper.length}쌍군 · 근접쌍 ${(closeRatio * 100).toFixed(3)}% · 거점정확도 신호 ${(byColor.accuracy * 100).toFixed(1)}% / 외형 ${(byLook.accuracy * 100).toFixed(1)}% · T4 상호최소 ${fmt(minMutual)} / 대외최소 ${fmt(minToOthers)}`);
+console.log(`요약: 완전중복 ${dupUpper.length}쌍군 · 근접쌍 ${(closeRatio * 100).toFixed(3)}% · 거점정확도 신호 ${(byColor.accuracy * 100).toFixed(1)}% / 외형 ${(byLook.accuracy * 100).toFixed(1)}% · 재질정확도 ${(byMaterial.accuracy * 100).toFixed(1)}% · T4 상호최소 ${fmt(minMutual)} / 대외최소 ${fmt(minToOthers)}`);
 process.exit(failed === 0 ? 0 : 1);

@@ -647,17 +647,44 @@ function blend(a: [number, number, number], b: [number, number, number], k: numb
   ];
 }
 
+// ════════════════════════════════════════════════════════════════════════
+// 거점 신호 4채널 (v0.4.1 — notes/decisions.md G74가 v0.4 초판 G69를 고친다)
+//
+// 거점 신호를 어디에 싣느냐는 **재질 판독력과 정면으로 맞바꾸는** 선택이다.
+// v0.4 초판은 재질 램프 전체를 거점색으로 기울이고(RAMP_TINT 0.22) 2px 링에
+// 문양까지 악센트색으로 찍어서, 거점 분류는 95.2%까지 올라갔지만 재질 분류가
+// 29.6%로 무너졌다 — 석재 48종은 0/48이었다. 로마 유물이 청동이든 대리석이든
+// 전부 자주색으로 읽히는 상태였다(컨택트 시트로 확인).
+//
+// 그래서 신호를 **테두리 한 채널로 좁힌다.** 몸통 안쪽은 재질 램프 그대로 두고,
+// 거점은 외곽선(100% 거점색)과 잔무늬가 말한다 — 링은 면적이 커서 거점에 유리하고
+// 재질에 불리한 채널이라 0으로 뒀다. 아래 상수가 그 배분이고, `qa:sprites`가
+// 거점·재질 두 축을 같이 재므로 한쪽을 올리려고 다른 쪽을 희생한 조정은 자동으로
+// 실패로 잡힌다. 배분 전수 실측은 notes/decisions.md G74의 표에 있다.
+// ════════════════════════════════════════════════════════════════════════
+
+/** 재질 램프 전체를 거점색으로 기울이는 비율. 0 = 몸통 안쪽은 순수 재질색 */
+const SITE_RAMP_TINT = 0;
+/** 외곽선을 거점색으로 기울이는 비율. 1 = 외곽선이 곧 거점색 */
+const SITE_OUTLINE_TINT = 1;
+/** 외곽선 안쪽 악센트 링의 두께(px). 0이면 링을 그리지 않는다 */
+const SITE_RIM_WIDTH = 0;
+
 /**
- * 거점 색 편향 세기 (v0.4 — notes/decisions.md G69).
- *
- * 테두리 1px과 문양만으로는 44px에서 거점이 안 읽힌다 — 4×4로 축약하면 그 신호가
- * 평균에 묻힌다(실측: 거점 분류 정확도 26%). 재질 램프 전체를 거점색으로 살짝
- * 기울여 신호를 아이콘 전면에 퍼뜨린다. 재질(청자·금·은…)이 여전히 지배적이도록
- * 비율을 낮게 잡았다 — 같은 청자 항아리가 한반도 것과 중국 것으로 갈리지만,
- * 둘 다 여전히 "청자"로 읽혀야 한다.
+ * 외곽선에 테두리 양식(solid·dashed·dotted)을 입힐지. 켜면 외곽선이 거점색과
+ * 재질 외곽선색을 양식대로 번갈아 찍는다 — 색 하나에 기대지 않는 두 번째 채널을
+ * 링 없이 유지하는 방법이다(색약 화면 대응). 몸통 안쪽은 건드리지 않는다.
  */
-const SITE_RAMP_TINT = 0.22;
-const SITE_OUTLINE_TINT = 0.55;
+const SITE_OUTLINE_PATTERNED = false;
+
+/**
+ * 표면 문양을 무슨 색으로 찍는가.
+ *   "accent"   — 거점 악센트색(v0.4 초판). 몸통 안쪽까지 거점색이 퍼진다
+ *   "material" — 재질 램프의 가장 어두운 단. 음각처럼 보이고 재질은 유지된다
+ *   "off"      — 문양 없음
+ */
+type MotifMode = "accent" | "material" | "off";
+const SITE_MOTIF_MODE: MotifMode = "accent";
 
 function rimAllows(style: string, x: number, y: number): boolean {
   if (style === "dashed") return ((x + y) & 3) < 2;
@@ -718,9 +745,8 @@ export function renderSpriteRGBA(artifact: Artifact): Rgba {
   const motif = MOTIF_BITS[site];
   // 거점 신호(색 편향·테두리·문양)는 T2 이상에만 얹는다 — 머리말 참조
   const marked = artifact.tier >= 2;
-  const outlineRgb = marked
-    ? blend(hexToRgb(outline), rimRgb, SITE_OUTLINE_TINT)
-    : hexToRgb(outline);
+  const baseOutlineRgb = hexToRgb(outline);
+  const outlineRgb = marked ? blend(baseOutlineRgb, rimRgb, SITE_OUTLINE_TINT) : baseOutlineRgb;
   const rampRgb = ramp.map((c) =>
     marked ? blend(hexToRgb(c), rimRgb, SITE_RAMP_TINT) : hexToRgb(c)
   );
@@ -755,7 +781,11 @@ export function renderSpriteRGBA(artifact: Artifact): Rgba {
       };
 
       if (isEdge(x, y)) {
-        put(outlineRgb);
+        put(
+          marked && SITE_OUTLINE_PATTERNED && !rimAllows(rimStyle, x, y)
+            ? baseOutlineRgb
+            : outlineRgb
+        );
         continue;
       }
       if (uniqueAccent && uniqueAccent[at]) {
@@ -763,21 +793,24 @@ export function renderSpriteRGBA(artifact: Artifact): Rgba {
         continue;
       }
       if (marked) {
-        // 외곽선 바로 안쪽 2px 링 = 거점 악센트 테두리. 1px이면 44px 표시에서
+        // 외곽선 바로 안쪽 링 = 거점 악센트 테두리. 1px이면 44px 표시에서
         // 사라지고 4×4 축약 평균에도 묻힌다(실측: 거점 분류 26%).
         //
         // 손으로 찍은 T4만 1px로 좁힌다 — 2px 링이 도안의 톱니·음각 같은 얇은
         // 구조를 덮어 버린다(컨택트 시트로 확인). T4는 도안 자체가 유일해서
         // 거점 신호가 덜 필요하고, `*` 칸으로 악센트를 직접 지정해 뒀다.
-        const onRim = nearEdge(x, y, unique ? 1 : 2);
+        const rimWidth = unique ? Math.min(1, SITE_RIM_WIDTH) : SITE_RIM_WIDTH;
+        const onRim = rimWidth > 0 && nearEdge(x, y, rimWidth);
         if (onRim) {
           if (rimAllows(rimStyle, x, y)) {
             put(rimRgb);
             continue;
           }
-        } else if (!unique && motif[(y % 8) * 8 + (x % 8)]) {
-          // 문양은 링 안쪽(빈 칸에서 2px 이상)에만 — 실루엣 윤곽을 먹지 않게
-          put(motifRgb);
+        } else if (!unique && SITE_MOTIF_MODE !== "off" && motif[(y % 8) * 8 + (x % 8)]) {
+          // 문양은 링 안쪽(빈 칸에서 rimWidth 이상)에만 — 실루엣 윤곽을 먹지 않게.
+          // "material"은 재질 램프의 가장 어두운 단이라 음각처럼 읽히고, 몸통
+          // 색은 여전히 재질이 정한다.
+          put(SITE_MOTIF_MODE === "accent" ? motifRgb : rampRgb[0]);
           continue;
         }
       }
