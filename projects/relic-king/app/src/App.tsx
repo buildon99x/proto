@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ARTIFACT_BY_ID } from "./game/artifacts";
 import { APPRAISAL_UNLOCK_LAB_LEVEL, LOCKED_HOLD_CAP, THEFT_RECOVERY_WINDOW_HOURS } from "./game/balance";
+import { countdown } from "./game/format";
 import { CodexView } from "./ui/CodexView";
 import { ExpeditionView } from "./ui/ExpeditionView";
 import { FacilityView } from "./ui/FacilityView";
@@ -43,14 +44,38 @@ export default function App() {
   const sealedT2 = world.pending.filter(
     (p) => ARTIFACT_BY_ID[p.artifactId].tier === 2 && world.lab < APPRAISAL_UNLOCK_LAB_LEVEL[2]
   ).length;
-  const vaultBadge = world.theftEvents.length + (sealedT2 >= LOCKED_HOLD_CAP ? 1 : 0);
   // 장물 배지는 "72시간 우선권"이 살아 있는 동안만 센다(notes/decisions.md G55.9
   // 공백을 G56에서 listedAt 필드로 닫는다) — 그냥 kind==="stolen" 전체가 아니라
   // 상장 후 THEFT_RECOVERY_WINDOW_HOURS가 지나지 않은 것만 카운트한다.
-  const marketBadge = world.blackMarket.listings.filter(
+  const stolenListings = world.blackMarket.listings.filter(
     (l) => l.kind === "stolen" && world.t - l.listedAt <= THEFT_RECOVERY_WINDOW_HOURS * 3600
-  ).length;
-  const badges: Partial<Record<TabId, number>> = { vault: vaultBadge, market: marketBadge };
+  );
+  /**
+   * L2는 **시한부 뱃지**다(notes/ux-v02.md §7) — 건수가 아니라 "언제까지"가 이
+   * 계층의 존재 이유다. 예전엔 숫자만 찍어서, 72시간 회수 창이 3시간 남았는지
+   * 70시간 남았는지 구분할 수 없었다(`eval.md` §19.4). 기한이 있는 항목은
+   * **가장 급한 하나의 남은 시간**을, 기한이 없는 항목(봉인 가득참)은 건수를 쓴다.
+   */
+  const badges: Partial<Record<TabId, { text: string; title: string; urgent: boolean }>> = {};
+  const theftRemain = world.theftEvents.map((e) => e.recoveryDeadlineOnlineSeconds - world.onlineElapsedSeconds);
+  if (theftRemain.length > 0) {
+    const soonest = Math.min(...theftRemain);
+    badges.vault = {
+      text: countdown(soonest),
+      title: `도난 ${theftRemain.length}건 — 가장 급한 회수 기한 ${countdown(soonest)} 남음(온라인 기준)`,
+      urgent: soonest <= 6 * 3600
+    };
+  } else if (sealedT2 >= LOCKED_HOLD_CAP) {
+    badges.vault = { text: String(sealedT2), title: `봉인 보관 ${sealedT2}점 — 감정소를 올리면 풀린다(방치해도 손실 없음)`, urgent: false };
+  }
+  if (stolenListings.length > 0) {
+    const soonest = Math.min(...stolenListings.map((l) => THEFT_RECOVERY_WINDOW_HOURS * 3600 - (world.t - l.listedAt)));
+    badges.market = {
+      text: countdown(soonest),
+      title: `암시장에 내 도난 유물 ${stolenListings.length}건 — 우선권 ${countdown(soonest)} 남음`,
+      urgent: soonest <= 6 * 3600
+    };
+  }
 
   return (
     <div className="app">
@@ -75,7 +100,11 @@ export default function App() {
             onClick={() => changeTab(t.id)}
           >
             {t.label}
-            {badges[t.id] ? <i className="dot">{badges[t.id]}</i> : null}
+            {badges[t.id] ? (
+              <i className={`dot${badges[t.id]!.urgent ? " dot-urgent" : ""}`} title={badges[t.id]!.title}>
+                {badges[t.id]!.text}
+              </i>
+            ) : null}
           </button>
         ))}
       </nav>

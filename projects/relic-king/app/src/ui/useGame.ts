@@ -13,7 +13,12 @@ import {
 import { clear, clearRecord, exportText, importText, load, loadRecord, save, saveRecord } from "../game/save";
 import type { PersistentRecord, SiteId, Tier, World } from "../game/types";
 
-export type Reveal = { artifactId: string; value: number };
+/**
+ * 연출 1건. `phase`가 spec.md §9.2의 두 사건을 가른다 —
+ * `acquired`는 **소유 확정①**(드랍 즉시, 감정소 레벨과 무관, spec.md §3.3 "T4 유일"
+ * 행), `appraised`는 **지식 공개③**(감정 완료 — 이름·내력·평가액이 여기서 열린다).
+ */
+export type Reveal = { artifactId: string; value: number; phase: "acquired" | "appraised" };
 export type RankSnapshot = { asset: number; codex: number; fame: number; composite: number };
 export type OfflineSummary = {
   seconds: number;
@@ -34,6 +39,15 @@ function rankSnapshot(w: World, record: PersistentRecord): RankSnapshot {
 
 const SAVE_INTERVAL = 10;
 const UI_INTERVAL = 100;
+/**
+ * 한 프레임이 이보다 오래 끊기면 "자리를 비웠다"로 보고 `applyOffline()`에 넘긴다
+ * (v0.3.2 결함 1 — `eval.md` §19.1). `applyOffline()` 자체가 60초 미만을 무시하므로
+ * 같은 값을 쓴다.
+ */
+const BACKGROUND_GAP_SECONDS = 60;
+/** 배경 탭 안전망의 점검 주기(실시간 ms). 배경 탭에서 브라우저가 타이머를
+ *  1분까지 늦춰도 동작은 같다 — 늦게 깨어나면 그만큼 더 긴 구간을 한 번에 정산한다. */
+const BACKGROUND_KEEPALIVE_MS = 5000;
 /** 탭을 열어 둔 채 진짜로 방치할 때도 미감정 잉여가 정리되고 인부·장비·
  *  감정소가 자란다(척추 4번) — `advance()`/`step()` 자체는 이 배경 자동화를
  *  부르지 않는다(오프라인 적분 스텝 무관성을 깨기 때문, `engine.ts`의
@@ -60,6 +74,29 @@ function writeOnboardingSeen() {
   }
 }
 
+/**
+ * "자리를 비운 동안"을 정산하고 복귀 요약 재료를 만든다. 세 곳이 공유한다 —
+ * 첫 마운트(세이브를 열었을 때), 배경 탭에서 돌아온 프레임, `visibilitychange`.
+ * 이 함수가 없던 시절엔 **첫 마운트만** 정산했고, 그래서 탭을 닫으면 오프라인
+ * 진척을 받고 탭을 열어 두면 아무것도 못 받는 역전이 있었다(`eval.md` §19.1).
+ */
+function catchUpOffline(w: World, record: PersistentRecord): OfflineSummary | null {
+  const fundsBefore = w.funds;
+  const codexBefore = Object.values(w.codex).filter((s) => s === "owned" || s === "owned_unidentified").length;
+  const rankBefore = rankSnapshot(w, record);
+  const result = applyOffline(w, Date.now(), record);
+  if (!result) return null;
+  return {
+    seconds: result.seconds,
+    drops: result.report.drops.length,
+    lost: result.report.lost,
+    fundsBefore,
+    codexBefore,
+    rankBefore,
+    rankAfter: rankSnapshot(w, record)
+  };
+}
+
 export function useGame() {
   const worldRef = useRef<World | null>(null);
   // 계정 영구 기록(spec.md §13.4) — save.ts의 별도 키(RECORD_KEY)에서 불러온다
@@ -68,6 +105,12 @@ export function useGame() {
   const recordRef = useRef<PersistentRecord>(loadRecord() ?? createPersistentRecord());
   const [, bump] = useState(0);
   const [reveal, setReveal] = useState<Reveal | null>(null);
+  /** 지금 연출이 떠 있는지를 상태와 나란히 들고 다닌다. 아래 프레임 루프가
+   *  "다음 연출을 꺼낼까"를 판단할 때 setState 갱신 함수 **안에서** 큐를 건드리면
+   *  안 되기 때문이다 — React StrictMode(개발 모드)는 갱신 함수를 두 번 부르고,
+   *  그러면 큐가 두 번 shift 돼 연출 하나가 조용히 사라진다. 유일(T4) 획득 연출이
+   *  이 큐를 타게 된 뒤로는(v0.3.2) 그 한 건이 재미 정의 ① 그 자체다. */
+  const revealRef = useRef<Reveal | null>(null);
   const [offline, setOffline] = useState<OfflineSummary | null>(null);
   const [onboardingPending, setOnboardingPending] = useState(false);
   const onboardingSeenRef = useRef(false);
@@ -84,21 +127,8 @@ export function useGame() {
       writeOnboardingSeen();
     }
     if (loaded) {
-      const fundsBefore = w.funds;
-      const codexBefore = Object.values(w.codex).filter((s) => s === "owned" || s === "owned_unidentified").length;
-      const rankBefore = rankSnapshot(w, recordRef.current);
-      const result = applyOffline(w, Date.now(), recordRef.current);
-      if (result) {
-        setOffline({
-          seconds: result.seconds,
-          drops: result.report.drops.length,
-          lost: result.report.lost,
-          fundsBefore,
-          codexBefore,
-          rankBefore,
-          rankAfter: rankSnapshot(w, recordRef.current)
-        });
-      }
+      const summary = catchUpOffline(w, recordRef.current);
+      if (summary) setOffline(summary);
     }
   }
 
@@ -113,9 +143,37 @@ export function useGame() {
     const revealQueue: Reveal[] = [];
 
     const frame = (now: number) => {
-      const dt = Math.min(0.5, (now - last) / 1000);
+      const rawDt = (now - last) / 1000;
       last = now;
+
+      // 프레임이 오래 끊겼다 = 배경 탭·창 가림·기기 절전. 그 시간을 버리지 않고
+      // 오프라인으로 정산하고, 복귀 요약도 첫 마운트와 똑같이 띄운다.
+      if (rawDt >= BACKGROUND_GAP_SECONDS) {
+        const summary = catchUpOffline(world, recordRef.current);
+        if (summary) {
+          runAutoRoutine(world);
+          routineAcc = 0;
+          setOffline((cur) => cur ?? summary);
+        }
+        world.lastTickAt = Date.now();
+        save(world);
+        saveRecord(recordRef.current);
+        bump((v) => v + 1);
+        raf = requestAnimationFrame(frame);
+        return;
+      }
+
+      // 예전엔 여기서 0.5초로 잘랐고 그 위는 **버려졌다** — 창을 가리거나 무거운
+      // 탭 하나만 있어도 그 시간이 사라졌다. 위 분기가 60초에서 이미 오프라인으로
+      // 넘기므로, 그 아래 구간은 온라인 효율 그대로 전부 따라잡는다.
+      const dt = rawDt;
       const report = advance(world, dt, false, 0.25, recordRef.current);
+
+      // 소유 확정①(spec.md §3.3·§9.2) — 유일(T4)은 **드랍 그 순간** 연출한다.
+      // 감정소 레벨이 낮아 봉인 보관으로 들어가더라도 이 연출은 재생된다.
+      for (const d of report.drops) {
+        if (d.tier === 4) revealQueue.push({ artifactId: d.artifactId, value: 0, phase: "acquired" });
+      }
 
       routineAcc += dt;
       if (routineAcc >= AUTO_ROUTINE_INTERVAL_SECONDS) {
@@ -124,7 +182,7 @@ export function useGame() {
       }
 
       for (const a of report.appraised) {
-        if (a.tier >= 3) revealQueue.push({ artifactId: a.artifactId, value: a.value });
+        if (a.tier >= 3) revealQueue.push({ artifactId: a.artifactId, value: a.value, phase: "appraised" });
       }
       if (!onboardingSeenRef.current && report.appraised.length > 0) {
         onboardingSeenRef.current = true;
@@ -138,8 +196,10 @@ export function useGame() {
         uiAcc = 0;
         world.lastTickAt = Date.now();
         bump((v) => v + 1);
-        if (revealQueue.length > 0) {
-          setReveal((cur) => cur ?? revealQueue.shift() ?? null);
+        if (revealQueue.length > 0 && revealRef.current === null) {
+          const next = revealQueue.shift()!;
+          revealRef.current = next;
+          setReveal(next);
         }
       }
       if (saveAcc >= SAVE_INTERVAL) {
@@ -151,17 +211,69 @@ export function useGame() {
     };
 
     raf = requestAnimationFrame(frame);
-    const onHide = () => {
+
+    /** 떠날 때 — 지금까지를 확정해 저장한다. 돌아올 때 이 시각이 기준이 된다. */
+    const onLeave = () => {
       world.lastTickAt = Date.now();
       save(world);
       saveRecord(recordRef.current);
     };
-    window.addEventListener("visibilitychange", onHide);
-    window.addEventListener("beforeunload", onHide);
+    /**
+     * 돌아올 때 — 비운 시간을 정산한다. 예전에는 이 경로도 `onLeave`와 같은
+     * 함수였고, 그래서 돌아오는 순간 `lastTickAt`을 현재 시각으로 덮어써
+     * **비운 시간을 스스로 지웠다**. 이제 정산이 먼저다(`applyOffline`이 자기
+     * `lastTickAt`을 갱신한다). 프레임 루프의 gap 감지와 둘 다 두는 이유는
+     * 브라우저마다 어느 쪽이 먼저 오는지가 다르기 때문이다 — 먼저 도착한 쪽이
+     * 정산하면 나머지 한쪽은 60초 미만이라 자동으로 아무 일도 하지 않는다.
+     */
+    const onReturn = () => {
+      const summary = catchUpOffline(world, recordRef.current);
+      if (summary) {
+        runAutoRoutine(world);
+        setOffline((cur) => cur ?? summary);
+      }
+      last = performance.now();
+      onLeave();
+      bump((v) => v + 1);
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") onLeave();
+      else onReturn();
+    };
+    /**
+     * 안전망. 배경 탭에서는 `requestAnimationFrame`이 **아예 멈춘다** — 그래서
+     * 프레임 루프의 gap 감지만으로는 부족하다(실측: CDP로 탭을 얼려 보면 복귀 후에도
+     * 프레임이 돌아오지 않아 게임이 영영 멈춘 채였다, `eval.md` §19.1). 타이머는
+     * 스로틀링을 받을지언정 계속 돌므로, 이쪽이 "자리를 비웠다"를 실제로 잡아낸다.
+     * 프레임 루프가 정상이면 `lastTickAt`이 늘 신선해서 이 콜백은 아무 일도 하지 않는다.
+     */
+    const keepAlive = window.setInterval(() => {
+      if ((Date.now() - world.lastTickAt) / 1000 < BACKGROUND_GAP_SECONDS) return;
+      const summary = catchUpOffline(world, recordRef.current);
+      if (!summary) return;
+      runAutoRoutine(world);
+      setOffline((cur) => cur ?? summary);
+      last = performance.now();
+      save(world);
+      saveRecord(recordRef.current);
+      bump((v) => v + 1);
+    }, BACKGROUND_KEEPALIVE_MS);
+
+    document.addEventListener("visibilitychange", onVisibility);
+    // freeze/resume 은 Page Lifecycle API 의 이벤트로 **document** 에서 발생한다
+    // (window 에 붙이면 잡히지 않는다 — 실측으로 확인).
+    document.addEventListener("resume", onReturn);
+    document.addEventListener("freeze", onLeave);
+    window.addEventListener("pageshow", onReturn);
+    window.addEventListener("beforeunload", onLeave);
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("visibilitychange", onHide);
-      window.removeEventListener("beforeunload", onHide);
+      window.clearInterval(keepAlive);
+      document.removeEventListener("visibilitychange", onVisibility);
+      document.removeEventListener("resume", onReturn);
+      document.removeEventListener("freeze", onLeave);
+      window.removeEventListener("pageshow", onReturn);
+      window.removeEventListener("beforeunload", onLeave);
     };
   }, [world]);
 
@@ -179,7 +291,10 @@ export function useGame() {
     record: recordRef.current,
     reveal,
     offline,
-    dismissReveal: () => setReveal(null),
+    dismissReveal: () => {
+      revealRef.current = null;
+      setReveal(null);
+    },
     dismissOffline: () => setOffline(null),
 
     onboardingPending,

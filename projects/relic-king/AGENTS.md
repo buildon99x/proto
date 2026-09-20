@@ -26,10 +26,17 @@ pnpm --filter relic-king dev      개발 서버
 pnpm --filter relic-king build    타입체크 + 빌드
 pnpm --filter relic-king sim      헤드리스 밸런스 시뮬 (--hours N)
 pnpm --filter relic-king smoke    실시간 브라우저 스모크 + 스크린샷
+pnpm --filter relic-king play     실제 앱을 사람처럼 조작하는 UI 검사 (시나리오 10종)
 ```
 
 **밸런스 상수를 건드렸으면 `sim`을 돌리고 eval.md의 측정표를 갱신한다.** 방치형은
 눈으로 봐서 알 수 없다 — 첫 구현은 20분 만에 발굴력 194만/s가 나왔는데 화면상으론 멀쩡했다.
+
+**UI를 건드렸으면 `play`를 돌린다.** 엔진이 옳다는 것과 플레이어가 겪는 게임이
+옳다는 것은 다른 명제다. v0.3.2가 찾은 결함 6건 중 4건은 **엔진이 완벽히 정상인
+채로** 일어났다 — 배경 탭에 둔 시간이 통째로 사라지고, 제보 배너가 "반응할
+발굴단이 없다"고 거짓말하고, 유일 유물을 손에 넣는 순간에 아무 연출도 나지 않았다.
+어떤 헤드리스 시뮬로도 잡을 수 없는 종류다(`eval.md` §19, `notes/decisions.md` G69).
 
 ## 환경 제약
 

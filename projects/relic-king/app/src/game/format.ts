@@ -38,6 +38,17 @@ export function clock(seconds: number): string {
   return `${m}:${String(s % 60).padStart(2, "0")}`;
 }
 
+/**
+ * 배지·칩처럼 폭이 좁은 자리에 쓰는 남은 시간(notes/ux-v02.md §7 "L2 시한부 뱃지").
+ * `clock()`은 m:ss라 72시간짜리 회수 기한이 "4320:00"이 돼 읽을 수 없다.
+ */
+export function countdown(seconds: number): string {
+  const s = Math.max(0, Math.ceil(seconds));
+  if (s >= 3600) return `${Math.ceil(s / 3600)}h`;
+  if (s >= 60) return `${Math.ceil(s / 60)}m`;
+  return `${s}s`;
+}
+
 export function percent(ratio: number, digits = 0): string {
   return `${(ratio * 100).toFixed(digits)}%`;
 }

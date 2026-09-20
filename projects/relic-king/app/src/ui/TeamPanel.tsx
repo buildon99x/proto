@@ -165,6 +165,10 @@ function HireForemanCard({ game, teamPreset }: { game: Game; teamPreset: ReturnT
   const home = teamHomeSite(world);
   const candidates = staffCandidates(home, staffMarketCycle(world), "foreman");
   const preset = teamPreset.preset;
+  // 자금이 자동 재투자로 요동쳐 이 카드가 켜졌다 꺼졌다 한다(실측: 고용 가능
+  // 상태가 유지되는 비율 9.3%). 얼마가 모자란지와 **왜** 잔고가 안 쌓이는지를
+  // 여기서 말해 준다 — v0.3.2 결함 5 보강(notes/decisions.md G69.5).
+  const short = Math.max(0, FOREMAN_HIRE_COST - world.funds);
   return (
     <div className="team-card team-card-empty">
       <h4>빈 슬롯 — 단장 고용</h4>
@@ -172,6 +176,14 @@ function HireForemanCard({ game, teamPreset }: { game: Game; teamPreset: ReturnT
         단장을 고용하면 그 자리에 새 발굴단이 꾸려진다.
         {preset ? ` 빠른 설정(인원 ${preset.workers}·장비 Lv.${preset.gearLevel})이 그 자리에 그대로 적용된다.` : ""}
       </p>
+      {short > 0 ? (
+        <p className="stalled small">
+          {won(short)} ₩ 모자란다(지금 {won(world.funds)} ₩).
+          {world.settings.autoReinvest
+            ? " 자동 재투자가 남는 자금을 인부·장비·감정소에 쓰고 있어 잔고가 오르락내리락한다 — ⚙ 설정에서 끄면 그대로 쌓인다."
+            : " 유물을 팔아 모으면 된다."}
+        </p>
+      ) : null}
       <div className="candidate-list">
         {candidates.map((c, slot) => (
           <button

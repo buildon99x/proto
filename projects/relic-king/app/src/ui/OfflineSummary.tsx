@@ -16,7 +16,14 @@ export function OfflineSummary({ game, onNavigate }: { game: Game; onNavigate: (
   if (!o) return null;
   const { world } = game;
 
-  const fundsDelta = Math.max(0, world.funds - o.fundsBefore);
+  /**
+   * 부호를 그대로 쓴다. 예전엔 `Math.max(0, …)`로 잘라서, 복귀 직후 자동 재투자가
+   * 번 돈을 인부·장비·감정소에 써 버린 경우 **"유물 1,619점 발굴 · 자금 +0 ₩"** 처럼
+   * 읽혔다(v0.3.2 실측). 벌지 못한 것과 벌어서 쓴 것은 전혀 다른 사건인데 화면이
+   * 둘을 같은 문장으로 만들고 있었다 — spec.md §3.3 "복귀 요약은 손실을 숨기지
+   * 않는다"는 이득도 지출도 숨기지 말라는 뜻이다.
+   */
+  const fundsDelta = Math.round(world.funds - o.fundsBefore);
   const codexAfter = codexProgress(world).owned;
   const codexDelta = codexAfter - o.codexBefore;
 
@@ -24,13 +31,14 @@ export function OfflineSummary({ game, onNavigate }: { game: Game; onNavigate: (
     (p) => ARTIFACT_BY_ID[p.artifactId].tier === 2 && world.lab < APPRAISAL_UNLOCK_LAB_LEVEL[2]
   ).length;
   const idleTeams = world.teams.filter((t) => t.status === "idle" && !t.routine?.enabled);
+  const fundsLine = fundsLabel(fundsDelta, world.settings.autoReinvest);
 
   const actionCount = world.theftEvents.length + (sealedT2 >= LOCKED_HOLD_CAP ? 1 : 0) + idleTeams.length;
 
   if (actionCount === 0) {
     return (
       <div className="offline-toast">
-        <span>{duration(o.seconds)} 동안 자금 +{won(fundsDelta)} ₩</span>
+        <span>{duration(o.seconds)} 동안 {fundsLine}</span>
         <button type="button" onClick={game.dismissOffline}>확인</button>
       </div>
     );
@@ -41,7 +49,7 @@ export function OfflineSummary({ game, onNavigate }: { game: Game; onNavigate: (
       <div className="modal offline-modal">
         <h2>{duration(o.seconds)} 동안</h2>
         <ul className="offline-fixed">
-          <li>자금 +{won(fundsDelta)} ₩ (급여·유지비 차감후)</li>
+          <li>{fundsLine}</li>
           <li>유물 {o.drops}점 발굴 · 도감 {codexDelta >= 0 ? "+" : ""}{codexDelta}</li>
           <li>{rankLine(o.rankBefore, o.rankAfter)}</li>
           <li>종합 {o.rankBefore.composite}위 → {o.rankAfter.composite}위</li>
@@ -78,6 +86,15 @@ export function OfflineSummary({ game, onNavigate }: { game: Game; onNavigate: (
       </div>
     </div>
   );
+}
+
+/** 자금 변화 한 줄. 줄어든 경우 그 이유(자동 재투자)를 같이 말한다 — 안 그러면
+ *  "벌지 못했다"로 읽힌다. */
+function fundsLabel(delta: number, autoReinvest: boolean): string {
+  if (delta >= 0) return `자금 +${won(delta)} ₩ (급여·유지비 차감후)`;
+  return autoReinvest
+    ? `자금 −${won(-delta)} ₩ — 번 자금을 자동 재투자가 인부·장비·감정소에 썼다`
+    : `자금 −${won(-delta)} ₩ (급여·유지비 차감후)`;
 }
 
 function rankLine(before: RankSnapshot, after: RankSnapshot): string {

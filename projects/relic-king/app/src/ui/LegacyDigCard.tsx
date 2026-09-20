@@ -1,6 +1,10 @@
 import { useEffect, useRef } from "react";
-import { SITES, SITE_BY_ID, appraiseSeconds, gearCost, labCost, workerCost } from "../game/balance";
+import {
+  DROP_INTERVAL_FLOOR_SECONDS, LAYERS_PER_SITE, SITES, SITE_BY_ID,
+  appraiseSeconds, gearCost, labCost, workerCost
+} from "../game/balance";
 import { digPower } from "../game/engine";
+import { isDropFloorBound } from "./Header";
 import { rate, won } from "../game/format";
 import { STRATA_H, STRATA_W, drawStrata } from "../render/strata";
 import type { Game } from "./useGame";
@@ -39,6 +43,7 @@ export function LegacyDigCard({ game }: { game: Game }) {
   }, [world, sp, world.activeSite]);
 
   const combo = world.clickCombo > 1.02 && world.t < world.clickComboUntil;
+  const floorBound = isDropFloorBound(world, world.activeSite, digPower(world));
 
   return (
     <section className="card legacy-dig">
@@ -74,6 +79,13 @@ export function LegacyDigCard({ game }: { game: Game }) {
           <p className="muted small">
             직접 발굴력 {rate(digGuard(digPower(world)))}/s — {site.name} {sp.layer}층({site.eras[sp.layer - 1]})
           </p>
+          {floorBound ? (
+            <p className="stalled small">
+              {site.name}의 드랍 간격이 하한 {DROP_INTERVAL_FLOOR_SECONDS}초에 닿았다 — 여기서 발굴력을 더 올려도
+              {sp.layer >= LAYERS_PER_SITE ? " 유물이 더 나오지 않는다" : " 드랍 수는 그대로고 층만 빨리 내려간다"}.
+              자금은 새 거점·시설·발굴단에 써야 순위로 돌아온다.
+            </p>
+          ) : null}
         </div>
       </div>
     </section>

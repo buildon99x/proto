@@ -7,9 +7,11 @@
 - 상태: `prototype` — **v0.1은 플레이 가능한 실제 빌드다. v0.2는 기획이 확정됐고
   구현은 아직 착수 전이다**(설계 문서 단계, 아래 "다음 단계" 참조).
 - 실행: `pnpm --filter relic-king dev` / 빌드: `pnpm --filter relic-king build`
-- 검증: `pnpm --filter relic-king sim` (밸런스 시뮬) · `pnpm --filter relic-king smoke` (브라우저 스모크)
+- 검증: `pnpm --filter relic-king sim` (밸런스 시뮬) · `pnpm --filter relic-king smoke` (브라우저 스모크) ·
+  **`pnpm --filter relic-king play`** (실제 앱을 사람처럼 조작하는 UI 검사, 시나리오 10종)
 - QA 게이트: `qa:migration` (세이브 v1→v8) · `qa:artifacts` (데이터셋·세계 총가치) · `qa:economy` (통화 성장·원장 보존) ·
-  `qa:expedition` (원정 스텝 무관성) · `qa:season` (시즌 롤오버) · `qa:autosell` (소장고 중복분 자동 매각)
+  `qa:expedition` (원정 스텝 무관성) · `qa:season` (시즌 롤오버) · `qa:autosell` (소장고 중복분 자동 매각) ·
+  `qa:pipeline` (감정 파이프라인 정지 구간)
 
 ## 문서
 
@@ -24,7 +26,7 @@
 | [notes/world-map.md](notes/world-map.md) | v0.2 세계지도·거점 12곳·거리 시세 모델 |
 | [notes/staff.md](notes/staff.md) | v0.2 스텝(단장·관장·경매관장) 고용·스탯·급여 설계 |
 | [notes/ux-v02.md](notes/ux-v02.md) | v0.2 UX — 탭 구조·조작 단계 수·알림 체계·레이아웃 검사 |
-| [eval.md](eval.md) | 검증 체크리스트 (자동·밸런스·데이터·재미 가설, v0.1 실측 + v0.2 측정 기준) |
+| [eval.md](eval.md) | 검증 체크리스트 (자동·밸런스·데이터·재미 가설, v0.1 실측 + v0.2 측정 기준 + v0.3.2 UI 실조작 실측 §19) |
 
 ## 한 문단 요약
 

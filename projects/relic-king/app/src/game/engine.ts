@@ -1310,6 +1310,35 @@ function autoSellEligible(w: World, artifact: Artifact): boolean {
 }
 
 /**
+ * 감정 파이프라인이 자금 부족으로 **통째로** 멈췄는가(v0.3.2 결함 3 — `eval.md` §19.3).
+ *
+ * 감정 수수료는 층 기대 평가액의 `APPRAISE_FEE`(2%)인데, 실제로 나오는 유물의
+ * 대부분은 흔함(층 5에서 70%)이고 **신규 종은 팔지 않고 소장한다**(`autoSellEligible`의
+ * `AUTO_SELL_KEEP_ONE_PER_SPECIES`). 그래서 "수수료는 나가고 수입은 0"인 드랍이
+ * 연달아 붙으면 자금이 수수료 한 건 아래로 내려가고, 그 순간부터 큐의 **모든**
+ * 항목이 `runAppraisal`의 `covered` 판정에서 막힌다 — 감정이 멈추니 매각도 수입도
+ * 멈춘다. 시드 5개 × 1.5시간 실측에서 이 정지 구간이 중앙값 23.4%,
+ * 최장 354초였다(`eval.md` §19.3 표).
+ *
+ * 예전엔 큐가 `pendingCap`까지 다 차야(드랍 20~40건, 4~6분) 아래 잉여 처분이
+ * 탈출구를 열었다. 큐 길이는 이 교착의 **대리 지표일 뿐**이라 반응이 늦다 —
+ * 그래서 교착 조건 자체를 직접 본다. 탈출 수단은 그대로다: spec.md §9.2가 이미
+ * 정해 둔 "미감정 매각으로 언제든 풀 수 있다"를 자동으로 한 번 누르는 것뿐이고,
+ * T0·T1 상한(`AUTO_SELL_MAX_TIER`)과 중복분 우선 순서도 그대로 지킨다.
+ */
+function appraisalStalled(w: World): boolean {
+  if (w.appraisalVouchers > 0) return false;
+  let hasAppraisable = false;
+  for (const p of w.pending) {
+    // 봉인 보관(감정소 레벨 미달)은 수수료와 무관하게 대기 중이라 교착 판정에서 뺀다.
+    if (w.lab < APPRAISAL_UNLOCK_LAB_LEVEL[ARTIFACT_BY_ID[p.artifactId].tier]) continue;
+    hasAppraisable = true;
+    if (w.funds >= Math.round(p.estimate * APPRAISE_FEE)) return false;
+  }
+  return hasAppraisable;
+}
+
+/**
  * 미감정 큐가 `pendingCap(w.lab)`(순수 UI 경고 임계값이었던 그 함수, G54.6)를
  * 넘으면 T0·T1 잉여만 자동으로 미감정매각한다(notes/decisions.md G57 — v0.2
  * 결함 1 수정). spec.md §9.2가 이미 "자금이 감정비보다 적으면 그 항목은
@@ -1334,7 +1363,10 @@ function autoSellEligible(w: World, artifact: Artifact): boolean {
 function autoLiquidatePendingOverflow(w: World) {
   const cap = pendingCap(w.lab);
   const over = w.pending.length - cap;
-  if (over <= 0) return;
+  // 큐가 넘쳤으면 넘친 만큼, 넘치진 않았지만 교착이면 딱 한 점 — 한 점의 미감정
+  // 매각액(추정가의 70%)이 수수료(2%)의 35배라 한 점이면 파이프라인이 다시 돈다.
+  const sellCount = over > 0 ? over : appraisalStalled(w) ? 1 : 0;
+  if (sellCount <= 0) return;
   const eligible = w.pending.filter((p) => ARTIFACT_BY_ID[p.artifactId].tier <= AUTO_SELL_MAX_TIER);
   // AUTO_SELL_KEEP_ONE_PER_SPECIES를 이 경로에도 적용한다. `autoSellEligible()`
   // (감정 경로)에는 "이미 금고에 그 종이 있을 때만 판다"는 가드가 있는데 잉여
@@ -1357,7 +1389,7 @@ function autoLiquidatePendingOverflow(w: World) {
   const order = AUTO_SELL_KEEP_ONE_PER_SPECIES
     ? [...eligible.filter(heldElsewhere), ...eligible.filter((p) => !heldElsewhere(p))]
     : eligible;
-  for (const item of order.slice(0, over)) blindSell(w, item.uid);
+  for (const item of order.slice(0, sellCount)) blindSell(w, item.uid);
 }
 
 /**
