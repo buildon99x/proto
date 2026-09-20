@@ -47,3 +47,54 @@ pnpm --filter relic-king qa:artifacts
   그만큼 더 뽑힌다. 현재 후보 풀은 4,336종이라 2,000종은 여유가 있다.
 - 종수를 바꾸면 `ARTIFACT_WORLD_VALUE_CEILING`을 다시 계산해야 한다.
   `qa:artifacts`가 어긋나면 실패로 잡아 준다.
+
+## 실사 이미지 수집 (v0.4)
+
+`app/src/game/images.generated.ts`와 `app/public/artifacts/*`를 만드는 별도
+파이프라인. 설계 근거는 [`notes/decisions.md` G72](../notes/decisions.md)와
+[`notes/artifacts-dataset.md` §6·§15](../notes/artifacts-dataset.md)에 있다.
+
+```bash
+# 1) 후보 조회 → data/commons-images.candidates.json (네트워크 필요)
+node scripts/fetch-images.mjs --plan
+
+# 2) candidates.json 을 **사람이 검수한다** (엉뚱한 사진은 항목째 삭제)
+
+# 3) 검수분만 내려받아 생성 파일을 만든다
+node scripts/fetch-images.mjs --apply
+
+# 4) 검증
+pnpm --filter relic-king qa:artifacts && pnpm --filter relic-king build
+```
+
+| 파일 | 역할 | 커밋 |
+| --- | --- | --- |
+| `scripts/fetch-images.mjs` | 커먼즈 조회·라이선스 게이트·썸네일 내려받기 | ○ |
+| `data/commons-images.json` | 종별 검색 힌트(영문 질의어·정확한 File: 제목) | ○ |
+| `data/commons-images.candidates.json` | `--plan` 산출물. 사람이 검수하는 중간물 | ○ |
+| `app/src/game/images.generated.ts` | 라이선스·저작자·원본 URL 포함 메타데이터 | ○ |
+| `app/public/artifacts/*.jpg` | 번들에 들어가는 480px 썸네일 | ○ |
+
+### 이 환경에서는 못 돈다
+
+egress 프록시가 위키미디어를 CONNECT 403으로 막는다(실측). `--plan`이 돌려면
+허용 목록에 아래가 필요하다:
+
+```
+commons.wikimedia.org
+upload.wikimedia.org
+```
+
+### 손대기 전에 알아야 할 것
+
+- **두 단계인 이유.** 커먼즈 검색 결과를 그대로 승격하면 "금관"으로 검색해 엉뚱한
+  사진이 도감에 들어온다. 이 게임은 실존이 전제라 그게 치명적이다. `--plan`은
+  후보만 떨어뜨리고 `--apply`는 검수된 파일만 읽는다 — `lexicon.mjs`가 수집
+  필터인 것과 같은 구조다.
+- **라이선스 게이트는 우회 불가.** 허용은 퍼블릭 도메인·CC0·CC BY뿐이고,
+  `--apply`가 candidates.json을 다시 판정한다. CC BY-SA는 전파조건 때문에 받지
+  않는다(§6).
+- **예산.** 파일당 96KB, 합계 4.5MB. 480px 썸네일이면 종당 30~60KB라 T2 이상
+  186종을 다 채워도 들어온다. `qa:artifacts`가 초과를 실패로 잡는다.
+- 커먼즈가 서버에서 썸네일을 만들어 주므로 로컬 이미지 처리 의존성(sharp 등)이
+  필요 없다.

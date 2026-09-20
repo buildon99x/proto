@@ -1,5 +1,7 @@
 import { CONDITION_INITIAL_BASE_BY_TIER, TIER_MIN_LAYER } from "./balance";
 import { GENERATED_BY_SITE } from "./artifacts.generated";
+import { ARTIFACT_DETAILS } from "./details";
+import { ARTIFACT_IMAGES } from "./images.generated";
 import { fnv1a32, hashFrac } from "./hash";
 import { SHAPE_VARIANTS } from "../render/sprite";
 import type { Artifact, Condition, PaletteId, Shape, SiteId, SourceStatus, Tier } from "./types";
@@ -93,7 +95,12 @@ function build(site: SiteId, rows: Row[]): Artifact[] {
     minLayer: TIER_MIN_LAYER[r[6]],
     condition: initialCondition(r[0], r[6]),
     seed: spriteSeed(r[0]),
-    spriteVariant: 0 // assignSpriteVariants가 아래에서 덮어쓴다
+    spriteVariant: 0, // assignSpriteVariants가 아래에서 덮어쓴다
+    // 실사 디테일·이미지는 곁다리 표에서 붙인다(v0.4, notes/decisions.md G73).
+    // Row 튜플에 넣지 않은 이유: 3,700줄짜리 손글씨 파일의 모든 행을 건드려야
+    // 하고, 이미지 쪽은 파이프라인이 덮어쓰는 생성 파일이라 성격이 다르다.
+    detail: ARTIFACT_DETAILS[r[0]],
+    image: ARTIFACT_IMAGES[r[0]]
   }));
 }
 
@@ -3748,7 +3755,9 @@ function buildGenerated(site: SiteId, rows: GeneratedRow[]): Artifact[] {
     minLayer: TIER_MIN_LAYER[r[6]],
     condition: initialCondition(r[0], r[6]),
     seed: spriteSeed(r[0]),
-    spriteVariant: 0 // assignSpriteVariants가 아래에서 덮어쓴다
+    spriteVariant: 0, // assignSpriteVariants가 아래에서 덮어쓴다
+    detail: ARTIFACT_DETAILS[r[0]],
+    image: ARTIFACT_IMAGES[r[0]]
   }));
 }
 
