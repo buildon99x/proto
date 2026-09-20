@@ -781,6 +781,18 @@ export function renderSpriteRGBA(artifact: Artifact): Rgba {
           continue;
         }
       }
+      if (unique) {
+        // 손으로 찍은 도안은 명암을 **손이 정한다.** 절차 생성용 연속 광원 공식을
+        // 그대로 쓰면 `+`(융기)·`-`(음각)가 4단 양자화에서 같은 단으로 떨어져
+        // 도안의 요철이 전부 사라진다(컨택트 시트로 확인 — 안티키테라의 톱니,
+        // 투탕카멘의 라펫이 평면이 됐다). 문자가 기준 단을 정하고 좌상단 광원은
+        // ±1만 얹는다.
+        const band = v >= 1.3 ? 3 : v >= 0.9 ? 2 : 1;
+        const lit = (31 - y + (31 - x)) / 62; // 1 = 좌상단
+        const level = Math.max(0, Math.min(3, band - 1 + Math.round(lit * 1.5)));
+        put(rampRgb[level]);
+        continue;
+      }
       // 광원은 좌상단. 명암 3단 + 하이라이트
       const light = 0.45 + 0.55 * v - (y / 31) * 0.35 + ((31 - x) / 31) * 0.2;
       const level = Math.max(0, Math.min(3, Math.floor(light * 3.4)));
