@@ -1,6 +1,7 @@
 import { CONDITION_INITIAL_BASE_BY_TIER, TIER_MIN_LAYER } from "./balance";
 import { GENERATED_BY_SITE } from "./artifacts.generated";
-import { hashFrac } from "./hash";
+import { fnv1a32, hashFrac } from "./hash";
+import { SHAPE_VARIANTS } from "../render/sprite";
 import type { Artifact, Condition, PaletteId, Shape, SiteId, SourceStatus, Tier } from "./types";
 
 /**
@@ -59,8 +60,22 @@ function initialCondition(id: string, tier: Tier): Condition {
   return Math.min(4, Math.max(0, base + jitter)) as Condition;
 }
 
+/**
+ * 스프라이트 시드. **종 id 하나에서만** 뽑는다(v0.4, notes/decisions.md G69).
+ *
+ * v0.3까지는 `site.charCodeAt(0) * 7919 + i * 104729`였는데, 거점 이름의 첫 글자만
+ * 쓰기 때문에 `india`·`iraq`·`israel` 세 거점이 같은 기저값을 공유했다 — 같은
+ * 인덱스의 세 종이 **완전히 같은 시드**를 받아 아이콘까지 같아졌다(실측: T2 이상
+ * 186종 안에 완전 동일 비트맵 15쌍군). id는 데이터셋 전체에서 유일하고(qa:artifacts가
+ * 검사한다) 거점·인덱스와 무관하게 안정적이므로, 행을 재배열해도 아이콘이 따라
+ * 바뀌지 않는다는 이득까지 같이 온다.
+ */
+function spriteSeed(id: string): number {
+  return fnv1a32(`${id}:sprite`);
+}
+
 function build(site: SiteId, rows: Row[]): Artifact[] {
-  return rows.map((r, i) => ({
+  return rows.map((r) => ({
     id: r[0],
     name: r[1],
     era: r[2],
@@ -77,7 +92,8 @@ function build(site: SiteId, rows: Row[]): Artifact[] {
     site,
     minLayer: TIER_MIN_LAYER[r[6]],
     condition: initialCondition(r[0], r[6]),
-    seed: (site.charCodeAt(0) * 7919 + i * 104729) >>> 0
+    seed: spriteSeed(r[0]),
+    spriteVariant: 0 // assignSpriteVariants가 아래에서 덮어쓴다
   }));
 }
 
@@ -3713,12 +3729,9 @@ export const PERU_ROWS: Row[] = [
   ]
 ];
 
-/**
- * 자동 생성분을 Artifact로 만든다. `build()`와 같은 규칙을 쓰되 `seed`만 다른
- * 계열(오프셋 500_000)에서 뽑는다 — 손글씨 종과 스프라이트가 우연히 겹치지 않게.
- */
+/** 자동 생성분을 Artifact로 만든다. `build()`와 완전히 같은 규칙을 쓴다. */
 function buildGenerated(site: SiteId, rows: GeneratedRow[]): Artifact[] {
-  return rows.map((r, i) => ({
+  return rows.map((r) => ({
     id: r[0],
     name: r[1],
     era: r[2],
@@ -3734,8 +3747,39 @@ function buildGenerated(site: SiteId, rows: GeneratedRow[]): Artifact[] {
     site,
     minLayer: TIER_MIN_LAYER[r[6]],
     condition: initialCondition(r[0], r[6]),
-    seed: (500_000 + site.charCodeAt(0) * 7919 + i * 104729) >>> 0
+    seed: spriteSeed(r[0]),
+    spriteVariant: 0 // assignSpriteVariants가 아래에서 덮어쓴다
   }));
+}
+
+/**
+ * 실루엣 변형 배정 (v0.4 — notes/decisions.md G69).
+ *
+ * `(거점, shape, palette)`가 같은 종끼리 묶어 id 순으로 변형을 라운드로빈한다.
+ * 시드 해시로 뽑으면 같은 묶음 안에서 1/6 확률로 겹치고, 그 겹친 쌍은 팔레트·
+ * 거점 신호까지 같으니 나란히 놓으면 구분이 안 된다(실측: 이 방식 전에는 지각거리
+ * 임계 이하 근접쌍 14쌍이 전부 이 원인이었다).
+ *
+ * 대가: 나중에 같은 묶음에 종을 더하면 그 묶음의 변형이 한 칸씩 밀린다. 한 릴리스
+ * 안에서는 완전히 결정론적이고(세이브에는 uid만 들어간다), 데이터셋이 늘어나는
+ * 릴리스에서 일부 아이콘 그림이 바뀌는 건 v0.4 자체가 이미 전부 바꾸는 것과
+ * 같은 층의 변화다 — 세이브 호환과는 무관하다.
+ */
+function assignSpriteVariants(list: Artifact[], variants: number): Artifact[] {
+  const groups = new Map<string, Artifact[]>();
+  for (const a of list) {
+    const key = `${a.site}/${a.shape}/${a.palette}`;
+    const g = groups.get(key);
+    if (g) g.push(a);
+    else groups.set(key, [a]);
+  }
+  for (const g of groups.values()) {
+    g.sort((x, y) => (x.id < y.id ? -1 : x.id > y.id ? 1 : 0));
+    g.forEach((a, i) => {
+      a.spriteVariant = i % variants;
+    });
+  }
+  return list;
 }
 
 const HANDWRITTEN_ARTIFACTS: Artifact[] = [
@@ -3757,12 +3801,15 @@ const HANDWRITTEN_ARTIFACTS: Artifact[] = [
  * 손으로 쓴 280종 + 파이프라인이 만든 확장분. 상위 티어(T3 국보·T4 유일)는
  * 전량 손글씨 쪽에만 있다 — 파이프라인은 T2까지만 만든다(scripts/build-artifacts.mjs).
  */
-export const ARTIFACTS: Artifact[] = [
-  ...HANDWRITTEN_ARTIFACTS,
-  ...Object.entries(GENERATED_BY_SITE).flatMap(([site, rows]) =>
-    buildGenerated(site as SiteId, rows)
-  )
-];
+export const ARTIFACTS: Artifact[] = assignSpriteVariants(
+  [
+    ...HANDWRITTEN_ARTIFACTS,
+    ...Object.entries(GENERATED_BY_SITE).flatMap(([site, rows]) =>
+      buildGenerated(site as SiteId, rows)
+    )
+  ],
+  SHAPE_VARIANTS
+);
 
 export const ARTIFACT_BY_ID: Record<string, Artifact> = Object.fromEntries(
   ARTIFACTS.map((a) => [a.id, a])

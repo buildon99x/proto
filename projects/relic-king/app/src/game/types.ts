@@ -40,6 +40,13 @@ export type Artifact = {
   shape: Shape;
   palette: PaletteId;
   seed: number;
+  /**
+   * 실루엣 변형 인덱스(0 ~ SHAPE_VARIANTS-1, v0.4 — notes/decisions.md G69).
+   * `shape` 하나에 실루엣 6종이 있고 이 값이 그중 하나를 고른다. 시드 해시로
+   * 뽑으면 같은 (거점, shape, palette) 조합 안에서 1/6 확률로 겹쳐 아이콘이
+   * 나란히 붙으므로, `artifacts.ts`가 조합별 라운드로빈으로 배정한다.
+   */
+  spriteVariant: number;
   /** 드랍 시점 보존 상태 기준값(notes/artifacts-dataset.md §4 공식으로 결정론
    *  산출). VaultItem.condition의 초기값으로 그대로 쓰인다. */
   condition: Condition;
