@@ -26,7 +26,8 @@ pnpm --filter relic-king dev      개발 서버
 pnpm --filter relic-king build    타입체크 + 빌드
 pnpm --filter relic-king sim      헤드리스 밸런스 시뮬 (--hours N)
 pnpm --filter relic-king smoke    실시간 브라우저 스모크 + 스크린샷
-pnpm --filter relic-king play     실제 앱을 사람처럼 조작하는 UI 검사 (시나리오 10종)
+pnpm --filter relic-king play     실제 앱을 사람처럼 조작하는 UI 검사 (시나리오 11종)
+pnpm --filter relic-king playlog  플레이 계측 — 이벤트 타임라인·조작 노력 (--hours N)
 ```
 
 **밸런스 상수를 건드렸으면 `sim`을 돌리고 eval.md의 측정표를 갱신한다.** 방치형은
@@ -37,6 +38,13 @@ pnpm --filter relic-king play     실제 앱을 사람처럼 조작하는 UI 검
 채로** 일어났다 — 배경 탭에 둔 시간이 통째로 사라지고, 제보 배너가 "반응할
 발굴단이 없다"고 거짓말하고, 유일 유물을 손에 넣는 순간에 아무 연출도 나지 않았다.
 어떤 헤드리스 시뮬로도 잡을 수 없는 종류다(`eval.md` §19, `notes/decisions.md` G69).
+
+**"클릭 0회"는 조작 0회가 아니다.** 척추 4번의 "클릭"은 삽질 클릭(진척 가속)을
+뜻한다. 엔딩까지 가는 플레이는 실제로 **334회·879단계**의 운영 조작을 요구하고,
+그 64%가 경매 출품 하나다(`notes/play-telemetry.md`). 반대로 **탭만 열어 두면
+2일차부터 의미 있는 일이 일어나지 않는다** — 도감이 125/1,902종에서 멈추고, 그 뒤
+일어나는 일이라곤 라이벌에게 빼앗기는 것뿐이다. 페이싱·자동화를 건드릴 때는
+`pnpm playlog`로 **두 극단을 같이** 재고 `eval.md` §20 표를 갱신한다.
 
 ## 환경 제약
 

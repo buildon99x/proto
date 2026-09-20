@@ -763,6 +763,243 @@ async function scenarioUnique() {
 }
 
 // ════════════════════════════════════════════════════════════════════════
+// S11. 조작 노력 계측 — 액션 하나에 몇 단계·몇 초가 드는가, 그리고
+//      화면에 **진입 경로가 있기는 한가**. `sim/playlog.ts`의 조작량 집계가
+//      곱하는 "단계/회"가 여기서 나온다(eval.md §20.3).
+// ════════════════════════════════════════════════════════════════════════
+async function scenarioEffort() {
+  const c = makeChecks("effort — 조작 노력(단계 수·소요 시간·진입 경로)");
+  const rows = [];
+
+  await withApp({}, async (h) => {
+    await h.goto("/");
+    await h.ready();
+    await h.waitGame(150);
+    await dismissOnboarding(h);
+    // 측정 대상 액션이 전부 열려 있는 중반 이후 상태를 만든다.
+    await h.patchSave(`(w) => {
+      w.funds = 5e11;
+      w.lab = 6;
+      for (const id of Object.keys(w.sites)) { w.sites[id].unlocked = true; w.sites[id].baseSince = 0; w.sites[id].layer = 8; }
+      w.lastTickAt = Date.now();
+    }`);
+    await h.goto("/");
+    await h.ready();
+    await h.sleepReal(2200);
+    await h.clickText(".offline-modal button, .offline-toast button", "확인");
+    await dismissOnboarding(h);
+
+    /**
+     * 한 액션의 조작 단계 수와 **실제 소요 시간**을 잰다. 시작 화면은 항상 발굴
+     * 탭이고(ux-v02 §2 규칙), 탭 전환도 1단계로 센다. `verify`가 참이 될 때까지를
+     * 소요 시간으로 잡는다 — 버튼을 누른 순간이 아니라 **결과가 나온 순간**까지가
+     * 플레이어가 기다리는 시간이다.
+     */
+    /** 앞선 측정이 열어 둔 모달·시트를 닫고 발굴 탭으로 되돌린다. 사람도 매번
+     *  이 상태에서 다음 행동을 시작하므로(ux-v02 §2 "시작 화면은 발굴 탭"),
+     *  측정 사이의 잔류 상태가 다음 측정의 단계 수를 왜곡하지 않게 한다. */
+    const resetToDig = async () => {
+      for (let i = 0; i < 4; i++) {
+        const closed = await h.evaluate(`(() => {
+          const btn = document.querySelector('.modal .modal-close, .modal-back .modal-close');
+          if (btn) { btn.click(); return true; }
+          const back = document.querySelector('.modal-back');
+          if (back) { back.click(); return true; }
+          return false;
+        })()`);
+        if (!closed) break;
+        await h.sleepReal(150);
+      }
+      await h.tab("발굴");
+      await h.sleepReal(250);
+    };
+
+    const measure = async (name, steps, verify) => {
+      await resetToDig();
+      const started = Date.now();
+      let count = 0;
+      let reached = true;
+      for (const step of steps) {
+        const done = await step(h);
+        if (done === false) { reached = false; break; }
+        count += 1;
+      }
+      let ok = false;
+      if (reached) {
+        for (let i = 0; i < 20; i++) {
+          if (await verify(h)) { ok = true; break; }
+          await h.sleepReal(150);
+        }
+      }
+      const ms = Date.now() - started;
+      const alive = await h.evaluate(`!!document.querySelector('.tabs button')`);
+      const errs = h.consoleErrors();
+      rows.push({ name, steps: reached ? count : null, ms: ok ? ms : null, ok, alive, errs: errs.length });
+      if (!alive) {
+        c.ok(`${name} — 이 조작 뒤에도 앱이 살아 있다`, false,
+          `화면이 사라졌다(탭 바가 없다). 콘솔 오류 ${errs.length}건: ${errs.slice(-1)[0] ?? ""}`.slice(0, 400));
+      }
+      c.ok(`${name} — 진입 경로가 있고 실제로 동작한다`, ok,
+        reached ? `${count}단계 · ${ok ? `${(ms / 1000).toFixed(1)}초` : "결과 확인 실패"}` : `${count}단계에서 막혔다 — 진입 경로 없음`);
+      return ok;
+    };
+
+    await measure("인부 고용", [
+      (x) => x.clickText(".legacy-dig-upgrades .upgrade", "인부")
+    ], async () => (await h.state()).workers > 0);
+
+    await measure("발굴단 꾸리기(단장 고용)", [
+      (x) => x.click(".candidate-row:not([disabled])")
+    ], async () => (await h.state()).teams.length > 0);
+
+    await measure("발굴단 파견(새 거점 선택)", [
+      (x) => x.clickText(".team-card-actions button", "새 유적 선택"),
+      (x) => x.click(".modal .site-row-main")
+    ], async () => (await h.state()).teams.some((t) => t.status !== "idle"));
+
+    await measure("발굴단 슬롯 해금", [
+      (x) => x.clickText(".team-card-locked button", "해금")
+    ], async () => (await h.state()).maxTeams > 1);
+
+    await measure("발굴단 인원 증강", [
+      (x) => x.clickText(".team-card button", "상세"),
+      (x) => x.clickText(".team-detail button", "+1")
+    ], async () => (await h.state()).teams.some((t) => t.workers > 0));
+
+    await measure("루틴 켜기(자동 재파견)", [
+      // 상세가 이미 펼쳐져 있으면 다시 누르면 닫힌다 — 접혀 있을 때만 누른다.
+      (x) => x.evaluate(`(() => {
+        if (document.querySelector('.team-detail')) return true;
+        const btn = [...document.querySelectorAll('.team-card button')].find((b) => b.innerText.includes('상세'));
+        if (!btn) return false;
+        btn.click();
+        return true;
+      })()`),
+      (x) => x.evaluate(`(() => {
+        const el = document.querySelector('.team-detail input[type=checkbox]');
+        if (!el || el.checked) return false;
+        el.click();
+        return true;
+      })()`)
+    ], async () => (await h.state()).teams.some((t) => t.routine?.enabled));
+
+    await measure("박물관 건립", [
+      (x) => x.tab("시설"),
+      (x) => x.clickText(".facility-actions button", "건립")
+    ], async () => (await h.state()).museums.length > 0);
+
+    await measure("박물관 등급 승급", [
+      (x) => x.tab("시설"),
+      (x) => x.clickText(".facility-actions button", "등급 승급")
+    ], async () => (await h.state()).museums.some((m) => m.grade > 1));
+
+    await measure("박물관 마케팅", [
+      (x) => x.tab("시설"),
+      (x) => x.clickText(".facility-actions button", "마케팅")
+    ], async () => (await h.state()).museums.some((m) => m.marketingLevel > 1));
+
+    await measure("관장 고용", [
+      (x) => x.tab("시설"),
+      (x) => x.click(".staff-hire .candidate-row:not([disabled])")
+    ], async () => (await h.state()).staff.some((s) => s.role === "curator"));
+
+    await measure("전시", [
+      (x) => x.tab("시설"),
+      (x) => x.click(".museum-slot.empty"),
+      (x) => x.click(".swap-list button")
+    ], async () => (await h.state()).vault.some((v) => v.displayed));
+
+    await measure("경매장 건립", [
+      (x) => x.tab("시설"),
+      (x) => x.subtab("경매장"),
+      (x) => x.clickText("button", "건립")
+    ], async () => (await h.state()).auctionHouses.length > 0);
+
+    await measure("경매장 등급 승급", [
+      (x) => x.tab("시설"),
+      (x) => x.subtab("경매장"),
+      (x) => x.clickText(".facility-actions button", "등급 승급")
+    ], async () => (await h.state()).auctionHouses.some((a) => a.grade > 1));
+
+    await measure("경매관장 고용", [
+      (x) => x.tab("시설"),
+      (x) => x.subtab("경매장"),
+      (x) => x.click(".staff-hire .candidate-row:not([disabled])")
+    ], async () => (await h.state()).staff.some((s2) => s2.role === "auctioneer"));
+
+    // 경매 출품은 168시간 계측에서 **전체 조작의 57%**를 차지한 항목이다(189회).
+    // 한 번에 한 점씩, 3단계씩 — 이 값이 그 집계의 곱해지는 수다.
+    await measure("경매 출품(1점)", [
+      (x) => x.tab("소장고"),
+      // 전시 중인 종을 고르면 상세에 경매 버튼이 아예 안 뜬다 — 비전시 사본이
+      // 있는 첫 칸을 고른다(사람도 눈으로 그렇게 고른다).
+      (x) => x.evaluate(`(() => {
+        const stacks = [...document.querySelectorAll('.vault-grid .stack')];
+        const target = stacks.find((el) => !el.querySelector('.stack-displayed')) || stacks[0];
+        if (!target) return false;
+        target.click();
+        return true;
+      })()`),
+      (x) => x.clickText(".detail button", "경매 등록")
+    ], async () => (await h.state()).auctionHouses.some((a) => a.listings.length > 0));
+
+    await measure("소장고 중복 자동 정리 켜기", [
+      (x) => x.tab("소장고"),
+      (x) => x.selectValue(".spare-strip select", "2")
+    ], async () => (await h.state()).settings.autoSellSpareBelow === 2);
+
+    // 이 측정만 초기 조건이 다르다 — 12거점을 전부 열어 둔 상태에서는 "새 base로
+    // 열기" 버튼 자체가 뜨지 않는다(이미 다 열려 있으니 당연하다). 한 곳만 남기고
+    // 되돌린 뒤 잰다.
+    await h.patchSave(`(w) => {
+      for (const id of Object.keys(w.sites)) {
+        if (id !== "korea") { w.sites[id].unlocked = false; w.sites[id].baseSince = null; }
+      }
+      w.funds = 5e11;
+      w.lastTickAt = Date.now();
+    }`);
+    await h.goto("/");
+    await h.ready();
+    await h.sleepReal(2000);
+    await h.clickText(".offline-modal button, .offline-toast button", "확인");
+    await dismissOnboarding(h);
+    await measure("거점 해금(새 base)", [
+      (x) => x.evaluate(`(() => {
+        const rows = [...document.querySelectorAll('.site-list .site-row-main')];
+        const target = rows.find((r) => !r.innerText.includes('base'));
+        if (!target) return false;
+        target.click();
+        return true;
+      })()`),
+      (x) => x.clickText(".modal button", "새 본거지로 열기")
+    ], async () => Object.values((await h.state()).sites).filter((sp) => sp.unlocked).length > 1);
+
+    // ── 화면에 진입 경로가 없는 것들 ──────────────────────────────────
+    // 엔진에는 있고(spec.md §9.3·§9.4), `useGame`도 노출하는데, 어떤 화면도
+    // 부르지 않는다. 계측(sim/playlog.ts)에서 "단계 수 측정 불가"로 떨어진 항목이다.
+    // 보관소 설비 네 가지(spec.md §9.3·§9.4). 계측이 "조작 단계 수를 셀 수 없는
+    // 조작"으로 처음 드러낸 항목이라(eval.md §20.4), 이제는 **진입 경로가 있는지**와
+    // **몇 단계인지**를 다른 액션과 똑같이 잰다.
+    for (const [name, needle, key] of [
+      ["보관소 정원 확장", "정원 확장", "vaultLevel"],
+      ["습도조절", "습도조절 확장", "humidityLevel"],
+      ["복원기술", "복원기술 확장", "restorationLevel"],
+      ["보안 확장", "보안 확장", "securityLevel"]
+    ]) {
+      const before = (await h.state())[key];
+      await measure(name, [
+        (x) => x.tab("시설"),
+        (x) => x.subtab("보관소"),
+        (x) => x.clickText(".storage-upgrades button", needle)
+      ], async () => (await h.state())[key] > before);
+    }
+
+    c.note("조작 노력 표", rows.map((r) => `${r.name}=${r.steps ?? "없음"}단계/${r.ms ? `${(r.ms / 1000).toFixed(1)}초` : "—"}`).join(" · "));
+    await h.shot("effort-end");
+  });
+}
+
+// ════════════════════════════════════════════════════════════════════════
 const SCENARIOS = {
   loop: scenarioLoop,
   background: scenarioBackground,
@@ -773,7 +1010,8 @@ const SCENARIOS = {
   steps: scenarioSteps,
   rules: scenarioRules,
   floor: scenarioFloor,
-  unique: scenarioUnique
+  unique: scenarioUnique,
+  effort: scenarioEffort
 };
 
 async function main() {

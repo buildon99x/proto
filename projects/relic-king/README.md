@@ -8,7 +8,8 @@
   구현은 아직 착수 전이다**(설계 문서 단계, 아래 "다음 단계" 참조).
 - 실행: `pnpm --filter relic-king dev` / 빌드: `pnpm --filter relic-king build`
 - 검증: `pnpm --filter relic-king sim` (밸런스 시뮬) · `pnpm --filter relic-king smoke` (브라우저 스모크) ·
-  **`pnpm --filter relic-king play`** (실제 앱을 사람처럼 조작하는 UI 검사, 시나리오 10종)
+  **`pnpm --filter relic-king play`** (실제 앱을 사람처럼 조작하는 UI 검사, 시나리오 11종)
+- 계측: **`pnpm --filter relic-king playlog`** (168시간 이벤트 타임라인 + 조작 노력 집계)
 - QA 게이트: `qa:migration` (세이브 v1→v8) · `qa:artifacts` (데이터셋·세계 총가치) · `qa:economy` (통화 성장·원장 보존) ·
   `qa:expedition` (원정 스텝 무관성) · `qa:season` (시즌 롤오버) · `qa:autosell` (소장고 중복분 자동 매각) ·
   `qa:pipeline` (감정 파이프라인 정지 구간)
@@ -22,6 +23,7 @@
 | [notes/mda.md](notes/mda.md) | MDA 설계 — Mechanics·Dynamics·Aesthetics, Design Contract, 역전 현상, 리스크 |
 | [notes/artifacts-dataset.md](notes/artifacts-dataset.md) | 유물 데이터 규격과 티어 매핑 원칙 |
 | [notes/decisions.md](notes/decisions.md) | v0.2 결정 게이트 전체 기록 — 충돌·결정·버린 선택지 |
+| [notes/play-telemetry.md](notes/play-telemetry.md) | 플레이 계측 보고 — 이벤트 타임라인·조작 노력·지루한 구간 |
 | [notes/economy.md](notes/economy.md) | v0.2 경제 설계 — 화폐 소스·싱크 총괄표, 인플레이션 방어 구조 |
 | [notes/world-map.md](notes/world-map.md) | v0.2 세계지도·거점 12곳·거리 시세 모델 |
 | [notes/staff.md](notes/staff.md) | v0.2 스텝(단장·관장·경매관장) 고용·스탯·급여 설계 |

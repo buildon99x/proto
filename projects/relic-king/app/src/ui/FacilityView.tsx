@@ -2,8 +2,10 @@ import { useState } from "react";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
   AUCTIONEER_LOGISTICS_COEFF, AUCTION_GRADE_MAX, AUCTION_SLOT_CAP_BY_GRADE, FOREMAN_HIRE_COST,
-  MUSEUM_SLOT_BY_GRADE, SITES, TIER_NAME, auctionGradeCost, auctionHouseBuildCost, marketingLevelCost,
-  museumBuildCost, museumGradeCost
+  MUSEUM_SLOT_BY_GRADE, SITES, THEFT_APPLICABLE_MAX_TIER, TIER_NAME, auctionGradeCost,
+  auctionHouseBuildCost, conditionDecayChancePerDay, humidityLevelCost, marketingLevelCost,
+  museumBuildCost, museumGradeCost, restorationAttemptHours, restorationLevelCost,
+  restorationSuccessChance, securityLevelCost, theftInitialGraceHours, vaultCapacity, vaultLevelCost
 } from "../game/balance";
 import { auctionHouseOf, freshnessOf, museumOf, museumSlotCount, staffMarketCycle } from "../game/engine";
 import { museumUpkeepHourly, museumVisitorIncomeHourly, museumVisitorsPerDay } from "../game/museum";
@@ -15,9 +17,9 @@ import { Sprite } from "./Sprite";
 import type { Auctioneer, Curator, SiteId } from "../game/types";
 import type { Game } from "./useGame";
 
-type SubTab = "museum" | "auction";
+type SubTab = "storage" | "museum" | "auction";
 
-/** 시설 탭(notes/ux-v02.md §1.3) — [박물관][경매장] 상시 서브탭. base가 여럿이면
+/** 시설 탭(notes/ux-v02.md §1.3) — [보관소][박물관][경매장] 상시 서브탭. base가 여럿이면
  *  거점 선택 행이 하나 더 붙는다(서브탭 전환과 별개 — 표에는 안 잡히는 "요청해야
  *  보인다" 층의 세부 관리다). */
 export function FacilityView({ game }: { game: Game }) {
@@ -30,6 +32,7 @@ export function FacilityView({ game }: { game: Game }) {
   return (
     <div className="facility">
       <nav className="subtabs" role="tablist">
+        <button type="button" className={sub === "storage" ? "active" : ""} onClick={() => setSub("storage")}>보관소</button>
         <button type="button" className={sub === "museum" ? "active" : ""} onClick={() => setSub("museum")}>박물관</button>
         <button type="button" className={sub === "auction" ? "active" : ""} onClick={() => setSub("auction")}>경매장</button>
       </nav>
@@ -44,13 +47,112 @@ export function FacilityView({ game }: { game: Game }) {
         </div>
       ) : null}
 
-      {!activeSite ? (
+      {sub === "storage" ? (
+        <StoragePanel game={game} />
+      ) : !activeSite ? (
         <p className="empty">아직 base가 없다 — 발굴 탭에서 거점을 먼저 연다.</p>
       ) : sub === "museum" ? (
         <MuseumPanel game={game} site={activeSite} />
       ) : (
         <AuctionPanel game={game} site={activeSite} />
       )}
+    </div>
+  );
+}
+
+/**
+ * 보관소(spec.md §9.3·§9.4) — 정원·습도조절·복원기술·보안.
+ *
+ * **왜 이 패널이 뒤늦게 생겼나.** 네 시스템 모두 엔진에는 처음부터 있었고
+ * (`buyVaultLevel`·`buyHumidityLevel`·`buyRestorationLevel`·`buySecurityLevel`),
+ * `useGame`도 그대로 내보냈고, 시뮬 정책(`sim/policy.ts`의 `ensureFacilities`)은
+ * 이걸 사 왔다 — 그래서 168시간 기준선은 "보관소를 키운 플레이"였다. 그런데
+ * **어떤 화면도 그 함수를 부르지 않았다.** 플레이 계측이 "조작 단계 수를 셀 수
+ * 없는 조작 15회"로 이 공백을 처음 드러냈다(`eval.md` §20.4).
+ *
+ * 소장고 탭은 이미 "정원을 넘기면 보존 저하가 2배"라고 경고하고 있었는데,
+ * 정작 정원을 올릴 방법이 없었다 — 문제를 알려 주고 해결 수단을 주지 않는 화면이었다.
+ */
+function StoragePanel({ game }: { game: Game }) {
+  const { world } = game;
+  const stored = world.vault.filter((v) => !v.displayed).length;
+  const capacity = vaultCapacity(world.vaultLevel);
+  const over = stored - capacity;
+
+  return (
+    <section className="card">
+      <div className="card-head">
+        <h3>보관소</h3>
+        <span className="muted small">
+          {stored} / {capacity}점 보관 중{over > 0 ? ` · ${over}점 초과` : ""}
+        </span>
+      </div>
+      {over > 0 ? (
+        <p className="stalled small">
+          정원을 {over}점 넘겼다 — 넘긴 동안은 <strong>모든</strong> 소장 유물의 보존 상태 저하 확률이 2배가 된다.
+          정원을 늘리거나 소장고 탭에서 중복분을 정리한다.
+        </p>
+      ) : null}
+
+      <div className="storage-upgrades">
+        <StorageUpgrade
+          label="정원"
+          now={`${capacity}점`}
+          next={`${vaultCapacity(world.vaultLevel + 1)}점`}
+          detail={`Lv.${world.vaultLevel} — 정원을 넘기면 보존 저하가 2배가 된다`}
+          cost={vaultLevelCost(world.vaultLevel)}
+          funds={world.funds}
+          onBuy={game.buyVaultLevel}
+        />
+        <StorageUpgrade
+          label="습도조절"
+          now={percent(conditionDecayChancePerDay(world.humidityLevel, false) * 100, 2)}
+          next={percent(conditionDecayChancePerDay(world.humidityLevel + 1, false) * 100, 2)}
+          detail={`Lv.${world.humidityLevel} — 하루당 보존 상태가 한 칸 내려갈 확률`}
+          cost={humidityLevelCost(world.humidityLevel)}
+          funds={world.funds}
+          onBuy={game.buyHumidityLevel}
+        />
+        <StorageUpgrade
+          label="복원기술"
+          now={`${restorationAttemptHours(world.restorationLevel).toFixed(1)}h · ${percent(restorationSuccessChance(world.restorationLevel))}`}
+          next={`${restorationAttemptHours(world.restorationLevel + 1).toFixed(1)}h · ${percent(restorationSuccessChance(world.restorationLevel + 1))}`}
+          detail={`Lv.${world.restorationLevel} — 시도 간격과 성공률(자동으로 돈다, 조작 없음)`}
+          cost={restorationLevelCost(world.restorationLevel)}
+          funds={world.funds}
+          onBuy={game.buyRestorationLevel}
+        />
+        <StorageUpgrade
+          label="보안"
+          now={`${theftInitialGraceHours(world.securityLevel).toFixed(1)}h`}
+          next={`${theftInitialGraceHours(world.securityLevel + 1).toFixed(1)}h`}
+          detail={`Lv.${world.securityLevel} — 전시 시작 후 도난 판정이 유예되는 시간(${TIER_NAME[THEFT_APPLICABLE_MAX_TIER]} 이하만 도난 대상)`}
+          cost={securityLevelCost(world.securityLevel)}
+          funds={world.funds}
+          onBuy={game.buySecurityLevel}
+        />
+      </div>
+      <p className="muted small">
+        네 가지 모두 <strong>켜 두면 알아서 도는</strong> 배경 설비다 — 올리고 나면 따로 누를 것이 없다(척추 4번).
+      </p>
+    </section>
+  );
+}
+
+function StorageUpgrade({ label, now, next, detail, cost, funds, onBuy }: {
+  label: string; now: string; next: string; detail: string; cost: number; funds: number; onBuy: () => void;
+}) {
+  const afford = funds >= cost;
+  return (
+    <div className="storage-row">
+      <div className="storage-row-main">
+        <strong>{label}</strong>
+        <em className="muted small">{detail}</em>
+        <span className="muted small">{now} → {next}</span>
+      </div>
+      <button type="button" disabled={!afford} onClick={onBuy}>
+        {label} 확장 — {won(cost)} ₩
+      </button>
     </div>
   );
 }

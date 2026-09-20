@@ -540,3 +540,18 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
   .onboarding-cards { grid-template-columns: 1fr; }
   .modal-wide { max-width: 100%; }
 }
+
+/* ── 보관소 패널(시설 탭) ───────────────── */
+/* 네 설비는 "사고 나면 잊는" 배경 설비다 — 지금 값 → 다음 값을 한 줄에 보여 주고
+   버튼은 오른쪽에 고정한다. 목록이 늘어도 버튼 자리가 움직이지 않게(spec.md §3.1.1). */
+.storage-upgrades { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+.storage-row {
+  display: flex; align-items: center; gap: 10px; justify-content: space-between;
+  padding: 8px 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--panel-2);
+}
+.storage-row-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.storage-row button { white-space: nowrap; }
+@media (max-width: 560px) {
+  .storage-row { flex-direction: column; align-items: stretch; }
+  .storage-row button { width: 100%; }
+}
