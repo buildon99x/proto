@@ -48,8 +48,8 @@
 `00-rubric.md` §8의 입력 세 가지 — **매체**(웹툰 단독 / 소설 병행), **연재 단위**(회차 컷 수),
 **독자 진입 지점** — 이 정해지면 게이트 수치를 작품에 맞게 조이고, 02 골드셋에 ORIGIN DUST 자체 good/bad 쌍을 넣는다.
 
-`projects/origin-dust/`는 **아직 만들지 않았다.** `projects/*` 아래 디렉터리는 `project.json`이 없으면
-`pnpm sync:registry`가 ENOENT로 죽고(`scripts/project-utils.ts`의 `readAllProjects`가 모든 하위 디렉터리에서
-`project.json`을 읽는다), `project.json`만 있고 `app/`이 없으면 `pnpm build:projects`가 죽는다
-(`scripts/build-project.ts`가 `app/` 빌드를 강제한다). 둘 다 `pnpm build:vercel`을 깨뜨린다.
-앱 형태가 정해지는 시점에 `app/`과 `project.json`을 함께 만든다.
+ORIGIN DUST는 **앱을 구현하는 프로젝트가 아니다.** 따라서 `projects/` 아래로 가지 않는다.
+`projects/*`는 런처가 빌드해 배포하는 정적 아티팩트 전용이라 `app/` 빌드를 강제하고
+(`scripts/build-project.ts`), `project.json`이 없으면 `pnpm sync:registry`가 ENOENT로 죽는다
+(`scripts/project-utils.ts`의 `readAllProjects`가 모든 하위 디렉터리에서 `project.json`을 읽는다).
+둘 다 `pnpm build:vercel`을 깨뜨린다. 작품 문서(컨셉·세계관·회차 원고)는 `docs/origin-dust/`에 둔다.
