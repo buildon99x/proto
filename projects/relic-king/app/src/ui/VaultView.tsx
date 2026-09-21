@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
   APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE, AUTO_SELL_SPARE_MAX_TIER, BLIND_SELL_RATE, CONDITION_NAME,
@@ -30,7 +30,22 @@ export function VaultView({ game }: { game: Game }) {
   const [conditionFilter, setConditionFilter] = useState<Condition | null>(null);
   const [siteFilter, setSiteFilter] = useState<SiteId | null>(null);
 
-  const stacks = useMemo<Stack[]>(() => {
+  /**
+   * **메모이즈하지 않는다.** 엔진은 `World`를 제자리에서 고친다 — `w.vault`를
+   * 통째로 갈아끼우는 경로(`sellArtifactCopies`)도 있고 배열만 건드리는 경로
+   * (`listAtAuction`의 `splice`, `runAppraisal`의 `push`)도 있다. 후자는 배열
+   * **참조가 그대로**라 `useMemo(…, [world.vault])`가 다시 계산하지 않는다.
+   *
+   * 실제로 그래서 앱이 죽었다(v0.3.2 계측): 경매에 1점을 등록하면 `splice`로
+   * 금고에서 빠지는데 이 목록은 그대로라, 아래 `Detail`이 이미 사라진 uid를
+   * `DisplayAction`에 넘기고 거기서 `find(...)!`가 undefined를 터뜨려 **화면
+   * 전체가 언마운트**됐다. 168시간 계측에서 경매 출품은 전체 플레이어 조작의
+   * 57%(189회)를 차지하는 조작이다(`eval.md` §23.2).
+   *
+   * 금고는 수백 점 규모이고 이 묶음 계산은 O(n)이다 — 매 렌더 다시 계산하는
+   * 비용보다, 참조 기반 메모이즈가 조용히 낡는 위험이 훨씬 크다.
+   */
+  const stacks: Stack[] = (() => {
     const byId = new Map<string, Stack>();
     for (const item of world.vault) {
       const hit = byId.get(item.artifactId);
@@ -40,7 +55,7 @@ export function VaultView({ game }: { game: Game }) {
     return [...byId.values()].sort(
       (a, b) => b.artifact.tier - a.artifact.tier || a.artifact.name.localeCompare(b.artifact.name, "ko")
     );
-  }, [world.vault]);
+  })();
 
   const filtered = stacks.filter((s) => {
     if (tierFilter !== null && s.artifact.tier !== tierFilter) return false;
@@ -175,6 +190,10 @@ export function VaultView({ game }: { game: Game }) {
                 <button
                   key={s.artifact.id}
                   type="button"
+                  // 칸이 손가락 밑에서 재배열되지 않는지 검사가 종 단위로 대조한다
+                  // (tests/e2e/smoke.mjs). 새 종이 들어와 칸이 하나 느는 것과,
+                  // 이미 있던 칸이 움직이는 것은 다른 일이다.
+                  data-aid={s.artifact.id}
                   className={`stack${selected === s.artifact.id ? " picked" : ""}`}
                   onClick={() => setSelected(s.artifact.id)}
                   title={`${s.artifact.name} ×${s.items.length}`}
@@ -217,6 +236,8 @@ function SpareStrip({ game }: { game: Game }) {
   const targetedValue = targeted.reduce((sum, i) => sum + i.value, 0);
   const stored = world.vault.filter((v) => !v.displayed).length;
   const capacity = vaultCapacity(world.vaultLevel);
+  const toAuction = world.settings.spareDestination === "auction";
+  const noHouse = toAuction && world.auctionHouses.length === 0;
 
   return (
     <div className="spare-strip">
@@ -239,6 +260,16 @@ function SpareStrip({ game }: { game: Game }) {
             ))}
           </select>
         </label>
+        <label className="filter-chip">
+          보낼 곳
+          <select
+            value={world.settings.spareDestination}
+            onChange={(e) => game.setSpareDestination(e.target.value as "sell" | "auction")}
+          >
+            <option value="sell">직접 매각</option>
+            <option value="auction">경매 출품</option>
+          </select>
+        </label>
         <button
           type="button"
           className="ghost"
@@ -247,13 +278,20 @@ function SpareStrip({ game }: { game: Game }) {
         >
           {rule === null
             ? "지금 정리 — 기준을 고르면 켜진다"
-            : `지금 정리 ${targeted.length}점 · ${won(targetedValue)} ₩`}
+            : toAuction
+              ? `지금 경매로 ${targeted.length}점`
+              : `지금 정리 ${targeted.length}점 · ${won(targetedValue)} ₩`}
         </button>
       </div>
       {stored > capacity ? (
         <p className="stalled small">
           소장고 정원 {capacity}점을 {stored - capacity}점 넘겼다 — 넘긴 동안은 <strong>모든</strong> 소장 유물의
           보존 상태 저하 확률이 2배가 된다.
+        </p>
+      ) : noHouse ? (
+        <p className="stalled small">
+          보낼 곳이 <strong>경매 출품</strong>인데 경매장이 없다 — 시설 탭에서 먼저 짓는다. 그때까지 중복분은
+          그대로 쌓인다(직접매각으로 몰래 바꾸지 않는다).
         </p>
       ) : (
         <p className="muted small">
@@ -375,9 +413,14 @@ function estimateDisplayIncome(world: World, site: SiteId, artifact: Artifact): 
  *  않는다(notes/decisions.md G56, G55.7 보고를 닫는다). */
 function DisplayAction({ game, uid }: { game: Game; uid: number }) {
   const { world } = game;
-  const artifact = ARTIFACT_BY_ID[world.vault.find((v) => v.uid === uid)!.artifactId];
   const [swapping, setSwapping] = useState(false);
   const [chosenId, setChosenId] = useState<SiteId | null>(null);
+  // 이 유물이 바로 직전 조작(매각·경매 등록)으로 금고를 떠났을 수 있다. 예전엔
+  // `find(...)!`로 단정해 그 순간 화면 전체가 언마운트됐다 — 버튼 하나가
+  // 게임을 통째로 죽이는 경로였다(위 `stacks` 주석 참조).
+  const item = world.vault.find((v) => v.uid === uid);
+  if (!item) return null;
+  const artifact = ARTIFACT_BY_ID[item.artifactId];
   const bases = SITES.filter((s) => world.sites[s.id].unlocked);
   if (bases.length === 0) return null;
   const ranked = [...bases].sort(

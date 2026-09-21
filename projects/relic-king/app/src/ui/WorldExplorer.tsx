@@ -34,7 +34,10 @@ export function WorldExplorer({ game, onSelectSite }: { game: Game; onSelectSite
     [bookmarks, home]
   );
 
-  const recommended = useMemo(() => recommendSites(world).map((id) => SITE_BY_ID[id]), [world]);
+  // `world`는 엔진이 제자리에서 고치는 **같은 객체**다 — 의존성 배열에 넣어 봐야
+  // 참조가 영원히 그대로라 추천이 마운트 시점에 굳는다(층이 깊어지고 거점을 열어도
+  // 목록이 안 바뀐다). 추천 계산은 12거점 순회라 매 렌더 해도 싸다.
+  const recommended = recommendSites(world).map((id) => SITE_BY_ID[id]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();

@@ -290,6 +290,16 @@ export type Settings = {
    *  절대 건드리지 않는다. null이면 끔(기본값) — 매각은 자산 축을 깎으므로
    *  켜고 끄는 것 자체가 전략적 선택이다. */
   autoSellSpareBelow: Tier | null;
+  /**
+   * 중복분을 **어디로 보낼 것인가**(v0.3.4). `"sell"`은 즉시 직접매각,
+   * `"auction"`은 경매장에 출품한다(경매장이 없거나 슬롯이 차 있으면 그 회차는
+   * 그냥 건너뛴다 — 직접매각으로 몰래 바꾸지 않는다).
+   *
+   * 경매 출품은 168시간 계측에서 **플레이어 조작의 64%**(189회 × 3단계)를
+   * 차지한 단 하나의 조작이었다(`notes/play-telemetry.md` §2.1). 규칙 판정은
+   * `spareVaultItems()` 하나가 이미 다 갖고 있어서, 출구만 바꾸면 된다.
+   */
+  spareDestination: "sell" | "auction";
   muted: boolean;
   /** 인부·장비·감정소 잉여 자금 자동 재투자(notes/decisions.md G57) — 기본 켬.
    *  클릭 없이도 발굴력이 자라게 하는 배경 루틴의 온/오프 스위치일 뿐, 꺼도
@@ -329,7 +339,7 @@ export type SeasonState = {
 };
 
 export type World = {
-  version: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+  version: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
   t: number;
   lastTickAt: number;
   funds: number;
@@ -522,7 +532,16 @@ export type ExpeditionTeam = {
    *  고정됐다). 파견 시점 층과 귀환 시점 층 두 지점의 단가를 평균해 이 소급
    *  과청구를 완화한다. */
   layerAtDispatch: number;
-  routine: { enabled: boolean; target: SiteId } | null;
+  /**
+   * 귀환 즉시 자동 재파견(spec.md §8.4). `target`이 `"auto"`면 그때그때
+   * `recommendSites()`가 고른 곳으로 간다 — 미방문 거점을 먼저, 그다음 아직
+   * 못 채운 종이 많은 순이다. 고정 거점을 물리면 그곳만 왕복한다.
+   *
+   * 기본값이 `{ enabled: true, target: "auto" }`인 이유는 계측이다(v0.3.3,
+   * `notes/play-telemetry.md` §1): 루틴이 꺼진 채로는 발굴단이 한 거점만
+   * 왕복하거나 유휴로 멈춰, 탭만 열어 둔 플레이가 2일차부터 완전히 정지했다.
+   */
+  routine: { enabled: boolean; target: SiteId | "auto" } | null;
   /** 이번 회차 원정비 배수 누적(집중 굴착 ×2, 급파 ×3, spec.md §8.6). 귀환 정산
    *  (finalizeExpedition) 후 1로 리셋된다. 생략 시 1(배수 없음)로 취급한다. */
   costMult?: number;

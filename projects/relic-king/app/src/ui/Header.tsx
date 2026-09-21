@@ -1,4 +1,4 @@
-import { SITE_BY_ID, dropThreshold, layerCost } from "../game/balance";
+import { DROP_INTERVAL_FLOOR_SECONDS, SITE_BY_ID, dropThreshold, layerCost } from "../game/balance";
 import { digPower, effectiveDropMod, fullRanking, playerAssets } from "../game/engine";
 import { teamDigPower } from "../game/expedition";
 import { clock, won } from "../game/format";
@@ -49,6 +49,11 @@ export function Header({
       </div>
       <div className="header-nextdrop muted">
         {nextDrop ? `다음 드랍 — ${nextDrop.label} ${SITE_BY_ID[nextDrop.site].city} ${nextDrop.layer}층 · ${clock(nextDrop.seconds)} 후` : "다음 드랍 — 발굴 중인 곳 없음"}
+        {nextDrop?.floorBound ? (
+          <em className="floor-note" title={`드랍 간격의 하한은 ${DROP_INTERVAL_FLOOR_SECONDS}초다. 이 거점은 이미 그 하한이라 발굴력을 더 올려도 드랍이 빨라지지 않는다 — 회수한 자금은 새 거점·시설·발굴단에 써야 순위로 돌아온다.`}>
+            {" "}· 최소 간격 {DROP_INTERVAL_FLOOR_SECONDS}초 도달
+          </em>
+        ) : null}
       </div>
     </header>
   );
@@ -84,7 +89,23 @@ export function totalDigPower(world: World): { total: number; activeTeams: numbe
   return { total, activeTeams };
 }
 
-type NextDropInfo = { label: string; site: SiteId; layer: number; seconds: number };
+type NextDropInfo = { label: string; site: SiteId; layer: number; seconds: number; floorBound: boolean };
+
+/**
+ * 그 거점의 드랍 간격이 **하한(`DROP_INTERVAL_FLOOR_SECONDS`)에 붙었는가.**
+ * 붙으면 `dropThreshold`가 `floor × dig`를 돌려주므로 간격이 발굴력과 무관하게
+ * 8초로 고정된다 — 즉 **그 거점에서는 발굴력을 더 올려도 유물이 더 나오지 않는다**
+ * (층 돌파는 계속 빨라지므로, 최대 층에서는 순수하게 무의미해진다).
+ * `eval.md` §18.3이 "드랍 횟수가 정확히 같다"로 관측한 그 구간이고,
+ * §19.5가 "화면이 그걸 말하지 않는다"로 결함 판정한 지점이다.
+ */
+export function isDropFloorBound(world: World, site: SiteId, dig: number): boolean {
+  if (dig <= 0) return false;
+  const sp = world.sites[site];
+  const dropMod = effectiveDropMod(world, site);
+  const base = dropThreshold(site, sp.layer, 0, dropMod);
+  return DROP_INTERVAL_FLOOR_SECONDS * dig >= base;
+}
 
 /** 가장 임박한 드랍 1건(레거시 또는 on_site 발굴단) — 헤더의 "다음 드랍" 압축 표시용 */
 export function nextDropInfo(world: World): NextDropInfo | null {
@@ -109,7 +130,9 @@ export function nextDropInfo(world: World): NextDropInfo | null {
     const sp = world.sites[site];
     const threshold = dropThreshold(site, sp.layer, dig, effectiveDropMod(world, site));
     const seconds = Math.max(0, (threshold - sp.dropProgress) / dig);
-    if (!best || seconds < best.seconds) best = { label, site, layer: sp.layer, seconds };
+    if (!best || seconds < best.seconds) {
+      best = { label, site, layer: sp.layer, seconds, floorBound: isDropFloorBound(world, site, dig) };
+    }
   }
   return best;
 }

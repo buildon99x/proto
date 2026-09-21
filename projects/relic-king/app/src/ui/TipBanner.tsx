@@ -1,5 +1,5 @@
 import { ARTIFACT_BY_ID } from "../game/artifacts";
-import { EMERGENCY_DISPATCH_MAX_REACH_HOURS, EMERGENCY_DISPATCH_TRAVEL_MULT, SITE_BY_ID, TIER_NAME } from "../game/balance";
+import { EMERGENCY_DISPATCH_MAX_REACH_HOURS, EMERGENCY_DISPATCH_TRAVEL_MULT, SITE_BY_ID, TIER_NAME, TIP_PLAYER_HIT } from "../game/balance";
 import { teamHomeSite } from "../game/engine";
 import { travelHoursOneWay } from "../game/expedition";
 import { distanceKm } from "../game/sites";
@@ -37,6 +37,15 @@ function TipContent({ game, tip }: { game: Game; tip: Tip }) {
   const a = ARTIFACT_BY_ID[tip.artifactId];
   const site = SITE_BY_ID[tip.site];
   const { onSite, emergency } = findReaction(game.world, tip);
+  // 레거시 직접 발굴이 그 거점을 파고 있으면 **이미 레이스에 참가 중**이다 —
+  // 엔진(`drainSiteDrops`→`activeTipTarget`→`rollDrop`)이 발굴단인지 직접
+  // 발굴인지 가리지 않고 TIP_PLAYER_HIT를 그대로 적용하고, 제보를 띄울지
+  // 고르는 `playerCanReactAt()`도 `w.activeSite === site`를 "그 자리에 있다"로
+  // 친다. 그런데 배너는 팀만 보고 "반응할 발굴단이 없다"라고 썼다 — 발굴단을
+  // 꾸리기 전(초반 30분 이상)의 모든 제보가 구경거리로 표시됐다는 뜻이다
+  // (`eval.md` §19.2). 척추 5번("규칙은 공개한다")은 화면이 실제 규칙과 같은
+  // 말을 할 때만 성립한다.
+  const legacyOnSite = game.world.activeSite === tip.site && game.world.sites[tip.site].layer >= tip.layer;
 
   return (
     <div className="tip" role="alert">
@@ -55,6 +64,8 @@ function TipContent({ game, tip }: { game: Game; tip: Tip }) {
         <button type="button" onClick={() => game.emergencyDispatch(emergency.id)}>
           급파
         </button>
+      ) : legacyOnSite ? (
+        <span className="tip-racing small">직접 발굴이 이 자리에서 쫓는 중 — 적중 {Math.round(TIP_PLAYER_HIT * 100)}%</span>
       ) : (
         <span className="tip-info-only muted small">반응할 발굴단이 없다 — 정보로만 뜬다</span>
       )}

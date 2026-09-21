@@ -3,7 +3,7 @@ import {
   CONDITION_INITIAL_BASE_BY_TIER, MAX_EXPEDITION_TEAMS_INITIAL, RESTORATION_BASE_HOURS,
   SEASON_LENGTH_WEEKS, SITES
 } from "./balance";
-import { createPersistentRecord, createWorld, nextUid } from "./engine";
+import { createPersistentRecord, createWorld, grantStartingTeam, nextUid } from "./engine";
 import type { PersistentRecord, World } from "./types";
 
 // 키 이름의 "v1"은 고정된 네임스페이스 라벨일 뿐 스키마 버전이 아니다(spec.md §2.9) —
@@ -186,7 +186,41 @@ const MIGRATIONS: Record<number, Migration> = {
    * 찾게 되기 때문이다. 고스트 필드(`ghost`·`ownedExtra`·`fameExtra`)는 전부 선택
    * 필드라 옛 라이벌 6명은 손대지 않는다.
    */
-  8: (raw: any) => ({ ...raw, version: 9 })
+  8: (raw: any) => ({ ...raw, version: 9 }),
+  /**
+   * v9 → v10 (v0.3.4 계측 처방을 v0.5 위로 합치면서 — notes/decisions.md G81).
+   * 원래 v8→v9로 썼던 단계인데, 같은 번호를 v0.5의 기록패가 먼저 가져갔다.
+   * **이미 배포된 v9를 다시 정의하지 않고 뒤에 한 칸을 더 붙인다** — v9로 저장된
+   * 세이브가 이미 존재하므로 그 번호의 뜻을 바꾸면 그 세이브들이 이 단계를
+   * 건너뛴다.
+   *
+   * - `settings.spareDestination`을 `"sell"`로 채운다 — 기존 동작 그대로다.
+   *   경매 출품은 **선택지 추가**이지 결함 수정이 아니므로 기존 플레이어의
+   *   중복분 처리 방식을 마음대로 바꾸지 않는다(v7→v8의 `autoSellSpareBelow`와
+   *   같은 취지).
+   * - `teams[].routine`이 비어 있으면 **자동 순회로 켜 준다.** 이쪽은 정반대로
+   *   **결함 수정**이라 기존 세이브에도 처방을 적용한다(v6→v7이 `autoSellBelow`를
+   *   올려 준 것과 같은 논리): 루틴이 꺼진 팀은 귀환 후 영원히 유휴로 멈추고,
+   *   그게 "탭만 열어 두면 2일차부터 아무 일도 안 일어난다"의 직접 원인이다
+   *   (`notes/play-telemetry.md` §1). 플레이어가 직접 고른 고정 대상은 건드리지
+   *   않고, 자동 순회가 싫으면 상세 패널에서 2단계로 끌 수 있다(척추 4번).
+   * - 발굴단도 단장도 한 번도 가져 본 적이 없는 세이브에는 **시작 발굴단을 준다.**
+   *   그 플레이어는 지금도 같은 교착(단장 고용비 200,000₩ 앞에서 멈춤) 안에 있다.
+   *   실제 지급은 `deserialize()`가 `grantStartingTeam()`으로 한다 — 여기서는
+   *   `w.t` 기준 시각·uid 발급이 필요해 순수 변환으로 처리할 수 없다.
+   */
+  9: (raw: any) => ({
+    ...raw,
+    version: 10,
+    settings: {
+      ...raw.settings,
+      spareDestination: raw.settings?.spareDestination ?? "sell"
+    },
+    teams: (raw.teams ?? []).map((t: any) => ({
+      ...t,
+      routine: t.routine ?? { enabled: true, target: "auto" }
+    }))
+  })
 };
 
 function storage(): Storage | null {
@@ -205,6 +239,24 @@ function reviveUids(w: World) {
   while (nextUid() <= max) {
     /* uid 카운터를 세이브의 최대값 위로 밀어 올린다 */
   }
+}
+
+/**
+ * 아주 오래된(또는 일부가 빠진) 페이로드로도 월드가 성립하도록 필수 컨테이너를
+ * 채운다. 마이그레이션 체인은 "그 버전이 새로 요구하는 필드"만 채우므로, 원래
+ * 스키마에 있었지만 저장분에서 빠진 것(예: `log`)은 여기서 막는다 —
+ * 세이브 소실은 방치형에서 곧 게임 종료다(`notes/mda.md` §5).
+ */
+function ensureShape(w: World) {
+  if (!Array.isArray(w.log)) w.log = [];
+  if (!Array.isArray(w.teams)) w.teams = [];
+  if (!Array.isArray(w.staff)) w.staff = [];
+  if (!Array.isArray(w.museums)) w.museums = [];
+  if (!Array.isArray(w.auctionHouses)) w.auctionHouses = [];
+  if (!Array.isArray(w.theftEvents)) w.theftEvents = [];
+  if (!w.blackMarket || !Array.isArray(w.blackMarket.listings)) w.blackMarket = { listings: [] };
+  if (!w.visitedSites) w.visitedSites = {};
+  if (!w.unexploredBonusGranted) w.unexploredBonusGranted = {};
 }
 
 /** 데이터셋에 새 유물이 추가돼도 옛 세이브가 열리도록 빈 칸을 채운다 */
@@ -231,8 +283,12 @@ export function deserialize(text: string): World {
     version = Number(migrated.version);
   }
   const world = migrated as World;
+  ensureShape(world);
   reconcileDataset(world);
   reviveUids(world);
+  // v9→v10 처방의 나머지 절반(위 마이그레이션 주석 참조) — uid 발급과 w.t 기준
+  // 파견이 필요해 순수 변환 밖에서 한다. 이미 팀이나 단장이 있으면 아무 일도 하지 않는다.
+  grantStartingTeam(world);
   return world;
 }
 

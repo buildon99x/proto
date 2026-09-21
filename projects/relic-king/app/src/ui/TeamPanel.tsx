@@ -108,7 +108,12 @@ function TeamDetail({
   const [picking, setPicking] = useState(false);
   const wCost = workerCost(world.teams.reduce((s, t) => s + t.workers, 0));
   const gCost = gearCost(world.teams.reduce((s, t) => s + t.gearLevel, 0));
-  const routineTarget = team.routine?.target ?? team.targetSite;
+  // "auto"는 거점 하나가 아니라 **자동 순회**다(v0.3.4) — 귀환할 때마다
+  // 아직 못 채운 거점 중에서 고른다. 화면도 그렇게 말해야 한다.
+  const routineTarget = team.routine?.target ?? "auto";
+  // 거점 이름은 v0.4부터 도시명(`city`)으로 부른다 — 조사도 그 이름에 맞춰 붙인다.
+  const routineName = routineTarget === "auto" ? "아직 못 채운 거점" : SITE_BY_ID[routineTarget].city;
+  const routineParticle = routineTarget === "auto" ? "으로" : josa(routineName, "로으로");
 
   return (
     <div className="team-detail">
@@ -129,7 +134,7 @@ function TeamDetail({
       </div>
       <label className="team-detail-row">
         <span>
-          루틴 — 귀환 시 <strong>{SITE_BY_ID[routineTarget].city}</strong>{josa(SITE_BY_ID[routineTarget].city, "로으로")} 자동 재파견
+          루틴 — 귀환 시 <strong>{routineName}</strong>{routineParticle} 자동 재파견
         </span>
         <input
           type="checkbox"
@@ -138,8 +143,13 @@ function TeamDetail({
         />
       </label>
       <button type="button" className="ghost wide" onClick={() => setPicking(true)}>
-        루틴 대상 거점 변경
+        루틴 대상 거점 고정
       </button>
+      {routineTarget !== "auto" ? (
+        <button type="button" className="ghost wide" onClick={() => game.setRoutine(team.id, true, "auto")}>
+          자동 순회로 되돌리기
+        </button>
+      ) : null}
       <button
         type="button"
         className="ghost wide"
@@ -165,6 +175,10 @@ function HireForemanCard({ game, teamPreset }: { game: Game; teamPreset: ReturnT
   const home = teamHomeSite(world);
   const candidates = staffCandidates(home, staffMarketCycle(world), "foreman");
   const preset = teamPreset.preset;
+  // 자금이 자동 재투자로 요동쳐 이 카드가 켜졌다 꺼졌다 한다(실측: 고용 가능
+  // 상태가 유지되는 비율 9.3%). 얼마가 모자란지와 **왜** 잔고가 안 쌓이는지를
+  // 여기서 말해 준다 — v0.3.2 결함 5 보강(notes/decisions.md G69.5).
+  const short = Math.max(0, FOREMAN_HIRE_COST - world.funds);
   return (
     <div className="team-card team-card-empty">
       <h4>빈 슬롯 — 단장 고용</h4>
@@ -172,6 +186,14 @@ function HireForemanCard({ game, teamPreset }: { game: Game; teamPreset: ReturnT
         단장을 고용하면 그 자리에 새 발굴단이 꾸려진다.
         {preset ? ` 빠른 설정(인원 ${preset.workers}·장비 Lv.${preset.gearLevel})이 그 자리에 그대로 적용된다.` : ""}
       </p>
+      {short > 0 ? (
+        <p className="stalled small">
+          {won(short)} ₩ 모자란다(지금 {won(world.funds)} ₩).
+          {world.settings.autoReinvest
+            ? " 자동 재투자가 남는 자금을 인부·장비·감정소에 쓰고 있어 잔고가 오르락내리락한다 — ⚙ 설정에서 끄면 그대로 쌓인다."
+            : " 유물을 팔아 모으면 된다."}
+        </p>
+      ) : null}
       <div className="candidate-list">
         {candidates.map((c, slot) => (
           <button

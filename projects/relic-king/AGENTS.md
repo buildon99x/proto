@@ -26,10 +26,12 @@ pnpm --filter relic-king dev         개발 서버
 pnpm --filter relic-king build       타입체크 + 빌드
 pnpm --filter relic-king sim         헤드리스 밸런스 시뮬 (--hours N [--ghosts N])
 pnpm --filter relic-king smoke       실시간 브라우저 스모크 + 스크린샷
+pnpm --filter relic-king play        실제 앱을 사람처럼 조작하는 UI 검사 (시나리오 11종)
+pnpm --filter relic-king playlog     플레이 계측 — 이벤트 타임라인·조작 노력 (--hours N, --bucket N분)
 
 pnpm --filter relic-king qa:sprites     아이콘 중복·거점 구분력·유일 12종 분리
 pnpm --filter relic-king qa:rivalcard   기록패·고스트 단위 검증(왕복·적대적 입력·격리)
-pnpm --filter relic-king qa:migration   세이브 마이그레이션 v1~v9
+pnpm --filter relic-king qa:migration   세이브 마이그레이션 v1~v10
 pnpm --filter relic-king sheets         컨택트 시트 굽기 → assets/generated/
 
 node scripts/build-worldmap.mjs           세계지도 해안선 베이크(생성 파일을 다시 굽는다)
@@ -43,6 +45,34 @@ node scripts/build-worldmap.mjs --check   커밋된 산출물이 최신인지만
 
 **밸런스 상수를 건드렸으면 `sim`을 돌리고 eval.md의 측정표를 갱신한다.** 방치형은
 눈으로 봐서 알 수 없다 — 첫 구현은 20분 만에 발굴력 194만/s가 나왔는데 화면상으론 멀쩡했다.
+
+**UI를 건드렸으면 `play`를 돌린다.** 엔진이 옳다는 것과 플레이어가 겪는 게임이
+옳다는 것은 다른 명제다. v0.3.2가 찾은 결함 6건 중 4건은 **엔진이 완벽히 정상인
+채로** 일어났다 — 배경 탭에 둔 시간이 통째로 사라지고, 제보 배너가 "반응할
+발굴단이 없다"고 거짓말하고, 유일 유물을 손에 넣는 순간에 아무 연출도 나지 않았다.
+어떤 헤드리스 시뮬로도 잡을 수 없는 종류다(`eval.md` §22, `notes/decisions.md` G77).
+
+**"클릭 0회"는 조작 0회가 아니다.** 척추 4번의 "클릭"은 삽질 클릭(진척 가속)을
+뜻한다. 엔딩까지 가는 플레이는 v0.3.3 계측에서 **334회·879단계**의 운영 조작을
+요구했고 그 64%가 경매 출품 하나였다 — v0.3.4가 그 출구를 자동화해
+**143회·309단계**로 줄였지만 여전히 하루 24.4회로, 설계 관여 예산(하루 2~3회)
+밖이다(`notes/play-telemetry.md`). 반대편 극단인 **탭만 열어 둔 플레이**는
+v0.3.3에서 2일차부터 죽어 있었다(도감 125/1,902종에서 정지) — v0.3.4의 시작
+발굴단·자동 순회로 2,090건·298종까지 살아났지만 3~4일차에 다시 멈춘다.
+페이싱·자동화를 건드릴 때는 `pnpm playlog`로 **두 극단을 같이** 재고 `eval.md`
+§23·§24 표를 갱신한다.
+
+**168시간 지표가 좋아져도 첫 10시간은 따로 재라.** v0.3.4의 시작 발굴단·자동
+순회는 168시간 스케일에서 방치 플레이를 되살렸지만, `--bucket 10`으로 첫
+10시간을 보면 **그 발굴단이 35.3시간째 이동 중**이라 첫 세션에는 없는 것과
+같다. 같은 이유로 제보 공급도 3시간 30분에 끊긴다 — 두 현상 모두 168시간
+합계에서는 보이지 않는다(`notes/play-first-10h.md`, `eval.md` §25).
+
+**테스트가 깨지면 전제부터 의심한다.** v0.3.4의 처방 하나(시작 발굴단)가
+`qa_migration`·`qa_expedition`·`play` 5곳·`smoke` 1곳을 깼는데, 전부 **단언이
+틀린 게 아니라 전제가 낡은** 경우였다. 단언을 느슨하게 해서 통과시키지 말고,
+사람이 실제로 그 조작을 마주하는 조건을 만들어 다시 재라
+(`notes/decisions.md` G80.2).
 
 ## 환경 제약
 

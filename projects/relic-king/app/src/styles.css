@@ -57,6 +57,9 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
   align-items: center;
 }
 .header-nextdrop { font-size: 11px; margin-top: 4px; }
+/* 드랍 간격이 하한에 붙었다는 표시(v0.3.2 결함 5, eval.md §19.5) — 경고가 아니라
+   "돈을 여기 더 넣지 말라"는 안내라 강조색 대신 차분한 색을 쓴다. */
+.floor-note { color: var(--accent); font-style: normal; }
 
 .stat { display: flex; flex-direction: column; min-width: 0; }
 .stat-label { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; }
@@ -95,6 +98,9 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
   animation: tip-in 240ms ease-out;
 }
 .tip-info-only { white-space: nowrap; }
+/* 직접 발굴이 이미 레이스 중일 때 — "구경만 한다"가 아니라 "참가 중"임을 알린다
+   (v0.3.2 결함 2, eval.md §19.2). 반응 버튼과 같은 자리에 같은 무게로 둔다. */
+.tip-racing { white-space: nowrap; color: var(--accent); font-style: normal; }
 .tip-here { border-color: var(--accent); background: linear-gradient(90deg, #33280f, #221f12); }
 .tip-mark {
   padding: 2px 8px; border-radius: 3px; background: var(--danger);
@@ -119,11 +125,16 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
   background: var(--panel); border-radius: 5px;
 }
 .tabs button.active { background: var(--panel-2); border-color: var(--accent); color: var(--accent); }
+/* L2 시한부 뱃지(notes/ux-v02.md §7) — 건수가 아니라 남은 시간을 담으므로
+   가로폭이 숫자 하나보다 넓다. 기본은 조용한 색이고, 임박(6시간 이내)해야 붉어진다 —
+   L1(제보)의 "방해할 특권"을 침범하지 않기 위해서다. */
 .dot {
-  position: absolute; top: 2px; right: 6px; min-width: 16px; padding: 0 4px;
-  border-radius: 8px; background: var(--danger); color: #1b0f0b;
+  position: absolute; top: 2px; right: 6px; min-width: 16px; padding: 0 5px;
+  border-radius: 8px; background: var(--line); color: var(--fg);
   font-size: 10px; font-style: normal; line-height: 16px;
+  font-variant-numeric: tabular-nums;
 }
+.dot-urgent { background: var(--danger); color: #1b0f0b; font-weight: 700; }
 
 /* ── 카드 ─────────────────────────────── */
 .card {
@@ -307,6 +318,9 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 }
 .reveal .sprite { margin: 0 auto; }
 .reveal.tier-4 { border-color: var(--danger); }
+/* 소유 확정①(감정 전) — 이름·내력·평가액을 말하지 않는 판. 감정 완료판과
+   구분되게 살짝 어둡게 둔다(spec.md §3.3·§9.2). */
+.reveal-acquired { background: #1a1410; }
 .reveal.tier-3 { border-color: var(--accent); }
 .tier-line { font-variant-numeric: tabular-nums; }
 .unique-badge {
@@ -564,6 +578,21 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 
   .onboarding-cards { grid-template-columns: 1fr; }
   .modal-wide { max-width: 100%; }
+}
+
+/* ── 보관소 패널(시설 탭) ───────────────── */
+/* 네 설비는 "사고 나면 잊는" 배경 설비다 — 지금 값 → 다음 값을 한 줄에 보여 주고
+   버튼은 오른쪽에 고정한다. 목록이 늘어도 버튼 자리가 움직이지 않게(spec.md §3.1.1). */
+.storage-upgrades { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+.storage-row {
+  display: flex; align-items: center; gap: 10px; justify-content: space-between;
+  padding: 8px 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--panel-2);
+}
+.storage-row-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.storage-row button { white-space: nowrap; }
+@media (max-width: 560px) {
+  .storage-row { flex-direction: column; align-items: stretch; }
+  .storage-row button { width: 100%; }
 }
 
 /* ── 실사 디테일 블록 (v0.4, notes/decisions.md G73) ───────────────────── */

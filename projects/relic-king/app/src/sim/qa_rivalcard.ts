@@ -249,14 +249,14 @@ const revived = deserialize(serialize(saved));
 const revivedGhost = revived.rivals.find(isGhost);
 check("고스트가 세이브를 타고 살아 돌아온다", revivedGhost !== undefined);
 check("고스트의 출처 정보가 보존된다", revivedGhost?.ghost?.key === cardKeyOf(card));
-check("세이브 버전이 9다", revived.version === 9);
+check("세이브 버전이 최신(10)이다", revived.version === 10);
 
 // v8 세이브(고스트 없음)가 그대로 열리는가
 const legacy = JSON.parse(serialize(createWorld()));
 legacy.version = 8;
 delete legacy.rankSample;
 const upgraded = deserialize(JSON.stringify(legacy));
-check("v8 세이브가 v9로 올라온다", upgraded.version === 9);
+check("v8 세이브가 체인 끝(v10)까지 올라온다", upgraded.version === 10);
 check("v8 세이브의 라이벌 6명이 그대로다", upgraded.rivals.length === 6 && upgraded.rivals.every((r) => !isGhost(r)));
 
 // ── 7. 추격전 표시 ───────────────────────────────────────────────────────
