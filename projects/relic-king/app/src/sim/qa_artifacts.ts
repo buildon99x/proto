@@ -19,6 +19,10 @@
  *   - 거점당 T4가 0종(정말 하나뿐인 후보를 못 찾았을 수 있다 — 지어내는 것보다 낫다)
  *   - era 텍스트가 그 거점의 eras 12층 라벨과 겹치는 키워드가 없음(자유 문장 대조라
  *     휴리스틱이다 — 실제 오류일 수도, 표현 차이일 수도 있다. 수동 확인용 신호)
+ *   - 실사 디테일·이미지 커버리지(0장도 정상 — 수집은 egress 허용 세션에서 돈다)
+ *
+ * v0.4가 더한 것(§5 실사 디테일·이미지): 라이선스 허용 목록 위반, 저작자 표기
+ * 누락, 번들 파일 부재, 번들 예산 초과를 실패로 잡는다.
  */
 import { ARTIFACTS } from "../game/artifacts";
 import {
@@ -26,7 +30,10 @@ import {
   T4_MIN_INDEPENDENT_SOURCES, TIER_MIN_LAYER, TIER_STOCK_PER_SPECIES, TIER_VALUE
 } from "../game/balance";
 import { SITES } from "../game/sites";
-import type { PaletteId, Shape, SiteId, Tier } from "../game/types";
+import { IMAGE_MANIFEST } from "../game/images.generated";
+import type { ImageLicense, PaletteId, Shape, SiteId, Tier } from "../game/types";
+import { existsSync } from "node:fs";
+import path from "node:path";
 
 let failed = 0;
 let warned = 0;
@@ -154,6 +161,76 @@ for (const s of SITES) {
 }
 if (eraMismatch === 0) console.log("  전부 키워드 겹침 확인(참고용 신호일 뿐, 완전한 사실 검증은 아니다)");
 else warn(`era 키워드 미겹침 ${eraMismatch}건 — 위 목록 수동 확인 권장`);
+
+// ── 5) 실사 디테일·이미지 (v0.4, notes/decisions.md G72·G73) ────────────────
+// 실패로 치는 것: 라이선스 허용 목록 밖, 저작자 표기 없음, 파일 없음, 예산 초과,
+// 이미지 경로가 유물 id와 어긋남. 보고만 하는 것: 커버리지(0장도 정상 — 수집은
+// egress 허용 세션에서 돈다).
+console.log("\n── 실사 디테일·이미지 ──");
+const IMAGE_LICENSE_ALLOWED: ImageLicense[] = ["pd", "cc0", "cc-by-4.0", "cc-by-3.0", "cc-by-2.5", "cc-by-2.0"];
+/** 번들 증가분 상한. scripts/fetch-images.mjs의 MAX_TOTAL_BYTES와 같은 값이어야 한다 */
+const IMAGE_TOTAL_BUDGET_BYTES = 4.5 * 1024 * 1024;
+const PUBLIC_DIR = path.resolve(import.meta.dirname, "../../public");
+
+const withDetail = ARTIFACTS.filter((a) => a.detail);
+const withImage = ARTIFACTS.filter((a) => a.image);
+const upperTier = ARTIFACTS.filter((a) => a.tier >= 2);
+console.log(
+  `실사 디테일 ${withDetail.length}종 (T2 이상 ${withDetail.filter((a) => a.tier >= 2).length}/${upperTier.length}) · ` +
+  `실사 이미지 ${withImage.length}종 (T2 이상 ${withImage.filter((a) => a.tier >= 2).length}/${upperTier.length})`
+);
+console.log(
+  `수집 기록: ${IMAGE_MANIFEST.generatedAt ?? "미실행"} · ${IMAGE_MANIFEST.count}장 · ${(IMAGE_MANIFEST.bytes / 1024).toFixed(0)}KB`
+);
+
+let imageErrors = 0;
+let imageBytes = 0;
+for (const a of withImage) {
+  const img = a.image!;
+  const problems: string[] = [];
+  if (!IMAGE_LICENSE_ALLOWED.includes(img.license)) problems.push(`라이선스 허용 목록 밖(${img.license})`);
+  if (!img.credit || img.credit.trim().length === 0) problems.push("저작자 표기 없음");
+  if (!img.sourceUrl?.startsWith("http")) problems.push("원본 URL 없음");
+  if (img.license.startsWith("cc-by") && !img.licenseUrl) problems.push("CC BY인데 라이선스 URL 없음");
+  if (!img.file.startsWith("artifacts/")) problems.push(`번들 경로가 artifacts/ 밖(${img.file})`);
+  if (!img.file.includes(a.id)) problems.push(`파일 이름이 유물 id와 어긋남(${img.file})`);
+  if (!(img.width > 0 && img.height > 0)) problems.push("해상도 없음");
+  if (!existsSync(path.join(PUBLIC_DIR, img.file))) problems.push(`번들 파일 없음(public/${img.file})`);
+  imageBytes += img.bytes ?? 0;
+  if (problems.length > 0) {
+    imageErrors++;
+    console.log(`  ❌ ${a.id}: ${problems.join("; ")}`);
+  }
+}
+check("실사 이미지 메타데이터 결함 없음", imageErrors === 0);
+check(
+  `실사 이미지 합계 ${(imageBytes / 1024 / 1024).toFixed(2)}MB ≤ 예산 ${(IMAGE_TOTAL_BUDGET_BYTES / 1024 / 1024).toFixed(1)}MB`,
+  imageBytes <= IMAGE_TOTAL_BUDGET_BYTES
+);
+
+let detailErrors = 0;
+let pendingDetails = 0;
+for (const a of withDetail) {
+  const d = a.detail!;
+  const problems: string[] = [];
+  if (d.sourceStatus !== "verified" && d.sourceStatus !== "pending") {
+    problems.push(`sourceStatus 이상값(${d.sourceStatus})`);
+  }
+  if (d.sourceStatus === "pending") pendingDetails++;
+  if (!d.story && !d.provenance && (!d.specs || d.specs.length === 0)) problems.push("내용이 비어 있다");
+  // note와 story가 같은 문장이면 밀도를 올린 게 아니라 복사한 것이다
+  if (d.story && a.note && d.story.trim() === a.note.trim()) problems.push("story가 note와 동일");
+  for (const r of d.refs ?? []) if (!r.startsWith("http")) problems.push(`refs에 URL이 아닌 값(${r})`);
+  if (problems.length > 0) {
+    detailErrors++;
+    console.log(`  ❌ ${a.id}: ${problems.join("; ")}`);
+  }
+}
+check("실사 디테일 결함 없음", detailErrors === 0);
+console.log(`ℹ️  검증 대기(pending) 디테일 ${pendingDetails}/${withDetail.length}종 — 1차 자료 대조는 egress 허용 세션 몫`);
+if (withImage.length === 0) {
+  console.log("ℹ️  실사 이미지 0장 — 정상이다. 수집은 별도 세션에서 돈다(scripts/README.md)");
+}
 
 console.log(
   failed === 0

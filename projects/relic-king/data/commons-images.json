@@ -1,0 +1,130 @@
+{
+  "__doc__": [
+    "위키미디어 커먼즈 검색 힌트 (v0.4, notes/decisions.md G72).",
+    "`scripts/fetch-images.mjs --plan`이 종마다 무엇으로 검색할지 여기서 읽는다.",
+    "커먼즈는 한국어 유물명으로 거의 잡히지 않아, 손글씨 T3·T4 40종은 영문 질의어를 적어 둔다.",
+    "`file`에 정확한 File: 제목을 적으면 검색을 건너뛰고 그 파일만 조회한다 —",
+    "다만 존재하지 않는 제목을 적으면 --plan이 '결과 없음'으로 보고한다(게임 데이터에 들어가지 않는다).",
+    "여기 없는 종은 `name + holder`로 검색한다."
+  ],
+  "gilt-bronze-maitreya-83": {
+    "query": "Gilt-bronze Maitreya in Meditation National Treasure 83 Korea"
+  },
+  "tutankhamun-mask": {
+    "query": "Mask of Tutankhamun gold funerary mask"
+  },
+  "alexander-mosaic": {
+    "query": "Alexander Mosaic House of the Faun Naples"
+  },
+  "gr-antikythera-mechanism": {
+    "query": "Antikythera mechanism fragment National Archaeological Museum Athens"
+  },
+  "tr-topkapi-dagger": {
+    "query": "Topkapi dagger emerald Ottoman Topkapi Palace"
+  },
+  "isr-great-isaiah-scroll": {
+    "query": "Great Isaiah Scroll Dead Sea Scrolls 1QIsaa"
+  },
+  "india-kohinoor-diamond": {
+    "query": "Koh-i-Noor diamond crown replica"
+  },
+  "china-he-zun": {
+    "query": "He zun bronze vessel Western Zhou Baoji"
+  },
+  "irq-warka-vase": {
+    "query": "Warka Vase Uruk alabaster Iraq Museum"
+  },
+  "japan-fujin-raijin-byobu": {
+    "query": "Fujin Raijin-zu byobu Tawaraya Sotatsu wind thunder gods screen"
+  },
+  "mexico-piedra-del-sol": {
+    "query": "Aztec sun stone Piedra del Sol Museo Nacional de Antropologia"
+  },
+  "peru-all-toqapu-tunic": {
+    "query": "Inca all-toqapu tunic Dumbarton Oaks"
+  },
+  "silla-gold-crown": {
+    "query": "Silla gold crown Gyeongju National Museum"
+  },
+  "cheonmado-saddle-flap": {
+    "query": "Cheonmado saddle flap heavenly horse Cheonmachong"
+  },
+  "tutankhamun-canopic-coffinette": {
+    "query": "Tutankhamun canopic coffinette gold"
+  },
+  "boscoreale-silver-hoard": {
+    "query": "Boscoreale treasure silver Louvre"
+  },
+  "augustus-prima-porta": {
+    "query": "Augustus of Prima Porta Vatican Museums"
+  },
+  "gr-mask-of-agamemnon": {
+    "query": "Mask of Agamemnon Mycenae gold"
+  },
+  "gr-caryatids-erechtheion": {
+    "query": "Caryatid Erechtheion Acropolis Museum"
+  },
+  "tr-alexander-sarcophagus": {
+    "query": "Alexander Sarcophagus Istanbul Archaeological Museum"
+  },
+  "tr-serpent-column": {
+    "query": "Serpent Column Hippodrome Istanbul"
+  },
+  "tr-kadesh-treaty-tablet": {
+    "query": "Egyptian Hittite peace treaty tablet Istanbul"
+  },
+  "isr-tel-dan-stele": {
+    "query": "Tel Dan Stele House of David inscription"
+  },
+  "isr-temple-warning-inscription": {
+    "query": "Temple Warning inscription Soreg Greek Jerusalem"
+  },
+  "india-iron-pillar-delhi": {
+    "query": "Iron pillar of Delhi Qutb complex"
+  },
+  "india-ashoka-pillar-topra": {
+    "query": "Delhi Topra Ashoka pillar Feroz Shah Kotla"
+  },
+  "china-qin-bronze-chariots": {
+    "query": "Qin bronze chariot and horses Emperor Qinshihuang Mausoleum"
+  },
+  "china-du-hufu-tiger-tally": {
+    "query": "Du tiger tally bronze Qin Shaanxi History Museum"
+  },
+  "irq-hammurabi-code-stele": {
+    "query": "Code of Hammurabi stele Louvre"
+  },
+  "irq-standard-of-ur": {
+    "query": "Standard of Ur British Museum"
+  },
+  "japan-choju-jinbutsu-giga": {
+    "query": "Choju jinbutsu giga frolicking animals scroll Kozanji"
+  },
+  "japan-byodoin-amida-nyorai": {
+    "query": "Byodo-in Phoenix Hall Amida Nyorai Jocho"
+  },
+  "japan-koryuji-miroku-bosatsu": {
+    "query": "Koryuji Miroku Bosatsu wooden bodhisattva Kyoto"
+  },
+  "mexico-coyolxauhqui-stone": {
+    "query": "Coyolxauhqui stone Templo Mayor"
+  },
+  "mexico-piedra-de-tizoc": {
+    "query": "Stone of Tizoc Aztec cuauhxicalli"
+  },
+  "mexico-atlantes-de-tula": {
+    "query": "Atlantean figures Tula Toltec warrior columns"
+  },
+  "mexico-la-venta-offering-4": {
+    "query": "La Venta Offering 4 Olmec jade figurines"
+  },
+  "mexico-eagle-warrior-statues": {
+    "query": "Aztec eagle warrior terracotta Templo Mayor"
+  },
+  "peru-raimondi-stele": {
+    "query": "Raimondi Stele Chavin Lima museum"
+  },
+  "peru-caral-quipu": {
+    "query": "Caral quipu Supe valley Peru"
+  }
+}

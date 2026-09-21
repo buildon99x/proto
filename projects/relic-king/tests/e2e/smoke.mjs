@@ -25,7 +25,13 @@ const arg = (k, d) => {
 const SECONDS = Number(arg("--seconds", 20));
 const OUT = path.resolve(ROOT, arg("--out", "assets/screenshots"));
 
-const MIME = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".png": "image/png", ".svg": "image/svg+xml" };
+// 실사 이미지(v0.4)는 jpg/webp로 들어온다 — 빠지면 octet-stream 으로 나가 브라우저가
+// 그림으로 읽지 않는다.
+const MIME = {
+  ".html": "text/html", ".js": "text/javascript", ".css": "text/css",
+  ".png": "image/png", ".svg": "image/svg+xml",
+  ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp"
+};
 
 function serve() {
   const server = createServer(async (req, res) => {
@@ -230,6 +236,82 @@ async function main() {
     if (!detail) failures.push("소장고 유물을 눌러도 상세가 열리지 않는다");
     await shoot("07-vault-detail");
 
+    // 5.5) 실사 상세 블록 (v0.4) — 접힌 블록이 펼쳐지고 화면이 깨지지 않는가.
+    //
+    // T3·T4는 20초 방치로는 나오지 않으므로 세이브에 유일 유물 한 점을 주입한다.
+    // 실사 디테일이 붙은 40종(손글씨 T3·T4)의 경로를 실제로 타야, "이미지 0장인데
+    // 디테일만 있는 상태"에서 화면이 멀쩡한지 확인할 수 있다.
+    const FIXTURE_ID = "gilt-bronze-maitreya-83";
+    const FIXTURE_NAME = "금동미륵보살반가사유상";
+    await cdp.send("Page.navigate", { url: `http://127.0.0.1:${PORT}/__blank` });
+    await new Promise((r) => setTimeout(r, 1200));
+    await evaluate(`{
+      const k = 'relic-king/save/v1';
+      const w = JSON.parse(localStorage.getItem(k));
+      const uid = 900001;
+      w.vault.push({ uid, artifactId: ${JSON.stringify(FIXTURE_ID)}, value: 12345678, condition: 4 });
+      w.codex[${JSON.stringify(FIXTURE_ID)}] = 'owned';
+      const e = w.ledger[${JSON.stringify(FIXTURE_ID)}];
+      if (e) { e.remaining = 0; e.owners = ['player']; }
+      w.lastTickAt = Date.now();
+      localStorage.setItem(k, JSON.stringify(w));
+      true;
+    }`);
+    await cdp.send("Page.navigate", { url: `http://127.0.0.1:${PORT}/` });
+    await new Promise((r) => setTimeout(r, 4000));
+    await evaluate(`document.querySelector('.modal button')?.click()`);
+    await new Promise((r) => setTimeout(r, 800));
+    await evaluate(`document.querySelector('.onboarding-keep')?.click()`);
+    await new Promise((r) => setTimeout(r, 400));
+
+    // 소장고 상세에서 펼친다
+    await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('소장고')).click()`);
+    await new Promise((r) => setTimeout(r, 1000));
+    // 소장고 칸에는 글자가 없다(도트 + 개수뿐) — title 속성으로 찾는다
+    const clicked = await evaluate(`{
+      const stacks = [...document.querySelectorAll('.vault-grid .stack')];
+      const hit = stacks.find((el) => (el.title || '').includes(${JSON.stringify(FIXTURE_NAME)}));
+      (hit ?? stacks[0])?.click();
+      Boolean(hit);
+    }`);
+    if (!clicked) failures.push("주입한 유일 유물이 소장고에 보이지 않는다");
+    await new Promise((r) => setTimeout(r, 700));
+    const toggled = await evaluate(`{
+      const t = document.querySelector('.detail .detail-toggle');
+      t?.click();
+      Boolean(t);
+    }`);
+    if (!toggled) failures.push("소장고 상세에 실사 상세 토글이 없다");
+    await new Promise((r) => setTimeout(r, 500));
+    const panelText = await evaluate(`document.querySelector('.detail .detail-panel')?.innerText ?? ''`);
+    if (!panelText.includes("출처")) failures.push("실사 상세 블록에 출처 줄이 없다");
+    if (!/소장 경위/.test(panelText)) failures.push("실사 상세 블록에 소장 경위가 없다");
+    await shoot("09-vault-real-detail");
+
+    // 도감 상세에서도 같은 블록이 뜬다
+    await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('도감')).click()`);
+    await new Promise((r) => setTimeout(r, 900));
+    await evaluate(`{
+      const btns = [...document.querySelectorAll('.codex-grid button')];
+      const hit = btns.find((b) => (b.title || '').includes(${JSON.stringify(FIXTURE_NAME)}))
+        ?? btns.find((b) => !b.querySelector('.sprite-unseen'));
+      (hit ?? btns[0])?.click();
+      true;
+    }`);
+    await new Promise((r) => setTimeout(r, 700));
+    await evaluate(`document.querySelector('.codex-detail .detail-toggle')?.click()`);
+    await new Promise((r) => setTimeout(r, 500));
+    const codexPanel = await evaluate(`document.querySelector('.codex-detail .detail-panel')?.innerText ?? ''`);
+    if (!codexPanel.includes("출처")) failures.push("도감 상세에 실사 상세 블록이 열리지 않는다");
+    await shoot("10-codex-real-detail");
+
+    // 상세 오버레이(드랍 연출)는 실사 블록을 쓰지 않는다 — 연출 보호(G73)가 지켜지는지 확인
+    const revealHasDetail = await evaluate(`{
+      const m = document.querySelector('.modal.reveal');
+      m ? Boolean(m.querySelector('.artifact-detail')) : false;
+    }`);
+    if (revealHasDetail) failures.push("드랍 연출에 실사 상세 블록이 끼어들었다(G73 위반)");
+
     // 6) 조사: "이(가)" 같은 병기가 화면에 남아 있으면 안 된다
     // 활동 기록은 v0.2에서 도감 탭의 "원장" 서브탭으로 옮겨갔다(notes/ux-v02.md §1.6)
     await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('도감')).click()`);
@@ -371,7 +453,7 @@ async function main() {
     await evaluate(`document.querySelector('.modal-close')?.click()`);
     await new Promise((r) => setTimeout(r, 400));
 
-    // 8e) 순위표 — 기록패 왕복(v0.5, notes/decisions.md G70)
+    // 8e) 순위표 — 기록패 왕복(v0.5, notes/decisions.md G76)
     //     내 기록패를 복사해 그대로 다시 붙여 넣는다. 실제 UI 경로(클립보드 → prompt)를
     //     그대로 타므로, 코드 생성·파싱·고스트 주입·순위표 렌더가 한 번에 검증된다.
     await evaluate(`document.querySelector('.stat-rank')?.click()`);
@@ -408,7 +490,7 @@ async function main() {
     await shoot("09-ranktable");
 
     // 고스트 행이 "언제 받은 기록인지"를 숨기지 않는가 — 이 표기가 사라지면 화면이
-    // 실시간 상대인 것처럼 거짓말을 하게 된다(G70.0).
+    // 실시간 상대인 것처럼 거짓말을 하게 된다(G76.0).
     const ghostAge = await evaluate(`document.querySelector('.rank-list li.rank-ghost')?.innerText ?? ''`);
     if (!/기록/.test(ghostAge)) failures.push(`고스트 행에 기록 시점 표기가 없다: "${ghostAge}"`);
     await evaluate(`document.querySelector('.modal-close')?.click()`);
@@ -480,7 +562,7 @@ async function main() {
     }
 
     // 10a) 모바일 순위표 — 좁은 화면에서도 고스트가 "언제 받은 기록"인지 읽혀야 한다.
-    //      `.rank-dig`는 모바일에서 숨기지만 고스트 행만은 예외로 남겨 뒀다(G70.0) —
+    //      `.rank-dig`는 모바일에서 숨기지만 고스트 행만은 예외로 남겨 뒀다(G76.0) —
     //      그 예외가 죽으면 모바일에서만 실시간 상대처럼 보인다.
     await evaluate(`document.querySelector('.stat-rank')?.click()`);
     await new Promise((r) => setTimeout(r, 700));

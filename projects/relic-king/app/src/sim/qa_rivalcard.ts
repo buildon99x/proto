@@ -1,12 +1,12 @@
 /**
- * 기록패·고스트 라이벌 단위 검증(v0.5, notes/decisions.md G70).
+ * 기록패·고스트 라이벌 단위 검증(v0.5, notes/decisions.md G76).
  *
  *   pnpm --filter relic-king qa:rivalcard
  *
  * 보는 것은 셋이다 —
  * 1) **왕복**: 내 3축 점수가 기록패를 거쳐 고스트로 돌아왔을 때 그대로인가.
  * 2) **적대적 입력**: 남이 준 문자열이 무엇이든 `null`로 떨어지고 예외가 새지 않는가.
- * 3) **격리**: 고스트를 받아도 내 원장·도감·자산이 하나도 변하지 않는가(G70.1).
+ * 3) **격리**: 고스트를 받아도 내 원장·도감·자산이 하나도 변하지 않는가(G76.1).
  */
 import { ARTIFACTS, ARTIFACT_BY_ID } from "../game/artifacts";
 import { BASE_DIG, GEAR_MULT, GHOST_DIG_POWER_CAP, GHOST_MAX, GHOST_WORKERS_CAP, MAX_GEAR_LEVEL, WORKER_DIG } from "../game/balance";
@@ -163,9 +163,9 @@ function signCardMax() {
   });
 }
 
-// ── 3-3. 고스트의 배경 발굴은 내 원장을 비우지 않는다(G70.1) ─────────────
+// ── 3-3. 고스트의 배경 발굴은 내 원장을 비우지 않는다(G76.1) ─────────────
 // 받으면 손해인 기능은 아무도 안 쓴다. 제보 레이스 밖에서는 내 재고가 한 칸도
-// 줄어선 안 된다 — 실측으로 한 번 틀렸던 자리다(엔딩 미달성, eval.md §20).
+// 줄어선 안 된다 — 실측으로 한 번 틀렸던 자리다(엔딩 미달성, eval.md §21).
 const drainHost = createWorld();
 const drainRecord = createPersistentRecord();
 addGhost(drainHost, signCardMax());
@@ -181,7 +181,7 @@ check("고스트가 가져간 종은 내 원장에 그대로 남아 있다",
   ghostAfter.owned.every((id) => drainHost.ledger[id].owners.every((o) => o !== ghostAfter.id)));
 
 // ── 3-4. 고스트는 기록된 페이스로만 자라고, 내 엔딩을 막지 않는다 ────────
-// 둘 다 "받으면 손해"를 막는 장치다(G70.8·G70.9).
+// 둘 다 "받으면 손해"를 막는 장치다(G76.8·G76.9).
 const paceHost = createWorld();
 const paceRecord = createPersistentRecord();
 const paced = addGhost(paceHost, signCard({

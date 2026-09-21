@@ -355,7 +355,7 @@ check("플레이어가 직접 고른 기존 설정값은 덮어쓰지 않는다(
 check("새 게임 기본값과 같다(신규·기존 플레이어가 같은 상태에서 시작한다)",
   migratedV8.settings.autoSellSpareBelow === createWorld().settings.autoSellSpareBelow);
 
-// ── 14) v8 → v9 단독 구간(기록패·고스트 라이벌, notes/decisions.md G70).
+// ── 14) v8 → v9 단독 구간(기록패·고스트 라이벌, notes/decisions.md G76).
 // 이 구간은 **필드를 새로 요구하지 않는다** — 고스트는 `World.rivals`에 섞여 들어가는
 // 평범한 `RivalState`이고, v8 저장분에는 고스트가 하나도 없을 뿐이다. 그래서 여기서
 // 볼 것은 "뭐가 채워졌나"가 아니라 **"뭐가 안 망가졌나"**다: 라이벌 6명이 그대로 있고,

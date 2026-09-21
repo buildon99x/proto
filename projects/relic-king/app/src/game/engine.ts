@@ -269,7 +269,7 @@ export function rankScore(w: World, record: PersistentRecord): number {
 
 export type AxisRankRow = { id: OwnerId; name: string; asset: number; codex: number; fame: number; rank: number };
 
-// ── v0.5 추격전 — "몇 위"가 아니라 "어느 축에서 얼마나" (notes/decisions.md G70.5) ──
+// ── v0.5 추격전 — "몇 위"가 아니라 "어느 축에서 얼마나" (notes/decisions.md G76.5) ──
 
 /** 순위 성장률 표본을 갱신하는 주기(게임 내 초). 짧으면 노이즈가, 길면 반응이 느리다 */
 export const RANK_SAMPLE_INTERVAL = 600;
@@ -847,7 +847,7 @@ function rollDrop(
   }
   if (pool.length === 0) return;
   const picked = rng.pick(pool);
-  // 기록패로 받은 사람 상대는 **내 원장을 비우지 않는다**(notes/decisions.md G70.1).
+  // 기록패로 받은 사람 상대는 **내 원장을 비우지 않는다**(notes/decisions.md G76.1).
   // 위의 제보 레이스 분기는 이 앞에서 이미 끝났으므로, 여기 오는 건 배경 발굴뿐이다.
   const asGhost = ghostOwner(w, owner);
   if (asGhost) shadowTake(w, picked, asGhost);
@@ -869,11 +869,11 @@ function ghostOwner(w: World, owner: OwnerId): RivalState | undefined {
 /**
  * 고스트의 배경 발굴. 점수만 자라고 **세계 원장·도감·로그는 건드리지 않는다.**
  *
- * 이유는 G70.1의 연장이다. 고스트는 자기 판에서 계속 놀고 있는 사람의 투영이고,
+ * 이유는 G76.1의 연장이다. 고스트는 자기 판에서 계속 놀고 있는 사람의 투영이고,
  * 그 사람이 자기 세계에서 캔 것이 내 세계의 재고를 줄일 이유가 없다. 줄이면
  * **친구를 부를수록 내 도감이 느려진다** — 받으면 손해인 기능은 아무도 안 쓴다.
  * 실측이 그걸 그대로 보여 줬다: 엔딩 시점 세기의 고스트 3명이 배경 발굴로 원장을
- * 비우자 도감이 75%에 닿지 못해 168시간 안에 엔딩이 나지 않았다(`eval.md` §20).
+ * 비우자 도감이 75%에 닿지 못해 168시간 안에 엔딩이 나지 않았다(`eval.md` §21).
  *
  * 그래서 내 판의 유물을 걸고 다투는 자리는 **제보 레이스 하나로 좁힌다**(rollDrop 위쪽
  * 분기). 거기서는 고스트가 실제로 내 세계에 와 있고, 내가 보고 있고, 집중 굴착으로
@@ -1000,11 +1000,11 @@ function digRival(w: World, r: RivalState, rng: Rng, dt: number, eff: number, re
     rollDrop(w, rng, site, r.layer, r.id, eff < 1, report);
   }
 
-  // **고스트는 재투자하지 않는다**(notes/decisions.md G70.8). 고스트는 설계된 캐릭터가
+  // **고스트는 재투자하지 않는다**(notes/decisions.md G76.8). 고스트는 설계된 캐릭터가
   // 아니라 "그 사람이 그 시점에 어떤 속도였는지"의 기록이다 — 레이싱 게임의 고스트가
   // 녹화된 주행을 그대로 재생하듯, 기록된 페이스로만 자란다. NPC의 재투자 루프를 태우면
   // 기록 시점의 인부 더미 위에 장비가 계속 얹혀 실측 16,044~28,367/s까지 부풀었고
-  // (`eval.md` §20), 그건 그 친구가 실제로 그만큼 세다는 뜻이 아니라 모델이 부푼 것이다.
+  // (`eval.md` §21), 그건 그 친구가 실제로 그만큼 세다는 뜻이 아니라 모델이 부푼 것이다.
   // 상대가 진짜로 더 세졌으면 새 기록패를 주면 된다 — 그게 이 기능의 갱신 경로다.
   if (r.ghost) return;
 
@@ -1732,10 +1732,10 @@ function updateCatchup(w: World) {
  */
 function checkEnding(w: World, record: PersistentRecord) {
   if (w.ended) return;
-  // **엔딩 판정에는 고스트를 넣지 않는다**(notes/decisions.md G70.9). 엔딩은 내 판의
+  // **엔딩 판정에는 고스트를 넣지 않는다**(notes/decisions.md G76.9). 엔딩은 내 판의
   // 완주 판정이고, 다른 세계에서 건너온 스냅샷이 그걸 무효로 만들 수는 없다. 넣으면
   // 이미 완주한 친구의 기록패 하나로 내 엔딩이 영구히 막힌다(실측 — 엔딩 시점 세기의
-  // 고스트 3명을 들이자 168시간까지 도감 85%를 채우고도 엔딩이 나지 않았다, `eval.md` §20).
+  // 고스트 3명을 들이자 168시간까지 도감 85%를 채우고도 엔딩이 나지 않았다, `eval.md` §21).
   // 순위표에는 그대로 보이고, 제보 레이스에서 유물을 뺏기는 것도 그대로다 — 비교와
   // 경쟁은 살리고, 완주할 권리만 내 것으로 남긴다.
   const rows = fullRanking(w, record).filter((r) => !isGhostId(w, r.id));

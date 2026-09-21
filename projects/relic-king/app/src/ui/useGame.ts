@@ -266,7 +266,7 @@ export function useGame() {
     // ── 암시장(spec.md §11.5) ────────────────────────────────────────────
     buyBlackMarketListing: (id: number) => act((w) => buyBlackMarketListing(w, id)),
 
-    // ── 기록패(플레이어 간 비동기 경쟁, notes/decisions.md G70) ──────────
+    // ── 기록패(플레이어 간 비동기 경쟁, notes/decisions.md G76) ──────────
     /** 지금 내 상태를 기록패 코드 문자열로 굽는다 */
     makeCardText: () => encodeCard(makeCard(world, recordRef.current)),
     /** 상대의 기록패를 받아들인다. 읽지 못하면 null — 예외를 던지지 않는다 */

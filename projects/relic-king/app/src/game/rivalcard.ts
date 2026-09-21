@@ -1,5 +1,5 @@
 /**
- * 기록패 — 플레이어 간 비동기 경쟁의 유일한 통로(v0.5, notes/decisions.md G70).
+ * 기록패 — 플레이어 간 비동기 경쟁의 유일한 통로(v0.5, notes/decisions.md G76).
  *
  * 내 상태를 짧은 문자열 하나로 굽고(`makeCard` → `encodeCard`), 남이 그걸 붙여 넣으면
  * 내 세계에서 계속 자라는 **고스트 라이벌**이 된다(`parseCard` → `addGhost`).
@@ -140,7 +140,7 @@ function sanitizeName(raw: string): string {
 // ── 인코딩 ────────────────────────────────────────────────────────────────
 // base64url을 쓴다. 메신저·주소창을 거쳐도 `+`/`/`/`=`가 깨지지 않는다.
 // 압축 라이브러리는 넣지 않았다 — 런타임 의존성이 늘고, 실측 길이가 이미 충분하다
-// (`eval.md` §20).
+// (`eval.md` §21).
 
 function toBase64Url(text: string): string {
   return btoa(unescape(encodeURIComponent(text))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
@@ -281,7 +281,7 @@ export const isGhost = (r: RivalState): boolean => r.ghost !== undefined;
  * **내 원장(`w.ledger`)은 건드리지 않는다.** 상대가 유일을 가졌다는 정보는 순위표에만
  * 쓰고, 내 세계의 재고를 줄이지 않는다. 줄이면 "남의 코드를 받는 순간 내 유일이
  * 사라지는" 게임이 되고, 그러면 아무도 붙여 넣지 않는다 — 기능 자체가 죽는다.
- * 세계 원장은 내 판 안에서만 유효하다(G70.1).
+ * 세계 원장은 내 판 안에서만 유효하다(G76.1).
  *
  * 들어온 고스트는 그다음부터 **내 판의 규칙으로** 산다: 내 원장에서 캐고, 내 제보
  * 레이스에 끼어들고, 그때 잃는 것만 진짜 상실이다(척추 3번은 그대로다 — 오프라인

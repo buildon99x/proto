@@ -4,7 +4,7 @@ import { WORLD_RASTER_H, WORLD_RASTER_W, isLandDot } from "./worldmap-raster";
 import type { SiteId } from "../game/types";
 
 /**
- * 세계지도 — 실제 해안선 위의 12거점(notes/world-map.md §6, notes/decisions.md G8·G69).
+ * 세계지도 — 실제 해안선 위의 12거점(notes/world-map.md §6, notes/decisions.md G8·G75).
  *
  * 해안선은 **빌드타임에 굽는다**: `scripts/build-worldmap.mjs`가 Natural Earth
  * 1:110m 육지 지오메트리를 320×160 이진 비트맵으로 래스터해

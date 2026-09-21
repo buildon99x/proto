@@ -304,7 +304,7 @@ export const projects = [
     "type": "demo",
     "runtime": "static-artifact",
     "version": "0.5.0",
-    "summary": "실존 유물을 발굴·감정·소장해 3축 순위(자산·도감·명성) 종합 1위에 오르는 방치형. 유물의 현실 현존 개체 수가 그대로 게임 공급량이고, 세상에 하나뿐인 유물은 제보 레이스에서 먼저 도달한 쪽이 영구히 가진다. v0.5에서 플레이어끼리 겨룰 수 있게 됐다 — 내 상태를 204자 코드(기록패)로 구워 건네면 받은 쪽 세계에서 계속 자라는 상대가 된다(서버·런타임 네트워크 0). 고스트는 내 원장을 비우지 않아 친구를 불러도 진행이 느려지지 않고, 유물을 걸고 다투는 자리는 제보 레이스 하나로 좁혔다. 순위표도 '몇 위'에서 '어느 축에서 몇 시간 차이로 지는가'로 바뀌었다. v0.4의 실제 해안선 세계지도(Natural Earth 1:110m 빌드타임 베이크)와 12개 실존 도시 거점은 그대로다. 유물 2000종(검증 1,902종), 5탭(발굴·소장고·시설·시장·도감) UI로 돌아가고, 클릭 0회로 약 141시간 방치만으로 엔딩에 도달한다.",
+    "summary": "실존 유물을 발굴·감정·소장해 3축 순위(자산·도감·명성) 종합 1위에 오르는 방치형. 유물의 현실 현존 개체 수가 그대로 게임 공급량이고, 세상에 하나뿐인 유물은 제보 레이스에서 먼저 도달한 쪽이 영구히 가진다. v0.5에서 플레이어끼리 겨룰 수 있게 됐다 — 내 상태를 200자 남짓 코드(기록패)로 구워 건네면 받은 쪽 세계에서 계속 자라는 상대가 된다(서버·런타임 네트워크 0). 고스트는 내 원장을 비우지 않아 친구를 불러도 진행이 느려지지 않고, 유물을 걸고 다투는 자리는 제보 레이스 하나로 좁혔다. 순위표도 '몇 위'에서 '어느 축에서 몇 시간 차이로 지는가'로 바뀌었다. 지도는 Natural Earth 1:110m 육지를 빌드타임에 구운 실제 해안선이고, 12거점은 실존 도시 좌표에 찍힌다(경주·룩소르·폼페이·이스탄불…). 표현 계층도 v0.4에서 다시 짰다 — 32×32 도트 아이콘이 shape 10종 안에서 실루엣 60종으로 갈라지고, 거점 12곳은 테두리 악센트색과 문양으로 구분된다(기계 판정 91.4%, 재질 판독 81.7%). 유일 12종은 손으로 찍은 전용 도트를 쓰고, T3·T4 40종에는 계측·내력·소장 경위를 담은 실사 디테일이 붙는다. 유물 2000종(검증 1,902종)은 메트로폴리탄 미술관 오픈액세스(CC0) 메타데이터로 만든 종 1,720개를 손으로 쓴 280종 위에 얹은 것이고, 국보·유일 등급은 사람이 판정한 손글씨 쪽에만 둔다. 5탭(발굴·소장고·시설·시장·도감) UI로 돌아가고, 클릭 0회로 약 141시간 방치만으로 엔딩에 도달한다.",
     "tags": [
       "game",
       "idle",
@@ -332,7 +332,8 @@ export const projects = [
       "worldMap": "notes/world-map.md",
       "staff": "notes/staff.md",
       "uxV02": "notes/ux-v02.md",
-      "pipeline": "scripts/README.md"
+      "pipeline": "scripts/README.md",
+      "prompts": "prompts/v0.4-icons-detail.md"
     },
     "assets": {
       "cover": "assets/screenshots/cover.png"
@@ -342,8 +343,10 @@ export const projects = [
       "build": "pnpm --filter relic-king build",
       "test": "pnpm --filter relic-king test",
       "sim": "pnpm --filter relic-king sim",
-      "smoke": "pnpm --filter relic-king smoke"
+      "smoke": "pnpm --filter relic-king smoke",
+      "qa:sprites": "pnpm --filter relic-king qa:sprites",
+      "sheets": "pnpm --filter relic-king sheets"
     },
-    "updatedAt": "2026-09-20T14:10:37+00:00"
+    "updatedAt": "2026-09-21T00:28:43+00:00"
   }
 ] as const satisfies readonly ProjectMetadata[];

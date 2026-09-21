@@ -11,7 +11,7 @@ import type { SiteId, World } from "../game/types";
 /**
  * 세계지도 캔버스 — `render/worldmap.ts`를 React에 배선한다. 세계 줌 ↔ 권역 줌 2단.
  *
- * **조작 경로는 셋 다 같은 판정을 쓴다**(notes/decisions.md G69.4):
+ * **조작 경로는 셋 다 같은 판정을 쓴다**(notes/decisions.md G75.4):
  * - 포인터: 캔버스 클릭 → `pickSiteAt`(가장 가까운 마커가 이긴다, 반경은 CSS 44px 기준)
  * - 키보드: 마커마다 투명 버튼을 얹은 오버레이 — Tab으로 거리순 순회, Enter로 진행,
  *   ESC로 권역 줌 해제. 캔버스는 포커스를 받지 못하므로 실제 `<button>`이 필요하다.

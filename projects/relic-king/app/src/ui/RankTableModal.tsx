@@ -14,7 +14,7 @@ const AXIS_LABEL = { asset: "자산", codex: "도감", fame: "명성" } as const
  * 헤더의 "종합 N위" 칩을 탭하면 1단계로 여기 들어온다(notes/ux-v02.md §1.1).
  *
  * v0.5에서 하는 일이 하나 늘었다 — **기록패 교환이 여기서 일어난다**(notes/decisions.md
- * G70.5). 경쟁이 보이는 화면과 상대를 들이는 화면이 같아야 한다. ⚙ 설정·세이브 안에
+ * G76.5). 경쟁이 보이는 화면과 상대를 들이는 화면이 같아야 한다. ⚙ 설정·세이브 안에
  * 두면 "남과 겨룬다"는 행동이 백업 기능처럼 읽힌다.
  */
 export function RankTableModal({ game, onClose }: { game: Game; onClose: () => void }) {

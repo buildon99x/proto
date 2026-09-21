@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // 세계 해안선 베이크 — Natural Earth 1:110m 육지 지오메트리를 320×160 이진 비트맵으로
-// 굽는다(notes/world-map.md §6, notes/decisions.md G8·G69.1).
+// 굽는다(notes/world-map.md §6, notes/decisions.md G8·G75.1).
 //
 //   node scripts/build-worldmap.mjs [--check]
 //

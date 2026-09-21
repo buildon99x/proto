@@ -22,17 +22,24 @@ Prototype Lab 개별 프로젝트. 레포 공통 규칙은 루트 `AGENTS.md`를
 ## 명령
 
 ```
-pnpm --filter relic-king dev      개발 서버
-pnpm --filter relic-king build    타입체크 + 빌드
-pnpm --filter relic-king sim      헤드리스 밸런스 시뮬 (--hours N [--ghosts N])
-pnpm --filter relic-king smoke    실시간 브라우저 스모크 + 스크린샷
+pnpm --filter relic-king dev         개발 서버
+pnpm --filter relic-king build       타입체크 + 빌드
+pnpm --filter relic-king sim         헤드리스 밸런스 시뮬 (--hours N [--ghosts N])
+pnpm --filter relic-king smoke       실시간 브라우저 스모크 + 스크린샷
 
+pnpm --filter relic-king qa:sprites     아이콘 중복·거점 구분력·유일 12종 분리
 pnpm --filter relic-king qa:rivalcard   기록패·고스트 단위 검증(왕복·적대적 입력·격리)
 pnpm --filter relic-king qa:migration   세이브 마이그레이션 v1~v9
+pnpm --filter relic-king sheets         컨택트 시트 굽기 → assets/generated/
 
 node scripts/build-worldmap.mjs           세계지도 해안선 베이크(생성 파일을 다시 굽는다)
 node scripts/build-worldmap.mjs --check   커밋된 산출물이 최신인지만 검사
 ```
+
+**아이콘을 건드렸으면 `qa:sprites`를 돌리고 `sheets`로 구운 컨택트 시트를 눈으로
+본다.** 스프라이트 결함은 화면에서 안 보인다 — v0.3까지 `statue` 종 1,900여 개가
+"머리 + 바닥 막대"로만 그려지고 있었는데 어떤 QA도 잡지 못했고, 컨택트 시트를
+처음 구운 날 드러났다(notes/decisions.md G69).
 
 **밸런스 상수를 건드렸으면 `sim`을 돌리고 eval.md의 측정표를 갱신한다.** 방치형은
 눈으로 봐서 알 수 없다 — 첫 구현은 20분 만에 발굴력 194만/s가 나왔는데 화면상으론 멀쩡했다.
@@ -43,9 +50,9 @@ node scripts/build-worldmap.mjs --check   커밋된 산출물이 최신인지만
   전부. 유물 도트는 절차 생성이다.
 - **빌드타임은 다르다.** "외부 네트워크가 차단돼 있다"는 기록은 박물관 오픈액세스 API
   403 하나에서 나왔는데, 실제로는 절반만 맞다: API는 막혀 있지만 `raw`/`media`
-  githubusercontent와 **npm 레지스트리는 열려 있다**(`notes/decisions.md` G59·G69.1).
+  githubusercontent와 **npm 레지스트리는 열려 있다**(`notes/decisions.md` G59·G75.1).
   이 전제를 잘못 넓게 읽어 두 번 실기했다 — 유물 데이터 확대(G59)와 세계지도
-  해안선(G69.1)이 각각 "불가능"으로 미뤄져 있었다. **받아서 정적 산출물로 구워 커밋하는
+  해안선(G75.1)이 각각 "불가능"으로 미뤄져 있었다. **받아서 정적 산출물로 구워 커밋하는
   것은 허용이고, 그 경로로 들어온 산출물이 이미 둘 있다**(`artifacts.generated.ts`,
   `render/worldmap-raster.ts`). 막혔다고 적기 전에 실제로 한 번 찔러 봐라.
 - 레포 공용 `pnpm playtest`는 puppeteer가 크롬을 내려받아야 해서 쓸 수 없다. 대신
@@ -63,7 +70,7 @@ node scripts/build-worldmap.mjs --check   커밋된 산출물이 최신인지만
 ## 플레이어 간 경쟁(v0.5) — 건드리기 전에 읽을 것
 
 기록패(`app/src/game/rivalcard.ts`)는 **서버 없이** 상태를 주고받는 유일한 통로다.
-설계 근거는 `notes/decisions.md` G70, 규격은 `spec.md` §13.5, 실측은 `eval.md` §20.
+설계 근거는 `notes/decisions.md` G76, 규격은 `spec.md` §13.5, 실측은 `eval.md` §21.
 아래 넷은 전부 "받으면 손해"를 막는 장치다 — 하나라도 풀면 아무도 기록패를 주고받지
 않게 되고, 기능 자체가 죽는다.
 
