@@ -19,14 +19,16 @@
 :root {
   --stock: #2a1b47;
   --ink: #0d0518;
-  /* 플레이 객체와 기믹은 게임 값 그대로다. 바뀐 것은 종이·먹·배경뿐이다.
-   * 판정선도 게임의 #9fb4d8 을 그대로 쓴다 — 중성 은청은 퍼플 위에서도 읽히고,
-   * 판정에 걸리는 선을 시안 때문에 옮기면 그 순간 시안이 게임을 바꾼 것이 된다. */
-  --edge: #9fb4d8;
-  --brand: #ffe66d;
+  /* 형광 라임은 이제 **경계 일대**와 배경 심볼을 함께 맡는다.
+   * 판정선 · 어긋난 판 · 게이트 렌즈 윤곽 — 통로를 오려 낸 자리 전부가 라임이다.
+   * 아바타와 게이트 표식은 게임 값 그대로다. */
+  --edge: #ccff33;        /* 판정선 = 형광 라임 */
+  --mark: #ccff33;        /* 배경 심볼도 같은 잉크. 대신 잉크를 훨씬 얇게 올린다 */
+  --brand: #ffe66d;       /* 아바타 — 게임 값 */
 
-  /* 형광 라임은 배경 심볼 전용 잉크다. 통로 안에도, 기믹에도 쓰지 않는다. */
-  --mark: #ccff33;
+  /* 아바타가 경계선에 닿는 순간 노랑과 라임이 붙어 보이면 안 된다.
+   * 아바타 밑에 먹을 한 겹 깔아 떼어 놓는다 — 인쇄의 녹아웃이다. */
+  --knockout: #0d0518;
 
   --screen-line: #26123f;
   --screen-line-2: #1e0f34;
@@ -40,7 +42,7 @@
   --scn-key-faint: #3b2a66;
   --scn-window: #0d0518;
 
-  --ghost: #5b3f9c;
+  --ghost: #ccff33;   /* 어긋난 판도 같은 라임. 잉크를 얇게 올려 선과 구분된다 */
   --grain-tint: #3a2168;
   --hud: #b9a8e6;
   --hud-dim: #7a68a8;
@@ -181,25 +183,33 @@ svg.field { display: block; width: 780px; height: 1440px; }
 
     <!-- 3. 어긋난 판 — 오직 벽 안쪽으로만 밀린다.
          판정선을 절대 넘지 않으므로 어긋남은 나를 살리는 쪽으로만 틀린다 -->
-    <g clip-path="url(#wall-only)" opacity="0.55" filter="url(#rough)">
+    <g clip-path="url(#wall-only)" opacity="0.28" filter="url(#rough)">
       <path d="${topPath}" transform="translate(3,-9)" fill="none" style="stroke:var(--ghost)" stroke-width="9"/>
       <path d="${botPath}" transform="translate(3,9)"  fill="none" style="stroke:var(--ghost)" stroke-width="9"/>
     </g>
 
-    <!-- 4. 판정선 — 화면에서 유일하게 떨리지 않는 선 -->
-    <path d="${topPath}" fill="none" style="stroke:var(--edge)" stroke-width="2.6" stroke-linejoin="miter"/>
-    <path d="${botPath}" fill="none" style="stroke:var(--edge)" stroke-width="2.6" stroke-linejoin="miter"/>
+    <!-- 4. 판정선 — 화면에서 유일하게 떨리지 않는 선.
+         잉크를 0.86 으로 올려 아바타보다 한 단계 아래에 둔다. 전체 강도로 찍으면
+         노랑 아바타와 밝기가 같아져 둘을 가르는 것이 색상각 15° 뿐이 되는데,
+         그 15° 가 필요한 순간은 하필 아바타가 선에 닿기 직전이다. -->
+    <g opacity="0.86">
+      <path d="${topPath}" fill="none" style="stroke:var(--edge)" stroke-width="2.6" stroke-linejoin="miter"/>
+      <path d="${botPath}" fill="none" style="stroke:var(--edge)" stroke-width="2.6" stroke-linejoin="miter"/>
+    </g>
 
     <!-- 5. 게이트 렌즈 — 벽과 같은 먹판이다 -->
     <path d="${gate}" style="fill:var(--ink)"/>
     <path d="${gate}" fill="url(#plate-corridor)" opacity="0.7"/>
-    <path d="${gate}" fill="none" style="stroke:var(--edge)" stroke-width="2.4"/>
+    <path d="${gate}" fill="none" style="stroke:var(--edge)" stroke-width="2.4" opacity="0.86"/>
 
     <!-- 6. 게이트 표식 — 속도 +1 / 편향 +1. 색은 axes.ts 의 값 그대로 -->
     ${pill(676, laneUp, "#ffb347")}
     ${pill(676, laneDn, "#e07bff")}
 
     <!-- 7. 아바타 잉크 — 화면에서 유일하게 노란 것 -->
+    <polyline points="${trail}" fill="none" style="stroke:var(--knockout)" stroke-width="6" opacity="0.32"/>
+    <polyline points="290,750 ${head}" fill="none" style="stroke:var(--knockout)" stroke-width="10.5"/>
+    <path d="M${head} l34,-24 -8,30 -12,-8 Z" style="fill:var(--knockout);stroke:var(--knockout)" stroke-width="5" stroke-linejoin="round"/>
     <polyline points="${trail}" fill="none" style="stroke:var(--brand)" stroke-width="3.2" opacity="0.3"/>
     <polyline points="290,750 ${head}" fill="none" style="stroke:var(--brand)" stroke-width="5.4"/>
     <path d="M${head} l34,-24 -8,30 -12,-8 Z" style="fill:var(--brand)"/>

@@ -118,8 +118,8 @@ function deadTree(x, base, scale, seed) {
 function moon(cx, cy, r) {
   return `
     <circle cx="${cx}" cy="${cy}" r="${r}" style="fill:${TONE.moon}"/>
-    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" style="stroke:${TONE.moonRing}" stroke-width="2.2" opacity="0.55"/>
-    <circle cx="${cx}" cy="${cy}" r="${r + 16}" fill="none" style="stroke:${TONE.moonRing}" stroke-width="1.2" opacity="0.24"/>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" style="stroke:${TONE.moonRing}" stroke-width="2.2" opacity="0.5"/>
+    <circle cx="${cx}" cy="${cy}" r="${r + 16}" fill="none" style="stroke:${TONE.moonRing}" stroke-width="1.2" opacity="0.22"/>
     <circle cx="${cx}" cy="${cy}" r="${r + 34}" fill="none" style="stroke:${TONE.moonRing}" stroke-width="0.9" opacity="0.12"/>
     <circle cx="${(cx - r * 0.3).toFixed(1)}" cy="${(cy - r * 0.22).toFixed(1)}" r="${(r * 0.2).toFixed(1)}" style="fill:${TONE.mid}"/>
     <circle cx="${(cx + r * 0.28).toFixed(1)}" cy="${(cy + r * 0.3).toFixed(1)}" r="${(r * 0.13).toFixed(1)}" style="fill:${TONE.mid}"/>`;
@@ -141,7 +141,7 @@ function emblem(cx, cy, r, mast) {
   const wave = `M ${cx - w},${cy + w * 0.38} L ${cx - w * 0.33},${cy - w * 0.38}
                 L ${cx + w * 0.33},${cy + w * 0.38} L ${cx + w},${cy - w * 0.38}`;
   return `
-    <g style="stroke:var(--mark)" fill="none" stroke-linejoin="miter" opacity="0.62">
+    <g style="stroke:var(--mark)" fill="none" stroke-linejoin="miter" opacity="0.55">
       <path d="M ${cx},${cy + r} L ${cx},${cy + r + (mast || 74)}" stroke-width="1.6" opacity="0.6"/>
       <path d="M ${cx - 16},${cy + r + (mast || 74)} L ${cx + 16},${cy + r + (mast || 74)}" stroke-width="1.6" opacity="0.6"/>
       <circle cx="${cx}" cy="${cy}" r="${r}" stroke-width="2.2"/>
@@ -153,7 +153,7 @@ function emblem(cx, cy, r, mast) {
 /** 첨탑 끝의 표지등 — 점 하나와 그 둘레 */
 function beacon(cx, cy, mast) {
   return `
-    <g opacity="0.6">
+    <g opacity="0.55">
       <path d="M ${cx},${cy + 3} L ${cx},${cy + (mast || 96)}" fill="none"
             style="stroke:var(--mark)" stroke-width="1.4" opacity="0.45"/>
       <circle cx="${cx}" cy="${cy}" r="3.4" style="fill:var(--mark)"/>
@@ -169,5 +169,5 @@ function stencil(x, y, kind) {
     `<path d="M ${x},${y + 13} L ${x + 8},${y} L ${x + 16},${y + 13}"/>`,
     `<path d="M ${x},${y + 6} L ${x + 16},${y + 6}" /><circle cx="${x + 8}" cy="${y + 6}" r="5" fill="none"/>`
   ][kind];
-  return `<g style="stroke:var(--mark)" fill="none" stroke-width="2.4" opacity="0.5">${g}</g>`;
+  return `<g style="stroke:var(--mark)" fill="none" stroke-width="2.4" opacity="0.45">${g}</g>`;
 }

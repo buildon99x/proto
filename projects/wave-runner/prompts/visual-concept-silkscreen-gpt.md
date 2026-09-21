@@ -52,30 +52,41 @@ Palette — use these exact inks and NO other hues:
   moon disc        #101828   silhouette keyline #33436a
 ```
 
-### B. 자외선 세트 — 진한 퍼플 종이 · 형광 라임 심볼
+### B. 자외선 세트 — 진한 퍼플 종이 · 형광 라임 경계
 
 ```
 Palette — use these exact inks and NO other hues:
   paper stock      #2a1b47 (deep purple; the passable corridor)
   dark ink         #0d0518 (walls / blocked mass; DARKER than the paper)
-  light ink        #9fb4d8 (corridor outline, marks, small type)
-  accent ink       #ffe66d (the avatar trail only)
-  symbol ink       #ccff33 (FLUORESCENT LIME — background symbols ONLY: the moon's
-                   halo rings, a sign on the ruined city, a beacon on a spire, small
-                   stencil marks on rubble. Never inside the corridor, never on the
-                   avatar, never on the gate marks.)
+  edge ink         #ccff33 (FLUORESCENT LIME — the corridor outline and everything
+                   that belongs to that edge: the misregistration ghost inside the
+                   wall, the gate lens outline. Printed at about 85% ink, so it
+                   stays one step below the avatar.)
+  symbol ink       #ccff33 (the same lime, but laid down thin and at about half
+                   density, for background symbols only: the moon's halo rings, a
+                   sign over the ruined city, a beacon on a spire, small stencil
+                   marks on rubble.)
+  accent ink       #ffe66d (the avatar trail only — the brightest thing on the page)
   far silhouette   #1c1133   mid #160d2a   near #0a0417
   moon disc        #221540   silhouette keyline #583f93
+
+Brightness order, strictly: avatar > corridor outline > background symbols >
+corridor paper > silhouettes > wall. Nothing may break this order.
+
 The lime is a fluorescent spot ink — a color that only exists in screen printing,
-never in offset. It must look like ink on paper, not like an emissive glow. It is
-drawn as THIN LINES at reduced ink density, never as a filled shape, and it must
-stay visibly dimmer than the corridor outline.
+never in offset. It must look like ink on paper, not like an emissive glow: flat,
+matte, with a slightly ragged screen-printed edge, no halo, no bloom.
+
+Because the lime edge and the yellow avatar are close in hue, the avatar is printed
+over a knockout: a dark-ink outline sits under the yellow so the two never merge
+where the avatar approaches the outline.
 ```
 
-**라임은 배경 전용이다.** 아바타를 라임으로 칠하면 홀드 표시(`#b8ff5e`)와 종료선
-(`#7dffb0`)을 둘 다 비켜 세워야 하는데, 심볼로만 쓰면 그 대가가 사라진다. 실측 서열은
-`아바타 227 > 판정선 178 > 라임 심볼 152 > 통로 33` 이고 라임 화소는 화면의 0.09% 다.
-근거는 [컨셉 문서](../notes/visual-concept-silkscreen.md)의 "자외선 세트".
+**라임을 경계선까지 올리면 대가가 하나 되살아난다.** 홀드 표시가 이미 라임
+(`#b8ff5e`)이라 화면의 라임이 둘이 된다. 그리고 아바타 노랑과 경계 라임은 색상각이
+15° 뿐이라 **밝기로 갈라 두지 않으면 붙어 보인다** — 그래서 경계선은 85% 잉크로 찍고
+아바타 밑에는 먹 녹아웃을 깐다. 실측 서열과 남은 확인 항목은
+[컨셉 문서](../notes/visual-concept-silkscreen.md)의 "자외선 세트".
 
 ---
 
@@ -184,8 +195,8 @@ Composition:
      distant ridge behind them.
    - Every silhouette carries a 1px keyline in the keyline ink. Shape comes from
      the keyline, not from brightness.
-   - FLUORESCENT SYMBOLS, in the symbol ink, thin lines only, four places and no
-     others: (a) three concentric halo rings around the moon — the disc itself stays
+   - FLUORESCENT SYMBOLS, in the symbol ink (thin, half density — clearly fainter
+     than the corridor outline), four places and no others: (a) three concentric halo rings around the moon — the disc itself stays
      dark, only the rings are fluorescent; (b) a circular sign hung on a mast over
      the ruined city, a zigzag wave glyph enclosed in a ring, clearly framed so it
      reads as a printed emblem and never as a trajectory; (c) a beacon at the tip of
@@ -197,19 +208,23 @@ Composition:
    corridor outline, there is no scenery at all — only clean ink. Silhouettes are
    cut off cleanly where that band begins, like a printer's knockout gap. Nothing
    in the landscape ever touches the corridor outline.
-6. The boundary between ink and paper is a single crisp light-ink line about
-   3px wide with hard mitred corners — the sharpest, cleanest, brightest edge in the
-   image. It must out-read every silhouette.
+6. The boundary between ink and paper is a single crisp FLUORESCENT LIME line about
+   3px wide with hard mitred corners — the sharpest, cleanest edge in the image, and
+   the second brightest thing on the page after the avatar. The corridor reads as a
+   channel cut out of the dark mass with a glowing-ink edge. It must out-read every
+   silhouette and every background symbol.
 7. Immediately INSIDE the dark ink, hugging that boundary, a thicker soft ghost of
-   the same outline is offset about 9px into the dark mass, ragged and slightly
-   blurred, like a misregistered second pass. The ghost never crosses into the
+   the same outline in the SAME LIME at low density is offset about 9px into the
+   dark mass, ragged and slightly blurred, like a misregistered second pass. The
+   edge and its ghost together read as one lime band along the passage. The ghost never crosses into the
    corridor — it only ever bleeds deeper into the ink.
 8. In the corridor, a bright accent-ink (#ffe66d) zigzag path drawn as a hard-cornered polyline:
    long 45-degree rising legs alternating with short 45-degree falling legs, so the
    trace climbs as it advances to the right. It ends in a solid triangular arrowhead
    pointing up-right, mid-screen. The older trail is the same yellow at ~30%
-   opacity, thinner. It is the brightest thing on the page — brighter than the
-   corridor outline, and brighter than every fluorescent background symbol.
+   opacity, thinner. It is the brightest thing on the page. A dark-ink knockout
+   outline runs under the whole trail so the yellow never fuses with the lime edge
+   where the two meet.
 9. Near the right edge, the corridor splits into an upper and a lower lane around a
    sharp-tipped lens shape of the same dark ink, filled with a tight horizontal line
    screen and outlined in light ink. Centered in each lane, a small flat rounded
@@ -229,8 +244,9 @@ interior stays completely empty flat stock color, and NO area of the landscape i
 brighter than that corridor. Only hairline keylines may be lighter, never a filled
 shape. Blocked areas are the darkest thing on the page.
 
-Do NOT include: any fluorescent ink inside the corridor or on the avatar or gate
-marks, a fluorescent symbol brighter than the corridor outline, a filled
+Do NOT include: fluorescent ink on the avatar or on the gate marks, fluorescent
+fill inside the corridor interior (the lime belongs to the outline, not to the
+open space), a fluorescent symbol brighter than the corridor outline, a filled
 fluorescent shape, a glowing or emissive lime (it is ink, not light), scenery or
 texture inside the corridor, a bright/glowing moon,
 stars, clouds, fog, birds, water, foliage or leaves, people, vehicles, Korean or
@@ -254,10 +270,13 @@ particles, watermark, signature, any hue outside the listed inks.
 6. 라임이 네온처럼 빛나면 → `the lime is flat printed ink with a slightly ragged
    screen-printed edge; matte, no halo, no emission` 을 덧붙인다. 형광색을 말하면
    모델이 발광으로 알아듣는다.
-7. 라임이 배경 밖으로 번지면(아바타·게이트·통로) → 잉크 세트의 `symbol ink` 줄을
-   프롬프트 맨 끝에 한 번 더 복사한다. 심볼 네 자리를 이름으로 못 박는 편이
-   "배경에만"이라는 추상적 지시보다 훨씬 잘 듣는다.
-8. 코스 기하가 풍경에 먹히면 → 시안 PNG 를 첨부하고 `keep this exact corridor shape
+7. 라임이 아바타나 게이트로 번지면 → 잉크 세트의 `edge ink` · `symbol ink` 두 줄을
+   프롬프트 맨 끝에 한 번 더 복사한다. 라임이 가는 자리를 이름으로 못 박는 편이
+   "경계와 배경에만"이라는 추상적 지시보다 훨씬 잘 듣는다.
+8. 통로 안쪽이 라임으로 채워지면 → `the lime is a 3px OUTLINE, the corridor interior
+   stays flat purple stock` 을 덧붙인다. 모델은 "형광 경계"를 "형광 바닥"으로 자주
+   바꿔 읽는다.
+9. 코스 기하가 풍경에 먹히면 → 시안 PNG 를 첨부하고 `keep this exact corridor shape
    and staircase rhythm; restyle only what is outside it` 를 앞에 붙인다.
 
 ### 섹터별 풍경 배분 (같은 컨셉을 12스테이지로 늘릴 때)
