@@ -6,6 +6,7 @@ import { sfx } from "./game/audio";
 import { flushTelemetry, recordDeath, recordEnd, setTelemetryFps } from "./game/telemetry";
 import { targetY } from "./game/pilot";
 import type { Build, Phase, Tuning } from "./game/types";
+import { loadSkin } from "./game/skin";
 
 export interface RunReport {
   cleared: boolean;
@@ -121,6 +122,8 @@ export function GameCanvas({
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
+    // 에셋은 그리는 층에만 쓰이므로 로딩을 기다리지 않는다 — 없으면 텍스처 없이 돈다
+    loadSkin();
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 

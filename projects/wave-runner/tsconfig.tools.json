@@ -3,5 +3,6 @@
   "compilerOptions": {
     "types": ["node"]
   },
-  "include": ["tests/**/*.ts", "tools/**/*.ts", "app/src/game/**/*.ts"]
+  // 게임 모듈을 노드에서도 타입 검사하므로, 그 모듈이 읽는 에셋 선언도 함께 봐야 한다
+  "include": ["tests/**/*.ts", "tools/**/*.ts", "app/src/game/**/*.ts", "app/src/assets.d.ts"]
 }

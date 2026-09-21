@@ -5,6 +5,8 @@ import { runnerById, silhouetteOf } from "./runners";
 import { gateLanes, squeezeBounds } from "./engine";
 import type { GameState } from "./engine";
 import { sample, shutterDepth } from "./sectors";
+import { drawScene } from "./scene";
+import { platePattern, skinReady } from "./skin";
 import type { AxisTrade, Block } from "./types";
 
 /**
@@ -21,15 +23,38 @@ import type { AxisTrade, Block } from "./types";
  * 같은 색이고, 각도가 오른 교환 펄스가 벽 색으로 번지고, 각도를 올린 빌드의 아바타가
  * 벽 계열로 흡수됐다. 축 팔레트는 빌드 전용이므로 벽을 중성 은청으로 뺐다.
  */
+/**
+ * ## 자외선 세트 — 통로는 종이, 벽은 먹
+ *
+ * 명도 법칙은 그대로다. 바뀐 것은 **어느 쪽이 얼마나 밝은가의 폭**이다 — 통로를
+ * 크림색 종이로 올려 벽과의 대비를 키웠고, 판정선을 형광 라임으로 옮겼다.
+ *
+ * 밝기 서열이 이 팔레트의 전부다. 아바타가 가장 밝고, 그다음이 판정선이며, 배경
+ * 선화는 판정선의 2/3 를 넘지 않는다(`scene.ts` 의 농도 셋). 판정선을 전체 강도로
+ * 찍으면 노란 아바타와 밝기가 같아지는데, 둘을 가르는 것이 색상각 15° 뿐이 되고
+ * 그 15° 가 필요한 순간은 하필 아바타가 선에 닿기 직전이다. 그래서 `edgeInk` 는
+ * 0.86 으로 올려 칠한다.
+ */
 const COLOR = {
-  bg: "#0d1322",
-  wall: "#04070e",
-  wallEdge: "#9fb4d8",
+  bg: "#14101c",
+  wall: "#14101c",
+  /** 벽 위의 선망. 결은 잉크 위에만 있고 통로에는 없다 */
+  screen: "#2f2447",
+  /** 경계 바깥의 잉크 알갱이 — 어긋난 판이 죽는 쪽으로만 번진 자리 */
+  grit: "#43355e",
+  /** 통로 = 잉크가 닿지 않은 종이 */
+  paper: "#e7dbb5",
+  wallEdge: "#ccff33",
+  scene: "#ccff33",
   block: "#ff5e7a",
   blockEdge: "#ffd0d8",
   player: "#ffe66d",
-  finish: "#7dffb0"
+  finish: "#7dffb0",
+  hud: "#cfc6e8"
 };
+
+/** 판정선은 아바타보다 한 단계 아래여야 한다 */
+const EDGE_INK = 0.86;
 
 interface Bounds {
   top: number;
@@ -173,12 +198,12 @@ function drawHud(ctx: CanvasRenderingContext2D, state: GameState, cssW: number, 
   const lostRecord = !isEndless && record > 0 && state.elapsed > record;
 
   ctx.save();
-  ctx.fillStyle = "rgba(232, 241, 255, 0.1)";
+  ctx.fillStyle = "rgba(207, 198, 232, 0.14)";
   ctx.fillRect(0, 0, cssW, railH);
 
   if (progress > 0) {
-    ctx.fillStyle = beatRecord ? COLOR.finish : COLOR.wallEdge;
-    ctx.globalAlpha = beatRecord ? 0.95 : 0.5;
+    ctx.fillStyle = beatRecord ? COLOR.finish : COLOR.hud;
+    ctx.globalAlpha = beatRecord ? 0.95 : 0.75;
     if (beatRecord) {
       ctx.shadowColor = COLOR.finish;
       ctx.shadowBlur = 10;
@@ -196,20 +221,37 @@ function drawHud(ctx: CanvasRenderingContext2D, state: GameState, cssW: number, 
     ctx.globalAlpha = 1;
   }
 
-  const size = Math.round(Math.max(13, Math.min(20, cssH * 0.03)));
+  const size = Math.round(Math.max(11, Math.min(14, cssH * 0.018)));
   ctx.font = `600 ${size}px ui-monospace, SFMono-Regular, Menlo, monospace`;
   ctx.textAlign = "left";
   ctx.textBaseline = "top";
   ctx.fillStyle = beatRecord
     ? COLOR.finish
     : lostRecord
-      ? "rgba(127, 144, 173, 0.34)"
-      : "rgba(232, 241, 255, 0.4)";
-  ctx.fillText(
-    isEndless ? `${Math.round(state.x)}m` : `${state.elapsed.toFixed(1)}초`,
-    14,
-    railH + 9
-  );
+      ? "rgba(207, 198, 232, 0.3)"
+      : "rgba(207, 198, 232, 0.62)";
+  const label = isEndless ? `RUN ${Math.round(state.x)}` : `TIME ${state.elapsed.toFixed(1)}`;
+  ctx.fillText(label, cssW - 96, railH + 12);
+
+  /**
+   * 등록 표식 — 인쇄의 판 맞춤 십자. 네 귀퉁이 여백에만 두고 통로 위로는 오지 않는다.
+   * 컨셉의 장식이지만 시선 예산을 쓰지 않는 자리에만 있다.
+   */
+  ctx.strokeStyle = "rgba(207, 198, 232, 0.4)";
+  ctx.lineWidth = 1;
+  const cross = (cx: number, cy: number, r: number) => {
+    ctx.beginPath();
+    ctx.moveTo(cx - r, cy);
+    ctx.lineTo(cx + r, cy);
+    ctx.moveTo(cx, cy - r);
+    ctx.lineTo(cx, cy + r);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx, cy, r * 0.5, 0, Math.PI * 2);
+    ctx.stroke();
+  };
+  cross(cssW - 110, railH + 17, 7);
+  cross(cssW - 17, cssH - 17, 8);
   ctx.restore();
 }
 
@@ -239,30 +281,120 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
     if (b.divTop !== null && b.divBot !== null) divider.push([px, sy(b.divTop), sy(b.divBot)]);
   }
 
-  ctx.fillStyle = COLOR.wall;
-  ctx.beginPath();
-  ctx.moveTo(-stepPx, -cssH);
-  for (const [px, py] of topPts) ctx.lineTo(px, py);
-  ctx.lineTo(cssW + stepPx, -cssH);
-  ctx.closePath();
-  ctx.fill();
+  /**
+   * ## 통로를 파낸다 — 그리는 순서가 곧 규칙이다
+   *
+   * 벽을 두 폴리곤으로 칠하는 대신, **화면을 전부 먹으로 덮고 통로를 파낸다.**
+   * 배경과 결을 화면 전체에 한 번만 그리면 되고, 통로 안으로 새는 일이 구조적으로
+   * 불가능해진다(규칙 1 — 결은 잉크 위에만).
+   *
+   *   먹 → 배경 선화 → 선망·종이결 → **침묵 띠** → 잉크 알갱이 → 종이 → 판정선
+   *
+   * 침묵 띠는 경계 바깥으로만 칠해지는데, 경로를 굵게 스트로크한 뒤 그 위에 통로를
+   * 종이로 채우면 안쪽 절반이 덮이기 때문이다. 어긋난 판이 죽는 쪽으로만 번진다는
+   * 규칙 2가 같은 방식으로 지켜진다 — 알갱이 띠도 바깥 절반만 남는다.
+   */
+  const corridor = new Path2D();
+  corridor.moveTo(topPts[0][0], topPts[0][1]);
+  for (const [px, py] of topPts) corridor.lineTo(px, py);
+  for (let i = botPts.length - 1; i >= 0; i -= 1) corridor.lineTo(botPts[i][0], botPts[i][1]);
+  corridor.closePath();
 
-  ctx.beginPath();
-  ctx.moveTo(-stepPx, cssH * 2);
-  for (const [px, py] of botPts) ctx.lineTo(px, py);
-  ctx.lineTo(cssW + stepPx, cssH * 2);
-  ctx.closePath();
-  ctx.fill();
+  const edgeLine = new Path2D();
+  const traceEdge = (pts: Array<[number, number]>) => {
+    pts.forEach(([px, py], i) => (i === 0 ? edgeLine.moveTo(px, py) : edgeLine.lineTo(px, py)));
+  };
+  traceEdge(topPts);
+  traceEdge(botPts);
+
+  const dividerPath = new Path2D();
+  if (divider.length > 1) {
+    dividerPath.moveTo(divider[0][0], divider[0][1]);
+    for (const [px, dt] of divider) dividerPath.lineTo(px, dt);
+    for (let i = divider.length - 1; i >= 0; i -= 1) dividerPath.lineTo(divider[i][0], divider[i][2]);
+    dividerPath.closePath();
+  }
+
+  // 1. 먹 — 레터박스까지 덮어 "갈 수 없는 곳"이 하나로 읽힌다
+  ctx.fillStyle = COLOR.wall;
+  ctx.fillRect(0, 0, cssW, cssH);
+
+  // 2. 배경 선화 — 시차는 통로보다 느리다
+  drawScene(ctx, cssW, cssH, camX, view.zoom, COLOR.scene);
+
+  // 3. 선망과 종이 결 — 벽 전체를 한 판으로 묶는다
+  if (skinReady()) {
+    const screen = platePattern(ctx, "gorge", COLOR.screen, 17, view.zoom, camX, offsetY);
+    if (screen) {
+      ctx.save();
+      ctx.globalAlpha = 0.42;
+      ctx.fillStyle = screen;
+      ctx.fillRect(0, 0, cssW, cssH);
+      ctx.restore();
+    }
+    const grain = platePattern(ctx, "grain", COLOR.screen, 22, view.zoom, camX, offsetY);
+    if (grain) {
+      ctx.save();
+      ctx.globalAlpha = 0.3;
+      ctx.fillStyle = grain;
+      ctx.fillRect(0, 0, cssW, cssH);
+      ctx.restore();
+    }
+  }
+
+  // 4. 침묵 띠 — 경계 안쪽 이만큼은 배경이 한 점도 없다
+  const band = Math.max(18, cssH * 0.055);
+  ctx.save();
+  ctx.lineJoin = "round";
+  ctx.strokeStyle = COLOR.wall;
+  ctx.lineWidth = band * 2;
+  ctx.stroke(edgeLine);
+  if (divider.length > 1) {
+    ctx.lineWidth = band;
+    ctx.stroke(dividerPath);
+  }
+
+  // 5. 잉크 알갱이 — 스퀴지가 남긴 자국. 바깥 절반만 보인다
+  const grit = skinReady()
+    ? platePattern(ctx, "inkEdge", COLOR.grit, 14, view.zoom, camX, offsetY)
+    : null;
+  ctx.strokeStyle = grit ?? COLOR.grit;
+  ctx.globalAlpha = grit ? 0.85 : 0.5;
+  ctx.lineWidth = Math.max(8, cssH * 0.016) * 2;
+  ctx.stroke(edgeLine);
+  ctx.globalAlpha = 1;
+  ctx.restore();
+
+  // 6. 종이 — 통로. 평평하다
+  ctx.fillStyle = COLOR.paper;
+  ctx.fill(corridor);
+  if (skinReady()) {
+    const paperGrain = platePattern(ctx, "grain", "#8d7f5c", 30, view.zoom, camX, offsetY);
+    if (paperGrain) {
+      ctx.save();
+      ctx.clip(corridor);
+      ctx.globalAlpha = 0.16;
+      ctx.fillStyle = paperGrain;
+      ctx.fillRect(0, 0, cssW, cssH);
+      ctx.restore();
+    }
+  }
 
   // 칸막이 — 구멍 두 개가 아니라 길이 둘로 갈라진 것으로 읽혀야 한다
   if (divider.length > 1) {
     ctx.fillStyle = COLOR.wall;
-    ctx.beginPath();
-    ctx.moveTo(divider[0][0], divider[0][1]);
-    for (const [px, dt] of divider) ctx.lineTo(px, dt);
-    for (let i = divider.length - 1; i >= 0; i -= 1) ctx.lineTo(divider[i][0], divider[i][2]);
-    ctx.closePath();
-    ctx.fill();
+    ctx.fill(dividerPath);
+    const lens = skinReady()
+      ? platePattern(ctx, "corridor", COLOR.screen, 12, view.zoom, camX, offsetY)
+      : null;
+    if (lens) {
+      ctx.save();
+      ctx.clip(dividerPath);
+      ctx.globalAlpha = 0.85;
+      ctx.fillStyle = lens;
+      ctx.fillRect(0, 0, cssW, cssH);
+      ctx.restore();
+    }
   }
 
   /**
@@ -307,8 +439,8 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
     }
     ctx.globalAlpha = 1;
   };
-  strokeEdges(7 + near * 5, 0.16 + near * 0.26);
-  strokeEdges(2, 1);
+  strokeEdges(7 + near * 5, 0.14 + near * 0.24);
+  strokeEdges(2.6, EDGE_INK);
 
   // 섹터 장애물과 셔터
   const fromX = camX - 60;
@@ -401,8 +533,15 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
       const a = state.trail[i - 1];
       const b = state.trail[i];
       const k = i / state.trail.length;
-      ctx.strokeStyle = `rgba(${cr}, ${cg}, ${cb}, ${(k * 0.55).toFixed(3)})`;
-      ctx.lineWidth = Math.max(1, t.radius * view.zoom * 0.5 * k);
+      const w = Math.max(1, t.radius * view.zoom * 0.5 * k);
+      ctx.strokeStyle = `rgba(20, 16, 28, ${(k * 0.16).toFixed(3)})`;
+      ctx.lineWidth = w + Math.max(0.8, t.radius * view.zoom * 0.12);
+      ctx.beginPath();
+      ctx.moveTo(sx(a.x), sy(a.y));
+      ctx.lineTo(sx(b.x), sy(b.y));
+      ctx.stroke();
+      ctx.strokeStyle = `rgba(${cr}, ${cg}, ${cb}, ${(0.45 + k * 0.55).toFixed(3)})`;
+      ctx.lineWidth = w;
       ctx.beginPath();
       ctx.moveTo(sx(a.x), sy(a.y));
       ctx.lineTo(sx(b.x), sy(b.y));
@@ -417,8 +556,17 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
   ctx.translate(px, py);
   ctx.rotate(Math.atan2(state.vy, Math.max(1e-6, t.speed)));
   ctx.fillStyle = state.phase === "dead" ? COLOR.block : `rgb(${cr}, ${cg}, ${cb})`;
+  /**
+   * **종이가 밝아지면서 노랑만으로는 아바타가 떠오르지 않는다.** 글로우는 밝은 바탕
+   * 위에서 아무 일도 하지 않으므로(밝은 것 위의 밝은 번짐) 먹으로 두른다.
+   *
+   * 다만 **선으로 두르면 안 된다.** 스트로크는 절반이 실루엣 바깥으로 나가고, 그러면
+   * 그려진 아바타가 히트박스보다 커진다 — "외접원 = 히트박스" 를 세운 바로 그 자리에서
+   * 같은 거짓말이 되살아난다. 그래서 먹을 **원래 크기로 채우고 노랑을 안쪽에 한 겹 더**
+   * 채운다. 바깥 경계는 여전히 정확히 판정 반지름이고, 먹은 전부 안쪽에 있다.
+   */
   ctx.shadowColor = ctx.fillStyle;
-  ctx.shadowBlur = state.phase === "dead" ? 24 : 14;
+  ctx.shadowBlur = state.phase === "dead" ? 24 : 0;
   // 실루엣은 기체의 곡선에서 파생된다 — 코의 벌어짐이 그 기체의 기준 각도다.
   const shape = silhouetteOf(runnerById(state.config.runner ?? "dart")).points;
   /**
@@ -430,10 +578,21 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
    * 실제 크기다. 찾기 어려워지지 않도록 글로우만 남긴다.
    */
   const reach = r;
-  ctx.beginPath();
-  ctx.moveTo(shape[0][0] * reach, shape[0][1] * reach);
-  for (let i = 1; i < shape.length; i += 1) ctx.lineTo(shape[i][0] * reach, shape[i][1] * reach);
-  ctx.closePath();
+  const ink = ctx.fillStyle;
+  const trace = (k: number) => {
+    ctx.beginPath();
+    ctx.moveTo(shape[0][0] * reach * k, shape[0][1] * reach * k);
+    for (let i = 1; i < shape.length; i += 1) {
+      ctx.lineTo(shape[i][0] * reach * k, shape[i][1] * reach * k);
+    }
+    ctx.closePath();
+  };
+  ctx.fillStyle = COLOR.wall;
+  trace(1);
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = ink;
+  trace(0.86);
   ctx.fill();
   ctx.restore();
   ctx.shadowBlur = 0;
@@ -463,7 +622,7 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
     const hold = Math.min(1, (1 - k) / 0.6);
 
     // 맞은 자리. "여기로 갈 수 있었다"만 있고 "여기에 맞았다"가 없었다.
-    ctx.strokeStyle = `rgba(255, 255, 255, ${(0.9 * hold).toFixed(3)})`;
+    ctx.strokeStyle = `rgba(20, 16, 28, ${(0.92 * hold).toFixed(3)})`;
     ctx.lineWidth = 4;
     ctx.lineCap = "round";
     ctx.beginPath();
@@ -476,9 +635,9 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
     // 지나갈 수 있었던 자리. 완주선과 같은 초록이면 "골인"과 섞이므로 연두로 뗀다.
     if (state.deathGap) {
       for (const span of state.deathGap) {
-        ctx.fillStyle = `rgba(184, 255, 94, ${(0.3 * hold).toFixed(3)})`;
+        ctx.fillStyle = `rgba(93, 68, 160, ${(0.26 * hold).toFixed(3)})`;
         ctx.fillRect(px - r * 3, sy(span.lo), r * 9, (span.hi - span.lo) * view.zoom);
-        ctx.strokeStyle = `rgba(184, 255, 94, ${(0.85 * hold).toFixed(3)})`;
+        ctx.strokeStyle = `rgba(75, 52, 140, ${(0.95 * hold).toFixed(3)})`;
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(px - r * 3, sy(span.lo));
