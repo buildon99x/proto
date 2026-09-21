@@ -1,10 +1,11 @@
-# 서사 글쓰기 — 한국어 소설·웹툰 평가 자산
+# ORIGIN DUST
 
-**이 디렉터리가 하는 일:** 한국어 서사 원고(연재 소설·세로스크롤 웹툰)를 **채점 가능한 기준**으로 판정한다.
-컨셉 단계를 다루는 [`../concept-planning/`](../concept-planning/)이 "이 기획이 될 물건인가"를 묻는다면,
-여기는 "이 원고가 독자를 다음 화로 데려가는가"를 묻는다.
+웹툰 프로젝트. **이 디렉터리가 프로젝트 루트다.**
 
-첫 소비처는 **웹툰 프로젝트 ORIGIN DUST**지만 작품에 묶여 있지 않다. 한국어 서사 원고면 무엇이든 이 도구로 잰다.
+앱을 구현하는 프로젝트가 아니므로 `projects/` 아래로 가지 않는다. `projects/*`는 런처가 빌드해 배포하는
+정적 아티팩트 전용이라 `app/` 빌드를 강제하고(`scripts/build-project.ts`), `project.json`이 없으면
+`pnpm sync:registry`가 ENOENT로 죽는다(`scripts/project-utils.ts`의 `readAllProjects`가 모든 하위
+디렉터리에서 `project.json`을 읽는다). 둘 다 `pnpm build:vercel`을 깨뜨린다.
 
 ## 문서
 
@@ -16,6 +17,17 @@
 | [`03-example-novel-blind.md`](03-example-novel-blind.md) | 소설 블라인드 채점 시연 — 샘플 5개, 게이트 발동 기록 포함 |
 | [`04-example-webtoon-blind.md`](04-example-webtoon-blind.md) | 웹툰 블라인드 채점 시연 — 샘플 3개, 같은 소재로 4.57 대 3.07 |
 | [`05-loop-ledger.md`](05-loop-ledger.md) | 패스 기록 |
+
+컨셉 안 원본(`concept.md`)은 아직 들어오지 않았다 — 업로드가 0바이트로 도착했다.
+들어오면 **한 글자도 고치지 않고** 그대로 둔다. 요약·대조는 별도 파일로 쓴다. 원본에 주석을 섞으면 보존이 아니다.
+
+## 평가 자산의 성격
+
+`00-rubric.md`는 ORIGIN DUST를 첫 소비처로 삼지만 작품 설정에 묶여 있지 않다. 한국어 서사 원고면 무엇이든 잰다.
+다른 작품이 생겨 공유할 필요가 서면 그때 `docs/kb/`로 올린다 — 쓰는 곳이 하나인 동안은 여기 둔다.
+
+컨셉 단계를 다루는 [`../kb/concept-planning/`](../kb/concept-planning/)이 "이 기획이 될 물건인가"를 묻는다면,
+이 자산은 "이 원고가 독자를 다음 화로 데려가는가"를 묻는다.
 
 ## 상속과 차이
 
@@ -43,13 +55,8 @@
 - 연재 중인 웹툰·웹소설의 본문을 나쁜 예로 인용하지 않는다. 웹툰 예시는 창작 콘티로 쓰고 그 사실을 명시한다.
 - 예시를 추가하면 어느 축을 시연하는지 태그를 달고, 짝이 되는 bad 예시를 같이 넣는다.
 
-## ORIGIN DUST에 적용하려면
+## 다음에 정할 것
 
 `00-rubric.md` §8의 입력 세 가지 — **매체**(웹툰 단독 / 소설 병행), **연재 단위**(회차 컷 수),
-**독자 진입 지점** — 이 정해지면 게이트 수치를 작품에 맞게 조이고, 02 골드셋에 ORIGIN DUST 자체 good/bad 쌍을 넣는다.
-
-ORIGIN DUST는 **앱을 구현하는 프로젝트가 아니다.** 따라서 `projects/` 아래로 가지 않는다.
-`projects/*`는 런처가 빌드해 배포하는 정적 아티팩트 전용이라 `app/` 빌드를 강제하고
-(`scripts/build-project.ts`), `project.json`이 없으면 `pnpm sync:registry`가 ENOENT로 죽는다
-(`scripts/project-utils.ts`의 `readAllProjects`가 모든 하위 디렉터리에서 `project.json`을 읽는다).
-둘 다 `pnpm build:vercel`을 깨뜨린다. 작품 문서(컨셉·세계관·회차 원고)는 `docs/origin-dust/`에 둔다.
+**독자 진입 지점**. 컨셉 안이 들어오면 거기서 뽑아 확정값으로 바꾸고, 게이트 수치를 작품에 맞게 조인 뒤
+`02-goldset-webtoon.md`의 가상 설정 예시(먼지 채굴·세이렌 가문)를 실제 세계관 기준 good/bad 쌍으로 교체한다.
