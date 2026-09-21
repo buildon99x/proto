@@ -129,6 +129,12 @@ svg.field { display: block; width: 780px; height: 1440px; }
     <rect x="${cx - 44}" y="${cy - 16}" width="88" height="34" rx="5" fill="${color}"/>
     <rect x="${cx - 44}" y="${cy - 16}" width="88" height="34" rx="5" fill="url(#tone-1)" opacity="0.28"/>`;
 
+  // 나무는 가지 끝 좌표를 돌려준다 — 부엉이를 실제 가지에 앉히기 위해서다
+  const treeA = deadTree(92, 336, 1.3, 23);
+  const treeB = deadTree(250, 300, 0.85, 71);
+  const treeC = deadTree(372, 1296, 1.55, 7);
+  const treeD = deadTree(700, 1274, 1.15, 53);
+
   document.getElementById("field").innerHTML = `
     <defs>
       <clipPath id="wall-only">
@@ -158,27 +164,30 @@ svg.field { display: block; width: 780px; height: 1440px; }
       <rect width="${W}" height="${H}" style="fill:var(--grain-tint)" opacity="0.5" filter="url(#paper)"/>
     </g>
 
-    <!-- 2c. 배경 실루엣 — 계곡·폐허·무너진 도시·달·마른 나무.
-         선망 위에 얹은 두 번째 판이다. 전부 벽 잉크 안에서만 살고,
-         어느 하나도 통로 종이보다 밝지 않다 — 밝은 것은 1px 윤곽선뿐이다 -->
+    <!-- 2c. 배경 — 아홉 모티프를 라임 선화로 찍는다.
+         계곡 · 절벽 · 바위 · 폐허 · 무너진 도시 · 마른 나무 · 달 · 부엉이 · 표범.
+         면은 먹이고 라임은 선만 맡는다. 농도 셋(지형 0.20 · 구조 0.30 · 상징 0.46)이
+         곧 거리라, 아홉이 한꺼번에 있어도 통로 경계선과 무게를 다투지 않는다 -->
     <g clip-path="url(#wall-only)" mask="url(#scenery-area)">
-      ${moon(178, 232, 88)}
-      ${ridgePair(-40, 520, 436, 5, 17)}
-      ${ridgePair(300, 880, 378, 6, 91)}
-      ${skyline(300, 392, 11, 5)}
-      ${deadTree(92, 336, 1.3, 23)}
-      ${deadTree(250, 300, 0.85, 71)}
-      ${emblem(636, 208, 34)}
-      ${beacon(470, 180, 104)}
+      ${cliff(-30, 150, 190, 300, 61)}
+      ${ridge(120, 560, 430, 5, 17)}
+      ${ridge(330, 880, 372, 6, 91)}
+      ${skyline(330, 392, 10, 5)}
+      ${moon(178, 226, 84)}
+      ${treeA.svg}
+      ${treeB.svg}
+      ${owl(treeA.perch.x + 2, treeA.perch.y - 16, 1.05)}
+      ${boulder(604, 336, 0.8, 3)}
 
-      ${ridgePair(-40, 520, 1404, 4, 41)}
+      ${ridge(-40, 520, 1404, 4, 41)}
       ${ruins(64, 1296, 13)}
-      ${skyline(436, 1308, 8, 29)}
-      ${deadTree(372, 1296, 1.55, 7)}
-      ${deadTree(700, 1274, 1.15, 53)}
-      ${stencil(92, 1214, 0)}
-      ${stencil(158, 1226, 1)}
-      ${stencil(246, 1238, 2)}
+      ${skyline(440, 1308, 7, 29)}
+      ${treeC.svg}
+      ${treeD.svg}
+      ${boulder(128, 1300, 1.25, 11)}
+      ${boulder(214, 1288, 0.75, 27)}
+      ${boulder(560, 1214, 1.7, 5)}
+      ${leopard(548, 1146, 1.15)}
     </g>
 
     <!-- 3. 어긋난 판 — 오직 벽 안쪽으로만 밀린다.

@@ -62,16 +62,18 @@ Palette — use these exact inks and NO other hues:
                    that belongs to that edge: the misregistration ghost inside the
                    wall, the gate lens outline. Printed at about 85% ink, so it
                    stays one step below the avatar.)
-  symbol ink       #ccff33 (the same lime, but laid down thin and at about half
-                   density, for background symbols only: the moon's halo rings, a
-                   sign over the ruined city, a beacon on a spire, small stencil
-                   marks on rubble.)
+  symbol ink       #ccff33 (the same lime, for the BACKGROUND LINE ART only, laid
+                   down thin and at three densities: terrain 17%, structure 25%,
+                   signs 44%. The density is the depth cue — nine motifs at one
+                   density would weigh as much as the corridor outline.)
   accent ink       #ffe66d (the avatar trail only — the brightest thing on the page)
   far silhouette   #1c1133   mid #160d2a   near #0a0417
   moon disc        #221540   silhouette keyline #583f93
 
-Brightness order, strictly: avatar > corridor outline > background symbols >
-corridor paper > silhouettes > wall. Nothing may break this order.
+Brightness order, strictly: avatar > corridor outline > background line art >
+corridor paper > dark masses > wall. Nothing may break this order, and the
+brightest background line must stay at roughly two thirds of the corridor
+outline's brightness.
 
 The lime is a fluorescent spot ink — a color that only exists in screen printing,
 never in offset. It must look like ink on paper, not like an emissive glow: flat,
@@ -179,31 +181,39 @@ Composition:
 3. Everything above and below the corridor is solid dark ink #04070e filling to all
    four edges, overprinted with a coarse diagonal line screen at about -38 degrees
    and a faint paper-fiber noise.
-4. SCENERY, printed as a second plate ON TOP of that line screen, and only inside
-   the dark mass:
-   - Upper left: a large moon, drawn as a DARK disc (moon-disc ink) with a thin 2px
-     light-ink outline and a wider faint concentric halo ring. It reads as a moon
-     by its outline and halo, never by being bright. Two small darker craters.
-   - Two bare dead trees stand in front of the moon, their branching silhouettes
-     crossing the disc — leafless, forked, tapering, in the darkest near tone.
-   - Behind them, jagged canyon ridge lines in the far tone, layered two deep.
-   - Across the upper right, the skyline of a COLLAPSED CITY: blocky towers of
-     varying height with snapped, diagonally sheared tops, one leaning off
-     vertical, small rectangular window notches knocked out of the ink.
-   - Lower mass: broken RUINS — stumps of columns with chipped tops, a couple of
-     half-fallen arches, more dead trees rising from the bottom edge, and another
-     distant ridge behind them.
-   - Every silhouette carries a 1px keyline in the keyline ink. Shape comes from
-     the keyline, not from brightness.
-   - FLUORESCENT SYMBOLS, in the symbol ink (thin, half density — clearly fainter
-     than the corridor outline), four places and no others: (a) three concentric halo rings around the moon — the disc itself stays
-     dark, only the rings are fluorescent; (b) a circular sign hung on a mast over
-     the ruined city, a zigzag wave glyph enclosed in a ring, clearly framed so it
-     reads as a printed emblem and never as a trajectory; (c) a beacon at the tip of
-     one spire — a small dot with two faint rings and a hairline mast running down to
-     the structure; (d) two or three tiny stencil marks on the rubble — bars, a
-     chevron, a barred circle, never anything letter-like. Together they cover well
-     under 1% of the image.
+4. THE LANDSCAPE, drawn as FLUORESCENT LIME LINE ART over that line screen, and
+   only inside the dark mass. The masses themselves stay dark — the lime draws only
+   the lines. Nine motifs, and the ink density is what separates them into depth
+   planes:
+
+   TERRAIN, hairline at about 17% lime ink — the faintest things in the picture:
+   - CANYON: two layered ridgelines, jagged, receding.
+   - CLIFF: a sheer vertical rock face at the left, its top edge broken and uneven,
+     with three short horizontal strata lines and two vertical fracture lines. The
+     verticals are what make it a cliff instead of a shelf.
+
+   STRUCTURE, thin line at about 25% lime ink:
+   - COLLAPSED CITY: blocky towers of varying height with snapped, diagonally
+     sheared tops, one leaning off vertical, a few window slots as short strokes.
+   - RUINS: stumps of columns with chipped tops and two half-fallen arches.
+   - BOULDERS: low, wide angular rocks — six-sided, wider than tall, each with one
+     internal facet line. Never pointed like tents.
+   - DEAD TREES: leafless, forked, tapering branches, no foliage at all.
+
+   SIGNS, the only things at about 44% lime ink — the three the eye may rest on:
+   - MOON: the disc stays DARK, only its rim and two faint concentric halo rings are
+     lime. It reads as a moon by outline and halo, never by being bright.
+   - OWL: perched on a dead branch, drawn in outline — rounded body, two ear tufts,
+     two unfilled circular eyes, a small triangular beak, two feet gripping the
+     branch. Eyes are OUTLINES, never filled discs.
+   - LEOPARD: standing in profile on a boulder — a continuous back-and-chest
+     outline, a rounded head with two small ears, four short sturdy legs, a long
+     tail curling up and back, and four small rosette circles on the flank.
+
+   The animals are motionless line drawings set deep in the background, small, and
+   far from the corridor. They must never read as creatures that could enter the
+   passage.
+
 5. A KNOCKOUT SILENCE BAND: for about 75px inside the dark mass, measured from the
    corridor outline, there is no scenery at all — only clean ink. Silhouettes are
    cut off cleanly where that band begins, like a printer's knockout gap. Nothing
@@ -246,8 +256,9 @@ shape. Blocked areas are the darkest thing on the page.
 
 Do NOT include: fluorescent ink on the avatar or on the gate marks, fluorescent
 fill inside the corridor interior (the lime belongs to the outline, not to the
-open space), a fluorescent symbol brighter than the corridor outline, a filled
-fluorescent shape, a glowing or emissive lime (it is ink, not light), scenery or
+open space), any background line brighter than the corridor outline, filled
+fluorescent shapes or filled animal silhouettes, animals in motion or facing the
+corridor, birds in flight, a glowing or emissive lime (it is ink, not light), scenery or
 texture inside the corridor, a bright/glowing moon,
 stars, clouds, fog, birds, water, foliage or leaves, people, vehicles, Korean or
 CJK characters, glow or neon bloom, gradients, outer shadows, 3D perspective,
@@ -276,7 +287,10 @@ particles, watermark, signature, any hue outside the listed inks.
 8. 통로 안쪽이 라임으로 채워지면 → `the lime is a 3px OUTLINE, the corridor interior
    stays flat purple stock` 을 덧붙인다. 모델은 "형광 경계"를 "형광 바닥"으로 자주
    바꿔 읽는다.
-9. 코스 기하가 풍경에 먹히면 → 시안 PNG 를 첨부하고 `keep this exact corridor shape
+9. 동물이 장애물처럼 읽히면 → `the owl and the leopard are static outline drawings
+   deep in the background, small, facing away from the passage` 를 덧붙인다. 동물은
+   화면에서 유일하게 "움직일 것 같은" 형태라 주의를 가장 많이 가져간다.
+10. 코스 기하가 풍경에 먹히면 → 시안 PNG 를 첨부하고 `keep this exact corridor shape
    and staircase rhythm; restyle only what is outside it` 를 앞에 붙인다.
 
 ### 섹터별 풍경 배분 (같은 컨셉을 12스테이지로 늘릴 때)
