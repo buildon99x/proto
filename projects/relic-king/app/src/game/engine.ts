@@ -25,7 +25,10 @@ import {
   SITES, SITE_BY_ID,
   STAFF_MARKET_REFRESH_HOURS, STAFF_PROMOTION_INTERVAL_HOURS, STOLEN_TO_BLACKMARKET_CHANCE,
   THEFT_APPLICABLE_MAX_TIER, THEFT_RATE_BASE, THEFT_RECOVERY_WINDOW_HOURS, TIER4_SPECIES_TOTAL,
-  TIER_STOCK_PER_SPECIES, TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN, TIP_FIRST_DELAY,
+  TIER_STOCK_PER_SPECIES, TIP_DECIDE_AFTER_GRACE_SECONDS, TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN,
+  TIP_FIRST_DELAY, TIP_FIRST_UNIQUE_TAUGHT, TIP_FIRST_WIN_GUARANTEED, TIP_UNIQUE_PRIORITY,
+  TIP_UNIQUE_REQUIRES_RESPONSE,
+  TIP_UNIQUE_ANNOUNCE_WITHIN, TIP_UNRESPONDED_UNIQUE_MULT, TIP_WORLDWIDE_MIN_TIER,
   TIP_FOCUS_DIG_COST_MULT, TIP_FOCUS_DIG_HIT_CHANCE, TIP_MEAN_INTERVAL, TIP_PLAYER_HIT,
   TIP_MIN_RESPONSE_SECONDS, TIP_RETRY_INTERVAL, TIP_RIVAL_HIT, TIP_TIER_WEIGHT,
   UNEXPLORED_BONUS_APPRAISAL_VOUCHER, WORKER_DIG,
@@ -55,7 +58,7 @@ import {
 import type {
   Artifact, AuctionHouse, AuctionListing, Auctioneer, Curator, ExpeditionTeam, Foreman,
   Ledger, LogKind, Museum, OwnerId, PersistentRecord, RivalState, SeasonState, Shape, SiteId, Staff,
-  StepReport, TheftEvent, Tier, VaultItem, World
+  StepReport, TheftEvent, Tier, Tip, VaultItem, World
 } from "./types";
 
 const SEASON_LENGTH_SECONDS = SEASON_LENGTH_WEEKS * 7 * 24 * 3600;
@@ -825,13 +828,22 @@ function candidates(w: World, site: SiteId, tier: Tier, layer: number): Artifact
  *  있으면 그걸 쓰고, 배너가 만료됐어도 그 자리에 급파로 도착한 발굴단이 추적 중인
  *  유물이 있으면 그쪽을 쓴다(spec.md §8.6, notes/decisions.md G45/A8·G53) — 배너
  *  수명과 레이스 종료 시점을 분리한 설계의 핵심이다. */
-function activeTipTarget(w: World, site: SiteId, layer: number): { artifactId: string; focused: boolean } | null {
+function activeTipTarget(
+  w: World, site: SiteId, layer: number
+): { artifactId: string; focused: boolean; responded: boolean } | null {
   if (w.tip && !w.tip.resolved && w.tip.site === site && layer >= w.tip.layer) {
-    return { artifactId: w.tip.artifactId, focused: !!w.tip.focused };
+    // `responded` — [집중 굴착]을 눌렀거나, 급파한 팀이 이 유물을 쫓아 그 자리에
+    // 와 있는가. 유일(T4)은 이 값이 참일 때만 플레이어가 가져갈 수 있다
+    // (`TIP_UNIQUE_REQUIRES_RESPONSE`).
+    const chased = w.teams.some(
+      (t) => t.status === "on_site" && t.targetSite === site && t.tipChase?.artifactId === w.tip!.artifactId
+    );
+    return { artifactId: w.tip.artifactId, focused: !!w.tip.focused, responded: !!w.tip.focused || chased };
   }
   for (const team of w.teams) {
     if (team.status === "on_site" && team.targetSite === site && team.tipChase && layer >= team.tipChase.layer) {
-      return { artifactId: team.tipChase.artifactId, focused: false };
+      // 급파로 도착해 추적 중이다 — 배너가 이미 닫혔어도 이것은 대응이다
+      return { artifactId: team.tipChase.artifactId, focused: false, responded: true };
     }
   }
   return null;
@@ -849,7 +861,7 @@ function clearTipChases(w: World, artifactId: string) {
 
 function rollDrop(
   w: World, rng: Rng, site: SiteId, layer: number, owner: OwnerId, offline: boolean, report: StepReport,
-  diggerForemanId?: string, chaseTarget?: { artifactId: string; focused: boolean } | null
+  diggerForemanId?: string, chaseTarget?: { artifactId: string; focused: boolean; responded: boolean } | null
 ) {
   // 제보 레이스: 조건을 만족하면 대상 유물이 직접 걸린다. 플레이어는 (배너 또는
   // 급파 추적 중인) chaseTarget을, 라이벌은 배너(w.tip.rivals)에 있을 때만 반응한다
@@ -864,14 +876,44 @@ function rollDrop(
   const graced = !!tip && !tip.resolved && w.t - tip.openedAt < TIP_MIN_RESPONSE_SECONDS;
   const raceTarget = graced
     ? null
-    : owner === "player" ? chaseTarget : tip && !tip.resolved && tip.site === site && layer >= tip.layer && tip.rivals.includes(owner)
-      ? { artifactId: tip.artifactId, focused: false }
+    : owner === "player" ? chaseTarget : tip && !tip.resolved && tip.site === site && tip.rivals.includes(owner)
+      ? { artifactId: tip.artifactId, focused: false, responded: true }
       : null;
   if (raceTarget) {
     const target = ARTIFACT_BY_ID[raceTarget.artifactId];
+    // 유일은 대응한 쪽만 가져간다(`TIP_UNIQUE_REQUIRES_RESPONSE`) — 라이벌은
+    // 제보를 받고 그 자리를 파는 것 자체가 대응이라 `responded: true`로 들어온다.
+    // **다투는 상대가 없으면 적용하지 않는다**: 아무도 오지 않는 자리에서 요구되는
+    // 것은 '남보다 먼저'가 아니라 그냥 버튼이고, 그건 규칙이 아니라 통행료다.
+    const contested = !!tip && !tip.resolved && tip.artifactId === target.id && tip.rivals.length > 0;
+    const unresponded =
+      TIP_UNIQUE_REQUIRES_RESPONSE && target.tier === 4 && owner === "player" &&
+      contested && !raceTarget.responded;
+    // 첫 유일은 대응하지 않으면 놓친다(`TIP_FIRST_UNIQUE_TAUGHT`) — 딱 한 번.
+    const uniquePenalty = !unresponded
+      ? 1
+      : TIP_FIRST_UNIQUE_TAUGHT && !w.taughtUniqueLoss
+        ? 0
+        : TIP_UNRESPONDED_UNIQUE_MULT;
     if (available(w, target)) {
-      const hit = owner === "player" ? (raceTarget.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) : TIP_RIVAL_HIT;
-      if (rng.chance(hit)) {
+      // **첫 승 보장은 마감 전에도 지켜진다.** 보장이 걸린 판(아직 한 번도 이겨
+      // 본 적이 없고, 플레이어가 그 자리에 있다)에서는 라이벌이 유예 뒤 드랍
+      // 판정으로 먼저 가져가지 못한다 — 그러지 않으면 보장은 "라이벌이 60초 안에
+      // 못 맞혔을 때만"이라는 뜻이 되고, 실측에서 실제로 그렇게 새어 나갔다
+      // (`eval.md` §28 — 첫 제보를 68초에 잃어 첫 10분 승리 0회).
+      const guardedForPlayer =
+        TIP_FIRST_WIN_GUARANTEED && owner !== "player" && target.tier < 4 &&
+        w.stats.racesWon === 0 && !!tip && !tip.resolved && tip.artifactId === target.id &&
+        playerRacingAt(w, tip);
+      const hit =
+        owner === "player"
+          ? (raceTarget.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) * uniquePenalty
+          : TIP_RIVAL_HIT;
+      // 난수는 **언제나 뽑는다**. `guardedForPlayer`로 `rng.chance`를 건너뛰면 보장이
+      // 걸린 판에서만 난수 소비가 한 칸 줄어, 같은 시드가 스텝 크기에 따라 갈린다
+      // (`qa:expedition`의 스텝 무관성이 실제로 이걸 잡았다 — 드랍 5/1209 차이).
+      const rolled = rng.chance(hit);
+      if (rolled && !guardedForPlayer) {
         take(w, target, owner, report, diggerForemanId);
         clearTipChases(w, target.id);
         if (owner === "player") {
@@ -885,6 +927,7 @@ function rollDrop(
         // 다음 제보 예약은 배너가 실제로 닫힐 때(step) 한다.
         if (tip && tip.artifactId === target.id) {
           tip.resolved = { outcome: owner === "player" ? "won" : "lost", at: w.t };
+          if (target.tier === 4) w.taughtUniqueLoss = true;
         }
         return;
       }
@@ -1892,6 +1935,15 @@ export function playerCanReactAt(w: World, site: SiteId): boolean {
 
 /** 제보 후보 전체(티어·검증만 통과한 모집단) — 아래 단계 필터의 분모다 */
 const TIP_UNIVERSE = ARTIFACTS.filter((a) => a.tier >= 2 && a.sourceStatus === "verified");
+/** 그중 유일만(12종). 매 스텝 도는 검사가 1,902종을 훑지 않게 미리 갈라 둔다. */
+const TIP_UNIQUE_UNIVERSE = TIP_UNIVERSE.filter((a) => a.tier === 4);
+
+/** 지금 제보로 알릴 수 있는 유일이 있는가(`tipPool`과 같은 조건, 12종만 훑는다) */
+function hasEligibleUnique(w: World): boolean {
+  return TIP_UNIQUE_UNIVERSE.some(
+    (a) => available(w, a) && a.minLayer <= w.sites[a.site].layer && playerCanReactAt(w, a.site)
+  );
+}
 
 /** `spawnTip`이 실제로 뽑는 풀. 단계별 진단(`tipPoolStages`)과 **같은 코드**를 탄다 —
  *  진단이 엔진과 갈라지면 진단이 아니라 추측이 된다. */
@@ -1938,18 +1990,38 @@ function spawnTip(w: World, rng: Rng) {
     w.nextTipIn = TIP_RETRY_INTERVAL;
     return;
   }
-  // 높은 티어를 강하게 선호한다 — 제보는 유일·국보가 주인공이다
-  const weighted: Artifact[] = [];
-  for (const a of pool) {
-    const n = TIP_TIER_WEIGHT[a.tier];
-    for (let i = 0; i < n; i++) weighted.push(a);
+  // 유일(T4)이 자격을 갖췄으면 가중 추첨을 건너뛰고 그것을 편성한다
+  // (`TIP_UNIQUE_PRIORITY` — 유일의 반응은 세계적 사건이다). 가중 추첨의 분모가
+  // 자격 T2 종수에 끌려다니는 문제를 규칙으로 닫는다.
+  const uniques =
+    TIP_UNIQUE_PRIORITY && !w.lastTipWasUnique ? pool.filter((a) => a.tier === 4) : [];
+  let target: Artifact;
+  if (uniques.length > 0) {
+    target = uniques.length === 1 ? uniques[0] : rng.pick(uniques);
+  } else {
+    // 높은 티어를 강하게 선호한다 — 제보는 유일·국보가 주인공이다
+    const weighted: Artifact[] = [];
+    for (const a of pool) {
+      const n = TIP_TIER_WEIGHT[a.tier];
+      for (let i = 0; i < n; i++) weighted.push(a);
+    }
+    target = rng.pick(weighted);
   }
-  const target = rng.pick(weighted);
   // 같은 거점에 홈을 둔 라이벌 — on_site와 동격이라 배너 안에 즉시 반응한다
   const rivalIds = w.rivals
-    .filter((r) => r.homeSite === target.site && r.layer >= target.minLayer)
+    .filter((r) => r.homeSite === target.site)
     .map((r) => r.id);
   const chosen = rivalIds.slice(0, 1 + rng.int(0, 3));
+  // 국보·유일은 세계에 퍼진다(`TIP_WORLDWIDE_MIN_TIER`) — 그 거점에 아무도 살지
+  // 않으면 가장 가까운 수집가 한 명이 반응 대상이 된다. 이동시간은 여기서 모델링
+  // 하지 않는다: 원거리 급파(아래)와 달리 이쪽은 "같은 제보를 받았다"는 자격이고,
+  // 실제 획득은 마감 판정에서만 일어난다.
+  if (chosen.length === 0 && target.tier >= TIP_WORLDWIDE_MIN_TIER) {
+    const nearest = w.rivals
+      .map((r) => ({ id: r.id, dist: distanceKm(r.homeSite, target.site) }))
+      .sort((a, b) => a.dist - b.dist)[0];
+    if (nearest) chosen.push(nearest.id);
+  }
 
   // 원거리 라이벌 급파(spec.md §12.3) — 가장 가까운 유휴(추적 중이 아닌) 라이벌
   // 1명만 시도한다. 배너 수명과 무관하게 압축 이동시간 뒤 resolveRivalTipChases가
@@ -1971,6 +2043,7 @@ function spawnTip(w: World, rng: Rng) {
     }
   }
 
+  w.lastTipWasUnique = target.tier === 4;
   w.tip = {
     artifactId: target.id,
     site: target.site,
@@ -1982,6 +2055,143 @@ function spawnTip(w: World, rng: Rng) {
     resolved: null
   };
   log(w, "system", `제보 — ${SITE_BY_ID[target.site].city} ${target.minLayer}층에서 반응. 대상: ${target.name}`);
+}
+
+/** 플레이어가 **지금 그 자리에서** 레이스에 참가하고 있는가 — 직접 발굴이 그
+ *  거점을 파고 있거나, 발굴단이 on_site로 가 있거나. 이동 중인 급파는 아직 그
+ *  자리에 없으므로 참가로 세지 않는다(도착하면 `team.tipChase`가 따로 판정한다 —
+ *  spec.md §8.6, 배너 수명과 레이스 종료를 분리한 설계 그대로다). */
+function playerRacingAt(w: World, tip: Tip): boolean {
+  if (w.sites[tip.site].layer < tip.layer) return false;
+  if (w.activeSite === tip.site) return true;
+  return w.teams.some((t) => t.status === "on_site" && t.targetSite === tip.site);
+}
+
+/**
+ * 배너 안에서 같은 자리를 파고 있는 라이벌. **층 조건은 걸지 않는다** — 제보를
+ * 받은 쪽은 그 층까지 내려간다는 것이 이 사건의 전제이고, 플레이어도 같은 규칙을
+ * 쓴다(`playerRacingAt` — 거점이 같으면 참가).
+ *
+ * v0.6은 여기에 `r.layer >= tip.layer`를 걸어 두고 있었는데, 압축된 곡선에서
+ * 플레이어는 15초에 5층에 닿고 라이벌은 3분쯤 걸린다. 그 결과 **첫 몇 분의 제보에
+ * 경쟁자가 한 명도 없었다** — 실측으로 첫 10분 제보의 과반이 무경쟁 단독 수령이었고,
+ * "조금만 늦었으면 놓쳤다"(재미 3문장 ②)가 성립할 자리가 없었다(`eval.md` §28).
+ */
+function tipRivalContenders(w: World, tip: Tip): string[] {
+  return tip.rivals.filter((id) => w.rivals.some((x) => x.id === id));
+}
+
+export type TipRaceOdds = {
+  /** 마감까지 남은 초(이미 결판났으면 0) */
+  decideIn: number;
+  /** 플레이어가 그 자리에 있는가 */
+  racing: boolean;
+  /** 마감 판정에서 플레이어가 가질 확률(0~1). 보장이 걸려 있으면 1 */
+  playerChance: number;
+  /** 첫 승 보장이 이 판에 걸려 있는가 */
+  guaranteed: boolean;
+  /** 같은 자리를 파고 있는 라이벌 수 — 이 판의 경쟁도 그 자체다 */
+  contenders: number;
+  /** 유일인데 아직 대응하지 않았다 — 지금 상태로는 가져갈 수 없다 */
+  needsResponse: boolean;
+};
+
+/** 마감 판정의 현재 상태 — 화면이 규칙과 같은 말을 하도록 엔진이 직접 낸다(척추 5번). */
+export function tipRaceOdds(w: World, tip: Tip): TipRaceOdds {
+  const racing = playerRacingAt(w, tip);
+  const decideIn = tip.resolved
+    ? 0
+    : Math.max(0, tip.openedAt + TIP_MIN_RESPONSE_SECONDS + TIP_DECIDE_AFTER_GRACE_SECONDS - w.t);
+  const target = ARTIFACT_BY_ID[tip.artifactId];
+  const responded =
+    !!tip.focused || w.teams.some((t) => t.tipChase?.artifactId === tip.artifactId && t.status === "on_site");
+  const needsResponse =
+    TIP_UNIQUE_REQUIRES_RESPONSE && target.tier === 4 && tip.rivals.length > 0 && !responded;
+  const guaranteed = TIP_FIRST_WIN_GUARANTEED && racing && !needsResponse && w.stats.racesWon === 0;
+  const firstUniqueLesson = needsResponse && TIP_FIRST_UNIQUE_TAUGHT && !w.taughtUniqueLoss;
+  const pw =
+    racing
+      ? (tip.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) *
+        (firstUniqueLesson ? 0 : needsResponse ? TIP_UNRESPONDED_UNIQUE_MULT : 1)
+      : 0;
+  const contenders = tipRivalContenders(w, tip).length;
+  const rw = contenders * TIP_RIVAL_HIT;
+  const playerChance = guaranteed ? 1 : pw + rw === 0 ? 0 : pw / (pw + rw);
+  return { decideIn, racing, playerChance, guaranteed, contenders, needsResponse };
+}
+
+/**
+ * **판정 마감**(v0.6.1) — 반응 유예가 끝나고 `TIP_DECIDE_AFTER_GRACE_SECONDS`가
+ * 더 지나도 아무도 적중하지 못했으면, 그 자리에 있는 진영끼리 **한 번에 결판낸다**.
+ *
+ * 이 함수가 없으면 제보는 "아무도 못 맞힌 채 만료"될 수 있고, 그게 v0.6 최악
+ * 시드에서 첫 레이스 결과를 7분 30초로 밀고 첫 10분 승리를 0회로 만든 원인이었다
+ * (`eval.md` §28). 승률은 드랍 판정과 **같은 상수**를 쓴다 — 마감은 승률이 아니라
+ * 무승부를 없애는 장치다(`balance.ts` `TIP_DECIDE_AFTER_GRACE_SECONDS` 주석).
+ *
+ * 척추 3번(영구 상실은 플레이어가 그 자리에 있었을 때만)은 그대로다: 마감 판정은
+ * 플레이어가 반응할 수 있는 거점에서만 뜨는 배너 안에서, 온라인 중에만 일어난다.
+ */
+function decideTipRace(w: World, rng: Rng, report: StepReport) {
+  const tip = w.tip;
+  if (!tip || tip.resolved) return;
+  if (w.t - tip.openedAt < TIP_MIN_RESPONSE_SECONDS + TIP_DECIDE_AFTER_GRACE_SECONDS) return;
+
+  const target = ARTIFACT_BY_ID[tip.artifactId];
+  if (!available(w, target)) {
+    // 이미 세계에서 사라졌다 — 판정할 것이 없다(배너는 수명대로 닫힌다)
+    clearTipChases(w, target.id);
+    return;
+  }
+
+  const racing = playerRacingAt(w, tip);
+  const contenders = tipRivalContenders(w, tip);
+  // 유일은 대응(집중 굴착·급파)해야 가진다 — 그 자리에 있는 것만으로는 안 된다.
+  const responded =
+    !!tip.focused || w.teams.some((t) => t.tipChase?.artifactId === tip.artifactId && t.status === "on_site");
+  const unresponded =
+    TIP_UNIQUE_REQUIRES_RESPONSE && target.tier === 4 && contenders.length > 0 && !responded;
+  const uniquePenalty = !unresponded
+    ? 1
+    : TIP_FIRST_UNIQUE_TAUGHT && !w.taughtUniqueLoss
+      ? 0
+      : TIP_UNRESPONDED_UNIQUE_MULT;
+  const pw = racing ? (tip.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) * uniquePenalty : 0;
+  // 라이벌 가중은 **머릿수**다 — 유예 전 드랍 판정에서 라이벌 k명이 각자 굴리는
+  // 것과 같은 셈이고, 그래서 제보마다 경쟁도가 다르다(1명이면 반반, 4명이면 20%).
+  // 배너가 그 수치를 그대로 적는다(척추 5번, `tipRaceOdds`).
+  const rw = contenders.length * TIP_RIVAL_HIT;
+  // 양쪽 다 그 자리에 없다 — 결판낼 주체가 없으므로 유물은 세상에 남는다.
+  // (급파가 이동 중이면 여기 걸린다 — 도착 판정은 기존 경로가 그대로 한다.)
+  if (pw + rw === 0) return;
+  // **척추 3번** — 유일(T4)은 플레이어가 **그 자리에 있을 때만** 걸린다. 자리를
+  // 비운 판에서 마감이 유일을 라이벌에게 넘기지 않는다(배너는 그냥 만료된다).
+  // 그 자리에 있었는데 대응하지 않아 진 것은 영구 상실의 정당한 경로다 —
+  // "플레이어가 그 자리에 있었을 때만"은 충족되고, 대응 버튼은 화면에 있었다.
+  if (!racing && target.tier === 4) return;
+
+  const guaranteed = TIP_FIRST_WIN_GUARANTEED && pw > 0 && w.stats.racesWon === 0;
+  const playerTakes = guaranteed || rng.chance(pw / (pw + rw));
+
+  if (playerTakes) {
+    take(w, target, "player", report);
+    clearTipChases(w, target.id);
+    w.stats.racesWon += 1;
+    report.won.push(target.id);
+    log(
+      w, "won",
+      guaranteed
+        ? `첫 제보의 결판 — '${target.name}'${josa(target.name, "을를")} 확보했다. (첫 승은 참가하면 보장된다)`
+        : `제보 마감 — '${target.name}'${josa(target.name, "을를")} 먼저 확보했다.`
+    );
+  } else {
+    const rivalId = contenders.length === 1 ? contenders[0] : rng.pick(contenders);
+    take(w, target, rivalId, report);
+    clearTipChases(w, target.id);
+    w.stats.racesLost += 1;
+  }
+  tip.resolved = { outcome: playerTakes ? "won" : "lost", at: w.t };
+  if (target.tier === 4) w.taughtUniqueLoss = true;
 }
 
 /** 원거리 급파 라이벌의 도착 판정(spec.md §12.3) — 압축 이동시간이 지나면 그
@@ -2162,6 +2372,8 @@ export function step(w: World, dt: number, offline = false, record: PersistentRe
 
     if (w.tip) {
       w.tip.remain -= dt;
+      // 마감 판정이 먼저다 — 배너가 닫히기 전에 결판을 낸다(무승부 제거, v0.6.1)
+      decideTipRace(w, rng, report);
       if (w.tip.remain <= 0) {
         const name = ARTIFACT_BY_ID[w.tip.artifactId].name;
         if (!w.tip.resolved) {
@@ -2171,6 +2383,17 @@ export function step(w: World, dt: number, offline = false, record: PersistentRe
         w.nextTipIn = rng.range(TIP_MEAN_INTERVAL * 0.5, TIP_MEAN_INTERVAL * 1.5);
       }
     } else {
+      // 유일이 방금 자격을 갖췄으면 다음 제보를 앞으로 당긴다
+      // (`TIP_UNIQUE_ANNOUNCE_WITHIN`) — 유일 알림이 직전 배너의 수명 뒤에서
+      // 기다리지 않게 한다. 연달아 유일이 뜨는 것은 `lastTipWasUnique`가 막는다.
+      // **예약된 제보만 당긴다.** `nextTipIn`이 스케줄러가 낼 수 있는 최대치
+      // (`TIP_MEAN_INTERVAL × 1.5`)를 넘으면 그건 카운트다운이 아니라 "제보를 꺼
+      // 뒀다"는 뜻이다(`qa_expedition`이 제보 잡음을 걷어내려고 그렇게 한다).
+      // 이 조건이 없으면 엔진이 그 끔을 되살려 스텝 무관성 검증을 깨뜨린다.
+      const scheduled = w.nextTipIn <= TIP_MEAN_INTERVAL * 1.5;
+      if (scheduled && w.nextTipIn > TIP_UNIQUE_ANNOUNCE_WITHIN && !w.lastTipWasUnique && hasEligibleUnique(w)) {
+        w.nextTipIn = TIP_UNIQUE_ANNOUNCE_WITHIN;
+      }
       w.nextTipIn -= dt;
       if (w.nextTipIn <= 0) spawnTip(w, rng);
     }

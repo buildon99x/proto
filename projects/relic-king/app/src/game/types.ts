@@ -360,6 +360,22 @@ export type World = {
   codex: Record<string, CodexState>;
   tip: Tip | null;
   nextTipIn: number;
+  /**
+   * 직전 제보가 유일(T4)이었는가 — 유일이 **연달아 편성되지 않게** 하는 한 칸짜리
+   * 기억이다(`TIP_UNIQUE_PRIORITY`, engine.ts `spawnTip`).
+   *
+   * 선택 필드라 **세이브 버전을 올리지 않는다**: 값이 없으면 `false`로 읽히고,
+   * 그 경우 다음 제보가 유일이 될 수 있을 뿐이라 옛 세이브가 겪는 차이는 제보
+   * 한 번의 대상뿐이다. 진행 중이던 판정·원장·진척 중 어느 것도 이 값에 걸려
+   * 있지 않다(v10→v11이 층 진척을 환산해야 했던 것과는 성격이 다르다).
+   */
+  lastTipWasUnique?: boolean;
+  /**
+   * 유일 제보가 이 세이브에서 한 번이라도 결판났는가 — "첫 유일은 대응해야 한다"를
+   * 한 번만 가르치기 위한 표식이다(`TIP_FIRST_UNIQUE_TAUGHT`). `lastTipWasUnique`와
+   * 같은 이유로 선택 필드이고 세이브 버전을 올리지 않는다(없으면 아직 안 배운 것).
+   */
+  taughtUniqueLoss?: boolean;
   log: LogEntry[];
   settings: Settings;
   stats: Stats;

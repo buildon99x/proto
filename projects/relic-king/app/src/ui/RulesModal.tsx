@@ -6,6 +6,8 @@ import {
   TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN,
   TIP_FOCUS_DIG_COST_MULT, TIP_FOCUS_DIG_HIT_CHANCE, TIP_MEAN_INTERVAL,
   TIP_MIN_RESPONSE_SECONDS, TIP_PLAYER_HIT, TIP_RIVAL_HIT,
+  TIP_DECIDE_AFTER_GRACE_SECONDS, TIP_UNIQUE_ANNOUNCE_WITHIN, TIP_UNRESPONDED_UNIQUE_MULT,
+  TIP_WORLDWIDE_MIN_TIER,
   CURATOR_RECOVERY_COEFF, tierWeights
 } from "../game/balance";
 import { rivalExpeditions } from "../game/engine";
@@ -67,6 +69,10 @@ export function RulesModal({ game, onClose }: { game: Game; onClose: () => void 
         <ul className="rules-notes">
           <li>평균 {TIP_MEAN_INTERVAL / 60}분마다 뜬다. 배너는 {TIP_DURATION_ONSITE_MIN}~{TIP_DURATION_ONSITE_MAX}초 유지된다.</li>
           <li><strong>처음 {TIP_MIN_RESPONSE_SECONDS}초는 반응 유예다</strong> — 그 동안은 당신도 라이벌도 그 유물을 가져가지 못한다. 결판이 난 뒤에도 배너는 결과를 보여 주며 수명을 다 채운다.</li>
+          <li><strong>유예가 끝나고 {TIP_DECIDE_AFTER_GRACE_SECONDS}초 안에 아무도 못 맞히면 그 자리에서 결판낸다.</strong> 승산은 당신 {Math.round(TIP_PLAYER_HIT * 100)}%(집중 굴착이면 {Math.round(TIP_FOCUS_DIG_HIT_CHANCE * 100)}%) 대 <strong>라이벌 머릿수 × {Math.round(TIP_RIVAL_HIT * 100)}%</strong>다 — 경쟁자가 1명이면 반반, 3명이면 25%. 배너에 그 판의 승산이 그대로 적힌다. 제보가 결과 없이 지나가는 일은 없다.</li>
+          <li><strong>첫 승은 보장된다.</strong> 아직 한 번도 이겨 본 적이 없다면, 그 자리에 있는 한 첫 결판은 당신 것이다(유일 제외). 딱 한 번뿐이다.</li>
+          <li><strong>유일은 대응해야 승산이 산다.</strong> 다투는 상대가 있는 유일 제보에 아무것도 누르지 않으면 당신의 가중이 {Math.round(TIP_UNRESPONDED_UNIQUE_MULT * 100)}%로 깎인다(경쟁 1명 기준 승산 {Math.round((TIP_PLAYER_HIT * TIP_UNRESPONDED_UNIQUE_MULT) / (TIP_PLAYER_HIT * TIP_UNRESPONDED_UNIQUE_MULT + TIP_RIVAL_HIT) * 100)}%). 금지가 아니라 불리함이다 — 경쟁자가 없는 자리라면 그냥 확보한다. <strong>단 처음 만나는 유일 제보 한 번은 대응하지 않으면 놓친다</strong>(첫 승 보장의 반대쪽 짝이다 — 게임이 첫 세션에 "먼저 도달하면 갖는다"와 "유일은 대응해야 한다"를 한 번씩 가르친다).</li>
+          <li>유일이 세상에 드러나면 <strong>{TIP_UNIQUE_ANNOUNCE_WITHIN}초 안에 제보로 알린다</strong>(연달아 뜨지는 않는다). {TIER_NAME[TIP_WORLDWIDE_MIN_TIER]} 이상은 그 거점에 아무도 살지 않아도 <strong>가장 가까운 수집가가 반응한다</strong>.</li>
           <li>on_site 팀이 있으면(또는 직접 발굴이 그 자리를 파고 있으면) 자동으로 {Math.round(TIP_PLAYER_HIT * 100)}% 확률로 판정된다 — <strong>같은 제보를 받은 라이벌도 {Math.round(TIP_RIVAL_HIT * 100)}%로 같다.</strong> 아무것도 안 누르면 공정한 레이스이고, [집중 굴착]을 누르면 {Math.round(TIP_FOCUS_DIG_HIT_CHANCE * 100)}%로 오르는 대신 그 원정의 원정비가 {TIP_FOCUS_DIG_COST_MULT}배가 된다.</li>
           <li>[급파]는 유휴 발굴단을 압축 이동시간 {EMERGENCY_DISPATCH_MAX_REACH_HOURS}시간 이내인 거점에 즉시 출발시킨다. 원정비 {EMERGENCY_DISPATCH_COST_MULT}배·미스헵 확률 {EMERGENCY_DISPATCH_MISHAP_MULT}배가 붙는다. 배너가 사라진 뒤에도 도착하면 판정은 그대로 유효하다 — 세계 재고가 남아 있는지가 유일한 기준이다.</li>
           <li><strong>라이벌은 제보 레이스 밖에서 유일 유물을 가져가지 못한다.</strong> 오프라인 중에는 진귀 이하만 가져간다 — 영구 상실은 당신이 그 자리에 있었을 때만 일어난다.</li>
