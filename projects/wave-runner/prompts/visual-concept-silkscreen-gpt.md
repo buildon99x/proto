@@ -1,7 +1,9 @@
 # GPT 이미지 프롬프트 — 실크스크린 컨셉
 
 컨셉 정의와 규칙은 [`notes/visual-concept-silkscreen.md`](../notes/visual-concept-silkscreen.md)
-에 있다. 이 문서는 **그 컨셉을 GPT(이미지 생성)로 뽑기 위한 프롬프트**다.
+에 있다. 이 문서는 **그 컨셉을 GPT(이미지 생성)로 뽑기 위한 프롬프트**다 — 화면 한 장을
+시안으로 뽑는 용도다. 구현에 실제로 넣을 에셋(판 타일·종이 결·배경 선화)은
+[`play-screen-asset-sheet-gpt.md`](./play-screen-asset-sheet-gpt.md) 쪽이다.
 
 ## 쓰기 전에
 

@@ -259,4 +259,5 @@
 | `tools/visual-concept/common.css` | 잉크 세트. 값은 전부 CSS 변수라 `:root` 를 덮어쓰면 세트가 바뀐다 |
 | `tools/visual-concept/zigzag.js` | 과장 없이 실제 각도로 그리는 지그재그 |
 | `tools/visual-concept/render.mjs` | 헤드리스 크로미움으로 PNG 굽기 |
-| `prompts/visual-concept-silkscreen-gpt.md` | 같은 컨셉의 GPT 이미지 프롬프트 |
+| `prompts/visual-concept-silkscreen-gpt.md` | 화면 한 장을 뽑는 GPT 프롬프트 |
+| `prompts/play-screen-asset-sheet-gpt.md` | 구현에 넣을 에셋 시트 프롬프트(해상도 역산·파일 규격 포함) |
