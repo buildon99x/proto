@@ -11,10 +11,11 @@
 
 | 파일 | 내용 |
 |---|---|
-| [`concept-v2.md`](concept-v2.md) | **정본.** F1·F2·F5를 닫은 개정본 — 작업은 이 문서를 본다 |
+| [`concept-v2.md`](concept-v2.md) | **정본.** F1~F5를 닫은 개정본 — 작업은 이 문서를 본다 |
 | [`concept.md`](concept.md) | 컨셉 안 **보관 원본.** 받은 파일 그대로(바이트 동일), 고치지 않는다 |
 | [`concept-review.md`](concept-review.md) | 컨셉 안 리뷰 — 결함 10건(P0 2 · P1 3 · P2 5)과 처리 순서 |
-| [`concept-revision-p0.md`](concept-revision-p0.md) | 수정안 — v2에 반영된 패치 11개(before/after) |
+| [`concept-revision-p0.md`](concept-revision-p0.md) | P0 수정안 — F1·F2·F5, v2에 반영된 패치 11개(before/after) |
+| [`concept-revision-p1.md`](concept-revision-p1.md) | P1 수정안 — F3·F4, v2에 반영된 패치 9개(before/after) |
 | [`eval/00-rubric.md`](eval/00-rubric.md) | **채점 도구.** 공통 서사 10축 + 매체 4축(소설/웹툰), 게이트, 채점 전 측정 3종, 수렴 규칙 |
 | [`eval/01-goldset-novel.md`](eval/01-goldset-novel.md) | 소설 예시 — good 8(공개도메인 verbatim) · bad 4 |
 | [`eval/02-goldset-webtoon.md`](eval/02-goldset-webtoon.md) | 웹툰 콘티 예시 — good 4 · bad 4 (전부 창작) |
@@ -36,8 +37,9 @@
 채점에 직접 쓰는 것은 `eval/00-rubric.md` §8에 옮겼다 — 약속 한 문장, 시즌1의 질문, 회차 9비트 공식,
 축7이 검사할 네 질문의 답. 남은 미정값은 **회차 컷 수** 하나다.
 
-v2는 여기에 더해 **11시간의 충격을 떠받치는 공식 역사**(18시 이후 생존자 없음)와
-**레이의 나이 공백이 의도라는 선언**을 갖는다. 콘티는 v2 기준으로 작업한다.
+v2는 여기에 더해 **11시간의 충격을 떠받치는 공식 역사**(18시 이후 생존자 없음),
+**레이의 나이 공백이 의도라는 선언**, 그리고 **ECHO → 유물 경제 → JANUS를 한 줄로 꿴 인과**를 갖는다.
+콘티는 v2 기준으로 작업한다.
 
 ## 평가 자산의 성격
 
@@ -75,9 +77,8 @@ v2는 여기에 더해 **11시간의 충격을 떠받치는 공식 역사**(18�
 
 ## 다음에 할 일
 
-1. **P1 둘을 닫는다** — [`concept-review.md`](concept-review.md) F3(ECHO와 유물 경제가 인과로 이어지지 않는다)와
-   F4(JANUS의 크기 규칙이 자본으로 뚫린다). 둘을 같이 고치면 멸망 원인·방어 시스템·유물 경제가 한 줄로 꿰인다.
-   F4는 `eval/00-rubric.md` 축7을 3점 상한으로 묶어 둔 원인이기도 하다.
+1. **축7 재판정** — F4가 풀렸는지를 **독립 레인**에서 다시 잰다. 패치를 쓴 레인이 스스로 상한을 풀 수 없다
+   (작성 ≠ 리뷰). 지금은 `eval/00-rubric.md` 축7이 3점 상한으로 묶여 있다.
 2. **골드셋 교체** — `eval/02-goldset-webtoon.md`의 가상 설정 예시(먼지 채굴·세이렌 가문)를 실제 설정
    (레이 한·MOTH-13·SEOUL BASIN·빨간 녹음기) 기준 good/bad 쌍으로 바꾼다. 이제 근거가 있다.
 3. **1화 채점** — `concept-v2.md` §17의 1화 구성을 `eval/00-rubric.md`로 재 본다. 다만 그것은 콘티가 아니라

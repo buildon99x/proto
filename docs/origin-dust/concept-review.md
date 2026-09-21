@@ -2,9 +2,14 @@
 
 대상: [`concept.md`](concept.md) · 리뷰 일자: 2026-09-21
 
-> **후기 (2026-09-21).** F1·F2·F5는 [`concept-v2.md`](concept-v2.md)에서 닫혔다
-> (패치 내역은 [`concept-revision-p0.md`](concept-revision-p0.md)). F3·F4와 P2 다섯 건은 그대로 유효하다.
-> 아래 본문은 수정 시점 **이전**의 기록이라 다시 쓰지 않는다.
+> **후기 (2026-09-21).** F1~F5가 [`concept-v2.md`](concept-v2.md)에서 닫혔다 — 패치 내역은
+> [`concept-revision-p0.md`](concept-revision-p0.md)(P0, 11개)와
+> [`concept-revision-p1.md`](concept-revision-p1.md)(P1, 9개)에 있다. P2 다섯 건(F6~F10)은 그대로 유효하다.
+>
+> 아래 §"축7 정식 적용"의 **3점 상한은 아직 유효하다.** F4 수정으로 근거가 바뀌었지만, 그 패치를 쓴 레인이
+> 스스로 상한을 풀 수 없다 — 작성 ≠ 리뷰. 독립 레인의 재판정이 필요하다.
+>
+> 본문은 수정 시점 **이전**의 기록이라 다시 쓰지 않는다.
 
 **채점표를 붙이지 않는다.** [`eval/00-rubric.md`](eval/00-rubric.md)는 원고(콘티·산문)를 재는 도구지
 세계관 설계 문서를 재는 도구가 아니다. 안 맞는 자를 대면 숫자가 거짓말을 한다.
