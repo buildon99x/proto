@@ -205,22 +205,68 @@ Flat, matte, uniform, no shading, no perspective, no color.
 
 ---
 
-## 2. 파일 규격
+## 2. 파일명
 
-색은 어느 파일에도 굽지 않는다. 전부 **알파 또는 `currentColor`** 로 내보내고 잉크는
-코드가 입힌다 — 야경 세트와 자외선 세트를 한 벌의 에셋으로 돌리기 위해서다.
+### 어디에 두는가
 
-| 파일 | 형식 | 규격 | 비고 |
+| 경로 | 무엇 |
+|---|---|
+| `app/src/assets/silkscreen/` | **런타임 에셋.** 코드가 import 하고 Vite 가 해시를 붙여 번들한다 |
+| `assets/references/silkscreen/sheets/` | 생성 원본 시트와 작업 파일. 배포에 들어가지 않는다 |
+
+`app/` 이 Vite 루트이므로 런타임 에셋은 그 안에 있어야 한다. 원본 시트는 레퍼런스라
+프로젝트 `assets/` 에 남긴다 — 둘 다 프로젝트 루트 안이므로 저장소 규칙을 지킨다.
+
+### 색은 파일명에 넣지 않는다
+
+`plate-gorge-purple.png` 같은 이름이 생기는 순간 잉크 세트마다 파일이 두 벌이 된다.
+전부 알파와 `currentColor` 로 내보내므로 **파일은 한 벌이고 색은 코드가 입힌다.**
+
+### A 시트 — 판·종이·에지 (6 파일)
+
+이름은 `defs.js` 의 패턴 id 를 그대로 쓴다. 시안과 구현이 같은 말을 해야 한다.
+
+| 파일 | 타일 | 규격 | 이음매 |
 |---|---|---|---|
-| `plate-gorge.png` · `plate-corridor.png` · `plate-scatter.png` · `plate-pulse.png` | PNG-8 알파 | 512² | 이음매 없음. `createPattern` 용 |
-| `paper-grain.png` | PNG-8 알파 | 1024² | 이음매 없음 |
-| `ink-edge.png` | PNG-8 알파 | 1024 × 128 | 가로 이음매만 |
-| `tone-1..4.png` | PNG-8 알파 | 256² | 티어 농도 |
-| `scn-*.svg` (9종) | SVG | 뷰박스 = 월드 단위 | `stroke="currentColor"`, `fill="none"` |
-| `mark-*.svg` | SVG | 24² | 등록 표식·스텐실 |
+| `plate-gorge.png` | 1 · 사선 선망 −38° | 512² | 상하좌우 |
+| `plate-corridor.png` | 2 · 수평 선망 | 512² | 상하좌우 |
+| `plate-scatter.png` | 3 · 불규칙 망점 | 512² | 상하좌우 |
+| `plate-pulse.png` | 4 · 주기 밴드 | 512² | 상하좌우 |
+| `paper-grain.png` | 5 · 종이 결 | 1024² | 상하좌우 |
+| `ink-edge.png` | 6 · 잉크 에지 | 1024 × 128 | **가로만** |
 
-**명명은 코드의 이름을 따른다** — `defs.js` 의 `plate-gorge` · `tone-3` 과 같은 이름을
-쓰면 시안과 구현이 같은 말을 한다.
+원본: `sheets/sheet-a-textures.png` (생성물 그대로, 손대기 전)
+
+### B 시트 — 배경 모티프 (9 이름, 그중 5 파일)
+
+**아홉 중 넷은 파일이 아니라 생성기로 두는 편이 낫다.** 능선·도시·폐허·나무는 직선과
+반복으로 이루어져 있어 코드가 씨앗만 바꿔 무한히 다르게 만들 수 있고
+(`tools/visual-concept/scenery.js` 가 이미 그렇게 한다), 파일로 두면 같은 실루엣이
+스테이지마다 반복된다. 반대로 절벽·바위·달·부엉이·표범은 불규칙하거나 형태가 고유해서
+손으로 그린 것이 낫다.
+
+이름은 예약해 두되, **파일로 만드는 것은 다섯이다.**
+
+| 이름 | 모티프 | 판정 | viewBox (월드 단위) |
+|---|---|---|---|
+| `scn-cliff.svg` | 절벽 | **파일** | `0 0 24 30` |
+| `scn-boulder-a.svg` · `-b` · `-c` | 바위 3종 | **파일** | `0 0 10 5` |
+| `scn-moon.svg` | 달 | **파일** | `0 0 16 16` |
+| `scn-owl.svg` | 부엉이 | **파일** | `0 0 6 8` |
+| `scn-leopard.svg` | 표범 | **파일** | `0 0 12 7` |
+| `scn-ridge-*.svg` | 계곡 능선 | 생성기 | (`ridge()`) |
+| `scn-skyline-*.svg` | 무너진 도시 | 생성기 | (`skyline()`) |
+| `scn-ruins-*.svg` | 폐허 | 생성기 | (`ruins()`) |
+| `scn-tree-*.svg` | 마른 나무 | 생성기 | (`deadTree()`) |
+
+원본: `sheets/sheet-b-motifs.png` · `sheets/sheet-c-signs.png`
+
+**SVG 규약** — 셋을 지키지 않으면 농도 규칙과 잉크 세트가 같이 깨진다.
+
+1. `fill="none"` · `stroke="currentColor"` — 색을 굽지 않는다
+2. `stroke-width="0.18"` (월드 단위. 천장에서 3.6px) — 아홉이 같은 굵기여야 농도가 거리로 읽힌다
+3. `viewBox` 가 곧 월드 크기다. 배율 계산을 그리는 쪽에 남기지 않는다
+4. 접지선(바닥이 닿는 y)이 `viewBox` 의 아래 변과 같도록 그린다. 능선 위에 세울 때 좌표가 하나로 끝난다
 
 ## 3. 붙는 자리
 
