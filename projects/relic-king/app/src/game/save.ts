@@ -179,7 +179,20 @@ const MIGRATIONS: Record<number, Migration> = {
     }
   }),
   /**
-   * v8 → v9 (v0.3.4 — 계측이 드러낸 두 가지 처방, notes/decisions.md G71).
+   * v8 → v9 (v0.5 기록패·고스트 라이벌, notes/decisions.md G76). **필드를 새로
+   * 요구하지 않는다** — 고스트는 `World.rivals`에 섞여 들어가는 평범한 `RivalState`이고,
+   * v8 저장분에는 그냥 고스트가 하나도 없을 뿐이다. 그래도 칸을 비워 두지 않고 한 줄
+   * 적어 두는 이유는, 여기가 비면 다음 사람이 "v9는 뭐가 달라졌지"를 코드 전체에서
+   * 찾게 되기 때문이다. 고스트 필드(`ghost`·`ownedExtra`·`fameExtra`)는 전부 선택
+   * 필드라 옛 라이벌 6명은 손대지 않는다.
+   */
+  8: (raw: any) => ({ ...raw, version: 9 }),
+  /**
+   * v9 → v10 (v0.3.4 계측 처방을 v0.5 위로 합치면서 — notes/decisions.md G81).
+   * 원래 v8→v9로 썼던 단계인데, 같은 번호를 v0.5의 기록패가 먼저 가져갔다.
+   * **이미 배포된 v9를 다시 정의하지 않고 뒤에 한 칸을 더 붙인다** — v9로 저장된
+   * 세이브가 이미 존재하므로 그 번호의 뜻을 바꾸면 그 세이브들이 이 단계를
+   * 건너뛴다.
    *
    * - `settings.spareDestination`을 `"sell"`로 채운다 — 기존 동작 그대로다.
    *   경매 출품은 **선택지 추가**이지 결함 수정이 아니므로 기존 플레이어의
@@ -196,9 +209,9 @@ const MIGRATIONS: Record<number, Migration> = {
    *   실제 지급은 `deserialize()`가 `grantStartingTeam()`으로 한다 — 여기서는
    *   `w.t` 기준 시각·uid 발급이 필요해 순수 변환으로 처리할 수 없다.
    */
-  8: (raw: any) => ({
+  9: (raw: any) => ({
     ...raw,
-    version: 9,
+    version: 10,
     settings: {
       ...raw.settings,
       spareDestination: raw.settings?.spareDestination ?? "sell"
@@ -273,7 +286,7 @@ export function deserialize(text: string): World {
   ensureShape(world);
   reconcileDataset(world);
   reviveUids(world);
-  // v8→v9 처방의 나머지 절반(위 마이그레이션 주석 참조) — uid 발급과 w.t 기준
+  // v9→v10 처방의 나머지 절반(위 마이그레이션 주석 참조) — uid 발급과 w.t 기준
   // 파견이 필요해 순수 변환 밖에서 한다. 이미 팀이나 단장이 있으면 아무 일도 하지 않는다.
   grantStartingTeam(world);
   return world;

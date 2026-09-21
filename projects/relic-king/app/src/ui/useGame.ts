@@ -5,11 +5,12 @@ import {
   advance, applyOffline, auctionSpares, blindSell, blindSellAll, buyBlackMarketListing, buyGear,
   buyHumidityLevel, buyLab, buyMuseumMarketing, buyRestorationLevel, buySecurityLevel, buyTeamGear, buyTeamWorker,
   buyVaultLevel, buyWorker, buildAuctionHouse, buildMuseum, click, createPersistentRecord, createTeam,
-  createWorld, dispatchExpedition, displayArtifact, emergencyDispatch, focusDig, fullRanking,
+  createWorld, dispatchExpedition, displayArtifact, emergencyDispatch, focusDig, fullRanking, sampleRanks,
   hireAuctioneer, hireCurator, hireForeman, listAtAuction, relocateBase, runAutoRoutine, sellArtifactCopies,
   sellSpares, sellTierAtMost, setRoutine, switchSite, undisplayArtifact, unlockSite, unlockTeamSlot,
   upgradeAuctionGrade, upgradeMuseumGrade
 } from "../game/engine";
+import { addGhost, encodeCard, makeCard, parseCard, removeGhost } from "../game/rivalcard";
 import { clear, clearRecord, exportText, importText, load, loadRecord, save, saveRecord } from "../game/save";
 import type { PersistentRecord, SiteId, Tier, World } from "../game/types";
 
@@ -179,6 +180,9 @@ export function useGame() {
       if (routineAcc >= AUTO_ROUTINE_INTERVAL_SECONDS) {
         routineAcc = 0;
         runAutoRoutine(world);
+        // 순위 성장률 표본(v0.5). step()이 아니라 여기서 찍는 이유는
+        // `World.rankSample` 주석에 있다 — 오프라인 적분 스텝 무관성을 지킨다.
+        sampleRanks(world, recordRef.current);
       }
 
       for (const a of report.appraised) {
@@ -382,6 +386,22 @@ export function useGame() {
 
     // ── 암시장(spec.md §11.5) ────────────────────────────────────────────
     buyBlackMarketListing: (id: number) => act((w) => buyBlackMarketListing(w, id)),
+
+    // ── 기록패(플레이어 간 비동기 경쟁, notes/decisions.md G76) ──────────
+    /** 지금 내 상태를 기록패 코드 문자열로 굽는다 */
+    makeCardText: () => encodeCard(makeCard(world, recordRef.current)),
+    /** 상대의 기록패를 받아들인다. 읽지 못하면 null — 예외를 던지지 않는다 */
+    receiveCard: (text: string): string | null => {
+      const card = parseCard(text);
+      if (!card) return null;
+      return act((w) => addGhost(w, card).name);
+    },
+    dropGhost: (id: string) => act((w) => removeGhost(w, id)),
+    setOwnerName: (name: string) => {
+      recordRef.current.ownerName = name.slice(0, 12).trim() || recordRef.current.ownerName;
+      saveRecord(recordRef.current);
+      bump((v) => v + 1);
+    },
 
     // ── 세이브 ──────────────────────────────────────────────────────────
     exportSave: () => exportText(world),

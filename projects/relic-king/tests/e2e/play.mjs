@@ -298,7 +298,7 @@ async function scenarioFirstSession() {
     // ④ 제보 — 첫 세션의 긴장 장치가 실제로 작동하는가(brief.md §첫 세션 10)
     //
     // **세이브가 아니라 DOM 을 본다.** 세이브는 10 게임초마다 쓰이는데 제보는
-    // 초반 중앙 15초 만에 닫힌다(eval.md §20.5) — 세이브에서 tip 을 보고 그다음
+    // 초반 중앙 15초 만에 닫힌다(eval.md §23.5) — 세이브에서 tip 을 보고 그다음
     // 화면을 확인하면 이미 사라진 뒤인 경우가 흔하다. 배너가 떠 있는 그 순간의
     // 내용을 한 번에 읽어야 한다.
     await h.tab("발굴");
@@ -326,7 +326,7 @@ async function scenarioFirstSession() {
       await h.shot("first-tip");
     }
 
-    // ⑤ 원정 — v0.3.4부터 발굴단 1팀이 처음부터 나와 있다(notes/decisions.md G71).
+    // ⑤ 원정 — v0.3.4부터 발굴단 1팀이 처음부터 나와 있다(notes/decisions.md G79).
     // 그래서 이 마일스톤의 질문이 바뀌었다: "20분 안에 꾸릴 수 있는가"가 아니라
     // **"처음부터 돌고 있는가"**다. 두 번째 팀을 꾸리는 시점은 따로 기록만 한다.
     const w = await h.state();
@@ -343,7 +343,7 @@ async function scenarioFirstSession() {
 
     c.note("첫 세션 마일스톤(게임초)", JSON.stringify(m));
     // brief.md §첫 세션이 20분 예산 안에 약속하는 것 — 거점·감정·전시·제보.
-    // 원정(발굴단)은 자금 곡선에 달려 있어 별도 판정한다(G69.5).
+    // 원정(발굴단)은 자금 곡선에 달려 있어 별도 판정한다(G77.5).
     const reached = ["base", "appraise", "display"].filter((k) => m[k] != null && m[k] <= BUDGET).length;
     c.ok("brief.md §첫 세션 — 거점·원정·감정·전시·제보가 전부 20분 안에 성립한다",
       reached === 3 && !!tipSnapshot && m.teams >= 1,
@@ -498,7 +498,7 @@ async function scenarioSteps() {
       w.lab = 6;
       w.vaultLevel = 5;
       for (const id of Object.keys(w.sites)) { w.sites[id].unlocked = true; w.sites[id].baseSince = 0; w.sites[id].layer = 6; }
-      // v0.3.4부터 첫 발굴단은 처음부터 있고 자동 순회 중이다(notes/decisions.md G71).
+      // v0.3.4부터 첫 발굴단은 처음부터 있고 자동 순회 중이다(notes/decisions.md G79).
       // "파견" 조작을 재는 자리이므로, 사람이 그 버튼을 마주하는 조건 — 즉 팀이
       // 귀환해 유휴인 상태 — 을 만들어 둔다. 루틴을 꺼야 자동 재파견이 유휴를
       // 도로 지우지 않는다.
@@ -776,7 +776,7 @@ async function scenarioUnique() {
 // ════════════════════════════════════════════════════════════════════════
 // S11. 조작 노력 계측 — 액션 하나에 몇 단계·몇 초가 드는가, 그리고
 //      화면에 **진입 경로가 있기는 한가**. `sim/playlog.ts`의 조작량 집계가
-//      곱하는 "단계/회"가 여기서 나온다(eval.md §20.3).
+//      곱하는 "단계/회"가 여기서 나온다(eval.md §23.3).
 // ════════════════════════════════════════════════════════════════════════
 async function scenarioEffort() {
   const c = makeChecks("effort — 조작 노력(단계 수·소요 시간·진입 경로)");
@@ -791,9 +791,15 @@ async function scenarioEffort() {
     await h.patchSave(`(w) => {
       w.funds = 5e11;
       w.lab = 6;
-      for (const id of Object.keys(w.sites)) { w.sites[id].unlocked = true; w.sites[id].baseSince = 0; w.sites[id].layer = 8; }
+      // 층은 전부 8층까지 파 두되, **base 는 둘만** 연다. "거점 해금"을 재려면
+      // 아직 본거지가 아닌 거점이 화면에 남아 있어야 하고, base 슬롯 상한이
+      // 3이라(MAX_OWNED_SITES) 둘을 열어 두면 한 자리가 남는다. 전부 열어 두면
+      // 그 조작 자체가 화면에서 사라져 "진입 경로 없음"으로 읽힌다.
+      for (const id of Object.keys(w.sites)) { w.sites[id].unlocked = false; w.sites[id].baseSince = null; w.sites[id].layer = 8; }
+      for (const id of ['korea', 'egypt']) { w.sites[id].unlocked = true; w.sites[id].baseSince = 0; }
+      w.activeSite = 'korea';
       // 첫 발굴단은 v0.3.4부터 처음부터 있고 루틴이 켜진 채 원정을 돈다
-      // (notes/decisions.md G71). "파견"과 "루틴 켜기"는 사람이 그 버튼을 실제로
+      // (notes/decisions.md G79). "파견"과 "루틴 켜기"는 사람이 그 버튼을 실제로
       // 마주하는 조건에서만 잴 수 있으므로 — 유휴 + 루틴 꺼짐 — 그 상태를 만든다.
       for (const t of w.teams) {
         t.status = 'idle'; t.arrivesAt = w.t; t.returnsAt = w.t;
@@ -990,9 +996,11 @@ async function scenarioEffort() {
     await h.clickText(".offline-modal button, .offline-toast button", "확인");
     await dismissOnboarding(h);
     await measure("거점 해금(새 base)", [
+      // 목록의 상태 배지는 v0.4부터 `MARKER_STYLE`의 한글 라벨이다(본거지/방문함/
+      // 미방문). 아직 본거지가 아닌 거점을 골라야 시트에 "새 본거지로 열기"가 뜬다.
       (x) => x.evaluate(`(() => {
         const rows = [...document.querySelectorAll('.site-list .site-row-main')];
-        const target = rows.find((r) => !r.innerText.includes('base'));
+        const target = rows.find((r) => !r.innerText.includes('본거지'));
         if (!target) return false;
         target.click();
         return true;
@@ -1004,7 +1012,7 @@ async function scenarioEffort() {
     // 엔진에는 있고(spec.md §9.3·§9.4), `useGame`도 노출하는데, 어떤 화면도
     // 부르지 않는다. 계측(sim/playlog.ts)에서 "단계 수 측정 불가"로 떨어진 항목이다.
     // 보관소 설비 네 가지(spec.md §9.3·§9.4). 계측이 "조작 단계 수를 셀 수 없는
-    // 조작"으로 처음 드러낸 항목이라(eval.md §20.4), 이제는 **진입 경로가 있는지**와
+    // 조작"으로 처음 드러낸 항목이라(eval.md §23.4), 이제는 **진입 경로가 있는지**와
     // **몇 단계인지**를 다른 액션과 똑같이 잰다.
     for (const [name, needle, key] of [
       ["보관소 정원 확장", "정원 확장", "vaultLevel"],

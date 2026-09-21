@@ -48,7 +48,7 @@ export function Header({
         </div>
       </div>
       <div className="header-nextdrop muted">
-        {nextDrop ? `다음 드랍 — ${nextDrop.label} ${SITE_BY_ID[nextDrop.site].name} ${nextDrop.layer}층 · ${clock(nextDrop.seconds)} 후` : "다음 드랍 — 발굴 중인 곳 없음"}
+        {nextDrop ? `다음 드랍 — ${nextDrop.label} ${SITE_BY_ID[nextDrop.site].city} ${nextDrop.layer}층 · ${clock(nextDrop.seconds)} 후` : "다음 드랍 — 발굴 중인 곳 없음"}
         {nextDrop?.floorBound ? (
           <em className="floor-note" title={`드랍 간격의 하한은 ${DROP_INTERVAL_FLOOR_SECONDS}초다. 이 거점은 이미 그 하한이라 발굴력을 더 올려도 드랍이 빨라지지 않는다 — 회수한 자금은 새 거점·시설·발굴단에 써야 순위로 돌아온다.`}>
             {" "}· 최소 간격 {DROP_INTERVAL_FLOOR_SECONDS}초 도달

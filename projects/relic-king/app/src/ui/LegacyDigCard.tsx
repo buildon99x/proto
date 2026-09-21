@@ -52,7 +52,7 @@ export function LegacyDigCard({ game }: { game: Game }) {
         {ownedBases.length > 1 ? (
           <select value={world.activeSite} onChange={(e) => game.goTo(e.target.value as typeof world.activeSite)}>
             {ownedBases.map((s) => (
-              <option key={s.id} value={s.id}>{s.name}</option>
+              <option key={s.id} value={s.id}>{s.city}</option>
             ))}
           </select>
         ) : null}
@@ -77,11 +77,11 @@ export function LegacyDigCard({ game }: { game: Game }) {
           <Upgrade label="장비" detail={`Lv.${world.gear} · 발굴력 ×1.6`} cost={gearCost(world.gear)} funds={world.funds} onBuy={game.buyGear} />
           <Upgrade label="감정소" detail={`Lv.${world.lab} · 1점당 ${appraiseSeconds(world.lab).toFixed(1)}초`} cost={labCost(world.lab)} funds={world.funds} onBuy={game.buyLab} />
           <p className="muted small">
-            직접 발굴력 {rate(digGuard(digPower(world)))}/s — {site.name} {sp.layer}층({site.eras[sp.layer - 1]})
+            직접 발굴력 {rate(digGuard(digPower(world)))}/s — {site.city} {sp.layer}층({site.eras[sp.layer - 1]})
           </p>
           {floorBound ? (
             <p className="stalled small">
-              {site.name}의 드랍 간격이 하한 {DROP_INTERVAL_FLOOR_SECONDS}초에 닿았다 — 여기서 발굴력을 더 올려도
+              {site.city}의 드랍 간격이 하한 {DROP_INTERVAL_FLOOR_SECONDS}초에 닿았다 — 여기서 발굴력을 더 올려도
               {sp.layer >= LAYERS_PER_SITE ? " 유물이 더 나오지 않는다" : " 드랍 수는 그대로고 층만 빨리 내려간다"}.
               자금은 새 거점·시설·발굴단에 써야 순위로 돌아온다.
             </p>

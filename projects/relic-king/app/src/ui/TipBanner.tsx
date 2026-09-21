@@ -51,7 +51,7 @@ function TipContent({ game, tip }: { game: Game; tip: Tip }) {
     <div className="tip" role="alert">
       <span className="tip-mark">제보</span>
       <span className="tip-text">
-        <strong>{site.name} {tip.layer}층</strong>에서 반응 — {a.name}{" "}
+        <strong>{site.city} {tip.layer}층</strong>에서 반응 — {a.name}{" "}
         <em style={{ color: TIER_COLOR[a.tier] }}>{TIER_NAME[a.tier]}</em>
         {tip.rivals.length > 0 ? <em className="muted"> · 같은 제보를 받은 수집가 {tip.rivals.length}명</em> : null}
       </span>

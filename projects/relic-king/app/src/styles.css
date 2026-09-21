@@ -248,7 +248,7 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 /* ── 세계 ─────────────────────────────── */
 .rank-list, .ledger-list, .log-list, .offline-list, .rules-notes { list-style: none; margin: 0; padding: 0; }
 .rank-list li {
-  display: grid; grid-template-columns: 22px 72px 1fr 90px 130px;
+  display: grid; grid-template-columns: 22px 104px 1fr 84px 118px;
   gap: 8px; align-items: center; padding: 4px 0; font-size: 12px;
 }
 .rank-list li.me { color: var(--accent); }
@@ -259,6 +259,25 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 .rank-list li.me .rank-bar > i { background: var(--accent); }
 .rank-val { text-align: right; font-variant-numeric: tabular-nums; }
 .rank-dig { font-size: 11px; }
+
+/* ── 기록패·추격전(v0.5) ─────────────────── */
+.race-panel { margin: 0 0 10px; padding: 8px 10px; background: var(--panel-2); border-radius: 6px; }
+.race-line { margin: 0; font-size: 12px; line-height: 1.6; }
+.race-line + .race-line { margin-top: 4px; }
+.rank-list li.rank-ghost .rank-bar > i { background: #6a6ea8; }
+.ghost-mark { color: #8a8fd0; margin-right: 4px; }
+.card-exchange { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.card-exchange h4 { margin: 0 0 6px; }
+.card-name-row { display: flex; align-items: center; gap: 8px; margin: 8px 0; font-size: 12px; }
+.card-name-row input {
+  flex: 1; min-width: 0; padding: 6px 8px; font: inherit; font-size: 12px;
+  color: var(--text); background: var(--ink); border: 1px solid var(--line); border-radius: 4px;
+}
+.ghost-list { list-style: none; margin: 8px 0 0; padding: 0; }
+.ghost-list li {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; padding: 3px 0; font-size: 12px;
+}
 
 .ledger-list li { display: grid; grid-template-columns: 16px 1fr auto; gap: 8px; padding: 3px 0; font-size: 12px; }
 .ledger-state.mine { color: var(--accent); }
@@ -324,6 +343,7 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 .modal-wide { max-width: 720px; }
 .modal-sheet-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
 .modal-sheet-head h2 { margin: 0; font-size: 18px; }
+.modal-sheet-sub { margin: 1px 0 0; }
 .modal-close { border: 0; background: none; font-size: 16px; padding: 4px 8px; }
 .modal-sheet-body { max-height: 70vh; overflow-y: auto; }
 
@@ -371,8 +391,24 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 }
 .explorer-map-toggle { display: none; margin-bottom: 10px; }
 .worldmap-wrap { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #14202a; }
+.worldmap-stage { position: relative; line-height: 0; }
 .worldmap-canvas { width: 100%; height: auto; display: block; image-rendering: pixelated; cursor: pointer; }
+/* 포커스 오버레이 — 키보드·스크린리더 전용. 포인터 판정은 캔버스가 "가장 가까운
+   마커가 이긴다"로 처리하므로(밀집 구간에서 44px 버튼끼리 겹쳐 서로를 가리는 걸
+   막는다) 이 레이어는 포인터를 통과시킨다. Enter 키의 click은 그대로 발생한다. */
+.worldmap-hitlayer { position: absolute; inset: 0; pointer-events: none; }
+.worldmap-hit {
+  position: absolute; width: 44px; height: 44px; margin: -22px 0 0 -22px;
+  padding: 0; border: 0; background: none; border-radius: 50%; pointer-events: none;
+}
+.worldmap-hit:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
 .worldmap-controls { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 6px 10px; }
+.worldmap-legend, .worldmap-status {
+  list-style: none; margin: 0; padding: 0 10px 8px; display: flex; flex-wrap: wrap;
+  gap: 4px 12px; font-size: 11px; color: var(--muted);
+}
+.worldmap-status { flex-direction: column; gap: 2px; border-top: 1px solid var(--line); padding-top: 6px; }
+.worldmap-legend-glyph { margin-right: 4px; font-size: 12px; }
 /* 데스크톱: 지도가 기본, 전체 목록은 보조(숨김). 모바일 기본값은 media query가 뒤집는다(§5) */
 .explorer-list-panel { display: none; margin-top: 10px; }
 .site-list { display: flex; flex-direction: column; gap: 4px; max-height: 320px; overflow-y: auto; }
@@ -516,8 +552,11 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
   .vault-pending { position: static; }
   .pending-body { min-height: 0; max-height: 260px; }
   .codex-detail { position: static; }
-  .rank-list li { grid-template-columns: 20px 64px 1fr 76px; }
+  .rank-list li { grid-template-columns: 20px 92px 1fr 62px; }
   .rank-dig { display: none; }
+  /* 고스트 행만은 좁은 화면에서도 부가 정보를 남긴다 — 거기 "언제 찍힌 기록인지"가
+     들어 있고, 그걸 지우면 모바일에서만 실시간 상대처럼 보인다. */
+  .rank-list li.rank-ghost .rank-dig { display: block; grid-column: 2 / -1; }
 
   .legacy-dig-body { grid-template-columns: 1fr; }
   .dig-canvas-wrap { max-width: 280px; margin: 0 auto; }
@@ -554,4 +593,35 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 @media (max-width: 560px) {
   .storage-row { flex-direction: column; align-items: stretch; }
   .storage-row button { width: 100%; }
+}
+
+/* ── 실사 디테일 블록 (v0.4, notes/decisions.md G73) ───────────────────── */
+.artifact-detail { margin-top: 8px; }
+.detail-toggle {
+  border: 1px solid var(--line); background: var(--panel-2); color: var(--muted);
+  border-radius: 4px; padding: 4px 9px; font-size: 11px; cursor: pointer;
+}
+.detail-toggle:hover { color: var(--text); border-color: var(--accent); }
+.detail-panel {
+  margin-top: 6px; padding: 8px 10px; border: 1px solid var(--line);
+  border-radius: 5px; background: #17140f;
+}
+.real-photo { margin: 0 0 8px; }
+.real-photo img {
+  display: block; max-width: 100%; height: auto; border-radius: 4px;
+  border: 1px solid var(--line); background: #0d0b08;
+}
+.real-photo figcaption { margin-top: 4px; font-size: 10px; color: var(--muted); line-height: 1.5; }
+.detail-specs { margin: 0 0 8px; display: grid; gap: 2px 8px; font-size: 11px; }
+.detail-specs > div { display: flex; gap: 8px; }
+.detail-specs dt { color: var(--muted); min-width: 72px; flex: none; }
+.detail-specs dd { margin: 0; }
+.detail-story, .detail-provenance { margin: 0 0 6px; font-size: 12px; line-height: 1.65; }
+.detail-provenance { color: #c9bfa9; }
+.detail-provenance b { color: var(--muted); font-weight: 600; margin-right: 3px; }
+.detail-sources { margin: 0; font-size: 10px; color: var(--muted); line-height: 1.6; }
+.detail-sources a { color: #8fa9c4; }
+.detail-pending {
+  margin: 6px 0 0; font-size: 10px; color: #b09a6a;
+  border-top: 1px dashed var(--line); padding-top: 5px;
 }

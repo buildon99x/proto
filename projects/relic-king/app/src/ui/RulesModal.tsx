@@ -6,7 +6,7 @@ import {
   CURATOR_RECOVERY_COEFF, tierWeights
 } from "../game/balance";
 import { rivalExpeditions } from "../game/engine";
-import { clock } from "../game/format";
+import { clock, withJosa } from "../game/format";
 import { Modal } from "./Modal";
 import type { Game } from "./useGame";
 
@@ -23,7 +23,7 @@ export function RulesModal({ game, onClose }: { game: Game; onClose: () => void 
   return (
     <Modal title="규칙" onClose={onClose} wide>
       <section className="rules-block">
-        <h4>층별 티어 확률 — {SITE_BY_ID[world.activeSite].name} 기준</h4>
+        <h4>층별 티어 확률 — {SITE_BY_ID[world.activeSite].city} 기준</h4>
         <table className="rules">
           <thead>
             <tr><th>층</th>{TIER_NAME.map((n) => <th key={n}>{n}</th>)}</tr>
@@ -77,8 +77,8 @@ export function RulesModal({ game, onClose }: { game: Game; onClose: () => void 
               <span className="rank-name">{r.name}</span>
               <span className="muted small">
                 {r.status === "home"
-                  ? `${SITE_BY_ID[r.site].name}(홈 거점)에서 발굴 중`
-                  : `제보를 쫓아 ${SITE_BY_ID[r.site].name}(으)로 이동 중 — 도착까지 ${clock(Math.max(0, (r.arrivesAt ?? 0) - world.t))}`}
+                  ? `${SITE_BY_ID[r.site].city}(홈 거점)에서 발굴 중`
+                  : `제보를 쫓아 ${withJosa(SITE_BY_ID[r.site].city, "로으로")} 이동 중 — 도착까지 ${clock(Math.max(0, (r.arrivesAt ?? 0) - world.t))}`}
               </span>
             </li>
           ))}

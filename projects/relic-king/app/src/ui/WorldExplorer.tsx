@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
 import { SITES, SITE_BY_ID } from "../game/balance";
-import { distanceKm } from "../game/sites";
+import { distanceKm, siteAnchorLabel, siteSearchText } from "../game/sites";
 import { recommendSites, teamHomeSite } from "../game/engine";
 import { won } from "../game/format";
 import type { SiteId } from "../game/types";
+import { MARKER_STYLE } from "../render/worldmap";
 import { WorldMapCanvas } from "./WorldMapCanvas";
 import { useBookmarks } from "./useBookmarks";
 import type { Game } from "./useGame";
@@ -13,6 +14,9 @@ import type { Game } from "./useGame";
  * 묶는다. 거점 선택은 여기서 끝나고(표#1의 1단계), 실제 파견은 `DispatchSheet`가
  * 이어받는다. 모바일에서는 지도가 보조 시각화로 밀려난다(§5) — 리스트가 기본
  * 화면이고, "지도로 보기"를 눌러야 지도가 뜬다.
+ *
+ * 거점 표기는 전 화면 공통 규칙을 따른다(작업 지시 B4): **1차 도시명, 2차 앵커
+ * 유적, 3차 나라**. 상태 뱃지의 색·글리프는 지도와 같은 `MARKER_STYLE`에서 온다.
  */
 export function WorldExplorer({ game, onSelectSite }: { game: Game; onSelectSite: (site: SiteId) => void }) {
   const { world } = game;
@@ -22,6 +26,8 @@ export function WorldExplorer({ game, onSelectSite }: { game: Game; onSelectSite
   const home = teamHomeSite(world);
 
   const distanceOf = (id: SiteId) => distanceKm(home, id);
+  const stateOf = (id: SiteId) =>
+    world.sites[id].unlocked ? "base" as const : world.visitedSites[id] ? "visited" as const : "unvisited" as const;
 
   const bookmarkedSorted = useMemo(
     () => bookmarks.map((id) => SITE_BY_ID[id]).sort((a, b) => distanceOf(a.id) - distanceOf(b.id)),
@@ -35,14 +41,9 @@ export function WorldExplorer({ game, onSelectSite }: { game: Game; onSelectSite
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const base = q
-      ? SITES.filter(
-          (s) =>
-            s.name.toLowerCase().includes(q) ||
-            s.anchor.toLowerCase().includes(q) ||
-            s.thematicCategory.some((c) => c.toLowerCase().includes(q))
-        )
-      : SITES;
+    // 도시명·나라·앵커·유물 종류 넷 모두에 걸린다 — 화면 1차 표기를 도시로
+    // 바꿨다고 검색어에서까지 나라를 지우면 "이집트"로 찾던 사람이 길을 잃는다.
+    const base = q ? SITES.filter((s) => siteSearchText(s).includes(q)) : SITES;
     return [...base].sort((a, b) => distanceOf(a.id) - distanceOf(b.id));
   }, [query, home]);
 
@@ -54,7 +55,7 @@ export function WorldExplorer({ game, onSelectSite }: { game: Game; onSelectSite
           <div className="explorer-chip-row">
             {bookmarkedSorted.map((s) => (
               <button key={s.id} type="button" className="explorer-chip" onClick={() => onSelectSite(s.id)}>
-                {s.name} <em className="muted">{formatHours(distanceOf(s.id))}</em>
+                {s.city} <em className="muted">{formatHours(distanceOf(s.id))}</em>
               </button>
             ))}
           </div>
@@ -67,7 +68,7 @@ export function WorldExplorer({ game, onSelectSite }: { game: Game; onSelectSite
           <div className="explorer-chip-row">
             {recommended.map((s) => (
               <button key={s.id} type="button" className="explorer-chip explorer-chip-accent" onClick={() => onSelectSite(s.id)}>
-                {s.name}
+                {s.city} <em className="muted">{s.country}</em>
               </button>
             ))}
           </div>
@@ -80,7 +81,7 @@ export function WorldExplorer({ game, onSelectSite }: { game: Game; onSelectSite
         <input
           type="search"
           className="explorer-search"
-          placeholder="🔍 거점·유적·유물 종류로 검색"
+          placeholder="🔍 도시·나라·유적·유물 종류로 검색"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
@@ -95,10 +96,14 @@ export function WorldExplorer({ game, onSelectSite }: { game: Game; onSelectSite
       </div>
 
       <div className="explorer-list-panel">
+        {filtered.length === 0 ? (
+          <p className="empty">"{query}"에 걸리는 거점이 없다.</p>
+        ) : null}
         <ul className="site-list">
           {filtered.map((s) => {
             const sp = world.sites[s.id];
             const bookmarked = isBookmarked(s.id);
+            const state = stateOf(s.id);
             return (
               <li key={s.id} className="site-row-line">
                 <button type="button" className="star-btn" onClick={() => toggle(s.id)} aria-label="북마크">
@@ -106,11 +111,13 @@ export function WorldExplorer({ game, onSelectSite }: { game: Game; onSelectSite
                 </button>
                 <button type="button" className="site-row-main" onClick={() => onSelectSite(s.id)}>
                   <span>
-                    {s.name} <em className="muted small">{s.anchor}</em>
+                    <span className="worldmap-legend-glyph" style={{ color: MARKER_STYLE[state].color }} aria-hidden="true">
+                      {MARKER_STYLE[state].glyph}
+                    </span>
+                    {s.city} <em className="muted small">{siteAnchorLabel(s)} · {s.country}</em>
                   </span>
                   <span className="muted small">
-                    {sp.unlocked ? "base" : ""} {formatHours(distanceOf(s.id))} · {sp.layer}층
-                    {!sp.unlocked && world.funds < s.unlockCost ? "" : ""}
+                    {MARKER_STYLE[state].label} · {formatHours(distanceOf(s.id))} · {sp.layer}층
                   </span>
                 </button>
               </li>

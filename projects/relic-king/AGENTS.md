@@ -22,13 +22,26 @@ Prototype Lab 개별 프로젝트. 레포 공통 규칙은 루트 `AGENTS.md`를
 ## 명령
 
 ```
-pnpm --filter relic-king dev      개발 서버
-pnpm --filter relic-king build    타입체크 + 빌드
-pnpm --filter relic-king sim      헤드리스 밸런스 시뮬 (--hours N)
-pnpm --filter relic-king smoke    실시간 브라우저 스모크 + 스크린샷
-pnpm --filter relic-king play     실제 앱을 사람처럼 조작하는 UI 검사 (시나리오 11종)
-pnpm --filter relic-king playlog  플레이 계측 — 이벤트 타임라인·조작 노력 (--hours N, --bucket N분)
+pnpm --filter relic-king dev         개발 서버
+pnpm --filter relic-king build       타입체크 + 빌드
+pnpm --filter relic-king sim         헤드리스 밸런스 시뮬 (--hours N [--ghosts N])
+pnpm --filter relic-king smoke       실시간 브라우저 스모크 + 스크린샷
+pnpm --filter relic-king play        실제 앱을 사람처럼 조작하는 UI 검사 (시나리오 11종)
+pnpm --filter relic-king playlog     플레이 계측 — 이벤트 타임라인·조작 노력 (--hours N, --bucket N분)
+
+pnpm --filter relic-king qa:sprites     아이콘 중복·거점 구분력·유일 12종 분리
+pnpm --filter relic-king qa:rivalcard   기록패·고스트 단위 검증(왕복·적대적 입력·격리)
+pnpm --filter relic-king qa:migration   세이브 마이그레이션 v1~v10
+pnpm --filter relic-king sheets         컨택트 시트 굽기 → assets/generated/
+
+node scripts/build-worldmap.mjs           세계지도 해안선 베이크(생성 파일을 다시 굽는다)
+node scripts/build-worldmap.mjs --check   커밋된 산출물이 최신인지만 검사
 ```
+
+**아이콘을 건드렸으면 `qa:sprites`를 돌리고 `sheets`로 구운 컨택트 시트를 눈으로
+본다.** 스프라이트 결함은 화면에서 안 보인다 — v0.3까지 `statue` 종 1,900여 개가
+"머리 + 바닥 막대"로만 그려지고 있었는데 어떤 QA도 잡지 못했고, 컨택트 시트를
+처음 구운 날 드러났다(notes/decisions.md G69).
 
 **밸런스 상수를 건드렸으면 `sim`을 돌리고 eval.md의 측정표를 갱신한다.** 방치형은
 눈으로 봐서 알 수 없다 — 첫 구현은 20분 만에 발굴력 194만/s가 나왔는데 화면상으론 멀쩡했다.
@@ -37,7 +50,7 @@ pnpm --filter relic-king playlog  플레이 계측 — 이벤트 타임라인·�
 옳다는 것은 다른 명제다. v0.3.2가 찾은 결함 6건 중 4건은 **엔진이 완벽히 정상인
 채로** 일어났다 — 배경 탭에 둔 시간이 통째로 사라지고, 제보 배너가 "반응할
 발굴단이 없다"고 거짓말하고, 유일 유물을 손에 넣는 순간에 아무 연출도 나지 않았다.
-어떤 헤드리스 시뮬로도 잡을 수 없는 종류다(`eval.md` §19, `notes/decisions.md` G69).
+어떤 헤드리스 시뮬로도 잡을 수 없는 종류다(`eval.md` §22, `notes/decisions.md` G77).
 
 **"클릭 0회"는 조작 0회가 아니다.** 척추 4번의 "클릭"은 삽질 클릭(진척 가속)을
 뜻한다. 엔딩까지 가는 플레이는 v0.3.3 계측에서 **334회·879단계**의 운영 조작을
@@ -47,30 +60,56 @@ pnpm --filter relic-king playlog  플레이 계측 — 이벤트 타임라인·�
 v0.3.3에서 2일차부터 죽어 있었다(도감 125/1,902종에서 정지) — v0.3.4의 시작
 발굴단·자동 순회로 2,090건·298종까지 살아났지만 3~4일차에 다시 멈춘다.
 페이싱·자동화를 건드릴 때는 `pnpm playlog`로 **두 극단을 같이** 재고 `eval.md`
-§20·§21 표를 갱신한다.
+§23·§24 표를 갱신한다.
 
 **168시간 지표가 좋아져도 첫 10시간은 따로 재라.** v0.3.4의 시작 발굴단·자동
 순회는 168시간 스케일에서 방치 플레이를 되살렸지만, `--bucket 10`으로 첫
 10시간을 보면 **그 발굴단이 35.3시간째 이동 중**이라 첫 세션에는 없는 것과
 같다. 같은 이유로 제보 공급도 3시간 30분에 끊긴다 — 두 현상 모두 168시간
-합계에서는 보이지 않는다(`notes/play-first-10h.md`, `eval.md` §22).
+합계에서는 보이지 않는다(`notes/play-first-10h.md`, `eval.md` §25).
 
 **테스트가 깨지면 전제부터 의심한다.** v0.3.4의 처방 하나(시작 발굴단)가
 `qa_migration`·`qa_expedition`·`play` 5곳·`smoke` 1곳을 깼는데, 전부 **단언이
 틀린 게 아니라 전제가 낡은** 경우였다. 단언을 느슨하게 해서 통과시키지 말고,
 사람이 실제로 그 조작을 마주하는 조건을 만들어 다시 재라
-(`notes/decisions.md` G72.2).
+(`notes/decisions.md` G80.2).
 
 ## 환경 제약
 
-- 외부 네트워크가 차단돼 있다(박물관 오픈액세스 API 403 확인). 유물 도트는 절차 생성이고,
-  런타임에 외부 리소스를 받지 않는다.
+- **런타임에 외부 리소스를 받지 않는다.** 이건 협상 대상이 아니다 — 타일 서버·CDN·폰트·API
+  전부. 유물 도트는 절차 생성이다.
+- **빌드타임은 다르다.** "외부 네트워크가 차단돼 있다"는 기록은 박물관 오픈액세스 API
+  403 하나에서 나왔는데, 실제로는 절반만 맞다: API는 막혀 있지만 `raw`/`media`
+  githubusercontent와 **npm 레지스트리는 열려 있다**(`notes/decisions.md` G59·G75.1).
+  이 전제를 잘못 넓게 읽어 두 번 실기했다 — 유물 데이터 확대(G59)와 세계지도
+  해안선(G75.1)이 각각 "불가능"으로 미뤄져 있었다. **받아서 정적 산출물로 구워 커밋하는
+  것은 허용이고, 그 경로로 들어온 산출물이 이미 둘 있다**(`artifacts.generated.ts`,
+  `render/worldmap-raster.ts`). 막혔다고 적기 전에 실제로 한 번 찔러 봐라.
 - 레포 공용 `pnpm playtest`는 puppeteer가 크롬을 내려받아야 해서 쓸 수 없다. 대신
   미리 깔린 크로미움을 CDP로 직접 모는 `tests/e2e/smoke.mjs`를 쓴다.
 
 ## 구조
 
 - `app/src/game/` — 순수 TypeScript 엔진. React 없이 단독으로 돌고, 시뮬도 같은 코드를 탄다.
-- `app/src/render/` — 팔레트, 절차적 스프라이트 생성기, 지층 캔버스.
+- `app/src/render/` — 팔레트, 절차적 스프라이트 생성기, 지층 캔버스, 세계지도.
+  `worldmap-raster.ts`는 **생성 파일이다** — 손으로 고치지 말고 `scripts/build-worldmap.mjs`를
+  다시 돌려라.
 - `app/src/ui/` — React 셸. 게임 로직을 여기에 두지 않는다.
 - `app/src/sim/` — 헤드리스 시뮬. 앱 번들에는 포함되지 않는다(진입점에서 import 하지 않음).
+
+## 플레이어 간 경쟁(v0.5) — 건드리기 전에 읽을 것
+
+기록패(`app/src/game/rivalcard.ts`)는 **서버 없이** 상태를 주고받는 유일한 통로다.
+설계 근거는 `notes/decisions.md` G76, 규격은 `spec.md` §13.5, 실측은 `eval.md` §21.
+아래 넷은 전부 "받으면 손해"를 막는 장치다 — 하나라도 풀면 아무도 기록패를 주고받지
+않게 되고, 기능 자체가 죽는다.
+
+1. **고스트는 내 원장을 비우지 않는다.** 기록패가 주장하는 유일 소장도, 고스트의
+   배경 발굴(`shadowTake`)도 마찬가지다. 유물을 걸고 다투는 자리는 **제보 레이스
+   하나**다.
+2. **고스트는 재투자하지 않는다.** 기록된 페이스로만 자란다. NPC 재투자 루프를
+   태웠더니 9,423/s가 4,243,517/s가 됐다.
+3. **엔딩 판정에 고스트는 들어가지 않는다.** 순위표에는 보이고 엔딩에는 안 센다 —
+   이미 완주한 친구의 기록패 하나가 내 완주를 영구히 막으면 안 된다.
+4. **체크섬은 보안 장치가 아니다.** 위조는 이 구조에서 막을 수 없다. 방어선은
+   모든 필드의 상한과 위 1~3의 격리다.

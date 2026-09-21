@@ -6,6 +6,77 @@ export type Tier = 0 | 1 | 2 | 3 | 4;
 export type SourceStatus = "verified" | "pending";
 
 /**
+ * 실사 이미지 라이선스 허용 목록 (v0.4 — notes/decisions.md G72,
+ * notes/artifacts-dataset.md §6).
+ *
+ * **전파조건(share-alike)이 붙은 라이선스는 이 목록에 없다.** CC BY-SA 이미지를
+ * 게임 번들에 넣으면 그 번들을 SA 조건으로 배포해야 한다는 해석을 감당해야 하는데,
+ * 장식·보조 자료 한 장 때문에 레포 전체의 배포 조건을 건드릴 이유가 없다. 퍼블릭
+ * 도메인·CC0·CC BY만 쓴다 — CC BY는 저작자 표시만 하면 되고, 그 표시는 상세
+ * 화면에 기계가 읽을 수 있는 형태로 같이 싣는다.
+ */
+export type ImageLicense =
+  | "pd"          // 퍼블릭 도메인(저작권 만료·저작권 포기·미국 정부 저작물 등)
+  | "cc0"         // CC0 1.0
+  | "cc-by-4.0"
+  | "cc-by-3.0"
+  | "cc-by-2.5"
+  | "cc-by-2.0";
+
+/**
+ * 실사 이미지 한 장 (v0.4 — notes/decisions.md G72).
+ *
+ * `file`은 **번들 안의 경로**다. 런타임에 외부 요청을 하지 않는다는 협상불가 항목
+ * (프로젝트 AGENTS.md)을 지키기 위해, 수집은 개발 시점에 끝나고 파일만 레포에
+ * 들어온다(scripts/fetch-images.mjs).
+ *
+ * 라이선스·저작자·원본 URL은 **선택 필드가 아니다.** 이미지를 화면에 띄우는 쪽이
+ * 표기 의무를 지므로, 데이터가 그 의무를 이행할 수 있는 형태로 들고 있어야 한다.
+ */
+export type ArtifactImage = {
+  /** 번들 내 경로(예: `artifacts/tutankhamun-mask.jpg`). BASE_URL 기준 상대경로 */
+  file: string;
+  width: number;
+  height: number;
+  bytes: number;
+  license: ImageLicense;
+  /** 저작자 표기 문자열. 라이선스가 요구하면 반드시 화면에 노출한다 */
+  credit: string;
+  /** 원본 파일 설명 페이지 URL(위키미디어 커먼즈 File: 페이지) */
+  sourceUrl: string;
+  /** 라이선스 전문 URL. pd·cc0는 생략 가능 */
+  licenseUrl?: string;
+  /** 수집 시각(ISO 8601). 원본 라이선스가 나중에 바뀌었는지 추적하는 기준점 */
+  fetchedAt: string;
+};
+
+/**
+ * 실사 디테일 (v0.4 — notes/decisions.md G73).
+ *
+ * `note`는 2~3문장 규격이다(notes/artifacts-dataset.md §5 B8) — 카드 뒤집기 연출의
+ * 리듬 때문이다. 그래서 "왜 남았는지, 무엇이 특이한지" 같은 밀도 높은 사실은
+ * `note`에 밀어 넣지 않고 이 필드로 갈라, **상세 화면에서만** 접힌 채로 둔다.
+ * 드랍 연출(RevealModal)은 이 필드를 읽지 않는다.
+ */
+export type ArtifactDetail = {
+  /** 계측·재질 사실. 라벨-값 짧은 쌍의 목록 */
+  specs?: { label: string; value: string }[];
+  /** 이 물건이 왜 남았는지 · 무엇이 특이한지. 2~4문장. `note`와 겹치지 않게 쓴다 */
+  story?: string;
+  /** 발견·소장 경위(발굴 연도·발굴자·이동 경로) */
+  provenance?: string;
+  /** 이 절의 근거 URL. `Artifact.source`와 별도로, 문장 단위 근거가 있을 때만 채운다 */
+  refs?: string[];
+  /**
+   * 이 디테일의 검증 상태. §5의 `sourceStatus`와 같은 어휘를 쓴다 — 1차 자료를
+   * 실제로 열어 대조했을 때만 "verified"다. 네트워크가 막힌 세션에서 쓴 항목은
+   * 전부 "pending"이고, 상세 화면의 이 블록에만 "검증 대기" 배지가 붙는다
+   * (드랍 연출·감정 카드에는 붙지 않는다 — §5 B8).
+   */
+  sourceStatus: SourceStatus;
+};
+
+/**
  * 12거점(v0.2, notes/world-map.md §0·§1). 기존 3거점(korea/egypt/rome)은
  * 이름을 바꾸지 않는다 — 이미 앵커 도시 하나짜리 지역이었다.
  */
@@ -40,6 +111,13 @@ export type Artifact = {
   shape: Shape;
   palette: PaletteId;
   seed: number;
+  /**
+   * 실루엣 변형 인덱스(0 ~ SHAPE_VARIANTS-1, v0.4 — notes/decisions.md G69).
+   * `shape` 하나에 실루엣 6종이 있고 이 값이 그중 하나를 고른다. 시드 해시로
+   * 뽑으면 같은 (거점, shape, palette) 조합 안에서 1/6 확률로 겹쳐 아이콘이
+   * 나란히 붙으므로, `artifacts.ts`가 조합별 라운드로빈으로 배정한다.
+   */
+  spriteVariant: number;
   /** 드랍 시점 보존 상태 기준값(notes/artifacts-dataset.md §4 공식으로 결정론
    *  산출). VaultItem.condition의 초기값으로 그대로 쓰인다. */
   condition: Condition;
@@ -48,6 +126,10 @@ export type Artifact = {
   source: string[];
   /** "pending"은 드랍 풀에서 제외된다(G-B8, engine.ts candidates()·spawnTip()). */
   sourceStatus: SourceStatus;
+  /** 실사 디테일(v0.4). 없으면 상세 화면에서 그 블록이 뜨지 않는다 — `game/details.ts` */
+  detail?: ArtifactDetail;
+  /** 실사 이미지(v0.4). 없으면 도트 아이콘만 뜬다 — `game/images.generated.ts` */
+  image?: ArtifactImage;
 };
 
 export type OwnerId = "player" | string;
@@ -153,6 +235,35 @@ export type RivalState = {
    * arrivesAt에 도달하면 engine.ts의 resolveRivalTipChases가 1회 판정하고 비운다.
    */
   tipChase?: { artifactId: string; layer: number; arrivesAt: number } | null;
+  /**
+   * 기록패로 받은 사람 상대(고스트)일 때만 채워진다(v0.5, notes/decisions.md G76).
+   * 없으면 NPC 라이벌이다 — `RIVAL_SEED`가 만드는 6명은 이 세 필드가 전부 undefined이고,
+   * `fullRanking()`도 undefined를 0으로 취급하므로 NPC 채점은 v0.4와 완전히 같다.
+   */
+  ghost?: GhostMeta;
+  /**
+   * 기록패 시점에 상대가 이미 갖고 있던 종 수 중 **이 세계에서 실제로 캐지 않은 몫**.
+   * `owned` 배열에 가짜 id를 1,400개 채우는 대신 숫자로 들고 있는다 — 배열을 채우면
+   * 세이브가 그만큼 커지고 `owned.includes()`가 매 드랍마다 그 길이를 훑는다.
+   * `fullRanking()`의 도감 축이 `owned.length`에 이 값을 더해 읽는다.
+   */
+  ownedExtra?: number;
+  /**
+   * 기록패의 명성 점수 중 유일(T4) 최초발굴로 설명되지 않는 몫 = 관람객 항.
+   * 라이벌 채점식에는 관람객 항이 없어(박물관이 없다) 이걸 따로 들지 않으면
+   * 사람 상대의 명성이 실제보다 낮게 찍힌다 — 기록패 왕복이 어긋나는 유일한 축이었다.
+   */
+  fameExtra?: number;
+};
+
+/** 고스트의 출처 정보(v0.5). 화면이 "언제 찍힌 기록인지"를 숨기지 않기 위해 필요하다 */
+export type GhostMeta = {
+  /** 같은 사람인지 판별하는 키. 기록패 본문에서 파생되며 이름과 무관하다 */
+  key: string;
+  /** 기록패를 구울 때의 상대 `world.t`(초) — "상대의 플레이 시간" */
+  capturedT: number;
+  /** 내 세계에서 이 고스트를 받아들인 시각(내 `world.t`, 초) */
+  receivedT: number;
 };
 
 export type Tip = {
@@ -228,7 +339,7 @@ export type SeasonState = {
 };
 
 export type World = {
-  version: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+  version: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
   t: number;
   lastTickAt: number;
   funds: number;
@@ -256,6 +367,17 @@ export type World = {
   ended: boolean;
   /** v0.2 신설(spec.md §13.2·§13.4) — 기본값(시즌 1, t=0 시작)으로 항상 안전하게 채워진다 */
   seasonState: SeasonState;
+  /**
+   * 순위 성장률 표본(v0.5). "이 속도면 몇 시간 뒤에 추월한다"를 계산하는 유일한 근거다 —
+   * 순위 점수는 발굴력의 단순 함수가 아니라서(자산·도감·명성이 서로 다른 속도로 는다)
+   * 추정식을 세우는 대신 **실제로 두 시점을 재서 나눈다**.
+   *
+   * `step()`이 아니라 UI 틱이 채운다(`sampleRanks`). `step()` 안에서 채우면 오프라인
+   * 적분의 스텝 무관성 검증(`qa_expedition.ts`)이 보는 세계 상태가 스텝 크기에 따라
+   * 갈라진다 — 표시용 값 하나 때문에 그 성질을 잃을 이유가 없다. 없어도(undefined)
+   * 게임은 정상이고, 순위표가 "측정 중"이라고 적을 뿐이다.
+   */
+  rankSample?: { t: number; byId: Record<string, number> } | null;
 
   // ── v0.2 2단계: 세계지도·거점·원정·스텝(신설) ───────────────────────────
   /** 발굴단(spec.md §8.1). 초기엔 0개 — 단장을 고용해 팀을 만들어야 생긴다. */
@@ -471,4 +593,10 @@ export type PersistentRecord = {
   /** 시즌 종료 시점 RANK_SCORE 1위 기록(spec.md §13.2 2번). 크라운 판정 로직은
    *  후속 단계 — 이번 단계는 필드만 선언한다 */
   championHistory: { season: number; ownerName: string; rankScore: number }[];
+  /**
+   * 기록패에 찍히는 내 표시 이름(v0.5). 시즌이 아니라 계정에 붙는 값이라 여기 둔다.
+   * `loadRecord()`가 기본값 위에 얕게 덮어쓰므로 이 필드가 없는 옛 저장도 그대로 읽힌다
+   * — 마이그레이션 체인이 필요 없다.
+   */
+  ownerName: string;
 };
