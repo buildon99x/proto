@@ -5,6 +5,7 @@ import { codexProgress } from "../game/engine";
 import { duration, josa, percent } from "../game/format";
 import { TIER_COLOR } from "../render/palette";
 import { Sprite } from "./Sprite";
+import { ArtifactDetailBlock } from "./ArtifactDetail";
 import type { Artifact, SiteId } from "../game/types";
 import type { Game } from "./useGame";
 
@@ -153,6 +154,7 @@ function Entry({ artifact, game }: { artifact: Artifact; game: Game }) {
               세계에 남은 수량 0 — 더는 발굴로 얻을 수 없다.
             </p>
           ) : null}
+          <ArtifactDetailBlock artifact={artifact} />
         </>
       ) : (
         <p className="muted">

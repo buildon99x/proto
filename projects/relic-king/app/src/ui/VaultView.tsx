@@ -12,6 +12,7 @@ import { auctionPriceMult } from "../game/staff";
 import { Modal } from "./Modal";
 import { SPARE_SELL_OPTIONS } from "./sellOptions";
 import { Sprite } from "./Sprite";
+import { ArtifactDetailBlock } from "./ArtifactDetail";
 import type { Artifact, Auctioneer, Condition, Curator, SiteId, Tier, VaultItem, World } from "../game/types";
 import type { Game } from "./useGame";
 
@@ -306,6 +307,7 @@ function Detail({ game, stack }: { game: Game; stack: Stack }) {
         <p className="muted small">{a.era} · {a.origin} · 현 소장처 {a.holder}</p>
         <p className="note">{a.note}</p>
         {a.disputed ? <p className="disputed">반환 논쟁 — {a.disputed}</p> : null}
+        <ArtifactDetailBlock artifact={a} />
         {available.length > 0 ? (
           <p className="muted small">
             상태 {available.map((i) => CONDITION_NAME[i.condition]).join(", ")}
