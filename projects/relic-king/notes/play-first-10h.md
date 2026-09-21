@@ -48,17 +48,18 @@
 
 ```mermaid
 flowchart LR
-    P1["① 첫 삽<br/>0~10분<br/>신규종 24 · 제보 0<br/>결정할 것이 없다"]
-    P2["② 첫 경쟁<br/>10분~1시간 10분<br/>신규종 86 · 제보 19회<br/>첫 레이스 승·패"]
-    P3["③ 거점 개봉<br/>1시간 10분~3시간 30분<br/>신규종 310 · 제보 43회<br/>10분에 58종이 쏟아지는 순간 2회"]
-    P4["④ 조용해짐<br/>3시간 30분~4시간 20분<br/>신규종 12 · 제보 0<br/>제보가 먼저 끊긴다"]
-    P5["⑤ 배경 소음<br/>4시간 20분~10시간<br/>신규종 4 · 제보 0<br/>남은 사건은 '빼앗김' 15건"]
+    P1["① 첫 삽<br/>0~10분<br/>신규종 24<br/>제보 0"]
+    P2["② 첫 경쟁<br/>10분~<br/>1시간 10분<br/>신규종 86<br/>제보 19회"]
+    P3["③ 거점 개봉<br/>1시간 10분~<br/>3시간 30분<br/>신규종 310<br/>제보 43회"]
+    P4["④ 조용해짐<br/>3시간 30분~<br/>4시간 20분<br/>신규종 12<br/>제보 0"]
+    P5["⑤ 배경 소음<br/>4시간 20분~<br/>10시간<br/>신규종 4<br/>제보 0"]
+    OUT["둘째 날 이후"]
 
     P1 -->|"첫 제보 12분"| P2
-    P2 -->|"자금 300만₩ → 두 번째 base 1시간 18분"| P3
-    P3 -->|"base 3개 상한 · 활성 거점 T2+ 고갈"| P4
+    P2 -->|"두 번째 base<br/>1시간 18분"| P3
+    P3 -->|"base 상한 3<br/>T2+ 고갈"| P4
     P4 -->|"남은 종도 소진"| P5
-    P5 -.->|"발굴단 도착 35.3시간<br/>— 이 창 밖이다"| OUT["둘째 날 이후"]
+    P5 -.->|"발굴단 도착<br/>35.3시간"| OUT
 
     style P5 fill:#f8d7da,stroke:#c82333
 ```
@@ -211,32 +212,38 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    subgraph A["고리 1 — 자기강화 (1초 단위, 항상 돈다)"]
+    subgraph A["고리 1 — 자기강화 · 항상 돈다"]
+        direction LR
         drop["유물 드랍"] --> appr["감정"] --> sell["매각"] --> funds["자금"]
-        funds --> invest["인부·장비·감정소<br/>(게임이 자동으로 산다)"] --> dig["발굴력 ↑"] --> drop
+        funds --> invest["인부·장비<br/>감정소<br/>자동 구매"] --> dig["발굴력 ↑"] --> drop
     end
 
-    subgraph B["고리 2 — 도감 (첫 10시간의 실제 보상)"]
-        drop --> newsp["새 종 발견"] --> codex["도감 +1"]
-        codex --> nothing["…그리고 끝.<br/>도감은 다른 축에<br/>아무것도 주지 않는다"]
-    end
-
-    subgraph C["고리 3 — 확장 (두 번 터지고 멈춘다)"]
-        funds --> base["거점 해금<br/>1:18 · 2:18"] --> flood["그 거점 저층 종<br/>한꺼번에 58·56종"] --> codex
+    subgraph C["고리 3 — 확장 · 두 번 터지고 멈춘다"]
+        direction LR
+        base["거점 해금<br/>1시간 18분<br/>2시간 18분"] --> flood["그 거점 저층 종<br/>58종 · 56종"]
         base --> cap["base 상한 3<br/>= 더 없음"]
     end
 
-    subgraph D["고리 4 — 선점·상실 (3시간 30분에 사라진다)"]
-        site["활성 거점"] --> pool["제보 풀<br/>T2+ · 재고 있음 · 층 도달"] --> tip["제보 배너"]
-        tip --> race["레이스 승 47 / 패 14"] --> codex
-        pool --> empty["활성 거점 T2+ 고갈<br/>→ 풀 0 (4시간)"]
+    subgraph D["고리 4 — 선점·상실 · 3시간 30분에 사라진다"]
+        direction LR
+        site["활성 거점"] --> pool["제보 풀"] --> tip["제보 배너"] --> race["레이스<br/>승 47 / 패 14"]
+        pool --> empty["T2+ 고갈<br/>→ 풀 0"]
     end
 
+    subgraph B["고리 2 — 도감 · 첫 10시간의 실제 보상"]
+        direction LR
+        newsp["새 종 발견"] --> codex["도감 +1"] --> nofb["되먹임 없음<br/>다른 축에<br/>영향 없음"]
+    end
+
+    drop --> newsp
+    funds --> base
+    flood --> codex
+    race --> codex
     team["발굴단"] -.->|"도착 35.3시간"| pool
     team -.->|"도착 35.3시간"| newsp
     cap -.->|"천장을 넘을 유일한 수단"| team
 
-    style nothing fill:#fff3cd,stroke:#d39e00
+    style nofb fill:#fff3cd,stroke:#d39e00
     style cap fill:#f8d7da,stroke:#c82333
     style empty fill:#f8d7da,stroke:#c82333
     style team fill:#f8d7da,stroke:#c82333
@@ -269,15 +276,15 @@ gantt
     title 시작 발굴단의 첫 원정 (서울 기준) — 플레이어가 보는 10시간은 맨 왼쪽 끝
     dateFormat X
     axisFormat %s h
-    section 실제 (추천 1위 = 페루)
+    section 실제 · 페루
     이동 35.3h          :0, 35
     현지 작업 106h       :35, 141
     복귀 35.3h          :141, 177
-    section 만약 일본이었다면
+    section 일본이면
     이동 1.3h           :0, 2
     현지 작업 3.8h       :2, 6
     복귀 1.3h           :6, 7
-    section 플레이어가 앉아 있는 시간
+    section 이 창
     첫 10시간           :0, 10
 ```
 
@@ -319,15 +326,10 @@ flowchart LR
     layer -->|"3.5시간: 32종"| react{"내가 반응할<br/>수 있나"}
     react -->|"3.5시간: 2종"| tip["제보 배너"]
     react -->|"4시간: 0종"| dead["제보 없음<br/>— 10시간까지"]
-
-    subgraph R["반응 가능 = 셋 중 하나"]
-        r1["활성 거점"]
-        r2["발굴단이 on_site"]
-        r3["유휴 발굴단의<br/>급파 4시간 이내"]
-    end
-    react -.-> R
+    react -.-> R["반응 가능<br/>= 셋 중 하나<br/>① 활성 거점<br/>② 발굴단 현지<br/>③ 급파 4시간"]
 
     style dead fill:#f8d7da,stroke:#c82333
+    style R fill:#fffbe6,stroke:#d39e00
 ```
 
 30분 간격 실측(운영 플레이):
@@ -356,12 +358,12 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    f["자금"] --> u1["korea (시작)"]
+    f["자금"] --> u1["korea<br/>시작"]
     f --> u2["greece 300만₩<br/>1시간 18분"]
     f --> u3["egypt 500만₩<br/>2시간 18분"]
-    u3 --> cap{"MAX_OWNED_SITES = 3"}
+    u3 --> cap{"MAX_OWNED_SITES<br/>= 3"}
     cap -->|"turkey 1,200만₩<br/>자금은 3시간 40분에 충분"| blocked["열 수 없음"]
-    cap --> ceiling["도감 천장 434종<br/>= 1,902종의 22.8%"]
+    cap --> ceiling["도감 천장 434종<br/>1,902종의 22.8%"]
 
     style blocked fill:#f8d7da,stroke:#c82333
     style ceiling fill:#f8d7da,stroke:#c82333
@@ -377,14 +379,14 @@ base 슬롯 상한이라는 **규칙** 때문에 막힌 것이고, 그건 설계
 
 ```mermaid
 flowchart LR
-    root["recommendSites가<br/>거리를 보지 않는다"] --> a["시작 발굴단<br/>35.3h 이동"]
-    a --> b["제보 풀 = 활성 거점 하나<br/>→ 4시간에 0"]
-    a --> c["다른 거점의 종이<br/>첫 10시간에 안 들어온다"]
+    root["recommendSites<br/>— 거리를 무시"] --> a["시작 발굴단<br/>35.3시간 이동"]
+    a --> b["제보 풀 =<br/>활성 거점 하나<br/>→ 4시간에 0"]
+    a --> c["다른 거점의 종<br/>첫 10시간에<br/>안 들어온다"]
     d["base 상한 3"] --> c
-    c --> e["도감 3시간 30분에 418종<br/>이후 6시간 30분간 +16종"]
-    b --> f["긴장 장치 소멸<br/>3시간 30분"]
-    e --> g["⑤ 배경 소음 6시간"]
-    f --> g
+    c --> e["도감 3시간 30분<br/>418종<br/>이후 +16종"]
+    b --> ff["긴장 장치 소멸<br/>3시간 30분"]
+    e --> g["죽은 6시간 30분<br/>④ + ⑤"]
+    ff --> g
 
     style root fill:#f8d7da,stroke:#c82333
     style g fill:#f8d7da,stroke:#c82333
