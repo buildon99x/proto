@@ -120,9 +120,18 @@ console.log("\n2. 168시간 방치 — 도감 단조성 회귀 게이트");
 
 const HOURS = 168;
 const ROUTINE_SECONDS = 60;
+/**
+ * 대조군 비교를 **같은 드랍 수**에서 한다(v0.6). 두 월드는 첫 매각부터 갈라지고,
+ * 켠 쪽은 자금이 많아 재투자가 빨라 **더 빨리 자란다** — v0.6의 압축 뒤로는
+ * 168시간 끝에서 발굴력이 9,544/s 대 27,838/s로 3배 차이가 난다. 그 시점의
+ * 도감을 나란히 놓는 건 "같은 게임의 두 설정"이 아니라 **진도가 다른 두 판**을
+ * 비교하는 것이다(실측 −9종). 같은 양을 판 시점에서 보면 질문이 원래 뜻으로
+ * 돌아온다: "같은 만큼 팠을 때, 켠 쪽 도감이 무너지는가."
+ */
+const CODEX_COMPARE_DROPS = 20_000;
 
 function idle(spareRule: Tier | null): {
-  w: World; minCodexDelta: number; sparesLeft: number; highTierLost: number;
+  w: World; minCodexDelta: number; sparesLeft: number; highTierLost: number; codexAtDrops: number;
 } {
   const w = createWorld();
   w.settings.autoSellSpareBelow = spareRule;
@@ -130,6 +139,7 @@ function idle(spareRule: Tier | null): {
   let minCodexDelta = 0;
   let sparesLeft = 0;
   let highTierLost = 0;
+  let codexAtDrops = 0;
   for (let s = 0; s < HOURS * 3600; s += ROUTINE_SECONDS) {
     advance(w, ROUTINE_SECONDS, false, 1);
     // 루틴 **직전**의 국보·유일 목록을 떠 두고 직후와 비교한다 — 이 사이에는
@@ -144,8 +154,9 @@ function idle(spareRule: Tier | null): {
     minCodexDelta = Math.min(minCodexDelta, owned - prevOwned);
     prevOwned = owned;
     sparesLeft = spareVaultItems(w, spareRule).length;
+    if (codexAtDrops === 0 && w.stats.drops >= CODEX_COMPARE_DROPS) codexAtDrops = owned;
   }
-  return { w, minCodexDelta, sparesLeft, highTierLost };
+  return { w, minCodexDelta, sparesLeft, highTierLost, codexAtDrops: codexAtDrops || codexProgress(w).owned };
 }
 
 const on = idle(2);
@@ -187,9 +198,16 @@ console.log(row("기능 켬", on.w));
 // 않는다(결정론이 깨진 게 아니라, 서로 다른 두 게임이다). 게이트는 "켜면
 // 도감이 무너진다"를 잡을 만큼만 느슨하게 둔다 — 도감 단조성이라는 진짜
 // 불변식은 위 2번이 틱 단위로 이미 지킨다.
-const codexGap = codexProgress(off.w).owned - codexProgress(on.w).owned;
-check(`켠다고 도감이 무너지지 않는다(끔 대비 ${codexGap >= 0 ? "-" : "+"}${Math.abs(codexGap)}종, 발산 잡음 허용 ±3)`,
-  Math.abs(codexGap) <= 3);
+const codexGap = off.codexAtDrops - on.codexAtDrops;
+// **한쪽 방향만 본다.** 이 게이트가 잡으려는 것은 "켜면 도감이 무너진다"이지
+// "두 판이 똑같다"가 아니다(똑같을 수 없다 — 위 주석 참조). 켠 쪽이 **앞서는**
+// 것은 결함이 아니라 이 기능의 부수 효과다: 중복분을 팔아 생긴 자금이 장비로
+// 가고, 깊은 층이 빨리 열려 같은 드랍 수에서 티어 구성이 좋아진다(실측 +12종).
+check(
+  `켠다고 도감이 무너지지 않는다 — 드랍 ${CODEX_COMPARE_DROPS.toLocaleString("ko-KR")}점 시점 ` +
+  `끔 ${off.codexAtDrops}종 / 켬 ${on.codexAtDrops}종 (켠 쪽 ${codexGap >= 0 ? "-" : "+"}${Math.abs(codexGap)}종, 뒤처짐 허용 3종)`,
+  codexGap <= 3
+);
 check("켠 쪽 소장고가 끈 쪽보다 적다(중복분이 실제로 빠져나갔다)", on.w.vault.length < off.w.vault.length);
 check("켠 쪽 소장 가치가 끈 쪽보다 낮다(자산 축을 깎는 게 이 기능의 대가다)",
   vaultValue(on.w) < vaultValue(off.w));

@@ -111,6 +111,13 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 .tip-here .tip-clock { color: var(--accent); }
 .tip button { border: 1px solid var(--danger); background: none; padding: 6px 12px; border-radius: 4px; }
 .tip-here-mark { color: var(--accent); font-size: 12px; }
+/* 제보 반응 유예·결판 표시(v0.6) — 배너는 결판이 난 뒤에도 결과를 보여 주며 수명을 다 채운다 */
+.tip-grace { white-space: nowrap; color: var(--muted); font-style: normal; }
+.tip-resolved { white-space: nowrap; font-style: normal; }
+.tip-won { border-color: var(--accent); background: linear-gradient(90deg, #1f2b17, #1a2213); }
+.tip-won .tip-mark, .tip-won .tip-resolved, .tip-won .tip-clock { color: var(--accent); }
+.tip-lost { border-color: #555; background: linear-gradient(90deg, #262323, #1d1b1b); }
+.tip-lost .tip-mark, .tip-lost .tip-resolved, .tip-lost .tip-clock { color: var(--muted); }
 @keyframes tip-in { from { transform: translateY(-6px); opacity: 0; } }
 
 .ending {

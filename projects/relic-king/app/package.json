@@ -19,6 +19,7 @@
     "qa:autosell": "tsx src/sim/qa_autosell.ts",
     "qa:pipeline": "tsx src/sim/qa_pipeline.ts",
     "playlog": "tsx src/sim/playlog.ts",
+    "density": "tsx src/sim/density.ts",
     "build:worldmap": "node ../scripts/build-worldmap.mjs",
     "qa:rivalcard": "tsx src/sim/qa_rivalcard.ts",
     "qa:sprites": "tsx src/sim/qa_sprites.ts",

@@ -144,8 +144,16 @@ export function ensureFacilities(w: World) {
     if (!m.curatorId && w.funds >= 400_000) {
       for (let slot = 0; slot < 3; slot++) if (hireCurator(w, home, slot)) break;
     }
-    fillMuseumSlots(w, home);
   }
+  /**
+   * **무료 "등급0 임시 전시대"(1슬롯)도 채운다**(v0.6). 예전엔 이 호출이
+   * `if (m)` 안에 있어서 **진짜 박물관을 짓기 전까지 전시가 한 번도 일어나지
+   * 않았다** — `brief.md` §첫 세션 9가 "20분 목표는 이 무료 슬롯으로 닿는다"고
+   * 적어 둔 바로 그 동작이 시뮬 정책에만 빠져 있었다(`pnpm play`의 UI 실조작은
+   * 77초에 이걸 눌러 왔다). 기준을 낮추지 않고 **사람이 실제로 마주하는 조작을
+   * 정책에 넣어 다시 잰다**(`notes/decisions.md` G80.2).
+   */
+  fillMuseumSlots(w, home);
 
   if (w.auctionHouses.length === 0 && w.funds >= auctionHouseBuildCost(1) * 2) buildAuctionHouse(w, home);
   const house = auctionHouseOf(w, home);

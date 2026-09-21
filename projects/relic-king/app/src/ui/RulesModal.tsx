@@ -2,7 +2,10 @@ import {
   CATCHUP_MAX, CATCHUP_SLOPE, EMERGENCY_DISPATCH_COST_MULT, EMERGENCY_DISPATCH_MAX_REACH_HOURS,
   EMERGENCY_DISPATCH_MISHAP_MULT, OFFLINE_EFFICIENCY, RANK_WEIGHT, SITE_BY_ID, THEFT_RATE_BASE,
   THEFT_RECOVERY_BASE, THEFT_RECOVERY_CHANCE_CAP, THEFT_RECOVERY_WINDOW_HOURS, TIER_NAME,
-  TIP_FOCUS_DIG_COST_MULT, TIP_FOCUS_DIG_HIT_CHANCE, TIP_MEAN_INTERVAL, TIP_PLAYER_HIT,
+  DROP_INTERVAL_CEILING_SECONDS, DROP_INTERVAL_FLOOR_SECONDS,
+  TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN,
+  TIP_FOCUS_DIG_COST_MULT, TIP_FOCUS_DIG_HIT_CHANCE, TIP_MEAN_INTERVAL,
+  TIP_MIN_RESPONSE_SECONDS, TIP_PLAYER_HIT, TIP_RIVAL_HIT,
   CURATOR_RECOVERY_COEFF, tierWeights
 } from "../game/balance";
 import { rivalExpeditions } from "../game/engine";
@@ -42,6 +45,15 @@ export function RulesModal({ game, onClose }: { game: Game; onClose: () => void 
       </section>
 
       <section className="rules-block">
+        <h4>드랍 간격 — 하한과 천장</h4>
+        <ul className="rules-notes">
+          <li>드랍 간격은 그 층의 기대 평가액에 비례한다. <strong>깊이는 희소성만 열고, 수입은 발굴력에서만 나온다.</strong></li>
+          <li>다만 양쪽에 벽이 있다 — 아무리 발굴력을 올려도 <strong>{DROP_INTERVAL_FLOOR_SECONDS}초보다 자주</strong> 나오지 않고, 아무리 깊이 내려가도 <strong>{DROP_INTERVAL_CEILING_SECONDS}초보다 드물게</strong> 나오지 않는다.</li>
+          <li>천장에 걸린 구간에서는 드랍 <em>횟수</em>가 고정되고 한 건의 값이 커진다. 하한에 걸린 구간에서는 그 반대다 — 발굴력을 더 올려도 드랍은 그대로고 층만 빨리 내려간다.</li>
+        </ul>
+      </section>
+
+      <section className="rules-block">
         <h4>순위 3축 가중식</h4>
         <ul className="rules-notes">
           <li>종합 점수 = 자산×{RANK_WEIGHT.asset} + 도감×{RANK_WEIGHT.codex} + 명성×{RANK_WEIGHT.fame}. 도감+명성(0.70)이 자산(0.30)보다 커서 "팔아서 1위"는 구조적으로 막힌다.</li>
@@ -53,8 +65,9 @@ export function RulesModal({ game, onClose }: { game: Game; onClose: () => void 
       <section className="rules-block">
         <h4>제보 — 집중 굴착 · 급파</h4>
         <ul className="rules-notes">
-          <li>평균 {TIP_MEAN_INTERVAL / 60}분마다 뜬다. 배너는 60~150초만 유지된다.</li>
-          <li>on_site 팀이 있으면 자동으로 {Math.round(TIP_PLAYER_HIT * 100)}% 확률로 판정된다. [집중 굴착]을 누르면 {Math.round(TIP_FOCUS_DIG_HIT_CHANCE * 100)}%로 오르는 대신, 그 원정의 원정비가 {TIP_FOCUS_DIG_COST_MULT}배가 된다.</li>
+          <li>평균 {TIP_MEAN_INTERVAL / 60}분마다 뜬다. 배너는 {TIP_DURATION_ONSITE_MIN}~{TIP_DURATION_ONSITE_MAX}초 유지된다.</li>
+          <li><strong>처음 {TIP_MIN_RESPONSE_SECONDS}초는 반응 유예다</strong> — 그 동안은 당신도 라이벌도 그 유물을 가져가지 못한다. 결판이 난 뒤에도 배너는 결과를 보여 주며 수명을 다 채운다.</li>
+          <li>on_site 팀이 있으면(또는 직접 발굴이 그 자리를 파고 있으면) 자동으로 {Math.round(TIP_PLAYER_HIT * 100)}% 확률로 판정된다 — <strong>같은 제보를 받은 라이벌도 {Math.round(TIP_RIVAL_HIT * 100)}%로 같다.</strong> 아무것도 안 누르면 공정한 레이스이고, [집중 굴착]을 누르면 {Math.round(TIP_FOCUS_DIG_HIT_CHANCE * 100)}%로 오르는 대신 그 원정의 원정비가 {TIP_FOCUS_DIG_COST_MULT}배가 된다.</li>
           <li>[급파]는 유휴 발굴단을 압축 이동시간 {EMERGENCY_DISPATCH_MAX_REACH_HOURS}시간 이내인 거점에 즉시 출발시킨다. 원정비 {EMERGENCY_DISPATCH_COST_MULT}배·미스헵 확률 {EMERGENCY_DISPATCH_MISHAP_MULT}배가 붙는다. 배너가 사라진 뒤에도 도착하면 판정은 그대로 유효하다 — 세계 재고가 남아 있는지가 유일한 기준이다.</li>
           <li><strong>라이벌은 제보 레이스 밖에서 유일 유물을 가져가지 못한다.</strong> 오프라인 중에는 진귀 이하만 가져간다 — 영구 상실은 당신이 그 자리에 있었을 때만 일어난다.</li>
         </ul>

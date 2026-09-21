@@ -338,7 +338,7 @@ async function scenarioFirstSession() {
     c.ok("⑤ 원정 — 그 팀은 자동 순회 루틴을 켠 채다(한 거점에 갇히지 않는다)",
       w.teams.every((t) => t.routine?.enabled && t.routine?.target === "auto"),
       JSON.stringify(w.teams.map((t) => t.routine)));
-    c.note("⑤ 원정 — 두 번째 발굴단(슬롯 해금 5,000만₩)",
+    c.note("⑤ 원정 — 두 번째 발굴단(슬롯 해금 EXPEDITION_TEAM_UNLOCK_BASE)",
       `20분 시점 자금 ${fmt(Math.round(w.funds))}₩ · 슬롯 ${w.maxTeams}칸`);
 
     c.note("첫 세션 마일스톤(게임초)", JSON.stringify(m));
@@ -496,6 +496,15 @@ async function scenarioSteps() {
     await h.patchSave(`(w) => {
       w.funds = 5e11;
       w.lab = 6;
+      // **자동 재투자를 끈다**(v0.6). 켜 두면 이 시나리오가 도는 동안 자동
+      // 루틴이 5,000억₩을 인부 106명·장비 Lv.16(상한)으로 바꿔 버려, 다음
+      // 인부 값(489억₩)이 남은 자금(442억₩)보다 비싸져 **인부 고용 버튼이
+      // 비활성**이 된다 — 그러면 "진입 경로 없음"으로 읽히는데 실제로는 경로가
+      // 아니라 지갑 문제다. 끄는 것은 설정 화면에 있는 실제 선택지이고
+      // (척추 4번), 이 시나리오가 재려는 것은 각 조작의 **단계 수와 진입
+      // 경로**다. v0.5.1까지는 자동 루틴 주기가 60초라 이 시나리오가 끝날
+      // 때까지 한 번도 안 돌아 문제가 드러나지 않았다.
+      w.settings.autoReinvest = false;
       w.vaultLevel = 5;
       for (const id of Object.keys(w.sites)) { w.sites[id].unlocked = true; w.sites[id].baseSince = 0; w.sites[id].layer = 6; }
       // v0.3.4부터 첫 발굴단은 처음부터 있고 자동 순회 중이다(notes/decisions.md G79).
@@ -791,6 +800,15 @@ async function scenarioEffort() {
     await h.patchSave(`(w) => {
       w.funds = 5e11;
       w.lab = 6;
+      // **자동 재투자를 끈다**(v0.6). 켜 두면 이 시나리오가 도는 동안 자동
+      // 루틴이 5,000억₩을 인부 106명·장비 Lv.16(상한)으로 바꿔 버려, 다음
+      // 인부 값(489억₩)이 남은 자금(442억₩)보다 비싸져 **인부 고용 버튼이
+      // 비활성**이 된다 — 그러면 "진입 경로 없음"으로 읽히는데 실제로는 경로가
+      // 아니라 지갑 문제다. 끄는 것은 설정 화면에 있는 실제 선택지이고
+      // (척추 4번), 이 시나리오가 재려는 것은 각 조작의 **단계 수와 진입
+      // 경로**다. v0.5.1까지는 자동 루틴 주기가 60초라 이 시나리오가 끝날
+      // 때까지 한 번도 안 돌아 문제가 드러나지 않았다.
+      w.settings.autoReinvest = false;
       // 층은 전부 8층까지 파 두되, **base 는 둘만** 연다. "거점 해금"을 재려면
       // 아직 본거지가 아닌 거점이 화면에 남아 있어야 하고, base 슬롯 상한이
       // 3이라(MAX_OWNED_SITES) 둘을 열어 두면 한 자리가 남는다. 전부 열어 두면

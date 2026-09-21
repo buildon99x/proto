@@ -276,6 +276,11 @@ export type Tip = {
   /** [집중 굴착]을 눌렀는가(spec.md §8.6, G45/A8) — TIP_PLAYER_HIT 대신
    *  TIP_FOCUS_DIG_HIT_CHANCE를 적용하고, 그 팀의 원정비를 2배로 만든다. */
   focused?: boolean;
+  /** 배너가 뜬 시각(world.t, 초). `TIP_MIN_RESPONSE_SECONDS` 반응 유예의 기준이다(v0.6) */
+  openedAt: number;
+  /** 결판이 난 뒤의 상태. 나도 배너는 수명을 다 산다 — 결과를 보여 주고 닫힌다
+   *  (v0.6, `notes/play-telemetry.md` §7.3의 "결과를 몇 초 보여 준 뒤 닫는다"). */
+  resolved?: { outcome: "won" | "lost"; at: number } | null;
 };
 
 export type LogKind = "drop" | "rival" | "lost" | "won" | "system";
@@ -339,7 +344,7 @@ export type SeasonState = {
 };
 
 export type World = {
-  version: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+  version: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
   t: number;
   lastTickAt: number;
   funds: number;

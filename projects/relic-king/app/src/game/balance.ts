@@ -25,15 +25,40 @@ export const TIER_VALUE = [12_000, 380_000, 9_000_000, 260_000_000, 6_000_000_00
 export const TIER_STOCK_PER_SPECIES = [Infinity, 2_000, 60, 6, 1] as const;
 export const TIER_MIN_LAYER = [1, 2, 5, 8, 10] as const;
 
-/** 층 L 돌파에 필요한 진척. 깊이가 이 게임의 페이싱 척추다 */
+/**
+ * 층 L 돌파에 필요한 진척. **깊이가 이 게임의 페이싱 척추다** — 그래서 v0.6의
+ * 전체 곡선 압축은 여기서 시작한다.
+ *
+ * v0.5.1까지는 `300 × 2.45^(L-1)`이었고, 그 곡선에서 12층 도달 실측이
+ * **4시간 39분**이었다(`eval.md` §26 전표). 그런데 `notes/mda.md` §6의 시간
+ * 스케일 표는 "층 돌파"를 **세션 스케일(10~20분)** 루프로 적어 뒀다 — 게임이
+ * 자기 설계 문서와 14배 어긋나 있었다는 뜻이다. v0.6은 문서가 원래 적어 둔
+ * 스케일로 되돌린다.
+ *
+ * 그 결과가 첫 1분이다: 진귀(T2)의 `TIER_MIN_LAYER`가 5층이고 제보 풀은 T2
+ * 이상만 보므로(`spawnTip`), **5층에 닿기 전에는 제보가 구조적으로 0**이다.
+ * v0.5.1 실측에서 첫 제보가 15분이던 진짜 원인이 이것이었다(`TIP_FIRST_DELAY`도
+ * 재시도 간격도 아니었다 — `notes/play-first-10h-v06.md` §2).
+ */
+export const LAYER_COST_BASE = 6;
+export const LAYER_COST_GROWTH = 2.08;
 export function layerCost(site: SiteId, layer: number): number {
-  return 300 * Math.pow(2.45, layer - 1) * SITE_BY_ID[site].layerCostMod;
+  return LAYER_COST_BASE * Math.pow(LAYER_COST_GROWTH, layer - 1) * SITE_BY_ID[site].layerCostMod;
 }
 
 /**
  * 진척 1당 기대 수입(₩). 드랍 임계를 이 값에 묶어 두면 깊이가 돈을 불려 주지 않는다.
  * **깊이는 유물의 희소성을 열지, 수입을 늘리지 않는다** — 수입은 발굴력에서만 나온다.
  * 이게 없으면 깊이 × 발굴력이 곱해져 방치형 특유의 폭주가 난다(시뮬로 확인).
+ */
+/**
+ * 진척 1당 기대 수입(₩). 드랍 임계를 이 값에 묶어 두면 깊이가 돈을 불려 주지 않는다.
+ * **깊이는 유물의 희소성을 열지, 수입을 늘리지 않는다** — 수입은 발굴력에서만 나온다.
+ * 이게 없으면 깊이 × 발굴력이 곱해져 방치형 특유의 폭주가 난다(시뮬로 확인).
+ *
+ * **v0.6에서 이 값은 건드리지 않았다.** 8,000으로 올려 곡선 전체를 당기는 길을
+ * 재 봤는데, 드랍이 전 구간에서 하한에 붙어 버려 반복:의미가 1.62에서 3.23으로
+ * **나빠졌다** — 분자를 키우는 게 아니라 소음을 키우는 쪽이었다(작업 지시 §2).
  */
 export const PROGRESS_VALUE = 1000;
 /** 깊이가 주는 완만한 수입 보너스. 1층 대비 12층이 약 2.3배 */
@@ -60,6 +85,28 @@ export const DEPTH_INCOME_BONUS = 0.12;
  * dropMod를 넘긴다. 생략하면 그 거점의 원래 dropMod를 쓴다.
  */
 export function dropThreshold(site: SiteId, layer: number, dig = 0, dropModOverride?: number): number {
+  const expected = layerExpectedValue(site, layer);
+  const bonus = 1 + DEPTH_INCOME_BONUS * (layer - 1);
+  const dropMod = dropModOverride ?? SITE_BY_ID[site].dropMod;
+  const base = (expected / (PROGRESS_VALUE * bonus)) * dropMod;
+  return Math.min(Math.max(base, DROP_INTERVAL_FLOOR_SECONDS * dig), DROP_INTERVAL_CEILING_SECONDS * dig);
+}
+
+/**
+ * **원정비 사이징 전용** 드랍 임계 — 하한은 반영하고 **천장은 반영하지 않는다**.
+ *
+ * 천장(`DROP_INTERVAL_CEILING_SECONDS`)은 화면이 조용해지지 않게 하는 **페이싱
+ * 장치**이지 수입 장치가 아니다. 천장이 걸린 구간에서는 임계가 `CEIL × dig`라
+ * 노셔널 수입률이 `층 기대가치 / CEIL`이 되어 **발굴력과 무관하게** 커진다 —
+ * 약한 팀이 깊은 층에 서면 원정비가 10배로 뛴다. 실측에서 팀 하나가 왕복 한
+ * 번에 **1,470만₩**을 청구당해 자금이 −1,451만₩까지 떨어졌고, 그 구간 내내
+ * 감정 파이프라인이 통째로 멈췄다(`qa:pipeline` 정지 562초).
+ *
+ * 하한을 반영해야 하는 이유는 그대로다(G56): 하한이 걸린 구간에서 실제 드랍
+ * 빈도는 더 안 오르는데 노셔널만 발굴력에 비례해 커지면 과청구가 된다.
+ * 결국 이 함수는 **v0.5.1까지의 `dropThreshold`와 정확히 같은 식**이다.
+ */
+export function notionalDropThreshold(site: SiteId, layer: number, dig = 0, dropModOverride?: number): number {
   const expected = layerExpectedValue(site, layer);
   const bonus = 1 + DEPTH_INCOME_BONUS * (layer - 1);
   const dropMod = dropModOverride ?? SITE_BY_ID[site].dropMod;
@@ -204,15 +251,58 @@ export const PENDING_CAP = 20;
 export const OFFLINE_EFFICIENCY = 0.6;
 export const OFFLINE_CAP_SECONDS = 12 * 3600;
 
-export const TIP_FIRST_DELAY = 90;
-export const TIP_MEAN_INTERVAL = 180;
+/** 첫 제보까지의 대기(초). 5층 도달이 25초 언저리이므로 이 값이 곧 첫 제보 시각이다 */
+export const TIP_FIRST_DELAY = 20;
+export const TIP_MEAN_INTERVAL = 120;
+/**
+ * **반응 유예(초)** — 제보가 뜬 뒤 이 시간이 지나기 전에는 **어느 쪽도** 대상
+ * 유물을 가져가지 못한다(플레이어·라이벌 대칭).
+ *
+ * v0.5.1의 제보 창 중앙값은 **15초**였다(설계 60~150초). 원인은 레이스가 먼저
+ * 끝나면서 배너가 같이 닫히는 것이다 — 드랍 8초 × 적중 28%면 평균 2~3드랍에
+ * 결판이 난다(`notes/play-telemetry.md` §4). 15초는 긴장이 아니라 반사신경
+ * 검사이고, 화면을 들여다보고 있지 않으면 성립조차 하지 않는다.
+ *
+ * 승률을 건드리지 않고 창만 늘리는 방법이 이 유예다: 유예 동안 양쪽의 적중
+ * 판정을 똑같이 막으므로 **상대 승률은 그대로**이고, 플레이어가 [집중 굴착]·
+ * [급파]를 누를 시간만 생긴다. 유예가 끝나면 지금까지와 똑같이 먼저 적중한
+ * 쪽이 가진다 — "먼저 도달한 쪽이 가진다"(재미 3문장 ②)는 그대로다.
+ */
+export const TIP_MIN_RESPONSE_SECONDS = 30;
+/**
+ * 제보 대상 추첨의 티어 가중(T0~T4). 예전엔 `spawnTip` 안에 `12 / 5 / 1`이
+ * 그대로 박혀 있었다. v0.6에서 상수로 꺼내면서 유일(T4)을 12 → 24로 올린다 —
+ * **첫 T4 조우를 첫 10분 안으로** 끌어오는 유일한 길이 레이스이기 때문이다
+ * (작업 지시 §3 협상불가 2: "공급을 늘리는 것이 아니라 레이스를 앞당기는 것").
+ * 세계 재고(종당 1점)는 한 자리도 바뀌지 않는다.
+ */
+export const TIP_TIER_WEIGHT = [0, 0, 1, 6, 24] as const;
+/** 풀이 비어 제보를 못 띄웠을 때의 재시도 간격(초). 이 값이 곧 "공급이 말랐을 때
+ *  플레이어가 기다리는 시간"이라 상수로 꺼내 둔다 — 예전엔 spawnTip 안에 30이
+ *  박혀 있어 첫 제보 실측 936초의 원인 중 하나가 이름 없이 숨어 있었다 */
+export const TIP_RETRY_INTERVAL = 10;
 export const TIP_DURATION_MIN = 60;
 export const TIP_DURATION_MAX = 150;
 /** 제보 대상 층에서 파는 동안 롤마다 대상 유물이 나올 확률 */
 export const TIP_PLAYER_HIT = 0.28;
-export const TIP_RIVAL_HIT = 0.1;
+/**
+ * 라이벌의 제보 적중 확률(드랍 1롤당). v0.5.1의 0.10에서 **플레이어 기본값과
+ * 같은 0.28로** 올렸다. 이제 아무것도 누르지 않으면 레이스는 **반반**이고,
+ * [집중 굴착]을 누르면 60%(`TIP_FOCUS_DIG_HIT_CHANCE`)가 된다 — 결정이
+ * 결과를 바꾸는 자리가 처음으로 생긴다. 척추 4번은 그대로다: 안 눌러도
+ * 손해가 아니라 **공정한 레이스**이고, 진다고 진척이 깎이지도 않는다.
+ * 아래는 올리기 전에 적어 둔 근거다 — 168시간
+ * 전체로는 승 545 / 패 42라 "잃을 수도 있다"가 통계적으로만 존재했고,
+ * **첫 10분에는 패가 0회**였다(5시드 전부). 재미 3문장 ②는 이기기만 해서는
+ * 성립하지 않는다(작업 지시 §6.2). 플레이어 28% 대 라이벌 18%로, 여전히
+ * 플레이어가 유리하되 지는 판이 첫 세션 안에 들어온다.
+ */
+export const TIP_RIVAL_HIT = 0.28;
 
 /** 추격 계수 상한. UI에 그대로 노출한다(Fair Progression) */
+/** 라이벌 재투자 판정 경계(초). `digRival` 주석 참조 — 스텝 무관성을 위한 격자다 */
+export const RIVAL_REINVEST_INTERVAL_SECONDS = 30;
+
 export const CATCHUP_MAX = 2;
 export const CATCHUP_SLOPE = 0.15;
 
@@ -315,20 +405,33 @@ export const AUTO_SELL_SPARE_KEEP_PER_SPECIES = 1;
  *  재투자) 점검 주기(초). `useGame.ts`가 탭을 열어 둔 채 방치하는 동안 이
  *  주기로 직접 부른다(엔진의 `advance()`/`step()` 내부에서는 부르지 않는다 —
  *  오프라인 적분 스텝 무관성이 깨지기 때문, engine.ts의 `applyOffline` 주석
- *  참조). 발굴단 루틴 재파견과 비슷한 체감 빈도로 잡았다. */
-export const AUTO_ROUTINE_INTERVAL_SECONDS = 60;
+ *  참조). 발굴단 루틴 재파견과 비슷한 체감 빈도로 잡았다.
+ *
+ *  **v0.6 — 60 → 20초.** 이 값은 "자동화가 상황에 반응하는 데 걸리는 시간"이고,
+ *  게임 전체가 8.6배 압축됐으므로(엔딩 140시간 36분 → 16시간대) 60초는 예전
+ *  기준의 8분에 해당한다. 실제로 감정 파이프라인 교착(`qa:pipeline`)의 정지
+ *  구간이 전부 "한 루틴 주기" 길이였다 — 주기 자체가 정지 시간이었다는 뜻이다.
+ *  20초로 당기면 같은 탈출구가 같은 방식으로, 세 배 빨리 열린다. */
+export const AUTO_ROUTINE_INTERVAL_SECONDS = 20;
 /** 인부·장비·감정소 자동 재투자가 항상 남겨 두는 자금 여유분 — 다음 몇 건의
  *  감정비 정도는 항상 감당할 수 있게, 재투자가 감정 파이프라인의 현금을
  *  전부 흡수하지 않도록 막는다. */
 export const AUTO_INVEST_RESERVE = 5_000;
+/** 자동 재투자가 감정 수수료로 남겨 두는 대기 항목 수(engine `autoInvestReserve` 주석) */
+export const AUTO_INVEST_FEE_RESERVE_ITEMS = 5;
 
 // ── 발굴단·원정 (§8, world-map.md §2·§3·§5 — 2단계에서 실제로 구현. 회차제·
 // 거리·미스헵·후불 원정비는 app/src/game/expedition.ts가 쓴다) ─────────────
 export const MAX_EXPEDITION_TEAMS_INITIAL = 1;
 export const MAX_EXPEDITION_TEAMS_CAP = 4;
-export const EXPEDITION_TEAM_UNLOCK_BASE = 50_000_000;
-export const EXPEDITION_TEAM_UNLOCK_GROWTH = 4.0;
-export const FOREMAN_HIRE_COST = 200_000;
+/**
+ * 2·3·4번째 발굴단 슬롯 해금비. v0.5.1의 5,000만₩ 곡선(5천만/2억/8억)은
+ * 140시간 곡선에 맞춰 잡힌 값이라, 압축 후에는 2번째 팀이 7시간 40분에야
+ * 열려 첫 세션에 아무 의미가 없었다(`notes/play-first-10h.md` §2 타임라인).
+ */
+export const EXPEDITION_TEAM_UNLOCK_BASE = 250_000;
+export const EXPEDITION_TEAM_UNLOCK_GROWTH = 3.0;
+export const FOREMAN_HIRE_COST = 100_000;
 // MAX_GEAR_LEVEL은 v0.1 실코드에 이미 존재한다(위 §2.1 근방) — 여기 중복 선언하지 않는다.
 export const EXPEDITION_MISHAP_BASE = 0.02;
 export const EXPEDITION_MISHAP_PER_1000KM = 0.01;
@@ -336,8 +439,15 @@ export const EXPEDITION_MISHAP_CHANCE_CAP = 0.25;
 export const EXPEDITION_MISHAP_TIME_LOSS_RATIO = 0.5;
 export const EXPEDITION_ONSITE_RATIO = 3.0;
 export const EXPEDITION_DISTANCE_YIELD_COEFF = 0.5;
-export const EXPEDITION_SPEED_KMH = 400; // 대항해시대풍 선박·대상(隊商) 속도. 여객기 속도가 아니다
-export const EXPEDITION_ONSITE_MIN_HOURS = 0.1; // 6분 — 거점 로컬 유적의 최소 현지 작업 시간
+/**
+ * 원정 이동 속도(km/h). v0.5.1까지 400이었고, 그 값에서 서울→리마 편도가
+ * **35.3시간**이었다 — 시작 발굴단이 첫 세션에 존재하지 않는 직접 원인이다
+ * (`notes/play-first-10h.md` §5.1). v0.6은 전체 곡선 압축의 일부로 이 값을
+ * 올린다. 플레이버("대항해시대풍 선박·대상")는 포기한 대가이고, 그 대신
+ * 첫 원정이 세션 안에 왕복한다(경주→도쿄 편도 6분·왕복 21분).
+ */
+export const EXPEDITION_SPEED_KMH = 3_000;
+export const EXPEDITION_ONSITE_MIN_HOURS = 0.05; // 3분 — 거점 로컬 유적의 최소 현지 작업 시간
 export const EXPEDITION_DISTANCE_COST_COEFF = 0.5;
 export const EXPEDITION_DISTANCE_REF_KM = 10_000;
 /** 발굴 원정비 — 수입 대비 비율(notes/economy.md K5). 귀환 시 후불 원천징수된다. */
@@ -384,7 +494,33 @@ export const LOCKED_HOLD_TIER_EXEMPT_MIN_TIER = 3;
  * (아래 dropThreshold 주석), 발굴단 4팀이 동시에 돌 때 5초면 한 점 한 점이
  * 사건으로 읽히지 않는다.
  */
-export const DROP_INTERVAL_FLOOR_SECONDS = 8;
+/**
+ * 드랍 1건 사이의 최소 간격(초). §7.5가 "하한 자체가 배경 소음"이라고 적어 둔
+ * 값이고(`notes/play-telemetry.md`), v0.6의 D축(반복:의미)은 그 지적을 정면으로
+ * 받는다 — **분모를 줄이고 한 건을 무겁게** 하는 방향이다(작업 지시 §2 D).
+ * 하한에 걸린 구간에서는 드랍률이 `1/FLOOR`로 발굴력과 무관해지므로, 이 값을
+ * 올리면 화면이 조용해지는 대신 종 수집 속도도 같은 비율로 준다 — 그 대가는
+ * 거점·발굴단 비용 압축(위)으로 갚는다. `notes/mda.md` §6의 경보 기준
+ * (초기 구간 40초 이하, 분 스케일 5분 초과 금지)은 그대로 지킨다.
+ */
+export const DROP_INTERVAL_FLOOR_SECONDS = 16;
+/**
+ * 드랍 1건 사이의 **최대** 간격(초) — `notes/mda.md` §6이 "초기 구간 드랍 간격은
+ * 40초를 넘기지 않는다"고 **경보 기준으로만** 적어 둔 것을 v0.6에서 **규칙으로**
+ * 만든다. 하한과 대칭이다.
+ *
+ * **왜 필요한가.** 드랍 임계는 층 기대 평가액에 비례하는데(척추 2번), 층 기대
+ * 평가액은 진귀(900만₩)·국보(2.6억₩)가 열리는 순간 8~20배로 뛴다. v0.6의 깊이
+ * 압축은 그 층들을 첫 1분 안으로 당기므로, 천장이 없으면 **발굴력이 따라오기
+ * 전에 드랍이 100초에 한 번**이 된다(실측). 그러면 제보 레이스가 배너 수명 안에
+ * 결판나지 않고, 화면은 조용한 대기실이 된다 — mda가 경보로 적어 둔 바로 그
+ * 상태다.
+ *
+ * 천장이 걸린 구간에서는 드랍 **빈도**가 고정되고 **드랍당 가치**가 깊이를 따라
+ * 오른다. 이게 작업 지시 §2 D가 허용한 "드랍을 줄이고 한 건을 무겁게"의
+ * 실제 구현이다.
+ */
+export const DROP_INTERVAL_CEILING_SECONDS = 20;
 /** §9.5 재역산 가중 — layerBaseWeights()가 실제로 적용한다(위 함수 주석의 보고 참조) */
 export const LAYER_BASE_WEIGHTS_8_9 = [52, 36, 11, 0.01, 0] as const;
 export const LAYER_BASE_WEIGHTS_10_12 = [38, 40, 18, 0.03, 0.005] as const;
@@ -444,11 +580,11 @@ export const NOTE_MAX_VERBATIM_RUN_WORDS = 8;
 export const SPECIES_PER_SITE_BY_TIER = [66, 85, 12, 3, 1] as const;
 
 // ── 업그레이드 비용 곡선 7종 (§9.1, 신설 — G30/C) — 이번 단계 범위 밖 ──────
-export const AUCTION_GRADE_COST_BASE = 30_000_000;
+export const AUCTION_GRADE_COST_BASE = 2_500_000;
 export const AUCTION_GRADE_COST_GROWTH = 3.0;
-export const MUSEUM_GRADE_COST_BASE = 40_000_000;
+export const MUSEUM_GRADE_COST_BASE = 3_500_000;
 export const MUSEUM_GRADE_COST_GROWTH = 3.0;
-export const MARKETING_LEVEL_COST_BASE = 2_000_000;
+export const MARKETING_LEVEL_COST_BASE = 400_000;
 export const MARKETING_LEVEL_COST_GROWTH = 1.5;
 export const HUMIDITY_LEVEL_COST_BASE = 500_000;
 export const HUMIDITY_LEVEL_COST_GROWTH = 1.8;
@@ -479,7 +615,7 @@ export const MUSEUM_MARKETING_COEFF = 0.08;
 export const MUSEUM_MARKETING_LEVEL_CAP = 10;
 export const MUSEUM_MAX_COUNT = 3;
 export const MUSEUM_SLOT_BY_GRADE = [1, 3, 6, 10, 15] as const;
-export const MUSEUM_BUILD_COST_BASE = 50_000_000;
+export const MUSEUM_BUILD_COST_BASE = 4_000_000;
 export const MUSEUM_BUILD_COST_GROWTH = 3.0;
 export const MUSEUM_FATIGUE_DECAY_RATE = 0.02;
 export const MUSEUM_FRESHNESS_FLOOR = 0.3;
@@ -534,6 +670,12 @@ export const MAP_REGION_ZOOM_FACTOR = 4;
 export const COASTLINE_LAND_THRESHOLD = 0.5;
 export const MAP_BOOKMARK_CAP = 10; // 탐색 UX(§7) — 북마크·추천 UI 자체는 5단계 몫, 상수만 선언
 export const RECOMMEND_TOP_N = 3;
+/**
+ * 추천 점수의 거리 감쇠 반감 시간(편도 시간, h) — `recommendSites`가
+ * `점수 × 1/(1 + 편도시간/이 값)`으로 먼 거점을 깎는다. 이 값이 곧 "얼마나
+ * 먼 곳까지 추천에 올릴 것인가"다(v0.6, `notes/play-first-10h.md` §8 ①).
+ */
+export const RECOMMEND_TRAVEL_HALF_HOURS = 0.5;
 
 // ── 스텝(고용) — notes/staff.md, 2단계에서 실제로 구현. app/src/game/staff.ts가 쓴다.
 // 관장·경매관장은 박물관·경매장(3단계 이후)이 없어 급여·능력치 공식만 미리 둔다 ──

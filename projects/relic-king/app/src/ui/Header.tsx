@@ -1,4 +1,6 @@
-import { DROP_INTERVAL_FLOOR_SECONDS, SITE_BY_ID, dropThreshold, layerCost } from "../game/balance";
+import {
+  DROP_INTERVAL_CEILING_SECONDS, DROP_INTERVAL_FLOOR_SECONDS, SITE_BY_ID, dropThreshold, layerCost
+} from "../game/balance";
 import { digPower, effectiveDropMod, fullRanking, playerAssets } from "../game/engine";
 import { teamDigPower } from "../game/expedition";
 import { clock, won } from "../game/format";
@@ -94,7 +96,7 @@ type NextDropInfo = { label: string; site: SiteId; layer: number; seconds: numbe
 /**
  * 그 거점의 드랍 간격이 **하한(`DROP_INTERVAL_FLOOR_SECONDS`)에 붙었는가.**
  * 붙으면 `dropThreshold`가 `floor × dig`를 돌려주므로 간격이 발굴력과 무관하게
- * 8초로 고정된다 — 즉 **그 거점에서는 발굴력을 더 올려도 유물이 더 나오지 않는다**
+ * 하한 초로 고정된다 — 즉 **그 거점에서는 발굴력을 더 올려도 유물이 더 나오지 않는다**
  * (층 돌파는 계속 빨라지므로, 최대 층에서는 순수하게 무의미해진다).
  * `eval.md` §18.3이 "드랍 횟수가 정확히 같다"로 관측한 그 구간이고,
  * §19.5가 "화면이 그걸 말하지 않는다"로 결함 판정한 지점이다.
@@ -105,6 +107,20 @@ export function isDropFloorBound(world: World, site: SiteId, dig: number): boole
   const dropMod = effectiveDropMod(world, site);
   const base = dropThreshold(site, sp.layer, 0, dropMod);
   return DROP_INTERVAL_FLOOR_SECONDS * dig >= base;
+}
+
+/**
+ * 반대쪽 벽 — 드랍 간격이 **천장(`DROP_INTERVAL_CEILING_SECONDS`)에 걸렸는가**(v0.6).
+ * 깊이에 비해 발굴력이 낮을 때 걸린다. 이 구간에서는 드랍 **횟수**가 고정되고
+ * 한 건의 값이 커진다 — 하한과 정확히 반대 방향의 "더 올려도 안 바뀌는 것"이라
+ * 화면도 반대로 말해야 한다(척추 5번).
+ */
+export function isDropCeilingBound(world: World, site: SiteId, dig: number): boolean {
+  if (dig <= 0) return false;
+  const sp = world.sites[site];
+  const dropMod = effectiveDropMod(world, site);
+  const base = dropThreshold(site, sp.layer, 0, dropMod);
+  return DROP_INTERVAL_CEILING_SECONDS * dig <= base;
 }
 
 /** 가장 임박한 드랍 1건(레거시 또는 on_site 발굴단) — 헤더의 "다음 드랍" 압축 표시용 */

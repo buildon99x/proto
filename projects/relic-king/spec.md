@@ -916,6 +916,28 @@ DROP_INTERVAL_FLOOR_SECONDS = 20
 dropThreshold_v2(site, layer, D) = max(dropThreshold(site, layer), DROP_INTERVAL_FLOOR_SECONDS × D)
 ```
 
+> **(v0.6 개정)** 실제 상수는 `DROP_INTERVAL_FLOOR_SECONDS = 16`이고(v0.3에서 8로
+> 내렸다가 v0.6에서 다시 올렸다), **반대쪽에 천장이 붙었다.**
+>
+> ```
+> DROP_INTERVAL_CEILING_SECONDS = 20
+> dropThreshold_v3(site, layer, D)
+>   = min( max(dropThreshold(site, layer), FLOOR × D), CEILING × D )
+> ```
+>
+> 천장은 `notes/mda.md` §6이 "초기 구간 드랍 간격은 40초를 넘기지 않는다"고
+> **경보 기준**으로만 적어 둔 것을 규칙으로 만든 것이다. 없으면 v0.6의 깊이
+> 압축에서 **발굴력이 따라오기 전에 깊은 층에 선 플레이어의 드랍이 100초에 한
+> 번**이 된다 — 하한이 막으려던 "배경 소음"의 정확한 반대쪽 실패다.
+>
+> 기준 발굴력 `D`는 **"지금 이 거점에 배치돼 있는 발굴력"**(레거시 단독 발굴 +
+> 파견~귀환 중인 팀)이다. "이번 청크에 실제로 판 사람들의 합"을 쓰면 원정단이
+> 청크 중간에 도착·귀환하는 탓에 임계가 스텝 크기에 따라 달라진다.
+>
+> **원정비 사이징에는 천장을 반영하지 않는다**(`notionalDropThreshold`) —
+> 천장은 페이싱 장치이지 수입 장치가 아니다. 반영했더니 약한 팀이 깊은 층에서
+> 왕복 한 번에 1,470만₩을 청구당했다(`notes/decisions.md` G86).
+
 `D`는 고정 참조값이 아니라 **그 순간의 실제 발굴력**이다 — 초반 층(L1~9)은
 플레이어가 지나가는 구간이라 그 시점 실제 D가 낮아 하한이 걸리지 않고
 (첫 드랍 12초 등 기존 마일스톤 불변), L10~12에 오래 머무는 후반부만

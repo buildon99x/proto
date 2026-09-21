@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 import {
-  DROP_INTERVAL_FLOOR_SECONDS, LAYERS_PER_SITE, SITES, SITE_BY_ID,
+  DROP_INTERVAL_CEILING_SECONDS, DROP_INTERVAL_FLOOR_SECONDS, LAYERS_PER_SITE, SITES, SITE_BY_ID,
   appraiseSeconds, gearCost, labCost, workerCost
 } from "../game/balance";
 import { digPower } from "../game/engine";
-import { isDropFloorBound } from "./Header";
+import { isDropCeilingBound, isDropFloorBound } from "./Header";
 import { rate, won } from "../game/format";
 import { STRATA_H, STRATA_W, drawStrata } from "../render/strata";
 import type { Game } from "./useGame";
@@ -44,6 +44,7 @@ export function LegacyDigCard({ game }: { game: Game }) {
 
   const combo = world.clickCombo > 1.02 && world.t < world.clickComboUntil;
   const floorBound = isDropFloorBound(world, world.activeSite, digPower(world));
+  const ceilingBound = isDropCeilingBound(world, world.activeSite, digPower(world));
 
   return (
     <section className="card legacy-dig">
@@ -84,6 +85,12 @@ export function LegacyDigCard({ game }: { game: Game }) {
               {site.city}의 드랍 간격이 하한 {DROP_INTERVAL_FLOOR_SECONDS}초에 닿았다 — 여기서 발굴력을 더 올려도
               {sp.layer >= LAYERS_PER_SITE ? " 유물이 더 나오지 않는다" : " 드랍 수는 그대로고 층만 빨리 내려간다"}.
               자금은 새 거점·시설·발굴단에 써야 순위로 돌아온다.
+            </p>
+          ) : ceilingBound ? (
+            <p className="muted small">
+              {site.city}의 드랍 간격이 천장 {DROP_INTERVAL_CEILING_SECONDS}초에 걸려 있다 — 이 깊이에 비해
+              발굴력이 아직 낮아, 드랍 <strong>횟수</strong>는 고정이고 한 건의 값이 크다. 발굴력을 올리면
+              같은 깊이에서 드랍이 더 자주 나온다.
             </p>
           ) : null}
         </div>

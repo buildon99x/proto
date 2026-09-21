@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { SITES, SITE_BY_ID } from "../game/balance";
+import { EXPEDITION_SPEED_KMH, SITES, SITE_BY_ID } from "../game/balance";
 import { distanceKm, siteAnchorLabel, siteSearchText } from "../game/sites";
 import { recommendSites, teamHomeSite } from "../game/engine";
 import { won } from "../game/format";
@@ -130,7 +130,9 @@ export function WorldExplorer({ game, onSelectSite }: { game: Game; onSelectSite
 }
 
 function formatHours(km: number): string {
-  const hours = km / 400; // EXPEDITION_SPEED_KMH — 표시용 대략치(단장 항해술 보정 전)
+  // **상수에서 읽는다** — 400이 손으로 박혀 있어 v0.6이 속도를 3,000으로 올린 뒤
+  // 화면만 7.5배 긴 이동시간을 말하고 있었다(척추 5번: 화면의 숫자를 상수와 같이 고친다).
+  const hours = km / EXPEDITION_SPEED_KMH; // 표시용 대략치(단장 항해술 보정 전)
   if (hours < 1) return `${Math.round(hours * 60)}분`;
   return `${hours.toFixed(1)}h`;
 }

@@ -18,11 +18,12 @@
 import { writeFileSync } from "node:fs";
 import { AUTO_ROUTINE_INTERVAL_SECONDS } from "../game/balance";
 import {
-  advance, codexProgress, createPersistentRecord, createWorld, digPower, playerAssets, runAutoRoutine
+  advance, codexProgress, createPersistentRecord, createWorld, digPower, grantStartingTeam,
+  playerAssets, runAutoRoutine
 } from "../game/engine";
 import { duration, won } from "../game/format";
 import { actExpansion, liquidateSurplus, STEP_EARLY, STEP_LATE } from "./policy";
-import { PlayRecorder, STEPS_PER_EVENT } from "./telemetry";
+import { AMBIENT, MEANINGFUL, PlayRecorder, STEPS_PER_EVENT } from "./telemetry";
 import type { EventKind, PlayEvent } from "./telemetry";
 import type { World } from "../game/types";
 
@@ -85,9 +86,11 @@ type RunResult = { label: string; world: World; events: PlayEvent[]; seconds: nu
 
 /** 탭만 열어 둔 플레이 — UI 프레임 루프와 같은 일만 한다 */
 function runIdle(hours: number): RunResult {
-  const w = createWorld();
+  // 0초의 단장 합류·첫 파견을 계측이 보도록 스냅샷 뒤에 배정한다(engine의 `grantTeam`)
+  const w = createWorld(undefined, false);
   const record = createPersistentRecord();
   const rec = new PlayRecorder(w);
+  grantStartingTeam(w);
   const smp = sampler(BUCKET_MIN * 60);
   const total = hours * 3600;
   let routineAcc = 0;
@@ -109,9 +112,10 @@ function runIdle(hours: number): RunResult {
 
 /** 거점·발굴단·시설을 실제로 운영하는 플레이 — act()가 곧 "사람이 눌렀어야 할 것" */
 function runActive(hours: number): RunResult {
-  const w = createWorld();
+  const w = createWorld(undefined, false);
   const record = createPersistentRecord();
   const rec = new PlayRecorder(w);
+  grantStartingTeam(w);
   const smp = sampler(BUCKET_MIN * 60);
   const total = hours * 3600;
   while (w.t < total && !w.ended) {
@@ -164,27 +168,6 @@ function totalsByKind(events: PlayEvent[]) {
   }
   return map;
 }
-
-/**
- * **반복 이벤트** — 화면이 움직이긴 하지만 하나하나를 기억하지는 않는 것들.
- * 드랍 주기가 하한 8초라 시간당 450건 안팎으로 나온다(실측). 게임은 이걸
- * "배경 소음이 되는 걸 막으려고" 하한을 뒀다고 적어 뒀는데(`balance.ts`
- * `dropThreshold` 주석), 하한 자체가 8초라 결국 배경 소음이다.
- */
-const AMBIENT: EventKind[] = ["drop", "appraised", "sold", "blindSold", "auctionSettled", "auctionListed"];
-
-/**
- * **의미 있는 이벤트** — 플레이어가 "아, 뭔가 일어났다"고 기억할 만한 것.
- * 재미 정의 3문장이 걸리는 자리가 전부 여기 있다: 신규 종(③ 실존의 무게),
- * 레이스·상실(② 선점의 스릴), 유일 최초 획득(① 배타적 소유).
- * 지루함은 "아무 일도 없다"가 아니라 **이 목록이 비어 있는 시간**이다.
- */
-const MEANINGFUL: EventKind[] = [
-  "newSpecies", "layerUp", "tipOpened", "raceWon", "raceLost", "lostToRival", "firstT4",
-  "siteUnlocked", "teamSlotUnlocked", "foremanHired", "teamDispatched", "teamReturned",
-  "displayed", "museumBuilt", "museumUpgraded", "auctionBuilt", "curatorHired",
-  "theft", "theftResolved", "vaultOverflow", "sealedBacklog", "seasonRollover", "ending"
-];
 
 /** 의미 있는 이벤트가 하나도 없는 구간 — 지루함의 직접 지표 */
 function deadTime(events: PlayEvent[], seconds: number) {
