@@ -16,7 +16,8 @@
     "qa:artifacts": "tsx src/sim/qa_artifacts.ts",
     "qa:economy": "tsx src/sim/qa_economy.ts",
     "qa:autosell": "tsx src/sim/qa_autosell.ts",
-    "build:worldmap": "node ../scripts/build-worldmap.mjs"
+    "build:worldmap": "node ../scripts/build-worldmap.mjs",
+    "qa:rivalcard": "tsx src/sim/qa_rivalcard.ts"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.4",

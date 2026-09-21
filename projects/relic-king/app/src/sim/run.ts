@@ -36,6 +36,7 @@ import {
   unlockSite, unlockTeamSlot, upgradeAuctionGrade, upgradeMuseumGrade
 } from "../game/engine";
 import { duration, won } from "../game/format";
+import { addGhost, signCard } from "../game/rivalcard";
 import { auctioneerSlotBonus } from "../game/staff";
 import type { AuctionHouse, Auctioneer, PersistentRecord, SiteId, World } from "../game/types";
 
@@ -299,9 +300,28 @@ function ledgerOk(w: World): string | null {
   return null;
 }
 
-function run(hours: number) {
+/**
+ * 기록패로 받은 사람 상대(고스트)를 N명 심는다(v0.5, notes/decisions.md G70).
+ *
+ * 카드 수치는 **엔딩 시점의 플레이어**로 잡는다(`eval.md` §20 실측 — 인부 77명 ·
+ * 장비 Lv.10 = 9,423/s, 자산 0.5691 · 도감 0.7503 · 명성 0.2227). 정상 플레이로 만들 수
+ * 있는 가장 센 기록패이고, 그게 밸런스에 최악인 경우다. 본거지를 갈라 서로 다른
+ * 사람으로 만든다(고스트 식별 키가 본거지에서 나온다).
+ */
+function seedGhosts(w: World, count: number) {
+  const homes: SiteId[] = ["egypt", "rome", "greece", "china", "japan", "india"];
+  for (let i = 0; i < count; i++) {
+    addGhost(w, signCard({
+      v: 1, n: `상대${i + 1}`, t: 140 * 3600, w: 77, g: 10,
+      a: 0.5691, c: 0.7503, f: 0.2227, u: [], h: homes[i % homes.length]
+    }));
+  }
+}
+
+function run(hours: number, ghosts = 0) {
   const w = createWorld();
   const record: PersistentRecord = createPersistentRecord();
+  if (ghosts > 0) seedGhosts(w, ghosts);
   const marks: Record<string, number | null> = {
     firstDrop: null, egypt: null, rome: null, deep12: null, firstT3: null, firstT4: null, ending: null
   };
@@ -387,8 +407,13 @@ function diagnoseEnding(w: World, record: PersistentRecord) {
 function main() {
   const hoursArg = process.argv.indexOf("--hours");
   const hours = hoursArg > -1 ? Number(process.argv[hoursArg + 1]) : 2;
+  // `--ghosts N`: 기록패로 받은 사람 상대를 N명 심고 같은 방치 기준선을 돌린다.
+  // 고스트 유무의 엔딩 도달 시간 차이를 재는 장치다(v0.5 검수 항목).
+  const ghostsArg = process.argv.indexOf("--ghosts");
+  const ghosts = ghostsArg > -1 ? Number(process.argv[ghostsArg + 1]) : 0;
 
-  const idle = run(hours);
+  const idle = run(hours, ghosts);
+  if (ghosts > 0) console.log(`(고스트 ${ghosts}명을 심고 돌렸다)`);
   const w = idle.w;
   const record = idle.record;
   const rank = ranking(w);

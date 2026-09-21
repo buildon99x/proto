@@ -561,3 +561,47 @@ export const STAFF_PROMOTION_STAT_GAIN = 2;
 // SALARY_ARREARS_GRACE_HOURS 계열은 삭제됐다 — 여기 선언하지 않는다.
 // 도난 보험(G50/C#1)으로 THEFT_INSURANCE_PREMIUM_RATE·THEFT_INSURANCE_PAYOUT_RATE도
 // 삭제됐다 — 여기 선언하지 않는다.
+
+// ── 기록패(플레이어 간 비동기 경쟁, v0.5 · notes/decisions.md G70) ─────────
+/** 기록패 스키마 버전. 올릴 때는 parseCard가 옛 버전을 계속 읽게 하거나,
+ *  못 읽는다는 사실을 화면에 그대로 적는다(척추 5번). */
+export const CARD_VERSION = 1;
+/** 기록패 문자열 상한. 이 위로는 파싱 전에 버린다 — 남이 준 문자열이
+ *  JSON.parse에 닿기 전에 잘라 내는 첫 번째 방어선이다. */
+export const CARD_MAX_CHARS = 2048;
+/** 동시에 받아 둘 수 있는 고스트 수. 순위표가 13행이 되면 읽히지 않고,
+ *  step()의 라이벌 루프가 그만큼 무거워진다(G70.4). */
+export const GHOST_MAX = 3;
+/**
+ * 고스트가 재현할 수 있는 발굴력 상한(진척/초) — **받아들이는 순간에만** 건다.
+ *
+ * 기록패는 발굴력이라는 결과값이 아니라 `workers`/`gear`라는 **상태**를 나른다.
+ * 결과값을 나르면 받는 쪽이 그걸 되돌리려다 반드시 틀린다 — 실제로 한 번 틀렸다:
+ * 발굴력 9,423/s를 `gear = 0` 가정으로 인부 8,566명으로 환산했더니, NPC와 같은
+ * 재투자 루프가 그 인부 더미 위에 장비를 13단계 얹어 **4,243,517/s**까지 부풀었다
+ * (실측 — `eval.md` §20). 인부와 장비를 그대로 옮기면 이 왜곡이 원천적으로 없다.
+ *
+ * 그래도 상한을 남겨 두는 이유는 위조 때문이다. 인부 수는 위조할 수 있고
+ * (`GHOST_WORKERS_CAP`이 1차로 자르지만 그 안에서도 장비와 곱해진다), 곱셈 하나가
+ * 판을 못 쓰게 만들 수 있다. 값의 근거는 실측이다 — 168시간 방치 시뮬에서 가장 센
+ * NPC가 26,349/s다. **사람 상대는 가장 센 NPC만큼 셀 수 있지만 그보다 세게 들어오지는
+ * 못한다.** 들어온 뒤의 성장은 NPC와 똑같은 규칙이라 막지 않는다.
+ */
+export const GHOST_DIG_POWER_CAP = 30_000;
+/**
+ * 기록패가 나를 수 있는 인부 수 상한. 엔딩 시점 플레이어가 77명이다(`eval.md` §20) —
+ * 한 자릿수 배수의 여유를 두되, 위조된 큰 수가 장비 배수와 곱해지는 경로는 막는다.
+ * 장비는 게임이 이미 `MAX_GEAR_LEVEL`로 자르므로 따로 상수를 두지 않는다.
+ */
+export const GHOST_WORKERS_CAP = 500;
+/** 고스트 표시 이름 상한(자). 넘으면 잘라 쓴다. */
+export const CARD_NAME_MAX_CHARS = 12;
+
+/**
+ * 자산 축의 분모(§13.1). `engine.ts`의 module-private 상수였는데, 기록패가 자산
+ * 축을 거꾸로 푸는 데 같은 값이 필요해 여기로 올렸다 — 두 곳에 같은 곱셈을 적어 두면
+ * 한쪽만 고쳐지는 날이 온다.
+ */
+export const ASSET_SCORE_REF = ARTIFACT_WORLD_VALUE_CEILING * ASSET_SCORE_REF_SHARE;
+/** 기록패에 이름을 정하지 않은 사람의 기본 표시 이름 */
+export const DEFAULT_OWNER_NAME = "이름 없는 발굴자";

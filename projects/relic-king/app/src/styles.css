@@ -237,7 +237,7 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 /* ── 세계 ─────────────────────────────── */
 .rank-list, .ledger-list, .log-list, .offline-list, .rules-notes { list-style: none; margin: 0; padding: 0; }
 .rank-list li {
-  display: grid; grid-template-columns: 22px 72px 1fr 90px 130px;
+  display: grid; grid-template-columns: 22px 104px 1fr 84px 118px;
   gap: 8px; align-items: center; padding: 4px 0; font-size: 12px;
 }
 .rank-list li.me { color: var(--accent); }
@@ -248,6 +248,25 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 .rank-list li.me .rank-bar > i { background: var(--accent); }
 .rank-val { text-align: right; font-variant-numeric: tabular-nums; }
 .rank-dig { font-size: 11px; }
+
+/* ── 기록패·추격전(v0.5) ─────────────────── */
+.race-panel { margin: 0 0 10px; padding: 8px 10px; background: var(--panel-2); border-radius: 6px; }
+.race-line { margin: 0; font-size: 12px; line-height: 1.6; }
+.race-line + .race-line { margin-top: 4px; }
+.rank-list li.rank-ghost .rank-bar > i { background: #6a6ea8; }
+.ghost-mark { color: #8a8fd0; margin-right: 4px; }
+.card-exchange { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.card-exchange h4 { margin: 0 0 6px; }
+.card-name-row { display: flex; align-items: center; gap: 8px; margin: 8px 0; font-size: 12px; }
+.card-name-row input {
+  flex: 1; min-width: 0; padding: 6px 8px; font: inherit; font-size: 12px;
+  color: var(--text); background: var(--ink); border: 1px solid var(--line); border-radius: 4px;
+}
+.ghost-list { list-style: none; margin: 8px 0 0; padding: 0; }
+.ghost-list li {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; padding: 3px 0; font-size: 12px;
+}
 
 .ledger-list li { display: grid; grid-template-columns: 16px 1fr auto; gap: 8px; padding: 3px 0; font-size: 12px; }
 .ledger-state.mine { color: var(--accent); }
@@ -519,8 +538,11 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
   .vault-pending { position: static; }
   .pending-body { min-height: 0; max-height: 260px; }
   .codex-detail { position: static; }
-  .rank-list li { grid-template-columns: 20px 64px 1fr 76px; }
+  .rank-list li { grid-template-columns: 20px 92px 1fr 62px; }
   .rank-dig { display: none; }
+  /* 고스트 행만은 좁은 화면에서도 부가 정보를 남긴다 — 거기 "언제 찍힌 기록인지"가
+     들어 있고, 그걸 지우면 모바일에서만 실시간 상대처럼 보인다. */
+  .rank-list li.rank-ghost .rank-dig { display: block; grid-column: 2 / -1; }
 
   .legacy-dig-body { grid-template-columns: 1fr; }
   .dig-canvas-wrap { max-width: 280px; margin: 0 auto; }

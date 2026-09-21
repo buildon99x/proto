@@ -371,6 +371,49 @@ async function main() {
     await evaluate(`document.querySelector('.modal-close')?.click()`);
     await new Promise((r) => setTimeout(r, 400));
 
+    // 8e) 순위표 — 기록패 왕복(v0.5, notes/decisions.md G70)
+    //     내 기록패를 복사해 그대로 다시 붙여 넣는다. 실제 UI 경로(클립보드 → prompt)를
+    //     그대로 타므로, 코드 생성·파싱·고스트 주입·순위표 렌더가 한 번에 검증된다.
+    await evaluate(`document.querySelector('.stat-rank')?.click()`);
+    await new Promise((r) => setTimeout(r, 600));
+    const rankOpen = await evaluate(`!!document.querySelector('.rank-list')`);
+    if (!rankOpen) failures.push("헤더 순위 칩을 눌러도 순위표가 열리지 않는다");
+
+    const cardRound = await evaluate(`(async () => {
+      let captured = null;
+      const origPrompt = window.prompt;
+      Object.defineProperty(navigator, 'clipboard', {
+        configurable: true,
+        value: { writeText: (t) => { captured = t; return Promise.resolve(); } }
+      });
+      const byText = (t) => [...document.querySelectorAll('.card-exchange button')].find(b => b.innerText.includes(t));
+      byText('복사')?.click();
+      await new Promise(r => setTimeout(r, 400));
+      window.prompt = () => captured;
+      byText('붙여넣기')?.click();
+      await new Promise(r => setTimeout(r, 700));
+      window.prompt = origPrompt;
+      return {
+        len: captured ? captured.length : 0,
+        ghosts: document.querySelectorAll('.rank-list li.rank-ghost').length,
+        rows: document.querySelectorAll('.rank-list li').length,
+        race: document.querySelector('.race-line')?.innerText ?? ''
+      };
+    })()`);
+    if (cardRound.len === 0) failures.push("기록패 복사에서 코드가 나오지 않았다");
+    if (cardRound.len > 512) failures.push(`기록패가 ${cardRound.len}자다 (512자 이하여야 한다)`);
+    if (cardRound.ghosts !== 1) failures.push(`붙여넣은 뒤 고스트 행이 ${cardRound.ghosts}개다 (1개여야 한다)`);
+    if (cardRound.rows !== 8) failures.push(`순위표가 ${cardRound.rows}행이다 (나 + NPC 6 + 고스트 1 = 8행이어야 한다)`);
+    if (!cardRound.race.trim()) failures.push("순위표에 추격 안내가 없다");
+    await shoot("09-ranktable");
+
+    // 고스트 행이 "언제 받은 기록인지"를 숨기지 않는가 — 이 표기가 사라지면 화면이
+    // 실시간 상대인 것처럼 거짓말을 하게 된다(G70.0).
+    const ghostAge = await evaluate(`document.querySelector('.rank-list li.rank-ghost')?.innerText ?? ''`);
+    if (!/기록/.test(ghostAge)) failures.push(`고스트 행에 기록 시점 표기가 없다: "${ghostAge}"`);
+    await evaluate(`document.querySelector('.modal-close')?.click()`);
+    await new Promise((r) => setTimeout(r, 400));
+
     // 9) 콘솔 오류
     const errors = cdp.events
       .filter((e) => e.method === "Runtime.exceptionThrown"
@@ -436,6 +479,27 @@ async function main() {
       }
     }
 
+    // 10a) 모바일 순위표 — 좁은 화면에서도 고스트가 "언제 받은 기록"인지 읽혀야 한다.
+    //      `.rank-dig`는 모바일에서 숨기지만 고스트 행만은 예외로 남겨 뒀다(G70.0) —
+    //      그 예외가 죽으면 모바일에서만 실시간 상대처럼 보인다.
+    await evaluate(`document.querySelector('.stat-rank')?.click()`);
+    await new Promise((r) => setTimeout(r, 700));
+    const mobileRank = await evaluate(`{
+      const ghost = document.querySelector('.rank-list li.rank-ghost');
+      ({
+        open: !!document.querySelector('.rank-list'),
+        ghostText: ghost ? ghost.innerText : "",
+        hOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth
+      });
+    }`);
+    if (!mobileRank.open) failures.push("모바일에서 순위표가 열리지 않는다");
+    if (!/기록/.test(mobileRank.ghostText)) {
+      failures.push(`모바일 고스트 행에 기록 시점 표기가 없다: "${mobileRank.ghostText}"`);
+    }
+    if (mobileRank.hOverflow > 0) failures.push(`모바일 순위표에서 가로 스크롤이 ${mobileRank.hOverflow}px 생겼다`);
+    await shoot("mobile-05-ranktable");
+    await evaluate(`document.querySelector('.modal-close')?.click()`);
+
     console.log("──────── SMOKE ────────");
     console.log(`스크린샷 ${shots.length}장 → ${OUT}`);
     console.log(`${SECONDS}초 방치 후 vault+pending ${dropCount}점`);
@@ -443,6 +507,7 @@ async function main() {
     console.log(`조사 병기 ${badJosa.length === 0 ? "없음" : badJosa.join(" ")}`);
     console.log(`세계지도 라벨 ${labelStats ? `${labelStats.drawn}개 · 생략 ${labelStats.omitted}건` : "미측정"}`);
     console.log(`권역 줌 비-바다 픽셀 ${(regionState.ratio * 100).toFixed(1)}% · 키보드 파견 ${sheet ? "도달" : "실패"}`);
+    console.log(`기록패 ${cardRound.len}자 · 왕복 후 순위표 ${cardRound.rows}행(고스트 ${cardRound.ghosts})`);
     console.log(failures.length ? `❌ FAIL\n- ${failures.join("\n- ")}` : "✅ PASS");
   } finally {
     chrome.kill();
