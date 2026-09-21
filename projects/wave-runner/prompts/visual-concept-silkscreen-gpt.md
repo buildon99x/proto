@@ -100,74 +100,121 @@ signature, any hue outside the four listed inks.
 
 ---
 
-## 프롬프트 2 — 플레이 화면
+## 프롬프트 2 — 플레이 화면 (계곡 · 폐허 · 무너진 도시 · 달 · 마른 나무)
 
 시안: `assets/references/silkscreen/play-screen.png`
+
+배경을 넣되 **통로는 그대로 비어 있다.** 풍경은 전부 벽(잉크) 안에서만 살고, 통로 경계
+안쪽 75px 은 배경이 한 점도 들어오지 않는 침묵 띠다. 자세한 이유는 컨셉 문서의 규칙 5.
 
 ```
 [공통 스타일 블록]
 
+Additional scenery inks (all DARKER than the paper stock — this is not optional):
+  far silhouette   #0c1322 (distant canyon ridges)
+  mid silhouette   #0a1020 (ruins, collapsed city)
+  near silhouette  #05080f (dead trees — closest, darkest)
+  moon disc        #101828
+  keyline          #33436a (hairlines on silhouettes; may be lighter than the
+                   stock, but must stay clearly dimmer than the corridor outline)
+
 Subject: the in-play screen of a side-scrolling one-button dodging game, drawn as a
-screen print. Portrait 9:16. The entire image is one continuous horizontal passage
-cut through a printed mass.
+screen print. Portrait 9:16. A passage has been cut straight through a dead
+moonlit landscape — a canyon of ruins and a collapsed city, all rendered as flat
+silhouette plates. The passage is the only empty thing in the picture.
 
 Composition:
 1. A wide open CORRIDOR runs from the left edge to the right edge, roughly through
    the middle third of the screen. It ascends toward the right as a staircase: a
    short diagonal ramp, then a flat recovery run, then another ramp, three or four
-   steps in total. The corridor keeps a constant generous width and narrows only
-   slightly as it climbs.
-2. The corridor interior is BARE PAPER — perfectly flat stock color, absolutely no
-   texture, no dots, no grain, no gradient. This emptiness is the point of the
-   image.
-3. Everything above and below the corridor is solid dark ink #04070e, filling to all
-   four edges, and it is covered with a coarse diagonal line screen at about -38
-   degrees plus a faint paper-fiber noise. All texture in the picture lives here and
-   only here.
-4. The boundary between ink and paper is a single crisp light-ink #9fb4d8 line about
-   3px wide with hard mitred corners — the sharpest, cleanest edge in the image.
-5. Immediately INSIDE the dark ink, hugging that boundary, a thicker soft ghost of
+   steps in total. Constant generous width, narrowing only slightly as it climbs.
+2. The corridor interior is BARE PAPER — perfectly flat stock color. No texture, no
+   dots, no grain, no gradient, no scenery, no stars, nothing. This emptiness is
+   the subject of the image.
+3. Everything above and below the corridor is solid dark ink #04070e filling to all
+   four edges, overprinted with a coarse diagonal line screen at about -38 degrees
+   and a faint paper-fiber noise.
+4. SCENERY, printed as a second plate ON TOP of that line screen, and only inside
+   the dark mass:
+   - Upper left: a large moon, drawn as a DARK disc #101828 with a thin 2px
+     light-ink outline and a wider faint concentric halo ring. It reads as a moon
+     by its outline and halo, never by being bright. Two small darker craters.
+   - Two bare dead trees stand in front of the moon, their branching silhouettes
+     crossing the disc — leafless, forked, tapering, in the darkest near tone.
+   - Behind them, jagged canyon ridge lines in the far tone, layered two deep.
+   - Across the upper right, the skyline of a COLLAPSED CITY: blocky towers of
+     varying height with snapped, diagonally sheared tops, one leaning off
+     vertical, small rectangular window notches knocked out of the ink.
+   - Lower mass: broken RUINS — stumps of columns with chipped tops, a couple of
+     half-fallen arches, more dead trees rising from the bottom edge, and another
+     distant ridge behind them.
+   - Every silhouette carries a 1px keyline in #33436a. Shape comes from the
+     keyline, not from brightness.
+5. A KNOCKOUT SILENCE BAND: for about 75px inside the dark mass, measured from the
+   corridor outline, there is no scenery at all — only clean ink. Silhouettes are
+   cut off cleanly where that band begins, like a printer's knockout gap. Nothing
+   in the landscape ever touches the corridor outline.
+6. The boundary between ink and paper is a single crisp light-ink #9fb4d8 line about
+   3px wide with hard mitred corners — the sharpest, cleanest, brightest edge in the
+   image. It must out-read every silhouette.
+7. Immediately INSIDE the dark ink, hugging that boundary, a thicker soft ghost of
    the same outline is offset about 9px into the dark mass, ragged and slightly
    blurred, like a misregistered second pass. The ghost never crosses into the
    corridor — it only ever bleeds deeper into the ink.
-6. In the corridor, a bright #ffe66d zigzag path drawn as a hard-cornered polyline:
+8. In the corridor, a bright #ffe66d zigzag path drawn as a hard-cornered polyline:
    long 45-degree rising legs alternating with short 45-degree falling legs, so the
    trace climbs as it advances to the right. It ends in a solid triangular arrowhead
-   pointing up-right, mid-screen. The older part of the trail is the same yellow at
-   about 30% opacity, thinner. This yellow is the only warm element in the picture.
-7. Near the right edge, the corridor is split into an upper and a lower lane by a
-   sharp-tipped lens/eye shape made of the same dark ink, filled with a tight
-   horizontal line screen and outlined in light ink. Centered in each lane is a small
-   flat rounded rectangle plaque with a simple solid up-arrow above it — the upper
-   plaque in orange #ffb347, the lower in violet #e07bff, both flat, both with a
-   light halftone dot texture over the fill. These two plaques are the only other
-   saturated marks allowed.
-8. Top-left margin, over the dark ink: a tiny registration crosshair and a short
-   Latin readout in light ink, small and quiet. A thin light-ink progress rail runs
-   along the very top edge. A small registration crosshair sits in the bottom-right
-   corner.
+   pointing up-right, mid-screen. The older trail is the same yellow at ~30%
+   opacity, thinner. This yellow is the only warm element in the picture.
+9. Near the right edge, the corridor splits into an upper and a lower lane around a
+   sharp-tipped lens shape of the same dark ink, filled with a tight horizontal line
+   screen and outlined in light ink. Centered in each lane, a small flat rounded
+   plaque with a solid up-arrow above it — upper plaque orange #ffb347, lower violet
+   #e07bff, both flat with a light halftone texture over the fill.
+10. Top-left margin over the dark ink: a tiny registration crosshair and a short
+    Latin readout in light ink. A thin light-ink progress rail along the very top
+    edge. A registration crosshair in the bottom-right corner.
 
-Do NOT include: any texture inside the corridor, Korean or CJK characters, glow or
-neon bloom, gradients, outer shadows, stars, clouds, spaceship illustration, 3D
-perspective, particles, HUD clutter across the corridor, watermark, signature, any
-hue outside the listed inks.
+Mood: dry, still, post-collapse night. Melancholy, not menacing. No weather, no
+rain, no fog, no fire.
+
+Hard constraint, repeated because it is the one that gets broken: the corridor
+interior stays completely empty flat stock color, and NO area of the landscape is
+brighter than that corridor. Only hairline keylines may be lighter, never a filled
+shape. Blocked areas are the darkest thing on the page.
+
+Do NOT include: scenery or texture inside the corridor, a bright/glowing moon,
+stars, clouds, fog, birds, water, foliage or leaves, people, vehicles, Korean or
+CJK characters, glow or neon bloom, gradients, outer shadows, 3D perspective,
+particles, watermark, signature, any hue outside the listed inks.
 ```
 
 **손잡이(수정 지점)**
 
-1. 통로에 텍스처가 묻어 나오면 → 6번 다음에 `The corridor must remain completely
-   untextured flat color — this is the single most important constraint.` 를 한 줄로
-   다시 못 박는다. 이 실수가 가장 자주 난다.
-2. 벽이 통로보다 밝아지면 → `Value law` 문장을 프롬프트 맨 끝에 한 번 더 복사한다.
-   모델은 첫 문단보다 마지막 문단을 더 잘 지킨다.
-3. 고스트가 통로 쪽으로 새면 → 5번을 `the ghost is clipped to the dark mass` 로 바꾸고
-   두께를 9px → 6px 로 줄인다.
-4. 지그재그가 부드러운 곡선이 되면 → `hard-cornered polyline, mitre joints, zero
-   curvature, like a seismograph trace` 를 덧붙인다.
-5. 게이트가 너무 튀면 → 7번의 plaque 를 `smaller, occupying less than 12% of the
-   image width` 로 제한한다.
+1. 통로에 풍경이 새어 들어가면 → 5번의 침묵 띠 문장을 프롬프트 **맨 끝**에 한 번 더
+   복사한다. 모델은 마지막 문단을 가장 잘 지킨다. 그래도 새면 띠를 `120px` 로 올린다.
+2. 달이 밝게 빛나면 → `the moon is a DARK disc, an unlit hole in the sky, outlined
+   only` 로 바꾸고 `no moonlight, no glow, no rim light` 를 부정 목록에 넣는다.
+   이 실수가 제일 자주 난다 — 달이라는 단어가 모델에게 곧 밝기다.
+3. 배경이 통로 경계와 경쟁하면 → 6번에 `the corridor outline is the highest-contrast
+   element; reduce all silhouette keylines to 50% of its brightness` 를 덧붙인다.
+4. 풍경이 너무 빽빽하면 → 4번에서 항목 하나를 지운다. 폐허와 도시를 같이 넣으면 아래쪽이
+   먼저 무너진다. 위=도시+달, 아래=폐허+나무로 갈라 쓰는 편이 낫다.
+5. 실루엣이 입체가 되면 → `flat silhouettes only, single flat tone per layer, no
+   shading, no highlights, no ambient occlusion` 를 덧붙인다.
+6. 코스 기하가 풍경에 먹히면 → 시안 PNG 를 첨부하고 `keep this exact corridor shape
+   and staircase rhythm; restyle only what is outside it` 를 앞에 붙인다.
 
----
+### 섹터별 풍경 배분 (같은 컨셉을 12스테이지로 늘릴 때)
+
+풍경이 장식이 아니라 **섹터가 묻는 질문의 배경**이 되게 하려면 유형별로 갈라 둔다.
+
+| 섹터 | 배경 | 왜 |
+|---|---|---|
+| **협곡** | 계곡 능선, 층진 암벽 | 통로의 계단 리듬과 능선 리듬이 같은 방향으로 읽힌다 |
+| **회랑** | 무너진 도시의 협곡 — 양쪽으로 선 건물 벽 | 좁고 긴 관이 건물 사이 골목이 된다 |
+| **산개** | 마른 나무 숲, 흩어진 잔해 | 흩뿌림이 배경에서 먼저 예고된다 |
+| **맥동** | 달 아래 폐허 열주(列柱) | 일정 간격의 기둥이 셔터 주기와 같은 박자다 |
 
 ## 다음 판에서 뽑아 볼 것
 
