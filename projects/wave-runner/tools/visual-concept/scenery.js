@@ -6,21 +6,21 @@
  *
  * 먼 것이 밝고 가까운 것이 어둡다(야경 실루엣의 관습). 세 톤 전부 먹과 종이 사이에 있다. */
 const TONE = {
-  far: "#0c1322",   // 계곡 능선
-  mid: "#0a1020",   // 폐허·도시
-  near: "#05080f",  // 마른 나무 — 가장 가깝고 가장 어둡다
-  moon: "#101828",
-  moonRing: "#9fb4d8",
+  far: "var(--scn-far)",    // 계곡 능선
+  mid: "var(--scn-mid)",    // 폐허·도시
+  near: "var(--scn-near)",  // 마른 나무 — 가장 가깝고 가장 어둡다
+  moon: "var(--scn-moon)",
+  moonRing: "var(--edge)",
   /* 형태는 덩어리 밝기가 아니라 윤곽선이 만든다. 실루엣을 통로만큼 밝히면
    * 죽는 영역이 밝아져 반사가 뒤집히므로, 밝힐 수 있는 것은 1px 선뿐이다. */
-  key: "#33436a",
-  keyFaint: "#222e4a"
+  key: "var(--scn-key)",
+  keyFaint: "var(--scn-key-faint)"
 };
 
 /** 들쭉날쭉한 능선 하나. 계곡의 먼 벽 */
 function ridgePair(x0, x1, base, peaks, seed) {
   const d = ridge(x0, x1, base, peaks, seed);
-  return `<path d="${d}" fill="${TONE.far}"/><path d="${d}" fill="none" stroke="${TONE.keyFaint}" stroke-width="1.4"/>`;
+  return `<path d="${d}" style="fill:${TONE.far}"/><path d="${d}" fill="none" style="stroke:${TONE.keyFaint}" stroke-width="1.4"/>`;
 }
 
 function ridge(x0, x1, base, peaks, seed) {
@@ -57,7 +57,7 @@ function skyline(x0, base, count, seed) {
       for (let r = 0; r < Math.floor(h / 54); r++) {
         if (rnd() < 0.45) continue;
         out += `<rect x="${(x + w * 0.28).toFixed(1)}" y="${(base - h + 30 + r * 46).toFixed(1)}"
-                 width="${(w * 0.2).toFixed(1)}" height="9" fill="#04070e"/>`;
+                 width="${(w * 0.2).toFixed(1)}" height="9" style="fill:var(--scn-window)"/>`;
       }
     }
     x += w + 6 + rnd() * 26;
@@ -79,12 +79,12 @@ function ruins(x0, base, seed) {
              L ${(x + w * chip).toFixed(1)},${(base - h * (0.78 + rnd() * 0.14)).toFixed(1)}
              L ${(x + w).toFixed(1)},${(base - h * (0.86 + rnd() * 0.12)).toFixed(1)}
              L ${(x + w).toFixed(1)},${base} Z"
-             fill="${TONE.mid}" stroke="${TONE.key}" stroke-width="1.1"/>`;
+             style="fill:${TONE.mid};stroke:${TONE.key}" stroke-width="1.1"/>`;
     if (i > 0 && rnd() < 0.55) {
       // 두 기둥을 잇다 만 아치
       out += `<path d="M ${(x - 34).toFixed(1)},${(base - h * 0.82).toFixed(1)}
                q ${17},${-30} ${34},0 l -9,6 q ${-8},${-18} ${-16},0 Z"
-               fill="${TONE.mid}" stroke="${TONE.key}" stroke-width="1"/>`;
+               style="fill:${TONE.mid};stroke:${TONE.key}" stroke-width="1"/>`;
     }
     x += w + 30 + rnd() * 54;
   }
@@ -100,9 +100,9 @@ function deadTree(x, base, scale, seed) {
     const ex = bx + Math.cos(ang) * len;
     const ey = by - Math.sin(ang) * len;
     segs.push(`<path d="M ${bx.toFixed(1)},${by.toFixed(1)} L ${ex.toFixed(1)},${ey.toFixed(1)}"
-                stroke="${TONE.near}" stroke-width="${(wdt + 1.6).toFixed(2)}" stroke-linecap="round" fill="none"/>`);
+                style="stroke:${TONE.near}" stroke-width="${(wdt + 1.6).toFixed(2)}" stroke-linecap="round" fill="none"/>`);
     segs.push(`<path d="M ${bx.toFixed(1)},${by.toFixed(1)} L ${ex.toFixed(1)},${ey.toFixed(1)}"
-                stroke="${TONE.key}" stroke-width="${Math.max(0.6, wdt * 0.35).toFixed(2)}"
+                style="stroke:${TONE.key}" stroke-width="${Math.max(0.6, wdt * 0.35).toFixed(2)}"
                 stroke-linecap="round" fill="none" opacity="0.7"/>`);
     if (depth === 0) return;
     const n = rnd() < 0.35 ? 3 : 2;
@@ -117,9 +117,9 @@ function deadTree(x, base, scale, seed) {
 /** 달 — 밝아서 달이 아니라 윤곽과 후광으로 달이다 */
 function moon(cx, cy, r) {
   return `
-    <circle cx="${cx}" cy="${cy}" r="${r}" fill="${TONE.moon}"/>
-    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${TONE.moonRing}" stroke-width="2" opacity="0.4"/>
-    <circle cx="${cx}" cy="${cy}" r="${r + 16}" fill="none" stroke="${TONE.moonRing}" stroke-width="1" opacity="0.16"/>
-    <circle cx="${(cx - r * 0.3).toFixed(1)}" cy="${(cy - r * 0.22).toFixed(1)}" r="${(r * 0.2).toFixed(1)}" fill="#0a1120"/>
-    <circle cx="${(cx + r * 0.28).toFixed(1)}" cy="${(cy + r * 0.3).toFixed(1)}" r="${(r * 0.13).toFixed(1)}" fill="#0a1120"/>`;
+    <circle cx="${cx}" cy="${cy}" r="${r}" style="fill:${TONE.moon}"/>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" style="stroke:${TONE.moonRing}" stroke-width="2" opacity="0.4"/>
+    <circle cx="${cx}" cy="${cy}" r="${r + 16}" fill="none" style="stroke:${TONE.moonRing}" stroke-width="1" opacity="0.16"/>
+    <circle cx="${(cx - r * 0.3).toFixed(1)}" cy="${(cy - r * 0.22).toFixed(1)}" r="${(r * 0.2).toFixed(1)}" style="fill:${TONE.mid}"/>
+    <circle cx="${(cx + r * 0.28).toFixed(1)}" cy="${(cy + r * 0.3).toFixed(1)}" r="${(r * 0.13).toFixed(1)}" style="fill:${TONE.mid}"/>`;
 }

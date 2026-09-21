@@ -19,7 +19,8 @@
 
 ## 공통 스타일 블록
 
-두 프롬프트 모두 이 문단으로 시작한다. 따로 쓸 때는 이 블록을 앞에 붙여라.
+두 프롬프트 모두 이 문단으로 시작한다. `[잉크 세트]` 자리에는 아래 A 나 B 중 한 벌을
+통째로 붙인다.
 
 ```
 Style: authentic 1970s screen-printed (silkscreen) poster artwork, rendered as a
@@ -30,14 +31,46 @@ screens, slight ink build-up along edges, faint paper fiber, tiny registration
 crosshairs in the corner margins, and a subtle 3-4px misregistration ghost of one
 ink layer.
 
-Palette — use these exact inks and NO other hues:
-  paper stock  #18202f (mid-tone blue-charcoal)
-  dark ink     #04070e (the walls / blocked mass; DARKER than the paper)
-  light ink    #9fb4d8 (outlines, marks, halftone dots, small type)
-  accent ink   #ffe66d (used for ONE element only — see each prompt)
+[잉크 세트]
+
 Value law: blocked areas are the DARKEST thing on the page; open/passable areas are
-lighter. Never invert this.
+lighter. Never invert this. Only hairlines may be lighter than the passable area —
+never a filled shape.
 ```
+
+## 잉크 세트
+
+### A. 야경 세트 (기본)
+
+```
+Palette — use these exact inks and NO other hues:
+  paper stock      #141b29 (mid-tone blue-charcoal; the passable corridor)
+  dark ink         #04070e (walls / blocked mass; DARKER than the paper)
+  light ink        #9fb4d8 (corridor outline, marks, halftone dots, small type)
+  accent ink       #ffe66d (the avatar trail only)
+  far silhouette   #0c1322   mid #0a1020   near #05080f
+  moon disc        #101828   silhouette keyline #33436a
+```
+
+### B. 자외선 세트 — 진한 퍼플 + 형광 라임
+
+```
+Palette — use these exact inks and NO other hues:
+  paper stock      #2a1b47 (deep purple; the passable corridor)
+  dark ink         #0d0518 (walls / blocked mass; DARKER than the paper)
+  light ink        #c3b0ef (corridor outline, marks, small type)
+  accent ink       #ccff33 (FLUORESCENT LIME — the avatar trail only)
+  far silhouette   #1c1133   mid #160d2a   near #0a0417
+  moon disc        #221540   silhouette keyline #583f93
+The lime is a fluorescent spot ink — a color that only exists in screen printing,
+never in offset. It must look like ink on paper, not like an emissive glow.
+```
+
+**형광 라임이 컨셉을 배신하지 않는 이유**가 마지막 줄이다 — 형광 잉크는 실크스크린으로만
+찍히는 잉크라 오히려 공정을 증명한다. 다만 **대가가 있고, 그 대가는 게임 쪽에서 치러야
+한다.** 라임 `#b8ff5e` 는 홀드 표시고 민트 `#7dffb0` 는 종료선이며, 퍼플 바탕은 편향 축
+`#e07bff` 와 같은 계열이다. 셋을 어떻게 비켜 세울지는
+[컨셉 문서의 "자외선 세트의 대가"](../notes/visual-concept-silkscreen.md)에 적었다.
 
 ---
 
@@ -108,15 +141,11 @@ signature, any hue outside the four listed inks.
 안쪽 75px 은 배경이 한 점도 들어오지 않는 침묵 띠다. 자세한 이유는 컨셉 문서의 규칙 5.
 
 ```
-[공통 스타일 블록]
+[공통 스타일 블록 + 잉크 세트 B]
 
-Additional scenery inks (all DARKER than the paper stock — this is not optional):
-  far silhouette   #0c1322 (distant canyon ridges)
-  mid silhouette   #0a1020 (ruins, collapsed city)
-  near silhouette  #05080f (dead trees — closest, darkest)
-  moon disc        #101828
-  keyline          #33436a (hairlines on silhouettes; may be lighter than the
-                   stock, but must stay clearly dimmer than the corridor outline)
+All silhouette fills are DARKER than the paper stock — this is not optional. Only
+the hairline keyline may be lighter than the stock, and it must stay clearly dimmer
+than the corridor outline.
 
 Subject: the in-play screen of a side-scrolling one-button dodging game, drawn as a
 screen print. Portrait 9:16. A passage has been cut straight through a dead
@@ -136,7 +165,7 @@ Composition:
    and a faint paper-fiber noise.
 4. SCENERY, printed as a second plate ON TOP of that line screen, and only inside
    the dark mass:
-   - Upper left: a large moon, drawn as a DARK disc #101828 with a thin 2px
+   - Upper left: a large moon, drawn as a DARK disc (moon-disc ink) with a thin 2px
      light-ink outline and a wider faint concentric halo ring. It reads as a moon
      by its outline and halo, never by being bright. Two small darker craters.
    - Two bare dead trees stand in front of the moon, their branching silhouettes
@@ -148,42 +177,47 @@ Composition:
    - Lower mass: broken RUINS — stumps of columns with chipped tops, a couple of
      half-fallen arches, more dead trees rising from the bottom edge, and another
      distant ridge behind them.
-   - Every silhouette carries a 1px keyline in #33436a. Shape comes from the
-     keyline, not from brightness.
+   - Every silhouette carries a 1px keyline in the keyline ink. Shape comes from
+     the keyline, not from brightness.
 5. A KNOCKOUT SILENCE BAND: for about 75px inside the dark mass, measured from the
    corridor outline, there is no scenery at all — only clean ink. Silhouettes are
    cut off cleanly where that band begins, like a printer's knockout gap. Nothing
    in the landscape ever touches the corridor outline.
-6. The boundary between ink and paper is a single crisp light-ink #9fb4d8 line about
+6. The boundary between ink and paper is a single crisp light-ink line about
    3px wide with hard mitred corners — the sharpest, cleanest, brightest edge in the
    image. It must out-read every silhouette.
 7. Immediately INSIDE the dark ink, hugging that boundary, a thicker soft ghost of
    the same outline is offset about 9px into the dark mass, ragged and slightly
    blurred, like a misregistered second pass. The ghost never crosses into the
    corridor — it only ever bleeds deeper into the ink.
-8. In the corridor, a bright #ffe66d zigzag path drawn as a hard-cornered polyline:
+8. In the corridor, a bright accent-ink zigzag path drawn as a hard-cornered polyline:
    long 45-degree rising legs alternating with short 45-degree falling legs, so the
    trace climbs as it advances to the right. It ends in a solid triangular arrowhead
    pointing up-right, mid-screen. The older trail is the same yellow at ~30%
-   opacity, thinner. This yellow is the only warm element in the picture.
+   opacity, thinner. This is the only high-chroma element in the picture, and the
+   brightest thing on the page — brighter even than the corridor outline.
 9. Near the right edge, the corridor splits into an upper and a lower lane around a
    sharp-tipped lens shape of the same dark ink, filled with a tight horizontal line
    screen and outlined in light ink. Centered in each lane, a small flat rounded
-   plaque with a solid up-arrow above it — upper plaque orange #ffb347, lower violet
-   #e07bff, both flat with a light halftone texture over the fill.
+   plaque with an up-arrow above it — upper plaque orange #ffb347, lower violet
+   #e07bff, both flat with a light halftone texture over the fill. BOTH the plaque
+   and the arrow carry a 2px light-ink keyline ring, and the arrow itself is a
+   knockout of dark ink, not a filled color. On the purple set the ring is what
+   keeps the violet plaque from sinking into the purple ground.
 10. Top-left margin over the dark ink: a tiny registration crosshair and a short
     Latin readout in light ink. A thin light-ink progress rail along the very top
     edge. A registration crosshair in the bottom-right corner.
 
-Mood: dry, still, post-collapse night. Melancholy, not menacing. No weather, no
-rain, no fog, no fire.
+Mood: dry, still, post-collapse night under deep purple. Melancholy, not menacing.
+No weather, no rain, no fog, no fire.
 
 Hard constraint, repeated because it is the one that gets broken: the corridor
 interior stays completely empty flat stock color, and NO area of the landscape is
 brighter than that corridor. Only hairline keylines may be lighter, never a filled
 shape. Blocked areas are the darkest thing on the page.
 
-Do NOT include: scenery or texture inside the corridor, a bright/glowing moon,
+Do NOT include: scenery or texture inside the corridor, a glowing or emissive lime
+(it is ink, not light), a bright/glowing moon,
 stars, clouds, fog, birds, water, foliage or leaves, people, vehicles, Korean or
 CJK characters, glow or neon bloom, gradients, outer shadows, 3D perspective,
 particles, watermark, signature, any hue outside the listed inks.
@@ -202,7 +236,10 @@ particles, watermark, signature, any hue outside the listed inks.
    먼저 무너진다. 위=도시+달, 아래=폐허+나무로 갈라 쓰는 편이 낫다.
 5. 실루엣이 입체가 되면 → `flat silhouettes only, single flat tone per layer, no
    shading, no highlights, no ambient occlusion` 를 덧붙인다.
-6. 코스 기하가 풍경에 먹히면 → 시안 PNG 를 첨부하고 `keep this exact corridor shape
+6. 라임이 네온처럼 빛나면 → `the lime is flat printed ink with a slightly ragged
+   screen-printed edge; matte, no halo, no emission` 을 덧붙인다. 형광색을 말하면
+   모델이 발광으로 알아듣는다.
+7. 코스 기하가 풍경에 먹히면 → 시안 PNG 를 첨부하고 `keep this exact corridor shape
    and staircase rhythm; restyle only what is outside it` 를 앞에 붙인다.
 
 ### 섹터별 풍경 배분 (같은 컨셉을 12스테이지로 늘릴 때)

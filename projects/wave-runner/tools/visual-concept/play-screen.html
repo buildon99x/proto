@@ -5,6 +5,43 @@
 <title>Wave Runner — 실크스크린 컨셉 · 플레이</title>
 <link rel="stylesheet" href="common.css">
 <style>
+/* ── 자외선 세트 — 진한 퍼플 종이에 형광 라임 아바타 ──────────────
+ *
+ * 형광 잉크는 실크스크린에서만 찍히는 잉크다(오프셋으로는 못 낸다). 그래서
+ * 형광 라임은 컨셉을 배신하는 게 아니라 오히려 이 공정을 증명하는 색이다.
+ *
+ * 다만 두 색 다 게임이 이미 쓰고 있어 **대가가 있다.**
+ *   · 라임 #b8ff5e 는 홀드 표시, 민트 #7dffb0 는 종료선이다 → 아바타가 라임이 되면
+ *     둘은 비켜야 한다(홀드는 연보라, 종료선은 잉크를 비운 종이 띠로).
+ *   · 퍼플 바탕은 편향 축 #e07bff 와 같은 계열이다 → 게이트 핀에 종이색 링을
+ *     둘러 바탕에서 떼어 낸다.
+ * 자세한 것은 notes/visual-concept-silkscreen.md 의 "자외선 세트의 대가". */
+:root {
+  --stock: #2a1b47;
+  --ink: #0d0518;
+  --edge: #c3b0ef;
+  --brand: #ccff33;
+
+  --screen-line: #26123f;
+  --screen-line-2: #1e0f34;
+  --dot: #8f74d6;
+
+  --scn-far: #1c1133;
+  --scn-mid: #160d2a;
+  --scn-near: #0a0417;
+  --scn-moon: #221540;
+  --scn-key: #583f93;
+  --scn-key-faint: #3b2a66;
+  --scn-window: #0d0518;
+
+  --ghost: #5b3f9c;
+  --grain-tint: #3a2168;
+  --hud: #b9a8e6;
+  --hud-dim: #7a68a8;
+  --rail-bg: #1a0f2e;
+  --rail-fill: #8f74d6;
+}
+
 /* 플레이 화면에는 전역 종이 결이 없다.
  * 결은 잉크(벽) 위에만 얹고 통로는 평평한 종이로 비워 둔다 — 컨셉의 1번 규칙이다. */
 .stage { position: absolute; inset: 0; background: var(--ink); }
@@ -16,12 +53,12 @@ svg.field { display: block; width: 780px; height: 1440px; }
   z-index: 40;
 }
 .hud .cross { width: 15px; height: 15px; opacity: 0.5; }
-.hud .val { font-size: 15px; font-weight: 700; color: #aebde0; letter-spacing: 0.02em; }
-.hud .val em { font-style: normal; color: #64728e; margin-left: 6px; font-size: 12px; }
+.hud .val { font-size: 15px; font-weight: 700; color: var(--hud); letter-spacing: 0.02em; }
+.hud .val em { font-style: normal; color: var(--hud-dim); margin-left: 6px; font-size: 12px; }
 
 /* 진행 레일 — 맨 위 3px. 통로를 훑는 시선 경로 밖 */
-.rail { position: absolute; left: 0; top: 0; height: 3px; width: 100%; background: #10161f; z-index: 41; }
-.rail b { display: block; height: 3px; width: 38%; background: #6f92c8; }
+.rail { position: absolute; left: 0; top: 0; height: 3px; width: 100%; background: var(--rail-bg); z-index: 41; }
+.rail b { display: block; height: 3px; width: 38%; background: var(--rail-fill); }
 
 .foot { position: absolute; left: 22px; bottom: 52px; z-index: 40; }
 </style>
@@ -76,9 +113,13 @@ svg.field { display: block; width: 780px; height: 1440px; }
   const laneUp = gy - gh / 2 - 8;   // 위 갈래의 중앙
   const laneDn = gy + gh / 2 + 8;   // 아래 갈래의 중앙
 
+  /* 링은 장식이 아니다 — 편향 축(#e07bff)이 퍼플 종이와 같은 계열이라
+   * 링 없이는 핀이 바탕에 녹는다. 속도 핀에도 같은 링을 둘러 둘이 같은 규격으로 읽힌다. */
   const pill = (cx, cy, color) => `
-    <path d="M${cx},${cy - 46} l18,26 h-11 v18 h-14 v-18 h-11 Z" fill="#2c6b78"/>
-    <rect x="${cx - 44}" y="${cy - 16}" width="88" height="34" rx="5" fill="${color}"/>
+    <path d="M${cx},${cy - 46} l18,26 h-11 v18 h-14 v-18 h-11 Z"
+          style="fill:var(--ink);stroke:var(--edge)" stroke-width="1.8" stroke-linejoin="round"/>
+    <rect x="${cx - 44}" y="${cy - 16}" width="88" height="34" rx="5" fill="${color}"
+          style="stroke:var(--edge)" stroke-width="2"/>
     <rect x="${cx - 44}" y="${cy - 16}" width="88" height="34" rx="5" fill="url(#tone-1)" opacity="0.28"/>`;
 
   document.getElementById("field").innerHTML = `
@@ -98,16 +139,16 @@ svg.field { display: block; width: 780px; height: 1440px; }
     </defs>
 
     <!-- 1. 종이 — 통로. 평평하다. 결도 망점도 없다 -->
-    <rect width="${W}" height="${H}" fill="#18202f"/>
+    <rect width="${W}" height="${H}" style="fill:var(--stock)"/>
 
     <!-- 2. 먹판 — 벽. 통로보다 어둡다(명도가 의미를 따른다).
          결과 망점은 전부 이 안쪽에만 있다 -->
-    <path d="${wallTop}" fill="#04070e"/>
-    <path d="${wallBot}" fill="#04070e"/>
+    <path d="${wallTop}" style="fill:var(--ink)"/>
+    <path d="${wallBot}" style="fill:var(--ink)"/>
     <!-- 2b. 선망과 종이 결 — 벽 전체를 한 판으로 묶는다 -->
     <g clip-path="url(#wall-only)">
       <rect width="${W}" height="${H}" fill="url(#plate-gorge)" opacity="0.5"/>
-      <rect width="${W}" height="${H}" fill="#223052" opacity="0.5" filter="url(#paper)"/>
+      <rect width="${W}" height="${H}" style="fill:var(--grain-tint)" opacity="0.5" filter="url(#paper)"/>
     </g>
 
     <!-- 2c. 배경 실루엣 — 계곡·폐허·무너진 도시·달·마른 나무.
@@ -131,27 +172,27 @@ svg.field { display: block; width: 780px; height: 1440px; }
     <!-- 3. 어긋난 판 — 오직 벽 안쪽으로만 밀린다.
          판정선을 절대 넘지 않으므로 어긋남은 나를 살리는 쪽으로만 틀린다 -->
     <g clip-path="url(#wall-only)" opacity="0.55" filter="url(#rough)">
-      <path d="${topPath}" transform="translate(3,-9)" fill="none" stroke="#4d5f83" stroke-width="9"/>
-      <path d="${botPath}" transform="translate(3,9)"  fill="none" stroke="#4d5f83" stroke-width="9"/>
+      <path d="${topPath}" transform="translate(3,-9)" fill="none" style="stroke:var(--ghost)" stroke-width="9"/>
+      <path d="${botPath}" transform="translate(3,9)"  fill="none" style="stroke:var(--ghost)" stroke-width="9"/>
     </g>
 
     <!-- 4. 판정선 — 화면에서 유일하게 떨리지 않는 선 -->
-    <path d="${topPath}" fill="none" stroke="#9fb4d8" stroke-width="2.6" stroke-linejoin="miter"/>
-    <path d="${botPath}" fill="none" stroke="#9fb4d8" stroke-width="2.6" stroke-linejoin="miter"/>
+    <path d="${topPath}" fill="none" style="stroke:var(--edge)" stroke-width="2.6" stroke-linejoin="miter"/>
+    <path d="${botPath}" fill="none" style="stroke:var(--edge)" stroke-width="2.6" stroke-linejoin="miter"/>
 
     <!-- 5. 게이트 렌즈 — 벽과 같은 먹판이다 -->
-    <path d="${gate}" fill="#04070e"/>
+    <path d="${gate}" style="fill:var(--ink)"/>
     <path d="${gate}" fill="url(#plate-corridor)" opacity="0.7"/>
-    <path d="${gate}" fill="none" stroke="#9fb4d8" stroke-width="2.4"/>
+    <path d="${gate}" fill="none" style="stroke:var(--edge)" stroke-width="2.4"/>
 
     <!-- 6. 게이트 표식 — 속도 +1 / 편향 +1. 색은 axes.ts 의 값 그대로 -->
     ${pill(676, laneUp, "#ffb347")}
     ${pill(676, laneDn, "#e07bff")}
 
     <!-- 7. 아바타 잉크 — 화면에서 유일하게 노란 것 -->
-    <polyline points="${trail}" fill="none" stroke="#ffe66d" stroke-width="3.2" opacity="0.3"/>
-    <polyline points="290,750 ${head}" fill="none" stroke="#ffe66d" stroke-width="5.4"/>
-    <path d="M${head} l34,-24 -8,30 -12,-8 Z" fill="#ffe66d"/>
+    <polyline points="${trail}" fill="none" style="stroke:var(--brand)" stroke-width="3.2" opacity="0.3"/>
+    <polyline points="290,750 ${head}" fill="none" style="stroke:var(--brand)" stroke-width="5.4"/>
+    <path d="M${head} l34,-24 -8,30 -12,-8 Z" style="fill:var(--brand)"/>
   `;
 })();
 </script>
