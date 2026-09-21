@@ -186,7 +186,7 @@ export const projects = [
       "build": "pnpm --filter wave-runner build",
       "test": "pnpm --filter wave-runner test"
     },
-    "updatedAt": "2026-09-17T12:08:02+00:00"
+    "updatedAt": "2026-09-21T17:48:30+00:00"
   },
   {
     "id": "blacksmith-clicker",
@@ -351,6 +351,6 @@ export const projects = [
       "play": "pnpm --filter relic-king play",
       "playlog": "pnpm --filter relic-king playlog"
     },
-    "updatedAt": "2026-09-21T00:24:32+00:00"
+    "updatedAt": "2026-09-21T15:09:11+00:00"
   }
 ] as const satisfies readonly ProjectMetadata[];
