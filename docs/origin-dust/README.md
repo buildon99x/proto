@@ -13,6 +13,7 @@
 |---|---|
 | [`concept.md`](concept.md) | **컨셉 안 원본.** 무편집 보존 — 이 파일은 고치지 않는다 |
 | [`concept-review.md`](concept-review.md) | 컨셉 안 리뷰 — 결함 10건(P0 2 · P1 3 · P2 5)과 처리 순서 |
+| [`concept-revision-p0.md`](concept-revision-p0.md) | P0 수정안 — F1·F2를 닫는 패치 9개(before/after). **아직 concept.md에 적용되지 않았다** |
 | [`eval/00-rubric.md`](eval/00-rubric.md) | **채점 도구.** 공통 서사 10축 + 매체 4축(소설/웹툰), 게이트, 채점 전 측정 3종, 수렴 규칙 |
 | [`eval/01-goldset-novel.md`](eval/01-goldset-novel.md) | 소설 예시 — good 8(공개도메인 verbatim) · bad 4 |
 | [`eval/02-goldset-webtoon.md`](eval/02-goldset-webtoon.md) | 웹툰 콘티 예시 — good 4 · bad 4 (전부 창작) |
@@ -70,9 +71,10 @@
 
 ## 다음에 할 일
 
-0. **컨셉 안의 P0 결함 둘을 닫는다** — [`concept-review.md`](concept-review.md) F1(공식 역사가 "11시간 뒤 생존자"의
-   충격을 만들지 못한다)과 F2(레이의 나이가 사진과 131년 어긋난다). 시즌1 최종 반전이 그 숫자 위에 서 있어
-   콘티 착수 전에 정리해야 한다.
+0. **P0 수정안을 검토하고 `concept-v2.md`로 합친다** — [`concept-revision-p0.md`](concept-revision-p0.md)가
+   F1(공식 역사가 "11시간 뒤 생존자"의 충격을 만들지 못한다)과 F2(레이의 나이가 사진과 131년 어긋난다)를
+   닫는 패치 9개를 before/after로 담고 있다. 패치형이라 **`concept.md`의 결함은 아직 닫히지 않았다** —
+   합치기 전까지 원본은 결함을 그대로 안고 있다.
 1. **골드셋 교체** — `eval/02-goldset-webtoon.md`의 가상 설정 예시(먼지 채굴·세이렌 가문)를 실제 설정
    (레이 한·MOTH-13·SEOUL BASIN·빨간 녹음기) 기준 good/bad 쌍으로 바꾼다. 이제 근거가 있다.
 2. **1화 채점** — `concept.md` §17의 1화 구성을 `eval/00-rubric.md`로 재 본다. 다만 그것은 콘티가 아니라
