@@ -32,6 +32,9 @@
   --scn-key: #33436a;
   --scn-key-faint: #222e4a;
   --scn-window: #04070e;
+
+  /* 배경 심볼 전용 잉크. 야경 세트에서는 벽 에지와 같은 은청이라 따로 튀지 않는다 */
+  --mark: #9fb4d8;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }

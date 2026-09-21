@@ -10,7 +10,7 @@ const TONE = {
   mid: "var(--scn-mid)",    // 폐허·도시
   near: "var(--scn-near)",  // 마른 나무 — 가장 가깝고 가장 어둡다
   moon: "var(--scn-moon)",
-  moonRing: "var(--edge)",
+  moonRing: "var(--mark)",   // 달무리가 가장 큰 배경 심볼이다
   /* 형태는 덩어리 밝기가 아니라 윤곽선이 만든다. 실루엣을 통로만큼 밝히면
    * 죽는 영역이 밝아져 반사가 뒤집히므로, 밝힐 수 있는 것은 1px 선뿐이다. */
   key: "var(--scn-key)",
@@ -118,8 +118,56 @@ function deadTree(x, base, scale, seed) {
 function moon(cx, cy, r) {
   return `
     <circle cx="${cx}" cy="${cy}" r="${r}" style="fill:${TONE.moon}"/>
-    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" style="stroke:${TONE.moonRing}" stroke-width="2" opacity="0.4"/>
-    <circle cx="${cx}" cy="${cy}" r="${r + 16}" fill="none" style="stroke:${TONE.moonRing}" stroke-width="1" opacity="0.16"/>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" style="stroke:${TONE.moonRing}" stroke-width="2.2" opacity="0.55"/>
+    <circle cx="${cx}" cy="${cy}" r="${r + 16}" fill="none" style="stroke:${TONE.moonRing}" stroke-width="1.2" opacity="0.24"/>
+    <circle cx="${cx}" cy="${cy}" r="${r + 34}" fill="none" style="stroke:${TONE.moonRing}" stroke-width="0.9" opacity="0.12"/>
     <circle cx="${(cx - r * 0.3).toFixed(1)}" cy="${(cy - r * 0.22).toFixed(1)}" r="${(r * 0.2).toFixed(1)}" style="fill:${TONE.mid}"/>
     <circle cx="${(cx + r * 0.28).toFixed(1)}" cy="${(cy + r * 0.3).toFixed(1)}" r="${(r * 0.13).toFixed(1)}" style="fill:${TONE.mid}"/>`;
+}
+
+/* ── 배경 심볼 — 형광 라임으로 찍는 유일한 것들 ─────────────────────
+ *
+ * 라임은 배경 전용 잉크다. 통로에도 기믹에도 오지 않는다. 그리고 **면으로
+ * 칠하지 않는다** — 전부 가는 선이고, 잉크를 0.5~0.6 으로 얇게 올려 화면에서
+ * 판정선(#9fb4d8)보다 밝아지지 않게 한다. 죽는 영역에 화면 최고 밝기를 두면
+ * 시선이 통로에서 끌려 나가고, 그건 이 컨셉이 처음부터 피하려던 것이다.
+ *
+ * 폐허에 스텐실로 찍힌 마크라는 설정이라 실크스크린과도 맞는다 — 스텐실은
+ * 이 공정의 조상이다. */
+
+/** 무너진 도시 벽의 문장 — 원 안의 파형. 프레임이 있어야 궤적으로 오독되지 않는다 */
+function emblem(cx, cy, r, mast) {
+  const w = r * 0.62;
+  const wave = `M ${cx - w},${cy + w * 0.38} L ${cx - w * 0.33},${cy - w * 0.38}
+                L ${cx + w * 0.33},${cy + w * 0.38} L ${cx + w},${cy - w * 0.38}`;
+  return `
+    <g style="stroke:var(--mark)" fill="none" stroke-linejoin="miter" opacity="0.62">
+      <path d="M ${cx},${cy + r} L ${cx},${cy + r + (mast || 74)}" stroke-width="1.6" opacity="0.6"/>
+      <path d="M ${cx - 16},${cy + r + (mast || 74)} L ${cx + 16},${cy + r + (mast || 74)}" stroke-width="1.6" opacity="0.6"/>
+      <circle cx="${cx}" cy="${cy}" r="${r}" stroke-width="2.2"/>
+      <circle cx="${cx}" cy="${cy}" r="${r + 7}" stroke-width="1" opacity="0.5"/>
+      <path d="${wave}" stroke-width="3"/>
+    </g>`;
+}
+
+/** 첨탑 끝의 표지등 — 점 하나와 그 둘레 */
+function beacon(cx, cy, mast) {
+  return `
+    <g opacity="0.6">
+      <path d="M ${cx},${cy + 3} L ${cx},${cy + (mast || 96)}" fill="none"
+            style="stroke:var(--mark)" stroke-width="1.4" opacity="0.45"/>
+      <circle cx="${cx}" cy="${cy}" r="3.4" style="fill:var(--mark)"/>
+      <circle cx="${cx}" cy="${cy}" r="11" fill="none" style="stroke:var(--mark)" stroke-width="1.2" opacity="0.55"/>
+      <circle cx="${cx}" cy="${cy}" r="20" fill="none" style="stroke:var(--mark)" stroke-width="0.8" opacity="0.25"/>
+    </g>`;
+}
+
+/** 폐허 기둥의 스텐실 — 구역 표시처럼 읽히는 짧은 획 */
+function stencil(x, y, kind) {
+  const g = [
+    `<path d="M ${x},${y} L ${x + 15},${y} M ${x},${y + 7} L ${x + 15},${y + 7} M ${x},${y + 14} L ${x + 9},${y + 14}"/>`,
+    `<path d="M ${x},${y + 13} L ${x + 8},${y} L ${x + 16},${y + 13}"/>`,
+    `<path d="M ${x},${y + 6} L ${x + 16},${y + 6}" /><circle cx="${x + 8}" cy="${y + 6}" r="5" fill="none"/>`
+  ][kind];
+  return `<g style="stroke:var(--mark)" fill="none" stroke-width="2.4" opacity="0.5">${g}</g>`;
 }
