@@ -106,9 +106,9 @@ mid-tone stock described above.
 Composition, top to bottom:
 1. Small registration crosshair marks in all four corner margins.
 2. A huge two-line poster headline reading "WAVE RUNNER" in a heavy condensed
-   sans-serif, printed in the accent ink #ffe66d, with a second pass of the SAME
-   ink offset about 6px down-left at ~30% opacity — a misregistered ghost, not a
-   drop shadow.
+   sans-serif, printed in the world ink (the light ink of set A, the fluorescent
+   lime of set B), with a second pass of the SAME ink offset about 6px down-left at
+   ~30% opacity — a misregistered ghost, not a drop shadow.
 3. Two blank horizontal bars under the headline where body copy will be composited
    later. Leave them empty — no lettering.
 4. A row of four ink-swatch panels, equal width, each a rectangle of pure dark ink
@@ -122,13 +122,16 @@ Composition, top to bottom:
 5. Two stacked wide panel cards with thin light-ink rules, slightly lighter than the
    stock. The upper card contains a strip of four small rectangles whose light-ink
    halftone dots grow denser from left to right — a four-step tonal ramp from nearly
-   bare to almost fully covered. The lower card is visibly dimmer, as if printed
+   bare to almost fully covered. Even the densest step stays a field of DOTS, never
+   a solid fill. The lower card is visibly dimmer, as if printed
    with weaker ink pressure.
 6. A 2x2 grid of four swatch cards at the bottom. Each card contains a sharp
    zigzag line drawn corner to corner like a seismograph trace, printed with rough
-   inked edges; one card's zigzag is the accent ink and its border is accent ink,
-   the other three are light ink with a dashed light-ink zigzag ghosted behind at a
+   inked edges; one card's zigzag is the ACCENT ink and its border is accent ink,
+   the other three are a muted neutral with a dashed ghost zigzag behind at a
    slightly different angle. Under each zigzag, two short horizontal progress bars.
+   The accent ink appears here and nowhere else on the sheet — it marks the craft
+   the player has chosen, and it is the same ink that draws the avatar in play.
 7. A footer line of small spaced-out Latin capitals in the light ink.
 
 Print artifacts: halftone dots must be visible at close range on the swatches and
@@ -139,6 +142,9 @@ Do NOT include: Korean or CJK characters, gradients, glow, drop shadows, neon,
 lens flare, 3D perspective, photo texture, mockup device frame, hands, watermark,
 signature, any hue outside the four listed inks.
 ```
+
+**잉크 세트 B 로 찍을 때**는 제목·판 견본·티어 농도·등록 표식이 라임이고, 노랑은 선택된
+기체 카드 하나에만 남는다. 포스터에서 노란 것이 하나뿐이어야 그 하나가 "나"로 읽힌다.
 
 **손잡이(수정 지점)** — 결과가 마음에 안 들 때 이 순서로 건드린다.
 

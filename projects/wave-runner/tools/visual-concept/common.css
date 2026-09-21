@@ -76,6 +76,6 @@ body {
 .slug {
   font-size: 11px;
   letter-spacing: 0.18em;
-  color: #6b7b98;
+  color: var(--dim);
   font-weight: 700;
 }

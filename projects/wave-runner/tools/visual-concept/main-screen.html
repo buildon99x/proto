@@ -5,6 +5,38 @@
 <title>Wave Runner — 실크스크린 컨셉 · 메인</title>
 <link rel="stylesheet" href="common.css">
 <style>
+/* ── 자외선 세트 — 플레이 화면과 같은 잉크로 찍은 포스터 ─────────────
+ *
+ * 색의 역할이 둘로 갈린다.
+ *   **라임 = 세계의 잉크** — 제목, 판 견본, 티어 농도, 등록 표식, 판정선
+ *   **노랑 = 나** — 선택한 기체와 그 막대. 플레이 화면의 아바타와 같은 색이다
+ *
+ * 그래서 포스터에서 노란 것은 하나뿐이고, 그 하나가 내가 고른 기체다.
+ * 홈에서 고른 색이 그대로 통로 안에서 나를 가리킨다. */
+:root {
+  --stock: #2a1b47;
+  --stock-hi: #35245a;
+  --ink: #0d0518;
+  --ink-soft: #1a0f2e;
+  --edge: #ccff33;
+  --mark: #ccff33;
+  --brand: #ffe66d;
+
+  --screen-line: #3a2168;
+  --screen-line-2: #321c5c;
+  --dot: #ccff33;
+
+  --text: #ece3ff;
+  --dim: #9784c4;
+  --line: #402d6d;       /* 괘선 */
+  --line-soft: #35255c;
+  --muted: #7d6aa8;      /* 잠긴 것 */
+  --bar-bg: #3d2a66;
+  --bar-fg: #8f74d6;
+  --zig: #a68fe0;        /* 고르지 않은 기체의 지그재그 */
+  --zig-ghost: #5b4491;  /* 45° 기준선 */
+}
+
 .sheet { position: relative; width: 780px; height: 1440px; padding: 56px 40px 30px; }
 
 /* ── 헤드 ─────────────────────────────────────────── */
@@ -15,14 +47,14 @@
   font-weight: 900;
   letter-spacing: -0.035em;
   line-height: 0.92;
-  color: var(--brand);
+  color: var(--edge);
   filter: url(#rough-fine);
 }
 /* 어긋난 판 — 같은 잉크의 두 번째 통과. 새 색조를 들이지 않는다 */
 .title .ghost {
   position: absolute;
   left: -7px; top: 6px;
-  color: var(--brand);
+  color: var(--edge);
   opacity: 0.30;
   mix-blend-mode: screen;
 }
@@ -32,16 +64,16 @@
 /* ── 잉크 견본 바 — 섹터 4유형 = 판 4개 ───────────── */
 .inkbar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 26px; }
 .ink { }
-.ink svg { display: block; width: 100%; height: 46px; border: 1px solid #222d44; }
-.ink b { display: block; margin-top: 7px; font-size: 11.5px; font-weight: 700; color: var(--edge); letter-spacing: 0.04em; }
-.ink span { display: block; font-size: 10.5px; color: #5d6c88; margin-top: 2px; }
+.ink svg { display: block; width: 100%; height: 46px; border: 1px solid var(--line-soft); }
+.ink b { display: block; margin-top: 7px; font-size: 11.5px; font-weight: 700; color: #cfc0f5; letter-spacing: 0.04em; }
+.ink span { display: block; font-size: 10.5px; color: var(--dim); margin-top: 2px; }
 
-.platenote { margin-top: 14px; font-size: 12px; color: #5d6c88; }
-.rule { height: 1px; background: #232e46; margin: 16px 0 18px; }
+.platenote { margin-top: 14px; font-size: 12px; color: var(--dim); }
+.rule { height: 1px; background: var(--line); margin: 16px 0 18px; }
 
 .meta { display: flex; justify-content: space-between; align-items: baseline; }
 .meta .core { font-size: 14px; color: var(--dim); }
-.meta .core b { color: var(--brand); font-size: 22px; margin-left: 10px; }
+.meta .core b { color: var(--edge); font-size: 22px; margin-left: 10px; }
 .meta .link { font-size: 14px; color: var(--dim); }
 
 /* ── 모드 카드 = 찍어낸 전단 ──────────────────────── */
@@ -50,27 +82,27 @@
   margin-top: 16px;
   padding: 22px 24px;
   background: var(--stock-hi);
-  border: 1px solid #263149;
+  border: 1px solid var(--line);
   overflow: hidden;
 }
 .card h2 { font-size: 27px; font-weight: 900; letter-spacing: -0.01em; }
 .card p { margin-top: 6px; font-size: 14.5px; color: var(--dim); }
-.card .best { margin-top: 9px; font-size: 13px; color: #6a7893; }
-.card.locked h2, .card.locked p, .card.locked .best { color: #4d5a74; }
-.card.locked { background: #161d2b; }
+.card .best { margin-top: 9px; font-size: 13px; color: var(--dim); }
+.card.locked h2, .card.locked p, .card.locked .best { color: var(--muted); }
+.card.locked { background: var(--ink-soft); }
 
 /* 스테이지 카드 안의 코스 스트립 — 한 판의 구성이 곧 그림이다 */
 .course { margin-top: 16px; }
 .course svg { display: block; width: 100%; height: 62px; }
-.course .cap { display: flex; justify-content: space-between; margin-top: 7px; font-size: 10.5px; color: #5d6c88; letter-spacing: 0.04em; }
+.course .cap { display: flex; justify-content: space-between; margin-top: 7px; font-size: 10.5px; color: var(--dim); letter-spacing: 0.04em; }
 
 /* ── 기체 스와치 ──────────────────────────────────── */
-.section-label { margin: 26px 0 12px; font-size: 12px; letter-spacing: 0.18em; color: #5d6c88; font-weight: 700; }
+.section-label { margin: 26px 0 12px; font-size: 12px; letter-spacing: 0.18em; color: var(--dim); font-weight: 700; }
 .runners { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .runner {
   position: relative;
   background: var(--stock-hi);
-  border: 1px solid #263149;
+  border: 1px solid var(--line);
   padding: 0 0 14px;
 }
 .runner.on { border-color: var(--brand); }
@@ -80,11 +112,11 @@
 .runner.on .name { color: var(--brand); }
 .runner .bars { margin: 9px 16px 0; }
 .runner .bar { display: flex; align-items: center; gap: 9px; margin-top: 5px; }
-.runner .bar i { font-style: normal; font-size: 11.5px; color: #8b9ab5; width: 24px; }
-.runner .bar u { display: block; height: 7px; background: #26304a; flex: 1; position: relative; text-decoration: none; }
-.runner .bar u b { position: absolute; inset: 0 auto 0 0; display: block; background: #6f92c8; }
+.runner .bar i { font-style: normal; font-size: 11.5px; color: #b6a6dd; width: 24px; }
+.runner .bar u { display: block; height: 7px; background: var(--bar-bg); flex: 1; position: relative; text-decoration: none; }
+.runner .bar u b { position: absolute; inset: 0 auto 0 0; display: block; background: var(--bar-fg); }
 .runner.on .bar u b { background: var(--brand); }
-.runner .deg { font-size: 11px; color: #5d6c88; letter-spacing: 0.03em; }
+.runner .deg { font-size: 11px; color: var(--dim); letter-spacing: 0.03em; }
 
 /* ── 발행 정보 ────────────────────────────────────── */
 .foot { position: absolute; left: 40px; right: 40px; bottom: 54px; display: flex; justify-content: space-between; }
@@ -137,10 +169,10 @@
   </div>
 </div>
 
-<svg class="reg tl" viewBox="0 0 26 26"><path d="M13 0v26M0 13h26" stroke="#9fb4d8" stroke-width="1"/><circle cx="13" cy="13" r="6" fill="none" stroke="#9fb4d8" stroke-width="1"/></svg>
-<svg class="reg tr" viewBox="0 0 26 26"><path d="M13 0v26M0 13h26" stroke="#9fb4d8" stroke-width="1"/><circle cx="13" cy="13" r="6" fill="none" stroke="#9fb4d8" stroke-width="1"/></svg>
-<svg class="reg bl" viewBox="0 0 26 26"><path d="M13 0v26M0 13h26" stroke="#9fb4d8" stroke-width="1"/><circle cx="13" cy="13" r="6" fill="none" stroke="#9fb4d8" stroke-width="1"/></svg>
-<svg class="reg br" viewBox="0 0 26 26"><path d="M13 0v26M0 13h26" stroke="#9fb4d8" stroke-width="1"/><circle cx="13" cy="13" r="6" fill="none" stroke="#9fb4d8" stroke-width="1"/></svg>
+<svg class="reg tl" viewBox="0 0 26 26"><path d="M13 0v26M0 13h26" style="stroke:var(--mark)" stroke-width="1"/><circle cx="13" cy="13" r="6" fill="none" style="stroke:var(--mark)" stroke-width="1"/></svg>
+<svg class="reg tr" viewBox="0 0 26 26"><path d="M13 0v26M0 13h26" style="stroke:var(--mark)" stroke-width="1"/><circle cx="13" cy="13" r="6" fill="none" style="stroke:var(--mark)" stroke-width="1"/></svg>
+<svg class="reg bl" viewBox="0 0 26 26"><path d="M13 0v26M0 13h26" style="stroke:var(--mark)" stroke-width="1"/><circle cx="13" cy="13" r="6" fill="none" style="stroke:var(--mark)" stroke-width="1"/></svg>
+<svg class="reg br" viewBox="0 0 26 26"><path d="M13 0v26M0 13h26" style="stroke:var(--mark)" stroke-width="1"/><circle cx="13" cy="13" r="6" fill="none" style="stroke:var(--mark)" stroke-width="1"/></svg>
 
 <svg class="grain"><rect width="100%" height="100%" filter="url(#paper)"/></svg>
 
@@ -154,9 +186,9 @@
   let out = "";
   for (let i = 0; i < 4; i++) {
     const x = i * 166;
-    out += `<rect x="${x}" y="0" width="160" height="62" fill="#0a0f1b"/>`;
-    out += `<rect x="${x}" y="0" width="160" height="62" fill="url(#${tones[i]})" opacity="${0.3 + i * 0.16}"/>`;
-    out += `<rect x="${x}" y="0" width="160" height="62" fill="none" stroke="#2b3752" stroke-width="1"/>`;
+    out += `<rect x="${x}" y="0" width="160" height="62" style="fill:var(--ink)"/>`;
+    out += `<rect x="${x}" y="0" width="160" height="62" fill="url(#${tones[i]})" opacity="${0.26 + i * 0.13}"/>`;
+    out += `<rect x="${x}" y="0" width="160" height="62" fill="none" style="stroke:var(--line)" stroke-width="1"/>`;
   }
   svg.innerHTML = out;
 })();
@@ -171,13 +203,13 @@
   ];
   const W = 341, H = 96;
   document.getElementById("runners").innerHTML = RUNNERS.map((r) => {
-    const base = r.on ? "" : `<polyline points="${zigzag(W, H, 45, 45)}" fill="none" stroke="#3f4d6b"
+    const base = r.on ? "" : `<polyline points="${zigzag(W, H, 45, 45)}" fill="none" style="stroke:var(--zig-ghost)"
         stroke-width="2.4" stroke-dasharray="7 6" filter="url(#rough-fine)"/>`;
-    const ink = r.on ? "#ffe66d" : "#8ea6cc";
+    const ink = r.on ? "var(--brand)" : "var(--zig)";
     return `<div class="runner${r.on ? " on" : ""}">
       <svg class="zig" viewBox="0 0 ${W} ${H}">
         ${base}
-        <polyline points="${zigzag(W, H, r.rise, r.fall)}" fill="none" stroke="${ink}"
+        <polyline points="${zigzag(W, H, r.rise, r.fall)}" fill="none" style="stroke:${ink}"
           stroke-width="4.2" stroke-linejoin="miter" filter="url(#rough)"/>
       </svg>
       <div class="nameline"><span class="name">${r.id}</span><span class="deg">${r.deg}</span></div>
