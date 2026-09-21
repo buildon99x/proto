@@ -151,24 +151,28 @@ signature, any hue outside the four listed inks.
 
 ---
 
-## 프롬프트 2 — 플레이 화면 (계곡 · 폐허 · 무너진 도시 · 달 · 마른 나무)
+## 프롬프트 2 — 플레이 화면
+(계곡 · 절벽 · 바위 · 폐허 · 무너진 도시 · 마른 나무 · 달 · 부엉이 · 표범)
 
 시안: `assets/references/silkscreen/play-screen.png`
 
-배경을 넣되 **통로는 그대로 비어 있다.** 풍경은 전부 벽(잉크) 안에서만 살고, 통로 경계
-안쪽 75px 은 배경이 한 점도 들어오지 않는 침묵 띠다. 자세한 이유는 컨셉 문서의 규칙 5.
+모티프 아홉을 **라임 선화**로 찍는다 — 선으로만이고 면은 먹이다. 농도 셋(지형 0.17 ·
+구조 0.25 · 상징 0.44)이 곧 거리라, 아홉이 한꺼번에 있어도 통로 경계선과 무게를 다투지
+않는다. 통로는 그대로 비어 있고, 경계 안쪽 75px 은 배경이 한 점도 들어오지 않는 침묵
+띠다. 근거는 컨셉 문서의 규칙 5와 "자외선 세트".
 
 ```
 [공통 스타일 블록 + 잉크 세트 B]
 
-All silhouette fills are DARKER than the paper stock — this is not optional. Only
-the hairline keyline may be lighter than the stock, and it must stay clearly dimmer
-than the corridor outline.
+All masses in the landscape are DARKER than the paper stock — this is not
+optional. The fluorescent lime draws LINES only, never fills, and the brightest of
+those lines stays at roughly two thirds of the corridor outline's brightness.
 
 Subject: the in-play screen of a side-scrolling one-button dodging game, drawn as a
 screen print. Portrait 9:16. A passage has been cut straight through a dead
-moonlit landscape — a canyon of ruins and a collapsed city, all rendered as flat
-silhouette plates. The passage is the only empty thing in the picture.
+moonlit landscape — a canyon of ruins and a collapsed city, drawn as dark flat
+masses whose contours are traced in fluorescent lime line work. The passage is the
+only empty thing in the picture.
 
 Composition:
 1. A wide open CORRIDOR runs from the left edge to the right edge, roughly through
@@ -178,7 +182,7 @@ Composition:
 2. The corridor interior is BARE PAPER — perfectly flat stock color. No texture, no
    dots, no grain, no gradient, no scenery, no stars, nothing. This emptiness is
    the subject of the image.
-3. Everything above and below the corridor is solid dark ink #04070e filling to all
+3. Everything above and below the corridor is solid dark ink #0d0518 filling to all
    four edges, overprinted with a coarse diagonal line screen at about -38 degrees
    and a faint paper-fiber noise.
 4. THE LANDSCAPE, drawn as FLUORESCENT LIME LINE ART over that line screen, and
@@ -215,14 +219,14 @@ Composition:
    passage.
 
 5. A KNOCKOUT SILENCE BAND: for about 75px inside the dark mass, measured from the
-   corridor outline, there is no scenery at all — only clean ink. Silhouettes are
-   cut off cleanly where that band begins, like a printer's knockout gap. Nothing
-   in the landscape ever touches the corridor outline.
+   corridor outline, there is no landscape at all — only clean ink. The line work
+   is cut off cleanly where that band begins, like a printer's knockout gap.
+   Nothing in the landscape ever touches the corridor outline.
 6. The boundary between ink and paper is a single crisp FLUORESCENT LIME line about
    3px wide with hard mitred corners — the sharpest, cleanest edge in the image, and
    the second brightest thing on the page after the avatar. The corridor reads as a
-   channel cut out of the dark mass with a glowing-ink edge. It must out-read every
-   silhouette and every background symbol.
+   channel cut out of the dark mass with a fluorescent-ink edge. It must out-read
+   every line in the landscape behind it.
 7. Immediately INSIDE the dark ink, hugging that boundary, a thicker soft ghost of
    the same outline in the SAME LIME at low density is offset about 9px into the
    dark mass, ragged and slightly blurred, like a misregistered second pass. The
@@ -237,32 +241,32 @@ Composition:
    where the two meet.
 9. Near the right edge, the corridor splits into an upper and a lower lane around a
    sharp-tipped lens shape of the same dark ink, filled with a tight horizontal line
-   screen and outlined in light ink. Centered in each lane, a small flat rounded
+   screen and outlined in the edge ink. Centered in each lane, a small flat rounded
    plaque with an up-arrow above it — upper plaque orange #ffb347, lower violet
    #e07bff, the arrow a flat teal #2c6b78, all with a light halftone texture over
    the fill. These gate marks are untouched game elements — do not restyle or
    recolor them.
 10. Top-left margin over the dark ink: a tiny registration crosshair and a short
-    Latin readout in light ink. A thin light-ink progress rail along the very top
-    edge. A registration crosshair in the bottom-right corner.
+    Latin readout in pale lilac. A thin pale progress rail along the very top edge.
+    A registration crosshair in the bottom-right corner.
 
 Mood: dry, still, post-collapse night under deep purple. Melancholy, not menacing.
 No weather, no rain, no fog, no fire.
 
 Hard constraint, repeated because it is the one that gets broken: the corridor
-interior stays completely empty flat stock color, and NO area of the landscape is
-brighter than that corridor. Only hairline keylines may be lighter, never a filled
-shape. Blocked areas are the darkest thing on the page.
+interior stays completely empty flat stock color, and NO filled area of the
+landscape is brighter than that corridor. Only the lime line work may be lighter,
+never a shape it encloses. Blocked areas are the darkest thing on the page.
 
 Do NOT include: fluorescent ink on the avatar or on the gate marks, fluorescent
-fill inside the corridor interior (the lime belongs to the outline, not to the
-open space), any background line brighter than the corridor outline, filled
-fluorescent shapes or filled animal silhouettes, animals in motion or facing the
-corridor, birds in flight, a glowing or emissive lime (it is ink, not light), scenery or
-texture inside the corridor, a bright/glowing moon,
-stars, clouds, fog, birds, water, foliage or leaves, people, vehicles, Korean or
-CJK characters, glow or neon bloom, gradients, outer shadows, 3D perspective,
-particles, watermark, signature, any hue outside the listed inks.
+fill inside the corridor interior (the lime belongs to the outline, not to the open
+space), any background line brighter than the corridor outline, filled fluorescent
+shapes, filled animal silhouettes, animals in motion or facing the corridor, birds
+in flight, a glowing or emissive lime (it is ink, not light), any landscape or
+texture inside the corridor, a bright or glowing moon, stars, clouds, fog, water,
+foliage or leaves, people, vehicles, Korean or CJK characters, glow or neon bloom,
+gradients, outer shadows, 3D perspective, particles, watermark, signature, any hue
+outside the listed inks.
 ```
 
 **손잡이(수정 지점)**
@@ -273,11 +277,11 @@ particles, watermark, signature, any hue outside the listed inks.
    only` 로 바꾸고 `no moonlight, no glow, no rim light` 를 부정 목록에 넣는다.
    이 실수가 제일 자주 난다 — 달이라는 단어가 모델에게 곧 밝기다.
 3. 배경이 통로 경계와 경쟁하면 → 6번에 `the corridor outline is the highest-contrast
-   element; reduce all silhouette keylines to 50% of its brightness` 를 덧붙인다.
+   element; drop every background line to half its brightness` 를 덧붙인다.
 4. 풍경이 너무 빽빽하면 → 4번에서 항목 하나를 지운다. 폐허와 도시를 같이 넣으면 아래쪽이
    먼저 무너진다. 위=도시+달, 아래=폐허+나무로 갈라 쓰는 편이 낫다.
-5. 실루엣이 입체가 되면 → `flat silhouettes only, single flat tone per layer, no
-   shading, no highlights, no ambient occlusion` 를 덧붙인다.
+5. 배경이 입체가 되면 → `flat masses with line contours only, single flat tone per
+   layer, no shading, no highlights, no ambient occlusion` 를 덧붙인다.
 6. 라임이 네온처럼 빛나면 → `the lime is flat printed ink with a slightly ragged
    screen-printed edge; matte, no halo, no emission` 을 덧붙인다. 형광색을 말하면
    모델이 발광으로 알아듣는다.
