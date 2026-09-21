@@ -36,14 +36,16 @@ import type { AxisTrade, Block } from "./types";
  * 0.86 으로 올려 칠한다.
  */
 const COLOR = {
-  bg: "#14101c",
-  wall: "#14101c",
+  bg: "#08040f",
+  wall: "#08040f",
   /** 벽 위의 선망. 결은 잉크 위에만 있고 통로에는 없다 */
-  screen: "#2f2447",
+  screen: "#2a2040",
+  /** 배경 덩어리 — 벽보다 어둡다. 밝아지는 것은 선뿐이다 */
+  sceneMass: "#03010a",
   /** 경계 바깥의 잉크 알갱이 — 어긋난 판이 죽는 쪽으로만 번진 자리 */
   grit: "#43355e",
   /** 통로 = 잉크가 닿지 않은 종이 */
-  paper: "#e7dbb5",
+  paper: "#ede6cd",
   wallEdge: "#ccff33",
   scene: "#ccff33",
   block: "#ff5e7a",
@@ -320,22 +322,22 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
   ctx.fillRect(0, 0, cssW, cssH);
 
   // 2. 배경 선화 — 시차는 통로보다 느리다
-  drawScene(ctx, cssW, cssH, camX, view.zoom, COLOR.scene);
+  drawScene(ctx, cssW, cssH, camX, view.zoom, COLOR.scene, COLOR.sceneMass);
 
   // 3. 선망과 종이 결 — 벽 전체를 한 판으로 묶는다
   if (skinReady()) {
-    const screen = platePattern(ctx, "gorge", COLOR.screen, 17, view.zoom, camX, offsetY);
+    const screen = platePattern(ctx, "gorge", COLOR.screen, 6, view.zoom, camX, offsetY);
     if (screen) {
       ctx.save();
-      ctx.globalAlpha = 0.42;
+      ctx.globalAlpha = 0.34;
       ctx.fillStyle = screen;
       ctx.fillRect(0, 0, cssW, cssH);
       ctx.restore();
     }
-    const grain = platePattern(ctx, "grain", COLOR.screen, 22, view.zoom, camX, offsetY);
+    const grain = platePattern(ctx, "grain", COLOR.screen, 16, view.zoom, camX, offsetY);
     if (grain) {
       ctx.save();
-      ctx.globalAlpha = 0.3;
+      ctx.globalAlpha = 0.24;
       ctx.fillStyle = grain;
       ctx.fillRect(0, 0, cssW, cssH);
       ctx.restore();

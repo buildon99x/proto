@@ -53,6 +53,7 @@ const MOTIF_RECT: Record<MotifId, Rect> = {
 interface Keyed { canvas: HTMLCanvasElement; w: number; h: number }
 
 const keyed = new Map<string, Keyed>();
+const filled = new Map<string, Keyed | null>();
 const tinted = new Map<string, HTMLCanvasElement>();
 const patterns = new Map<string, CanvasPattern>();
 let ready = false;
@@ -112,6 +113,90 @@ function tint(id: string, color: string): HTMLCanvasElement | null {
 
 export function motifImage(id: MotifId, color: string): HTMLCanvasElement | null {
   return tint(id, color);
+}
+
+/**
+ * ## 면 — 선화에서 덩어리를 뽑아낸다
+ *
+ * 목표 화면의 도시·폐허·절벽은 선만이 아니라 **벽보다 조금 어두운 면**을 갖고 있어
+ * 깊이가 생긴다. 시트는 선화라 속이 비어 있으므로 여기서 만든다.
+ *
+ * 바깥에서 물을 부어(테두리에서 flood fill) 닿지 않는 빈칸을 안쪽으로 친다. 선이
+ * 끊긴 도형에서는 물이 새어 그림 전체가 면이 되므로, **샌 것을 검사해서 버린다** —
+ * 면적이 빈칸의 85% 를 넘으면 그 모티프는 면 없이 선만 쓴다. 마른 나무처럼 열린
+ * 도형은 여기서 자동으로 탈락한다.
+ */
+function fillOf(id: string): Keyed | null {
+  if (filled.has(id)) return filled.get(id) ?? null;
+  const src = keyed.get(id);
+  if (!src) return null;
+  const { w, h } = src;
+  const x = src.canvas.getContext("2d", { willReadFrequently: true })!;
+  const a = x.getImageData(0, 0, w, h).data;
+  const ink = new Uint8Array(w * h);
+  for (let i = 0; i < w * h; i += 1) ink[i] = a[i * 4 + 3] > 64 ? 1 : 0;
+
+  const outside = new Uint8Array(w * h);
+  const stack: number[] = [];
+  const push = (i: number) => {
+    if (i >= 0 && i < w * h && !ink[i] && !outside[i]) {
+      outside[i] = 1;
+      stack.push(i);
+    }
+  };
+  for (let px = 0; px < w; px += 1) {
+    push(px);
+    push((h - 1) * w + px);
+  }
+  for (let py = 0; py < h; py += 1) {
+    push(py * w);
+    push(py * w + w - 1);
+  }
+  while (stack.length) {
+    const i = stack.pop()!;
+    const px = i % w;
+    if (px > 0) push(i - 1);
+    if (px < w - 1) push(i + 1);
+    push(i - w);
+    push(i + w);
+  }
+
+  let hollow = 0;
+  let inside = 0;
+  for (let i = 0; i < w * h; i += 1) {
+    if (ink[i]) continue;
+    hollow += 1;
+    if (!outside[i]) inside += 1;
+  }
+  // 물이 샜거나 채울 것이 거의 없으면 면을 만들지 않는다
+  if (inside < w * h * 0.01 || inside > hollow * 0.85) {
+    filled.set(id, null);
+    return null;
+  }
+
+  const c = document.createElement("canvas");
+  c.width = w;
+  c.height = h;
+  const cx = c.getContext("2d")!;
+  const out = cx.createImageData(w, h);
+  for (let i = 0; i < w * h; i += 1) {
+    const on = ink[i] || !outside[i];
+    out.data[i * 4] = 255;
+    out.data[i * 4 + 1] = 255;
+    out.data[i * 4 + 2] = 255;
+    out.data[i * 4 + 3] = on ? 255 : 0;
+  }
+  cx.putImageData(out, 0, 0);
+  const made = { canvas: c, w, h };
+  filled.set(id, made);
+  keyed.set(`${id}#fill`, made);
+  return made;
+}
+
+/** 덩어리 면. 면이 나오지 않는 모티프(열린 도형)는 null 이다. */
+export function motifFill(id: MotifId, color: string): HTMLCanvasElement | null {
+  if (!fillOf(id)) return null;
+  return tint(`${id}#fill`, color);
 }
 
 export function motifSize(id: MotifId): { w: number; h: number } {
