@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Wave Runner — 실크스크린 컨셉 · 플레이</title>
+<link rel="stylesheet" href="common.css">
+<style>
+/* 플레이 화면에는 전역 종이 결이 없다.
+ * 결은 잉크(벽) 위에만 얹고 통로는 평평한 종이로 비워 둔다 — 컨셉의 1번 규칙이다. */
+.stage { position: absolute; inset: 0; background: var(--ink); }
+svg.field { display: block; width: 780px; height: 1440px; }
+
+.hud {
+  position: absolute; left: 22px; top: 22px;
+  display: flex; align-items: center; gap: 11px;
+  z-index: 40;
+}
+.hud .cross { width: 15px; height: 15px; opacity: 0.5; }
+.hud .val { font-size: 15px; font-weight: 700; color: #aebde0; letter-spacing: 0.02em; }
+.hud .val em { font-style: normal; color: #64728e; margin-left: 6px; font-size: 12px; }
+
+/* 진행 레일 — 맨 위 3px. 통로를 훑는 시선 경로 밖 */
+.rail { position: absolute; left: 0; top: 0; height: 3px; width: 100%; background: #10161f; z-index: 41; }
+.rail b { display: block; height: 3px; width: 38%; background: #6f92c8; }
+
+.foot { position: absolute; left: 22px; bottom: 52px; z-index: 40; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <svg class="field" id="field" viewBox="0 0 780 1440"></svg>
+</div>
+
+<div class="rail"><b></b></div>
+<div class="hud">
+  <svg class="cross" viewBox="0 0 16 16"><path d="M8 0v16M0 8h16" stroke="#9fb4d8" stroke-width="1"/></svg>
+  <div class="val">14.2초 <em>· 642m</em></div>
+</div>
+<div class="foot"><span class="slug">티어 3-2 · 협곡 3 → 회랑 상승 2</span></div>
+
+<svg class="reg br" viewBox="0 0 26 26"><path d="M13 0v26M0 13h26" stroke="#9fb4d8" stroke-width="1"/><circle cx="13" cy="13" r="6" fill="none" stroke="#9fb4d8" stroke-width="1"/></svg>
+
+<script src="defs.js"></script>
+<script>
+(() => {
+  const W = 780, H = 1440;
+
+  // ── 코스 기하 — 협곡. 램프와 평탄한 회복 구간이 번갈아 온다 ──
+  const KEY = [
+    { x: 0,   c: 800, half: 190 },
+    { x: 120, c: 800, half: 190 },
+    { x: 205, c: 700, half: 175 },
+    { x: 320, c: 700, half: 175 },
+    { x: 405, c: 610, half: 160 },
+    { x: 540, c: 610, half: 160 },
+    { x: 620, c: 545, half: 150 },
+    { x: 780, c: 545, half: 150 }
+  ];
+  const lin = (side) => KEY.map((k) => `${k.x},${(k.c + side * k.half).toFixed(1)}`).join(" L ");
+  const topPath = `M ${lin(-1)}`;
+  const botPath = `M ${lin(1)}`;
+  // 벽은 레터박스까지 덮는다 — 화면 위아래 남는 띠도 "갈 수 없는 곳"으로 같이 읽힌다
+  const wallTop = `${topPath} L ${W},0 L 0,0 Z`;
+  const wallBot = `${botPath} L ${W},${H} L 0,${H} Z`;
+
+  // ── 아바타 — 실제 45°. 꺾인 점은 전부 통로 안이다 ──
+  // 오래 누르고 짧게 놓는 비대칭 탭이 상승을 합성한다 — 회랑에서 쓰는 바로 그 손놀림
+  const trail = "-40,900 80,780 125,825 245,705 290,750 410,630";
+  const head = "410,630";
+
+  // ── 게이트 — 통로를 두 갈래로 가르는 렌즈 ──
+  const gy = 545, gh = 150;
+  const gate = `M 585,${gy} C 640,${gy - 30} 700,${gy - 30} 752,${gy - 24}
+                L 752,${gy + 24} C 700,${gy + 30} 640,${gy + 30} 585,${gy} Z`;
+  const laneUp = gy - gh / 2 - 8;   // 위 갈래의 중앙
+  const laneDn = gy + gh / 2 + 8;   // 아래 갈래의 중앙
+
+  const pill = (cx, cy, color) => `
+    <path d="M${cx},${cy - 46} l18,26 h-11 v18 h-14 v-18 h-11 Z" fill="#2c6b78"/>
+    <rect x="${cx - 44}" y="${cy - 16}" width="88" height="34" rx="5" fill="${color}"/>
+    <rect x="${cx - 44}" y="${cy - 16}" width="88" height="34" rx="5" fill="url(#tone-1)" opacity="0.28"/>`;
+
+  document.getElementById("field").innerHTML = `
+    <defs>
+      <clipPath id="wall-only">
+        <path d="${wallTop}"/>
+        <path d="${wallBot}"/>
+      </clipPath>
+    </defs>
+
+    <!-- 1. 종이 — 통로. 평평하다. 결도 망점도 없다 -->
+    <rect width="${W}" height="${H}" fill="#18202f"/>
+
+    <!-- 2. 먹판 — 벽. 통로보다 어둡다(명도가 의미를 따른다).
+         결과 망점은 전부 이 안쪽에만 있다 -->
+    <path d="${wallTop}" fill="#04070e"/>
+    <path d="${wallBot}" fill="#04070e"/>
+    <g clip-path="url(#wall-only)">
+      <rect width="${W}" height="${H}" fill="url(#plate-gorge)" opacity="0.55"/>
+      <rect width="${W}" height="${H}" fill="#223052" opacity="0.5" filter="url(#paper)"/>
+    </g>
+
+    <!-- 3. 어긋난 판 — 오직 벽 안쪽으로만 밀린다.
+         판정선을 절대 넘지 않으므로 어긋남은 나를 살리는 쪽으로만 틀린다 -->
+    <g clip-path="url(#wall-only)" opacity="0.55" filter="url(#rough)">
+      <path d="${topPath}" transform="translate(3,-9)" fill="none" stroke="#4d5f83" stroke-width="9"/>
+      <path d="${botPath}" transform="translate(3,9)"  fill="none" stroke="#4d5f83" stroke-width="9"/>
+    </g>
+
+    <!-- 4. 판정선 — 화면에서 유일하게 떨리지 않는 선 -->
+    <path d="${topPath}" fill="none" stroke="#9fb4d8" stroke-width="2.6" stroke-linejoin="miter"/>
+    <path d="${botPath}" fill="none" stroke="#9fb4d8" stroke-width="2.6" stroke-linejoin="miter"/>
+
+    <!-- 5. 게이트 렌즈 — 벽과 같은 먹판이다 -->
+    <path d="${gate}" fill="#04070e"/>
+    <path d="${gate}" fill="url(#plate-corridor)" opacity="0.7"/>
+    <path d="${gate}" fill="none" stroke="#9fb4d8" stroke-width="2.4"/>
+
+    <!-- 6. 게이트 표식 — 속도 +1 / 편향 +1. 색은 axes.ts 의 값 그대로 -->
+    ${pill(676, laneUp, "#ffb347")}
+    ${pill(676, laneDn, "#e07bff")}
+
+    <!-- 7. 아바타 잉크 — 화면에서 유일하게 노란 것 -->
+    <polyline points="${trail}" fill="none" stroke="#ffe66d" stroke-width="3.2" opacity="0.3"/>
+    <polyline points="290,750 ${head}" fill="none" stroke="#ffe66d" stroke-width="5.4"/>
+    <path d="M${head} l34,-24 -8,30 -12,-8 Z" fill="#ffe66d"/>
+  `;
+})();
+</script>
+</body>
+</html>

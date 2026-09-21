@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Wave Runner — 실크스크린 컨셉 · 메인</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.sheet { position: relative; width: 780px; height: 1440px; padding: 56px 40px 30px; }
+
+/* ── 헤드 ─────────────────────────────────────────── */
+.head { position: relative; }
+.title {
+  position: relative;
+  font-size: 78px;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+  color: var(--brand);
+  filter: url(#rough-fine);
+}
+/* 어긋난 판 — 같은 잉크의 두 번째 통과. 새 색조를 들이지 않는다 */
+.title .ghost {
+  position: absolute;
+  left: -7px; top: 6px;
+  color: var(--brand);
+  opacity: 0.30;
+  mix-blend-mode: screen;
+}
+.tagline { margin-top: 20px; font-size: 19px; font-weight: 700; line-height: 1.45; max-width: 620px; }
+.sub { margin-top: 8px; font-size: 15.5px; color: var(--dim); line-height: 1.5; max-width: 620px; }
+
+/* ── 잉크 견본 바 — 섹터 4유형 = 판 4개 ───────────── */
+.inkbar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 26px; }
+.ink { }
+.ink svg { display: block; width: 100%; height: 46px; border: 1px solid #222d44; }
+.ink b { display: block; margin-top: 7px; font-size: 11.5px; font-weight: 700; color: var(--edge); letter-spacing: 0.04em; }
+.ink span { display: block; font-size: 10.5px; color: #5d6c88; margin-top: 2px; }
+
+.platenote { margin-top: 14px; font-size: 12px; color: #5d6c88; }
+.rule { height: 1px; background: #232e46; margin: 16px 0 18px; }
+
+.meta { display: flex; justify-content: space-between; align-items: baseline; }
+.meta .core { font-size: 14px; color: var(--dim); }
+.meta .core b { color: var(--brand); font-size: 22px; margin-left: 10px; }
+.meta .link { font-size: 14px; color: var(--dim); }
+
+/* ── 모드 카드 = 찍어낸 전단 ──────────────────────── */
+.card {
+  position: relative;
+  margin-top: 16px;
+  padding: 22px 24px;
+  background: var(--stock-hi);
+  border: 1px solid #263149;
+  overflow: hidden;
+}
+.card h2 { font-size: 27px; font-weight: 900; letter-spacing: -0.01em; }
+.card p { margin-top: 6px; font-size: 14.5px; color: var(--dim); }
+.card .best { margin-top: 9px; font-size: 13px; color: #6a7893; }
+.card.locked h2, .card.locked p, .card.locked .best { color: #4d5a74; }
+.card.locked { background: #161d2b; }
+
+/* 스테이지 카드 안의 코스 스트립 — 한 판의 구성이 곧 그림이다 */
+.course { margin-top: 16px; }
+.course svg { display: block; width: 100%; height: 62px; }
+.course .cap { display: flex; justify-content: space-between; margin-top: 7px; font-size: 10.5px; color: #5d6c88; letter-spacing: 0.04em; }
+
+/* ── 기체 스와치 ──────────────────────────────────── */
+.section-label { margin: 26px 0 12px; font-size: 12px; letter-spacing: 0.18em; color: #5d6c88; font-weight: 700; }
+.runners { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.runner {
+  position: relative;
+  background: var(--stock-hi);
+  border: 1px solid #263149;
+  padding: 0 0 14px;
+}
+.runner.on { border-color: var(--brand); }
+.runner svg.zig { display: block; width: 341px; height: 96px; }
+.runner .nameline { display: flex; align-items: baseline; justify-content: space-between; margin: 2px 16px 0; }
+.runner .name { font-size: 19px; font-weight: 900; }
+.runner.on .name { color: var(--brand); }
+.runner .bars { margin: 9px 16px 0; }
+.runner .bar { display: flex; align-items: center; gap: 9px; margin-top: 5px; }
+.runner .bar i { font-style: normal; font-size: 11.5px; color: #8b9ab5; width: 24px; }
+.runner .bar u { display: block; height: 7px; background: #26304a; flex: 1; position: relative; text-decoration: none; }
+.runner .bar u b { position: absolute; inset: 0 auto 0 0; display: block; background: #6f92c8; }
+.runner.on .bar u b { background: var(--brand); }
+.runner .deg { font-size: 11px; color: #5d6c88; letter-spacing: 0.03em; }
+
+/* ── 발행 정보 ────────────────────────────────────── */
+.foot { position: absolute; left: 40px; right: 40px; bottom: 54px; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="head">
+    <h1 class="title"><span class="ghost">WAVE<br>RUNNER</span>WAVE<br>RUNNER</h1>
+    <p class="tagline">누르면 오르고 놓으면 내려간다. 가만히 있는 선택지는 없다.</p>
+    <p class="sub">갈림길을 지나면 한 축이 오르고 다른 축이 내린다 — 순수한 상승은 없다.</p>
+  </div>
+
+  <div class="inkbar">
+    <div class="ink"><svg viewBox="0 0 160 46" preserveAspectRatio="none"><rect width="160" height="46" fill="url(#plate-gorge)"/></svg><b>협곡</b><span>사선 선망 · 각도</span></div>
+    <div class="ink"><svg viewBox="0 0 160 46" preserveAspectRatio="none"><rect width="160" height="46" fill="url(#plate-corridor)"/></svg><b>회랑</b><span>수평 선망 · 편향</span></div>
+    <div class="ink"><svg viewBox="0 0 160 46" preserveAspectRatio="none"><rect width="160" height="46" fill="url(#plate-scatter)"/></svg><b>산개</b><span>망점 · 속도 −</span></div>
+    <div class="ink"><svg viewBox="0 0 160 46" preserveAspectRatio="none"><rect width="160" height="46" fill="url(#plate-pulse)"/></svg><b>맥동</b><span>주기 밴드 · 속도 양날</span></div>
+  </div>
+
+  <p class="platenote">코스 한 판은 이 판들을 겹쳐 찍은 것이다 — 색이 아니라 결로 구분한다</p>
+  <div class="rule"></div>
+
+  <div class="meta">
+    <div class="core">코어 <b>0</b></div>
+    <div class="link">해금 →</div>
+  </div>
+
+  <div class="card">
+    <h2>Stage</h2>
+    <p>정해진 코스. 얼마나 어려운 것을 넘는가</p>
+    <div class="best">최고 티어 0 · 12판 · 티어 = 잉크 농도</div>
+    <div class="course"><svg id="course-strip" viewBox="0 0 660 62" preserveAspectRatio="none"></svg>
+      <div class="cap"><span>티어 1</span><span>티어 2</span><span>티어 3</span><span>티어 4</span></div>
+    </div>
+  </div>
+
+  <div class="card locked">
+    <h2>Endless</h2>
+    <p>Stage 하나를 클리어하면 열린다</p>
+    <div class="best">최고 0m</div>
+  </div>
+
+  <div class="section-label">기체 — 축 곡선</div>
+  <div class="runners" id="runners"></div>
+
+  <div class="foot">
+    <span class="slug">ED. 0.8.0 · 18 SECTORS / 4 PLATES</span>
+    <span class="slug">1 BUTTON · NO NEUTRAL</span>
+  </div>
+</div>
+
+<svg class="reg tl" viewBox="0 0 26 26"><path d="M13 0v26M0 13h26" stroke="#9fb4d8" stroke-width="1"/><circle cx="13" cy="13" r="6" fill="none" stroke="#9fb4d8" stroke-width="1"/></svg>
+<svg class="reg tr" viewBox="0 0 26 26"><path d="M13 0v26M0 13h26" stroke="#9fb4d8" stroke-width="1"/><circle cx="13" cy="13" r="6" fill="none" stroke="#9fb4d8" stroke-width="1"/></svg>
+<svg class="reg bl" viewBox="0 0 26 26"><path d="M13 0v26M0 13h26" stroke="#9fb4d8" stroke-width="1"/><circle cx="13" cy="13" r="6" fill="none" stroke="#9fb4d8" stroke-width="1"/></svg>
+<svg class="reg br" viewBox="0 0 26 26"><path d="M13 0v26M0 13h26" stroke="#9fb4d8" stroke-width="1"/><circle cx="13" cy="13" r="6" fill="none" stroke="#9fb4d8" stroke-width="1"/></svg>
+
+<svg class="grain"><rect width="100%" height="100%" filter="url(#paper)"/></svg>
+
+<script src="defs.js"></script>
+<script src="zigzag.js"></script>
+<script>
+// ── 코스 스트립 — 티어 4단계의 잉크 농도. 판을 겹칠수록 메워진다 ──
+(() => {
+  const svg = document.getElementById("course-strip");
+  const tones = ["tone-1", "tone-2", "tone-3", "tone-4"];
+  let out = "";
+  for (let i = 0; i < 4; i++) {
+    const x = i * 166;
+    out += `<rect x="${x}" y="0" width="160" height="62" fill="#0a0f1b"/>`;
+    out += `<rect x="${x}" y="0" width="160" height="62" fill="url(#${tones[i]})" opacity="${0.3 + i * 0.16}"/>`;
+    out += `<rect x="${x}" y="0" width="160" height="62" fill="none" stroke="#2b3752" stroke-width="1"/>`;
+  }
+  svg.innerHTML = out;
+})();
+
+// ── 기체 스와치 — 실제 각도로 그린 지그재그 ──
+(() => {
+  const RUNNERS = [
+    { id: "표준", rise: 45.0, fall: 45.0, deg: "꼭지각 90.0°", slack: 0.62, len: 0.60, on: true },
+    { id: "둔각", rise: 39.4, fall: 39.4, deg: "꼭지각 78.7°", slack: 0.36, len: 0.78, on: false },
+    { id: "예봉", rise: 51.1, fall: 51.1, deg: "꼭지각 102.2°", slack: 0.82, len: 0.34, on: false },
+    { id: "환",  rise: 49.0, fall: 40.4, deg: "상승 49.0° / 하강 40.4°", slack: 0.54, len: 0.66, on: false }
+  ];
+  const W = 341, H = 96;
+  document.getElementById("runners").innerHTML = RUNNERS.map((r) => {
+    const base = r.on ? "" : `<polyline points="${zigzag(W, H, 45, 45)}" fill="none" stroke="#3f4d6b"
+        stroke-width="2.4" stroke-dasharray="7 6" filter="url(#rough-fine)"/>`;
+    const ink = r.on ? "#ffe66d" : "#8ea6cc";
+    return `<div class="runner${r.on ? " on" : ""}">
+      <svg class="zig" viewBox="0 0 ${W} ${H}">
+        ${base}
+        <polyline points="${zigzag(W, H, r.rise, r.fall)}" fill="none" stroke="${ink}"
+          stroke-width="4.2" stroke-linejoin="miter" filter="url(#rough)"/>
+      </svg>
+      <div class="nameline"><span class="name">${r.id}</span><span class="deg">${r.deg}</span></div>
+      <div class="bars">
+        <div class="bar"><i>여유</i><u><b style="width:${(r.slack * 100).toFixed(0)}%"></b></u></div>
+        <div class="bar"><i>길</i><u><b style="width:${(r.len * 100).toFixed(0)}%"></b></u></div>
+      </div>
+    </div>`;
+  }).join("");
+})();
+</script>
+</body>
+</html>

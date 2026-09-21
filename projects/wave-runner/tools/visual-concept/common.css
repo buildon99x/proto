@@ -1,0 +1,61 @@
+/* 실크스크린 컨셉 시안 공통 판 — 종이·잉크·판(plate) 정의.
+ *
+ * 색은 하나도 새로 만들지 않는다. 게임이 이미 의미에 배정한 색
+ * (#3de1ff 각도 · #ffb347 속도 · #e07bff 편향 · #ffe66d 아바타 ·
+ *  #ff5e7a 장애물 · #7dffb0 종료선 · #9fb4d8 벽 에지) 외의 새 색조를
+ * 장식으로 들이면 그 색이 의미를 가진 줄 알게 된다. 그래서 컨셉은
+ * 색이 아니라 **판의 결**로 말한다. */
+
+:root {
+  --stock: #141b29;      /* 종이 — 잉크가 닿지 않은 면. 통로가 이 값이다 */
+  --stock-hi: #1b2437;   /* 종이 하이라이트(카드 면) */
+  --ink: #05080f;        /* 먹 — 벽. 종이보다 어둡다(명도가 의미를 따른다) */
+  --ink-soft: #0a0f1b;
+  --edge: #9fb4d8;       /* 벽 에지 = 판의 윤곽선. 중성 은청 */
+  --brand: #ffe66d;      /* 아바타 잉크. 포스터의 유일한 강조 잉크 */
+  --dim: #7f90ad;
+  --text: #e8f1ff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 780px;
+  height: 1440px;
+  overflow: hidden;
+  background: var(--stock);
+  color: var(--text);
+  font-family: "Noto Sans KR", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 종이 결 — 화면 전체를 덮는 단 하나의 텍스처 레이어.
+ * 통로 위에서는 이 값이 0으로 떨어진다(플레이 시안 참조). */
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 90;
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+}
+
+/* 등록 표식 — 판을 맞추는 십자. 네 귀퉁이 여백에만 있다 */
+.reg {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  opacity: 0.42;
+  z-index: 80;
+}
+.reg.tl { top: 16px; left: 16px; }
+.reg.tr { top: 16px; right: 16px; }
+.reg.bl { bottom: 16px; left: 16px; }
+.reg.br { bottom: 16px; right: 16px; }
+
+.slug {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: #6b7b98;
+  font-weight: 700;
+}
