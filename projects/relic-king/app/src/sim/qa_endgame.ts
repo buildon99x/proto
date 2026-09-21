@@ -153,7 +153,7 @@ function main() {
     const owned = ARTIFACTS.filter(
       (a) => a.site === s.id && a.sourceStatus === "verified" && (w.codex[a.id] === "owned" || w.codex[a.id] === "owned_unidentified")
     ).length;
-    console.log(`  ${s.name.padEnd(6)} ${owned}/${total}`);
+    console.log(`  ${s.city.padEnd(6)} ${owned}/${total}`);
   }
 }
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MAX_OWNED_SITES, SITES, SITE_BY_ID } from "../game/balance";
-import { distanceKm } from "../game/sites";
+import { distanceKm, siteSubtitle, siteTitle } from "../game/sites";
 import { teamHomeSite } from "../game/engine";
 import { won } from "../game/format";
 import type { Foreman, SiteId } from "../game/types";
@@ -26,9 +26,13 @@ export function DispatchSheet({ game, site, onClose }: { game: Game; site: SiteI
   const canOpenBase = !sp.unlocked && ownedCount < MAX_OWNED_SITES;
 
   return (
-    <Modal title={`${def.name} — ${def.anchor}`} onClose={onClose}>
+    <Modal
+      title={siteTitle(def.id)}
+      subtitle={`${siteSubtitle(def.id)} · 편도 ${Math.round(dist).toLocaleString("ko-KR")}km`}
+      onClose={onClose}
+    >
       <p className="muted small">
-        {sp.unlocked ? "본거지" : "방문 가능"} · 편도 거리 {Math.round(dist).toLocaleString("ko-KR")}km · 현재 {sp.layer}층
+        {sp.unlocked ? "본거지" : "방문 가능"} · 현재 {sp.layer}층
       </p>
 
       {idleTeams.length === 0 ? (

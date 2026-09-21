@@ -169,7 +169,7 @@ for (const site of SITES) {
   const rows = Math.ceil(list.length / cols);
   const c = new Canvas(PAD + cols * cell, LABEL_H + PAD + rows * (cell + LABEL_H), BG);
   c.text(`${siteLabel(site.id)} T2+ ${list.length}`, PAD, PAD, TEXT);
-  index.push(`## ${site.name} (${site.id}) — T2 이상 ${list.length}종`, "");
+  index.push(`## ${site.city} (${site.id}) — T2 이상 ${list.length}종`, "");
   index.push("| 칸 | 티어 | id | 이름 | shape/변형 | palette |");
   index.push("| --- | --- | --- | --- | --- | --- |");
   list.forEach((a, i) => {

@@ -1,4 +1,28 @@
-# 유물 데이터 파이프라인
+# 빌드타임 생성 파이프라인
+
+두 갈래다 — **유물 데이터**(`artifacts.generated.ts`)와 **세계지도 해안선**
+(`worldmap-raster.ts`). 둘 다 개발 시점에 돌려 산출물을 커밋하고, 런타임은 결과만
+읽는다. 앱은 어떤 외부 리소스도 실행 중에 부르지 않는다.
+
+## 세계지도 해안선 — `build-worldmap.mjs`
+
+```bash
+node scripts/build-worldmap.mjs          # 다시 굽는다
+node scripts/build-worldmap.mjs --check  # 커밋된 산출물이 최신인지만 검사
+```
+
+Natural Earth 1:110m 육지 지오메트리(npm `world-atlas`, 데이터는 퍼블릭 도메인)를
+정거방형 도법으로 320×160 이진 비트맵에 구워 `app/src/render/worldmap-raster.ts`에
+정적 상수로 쓴다. `world-atlas`·`topojson-client`는 `app/package.json`의
+**devDependencies**에만 있고 런타임 번들에 들어가지 않는다. 설계·구현 서술은
+[`notes/world-map.md` §6](../notes/world-map.md), 판단 근거는
+[`notes/decisions.md` G8·G75](../notes/decisions.md).
+
+`app/src/game/sites.ts`의 12거점 좌표를 읽어 **모든 거점 도트가 육지인지 확인**하고,
+이웃 8칸까지 전부 바다인 거점이 있으면 빌드를 깬다 — 좌표 오류 회귀 방지다.
+`balance.ts`의 `MAP_*`·`COASTLINE_LAND_THRESHOLD`가 스크립트 가정과 어긋나도 깬다.
+
+## 유물 데이터
 
 `app/src/game/artifacts.generated.ts`(1,720종)를 만드는 스크립트들. 손으로 쓴
 280종은 `app/src/game/artifacts.ts`에 있고 이쪽이 건드리지 않는다.

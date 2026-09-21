@@ -51,7 +51,7 @@ export function OfflineSummary({ game, onNavigate }: { game: Game; onNavigate: (
         <ul className="offline-action-cards">
           {world.theftEvents.map((ev) => (
             <li key={ev.id} className="offline-action-card danger">
-              <span>🔴 도난 — {ARTIFACT_BY_ID[ev.artifactId].name} ({SITE_BY_ID[ev.site].name})</span>
+              <span>🔴 도난 — {ARTIFACT_BY_ID[ev.artifactId].name} ({SITE_BY_ID[ev.site].city})</span>
               <button type="button" onClick={game.dismissOffline}>확인</button>
             </li>
           ))}
@@ -63,7 +63,7 @@ export function OfflineSummary({ game, onNavigate }: { game: Game; onNavigate: (
           ) : null}
           {idleTeams.map((t) => (
             <li key={t.id} className="offline-action-card">
-              <span>유휴 발굴단 — {SITE_BY_ID[t.targetSite].name}에서 대기 중</span>
+              <span>유휴 발굴단 — {SITE_BY_ID[t.targetSite].city}에서 대기 중</span>
               <button type="button" onClick={() => game.dispatch(t.id, t.targetSite)}>재파견</button>
             </li>
           ))}

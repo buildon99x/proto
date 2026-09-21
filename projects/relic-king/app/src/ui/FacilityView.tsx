@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
   AUCTIONEER_LOGISTICS_COEFF, AUCTION_GRADE_MAX, AUCTION_SLOT_CAP_BY_GRADE, FOREMAN_HIRE_COST,
-  MUSEUM_SLOT_BY_GRADE, SITES, TIER_NAME, auctionGradeCost, auctionHouseBuildCost, marketingLevelCost,
+  MUSEUM_SLOT_BY_GRADE, SITES, SITE_BY_ID, TIER_NAME, auctionGradeCost, auctionHouseBuildCost, marketingLevelCost,
   museumBuildCost, museumGradeCost
 } from "../game/balance";
 import { auctionHouseOf, freshnessOf, museumOf, museumSlotCount, staffMarketCycle } from "../game/engine";
@@ -38,7 +38,7 @@ export function FacilityView({ game }: { game: Game }) {
         <div className="facility-site-picker">
           {bases.map((s) => (
             <button key={s.id} type="button" className={activeSite === s.id ? "active" : ""} onClick={() => setSite(s.id)}>
-              {s.name}
+              {s.city}
             </button>
           ))}
         </div>
@@ -75,7 +75,7 @@ function MuseumPanel({ game, site }: { game: Game; site: SiteId }) {
   return (
     <section className="card">
       <div className="card-head">
-        <h3>{SITES.find((s) => s.id === site)!.name} 박물관 — {built ? `등급${museum.grade}` : "임시 전시대"}</h3>
+        <h3>{SITE_BY_ID[site].city} 박물관 — {built ? `등급${museum.grade}` : "임시 전시대"}</h3>
         <span className="muted small">순수익 {won(Math.max(0, incomeHourly - upkeepHourly))}₩/h · 관람 {Math.round(visitors).toLocaleString("ko-KR")}명/일</span>
       </div>
 
@@ -182,7 +182,7 @@ function AuctionPanel({ game, site }: { game: Game; site: SiteId }) {
   if (!house) {
     return (
       <section className="card">
-        <h3>{SITES.find((s) => s.id === site)!.name} 경매장 — 미건립</h3>
+        <h3>{SITE_BY_ID[site].city} 경매장 — 미건립</h3>
         <button type="button" disabled={world.funds < auctionHouseBuildCost(world.auctionHouses.length + 1)} onClick={() => game.buildAuctionHouse(site)}>
           경매장 건립 — {won(auctionHouseBuildCost(world.auctionHouses.length + 1))} ₩
         </button>
@@ -198,7 +198,7 @@ function AuctionPanel({ game, site }: { game: Game; site: SiteId }) {
   return (
     <section className="card">
       <div className="card-head">
-        <h3>{SITES.find((s) => s.id === site)!.name} 경매장 — 등급{house.grade}</h3>
+        <h3>{SITE_BY_ID[site].city} 경매장 — 등급{house.grade}</h3>
         <span className="muted small">실질 {activeCap}/{theoreticalMax}칸</span>
       </div>
 

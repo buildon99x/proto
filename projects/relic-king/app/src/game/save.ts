@@ -177,7 +177,16 @@ const MIGRATIONS: Record<number, Migration> = {
       ...raw.settings,
       autoSellSpareBelow: raw.settings?.autoSellSpareBelow ?? null
     }
-  })
+  }),
+  /**
+   * v8 → v9 (v0.5 기록패·고스트 라이벌, notes/decisions.md G76). **필드를 새로
+   * 요구하지 않는다** — 고스트는 `World.rivals`에 섞여 들어가는 평범한 `RivalState`이고,
+   * v8 저장분에는 그냥 고스트가 하나도 없을 뿐이다. 그래도 칸을 비워 두지 않고 한 줄
+   * 적어 두는 이유는, 여기가 비면 다음 사람이 "v9는 뭐가 달라졌지"를 코드 전체에서
+   * 찾게 되기 때문이다. 고스트 필드(`ghost`·`ownedExtra`·`fameExtra`)는 전부 선택
+   * 필드라 옛 라이벌 6명은 손대지 않는다.
+   */
+  8: (raw: any) => ({ ...raw, version: 9 })
 };
 
 function storage(): Storage | null {

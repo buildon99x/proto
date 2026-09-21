@@ -27,7 +27,7 @@
 | [notes/world-map.md](notes/world-map.md) | v0.2 세계지도·거점 12곳·거리 시세 모델 |
 | [notes/staff.md](notes/staff.md) | v0.2 스텝(단장·관장·경매관장) 고용·스탯·급여 설계 |
 | [notes/ux-v02.md](notes/ux-v02.md) | v0.2 UX — 탭 구조·조작 단계 수·알림 체계·레이아웃 검사 |
-| [eval.md](eval.md) | 검증 체크리스트와 실측 (§17 v0.3 엔딩·§18 자동매각·§19 v0.4 아이콘 구분력) |
+| [eval.md](eval.md) | 검증 체크리스트와 실측 (§17 v0.3 엔딩·§18 자동매각·§19 v0.4 아이콘 구분력·§20 세계지도·§21 v0.5 기록패) |
 | [scripts/README.md](scripts/README.md) | 유물 데이터 파이프라인 + 실사 이미지 수집 |
 | [changelog.md](changelog.md) | 릴리스별 변경 |
 

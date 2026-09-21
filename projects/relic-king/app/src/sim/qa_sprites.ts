@@ -249,7 +249,7 @@ console.log(`  (나) 전체 외형 — 8×8 Lab 지도:          ${(byLook.accur
 console.log("  거점별 (가):");
 for (const s of siteIds) {
   const r = byColor.perLabel.get(s)!;
-  const name = SITES.find((x) => x.id === s)!.name;
+  const name = SITES.find((x) => x.id === s)!.city;
   console.log(`    ${s.padEnd(7)} ${name.padEnd(8)} ${r.hit}/${r.n} = ${((r.hit / Math.max(1, r.n)) * 100).toFixed(0)}%`);
 }
 if (byColor.confusion.length > 0) {

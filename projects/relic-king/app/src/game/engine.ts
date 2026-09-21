@@ -1,6 +1,6 @@
 import {
   APPRAISAL_HIGH_TIER_TIME_MULT, APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE,
-  ARTIFACT_WORLD_VALUE_CEILING, ASSET_SCORE_REF_SHARE, AUCTION_FEE_RATE, AUCTION_HOUSE_MAX_COUNT,
+  ASSET_SCORE_REF, AUCTION_FEE_RATE, AUCTION_HOUSE_MAX_COUNT, DEFAULT_OWNER_NAME,
   AUCTION_SETTLE_HOURS, AUCTION_SLOT_CAP_BY_GRADE, AUTO_INVEST_RESERVE,
   AUTO_SELL_KEEP_ONE_PER_SPECIES, AUTO_SELL_MAX_TIER, AUTO_SELL_SPARE_KEEP_PER_SPECIES,
   AUTO_SELL_SPARE_MAX_TIER,
@@ -38,7 +38,8 @@ import {
   distanceCostMult, distanceYieldBonus, mishapChance, onsiteHoursOf, onsiteWindow,
   teamDigPower, travelHoursOneWay
 } from "./expedition";
-import { josa, won } from "./format";
+import { josa, withJosa, won } from "./format";
+import { siteAnchorLabel } from "./sites";
 import { localPriceMult } from "./market";
 import {
   freshnessOnDisplay, freshnessRecovered, museumUpkeepHourly, museumVisitorIncomeHourly,
@@ -98,7 +99,10 @@ function initialSeasonState(season = 1, startedAt = 0): SeasonState {
 }
 
 export function createPersistentRecord(): PersistentRecord {
-  return { legacyFame: 0, hallOfFame: [], carryoverFundsCredit: 0, firstT4Finds: 0, championHistory: [] };
+  return {
+    legacyFame: 0, hallOfFame: [], carryoverFundsCredit: 0, firstT4Finds: 0, championHistory: [],
+    ownerName: DEFAULT_OWNER_NAME
+  };
 }
 
 export function createWorld(seed = 20260917): World {
@@ -229,8 +233,6 @@ export function codexProgress(w: World): { owned: number; lost: number; total: n
 
 // ── v0.2 3축 순위 (spec.md §13.1) ────────────────────────────────────────
 
-const ASSET_SCORE_REF = ARTIFACT_WORLD_VALUE_CEILING * ASSET_SCORE_REF_SHARE;
-
 /** 전시 중(vault[].displayed)인 유물은 자산 축에서 제외한다(G49/B4). 박물관이
  *  아직 없어 displayed는 항상 falsy이므로 이번 단계에서는 playerAssets(w)와 같다 */
 export function assetScore(w: World): number {
@@ -267,6 +269,87 @@ export function rankScore(w: World, record: PersistentRecord): number {
 
 export type AxisRankRow = { id: OwnerId; name: string; asset: number; codex: number; fame: number; rank: number };
 
+// ── v0.5 추격전 — "몇 위"가 아니라 "어느 축에서 얼마나" (notes/decisions.md G76.5) ──
+
+/** 순위 성장률 표본을 갱신하는 주기(게임 내 초). 짧으면 노이즈가, 길면 반응이 느리다 */
+export const RANK_SAMPLE_INTERVAL = 600;
+
+/**
+ * 순위 성장률 표본을 찍는다. **`step()`이 부르지 않는다** — UI 틱(`useGame.ts`)이
+ * `runAutoRoutine`과 같은 자리에서 부른다(이유는 `World.rankSample` 주석).
+ * sim·QA는 이 함수를 거치지 않으므로 밸런스 측정에 영향이 없다.
+ */
+export function sampleRanks(w: World, record: PersistentRecord): void {
+  const prev = w.rankSample;
+  if (prev && w.t - prev.t < RANK_SAMPLE_INTERVAL) return;
+  const byId: Record<string, number> = {};
+  for (const row of fullRanking(w, record)) byId[String(row.id)] = row.rank;
+  w.rankSample = { t: w.t, byId };
+}
+
+export type RankRace = {
+  /** 내 바로 위 상대. 내가 1위면 null이다 */
+  target: AxisRankRow | null;
+  me: AxisRankRow;
+  /** 상대 − 나. 양수면 그 축에서 내가 지고 있다 */
+  gap: { asset: number; codex: number; fame: number; rank: number };
+  /** 가중치를 반영해 지금 가장 손해가 큰 축 */
+  weakestAxis: "asset" | "codex" | "fame";
+  /**
+   * 추월까지 남은 게임 내 초. `null`은 **이 속도로는 못 넘는다**는 뜻이고,
+   * `undefined`는 아직 표본이 모자라 모른다는 뜻이다. 둘을 섞지 마라 —
+   * 모르는 것을 "못 넘는다"로 적으면 그게 거짓말이 된다(척추 5번).
+   */
+  overtakeSeconds: number | null | undefined;
+};
+
+/**
+ * 나와 바로 위 상대의 추격전. 순위표가 "종합 7위"만 보여 주면 플레이어가 할 수 있는
+ * 일이 없다 — 어느 축에서 지고 있는지, 이 속도면 언제 넘는지를 같이 줘야 선택이 생긴다.
+ *
+ * 추월 시각은 **측정된 성장률**로만 계산한다(`rankSample`). 표본이 없거나 두 표본
+ * 사이에 시간이 흐르지 않았으면 `undefined`를 돌려준다 — 추정식을 지어내지 않는다.
+ */
+export function rankRace(w: World, record: PersistentRecord): RankRace {
+  const rows = fullRanking(w, record).sort((a, b) => b.rank - a.rank);
+  const myIndex = rows.findIndex((r) => r.id === "player");
+  const me = rows[myIndex];
+  const target = myIndex > 0 ? rows[myIndex - 1] : null;
+
+  const gap = {
+    asset: (target?.asset ?? me.asset) - me.asset,
+    codex: (target?.codex ?? me.codex) - me.codex,
+    fame: (target?.fame ?? me.fame) - me.fame,
+    rank: (target?.rank ?? me.rank) - me.rank
+  };
+  // 같은 0.01이라도 가중치가 큰 축에서 더 많이 잃는다 — 그쪽을 먼저 가리킨다.
+  const weighted: [RankRace["weakestAxis"], number][] = [
+    ["asset", gap.asset * RANK_WEIGHT.asset],
+    ["codex", gap.codex * RANK_WEIGHT.codex],
+    ["fame", gap.fame * RANK_WEIGHT.fame]
+  ];
+  const weakestAxis = weighted.sort((a, b) => b[1] - a[1])[0][0];
+
+  return { target, me, gap, weakestAxis, overtakeSeconds: overtakeIn(w, me, target) };
+}
+
+function overtakeIn(w: World, me: AxisRankRow, target: AxisRankRow | null): number | null | undefined {
+  if (!target) return 0;
+  const sample = w.rankSample;
+  const span = sample ? w.t - sample.t : 0;
+  if (!sample || span <= 0) return undefined;
+  const mine = sample.byId["player"];
+  const theirs = sample.byId[String(target.id)];
+  // 방금 받은 고스트는 표본에 없다 — 다음 표본까지는 모른다고 답한다.
+  if (mine === undefined || theirs === undefined) return undefined;
+
+  const myRate = (me.rank - mine) / span;
+  const theirRate = (target.rank - theirs) / span;
+  const closing = myRate - theirRate;
+  if (closing <= 0) return null;
+  return (target.rank - me.rank) / closing;
+}
+
 /**
  * 헤더의 3축 순위표(spec.md §13.1, notes/ux-v02.md §1.1) — 플레이어뿐 아니라
  * 라이벌 전원을 같은 3축·같은 가중식으로 나란히 채점한다. `assetScore`·
@@ -293,9 +376,11 @@ export function fullRanking(w: World, record: PersistentRecord): AxisRankRow[] {
       const asset = Math.min(1, r.vaultValue / ASSET_SCORE_REF);
       // owned는 이제 종 단위로만 push되므로(위 take() 주석 참조) 길이 자체가
       // 고유 종수다 — Set 변환이 필요 없다(스텝마다 부르는 경로라 성능이 중요하다).
-      const codex = verifiedTotal > 0 ? r.owned.length / verifiedTotal : 0;
+      // `ownedExtra`·`fameExtra`는 기록패로 받은 고스트에만 있다(v0.5, types.ts 주석).
+      // NPC는 둘 다 undefined라 이 식은 v0.4와 완전히 같은 값을 낸다.
+      const codex = verifiedTotal > 0 ? (r.owned.length + (r.ownedExtra ?? 0)) / verifiedTotal : 0;
       const firstT4 = r.owned.filter((id) => ARTIFACT_BY_ID[id]?.tier === 4).length;
-      const fame = Math.min(1, (firstT4 / TIER4_SPECIES_TOTAL) * FAME_FIRST_T4_WEIGHT);
+      const fame = Math.min(1, (firstT4 / TIER4_SPECIES_TOTAL) * FAME_FIRST_T4_WEIGHT + (r.fameExtra ?? 0));
       const rank = RANK_WEIGHT.asset * asset + RANK_WEIGHT.codex * codex + RANK_WEIGHT.fame * fame;
       return { id: r.id, name: r.name, asset, codex, fame, rank };
     })
@@ -477,7 +562,7 @@ function theftJudgeTick(w: World, dt: number, rng: Rng) {
     w.theftEvents.push(event);
     w.vault = w.vault.filter((v) => v.uid !== item.uid);
     demoteIfEmptied(w, artifact.id);
-    log(w, "system", `${SITE_BY_ID[site].name} 박물관에서 '${artifact.name}'${josa(artifact.name, "을를")} 도난당했다. 회수 기한 ${THEFT_RECOVERY_WINDOW_HOURS}시간(온라인 기준).`);
+    log(w, "system", `${SITE_BY_ID[site].city} 박물관에서 '${artifact.name}'${josa(artifact.name, "을를")} 도난당했다. 회수 기한 ${THEFT_RECOVERY_WINDOW_HOURS}시간(온라인 기준).`);
   }
 }
 
@@ -761,7 +846,45 @@ function rollDrop(
     pool = candidates(w, site, tier, layer);
   }
   if (pool.length === 0) return;
-  take(w, rng.pick(pool), owner, report, diggerForemanId);
+  const picked = rng.pick(pool);
+  // 기록패로 받은 사람 상대는 **내 원장을 비우지 않는다**(notes/decisions.md G76.1).
+  // 위의 제보 레이스 분기는 이 앞에서 이미 끝났으므로, 여기 오는 건 배경 발굴뿐이다.
+  const asGhost = ghostOwner(w, owner);
+  if (asGhost) shadowTake(w, picked, asGhost);
+  else take(w, picked, owner, report, diggerForemanId);
+}
+
+/** 그 id가 기록패로 받은 고스트의 것인가 */
+export function isGhostId(w: World, id: OwnerId): boolean {
+  return id !== "player" && w.rivals.some((r) => r.id === id && r.ghost !== undefined);
+}
+
+/** 그 owner가 고스트면 그 라이벌, 아니면 undefined */
+function ghostOwner(w: World, owner: OwnerId): RivalState | undefined {
+  if (owner === "player") return undefined;
+  const r = w.rivals.find((x) => x.id === owner);
+  return r?.ghost ? r : undefined;
+}
+
+/**
+ * 고스트의 배경 발굴. 점수만 자라고 **세계 원장·도감·로그는 건드리지 않는다.**
+ *
+ * 이유는 G76.1의 연장이다. 고스트는 자기 판에서 계속 놀고 있는 사람의 투영이고,
+ * 그 사람이 자기 세계에서 캔 것이 내 세계의 재고를 줄일 이유가 없다. 줄이면
+ * **친구를 부를수록 내 도감이 느려진다** — 받으면 손해인 기능은 아무도 안 쓴다.
+ * 실측이 그걸 그대로 보여 줬다: 엔딩 시점 세기의 고스트 3명이 배경 발굴로 원장을
+ * 비우자 도감이 75%에 닿지 못해 168시간 안에 엔딩이 나지 않았다(`eval.md` §21).
+ *
+ * 그래서 내 판의 유물을 걸고 다투는 자리는 **제보 레이스 하나로 좁힌다**(rollDrop 위쪽
+ * 분기). 거기서는 고스트가 실제로 내 세계에 와 있고, 내가 보고 있고, 집중 굴착으로
+ * 맞설 수 있다 — 척추 3번이 말하는 "그 자리에 있었을 때"가 정확히 그 상황이다.
+ */
+function shadowTake(w: World, a: Artifact, r: RivalState) {
+  if (!r.owned.includes(a.id)) r.owned.push(a.id);
+  const value = tierValue(a.tier, a.valueFactor);
+  const rivalWithholdRate = FOREMAN_SALARY_INCOME_SHARE + EXPEDITION_COST_INCOME_RATIO;
+  if (a.tier <= r.sellBelow) r.funds += Math.round(value * (1 - rivalWithholdRate));
+  else r.vaultValue += value;
 }
 
 /** 그 거점이 base로 승격된 지 HOME_BASE_BONUS_DURATION_HOURS 안이면 dropMod를
@@ -802,12 +925,12 @@ function addSiteProgress(w: World, site: SiteId, effSeconds: number, d: number, 
     sp.layerProgress -= layerCost(site, sp.layer);
     sp.layer += 1;
     report.layerUps += 1;
-    log(w, "system", `${SITE_BY_ID[site].name} ${sp.layer}층 — ${SITE_BY_ID[site].eras[sp.layer - 1]}`);
+    log(w, "system", `${SITE_BY_ID[site].city} ${sp.layer}층 — ${SITE_BY_ID[site].eras[sp.layer - 1]}`);
     // 미탐사 보너스(world-map.md §4) — 그 거점 층1 최초 돌파(이번 시즌 한정) 1회
     if (sp.layer === 2 && !w.unexploredBonusGranted[site]) {
       w.unexploredBonusGranted[site] = true;
       w.appraisalVouchers += UNEXPLORED_BONUS_APPRAISAL_VOUCHER;
-      log(w, "system", `${SITE_BY_ID[site].name}을(를) 처음 탐사했다 — 무료 감정권 ${UNEXPLORED_BONUS_APPRAISAL_VOUCHER}장 획득.`);
+      log(w, "system", `${withJosa(SITE_BY_ID[site].city, "을를")} 처음 탐사했다 — 무료 감정권 ${UNEXPLORED_BONUS_APPRAISAL_VOUCHER}장 획득.`);
     }
   }
   if (sp.layer >= LAYERS_PER_SITE) sp.layerProgress = Math.min(sp.layerProgress, layerCost(site, sp.layer));
@@ -876,6 +999,14 @@ function digRival(w: World, r: RivalState, rng: Rng, dt: number, eff: number, re
     r.dropProgress -= dropThreshold(site, r.layer, d);
     rollDrop(w, rng, site, r.layer, r.id, eff < 1, report);
   }
+
+  // **고스트는 재투자하지 않는다**(notes/decisions.md G76.8). 고스트는 설계된 캐릭터가
+  // 아니라 "그 사람이 그 시점에 어떤 속도였는지"의 기록이다 — 레이싱 게임의 고스트가
+  // 녹화된 주행을 그대로 재생하듯, 기록된 페이스로만 자란다. NPC의 재투자 루프를 태우면
+  // 기록 시점의 인부 더미 위에 장비가 계속 얹혀 실측 16,044~28,367/s까지 부풀었고
+  // (`eval.md` §21), 그건 그 친구가 실제로 그만큼 세다는 뜻이 아니라 모델이 부푼 것이다.
+  // 상대가 진짜로 더 세졌으면 새 기록패를 주면 된다 — 그게 이 기능의 갱신 경로다.
+  if (r.ghost) return;
 
   // 라이벌도 같은 비용 곡선·같은 상한으로 재투자한다 (Fair Progression: 같은 규칙)
   for (let i = 0; i < 12; i++) {
@@ -1020,7 +1151,7 @@ export function dispatchExpedition(w: World, teamId: string, target: SiteId): bo
   team.mishapRolled = mishap;
   team.layerAtDispatch = w.sites[target].layer;
   team.tipChase = null; // 일반 파견은 제보 추적을 새로 시작하지 않는다(급파 전용, emergencyDispatch)
-  log(w, "system", `발굴단이 ${SITE_BY_ID[target].name}(으)로 출발했다.`);
+  log(w, "system", `발굴단이 ${withJosa(SITE_BY_ID[target].city, "로으로")} 출발했다.`);
   return true;
 }
 
@@ -1056,7 +1187,7 @@ export function emergencyDispatch(w: World, teamId: string): boolean {
   team.layerAtDispatch = w.sites[target].layer;
   team.costMult = (team.costMult ?? 1) * EMERGENCY_DISPATCH_COST_MULT;
   team.tipChase = { artifactId: w.tip.artifactId, layer: w.tip.layer };
-  log(w, "system", `발굴단이 제보를 쫓아 ${SITE_BY_ID[target].name}(으)로 급파됐다.`);
+  log(w, "system", `발굴단이 제보를 쫓아 ${withJosa(SITE_BY_ID[target].city, "로으로")} 급파됐다.`);
   return true;
 }
 
@@ -1126,7 +1257,7 @@ function finalizeExpedition(w: World, team: ExpeditionTeam) {
   );
   w.funds -= cost;
   team.costMult = 1;
-  log(w, "system", `발굴단이 ${SITE_BY_ID[team.targetSite].name}에서 귀환했다. 원정비 ${cost.toLocaleString("ko-KR")}₩ 정산.`);
+  log(w, "system", `발굴단이 ${SITE_BY_ID[team.targetSite].city}에서 귀환했다. 원정비 ${cost.toLocaleString("ko-KR")}₩ 정산.`);
 
   team.status = "idle";
   if (team.routine?.enabled) dispatchExpedition(w, team.id, team.routine.target);
@@ -1514,7 +1645,7 @@ function spawnTip(w: World, rng: Rng) {
     rivals: chosen,
     focused: false
   };
-  log(w, "system", `제보 — ${SITE_BY_ID[target.site].name} ${target.minLayer}층에서 반응. 대상: ${target.name}`);
+  log(w, "system", `제보 — ${SITE_BY_ID[target.site].city} ${target.minLayer}층에서 반응. 대상: ${target.name}`);
 }
 
 /** 원거리 급파 라이벌의 도착 판정(spec.md §12.3) — 압축 이동시간이 지나면 그
@@ -1601,7 +1732,13 @@ function updateCatchup(w: World) {
  */
 function checkEnding(w: World, record: PersistentRecord) {
   if (w.ended) return;
-  const rows = fullRanking(w, record);
+  // **엔딩 판정에는 고스트를 넣지 않는다**(notes/decisions.md G76.9). 엔딩은 내 판의
+  // 완주 판정이고, 다른 세계에서 건너온 스냅샷이 그걸 무효로 만들 수는 없다. 넣으면
+  // 이미 완주한 친구의 기록패 하나로 내 엔딩이 영구히 막힌다(실측 — 엔딩 시점 세기의
+  // 고스트 3명을 들이자 168시간까지 도감 85%를 채우고도 엔딩이 나지 않았다, `eval.md` §21).
+  // 순위표에는 그대로 보이고, 제보 레이스에서 유물을 뺏기는 것도 그대로다 — 비교와
+  // 경쟁은 살리고, 완주할 권리만 내 것으로 남긴다.
+  const rows = fullRanking(w, record).filter((r) => !isGhostId(w, r.id));
   const leader = [...rows].sort((a, b) => b.rank - a.rank)[0];
   if (w.seasonState.titleHolderId !== leader.id) {
     w.seasonState.titleHolderId = leader.id;
@@ -1805,7 +1942,7 @@ export function unlockSite(w: World, site: SiteId): boolean {
   w.sites[site].baseSince = w.t;
   w.visitedSites[site] = true;
   w.activeSite = site;
-  log(w, "system", `${def.name} — ${def.anchor} 발굴을 시작했다.`);
+  log(w, "system", `${def.city} — ${siteAnchorLabel(def)} 발굴을 시작했다.`);
   return true;
 }
 
@@ -1832,7 +1969,7 @@ export function relocateBase(w: World, newSite: SiteId): boolean {
   w.sites[newSite].baseSince = w.t;
   w.visitedSites[newSite] = true;
   w.activeSite = newSite;
-  log(w, "system", `본거지를 ${SITE_BY_ID[newSite].name}(으)로 옮겼다.`);
+  log(w, "system", `본거지를 ${withJosa(SITE_BY_ID[newSite].city, "로으로")} 옮겼다.`);
   return true;
 }
 
@@ -2031,7 +2168,7 @@ export function buildMuseum(w: World, site: SiteId): boolean {
   // 등급0에 전시 중이던 유물은 그대로 슬롯을 유지한다(등급1도 최소 1슬롯 이상이라
   // 자리가 남는다 — MUSEUM_SLOT_BY_GRADE=[1,3,6,10,15]).
   w.museums.push({ id: `museum-${nextUid()}`, site, grade: 1, marketingLevel: 1 });
-  log(w, "system", `${SITE_BY_ID[site].name}에 박물관을 세웠다.`);
+  log(w, "system", `${SITE_BY_ID[site].city}에 박물관을 세웠다.`);
   return true;
 }
 
@@ -2110,7 +2247,7 @@ export function buildAuctionHouse(w: World, site: SiteId): boolean {
   if (w.funds < cost) return false;
   w.funds -= cost;
   w.auctionHouses.push({ id: `auction-${nextUid()}`, site, grade: 1, listings: [] });
-  log(w, "system", `${SITE_BY_ID[site].name}에 경매장을 세웠다.`);
+  log(w, "system", `${SITE_BY_ID[site].city}에 경매장을 세웠다.`);
   return true;
 }
 

@@ -48,7 +48,7 @@ export function Header({
         </div>
       </div>
       <div className="header-nextdrop muted">
-        {nextDrop ? `다음 드랍 — ${nextDrop.label} ${SITE_BY_ID[nextDrop.site].name} ${nextDrop.layer}층 · ${clock(nextDrop.seconds)} 후` : "다음 드랍 — 발굴 중인 곳 없음"}
+        {nextDrop ? `다음 드랍 — ${nextDrop.label} ${SITE_BY_ID[nextDrop.site].city} ${nextDrop.layer}층 · ${clock(nextDrop.seconds)} 후` : "다음 드랍 — 발굴 중인 곳 없음"}
       </div>
     </header>
   );
