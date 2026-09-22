@@ -23,7 +23,8 @@
 | [`eval/04-example-webtoon-blind.md`](eval/04-example-webtoon-blind.md) | 웹툰 블라인드 채점 시연 — 샘플 3개, 같은 소재로 4.57 대 3.07 |
 | [`eval/05-loop-ledger.md`](eval/05-loop-ledger.md) | 패스 기록 |
 | [`eval/06-axis7-rejudgement.md`](eval/06-axis7-rejudgement.md) | 축7 재판정 — 독립 레인 2곳, 각각 2점 |
-| [`episodes/`](episodes/) | 콘티 — 프롤로그 · 1화 · 2화 |
+| [`eval/07-pass4-reports.md`](eval/07-pass4-reports.md) | **패스 4 채점 보고** — 축소본 세 원고, 독립 레인 3곳의 보고서 전문 |
+| [`episodes/`](episodes/) | 콘티 — 프롤로그(20컷) · 1화(79컷) · 2화(79컷). 각 파일에 패스별 채점 기록이 붙어 있다 |
 
 **정본은 `concept-v2.md`다.** `concept.md`는 받은 파일 그대로(바이트 동일) 보관하며 고치지 않는다 —
 원본과 개정본이 나란히 있어야 무엇이 왜 바뀌었는지 추적된다. 요약·대조·파생 설정은 별도 파일로 쓴다.
