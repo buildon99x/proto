@@ -632,3 +632,15 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
   margin: 6px 0 0; font-size: 10px; color: #b09a6a;
   border-top: 1px dashed var(--line); padding-top: 5px;
 }
+
+/* 안목(도감 되먹임, G91) — 도감 화면에서 "이게 무엇을 바꾸는지"를 보여 준다 */
+.eye-panel { display: flex; flex-direction: column; gap: 6px; margin: 10px 0 12px; }
+.eye-row { display: grid; grid-template-columns: 76px 1fr auto; gap: 10px; align-items: center; font-size: 12px; }
+.eye-k { color: var(--muted, #8a8a8a); }
+.eye-bar { height: 6px; background: rgba(127, 127, 127, .22); border-radius: 3px; overflow: hidden; }
+.eye-bar i { display: block; height: 100%; background: var(--gold, #e0a92e); }
+.eye-v { font-variant-numeric: tabular-nums; }
+@media (max-width: 520px) {
+  .eye-row { grid-template-columns: 64px 1fr; }
+  .eye-v { grid-column: 1 / -1; }
+}

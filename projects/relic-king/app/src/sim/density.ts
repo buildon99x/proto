@@ -37,12 +37,12 @@
  */
 import { writeFileSync } from "node:fs";
 import {
-  AUTO_ROUTINE_INTERVAL_SECONDS, FIRST_RELOCATION_FREE_WINDOW_HOURS, MAX_OWNED_SITES, SITES,
+  AUTO_ROUTINE_INTERVAL_SECONDS, FIRST_RELOCATION_FREE_WINDOW_HOURS, SITES,
   TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN
 } from "../game/balance";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
-  advance, codexProgress, createPersistentRecord, createWorld, digPower, fullRanking,
+  advance, codexProgress, createPersistentRecord, createWorld, digPower, fullRanking, ownedSiteCap,
   grantStartingTeam, isGhostId,
   playerAssets, playerCanReactAt, runAutoRoutine, tipPoolStages
 } from "../game/engine";
@@ -169,7 +169,8 @@ function statuses(w: World): string {
 
 function canUnlockNow(w: World): boolean {
   const owned = SITES.filter((s) => w.sites[s.id].unlocked).length;
-  if (owned >= MAX_OWNED_SITES) return false;
+  // 상한은 안목이 연다(G91) — 계측도 엔진과 같은 함수를 써야 선택지 수가 맞는다
+  if (owned >= ownedSiteCap(w)) return false;
   return SITES.some((s) => !w.sites[s.id].unlocked && w.funds >= s.unlockCost);
 }
 

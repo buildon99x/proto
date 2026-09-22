@@ -7,6 +7,7 @@ import {
   TIP_FOCUS_DIG_COST_MULT, TIP_FOCUS_DIG_HIT_CHANCE, TIP_MEAN_INTERVAL,
   TIP_MIN_RESPONSE_SECONDS, TIP_PLAYER_HIT, TIP_RIVAL_HIT,
   TIP_DECIDE_AFTER_GRACE_SECONDS, TIP_UNIQUE_ANNOUNCE_WITHIN, TIP_UNRESPONDED_UNIQUE_MULT,
+  EYE_RACE_BONUS_MAX,
   TIP_WORLDWIDE_MIN_TIER,
   CURATOR_RECOVERY_COEFF, tierWeights
 } from "../game/balance";
@@ -76,6 +77,15 @@ export function RulesModal({ game, onClose }: { game: Game; onClose: () => void 
           <li>on_site 팀이 있으면(또는 직접 발굴이 그 자리를 파고 있으면) 자동으로 {Math.round(TIP_PLAYER_HIT * 100)}% 확률로 판정된다 — <strong>같은 제보를 받은 라이벌도 {Math.round(TIP_RIVAL_HIT * 100)}%로 같다.</strong> 아무것도 안 누르면 공정한 레이스이고, [집중 굴착]을 누르면 {Math.round(TIP_FOCUS_DIG_HIT_CHANCE * 100)}%로 오르는 대신 그 원정의 원정비가 {TIP_FOCUS_DIG_COST_MULT}배가 된다.</li>
           <li>[급파]는 유휴 발굴단을 압축 이동시간 {EMERGENCY_DISPATCH_MAX_REACH_HOURS}시간 이내인 거점에 즉시 출발시킨다. 원정비 {EMERGENCY_DISPATCH_COST_MULT}배·미스헵 확률 {EMERGENCY_DISPATCH_MISHAP_MULT}배가 붙는다. 배너가 사라진 뒤에도 도착하면 판정은 그대로 유효하다 — 세계 재고가 남아 있는지가 유일한 기준이다.</li>
           <li><strong>라이벌은 제보 레이스 밖에서 유일 유물을 가져가지 못한다.</strong> 오프라인 중에는 진귀 이하만 가져간다 — 영구 상실은 당신이 그 자리에 있었을 때만 일어난다.</li>
+        </ul>
+      </section>
+
+      <section className="rules-block">
+        <h4>안목 — 도감이 바꾸는 것</h4>
+        <ul className="rules-notes">
+          <li><strong>아는 자리에서 먼저 찾는다.</strong> 그 거점 도감을 채운 비율만큼 제보 레이스의 내 가중이 올라간다 — 다 채웠으면 <strong>+{Math.round(EYE_RACE_BONUS_MAX * 100)}%</strong>다. 배너에 그 판의 안목 몫이 그대로 적힌다.</li>
+          <li>안목은 <strong>발굴력·평가액·드랍 확률에는 손대지 않는다.</strong> 도감을 수입에 곱하면 깊이와 발굴력이 함께 곱해져 폭주한다 — 그래서 선점과 확장에만 붙였다.</li>
+          <li>잃은 종(회색 칸)은 안목에 세지 않는다. 도감의 빈칸은 지식이 아니다.</li>
         </ul>
       </section>
 

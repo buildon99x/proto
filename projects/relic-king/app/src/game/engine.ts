@@ -15,6 +15,7 @@ import {
   FAME_VISITOR_NORMALIZATION, FIRST_RELOCATION_FREE_WINDOW_HOURS, FOREMAN_HIRE_COST,
   FOREMAN_SALARY_INCOME_SHARE, GEAR_MULT, HOME_BASE_BONUS_DROPMOD_MULT, HOME_BASE_BONUS_DURATION_HOURS,
   LAYERS_PER_SITE, LOCKED_HOLD_TIER_EXEMPT_MIN_TIER, MAX_EXPEDITION_TEAMS_CAP,
+  EYE_HIT_CHANCE_CAP, EYE_RACE_BONUS_MAX,
   MAX_EXPEDITION_TEAMS_INITIAL, MAX_GEAR_LEVEL, MAX_OWNED_SITES, MUSEUM_MAX_COUNT,
   MUSEUM_NET_INCOME_CAP, MUSEUM_SLOT_BY_GRADE, OFFLINE_CAP_SECONDS, OFFLINE_EFFICIENCY, PROGRESS_VALUE,
   RANK_WEIGHT, RECOMMEND_TOP_N, RECOMMEND_TRAVEL_HALF_HOURS, REGIONAL_PRICE_MULT_MAX,
@@ -301,6 +302,50 @@ export function assetScore(w: World): number {
  * "분모는 검증된 종만"(G53.4) 원칙을 쓰고 있으므로, 3축 점수식도 같은 원칙을
  * 그대로 확장한 것뿐이다.
  */
+/**
+ * 거점별 검증 종 목록. `artifactsOf()`는 부를 때마다 1,902종을 훑으므로, 매 레이스
+ * 판정마다 부를 이 계산은 한 번만 갈라 둔다.
+ */
+const VERIFIED_BY_SITE: Record<string, Artifact[]> = (() => {
+  const m: Record<string, Artifact[]> = {};
+  for (const a of ARTIFACTS) {
+    if (a.sourceStatus !== "verified") continue;
+    (m[a.site] ??= []).push(a);
+  }
+  return m;
+})();
+
+/**
+ * **거점 안목** — 그 거점의 검증 종 중 내가 아는(가진) 비율 0~1.
+ * 잃은 종(`lost`)은 아는 것으로 세지 않는다 — 도감의 회색 칸은 지식이 아니라 빈칸이다.
+ */
+export function siteEyeRatio(w: World, site: SiteId): number {
+  const all = VERIFIED_BY_SITE[site];
+  if (!all || all.length === 0) return 0;
+  let owned = 0;
+  for (const a of all) {
+    const st = w.codex[a.id];
+    if (st === "owned" || st === "owned_unidentified") owned++;
+  }
+  return owned / all.length;
+}
+
+/** 제보 레이스에서 안목이 플레이어 가중에 곱하는 값(1 ~ 1+EYE_RACE_BONUS_MAX) */
+export function eyeRaceMult(w: World, site: SiteId): number {
+  return 1 + EYE_RACE_BONUS_MAX * siteEyeRatio(w, site);
+}
+
+/** **전체 안목** — 검증 종 전체 대비 보유 비율 0~1(`codexScore`와 같은 분모다) */
+export function eyeRatio(w: World): number {
+  const { owned, total } = codexProgress(w);
+  return total > 0 ? owned / total : 0;
+}
+
+/** base 슬롯 상한 — 상수 그대로다(안목으로 여는 안은 재 보고 버렸다, G91.1) */
+export function ownedSiteCap(_w: World): number {
+  return MAX_OWNED_SITES;
+}
+
 export function codexScore(w: World): number {
   const { owned, total } = codexProgress(w);
   return total > 0 ? owned / total : 0;
@@ -905,9 +950,14 @@ function rollDrop(
         TIP_FIRST_WIN_GUARANTEED && owner !== "player" && target.tier < 4 &&
         w.stats.racesWon === 0 && !!tip && !tip.resolved && tip.artifactId === target.id &&
         playerRacingAt(w, tip);
+      // 안목(그 거점 도감 비율)이 플레이어 쪽에만 곱해진다(G91) — 확률이므로 상한을 씌운다.
       const hit =
         owner === "player"
-          ? (raceTarget.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) * uniquePenalty
+          ? Math.min(
+              EYE_HIT_CHANCE_CAP,
+              (raceTarget.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) *
+                uniquePenalty * eyeRaceMult(w, site)
+            )
           : TIP_RIVAL_HIT;
       // 난수는 **언제나 뽑는다**. `guardedForPlayer`로 `rng.chance`를 건너뛰면 보장이
       // 걸린 판에서만 난수 소비가 한 칸 줄어, 같은 시드가 스텝 크기에 따라 갈린다
@@ -2094,6 +2144,8 @@ export type TipRaceOdds = {
   contenders: number;
   /** 유일인데 아직 대응하지 않았다 — 지금 상태로는 가져갈 수 없다 */
   needsResponse: boolean;
+  /** 안목이 이 판에 더해 주는 몫(0 = 그 거점을 아직 모른다) */
+  eyeBonus: number;
 };
 
 /** 마감 판정의 현재 상태 — 화면이 규칙과 같은 말을 하도록 엔진이 직접 낸다(척추 5번). */
@@ -2109,15 +2161,16 @@ export function tipRaceOdds(w: World, tip: Tip): TipRaceOdds {
     TIP_UNIQUE_REQUIRES_RESPONSE && target.tier === 4 && tip.rivals.length > 0 && !responded;
   const guaranteed = TIP_FIRST_WIN_GUARANTEED && racing && !needsResponse && w.stats.racesWon === 0;
   const firstUniqueLesson = needsResponse && TIP_FIRST_UNIQUE_TAUGHT && !w.taughtUniqueLoss;
+  const eye = eyeRaceMult(w, tip.site);
   const pw =
     racing
       ? (tip.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) *
-        (firstUniqueLesson ? 0 : needsResponse ? TIP_UNRESPONDED_UNIQUE_MULT : 1)
+        (firstUniqueLesson ? 0 : needsResponse ? TIP_UNRESPONDED_UNIQUE_MULT : 1) * eye
       : 0;
   const contenders = tipRivalContenders(w, tip).length;
   const rw = contenders * TIP_RIVAL_HIT;
   const playerChance = guaranteed ? 1 : pw + rw === 0 ? 0 : pw / (pw + rw);
-  return { decideIn, racing, playerChance, guaranteed, contenders, needsResponse };
+  return { decideIn, racing, playerChance, guaranteed, contenders, needsResponse, eyeBonus: eye - 1 };
 }
 
 /**
@@ -2156,7 +2209,9 @@ function decideTipRace(w: World, rng: Rng, report: StepReport) {
     : TIP_FIRST_UNIQUE_TAUGHT && !w.taughtUniqueLoss
       ? 0
       : TIP_UNRESPONDED_UNIQUE_MULT;
-  const pw = racing ? (tip.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) * uniquePenalty : 0;
+  const pw = racing
+    ? (tip.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) * uniquePenalty * eyeRaceMult(w, tip.site)
+    : 0;
   // 라이벌 가중은 **머릿수**다 — 유예 전 드랍 판정에서 라이벌 k명이 각자 굴리는
   // 것과 같은 셈이고, 그래서 제보마다 경쟁도가 다르다(1명이면 반반, 4명이면 20%).
   // 배너가 그 수치를 그대로 적는다(척추 5번, `tipRaceOdds`).
@@ -2515,7 +2570,7 @@ export function unlockSite(w: World, site: SiteId): boolean {
   const ownedCount = SITES.filter((s) => w.sites[s.id].unlocked).length;
   // base 슬롯 상한(world-map.md §5, G17/A10) — unlockCost는 이제 원정 자격이 아니라
   // base 승격에만 든다. 원정은 12거점 어디든 항상 가능하다(expedition.ts·dispatchExpedition).
-  if (ownedCount >= MAX_OWNED_SITES) return false;
+  if (ownedCount >= ownedSiteCap(w)) return false;
   w.funds -= def.unlockCost;
   w.sites[site].unlocked = true;
   w.sites[site].baseSince = w.t;

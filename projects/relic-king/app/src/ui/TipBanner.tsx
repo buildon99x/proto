@@ -78,8 +78,8 @@ function TipContent({ game, tip }: { game: Game; tip: Tip }) {
             : odds.needsResponse && odds.playerChance === 0
               ? `유일 — 대응하지 않으면 놓친다 · 결판까지 ${Math.ceil(odds.decideIn)}초`
               : `승산 ${Math.round(odds.playerChance * 100)}%(경쟁 ${odds.contenders}명)${
-                  odds.needsResponse ? " — 유일은 대응해야 승산이 산다" : ""
-                } · 결판까지 ${Math.ceil(odds.decideIn)}초`}
+                  odds.eyeBonus > 0.005 ? ` · 안목 +${Math.round(odds.eyeBonus * 100)}%` : ""
+                }${odds.needsResponse ? " — 유일은 대응해야 승산이 산다" : ""} · 결판까지 ${Math.ceil(odds.decideIn)}초`}
         </span>
       )}
       {tip.resolved ? null : onSite ? (
