@@ -4,7 +4,8 @@ import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
   AUCTIONEER_LOGISTICS_COEFF, AUCTION_GRADE_MAX, AUCTION_SLOT_CAP_BY_GRADE, FOREMAN_HIRE_COST,
   MUSEUM_SLOT_BY_GRADE, SITES, SITE_BY_ID, THEFT_APPLICABLE_MAX_TIER, TIER_NAME, auctionGradeCost,
-  auctionHouseBuildCost, conditionDecayChancePerDay, humidityLevelCost, marketingLevelCost,
+  CONDITION_TICK_SECONDS, auctionHouseBuildCost, conditionDecayChancePerDay, humidityLevelCost,
+  marketingLevelCost,
   museumBuildCost, museumGradeCost, restorationAttemptHours, restorationLevelCost,
   restorationSuccessChance, securityLevelCost, theftInitialGraceHours, vaultCapacity, vaultLevelCost
 } from "../game/balance";
@@ -103,9 +104,13 @@ function StoragePanel({ game }: { game: Game }) {
         />
         <StorageUpgrade
           label="습도조절"
-          now={percent(conditionDecayChancePerDay(world.humidityLevel, false) * 100, 2)}
-          next={percent(conditionDecayChancePerDay(world.humidityLevel + 1, false) * 100, 2)}
-          detail={`Lv.${world.humidityLevel} — 하루당 보존 상태가 한 칸 내려갈 확률`}
+          // `percent()`가 이미 100을 곱한다 — 예전엔 여기서 한 번 더 곱해 3.85%가
+          // **384.62%**로 표시됐다(v0.3.3부터, 앱을 띄워 보고서야 드러났다).
+          now={percent(conditionDecayChancePerDay(world.humidityLevel, false), 2)}
+          next={percent(conditionDecayChancePerDay(world.humidityLevel + 1, false), 2)}
+          // "하루당"이 아니라 **판정 격자당**이다(v0.6.3이 격자를 2.8시간으로 바꿨다,
+          // G93). 상수에서 직접 읽어 화면과 규칙이 갈라지지 않게 한다(척추 5번).
+          detail={`Lv.${world.humidityLevel} — ${(CONDITION_TICK_SECONDS / 3600).toFixed(1)}시간마다 보존 상태가 한 칸 내려갈 확률`}
           cost={humidityLevelCost(world.humidityLevel)}
           funds={world.funds}
           onBuy={game.buyHumidityLevel}
