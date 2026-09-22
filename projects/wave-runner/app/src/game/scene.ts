@@ -1,6 +1,11 @@
 /**
  * # 배경 — 아홉 모티프의 라임 선화
  *
+ * 모티프 아홉은 전부 시트에서 온다 — **코드가 지어낸 기호는 두지 않는다.** 문장과
+ * 표지등을 한때 그려 넣었는데, 게임 세계에 그런 표식이 존재한다는 근거가 어디에도
+ * 없어 화면에서 혼자 튀었다. 배경은 있는 것을 그리는 자리이지 설정을 만드는 자리가
+ * 아니다.
+ *
  * 규칙 셋이 이 파일의 전부다.
  *
  * 1. **선으로만 말한다.** 덩어리에 면이 들어가지만 그 면은 벽보다 **더 어둡다** —
@@ -150,62 +155,6 @@ const REST: Item[] = [
 
 const ITEMS = [...OPENING, ...REST];
 
-/** 표지 — 시트에 없는 둘은 코드가 그린다. 화면 단위 좌표를 쓴다 */
-const SIGNS: Array<{ at: number; y: number; kind: "emblem" | "beacon" }> = [
-  { at: 0.845, y: 0.235, kind: "emblem" },
-  { at: 0.935, y: 0.095, kind: "beacon" },
-  { at: 2.62,  y: 0.180, kind: "emblem" },
-  { at: 3.90,  y: 0.105, kind: "beacon" },
-  { at: 5.40,  y: 0.145, kind: "emblem" },
-  { at: 6.88,  y: 0.120, kind: "beacon" }
-];
-
-/** 원 프레임이 있어야 파형이 궤적으로 오독되지 않는다 */
-function drawEmblem(ctx: CanvasRenderingContext2D, x: number, y: number, r: number, ink: string): void {
-  ctx.strokeStyle = ink;
-  ctx.globalAlpha = D.sign;
-  ctx.lineWidth = Math.max(1, r * 0.07);
-  ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.globalAlpha = D.sign * 0.5;
-  ctx.beginPath();
-  ctx.arc(x, y, r * 1.2, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.globalAlpha = D.sign;
-  ctx.beginPath();
-  ctx.moveTo(x - r * 0.62, y + r * 0.24);
-  ctx.lineTo(x - r * 0.2, y - r * 0.26);
-  ctx.lineTo(x + r * 0.2, y + r * 0.24);
-  ctx.lineTo(x + r * 0.62, y - r * 0.26);
-  ctx.stroke();
-  ctx.globalAlpha = D.sign * 0.6;
-  ctx.beginPath();
-  ctx.moveTo(x, y + r * 1.2);
-  ctx.lineTo(x, y + r * 3.6);
-  ctx.moveTo(x - r * 0.5, y + r * 3.6);
-  ctx.lineTo(x + r * 0.5, y + r * 3.6);
-  ctx.stroke();
-}
-
-function drawBeacon(ctx: CanvasRenderingContext2D, x: number, y: number, s: number, ink: string): void {
-  ctx.strokeStyle = ink;
-  ctx.fillStyle = ink;
-  ctx.globalAlpha = D.sign;
-  ctx.beginPath();
-  ctx.arc(x, y, s * 0.3, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.lineWidth = Math.max(1, s * 0.11);
-  ctx.beginPath();
-  ctx.arc(x, y, s, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.globalAlpha = D.sign * 0.45;
-  ctx.beginPath();
-  ctx.moveTo(x, y + s);
-  ctx.lineTo(x, y + s * 9);
-  ctx.stroke();
-}
-
 /**
  * 배경 한 겹. 통로를 파내는 일은 호출하는 쪽이 한다 — 여기서는 화면 전체에 그리고,
  * `render` 가 침묵 띠와 종이로 덮는다. 순서가 곧 규칙 1과 5의 구현이다.
@@ -269,13 +218,6 @@ export function drawScene(
       if (!line) continue;
       ctx.globalAlpha = it.alpha;
       ctx.drawImage(line, x, y, w, h);
-    }
-    for (const sign of SIGNS) {
-      const x = ox + sign.at * cssW;
-      if (x < -60 || x > cssW + 60) continue;
-      const sy = topGround - (0.40 - sign.y) * cssH;
-      if (sign.kind === "emblem") drawEmblem(ctx, x, sy, cssH * 0.035 * SCALE, ink);
-      else drawBeacon(ctx, x, sy, cssH * 0.012 * SCALE, ink);
     }
   }
   ctx.globalAlpha = 1;
