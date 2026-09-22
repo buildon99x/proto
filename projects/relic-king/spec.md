@@ -899,10 +899,23 @@ VAULT_CAPACITY_PER_LEVEL = 40
 VAULT_OVERFLOW_CONDITION_DECAY_MULT = 2.0
 ```
 
-정원(`VAULT_CAPACITY_BASE + VAULT_CAPACITY_PER_LEVEL × level`)을 넘는 초과분은
+**정원 = `VAULT_CAPACITY_BASE + VAULT_CAPACITY_PER_LEVEL × (level-1)` + 보유 종수**
+(v0.6.4, `notes/decisions.md` G94). 마지막 항이 이 장치를 의도대로 되돌린다 —
+**종당 1점은 언제나 자리가 있고, 자리를 먹는 것은 중복뿐**이다. 그래서 초과는
+정확히 "중복을 쌓아 뒀다"의 신호가 되고, 정리하면 꺼진다. 보관소 레벨의 뜻도
+같이 바뀐다: 수집품을 담는 칸이 아니라 **중복을 얼마나 여유 있게 쌓아 둘 수
+있나**를 사는 것이다.
+
+그 정원을 넘는 초과분은
 계속 보유된다 — 다만 "야적" 상태로 취급돼 아래 §9.4의 상태 저하 확률이
 `VAULT_OVERFLOW_CONDITION_DECAY_MULT`(2배)로 커진다. 파괴·강제매각·드랍중단은
 없다. 정리하라는 압박은 있지만 처벌은 없다.
+
+**중복분 자동 정리는 기본으로 켜져 있다**(v0.6.4, G95 — `autoSellSpareBelow`가
+진귀(T2) 이하). 종당 1점 보존·전시 중 제외·국보 이상 제외를 `spareVaultItems()`
+하나가 지키므로 도감은 줄지 않는다. 보낼 곳이 경매인데 슬롯이 막히면 중복이
+소장고에 대기로 쌓이는데, 그건 정원이 좁은 것이 아니라 **출구가 막힌 것**이라
+화면이 그렇게 적고 자동화는 시설을 사지 않는다(G96).
 
 ### 9.4 습도·복원·보안 → G6 상태 축 · 도난 확률
 

@@ -3,7 +3,7 @@ import {
   ASSET_SCORE_REF, AUCTION_FEE_RATE, AUCTION_HOUSE_MAX_COUNT, DEFAULT_OWNER_NAME,
   AUCTION_SETTLE_HOURS, AUCTION_SLOT_CAP_BY_GRADE, AUTO_INVEST_FEE_RESERVE_ITEMS, AUTO_INVEST_RESERVE,
   AUTO_SELL_KEEP_ONE_PER_SPECIES, AUTO_SELL_MAX_TIER, AUTO_SELL_SPARE_KEEP_PER_SPECIES,
-  AUTO_SELL_SPARE_MAX_TIER,
+  AUTO_SELL_SPARE_BATCH_MIN, AUTO_SELL_SPARE_MAX_TIER,
   BASE_DIG, BLACK_MARKET_BUY_PRICE_RATIO, BLACK_MARKET_LOOSE_MAX_TIER,
   BLACK_MARKET_RESTOCK_INTERVAL_HOURS, BLACK_MARKET_SLOT_CAPACITY, BLACK_MARKET_STOLEN_PRICE_RATIO,
   BLIND_SELL_RATE, CATCHUP_MAX, CATCHUP_SLOPE, CLICK_COMBO_MAX, CLICK_COMBO_STEP, CLICK_COMBO_WINDOW,
@@ -26,7 +26,7 @@ import {
   SITES, SITE_BY_ID,
   STAFF_MARKET_REFRESH_HOURS, STAFF_PROMOTION_INTERVAL_HOURS, STOLEN_TO_BLACKMARKET_CHANCE,
   THEFT_APPLICABLE_MAX_TIER, THEFT_RATE_BASE, THEFT_RECOVERY_WINDOW_HOURS, TIER4_SPECIES_TOTAL,
-  CONDITION_TICK_SECONDS, VAULT_CARE_COST_HEADROOM,
+  CONDITION_TICK_SECONDS, VAULT_CARE_COST_HEADROOM, VAULT_CARE_HUMIDITY_FLOOR,
   TIER_STOCK_PER_SPECIES, TIP_DECIDE_AFTER_GRACE_SECONDS, TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN,
   TIP_FIRST_DELAY, TIP_FIRST_UNIQUE_TAUGHT, TIP_FIRST_WIN_GUARANTEED, TIP_UNIQUE_PRIORITY,
   TIP_UNIQUE_REQUIRES_RESPONSE,
@@ -163,9 +163,18 @@ export function createWorld(seed = 20260917, grantTeam = true): World {
     log: [{ t: 0, kind: "system", text: "경주 고분군에서 발굴을 시작했다." }],
     // autoSellBelow=1(희귀 이하 자동 매각)·autoReinvest=true가 기본이다 — 클릭
     // 0회로도 자금이 돌게 하는 기본 자동화(G3·척추 4번, notes/decisions.md G57).
-    // 둘 다 설정에서 끌 수 있다(off로 두면 예전처럼 완전 수동, 손실은 없다).
+    // 셋 다 설정에서 끌 수 있다(off로 두면 예전처럼 완전 수동, 손실은 없다).
+    //
+    // **`autoSellSpareBelow`도 기본으로 켠다**(v0.6.4, G95 — 예전엔 `null`이었다).
+    // 소장고 정원 초과의 최대 원인이 이 기본값이었다: 방치 플레이 소장고 965점 중
+    // **482점이 중복이고 그 97%가 진귀(T2)** — 자동 정리 상한 안에 있는, 치울 수
+    // 있는 것들이 치워지지 않은 채 쌓여 정원을 밀어내고 있었다. 켜면 방치 플레이의
+    // 초과가 92% → 0%가 된다(G95 실측). 도감은 안전하다 — 종당 1점 보존·전시 중
+    // 제외·국보 이상 제외를 `spareVaultItems()` 하나가 지키고 `qa:autosell`이
+    // 틱 단위로 검증한다. **이미 저장된 세이브는 건드리지 않는다**(유물을 파는
+    // 동작이라 비가역이다 — 새 세계에만 적용하고, 옛 세이브는 설정에서 한 번에 켠다).
     settings: {
-      autoSellBelow: 1, autoSellSpareBelow: null, spareDestination: "sell",
+      autoSellBelow: 1, autoSellSpareBelow: AUTO_SELL_SPARE_MAX_TIER, spareDestination: "sell",
       muted: false, autoReinvest: true
     },
     stats: { drops: 0, clicks: 0, sold: 0, blindSold: 0, racesWon: 0, racesLost: 0, firstT4Finds: 0 },
@@ -594,7 +603,7 @@ function conditionDecayTick(w: World, t0: number, dt: number) {
   w.lastConditionDay = day;
 
   const stored = w.vault.filter((v) => !v.displayed).length;
-  const overflow = stored > vaultCapacity(w.vaultLevel);
+  const overflow = stored > vaultCapacity(w.vaultLevel, codexProgress(w).owned);
 
   for (const item of w.vault) {
     if (item.condition <= 0) continue;
@@ -1952,6 +1961,9 @@ function auctioneerOf(w: World, house: AuctionHouse): Auctioneer | undefined {
  * 그 틱의 재투자에 바로 쓰이게 하려는 것이다.
  */
 function autoSellVaultSpares(w: World) {
+  // 쌓였을 때 한 번에 치운다(G95.1) — 한 점씩 즉시 파는 것은 정리가 아니라 소음이다.
+  // 플레이어가 직접 누르는 "지금 정리"는 이 임계를 타지 않는다(`sellSpares` 직접 호출).
+  if (spareVaultItems(w, w.settings.autoSellSpareBelow).length < AUTO_SELL_SPARE_BATCH_MIN) return;
   if (w.settings.spareDestination === "auction") {
     const { listed } = auctionSpares(w, w.settings.autoSellSpareBelow);
     if (listed > 0) log(w, "system", `중복 유물 ${listed}점을 경매에 올렸다.`);
@@ -1965,6 +1977,8 @@ function autoSellVaultSpares(w: World) {
 export type VaultCarePlan =
   /** 넘치지 않는다 */
   | { kind: "ok"; stored: number; capacity: number }
+  /** 중복이 경매 출품 대기로 묶여 정원을 밀어내고 있다 — 출구가 막힌 것이지 정원이 좁은 게 아니다 */
+  | { kind: "backlog"; stored: number; capacity: number; waiting: number }
   /** 한 칸 증축하면 초과가 해소된다 */
   | { kind: "expand"; stored: number; capacity: number; cost: number; affordable: boolean }
   /** 증축으로는 따라잡을 수 없다 — 습도조절로 저하를 상쇄한다 */
@@ -1991,12 +2005,38 @@ export type VaultCarePlan =
  */
 export function vaultCarePlan(w: World): VaultCarePlan {
   const stored = w.vault.filter((v) => !v.displayed).length;
-  const capacity = vaultCapacity(w.vaultLevel);
-  if (stored <= capacity) return { kind: "ok", stored, capacity };
+  const capacity = vaultCapacity(w.vaultLevel, codexProgress(w).owned);
+  if (stored <= capacity) {
+    // 넘치지 않아도 **저하는 계속 돈다.** 초과는 그 확률을 2배로 만드는 배수일 뿐이라,
+    // 상쇄를 초과에만 묶으면 초과가 사라진 순간 자동화가 손을 놓는다(G95 실측).
+    if (w.settings.autoReinvest && w.humidityLevel < VAULT_CARE_HUMIDITY_FLOOR) {
+      const cost = humidityLevelCost(w.humidityLevel);
+      const budget = w.funds - autoInvestReserve(w);
+      return {
+        kind: "humidity", stored, capacity, level: w.humidityLevel, cost,
+        affordable: budget >= cost * VAULT_CARE_COST_HEADROOM
+      };
+    }
+    return { kind: "ok", stored, capacity };
+  }
+
+  /**
+   * **출구가 막힌 경우를 먼저 가른다**(v0.6.4, G96). 보낼 곳이 경매인데 경매장이
+   * 없거나 슬롯이 차 있으면 중복이 소장고에 그대로 쌓인다(`auctionSpares`는 직접매각으로
+   * 몰래 바꾸지 않는다 — 플레이어가 고른 건 "경매로 보내라"다). 그 상태에서 정원을
+   * 늘리거나 습도를 올리는 건 **원인이 아닌 곳에 돈을 쓰는 것**이다. 실측에서 운영
+   * 기준선의 소장고 2,125점 중 1,131점이 이 대기 상태였다(G96).
+   */
+  const waiting =
+    w.settings.spareDestination === "auction" ? spareVaultItems(w, w.settings.autoSellSpareBelow).length : 0;
+  if (waiting > 0 && stored - waiting <= capacity) {
+    return { kind: "backlog", stored, capacity, waiting };
+  }
+
   if (!w.settings.autoReinvest) return { kind: "off", stored, capacity };
 
   const budget = w.funds - autoInvestReserve(w);
-  if (vaultCapacity(w.vaultLevel + 1) >= stored) {
+  if (vaultCapacity(w.vaultLevel + 1, codexProgress(w).owned) >= stored) {
     // 일회성 구매라 쿠션을 기다리지 않는다 — 기다리면 해소 창이 닫힌다(balance.ts 주석)
     const cost = vaultLevelCost(w.vaultLevel);
     return { kind: "expand", stored, capacity, cost, affordable: budget >= cost };
@@ -2020,9 +2060,11 @@ export function vaultCarePlan(w: World): VaultCarePlan {
  */
 export function autoVaultCare(w: World) {
   const plan = vaultCarePlan(w);
+  // 출구가 막힌 것뿐이면 시설을 사지 않는다 — 원인이 정원이 아니다(G96)
+  if (plan.kind === "backlog") return;
   if (plan.kind === "expand" && plan.affordable) {
     if (buyVaultLevel(w)) {
-      log(w, "system", `소장고 정원을 ${vaultCapacity(w.vaultLevel)}점으로 늘렸다 — 초과가 풀렸다.`);
+      log(w, "system", `소장고 정원을 ${vaultCapacity(w.vaultLevel, codexProgress(w).owned)}점으로 늘렸다 — 초과가 풀렸다.`);
     }
     return;
   }

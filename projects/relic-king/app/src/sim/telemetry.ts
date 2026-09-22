@@ -149,7 +149,7 @@ function snap(w: World): Snap {
     theftIds: w.theftEvents.map((e) => e.id).join(","),
     tipId: w.tip ? `${w.tip.artifactId}@${w.tip.site}` : null,
     season: w.seasonState.season, ended: w.ended,
-    overflow: stored > vaultCapacity(w.vaultLevel),
+    overflow: stored > vaultCapacity(w.vaultLevel, codexProgress(w).owned),
     sealedOver: sealed >= LOCKED_HOLD_CAP,
     layers
   };

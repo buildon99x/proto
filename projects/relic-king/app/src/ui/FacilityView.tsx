@@ -8,7 +8,7 @@ import {
   museumBuildCost, museumGradeCost, restorationAttemptHours, restorationLevelCost,
   restorationSuccessChance, securityLevelCost, theftInitialGraceHours, vaultCapacity, vaultLevelCost
 } from "../game/balance";
-import { auctionHouseOf, freshnessOf, museumOf, museumSlotCount, staffMarketCycle } from "../game/engine";
+import { auctionHouseOf, freshnessOf, museumOf, museumSlotCount, staffMarketCycle, codexProgress } from "../game/engine";
 import { museumUpkeepHourly, museumVisitorIncomeHourly, museumVisitorsPerDay } from "../game/museum";
 import { auctioneerSlotBonus, staffCandidates } from "../game/staff";
 import { clock, percent, won } from "../game/format";
@@ -77,7 +77,8 @@ export function FacilityView({ game }: { game: Game }) {
 function StoragePanel({ game }: { game: Game }) {
   const { world } = game;
   const stored = world.vault.filter((v) => !v.displayed).length;
-  const capacity = vaultCapacity(world.vaultLevel);
+  const owned = codexProgress(world).owned;
+  const capacity = vaultCapacity(world.vaultLevel, owned);
   const over = stored - capacity;
 
   return (
@@ -94,7 +95,7 @@ function StoragePanel({ game }: { game: Game }) {
         <StorageUpgrade
           label="정원"
           now={`${capacity}점`}
-          next={`${vaultCapacity(world.vaultLevel + 1)}점`}
+          next={`${vaultCapacity(world.vaultLevel + 1, owned)}점`}
           detail={`Lv.${world.vaultLevel} — 정원을 넘기면 보존 저하가 2배가 된다`}
           cost={vaultLevelCost(world.vaultLevel)}
           funds={world.funds}

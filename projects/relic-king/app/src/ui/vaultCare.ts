@@ -10,6 +10,9 @@ export function vaultCareLine(world: World): string | null {
   const plan = vaultCarePlan(world);
   if (plan.kind === "ok") return null;
   const head = `정원 ${plan.capacity}점을 ${plan.stored - plan.capacity}점 넘겼다 — 넘긴 동안 모든 소장 유물의 보존 저하 확률이 2배다.`;
+  if (plan.kind === "backlog") {
+    return `${head} 중복 ${plan.waiting}점이 **경매 출품 대기**로 묶여 있다 — 경매장을 늘리거나 보낼 곳을 직접 매각으로 바꾸면 빠진다. 정원이 좁은 게 아니라 출구가 막힌 것이다.`.replace(/\*\*/g, "");
+  }
   if (plan.kind === "off") return `${head} 자동 재투자가 꺼져 있어 자동 대응도 쉰다 — 정원을 직접 늘리거나 중복분을 정리한다.`;
   if (plan.kind === "expand") {
     return plan.affordable

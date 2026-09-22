@@ -5,7 +5,7 @@ import {
   APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE, AUTO_SELL_SPARE_MAX_TIER, BLIND_SELL_RATE, CONDITION_NAME,
   LOCKED_HOLD_CAP, SITES, SITE_BY_ID, TIER_NAME, appraiseSeconds, vaultCapacity
 } from "../game/balance";
-import { freshnessOf, museumOf, museumSlotCount, spareVaultItems } from "../game/engine";
+import { codexProgress, freshnessOf, museumOf, museumSlotCount, spareVaultItems } from "../game/engine";
 import { won } from "../game/format";
 import { museumVisitorIncomeHourly, museumVisitorsPerDay } from "../game/museum";
 import { TIER_COLOR } from "../render/palette";
@@ -236,7 +236,7 @@ function SpareStrip({ game }: { game: Game }) {
   const targeted = spareVaultItems(world, rule);
   const targetedValue = targeted.reduce((sum, i) => sum + i.value, 0);
   const stored = world.vault.filter((v) => !v.displayed).length;
-  const capacity = vaultCapacity(world.vaultLevel);
+  const capacity = vaultCapacity(world.vaultLevel, codexProgress(world).owned);
   const toAuction = world.settings.spareDestination === "auction";
   const noHouse = toAuction && world.auctionHouses.length === 0;
 

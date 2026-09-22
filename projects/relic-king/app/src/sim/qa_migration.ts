@@ -20,6 +20,7 @@
  * 승계되는지의 실제 증거다.
  */
 import { deserialize, serialize } from "../game/save";
+import { AUTO_SELL_SPARE_MAX_TIER } from "../game/balance";
 import { ARTIFACTS } from "../game/artifacts";
 import { CONDITION_INITIAL_BASE_BY_TIER, TIP_MIN_RESPONSE_SECONDS, layerCost } from "../game/balance";
 import { createLedger, createWorld } from "../game/engine";
@@ -363,8 +364,22 @@ check("autoSellSpareBelow가 끔(null)으로 채워진다 — 기존 플레이�
 check("플레이어가 직접 고른 기존 설정값은 덮어쓰지 않는다(autoSellBelow 0 · muted true · autoReinvest false)",
   migratedV8.settings.autoSellBelow === 0 && migratedV8.settings.muted === true
     && migratedV8.settings.autoReinvest === false);
-check("새 게임 기본값과 같다(신규·기존 플레이어가 같은 상태에서 시작한다)",
-  migratedV8.settings.autoSellSpareBelow === createWorld().settings.autoSellSpareBelow);
+/**
+ * **전제가 바뀌었다(v0.6.4, G95).** 예전 단언은 "옛 세이브의 값 == 새 게임 기본값"
+ * 이었다 — 기본값이 `null`이던 시절에는 저절로 성립했다. v0.6.4가 중복분 자동
+ * 정리를 **새 게임에서만** 켜면서 둘은 **의도적으로 달라졌다**: 자동 정리는 유물을
+ * 파는 비가역 동작이라, 이미 저장된 세이브에는 소급하지 않는다(루틴을 켜 준
+ * v9→v10과 성격이 다르다 — 그쪽은 진행이 멈춘 교착을 푸는 것이었다).
+ *
+ * 그래서 재야 할 것은 "같다"가 아니라 **"옛 세이브는 꺼진 채, 새 게임은 켜진 채
+ * 시작한다"**는 두 갈래 자체다. 위 단언이 앞쪽을, 이 단언이 뒤쪽을 지킨다.
+ */
+check(
+  `새 게임은 중복 정리가 켜진 채 시작한다(옛 세이브와 의도적으로 다르다 — ` +
+  `새 게임 ${createWorld().settings.autoSellSpareBelow} · 옛 세이브 ${migratedV8.settings.autoSellSpareBelow})`,
+  createWorld().settings.autoSellSpareBelow === AUTO_SELL_SPARE_MAX_TIER
+    && migratedV8.settings.autoSellSpareBelow === null
+);
 
 // ── 14) v8 → v9 단독 구간(기록패·고스트 라이벌, notes/decisions.md G76).
 // 이 구간은 **필드를 새로 요구하지 않는다** — 고스트는 `World.rivals`에 섞여 들어가는
