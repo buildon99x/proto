@@ -24,6 +24,7 @@
 | [`eval/05-loop-ledger.md`](eval/05-loop-ledger.md) | 패스 기록 |
 | [`eval/06-axis7-rejudgement.md`](eval/06-axis7-rejudgement.md) | 축7 재판정 — 독립 레인 2곳, 각각 2점 |
 | [`eval/07-pass4-reports.md`](eval/07-pass4-reports.md) | **패스 4 채점 보고** — 축소본 세 원고, 독립 레인 3곳의 보고서 전문 |
+| [`eval/08-pass5-reports.md`](eval/08-pass5-reports.md) | **패스 5 채점 보고** — 수정본 세 원고, 독립 레인 3곳. 원고 자체 게이트가 처음 0이 된 패스 |
 | [`episodes/`](episodes/) | 콘티 — 프롤로그(20컷) · 1화(79컷) · 2화(79컷). 각 파일에 패스별 채점 기록이 붙어 있다 |
 
 **정본은 `concept-v2.md`다.** `concept.md`는 받은 파일 그대로(바이트 동일) 보관하며 고치지 않는다 —
