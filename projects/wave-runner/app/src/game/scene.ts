@@ -24,10 +24,20 @@ import type { MotifId } from "./skin";
 export const SCENE_PARALLAX = 0.34;
 
 /** 농도 셋. 이 값이 곧 거리다. */
-const D = { land: 0.14, build: 0.21, sign: 0.40 } as const;
+const D = { land: 0.19, build: 0.27, sign: 0.50 } as const;
 
 /** 스트립 길이(화면 수). 한 판이 약 7.5화면이라 반복이 한 번을 넘지 않는다. */
 const SCREENS = 7;
+
+/**
+ * 모든 모티프의 크기 배율.
+ *
+ * 시안과 나란히 놓고 보면 가장 큰 차이가 **스케일**이었다. 시안은 작은 요소가
+ * 여럿이라 풍경이 멀리 있고, 구현은 큰 요소가 몇 개라 풍경이 코앞에 있었다.
+ * 크기를 줄이면 선도 같이 가늘어져 "또렷한 선이 적게"라는 시안의 성격에 함께 다가간다.
+ * 나뭇가지에 앉는 부엉이와 바위 위의 표범은 이 배율에 맞춰 좌표를 다시 잡아 두었다.
+ */
+const SCALE = 0.62;
 
 interface Item {
   id: MotifId;
@@ -52,11 +62,15 @@ const OPENING: Item[] = [
   { id: "moon",    at: 0.150, h: 0.168, base: 0.262, alpha: D.sign, mass: true },
   { id: "tree",    at: 0.015, h: 0.175, base: 0.340, alpha: D.build },
   { id: "tree",    at: 0.165, h: 0.190, base: 0.348, alpha: D.build },
-  { id: "owl",     at: 0.205, h: 0.055, base: 0.208, alpha: D.sign },
+  { id: "owl",     at: 0.199, h: 0.055, base: 0.2612, alpha: D.sign },
   { id: "boulder", at: 0.355, h: 0.045, base: 0.372, alpha: D.build, mass: true },
   { id: "ruins",   at: 0.425, h: 0.105, base: 0.372, alpha: D.build, mass: true },
   { id: "skyline", at: 0.535, h: 0.225, base: 0.366, alpha: D.build, mass: true },
   { id: "skyline", at: 0.795, h: 0.175, base: 0.366, alpha: D.build, mass: true },
+  { id: "tree",    at: 0.305, h: 0.130, base: 0.366, alpha: D.build },
+  { id: "ruins",   at: 0.660, h: 0.085, base: 0.372, alpha: D.build, mass: true },
+  { id: "boulder", at: 0.925, h: 0.040, base: 0.374, alpha: D.build, mass: true },
+  { id: "ridge",   at: 0.62, h: 0.085, base: 0.352, alpha: D.land },
 
   { id: "ridge",   at: -0.02, h: 0.09, base: 0.862, alpha: D.land },
   { id: "ruins",   at: 0.025, h: 0.165, base: 0.985, alpha: D.build, mass: true },
@@ -64,8 +78,11 @@ const OPENING: Item[] = [
   { id: "ruins",   at: 0.400, h: 0.125, base: 0.990, alpha: D.build, mass: true },
   { id: "tree",    at: 0.545, h: 0.185, base: 0.985, alpha: D.build },
   { id: "boulder", at: 0.735, h: 0.062, base: 0.990, alpha: D.build, mass: true },
-  { id: "leopard", at: 0.752, h: 0.073, base: 0.936, alpha: D.sign },
-  { id: "tree",    at: 0.880, h: 0.160, base: 0.985, alpha: D.build }
+  { id: "leopard", at: 0.748, h: 0.073, base: 0.9565, alpha: D.sign },
+  { id: "tree",    at: 0.880, h: 0.160, base: 0.985, alpha: D.build },
+  { id: "boulder", at: 0.185, h: 0.045, base: 0.992, alpha: D.build, mass: true },
+  { id: "ruins",   at: 0.640, h: 0.100, base: 0.990, alpha: D.build, mass: true },
+  { id: "tree",    at: 0.345, h: 0.135, base: 0.985, alpha: D.build }
 ];
 
 /** 나머지 여섯 화면 — 같은 어휘, 다른 문장. 첫 화면과 겹치는 배열이 없도록 짰다. */
@@ -113,7 +130,7 @@ const REST: Item[] = [
   // 6화면 — 부엉이가 다시 온다, 다른 나무에
   { id: "cliff",   at: 5.02, h: 0.26, base: 0.340, alpha: D.land, mass: true },
   { id: "tree",    at: 5.28, h: 0.205, base: 0.348, alpha: D.build },
-  { id: "owl",     at: 5.318, h: 0.052, base: 0.225, alpha: D.sign },
+  { id: "owl",     at: 5.312, h: 0.052, base: 0.2717, alpha: D.sign },
   { id: "skyline", at: 5.52, h: 0.19, base: 0.366, alpha: D.build, mass: true },
   { id: "ridge",   at: 5.75, h: 0.11, base: 0.352, alpha: D.land },
   { id: "ruins",   at: 5.15, h: 0.15, base: 0.988, alpha: D.build, mass: true },
@@ -126,7 +143,7 @@ const REST: Item[] = [
   { id: "skyline", at: 6.30, h: 0.17, base: 0.366, alpha: D.build, mass: true },
   { id: "tree",    at: 6.70, h: 0.155, base: 0.350, alpha: D.build },
   { id: "boulder", at: 6.20, h: 0.085, base: 0.990, alpha: D.build, mass: true },
-  { id: "leopard", at: 6.222, h: 0.078, base: 0.918, alpha: D.sign },
+  { id: "leopard", at: 6.216, h: 0.078, base: 0.9454, alpha: D.sign },
   { id: "ruins",   at: 6.50, h: 0.13, base: 0.990, alpha: D.build, mass: true },
   { id: "tree",    at: 6.78, h: 0.20, base: 0.985, alpha: D.build }
 ];
@@ -200,23 +217,47 @@ export function drawScene(
   camX: number,
   zoom: number,
   ink: string,
-  mass: string
+  mass: string,
+  /**
+   * 위 띠의 지평선(화면 px). 통로가 화면 위쪽에 있는 스테이지에서는 고정된 지평선이
+   * 통로에 먹혀 배경이 통째로 사라진다 — 티어 3 에서 첫 화면이 빈 것이 그 증상이었다.
+   * 그래서 지평선을 통로 위 경계에 맞춰 올린다. 배경은 코스가 아니므로 월드에 붙어
+   * 있을 이유가 없고, 통로 바로 위에 붙어 있는 편이 시안의 구성에도 가깝다.
+   */
+  topGround: number,
+  /**
+   * 아래 띠의 지평선. 통로가 화면 위쪽에 있으면 통로와 아래 풍경 사이가 통째로 비어
+   * 구성이 끊긴다. 화면 바닥을 넘지 않는 선에서 통로 쪽으로 끌어올린다.
+   */
+  botGround: number
 ): void {
   if (!skinReady()) return;
   const stripW = cssW * SCREENS;
   const scroll = camX * zoom * SCENE_PARALLAX;
-  const first = Math.floor(scroll / stripW) - 1;
+  /**
+   * 화면에 걸치는 스트립만 그린다. `floor(scroll/stripW) - 1` 로 시작해 두 장만
+   * 돌리던 앞 판본은 스트립이 화면 1.25배였을 때만 맞았다 — 7화면으로 늘리자
+   * 출발 직후(scroll 이 음수) 정작 화면을 덮는 0번 스트립이 범위 밖으로 빠져
+   * **배경이 통째로 사라졌다.** 이제 보이는 구간에서 직접 구한다.
+   */
+  const first = Math.floor(scroll / stripW);
+  const last = Math.floor((scroll + cssW) / stripW);
 
   ctx.save();
-  for (let s = first; s <= first + 1; s += 1) {
+  for (let s = first; s <= last; s += 1) {
     const ox = s * stripW - scroll;
     for (const it of ITEMS) {
       const x = ox + it.at * cssW;
       const size = motifSize(it.id);
-      const h = cssH * it.h;
+      const h = cssH * it.h * SCALE;
       const w = (size.w / size.h) * h;
       if (x + w < -40 || x > cssW + 40) continue;
-      const y = cssH * it.base - h;
+      // 위 띠는 지평선에서 띄운 거리를 유지한 채 통로를 따라 올라간다
+      const bottom =
+        it.base <= 0.5
+          ? topGround - (0.40 - it.base) * cssH
+          : botGround - (1 - it.base) * cssH;
+      const y = bottom - h;
       if (it.mass) {
         const solid = motifFill(it.id, mass);
         if (solid) {
@@ -232,8 +273,9 @@ export function drawScene(
     for (const sign of SIGNS) {
       const x = ox + sign.at * cssW;
       if (x < -60 || x > cssW + 60) continue;
-      if (sign.kind === "emblem") drawEmblem(ctx, x, cssH * sign.y, cssH * 0.035, ink);
-      else drawBeacon(ctx, x, cssH * sign.y, cssH * 0.012, ink);
+      const sy = topGround - (0.40 - sign.y) * cssH;
+      if (sign.kind === "emblem") drawEmblem(ctx, x, sy, cssH * 0.035 * SCALE, ink);
+      else drawBeacon(ctx, x, sy, cssH * 0.012 * SCALE, ink);
     }
   }
   ctx.globalAlpha = 1;

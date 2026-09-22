@@ -67,8 +67,9 @@ export function skinReady(): boolean {
  * 흰 바탕의 검정 잉크를 알파로 옮긴다. 색은 여기서 정하지 않는다 —
  * 알파만 남기고 잉크는 `tint()` 가 입힌다.
  *
- * 임계값을 하나로 끊지 않고 240→110 구간에서 부드럽게 올린다. 선화의 가장자리가
- * 계단이 되면 축소해서 그릴 때 선이 끊어져 보인다.
+ * 임계값을 하나로 끊지 않고 215→145 구간에서 부드럽게 올린다. 계단이 되면 축소해
+ * 그릴 때 선이 끊어져 보이고, 구간을 넓게 잡으면 선의 흐린 가장자리까지 살아남아
+ * **선이 굵고 탁해진다** — 시안과 비교했을 때 "흐린 선이 많은" 그림이 되는 원인이었다.
  */
 function keyOut(img: HTMLImageElement, r: Rect, id: string): Keyed {
   const c = document.createElement("canvas");
@@ -80,7 +81,7 @@ function keyOut(img: HTMLImageElement, r: Rect, id: string): Keyed {
   const p = d.data;
   for (let i = 0; i < p.length; i += 4) {
     const lum = 0.2126 * p[i] + 0.7152 * p[i + 1] + 0.0722 * p[i + 2];
-    const a = Math.max(0, Math.min(1, (240 - lum) / 130));
+    const a = Math.max(0, Math.min(1, (215 - lum) / 70));
     p[i] = 255;
     p[i + 1] = 255;
     p[i + 2] = 255;

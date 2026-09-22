@@ -43,11 +43,11 @@ const COLOR = {
   /** 배경 덩어리 — 벽보다 어둡다. 밝아지는 것은 선뿐이다 */
   sceneMass: "#03010a",
   /** 경계 바깥의 잉크 알갱이 — 어긋난 판이 죽는 쪽으로만 번진 자리 */
-  grit: "#43355e",
+  grit: "#1b1230",
   /** 통로 = 잉크가 닿지 않은 종이 */
   paper: "#ede6cd",
   wallEdge: "#ccff33",
-  scene: "#ccff33",
+  scene: "#cbe86f",
   block: "#ff5e7a",
   blockEdge: "#ffd0d8",
   player: "#ffe66d",
@@ -321,10 +321,7 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
   ctx.fillStyle = COLOR.wall;
   ctx.fillRect(0, 0, cssW, cssH);
 
-  // 2. 배경 선화 — 시차는 통로보다 느리다
-  drawScene(ctx, cssW, cssH, camX, view.zoom, COLOR.scene, COLOR.sceneMass);
-
-  // 3. 선망과 종이 결 — 벽 전체를 한 판으로 묶는다
+  // 2. 선망과 종이 결 — 벽 전체를 한 판으로 묶는다
   if (skinReady()) {
     const screen = platePattern(ctx, "gorge", COLOR.screen, 6, view.zoom, camX, offsetY);
     if (screen) {
@@ -344,8 +341,26 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
     }
   }
 
+  /**
+   * 3. 배경 선화 — **결 위에** 그린다.
+   *
+   * 앞 판본은 선화를 먼저 깔고 그 위에 선망과 종이 결을 덮었다. 그러면 선이 결에
+   * 섞여 탁해지고, 시안과 비교했을 때 "흐린 선이 많은" 그림이 된다. 시안은 반대다 —
+   * **또렷한 선이 적게** 있다. 선화를 맨 위로 올리는 것이 그 차이의 가장 큰 레버다.
+   * 시차는 통로보다 느리다.
+   */
+  const band = Math.max(10, cssH * 0.026);
+  let minTop = cssH;
+  let maxBot = 0;
+  for (const [, py] of topPts) minTop = Math.min(minTop, py);
+  for (const [, py] of botPts) maxBot = Math.max(maxBot, py);
+  drawScene(
+    ctx, cssW, cssH, camX, view.zoom, COLOR.scene, COLOR.sceneMass,
+    Math.min(cssH * 0.40, minTop - band * 1.1),
+    Math.min(cssH, maxBot + band * 1.1 + cssH * 0.3)
+  );
+
   // 4. 침묵 띠 — 경계 안쪽 이만큼은 배경이 한 점도 없다
-  const band = Math.max(18, cssH * 0.055);
   ctx.save();
   ctx.lineJoin = "round";
   ctx.strokeStyle = COLOR.wall;
@@ -361,8 +376,8 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
     ? platePattern(ctx, "inkEdge", COLOR.grit, 14, view.zoom, camX, offsetY)
     : null;
   ctx.strokeStyle = grit ?? COLOR.grit;
-  ctx.globalAlpha = grit ? 0.85 : 0.5;
-  ctx.lineWidth = Math.max(8, cssH * 0.016) * 2;
+  ctx.globalAlpha = grit ? 0.5 : 0.35;
+  ctx.lineWidth = Math.max(6, cssH * 0.011) * 2;
   ctx.stroke(edgeLine);
   ctx.globalAlpha = 1;
   ctx.restore();
@@ -370,34 +385,6 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
   // 6. 종이 — 통로. 평평하다
   ctx.fillStyle = COLOR.paper;
   ctx.fill(corridor);
-  if (skinReady()) {
-    const paperGrain = platePattern(ctx, "grain", "#8d7f5c", 30, view.zoom, camX, offsetY);
-    if (paperGrain) {
-      ctx.save();
-      ctx.clip(corridor);
-      ctx.globalAlpha = 0.16;
-      ctx.fillStyle = paperGrain;
-      ctx.fillRect(0, 0, cssW, cssH);
-      ctx.restore();
-    }
-  }
-
-  // 칸막이 — 구멍 두 개가 아니라 길이 둘로 갈라진 것으로 읽혀야 한다
-  if (divider.length > 1) {
-    ctx.fillStyle = COLOR.wall;
-    ctx.fill(dividerPath);
-    const lens = skinReady()
-      ? platePattern(ctx, "corridor", COLOR.screen, 12, view.zoom, camX, offsetY)
-      : null;
-    if (lens) {
-      ctx.save();
-      ctx.clip(dividerPath);
-      ctx.globalAlpha = 0.85;
-      ctx.fillStyle = lens;
-      ctx.fillRect(0, 0, cssW, cssH);
-      ctx.restore();
-    }
-  }
 
   /**
    * 근접 강조 — 아바타 코앞 구간의 **실제 여유 거리**의 함수다.
@@ -419,30 +406,67 @@ export function render(ctx: CanvasRenderingContext2D, state: GameState, cssW: nu
   const near = Math.max(0, 1 - Math.max(0, nearest - rPx) / (rPx * 3));
 
   /**
+   * 7. 판정선 — **벽 쪽으로만 칠한다.**
+   *
+   * 시안의 단면을 재 보니 라임이 경계의 *바깥*(벽 쪽)에 있고 종이로 바로 넘어갔다.
+   * 구현은 선을 경로에 중앙 정렬해 절반이 통로를 덮고 있었다. 그만큼 통로가 좁아
+   * 보이고(판정은 그대로인데 화면만 좁다), 종이와 라임 사이에 회색 가장자리가 생긴다.
+   *
+   * 그래서 선을 굵게 긋고 **종이를 한 번 더 덮는다.** 안쪽 절반이 잘려 나가 바깥
+   * 절반만 남으므로, 통로 면적은 판정과 정확히 같고 자른 자리는 인쇄의 녹아웃처럼
+   * 깨끗하다. 글로우도 같은 방식으로 잘리므로 통로 안으로 번지지 않는다.
+   *
    * 글로우는 `shadowBlur` 이 아니라 2패스 스트로크다. Canvas2D 의 그림자는 DPR2 에서
    * 화면 전체 재래스터화라, 세그먼트 100개짜리 폴리라인 넷에 걸면 모바일 프레임 예산을
    * 혼자 먹는다. 굵고 옅은 선 + 가늘고 진한 선이면 눈으로는 같고 3~5배 싸다.
    */
-  const strokeEdges = (width: number, alpha: number) => {
+  const strokeOuter = (width: number, alpha: number) => {
     ctx.strokeStyle = COLOR.wallEdge;
     ctx.globalAlpha = alpha;
-    ctx.lineWidth = width;
-    for (const pts of [topPts, botPts]) {
-      ctx.beginPath();
-      pts.forEach(([px, py], i) => (i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py)));
-      ctx.stroke();
-    }
-    if (divider.length > 1) {
-      for (const idx of [1, 2]) {
-        ctx.beginPath();
-        divider.forEach((d, i) => (i === 0 ? ctx.moveTo(d[0], d[idx]) : ctx.lineTo(d[0], d[idx])));
-        ctx.stroke();
-      }
-    }
+    ctx.lineWidth = width * 2;
+    ctx.stroke(edgeLine);
     ctx.globalAlpha = 1;
   };
-  strokeEdges(7 + near * 5, 0.14 + near * 0.24);
-  strokeEdges(2.6, EDGE_INK);
+  strokeOuter(4 + near * 5, 0.07 + near * 0.2);
+  strokeOuter(3.2, EDGE_INK);
+  ctx.fillStyle = COLOR.paper;
+  ctx.fill(corridor);
+
+  // 8. 종이 결 — 통로 안에만. 결은 여기서만 평평함을 깨뜨린다
+  if (skinReady()) {
+    const paperGrain = platePattern(ctx, "grain", "#a3936a", 30, view.zoom, camX, offsetY);
+    if (paperGrain) {
+      ctx.save();
+      ctx.clip(corridor);
+      ctx.globalAlpha = 0.1;
+      ctx.fillStyle = paperGrain;
+      ctx.fillRect(0, 0, cssW, cssH);
+      ctx.restore();
+    }
+  }
+
+  // 9. 칸막이 — 구멍 두 개가 아니라 길이 둘로 갈라진 것으로 읽혀야 한다.
+  //    통로 안의 벽이므로 종이를 덮은 뒤에 온다
+  if (divider.length > 1) {
+    ctx.fillStyle = COLOR.wall;
+    ctx.fill(dividerPath);
+    const lens = skinReady()
+      ? platePattern(ctx, "corridor", COLOR.screen, 12, view.zoom, camX, offsetY)
+      : null;
+    if (lens) {
+      ctx.save();
+      ctx.clip(dividerPath);
+      ctx.globalAlpha = 0.85;
+      ctx.fillStyle = lens;
+      ctx.fillRect(0, 0, cssW, cssH);
+      ctx.restore();
+    }
+    ctx.strokeStyle = COLOR.wallEdge;
+    ctx.globalAlpha = EDGE_INK;
+    ctx.lineWidth = 3.2;
+    ctx.stroke(dividerPath);
+    ctx.globalAlpha = 1;
+  }
 
   // 섹터 장애물과 셔터
   const fromX = camX - 60;
