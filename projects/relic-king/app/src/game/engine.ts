@@ -26,6 +26,7 @@ import {
   SITES, SITE_BY_ID,
   STAFF_MARKET_REFRESH_HOURS, STAFF_PROMOTION_INTERVAL_HOURS, STOLEN_TO_BLACKMARKET_CHANCE,
   THEFT_APPLICABLE_MAX_TIER, THEFT_RATE_BASE, THEFT_RECOVERY_WINDOW_HOURS, TIER4_SPECIES_TOTAL,
+  CONDITION_TICK_SECONDS, VAULT_CARE_COST_HEADROOM,
   TIER_STOCK_PER_SPECIES, TIP_DECIDE_AFTER_GRACE_SECONDS, TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN,
   TIP_FIRST_DELAY, TIP_FIRST_UNIQUE_TAUGHT, TIP_FIRST_WIN_GUARANTEED, TIP_UNIQUE_PRIORITY,
   TIP_UNIQUE_REQUIRES_RESPONSE,
@@ -44,6 +45,7 @@ import {
   distanceCostMult, distanceYieldBonus, mishapChance, onsiteHoursOf, onsiteWindow,
   teamDigPower, travelHoursOneWay
 } from "./expedition";
+import { hashFrac } from "./hash";
 import { josa, withJosa, won } from "./format";
 import { siteAnchorLabel } from "./sites";
 import { localPriceMult } from "./market";
@@ -582,12 +584,12 @@ function accrueMuseums(w: World, dt: number) {
 }
 
 /**
- * 습도 저하(spec.md §9.4) — 하루 경계를 넘을 때 한 번씩, vault의 비전시 유물 중
+ * 보존 저하(spec.md §9.4) — `CONDITION_TICK_SECONDS` 격자를 넘을 때 한 번씩, vault의 비전시 유물 중
  * 정원(vaultCapacity) 초과분("야적")에는 2배 확률을 적용한다. promoteStaffTick과
  * 같은 결정론 경계 패턴(스텝 크기 무관, floor 비교).
  */
-function conditionDecayTick(w: World, t0: number, dt: number, rng: Rng) {
-  const day = Math.floor((t0 + dt) / 86400);
+function conditionDecayTick(w: World, t0: number, dt: number) {
+  const day = Math.floor((t0 + dt) / CONDITION_TICK_SECONDS);
   if (day <= w.lastConditionDay) return;
   w.lastConditionDay = day;
 
@@ -597,7 +599,16 @@ function conditionDecayTick(w: World, t0: number, dt: number, rng: Rng) {
   for (const item of w.vault) {
     if (item.condition <= 0) continue;
     const itemOverflow = overflow && !item.displayed;
-    if (rng.chance(conditionDecayChancePerDay(w.humidityLevel, itemOverflow))) {
+    // **난수 스트림을 쓰지 않는다.** 판정 수가 소장품 수에 비례하므로 `rng`를 쓰면
+    // 경계 순간의 소장고 크기가 스텝 크기에 따라 한 점만 달라도 그 뒤 스트림이
+    // 통째로 갈린다 — 격자를 2.8시간으로 촘촘하게 만들자(G93) `qa:expedition`이
+    // 바로 그걸 잡았다(1초 vs 10초 스텝, 자금 차이 1,162만₩).
+    // 유물 uid와 격자 번호를 섞은 해시로 뽑으면 같은 판정이 스텝 크기와 무관하게
+    // 같은 결과를 낸다(`hashFrac` — 이 레포의 절차 생성이 쓰는 그 해시다).
+    // 시드를 섞지 않는 이유: World에 시드 필드가 없고, `rngState`는 스트림 위치라
+    // 여기서 읽으면 없애려던 의존성이 되돌아온다. 판마다 uid ↔ 유물 대응이 달라져
+    // 어차피 판정 패턴이 갈린다.
+    if (hashFrac(`cond:${item.uid}:${day}`) < conditionDecayChancePerDay(w.humidityLevel, itemOverflow)) {
       item.condition = (item.condition - 1) as VaultItem["condition"];
       recomputeVaultValue(item);
     }
@@ -1951,6 +1962,77 @@ function autoSellVaultSpares(w: World) {
   log(w, "system", `중복 유물 ${count}점을 정리해 ${won(gained)} ₩를 회수했다.`);
 }
 
+export type VaultCarePlan =
+  /** 넘치지 않는다 */
+  | { kind: "ok"; stored: number; capacity: number }
+  /** 한 칸 증축하면 초과가 해소된다 */
+  | { kind: "expand"; stored: number; capacity: number; cost: number; affordable: boolean }
+  /** 증축으로는 따라잡을 수 없다 — 습도조절로 저하를 상쇄한다 */
+  | { kind: "humidity"; stored: number; capacity: number; level: number; cost: number; affordable: boolean }
+  /** 자동 재투자가 꺼져 있어 자동으로는 아무것도 하지 않는다 */
+  | { kind: "off"; stored: number; capacity: number };
+
+/**
+ * **소장고 정원 초과에 무엇을 할 것인가** — 자동화(`autoVaultCare`)와 화면이 **같은
+ * 함수**를 읽는다(척추 5번: 화면이 규칙을 다시 구현하지 않는다).
+ *
+ * 초과는 켜지거나 꺼지거나 둘 중 하나다(보존 저하 2배). 그래서 판단이 두 줄로 끝난다.
+ *
+ * 1. **한 칸 증축으로 초과가 해소되면 증축한다**(살 수 있으면 바로 — 쿠션을
+ *    기다리면 해소 창이 닫힌다). 초기에는 이것으로 꺼진다.
+ * 2. **해소가 불가능하면 습도조절을 올린다.** 소장고가 담는 것은 중복분이 아니라
+ *    수집품 그 자체라(10시간 실측 소장고 972점 · 도감 996종), 정원으로 따라잡는
+ *    길은 없다 — 1,000점을 담으려면 보관소 23레벨, 약 950억₩이다. 초과가 만드는
+ *    피해는 보존 저하 2배이고, 습도는 그 확률의 분모를 키운다
+ *    (`conditionDecayChancePerDay`). **따라잡을 수 없는 것을 따라잡으려 돈을 태우는
+ *    대신, 피해를 줄인다.**
+ *
+ * 전시 중인 유물은 초과에 세지 않는다(`conditionDecayTick`과 같은 기준).
+ */
+export function vaultCarePlan(w: World): VaultCarePlan {
+  const stored = w.vault.filter((v) => !v.displayed).length;
+  const capacity = vaultCapacity(w.vaultLevel);
+  if (stored <= capacity) return { kind: "ok", stored, capacity };
+  if (!w.settings.autoReinvest) return { kind: "off", stored, capacity };
+
+  const budget = w.funds - autoInvestReserve(w);
+  if (vaultCapacity(w.vaultLevel + 1) >= stored) {
+    // 일회성 구매라 쿠션을 기다리지 않는다 — 기다리면 해소 창이 닫힌다(balance.ts 주석)
+    const cost = vaultLevelCost(w.vaultLevel);
+    return { kind: "expand", stored, capacity, cost, affordable: budget >= cost };
+  }
+  const cost = humidityLevelCost(w.humidityLevel);
+  return {
+    kind: "humidity", stored, capacity, level: w.humidityLevel, cost,
+    affordable: budget >= cost * VAULT_CARE_COST_HEADROOM
+  };
+}
+
+/**
+ * 정원 초과 자동 대응(v0.6.3, G92). `vaultCarePlan`이 고른 것을 실행한다.
+ *
+ * **재투자보다 먼저 부른다** — 넘치는 동안은 같은 자금을 두고 인부·장비와 경쟁하는데,
+ * 창고가 터진 채로 발굴력을 올리면 더 빨리 더 많이 썩는다. 대신 자동 재투자
+ * (`settings.autoReinvest`)가 꺼져 있으면 이 루틴도 쉰다 — 플레이어가 끈 것은
+ * "내 돈을 자동으로 쓰지 마라"이고, 그 뜻을 시설 구매에서만 뒤집지 않는다(척추 4번).
+ *
+ * 한 번에 한 칸만 산다. 습도는 비용이 1.8배씩 오르고 안전 계수가 3이라 저절로 멎는다.
+ */
+export function autoVaultCare(w: World) {
+  const plan = vaultCarePlan(w);
+  if (plan.kind === "expand" && plan.affordable) {
+    if (buyVaultLevel(w)) {
+      log(w, "system", `소장고 정원을 ${vaultCapacity(w.vaultLevel)}점으로 늘렸다 — 초과가 풀렸다.`);
+    }
+    return;
+  }
+  if (plan.kind === "humidity" && plan.affordable) {
+    if (buyHumidityLevel(w)) {
+      log(w, "system", `정원 초과가 이어져 습도조절을 Lv.${w.humidityLevel}로 올렸다 — 보존 저하를 상쇄한다.`);
+    }
+  }
+}
+
 /**
  * 세 배경 루틴(미감정 잉여 처분·소장고 중복분 정리·인부/장비/감정소 재투자)을
  * 한 번에 묶어 부른다(notes/decisions.md G57·G68). **`step()`/`advance()`가 자동으로 부르지
@@ -1965,6 +2047,7 @@ function autoSellVaultSpares(w: World) {
 export function runAutoRoutine(w: World) {
   autoLiquidatePendingOverflow(w);
   autoSellVaultSpares(w);
+  autoVaultCare(w);
   autoInvestLegacyDig(w);
   redeployIdleRoutineTeams(w);
 }
@@ -2415,7 +2498,7 @@ export function step(w: World, dt: number, offline = false, record: PersistentRe
   // onlineElapsedSeconds 기준이라 이 두 틱을 매번 불러도 오프라인 동안은
   // 경계 자체가 넘어가지 않는다(척추 3번).
   accrueMuseums(w, dt);
-  conditionDecayTick(w, t0, dt, rng);
+  conditionDecayTick(w, t0, dt);
   restorationTick(w, t0, dt, rng);
   settleAuctions(w, t0, dt);
   restockBlackMarket(w, t0, dt, rng);
@@ -3023,7 +3106,7 @@ export function applySeasonRollover(w: World, record: PersistentRecord): Persist
   w.humidityLevel = 1;
   w.restorationLevel = 1;
   w.securityLevel = 1;
-  w.lastConditionDay = Math.floor(w.t / 86400);
+  w.lastConditionDay = Math.floor(w.t / CONDITION_TICK_SECONDS);
   w.nextRestorationAttemptAt = w.t + RESTORATION_BASE_HOURS * 3600;
   w.museumDigEma = 0;
   w.museumCumulativeVisitors = 0;

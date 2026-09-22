@@ -209,8 +209,27 @@ check(
   codexGap <= 3
 );
 check("켠 쪽 소장고가 끈 쪽보다 적다(중복분이 실제로 빠져나갔다)", on.w.vault.length < off.w.vault.length);
-check("켠 쪽 소장 가치가 끈 쪽보다 낮다(자산 축을 깎는 게 이 기능의 대가다)",
-  vaultValue(on.w) < vaultValue(off.w));
+/**
+ * **전제가 뒤집혔다(v0.6.3).** 예전 단언은 "켠 쪽 소장 **총** 가치가 낮다 — 자산 축을
+ * 깎는 게 이 기능의 대가다"였다. 그 전제는 **쌓아 두는 것이 공짜**일 때만 성립한다.
+ *
+ * v0.6.3이 보존 판정 격자를 고치면서(G93 — 압축 이후 저하가 한 판에 한 번도 일어나지
+ * 않고 있었다) 중복분을 안 파는 쪽은 168시간 동안 5,506점을 **전부 썩힌다.** 실측에서
+ * 총 가치가 끔 1,120억₩ · 켬 1,287억₩으로 뒤집혔고, 발굴력도 9,423/s 대 27,838/s다
+ * (판 돈이 장비로 갔다). **기준을 낮춘 게 아니라, 재려던 불변식이 다른 곳에 있었다.**
+ *
+ * 이 기능이 실제로 보장하는 것은 "싼 중복분이 빠진다"이고, 그건 **점당 가치**로
+ * 드러난다(끔 2,036만₩/점 · 켬 6,672만₩/점). 총량 비교는 저하·재투자가 섞인
+ * "서로 다른 두 게임"의 비교라, 이 파일 위쪽 주석이 도감에 대해 적어 둔 것과 같은
+ * 이유로 불변식이 될 수 없다.
+ */
+const unitOff = vaultValue(off.w) / Math.max(1, off.w.vault.length);
+const unitOn = vaultValue(on.w) / Math.max(1, on.w.vault.length);
+check(
+  `켠 쪽 점당 가치가 더 높다 — 싼 중복분이 빠진 결과 ` +
+  `(끔 ${Math.round(unitOff).toLocaleString("ko-KR")}₩/점 · 켬 ${Math.round(unitOn).toLocaleString("ko-KR")}₩/점)`,
+  unitOn > unitOff
+);
 
 console.log(failed === 0 ? "\n✅ qa_autosell 전체 통과" : `\n❌ qa_autosell ${failed}건 실패`);
 process.exit(failed === 0 ? 0 : 1);

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { vaultCareLine } from "./vaultCare";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
   APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE, AUTO_SELL_SPARE_MAX_TIER, BLIND_SELL_RATE, CONDITION_NAME,
@@ -284,10 +285,7 @@ function SpareStrip({ game }: { game: Game }) {
         </button>
       </div>
       {stored > capacity ? (
-        <p className="stalled small">
-          소장고 정원 {capacity}점을 {stored - capacity}점 넘겼다 — 넘긴 동안은 <strong>모든</strong> 소장 유물의
-          보존 상태 저하 확률이 2배가 된다.
-        </p>
+        <p className="stalled small">{vaultCareLine(world)}</p>
       ) : noHouse ? (
         <p className="stalled small">
           보낼 곳이 <strong>경매 출품</strong>인데 경매장이 없다 — 시설 탭에서 먼저 짓는다. 그때까지 중복분은

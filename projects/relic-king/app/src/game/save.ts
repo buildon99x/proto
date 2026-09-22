@@ -1,8 +1,7 @@
 import { ARTIFACTS, ARTIFACT_BY_ID } from "./artifacts";
 import {
   CONDITION_INITIAL_BASE_BY_TIER, MAX_EXPEDITION_TEAMS_INITIAL, RESTORATION_BASE_HOURS,
-  SEASON_LENGTH_WEEKS, SITES, SITE_BY_ID, TIP_MIN_RESPONSE_SECONDS, layerCost
-} from "./balance";
+  SEASON_LENGTH_WEEKS, SITES, SITE_BY_ID, TIP_MIN_RESPONSE_SECONDS, layerCost, CONDITION_TICK_SECONDS } from "./balance";
 import { createPersistentRecord, createWorld, grantStartingTeam, nextUid } from "./engine";
 import type { PersistentRecord, SiteId, World } from "./types";
 
@@ -290,6 +289,13 @@ function reviveUids(w: World) {
  * 세이브 소실은 방치형에서 곧 게임 종료다(`notes/mda.md` §5).
  */
 function ensureShape(w: World) {
+  // 보존 판정 격자가 86400초 → CONDITION_TICK_SECONDS로 바뀌었다(v0.6.3, G93).
+  // 옛 세이브의 `lastConditionDay`는 **하루 인덱스**라 새 격자에서는 과거를 가리키고,
+  // 그대로 두면 불러오는 순간 한 번 더 저하가 굴러간다. 플레이어에게 불리한 쪽으로
+  // 기울지 않게 현재 격자로 **앞으로 민다**(세이브 버전은 올리지 않는다 — 진행·원장
+  // 어느 것도 이 값에 걸려 있지 않고, 기본값이 안전하다).
+  const tick = Math.floor((w.t ?? 0) / CONDITION_TICK_SECONDS);
+  if (!Number.isFinite(w.lastConditionDay) || w.lastConditionDay < tick) w.lastConditionDay = tick;
   if (!Array.isArray(w.log)) w.log = [];
   if (!Array.isArray(w.teams)) w.teams = [];
   if (!Array.isArray(w.staff)) w.staff = [];

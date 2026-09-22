@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { vaultCareLine } from "./vaultCare";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
   AUCTIONEER_LOGISTICS_COEFF, AUCTION_GRADE_MAX, AUCTION_SLOT_CAP_BY_GRADE, FOREMAN_HIRE_COST,
@@ -87,12 +88,7 @@ function StoragePanel({ game }: { game: Game }) {
           {stored} / {capacity}점 보관 중{over > 0 ? ` · ${over}점 초과` : ""}
         </span>
       </div>
-      {over > 0 ? (
-        <p className="stalled small">
-          정원을 {over}점 넘겼다 — 넘긴 동안은 <strong>모든</strong> 소장 유물의 보존 상태 저하 확률이 2배가 된다.
-          정원을 늘리거나 소장고 탭에서 중복분을 정리한다.
-        </p>
-      ) : null}
+      {over > 0 ? <p className="stalled small">{vaultCareLine(world)}</p> : null}
 
       <div className="storage-upgrades">
         <StorageUpgrade

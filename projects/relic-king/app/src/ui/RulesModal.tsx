@@ -7,7 +7,7 @@ import {
   TIP_FOCUS_DIG_COST_MULT, TIP_FOCUS_DIG_HIT_CHANCE, TIP_MEAN_INTERVAL,
   TIP_MIN_RESPONSE_SECONDS, TIP_PLAYER_HIT, TIP_RIVAL_HIT,
   TIP_DECIDE_AFTER_GRACE_SECONDS, TIP_UNIQUE_ANNOUNCE_WITHIN, TIP_UNRESPONDED_UNIQUE_MULT,
-  EYE_RACE_BONUS_MAX,
+  EYE_RACE_BONUS_MAX, VAULT_CARE_COST_HEADROOM, VAULT_OVERFLOW_CONDITION_DECAY_MULT,
   TIP_WORLDWIDE_MIN_TIER,
   CURATOR_RECOVERY_COEFF, tierWeights
 } from "../game/balance";
@@ -77,6 +77,16 @@ export function RulesModal({ game, onClose }: { game: Game; onClose: () => void 
           <li>on_site 팀이 있으면(또는 직접 발굴이 그 자리를 파고 있으면) 자동으로 {Math.round(TIP_PLAYER_HIT * 100)}% 확률로 판정된다 — <strong>같은 제보를 받은 라이벌도 {Math.round(TIP_RIVAL_HIT * 100)}%로 같다.</strong> 아무것도 안 누르면 공정한 레이스이고, [집중 굴착]을 누르면 {Math.round(TIP_FOCUS_DIG_HIT_CHANCE * 100)}%로 오르는 대신 그 원정의 원정비가 {TIP_FOCUS_DIG_COST_MULT}배가 된다.</li>
           <li>[급파]는 유휴 발굴단을 압축 이동시간 {EMERGENCY_DISPATCH_MAX_REACH_HOURS}시간 이내인 거점에 즉시 출발시킨다. 원정비 {EMERGENCY_DISPATCH_COST_MULT}배·미스헵 확률 {EMERGENCY_DISPATCH_MISHAP_MULT}배가 붙는다. 배너가 사라진 뒤에도 도착하면 판정은 그대로 유효하다 — 세계 재고가 남아 있는지가 유일한 기준이다.</li>
           <li><strong>라이벌은 제보 레이스 밖에서 유일 유물을 가져가지 못한다.</strong> 오프라인 중에는 진귀 이하만 가져간다 — 영구 상실은 당신이 그 자리에 있었을 때만 일어난다.</li>
+        </ul>
+      </section>
+
+      <section className="rules-block">
+        <h4>소장고 정원 초과 — 자동 대응</h4>
+        <ul className="rules-notes">
+          <li>전시 중이 아닌 소장품이 정원을 넘기면 <strong>모든</strong> 소장 유물의 보존 저하 확률이 {VAULT_OVERFLOW_CONDITION_DECAY_MULT}배가 된다.</li>
+          <li><strong>한 칸 증축으로 초과가 풀리면 자동으로 산다.</strong> 풀리지 않는 증축은 사지 않는다 — 초과는 켜지거나 꺼지거나 둘 중 하나라, 해소하지 못하는 증축은 지금 아무것도 바꾸지 않는다.</li>
+          <li><strong>정원으로 따라잡을 수 없을 때는 습도조절을 올린다.</strong> 소장고가 담는 것은 중복분이 아니라 수집품 그 자체라(도감을 채울수록 늘어난다), 어느 시점부터는 증축이 따라갈 수 없다. 그때부터는 피해를 줄이는 쪽으로 간다 — 습도는 저하 확률의 분모를 키운다.</li>
+          <li>자금이 비용의 {VAULT_CARE_COST_HEADROOM}배 이상 남아 있을 때만 사고, 한 번에 한 칸만 산다. <strong>자동 재투자를 끄면 이 대응도 쉰다.</strong></li>
         </ul>
       </section>
 
