@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { SITES, SITE_BY_ID } from "../game/balance";
 import { distanceKm, siteAnchorLabel, siteSearchText } from "../game/sites";
 import { recommendSites, teamHomeSite } from "../game/engine";
-import { won } from "../game/format";
+import { usd } from "../game/format";
 import type { SiteId } from "../game/types";
 import { MARKER_STYLE } from "../render/worldmap";
 import { WorldMapCanvas } from "./WorldMapCanvas";
@@ -136,5 +136,5 @@ function formatHours(km: number): string {
 }
 
 export function unlockCostLabel(site: SiteId): string {
-  return `${won(SITE_BY_ID[site].unlockCost)} ₩`;
+  return `${usd(SITE_BY_ID[site].unlockCost)}`;
 }

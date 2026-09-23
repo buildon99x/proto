@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import { BLACK_MARKET_BUY_PRICE_RATIO, BLACK_MARKET_SLOT_CAPACITY, BLACK_MARKET_STOLEN_PRICE_RATIO, TIER_NAME } from "../game/balance";
-import { won } from "../game/format";
+import { usd } from "../game/format";
 import { TIER_COLOR } from "../render/palette";
 import { Sprite } from "./Sprite";
 import type { BlackMarketListing } from "../game/types";
@@ -55,7 +55,7 @@ function MarketRow({ game, listing }: { game: Game; listing: BlackMarketListing 
         {listing.kind === "stolen" ? <em className="market-stolen-badge">🏴 장물</em> : null}
       </span>
       <button type="button" className="ghost" disabled={!afford} onClick={() => game.buyBlackMarketListing(listing.id)}>
-        {won(cost)} ₩
+        {usd(cost)}
       </button>
     </div>
   );

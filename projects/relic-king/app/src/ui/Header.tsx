@@ -1,7 +1,7 @@
 import { DROP_INTERVAL_FLOOR_SECONDS, SITE_BY_ID, dropThreshold, layerCost } from "../game/balance";
 import { digPower, effectiveDropMod, fullRanking, playerAssets } from "../game/engine";
 import { teamDigPower } from "../game/expedition";
-import { clock, won } from "../game/format";
+import { clock, usd } from "../game/format";
 import type { Foreman, SiteId, World } from "../game/types";
 import type { AxisRankRow } from "../game/engine";
 
@@ -28,8 +28,8 @@ export function Header({
   return (
     <header className="header">
       <div className="header-row">
-        <Stat label="자산" value={`${won(playerAssets(world))} ₩`} accent />
-        <Stat label="자금" value={`${won(world.funds)} ₩`} />
+        <Stat label="자산" value={`${usd(playerAssets(world))}`} accent />
+        <Stat label="자금" value={`${usd(world.funds)}`} />
         <button type="button" className="stat stat-rank" onClick={onOpenRankTable}>
           <span className="stat-label">종합 {place}위</span>
           <strong className="stat-value rank-detail">

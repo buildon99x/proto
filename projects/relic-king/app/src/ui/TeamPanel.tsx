@@ -5,7 +5,7 @@ import {
 } from "../game/balance";
 import { staffCandidates } from "../game/staff";
 import { staffMarketCycle, teamHomeSite } from "../game/engine";
-import { clock, josa, withJosa, won } from "../game/format";
+import { clock, josa, withJosa, usd } from "../game/format";
 import type { ExpeditionTeam, Foreman } from "../game/types";
 import { SitePickerModal } from "./SitePickerModal";
 import { useTeamPreset } from "./useTeamPreset";
@@ -120,13 +120,13 @@ function TeamDetail({
       <div className="team-detail-row">
         <span>인원 {team.workers}명</span>
         <button type="button" className="ghost" disabled={world.funds < wCost} onClick={() => game.buyTeamWorker(team.id)}>
-          +1 ({won(wCost)}₩)
+          +1 ({usd(wCost)})
         </button>
       </div>
       <div className="team-detail-row">
         <span>장비 Lv.{team.gearLevel}</span>
         <button type="button" className="ghost" disabled={world.funds < gCost} onClick={() => game.buyTeamGear(team.id)}>
-          업그레이드 ({won(gCost)}₩)
+          업그레이드 ({usd(gCost)})
         </button>
       </div>
       <div className="team-detail-row">
@@ -188,7 +188,7 @@ function HireForemanCard({ game, teamPreset }: { game: Game; teamPreset: ReturnT
       </p>
       {short > 0 ? (
         <p className="stalled small">
-          {won(short)} ₩ 모자란다(지금 {won(world.funds)} ₩).
+          {usd(short)} 모자란다(지금 {usd(world.funds)}).
           {world.settings.autoReinvest
             ? " 자동 재투자가 남는 자금을 인부·장비·감정소에 쓰고 있어 잔고가 오르락내리락한다 — ⚙ 설정에서 끄면 그대로 쌓인다."
             : " 유물을 팔아 모으면 된다."}
@@ -214,7 +214,7 @@ function HireForemanCard({ game, teamPreset }: { game: Game; teamPreset: ReturnT
             <span className="muted small">
               통솔 {c.role === "foreman" ? c.leadership : 0} · 항해술 {c.role === "foreman" ? c.navigation : 0}
             </span>
-            <span className="price">{won(FOREMAN_HIRE_COST)} ₩</span>
+            <span className="price">{usd(FOREMAN_HIRE_COST)}</span>
           </button>
         ))}
       </div>
@@ -228,7 +228,7 @@ function LockedSlotCard({ game, n }: { game: Game; n: number }) {
     <div className="team-card team-card-locked">
       <h4>🔒 {n}번째 슬롯</h4>
       <button type="button" className="ghost wide" disabled={game.world.funds < cost} onClick={game.unlockTeamSlot}>
-        해금 — {won(cost)} ₩
+        해금 — {usd(cost)}
       </button>
     </div>
   );

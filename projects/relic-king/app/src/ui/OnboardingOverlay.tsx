@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FIRST_RELOCATION_FREE_WINDOW_HOURS, SITES } from "../game/balance";
 import type { SiteDef } from "../game/balance";
 import { siteAnchorLabel, siteSubtitle, siteTitle } from "../game/sites";
-import { won } from "../game/format";
+import { usd } from "../game/format";
 import type { Game } from "./useGame";
 
 /**
@@ -91,7 +91,7 @@ function SiteCard({ site, onChoose }: { site: SiteDef; onChoose: () => void }) {
       <ul className="onboarding-card-lines">
         {lines.map((l) => <li key={l}>{l}</li>)}
       </ul>
-      <p className="price">{won(site.unlockCost)} ₩ 상당</p>
+      <p className="price">{usd(site.unlockCost)} 상당</p>
       <button type="button" onClick={onChoose}>이곳으로</button>
     </div>
   );
