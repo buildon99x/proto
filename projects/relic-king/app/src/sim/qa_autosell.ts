@@ -85,7 +85,7 @@ function fixture(): World {
   check("국보(T3)·유일(T4)은 중복이 3점 쌓여 있어도 대상이 아니다",
     !spares.some((s) => ARTIFACT_BY_ID[s.artifactId].tier >= 3));
   check("전시 중인 사본은 대상이 아니다", !spares.some((s) => s.displayed));
-  check("보존분은 그 종에서 가장 값비싼 사본이다(T0는 3,000₩짜리가 남는다)",
+  check("보존분은 그 종에서 가장 값비싼 사본이다(T0는 $3,000짜리가 남는다)",
     !spares.some((s) => s.artifactId === t0a && s.value === 3_000));
   check("전시 사본이 보존분 역할을 한다(T1은 비전시 1점이 전부 대상)",
     spares.filter((s) => s.artifactId === t1a).length === 1);
@@ -175,7 +175,7 @@ console.log("\n3. 대조군 비교 — 트레이드오프가 설계한 방향으
 const fmt = (n: number) => Math.round(n).toLocaleString("ko-KR");
 const vaultValue = (w: World) => w.vault.reduce((sum, v) => sum + v.value, 0);
 const row = (label: string, w: World) =>
-  `  ${label}  자금 ${fmt(w.funds).padStart(14)}₩   소장가치 ${fmt(vaultValue(w)).padStart(15)}₩   ` +
+  `  ${label}  자금 $${fmt(w.funds).padStart(14)}   소장가치 $${fmt(vaultValue(w)).padStart(15)}   ` +
   `자산축 ${(assetScore(w) * 100).toFixed(2).padStart(6)}%   도감 ${codexProgress(w).owned}종   ` +
   `소장 ${String(w.vault.length).padStart(3)}점   드랍 ${w.stats.drops}   발굴력 ${digPower(w).toFixed(0)}/s`;
 console.log(row("기능 끔", off.w));
