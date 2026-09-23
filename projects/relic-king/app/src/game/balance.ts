@@ -255,7 +255,19 @@ export const ASSET_SCORE_REF_SHARE = 0.15;
 export const ARTIFACT_WORLD_VALUE_CEILING = 1_171_000_000_000; // notes/economy.md §6.1 (v0.3 재산정)
 export const ARTIFACT_SPECIES_TARGET = 2000; // notes/economy.md §8. 도감 2000종 목표(v0.3)
 export const CODEX_GOAL_V2 = 0.75;
-export const FAME_VISITOR_NORMALIZATION = 1_000_000;
+/**
+ * 명성 축의 관람객 항(v0.5.5 — notes/decisions.md G86). 관람객 항은
+ * `FAME_VISITOR_WEIGHT × min(1, 누적 관람객 / FAME_VISITOR_NORMALIZATION)`이다.
+ *
+ * 박물관의 진짜 비용은 건립비가 아니라 **전시한 유물이 자산 축에서 빠지는 것**이다
+ * (G49). 168시간 방치 실측에서 141시간 시점 전시 유물 $346억(자산 축 −0.059)과
+ * 박물관 지출 $9.9억(−0.0017)에 비해, 예전 정규화(100만 명)의 관람객 항은
+ * 순위를 +0.006밖에 올리지 못했다 — 박물관을 지을수록 손해였다. 정규화를 5만 명으로
+ * 내려 **전형적 엔딩 시점(약 140시간)에 전시가 본전**이 되게 맞췄다. 그보다 오래
+ * 전시하면 이득이고, 관람객 항은 가중 0.5에서 멈춘다(유일 최초발굴 항과 대칭).
+ */
+export const FAME_VISITOR_NORMALIZATION = 50_000;
+export const FAME_VISITOR_WEIGHT = 0.5;
 export const TIER4_SPECIES_TOTAL = 12;
 export const FAME_FIRST_T4_WEIGHT = 0.5;
 export const RANK_WEIGHT = { asset: 0.30, codex: 0.35, fame: 0.35 } as const;

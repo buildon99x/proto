@@ -1345,15 +1345,23 @@ ASSET_SCORE_REF_SHARE = 0.15   // 375억. 플레이어+라이벌 6인의 "평균
 CODEX_SCORE = (state가 "owned" 또는 "owned_unidentified"인 고유 종수) / ARTIFACT_SPECIES_TARGET   // 480. 정의는 §9.2·§13.3 CodexState 참조. 전시 여부와 무관 — 전시해도 "소장" 상태는 유지된다
 
 FAME_SCORE = min(1,
-  (박물관 누적 관람객 / FAME_VISITOR_NORMALIZATION)
+  FAME_VISITOR_WEIGHT × min(1, 박물관 누적 관람객 / FAME_VISITOR_NORMALIZATION)
   + (유일 최초발굴 횟수 / TIER4_SPECIES_TOTAL) × FAME_FIRST_T4_WEIGHT)
-FAME_VISITOR_NORMALIZATION = 1_000_000
+FAME_VISITOR_NORMALIZATION = 50_000     // v0.5.5(G86). 기존 1_000_000
+FAME_VISITOR_WEIGHT = 0.5               // v0.5.5(G86) 신설. 관람객 항 상한 — 유일 항과 대칭
 TIER4_SPECIES_TOTAL = 12
 FAME_FIRST_T4_WEIGHT = 0.5
 
 RANK_SCORE = RANK_WEIGHT.asset × ASSET_SCORE + RANK_WEIGHT.codex × CODEX_SCORE + RANK_WEIGHT.fame × FAME_SCORE
 RANK_WEIGHT = { asset: 0.30, codex: 0.35, fame: 0.35 }
 ```
+
+**(개정 — `notes/decisions.md` G86, v0.5.5)** 관람객 정규화를 100만 → 5만 명으로 내리고
+관람객 항을 0.5에서 자른다. 박물관의 비용은 건립비가 아니라 전시 유물이 자산 축에서 빠지는
+것(G49)이고, 예전 값으로는 그 비용을 되찾는 데 국보 10점 전시가 128시간, 유일 2점이
+724시간 걸렸다. 지금은 13시간·72시간이다 — 유일 전시는 전형적 엔딩(약 140시간)의 절반
+안에 본전이 되는 "진짜 선택"으로 남는다. 마케팅 레벨은 `MUSEUM_MARKETING_LEVEL_CAP`(10)
+위로 살 수 없다(효과 없는 지출이었다).
 
 `codex + fame`(0.70) > `asset`(0.30)이므로 "팔아서 1위" 경로가 구조적으로
 막힌다(G4). 헤더 UI는 3축 개별 순위와 함께 `RANK_SCORE` 기반 종합 순위를

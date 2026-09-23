@@ -3,7 +3,7 @@ import {
   EMERGENCY_DISPATCH_MISHAP_MULT, OFFLINE_EFFICIENCY, RANK_WEIGHT, SITE_BY_ID, THEFT_RATE_BASE,
   THEFT_RECOVERY_BASE, THEFT_RECOVERY_CHANCE_CAP, THEFT_RECOVERY_WINDOW_HOURS, TIER_NAME,
   TIP_FOCUS_DIG_COST_MULT, TIP_FOCUS_DIG_HIT_CHANCE, TIP_MEAN_INTERVAL, TIP_PLAYER_HIT,
-  CURATOR_RECOVERY_COEFF, tierWeights
+  CURATOR_RECOVERY_COEFF, FAME_FIRST_T4_WEIGHT, FAME_VISITOR_NORMALIZATION, FAME_VISITOR_WEIGHT, tierWeights
 } from "../game/balance";
 import { rivalExpeditions } from "../game/engine";
 import { clock, withJosa } from "../game/format";
@@ -45,6 +45,7 @@ export function RulesModal({ game, onClose }: { game: Game; onClose: () => void 
         <h4>순위 3축 가중식</h4>
         <ul className="rules-notes">
           <li>종합 점수 = 자산×{RANK_WEIGHT.asset} + 도감×{RANK_WEIGHT.codex} + 명성×{RANK_WEIGHT.fame}. 도감+명성(0.70)이 자산(0.30)보다 커서 "팔아서 1위"는 구조적으로 막힌다.</li>
+          <li>명성 = min(1, {FAME_VISITOR_WEIGHT} × min(1, 박물관 누적 관람객 ÷ {FAME_VISITOR_NORMALIZATION.toLocaleString("ko-KR")}명) + {FAME_FIRST_T4_WEIGHT} × 유일 최초발굴 ÷ 12). 전시한 유물은 자산에서 빠진다 — 전시는 약 6일(엔딩 무렵)이면 본전이고, 더 오래 두면 명성으로 남는다.</li>
           <li>추격 계수 = min({CATCHUP_MAX}, 1 + {CATCHUP_SLOPE} × log₁₀(1위 자산 ÷ 본인 자산)).</li>
           <li>오프라인 효율 {Math.round(OFFLINE_EFFICIENCY * 100)}%, 최대 12시간까지 누적된다.</li>
         </ul>

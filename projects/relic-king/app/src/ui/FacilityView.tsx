@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
   AUCTIONEER_LOGISTICS_COEFF, AUCTION_GRADE_MAX, AUCTION_SLOT_CAP_BY_GRADE, FOREMAN_HIRE_COST,
-  MUSEUM_SLOT_BY_GRADE, SITES, SITE_BY_ID, THEFT_APPLICABLE_MAX_TIER, TIER_NAME, auctionGradeCost,
+  MUSEUM_MARKETING_LEVEL_CAP, MUSEUM_SLOT_BY_GRADE, SITES, SITE_BY_ID, THEFT_APPLICABLE_MAX_TIER, TIER_NAME, auctionGradeCost,
   auctionHouseBuildCost, conditionDecayChancePerDay, humidityLevelCost, marketingLevelCost,
   museumBuildCost, museumGradeCost, restorationAttemptHours, restorationLevelCost,
   restorationSuccessChance, securityLevelCost, theftInitialGraceHours, vaultCapacity, vaultLevelCost
@@ -216,9 +216,15 @@ function MuseumPanel({ game, site }: { game: Game; site: SiteId }) {
           </button>
         ) : null}
         {built ? (
-          <button type="button" disabled={world.funds < marketingLevelCost(museum.marketingLevel)} onClick={() => game.buyMuseumMarketing(site)}>
-            마케팅 Lv.{museum.marketingLevel} → {usd(marketingLevelCost(museum.marketingLevel))}
-          </button>
+          museum.marketingLevel >= MUSEUM_MARKETING_LEVEL_CAP ? (
+            <button type="button" disabled>
+              마케팅 Lv.{museum.marketingLevel} — 최대
+            </button>
+          ) : (
+            <button type="button" disabled={world.funds < marketingLevelCost(museum.marketingLevel)} onClick={() => game.buyMuseumMarketing(site)}>
+              마케팅 Lv.{museum.marketingLevel} → {usd(marketingLevelCost(museum.marketingLevel))}
+            </button>
+          )
         ) : null}
       </div>
 

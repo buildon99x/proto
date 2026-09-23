@@ -12,7 +12,7 @@ import {
   EMERGENCY_DISPATCH_TRAVEL_MULT, EXPEDITION_COST_INCOME_RATIO, EXPEDITION_MISHAP_CHANCE_CAP,
   EXPEDITION_MISHAP_TIME_LOSS_RATIO, EXPEDITION_SPEED_KMH, EXPEDITION_TEAM_UNLOCK_BASE,
   EXPEDITION_TEAM_UNLOCK_GROWTH, FAME_FIRST_T4_WEIGHT, FAME_PER_DEDICATED, FAME_PER_DEDICATED_T4,
-  FAME_VISITOR_NORMALIZATION, FIRST_RELOCATION_FREE_WINDOW_HOURS, FOREMAN_HIRE_COST,
+  FAME_VISITOR_NORMALIZATION, FAME_VISITOR_WEIGHT, MUSEUM_MARKETING_LEVEL_CAP, FIRST_RELOCATION_FREE_WINDOW_HOURS, FOREMAN_HIRE_COST,
   FOREMAN_SALARY_INCOME_SHARE, GEAR_MULT, HOME_BASE_BONUS_DROPMOD_MULT, HOME_BASE_BONUS_DURATION_HOURS,
   LAYERS_PER_SITE, LOCKED_HOLD_TIER_EXEMPT_MIN_TIER, MAX_EXPEDITION_TEAMS_CAP,
   MAX_EXPEDITION_TEAMS_INITIAL, MAX_GEAR_LEVEL, MAX_OWNED_SITES, MUSEUM_MAX_COUNT,
@@ -299,7 +299,8 @@ export function codexScore(w: World): number {
 export function fameScore(w: World, record: PersistentRecord): number {
   const visitors = w.museumCumulativeVisitors;
   const firstT4 = record.firstT4Finds + w.stats.firstT4Finds;
-  return Math.min(1, visitors / FAME_VISITOR_NORMALIZATION + (firstT4 / TIER4_SPECIES_TOTAL) * FAME_FIRST_T4_WEIGHT);
+  const visitorTerm = FAME_VISITOR_WEIGHT * Math.min(1, visitors / FAME_VISITOR_NORMALIZATION);
+  return Math.min(1, visitorTerm + (firstT4 / TIER4_SPECIES_TOTAL) * FAME_FIRST_T4_WEIGHT);
 }
 
 export function rankScore(w: World, record: PersistentRecord): number {
@@ -2409,6 +2410,9 @@ export function upgradeMuseumGrade(w: World, site: SiteId): boolean {
 export function buyMuseumMarketing(w: World, site: SiteId): boolean {
   const museum = w.museums.find((m) => m.site === site);
   if (!museum) return false;
+  // 관람객 공식이 마케팅 레벨을 이 상한에서 자른다(museum.ts). 그 위를 팔면 효과 없는
+  // 지출이다 — 방치 정책이 실제로 Lv.14까지 올려 약 $6억을 버리고 있었다(G86).
+  if (museum.marketingLevel >= MUSEUM_MARKETING_LEVEL_CAP) return false;
   const cost = marketingLevelCost(museum.marketingLevel);
   if (w.funds < cost) return false;
   w.funds -= cost;
