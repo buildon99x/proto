@@ -6292,4 +6292,4 @@ UI 검사(`tests/e2e/play.mjs`) 문구, `brief`·`spec`·`eval`·`notes/*`의 �
 - `styles.css`는 양쪽 블록이 같은 자리에 붙어 `@media` 한 겹이 닫히지 않았다.
   빌드 경고(`Expected "}"`)로 잡아 닫았다.
 
-**확인**: `pnpm --filter relic-king build` 통과, QA 스위트 재실행.
+**확인**: `pnpm --filter relic-king build` 통과. QA 스위트 8종 전부 통과 — `qa:migration`·`qa:bulk`·`qa:autosell`·`qa:expedition`·`qa:economy`·`qa:pipeline`·`qa:season`·`qa:rivalcard`.
