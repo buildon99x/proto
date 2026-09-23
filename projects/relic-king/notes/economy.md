@@ -420,7 +420,7 @@ export const T4_MIN_INDEPENDENT_SOURCES = 2;
 // G5 — 박물관(개정 G24/B1: 캡 기준을 그 거점 D → 플레이어 전체 D 합으로, POP·RARITY 캡 정직화)
 export const MUSEUM_NET_INCOME_CAP = 0.30; // 이제 Σ_teams D_team 기준. 박물관 위치로 우회 불가
 export const MUSEUM_UPKEEP_RATE = 0.20;
-export const MUSEUM_TICKET_PRICE = 20_000; // 기존 8,000에서 인상(회수기간 442h→177h)
+export const MUSEUM_TICKET_PRICE = 30; // $/명. 8,000 → 20,000 → 30(G84, 달러 기준 현실 관람료 — 박물관은 자금원이 아니다)
 export const MUSEUM_POP_CONTRIB_CAP = 4.0; // 기존 6.0(실제 도달 가능한 최댓값 4.003과 맞춤 — 사문 조항 제거)
 export const MUSEUM_RARITY_CONTRIB_CAP = 15.0; // 기존 5.0(등급4·15슬롯이 현실적 구성에서도 클램프 안 되게)
 

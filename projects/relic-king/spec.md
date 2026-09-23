@@ -994,7 +994,7 @@ MUSEUM_POP_CONTRIB_CAP = 4.0                // 기존 6.0(사문 — 실제 도�
 MUSEUM_RARITY_COEFF = 0.03
 RARITY_WEIGHT = [1, 3, 10, 40, 200]        // T0~T4
 MUSEUM_RARITY_CONTRIB_CAP = 15.0            // 기존 5.0(등급4 15슬롯이 클램프에 바로 안 걸리도록)
-MUSEUM_TICKET_PRICE = 20_000                // ₩/명, 가상 단위. 기존 8,000에서 인상
+MUSEUM_TICKET_PRICE = 30                    // $/명(v0.5.2 이후 달러). 8,000 → 20,000 → 30(G84)
 
 관람객(1일) = MUSEUM_VISITOR_BASE
   × min(MUSEUM_POP_CONTRIB_CAP, (인근도시인구 / MUSEUM_POP_REF) ^ MUSEUM_POP_EXPONENT)
@@ -1065,7 +1065,7 @@ MUSEUM_BUILD_COST_GROWTH = 3.0
 관장항 = min(1.5, 1+0.005×50) = 1.25
 마케팅항 = 1+0.08×2 = 1.16   (개정 — G50/C#5, MARKETING_SENSE 보정 삭제. 기존 1.192)
 관람객/일 ≈ 300×0.587×1.9×1.25×1.16 ≈ 485명
-관람수입/시간 ≈ 485×20,000/24 ≈ 404,299₩
+관람수입/시간 ≈ 485×20,000/24 ≈ 404,299₩   ← v0.5.2까지의 값. v0.5.3 이후는 아래 "(개정 — G84)" 참조
 유지비/시간 ≈ 404,299×0.20 ≈ 80,860₩   (개정 — G50/C#5, MAINTENANCE 할인 삭제. 기존 70,621₩)
 스탯배율(급여) = 1 + STAFF_SALARY_STAT_COEFF(0.6) × (Σstat_i/2)/STAFF_STAT_MAX = 1 + 0.6×(50/100) = 1.3   (분모 2로 개정 — G50/C#5)
 급여/시간 ≈ 404,299×0.15×1.3 ≈ 78,838₩
@@ -1073,6 +1073,20 @@ MUSEUM_BUILD_COST_GROWTH = 3.0
 캡 = 0.30×50×1000×1×3600 = 54,000,000₩/시간 → 캡에 걸리지 않음(의도됨, §10.2)
 회수기간 = 50,000,000 / 244,601 ≈ 204.4시간 ≈ 약 8.5일   (재계산 — 스탯 축소(G50/C#5)와 급여 스탯배율 누락 정정(G49/B4)을 모두 반영. 기존 442h(1회차 원안) → 177.0h(오기) → 189.5h(정정) → 204.4h(스탯 축소 반영, 최종))
 ```
+
+**(개정 — `notes/decisions.md` G84, v0.5.3)** 관람료를 달러 기준 현실값 **$30**으로
+내렸다. 같은 입력으로 다시 계산하면:
+
+```
+관람수입/시간 ≈ 485×30/24 ≈ $606
+유지비/시간 ≈ $121 · 급여/시간 ≈ $118
+순수익/시간 ≈ $367
+회수기간 = $50,000,000 / $367 ≈ 136,000시간 ≈ 15.6년   → 게임 안에서는 회수되지 않는다
+```
+
+박물관은 이제 **자금원이 아니다.** 짓고 올리는 이유는 명성 축(누적 관람객, §13.1)과
+전시의 자산-명성 트레이드오프(G49)뿐이다. G5가 처음 정한 "박물관은 자금이 아니라
+명성의 주축"으로 돌아간 것이다. 아래 정정 문단의 회수기간 서술은 v0.5.2까지의 값이다.
 
 **(정정 — `notes/decisions.md` G24/B1)** "발굴력이 자라는 동안 회수 기간이
 짧아진다"는 기존 서술은 틀렸다 — 관람수입은 `D`와 무관하다(§10.1 수식에 `D`가
@@ -1616,7 +1630,7 @@ export const MUSEUM_POP_CONTRIB_CAP = 4.0;
 export const MUSEUM_RARITY_COEFF = 0.03;
 export const RARITY_WEIGHT = [1, 3, 10, 40, 200] as const;
 export const MUSEUM_RARITY_CONTRIB_CAP = 15.0;
-export const MUSEUM_TICKET_PRICE = 20_000;
+export const MUSEUM_TICKET_PRICE = 30; // G84 — 달러 기준 현실 관람료
 export const MUSEUM_MARKETING_COEFF = 0.08;
 export const MUSEUM_MARKETING_LEVEL_CAP = 10;
 export const MUSEUM_MAX_COUNT = 3; // = MAX_OWNED_SITES
