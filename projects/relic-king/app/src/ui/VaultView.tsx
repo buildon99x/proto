@@ -2,11 +2,14 @@ import { useState } from "react";
 import { vaultCareLine } from "./vaultCare";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
-  APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE, AUTO_SELL_SPARE_MAX_TIER, BLIND_SELL_RATE, CONDITION_NAME,
+  APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE, AUCTION_SETTLE_HOURS, AUTO_SELL_SPARE_MAX_TIER, BLIND_SELL_RATE, CONDITION_NAME,
   LOCKED_HOLD_CAP, SITES, SITE_BY_ID, TIER_NAME, appraiseSeconds, vaultCapacity
 } from "../game/balance";
-import { codexProgress, freshnessOf, museumOf, museumSlotCount, spareVaultItems } from "../game/engine";
-import { won } from "../game/format";
+import {
+  auctionFreeSlots, bulkVaultTargets, codexProgress, freshnessOf, museumOf, museumSlotCount,
+  spareVaultItems, speciesEmptiedBy
+} from "../game/engine";
+import { usd } from "../game/format";
 import { museumVisitorIncomeHourly, museumVisitorsPerDay } from "../game/museum";
 import { TIER_COLOR } from "../render/palette";
 import { auctionPriceMult } from "../game/staff";
@@ -30,6 +33,11 @@ export function VaultView({ game }: { game: Game }) {
   const [tierFilter, setTierFilter] = useState<Tier | null>(null);
   const [conditionFilter, setConditionFilter] = useState<Condition | null>(null);
   const [siteFilter, setSiteFilter] = useState<SiteId | null>(null);
+  // 다중 선택(v0.5.2). 선택 단위는 종(그리드 칸)이고, 그 종의 어느 사본이 나가는지는
+  // 엔진의 `bulkVaultTargets`가 정한다.
+  const [selecting, setSelecting] = useState(false);
+  const [chosen, setChosen] = useState<Set<string>>(() => new Set());
+  const [notice, setNotice] = useState<string | null>(null);
 
   /**
    * **메모이즈하지 않는다.** 엔진은 `World`를 제자리에서 고친다 — `w.vault`를
@@ -66,6 +74,24 @@ export function VaultView({ game }: { game: Game }) {
   });
 
   const picked = stacks.find((s) => s.artifact.id === selected) ?? null;
+  /** 전부 전시 중인 종은 고를 거리가 없다 — 선택 모드에서 흐리게 막는다 */
+  const selectable = (s: Stack) => s.items.some((i) => !i.displayed);
+  // 방금 판 종·자동 정리로 사라진 종이 선택에 남아 있지 않게, 지금 금고에 있는 종만 센다
+  const chosenIds = stacks.filter((s) => chosen.has(s.artifact.id) && selectable(s)).map((s) => s.artifact.id);
+  const visibleSelectable = filtered.filter(selectable).map((s) => s.artifact.id);
+
+  const toggleChosen = (id: string) =>
+    setChosen((cur) => {
+      const next = new Set(cur);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  const toggleSelecting = () => {
+    setSelecting((on) => !on);
+    setChosen(new Set());
+    setNotice(null);
+  };
   const usedSites = [...new Set(stacks.map((s) => s.artifact.site))];
 
   const sealed = world.pending.filter((p) => world.lab < APPRAISAL_UNLOCK_LAB_LEVEL[ARTIFACT_BY_ID[p.artifactId].tier]);
@@ -96,12 +122,12 @@ export function VaultView({ game }: { game: Game }) {
                       <span className="card-back">?</span>
                       <span className="pending-info">
                         <em className={stalled ? "stalled" : "muted"}>
-                          {stalled ? `자금 부족 — 감정비 ${won(fee)} ₩ 필요` : `감정까지 ${p.remain.toFixed(1)}초`}
+                          {stalled ? `자금 부족 — 감정비 ${usd(fee)} 필요` : `감정까지 ${p.remain.toFixed(1)}초`}
                         </em>
-                        <span>추정 {won(p.estimate)} ₩</span>
+                        <span>추정 {usd(p.estimate)}</span>
                       </span>
                       <button type="button" className="ghost" onClick={() => game.blind(p.uid)}>
-                        {won(Math.round(p.estimate * BLIND_SELL_RATE))} ₩
+                        {usd(Math.round(p.estimate * BLIND_SELL_RATE))}
                       </button>
                     </li>
                   );
@@ -153,6 +179,15 @@ export function VaultView({ game }: { game: Game }) {
           <h3>
             소장고 <span className="muted">{world.vault.length}점 · {stacks.length}종</span>
           </h3>
+          <button
+            type="button"
+            className={`ghost select-toggle${selecting ? " on" : ""}`}
+            disabled={!selecting && stacks.length === 0}
+            aria-pressed={selecting}
+            onClick={toggleSelecting}
+          >
+            {selecting ? "선택 끝내기" : "여러 개 선택"}
+          </button>
         </div>
         <p className="muted small">
           팔면 자금이 늘고 <strong>순위는 떨어진다.</strong> 자산 점수는 전시 중이 아닌 소장 유물의 평가액 합이다.
@@ -195,11 +230,18 @@ export function VaultView({ game }: { game: Game }) {
                   // (tests/e2e/smoke.mjs). 새 종이 들어와 칸이 하나 느는 것과,
                   // 이미 있던 칸이 움직이는 것은 다른 일이다.
                   data-aid={s.artifact.id}
-                  className={`stack${selected === s.artifact.id ? " picked" : ""}`}
-                  onClick={() => setSelected(s.artifact.id)}
+                  className={`stack${
+                    selecting
+                      ? `${chosen.has(s.artifact.id) ? " chosen" : ""}${selectable(s) ? "" : " unselectable"}`
+                      : selected === s.artifact.id ? " picked" : ""
+                  }`}
+                  disabled={selecting && !selectable(s)}
+                  aria-pressed={selecting ? chosen.has(s.artifact.id) : undefined}
+                  onClick={() => (selecting ? toggleChosen(s.artifact.id) : setSelected(s.artifact.id))}
                   title={`${s.artifact.name} ×${s.items.length}`}
                 >
                   <Sprite artifact={s.artifact} size={44} />
+                  {selecting && chosen.has(s.artifact.id) ? <i className="stack-check">✓</i> : null}
                   {s.items.length > 1 ? <i className="stack-count">{s.items.length}</i> : null}
                   {displayedCount > 0 ? <i className="stack-displayed" title="전시 중">🖼</i> : null}
                 </button>
@@ -208,7 +250,22 @@ export function VaultView({ game }: { game: Game }) {
           </div>
         )}
 
-        {picked ? <Detail game={game} stack={picked} /> : null}
+        {selecting ? (
+          <BulkBar
+            game={game}
+            chosenIds={chosenIds}
+            visibleIds={visibleSelectable}
+            notice={notice}
+            onSelectVisible={() => setChosen(new Set([...chosenIds, ...visibleSelectable]))}
+            onClear={() => setChosen(new Set())}
+            onDone={(message) => {
+              setChosen(new Set());
+              setNotice(message);
+            }}
+          />
+        ) : picked ? (
+          <Detail game={game} stack={picked} />
+        ) : null}
       </section>
     </div>
   );
@@ -281,7 +338,7 @@ function SpareStrip({ game }: { game: Game }) {
             ? "지금 정리 — 기준을 고르면 켜진다"
             : toAuction
               ? `지금 경매로 ${targeted.length}점`
-              : `지금 정리 ${targeted.length}점 · ${won(targetedValue)} ₩`}
+              : `지금 정리 ${targeted.length}점 · ${usd(targetedValue)}`}
         </button>
       </div>
       {stored > capacity ? (
@@ -297,6 +354,141 @@ function SpareStrip({ game }: { game: Game }) {
           거점 해금·시설·원정에 <strong>쓸 때만</strong> 순위로 돌아온다 — 쌓아 두기만 하면 자산 축만 깎인다.
         </p>
       )}
+    </div>
+  );
+}
+
+/**
+ * 다중 선택 막대(v0.5.2) — 소장고 칸을 여러 개 고른 뒤 한 번에 매각하거나 경매에
+ * 올린다. 조작은 "여러 개 선택 → 칸 누르기(또는 필터 + 보이는 것 전부) → 매각/경매"
+ * 세 단계로 끝나고, 1점 상세의 버튼과 채널이 같다(엔진 `sellVaultItems`·
+ * `listManyAtAuction`).
+ *
+ * - **종당 1점 남기기**가 기본으로 켜져 있다. 켜 둔 채로는 도감이 줄지 않으므로
+ *   확인 없이 바로 실행된다.
+ * - 되돌릴 수 없는 손실(국보·유일 포함, 도감에서 빠지는 종)이 있을 때만 확인 한 줄이
+ *   끼어든다. 무엇을 잃는지 숫자로 적는다(척추 5번).
+ * - 경매는 남은 자리만큼만 올리고 나머지는 금고에 둔다 — 넘치는 분을 직접매각으로
+ *   몰래 돌리지 않는다(중복 자동 정리와 같은 규율).
+ */
+function BulkBar({ game, chosenIds, visibleIds, notice, onSelectVisible, onClear, onDone }: {
+  game: Game;
+  chosenIds: string[];
+  visibleIds: string[];
+  notice: string | null;
+  onSelectVisible: () => void;
+  onClear: () => void;
+  onDone: (message: string) => void;
+}) {
+  const { world } = game;
+  const [keepOne, setKeepOne] = useState(true);
+  const [confirming, setConfirming] = useState<"sell" | "auction" | null>(null);
+
+  const targets = bulkVaultTargets(world, chosenIds, keepOne);
+  const uids = targets.map((t) => t.uid);
+  const value = targets.reduce((sum, t) => sum + t.value, 0);
+  const precious = targets.filter((t) => ARTIFACT_BY_ID[t.artifactId].tier >= 3).length;
+  const emptied = speciesEmptiedBy(world, uids).length;
+  const hasHouse = world.auctionHouses.length > 0;
+  const freeSlots = auctionFreeSlots(world);
+  const toAuction = Math.min(targets.length, freeSlots);
+  const allVisibleChosen = visibleIds.length > 0 && visibleIds.every((id) => chosenIds.includes(id));
+
+  const sell = () => {
+    const { count, gained } = game.sellMany(uids);
+    setConfirming(null);
+    onDone(`${count}점을 매각했다(+${usd(gained)}).`);
+  };
+  const auction = () => {
+    const { listed, skipped } = game.auctionMany(uids);
+    setConfirming(null);
+    onDone(
+      `${listed}점을 경매에 올렸다(${AUCTION_SETTLE_HOURS}시간 뒤 낙찰).` +
+        (skipped > 0 ? ` 자리가 없어 ${skipped}점은 소장고에 남았다.` : "")
+    );
+  };
+  const risky = precious > 0 || emptied > 0;
+  const run = (kind: "sell" | "auction") => {
+    if (risky) setConfirming(kind);
+    else if (kind === "sell") sell();
+    else auction();
+  };
+
+  return (
+    <div className="bulk-bar" role="region" aria-label="여러 개 처분">
+      <div className="bulk-line">
+        <span className="bulk-summary">
+          <strong>{chosenIds.length}</strong>종 선택 · 처분 <strong>{targets.length}</strong>점 ·{" "}
+          평가액 <strong>{usd(value)}</strong>
+        </span>
+        <button
+          type="button"
+          className="ghost"
+          disabled={visibleIds.length === 0 || allVisibleChosen}
+          onClick={onSelectVisible}
+          title="지금 필터에 보이는 칸을 전부 고른다"
+        >
+          보이는 {visibleIds.length}종 전부
+        </button>
+        <button type="button" className="ghost" disabled={chosenIds.length === 0} onClick={onClear}>
+          해제
+        </button>
+      </div>
+      <label className="bulk-keep">
+        <input type="checkbox" checked={keepOne} onChange={(e) => setKeepOne(e.target.checked)} />
+        종당 1점 남기기 <em className="muted small">도감이 줄지 않는다 · 가장 비싼 사본이 남는다</em>
+      </label>
+
+      {confirming ? (
+        <div className="bulk-confirm">
+          <p>
+            {confirming === "sell"
+              ? `${targets.length}점을 직접 매각한다 — 평가액 ${usd(value)}.`
+              : `${toAuction}점을 경매에 올린다.`}{" "}
+            {precious > 0 ? <strong>국보·유일 {precious}점이 들어 있다. </strong> : null}
+            {emptied > 0 ? <strong>도감에서 {emptied}종이 빠진다. </strong> : null}
+            되돌릴 수 없다.
+          </p>
+          <div className="bulk-actions">
+            <button type="button" className="ghost danger" onClick={confirming === "sell" ? sell : auction}>
+              {confirming === "sell" ? "그래도 매각" : "그래도 경매 등록"}
+            </button>
+            <button type="button" className="ghost" onClick={() => setConfirming(null)}>
+              취소
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="bulk-actions">
+          <button
+            type="button"
+            className="bulk-go"
+            disabled={targets.length === 0}
+            onClick={() => run("sell")}
+          >
+            {targets.length}점 매각 · {usd(value)}
+          </button>
+          <button
+            type="button"
+            className="bulk-go"
+            disabled={targets.length === 0 || !hasHouse || freeSlots === 0}
+            onClick={() => run("auction")}
+          >
+            {!hasHouse
+              ? "경매장 없음"
+              : freeSlots === 0
+                ? "경매 자리 없음"
+                : `${toAuction}점 경매 등록${targets.length > freeSlots ? ` (자리 ${freeSlots})` : ""}`}
+          </button>
+        </div>
+      )}
+
+      {chosenIds.length === 0 ? (
+        <p className="muted small">칸을 눌러 고른다. 필터로 좁힌 뒤 “보이는 전부”를 누르면 한 번에 고를 수 있다.</p>
+      ) : chosenIds.length > 0 && targets.length === 0 ? (
+        <p className="muted small">고른 종이 모두 1점뿐이다 — “종당 1점 남기기”를 끄면 처분할 수 있다.</p>
+      ) : null}
+      {notice ? <p className="bulk-notice small">{notice}</p> : null}
     </div>
   );
 }
@@ -353,9 +545,9 @@ function Detail({ game, stack }: { game: Game; stack: Stack }) {
         <div className="detail-actions">
           {available.length > 0 ? (
             <>
-              <strong>{won(total)} ₩</strong>
+              <strong>{usd(total)}</strong>
               <button type="button" className="ghost" onClick={() => game.sell(a.id, 1)}>
-                1점 매각 {won(unit)} ₩
+                1점 매각 {usd(unit)}
               </button>
               {available.length > 1 ? (
                 <button type="button" className="ghost" onClick={() => game.sell(a.id, available.length)}>
@@ -387,7 +579,7 @@ function Detail({ game, stack }: { game: Game; stack: Stack }) {
   );
 }
 
-/** 그 거점에 지금 이 유물을 전시하면 기대되는 시간당 관람수입(₩/s 아니라 ₩/h) —
+/** 그 거점에 지금 이 유물을 전시하면 기대되는 시간당 관람수입($/s 아니라 $/h) —
  *  base 비교 칩(마무리 패스, notes/decisions.md G56)의 "가격" 지표다. 기존
  *  전시 슬롯 구성 + 이 유물(신선도 1.0)을 더해 museumVisitorsPerDay를 그대로
  *  재사용한다(엔진이 accrueMuseums에서 쓰는 것과 같은 순수 함수 — UI가 점수
@@ -443,9 +635,9 @@ function DisplayAction({ game, uid }: { game: Game; uid: number }) {
               type="button"
               className={`base-chip${b.id === site ? " picked" : ""}`}
               onClick={() => setChosenId(b.id)}
-              title={`시간당 기대 관람수입 ${won(estimateDisplayIncome(world, b.id, artifact))} ₩`}
+              title={`시간당 기대 관람수입 ${usd(estimateDisplayIncome(world, b.id, artifact))}`}
             >
-              {b.city} {won(estimateDisplayIncome(world, b.id, artifact))}₩/h
+              {b.city} {usd(estimateDisplayIncome(world, b.id, artifact))}/h
             </button>
           ))}
         </div>

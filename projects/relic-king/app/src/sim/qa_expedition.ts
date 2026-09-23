@@ -116,7 +116,7 @@ check(`드랍 횟수가 스텝 크기와 거의 무관하다(±2 이내, 실측 
 const fundsDiff = Math.abs(a.funds - b.funds);
 const fundsTolerance = Math.max(1, Math.abs(a.funds) * 0.001); // 0.1% 이내
 check(
-  `귀환 후 funds가 스텝 크기와 거의 무관하다(0.1% 이내, 실측 차이 ${fundsDiff.toLocaleString("ko-KR")}₩)`,
+  `귀환 후 funds가 스텝 크기와 거의 무관하다(0.1% 이내, 실측 차이 $${fundsDiff.toLocaleString("ko-KR")})`,
   fundsDiff <= fundsTolerance
 );
 check("원정비가 실제로 원천징수됐다(파견 시점 funds보다 감소)", a.funds < 10_000_000);
@@ -164,7 +164,7 @@ advance(d, totalSecondsTwoTrips, false, 10);
 const routineFundsDiff = Math.abs(c.funds - d.funds);
 const routineFundsTolerance = Math.max(1, Math.abs(c.funds) * 0.001);
 check(
-  `루틴 재파견 2회 후 funds도 스텝 크기와 거의 무관하다(0.1% 이내, 실측 차이 ${routineFundsDiff.toLocaleString("ko-KR")}₩)`,
+  `루틴 재파견 2회 후 funds도 스텝 크기와 거의 무관하다(0.1% 이내, 실측 차이 $${routineFundsDiff.toLocaleString("ko-KR")})`,
   routineFundsDiff <= routineFundsTolerance
 );
 check("루틴 재파견 2회 후 거점 층도 스텝 크기와 무관하게 같다", c.sites[TARGET].layer === d.sites[TARGET].layer);

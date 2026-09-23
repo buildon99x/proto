@@ -16,7 +16,7 @@
  *      보고용이고, 게이트는 "도감이 대조군보다 나쁘지 않다"이다).
  */
 import { ARTIFACTS, ARTIFACT_BY_ID } from "../game/artifacts";
-import { AUTO_SELL_SPARE_MAX_TIER, CONDITION_INITIAL_BASE_BY_TIER } from "../game/balance";
+import { AUTO_SELL_SPARE_BATCH_MIN, AUTO_SELL_SPARE_MAX_TIER, CONDITION_INITIAL_BASE_BY_TIER } from "../game/balance";
 import {
   advance, assetScore, codexProgress, createWorld, digPower, nextUid, runAutoRoutine, sellSpares,
   spareVaultItems
@@ -85,7 +85,7 @@ function fixture(): World {
   check("국보(T3)·유일(T4)은 중복이 3점 쌓여 있어도 대상이 아니다",
     !spares.some((s) => ARTIFACT_BY_ID[s.artifactId].tier >= 3));
   check("전시 중인 사본은 대상이 아니다", !spares.some((s) => s.displayed));
-  check("보존분은 그 종에서 가장 값비싼 사본이다(T0는 3,000₩짜리가 남는다)",
+  check("보존분은 그 종에서 가장 값비싼 사본이다(T0는 $3,000짜리가 남는다)",
     !spares.some((s) => s.artifactId === t0a && s.value === 3_000));
   check("전시 사본이 보존분 역할을 한다(T1은 비전시 1점이 전부 대상)",
     spares.filter((s) => s.artifactId === t1a).length === 1);
@@ -164,7 +164,15 @@ const off = idle(null);
 
 check(`자동 정리를 켠 채 ${HOURS}시간 방치해도 도감이 한 틱도 줄지 않는다(최소 틱당 변화 ${on.minCodexDelta})`,
   on.minCodexDelta >= 0);
-check("루틴이 돈 직후에는 기준에 걸리는 중복분이 0점이다", on.sparesLeft === 0);
+/**
+ * **문턱을 반영한다(G95.1 → G114).** 옛 단언은 "루틴이 돈 직후 중복분이 0점"이었는데,
+ * v0.6.5가 중복 정리를 **20점 쌓였을 때 한 번에** 하도록 바꾼 뒤로는 문턱 미만이
+ * 남아 있는 것이 정상이다(G95.1). 그때 이 단언이 통과한 것은 마지막 틱이 우연히
+ * 0점이었기 때문이고, 병렬 브랜치 합류로 경제가 조금 달라지자 드러났다
+ * (관람료 $30, `notes/decisions.md` G114). **기준을 낮춘 게 아니라 설계값을 적었다.**
+ */
+check(`루틴이 돈 뒤 남은 중복분은 배치 문턱 미만이다(${on.sparesLeft}점 < ${AUTO_SELL_SPARE_BATCH_MIN}점)`,
+  on.sparesLeft < AUTO_SELL_SPARE_BATCH_MIN);
 check(`자동 루틴이 국보·유일을 한 점도 건드리지 않았다(소실 ${on.highTierLost}점)`, on.highTierLost === 0);
 
 {
@@ -186,7 +194,7 @@ console.log("\n3. 대조군 비교 — 트레이드오프가 설계한 방향으
 const fmt = (n: number) => Math.round(n).toLocaleString("ko-KR");
 const vaultValue = (w: World) => w.vault.reduce((sum, v) => sum + v.value, 0);
 const row = (label: string, w: World) =>
-  `  ${label}  자금 ${fmt(w.funds).padStart(14)}₩   소장가치 ${fmt(vaultValue(w)).padStart(15)}₩   ` +
+  `  ${label}  자금 $${fmt(w.funds).padStart(14)}   소장가치 $${fmt(vaultValue(w)).padStart(15)}   ` +
   `자산축 ${(assetScore(w) * 100).toFixed(2).padStart(6)}%   도감 ${codexProgress(w).owned}종   ` +
   `소장 ${String(w.vault.length).padStart(3)}점   드랍 ${w.stats.drops}   발굴력 ${digPower(w).toFixed(0)}/s`;
 console.log(row("기능 끔", off.w));
@@ -227,7 +235,7 @@ const unitOff = vaultValue(off.w) / Math.max(1, off.w.vault.length);
 const unitOn = vaultValue(on.w) / Math.max(1, on.w.vault.length);
 check(
   `켠 쪽 점당 가치가 더 높다 — 싼 중복분이 빠진 결과 ` +
-  `(끔 ${Math.round(unitOff).toLocaleString("ko-KR")}₩/점 · 켬 ${Math.round(unitOn).toLocaleString("ko-KR")}₩/점)`,
+  `(끔 $${Math.round(unitOff).toLocaleString("ko-KR")}/점 · 켬 $${Math.round(unitOn).toLocaleString("ko-KR")}/점)`,
   unitOn > unitOff
 );
 

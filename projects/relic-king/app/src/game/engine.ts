@@ -46,7 +46,7 @@ import {
   teamDigPower, travelHoursOneWay
 } from "./expedition";
 import { hashFrac } from "./hash";
-import { josa, withJosa, won } from "./format";
+import { josa, withJosa, usd } from "./format";
 import { siteAnchorLabel } from "./sites";
 import { localPriceMult } from "./market";
 import {
@@ -216,7 +216,7 @@ export function createWorld(seed = 20260917, grantTeam = true): World {
  * (G77.5에서 "구현된 적 없다"로 문서 쪽을 고쳤던 그 항목), v0.3.3 계측이 그
  * 판단을 뒤집을 근거를 냈다.
  *
- * **근거**: 탭만 열어 두는 플레이어는 단장 고용비 200,000₩ 앞에서 멈춘다.
+ * **근거**: 탭만 열어 두는 플레이어는 단장 고용비 $200,000 앞에서 멈춘다.
  * 발굴단이 없으면 다른 거점의 종을 영영 못 만나고, 도감이 125/1,902종(6.6%)에서
  * 정지한다 — 의미 있는 이벤트가 1일차 279건에서 2일차 1건으로 떨어지고, 이후
  * 66시간 53분 동안 아무 일도 없다. 그 정적 속에서 일어나는 유일한 사건이
@@ -224,7 +224,7 @@ export function createWorld(seed = 20260917, grantTeam = true): World {
  * 척추 4번("클릭은 언제나 선택 — 안 눌러도 손실 0")이 실측으로 깨져 있었다.
  *
  * 단장은 무료로 배정한다(`FOREMAN_HIRE_COST`를 받지 않는다) — 시작 자금
- * 30,000₩으로는 낼 수 없고, 이건 "첫 세션의 무대 장치"이지 플레이어가 사는
+ * $30,000로는 낼 수 없고, 이건 "첫 세션의 무대 장치"이지 플레이어가 사는
  * 물건이 아니기 때문이다. 후보는 `staffCandidates`의 결정론 목록 첫 번째라
  * 같은 시드면 같은 단장이 온다.
  */
@@ -538,7 +538,7 @@ export function freshnessOf(item: VaultItem, t: number): number {
   return 1;
 }
 
-/** 지금 순간 발굴 잠재 화폐창출률(₩/s) — 레거시 단독 발굴 + on_site 발굴단 전부 합산.
+/** 지금 순간 발굴 잠재 화폐창출률($/s) — 레거시 단독 발굴 + on_site 발굴단 전부 합산.
  *  박물관 30% 캡(G24 — "플레이어 전체 발굴단 D 합" 기준)의 분모다. */
 function instantDigIncomeRate(w: World): number {
   let sum = 0;
@@ -754,7 +754,7 @@ function settleAuctions(w: World, t0: number, dt: number) {
       w.funds += net;
       w.stats.sold += 1;
       demoteIfEmptied(w, listing.artifactId);
-      log(w, "system", `경매 낙찰 — '${ARTIFACT_BY_ID[listing.artifactId].name}' ${net.toLocaleString("ko-KR")}₩.`);
+      log(w, "system", `경매 낙찰 — '${ARTIFACT_BY_ID[listing.artifactId].name}' ${usd(net)}.`);
     }
   }
 }
@@ -1504,12 +1504,12 @@ function finalizeExpedition(w: World, team: ExpeditionTeam, returnedAt = w.t) {
   const d = teamDigPower(team.workers, team.gearLevel, foreman?.leadership ?? 0);
   const layer = w.sites[team.targetSite].layer;
   /**
-   * 노셔널 수입률(₩/s) — **DROP_INTERVAL_FLOOR_SECONDS 하한까지 반영한다**
+   * 노셔널 수입률($/s) — **DROP_INTERVAL_FLOOR_SECONDS 하한까지 반영한다**
    * (마무리 패스 버그 수정, notes/decisions.md G56). 이전엔 `d * PROGRESS_VALUE *
    * bonus / dropMod`로 직접 계산해 `dropThreshold()`가 실제 드랍 판정에 적용하는
    * 하한(드랍 1점당 최소 20초, §9.5)을 건너뛰었다 — dig power가 하한을 넘어서는
    * 순간(대략 d>1~2) 실제 드랍 빈도는 더 안 오르는데 노셔널 수입만 d에 비례해
-   * 무한정 커져, 팀 하나가 왕복 한 번에 수천만~수억 원을 청구당하고 그걸
+   * 무한정 커져, 팀 하나가 왕복 한 번에 수천만~수억 달러를 청구당하고 그걸
    * 못 갚아 funds가 영구히 마이너스로 고정되는 실측 버그로 이어졌다(실측: 발굴단
    * 파견을 실제로 쓰는 정책으로 48시간만 돌려도 funds가 -80억까지 떨어져
    * 이후 모든 성장이 멈췄다). `dropThreshold()`를 그대로 불러써 실제 판정과
@@ -1530,7 +1530,7 @@ function finalizeExpedition(w: World, team: ExpeditionTeam, returnedAt = w.t) {
   );
   w.funds -= cost;
   team.costMult = 1;
-  log(w, "system", `발굴단이 ${SITE_BY_ID[team.targetSite].city}에서 귀환했다. 원정비 ${cost.toLocaleString("ko-KR")}₩ 정산.`);
+  log(w, "system", `발굴단이 ${SITE_BY_ID[team.targetSite].city}에서 귀환했다. 원정비 ${usd(cost)} 정산.`);
 
   team.status = "idle";
   if (team.routine?.enabled) {
@@ -1802,7 +1802,7 @@ function appraisalStalled(w: World): boolean {
  * 않는다 — 처음엔 매 60초 경계마다 불렀는데, 이 함수가 파는 항목 수가 많은
  * 장시간 단일 `advance()` 호출(예: `qa_expedition.ts`의 왕복 원정 검증, 수십
  * 시간을 한 호출로 처리한다)에서는 사고파는 금액이 누적돼 `w.funds`가
- * 스텝 크기에 따라 실측 5천만~1억 원대로 벌어지는 걸 확인했다 — 여러 건이
+ * 스텝 크기에 따라 실측 5천만~1억 달러대로 벌어지는 걸 확인했다 — 여러 건이
  * 쌓이면 개별 드랍의 아주 작은 스텝-청크 잔차(G53.10)가 판매 대상·순서
  * 자체를 바꿔 그 금액만큼 누적 오차가 된다. `runAutoRoutine`(아래)을 통해
  * `applyOffline()`·`sim/run.ts`·UI 타이머에서만 부른다.
@@ -1867,7 +1867,7 @@ function autoLiquidatePendingOverflow(w: World) {
  *    "얼마나 살 수 있는가"가 지수 비용 곡선의 문턱이라 입력 funds의 아주
  *    작은 차이(같은 G53.10 잔차)가 "마지막으로 하나 더 살 수 있느냐"를
  *    갈라놓고, 그 한 건의 가격이 이미 커져 있어(반복 구매로 비용이 기하급수로
- *    자란 뒤라) 귀환 후 funds가 스텝 크기에 따라 수백만~천만 원대로 벌어지는
+ *    자란 뒤라) 귀환 후 funds가 스텝 크기에 따라 수백만~천만 달러대로 벌어지는
  *    회귀를 냈다(`qa_expedition.ts`의 0.1% funds 허용치를 실제로 깼다).
  *
  * 두 시도 다 "이 함수가 순수 엔진 루프(`advance()`) 경로에 있다"는 공통
@@ -1934,16 +1934,45 @@ export function autoInvestLegacyDig(w: World) {
 export function auctionSpares(w: World, tier: Tier | null): { count: number; listed: number } {
   const items = spareVaultItems(w, tier);
   if (items.length === 0 || w.auctionHouses.length === 0) return { count: 0, listed: 0 };
-  // 가격 배율이 높은 경매장부터 채운다(`VaultView`의 base 칩과 같은 기준).
-  const houses = [...w.auctionHouses].sort(
+  const { listed } = listManyAtAuction(w, items.map((i) => i.uid));
+  return { count: items.length, listed };
+}
+
+/** 가격 배율이 높은 순으로 정렬한 경매장(`VaultView`의 base 칩과 같은 기준) */
+function housesByPrice(w: World): AuctionHouse[] {
+  return [...w.auctionHouses].sort(
     (a, b) => auctionPriceMult(b.grade, auctioneerOf(w, b)?.negotiation ?? 0)
       - auctionPriceMult(a.grade, auctioneerOf(w, a)?.negotiation ?? 0)
   );
+}
+
+/** 그 경매장의 동시 출품 한도 — 등급 기본값 + 경매관장 물류 보너스 */
+function houseSlotCap(w: World, house: AuctionHouse): number {
+  const auctioneer = auctioneerOf(w, house);
+  return auctioneer
+    ? auctioneerSlotBonus(house.grade, auctioneer.logistics)
+    : AUCTION_SLOT_CAP_BY_GRADE[house.grade - 1];
+}
+
+/** 모든 경매장에 지금 남은 출품 자리 합. 다중 선택 화면이 "몇 점까지 올라가는가"를 미리 보여 준다 */
+export function auctionFreeSlots(w: World): number {
+  return w.auctionHouses.reduce((sum, h) => sum + Math.max(0, houseSlotCap(w, h) - h.listings.length), 0);
+}
+
+/**
+ * 고른 사본을 한 번에 경매에 올린다. 가격 배율이 높은 경매장부터 채우고, 자리가
+ * 다 차면 나머지는 금고에 그대로 둔다(`skipped`) — 직접매각으로 몰래 돌리지 않는다.
+ * 중복 자동 정리(`auctionSpares`)도 같은 함수를 탄다.
+ */
+export function listManyAtAuction(w: World, uids: Iterable<number>): { listed: number; skipped: number } {
+  const houses = housesByPrice(w);
   let listed = 0;
-  for (const item of items) {
-    if (houses.some((h) => listAtAuction(w, item.uid, h.site))) listed += 1;
+  let skipped = 0;
+  for (const uid of uids) {
+    if (houses.some((h) => listAtAuction(w, uid, h.site))) listed += 1;
+    else skipped += 1;
   }
-  return { count: items.length, listed };
+  return { listed, skipped };
 }
 
 function auctioneerOf(w: World, house: AuctionHouse): Auctioneer | undefined {
@@ -1971,7 +2000,7 @@ function autoSellVaultSpares(w: World) {
   }
   const { count, gained } = sellSpares(w, w.settings.autoSellSpareBelow);
   if (count === 0) return;
-  log(w, "system", `중복 유물 ${count}점을 정리해 ${won(gained)} ₩를 회수했다.`);
+  log(w, "system", `중복 유물 ${count}점을 정리했다(+${usd(gained)}).`);
 }
 
 export type VaultCarePlan =
@@ -2619,7 +2648,7 @@ export function advance(
  * 드랍·층 진행 속도(digPower) 자체를 바꿔 진행이 스텝 크기별로 갈라졌고,
  * (2) 잉여 처분·재투자 둘 다 지수 비용 곡선·다건 매각의 "문턱" 판단이라
  * 입력 funds의 아주 작은 차이(G53.10이 이미 문서화한 스텝-청크 잔차)가
- * 누적돼 귀환 후 funds가 스텝 크기에 따라 수천만 원대로 벌어졌다.
+ * 누적돼 귀환 후 funds가 스텝 크기에 따라 수천만 달러대로 벌어졌다.
  * `applyOffline()`은 실제 플레이어가 돌아왔을 때 딱 한 번만 불리고 이
  * 테스트들의 경로가 아니므로 안전하다. `sim/run.ts`는 자체 정책(`act()`)에서
  * 이 루틴을 직접 부른다(같은 이유로 `advance()`를 거치지 않는다) — 로직은
@@ -2783,6 +2812,86 @@ export function sellArtifactCopies(w: World, artifactId: string, count: number):
 }
 
 /**
+ * 소장고 다중 선택(v0.5.2)이 실제로 처분할 사본을 고른다. 화면은 **종 단위**로
+ * 고르고(소장고 그리드가 종별로 묶여 있다), 이 함수가 그 종들의 사본 중 무엇이
+ * 나가는지를 정한다 — `spareVaultItems`와 같은 이유로 화면이 규칙을 다시 구현하지
+ * 않게 하려는 것이다(표시한 점수와 실제로 나가는 점수가 같아야 한다, 척추 5번).
+ *
+ * - 전시 중 사본은 언제나 제외한다(다른 매각 경로와 같은 규율).
+ * - `keepOnePerSpecies`면 종마다 1점을 남긴다. 남길 사본은 중복 정리와 같은
+ *   `keeperOrder`(전시 중 > 평가액 높은 순 > uid)로 고른다 — 전시 사본이 있으면
+ *   그게 보존분이 되므로 나머지 비전시 사본은 전부 대상이다. 이 옵션이 있어야
+ *   "몽땅 팔았더니 도감이 줄었다"는 사고 없이 한 번에 정리할 수 있다.
+ * - 국보·유일도 막지 않는다. 플레이어가 직접 고른 것이라 자동 정리의 하드 예외와
+ *   성격이 다르다 — 대신 화면이 확인 단계에서 그 사실을 따로 적는다.
+ */
+export function bulkVaultTargets(
+  w: World, artifactIds: Iterable<string>, keepOnePerSpecies: boolean
+): VaultItem[] {
+  const wanted = new Set(artifactIds);
+  const bySpecies = new Map<string, VaultItem[]>();
+  for (const item of w.vault) {
+    if (!wanted.has(item.artifactId)) continue;
+    const list = bySpecies.get(item.artifactId);
+    if (list) list.push(item);
+    else bySpecies.set(item.artifactId, [item]);
+  }
+  const out: VaultItem[] = [];
+  for (const list of bySpecies.values()) {
+    const ordered = [...list].sort(keeperOrder);
+    const kept = keepOnePerSpecies ? ordered.slice(0, 1) : [];
+    for (const item of ordered) {
+      if (item.displayed || kept.includes(item)) continue;
+      out.push(item);
+    }
+  }
+  return out;
+}
+
+/**
+ * 이 사본들을 처분하면 내 소유에서 완전히 사라지는 종(도감 축에서 빠지는 종).
+ * 판정은 `demoteIfEmptied`와 같다 — 금고와 미감정 대기열 어디에도 사본이 남지
+ * 않을 때다. 다중 선택 화면이 "도감 −N종"을 처분 **전에** 보여 주는 데 쓴다.
+ */
+export function speciesEmptiedBy(w: World, uids: Iterable<number>): string[] {
+  const leaving = new Set(uids);
+  const candidates = new Set(w.vault.filter((v) => leaving.has(v.uid)).map((v) => v.artifactId));
+  return [...candidates].filter(
+    (id) => !w.vault.some((v) => v.artifactId === id && !leaving.has(v.uid))
+      && !w.pending.some((pd) => pd.artifactId === id)
+  );
+}
+
+/**
+ * 고른 사본을 한 번에 직접 매각한다. 채널은 1점 매각과 완전히 같다(`settleSale` —
+ * 지역시세 × 단장 급여 원천징수). 전시 중이거나 이미 금고를 떠난 uid는 조용히
+ * 건너뛴다 — 화면이 눌린 순간과 엔진이 처리하는 순간 사이에 경매·자동 정리가
+ * 끼어들 수 있다.
+ */
+export function sellVaultItems(w: World, uids: Iterable<number>): { count: number; gained: number } {
+  const wanted = new Set(uids);
+  if (wanted.size === 0) return { count: 0, gained: 0 };
+  const soldIds = new Set<string>();
+  let gained = 0;
+  let count = 0;
+  const keep: VaultItem[] = [];
+  for (const item of w.vault) {
+    if (!wanted.has(item.uid) || item.displayed) {
+      keep.push(item);
+      continue;
+    }
+    gained += settleSale(w, ARTIFACT_BY_ID[item.artifactId], item.value, item.diggerForemanId);
+    w.stats.sold += 1;
+    count += 1;
+    soldIds.add(item.artifactId);
+  }
+  w.vault = keep;
+  w.funds += gained;
+  for (const id of soldIds) demoteIfEmptied(w, id);
+  return { count, gained };
+}
+
+/**
  * 소장고 **중복분** 자동 매각의 대상 선정(v0.3.1, notes/decisions.md G68).
  * 엔진(`autoSellVaultSpares`)과 UI 미리보기(`VaultView`)가 **같은 이 함수**를
  * 쓴다 — 화면이 규칙을 따로 구현하면 "정리 대상 12점"과 실제로 팔리는 점수가
@@ -2841,28 +2950,10 @@ function keeperOrder(a: VaultItem, b: VaultItem): number {
  * 버튼을 대신 눌러 줄 뿐이어야 한다(척추 4번 "클릭은 언제나 선택").
  */
 export function sellSpares(w: World, tier: Tier | null): { count: number; gained: number } {
-  const spares = spareVaultItems(w, tier);
-  if (spares.length === 0) return { count: 0, gained: 0 };
-  const uids = new Set(spares.map((s) => s.uid));
-  const soldIds = new Set<string>();
-  let gained = 0;
-  const keep: VaultItem[] = [];
-  for (const item of w.vault) {
-    if (!uids.has(item.uid)) {
-      keep.push(item);
-      continue;
-    }
-    gained += settleSale(w, ARTIFACT_BY_ID[item.artifactId], item.value, item.diggerForemanId);
-    w.stats.sold += 1;
-    soldIds.add(item.artifactId);
-  }
-  w.vault = keep;
-  w.funds += gained;
-  // 종당 1점 보존이 지켜졌다면 이 호출은 전부 no-op이다. 그래도 부르는 건
-  // 다른 매각 경로와 같은 규율을 유지하기 위해서다 — 나중에 보존 규칙이
-  // 바뀌어도 도감이 조용히 어긋나지 않는다.
-  for (const id of soldIds) demoteIfEmptied(w, id);
-  return { count: uids.size, gained };
+  // 매각 자체는 다중 선택 매각과 같은 함수를 탄다. 그 안의 `demoteIfEmptied`는
+  // 종당 1점 보존이 지켜졌다면 전부 no-op이지만, 나중에 보존 규칙이 바뀌어도
+  // 도감이 조용히 어긋나지 않게 하는 같은 규율이다.
+  return sellVaultItems(w, spareVaultItems(w, tier).map((s) => s.uid));
 }
 
 export function sellTierAtMost(w: World, tier: Tier): number {
@@ -3042,11 +3133,7 @@ export function hireAuctioneer(w: World, site: SiteId, slot: number): string | n
 export function listAtAuction(w: World, uid: number, site: SiteId): boolean {
   const house = w.auctionHouses.find((a) => a.site === site);
   if (!house) return false;
-  const auctioneer = w.staff.find((s) => s.id === house.auctioneerId && s.role === "auctioneer") as Auctioneer | undefined;
-  const slotCap = auctioneer
-    ? auctioneerSlotBonus(house.grade, auctioneer.logistics)
-    : AUCTION_SLOT_CAP_BY_GRADE[house.grade - 1];
-  if (house.listings.length >= slotCap) return false;
+  if (house.listings.length >= houseSlotCap(w, house)) return false;
   const idx = w.vault.findIndex((v) => v.uid === uid);
   if (idx < 0 || w.vault[idx].displayed) return false;
   const [item] = w.vault.splice(idx, 1);

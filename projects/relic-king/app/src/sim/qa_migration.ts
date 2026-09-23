@@ -115,7 +115,7 @@ check("기존 보유 거점(korea)은 baseSince 0으로 보수적으로 채워�
 check("기존 미보유 거점(rome)은 baseSince null로 채워진다",
   migrated.sites.rome.unlocked === false && migrated.sites.rome.baseSince === null);
 // v0.3.4부터는 **빈 채로 두지 않는다.** 발굴단도 단장도 가져 본 적 없는 세이브는
-// 지금도 단장 고용비 200,000₩ 앞에 멈춰 있고, 그게 "탭만 열어 두면 2일차부터
+// 지금도 단장 고용비 $200,000 앞에 멈춰 있고, 그게 "탭만 열어 두면 2일차부터
 // 아무 일도 안 일어난다"의 직접 원인이다(notes/play-telemetry.md §1). 결함 수정이라
 // 기존 세이브에도 처방을 적용한다(v6→v7이 autoSellBelow를 올려 준 것과 같은 논리).
 check("발굴단도 단장도 없던 세이브에는 시작 발굴단이 지급된다",

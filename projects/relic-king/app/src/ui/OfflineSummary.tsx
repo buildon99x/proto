@@ -1,7 +1,7 @@
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import { APPRAISAL_UNLOCK_LAB_LEVEL, LOCKED_HOLD_CAP, SITE_BY_ID } from "../game/balance";
 import { codexProgress } from "../game/engine";
-import { duration, won } from "../game/format";
+import { duration, usd } from "../game/format";
 import type { RankSnapshot } from "./useGame";
 import type { Game } from "./useGame";
 
@@ -18,7 +18,7 @@ export function OfflineSummary({ game, onNavigate }: { game: Game; onNavigate: (
 
   /**
    * 부호를 그대로 쓴다. 예전엔 `Math.max(0, …)`로 잘라서, 복귀 직후 자동 재투자가
-   * 번 돈을 인부·장비·감정소에 써 버린 경우 **"유물 1,619점 발굴 · 자금 +0 ₩"** 처럼
+   * 번 돈을 인부·장비·감정소에 써 버린 경우 **"유물 1,619점 발굴 · 자금 +$0"** 처럼
    * 읽혔다(v0.3.2 실측). 벌지 못한 것과 벌어서 쓴 것은 전혀 다른 사건인데 화면이
    * 둘을 같은 문장으로 만들고 있었다 — spec.md §3.3 "복귀 요약은 손실을 숨기지
    * 않는다"는 이득도 지출도 숨기지 말라는 뜻이다.
@@ -91,10 +91,10 @@ export function OfflineSummary({ game, onNavigate }: { game: Game; onNavigate: (
 /** 자금 변화 한 줄. 줄어든 경우 그 이유(자동 재투자)를 같이 말한다 — 안 그러면
  *  "벌지 못했다"로 읽힌다. */
 function fundsLabel(delta: number, autoReinvest: boolean): string {
-  if (delta >= 0) return `자금 +${won(delta)} ₩ (급여·유지비 차감후)`;
+  if (delta >= 0) return `자금 +${usd(delta)} (급여·유지비 차감후)`;
   return autoReinvest
-    ? `자금 −${won(-delta)} ₩ — 번 자금을 자동 재투자가 인부·장비·감정소에 썼다`
-    : `자금 −${won(-delta)} ₩ (급여·유지비 차감후)`;
+    ? `자금 −${usd(-delta)} — 번 자금을 자동 재투자가 인부·장비·감정소에 썼다`
+    : `자금 −${usd(-delta)} (급여·유지비 차감후)`;
 }
 
 function rankLine(before: RankSnapshot, after: RankSnapshot): string {

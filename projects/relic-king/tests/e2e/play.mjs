@@ -339,7 +339,7 @@ async function scenarioFirstSession() {
       w.teams.every((t) => t.routine?.enabled && t.routine?.target === "auto"),
       JSON.stringify(w.teams.map((t) => t.routine)));
     c.note("⑤ 원정 — 두 번째 발굴단(슬롯 해금 EXPEDITION_TEAM_UNLOCK_BASE)",
-      `20분 시점 자금 ${fmt(Math.round(w.funds))}₩ · 슬롯 ${w.maxTeams}칸`);
+      `20분 시점 자금 $${fmt(Math.round(w.funds))} · 슬롯 ${w.maxTeams}칸`);
 
     c.note("첫 세션 마일스톤(게임초)", JSON.stringify(m));
     // brief.md §첫 세션이 20분 예산 안에 약속하는 것 — 거점·감정·전시·제보.
@@ -1052,6 +1052,89 @@ async function scenarioEffort() {
 }
 
 // ════════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════
+// S12. 소장고 다중 선택(v0.5.2) — 여러 종을 골라 한 번에 매각·경매 등록
+// ════════════════════════════════════════════════════════════════════════
+// 판정은 전부 엔진 상태에서 읽는다. 게임이 도는 중이라 새 드랍이 같은 종을 더
+// 들여올 수 있으므로, 점수는 "심어 둔 uid가 어디로 갔는가"로 센다.
+async function scenarioBulk() {
+  const c = makeChecks("bulk — 소장고 여러 개 선택");
+  await withApp({}, async (h) => {
+    await h.goto("/");
+    await h.ready();
+    await h.waitGame(150);
+    const seeded = await h.state();
+    const ids = [...new Set(seeded.vault.filter((v) => !v.displayed).map((v) => v.artifactId))].slice(0, 2);
+    await h.patchSave(`(w) => {
+      const ids = ${JSON.stringify(ids)};
+      let uid = 9_000_000;
+      for (const id of ids) {
+        const base = w.vault.find((v) => v.artifactId === id);
+        for (let k = 0; k < 3; k++) w.vault.push({ ...base, uid: uid++, displayed: false });
+        w.codex[id] = "owned";
+      }
+      w.settings.autoSellSpareBelow = null;
+      w.auctionHouses = [{ id: "auction-play", site: "korea", grade: 1, listings: [] }];
+      w.lastTickAt = Date.now();
+    }`);
+    await h.goto("/");
+    await h.ready();
+    await h.sleepReal(1200);
+    await h.clickText(".offline-modal button, .offline-toast button", "확인");
+    await dismissOnboarding(h);
+    const planted = await h.state();
+    c.ok("준비 — 두 종에 사본을 3점씩 더 심었다",
+      ids.length === 2 && ids.every((id) => planted.vault.filter((v) => v.artifactId === id).length >= 4),
+      ids.join(", "));
+
+    await h.tab("소장고");
+    const toggled = await h.clickText(".vault-main .select-toggle", "여러 개 선택");
+    c.ok("① 선택 모드 — 소장고 머리의 버튼으로 켠다", toggled && (await h.exists(".bulk-bar")));
+    c.ok("  … 켜면 상세 대신 처분 막대가 붙는다", !(await h.exists(".vault-main .detail")));
+
+    for (const id of ids) await h.click(`.vault-grid .stack[data-aid="${id}"]`);
+    const checks = await h.count(".vault-grid .stack.chosen .stack-check");
+    c.eq("② 칸 누르기 — 고른 칸에 체크 표시가 뜬다", checks, 2);
+    await h.shot("bulk-selected");
+
+    const before = await h.state();
+    const copies = (w, id) => w.vault.filter((v) => v.artifactId === id).length;
+    const expected = ids.reduce((n, id) => n + copies(before, id) - 1, 0);
+    const summary = (await h.text(".bulk-summary")) ?? "";
+    c.ok("  … 막대가 처분 점수를 미리 보여 준다(종당 1점 남기기 기본)",
+      summary.includes(`처분 ${expected}점`), summary.replace(/\s+/g, " "));
+
+    const sold = await h.clickText(".bulk-go", "매각");
+    const after = await h.state();
+    c.ok("③ 한 번에 매각 — 버튼 1탭으로 실행된다(도감 손실이 없으니 확인 단계 없음)", sold && !(await h.exists(".bulk-confirm")));
+    c.ok("  … 두 종 모두 1점씩만 남는다",
+      ids.every((id) => copies(after, id) === 1),
+      ids.map((id) => `${copies(before, id)}→${copies(after, id)}`).join(" · "));
+    c.ok("  … 자금이 늘고 도감은 그대로다",
+      after.funds > before.funds && ids.every((id) => after.codex[id] === "owned"),
+      `자금 ${fmt(before.funds)} → ${fmt(after.funds)}`);
+    c.ok("  … 결과 한 줄이 남는다", (await h.text(".bulk-notice"))?.includes("매각했다"));
+
+    // 남은 1점씩을 경매로 — 보존을 끄면 도감이 줄어드니 확인 한 줄이 끼어들어야 한다
+    for (const id of ids) await h.click(`.vault-grid .stack[data-aid="${id}"]`);
+    await h.click(".bulk-keep input");
+    await h.clickText(".bulk-go", "경매 등록");
+    const confirm = (await h.text(".bulk-confirm")) ?? "";
+    c.ok("④ 보존을 끄고 경매 — 도감 손실을 숫자로 적은 확인이 뜬다",
+      confirm.includes("도감에서 2종이 빠진다"), confirm.replace(/\s+/g, " ").slice(0, 80));
+    await h.shot("bulk-confirm");
+    await h.clickText(".bulk-confirm button", "그래도 경매 등록");
+    const listed = await h.state();
+    const house = listed.auctionHouses.find((a) => a.site === "korea");
+    c.ok("  … 확인하면 두 점이 경매에 오른다",
+      ids.every((id) => house?.listings.some((l) => l.artifactId === id)),
+      `출품 ${house?.listings.length ?? 0}점`);
+
+    await h.clickText(".vault-main .select-toggle", "선택 끝내기");
+    c.ok("⑤ 선택 끝내기 — 막대가 사라진다", !(await h.exists(".bulk-bar")));
+  });
+}
+
 const SCENARIOS = {
   loop: scenarioLoop,
   background: scenarioBackground,
@@ -1063,7 +1146,8 @@ const SCENARIOS = {
   rules: scenarioRules,
   floor: scenarioFloor,
   unique: scenarioUnique,
-  effort: scenarioEffort
+  effort: scenarioEffort,
+  bulk: scenarioBulk
 };
 
 async function main() {

@@ -577,7 +577,7 @@ for (const [label, runs] of [["운영", activeRuns], ["방치", idleRuns]] as co
     `(최악 ${worstLow(runs.map((r) => r.codex10m))}종) · ` +
     `제보 중앙 ${median(runs.map((r) => r.tipCount10m))}회 · ` +
     `발굴력 중앙 ${median(runs.map((r) => r.dig10m)).toFixed(0)}/s · ` +
-    `자금 중앙 ${median(runs.map((r) => r.funds10m)).toLocaleString("ko-KR")}₩ · ` +
+    `자금 중앙 $${median(runs.map((r) => r.funds10m)).toLocaleString("ko-KR")} · ` +
     `소장고 중앙 ${median(runs.map((r) => r.vault10m))}점`
   );
 }

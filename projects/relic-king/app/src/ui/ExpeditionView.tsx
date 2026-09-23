@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FIRST_RELOCATION_FREE_WINDOW_HOURS, RELOCATION_COOLDOWN_HOURS, RELOCATION_COST_ASSET_RATIO, SITES, SITE_BY_ID } from "../game/balance";
 import { playerAssets } from "../game/engine";
-import { josa, won } from "../game/format";
+import { josa, usd } from "../game/format";
 import { siteAnchorLabel } from "../game/sites";
 import type { SiteId } from "../game/types";
 import { DispatchSheet } from "./DispatchSheet";
@@ -87,7 +87,7 @@ function RelocateConfirm({ game, site, onClose }: { game: Game; site: SiteId; on
       <p className="muted small">
         {withinFreeWindow
           ? "최초 12시간 무료 변경 창 — 비용·쿨다운 없음."
-          : `비용 ${won(cost)} ₩(총자산의 ${Math.round(RELOCATION_COST_ASSET_RATIO * 100)}%) · 쿨다운 ${RELOCATION_COOLDOWN_HOURS / 24}일`}
+          : `비용 ${usd(cost)}(총자산의 ${Math.round(RELOCATION_COST_ASSET_RATIO * 100)}%) · 쿨다운 ${RELOCATION_COOLDOWN_HOURS / 24}일`}
       </p>
       <button type="button" disabled={onCooldown || world.funds < cost} onClick={() => { game.relocateBase(site); onClose(); }}>
         {onCooldown ? "쿨다운 중" : "확인"}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SITES, SITE_BY_ID } from "../game/balance";
 import { distanceKm, siteSubtitle, siteTitle } from "../game/sites";
 import { teamHomeSite, ownedSiteCap } from "../game/engine";
-import { won } from "../game/format";
+import { usd } from "../game/format";
 import type { Foreman, SiteId } from "../game/types";
 import { Modal } from "./Modal";
 import type { Game } from "./useGame";
@@ -81,7 +81,7 @@ export function DispatchSheet({ game, site, onClose }: { game: Game; site: SiteI
             onClose();
           }}
         >
-          이 거점을 새 본거지로 열기 — {won(def.unlockCost)} ₩
+          이 거점을 새 본거지로 열기 — {usd(def.unlockCost)}
         </button>
       ) : sp.unlocked ? null : (
         // 슬롯이 없어 못 여는 경우 — **이유와 여는 방법**을 그 자리에 적는다.

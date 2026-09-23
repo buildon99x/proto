@@ -26,7 +26,7 @@ import {
 import {
   advance, assetScore, click, codexProgress, codexScore, createPersistentRecord, createWorld, digPower, fameScore, fullRanking, playerAssets, ranking, rankScore
 } from "../game/engine";
-import { duration, won } from "../game/format";
+import { duration, usd } from "../game/format";
 import { addGhost, signCard } from "../game/rivalcard";
 import { auctioneerSlotBonus } from "../game/staff";
 import type { AuctionHouse, Auctioneer, PersistentRecord, SiteId, World } from "../game/types";
@@ -171,20 +171,20 @@ function main() {
   console.log(`이집트 해금      ${fmt(idle.marks.egypt)}`);
   console.log(
     `로마 해금        ${fmt(idle.marks.rome)}   ` +
-    `(비용 ${won(SITE_BY_ID.rome.unlockCost)} ₩, 최고 보유 자금 ${won(idle.peakFunds)} ₩)`
+    `(비용 ${usd(SITE_BY_ID.rome.unlockCost)}, 최고 보유 자금 ${usd(idle.peakFunds)})`
   );
   console.log(`12층 도달        ${fmt(idle.marks.deep12)}`);
   console.log(`첫 국보(T3)      ${fmt(idle.marks.firstT3)}`);
   console.log(`첫 유일(T4)      ${fmt(idle.marks.firstT4)}`);
   console.log(`엔딩(v0.2)       ${fmt(idle.marks.ending)}`);
-  console.log(`자산             ${won(playerAssets(w))} ₩   자산순위(v0.1식) ${rank.findIndex((r) => r.id === "player") + 1}위`);
+  console.log(`자산             ${usd(playerAssets(w))}   자산순위(v0.1식) ${rank.findIndex((r) => r.id === "player") + 1}위`);
   console.log(`도감             소장 ${codex.owned} / 소실 ${codex.lost} / 검증 총 ${codex.total}종  (${((codex.owned / codex.total) * 100).toFixed(0)}%, CODEX_GOAL_V2 ${CODEX_GOAL_V2 * 100}%)`);
   console.log(`발굴력(레거시)   ${digPower(w).toFixed(0)}/s   인부 ${w.workers} 장비 Lv.${w.gear} 감정소 Lv.${w.lab}`);
   console.log(`발굴단           ${w.teams.length}팀, 방문 거점 ${SITES.filter((s) => w.visitedSites[s.id]).length}/12`);
   console.log(`레이스           승 ${w.stats.racesWon} / 패 ${w.stats.racesLost}`);
   console.log("순위표(v0.1 자산 단독 기준 — 참고용, 실제 엔딩 판정은 RANK_SCORE 3축이다)");
   for (const r of rank) {
-    console.log(`  ${r.name.padEnd(8)} ${won(r.assets).padStart(10)} ₩   발굴력 ${r.dig.toFixed(0)}/s  추격 ×${r.catchup.toFixed(2)}`);
+    console.log(`  ${r.name.padEnd(8)} ${usd(r.assets).padStart(11)}   발굴력 ${r.dig.toFixed(0)}/s  추격 ×${r.catchup.toFixed(2)}`);
   }
 
   const err = ledgerOk(w);
@@ -221,8 +221,8 @@ function main() {
   // v0.2 3축 순위(spec.md §13.1) — 이제 엔딩 판정과 실제로 연결돼 있다(checkEnding).
   console.log("\n──────── v0.2 3축 순위(RANK_SCORE — 엔딩 판정에 실제로 쓰인다) ────────");
   console.log(
-    `자산 축   ${assetScore(w).toFixed(4)}   (전시 제외 자산 기준. 총자산 ${won(playerAssets(w))} ₩ / ` +
-    `ASSET_SCORE_REF ${won(ARTIFACT_WORLD_VALUE_CEILING * ASSET_SCORE_REF_SHARE)} ₩)`
+    `자산 축   ${assetScore(w).toFixed(4)}   (전시 제외 자산 기준. 총자산 ${usd(playerAssets(w))} / ` +
+    `ASSET_SCORE_REF ${usd(ARTIFACT_WORLD_VALUE_CEILING * ASSET_SCORE_REF_SHARE)})`
   );
   console.log(`도감 축   ${codexScore(w).toFixed(4)}   (${codex.owned}종 / 검증 총 ${codex.total}종)`);
   console.log(`명성 축   ${fameScore(w, record).toFixed(4)}   (누적 관람객 ${w.museumCumulativeVisitors.toFixed(0)}명, 유일 최초발굴 ${record.firstT4Finds + w.stats.firstT4Finds}회)`);

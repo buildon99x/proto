@@ -30,13 +30,14 @@ pnpm --filter relic-king dev         개발 서버
 pnpm --filter relic-king build       타입체크 + 빌드
 pnpm --filter relic-king sim         헤드리스 밸런스 시뮬 (--hours N [--ghosts N])
 pnpm --filter relic-king smoke       실시간 브라우저 스모크 + 스크린샷
-pnpm --filter relic-king play        실제 앱을 사람처럼 조작하는 UI 검사 (시나리오 11종)
+pnpm --filter relic-king play        실제 앱을 사람처럼 조작하는 UI 검사 (시나리오 12종)
 pnpm --filter relic-king playlog     플레이 계측 — 이벤트 타임라인·조작 노력 (--hours N, --bucket N분)
 pnpm --filter relic-king density     밀도 원장 — 첫 60초 5초 격자·첫 10분 30초 격자, 5시드 중앙/최악 (--seeds N, --tail-minutes N)
 
 pnpm --filter relic-king qa:sprites     아이콘 중복·거점 구분력·유일 12종 분리
 pnpm --filter relic-king qa:rivalcard   기록패·고스트 단위 검증(왕복·적대적 입력·격리)
 pnpm --filter relic-king qa:migration   세이브 마이그레이션 v1~v11
+pnpm --filter relic-king qa:bulk        소장고 다중 선택 처분(대상 선정·도감 보존·경매 자리)
 pnpm --filter relic-king sheets         컨택트 시트 굽기 → assets/generated/
 
 node scripts/build-worldmap.mjs           세계지도 해안선 베이크(생성 파일을 다시 굽는다)

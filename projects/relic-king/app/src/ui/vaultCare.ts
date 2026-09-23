@@ -1,5 +1,5 @@
 import { vaultCarePlan } from "../game/engine";
-import { won } from "../game/format";
+import { usd } from "../game/format";
 import type { World } from "../game/types";
 
 /**
@@ -16,10 +16,10 @@ export function vaultCareLine(world: World): string | null {
   if (plan.kind === "off") return `${head} 자동 재투자가 꺼져 있어 자동 대응도 쉰다 — 정원을 직접 늘리거나 중복분을 정리한다.`;
   if (plan.kind === "expand") {
     return plan.affordable
-      ? `${head} 한 칸 증축하면 풀린다 — 자동으로 산다(${won(plan.cost)} ₩).`
-      : `${head} 한 칸 증축하면 풀린다(${won(plan.cost)} ₩). 자금이 모이면 자동으로 산다.`;
+      ? `${head} 한 칸 증축하면 풀린다 — 자동으로 산다(${usd(plan.cost)}).`
+      : `${head} 한 칸 증축하면 풀린다(${usd(plan.cost)}). 자금이 모이면 자동으로 산다.`;
   }
   return plan.affordable
     ? `${head} 정원으로는 따라잡을 수 없다(수집품 자체가 정원을 넘었다) — 자동으로 습도조절을 Lv.${plan.level + 1}로 올려 저하를 상쇄한다.`
-    : `${head} 정원으로는 따라잡을 수 없다 — 습도조절 Lv.${plan.level + 1}(${won(plan.cost)} ₩)이 그 저하를 상쇄한다. 자금이 모이면 자동으로 오른다.`;
+    : `${head} 정원으로는 따라잡을 수 없다 — 습도조절 Lv.${plan.level + 1}(${usd(plan.cost)})이 그 저하를 상쇄한다. 자금이 모이면 자동으로 오른다.`;
 }

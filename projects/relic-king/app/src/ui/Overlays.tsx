@@ -1,6 +1,6 @@
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import { TIER_NAME } from "../game/balance";
-import { won } from "../game/format";
+import { usd } from "../game/format";
 import { TIER_COLOR, TIER_GLOW } from "../render/palette";
 import { Sprite } from "./Sprite";
 import type { Game } from "./useGame";
@@ -40,7 +40,7 @@ export function RevealModal({ game }: { game: Game }) {
         ) : (
           <>
             <h2>{a.name}</h2>
-            <p className="tier-line" style={{ color: TIER_COLOR[a.tier] }}>{TIER_NAME[a.tier]} · {won(game.reveal.value)} ₩</p>
+            <p className="tier-line" style={{ color: TIER_COLOR[a.tier] }}>{TIER_NAME[a.tier]} · {usd(game.reveal.value)}</p>
             <p className="muted small">{a.era} · {a.origin} · 현 소장처 {a.holder}</p>
             <p className="note">{a.note}</p>
             {a.disputed ? <p className="disputed">반환 논쟁 — {a.disputed}</p> : null}

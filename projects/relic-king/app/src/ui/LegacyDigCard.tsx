@@ -5,7 +5,7 @@ import {
 } from "../game/balance";
 import { digPower } from "../game/engine";
 import { isDropCeilingBound, isDropFloorBound } from "./Header";
-import { rate, won } from "../game/format";
+import { rate, usd } from "../game/format";
 import { STRATA_H, STRATA_W, drawStrata } from "../render/strata";
 import type { Game } from "./useGame";
 
@@ -113,7 +113,7 @@ function Upgrade({ label, detail, cost, funds, onBuy }: {
         <strong>{label}</strong>
         <em className="muted">{detail}</em>
       </span>
-      <span className="price">{won(cost)} ₩</span>
+      <span className="price">{usd(cost)}</span>
     </button>
   );
 }

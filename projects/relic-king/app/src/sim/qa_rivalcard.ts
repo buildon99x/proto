@@ -175,7 +175,7 @@ const ghostAfter = drainHost.rivals.find(isGhost)!;
 const remainAfter = ARTIFACTS.reduce((n, a) => n + (a.tier === 0 ? 0 : drainHost.ledger[a.id].remaining), 0);
 const npcTook = drainHost.rivals.filter((r) => !isGhost(r)).some((r) => r.owned.length > 0);
 check("고스트가 33시간 동안 실제로 성장했다", ghostAfter.owned.length > 0 && ghostAfter.vaultValue > 0,
-  `${ghostAfter.owned.length}종 / ${Math.round(ghostAfter.vaultValue).toLocaleString()}₩`);
+  `${ghostAfter.owned.length}종 / $${Math.round(ghostAfter.vaultValue).toLocaleString()}`);
 check("NPC는 같은 기간에 내 원장에서 가져갔다(비교군)", npcTook && remainAfter < remainBefore);
 check("고스트가 가져간 종은 내 원장에 그대로 남아 있다",
   ghostAfter.owned.every((id) => drainHost.ledger[id].owners.every((o) => o !== ghostAfter.id)));

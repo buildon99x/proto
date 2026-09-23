@@ -47,7 +47,7 @@ export function layerCost(site: SiteId, layer: number): number {
 }
 
 /**
- * 진척 1당 기대 수입(₩). 드랍 임계를 이 값에 묶어 두면 깊이가 돈을 불려 주지 않는다.
+ * 진척 1당 기대 수입($). 드랍 임계를 이 값에 묶어 두면 깊이가 돈을 불려 주지 않는다.
  * **깊이는 유물의 희소성을 열지, 수입을 늘리지 않는다** — 수입은 발굴력에서만 나온다.
  * 이게 없으면 깊이 × 발굴력이 곱해져 방치형 특유의 폭주가 난다(시뮬로 확인).
  */
@@ -867,7 +867,14 @@ export const MUSEUM_POP_CONTRIB_CAP = 4.0;
 export const MUSEUM_RARITY_COEFF = 0.03;
 export const RARITY_WEIGHT = [1, 3, 10, 40, 200] as const;
 export const MUSEUM_RARITY_CONTRIB_CAP = 15.0;
-export const MUSEUM_TICKET_PRICE = 20_000;
+/**
+ * 관람객 1명당 관람료($). 현실 대형 박물관 성인 입장료 수준이다(메트로폴리탄 미술관
+ * 성인 $30). v0.5.1까지는 20,000(원화 시절 값)이라 달러로 읽으면 1명당 $20,000이었다
+ * (notes/decisions.md G84). 이 값으로는 박물관이 사실상 돈을 벌지 않는다 — 건립비
+ * 회수에 15년이 넘게 걸린다(spec.md §10.3). 박물관은 명성의 주축이지 자금원이 아니라는
+ * G5의 원래 정의 쪽으로 돌아간 것이고, 엔딩 시각은 움직이지 않는다(eval.md §28).
+ */
+export const MUSEUM_TICKET_PRICE = 30;
 export const MUSEUM_MARKETING_COEFF = 0.08;
 export const MUSEUM_MARKETING_LEVEL_CAP = 10;
 export const MUSEUM_MAX_COUNT = 3;

@@ -121,7 +121,7 @@ console.log("\n──────── 2. 무위험 차익(암시장 매입 →
   blindSell(w, pendingItem.uid);
   const resale = w.funds - fundsAfterBuy;
   const roundTrip = (resale - cost) / cost;
-  console.log(`매입가 ${cost.toLocaleString("ko-KR")}₩ → 즉시매각가 ${resale.toLocaleString("ko-KR")}₩  (순손익 ${pct(roundTrip)})`);
+  console.log(`매입가 $${cost.toLocaleString("ko-KR")} → 즉시매각가 $${resale.toLocaleString("ko-KR")}  (순손익 ${pct(roundTrip)})`);
   check("암시장 매입 → 즉시 미감정매각은 항상 손해다(무위험 차익 없음, G42/A5)", roundTrip < 0);
   check("손실폭이 이론치(-6.7%)와 근접하다", Math.abs(roundTrip - (BLIND_SELL_RATE / BLACK_MARKET_BUY_PRICE_RATIO - 1)) < 0.01);
 }
@@ -178,10 +178,10 @@ console.log("\n──────── 3. 박물관 순수익 30% 캡 ───
   advance(w, 3600, false, 10); // 1시간 더 — 이 구간의 자금 증가는 거의 전부 박물관 순수익이다(발굴력 최소)
   const fundsAfter = w.funds;
   const delta = fundsAfter - fundsBefore;
-  console.log(`발굴 잠재수입(EMA) ${w.museumDigEma.toFixed(2)}₩/s → 캡 ${capHourly.toLocaleString("ko-KR")}₩/h`);
-  console.log(`1시간 자금 증가량 ${delta.toLocaleString("ko-KR")}₩(발굴력 최소라 대부분 박물관 순수익)`);
+  console.log(`발굴 잠재수입(EMA) $${w.museumDigEma.toFixed(2)}/s → 캡 $${capHourly.toLocaleString("ko-KR")}/h`);
+  console.log(`1시간 자금 증가량 $${delta.toLocaleString("ko-KR")}(발굴력 최소라 대부분 박물관 순수익)`);
   check("1시간 자금 증가가 캡(여유 5%)을 넘지 않는다", delta <= capHourly * 1.05 + 1);
-  check(`캡이 실제로 유의미한 크기로 작동한다(사문 조항 아님, 캡 ${capHourly.toFixed(0)}₩/h > 0)`, capHourly > 0);
+  check(`캡이 실제로 유의미한 크기로 작동한다(사문 조항 아님, 캡 $${capHourly.toFixed(0)}/h > 0)`, capHourly > 0);
 }
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -307,7 +307,7 @@ for (let t = 0; t < HOURS * 3600; t += STEP) {
   }
 }
 
-console.log(`최종 자금 ${w.funds.toLocaleString("ko-KR")}₩   누적 실현소득(근사) ${cum.toLocaleString("ko-KR")}₩`);
+console.log(`최종 자금 $${w.funds.toLocaleString("ko-KR")}   누적 실현소득(근사) $${cum.toLocaleString("ko-KR")}`);
 console.log(`박물관 ${w.museums.length}관(최고등급 ${Math.max(0, ...w.museums.map((m) => m.grade))})   경매장 ${w.auctionHouses.length}곳   보관소 Lv.${w.vaultLevel}   습도 Lv.${w.humidityLevel}   복원 Lv.${w.restorationLevel}   보안 Lv.${w.securityLevel}`);
 console.log(`암시장 누적 매물 ${w.blackMarket.listings.length}점   도난 사건(진행 중) ${w.theftEvents.length}건`);
 
@@ -383,8 +383,8 @@ const half = Math.floor(cumulative.length / 2);
 const firstHalfGrowth = cumulative[half] - cumulative[0];
 const secondHalfGrowth = cumulative[cumulative.length - 1] - cumulative[half];
 const halfRatio = firstHalfGrowth > 0 ? secondHalfGrowth / firstHalfGrowth : NaN;
-console.log(`\n전반부(0~${half}h) 실현소득 증가 ${firstHalfGrowth.toLocaleString("ko-KR")}₩`);
-console.log(`후반부(${half}~${cumulative.length - 1}h) 실현소득 증가 ${secondHalfGrowth.toLocaleString("ko-KR")}₩  (비율 ×${halfRatio.toFixed(2)}, 참고용 — 아래 분기별 판정이 실제 게이트다)`);
+console.log(`\n전반부(0~${half}h) 실현소득 증가 $${firstHalfGrowth.toLocaleString("ko-KR")}`);
+console.log(`후반부(${half}~${cumulative.length - 1}h) 실현소득 증가 $${secondHalfGrowth.toLocaleString("ko-KR")}  (비율 ×${halfRatio.toFixed(2)}, 참고용 — 아래 분기별 판정이 실제 게이트다)`);
 console.log(
   "참고: 이 정책(보관소·습도·복원·보안을 공격적으로 max까지 사는 스트레스 테스트)에서" +
   " 후반부가 훨씬 큰 건 두 가지 **기존에 이미 검증된** 램프업이 겹쳐서다 — " +
@@ -403,7 +403,7 @@ const q = Math.floor(cumulative.length / 4);
 const q3Growth = cumulative[3 * q] - cumulative[2 * q];
 const q4Growth = cumulative[cumulative.length - 1] - cumulative[3 * q];
 const lateRatio = q3Growth > 0 ? q4Growth / q3Growth : NaN;
-console.log(`3분기(${2 * q}~${3 * q}h) 증가 ${q3Growth.toLocaleString("ko-KR")}₩   4분기(${3 * q}~${cumulative.length - 1}h) 증가 ${q4Growth.toLocaleString("ko-KR")}₩  (비율 ×${lateRatio.toFixed(2)})`);
+console.log(`3분기(${2 * q}~${3 * q}h) 증가 $${q3Growth.toLocaleString("ko-KR")}   4분기(${3 * q}~${cumulative.length - 1}h) 증가 $${q4Growth.toLocaleString("ko-KR")}  (비율 ×${lateRatio.toFixed(2)})`);
 check(
   "후반부(3→4분기) 증가율이 더 이상 가속하지 않는다(램프업이 끝나고 정체 — 화폐 복제 루프라면 계속 가속해야 한다)",
   !isNaN(lateRatio) && lateRatio <= 3
