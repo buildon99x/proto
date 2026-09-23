@@ -1100,10 +1100,16 @@ async function scenarioBulk() {
     // 남은 1점씩을 경매로 — 보존을 끄면 도감이 줄어드니 확인 한 줄이 끼어들어야 한다
     for (const id of ids) await h.click(`.vault-grid .stack[data-aid="${id}"]`);
     await h.click(".bulk-keep input");
+    // 게임이 도는 중이라 같은 종의 새 사본이 미감정 대기열에 들어올 수 있고, 그 종은
+    // 도감에서 빠지지 않는다(엔진 `speciesEmptiedBy`가 대기열까지 본다). 기대값을 "2종"으로
+    // 박아 두면 그 경우를 결함으로 읽는다 — 실제로 한 번 그렇게 깨졌다(eval.md §29).
+    const beforeAuction = await h.state();
+    const emptied = ids.filter((id) => !beforeAuction.pending.some((p) => p.artifactId === id)).length;
     await h.clickText(".bulk-go", "경매 등록");
     const confirm = (await h.text(".bulk-confirm")) ?? "";
     c.ok("④ 보존을 끄고 경매 — 도감 손실을 숫자로 적은 확인이 뜬다",
-      confirm.includes("도감에서 2종이 빠진다"), confirm.replace(/\s+/g, " ").slice(0, 80));
+      emptied > 0 && confirm.includes(`도감에서 ${emptied}종이 빠진다`),
+      `기대 ${emptied}종 · ${confirm.replace(/\s+/g, " ").slice(0, 80)}`);
     await h.shot("bulk-confirm");
     await h.clickText(".bulk-confirm button", "그래도 경매 등록");
     const listed = await h.state();
