@@ -338,8 +338,8 @@ async function scenarioFirstSession() {
     c.ok("⑤ 원정 — 그 팀은 자동 순회 루틴을 켠 채다(한 거점에 갇히지 않는다)",
       w.teams.every((t) => t.routine?.enabled && t.routine?.target === "auto"),
       JSON.stringify(w.teams.map((t) => t.routine)));
-    c.note("⑤ 원정 — 두 번째 발굴단(슬롯 해금 5,000만₩)",
-      `20분 시점 자금 ${fmt(Math.round(w.funds))}₩ · 슬롯 ${w.maxTeams}칸`);
+    c.note("⑤ 원정 — 두 번째 발굴단(슬롯 해금 $5,000만)",
+      `20분 시점 자금 $${fmt(Math.round(w.funds))} · 슬롯 ${w.maxTeams}칸`);
 
     c.note("첫 세션 마일스톤(게임초)", JSON.stringify(m));
     // brief.md §첫 세션이 20분 예산 안에 약속하는 것 — 거점·감정·전시·제보.
