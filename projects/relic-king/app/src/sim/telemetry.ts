@@ -59,6 +59,30 @@ export type EventKind =
   | "seasonRollover"
   | "ending";
 
+/**
+ * **반복 이벤트** — 화면이 움직이긴 하지만 하나하나를 기억하지는 않는 것들.
+ * 드랍 주기가 하한에 걸려 시간당 수백 건으로 나온다(실측).
+ */
+export const AMBIENT: EventKind[] = [
+  "drop", "appraised", "sold", "blindSold", "auctionSettled", "auctionListed"
+];
+
+/**
+ * **의미 있는 이벤트** — 플레이어가 "아, 뭔가 일어났다"고 기억할 만한 것.
+ * 재미 정의 3문장이 걸리는 자리가 전부 여기 있다: 신규 종(③ 실존의 무게),
+ * 레이스·상실(② 선점의 스릴), 유일 최초 획득(① 배타적 소유).
+ * 지루함은 "아무 일도 없다"가 아니라 **이 목록이 비어 있는 시간**이다.
+ *
+ * 밀도 원장(A축)이 "23종 중 몇 종"을 셀 때 쓰는 분모가 이 배열의 길이다 —
+ * `playlog`와 `density`가 같은 목록을 봐야 두 계측이 같은 게임을 말한다.
+ */
+export const MEANINGFUL: EventKind[] = [
+  "newSpecies", "layerUp", "tipOpened", "raceWon", "raceLost", "lostToRival", "firstT4",
+  "siteUnlocked", "teamSlotUnlocked", "foremanHired", "teamDispatched", "teamReturned",
+  "displayed", "museumBuilt", "museumUpgraded", "auctionBuilt", "curatorHired",
+  "theft", "theftResolved", "vaultOverflow", "sealedBacklog", "seasonRollover", "ending"
+];
+
 export type PlayEvent = {
   t: number;
   kind: EventKind;
@@ -106,7 +130,15 @@ function snap(w: World): Snap {
     foremen: w.staff.filter((s) => s.role === "foreman").length,
     teamWorkers: w.teams.reduce((a, t) => a + t.workers, 0),
     teamGear: w.teams.reduce((a, t) => a + t.gearLevel, 0),
-    teamStatuses: w.teams.map((t) => `${t.id}:${t.status}`).join(","),
+    /**
+     * `id:status:dispatchedAt`. **파견 시각을 같이 들고 다니는 이유**: 루틴이
+     * 켜진 팀은 `finalizeExpedition`이 귀환 정산과 재파견을 **같은 틱에** 하므로
+     * status만 보면 `on_site → traveling_out`으로만 보이고, 귀환도 파견도 둘 다
+     * 사라진다(v0.6 실측 — 첫 10분 A축에서 "귀환"이 통째로 없었다). 거리 0
+     * 원정은 같은 틱에 도착까지 해서 `idle → on_site`가 된다. 두 경우 모두
+     * `dispatchedAt`이 바뀌는 것으로 잡힌다.
+     */
+    teamStatuses: w.teams.map((t) => `${t.id}:${t.status}:${t.dispatchedAt}`).join(","),
     displayed: w.vault.filter((v) => v.displayed).length,
     museums: w.museums.map((m) => `${m.site}:${m.grade}:${m.marketingLevel}`).join(","),
     auctionHouses: w.auctionHouses.map((a) => `${a.site}:${a.grade}`).join(","),
@@ -117,7 +149,7 @@ function snap(w: World): Snap {
     theftIds: w.theftEvents.map((e) => e.id).join(","),
     tipId: w.tip ? `${w.tip.artifactId}@${w.tip.site}` : null,
     season: w.seasonState.season, ended: w.ended,
-    overflow: stored > vaultCapacity(w.vaultLevel),
+    overflow: stored > vaultCapacity(w.vaultLevel, codexProgress(w).owned),
     sealedOver: sealed >= LOCKED_HOLD_CAP,
     layers
   };
@@ -199,15 +231,29 @@ export class PlayRecorder {
 
     // 파견·귀환은 상태 문자열이 바뀐 팀 수로 센다
     if (cur.teamStatuses !== p.teamStatuses) {
-      const before = new Map(p.teamStatuses.split(",").filter(Boolean).map((s) => s.split(":") as [string, string]));
+      const parse = (s: string) =>
+        new Map(
+          s.split(",").filter(Boolean).map((e) => {
+            const [id, status, at] = e.split(":");
+            return [id, { status, at: Number(at) }] as const;
+          })
+        );
+      const before = parse(p.teamStatuses);
       let dispatched = 0;
       let returned = 0;
-      for (const entry of cur.teamStatuses.split(",").filter(Boolean)) {
-        const [id, status] = entry.split(":");
+      for (const [id, now] of parse(cur.teamStatuses)) {
         const was = before.get(id);
-        if (was === status) continue;
-        if (status === "traveling_out") dispatched++;
-        else if (status === "idle" && was) returned++;
+        if (!was) continue; // 새로 꾸려진 팀은 foremanHired 쪽에서 센다
+        // 세계 생성 직후의 첫 파견은 `dispatchedAt`이 0에서 0으로 그대로라
+        // 시각 비교로는 안 잡힌다 — 그 경우만 상태 전이로 받는다.
+        if (now.at > was.at || (was.status === "idle" && now.status !== "idle")) {
+          dispatched++;
+          // 재파견은 곧 직전 회차가 끝났다는 뜻이다(유휴 상태로 새로 나가는
+          // 첫 회차만 예외).
+          if (was.status !== "idle") returned++;
+        } else if (now.status === "idle" && was.status !== "idle") {
+          returned++;
+        }
       }
       this.push(t, "teamDispatched", phase, dispatched);
       this.push(t, "teamReturned", phase, returned);

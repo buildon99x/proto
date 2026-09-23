@@ -20,7 +20,8 @@
  */
 import { ARTIFACTS, ARTIFACT_BY_ID } from "../game/artifacts";
 import {
-  ARTIFACT_WORLD_VALUE_CEILING, ASSET_SCORE_REF_SHARE, CODEX_GOAL_V2, LAYERS_PER_SITE, RANK_WEIGHT, SITES, layerCost
+  ARTIFACT_WORLD_VALUE_CEILING, ASSET_SCORE_REF_SHARE, CODEX_GOAL_V2, LAYERS_PER_SITE, RANK_WEIGHT,
+  SITES, SITE_BY_ID, layerCost
 } from "../game/balance";
 import {
   advance, assetScore, click, codexProgress, codexScore, createPersistentRecord, createWorld, digPower, fameScore, fullRanking, playerAssets, ranking, rankScore
@@ -168,7 +169,10 @@ function main() {
   console.log(`첫 유물 드랍     ${fmt(idle.marks.firstDrop)}   (기준 40초 이내)`);
   console.log(`20분 내 드랍     ${idle.dropsIn20}점, 평균 간격 ${idle.avgGap.toFixed(1)}초   (기준 300초 이하)`);
   console.log(`이집트 해금      ${fmt(idle.marks.egypt)}`);
-  console.log(`로마 해금        ${fmt(idle.marks.rome)}   (비용 3억, 최고 보유 자금 ${usd(idle.peakFunds)})`);
+  console.log(
+    `로마 해금        ${fmt(idle.marks.rome)}   ` +
+    `(비용 ${usd(SITE_BY_ID.rome.unlockCost)}, 최고 보유 자금 ${usd(idle.peakFunds)})`
+  );
   console.log(`12층 도달        ${fmt(idle.marks.deep12)}`);
   console.log(`첫 국보(T3)      ${fmt(idle.marks.firstT3)}`);
   console.log(`첫 유일(T4)      ${fmt(idle.marks.firstT4)}`);

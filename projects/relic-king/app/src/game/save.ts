@@ -1,10 +1,9 @@
 import { ARTIFACTS, ARTIFACT_BY_ID } from "./artifacts";
 import {
   CONDITION_INITIAL_BASE_BY_TIER, MAX_EXPEDITION_TEAMS_INITIAL, RESTORATION_BASE_HOURS,
-  SEASON_LENGTH_WEEKS, SITES
-} from "./balance";
+  SEASON_LENGTH_WEEKS, SITES, SITE_BY_ID, TIP_MIN_RESPONSE_SECONDS, layerCost, CONDITION_TICK_SECONDS } from "./balance";
 import { createPersistentRecord, createWorld, grantStartingTeam, nextUid } from "./engine";
-import type { PersistentRecord, World } from "./types";
+import type { PersistentRecord, SiteId, World } from "./types";
 
 // 키 이름의 "v1"은 고정된 네임스페이스 라벨일 뿐 스키마 버전이 아니다(spec.md §2.9) —
 // 실제 스키마 버전은 페이로드 내부의 `version` 필드가 맡고, 마이그레이션 체인이
@@ -220,7 +219,49 @@ const MIGRATIONS: Record<number, Migration> = {
       ...t,
       routine: t.routine ?? { enabled: true, target: "auto" }
     }))
-  })
+  }),
+  /**
+   * v10 → v11 (v0.6 첫 세션 밀도 패스 — 페이싱 재설계).
+   *
+   * 두 가지를 옮긴다.
+   *
+   * **① 층 진척의 눈금이 바뀌었다.** `layerCost`가 `300 × 2.45^(L-1)`에서
+   * `8 × 2.1^(L-1)`로 압축됐다. 옛 세이브의 `layerProgress`는 옛 눈금의 값이라
+   * 그대로 두면 6층에 12,054(옛 기준 절반)을 들고 있던 플레이어가 **한 틱에
+   * 12층까지 뚫는다.** 그래서 "이 층을 얼마나 팠는가"의 **비율**을 보존해
+   * 새 눈금으로 환산한다.
+   *
+   * 옛 상수를 여기에 **박아 둔다**(`layerCost`를 부르지 않는다). 마이그레이션은
+   * 그 버전의 세계를 재현하는 기록이라, 살아 있는 상수를 참조하면 다음 압축
+   * 때 과거가 같이 움직인다 — 이 레포가 G81에서 비싸게 배운 것과 같은 종류의
+   * 사고다("번호의 뜻을 바꾸지 마라").
+   *
+   * **② 제보 배너에 `openedAt`이 생겼다**(반응 유예의 기준). 저장 당시 떠 있던
+   * 배너는 **유예를 이미 다 쓴 것으로** 친다 — 진행 중이던 제보의 규칙을
+   * 도중에 바꾸지 않는다(그 판은 옛 규칙으로 끝나는 게 맞다).
+   */
+  10: (raw: any) => {
+    const OLD_LAYER_BASE = 300;
+    const OLD_LAYER_GROWTH = 2.45;
+    const oldCost = (mod: number, layer: number) =>
+      OLD_LAYER_BASE * Math.pow(OLD_LAYER_GROWTH, layer - 1) * mod;
+    const sites: any = {};
+    for (const [id, st] of Object.entries<any>(raw.sites ?? {})) {
+      const mod = SITE_BY_ID[id as SiteId]?.layerCostMod ?? 1;
+      const layer = Number(st?.layer ?? 1);
+      const before = oldCost(mod, layer);
+      const ratio = before > 0 ? Math.min(1, Math.max(0, Number(st?.layerProgress ?? 0) / before)) : 0;
+      sites[id] = { ...st, layerProgress: ratio * layerCost(id as SiteId, layer) };
+    }
+    return {
+      ...raw,
+      version: 11,
+      sites,
+      tip: raw.tip
+        ? { ...raw.tip, openedAt: Number(raw.t ?? 0) - TIP_MIN_RESPONSE_SECONDS, resolved: raw.tip.resolved ?? null }
+        : raw.tip
+    };
+  }
 };
 
 function storage(): Storage | null {
@@ -248,6 +289,13 @@ function reviveUids(w: World) {
  * 세이브 소실은 방치형에서 곧 게임 종료다(`notes/mda.md` §5).
  */
 function ensureShape(w: World) {
+  // 보존 판정 격자가 86400초 → CONDITION_TICK_SECONDS로 바뀌었다(v0.6.3, G93).
+  // 옛 세이브의 `lastConditionDay`는 **하루 인덱스**라 새 격자에서는 과거를 가리키고,
+  // 그대로 두면 불러오는 순간 한 번 더 저하가 굴러간다. 플레이어에게 불리한 쪽으로
+  // 기울지 않게 현재 격자로 **앞으로 민다**(세이브 버전은 올리지 않는다 — 진행·원장
+  // 어느 것도 이 값에 걸려 있지 않고, 기본값이 안전하다).
+  const tick = Math.floor((w.t ?? 0) / CONDITION_TICK_SECONDS);
+  if (!Number.isFinite(w.lastConditionDay) || w.lastConditionDay < tick) w.lastConditionDay = tick;
   if (!Array.isArray(w.log)) w.log = [];
   if (!Array.isArray(w.teams)) w.teams = [];
   if (!Array.isArray(w.staff)) w.staff = [];

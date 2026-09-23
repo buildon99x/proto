@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { MAX_OWNED_SITES, SITES, SITE_BY_ID } from "../game/balance";
+import { SITES, SITE_BY_ID } from "../game/balance";
 import { distanceKm, siteSubtitle, siteTitle } from "../game/sites";
-import { teamHomeSite } from "../game/engine";
+import { teamHomeSite, ownedSiteCap } from "../game/engine";
 import { usd } from "../game/format";
 import type { Foreman, SiteId } from "../game/types";
 import { Modal } from "./Modal";
@@ -23,7 +23,9 @@ export function DispatchSheet({ game, site, onClose }: { game: Game; site: SiteI
   const home = teamHomeSite(world);
   const dist = distanceKm(home, site);
   const ownedCount = SITES.filter((s) => world.sites[s.id].unlocked).length;
-  const canOpenBase = !sp.unlocked && ownedCount < MAX_OWNED_SITES;
+  // base 슬롯 상한은 안목(전체 도감 비율)이 연다 — 화면도 같은 함수를 쓴다(G91)
+  const slotCap = ownedSiteCap(world);
+  const canOpenBase = !sp.unlocked && ownedCount < slotCap;
 
   return (
     <Modal
@@ -81,7 +83,14 @@ export function DispatchSheet({ game, site, onClose }: { game: Game; site: SiteI
         >
           이 거점을 새 본거지로 열기 — {usd(def.unlockCost)}
         </button>
-      ) : null}
+      ) : sp.unlocked ? null : (
+        // 슬롯이 없어 못 여는 경우 — **이유와 여는 방법**을 그 자리에 적는다.
+        // 예전에는 버튼이 그냥 사라져서 "왜 못 여는지"가 화면 어디에도 없었다.
+        <p className="muted small">
+          본거지 슬롯 {ownedCount}/{slotCap} — 다 찼다. 여기는 <strong>원정</strong>으로 캔다
+          (원정은 12거점 어디든 항상 갈 수 있다). 본거지를 옮기려면 보유 base가 1곳일 때만 가능하다.
+        </p>
+      )}
     </Modal>
   );
 }

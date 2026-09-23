@@ -10,7 +10,7 @@
  * 독립된 월드를 같은 시드에서 만들어 같은 원정을 보낸 뒤, 귀환까지 전부 끝날
  * 때까지 적분해 최종 상태를 비교한다.
  */
-import { distanceKm } from "../game/balance";
+import { EXPEDITION_ONSITE_RATIO, EXPEDITION_SPEED_KMH, distanceKm } from "../game/balance";
 import {
   advance, buyTeamGear, buyTeamWorker, createTeam, createWorld, dispatchExpedition, hireForeman
 } from "../game/engine";
@@ -46,6 +46,15 @@ function setupDispatched(): World {
   // 스텝 무관성이 아니므로(그건 이미 사용 중인 다른 스텝-청크 잔차, G53.10과 같은
   // 부류이고 qa_economy.ts가 별도로 다룬다), 꺼서 잡음을 걷어낸다.
   w.settings.autoSellBelow = null;
+  // **감정 수수료도 같은 이유로 걷어낸다**(v0.6). 이 테스트가 재는 것은 원정비·
+  // 귀환 정산의 스텝 무관성인데, v0.6의 깊이 압축 뒤로는 층 10~12의 감정 수수료가
+  // 1건에 8천₩대이고 자동매각이 꺼져 있어 수입이 0이라, 20시간이면 수수료만으로
+  // funds가 −1,200만₩까지 내려간다. 그러면 "funds 0.1% 이내"라는 단언이 사실상
+  // **감정 큐가 자금 고갈 경계를 언제 넘느냐**를 재게 된다 — 실측에서 딱 3건의
+  // 감정 완료 차이(24,450₩)가 그 전부였다. 무료 감정권을 넉넉히 줘 수수료 경로를
+  // 통째로 빼면, 남는 funds 변동은 원정비 정산 하나뿐이다(기준을 낮추는 게 아니라
+  // 재려는 것만 남기는 쪽 — `notes/decisions.md` G80.2).
+  w.appraisalVouchers = 1_000_000;
   // v0.3.4부터 새 월드에는 시작 발굴단 1팀이 이미 파견된 채로 온다. 이 테스트는
   // **원정 한 회차**의 스텝 무관성을 보는 것이라 그 팀을 비우고 통제된 조건으로
   // 다시 꾸린다 — 시작 발굴단 자체는 qa_migration·playlog가 따로 본다.
@@ -72,7 +81,12 @@ const dist = distanceKm("korea", TARGET);
 console.log(`대상: korea → ${TARGET} (${dist.toFixed(0)}km)`);
 
 // 총 왕복 소요(항해술 미반영 상한선)를 넉넉히 덮는 시간까지 적분한다.
-const totalSeconds = Math.ceil(((2 * dist) / 400 + (dist / 400) * 3 + 1) * 3600) + 3600;
+// **속도는 상수에서 읽는다**(v0.6) — 400이 손으로 박혀 있어서, v0.6이
+// `EXPEDITION_SPEED_KMH`를 3,000으로 올리자 이 창이 실제 왕복의 7.5배가 됐다.
+// 그러면 "루틴 재파견 2회"라고 적어 둔 블록이 실제로는 16회를 돌려 단언의
+// 전제가 통째로 달라진다(낡은 전제이지 틀린 단언이 아니다 — G80.2).
+const oneWayHours = dist / EXPEDITION_SPEED_KMH;
+const totalSeconds = Math.ceil((2 * oneWayHours + oneWayHours * EXPEDITION_ONSITE_RATIO + 1) * 3600) + 3600;
 
 const a = setupDispatched();
 const b = setupDispatched();

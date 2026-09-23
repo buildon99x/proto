@@ -11,11 +11,10 @@
  */
 import { ARTIFACTS, ARTIFACT_BY_ID } from "../game/artifacts";
 import {
-  AUTO_SELL_SPARE_MAX_TIER, CODEX_GOAL_V2, EXPEDITION_TEAM_UNLOCK_BASE, EXPEDITION_TEAM_UNLOCK_GROWTH, MAX_EXPEDITION_TEAMS_CAP, SITES, auctionHouseBuildCost, auctionGradeCost, dropThreshold, humidityLevelCost, layerExpectedValue, marketingLevelCost, museumBuildCost, museumGradeCost, restorationLevelCost, securityLevelCost, vaultLevelCost
+  AUTO_SELL_SPARE_MAX_TIER, CODEX_GOAL_V2, EXPEDITION_TEAM_UNLOCK_BASE, EXPEDITION_TEAM_UNLOCK_GROWTH, MAX_EXPEDITION_TEAMS_CAP, SITES, auctionHouseBuildCost, auctionGradeCost, dropThreshold, humidityLevelCost, layerExpectedValue, marketingLevelCost, museumBuildCost, museumGradeCost, restorationLevelCost, securityLevelCost, vaultLevelCost, AUCTION_BACKLOG_FALLBACK_ITEMS
 } from "../game/balance";
 import {
-  advance, auctionHouseOf, buildAuctionHouse, buildMuseum, buyHumidityLevel, buyMuseumMarketing, buyRestorationLevel, buySecurityLevel, buyTeamGear, buyTeamWorker, buyVaultLevel, codexScore, createTeam, digPower, dispatchExpedition, displayArtifact, hireAuctioneer, hireCurator, hireForeman, listAtAuction, museumOf, museumSlotCount, runAutoRoutine, sellArtifactCopies, switchSite, teamHomeSite, unlockSite, unlockTeamSlot, upgradeAuctionGrade, upgradeMuseumGrade
-} from "../game/engine";
+  advance, auctionHouseOf, buildAuctionHouse, buildMuseum, buyHumidityLevel, buyMuseumMarketing, buyRestorationLevel, buySecurityLevel, buyTeamGear, buyTeamWorker, buyVaultLevel, codexScore, createTeam, digPower, dispatchExpedition, displayArtifact, hireAuctioneer, hireCurator, hireForeman, listAtAuction, museumOf, museumSlotCount, runAutoRoutine, sellArtifactCopies, switchSite, teamHomeSite, unlockSite, unlockTeamSlot, upgradeAuctionGrade, upgradeMuseumGrade, spareVaultItems } from "../game/engine";
 import type { SiteId, World } from "../game/types";
 
 export const STEP_EARLY = 2; // 초반 1200초(드랍 간격·20분 통계)는 v0.1과 동일한 정밀도를 유지한다
@@ -144,8 +143,16 @@ export function ensureFacilities(w: World) {
     if (!m.curatorId && w.funds >= 400_000) {
       for (let slot = 0; slot < 3; slot++) if (hireCurator(w, home, slot)) break;
     }
-    fillMuseumSlots(w, home);
   }
+  /**
+   * **무료 "등급0 임시 전시대"(1슬롯)도 채운다**(v0.6). 예전엔 이 호출이
+   * `if (m)` 안에 있어서 **진짜 박물관을 짓기 전까지 전시가 한 번도 일어나지
+   * 않았다** — `brief.md` §첫 세션 9가 "20분 목표는 이 무료 슬롯으로 닿는다"고
+   * 적어 둔 바로 그 동작이 시뮬 정책에만 빠져 있었다(`pnpm play`의 UI 실조작은
+   * 77초에 이걸 눌러 왔다). 기준을 낮추지 않고 **사람이 실제로 마주하는 조작을
+   * 정책에 넣어 다시 잰다**(`notes/decisions.md` G80.2).
+   */
+  fillMuseumSlots(w, home);
 
   if (w.auctionHouses.length === 0 && w.funds >= auctionHouseBuildCost(1) * 2) buildAuctionHouse(w, home);
   const house = auctionHouseOf(w, home);
@@ -163,7 +170,16 @@ export function ensureFacilities(w: World) {
      * 189번 반복한다는 뜻이다. 이제 같은 일을 설정 두 번으로 끝낸다.
      */
     if (w.settings.autoSellSpareBelow === null) w.settings.autoSellSpareBelow = AUTO_SELL_SPARE_MAX_TIER;
-    if (w.settings.spareDestination !== "auction") w.settings.spareDestination = "auction";
+    /**
+     * **출구가 막히면 직접매각으로 되돌린다**(v0.6.4, G96). "경매로 보내라"를 한 번
+     * 설정하고 손을 떼는 것까지는 맞는데, 경매 슬롯이 적체를 못 따라가면 중복이
+     * 소장고에 그대로 쌓인다 — 실측에서 운영 기준선의 소장고 2,125점 중 **1,131점이
+     * 경매 대기**였고, 그게 정원 초과의 최대 원인이었다. 사람이라면 그 상태를 보고
+     * 직접 팔거나 경매장을 늘린다. 이 정책은 "사람이 눌렀어야 할 것을 전부 눌러 준
+     * 기준선"이므로 그 판단을 여기에 넣는다(§28.8이 지적한 기준선 충실도 문제와 같은 부류).
+     */
+    const waiting = spareVaultItems(w, w.settings.autoSellSpareBelow).length;
+    w.settings.spareDestination = waiting > AUCTION_BACKLOG_FALLBACK_ITEMS ? "sell" : "auction";
   }
 }
 

@@ -1,13 +1,15 @@
 import { useState } from "react";
+import { vaultCareLine } from "./vaultCare";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
   AUCTIONEER_LOGISTICS_COEFF, AUCTION_GRADE_MAX, AUCTION_SLOT_CAP_BY_GRADE, FOREMAN_HIRE_COST,
   MUSEUM_SLOT_BY_GRADE, SITES, SITE_BY_ID, THEFT_APPLICABLE_MAX_TIER, TIER_NAME, auctionGradeCost,
-  auctionHouseBuildCost, conditionDecayChancePerDay, humidityLevelCost, marketingLevelCost,
+  CONDITION_TICK_SECONDS, auctionHouseBuildCost, conditionDecayChancePerDay, humidityLevelCost,
+  marketingLevelCost,
   museumBuildCost, museumGradeCost, restorationAttemptHours, restorationLevelCost,
   restorationSuccessChance, securityLevelCost, theftInitialGraceHours, vaultCapacity, vaultLevelCost
 } from "../game/balance";
-import { auctionHouseOf, freshnessOf, museumOf, museumSlotCount, staffMarketCycle } from "../game/engine";
+import { auctionHouseOf, freshnessOf, museumOf, museumSlotCount, staffMarketCycle, codexProgress } from "../game/engine";
 import { museumUpkeepHourly, museumVisitorIncomeHourly, museumVisitorsPerDay } from "../game/museum";
 import { auctioneerSlotBonus, staffCandidates } from "../game/staff";
 import { clock, percent, usd } from "../game/format";
@@ -76,7 +78,8 @@ export function FacilityView({ game }: { game: Game }) {
 function StoragePanel({ game }: { game: Game }) {
   const { world } = game;
   const stored = world.vault.filter((v) => !v.displayed).length;
-  const capacity = vaultCapacity(world.vaultLevel);
+  const owned = codexProgress(world).owned;
+  const capacity = vaultCapacity(world.vaultLevel, owned);
   const over = stored - capacity;
 
   return (
@@ -87,18 +90,13 @@ function StoragePanel({ game }: { game: Game }) {
           {stored} / {capacity}점 보관 중{over > 0 ? ` · ${over}점 초과` : ""}
         </span>
       </div>
-      {over > 0 ? (
-        <p className="stalled small">
-          정원을 {over}점 넘겼다 — 넘긴 동안은 <strong>모든</strong> 소장 유물의 보존 상태 저하 확률이 2배가 된다.
-          정원을 늘리거나 소장고 탭에서 중복분을 정리한다.
-        </p>
-      ) : null}
+      {over > 0 ? <p className="stalled small">{vaultCareLine(world)}</p> : null}
 
       <div className="storage-upgrades">
         <StorageUpgrade
           label="정원"
           now={`${capacity}점`}
-          next={`${vaultCapacity(world.vaultLevel + 1)}점`}
+          next={`${vaultCapacity(world.vaultLevel + 1, owned)}점`}
           detail={`Lv.${world.vaultLevel} — 정원을 넘기면 보존 저하가 2배가 된다`}
           cost={vaultLevelCost(world.vaultLevel)}
           funds={world.funds}
@@ -106,9 +104,13 @@ function StoragePanel({ game }: { game: Game }) {
         />
         <StorageUpgrade
           label="습도조절"
-          now={percent(conditionDecayChancePerDay(world.humidityLevel, false) * 100, 2)}
-          next={percent(conditionDecayChancePerDay(world.humidityLevel + 1, false) * 100, 2)}
-          detail={`Lv.${world.humidityLevel} — 하루당 보존 상태가 한 칸 내려갈 확률`}
+          // `percent()`가 이미 100을 곱한다 — 예전엔 여기서 한 번 더 곱해 3.85%가
+          // **384.62%**로 표시됐다(v0.3.3부터, 앱을 띄워 보고서야 드러났다).
+          now={percent(conditionDecayChancePerDay(world.humidityLevel, false), 2)}
+          next={percent(conditionDecayChancePerDay(world.humidityLevel + 1, false), 2)}
+          // "하루당"이 아니라 **판정 격자당**이다(v0.6.3이 격자를 2.8시간으로 바꿨다,
+          // G93). 상수에서 직접 읽어 화면과 규칙이 갈라지지 않게 한다(척추 5번).
+          detail={`Lv.${world.humidityLevel} — ${(CONDITION_TICK_SECONDS / 3600).toFixed(1)}시간마다 보존 상태가 한 칸 내려갈 확률`}
           cost={humidityLevelCost(world.humidityLevel)}
           funds={world.funds}
           onBuy={game.buyHumidityLevel}

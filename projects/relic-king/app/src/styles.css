@@ -111,6 +111,13 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 .tip-here .tip-clock { color: var(--accent); }
 .tip button { border: 1px solid var(--danger); background: none; padding: 6px 12px; border-radius: 4px; }
 .tip-here-mark { color: var(--accent); font-size: 12px; }
+/* 제보 반응 유예·결판 표시(v0.6) — 배너는 결판이 난 뒤에도 결과를 보여 주며 수명을 다 채운다 */
+.tip-grace { white-space: nowrap; color: var(--muted); font-style: normal; }
+.tip-resolved { white-space: nowrap; font-style: normal; }
+.tip-won { border-color: var(--accent); background: linear-gradient(90deg, #1f2b17, #1a2213); }
+.tip-won .tip-mark, .tip-won .tip-resolved, .tip-won .tip-clock { color: var(--accent); }
+.tip-lost { border-color: #555; background: linear-gradient(90deg, #262323, #1d1b1b); }
+.tip-lost .tip-mark, .tip-lost .tip-resolved, .tip-lost .tip-clock { color: var(--muted); }
 @keyframes tip-in { from { transform: translateY(-6px); opacity: 0; } }
 
 .ending {
@@ -626,6 +633,17 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
   border-top: 1px dashed var(--line); padding-top: 5px;
 }
 
+/* 안목(도감 되먹임, G91) — 도감 화면에서 "이게 무엇을 바꾸는지"를 보여 준다 */
+.eye-panel { display: flex; flex-direction: column; gap: 6px; margin: 10px 0 12px; }
+.eye-row { display: grid; grid-template-columns: 76px 1fr auto; gap: 10px; align-items: center; font-size: 12px; }
+.eye-k { color: var(--muted, #8a8a8a); }
+.eye-bar { height: 6px; background: rgba(127, 127, 127, .22); border-radius: 3px; overflow: hidden; }
+.eye-bar i { display: block; height: 100%; background: var(--gold, #e0a92e); }
+.eye-v { font-variant-numeric: tabular-nums; }
+@media (max-width: 520px) {
+  .eye-row { grid-template-columns: 64px 1fr; }
+  .eye-v { grid-column: 1 / -1; }
+}
 /* ── 소장고 다중 선택(v0.5.2) ─────────────────────────────── */
 /* 선택 모드에서는 상세 대신 아래 막대가 붙는다. 막대는 소장고 카드 바닥에 달라붙어
    그리드를 아래로 스크롤해도 처분 버튼이 손 밑에 남는다. */

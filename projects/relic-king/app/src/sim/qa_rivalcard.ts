@@ -249,22 +249,27 @@ const revived = deserialize(serialize(saved));
 const revivedGhost = revived.rivals.find(isGhost);
 check("고스트가 세이브를 타고 살아 돌아온다", revivedGhost !== undefined);
 check("고스트의 출처 정보가 보존된다", revivedGhost?.ghost?.key === cardKeyOf(card));
-check("세이브 버전이 최신(10)이다", revived.version === 10);
+check("세이브 버전이 최신(11)이다", revived.version === 11);
 
 // v8 세이브(고스트 없음)가 그대로 열리는가
 const legacy = JSON.parse(serialize(createWorld()));
 legacy.version = 8;
 delete legacy.rankSample;
 const upgraded = deserialize(JSON.stringify(legacy));
-check("v8 세이브가 체인 끝(v10)까지 올라온다", upgraded.version === 10);
+check("v8 세이브가 체인 끝(v11)까지 올라온다", upgraded.version === 11);
 check("v8 세이브의 라이벌 6명이 그대로다", upgraded.rivals.length === 6 && upgraded.rivals.every((r) => !isGhost(r)));
 
 // ── 7. 추격전 표시 ───────────────────────────────────────────────────────
 const raceWorld = createWorld();
 const raceRecord = createPersistentRecord();
-// 갓 만든 월드는 전원 0점이라 플레이어가 1위로 잡힌다 — 쫓을 상대가 생길 때까지 굴린 뒤에
-// 본다. "쫓을 상대가 없다(0)"와 "모른다(undefined)"는 다른 답이다.
+// 갓 만든 월드는 전원 0점이라 플레이어가 1위로 잡힌다. **v0.6의 페이싱 압축
+// 뒤로는 20분을 굴려도 여전히 플레이어가 3축 종합 1위**라 라이벌만으로는 쫓을
+// 상대가 안 생긴다(v0.5.1에서는 생겼다). 기준을 낮추는 대신 **쫓을 상대가
+// 있는 상태를 실제로 만든다** — 40분짜리 기록패 고스트를 들인다
+// (`notes/decisions.md` G80.2와 같은 원칙). "쫓을 상대가 없다(0)"와
+// "모른다(undefined)"는 여전히 다른 답이다.
 for (let i = 0; i < 20; i++) advance(raceWorld, 60, false, 60, raceRecord);
+addGhost(raceWorld, parsed!);
 const noSample = rankRace(raceWorld, raceRecord);
 check("쫓을 상대가 생겼다", noSample.target !== null, String(noSample.target?.name));
 check("표본이 없으면 추월 예상은 undefined다(모른다 ≠ 못 넘는다)", noSample.overtakeSeconds === undefined);

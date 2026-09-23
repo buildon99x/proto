@@ -1,9 +1,9 @@
 import {
   APPRAISAL_HIGH_TIER_TIME_MULT, APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE,
   ASSET_SCORE_REF, AUCTION_FEE_RATE, AUCTION_HOUSE_MAX_COUNT, DEFAULT_OWNER_NAME,
-  AUCTION_SETTLE_HOURS, AUCTION_SLOT_CAP_BY_GRADE, AUTO_INVEST_RESERVE,
+  AUCTION_SETTLE_HOURS, AUCTION_SLOT_CAP_BY_GRADE, AUTO_INVEST_FEE_RESERVE_ITEMS, AUTO_INVEST_RESERVE,
   AUTO_SELL_KEEP_ONE_PER_SPECIES, AUTO_SELL_MAX_TIER, AUTO_SELL_SPARE_KEEP_PER_SPECIES,
-  AUTO_SELL_SPARE_MAX_TIER,
+  AUTO_SELL_SPARE_BATCH_MIN, AUTO_SELL_SPARE_MAX_TIER,
   BASE_DIG, BLACK_MARKET_BUY_PRICE_RATIO, BLACK_MARKET_LOOSE_MAX_TIER,
   BLACK_MARKET_RESTOCK_INTERVAL_HOURS, BLACK_MARKET_SLOT_CAPACITY, BLACK_MARKET_STOLEN_PRICE_RATIO,
   BLIND_SELL_RATE, CATCHUP_MAX, CATCHUP_SLOPE, CLICK_COMBO_MAX, CLICK_COMBO_STEP, CLICK_COMBO_WINDOW,
@@ -15,21 +15,28 @@ import {
   FAME_VISITOR_NORMALIZATION, FIRST_RELOCATION_FREE_WINDOW_HOURS, FOREMAN_HIRE_COST,
   FOREMAN_SALARY_INCOME_SHARE, GEAR_MULT, HOME_BASE_BONUS_DROPMOD_MULT, HOME_BASE_BONUS_DURATION_HOURS,
   LAYERS_PER_SITE, LOCKED_HOLD_TIER_EXEMPT_MIN_TIER, MAX_EXPEDITION_TEAMS_CAP,
+  EYE_HIT_CHANCE_CAP, EYE_RACE_BONUS_MAX,
   MAX_EXPEDITION_TEAMS_INITIAL, MAX_GEAR_LEVEL, MAX_OWNED_SITES, MUSEUM_MAX_COUNT,
   MUSEUM_NET_INCOME_CAP, MUSEUM_SLOT_BY_GRADE, OFFLINE_CAP_SECONDS, OFFLINE_EFFICIENCY, PROGRESS_VALUE,
-  RANK_WEIGHT, RECOMMEND_TOP_N, REGIONAL_PRICE_MULT_MAX, REGIONAL_PRICE_MULT_MIN, RELOCATION_COOLDOWN_HOURS,
+  RANK_WEIGHT, RECOMMEND_TOP_N, RECOMMEND_TRAVEL_HALF_HOURS, REGIONAL_PRICE_MULT_MAX,
+  RIVAL_REINVEST_INTERVAL_SECONDS, REGIONAL_PRICE_MULT_MIN, RELOCATION_COOLDOWN_HOURS,
   RELOCATION_COST_ASSET_RATIO, REMOTE_ARBITRAGE_LOCAL_CLAMP_MAX, REMOTE_ARBITRAGE_MIN_DISTANCE_KM,
   RESTORATION_BASE_HOURS,
   SEASON_CASHOUT_RATIO, SEASON_CARRYOVER_FUNDS_CAP_MULT, SEASON_LENGTH_WEEKS, SEASON_TITLE_HOLD_HOURS,
   SITES, SITE_BY_ID,
   STAFF_MARKET_REFRESH_HOURS, STAFF_PROMOTION_INTERVAL_HOURS, STOLEN_TO_BLACKMARKET_CHANCE,
   THEFT_APPLICABLE_MAX_TIER, THEFT_RATE_BASE, THEFT_RECOVERY_WINDOW_HOURS, TIER4_SPECIES_TOTAL,
-  TIER_STOCK_PER_SPECIES, TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN, TIP_FIRST_DELAY,
+  CONDITION_TICK_SECONDS, VAULT_CARE_COST_HEADROOM, VAULT_CARE_HUMIDITY_FLOOR,
+  TIER_STOCK_PER_SPECIES, TIP_DECIDE_AFTER_GRACE_SECONDS, TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN,
+  TIP_FIRST_DELAY, TIP_FIRST_UNIQUE_TAUGHT, TIP_FIRST_WIN_GUARANTEED, TIP_UNIQUE_PRIORITY,
+  TIP_UNIQUE_REQUIRES_RESPONSE,
+  TIP_UNIQUE_ANNOUNCE_WITHIN, TIP_UNRESPONDED_UNIQUE_MULT, TIP_WORLDWIDE_MIN_TIER,
   TIP_FOCUS_DIG_COST_MULT, TIP_FOCUS_DIG_HIT_CHANCE, TIP_MEAN_INTERVAL, TIP_PLAYER_HIT,
-  TIP_RIVAL_HIT, UNEXPLORED_BONUS_APPRAISAL_VOUCHER, WORKER_DIG,
+  TIP_MIN_RESPONSE_SECONDS, TIP_RETRY_INTERVAL, TIP_RIVAL_HIT, TIP_TIER_WEIGHT,
+  UNEXPLORED_BONUS_APPRAISAL_VOUCHER, WORKER_DIG,
   appraiseSeconds, auctionGradeCost, auctionHouseBuildCost, conditionDecayChancePerDay, distanceKm,
   dropThreshold, gearCost, humidityLevelCost, labCost, layerCost, layerExpectedValue, marketingLevelCost,
-  museumBuildCost, museumGradeCost, pendingCap, restorationAttemptHours, restorationLevelCost,
+  museumBuildCost, museumGradeCost, notionalDropThreshold, pendingCap, restorationAttemptHours, restorationLevelCost,
   restorationSuccessChance, securityLevelCost, theftInitialGraceHours, tierValue, tierWeights,
   vaultCapacity, vaultLevelCost, workerCost
 } from "./balance";
@@ -38,6 +45,7 @@ import {
   distanceCostMult, distanceYieldBonus, mishapChance, onsiteHoursOf, onsiteWindow,
   teamDigPower, travelHoursOneWay
 } from "./expedition";
+import { hashFrac } from "./hash";
 import { josa, withJosa, usd } from "./format";
 import { siteAnchorLabel } from "./sites";
 import { localPriceMult } from "./market";
@@ -53,7 +61,7 @@ import {
 import type {
   Artifact, AuctionHouse, AuctionListing, Auctioneer, Curator, ExpeditionTeam, Foreman,
   Ledger, LogKind, Museum, OwnerId, PersistentRecord, RivalState, SeasonState, Shape, SiteId, Staff,
-  StepReport, TheftEvent, Tier, VaultItem, World
+  StepReport, TheftEvent, Tier, Tip, VaultItem, World
 } from "./types";
 
 const SEASON_LENGTH_SECONDS = SEASON_LENGTH_WEEKS * 7 * 24 * 3600;
@@ -105,13 +113,21 @@ export function createPersistentRecord(): PersistentRecord {
   };
 }
 
-export function createWorld(seed = 20260917): World {
+/**
+ * `grantTeam=false`는 **계측 전용 문**이다(v0.6). 시작 발굴단 배정·첫 파견은
+ * `w.t = 0`에 일어나므로, 상태 diff 계측기(`sim/telemetry.ts`)가 세계를 처음
+ * 스냅샷하는 시점에는 **이미 끝나 있다** — 그러면 첫 10분 A축(사건 종류)에서
+ * "단장 합류"와 "첫 파견"이 통째로 사라진다. 계측기는 `createWorld(seed, false)`
+ * → 스냅샷 → `grantStartingTeam(w)` 순서로 불러 그 두 사건을 본다. 호출 순서와
+ * 난수 소비는 기본 경로와 **한 칸도 다르지 않다**(계측이 게임을 바꾸지 않는다).
+ */
+export function createWorld(seed = 20260917, grantTeam = true): World {
   const sites = initialSites();
   const codex: Record<string, "unseen"> = {};
   for (const a of ARTIFACTS) codex[a.id] = "unseen";
 
   const world: World = {
-    version: 10,
+    version: 11,
     t: 0,
     lastTickAt: Date.now(),
     // 감정에는 추정가의 2%가 든다. 종잣돈이 0이면 첫 유물을 감정조차 못 해
@@ -147,9 +163,18 @@ export function createWorld(seed = 20260917): World {
     log: [{ t: 0, kind: "system", text: "경주 고분군에서 발굴을 시작했다." }],
     // autoSellBelow=1(희귀 이하 자동 매각)·autoReinvest=true가 기본이다 — 클릭
     // 0회로도 자금이 돌게 하는 기본 자동화(G3·척추 4번, notes/decisions.md G57).
-    // 둘 다 설정에서 끌 수 있다(off로 두면 예전처럼 완전 수동, 손실은 없다).
+    // 셋 다 설정에서 끌 수 있다(off로 두면 예전처럼 완전 수동, 손실은 없다).
+    //
+    // **`autoSellSpareBelow`도 기본으로 켠다**(v0.6.4, G95 — 예전엔 `null`이었다).
+    // 소장고 정원 초과의 최대 원인이 이 기본값이었다: 방치 플레이 소장고 965점 중
+    // **482점이 중복이고 그 97%가 진귀(T2)** — 자동 정리 상한 안에 있는, 치울 수
+    // 있는 것들이 치워지지 않은 채 쌓여 정원을 밀어내고 있었다. 켜면 방치 플레이의
+    // 초과가 92% → 0%가 된다(G95 실측). 도감은 안전하다 — 종당 1점 보존·전시 중
+    // 제외·국보 이상 제외를 `spareVaultItems()` 하나가 지키고 `qa:autosell`이
+    // 틱 단위로 검증한다. **이미 저장된 세이브는 건드리지 않는다**(유물을 파는
+    // 동작이라 비가역이다 — 새 세계에만 적용하고, 옛 세이브는 설정에서 한 번에 켠다).
     settings: {
-      autoSellBelow: 1, autoSellSpareBelow: null, spareDestination: "sell",
+      autoSellBelow: 1, autoSellSpareBelow: AUTO_SELL_SPARE_MAX_TIER, spareDestination: "sell",
       muted: false, autoReinvest: true
     },
     stats: { drops: 0, clicks: 0, sold: 0, blindSold: 0, racesWon: 0, racesLost: 0, firstT4Finds: 0 },
@@ -182,7 +207,7 @@ export function createWorld(seed = 20260917): World {
     museumCumulativeVisitors: 0
   };
 
-  grantStartingTeam(world);
+  if (grantTeam) grantStartingTeam(world);
   return world;
 }
 
@@ -288,6 +313,50 @@ export function assetScore(w: World): number {
  * "분모는 검증된 종만"(G53.4) 원칙을 쓰고 있으므로, 3축 점수식도 같은 원칙을
  * 그대로 확장한 것뿐이다.
  */
+/**
+ * 거점별 검증 종 목록. `artifactsOf()`는 부를 때마다 1,902종을 훑으므로, 매 레이스
+ * 판정마다 부를 이 계산은 한 번만 갈라 둔다.
+ */
+const VERIFIED_BY_SITE: Record<string, Artifact[]> = (() => {
+  const m: Record<string, Artifact[]> = {};
+  for (const a of ARTIFACTS) {
+    if (a.sourceStatus !== "verified") continue;
+    (m[a.site] ??= []).push(a);
+  }
+  return m;
+})();
+
+/**
+ * **거점 안목** — 그 거점의 검증 종 중 내가 아는(가진) 비율 0~1.
+ * 잃은 종(`lost`)은 아는 것으로 세지 않는다 — 도감의 회색 칸은 지식이 아니라 빈칸이다.
+ */
+export function siteEyeRatio(w: World, site: SiteId): number {
+  const all = VERIFIED_BY_SITE[site];
+  if (!all || all.length === 0) return 0;
+  let owned = 0;
+  for (const a of all) {
+    const st = w.codex[a.id];
+    if (st === "owned" || st === "owned_unidentified") owned++;
+  }
+  return owned / all.length;
+}
+
+/** 제보 레이스에서 안목이 플레이어 가중에 곱하는 값(1 ~ 1+EYE_RACE_BONUS_MAX) */
+export function eyeRaceMult(w: World, site: SiteId): number {
+  return 1 + EYE_RACE_BONUS_MAX * siteEyeRatio(w, site);
+}
+
+/** **전체 안목** — 검증 종 전체 대비 보유 비율 0~1(`codexScore`와 같은 분모다) */
+export function eyeRatio(w: World): number {
+  const { owned, total } = codexProgress(w);
+  return total > 0 ? owned / total : 0;
+}
+
+/** base 슬롯 상한 — 상수 그대로다(안목으로 여는 안은 재 보고 버렸다, G91.1) */
+export function ownedSiteCap(_w: World): number {
+  return MAX_OWNED_SITES;
+}
+
 export function codexScore(w: World): number {
   const { owned, total } = codexProgress(w);
   return total > 0 ? owned / total : 0;
@@ -524,22 +593,31 @@ function accrueMuseums(w: World, dt: number) {
 }
 
 /**
- * 습도 저하(spec.md §9.4) — 하루 경계를 넘을 때 한 번씩, vault의 비전시 유물 중
+ * 보존 저하(spec.md §9.4) — `CONDITION_TICK_SECONDS` 격자를 넘을 때 한 번씩, vault의 비전시 유물 중
  * 정원(vaultCapacity) 초과분("야적")에는 2배 확률을 적용한다. promoteStaffTick과
  * 같은 결정론 경계 패턴(스텝 크기 무관, floor 비교).
  */
-function conditionDecayTick(w: World, t0: number, dt: number, rng: Rng) {
-  const day = Math.floor((t0 + dt) / 86400);
+function conditionDecayTick(w: World, t0: number, dt: number) {
+  const day = Math.floor((t0 + dt) / CONDITION_TICK_SECONDS);
   if (day <= w.lastConditionDay) return;
   w.lastConditionDay = day;
 
   const stored = w.vault.filter((v) => !v.displayed).length;
-  const overflow = stored > vaultCapacity(w.vaultLevel);
+  const overflow = stored > vaultCapacity(w.vaultLevel, codexProgress(w).owned);
 
   for (const item of w.vault) {
     if (item.condition <= 0) continue;
     const itemOverflow = overflow && !item.displayed;
-    if (rng.chance(conditionDecayChancePerDay(w.humidityLevel, itemOverflow))) {
+    // **난수 스트림을 쓰지 않는다.** 판정 수가 소장품 수에 비례하므로 `rng`를 쓰면
+    // 경계 순간의 소장고 크기가 스텝 크기에 따라 한 점만 달라도 그 뒤 스트림이
+    // 통째로 갈린다 — 격자를 2.8시간으로 촘촘하게 만들자(G93) `qa:expedition`이
+    // 바로 그걸 잡았다(1초 vs 10초 스텝, 자금 차이 1,162만₩).
+    // 유물 uid와 격자 번호를 섞은 해시로 뽑으면 같은 판정이 스텝 크기와 무관하게
+    // 같은 결과를 낸다(`hashFrac` — 이 레포의 절차 생성이 쓰는 그 해시다).
+    // 시드를 섞지 않는 이유: World에 시드 필드가 없고, `rngState`는 스트림 위치라
+    // 여기서 읽으면 없애려던 의존성이 되돌아온다. 판마다 uid ↔ 유물 대응이 달라져
+    // 어차피 판정 패턴이 갈린다.
+    if (hashFrac(`cond:${item.uid}:${day}`) < conditionDecayChancePerDay(w.humidityLevel, itemOverflow)) {
       item.condition = (item.condition - 1) as VaultItem["condition"];
       recomputeVaultValue(item);
     }
@@ -815,13 +893,22 @@ function candidates(w: World, site: SiteId, tier: Tier, layer: number): Artifact
  *  있으면 그걸 쓰고, 배너가 만료됐어도 그 자리에 급파로 도착한 발굴단이 추적 중인
  *  유물이 있으면 그쪽을 쓴다(spec.md §8.6, notes/decisions.md G45/A8·G53) — 배너
  *  수명과 레이스 종료 시점을 분리한 설계의 핵심이다. */
-function activeTipTarget(w: World, site: SiteId, layer: number): { artifactId: string; focused: boolean } | null {
-  if (w.tip && w.tip.site === site && layer >= w.tip.layer) {
-    return { artifactId: w.tip.artifactId, focused: !!w.tip.focused };
+function activeTipTarget(
+  w: World, site: SiteId, layer: number
+): { artifactId: string; focused: boolean; responded: boolean } | null {
+  if (w.tip && !w.tip.resolved && w.tip.site === site && layer >= w.tip.layer) {
+    // `responded` — [집중 굴착]을 눌렀거나, 급파한 팀이 이 유물을 쫓아 그 자리에
+    // 와 있는가. 유일(T4)은 이 값이 참일 때만 플레이어가 가져갈 수 있다
+    // (`TIP_UNIQUE_REQUIRES_RESPONSE`).
+    const chased = w.teams.some(
+      (t) => t.status === "on_site" && t.targetSite === site && t.tipChase?.artifactId === w.tip!.artifactId
+    );
+    return { artifactId: w.tip.artifactId, focused: !!w.tip.focused, responded: !!w.tip.focused || chased };
   }
   for (const team of w.teams) {
     if (team.status === "on_site" && team.targetSite === site && team.tipChase && layer >= team.tipChase.layer) {
-      return { artifactId: team.tipChase.artifactId, focused: false };
+      // 급파로 도착해 추적 중이다 — 배너가 이미 닫혔어도 이것은 대응이다
+      return { artifactId: team.tipChase.artifactId, focused: false, responded: true };
     }
   }
   return null;
@@ -839,21 +926,64 @@ function clearTipChases(w: World, artifactId: string) {
 
 function rollDrop(
   w: World, rng: Rng, site: SiteId, layer: number, owner: OwnerId, offline: boolean, report: StepReport,
-  diggerForemanId?: string, chaseTarget?: { artifactId: string; focused: boolean } | null
+  diggerForemanId?: string, chaseTarget?: { artifactId: string; focused: boolean; responded: boolean } | null
 ) {
   // 제보 레이스: 조건을 만족하면 대상 유물이 직접 걸린다. 플레이어는 (배너 또는
   // 급파 추적 중인) chaseTarget을, 라이벌은 배너(w.tip.rivals)에 있을 때만 반응한다
   // (원거리 라이벌 급파는 resolveRivalTipChases가 별도로 처리한다, spec.md §12.3).
   const tip = w.tip;
-  const raceTarget =
-    owner === "player" ? chaseTarget : tip && tip.site === site && layer >= tip.layer && tip.rivals.includes(owner)
-      ? { artifactId: tip.artifactId, focused: false }
+  /**
+   * **반응 유예**(v0.6) — 배너가 뜬 뒤 `TIP_MIN_RESPONSE_SECONDS` 동안은 어느
+   * 쪽도 적중 판정을 하지 않는다. 플레이어와 라이벌에 똑같이 걸리므로 승률은
+   * 바뀌지 않고, 창 중앙 15초(= 반사신경 검사)만 사라진다. 근거는
+   * `balance.ts`의 상수 주석.
+   */
+  const graced = !!tip && !tip.resolved && w.t - tip.openedAt < TIP_MIN_RESPONSE_SECONDS;
+  const raceTarget = graced
+    ? null
+    : owner === "player" ? chaseTarget : tip && !tip.resolved && tip.site === site && tip.rivals.includes(owner)
+      ? { artifactId: tip.artifactId, focused: false, responded: true }
       : null;
   if (raceTarget) {
     const target = ARTIFACT_BY_ID[raceTarget.artifactId];
+    // 유일은 대응한 쪽만 가져간다(`TIP_UNIQUE_REQUIRES_RESPONSE`) — 라이벌은
+    // 제보를 받고 그 자리를 파는 것 자체가 대응이라 `responded: true`로 들어온다.
+    // **다투는 상대가 없으면 적용하지 않는다**: 아무도 오지 않는 자리에서 요구되는
+    // 것은 '남보다 먼저'가 아니라 그냥 버튼이고, 그건 규칙이 아니라 통행료다.
+    const contested = !!tip && !tip.resolved && tip.artifactId === target.id && tip.rivals.length > 0;
+    const unresponded =
+      TIP_UNIQUE_REQUIRES_RESPONSE && target.tier === 4 && owner === "player" &&
+      contested && !raceTarget.responded;
+    // 첫 유일은 대응하지 않으면 놓친다(`TIP_FIRST_UNIQUE_TAUGHT`) — 딱 한 번.
+    const uniquePenalty = !unresponded
+      ? 1
+      : TIP_FIRST_UNIQUE_TAUGHT && !w.taughtUniqueLoss
+        ? 0
+        : TIP_UNRESPONDED_UNIQUE_MULT;
     if (available(w, target)) {
-      const hit = owner === "player" ? (raceTarget.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) : TIP_RIVAL_HIT;
-      if (rng.chance(hit)) {
+      // **첫 승 보장은 마감 전에도 지켜진다.** 보장이 걸린 판(아직 한 번도 이겨
+      // 본 적이 없고, 플레이어가 그 자리에 있다)에서는 라이벌이 유예 뒤 드랍
+      // 판정으로 먼저 가져가지 못한다 — 그러지 않으면 보장은 "라이벌이 60초 안에
+      // 못 맞혔을 때만"이라는 뜻이 되고, 실측에서 실제로 그렇게 새어 나갔다
+      // (`eval.md` §28 — 첫 제보를 68초에 잃어 첫 10분 승리 0회).
+      const guardedForPlayer =
+        TIP_FIRST_WIN_GUARANTEED && owner !== "player" && target.tier < 4 &&
+        w.stats.racesWon === 0 && !!tip && !tip.resolved && tip.artifactId === target.id &&
+        playerRacingAt(w, tip);
+      // 안목(그 거점 도감 비율)이 플레이어 쪽에만 곱해진다(G91) — 확률이므로 상한을 씌운다.
+      const hit =
+        owner === "player"
+          ? Math.min(
+              EYE_HIT_CHANCE_CAP,
+              (raceTarget.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) *
+                uniquePenalty * eyeRaceMult(w, site)
+            )
+          : TIP_RIVAL_HIT;
+      // 난수는 **언제나 뽑는다**. `guardedForPlayer`로 `rng.chance`를 건너뛰면 보장이
+      // 걸린 판에서만 난수 소비가 한 칸 줄어, 같은 시드가 스텝 크기에 따라 갈린다
+      // (`qa:expedition`의 스텝 무관성이 실제로 이걸 잡았다 — 드랍 5/1209 차이).
+      const rolled = rng.chance(hit);
+      if (rolled && !guardedForPlayer) {
         take(w, target, owner, report, diggerForemanId);
         clearTipChases(w, target.id);
         if (owner === "player") {
@@ -863,9 +993,11 @@ function rollDrop(
         } else {
           w.stats.racesLost += 1;
         }
+        // 결판이 나도 배너는 닫지 않는다 — 결과를 보여 주며 남은 수명을 산다.
+        // 다음 제보 예약은 배너가 실제로 닫힐 때(step) 한다.
         if (tip && tip.artifactId === target.id) {
-          w.tip = null;
-          w.nextTipIn = rng.range(TIP_MEAN_INTERVAL * 0.5, TIP_MEAN_INTERVAL * 1.5);
+          tip.resolved = { outcome: owner === "player" ? "won" : "lost", at: w.t };
+          if (target.tier === 4) w.taughtUniqueLoss = true;
         }
         return;
       }
@@ -938,7 +1070,17 @@ export function effectiveDropMod(w: World, site: SiteId): number {
 }
 
 /** 그 거점에 이번 틱 진척을 보탠 기여자 한 명 — 드랍 귀속 추첨(아래 drainSiteDrops)의 재료 */
-type SiteContributor = { d: number; diggerForemanId?: string };
+/**
+ * 이번 청크에 이 거점을 판 주체 하나. `seconds`는 **그 청크 안에서 실제로 판
+ * 시간**이다 — 원정단은 청크 중간에 도착·귀환하므로 청크 전체를 판 게 아니다.
+ *
+ * 이 필드가 필요해진 이유(v0.6): 드랍 임계에 **천장**(`CEIL × dig`)이 생기면서
+ * 임계가 발굴력에 직접 묶였다. 예전처럼 "이 청크에 조금이라도 판 주체의 d를
+ * 그냥 다 더해" 임계를 잡으면, 같은 1시간을 1초 스텝으로 적분할 때와 10초
+ * 스텝으로 적분할 때 임계가 달라진다(실측 — `drops 164/163`). 시간 가중
+ * 평균 발굴력을 쓰면 그 청크가 실제로 낸 진척과 임계가 같은 척도를 본다.
+ */
+type SiteContributor = { d: number; seconds: number; diggerForemanId?: string };
 
 /**
  * 진척(층·드랍 게이지)만 더한다 — 드랍 판정은 하지 않는다. 레거시 단독 발굴과
@@ -952,54 +1094,104 @@ type SiteContributor = { d: number; diggerForemanId?: string };
  * 귀속됐다 — DROP_INTERVAL_FLOOR_SECONDS×합산발굴력이 매 스텝 정확히 정수
  * 배수로 맞아떨어지는 구조라 우연이 아니라 항상 재현됐다).
  */
-function addSiteProgress(w: World, site: SiteId, effSeconds: number, d: number, report: StepReport) {
-  if (effSeconds <= 0 || d <= 0) return;
+function breakLayer(w: World, site: SiteId, report: StepReport) {
   const sp = w.sites[site];
-  const progress = d * effSeconds;
-  sp.layerProgress += progress;
-  sp.dropProgress += progress;
-
-  let guard = 0;
-  while (sp.layer < LAYERS_PER_SITE && sp.layerProgress >= layerCost(site, sp.layer) && guard++ < 64) {
-    sp.layerProgress -= layerCost(site, sp.layer);
-    sp.layer += 1;
-    report.layerUps += 1;
-    log(w, "system", `${SITE_BY_ID[site].city} ${sp.layer}층 — ${SITE_BY_ID[site].eras[sp.layer - 1]}`);
-    // 미탐사 보너스(world-map.md §4) — 그 거점 층1 최초 돌파(이번 시즌 한정) 1회
-    if (sp.layer === 2 && !w.unexploredBonusGranted[site]) {
-      w.unexploredBonusGranted[site] = true;
-      w.appraisalVouchers += UNEXPLORED_BONUS_APPRAISAL_VOUCHER;
-      log(w, "system", `${withJosa(SITE_BY_ID[site].city, "을를")} 처음 탐사했다 — 무료 감정권 ${UNEXPLORED_BONUS_APPRAISAL_VOUCHER}장 획득.`);
-    }
+  sp.layerProgress -= layerCost(site, sp.layer);
+  sp.layer += 1;
+  report.layerUps += 1;
+  log(w, "system", `${SITE_BY_ID[site].city} ${sp.layer}층 — ${SITE_BY_ID[site].eras[sp.layer - 1]}`);
+  // 미탐사 보너스(world-map.md §4) — 그 거점 층1 최초 돌파(이번 시즌 한정) 1회
+  if (sp.layer === 2 && !w.unexploredBonusGranted[site]) {
+    w.unexploredBonusGranted[site] = true;
+    w.appraisalVouchers += UNEXPLORED_BONUS_APPRAISAL_VOUCHER;
+    log(w, "system", `${withJosa(SITE_BY_ID[site].city, "을를")} 처음 탐사했다 — 무료 감정권 ${UNEXPLORED_BONUS_APPRAISAL_VOUCHER}장 획득.`);
   }
-  if (sp.layer >= LAYERS_PER_SITE) sp.layerProgress = Math.min(sp.layerProgress, layerCost(site, sp.layer));
 }
 
 /**
- * 그 거점의 드랍 게이지를 한 번에 소진한다(그 거점 기여자 전원의 진척이 이미
- * `addSiteProgress`로 더해진 뒤 틱당 한 번만 호출된다). 문턱은 기여자 합산
- * 발굴력(`totalDig`)으로 계산하고, 문턱을 넘길 때마다 **기여자별 발굴력 비중으로
- * 가중 추첨**해 그 드랍의 단장을 정한다 — 레거시(가중치 있지만 diggerForemanId
- * 없음)와 발굴단들이 실제 기여 비율대로 드랍 귀속을 나눠 갖는다.
+ * 드랍 귀속 추첨 — 문턱을 넘길 때마다 **그 청크에 실제로 낸 진척(d × seconds)
+ * 비중으로 가중 추첨**해 그 드랍의 단장을 정한다. 레거시 단독 발굴(가중치는
+ * 있지만 `diggerForemanId`가 없음)과 발굴단들이 실제 기여 비율대로 귀속을
+ * 나눠 갖는다.
  */
-function drainSiteDrops(w: World, rng: Rng, site: SiteId, contributors: SiteContributor[], report: StepReport) {
+/**
+ * 드랍 간격 하한·천장이 보는 **기준 발굴력**. "이번 청크에 실제로 판 사람들의
+ * 합"이 아니라 **"지금 이 거점에 배치돼 있는 발굴력"**이다.
+ *
+ * 왜 이렇게 정의하는가(v0.6 — 오프라인 적분 검사가 가르쳐 준 것): 하한·천장은
+ * 임계를 발굴력에 직접 묶는다. 그런데 원정단은 청크 **중간에** 도착하고
+ * 귀환하므로, 청크 안에서 실제로 판 사람의 합을 쓰면 같은 1시간이라도 1초
+ * 스텝과 10초 스텝에서 임계가 달라지고 드랍 수가 갈린다(실측 `drops 164/163`).
+ * 배치(파견~귀환)는 이동 중에도 유지되는 **시각의 함수**라, 그 경계가 스텝
+ * 크기와 무관하다 — 루틴이 켜진 팀은 귀환 즉시 재파견되므로 사실상 상수다.
+ *
+ * 진척 자체는 여전히 **현지에 있는 동안만** 쌓인다(`tickExpeditions`) — 바뀐
+ * 것은 "얼마나 자주 떨어지는가"의 기준이지 "얼마나 팠는가"가 아니다.
+ */
+function siteReferenceDig(w: World, site: SiteId): number {
+  let d = w.activeSite === site ? digPower(w) : 0;
+  for (const team of w.teams) {
+    if (team.status === "idle" || team.targetSite !== site) continue;
+    const foreman = w.staff.find((s) => s.id === team.foremanId && s.role === "foreman") as Foreman | undefined;
+    d += teamDigPower(team.workers, team.gearLevel, foreman?.leadership ?? 0);
+  }
+  return d;
+}
+
+/**
+ * 한 청크 분량의 진척을 이 거점에 넣고, **층 경계마다 끊어서** 드랍을 소진한다.
+ *
+ * 예전엔 진척을 통째로 더한 뒤 마지막 층 기준으로 한 번만 드랍을 소진했다.
+ * v0.5.1까지는 층 하나 올리는 데 몇 분이 걸려 한 청크에 층이 두 번 오르는 일이
+ * 없었으므로 결과가 같았지만, v0.6의 깊이 압축은 **첫 30초에 층을 넷** 올린다 —
+ * 그러면 1초 스텝은 층마다, 10초 스텝은 마지막 층 기준으로만 드랍을 세어
+ * 적분이 스텝 크기에 따라 갈라진다(실측 — `drops 164/163`, t=30초에 이미 갈렸다).
+ * 층 경계로 쪼개면 어느 스텝 크기로 적분해도 "그 층에서 판 진척은 그 층의
+ * 임계로 환산"이 지켜진다.
+ */
+function applySiteChunk(
+  w: World, rng: Rng, site: SiteId, contributors: SiteContributor[], report: StepReport
+) {
   const sp = w.sites[site];
-  const totalDig = contributors.reduce((sum, c) => sum + c.d, 0);
-  if (totalDig <= 0) return;
+  const worked = contributors.reduce((sum, c) => sum + c.d * c.seconds, 0);
+  if (worked <= 0) return;
+  const refDig = siteReferenceDig(w, site);
   const dropMod = effectiveDropMod(w, site);
+  const threshold = () => dropThreshold(site, sp.layer, refDig, dropMod);
+
+  let remaining = worked;
   let guard = 0;
-  while (sp.dropProgress >= dropThreshold(site, sp.layer, totalDig, dropMod) && guard++ < 512) {
-    sp.dropProgress -= dropThreshold(site, sp.layer, totalDig, dropMod);
-    const chaseTarget = activeTipTarget(w, site, sp.layer);
-    rollDrop(w, rng, site, sp.layer, "player", false, report, pickContributor(rng, contributors, totalDig), chaseTarget);
+  while (remaining > 1e-12 && guard++ < 256) {
+    const atCap = sp.layer >= LAYERS_PER_SITE;
+    const toBreak = atCap ? Infinity : layerCost(site, sp.layer) - sp.layerProgress;
+    const piece = Math.min(remaining, Math.max(0, toBreak));
+    sp.layerProgress += piece;
+    sp.dropProgress += piece;
+    remaining -= piece;
+
+    if (refDig > 0) {
+      let dropGuard = 0;
+      while (sp.dropProgress >= threshold() && dropGuard++ < 512) {
+        sp.dropProgress -= threshold();
+        const chaseTarget = activeTipTarget(w, site, sp.layer);
+        rollDrop(w, rng, site, sp.layer, "player", false, report, pickContributor(rng, contributors, worked), chaseTarget);
+      }
+    }
+
+    if (!atCap && sp.layerProgress >= layerCost(site, sp.layer)) breakLayer(w, site, report);
+    else if (atCap) {
+      sp.layerProgress = Math.min(sp.layerProgress, layerCost(site, sp.layer));
+      break;
+    }
   }
 }
 
-function pickContributor(rng: Rng, contributors: SiteContributor[], totalDig: number): string | undefined {
+/** 귀속 추첨 — 그 청크에 **실제로 낸 진척**(d × seconds) 비중으로 뽑는다 */
+function pickContributor(rng: Rng, contributors: SiteContributor[], worked: number): string | undefined {
   if (contributors.length === 1) return contributors[0].diggerForemanId;
-  let roll = rng.next() * totalDig;
+  let roll = rng.next() * worked;
   for (const c of contributors) {
-    roll -= c.d;
+    roll -= c.d * c.seconds;
     if (roll <= 0) return c.diggerForemanId;
   }
   return contributors[contributors.length - 1].diggerForemanId;
@@ -1010,8 +1202,8 @@ function digPlayer(
 ) {
   const d = digPower(w);
   if (d <= 0) return;
-  addSiteProgress(w, w.activeSite, dt * eff, d, report);
-  pushContribution(contributions, w.activeSite, { d });
+  // 진척 적립은 `applySiteChunk`가 층 경계로 쪼개 한다 — 여기서는 기여만 등록한다.
+  pushContribution(contributions, w.activeSite, { d, seconds: dt * eff });
 }
 
 function pushContribution(contributions: Map<SiteId, SiteContributor[]>, site: SiteId, c: SiteContributor) {
@@ -1020,7 +1212,7 @@ function pushContribution(contributions: Map<SiteId, SiteContributor[]>, site: S
   else contributions.set(site, [c]);
 }
 
-function digRival(w: World, r: RivalState, rng: Rng, dt: number, eff: number, report: StepReport) {
+function digRival(w: World, r: RivalState, rng: Rng, t0: number, dt: number, eff: number, report: StepReport) {
   const site = r.homeSite;
   const d = rivalDig(r);
   const progress = d * dt * eff;
@@ -1047,17 +1239,27 @@ function digRival(w: World, r: RivalState, rng: Rng, dt: number, eff: number, re
   // 상대가 진짜로 더 세졌으면 새 기록패를 주면 된다 — 그게 이 기능의 갱신 경로다.
   if (r.ghost) return;
 
-  // 라이벌도 같은 비용 곡선·같은 상한으로 재투자한다 (Fair Progression: 같은 규칙)
-  for (let i = 0; i < 12; i++) {
-    const wc = workerCost(r.workers);
-    const gc = gearCost(r.gear);
-    if (r.gear < MAX_GEAR_LEVEL && gc <= wc * 6 && r.funds >= gc) {
-      r.funds -= gc;
-      r.gear += 1;
-    } else if (r.funds >= wc) {
-      r.funds -= wc;
-      r.workers += 1;
-    } else break;
+  // 라이벌도 같은 비용 곡선·같은 상한으로 재투자한다 (Fair Progression: 같은 규칙).
+  // **결정론 경계에서만** 산다 — `promoteStaffTick`과 같은 floor 비교 방식이다.
+  // 매 스텝 사게 두면 "언제 살 수 있게 됐는가"가 스텝 경계에 걸려 라이벌의
+  // 발굴력이 스텝 크기마다 달라지고, v0.6의 드랍 간격 **천장**(`CEIL × dig`)이
+  // 임계를 발굴력에 묶어 두기 때문에 그 차이가 드랍 수까지 갈라 놓는다
+  // (실측 — 오프라인 적분 검사 `drops 164/163`. 천장이 없던 v0.5.1에서는 약한
+  // 라이벌의 임계가 항상 층 기대가치 쪽이라 이 민감도가 드러나지 않았다).
+  const interval = RIVAL_REINVEST_INTERVAL_SECONDS;
+  const crossings = Math.floor((t0 + dt) / interval) - Math.floor(t0 / interval);
+  for (let c = 0; c < crossings; c++) {
+    for (let i = 0; i < 12; i++) {
+      const wc = workerCost(r.workers);
+      const gc = gearCost(r.gear);
+      if (r.gear < MAX_GEAR_LEVEL && gc <= wc * 6 && r.funds >= gc) {
+        r.funds -= gc;
+        r.gear += 1;
+      } else if (r.funds >= wc) {
+        r.funds -= wc;
+        r.workers += 1;
+      } else break;
+    }
   }
 }
 
@@ -1173,7 +1375,15 @@ export function buyTeamGear(w: World, teamId: string): boolean {
 }
 
 /** 원정 파견(spec.md §8.3) — 미스헵은 파견 시점에 1회만 판정한다 */
-export function dispatchExpedition(w: World, teamId: string, target: SiteId): boolean {
+/**
+ * `at`(파견 시각)을 따로 받는 이유 — **스텝 무관성**. 루틴 재파견은 귀환 정산
+ * 안에서 일어나는데, 그때 `w.t`는 "그 청크의 끝"이지 "실제 귀환 순간"이 아니다.
+ * `w.t`로 다음 회차를 잡으면 회차 경계가 스텝 크기만큼 밀리고, 왕복이 짧은
+ * 거점 로컬 원정에서는 그 오차가 매 회차 쌓여 드랍 수까지 갈라진다
+ * (실측 — `sim`의 오프라인 적분 검사가 `drops 164/163`으로 깨졌다).
+ * 기본값은 `w.t`라 손으로 보내는 경로는 한 줄도 달라지지 않는다.
+ */
+export function dispatchExpedition(w: World, teamId: string, target: SiteId, at = w.t): boolean {
   const team = w.teams.find((t) => t.id === teamId);
   if (!team || team.status !== "idle") return false;
   const foreman = w.staff.find((s) => s.id === team.foremanId && s.role === "foreman") as Foreman | undefined;
@@ -1188,8 +1398,8 @@ export function dispatchExpedition(w: World, teamId: string, target: SiteId): bo
 
   team.status = "traveling_out";
   team.targetSite = target;
-  team.dispatchedAt = w.t;
-  team.arrivesAt = w.t + travel * 3600;
+  team.dispatchedAt = at;
+  team.arrivesAt = at + travel * 3600;
   team.returnsAt = team.arrivesAt + onsite * 3600 + travel * 3600;
   team.mishapRolled = mishap;
   team.layerAtDispatch = w.sites[target].layer;
@@ -1206,7 +1416,7 @@ export function dispatchExpedition(w: World, teamId: string, target: SiteId): bo
  * (team.tipChase — activeTipTarget()·rollDrop이 참조한다).
  */
 export function emergencyDispatch(w: World, teamId: string): boolean {
-  if (!w.tip) return false;
+  if (!w.tip || w.tip.resolved) return false;
   const team = w.teams.find((t) => t.id === teamId);
   if (!team || team.status !== "idle") return false;
   const foreman = w.staff.find((s) => s.id === team.foremanId && s.role === "foreman") as Foreman | undefined;
@@ -1241,7 +1451,7 @@ export function emergencyDispatch(w: World, teamId: string): boolean {
  * (finalizeExpedition에서 정산). 안 눌러도 기존 28%는 자동 적용된다(G3 — 손실 0).
  */
 export function focusDig(w: World, teamId: string): boolean {
-  if (!w.tip) return false;
+  if (!w.tip || w.tip.resolved) return false;
   const team = w.teams.find((t) => t.id === teamId);
   if (!team || team.status !== "on_site" || team.targetSite !== w.tip.site) return false;
   w.tip.focused = true;
@@ -1282,7 +1492,7 @@ export function nextRoutineTarget(w: World, team: ExpeditionTeam): SiteId {
  * funds에서 뗀다. 실제 드랍·자금은 이미 applyDigProgress가 온사이트 구간마다
  * 실시간으로 처리했다 — 이 함수는 오직 "원정비 정산 + 루틴 재파견"만 한다.
  */
-function finalizeExpedition(w: World, team: ExpeditionTeam) {
+function finalizeExpedition(w: World, team: ExpeditionTeam, returnedAt = w.t) {
   const foreman = w.staff.find((s) => s.id === team.foremanId && s.role === "foreman") as Foreman | undefined;
   const travelHours = (team.arrivesAt - team.dispatchedAt) / 3600;
   const dist = foreman ? travelHours * EXPEDITION_SPEED_KMH * foremanSpeedMult(foreman.navigation) : 0;
@@ -1305,7 +1515,9 @@ function finalizeExpedition(w: World, team: ExpeditionTeam) {
    * 이후 모든 성장이 멈췄다). `dropThreshold()`를 그대로 불러써 실제 판정과
    * 항상 같은 하한을 쓴다 — 두 계산이 다시 어긋날 일이 없다.
    */
-  const rateAt = (l: number) => (layerExpectedValue(team.targetSite, l) * d) / dropThreshold(team.targetSite, l, d);
+  // **천장을 뺀 임계**로 사이징한다 — `notionalDropThreshold` 주석 참조.
+  const rateAt = (l: number) =>
+    (layerExpectedValue(team.targetSite, l) * d) / notionalDropThreshold(team.targetSite, l, d);
   // 파견 시점 층과 귀환 시점 층 두 단가를 평균한다 — 한 회차 안에 여러 층을
   // 오른 원정은 초반을 저층 단가로, 후반을 고층 단가로 보냈으므로 최종(최고)층
   // 단가 하나로 전체를 소급 청구하면 과청구가 된다(위 주석 참조).
@@ -1323,7 +1535,9 @@ function finalizeExpedition(w: World, team: ExpeditionTeam) {
   team.status = "idle";
   if (team.routine?.enabled) {
     const target = team.routine.target === "auto" ? nextRoutineTarget(w, team) : team.routine.target;
-    dispatchExpedition(w, team.id, target);
+    // **다음 회차는 "귀환한 그 순간"에서 시작한다**(청크 끝이 아니라) —
+    // `dispatchExpedition`의 `at` 주석 참조.
+    dispatchExpedition(w, team.id, target, returnedAt);
   }
 }
 
@@ -1333,28 +1547,66 @@ function finalizeExpedition(w: World, team: ExpeditionTeam) {
  * 아니라 (arrivesAt, returnsAt) 타임스탬프와 실제 겹침 구간으로만 계산하므로,
  * 1초씩 쪼개 부르든 한 번에 크게 부르든 같은 총 진척이 나온다(qa_expedition.ts).
  */
+/**
+ * 루틴이 켜져 있는데 유휴로 서 있는 팀을 다음 목적지로 보낸다(v0.6).
+ *
+ * v0.5.1까지 재파견은 `finalizeExpedition`(귀환 정산) 안에서만 일어났다. 그래서
+ * **귀환 경로를 거치지 않고 유휴가 된 팀**(새로 꾸린 팀, 세이브 복원)은 누가
+ * 손으로 보내 주기 전까지 영원히 서 있었다.
+ *
+ * **`advance()`/`step()` 안에서 부르지 않는다.** 한 번 그렇게 넣었다가
+ * `sim --hours 48`의 오프라인 적분 검사가 `drops 166/163`으로 깨졌다 — 파견은
+ * 미스헵을 1회 굴리므로(`dispatchExpedition`), 스텝 경계에 따라 난수 소비
+ * 시각이 달라지면 이후 드랍 순서 전체가 갈린다. `autoInvestLegacyDig`가 같은
+ * 이유로 `advance()` 밖에 있고(그 함수 주석 참조), 이 함수도 같은 자리에 둔다.
+ */
+function redeployIdleRoutineTeams(w: World) {
+  for (const team of w.teams) {
+    if (team.status !== "idle" || !team.routine?.enabled) continue;
+    const target = team.routine.target === "auto" ? nextRoutineTarget(w, team) : team.routine.target;
+    dispatchExpedition(w, team.id, target);
+  }
+}
+
 function tickExpeditions(
   w: World, t0: number, dt: number, eff: number, report: StepReport, contributions: Map<SiteId, SiteContributor[]>
 ) {
   for (const team of w.teams) {
     if (team.status === "idle") continue;
-    const window = onsiteWindow(team);
-    const overlap = Math.min(t0 + dt, window.end) - Math.max(t0, window.start);
-    if (overlap > 0) {
-      w.visitedSites[team.targetSite] = true;
-      const foreman = w.staff.find((s) => s.id === team.foremanId && s.role === "foreman") as Foreman | undefined;
-      const d = teamDigPower(team.workers, team.gearLevel, foreman?.leadership ?? 0);
-      const mishapEff = team.mishapRolled ? 1 - EXPEDITION_MISHAP_TIME_LOSS_RATIO : 1;
-      const effSeconds = overlap * eff * mishapEff;
-      if (effSeconds > 0 && d > 0) {
-        addSiteProgress(w, team.targetSite, effSeconds, d, report);
-        pushContribution(contributions, team.targetSite, { d, diggerForemanId: team.foremanId });
+    /**
+     * **한 청크 안에서 회차가 여러 번 끝날 수 있다.** 거점 로컬 원정은 왕복이
+     * `EXPEDITION_ONSITE_MIN_HOURS`(3분)뿐이라 10초 스텝이든 1초 스텝이든 한
+     * 청크에 회차가 걸치고, 예전처럼 "청크당 최대 1회 귀환"으로 처리하면
+     * 귀환 시각과 다음 회차 시작 사이의 조각(최대 dt초)이 통째로 증발한다 —
+     * 그 조각이 스텝 크기에 비례하므로 적분이 스텝 크기에 따라 갈라진다.
+     * 커서를 들고 청크 안을 걸어가며 회차 경계마다 정산한다.
+     */
+    let cursor = t0;
+    let guard = 0;
+    while (guard++ < 64) {
+      const window = onsiteWindow(team);
+      const start = Math.max(cursor, window.start);
+      const end = Math.min(t0 + dt, window.end);
+      if (end > start) {
+        w.visitedSites[team.targetSite] = true;
+        const foreman = w.staff.find((s) => s.id === team.foremanId && s.role === "foreman") as Foreman | undefined;
+        const d = teamDigPower(team.workers, team.gearLevel, foreman?.leadership ?? 0);
+        const mishapEff = team.mishapRolled ? 1 - EXPEDITION_MISHAP_TIME_LOSS_RATIO : 1;
+        const effSeconds = (end - start) * eff * mishapEff;
+        if (effSeconds > 0 && d > 0) {
+          pushContribution(contributions, team.targetSite, { d, seconds: effSeconds, diggerForemanId: team.foremanId });
+        }
       }
-    }
-    if (t0 < team.returnsAt && team.returnsAt <= t0 + dt) {
-      finalizeExpedition(w, team);
-    } else {
+      if (cursor <= team.returnsAt && team.returnsAt <= t0 + dt) {
+        const returnedAt = team.returnsAt;
+        finalizeExpedition(w, team, returnedAt);
+        // 루틴이 꺼진 팀은 유휴로 남는다 — 그때는 이 청크에서 더 할 일이 없다
+        if ((team.status as ExpeditionTeam["status"]) === "idle") break;
+        cursor = returnedAt;
+        continue;
+      }
       team.status = t0 + dt < team.arrivesAt ? "traveling_out" : t0 + dt < window.end ? "on_site" : "traveling_back";
+      break;
     }
   }
 }
@@ -1627,13 +1879,38 @@ function autoLiquidatePendingOverflow(w: World) {
  * 정책, 매 틱)가 각자 필요할 때 직접 부른다. 둘 다 qa 테스트가 검증하는
  * "같은 시드로 두 스텝 크기를 비교" 경로가 아니라 안전하다.
  */
+/**
+ * 자동 재투자가 남겨 둬야 할 현금.
+ *
+ * `AUTO_INVEST_RESERVE`(5,000₩)는 층 1의 감정 수수료가 461₩이던 시절의 값이다.
+ * v0.6의 깊이 압축은 몇 분 만에 10층대까지 내려가고, 거기서는 감정 수수료가
+ * **1건에 43,000₩**이다(수수료 = 층 기대가치 × 2%). 정액 5,000₩만 남기면
+ * 재투자가 지갑을 비워 **감정도 매각도 수입도 전부 0인 구간**이 생긴다 —
+ * 드랍만 계속 쌓이는 그 교착이 정확히 `qa:pipeline`이 지키는 결함이고
+ * (v0.3.2 결함 3), 압축 직후 실측에서 정지 시간이 22.4%까지 올라갔다.
+ *
+ * 그래서 **대기 중인 미감정 항목의 수수료**를 먼저 남긴다(앞의 몇 건만 —
+ * 큐가 길 때 재투자를 영영 못 하게 만들지 않기 위해서다).
+ */
+function autoInvestReserve(w: World): number {
+  let sum = 0;
+  let n = 0;
+  for (const p of w.pending) {
+    if (w.lab < APPRAISAL_UNLOCK_LAB_LEVEL[ARTIFACT_BY_ID[p.artifactId].tier]) continue;
+    sum += Math.round(p.estimate * APPRAISE_FEE);
+    if (++n >= AUTO_INVEST_FEE_RESERVE_ITEMS) break;
+  }
+  return Math.max(AUTO_INVEST_RESERVE, sum);
+}
+
 export function autoInvestLegacyDig(w: World) {
   if (!w.settings.autoReinvest) return;
+  const reserve = autoInvestReserve(w);
   for (let i = 0; i < 200; i++) {
     const wc = workerCost(w.workers);
     const gc = gearCost(w.gear);
     const lc = labCost(w.lab);
-    const spendable = w.funds - AUTO_INVEST_RESERVE;
+    const spendable = w.funds - reserve;
     if (w.lab < 6 && spendable >= lc && lc <= wc * 3) buyLab(w);
     else if (w.gear < MAX_GEAR_LEVEL && spendable >= gc && gc <= wc * 6) buyGear(w);
     else if (spendable >= wc) buyWorker(w);
@@ -1713,6 +1990,9 @@ function auctioneerOf(w: World, house: AuctionHouse): Auctioneer | undefined {
  * 그 틱의 재투자에 바로 쓰이게 하려는 것이다.
  */
 function autoSellVaultSpares(w: World) {
+  // 쌓였을 때 한 번에 치운다(G95.1) — 한 점씩 즉시 파는 것은 정리가 아니라 소음이다.
+  // 플레이어가 직접 누르는 "지금 정리"는 이 임계를 타지 않는다(`sellSpares` 직접 호출).
+  if (spareVaultItems(w, w.settings.autoSellSpareBelow).length < AUTO_SELL_SPARE_BATCH_MIN) return;
   if (w.settings.spareDestination === "auction") {
     const { listed } = auctionSpares(w, w.settings.autoSellSpareBelow);
     if (listed > 0) log(w, "system", `중복 유물 ${listed}점을 경매에 올렸다.`);
@@ -1721,6 +2001,107 @@ function autoSellVaultSpares(w: World) {
   const { count, gained } = sellSpares(w, w.settings.autoSellSpareBelow);
   if (count === 0) return;
   log(w, "system", `중복 유물 ${count}점을 정리했다(+${usd(gained)}).`);
+}
+
+export type VaultCarePlan =
+  /** 넘치지 않는다 */
+  | { kind: "ok"; stored: number; capacity: number }
+  /** 중복이 경매 출품 대기로 묶여 정원을 밀어내고 있다 — 출구가 막힌 것이지 정원이 좁은 게 아니다 */
+  | { kind: "backlog"; stored: number; capacity: number; waiting: number }
+  /** 한 칸 증축하면 초과가 해소된다 */
+  | { kind: "expand"; stored: number; capacity: number; cost: number; affordable: boolean }
+  /** 증축으로는 따라잡을 수 없다 — 습도조절로 저하를 상쇄한다 */
+  | { kind: "humidity"; stored: number; capacity: number; level: number; cost: number; affordable: boolean }
+  /** 자동 재투자가 꺼져 있어 자동으로는 아무것도 하지 않는다 */
+  | { kind: "off"; stored: number; capacity: number };
+
+/**
+ * **소장고 정원 초과에 무엇을 할 것인가** — 자동화(`autoVaultCare`)와 화면이 **같은
+ * 함수**를 읽는다(척추 5번: 화면이 규칙을 다시 구현하지 않는다).
+ *
+ * 초과는 켜지거나 꺼지거나 둘 중 하나다(보존 저하 2배). 그래서 판단이 두 줄로 끝난다.
+ *
+ * 1. **한 칸 증축으로 초과가 해소되면 증축한다**(살 수 있으면 바로 — 쿠션을
+ *    기다리면 해소 창이 닫힌다). 초기에는 이것으로 꺼진다.
+ * 2. **해소가 불가능하면 습도조절을 올린다.** 소장고가 담는 것은 중복분이 아니라
+ *    수집품 그 자체라(10시간 실측 소장고 972점 · 도감 996종), 정원으로 따라잡는
+ *    길은 없다 — 1,000점을 담으려면 보관소 23레벨, 약 950억₩이다. 초과가 만드는
+ *    피해는 보존 저하 2배이고, 습도는 그 확률의 분모를 키운다
+ *    (`conditionDecayChancePerDay`). **따라잡을 수 없는 것을 따라잡으려 돈을 태우는
+ *    대신, 피해를 줄인다.**
+ *
+ * 전시 중인 유물은 초과에 세지 않는다(`conditionDecayTick`과 같은 기준).
+ */
+export function vaultCarePlan(w: World): VaultCarePlan {
+  const stored = w.vault.filter((v) => !v.displayed).length;
+  const capacity = vaultCapacity(w.vaultLevel, codexProgress(w).owned);
+  if (stored <= capacity) {
+    // 넘치지 않아도 **저하는 계속 돈다.** 초과는 그 확률을 2배로 만드는 배수일 뿐이라,
+    // 상쇄를 초과에만 묶으면 초과가 사라진 순간 자동화가 손을 놓는다(G95 실측).
+    if (w.settings.autoReinvest && w.humidityLevel < VAULT_CARE_HUMIDITY_FLOOR) {
+      const cost = humidityLevelCost(w.humidityLevel);
+      const budget = w.funds - autoInvestReserve(w);
+      return {
+        kind: "humidity", stored, capacity, level: w.humidityLevel, cost,
+        affordable: budget >= cost * VAULT_CARE_COST_HEADROOM
+      };
+    }
+    return { kind: "ok", stored, capacity };
+  }
+
+  /**
+   * **출구가 막힌 경우를 먼저 가른다**(v0.6.4, G96). 보낼 곳이 경매인데 경매장이
+   * 없거나 슬롯이 차 있으면 중복이 소장고에 그대로 쌓인다(`auctionSpares`는 직접매각으로
+   * 몰래 바꾸지 않는다 — 플레이어가 고른 건 "경매로 보내라"다). 그 상태에서 정원을
+   * 늘리거나 습도를 올리는 건 **원인이 아닌 곳에 돈을 쓰는 것**이다. 실측에서 운영
+   * 기준선의 소장고 2,125점 중 1,131점이 이 대기 상태였다(G96).
+   */
+  const waiting =
+    w.settings.spareDestination === "auction" ? spareVaultItems(w, w.settings.autoSellSpareBelow).length : 0;
+  if (waiting > 0 && stored - waiting <= capacity) {
+    return { kind: "backlog", stored, capacity, waiting };
+  }
+
+  if (!w.settings.autoReinvest) return { kind: "off", stored, capacity };
+
+  const budget = w.funds - autoInvestReserve(w);
+  if (vaultCapacity(w.vaultLevel + 1, codexProgress(w).owned) >= stored) {
+    // 일회성 구매라 쿠션을 기다리지 않는다 — 기다리면 해소 창이 닫힌다(balance.ts 주석)
+    const cost = vaultLevelCost(w.vaultLevel);
+    return { kind: "expand", stored, capacity, cost, affordable: budget >= cost };
+  }
+  const cost = humidityLevelCost(w.humidityLevel);
+  return {
+    kind: "humidity", stored, capacity, level: w.humidityLevel, cost,
+    affordable: budget >= cost * VAULT_CARE_COST_HEADROOM
+  };
+}
+
+/**
+ * 정원 초과 자동 대응(v0.6.3, G92). `vaultCarePlan`이 고른 것을 실행한다.
+ *
+ * **재투자보다 먼저 부른다** — 넘치는 동안은 같은 자금을 두고 인부·장비와 경쟁하는데,
+ * 창고가 터진 채로 발굴력을 올리면 더 빨리 더 많이 썩는다. 대신 자동 재투자
+ * (`settings.autoReinvest`)가 꺼져 있으면 이 루틴도 쉰다 — 플레이어가 끈 것은
+ * "내 돈을 자동으로 쓰지 마라"이고, 그 뜻을 시설 구매에서만 뒤집지 않는다(척추 4번).
+ *
+ * 한 번에 한 칸만 산다. 습도는 비용이 1.8배씩 오르고 안전 계수가 3이라 저절로 멎는다.
+ */
+export function autoVaultCare(w: World) {
+  const plan = vaultCarePlan(w);
+  // 출구가 막힌 것뿐이면 시설을 사지 않는다 — 원인이 정원이 아니다(G96)
+  if (plan.kind === "backlog") return;
+  if (plan.kind === "expand" && plan.affordable) {
+    if (buyVaultLevel(w)) {
+      log(w, "system", `소장고 정원을 ${vaultCapacity(w.vaultLevel, codexProgress(w).owned)}점으로 늘렸다 — 초과가 풀렸다.`);
+    }
+    return;
+  }
+  if (plan.kind === "humidity" && plan.affordable) {
+    if (buyHumidityLevel(w)) {
+      log(w, "system", `정원 초과가 이어져 습도조절을 Lv.${w.humidityLevel}로 올렸다 — 보존 저하를 상쇄한다.`);
+    }
+  }
 }
 
 /**
@@ -1737,14 +2118,16 @@ function autoSellVaultSpares(w: World) {
 export function runAutoRoutine(w: World) {
   autoLiquidatePendingOverflow(w);
   autoSellVaultSpares(w);
+  autoVaultCare(w);
   autoInvestLegacyDig(w);
+  redeployIdleRoutineTeams(w);
 }
 
 /** 이 거점의 제보에 반응할 수단이 있는가(spec.md §8.6 제보 대상 자격) — 레거시
  *  단독 발굴이 지금 그 거점을 파고 있거나(항상 "그 자리"), 발굴단이 이미 on_site로
  *  가 있거나, 유휴 발굴단의 급파 압축 이동시간이 4시간 이내다. 어느 것도 아니면
  *  그 거점의 제보는 뽑히지 않는다 — 반응 불가능한 제보를 띄우지 않는다. */
-function playerCanReactAt(w: World, site: SiteId): boolean {
+export function playerCanReactAt(w: World, site: SiteId): boolean {
   if (w.activeSite === site) return true;
   if (w.teams.some((t) => t.status === "on_site" && t.targetSite === site)) return true;
   if (!w.teams.some((t) => t.status === "idle")) return false;
@@ -1754,30 +2137,95 @@ function playerCanReactAt(w: World, site: SiteId): boolean {
   return compressed <= EMERGENCY_DISPATCH_MAX_REACH_HOURS;
 }
 
+/** 제보 후보 전체(티어·검증만 통과한 모집단) — 아래 단계 필터의 분모다 */
+const TIP_UNIVERSE = ARTIFACTS.filter((a) => a.tier >= 2 && a.sourceStatus === "verified");
+/** 그중 유일만(12종). 매 스텝 도는 검사가 1,902종을 훑지 않게 미리 갈라 둔다. */
+const TIP_UNIQUE_UNIVERSE = TIP_UNIVERSE.filter((a) => a.tier === 4);
+
+/** 지금 제보로 알릴 수 있는 유일이 있는가(`tipPool`과 같은 조건, 12종만 훑는다) */
+function hasEligibleUnique(w: World): boolean {
+  return TIP_UNIQUE_UNIVERSE.some(
+    (a) => available(w, a) && a.minLayer <= w.sites[a.site].layer && playerCanReactAt(w, a.site)
+  );
+}
+
+/** `spawnTip`이 실제로 뽑는 풀. 단계별 진단(`tipPoolStages`)과 **같은 코드**를 탄다 —
+ *  진단이 엔진과 갈라지면 진단이 아니라 추측이 된다. */
+function tipPool(w: World): Artifact[] {
+  return TIP_UNIVERSE.filter(
+    (a) => available(w, a) && a.minLayer <= w.sites[a.site].layer && playerCanReactAt(w, a.site)
+  );
+}
+
+export type TipPoolStages = {
+  /** 검증된 T2+ 전체 */
+  all: number;
+  /** 세계 재고가 남은 것 */
+  stock: number;
+  /** 내 층이 minLayer에 닿은 것 */
+  layer: number;
+  /** 내가 반응할 수단이 있는 것 = 실제 풀 */
+  reactable: number;
+  /** 반응 가능한 거점 목록(왜 통과했는지의 이름) */
+  sites: SiteId[];
+};
+
+/**
+ * 제보 풀이 **어느 단계에서 0이 되는지**를 세는 읽기 전용 진단
+ * (`notes/play-first-10h.md` §5.2의 일회성 프로브를 엔진 안으로 들인 것).
+ * World를 바꾸지 않는다 — 계측이 게임을 바꾸면 계측이 아니다.
+ */
+export function tipPoolStages(w: World): TipPoolStages {
+  const stock = TIP_UNIVERSE.filter((a) => available(w, a));
+  const layer = stock.filter((a) => a.minLayer <= w.sites[a.site].layer);
+  const reactable = layer.filter((a) => playerCanReactAt(w, a.site));
+  return {
+    all: TIP_UNIVERSE.length,
+    stock: stock.length,
+    layer: layer.length,
+    reactable: reactable.length,
+    sites: [...new Set(reactable.map((a) => a.site))]
+  };
+}
+
 function spawnTip(w: World, rng: Rng) {
-  const pool = ARTIFACTS.filter((a) => {
-    if (a.tier < 2) return false;
-    if (a.sourceStatus !== "verified") return false;
-    if (!available(w, a)) return false;
-    if (a.minLayer > w.sites[a.site].layer) return false;
-    return playerCanReactAt(w, a.site);
-  });
+  const pool = tipPool(w);
   if (pool.length === 0) {
-    w.nextTipIn = 30;
+    w.nextTipIn = TIP_RETRY_INTERVAL;
     return;
   }
-  // 높은 티어를 강하게 선호한다 — 제보는 유일·국보가 주인공이다
-  const weighted: Artifact[] = [];
-  for (const a of pool) {
-    const n = a.tier === 4 ? 12 : a.tier === 3 ? 5 : 1;
-    for (let i = 0; i < n; i++) weighted.push(a);
+  // 유일(T4)이 자격을 갖췄으면 가중 추첨을 건너뛰고 그것을 편성한다
+  // (`TIP_UNIQUE_PRIORITY` — 유일의 반응은 세계적 사건이다). 가중 추첨의 분모가
+  // 자격 T2 종수에 끌려다니는 문제를 규칙으로 닫는다.
+  const uniques =
+    TIP_UNIQUE_PRIORITY && !w.lastTipWasUnique ? pool.filter((a) => a.tier === 4) : [];
+  let target: Artifact;
+  if (uniques.length > 0) {
+    target = uniques.length === 1 ? uniques[0] : rng.pick(uniques);
+  } else {
+    // 높은 티어를 강하게 선호한다 — 제보는 유일·국보가 주인공이다
+    const weighted: Artifact[] = [];
+    for (const a of pool) {
+      const n = TIP_TIER_WEIGHT[a.tier];
+      for (let i = 0; i < n; i++) weighted.push(a);
+    }
+    target = rng.pick(weighted);
   }
-  const target = rng.pick(weighted);
   // 같은 거점에 홈을 둔 라이벌 — on_site와 동격이라 배너 안에 즉시 반응한다
   const rivalIds = w.rivals
-    .filter((r) => r.homeSite === target.site && r.layer >= target.minLayer)
+    .filter((r) => r.homeSite === target.site)
     .map((r) => r.id);
   const chosen = rivalIds.slice(0, 1 + rng.int(0, 3));
+  // 국보·유일은 세계에 퍼진다(`TIP_WORLDWIDE_MIN_TIER`) — 그 거점에 아무도 살지
+  // 않으면 가장 가까운 수집가 한 명이 반응 대상이 된다. 이동시간은 여기서 모델링
+  // 하지 않는다: 원거리 급파(아래)와 달리 이쪽은 "같은 제보를 받았다"는 자격이고,
+  // 실제 획득은 마감 판정에서만 일어난다.
+  if (chosen.length === 0 && target.tier >= TIP_WORLDWIDE_MIN_TIER) {
+    const nearest = w.rivals
+      .map((r) => ({ id: r.id, dist: distanceKm(r.homeSite, target.site) }))
+      .sort((a, b) => a.dist - b.dist)[0];
+    if (nearest) chosen.push(nearest.id);
+  }
 
   // 원거리 라이벌 급파(spec.md §12.3) — 가장 가까운 유휴(추적 중이 아닌) 라이벌
   // 1명만 시도한다. 배너 수명과 무관하게 압축 이동시간 뒤 resolveRivalTipChases가
@@ -1799,15 +2247,160 @@ function spawnTip(w: World, rng: Rng) {
     }
   }
 
+  w.lastTipWasUnique = target.tier === 4;
   w.tip = {
     artifactId: target.id,
     site: target.site,
     layer: target.minLayer,
     remain: rng.range(TIP_DURATION_ONSITE_MIN, TIP_DURATION_ONSITE_MAX),
     rivals: chosen,
-    focused: false
+    focused: false,
+    openedAt: w.t,
+    resolved: null
   };
   log(w, "system", `제보 — ${SITE_BY_ID[target.site].city} ${target.minLayer}층에서 반응. 대상: ${target.name}`);
+}
+
+/** 플레이어가 **지금 그 자리에서** 레이스에 참가하고 있는가 — 직접 발굴이 그
+ *  거점을 파고 있거나, 발굴단이 on_site로 가 있거나. 이동 중인 급파는 아직 그
+ *  자리에 없으므로 참가로 세지 않는다(도착하면 `team.tipChase`가 따로 판정한다 —
+ *  spec.md §8.6, 배너 수명과 레이스 종료를 분리한 설계 그대로다). */
+function playerRacingAt(w: World, tip: Tip): boolean {
+  if (w.sites[tip.site].layer < tip.layer) return false;
+  if (w.activeSite === tip.site) return true;
+  return w.teams.some((t) => t.status === "on_site" && t.targetSite === tip.site);
+}
+
+/**
+ * 배너 안에서 같은 자리를 파고 있는 라이벌. **층 조건은 걸지 않는다** — 제보를
+ * 받은 쪽은 그 층까지 내려간다는 것이 이 사건의 전제이고, 플레이어도 같은 규칙을
+ * 쓴다(`playerRacingAt` — 거점이 같으면 참가).
+ *
+ * v0.6은 여기에 `r.layer >= tip.layer`를 걸어 두고 있었는데, 압축된 곡선에서
+ * 플레이어는 15초에 5층에 닿고 라이벌은 3분쯤 걸린다. 그 결과 **첫 몇 분의 제보에
+ * 경쟁자가 한 명도 없었다** — 실측으로 첫 10분 제보의 과반이 무경쟁 단독 수령이었고,
+ * "조금만 늦었으면 놓쳤다"(재미 3문장 ②)가 성립할 자리가 없었다(`eval.md` §28).
+ */
+function tipRivalContenders(w: World, tip: Tip): string[] {
+  return tip.rivals.filter((id) => w.rivals.some((x) => x.id === id));
+}
+
+export type TipRaceOdds = {
+  /** 마감까지 남은 초(이미 결판났으면 0) */
+  decideIn: number;
+  /** 플레이어가 그 자리에 있는가 */
+  racing: boolean;
+  /** 마감 판정에서 플레이어가 가질 확률(0~1). 보장이 걸려 있으면 1 */
+  playerChance: number;
+  /** 첫 승 보장이 이 판에 걸려 있는가 */
+  guaranteed: boolean;
+  /** 같은 자리를 파고 있는 라이벌 수 — 이 판의 경쟁도 그 자체다 */
+  contenders: number;
+  /** 유일인데 아직 대응하지 않았다 — 지금 상태로는 가져갈 수 없다 */
+  needsResponse: boolean;
+  /** 안목이 이 판에 더해 주는 몫(0 = 그 거점을 아직 모른다) */
+  eyeBonus: number;
+};
+
+/** 마감 판정의 현재 상태 — 화면이 규칙과 같은 말을 하도록 엔진이 직접 낸다(척추 5번). */
+export function tipRaceOdds(w: World, tip: Tip): TipRaceOdds {
+  const racing = playerRacingAt(w, tip);
+  const decideIn = tip.resolved
+    ? 0
+    : Math.max(0, tip.openedAt + TIP_MIN_RESPONSE_SECONDS + TIP_DECIDE_AFTER_GRACE_SECONDS - w.t);
+  const target = ARTIFACT_BY_ID[tip.artifactId];
+  const responded =
+    !!tip.focused || w.teams.some((t) => t.tipChase?.artifactId === tip.artifactId && t.status === "on_site");
+  const needsResponse =
+    TIP_UNIQUE_REQUIRES_RESPONSE && target.tier === 4 && tip.rivals.length > 0 && !responded;
+  const guaranteed = TIP_FIRST_WIN_GUARANTEED && racing && !needsResponse && w.stats.racesWon === 0;
+  const firstUniqueLesson = needsResponse && TIP_FIRST_UNIQUE_TAUGHT && !w.taughtUniqueLoss;
+  const eye = eyeRaceMult(w, tip.site);
+  const pw =
+    racing
+      ? (tip.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) *
+        (firstUniqueLesson ? 0 : needsResponse ? TIP_UNRESPONDED_UNIQUE_MULT : 1) * eye
+      : 0;
+  const contenders = tipRivalContenders(w, tip).length;
+  const rw = contenders * TIP_RIVAL_HIT;
+  const playerChance = guaranteed ? 1 : pw + rw === 0 ? 0 : pw / (pw + rw);
+  return { decideIn, racing, playerChance, guaranteed, contenders, needsResponse, eyeBonus: eye - 1 };
+}
+
+/**
+ * **판정 마감**(v0.6.1) — 반응 유예가 끝나고 `TIP_DECIDE_AFTER_GRACE_SECONDS`가
+ * 더 지나도 아무도 적중하지 못했으면, 그 자리에 있는 진영끼리 **한 번에 결판낸다**.
+ *
+ * 이 함수가 없으면 제보는 "아무도 못 맞힌 채 만료"될 수 있고, 그게 v0.6 최악
+ * 시드에서 첫 레이스 결과를 7분 30초로 밀고 첫 10분 승리를 0회로 만든 원인이었다
+ * (`eval.md` §28). 승률은 드랍 판정과 **같은 상수**를 쓴다 — 마감은 승률이 아니라
+ * 무승부를 없애는 장치다(`balance.ts` `TIP_DECIDE_AFTER_GRACE_SECONDS` 주석).
+ *
+ * 척추 3번(영구 상실은 플레이어가 그 자리에 있었을 때만)은 그대로다: 마감 판정은
+ * 플레이어가 반응할 수 있는 거점에서만 뜨는 배너 안에서, 온라인 중에만 일어난다.
+ */
+function decideTipRace(w: World, rng: Rng, report: StepReport) {
+  const tip = w.tip;
+  if (!tip || tip.resolved) return;
+  if (w.t - tip.openedAt < TIP_MIN_RESPONSE_SECONDS + TIP_DECIDE_AFTER_GRACE_SECONDS) return;
+
+  const target = ARTIFACT_BY_ID[tip.artifactId];
+  if (!available(w, target)) {
+    // 이미 세계에서 사라졌다 — 판정할 것이 없다(배너는 수명대로 닫힌다)
+    clearTipChases(w, target.id);
+    return;
+  }
+
+  const racing = playerRacingAt(w, tip);
+  const contenders = tipRivalContenders(w, tip);
+  // 유일은 대응(집중 굴착·급파)해야 가진다 — 그 자리에 있는 것만으로는 안 된다.
+  const responded =
+    !!tip.focused || w.teams.some((t) => t.tipChase?.artifactId === tip.artifactId && t.status === "on_site");
+  const unresponded =
+    TIP_UNIQUE_REQUIRES_RESPONSE && target.tier === 4 && contenders.length > 0 && !responded;
+  const uniquePenalty = !unresponded
+    ? 1
+    : TIP_FIRST_UNIQUE_TAUGHT && !w.taughtUniqueLoss
+      ? 0
+      : TIP_UNRESPONDED_UNIQUE_MULT;
+  const pw = racing
+    ? (tip.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) * uniquePenalty * eyeRaceMult(w, tip.site)
+    : 0;
+  // 라이벌 가중은 **머릿수**다 — 유예 전 드랍 판정에서 라이벌 k명이 각자 굴리는
+  // 것과 같은 셈이고, 그래서 제보마다 경쟁도가 다르다(1명이면 반반, 4명이면 20%).
+  // 배너가 그 수치를 그대로 적는다(척추 5번, `tipRaceOdds`).
+  const rw = contenders.length * TIP_RIVAL_HIT;
+  // 양쪽 다 그 자리에 없다 — 결판낼 주체가 없으므로 유물은 세상에 남는다.
+  // (급파가 이동 중이면 여기 걸린다 — 도착 판정은 기존 경로가 그대로 한다.)
+  if (pw + rw === 0) return;
+  // **척추 3번** — 유일(T4)은 플레이어가 **그 자리에 있을 때만** 걸린다. 자리를
+  // 비운 판에서 마감이 유일을 라이벌에게 넘기지 않는다(배너는 그냥 만료된다).
+  // 그 자리에 있었는데 대응하지 않아 진 것은 영구 상실의 정당한 경로다 —
+  // "플레이어가 그 자리에 있었을 때만"은 충족되고, 대응 버튼은 화면에 있었다.
+  if (!racing && target.tier === 4) return;
+
+  const guaranteed = TIP_FIRST_WIN_GUARANTEED && pw > 0 && w.stats.racesWon === 0;
+  const playerTakes = guaranteed || rng.chance(pw / (pw + rw));
+
+  if (playerTakes) {
+    take(w, target, "player", report);
+    clearTipChases(w, target.id);
+    w.stats.racesWon += 1;
+    report.won.push(target.id);
+    log(
+      w, "won",
+      guaranteed
+        ? `첫 제보의 결판 — '${target.name}'${josa(target.name, "을를")} 확보했다. (첫 승은 참가하면 보장된다)`
+        : `제보 마감 — '${target.name}'${josa(target.name, "을를")} 먼저 확보했다.`
+    );
+  } else {
+    const rivalId = contenders.length === 1 ? contenders[0] : rng.pick(contenders);
+    take(w, target, rivalId, report);
+    clearTipChases(w, target.id);
+    w.stats.racesLost += 1;
+  }
+  tip.resolved = { outcome: playerTakes ? "won" : "lost", at: w.t };
+  if (target.tier === 4) w.taughtUniqueLoss = true;
 }
 
 /** 원거리 급파 라이벌의 도착 판정(spec.md §12.3) — 압축 이동시간이 지나면 그
@@ -1816,6 +2409,9 @@ function spawnTip(w: World, rng: Rng) {
 function resolveRivalTipChases(w: World, rng: Rng, report: StepReport) {
   for (const r of w.rivals) {
     if (!r.tipChase || w.t < r.tipChase.arrivesAt) continue;
+    // 반응 유예 중이면 원거리 급파 라이벌도 판정을 미룬다(플레이어와 대칭)
+    if (w.tip && !w.tip.resolved && w.tip.artifactId === r.tipChase.artifactId &&
+        w.t - w.tip.openedAt < TIP_MIN_RESPONSE_SECONDS) continue;
     const target = ARTIFACT_BY_ID[r.tipChase.artifactId];
     if (available(w, target) && rng.chance(TIP_RIVAL_HIT)) {
       take(w, target, r.id, report);
@@ -1851,12 +2447,27 @@ export function rivalExpeditions(w: World): RivalExpeditionInfo[] {
  * 큰 가산점을 줘 최우선으로 추천한다(notes/decisions.md G55 보고 대상).
  */
 export function recommendSites(w: World, topN = RECOMMEND_TOP_N): SiteId[] {
+  const home = teamHomeSite(w);
   const scored = SITES.map((s) => {
     const contribution = ARTIFACTS.filter(
       (a) => a.site === s.id && a.sourceStatus === "verified" && w.codex[a.id] !== "owned" && w.codex[a.id] !== "owned_unidentified"
     ).length;
     const visited = !!w.visitedSites[s.id];
-    return { id: s.id, score: contribution + (visited ? 0 : 1000) };
+    /**
+     * **거리 감쇠**(v0.6, `notes/play-first-10h.md` §8 처방 ①). v0.5.1까지 이
+     * 함수는 거리를 전혀 보지 않았고, 그래서 t=0의 추천 1위가 지구 반대편
+     * 페루였다 — 시작 발굴단이 편도 35.3시간을 떠나면서 첫 세션에서 사라졌다.
+     * 일본은 페루의 92% 종 수를 가지고 왕복이 세션 안에 끝난다.
+     *
+     * 곱셈 감쇠를 쓰는 이유: 뺄셈이면 종 수가 많은 먼 거점이 여전히 이기거나
+     * (계수가 작으면) 종 수가 무의미해진다(계수가 크면). 감쇠면 **"가까운
+     * 곳부터, 단 종 수도 본다"**가 그대로 순위가 된다. 먼 거점이 더 좋다는
+     * 설계 의도(거리가 비용·미스헵·수확에 다 걸려 있다)는 살아 있다 — 다만
+     * 그 선택을 **게임이 대신 하면서 가장 먼 곳을 고르는 일**이 없어진다.
+     */
+    const hours = travelHoursOneWay(distanceKm(home, s.id), 0);
+    const decay = 1 / (1 + hours / RECOMMEND_TRAVEL_HALF_HOURS);
+    return { id: s.id, score: (contribution + (visited ? 0 : 1000)) * decay };
   });
   return scored
     .filter((s) => s.score > 0)
@@ -1940,14 +2551,14 @@ export function step(w: World, dt: number, offline = false, record: PersistentRe
 
   w.t += dt;
   // 레거시 단독 발굴과 발굴단은 같은 거점을 노리면 SiteProgress를 공유한다
-  // (spec.md §8.2 "Σ D_team") — 진척은 기여자별로 따로 더하되, 드랍 판정은
-  // 거점당 한 번만(귀속은 발굴력 비중 가중 추첨) 하기 위해 기여자를 먼저
-  // 모으고 그다음 거점별로 한 번씩 드랍을 소진한다(addSiteProgress 주석 참조).
+  // (spec.md §8.2 "Σ D_team"). 그래서 기여자를 먼저 모으고, 거점별로 한 번씩
+  // `applySiteChunk`가 **층 경계로 쪼개** 진척을 넣으며 드랍을 소진한다
+  // (귀속은 기여 진척 비중 가중 추첨 — 그 함수 주석 참조).
   const contributions = new Map<SiteId, SiteContributor[]>();
   digPlayer(w, dt, eff, report, contributions);
   tickExpeditions(w, t0, dt, eff, report, contributions);
-  for (const [site, contributors] of contributions) drainSiteDrops(w, rng, site, contributors, report);
-  for (const r of w.rivals) digRival(w, r, rng, dt, eff, report);
+  for (const [site, contributors] of contributions) applySiteChunk(w, rng, site, contributors, report);
+  for (const r of w.rivals) digRival(w, r, rng, t0, dt, eff, report);
   resolveRivalTipChases(w, rng, report);
   runAppraisal(w, dt, report);
   promoteStaffTick(w, t0, dt);
@@ -1958,7 +2569,7 @@ export function step(w: World, dt: number, offline = false, record: PersistentRe
   // onlineElapsedSeconds 기준이라 이 두 틱을 매번 불러도 오프라인 동안은
   // 경계 자체가 넘어가지 않는다(척추 3번).
   accrueMuseums(w, dt);
-  conditionDecayTick(w, t0, dt, rng);
+  conditionDecayTick(w, t0, dt);
   restorationTick(w, t0, dt, rng);
   settleAuctions(w, t0, dt);
   restockBlackMarket(w, t0, dt, rng);
@@ -1970,13 +2581,28 @@ export function step(w: World, dt: number, offline = false, record: PersistentRe
 
     if (w.tip) {
       w.tip.remain -= dt;
+      // 마감 판정이 먼저다 — 배너가 닫히기 전에 결판을 낸다(무승부 제거, v0.6.1)
+      decideTipRace(w, rng, report);
       if (w.tip.remain <= 0) {
-        const expired = ARTIFACT_BY_ID[w.tip.artifactId].name;
-        log(w, "system", `제보가 만료됐다. '${expired}'${josa(expired, "은는")} 아직 세상에 남아 있다.`);
+        const name = ARTIFACT_BY_ID[w.tip.artifactId].name;
+        if (!w.tip.resolved) {
+          log(w, "system", `제보가 만료됐다. '${name}'${josa(name, "은는")} 아직 세상에 남아 있다.`);
+        }
         w.tip = null;
         w.nextTipIn = rng.range(TIP_MEAN_INTERVAL * 0.5, TIP_MEAN_INTERVAL * 1.5);
       }
     } else {
+      // 유일이 방금 자격을 갖췄으면 다음 제보를 앞으로 당긴다
+      // (`TIP_UNIQUE_ANNOUNCE_WITHIN`) — 유일 알림이 직전 배너의 수명 뒤에서
+      // 기다리지 않게 한다. 연달아 유일이 뜨는 것은 `lastTipWasUnique`가 막는다.
+      // **예약된 제보만 당긴다.** `nextTipIn`이 스케줄러가 낼 수 있는 최대치
+      // (`TIP_MEAN_INTERVAL × 1.5`)를 넘으면 그건 카운트다운이 아니라 "제보를 꺼
+      // 뒀다"는 뜻이다(`qa_expedition`이 제보 잡음을 걷어내려고 그렇게 한다).
+      // 이 조건이 없으면 엔진이 그 끔을 되살려 스텝 무관성 검증을 깨뜨린다.
+      const scheduled = w.nextTipIn <= TIP_MEAN_INTERVAL * 1.5;
+      if (scheduled && w.nextTipIn > TIP_UNIQUE_ANNOUNCE_WITHIN && !w.lastTipWasUnique && hasEligibleUnique(w)) {
+        w.nextTipIn = TIP_UNIQUE_ANNOUNCE_WITHIN;
+      }
       w.nextTipIn -= dt;
       if (w.nextTipIn <= 0) spawnTip(w, rng);
     }
@@ -2098,7 +2724,7 @@ export function unlockSite(w: World, site: SiteId): boolean {
   const ownedCount = SITES.filter((s) => w.sites[s.id].unlocked).length;
   // base 슬롯 상한(world-map.md §5, G17/A10) — unlockCost는 이제 원정 자격이 아니라
   // base 승격에만 든다. 원정은 12거점 어디든 항상 가능하다(expedition.ts·dispatchExpedition).
-  if (ownedCount >= MAX_OWNED_SITES) return false;
+  if (ownedCount >= ownedSiteCap(w)) return false;
   w.funds -= def.unlockCost;
   w.sites[site].unlocked = true;
   w.sites[site].baseSince = w.t;
@@ -2609,7 +3235,7 @@ export function applySeasonRollover(w: World, record: PersistentRecord): Persist
   w.humidityLevel = 1;
   w.restorationLevel = 1;
   w.securityLevel = 1;
-  w.lastConditionDay = Math.floor(w.t / 86400);
+  w.lastConditionDay = Math.floor(w.t / CONDITION_TICK_SECONDS);
   w.nextRestorationAttemptAt = w.t + RESTORATION_BASE_HOURS * 3600;
   w.museumDigEma = 0;
   w.museumCumulativeVisitors = 0;
