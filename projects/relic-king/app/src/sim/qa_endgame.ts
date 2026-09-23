@@ -20,7 +20,7 @@ import {
   createTeam, createWorld, digPower, dispatchExpedition, hireForeman, playerAssets, ranking,
   sellTierAtMost, setRoutine, staffMarketCycle, unlockSite, unlockTeamSlot
 } from "../game/engine";
-import { duration, won } from "../game/format";
+import { duration, usd } from "../game/format";
 import { staffCandidates } from "../game/staff";
 import type { SiteId, World } from "../game/types";
 
@@ -133,7 +133,7 @@ function main() {
       console.log(
         `${String(checkpoints[nextCk]).padStart(4)}h  도감 ${codex.owned}/${codex.total} ` +
         `(${((codex.owned / codex.total) * 100).toFixed(1)}%)  소실 ${codex.lost}  ` +
-        `방문거점 ${visitedNew}/12  자산 ${won(playerAssets(w))}₩  순위 ${rank.findIndex((r) => r.id === "player") + 1}위  ` +
+        `방문거점 ${visitedNew}/12  자산 ${usd(playerAssets(w))}  순위 ${rank.findIndex((r) => r.id === "player") + 1}위  ` +
         `엔딩 ${w.ended ? "✅ 달성" : "미달성"}`
       );
       nextCk++;
@@ -149,7 +149,7 @@ function main() {
   console.log(`도감        소장 ${codex.owned} / 소실 ${codex.lost} / 전체 ${codex.total} (${((codex.owned / codex.total) * 100).toFixed(1)}%, 목표 ${CODEX_GOAL * 100}%)`);
   console.log(`방문 거점   ${SITES.filter((s) => w.visitedSites[s.id]).length}/12`);
   console.log(`발굴단      ${w.teams.length}팀, 발굴력(레거시) ${digPower(w).toFixed(0)}/s`);
-  console.log(`자산        ${won(playerAssets(w))}₩   순위 ${rank.findIndex((r) => r.id === "player") + 1}위`);
+  console.log(`자산        ${usd(playerAssets(w))}   순위 ${rank.findIndex((r) => r.id === "player") + 1}위`);
 
   // 거점별 도감 소장 현황(신규 9거점이 실제로 기여하는지 직접 확인)
   console.log("\n거점별 소장 종수:");

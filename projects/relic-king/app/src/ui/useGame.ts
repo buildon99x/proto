@@ -6,8 +6,8 @@ import {
   buyHumidityLevel, buyLab, buyMuseumMarketing, buyRestorationLevel, buySecurityLevel, buyTeamGear, buyTeamWorker,
   buyVaultLevel, buyWorker, buildAuctionHouse, buildMuseum, click, createPersistentRecord, createTeam,
   createWorld, dispatchExpedition, displayArtifact, emergencyDispatch, focusDig, fullRanking, sampleRanks,
-  hireAuctioneer, hireCurator, hireForeman, listAtAuction, relocateBase, runAutoRoutine, sellArtifactCopies,
-  sellSpares, sellTierAtMost, setRoutine, switchSite, undisplayArtifact, unlockSite, unlockTeamSlot,
+  hireAuctioneer, hireCurator, hireForeman, listAtAuction, listManyAtAuction, relocateBase, runAutoRoutine, sellArtifactCopies,
+  sellSpares, sellTierAtMost, sellVaultItems, setRoutine, switchSite, undisplayArtifact, unlockSite, unlockTeamSlot,
   upgradeAuctionGrade, upgradeMuseumGrade
 } from "../game/engine";
 import { addGhost, encodeCard, makeCard, parseCard, removeGhost } from "../game/rivalcard";
@@ -323,6 +323,9 @@ export function useGame() {
     // ── 소장고 ──────────────────────────────────────────────────────────
     sell: (artifactId: string, count: number) => act((w) => sellArtifactCopies(w, artifactId, count)),
     sellTier: (tier: Tier) => act((w) => sellTierAtMost(w, tier)),
+    /** 소장고 다중 선택(v0.5.2) — 고른 사본(uid)을 한 번에 매각·경매 등록 */
+    sellMany: (uids: number[]) => act((w) => sellVaultItems(w, uids)),
+    auctionMany: (uids: number[]) => act((w) => listManyAtAuction(w, uids)),
     blind: (uid: number) => act((w) => blindSell(w, uid)),
     blindAll: () => act(blindSellAll),
     setAutoSell: (tier: Tier | null) =>

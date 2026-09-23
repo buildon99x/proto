@@ -17,6 +17,7 @@
     "qa:artifacts": "tsx src/sim/qa_artifacts.ts",
     "qa:economy": "tsx src/sim/qa_economy.ts",
     "qa:autosell": "tsx src/sim/qa_autosell.ts",
+    "qa:bulk": "tsx src/sim/qa_bulk.ts",
     "qa:pipeline": "tsx src/sim/qa_pipeline.ts",
     "playlog": "tsx src/sim/playlog.ts",
     "build:worldmap": "node ../scripts/build-worldmap.mjs",

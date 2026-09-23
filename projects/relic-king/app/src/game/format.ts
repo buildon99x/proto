@@ -4,8 +4,8 @@ const UNITS: [number, string][] = [
   [1e4, "만"]
 ];
 
-/** 한글 단위 표기. 1,234,000 → "123.4만" */
-export function won(value: number): string {
+/** 한글 단위 표기(통화 기호 없음). 1,234,000 → "123.4만" */
+export function amount(value: number): string {
   const v = Math.floor(value);
   if (v < 10_000) return v.toLocaleString("ko-KR");
   for (const [unit, label] of UNITS) {
@@ -18,8 +18,13 @@ export function won(value: number): string {
   return v.toLocaleString("ko-KR");
 }
 
-export function wonSuffixed(value: number): string {
-  return `${won(value)} ₩`;
+/**
+ * 금액 표기. 게임 내 화폐 단위는 **미국 달러**다 — 흔함(T0) 유물 한 점이
+ * 약 1만 달러(`TIER_VALUE[0]` = 12,000)인 것이 기준선이다. 자릿수는 한국어
+ * 독자가 바로 읽는 만·억·조 단위를 그대로 쓴다. 12,000 → "$1.2만"
+ */
+export function usd(value: number): string {
+  return `$${amount(value)}`;
 }
 
 export function duration(seconds: number): string {
@@ -57,7 +62,7 @@ export function percent(ratio: number, digits = 0): string {
 export function rate(value: number): string {
   if (!Number.isFinite(value)) return "0";
   if (value < 100) return value.toFixed(1);
-  return won(value);
+  return amount(value);
 }
 
 // ── 조사 ──────────────────────────────────────────────────

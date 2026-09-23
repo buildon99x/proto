@@ -10,7 +10,7 @@ import {
 import { auctionHouseOf, freshnessOf, museumOf, museumSlotCount, staffMarketCycle } from "../game/engine";
 import { museumUpkeepHourly, museumVisitorIncomeHourly, museumVisitorsPerDay } from "../game/museum";
 import { auctioneerSlotBonus, staffCandidates } from "../game/staff";
-import { clock, percent, won } from "../game/format";
+import { clock, percent, usd } from "../game/format";
 import { TIER_COLOR } from "../render/palette";
 import { Modal } from "./Modal";
 import { Sprite } from "./Sprite";
@@ -151,7 +151,7 @@ function StorageUpgrade({ label, now, next, detail, cost, funds, onBuy }: {
         <span className="muted small">{now} → {next}</span>
       </div>
       <button type="button" disabled={!afford} onClick={onBuy}>
-        {label} 확장 — {won(cost)} ₩
+        {label} 확장 — {usd(cost)}
       </button>
     </div>
   );
@@ -178,7 +178,7 @@ function MuseumPanel({ game, site }: { game: Game; site: SiteId }) {
     <section className="card">
       <div className="card-head">
         <h3>{SITE_BY_ID[site].city} 박물관 — {built ? `등급${museum.grade}` : "임시 전시대"}</h3>
-        <span className="muted small">순수익 {won(Math.max(0, incomeHourly - upkeepHourly))}₩/h · 관람 {Math.round(visitors).toLocaleString("ko-KR")}명/일</span>
+        <span className="muted small">순수익 {usd(Math.max(0, incomeHourly - upkeepHourly))}/h · 관람 {Math.round(visitors).toLocaleString("ko-KR")}명/일</span>
       </div>
 
       <div className="museum-slots">
@@ -208,16 +208,16 @@ function MuseumPanel({ game, site }: { game: Game; site: SiteId }) {
       <div className="facility-actions">
         {!built ? (
           <button type="button" disabled={world.funds < museumBuildCost(world.museums.length + 1)} onClick={() => game.buildMuseum(site)}>
-            박물관 건립 — {won(museumBuildCost(world.museums.length + 1))} ₩
+            박물관 건립 — {usd(museumBuildCost(world.museums.length + 1))}
           </button>
         ) : museum.grade < MUSEUM_SLOT_BY_GRADE.length - 1 ? (
           <button type="button" disabled={world.funds < museumGradeCost(museum.grade)} onClick={() => game.upgradeMuseumGrade(site)}>
-            등급 승급 — {won(museumGradeCost(museum.grade))} ₩
+            등급 승급 — {usd(museumGradeCost(museum.grade))}
           </button>
         ) : null}
         {built ? (
           <button type="button" disabled={world.funds < marketingLevelCost(museum.marketingLevel)} onClick={() => game.buyMuseumMarketing(site)}>
-            마케팅 Lv.{museum.marketingLevel} → {won(marketingLevelCost(museum.marketingLevel))} ₩
+            마케팅 Lv.{museum.marketingLevel} → {usd(marketingLevelCost(museum.marketingLevel))}
           </button>
         ) : null}
       </div>
@@ -237,7 +237,7 @@ function MuseumPanel({ game, site }: { game: Game; site: SiteId }) {
                 >
                   <strong>{c.name}</strong>
                   <span className="muted small">전시노하우 {c.role === "curator" ? c.curation : 0} · 보안감각 {c.role === "curator" ? c.securitySense : 0}</span>
-                  <span className="price">{won(FOREMAN_HIRE_COST)} ₩</span>
+                  <span className="price">{usd(FOREMAN_HIRE_COST)}</span>
                 </button>
               ))}
             </div>
@@ -286,7 +286,7 @@ function AuctionPanel({ game, site }: { game: Game; site: SiteId }) {
       <section className="card">
         <h3>{SITE_BY_ID[site].city} 경매장 — 미건립</h3>
         <button type="button" disabled={world.funds < auctionHouseBuildCost(world.auctionHouses.length + 1)} onClick={() => game.buildAuctionHouse(site)}>
-          경매장 건립 — {won(auctionHouseBuildCost(world.auctionHouses.length + 1))} ₩
+          경매장 건립 — {usd(auctionHouseBuildCost(world.auctionHouses.length + 1))}
         </button>
       </section>
     );
@@ -326,7 +326,7 @@ function AuctionPanel({ game, site }: { game: Game; site: SiteId }) {
       <div className="facility-actions">
         {house.grade < AUCTION_GRADE_MAX ? (
           <button type="button" disabled={world.funds < auctionGradeCost(house.grade)} onClick={() => game.upgradeAuctionGrade(site)}>
-            등급 승급 — {won(auctionGradeCost(house.grade))} ₩
+            등급 승급 — {usd(auctionGradeCost(house.grade))}
           </button>
         ) : null}
       </div>
@@ -345,7 +345,7 @@ function AuctionPanel({ game, site }: { game: Game; site: SiteId }) {
               >
                 <strong>{c.name}</strong>
                 <span className="muted small">고객관리 {c.role === "auctioneer" ? c.negotiation : 0} · 물류처리력 {c.role === "auctioneer" ? c.logistics : 0}</span>
-                <span className="price">{won(FOREMAN_HIRE_COST)} ₩</span>
+                <span className="price">{usd(FOREMAN_HIRE_COST)}</span>
               </button>
             ))}
           </div>

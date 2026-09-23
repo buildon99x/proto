@@ -20,7 +20,7 @@ import { AUTO_ROUTINE_INTERVAL_SECONDS } from "../game/balance";
 import {
   advance, codexProgress, createPersistentRecord, createWorld, digPower, playerAssets, runAutoRoutine
 } from "../game/engine";
-import { duration, won } from "../game/format";
+import { duration, usd } from "../game/format";
 import { actExpansion, liquidateSurplus, STEP_EARLY, STEP_LATE } from "./policy";
 import { PlayRecorder, STEPS_PER_EVENT } from "./telemetry";
 import type { EventKind, PlayEvent } from "./telemetry";
@@ -408,7 +408,7 @@ function report(r: RunResult) {
         `${String(b.newSpecies).padStart(6)} ${String(b.layerUp).padStart(4)} ` +
         `${`${b.tips}(${b.won}/${b.lost})`.padStart(11)} ${String(b.ops).padStart(5)} │ ` +
         `${(s ? String(s.codex) : "—").padStart(5)} ${(s ? s.dig.toFixed(0) : "—").padStart(7)} ` +
-        `${(s ? `${won(s.funds)}₩` : "—").padStart(9)} ${(s ? `${won(s.assets)}₩` : "—").padStart(9)} ` +
+        `${(s ? `${usd(s.funds)}` : "—").padStart(9)} ${(s ? `${usd(s.assets)}` : "—").padStart(9)} ` +
         `${(s ? String(s.vault) : "—").padStart(6)} │ ` +
         b.firsts.map(label).join(", ")
       );
@@ -436,7 +436,7 @@ function report(r: RunResult) {
 
   const codex = codexProgress(w);
   console.log("\n── 도달 상태 ──────────────────────────────────────────────");
-  console.log(`자산 ${won(playerAssets(w))}₩ · 도감 ${codex.owned}/${codex.total}종 · ` +
+  console.log(`자산 ${usd(playerAssets(w))} · 도감 ${codex.owned}/${codex.total}종 · ` +
     `발굴력 ${digPower(w).toFixed(0)}/s · 거점 ${totals.get("siteUnlocked")?.n ?? 0}곳 추가 · 발굴단 ${w.teams.length}팀`);
 
   return { totals, dead, sig, tips, density: density(events, seconds), effort: e };
@@ -460,7 +460,7 @@ line("반복:의미 비율", `${a1.sig.perMeaningful.toFixed(1)}:1`, `${a2.sig.p
 line("사람 조작", `${a1.effort.actions}회`, `${a2.effort.actions}회`);
 line("하루 조작", `${a1.effort.actionsPerDay.toFixed(1)}회`, `${a2.effort.actionsPerDay.toFixed(1)}회`);
 line("도감", `${codexProgress(idle.world).owned}종`, `${codexProgress(active.world).owned}종`);
-line("자산", `${won(playerAssets(idle.world))}₩`, `${won(playerAssets(active.world))}₩`);
+line("자산", `${usd(playerAssets(idle.world))}`, `${usd(playerAssets(active.world))}`);
 
 if (JSON_OUT) {
   writeFileSync(JSON_OUT, JSON.stringify({
