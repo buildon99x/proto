@@ -1,0 +1,712 @@
+<title>MSW 주식회사 플레이 리뷰</title>
+<meta name="description" content="입사 첫 10분부터 엔딩까지, 체크인 91번의 경험·감정·선택과 조작 비용을 계측해 개선점을 정리한 보고서">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#f5f6fa; --sheet:#ffffff; --ink:#1b2030; --ink2:#454b62; --muted:#7b8198; --rule:#dfe2eb; --rule2:#eceef4;
+  --accent:#5b3fd6; --accent-soft:#ece8fc; --stamp:#d2403a; --stamp-soft:#fcebea; --gold:#c98a00; --gold-soft:#fff4d6;
+  --ok:#0f8a5f; --ok-soft:#e3f5ee;
+  --e-achieve:#eda100; --e-relief:#1baf7a; --e-discover:#4a3aa7; --e-tense:#e34948; --e-routine:#2a78d6; --e-bored:#b9b8b1;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4;
+  --walk:#e34948; --happy:#2a78d6; --band:#eef0f6;
+  --shadow:0 1px 2px rgba(27,32,48,.06),0 8px 24px -12px rgba(27,32,48,.18);
+  --f-disp:"Jua","IBM Plex Sans KR",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#12141b; --sheet:#1a1d27; --ink:#eceef5; --ink2:#b4b9ca; --muted:#80869b; --rule:#2b2f3d; --rule2:#232633;
+    --accent:#9a88f2; --accent-soft:#2a2448; --stamp:#ee6a62; --stamp-soft:#3a1e1e; --gold:#e3b23c; --gold-soft:#3a3016;
+    --ok:#3cc68f; --ok-soft:#153327;
+    --e-achieve:#c98500; --e-relief:#199e70; --e-discover:#9085e9; --e-tense:#e66767; --e-routine:#3987e5; --e-bored:#5c5b56;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181;
+    --walk:#e66767; --happy:#3987e5; --band:#1f2230;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#12141b; --sheet:#1a1d27; --ink:#eceef5; --ink2:#b4b9ca; --muted:#80869b; --rule:#2b2f3d; --rule2:#232633;
+  --accent:#9a88f2; --accent-soft:#2a2448; --stamp:#ee6a62; --stamp-soft:#3a1e1e; --gold:#e3b23c; --gold-soft:#3a3016;
+  --ok:#3cc68f; --ok-soft:#153327;
+  --e-achieve:#c98500; --e-relief:#199e70; --e-discover:#9085e9; --e-tense:#e66767; --e-routine:#3987e5; --e-bored:#5c5b56;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181;
+  --walk:#e66767; --happy:#3987e5; --band:#1f2230;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.72;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:anywhere}
+a{color:var(--accent)}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px}
+@media (max-width:960px){.wrap{grid-template-columns:minmax(0,1fr);gap:0}.toc{display:none}}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);align-self:start;padding-top:40px;font-size:13px}
+.toc b{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px;counter-reset:t}
+.toc a{display:grid;grid-template-columns:22px 1fr;color:var(--ink2);text-decoration:none;padding:5px 8px;border-radius:6px}
+.toc a::before{counter-increment:t;content:counter(t);font-family:var(--f-mono);color:var(--muted);font-size:12px}
+.toc a:hover,.toc a.on{background:var(--sheet);color:var(--ink)}
+.toc a.on::before{color:var(--accent)}
+main{min-width:0}
+h1,h2,h3{text-wrap:balance;margin:0}
+h2{font-family:var(--f-disp);font-weight:400;font-size:clamp(26px,3.2vw,34px);line-height:1.25;letter-spacing:-.01em}
+h3{font-size:17px;font-weight:700;line-height:1.4}
+p{margin:0;max-width:68ch}
+.sec{padding-top:72px;display:grid;gap:22px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.lead{font-size:17px;color:var(--ink2);max-width:66ch}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+
+/* ── 문서 머리: 결재 서류 ── */
+.doc{margin-top:40px;background:var(--sheet);border:1px solid var(--rule);border-radius:4px;box-shadow:var(--shadow);padding:clamp(22px,4vw,44px);display:grid;gap:28px;position:relative;overflow:hidden}
+.doc-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.docno{font-family:var(--f-mono);font-size:12px;color:var(--muted);letter-spacing:.06em;display:grid;gap:2px}
+.docno span b{color:var(--ink2);font-weight:500}
+.sign{border-collapse:collapse;font-size:12px;text-align:center}
+.sign th{background:var(--rule2);color:var(--ink2);font-weight:500;padding:4px 14px;border:1px solid var(--rule)}
+.sign td{border:1px solid var(--rule);height:58px;width:72px;vertical-align:middle;color:var(--muted);font-size:11px}
+.stampmark{display:inline-grid;place-items:center;width:46px;height:46px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);font-family:var(--f-disp);font-size:14px;line-height:1.05;transform:rotate(-12deg)}
+.doc h1{font-family:var(--f-disp);font-weight:400;font-size:clamp(34px,5.4vw,58px);line-height:1.12;letter-spacing:-.015em}
+.doc h1 small{display:block;font-family:var(--f-body);font-size:clamp(14px,1.6vw,17px);font-weight:500;color:var(--muted);letter-spacing:0;margin-bottom:10px}
+.verdict{font-size:clamp(17px,1.9vw,20px);line-height:1.66;max-width:60ch;color:var(--ink)}
+.verdict mark{background:linear-gradient(transparent 58%,var(--gold-soft) 58%);color:inherit;padding:0 2px}
+.figs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--rule)}
+@media (max-width:760px){.figs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fig{padding:18px 18px 4px 0;display:grid;gap:4px;align-content:start}
+.fig+.fig{padding-left:18px;border-left:1px solid var(--rule2)}
+@media (max-width:760px){.fig:nth-child(3){padding-left:0;border-left:0}.fig:nth-child(n+3){border-top:1px solid var(--rule2)}}
+.fig .v{font-family:var(--f-disp);font-size:clamp(30px,3.6vw,42px);line-height:1.1}
+.fig .v small{font-size:.5em;color:var(--muted);margin-left:2px}
+.fig .k{font-size:13px;color:var(--ink2);line-height:1.5}
+.fig.bad .v{color:var(--stamp)}
+
+/* ── 카드·패널 ── */
+.panel{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:clamp(16px,2.4vw,24px);display:grid;gap:14px;min-width:0}
+.panel h3 small{display:block;font-weight:400;font-size:13px;color:var(--muted);margin-top:2px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:760px){.grid2,.grid3{grid-template-columns:minmax(0,1fr)}}
+.method li{margin-bottom:6px}
+.method{margin:0;padding-left:20px;max-width:70ch}
+.note{border-left:3px solid var(--rule);padding:2px 0 2px 14px;color:var(--ink2);font-size:14px;max-width:70ch}
+.note.est{border-color:var(--e-achieve)}
+
+/* ── 차트 공통 ── */
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart text{fill:var(--muted);font-family:var(--f-body);font-size:11px}
+.chart .lbl{fill:var(--ink2);font-size:12px}
+.chart .lbl-strong{fill:var(--ink);font-size:12.5px;font-weight:700}
+.chart .grid{stroke:var(--rule2);stroke-width:1}
+.chart .axis{stroke:var(--rule);stroke-width:1}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--ink2)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:8px;padding:2px;gap:2px;background:var(--paper);flex-wrap:wrap}
+.seg button{font:inherit;font-size:13px;border:0;background:transparent;color:var(--ink2);padding:5px 12px;border-radius:6px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--sheet);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08);font-weight:500}
+.seg button:focus-visible,.shot:focus-visible,.toc a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ctl{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.tip{position:fixed;pointer-events:none;z-index:20;background:var(--sheet);color:var(--ink);border:1px solid var(--rule);border-radius:8px;box-shadow:var(--shadow);padding:10px 12px;font-size:12.5px;line-height:1.55;max-width:300px;opacity:0;transition:opacity .12s}
+.tip.on{opacity:1}
+.tip b{font-weight:700}
+.tip .row{display:flex;justify-content:space-between;gap:14px}
+.tip .row span:last-child{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:1px 9px;border-radius:99px;background:var(--rule2);color:var(--ink2);white-space:nowrap;font-weight:500}
+.chip i{width:8px;height:8px;border-radius:50%}
+
+/* ── 필름 ── */
+.film{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,280px);gap:14px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x proximity}
+.frame{scroll-snap-align:start;background:var(--sheet);border:1px solid var(--rule);border-radius:10px;overflow:hidden;display:grid;grid-template-rows:auto 1fr}
+.shot{display:block;padding:0;border:0;background:var(--rule2);cursor:zoom-in;width:100%;aspect-ratio:16/9}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.frame .cap{padding:10px 12px 12px;display:grid;gap:6px;align-content:start}
+.frame .t{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.frame h4{margin:0;font-size:13.5px;font-weight:700;line-height:1.4}
+.frame p{font-size:12.5px;color:var(--ink2);line-height:1.55}
+.frame .oren{font-size:12px;color:var(--muted);border-top:1px dashed var(--rule);padding-top:6px}
+
+/* ── 표 ── */
+table.t{border-collapse:collapse;width:100%;font-size:13.5px;min-width:640px}
+table.t th{text-align:left;font-weight:500;color:var(--muted);font-size:12px;padding:8px 10px;border-bottom:1px solid var(--rule);white-space:nowrap}
+table.t td{padding:9px 10px;border-bottom:1px solid var(--rule2);vertical-align:top}
+table.t td.n,table.t th.n{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+table.t tr.hl td{background:var(--stamp-soft)}
+.bar{display:inline-block;height:8px;border-radius:0 4px 4px 0;background:var(--accent);vertical-align:middle;margin-right:6px}
+
+/* ── 발견 ── */
+.finds{display:grid;gap:14px;counter-reset:f}
+.find{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;display:grid;grid-template-columns:120px minmax(0,1fr);overflow:hidden}
+@media (max-width:760px){.find{grid-template-columns:minmax(0,1fr)}}
+.find .side{padding:18px;border-right:1px solid var(--rule2);display:grid;gap:8px;align-content:start}
+@media (max-width:760px){.find .side{border-right:0;border-bottom:1px solid var(--rule2);grid-auto-flow:column;justify-content:start;align-items:center}}
+.find .id{font-family:var(--f-disp);font-size:30px;line-height:1;color:var(--ink2)}
+.sev{font-size:12px;font-weight:700;padding:2px 9px;border-radius:5px;justify-self:start;white-space:nowrap}
+.sev.h{background:var(--stamp-soft);color:var(--stamp)}
+.sev.m{background:var(--gold-soft);color:var(--gold)}
+.sev.l{background:var(--rule2);color:var(--ink2)}
+.sev.q{background:var(--ok-soft);color:var(--ok)}
+.find .body{padding:18px 22px;display:grid;gap:10px}
+.find h3{font-size:18px}
+.find dl{margin:0;display:grid;grid-template-columns:64px minmax(0,1fr);gap:6px 14px;font-size:14px}
+.find dt{color:var(--muted);font-size:12.5px;padding-top:2px}
+.find dd{margin:0;color:var(--ink2);max-width:72ch}
+.find dd b{color:var(--ink)}
+.find code,.appx code{font-family:var(--f-mono);font-size:12.5px;background:var(--rule2);padding:1px 5px;border-radius:4px}
+.find.top{border-color:var(--stamp);box-shadow:0 0 0 1px var(--stamp) inset}
+.pick{font-size:12px;color:var(--stamp);font-weight:700}
+.keep{display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:760px){.keep{grid-template-columns:minmax(0,1fr)}}
+.keep div{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;display:grid;gap:4px}
+.keep b{font-size:15px}
+.keep span{font-size:13.5px;color:var(--ink2)}
+.appx{font-size:14px;color:var(--ink2);display:grid;gap:10px}
+.appx pre{font-family:var(--f-mono);font-size:12.5px;background:var(--sheet);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;overflow-x:auto;margin:0;color:var(--ink)}
+.lb{position:fixed;inset:0;background:rgba(10,12,18,.86);display:grid;place-items:center;z-index:30;padding:20px;cursor:zoom-out}
+.lb img{max-width:min(1280px,100%);max-height:86vh;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lb p{color:#e8e9ef;font-size:14px;margin-top:10px;text-align:center;max-width:none}
+.lb figure{margin:0}
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:760px){.duo{grid-template-columns:minmax(0,1fr)}}
+.duo figure{margin:0;display:grid;gap:6px}
+.duo figcaption{font-size:12.5px;color:var(--ink2)}
+.duo .shot{border-radius:8px;overflow:hidden;border:1px solid var(--rule)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<div class="wrap">
+<nav class="toc" aria-label="목차">
+  <b>Play Review</b>
+  <ol id="tocList">
+    <li><a href="#summary">한눈에</a></li>
+    <li><a href="#method">어떻게 쟀나</a></li>
+    <li><a href="#first">첫 진입</a></li>
+    <li><a href="#journey">32일 여정</a></li>
+    <li><a href="#choice">선택</a></li>
+    <li><a href="#ux">조작 비용</a></li>
+    <li><a href="#fix">개선점</a></li>
+    <li><a href="#keep">지킬 것</a></li>
+    <li><a href="#appendix">부록</a></li>
+  </ol>
+</nav>
+
+<main>
+<section class="doc" id="summary" aria-labelledby="ttl">
+  <div class="doc-top">
+    <div class="docno">
+      <span>문서 번호 <b>MSW-PR-2026-0924</b></span>
+      <span>대상 <b>MSW 주식회사 v1.0 · 규칙 v1.2</b></span>
+      <span>작성 <b>2026-09-24 · 플레이 리뷰</b></span>
+    </div>
+    <table class="sign" aria-label="결재란">
+      <tr><th>담당</th><th>검토</th><th>승인</th></tr>
+      <tr><td><span class="stampmark">리뷰<br>완료</span></td><td>기획</td><td>머쉬맘</td></tr>
+    </table>
+  </div>
+  <h1 id="ttl"><small>플레이 리뷰 · 입사 첫 10분부터 엔딩까지</small>첫 닷새는 감탄이 촘촘하고,<br>나머지 27일은 결재 막대를 기다린다</h1>
+  <p class="verdict">입사 뒤 <mark>4분 안에 핵심 루프(빈틈 → 채용 → 배치 → 뚫림)를 몸으로 익히고</mark>, 출근 리포트는 떠나 있던 시간을 보상으로 바꾼다. 문제는 그다음이다. 3장부터 엔딩까지 27.5일(전체의 90%) 동안 진행을 쥐는 것은 결재 ② "즐거운 시간" 누적이고, 플레이어의 수는 그 속도를 거의 바꾸지 못한다. 5장에서는 새 계열이 한 번도 쓰이지 않고, ▲ 배지는 16개씩 쌓인 채 치워지지 않는다.</p>
+  <div class="figs" id="figs"></div>
+</section>
+
+<section class="sec" id="method">
+  <div class="eyebrow">01 · 방법</div>
+  <h2>어떻게 쟀나</h2>
+  <ol class="method">
+    <li><b>실제 화면을 사람처럼 눌렀다.</b> 빌드한 게임을 헤드리스 크로미움으로 열고, 입사 컷부터 튜토리얼, 퇴근, Day 2 출근 리포트와 진화·채용·결재 시트까지 클릭과 드래그로 밟았다. 단계마다 경과 시간, 누적 입력 수, 화면에서 누를 수 있는 요소 수, 글자 수, 숫자 개수를 쟀다. 그림 24장.</li>
+    <li><b>한 판을 끝까지 굴렸다.</b> 게임의 규칙 모듈을 그대로 쓰는 봇 매니저("오렌 따라하기")로 입사부터 엔딩까지 체크인마다 월드 상태와 행동을 기록했다. 표준(하루 3회), 가벼운(하루 2회), 진화 즉시, 퇴근 직전 진화 네 성향이다. 표준은 체크인 91번, D32.4에 엔딩.</li>
+    <li><b>선택 점검 원자료를 다시 읽었다.</b> 성향 8개 × 체크인 시각 흔들기 5번(40판)의 v1.1·v1.2 결과(<code>notes/data/audit.json</code>)로 선택이 진행을 얼마나 가르는지 본다.</li>
+  </ol>
+  <p class="note est"><b>감정은 추정이다.</b> 사람을 관찰한 값이 아니다. 체크인에서 일어난 일로 한 칸씩 분류했다. 결재 도장 → 성취, 새 도감 → 발견, 빈틈을 치움 → 안도, 빈틈이 남음 → 긴장, 이벤트·자리 확장만 누름 → 지루함, 그 밖의 관리 → 관리. 배지가 12개를 넘으면 부담 표시를 붙였다. 봇은 미리보기를 전부 계산하므로 사람보다 빠르고 정확한 쪽으로 읽어야 한다(선택 점검 L3).</p>
+</section>
+
+<section class="sec" id="first">
+  <div class="eyebrow">02 · 첫 진입</div>
+  <h2>입사부터 Day 2 아침까지</h2>
+  <p class="lead">첫 레벨업은 25초에 오고, 빈틈을 고치는 한 바퀴가 3분 30초 안에 끝난다. 다만 첫 세션 259초 중 176초(68%)는 누를 곳이 없다. 입력 15번 중 12번이 마지막 61초에 몰린다.</p>
+  <div class="panel">
+    <div class="ctl"><h3>첫 세션 타임라인<small>가로 = 입사 뒤 실제 초. 점 = 튜토리얼 단계, 계단선 = 누적 입력 수</small></h3>
+      <div class="legend" id="flowLegend"></div></div>
+    <div class="scroll"><svg class="chart" id="flowChart" viewBox="0 0 1000 250" role="img" aria-label="첫 세션 259초 동안의 단계와 누적 입력"></svg></div>
+  </div>
+  <div class="film" id="film" aria-label="첫 진입 전 과정 그림"></div>
+  <p class="note">Day 2 07:04 출근 순간에 안내 세 곳이 서로 다른 말을 한다. 오렌은 "근속을 기다려요"라며 누를 수 없고, 채용 시트는 "근속 5,649 / 2,000"으로 이미 찼다고 보여 주며, 진화 시트는 "입구가 막혀요"와 [▲ 승진 발령 · 스마일 1,200]을 권한다. 브리프가 "첫 유용한 흐름"으로 정한 Day 2의 승진 발령이 바로 이 순간이다(개선점 F4).</p>
+</section>
+
+<section class="sec" id="journey">
+  <div class="eyebrow">03 · 타임라인</div>
+  <h2>32일 여정: 경험, 감정, 선택</h2>
+  <p class="lead">1~2장 2.9일 동안 체크인 9번 중 8번이 감탄으로 끝난다. 3장부터는 결재 ② 막대가 챕터 길이를 정한다. 장이 열릴 때 결재함이 보여 주는 예상 기간은 11.2일, 9.6일, 9.7일이다. 5장 체크인 27번 중 19번은 이벤트만 눌렀다.</p>
+  <div class="panel">
+    <div class="ctl">
+      <div class="seg" role="group" aria-label="성향" id="personaSeg"></div>
+      <div class="legend" id="emoLegend"></div>
+    </div>
+    <div class="scroll"><svg class="chart" id="journeyChart" viewBox="0 0 1000 470" role="img" aria-label="체크인별 감정, 즐기는 모험가, 빈틈을 걷는 모험가, 감정 곡선"></svg></div>
+    <p class="small muted" id="journeyNote"></p>
+  </div>
+  <div class="panel">
+    <h3>장별 요약<small id="chapCap"></small></h3>
+    <div class="scroll"><table class="t" id="chapTable"></table></div>
+  </div>
+</section>
+
+<section class="sec" id="choice">
+  <div class="eyebrow">04 · 선택</div>
+  <h2>"지금 진화시킬까?"가 무엇을 바꾸나</h2>
+  <p class="lead">v1.2는 어떤 선택도 월드를 멈추지 않게 만들었다. 그 대가로 선택이 달력을 거의 바꾸지 않는다. 성향 8개의 엔딩 중앙값 차는 8.3일이고, 가장 많이 누르는 열성(하루 5회)은 표준보다 0.3일 빠를 뿐이다. 선택의 차이는 속도가 아니라 아침마다 보는 풍경, 곧 입구 막힘과 걷는 모험가 수로 나타난다.</p>
+  <div class="panel">
+    <h3>성향별 엔딩 날짜<small>점 하나 = 한 판(체크인 시각 흔들기 5번). 옅은 띠 = 목표 달력 D28~35. ✕ = 70일 안에 엔딩 못 봄</small></h3>
+    <div class="legend"><span><i style="background:var(--muted);border-radius:50%"></i>v1.1 (컨셉)</span><span><i style="background:var(--accent);border-radius:50%"></i>v1.2 (지금 게임)</span></div>
+    <div class="scroll"><svg class="chart" id="endChart" viewBox="0 0 1000 330" role="img" aria-label="성향 8개의 엔딩 날짜, v1.1과 v1.2"></svg></div>
+  </div>
+  <div class="panel">
+    <h3>빈틈을 혼자 걷는 모험가 수<small>같은 세로축. 빨간 면적이 클수록 출근할 때 입구 막힘과 😐를 더 자주 본다</small></h3>
+    <div class="grid2" id="walkMultiples"></div>
+  </div>
+  <div class="panel">
+    <div class="ctl"><h3>체크인에서 실제로 누른 것<small>장별 행동 구성. 막대 길이 = 그 장의 행동 수</small></h3><div class="seg" role="group" aria-label="성향" id="actSeg"></div></div>
+    <div class="legend" id="actLegend"></div>
+    <div class="scroll"><svg class="chart" id="actChart" viewBox="0 0 1000 250" role="img" aria-label="장별 행동 구성"></svg></div>
+  </div>
+</section>
+
+<section class="sec" id="ux">
+  <div class="eyebrow">05 · 편의성과 복잡도</div>
+  <h2>조작 비용과 화면 밀도</h2>
+  <p class="lead">핵심 행동은 모두 세 번 누르면 끝나고 5초 안에 되돌릴 수 있다. 조작 하나하나는 가볍다. 무거워지는 것은 화면이다. 누를 수 있는 요소가 입사 14개에서 5장 85개, 엔딩 95개로 늘고, 체크인마다 쌓여 있는 배지는 3개에서 18개가 된다. 한 번에 처리하는 행동은 여전히 3개다.</p>
+  <div class="panel">
+    <h3>핵심 행동 한 번에 드는 것<small>실제 화면에서 잰 입력 수. 시트 글자 수는 공백 제외</small></h3>
+    <div class="scroll"><table class="t" id="costTable"></table></div>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>누를 수 있는 요소<small>화면에 보이는 버튼·발판·배지·토큰 수</small></h3>
+      <svg class="chart" id="densChart" viewBox="0 0 480 420" role="img" aria-label="장면별 누를 수 있는 요소 수"></svg>
+    </div>
+    <div class="panel">
+      <h3>체크인마다 쌓인 배지<small>표준 성향. 보라 = ▲ 진화, 회색 = 빈틈·과밀. 점선 = 한 체크인의 행동 3개</small></h3>
+      <svg class="chart" id="badgeChart" viewBox="0 0 480 420" role="img" aria-label="체크인별 배지 수와 행동 한도"></svg>
+    </div>
+  </div>
+  <div class="duo" id="duo"></div>
+</section>
+
+<section class="sec" id="fix">
+  <div class="eyebrow">06 · 개선점</div>
+  <h2>무엇부터 고칠까</h2>
+  <p class="lead">추천은 F1이다. 플레이 기간의 90%를 차지하는 3~5장에 "올라간다"를 다시 넣는 일이라 효과가 가장 크다. F4와 F5는 한 줄짜리 수정이라 먼저 끝낼 수 있다.</p>
+  <div class="finds" id="finds"></div>
+</section>
+
+<section class="sec" id="keep">
+  <div class="eyebrow">07 · 강점</div>
+  <h2>바꾸지 말 것</h2>
+  <div class="keep">
+    <div><b>25초 안의 첫 보상</b><span>첫 레벨업 25초, 첫 빈틈 3:18, 첫 진화 3:59(실측). 규칙 다섯 줄을 한 번에 하나씩 몸으로 익힌다.</span></div>
+    <div><b>출근 리포트</b><span>도장, 세 숫자(😊 +15 · 레벨업 725 · 스마일 +3,370), 명장면 셋, 할 일 칩 셋. 떠나 있던 10시간이 선물이 된다. 칩 하나가 곧 다음 행동이다.</span></div>
+    <div><b>결과를 먼저 보는 결정</b><span>드래그 중 결과 카드와 유령 발판, 진화 시트의 "빈틈이 생기지 않아요". 모든 결정이 5초 되돌리기라 실험 비용이 없다.</span></div>
+    <div><b>멈추지 않는 월드</b><span>40판 모두 엔딩, 멈춘 월드 0. v1.1은 22판만 엔딩, 13판이 멈췄다. 저관여 게임의 약속(P5)을 수치로 지켰다.</span></div>
+  </div>
+</section>
+
+<section class="sec appx" id="appendix">
+  <div class="eyebrow">08 · 부록</div>
+  <h2>재현과 한계</h2>
+  <pre>pnpm --filter msw-inc playreview        # 규칙 시뮬레이션, 성향 4개 → notes/data/playreview.json
+pnpm --filter msw-inc build
+pnpm --filter msw-inc playreview:ui     # 실제 화면 클릭·드래그, 그림 → notes/data/playreview-ui.json, shots/
+node notes/play-review/build.mjs        # 보고서 데이터 → notes/play-review/data.js</pre>
+  <p>입력 수 추정: 행동별 입력(결재·채용·진화·발령·이벤트·자리 3, 옮기기·배치 1, 본사 전근 2)에 출근 리포트 닫기와 퇴근 2를 더했다. 실제 화면 흐름에서 잰 값이다.</p>
+  <p>한계: 봇은 결과 미리보기를 모두 계산하고 붙잡기 경고를 무시한다. 사람은 더 느리고 덜 정확하며, 퇴근 직전 성향의 입구 막힘은 사람에게서 더 짧을 것이다(추정). 감정 분류는 사건 기반 모델이다. 승진 발령을 사람이 이해하는지, 촘촘 모드가 읽히는지는 사람 플레이테스트로 확인해야 한다.</p>
+  <p class="small muted" id="gen"></p>
+</section>
+</main>
+</div>
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script src="data.js"></script>
+<script>
+(() => {
+const D = window.PR;
+const $ = s => document.querySelector(s);
+const NS = 'http://www.w3.org/2000/svg';
+const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (parent, x, y, s, attrs = {}) => { const t = el('text', { x, y, ...attrs }, parent); t.textContent = s; return t; };
+const fmt = n => Math.round(n).toLocaleString('ko-KR');
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+// ── 툴팁 ──
+const tip = $('#tip');
+function showTip(e, html) { tip.innerHTML = html; tip.classList.add('on'); moveTip(e); }
+function moveTip(e) { const w = tip.offsetWidth, h = tip.offsetHeight; let x = e.clientX + 14, y = e.clientY + 14; if (x + w > innerWidth - 8) x = e.clientX - w - 14; if (y + h > innerHeight - 8) y = e.clientY - h - 14; tip.style.left = x + 'px'; tip.style.top = y + 'px'; }
+function hideTip() { tip.classList.remove('on'); }
+
+const EMO = {
+  achieve: ['성취', '--e-achieve'], relief: ['안도', '--e-relief'], discover: ['발견', '--e-discover'],
+  tense: ['긴장', '--e-tense'], routine: ['관리', '--e-routine'], bored: ['지루함', '--e-bored'],
+};
+const ACT = { approve: '결재', hire: '채용', move: '옮기기', evolve: '진화', promote: '승진 발령', seat: '자리 확장', 'seat+': '자리 확장', slot: '직원 자리', expand: '새 던전', event: '이벤트', clear: '비우기', release: '본사 전근', rebuild: '재개업', grow: '키워서 잇기', balrog: '발록 배치', place: '배치', 'night-evolve': '퇴근 직전 진화' };
+const actName = a => { const [t, sp] = a.split(':'); return ACT[t] || t; };
+const PERS = [['std', '표준'], ['light', '가벼운'], ['hasty', '진화 즉시'], ['night', '퇴근 직전 진화']];
+const REGION = ['헤네시스', '엘리니아', '페리온', '커닝시티', '슬리피우드'];
+
+// ── 한눈에 숫자 ──
+const std = D.runs.std;
+const c = std.chapters;
+const figs = [
+  { v: Math.round((std.endDay - c[2].from) / (std.endDay - 1.875) * 100) + '<small>%</small>', k: `3~5장이 차지하는 플레이 기간 (${(std.endDay - c[2].from).toFixed(1)}일 / ${(std.endDay - 1.875).toFixed(1)}일)` },
+  { v: c[4].wowPct + '<small>%</small>', k: `5장 체크인 중 감탄으로 끝난 비율 (1~2장 ${Math.round((c[0].wow + c[1].wow) / (c[0].checkins + c[1].checkins) * 100)}%)`, bad: true },
+  { v: c[4].badges.toFixed(0) + '<small>개</small>', k: '5장 체크인마다 쌓인 배지. 처리하는 행동은 3개', bad: true },
+  { v: '0<small>회</small>', k: '5장 새 계열(드레이크·이블아이) 채용. 성향 4개 모두', bad: true },
+];
+$('#figs').innerHTML = figs.map(f => `<div class="fig ${f.bad ? 'bad' : ''}"><div class="v">${f.v}</div><div class="k">${f.k}</div></div>`).join('');
+
+// ── 첫 세션 차트 ──
+const FLOWEMO = { curious: ['호기심', '--e-routine'], delight: ['기쁨', '--e-achieve'], relief: ['안도', '--e-relief'], focus: ['몰입', '--e-discover'], alarm: ['경보', '--e-tense'], confused: ['혼란', '--e-tense'], idle: ['공백', '--e-bored'], calm: ['차분', '--e-bored'] };
+$('#flowLegend').innerHTML = [['호기심', '--e-routine'], ['몰입', '--e-discover'], ['기쁨', '--e-achieve'], ['안도', '--e-relief'], ['경보·혼란', '--e-tense'], ['공백·차분', '--e-bored']].map(([n, v]) => `<span><i style="background:var(${v});border-radius:50%"></i>${n}</span>`).join('');
+function flowChart() {
+  const svg = $('#flowChart'); svg.innerHTML = '';
+  const f = D.flow.filter(s => s.t < 1000);
+  const X0 = 50, X1 = 960, T = 260, x = t => X0 + (t / T) * (X1 - X0);
+  const yTop = 60, yBase = 200, maxIn = 16, y = n => yBase - (n / maxIn) * (yBase - yTop);
+  // 빈 구간
+  const idleA = f.find(s => s.id === 'world-grow').t, idleB = f.find(s => s.id === 'gap').t;
+  el('rect', { x: x(idleA), y: yTop - 30, width: x(idleB) - x(idleA), height: yBase - yTop + 30, fill: css('--e-bored'), opacity: .18, rx: 4 }, svg);
+  txt(svg, (x(idleA) + x(idleB)) / 2, yTop - 12, `누를 곳 없음 ${idleB - idleA}초`, { 'text-anchor': 'middle', class: 'lbl-strong' });
+  txt(svg, (x(idleA) + x(idleB)) / 2, yTop + 6, '오렌 설명 세 줄이 7초마다 돈다', { 'text-anchor': 'middle' });
+  for (let t = 0; t <= T; t += 30) { el('line', { x1: x(t), x2: x(t), y1: yBase, y2: yBase + 5, class: 'axis' }, svg); txt(svg, x(t), yBase + 18, `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`, { 'text-anchor': 'middle' }); }
+  for (let n = 0; n <= 15; n += 5) { el('line', { x1: X0, x2: X1, y1: y(n), y2: y(n), class: 'grid' }, svg); txt(svg, X0 - 8, y(n) + 4, n, { 'text-anchor': 'end' }); }
+  txt(svg, X0 - 8, yTop - 22, '입력', { 'text-anchor': 'end' });
+  el('line', { x1: X0, x2: X1, y1: yBase, y2: yBase, class: 'axis' }, svg);
+  // 누적 입력 계단선
+  let d = `M${x(0)},${y(0)}`, prev = 0;
+  for (const s of f) { d += ` L${x(s.t)},${y(prev)} L${x(s.t)},${y(s.inputs)}`; prev = s.inputs; }
+  d += ` L${x(T)},${y(prev)}`;
+  el('path', { d, fill: 'none', stroke: css('--ink2'), 'stroke-width': 2, 'stroke-linejoin': 'round' }, svg);
+  // 단계 점 (같은 초에 겹치면 위로 쌓는다)
+  const stackAt = {};
+  for (const s of f) {
+    const k = Math.round(s.t / 3); const i = stackAt[k] = (stackAt[k] ?? -1) + 1;
+    const cx = x(s.t), cy = yBase + 38 + i * 0;
+    const g = el('g', { tabindex: 0, style: 'cursor:pointer' }, svg);
+    el('circle', { cx: cx + i * 9, cy: yBase + 40, r: 6, fill: css(FLOWEMO[s.emo][1]), stroke: css('--sheet'), 'stroke-width': 2 }, g);
+    const h = `<b>${Math.floor(s.t / 60)}:${String(s.t % 60).padStart(2, '0')} · ${s.label}</b><br><span class="chip"><i style="background:var(${FLOWEMO[s.emo][1]})"></i>${FLOWEMO[s.emo][0]}</span> ${s.note}<div class="row"><span>누적 입력</span><span>${s.inputs}</span></div><div class="row"><span>누를 수 있는 요소</span><span>${s.clickables}</span></div>`;
+    g.addEventListener('mouseenter', e => showTip(e, h)); g.addEventListener('mousemove', moveTip); g.addEventListener('mouseleave', hideTip);
+    g.addEventListener('focus', () => { const r = g.getBoundingClientRect(); showTip({ clientX: r.right, clientY: r.bottom }, h); }); g.addEventListener('blur', hideTip);
+  }
+  // 주요 주석
+  const ann = [['dungeon', '첫 레벨업 구경'], ['gap', '첫 빈틈 !'], ['placed', '뚫렸다!!'], ['evolve-cut', '첫 진화'], ['tut-done', '튜토리얼 끝']];
+  const place = { dungeon: [6, -8, 'start'], gap: [8, 16, 'start'], placed: [-8, -8, 'end'], 'evolve-cut': [8, 14, 'start'], 'tut-done': [-6, -8, 'end'] };
+  ann.forEach(([id, l]) => { const s = f.find(q => q.id === id); if (!s) return; const ax = x(s.t), ay = y(s.inputs), [dx, dy, an] = place[id]; el('circle', { cx: ax, cy: ay, r: 3.5, fill: css('--ink') }, svg); txt(svg, ax + dx, ay + dy, l, { class: 'lbl', 'text-anchor': an }); });
+}
+
+// ── 필름 ──
+function film() {
+  $('#film').innerHTML = D.flow.map(s => {
+    const [en, ev] = FLOWEMO[s.emo];
+    const tm = s.t < 1000 ? `${Math.floor(s.t / 60)}:${String(s.t % 60).padStart(2, '0')}` : 'D2 07:04';
+    return `<article class="frame"><button class="shot" data-src="shots/${s.shot}" data-cap="${tm} · ${s.label}" aria-label="${s.label} 크게 보기"><img src="shots/${s.shot}" alt="${s.label}" loading="lazy" width="1280" height="720"></button>
+      <div class="cap"><div class="t"><span>${tm} · 입력 ${s.inputs}</span><span class="chip"><i style="background:var(${ev})"></i>${en}</span></div>
+      <h4>${s.label}</h4><p>${s.note}</p>${s.oren ? `<div class="oren">오렌 “${s.oren}”</div>` : ''}</div></article>`;
+  }).join('');
+}
+
+// ── 여정 차트 ──
+let persona = 'std';
+function segButtons(host, cur, on) {
+  host.innerHTML = PERS.map(([id, n]) => `<button type="button" data-p="${id}" aria-pressed="${id === cur}">${n}</button>`).join('');
+  host.onclick = e => { const b = e.target.closest('button'); if (!b) return; host.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); on(b.dataset.p); };
+}
+$('#emoLegend').innerHTML = Object.values(EMO).map(([n, v]) => `<span><i style="background:var(${v})"></i>${n}</span>`).join('') + '<span><i style="background:var(--happy);height:3px;border-radius:0"></i>😊 즐기는 모험가</span><span><i style="background:var(--walk);opacity:.5"></i>😐 빈틈을 걷는 모험가</span>';
+function journey() {
+  const R = D.runs[persona];
+  const svg = $('#journeyChart'); svg.innerHTML = '';
+  const X0 = 44, X1 = 986, dMin = 1.9, dMax = 35;
+  const x = d => X0 + ((d - dMin) / (dMax - dMin)) * (X1 - X0);
+  // 장 띠
+  const bandTop = 18;
+  R.chapters.forEach((ch, i) => {
+    el('rect', { x: x(ch.from), y: bandTop, width: Math.max(1, x(ch.to) - x(ch.from)), height: 410, fill: i % 2 ? 'transparent' : css('--band') }, svg);
+    const w = x(ch.to) - x(ch.from);
+    txt(svg, x(ch.from) + 5, bandTop + 14, w > 60 ? `${ch.ch}장 ${REGION[i]}` : `${ch.ch}장`, { class: 'lbl-strong' });
+    if (w > 60) txt(svg, x(ch.from) + 5, bandTop + 29, `${ch.days}일 · 체크인 ${ch.checkins}`, {});
+  });
+  // 감정 띠
+  const eY = 60, eH = 26;
+  txt(svg, X0 - 6, eY + 17, '감정', { 'text-anchor': 'end' });
+  const ck = R.checkins;
+  ck.forEach((k, i) => {
+    const nx = i < ck.length - 1 ? ck[i + 1].d : R.endDay;
+    el('rect', { x: x(k.d), y: eY, width: Math.max(1.5, x(nx) - x(k.d) - 1.5), height: eH, fill: css(EMO[k.e][1]), rx: 1.5 }, svg);
+    if (k.load) el('rect', { x: x(k.d), y: eY + eH + 2, width: Math.max(1.5, x(nx) - x(k.d) - 1.5), height: 3, fill: css('--s2') }, svg);
+  });
+  txt(svg, X1, eY + eH + 16, '주황 밑줄 = 배지 12개 넘음(부담)', { 'text-anchor': 'end' });
+  // 인원 패널
+  const pT = 112, pB = 300, yMax = 240;
+  const y = v => pB - (v / yMax) * (pB - pT);
+  for (let v = 0; v <= 200; v += 50) { el('line', { x1: X0, x2: X1, y1: y(v), y2: y(v), class: 'grid' }, svg); txt(svg, X0 - 6, y(v) + 4, v, { 'text-anchor': 'end' }); }
+  txt(svg, X0 - 6, pT - 6, '명', { 'text-anchor': 'end' });
+  const H = R.hours;
+  let a = `M${x(H[0][0])},${y(0)}`; H.forEach(h => a += ` L${x(h[0])},${y(h[2])}`); a += ` L${x(H[H.length - 1][0])},${y(0)}Z`;
+  el('path', { d: a, fill: css('--walk'), opacity: .42 }, svg);
+  let l = ''; H.forEach((h, i) => l += (i ? ' L' : 'M') + x(h[0]) + ',' + y(h[1]));
+  el('path', { d: l, fill: 'none', stroke: css('--happy'), 'stroke-width': 1.6, 'stroke-linejoin': 'round' }, svg);
+  el('line', { x1: X0, x2: X1, y1: pB, y2: pB, class: 'axis' }, svg);
+  // 마일스톤: 결재, 새 도감
+  const mY = 318;
+  txt(svg, X0 - 6, mY + 4, '도감', { 'text-anchor': 'end' });
+  R.miles.filter(m => m.k === 'dex').forEach(m => el('path', { d: `M${x(m.d)},${mY - 5} l5,5 l-5,5 l-5,-5z`, fill: css('--e-discover') }, svg));
+  R.miles.filter(m => m.k === 'chapter' || m.k === 'ending').forEach(m => { el('line', { x1: x(m.d), x2: x(m.d), y1: eY - 4, y2: 332, stroke: css('--ink2'), 'stroke-dasharray': '2 3' }, svg); });
+  // 감정 곡선 (체크인 3개 이동 평균)
+  const vT = 350, vB = 420, vy = v => vB - ((v + 1.5) / 4.5) * (vB - vT);
+  el('line', { x1: X0, x2: X1, y1: vy(0), y2: vy(0), class: 'axis' }, svg);
+  txt(svg, X0 - 6, vy(0) + 4, '0', { 'text-anchor': 'end' }); txt(svg, X0 - 6, vy(2) + 4, '+2', { 'text-anchor': 'end' });
+  el('line', { x1: X0, x2: X1, y1: vy(2), y2: vy(2), class: 'grid' }, svg);
+  txt(svg, X0 + 4, vT - 4, '감정 곡선 (추정 · 체크인 3개 이동 평균)', { class: 'lbl' });
+  const sm = ck.map((k, i) => { const w = ck.slice(Math.max(0, i - 1), i + 2); return w.reduce((s, q) => s + q.v, 0) / w.length; });
+  let vp = `M${x(ck[0].d)},${vy(0)}`; sm.forEach((v, i) => vp += ` L${x(ck[i].d)},${vy(v)}`); vp += ` L${x(ck[ck.length - 1].d)},${vy(0)}Z`;
+  el('path', { d: vp, fill: css('--e-achieve'), opacity: .22 }, svg);
+  let vl = ''; sm.forEach((v, i) => vl += (i ? ' L' : 'M') + x(ck[i].d) + ',' + vy(v));
+  el('path', { d: vl, fill: 'none', stroke: css('--gold'), 'stroke-width': 2 }, svg);
+  // 날짜 축
+  for (let d = 5; d <= 35; d += 5) { txt(svg, x(d), 446, 'D' + d, { 'text-anchor': 'middle' }); el('line', { x1: x(d), x2: x(d), y1: 428, y2: 433, class: 'axis' }, svg); }
+  txt(svg, x(2), 446, 'D2', { 'text-anchor': 'middle' });
+  txt(svg, x(R.endDay), 462, `엔딩 D${R.endDay}`, { 'text-anchor': 'middle', class: 'lbl-strong' });
+  // 호버: 가장 가까운 체크인
+  const cross = el('line', { y1: bandTop, y2: 428, stroke: css('--ink'), 'stroke-width': 1, opacity: 0 }, svg);
+  const hit = el('rect', { x: X0, y: bandTop, width: X1 - X0, height: 420, fill: 'transparent' }, svg);
+  hit.addEventListener('mousemove', e => {
+    const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+    let best = ck[0]; for (const k of ck) if (Math.abs(x(k.d) - p.x) < Math.abs(x(best.d) - p.x)) best = k;
+    cross.setAttribute('x1', x(best.d)); cross.setAttribute('x2', x(best.d)); cross.setAttribute('opacity', .5);
+    const day = Math.floor(best.d), hh = best.hh;
+    const acts = best.acts.length ? best.acts.map(actName).join(' · ') : '없음';
+    showTip(e, `<b>D${day} ${String(hh).padStart(2, '0')}시 · ${best.ch}장</b> <span class="chip"><i style="background:var(${EMO[best.e][1]})"></i>${EMO[best.e][0]}</span>
+      <div style="margin:4px 0 6px">${acts}</div>
+      <div class="row"><span>😊 즐기는 모험가</span><span>${best.happy}</span></div>
+      <div class="row"><span>빈틈 레벨 수</span><span>${best.gap} → ${best.gapAfter}</span></div>
+      <div class="row"><span>배지 (▲)</span><span>${best.badges} (${best.bEvo})</span></div>
+      <div class="row"><span>결재 ② 예상</span><span>${best.eta == null ? '—' : best.eta.toFixed(1) + '일'}</span></div>
+      <div class="row"><span>스마일</span><span>${fmt(best.smile)}</span></div>`);
+  });
+  hit.addEventListener('mouseleave', () => { cross.setAttribute('opacity', 0); hideTip(); });
+  const cc = R.chapters;
+  $('#journeyNote').textContent = `${PERS.find(p => p[0] === persona)[1]}: 엔딩 D${R.endDay}, 체크인 ${ck.length}번, 도감 ${R.dex}/36, 스마일 최고 ${fmt(R.smilePeak)}. 3~5장 감탄 비율 ${cc[2].wowPct}% · ${cc[3].wowPct}% · ${cc[4].wowPct}%.`;
+  chapTable(R);
+}
+function chapTable(R) {
+  $('#chapCap').textContent = `${PERS.find(p => p[0] === persona)[1]} 성향. 대기 = 길을 끝까지 이은 뒤 결재 조건이 찰 때까지 기다린 날`;
+  const rows = R.chapters.map((c, i) => {
+    const dom = Object.entries(c.emo).sort((a, b) => b[1] - a[1]).slice(0, 2).map(([k, n]) => `<span class="chip"><i style="background:var(${EMO[k][1]})"></i>${EMO[k][0]} ${n}</span>`).join(' ');
+    return `<tr class="${c.wowPct < 50 ? 'hl' : ''}"><td><b>${c.ch}장</b> ${REGION[i]}</td><td class="n">D${c.from.toFixed(1)}–${c.to.toFixed(1)}</td><td class="n">${c.days}일</td><td class="n">${c.checkins}</td><td class="n">+${c.dexTo - (i ? R.chapters[i - 1].dexTo : 3)}</td><td class="n">${c.wowPct}%</td><td>${dom}</td><td class="n">${c.eta0 == null ? '—' : c.eta0.toFixed(1) + '일'}</td><td class="n">${c.waitDays == null ? '—' : c.waitDays + '일'}</td><td class="n">${c.badges}</td><td class="n">${c.entH}h</td></tr>`;
+  }).join('');
+  $('#chapTable').innerHTML = `<thead><tr><th>장</th><th class="n">기간</th><th class="n">길이</th><th class="n">체크인</th><th class="n">새 도감</th><th class="n">감탄</th><th>많았던 감정</th><th class="n">결재 ② 예상</th><th class="n">대기</th><th class="n">배지</th><th class="n">입구 막힘</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
+// ── 엔딩 점 그림 ──
+function endChart() {
+  const svg = $('#endChart'); svg.innerHTML = '';
+  const order = ['std', 'light', 'heavy', 'hasty', 'hoarder', 'stack', 'spread', 'night'];
+  const names = { std: '표준 · 하루 3회', light: '가벼운 · 하루 2회', heavy: '열성 · 하루 5회', hasty: '진화 즉시', hoarder: '진화 보류', stack: '한 던전에 몰기', spread: '한 던전에 한 마리', night: '퇴근 직전 진화' };
+  const X0 = 160, X1 = 930, dMax = 45, x = d => X0 + (d / dMax) * (X1 - X0), XF = 965;
+  const rowH = 34, top = 20;
+  el('rect', { x: x(28), y: top - 6, width: x(35) - x(28), height: order.length * rowH + 4, fill: css('--ok'), opacity: .1 }, svg);
+  txt(svg, (x(28) + x(35)) / 2, top + order.length * rowH + 16, '목표 D28~35', { 'text-anchor': 'middle', class: 'lbl' });
+  for (let d = 0; d <= dMax; d += 5) { el('line', { x1: x(d), x2: x(d), y1: top - 6, y2: top + order.length * rowH - 2, class: 'grid' }, svg); txt(svg, x(d), top + order.length * rowH + 32, 'D' + d, { 'text-anchor': 'middle' }); }
+  txt(svg, XF, top + order.length * rowH + 32, '못 봄', { 'text-anchor': 'middle' });
+  order.forEach((id, i) => {
+    const cy = top + i * rowH + rowH / 2;
+    txt(svg, X0 - 12, cy + 4, names[id], { 'text-anchor': 'end', class: 'lbl' });
+    for (const rules of ['v1.1', 'v1.2']) {
+      const p = D.personas.find(q => q.id === id && q.rules === rules);
+      const off = rules === 'v1.1' ? -6 : 6;
+      p.ends.forEach((e, j) => {
+        const g = el('g', {}, svg);
+        const h = `<b>${names[id]} · ${rules}</b><br>시드 ${j + 1}: ${e == null ? '70일 안에 엔딩 못 봄' : 'D' + e + ' 엔딩'}<div class="row"><span>멈춘 월드</span><span>${p.dead}/5</span></div><div class="row"><span>입구 막힘 (중앙값)</span><span>${fmt(p.entH)}h</span></div>`;
+        if (e == null) { txt(g, XF + (j - 2) * 5, cy + off + 4, '✕', { 'text-anchor': 'middle', style: `fill:${rules === 'v1.1' ? css('--stamp') : css('--accent')};font-size:11px;font-weight:700` }); }
+        else el('circle', { cx: x(e), cy: cy + off, r: 5, fill: rules === 'v1.1' ? 'transparent' : css('--accent'), stroke: rules === 'v1.1' ? css('--muted') : css('--sheet'), 'stroke-width': rules === 'v1.1' ? 1.6 : 1.5, opacity: rules === 'v1.1' ? .9 : .92 }, g);
+        const hr = el('rect', { x: (e == null ? XF - 14 : x(e) - 7), y: cy + off - 7, width: e == null ? 28 : 14, height: 14, fill: 'transparent' }, g);
+        g.addEventListener('mouseenter', ev => showTip(ev, h)); g.addEventListener('mousemove', moveTip); g.addEventListener('mouseleave', hideTip);
+      });
+    }
+  });
+}
+
+// ── 걷는 모험가 작은 그림 넷 ──
+function walkMultiples() {
+  const host = $('#walkMultiples');
+  host.innerHTML = PERS.map(([id, n]) => { const R = D.runs[id]; const eh = R.chapters.reduce((s, c) => s + c.entH, 0); const wm = Math.max(...R.chapters.map(c => c.walkersMax)); return `<figure style="margin:0;display:grid;gap:4px"><figcaption style="display:flex;justify-content:space-between;gap:8px;font-size:13px"><b>${n}</b><span class="muted num">입구 막힘 ${eh}h · 최대 ${wm}명 · 엔딩 D${R.endDay}</span></figcaption><svg class="chart" viewBox="0 0 460 110" data-p="${id}" role="img" aria-label="${n} 성향의 걷는 모험가 수"></svg></figure>`; }).join('');
+  host.querySelectorAll('svg').forEach(svg => {
+    const R = D.runs[svg.dataset.p];
+    const X0 = 28, X1 = 452, x = d => X0 + ((d - 1.9) / (35 - 1.9)) * (X1 - X0), yB = 92, yT = 8, y = v => yB - (v / 140) * (yB - yT);
+    R.chapters.forEach((c, i) => { if (i % 2 === 0) el('rect', { x: x(c.from), y: yT, width: x(c.to) - x(c.from), height: yB - yT, fill: css('--band') }, svg); });
+    [0, 70, 140].forEach(v => { el('line', { x1: X0, x2: X1, y1: y(v), y2: y(v), class: 'grid' }, svg); txt(svg, X0 - 4, y(v) + 4, v, { 'text-anchor': 'end' }); });
+    let a = `M${x(R.hours[0][0])},${y(0)}`; R.hours.forEach(h => a += ` L${x(h[0])},${y(h[2])}`); a += ` L${x(R.hours[R.hours.length - 1][0])},${y(0)}Z`;
+    el('path', { d: a, fill: css('--walk'), opacity: .55 }, svg);
+    el('line', { x1: X0, x2: X1, y1: yB, y2: yB, class: 'axis' }, svg);
+    [10, 20, 30].forEach(d => txt(svg, x(d), 106, 'D' + d, { 'text-anchor': 'middle' }));
+  });
+}
+
+// ── 행동 구성 ──
+const GROUP = [['길 잇기', ['hire', 'move', 'grow', 'rebuild', 'clear', 'release', 'place', 'expand', 'slot'], '--s1'], ['진화·발령', ['evolve', 'promote', 'night-evolve'], '--s2'], ['자리 확장', ['seat', 'seat+'], '--s3'], ['이벤트', ['event'], '--s4'], ['결재·발록', ['approve', 'balrog'], '--s5']];
+$('#actLegend').innerHTML = GROUP.map(([n, , v]) => `<span><i style="background:var(${v})"></i>${n}</span>`).join('');
+let actP = 'std';
+function actChart() {
+  const svg = $('#actChart'); svg.innerHTML = '';
+  const R = D.runs[actP];
+  const X0 = 110, X1 = 900, max = Math.max(...Object.values(D.runs).flatMap(r => r.chapters.map(c => Object.values(c.acts).reduce((s, n) => s + n, 0))));
+  const x = n => (n / max) * (X1 - X0);
+  R.chapters.forEach((c, i) => {
+    const cy = 16 + i * 44;
+    txt(svg, X0 - 10, cy + 17, `${c.ch}장 ${REGION[i]}`, { 'text-anchor': 'end', class: 'lbl' });
+    let cx = X0; const tot = Object.values(c.acts).reduce((s, n) => s + n, 0);
+    GROUP.forEach(([n, keys, v]) => {
+      const cnt = keys.reduce((s, k) => s + (c.acts[k] || 0), 0); if (!cnt) return;
+      const w = x(cnt);
+      const r = el('rect', { x: cx, y: cy, width: Math.max(1, w - 2), height: 26, fill: css(v), rx: 2 }, svg);
+      if (w > 34) txt(svg, cx + w / 2 - 1, cy + 17, cnt, { 'text-anchor': 'middle', style: 'fill:#fff;font-size:11px;font-weight:700' });
+      const h = `<b>${c.ch}장 · ${n}</b><div class="row"><span>행동 수</span><span>${cnt} / ${tot}</span></div><div class="row"><span>비율</span><span>${Math.round(cnt / tot * 100)}%</span></div><div class="small muted">${keys.filter(k => c.acts[k]).map(k => ACT[k] + ' ' + c.acts[k]).join(' · ')}</div>`;
+      r.addEventListener('mouseenter', e => showTip(e, h)); r.addEventListener('mousemove', moveTip); r.addEventListener('mouseleave', hideTip);
+      cx += w;
+    });
+    txt(svg, cx + 8, cy + 17, `${tot}번 · 체크인 ${c.checkins}`, {});
+  });
+}
+
+// ── 조작 비용 표 ──
+const flowBy = id => D.flow.find(f => f.id === id);
+const COSTROWS = [
+  ['빈틈 고치기', '! → 카드 → 끌어 놓기', 3, '월드 → 채용 시트 → 월드', flowBy('day2-hire').layer.chars, '카드 4장(1장) ~ 10장(5장)', '결과 카드 · 유령 발판'],
+  ['진화 · 승진 발령', '▲ → 버튼 → 컷 닫기', 3, '월드 → 진화 시트 → 컷', flowBy('day2-evolve').layer.chars, '발령 · 그냥 진화 · 보류', '유령 발판 · 결과 한 줄'],
+  ['이벤트', '발판 → 경험치 2배 → ←', 3, '월드 → 현장 → 월드', null, '경험치 · 드랍', '비용만 보인다'],
+  ['자리 확장', '🌀 또는 발판 → +4 → ←', 3, '월드 → 현장 → 월드', null, '자리 · 직원 자리', '비용만 보인다'],
+  ['결재', '서류 → 결재 받기 → 컷', 3, '모달 → 챕터 컷', flowBy('approval').layer.chars, '결재 받기 · 닫기', '보상 목록'],
+  ['출근 · 퇴근', '월드로 → … → 퇴근', 2, '리포트 → 월드 → 소등 컷', flowBy('report').layer.chars, '할 일 칩 3개', '—'],
+];
+$('#costTable').innerHTML = `<thead><tr><th>행동</th><th>누르는 순서</th><th class="n">입력</th><th>거치는 화면</th><th class="n">시트 글자</th><th>선택지</th><th>결과 미리보기</th></tr></thead><tbody>${COSTROWS.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td class="n">${r[2]}</td><td>${r[3]}</td><td class="n">${r[4] ?? '—'}</td><td>${r[5]}</td><td>${r[6]}</td></tr>`).join('')}</tbody>
+<tfoot><tr><td colspan="7" class="small muted" style="padding-top:10px">모든 행동은 5초 되돌리기가 붙는다(결재 제외). 한 체크인 추정 입력: 표준 ${D.runs.std.chapters.map(c => c.inputs).join(' · ')}번(1~5장), 가벼운 ${D.runs.light.chapters.map(c => c.inputs).join(' · ')}번. 5장 표준의 입력 대부분은 이벤트 세 번(9번)이다.</td></tr></tfoot>`;
+
+// ── 화면 밀도 ──
+function densChart() {
+  const svg = $('#densChart'); svg.innerHTML = '';
+  const intro = D.flow.find(f => f.id === 'intro');
+  const list = [{ label: '입사 컷', clickables: intro.clickables, numbers: intro.numbers }, ...D.scenes.filter(s => !['codex', 'fullclear', 'dungeon', 'hire', 'evolve', 'grow'].includes(s.id))];
+  const X0 = 112, X1 = 440, max = 100, x = v => X0 + (v / max) * (X1 - X0), rh = 44;
+  [0, 50, 100].forEach(v => { el('line', { x1: x(v), x2: x(v), y1: 6, y2: list.length * rh + 4, class: 'grid' }, svg); txt(svg, x(v), list.length * rh + 20, v, { 'text-anchor': 'middle' }); });
+  list.forEach((s, i) => {
+    const cy = 10 + i * rh;
+    txt(svg, X0 - 8, cy + 15, s.label, { 'text-anchor': 'end', class: 'lbl' });
+    const r = el('rect', { x: X0, y: cy + 3, width: Math.max(2, x(s.clickables) - X0), height: 18, fill: css('--accent'), rx: 3 }, svg);
+    txt(svg, x(s.clickables) + 6, cy + 16, s.clickables, { class: 'lbl-strong' });
+    txt(svg, X0, cy + 36, `숫자 ${s.numbers}개${s.badges ? ` · ▲ ${s.badges.evolve}` : ''}${s.walkers ? ` · 모험가 ${s.walkers}` : ''}`, {});
+  });
+}
+function badgeChart() {
+  const svg = $('#badgeChart'); svg.innerHTML = '';
+  const ck = D.runs.std.checkins;
+  const X0 = 30, X1 = 470, yB = 360, yT = 20, max = 24, y = v => yB - (v / max) * (yB - yT), bw = (X1 - X0) / ck.length;
+  [0, 6, 12, 18, 24].forEach(v => { el('line', { x1: X0, x2: X1, y1: y(v), y2: y(v), class: 'grid' }, svg); txt(svg, X0 - 5, y(v) + 4, v, { 'text-anchor': 'end' }); });
+  let prevCh = 0;
+  ck.forEach((k, i) => {
+    const bx = X0 + i * bw, other = k.badges - k.bEvo;
+    el('rect', { x: bx, y: y(k.bEvo), width: Math.max(1, bw - 1), height: yB - y(k.bEvo), fill: css('--e-discover') }, svg);
+    if (other) el('rect', { x: bx, y: y(k.badges), width: Math.max(1, bw - 1), height: y(k.bEvo) - y(k.badges) - 1, fill: css('--muted'), opacity: .55 }, svg);
+    if (k.ch !== prevCh) { if (k.ch !== 1) txt(svg, bx + 2, yB + 16, (k.ch === 2 ? '1·2' : k.ch) + '장', { class: 'lbl' }); el('line', { x1: bx, x2: bx, y1: yT, y2: yB + 4, class: 'axis' }, svg); prevCh = k.ch; }
+    const h = el('rect', { x: bx, y: yT, width: bw, height: yB - yT, fill: 'transparent' }, svg);
+    const html = `<b>D${Math.floor(k.d)} ${String(k.hh).padStart(2, '0')}시 · ${k.ch}장</b><div class="row"><span>▲ 진화 배지</span><span>${k.bEvo}</span></div><div class="row"><span>빈틈·과밀 배지</span><span>${other}</span></div><div class="row"><span>한 행동</span><span>${k.acts.map(actName).join(' · ') || '없음'}</span></div>`;
+    h.addEventListener('mouseenter', e => showTip(e, html)); h.addEventListener('mousemove', moveTip); h.addEventListener('mouseleave', hideTip);
+  });
+  el('line', { x1: X0, x2: X1, y1: y(3), y2: y(3), stroke: css('--stamp'), 'stroke-width': 1.6, 'stroke-dasharray': '5 4' }, svg);
+  el('rect', { x: X1 - 84, y: y(3) - 21, width: 84, height: 17, rx: 4, fill: css('--sheet') }, svg);
+  txt(svg, X1 - 4, y(3) - 8, '행동 한도 3', { 'text-anchor': 'end', style: `fill:${css('--stamp')};font-size:11.5px;font-weight:700` });
+  el('line', { x1: X0, x2: X1, y1: yB, y2: yB, class: 'axis' }, svg);
+  txt(svg, X1, yB + 34, '체크인 91번 →', { 'text-anchor': 'end' });
+}
+function duo() {
+  const early = D.scenes.find(s => s.id === 'gap'), lateS = D.scenes.find(s => s.id === 'ch5');
+  $('#duo').innerHTML = [[early, `1장 첫 빈틈 · 누를 수 있는 것 ${early.clickables}개, 숫자 ${early.numbers}개`], [lateS, `5장 슬리피우드 · 누를 수 있는 것 ${lateS.clickables}개, ▲ ${lateS.badges.evolve}개. 발판 이름과 ▲가 겹친다`]].map(([s, cap]) => `<figure><button class="shot" data-src="shots/${s.shot}" data-cap="${cap}" aria-label="${s.label} 크게 보기"><img src="shots/${s.shot}" alt="${s.label}" loading="lazy" width="1280" height="720"></button><figcaption>${cap}</figcaption></figure>`).join('');
+}
+
+// ── 발견 ──
+const S = D.runs.std.chapters, L = D.runs.light.chapters, N = D.runs.night.chapters;
+const sum = (a, f) => a.reduce((s, x) => s + f(x), 0);
+const FINDS = [
+  { id: 'F1', sev: 'h', sevT: '높음 · 추천', top: true, title: '3~5장 27일을 결재 ② 타이머가 쥔다',
+    ev: `표준 성향 1~2장 2.9일, 체크인 9번 중 8번 감탄, 새 도감 8칸. 3~5장은 ${(S[2].days + S[3].days + S[4].days).toFixed(1)}일, 체크인 ${S[2].checkins + S[3].checkins + S[4].checkins}번. 장이 열릴 때 결재함 예상은 <b>${S[2].eta0}일 · ${S[3].eta0}일 · ${S[4].eta0}일</b>. 길을 다 이은 뒤 결재까지 기다린 날은 표준 4장 ${S[3].waitDays}일, 5장 ${S[4].waitDays}일이고, 가벼운 성향은 3~5장 합계 <b>${(L[2].waitDays + L[3].waitDays + L[4].waitDays).toFixed(1)}일</b>이다.`,
+    why: 'v1.2는 ② 누적으로 벽을 없앴다. 그 결과 장 길이 ≈ ② 목표 ÷ 즐기는 인원이 됐다. 인원은 자리·던전을 늘려도 크게 변하지 않아, 플레이어의 수가 ETA를 거의 움직이지 못한다(성향 8개 중앙값 차 8.3일, 하루 5회 열성이 표준보다 0.3일 빠름).',
+    fix: '<b>② 막대 25·50·75% 지점에 보상 칸을 박는다.</b> 예: 25% 새 부지 1곳, 50% 다음 장 계열 한 종 먼저 해금, 75% 동시 이벤트 +1이나 사무실 치장. 장마다 "올라간다"가 세 번 더 생긴다. 목표량과 달력(D28~35)은 그대로 둔다. 곁들여 이벤트·자리 확장 결과 카드에 "결재 ② −6시간"처럼 당긴 시간을 보여 준다.',
+    cost: '규칙은 그대로, 결재 판정에 문턱 보상만 붙인다. 보상 표 설계와 audit 재측정(달력 영향 확인)이 필요하다. 대안인 "② 줄이고 ③ 구조 목표 추가"는 달력을 다시 맞춰야 해서 비싸다.' },
+  { id: 'F2', sev: 'h', sevT: '높음', title: '5장 새 계열이 한 번도 쓰이지 않는다',
+    ev: '성향 4개 모두 드레이크(4칸)와 이블아이(3칸)를 한 번도 뽑지 않았다. 엔딩 도감은 26~29/36. 5장 장면에서 슬리피우드 발판 두 곳은 발록 말고는 0/8이다.',
+    why: 'Lv 55~70을 이미 골드 크로코(58)·킹 크로코(66)·다크/블러드 스티지(56/64)와 주니어 발록(70)이 덮는다. 채용 추천은 빈틈이 있어야 뜨는데, 표준 5장 체크인 27번 중 빈틈이 있던 때는 1번이다. 새 지역이 열려도 새로 할 일이 없다.',
+    fix: '<b>5장 결재 ③을 "슬리피우드 토박이 던전 하나"로 넓힌다</b>(지금은 발록 던전 개장). 채용 시트는 이 조건에 초록 리본을 준다. 더 근본적으로는 "지역 토박이 보너스"(자기 지역 발판에서 즐거움 ×1.2)로 새 계열을 뽑을 이유를 매 장 만든다.',
+    cost: '③ 조건 확장은 approvalConds 한 줄과 결재함 문구. 토박이 보너스는 규칙 변경이라 pacing·audit을 다시 돌려야 한다.' },
+  { id: 'F3', sev: 'h', sevT: '높음', title: '▲ 배지가 쌓이기만 하고 치워지지 않는다',
+    ev: `체크인당 ▲ 평균 ${S.map(c => c.bEvo).join(' → ')}(1~5장). 표준 5장 체크인 27번 중 19번은 이벤트만 눌렀다. 봇은 진화하면 길이 끊겨 보류했다. 5장 화면에 ▲ 14개, 누를 수 있는 것 85개.`,
+    why: '▲는 "근속이 찼다"만 말한다. 지금 진화해도 안전한지는 시트를 열어야 안다. README가 약속한 "배지 세 종류를 치우고 떠난다"가 후반에는 성립하지 않는다. 치울 수 없는 배지는 곧 무시하는 배지가 된다.',
+    fix: '<b>▲를 둘로 나눈다.</b> 새 빈틈이 없거나 승진 발령으로 풀리는 진화만 보라 ▲로 띄우고, 보류가 맞는 진화는 배지 없이 직원 슬롯의 근속 게이지만 가득 채운다. 월드 위 ▲는 최대 3개, 나머지는 독에 "진화 대기 11" 칩 하나로.',
+    cost: '판정은 이미 있다(bots.ts wantEvolve의 planner 판단, sim.ts bestPromote). 화면 쪽 배지 필터와 칩 추가.' },
+  { id: 'F4', sev: 'q', sevT: '빠른 수정', title: 'Day 2 아침 오렌 안내가 틀린다',
+    ev: '실측 D2 07:04. 오렌 “Lv 14–15는 달팽이가 진화하면 이어져요!! 근속을 기다려요!!”(누를 수 없음). 같은 순간 채용 시트 “근속 5,649 / 2,000”, 진화 시트 “⚠ 입구가 막혀요 … [▲ 승진 발령 · 스마일 1,200]”.',
+    why: '<code>app/src/ui/app.ts:286</code> orenPick이 growingToward로 찾은 직원이 이미 진화할 수 있는지 보지 않는다. 채용 시트 제목(<code>sheets.ts:64</code>)도 같은 경우를 "한 번 더 진화하면"이라고만 말한다.',
+    fix: '<code>M.canEvolve(grow)</code>면 “…달팽이가 지금 진화할 수 있어요!! ▲ 눌러서 승진 발령해요!!”, go는 <code>A.openEvolve(grow.id)</code>. 채용 시트 제목은 “지금 진화하면 이어져요 ▲”.',
+    cost: '두 줄. 스모크 테스트에 Day 2 오렌 문구 검사를 하나 더한다.' },
+  { id: 'F5', sev: 'q', sevT: '빠른 수정', title: '머쉬맘 결재 대사가 옛 조건을 말한다',
+    ev: '결재함 대사 “Lv 15까지 잇고, 20명이 즐기면. 그럼 결재.” 3장은 “110명”. 같은 모달의 조건 ② 막대는 “0/300 즐거운 시간”.',
+    why: '<code>content.ts</code> CHAPTERS.say가 v1.1 조건(동시 N명)을 그대로 쓴다. v1.2에서 ②를 누적으로 바꿀 때 막대와 ETA 문구만 고쳤다.',
+    fix: '대사를 조건과 맞춘다. 예: 1장 “Lv 15까지 잇고, 즐거운 시간이 쌓이면. 그럼 결재.” 숫자는 막대가 말하게 둔다.',
+    cost: '문구 5줄.' },
+  { id: 'F6', sev: 'm', sevT: '중간', title: '첫 세션에 176초짜리 빈 구간',
+    ev: '현장 구경을 마친 0:22부터 첫 빈틈 3:18까지 176초 동안 누를 곳이 없다. 첫 세션 259초의 68%. 입력 15번 중 12번이 마지막 61초에 몰린다. 그동안 오렌은 설명 세 줄을 7초마다 돌린다.',
+    why: '첫 빈틈은 Lv 8 모험가가 생겨야 온다. 입사 버프(×30)로도 레벨 8까지 약 3분이 걸린다.',
+    fix: '<b>이 단계만 월드 속도를 ×60으로 올려 첫 빈틈을 1:30 안으로 당긴다.</b> 또는 모험가를 누르면 “Lv 5 · 즐거워요 😊” 말풍선이 뜨는 손짓을 준다. "가로 = 레벨"을 설명 대신 손으로 확인하게 된다.',
+    cost: 'tut.ts의 grow 단계에 배속 한 줄. pacing의 "첫 빈틈 3:25" 기준을 함께 고친다.' },
+  { id: 'F7', sev: 'm', sevT: '중간', title: '스마일을 쓸 곳이 없다',
+    ev: `스마일 최고 표준 ${fmt(D.runs.std.smilePeak)}, 가벼운 ${fmt(D.runs.light.smilePeak)}. 5장에서 가장 비싼 채용은 6,000, 자리 확장은 12,000이다.`,
+    why: '챕터 수입 배율로 180만에서 16만대로 줄였지만(L4) 사용처는 늘지 않았다. 쌓이는 숫자에 의미가 없으면 HUD의 스마일 캔도 신호를 잃는다.',
+    fix: 'F1의 보상 칸 하나를 "스마일로 여는 칸"으로 만든다(예: 75% 칸 = 사무실 치장, 스마일 2만). 장기적으로는 던전 테마·도감 사진 같은 치장 상점.',
+    cost: 'F1과 묶으면 추가 비용이 작다.' },
+  { id: 'F8', sev: 'm', sevT: '중간', title: '후반 월드 길이 한 번에 읽히지 않는다',
+    ev: '누를 수 있는 요소 입사 14 → 1장 빈틈 18 → 3장 발령 41 → 4장 64 → 5장 85 → 엔딩 95. 화면의 숫자 44 → 134. 5장 장면에서 발판 이름과 ▲가 겹친다.',
+    why: '가로축 = 레벨 1~70을 한 화면에 모두 그린다. 촘촘 모드(도트 72%)는 크기만 줄인다.',
+    fix: '<b>지역 줌:</b> 지금 장 지역을 넓게, 지난 지역은 좁게 접는다. 문제 없는 발판은 이름만, 문제 있는 발판만 숫자와 배지. F3과 함께 하면 배지 수도 준다.',
+    cost: '월드 길 x 스케일을 구간별로 바꾸는 화면 작업. 규칙은 그대로.' },
+  { id: 'F9', sev: 'l', sevT: '낮음 · 관찰', title: '퇴근 직전 진화는 매일 아침 입구 막힘을 본다',
+    ev: `퇴근 직전 진화 성향은 3~5장 입구 막힘 ${N[2].entH + N[3].entH + N[4].entH}시간(표준 ${S[2].entH + S[3].entH + S[4].entH}시간), 걷는 모험가 최대 ${Math.max(...N.map(c => c.walkersMax))}명. 월드는 멈추지 않고 엔딩은 +2.2일 늦을 뿐이다.`,
+    why: '밤에 한 진화가 입구를 비운다. 붙잡기 경고(U4)는 수동 퇴근에만 뜨고, 봇은 이를 무시하게 짜여 있어 사람의 수치는 이보다 낮을 것이다(추정).',
+    fix: '출근 리포트 명장면에 원인과 해법을 잇는다. “어젯밤 진화가 입구를 막았어요 · 승진 발령이면 막히지 않았어요 [발령 보기]”.',
+    cost: '리포트 장부에 "입구를 막은 진화" 기록 한 칸.' },
+];
+$('#finds').innerHTML = FINDS.map(f => `<article class="find ${f.top ? 'top' : ''}" id="${f.id}"><div class="side"><div class="id">${f.id}</div><span class="sev ${f.sev}">${f.sevT}</span>${f.top ? '<span class="pick">먼저 할 것</span>' : ''}</div>
+  <div class="body"><h3>${f.title}</h3><dl><dt>근거</dt><dd>${f.ev}</dd><dt>원인</dt><dd>${f.why}</dd><dt>제안</dt><dd>${f.fix}</dd><dt>비용</dt><dd>${f.cost}</dd></dl></div></article>`).join('');
+
+// ── 라이트박스 ──
+document.addEventListener('click', e => {
+  const b = e.target.closest('.shot'); if (!b) return;
+  const lb = document.createElement('div'); lb.className = 'lb'; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-label', '그림 크게 보기');
+  lb.innerHTML = `<figure><img src="${b.dataset.src}" alt=""><p>${b.dataset.cap}</p></figure>`;
+  lb.onclick = () => lb.remove(); document.body.appendChild(lb);
+  const esc = ev => { if (ev.key === 'Escape') { lb.remove(); removeEventListener('keydown', esc); } }; addEventListener('keydown', esc);
+});
+
+// ── 목차 강조 ──
+const links = [...document.querySelectorAll('#tocList a')];
+const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + en.target.id)); }), { rootMargin: '-30% 0px -60% 0px' });
+document.querySelectorAll('main section[id]').forEach(s => io.observe(s));
+
+$('#gen').textContent = `데이터 생성 ${D.generated} · 규칙 ${D.rules} · 표준 성향 시드 0(체크인 시각 흔들기 없음)`;
+
+function drawAll() { flowChart(); journey(); endChart(); walkMultiples(); actChart(); densChart(); badgeChart(); }
+segButtons($('#personaSeg'), persona, p => { persona = p; journey(); });
+segButtons($('#actSeg'), actP, p => { actP = p; actChart(); });
+film(); duo(); drawAll();
+// 테마가 바뀌면 SVG 색을 다시 칠한다
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawAll);
+new MutationObserver(drawAll).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+})();
+</script>

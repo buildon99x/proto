@@ -33,6 +33,9 @@ pnpm --filter msw-inc pacing     첫 10분·Day 2·챕터 달력 (-- v1.1 로 �
 pnpm --filter msw-inc audit      선택 점검: 8성향 × 체크인 시각 흔들기 5 (v1.1·v1.2), -- --ablate 로 하나씩 빼 보기
 pnpm --filter msw-inc smoke      브라우저 스모크: 튜토리얼을 실제 클릭·드래그로 (빌드 뒤)
 pnpm --filter msw-inc shots      시연 장면 16개를 assets/screenshots/ 로 굽는다 (빌드 뒤)
+pnpm --filter msw-inc playreview      플레이 리뷰 계측: 입사~엔딩 체크인 기록, 성향 4개 → notes/data/playreview.json
+pnpm --filter msw-inc playreview:ui   플레이 리뷰 화면 실측: 첫 진입 클릭·드래그와 화면 밀도 (빌드 뒤)
+node notes/play-review/build.mjs      플레이 리뷰 보고서 데이터 → notes/play-review/data.js
 ```
 
 ## 폴더
@@ -43,7 +46,7 @@ pnpm --filter msw-inc shots      시연 장면 16개를 assets/screenshots/ 로 
 | `app/src/sim/tools/` | `pacing.ts` 페이싱 점검, `audit.ts` 선택 점검 |
 | `app/src/ui/` | `app.ts` 공통(HUD·독·오렌·저장·소리), `world.ts` S1, `dungeon.ts` S2·S4, `sheets.ts` S0·S3·S5·S6·S7·도감·엔딩, `tut.ts` 첫 10분, `art.ts` 자리표시 도트, `demo.ts` 시연 장면 |
 | `tests/` | `sim.test.ts` 규칙 테스트, `e2e/` CDP 하니스·스모크·장면 굽기 |
-| `notes/` | 선택 점검, 화면 점검, 콘텐츠 이름, 결정 기록, `data/` 점검 원자료 |
+| `notes/` | 선택 점검, 화면 점검, 콘텐츠 이름, 결정 기록, `data/` 점검 원자료, `play-review/` 플레이 리뷰 보고서(HTML) |
 
 ## 테스트 도구
 
