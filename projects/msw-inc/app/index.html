@@ -1,12 +1,66 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Template Project</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#15131d">
+<title>MSW 주식회사</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="fit"><div id="stage">
+
+  <header id="hud">
+    <div class="logo"><i>MSW</i>주식회사</div>
+    <div class="kpi main" id="kHappy" title="지금 월드를 즐기는 모험가 — 이 게임의 목표 지표"><div class="ic">😊</div><div><small>즐기는 모험가</small><b id="vHappy">0</b><span class="d" id="vHappyD"></span></div></div>
+    <div class="kpi" id="kSmile" title="스마일 — 모험가의 즐거움이 모인 캔. 채용·개업·자리·이벤트에 쓴다"><div class="can" id="can"></div><div><small>스마일</small><b id="vSmile">0</b></div></div>
+    <div class="kpi" id="kStar" title="월드 인기 — 끝낸 결재 수. 오를수록 모험가가 많이 온다"><div class="ic isl">🏝️</div><div><small>월드 인기</small><div class="stars" id="vStars"></div></div></div>
+    <div class="right">
+      <button class="hbtn" id="bDex" title="직원 도감">📖 도감 <b id="vDex">1</b>/36</button>
+      <button class="hbtn" id="bSound" title="소리 켜고 끄기">🔊</button>
+      <div class="clock"><span>월드 시각</span><br><b id="vClock">D1 · 21:00</b></div>
+      <button class="hbtn off" id="bOff" title="매니저 퇴근 — 떠나 있어도 월드는 돈다">퇴근</button>
+      <div class="proto" title="테스트 도구 — 실제 게임에는 없다. 주소에 ?dev를 붙이면 펼쳐진다">
+        <span>테스트</span>
+        <button data-speed="1" class="on">×1</button><button data-speed="60">×60</button><button data-speed="600">×600</button>
+        <button id="bSkip" title="8시간 뒤 출근">⏭8h</button><button id="bReset" title="처음부터 (두 번 누른다)">↺</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="world">
+    <div id="bands"></div>
+    <div id="clouds"><i style="top:70px;width:130px;animation-duration:140s"></i><i style="top:140px;width:90px;animation-duration:190s;animation-delay:-80s"></i><i style="top:40px;width:160px;animation-duration:230s;animation-delay:-150s"></i><i style="top:190px;width:110px;animation-duration:170s;animation-delay:-40s"></i></div>
+    <div id="groundL"><div class="ground"></div></div>
+    <div id="marks"></div>
+    <div id="walkers"></div>
+    <div id="plats"></div>
+    <div id="fxL"></div>
+    <div id="gapUi"></div>
+    <div id="ui"></div>
+  </main>
+
+  <footer id="dock">
+    <section class="trayw">
+      <h6>대기실 <span id="vTray">0/10</span> · 끌어서 던전에 놓아요</h6>
+      <div class="tray"><div id="tray"></div><button class="hire" id="bHire" title="1단계 직원 채용">신입 채용<small>1단계 직원</small></button></div>
+    </section>
+    <section class="plotsw"><h6>빈 부지 · 직원을 놓으면 개업</h6><div class="plots" id="plots"></div></section>
+    <section class="orenw" id="oren" title="오렌을 누르면 지금 가장 급한 곳으로 가요"><div class="face"><img class="px" id="orenImg" alt="오렌"></div><div class="bubble" id="orenTxt">…</div><button id="tutSkip" class="tskip" hidden title="튜토리얼 건너뛰기">건너뛰기</button></section>
+    <section class="docw" id="docw" title="결재 서류 — 눌러서 조건 보기"><div class="doc" id="doc"></div></section>
+  </footer>
+
+  <section id="dview" hidden></section>
+  <div id="sheet" hidden></div>
+  <div id="modal" hidden></div>
+  <div id="orenF" hidden><img class="px" id="orenFImg" alt=""><div class="bubble"></div></div>
+  <div id="toast"></div>
+  <div id="spot" hidden></div>
+  <div id="drag"></div>
+</div></div>
+<div id="rotate">📱↻ 가로로 돌리면 더 크게 보여요</div>
+<script type="module" src="/src/main.ts"></script>
+</body>
 </html>
