@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>MSW 주식회사 — 화면 시안</title>
+<!--
+  화면 시안. 몬스터·캐릭터 도트는 자리표시용으로 코드로 그렸다.
+  실제 게임은 메이플스토리 월드 공식 리소스를 쓴다.
+  보기: index.html (전체) · index.html#world · #dungeon · #evolve · #report · #mobile
+-->
+<style>
+:root{
+  --smile:#FFC531; --flow:#3CC47C; --alert:#FF5A4E; --busy:#FF9F2E; --evolve:#8B6CFF;
+  --exp:#3FA9F5; --drop:#FF7BB0; --paper:#FFFDF6; --ink:#2D2A3E; --ink2:#6B6780;
+  --head:#5DB8EC; --head2:#3E9FDB; --line:#D9E6F2; --panel:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:var(--ink);background:#1d1b26;}
+body.all{padding:24px}
+.screen{position:relative;width:1280px;height:720px;overflow:hidden;display:none;background:#9ad8ff}
+body.all .screen{display:block;margin:0 auto 24px}
+body[data-s=world] #world, body[data-s=dungeon] #dungeon, body[data-s=evolve] #evolve,
+body[data-s=report] #report, body[data-s=mobile] #mobile{display:block}
+#mobile{width:390px;height:844px}
+canvas.spr{image-rendering:pixelated;position:absolute}
+.abs{position:absolute}
+
+/* ── HUD ─────────────────────────────── */
+.hud{position:absolute;left:0;top:0;right:0;height:60px;background:linear-gradient(#fff,#EEF6FC);
+  border-bottom:3px solid var(--head2);display:flex;align-items:center;padding:0 16px;gap:12px;z-index:20}
+.logo{display:flex;align-items:center;gap:8px;font-weight:900;font-size:19px;letter-spacing:-.5px}
+.logo .badge{background:var(--ink);color:#fff;font-size:11px;padding:3px 7px;border-radius:5px;font-weight:700}
+.kpis{display:flex;gap:10px;margin-left:18px}
+.kpi{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--line);border-radius:22px;padding:5px 14px 5px 6px;height:40px}
+.kpi .ic{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:17px}
+.kpi b{font-size:20px;font-weight:900}
+.kpi small{font-size:11px;color:var(--ink2);display:block;line-height:1}
+.kpi.main{border-color:var(--smile);background:#FFF8E1}
+.kpi .d{font-size:12px;color:#1f9d57;font-weight:800;margin-left:2px}
+.can{width:22px;height:28px;border-radius:5px 5px 4px 4px;background:linear-gradient(90deg,#e8a800,#ffd24d 45%,#e8a800);border:2px solid #7a5a00;position:relative}
+.can:after{content:'';position:absolute;left:3px;right:3px;top:3px;height:4px;background:#fff6;border-radius:2px}
+.stars{color:var(--smile);font-size:18px;letter-spacing:-2px;text-shadow:0 1px 0 #a67c00}
+.stars i{color:#cfd6de;font-style:normal;text-shadow:none}
+.hud .right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.hbtn{height:40px;padding:0 14px;border-radius:10px;background:#fff;border:2px solid var(--line);font-weight:800;font-size:14px;display:flex;align-items:center;gap:6px;position:relative}
+.hbtn .n{position:absolute;right:-6px;top:-6px;background:var(--alert);color:#fff;font-size:11px;border-radius:9px;padding:1px 6px;border:2px solid #fff}
+.clock{font-size:12px;color:var(--ink2);text-align:right;line-height:1.3}
+
+/* ── callouts ─────────────────────────── */
+.co{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-weight:900;
+  font-size:14px;display:grid;place-items:center;border:2px solid #fff;box-shadow:0 2px 6px #0005;z-index:50}
+
+/* ── world ────────────────────────────── */
+#world{background:radial-gradient(ellipse at 50% 40%,#8fd6ff,#4fb2ea 70%,#3a9bd6)}
+.sea-wave{position:absolute;inset:60px 0 150px 0;background:repeating-linear-gradient(170deg,transparent 0 38px,#ffffff14 38px 40px)}
+.map{position:absolute;left:0;top:60px}
+.dcard{position:absolute;width:168px;background:#fff;border-radius:12px;box-shadow:0 4px 0 #0002,0 6px 14px #0003;border:2px solid #fff;overflow:visible;z-index:10}
+.dcard .dh{height:24px;border-radius:10px 10px 0 0;padding:3px 9px;color:#fff;font-weight:900;font-size:13px;display:flex;justify-content:space-between;align-items:center;text-shadow:0 1px 0 #0004}
+.dcard .dh span{font-size:11px;background:#0003;border-radius:8px;padding:0 6px}
+.dcard .db{padding:4px 8px 7px;position:relative;height:62px}
+.dcard .mons{position:relative;height:30px}
+.dcard .mons canvas{position:absolute;top:0}
+.pop{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--ink2);margin-top:4px}
+.bar{flex:1;height:8px;border-radius:5px;background:#E6EDF3;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--flow);border-radius:5px}
+.bar.busy i{background:var(--busy)}
+.mood{position:absolute;right:7px;top:4px;font-size:15px}
+.bdg{position:absolute;z-index:12;display:grid;place-items:center;font-weight:900;color:#fff;border:2px solid #fff;box-shadow:0 2px 5px #0004}
+.bdg.ev{width:26px;height:26px;border-radius:7px;background:var(--evolve);font-size:13px}
+.bdg.busy{height:26px;border-radius:13px;background:var(--busy);font-size:12px;padding:0 8px}
+.bdg.gap{width:30px;height:30px;border-radius:50%;background:var(--alert);font-size:18px}
+.ring{position:absolute;right:-18px;top:22px;width:40px;height:40px;border-radius:50%;
+  background:conic-gradient(var(--exp) 0 200deg,#dfeaf3 200deg 360deg);display:grid;place-items:center;z-index:13;box-shadow:0 2px 5px #0003}
+.ring b{width:30px;height:30px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:9px;font-weight:900;color:var(--exp);line-height:1.05;text-align:center}
+.plot{position:absolute;width:150px;height:74px;border:3px dashed #ffffffcc;border-radius:12px;color:#fff;font-weight:900;
+  display:grid;place-items:center;text-align:center;font-size:13px;background:#ffffff22;text-shadow:0 1px 2px #0006;z-index:9}
+.plot small{display:block;font-size:11px;font-weight:700}
+.region-label{position:absolute;font-weight:900;font-size:15px;color:#fff;text-shadow:0 2px 0 #0005,0 0 8px #0004;z-index:8;letter-spacing:-.3px}
+.region-label small{display:block;font-size:11px;font-weight:700;opacity:.9}
+.lock{position:absolute;z-index:8;color:#fff;text-align:center;font-weight:900;text-shadow:0 2px 3px #0008}
+.lock .l{font-size:26px}
+.lock small{display:block;font-size:11px;font-weight:700;background:#0006;border-radius:8px;padding:2px 8px;margin-top:3px}
+.entrance{position:absolute;z-index:9;background:#7a4b22;color:#fff;font-weight:900;font-size:12px;padding:5px 10px;border-radius:6px;border:2px solid #4d2e12;box-shadow:0 3px 0 #0003}
+.entrance:after{content:'';position:absolute;left:50%;bottom:-16px;width:6px;height:14px;background:#4d2e12;margin-left:-3px}
+
+.paper{position:absolute;background:var(--paper);border-radius:6px;box-shadow:0 4px 0 #0002,0 8px 18px #0003;border:1px solid #e9e1c8}
+.approval{left:1026px;top:150px;width:236px;padding:12px 14px;z-index:15}
+.approval:before{content:'';position:absolute;left:92px;top:-10px;width:52px;height:18px;background:#c9ced6;border-radius:4px;border:2px solid #9aa2ad}
+.approval h4{font-size:12px;color:var(--ink2);font-weight:800}
+.approval h3{font-size:16px;font-weight:900;margin:1px 0 8px}
+.cond{font-size:12px;font-weight:800;margin-bottom:7px}
+.cond .row{display:flex;justify-content:space-between;margin-bottom:3px}
+.cond .no{color:var(--alert)}
+.cond .bar i{background:var(--smile)}
+.stampbox{position:absolute;right:12px;top:10px;width:44px;height:44px;border:2px dashed #d7a9a4;border-radius:50%;color:#d7a9a4;font-size:10px;font-weight:900;display:grid;place-items:center;text-align:center;line-height:1.1}
+
+.oren{position:absolute;right:18px;top:78px;display:flex;align-items:flex-start;gap:8px;z-index:15}
+.oren .bub{background:#fff;border-radius:14px;padding:9px 13px;font-weight:900;font-size:13px;box-shadow:0 3px 0 #0002;position:relative;max-width:230px}
+.oren .bub:after{content:'';position:absolute;right:-8px;top:14px;border:8px solid transparent;border-left-color:#fff;border-right:0}
+.oren .face{width:58px;height:58px;border-radius:50%;background:#fff;border:3px solid var(--smile);position:relative;overflow:hidden}
+
+/* rail */
+.rail{position:absolute;left:0;right:0;bottom:0;height:172px;background:#fff;border-top:3px solid var(--head2);z-index:18;padding:10px 20px 0}
+.rail .title{display:flex;gap:14px;align-items:baseline}
+.rail .title b{font-size:15px;font-weight:900}
+.rail .title span{font-size:12px;color:var(--ink2);font-weight:700}
+.legend{margin-left:auto;display:flex;gap:12px;font-size:11px;font-weight:800;color:var(--ink2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px}
+.rail-area{position:absolute;left:62px;right:28px;top:36px;bottom:10px}
+
+/* ── dungeon ─────────────────────────── */
+#dungeon,#evolve{background:linear-gradient(#7fcaf5,#c6ecff 60%,#e6f7ff)}
+.subbar{position:absolute;top:60px;left:0;right:0;height:50px;background:#ffffffd9;border-bottom:2px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 16px;z-index:19}
+.back{font-weight:900;font-size:14px;color:var(--head2);padding:6px 12px;border:2px solid var(--line);border-radius:9px;background:#fff}
+.dname{font-size:20px;font-weight:900;margin-left:6px}
+.chip{height:30px;border-radius:15px;padding:0 12px;display:flex;align-items:center;gap:6px;font-weight:900;font-size:13px;background:#fff;border:2px solid var(--line)}
+.chip.lv{background:linear-gradient(90deg,#8fd46c,#5fbf8a);color:#fff;border-color:#4ea86f}
+.chip.exp{border-color:var(--exp);color:var(--exp)}
+.hill{position:absolute;border-radius:50% 50% 0 0;background:#a8dcae}
+.cloud{position:absolute;background:#fff;border-radius:40px;opacity:.9}
+.cloud:before,.cloud:after{content:'';position:absolute;background:#fff;border-radius:50%}
+.plat{position:absolute;height:26px;background:#b0773f;border-radius:6px;box-shadow:inset 0 -6px 0 #8a5a2b}
+.plat:before{content:'';position:absolute;left:-2px;right:-2px;top:-8px;height:12px;background:#6cc35a;border-radius:8px;box-shadow:inset 0 -3px 0 #4f9f40}
+.ground{position:absolute;left:0;right:0;height:70px;background:repeating-linear-gradient(90deg,#b0773f 0 40px,#a66e38 40px 80px);box-shadow:inset 0 10px 0 #8a5a2b}
+.ground:before{content:'';position:absolute;left:0;right:0;top:-12px;height:16px;background:#6cc35a;box-shadow:inset 0 -4px 0 #4f9f40}
+.rope{position:absolute;width:6px;background:repeating-linear-gradient(#caa56a 0 6px,#a88348 6px 12px);border-radius:3px}
+.emo{position:absolute;width:32px;height:30px;background:#fff;border-radius:12px;display:grid;place-items:center;font-size:18px;box-shadow:0 2px 0 #0002;z-index:6}
+.emo:after{content:'';position:absolute;left:11px;bottom:-6px;border:6px solid transparent;border-top-color:#fff;border-bottom:0}
+.tag{position:absolute;font-size:11px;font-weight:900;background:#2D2A3Ecc;color:#fff;border-radius:6px;padding:2px 6px;z-index:6;white-space:nowrap}
+.pillar{position:absolute;width:74px;background:linear-gradient(90deg,#fff0 0,#fff7c2aa 25%,#fffbe6 50%,#fff7c2aa 75%,#fff0);z-index:5}
+.lvup{position:absolute;font:italic 900 30px 'Arial Black',sans-serif;color:#ffd84d;-webkit-text-stroke:2px #b35c00;text-shadow:0 3px 0 #7a3d00;z-index:7;letter-spacing:-1px}
+.puff{position:absolute;z-index:6}
+.puff i{position:absolute;background:#fff;border-radius:50%;opacity:.95}
+.puff b{position:absolute;left:10px;top:-24px;font-weight:900;font-size:15px;color:#fff;-webkit-text-stroke:1px #5a4fcf;text-shadow:0 2px 0 #5a4fcf;white-space:nowrap}
+.spark{position:absolute;color:var(--smile);font-weight:900;font-size:14px;text-shadow:0 1px 0 #a67c00;z-index:6}
+
+.tray{position:absolute;left:0;right:0;bottom:0;height:196px;background:#fff;border-top:3px solid var(--head2);z-index:18;display:flex;gap:16px;padding:14px 18px}
+.tray h5{font-size:13px;font-weight:900;margin-bottom:8px;padding-left:30px;display:flex;gap:8px;align-items:center}
+.tray h5 small{color:var(--ink2);font-weight:700}
+.slots{display:flex;gap:10px}
+.slot{width:150px;height:140px;border-radius:12px;border:2px solid var(--line);background:#F7FBFF;position:relative;padding:8px}
+.slot .nm{font-weight:900;font-size:13px}
+.slot .lvl{font-size:11px;font-weight:800;color:var(--ink2)}
+.slot canvas{position:absolute;right:8px;top:8px}
+.slot .trait{position:absolute;left:8px;top:44px;font-size:11px;font-weight:800;color:var(--ink2);background:#fff;border:1px solid var(--line);border-radius:8px;padding:1px 6px}
+.tenure{position:absolute;left:8px;right:8px;bottom:9px}
+.tenure .t{display:flex;justify-content:space-between;font-size:10px;font-weight:800;color:var(--ink2);margin-bottom:3px}
+.tenure .bar i{background:#b8a6ff}
+.slot.ready{border-color:var(--evolve);background:#F4F0FF;box-shadow:0 0 0 3px #8b6cff33}
+.slot.ready .tenure .bar i{background:var(--evolve)}
+.evbtn{position:absolute;left:8px;right:8px;bottom:38px;height:26px;border-radius:8px;background:var(--evolve);color:#fff;font-weight:900;font-size:12px;display:grid;place-items:center}
+.slot.empty{border-style:dashed;display:grid;place-items:center;text-align:center;color:var(--ink2);font-weight:900;font-size:13px;background:#fff}
+.slot.empty .plus{font-size:30px;color:var(--flow);line-height:1}
+.events{width:330px;border-left:2px solid var(--line);padding-left:16px}
+.evt{height:46px;border-radius:12px;border:2px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 12px;margin-bottom:8px;position:relative}
+.evt .ei{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:900;font-size:13px}
+.evt b{font-size:14px;font-weight:900;display:block}
+.evt small{font-size:11px;color:var(--ink2);font-weight:700}
+.evt .cost{margin-left:auto;font-weight:900;font-size:13px;display:flex;align-items:center;gap:4px}
+.evt.on{border-color:var(--exp);background:#EEF7FF}
+.evt.on .cost{color:var(--exp)}
+.mini-can{width:12px;height:15px;border-radius:3px;background:linear-gradient(90deg,#e8a800,#ffd24d 45%,#e8a800);border:1.5px solid #7a5a00;display:inline-block}
+.moodbar{width:250px;border-left:2px solid var(--line);padding-left:16px}
+.moods{display:flex;flex-direction:column;gap:7px}
+.mrow{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800}
+.mrow .e{font-size:17px;width:22px}
+.mrow .bar{height:12px}
+
+/* ── evolve modal ─────────────────────── */
+.dim{position:absolute;inset:0;background:#1d1b40aa;z-index:30}
+.modal{position:absolute;left:230px;top:92px;width:820px;height:560px;background:#fff;border-radius:22px;z-index:31;box-shadow:0 10px 40px #0007;overflow:hidden}
+.modal .mh{height:58px;background:linear-gradient(90deg,#8b6cff,#b18cff);color:#fff;display:flex;align-items:center;padding:0 24px;font-size:22px;font-weight:900;gap:10px}
+.modal .mh small{font-size:13px;font-weight:700;opacity:.9;margin-left:auto}
+.idcard{position:absolute;width:190px;height:226px;border-radius:14px;background:#fff;border:3px solid #d9d2ff;box-shadow:0 4px 0 #0001}
+.idcard .clip{position:absolute;left:78px;top:-12px;width:34px;height:20px;border-radius:5px;background:#c9ced6;border:2px solid #9aa2ad}
+.idcard .ph{position:absolute;left:20px;top:22px;width:146px;height:120px;border-radius:10px;background:linear-gradient(#e8f6ff,#d4eefc)}
+.idcard .inf{position:absolute;left:0;right:0;top:150px;text-align:center}
+.idcard .inf b{font-size:17px;font-weight:900;display:block}
+.idcard .inf span{font-size:13px;font-weight:800;color:var(--ink2)}
+.idcard.after{border-color:var(--evolve);box-shadow:0 0 0 6px #8b6cff33,0 0 30px #8b6cff66}
+.idcard.after .ph{background:radial-gradient(circle,#fff7d6,#efe6ff 70%)}
+.lvjump{display:inline-block;margin-top:3px;background:var(--evolve);color:#fff;border-radius:10px;padding:1px 9px;font-size:13px;font-weight:900}
+.arrow{position:absolute;font-size:44px;color:var(--evolve);font-weight:900}
+.preview{position:absolute;left:24px;right:24px;top:326px;height:150px;border-radius:14px;background:#F7F9FC;border:2px solid var(--line);padding:12px 16px}
+.preview h5{font-size:14px;font-weight:900;margin-bottom:8px}
+.warn{position:absolute;left:24px;right:24px;top:392px;display:none}
+.btns{position:absolute;right:24px;bottom:20px;display:flex;gap:10px}
+.btn{height:50px;padding:0 26px;border-radius:14px;font-weight:900;font-size:17px;display:grid;place-items:center;border:2px solid var(--line);background:#fff}
+.btn.pri{background:var(--evolve);border-color:#6d50e0;color:#fff;box-shadow:0 4px 0 #5a3fcf}
+.hint{position:absolute;left:24px;bottom:28px;font-size:13px;font-weight:800;color:var(--ink2);display:flex;gap:6px;align-items:center;max-width:470px}
+
+/* ── report ──────────────────────────── */
+#report{background:#F3EBDD}
+#report .desk{position:absolute;inset:60px 0 0 0;background:repeating-linear-gradient(0deg,#efe4d1 0 2px,#f3ebdd 2px 34px)}
+.rp{position:absolute;left:150px;top:84px;width:980px;height:612px;padding:26px 34px}
+.rp h1{font-size:34px;font-weight:900;letter-spacing:-1px}
+.rp .sub{font-size:15px;font-weight:700;color:var(--ink2);margin-top:2px}
+.stamp{position:absolute;right:40px;top:22px;width:108px;height:108px;border-radius:50%;border:5px solid #e0463c;color:#e0463c;display:grid;place-items:center;text-align:center;font-weight:900;font-size:26px;line-height:1.05;transform:rotate(-14deg);opacity:.88}
+.stamp small{font-size:12px;display:block}
+.tiles{display:flex;gap:14px;margin-top:20px}
+.tile{flex:1;height:118px;border-radius:16px;background:#fff;border:2px solid #efe6d2;padding:14px 18px;position:relative}
+.tile .k{font-size:13px;font-weight:800;color:var(--ink2)}
+.tile .v{font-size:44px;font-weight:900;letter-spacing:-1px;line-height:1.15;display:flex;align-items:center;gap:10px}
+.tile .dd{font-size:15px;font-weight:900;color:#1f9d57}
+.tile.main{border-color:var(--smile);background:#FFF8E1}
+.scenes{display:flex;gap:14px;margin-top:18px}
+.scene{width:204px;height:160px;border-radius:14px;overflow:hidden;position:relative;background:linear-gradient(#8fd3ff,#d6f1ff);border:3px solid #fff;box-shadow:0 3px 0 #0001}
+.scene .cap{position:absolute;left:0;right:0;bottom:0;height:32px;background:#fff;font-weight:900;font-size:13px;display:grid;place-items:center}
+.scene .g{position:absolute;left:0;right:0;bottom:32px;height:22px;background:#b0773f;box-shadow:inset 0 5px 0 #6cc35a}
+.king{position:absolute;right:34px;top:252px;width:212px;height:158px;border-radius:14px;background:#fff;border:2px solid #efe6d2;padding:12px 14px;text-align:center}
+.king h5{font-size:13px;font-weight:900;color:#b07a00}
+.king b{display:block;font-size:15px;font-weight:900;margin-top:70px}
+.king span{font-size:12px;font-weight:800;color:var(--ink2)}
+.todo{display:flex;gap:10px;margin-top:18px;align-items:center}
+.todo .lbl{font-weight:900;font-size:14px;margin-right:4px}
+.tchip{height:36px;border-radius:18px;padding:0 14px;display:flex;align-items:center;gap:8px;font-weight:900;font-size:13px;background:#fff;border:2px solid var(--line)}
+.tchip i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:#fff;font-style:normal;font-size:12px}
+.cta{margin-left:auto;height:46px;padding:0 22px;border-radius:14px;background:var(--head2);color:#fff;font-weight:900;font-size:16px;display:grid;place-items:center;box-shadow:0 4px 0 #2a7fb8}
+
+.goal{margin-top:22px;height:56px;border-radius:14px;background:#fff;border:2px dashed #e0d4b8;display:flex;align-items:center;gap:12px;padding:0 18px;font-size:13px;font-weight:800}
+.goal b{font-size:14px;font-weight:900;margin-right:6px}
+.goal .bar{max-width:150px;height:10px}
+.goal em{font-style:normal;font-weight:900;color:var(--alert);margin-right:10px}
+/* ── mobile ──────────────────────────── */
+#mobile{background:#EAF5FD}
+.m-hud{position:absolute;left:0;right:0;top:0;height:108px;background:#fff;border-bottom:3px solid var(--head2);padding:10px 14px}
+.m-top{display:flex;align-items:center;justify-content:space-between}
+.m-kpis{display:flex;gap:8px;margin-top:10px}
+.m-kpi{flex:1;height:44px;border-radius:12px;border:2px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 8px}
+.m-kpi b{font-size:18px;font-weight:900}
+.m-kpi small{font-size:10px;color:var(--ink2);font-weight:700;display:block;line-height:1}
+.m-kpi.main{border-color:var(--smile);background:#FFF8E1}
+.m-sec{position:absolute;left:12px;right:12px}
+.m-card{background:#fff;border-radius:14px;box-shadow:0 2px 0 #0001;border:2px solid #fff}
+.m-nav{position:absolute;left:0;right:0;bottom:0;height:70px;background:#fff;border-top:2px solid var(--line);display:flex}
+.m-nav div{flex:1;text-align:center;font-size:11px;font-weight:800;color:var(--ink2);padding-top:10px;position:relative}
+.m-nav div b{display:block;font-size:22px;line-height:1.2}
+.m-nav div.on{color:var(--head2)}
+.m-nav .n{position:absolute;left:58%;top:6px;background:var(--alert);color:#fff;font-size:10px;border-radius:8px;padding:0 5px}
+.m-d{display:flex;align-items:center;gap:10px;padding:9px 10px;border-bottom:1px solid #eef2f6;position:relative}
+.m-d:last-child{border-bottom:0}
+.m-d .sw{width:6px;height:40px;border-radius:3px}
+.m-d .nm{font-weight:900;font-size:14px}
+.m-d .lv{font-size:11px;font-weight:800;color:var(--ink2)}
+.m-d .mons{position:relative;width:74px;height:26px}
+.m-d .right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.m-d .pp{font-size:11px;font-weight:900;color:var(--ink2);width:38px;text-align:right}
+.m-b{height:24px;min-width:24px;border-radius:12px;display:grid;place-items:center;color:#fff;font-weight:900;font-size:11px;padding:0 6px}
+.m-reg{font-size:12px;font-weight:900;color:var(--ink2);margin:10px 4px 6px;display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+
+<!-- ═════════════ S1 · 월드 관제 ═════════════ -->
+<section class="screen" id="world">
+  <div class="sea-wave"></div>
+  <svg class="map" width="1280" height="490" viewBox="0 0 1280 490">
+    <defs>
+      <clipPath id="isl"><path id="islp" d="M160 260 C150 130 330 55 520 70 C680 80 770 45 910 62 C1070 80 1190 160 1180 265 C1170 370 1050 440 880 430 C740 420 660 455 520 448 C360 440 170 400 160 260 Z"/></clipPath>
+      <pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#0000"/><rect width="4" height="10" fill="#ffffff22"/></pattern>
+      <filter id="glow"><feGaussianBlur stdDeviation="3"/></filter>
+    </defs>
+    <path d="M160 260 C150 130 330 55 520 70 C680 80 770 45 910 62 C1070 80 1190 160 1180 265 C1170 370 1050 440 880 430 C740 420 660 455 520 448 C360 440 170 400 160 260 Z" fill="#f3e2a8" transform="translate(0,10)" opacity=".7"/>
+    <g clip-path="url(#isl)">
+      <rect x="0" y="0" width="1280" height="490" fill="#9be07a"/>
+      <!-- 엘리니아 (북서, 숲) -->
+      <path d="M100 0 H500 L470 200 L130 270 Z" fill="#4fae62"/>
+      <!-- 커닝시티 (남서) 잠김 -->
+      <path d="M100 270 L470 200 L500 490 H100 Z" fill="#8f9aa6"/>
+      <!-- 페리온 (북동) 잠김 -->
+      <path d="M760 0 H1280 V240 L790 230 Z" fill="#c69c70"/>
+      <!-- 슬리피우드 (남동) 잠김 -->
+      <path d="M790 230 L1280 240 V490 H770 Z" fill="#6f5c93"/>
+      <!-- 잠긴 지역 어둡게 -->
+      <path d="M100 270 L470 200 L500 490 H100 Z" fill="#1c2233" opacity=".45"/>
+      <path d="M760 0 H1280 V240 L790 230 Z" fill="#1c2233" opacity=".45"/>
+      <path d="M790 230 L1280 240 V490 H770 Z" fill="#1c2233" opacity=".5"/>
+      <path d="M100 270 L470 200 L500 490 H100 Z" fill="url(#hatch)"/>
+      <path d="M760 0 H1280 V240 L790 230 Z" fill="url(#hatch)"/>
+      <path d="M790 230 L1280 240 V490 H770 Z" fill="url(#hatch)"/>
+      <!-- 나무 점묘 -->
+      <g fill="#3d9150">
+        <circle cx="200" cy="120" r="14"/><circle cx="232" cy="150" r="12"/><circle cx="420" cy="95" r="13"/><circle cx="160" cy="190" r="12"/><circle cx="455" cy="150" r="10"/>
+      </g>
+      <g fill="#7fcf63"><circle cx="560" cy="170" r="9"/><circle cx="720" cy="120" r="8"/><circle cx="600" cy="400" r="9"/></g>
+      <!-- 경계선 -->
+      <path d="M130 270 L470 200 L500 490 M470 200 L500 0 M760 0 L790 230 L770 490 M790 230 L1280 240" stroke="#fff" stroke-width="3" stroke-dasharray="8 7" fill="none" opacity=".75"/>
+    </g>
+    <path d="M160 260 C150 130 330 55 520 70 C680 80 770 45 910 62 C1070 80 1190 160 1180 265 C1170 370 1050 440 880 430 C740 420 660 455 520 448 C360 440 170 400 160 260 Z" fill="none" stroke="#fff" stroke-width="5" opacity=".9"/>
+    <!-- 마을 불빛 -->
+    <g><circle cx="640" cy="300" r="14" fill="#ffe27a" filter="url(#glow)"/><circle cx="640" cy="300" r="5" fill="#fff8d6"/>
+       <circle cx="270" cy="230" r="12" fill="#ffe27a" filter="url(#glow)"/><circle cx="270" cy="230" r="4" fill="#fff8d6"/>
+       <circle cx="330" cy="370" r="4" fill="#556"/><circle cx="960" cy="140" r="4" fill="#556"/><circle cx="980" cy="350" r="4" fill="#445"/></g>
+    <!-- 흐름 경로 (y는 map 기준: 화면 y - 60) -->
+    <g fill="none" stroke-linecap="round">
+      <path d="M612 432 C600 410 585 395 575 372" stroke="#ffffffaa" stroke-width="7"/>
+      <path d="M660 330 C700 330 720 340 745 355" stroke="#ffffffaa" stroke-width="7"/>
+      <path d="M700 250 C690 225 680 215 665 205" stroke="#ffffffaa" stroke-width="7"/>
+      <path d="M560 180 C520 190 480 205 460 215" stroke="#ffffffaa" stroke-width="7"/>
+      <path d="M335 175 C320 150 300 130 285 120" stroke="#FF5A4E" stroke-width="5" stroke-dasharray="3 9"/>
+    </g>
+    <g fill="#FFC531" stroke="#a67c00" stroke-width="1.5">
+      <circle cx="606" cy="420" r="4.5"/><circle cx="592" cy="400" r="4.5"/><circle cx="580" cy="382" r="4.5"/>
+      <circle cx="690" cy="332" r="4.5"/><circle cx="722" cy="341" r="4.5"/>
+      <circle cx="694" cy="236" r="4.5"/><circle cx="676" cy="216" r="4.5"/>
+      <circle cx="530" cy="189" r="4.5"/><circle cx="498" cy="200" r="4.5"/><circle cx="476" cy="208" r="4.5"/>
+    </g>
+    <g fill="#b9c0cc" stroke="#6b7280" stroke-width="1.5"><circle cx="326" cy="160" r="4.5"/><circle cx="316" cy="152" r="4.5"/><circle cx="336" cy="150" r="4.5"/><circle cx="322" cy="140" r="4.5"/></g>
+  </svg>
+
+  <!-- 지역 라벨 -->
+  <div class="region-label" style="left:664px;top:420px">헤네시스<small>Lv 1–15 · ★ 결재 완료</small></div>
+  <div class="region-label" style="left:176px;top:210px">엘리니아<small>Lv 15–30 · 2장 진행 중</small></div>
+  <div class="lock" style="left:250px;top:400px"><div class="l">🔒</div>커닝시티<small>3장 결재 후 개방</small></div>
+  <div class="lock" style="left:850px;top:150px"><div class="l">🔒</div>페리온<small>2장 결재 후 개방</small></div>
+  <div class="lock" style="left:950px;top:380px"><div class="l">🔒</div>슬리피우드<small>4장 결재 후 개방</small></div>
+
+  <!-- 입구 -->
+  <div class="entrance" style="left:568px;top:494px">월드 입구 · Lv 1 ▶</div>
+
+  <!-- 던전 카드 -->
+  <div class="dcard" style="left:470px;top:376px" data-d="field">
+    <div class="dh" style="background:linear-gradient(90deg,#8fd46c,#79c95a)">헤네시스 들판 <span>Lv 5</span></div>
+    <div class="db"><div class="mons" data-mons="snail,snail,bsnail"></div>
+      <div class="mood">😊</div>
+      <div class="pop">1–10 <div class="bar"><i style="width:67%"></i></div> 8/12</div></div>
+  </div>
+  <div class="bdg ev" style="left:622px;top:366px">▲</div>
+
+  <div class="dcard" style="left:676px;top:318px">
+    <div class="dh" style="background:linear-gradient(90deg,#7fcf62,#5fbf8a)">헤네시스 사냥터 <span>Lv 11</span></div>
+    <div class="db"><div class="mons" data-mons="mush,mush,horn"></div>
+      <div class="mood" style="right:26px">😊</div>
+      <div class="pop">6–16 <div class="bar"><i style="width:83%"></i></div> 10/12</div></div>
+    <div class="ring"><b>EXP<br>2:14</b></div>
+  </div>
+  <div class="bdg ev" style="left:850px;top:302px">▲</div>
+
+  <div class="dcard" style="left:560px;top:212px">
+    <div class="dh" style="background:linear-gradient(90deg,#5fbf8a,#48b39a)">버섯 언덕 <span>Lv 13</span></div>
+    <div class="db"><div class="mons" data-mons="horn,horn,mush"></div>
+      <div class="mood">😊</div>
+      <div class="pop">8–18 <div class="bar"><i style="width:50%"></i></div> 6/12</div></div>
+  </div>
+
+  <div class="dcard" style="left:300px;top:250px">
+    <div class="dh" style="background:linear-gradient(90deg,#48b39a,#3aa3b5)">숲 입구 <span>Lv 16</span></div>
+    <div class="db"><div class="mons" data-mons="slime,horn,horn"></div>
+      <div class="mood">😠</div>
+      <div class="pop">11–21 <div class="bar busy"><i style="width:100%"></i></div> 16/16</div></div>
+  </div>
+  <div class="bdg busy" style="left:472px;top:262px">🌀 대기 5</div>
+
+  <div class="dcard" style="left:196px;top:100px">
+    <div class="dh" style="background:linear-gradient(90deg,#4f8fd0,#6a6fd8)">나무 위 쉼터 <span>Lv 29</span></div>
+    <div class="db"><div class="mons" data-mons="mano,slime3,slime3"></div>
+      <div class="mood">😊</div>
+      <div class="pop">24–34 <div class="bar"><i style="width:8%"></i></div> 1/12</div></div>
+  </div>
+  <div class="bdg gap" style="left:318px;top:206px">!</div>
+
+  <div class="plot" style="left:374px;top:96px;width:118px">+ 빈 부지<small>개설 · 스마일 2,000</small></div>
+
+  <!-- 결재 서류 -->
+  <div class="paper approval">
+    <div class="stampbox">결재<br>대기</div>
+    <h4>결재 서류 · 2장</h4>
+    <h3>엘리니아를 잇자</h3>
+    <div class="cond"><div class="row"><span>① Lv 1–30 빈틈없이</span><span class="no">빈틈 1</span></div>
+      <div class="bar"><i style="width:86%;background:var(--flow)"></i></div></div>
+    <div class="cond"><div class="row"><span>② 즐기는 모험가</span><span>41 / 50</span></div>
+      <div class="bar"><i style="width:82%"></i></div></div>
+  </div>
+
+  <!-- 오렌 -->
+  <div class="oren"><div class="bub">매니저님!! Lv 22 모험가님들이<br>갈 데가 없대요!!</div><div class="face" id="orenFace"></div></div>
+
+  <!-- 레벨 레일 -->
+  <div class="rail">
+    <div class="title"><b>레벨 레일</b><span>모험가는 자기 레벨에 맞는 던전을 스스로 찾아간다 · 점 1개 = 모험가 1명</span>
+      <div class="legend"><span><i style="background:var(--smile)"></i>즐거움</span><span><i style="background:var(--busy)"></i>붐빔</span><span><i style="background:#b9c0cc"></i>찾는 중</span><span><i style="background:var(--alert)"></i>빈틈</span></div></div>
+    <div class="rail-area" id="railW"></div>
+  </div>
+
+  <div class="co" style="left:158px;top:2px">1</div>
+  <div class="co" style="left:1004px;top:142px">2</div>
+  <div class="co" style="left:456px;top:366px">3</div>
+  <div class="co" style="left:648px;top:356px">4</div>
+  <div class="co" style="left:500px;top:282px">5</div>
+  <div class="co" style="left:350px;top:196px">6</div>
+  <div class="co" style="left:20px;top:604px">7</div>
+  <div class="co" style="left:826px;top:146px">8</div>
+  <div class="co" style="left:968px;top:78px">9</div>
+</section>
+
+<!-- ═════════════ S2 · 던전 현장 ═════════════ -->
+<section class="screen" id="dungeon">
+  <div class="cloud" style="left:140px;top:150px;width:120px;height:34px"></div>
+  <div class="cloud" style="left:820px;top:130px;width:160px;height:40px"></div>
+  <div class="hill" style="left:-60px;top:330px;width:520px;height:260px"></div>
+  <div class="hill" style="left:520px;top:300px;width:620px;height:300px;background:#9bd4a3"></div>
+  <div class="hill" style="left:1000px;top:360px;width:420px;height:220px;background:#b3e2b8"></div>
+  <div class="ground" style="top:462px"></div>
+  <div class="plat" style="left:120px;top:342px;width:420px"></div>
+  <div class="plat" style="left:720px;top:282px;width:420px"></div>
+  <div class="rope" style="left:680px;top:282px;height:180px"></div>
+  <div id="dscene"></div>
+
+  <div class="subbar">
+    <div class="back">← 월드</div>
+    <div class="dname">헤네시스 사냥터</div>
+    <div class="chip lv">던전 Lv 11 · 적정 Lv 6–16</div>
+    <div class="chip">자리 10 / 12</div>
+    <div class="chip exp">⏱ 경험치 2배 · 2:14 남음</div>
+    <div style="margin-left:auto;font-size:12px;font-weight:800;color:var(--ink2)">던전 ★★☆ · 누적 즐거움 812</div>
+  </div>
+
+  <div class="tray">
+    <div>
+      <h5>직원 슬롯 <small>던전 레벨 = 직원 평균 레벨 · 3 / 4</small></h5>
+      <div class="slots">
+        <div class="slot ready"><div class="nm">주황버섯</div><div class="lvl">Lv 8 · 1단계</div><canvas class="spr" data-k="mush" data-s="2"></canvas>
+          <div class="trait">— 표준</div><div class="evbtn">▲ 진화 가능</div>
+          <div class="tenure"><div class="t"><span>근속(퇴근)</span><span>2,000/2,000</span></div><div class="bar"><i style="width:100%"></i></div></div></div>
+        <div class="slot"><div class="nm">주황버섯</div><div class="lvl">Lv 8 · 1단계</div><canvas class="spr" data-k="mush" data-s="2"></canvas>
+          <div class="trait">— 표준</div>
+          <div class="tenure"><div class="t"><span>근속(퇴근)</span><span>1,312/2,000</span></div><div class="bar"><i style="width:66%"></i></div></div></div>
+        <div class="slot"><div class="nm">뿔버섯</div><div class="lvl">Lv 16 · 2단계</div><canvas class="spr" data-k="horn" data-s="2"></canvas>
+          <div class="trait">— 표준</div>
+          <div class="tenure"><div class="t"><span>근속(퇴근)</span><span>2,480/8,000</span></div><div class="bar"><i style="width:31%"></i></div></div></div>
+        <div class="slot empty"><div><div class="plus">+</div>신입 채용<br><small style="font-weight:700">빈 슬롯</small></div></div>
+      </div>
+    </div>
+    <div class="events">
+      <h5>매니저 권한 <small>이벤트 2개 중 1개 사용 중</small></h5>
+      <div class="evt on"><div class="ei" style="background:var(--exp)">EXP</div><div><b>경험치 2배</b><small>모험가를 위로 올려보낸다</small></div><div class="cost">2:14</div></div>
+      <div class="evt"><div class="ei" style="background:var(--drop)">DROP</div><div><b>드랍 2배 · 4시간</b><small>모험가를 불러 모은다</small></div><div class="cost"><span class="mini-can"></span>330</div></div>
+      <div class="evt" style="height:40px"><div class="ei" style="background:var(--flow);width:26px;height:26px">+</div><div><b style="font-size:13px">자리 확장 +4</b></div><div class="cost"><span class="mini-can"></span>1,000</div></div>
+    </div>
+    <div class="moodbar">
+      <h5>지금 이 던전의 모험가</h5>
+      <div class="moods">
+        <div class="mrow"><span class="e">😊</span>즐거움<div class="bar"><i style="width:83%;background:var(--smile)"></i></div>10</div>
+        <div class="mrow"><span class="e">😐</span>찾는 중<div class="bar"><i style="width:0%"></i></div>0</div>
+        <div class="mrow"><span class="e">😠</span>붐빔<div class="bar"><i style="width:0%"></i></div>0</div>
+        <div class="mrow" style="margin-top:4px;color:var(--ink2)"><span class="e">✨</span>최근 1시간 레벨업 <b style="margin-left:auto;color:var(--ink)">23</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="co" style="left:280px;top:48px">1</div>
+  <div class="co" style="left:1200px;top:148px">2</div>
+  <div class="co" style="left:260px;top:200px">3</div>
+  <div class="co" style="left:524px;top:396px">4</div>
+  <div class="co" style="left:16px;top:538px">5</div>
+  <div class="co" style="left:696px;top:538px">6</div>
+  <div class="co" style="left:1012px;top:538px">7</div>
+</section>
+
+<!-- ═════════════ S3 · 진화 ═════════════ -->
+<section class="screen" id="evolve">
+  <div class="ground" style="top:462px"></div>
+  <div class="plat" style="left:120px;top:342px;width:420px"></div>
+  <div class="plat" style="left:720px;top:282px;width:420px"></div>
+  <div class="hud"></div>
+  <div class="dim"></div>
+  <div class="modal">
+    <div class="mh">▲ 진화 <span style="font-size:15px;font-weight:700;opacity:.9">· 헤네시스 들판</span><small>근속 8,000 / 8,000 달성</small></div>
+    <div class="idcard" style="left:120px;top:84px"><div class="clip"></div><div class="ph"><canvas class="spr" data-k="bsnail" data-s="5" style="left:18px;top:14px"></canvas></div>
+      <div class="inf"><b>파란 달팽이</b><span>Lv 10 · 2단계</span></div></div>
+    <div class="arrow" style="left:352px;top:150px">➜</div>
+    <div class="abs" style="left:348px;top:212px;font-weight:900;color:var(--evolve);font-size:13px;text-align:center;width:70px">사원증<br>사진 교체</div>
+    <div class="idcard after" style="left:448px;top:84px"><div class="clip"></div><div class="ph"><canvas class="spr" data-k="rsnail" data-s="5" style="left:18px;top:14px"></canvas></div>
+      <div class="inf"><b>빨간 달팽이</b><span>Lv 18 · 3단계</span><br><span class="lvjump">Lv +8</span></div></div>
+    <div class="abs" style="left:660px;top:92px;width:140px;font-size:12px;font-weight:800;color:var(--ink2);line-height:1.6">
+      <div style="font-weight:900;color:var(--ink);font-size:13px">달팽이 계열 ⏩</div>
+      달팽이 ✔<br>파란 달팽이 ✔<br><b style="color:var(--evolve)">빨간 달팽이 NEW</b><br>마노 (보스) ?
+    </div>
+    <div class="preview">
+      <h5>진화하면 들판이 이렇게 바뀌어요</h5>
+      <div id="evRail" style="position:relative;height:100px"></div>
+    </div>
+    <div class="hint">💡 진화한 뒤 빨간 달팽이를 위 던전으로 옮기면 입구가 다시 열려요</div>
+    <div class="btns"><div class="btn">보류</div><div class="btn pri">▲ 진화시키기</div></div>
+  </div>
+  <div class="co" style="left:196px;top:176px">1</div>
+  <div class="co" style="left:1062px;top:176px">2</div>
+  <div class="co" style="left:196px;top:432px">3</div>
+  <div class="co" style="left:196px;top:604px">4</div>
+</section>
+
+<!-- ═════════════ S0 · 출근 리포트 ═════════════ -->
+<section class="screen" id="report">
+  <div class="desk"></div>
+  <div class="paper rp">
+    <div class="stamp"><div>출근<small>14:26</small></div></div>
+    <h1>매니저님 출근!</h1>
+    <div class="sub">매니저님이 퇴근한 7시간 42분 동안, 월드는 이렇게 돌았어요</div>
+    <div class="tiles">
+      <div class="tile main"><div class="k">😊 지금 월드를 즐기는 모험가</div><div class="v">41 <span class="dd">▲ 18</span></div></div>
+      <div class="tile"><div class="k">🎓 끝까지 즐기고 졸업</div><div class="v">9 <span class="dd">명</span></div></div>
+      <div class="tile"><div class="k">스마일 캔</div><div class="v"><span class="can" style="width:26px;height:34px"></span>+3,860</div></div>
+    </div>
+    <div class="scenes">
+      <div class="scene" id="sc1"><div class="g"></div><div class="cap">✨ 레벨업 12연속</div></div>
+      <div class="scene" id="sc2"><div class="g"></div><div class="cap">🌀 숲 입구 만원</div></div>
+      <div class="scene" id="sc3"><div class="g"></div><div class="cap">🎓 Lv 34 졸업 9명</div></div>
+    </div>
+    <div class="king" id="king"><h5>👑 밤사이 퇴근왕</h5><b>파란 달팽이 #2</b><span>퇴근 1,204회</span></div>
+    <div class="todo">
+      <span class="lbl">할 일</span>
+      <div class="tchip"><i style="background:var(--evolve)">▲</i>진화 가능 2</div>
+      <div class="tchip"><i style="background:var(--alert)">!</i>빈틈 Lv 22–23</div>
+      <div class="tchip"><i style="background:var(--busy)">🌀</i>숲 입구 과밀</div>
+      <div class="cta">월드 관제로 →</div>
+    </div>
+    <div class="goal"><b>📋 결재 · 2장 엘리니아를 잇자</b>
+      <span>① Lv 1–30 빈틈없이</span><div class="bar"><i style="width:86%;background:var(--flow)"></i></div><em>빈틈 1</em>
+      <span>② 즐기는 모험가</span><div class="bar"><i style="width:82%;background:var(--smile)"></i></div><em style="color:var(--ink)">41 / 50</em></div>
+  </div>
+  <div class="hud"></div>
+  <div class="co" style="left:120px;top:100px">1</div>
+  <div class="co" style="left:120px;top:236px">2</div>
+  <div class="co" style="left:120px;top:392px">3</div>
+  <div class="co" style="left:1142px;top:380px">4</div>
+  <div class="co" style="left:120px;top:540px">5</div>
+  <div class="co" style="left:120px;top:614px">6</div>
+</section>
+
+<!-- ═════════════ S1-m · 모바일 월드 ═════════════ -->
+<section class="screen" id="mobile">
+  <div class="m-hud">
+    <div class="m-top"><div class="logo" style="font-size:16px"><span class="badge">MSW</span>주식회사</div>
+      <div class="stars" style="font-size:15px">★<i>★★★★</i></div></div>
+    <div class="m-kpis">
+      <div class="m-kpi main"><span style="font-size:18px">😊</span><div><small>즐기는 모험가</small><b>41</b></div></div>
+      <div class="m-kpi"><span class="can" style="width:16px;height:21px"></span><div><small>스마일</small><b>4,320</b></div></div>
+    </div>
+  </div>
+  <div class="m-sec paper" style="top:120px;padding:10px 12px;border-radius:12px">
+    <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:900"><span>결재 · 2장 엘리니아를 잇자</span><span style="color:var(--alert)">빈틈 1</span></div>
+    <div style="display:flex;gap:8px;margin-top:6px;align-items:center;font-size:11px;font-weight:800">① Lv 1–30<div class="bar" style="height:7px"><i style="width:86%"></i></div>② 41/50<div class="bar" style="height:7px"><i style="width:82%;background:var(--smile)"></i></div></div>
+  </div>
+  <div class="m-sec m-card" style="top:196px;padding:8px 10px 6px">
+    <div style="font-size:12px;font-weight:900;margin-bottom:4px">레벨 레일 <span style="color:var(--ink2);font-weight:700">· 점 = 모험가</span></div>
+    <div id="railM" style="position:relative;height:92px"></div>
+  </div>
+  <div class="m-sec" style="top:314px">
+    <div class="m-reg"><span>엘리니아 · Lv 15–30</span><span>2 / 3곳</span></div>
+    <div class="m-card">
+      <div class="m-d"><div class="sw" style="background:#6a6fd8"></div><div><div class="nm">나무 위 쉼터</div><div class="lv">Lv 29 · 적정 24–34</div></div>
+        <div class="mons" data-mons="mano,slime3,slime3" data-sc="1"></div><div class="right"><div class="pp">1/12</div><div class="m-b" style="background:var(--alert)">!</div></div></div>
+      <div class="m-d"><div class="sw" style="background:#3aa3b5"></div><div><div class="nm">숲 입구</div><div class="lv">Lv 16 · 적정 11–21</div></div>
+        <div class="mons" data-mons="slime,horn,horn" data-sc="1"></div><div class="right"><div class="pp">16/16</div><div class="m-b" style="background:var(--busy)">🌀</div></div></div>
+    </div>
+    <div class="m-reg"><span>헤네시스 · Lv 1–15</span><span>3 / 3곳 · ★</span></div>
+    <div class="m-card">
+      <div class="m-d"><div class="sw" style="background:#48b39a"></div><div><div class="nm">버섯 언덕</div><div class="lv">Lv 13 · 적정 8–18</div></div>
+        <div class="mons" data-mons="horn,horn,mush" data-sc="1"></div><div class="right"><div class="pp">6/12</div></div></div>
+      <div class="m-d"><div class="sw" style="background:#5fbf8a"></div><div><div class="nm">헤네시스 사냥터</div><div class="lv">Lv 11 · 적정 6–16</div></div>
+        <div class="mons" data-mons="mush,mush,horn" data-sc="1"></div><div class="right"><div class="pp">10/12</div><div class="m-b" style="background:var(--exp)">EXP</div><div class="m-b" style="background:var(--evolve)">▲</div></div></div>
+      <div class="m-d"><div class="sw" style="background:#8fd46c"></div><div><div class="nm">헤네시스 들판</div><div class="lv">Lv 5 · 적정 1–10</div></div>
+        <div class="mons" data-mons="snail,snail,bsnail" data-sc="1"></div><div class="right"><div class="pp">8/12</div><div class="m-b" style="background:var(--evolve)">▲</div></div></div>
+    </div>
+  </div>
+  <div class="m-nav">
+    <div class="on"><b>🗺️</b>월드</div><div><b>🍄</b>직원<span class="n">2</span></div><div><b>📋</b>결재함</div><div><b>📖</b>도감</div>
+  </div>
+</section>
+
+<script>
+/* ── 도트 스프라이트 (자리표시용) ───────────────────────── */
+const K='#3b2a20';
+const G=(w,h)=>Array.from({length:h},()=>Array(w).fill(null));
+function ell(g,cx,cy,rx,ry,c,f){for(let y=0;y<g.length;y++)for(let x=0;x<g[0].length;x++){
+  if(((x-cx)/rx)**2+((y-cy)/ry)**2<=1&&(!f||f(x,y)))g[y][x]=c;}}
+function rect(g,x0,y0,x1,y1,c){for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)if(g[y]&&x>=0&&x<g[0].length)g[y][x]=c;}
+function px(g,x,y,c){if(g[y]&&x>=0&&x<g[0].length)g[y][x]=c;}
+function outline(g){const h=g.length,w=g[0].length,o=g.map(r=>r.slice());
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(!g[y][x]){
+    if((g[y-1]&&g[y-1][x])||(g[y+1]&&g[y+1][x])||g[y][x-1]||g[y][x+1])o[y][x]=K;}
+  for(let y=0;y<h;y++)g[y]=o[y];}
+function mushroom({cap='#f7902a',shade='#d4661c',spot='#ffd08a',body='#fbe2b4',horn=false}){
+  const g=G(20,22),d=2;
+  ell(g,9.5,8+d,9,7,cap,(x,y)=>y<=9+d); rect(g,1,9+d,18,9+d,shade);
+  ell(g,6,4+d,1.7,1.2,spot); ell(g,12.5,5+d,1.4,1.1,spot); ell(g,9.5,2.4+d,1,0.8,spot);
+  if(horn){rect(g,9,0,10,2,'#fff4dc');}
+  rect(g,5,10+d,14,16+d,body); rect(g,5,17+d,7,17+d,'#c9a06a'); rect(g,12,17+d,14,17+d,'#c9a06a');
+  outline(g);
+  rect(g,7,12+d,7,13+d,K); rect(g,12,12+d,12,13+d,K); rect(g,9,15+d,10,15+d,'#c0392b'); return g;}
+function snail({shell='#79c94f',shade='#4e9a2f'}){
+  const g=G(22,18);
+  rect(g,2,13,19,15,'#f3d9a4'); ell(g,4,11,2.5,3,'#f3d9a4'); rect(g,3,6,3,9,'#f3d9a4'); rect(g,6,6,6,9,'#f3d9a4');
+  ell(g,12,8,6.5,6.5,shell,(x,y)=>y<=14); ell(g,12,8,4.3,4.3,shade); ell(g,12,8,3.1,3.1,shell);
+  ell(g,12.5,8.5,1.7,1.7,shade); ell(g,12.5,8.5,.7,.7,shell);
+  outline(g); px(g,3,6,K); px(g,6,6,K); px(g,3,11,K); px(g,5,11,K); return g;}
+function slime({c='#72d46c',shade='#45a84a'}){
+  const g=G(20,18);
+  ell(g,9.5,11,8.5,6,c,(x,y)=>y<=16); rect(g,2,16,17,16,shade); ell(g,9.5,4.5,1.5,2,c); ell(g,6,8,1.6,1,'#c3f5bb');
+  outline(g); rect(g,7,11,7,12,K); rect(g,12,11,12,12,K); rect(g,9,14,10,14,K); return g;}
+function stump(){
+  const g=G(20,20);
+  rect(g,5,7,14,17,'#a86b3c'); ell(g,9.5,7,5,1.6,'#e0b27a'); ell(g,7,3.5,2.6,2,'#5cb85c'); ell(g,12,4,2.1,1.8,'#43a043');
+  rect(g,3,17,5,17,'#8a5a2b'); rect(g,14,17,16,17,'#8a5a2b');
+  outline(g); rect(g,7,11,7,12,K); rect(g,12,11,12,12,K); rect(g,9,14,10,14,K); return g;}
+function adv({hair='#4a2e1c',cloth='#e0533d',pants='#3d4a6b'}){
+  const g=G(14,21);
+  rect(g,4,16,5,19,pants); rect(g,8,16,9,19,pants); rect(g,3,11,10,15,cloth);
+  rect(g,2,12,2,14,'#f6d2b0'); rect(g,11,12,11,14,'#f6d2b0'); ell(g,6.5,6.5,5,5,'#f6d2b0');
+  ell(g,6.5,4.6,5.3,3.7,hair,(x,y)=>y<=5); rect(g,1,5,2,8,hair); rect(g,11,5,12,8,hair);
+  outline(g); rect(g,4,7,4,8,K); rect(g,9,7,9,8,K); rect(g,6,10,7,10,'#d98b7a'); return g;}
+const SPR={
+  mush:()=>mushroom({}),
+  horn:()=>mushroom({cap:'#c46a33',shade:'#97491f',spot:'#f0b07a',horn:true}),
+  zombie:()=>mushroom({cap:'#7f93ab',shade:'#5b6d86',spot:'#b8c7d9',body:'#cfd9c6'}),
+  snail:()=>snail({}), bsnail:()=>snail({shell:'#4aa3e0',shade:'#2a74b0'}), rsnail:()=>snail({shell:'#e5533f',shade:'#a8321f'}),
+  slime:()=>slime({}), slime3:()=>slime({c:'#a97be0',shade:'#7a4fbf'}), stump:()=>stump(),
+  mano:()=>{const g=snail({shell:'#c0392b',shade:'#7b1e14'});[[10,0],[12,0],[14,0],[10,1],[11,1],[12,1],[13,1],[14,1]].forEach(([x,y])=>g[y][x]='#ffcc33');return g;},
+  a1:()=>adv({hair:'#4a2e1c',cloth:'#e0533d'}), a2:()=>adv({hair:'#f0c24a',cloth:'#4a78d8'}), a3:()=>adv({hair:'#2b2b33',cloth:'#4cae4c'}),
+  a4:()=>adv({hair:'#a0522d',cloth:'#8b5cc4'}), a5:()=>adv({hair:'#e8e2d6',cloth:'#2a9d9a'}),
+};
+function draw(cv,k,s,flip){const g=SPR[k]();cv.width=g[0].length*s;cv.height=g.length*s;const c=cv.getContext('2d');
+  if(flip){c.translate(cv.width,0);c.scale(-1,1);}
+  g.forEach((r,y)=>r.forEach((v,x)=>{if(v){c.fillStyle=v;c.fillRect(x*s,y*s,s,s);}}));}
+function spr(k,s,x,y,parent,flip){const cv=document.createElement('canvas');cv.className='spr';draw(cv,k,s,flip);
+  cv.style.left=x+'px';cv.style.top=y+'px';parent.appendChild(cv);return cv;}
+function el(html,parent){const t=document.createElement('template');t.innerHTML=html.trim();const n=t.content.firstChild;parent.appendChild(n);return n;}
+
+document.querySelectorAll('canvas.spr[data-k]').forEach(cv=>draw(cv,cv.dataset.k,+cv.dataset.s));
+document.querySelectorAll('[data-mons]').forEach(box=>{const sc=+(box.dataset.sc||1.5);
+  box.dataset.mons.split(',').forEach((k,i)=>spr(k,sc,i*(sc*16),0,box));});
+
+/* HUD 복제 */
+const HUD=`<div class="hud"><div class="logo"><span class="badge">MSW</span>주식회사</div>
+ <div class="kpis"><div class="kpi main"><div class="ic" style="background:#FFE9A8">😊</div><div><small>즐기는 모험가</small><b>41</b><span class="d">▲18</span></div></div>
+ <div class="kpi"><div class="ic"><span class="can"></span></div><div><small>스마일 캔</small><b>4,320</b></div></div>
+ <div class="kpi"><div class="ic" style="background:#EEF2F7">🏝️</div><div><small>월드 인기</small><span class="stars">★<i>★★★★</i></span></div></div></div>
+ <div class="right"><div class="hbtn">🍄 신입 채용</div><div class="hbtn">📖 도감 11/36</div><div class="hbtn">📋 결재함</div>
+ <div class="clock">월드 시각<br><b style="color:var(--ink);font-size:14px">D+9 · 14:26</b></div></div></div>`;
+['world','dungeon','report'].forEach(id=>{const s=document.getElementById(id);const old=s.querySelector('.hud');if(old)old.remove();el(HUD,s);});
+{const s=document.getElementById('evolve');s.querySelector('.hud').outerHTML=HUD;}
+
+/* 오렌 얼굴 */
+spr('mush',2.6,3,-2,document.getElementById('orenFace'));
+
+/* ── 레벨 레일 ── */
+const bandsW=[
+  {n:'들판',a:1,b:10,lane:0,c:'#79c95a'},{n:'사냥터',a:6,b:16,lane:1,c:'#5fbf8a'},
+  {n:'버섯 언덕',a:8,b:18,lane:0,c:'#48b39a'},{n:'숲 입구 · 만석',a:11,b:21,lane:1,c:'#FF9F2E'},
+  {n:'나무 위 쉼터',a:24,b:34,lane:0,c:'#6a6fd8'}];
+// bands on same lane overlap: 들판(1-10) & 언덕(8-18) → shift 언덕 to lane 2? keep 3 lanes
+bandsW[2].lane=0;
+const countsW=[[1,1],[2,1],[3,1],[4,1],[5,1],[6,2],[7,2],[8,2],[9,2],[10,2],[11,2],[12,2],[13,2],[14,2],[15,3],[16,3],[17,3],[18,3],[19,2],[20,2],[21,1],[24,1],[19,2,'busy'],[20,2,'busy'],[21,1,'busy'],[22,2,'wait'],[23,2,'wait']];
+function fixLanes(b){ // 겹치지 않게 3레인 배치
+  const lanes=[[],[],[]];b.forEach(x=>{for(let i=0;i<3;i++){if(lanes[i].every(y=>x.b<y.a||x.a>y.b)){x.lane=i;lanes[i].push(x);break;}}});return b;}
+window.addEventListener('load',()=>{
+  const bw=fixLanes(bandsW.map(o=>({...o})));
+  const hostW=document.getElementById('railW');
+  railWide(hostW,bw);
+  railMobile(document.getElementById('railM'),bw);
+  evRail(document.getElementById('evRail'));
+  scene(); reportScenes();
+});
+function railWide(host,b){rail3(host,{bands:b,counts:countsW,gap:[22,23]});}
+function railMobile(host,b){rail3(host,{bands:b,counts:countsW,gap:[22,23],compact:true});}
+function rail3(host,o){ // 3레인 버전
+  const W=host.getBoundingClientRect().width,H=host.getBoundingClientRect().height,min=1,max=36,locked=35,target=30,compact=!!o.compact;
+  const x=l=>(l-min)/(max-min+1)*W,cw=W/(max-min+1);
+  const laneH=compact?7:15,gapL=compact?2:3,histH=compact?30:50,axisY=histH+5+3*(laneH+gapL);
+  el(`<div class="abs" style="left:${x(locked)}px;top:0;width:${W-x(locked)}px;height:${axisY}px;background:repeating-linear-gradient(45deg,#eef1f5 0 6px,#e2e7ee 6px 12px);border-radius:6px"></div>`,host);
+  if(!compact)el(`<div class="abs" style="left:${x(locked)}px;width:${W-x(locked)}px;top:${axisY/2-10}px;text-align:center;font-size:15px">🔒</div>`,host);
+  const g=o.gap;
+  el(`<div class="abs" style="left:${x(g[0])}px;top:0;width:${cw*(g[1]-g[0]+1)}px;height:${axisY}px;background:repeating-linear-gradient(45deg,#ffe3e0 0 5px,#ffd0cb 5px 10px);border:2px solid var(--alert);border-radius:6px"></div>`,host);
+  const ds=compact?5:8;
+  const stack={};
+  o.counts.forEach(([lv,n,kind])=>{for(let j=0;j<n;j++){const i=stack[lv]=(stack[lv]||0)+1;const col=kind==='busy'?'var(--busy)':kind==='wait'?'#b9c0cc':'var(--smile)',bd=kind==='busy'?'#b8660a':kind==='wait'?'#6b7280':'#a67c00';
+    el(`<div class="abs" style="left:${x(lv)+cw/2-ds/2}px;top:${histH-i*(ds+(compact?1:2))}px;width:${ds}px;height:${ds}px;border-radius:50%;background:${col};border:1.5px solid ${bd}"></div>`,host);}});
+  o.bands.forEach(b=>{const top=histH+5+b.lane*(laneH+gapL);
+    el(`<div class="abs" style="left:${x(b.a)+1}px;top:${top}px;width:${x(b.b+1)-x(b.a)-2}px;height:${laneH}px;border-radius:${laneH/2}px;background:${b.c};color:#fff;font-size:10.5px;font-weight:900;padding-left:7px;line-height:${laneH}px;white-space:nowrap;overflow:hidden;text-shadow:0 1px 0 #0003">${compact?'':b.n+' '+b.a+'–'+b.b}</div>`,host);});
+  el(`<div class="abs" style="left:0;right:0;top:${axisY}px;height:2px;background:#cfd8e3"></div>`,host);
+  for(let l=min;l<=max;l++){if(l===1||l%5===0)el(`<div class="abs" style="left:${x(l)+cw/2-12}px;top:${axisY+3}px;width:24px;text-align:center;font-size:${compact?9:11}px;font-weight:800;color:#8a93a0">${l}</div>`,host);}
+  if(!compact)el(`<div class="abs" style="left:-40px;top:${axisY-5}px;font-size:11px;font-weight:900;color:#8a93a0">Lv</div>`,host);
+  el(`<div class="abs" style="left:${x(target+1)-1}px;top:-4px;height:${axisY+6}px;border-left:2px dashed var(--ink)"></div>`,host);
+  el(`<div class="abs" style="left:${x(target+1)+3}px;top:-6px;font-size:${compact?9:11}px;font-weight:900;background:var(--ink);color:#fff;border-radius:6px;padding:1px 6px;white-space:nowrap">${compact?'목표':'🚩 목표 Lv 30'}</div>`,host);
+  const gx=x(g[0])+cw*(g[1]-g[0]+1)/2;
+  el(`<div class="abs" style="left:${gx-(compact?8:12)}px;top:${compact?-4:-6}px;width:${compact?16:24}px;height:${compact?16:24}px;border-radius:50%;background:var(--alert);color:#fff;font-weight:900;display:grid;place-items:center;border:2px solid #fff;font-size:${compact?10:14}px;box-shadow:0 2px 4px #0004">!</div>`,host);
+  if(!compact)el(`<div class="abs" style="left:${x(g[1]+1)+6}px;top:4px;font-size:12px;font-weight:900;color:var(--alert);background:#fff;padding:2px 8px;border-radius:8px;border:2px solid var(--alert);white-space:nowrap">Lv 22–23 갈 곳 없음 · 4명 기다리는 중</div>`,host);
+}
+
+/* 진화 미리보기 레일 */
+function evRail(host){
+  const W=host.getBoundingClientRect().width,min=1,max=20,x=l=>(l-min)/(max-min+1)*W,cw=W/(max-min+1);
+  const row=(y,label,a,b,c,note)=>{el(`<div class="abs" style="left:0;top:${y}px;width:70px;font-size:12px;font-weight:900;color:var(--ink2)">${label}</div>`,host);
+    el(`<div class="abs" style="left:${70+x(a)*(W-70)/W}px;top:${y-2}px;width:${(x(b+1)-x(a))*(W-70)/W-2}px;height:20px;border-radius:10px;background:${c};color:#fff;font-size:11px;font-weight:900;padding-left:8px;line-height:20px">던전 Lv ${note}</div>`,host);};
+  const X=l=>70+x(l)*(W-70)/W;
+  // 입구 칸 강조
+  el(`<div class="abs" style="left:${X(1)}px;top:24px;width:${cw*(W-70)/W}px;height:36px;background:repeating-linear-gradient(45deg,#ffe3e0 0 5px,#ffd0cb 5px 10px);border:2px solid var(--alert);border-radius:5px"></div>`,host);
+  row(4,'지금',1,10,'#79c95a','5 · 적정 1–10');
+  row(40,'진화 후',2,12,'#8B6CFF','7 · 적정 2–12');
+  el(`<div class="abs" style="left:0;right:0;top:70px;height:2px;background:#cfd8e3"></div>`,host);
+  [1,5,10,15,20].forEach(l=>el(`<div class="abs" style="left:${X(l)+cw*(W-70)/W/2-10}px;top:73px;width:20px;text-align:center;font-size:10px;font-weight:800;color:#8a93a0">${l}</div>`,host));
+  el(`<div class="abs" style="left:${X(13)}px;top:22px;font-size:13px;font-weight:900;color:var(--alert);background:#fff;border:2px solid var(--alert);border-radius:10px;padding:4px 10px;white-space:nowrap">⚠ 입구(Lv 1) 모험가가 갈 곳이 없어져요</div>`,host);
+}
+
+/* 던전 장면 */
+function scene(){
+  const h=document.getElementById('dscene'),d=document.getElementById('dungeon');
+  // 몬스터 (지상 y 462, 플랫폼1 y 342, 플랫폼2 y 282)
+  spr('mush',4,190,254,d); spr('mush',4,420,254,d,true); spr('horn',4,860,194,d); spr('mush',4,1010,194,d,true);
+  spr('mush',4,300,374,d); spr('horn',4,760,374,d,true); spr('mush',4,1040,374,d);
+  // 퇴근 연출
+  const p=el(`<div class="puff" style="left:560px;top:392px"><i style="left:0;top:14px;width:34px;height:34px"></i><i style="left:22px;top:0;width:40px;height:40px"></i><i style="left:48px;top:16px;width:30px;height:30px"></i><b>퇴근!</b></div>`,d);
+  el(`<div class="spark" style="left:618px;top:376px">+1 😊</div>`,d);
+  // 모험가
+  const A=[['a1',150,262,'😊'],['a2',330,262,'😊',1],['a3',230,382,'😊'],['a4',650,382,'😊',1],['a5',910,382,'😊'],
+           ['a2',800,202,'😊'],['a1',1100,202,'😊'],['a3',460,262,'😊',1],['a4',1150,382,'😊',1]];
+  A.forEach(([k,x,y,e,f])=>{spr(k,4,x,y+2,d,!!f); if(e)el(`<div class="emo" style="left:${x+12}px;top:${y-36}px">${e}</div>`,d);});
+  el(`<div class="tag" style="left:1052px;top:150px">Lv 17 · 버섯 언덕으로 이동 →</div>`,d);
+  // 레벨업
+  el(`<div class="pillar" style="left:218px;top:120px;height:348px"></div>`,d);
+  el(`<div class="lvup" style="left:170px;top:318px">LEVEL UP!</div>`,d);
+  el(`<div class="tag" style="left:226px;top:352px;background:#b35c00">Lv 12</div>`,d);
+  el(`<div class="pillar" style="left:886px;top:110px;height:358px;opacity:.7"></div>`,d);
+  el(`<div class="lvup" style="left:852px;top:320px;font-size:22px">LEVEL UP!</div>`,d);
+}
+/* 리포트 명장면 */
+function reportScenes(){
+  const s1=document.getElementById('sc1'),s2=document.getElementById('sc2'),s3=document.getElementById('sc3');
+  [[20,1],[70,.8],[120,1],[166,.8]].forEach(([x,o],i)=>{el(`<div class="pillar" style="left:${x-14}px;top:0;height:108px;width:44px;opacity:${o}"></div>`,s1);spr(['a1','a2','a3','a4'][i],2,x,66,s1);});
+  el(`<div class="lvup" style="left:20px;top:14px;font-size:22px">×12</div>`,s1);
+  for(let i=0;i<9;i++)spr(['a1','a2','a3','a4','a5'][i%5],2,8+i*21,66-(i%2)*8,s2,i%2);
+  spr('slime',2,150,76,s2);
+  el(`<div class="emo" style="left:30px;top:16px">😠</div>`,s2);el(`<div class="emo" style="left:96px;top:10px">😠</div>`,s2);el(`<div class="emo" style="left:150px;top:22px">😊</div>`,s2);
+  spr('a5',3,84,46,s3); el(`<div class="abs" style="left:66px;top:6px;font-size:30px">🎓</div>`,s3);
+  el(`<div class="abs" style="left:14px;top:62px;font-size:18px">🎉</div>`,s3);el(`<div class="abs" style="left:160px;top:56px;font-size:18px">🎉</div>`,s3);
+  const k=document.getElementById('king');spr('bsnail',3.5,72,38,k);
+  el(`<div class="abs" style="left:94px;top:26px;font-size:22px">👑</div>`,k);
+}
+
+/* 화면 선택 */
+const h=location.hash.slice(1);
+if(h)document.body.dataset.s=h;else document.body.classList.add('all');
+</script>
+</body>
+</html>
