@@ -276,6 +276,10 @@ export type Tip = {
   /** [집중 굴착]을 눌렀는가(spec.md §8.6, G45/A8) — TIP_PLAYER_HIT 대신
    *  TIP_FOCUS_DIG_HIT_CHANCE를 적용하고, 그 팀의 원정비를 2배로 만든다. */
   focused?: boolean;
+  /** 진귀·국보 제보에 현지 팀이 **자동으로** 집중 굴착을 걸었는가(v0.6.6,
+   *  `notes/decision-tree-10h.md` P2-가). 참이면 배너는 버튼 대신 "자동 집중"을 적는다.
+   *  유일은 자동으로 걸지 않는다 — 사람이 누르는 자리로 남긴다. */
+  autoFocused?: boolean;
   /** 배너가 뜬 시각(world.t, 초). `TIP_MIN_RESPONSE_SECONDS` 반응 유예의 기준이다(v0.6) */
   openedAt: number;
   /** 결판이 난 뒤의 상태. 나도 배너는 수명을 다 산다 — 결과를 보여 주고 닫힌다
