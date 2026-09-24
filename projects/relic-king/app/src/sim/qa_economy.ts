@@ -240,7 +240,13 @@ function act(w: World) {
     if (item.displayed) continue;
     if (ARTIFACT_BY_ID[item.artifactId].tier < 2) continue;
     if (displayedCount < slots && !toggle) {
-      displayArtifact(w, item.uid, "korea", w.vault.filter((v) => v.displayed && v.museumSite === "korea").length);
+      // 빈 슬롯 중 가장 앞 번호에 건다. 전시품이 도난·매각으로 **중간 슬롯**에서 빠지면
+      // "전시 수 = 다음 슬롯 번호"가 이미 찬 슬롯을 가리켜 전시가 매 스텝 실패하고,
+      // 그때마다 금고 전체를 훑어 시뮬이 수십 배 느려진다(v0.6.6에서 궤적이 바뀌며 드러났다).
+      const taken = new Set(w.vault.filter((v) => v.displayed && v.museumSite === "korea").map((v) => v.slot));
+      let slot = 0;
+      while (taken.has(slot)) slot++;
+      displayArtifact(w, item.uid, "korea", slot);
       toggle = true;
     } else {
       listAtAuction(w, item.uid, "korea");

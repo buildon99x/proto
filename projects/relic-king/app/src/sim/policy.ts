@@ -15,6 +15,8 @@ import {
 } from "../game/balance";
 import {
   advance, auctionHouseOf, buildAuctionHouse, buildMuseum, buyHumidityLevel, buyMuseumMarketing, buyRestorationLevel, buySecurityLevel, buyTeamGear, buyTeamWorker, buyVaultLevel, codexScore, createTeam, digPower, dispatchExpedition, displayArtifact, hireAuctioneer, hireCurator, hireForeman, listAtAuction, museumOf, museumSlotCount, runAutoRoutine, sellArtifactCopies, switchSite, teamHomeSite, unlockSite, unlockTeamSlot, upgradeAuctionGrade, upgradeMuseumGrade, spareVaultItems } from "../game/engine";
+// 제보 대응(v0.6.6)은 따로 가져온다 — 위 import 줄은 시설·경제 쪽 변경이 자주 닿는다.
+import { emergencyDispatch, focusDig } from "../game/engine";
 import type { SiteId, World } from "../game/types";
 
 export const STEP_EARLY = 2; // 초반 1200초(드랍 간격·20분 통계)는 v0.1과 동일한 정밀도를 유지한다
@@ -240,7 +242,32 @@ export function act(w: World) {
  * 재투자(인부·장비 구매)까지 사람 몫으로 잘못 계상된다 — 실제로 첫 계측에서
  * 2시간에 44회를 사람 조작으로 잘못 세었다.
  */
+/**
+ * 유일(T4) 제보에 사람처럼 반응한다(v0.6.6, `notes/decision-tree-10h.md` §6 P2-가).
+ *
+ * 진귀·국보 제보는 이제 엔진이 자동 집중한다(`settings.autoFocusTips`). 버튼이 남는
+ * 것은 유일뿐이라, 운영 기준선이 그 버튼을 누르지 않으면 "운영 플레이"가 유일
+ * 레이스를 늘 대응 없이 치르게 된다 — 사람이 가장 먼저 누를 버튼을 기준선만 모르는
+ * 셈이다. 규칙은 화면과 같다: 현지에 팀이 있으면 [집중 굴착], 없으면 유휴 팀으로
+ * [급파](닿지 않는 거리면 엔진이 거절한다). 이미 대응했으면 아무것도 하지 않는다.
+ */
+export function respondToUniqueTip(w: World) {
+  const tip = w.tip;
+  if (!tip || tip.resolved || tip.focused) return;
+  if (ARTIFACT_BY_ID[tip.artifactId].tier !== 4) return;
+  const onSite = w.teams.find((t) => t.status === "on_site" && t.targetSite === tip.site);
+  if (onSite) {
+    focusDig(w, onSite.id);
+    return;
+  }
+  if (w.teams.some((t) => t.tipChase?.artifactId === tip.artifactId)) return; // 이미 급파 중
+  for (const t of w.teams) {
+    if (t.status === "idle" && emergencyDispatch(w, t.id)) return;
+  }
+}
+
 export function actExpansion(w: World) {
+  respondToUniqueTip(w);
   for (const s of SITES) {
     if (!w.sites[s.id].unlocked && w.funds >= s.unlockCost) unlockSite(w, s.id);
   }
