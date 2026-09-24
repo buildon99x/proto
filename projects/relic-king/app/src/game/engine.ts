@@ -30,7 +30,7 @@ import {
   TEAM_AUTO_GEAR_MIN_FUNDS, TEAM_AUTO_UPGRADE_SLOT_RESERVE_MULT, TEAM_AUTO_WORKER_MIN_FUNDS,
   TIER_STOCK_PER_SPECIES, TIP_DECIDE_AFTER_GRACE_SECONDS, TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN,
   TIP_FIRST_DELAY, TIP_FIRST_UNIQUE_TAUGHT, TIP_FIRST_WIN_GUARANTEED, TIP_UNIQUE_PRIORITY,
-  TIP_UNIQUE_REQUIRES_RESPONSE,
+  TIP_UNIQUE_REQUIRES_RESPONSE, TIP_EMERGENCY_CREW_FUNDS_SHARE, TIP_EMERGENCY_CREW_MIN_COST, TIP_EMERGENCY_CREW_HIT_CHANCE,
   TIP_UNIQUE_ANNOUNCE_WITHIN, TIP_UNRESPONDED_UNIQUE_MULT, TIP_WORLDWIDE_MIN_TIER,
   TIP_FOCUS_DIG_COST_MULT, TIP_FOCUS_DIG_HIT_CHANCE, TIP_MEAN_INTERVAL, TIP_PLAYER_HIT,
   TIP_MIN_RESPONSE_SECONDS, TIP_RETRY_INTERVAL, TIP_RIVAL_HIT, TIP_TIER_WEIGHT,
@@ -976,7 +976,7 @@ function rollDrop(
         owner === "player"
           ? Math.min(
               EYE_HIT_CHANCE_CAP,
-              (raceTarget.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) *
+              (raceTarget.focused ? (w.tip?.crewed && w.tip.artifactId === raceTarget.artifactId ? TIP_EMERGENCY_CREW_HIT_CHANCE : TIP_FOCUS_DIG_HIT_CHANCE) : TIP_PLAYER_HIT) *
                 uniquePenalty * eyeRaceMult(w, site)
             )
           : TIP_RIVAL_HIT;
@@ -1463,6 +1463,32 @@ export function focusDig(w: World, teamId: string): boolean {
   if (!team || team.status !== "on_site" || team.targetSite !== w.tip.site) return false;
   w.tip.focused = true;
   applyTipCostMult(team, TIP_FOCUS_DIG_COST_MULT);
+  return true;
+}
+
+/**
+ * 긴급 인부의 값과 쓸 수 있는지(v0.6.7, `TIP_EMERGENCY_CREW_FUNDS_SHARE` 주석 참조). 조건은 셋이다 —
+ * 결판 전인 **유일** 제보이고, 아직 대응하지 않았고, 직접 발굴이 그 거점의 그 층에 닿아 있으며,
+ * 그 자리에 현지 발굴단이 없다(있으면 [집중 굴착]이 그 몫이다). 배너·정책·계측이 이 함수 하나를 쓴다.
+ */
+export function emergencyCrewOffer(w: World): { cost: number; affordable: boolean } | null {
+  const tip = w.tip;
+  if (!tip || tip.resolved || tip.focused) return null;
+  if (ARTIFACT_BY_ID[tip.artifactId].tier !== 4) return null;
+  if (w.activeSite !== tip.site || w.sites[tip.site].layer < tip.layer) return null;
+  if (w.teams.some((t) => t.status === "on_site" && t.targetSite === tip.site)) return null;
+  const cost = Math.max(TIP_EMERGENCY_CREW_MIN_COST, Math.round(w.funds * TIP_EMERGENCY_CREW_FUNDS_SHARE));
+  return { cost, affordable: w.funds >= cost };
+}
+
+/** 긴급 인부를 부른다 — 자금을 내고 이 유일 제보에 대응한 것으로 인정받는다(적중 `TIP_EMERGENCY_CREW_HIT_CHANCE`) */
+export function hireEmergencyCrew(w: World): boolean {
+  const offer = emergencyCrewOffer(w);
+  if (!offer || !offer.affordable || !w.tip) return false;
+  w.funds -= offer.cost;
+  w.tip.focused = true;
+  w.tip.crewed = true;
+  log(w, "system", `긴급 인부를 불렀다(${usd(offer.cost)}) — ${withJosa(ARTIFACT_BY_ID[w.tip.artifactId].name, "을를")} 직접 쫓는다.`);
   return true;
 }
 
@@ -2456,7 +2482,7 @@ export function tipRaceOdds(w: World, tip: Tip): TipRaceOdds {
   const eye = eyeRaceMult(w, tip.site);
   const pw =
     racing
-      ? (tip.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) *
+      ? (tip.focused ? (tip.crewed ? TIP_EMERGENCY_CREW_HIT_CHANCE : TIP_FOCUS_DIG_HIT_CHANCE) : TIP_PLAYER_HIT) *
         (firstUniqueLesson ? 0 : needsResponse ? TIP_UNRESPONDED_UNIQUE_MULT : 1) * eye
       : 0;
   const contenders = tipRivalContenders(w, tip).length;
@@ -2502,7 +2528,7 @@ function decideTipRace(w: World, rng: Rng, report: StepReport) {
       ? 0
       : TIP_UNRESPONDED_UNIQUE_MULT;
   const pw = racing
-    ? (tip.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) * uniquePenalty * eyeRaceMult(w, tip.site)
+    ? (tip.focused ? (tip.crewed ? TIP_EMERGENCY_CREW_HIT_CHANCE : TIP_FOCUS_DIG_HIT_CHANCE) : TIP_PLAYER_HIT) * uniquePenalty * eyeRaceMult(w, tip.site)
     : 0;
   // 라이벌 가중은 **머릿수**다 — 유예 전 드랍 판정에서 라이벌 k명이 각자 굴리는
   // 것과 같은 셈이고, 그래서 제보마다 경쟁도가 다르다(1명이면 반반, 4명이면 20%).

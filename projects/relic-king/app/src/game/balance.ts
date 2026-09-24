@@ -384,7 +384,9 @@ export const TIP_UNRESPONDED_UNIQUE_MULT = 1 / 3;
  * 게임"이라는 걸 배우지 못한 채 첫 세션을 끝낸다.
  *
  * 숨기지 않는다: 그 배너는 "대응하지 않으면 놓친다"를 그대로 적고, [집중 굴착]·
- * [급파] 버튼이 같은 줄에 있다. 누르면 정상 승산(60% 대 라이벌 머릿수×28%)으로
+ * [급파]·[긴급 인부] 버튼이 같은 줄에 있다. **(v0.6.7 정정)** v0.6.6까지는 첫 유일 제보 순간에
+ * 발굴단이 전부 이동 중이라 앞의 두 버튼이 뜨지 않았다 — 24/24 시드에서 버튼 없이 졌다
+ * (`notes/v066-midpass-review.md` §1.1). 직접 발굴의 [긴급 인부]가 그 빈자리를 채운다. 누르면 정상 승산(60% 대 라이벌 머릿수×28%)으로
  * 겨루고, 실제로 이길 수 있다 — **결과가 정해진 연출이 아니라 대응이 필요한 판**이다.
  */
 export const TIP_FIRST_UNIQUE_TAUGHT = true;
@@ -517,6 +519,27 @@ export const TIP_DURATION_ONSITE_MIN = 60;
 export const TIP_DURATION_ONSITE_MAX = 150;
 export const TIP_FOCUS_DIG_HIT_CHANCE = 0.60;
 export const TIP_FOCUS_DIG_COST_MULT = 2.0;
+/**
+ * **긴급 인부**(v0.6.7, `notes/v066-midpass-review.md` §1.1) — 유일(T4) 제보가 **직접 발굴이 파고
+ * 있는 거점**에 떴는데 그 자리에 발굴단이 없을 때, 자금을 내고 대응으로 인정받는다.
+ *
+ * 왜 필요한가. 유일은 대응해야 가진다(`TIP_UNIQUE_REQUIRES_RESPONSE`). 그런데 대응 수단이
+ * 발굴단([집중 굴착]·[급파])뿐이라, 첫 유일 제보(3분 9초~6분 24초)에는 발굴단이 전부 이동 중이어서
+ * **24/24 시드에서 버튼 없이 졌다.** `TIP_FIRST_UNIQUE_TAUGHT`가 가르치려던 "대응하면 이길 수 있다"가
+ * 성립할 자리가 없었다.
+ *
+ * 값은 **현재 자금의 비율**이다. 쌓아 둔 돈이 많을수록 비싸고, 모자라면 소장품을 팔아야 한다 —
+ * "팔면 강해지고 순위는 떨어진다"는 핵심 딜레마를 가장 무거운 순간에 건다. 최소액은 첫 5분
+ * 자금 수준(수만 달러)에 맞췄다. 효과는 [집중 굴착]과 같다(적중 60%, 대응 인정).
+ */
+export const TIP_EMERGENCY_CREW_FUNDS_SHARE = 0.3;
+export const TIP_EMERGENCY_CREW_MIN_COST = 20_000;
+/**
+ * 긴급 인부의 적중(v0.6.7). [집중 굴착](60%)보다 낮다 — 임시로 부른 인부는 발굴단이 아니다.
+ * 60%로 두면 첫 10분에 한 번도 지지 않는 시드가 생겼고(12시드 중 1), 무엇보다 "발굴단을 곁에
+ * 두는 것"의 값이 사라진다. 28%(아무것도 안 함)와 60%(현지 팀 집중) 사이에 둔다.
+ */
+export const TIP_EMERGENCY_CREW_HIT_CHANCE = 0.45;
 export const EMERGENCY_DISPATCH_MAX_REACH_HOURS = 4;
 export const EMERGENCY_DISPATCH_TRAVEL_MULT = 1 / 3;
 export const EMERGENCY_DISPATCH_COST_MULT = 3.0;

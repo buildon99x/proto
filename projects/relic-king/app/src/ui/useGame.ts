@@ -5,7 +5,7 @@ import {
   advance, applyOffline, auctionSpares, blindSell, blindSellAll, buyBlackMarketListing, buyGear,
   buyHumidityLevel, buyLab, buyMuseumMarketing, buyRestorationLevel, buySecurityLevel, buyTeamGear, buyTeamWorker,
   buyVaultLevel, buyWorker, buildAuctionHouse, buildMuseum, click, createPersistentRecord, createTeam,
-  createWorld, dispatchExpedition, displayArtifact, emergencyDispatch, focusDig, fullRanking, sampleRanks,
+  createWorld, dispatchExpedition, displayArtifact, emergencyDispatch, focusDig, fullRanking, hireEmergencyCrew, sampleRanks,
   hireAuctioneer, hireCurator, hireForeman, listAtAuction, listManyAtAuction, relocateBase, runAutoRoutine, sellArtifactCopies,
   sellSpares, sellTierAtMost, sellVaultItems, setRoutine, switchSite, undisplayArtifact, unlockSite, unlockTeamSlot,
   upgradeAuctionGrade, upgradeMuseumGrade
@@ -372,6 +372,7 @@ export function useGame() {
     dispatch: (teamId: string, target: SiteId) => act((w) => dispatchExpedition(w, teamId, target)),
     emergencyDispatch: (teamId: string) => act((w) => emergencyDispatch(w, teamId)),
     focusDig: (teamId: string) => act((w) => focusDig(w, teamId)),
+    hireEmergencyCrew: () => act(hireEmergencyCrew),
     setRoutine: (teamId: string, enabled: boolean, target?: SiteId | "auto") =>
       act((w) => setRoutine(w, teamId, enabled, target)),
 

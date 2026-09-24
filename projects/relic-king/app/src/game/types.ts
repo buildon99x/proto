@@ -280,6 +280,8 @@ export type Tip = {
    *  자동으로 켜진다(`settings.autoFocusTips`). 유일은 늘 수동이라 여기 걸리지 않는다.
    *  `focused`와 같이 켜지며, 화면이 "눌렀다"와 "자동으로 걸렸다"를 가르는 데 쓴다. */
   autoFocused?: boolean;
+  /** 긴급 인부로 대응했는가(v0.6.7) — `focused`와 같이 켜지고, 적중은 `TIP_EMERGENCY_CREW_HIT_CHANCE`다 */
+  crewed?: boolean;
   /** 배너가 뜬 시각(world.t, 초). `TIP_MIN_RESPONSE_SECONDS` 반응 유예의 기준이다(v0.6) */
   openedAt: number;
   /** 결판이 난 뒤의 상태. 나도 배너는 수명을 다 산다 — 결과를 보여 주고 닫힌다

@@ -12,8 +12,7 @@
  */
 import { EXPEDITION_ONSITE_RATIO, EXPEDITION_SPEED_KMH, distanceKm } from "../game/balance";
 import {
-  advance, buyTeamGear, buyTeamWorker, createTeam, createWorld, dispatchExpedition, focusDig, hireForeman
-} from "../game/engine";
+  advance, buyTeamGear, buyTeamWorker, createTeam, createWorld, dispatchExpedition, focusDig, hireForeman, emergencyCrewOffer, hireEmergencyCrew } from "../game/engine";
 import { ARTIFACTS } from "../game/artifacts";
 import type { SiteId, Tip, World } from "../game/types";
 
@@ -206,6 +205,28 @@ console.log("\n──────── 제보 대응 배수는 곱해지지 않
   advance(w, 30, false, 10);
   check(`자금 0으로 귀환 — 원정비 정산 뒤에도 자금이 음수가 아니다(실측 $${Math.round(w.funds)})`,
     team.status === "idle" && w.funds >= 0);
+}
+
+// ── 긴급 인부(v0.6.7, `notes/v066-midpass-review.md` §1.1) ──
+console.log("\n──────── 긴급 인부 — 발굴단 없는 유일 제보에 직접 발굴로 대응한다 ────────");
+{
+  const w = createWorld();
+  const home = w.activeSite;
+  const a = ARTIFACTS.find((x) => x.site === home && x.tier === 4)!;
+  w.sites[home].layer = Math.max(w.sites[home].layer, a.minLayer);
+  for (const t of w.teams) t.status = "traveling_out";
+  w.tip = { artifactId: a.id, site: home, layer: a.minLayer, remain: 120, rivals: [], focused: false, openedAt: w.t, resolved: null };
+  w.funds = 10_000;
+  const poor = emergencyCrewOffer(w);
+  check(`자금 $1만 — 제안은 뜨지만 살 수 없다(최소 $${poor?.cost})`, !!poor && !poor.affordable && !hireEmergencyCrew(w));
+  w.funds = 1_000_000;
+  const offer = emergencyCrewOffer(w)!;
+  check(`자금 $100만 — 값은 자금의 30%다(실측 $${offer.cost})`, offer.affordable && offer.cost === 300_000);
+  check("긴급 인부를 부르면 대응으로 인정되고 자금이 빠진다",
+    hireEmergencyCrew(w) && !!w.tip?.focused && !!w.tip?.crewed && w.funds === 700_000);
+  check("한 번 부르면 다시 제안하지 않는다", emergencyCrewOffer(w) === null);
+  w.tip = { ...w.tip!, focused: false, crewed: false, artifactId: ARTIFACTS.find((x) => x.site === home && x.tier === 3)!.id };
+  check("유일이 아니면 제안하지 않는다", emergencyCrewOffer(w) === null);
 }
 
 console.log(failed === 0 ? "\n✅ qa_expedition 전체 통과" : `\n❌ qa_expedition ${failed}건 실패`);

@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
   EMERGENCY_DISPATCH_MAX_REACH_HOURS, EMERGENCY_DISPATCH_TRAVEL_MULT, SITE_BY_ID, TIER_NAME,
-  TIP_MIN_RESPONSE_SECONDS, TIP_PLAYER_HIT
+  TIP_MIN_RESPONSE_SECONDS, TIP_PLAYER_HIT, TIP_EMERGENCY_CREW_HIT_CHANCE
 } from "../game/balance";
-import { teamHomeSite, tipRaceOdds } from "../game/engine";
+import { emergencyCrewOffer, teamHomeSite, tipRaceOdds } from "../game/engine";
 import { travelHoursOneWay } from "../game/expedition";
 import { distanceKm } from "../game/sites";
-import { clock } from "../game/format";
+import { clock, usd } from "../game/format";
 import { TIER_COLOR } from "../render/palette";
 import type { ExpeditionTeam, Foreman, Tip, World } from "../game/types";
 import { playCue } from "./sound";
@@ -146,6 +146,23 @@ function TipAction({ game, tip, big }: { game: Game; tip: Tip; big?: boolean }) 
         급파
       </button>
     );
+  }
+  // 유일인데 발굴단이 없고 직접 발굴만 그 자리에 있으면 긴급 인부로 대응한다(v0.6.7).
+  // 값은 현재 자금의 비율이라, 모자라면 소장품을 팔아야 한다 — 그 사실을 그대로 적는다.
+  const crew = emergencyCrewOffer(game.world);
+  if (crew) {
+    return crew.affordable ? (
+      <button type="button" className={cls} onClick={game.hireEmergencyCrew}>
+        긴급 인부 {usd(crew.cost)}
+      </button>
+    ) : (
+      <span className="tip-crew-short small">
+        긴급 인부 {usd(crew.cost)} — 자금이 {usd(crew.cost - game.world.funds)} 모자란다. 소장품을 팔면 부를 수 있다
+      </span>
+    );
+  }
+  if (tip.focused && legacyOnSite && ARTIFACT_BY_ID[tip.artifactId].tier === 4) {
+    return <span className="tip-racing small">긴급 인부가 쫓는 중 — 적중 {Math.round(TIP_EMERGENCY_CREW_HIT_CHANCE * 100)}%</span>;
   }
   if (legacyOnSite) {
     return (

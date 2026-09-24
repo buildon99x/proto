@@ -48,8 +48,7 @@ import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
   advance, codexProgress, createPersistentRecord, createWorld, digPower, fullRanking, ownedSiteCap,
   grantStartingTeam, isGhostId,
-  playerCanReactAt, runAutoRoutine, teamHomeSite, tipPoolStages
-} from "../game/engine";
+  playerCanReactAt, runAutoRoutine, teamHomeSite, tipPoolStages, emergencyCrewOffer } from "../game/engine";
 import { travelHoursOneWay } from "../game/expedition";
 import { distanceKm } from "../game/sites";
 import { duration } from "../game/format";
@@ -145,8 +144,10 @@ type TipLike = Tip & { autoFocused?: boolean };
  * - 레거시 직접 발굴만 그 자리에 있으면 버튼이 없다(추격 중 통보).
  * - 결판이 난 배너(`resolved`)에는 버튼이 없다.
  */
-export function tipButton(w: World, tip: TipLike): "focus" | "emergency" | null {
+export function tipButton(w: World, tip: TipLike): "focus" | "emergency" | "crew" | null {
   if (tip.resolved) return null;
+  // 긴급 인부(v0.6.7) — 유일 제보에 발굴단이 없고 직접 발굴만 그 자리에 있을 때. 살 수 있을 때만 버튼이다.
+  if (w.tip === tip) { const crew = emergencyCrewOffer(w); if (crew?.affordable) return "crew"; }
   const onSite = w.teams.some((t) => t.status === "on_site" && t.targetSite === tip.site);
   if (onSite) return tip.autoFocused ? null : "focus";
   const dist = distanceKm(teamHomeSite(w), tip.site);
@@ -244,7 +245,7 @@ class DecisionWatcher {
         this.tipCounted = true;
         const tier = ARTIFACT_BY_ID[tip.artifactId]?.tier ?? 0;
         // 진귀 이하의 [집중 굴착]은 원정당 한 번 누르면 모든 축에서 이긴다(§5.2)
-        const kind: DecisionKind = button === "emergency" || tier >= 4 ? "tip" : "tipFocus";
+        const kind: DecisionKind = button === "emergency" || button === "crew" || tier >= 4 ? "tip" : "tipFocus";
         this.push(t, kind, this.tipLegacy, `${tipDetail(tip)} [${button === "focus" ? "집중 굴착" : "급파"}]`);
         this.tipLegacy = false;
       }

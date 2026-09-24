@@ -16,7 +16,7 @@ import {
 import {
   advance, auctionHouseOf, buildAuctionHouse, buildMuseum, buyHumidityLevel, buyMuseumMarketing, buyRestorationLevel, buySecurityLevel, buyTeamGear, buyTeamWorker, buyVaultLevel, codexScore, createTeam, digPower, dispatchExpedition, displayArtifact, hireAuctioneer, hireCurator, hireForeman, listAtAuction, museumOf, museumSlotCount, runAutoRoutine, sellArtifactCopies, switchSite, teamHomeSite, unlockSite, unlockTeamSlot, upgradeAuctionGrade, upgradeMuseumGrade, spareVaultItems } from "../game/engine";
 // 제보 대응(v0.6.6)은 따로 가져온다 — 위 import 줄은 시설·경제 쪽 변경이 자주 닿는다.
-import { emergencyDispatch, focusDig } from "../game/engine";
+import { emergencyDispatch, focusDig, hireEmergencyCrew } from "../game/engine";
 import type { SiteId, World } from "../game/types";
 
 export const STEP_EARLY = 2; // 초반 1200초(드랍 간격·20분 통계)는 v0.1과 동일한 정밀도를 유지한다
@@ -316,6 +316,8 @@ export function respondToUniqueTip(w: World) {
   for (const t of w.teams) {
     if (t.status === "idle" && emergencyDispatch(w, t.id)) return;
   }
+  // 발굴단이 닿지 않으면 직접 발굴로 쫓는다 — 긴급 인부(v0.6.7). 살 수 있을 때만 부른다.
+  hireEmergencyCrew(w);
 }
 
 /**
@@ -337,6 +339,8 @@ export function actExpansion(w: World) {
   const tip = w.tip;
   if (tip && w.sites[tip.site].unlocked && w.sites[tip.site].layer >= tip.layer) switchSite(w, tip.site);
   else switchSite(w, bestSite(w));
+  // 직접 발굴을 제보 거점으로 옮긴 뒤에야 긴급 인부 자격이 생긴다 — 한 번 더 본다(이미 대응했으면 아무것도 안 한다).
+  respondToUniqueTip(w);
 
   ensureTeams(w);
   redispatchIdleTeams(w);
