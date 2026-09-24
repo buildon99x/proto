@@ -161,14 +161,14 @@ async function main() {
     await shoot("02-dig-running");
 
     // 3) 탭 전환이 모두 뜬다(v0.2 5탭 — 발굴/소장고/시설/시장/도감)
-    // 첫 감정 완료 후 20~40초 안에 "본거지를 정하자" 온보딩 오버레이가 자동으로 뜬다.
-    // SECONDS 만큼 방치한 뒤라 이미 떠 있을 가능성이 높으므로, 탭을 누르기 전에
-    // 먼저 닫아 둔다 — 안 그러면 아래 스크린샷들이 실제 화면이 아니라 오버레이만 찍힌다.
-    await evaluate(`document.querySelector('.onboarding-keep')?.click()`);
+    // 첫 해금 비용이 모이면(약 3분) "첫 거점을 연다" 카드가 자동으로 뜬다(v0.6.6).
+    // 방치 시간이 길면 이미 떠 있을 수 있으므로, 탭을 누르기 전에
+    // 먼저 "나중에"로 닫아 둔다 — 안 그러면 아래 스크린샷들이 실제 화면이 아니라 오버레이만 찍힌다.
+    await evaluate(`document.querySelector('.base-chooser-later')?.click()`);
     await new Promise((r) => setTimeout(r, 400));
     for (const [i, label] of ["소장고", "시설", "시장", "도감"].entries()) {
-      // 탭을 옮기는 도중에도 온보딩이 뒤늦게 뜰 수 있어 매 클릭 전에 한 번 더 방어한다.
-      await evaluate(`document.querySelector('.onboarding-keep')?.click()`);
+      // 탭을 옮기는 도중에도 거점 카드가 뒤늦게 뜰 수 있어 매 클릭 전에 한 번 더 방어한다.
+      await evaluate(`document.querySelector('.base-chooser-later')?.click()`);
       await new Promise((r) => setTimeout(r, 300));
       await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('${label}')).click()`);
       await new Promise((r) => setTimeout(r, 900));
@@ -205,6 +205,10 @@ async function main() {
     }`);
     await cdp.send("Page.navigate", { url: `http://127.0.0.1:${PORT}/` });
     await new Promise((r) => setTimeout(r, 6000));
+    // 자금이 많은 세이브라 첫 거점 카드(v0.6.6)도 같이 뜬다. `.modal button`의 첫 버튼이
+    // 카드의 [열기]라서, 먼저 "나중에"로 닫아야 복귀 요약의 버튼을 누른다.
+    await evaluate(`document.querySelector('.base-chooser-later')?.click()`);
+    await new Promise((r) => setTimeout(r, 300));
     await evaluate(`document.querySelector('.modal button')?.click()`);
     await new Promise((r) => setTimeout(r, 1200));
     await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('소장고')).click()`);
@@ -265,9 +269,13 @@ async function main() {
     }`);
     await cdp.send("Page.navigate", { url: `http://127.0.0.1:${PORT}/` });
     await new Promise((r) => setTimeout(r, 4000));
+    // 자금이 많은 세이브라 첫 거점 카드(v0.6.6)도 같이 뜬다. `.modal button`의 첫 버튼이
+    // 카드의 [열기]라서, 먼저 "나중에"로 닫아야 복귀 요약의 버튼을 누른다.
+    await evaluate(`document.querySelector('.base-chooser-later')?.click()`);
+    await new Promise((r) => setTimeout(r, 300));
     await evaluate(`document.querySelector('.modal button')?.click()`);
     await new Promise((r) => setTimeout(r, 800));
-    await evaluate(`document.querySelector('.onboarding-keep')?.click()`);
+    await evaluate(`document.querySelector('.base-chooser-later')?.click()`);
     await new Promise((r) => setTimeout(r, 400));
 
     // 소장고 상세에서 펼친다
@@ -336,7 +344,7 @@ async function main() {
     await shoot("cover", { x: 0, y: 0, width: 1180, height: 640, scale: 0.82 });
 
     // 8) 세계지도 (데스크톱, 세계 줌 상태 — 결함3 라벨 겹침 고정 검증용, G57.5/G58)
-    await evaluate(`document.querySelector('.onboarding-keep')?.click()`);
+    await evaluate(`document.querySelector('.base-chooser-later')?.click()`);
     await new Promise((r) => setTimeout(r, 300));
     await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('발굴')).click()`);
     await new Promise((r) => setTimeout(r, 600));
@@ -517,8 +525,8 @@ async function main() {
     await cdp.send("Emulation.setDeviceMetricsOverride", { width: 375, height: 812, deviceScaleFactor: 2, mobile: true });
     await new Promise((r) => setTimeout(r, 500));
     for (const [i, label] of ["발굴", "시장", "소장고"].entries()) {
-      // 여기서도 온보딩이 뒤늦게 떠 있을 수 있으니 탭을 누르기 전에 먼저 닫는다.
-      await evaluate(`document.querySelector('.onboarding-keep')?.click()`);
+      // 여기서도 거점 카드가 뒤늦게 떠 있을 수 있으니 탭을 누르기 전에 먼저 닫는다.
+      await evaluate(`document.querySelector('.base-chooser-later')?.click()`);
       await new Promise((r) => setTimeout(r, 300));
       await evaluate(`[...document.querySelectorAll('.tabs button')].find(b => b.innerText.trim().startsWith('${label}')).click()`);
       await new Promise((r) => setTimeout(r, 900));
