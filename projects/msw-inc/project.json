@@ -1,0 +1,37 @@
+{
+  "id": "msw-inc",
+  "name": "MSW 주식회사",
+  "status": "prototype",
+  "type": "demo",
+  "runtime": "static-artifact",
+  "version": "0.1.0",
+  "summary": "몬스터가 직원인 회사에 월드 매니저로 입사해, 몬스터를 진화시키고 던전을 이어 모험가(NPC)들이 월드를 좋아하게 만드는 저관여 월드 매니지먼트. 핵심 결정은 \"지금 진화시킬까?\" — 진화하면 위 구간이 열리지만 아래 구간이 빈다. 메인 화면은 가로축이 레벨인 \"월드 길\"이다. 컨셉 v1.1(docs/concept/maple-idle/msw-inc)에서 정식 프로젝트로 옮겨 오는 중이며, 지금은 빈 뼈대만 있다.",
+  "tags": [
+    "game",
+    "idle",
+    "management",
+    "maplestory-worlds",
+    "prototype"
+  ],
+  "projectRoot": "projects/msw-inc",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/msw-inc/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md",
+    "concept": "../../docs/concept/maple-idle/msw-inc/README.md"
+  },
+  "assets": {
+    "cover": "assets/screenshots/cover.png"
+  },
+  "commands": {
+    "dev": "pnpm --filter msw-inc dev",
+    "build": "pnpm --filter msw-inc build",
+    "test": "pnpm --filter msw-inc test"
+  }
+}
