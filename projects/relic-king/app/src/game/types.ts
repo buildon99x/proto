@@ -276,9 +276,9 @@ export type Tip = {
   /** [집중 굴착]을 눌렀는가(spec.md §8.6, G45/A8) — TIP_PLAYER_HIT 대신
    *  TIP_FOCUS_DIG_HIT_CHANCE를 적용하고, 그 팀의 원정비를 2배로 만든다. */
   focused?: boolean;
-  /** 진귀·국보 제보에 현지 팀이 **자동으로** 집중 굴착을 걸었는가(v0.6.6,
-   *  `notes/decision-tree-10h.md` P2-가). 참이면 배너는 버튼 대신 "자동 집중"을 적는다.
-   *  유일은 자동으로 걸지 않는다 — 사람이 누르는 자리로 남긴다. */
+  /** 엔진이 [집중 굴착]을 대신 걸었는가(v0.6.6) — 진귀·국보 제보에 현지 팀이 있으면
+   *  자동으로 켜진다(`settings.autoFocusTips`). 유일은 늘 수동이라 여기 걸리지 않는다.
+   *  `focused`와 같이 켜지며, 화면이 "눌렀다"와 "자동으로 걸렸다"를 가르는 데 쓴다. */
   autoFocused?: boolean;
   /** 배너가 뜬 시각(world.t, 초). `TIP_MIN_RESPONSE_SECONDS` 반응 유예의 기준이다(v0.6) */
   openedAt: number;
@@ -314,6 +314,10 @@ export type Settings = {
    *  클릭 없이도 발굴력이 자라게 하는 배경 루틴의 온/오프 스위치일 뿐, 꺼도
    *  손실이 생기지 않는다(척추 4번 — 클릭은 항상 선택). */
   autoReinvest: boolean;
+  /** 진귀·국보 제보의 자동 집중 굴착(v0.6.6, `notes/decision-tree-10h.md` §6 P2) — 기본 켬.
+   *  현지 팀이 있으면 엔진이 [집중 굴착]을 한 번 건다(원정비 ×2는 그대로 붙는다).
+   *  유일(T4)은 이 설정과 무관하게 늘 버튼이다. */
+  autoFocusTips: boolean;
 };
 
 export type Stats = {

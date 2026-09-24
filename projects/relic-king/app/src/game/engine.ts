@@ -175,7 +175,7 @@ export function createWorld(seed = 20260917, grantTeam = true): World {
     // 동작이라 비가역이다 — 새 세계에만 적용하고, 옛 세이브는 설정에서 한 번에 켠다).
     settings: {
       autoSellBelow: 1, autoSellSpareBelow: AUTO_SELL_SPARE_MAX_TIER, spareDestination: "sell",
-      muted: false, autoReinvest: true
+      muted: false, autoReinvest: true, autoFocusTips: true
     },
     stats: { drops: 0, clicks: 0, sold: 0, blindSold: 0, racesWon: 0, racesLost: 0, firstT4Finds: 0 },
     clickCombo: 1,
@@ -1438,7 +1438,8 @@ export function emergencyDispatch(w: World, teamId: string): boolean {
   team.returnsAt = team.arrivesAt + onsite * 3600 + travel * 3600;
   team.mishapRolled = mishap;
   team.layerAtDispatch = w.sites[target].layer;
-  team.costMult = (team.costMult ?? 1) * EMERGENCY_DISPATCH_COST_MULT;
+  // 배수는 곱하지 않고 **큰 쪽 하나만** 남긴다(v0.6.6) — `applyTipCostMult` 주석 참조.
+  applyTipCostMult(team, EMERGENCY_DISPATCH_COST_MULT);
   team.tipChase = { artifactId: w.tip.artifactId, layer: w.tip.layer };
   log(w, "system", `발굴단이 제보를 쫓아 ${withJosa(SITE_BY_ID[target].city, "로으로")} 급파됐다.`);
   return true;
@@ -1455,8 +1456,44 @@ export function focusDig(w: World, teamId: string): boolean {
   const team = w.teams.find((t) => t.id === teamId);
   if (!team || team.status !== "on_site" || team.targetSite !== w.tip.site) return false;
   w.tip.focused = true;
-  team.costMult = (team.costMult ?? 1) * TIP_FOCUS_DIG_COST_MULT;
+  applyTipCostMult(team, TIP_FOCUS_DIG_COST_MULT);
   return true;
+}
+
+/**
+ * 제보 대응 배수를 팀의 이번 회차 원정비에 건다 — **곱하지 않고 큰 쪽 하나만 남긴다**
+ * (v0.6.6, `notes/decision-tree-10h.md` §6 버그 1). v0.6.5까지는 `costMult *= 2`였고
+ * 이 값은 귀환 정산 때만 1로 돌아갔다. 한 원정이 몇 시간씩 이어지는 방치 플레이에서
+ * 제보가 n번 오면 원정비가 2ⁿ배가 됐다 — 뜰 때마다 누르면 10시간에 자금이 −$1.47조였다.
+ * 이제 한 원정의 배수는 그 회차에 걸린 대응 중 가장 큰 것(집중 ×2, 급파 ×3)이다.
+ */
+function applyTipCostMult(team: ExpeditionTeam, mult: number) {
+  team.costMult = Math.max(team.costMult ?? 1, mult);
+}
+
+/**
+ * **자동 집중**(v0.6.6, `notes/decision-tree-10h.md` §6 P2-가) — 진귀·국보(T2~T3)
+ * 제보는 그 거점에 on_site인 발굴단이 있으면 엔진이 알아서 [집중 굴착]을 한 번 건다.
+ * 원정당 한 번 누르는 것이 모든 축에서 낫거나 같은 **지배 전략**이었기 때문이다(§5.2) —
+ * 늘 누르게 되는 버튼은 결정이 아니다. 대가(원정비 ×2)는 수동과 똑같이 붙는다.
+ *
+ * **유일(T4)은 건드리지 않는다.** 유일만 사람이 누른다 — 결정을 한 번의 무거운
+ * 순간으로 모은다. `settings.autoFocusTips`(기본 켬)로 끌 수 있고, 꺼도 손실은 없다
+ * (안 누른 판은 기존 28%가 그대로 적용된다 — 척추 4번).
+ *
+ * 제보가 열린 순간(`spawnTip`)과, 제보가 열려 있는 동안 팀이 도착한 순간(`step`의
+ * `tickExpeditions` 직후) 둘 다에서 부른다. 난수를 쓰지 않고 상태만 본다 — 제보는
+ * 온라인 전용이라 오프라인 적분 경로에도 들어가지 않는다.
+ */
+function autoFocusTip(w: World) {
+  const tip = w.tip;
+  if (!w.settings.autoFocusTips || !tip || tip.resolved || tip.focused) return;
+  if (ARTIFACT_BY_ID[tip.artifactId].tier >= 4) return;
+  const team = w.teams.find((t) => t.status === "on_site" && t.targetSite === tip.site);
+  if (!team) return;
+  tip.focused = true;
+  tip.autoFocused = true;
+  applyTipCostMult(team, TIP_FOCUS_DIG_COST_MULT);
 }
 
 /** 루틴(spec.md §8.4) — "어디로 갈지"는 대행하지 않는다. 이미 한 번 수동으로
@@ -1525,12 +1562,22 @@ function finalizeExpedition(w: World, team: ExpeditionTeam, returnedAt = w.t) {
   const notionalIncome = realRate * distanceYieldBonus(dist) * effectiveOnsiteHours * 3600;
   // 집중 굴착(×2)·급파(×3) 배수가 이번 회차에 걸려 있으면 여기서 함께 적용한다
   // (spec.md §8.6, notes/decisions.md G45/A8). 다음 회차를 위해 적용 즉시 리셋한다.
-  const cost = Math.round(
+  const billed = Math.round(
     notionalIncome * EXPEDITION_COST_INCOME_RATIO * distanceCostMult(dist) * (team.costMult ?? 1)
   );
+  // **정산액은 보유 자금을 넘지 않는다**(v0.6.6, `notes/decision-tree-10h.md` §6 버그 2).
+  // 원정비는 후불이라 그사이 자금을 다른 데 썼으면 청구액이 잔고보다 클 수 있다 —
+  // 하한이 없던 때는 자금이 음수로 떨어져 감정비를 못 내고 도감이 멈췄다(G56과 같은
+  // 종류의 결함). 모자란 몫은 탕감하고, 로그에 그대로 적는다(척추 5번).
+  const cost = Math.min(billed, Math.max(0, Math.floor(w.funds)));
   w.funds -= cost;
   team.costMult = 1;
-  log(w, "system", `발굴단이 ${SITE_BY_ID[team.targetSite].city}에서 귀환했다. 원정비 ${usd(cost)} 정산.`);
+  log(
+    w, "system",
+    cost < billed
+      ? `발굴단이 ${SITE_BY_ID[team.targetSite].city}에서 귀환했다. 원정비 ${usd(billed)} 중 보유 자금 ${usd(cost)}만 정산했다.`
+      : `발굴단이 ${SITE_BY_ID[team.targetSite].city}에서 귀환했다. 원정비 ${usd(cost)} 정산.`
+  );
 
   team.status = "idle";
   if (team.routine?.enabled) {
@@ -2259,6 +2306,7 @@ function spawnTip(w: World, rng: Rng) {
     resolved: null
   };
   log(w, "system", `제보 — ${SITE_BY_ID[target.site].city} ${target.minLayer}층에서 반응. 대상: ${target.name}`);
+  autoFocusTip(w);
 }
 
 /** 플레이어가 **지금 그 자리에서** 레이스에 참가하고 있는가 — 직접 발굴이 그
@@ -2557,6 +2605,8 @@ export function step(w: World, dt: number, offline = false, record: PersistentRe
   const contributions = new Map<SiteId, SiteContributor[]>();
   digPlayer(w, dt, eff, report, contributions);
   tickExpeditions(w, t0, dt, eff, report, contributions);
+  // 제보가 열려 있는 동안 팀이 도착했으면 이 스텝의 드랍 판정부터 자동 집중을 적용한다
+  if (!offline) autoFocusTip(w);
   for (const [site, contributors] of contributions) applySiteChunk(w, rng, site, contributors, report);
   for (const r of w.rivals) digRival(w, r, rng, t0, dt, eff, report);
   resolveRivalTipChases(w, rng, report);
