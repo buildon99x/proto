@@ -13,7 +13,7 @@ import {
 import { addGhost, encodeCard, makeCard, parseCard, removeGhost } from "../game/rivalcard";
 import { clear, clearRecord, exportText, importText, load, loadRecord, save, saveRecord } from "../game/save";
 import type { PersistentRecord, SiteId, Tier, World } from "../game/types";
-import { shouldOfferFirstBase } from "./baseChoice";
+import { shouldOfferFirstBase, shouldOfferExpansionFork } from "./baseChoice";
 import { DISPLAY_NUDGE_SEEN_KEY } from "./DisplayNudge";
 import { playCue } from "./sound";
 
@@ -66,6 +66,8 @@ const BACKGROUND_KEEPALIVE_MS = 5000;
  * (`relic-king/onboarding-seen-v1`)는 쓰지 않는다 — 그 모달은 없어졌다.
  */
 const BASE_CHOOSER_SEEN_KEY = "relic-king/first-base-offered-v1";
+/** "다음 확장" 갈림길(v0.6.8)을 한 번 띄웠는가 — 첫 거점 카드와 같은 방식이다 */
+const EXPANSION_FORK_SEEN_KEY = "relic-king/expansion-fork-offered-v1";
 
 function readFlag(key: string): boolean {
   try {
@@ -123,12 +125,15 @@ export function useGame() {
   const [offline, setOffline] = useState<OfflineSummary | null>(null);
   const [baseChooserOpen, setBaseChooserOpen] = useState(false);
   const baseChooserSeenRef = useRef(false);
+  const [expansionForkOpen, setExpansionForkOpen] = useState(false);
+  const expansionForkSeenRef = useRef(false);
 
   if (worldRef.current === null) {
     const loaded = load();
     const w = loaded ?? createWorld();
     worldRef.current = w;
     baseChooserSeenRef.current = readFlag(BASE_CHOOSER_SEEN_KEY);
+    expansionForkSeenRef.current = readFlag(EXPANSION_FORK_SEEN_KEY);
     if (loaded) {
       const summary = catchUpOffline(w, recordRef.current);
       if (summary) setOffline(summary);
@@ -199,6 +204,11 @@ export function useGame() {
         baseChooserSeenRef.current = true;
         writeFlag(BASE_CHOOSER_SEEN_KEY);
         setBaseChooserOpen(true);
+      } else if (!expansionForkSeenRef.current && shouldOfferExpansionFork(world)) {
+        // 다음 확장(v0.6.8) — 셋째 거점과 둘째 발굴단 중 하나를 고르는 순간. 한 번 띄운다.
+        expansionForkSeenRef.current = true;
+        writeFlag(EXPANSION_FORK_SEEN_KEY);
+        setExpansionForkOpen(true);
       }
 
       uiAcc += dt * 1000;
@@ -312,6 +322,10 @@ export function useGame() {
     baseChooserOpen,
     openBaseChooser: () => setBaseChooserOpen(true),
     closeBaseChooser: () => setBaseChooserOpen(false),
+    /** "다음 확장"(`ExpansionFork`) — 셋째 거점 대 둘째 발굴단. 한 번 뜨고, 발굴 탭에서 다시 연다. */
+    expansionForkOpen,
+    openExpansionFork: () => setExpansionForkOpen(true),
+    closeExpansionFork: () => setExpansionForkOpen(false),
 
     // ── 레거시 단독 발굴(spec.md §8.1 — v0.1부터 그대로, 병행 진행 축) ──────
     dig: () => act(click),
@@ -428,6 +442,7 @@ export function useGame() {
       clearRecord();
       try {
         localStorage.removeItem(BASE_CHOOSER_SEEN_KEY);
+        localStorage.removeItem(EXPANSION_FORK_SEEN_KEY);
         localStorage.removeItem(DISPLAY_NUDGE_SEEN_KEY);
       } catch {
         /* 무시 */

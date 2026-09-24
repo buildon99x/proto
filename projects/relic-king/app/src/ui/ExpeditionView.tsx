@@ -4,7 +4,7 @@ import { playerAssets } from "../game/engine";
 import { josa, usd } from "../game/format";
 import { siteAnchorLabel } from "../game/sites";
 import type { SiteId } from "../game/types";
-import { homeSpeciesGap } from "./baseChoice";
+import { expansionForkOptions, homeSpeciesGap } from "./baseChoice";
 import { DispatchSheet } from "./DispatchSheet";
 import { LegacyDigCard } from "./LegacyDigCard";
 import { Modal } from "./Modal";
@@ -81,7 +81,14 @@ function MyBasesPanel({ game, onRelocate }: { game: Game; onRelocate: () => void
           </button>
         </div>
       ) : (
-        <p className="muted small">거점이 2곳 이상이면 이전 대신 지도에서 새 거점을 열어 확장한다.</p>
+        <>
+          <p className="muted small">거점이 2곳 이상이면 이전 대신 지도에서 새 거점을 열어 확장한다.</p>
+          {expansionForkOptions(game.world) ? (
+            <button type="button" className="wide expansion-fork-reopen" onClick={game.openExpansionFork}>
+              다음 확장 고르기 — 셋째 거점 또는 둘째 발굴단
+            </button>
+          ) : null}
+        </>
       )}
     </section>
   );

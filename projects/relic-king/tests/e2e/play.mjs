@@ -1324,6 +1324,37 @@ async function scenarioNudge() {
   });
 }
 
+async function scenarioFork() {
+  const c = makeChecks("fork — 다음 확장(셋째 거점 대 둘째 발굴단)");
+  await withApp({}, async (h) => {
+    await h.goto("/");
+    await h.ready();
+    await h.waitGame(15);
+    // 거점 둘·발굴단 하나에 두 선택을 다 살 수 있는 자금 — 실제로는 약 5~8분의 모습이다.
+    await h.patchSave(`(w) => {
+      w.sites.korea.unlocked = true; w.sites.greece.unlocked = true; w.sites.greece.baseSince = w.t;
+      w.maxTeams = 1; w.funds = 600000; w.tip = null; w.nextTipIn = 600; w.lastTickAt = Date.now();
+    }`);
+    await h.goto("/");
+    await h.ready();
+    let seen = false;
+    for (let i = 0; i < 40 && !seen; i++) {
+      seen = await h.exists(".expansion-fork");
+      if (!seen) await h.sleepReal(150);
+    }
+    if (seen) await h.shot("expansion-fork");
+    c.ok("거점 둘·발굴단 하나에 목돈이 모이면 '다음 확장'이 뜬다", seen);
+    const siteText = seen ? await h.text('.expansion-card[data-choice="site"]') : "";
+    c.ok("셋째 거점 카드는 새 종 수를 숫자로 적는다", /\d+종/.test(siteText), siteText.replace(/\n/g, " "));
+    c.ok("둘째 발굴단 카드가 나란히 있다", seen && (await h.exists('.expansion-card[data-choice="team"]')));
+    const before = (await h.state()).maxTeams;
+    const clicked = await h.click('.expansion-card[data-choice="team"] .base-chooser-open');
+    const after = await h.state();
+    c.ok("[슬롯 열기]를 누르면 발굴단 슬롯이 하나 는다", clicked && after.maxTeams === before + 1, `maxTeams ${before} → ${after.maxTeams}`);
+    c.ok("고른 뒤에는 카드가 닫힌다", !(await h.exists(".expansion-fork")));
+  });
+}
+
 const SCENARIOS = {
   loop: scenarioLoop,
   background: scenarioBackground,
@@ -1338,7 +1369,8 @@ const SCENARIOS = {
   effort: scenarioEffort,
   bulk: scenarioBulk,
   mobile: scenarioMobile,
-  nudge: scenarioNudge
+  nudge: scenarioNudge,
+  fork: scenarioFork
 };
 
 async function main() {

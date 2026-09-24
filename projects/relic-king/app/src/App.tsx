@@ -11,6 +11,7 @@ import { Header } from "./ui/Header";
 import { OfflineSummary } from "./ui/OfflineSummary";
 import { DisplayNudge } from "./ui/DisplayNudge";
 import { FirstBaseChooser } from "./ui/FirstBaseChooser";
+import { ExpansionFork } from "./ui/ExpansionFork";
 import { RankTableModal } from "./ui/RankTableModal";
 import { RulesModal } from "./ui/RulesModal";
 import { SettingsModal } from "./ui/SettingsModal";
@@ -126,6 +127,7 @@ export default function App() {
       <OfflineSummary game={game} onNavigate={(t) => changeTab(t)} />
       <DisplayNudge game={game} />
       {game.baseChooserOpen ? <FirstBaseChooser game={game} /> : null}
+      {game.expansionForkOpen && !game.baseChooserOpen ? <ExpansionFork game={game} /> : null}
       {modal === "settings" ? <SettingsModal game={game} onClose={() => setModal(null)} /> : null}
       {modal === "rules" ? <RulesModal game={game} onClose={() => setModal(null)} /> : null}
       {modal === "rank" ? <RankTableModal game={game} onClose={() => setModal(null)} /> : null}

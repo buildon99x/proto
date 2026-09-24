@@ -30,7 +30,7 @@ pnpm --filter relic-king dev         개발 서버
 pnpm --filter relic-king build       타입체크 + 빌드
 pnpm --filter relic-king sim         헤드리스 밸런스 시뮬 (--hours N [--ghosts N])
 pnpm --filter relic-king smoke       실시간 브라우저 스모크 + 스크린샷
-pnpm --filter relic-king play        실제 앱을 사람처럼 조작하는 UI 검사 (시나리오 14종)
+pnpm --filter relic-king play        실제 앱을 사람처럼 조작하는 UI 검사 (시나리오 15종)
 pnpm --filter relic-king playlog     플레이 계측 — 이벤트 타임라인·조작 노력 (--hours N, --bucket N분)
 pnpm --filter relic-king density     밀도 원장 — 첫 60초 5초 격자·첫 10분 30초 격자, 5시드 중앙/최악 (--seeds N, --tail-minutes N)
 

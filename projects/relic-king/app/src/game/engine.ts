@@ -33,7 +33,7 @@ import {
   TIP_UNIQUE_REQUIRES_RESPONSE, TIP_EMERGENCY_CREW_FUNDS_SHARE, TIP_EMERGENCY_CREW_MIN_COST, TIP_EMERGENCY_CREW_HIT_CHANCE,
   TIP_UNIQUE_ANNOUNCE_WITHIN, TIP_UNRESPONDED_UNIQUE_MULT, TIP_WORLDWIDE_MIN_TIER,
   TIP_FOCUS_DIG_COST_MULT, TIP_FOCUS_DIG_HIT_CHANCE, TIP_MEAN_INTERVAL, TIP_PLAYER_HIT,
-  TIP_MIN_RESPONSE_SECONDS, TIP_RETRY_INTERVAL, TIP_RIVAL_HIT, TIP_TIER_WEIGHT,
+  TIP_MIN_RESPONSE_SECONDS, TIP_RETRY_INTERVAL, TIP_RIVAL_HIT, TIP_TIER_WEIGHT, TIP_RIVAL_FOCUS_MIN_TIER, TIP_RIVAL_FOCUS_HIT,
   UNEXPLORED_BONUS_APPRAISAL_VOUCHER, WORKER_DIG,
   appraiseSeconds, auctionGradeCost, auctionHouseBuildCost, conditionDecayChancePerDay, distanceKm,
   dropThreshold, gearCost, humidityLevelCost, labCost, layerCost, layerExpectedValue, marketingLevelCost,
@@ -979,7 +979,7 @@ function rollDrop(
               (raceTarget.focused ? (w.tip?.crewed && w.tip.artifactId === raceTarget.artifactId ? TIP_EMERGENCY_CREW_HIT_CHANCE : TIP_FOCUS_DIG_HIT_CHANCE) : TIP_PLAYER_HIT) *
                 uniquePenalty * eyeRaceMult(w, site)
             )
-          : TIP_RIVAL_HIT;
+          : rivalTipHit(target.tier);
       // 난수는 **언제나 뽑는다**. `guardedForPlayer`로 `rng.chance`를 건너뛰면 보장이
       // 걸린 판에서만 난수 소비가 한 칸 줄어, 같은 시드가 스텝 크기에 따라 갈린다
       // (`qa:expedition`의 스텝 무관성이 실제로 이걸 잡았다 — 드랍 5/1209 차이).
@@ -1464,6 +1464,11 @@ export function focusDig(w: World, teamId: string): boolean {
   w.tip.focused = true;
   applyTipCostMult(team, TIP_FOCUS_DIG_COST_MULT);
   return true;
+}
+
+/** 제보 레이스에서 라이벌 한 명의 적중 — 국보 이상은 집중과 같다(`TIP_RIVAL_FOCUS_MIN_TIER` 주석) */
+export function rivalTipHit(tier: number): number {
+  return tier >= TIP_RIVAL_FOCUS_MIN_TIER ? TIP_RIVAL_FOCUS_HIT : TIP_RIVAL_HIT;
 }
 
 /**
@@ -2486,7 +2491,7 @@ export function tipRaceOdds(w: World, tip: Tip): TipRaceOdds {
         (firstUniqueLesson ? 0 : needsResponse ? TIP_UNRESPONDED_UNIQUE_MULT : 1) * eye
       : 0;
   const contenders = tipRivalContenders(w, tip).length;
-  const rw = contenders * TIP_RIVAL_HIT;
+  const rw = contenders * rivalTipHit(ARTIFACT_BY_ID[tip.artifactId].tier);
   const playerChance = guaranteed ? 1 : pw + rw === 0 ? 0 : pw / (pw + rw);
   return { decideIn, racing, playerChance, guaranteed, contenders, needsResponse, eyeBonus: eye - 1 };
 }
@@ -2533,7 +2538,7 @@ function decideTipRace(w: World, rng: Rng, report: StepReport) {
   // 라이벌 가중은 **머릿수**다 — 유예 전 드랍 판정에서 라이벌 k명이 각자 굴리는
   // 것과 같은 셈이고, 그래서 제보마다 경쟁도가 다르다(1명이면 반반, 4명이면 20%).
   // 배너가 그 수치를 그대로 적는다(척추 5번, `tipRaceOdds`).
-  const rw = contenders.length * TIP_RIVAL_HIT;
+  const rw = contenders.length * rivalTipHit(ARTIFACT_BY_ID[tip.artifactId].tier);
   // 양쪽 다 그 자리에 없다 — 결판낼 주체가 없으므로 유물은 세상에 남는다.
   // (급파가 이동 중이면 여기 걸린다 — 도착 판정은 기존 경로가 그대로 한다.)
   if (pw + rw === 0) return;
@@ -2577,7 +2582,7 @@ function resolveRivalTipChases(w: World, rng: Rng, report: StepReport) {
     if (w.tip && !w.tip.resolved && w.tip.artifactId === r.tipChase.artifactId &&
         w.t - w.tip.openedAt < TIP_MIN_RESPONSE_SECONDS) continue;
     const target = ARTIFACT_BY_ID[r.tipChase.artifactId];
-    if (available(w, target) && rng.chance(TIP_RIVAL_HIT)) {
+    if (available(w, target) && rng.chance(rivalTipHit(target.tier))) {
       take(w, target, r.id, report);
       w.stats.racesLost += 1;
     }

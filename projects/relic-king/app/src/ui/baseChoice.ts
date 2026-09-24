@@ -1,6 +1,6 @@
 import { ARTIFACTS } from "../game/artifacts";
 import { EXPEDITION_SPEED_KMH, SITES, SITE_BY_ID } from "../game/balance";
-import { ownedSiteCap, teamHomeSite } from "../game/engine";
+import { nextTeamSlotCost, ownedSiteCap, teamHomeSite } from "../game/engine";
 import { distanceKm } from "../game/sites";
 import type { SiteId, World } from "../game/types";
 
@@ -105,4 +105,28 @@ export function homeSpeciesGap(site: SiteId): { species: number; othersAvg: numb
 export function formatTravelHours(hours: number): string {
   if (hours < 1) return `${Math.max(1, Math.round(hours * 60))}분`;
   return `${hours.toFixed(1)}시간`;
+}
+
+/**
+ * "다음 확장" 갈림길(v0.6.8, `notes/decisions.md` G117) — 거점이 둘, 발굴단이 하나일 때 다음 목돈을
+ * **셋째 거점**에 쓸지 **둘째 발굴단**에 쓸지 고른다. 둘 다 약 $25만이라 같은 돈을 두고 다툰다.
+ *
+ * 실측으로 둘 다 일리가 있다(`eval.md` §36.2). 거점을 먼저 열면 10시간 도감이 약 13% 많고,
+ * 팀을 먼저 꾸리면 팀이 떠나 있는 동안에도 제보에 대응할 수단이 남는다. 예전에는 이 갈림길이
+ * 화면에 없었고 정책만 몰래 골랐다. 대가가 분명한 진짜 결정이라 보여 준다.
+ */
+export function expansionForkOptions(w: World): { site: SiteFacts; slotCost: number; slotAffordable: boolean } | null {
+  if (ownedSites(w).length !== 2 || w.maxTeams !== 1) return null;
+  if (ownedSites(w).length >= ownedSiteCap(w)) return null;
+  const cheapest = lockedSitesByCost(w)[0];
+  if (!cheapest) return null;
+  const slotCost = nextTeamSlotCost(w);
+  return { site: siteFacts(w, cheapest), slotCost, slotAffordable: w.funds >= slotCost };
+}
+
+/** 갈림길을 띄울 때인가 — 둘 중 하나라도 살 수 있게 됐고, 결판 전 제보가 없다 */
+export function shouldOfferExpansionFork(w: World): boolean {
+  const o = expansionForkOptions(w);
+  if (!o || tipUnresolved(w)) return false;
+  return o.slotAffordable || o.site.affordable;
 }

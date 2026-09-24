@@ -382,6 +382,8 @@ export type RunLedger = {
   /** D */ ambient10m: number; meaningful10m: number; ratio10m: number;
   /** E */ firstTip: number | null; firstRaceResult: number | null;
   firstT4Encounter: number | null; firstSiteUnlock: number | null;
+  /** 첫 레이스 패(또는 라이벌에게 영구 상실) 시각 — C 첫 패 축(v0.6.8) */
+  firstLoss: number | null;
   /** 제보 창(첫 10분) — 설계값 60~150초 안에 있는가 */
   tipWindowMedian: number | null; tipWindowMin: number | null; tipCount10m: number;
   /** §6.3 — 목표 창 직후의 최장 무의미 구간 */
@@ -522,6 +524,7 @@ function runOne(label: "idle" | "active", seed: number, tailSeconds: number): Ru
       (e.kind === "lostToRival" && e.tier === 4)
   );
   const firstSiteUnlock = firstOf((e) => e.kind === "siteUnlocked");
+  const firstLoss = firstOf((e) => e.kind === "raceLost" || e.kind === "lostToRival");
 
   // 제보 창(첫 10분)
   const win: number[] = [];
@@ -587,7 +590,7 @@ function runOne(label: "idle" | "active", seed: number, tailSeconds: number): Ru
     legacyDecisions1m: inWin(legacy, MINUTE).length, legacyDecisions10m: inWin(legacy, TEN_MIN).length,
     tension1m, tension10m, wins10m, losses10m,
     ambient10m, meaningful10m, ratio10m: meaningful10m > 0 ? ambient10m / meaningful10m : Infinity,
-    firstTip, firstRaceResult, firstT4Encounter, firstSiteUnlock,
+    firstTip, firstRaceResult, firstT4Encounter, firstSiteUnlock, firstLoss,
     tipWindowMedian: win.length ? win[Math.floor(win.length / 2)] : null,
     tipWindowMin: win.length ? win[0] : null,
     tipCount10m: sumN(ev10, (e) => e.kind === "tipOpened"),
@@ -642,7 +645,9 @@ function ledgerTable(runs: RunLedger[], strict: boolean): AxisRow[] {
   add("A 사건 종류", "첫 1분", "≥5종", col((r) => r.kinds1m), (v) => v >= 5, (v) => `${v}종`, worstLow);
   add("A 사건 종류", "첫 10분", "≥12종", col((r) => r.kinds10m), (v) => v >= 12, (v) => `${v}종`, worstLow);
   // B축은 등급 기준(결정만)이다 — DecisionWatcher 주석의 표 참조
-  add("B 결정", "첫 1분", "≥1회", col((r) => r.decisions1m), (v) => v >= 1, (v) => `${v}회`, worstLow);
+  // B 첫 1분은 v0.6.8부터 참고다(G117). 첫 1분은 배우는 시간이다 — 여기에 결정을 억지로 넣으면
+  // v0.6.6이 없앤 "눈먼 본거지 모달"을 다시 만든다.
+  add("B 결정", "첫 1분", "—", col((r) => r.decisions1m), always, (v) => `${v}회`, worstLow, "ref");
   add("B 결정", "첫 10분", "≥5회", col((r) => r.decisions10m), (v) => v >= 5, (v) => `${v}회`, worstLow);
   add("B 결정", "첫 1시간", "—", col((r) => r.decisions1h), always, (v) => `${v}회`, worstLow, "ref");
   add("B 최장 간격", "첫 10분", "—", col((r) => r.decisionMaxGap10m), always, fmtT, worstHigh, "ref");
@@ -651,7 +656,10 @@ function ledgerTable(runs: RunLedger[], strict: boolean): AxisRow[] {
   add("C 긴장", "첫 1분", "≥1회", col((r) => r.tension1m), (v) => v >= 1, (v) => `${v}회`, worstLow);
   add("C 긴장", "첫 10분", "≥3회", col((r) => r.tension10m), (v) => v >= 3, (v) => `${v}회`, worstLow);
   add("C 승", "첫 10분", "≥1회", col((r) => r.wins10m), (v) => v >= 1, (v) => `${v}회`, worstLow);
-  add("C 패", "첫 10분", "≥1회", col((r) => r.losses10m), (v) => v >= 1, (v) => `${v}회`, worstLow);
+  // C 패는 v0.6.8부터 "첫 세션(20분) 안에 첫 패"로 잰다(G117). 열심히 하는 플레이어가 운 좋게 첫 10분을
+  // 무패로 넘기는 것은 자연스럽다. 경험상 중요한 것은 첫 세션 안에 한 번은 져 보는가다.
+  add("C 패", "첫 10분", "—", col((r) => r.losses10m), always, (v) => `${v}회`, worstLow, "ref");
+  add("C 첫 패", "—", "≤20분", col((r) => num(r.firstLoss)), (v) => v <= 20 * MINUTE, fmtT, worstHigh);
   add("D 반복:의미", "첫 10분", "≤1.5:1", col((r) => r.ratio10m), (v) => v <= 1.5, (v) => `${v.toFixed(2)}:1`, worstHigh);
   add("E 첫 제보", "—", "≤60초", col((r) => num(r.firstTip)), (v) => v <= 60, fmtT, worstHigh);
   add("E 제보 창", "첫 10분", "60~150초", col((r) => r.tipWindowMedian ?? 0),
