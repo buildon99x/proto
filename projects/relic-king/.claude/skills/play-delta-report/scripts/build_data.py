@@ -98,7 +98,8 @@ def img(path):
 def ui():
     out = {"before": [], "after": [], "shots": {}, "suite": None}
     for ver in ("before", "after"):
-        dirs = sorted(glob.glob(f"{WORK}/play/first-{ver}-*"))
+        # 실행마다 폴더 하나 — 옆에 같은 이름의 .log도 있으니 폴더만 고른다
+        dirs = sorted(d for d in glob.glob(f"{WORK}/play/first-{ver}-*") if os.path.isdir(d))
         for d in dirs:
             r = first_milestones(f"{d}/report.json")
             if r:
