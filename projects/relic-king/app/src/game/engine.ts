@@ -1535,7 +1535,12 @@ export function nextRoutineTarget(w: World, team: ExpeditionTeam): SiteId {
  * funds에서 뗀다. 실제 드랍·자금은 이미 applyDigProgress가 온사이트 구간마다
  * 실시간으로 처리했다 — 이 함수는 오직 "원정비 정산 + 루틴 재파견"만 한다.
  */
-function finalizeExpedition(w: World, team: ExpeditionTeam, returnedAt = w.t) {
+/**
+ * 이 회차의 원정비 청구액. 귀환 정산(`finalizeExpedition`)과, 자동 재투자가 남겨 둘
+ * 예약금(`autoInvestReserve`)이 **같은 식**을 쓴다(v0.6.6). 현지작업 구간은 파견 때 정해진
+ * 계획 구간이라 귀환 전에도 청구액을 미리 알 수 있다 — 달라지는 것은 그사이 오른 층뿐이다.
+ */
+function expeditionBill(w: World, team: ExpeditionTeam): number {
   const foreman = w.staff.find((s) => s.id === team.foremanId && s.role === "foreman") as Foreman | undefined;
   const travelHours = (team.arrivesAt - team.dispatchedAt) / 3600;
   const dist = foreman ? travelHours * EXPEDITION_SPEED_KMH * foremanSpeedMult(foreman.navigation) : 0;
@@ -1568,9 +1573,13 @@ function finalizeExpedition(w: World, team: ExpeditionTeam, returnedAt = w.t) {
   const notionalIncome = realRate * distanceYieldBonus(dist) * effectiveOnsiteHours * 3600;
   // 집중 굴착(×2)·급파(×3) 배수가 이번 회차에 걸려 있으면 여기서 함께 적용한다
   // (spec.md §8.6, notes/decisions.md G45/A8). 다음 회차를 위해 적용 즉시 리셋한다.
-  const billed = Math.round(
+  return Math.round(
     notionalIncome * EXPEDITION_COST_INCOME_RATIO * distanceCostMult(dist) * (team.costMult ?? 1)
   );
+}
+
+function finalizeExpedition(w: World, team: ExpeditionTeam, returnedAt = w.t) {
+  const billed = expeditionBill(w, team);
   // **정산액은 보유 자금을 넘지 않는다**(v0.6.6, `notes/decision-tree-10h.md` §6 버그 2).
   // 원정비는 후불이라 그사이 자금을 다른 데 썼으면 청구액이 잔고보다 클 수 있다 —
   // 하한이 없던 때는 자금이 음수로 떨어져 감정비를 못 내고 도감이 멈췄다(G56과 같은
@@ -1952,6 +1961,14 @@ function autoInvestReserve(w: World): number {
     if (w.lab < APPRAISAL_UNLOCK_LAB_LEVEL[ARTIFACT_BY_ID[p.artifactId].tier]) continue;
     sum += Math.round(p.estimate * APPRAISE_FEE);
     if (++n >= AUTO_INVEST_FEE_RESERVE_ITEMS) break;
+  }
+  // **귀환이 다가온 원정의 청구액도 남긴다**(v0.6.6). 원정비는 후불이고 정산은 보유
+  // 자금까지만 받는다(`finalizeExpedition`). 재투자가 그 전에 지갑을 비우면 청구액
+  // 대부분이 탕감됐다 — 운영 기준선에서 정산 15회 중 15회, 청구액의 87%가 면제됐다
+  // (`notes/v066-midpass-review.md` §1.3). 현지 작업 중·귀환 중인 팀만 센다 — 막
+  // 떠난 팀의 몫까지 묶으면 몇 시간 동안 재투자가 멈춘다.
+  for (const team of w.teams) {
+    if (team.status === "on_site" || team.status === "traveling_back") sum += expeditionBill(w, team);
   }
   return Math.max(AUTO_INVEST_RESERVE, sum);
 }

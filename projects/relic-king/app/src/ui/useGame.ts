@@ -358,6 +358,10 @@ export function useGame() {
       act((w) => {
         w.settings.autoReinvest = enabled;
       }),
+    setAutoFocusTips: (enabled: boolean) =>
+      act((w) => {
+        w.settings.autoFocusTips = enabled;
+      }),
 
     // ── 발굴단·스텝(spec.md §8) ─────────────────────────────────────────
     hireForeman: (site: SiteId, slot: number) => act((w) => hireForeman(w, site, slot)),

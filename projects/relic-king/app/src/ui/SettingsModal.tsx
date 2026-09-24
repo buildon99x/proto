@@ -81,6 +81,14 @@ export function SettingsModal({ game, onClose }: { game: Game; onClose: () => vo
             onChange={(e) => game.setAutoReinvest(e.target.checked)}
           />
         </label>
+        <label className="settings-row">
+          <span>제보 자동 집중 <em className="muted small">진귀·국보 제보에 현지 발굴단이 있으면 [집중 굴착]을 자동으로 건다(원정비 ×2). 유일은 늘 직접 누른다</em></span>
+          <input
+            type="checkbox"
+            checked={world.settings.autoFocusTips}
+            onChange={(e) => game.setAutoFocusTips(e.target.checked)}
+          />
+        </label>
       </section>
 
       <section className="settings-section">

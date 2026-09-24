@@ -102,7 +102,7 @@ const FINE_UNTIL = TEN_MIN;
  * | `tip` | 유일(T4) 제보 [집중 굴착] · 모든 티어 [급파] | 원정비 2~3배·팀을 뺀다 | 28% 자동 추격 / 유일은 놓침 | 결정 |
  * | `tipFocus` | 진귀 이하 제보의 [집중 굴착] | 원정비 2배(원정당 1회) | 28% 자동 추격 | **지배 전략**(§5.2, 안 셈) |
  * | `tipNotice` | 버튼 없는 배너(직접 발굴 추격·자동 집중·반응 불가) | — | — | **통보**(안 셈) |
- * | `keep` | 소장고 T3+ 입고(매각/전시/보유) | 성장↔점수 맞교환 | 자동매각 규칙대로 | 결정 |
+ * | `keep` | 소장고 T3+ 입고(매각/전시/보유) | 성장↔점수 맞교환 | 자동매각 규칙대로 | **제시 없음**(입고 창에 [확인]뿐, 안 셈 — v0.6.6 중간 리뷰 §1.5) |
  * | `foreman` | 빈 슬롯의 단장 후보 3명 | 스탯·급여 차이 | 안 뽑는다 | 결정(약하지만 실재, §2) |
  * | `slot` | 발굴단 슬롯 해금 | — | 안 산다 | **지배 전략**(살 수 있으면 산다, 안 셈) |
  *
@@ -124,7 +124,9 @@ export type DecisionKind =
   | "tipFocus" | "tipNotice" | "routine" | "slot";
 
 /** B축에 세는 종류 — 위 표에서 등급이 "결정"인 것 */
-export const GRADED_KINDS: DecisionKind[] = ["base", "tip", "dispatch", "unlock", "keep", "foreman"];
+// `keep`은 v0.6.6 중간 리뷰(§1.5)에서 뺐다 — T3+ 입고 창에는 [확인]뿐이라 그 순간 제시되는 선택이 없다.
+// 입고 창에 [쥔다]/[판다]가 생기면 다시 넣는다. `base`는 첫 거점 카드(`unlock`)에 합쳐져 더는 찍히지 않는다.
+export const GRADED_KINDS: DecisionKind[] = ["tip", "dispatch", "unlock", "foreman"];
 
 export type DecisionEvent = {
   t: number; kind: DecisionKind; detail?: string;

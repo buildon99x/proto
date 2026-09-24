@@ -93,7 +93,7 @@ export function OfflineSummary({ game, onNavigate }: { game: Game; onNavigate: (
 function fundsLabel(delta: number, autoReinvest: boolean): string {
   if (delta >= 0) return `자금 +${usd(delta)} (급여·유지비 차감후)`;
   return autoReinvest
-    ? `자금 −${usd(-delta)} — 번 자금을 자동 재투자가 인부·장비·감정소에 썼다`
+    ? `자금 −${usd(-delta)} — 번 자금을 자동 재투자가 인부·장비·감정소와 발굴단 증강에 썼다`
     : `자금 −${usd(-delta)} (급여·유지비 차감후)`;
 }
 
