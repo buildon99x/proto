@@ -74,7 +74,7 @@ export function SettingsModal({ game, onClose }: { game: Game; onClose: () => vo
           />
         </label>
         <label className="settings-row">
-          <span>자동 재투자 <em className="muted small">남는 자금을 인부·장비·감정소에 자동으로 쓴다</em></span>
+          <span>자동 재투자 <em className="muted small">남는 자금을 인부·장비·감정소와 발굴단 인원·장비에 자동으로 쓴다</em></span>
           <input
             type="checkbox"
             checked={world.settings.autoReinvest}

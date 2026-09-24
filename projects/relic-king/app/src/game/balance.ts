@@ -188,9 +188,12 @@ export function vaultLevelCost(level: number): number {
  * GROWTH를 재사용해 채운다(notes/decisions.md G54 참조. 3천만/9천만/2.7억).
  */
 export function auctionHouseBuildCost(n: number): number {
+  if (n <= 1) return AUCTION_HOUSE_FIRST_BUILD_COST;
   return Math.round(AUCTION_GRADE_COST_BASE * Math.pow(AUCTION_GRADE_COST_GROWTH, n - 1));
 }
+/** n번째 박물관 건립비. **첫 관만** `MUSEUM_FIRST_BUILD_COST`이고 2관부터는 원래 곡선이다(v0.6.6) */
 export function museumBuildCost(n: number): number {
+  if (n <= 1) return MUSEUM_FIRST_BUILD_COST;
   return Math.round(MUSEUM_BUILD_COST_BASE * Math.pow(MUSEUM_BUILD_COST_GROWTH, n - 1));
 }
 
@@ -579,6 +582,20 @@ export const MAX_EXPEDITION_TEAMS_CAP = 4;
  */
 export const EXPEDITION_TEAM_UNLOCK_BASE = 250_000;
 export const EXPEDITION_TEAM_UNLOCK_GROWTH = 3.0;
+/**
+ * 발굴단 인원·장비 자동 증강(v0.6.6, `engine.ts` `autoInvestTeams`)의 문턱.
+ * 세 값 모두 운영 기준선 정책(`sim/policy.ts`)이 v0.3부터 손으로 눌러 오던 그
+ * 값을 그대로 옮긴 것이다 — 자동화하면서 밸런스를 새로 발명하지 않는다.
+ *
+ * - 슬롯 비축 배수: 다음 발굴단 슬롯 해금비의 1.5배가 모이기 전에는 증강하지
+ *   않는다. 팀 발굴력을 올리면 원정비(노셔널 수입 비례)도 같이 커져, 슬롯을 하나
+ *   더 열어 12거점 커버리지를 넓히는 더 나은 투자로 갈 자금을 한 팀이 흡수한다
+ *   (G56 실측 — 팀이 1개에서 멈췄다, G80.1이 자동화를 미룬 이유가 바로 이 결합이다).
+ * - 인원은 자금 25만 달러, 장비는 250만 달러 이상일 때만 산다.
+ */
+export const TEAM_AUTO_UPGRADE_SLOT_RESERVE_MULT = 1.5;
+export const TEAM_AUTO_WORKER_MIN_FUNDS = 250_000;
+export const TEAM_AUTO_GEAR_MIN_FUNDS = 2_500_000;
 export const FOREMAN_HIRE_COST = 100_000;
 // MAX_GEAR_LEVEL은 v0.1 실코드에 이미 존재한다(위 §2.1 근방) — 여기 중복 선언하지 않는다.
 export const EXPEDITION_MISHAP_BASE = 0.02;
@@ -839,6 +856,19 @@ export const SPECIES_PER_SITE_BY_TIER = [66, 85, 12, 3, 1] as const;
 // ── 업그레이드 비용 곡선 7종 (§9.1, 신설 — G30/C) — 이번 단계 범위 밖 ──────
 export const AUCTION_GRADE_COST_BASE = 2_500_000;
 export const AUCTION_GRADE_COST_GROWTH = 3.0;
+/**
+ * **첫 경매장** 건립비(v0.6.6, P6). 2번째부터는 `auctionHouseBuildCost`의 원래
+ * 곡선(750만·2,250만)이다.
+ *
+ * 250만 달러일 때는 첫 중복 배치 매각(20점, `AUTO_SELL_SPARE_BATCH_MIN`)이 만드는
+ * 목돈(운영 기본 시드 약 1,200만 달러, 작은 시드는 360만 달러)이 슬롯 해금·발굴단
+ * 증강과 경쟁해 **짓느냐 못 짓느냐가 그 틱의 잔액에 달려 있었다** — 못 지으면 다음
+ * 목돈(59분·1시간대)까지 밀려 박물관과 한 틱에 같이 열렸다. 100만 달러면 배치 매각
+ * 그 순간의 자금으로 닿는다(운영 12시드 중 9시드가 그 틱에 선다, 중앙 34분). "팔 곳이
+ * 필요하다"가 동기가 되는 순간이다.
+ * 위의 3천만/9천만/2.7억 주석은 v0.6 압축 전의 값이다(지금 곡선은 250만 기준).
+ */
+export const AUCTION_HOUSE_FIRST_BUILD_COST = 1_000_000;
 export const MUSEUM_GRADE_COST_BASE = 3_500_000;
 export const MUSEUM_GRADE_COST_GROWTH = 3.0;
 export const MARKETING_LEVEL_COST_BASE = 400_000;
@@ -880,6 +910,19 @@ export const MUSEUM_MARKETING_LEVEL_CAP = 10;
 export const MUSEUM_MAX_COUNT = 3;
 export const MUSEUM_SLOT_BY_GRADE = [1, 3, 6, 10, 15] as const;
 export const MUSEUM_BUILD_COST_BASE = 4_000_000;
+/**
+ * **첫 박물관** 건립비(v0.6.6, `notes/decision-tree-10h.md` P6). 2관부터는 위 곡선
+ * 그대로(1,200만·3,600만)다.
+ *
+ * 400만 달러일 때는 첫 1시간 자금(20만~200만 달러대)으로 닿지 않아, 첫 중복 배치
+ * 매각이 한 번에 목돈을 만드는 틱(운영 5시드 29~39분)이나 그보다 늦게 **경매장·
+ * 관장·경매관장과 한 틱에** 같이 열렸다 — 첫 관람객과 첫 낙찰이 한 번에 뭉개졌다.
+ * 첫 국보 무렵 "이걸 걸 자리가 필요하다"가 동기가 되도록, 건립비를 그 순간의 자금
+ * 수준에 맞춘다(운영 12시드 중앙 약 20분에 선다). 관람료가 1명당 $30이라
+ * (`MUSEUM_TICKET_PRICE`) 박물관을 당겨도 수입 곡선은 거의 움직이지 않는다 — 박물관은
+ * 명성 축이지 자금원이 아니다.
+ */
+export const MUSEUM_FIRST_BUILD_COST = 600_000;
 export const MUSEUM_BUILD_COST_GROWTH = 3.0;
 export const MUSEUM_FATIGUE_DECAY_RATE = 0.02;
 export const MUSEUM_FRESHNESS_FLOOR = 0.3;
