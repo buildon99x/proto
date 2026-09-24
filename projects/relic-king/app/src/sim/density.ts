@@ -17,6 +17,9 @@
  * - **B 결정** — 기회비용이 있거나 되돌릴 수 없는 선택이 몇 번 제시되는가.
  *   **강제가 아니다**(척추 4번): 안 누르면 기본값이 대신 고르고 게임은 계속 돈다.
  *   그래서 이 축은 "조작 횟수"가 아니라 **"선택지가 열린 횟수"**를 센다.
+ *   v0.6.6부터는 **등급이 결정인 것만** 센다 — 버튼이 없는 제보, 지배 전략,
+ *   잡무는 기록만 한다(`DecisionWatcher` 주석의 표). 첫 1시간 결정 수와 결정 간
+ *   최장 간격도 같이 잰다. 그래서 판은 `--tail-minutes`와 무관하게 최소 1시간을 돈다.
  * - **C 긴장 사건** — 제보·레이스 승패·영구 상실·순위 추월.
  * - **D 반복:의미** — 화면에서 일어나는 일 몇 건당 기억할 만한 일이 하나인가.
  * - **E 첫 도달 시각** — 첫 제보·첫 레이스 결과·첫 T4 조우·첫 거점 해금.
@@ -37,20 +40,23 @@
  */
 import { writeFileSync } from "node:fs";
 import {
-  AUTO_ROUTINE_INTERVAL_SECONDS, FIRST_RELOCATION_FREE_WINDOW_HOURS, SITES,
+  AUTO_ROUTINE_INTERVAL_SECONDS, EMERGENCY_DISPATCH_MAX_REACH_HOURS, EMERGENCY_DISPATCH_TRAVEL_MULT,
+  FIRST_RELOCATION_FREE_WINDOW_HOURS, FOREMAN_HIRE_COST, SITES,
   TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN
 } from "../game/balance";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
   advance, codexProgress, createPersistentRecord, createWorld, digPower, fullRanking, ownedSiteCap,
   grantStartingTeam, isGhostId,
-  playerAssets, playerCanReactAt, runAutoRoutine, tipPoolStages
+  playerCanReactAt, runAutoRoutine, teamHomeSite, tipPoolStages
 } from "../game/engine";
+import { travelHoursOneWay } from "../game/expedition";
+import { distanceKm } from "../game/sites";
 import { duration } from "../game/format";
 import { actExpansion, liquidateSurplus, STEP_LATE } from "./policy";
 import { MEANINGFUL, PlayRecorder } from "./telemetry";
 import type { EventKind, PlayEvent } from "./telemetry";
-import type { PersistentRecord, StepReport, World } from "../game/types";
+import type { Foreman, PersistentRecord, StepReport, Tip, World } from "../game/types";
 
 const args = process.argv.slice(2);
 const arg = (k: string, d: string) => {
@@ -68,6 +74,7 @@ const SEEDS = Array.from({ length: SEED_COUNT }, (_, i) => 20260917 + i * 7919);
 
 const MINUTE = 60;
 const TEN_MIN = 600;
+const HOUR = 3600;
 /** 첫 10분은 1초 스텝. 그 뒤는 playlog와 같은 굵은 스텝 */
 const FINE_STEP = 1;
 const FINE_UNTIL = TEN_MIN;
@@ -76,45 +83,136 @@ const FINE_UNTIL = TEN_MIN;
 
 /**
  * **결정**의 정의: 기회비용이 있거나 되돌릴 수 없고, **기본값이 딸려 있어서
- * 안 눌러도 게임이 굴러가는** 선택. 아래 다섯 가지는 전부 이미 화면에 있는
- * 자리다 — 새 시스템이 아니라 기존 선택지에 이름을 붙여 센 것이다.
+ * 안 눌러도 게임이 굴러가는** 선택. 아래는 전부 이미 화면에 있는 자리다 — 새
+ * 시스템이 아니라 기존 선택지에 이름을 붙여 센 것이다.
  *
- * | 종류 | 화면 | 기회비용 | 안 누르면 |
- * | --- | --- | --- | --- |
- * | `base` | "본거지를 정하자" 오버레이 | 무료 창 12시간 안에서만 무료 | 경주 유지 |
- * | `tip` | 제보 배너 [집중 굴착]·[급파] | 원정비 2~3배 | 28% 자동 추격 |
- * | `dispatch` | 원정 목적지 선택 | 그 회차 동안 다른 거점 포기 | 루틴이 추천 1위로 |
- * | `unlock` | 세계 지도 거점 해금 | base 슬롯 상한·이전 비용 | 안 연다 |
- * | `keep` | 소장고 T3+ 입고(매각/전시/보유) | 성장↔점수 맞교환 | 자동매각 규칙대로 |
+ * ### 등급 (v0.6.6 — `notes/decision-tree-10h.md` §1)
+ *
+ * 화면에 선택지가 떴다는 것과 그것이 결정이라는 것은 다른 명제다. 감시자는
+ * 제시된 선택지를 전부 기록하되, 등급이 **결정**인 것만 B축에 센다. 지배 전략
+ * (한쪽이 항상 이긴다)·잡무(판단 없이 누르기만 한다)·통보(누를 것이 없다)는
+ * 기록만 하고 세지 않는다 — 세면 아무것도 안 고쳐도 B축이 통과한다.
+ *
+ * | 종류 | 화면 | 기회비용 | 안 누르면 | 등급 |
+ * | --- | --- | --- | --- | --- |
+ * | `base` | "본거지를 정하자" 오버레이(첫 감정) | 무료 창 12시간 안에서만 무료 | 경주 유지 | 결정(눈먼 결정, §5.1) |
+ * | `unlock` | 세계 지도 거점 해금 | base 슬롯 상한·해금비 | 안 연다 | 결정(무게 작음, §5.3) |
+ * | `dispatch` | 새 발굴단의 **첫** 목적지 | 그 회차 동안 다른 거점 포기 | 루틴이 추천 1위로 | 결정 |
+ * | `routine` | 귀환 뒤 자동 순회 재파견 | — | 루틴이 알아서 | **잡무 → 자동**(안 셈) |
+ * | `tip` | 유일(T4) 제보 [집중 굴착] · 모든 티어 [급파] | 원정비 2~3배·팀을 뺀다 | 28% 자동 추격 / 유일은 놓침 | 결정 |
+ * | `tipFocus` | 진귀 이하 제보의 [집중 굴착] | 원정비 2배(원정당 1회) | 28% 자동 추격 | **지배 전략**(§5.2, 안 셈) |
+ * | `tipNotice` | 버튼 없는 배너(직접 발굴 추격·자동 집중·반응 불가) | — | — | **통보**(안 셈) |
+ * | `keep` | 소장고 T3+ 입고(매각/전시/보유) | 성장↔점수 맞교환 | 자동매각 규칙대로 | 결정 |
+ * | `foreman` | 빈 슬롯의 단장 후보 3명 | 스탯·급여 차이 | 안 뽑는다 | 결정(약하지만 실재, §2) |
+ * | `slot` | 발굴단 슬롯 해금 | — | 안 산다 | **지배 전략**(살 수 있으면 산다, 안 셈) |
+ *
+ * **제보는 버튼이 실제로 뜰 때만 센다**(`ui/TipBanner.tsx` `findReaction()`과 같은
+ * 조건 — 완성도 진단 2판 §3.1). 예전 자는 `playerCanReactAt()`이 참이면 셌는데,
+ * 그 함수는 레거시 직접 발굴(`w.activeSite === site`)만으로도 참이라 배너에 누를
+ * 것이 없는 제보까지 결정으로 찍혔다(첫 10분 제보 4~5 중 버튼은 1~2). 배너가 떠
+ * 있는 동안 버튼이 **한 번이라도** 뜨면 그 제보를 한 번 센다(팀이 도중에 현지에
+ * 닿는 경우). `Tip.autoFocused`(v0.6.6 P2-가)가 선 제보는 현지 팀이 있어도 버튼이
+ * 없다 — 그 필드가 들어오기 전에도 진귀 이하의 [집중 굴착]은 지배 전략이라 세지
+ * 않으므로, P2-가가 들어와도 B축 값은 달라지지 않아야 한다.
+ *
+ * **옛 자**(`legacy`)는 v0.6.5까지의 규칙(제보 = `playerCanReactAt`, 파견 = 기존
+ * 팀의 모든 파견, 해금 = 해금 가능해진 순간만, 고용·슬롯은 안 셈)으로 같이 세 둔다
+ * — 전·후를 같은 판에서 나란히 보기 위해서다. 게이트는 등급 기준만 본다.
  */
-export type DecisionKind = "base" | "tip" | "dispatch" | "unlock" | "keep";
+export type DecisionKind =
+  | "base" | "tip" | "dispatch" | "unlock" | "keep" | "foreman"
+  | "tipFocus" | "tipNotice" | "routine" | "slot";
 
-export type DecisionEvent = { t: number; kind: DecisionKind; detail?: string };
+/** B축에 세는 종류 — 위 표에서 등급이 "결정"인 것 */
+export const GRADED_KINDS: DecisionKind[] = ["base", "tip", "dispatch", "unlock", "keep", "foreman"];
+
+export type DecisionEvent = {
+  t: number; kind: DecisionKind; detail?: string;
+  /** 등급이 결정인가(B축에 세는가) */
+  graded: boolean;
+};
+
+/** `autoFocused`는 v0.6.6 P2-가가 `Tip`에 넣는다 — 들어오기 전 엔진에서도 돌게 선택 필드로 읽는다 */
+type TipLike = Tip & { autoFocused?: boolean };
+
+/**
+ * 배너에 뜨는 버튼 — `ui/TipBanner.tsx`의 `findReaction()`과 같은 조건이다. 한쪽을
+ * 고치면 다른 쪽도 고친다(계측 자와 화면이 다른 말을 하면 B축이 거짓이 된다).
+ * - 대상 거점에 on_site 팀 → [집중 굴착]. 단 `autoFocused`면 버튼이 없다.
+ * - 아니면 유휴 팀의 압축 이동시간(항해술 반영) ≤ `EMERGENCY_DISPATCH_MAX_REACH_HOURS` → [급파].
+ * - 레거시 직접 발굴만 그 자리에 있으면 버튼이 없다(추격 중 통보).
+ * - 결판이 난 배너(`resolved`)에는 버튼이 없다.
+ */
+export function tipButton(w: World, tip: TipLike): "focus" | "emergency" | null {
+  if (tip.resolved) return null;
+  const onSite = w.teams.some((t) => t.status === "on_site" && t.targetSite === tip.site);
+  if (onSite) return tip.autoFocused ? null : "focus";
+  const dist = distanceKm(teamHomeSite(w), tip.site);
+  for (const t of w.teams) {
+    if (t.status !== "idle") continue;
+    const foreman = w.staff.find((s) => s.id === t.foremanId && s.role === "foreman") as Foreman | undefined;
+    const hours = travelHoursOneWay(dist, foreman?.navigation ?? 0) * EMERGENCY_DISPATCH_TRAVEL_MULT;
+    if (hours <= EMERGENCY_DISPATCH_MAX_REACH_HOURS) return "emergency";
+  }
+  return null;
+}
 
 /**
  * 결정 감시자 — World를 **읽기만** 한다. 엔진에 카운터를 심지 않는 이유는
  * 세이브 스키마를 계측 때문에 늘리지 않기 위해서다(계측은 게임의 일부가 아니다).
+ *
+ * 정책은 `advance()` **앞에서** 누르므로, "할 수 있게 됐다"와 "했다"가 같은 틱에
+ * 끝나 감시자가 제시 순간을 못 보는 경우가 있다(운영 플레이의 거점 해금 — 매각으로
+ * 자금이 문턱을 넘자마자 연다. 옛 자는 그래서 운영 플레이의 해금을 한 번도 못
+ * 셌다). 해금·고용은 **제시(가능해진 순간)**와 **실행(개수가 늘어난 순간)** 중
+ * 먼저 보인 쪽에서 한 번만 센다.
  */
 class DecisionWatcher {
   readonly events: DecisionEvent[] = [];
   private sawFirstAppraisal = false;
-  private lastTipId: string | null = null;
+  private lastTipKey: string | null = null;
+  private tipCounted = false;
+  private tipLegacy = false;
   private lastTeamStatuses = "";
   private unlockAffordable = false;
+  private unlockOfferCounted = false;
+  private lastOwned = 0;
+  private hireOfferCounted = false;
+  private lastForemen = 0;
+  private lastMaxTeams = 0;
+  /** 첫 틱에 기준선을 잡았는가 — 시작 발굴단은 감시자 생성 뒤에 붙는다 */
+  private primed = false;
+  /** 첫 원정을 이미 나간 팀. 시작 발굴단의 첫 파견은 자동이라 결정이 아니다 */
+  private dispatchedOnce = new Set<string>();
 
   constructor(w: World) {
     this.lastTeamStatuses = statuses(w);
     this.unlockAffordable = canUnlockNow(w);
+    this.lastOwned = ownedCount(w);
+    this.lastMaxTeams = w.maxTeams;
+  }
+
+  /** v0.6.5까지의 자가 결정으로 셌을 시각들(전·후 비교용). 등급과 따로 센다 */
+  readonly legacyTimes: number[] = [];
+
+  private push(t: number, kind: DecisionKind, legacy: boolean, detail?: string) {
+    this.events.push({ t, kind, detail, graded: GRADED_KINDS.includes(kind) });
+    if (legacy) this.legacyTimes.push(t);
   }
 
   tick(w: World, report?: StepReport) {
     const t = w.t;
+    if (!this.primed) {
+      this.primed = true;
+      for (const x of w.teams) this.dispatchedOnce.add(x.id);
+      this.lastForemen = foremenCount(w);
+    }
 
     // ① 본거지 — 첫 감정이 끝나는 순간 오버레이가 열린다(useGame.ts).
     if (!this.sawFirstAppraisal && report && report.appraised.length > 0) {
       this.sawFirstAppraisal = true;
       if (t < FIRST_RELOCATION_FREE_WINDOW_HOURS * 3600) {
-        this.events.push({ t, kind: "base", detail: "본거지 3장 카드(무료 창)" });
+        this.push(t, "base", true, "본거지 3장 카드(무료 창)");
       }
     }
 
@@ -123,19 +221,40 @@ class DecisionWatcher {
     if (report) {
       for (const a of report.appraised) {
         if (a.tier >= 3) {
-          this.events.push({ t, kind: "keep", detail: `${ARTIFACT_BY_ID[a.artifactId]?.name ?? a.artifactId} T${a.tier}` });
+          this.push(t, "keep", true, `${ARTIFACT_BY_ID[a.artifactId]?.name ?? a.artifactId} T${a.tier}`);
         }
       }
     }
 
-    // ② 제보 — 반응 수단이 있을 때만 결정이다. 수단이 없으면 배너는 통보다.
-    const tipId = w.tip ? `${w.tip.artifactId}@${w.tip.site}` : null;
-    if (tipId && tipId !== this.lastTipId && w.tip && playerCanReactAt(w, w.tip.site)) {
-      this.events.push({ t, kind: "tip", detail: `${w.tip.site} ${w.tip.layer}층` });
+    // ② 제보 — 배너에 버튼이 뜰 때만 결정이다. 버튼이 없으면 배너는 통보다.
+    const tip = w.tip as TipLike | null;
+    const tipKey = tip ? `${tip.artifactId}@${tip.site}@${tip.openedAt}` : null;
+    if (tip && tipKey !== this.lastTipKey) {
+      this.tipCounted = false;
+      // 옛 자: 새 제보가 뜬 순간 playerCanReactAt이 참이면 셌다
+      this.tipLegacy = playerCanReactAt(w, tip.site);
+      const button = tipButton(w, tip);
+      if (!button) {
+        // 버튼 없이 뜬 제보는 뜬 순간 통보로 적는다(도중에 버튼이 생기면 아래에서 다시 센다)
+        this.push(t, "tipNotice", this.tipLegacy, tipDetail(tip));
+        this.tipLegacy = false;
+      }
     }
-    this.lastTipId = tipId;
+    if (tip && !this.tipCounted) {
+      const button = tipButton(w, tip);
+      if (button) {
+        this.tipCounted = true;
+        const tier = ARTIFACT_BY_ID[tip.artifactId]?.tier ?? 0;
+        // 진귀 이하의 [집중 굴착]은 원정당 한 번 누르면 모든 축에서 이긴다(§5.2)
+        const kind: DecisionKind = button === "emergency" || tier >= 4 ? "tip" : "tipFocus";
+        this.push(t, kind, this.tipLegacy, `${tipDetail(tip)} [${button === "focus" ? "집중 굴착" : "급파"}]`);
+        this.tipLegacy = false;
+      }
+    }
+    this.lastTipKey = tipKey;
 
-    // ③ 원정 목적지 — 파견이 일어난 순간이 곧 "어디로 보낼 것인가"가 닫힌 순간이다.
+    // ③ 원정 목적지 — 파견 시각이 새로 찍히는 순간이 "어디로 보낼 것인가"가 닫힌 순간이다.
+    //    새 발굴단의 첫 목적지만 결정이다. 귀환 뒤 재파견은 루틴(기본 켬)이 고른다 — 잡무.
     const cur = statuses(w);
     if (cur !== this.lastTeamStatuses) {
       const before = new Map(
@@ -144,23 +263,70 @@ class DecisionWatcher {
       );
       for (const entry of cur.split(",").filter(Boolean)) {
         const [id, target, at, st] = entry.split(":");
-        // "어디로 보낼 것인가"가 닫히는 순간 = 파견 시각이 새로 찍히는 순간.
-        // 거리 0 원정·같은 틱 재파견 둘 다 이 기준으로만 잡힌다(telemetry.ts 참조).
         const was = before.get(id);
-        if (was && (Number(at) > was.at || (was.st === "idle" && st !== "idle"))) {
-          this.events.push({ t, kind: "dispatch", detail: target });
+        // 옛 자와 같은 조건 — 기존 팀의 파견 시각이 새로 찍혔거나 유휴에서 나갔다.
+        // 거리 0 원정·같은 틱 재파견 둘 다 이 기준으로만 잡힌다(telemetry.ts 참조).
+        const legacyDispatch = !!was && (Number(at) > was.at || (was.st === "idle" && st !== "idle"));
+        // 새로 꾸려진 팀이 같은 틱에 바로 나간 경우(운영 정책) — 옛 자는 이것을 놓쳤다
+        const fresh = !was && st !== "idle";
+        if (!legacyDispatch && !fresh) continue;
+        if (!this.dispatchedOnce.has(id)) {
+          this.dispatchedOnce.add(id);
+          this.push(t, "dispatch", legacyDispatch, `${target}(새 발굴단 첫 원정)`);
+        } else {
+          this.push(t, "routine", legacyDispatch, target);
         }
       }
       this.lastTeamStatuses = cur;
     }
 
-    // ④ 거점 해금 — "지금 열 수 있게 됐다"가 열리는 순간이 결정의 제시다.
+    // ④ 거점 해금 — "지금 열 수 있게 됐다"(제시) 또는 "열었다"(실행) 중 먼저 보인 쪽.
     const affordable = canUnlockNow(w);
+    const owned = ownedCount(w);
+    if (owned > this.lastOwned) {
+      if (!this.unlockOfferCounted) this.push(t, "unlock", false, "거점을 열었다(제시와 같은 틱)");
+      this.unlockOfferCounted = false;
+    }
     if (affordable && !this.unlockAffordable) {
-      this.events.push({ t, kind: "unlock", detail: "해금 가능한 거점이 생겼다" });
+      // 옛 자는 "가능해진 순간"마다 셌다 — 자동 재투자로 잔고가 문턱을 오르내리면
+      // 같은 선택지가 여러 번 찍혔다. 등급 기준은 열 때까지 한 번만 센다.
+      this.legacyTimes.push(t);
+      if (!this.unlockOfferCounted) {
+        this.push(t, "unlock", false, "해금 가능한 거점이 생겼다");
+        this.unlockOfferCounted = true;
+      }
     }
     this.unlockAffordable = affordable;
+    this.lastOwned = owned;
+
+    // ⑥ 슬롯 해금 — 지배 전략. 기록만 한다.
+    if (w.maxTeams > this.lastMaxTeams) this.push(t, "slot", false, `${w.maxTeams}번째 슬롯`);
+    this.lastMaxTeams = w.maxTeams;
+
+    // ⑦ 단장 고용 — 빈 슬롯 + 고용비가 있으면 후보 3명 카드가 눌린다(TeamPanel.tsx).
+    const foremen = foremenCount(w);
+    if (foremen > this.lastForemen) {
+      if (!this.hireOfferCounted) this.push(t, "foreman", false, "단장 고용(제시와 같은 틱)");
+      this.hireOfferCounted = false;
+    }
+    if (w.teams.length < w.maxTeams && w.funds >= FOREMAN_HIRE_COST && !this.hireOfferCounted) {
+      this.push(t, "foreman", false, "단장 후보 3명");
+      this.hireOfferCounted = true;
+    }
+    this.lastForemen = foremen;
   }
+}
+
+function tipDetail(tip: Tip): string {
+  return `${tip.site} ${tip.layer}층 T${ARTIFACT_BY_ID[tip.artifactId]?.tier ?? 0}`;
+}
+
+function ownedCount(w: World): number {
+  return SITES.filter((s) => w.sites[s.id].unlocked).length;
+}
+
+function foremenCount(w: World): number {
+  return w.staff.filter((s) => s.role === "foreman").length;
 }
 
 function statuses(w: World): string {
@@ -168,7 +334,7 @@ function statuses(w: World): string {
 }
 
 function canUnlockNow(w: World): boolean {
-  const owned = SITES.filter((s) => w.sites[s.id].unlocked).length;
+  const owned = ownedCount(w);
   // 상한은 안목이 연다(G91) — 계측도 엔진과 같은 함수를 써야 선택지 수가 맞는다
   if (owned >= ownedSiteCap(w)) return false;
   return SITES.some((s) => !w.sites[s.id].unlocked && w.funds >= s.unlockCost);
@@ -205,7 +371,14 @@ export type RunLedger = {
   label: "idle" | "active";
   seed: number;
   /** A */ kinds1m: number; kinds10m: number;
-  /** B */ decisions1m: number; decisions10m: number;
+  /** B — 등급 기준(결정만). 게이트가 보는 값 */ decisions1m: number; decisions10m: number;
+  decisions1h: number;
+  /** B — 등급 결정 사이의 최장 간격(초). 창의 시작(0초)과 끝도 경계로 친다 */
+  decisionMaxGap10m: number; decisionMaxGap1h: number; decisionGapFrom1h: number;
+  /** B — 버튼 기준(지배 전략·잡무를 빼기 전). 등급 기준과의 차이를 보기 위한 참고값 */
+  buttonDecisions10m: number;
+  /** B — v0.6.5까지의 자로 잰 값(전·후 비교용) */
+  legacyDecisions1m: number; legacyDecisions10m: number;
   /** C */ tension1m: number; tension10m: number; wins10m: number; losses10m: number;
   /** D */ ambient10m: number; meaningful10m: number; ratio10m: number;
   /** E */ firstTip: number | null; firstRaceResult: number | null;
@@ -217,11 +390,27 @@ export type RunLedger = {
   /** 참고 상태 — **10분 시점**의 값이다(끝값이 아니다) */
   codex10m: number; dig10m: number; funds10m: number; vault10m: number;
   kindList1m: EventKind[]; kindList10m: EventKind[];
-  decisionKinds10m: Record<string, number>;
+  decisionKinds10m: Record<string, number>; decisionKinds1h: Record<string, number>;
   grid5s: GridRow[]; grid30s: GridRow[];
   tipProbe: { t: number; all: number; stock: number; layer: number; reactable: number; sites: string; myLayer: string }[];
   events: PlayEvent[]; decisions: DecisionEvent[];
 };
+
+/**
+ * [0, until] 안에서 결정 사이의 최장 간격. **창의 양 끝도 경계로 친다** — 시작 후
+ * 첫 결정까지, 마지막 결정 뒤 창 끝까지도 "고를 것이 없는 시간"이기 때문이다.
+ * 같은 틱에 몰린 결정은 간격 0으로 합쳐진다(몰림은 간격이 아니라 결정 수로 본다).
+ */
+function maxGap(list: { t: number }[], until: number): { gap: number; from: number } {
+  const ts = list.filter((d) => d.t <= until).map((d) => d.t).sort((a, b) => a - b);
+  let prev = 0;
+  let best = { gap: 0, from: 0 };
+  for (const t of [...ts, until]) {
+    if (t - prev > best.gap) best = { gap: t - prev, from: prev };
+    prev = Math.max(prev, t);
+  }
+  return best;
+}
 
 /** 제보 풀 진단을 찍는 시각(초) — 첫 1분을 촘촘히 본다 */
 const PROBE_TIMES = [5, 15, 30, 60, 120, 300, 600, 1800, 3600, 7200, 14400];
@@ -247,7 +436,9 @@ function runOne(label: "idle" | "active", seed: number, tailSeconds: number): Ru
   let fundsAt10m = 0;
   let vaultAt10m = 0;
 
-  const total = Math.max(tailSeconds, TEN_MIN);
+  // 꼬리(§6.3)는 [10분, tailEnd]를 보고, 판 자체는 B축 1시간 지표를 위해 최소 1시간을 돈다
+  const tailEnd = Math.max(tailSeconds, TEN_MIN);
+  const total = Math.max(tailEnd, HOUR);
   while (w.t < total && !w.ended) {
     const stepNow = w.t < FINE_UNTIL ? FINE_STEP : STEP_LATE;
     if (label === "active") {
@@ -295,6 +486,8 @@ function runOne(label: "idle" | "active", seed: number, tailSeconds: number): Ru
 
   const events = rec.events;
   const decisions = dec.events;
+  const graded = decisions.filter((d) => d.graded);
+  const legacy = dec.legacyTimes.map((t) => ({ t }));
 
   /**
    * 창은 **[from, to]** 로 읽는다. `from`의 기본값이 -1인 이유: 첫 원정 파견처럼
@@ -342,13 +535,13 @@ function runOne(label: "idle" | "active", seed: number, tailSeconds: number): Ru
 
   // §6.3 — 10분 이후 꼬리의 최장 무의미 구간
   const tailTimes = events
-    .filter((e) => MEANINGFUL.includes(e.kind) && e.t > TEN_MIN && e.t <= total)
+    .filter((e) => MEANINGFUL.includes(e.kind) && e.t > TEN_MIN && e.t <= tailEnd)
     .map((e) => e.t)
     .sort((a, b) => a - b);
   let prev = TEN_MIN;
   let tailMaxGap = 0;
   let tailFrom = TEN_MIN;
-  for (const t of [...tailTimes, Math.min(total, w.t)]) {
+  for (const t of [...tailTimes, Math.min(tailEnd, w.t)]) {
     if (t - prev > tailMaxGap) {
       tailMaxGap = t - prev;
       tailFrom = prev;
@@ -367,7 +560,7 @@ function runOne(label: "idle" | "active", seed: number, tailSeconds: number): Ru
         ambient: sumN(inB, (e) => !MEANINGFUL.includes(e.kind) && e.kind !== "tipClosed"),
         meaningful: sumN(inB, (e) => MEANINGFUL.includes(e.kind)),
         kinds: [...new Set(inB.filter((e) => MEANINGFUL.includes(e.kind)).map((e) => e.kind))],
-        decisions: decisions.filter((d) => (from === 0 ? d.t >= from : d.t > from) && d.t <= to).length,
+        decisions: graded.filter((d) => (from === 0 ? d.t >= from : d.t > from) && d.t <= to).length,
         tension: sumN(inB, (e) => TENSION.includes(e.kind)) + tension.filter((x) => x.t > from && x.t <= to).length,
         // (긴장 격자는 고스트 추월만 담기므로 t=0 경계 예외가 필요 없다)
         codex: 0, dig: 0, funds: 0
@@ -376,13 +569,23 @@ function runOne(label: "idle" | "active", seed: number, tailSeconds: number): Ru
     return rows;
   };
 
-  const decisionKinds10m: Record<string, number> = {};
-  for (const d of inWin(decisions, TEN_MIN)) decisionKinds10m[d.kind] = (decisionKinds10m[d.kind] ?? 0) + 1;
+  /** 내역은 등급과 무관하게 전부 센다 — 무엇을 뺐는지가 보여야 자가 정직하다 */
+  const kindCount = (to: number) => {
+    const out: Record<string, number> = {};
+    for (const d of inWin(decisions, to)) out[d.kind] = (out[d.kind] ?? 0) + 1;
+    return out;
+  };
+  const gap10m = maxGap(graded, TEN_MIN);
+  const gap1h = maxGap(graded, HOUR);
 
   return {
     label, seed,
     kinds1m: kindList1m.length, kinds10m: kindList10m.length,
-    decisions1m: inWin(decisions, MINUTE).length, decisions10m: inWin(decisions, TEN_MIN).length,
+    decisions1m: inWin(graded, MINUTE).length, decisions10m: inWin(graded, TEN_MIN).length,
+    decisions1h: inWin(graded, HOUR).length,
+    decisionMaxGap10m: gap10m.gap, decisionMaxGap1h: gap1h.gap, decisionGapFrom1h: gap1h.from,
+    buttonDecisions10m: inWin(decisions, TEN_MIN).filter((d) => d.graded || d.kind === "tipFocus").length,
+    legacyDecisions1m: inWin(legacy, MINUTE).length, legacyDecisions10m: inWin(legacy, TEN_MIN).length,
     tension1m, tension10m, wins10m, losses10m,
     ambient10m, meaningful10m, ratio10m: meaningful10m > 0 ? ambient10m / meaningful10m : Infinity,
     firstTip, firstRaceResult, firstT4Encounter, firstSiteUnlock,
@@ -393,7 +596,7 @@ function runOne(label: "idle" | "active", seed: number, tailSeconds: number): Ru
     codex10m: codexAt10m || codexProgress(w).owned,
     dig10m: digAt10m || digPower(w),
     funds10m: fundsAt10m, vault10m: vaultAt10m,
-    kindList1m, kindList10m, decisionKinds10m,
+    kindList1m, kindList10m, decisionKinds10m: kindCount(TEN_MIN), decisionKinds1h: kindCount(HOUR),
     grid5s: buildGrid(5, MINUTE), grid30s: buildGrid(30, TEN_MIN),
     tipProbe: probe, events, decisions
   };
@@ -415,6 +618,12 @@ const fmtT = (v: number) => (Number.isFinite(v) ? duration(v) : "도달 못 함"
 type AxisRow = {
   axis: string; window: string; goal: string;
   med: string; worst: string; pass: boolean;
+  /**
+   * `gate` — 통과해야 하는 축. `report` — 목표는 있지만 현재 빌드가 구조적으로
+   * 못 닿는 새 축이라 **보고만** 한다(기준을 낮춘 것이 아니라 아직 판정에 넣지
+   * 않은 것이다). `ref` — 목표 없이 옆에 적어 두는 참고값.
+   */
+  mode: "gate" | "report" | "ref";
 };
 
 function ledgerTable(runs: RunLedger[], strict: boolean): AxisRow[] {
@@ -423,17 +632,23 @@ function ledgerTable(runs: RunLedger[], strict: boolean): AxisRow[] {
   const add = (
     axis: string, window: string, goal: string,
     values: number[], ok: (v: number) => boolean, fmt: (v: number) => string,
-    worst: (xs: number[]) => number
+    worst: (xs: number[]) => number, mode: AxisRow["mode"] = "gate"
   ) => {
     const m = median(values);
     const wv = worst(values);
-    rows.push({ axis, window, goal, med: fmt(m), worst: fmt(wv), pass: ok(strict ? wv : m) });
+    rows.push({ axis, window, goal, med: fmt(m), worst: fmt(wv), pass: ok(strict ? wv : m), mode });
   };
+  const always = () => true;
 
   add("A 사건 종류", "첫 1분", "≥5종", col((r) => r.kinds1m), (v) => v >= 5, (v) => `${v}종`, worstLow);
   add("A 사건 종류", "첫 10분", "≥12종", col((r) => r.kinds10m), (v) => v >= 12, (v) => `${v}종`, worstLow);
+  // B축은 등급 기준(결정만)이다 — DecisionWatcher 주석의 표 참조
   add("B 결정", "첫 1분", "≥1회", col((r) => r.decisions1m), (v) => v >= 1, (v) => `${v}회`, worstLow);
   add("B 결정", "첫 10분", "≥5회", col((r) => r.decisions10m), (v) => v >= 5, (v) => `${v}회`, worstLow);
+  add("B 결정", "첫 1시간", "—", col((r) => r.decisions1h), always, (v) => `${v}회`, worstLow, "ref");
+  add("B 최장 간격", "첫 10분", "—", col((r) => r.decisionMaxGap10m), always, fmtT, worstHigh, "ref");
+  add("B 최장 간격", "첫 1시간", "≤10분", col((r) => r.decisionMaxGap1h), (v) => v <= TEN_MIN, fmtT, worstHigh, "report");
+  add("B 옛 자", "첫 10분", "—", col((r) => r.legacyDecisions10m), always, (v) => `${v}회`, worstLow, "ref");
   add("C 긴장", "첫 1분", "≥1회", col((r) => r.tension1m), (v) => v >= 1, (v) => `${v}회`, worstLow);
   add("C 긴장", "첫 10분", "≥3회", col((r) => r.tension10m), (v) => v >= 3, (v) => `${v}회`, worstLow);
   add("C 승", "첫 10분", "≥1회", col((r) => r.wins10m), (v) => v >= 1, (v) => `${v}회`, worstLow);
@@ -454,7 +669,8 @@ function printLedger(label: string, runs: RunLedger[], strict: boolean) {
   for (const r of ledgerTable(runs, strict)) {
     console.log(
       `${r.axis.padEnd(18)} ${r.window.padEnd(8)} ${r.goal.padEnd(12)} ` +
-      `${r.med.padStart(11)}  ${r.worst.padStart(11)}   ${r.pass ? "✅" : "❌"}`
+      `${r.med.padStart(11)}  ${r.worst.padStart(11)}   ` +
+      (r.mode === "ref" ? "참고" : r.mode === "report" ? (r.pass ? "✅ (보고)" : "보고 — 미달") : r.pass ? "✅" : "❌")
     );
   }
 }
@@ -554,11 +770,32 @@ for (const [label, runs] of [["운영", activeRuns], ["방치", idleRuns]] as co
   console.log(`${" ".repeat(label.length)}   첫 10분에 없던 것: ${ko(never)}`);
 }
 
-console.log("\n── 결정의 내역(첫 10분, 운영) ──");
-for (const r of activeRuns) {
-  const parts = Object.entries(r.decisionKinds10m).map(([k, n]) => `${k} ${n}`);
-  console.log(`seed ${r.seed}: ${r.decisions10m}회 — ${parts.join(" · ") || "없음"}`);
+/**
+ * 내역은 **뺀 것까지** 적는다. `*`가 붙은 종류는 등급이 결정이 아니라 B축에 세지
+ * 않았다(지배 전략·잡무·통보 — DecisionWatcher 주석의 표). 옛 자는 v0.6.5까지의
+ * 값이다.
+ */
+for (const [label, runs] of [["운영", activeRuns], ["방치", idleRuns]] as const) {
+  for (const [win, pick, count] of [
+    ["첫 10분", (r: RunLedger) => r.decisionKinds10m, (r: RunLedger) => r.decisions10m],
+    ["첫 1시간", (r: RunLedger) => r.decisionKinds1h, (r: RunLedger) => r.decisions1h]
+  ] as const) {
+    console.log(`\n── 결정의 내역(${win}, ${label}) — 결정 수 · 최장 간격 · 옛 자 │ 종류(* = 안 셈) ──`);
+    for (const r of runs) {
+      const parts = Object.entries(pick(r))
+        .sort(([a], [b]) => Number(GRADED_KINDS.includes(b as DecisionKind)) - Number(GRADED_KINDS.includes(a as DecisionKind)))
+        .map(([k, n]) => `${GRADED_KINDS.includes(k as DecisionKind) ? "" : "*"}${k} ${n}`);
+      const gap = win === "첫 10분" ? r.decisionMaxGap10m : r.decisionMaxGap1h;
+      const old = win === "첫 10분" ? ` · 옛 자 ${r.legacyDecisions10m}회` : "";
+      const at = win === "첫 1시간" ? `(${duration(r.decisionGapFrom1h)}부터)` : "";
+      console.log(`seed ${r.seed}: ${count(r)}회 · 최장 ${duration(gap)}${at}${old} │ ${parts.join(" · ") || "없음"}`);
+    }
+  }
 }
+console.log(
+  "※ B 최장 간격(첫 1시간) ≤10분은 v0.6.6에서 새로 세운 축이다(decision-tree-10h.md §6 P8). " +
+  "현재 빌드가 닿지 못하는 동안은 게이트가 아니라 '보고'로 적는다."
+);
 
 console.log(`\n── §6.3 절벽 — 10분 이후 ${TAIL_MIN}분 구간의 최장 무의미 구간 ──`);
 for (const [label, runs] of [["운영", activeRuns], ["방치", idleRuns]] as const) {
