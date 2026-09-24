@@ -95,8 +95,8 @@ const FINE_UNTIL = TEN_MIN;
  *
  * | 종류 | 화면 | 기회비용 | 안 누르면 | 등급 |
  * | --- | --- | --- | --- | --- |
- * | `base` | "본거지를 정하자" 오버레이(첫 감정) | 무료 창 12시간 안에서만 무료 | 경주 유지 | 결정(눈먼 결정, §5.1) |
- * | `unlock` | 세계 지도 거점 해금 | base 슬롯 상한·해금비 | 안 연다 | 결정(무게 작음, §5.3) |
+ * | `base` | (v0.6.6에서 폐지 — 첫 거점 카드 `unlock`에 합침) | — | — | — |
+ * | `unlock` | 첫 거점 카드(`FirstBaseChooser`)·세계 지도 거점 해금 | base 슬롯 상한·해금비 | 안 연다 | 결정(무게 작음, §5.3) |
  * | `dispatch` | 새 발굴단의 **첫** 목적지 | 그 회차 동안 다른 거점 포기 | 루틴이 추천 1위로 | 결정 |
  * | `routine` | 귀환 뒤 자동 순회 재파견 | — | 루틴이 알아서 | **잡무 → 자동**(안 셈) |
  * | `tip` | 유일(T4) 제보 [집중 굴착] · 모든 티어 [급파] | 원정비 2~3배·팀을 뺀다 | 28% 자동 추격 / 유일은 놓침 | 결정 |
@@ -208,13 +208,9 @@ class DecisionWatcher {
       this.lastForemen = foremenCount(w);
     }
 
-    // ① 본거지 — 첫 감정이 끝나는 순간 오버레이가 열린다(useGame.ts).
-    if (!this.sawFirstAppraisal && report && report.appraised.length > 0) {
-      this.sawFirstAppraisal = true;
-      if (t < FIRST_RELOCATION_FREE_WINDOW_HOURS * 3600) {
-        this.push(t, "base", true, "본거지 3장 카드(무료 창)");
-      }
-    }
+    // ① 본거지 — v0.6.6에서 첫 감정 시점의 "본거지를 정하자" 오버레이를 없앴다
+    //    (`notes/decision-tree-10h.md` P1). 그 결정은 첫 거점 해금 카드(④ `unlock`)에
+    //    합쳐졌으므로 여기서는 따로 세지 않는다 — 같은 결정을 두 번 세지 않기 위해서다.
 
     // ⑤ 보유/매각 — 진귀(T3) 이상이 감정돼 소장고에 들어오면 그 자리에서
     //    "팔아 성장할 것인가, 쥐고 점수로 둘 것인가"가 돌아온다(brief.md §문제/동기).
