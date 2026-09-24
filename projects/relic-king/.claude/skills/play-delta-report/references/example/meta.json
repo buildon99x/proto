@@ -1,0 +1,11 @@
+{
+  "title": "유물왕 첫 10분",
+  "beforeLabel": "v0.5.1",
+  "afterLabel": "v0.6.5",
+  "beforeRef": "e992f28 · 브랜치 시작점",
+  "afterRef": "20a60e2 · main, 달러 합류 포함",
+  "date": "2026-09-24",
+  "ending": {"before": "140시간 36분", "after": "16시간 1분",
+             "note": "8.8배 압축. 앞은 기록값(changelog 0.5.1), 뒤는 합류 뒤 다시 잰 값(sim 48시간)"},
+  "recorded": {"firstT4Encounter": "2시간 11분", "firstSiteUnlock": "1시간 18분"}
+}

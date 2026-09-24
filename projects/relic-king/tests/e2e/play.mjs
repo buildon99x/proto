@@ -20,7 +20,10 @@ const flag = (k, d) => {
 };
 const SPEED = Number(flag("--speed", 12));
 const OUT = path.resolve(ROOT, flag("--out", "assets/screenshots/play"));
-const wanted = argv.filter((a) => !a.startsWith("--") && !/^\d+$/.test(a));
+// 값을 받는 플래그 바로 뒤의 인자는 시나리오 이름이 아니다. 예전에는 숫자만 걸러서
+// `--out /tmp/x`의 경로가 시나리오로 읽혀 아무것도 돌지 않았다.
+const VALUE_FLAGS = new Set(["--speed", "--out"]);
+const wanted = argv.filter((a, i) => !a.startsWith("--") && !VALUE_FLAGS.has(argv[i - 1]));
 
 const results = [];
 let port = 4400;
