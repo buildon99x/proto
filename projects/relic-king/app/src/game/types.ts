@@ -276,6 +276,11 @@ export type Tip = {
   /** [집중 굴착]을 눌렀는가(spec.md §8.6, G45/A8) — TIP_PLAYER_HIT 대신
    *  TIP_FOCUS_DIG_HIT_CHANCE를 적용하고, 그 팀의 원정비를 2배로 만든다. */
   focused?: boolean;
+  /** 배너가 뜬 시각(world.t, 초). `TIP_MIN_RESPONSE_SECONDS` 반응 유예의 기준이다(v0.6) */
+  openedAt: number;
+  /** 결판이 난 뒤의 상태. 나도 배너는 수명을 다 산다 — 결과를 보여 주고 닫힌다
+   *  (v0.6, `notes/play-telemetry.md` §7.3의 "결과를 몇 초 보여 준 뒤 닫는다"). */
+  resolved?: { outcome: "won" | "lost"; at: number } | null;
 };
 
 export type LogKind = "drop" | "rival" | "lost" | "won" | "system";
@@ -339,7 +344,7 @@ export type SeasonState = {
 };
 
 export type World = {
-  version: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+  version: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
   t: number;
   lastTickAt: number;
   funds: number;
@@ -355,6 +360,22 @@ export type World = {
   codex: Record<string, CodexState>;
   tip: Tip | null;
   nextTipIn: number;
+  /**
+   * 직전 제보가 유일(T4)이었는가 — 유일이 **연달아 편성되지 않게** 하는 한 칸짜리
+   * 기억이다(`TIP_UNIQUE_PRIORITY`, engine.ts `spawnTip`).
+   *
+   * 선택 필드라 **세이브 버전을 올리지 않는다**: 값이 없으면 `false`로 읽히고,
+   * 그 경우 다음 제보가 유일이 될 수 있을 뿐이라 옛 세이브가 겪는 차이는 제보
+   * 한 번의 대상뿐이다. 진행 중이던 판정·원장·진척 중 어느 것도 이 값에 걸려
+   * 있지 않다(v10→v11이 층 진척을 환산해야 했던 것과는 성격이 다르다).
+   */
+  lastTipWasUnique?: boolean;
+  /**
+   * 유일 제보가 이 세이브에서 한 번이라도 결판났는가 — "첫 유일은 대응해야 한다"를
+   * 한 번만 가르치기 위한 표식이다(`TIP_FIRST_UNIQUE_TAUGHT`). `lastTipWasUnique`와
+   * 같은 이유로 선택 필드이고 세이브 버전을 올리지 않는다(없으면 아직 안 배운 것).
+   */
+  taughtUniqueLoss?: boolean;
   log: LogEntry[];
   settings: Settings;
   stats: Stats;
@@ -528,7 +549,7 @@ export type ExpeditionTeam = {
    *  finalizeExpedition의 원정비 노셔널 계산이 귀환 시점(최종) 층만 쓰면, 한
    *  회차 안에서 여러 층을 오른 원정의 초반 저층 구간까지 최종(최고)층 단가로
    *  소급 청구해 원정비가 실제 벌어들인 현금 유동성보다 훨씬 크게 튄다(실측 —
-   *  팀 하나가 왕복 한 번에 수천만~수억 원을 청구당해 funds가 영구 마이너스로
+   *  팀 하나가 왕복 한 번에 수천만~수억 달러를 청구당해 funds가 영구 마이너스로
    *  고정됐다). 파견 시점 층과 귀환 시점 층 두 지점의 단가를 평균해 이 소급
    *  과청구를 완화한다. */
   layerAtDispatch: number;

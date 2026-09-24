@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { vaultCareLine } from "./vaultCare";
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import {
   APPRAISAL_UNLOCK_LAB_LEVEL, APPRAISE_FEE, AUCTION_SETTLE_HOURS, AUTO_SELL_SPARE_MAX_TIER, BLIND_SELL_RATE, CONDITION_NAME,
   LOCKED_HOLD_CAP, SITES, SITE_BY_ID, TIER_NAME, appraiseSeconds, vaultCapacity
 } from "../game/balance";
 import {
-  auctionFreeSlots, bulkVaultTargets, freshnessOf, museumOf, museumSlotCount, spareVaultItems, speciesEmptiedBy
+  auctionFreeSlots, bulkVaultTargets, codexProgress, freshnessOf, museumOf, museumSlotCount,
+  spareVaultItems, speciesEmptiedBy
 } from "../game/engine";
 import { usd } from "../game/format";
 import { museumVisitorIncomeHourly, museumVisitorsPerDay } from "../game/museum";
@@ -291,7 +293,7 @@ function SpareStrip({ game }: { game: Game }) {
   const targeted = spareVaultItems(world, rule);
   const targetedValue = targeted.reduce((sum, i) => sum + i.value, 0);
   const stored = world.vault.filter((v) => !v.displayed).length;
-  const capacity = vaultCapacity(world.vaultLevel);
+  const capacity = vaultCapacity(world.vaultLevel, codexProgress(world).owned);
   const toAuction = world.settings.spareDestination === "auction";
   const noHouse = toAuction && world.auctionHouses.length === 0;
 
@@ -340,10 +342,7 @@ function SpareStrip({ game }: { game: Game }) {
         </button>
       </div>
       {stored > capacity ? (
-        <p className="stalled small">
-          소장고 정원 {capacity}점을 {stored - capacity}점 넘겼다 — 넘긴 동안은 <strong>모든</strong> 소장 유물의
-          보존 상태 저하 확률이 2배가 된다.
-        </p>
+        <p className="stalled small">{vaultCareLine(world)}</p>
       ) : noHouse ? (
         <p className="stalled small">
           보낼 곳이 <strong>경매 출품</strong>인데 경매장이 없다 — 시설 탭에서 먼저 짓는다. 그때까지 중복분은

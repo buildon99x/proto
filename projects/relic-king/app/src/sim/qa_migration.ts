@@ -1,5 +1,5 @@
 /**
- * 세이브 마이그레이션 v1→v2→v3→v4→v5→v6→v7→v8→v9 직접 검증.
+ * 세이브 마이그레이션 v1→…→v9→v10→v11 직접 검증.
  *
  *   pnpm --filter relic-king exec tsx src/sim/qa_migration.ts
  *
@@ -20,8 +20,9 @@
  * 승계되는지의 실제 증거다.
  */
 import { deserialize, serialize } from "../game/save";
+import { AUTO_SELL_SPARE_MAX_TIER } from "../game/balance";
 import { ARTIFACTS } from "../game/artifacts";
-import { CONDITION_INITIAL_BASE_BY_TIER } from "../game/balance";
+import { CONDITION_INITIAL_BASE_BY_TIER, TIP_MIN_RESPONSE_SECONDS, layerCost } from "../game/balance";
 import { createLedger, createWorld } from "../game/engine";
 import type { World } from "../game/types";
 
@@ -73,7 +74,7 @@ console.log("──────── qa_migration: v1 → v2 → v3 ───�
 const migrated = deserialize(JSON.stringify(v1Raw)) as World;
 
 // ── 2) 스키마 버전 — 체인 끝(v9)까지 올라간다 ───────────────────────────
-check("version이 10으로 올라간다(체인 끝까지)", migrated.version === 10);
+check("version이 11로 올라간다(체인 끝까지)", migrated.version === 11);
 check("autoSellBelow가 기본값(1)으로 올라간다(체인 끝까지)", migrated.settings.autoSellBelow === 1);
 check("autoReinvest가 채워진다(체인 끝까지)", migrated.settings.autoReinvest === true);
 check("rivals[].homeSite가 채워진다(체인 끝까지)",
@@ -114,7 +115,7 @@ check("기존 보유 거점(korea)은 baseSince 0으로 보수적으로 채워�
 check("기존 미보유 거점(rome)은 baseSince null로 채워진다",
   migrated.sites.rome.unlocked === false && migrated.sites.rome.baseSince === null);
 // v0.3.4부터는 **빈 채로 두지 않는다.** 발굴단도 단장도 가져 본 적 없는 세이브는
-// 지금도 단장 고용비 200,000₩ 앞에 멈춰 있고, 그게 "탭만 열어 두면 2일차부터
+// 지금도 단장 고용비 $200,000 앞에 멈춰 있고, 그게 "탭만 열어 두면 2일차부터
 // 아무 일도 안 일어난다"의 직접 원인이다(notes/play-telemetry.md §1). 결함 수정이라
 // 기존 세이브에도 처방을 적용한다(v6→v7이 autoSellBelow를 올려 준 것과 같은 논리).
 check("발굴단도 단장도 없던 세이브에는 시작 발굴단이 지급된다",
@@ -131,12 +132,12 @@ check("lastRelocationAt이 null로 채워진다", migrated.lastRelocationAt === 
 // ── 6) 마이그레이션 결과가 다시 직렬화·역직렬화돼도 안정적이다(왕복) ──────────
 const roundTrip = deserialize(serialize(migrated)) as World;
 check("마이그레이션 결과를 다시 직렬화→역직렬화해도 동일하다",
-  roundTrip.version === 10 && roundTrip.funds === migrated.funds && roundTrip.vault.length === migrated.vault.length
+  roundTrip.version === 11 && roundTrip.funds === migrated.funds && roundTrip.vault.length === migrated.vault.length
     && roundTrip.teams.length === migrated.teams.length);
 
 // ── 7) v4 세이브(이미 최신)를 다시 넣으면 아무 변환도 일어나지 않는다(체인 정지) ──
 const v5Again = deserialize(serialize(migrated)) as World;
-check("이미 최신 버전인 세이브는 재마이그레이션되지 않는다", v5Again.version === 10);
+check("이미 최신 버전인 세이브는 재마이그레이션되지 않는다", v5Again.version === 11);
 
 // ── 8) v2 → v3 단독 구간도 같은 방식으로 검증한다(손으로 만든 실제 v2 세이브 모양) ──
 console.log("\n──────── qa_migration: v2 → v3 ────────");
@@ -164,7 +165,7 @@ const v2Raw = {
 const migratedV3 = deserialize(JSON.stringify(v2Raw)) as World;
 // v2Raw를 넣으면 체인이 끝(v4)까지 이어진다 — 2→3에서 멈추지 않는다(체인 자체가
 // while(MIGRATIONS[version])이라 다음 칸(3→4)이 있으면 계속 올라간다).
-check("v2 → v10 버전 승격(체인 끝까지)", migratedV3.version === 10);
+check("v2 → v11 버전 승격(체인 끝까지)", migratedV3.version === 11);
 check("v2 funds·t 무손실 보존", migratedV3.funds === 500_000 && migratedV3.t === 999);
 check("v2에 있던 base(korea·egypt)는 baseSince 0으로 채워진다",
   migratedV3.sites.korea.baseSince === 0 && migratedV3.sites.egypt.baseSince === 0);
@@ -202,7 +203,7 @@ const v3Raw = {
 };
 // v3 → v4 → v5로 체인이 계속 이어진다(위 §8과 같은 이유) — v4 필드까지 함께 확인한다.
 const migratedV4 = deserialize(JSON.stringify(v3Raw)) as World;
-check("v3 → v10 버전 승격(체인 끝까지)", migratedV4.version === 10);
+check("v3 → v11 버전 승격(체인 끝까지)", migratedV4.version === 11);
 check("v3 funds·t 무손실 보존", migratedV4.funds === 100_000 && migratedV4.t === 42);
 check("homeSite가 없던 라이벌마다 favSite 값으로 채워진다",
   migratedV4.rivals.every((r) => (r as any).homeSite === r.favSite));
@@ -231,7 +232,7 @@ const v4Raw = {
 };
 // v4Raw를 넣으면 체인이 끝(v7)까지 이어진다(위 §8·§9와 같은 이유) — v5 필드까지 함께 확인한다.
 const migratedV5 = deserialize(JSON.stringify(v4Raw)) as World;
-check("v4 → v10 버전 승격(체인 끝까지)", migratedV5.version === 10);
+check("v4 → v11 버전 승격(체인 끝까지)", migratedV5.version === 11);
 check("v4 funds·t·vault 무손실 보존",
   migratedV5.funds === 250_000 && migratedV5.t === 500_000 && migratedV5.vault.length === 1);
 check("vaultLevel·humidityLevel·restorationLevel·securityLevel이 1로 채워진다(레벨1 = 업그레이드 전)",
@@ -288,7 +289,7 @@ const v5Raw = {
   onlineElapsedSeconds: 3600
 };
 const migratedV6 = deserialize(JSON.stringify(v5Raw)) as World;
-check("v5 → v10 버전 승격(체인 끝까지)", migratedV6.version === 10);
+check("v5 → v11 버전 승격(체인 끝까지)", migratedV6.version === 11);
 check("v5 funds·t·museums 무손실 보존",
   migratedV6.funds === 400_000 && migratedV6.t === 1_000_000 && migratedV6.museums.length === 1);
 check("museumCumulativeVisitors가 0으로 채워진다", migratedV6.museumCumulativeVisitors === 0);
@@ -334,7 +335,7 @@ const v6Raw = {
   onlineElapsedSeconds: 0, museumCumulativeVisitors: 0
 };
 const migratedV7 = deserialize(JSON.stringify(v6Raw)) as World;
-check("v6 → v10 버전 승격(체인 끝까지)", migratedV7.version === 10);
+check("v6 → v11 버전 승격(체인 끝까지)", migratedV7.version === 11);
 check("v6 funds·t·pending 무손실 보존",
   migratedV7.funds === 12_000 && migratedV7.t === 2_000_000 && migratedV7.pending.length === 1);
 check("이미 꺼져 있던(null) autoSellBelow가 기본값(1)으로 올라간다(척추 4번 — 방치 교착 수정)",
@@ -356,15 +357,29 @@ const v7Raw = {
   settings: { autoSellBelow: 0, muted: true, autoReinvest: false }
 };
 const migratedV8 = deserialize(JSON.stringify(v7Raw)) as World;
-check("v7 → v10 버전 승격(체인 끝까지)", migratedV8.version === 10);
+check("v7 → v11 버전 승격(체인 끝까지)", migratedV8.version === 11);
 check("v7 funds·vault 무손실 보존", migratedV8.funds === 33_000 && migratedV8.vault.length === 1);
 check("autoSellSpareBelow가 끔(null)으로 채워진다 — 기존 플레이어의 소장품을 임의로 팔지 않는다",
   migratedV8.settings.autoSellSpareBelow === null);
 check("플레이어가 직접 고른 기존 설정값은 덮어쓰지 않는다(autoSellBelow 0 · muted true · autoReinvest false)",
   migratedV8.settings.autoSellBelow === 0 && migratedV8.settings.muted === true
     && migratedV8.settings.autoReinvest === false);
-check("새 게임 기본값과 같다(신규·기존 플레이어가 같은 상태에서 시작한다)",
-  migratedV8.settings.autoSellSpareBelow === createWorld().settings.autoSellSpareBelow);
+/**
+ * **전제가 바뀌었다(v0.6.4, G95).** 예전 단언은 "옛 세이브의 값 == 새 게임 기본값"
+ * 이었다 — 기본값이 `null`이던 시절에는 저절로 성립했다. v0.6.4가 중복분 자동
+ * 정리를 **새 게임에서만** 켜면서 둘은 **의도적으로 달라졌다**: 자동 정리는 유물을
+ * 파는 비가역 동작이라, 이미 저장된 세이브에는 소급하지 않는다(루틴을 켜 준
+ * v9→v10과 성격이 다르다 — 그쪽은 진행이 멈춘 교착을 푸는 것이었다).
+ *
+ * 그래서 재야 할 것은 "같다"가 아니라 **"옛 세이브는 꺼진 채, 새 게임은 켜진 채
+ * 시작한다"**는 두 갈래 자체다. 위 단언이 앞쪽을, 이 단언이 뒤쪽을 지킨다.
+ */
+check(
+  `새 게임은 중복 정리가 켜진 채 시작한다(옛 세이브와 의도적으로 다르다 — ` +
+  `새 게임 ${createWorld().settings.autoSellSpareBelow} · 옛 세이브 ${migratedV8.settings.autoSellSpareBelow})`,
+  createWorld().settings.autoSellSpareBelow === AUTO_SELL_SPARE_MAX_TIER
+    && migratedV8.settings.autoSellSpareBelow === null
+);
 
 // ── 14) v8 → v9 단독 구간(기록패·고스트 라이벌, notes/decisions.md G76).
 // 이 구간은 **필드를 새로 요구하지 않는다** — 고스트는 `World.rivals`에 섞여 들어가는
@@ -374,7 +389,7 @@ check("새 게임 기본값과 같다(신규·기존 플레이어가 같은 상�
 console.log("\n──────── qa_migration: v8 → v9 ────────");
 const v8Raw = { ...v7Raw, version: 8, settings: { ...v7Raw.settings, autoSellSpareBelow: null } };
 const migratedV9 = deserialize(JSON.stringify(v8Raw)) as World;
-check("v8 → v10 버전 승격(체인 끝까지 — v9 고스트 칸을 지나 v10까지 간다)", migratedV9.version === 10);
+check("v8 → v11 버전 승격(체인 끝까지 — v9 고스트 칸·v10 계측 칸을 지나 v11까지 간다)", migratedV9.version === 11);
 check("v8 funds·vault 무손실 보존", migratedV9.funds === 33_000 && migratedV9.vault.length === 1);
 check("라이벌 6명이 그대로 남는다", migratedV9.rivals.length === 6);
 check("옛 라이벌에게 고스트 전용 필드가 붙지 않는다",
@@ -399,7 +414,7 @@ const v9Raw = {
   }]
 };
 const migratedV10 = deserialize(JSON.stringify(v9Raw)) as World;
-check("v9 → v10 버전 승격", migratedV10.version === 10);
+check("v9 → v11 버전 승격(v10 칸을 지나간다)", migratedV10.version === 11);
 check("v9 funds 무손실 보존", migratedV10.funds === 44_000);
 check("spareDestination이 'sell'(기존 동작)로 채워진다 — 경매 출품은 선택지 추가이지 결함 수정이 아니다",
   migratedV10.settings.spareDestination === "sell");
@@ -416,6 +431,53 @@ const migratedV10b = deserialize(JSON.stringify(v9NoRoutine)) as World;
 check("루틴이 없던 팀은 자동 순회로 켜진다(귀환 후 영원히 유휴로 멈추는 결함의 처방)",
   migratedV10b.teams[0].routine?.enabled === true && migratedV10b.teams[0].routine?.target === "auto");
 
+// ── 16) v10 → v11 (v0.6 첫 세션 밀도 패스 — 페이싱 재설계) ──────────────────
+// 층 비용 곡선이 `300 × 2.45^(L-1)`에서 `LAYER_COST_BASE × LAYER_COST_GROWTH^(L-1)`로
+// 압축됐다. 옛 세이브의 `layerProgress`는 **옛 눈금의 값**이라 그대로 두면 한
+// 틱에 여러 층을 뚫는다. "이 층을 얼마나 팠는가"의 비율이 보존되는지 본다.
+console.log("\n──────── qa_migration: v10 → v11 ────────");
+const OLD_LAYER_COST = (layerCostMod: number, layer: number) => 300 * Math.pow(2.45, layer - 1) * layerCostMod;
+const v10Raw: any = {
+  ...v9Raw,
+  version: 10,
+  t: 5_000,
+  settings: { ...v9Raw.settings, spareDestination: "sell" },
+  sites: {
+    ...v9Raw.sites,
+    // korea는 layerCostMod = 1. 6층을 딱 절반 판 세이브.
+    korea: { layer: 6, layerProgress: OLD_LAYER_COST(1, 6) / 2, dropProgress: 3, unlocked: true }
+  },
+  tip: {
+    artifactId: t2.id, site: t2.site, layer: t2.minLayer, remain: 40, rivals: [], focused: false
+  }
+};
+const migratedV11 = deserialize(JSON.stringify(v10Raw)) as World;
+check("v10 → v11 버전 승격", migratedV11.version === 11);
+check("층 번호는 그대로다(진척만 새 눈금으로 환산한다)", migratedV11.sites.korea.layer === 6);
+check(
+  "층 진척이 '그 층을 얼마나 팠는가'의 비율로 보존된다(옛 눈금 절반 → 새 눈금 절반)",
+  Math.abs(migratedV11.sites.korea.layerProgress - layerCost("korea", 6) / 2) < 1e-6
+);
+check(
+  "환산된 진척은 그 층의 새 비용을 넘지 않는다(한 틱에 여러 층을 뚫지 않는다)",
+  migratedV11.sites.korea.layerProgress < layerCost("korea", 6)
+);
+check(
+  "저장 당시 떠 있던 제보는 반응 유예를 이미 쓴 것으로 친다(진행 중이던 판의 규칙을 바꾸지 않는다)",
+  migratedV11.tip !== null && migratedV11.t - migratedV11.tip.openedAt >= TIP_MIN_RESPONSE_SECONDS
+);
+check("제보의 결판 상태는 비어 있다", migratedV11.tip?.resolved === null);
+
+// 진척이 새 비용을 넘는 값으로 저장돼 있어도(데이터 손상·손수정) 클램프된다
+const v10Overflow: any = {
+  ...v10Raw,
+  sites: { ...v10Raw.sites, korea: { layer: 6, layerProgress: OLD_LAYER_COST(1, 6) * 9, dropProgress: 0, unlocked: true } }
+};
+const migratedV11b = deserialize(JSON.stringify(v10Overflow)) as World;
+check(
+  "옛 눈금 기준으로도 넘쳐 있던 진척은 그 층 비용으로 클램프된다",
+  Math.abs(migratedV11b.sites.korea.layerProgress - layerCost("korea", 6)) < 1e-6
+);
 
 console.log(failed === 0 ? "\n✅ qa_migration 전체 통과" : `\n❌ qa_migration ${failed}건 실패`);
 process.exit(failed === 0 ? 0 : 1);

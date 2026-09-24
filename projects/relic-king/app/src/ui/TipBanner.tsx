@@ -1,6 +1,9 @@
 import { ARTIFACT_BY_ID } from "../game/artifacts";
-import { EMERGENCY_DISPATCH_MAX_REACH_HOURS, EMERGENCY_DISPATCH_TRAVEL_MULT, SITE_BY_ID, TIER_NAME, TIP_PLAYER_HIT } from "../game/balance";
-import { teamHomeSite } from "../game/engine";
+import {
+  EMERGENCY_DISPATCH_MAX_REACH_HOURS, EMERGENCY_DISPATCH_TRAVEL_MULT, SITE_BY_ID, TIER_NAME,
+  TIP_MIN_RESPONSE_SECONDS, TIP_PLAYER_HIT
+} from "../game/balance";
+import { teamHomeSite, tipRaceOdds } from "../game/engine";
 import { travelHoursOneWay } from "../game/expedition";
 import { distanceKm } from "../game/sites";
 import { clock } from "../game/format";
@@ -46,17 +49,40 @@ function TipContent({ game, tip }: { game: Game; tip: Tip }) {
   // (`eval.md` §19.2). 척추 5번("규칙은 공개한다")은 화면이 실제 규칙과 같은
   // 말을 할 때만 성립한다.
   const legacyOnSite = game.world.activeSite === tip.site && game.world.sites[tip.site].layer >= tip.layer;
+  // 반응 유예(v0.6) — 이 시간 동안은 어느 쪽도 그 유물을 가져가지 못한다.
+  // 남은 유예를 그대로 적는다(척추 5번: 규칙은 공개한다).
+  const graceLeft = tip.resolved ? 0 : Math.max(0, TIP_MIN_RESPONSE_SECONDS - (game.world.t - tip.openedAt));
+  // 마감 판정의 승산을 **엔진이 낸 값 그대로** 적는다(척추 5번 — 화면이 규칙과 같은
+  // 말을 해야 한다). `tipRaceOdds`는 `decideTipRace`와 같은 가중을 쓴다.
+  const odds = tipRaceOdds(game.world, tip);
 
   return (
-    <div className="tip" role="alert">
-      <span className="tip-mark">제보</span>
+    <div className={`tip${tip.resolved ? ` tip-${tip.resolved.outcome}` : ""}`} role="alert">
+      <span className="tip-mark">{tip.resolved ? (tip.resolved.outcome === "won" ? "확보" : "놓침") : "제보"}</span>
       <span className="tip-text">
         <strong>{site.city} {tip.layer}층</strong>에서 반응 — {a.name}{" "}
         <em style={{ color: TIER_COLOR[a.tier] }}>{TIER_NAME[a.tier]}</em>
         {tip.rivals.length > 0 ? <em className="muted"> · 같은 제보를 받은 수집가 {tip.rivals.length}명</em> : null}
       </span>
       <span className="tip-clock">{clock(tip.remain)}</span>
-      {onSite ? (
+      {tip.resolved ? (
+        <span className="tip-resolved small">
+          {tip.resolved.outcome === "won" ? "먼저 도달했다 — 내 것이 됐다" : "한발 늦었다 — 라이벌이 가져갔다"}
+        </span>
+      ) : graceLeft > 0 ? (
+        <span className="tip-grace small">반응 유예 {Math.ceil(graceLeft)}초 — 아직 아무도 못 가져간다</span>
+      ) : (
+        <span className="tip-odds small">
+          {odds.guaranteed
+            ? `첫 제보는 배우는 자리 — 참가하면 확보한다 · 결판까지 ${Math.ceil(odds.decideIn)}초`
+            : odds.needsResponse && odds.playerChance === 0
+              ? `유일 — 대응하지 않으면 놓친다 · 결판까지 ${Math.ceil(odds.decideIn)}초`
+              : `승산 ${Math.round(odds.playerChance * 100)}%(경쟁 ${odds.contenders}명)${
+                  odds.eyeBonus > 0.005 ? ` · 안목 +${Math.round(odds.eyeBonus * 100)}%` : ""
+                }${odds.needsResponse ? " — 유일은 대응해야 승산이 산다" : ""} · 결판까지 ${Math.ceil(odds.decideIn)}초`}
+        </span>
+      )}
+      {tip.resolved ? null : onSite ? (
         <button type="button" disabled={!!tip.focused} onClick={() => game.focusDig(onSite.id)}>
           {tip.focused ? "집중 굴착 적용됨" : "집중 굴착"}
         </button>
@@ -65,7 +91,9 @@ function TipContent({ game, tip }: { game: Game; tip: Tip }) {
           급파
         </button>
       ) : legacyOnSite ? (
-        <span className="tip-racing small">직접 발굴이 이 자리에서 쫓는 중 — 적중 {Math.round(TIP_PLAYER_HIT * 100)}%</span>
+        <span className="tip-racing small">
+          직접 발굴이 이 자리에서 쫓는 중 — 적중 {Math.round(TIP_PLAYER_HIT * 100)}%
+        </span>
       ) : (
         <span className="tip-info-only muted small">반응할 발굴단이 없다 — 정보로만 뜬다</span>
       )}

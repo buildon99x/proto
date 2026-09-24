@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ARTIFACTS } from "../game/artifacts";
 import { SEASON_LENGTH_WEEKS, SITES, SITE_BY_ID, TIER_NAME } from "../game/balance";
-import { codexProgress } from "../game/engine";
+import { codexProgress, eyeRatio, siteEyeRatio } from "../game/engine";
 import { duration, josa, percent } from "../game/format";
 import { siteAnchorLabel } from "../game/sites";
 import { TIER_COLOR } from "../render/palette";
@@ -63,6 +63,26 @@ function CodexGrid({ game }: { game: Game }) {
           <span className="muted">
             소장 {progress.owned} · 소실 {progress.lost} · 전체 {progress.total} ({percent(progress.owned / progress.total)})
           </span>
+        </div>
+
+        {/* 안목 — 도감이 실제로 무엇을 바꾸는지 그 자리에 적는다(G91, 척추 5번) */}
+        <div className="eye-panel">
+          <div className="eye-row">
+            <span className="eye-k">이 거점 안목</span>
+            <span className="eye-bar" aria-hidden="true">
+              <i style={{ width: `${Math.round(siteEyeRatio(world, siteId) * 100)}%` }} />
+            </span>
+            <span className="eye-v">
+              {percent(siteEyeRatio(world, siteId))} · 제보 선점 +{Math.round(siteEyeRatio(world, siteId) * 60)}%
+            </span>
+          </div>
+          <div className="eye-row">
+            <span className="eye-k">전체 안목</span>
+            <span className="eye-bar" aria-hidden="true">
+              <i style={{ width: `${Math.round(eyeRatio(world) * 100)}%` }} />
+            </span>
+            <span className="eye-v">{percent(eyeRatio(world))} · 12거점 평균</span>
+          </div>
         </div>
 
         <div className="base-chips">

@@ -16,7 +16,7 @@
  *      보고용이고, 게이트는 "도감이 대조군보다 나쁘지 않다"이다).
  */
 import { ARTIFACTS, ARTIFACT_BY_ID } from "../game/artifacts";
-import { AUTO_SELL_SPARE_MAX_TIER, CONDITION_INITIAL_BASE_BY_TIER } from "../game/balance";
+import { AUTO_SELL_SPARE_BATCH_MIN, AUTO_SELL_SPARE_MAX_TIER, CONDITION_INITIAL_BASE_BY_TIER } from "../game/balance";
 import {
   advance, assetScore, codexProgress, createWorld, digPower, nextUid, runAutoRoutine, sellSpares,
   spareVaultItems
@@ -85,7 +85,7 @@ function fixture(): World {
   check("국보(T3)·유일(T4)은 중복이 3점 쌓여 있어도 대상이 아니다",
     !spares.some((s) => ARTIFACT_BY_ID[s.artifactId].tier >= 3));
   check("전시 중인 사본은 대상이 아니다", !spares.some((s) => s.displayed));
-  check("보존분은 그 종에서 가장 값비싼 사본이다(T0는 3,000₩짜리가 남는다)",
+  check("보존분은 그 종에서 가장 값비싼 사본이다(T0는 $3,000짜리가 남는다)",
     !spares.some((s) => s.artifactId === t0a && s.value === 3_000));
   check("전시 사본이 보존분 역할을 한다(T1은 비전시 1점이 전부 대상)",
     spares.filter((s) => s.artifactId === t1a).length === 1);
@@ -120,9 +120,18 @@ console.log("\n2. 168시간 방치 — 도감 단조성 회귀 게이트");
 
 const HOURS = 168;
 const ROUTINE_SECONDS = 60;
+/**
+ * 대조군 비교를 **같은 드랍 수**에서 한다(v0.6). 두 월드는 첫 매각부터 갈라지고,
+ * 켠 쪽은 자금이 많아 재투자가 빨라 **더 빨리 자란다** — v0.6의 압축 뒤로는
+ * 168시간 끝에서 발굴력이 9,544/s 대 27,838/s로 3배 차이가 난다. 그 시점의
+ * 도감을 나란히 놓는 건 "같은 게임의 두 설정"이 아니라 **진도가 다른 두 판**을
+ * 비교하는 것이다(실측 −9종). 같은 양을 판 시점에서 보면 질문이 원래 뜻으로
+ * 돌아온다: "같은 만큼 팠을 때, 켠 쪽 도감이 무너지는가."
+ */
+const CODEX_COMPARE_DROPS = 20_000;
 
 function idle(spareRule: Tier | null): {
-  w: World; minCodexDelta: number; sparesLeft: number; highTierLost: number;
+  w: World; minCodexDelta: number; sparesLeft: number; highTierLost: number; codexAtDrops: number;
 } {
   const w = createWorld();
   w.settings.autoSellSpareBelow = spareRule;
@@ -130,6 +139,7 @@ function idle(spareRule: Tier | null): {
   let minCodexDelta = 0;
   let sparesLeft = 0;
   let highTierLost = 0;
+  let codexAtDrops = 0;
   for (let s = 0; s < HOURS * 3600; s += ROUTINE_SECONDS) {
     advance(w, ROUTINE_SECONDS, false, 1);
     // 루틴 **직전**의 국보·유일 목록을 떠 두고 직후와 비교한다 — 이 사이에는
@@ -144,8 +154,9 @@ function idle(spareRule: Tier | null): {
     minCodexDelta = Math.min(minCodexDelta, owned - prevOwned);
     prevOwned = owned;
     sparesLeft = spareVaultItems(w, spareRule).length;
+    if (codexAtDrops === 0 && w.stats.drops >= CODEX_COMPARE_DROPS) codexAtDrops = owned;
   }
-  return { w, minCodexDelta, sparesLeft, highTierLost };
+  return { w, minCodexDelta, sparesLeft, highTierLost, codexAtDrops: codexAtDrops || codexProgress(w).owned };
 }
 
 const on = idle(2);
@@ -153,7 +164,15 @@ const off = idle(null);
 
 check(`자동 정리를 켠 채 ${HOURS}시간 방치해도 도감이 한 틱도 줄지 않는다(최소 틱당 변화 ${on.minCodexDelta})`,
   on.minCodexDelta >= 0);
-check("루틴이 돈 직후에는 기준에 걸리는 중복분이 0점이다", on.sparesLeft === 0);
+/**
+ * **문턱을 반영한다(G95.1 → G114).** 옛 단언은 "루틴이 돈 직후 중복분이 0점"이었는데,
+ * v0.6.5가 중복 정리를 **20점 쌓였을 때 한 번에** 하도록 바꾼 뒤로는 문턱 미만이
+ * 남아 있는 것이 정상이다(G95.1). 그때 이 단언이 통과한 것은 마지막 틱이 우연히
+ * 0점이었기 때문이고, 병렬 브랜치 합류로 경제가 조금 달라지자 드러났다
+ * (관람료 $30, `notes/decisions.md` G114). **기준을 낮춘 게 아니라 설계값을 적었다.**
+ */
+check(`루틴이 돈 뒤 남은 중복분은 배치 문턱 미만이다(${on.sparesLeft}점 < ${AUTO_SELL_SPARE_BATCH_MIN}점)`,
+  on.sparesLeft < AUTO_SELL_SPARE_BATCH_MIN);
 check(`자동 루틴이 국보·유일을 한 점도 건드리지 않았다(소실 ${on.highTierLost}점)`, on.highTierLost === 0);
 
 {
@@ -175,7 +194,7 @@ console.log("\n3. 대조군 비교 — 트레이드오프가 설계한 방향으
 const fmt = (n: number) => Math.round(n).toLocaleString("ko-KR");
 const vaultValue = (w: World) => w.vault.reduce((sum, v) => sum + v.value, 0);
 const row = (label: string, w: World) =>
-  `  ${label}  자금 ${fmt(w.funds).padStart(14)}₩   소장가치 ${fmt(vaultValue(w)).padStart(15)}₩   ` +
+  `  ${label}  자금 $${fmt(w.funds).padStart(14)}   소장가치 $${fmt(vaultValue(w)).padStart(15)}   ` +
   `자산축 ${(assetScore(w) * 100).toFixed(2).padStart(6)}%   도감 ${codexProgress(w).owned}종   ` +
   `소장 ${String(w.vault.length).padStart(3)}점   드랍 ${w.stats.drops}   발굴력 ${digPower(w).toFixed(0)}/s`;
 console.log(row("기능 끔", off.w));
@@ -187,12 +206,38 @@ console.log(row("기능 켬", on.w));
 // 않는다(결정론이 깨진 게 아니라, 서로 다른 두 게임이다). 게이트는 "켜면
 // 도감이 무너진다"를 잡을 만큼만 느슨하게 둔다 — 도감 단조성이라는 진짜
 // 불변식은 위 2번이 틱 단위로 이미 지킨다.
-const codexGap = codexProgress(off.w).owned - codexProgress(on.w).owned;
-check(`켠다고 도감이 무너지지 않는다(끔 대비 ${codexGap >= 0 ? "-" : "+"}${Math.abs(codexGap)}종, 발산 잡음 허용 ±3)`,
-  Math.abs(codexGap) <= 3);
+const codexGap = off.codexAtDrops - on.codexAtDrops;
+// **한쪽 방향만 본다.** 이 게이트가 잡으려는 것은 "켜면 도감이 무너진다"이지
+// "두 판이 똑같다"가 아니다(똑같을 수 없다 — 위 주석 참조). 켠 쪽이 **앞서는**
+// 것은 결함이 아니라 이 기능의 부수 효과다: 중복분을 팔아 생긴 자금이 장비로
+// 가고, 깊은 층이 빨리 열려 같은 드랍 수에서 티어 구성이 좋아진다(실측 +12종).
+check(
+  `켠다고 도감이 무너지지 않는다 — 드랍 ${CODEX_COMPARE_DROPS.toLocaleString("ko-KR")}점 시점 ` +
+  `끔 ${off.codexAtDrops}종 / 켬 ${on.codexAtDrops}종 (켠 쪽 ${codexGap >= 0 ? "-" : "+"}${Math.abs(codexGap)}종, 뒤처짐 허용 3종)`,
+  codexGap <= 3
+);
 check("켠 쪽 소장고가 끈 쪽보다 적다(중복분이 실제로 빠져나갔다)", on.w.vault.length < off.w.vault.length);
-check("켠 쪽 소장 가치가 끈 쪽보다 낮다(자산 축을 깎는 게 이 기능의 대가다)",
-  vaultValue(on.w) < vaultValue(off.w));
+/**
+ * **전제가 뒤집혔다(v0.6.3).** 예전 단언은 "켠 쪽 소장 **총** 가치가 낮다 — 자산 축을
+ * 깎는 게 이 기능의 대가다"였다. 그 전제는 **쌓아 두는 것이 공짜**일 때만 성립한다.
+ *
+ * v0.6.3이 보존 판정 격자를 고치면서(G93 — 압축 이후 저하가 한 판에 한 번도 일어나지
+ * 않고 있었다) 중복분을 안 파는 쪽은 168시간 동안 5,506점을 **전부 썩힌다.** 실측에서
+ * 총 가치가 끔 1,120억₩ · 켬 1,287억₩으로 뒤집혔고, 발굴력도 9,423/s 대 27,838/s다
+ * (판 돈이 장비로 갔다). **기준을 낮춘 게 아니라, 재려던 불변식이 다른 곳에 있었다.**
+ *
+ * 이 기능이 실제로 보장하는 것은 "싼 중복분이 빠진다"이고, 그건 **점당 가치**로
+ * 드러난다(끔 2,036만₩/점 · 켬 6,672만₩/점). 총량 비교는 저하·재투자가 섞인
+ * "서로 다른 두 게임"의 비교라, 이 파일 위쪽 주석이 도감에 대해 적어 둔 것과 같은
+ * 이유로 불변식이 될 수 없다.
+ */
+const unitOff = vaultValue(off.w) / Math.max(1, off.w.vault.length);
+const unitOn = vaultValue(on.w) / Math.max(1, on.w.vault.length);
+check(
+  `켠 쪽 점당 가치가 더 높다 — 싼 중복분이 빠진 결과 ` +
+  `(끔 $${Math.round(unitOff).toLocaleString("ko-KR")}/점 · 켬 $${Math.round(unitOn).toLocaleString("ko-KR")}/점)`,
+  unitOn > unitOff
+);
 
 console.log(failed === 0 ? "\n✅ qa_autosell 전체 통과" : `\n❌ qa_autosell ${failed}건 실패`);
 process.exit(failed === 0 ? 0 : 1);

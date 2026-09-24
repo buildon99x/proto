@@ -5,6 +5,13 @@ import type { Shape, SiteId } from "./types";
  * `unlockCost`·`dropMod`·`tierBias`·`eras`를 v0.1 값 그대로 승계한다(economy.md §1.1의
  * 화폐 창출률 범위를 건드리지 않기 위해 — world-map.md §0). 신규 9거점은
  * `NEW_SITE_DEFS`(world-map.md §9)와 `NEW_SITE_ERAS`(§1.1)를 그대로 옮겼다.
+ *
+ * **v0.6 — `unlockCost`만 1/20로 압축했다.** 순서·비율은 그대로다(3백만→15만,
+ * 8억→4천만). 이 값들은 엔딩 140시간 곡선에 맞춰 잡혀 있었고, 그 결과 첫 거점
+ * 해금이 1시간 18분·로마는 168시간 안에 아예 열리지 않았다(`eval.md` §26 전표).
+ * 수입률은 `PROGRESS_VALUE`에 묶여 있어 깊이 압축으로는 오르지 않으므로
+ * (척추 2번), 시간을 줄이려면 **비용 쪽을 같이 내려야** 한다.
+ * `dropMod`·`layerCostMod`·`tierBias`·`eras`는 한 자리도 건드리지 않았다.
  */
 export type SiteDef = {
   id: SiteId;
@@ -59,7 +66,7 @@ export const SITES: SiteDef[] = [
     lat: 37.98,
     lon: 23.73,
     population: 3_153_000,
-    unlockCost: 3_000_000,
+    unlockCost: 150_000,
     layerCostMod: 1.10,
     dropMod: 0.95,
     eras: [
@@ -78,7 +85,7 @@ export const SITES: SiteDef[] = [
     lat: 25.68,
     lon: 32.64,
     population: 506_000,
-    unlockCost: 5_000_000,
+    unlockCost: 250_000,
     layerCostMod: 1.4,
     dropMod: 1.15,
     eras: [
@@ -97,7 +104,7 @@ export const SITES: SiteDef[] = [
     lat: 41.01,
     lon: 28.98,
     population: 15_462_000,
-    unlockCost: 12_000_000,
+    unlockCost: 600_000,
     layerCostMod: 1.20,
     dropMod: 0.90,
     eras: [
@@ -117,7 +124,7 @@ export const SITES: SiteDef[] = [
     lat: 31.78,
     lon: 35.22,
     population: 936_400,
-    unlockCost: 20_000_000,
+    unlockCost: 1_000_000,
     layerCostMod: 1.25,
     dropMod: 1.05,
     eras: [
@@ -137,7 +144,7 @@ export const SITES: SiteDef[] = [
     lat: 28.61,
     lon: 77.21,
     population: 32_065_760,
-    unlockCost: 35_000_000,
+    unlockCost: 1_750_000,
     layerCostMod: 1.15,
     dropMod: 1.00,
     eras: [
@@ -156,7 +163,7 @@ export const SITES: SiteDef[] = [
     lat: 34.27,
     lon: 108.95,
     population: 12_953_000,
-    unlockCost: 60_000_000,
+    unlockCost: 3_000_000,
     layerCostMod: 1.30,
     dropMod: 1.10,
     eras: [
@@ -174,7 +181,7 @@ export const SITES: SiteDef[] = [
     lat: 33.31,
     lon: 44.36,
     population: 7_922_000,
-    unlockCost: 100_000_000,
+    unlockCost: 5_000_000,
     layerCostMod: 1.35,
     dropMod: 0.85,
     eras: [
@@ -193,7 +200,7 @@ export const SITES: SiteDef[] = [
     lat: 35.01,
     lon: 135.77,
     population: 1_463_000,
-    unlockCost: 150_000_000,
+    unlockCost: 7_500_000,
     layerCostMod: 1.30,
     dropMod: 0.95,
     eras: [
@@ -216,7 +223,7 @@ export const SITES: SiteDef[] = [
     lat: 40.75,
     lon: 14.49,
     population: 2_185_000,
-    unlockCost: 300_000_000,
+    unlockCost: 15_000_000,
     layerCostMod: 1.15,
     dropMod: 0.8,
     eras: [
@@ -235,7 +242,7 @@ export const SITES: SiteDef[] = [
     lat: 19.43,
     lon: -99.13,
     population: 21_804_000,
-    unlockCost: 500_000_000,
+    unlockCost: 25_000_000,
     layerCostMod: 1.45,
     dropMod: 1.00,
     eras: [
@@ -254,7 +261,7 @@ export const SITES: SiteDef[] = [
     lat: -13.53,
     lon: -71.97,
     population: 428_450,
-    unlockCost: 800_000_000,
+    unlockCost: 40_000_000,
     layerCostMod: 1.50,
     dropMod: 0.90,
     eras: [
