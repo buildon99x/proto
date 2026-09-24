@@ -65,10 +65,10 @@ async function withApp(opts, fn) {
   }
 }
 
-/** 온보딩 오버레이가 떠 있으면 "지금 거점 유지"로 닫는다 */
-async function dismissOnboarding(h) {
-  if (await h.exists(".onboarding-keep")) {
-    await h.click(".onboarding-keep");
+/** 첫 거점 카드(v0.6.6)가 떠 있으면 "나중에"로 닫는다. 36초 온보딩 모달은 없어졌다. */
+async function dismissChooser(h) {
+  if (await h.exists(".base-chooser-later")) {
+    await h.click(".base-chooser-later");
     return true;
   }
   return false;
@@ -99,7 +99,7 @@ async function scenarioLoop() {
       afterAppraise.vault.length > 0 || afterAppraise.stats.sold > 0,
       `소장 ${afterAppraise.vault.length}점 · 매각 ${afterAppraise.stats.sold}건`);
 
-    await dismissOnboarding(h);
+    await dismissChooser(h);
     await h.tab("소장고");
     await h.shot("loop-vault");
     const stacks = await h.count(".vault-grid .stack");
@@ -189,7 +189,7 @@ async function scenarioReturn() {
     await h.goto("/");
     await h.ready();
     await h.waitGame(150);
-    await dismissOnboarding(h);
+    await dismissChooser(h);
     const before = await h.state();
 
     for (const hours of [8, 24]) {
@@ -262,15 +262,42 @@ async function scenarioFirstSession() {
     await h.ready();
     const m = {};
 
-    // ① 거점 — 온보딩("본거지를 정하자")이 첫 감정 시점에 뜬다
-    await h.until(`!!document.querySelector('.onboarding-modal')`, { timeoutMs: 180000, label: "온보딩 오버레이" });
-    m.onboarding = (await h.state()).t;
-    await h.shot("first-onboarding");
-    c.ok("① 거점 — 온보딩이 20분 안에 뜬다", m.onboarding <= BUDGET, `t=${fmt(m.onboarding)}초`);
-    c.ok("① 거점 — 추천 카드 3장 + 유지 버튼(1단계로 닫힌다)",
-      (await h.count(".onboarding-card")) === 3 && (await h.exists(".onboarding-keep")));
-    await h.click(".onboarding-keep");
-    m.base = (await h.state()).t;
+    // ① 거점 — v0.6.6부터 36초 "본거지를 정하자" 모달은 없다. 첫 해금 비용이 모이는
+    // 순간(약 3분)에 "첫 거점을 연다" 카드가 뜬다(notes/decision-tree-10h.md P1).
+    // 질문은 그대로다 — 거점 결정이 20분 안에 성립하는가. 다만 이제는 **실제로 연다**.
+    await h.until(`!!document.querySelector('.base-chooser')`, { timeoutMs: 240000, label: "첫 거점 카드" });
+    const chooser = await h.evaluate(`(() => {
+      const root = document.querySelector('.base-chooser');
+      return {
+        tipOpenAtOpen: root.dataset.tipOpenAtOpen === '1',
+        rule: document.querySelector('.base-chooser-rule')?.innerText ?? '',
+        cards: [...root.querySelectorAll('.base-chooser-card')].map((el) => ({
+          site: el.dataset.site,
+          species: Number(el.querySelector('.base-chooser-species')?.dataset.species ?? NaN),
+          text: el.innerText.replace(/\\n/g, ' · ')
+        })),
+        openable: root.querySelectorAll('.base-chooser-open:not([disabled])').length
+      };
+    })()`);
+    m.chooser = (await h.state()).t;
+    await h.shot("first-chooser");
+    c.ok("① 거점 — 첫 거점 카드가 20분 안에 뜬다", m.chooser <= BUDGET, `t=${fmt(m.chooser)}초`);
+    c.ok("① 거점 — 제보 레이스가 결판나기 전에는 뜨지 않는다(첫 레이스를 덮지 않는다)",
+      !chooser.tipOpenAtOpen, chooser.tipOpenAtOpen ? "결판 전 제보 위에 떴다" : "제보 없음 또는 결판 후");
+    c.ok("① 거점 — 카드 3장, 카드마다 종 수가 숫자로 적힌다",
+      chooser.cards.length === 3 && chooser.cards.every((k) => k.species > 0 && k.text.includes(`${k.species}종`)),
+      chooser.cards.map((k) => `${k.site} ${k.species}종`).join(" / "));
+    c.ok("① 거점 — 카드마다 유일·홈 라이벌·거리·해금 비용이 적힌다",
+      chooser.cards.every((k) => /유일/.test(k.text) && /라이벌 · \d+명/.test(k.text) && /km/.test(k.text) && /\$/.test(k.text)),
+      chooser.cards[0]?.text.slice(0, 120) ?? "");
+    c.ok("① 거점 — 카드를 고른 기준이 화면에 한 줄로 적힌다", chooser.rule.length > 0, chooser.rule);
+    c.ok("① 거점 — 지금 자금으로 열 수 있는 카드가 적어도 1장이다", chooser.openable >= 1, `${chooser.openable}장`);
+    await h.click(".base-chooser-open:not([disabled])");
+    const opened = await h.state();
+    const ownedNow = Object.values(opened.sites).filter((sp) => sp.unlocked).length;
+    m.base = opened.t;
+    c.ok("① 거점 — [열기]로 두 번째 거점이 실제로 열린다", ownedNow === 2 && !(await h.exists(".base-chooser")),
+      `보유 ${ownedNow}곳`);
 
     // ② 감정 — 소장고에 실제로 들어온 시점
     let held = await h.state();
@@ -363,7 +390,7 @@ async function scenarioTip() {
     await h.goto("/");
     await h.ready();
     await h.until(`!!document.querySelector('.tip')`, { timeoutMs: 120000, label: "제보 배너" });
-    await dismissOnboarding(h);
+    await dismissChooser(h);
     await h.until(`!!document.querySelector('.tip')`, { timeoutMs: 120000, label: "제보 배너(온보딩 후)" });
     await h.shot("tip-banner");
 
@@ -425,7 +452,7 @@ async function scenarioNotify() {
     await h.goto("/");
     await h.ready();
     await h.waitGame(40);
-    await dismissOnboarding(h);
+    await dismissChooser(h);
 
     // L1 슬롯은 제보가 없어도 자리를 차지해 레이아웃이 밀리지 않아야 한다
     const slotH = await h.evaluate(`(() => {
@@ -453,7 +480,7 @@ async function scenarioNotify() {
     await h.ready();
     await h.sleepReal(1500);
     await h.clickText(".offline-modal button, .offline-toast button", "확인");
-    await dismissOnboarding(h);
+    await dismissChooser(h);
 
     const badges = await h.evaluate(`[...document.querySelectorAll('.tabs button')].map(b => ({
       label: b.innerText.trim().replace(/\\s+/g, ' '),
@@ -495,7 +522,7 @@ async function scenarioSteps() {
     await h.goto("/");
     await h.ready();
     await h.waitGame(150);
-    await dismissOnboarding(h);
+    await dismissChooser(h);
     await h.patchSave(`(w) => {
       w.funds = 5e11;
       w.lab = 6;
@@ -524,7 +551,7 @@ async function scenarioSteps() {
     await h.ready();
     await h.sleepReal(2000);
     await h.clickText(".offline-modal button, .offline-toast button", "확인");
-    await dismissOnboarding(h);
+    await dismissChooser(h);
 
     const measure = async (name, budget, steps) => {
       await h.tab("발굴"); // 모든 측정은 발굴 탭에서 시작한다(§2 규칙)
@@ -581,7 +608,7 @@ async function scenarioSteps() {
     await h.ready();
     await h.sleepReal(1800);
     await h.clickText(".offline-modal button, .offline-toast button", "확인");
-    await dismissOnboarding(h);
+    await dismissChooser(h);
     await measure("#6 암시장 매입", 3, [
       (x) => x.tab("시장"),
       (x) => x.click(".market-row button:not([disabled])")
@@ -619,7 +646,7 @@ async function scenarioRules() {
     await h.goto("/");
     await h.ready();
     await h.waitGame(40);
-    await dismissOnboarding(h);
+    await dismissChooser(h);
     await h.click(".header-icons .icon-btn[aria-label='규칙']");
     await h.sleepReal(500);
     const text = (await h.text(".modal")) ?? "";
@@ -659,7 +686,7 @@ async function scenarioFloor() {
     await h.goto("/");
     await h.ready();
     await h.waitGame(60);
-    await dismissOnboarding(h);
+    await dismissChooser(h);
     // 바닥값에 확실히 붙는 상태: 최대 층 + 아주 높은 발굴력
     await h.patchSave(`(w) => {
       w.funds = 1e9;
@@ -672,7 +699,7 @@ async function scenarioFloor() {
     await h.ready();
     await h.sleepReal(2000);
     await h.clickText(".offline-modal button, .offline-toast button", "확인");
-    await dismissOnboarding(h);
+    await dismissChooser(h);
     await h.tab("발굴");
 
     const w0 = await h.state();
@@ -690,7 +717,7 @@ async function scenarioFloor() {
     await h.ready();
     await h.sleepReal(2000);
     await h.clickText(".offline-modal button, .offline-toast button", "확인");
-    await dismissOnboarding(h);
+    await dismissChooser(h);
     const w2 = await h.state();
     await h.waitGame(w2.t + 200);
     const w3 = await h.state();
@@ -726,7 +753,7 @@ async function scenarioUnique() {
     await h.goto("/");
     await h.ready();
     await h.waitGame(60);
-    await dismissOnboarding(h);
+    await dismissChooser(h);
 
     // **실제 드랍 순간**을 만든다 — 상태를 주입해서 "이미 갖고 있는 화면"을 보는 게
     // 아니라, 엔진이 take() 를 실행하는 그 프레임에 무엇이 뜨는지를 본다.
@@ -740,15 +767,45 @@ async function scenarioUnique() {
       // 대신 인부만 늘려 드랍을 자주 나게 한다(레이스 판정은 드랍마다 1회다).
       w.workers = 40;
       w.funds = 3e7;
-      w.tip = { artifactId: ${JSON.stringify(t4.id)}, site: 'korea', layer: 1, remain: 36000, rivals: [], focused: false };
+      // openedAt을 지금으로 둔다 — 실제 제보처럼 반응 유예(30게임초)부터 시작한다.
+      w.tip = { artifactId: ${JSON.stringify(t4.id)}, site: 'korea', layer: 1, remain: 36000, rivals: [], focused: false, openedAt: w.t };
       w.nextTipIn = 1e9;
       w.lastTickAt = Date.now();
     }`);
     await h.goto("/");
     await h.ready();
-    await h.sleepReal(2200);
+
+    // 유일 제보 알림(v0.6.6, decision-tree-10h.md P4) — 평소 배너와 다른, 전체 폭의 큰 알림.
+    // 유예 30게임초(배속 12에서 실시간 2.5초) 안에 본다.
+    let alert = null;
+    for (let i = 0; i < 20 && !alert; i++) {
+      alert = await h.evaluate(`(() => {
+        const el = document.querySelector('.unique-alert');
+        const tip = document.querySelector('.tip');
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        return {
+          width: Math.round(r.width), height: Math.round(r.height), vw: innerWidth,
+          tipHeight: tip ? Math.round(tip.getBoundingClientRect().height) : 0,
+          action: !!el.querySelector('.unique-alert-action button, .unique-alert-action .tip-racing'),
+          text: el.innerText.replace(/\\n/g, ' · '),
+          cues: (window.__relicKingCues || []).map((c) => c.cue)
+        };
+      })()`);
+      if (!alert) await h.sleepReal(150);
+    }
+    if (alert) await h.shot("unique-alert");
+    c.ok("유일 제보 — 전체 폭 알림이 뜬다", !!alert && alert.width >= alert.vw - 2,
+      alert ? `폭 ${alert.width}/${alert.vw}px · 높이 ${alert.height}px` : "알림이 없다");
+    c.ok("유일 제보 — 알림이 평소 배너보다 확실히 크다", !!alert && alert.height >= alert.tipHeight * 1.5,
+      alert ? `알림 ${alert.height}px · 배너 ${alert.tipHeight}px` : "");
+    c.ok("유일 제보 — 알림에 반응 수단이 있다(배너와 같은 판정)", !!alert?.action, alert?.text.slice(0, 100) ?? "");
+    c.ok("유일 제보 — 신호음을 요청했다(음소거 아님)", !!alert?.cues.includes("uniqueTip"),
+      JSON.stringify(alert?.cues ?? []));
+
+    await h.sleepReal(600);
     await h.clickText(".offline-modal button, .offline-toast button", "확인");
-    await dismissOnboarding(h);
+    await dismissChooser(h);
 
     let acquiredSeen = false;
     let uniqueBadgeSeen = false;
@@ -769,6 +826,9 @@ async function scenarioUnique() {
       c.ok("유일을 가진 순간(감정 전) 전체 연출이 뜬다(spec §3.3)", acquiredSeen,
         acquiredSeen ? "reveal-acquired 모달 확인" : "드랍 시점에 아무 연출도 없었다");
       c.ok("그 연출에 '세계에 단 하나' 배지가 있다", uniqueBadgeSeen);
+      const cues = await h.evaluate(`(window.__relicKingCues || []).map((c) => c.cue)`);
+      c.ok("획득·승리 신호음을 요청했다", cues.includes("uniqueAcquired") && cues.includes("raceWon"), JSON.stringify(cues));
+      c.ok("결판이 나면 유일 알림은 물러난다(배너만 남는다)", !(await h.exists(".unique-alert")));
     }
 
     await h.tab("소장고");
@@ -798,7 +858,7 @@ async function scenarioEffort() {
     await h.goto("/");
     await h.ready();
     await h.waitGame(150);
-    await dismissOnboarding(h);
+    await dismissChooser(h);
     // 측정 대상 액션이 전부 열려 있는 중반 이후 상태를 만든다.
     await h.patchSave(`(w) => {
       w.funds = 5e11;
@@ -832,7 +892,7 @@ async function scenarioEffort() {
     await h.ready();
     await h.sleepReal(2200);
     await h.clickText(".offline-modal button, .offline-toast button", "확인");
-    await dismissOnboarding(h);
+    await dismissChooser(h);
 
     /**
      * 한 액션의 조작 단계 수와 **실제 소요 시간**을 잰다. 시작 화면은 항상 발굴
@@ -1015,7 +1075,7 @@ async function scenarioEffort() {
     await h.ready();
     await h.sleepReal(2000);
     await h.clickText(".offline-modal button, .offline-toast button", "확인");
-    await dismissOnboarding(h);
+    await dismissChooser(h);
     await measure("거점 해금(새 base)", [
       // 목록의 상태 배지는 v0.4부터 `MARKER_STYLE`의 한글 라벨이다(본거지/방문함/
       // 미방문). 아직 본거지가 아닌 거점을 골라야 시트에 "새 본거지로 열기"가 뜬다.
@@ -1084,7 +1144,7 @@ async function scenarioBulk() {
     await h.ready();
     await h.sleepReal(1200);
     await h.clickText(".offline-modal button, .offline-toast button", "확인");
-    await dismissOnboarding(h);
+    await dismissChooser(h);
     const planted = await h.state();
     c.ok("준비 — 두 종에 사본을 3점씩 더 심었다",
       ids.length === 2 && ids.every((id) => planted.vault.filter((v) => v.artifactId === id).length >= 4),
@@ -1138,6 +1198,132 @@ async function scenarioBulk() {
   });
 }
 
+// ════════════════════════════════════════════════════════════════════════
+// S13. 모바일 제보 배너(390px) — completeness-review.md §7 버그 1
+//      배너 본문이 한 글자씩 세로로 쌓이고(약 480px) [집중 굴착]이 화면 밖으로 나가
+//      페이지 폭이 408px가 됐다. 첫 제보가 20초에 뜨므로 모바일 첫인상이 이 화면이다.
+// ════════════════════════════════════════════════════════════════════════
+async function scenarioMobile() {
+  const c = makeChecks("mobile — 390px 제보 배너·유일 알림");
+  const artifacts = await import(pathToFileURL(path.join(ROOT, "app/src/game/artifacts.ts")).href);
+  const pick = (tier) => Object.fromEntries(
+    [...new Set(artifacts.ARTIFACTS.map((a) => a.site))].map((site) => [
+      site, artifacts.ARTIFACTS.find((a) => a.site === site && a.tier === tier && a.sourceStatus === "verified")?.id
+    ])
+  );
+  const t2BySite = pick(2);
+  const t4BySite = pick(4);
+
+  // 배속 2 — 반응 유예 30게임초가 실시간 15초라, 버튼이 살아 있는 동안 잴 수 있다.
+  await withApp({ speed: 2 }, async (h) => {
+    await h.viewport(390, 844, true);
+    await h.goto("/");
+    await h.ready();
+    await h.waitGame(12);
+
+    // 가장 긴 조합을 만든다 — 현지 팀이 있으면 [집중 굴착] 버튼이 붙고, 라이벌 수 문구까지 붙는다.
+    await h.patchSave(`(w) => {
+      const t2 = ${JSON.stringify(t2BySite)};
+      const team = w.teams.find((t) => t.status === 'on_site');
+      const site = team ? team.targetSite : 'korea';
+      w.tip = { artifactId: t2[site], site, layer: 5, remain: 36000,
+        rivals: w.rivals.filter((r) => !r.ghost).slice(0, 2).map((r) => r.id), focused: false, openedAt: w.t };
+      w.nextTipIn = 1e9;
+      w.lastTickAt = Date.now();
+    }`);
+    await h.goto("/");
+    await h.ready();
+    await h.sleepReal(900);
+    await h.tab("발굴");
+    const probe = `(() => {
+      const tip = document.querySelector('.tip');
+      const vw = innerWidth;
+      const out = tip ? [...tip.children].filter((el) => el.getBoundingClientRect().right > vw + 0.5 || el.getBoundingClientRect().left < -0.5).map((el) => el.className) : [];
+      const text = tip?.querySelector('.tip-text');
+      return {
+        vw, scrollWidth: document.documentElement.scrollWidth,
+        tipHeight: tip ? Math.round(tip.getBoundingClientRect().height) : null,
+        textWidth: text ? Math.round(text.getBoundingClientRect().width) : null,
+        hasButton: !!tip?.querySelector('button'),
+        out
+      };
+    })()`;
+    const m = await h.evaluate(probe);
+    await h.shot("mobile-tip");
+    c.ok("390px — 제보 배너가 뜬다", m.tipHeight !== null, JSON.stringify(m));
+    c.ok("390px — 가로 스크롤이 없다(문서 폭 ≤ 화면 폭)", m.scrollWidth <= m.vw, `문서 ${m.scrollWidth}px / 화면 ${m.vw}px`);
+    c.ok("390px — 배너 안 요소가 전부 화면 안에 있다", m.out.length === 0, m.out.join(", ") || "넘친 요소 없음");
+    c.ok("390px — 본문이 한 글자 폭으로 눌리지 않는다(본문 폭 ≥ 화면의 절반)", (m.textWidth ?? 0) >= m.vw / 2, `본문 ${m.textWidth}px`);
+    c.ok("390px — 배너 높이가 화면의 1/3 이하다", (m.tipHeight ?? 999) <= 844 / 3, `${m.tipHeight}px`);
+    c.note("390px — 반응 버튼", m.hasButton ? "[집중 굴착]/[급파] 있음" : "버튼 없음(현지 팀 없음 — 문구만)");
+
+    // 유일 제보 알림도 좁은 화면에서 넘치지 않아야 한다
+    await h.patchSave(`(w) => {
+      const t4 = ${JSON.stringify(t4BySite)};
+      w.tip = { artifactId: t4.korea, site: 'korea', layer: 10, remain: 36000, rivals: [], focused: false, openedAt: w.t };
+      w.nextTipIn = 1e9;
+      w.lastTickAt = Date.now();
+    }`);
+    await h.goto("/");
+    await h.ready();
+    await h.until(`!!document.querySelector('.unique-alert')`, { timeoutMs: 8000, label: "유일 알림(390px)" });
+    const u = await h.evaluate(`(() => {
+      const el = document.querySelector('.unique-alert');
+      const r = el.getBoundingClientRect();
+      return { vw: innerWidth, scrollWidth: document.documentElement.scrollWidth, width: Math.round(r.width), height: Math.round(r.height) };
+    })()`);
+    await h.shot("mobile-unique-alert");
+    c.ok("390px — 유일 알림이 전체 폭이고 넘치지 않는다", u.width <= u.vw && u.width >= u.vw - 2 && u.scrollWidth <= u.vw,
+      `알림 ${u.width}px · 문서 ${u.scrollWidth}px / 화면 ${u.vw}px · 높이 ${u.height}px`);
+  });
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// S14. 첫 전시 안내 — 첫 진귀가 들어왔는데 임시 전시대가 비어 있으면 한 번 알린다(v0.6.6)
+// ════════════════════════════════════════════════════════════════════════
+async function scenarioNudge() {
+  const c = makeChecks("nudge — 첫 전시 안내(임시 전시대)");
+  const artifacts = await import(pathToFileURL(path.join(ROOT, "app/src/game/artifacts.ts")).href);
+  const t2 = artifacts.ARTIFACTS.find((a) => a.site === "korea" && a.tier === 2 && a.sourceStatus === "verified");
+  await withApp({}, async (h) => {
+    await h.goto("/");
+    await h.ready();
+    await h.waitGame(15);
+    // 소장고에 진귀 1점을 넣는다(전시 없음). 실제로는 첫 진귀 감정 순간이다.
+    await h.patchSave(`(w) => {
+      w.vault.forEach((v) => { v.displayed = false; v.museumSite = undefined; v.slot = undefined; });
+      w.vault.push({ uid: 990001, artifactId: ${JSON.stringify(t2.id)}, value: 5000, condition: 3, displayed: false });
+      w.lastTickAt = Date.now();
+    }`);
+    await h.goto("/");
+    await h.ready();
+    let seen = false;
+    for (let i = 0; i < 30 && !seen; i++) {
+      seen = await h.exists(".display-nudge");
+      if (!seen) await h.sleepReal(150);
+    }
+    const text = seen ? await h.text(".display-nudge") : "";
+    if (seen) await h.shot("nudge-toast");
+    c.ok("첫 진귀가 들어오면 임시 전시대 안내가 뜬다", seen, text.replace(/\n/g, " "));
+    c.ok("안내는 화면을 막지 않는다(모달이 아니다)", seen && !(await h.exists(".modal-back .display-nudge")));
+    const clicked = await h.click(".display-nudge-go");
+    const after = await h.state();
+    const item = after.vault.find((v) => v.uid === 990001);
+    c.ok("[전시]를 누르면 그 유물이 임시 전시대에 오른다", clicked && !!item?.displayed,
+      item ? `displayed=${item.displayed} · site=${item.museumSite} · slot=${item.slot}` : "유물 없음");
+
+    // 한 번만 — 내려놓고 다시 열어도 또 뜨지 않는다
+    await h.patchSave(`(w) => {
+      w.vault.forEach((v) => { v.displayed = false; v.museumSite = undefined; v.slot = undefined; });
+      w.lastTickAt = Date.now();
+    }`);
+    await h.goto("/");
+    await h.ready();
+    await h.sleepReal(1800);
+    c.ok("안내는 한 번만 뜬다(다시 비워도 또 뜨지 않는다)", !(await h.exists(".display-nudge")));
+  });
+}
+
 const SCENARIOS = {
   loop: scenarioLoop,
   background: scenarioBackground,
@@ -1150,7 +1336,9 @@ const SCENARIOS = {
   floor: scenarioFloor,
   unique: scenarioUnique,
   effort: scenarioEffort,
-  bulk: scenarioBulk
+  bulk: scenarioBulk,
+  mobile: scenarioMobile,
+  nudge: scenarioNudge
 };
 
 async function main() {

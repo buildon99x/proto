@@ -34,7 +34,7 @@ const MIME = {
 
 export const SAVE_KEY = "relic-king/save/v1";
 export const RECORD_KEY = "relic-king/record/v1";
-export const ONBOARDING_KEY = "relic-king/onboarding-seen-v1";
+export const BASE_CHOOSER_KEY = "relic-king/first-base-offered-v1";
 
 function serve(port) {
   const server = createServer(async (req, res) => {
