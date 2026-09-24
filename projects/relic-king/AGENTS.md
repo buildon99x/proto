@@ -44,6 +44,10 @@ node scripts/build-worldmap.mjs           세계지도 해안선 베이크(생�
 node scripts/build-worldmap.mjs --check   커밋된 산출물이 최신인지만 검사
 ```
 
+**작업 브랜치가 플레이를 어떻게 바꿨는지 보고할 때**는 `.claude/skills/play-delta-report`를
+쓴다. 전·후 커밋을 워크트리로 꺼내 같은 계측기(12시드 `density` + `play` UI 실측)로 다시 재고
+한 페이지 보고서로 굽는다. 옛 문서의 숫자를 옮기지 않기 위한 절차다.
+
 **아이콘을 건드렸으면 `qa:sprites`를 돌리고 `sheets`로 구운 컨택트 시트를 눈으로
 본다.** 스프라이트 결함은 화면에서 안 보인다 — v0.3까지 `statue` 종 1,900여 개가
 "머리 + 바닥 막대"로만 그려지고 있었는데 어떤 QA도 잡지 못했고, 컨택트 시트를
