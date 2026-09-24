@@ -1,0 +1,491 @@
+/*
+ * S3 진화(+승진 발령) · S5 채용 · S6 결재 · S0 출근 리포트 · S7 매니저 퇴근 · 직원 말풍선 · 도감 · 엔딩 · 완전 클리어
+ */
+import { A, $, $$, must, h, n, clamp, img, sil, monArt, josa, ro, plotName, plotShort, segTxt, clockText, dur, snd, nope, toast, emit, refresh, renderOren, rectOf, shake, joyText, save, M } from './app';
+import { CHAPTERS, SPECIES, SPECIES_IDS, TRAITS, DEX_TOTAL, PLOTS, type PlotId, type SpeciesId } from '../sim/content';
+
+const segList = (ss: M.Seg[]) => ss.map(segTxt).join(', ');
+
+// ── 시트 공통 ───────────────────────────────────────────────
+A.closeSheet = () => {
+  const sh = must('#sheet');
+  sh.hidden = true; sh.innerHTML = '';
+  A.ui.sheet = null;
+  renderOren();
+  if (A.world) A.world.setPreview(null);
+  if (A.T) A.T.poke();
+};
+function openSheet(kind: string, color: string, html: string) {
+  closePop();
+  const sh = must('#sheet');
+  sh.hidden = false;
+  sh.className = 'sheet-' + kind;
+  sh.style.setProperty('--sc', color);
+  sh.innerHTML = `<button class="x" data-close title="닫기 (Esc)">✕</button>${html}`;
+  A.ui.sheet = kind;
+  renderOren();
+  must('[data-close]', sh).onclick = () => { snd.play('ui'); A.closeSheet(); };
+  if (A.T) A.T.poke();
+  return sh;
+}
+
+// ── S5 신입 채용 ────────────────────────────────────────────
+A.openHire = (opt = {}) => {
+  const w = A.w;
+  const into = opt.into || (A.ui.mode === 'dungeon' ? A.dv.id : null);
+  const seg = opt.seg || M.hotGap(w) || M.gapSegments(w)[0] || null;
+  const rec = seg ? M.recommendSpecies(w, seg) : null;
+  const grow = seg && !rec ? M.recommendGrow(w, seg) : null;
+  const growing = seg && grow ? M.growingToward(w, seg) : null;
+  const list = SPECIES_IDS.filter(sp => SPECIES[sp].chapter > 0 && SPECIES[sp].chapter <= w.chapter + 1)
+    .sort((a, b) => (+(b === rec || b === grow?.sp) - +(a === rec || a === grow?.sp)) || (SPECIES[a].chapter - SPECIES[b].chapter) || (SPECIES[a].base - SPECIES[b].base));
+  let cards = '';
+  for (const sp of list) {
+    const s = SPECIES[sp];
+    const locked = s.chapter > w.chapter;
+    const tr = s.trait ? TRAITS[s.trait] : null;
+    const ticket = w.tut.ticket === sp;
+    const cost = M.hireCost(sp);
+    const can = ticket || w.smile >= cost;
+    const isRec = !locked && sp === rec, isGrow = !locked && grow && sp === grow.sp && !growing;
+    const rib = isRec && seg ? `<span class="rib">${segTxt(seg)}에 딱!</span>` : isGrow && seg ? `<span class="rib grow">진화 ${grow!.stage}번이면 ${segTxt(seg)}!</span>` : '';
+    cards += `<div class="hcard ${isRec ? 'rec' : ''} ${isGrow ? 'grow' : ''} ${locked ? 'locked' : ''}" data-sp="${sp}">
+      ${rib}
+      <div class="ph">${locked ? sil(s.art[0], 2) : img(s.art[0], 2)}</div>
+      <b>${locked ? '???' : s.names[0]}</b><span class="lvl">Lv ${s.base} · 적정 ${Math.max(1, s.base - 5)}–${s.base + 5}</span>
+      <span class="trait" title="${tr ? tr.desc : ''}">${tr ? tr.icon + ' ' + tr.name : '— 표준'}</span>
+      ${locked ? `<div class="go dis">${s.chapter - 1}장 결재 후</div>`
+        : `<button class="go ${can ? '' : 'dis'}" data-hire="${sp}">${ticket ? '🎟 입사 선물 · 무료' : `<i class="mini-can"></i>${n(cost)}`}</button>`}
+    </div>`;
+  }
+  let sub = '1단계 직원만 뽑을 수 있어요. 높은 단계는 키워서만 얻어요';
+  if (into) sub += ` · 뽑으면 바로 <b>${plotName(into)}</b>에 배치`;
+  else sub += ' · 뽑은 직원은 대기실로';
+  if (growing && seg) sub = `<b>${segTxt(seg)}</b>는 ${josa(M.monName(growing), '이', '가')} 한 번 더 진화하면 이어져요 (근속 ${n(growing.tenure)} / ${n(M.evolveNeed(growing))})`;
+  else if (grow && seg) sub = `<b>${segTxt(seg)}</b>는 채용으로는 안 닿아요. <b>${SPECIES[grow.sp].names[0]}</b>를 뽑아 혼자 두고 키우면 진화 ${grow.stage}번에 Lv ${grow.lv}가 돼요`;
+  const sh = openSheet('hire', 'var(--flow)', `<div class="sh-title">신입 채용 <small>${sub}</small></div><div class="cards">${cards}</div>`);
+  $$<HTMLElement>('[data-hire]', sh).forEach(b => (b.onclick = () => doHire(b.dataset.hire as SpeciesId, into)));
+  snd.play('ui');
+};
+function doHire(sp: SpeciesId, into: PlotId | null) {
+  const w = A.w;
+  const r = M.hire(w, sp, into);
+  if (!r.ok) { nope(r.msg); return; }
+  snd.play('hire');
+  const m = r.mon;
+  let placed = false;
+  if (into) placed = M.place(w, m.id, into).ok;
+  A.closeSheet();
+  toast(`${M.monName(m)} 채용${r.free ? ' · 채용권 사용' : ` · 스마일 −${n(r.cost)}`}${placed ? ` · ${plotName(into!)} 배치` : ''}`, { undo: () => M.unhire(w, m.id, r.free ? 'ticket' : r.cost) });
+  emit([{ type: 'hired', mon: m.id, placed }]);
+  if (!placed) A.highlightBest(m.id);
+  refresh();
+}
+
+// ── S3 진화: 결과를 월드 위에서 미리 본다 (+ 승진 발령) ─────────
+A.openEvolve = monId => {
+  const w = A.w, m = w.monsters.find(x => x.id === monId);
+  if (!m || !M.canEvolve(m)) return;
+  if (A.ui.mode === 'dungeon') A.closeDungeon();
+  const sp = SPECIES[m.sp], next = m.stage + 1;
+  const pv = M.preview(w, { evolve: m.id });
+  const plan = pv.lost.length ? M.bestPromote(w, m.id) : null;
+  const known = !!w.dex[m.sp + ':' + next];
+  const block = M.evolveBlock(w, m);
+  let dex = '';
+  sp.names.forEach((nm, i) => {
+    const k = w.dex[m.sp + ':' + i];
+    dex += `<div class="r ${i === m.stage ? 'now' : ''} ${!k && i !== next ? 'q' : ''}">${k ? img('m:' + sp.art[i], 1) : sil('m:' + sp.art[i], 1)}${k || i === next ? (k ? nm : '<b class="evc">NEW?</b>') : '?'}${sp.boss && i === sp.names.length - 1 ? ' 👑' : ''}</div>`;
+  });
+  const D0 = m.d ? pv.before[m.d] : null, D1 = m.d ? pv.after[m.d] : null;
+  let res: string, hint = '';
+  if (block) res = `<div class="res bad">✕ ${block}</div>`;
+  else if (pv.lost.length) {
+    res = `<div class="res bad">⚠ ${pv.entranceBlocked ? '입구가 막혀요 · ' : ''}${segList(pv.lost)}가 비어요${pv.stranded ? ` · 모험가 ${pv.stranded}명이 혼자 걷게 돼요` : ''}</div>`;
+    if (plan) {
+      const where = plan.stay ? '그 자리에 두고' : plan.to && w.plots[plan.to].open ? `${ro(plotShort(plan.to))} 보내고` : `${plotShort(plan.to!)}에 개업하고`;
+      const back = plan.hireSp ? `빈자리엔 ${josa(SPECIES[plan.hireSp].names[0], '을', '를')}` : '';
+      hint = `💡 승진 발령: ${where} ${back} ${plan.gapAfter ? `— ${segList(plan.pv.gapsAfter)}만 남아요` : '— 빈틈 없이 이어져요'}`;
+    } else hint = '💡 진화한 뒤 5초 안에 되돌릴 수 있어요. 보류해도 근속은 그대로 남아요';
+  } else res = `<div class="res ok">✓ 빈틈이 생기지 않아요${pv.gained.length ? ` · ${segList(pv.gained)} 새로 이어져요` : ''}</div>`;
+  const btns = plan && !block
+    ? `<button class="btn pri" data-promote title="진화 + 옮기기 + 빈자리 채용을 한 번에">▲ 승진 발령<small>${plan.cost ? `스마일 ${n(plan.cost)}` : '무료'}</small></button><button class="btn" data-go>그냥 진화</button><button class="btn ghostb" data-hold>보류</button>`
+    : `<button class="btn pri" data-go ${block ? 'disabled' : ''}>▲ 진화시키기</button><button class="btn" data-hold>보류</button>`;
+  const sh = openSheet('evolve', 'var(--evolve)', `
+    <div class="evs">
+      <div class="idc"><div class="ph">${img(sp.art[m.stage], 3)}</div><b>${M.monName(m)}</b><span>Lv ${M.monLevel(m)} · ${m.stage + 1}단계</span></div>
+      <div class="arrow">➜<small>사원증<br>사진 교체</small></div>
+      <div class="idc after"><div class="ph">${known ? img(sp.art[next], 3) : sil(sp.art[next], 3)}</div><b>${known ? sp.names[next] : '???'}</b><span>Lv ${M.monLevel(m) + 8} · ${next + 1}단계${sp.boss && next === sp.names.length - 1 ? ' · 보스' : ''}</span></div>
+      <div class="dexrow"><b>${sp.names[0]} 계열 ${sp.trait ? TRAITS[sp.trait].icon : ''}</b>${dex}</div>
+      <div class="conseq">
+        <div class="lvch">${m.d ? `${plotName(m.d)} · 던전 Lv ${D0} → ${D1}` : '대기실에서 진화'}</div>
+        ${res}
+        <div class="hint">${hint || '보류해도 벌칙은 없어요. 근속은 그대로 남아요'}</div>
+      </div>
+      <div class="btns">${btns}</div>
+    </div>`);
+  // 발령이 있으면 발령 결과를 먼저 보여 준다. 버튼에 손을 올리면 그 결과로 바뀐다
+  const showPlain = () => A.world.setPreview(pv, { kind: 'evolve' });
+  const showPlan = () => { if (plan) A.world.setPreview(plan.pv, { kind: 'promote', label: plan.hireInto ? { [plan.hireInto]: `신입 ${SPECIES[plan.hireSp!].names[0]} · Lv ${plan.pv.after[plan.hireInto]}` } : undefined }); };
+  if (plan) showPlan(); else showPlain();
+  must('[data-hold]', sh).onclick = () => { snd.play('ui'); A.closeSheet(); };
+  const go = must('[data-go]', sh);
+  go.onclick = () => doEvolve(m.id);
+  go.onpointerenter = showPlain;
+  const pr = $('[data-promote]', sh);
+  if (pr && plan) { pr.onclick = () => doPromote(plan); pr.onpointerenter = showPlan; go.onpointerleave = showPlan; }
+  snd.play('ui');
+};
+function evolveCut(from: { art: string; name: string; lv: number }, m: M.Monster, isNew: boolean, extra = '') {
+  const st = must('#stage');
+  st.appendChild(h('<div class="flash"></div>'));
+  setTimeout(() => $$('.flash').forEach(e => e.remove()), 800);
+  const to = { art: monArt(m), name: M.monName(m), lv: M.monLevel(m) };
+  const modal = must('#modal');
+  modal.hidden = false; A.ui.modal = 'evolve';
+  modal.innerHTML = `<div class="evwrap"><div class="flipwrap"><div class="flipcard" id="flip">
+      <div class="f"><div class="ph">${img(from.art, 5)}</div><b>${from.name}</b><span>Lv ${from.lv}</span></div>
+      <div class="f b">${isNew ? '<span class="newrib">NEW · 도감 +1</span>' : ''}<div class="ph">${img(to.art, 5)}</div><b>${to.name}</b><span>Lv ${to.lv} · ${m.stage + 1}단계</span></div>
+    </div></div><div class="evcap" id="evcap">사원증 사진 교체 중…</div></div>`;
+  setTimeout(() => { $('#flip')?.classList.add('flipped'); snd.play('evolve'); }, A.demo ? 0 : 250);
+  setTimeout(() => { const c = $('#evcap'); if (c) c.innerHTML = `${josa(to.name, '이', '가')} 됐어요!${extra ? ' ' + extra : ''} <span class="dim">(눌러서 닫기)</span>`; }, A.demo ? 0 : 1100);
+  const close = () => { if (A.ui.modal !== 'evolve') return; modal.hidden = true; modal.innerHTML = ''; A.ui.modal = null; refresh(); };
+  modal.onclick = close;
+  if (!A.demo) setTimeout(close, 3200);
+}
+function doEvolve(monId: number) {
+  const w = A.w, m = w.monsters.find(x => x.id === monId)!;
+  const from = { art: monArt(m), name: M.monName(m), lv: M.monLevel(m) };
+  const r = M.evolve(w, monId);
+  if (!r.ok) { nope(r.msg); return; }
+  A.closeSheet();
+  evolveCut(from, m, r.isNew);
+  // 진화도 5초 되돌리기. 도감 칸은 남는다 — 한 번 본 모습은 본 것이다
+  setTimeout(() => toast(`${M.monName(m)} 진화`, { undo: () => M.unevolve(w, monId, r.from, r.tenureBefore) }), A.demo ? 0 : 400);
+  emit([{ type: 'evolved', mon: m.id, isNew: r.isNew }]);
+  refresh();
+}
+function doPromote(plan: M.PromotePlan) {
+  const w = A.w, m = w.monsters.find(x => x.id === plan.mon)!;
+  const from = { art: monArt(m), name: M.monName(m), lv: M.monLevel(m) };
+  const r = M.promote(w, plan);
+  if (!r.ok) { nope(r.msg); return; }
+  A.closeSheet();
+  snd.play('place');
+  const where = plan.stay ? '' : `${ro(plotShort(plan.to!))} 발령`;
+  evolveCut(from, m, r.evo.isNew, where ? `${where}!` : '');
+  const parts = [where, r.hired ? `${M.monName(r.hired)} 채용` : '', r.hireCost + r.openCost ? `스마일 −${n(r.hireCost + r.openCost)}` : ''].filter(Boolean).join(' · ');
+  setTimeout(() => toast(`승진 발령 · ${parts}`, { undo: () => M.unpromote(w, plan, r) }), A.demo ? 0 : 400);
+  emit([{ type: 'evolved', mon: m.id, isNew: r.evo.isNew }]);
+  refresh();
+}
+
+// ── 직원 말풍선 (탭) ────────────────────────────────────────
+function closePop() { $$('.pop-mon').forEach(e => e.remove()); }
+A.openMonPop = (id, el) => {
+  closePop();
+  const w = A.w, m = w.monsters.find(x => x.id === id);
+  if (!m) return;
+  const r = rectOf(el), need = M.evolveNeed(m), sp = SPECIES[m.sp];
+  const tr = sp.trait ? TRAITS[sp.trait] : null;
+  const canRel = M.RULES_RELEASE() && !m.vet && m.sp !== 'balrog';
+  const pop = h(`<div class="pop-mon">
+    <div class="hd">${img(monArt(m), 2)}<div><b>${M.monName(m)} #${m.no}</b><div class="s">Lv ${M.monLevel(m)} · ${m.stage + 1}단계 · ${tr ? tr.icon + ' ' + tr.name : '표준'}${m.vet ? ' · 고참' : ''}</div><div class="s">${m.d ? plotName(m.d) : '대기실'} · 퇴근 ${n(m.work)}회</div></div></div>
+    <div class="tenure"><div class="t"><span>근속(퇴근)</span><span>${need === Infinity ? '최종 단계' : n(Math.min(m.tenure, need)) + ' / ' + n(need)}</span></div><div class="bar"><i style="width:${need === Infinity ? 100 : Math.min(100, 100 * m.tenure / need)}%;background:${M.canEvolve(m) ? 'var(--evolve)' : '#b8a6ff'}"></i></div></div>
+    <div class="row">${M.canEvolve(m) && !A.T.hideEvolve() ? '<button class="pri" data-ev>▲ 진화</button>' : ''}${m.d ? '<button data-see>현장 보기</button><button data-tray>대기실로</button>' : ''}${canRel ? `<button data-rel title="채용비 절반을 돌려받아요">본사 전근 +${n(M.releaseRefund(m))}</button>` : ''}</div>
+    <div class="tip">끌어서 다른 발판에 놓으면 옮겨져요. 놓기 전에 결과가 보여요</div></div>`);
+  const x = clamp(r.x + r.w / 2 - 135, 8, 1280 - 278), y = r.y > 300 ? r.y - 196 : r.y + r.h + 8;
+  pop.style.left = x + 'px'; pop.style.top = y + 'px';
+  must('#stage').appendChild(pop);
+  const ev = $('[data-ev]', pop); if (ev) ev.onclick = () => { closePop(); A.openEvolve(id); };
+  const see = $('[data-see]', pop); if (see) see.onclick = () => { closePop(); A.openDungeon(m.d!); };
+  const tr2 = $('[data-tray]', pop); if (tr2) tr2.onclick = () => {
+    closePop();
+    const pv = M.preview(w, { move: { id, to: null } });
+    const from = m.d, res = M.place(w, id, null);
+    if (!res.ok) return nope(res.msg);
+    snd.play('place');
+    toast(`${M.monName(m)} 대기실로${pv.lost.length ? ` · ${segList(pv.lost)} 비어요` : ''}`, { undo: () => { m.d = from; } });
+    refresh();
+  };
+  const rel = $('[data-rel]', pop); if (rel) rel.onclick = () => {
+    closePop();
+    const res = M.release(w, id);
+    if (!res.ok) return nope(res.msg);
+    snd.play('hire');
+    toast(`${M.monName(m)} 본사 전근 · 스마일 +${n(res.refund)}`, { undo: () => M.unrelease(w, res.mon, res.idx, res.refund) });
+    emit([{ type: 'released', mon: id }]);
+    refresh();
+  };
+  snd.play('ui');
+  setTimeout(() => {
+    const off = (e: Event) => { if (!pop.contains(e.target as Node)) { closePop(); window.removeEventListener('pointerdown', off, true); } };
+    window.addEventListener('pointerdown', off, true);
+  }, 0);
+};
+
+// ── S6 결재함 ───────────────────────────────────────────────
+A.openApproval = () => {
+  const w = A.w;
+  if (w.ended) { A.openFullClear(); return; }
+  const ch = M.chapterInfo(w), c = M.approvalConds(w), j = joyText(w);
+  const ok1 = w.approvalReady || c.road, ok2 = w.approvalReady || c.happy, ok3 = w.approvalReady || c.balrog;
+  const next = CHAPTERS[ch.n];
+  const nextSp = SPECIES_IDS.filter(k => SPECIES[k].chapter === ch.n + 1).map(k => SPECIES[k].names[0]);
+  const modal = must('#modal');
+  modal.hidden = false; A.ui.modal = 'approval';
+  modal.innerHTML = `<div class="paper appr">
+    <div class="bigstamp" id="bigstamp">결재<small>머쉬맘</small></div>
+    <h5>결재 서류 · ${ch.n}장${ch.n === 5 ? ' · 마지막' : ''}</h5><h2>${ch.region}${ch.n === 1 ? '를' : '까지'} 잇자</h2>
+    <div class="c ${ok1 ? 'ok' : ''}"><span class="ck">${ok1 ? '✓' : '1'}</span><span class="lb">Lv 1–${ch.road} 빈틈 없이</span><div class="bar"><i style="width:${Math.round(100 * (ch.road - c.gapN) / ch.road)}%"></i></div><span class="v">${ok1 ? '완료' : '빈틈 ' + c.gapN}</span></div>
+    <div class="c ${ok2 ? 'ok' : ''}"><span class="ck">${ok2 ? '✓' : '2'}</span><span class="lb">모험가들의 즐거운 시간<small>😊 즐기는 모험가 × 머문 시간이 쌓여요</small></span><div class="bar"><i style="width:${ok2 ? 100 : j.pct}%;background:var(--smile)"></i></div><span class="v">${ok2 ? '완료' : `${n(j.joy)}<small>/${n(j.goal)}</small>`}</span></div>
+    ${c.needBalrog ? `<div class="c ${ok3 ? 'ok' : ''}"><span class="ck">${ok3 ? '✓' : '3'}</span><span class="lb">주니어 발록 던전 개장</span><div class="bar"><i style="width:${ok3 ? 100 : 0}%;background:var(--evolve)"></i></div><span class="v">${ok3 ? '완료' : '대기실에'}</span></div>` : ''}
+    ${!ok2 && j.eta ? `<div class="eta">지금 😊 ${M.happyCount(w)}명이면 ${j.eta} 뒤에 채워져요. 사람이 늘면 더 빨라요. <b>줄지는 않아요.</b></div>` : ''}
+    <div class="rw">결재 보상: <b>★ +1</b> · 모험가 도착 +3명/시간 ${next ? `· <b>${next.region}</b> 개방 · 부지 +3${nextSp.length ? ' · ' + nextSp.join(', ') + ' 채용' : ''} · 졸업선 Lv ${ch.road} → ${next.road}` : '· <b>섬 전체에 불</b>'}${ch.n === 2 ? ' · 동시 이벤트 +1' : ''}${ch.n === 4 ? ' · 주니어 발록 입사 지원서' : ''}</div>
+    ${ch.n === 5 ? `<div class="clip">${img('balrog', 2)}<div><b>입사 지원서 · 주니어 발록</b><br>"…손님이 오면, 맞아 드리겠습니다."</div></div>` : ''}
+    <div class="boss">${img('mom', 3)}<div class="say">${w.approvalReady ? '좋아요. 결재.' : ch.say}</div></div>
+    <div class="foot"><button class="btn" data-close>닫기</button>${w.approvalReady ? '<button class="btn red" data-stamp>결재 받기</button>' : ''}</div>
+  </div>`;
+  const close = () => { modal.hidden = true; modal.innerHTML = ''; A.ui.modal = null; emit([{ type: 'docSeen' }]); refresh(); };
+  must('[data-close]', modal).onclick = () => { snd.play('ui'); close(); };
+  modal.onclick = e => { if (e.target === modal) close(); };
+  const st = $<HTMLButtonElement>('[data-stamp]', modal);
+  if (st) st.onclick = () => {
+    st.disabled = true;
+    must('#bigstamp').classList.add('slam');
+    setTimeout(() => { snd.play('stamp'); shake(); }, 280);
+    setTimeout(() => {
+      const r = M.approve(w);
+      modal.hidden = true; modal.innerHTML = ''; A.ui.modal = null;
+      if (!r.ok) return;
+      save();
+      if (r.ending) ending(); else chapterCut(r.chapter);
+    }, A.demo ? 0 : 1200);
+  };
+  snd.play('ui');
+};
+const CUT_LINES: Record<number, [string, string]> = {
+  2: ['좋아요. 결재. 다음은 엘리니아예요.', '매니저님!! 엘리니아에 불이 켜졌어요!! 슬라임 신입이 들어올 수 있어요!!'],
+  3: ['좋아요. 결재. 페리온은 바위투성이예요.', '매니저님!! 헤네시스에서 키운 직원을 위로 발령 보내요!!'],
+  4: ['좋아요. 결재. 커닝시티는 사람이 많아요.', '매니저님!! 모험가님이 엄청 늘어요!! 자리 넉넉히요!!'],
+  5: ['좋아요. 결재. 마지막은 슬리피우드. 발록 씨가 기다려요.', '매니저님!! 주니어 발록 씨가 입사 지원서를 냈어요!! 대기실에 있어요!!'],
+};
+function chapterCut(k: number) {
+  const w = A.w, ch = CHAPTERS[k - 1];
+  const [mom, oren] = CUT_LINES[k] || ['좋아요. 결재.', '매니저님!!'];
+  const cut = h(`<div class="cut"><div>
+    <h1><small>CHAPTER ${k}</small>${k}장 · ${ch.region}</h1>
+    <div class="lines">
+      <div class="ln">${img('mom', 2)}${mom}</div>
+      <div class="ln">${img('oren', 2)}${oren}</div>
+    </div>
+    <button class="btn go" data-go>불 켜러 가기 →</button></div></div>`);
+  must('#stage').appendChild(cut);
+  A.ui.modal = 'cut';
+  must('[data-go]', cut).onclick = () => {
+    cut.remove(); A.ui.modal = null;
+    A.world.dirty = true;
+    snd.play('event');
+    setTimeout(() => snd.play('pop'), 900);
+    toast(`★ ${w.stars} · ${ch.region} 개방 · 졸업선 Lv ${ch.road}`);
+    emit([{ type: 'chapter', n: k }]);
+    refresh();
+  };
+}
+/** 엔딩 컷: 발록 던전에 첫 파티가 도착하고, 섬 전체에 불이 켜진다 */
+function ending() {
+  A.ui.modal = 'ending';
+  snd.play('ending');
+  const cut = h(`<div class="cut ending"><div>
+    <div class="endscene">${img('balrog', 5)}<div class="party">${[0, 1, 2, 3].map(i => img('a' + i, 3)).join('')}</div></div>
+    <div class="lines">
+      <div class="ln">${img('balrog', 2)}…손님인가.</div>
+      <div class="ln late">${img('balrog', 2)}…퇴근!</div>
+      <div class="ln late2">${img('mom', 2)}좋아요. 이 월드, 사람들이 좋아하네요.</div>
+    </div>
+    <h1 class="late3"><small>THE END</small>섬 전체에 불이 켜졌어요</h1>
+    <button class="btn go late3" data-go>계속 운영하기 →</button></div></div>`);
+  must('#stage').appendChild(cut);
+  must('[data-go]', cut).onclick = () => {
+    cut.remove(); A.ui.modal = null;
+    A.world.dirty = true;
+    emit([{ type: 'chapter', n: 5 }]);
+    refresh();
+    A.openFullClear();
+  };
+}
+
+// ── 완전 클리어 체크리스트 (엔딩 직후, 목적 상실 방지 02 §6.6) ─────
+A.openFullClear = () => {
+  const w = A.w, fc = M.fullClear(w);
+  const rows = PLOTS.map(p => {
+    const d = w.dungeons[p.id];
+    const st = d ? M.dungeonStars(d) : 0;
+    return `<div class="fcr ${st >= 3 ? 'ok' : ''}"><span>${p.name}</span><span class="st">${'★'.repeat(st)}<i>${'★'.repeat(3 - st)}</i></span><small>${d ? n(d.joy) : 0}/${n(M.JOY_STARS[2])}</small></div>`;
+  }).join('');
+  const modal = must('#modal');
+  modal.hidden = false; A.ui.modal = 'fullclear';
+  modal.innerHTML = `<div class="codex fc"><button class="x" data-close>✕</button>
+    <h2>🏝️ 완전 클리어 체크리스트</h2>
+    <div class="fcsum"><div class="${fc.ending ? 'ok' : ''}">엔딩 ${fc.ending ? '✓' : '—'}</div><div class="${fc.starred >= fc.plots ? 'ok' : ''}">던전 ★3 ${fc.starred}/${fc.plots}</div><div class="${fc.dex >= DEX_TOTAL ? 'ok' : ''}">직원 도감 ${fc.dex}/${DEX_TOTAL}</div></div>
+    <div class="fcgrid">${rows}</div>
+    <div class="dim" style="margin-top:10px">던전 ★은 그 던전의 누적 즐거움(😊 × 시간)으로 올라요. ★1 100 · ★2 500 · ★3 2,000</div></div>`;
+  const close = () => { modal.hidden = true; modal.innerHTML = ''; A.ui.modal = null; };
+  must('[data-close]', modal).onclick = close;
+  modal.onclick = e => { if (e.target === modal) close(); };
+};
+
+// ── S0 출근 리포트 ──────────────────────────────────────────
+function scene(kind: string, data: Record<string, unknown>) {
+  const w = A.w;
+  const advs = (k: number) => Array.from({ length: k }, (_, i) => `<div class="a" style="left:${14 + i * 38}px;bottom:52px">${img('a' + (i % 6), 2)}</div>`).join('');
+  if (kind === 'burst') return { cap: `✨ 한 시간에 레벨업 ${data.n}번`, html: advs(5) + Array.from({ length: 5 }, (_, i) => `<div class="a beam" style="left:${8 + i * 38}px;bottom:52px"></div>`).join('') + `<div class="a burstn">×${data.n}</div>` };
+  if (kind === 'grad') return { cap: data.first ? '🎓 첫 졸업!' : `🎓 ${data.n}명 졸업`, html: `<div class="a" style="left:80px;bottom:52px">${img('a4', 3)}</div><div class="a" style="left:92px;top:14px;font-size:30px">🎓</div><div class="a" style="left:24px;top:40px;font-size:22px">🎉</div><div class="a" style="left:160px;top:36px;font-size:22px">🎉</div>` };
+  if (kind === 'crowd') return { cap: `🌀 ${plotShort(data.d as PlotId)} 만원`, html: advs(5) + `<div class="a" style="left:20px;top:16px;font-size:22px">😠</div><div class="a" style="left:90px;top:10px;font-size:22px">😠</div><div class="a" style="left:150px;top:18px;font-size:22px">😊</div>` };
+  if (kind === 'ready') { const m = w.monsters.find(x => x.id === data.mon); if (!m) return null; return { cap: `▲ ${M.monName(m)} 진화 준비`, html: `<div class="a glowev" style="left:60px;bottom:52px">${img(monArt(m), 4)}</div><div class="a evmini">▲</div>` }; }
+  if (kind === 'doc') return { cap: '📋 결재 서류 도착', html: `<div class="a docp"></div><div class="a docs">결재</div>` };
+  if (kind === 'entrance') return { cap: `😐 입구 막힘 ${dur(data.min as number)}`, html: advs(3) + `<div class="a" style="left:30px;top:14px;font-size:22px">😐</div><div class="a" style="left:100px;top:10px;font-size:22px">😐</div>` };
+  return null;
+}
+A.showReport = (rep, awayMin) => {
+  const w = A.w;
+  A.ui.modal = 'report';
+  const picks: [string, Record<string, unknown>][] = [];
+  if (rep.approval) picks.push(['doc', {}]);
+  if (rep.firstGrad) picks.push(['grad', { first: true, n: rep.grads }]);
+  if (rep.bestBurst && rep.bestBurst.n >= 5 && M.levelsOf(w)[rep.bestBurst.d]) picks.push(['burst', rep.bestBurst as unknown as Record<string, unknown>]);
+  if (rep.ready.length) picks.push(['ready', { mon: rep.ready[0] }]);
+  if (rep.entranceMin >= 60) picks.push(['entrance', { min: rep.entranceMin }]);
+  if (rep.grads && !rep.firstGrad) picks.push(['grad', { n: rep.grads }]);
+  if (rep.crowdMax && rep.crowdMax.n >= 3) picks.push(['crowd', rep.crowdMax as unknown as Record<string, unknown>]);
+  const scenes = picks.slice(0, 3).map(([k, d]) => scene(k, d)).filter((x): x is { cap: string; html: string } => !!x);
+  const sinceIn = rep.happy - (A.checkin.happy0 || 0);
+  const king = rep.king && w.monsters.find(x => x.id === rep.king!.id);
+  const b = M.badges(w);
+  const chips: string[] = [];
+  if (w.approvalReady) chips.push(`<button class="tchip" data-go="doc"><i class="al">📋</i>결재 받기</button>`);
+  const gaps = b.filter((x): x is Extract<M.Badge, { kind: 'gap' }> => x.kind === 'gap').sort((p, q) => q.n - p.n);
+  const gap = gaps[0];
+  if (gap) chips.push(gap.n ? `<button class="tchip" data-go="gap" data-a="${gap.seg[0]}" data-b="${gap.seg[1]}"><i class="al">!</i>${gap.seg[0] === 1 ? '입구 막힘' : '빈틈'} ${segTxt(gap.seg)} · ${gap.n}명</button>` : `<button class="tchip" data-go="gap" data-a="${gap.seg[0]}" data-b="${gap.seg[1]}"><i class="cold">⋯</i>끊긴 길 ${segTxt(gap.seg)}</button>`);
+  const evs = b.filter((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve'); if (evs.length) chips.push(`<button class="tchip" data-go="ev" data-mon="${evs[0].mon}"><i class="ev">▲</i>진화 가능 ${evs.length}</button>`);
+  const bz = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy').sort((p, q) => q.n - p.n)[0]; if (bz) chips.push(`<button class="tchip" data-go="busy" data-d="${bz.d}"><i class="bz">🌀</i>${plotShort(bz.d)} 과밀</button>`);
+  const bal = w.monsters.find(m => m.sp === 'balrog' && !m.d); if (bal) chips.push(`<button class="tchip" data-go="world"><i class="ev">👹</i>발록 씨 배치</button>`);
+  const ch = M.chapterInfo(w), c = M.approvalConds(w), j = joyText(w);
+  const el = h(`<div class="report"><div class="paper rp">
+    <div class="stamp" id="rstamp">출근<small>${clockText(w.t).split(' · ')[1]}</small></div>
+    <h1>매니저님 출근!</h1><div class="sub">매니저님이 퇴근한 ${dur(awayMin)} 동안, 월드는 이렇게 돌았어요</div>
+    <div class="tiles">
+      <div class="tile main"><div class="k">😊 지금 월드를 즐기는 모험가</div><div class="v"><span data-count="${rep.happy}">0</span>${sinceIn > 0 ? `<span class="dd">▲ ${sinceIn}<small>지난 출근보다</small></span>` : ''}</div></div>
+      <div class="tile"><div class="k">✨ 그동안 레벨업</div><div class="v"><span data-count="${rep.levelups}">0</span><span class="dd gray">회</span></div></div>
+      <div class="tile"><div class="k">스마일</div><div class="v"><div class="can big"></div>+<span data-count="${Math.max(0, rep.smile)}">0</span></div></div>
+    </div>
+    <div class="scenes">
+      ${scenes.map(s => `<div class="scn"><div class="g"></div>${s.html}<div class="cap">${s.cap}</div></div>`).join('')}
+      ${king ? `<div class="king"><h5>👑 밤사이 퇴근왕</h5><div class="ph"><span class="crown">👑</span>${img(monArt(king), 3)}</div><b>${M.monName(king)} #${king.no}</b><span>퇴근 ${n(rep.king!.n)}회</span></div>` : ''}
+    </div>
+    <div class="todo"><span class="lbl">할 일</span>${chips.join('') || '<span class="dim">고칠 곳이 없어요. 구경하셔도 돼요!</span>'}<button class="cta" data-go="world">월드로 →</button></div>
+    ${w.ended ? '' : `<div class="goal"><b>📋 ${ch.n}장 결재</b>① Lv 1–${ch.road} 잇기 <div class="bar"><i style="width:${Math.round(100 * (ch.road - c.gapN) / ch.road)}%"></i></div>${!c.road && !w.approvalReady ? `<em class="no">빈틈 ${c.gapN}</em>` : '✓'}
+      <span class="g2">② 즐거운 시간</span><div class="bar"><i style="width:${w.approvalReady ? 100 : j.pct}%;background:var(--smile)"></i></div>${w.approvalReady || j.ok ? '✓' : Math.floor(j.pct) + '%' + (j.eta ? ` · ${j.eta}` : '')}</div>`}
+  </div></div>`);
+  must('#stage').appendChild(el);
+  // 연출: 도장 → 숫자 → 명장면 → 퇴근왕
+  const T = (ms: number, f: () => void) => (A.demo ? f() : setTimeout(f, ms));
+  T(250, () => { el.querySelector('#rstamp')!.classList.add('slam'); snd.play('tak'); });
+  $$('.tile', el).forEach((t, i) => T(500 + i * 150, () => t.classList.add('in')));
+  T(700, () => {
+    $$<HTMLElement>('[data-count]', el).forEach(s => {
+      const to = +(s.dataset.count || 0), t0 = performance.now();
+      if (A.demo) { s.textContent = n(to); return; }
+      const f = (now: number) => { const p = clamp((now - t0) / 900, 0, 1); s.textContent = n(to * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(f); };
+      requestAnimationFrame(f);
+    });
+    snd.play('coin');
+  });
+  $$('.scn', el).forEach((s, i) => T(1300 + i * 250, () => { s.classList.add('in'); snd.play('ui'); }));
+  T(1300 + scenes.length * 250 + 150, () => { el.querySelector('.king')?.classList.add('in'); });
+  const close = () => { el.remove(); A.ui.modal = null; A.world.snap = true; A.checkin.happy0 = M.happyCount(A.w); refresh(); };
+  $$<HTMLElement>('[data-go]', el).forEach(bt => (bt.onclick = () => {
+    const g = bt.dataset.go;
+    close();
+    if (g === 'doc') A.openApproval();
+    else if (g === 'gap') A.openHire({ seg: [+(bt.dataset.a || 1), +(bt.dataset.b || 1)] });
+    else if (g === 'ev') A.openEvolve(+(bt.dataset.mon || 0));
+    else if (g === 'busy') A.openDungeon(bt.dataset.d!, { hl: 'seat' });
+  }));
+};
+
+/** 떠나 있던 시간을 서버처럼 한 번에 계산하고 리포트를 띄운다 */
+A.catchUp = minutes => {
+  const w = A.w;
+  const L = M.ledgerStart(w);
+  const k = M.advance(w, minutes, L);
+  const rep = M.ledgerReport(L, w);
+  A.world.snap = true;
+  A.showReport(rep, k);
+  refresh();
+};
+
+// ── S7 매니저 퇴근 ──────────────────────────────────────────
+A.offDuty = why => {
+  if (A.ui.off) return;
+  // 입구가 막힌 채 퇴근하려 하면 오렌이 한 번 붙잡는다 (밤새 새 손님이 못 들어오는 걸 막는다)
+  if (why === 'manual' && !A.ui.modal) {
+    const g = M.gapSegments(A.w)[0];
+    if (g && g[0] === 1 && !(A.ui as { warned?: boolean }).warned) {
+      (A.ui as { warned?: boolean }).warned = true;
+      toast('입구가 막혀 있어요!! 밤새 새 손님이 혼자 걸어야 해요. 그래도 퇴근하려면 한 번 더 눌러요');
+      A.openHire({ seg: g });
+      setTimeout(() => { (A.ui as { warned?: boolean }).warned = false; }, 8000);
+      return;
+    }
+  }
+  A.closeSheet();
+  if (A.ui.mode === 'dungeon') A.closeDungeon();
+  $$('.pop-mon').forEach(e => e.remove());
+  A.ui.off = true;
+  A.ui.offAt = performance.now();
+  A.ui.offSpeed = A.speed;
+  save();
+  const stars = Array.from({ length: 14 }, () => `<i style="left:${Math.random() * 140}px;top:${Math.random() * 100}px"></i>`).join('');
+  const el = h(`<div class="offduty"><div>
+    <div class="office"><div class="win">${stars}</div><div class="glow"></div><div class="lamp"></div><div class="desk"></div>
+      <div class="cancan"><div class="can big"></div></div>
+      <div class="who">${img('oren', 4)}</div></div>
+    <h2>매니저님 퇴근!</h2>
+    <p>${why === 'idle' ? '한동안 입력이 없어서 퇴근 처리했어요. ' : ''}월드는 서버 시간으로 계속 돌아요. 오렌이 지키고 있을게요!!</p>
+    <button class="btn go big" data-in>출근하기</button>
+    ${A.speed > 1 ? `<div class="dim small">테스트: 퇴근해 있는 동안 현재 배속(×${A.speed})으로 시간이 흐른 것으로 계산해요</div>` : ''}
+  </div></div>`);
+  must('#stage').appendChild(el);
+  must('[data-in]', el).onclick = () => {
+    const realMin = (performance.now() - A.ui.offAt) / 60000;
+    const min = realMin * A.ui.offSpeed;
+    el.remove(); A.ui.off = false;
+    A.ui.lastInput = performance.now();
+    snd.play('tak');
+    if (min >= 1) A.catchUp(min); else { A.world.snap = true; refresh(); }
+  };
+};
+
+// ── 도감 ────────────────────────────────────────────────────
+A.openCodex = () => {
+  const w = A.w;
+  let rows = '';
+  for (const sp of SPECIES_IDS) {
+    const s = SPECIES[sp];
+    const open = sp === 'balrog' ? !!w.dex['balrog:0'] : s.chapter <= w.chapter;
+    rows += `<div class="rowc"><div class="nm">${open ? (sp === 'balrog' ? '특별 입사' : s.names[0] + ' 계열') : '???'}<small>${s.trait ? TRAITS[s.trait].icon + ' ' + TRAITS[s.trait].name : s.note && open ? s.note : '표준'}</small></div>`;
+    s.names.forEach((nm, i) => {
+      const k = w.dex[sp + ':' + i];
+      rows += `<div class="cell ${k ? 'got' : ''}"><div class="ph">${k ? img(s.art[i], 2) : sil(s.art[i], 2)}</div>${k ? nm : '?'}${s.boss && i === s.names.length - 1 ? ' 👑' : ''}<br><span>Lv ${s.base + 8 * i}</span></div>`;
+    });
+    rows += `</div>`;
+  }
+  const modal = must('#modal');
+  modal.hidden = false; A.ui.modal = 'codex';
+  modal.innerHTML = `<div class="codex"><button class="x" data-close>✕</button><h2>📖 직원 도감 <small>${M.dexCount(w)} / ${DEX_TOTAL} · 높은 단계는 키워서만 얻어요</small></h2><div class="codexbody">${rows}</div></div>`;
+  const close = () => { modal.hidden = true; modal.innerHTML = ''; A.ui.modal = null; };
+  must('[data-close]', modal).onclick = close;
+  modal.onclick = e => { if (e.target === modal) close(); };
+  snd.play('ui');
+};

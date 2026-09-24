@@ -35,6 +35,52 @@ export const projects = [
     "updatedAt": "2026-07-15T15:28:50+00:00"
   },
   {
+    "id": "msw-inc",
+    "name": "MSW 주식회사",
+    "status": "prototype",
+    "type": "demo",
+    "runtime": "static-artifact",
+    "version": "1.0.0",
+    "summary": "몬스터가 직원인 회사에 월드 매니저로 입사해, 몬스터를 진화시키고 던전을 이어 모험가(NPC)들이 레벨 1부터 70까지 즐겁게 올라가는 월드를 만드는 저관여 월드 매니지먼트. 메인 화면 \"월드 길\"은 가로축이 레벨이고, 던전은 자기 적정 구간 너비의 발판, 발판이 없는 땅이 빈틈이다. 핵심 결정은 \"지금 진화시킬까?\" — 진화하면 위가 열리지만 아래가 빈다. 5장(헤네시스→슬리피우드) 전부와 주니어 발록 엔딩, 완전 클리어(던전 15곳 ★3·도감 36)까지 돈다. 컨셉 v1.1을 봇 8성향×5번(40번) 굴려 선택 하나가 진행을 멈추거나 크게 가르는 곳을 찾아 고쳤다(규칙 v1.2): 빈틈의 모험가는 떠나지 않고 천천히 걷고(멈춘 월드 13/40 → 0), 결재 ②는 줄지 않는 \"즐거운 시간\" 누적으로 바꿔 벽을 없앴고, 진화 시트는 \"승진 발령\"(진화한 직원은 위로, 빈자리는 신입으로)을 결과를 먼저 보여 주며 권한다. 모든 결정은 5초 되돌리기. 40번 모두 D27~39에 엔딩(표준 D33).",
+    "tags": [
+      "game",
+      "idle",
+      "management",
+      "maplestory-worlds",
+      "simulation"
+    ],
+    "projectRoot": "projects/msw-inc",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/msw-inc/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md",
+      "choiceAudit": "notes/choice-audit.md",
+      "uxReview": "notes/ux-review.md",
+      "content": "notes/content.md",
+      "decisions": "notes/decisions.md",
+      "concept": "../../docs/concept/maple-idle/msw-inc/README.md"
+    },
+    "assets": {
+      "cover": "assets/screenshots/cover.png"
+    },
+    "commands": {
+      "dev": "pnpm --filter msw-inc dev",
+      "build": "pnpm --filter msw-inc build",
+      "test": "pnpm --filter msw-inc test",
+      "pacing": "pnpm --filter msw-inc pacing",
+      "audit": "pnpm --filter msw-inc audit",
+      "smoke": "pnpm --filter msw-inc smoke",
+      "shots": "pnpm --filter msw-inc shots"
+    },
+    "updatedAt": "2026-09-24T16:36:10+00:00"
+  },
+  {
     "id": "retro-bowling",
     "name": "Retro Bowling",
     "status": "prototype",
@@ -353,6 +399,6 @@ export const projects = [
       "playlog": "pnpm --filter relic-king playlog",
       "density": "pnpm --filter relic-king density"
     },
-    "updatedAt": "2026-09-23T15:30:15+00:00"
+    "updatedAt": "2026-09-24T01:42:06+00:00"
   }
 ] as const satisfies readonly ProjectMetadata[];

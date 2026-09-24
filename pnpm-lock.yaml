@@ -178,6 +178,15 @@ importers:
         specifier: ^6.0.7
         version: 6.4.3(@types/node@20.19.43)(tsx@4.22.4)
 
+  projects/msw-inc/app:
+    dependencies:
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vite:
+        specifier: ^6.0.7
+        version: 6.4.3(@types/node@20.19.43)(tsx@4.22.4)
+
   projects/relic-king/app:
     dependencies:
       '@types/react':
