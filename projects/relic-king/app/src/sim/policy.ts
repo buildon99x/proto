@@ -65,10 +65,36 @@ export function nextTarget(w: World): SiteId {
   return [...rank].sort((a, b) => siteCoverageGap(w, b) - siteCoverageGap(w, a))[0];
 }
 
+/**
+ * 확장 축(발굴단 슬롯·시설)의 사람 조작 사이 최소 간격(초, v0.6.6).
+ *
+ * 예전 정책은 문턱을 넘은 구매를 **한 틱에 전부** 눌렀다 — 첫 중복 배치 매각이 목돈을
+ * 만드는 틱에 슬롯 해금·단장·보관소·습도·복원·보안·박물관·경매장·관장·경매관장이
+ * 한꺼번에 열려(운영 기본 시드 38:30에 증강 포함 14건, 59:15에 박물관·경매장·관장·경매관장 4건
+ * 동시, `notes/decision-tree-10h.md` §3) 각각의 첫 경험이 한 번에 뭉개졌고, 사람이
+ * 실제로 그렇게 누르지도 않는다(탭을 옮겨 가며 한 번에 하나씩 고른다). 그래서 이
+ * 두 축은 **합쳐서 1분에 한 건**만 누른다. 슬롯을 연 뒤 그 칸에 단장을 앉히는 것은
+ * 같은 결정의 마무리라 이 간격을 타지 않는다.
+ */
+const EXPANSION_ACTION_GAP_SECONDS = 60;
+const lastExpansionActionAt = new WeakMap<World, number>();
+function expansionActionReady(w: World): boolean {
+  const last = lastExpansionActionAt.get(w);
+  return last === undefined || w.t - last >= EXPANSION_ACTION_GAP_SECONDS;
+}
+
 /** 발굴단 슬롯 해금 → 단장 고용 → 새 거점 파견까지 — 방치형 정책의 "발굴단 파견" 축 */
 export function ensureTeams(w: World) {
-  while (w.teams.length >= w.maxTeams && w.maxTeams < MAX_EXPEDITION_TEAMS_CAP) {
-    if (!unlockTeamSlot(w)) break;
+  // 첫 박물관·첫 경매장을 지을 수 있는 틱이면 그쪽을 먼저 누르고 슬롯은 다음 분으로 미룬다 —
+  // 둘 다 첫 중복 배치 매각의 목돈을 두고 다투는데, 슬롯을 먼저 열면 1분 뒤에는 자동
+  // 증강이 그 돈을 이미 썼다(운영 12시드 첫 경매장 중앙 약 38분 → 47분으로 밀렸다).
+  if (expansionActionReady(w) && !firstBuildReady(w, teamHomeSite(w))) {
+    let unlocked = false;
+    while (w.teams.length >= w.maxTeams && w.maxTeams < MAX_EXPEDITION_TEAMS_CAP) {
+      if (!unlockTeamSlot(w)) break;
+      unlocked = true;
+    }
+    if (unlocked) lastExpansionActionAt.set(w, w.t);
   }
   while (w.teams.length < Math.min(w.maxTeams, MAX_EXPEDITION_TEAMS_CAP)) {
     const home = teamHomeSite(w);
@@ -126,26 +152,23 @@ export function liquidateSurplus(w: World) {
   }
 }
 
+/**
+ * 첫 경매장을 지을 **동기**(v0.6.6, `notes/decision-tree-10h.md` P6) — 소장고에 중복이
+ * 이만큼 쌓인 것을 한 번이라도 본 뒤에 짓는다. "팔 곳이 필요하다"는 중복이 눈에 띄게
+ * 쌓일 때 생기고, 이 값은 자동 정리가 한 번에 치우는 문턱(`AUTO_SELL_SPARE_BATCH_MIN`
+ * = 20점)의 3/4이다. 이 문턱이 없으면 건립비가 싸진 첫 경매장이 박물관과 몇 분
+ * 간격으로 붙어 열린다 — 두 첫 경험을 떼어 놓으려는 목적이 도로 무너진다.
+ */
+const AUCTION_MOTIVE_SPARES = 15;
+const auctionMotiveSeen = new WeakSet<World>();
+
 /** 보관소·습도·복원·보안·박물관·경매장 — "시설 건립" 축. 급하지 않은 지출이라
- *  발굴단·레거시 확장보다 뒤에 붙되, 매 틱 조금씩 흘려 넣는다. */
+ *  발굴단·레거시 확장보다 뒤에 붙되, 1분에 한 건씩 흘려 넣는다
+ *  (`EXPANSION_ACTION_GAP_SECONDS` 주석). */
 export function ensureFacilities(w: World) {
   const home = teamHomeSite(w);
-
-  if (w.vaultLevel < 6 && w.funds >= vaultLevelCost(w.vaultLevel) * 3) buyVaultLevel(w);
-  if (w.humidityLevel < 5 && w.funds >= humidityLevelCost(w.humidityLevel) * 3) buyHumidityLevel(w);
-  if (w.restorationLevel < 4 && w.funds >= restorationLevelCost(w.restorationLevel) * 3) buyRestorationLevel(w);
-  if (w.securityLevel < 4 && w.funds >= securityLevelCost(w.securityLevel) * 3) buySecurityLevel(w);
-
-  const museum = museumOf(w, home);
-  if (museum.grade === 0 && w.funds >= museumBuildCost(w.museums.length + 1) * 2) buildMuseum(w, home);
-  const m = w.museums.find((mm) => mm.site === home);
-  if (m) {
-    if (m.grade < 4 && w.funds >= museumGradeCost(m.grade) * 3) upgradeMuseumGrade(w, home);
-    if (w.funds >= marketingLevelCost(m.marketingLevel) * 3) buyMuseumMarketing(w, home);
-    if (!m.curatorId && w.funds >= 400_000) {
-      for (let slot = 0; slot < 3; slot++) if (hireCurator(w, home, slot)) break;
-    }
-  }
+  if (spareVaultItems(w, w.settings.autoSellSpareBelow).length >= AUCTION_MOTIVE_SPARES) auctionMotiveSeen.add(w);
+  if (expansionActionReady(w) && facilityAction(w, home)) lastExpansionActionAt.set(w, w.t);
   /**
    * **무료 "등급0 임시 전시대"(1슬롯)도 채운다**(v0.6). 예전엔 이 호출이
    * `if (m)` 안에 있어서 **진짜 박물관을 짓기 전까지 전시가 한 번도 일어나지
@@ -156,13 +179,8 @@ export function ensureFacilities(w: World) {
    */
   fillMuseumSlots(w, home);
 
-  if (w.auctionHouses.length === 0 && w.funds >= auctionHouseBuildCost(1) * 2) buildAuctionHouse(w, home);
   const house = auctionHouseOf(w, home);
   if (house) {
-    if (house.grade < 4 && w.funds >= auctionGradeCost(house.grade) * 3) upgradeAuctionGrade(w, home);
-    if (!house.auctioneerId && w.funds >= 400_000) {
-      for (let slot = 0; slot < 3; slot++) if (hireAuctioneer(w, home, slot)) break;
-    }
     /**
      * 경매장이 생기면 **중복분 자동 정리를 경매로 한 번 설정하고 손을 뗀다**(v0.3.4).
      *
@@ -183,6 +201,50 @@ export function ensureFacilities(w: World) {
     const waiting = spareVaultItems(w, w.settings.autoSellSpareBelow).length;
     w.settings.spareDestination = waiting > AUCTION_BACKLOG_FALLBACK_ITEMS ? "sell" : "auction";
   }
+}
+
+/** 첫 박물관을 지을 때인가 — 비용의 2배가 모였다 */
+function museumBuildReady(w: World, home: SiteId): boolean {
+  return museumOf(w, home).grade === 0 && w.funds >= museumBuildCost(w.museums.length + 1) * 2;
+}
+/** 첫 경매장을 지을 때인가 — 중복이 쌓이는 것을 봤고(`AUCTION_MOTIVE_SPARES`) 비용의 2배가 모였다 */
+function auctionBuildReady(w: World): boolean {
+  return w.auctionHouses.length === 0 && auctionMotiveSeen.has(w) && w.funds >= auctionHouseBuildCost(1) * 2;
+}
+function firstBuildReady(w: World, home: SiteId): boolean {
+  return museumBuildReady(w, home) || auctionBuildReady(w);
+}
+
+/**
+ * 시설 축에서 **지금 누를 한 건**을 누른다. 문턱은 v0.6.5 정책 그대로다(건립은
+ * 비용의 2배, 증설은 3배, 관장·경매관장은 자금 40만 달러). 눌렀으면 true.
+ */
+function facilityAction(w: World, home: SiteId): boolean {
+  // 1) 건립 — 박물관·경매장이 각자의 순간에 열린다(첫 건립비는 balance.ts
+  //    `MUSEUM_FIRST_BUILD_COST`·`AUCTION_HOUSE_FIRST_BUILD_COST`, 경매장 동기는
+  //    위 `AUCTION_MOTIVE_SPARES`)
+  if (museumBuildReady(w, home) && buildMuseum(w, home)) return true;
+  if (auctionBuildReady(w) && buildAuctionHouse(w, home)) return true;
+  // 2) 고용
+  const m = w.museums.find((mm) => mm.site === home);
+  if (m && !m.curatorId && w.funds >= 400_000) {
+    for (let slot = 0; slot < 3; slot++) if (hireCurator(w, home, slot)) return true;
+  }
+  const house = auctionHouseOf(w, home);
+  if (house && !house.auctioneerId && w.funds >= 400_000) {
+    for (let slot = 0; slot < 3; slot++) if (hireAuctioneer(w, home, slot)) return true;
+  }
+  // 3) 증설
+  if (w.vaultLevel < 6 && w.funds >= vaultLevelCost(w.vaultLevel) * 3 && buyVaultLevel(w)) return true;
+  if (w.humidityLevel < 5 && w.funds >= humidityLevelCost(w.humidityLevel) * 3 && buyHumidityLevel(w)) return true;
+  if (w.restorationLevel < 4 && w.funds >= restorationLevelCost(w.restorationLevel) * 3 && buyRestorationLevel(w)) return true;
+  if (w.securityLevel < 4 && w.funds >= securityLevelCost(w.securityLevel) * 3 && buySecurityLevel(w)) return true;
+  if (m) {
+    if (m.grade < 4 && w.funds >= museumGradeCost(m.grade) * 3 && upgradeMuseumGrade(w, home)) return true;
+    if (w.funds >= marketingLevelCost(m.marketingLevel) * 3 && buyMuseumMarketing(w, home)) return true;
+  }
+  if (house && house.grade < 4 && w.funds >= auctionGradeCost(house.grade) * 3 && upgradeAuctionGrade(w, home)) return true;
+  return false;
 }
 
 export function bestSite(w: World): SiteId {
@@ -278,21 +340,10 @@ export function actExpansion(w: World) {
 
   ensureTeams(w);
   redispatchIdleTeams(w);
-  // 다음 발굴단 슬롯 해금 비용의 1.5배를 먼저 비축한다 — 그 전까지는 팀
-  // 인원·장비 증강을 미룬다. 팀 발굴력을 계속 올리면 원정비(노셔널 수입 비례)도
-  // 같이 커져 "슬롯 하나를 더 늘려 12거점 커버리지를 넓히는" 더 나은 투자로
-  // 갈 자금이 한 팀의 점증 업그레이드에 계속 흡수돼 버린다(마무리 패스 실측 —
-  // 48시간이든 336시간이든 팀이 1개에서 멈췄다, notes/decisions.md G56).
-  const nextSlotCost =
-    w.maxTeams < MAX_EXPEDITION_TEAMS_CAP
-      ? EXPEDITION_TEAM_UNLOCK_BASE * Math.pow(EXPEDITION_TEAM_UNLOCK_GROWTH, w.maxTeams - 1)
-      : 0;
-  const teamUpgradesOk = w.funds >= nextSlotCost * 1.5;
-  for (const team of w.teams) {
-    if (teamUpgradesOk && w.funds >= 250_000) buyTeamWorker(w, team.id);
-    if (teamUpgradesOk && w.funds >= 2_500_000) buyTeamGear(w, team.id);
-  }
-
+  // 발굴단 인원·장비 증강은 v0.6.6부터 **게임이** 한다(`engine.ts`
+  // `autoInvestTeams`, 자동 재투자). 여기 있던 수동 루프(다음 슬롯 해금비 ×1.5
+  // 비축 · 인원 25만 · 장비 250만)를 문턱째 그대로 엔진으로 옮겼다 — 첫 10시간
+  // 사람 조작의 59%가 이 루프였다(notes/decisions.md G80.1).
   ensureFacilities(w);
 }
 

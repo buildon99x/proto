@@ -27,6 +27,7 @@ import {
   STAFF_MARKET_REFRESH_HOURS, STAFF_PROMOTION_INTERVAL_HOURS, STOLEN_TO_BLACKMARKET_CHANCE,
   THEFT_APPLICABLE_MAX_TIER, THEFT_RATE_BASE, THEFT_RECOVERY_WINDOW_HOURS, TIER4_SPECIES_TOTAL,
   CONDITION_TICK_SECONDS, VAULT_CARE_COST_HEADROOM, VAULT_CARE_HUMIDITY_FLOOR,
+  TEAM_AUTO_GEAR_MIN_FUNDS, TEAM_AUTO_UPGRADE_SLOT_RESERVE_MULT, TEAM_AUTO_WORKER_MIN_FUNDS,
   TIER_STOCK_PER_SPECIES, TIP_DECIDE_AFTER_GRACE_SECONDS, TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN,
   TIP_FIRST_DELAY, TIP_FIRST_UNIQUE_TAUGHT, TIP_FIRST_WIN_GUARANTEED, TIP_UNIQUE_PRIORITY,
   TIP_UNIQUE_REQUIRES_RESPONSE,
@@ -1320,11 +1321,16 @@ export function hireForeman(w: World, site: SiteId, slot: number): string | null
   return id;
 }
 
+/** 다음(n번째, 2~4번째) 발굴단 슬롯 해금비. 슬롯이 이미 상한이면 0 */
+export function nextTeamSlotCost(w: World): number {
+  if (w.maxTeams >= MAX_EXPEDITION_TEAMS_CAP) return 0;
+  return EXPEDITION_TEAM_UNLOCK_BASE * Math.pow(EXPEDITION_TEAM_UNLOCK_GROWTH, w.maxTeams - 1);
+}
+
 /** n번째(2~4번째) 발굴단 슬롯 해금(spec.md §8.1) */
 export function unlockTeamSlot(w: World): boolean {
   if (w.maxTeams >= MAX_EXPEDITION_TEAMS_CAP) return false;
-  const n = w.maxTeams + 1;
-  const cost = EXPEDITION_TEAM_UNLOCK_BASE * Math.pow(EXPEDITION_TEAM_UNLOCK_GROWTH, n - 2);
+  const cost = nextTeamSlotCost(w);
   if (w.funds < cost) return false;
   w.funds -= cost;
   w.maxTeams += 1;
@@ -1966,6 +1972,72 @@ export function autoInvestLegacyDig(w: World) {
 }
 
 /**
+ * 발굴단 자동 증강이 건드리지 않고 남겨 두는 자금 — **플레이어가 다음 확장을 위해
+ * 모으는 돈**이다.
+ *
+ * 1. 다음 발굴단 슬롯 해금비 × 1.5(정책이 쓰던 비축 규칙 그대로)
+ * 2. 빈 슬롯이 있으면 단장 고용비
+ * 3. base 칸이 남아 있으면 아직 안 연 거점 중 가장 싼 해금비
+ *
+ * 2·3은 정책에 없던 줄이 아니라 **정책의 순서**를 옮긴 것이다. 예전 정책은 거점 해금 →
+ * 슬롯 해금 → 단장 고용을 먼저 누르고 **남은 돈으로** 증강했다. 자동화는 그보다 앞선
+ * 자동 루틴 안에서 돌기 때문에, 이 몫을 비워 두지 않으면 인원 1명(1.8만 달러)이 거점
+ * 해금 문턱을 갉아 첫 10분의 두 번째 거점이 5분 밀렸다(5시드 중 1시드 실측 —
+ * 층 돌파 30 → 22회, 밀도 원장 D축 1.32 → 1.59).
+ */
+function teamUpgradeReserve(w: World): number {
+  let reserve = nextTeamSlotCost(w) * TEAM_AUTO_UPGRADE_SLOT_RESERVE_MULT;
+  if (w.teams.length < w.maxTeams) reserve += FOREMAN_HIRE_COST;
+  if (SITES.filter((s) => w.sites[s.id].unlocked).length < ownedSiteCap(w)) {
+    const locked = SITES.filter((s) => !w.sites[s.id].unlocked).map((s) => s.unlockCost);
+    if (locked.length > 0) reserve += Math.min(...locked);
+  }
+  return reserve;
+}
+
+/**
+ * 발굴단 인원·장비 자동 증강(v0.6.6, `notes/decisions.md` G80.1).
+ *
+ * 레거시 인부·장비는 자동으로 사 주면서 **발굴단** 인원·장비는 안 사 주던 비대칭을
+ * 닫는다. 운영 기준선에서 첫 10시간 사람 조작 144회 중 85회가 이 증강이었고, 첫
+ * 1시간에만 38:30~59:30에 44회가 몰렸다(75초에 여섯 틱 연속). "살 수 있으면 산다"라
+ * 결정이 아니라 잡무다.
+ *
+ * G80.1이 자동화를 미룬 이유(팀 증강이 슬롯 해금 자금을 흡수한다)는 **정책이 이미
+ * 풀어 둔 규칙을 그대로 가져와** 닫는다 — 다음 슬롯 해금비의 1.5배를 먼저 비축하고(위
+ * `teamUpgradeReserve`), 인원은 25만·장비는 250만 달러 이상에서만 산다(`balance.ts`
+ * `TEAM_AUTO_*`). 한 번에 팀마다 인원 1·장비 1까지만 산다 — 정책이 틱마다 하던 그대로다.
+ *
+ * 정책에 없던 규칙은 둘이다.
+ * - **현지 작업을 시작한 팀(on_site·traveling_back)은 증강하지 않는다.** 원정비는 후불이고
+ *   귀환 순간의 팀 발굴력으로 그 회차 현지 작업 **전체**를 사이징한다(`finalizeExpedition`).
+ *   귀환 직전에 산 인원 한 명이 회차 전체 청구서를 소급해 키운다 — 방치 플레이에 이걸
+ *   켰더니 인원 33명짜리 팀이 53분에 1,870만 달러를 청구받아 자금이 음수로 떨어지고
+ *   감정이 3분 넘게 멈췄다(`qa:pipeline` 최장 정지 중앙 48 → 253초). 대기·출발 중인 팀만
+ *   키우면 새 발굴력이 그 회차 현지 작업 전체에 실제로 쓰이므로 청구가 정직해진다
+ *   (같은 게이트 23초).
+ * - 레거시 재투자와 같은 감정비 여유분(`autoInvestReserve`)을 산 뒤에도 남긴다.
+ *
+ * `settings.autoReinvest`를 따른다(끄면 쉰다). `advance()` 안에서 부르지 않는다 —
+ * `autoInvestLegacyDig`와 같은 이유다(팀 발굴력 변화가 원정 정산 스텝 무관성을 깬다).
+ */
+export function autoInvestTeams(w: World) {
+  if (!w.settings.autoReinvest) return;
+  if (w.funds < teamUpgradeReserve(w)) return;
+  const feeReserve = autoInvestReserve(w);
+  for (const team of w.teams) {
+    // 현지 작업을 시작한 팀은 건너뛴다 — 후불 원정비가 소급으로 커진다(위 주석)
+    if (team.status === "on_site" || team.status === "traveling_back") continue;
+    if (w.funds >= TEAM_AUTO_WORKER_MIN_FUNDS && w.funds - workerCost(teamWorkersSum(w)) >= feeReserve) {
+      buyTeamWorker(w, team.id);
+    }
+    if (w.funds >= TEAM_AUTO_GEAR_MIN_FUNDS && w.funds - gearCost(teamGearSum(w)) >= feeReserve) {
+      buyTeamGear(w, team.id);
+    }
+  }
+}
+
+/**
  * 중복분을 **경매장에 출품**한다(v0.3.4). 대상 선정은 `spareVaultItems()` 하나가
  * 그대로 맡으므로 종당 1점·전시 중·국보/유일·티어 상한 네 겹이 전부 같이 지켜진다
  * — 출구만 `blindSell`/직접매각에서 경매로 바뀐다.
@@ -2152,7 +2224,7 @@ export function autoVaultCare(w: World) {
 }
 
 /**
- * 세 배경 루틴(미감정 잉여 처분·소장고 중복분 정리·인부/장비/감정소 재투자)을
+ * 배경 루틴(미감정 잉여 처분·소장고 중복분 정리·인부/장비/감정소 재투자·발굴단 증강)을
  * 한 번에 묶어 부른다(notes/decisions.md G57·G68). **`step()`/`advance()`가 자동으로 부르지
  * 않는다** — 위 세 함수의 주석이 각각 실측으로 남긴 이유(스텝-청크 잔차가
  * 장시간 단일 `advance()` 호출 안에서 funds·드랍/층 진행으로 증폭된다)가
@@ -2167,6 +2239,7 @@ export function runAutoRoutine(w: World) {
   autoSellVaultSpares(w);
   autoVaultCare(w);
   autoInvestLegacyDig(w);
+  autoInvestTeams(w);
   redeployIdleRoutineTeams(w);
 }
 
