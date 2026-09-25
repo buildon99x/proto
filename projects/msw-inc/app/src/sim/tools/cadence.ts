@@ -9,18 +9,18 @@
  *
  * 사건은 층으로 나눈다. 같은 5초 틱 안의 같은 종류는 한 번으로 센다(파티 3명 도착 = 도착 1번).
  *   A 볼거리: 파티 도착 · 졸업 · 다음 던전으로 이사 · 5의 배수 레벨업 · 새로 막힘 · 길 뚫림 · 구간 개방
- *   C 결정  : 결정할 거리가 생김(새 빈틈 · 진화 준비 · 붐빔 · 눈금 · 엘리트 · 필드 보스 · 결재) + 실제로 둔 수
+ *   C 결정  : 결정할 거리가 생김(새 빈틈 · 진화 준비 · 붐빔 · 눈금 · 엘리트 · 필드 보스 · 결재 · 드랍 상자) + 실제로 둔 수
  * 합격선(v1.4): 0~40분 A∪C 최장 간격 ≤ 20초, 중앙값 ≤ 15초, 둔 수 25 이상, 결정 사이 최장 ≤ 3분.
  * 레벨업 하나하나(빛기둥)는 기준에서 뺀다. 인원만 늘면 저절로 채워지는 값이라 참고로만 적는다.
  */
 import { writeFileSync } from 'node:fs';
 import * as S from '../sim';
-import { useRules, V12, V13, V14, RULES, type Rules } from '../rules';
+import { useRules, V12, V13, V14, V15, RULES, type Rules } from '../rules';
 import { firstSession, watchTo, realMinutes } from '../bots';
 
 const args = process.argv.slice(2);
 const arg = (k: string) => (args.includes(k) ? args[args.indexOf(k) + 1] : null);
-const BY_ID: Record<string, Rules> = { 'v1.2': V12, 'v1.3': V13, 'v1.4': V14 };
+const BY_ID: Record<string, Rules> = { 'v1.2': V12, 'v1.3': V13, 'v1.4': V14, 'v1.5': V15 };
 const rules = BY_ID[arg('--rules') || ''] || RULES;
 useRules({ ...rules });
 const SEEDS = arg('--seed') ? [+arg('--seed')!] : [7, 11, 23, 42, 99];
@@ -58,6 +58,7 @@ export function runCadence(seed: number, horizon = HORIZON): CadenceRun {
       else if (e.type === 'elite') C('elite');
       else if (e.type === 'bossCall') C('boss');
       else if (e.type === 'approval') C('approval');
+      else if (e.type === 'box') C('box');
       else if ((e as { type: string }).type === 'zone') A('zone');
     }
     const segs = S.gapSegments(w), g = S.gapSize(segs);
@@ -152,12 +153,14 @@ function main() {
   const kinds: Record<string, number> = {};
   for (const m of pick.r.moments) if (m.s < WINDOW * 60) kinds[m.kind] = (kinds[m.kind] || 0) + 1;
   console.log(`\n종류별 0~${WINDOW}분 (시드 ${pick.r.seed}):`, Object.entries(kinds).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(' · '));
-  // 결정 가짓수 (v1.5 계열 사다리): 0~40분 둔 수를 네 갈래로, 시드 5개 합
-  const fam = (k: string) => (/^act:(seat|slot)/.test(k) ? '자리' : /^act:(hire|split|crowd|expand|grow|rebuild|region)/.test(k) ? '채용' : /^act:(evolve|promote)/.test(k) ? '진화' : '기타');
-  const famN: Record<string, number> = { 자리: 0, 채용: 0, 진화: 0, 기타: 0 };
+  // 결정 가짓수 (v1.5 계열 사다리): 0~40분 둔 수를 갈래로, 시드 5개 합. v1.6 드랍 상자는 따로 센다
+  const fam = (k: string) => (/^act:(seat|slot)/.test(k) ? '자리' : /^act:(hire|split|crowd|expand|grow|rebuild|region)/.test(k) ? '채용' : /^act:(evolve|promote)/.test(k) ? '진화' : /^act:box/.test(k) ? '상자' : '기타');
+  const famN: Record<string, number> = { 자리: 0, 채용: 0, 진화: 0, 상자: 0, 기타: 0 };
   let actN = 0;
   for (const x of rows) for (const m of x.r.acts) if (m.s < WINDOW * 60) { famN[fam(m.kind)]++; actN++; }
+  const noBox = actN - famN.상자;
   console.log(`결정 갈래 0~${WINDOW}분 (시드 합 ${actN}수):`, Object.entries(famN).map(([k, v]) => `${k} ${v} (${Math.round((100 * v) / Math.max(1, actN))}%)`).join(' · '));
+  if (famN.상자) console.log(`  상자를 빼면 (${noBox}수): 자리 ${Math.round((100 * famN.자리) / Math.max(1, noBox))}% · 채용 ${Math.round((100 * famN.채용) / Math.max(1, noBox))}%`);
   console.log(`40분 순간 (시드 중앙값): 줄 선 사람 ${med(runs.map(r => r.at40.queue))} · 문을 연 던전 ${med(runs.map(r => r.at40.dungeons))} · 채용해 본 계열 ${med(runs.map(r => r.at40.species))}`);
   const e = pick.r.end;
   console.log(`${HORIZON}분 끝 (시드 ${pick.r.seed}): ${e.chapter}장 · 즐거움 ${e.happy}/${e.advs} · 스마일 ${e.smile} · 빈틈 ${JSON.stringify(e.gaps)}`);

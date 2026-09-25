@@ -1,7 +1,7 @@
 /*
  * S3 진화(+승진 발령) · S5 채용 · S6 결재 · S0 출근 리포트 · S7 매니저 퇴근 · 직원 말풍선 · 도감 · 엔딩 · 완전 클리어
  */
-import { A, $, $$, must, h, n, clamp, img, sil, monArt, josa, ro, plotName, plotShort, segTxt, clockText, dur, snd, nope, toast, emit, refresh, renderOren, rectOf, shake, joyText, save, markTicks, markLabel, RULES, M } from './app';
+import { A, $, $$, must, h, n, clamp, img, sil, monArt, josa, ro, plotName, plotShort, segTxt, clockText, dur, snd, nope, toast, emit, refresh, renderOren, rectOf, shake, joyText, save, markTicks, markLabel, boxReason, RULES, M } from './app';
 import { CHAPTERS, SPECIES, SPECIES_IDS, TRAITS, FIELD_BOSSES, fieldBoss, bossDexKey, type PlotId, type SpeciesId } from '../sim/content';
 
 const segList = (ss: M.Seg[]) => ss.map(segTxt).join(', ');
@@ -245,6 +245,44 @@ A.openBoss = () => {
 
 // ── 직원 말풍선 (탭) ────────────────────────────────────────
 function closePop() { $$('.pop-mon').forEach(e => e.remove()); }
+/**
+ * 드랍 상자 (v1.6): 채용권(지금 줄·빈틈에 맞는 계열)과 이벤트권 가운데 하나를 고른다. 오렌이 권하는 쪽이 노랗다.
+ * 스마일은 나오지 않는다. 고른 뒤 5초 되돌리기 (받은 권을 이미 썼으면 되돌리지 않는다)
+ */
+A.openBox = (id, el) => {
+  closePop();
+  const w = A.w, bx = M.boxesOf(w).find(b => b.id === id);
+  if (!bx) return;
+  const anchor = el && el.isConnected ? el : $(`#world [data-box="${id}"]`) || must('#oren');
+  const r = rectOf(anchor), pick = M.boxPick(w);
+  const hireOpt = M.boxOptions(w).find((o): o is Extract<M.BoxReward, { kind: 'hire' }> => o.kind === 'hire')!;
+  const sp = SPECIES[hireOpt.sp];
+  const pop = h(`<div class="pop-mon pop-box">
+    <div class="hd"><span class="bxi">📦</span><div><b>드랍 상자</b><div class="s">${plotName(bx.d)} 앞 · 하나만 골라요</div></div></div>
+    <div class="row col">
+      <button data-pick="hire" class="${pick.kind === 'hire' ? 'pri' : ''}">${img('m:' + sp.art[0], 2)}<span><b>🎟 ${sp.names[0]} 채용권</b><small>Lv ${sp.base} · ${boxReason(w, hireOpt.sp)}</small></span></button>
+      <button data-pick="event" class="${pick.kind === 'event' ? 'pri' : ''}"><i class="ic">🎫</i><span><b>무료 이벤트권</b><small>경험치·드랍 2배 한 번 · 지금 ${w.tickets.event}장</small></span></button>
+    </div>
+    <div class="tip">스마일은 안 나와요. 무료권을 ${RULES.drop ? RULES.drop.hold : 3}장 쥐고 있으면 상자가 쉬어요. 고르고 5초 안에 되돌릴 수 있어요</div></div>`);
+  const x = clamp(r.x + r.w / 2 - 135, 8, 1280 - 278), y = r.y > 300 ? r.y - 214 : r.y + r.h + 8;
+  pop.style.left = x + 'px'; pop.style.top = y + 'px';
+  must('#stage').appendChild(pop);
+  $$<HTMLElement>('[data-pick]', pop).forEach(bt => (bt.onclick = () => {
+    closePop();
+    const choice: M.BoxReward = bt.dataset.pick === 'hire' ? hireOpt : { kind: 'event' };
+    const res = M.openBox(w, id, choice);
+    if (!res.ok) return nope(res.msg);
+    snd.play('hire');
+    toast(`📦 ${choice.kind === 'hire' ? `🎟 ${sp.names[0]} 채용권` : '🎫 무료 이벤트권'}을 받았어요`, { undo: () => { if (!M.unopenBox(w, res)) toast('벌써 쓴 권이라 되돌리지 못했어요'); } });
+    refresh();
+  }));
+  snd.play('ui');
+  setTimeout(() => {
+    const off = (e: Event) => { if (!pop.contains(e.target as Node)) { closePop(); window.removeEventListener('pointerdown', off, true); } };
+    window.addEventListener('pointerdown', off, true);
+  }, 0);
+};
+
 A.openMonPop = (id, el) => {
   closePop();
   const w = A.w, m = w.monsters.find(x => x.id === id);
@@ -419,6 +457,7 @@ function scene(kind: string, data: Record<string, unknown>) {
   if (kind === 'elite') return { cap: `★ 엘리트 ${data.n}번 출현`, html: advs(4) + `<div class="a" style="left:128px;bottom:52px;filter:drop-shadow(0 0 6px #ffcc33)">${img('m:' + (data.art as string), 4)}</div><div class="a" style="left:136px;top:18px;font-size:22px">★</div>` };
   if (kind === 'boss') { const fb = fieldBoss(data.ch as number); if (!fb) return null; return { cap: data.down ? `👑 ${fb.name} 토벌!` : `👑 ${fb.name}가 찾아왔어요`, html: advs(3) + `<div class="a" style="left:118px;bottom:48px">${img('m:' + fb.art, 5)}</div>${data.down ? '<div class="a" style="left:24px;top:30px;font-size:22px">🎉</div>' : ''}` }; }
   if (kind === 'mark') { const ms = data.list as M.Report['marks']; return { cap: `📊 결재 막대 ${ms.map(x => Math.round(x.pct * 100) + '%').join('·')}`, html: `<div class="a markbar"><i style="width:${Math.round(ms[ms.length - 1].pct * 100)}%"></i></div><div class="a markrw">${ms.map(x => markLabel(x.reward)).join('<br>')}</div>` }; }
+  if (kind === 'box') return { cap: `📦 상자 ${data.n}개가 기다려요`, html: advs(3) + Array.from({ length: Math.min(3, data.n as number) }, (_, i) => `<div class="a" style="left:${36 + i * 52}px;top:${22 + (i % 2) * 8}px;font-size:28px">📦</div>`).join('') };
   if (kind === 'entrance') return { cap: `😐 입구 막힘 ${dur(data.min as number)}`, html: advs(3) + `<div class="a" style="left:30px;top:14px;font-size:22px">😐</div><div class="a" style="left:100px;top:10px;font-size:22px">😐</div>` };
   return null;
 }
@@ -437,6 +476,7 @@ A.showReport = (rep, awayMin) => {
   if (rep.entranceMin >= 60) picks.push(['entrance', { min: rep.entranceMin }]);
   if (rep.grads && !rep.firstGrad) picks.push(['grad', { n: rep.grads }]);
   if (rep.crowdMax && rep.crowdMax.n >= 3) picks.push(['crowd', rep.crowdMax as unknown as Record<string, unknown>]);
+  if (rep.boxesWaiting) picks.push(['box', { n: rep.boxesWaiting }]);
   const scenes = picks.slice(0, 3).map(([k, d]) => scene(k, d)).filter((x): x is { cap: string; html: string } => !!x);
   const sinceIn = rep.happy - (A.checkin.happy0 || 0);
   const king = rep.king && w.monsters.find(x => x.id === rep.king!.id);
@@ -449,6 +489,7 @@ A.showReport = (rep, awayMin) => {
   const evs = b.filter((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve' && x.shown); if (evs.length) chips.push(`<button class="tchip" data-go="ev" data-mon="${evs[0].mon}"><i class="ev">▲</i>진화 가능 ${evs.length}</button>`);
   const bz = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy').sort((p, q) => q.n - p.n)[0]; if (bz) chips.push(`<button class="tchip" data-go="busy" data-d="${bz.d}"><i class="bz">🌀</i>${plotShort(bz.d)} 과밀</button>`);
   if (w.boss && !w.boss.d) chips.push(`<button class="tchip" data-go="boss"><i class="ev">👑</i>필드 보스 초대</button>`);
+  if (M.boxesOf(w).length) chips.push(`<button class="tchip" data-go="box"><i class="bx">📦</i>상자 ${M.boxesOf(w).length}</button>`);
   const bal = w.monsters.find(m => m.sp === 'balrog' && !m.d); if (bal) chips.push(`<button class="tchip" data-go="world"><i class="ev">👹</i>발록 씨 배치</button>`);
   const ch = M.chapterInfo(w), c = M.approvalConds(w), j = joyText(w);
   const el = h(`<div class="report"><div class="paper rp">
@@ -492,6 +533,7 @@ A.showReport = (rep, awayMin) => {
     else if (g === 'ev') A.openEvolve(+(bt.dataset.mon || 0));
     else if (g === 'busy') A.openDungeon(bt.dataset.d!, { hl: 'seat' });
     else if (g === 'boss') A.openBoss();
+    else if (g === 'box') { const b0 = M.boxesOf(A.w)[0]; if (b0) setTimeout(() => A.openBox(b0.id), 80); }
   }));
 };
 

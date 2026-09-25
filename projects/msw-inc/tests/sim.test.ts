@@ -5,11 +5,12 @@
  * 3) v1.3 (플레이 리뷰 뒤): 막대 눈금 보상, 옛 세이브 올리기
  * 4) v1.4 (첫 40분 밀도): 배속 없음, 파티 도착 박자, 구간 개방, 붐빔 풀기, 경험 간격
  * 5) v1.5 (계열 사다리): 2장부터 새 계열, 사다리로 줄 나누기, 싼 2장 개업, 옛 규칙 재현
- * 2)~5)는 게임 규칙(v1.5)으로 돈다
+ * 6) v1.6 (드랍 상자): 2장부터 떨어진다, 월드에 하나, 고르기와 되돌리기, 난수 흐름은 v1.5 그대로
+ * 2)~6)은 게임 규칙(v1.6)으로 돈다
  */
 import assert from 'node:assert/strict';
 import * as S from '../app/src/sim/sim';
-import { useRules, V11, V13, V14, V15, RULES } from '../app/src/sim/rules';
+import { useRules, V11, V13, V14, V15, V16, RULES } from '../app/src/sim/rules';
 import { PERSONAS, runPersona, firstSession, lightClone } from '../app/src/sim/bots';
 import { runCadence, gapStats } from '../app/src/sim/tools/cadence';
 import { PLOTS, CHAPTERS, SPECIES } from '../app/src/sim/content';
@@ -49,8 +50,8 @@ t('v1.1 첫 10분·Day 2 수치가 컨셉 페이싱 점검과 같다', () => {
   assert.equal(r.smile, 3269);
 });
 
-// ── 2. v1.2 약속 (게임 규칙 v1.5로) ─────────────────────────
-useRules(V15);
+// ── 2. v1.2 약속 (게임 규칙 v1.6으로) ─────────────────────────
+useRules(V16);
 t('첫 10분 한 바퀴: 첫 세션 안에 엘리트·승진 발령·1장 결재·새 지역 채용까지 겪는다', () => {
   const w = S.createWorld(20260924);
   const kinds: string[] = [];
@@ -349,7 +350,7 @@ t('콘텐츠: 도감 52칸(직원 48 + 필드 보스 4), 부지 15곳 + v1.4 초
   useRules(V14);
   assert.equal(S.createWorld(1).dungeons.h1.seats, 16, 'v1.4 들판 16석(12+4)');
   assert.equal(S.dexTotal(), 40, 'v1.4 도감 40칸 그대로');
-  useRules(V15);
+  useRules(V16);
 });
 
 t('세이브 모양 확인', () => {
@@ -438,7 +439,7 @@ t('옛 세이브(구간 없음)는 장 전체 길 그대로다', () => {
 
 t('붐빔 풀기: 자리 확장을 다 한 던전 앞 줄에는 같은 레벨 새 던전을 권하고, 새 던전은 빈틈을 만들지 않는다', () => {
   const w = S.createWorld(6);
-  assert.equal(RULES.id, 'v1.5');
+  assert.equal(RULES.id, 'v1.6');
   w.smile = 1e5;
   const d = w.dungeons.h1; d.seatUp = RULES.seatCost.length; d.seats = 99;
   for (let i = 0; i < 99; i++) w.advs.push({ id: 5000 + i, lv: 3, prog: 0, st: 'happy', d: 'h1', near: null, wait: 0, look: 0, jit: 0 });
@@ -453,7 +454,7 @@ t('붐빔 풀기: 자리 확장을 다 한 던전 앞 줄에는 같은 레벨 �
   d.seatUp = 0;
   useRules(V14);
   assert.equal(S.crowdFix(w), null, 'v1.4: 자리를 늘릴 수 있으면 자리부터');
-  useRules(V15);
+  useRules(V16);
 });
 
 t('경험 간격: 첫 40분 동안 사건 사이 최장 20초, 둔 수 25 이상, 결정 사이 최장 4분 이하', () => {
@@ -497,6 +498,7 @@ t('계열 사다리는 규칙이 꺼지면 사라진다 (v1.4 재현)', () => {
   assert.equal(S.plotCost(w, 'e1'), 500, 'v1.5 2장 엘리니아 개업 500');
   w.chapter = 3;
   assert.equal(S.plotCost(w, 'p1'), 1500, '3장부터는 그대로');
+  useRules(V16);
 });
 
 t('사다리로 나누기: 자리를 늘릴 수 있어도 레벨이 다른 계열로 줄을 나누는 수를 권한다', () => {
@@ -513,6 +515,154 @@ t('사다리로 나누기: 자리를 늘릴 수 있어도 레벨이 다른 계�
   const gap0 = S.gapSize(S.gapSegments(w));
   const after = S.levelsOf(w, { add: { sp: cf.sp, to: cf.to }, open: w.plots[cf.to].open ? undefined : cf.to });
   assert.ok(S.gapSize(S.gapSegments(w, after)) <= gap0, '빈틈을 만들지 않는다');
+});
+
+// ── 6. v1.6 드랍 상자 ────────────────────────────────────────
+t('드랍 상자: 1장에는 없고, 결재하면 게이지 절반으로 2장이 시작해 곧 떨어진다', () => {
+  const w = S.createWorld(20260924);
+  firstSession(w, undefined, x => x.chapter >= 2);
+  assert.equal(w.chapter, 2);
+  assert.equal(S.boxesOf(w).length, 0, '1장(튜토리얼)에는 떨어지지 않는다');
+  const need = RULES.drop!.need[1];
+  assert.ok(w.boxAcc! >= need / 2, '결재하면 절반 찬 채로 시작 ' + w.boxAcc);
+  const ev: S.SimEvent[] = [];
+  const t0 = w.t;
+  for (let i = 0; i < 12 * 20 && !S.boxesOf(w).length; i++) S.step(w, 1 / 12, ev);
+  const box = ev.find(e => e.type === 'box');
+  assert.ok(box && box.type === 'box', '20분 안에 떨어진다');
+  assert.ok(w.t - t0 < 10, `도장 뒤 ${(w.t - t0).toFixed(1)}분`);
+  assert.ok(S.levelsOf(w)[box.d], '문을 연 던전 앞');
+});
+
+t('드랍 상자는 월드에 하나까지만 기다리고, 가득 차면 쌓지 않는다', () => {
+  const w = S.createWorld(7);
+  firstSession(w);
+  S.advance(w, 600);
+  assert.equal(S.boxesOf(w).length, RULES.drop!.max);
+  const acc = w.boxAcc;
+  S.advance(w, 600);
+  assert.equal(S.boxesOf(w).length, RULES.drop!.max);
+  assert.equal(w.boxAcc, acc, '가득 찬 동안 게이지가 오르지 않는다');
+});
+
+t('쥔 무료권이 hold장이면 상자가 쉬고, 권을 쓰면 다시 떨어진다', () => {
+  const w = S.createWorld(7);
+  firstSession(w);
+  const hold = RULES.drop!.hold;
+  w.tickets.event = hold; w.tickets.hire = [];
+  const acc = w.boxAcc;
+  S.advance(w, 600);
+  assert.equal(S.boxesOf(w).length, 0, '가득 쥐고 있으면 떨어지지 않는다');
+  assert.equal(w.boxAcc, acc, '쉬는 동안 게이지도 오르지 않는다');
+  const id = Object.keys(S.levelsOf(w)).find(x => !w.dungeons[x].event)!;
+  assert.ok(S.startEvent(w, id, 'exp').ok, '무료 이벤트권을 쓴다');
+  S.advance(w, 120);
+  assert.equal(S.boxesOf(w).length, 1, '권을 쓰면 다시 떨어진다');
+});
+
+t('상자 열기: 채용권이나 이벤트권 하나. 되돌리면 월드가 연 전과 똑같다', () => {
+  const w = S.createWorld(7);
+  firstSession(w);
+  S.advance(w, 600);
+  const b = S.boxesOf(w)[0];
+  const [hire, event] = S.boxOptions(w);
+  assert.equal(hire.kind, 'hire');
+  assert.equal(event.kind, 'event');
+  if (hire.kind === 'hire') assert.ok(S.canHireSpecies(w, hire.sp), '뽑을 수 있는 계열 ' + hire.sp);
+  for (const pick of [hire, event]) {
+    const before = snap(w);
+    const r = S.openBox(w, b.id, pick);
+    assert.ok(r.ok);
+    assert.equal(S.boxesOf(w).length, 0);
+    if (pick.kind === 'hire') assert.ok(w.tickets.hire.includes(pick.sp)); else assert.ok(w.tickets.event >= 1);
+    assert.ok(S.unopenBox(w, r));
+    assert.equal(snap(w), before);
+  }
+  assert.equal(S.openBox(w, 999, event).ok, false, '없는 상자');
+  // 받은 이벤트권을 벌써 썼으면 되돌리지 않는다
+  w.tickets.event = 0;
+  const r = S.openBox(w, b.id, { kind: 'event' });
+  assert.ok(r.ok);
+  const id = Object.keys(S.levelsOf(w)).find(x => !w.dungeons[x].event)!;
+  assert.ok(S.startEvent(w, id, 'exp').ok);
+  assert.equal(S.unopenBox(w, r), false);
+  assert.equal(S.boxesOf(w).length, 0);
+});
+
+t('오렌·봇이 권하는 상자: 줄을 나눌 계열이 있으면 그 채용권, 없으면 이벤트권', () => {
+  const w = S.createWorld(6);
+  w.approvalReady = true; S.approve(w);
+  const g = S.gapSegments(w)[0];
+  assert.ok(g, '2장이 열리면 새 구간에 빈틈이 있다');
+  assert.deepEqual(S.boxPick(w), { kind: 'hire', sp: S.recommendSpecies(w)! }, '빈틈을 메우는 계열');
+  // 길을 다 이으면(Lv 1–20) 줄도 빈틈도 없다 → 이벤트권
+  S.addMonster(w, 'mush', 'h2'); w.plots.h2.open = true;
+  S.addMonster(w, 'slime', 'e1'); w.plots.e1.open = true;
+  assert.deepEqual(S.gapSegments(w), []);
+  assert.deepEqual(S.boxPick(w), { kind: 'event' }, '줄도 빈틈도 없으면 이벤트권');
+  w.smile = 1e5;
+  for (let i = 0; i < 40; i++) w.advs.push({ id: 5000 + i, lv: 3, prog: 0, st: 'happy', d: 'h1', near: null, wait: 0, look: 0, jit: 0 });
+  for (let i = 0; i < 4; i++) w.advs.push({ id: 6000 + i, lv: 5 + (i % 3), prog: 0, st: 'busy', d: null, near: 'h1', wait: 0, look: 0, jit: 0 });
+  const cf = S.crowdFix(w)!;
+  assert.deepEqual(S.boxPick(w), { kind: 'hire', sp: cf.sp });
+  assert.equal(S.boxHireSp(w), cf.sp);
+});
+
+t('드랍 이벤트 중인 던전의 퇴근은 상자 게이지에 두 배로 쌓인다', () => {
+  const a = S.createWorld(9), b = S.createWorld(9);
+  for (const w of [a, b]) { firstSession(w, undefined, x => x.chapter >= 2); w.boxAcc = 0; w.boxBy = {}; }
+  const id = Object.keys(S.levelsOf(b)).find(x => !b.dungeons[x].event)!;
+  b.tickets.event = 1;
+  assert.ok(S.startEvent(b, id, 'drop').ok);
+  S.step(a, 1); S.step(b, 1);
+  assert.ok((b.boxBy![id] || 0) > (a.boxBy![id] || 0), `${b.boxBy![id]} > ${a.boxBy![id]}`);
+});
+
+t('상자가 떨어진 던전이 문을 닫으면 상자는 다른 던전 앞으로 옮긴다', () => {
+  const w = S.createWorld(7);
+  firstSession(w);
+  S.advance(w, 600);
+  const b = S.boxesOf(w)[0];
+  for (const m of S.monsIn(w, b.d)) if (!m.vet) m.d = null;
+  for (const m of S.monsIn(w, b.d)) m.d = 'h5';
+  if (!w.plots.h5.open) w.plots.h5.open = true;
+  S.step(w, 1);
+  assert.ok(S.levelsOf(w)[S.boxesOf(w)[0].d], '상자는 문을 연 던전 앞에 있다');
+});
+
+t('드랍 상자는 난수를 쓰지 않는다: 열지 않으면 월드가 v1.5와 똑같이 흐른다', () => {
+  const run = (r: typeof V15) => {
+    useRules(r);
+    const w = S.createWorld(11);
+    firstSession(w);
+    S.advance(w, 1440);
+    return JSON.stringify({ advs: w.advs, smile: w.smile, rng: w.rng, cjoy: w.cjoy, stats: w.stats });
+  };
+  const v15 = run(V15), v16 = run(V16);
+  assert.equal(v16, v15);
+});
+
+t('드랍 상자는 규칙이 꺼지면 없다 (v1.5 재현), 옛 세이브는 첫 걸음에 칸을 채운다', () => {
+  useRules(V15);
+  const old = S.createWorld(12);
+  assert.equal(old.boxes, undefined);
+  firstSession(old);
+  S.advance(old, 600);
+  assert.equal(S.boxesOf(old).length, 0);
+  useRules(V16);
+  S.step(old, 1);
+  assert.deepEqual(old.boxes, []);
+  S.advance(old, 600);
+  assert.equal(S.boxesOf(old).length, 1, 'v1.6으로 올리면 상자가 떨어진다');
+});
+
+t('봇은 상자를 열어도 수 제한에 세지 않고, 모든 성향에서 월드가 멈추지 않는다 (v1.6)', () => {
+  for (const p of PERSONAS) {
+    const r = runPersona(p, 11, 45);
+    assert.ok(r.happyEnd > 0, p.id + ' 멈춤');
+    assert.ok(r.boxes > 0, p.id + ' 상자를 열었다');
+    assert.ok(r.acts / r.checkins <= p.acts + 1, p.id + ' 체크인당 행동 ' + (r.acts / r.checkins).toFixed(1));
+  }
 });
 
 console.log(`\n${passed} passed`);

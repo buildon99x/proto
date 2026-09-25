@@ -128,6 +128,26 @@ try {
     if (r.ready && !r.go) throw new Error("진화할 수 있는데 오렌을 눌러도 갈 곳이 없다: " + r.t);
     console.log("   오렌:", r.t);
   });
+  await step("출근 뒤 📦 상자: 열어서 고르고, 5초 안에 되돌리고, 다시 연다 (v1.6)", async () => {
+    await b.eval("window.__msw.A.speed = 1"); // 리포트 단계의 배속(24,000)이면 연 사이에 새 상자가 떨어진다
+    await pump(1);
+    const n0 = await b.eval("window.__msw.M.boxesOf(window.__msw.A.w).length");
+    if (!n0) throw new Error("10시간 떠나 있었는데 상자가 없다");
+    const tk = () => b.eval("(() => { const w = window.__msw.A.w; return { hire: w.tickets.hire.length, event: w.tickets.event, boxes: window.__msw.M.boxesOf(w).length }; })()");
+    const t0 = await tk();
+    await b.click("#world .pill.box"); await sleep(200);
+    if (!(await b.eval("!!document.querySelector('.pop-box [data-pick].pri')"))) throw new Error("상자 말풍선에 오렌 추천이 없다");
+    await b.shot(path.join(out, "12b-box.png"));
+    await b.click(".pop-box [data-pick].pri"); await sleep(200);
+    const t1 = await tk();
+    if (t1.boxes !== t0.boxes - 1 || t1.hire + t1.event !== t0.hire + t0.event + 1) throw new Error("상자를 열었는데 권이 안 들어왔다 " + JSON.stringify([t0, t1]));
+    await b.click("#toast button"); await sleep(200);
+    const t2 = await tk();
+    if (JSON.stringify(t2) !== JSON.stringify(t0)) throw new Error("되돌리기가 상자와 권을 돌려놓지 않았다 " + JSON.stringify([t0, t2]));
+    await b.click("#world .pill.box"); await sleep(200);
+    await b.click(".pop-box [data-pick]"); await sleep(200);
+    console.log(`   상자 ${n0}개 · 연 뒤`, JSON.stringify(await tk()));
+  });
   await step("도감 열고 닫기", async () => { await b.click("#bDex"); await sleep(200); await b.click("#modal [data-close]"); });
   await step("직원 말풍선 → 현장 보기", async () => { await b.eval("window.__msw.A.speed = 1"); await pump(1); await b.click("#world .mon"); await sleep(200); await b.click(".pop-mon [data-see]"); await sleep(200); await b.click("#dBack"); });
   await step("새로고침해도 세이브가 이어진다", async () => {

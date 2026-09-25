@@ -25,6 +25,8 @@ export interface OrenLine { t: string; go: (() => void) | null }
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface App {
   openBoss: () => void;
+  /** 드랍 상자 열기 (v1.6): 채용권과 이벤트권 가운데 하나를 고르는 말풍선 */
+  openBox: (id: number, el?: Element | null) => void;
   /** 이 탭에서 실제로 흐른 플레이 시간(초). 입사 컷과 퇴근 화면은 빼고 센다 (첫 세션 길이 계측) */
   playSec: number;
   w: M.World;
@@ -136,9 +138,10 @@ export const snd = (() => {
     place() { tone(240, 0, 0.09, 'sine', 0.14, 120); noise(0, 0.06, 0.05, 1500); },
     event() { [880, 1175, 1568].forEach((f, i) => tone(f, i * 0.09, 0.2, 'triangle', 0.06)); },
     hire() { [660, 880].forEach((f, i) => tone(f, i * 0.08, 0.14, 'triangle', 0.07)); },
+    box() { tone(520, 0, 0.09, 'square', 0.03, 260); tone(990, 0.08, 0.1, 'triangle', 0.05); }, // 상자 "톡" (v1.6)
     ending() { [523, 659, 784, 1047, 1319, 1568].forEach((f, i) => tone(f, i * 0.12, 0.5, 'triangle', 0.06)); [262, 392, 523].forEach(f => tone(f, 0.8, 1.6, 'sine', 0.06)); },
   };
-  const gap: Record<string, number> = { levelup: 350, tinyup: 90, poof: 120, coin: 90, grad: 250 };
+  const gap: Record<string, number> = { levelup: 350, tinyup: 90, poof: 120, coin: 90, grad: 250, box: 300 };
   return {
     play(k: string) {
       if (!on || A.demo) return;
@@ -291,6 +294,15 @@ export function markTicks(w: M.World): string {
   if (!jm || w.chapter < jm.from || w.ended) return '';
   return jm.at.map((p, i) => `<b class="nt ${i < w.marks.length ? 'on' : ''}" style="left:${p * 100}%" title="${Math.round(p * 100)}% · ${markLabel(w.marks[i] || M.markReward(w, i))}${i < w.marks.length ? ' (받음)' : ''}"></b>`).join('');
 }
+/** 상자 채용권이 왜 그 계열인가 (v1.6): 줄 선 레벨 · 빈틈 · 이번 장 식구 */
+export function boxReason(w: M.World, sp: keyof typeof SPECIES): string {
+  const cf = M.crowdFix(w);
+  if (cf && cf.sp === sp) return `줄 선 ${segTxt([cf.lo, cf.hi])}에 딱`;
+  const g = M.hotGap(w) || M.gapSegments(w)[0];
+  if (g && M.recommendSpecies(w, g) === sp) return `${g[0] === 1 ? '입구' : '빈틈'} ${segTxt(g)}에 딱`;
+  return '이번 장 식구';
+}
+
 /** 자리 확장 +4가 결재 ②를 얼마나 당기는가 (기다리는 사람이 앉을 때만). 시간 단위 */
 export function seatJoyGain(w: M.World, did: PlotId): number {
   const c = M.approvalConds(w);
@@ -366,6 +378,12 @@ export function orenPick(): OrenLine {
   }
   const tr = M.tray(w);
   if (tr.length) return { t: `대기실에 ${josa(M.monName(tr[0]), '이', '가')} 기다려요!! 던전에 놓거나 본사로 보내요!!`, go: () => A.highlightBest(tr[0].id) };
+  // v1.6 드랍 상자: 대기실 다음, 붐빔 앞. 채용권이 줄 나누기를 싸게 하니 자리보다 먼저 연다 (봇 checkIn과 같은 순서)
+  const box = M.boxesOf(w)[0];
+  if (box) {
+    const pk = M.boxPick(w), more = M.boxesOf(w).length > 1 ? ` (${M.boxesOf(w).length}개)` : '';
+    return { t: pk.kind === 'hire' ? `📦 상자${more}가 떨어졌어요!! ${SPECIES[pk.sp].names[0]} 채용권을 골라요!! ${boxReason(w, pk.sp)}이에요!!` : `📦 상자${more}가 떨어졌어요!! 이벤트권을 골라 붐비는 던전에 걸어요!!`, go: () => A.openBox(box.id) };
+  }
   const busy = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy').sort((p, q) => q.n - p.n)[0];
   if (busy && busy.n >= 2) {
     // v1.5 계열 사다리: 줄 선 레벨에 맞는 다른 계열이 있고 살 수 있으면 자리보다 먼저 권한다 (줄을 레벨로 나눈다)
@@ -384,7 +402,10 @@ export function orenPick(): OrenLine {
     if (fc.starred < fc.plots || fc.dex < M.dexTotal()) return { t: `완전 클리어까지 던전 ★3 ${fc.plots - fc.starred}곳, 도감 ${M.dexTotal() - fc.dex}칸 남았어요!!`, go: () => A.openFullClear() };
     return { t: '완전 클리어!! 매니저님은 이 섬의 전설이에요!!', go: null };
   }
-  if (w.tickets.event > 0 && M.activeEvents(w) < M.maxEvents(w)) return { t: `무료 이벤트권 ${w.tickets.event}장 있어요!! 붐비는 던전에 경험치 2배 걸어봐요!!`, go: () => { const occ = (id: string) => w.advs.filter(a => a.st === 'happy' && a.d === id).length; const id = Object.keys(M.levelsOf(w)).filter(x => !w.dungeons[x].event).sort((p, q) => occ(q) - occ(p))[0]; if (id) A.openDungeon(id, { hl: 'exp' }); } };
+  // v1.6: 쥔 무료권이 가득 차 상자가 쉬고 있으면 그 사실을 붙인다 (권을 쓰면 다시 떨어진다)
+  const boxRest = !!RULES.drop && w.chapter >= RULES.drop.from && !M.boxesOf(w).length && M.heldTickets(w) >= RULES.drop.hold;
+  if (w.tickets.event > 0 && M.activeEvents(w) < M.maxEvents(w)) return { t: `무료 이벤트권 ${w.tickets.event}장 있어요!! 붐비는 던전에 경험치 2배 걸어봐요!!${boxRest ? ' 쓰면 상자가 다시 떨어져요!!' : ''}`, go: () => { const occ = (id: string) => w.advs.filter(a => a.st === 'happy' && a.d === id).length; const id = Object.keys(M.levelsOf(w)).filter(x => !w.dungeons[x].event).sort((p, q) => occ(q) - occ(p))[0]; if (id) A.openDungeon(id, { hl: 'exp' }); } };
+  if (boxRest && w.tickets.hire.length) return { t: `채용권 ${w.tickets.hire.length}장이 기다려요!! 쓰면 📦 상자가 다시 떨어져요!!`, go: () => A.openHire() };
   if (M.activeEvents(w) === 0 && w.smile > 1500) return { t: '스마일이 넉넉해요!! 경험치 2배 한 번 어때요?!', go: () => { const lv = M.levelsOf(w); const id = Object.keys(lv).sort((p, q) => lv[p] - lv[q])[0]; if (id) A.openDungeon(id, { hl: 'exp' }); } };
   const j = joyText(w);
   const idle = [

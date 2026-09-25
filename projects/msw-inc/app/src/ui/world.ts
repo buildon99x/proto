@@ -253,6 +253,30 @@ function layoutMons(now: number) {
   }
   for (const id in V.mons) if (!alive.has(+id)) { V.mons[id].el.remove(); delete V.mons[id]; }
   layoutBoss(now);
+  layoutBoxes();
+}
+/**
+ * 드랍 상자 (v1.6): 발판 왼쪽 끝에 얹는다. 직원 도트(z 3)보다 위에 두어 누를 수 있게 한다.
+ * 금색 볼거리다. 빨강은 지금 고칠 곳에만 쓴다
+ */
+const boxEls = new Map<number, HTMLElement>();
+function layoutBoxes() {
+  const alive = new Set<number>();
+  for (const b of M.boxesOf(A.w)) {
+    const p = V.plats[b.d];
+    if (!p) continue;
+    alive.add(b.id);
+    let el = boxEls.get(b.id);
+    if (!el) {
+      el = h(`<div class="pill box" data-box="${b.id}" title="드랍 상자 — 눌러서 채용권이나 이벤트권 고르기">📦</div>`);
+      L('plats').appendChild(el);
+      boxEls.set(b.id, el);
+      if (!V.snap && !A.demo) el.animate([{ transform: 'translateY(-40px)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 420, easing: 'cubic-bezier(.3,1.6,.6,1)' });
+    }
+    el.style.left = (p.left + 2) + 'px';
+    el.style.top = (p.top - 26) + 'px';
+  }
+  for (const [id, el] of boxEls) if (!alive.has(id) || !el.isConnected) { el.remove(); boxEls.delete(id); }
 }
 /** 방문 중인 필드 보스: 초대받은 발판 위에 크게, 토벌 게이지와 함께 (v1.3) */
 let bossEl: HTMLElement | null = null, bossKey = '';
@@ -468,6 +492,13 @@ A.handlers.push(ev => {
     else if (e.type === 'leave') V.exits[e.id] = 'leave';
     else if (e.type === 'levelup' && A.ui.mode === 'world') levelFx(e.id);
     else if (e.type === 'approval') { snd.play('event'); }
+    else if (e.type === 'box') {
+      // 드랍 상자 (v1.6): 발판 위에서 톡 떨어진다
+      const p = V.plats[e.d];
+      if (p && A.ui.mode === 'world' && !V.snap) fxText('상자!', p.left + 16, p.top - 48, 'pop y');
+      snd.play('box');
+      refresh();
+    }
     else if (e.type === 'mark') { snd.play('event'); toast(`결재 막대 ${Math.round(e.pct * 100)}% · ${markLabel(e.reward)}!`); refresh(); }
     else if (e.type === 'elite') {
       const m = A.w.monsters.find(x => x.id === e.mon), p = V.plats[e.d];
@@ -649,6 +680,8 @@ function bindInput() {
     const tgt = e.target as Element;
     const ev = tgt.closest('.evb') as HTMLElement | null;
     if (ev) { A.openEvolve(+(ev.dataset.ev || 0)); return; }
+    const bx = tgt.closest('[data-box]') as HTMLElement | null;
+    if (bx) { A.openBox(+(bx.dataset.box || 0), bx); return; }
     const g = tgt.closest('.gapb, .gaplabel') as HTMLElement | null;
     if (g) { A.openHire({ seg: V.gapSegs[+(g.dataset.gap || 0)] }); return; }
     const b = tgt.closest('[data-busy]') as HTMLElement | null;
@@ -673,7 +706,7 @@ A.highlightBest = (monId: number, only?: PlotId[]) => {
 function build() {
   buildBands();
   const b = L('bands'); b.classList.add('notrans'); setTimeout(() => b.classList.remove('notrans'), 300);
-  L('plats').innerHTML = ''; L('walkers').innerHTML = ''; L('fxL').innerHTML = '';
+  L('plats').innerHTML = ''; L('walkers').innerHTML = ''; L('fxL').innerHTML = ''; boxEls.clear();
   V.plats = {}; V.mons = {}; V.walkers = new Map(); V.lanes = {};
   initCam(); V.snap = true;
 }
