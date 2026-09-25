@@ -67,7 +67,8 @@ export const projects = [
       "decisions": "notes/decisions.md",
       "concept": "../../docs/concept/maple-idle/msw-inc/README.md",
       "improvementPlan": "notes/improvement-plan.md",
-      "tempo": "notes/tempo-v14.md"
+      "tempo": "notes/tempo-v14.md",
+      "handoff": "notes/handoff.md"
     },
     "assets": {
       "cover": "assets/screenshots/cover.png"
@@ -85,7 +86,7 @@ export const projects = [
       "playreview:v13": "pnpm --filter msw-inc playreview:v13",
       "cadence": "pnpm --filter msw-inc cadence"
     },
-    "updatedAt": "2026-09-25T09:38:58+00:00"
+    "updatedAt": "2026-09-25T12:04:10+00:00"
   },
   {
     "id": "retro-bowling",

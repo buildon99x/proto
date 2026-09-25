@@ -31,7 +31,8 @@
     "decisions": "notes/decisions.md",
     "concept": "../../docs/concept/maple-idle/msw-inc/README.md",
     "improvementPlan": "notes/improvement-plan.md",
-    "tempo": "notes/tempo-v14.md"
+    "tempo": "notes/tempo-v14.md",
+    "handoff": "notes/handoff.md"
   },
   "assets": {
     "cover": "assets/screenshots/cover.png"

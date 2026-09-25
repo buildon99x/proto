@@ -69,12 +69,12 @@ node notes/play-review/build.mjs      플레이 리뷰 보고서 데이터 → d
 
 | 경로 | 내용 |
 |---|---|
-| `app/src/sim/` | 규칙(화면과 분리): `content.ts` 콘텐츠 표(필드 보스 포함), `rules.ts` 수치(V11·V12·V13), `sim.ts` 월드·행동·미리보기·엘리트·필드 보스, `bots.ts` 봇 매니저·첫 세션 대본 |
+| `app/src/sim/` | 규칙(화면과 분리): `content.ts` 콘텐츠 표(필드 보스 포함), `rules.ts` 수치(V11·V12·V13·V14), `sim.ts` 월드·행동·미리보기·엘리트·필드 보스, `bots.ts` 봇 매니저·첫 세션 대본 |
 | `app/src/sim/tools/` | `pacing.ts` 페이싱 점검, `cadence.ts` 첫 40분 경험 간격, `audit.ts` 선택 점검, `playreview.ts` 플레이 리뷰 계측 |
 | `app/src/ui/` | `app.ts` 공통(HUD·독·오렌·저장·소리), `world.ts` S1, `dungeon.ts` S2·S4, `sheets.ts` S0·S3·S5·S6·S7·도감·엔딩, `tut.ts` 첫 10분, `art.ts` 자리표시 도트, `demo.ts` 시연 장면 |
 | `tests/` | `sim.test.ts` 규칙 테스트, `e2e/` CDP 하니스·스모크·장면 굽기 |
-| `notes/` | 선택 점검, 화면 점검, 콘텐츠 이름, 결정 기록, `data/` 점검 원자료, `play-review/` 플레이 리뷰 보고서(HTML), `improvement-plan.md` 리뷰 후속 개선 계획 |
+| `notes/` | 선택 점검, 화면 점검, 콘텐츠 이름, 결정 기록, `data/` 점검 원자료, `play-review/` 플레이 리뷰 보고서(HTML), `improvement-plan.md` 리뷰 후속 개선 계획, `tempo-v14.md` 첫 40분 밀도, **`handoff.md` 인수인계(지금 참인 수치 · 함정 · 다음 작업)** |
 
 ## 테스트 도구
 
-HUD 오른쪽 점선 칸은 실제 게임에 없는 도구다(평소 흐리게 접힘, 주소에 `?dev`). 배속 ×1·×60·×600, ⏭8h(8시간 뒤 출근), ↺(처음부터, 두 번). 시연 장면은 `?demo=` intro · gap · hire · dungeon · evolve · promote · grow · report · approval · ch2 · late · ch5 · ending · offduty · codex · fullclear · elite · boss · bossinv.
+HUD 오른쪽 점선 칸은 실제 게임에 없는 도구다(평소 흐리게 접힘, 주소에 `?dev`). 배속 ×1·×60·×600, ⏭8h(8시간 뒤 출근), ↺(처음부터, 두 번). 시연 장면은 `?demo=` intro · gap · hire · dungeon · evolve · promote · grow · report · approval · ch2 · late · ch5 · ending · offduty · codex · fullclear · elite · boss · bossinv · rush10 · rush25 · rush40.

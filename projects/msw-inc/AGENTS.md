@@ -4,7 +4,8 @@ Prototype Lab 개별 프로젝트. 레포 공통 규칙은 루트 `AGENTS.md`를
 
 ## 기준 문서
 
-- 게임의 기준은 `spec.md`(규칙 v1.3과 화면)다. 수치는 `app/src/sim/rules.ts` 한 곳에 있다. 둘이 어긋나면 spec을 먼저 고친다.
+- 이어받았으면 `notes/handoff.md`(지금 참인 수치 · 함정 · 다음 작업)부터 읽는다.
+- 게임의 기준은 `spec.md`(규칙 v1.4와 화면)다. 수치는 `app/src/sim/rules.ts` 한 곳에 있다. 둘이 어긋나면 spec을 먼저 고친다.
 - 설계의 뿌리는 컨셉 v1.1(`docs/concept/maple-idle/msw-inc/`)이다. 기록으로 두고 고치지 않는다. 컨셉과 달라진 점은 spec과 `notes/choice-audit.md`에 이유와 수치를 함께 적는다.
 - 설계 판단은 다섯 원칙(P1~P5)으로 근거를 단다. **P2 "몬스터 레벨 = 던전 레벨"과 P5 "떠나 있어도 망하지 않는다"는 협상 대상이 아니다.** 어떤 선택으로도 월드가 0명으로 멈추면 안 된다(`tests/sim.test.ts`가 지킨다).
 
