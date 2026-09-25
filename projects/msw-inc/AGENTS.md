@@ -10,10 +10,11 @@ Prototype Lab 개별 프로젝트. 레포 공통 규칙은 루트 `AGENTS.md`를
 
 ## 규칙을 바꿀 때
 
-1. `rules.ts`의 V13(게임) 값을 바꾼다. V11(컨셉)과 V12(플레이 리뷰 전)는 비교용이라 건드리지 않는다. 새 규칙은 값이 null·false면 꺼지게 만들어 옛 규칙이 그대로 재현되게 한다.
+1. `rules.ts`의 V14(게임) 값을 바꾼다. V11(컨셉)·V12(플레이 리뷰 전)·V13(첫 40분 밀도 전)은 비교용이라 건드리지 않는다. 새 규칙은 값이 null·false면 꺼지게 만들어 옛 규칙이 그대로 재현되게 한다.
 2. `pnpm --filter msw-inc pacing`: 첫 레벨업 0:25, 첫 빈틈(실제 추정) 1:30 안 Lv 8, 첫 세션 안에 승진 발령과 1장 결재, Day 2 리포트 😊 20+가 유지되는지 본다.
-3. `pnpm --filter msw-inc run audit`: v1.2와 v1.3을 나란히 굴린다. 표준 엔딩이 D31±2, 8성향이 표준 ±20% 안, 멈춘 월드가 0인지 본다. 결과는 `notes/data/`에 남기고 choice-audit를 고친다.
-4. `pnpm --filter msw-inc test`.
+3. `pnpm --filter msw-inc cadence`: 첫 40분 사건 사이 최장 20초·중앙 15초 이하, 둔 수 25 이상, 결정 사이 최장 3분이 유지되는지 본다(v1.4).
+4. `pnpm --filter msw-inc run audit`: v1.3과 v1.4를 나란히 굴린다. 표준 엔딩이 D31±2, 8성향이 표준 ±20% 안, 멈춘 월드가 0인지 본다. 결과는 `notes/data/`에 남기고 choice-audit를 고친다.
+5. `pnpm --filter msw-inc test`.
 
 ## 화면을 바꿀 때
 

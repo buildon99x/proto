@@ -54,6 +54,24 @@ export interface Rules {
    * 1장 결재 선물로 엘리니아 첫 계열 채용권 + 개업권 1장. 1장을 첫 세션 안에 끝낸다
    */
   firstLoop: boolean;
+  /**
+   * 도착 (v1.4): 배속(입사 버프) 대신 사람 수로 첫 40분을 채운다. 첫 hold분은 분당 rate명이 party명씩 고른 박자로 오고,
+   * fade분까지 기본 도착률로 줄어든다. 그동안 mid 비율은 열린 길 가운데 레벨로 온다(길 전체에 수요가 퍼진다).
+   * tip: 붐비는 동안 스마일 수입 배율(첫날 손님이 팁을 더 준다). 도착률과 같이 fade분까지 1로 줄어든다.
+   * null이면 v1.3 (입사 버프 동안 분당 1명, 그 뒤 기본)
+   */
+  arrive: { rate: number; hold: number; fade: number; party: [number, number]; mid: number; tip: number } | null;
+  /**
+   * 구간 개방 (v1.4): 장마다 길 끝이 ends 순서로 늘어난다. 그 장 퇴근 누적이 kills[장] × grow^(연 구간 수)를 넘고
+   * 지금 길이 이어져 있으면 다음 구간이 열린다. ends가 null인 장은 처음부터 끝까지. null이면 v1.3 (장 전체)
+   */
+  zones: { ends: (number[] | null)[]; kills: number[]; grow: number } | null;
+  /** 채용비 = 기본 레벨 × hireUnit */
+  hireUnit: number;
+  /** 헤네시스·엘리니아 사냥터 +2곳씩 (v1.4, content.ts의 extra 부지) */
+  morePlots: boolean;
+  /** 새 던전의 기본 자리 */
+  seatBase: number;
 }
 
 export const V11: Rules = {
@@ -78,6 +96,11 @@ export const V11: Rules = {
   elite: null,
   fieldBoss: null,
   firstLoop: false,
+  arrive: null,
+  zones: null,
+  hireUnit: 100,
+  morePlots: false,
+  seatBase: 8,
 };
 
 export const V12: Rules = {
@@ -115,5 +138,31 @@ export const V13: Rules = {
   joyGoal: [30, 3000, 21500, 34500, 36500],
 };
 
-export const RULES: Rules = { ...V13 };
+/**
+ * V14는 첫 40분 경험 밀도 개선이다. 배속을 없애고 사람 수·구간·획득량으로 10~20초마다 무언가 일어나게 한다.
+ * 근거와 수치는 notes/tempo-v14.md와 tools/cadence.ts.
+ */
+export const V14: Rules = {
+  ...V13,
+  id: 'v1.4',
+  // 입사 버프(레벨업·근속 ×30)를 없앤다. 한 사람의 속도는 어디서나 같다
+  buffMin: 0,
+  growBoost: 1,
+  // 파티 1~2명이 20초마다 (분당 4.5명). 40분부터 90분까지 기본 도착률(시간당 6명)로 줄어든다
+  arrive: { rate: 4.5, hold: 40, fade: 90, party: [1, 2], mid: 0.85, tip: 12 },
+  zones: { ends: [[10, 15], [20, 25, 30], null, null, null], kills: [40, 150, 0, 0, 0], grow: 1.6 },
+  // 첫 진화는 금방(새내기), 그다음부터는 길게
+  evolveNeed: [60, 12000, 45000],
+  hireUnit: 20,
+  // 첫 두 장은 자리·슬롯이 싸다 (배속이 없으니 결정 하나하나를 싸게). 3장부터는 v1.3 그대로
+  costCurve: [0.3, 0.3, 2.5, 4, 6],
+  seatBase: 12,
+  plotCost: 500,
+  morePlots: true,
+  joyGoal: [2, 3600, 28000, 45000, 47500],
+  // 자리·사냥터가 늘어 즐거운 인원이 는 만큼 3~5장 수입을 낮춘다. 그대로면 표준 봇의 스마일 최고가 약 38만(v1.3 같은 봇 약 13만)
+  incomeCurve: [1, 0.6, 0.2, 0.12, 0.08],
+};
+
+export const RULES: Rules = { ...V14 };
 export function useRules(r: Rules): void { Object.assign(RULES, r); }

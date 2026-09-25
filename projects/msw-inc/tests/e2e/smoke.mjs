@@ -147,6 +147,7 @@ try {
     const vid = await b.eval(`(() => { const {A,M,pump} = window.__msw;
       for (let i = 0; i < 600 && !A.w.advs.some(a => a.st === 'search'); i++) pump(1);
       const h = M.hire(A.w, 'mush'); M.place(A.w, h.mon.id, 'h2');
+      M.forceZone(A.w); // v1.4: 헤네시스 둘째 구간(Lv 11–15)
       const v = A.w.monsters.find(m => m.vet); v.tenure = M.evolveNeed(v); M.evolve(A.w, v.id); pump(1); return v.id; })()`);
     const t = await b.eval("document.querySelector('#orenTxt').textContent");
     if (!t.includes("옮기면")) throw new Error("오렌이 옮기기를 말하지 않는다: " + t);

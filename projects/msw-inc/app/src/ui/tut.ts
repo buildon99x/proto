@@ -20,6 +20,8 @@ const slime = () => w().monsters.find(m => m.sp === 'slime');
 const road = () => M.gapSegments(w()).length === 0;
 const ch2 = () => w().chapter >= 2;
 const stuck = () => w().advs.filter(a => a.st === 'search');
+/** 방금 열린 구간의 첫 레벨 */
+const zoneFrom = () => { const z = M.zoneEnds(w()); return z && w().zone ? z[w().zone! - 1] + 1 : 1; };
 const plat = (id: string) => (A.world.plats[id] ? A.world.plats[id].el : null);
 
 const STEPS: Step[] = [
@@ -32,7 +34,7 @@ const STEPS: Step[] = [
     spot: () => null, done: () => stuck().length > 0 || !!mush(),
   },
   {
-    id: 'gap', line: () => `매니저님!! Lv ${stuck()[0] ? stuck()[0].lv : 8} 모험가님이 갈 데가 없대요!! 빨간 !를 눌러요!!`,
+    id: 'gap', line: () => `매니저님!! 방금 온 Lv ${stuck()[0] ? stuck()[0].lv : 8} 모험가님이 갈 데가 없대요!! 빨간 !를 눌러요!!`,
     spot: () => (A.ui.mode === 'world' && !A.ui.sheet ? '.gapb' : A.ui.mode === 'dungeon' ? '#dBack' : null), done: () => A.ui.sheet === 'hire' || !!mush(),
   },
   { id: 'hire', line: '입사 선물 채용권이에요!! 주황버섯(Lv 8)을 뽑아요!!', spot: () => (A.ui.sheet === 'hire' ? '[data-hire="mush"]' : '#bHire'), done: () => !!mush() },
@@ -41,6 +43,16 @@ const STEPS: Step[] = [
     spot: () => (A.world.drag && A.world.drag.started ? '[data-plot="h2"]' : $('#tray .tok[data-mon]') ? '#tray .tok[data-mon]' : '[data-plot="h2"]'), done: () => !!mush() && !!mush()!.d,
   },
   { id: 'fixed', line: () => (M.gapSegments(w()).some(g => g[0] <= 13) ? '음… 아직 끊겨 있어요!! 주황버섯을 “사냥터”로 옮겨봐요!!' : '뚫렸다!! 멈춰 있던 모험가님들이 다시 올라가요!!'), spot: () => null, done: s => s.age > 6 && !M.gapSegments(w()).some(g => g[0] <= 13) },
+  // v1.4: 길이 이어지면 헤네시스 다음 구간(Lv 11–15)이 열린다. 퇴근으로 열리지만 대본은 6초 넘게 기다리게 하지 않는다
+  {
+    id: 'zone', line: () => (M.zoneLeft(w()) ? '길이 이어졌으니 퇴근이 쌓이면 다음 구간이 열려요!! 졸업 문 너머 🔒 보이죠?!' : `헤네시스 Lv ${zoneFrom()}–${M.roadEnd(w())} 구간이 열렸어요!! 졸업 문이 오른쪽으로 옮겨갔어요!!`),
+    spot: () => (A.ui.mode === 'world' && M.zoneLeft(w()) ? '.zlock span' : null),
+    done: s => {
+      if (w().zone == null || w().chapter > 1) return true;
+      if (M.zoneLeft(w()) && s.age > 6) { const ev: M.SimEvent[] = []; M.forceZone(w(), ev); if (ev.length) emit(ev); }
+      return !M.zoneLeft(w()) && s.age > 11;
+    },
+  },
   // v1.3.1: 1장 Lv 14–15는 채용으로 안 닿는다. 고참 달팽이를 승진 발령으로 버섯 언덕에 보내 한 번에 잇는다.
   // (전에는 그냥 진화 → 둘째 달팽이 기다림 → 승진 발령이라 빨간 빈틈을 61초 봤다. 이벤트도 길을 이은 뒤로 옮겼다)
   {
@@ -86,8 +98,8 @@ const STEPS: Step[] = [
   {
     id: 'joy', line: () => `결재 막대 ${Math.floor(Math.min(100, (100 * w().cjoy) / Math.max(1, M.approvalConds(w()).joyGoal)))}%!! 😊 모험가님이 많을수록 빨리 차요!! 지금 퇴근해도 계속 차요!!`,
     spot: () => (A.ui.modal ? null : '#docw'),
-    // 대본 보장: 길이 이어졌는데 30초 넘게 안 차면 채워 준다. 길이 끊긴 채면 기다리지 않고 넘어간다
-    done: s => { const c = M.approvalConds(w()); if (w().approvalReady || ch2()) return true; if (s.age > 30 && c.road) w().cjoy = Math.max(w().cjoy, c.joyGoal); return s.age > 30 && !c.road; },
+    // 대본 보장: 길이 이어졌는데 15초 넘게 안 차면 채워 준다(v1.4: 30 → 15초). 길이 끊긴 채면 기다리지 않고 넘어간다
+    done: s => { const c = M.approvalConds(w()); if (w().approvalReady || ch2()) return true; if (s.age > 15 && c.road) w().cjoy = Math.max(w().cjoy, c.joyGoal); return s.age > 15 && !c.road; },
   },
   {
     id: 'stamp', line: () => (A.ui.modal === 'approval' ? '[결재 받기]를 눌러요!! 쾅!!' : '결재 서류에 도장 받을 수 있어요!! 눌러요!!'),

@@ -44,7 +44,7 @@ export interface App {
   world: any; dv: any; T: any;
   openDungeon: (id: PlotId, opt?: { hl?: string }) => void;
   closeDungeon: () => void;
-  openHire: (opt?: { into?: PlotId | null; seg?: M.Seg }) => void;
+  openHire: (opt?: { into?: PlotId | null; seg?: M.Seg; crowd?: M.CrowdFix }) => void;
   openEvolve: (monId: number) => void;
   openApproval: () => void;
   openCodex: () => void;
@@ -237,7 +237,7 @@ export function renderDock(opt: { all?: boolean } = {}) {
     const open = w.plots[id].open;
     pl.appendChild(h(`<div class="plot ${tg.includes(id) ? 'target' : ''}" data-plot="${id}"><b>${plotName(id)}</b>${open ? '<em class="okc">빈 던전</em>' : w.tickets.plot > 0 ? '<em class="okc">🎫 개업권</em>' : `<em><i class="mini-can"></i>${n(M.plotCost(id))}</em>`}</div>`));
   });
-  if (!empties.length) pl.appendChild(h(`<div class="plot none">${w.chapter < 5 ? '부지를 다 썼어요. 다음 결재 때 부지 +3' : '부지를 다 썼어요'}</div>`));
+  if (!empties.length) pl.appendChild(h(`<div class="plot none">${w.chapter < 5 ? `부지를 다 썼어요. 다음 결재 때 부지 +${M.plotsOfRegion(w.chapter + 1)}` : '부지를 다 썼어요'}</div>`));
   if (!opt.all && empties.length > 2) pl.lastElementChild!.insertAdjacentHTML('beforeend', ` <small>+${empties.length - 2}</small>`);
   renderDoc();
   renderBoss();
@@ -320,7 +320,7 @@ export function renderDoc() {
   doc.innerHTML = `
     <h5>결재 서류 · ${ch.n}장</h5><h4>${ch.region}${ch.n === 1 ? '를' : '까지'} 잇자</h4>
     <div class="stampslot">${w.approvalReady ? '도장<br>받기' : '결재<br>대기'}</div>
-    <div class="cond ${w.approvalReady || c.road ? 'ok' : ''}"><span class="t">① Lv 1–${ch.road} 잇기</span><div class="bar"><i style="width:${Math.round(100 * (ch.road - c.gapN) / ch.road)}%"></i></div><span class="v ${!c.road && !w.approvalReady ? 'no' : ''}">${w.approvalReady || c.road ? '✓' : '빈틈 ' + c.gapN}</span></div>
+    <div class="cond ${w.approvalReady || c.road ? 'ok' : ''}"><span class="t">① Lv 1–${ch.road} 잇기</span><div class="bar"><i style="width:${Math.round(100 * (ch.road - c.roadLeft) / ch.road)}%"></i></div><span class="v ${!c.road && !w.approvalReady ? 'no' : ''}">${w.approvalReady || c.road ? '✓' : c.roadShort}</span></div>
     <div class="cond ${w.approvalReady || j.ok ? 'ok' : ''}"><span class="t">② 즐거운 시간</span><div class="bar mk"><i style="width:${w.approvalReady ? 100 : j.pct}%;background:var(--smile)"></i>${markTicks(w)}</div><span class="v">${w.approvalReady || j.ok ? '✓' : Math.floor(j.pct) + '%'}</span></div>
     ${c.needBalrog ? `<div class="cond ${c.balrog && c.native ? 'ok' : ''}"><span class="t">③ 발록${c.needNative ? '·식구' : ''} 던전</span><span class="v" style="margin-left:auto">${c.balrog && c.native ? '✓' : c.needNative ? `${+c.balrog + +c.native}/2` : '개장 전'}</span></div>` : ''}`;
 }
@@ -367,7 +367,13 @@ export function orenPick(): OrenLine {
   const tr = M.tray(w);
   if (tr.length) return { t: `대기실에 ${josa(M.monName(tr[0]), '이', '가')} 기다려요!! 던전에 놓거나 본사로 보내요!!`, go: () => A.highlightBest(tr[0].id) };
   const busy = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy').sort((p, q) => q.n - p.n)[0];
-  if (busy && busy.n >= 2) return { t: `${plotName(busy.d)} 만원이에요!! 자리를 늘리거나 옆 던전에 드랍 이벤트를 걸어봐요!!`, go: () => A.openDungeon(busy.d, { hl: 'seat' }) };
+  if (busy && busy.n >= 2) {
+    // 자리를 늘릴 수 있는 곳부터. 모두 최대면 같은 레벨에 던전을 하나 더 (v1.4 붐빔 풀기)
+    const seatable = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy' && x.n >= 2 && M.seatCost(w, w.dungeons[x.d]) != null).sort((p, q) => q.n - p.n)[0];
+    if (seatable) return { t: `${plotName(seatable.d)} 만원이에요!! 자리를 늘리거나 옆 던전에 드랍 이벤트를 걸어봐요!!`, go: () => A.openDungeon(seatable.d, { hl: 'seat' }) };
+    const cf = M.crowdFix(w);
+    if (cf) return { t: `${plotShort(cf.d)} 앞에 ${cf.n}명이 줄 섰어요!! 자리는 꽉 찼으니 ${josa(SPECIES[cf.sp].names[0], '을', '를')} 뽑아 ${plotShort(cf.to)}에 던전을 하나 더 열어요!!`, go: () => A.openHire({ crowd: cf }) };
+  }
   const ev = b.find((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve' && x.shown);
   if (ev) { const m = w.monsters.find(x => x.id === ev.mon)!; return { t: `${josa(M.monName(m), '이', '가')} 진화할 수 있대요!! ▲를 눌러봐요!!`, go: () => A.openEvolve(m.id) }; }
   if (w.ended) {

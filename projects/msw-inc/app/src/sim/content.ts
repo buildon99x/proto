@@ -64,14 +64,19 @@ export const REGIONS: Region[] = [
 ];
 
 export type PlotId = string;
-export interface PlotInfo { id: PlotId; name: string; short: string; region: number }
+/** extra: v1.4 초반 사냥터 (헤네시스·엘리니아 +2곳씩). 규칙 morePlots가 켜져 있을 때만 쓴다 */
+export interface PlotInfo { id: PlotId; name: string; short: string; region: number; extra?: boolean }
 export const PLOTS: PlotInfo[] = [
   { id: 'h1', name: '헤네시스 들판', short: '들판', region: 1 },
   { id: 'h2', name: '헤네시스 사냥터', short: '사냥터', region: 1 },
   { id: 'h3', name: '버섯 언덕', short: '버섯 언덕', region: 1 },
+  { id: 'h4', name: '작은 연못', short: '연못', region: 1, extra: true },
+  { id: 'h5', name: '풀숲 오솔길', short: '오솔길', region: 1, extra: true },
   { id: 'e1', name: '숲 입구', short: '숲 입구', region: 2 },
   { id: 'e2', name: '나무 위 쉼터', short: '쉼터', region: 2 },
   { id: 'e3', name: '마법 숲', short: '마법 숲', region: 2 },
+  { id: 'e4', name: '버섯 동굴', short: '동굴', region: 2, extra: true },
+  { id: 'e5', name: '요정 샘터', short: '샘터', region: 2, extra: true },
   { id: 'p1', name: '바위 언덕', short: '바위 언덕', region: 3 },
   { id: 'p2', name: '불타는 땅', short: '불타는 땅', region: 3 },
   { id: 'p3', name: '전사의 길', short: '전사의 길', region: 3 },

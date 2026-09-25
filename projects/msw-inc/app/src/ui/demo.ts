@@ -2,11 +2,11 @@
  * 시연 장면 — index.html?demo=<장면> 으로 열면 정해진 상태를 만들고 그 순간에 멈춘다. 저장하지 않는다.
  * 문서 그림(assets/screenshots)과 화면 점검(tests/e2e)에 쓴다.
  * 장면: intro · gap · hire · dungeon · evolve · promote · report · approval · ch2 · late · ch5 · ending · offduty · codex · fullclear · grow
- *       elite · boss · bossinv (v1.3)
+ *       elite · boss · bossinv (v1.3) · rush10 · rush25 · rush40 (v1.4 첫 40분, 지켜보는 플레이어)
  */
 import { A, must, refresh, M } from './app';
 import { T } from './tut';
-import { PERSONAS, checkIn, firstSession } from '../sim/bots';
+import { PERSONAS, checkIn, firstSession, watchTo } from '../sim/bots';
 
 const SEED = 20260924;
 const START = 21 * 60;
@@ -115,6 +115,10 @@ export function runDemo(q: string, api: { newGame: () => void; intro: () => void
       boot(w); settle(1);
       setTimeout(() => A.openBoss(), 150);
     },
+    // v1.4 첫 40분: 튜토리얼 뒤 지켜보는 플레이어가 30초마다 오렌을 따라 둔 월드
+    rush10() { const w = first('full'); watchTo(w, 10); boot(w); settle(2.5); },
+    rush25() { const w = first('full'); watchTo(w, 25); boot(w); settle(2.5); },
+    rush40() { const w = first('full'); watchTo(w, 40); boot(w); settle(2.5); },
     fullclear() { const w = botTo(x => x.ended, 60); M.advance(w, 1440); boot(w); settle(0.5); setTimeout(() => A.openFullClear(), 150); },
   };
   (scenes[q] || scenes.intro)();

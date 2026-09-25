@@ -104,8 +104,17 @@ try {
   await pump(2);
   await mark("placed", "사냥터 개업 — 빈틈 해소");
   // v1.3.1: Lv 14–15는 채용으로 안 닿는다 → 고참 달팽이 승진 발령 한 번에 버섯 언덕을 열어 잇는다. 이벤트는 그 뒤
-  await until(s => s.step === "vetwait", "vetwait");
-  await mark("fixed", "뚫렸다!! — Lv 14–15는 채용으로 안 닿는다");
+  // v1.4: 길이 이어지면 헤네시스 둘째 구간(Lv 11–15)이 열린다
+  const zoned = await b.eval("window.__msw.A.w.zone != null");
+  if (zoned) {
+    await until(s => s.step === "zone", "zone", 60);
+    await mark("zone-lock", "뚫렸다!! — 졸업 문 너머 🔒 다음 구간");
+    await until(s => s.step === "vetwait", "vetwait", 60);
+    await mark("fixed", "Lv 11–15 구간 개방 — Lv 14–15는 채용으로 안 닿는다");
+  } else {
+    await until(s => s.step === "vetwait", "vetwait");
+    await mark("fixed", "뚫렸다!! — Lv 14–15는 채용으로 안 닿는다");
+  }
   await until(s => s.step === "promote", "promote", 60);
   await pump(1);
   await mark("evolve-badge", "보라 ▲ — 고참 달팽이 진화 가능");
@@ -180,7 +189,7 @@ try {
   if (b.errors.length) console.log("콘솔 오류:", b.errors.join(" | "));
 
   // ── ② 시연 장면: 후반 화면 밀도 ──
-  const DEMOS = [["gap", "1장 첫 빈틈"], ["hire", "채용 시트"], ["dungeon", "던전 현장"], ["evolve", "진화 시트"], ["report", "출근 리포트"], ["approval", "결재함"], ["ch2", "2장 엘리니아"], ["promote", "3장 승진 발령"], ["grow", "키워서 잇기"], ["elite", "엘리트 출현"], ["bossinv", "필드 보스 초대"], ["boss", "필드 보스 방문"], ["late", "4장 후반 월드"], ["ch5", "5장 슬리피우드"], ["codex", "도감"], ["ending", "엔딩"], ["fullclear", "완전 클리어"]];
+  const DEMOS = [["gap", "1장 첫 빈틈"], ["hire", "채용 시트"], ["dungeon", "던전 현장"], ["rush10", "첫 40분 · 10분"], ["rush25", "첫 40분 · 25분"], ["rush40", "첫 40분 · 40분"], ["evolve", "진화 시트"], ["report", "출근 리포트"], ["approval", "결재함"], ["ch2", "2장 엘리니아"], ["promote", "3장 승진 발령"], ["grow", "키워서 잇기"], ["elite", "엘리트 출현"], ["bossinv", "필드 보스 초대"], ["boss", "필드 보스 방문"], ["late", "4장 후반 월드"], ["ch5", "5장 슬리피우드"], ["codex", "도감"], ["ending", "엔딩"], ["fullclear", "완전 클리어"]];
   for (const [id, label] of DEMOS) {
     b.errors.length = 0;
     await b.goto("?demo=" + id);

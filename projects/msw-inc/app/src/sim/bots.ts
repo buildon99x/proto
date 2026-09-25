@@ -43,6 +43,20 @@ export const PERSONAS: Persona[] = [
   { id: 'night', label: '퇴근 직전 진화 (밤에 입구를 비운다)', times: [9 * 60, 13 * 60, 21 * 60], acts: 3, evolve: 'planner', place: 'best', events: true, nightEvolve: true },
 ];
 
+/** 지켜보는 플레이어 (v1.4 첫 40분): 화면을 보고 있다가 오렌이 권하는 수를 30초마다 최대 2수. cadence·시연 장면에 쓴다 */
+export const WATCHER: Persona = { id: 'watch', label: '지켜보는 플레이어 (30초마다 2수)', times: [], acts: 2, evolve: 'planner', place: 'best', events: true };
+/** 첫 세션 뒤 지켜보는 플레이어로 월드 until분까지 굴린다 */
+export function watchTo(w: World, until: number, tap?: (ev: S.SimEvent[], acts: string[]) => void): void {
+  let next = w.t + 0.5;
+  while (w.t < until - 1e-9) {
+    const ev: S.SimEvent[] = [];
+    S.step(w, 1 / 12, ev);
+    let acts: string[] = [];
+    if (w.t >= next - 1e-9) { next += 0.5; acts = checkIn(w, WATCHER).acts; }
+    if (tap) tap(ev, acts);
+  }
+}
+
 // ── 가벼운 복제 (모험가는 공유한다 — 행동 판단은 모험가를 바꾸지 않는다) ──
 export function lightClone(w: World): World {
   return {
@@ -191,6 +205,16 @@ function tryEvolve(w: World, p: Persona, log: string[], onlyHelping: boolean): b
     if (r.ok) {
       log.push('evolve');
       if (p.undo && gapN(w) > before && !planHireFix(w, p.place) && !planMove(w)) { S.unevolve(w, m.id, r.from, r.tenureBefore); log.push('undo'); }
+      // 따져 보고 진화한 사람은 결과 카드에서 본 빈틈을 바로 메운다 (한 결정의 뒷수습 — 수 제한에 세지 않는다)
+      else if (p.evolve !== 'hasty' && gapN(w) > before) {
+        const mv = planMove(w), fix = mv ? null : planHireFix(w, p.place);
+        if (mv && S.place(w, mv.id, mv.to).ok) log.push('fix:move');
+        else if (fix) {
+          if (S.monsIn(w, fix.to).length >= w.dungeons[fix.to].slots) S.slotUp(w, fix.to);
+          const h = S.hire(w, fix.sp, fix.to);
+          if (h.ok && S.place(w, h.mon.id, fix.to).ok) log.push('fix:hire');
+        }
+      }
       return true;
     }
   }
@@ -292,8 +316,16 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
       if ((p.release ?? true) && S.release(w, tr.id).ok) { log.push('release'); acts++; continue; }
     }
     // 과밀: 자리 확장
-    const busy = S.badges(w).filter((b): b is Extract<S.Badge, { kind: 'busy' }> => b.kind === 'busy').sort((a, b) => b.n - a.n)[0];
-    if (busy && busy.n >= 2 && S.seatUp(w, busy.d).ok) { log.push('seat'); acts++; continue; }
+    // 가장 붐비는 곳부터, 살 수 있는 자리를 산다
+    const busyL = S.badges(w).filter((b): b is Extract<S.Badge, { kind: 'busy' }> => b.kind === 'busy' && b.n >= 2).sort((a, b) => b.n - a.n);
+    if (busyL.some(b => S.seatUp(w, b.d).ok)) { log.push('seat'); acts++; continue; }
+    // 붐빔 풀기 (v1.4): 자리가 꽉 찬 던전 앞 줄은 같은 레벨에 던전 하나 더
+    const cf = S.crowdFix(w);
+    if (cf && cf.cost <= w.smile) {
+      const h = S.hire(w, cf.sp, null);
+      if (h.ok && S.place(w, h.mon.id, cf.to).ok) { log.push('crowd:' + cf.sp); acts++; continue; }
+      if (h.ok) S.unhire(w, h.mon.id, h.free ? 'ticket' : h.cost);
+    }
     // 즐기는 모험가가 결재 조건보다 모자라면: 꽉 찬 던전 자리 확장 → 붐비는 레벨에 던전 하나 더
     if (S.happyCount(w) < S.chapterInfo(w).happy && !gapN(w)) {
       const lv = S.levelsOf(w);
@@ -329,7 +361,7 @@ const occ = (w: World, id: PlotId) => w.advs.filter(a => a.st === 'happy' && a.d
  * on(kind, label)으로 사건을 받는다(pacing·playreview). stop(w)이 참이면 그 자리에서 멈춘다(시연 장면).
  * 규칙에 첫 10분 한 바퀴(firstLoop)가 없으면 v1.2 대본(고참 진화까지)만 돈다.
  */
-export function firstSession(w: World, on: (kind: string, label: string) => void = () => {}, stop?: (w: World) => boolean): void {
+export function firstSession(w: World, on: (kind: string, label: string) => void = () => {}, stop?: (w: World) => boolean, tap?: (ev: S.SimEvent[]) => void): void {
   const loop = RULES.firstLoop;
   const once = new Set<string>();
   const note = (kind: string, label: string) => { if (!once.has(kind)) { once.add(kind); on(kind, label); } };
@@ -337,6 +369,7 @@ export function firstSession(w: World, on: (kind: string, label: string) => void
   for (let i = 0; i < 12 * 20; i++) {
     const ev: S.SimEvent[] = [];
     S.step(w, 1 / 12, ev);
+    if (tap) tap(ev);
     for (const e of ev) {
       if (e.type === 'arrive') note('arrive', '첫 모험가 입장');
       if (e.type === 'levelup') note('levelup', `첫 레벨업 (Lv ${e.lv})`);
@@ -359,8 +392,10 @@ export function firstSession(w: World, on: (kind: string, label: string) => void
       if (evoAt != null && w.t >= 8) break;
       continue;
     }
+    // v1.4: 길이 이어지면 헤네시스 둘째 구간(Lv 11–15)이 열린다. 화면 대본은 "뚫렸다" 뒤 약 6초에 연다
+    if (RULES.zones && once.has('hire') && S.zoneLeft(w) && w.t >= gapAt + 1 && !S.gapSegments(w).length) { S.forceZone(w); note('zone', `구간 개방 → Lv ${S.roadEnd(w)}까지`); }
     // v1.3.1: Lv 14–15는 채용으로 안 닿는다 → 고참 달팽이를 승진 발령으로 버섯 언덕에 보내 한 번에 잇는다. 이벤트는 그 뒤
-    if (v && v.stage === 0 && w.t >= gapAt + 1.4) {
+    if (v && v.stage === 0 && w.t >= gapAt + 1.4 && !S.zoneLeft(w)) {
       v.tenure = Math.max(v.tenure, S.evolveNeed(v));
       const plan = S.bestPromote(w, v.id);
       if (plan && S.promote(w, plan).ok) note('promote', `고참 달팽이 승진 발령 → ${plan.to}${plan.opens ? ' 개업' : ''}`);

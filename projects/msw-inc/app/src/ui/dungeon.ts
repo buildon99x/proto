@@ -118,7 +118,7 @@ function panel() {
   const gainTxt = gain >= 0.5 ? ` · 결재 ② 약 −${gain >= 24 ? (gain / 24).toFixed(1) + '일' : Math.round(gain) + '시간'}` : '';
   const powers = pw('exp', 'var(--exp)', 'EXP', '경험치 2배 · 4시간', '모험가를 위로 올려보낸다')
     + pw('drop', 'var(--drop)', 'DROP', '드랍 2배 · 4시간', '모험가를 불러 모은다')
-    + `<button class="pw ${seatC == null ? 'dis' : ''} ${hl === 'seat' ? 'hl' : ''}" data-seat="1" ${seatC == null ? 'disabled' : ''}><span class="ei" style="background:var(--flow)">+4</span><span><b>자리 확장</b><small>${seatC == null ? '20석이 최대' : `자리 ${d.seats} → ${d.seats + 4}${gainTxt}`}</small></span><span class="cost">${seatC == null ? '' : `<i class="mini-can"></i>${n(seatC)}`}</span></button>`;
+    + `<button class="pw ${seatC == null ? 'dis' : ''} ${hl === 'seat' ? 'hl' : ''}" data-seat="1" ${seatC == null ? 'disabled' : ''}><span class="ei" style="background:var(--flow)">+4</span><span><b>자리 확장</b><small>${seatC == null ? `${d.seats}석이 최대` : `자리 ${d.seats} → ${d.seats + 4}${gainTxt}`}</small></span><span class="cost">${seatC == null ? '' : `<i class="mini-can"></i>${n(seatC)}`}</span></button>`;
 
   const recent = Math.round(d.recentLv);
   const html = `

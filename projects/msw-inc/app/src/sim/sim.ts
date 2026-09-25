@@ -35,7 +35,7 @@ export interface World {
   monsters: Monster[]; advs: Adventurer[];
   nextMon: number; nextAdv: number; arrAcc: number;
   dex: Record<string, true>;
-  tut: { buffUntil: number; instant: number };
+  tut: { buffUntil: number; instant: number; script?: TutParty[] };
   /** 무료권: 채용권(계열), 이벤트권, 개업권 — 입사 선물과 결재 막대 눈금 보상 (v1.3) */
   tickets: Tickets;
   /** 이번 장에서 받은 ② 막대 눈금 보상 (v1.3). 길이 = 지난 눈금 수 */
@@ -49,7 +49,11 @@ export interface World {
   cjoy: number;
   /** 챕터가 열린 월드 시각 (리포트·점검용) */
   chapterAt: number[];
+  /** 구간 개방 (v1.4): 이번 장에서 연 구간(0부터), 다음 구간까지 쌓인 퇴근. 없으면 장 전체가 열려 있다(옛 세이브) */
+  zone?: number; zoneAcc?: number;
 }
+/** 대본 도착 (v1.4): at분에 이 레벨·진행도의 모험가가 함께 온다. 첫 레벨업과 첫 빈틈을 배속 없이 제시간에 */
+export interface TutParty { at: number; lv: number[]; prog: number[] }
 export type SimEvent =
   | { type: 'arrive'; id: number }
   | { type: 'grad'; id: number; from: PlotId | null }
@@ -67,15 +71,18 @@ export type SimEvent =
   | { type: 'eliteEnd'; d: PlotId }
   | { type: 'bossCall'; ch: number }
   | { type: 'bossIn'; ch: number; d: PlotId; auto: boolean }
-  | { type: 'bossDown'; ch: number; d: PlotId | null; bonus: number };
+  | { type: 'bossDown'; ch: number; d: PlotId | null; bonus: number }
+  | { type: 'zone'; ch: number; from: number; to: number };
 
 export const SAVE_VERSION = 3;
+/** v1.3까지의 기본 자리. 지금 값은 RULES.seatBase */
 export const SEAT_BASE = 8, SEAT_STEP = 4;
 export const SLOT_BASE = 3;
 export const EVENT_MIN = 240;
 export const TRAY_MAX = 10;
 export const BUFF_X = 30;
-export const VET_TENURE = 1600;
+/** 고참의 첫 근속: 첫 진화 근속의 80% */
+export const VET_SHARE = 0.8;
 export const OFFLINE_CAP = 1440;
 export const JOY_STARS = [100, 500, 2000];
 
@@ -95,26 +102,39 @@ export function createWorld(seed: number): World {
     plots: {}, dungeons: {}, monsters: [], advs: [],
     nextMon: 1, nextAdv: 1, arrAcc: 0,
     dex: {},
-    tut: { buffUntil: RULES.buffMin, instant: 3 },
+    tut: RULES.arrive ? { buffUntil: RULES.buffMin, instant: 0, script: TUT_PARTIES.map(p => ({ ...p, lv: [...p.lv], prog: [...p.prog] })) } : { buffUntil: RULES.buffMin, instant: 3 },
     tickets: { hire: ['mush'], event: 1, plot: RULES.firstLoop ? 1 : 0 }, marks: [],
     elite: null, eliteAcc: 0, eliteBy: {}, boss: null, bossDone: [],
     stats: { arrivals: 0, levelups: 0, grads: 0, left: { entrance: 0, search: 0, busy: 0 }, evolves: 0, elites: 0, bosses: 0 },
     chapterAt: [0], cjoy: 0,
   };
+  if (RULES.zones) { w.zone = 0; w.zoneAcc = 0; }
   unlockPlots(w, 1);
   w.plots.h1.open = true;
   w.plots.h2.open = true; // 입사 선물: 두 번째 부지
-  w.dungeons.h1.seats = SEAT_BASE + SEAT_STEP; w.dungeons.h1.seatUp = 1; // 입사 선물: 들판 12석
-  addMonster(w, 'snail', 'h1', { tenure: VET_TENURE, vet: true });
+  w.dungeons.h1.seats = RULES.seatBase + SEAT_STEP; w.dungeons.h1.seatUp = 1; // 입사 선물: 들판 자리 +4 (v1.3 12석, v1.4 16석)
+  addMonster(w, 'snail', 'h1', { tenure: Math.round(RULES.evolveNeed[0] * VET_SHARE), vet: true });
   addMonster(w, 'snail', 'h1');
   return w;
 }
 
+/**
+ * 첫 파티 대본 (v1.4). 첫 파티는 레벨업 직전이라 0:25부터 빛기둥이 오르고, 0:36에 온 둘째 파티의 Lv 8이
+ * 달팽이 발판(Lv 1–7) 너머에 멈춰 첫 빈틈이 된다. 배속 없이 v1.3과 같은 시각(첫 레벨업 0:25, 첫 빈틈 1:30 안)을 지킨다
+ */
+export const TUT_PARTIES: TutParty[] = [
+  { at: 0, lv: [1, 1, 2], prog: [10.62, 10.3, 11.4] },
+  { at: 0.6, lv: [8, 5, 3], prog: [0, 9, 6] },
+];
+
+/** 이 규칙에서 쓰는 부지 (v1.4 초반 사냥터 포함 여부) */
+export const plotsInPlay = () => PLOTS.filter(p => !p.extra || RULES.morePlots);
+export const plotsOfRegion = (region: number) => plotsInPlay().filter(p => p.region === region).length;
 function unlockPlots(w: World, region: number) {
-  for (const p of PLOTS) {
+  for (const p of plotsInPlay()) {
     if (p.region !== region) continue;
     if (!w.plots[p.id]) w.plots[p.id] = { open: false };
-    if (!w.dungeons[p.id]) w.dungeons[p.id] = { id: p.id, slots: SLOT_BASE, seats: SEAT_BASE, seatUp: 0, slotUp: 0, event: null, joy: 0, recentLv: 0 };
+    if (!w.dungeons[p.id]) w.dungeons[p.id] = { id: p.id, slots: SLOT_BASE, seats: RULES.seatBase, seatUp: 0, slotUp: 0, event: null, joy: 0, recentLv: 0 };
   }
 }
 
@@ -133,7 +153,14 @@ export const maxStage = (m: Monster) => SPECIES[m.sp].names.length - 1;
 export const isBoss = (m: Monster) => SPECIES[m.sp].boss && m.stage === maxStage(m);
 export const evolveNeed = (m: Monster) => (m.stage < maxStage(m) ? RULES.evolveNeed[m.stage] : Infinity);
 export const canEvolve = (m: Monster) => m.stage < maxStage(m) && m.tenure >= evolveNeed(m);
-export const roadEnd = (w: World) => CHAPTERS[w.chapter - 1].road;
+/** 이번 장의 구간 끝 목록 (v1.4). 없으면 null */
+export const zoneEnds = (w: World) => (RULES.zones && w.zone != null ? RULES.zones.ends[w.chapter - 1] : null);
+/** 지금 길 끝: 구간 개방이 있으면 연 구간까지, 없으면 장 전체 */
+export const roadEnd = (w: World) => { const z = zoneEnds(w); return z ? z[Math.min(w.zone!, z.length - 1)] : CHAPTERS[w.chapter - 1].road; };
+/** 이번 장에 남은 구간 수 */
+export const zoneLeft = (w: World) => { const z = zoneEnds(w); return z ? Math.max(0, z.length - 1 - w.zone!) : 0; };
+/** 다음 구간까지 필요한 퇴근 */
+export const zoneNeed = (w: World) => (RULES.zones ? RULES.zones.kills[w.chapter - 1] * Math.pow(RULES.zones.grow, w.zone || 0) : 0);
 export const chapterInfo = (w: World) => CHAPTERS[w.chapter - 1];
 export const monsIn = (w: World, did: PlotId) => w.monsters.filter(m => m.d === did);
 export const tray = (w: World) => w.monsters.filter(m => !m.d);
@@ -224,10 +251,28 @@ export function dungeonInfo(w: World): Record<PlotId, DInfo> {
 
 /** 도착률 (명/분) */
 export function arrivalPerMin(w: World): number {
-  if (w.t < w.tut.buffUntil) return 1;
+  const ar = RULES.arrive;
+  if (!ar && w.t < w.tut.buffUntil) return 1;
   // 필드 보스 소식에 손님이 더 온다 (v1.3)
   const fb = RULES.fieldBoss, bossX = fb && w.boss && w.boss.d ? fb.arriveX : 1;
-  return ((6 * (1 + 0.5 * w.stars)) / 60) * bossX;
+  const base = ((6 * (1 + 0.5 * w.stars)) / 60) * bossX;
+  if (!ar || w.t >= ar.fade) return base;
+  // v1.4: 첫 hold분은 붐비고, fade분까지 기본 도착률로 서서히 줄어든다
+  const f = w.t < ar.hold ? 0 : (w.t - ar.hold) / (ar.fade - ar.hold);
+  return Math.max(base, ar.rate + (base - ar.rate) * f);
+}
+/** 첫날 팁 (v1.4): 붐비는 동안 스마일 수입 배율. 도착률과 같이 줄어든다 */
+export function tipX(w: World): number {
+  const ar = RULES.arrive;
+  if (!ar || w.t >= ar.fade) return 1;
+  const f = w.t < ar.hold ? 0 : (w.t - ar.hold) / (ar.fade - ar.hold);
+  return ar.tip + (1 - ar.tip) * f;
+}
+/** 도착 레벨 (v1.4): 붐비는 동안 mid 비율은 열린 길 가운데(Lv 2 ~ 길 끝−2)로 온다 */
+function arriveLv(w: World): number {
+  const ar = RULES.arrive, end = roadEnd(w);
+  if (!ar || w.t >= ar.fade || end < 5 || rnd(w) >= ar.mid) return 1;
+  return 2 + Math.floor(rnd(w) * (end - 3));
 }
 
 // ── 한 걸음 ─────────────────────────────────────────────────
@@ -239,18 +284,34 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
   const emit = out ? (e: SimEvent) => { out.push(e); } : () => {};
   const buffOn = w.t < w.tut.buffUntil;
   const bx = buffOn ? BUFF_X : 1;
+  const tip = tipX(w);
   const info = dungeonInfo(w);
   const infoList = Object.values(info);
   const end = roadEnd(w);
 
   // 1. 도착
-  const spawn = () => {
-    const a: Adventurer = { id: w.nextAdv++, lv: 1, prog: 0, st: 'new', d: null, near: null, wait: 0, look: Math.floor(rnd(w) * 6), jit: rnd(w) * 0.7 - 0.35 };
+  const spawn = (lv = 1, prog = 0) => {
+    const a: Adventurer = { id: w.nextAdv++, lv, prog, st: 'new', d: null, near: null, wait: 0, look: Math.floor(rnd(w) * 6), jit: rnd(w) * 0.7 - 0.35 };
+    if (lv > 1) a.seen = true;
     w.advs.push(a); w.stats.arrivals++; emit({ type: 'arrive', id: a.id });
   };
   while (w.tut.instant > 0) { w.tut.instant--; spawn(); }
-  w.arrAcc += arrivalPerMin(w) * dt;
-  while (w.arrAcc >= 1) { w.arrAcc -= 1; spawn(); }
+  const sc = w.tut.script;
+  while (sc && sc.length && w.t >= sc[0].at) { const p = sc.shift()!; p.lv.forEach((lv, i) => spawn(lv, p.prog[i] || 0)); }
+  const ar = RULES.arrive;
+  if (ar) {
+    // v1.4: 파티가 고른 박자로 온다(도착 한 번 = 사건 한 번). arrAcc는 파티 단위로 쌓는다
+    const avg = (ar.party[0] + ar.party[1]) / 2;
+    w.arrAcc += (arrivalPerMin(w) * dt) / avg;
+    while (w.arrAcc >= 1) {
+      w.arrAcc -= 1;
+      const n = ar.party[0] + Math.floor(rnd(w) * (ar.party[1] - ar.party[0] + 1));
+      for (let i = 0; i < n; i++) { const lv = arriveLv(w); spawn(lv, lv > 1 ? rnd(w) * (10 + lv) : 0); }
+    }
+  } else {
+    w.arrAcc += arrivalPerMin(w) * dt;
+    while (w.arrAcc >= 1) { w.arrAcc -= 1; spawn(); }
+  }
 
   // 2. 이동 판정 — 머무는 사람의 자리를 먼저 잡는다
   const keep = new Set<number>();
@@ -324,7 +385,7 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
     a.prog += dt * speed;
     let need = 10 + a.lv;
     while (a.prog >= need) {
-      a.prog -= need; a.lv++; w.smile += RULES.smileLevelup * RULES.incomeCurve[w.chapter - 1]; w.stats.levelups++;
+      a.prog -= need; a.lv++; w.smile += RULES.smileLevelup * RULES.incomeCurve[w.chapter - 1] * tip; w.stats.levelups++;
       w.dungeons[a.d].recentLv += 1;
       emit({ type: 'levelup', id: a.id, lv: a.lv, d: a.d });
       need = 10 + a.lv;
@@ -346,11 +407,12 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
       if (!before && canEvolve(m)) emit({ type: 'ready', mon: m.id });
     }
     emit({ type: 'kill', d: id, n: kills });
-    w.smile += RULES.smileHappy * RULES.incomeCurve[w.chapter - 1] * hs * dt * (d.drop ? 2 : 1) * (d.gift ? 1.3 : 1) * (d.boss ? 1.5 : 1);
+    w.smile += RULES.smileHappy * RULES.incomeCurve[w.chapter - 1] * tip * hs * dt * (d.drop ? 2 : 1) * (d.gift ? 1.3 : 1) * (d.boss ? 1.5 : 1);
     dd.joy += hs * dt / 60;
     // ② 누적: 엘리트·필드 보스가 있는 던전은 더 빨리 찬다. 첫 세션은 입사 버프도 붙는다 (v1.3)
     w.cjoy += (hs * dt / 60) * (d.elite ? RULES.elite!.joyX : 1) * (d.guest ? RULES.fieldBoss!.joyX : 1) * (RULES.firstLoop ? bx : 1);
     if (RULES.elite && !w.elite) { w.eliteAcc += kills; w.eliteBy[id] = (w.eliteBy[id] || 0) + kills; }
+    if (w.zoneAcc != null) w.zoneAcc += kills;
     if (d.guest && w.boss) w.boss.kills += kills;
   }
 
@@ -361,6 +423,9 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
   }
 
   w.t += dt;
+
+  // 구간 개방 (v1.4)
+  tickZone(w, emit);
 
   // 엘리트·필드 보스 (v1.3)
   tickElite(w, emit);
@@ -395,6 +460,24 @@ function checkMarks(w: World, emit: (e: SimEvent) => void) {
     emit({ type: 'mark', pct: jm.at[i], reward });
     if (reward.kind === 'boss') { w.boss = { ch: w.chapter, at: w.t, d: null, kills: 0, until: null }; emit({ type: 'bossCall', ch: w.chapter }); }
   }
+}
+
+// ── 구간 개방 (v1.4) ────────────────────────────────────────
+/** 퇴근이 쌓이고 지금 길이 이어져 있으면 다음 구간을 연다. 끊긴 채로 새 구간을 얹지 않는다 */
+function tickZone(w: World, emit: (e: SimEvent) => void) {
+  if (!zoneLeft(w) || (w.zoneAcc || 0) < zoneNeed(w) || gapSegments(w).length) return;
+  openZone(w, emit);
+}
+function openZone(w: World, emit: (e: SimEvent) => void) {
+  const from = roadEnd(w);
+  w.zone = (w.zone || 0) + 1; w.zoneAcc = 0;
+  emit({ type: 'zone', ch: w.chapter, from, to: roadEnd(w) });
+}
+/** 대본용: 지금 다음 구간을 연다 (튜토리얼이 기다리게 하지 않게) */
+export function forceZone(w: World, out?: SimEvent[]): boolean {
+  if (!zoneLeft(w)) return false;
+  openZone(w, out ? e => out.push(e) : () => {});
+  return true;
 }
 
 // ── 엘리트 (v1.3) ───────────────────────────────────────────
@@ -495,7 +578,12 @@ export function approvalConds(w: World) {
   const ch = chapterInfo(w), segs = gapSegments(w), gapN = gapSize(segs), hc = happyCount(w);
   const joyGoal = RULES.joyGoal ? RULES.joyGoal[ch.n - 1] : 0;
   return {
-    road: gapN === 0, gapN, hc,
+    // v1.4: 길은 이번 장의 마지막 구간까지 열려야 다 이어진 것이다
+    road: gapN === 0 && !zoneLeft(w), gapN, hc, zoneLeft: zoneLeft(w),
+    // ① 막대: 장 전체(졸업선) 가운데 아직 이어지지 않은 레벨 수 (열리지 않은 구간 포함)
+    roadLeft: gapN + ch.road - roadEnd(w),
+    roadNote: gapN ? `빈틈 ${gapN}` : zoneLeft(w) ? `구간 ${zoneLeft(w)}개 남음` : '',
+    roadShort: gapN ? `빈틈 ${gapN}` : zoneLeft(w) ? `🔒 ${zoneLeft(w)}` : '',
     // v1.2: ② 이번 장 누적 즐거움 (늘기만 한다 — 벽이 되지 않는다). v1.1: 동시에 즐기는 인원
     happy: joyGoal ? w.cjoy >= joyGoal : hc >= ch.happy,
     joy: w.cjoy, joyGoal, need: ch.happy,
@@ -594,7 +682,7 @@ const ok = <T extends object>(extra: T): Result<T> => Object.assign({ ok: true a
 const no = (msg: string, extra: { short?: number } = {}): { ok: false; msg: string; short?: number } => ({ ok: false, msg, ...extra });
 const fmtN = (n: number) => Math.ceil(n).toLocaleString('ko-KR');
 
-export const hireCost = (sp: SpeciesId) => 100 * SPECIES[sp].base;
+export const hireCost = (sp: SpeciesId) => RULES.hireUnit * SPECIES[sp].base;
 export const plotCost = (id: PlotId) => RULES.plotCost * plotInfo(id).region;
 /** 지금 이 부지를 여는 데 드는 스마일: 이미 열렸으면 0, 개업권이 있으면 0 (v1.3) */
 const openCost_ = (w: World, id: PlotId) => openCost(w, id);
@@ -755,7 +843,7 @@ export function cancelEvent(w: World, did: PlotId, refund: number, wasFree: bool
 export const seatCost = (w: World, d: Dungeon) => (d.seatUp < RULES.seatCost.length ? Math.round(RULES.seatCost[d.seatUp] * costScale(w)) : null);
 export function seatUp(w: World, did: PlotId): Result<{ cost: number }> {
   const d = w.dungeons[did], c = seatCost(w, d);
-  if (c == null) return no('자리는 20석이 최대예요');
+  if (c == null) return no(`자리는 ${d.seats}석이 최대예요`);
   if (w.smile < c) return no(`스마일 ${fmtN(c - w.smile)} 모자라요`, { short: c - w.smile });
   w.smile -= c; d.seatUp++; d.seats += SEAT_STEP;
   return ok({ cost: c });
@@ -782,6 +870,7 @@ export function approve(w: World): Result<{ chapter: number; ending: boolean }> 
   w.chapterAt[w.chapter - 1] = w.t;
   w.cjoy = 0;
   w.marks = [];
+  if (w.zone != null) { w.zone = 0; w.zoneAcc = 0; }
   unlockPlots(w, w.chapter);
   // 첫 10분 한 바퀴 (v1.3): 1장 결재 선물 — 새 지역 첫 계열 채용권 + 개업권
   if (RULES.firstLoop && w.chapter === 2) {
@@ -943,6 +1032,31 @@ export function moveFix(w: World, seg: Seg): MoveFix | null {
   return best ? { mon: best.mon, to: best.to, cost: best.cost, ticket: best.ticket } : null;
 }
 
+/**
+ * 붐빔 풀기 (v1.4): 자리를 더 늘릴 수 없는 던전 앞에 4명 넘게 줄을 서면, 기다리는 사람들 레벨에 던전을 하나 더 연다.
+ * 새 던전은 길을 덮기만 하므로 빈틈을 만들지 않는다. 채용권이 있으면 그 계열을 먼저 쓴다
+ */
+export interface CrowdFix { d: PlotId; n: number; lo: number; hi: number; sp: SpeciesId; to: PlotId; cost: number }
+export function crowdFix(w: World): CrowdFix | null {
+  const busy: Record<string, number[]> = {};
+  for (const a of w.advs) if (a.st === 'busy' && a.near) (busy[a.near] = busy[a.near] || []).push(a.lv);
+  const d = Object.keys(busy).filter(id => seatCost(w, w.dungeons[id]) == null).sort((a, b) => busy[b].length - busy[a].length)[0];
+  if (!d || busy[d].length < 4) return null;
+  const lvs = busy[d];
+  const to = Object.keys(w.plots).filter(id => !monsIn(w, id).length)
+    .sort((a, b) => +w.plots[b].open - +w.plots[a].open || plotCost(a) - plotCost(b))[0];
+  if (!to) return null;
+  let best: CrowdFix | null = null, bestN = 0;
+  for (const sp of Object.keys(SPECIES) as SpeciesId[]) {
+    if (!canHireSpecies(w, sp)) continue;
+    const b = SPECIES[sp].base, n = lvs.filter(L => Math.abs(L - b) <= 5).length;
+    const cost = (hasHireTicket(w, sp) ? 0 : hireCost(sp)) + openCost(w, to);
+    if (n * 2 < lvs.length) continue;
+    if (!best || n > bestN || (n === bestN && cost < best.cost)) { best = { d, n: lvs.length, lo: Math.min(...lvs), hi: Math.max(...lvs), sp, to, cost }; bestN = n; }
+  }
+  return best;
+}
+
 /** 막힌 사람이 가장 많은 빈틈 */
 export function hotGap(w: World): Seg | null {
   let best: Seg | null = null, bn = 0;
@@ -1094,8 +1208,9 @@ export function unpromote(w: World, plan: PromotePlan, r: { evo: { from: number;
 
 /** 완전 클리어 진척 */
 export function fullClear(w: World) {
-  const starred = PLOTS.filter(p => w.dungeons[p.id] && dungeonStars(w.dungeons[p.id]) >= 3).length;
-  return { ending: w.ended, starred, plots: PLOTS.length, dex: dexCount(w) };
+  const ps = plotsInPlay();
+  const starred = ps.filter(p => w.dungeons[p.id] && dungeonStars(w.dungeons[p.id]) >= 3).length;
+  return { ending: w.ended, starred, plots: ps.length, dex: dexCount(w) };
 }
 
 /**

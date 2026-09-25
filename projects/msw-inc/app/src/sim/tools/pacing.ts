@@ -8,14 +8,14 @@
  * 3) 챕터 달력: 표준·가벼운 매니저 봇으로 1~5장 결재 날짜
  */
 import * as S from '../sim';
-import { useRules, V11, V13 } from '../rules';
+import { useRules, V11, V14 } from '../rules';
 import { PERSONAS, runPersona, dayLabel, firstSession, realMinutes } from '../bots';
 
 const legacy = process.argv.includes('v1.1');
-useRules(legacy ? V11 : V13);
+useRules(legacy ? V11 : V14);
 const fmt = (m: number) => `${Math.floor(m)}:${String(Math.round((m % 1) * 60)).padStart(2, '0')}`;
 
-console.log(`규칙 ${legacy ? 'v1.1 (컨셉)' : 'v1.3 (게임)'}\n`);
+console.log(`규칙 ${legacy ? 'v1.1 (컨셉)' : 'v1.4 (게임)'}\n`);
 
 // ── 1. 첫 10분 ──────────────────────────────────────────────
 const w = S.createWorld(20260924);
@@ -27,7 +27,7 @@ function loopFirst() {
   firstSession(w, (k, l) => notes.push({ t: w.t, k, l }));
   const gap = notes.find(x => x.k === 'stuck');
   const real = (t: number) => realMinutes(t, gap ? gap.t : null);
-  console.log('── 입사 첫 세션 (봇 대본 · 입사 첫날 버프) ── 월드 시각 / 실제 시각(추정)');
+  console.log(`── 입사 첫 세션 (봇 대본 · ${V14.buffMin ? '입사 첫날 버프' : '첫 파티 대본, 배속 없음'}) ── 월드 시각 / 실제 시각(추정)`);
   const want: Record<string, string> = { levelup: '0:25', stuck: '1:30 안', promote: '', stamp: '10:00 안 (화면 실측은 playreview:ui)' };
   for (const x of notes) console.log(x.l.padEnd(28), fmt(x.t).padStart(6), '/', fmt(real(x.t)).padStart(6), want[x.k] ? `(목표 ${want[x.k]})` : '');
   console.log('세션 끝  즐기는', S.happyCount(w), '/ 모험가', w.advs.length, '/ 스마일', Math.round(w.smile), '/ 장', w.chapter, '/ 빈틈', JSON.stringify(S.gapSegments(w)), '/ 남은 무료권', JSON.stringify(w.tickets));

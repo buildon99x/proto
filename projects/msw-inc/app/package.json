@@ -14,11 +14,11 @@
     "smoke": "node ../tests/e2e/smoke.mjs",
     "shots": "node ../tests/e2e/shots.mjs",
     "playreview:ui": "node ../tests/e2e/playreview.mjs",
-    "playreview:v13": "tsx src/sim/tools/playreview.ts --out ../notes/data/playreview-v13.json && PR_TAG=v13 node ../tests/e2e/playreview.mjs"
+    "playreview:v13": "tsx src/sim/tools/playreview.ts --out ../notes/data/playreview-v13.json && PR_TAG=v13 node ../tests/e2e/playreview.mjs",
+    "cadence": "tsx src/sim/tools/cadence.ts"
   },
   "dependencies": {
-    "vite": "^6.0.7",
-    "typescript": "^5.7.3"
-  },
-  "devDependencies": {}
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7"
+  }
 }

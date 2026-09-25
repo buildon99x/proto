@@ -91,6 +91,11 @@ img.px{image-rendering:pixelated;display:block;pointer-events:none}
 .gap.heal{background:linear-gradient(90deg,#3CC47C,#8ff0b5);animation:heal .9s forwards}
 @keyframes heal{0%{clip-path:inset(0 100% 0 0)}60%{clip-path:inset(0 0 0 0);opacity:1}100%{opacity:0;transform:scaleY(2)}}
 .gap.cold{background:repeating-linear-gradient(135deg,#ff5a4e2e 0 6px,#0000 6px 12px);border:2px dashed #ff5a4ecc;animation:none;box-shadow:none;top:442px;height:20px}
+/* 다음 구간 (v1.4): 졸업 문 너머 잠긴 땅 */
+.zlock{position:absolute;top:360px;height:92px;background:repeating-linear-gradient(135deg,#6b7a8c1f 0 8px,#0000 8px 16px);border-left:2px dashed #6b7a8c88;border-radius:0 8px 0 0;pointer-events:none;z-index:2}
+.zlock span{position:absolute;left:50%;top:6px;transform:translateX(-50%);white-space:nowrap;font-size:12px;font-weight:900;color:#4f5b69;background:#ffffffd9;border:1.5px solid #6b7a8c66;border-radius:8px;padding:2px 8px;text-align:center;line-height:1.25}
+.zlock small{display:block;font-size:10.5px;color:#6b7a8c}
+.pop.small{font-size:13px}
 .gaplabel.cold{background:#fff;color:var(--alert);border:1.5px solid #ff5a4e88}
 .notrans .fog,.notrans .lock{transition:none!important}
 .gaplabel{cursor:pointer;position:absolute;top:468px;transform:translateX(-50%);font-size:11.5px;font-weight:900;color:#fff;background:var(--alert);border-radius:8px;padding:1px 7px;white-space:nowrap;z-index:3}

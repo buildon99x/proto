@@ -2,12 +2,15 @@
  * 규칙 테스트 — pnpm --filter msw-inc test
  * 1) 이식 검증: 옛 규칙(v1.1)으로 굴리면 컨셉 프로토타입(sim.js)과 같은 수치가 나온다
  * 2) v1.2 약속: 월드가 멈추지 않는다, 되돌리기는 상태를 그대로 돌려놓는다, 결재 조건 ②는 줄지 않는다
- * 3) v1.3 (플레이 리뷰 뒤): 막대 눈금 보상, 옛 세이브 올리기 — 게임 규칙(v1.3)으로 2)도 함께 돈다
+ * 3) v1.3 (플레이 리뷰 뒤): 막대 눈금 보상, 옛 세이브 올리기
+ * 4) v1.4 (첫 40분 밀도): 배속 없음, 파티 도착 박자, 구간 개방, 붐빔 풀기, 경험 간격
+ * 2)~4)는 게임 규칙(v1.4)으로 돈다
  */
 import assert from 'node:assert/strict';
 import * as S from '../app/src/sim/sim';
-import { useRules, V11, V13 } from '../app/src/sim/rules';
+import { useRules, V11, V13, V14, RULES } from '../app/src/sim/rules';
 import { PERSONAS, runPersona, firstSession, lightClone } from '../app/src/sim/bots';
+import { runCadence, gapStats } from '../app/src/sim/tools/cadence';
 import { DEX_TOTAL, PLOTS, CHAPTERS } from '../app/src/sim/content';
 
 let passed = 0;
@@ -45,13 +48,13 @@ t('v1.1 첫 10분·Day 2 수치가 컨셉 페이싱 점검과 같다', () => {
   assert.equal(r.smile, 3269);
 });
 
-// ── 2. v1.2 약속 (게임 규칙 v1.3으로) ─────────────────────────
-useRules(V13);
+// ── 2. v1.2 약속 (게임 규칙 v1.4로) ─────────────────────────
+useRules(V14);
 t('첫 10분 한 바퀴: 첫 세션 안에 엘리트·승진 발령·1장 결재·새 지역 채용까지 겪는다', () => {
   const w = S.createWorld(20260924);
   const kinds: string[] = [];
   firstSession(w, k => kinds.push(k));
-  for (const k of ['levelup', 'stuck', 'hire', 'promote', 'event', 'elite', 'stamp', 'region']) assert.ok(kinds.includes(k), k);
+  for (const k of ['levelup', 'stuck', 'hire', 'zone', 'promote', 'event', 'elite', 'stamp', 'region']) assert.ok(kinds.includes(k), k);
   assert.equal(w.chapter, 2, '1장 결재를 받았다');
   assert.ok(w.t < 12, '월드 12분 안 (실제로는 튜토리얼 배속 때문에 더 짧다) ' + w.t.toFixed(1));
   assert.equal(w.tickets.plot, 0, '개업권 두 장(입사 선물·1장 결재 선물)을 다 썼다');
@@ -107,7 +110,8 @@ t('진화 되돌리기는 단계·근속을 그대로 돌려놓는다 (도감은
 
 t('근속 이월: 보류한 만큼 다음 단계로 넘어간다', () => {
   const w = S.createWorld(5);
-  const m = S.addMonster(w, 'snail', 'h1', { tenure: 2600 });
+  const need = RULES.evolveNeed[0];
+  const m = S.addMonster(w, 'snail', 'h1', { tenure: need + 600 });
   S.evolve(w, m.id);
   assert.equal(m.tenure, 600);
 });
@@ -132,7 +136,9 @@ t('승진 발령과 되돌리기: 월드가 발령 전과 똑같아진다', () =
 t('1장 Lv 14–15: 고참 달팽이 승진 발령 한 번에 버섯 언덕을 열어 잇는다 (그냥 진화는 들판 평균이라 안 닿는다)', () => {
   const w = S.createWorld(20260924);
   firstSession(w, undefined, x => x.monsters.some(m => m.sp === 'mush' && m.d === 'h2'));
-  assert.deepEqual(S.gapSegments(w), [[14, 15]], '주황버섯을 놓아도 Lv 14–15가 남는다');
+  assert.deepEqual(S.gapSegments(w), [], '주황버섯으로 첫 구간(Lv 1–10)은 이어진다');
+  assert.ok(S.forceZone(w), '헤네시스 둘째 구간(Lv 11–15)');
+  assert.deepEqual(S.gapSegments(w), [[14, 15]], '둘째 구간을 열면 Lv 14–15가 남는다');
   const vet = w.monsters.find(m => m.vet)!;
   vet.tenure = S.evolveNeed(vet);
   assert.ok(S.preview(w, { evolve: vet.id }).gapsAfter.length > 0, '그냥 진화하면 빈틈이 그대로');
@@ -151,6 +157,7 @@ t('1장 Lv 14–15: 고참 달팽이 승진 발령 한 번에 버섯 언덕을 �
 t('그냥 진화를 골라도 기다리지 않는다: 파란 달팽이를 버섯 언덕으로 옮기면 이어진다 (moveFix)', () => {
   const w = S.createWorld(20260924);
   firstSession(w, undefined, x => x.monsters.some(m => m.sp === 'mush' && m.d === 'h2'));
+  S.forceZone(w);
   const vet = w.monsters.find(m => m.vet)!;
   vet.tenure = S.evolveNeed(vet);
   S.evolve(w, vet.id);
@@ -199,7 +206,8 @@ t('본사 전근(퇴사): 채용비 절반 환급 · 고참과 발록은 안 된
   const m = S.addMonster(w, 'mush', null);
   const s0 = w.smile, n0 = w.monsters.length;
   const r = S.release(w, m.id);
-  assert.ok(r.ok && r.refund === 400 && w.smile === s0 + 400);
+  const half = S.hireCost('mush') / 2;
+  assert.ok(r.ok && r.refund === half && w.smile === s0 + half);
   S.unrelease(w, r.mon, r.idx, r.refund);
   assert.equal(w.monsters.length, n0);
   assert.equal(w.smile, s0);
@@ -330,9 +338,15 @@ t('옛 세이브(v2)는 버리지 않고 v3로 올린다', () => {
   assert.deepEqual(u.bossDone, []);
 });
 
-t('콘텐츠: 도감 40칸(직원 36 + 필드 보스 4), 부지 15곳', () => {
+t('콘텐츠: 도감 40칸(직원 36 + 필드 보스 4), 부지 15곳 + v1.4 초반 사냥터 4곳', () => {
   assert.equal(DEX_TOTAL, 40);
-  assert.equal(PLOTS.length, 15);
+  assert.equal(PLOTS.length, 19);
+  assert.equal(S.plotsInPlay().length, 19);
+  useRules(V13);
+  assert.equal(S.plotsInPlay().length, 15, 'v1.3 규칙은 옛 부지 15곳 그대로');
+  assert.equal(S.createWorld(1).dungeons.h1.seats, 12, 'v1.3 들판 12석(8+4)');
+  useRules(V14);
+  assert.equal(S.createWorld(1).dungeons.h1.seats, 16, 'v1.4 들판 16석(12+4)');
 });
 
 t('세이브 모양 확인', () => {
@@ -361,6 +375,88 @@ t('퇴근 직전 진화 봇도 월드가 멈추지 않는다', () => {
   const r = runPersona(PERSONAS.find(p => p.id === 'night')!, 7, 45);
   assert.ok(r.happyEnd > 0);
   assert.ok(r.chapters[2] != null, '3장까지는 간다');
+});
+
+// ── 4. v1.4 첫 40분 밀도 ─────────────────────────────────────
+t('배속 없음: 입사 버프가 없고, 한 사람의 레벨업 속도는 처음부터 같다', () => {
+  const w = S.createWorld(3);
+  assert.equal(w.tut.buffUntil, 0);
+  S.step(w, 1 / 60);
+  const a = w.advs.find(x => x.st === 'happy' && x.lv === 1)!;
+  const p0 = a.prog;
+  S.step(w, 0.1);
+  assert.ok(Math.abs(a.prog - p0 - 0.1) < 1e-9 || a.lv > 1, '분당 1 (×30이 아니다)');
+});
+
+t('파티 도착: 첫 40분은 20초 박자로 1~2명씩, 90분 뒤에는 v1.3 기본 도착률', () => {
+  const w = S.createWorld(5);
+  let last = 0, maxGap = 0, parties = 0, people = 0;
+  while (w.t < 40) {
+    const ev: S.SimEvent[] = [];
+    S.step(w, 1 / 12, ev);
+    const n = ev.filter(e => e.type === 'arrive').length;
+    if (n && w.t > 1.5) { parties++; people += n; maxGap = Math.max(maxGap, w.t - last); assert.ok(n <= 2, '파티는 1~2명'); }
+    if (n) last = w.t;
+  }
+  assert.ok(maxGap <= 20 / 60 + 1e-9, `도착 사이 최장 ${(maxGap * 60).toFixed(0)}초`);
+  assert.ok(people / 38.5 > 4 && people / 38.5 < 5, `분당 ${(people / 38.5).toFixed(2)}명`);
+  const later = S.createWorld(5); later.t = 91;
+  assert.equal(S.arrivalPerMin(later), 0.1, '시간당 6명');
+  assert.equal(S.tipX(later), 1, '팁도 끝났다');
+});
+
+t('구간 개방: 길이 끊긴 채로는 열리지 않고, 결재 ①은 마지막 구간까지 열려야 채워진다', () => {
+  const w = S.createWorld(20260924);
+  assert.equal(S.roadEnd(w), 10);
+  w.zoneAcc = 1e6;
+  w.advs.push({ id: 999, lv: 9, prog: 0, st: 'search', d: null, near: null, wait: 0, look: 0, jit: 0 });
+  S.step(w, 1 / 12);
+  assert.equal(w.zone, 0, 'Lv 8–10 빈틈이 있으면 열리지 않는다');
+  const h = S.hire(w, 'mush'); S.place(w, (h as { mon: S.Monster }).mon.id, 'h2');
+  const ev: S.SimEvent[] = [];
+  S.step(w, 1 / 12, ev);
+  assert.equal(w.zone, 1);
+  assert.ok(ev.some(e => e.type === 'zone' && e.from === 10 && e.to === 15));
+  assert.equal(S.roadEnd(w), 15);
+  w.cjoy = 1e6;
+  assert.equal(S.approvalConds(w).road, false, '빈틈 14–15');
+  // 장이 넘어가면 첫 구간부터
+  w.approvalReady = true; S.approve(w);
+  assert.equal(S.roadEnd(w), 20);
+  assert.equal(S.approvalConds(w).roadNote, '빈틈 7', 'Lv 14–20');
+});
+
+t('옛 세이브(구간 없음)는 장 전체 길 그대로다', () => {
+  const w = S.createWorld(4);
+  delete w.zone; delete w.zoneAcc;
+  assert.equal(S.roadEnd(w), 15);
+  assert.equal(S.zoneLeft(w), 0);
+});
+
+t('붐빔 풀기: 자리 확장을 다 한 던전 앞 줄에는 같은 레벨 새 던전을 권하고, 새 던전은 빈틈을 만들지 않는다', () => {
+  const w = S.createWorld(6);
+  w.smile = 1e5;
+  const d = w.dungeons.h1; d.seatUp = RULES.seatCost.length; d.seats = 99;
+  for (let i = 0; i < 99; i++) w.advs.push({ id: 5000 + i, lv: 3, prog: 0, st: 'happy', d: 'h1', near: null, wait: 0, look: 0, jit: 0 });
+  for (let i = 0; i < 6; i++) w.advs.push({ id: 6000 + i, lv: 2 + (i % 3), prog: 0, st: 'busy', d: null, near: 'h1', wait: 0, look: 0, jit: 0 });
+  const cf = S.crowdFix(w)!;
+  assert.ok(cf, '권한다');
+  assert.equal(cf.d, 'h1');
+  assert.equal(cf.sp, 'snail');
+  const gap0 = S.gapSize(S.gapSegments(w));
+  const lv = S.levelsOf(w, { add: { sp: cf.sp, to: cf.to }, open: w.plots[cf.to].open ? undefined : cf.to });
+  assert.ok(S.gapSize(S.gapSegments(w, lv)) <= gap0);
+  d.seatUp = 0;
+  assert.equal(S.crowdFix(w), null, '자리를 늘릴 수 있으면 자리부터');
+});
+
+t('경험 간격: 첫 40분 동안 사건 사이 최장 20초, 둔 수 25 이상, 결정 사이 최장 4분 이하', () => {
+  const r = runCadence(7, 40);
+  const g = gapStats(r.moments.map(m => m.s), 0, 2400);
+  assert.ok(g.max <= 20.5, `최장 ${g.max.toFixed(0)}초`);
+  assert.ok(r.acts.length >= 25, `둔 수 ${r.acts.length}`);
+  const dec = gapStats(r.acts.map(m => m.s), r.tutEnd, 2400);
+  assert.ok(dec.max <= 240, `결정 사이 최장 ${dec.max.toFixed(0)}초`);
 });
 
 console.log(`\n${passed} passed`);

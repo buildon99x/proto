@@ -98,7 +98,9 @@ function layoutMarks(force: boolean) {
   const lv = M.levelsOf(w);
   const segs = M.gapSegments(w, lv);
   const stuck = segs.map(stuckIn);
-  const sig = JSON.stringify([segs, stuck, lv, end, Math.round(V.k * 100)]);
+  const zl = M.zoneLeft(w), zNext = zl ? M.zoneEnds(w)![w.zone! + 1] : 0;
+  const zPct = zl ? Math.min(99, Math.floor((100 * (w.zoneAcc || 0)) / Math.max(1, M.zoneNeed(w)))) : 0;
+  const sig = JSON.stringify([segs, stuck, lv, end, Math.round(V.k * 100), zl, zPct]);
   if (!force && sig === marksSig && !camMoving) return;
   marksSig = sig;
   let html = '', badges = '';
@@ -124,6 +126,11 @@ function layoutMarks(force: boolean) {
   // 입구와 졸업 문
   html += `<div class="gate" style="left:${V.x(0.2)}px;top:${GROUND}px"><div class="post" style="left:-4px;height:44px;top:-44px"></div><div class="sign" style="left:-18px;top:-66px">입구</div></div>`;
   const gx = V.x(end + 0.5);
+  // 다음 구간 (v1.4): 졸업 문 너머 잠긴 땅. 퇴근이 쌓이고 길이 이어져 있으면 열린다
+  if (zl) {
+    const zx = V.x(zNext + 0.5), wait = segs.length ? ' · 길을 이으면 열려요' : '';
+    html += `<div class="zlock" style="left:${gx}px;width:${Math.max(0, zx - gx)}px" title="다음 구간 — 이 장 퇴근이 쌓이면 열려요"><span>🔒 Lv ${end + 1}–${zNext}<small>퇴근 ${zPct}%${wait}</small></span></div>`;
+  }
   html += `<div class="gate grad" style="left:${gx}px;top:${GROUND}px"><div class="arch" style="top:-74px"></div><div class="sign" style="left:-24px;top:-98px">🎓 졸업</div></div>`;
   L('marks').innerHTML = html;
   L('gapUi').innerHTML = badges;
@@ -392,6 +399,12 @@ function confetti(x: number, y: number) {
   for (let i = 0; i < 16; i++) html += `<i class="confetti" style="background:${cols[i % 5]};--dx:${(Math.random() - 0.5) * 120}px;--dy:${-30 - Math.random() * 70}px"></i>`;
   fx(html, x, y, 1300);
 }
+/** 파티 도착 (v1.4): 한 틱에 함께 온 인원을 입구 위에 한 번만 띄운다 */
+let partyN = 0;
+function partyFx() {
+  if (partyN++) return;
+  requestAnimationFrame(() => { fxText(`👋 +${partyN}`, V.x(0.8), GROUND - 58, 'pop small'); partyN = 0; });
+}
 let lvFxBudget = 0;
 function levelFx(id: number) {
   const key = V.figOf.get(id);
@@ -443,6 +456,14 @@ function ambient(dt: number) {
 A.handlers.push(ev => {
   for (const e of ev) {
     if (e.type === 'chapter') lightUp(e.n, true);
+    else if (e.type === 'zone') {
+      // 구간 개방 (v1.4): 새 땅이 열리고 졸업 문이 옮겨 간다
+      if (A.ui.mode === 'world') { const cx = (V.x(e.from + 0.5) + V.x(e.to + 0.5)) / 2; fxText(`Lv ${e.from + 1}–${e.to} 개방!`, cx, GROUND - 70, 'pop g'); confetti(cx, GROUND - 40); }
+      snd.play('event');
+      toast(`🗺️ 새 구간 개방 · Lv ${e.from + 1}–${e.to} · 졸업선 Lv ${e.to}`);
+      refresh();
+    }
+    else if (e.type === 'arrive' && A.ui.mode === 'world' && !V.snap && !A.demo) partyFx();
     else if (e.type === 'grad') V.exits[e.id] = 'grad';
     else if (e.type === 'leave') V.exits[e.id] = 'leave';
     else if (e.type === 'levelup' && A.ui.mode === 'world') levelFx(e.id);
