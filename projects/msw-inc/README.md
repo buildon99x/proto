@@ -46,7 +46,7 @@ node notes/play-review/build.mjs      플레이 리뷰 보고서 데이터 → n
 | `app/src/sim/tools/` | `pacing.ts` 페이싱 점검, `audit.ts` 선택 점검 |
 | `app/src/ui/` | `app.ts` 공통(HUD·독·오렌·저장·소리), `world.ts` S1, `dungeon.ts` S2·S4, `sheets.ts` S0·S3·S5·S6·S7·도감·엔딩, `tut.ts` 첫 10분, `art.ts` 자리표시 도트, `demo.ts` 시연 장면 |
 | `tests/` | `sim.test.ts` 규칙 테스트, `e2e/` CDP 하니스·스모크·장면 굽기 |
-| `notes/` | 선택 점검, 화면 점검, 콘텐츠 이름, 결정 기록, `data/` 점검 원자료, `play-review/` 플레이 리뷰 보고서(HTML) |
+| `notes/` | 선택 점검, 화면 점검, 콘텐츠 이름, 결정 기록, `data/` 점검 원자료, `play-review/` 플레이 리뷰 보고서(HTML), `improvement-plan.md` 리뷰 후속 개선 계획 |
 
 ## 테스트 도구
 
