@@ -7,7 +7,7 @@
 
 export type TraitId = 'fast' | 'gift' | 'strong';
 export type SpeciesId =
-  | 'snail' | 'mush' | 'slime' | 'fairy' | 'stump' | 'boar'
+  | 'snail' | 'mush' | 'pig' | 'octo' | 'slime' | 'fairy' | 'necki' | 'lupin' | 'stump' | 'boar'
   | 'ligator' | 'stirge' | 'drake' | 'eye' | 'balrog';
 
 export interface Species {
@@ -21,13 +21,22 @@ export interface Species {
   chapter: number;
   /** 도감 줄에 쓰는 한 줄 설명 */
   note?: string;
+  /** 사는 지역 (도감 줄, 결재 선물). 없으면 chapter와 같다 */
+  region?: number;
+  /** v1.5 계열 사다리 (헤네시스·엘리니아 +2종씩). 규칙 moreSpecies가 켜져 있을 때만 쓴다 */
+  extra?: boolean;
 }
 
 export const SPECIES: Record<SpeciesId, Species> = {
   snail: { names: ['달팽이', '파란 달팽이', '빨간 달팽이', '마노'], art: ['snail', 'bsnail', 'rsnail', 'mano'], base: 2, trait: 'fast', boss: true, chapter: 1 },
   mush: { names: ['주황버섯', '뿔버섯', '좀비버섯'], art: ['mush', 'horn', 'zombie'], base: 8, trait: null, boss: false, chapter: 1, note: '보스 없음 — 그 자리는 사장님 자리입니다' },
+  // v1.5 계열 사다리: 1장(튜토리얼)은 두 계열로 가르치고, 1장 결재 뒤 헤네시스 식구 둘이 더 지원한다
+  pig: { names: ['돼지', '리본돼지', '아이언호그'], art: ['pig', 'rpig', 'ihog'], base: 5, trait: 'gift', boss: false, chapter: 2, region: 1, extra: true },
+  octo: { names: ['옥토퍼스', '빅 옥토퍼스', '킹 옥토퍼스'], art: ['octo', 'bocto', 'kocto'], base: 12, trait: 'strong', boss: false, chapter: 2, region: 1, extra: true },
   slime: { names: ['슬라임', '버블 슬라임', '퍼플 슬라임', '킹 슬라임'], art: ['slime', 'slime2', 'slime3', 'kslime'], base: 15, trait: 'gift', boss: true, chapter: 2 },
   fairy: { names: ['초록버섯', '이끼버섯', '숲지기버섯'], art: ['gmush', 'moss', 'keeper'], base: 20, trait: null, boss: false, chapter: 2 },
+  necki: { names: ['주니어 네키', '네키', '킹 네키'], art: ['necki', 'necki2', 'kneck'], base: 18, trait: 'strong', boss: false, chapter: 2, extra: true },
+  lupin: { names: ['루팡', '좀비 루팡', '골드 루팡'], art: ['lupin', 'zlupin', 'glupin'], base: 24, trait: 'fast', boss: false, chapter: 2, extra: true },
   stump: { names: ['스텀프', '다크 스텀프', '액스 스텀프', '스텀피'], art: ['stump', 'dstump', 'astump', 'stumpy'], base: 28, trait: 'strong', boss: true, chapter: 3 },
   boar: { names: ['와일드보어', '파이어보어', '아이언보어'], art: ['boar', 'fboar', 'iboar'], base: 34, trait: null, boss: false, chapter: 3 },
   ligator: { names: ['리게이터', '크로코', '골드 크로코', '킹 크로코'], art: ['ligator', 'croco', 'gcroco', 'kcroco'], base: 42, trait: 'fast', boss: true, chapter: 4 },
@@ -107,6 +116,4 @@ export const FIELD_BOSSES: FieldBoss[] = [
 export const fieldBoss = (ch: number) => FIELD_BOSSES.find(b => b.ch === ch) || null;
 export const bossDexKey = (ch: number) => 'fb:' + ch;
 
-/** 도감 전체 칸 수: 10계열 × 3단계 + 보스 5 + 발록 = 36, 필드 보스 4 (v1.3) = 40 */
-export const DEX_SPECIES = SPECIES_IDS.reduce((s, k) => s + SPECIES[k].names.length, 0);
-export const DEX_TOTAL = DEX_SPECIES + FIELD_BOSSES.length;
+/* 도감 전체 칸 수는 규칙에 따라 다르다(계열 사다리): sim.ts dexTotal() */

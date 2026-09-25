@@ -3,10 +3,11 @@
  * 문서 그림(assets/screenshots)과 화면 점검(tests/e2e)에 쓴다.
  * 장면: intro · gap · hire · dungeon · evolve · promote · report · approval · ch2 · late · ch5 · ending · offduty · codex · fullclear · grow
  *       elite · boss · bossinv (v1.3) · rush10 · rush25 · rush40 (v1.4 첫 40분, 지켜보는 플레이어)
+ *       split (v1.5 계열 사다리: 줄을 다른 레벨 계열로 나누는 채용 시트)
  */
 import { A, must, refresh, M } from './app';
 import { T } from './tut';
-import { PERSONAS, checkIn, firstSession, watchTo } from '../sim/bots';
+import { PERSONAS, WATCHER, checkIn, firstSession, watchTo } from '../sim/bots';
 
 const SEED = 20260924;
 const START = 21 * 60;
@@ -119,6 +120,16 @@ export function runDemo(q: string, api: { newGame: () => void; intro: () => void
     rush10() { const w = first('full'); watchTo(w, 10); boot(w); settle(2.5); },
     rush25() { const w = first('full'); watchTo(w, 25); boot(w); settle(2.5); },
     rush40() { const w = first('full'); watchTo(w, 40); boot(w); settle(2.5); },
+    // v1.5: 지켜보는 플레이어가 두다가, 줄을 사다리 계열로 나눌 수 있게 된 순간
+    split() {
+      const w = first('full');
+      const ready = (x: M.World) => { const cf = M.crowdFix(x); return !!cf && cf.split && cf.cost <= x.smile; };
+      let next = w.t + 0.5;
+      while (w.t < 90 && !ready(w)) { M.step(w, 1 / 12); if (!ready(w) && w.t >= next - 1e-9) { next += 0.5; checkIn(w, WATCHER); } }
+      boot(w); settle(1);
+      const cf = M.crowdFix(w);
+      if (cf) setTimeout(() => A.openHire({ crowd: cf }), 150);
+    },
     fullclear() { const w = botTo(x => x.ended, 60); M.advance(w, 1440); boot(w); settle(0.5); setTimeout(() => A.openFullClear(), 150); },
   };
   (scenes[q] || scenes.intro)();

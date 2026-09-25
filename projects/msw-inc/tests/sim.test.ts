@@ -4,14 +4,15 @@
  * 2) v1.2 약속: 월드가 멈추지 않는다, 되돌리기는 상태를 그대로 돌려놓는다, 결재 조건 ②는 줄지 않는다
  * 3) v1.3 (플레이 리뷰 뒤): 막대 눈금 보상, 옛 세이브 올리기
  * 4) v1.4 (첫 40분 밀도): 배속 없음, 파티 도착 박자, 구간 개방, 붐빔 풀기, 경험 간격
- * 2)~4)는 게임 규칙(v1.4)으로 돈다
+ * 5) v1.5 (계열 사다리): 2장부터 새 계열, 사다리로 줄 나누기, 싼 2장 개업, 옛 규칙 재현
+ * 2)~5)는 게임 규칙(v1.5)으로 돈다
  */
 import assert from 'node:assert/strict';
 import * as S from '../app/src/sim/sim';
-import { useRules, V11, V13, V14, RULES } from '../app/src/sim/rules';
+import { useRules, V11, V13, V14, V15, RULES } from '../app/src/sim/rules';
 import { PERSONAS, runPersona, firstSession, lightClone } from '../app/src/sim/bots';
 import { runCadence, gapStats } from '../app/src/sim/tools/cadence';
-import { DEX_TOTAL, PLOTS, CHAPTERS } from '../app/src/sim/content';
+import { PLOTS, CHAPTERS, SPECIES } from '../app/src/sim/content';
 
 let passed = 0;
 const t = (name: string, fn: () => void) => {
@@ -48,8 +49,8 @@ t('v1.1 첫 10분·Day 2 수치가 컨셉 페이싱 점검과 같다', () => {
   assert.equal(r.smile, 3269);
 });
 
-// ── 2. v1.2 약속 (게임 규칙 v1.4로) ─────────────────────────
-useRules(V14);
+// ── 2. v1.2 약속 (게임 규칙 v1.5로) ─────────────────────────
+useRules(V15);
 t('첫 10분 한 바퀴: 첫 세션 안에 엘리트·승진 발령·1장 결재·새 지역 채용까지 겪는다', () => {
   const w = S.createWorld(20260924);
   const kinds: string[] = [];
@@ -266,7 +267,7 @@ t('결재 ② 눈금: 25%에 이번 장 계열 채용권, 75%까지 이벤트권
   const m1 = out.find(e => e.type === 'mark');
   assert.ok(m1 && m1.type === 'mark' && m1.reward.kind === 'hire');
   assert.equal(w.tickets.hire.length, hire0 + 1);
-  assert.ok(['slime', 'fairy'].includes(w.tickets.hire[w.tickets.hire.length - 1]));
+  assert.equal(SPECIES[w.tickets.hire[w.tickets.hire.length - 1]].chapter, 2, '2장에 합류한 계열 (v1.5는 사다리 계열 포함)');
   w.cjoy = goal * 0.8;
   S.step(w, 1);
   assert.equal(w.marks.length, 3);
@@ -338,8 +339,8 @@ t('옛 세이브(v2)는 버리지 않고 v3로 올린다', () => {
   assert.deepEqual(u.bossDone, []);
 });
 
-t('콘텐츠: 도감 40칸(직원 36 + 필드 보스 4), 부지 15곳 + v1.4 초반 사냥터 4곳', () => {
-  assert.equal(DEX_TOTAL, 40);
+t('콘텐츠: 도감 52칸(직원 48 + 필드 보스 4), 부지 15곳 + v1.4 초반 사냥터 4곳', () => {
+  assert.equal(S.dexTotal(), 52);
   assert.equal(PLOTS.length, 19);
   assert.equal(S.plotsInPlay().length, 19);
   useRules(V13);
@@ -347,6 +348,8 @@ t('콘텐츠: 도감 40칸(직원 36 + 필드 보스 4), 부지 15곳 + v1.4 초
   assert.equal(S.createWorld(1).dungeons.h1.seats, 12, 'v1.3 들판 12석(8+4)');
   useRules(V14);
   assert.equal(S.createWorld(1).dungeons.h1.seats, 16, 'v1.4 들판 16석(12+4)');
+  assert.equal(S.dexTotal(), 40, 'v1.4 도감 40칸 그대로');
+  useRules(V15);
 });
 
 t('세이브 모양 확인', () => {
@@ -435,6 +438,7 @@ t('옛 세이브(구간 없음)는 장 전체 길 그대로다', () => {
 
 t('붐빔 풀기: 자리 확장을 다 한 던전 앞 줄에는 같은 레벨 새 던전을 권하고, 새 던전은 빈틈을 만들지 않는다', () => {
   const w = S.createWorld(6);
+  assert.equal(RULES.id, 'v1.5');
   w.smile = 1e5;
   const d = w.dungeons.h1; d.seatUp = RULES.seatCost.length; d.seats = 99;
   for (let i = 0; i < 99; i++) w.advs.push({ id: 5000 + i, lv: 3, prog: 0, st: 'happy', d: 'h1', near: null, wait: 0, look: 0, jit: 0 });
@@ -447,7 +451,9 @@ t('붐빔 풀기: 자리 확장을 다 한 던전 앞 줄에는 같은 레벨 �
   const lv = S.levelsOf(w, { add: { sp: cf.sp, to: cf.to }, open: w.plots[cf.to].open ? undefined : cf.to });
   assert.ok(S.gapSize(S.gapSegments(w, lv)) <= gap0);
   d.seatUp = 0;
-  assert.equal(S.crowdFix(w), null, '자리를 늘릴 수 있으면 자리부터');
+  useRules(V14);
+  assert.equal(S.crowdFix(w), null, 'v1.4: 자리를 늘릴 수 있으면 자리부터');
+  useRules(V15);
 });
 
 t('경험 간격: 첫 40분 동안 사건 사이 최장 20초, 둔 수 25 이상, 결정 사이 최장 4분 이하', () => {
@@ -457,6 +463,56 @@ t('경험 간격: 첫 40분 동안 사건 사이 최장 20초, 둔 수 25 이상
   assert.ok(r.acts.length >= 25, `둔 수 ${r.acts.length}`);
   const dec = gapStats(r.acts.map(m => m.s), r.tutEnd, 2400);
   assert.ok(dec.max <= 240, `결정 사이 최장 ${dec.max.toFixed(0)}초`);
+});
+
+// ── 5. v1.5 계열 사다리 ──────────────────────────────────────
+t('계열 사다리: 새 계열 넷은 2장부터 채용하고, 1장 결재 선물은 여전히 슬라임이다', () => {
+  const w = S.createWorld(8);
+  for (const sp of ['pig', 'octo', 'necki', 'lupin'] as const) assert.equal(S.canHireSpecies(w, sp), false, sp + ' 1장');
+  w.approvalReady = true; S.approve(w);
+  for (const sp of ['pig', 'octo', 'necki', 'lupin'] as const) assert.ok(S.canHireSpecies(w, sp), sp + ' 2장');
+  assert.ok(w.tickets.hire.includes('slime'), '엘리니아 첫 계열 채용권');
+  // 헤네시스·엘리니아는 지역당 4종, 기본 레벨이 서로 다르다
+  for (const r of [1, 2]) {
+    const bases = S.speciesInPlay().filter(sp => S.spRegion(sp) === r).map(sp => SPECIES[sp].base);
+    assert.equal(bases.length, 4, '지역 ' + r);
+    assert.equal(new Set(bases).size, 4);
+  }
+  // 2장 길(Lv 1–29)은 어느 레벨이든 채용으로 닿는 계열이 둘 이상이다. Lv 30은 키워서만(구간 ③의 진화 결정)
+  const hireable = S.speciesInPlay().filter(sp => S.canHireSpecies(w, sp));
+  for (let L = 1; L <= 30; L++) {
+    const n = hireable.filter(sp => Math.abs(SPECIES[sp].base - L) <= 5).length;
+    if (L === 30) assert.equal(n, 0, 'Lv 30');
+    else assert.ok(n >= 1 && (L < 26 ? n >= 2 : true), `Lv ${L}: ${n}종`);
+  }
+});
+
+t('계열 사다리는 규칙이 꺼지면 사라진다 (v1.4 재현)', () => {
+  useRules(V14);
+  const w = S.createWorld(8);
+  w.approvalReady = true; S.approve(w);
+  for (const sp of ['pig', 'octo', 'necki', 'lupin'] as const) assert.equal(S.canHireSpecies(w, sp), false, sp);
+  assert.equal(S.plotCost(w, 'e1'), 1000, 'v1.4 엘리니아 개업 1,000');
+  useRules(V15);
+  assert.equal(S.plotCost(w, 'e1'), 500, 'v1.5 2장 엘리니아 개업 500');
+  w.chapter = 3;
+  assert.equal(S.plotCost(w, 'p1'), 1500, '3장부터는 그대로');
+});
+
+t('사다리로 나누기: 자리를 늘릴 수 있어도 레벨이 다른 계열로 줄을 나누는 수를 권한다', () => {
+  const w = S.createWorld(6);
+  w.approvalReady = true; S.approve(w);
+  w.smile = 1e5;
+  const lv = S.levelsOf(w).h1;
+  for (let i = 0; i < 40; i++) w.advs.push({ id: 5000 + i, lv: 3, prog: 0, st: 'happy', d: 'h1', near: null, wait: 0, look: 0, jit: 0 });
+  for (let i = 0; i < 4; i++) w.advs.push({ id: 6000 + i, lv: 5 + (i % 3), prog: 0, st: 'busy', d: null, near: 'h1', wait: 0, look: 0, jit: 0 });
+  const cf = S.crowdFix(w)!;
+  assert.ok(cf && cf.split, '나누기를 권한다');
+  assert.ok(Math.abs(SPECIES[cf.sp].base - lv) >= S.SPLIT_GAP, `던전 Lv ${lv}와 다른 계열 (${cf.sp})`);
+  assert.ok(S.seatCost(w, w.dungeons.h1) != null, '자리는 아직 늘릴 수 있다');
+  const gap0 = S.gapSize(S.gapSegments(w));
+  const after = S.levelsOf(w, { add: { sp: cf.sp, to: cf.to }, open: w.plots[cf.to].open ? undefined : cf.to });
+  assert.ok(S.gapSize(S.gapSegments(w, after)) <= gap0, '빈틈을 만들지 않는다');
 });
 
 console.log(`\n${passed} passed`);
