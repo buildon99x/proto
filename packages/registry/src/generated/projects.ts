@@ -35,6 +35,61 @@ export const projects = [
     "updatedAt": "2026-07-15T15:28:50+00:00"
   },
   {
+    "id": "msw-inc",
+    "name": "MSW 주식회사",
+    "status": "prototype",
+    "type": "demo",
+    "runtime": "static-artifact",
+    "version": "1.3.0",
+    "summary": "몬스터가 직원인 회사에 월드 매니저로 입사해, 몬스터를 진화시키고 던전을 이어 모험가(NPC)들이 레벨 1부터 70까지 즐겁게 올라가는 월드를 만드는 저관여 월드 매니지먼트. 메인 화면 \"월드 길\"은 가로축이 레벨이고, 던전은 자기 적정 구간 너비의 발판, 발판이 없는 땅이 빈틈이다. 핵심 결정은 \"지금 진화시킬까?\" — 진화하면 위가 열리지만 아래가 빈다. 5장(헤네시스→슬리피우드) 전부와 주니어 발록 엔딩, 완전 클리어(던전 19곳 ★3·도감 52)까지 돈다. 규칙 v1.2(선택 점검)로 어떤 선택도 월드를 멈추지 않게 했고, 규칙 v1.3(플레이 리뷰 뒤)으로 첫 세션 약 3분 안에 승진 발령·1장 결재 도장·새 지역까지 한 바퀴를 돌게 했고, 규칙 v1.4로 배속 없이 파티 도착·구간 개방·초반 사냥터로 첫 40분 동안 사건이 최장 20초마다(결정은 약 1분에 한 번) 일어나게 했다. 규칙 v1.5로 헤네시스·엘리니아 계열을 지역당 4종으로 늘려, 줄이 서면 자리 확장 대신 레벨이 다른 계열로 던전을 하나 더 열어 줄을 나누는 선택지가 생겼다. 3~5장에는 결재 막대 눈금 보상, 사냥이 쌓이면 나오는 엘리트, 장마다 한 번 찾아오는 필드 보스가 봉우리를 만든다. ▲ 진화 배지는 지금 해도 되는 것만 최대 3개. 40판 모두 D23~38에 엔딩(표준 D30), 멈춘 월드 0.",
+    "tags": [
+      "game",
+      "idle",
+      "management",
+      "maplestory-worlds",
+      "simulation"
+    ],
+    "projectRoot": "projects/msw-inc",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/msw-inc/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md",
+      "choiceAudit": "notes/choice-audit.md",
+      "uxReview": "notes/ux-review.md",
+      "playReview": "notes/play-review/index.html",
+      "content": "notes/content.md",
+      "decisions": "notes/decisions.md",
+      "concept": "../../docs/concept/maple-idle/msw-inc/README.md",
+      "improvementPlan": "notes/improvement-plan.md",
+      "tempo": "notes/tempo-v14.md",
+      "ladder": "notes/ladder-v15.md",
+      "handoff": "notes/handoff.md"
+    },
+    "assets": {
+      "cover": "assets/screenshots/cover.png"
+    },
+    "commands": {
+      "dev": "pnpm --filter msw-inc dev",
+      "build": "pnpm --filter msw-inc build",
+      "test": "pnpm --filter msw-inc test",
+      "pacing": "pnpm --filter msw-inc pacing",
+      "audit": "pnpm --filter msw-inc audit",
+      "smoke": "pnpm --filter msw-inc smoke",
+      "shots": "pnpm --filter msw-inc shots",
+      "playreview": "pnpm --filter msw-inc playreview",
+      "playreview:ui": "pnpm --filter msw-inc playreview:ui",
+      "playreview:v13": "pnpm --filter msw-inc playreview:v13",
+      "cadence": "pnpm --filter msw-inc cadence"
+    },
+    "updatedAt": "2026-09-25T15:32:38+00:00"
+  },
+  {
     "id": "retro-bowling",
     "name": "Retro Bowling",
     "status": "prototype",
@@ -353,6 +408,6 @@ export const projects = [
       "playlog": "pnpm --filter relic-king playlog",
       "density": "pnpm --filter relic-king density"
     },
-    "updatedAt": "2026-09-24T13:04:57+00:00"
+    "updatedAt": "2026-09-24T14:40:38+00:00"
   }
 ] as const satisfies readonly ProjectMetadata[];

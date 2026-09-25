@@ -1,0 +1,24 @@
+{
+  "name": "msw-inc",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc && vite build",
+    "lint": "tsc --noEmit && tsc --noEmit -p tsconfig.tools.json",
+    "test": "tsc --noEmit && tsc --noEmit -p tsconfig.tools.json && tsx ../tests/sim.test.ts",
+    "pacing": "tsx src/sim/tools/pacing.ts",
+    "audit": "tsx src/sim/tools/audit.ts",
+    "playreview": "tsx src/sim/tools/playreview.ts",
+    "smoke": "node ../tests/e2e/smoke.mjs",
+    "shots": "node ../tests/e2e/shots.mjs",
+    "playreview:ui": "node ../tests/e2e/playreview.mjs",
+    "playreview:v13": "tsx src/sim/tools/playreview.ts --out ../notes/data/playreview-v13.json && PR_TAG=v13 node ../tests/e2e/playreview.mjs",
+    "cadence": "tsx src/sim/tools/cadence.ts"
+  },
+  "dependencies": {
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7"
+  }
+}
