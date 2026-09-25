@@ -63,7 +63,7 @@ export const SEAT_BASE = 8, SEAT_STEP = 4;
 export const SLOT_BASE = 3;
 export const EVENT_MIN = 240;
 export const TRAY_MAX = 10;
-export const BUFF_MIN = 15, BUFF_X = 30;
+export const BUFF_X = 30;
 export const VET_TENURE = 1600;
 export const OFFLINE_CAP = 1440;
 export const JOY_STARS = [100, 500, 2000];
@@ -84,7 +84,7 @@ export function createWorld(seed: number): World {
     plots: {}, dungeons: {}, monsters: [], advs: [],
     nextMon: 1, nextAdv: 1, arrAcc: 0,
     dex: {},
-    tut: { buffUntil: BUFF_MIN, instant: 3 },
+    tut: { buffUntil: RULES.buffMin, instant: 3 },
     tickets: { hire: ['mush'], event: 1, plot: 0 }, marks: [],
     stats: { arrivals: 0, levelups: 0, grads: 0, left: { entrance: 0, search: 0, busy: 0 }, evolves: 0 },
     chapterAt: [0], cjoy: 0,

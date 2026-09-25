@@ -6,6 +6,8 @@
 import { A, $, must, rectOf, snd, refresh, emit, M, type OrenLine } from './app';
 
 interface St { step: number; done: boolean; age: number; flags: Record<string, boolean> }
+/** "가로 = 레벨" 단계 배속. 버프 ×30과 겹쳐 첫 빈틈(Lv 8)을 약 1:20에 부른다 (improvement-plan F6) */
+export const GROW_BOOST = 3;
 interface Step { id: string; line: string | ((s: St) => string); spot: () => string | Element | null; done: (s: St) => boolean }
 
 const w = () => A.w;
@@ -63,6 +65,8 @@ export const T = {
   tick,
   /** 튜토리얼이 진화를 가르치기 전에는 ▲를 숨긴다 (한 번에 하나만) */
   hideEvolve: () => T.active() && T.st.step < STEPS.findIndex(s => s.id === 'vetwait'),
+  /** 월드 배속 (F6): 누를 곳이 없는 "가로 = 레벨" 단계만 ×3 */
+  boost: () => (T.active() && T.cur() && T.cur().id === 'grow' ? GROW_BOOST : 1),
   stepIndex: (id: string) => STEPS.findIndex(s => s.id === id),
   skip() { T.st.done = true; must('#spot').hidden = true; refresh(); },
   reset() { T.st = { step: 0, done: false, age: 0, flags: {} }; },

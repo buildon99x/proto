@@ -34,6 +34,8 @@ export interface Rules {
   joyMarks: { at: number[]; from: number } | null;
   /** 5장 결재 ③에 "슬리피우드 식구가 일하는 던전 1곳"을 더한다 (v1.3) */
   nativeCond: boolean;
+  /** 입사 첫날 버프 길이 (월드 분). 레벨업·근속 ×30, 분당 1명 도착 */
+  buffMin: number;
 }
 
 export const V11: Rules = {
@@ -53,6 +55,7 @@ export const V11: Rules = {
   incomeCurve: [1, 1, 1, 1, 1],
   joyMarks: null,
   nativeCond: false,
+  buffMin: 15,
 };
 
 export const V12: Rules = {
@@ -77,6 +80,8 @@ export const V13: Rules = {
   joyMarks: { at: [0.25, 0.5, 0.75], from: 2 },
   // F2: 5장 새 계열(드레이크·이블아이)이 한 번도 쓰이지 않았다 → 결재 ③에 슬리피우드 식구 던전 1곳
   nativeCond: true,
+  // F6: 튜토리얼 "가로 = 레벨" 단계를 ×3 배속으로 돌리므로 버프가 대본 끝까지 남게 15 → 20분
+  buffMin: 20,
 };
 
 export const RULES: Rules = { ...V13 };

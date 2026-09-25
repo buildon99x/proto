@@ -376,7 +376,8 @@ export function renderOren() {
 let acc = 0;
 export function simLive(dtReal: number) {
   if (A.ui.off || A.ui.intro || A.ui.modal === 'report' || A.ui.modal === 'ending' || A.ui.paused) return;
-  acc += (dtReal / 60) * A.speed;
+  // 튜토리얼이 배속을 걸 수 있다 (F6: "가로 = 레벨" 단계 ×3 — 누를 곳 없는 3분을 1분으로)
+  acc += (dtReal / 60) * A.speed * (A.T && A.T.boost ? A.T.boost() : 1);
   let k = 0;
   while (acc >= 1 / 600 && k < 12) {
     const d = Math.min(acc, 1);
