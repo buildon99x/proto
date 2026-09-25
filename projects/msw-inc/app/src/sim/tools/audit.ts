@@ -1,13 +1,14 @@
 /*
  * 선택 점검 — 플레이어의 선택 하나가 진행 속도를 얼마나 가르는가.
- *   pnpm --filter msw-inc audit                 (v1.1과 v1.2를 나란히)
+ *   pnpm --filter msw-inc audit                 (v1.2와 게임 규칙 v1.3을 나란히)
+ *   pnpm --filter msw-inc audit -- --rules v1.1 (한 규칙만)
  *   pnpm --filter msw-inc audit -- --json out.json
  *
  * 성향(persona)은 "오렌 따라하기" 봇 위에서 선택 한 가지만 바꾼다(bots.ts).
  * 월드 규칙은 결정적이다. 시드마다 체크인 시각을 ±90분 흔들어(bots.ts) 중앙값과 범위를 쓴다. 결과 해석은 notes/choice-audit.md.
  */
 import { writeFileSync } from 'node:fs';
-import { useRules, V11, V12, type Rules } from '../rules';
+import { useRules, V11, V12, V13, type Rules } from '../rules';
 import { PERSONAS, runPersona, dayNum, type RunResult } from '../bots';
 
 const args = process.argv.slice(2);
@@ -48,7 +49,8 @@ function runSet(r: Rules): Row[] {
 }
 
 const all: Row[] = [];
-const sets = args.includes('--rules') ? [args[args.indexOf('--rules') + 1] === 'v1.1' ? V11 : V12] : [V11, V12];
+const BY_ID: Record<string, Rules> = { 'v1.1': V11, 'v1.2': V12, 'v1.3': V13 };
+const sets = args.includes('--rules') ? [BY_ID[args[args.indexOf('--rules') + 1]] || V13] : [V12, V13];
 for (const r of args.includes('--ablate') && !args.includes('--rules') ? [] : sets) {
   const rows = runSet(r);
   all.push(...rows);
@@ -75,7 +77,7 @@ if (jsonOut && all.length) {
 // ── 하나씩 빼 보기: v1.2의 각 변경이 무엇을 막는가 ──────────────
 if (args.includes('--ablate')) {
   const variants: [string, Partial<Rules>][] = [
-    ['v1.2 전부', {}],
+    ['v1.3 전부', {}],
     ['− 빈틈 걷기 (떠남)', { gapWalk: 0 }],
     ['− 누적 즐거움 결재 (동시 인원)', { joyGoal: null }],
     ['− 승진 발령', { promote: false }],
@@ -88,7 +90,7 @@ if (args.includes('--ablate')) {
   console.log('변형'.padEnd(26), ps.map(p => p.padStart(9)).join(''), '  범위');
   const out: Record<string, unknown> = {};
   for (const [label, patch] of variants) {
-    useRules({ ...V12, ...patch, id: label });
+    useRules({ ...V13, ...patch, id: label });
     const cells: string[] = [], ends: number[] = [];
     for (const id of ps) {
       const p = PERSONAS.find(x => x.id === id)!;

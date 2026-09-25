@@ -202,6 +202,14 @@ img.px{image-rendering:pixelated;display:block;pointer-events:none}
 .cond .t{width:94px;overflow:hidden;text-overflow:ellipsis}
 .bar{flex:1;height:8px;border-radius:5px;background:#E6EDF3;overflow:hidden}
 .bar i{display:block;height:100%;border-radius:5px;background:var(--flow);transition:width .5s}
+.bar.mk{position:relative;overflow:visible}
+.bar.mk i{position:relative}
+.bar .nt{position:absolute;top:-3px;bottom:-3px;width:4px;margin-left:-2px;border-radius:2px;background:#fff;border:1px solid #c9b27a;z-index:1}
+.bar .nt.on{background:var(--smile);border-color:#a67c00}
+.appr .marks{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:-4px 0 12px 38px;font-size:12px;font-weight:800;color:var(--ink2)}
+.appr .marks b{color:var(--ink);margin-right:2px}
+.appr .marks span{background:#fff;border:1px solid #e0d4b8;border-radius:8px;padding:2px 8px}
+.appr .marks span.got{background:#FFF8E1;border-color:var(--smile);color:#8a6400}
 .cond .v{width:44px;text-align:right}
 .cond .v.no{color:var(--alert)}
 .cond.ok .v{color:#1f9d57}
@@ -386,6 +394,9 @@ img.px{image-rendering:pixelated;display:block;pointer-events:none}
 .scenes{display:flex;gap:14px;margin-top:16px;height:170px}
 .scn{width:214px;height:170px;border-radius:14px;overflow:hidden;position:relative;background:linear-gradient(#8fd3ff,#d6f1ff);border:3px solid #fff;box-shadow:0 3px 0 #0001;opacity:0;transform:scale(.9) rotate(-2deg);transition:.35s cubic-bezier(.5,1.6,.5,1)}
 .scn.in{opacity:1;transform:none}
+.scn .markbar{left:20px;right:20px;top:48px;height:16px;border-radius:8px;background:#ffffffaa;border:2px solid #fff;overflow:hidden}
+.scn .markbar i{display:block;height:100%;background:var(--smile)}
+.scn .markrw{left:14px;right:14px;top:74px;font-size:13px;font-weight:900;color:#5a3f00;text-align:center;line-height:1.5}
 .scn .cap{position:absolute;left:0;right:0;bottom:0;height:34px;background:#fff;font:15px var(--disp);display:grid;place-items:center}
 .scn .g{position:absolute;left:0;right:0;bottom:34px;height:22px;background:#b0773f;box-shadow:inset 0 5px 0 #6cc35a}
 .scn .a{position:absolute}

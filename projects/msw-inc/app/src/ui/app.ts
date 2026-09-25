@@ -242,6 +242,29 @@ export function joyText(w: M.World) {
   return { goal, joy: c.joy, pct: goal ? Math.min(100, (100 * c.joy) / goal) : 0, eta, ok: c.happy };
 }
 
+/** 눈금 보상 한 칸의 이름 */
+export function markLabel(r: M.MarkReward): string {
+  if (r.kind === 'hire') return `🎟 ${SPECIES[r.sp].names[0]} 채용권`;
+  if (r.kind === 'event') return `🎫 무료 이벤트권${r.n > 1 ? ' ' + r.n + '장' : ''}`;
+  return '👑 필드 보스 방문';
+}
+/** ② 막대 위 눈금 (2장부터). 지난 눈금은 채워져 보인다 */
+export function markTicks(w: M.World): string {
+  const jm = RULES.joyMarks;
+  if (!jm || w.chapter < jm.from || w.ended) return '';
+  return jm.at.map((p, i) => `<b class="nt ${i < w.marks.length ? 'on' : ''}" style="left:${p * 100}%" title="${Math.round(p * 100)}% · ${markLabel(w.marks[i] || M.markReward(w, i))}${i < w.marks.length ? ' (받음)' : ''}"></b>`).join('');
+}
+/** 자리 확장 +4가 결재 ②를 얼마나 당기는가 (기다리는 사람이 앉을 때만). 시간 단위 */
+export function seatJoyGain(w: M.World, did: PlotId): number {
+  const c = M.approvalConds(w);
+  if (!c.joyGoal || c.happy || w.approvalReady) return 0;
+  const hc = M.happyCount(w), wait = w.advs.filter(a => a.st === 'busy' && a.near === did).length;
+  const extra = Math.min(M.SEAT_STEP, wait);
+  if (!hc || !extra) return 0;
+  const left = c.joyGoal - c.joy;
+  return left / hc - left / (hc + extra);
+}
+
 export function renderDoc() {
   const w = A.w;
   const doc = must('#doc');
@@ -260,7 +283,7 @@ export function renderDoc() {
     <h5>결재 서류 · ${ch.n}장</h5><h4>${ch.region}${ch.n === 1 ? '를' : '까지'} 잇자</h4>
     <div class="stampslot">${w.approvalReady ? '도장<br>받기' : '결재<br>대기'}</div>
     <div class="cond ${w.approvalReady || c.road ? 'ok' : ''}"><span class="t">① Lv 1–${ch.road} 잇기</span><div class="bar"><i style="width:${Math.round(100 * (ch.road - c.gapN) / ch.road)}%"></i></div><span class="v ${!c.road && !w.approvalReady ? 'no' : ''}">${w.approvalReady || c.road ? '✓' : '빈틈 ' + c.gapN}</span></div>
-    <div class="cond ${w.approvalReady || j.ok ? 'ok' : ''}"><span class="t">② 즐거운 시간</span><div class="bar"><i style="width:${w.approvalReady ? 100 : j.pct}%;background:var(--smile)"></i></div><span class="v">${w.approvalReady || j.ok ? '✓' : Math.floor(j.pct) + '%'}</span></div>
+    <div class="cond ${w.approvalReady || j.ok ? 'ok' : ''}"><span class="t">② 즐거운 시간</span><div class="bar mk"><i style="width:${w.approvalReady ? 100 : j.pct}%;background:var(--smile)"></i>${markTicks(w)}</div><span class="v">${w.approvalReady || j.ok ? '✓' : Math.floor(j.pct) + '%'}</span></div>
     ${c.needBalrog ? `<div class="cond ${c.balrog ? 'ok' : ''}"><span class="t">③ 발록 던전</span><span class="v" style="margin-left:auto">${c.balrog ? '✓' : '개장 전'}</span></div>` : ''}`;
 }
 
@@ -300,6 +323,7 @@ export function orenPick(): OrenLine {
     if (fc.starred < fc.plots || fc.dex < 36) return { t: `완전 클리어까지 던전 ★3 ${fc.plots - fc.starred}곳, 도감 ${36 - fc.dex}칸 남았어요!!`, go: () => A.openFullClear() };
     return { t: '완전 클리어!! 매니저님은 이 섬의 전설이에요!!', go: null };
   }
+  if (w.tickets.event > 0 && M.activeEvents(w) < M.maxEvents(w)) return { t: `무료 이벤트권 ${w.tickets.event}장 있어요!! 붐비는 던전에 경험치 2배 걸어봐요!!`, go: () => { const occ = (id: string) => w.advs.filter(a => a.st === 'happy' && a.d === id).length; const id = Object.keys(M.levelsOf(w)).filter(x => !w.dungeons[x].event).sort((p, q) => occ(q) - occ(p))[0]; if (id) A.openDungeon(id, { hl: 'exp' }); } };
   if (M.activeEvents(w) === 0 && w.smile > 1500) return { t: '스마일이 넉넉해요!! 경험치 2배 한 번 어때요?!', go: () => { const lv = M.levelsOf(w); const id = Object.keys(lv).sort((p, q) => lv[p] - lv[q])[0]; if (id) A.openDungeon(id, { hl: 'exp' }); } };
   const j = joyText(w);
   const idle = [

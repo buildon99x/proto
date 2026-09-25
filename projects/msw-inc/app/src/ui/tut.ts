@@ -35,7 +35,7 @@ const STEPS: Step[] = [
   { id: 'fixed', line: () => (M.gapSegments(w()).some(g => g[0] <= 13) ? '음… 아직 끊겨 있어요!! 주황버섯을 “사냥터”로 옮겨봐요!!' : '뚫렸다!! 멈춰 있던 모험가님들이 다시 올라가요!!'), spot: () => null, done: s => s.age > 6 && !M.gapSegments(w()).some(g => g[0] <= 13) },
   {
     id: 'event', line: () => (A.ui.mode === 'dungeon' && A.dv.id === 'h1' ? '경험치 2배를 눌러요!! 첫 번은 공짜예요!!' : '이벤트 한 번 걸어볼까요?! 첫 번은 공짜예요!! 들판을 눌러요!!'),
-    spot: () => (A.ui.mode === 'world' ? plat('h1') : A.dv.id === 'h1' ? '[data-evt="exp"]' : '#dBack'), done: () => M.activeEvents(w()) > 0 || w().tut.freeEvent === 0,
+    spot: () => (A.ui.mode === 'world' ? plat('h1') : A.dv.id === 'h1' ? '[data-evt="exp"]' : '#dBack'), done: () => M.activeEvents(w()) > 0 || w().tickets.event === 0,
   },
   { id: 'burst', line: '경험치 2배!! 모험가님들이 두 배로 빨리 자라요!! 대신 다음 던전이 붐빌 수 있어요!!', spot: () => null, done: s => s.age > 8 },
   {

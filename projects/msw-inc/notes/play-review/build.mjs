@@ -9,7 +9,10 @@ import path from "node:path";
 
 const HERE = import.meta.dirname;
 const DATA = path.join(HERE, "../data");
-const sim = JSON.parse(readFileSync(path.join(DATA, "playreview.json"), "utf8"));
+const argv = process.argv.slice(2);
+const opt = k => (argv.includes(k) ? argv[argv.indexOf(k) + 1] : null);
+// --sim <file>: 다른 계측 결과로 요약만 본다. --dry: data.js를 쓰지 않는다
+const sim = JSON.parse(readFileSync(opt("--sim") || path.join(DATA, "playreview.json"), "utf8"));
 const ui = JSON.parse(readFileSync(path.join(DATA, "playreview-ui.json"), "utf8"));
 const audit = JSON.parse(readFileSync(path.join(DATA, "audit.json"), "utf8"));
 
@@ -18,13 +21,14 @@ const r2 = x => Math.round(x * 100) / 100;
 
 // ── 추정 감정 모델 ───────────────────────────────────────────
 // 순서가 우선순위다. 한 체크인에는 가장 강한 하나만 붙인다.
-const MAINT = /^(event|seat|seat\+)$/;
+const MAINT = /^(event|event-free|seat|seat\+)$/;
 const VALENCE = { achieve: 3, relief: 1.5, discover: 2, tense: -1, routine: 0.5, bored: -1 };
 function emotion(c) {
   const newDex = c.after.dex > c.before.dex || c.away.newDex.length > 0;
   const fixed = c.before.gapN > 0 && c.after.gapN === 0;
   let e;
-  if (c.acts.includes("approve")) e = "achieve";
+  // v1.3: 결재 막대 눈금을 지난 체크인도 "성취"다 (보상이 저절로 들어온다)
+  if (c.acts.includes("approve") || (c.away.marks || []).length) e = "achieve";
   else if (newDex) e = "discover";
   else if (fixed) e = "relief";
   else if (c.before.gapN > 0) e = "tense";
@@ -36,7 +40,7 @@ function emotion(c) {
 }
 
 // 행동 한 개를 화면에서 하려면 몇 번 눌러야 하나 (playreview:ui 실측 흐름 기준)
-const COST = { approve: 3, hire: 3, move: 1, evolve: 3, promote: 3, seat: 3, "seat+": 3, slot: 3, expand: 3, event: 3, clear: 1, release: 2, rebuild: 3, grow: 3, balrog: 1, place: 1, "night-evolve": 3 };
+const COST = { "event-free": 3, approve: 3, hire: 3, move: 1, evolve: 3, promote: 3, seat: 3, "seat+": 3, slot: 3, expand: 3, event: 3, clear: 1, release: 2, rebuild: 3, grow: 3, balrog: 1, place: 1, "night-evolve": 3 };
 const inputsOf = acts => 2 + acts.reduce((s, a) => s + (COST[a.split(":")[0]] ?? 2), 0); // +출근 리포트 닫기 +퇴근
 
 const runs = {};
@@ -122,6 +126,6 @@ const scenes = ui.scenes.map(s => ({ id: s.id, label: s.label, shot: s.shot, cli
 const personas = audit.map(a => ({ rules: a.rules, id: a.persona, label: a.label, ends: a.seeds.map(s => (s.ch[4] == null ? null : r1(s.ch[4]))), dead: a.endDead, entH: Math.round(a.entranceH), med: a.ch[4] == null ? null : r1(a.ch[4]) }));
 
 const out = { generated: new Date().toISOString().slice(0, 10), rules: sim.rules, runs, flow, scenes, personas, cost: COST, valence: VALENCE };
-writeFileSync(path.join(HERE, "data.js"), "// 생성물: node notes/play-review/build.mjs\nwindow.PR = " + JSON.stringify(out) + ";\n");
+if (!argv.includes("--dry")) writeFileSync(path.join(HERE, "data.js"), "// 생성물: node notes/play-review/build.mjs\nwindow.PR = " + JSON.stringify(out) + ";\n");
 console.log("→ data.js", (JSON.stringify(out).length / 1024).toFixed(0) + "KB");
 for (const id of Object.keys(runs)) console.log(id, runs[id].chapters.map(c => `ch${c.ch} ${c.days}d wow${c.wowPct}% badges${c.badges} evo${c.bEvo} in${c.inputs} wait${c.waitDays} emo${JSON.stringify(c.emo)}`).join("\n  "));

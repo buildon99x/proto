@@ -116,6 +116,7 @@ if (demo) {
   runDemo(demo, { newGame, intro });
 } else {
   const s = loadSave();
+  if (s) s.w = M.migrate(s.w);
   if (s && M.isWorld(s.w)) {
     A.w = s.w;
     if (s.tut) T.st = s.tut as typeof T.st;

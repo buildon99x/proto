@@ -1,7 +1,7 @@
 /*
  * S3 진화(+승진 발령) · S5 채용 · S6 결재 · S0 출근 리포트 · S7 매니저 퇴근 · 직원 말풍선 · 도감 · 엔딩 · 완전 클리어
  */
-import { A, $, $$, must, h, n, clamp, img, sil, monArt, josa, ro, plotName, plotShort, segTxt, clockText, dur, snd, nope, toast, emit, refresh, renderOren, rectOf, shake, joyText, save, M } from './app';
+import { A, $, $$, must, h, n, clamp, img, sil, monArt, josa, ro, plotName, plotShort, segTxt, clockText, dur, snd, nope, toast, emit, refresh, renderOren, rectOf, shake, joyText, save, markTicks, markLabel, RULES, M } from './app';
 import { CHAPTERS, SPECIES, SPECIES_IDS, TRAITS, DEX_TOTAL, PLOTS, type PlotId, type SpeciesId } from '../sim/content';
 
 const segList = (ss: M.Seg[]) => ss.map(segTxt).join(', ');
@@ -44,7 +44,7 @@ A.openHire = (opt = {}) => {
     const s = SPECIES[sp];
     const locked = s.chapter > w.chapter;
     const tr = s.trait ? TRAITS[s.trait] : null;
-    const ticket = w.tut.ticket === sp;
+    const ticket = M.hasHireTicket(w, sp);
     const cost = M.hireCost(sp);
     const can = ticket || w.smile >= cost;
     const isRec = !locked && sp === rec, isGrow = !locked && grow && sp === grow.sp && !growing;
@@ -55,7 +55,7 @@ A.openHire = (opt = {}) => {
       <b>${locked ? '???' : s.names[0]}</b><span class="lvl">Lv ${s.base} · 적정 ${Math.max(1, s.base - 5)}–${s.base + 5}</span>
       <span class="trait" title="${tr ? tr.desc : ''}">${tr ? tr.icon + ' ' + tr.name : '— 표준'}</span>
       ${locked ? `<div class="go dis">${s.chapter - 1}장 결재 후</div>`
-        : `<button class="go ${can ? '' : 'dis'}" data-hire="${sp}">${ticket ? '🎟 입사 선물 · 무료' : `<i class="mini-can"></i>${n(cost)}`}</button>`}
+        : `<button class="go ${can ? '' : 'dis'}" data-hire="${sp}">${ticket ? '🎟 채용권 · 무료' : `<i class="mini-can"></i>${n(cost)}`}</button>`}
     </div>`;
   }
   let sub = '1단계 직원만 뽑을 수 있어요. 높은 단계는 키워서만 얻어요';
@@ -238,7 +238,8 @@ A.openApproval = () => {
     <div class="bigstamp" id="bigstamp">결재<small>머쉬맘</small></div>
     <h5>결재 서류 · ${ch.n}장${ch.n === 5 ? ' · 마지막' : ''}</h5><h2>${ch.region}${ch.n === 1 ? '를' : '까지'} 잇자</h2>
     <div class="c ${ok1 ? 'ok' : ''}"><span class="ck">${ok1 ? '✓' : '1'}</span><span class="lb">Lv 1–${ch.road} 빈틈 없이</span><div class="bar"><i style="width:${Math.round(100 * (ch.road - c.gapN) / ch.road)}%"></i></div><span class="v">${ok1 ? '완료' : '빈틈 ' + c.gapN}</span></div>
-    <div class="c ${ok2 ? 'ok' : ''}"><span class="ck">${ok2 ? '✓' : '2'}</span><span class="lb">모험가들의 즐거운 시간<small>😊 즐기는 모험가 × 머문 시간이 쌓여요</small></span><div class="bar"><i style="width:${ok2 ? 100 : j.pct}%;background:var(--smile)"></i></div><span class="v">${ok2 ? '완료' : `${n(j.joy)}<small>/${n(j.goal)}</small>`}</span></div>
+    <div class="c ${ok2 ? 'ok' : ''}"><span class="ck">${ok2 ? '✓' : '2'}</span><span class="lb">모험가들의 즐거운 시간<small>😊 즐기는 모험가 × 머문 시간이 쌓여요</small></span><div class="bar mk"><i style="width:${ok2 ? 100 : j.pct}%;background:var(--smile)"></i>${markTicks(w)}</div><span class="v">${ok2 ? '완료' : `${n(j.joy)}<small>/${n(j.goal)}</small>`}</span></div>
+    ${marksRow(w)}
     ${c.needBalrog ? `<div class="c ${ok3 ? 'ok' : ''}"><span class="ck">${ok3 ? '✓' : '3'}</span><span class="lb">주니어 발록 던전 개장</span><div class="bar"><i style="width:${ok3 ? 100 : 0}%;background:var(--evolve)"></i></div><span class="v">${ok3 ? '완료' : '대기실에'}</span></div>` : ''}
     ${!ok2 && j.eta ? `<div class="eta">지금 😊 ${M.happyCount(w)}명이면 ${j.eta} 뒤에 채워져요. 사람이 늘면 더 빨라요. <b>줄지는 않아요.</b></div>` : ''}
     <div class="rw">결재 보상: <b>★ +1</b> · 모험가 도착 +3명/시간 ${next ? `· <b>${next.region}</b> 개방 · 부지 +3${nextSp.length ? ' · ' + nextSp.join(', ') + ' 채용' : ''} · 졸업선 Lv ${ch.road} → ${next.road}` : '· <b>섬 전체에 불</b>'}${ch.n === 2 ? ' · 동시 이벤트 +1' : ''}${ch.n === 4 ? ' · 주니어 발록 입사 지원서' : ''}</div>
@@ -264,6 +265,13 @@ A.openApproval = () => {
   };
   snd.play('ui');
 };
+/** 결재함: 이번 장 막대 눈금 보상 목록 */
+function marksRow(w: M.World) {
+  const jm = RULES.joyMarks;
+  if (!jm || w.chapter < jm.from || w.ended) return '';
+  const cells = jm.at.map((p, i) => { const got = w.marks[i]; return `<span class="${got ? 'got' : ''}">${Math.round(p * 100)}% ${markLabel(got || M.markReward(w, i))}${got ? ' ✓' : ''}</span>`; }).join('');
+  return `<div class="marks"><b>막대 눈금 보상</b>${cells}</div>`;
+}
 const CUT_LINES: Record<number, [string, string]> = {
   2: ['좋아요. 결재. 다음은 엘리니아예요.', '매니저님!! 엘리니아에 불이 켜졌어요!! 슬라임 신입이 들어올 수 있어요!!'],
   3: ['좋아요. 결재. 페리온은 바위투성이예요.', '매니저님!! 헤네시스에서 키운 직원을 위로 발령 보내요!!'],
@@ -344,6 +352,7 @@ function scene(kind: string, data: Record<string, unknown>) {
   if (kind === 'crowd') return { cap: `🌀 ${plotShort(data.d as PlotId)} 만원`, html: advs(5) + `<div class="a" style="left:20px;top:16px;font-size:22px">😠</div><div class="a" style="left:90px;top:10px;font-size:22px">😠</div><div class="a" style="left:150px;top:18px;font-size:22px">😊</div>` };
   if (kind === 'ready') { const m = w.monsters.find(x => x.id === data.mon); if (!m) return null; return { cap: `▲ ${M.monName(m)} 진화 준비`, html: `<div class="a glowev" style="left:60px;bottom:52px">${img(monArt(m), 4)}</div><div class="a evmini">▲</div>` }; }
   if (kind === 'doc') return { cap: '📋 결재 서류 도착', html: `<div class="a docp"></div><div class="a docs">결재</div>` };
+  if (kind === 'mark') { const ms = data.list as M.Report['marks']; return { cap: `📊 결재 막대 ${ms.map(x => Math.round(x.pct * 100) + '%').join('·')}`, html: `<div class="a markbar"><i style="width:${Math.round(ms[ms.length - 1].pct * 100)}%"></i></div><div class="a markrw">${ms.map(x => markLabel(x.reward)).join('<br>')}</div>` }; }
   if (kind === 'entrance') return { cap: `😐 입구 막힘 ${dur(data.min as number)}`, html: advs(3) + `<div class="a" style="left:30px;top:14px;font-size:22px">😐</div><div class="a" style="left:100px;top:10px;font-size:22px">😐</div>` };
   return null;
 }
@@ -352,6 +361,7 @@ A.showReport = (rep, awayMin) => {
   A.ui.modal = 'report';
   const picks: [string, Record<string, unknown>][] = [];
   if (rep.approval) picks.push(['doc', {}]);
+  if (rep.marks.length) picks.push(['mark', { list: rep.marks }]);
   if (rep.firstGrad) picks.push(['grad', { first: true, n: rep.grads }]);
   if (rep.bestBurst && rep.bestBurst.n >= 5 && M.levelsOf(w)[rep.bestBurst.d]) picks.push(['burst', rep.bestBurst as unknown as Record<string, unknown>]);
   if (rep.ready.length) picks.push(['ready', { mon: rep.ready[0] }]);

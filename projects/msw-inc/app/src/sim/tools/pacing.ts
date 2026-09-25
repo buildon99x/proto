@@ -1,6 +1,6 @@
 /*
  * 페이싱 점검 — 문서가 약속한 시각이 규칙으로 실제로 나오는지 확인한다.
- *   pnpm --filter msw-inc pacing            (게임 규칙 v1.2)
+ *   pnpm --filter msw-inc pacing            (게임 규칙 v1.3)
  *   pnpm --filter msw-inc pacing -- v1.1    (컨셉 v1.1 규칙으로 다시 굴린다)
  *
  * 1) 첫 10분 대본: 첫 레벨업, Lv 8 빈틈, 고참 달팽이 진화 가능 시각
@@ -8,14 +8,14 @@
  * 3) 챕터 달력: 표준·가벼운 매니저 봇으로 1~5장 결재 날짜
  */
 import * as S from '../sim';
-import { useRules, V11, V12 } from '../rules';
+import { useRules, V11, V13 } from '../rules';
 import { PERSONAS, runPersona, dayLabel } from '../bots';
 
 const legacy = process.argv.includes('v1.1');
-useRules(legacy ? V11 : V12);
+useRules(legacy ? V11 : V13);
 const fmt = (m: number) => `${Math.floor(m)}:${String(Math.round((m % 1) * 60)).padStart(2, '0')}`;
 
-console.log(`규칙 ${legacy ? 'v1.1 (컨셉)' : 'v1.2 (게임)'}\n`);
+console.log(`규칙 ${legacy ? 'v1.1 (컨셉)' : 'v1.3 (게임)'}\n`);
 
 // ── 1. 첫 10분 ──────────────────────────────────────────────
 const w = S.createWorld(20260924);

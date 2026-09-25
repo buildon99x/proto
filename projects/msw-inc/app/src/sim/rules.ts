@@ -3,7 +3,8 @@
  *
  * V11은 컨셉 v1.1(docs/concept/maple-idle/msw-inc/03-systems.md) 그대로다.
  * V12는 선택 점검(notes/choice-audit.md)에서 진행 속도를 크게 가르던 선택을 고친 값이다.
- * 게임은 V12로 돈다. 점검 스크립트만 useRules(V11)로 옛 규칙을 다시 굴려 비교한다.
+ * V13은 플레이 리뷰 뒤 개선(눈금 보상·엘리트·필드 보스·첫 10분)이다.
+ * 게임은 V13으로 돈다. 점검 스크립트만 useRules(V11·V12)로 옛 규칙을 다시 굴려 비교한다.
  */
 export interface Rules {
   id: string;
@@ -29,6 +30,8 @@ export interface Rules {
   costCurve: number[];
   /** 챕터별 스마일 수입 배율 (즐거운 모험가·레벨업). 후반 스마일 과잉(컨셉 D1)을 누른다 */
   incomeCurve: number[];
+  /** 결재 ② 막대 눈금 보상 (v1.3, 2장부터). null이면 없다 */
+  joyMarks: { at: number[]; from: number } | null;
 }
 
 export const V11: Rules = {
@@ -46,6 +49,7 @@ export const V11: Rules = {
   seatCost: [500, 1000, 2000], slotCost: [1000, 3000], plotCost: 1000,
   costCurve: [1, 1, 1, 1, 1],
   incomeCurve: [1, 1, 1, 1, 1],
+  joyMarks: null,
 };
 
 export const V12: Rules = {
@@ -60,5 +64,15 @@ export const V12: Rules = {
   incomeCurve: [1, 0.6, 0.35, 0.22, 0.15],
 };
 
-export const RULES: Rules = { ...V12 };
+/**
+ * V13은 플레이 리뷰(notes/play-review) 뒤의 개선이다. 근거와 수치는 notes/improvement-plan.md와 choice-audit §7.
+ */
+export const V13: Rules = {
+  ...V12,
+  id: 'v1.3',
+  // F1: ② 막대 25·50·75%에 보상 칸 — 채용권 · 필드 보스 · 무료 이벤트권 2장
+  joyMarks: { at: [0.25, 0.5, 0.75], from: 2 },
+};
+
+export const RULES: Rules = { ...V13 };
 export function useRules(r: Rules): void { Object.assign(RULES, r); }

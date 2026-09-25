@@ -2,7 +2,7 @@
  * S2 던전 현장 (+ S4 매니저 권한)
  * 현장은 결과를 바꾸지 않는다. 서버(sim)가 낸 사건을 샘플로 재생한다.
  */
-import { A, $, must, h, n, clamp, img, monArt, ro, plotName, plotShort, lvColor, dur, snd, nope, toast, emit, refresh, M } from './app';
+import { A, $, must, h, n, clamp, img, monArt, ro, plotName, plotShort, lvColor, dur, snd, nope, toast, emit, refresh, seatJoyGain, M } from './app';
 import { REGIONS, SPECIES, TRAITS, type PlotId } from '../sim/content';
 import { ART } from './art';
 
@@ -96,21 +96,22 @@ function panel() {
   if (sc != null) slots += `<button class="slot lock" data-slotup="1"><div>+ 직원 자리<br><span class="costrow"><i class="mini-can"></i>${n(sc)}</span></div></button>`;
 
   const hl = performance.now() < DV.hlUntil ? DV.hl : null;
-  const evCost = M.eventCost(w, id), free = w.tut.freeEvent > 0;
+  const evCost = M.eventCost(w, id), free = w.tickets.event > 0;
   const lim = M.activeEvents(w) >= M.maxEvents(w);
   const pw = (kind: 'exp' | 'drop', c: string, ic: string, name: string, line: string) => {
     const on = !!d.event && d.event.kind === kind;
     const other = !!d.event && !on;
     const dis = !on && (other || lim);
     const sub = on ? `${dur(d.event!.end - w.t)} 남음` : other ? '던전당 이벤트 하나' : lim ? `동시에 ${M.maxEvents(w)}개까지` : line;
-    const cost = on ? `<div class="ring" style="--c:${c};--p:${((d.event!.end - w.t) / M.EVENT_MIN).toFixed(3)}"><b>ON</b></div>` : free ? '<span class="okc">첫 번 무료</span>' : `<i class="mini-can"></i>${n(evCost)}`;
+    const cost = on ? `<div class="ring" style="--c:${c};--p:${((d.event!.end - w.t) / M.EVENT_MIN).toFixed(3)}"><b>ON</b></div>` : free ? `<span class="okc">🎫 무료${w.tickets.event > 1 ? ' ×' + w.tickets.event : ''}</span>` : `<i class="mini-can"></i>${n(evCost)}`;
     return `<button class="pw ${on ? 'on' : ''} ${dis ? 'dis' : ''} ${hl === kind ? 'hl' : ''}" style="--c:${c}" data-evt="${kind}" ${dis || on ? 'disabled' : ''}>
       <span class="ei" style="background:${c}">${ic}</span><span><b>${name}</b><small>${sub}</small></span><span class="cost">${cost}</span></button>`;
   };
-  const seatC = M.seatCost(w, d);
+  const seatC = M.seatCost(w, d), gain = seatJoyGain(w, id);
+  const gainTxt = gain >= 0.5 ? ` · 결재 ② 약 −${gain >= 24 ? (gain / 24).toFixed(1) + '일' : Math.round(gain) + '시간'}` : '';
   const powers = pw('exp', 'var(--exp)', 'EXP', '경험치 2배 · 4시간', '모험가를 위로 올려보낸다')
     + pw('drop', 'var(--drop)', 'DROP', '드랍 2배 · 4시간', '모험가를 불러 모은다')
-    + `<button class="pw ${seatC == null ? 'dis' : ''} ${hl === 'seat' ? 'hl' : ''}" data-seat="1" ${seatC == null ? 'disabled' : ''}><span class="ei" style="background:var(--flow)">+4</span><span><b>자리 확장</b><small>${seatC == null ? '20석이 최대' : `자리 ${d.seats} → ${d.seats + 4}`}</small></span><span class="cost">${seatC == null ? '' : `<i class="mini-can"></i>${n(seatC)}`}</span></button>`;
+    + `<button class="pw ${seatC == null ? 'dis' : ''} ${hl === 'seat' ? 'hl' : ''}" data-seat="1" ${seatC == null ? 'disabled' : ''}><span class="ei" style="background:var(--flow)">+4</span><span><b>자리 확장</b><small>${seatC == null ? '20석이 최대' : `자리 ${d.seats} → ${d.seats + 4}${gainTxt}`}</small></span><span class="cost">${seatC == null ? '' : `<i class="mini-can"></i>${n(seatC)}`}</span></button>`;
 
   const recent = Math.round(d.recentLv);
   const html = `
@@ -151,11 +152,12 @@ function bind() {
       refresh(); return;
     }
     if (tgt.closest('[data-seat]')) {
+      const gain = seatJoyGain(w, id);
       const r = M.seatUp(w, id);
       if (!r.ok) return nope(r.msg);
       snd.play('hire');
       fx(`<div class="pop g" style="font-size:22px">자리 +4</div>`, 640, 90, 1300);
-      toast(`자리 확장 · 스마일 −${n(r.cost)}`, { undo: () => M.seatDown(w, id, r.cost) });
+      toast(`자리 확장 · 스마일 −${n(r.cost)}${gain >= 0.5 ? ` · 결재 ② 약 −${Math.round(gain)}시간` : ''}`, { undo: () => M.seatDown(w, id, r.cost) });
       refresh(); return;
     }
   });

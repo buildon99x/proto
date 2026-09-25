@@ -19,6 +19,8 @@ export interface Adventurer {
   wait: number; look: number; jit: number; seen?: boolean;
 }
 export interface GameEvent { kind: 'exp' | 'drop'; start: number; end: number }
+export interface Tickets { hire: SpeciesId[]; event: number; plot: number }
+export type MarkReward = { kind: 'hire'; sp: SpeciesId } | { kind: 'event'; n: number } | { kind: 'boss' };
 export interface Dungeon {
   id: PlotId; slots: number; seats: number; seatUp: number; slotUp: number;
   event: GameEvent | null; joy: number; recentLv: number;
@@ -31,7 +33,11 @@ export interface World {
   monsters: Monster[]; advs: Adventurer[];
   nextMon: number; nextAdv: number; arrAcc: number;
   dex: Record<string, true>;
-  tut: { buffUntil: number; instant: number; ticket: SpeciesId | null; freeEvent: number };
+  tut: { buffUntil: number; instant: number };
+  /** 무료권: 채용권(계열), 이벤트권, 개업권 — 입사 선물과 결재 막대 눈금 보상 (v1.3) */
+  tickets: Tickets;
+  /** 이번 장에서 받은 ② 막대 눈금 보상 (v1.3). 길이 = 지난 눈금 수 */
+  marks: MarkReward[];
   stats: { arrivals: number; levelups: number; grads: number; left: { entrance: number; search: number; busy: number }; evolves: number };
   /** 이번 장 누적 즐거움 (명·시간) — 결재 조건 ② (v1.2) */
   cjoy: number;
@@ -49,9 +55,10 @@ export type SimEvent =
   | { type: 'ready'; mon: number }
   | { type: 'kill'; d: PlotId; n: number }
   | { type: 'eventEnd'; d: PlotId; kind: 'exp' | 'drop' }
-  | { type: 'approval' };
+  | { type: 'approval' }
+  | { type: 'mark'; pct: number; reward: MarkReward };
 
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
 export const SEAT_BASE = 8, SEAT_STEP = 4;
 export const SLOT_BASE = 3;
 export const EVENT_MIN = 240;
@@ -77,7 +84,8 @@ export function createWorld(seed: number): World {
     plots: {}, dungeons: {}, monsters: [], advs: [],
     nextMon: 1, nextAdv: 1, arrAcc: 0,
     dex: {},
-    tut: { buffUntil: BUFF_MIN, instant: 3, ticket: 'mush', freeEvent: 1 },
+    tut: { buffUntil: BUFF_MIN, instant: 3 },
+    tickets: { hire: ['mush'], event: 1, plot: 0 }, marks: [],
     stats: { arrivals: 0, levelups: 0, grads: 0, left: { entrance: 0, search: 0, busy: 0 }, evolves: 0 },
     chapterAt: [0], cjoy: 0,
   };
@@ -327,8 +335,34 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
 
   w.t += dt;
 
+  // 결재 ② 막대 눈금 (v1.3): 지나는 순간 보상이 저절로 들어온다
+  checkMarks(w, emit);
+
   // 결재 판정 — 한 번 채우면 서류가 올라와 기다린다
   if (!w.approvalReady && !w.ended && approvalMet(w)) { w.approvalReady = true; emit({ type: 'approval' }); }
+}
+
+/** ② 막대 눈금 보상: 25% 이번 장 계열 채용권 · 50% 필드 보스(없으면 이벤트권) · 75% 이벤트권 2장 */
+export function markReward(w: World, i: number): MarkReward {
+  if (i === 0) {
+    const sps = (Object.keys(SPECIES) as SpeciesId[]).filter(sp => SPECIES[sp].chapter === w.chapter);
+    const count = (sp: SpeciesId) => w.monsters.filter(m => m.sp === sp).length;
+    sps.sort((a, b) => count(a) - count(b) || SPECIES[a].base - SPECIES[b].base);
+    return { kind: 'hire', sp: sps[0] };
+  }
+  if (i === 1) return { kind: 'event', n: 1 };
+  return { kind: 'event', n: 2 };
+}
+function checkMarks(w: World, emit: (e: SimEvent) => void) {
+  const jm = RULES.joyMarks, goal = RULES.joyGoal ? RULES.joyGoal[w.chapter - 1] : 0;
+  if (!jm || !goal || w.chapter < jm.from || w.ended) return;
+  while (w.marks.length < jm.at.length && w.cjoy >= goal * jm.at[w.marks.length]) {
+    const i = w.marks.length, reward = markReward(w, i);
+    if (reward.kind === 'hire') w.tickets.hire.push(reward.sp);
+    else if (reward.kind === 'event') w.tickets.event += reward.n;
+    w.marks.push(reward);
+    emit({ type: 'mark', pct: jm.at[i], reward });
+  }
 }
 
 /** 한 던전의 퇴근(근속)이 직원들에게 어떻게 나뉘는가 */
@@ -375,13 +409,14 @@ export interface Ledger {
   crowdMax: { d: PlotId; n: number } | null;
   ready: number[]; approval: boolean; firstGrad: boolean;
   stuckMin: number;
+  marks: { pct: number; reward: MarkReward }[];
 }
 export function ledgerStart(w: World): Ledger {
   return {
     t0: w.t, happy0: happyCount(w), smile0: w.smile, lv0: w.stats.levelups, grad0: w.stats.grads,
     work0: Object.fromEntries(w.monsters.map(m => [m.id, m.work])),
     hourLv: {}, bestBurst: null, crowdMax: null, ready: [], approval: false, firstGrad: w.stats.grads === 0,
-    stuckMin: 0,
+    stuckMin: 0, marks: [],
   };
 }
 export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
@@ -393,6 +428,7 @@ export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
       if (!L.bestBurst || L.hourLv[k] > L.bestBurst.n) L.bestBurst = { d: e.d, n: L.hourLv[k] };
     } else if (e.type === 'ready') { if (!L.ready.includes(e.mon)) L.ready.push(e.mon); }
     else if (e.type === 'approval') L.approval = true;
+    else if (e.type === 'mark') L.marks.push({ pct: e.pct, reward: e.reward });
   }
   const busy: Record<string, number> = {};
   let entrance = false;
@@ -407,6 +443,7 @@ export interface Report {
   minutes: number; happy: number; happyDelta: number; levelups: number; grads: number; firstGrad: boolean;
   smile: number; bestBurst: Ledger['bestBurst']; crowdMax: Ledger['crowdMax']; ready: number[];
   king: { id: number; n: number } | null; approval: boolean; entranceMin: number;
+  marks: Ledger['marks'];
 }
 export function ledgerReport(L: Ledger, w: World): Report {
   const king = w.monsters
@@ -423,6 +460,7 @@ export function ledgerReport(L: Ledger, w: World): Report {
     king: king && king.n >= 1 ? { id: king.m.id, n: Math.round(king.n) } : null,
     approval: w.approvalReady,
     entranceMin: L.stuckMin,
+    marks: L.marks,
   };
 }
 
@@ -435,14 +473,15 @@ const fmtN = (n: number) => Math.ceil(n).toLocaleString('ko-KR');
 export const hireCost = (sp: SpeciesId) => 100 * SPECIES[sp].base;
 export const plotCost = (id: PlotId) => RULES.plotCost * plotInfo(id).region;
 export const canHireSpecies = (w: World, sp: SpeciesId) => SPECIES[sp].chapter > 0 && SPECIES[sp].chapter <= w.chapter;
+export const hasHireTicket = (w: World, sp: SpeciesId) => w.tickets.hire.includes(sp);
 
 export function hire(w: World, sp: SpeciesId, into?: PlotId | null): Result<{ mon: Monster; cost: number; free: boolean }> {
   if (!canHireSpecies(w, sp)) return no('아직 채용할 수 없어요');
   const direct = !!into && w.plots[into] && w.plots[into].open && monsIn(w, into).length < w.dungeons[into].slots;
   if (!direct && tray(w).length >= TRAY_MAX) return no('대기실이 꽉 찼어요');
-  const free = w.tut.ticket === sp, cost = hireCost(sp);
+  const free = hasHireTicket(w, sp), cost = hireCost(sp);
   if (!free && w.smile < cost) return no(`스마일 ${fmtN(cost - w.smile)} 모자라요`, { short: cost - w.smile });
-  if (free) w.tut.ticket = null; else w.smile -= cost;
+  if (free) w.tickets.hire.splice(w.tickets.hire.indexOf(sp), 1); else w.smile -= cost;
   const m = addMonster(w, sp, null);
   return ok({ mon: m, cost: free ? 0 : cost, free });
 }
@@ -451,7 +490,7 @@ export function unhire(w: World, monId: number, refund: number | 'ticket'): void
   if (i < 0) return;
   const m = w.monsters[i];
   w.monsters.splice(i, 1);
-  if (refund === 'ticket') w.tut.ticket = m.sp; else w.smile += refund || 0;
+  if (refund === 'ticket') w.tickets.hire.push(m.sp); else w.smile += refund || 0;
 }
 
 export const RULES_RELEASE = () => RULES.releaseRefund > 0;
@@ -571,9 +610,9 @@ export function startEvent(w: World, did: PlotId, kind: 'exp' | 'drop'): Result<
   if (!D) return no('직원이 없는 던전이에요');
   if (d.event) return no('이미 이벤트 중이에요');
   if (activeEvents(w) >= maxEvents(w)) return no(`이벤트는 동시에 ${maxEvents(w)}개까지`);
-  const free = w.tut.freeEvent > 0, cost = free ? 0 : 30 * D;
+  const free = w.tickets.event > 0, cost = free ? 0 : 30 * D;
   if (w.smile < cost) return no(`스마일 ${fmtN(cost - w.smile)} 모자라요`, { short: cost - w.smile });
-  if (free) w.tut.freeEvent--; else w.smile -= cost;
+  if (free) w.tickets.event--; else w.smile -= cost;
   d.event = { kind, end: w.t + EVENT_MIN, start: w.t };
   return ok({ cost, free });
 }
@@ -581,7 +620,7 @@ export function cancelEvent(w: World, did: PlotId, refund: number, wasFree: bool
   const d = w.dungeons[did];
   if (!d.event) return;
   d.event = null;
-  if (wasFree) w.tut.freeEvent++; else w.smile += refund;
+  if (wasFree) w.tickets.event++; else w.smile += refund;
 }
 
 export const seatCost = (w: World, d: Dungeon) => (d.seatUp < RULES.seatCost.length ? Math.round(RULES.seatCost[d.seatUp] * costScale(w)) : null);
@@ -613,6 +652,7 @@ export function approve(w: World): Result<{ chapter: number; ending: boolean }> 
   w.chapter++;
   w.chapterAt[w.chapter - 1] = w.t;
   w.cjoy = 0;
+  w.marks = [];
   unlockPlots(w, w.chapter);
   // 5장 결재 서류에는 주니어 발록 입사 지원서가 붙어 온다
   if (w.chapter === 5 && !w.monsters.some(m => m.sp === 'balrog')) addMonster(w, 'balrog', null);
@@ -775,7 +815,6 @@ export function promotePlans(w: World, monId: number): PromotePlan[] {
   if (!m || evolveBlock(w, m)) return [];
   const home = m.d;
   const plans: PromotePlan[] = [];
-  const ticket = w.tut.ticket;
   const newLv = monLevel(m) + 8;
   const hires: (SpeciesId | null)[] = [null, ...(Object.keys(SPECIES) as SpeciesId[]).filter(sp => canHireSpecies(w, sp))];
   const dests: (PlotId | null)[] = [home, ...Object.keys(w.plots).filter(id => id !== home)];
@@ -794,7 +833,7 @@ export function promotePlans(w: World, monId: number): PromotePlan[] {
     for (const sp of hires) {
       if (sp && !home) continue;
       if (sp && stay && monsIn(w, home!).length >= w.dungeons[home!].slots) continue;
-      const hire = sp ? (ticket === sp ? 0 : hireCost(sp)) : 0;
+      const hire = sp ? (hasHireTicket(w, sp) ? 0 : hireCost(sp)) : 0;
       const cost = hire + openCost;
       if (cost > w.smile) continue;
       if (!sp && stay) continue; // 그냥 진화와 같다
@@ -850,6 +889,23 @@ export function unpromote(w: World, plan: PromotePlan, r: { evo: { from: number;
 export function fullClear(w: World) {
   const starred = PLOTS.filter(p => w.dungeons[p.id] && dungeonStars(w.dungeons[p.id]) >= 3).length;
   return { ending: w.ended, starred, plots: PLOTS.length, dex: dexCount(w) };
+}
+
+/**
+ * 옛 세이브를 지금 모양으로 올린다. 버리지 않는다.
+ * v2 → v3: 입사 선물(tut.ticket·freeEvent)을 무료권(tickets)으로 옮기고, 눈금·엘리트·필드 보스 칸을 채운다.
+ */
+export function migrate(x: unknown): unknown {
+  const w = x as Record<string, unknown> & { v?: number; tut?: Record<string, unknown> };
+  if (!w || typeof w !== 'object') return x;
+  if (w.v === 2) {
+    const tut = w.tut || {};
+    w.tickets = { hire: tut.ticket ? [tut.ticket] : [], event: (tut.freeEvent as number) || 0, plot: 0 };
+    delete tut.ticket; delete tut.freeEvent;
+    w.marks = [];
+    w.v = 3;
+  }
+  return w;
 }
 
 /** 세이브 불러오기 전에 모양을 확인한다 */

@@ -2,10 +2,11 @@
  * 규칙 테스트 — pnpm --filter msw-inc test
  * 1) 이식 검증: 옛 규칙(v1.1)으로 굴리면 컨셉 프로토타입(sim.js)과 같은 수치가 나온다
  * 2) v1.2 약속: 월드가 멈추지 않는다, 되돌리기는 상태를 그대로 돌려놓는다, 결재 조건 ②는 줄지 않는다
+ * 3) v1.3 (플레이 리뷰 뒤): 막대 눈금 보상, 옛 세이브 올리기 — 게임 규칙(v1.3)으로 2)도 함께 돈다
  */
 import assert from 'node:assert/strict';
 import * as S from '../app/src/sim/sim';
-import { useRules, V11, V12 } from '../app/src/sim/rules';
+import { useRules, V11, V13 } from '../app/src/sim/rules';
 import { PERSONAS, runPersona, firstSession, lightClone } from '../app/src/sim/bots';
 import { DEX_TOTAL, PLOTS } from '../app/src/sim/content';
 
@@ -28,7 +29,7 @@ t('v1.1 첫 10분·Day 2 수치가 컨셉 페이싱 점검과 같다', () => {
       if (e.type === 'stuck' && !gap) gap = { t: w.t, lv: e.lv };
     }
     if (gap && !placed && w.t >= gap.t + 0.5) { const h = S.hire(w, 'mush'); assert.ok(h.ok); S.place(w, h.mon.id, 'h2'); placed = true; }
-    if (w.t >= 5 && w.tut.freeEvent) S.startEvent(w, 'h1', 'exp');
+    if (w.t >= 5 && w.tickets.event) S.startEvent(w, 'h1', 'exp');
     const v = w.monsters.find(m => m.vet)!;
     if (w.t >= 6.5 && !evolved) { S.evolve(w, v.id); evolved = true; }
   }
@@ -43,8 +44,8 @@ t('v1.1 첫 10분·Day 2 수치가 컨셉 페이싱 점검과 같다', () => {
   assert.equal(r.smile, 3269);
 });
 
-// ── 2. v1.2 ────────────────────────────────────────────────
-useRules(V12);
+// ── 2. v1.2 약속 (게임 규칙 v1.3으로) ─────────────────────────
+useRules(V13);
 t('v1.2 첫 출근 리포트: 세 숫자가 모두 늘어 있고 진화 가능이 있다', () => {
   const w = S.createWorld(20260924);
   firstSession(w);
@@ -189,6 +190,40 @@ t('5장: 결재 서류에 발록이 붙어 오고, 발록 던전이 조건 ③�
   assert.equal(S.approve(w).ok, false, '엔딩 뒤 결재는 없다');
 });
 
+// ── 3. v1.3 ────────────────────────────────────────────────
+t('결재 ② 눈금: 25%에 이번 장 계열 채용권, 75%까지 이벤트권 3장이 저절로 들어온다', () => {
+  const w = S.createWorld(15);
+  w.approvalReady = true; S.approve(w);
+  assert.equal(w.chapter, 2);
+  const goal = S.approvalConds(w).joyGoal;
+  const ev0 = w.tickets.event, hire0 = w.tickets.hire.length;
+  w.cjoy = goal * 0.26;
+  const out: S.SimEvent[] = [];
+  S.step(w, 1, out);
+  const m1 = out.find(e => e.type === 'mark');
+  assert.ok(m1 && m1.type === 'mark' && m1.reward.kind === 'hire');
+  assert.equal(w.tickets.hire.length, hire0 + 1);
+  assert.ok(['slime', 'fairy'].includes(w.tickets.hire[w.tickets.hire.length - 1]));
+  w.cjoy = goal * 0.8;
+  S.step(w, 1);
+  assert.equal(w.marks.length, 3);
+  assert.ok(w.tickets.event >= ev0 + 2, '75% 눈금 이벤트권 2장');
+  w.approvalReady = true; S.approve(w);
+  assert.equal(w.marks.length, 0, '새 장은 눈금을 처음부터 센다');
+});
+
+t('옛 세이브(v2)는 버리지 않고 v3로 올린다', () => {
+  const w = JSON.parse(JSON.stringify(S.createWorld(16)));
+  delete w.tickets; delete w.marks;
+  w.v = 2; w.tut.ticket = 'mush'; w.tut.freeEvent = 1;
+  const up = S.migrate(w);
+  assert.ok(S.isWorld(up));
+  const u = up as S.World;
+  assert.deepEqual(u.tickets.hire, ['mush']);
+  assert.equal(u.tickets.event, 1);
+  assert.deepEqual(u.marks, []);
+});
+
 t('콘텐츠: 도감 36칸, 부지 15곳', () => {
   assert.equal(DEX_TOTAL, 36);
   assert.equal(PLOTS.length, 15);
@@ -208,7 +243,7 @@ t('가벼운 복제는 원본을 바꾸지 않는다 (봇 판단용)', () => {
   assert.equal(w.plots.h1.open, true);
 });
 
-t('v1.2 표준 봇: 엔딩을 보고, 5장 결재가 목표 달력(D28~35) 근처다', () => {
+t('표준 봇: 엔딩을 보고, 5장 결재가 목표 달력(D28~35) 근처다', () => {
   const r = runPersona(PERSONAS[0], 7, 45);
   assert.ok(r.ending != null, '엔딩');
   const day = (r.ending! + 21 * 60) / 1440 + 1;
@@ -216,7 +251,7 @@ t('v1.2 표준 봇: 엔딩을 보고, 5장 결재가 목표 달력(D28~35) 근�
   assert.ok(r.happyEnd > 0);
 });
 
-t('v1.2 퇴근 직전 진화 봇도 월드가 멈추지 않는다', () => {
+t('퇴근 직전 진화 봇도 월드가 멈추지 않는다', () => {
   const r = runPersona(PERSONAS.find(p => p.id === 'night')!, 7, 45);
   assert.ok(r.happyEnd > 0);
   assert.ok(r.chapters[2] != null, '3장까지는 간다');

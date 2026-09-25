@@ -11,6 +11,7 @@ import path from 'node:path';
 import { PERSONAS, checkIn, firstSession, dayNum, type Persona } from '../bots';
 import * as S from '../sim';
 import { SPECIES, CHAPTERS } from '../content';
+import { RULES } from '../rules';
 
 const args = process.argv.slice(2);
 const OUT = args.includes('--out') ? args[args.indexOf('--out') + 1] : path.resolve(import.meta.dirname, '../../../../notes/data/playreview.json');
@@ -19,7 +20,7 @@ const MAX_DAYS = 60;
 
 interface Checkin {
   i: number; t: number; day: number; hh: number; ch: number; persona: string;
-  away: { min: number; levelups: number; grads: number; smile: number; happy: number; happyDelta: number; ready: number; entranceMin: number; walkMin: number; busyLeft: number; newDex: string[]; approval: boolean };
+  away: { min: number; levelups: number; grads: number; smile: number; happy: number; happyDelta: number; ready: number; entranceMin: number; walkMin: number; busyLeft: number; newDex: string[]; approval: boolean; marks: number[] };
   before: { gapN: number; gaps: S.Seg[]; entrance: boolean; walkers: number; busy: number; badges: { gap: number; busy: number; evolve: number }; smile: number; joy: number; joyGoal: number; tray: number; open: number; staff: number; dex: number; happy: number };
   acts: string[];
   after: { gapN: number; entrance: boolean; happy: number; smile: number; dex: number; ch: number };
@@ -71,7 +72,7 @@ function run(p: Persona, seed = 0) {
         if (h.ok) S.place(w, h.mon.id, 'h2');
         placed = true; note('hire', '주황버섯 채용 → 사냥터 배치');
       }
-      if (w.t >= 5 && w.tut.freeEvent) { S.startEvent(w, 'h1', 'exp'); note('event', '경험치 2배 (첫 번 무료)'); }
+      if (w.t >= 5 && w.tickets.event) { S.startEvent(w, 'h1', 'exp'); note('event', '경험치 2배 (첫 번 무료)'); }
       const v = w.monsters.find(m => m.vet);
       if (v && v.stage === 0 && w.t >= 6.5) { v.tenure = Math.max(v.tenure, S.evolveNeed(v)); S.evolve(w, v.id); note('evolve', '고참 달팽이 → 파란 달팽이'); }
     }
@@ -118,7 +119,7 @@ function run(p: Persona, seed = 0) {
       const etaDays = c.joyGoal && perH > 0 && !w.ended ? Math.max(0, (c.joyGoal - c.joy) / perH / 24) : null;
       checkins.push({
         i: idx++, t: w.t, day: +dayNum(w.t)!.toFixed(3), hh: Math.round(((w.t + START) % 1440) / 60), ch: ch0, persona: p.id,
-        away: { min: Math.round(rep.minutes), levelups: rep.levelups, grads: rep.grads, smile: rep.smile, happy: rep.happy, happyDelta: rep.happyDelta, ready: rep.ready.length, entranceMin: rep.entranceMin, walkMin, busyLeft: w.stats.left.busy - busyLeft0, newDex, approval: rep.approval },
+        away: { min: Math.round(rep.minutes), levelups: rep.levelups, grads: rep.grads, smile: rep.smile, happy: rep.happy, happyDelta: rep.happyDelta, ready: rep.ready.length, entranceMin: rep.entranceMin, walkMin, busyLeft: w.stats.left.busy - busyLeft0, newDex, approval: rep.approval, marks: rep.marks.map(m => m.pct) },
         before: { ...before },
         acts: log.acts,
         after: { gapN: after.gapN, entrance: after.entrance, happy: after.happy, smile: after.smile, dex: after.dex, ch: w.chapter },
@@ -133,7 +134,7 @@ function run(p: Persona, seed = 0) {
 const ids = ['std', 'light', 'hasty', 'night'];
 const runs = ids.map(id => run(PERSONAS.find(p => p.id === id)!));
 mkdirSync(path.dirname(OUT), { recursive: true });
-writeFileSync(OUT, JSON.stringify({ generated: 'pnpm --filter msw-inc playreview', rules: 'v1.2', runs }));
+writeFileSync(OUT, JSON.stringify({ generated: 'pnpm --filter msw-inc playreview', rules: RULES.id, runs }));
 for (const r of runs) {
   const acts = r.checkins.reduce((s, c) => s + c.acts.length, 0);
   const idle = r.checkins.filter(c => c.acts.length === 0).length;

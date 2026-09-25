@@ -19,7 +19,7 @@ function first(until: 'gap' | 'full'): M.World {
     if (stuckAt === null && w.advs.some(a => a.st === 'search')) stuckAt = w.t;
     if (until === 'gap' && stuckAt !== null && w.t >= stuckAt + 0.6) return w;
     if (until !== 'gap' && stuckAt !== null && w.t >= stuckAt + 0.5 && !w.monsters.some(m => m.sp === 'mush')) { const hh = M.hire(w, 'mush'); if (hh.ok) M.place(w, hh.mon.id, 'h2'); }
-    if (w.t >= 5 && w.tut.freeEvent) M.startEvent(w, 'h1', 'exp');
+    if (w.t >= 5 && w.tickets.event) M.startEvent(w, 'h1', 'exp');
     const v = w.monsters.find(m => m.vet)!;
     if (v.stage === 0 && w.t >= 6.5) { v.tenure = Math.max(v.tenure, M.evolveNeed(v)); M.evolve(w, v.id); }
   }

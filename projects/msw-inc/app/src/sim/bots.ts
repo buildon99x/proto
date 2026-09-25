@@ -49,7 +49,7 @@ export function lightClone(w: World): World {
     plots: JSON.parse(JSON.stringify(w.plots)),
     dungeons: JSON.parse(JSON.stringify(w.dungeons)),
     monsters: w.monsters.map(m => ({ ...m })),
-    dex: { ...w.dex }, tut: { ...w.tut }, stats: { ...w.stats, left: { ...w.stats.left } },
+    dex: { ...w.dex }, tut: { ...w.tut }, tickets: { ...w.tickets, hire: [...w.tickets.hire] }, stats: { ...w.stats, left: { ...w.stats.left } },
   };
 }
 
@@ -63,7 +63,7 @@ function planHireFix(w: World, place: PlacePolicy): { sp: SpeciesId; to: PlotId 
   let best: { sp: SpeciesId; to: PlotId; gap: number; cost: number; stack: number } | null = null;
   for (const sp of SPECIES_IDS) {
     if (!S.canHireSpecies(w, sp)) continue;
-    const cost = w.tut.ticket === sp ? 0 : S.hireCost(sp);
+    const cost = S.hasHireTicket(w, sp) ? 0 : S.hireCost(sp);
     for (const id in w.plots) {
       const d = w.dungeons[id], open = w.plots[id].open;
       const full = S.monsIn(w, id).length >= d.slots;
@@ -284,11 +284,12 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
     }
     // 진화 ②: 나머지는 성향대로
     if (tryEvolve(w, p, log, false)) { acts++; continue; }
-    // 이벤트: 스마일이 넉넉하면 가장 붐비는 던전에 경험치 2배
-    if (p.events && S.activeEvents(w) < S.maxEvents(w)) {
+    // 이벤트: 스마일이 넉넉하면(또는 무료 이벤트권이 있으면 성향과 관계없이) 가장 붐비는 던전에 경험치 2배
+    const freeEv = w.tickets.event > 0;
+    if ((p.events || freeEv) && S.activeEvents(w) < S.maxEvents(w)) {
       const lv = S.levelsOf(w);
       const id = Object.keys(lv).filter(x => !w.dungeons[x].event).sort((a, b) => occ(w, b) - occ(w, a))[0];
-      if (id && occ(w, id) >= 4 && w.smile > 4 * S.eventCost(w, id) && S.startEvent(w, id, 'exp').ok) { log.push('event'); acts++; continue; }
+      if (id && occ(w, id) >= 4 && (freeEv || w.smile > 4 * S.eventCost(w, id)) && S.startEvent(w, id, 'exp').ok) { log.push(freeEv ? 'event-free' : 'event'); acts++; continue; }
     }
     break;
   }
@@ -310,7 +311,7 @@ export function firstSession(w: World): void {
       if (h.ok) S.place(w, h.mon.id, 'h2');
       placed = true;
     }
-    if (w.t >= 5 && w.tut.freeEvent) S.startEvent(w, 'h1', 'exp');
+    if (w.t >= 5 && w.tickets.event) S.startEvent(w, 'h1', 'exp');
     const v = w.monsters.find(m => m.vet);
     if (v && v.stage === 0 && w.t >= 6.5) { v.tenure = Math.max(v.tenure, S.evolveNeed(v)); S.evolve(w, v.id); }
   }

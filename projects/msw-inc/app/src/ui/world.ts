@@ -3,7 +3,7 @@
  * 가로축 = 레벨. 던전 = 떠 있는 발판(폭 = 적정 구간 11칸). 모험가 = 자기 레벨 위치에 선 사람.
  * 발판이 없는 땅 = 빈틈. 모험가는 거기서 😐로 혼자 천천히 걷는다(v1.2).
  */
-import { A, $, $$, must, h, n, lerp, img, monArt, plotName, plotShort, lvColor, segTxt, snd, nope, toast, emit, refresh, renderDock, rectOf, toStage, M } from './app';
+import { A, $, $$, must, h, n, lerp, img, monArt, plotName, plotShort, lvColor, segTxt, snd, nope, toast, emit, refresh, renderDock, rectOf, toStage, markLabel, M } from './app';
 import { REGIONS, type PlotId } from '../sim/content';
 import { ART } from './art';
 
@@ -418,6 +418,7 @@ A.handlers.push(ev => {
     else if (e.type === 'leave') V.exits[e.id] = 'leave';
     else if (e.type === 'levelup' && A.ui.mode === 'world') levelFx(e.id);
     else if (e.type === 'approval') { snd.play('event'); }
+    else if (e.type === 'mark') { snd.play('event'); toast(`결재 막대 ${Math.round(e.pct * 100)}% · ${markLabel(e.reward)}!`); refresh(); }
   }
 });
 
