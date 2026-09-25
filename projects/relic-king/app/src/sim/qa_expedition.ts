@@ -12,9 +12,9 @@
  */
 import { EXPEDITION_ONSITE_RATIO, EXPEDITION_SPEED_KMH, distanceKm } from "../game/balance";
 import {
-  advance, buyTeamGear, buyTeamWorker, createTeam, createWorld, dispatchExpedition, hireForeman
-} from "../game/engine";
-import type { SiteId, World } from "../game/types";
+  advance, buyTeamGear, buyTeamWorker, createTeam, createWorld, dispatchExpedition, focusDig, hireForeman, emergencyCrewOffer, hireEmergencyCrew } from "../game/engine";
+import { ARTIFACTS } from "../game/artifacts";
+import type { SiteId, Tip, World } from "../game/types";
 
 let failed = 0;
 function check(label: string, cond: boolean) {
@@ -170,6 +170,64 @@ check(
 check("루틴 재파견 2회 후 거점 층도 스텝 크기와 무관하게 같다", c.sites[TARGET].layer === d.sites[TARGET].layer);
 check("루틴이 두 번째 원정을 실제로 재파견했다(dispatchedAt이 0보다 크다)",
   c.teams[0].dispatchedAt > 0 && d.teams[0].dispatchedAt > 0);
+
+// ── 제보 대응 배수·원정비 하한(v0.6.6, `notes/decision-tree-10h.md` §6 버그 1·2) ──
+console.log("\n──────── 제보 대응 배수는 곱해지지 않고, 원정비는 보유 자금을 넘지 않는다 ────────");
+{
+  const w = setupDispatched();
+  const team = w.teams[0];
+  advance(w, team.arrivesAt - w.t + 1, false, 10);
+  const tipOf = (tier: number): Tip => {
+    const a = ARTIFACTS.find((x) => x.site === TARGET && x.tier === tier)!;
+    return { artifactId: a.id, site: TARGET, layer: a.minLayer, remain: 120, rivals: [], focused: false, openedAt: w.t, resolved: null };
+  };
+  check("전제 — 팀이 현지에 도착했다", team.status === "on_site");
+  // 수동 집중을 제보 다섯 번에 걸쳐 누른다 — v0.6.5까지는 2⁵ = 32배가 됐다
+  w.settings.autoFocusTips = false;
+  for (let i = 0; i < 5; i++) { w.tip = tipOf(3); focusDig(w, team.id); }
+  check(`집중 굴착 5회 — 원정비 배수는 ×2 그대로다(실측 ×${team.costMult})`, team.costMult === 2);
+  // 자동 집중: 진귀·국보는 엔진이 걸고, 유일은 버튼으로 남긴다
+  w.settings.autoFocusTips = true;
+  team.costMult = 1;
+  w.tip = tipOf(3);
+  advance(w, 1, false, 1);
+  check("국보 제보 — 현지 팀이 있으면 자동 집중이 걸린다", !!w.tip?.focused && !!w.tip?.autoFocused && team.costMult === 2);
+  team.costMult = 1;
+  w.tip = tipOf(4);
+  advance(w, 1, false, 1);
+  check("유일 제보 — 자동 집중은 걸리지 않는다(버튼으로 남는다)", !w.tip?.focused && !w.tip?.autoFocused && team.costMult === 1);
+  // 원정비 하한: 자금 0으로 귀환하면 음수로 떨어지지 않는다
+  w.tip = null;
+  w.nextTipIn = Number.MAX_SAFE_INTEGER;
+  team.costMult = 2;
+  advance(w, team.returnsAt - w.t - 5, false, 10);
+  w.funds = 0;
+  advance(w, 30, false, 10);
+  check(`자금 0으로 귀환 — 원정비 정산 뒤에도 자금이 음수가 아니다(실측 $${Math.round(w.funds)})`,
+    team.status === "idle" && w.funds >= 0);
+}
+
+// ── 긴급 인부(v0.6.7, `notes/v066-midpass-review.md` §1.1) ──
+console.log("\n──────── 긴급 인부 — 발굴단 없는 유일 제보에 직접 발굴로 대응한다 ────────");
+{
+  const w = createWorld();
+  const home = w.activeSite;
+  const a = ARTIFACTS.find((x) => x.site === home && x.tier === 4)!;
+  w.sites[home].layer = Math.max(w.sites[home].layer, a.minLayer);
+  for (const t of w.teams) t.status = "traveling_out";
+  w.tip = { artifactId: a.id, site: home, layer: a.minLayer, remain: 120, rivals: [], focused: false, openedAt: w.t, resolved: null };
+  w.funds = 10_000;
+  const poor = emergencyCrewOffer(w);
+  check(`자금 $1만 — 제안은 뜨지만 살 수 없다(최소 $${poor?.cost})`, !!poor && !poor.affordable && !hireEmergencyCrew(w));
+  w.funds = 1_000_000;
+  const offer = emergencyCrewOffer(w)!;
+  check(`자금 $100만 — 값은 자금의 30%다(실측 $${offer.cost})`, offer.affordable && offer.cost === 300_000);
+  check("긴급 인부를 부르면 대응으로 인정되고 자금이 빠진다",
+    hireEmergencyCrew(w) && !!w.tip?.focused && !!w.tip?.crewed && w.funds === 700_000);
+  check("한 번 부르면 다시 제안하지 않는다", emergencyCrewOffer(w) === null);
+  w.tip = { ...w.tip!, focused: false, crewed: false, artifactId: ARTIFACTS.find((x) => x.site === home && x.tier === 3)!.id };
+  check("유일이 아니면 제안하지 않는다", emergencyCrewOffer(w) === null);
+}
 
 console.log(failed === 0 ? "\n✅ qa_expedition 전체 통과" : `\n❌ qa_expedition ${failed}건 실패`);
 process.exit(failed === 0 ? 0 : 1);

@@ -5,7 +5,7 @@ import {
   advance, applyOffline, auctionSpares, blindSell, blindSellAll, buyBlackMarketListing, buyGear,
   buyHumidityLevel, buyLab, buyMuseumMarketing, buyRestorationLevel, buySecurityLevel, buyTeamGear, buyTeamWorker,
   buyVaultLevel, buyWorker, buildAuctionHouse, buildMuseum, click, createPersistentRecord, createTeam,
-  createWorld, dispatchExpedition, displayArtifact, emergencyDispatch, focusDig, fullRanking, sampleRanks,
+  createWorld, dispatchExpedition, displayArtifact, emergencyDispatch, focusDig, fullRanking, hireEmergencyCrew, sampleRanks,
   hireAuctioneer, hireCurator, hireForeman, listAtAuction, listManyAtAuction, relocateBase, runAutoRoutine, sellArtifactCopies,
   sellSpares, sellTierAtMost, sellVaultItems, setRoutine, switchSite, undisplayArtifact, unlockSite, unlockTeamSlot,
   upgradeAuctionGrade, upgradeMuseumGrade
@@ -13,6 +13,9 @@ import {
 import { addGhost, encodeCard, makeCard, parseCard, removeGhost } from "../game/rivalcard";
 import { clear, clearRecord, exportText, importText, load, loadRecord, save, saveRecord } from "../game/save";
 import type { PersistentRecord, SiteId, Tier, World } from "../game/types";
+import { shouldOfferFirstBase, shouldOfferExpansionFork } from "./baseChoice";
+import { DISPLAY_NUDGE_SEEN_KEY } from "./DisplayNudge";
+import { playCue } from "./sound";
 
 /**
  * 연출 1건. `phase`가 spec.md §9.2의 두 사건을 가른다 —
@@ -57,19 +60,26 @@ const BACKGROUND_KEEPALIVE_MS = 5000;
  *  뿐 무엇을 팔지·살지·살 수 있는지는 전부 엔진 함수 안의 판단이라 "게임
  *  로직을 UI에 두지 않는다"는 원칙과 부딪히지 않는다. qa/sim 스크립트는 이
  *  UI 코드를 전혀 거치지 않으므로 스텝 무관성 검증과도 무관하다. */
-const ONBOARDING_SEEN_KEY = "relic-king/onboarding-seen-v1";
+/**
+ * 첫 거점 카드(`FirstBaseChooser`)를 이미 한 번 띄웠는가. 한 번 자동으로 띄우고, 그 뒤로는
+ * 발굴 탭 "내 거점"에서 사람이 연다. v0.6.6 전의 "본거지를 정하자" 온보딩 키
+ * (`relic-king/onboarding-seen-v1`)는 쓰지 않는다 — 그 모달은 없어졌다.
+ */
+const BASE_CHOOSER_SEEN_KEY = "relic-king/first-base-offered-v1";
+/** "다음 확장" 갈림길(v0.6.8)을 한 번 띄웠는가 — 첫 거점 카드와 같은 방식이다 */
+const EXPANSION_FORK_SEEN_KEY = "relic-king/expansion-fork-offered-v1";
 
-function readOnboardingSeen(): boolean {
+function readFlag(key: string): boolean {
   try {
-    return localStorage.getItem(ONBOARDING_SEEN_KEY) === "1";
+    return localStorage.getItem(key) === "1";
   } catch {
     return true; // localStorage 접근 불가 — 매번 뜨는 것보다 안전한 쪽으로
   }
 }
 
-function writeOnboardingSeen() {
+function writeFlag(key: string) {
   try {
-    localStorage.setItem(ONBOARDING_SEEN_KEY, "1");
+    localStorage.setItem(key, "1");
   } catch {
     /* 사생활 모드 등 — 무시 */
   }
@@ -113,20 +123,17 @@ export function useGame() {
    *  이 큐를 타게 된 뒤로는(v0.3.2) 그 한 건이 재미 정의 ① 그 자체다. */
   const revealRef = useRef<Reveal | null>(null);
   const [offline, setOffline] = useState<OfflineSummary | null>(null);
-  const [onboardingPending, setOnboardingPending] = useState(false);
-  const onboardingSeenRef = useRef(false);
+  const [baseChooserOpen, setBaseChooserOpen] = useState(false);
+  const baseChooserSeenRef = useRef(false);
+  const [expansionForkOpen, setExpansionForkOpen] = useState(false);
+  const expansionForkSeenRef = useRef(false);
 
   if (worldRef.current === null) {
     const loaded = load();
     const w = loaded ?? createWorld();
     worldRef.current = w;
-    onboardingSeenRef.current = readOnboardingSeen();
-    // 이미 진행된(이 기능 이전) 세이브라면 놀라게 하지 않고 조용히 "본 것"으로 친다 —
-    // 온보딩은 "진짜 첫 감정" 시점에만 자연스럽다(ux-v02.md §1.5).
-    if (!onboardingSeenRef.current && (w.vault.length > 0 || w.pending.length > 0 || w.stats.sold > 0 || w.stats.blindSold > 0)) {
-      onboardingSeenRef.current = true;
-      writeOnboardingSeen();
-    }
+    baseChooserSeenRef.current = readFlag(BASE_CHOOSER_SEEN_KEY);
+    expansionForkSeenRef.current = readFlag(EXPANSION_FORK_SEEN_KEY);
     if (loaded) {
       const summary = catchUpOffline(w, recordRef.current);
       if (summary) setOffline(summary);
@@ -173,7 +180,10 @@ export function useGame() {
       // 소유 확정①(spec.md §3.3·§9.2) — 유일(T4)은 **드랍 그 순간** 연출한다.
       // 감정소 레벨이 낮아 봉인 보관으로 들어가더라도 이 연출은 재생된다.
       for (const d of report.drops) {
-        if (d.tier === 4) revealQueue.push({ artifactId: d.artifactId, value: 0, phase: "acquired" });
+        if (d.tier === 4) {
+          revealQueue.push({ artifactId: d.artifactId, value: 0, phase: "acquired" });
+          playCue("uniqueAcquired", world.settings.muted);
+        }
       }
 
       routineAcc += dt;
@@ -188,10 +198,17 @@ export function useGame() {
       for (const a of report.appraised) {
         if (a.tier >= 3) revealQueue.push({ artifactId: a.artifactId, value: a.value, phase: "appraised" });
       }
-      if (!onboardingSeenRef.current && report.appraised.length > 0) {
-        onboardingSeenRef.current = true;
-        writeOnboardingSeen();
-        setOnboardingPending(true);
+      // 첫 거점 카드(v0.6.6, decision-tree-10h.md P1) — 첫 해금 비용이 모이고
+      // 제보 레이스가 결판난 뒤에 한 번 띄운다. 첫 레이스를 덮지 않기 위해서다.
+      if (!baseChooserSeenRef.current && shouldOfferFirstBase(world)) {
+        baseChooserSeenRef.current = true;
+        writeFlag(BASE_CHOOSER_SEEN_KEY);
+        setBaseChooserOpen(true);
+      } else if (!expansionForkSeenRef.current && shouldOfferExpansionFork(world)) {
+        // 다음 확장(v0.6.8) — 셋째 거점과 둘째 발굴단 중 하나를 고르는 순간. 한 번 띄운다.
+        expansionForkSeenRef.current = true;
+        writeFlag(EXPANSION_FORK_SEEN_KEY);
+        setExpansionForkOpen(true);
       }
 
       uiAcc += dt * 1000;
@@ -301,13 +318,14 @@ export function useGame() {
     },
     dismissOffline: () => setOffline(null),
 
-    onboardingPending,
-    dismissOnboarding: () => setOnboardingPending(false),
-    chooseHomeBase: (site: SiteId) =>
-      act((w) => {
-        relocateBase(w, site);
-        setOnboardingPending(false);
-      }),
+    /** 첫 거점 카드(`FirstBaseChooser`). 자동으로는 한 번만 뜨고, 발굴 탭에서 다시 연다. */
+    baseChooserOpen,
+    openBaseChooser: () => setBaseChooserOpen(true),
+    closeBaseChooser: () => setBaseChooserOpen(false),
+    /** "다음 확장"(`ExpansionFork`) — 셋째 거점 대 둘째 발굴단. 한 번 뜨고, 발굴 탭에서 다시 연다. */
+    expansionForkOpen,
+    openExpansionFork: () => setExpansionForkOpen(true),
+    closeExpansionFork: () => setExpansionForkOpen(false),
 
     // ── 레거시 단독 발굴(spec.md §8.1 — v0.1부터 그대로, 병행 진행 축) ──────
     dig: () => act(click),
@@ -354,6 +372,10 @@ export function useGame() {
       act((w) => {
         w.settings.autoReinvest = enabled;
       }),
+    setAutoFocusTips: (enabled: boolean) =>
+      act((w) => {
+        w.settings.autoFocusTips = enabled;
+      }),
 
     // ── 발굴단·스텝(spec.md §8) ─────────────────────────────────────────
     hireForeman: (site: SiteId, slot: number) => act((w) => hireForeman(w, site, slot)),
@@ -364,6 +386,7 @@ export function useGame() {
     dispatch: (teamId: string, target: SiteId) => act((w) => dispatchExpedition(w, teamId, target)),
     emergencyDispatch: (teamId: string) => act((w) => emergencyDispatch(w, teamId)),
     focusDig: (teamId: string) => act((w) => focusDig(w, teamId)),
+    hireEmergencyCrew: () => act(hireEmergencyCrew),
     setRoutine: (teamId: string, enabled: boolean, target?: SiteId | "auto") =>
       act((w) => setRoutine(w, teamId, enabled, target)),
 
@@ -418,7 +441,9 @@ export function useGame() {
       clear();
       clearRecord();
       try {
-        localStorage.removeItem(ONBOARDING_SEEN_KEY);
+        localStorage.removeItem(BASE_CHOOSER_SEEN_KEY);
+        localStorage.removeItem(EXPANSION_FORK_SEEN_KEY);
+        localStorage.removeItem(DISPLAY_NUDGE_SEEN_KEY);
       } catch {
         /* 무시 */
       }

@@ -216,10 +216,11 @@ function tipWindows(events: PlayEvent[], from = 0, to = Infinity) {
     if (e.kind !== "tipClosed" || e.t < from || e.t >= to) continue;
     const m = e.detail ? /^([\d.]+)초 지속$/.exec(e.detail) : null;
     if (m) dur.push(Number(m[1]));
-    // 같은 시각에 승/패가 기록됐으면 그게 닫힌 이유다.
-    const sameTick = events.filter((x) => Math.abs(x.t - e.t) < 1e-6);
-    if (sameTick.some((x) => x.kind === "raceWon")) won++;
-    else if (sameTick.some((x) => x.kind === "raceLost")) lost++;
+    // 결판은 배너 수명 **안에서** 난다(v0.6.1) — 닫힌 틱의 승·패로 이유를 추정하면
+    // 전부 만료로 읽힌다(완성도 진단 2판 §7 결함 4). 기록기가 배너에서 본
+    // `tip.resolved`를 `outcome`으로 넘겨준다.
+    if (e.outcome === "won") won++;
+    else if (e.outcome === "lost") lost++;
     else expired++;
   }
   dur.sort((a, b) => a - b);
@@ -364,8 +365,9 @@ function report(r: RunResult) {
       `승 ${tips.won} / 패 ${tips.lost} / 만료 ${tips.expired}`);
     const early = tipWindows(events, 0, 3600);
     const late = tipWindows(events, 6 * 3600, Infinity);
-    if (early.n > 0) console.log(`  첫 1시간: ${early.n}회 · 중앙 ${fmtSec(early.median)}`);
-    if (late.n > 0) console.log(`  6시간 이후: ${late.n}회 · 중앙 ${fmtSec(late.median)}`);
+    const wl = (x: typeof tips) => `승 ${x.won} / 패 ${x.lost} / 만료 ${x.expired}`;
+    if (early.n > 0) console.log(`  첫 1시간: ${early.n}회 · 중앙 ${fmtSec(early.median)} · ${wl(early)}`);
+    if (late.n > 0) console.log(`  6시간 이후: ${late.n}회 · 중앙 ${fmtSec(late.median)} · ${wl(late)}`);
   }
 
   console.log("\n── 시간대별 밀도(시간당) ──────────────────────────────────");

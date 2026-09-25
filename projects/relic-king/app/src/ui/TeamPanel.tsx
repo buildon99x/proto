@@ -190,7 +190,7 @@ function HireForemanCard({ game, teamPreset }: { game: Game; teamPreset: ReturnT
         <p className="stalled small">
           {usd(short)} 모자란다(지금 {usd(world.funds)}).
           {world.settings.autoReinvest
-            ? " 자동 재투자가 남는 자금을 인부·장비·감정소에 쓰고 있어 잔고가 오르락내리락한다 — ⚙ 설정에서 끄면 그대로 쌓인다."
+            ? " 자동 재투자가 남는 자금을 인부·장비·감정소와 발굴단 증강에 쓰고 있어 잔고가 오르락내리락한다 — ⚙ 설정에서 끄면 그대로 쌓인다."
             : " 유물을 팔아 모으면 된다."}
         </p>
       ) : null}

@@ -21,7 +21,7 @@
 import { ARTIFACT_BY_ID } from "../game/artifacts";
 import { LOCKED_HOLD_CAP, SITES, vaultCapacity } from "../game/balance";
 import { codexProgress } from "../game/engine";
-import type { StepReport, Tier, World } from "../game/types";
+import type { StepReport, Tier, Tip, World } from "../game/types";
 
 export type EventPhase = "player" | "auto";
 
@@ -90,6 +90,14 @@ export type PlayEvent = {
   n: number;          // 한 번에 몇 건인가(드랍 3점이면 n=3)
   tier?: Tier;
   detail?: string;
+  /**
+   * `tipClosed`에만 붙는다 — 그 배너가 **어떻게 끝났는가**. v0.6.1부터 결판은
+   * 배너 수명 **안에서** 나고(`tip.resolved`), 배너는 결과를 보여 주며 남은 수명을
+   * 산다. 그래서 "닫힌 틱에 승·패가 같이 찍혔는가"로 이유를 추정하던 옛 집계는
+   * 결판을 한 번도 못 읽고 전부 만료로 셌다(완성도 진단 2판 §7 결함 4 — "승 0 /
+   * 패 0 / 만료 169"). 배너가 떠 있는 동안 본 `tip.resolved`를 그대로 옮겨 적는다.
+   */
+  outcome?: "won" | "lost" | "expired";
 };
 
 type Snap = {
@@ -106,6 +114,7 @@ type Snap = {
   auctionListings: number;
   theftEvents: number; theftIds: string;
   tipId: string | null;
+  tipResolved: "won" | "lost" | null;
   season: number; ended: boolean;
   overflow: boolean; sealedOver: boolean;
   layers: number;
@@ -148,6 +157,7 @@ function snap(w: World): Snap {
     theftEvents: w.theftEvents.length,
     theftIds: w.theftEvents.map((e) => e.id).join(","),
     tipId: w.tip ? `${w.tip.artifactId}@${w.tip.site}` : null,
+    tipResolved: w.tip?.resolved?.outcome ?? null,
     season: w.seasonState.season, ended: w.ended,
     overflow: stored > vaultCapacity(w.vaultLevel, codexProgress(w).owned),
     sealedOver: sealed >= LOCKED_HOLD_CAP,
@@ -160,6 +170,10 @@ export class PlayRecorder {
   readonly events: PlayEvent[] = [];
   private prev: Snap;
   private tipOpenedAt: number | null = null;
+  /** 지금 떠 있는 배너에서 본 결판(`tip.resolved`) — 닫힐 때 `tipClosed.outcome`이 된다 */
+  private tipOutcome: "won" | "lost" | null = null;
+  /** 지금 떠 있는 배너 객체 그 자체 — 닫힌 뒤에도 엔진이 적어 둔 `resolved`가 남아 있다 */
+  private tipRef: Tip | null = null;
 
   constructor(w: World) {
     this.prev = snap(w);
@@ -266,13 +280,21 @@ export class PlayRecorder {
     if (cur.tipId !== p.tipId) {
       if (p.tipId !== null) {
         const dur = this.tipOpenedAt === null ? null : t - this.tipOpenedAt;
-        this.push(t, "tipClosed", phase, 1, { detail: dur === null ? "" : `${dur.toFixed(0)}초 지속` });
+        // 엔진은 결판을 배너 객체에 제자리로 적고(`tip.resolved = …`) 닫을 때
+        // `w.tip = null`만 한다 — 붙들고 있던 그 객체를 읽으면 결판과 마감이 같은
+        // 스텝에 났어도(마감 판정 직후 remain ≤ 0) 놓치지 않는다. 스냅샷으로 본
+        // 결판은 객체를 못 붙든 경우(세이브 복원 등)의 예비다.
+        const outcome = this.tipRef?.resolved?.outcome ?? this.tipOutcome ?? "expired";
+        this.push(t, "tipClosed", phase, 1, { detail: dur === null ? "" : `${dur.toFixed(0)}초 지속`, outcome });
       }
+      this.tipOutcome = null;
       if (cur.tipId !== null) {
         this.tipOpenedAt = t;
         this.push(t, "tipOpened", phase, 1, { detail: cur.tipId });
       }
     }
+    this.tipRef = w.tip;
+    if (cur.tipResolved) this.tipOutcome = cur.tipResolved;
 
     if (cur.overflow && !p.overflow) this.push(t, "vaultOverflow", phase, 1);
     if (cur.sealedOver && !p.sealedOver) this.push(t, "sealedBacklog", phase, 1);

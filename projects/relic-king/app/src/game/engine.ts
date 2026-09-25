@@ -27,12 +27,13 @@ import {
   STAFF_MARKET_REFRESH_HOURS, STAFF_PROMOTION_INTERVAL_HOURS, STOLEN_TO_BLACKMARKET_CHANCE,
   THEFT_APPLICABLE_MAX_TIER, THEFT_RATE_BASE, THEFT_RECOVERY_WINDOW_HOURS, TIER4_SPECIES_TOTAL,
   CONDITION_TICK_SECONDS, VAULT_CARE_COST_HEADROOM, VAULT_CARE_HUMIDITY_FLOOR,
+  TEAM_AUTO_GEAR_MIN_FUNDS, TEAM_AUTO_UPGRADE_SLOT_RESERVE_MULT, TEAM_AUTO_WORKER_MIN_FUNDS,
   TIER_STOCK_PER_SPECIES, TIP_DECIDE_AFTER_GRACE_SECONDS, TIP_DURATION_ONSITE_MAX, TIP_DURATION_ONSITE_MIN,
   TIP_FIRST_DELAY, TIP_FIRST_UNIQUE_TAUGHT, TIP_FIRST_WIN_GUARANTEED, TIP_UNIQUE_PRIORITY,
-  TIP_UNIQUE_REQUIRES_RESPONSE,
+  TIP_UNIQUE_REQUIRES_RESPONSE, TIP_EMERGENCY_CREW_FUNDS_SHARE, TIP_EMERGENCY_CREW_MIN_COST, TIP_EMERGENCY_CREW_HIT_CHANCE,
   TIP_UNIQUE_ANNOUNCE_WITHIN, TIP_UNRESPONDED_UNIQUE_MULT, TIP_WORLDWIDE_MIN_TIER,
   TIP_FOCUS_DIG_COST_MULT, TIP_FOCUS_DIG_HIT_CHANCE, TIP_MEAN_INTERVAL, TIP_PLAYER_HIT,
-  TIP_MIN_RESPONSE_SECONDS, TIP_RETRY_INTERVAL, TIP_RIVAL_HIT, TIP_TIER_WEIGHT,
+  TIP_MIN_RESPONSE_SECONDS, TIP_RETRY_INTERVAL, TIP_RIVAL_HIT, TIP_TIER_WEIGHT, TIP_RIVAL_FOCUS_MIN_TIER, TIP_RIVAL_FOCUS_HIT,
   UNEXPLORED_BONUS_APPRAISAL_VOUCHER, WORKER_DIG,
   appraiseSeconds, auctionGradeCost, auctionHouseBuildCost, conditionDecayChancePerDay, distanceKm,
   dropThreshold, gearCost, humidityLevelCost, labCost, layerCost, layerExpectedValue, marketingLevelCost,
@@ -175,7 +176,7 @@ export function createWorld(seed = 20260917, grantTeam = true): World {
     // 동작이라 비가역이다 — 새 세계에만 적용하고, 옛 세이브는 설정에서 한 번에 켠다).
     settings: {
       autoSellBelow: 1, autoSellSpareBelow: AUTO_SELL_SPARE_MAX_TIER, spareDestination: "sell",
-      muted: false, autoReinvest: true
+      muted: false, autoReinvest: true, autoFocusTips: true
     },
     stats: { drops: 0, clicks: 0, sold: 0, blindSold: 0, racesWon: 0, racesLost: 0, firstT4Finds: 0 },
     clickCombo: 1,
@@ -975,10 +976,10 @@ function rollDrop(
         owner === "player"
           ? Math.min(
               EYE_HIT_CHANCE_CAP,
-              (raceTarget.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) *
+              (raceTarget.focused ? (w.tip?.crewed && w.tip.artifactId === raceTarget.artifactId ? TIP_EMERGENCY_CREW_HIT_CHANCE : TIP_FOCUS_DIG_HIT_CHANCE) : TIP_PLAYER_HIT) *
                 uniquePenalty * eyeRaceMult(w, site)
             )
-          : TIP_RIVAL_HIT;
+          : rivalTipHit(target.tier);
       // 난수는 **언제나 뽑는다**. `guardedForPlayer`로 `rng.chance`를 건너뛰면 보장이
       // 걸린 판에서만 난수 소비가 한 칸 줄어, 같은 시드가 스텝 크기에 따라 갈린다
       // (`qa:expedition`의 스텝 무관성이 실제로 이걸 잡았다 — 드랍 5/1209 차이).
@@ -1320,11 +1321,16 @@ export function hireForeman(w: World, site: SiteId, slot: number): string | null
   return id;
 }
 
+/** 다음(n번째, 2~4번째) 발굴단 슬롯 해금비. 슬롯이 이미 상한이면 0 */
+export function nextTeamSlotCost(w: World): number {
+  if (w.maxTeams >= MAX_EXPEDITION_TEAMS_CAP) return 0;
+  return EXPEDITION_TEAM_UNLOCK_BASE * Math.pow(EXPEDITION_TEAM_UNLOCK_GROWTH, w.maxTeams - 1);
+}
+
 /** n번째(2~4번째) 발굴단 슬롯 해금(spec.md §8.1) */
 export function unlockTeamSlot(w: World): boolean {
   if (w.maxTeams >= MAX_EXPEDITION_TEAMS_CAP) return false;
-  const n = w.maxTeams + 1;
-  const cost = EXPEDITION_TEAM_UNLOCK_BASE * Math.pow(EXPEDITION_TEAM_UNLOCK_GROWTH, n - 2);
+  const cost = nextTeamSlotCost(w);
   if (w.funds < cost) return false;
   w.funds -= cost;
   w.maxTeams += 1;
@@ -1438,7 +1444,8 @@ export function emergencyDispatch(w: World, teamId: string): boolean {
   team.returnsAt = team.arrivesAt + onsite * 3600 + travel * 3600;
   team.mishapRolled = mishap;
   team.layerAtDispatch = w.sites[target].layer;
-  team.costMult = (team.costMult ?? 1) * EMERGENCY_DISPATCH_COST_MULT;
+  // 배수는 곱하지 않고 **큰 쪽 하나만** 남긴다(v0.6.6) — `applyTipCostMult` 주석 참조.
+  applyTipCostMult(team, EMERGENCY_DISPATCH_COST_MULT);
   team.tipChase = { artifactId: w.tip.artifactId, layer: w.tip.layer };
   log(w, "system", `발굴단이 제보를 쫓아 ${withJosa(SITE_BY_ID[target].city, "로으로")} 급파됐다.`);
   return true;
@@ -1455,8 +1462,75 @@ export function focusDig(w: World, teamId: string): boolean {
   const team = w.teams.find((t) => t.id === teamId);
   if (!team || team.status !== "on_site" || team.targetSite !== w.tip.site) return false;
   w.tip.focused = true;
-  team.costMult = (team.costMult ?? 1) * TIP_FOCUS_DIG_COST_MULT;
+  applyTipCostMult(team, TIP_FOCUS_DIG_COST_MULT);
   return true;
+}
+
+/** 제보 레이스에서 라이벌 한 명의 적중 — 국보 이상은 집중과 같다(`TIP_RIVAL_FOCUS_MIN_TIER` 주석) */
+export function rivalTipHit(tier: number): number {
+  return tier >= TIP_RIVAL_FOCUS_MIN_TIER ? TIP_RIVAL_FOCUS_HIT : TIP_RIVAL_HIT;
+}
+
+/**
+ * 긴급 인부의 값과 쓸 수 있는지(v0.6.7, `TIP_EMERGENCY_CREW_FUNDS_SHARE` 주석 참조). 조건은 셋이다 —
+ * 결판 전인 **유일** 제보이고, 아직 대응하지 않았고, 직접 발굴이 그 거점의 그 층에 닿아 있으며,
+ * 그 자리에 현지 발굴단이 없다(있으면 [집중 굴착]이 그 몫이다). 배너·정책·계측이 이 함수 하나를 쓴다.
+ */
+export function emergencyCrewOffer(w: World): { cost: number; affordable: boolean } | null {
+  const tip = w.tip;
+  if (!tip || tip.resolved || tip.focused) return null;
+  if (ARTIFACT_BY_ID[tip.artifactId].tier !== 4) return null;
+  if (w.activeSite !== tip.site || w.sites[tip.site].layer < tip.layer) return null;
+  if (w.teams.some((t) => t.status === "on_site" && t.targetSite === tip.site)) return null;
+  const cost = Math.max(TIP_EMERGENCY_CREW_MIN_COST, Math.round(w.funds * TIP_EMERGENCY_CREW_FUNDS_SHARE));
+  return { cost, affordable: w.funds >= cost };
+}
+
+/** 긴급 인부를 부른다 — 자금을 내고 이 유일 제보에 대응한 것으로 인정받는다(적중 `TIP_EMERGENCY_CREW_HIT_CHANCE`) */
+export function hireEmergencyCrew(w: World): boolean {
+  const offer = emergencyCrewOffer(w);
+  if (!offer || !offer.affordable || !w.tip) return false;
+  w.funds -= offer.cost;
+  w.tip.focused = true;
+  w.tip.crewed = true;
+  log(w, "system", `긴급 인부를 불렀다(${usd(offer.cost)}) — ${withJosa(ARTIFACT_BY_ID[w.tip.artifactId].name, "을를")} 직접 쫓는다.`);
+  return true;
+}
+
+/**
+ * 제보 대응 배수를 팀의 이번 회차 원정비에 건다 — **곱하지 않고 큰 쪽 하나만 남긴다**
+ * (v0.6.6, `notes/decision-tree-10h.md` §6 버그 1). v0.6.5까지는 `costMult *= 2`였고
+ * 이 값은 귀환 정산 때만 1로 돌아갔다. 한 원정이 몇 시간씩 이어지는 방치 플레이에서
+ * 제보가 n번 오면 원정비가 2ⁿ배가 됐다 — 뜰 때마다 누르면 10시간에 자금이 −$1.47조였다.
+ * 이제 한 원정의 배수는 그 회차에 걸린 대응 중 가장 큰 것(집중 ×2, 급파 ×3)이다.
+ */
+function applyTipCostMult(team: ExpeditionTeam, mult: number) {
+  team.costMult = Math.max(team.costMult ?? 1, mult);
+}
+
+/**
+ * **자동 집중**(v0.6.6, `notes/decision-tree-10h.md` §6 P2-가) — 진귀·국보(T2~T3)
+ * 제보는 그 거점에 on_site인 발굴단이 있으면 엔진이 알아서 [집중 굴착]을 한 번 건다.
+ * 원정당 한 번 누르는 것이 모든 축에서 낫거나 같은 **지배 전략**이었기 때문이다(§5.2) —
+ * 늘 누르게 되는 버튼은 결정이 아니다. 대가(원정비 ×2)는 수동과 똑같이 붙는다.
+ *
+ * **유일(T4)은 건드리지 않는다.** 유일만 사람이 누른다 — 결정을 한 번의 무거운
+ * 순간으로 모은다. `settings.autoFocusTips`(기본 켬)로 끌 수 있고, 꺼도 손실은 없다
+ * (안 누른 판은 기존 28%가 그대로 적용된다 — 척추 4번).
+ *
+ * 제보가 열린 순간(`spawnTip`)과, 제보가 열려 있는 동안 팀이 도착한 순간(`step`의
+ * `tickExpeditions` 직후) 둘 다에서 부른다. 난수를 쓰지 않고 상태만 본다 — 제보는
+ * 온라인 전용이라 오프라인 적분 경로에도 들어가지 않는다.
+ */
+function autoFocusTip(w: World) {
+  const tip = w.tip;
+  if (!w.settings.autoFocusTips || !tip || tip.resolved || tip.focused) return;
+  if (ARTIFACT_BY_ID[tip.artifactId].tier >= 4) return;
+  const team = w.teams.find((t) => t.status === "on_site" && t.targetSite === tip.site);
+  if (!team) return;
+  tip.focused = true;
+  tip.autoFocused = true;
+  applyTipCostMult(team, TIP_FOCUS_DIG_COST_MULT);
 }
 
 /** 루틴(spec.md §8.4) — "어디로 갈지"는 대행하지 않는다. 이미 한 번 수동으로
@@ -1492,7 +1566,12 @@ export function nextRoutineTarget(w: World, team: ExpeditionTeam): SiteId {
  * funds에서 뗀다. 실제 드랍·자금은 이미 applyDigProgress가 온사이트 구간마다
  * 실시간으로 처리했다 — 이 함수는 오직 "원정비 정산 + 루틴 재파견"만 한다.
  */
-function finalizeExpedition(w: World, team: ExpeditionTeam, returnedAt = w.t) {
+/**
+ * 이 회차의 원정비 청구액. 귀환 정산(`finalizeExpedition`)과, 자동 재투자가 남겨 둘
+ * 예약금(`autoInvestReserve`)이 **같은 식**을 쓴다(v0.6.6). 현지작업 구간은 파견 때 정해진
+ * 계획 구간이라 귀환 전에도 청구액을 미리 알 수 있다 — 달라지는 것은 그사이 오른 층뿐이다.
+ */
+function expeditionBill(w: World, team: ExpeditionTeam): number {
   const foreman = w.staff.find((s) => s.id === team.foremanId && s.role === "foreman") as Foreman | undefined;
   const travelHours = (team.arrivesAt - team.dispatchedAt) / 3600;
   const dist = foreman ? travelHours * EXPEDITION_SPEED_KMH * foremanSpeedMult(foreman.navigation) : 0;
@@ -1525,12 +1604,26 @@ function finalizeExpedition(w: World, team: ExpeditionTeam, returnedAt = w.t) {
   const notionalIncome = realRate * distanceYieldBonus(dist) * effectiveOnsiteHours * 3600;
   // 집중 굴착(×2)·급파(×3) 배수가 이번 회차에 걸려 있으면 여기서 함께 적용한다
   // (spec.md §8.6, notes/decisions.md G45/A8). 다음 회차를 위해 적용 즉시 리셋한다.
-  const cost = Math.round(
+  return Math.round(
     notionalIncome * EXPEDITION_COST_INCOME_RATIO * distanceCostMult(dist) * (team.costMult ?? 1)
   );
+}
+
+function finalizeExpedition(w: World, team: ExpeditionTeam, returnedAt = w.t) {
+  const billed = expeditionBill(w, team);
+  // **정산액은 보유 자금을 넘지 않는다**(v0.6.6, `notes/decision-tree-10h.md` §6 버그 2).
+  // 원정비는 후불이라 그사이 자금을 다른 데 썼으면 청구액이 잔고보다 클 수 있다 —
+  // 하한이 없던 때는 자금이 음수로 떨어져 감정비를 못 내고 도감이 멈췄다(G56과 같은
+  // 종류의 결함). 모자란 몫은 탕감하고, 로그에 그대로 적는다(척추 5번).
+  const cost = Math.min(billed, Math.max(0, Math.floor(w.funds)));
   w.funds -= cost;
   team.costMult = 1;
-  log(w, "system", `발굴단이 ${SITE_BY_ID[team.targetSite].city}에서 귀환했다. 원정비 ${usd(cost)} 정산.`);
+  log(
+    w, "system",
+    cost < billed
+      ? `발굴단이 ${SITE_BY_ID[team.targetSite].city}에서 귀환했다. 원정비 ${usd(billed)} 중 보유 자금 ${usd(cost)}만 정산했다.`
+      : `발굴단이 ${SITE_BY_ID[team.targetSite].city}에서 귀환했다. 원정비 ${usd(cost)} 정산.`
+  );
 
   team.status = "idle";
   if (team.routine?.enabled) {
@@ -1900,6 +1993,14 @@ function autoInvestReserve(w: World): number {
     sum += Math.round(p.estimate * APPRAISE_FEE);
     if (++n >= AUTO_INVEST_FEE_RESERVE_ITEMS) break;
   }
+  // **귀환이 다가온 원정의 청구액도 남긴다**(v0.6.6). 원정비는 후불이고 정산은 보유
+  // 자금까지만 받는다(`finalizeExpedition`). 재투자가 그 전에 지갑을 비우면 청구액
+  // 대부분이 탕감됐다 — 운영 기준선에서 정산 15회 중 15회, 청구액의 87%가 면제됐다
+  // (`notes/v066-midpass-review.md` §1.3). 현지 작업 중·귀환 중인 팀만 센다 — 막
+  // 떠난 팀의 몫까지 묶으면 몇 시간 동안 재투자가 멈춘다.
+  for (const team of w.teams) {
+    if (team.status === "on_site" || team.status === "traveling_back") sum += expeditionBill(w, team);
+  }
   return Math.max(AUTO_INVEST_RESERVE, sum);
 }
 
@@ -1915,6 +2016,72 @@ export function autoInvestLegacyDig(w: World) {
     else if (w.gear < MAX_GEAR_LEVEL && spendable >= gc && gc <= wc * 6) buyGear(w);
     else if (spendable >= wc) buyWorker(w);
     else break;
+  }
+}
+
+/**
+ * 발굴단 자동 증강이 건드리지 않고 남겨 두는 자금 — **플레이어가 다음 확장을 위해
+ * 모으는 돈**이다.
+ *
+ * 1. 다음 발굴단 슬롯 해금비 × 1.5(정책이 쓰던 비축 규칙 그대로)
+ * 2. 빈 슬롯이 있으면 단장 고용비
+ * 3. base 칸이 남아 있으면 아직 안 연 거점 중 가장 싼 해금비
+ *
+ * 2·3은 정책에 없던 줄이 아니라 **정책의 순서**를 옮긴 것이다. 예전 정책은 거점 해금 →
+ * 슬롯 해금 → 단장 고용을 먼저 누르고 **남은 돈으로** 증강했다. 자동화는 그보다 앞선
+ * 자동 루틴 안에서 돌기 때문에, 이 몫을 비워 두지 않으면 인원 1명(1.8만 달러)이 거점
+ * 해금 문턱을 갉아 첫 10분의 두 번째 거점이 5분 밀렸다(5시드 중 1시드 실측 —
+ * 층 돌파 30 → 22회, 밀도 원장 D축 1.32 → 1.59).
+ */
+function teamUpgradeReserve(w: World): number {
+  let reserve = nextTeamSlotCost(w) * TEAM_AUTO_UPGRADE_SLOT_RESERVE_MULT;
+  if (w.teams.length < w.maxTeams) reserve += FOREMAN_HIRE_COST;
+  if (SITES.filter((s) => w.sites[s.id].unlocked).length < ownedSiteCap(w)) {
+    const locked = SITES.filter((s) => !w.sites[s.id].unlocked).map((s) => s.unlockCost);
+    if (locked.length > 0) reserve += Math.min(...locked);
+  }
+  return reserve;
+}
+
+/**
+ * 발굴단 인원·장비 자동 증강(v0.6.6, `notes/decisions.md` G80.1).
+ *
+ * 레거시 인부·장비는 자동으로 사 주면서 **발굴단** 인원·장비는 안 사 주던 비대칭을
+ * 닫는다. 운영 기준선에서 첫 10시간 사람 조작 144회 중 85회가 이 증강이었고, 첫
+ * 1시간에만 38:30~59:30에 44회가 몰렸다(75초에 여섯 틱 연속). "살 수 있으면 산다"라
+ * 결정이 아니라 잡무다.
+ *
+ * G80.1이 자동화를 미룬 이유(팀 증강이 슬롯 해금 자금을 흡수한다)는 **정책이 이미
+ * 풀어 둔 규칙을 그대로 가져와** 닫는다 — 다음 슬롯 해금비의 1.5배를 먼저 비축하고(위
+ * `teamUpgradeReserve`), 인원은 25만·장비는 250만 달러 이상에서만 산다(`balance.ts`
+ * `TEAM_AUTO_*`). 한 번에 팀마다 인원 1·장비 1까지만 산다 — 정책이 틱마다 하던 그대로다.
+ *
+ * 정책에 없던 규칙은 둘이다.
+ * - **현지 작업을 시작한 팀(on_site·traveling_back)은 증강하지 않는다.** 원정비는 후불이고
+ *   귀환 순간의 팀 발굴력으로 그 회차 현지 작업 **전체**를 사이징한다(`finalizeExpedition`).
+ *   귀환 직전에 산 인원 한 명이 회차 전체 청구서를 소급해 키운다 — 방치 플레이에 이걸
+ *   켰더니 인원 33명짜리 팀이 53분에 1,870만 달러를 청구받아 자금이 음수로 떨어지고
+ *   감정이 3분 넘게 멈췄다(`qa:pipeline` 최장 정지 중앙 48 → 253초). 대기·출발 중인 팀만
+ *   키우면 새 발굴력이 그 회차 현지 작업 전체에 실제로 쓰이므로 청구가 정직해진다
+ *   (같은 게이트 23초).
+ * - 레거시 재투자와 같은 감정비 여유분(`autoInvestReserve`)을 산 뒤에도 남긴다.
+ *
+ * `settings.autoReinvest`를 따른다(끄면 쉰다). `advance()` 안에서 부르지 않는다 —
+ * `autoInvestLegacyDig`와 같은 이유다(팀 발굴력 변화가 원정 정산 스텝 무관성을 깬다).
+ */
+export function autoInvestTeams(w: World) {
+  if (!w.settings.autoReinvest) return;
+  if (w.funds < teamUpgradeReserve(w)) return;
+  const feeReserve = autoInvestReserve(w);
+  for (const team of w.teams) {
+    // 현지 작업을 시작한 팀은 건너뛴다 — 후불 원정비가 소급으로 커진다(위 주석)
+    if (team.status === "on_site" || team.status === "traveling_back") continue;
+    if (w.funds >= TEAM_AUTO_WORKER_MIN_FUNDS && w.funds - workerCost(teamWorkersSum(w)) >= feeReserve) {
+      buyTeamWorker(w, team.id);
+    }
+    if (w.funds >= TEAM_AUTO_GEAR_MIN_FUNDS && w.funds - gearCost(teamGearSum(w)) >= feeReserve) {
+      buyTeamGear(w, team.id);
+    }
   }
 }
 
@@ -2105,7 +2272,7 @@ export function autoVaultCare(w: World) {
 }
 
 /**
- * 세 배경 루틴(미감정 잉여 처분·소장고 중복분 정리·인부/장비/감정소 재투자)을
+ * 배경 루틴(미감정 잉여 처분·소장고 중복분 정리·인부/장비/감정소 재투자·발굴단 증강)을
  * 한 번에 묶어 부른다(notes/decisions.md G57·G68). **`step()`/`advance()`가 자동으로 부르지
  * 않는다** — 위 세 함수의 주석이 각각 실측으로 남긴 이유(스텝-청크 잔차가
  * 장시간 단일 `advance()` 호출 안에서 funds·드랍/층 진행으로 증폭된다)가
@@ -2120,6 +2287,7 @@ export function runAutoRoutine(w: World) {
   autoSellVaultSpares(w);
   autoVaultCare(w);
   autoInvestLegacyDig(w);
+  autoInvestTeams(w);
   redeployIdleRoutineTeams(w);
 }
 
@@ -2259,6 +2427,7 @@ function spawnTip(w: World, rng: Rng) {
     resolved: null
   };
   log(w, "system", `제보 — ${SITE_BY_ID[target.site].city} ${target.minLayer}층에서 반응. 대상: ${target.name}`);
+  autoFocusTip(w);
 }
 
 /** 플레이어가 **지금 그 자리에서** 레이스에 참가하고 있는가 — 직접 발굴이 그
@@ -2318,11 +2487,11 @@ export function tipRaceOdds(w: World, tip: Tip): TipRaceOdds {
   const eye = eyeRaceMult(w, tip.site);
   const pw =
     racing
-      ? (tip.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) *
+      ? (tip.focused ? (tip.crewed ? TIP_EMERGENCY_CREW_HIT_CHANCE : TIP_FOCUS_DIG_HIT_CHANCE) : TIP_PLAYER_HIT) *
         (firstUniqueLesson ? 0 : needsResponse ? TIP_UNRESPONDED_UNIQUE_MULT : 1) * eye
       : 0;
   const contenders = tipRivalContenders(w, tip).length;
-  const rw = contenders * TIP_RIVAL_HIT;
+  const rw = contenders * rivalTipHit(ARTIFACT_BY_ID[tip.artifactId].tier);
   const playerChance = guaranteed ? 1 : pw + rw === 0 ? 0 : pw / (pw + rw);
   return { decideIn, racing, playerChance, guaranteed, contenders, needsResponse, eyeBonus: eye - 1 };
 }
@@ -2364,12 +2533,12 @@ function decideTipRace(w: World, rng: Rng, report: StepReport) {
       ? 0
       : TIP_UNRESPONDED_UNIQUE_MULT;
   const pw = racing
-    ? (tip.focused ? TIP_FOCUS_DIG_HIT_CHANCE : TIP_PLAYER_HIT) * uniquePenalty * eyeRaceMult(w, tip.site)
+    ? (tip.focused ? (tip.crewed ? TIP_EMERGENCY_CREW_HIT_CHANCE : TIP_FOCUS_DIG_HIT_CHANCE) : TIP_PLAYER_HIT) * uniquePenalty * eyeRaceMult(w, tip.site)
     : 0;
   // 라이벌 가중은 **머릿수**다 — 유예 전 드랍 판정에서 라이벌 k명이 각자 굴리는
   // 것과 같은 셈이고, 그래서 제보마다 경쟁도가 다르다(1명이면 반반, 4명이면 20%).
   // 배너가 그 수치를 그대로 적는다(척추 5번, `tipRaceOdds`).
-  const rw = contenders.length * TIP_RIVAL_HIT;
+  const rw = contenders.length * rivalTipHit(ARTIFACT_BY_ID[tip.artifactId].tier);
   // 양쪽 다 그 자리에 없다 — 결판낼 주체가 없으므로 유물은 세상에 남는다.
   // (급파가 이동 중이면 여기 걸린다 — 도착 판정은 기존 경로가 그대로 한다.)
   if (pw + rw === 0) return;
@@ -2413,7 +2582,7 @@ function resolveRivalTipChases(w: World, rng: Rng, report: StepReport) {
     if (w.tip && !w.tip.resolved && w.tip.artifactId === r.tipChase.artifactId &&
         w.t - w.tip.openedAt < TIP_MIN_RESPONSE_SECONDS) continue;
     const target = ARTIFACT_BY_ID[r.tipChase.artifactId];
-    if (available(w, target) && rng.chance(TIP_RIVAL_HIT)) {
+    if (available(w, target) && rng.chance(rivalTipHit(target.tier))) {
       take(w, target, r.id, report);
       w.stats.racesLost += 1;
     }
@@ -2557,6 +2726,8 @@ export function step(w: World, dt: number, offline = false, record: PersistentRe
   const contributions = new Map<SiteId, SiteContributor[]>();
   digPlayer(w, dt, eff, report, contributions);
   tickExpeditions(w, t0, dt, eff, report, contributions);
+  // 제보가 열려 있는 동안 팀이 도착했으면 이 스텝의 드랍 판정부터 자동 집중을 적용한다
+  if (!offline) autoFocusTip(w);
   for (const [site, contributors] of contributions) applySiteChunk(w, rng, site, contributors, report);
   for (const r of w.rivals) digRival(w, r, rng, t0, dt, eff, report);
   resolveRivalTipChases(w, rng, report);

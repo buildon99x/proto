@@ -4,6 +4,7 @@ import { playerAssets } from "../game/engine";
 import { josa, usd } from "../game/format";
 import { siteAnchorLabel } from "../game/sites";
 import type { SiteId } from "../game/types";
+import { expansionForkOptions, homeSpeciesGap } from "./baseChoice";
 import { DispatchSheet } from "./DispatchSheet";
 import { LegacyDigCard } from "./LegacyDigCard";
 import { Modal } from "./Modal";
@@ -24,7 +25,7 @@ export function ExpeditionView({ game }: { game: Game }) {
     <div className="expedition">
       <div className="expedition-columns">
         <div className="expedition-explore">
-          <MyBasesPanel world={world} onRelocate={() => setPickingRelocateTarget(true)} />
+          <MyBasesPanel game={game} onRelocate={() => setPickingRelocateTarget(true)} />
           <WorldExplorer game={game} onSelectSite={setDispatchSite} />
         </div>
         <TeamPanel game={game} />
@@ -48,8 +49,12 @@ export function ExpeditionView({ game }: { game: Game }) {
   );
 }
 
-function MyBasesPanel({ world, onRelocate }: { world: Game["world"]; onRelocate: () => void }) {
+function MyBasesPanel({ game, onRelocate }: { game: Game; onRelocate: () => void }) {
+  const { world } = game;
   const owned = SITES.filter((s) => world.sites[s.id].unlocked);
+  // 경주에만 있을 때의 한계를 숫자로 적는다(v0.6.6, decision-tree-10h.md P1). 경주의 종 수를
+  // 늘리는 건 척추 1번(현존 수량 = 공급)과 부딪치므로 사실만 보여 준다.
+  const gap = owned.length === 1 && owned[0].id === "korea" ? homeSpeciesGap("korea") : null;
   return (
     <section className="card my-bases">
       <h3>내 거점</h3>
@@ -60,12 +65,30 @@ function MyBasesPanel({ world, onRelocate }: { world: Game["world"]; onRelocate:
           </li>
         ))}
       </ul>
+      {gap ? (
+        <p className="home-species-note small">
+          경주 {gap.species}종 — 다른 11곳 평균 {Math.round(gap.othersAvg)}종의 약 {Math.round(gap.ratio * 100)}%다.
+          새 종이 먼저 바닥난다.
+        </p>
+      ) : null}
       {owned.length === 1 ? (
-        <button type="button" className="ghost wide" onClick={onRelocate}>
-          이전
-        </button>
+        <div className="my-bases-actions">
+          <button type="button" className="wide base-chooser-reopen" onClick={game.openBaseChooser}>
+            첫 거점 고르기
+          </button>
+          <button type="button" className="ghost wide" onClick={onRelocate}>
+            이전
+          </button>
+        </div>
       ) : (
-        <p className="muted small">거점이 2곳 이상이면 이전 대신 지도에서 새 거점을 열어 확장한다.</p>
+        <>
+          <p className="muted small">거점이 2곳 이상이면 이전 대신 지도에서 새 거점을 열어 확장한다.</p>
+          {expansionForkOptions(game.world) ? (
+            <button type="button" className="wide expansion-fork-reopen" onClick={game.openExpansionFork}>
+              다음 확장 고르기 — 셋째 거점 또는 둘째 발굴단
+            </button>
+          ) : null}
+        </>
       )}
     </section>
   );

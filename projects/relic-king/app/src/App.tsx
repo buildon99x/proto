@@ -9,13 +9,19 @@ import { MarketView } from "./ui/MarketView";
 import { EndingBanner, RevealModal } from "./ui/Overlays";
 import { Header } from "./ui/Header";
 import { OfflineSummary } from "./ui/OfflineSummary";
-import { OnboardingOverlay } from "./ui/OnboardingOverlay";
+import { DisplayNudge } from "./ui/DisplayNudge";
+import { FirstBaseChooser } from "./ui/FirstBaseChooser";
+import { ExpansionFork } from "./ui/ExpansionFork";
 import { RankTableModal } from "./ui/RankTableModal";
 import { RulesModal } from "./ui/RulesModal";
 import { SettingsModal } from "./ui/SettingsModal";
 import { TipBanner } from "./ui/TipBanner";
 import { VaultView } from "./ui/VaultView";
+import { armAudio } from "./ui/sound";
 import { useGame } from "./ui/useGame";
+
+// 합성음은 첫 사용자 입력 뒤에만 켤 수 있다(자동재생 정책). 리스너만 먼저 건다.
+armAudio();
 
 const TABS = [
   { id: "dig", label: "발굴" },
@@ -119,7 +125,9 @@ export default function App() {
 
       <RevealModal game={game} />
       <OfflineSummary game={game} onNavigate={(t) => changeTab(t)} />
-      {game.onboardingPending ? <OnboardingOverlay game={game} onDone={game.dismissOnboarding} /> : null}
+      <DisplayNudge game={game} />
+      {game.baseChooserOpen ? <FirstBaseChooser game={game} /> : null}
+      {game.expansionForkOpen && !game.baseChooserOpen ? <ExpansionFork game={game} /> : null}
       {modal === "settings" ? <SettingsModal game={game} onClose={() => setModal(null)} /> : null}
       {modal === "rules" ? <RulesModal game={game} onClose={() => setModal(null)} /> : null}
       {modal === "rank" ? <RankTableModal game={game} onClose={() => setModal(null)} /> : null}
