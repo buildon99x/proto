@@ -127,6 +127,8 @@ img.px{image-rendering:pixelated;display:block;pointer-events:none}
 .plat .pb{position:absolute;right:-12px;top:-14px;display:flex;gap:4px;z-index:5}
 .pill{height:24px;border-radius:12px;padding:0 8px;display:flex;align-items:center;gap:3px;font-size:12px;font-weight:900;color:#fff;border:2px solid #fff;box-shadow:0 2px 5px #0004;cursor:pointer;white-space:nowrap}
 .pill.busy{background:var(--busy)}
+#world .pill.box{position:absolute;z-index:4;background:linear-gradient(#f2b632,#b7792b);font-size:14px;padding:0 6px;animation:boxbob 1.6s ease-in-out infinite}
+@keyframes boxbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 .ring{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;box-shadow:0 2px 5px #0003;background:conic-gradient(var(--c) calc(var(--p)*1turn),#e3ecf4 0)}
 .ring b{width:22px;height:22px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:8.5px;font-weight:900;color:var(--c);line-height:1}
 .ghost{position:absolute;height:24px;border:3px dashed var(--evolve);border-radius:8px;background:#8b6cff22;z-index:3;pointer-events:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:12px;text-shadow:0 1px 2px #0008;transition:left .25s,width .25s,top .25s}
@@ -468,6 +470,13 @@ img.px{image-rendering:pixelated;display:block;pointer-events:none}
 .pop-mon .row button{flex:1;height:34px;border-radius:9px;font-weight:900;font-size:13px;background:#EEF2F6}
 .pop-mon .row button.pri{background:var(--evolve);color:#fff}
 .pop-mon .tip{font-size:11.5px;font-weight:800;color:var(--ink2);margin-top:8px}
+.pop-box .bxi{font-size:30px;width:40px;text-align:center}
+.pop-box .row.col{flex-direction:column}
+.pop-box .row.col button{height:auto;min-height:46px;display:flex;align-items:center;gap:8px;text-align:left;padding:6px 10px;border:2px solid transparent}
+.pop-box .row.col button.pri{background:#FFF8E1;color:var(--ink);border-color:var(--smile)}
+.pop-box .row.col button b{font:14px var(--disp);display:block}
+.pop-box .row.col button small{font-size:11.5px;font-weight:800;color:var(--ink2)}
+.pop-box .row.col .ic{font-style:normal;font-size:22px;width:32px;text-align:center}
 .codex{width:820px;padding:22px 26px;background:#fff;border-radius:18px;box-shadow:0 10px 40px #0007;position:relative}
 .codex h2{font:26px var(--disp);margin-bottom:12px}
 .codex .rowc{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #eef2f6}
@@ -577,7 +586,7 @@ button.slot{text-align:center;font:inherit}
 .scn .evmini{left:150px;top:18px;width:30px;height:30px;border-radius:8px;background:#8B6CFF;color:#fff;font-weight:900;display:grid;place-items:center;border:2px solid #fff}
 .scn .docp{left:50px;top:18px;width:110px;height:90px;background:#FFFDF6;border-radius:6px;box-shadow:0 3px 0 #0002;transform:rotate(-5deg)}
 .scn .docs{left:110px;top:30px;width:52px;height:52px;border-radius:50%;border:4px solid #e0463c;color:#e0463c;font:15px var(--disp);display:grid;place-items:center;transform:rotate(-14deg)}
-.tchip i.al{background:var(--alert)} .tchip i.cold{background:#b9c3cf} .tchip i.ev{background:var(--evolve)} .tchip i.bz{background:var(--busy)}
+.tchip i.bx{background:#b7792b} .tchip i.al{background:var(--alert)} .tchip i.cold{background:#b9c3cf} .tchip i.ev{background:var(--evolve)} .tchip i.bz{background:var(--busy)}
 .goal .no{color:var(--alert);font-style:normal;font-weight:900}
 .goal .g2{margin-left:14px}
 .cancan{position:absolute;left:170px;bottom:48px}

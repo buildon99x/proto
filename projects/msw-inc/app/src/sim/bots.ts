@@ -2,7 +2,7 @@
  * 봇 매니저 — 규칙이 약속한 달력과 선택별 진행 속도를 재는 데 쓴다.
  *
  * 사람을 흉내 내는 "오렌 따라하기" 봇이 기본이다. 화면이 권하는 순서 그대로 움직인다:
- *   결재 → 빈틈(추천 계열 채용 → 초록으로 빛나는 자리) → 대기실 → 과밀(자리 확장) → 진화 → 이벤트
+ *   결재 → 빈틈(추천 계열 채용 → 초록으로 빛나는 자리) → 대기실 → 드랍 상자(v1.6) → 과밀(줄 나누기 → 자리 확장) → 진화 → 이벤트
  * 페르소나는 이 흐름 위에서 한 가지 선택만 바꾼다. 그래야 "그 선택 하나"가 만든 차이가 보인다.
  */
 import { SPECIES, SPECIES_IDS, type PlotId, type SpeciesId } from './content';
@@ -66,6 +66,7 @@ export function lightClone(w: World): World {
     monsters: w.monsters.map(m => ({ ...m })),
     dex: { ...w.dex }, tut: { ...w.tut }, tickets: { ...w.tickets, hire: [...w.tickets.hire] }, stats: { ...w.stats, left: { ...w.stats.left } },
     boss: w.boss && { ...w.boss }, bossDone: [...w.bossDone], elite: w.elite && { ...w.elite }, eliteBy: { ...w.eliteBy }, marks: [...w.marks],
+    boxes: w.boxes && w.boxes.map(b => ({ ...b })), boxBy: w.boxBy && { ...w.boxBy },
   };
 }
 
@@ -186,6 +187,17 @@ function wantEvolve(w: World, m: S.Monster, p: Persona): { go: boolean; plan: S.
 }
 
 export interface CheckinLog { acts: string[] }
+
+/**
+ * 드랍 상자 (v1.6): 오렌이 권하는 쪽(줄·빈틈에 맞는 계열 채용권, 없으면 이벤트권)을 골라 모두 연다.
+ * 월드를 바꾸지 않고 권만 받는 탭이라 성향의 수 제한에 세지 않는다(필드 보스 초대와 같다). 로그에는 남는다
+ */
+function openBoxes(w: World, log: string[]): void {
+  for (const b of [...S.boxesOf(w)]) {
+    const pick = S.boxPick(w);
+    if (S.openBox(w, b.id, pick).ok) log.push('box:' + pick.kind);
+  }
+}
 
 function tryEvolve(w: World, p: Persona, log: string[], onlyHelping: boolean): boolean {
   const cur = gapN(w);
@@ -315,6 +327,8 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
       if (bp.length && S.place(w, tr.id, bp[0]).ok) { log.push('place'); acts++; continue; }
       if ((p.release ?? true) && S.release(w, tr.id).ok) { log.push('release'); acts++; continue; }
     }
+    // 드랍 상자 (v1.6): 대기실 다음, 붐빔 앞 (오렌 순서). 받은 채용권은 바로 아래 줄 나누기·붐빔 풀기를 싸게 한다
+    openBoxes(w, log);
     // 사다리로 나누기 (v1.5): 줄 선 레벨에 맞는 다른 계열이 있으면 자리보다 던전을 하나 더 연다
     const sf = RULES.moreSpecies ? S.crowdFix(w) : null;
     if (sf && sf.split && sf.cost <= w.smile) {
@@ -353,6 +367,8 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
     }
     break;
   }
+  // 수 제한으로 루프가 끝났어도 떨어진 상자는 열고 간다 (탭 한 번, 수에 세지 않는다)
+  openBoxes(w, log);
   // 퇴근 직전 진화: 하루 마지막 체크인에서 결과를 보지 않고 누르고 떠난다
   if (opts.last && p.nightEvolve) {
     for (const m of w.monsters) if (S.canEvolve(m) && !S.evolveBlock(w, m)) { S.evolve(w, m.id); log.push('night-evolve'); }
@@ -443,6 +459,8 @@ export interface RunResult {
   entranceMin: number; stuckLeft: number; busyLeft: number;
   smileEnd: number; smilePeak: number; happyEnd: number;
   evolves: number; hires: number; releases: number; undos: number;
+  /** 연 드랍 상자 (v1.6). 체크인당 행동(acts)에는 세지 않는다 */
+  boxes: number;
   daily: { day: number; chapter: number; happy: number; smile: number; gap: number }[];
 }
 
@@ -451,7 +469,7 @@ export function runPersona(p: Persona, seed: number, maxDays = 60): RunResult {
   firstSession(w);
   const res: RunResult = {
     persona: p.id, seed, chapters: [null, null, null, null, null], ending: null, acts: 0, checkins: 0,
-    entranceMin: 0, stuckLeft: 0, busyLeft: 0, smileEnd: 0, smilePeak: 0, happyEnd: 0, evolves: 0, hires: 0, releases: 0, undos: 0, daily: [],
+    entranceMin: 0, stuckLeft: 0, busyLeft: 0, smileEnd: 0, smilePeak: 0, happyEnd: 0, evolves: 0, hires: 0, releases: 0, undos: 0, boxes: 0, daily: [],
   };
   // 첫 10분 한 바퀴(v1.3): 1장은 첫 세션 안에 결재한다
   for (let c = 1; c < w.chapter; c++) res.chapters[c - 1] = w.chapterAt[c] ?? w.t;
@@ -468,6 +486,7 @@ export function runPersona(p: Persona, seed: number, maxDays = 60): RunResult {
       const log = checkIn(w, p, { last: i === p.times.length - 1, first: i === 0 });
       res.checkins++;
       for (const a of log.acts) {
+        if (a.startsWith('box:')) { res.boxes++; continue; }
         if (a !== 'night-evolve') res.acts++;
         if (a.startsWith('hire')) res.hires++;
         if (a === 'release') res.releases++;

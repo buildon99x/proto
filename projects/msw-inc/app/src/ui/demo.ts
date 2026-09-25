@@ -4,6 +4,7 @@
  * 장면: intro · gap · hire · dungeon · evolve · promote · report · approval · ch2 · late · ch5 · ending · offduty · codex · fullclear · grow
  *       elite · boss · bossinv (v1.3) · rush10 · rush25 · rush40 (v1.4 첫 40분, 지켜보는 플레이어)
  *       split (v1.5 계열 사다리: 줄을 다른 레벨 계열로 나누는 채용 시트)
+ *       box (v1.6 드랍 상자: 첫 40분에 떨어진 상자를 열어 채용권과 이벤트권 가운데 고르는 말풍선)
  */
 import { A, must, refresh, M } from './app';
 import { T } from './tut';
@@ -129,6 +130,16 @@ export function runDemo(q: string, api: { newGame: () => void; intro: () => void
       boot(w); settle(1);
       const cf = M.crowdFix(w);
       if (cf) setTimeout(() => A.openHire({ crowd: cf }), 150);
+    },
+    // v1.6: 지켜보는 플레이어가 두다가, 줄에 맞는 계열 채용권이 든 상자가 떨어진 순간
+    box() {
+      const w = first('full');
+      const ready = (x: M.World) => M.boxesOf(x).length > 0 && M.boxPick(x).kind === 'hire';
+      let next = w.t + 0.5;
+      while (w.t < 60 && !ready(w)) { M.step(w, 1 / 12); if (!ready(w) && w.t >= next - 1e-9) { next += 0.5; checkIn(w, WATCHER); } }
+      boot(w); settle(1);
+      const b0 = M.boxesOf(w)[0];
+      if (b0) setTimeout(() => A.openBox(b0.id), 250);
     },
     fullclear() { const w = botTo(x => x.ended, 60); M.advance(w, 1440); boot(w); settle(0.5); setTimeout(() => A.openFullClear(), 150); },
   };

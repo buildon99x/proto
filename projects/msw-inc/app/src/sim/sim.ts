@@ -23,6 +23,9 @@ export interface Tickets { hire: SpeciesId[]; event: number; plot: number }
 export interface Elite { d: PlotId; mon: number; until: number }
 export interface Boss { ch: number; at: number; d: PlotId | null; kills: number; until: number | null }
 export type MarkReward = { kind: 'hire'; sp: SpeciesId } | { kind: 'event'; n: number } | { kind: 'boss' };
+/** 드랍 상자 (v1.6): 던전 앞에 떨어져 열 때까지 기다린다 */
+export interface Box { id: number; d: PlotId; at: number }
+export type BoxReward = { kind: 'hire'; sp: SpeciesId } | { kind: 'event' };
 export interface Dungeon {
   id: PlotId; slots: number; seats: number; seatUp: number; slotUp: number;
   event: GameEvent | null; joy: number; recentLv: number;
@@ -51,6 +54,8 @@ export interface World {
   chapterAt: number[];
   /** 구간 개방 (v1.4): 이번 장에서 연 구간(0부터), 다음 구간까지 쌓인 퇴근. 없으면 장 전체가 열려 있다(옛 세이브) */
   zone?: number; zoneAcc?: number;
+  /** 드랍 상자 (v1.6): 떨어져 있는 상자, 지난 상자 뒤 월드 퇴근(드랍 이벤트 ×2), 던전별. 없으면 규칙에 상자가 없다(옛 세이브는 첫 걸음에 채운다) */
+  boxes?: Box[]; boxAcc?: number; boxBy?: Record<PlotId, number>; nextBox?: number;
 }
 /** 대본 도착 (v1.4): at분에 이 레벨·진행도의 모험가가 함께 온다. 첫 레벨업과 첫 빈틈을 배속 없이 제시간에 */
 export interface TutParty { at: number; lv: number[]; prog: number[] }
@@ -72,7 +77,8 @@ export type SimEvent =
   | { type: 'bossCall'; ch: number }
   | { type: 'bossIn'; ch: number; d: PlotId; auto: boolean }
   | { type: 'bossDown'; ch: number; d: PlotId | null; bonus: number }
-  | { type: 'zone'; ch: number; from: number; to: number };
+  | { type: 'zone'; ch: number; from: number; to: number }
+  | { type: 'box'; id: number; d: PlotId };
 
 export const SAVE_VERSION = 3;
 /** v1.3까지의 기본 자리. 지금 값은 RULES.seatBase */
@@ -109,6 +115,7 @@ export function createWorld(seed: number): World {
     chapterAt: [0], cjoy: 0,
   };
   if (RULES.zones) { w.zone = 0; w.zoneAcc = 0; }
+  if (RULES.drop) initBoxes(w);
   unlockPlots(w, 1);
   w.plots.h1.open = true;
   w.plots.h2.open = true; // 입사 선물: 두 번째 부지
@@ -424,6 +431,12 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
     if (RULES.elite && !w.elite) { w.eliteAcc += kills; w.eliteBy[id] = (w.eliteBy[id] || 0) + kills; }
     if (w.zoneAcc != null) w.zoneAcc += kills;
     if (d.guest && w.boss) w.boss.kills += kills;
+    // 드랍 상자 (v1.6): 상자가 떨어질 자리가 있을 때만 쌓는다(월드에 상자가 없고 쥔 무료권이 hold장 미만). 드랍 이벤트 중이면 ×2
+    const dr = RULES.drop;
+    if (dr && w.boxes && w.chapter >= dr.from && boxRoom(w)) {
+      const k = kills * (d.drop ? 2 : 1);
+      w.boxAcc = (w.boxAcc || 0) + k; w.boxBy![id] = (w.boxBy![id] || 0) + k;
+    }
   }
 
   // 이벤트 종료
@@ -440,6 +453,9 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
   // 엘리트·필드 보스 (v1.3)
   tickElite(w, emit);
   tickBoss(w, emit);
+
+  // 드랍 상자 (v1.6)
+  tickBox(w, emit);
 
   // 결재 ② 막대 눈금 (v1.3): 지나는 순간 보상이 저절로 들어온다
   checkMarks(w, emit);
@@ -576,6 +592,76 @@ function tickBoss(w: World, emit: (e: SimEvent) => void) {
   }
 }
 
+// ── 드랍 상자 (v1.6) ────────────────────────────────────────
+/**
+ * 사냥이 쌓이면 던전 앞에 상자가 떨어진다. 볼거리이자 결정거리다: 열 때 채용권과 이벤트권 가운데 하나를 고른다.
+ * 스마일은 주지 않는다(후반 스마일 과잉, 컨셉 D1). 놓쳐도 잃는 것이 없고 떠나 있어도 max개까지 기다린다(P5).
+ * 쥔 무료권이 hold장이면 쉰다: 권을 쓰는 만큼만 떨어져야 권이 쌓여 결정이 사라지지 않는다(drop-v16 §4).
+ * 어디에 떨어질지는 난수를 쓰지 않는다. 월드 난수 흐름이 v1.5와 같아야 상자가 만든 차이만 보인다
+ */
+function initBoxes(w: World) { w.boxes = []; w.boxAcc = 0; w.boxBy = {}; w.nextBox = 1; }
+/** 쥔 무료권 가운데 상자가 주는 것 (채용권 + 이벤트권) */
+export const heldTickets = (w: World) => w.tickets.hire.length + w.tickets.event;
+/** 상자가 떨어질 자리가 있는가: 월드에 max개 미만이고, 쥔 무료권이 hold장 미만 */
+export const boxRoom = (w: World) => !!RULES.drop && (w.boxes || []).length < RULES.drop.max && heldTickets(w) < RULES.drop.hold;
+function tickBox(w: World, emit: (e: SimEvent) => void) {
+  const dr = RULES.drop;
+  if (!dr) return;
+  if (!w.boxes) { initBoxes(w); return; }
+  const lv = levelsOf(w), has = (id: string) => w.boxes!.some(b => b.d === id);
+  // 문을 닫은 던전 앞의 상자는 상자가 없는 다른 던전 앞으로 옮긴다 (필드 보스와 같다)
+  for (const b of w.boxes) if (!lv[b.d]) { const to = Object.keys(lv).find(id => !has(id)); if (to) b.d = to; }
+  if (w.chapter < dr.from || !boxRoom(w) || (w.boxAcc || 0) < dr.need[w.chapter - 1]) return;
+  const by = w.boxBy || {};
+  const to = Object.keys(by).filter(id => lv[id] && !has(id)).sort((a, b) => by[b] - by[a])[0];
+  if (!to) return;
+  const box: Box = { id: w.nextBox || 1, d: to, at: w.t };
+  w.nextBox = box.id + 1;
+  w.boxes.push(box); w.boxAcc = 0; w.boxBy = {};
+  emit({ type: 'box', id: box.id, d: to });
+}
+export const boxesOf = (w: World) => w.boxes || [];
+/**
+ * 상자 채용권의 계열: 줄을 나누거나 붐빔을 푸는 계열 → 빈틈을 메우는 계열 → 이번 장 계열 가운데 가장 적게 가진 것(눈금 25%와 같다)
+ */
+export function boxHireSp(w: World): SpeciesId {
+  const cf = crowdFix(w);
+  if (cf) return cf.sp;
+  const rs = recommendSpecies(w);
+  if (rs) return rs;
+  const r = markReward(w, 0);
+  return r.kind === 'hire' ? r.sp : 'snail';
+}
+/** 상자에서 고를 수 있는 두 가지 */
+export const boxOptions = (w: World): BoxReward[] => [{ kind: 'hire', sp: boxHireSp(w) }, { kind: 'event' }];
+/** 오렌이 권하는 것: 줄·빈틈에 맞는 계열이 있으면 그 채용권, 없으면 이벤트권. 봇도 이것을 고른다 */
+export function boxPick(w: World): BoxReward {
+  const sp = crowdFix(w)?.sp ?? recommendSpecies(w);
+  return sp ? { kind: 'hire', sp } : { kind: 'event' };
+}
+export function openBox(w: World, boxId: number, pick: BoxReward): Result<{ box: Box; idx: number; reward: BoxReward }> {
+  const bs = boxesOf(w), i = bs.findIndex(b => b.id === boxId);
+  if (i < 0) return no('상자가 없어요');
+  if (pick.kind === 'hire' && !canHireSpecies(w, pick.sp)) return no('아직 채용할 수 없어요');
+  const [box] = bs.splice(i, 1);
+  if (pick.kind === 'hire') w.tickets.hire.push(pick.sp); else w.tickets.event++;
+  return ok({ box, idx: i, reward: pick });
+}
+/** 상자 열기 되돌리기 (5초). 받은 권을 이미 썼으면 되돌리지 않는다 */
+export function unopenBox(w: World, r: { box: Box; idx: number; reward: BoxReward }): boolean {
+  if (r.reward.kind === 'hire') {
+    const j = w.tickets.hire.lastIndexOf(r.reward.sp);
+    if (j < 0) return false;
+    w.tickets.hire.splice(j, 1);
+  } else {
+    if (w.tickets.event <= 0) return false;
+    w.tickets.event--;
+  }
+  const bs = w.boxes || (w.boxes = []);
+  bs.splice(Math.min(r.idx, bs.length), 0, r.box);
+  return true;
+}
+
 /** 한 던전의 퇴근(근속)이 직원들에게 어떻게 나뉘는가 */
 export function tenureShare(kills: number, n: number): number {
   if (n <= 0) return 0;
@@ -628,13 +714,15 @@ export interface Ledger {
   stuckMin: number;
   marks: { pct: number; reward: MarkReward }[];
   elites: { d: PlotId; mon: number }[]; bossCall: number | null; bossDown: { ch: number; bonus: number }[];
+  /** 떠나 있는 동안 떨어진 드랍 상자 (v1.6) */
+  boxes: number;
 }
 export function ledgerStart(w: World): Ledger {
   return {
     t0: w.t, happy0: happyCount(w), smile0: w.smile, lv0: w.stats.levelups, grad0: w.stats.grads,
     work0: Object.fromEntries(w.monsters.map(m => [m.id, m.work])),
     hourLv: {}, bestBurst: null, crowdMax: null, ready: [], approval: false, firstGrad: w.stats.grads === 0,
-    stuckMin: 0, marks: [], elites: [], bossCall: null, bossDown: [],
+    stuckMin: 0, marks: [], elites: [], bossCall: null, bossDown: [], boxes: 0,
   };
 }
 export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
@@ -650,6 +738,7 @@ export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
     else if (e.type === 'elite') L.elites.push({ d: e.d, mon: e.mon });
     else if (e.type === 'bossCall') L.bossCall = e.ch;
     else if (e.type === 'bossDown') L.bossDown.push({ ch: e.ch, bonus: e.bonus });
+    else if (e.type === 'box') L.boxes++;
   }
   const busy: Record<string, number> = {};
   let entrance = false;
@@ -666,6 +755,8 @@ export interface Report {
   king: { id: number; n: number } | null; approval: boolean; entranceMin: number;
   marks: Ledger['marks'];
   elites: Ledger['elites']; bossCall: number | null; bossDown: Ledger['bossDown'];
+  /** 떠나 있는 동안 떨어진 상자 · 지금 기다리는 상자 (v1.6) */
+  boxes: number; boxesWaiting: number;
 }
 export function ledgerReport(L: Ledger, w: World): Report {
   const king = w.monsters
@@ -683,6 +774,7 @@ export function ledgerReport(L: Ledger, w: World): Report {
     approval: w.approvalReady,
     entranceMin: L.stuckMin,
     marks: L.marks, elites: L.elites, bossCall: L.bossCall, bossDown: L.bossDown,
+    boxes: L.boxes || 0, boxesWaiting: boxesOf(w).length,
   };
 }
 
@@ -883,6 +975,8 @@ export function approve(w: World): Result<{ chapter: number; ending: boolean }> 
   w.marks = [];
   if (w.zone != null) { w.zone = 0; w.zoneAcc = 0; }
   unlockPlots(w, w.chapter);
+  // 드랍 상자 (v1.6): 새 장은 상자 게이지가 절반 찬 채로 시작한다 (도장 뒤 첫 상자가 금방 떨어진다)
+  if (RULES.drop && w.boxes && w.chapter >= RULES.drop.from) w.boxAcc = Math.max(w.boxAcc || 0, RULES.drop.need[w.chapter - 1] / 2);
   // 첫 10분 한 바퀴 (v1.3): 1장 결재 선물 — 새 지역 첫 계열 채용권 + 개업권
   if (RULES.firstLoop && w.chapter === 2) {
     const first = speciesInPlay().filter(sp => SPECIES[sp].chapter === 2 && spRegion(sp) === 2).sort((a, b) => SPECIES[a].base - SPECIES[b].base)[0];
