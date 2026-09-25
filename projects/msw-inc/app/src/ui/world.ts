@@ -206,6 +206,7 @@ function layoutPlats(dt: number) {
 function layoutMons(now: number) {
   const w = A.w, box = L('plats');
   const alive = new Set<number>();
+  const picks = M.evolvePicks(w);
   for (const id in V.plats) {
     const p = V.plats[id];
     const ms = M.monsIn(w, id);
@@ -228,7 +229,8 @@ function layoutMons(now: number) {
       e.el.style.top = (p.top - e.ih + 3) + 'px';
       e.el.classList.toggle('flip', dir > 0);
       e.cx = x; e.cy = p.top - e.ih / 2;
-      const r = M.canEvolve(m) && !A.T.hideEvolve();
+      // v1.3 (F3): 지금 해도 되는 진화만, 최대 3개. 나머지는 독의 "진화 대기" 칩으로
+      const r = M.canEvolve(m) && !A.T.hideEvolve() && !!picks.get(m.id)?.shown;
       if (r !== e.ready) {
         e.ready = r;
         const old = e.el.querySelector('.evb'); if (old) old.remove();

@@ -207,6 +207,12 @@ export function renderDock(opt: { all?: boolean } = {}) {
   const w = A.w;
   const tr = M.tray(w);
   must('#vTray').textContent = `${tr.length}/${M.TRAY_MAX}`;
+  // 진화 대기 칩: 월드 위 ▲로 띄우지 않은 진화 가능 직원 (F3)
+  const held = heldEvolves(w);
+  const chip = must('#evChip');
+  chip.hidden = !held.length;
+  chip.innerHTML = `▲ 진화 대기 <b>${held.length}</b>`;
+  chip.title = '근속이 찼지만 지금 진화하면 길이 끊기는 직원이에요. 눌러서 결과를 미리 봐요';
   const trayEl = must('#tray');
   trayEl.innerHTML = '';
   tr.slice(0, 4).forEach(m => {
@@ -230,6 +236,14 @@ export function renderDock(opt: { all?: boolean } = {}) {
   if (!empties.length) pl.appendChild(h(`<div class="plot none">${w.chapter < 5 ? '부지를 다 썼어요. 다음 결재 때 부지 +3' : '부지를 다 썼어요'}</div>`));
   if (!opt.all && empties.length > 2) pl.lastElementChild!.insertAdjacentHTML('beforeend', ` <small>+${empties.length - 2}</small>`);
   renderDoc();
+}
+
+/** 근속이 찼지만 월드 위 ▲로 띄우지 않은 직원 (보류가 맞거나, 안전한 것이 이미 3개) */
+export function heldEvolves(w: M.World): M.Monster[] {
+  if (A.T && A.T.hideEvolve()) return [];
+  const picks = M.evolvePicks(w);
+  return w.monsters.filter(m => M.canEvolve(m) && !picks.get(m.id)?.shown)
+    .sort((a, b) => (picks.get(a.id)!.rank - picks.get(b.id)!.rank) || (b.tenure - M.evolveNeed(b)) - (a.tenure - M.evolveNeed(a)));
 }
 
 /** 결재 조건 ②: 이번 장 누적 즐거움. 지금 속도로 며칠 남았는지도 함께 */
@@ -279,6 +293,7 @@ export function renderDoc() {
   }
   const ch = M.chapterInfo(w), c = M.approvalConds(w), j = joyText(w);
   doc.classList.toggle('ready', w.approvalReady);
+  doc.classList.toggle('c3', c.needBalrog);
   doc.innerHTML = `
     <h5>결재 서류 · ${ch.n}장</h5><h4>${ch.region}${ch.n === 1 ? '를' : '까지'} 잇자</h4>
     <div class="stampslot">${w.approvalReady ? '도장<br>받기' : '결재<br>대기'}</div>
@@ -321,7 +336,7 @@ export function orenPick(): OrenLine {
   if (tr.length) return { t: `대기실에 ${josa(M.monName(tr[0]), '이', '가')} 기다려요!! 던전에 놓거나 본사로 보내요!!`, go: () => A.highlightBest(tr[0].id) };
   const busy = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy').sort((p, q) => q.n - p.n)[0];
   if (busy && busy.n >= 2) return { t: `${plotName(busy.d)} 만원이에요!! 자리를 늘리거나 옆 던전에 드랍 이벤트를 걸어봐요!!`, go: () => A.openDungeon(busy.d, { hl: 'seat' }) };
-  const ev = b.find((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve');
+  const ev = b.find((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve' && x.shown);
   if (ev) { const m = w.monsters.find(x => x.id === ev.mon)!; return { t: `${josa(M.monName(m), '이', '가')} 진화할 수 있대요!! ▲를 눌러봐요!!`, go: () => A.openEvolve(m.id) }; }
   if (w.ended) {
     const fc = M.fullClear(w);

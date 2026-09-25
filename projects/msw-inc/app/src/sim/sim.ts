@@ -797,7 +797,39 @@ export function hotGap(w: World): Seg | null {
 export type Badge =
   | { kind: 'gap'; seg: Seg; n: number }
   | { kind: 'busy'; d: PlotId; n: number }
-  | { kind: 'evolve'; mon: number; d: PlotId | null };
+  /** safe: 지금 해도 빈틈이 늘지 않는다(그냥 진화나 승진 발령으로). shown: 월드 위 ▲로 띄운다(안전한 것 중 최대 3) */
+  | { kind: 'evolve'; mon: number; d: PlotId | null; safe: boolean; shown: boolean };
+
+/**
+ * 진화 배지 고르기 (v1.3, 플레이 리뷰 F3). ▲가 "근속이 찼다"만 말하면 후반에 14개씩 쌓여 무시하는 배지가 된다.
+ * 지금 해도 되는 진화만 월드 위에 띄운다: 빈틈을 줄이는 것 → 오래 기다린 것 순으로 최대 3개.
+ * 미리보기를 여러 번 계산하므로 월드 1분·직원 배치가 같으면 다시 계산하지 않는다.
+ */
+export const EVOLVE_SHOWN = 3;
+export interface EvoPick { mon: number; safe: boolean; shown: boolean; rank: number }
+let evoMemo: { w: World; key: string; out: Map<number, EvoPick> } | null = null;
+export function evolvePicks(w: World): Map<number, EvoPick> {
+  const ready = w.monsters.filter(canEvolve);
+  const key = `${Math.floor(w.t)}|${w.chapter}|${Math.floor(w.smile / 100)}|${w.tickets.hire.join(',')}${w.tickets.plot}|` +
+    Object.keys(w.plots).filter(id => w.plots[id].open).join(',') + '|' + w.monsters.map(m => `${m.id}.${m.stage}.${m.d}.${canEvolve(m) ? 1 : 0}`).join(',');
+  if (evoMemo && evoMemo.w === w && evoMemo.key === key) return evoMemo.out;
+  const cur = gapSize(gapSegments(w));
+  const list: (EvoPick & { over: number })[] = [];
+  for (const m of ready) {
+    const over = m.tenure - evolveNeed(m);
+    if (evolveBlock(w, m)) { list.push({ mon: m.id, safe: false, shown: false, rank: 9, over }); continue; }
+    const pv = preview(w, { evolve: m.id });
+    if (!pv.lost.length) { list.push({ mon: m.id, safe: true, shown: false, rank: pv.gained.length ? 0 : 1, over }); continue; }
+    const plan = RULES.promote ? bestPromote(w, m.id) : null;
+    if (plan && plan.gapAfter <= cur) list.push({ mon: m.id, safe: true, shown: false, rank: plan.gapAfter < cur ? 0 : 1, over });
+    else list.push({ mon: m.id, safe: false, shown: false, rank: 9, over });
+  }
+  list.sort((a, b) => a.rank - b.rank || b.over - a.over);
+  list.filter(x => x.safe).slice(0, EVOLVE_SHOWN).forEach(x => (x.shown = true));
+  const out = new Map(list.map(({ over: _o, ...x }) => [x.mon, x]));
+  evoMemo = { w, key, out };
+  return out;
+}
 export function badges(w: World): Badge[] {
   const out: Badge[] = [];
   for (const g of gapSegments(w)) {
@@ -807,7 +839,8 @@ export function badges(w: World): Badge[] {
   const busy: Record<string, number> = {};
   for (const a of w.advs) if (a.st === 'busy' && a.near) busy[a.near] = (busy[a.near] || 0) + 1;
   for (const d in busy) out.push({ kind: 'busy', d, n: busy[d] });
-  for (const m of w.monsters) if (canEvolve(m)) out.push({ kind: 'evolve', mon: m.id, d: m.d });
+  const picks = evolvePicks(w);
+  for (const m of w.monsters) if (canEvolve(m)) { const p = picks.get(m.id); out.push({ kind: 'evolve', mon: m.id, d: m.d, safe: !!p?.safe, shown: !!p?.shown }); }
   return out;
 }
 

@@ -21,7 +21,7 @@ const MAX_DAYS = 60;
 interface Checkin {
   i: number; t: number; day: number; hh: number; ch: number; persona: string;
   away: { min: number; levelups: number; grads: number; smile: number; happy: number; happyDelta: number; ready: number; entranceMin: number; walkMin: number; busyLeft: number; newDex: string[]; approval: boolean; marks: number[] };
-  before: { gapN: number; gaps: S.Seg[]; entrance: boolean; walkers: number; busy: number; badges: { gap: number; busy: number; evolve: number }; smile: number; joy: number; joyGoal: number; tray: number; open: number; staff: number; dex: number; happy: number };
+  before: { gapN: number; gaps: S.Seg[]; entrance: boolean; walkers: number; busy: number; badges: { gap: number; busy: number; evolve: number; shown: number }; smile: number; joy: number; joyGoal: number; tray: number; open: number; staff: number; dex: number; happy: number };
   acts: string[];
   after: { gapN: number; entrance: boolean; happy: number; smile: number; dex: number; ch: number };
   etaDays: number | null;
@@ -37,7 +37,7 @@ function snapshot(w: S.World) {
   const c = S.approvalConds(w);
   return {
     gapN: S.gapSize(segs), gaps: segs, entrance: segs.some(g => g[0] === 1), walkers, busy,
-    badges: { gap: b.filter(x => x.kind === 'gap').length, busy: b.filter(x => x.kind === 'busy').length, evolve: b.filter(x => x.kind === 'evolve').length },
+    badges: { gap: b.filter(x => x.kind === 'gap').length, busy: b.filter(x => x.kind === 'busy').length, evolve: b.filter(x => x.kind === 'evolve').length, shown: b.filter(x => x.kind === 'evolve' && x.shown).length },
     smile: Math.round(w.smile), joy: Math.round(c.joy), joyGoal: c.joyGoal, tray: S.tray(w).length,
     open: Object.values(w.plots).filter(p => p.open).length, staff: w.monsters.filter(m => m.d).length, dex: S.dexCount(w), happy: S.happyCount(w),
   };

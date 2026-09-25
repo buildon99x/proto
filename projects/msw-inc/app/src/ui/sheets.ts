@@ -380,7 +380,7 @@ A.showReport = (rep, awayMin) => {
   const gaps = b.filter((x): x is Extract<M.Badge, { kind: 'gap' }> => x.kind === 'gap').sort((p, q) => q.n - p.n);
   const gap = gaps[0];
   if (gap) chips.push(gap.n ? `<button class="tchip" data-go="gap" data-a="${gap.seg[0]}" data-b="${gap.seg[1]}"><i class="al">!</i>${gap.seg[0] === 1 ? '입구 막힘' : '빈틈'} ${segTxt(gap.seg)} · ${gap.n}명</button>` : `<button class="tchip" data-go="gap" data-a="${gap.seg[0]}" data-b="${gap.seg[1]}"><i class="cold">⋯</i>끊긴 길 ${segTxt(gap.seg)}</button>`);
-  const evs = b.filter((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve'); if (evs.length) chips.push(`<button class="tchip" data-go="ev" data-mon="${evs[0].mon}"><i class="ev">▲</i>진화 가능 ${evs.length}</button>`);
+  const evs = b.filter((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve' && x.shown); if (evs.length) chips.push(`<button class="tchip" data-go="ev" data-mon="${evs[0].mon}"><i class="ev">▲</i>진화 가능 ${evs.length}</button>`);
   const bz = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy').sort((p, q) => q.n - p.n)[0]; if (bz) chips.push(`<button class="tchip" data-go="busy" data-d="${bz.d}"><i class="bz">🌀</i>${plotShort(bz.d)} 과밀</button>`);
   const bal = w.monsters.find(m => m.sp === 'balrog' && !m.d); if (bal) chips.push(`<button class="tchip" data-go="world"><i class="ev">👹</i>발록 씨 배치</button>`);
   const ch = M.chapterInfo(w), c = M.approvalConds(w), j = joyText(w);

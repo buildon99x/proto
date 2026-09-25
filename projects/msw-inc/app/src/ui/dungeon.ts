@@ -80,14 +80,17 @@ function panel() {
   must('#dMeta').textContent = `던전 ${'★'.repeat(stars)}${'☆'.repeat(3 - stars)} · 누적 즐거움 ${n(d.joy)}${nextStar ? ` / ${n(nextStar)}` : ''}명·시간`;
 
   let slots = '';
+  const picks = M.evolvePicks(w);
   ms.forEach(m => {
-    const need = M.evolveNeed(m), ready = M.canEvolve(m) && !A.T.hideEvolve(), sp = SPECIES[m.sp];
+    const need = M.evolveNeed(m), full = M.canEvolve(m) && !A.T.hideEvolve(), sp = SPECIES[m.sp];
+    // F3: 지금 해도 되는 진화만 보라 ▲. 나머지는 금색으로 가득 찬 근속 게이지(보류가 맞을 때)
+    const ready = full && !!picks.get(m.id)?.shown, held = full && !ready;
     const tr = sp.trait ? TRAITS[sp.trait] : null;
-    slots += `<div class="slot ${ready ? 'ready' : ''} ${M.isBoss(m) ? 'bossc' : ''}">
+    slots += `<div class="slot ${ready ? 'ready' : ''} ${held ? 'held' : ''} ${M.isBoss(m) ? 'bossc' : ''}">
       <div class="nm">${M.monName(m)}</div><div class="lvl">Lv ${M.monLevel(m)} · ${m.stage + 1}단계${M.isBoss(m) ? ' · 보스' : ''}</div>
       <div class="ph">${img(monArt(m), 3)}</div>
       <span class="trait" title="${tr ? tr.desc : '특성 없음'}">${tr ? tr.icon + ' ' + tr.name : '— 표준'}</span>
-      ${ready ? `<button class="evbtn" data-ev="${m.id}">▲ 진화 가능</button>` : ''}
+      ${ready ? `<button class="evbtn" data-ev="${m.id}">▲ 진화 가능</button>` : held ? `<button class="evbtn held" data-ev="${m.id}" title="지금 진화하면 길이 끊겨요. 결과를 미리 봐요">근속 가득 · 보기</button>` : ''}
       <div class="tenure"><div class="t"><span>근속(퇴근)</span><span>${need === Infinity ? '최종 단계' : n(Math.min(m.tenure, need)) + ' / ' + n(need)}</span></div>
       <div class="bar"><i style="width:${need === Infinity ? 100 : Math.min(100, 100 * m.tenure / need)}%"></i></div></div></div>`;
   });
