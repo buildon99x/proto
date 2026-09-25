@@ -1,0 +1,1997 @@
+{
+ "generated": "pnpm --filter msw-inc playreview:ui",
+ "flow": [
+  {
+   "id": "intro",
+   "label": "입사 컷 — 머쉬맘·오렌 두 줄, 버튼 하나",
+   "inputs": 0,
+   "shot": "v13/f00-intro.webp",
+   "clock": 0,
+   "world": {
+    "happy": 0,
+    "smile": 500,
+    "ch": 1,
+    "gaps": [
+     [
+      8,
+      15
+     ]
+    ],
+    "dex": 1
+   },
+   "step": "arrive",
+   "oren": "모험가님들이 들어와요!! 자기 레벨에 맞는 던전을 알아서 찾아가요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 14,
+   "chars": 433,
+   "numbers": 34,
+   "layer": {
+    "chars": 117,
+    "numbers": 0,
+    "buttons": 1,
+    "text": "MONSTER SMILE WORKS MSW 주식회사 신입 월드 매니저죠. 모험가들이 이 월드를 좋아하게 만들어요. 매니저님!! 저는 비서 오렌이에요!! 간단하죠?! 첫 출근 도장 찍기 몬스터가 직원인 회사의 월드 매니저 · 하루 몇 번, 몇 분이면 돼요 · 도트는 자리표시용"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 0,
+   "staff": 0,
+   "plats": 0
+  },
+  {
+   "id": "arrive",
+   "label": "첫 출근 — 모험가 입장",
+   "inputs": 1,
+   "shot": "v13/f01-arrive.webp",
+   "clock": 2,
+   "world": {
+    "happy": 3,
+    "smile": 500,
+    "ch": 1,
+    "gaps": [
+     [
+      8,
+      15
+     ]
+    ],
+    "dex": 1
+   },
+   "step": "arrive",
+   "oren": "모험가님들이 들어와요!! 자기 레벨에 맞는 던전을 알아서 찾아가요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 17,
+   "chars": 325,
+   "numbers": 41,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 3,
+   "staff": 2,
+   "plats": 1
+  },
+  {
+   "id": "watch",
+   "label": "오렌: 들판 발판을 눌러 구경해요",
+   "inputs": 1,
+   "shot": "v13/f02-watch.webp",
+   "clock": 7,
+   "world": {
+    "happy": 3,
+    "smile": 500,
+    "ch": 1,
+    "gaps": [
+     [
+      8,
+      15
+     ]
+    ],
+    "dex": 1
+   },
+   "step": "watch",
+   "oren": "“헤네시스 들판” 발판을 눌러서 구경해봐요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 17,
+   "chars": 318,
+   "numbers": 41,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 3,
+   "staff": 2,
+   "plats": 1
+  },
+  {
+   "id": "dungeon",
+   "label": "던전 현장 — 레벨업 빛기둥",
+   "inputs": 2,
+   "shot": "v13/f03-dungeon.webp",
+   "clock": 14,
+   "world": {
+    "happy": 3,
+    "smile": 500,
+    "ch": 1,
+    "gaps": [
+     [
+      8,
+      15
+     ]
+    ],
+    "dex": 1
+   },
+   "step": "levelup",
+   "oren": "모험가님이 즐거우면 레벨이 올라요!! 빛기둥 보이죠?!",
+   "mode": "dungeon",
+   "sheet": null,
+   "modal": null,
+   "clickables": 22,
+   "chars": 616,
+   "numbers": 73,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 3,
+   "staff": 1,
+   "plats": 1
+  },
+  {
+   "id": "world-grow",
+   "label": "월드 길 — 레벨 = 가로 위치 설명 3줄 순환",
+   "inputs": 3,
+   "shot": "v13/f04-world-grow.webp",
+   "clock": 23,
+   "world": {
+    "happy": 3,
+    "smile": 506,
+    "ch": 1,
+    "gaps": [
+     [
+      8,
+      15
+     ]
+    ],
+    "dex": 1
+   },
+   "step": "grow",
+   "oren": "오른쪽으로 갈수록 레벨이 높아요!! 모험가님은 레벨만큼 서 있어요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 17,
+   "chars": 325,
+   "numbers": 41,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 3,
+   "staff": 2,
+   "plats": 1
+  },
+  {
+   "id": "gap",
+   "label": "첫 빈틈 — 빨간 ! 배지",
+   "inputs": 3,
+   "shot": "v13/f05-gap.webp",
+   "clock": 59,
+   "world": {
+    "happy": 3,
+    "smile": 561,
+    "ch": 1,
+    "gaps": [
+     [
+      8,
+      15
+     ]
+    ],
+    "dex": 1
+   },
+   "step": "gap",
+   "oren": "매니저님!! Lv 8 모험가님이 갈 데가 없대요!! 빨간 !를 눌러요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 16,
+   "chars": 395,
+   "numbers": 43,
+   "layer": null,
+   "badges": {
+    "gap": 1,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 6,
+   "staff": 0,
+   "plats": 1
+  },
+  {
+   "id": "hire",
+   "label": "채용 시트 — 입사 선물 채용권",
+   "inputs": 4,
+   "shot": "v13/f06-hire.webp",
+   "clock": 60,
+   "world": {
+    "happy": 3,
+    "smile": 561,
+    "ch": 1,
+    "gaps": [
+     [
+      8,
+      15
+     ]
+    ],
+    "dex": 1
+   },
+   "step": "hire",
+   "oren": "입사 선물 채용권이에요!! 주황버섯(Lv 8)을 뽑아요!!",
+   "mode": "world",
+   "sheet": "hire",
+   "modal": null,
+   "clickables": 21,
+   "chars": 539,
+   "numbers": 62,
+   "layer": {
+    "chars": 143,
+    "numbers": 18,
+    "buttons": 3,
+    "text": "✕ 신입 채용 1단계 직원만 뽑을 수 있어요. 높은 단계는 키워서만 얻어요 · 뽑은 직원은 대기실로 Lv 8–15에 딱! 주황버섯 Lv 8 · 적정 3–13 — 표준 🎟 채용권 · 무료 달팽이 Lv 2 · 적정 1–7 ⏩ 빨리 큰다 200 ??? Lv 15 · 적정 10–20 🎁 잘 퍼준다 1장 결재 후 ??? Lv 20 · 적정 15–25 — 표준 1장 결재 후"
+   },
+   "badges": {
+    "gap": 1,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 6,
+   "staff": 2,
+   "plats": 1
+  },
+  {
+   "id": "tray",
+   "label": "대기실에 주황버섯 — 끌어 놓기 안내",
+   "inputs": 5,
+   "shot": "v13/f07-tray.webp",
+   "clock": 61,
+   "world": {
+    "happy": 3,
+    "smile": 561,
+    "ch": 1,
+    "gaps": [
+     [
+      8,
+      15
+     ]
+    ],
+    "dex": 2
+   },
+   "step": "place",
+   "oren": "입사 선물 채용권이에요!! 주황버섯(Lv 8)을 뽑아요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 20,
+   "chars": 330,
+   "numbers": 45,
+   "layer": null,
+   "badges": {
+    "gap": 1,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 6,
+   "staff": 2,
+   "plats": 1
+  },
+  {
+   "id": "drag",
+   "label": "드래그 중 — 결과 카드·유령 발판",
+   "inputs": 5,
+   "shot": "v13/f08-drag.webp",
+   "clock": 62,
+   "world": {
+    "happy": 3,
+    "smile": 561,
+    "ch": 1,
+    "gaps": [
+     [
+      8,
+      15
+     ]
+    ],
+    "dex": 2
+   },
+   "step": "place",
+   "oren": "주황버섯을 끌어서 “헤네시스 사냥터”에 놓아요!! 던전 레벨 = 직원 레벨이에요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 20,
+   "chars": 380,
+   "numbers": 50,
+   "layer": null,
+   "badges": {
+    "gap": 1,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 6,
+   "staff": 2,
+   "plats": 1
+  },
+  {
+   "id": "placed",
+   "label": "사냥터 개업 — 빈틈 해소",
+   "inputs": 6,
+   "shot": "v13/f09-placed.webp",
+   "clock": 65,
+   "world": {
+    "happy": 6,
+    "smile": 564,
+    "ch": 1,
+    "gaps": [
+     [
+      14,
+      15
+     ]
+    ],
+    "dex": 2
+   },
+   "step": "fixed",
+   "oren": "뚫렸다!! 멈춰 있던 모험가님들이 다시 올라가요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 18,
+   "chars": 353,
+   "numbers": 45,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 6,
+   "staff": 2,
+   "plats": 2
+  },
+  {
+   "id": "fixed",
+   "label": "뚫렸다!! — 오렌이 이벤트를 권한다",
+   "inputs": 6,
+   "shot": "v13/f10-fixed.webp",
+   "clock": 69,
+   "world": {
+    "happy": 6,
+    "smile": 564,
+    "ch": 1,
+    "gaps": [
+     [
+      14,
+      15
+     ]
+    ],
+    "dex": 2
+   },
+   "step": "event",
+   "oren": "이벤트 한 번 걸어볼까요?! 첫 번은 공짜예요!! 들판을 눌러요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 17,
+   "chars": 359,
+   "numbers": 45,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 6,
+   "staff": 1,
+   "plats": 2
+  },
+  {
+   "id": "event",
+   "label": "경험치 2배 (첫 번 무료)",
+   "inputs": 8,
+   "shot": "v13/f11-event.webp",
+   "clock": 70,
+   "world": {
+    "happy": 6,
+    "smile": 564,
+    "ch": 1,
+    "gaps": [
+     [
+      14,
+      15
+     ]
+    ],
+    "dex": 2
+   },
+   "step": "burst",
+   "oren": "경험치 2배를 눌러요!! 첫 번은 공짜예요!!",
+   "mode": "dungeon",
+   "sheet": null,
+   "modal": null,
+   "clickables": 26,
+   "chars": 660,
+   "numbers": 87,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 6,
+   "staff": 3,
+   "plats": 2
+  },
+  {
+   "id": "evolve-badge",
+   "label": "보라 ▲ — 고참 달팽이 진화 가능",
+   "inputs": 9,
+   "shot": "v13/f12-evolve-badge.webp",
+   "clock": 92,
+   "world": {
+    "happy": 6,
+    "smile": 574,
+    "ch": 1,
+    "gaps": [
+     [
+      14,
+      15
+     ]
+    ],
+    "dex": 2
+   },
+   "step": "evolve",
+   "oren": "고참 달팽이가 진화할 수 있대요!! 보라색 ▲를 눌러요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 18,
+   "chars": 389,
+   "numbers": 49,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 1,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 6,
+   "staff": 0,
+   "plats": 2
+  },
+  {
+   "id": "evolve-sheet",
+   "label": "진화 시트 — 사원증 두 장, 결과 한 줄, 버튼",
+   "inputs": 10,
+   "shot": "v13/f13-evolve-sheet.webp",
+   "clock": 93,
+   "world": {
+    "happy": 6,
+    "smile": 574,
+    "ch": 1,
+    "gaps": [
+     [
+      14,
+      15
+     ]
+    ],
+    "dex": 2
+   },
+   "step": "evolve",
+   "oren": "고참 달팽이가 진화할 수 있대요!! 보라색 ▲를 눌러요!!",
+   "mode": "world",
+   "sheet": "evolve",
+   "modal": null,
+   "clickables": 20,
+   "chars": 474,
+   "numbers": 56,
+   "layer": {
+    "chars": 99,
+    "numbers": 6,
+    "buttons": 3,
+    "text": "✕ 달팽이 Lv 2 · 1단계 ➜ 사원증 사진 교체 ??? Lv 10 · 2단계 달팽이 계열 ⏩ 달팽이 NEW? ? ? 👑 헤네시스 들판 · 던전 Lv 2 → 6 ✓ 빈틈이 생기지 않아요 보류해도 벌칙은 없어요. 근속은 그대로 남아요 ▲ 진화시키기 보류"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 1,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 6,
+   "staff": 0,
+   "plats": 2
+  },
+  {
+   "id": "evolve-cut",
+   "label": "진화 컷 — 파란 달팽이",
+   "inputs": 11,
+   "shot": "v13/f14-evolve-cut.webp",
+   "clock": 95,
+   "world": {
+    "happy": 6,
+    "smile": 576,
+    "ch": 1,
+    "gaps": [
+     [
+      14,
+      15
+     ]
+    ],
+    "dex": 3
+   },
+   "step": "evolved",
+   "oren": "파란 달팽이!! 들판 레벨이 올라서 발판이 오른쪽으로 갔어요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": "evolve",
+   "clickables": 19,
+   "chars": 408,
+   "numbers": 53,
+   "layer": {
+    "chars": 44,
+    "numbers": 4,
+    "buttons": 0,
+    "text": "달팽이 Lv 2 NEW · 도감 +1 파란 달팽이 Lv 10 · 2단계 파란 달팽이가 됐어요! (눌러서 닫기)"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 6,
+   "staff": 2,
+   "plats": 2
+  },
+  {
+   "id": "doc-hint",
+   "label": "오렌: 1장 결재 서류가 왔어요",
+   "inputs": 12,
+   "shot": "v13/f15-doc-hint.webp",
+   "clock": 100,
+   "world": {
+    "happy": 6,
+    "smile": 582,
+    "ch": 1,
+    "gaps": [
+     [
+      14,
+      15
+     ]
+    ],
+    "dex": 3
+   },
+   "step": "doc",
+   "oren": "1장 결재 서류가 왔어요!! 눌러서 조건을 확인해요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 18,
+   "chars": 360,
+   "numbers": 48,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 6,
+   "staff": 2,
+   "plats": 2
+  },
+  {
+   "id": "approval",
+   "label": "결재 서류 — 조건 ①② 막대",
+   "inputs": 13,
+   "shot": "v13/f16-approval.webp",
+   "clock": 101,
+   "world": {
+    "happy": 6,
+    "smile": 582,
+    "ch": 1,
+    "gaps": [
+     [
+      14,
+      15
+     ]
+    ],
+    "dex": 3
+   },
+   "step": "doc",
+   "oren": "1장 결재 서류가 왔어요!! 눌러서 조건을 확인해요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": "approval",
+   "clickables": 18,
+   "chars": 541,
+   "numbers": 64,
+   "layer": {
+    "chars": 181,
+    "numbers": 16,
+    "buttons": 1,
+    "text": "결재 머쉬맘 결재 서류 · 1장 헤네시스를 잇자 1 Lv 1–15 빈틈 없이 빈틈 2 2 모험가들의 즐거운 시간 😊 즐기는 모험가 × 머문 시간이 쌓여요 8/30 지금 😊 6명이면 약 4시간 뒤에 채워져요. 사람이 늘면 더 빨라요. 줄지는 않아요. 결재 보상: ★ +1 · 모험가 도착 +3명/시간 · 엘리니아 개방 · 부지 +3 · 슬라임, 초록버섯 채용 · 졸업선 Lv 15 → 30 Lv 15까지 잇고, 즐거운 시간이 쌓이면. 그럼 결재. 닫기"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 6,
+   "staff": 1,
+   "plats": 2
+  },
+  {
+   "id": "elite",
+   "label": "엘리트 첫 출현 — 결재 막대 ×2",
+   "inputs": 14,
+   "shot": "v13/f17-elite.webp",
+   "clock": 103,
+   "world": {
+    "happy": 7,
+    "smile": 582,
+    "ch": 1,
+    "gaps": [
+     [
+      14,
+      15
+     ]
+    ],
+    "dex": 3
+   },
+   "step": "elite",
+   "oren": "들판에 엘리트 달팽이!! 한 시간 동안 결재 막대가 두 배로 차요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 19,
+   "chars": 384,
+   "numbers": 49,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 7,
+   "staff": 3,
+   "plats": 2
+  },
+  {
+   "id": "evolve-badge2",
+   "label": "둘째 달팽이 ▲ — 그냥 진화하면 입구가 막힌다",
+   "inputs": 14,
+   "shot": "v13/f18-evolve-badge2.webp",
+   "clock": 123,
+   "world": {
+    "happy": 7,
+    "smile": 599,
+    "ch": 1,
+    "gaps": [
+     [
+      14,
+      15
+     ]
+    ],
+    "dex": 3
+   },
+   "step": "promote",
+   "oren": "달팽이 ▲를 눌러요!! 그냥 진화하면 입구가 막혀요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 18,
+   "chars": 414,
+   "numbers": 49,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 1,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 7,
+   "staff": 1,
+   "plats": 2
+  },
+  {
+   "id": "promote-sheet",
+   "label": "진화 시트 — [▲ 승진 발령] 개업권으로 버섯 언덕",
+   "inputs": 15,
+   "shot": "v13/f19-promote-sheet.webp",
+   "clock": 124,
+   "world": {
+    "happy": 7,
+    "smile": 599,
+    "ch": 1,
+    "gaps": [
+     [
+      14,
+      15
+     ]
+    ],
+    "dex": 3
+   },
+   "step": "promote",
+   "oren": "[▲ 승진 발령]을 눌러요!! 진화 + 버섯 언덕 개업 + 신입 채용이 한 번에!!",
+   "mode": "world",
+   "sheet": "evolve",
+   "modal": null,
+   "clickables": 20,
+   "chars": 545,
+   "numbers": 58,
+   "layer": {
+    "chars": 137,
+    "numbers": 9,
+    "buttons": 4,
+    "text": "✕ 달팽이 Lv 2 · 1단계 ➜ 사원증 사진 교체 파란 달팽이 Lv 10 · 2단계 달팽이 계열 ⏩ 달팽이 파란 달팽이 ? ? 👑 헤네시스 들판 · 던전 Lv 6 → 10 ⚠ 입구가 막혀요 · Lv 1–2가 비어요 💡 승진 발령: 버섯 언덕에 개업하고(개업권) 빈자리엔 달팽이를 — 빈틈 없이 이어져요 ▲ 승진 발령 스마일 200 그냥 진화 보류"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 1,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 7,
+   "staff": 0,
+   "plats": 2
+  },
+  {
+   "id": "promote-cut",
+   "label": "승진 발령 컷 — 진화 + 옮기기 + 신입",
+   "inputs": 16,
+   "shot": "v13/f20-promote-cut.webp",
+   "clock": 126,
+   "world": {
+    "happy": 7,
+    "smile": 401,
+    "ch": 1,
+    "gaps": [],
+    "dex": 3
+   },
+   "step": "promoted",
+   "oren": "Lv 1–15가 다 이어졌어요!! 승진 발령 = 진화 + 옮기기 + 빈자리 채용이에요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": "evolve",
+   "clickables": 19,
+   "chars": 434,
+   "numbers": 54,
+   "layer": {
+    "chars": 45,
+    "numbers": 3,
+    "buttons": 0,
+    "text": "달팽이 Lv 2 파란 달팽이 Lv 10 · 2단계 파란 달팽이가 됐어요! 버섯 언덕으로 발령! (눌러서 닫기)"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 7,
+   "staff": 3,
+   "plats": 3
+  },
+  {
+   "id": "joy",
+   "label": "Lv 1–15 이어짐 — 결재 막대가 차기를 기다린다",
+   "inputs": 17,
+   "shot": "v13/f21-joy.webp",
+   "clock": 132,
+   "world": {
+    "happy": 7,
+    "smile": 405,
+    "ch": 1,
+    "gaps": [],
+    "dex": 3
+   },
+   "step": "joy",
+   "oren": "결재 막대 38%!! 😊 모험가님이 많을수록 빨리 차요!! 지금 퇴근해도 계속 차요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 20,
+   "chars": 400,
+   "numbers": 50,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 7,
+   "staff": 4,
+   "plats": 3
+  },
+  {
+   "id": "stamp-ready",
+   "label": "결재 서류 도착 — 도장 받기",
+   "inputs": 17,
+   "shot": "v13/f22-stamp-ready.webp",
+   "clock": 162,
+   "world": {
+    "happy": 8,
+    "smile": 426,
+    "ch": 1,
+    "gaps": [],
+    "dex": 3
+   },
+   "step": "stamp",
+   "oren": "결재 서류에 도장 받을 수 있어요!! 눌러요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 18,
+   "chars": 409,
+   "numbers": 48,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 8,
+   "staff": 2,
+   "plats": 3
+  },
+  {
+   "id": "approval-ready",
+   "label": "결재함 — 조건 두 개 ✓, 결재 받기",
+   "inputs": 18,
+   "shot": "v13/f23-approval-ready.webp",
+   "clock": 163,
+   "world": {
+    "happy": 8,
+    "smile": 426,
+    "ch": 1,
+    "gaps": [],
+    "dex": 3
+   },
+   "step": "stamp",
+   "oren": "[결재 받기]를 눌러요!! 쾅!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": "approval",
+   "clickables": 21,
+   "chars": 506,
+   "numbers": 56,
+   "layer": {
+    "chars": 129,
+    "numbers": 8,
+    "buttons": 2,
+    "text": "결재 머쉬맘 결재 서류 · 1장 헤네시스를 잇자 ✓ Lv 1–15 빈틈 없이 완료 ✓ 모험가들의 즐거운 시간 😊 즐기는 모험가 × 머문 시간이 쌓여요 완료 결재 보상: ★ +1 · 모험가 도착 +3명/시간 · 엘리니아 개방 · 부지 +3 · 슬라임, 초록버섯 채용 · 졸업선 Lv 15 → 30 좋아요. 결재. 닫기 결재 받기"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 8,
+   "staff": 3,
+   "plats": 3
+  },
+  {
+   "id": "chapter-cut",
+   "label": "챕터 컷 — 2장 엘리니아, 필드 보스 예고",
+   "inputs": 19,
+   "shot": "v13/f24-chapter-cut.webp",
+   "clock": 165,
+   "world": {
+    "happy": 8,
+    "smile": 426,
+    "ch": 2,
+    "gaps": [
+     [
+      16,
+      30
+     ]
+    ],
+    "dex": 3
+   },
+   "step": "stamp",
+   "oren": "결재 서류에 도장 받을 수 있어요!! 눌러요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": "cut",
+   "clickables": 22,
+   "chars": 476,
+   "numbers": 58,
+   "layer": {
+    "chars": 95,
+    "numbers": 2,
+    "buttons": 1,
+    "text": "CHAPTER 2 2장 · 엘리니아 좋아요. 결재. 다음은 엘리니아예요. 막대가 절반쯤 차면, 손님이 하나 더 올 거예요. 매니저님!! 엘리니아에 불이 켜졌어요!! 슬라임 채용권이랑 개업권도 받았어요!! 불 켜러 가기 →"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 8,
+   "staff": 4,
+   "plats": 3
+  },
+  {
+   "id": "hire-slime",
+   "label": "채용 시트 — 슬라임 채용권",
+   "inputs": 21,
+   "shot": "v13/f25-hire-slime.webp",
+   "clock": 166,
+   "world": {
+    "happy": 8,
+    "smile": 426,
+    "ch": 2,
+    "gaps": [
+     [
+      16,
+      30
+     ]
+    ],
+    "dex": 3
+   },
+   "step": "newRegion",
+   "oren": "슬라임 채용권이에요!! 🎁 잘 퍼준다 특성!! 뽑아요!!",
+   "mode": "world",
+   "sheet": "hire",
+   "modal": null,
+   "clickables": 26,
+   "chars": 624,
+   "numbers": 85,
+   "layer": {
+    "chars": 192,
+    "numbers": 26,
+    "buttons": 5,
+    "text": "✕ 신입 채용 1단계 직원만 뽑을 수 있어요. 높은 단계는 키워서만 얻어요 · 뽑은 직원은 대기실로 Lv 16–30에 딱! 초록버섯 Lv 20 · 적정 15–25 — 표준 2,000 달팽이 Lv 2 · 적정 1–7 ⏩ 빨리 큰다 200 주황버섯 Lv 8 · 적정 3–13 — 표준 800 슬라임 Lv 15 · 적정 10–20 🎁 잘 퍼준다 🎟 채용권 · 무료 ??? Lv 28 · 적정 23–33 💪 튼튼하다 2장 결재 후 ??? Lv 34 · 적정 29–39 — 표준 2장 결재 후"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 8,
+   "staff": 4,
+   "plats": 3
+  },
+  {
+   "id": "drag-slime",
+   "label": "슬라임을 엘리니아로 — 개업권 사용",
+   "inputs": 22,
+   "shot": "v13/f26-drag-slime.webp",
+   "clock": 168,
+   "world": {
+    "happy": 8,
+    "smile": 426,
+    "ch": 2,
+    "gaps": [
+     [
+      16,
+      30
+     ]
+    ],
+    "dex": 4
+   },
+   "step": "place2",
+   "oren": "슬라임을 끌어서 엘리니아 빈 부지에 놓아요!! 개업권이 있어서 공짜예요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 23,
+   "chars": 465,
+   "numbers": 65,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 8,
+   "staff": 3,
+   "plats": 3
+  },
+  {
+   "id": "boss-tease",
+   "label": "오렌: 막대 가운데 눈금에서 필드 보스가 온다",
+   "inputs": 23,
+   "shot": "v13/f27-boss-tease.webp",
+   "clock": 171,
+   "world": {
+    "happy": 8,
+    "smile": 428,
+    "ch": 2,
+    "gaps": [
+     [
+      21,
+      30
+     ]
+    ],
+    "dex": 4
+   },
+   "step": "bossTease",
+   "oren": "결재 막대 가운데 눈금 보이죠?! 절반이 차면 필드 보스가 찾아온대요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 24,
+   "chars": 446,
+   "numbers": 64,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 8,
+   "staff": 4,
+   "plats": 4
+  },
+  {
+   "id": "tut-done",
+   "label": "튜토리얼 끝 — 2장에서 퇴근",
+   "inputs": 23,
+   "shot": "v13/f28-tut-done.webp",
+   "clock": 192,
+   "world": {
+    "happy": 8,
+    "smile": 439,
+    "ch": 2,
+    "gaps": [
+     [
+      21,
+      30
+     ]
+    ],
+    "dex": 4
+   },
+   "step": null,
+   "oren": "Lv 21–30가 끊겨 있어요!! 길을 이어요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 21,
+   "chars": 469,
+   "numbers": 66,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 8,
+   "staff": 2,
+   "plats": 4
+  },
+  {
+   "id": "offduty",
+   "label": "퇴근 컷 — 사무실 소등",
+   "inputs": 24,
+   "shot": "v13/f29-offduty.webp",
+   "clock": 193,
+   "world": {
+    "happy": 8,
+    "smile": 439,
+    "ch": 2,
+    "gaps": [
+     [
+      21,
+      30
+     ]
+    ],
+    "dex": 4
+   },
+   "step": null,
+   "oren": "Lv 21–30가 끊겨 있어요!! 길을 이어요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 24,
+   "chars": 463,
+   "numbers": 66,
+   "layer": {
+    "chars": 38,
+    "numbers": 0,
+    "buttons": 1,
+    "text": "매니저님 퇴근! 월드는 서버 시간으로 계속 돌아요. 오렌이 지키고 있을게요!! 출근하기"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 8,
+   "staff": 4,
+   "plats": 4
+  },
+  {
+   "id": "report",
+   "label": "Day 2 출근 리포트 — 도장·세 숫자·명장면·할 일",
+   "inputs": 24,
+   "shot": "v13/f30-report.webp",
+   "clock": 195,
+   "world": {
+    "happy": 27,
+    "smile": 4327,
+    "ch": 2,
+    "gaps": [
+     [
+      21,
+      30
+     ]
+    ],
+    "dex": 4
+   },
+   "step": null,
+   "oren": "매니저님!! Lv 21–30 모험가님 39명이 갈 데가 없대요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": "report",
+   "clickables": 30,
+   "chars": 705,
+   "numbers": 88,
+   "layer": {
+    "chars": 210,
+    "numbers": 23,
+    "buttons": 4,
+    "text": "출근 07:05 매니저님 출근! 매니저님이 퇴근한 10시간 0분 동안, 월드는 이렇게 돌았어요 😊 지금 월드를 즐기는 모험가 27 ▲ 27지난 출근보다 ✨ 그동안 레벨업 1,196 회 스마일 + 3,889 ★ ★ 엘리트 1번 출현 ×193 ✨ 한 시간에 레벨업 193번 ▲ ▲ 슬라임 진화 준비 👑 밤사이 퇴근왕 👑 슬라임 #1 퇴근 4,304회 할 일 ! 빈틈 Lv 21–30 · 39명 ▲ 진화 가능 3 🌀 들판 과밀 월드로 → 📋 2장 결재 ① Lv 1–30 잇기 빈틈 10 ② 즐거운 시간 11% · 약 4.1일"
+   },
+   "badges": {
+    "gap": 1,
+    "evolve": 3,
+    "busy": 1,
+    "held": 0
+   },
+   "walkers": 70,
+   "staff": 4,
+   "plats": 4
+  },
+  {
+   "id": "day2-world",
+   "label": "Day 2 월드 — 배지가 쌓여 있다",
+   "inputs": 25,
+   "shot": "v13/f31-day2-world.webp",
+   "clock": 197,
+   "world": {
+    "happy": 27,
+    "smile": 4328,
+    "ch": 2,
+    "gaps": [
+     [
+      21,
+      30
+     ]
+    ],
+    "dex": 4
+   },
+   "step": null,
+   "oren": "매니저님!! Lv 21–30 모험가님 39명이 갈 데가 없대요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 27,
+   "chars": 492,
+   "numbers": 64,
+   "layer": null,
+   "badges": {
+    "gap": 1,
+    "evolve": 3,
+    "busy": 1,
+    "held": 0
+   },
+   "walkers": 70,
+   "staff": 5,
+   "plats": 4,
+   "chips": [
+    "! 빈틈 Lv 21–30 · 39명",
+    "▲ 진화 가능 3",
+    "🌀 들판 과밀",
+    "월드로 →"
+   ]
+  },
+  {
+   "id": "day2-evolve",
+   "label": "Day 2 진화 시트 — 승진 발령 / 그냥 진화 / 보류",
+   "inputs": 26,
+   "shot": "v13/f32-day2-evolve.webp",
+   "clock": 198,
+   "world": {
+    "happy": 27,
+    "smile": 4328,
+    "ch": 2,
+    "gaps": [
+     [
+      21,
+      30
+     ]
+    ],
+    "dex": 4
+   },
+   "step": null,
+   "oren": "매니저님!! Lv 21–30 모험가님 39명이 갈 데가 없대요!!",
+   "mode": "world",
+   "sheet": "evolve",
+   "modal": null,
+   "clickables": 30,
+   "chars": 609,
+   "numbers": 73,
+   "layer": {
+    "chars": 111,
+    "numbers": 7,
+    "buttons": 3,
+    "text": "✕ 주황버섯 Lv 8 · 1단계 ➜ 사원증 사진 교체 ??? Lv 16 · 2단계 주황버섯 계열 주황버섯 NEW? ? 헤네시스 사냥터 · 던전 Lv 8 → 16 ✓ 빈틈이 생기지 않아요 · Lv 21 새로 이어져요 보류해도 벌칙은 없어요. 근속은 그대로 남아요 ▲ 진화시키기 보류"
+   },
+   "badges": {
+    "gap": 1,
+    "evolve": 3,
+    "busy": 1,
+    "held": 0
+   },
+   "walkers": 70,
+   "staff": 5,
+   "plats": 4
+  },
+  {
+   "id": "day2-hire",
+   "label": "Day 2 채용 시트 — 추천 리본",
+   "inputs": 27,
+   "shot": "v13/f33-day2-hire.webp",
+   "clock": 199,
+   "world": {
+    "happy": 27,
+    "smile": 4328,
+    "ch": 2,
+    "gaps": [
+     [
+      21,
+      30
+     ]
+    ],
+    "dex": 4
+   },
+   "step": null,
+   "oren": "매니저님!! Lv 21–30 모험가님 39명이 갈 데가 없대요!!",
+   "mode": "world",
+   "sheet": "hire",
+   "modal": null,
+   "clickables": 31,
+   "chars": 710,
+   "numbers": 94,
+   "layer": {
+    "chars": 189,
+    "numbers": 27,
+    "buttons": 5,
+    "text": "✕ 신입 채용 1단계 직원만 뽑을 수 있어요. 높은 단계는 키워서만 얻어요 · 뽑은 직원은 대기실로 Lv 21–30에 딱! 초록버섯 Lv 20 · 적정 15–25 — 표준 2,000 달팽이 Lv 2 · 적정 1–7 ⏩ 빨리 큰다 200 주황버섯 Lv 8 · 적정 3–13 — 표준 800 슬라임 Lv 15 · 적정 10–20 🎁 잘 퍼준다 1,500 ??? Lv 28 · 적정 23–33 💪 튼튼하다 2장 결재 후 ??? Lv 34 · 적정 29–39 — 표준 2장 결재 후"
+   },
+   "badges": {
+    "gap": 1,
+    "evolve": 3,
+    "busy": 1,
+    "held": 0
+   },
+   "walkers": 70,
+   "staff": 4,
+   "plats": 4
+  },
+  {
+   "id": "day2-approval",
+   "label": "Day 2 결재함 — '지금 속도면 약 N일'",
+   "inputs": 28,
+   "shot": "v13/f34-day2-approval.webp",
+   "clock": 200,
+   "world": {
+    "happy": 27,
+    "smile": 4328,
+    "ch": 2,
+    "gaps": [
+     [
+      21,
+      30
+     ]
+    ],
+    "dex": 4
+   },
+   "step": null,
+   "oren": "매니저님!! Lv 21–30 모험가님 39명이 갈 데가 없대요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": "approval",
+   "clickables": 28,
+   "chars": 733,
+   "numbers": 85,
+   "layer": {
+    "chars": 244,
+    "numbers": 21,
+    "buttons": 1,
+    "text": "결재 머쉬맘 결재 서류 · 2장 엘리니아까지 잇자 1 Lv 1–30 빈틈 없이 빈틈 10 2 모험가들의 즐거운 시간 😊 즐기는 모험가 × 머문 시간이 쌓여요 347/3,000 막대 눈금 보상 25% 🎟 초록버섯 채용권 50% 👑 필드 보스 방문 75% 🎫 무료 이벤트권 2장 지금 😊 27명이면 약 4.1일 뒤에 채워져요. 사람이 늘면 더 빨라요. 줄지는 않아요. 결재 보상: ★ +1 · 모험가 도착 +3명/시간 · 페리온 개방 · 부지 +3 · 스텀프, 와일드보어 채용 · 졸업선 Lv 30 → 45 · 동시 이벤트 +1 Lv 30까지 이어요. 즐거운 시간은 막대가 셉니다. 그럼 결재. 닫기"
+   },
+   "badges": {
+    "gap": 1,
+    "evolve": 3,
+    "busy": 1,
+    "held": 0
+   },
+   "walkers": 70,
+   "staff": 5,
+   "plats": 4
+  }
+ ],
+ "scenes": [
+  {
+   "id": "gap",
+   "label": "1장 첫 빈틈",
+   "shot": "v13/d-gap.webp",
+   "errors": [],
+   "clock": 3,
+   "world": {
+    "happy": 3,
+    "smile": 570,
+    "ch": 1,
+    "gaps": [
+     [
+      8,
+      15
+     ]
+    ],
+    "dex": 1
+   },
+   "step": "gap",
+   "oren": "매니저님!! Lv 8 모험가님이 갈 데가 없대요!! 빨간 !를 눌러요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 18,
+   "chars": 333,
+   "numbers": 43,
+   "layer": null,
+   "badges": {
+    "gap": 1,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 6,
+   "staff": 2,
+   "plats": 1
+  },
+  {
+   "id": "hire",
+   "label": "채용 시트",
+   "shot": "v13/d-hire.webp",
+   "errors": [],
+   "clock": 2,
+   "world": {
+    "happy": 3,
+    "smile": 570,
+    "ch": 1,
+    "gaps": [
+     [
+      8,
+      15
+     ]
+    ],
+    "dex": 1
+   },
+   "step": "hire",
+   "oren": "입사 선물 채용권이에요!! 주황버섯(Lv 8)을 뽑아요!!",
+   "mode": "world",
+   "sheet": "hire",
+   "modal": null,
+   "clickables": 21,
+   "chars": 499,
+   "numbers": 62,
+   "layer": {
+    "chars": 143,
+    "numbers": 18,
+    "buttons": 3,
+    "text": "✕ 신입 채용 1단계 직원만 뽑을 수 있어요. 높은 단계는 키워서만 얻어요 · 뽑은 직원은 대기실로 Lv 8–15에 딱! 주황버섯 Lv 8 · 적정 3–13 — 표준 🎟 채용권 · 무료 달팽이 Lv 2 · 적정 1–7 ⏩ 빨리 큰다 200 ??? Lv 15 · 적정 10–20 🎁 잘 퍼준다 1장 결재 후 ??? Lv 20 · 적정 15–25 — 표준 1장 결재 후"
+   },
+   "badges": {
+    "gap": 1,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 6,
+   "staff": 2,
+   "plats": 1
+  },
+  {
+   "id": "dungeon",
+   "label": "던전 현장",
+   "shot": "v13/d-dungeon.webp",
+   "errors": [],
+   "clock": 4,
+   "world": {
+    "happy": 29,
+    "smile": 1786,
+    "ch": 2,
+    "gaps": [
+     [
+      21,
+      30
+     ]
+    ],
+    "dex": 4
+   },
+   "step": null,
+   "oren": "매니저님!! Lv 21–30 모험가님 18명이 갈 데가 없대요!!",
+   "mode": "dungeon",
+   "sheet": null,
+   "modal": null,
+   "clickables": 21,
+   "chars": 669,
+   "numbers": 78,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 1
+   },
+   "walkers": 0,
+   "staff": 0,
+   "plats": 0
+  },
+  {
+   "id": "evolve",
+   "label": "진화 시트",
+   "shot": "v13/d-evolve.webp",
+   "errors": [],
+   "clock": 2,
+   "world": {
+    "happy": 27,
+    "smile": 4399,
+    "ch": 2,
+    "gaps": [
+     [
+      21,
+      30
+     ]
+    ],
+    "dex": 4
+   },
+   "step": null,
+   "oren": "매니저님!! Lv 21–30 모험가님 39명이 갈 데가 없대요!!",
+   "mode": "world",
+   "sheet": "evolve",
+   "modal": null,
+   "clickables": 32,
+   "chars": 648,
+   "numbers": 80,
+   "layer": {
+    "chars": 146,
+    "numbers": 12,
+    "buttons": 4,
+    "text": "✕ 달팽이 Lv 2 · 1단계 ➜ 사원증 사진 교체 파란 달팽이 Lv 10 · 2단계 달팽이 계열 ⏩ 달팽이 파란 달팽이 ? ? 👑 헤네시스 들판 · 던전 Lv 6 → 10 ⚠ 입구가 막혀요 · Lv 1–2가 비어요 · 모험가 6명이 혼자 걷게 돼요 💡 승진 발령: 사냥터로 보내고 빈자리엔 달팽이를 — Lv 21–30만 남아요 ▲ 승진 발령 스마일 200 그냥 진화 보류"
+   },
+   "badges": {
+    "gap": 1,
+    "evolve": 3,
+    "busy": 2,
+    "held": 0
+   },
+   "walkers": 71,
+   "staff": 5,
+   "plats": 4
+  },
+  {
+   "id": "report",
+   "label": "출근 리포트",
+   "shot": "v13/d-report.webp",
+   "errors": [],
+   "clock": 0,
+   "world": {
+    "happy": 26,
+    "smile": 4399,
+    "ch": 2,
+    "gaps": [
+     [
+      21,
+      30
+     ]
+    ],
+    "dex": 4
+   },
+   "step": null,
+   "oren": "매니저님!! Lv 21–30 모험가님 39명이 갈 데가 없대요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": "report",
+   "clickables": 26,
+   "chars": 611,
+   "numbers": 88,
+   "layer": {
+    "chars": 210,
+    "numbers": 23,
+    "buttons": 4,
+    "text": "출근 07:08 매니저님 출근! 매니저님이 퇴근한 10시간 0분 동안, 월드는 이렇게 돌았어요 😊 지금 월드를 즐기는 모험가 26 ▲ 26지난 출근보다 ✨ 그동안 레벨업 1,146 회 스마일 + 3,842 ★ ★ 엘리트 1번 출현 ×159 ✨ 한 시간에 레벨업 159번 ▲ ▲ 슬라임 진화 준비 👑 밤사이 퇴근왕 👑 슬라임 #1 퇴근 4,327회 할 일 ! 빈틈 Lv 21–30 · 39명 ▲ 진화 가능 3 🌀 들판 과밀 월드로 → 📋 2장 결재 ① Lv 1–30 잇기 빈틈 10 ② 즐거운 시간 11% · 약 4.3일"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 0,
+    "held": 0
+   },
+   "walkers": 11,
+   "staff": 5,
+   "plats": 4
+  },
+  {
+   "id": "approval",
+   "label": "결재함",
+   "shot": "v13/d-approval.webp",
+   "errors": [],
+   "clock": 1,
+   "world": {
+    "happy": 74,
+    "smile": 21249,
+    "ch": 2,
+    "gaps": [],
+    "dex": 10
+   },
+   "step": null,
+   "oren": "매니저님!! 결재 서류에 도장 받을 수 있어요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": "approval",
+   "clickables": 33,
+   "chars": 610,
+   "numbers": 76,
+   "layer": {
+    "chars": 182,
+    "numbers": 13,
+    "buttons": 2,
+    "text": "결재 머쉬맘 결재 서류 · 2장 엘리니아까지 잇자 ✓ Lv 1–30 빈틈 없이 완료 ✓ 모험가들의 즐거운 시간 😊 즐기는 모험가 × 머문 시간이 쌓여요 완료 막대 눈금 보상 25% 🎟 슬라임 채용권 ✓ 50% 👑 필드 보스 방문 ✓ 75% 🎫 무료 이벤트권 2장 ✓ 결재 보상: ★ +1 · 모험가 도착 +3명/시간 · 페리온 개방 · 부지 +3 · 스텀프, 와일드보어 채용 · 졸업선 Lv 30 → 45 · 동시 이벤트 +1 좋아요. 결재. 닫기 결재 받기"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 3,
+    "busy": 1,
+    "held": 3
+   },
+   "walkers": 79,
+   "staff": 9,
+   "plats": 6
+  },
+  {
+   "id": "ch2",
+   "label": "2장 엘리니아",
+   "shot": "v13/d-ch2.webp",
+   "errors": [],
+   "clock": 3,
+   "world": {
+    "happy": 138,
+    "smile": 33011,
+    "ch": 3,
+    "gaps": [],
+    "dex": 17
+   },
+   "step": null,
+   "oren": "마법 숲 만원이에요!! 자리를 늘리거나 옆 던전에 드랍 이벤트를 걸어봐요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 42,
+   "chars": 537,
+   "numbers": 78,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 3,
+    "busy": 4,
+    "held": 4
+   },
+   "walkers": 146,
+   "staff": 14,
+   "plats": 9
+  },
+  {
+   "id": "promote",
+   "label": "3장 승진 발령",
+   "shot": "v13/d-promote.webp",
+   "errors": [],
+   "clock": 2,
+   "world": {
+    "happy": 71,
+    "smile": 14849,
+    "ch": 3,
+    "gaps": [
+     [
+      42,
+      45
+     ]
+    ],
+    "dex": 12
+   },
+   "step": null,
+   "oren": "Lv 42–45는 와일드보어가 진화하면 이어져요!! 근속을 기다려요!!",
+   "mode": "world",
+   "sheet": "evolve",
+   "modal": null,
+   "clickables": 40,
+   "chars": 639,
+   "numbers": 87,
+   "layer": {
+    "chars": 139,
+    "numbers": 11,
+    "buttons": 4,
+    "text": "✕ 버블 슬라임 Lv 23 · 2단계 ➜ 사원증 사진 교체 ??? Lv 31 · 3단계 슬라임 계열 🎁 슬라임 버블 슬라임 NEW? ? 👑 숲 입구 · 던전 Lv 23 → 31 ⚠ Lv 23–25가 비어요 · 모험가 9명이 혼자 걷게 돼요 💡 승진 발령: 그 자리에 두고 빈자리엔 슬라임을 — Lv 42–45만 남아요 ▲ 승진 발령 무료 그냥 진화 보류"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 3,
+    "busy": 2,
+    "held": 2
+   },
+   "walkers": 79,
+   "staff": 10,
+   "plats": 7
+  },
+  {
+   "id": "grow",
+   "label": "키워서 잇기",
+   "shot": "v13/d-grow.webp",
+   "errors": [],
+   "clock": 2,
+   "world": {
+    "happy": 71,
+    "smile": 14849,
+    "ch": 3,
+    "gaps": [
+     [
+      42,
+      45
+     ]
+    ],
+    "dex": 12
+   },
+   "step": null,
+   "oren": "Lv 42–45는 와일드보어가 진화하면 이어져요!! 근속을 기다려요!!",
+   "mode": "world",
+   "sheet": "hire",
+   "modal": null,
+   "clickables": 43,
+   "chars": 769,
+   "numbers": 113,
+   "layer": {
+    "chars": 236,
+    "numbers": 35,
+    "buttons": 7,
+    "text": "✕ 신입 채용 Lv 42–45는 와일드보어가 한 번 더 진화하면 이어져요 (근속 0 / 2,000) 와일드보어 Lv 34 · 적정 29–39 — 표준 3,400 달팽이 Lv 2 · 적정 1–7 ⏩ 빨리 큰다 200 주황버섯 Lv 8 · 적정 3–13 — 표준 800 슬라임 Lv 15 · 적정 10–20 🎁 잘 퍼준다 🎟 채용권 · 무료 초록버섯 Lv 20 · 적정 15–25 — 표준 2,000 스텀프 Lv 28 · 적정 23–33 💪 튼튼하다 2,800 ??? Lv 42 · 적정 37–47 ⏩ 빨리 큰다 3장 결재 후 ??? Lv 48 · 적정 43–53 🎁 잘 퍼준다 3장 결재 후"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 3,
+    "busy": 2,
+    "held": 2
+   },
+   "walkers": 79,
+   "staff": 10,
+   "plats": 7
+  },
+  {
+   "id": "elite",
+   "label": "엘리트 출현",
+   "shot": "v13/d-elite.webp",
+   "errors": [],
+   "clock": 3,
+   "world": {
+    "happy": 103,
+    "smile": 104000,
+    "ch": 3,
+    "gaps": [],
+    "dex": 21
+   },
+   "step": null,
+   "oren": "매니저님!! 결재 서류에 도장 받을 수 있어요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 52,
+   "chars": 533,
+   "numbers": 75,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 2,
+    "held": 8
+   },
+   "walkers": 113,
+   "staff": 29,
+   "plats": 9
+  },
+  {
+   "id": "bossinv",
+   "label": "필드 보스 초대",
+   "shot": "v13/d-bossinv.webp",
+   "errors": [],
+   "clock": 1,
+   "world": {
+    "happy": 143,
+    "smile": 62980,
+    "ch": 3,
+    "gaps": [],
+    "dex": 17
+   },
+   "step": null,
+   "oren": "필드 보스 바위 거인가 찾아왔어요!! 어느 던전에서 맞을지 골라요!!",
+   "mode": "world",
+   "sheet": "boss",
+   "modal": null,
+   "clickables": 47,
+   "chars": 876,
+   "numbers": 149,
+   "layer": {
+    "chars": 191,
+    "numbers": 23,
+    "buttons": 3,
+    "text": "✕ 👑 필드 보스 바위 거인 · Lv 38 손님이라 던전 레벨은 그대로 · 머무는 동안 자리 +8 · ② ×2 · 도착 ×1.5 · 토벌하면 도감 +1, ② +5% · 3시간 0분 뒤 자동 초대 바위 거인 Lv 38 “…쿵. 쿵. 덤벼라.” 자리가 가장 많아요 바위 언덕 던전 Lv 42 · 적정 37–47 😊 3 · 자리 12 → 20 토벌까지 약 4.5시간 여기서 맞기 나무 위 쉼터 던전 Lv 36 · 적정 31–41 😊 12 · 자리 12 → 20 토벌까지 약 2.5시간 여기서 맞기"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 3,
+    "busy": 5,
+    "held": 5
+   },
+   "walkers": 49,
+   "staff": 14,
+   "plats": 9
+  },
+  {
+   "id": "boss",
+   "label": "필드 보스 방문",
+   "shot": "v13/d-boss.webp",
+   "errors": [],
+   "clock": 3,
+   "world": {
+    "happy": 149,
+    "smile": 74351,
+    "ch": 3,
+    "gaps": [],
+    "dex": 17
+   },
+   "step": null,
+   "oren": "불타는 땅 만원이에요!! 자리를 늘리거나 옆 던전에 드랍 이벤트를 걸어봐요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 43,
+   "chars": 656,
+   "numbers": 125,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 3,
+    "busy": 4,
+    "held": 5
+   },
+   "walkers": 56,
+   "staff": 14,
+   "plats": 9
+  },
+  {
+   "id": "late",
+   "label": "4장 후반 월드",
+   "shot": "v13/d-late.webp",
+   "errors": [],
+   "clock": 3,
+   "world": {
+    "happy": 165,
+    "smile": 91786,
+    "ch": 4,
+    "gaps": [],
+    "dex": 24
+   },
+   "step": null,
+   "oren": "불타는 땅 만원이에요!! 자리를 늘리거나 옆 던전에 드랍 이벤트를 걸어봐요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 63,
+   "chars": 654,
+   "numbers": 131,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 2,
+    "busy": 3,
+    "held": 11
+   },
+   "walkers": 52,
+   "staff": 34,
+   "plats": 12
+  },
+  {
+   "id": "ch5",
+   "label": "5장 슬리피우드",
+   "shot": "v13/d-ch5.webp",
+   "errors": [],
+   "clock": 3,
+   "world": {
+    "happy": 137,
+    "smile": 161685,
+    "ch": 5,
+    "gaps": [],
+    "dex": 33
+   },
+   "step": null,
+   "oren": "버섯 언덕 만원이에요!! 자리를 늘리거나 옆 던전에 드랍 이벤트를 걸어봐요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": null,
+   "clickables": 76,
+   "chars": 603,
+   "numbers": 97,
+   "layer": null,
+   "badges": {
+    "gap": 0,
+    "evolve": 3,
+    "busy": 2,
+    "held": 13
+   },
+   "walkers": 147,
+   "staff": 44,
+   "plats": 14
+  },
+  {
+   "id": "codex",
+   "label": "도감",
+   "shot": "v13/d-codex.webp",
+   "errors": [],
+   "clock": 1,
+   "world": {
+    "happy": 71,
+    "smile": 14849,
+    "ch": 3,
+    "gaps": [
+     [
+      42,
+      45
+     ]
+    ],
+    "dex": 12
+   },
+   "step": null,
+   "oren": "Lv 42–45는 와일드보어가 진화하면 이어져요!! 근속을 기다려요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": "codex",
+   "clickables": 37,
+   "chars": 924,
+   "numbers": 122,
+   "layer": {
+    "chars": 424,
+    "numbers": 46,
+    "buttons": 1,
+    "text": "✕ 📖 도감 12 / 40 · 높은 단계는 키워서만, 필드 보스는 토벌해서 얻어요 달팽이 계열 ⏩ 빨리 큰다 달팽이 Lv 2 파란 달팽이 Lv 10 빨간 달팽이 Lv 18 ? 👑 Lv 26 주황버섯 계열 보스 없음 — 그 자리는 사장님 자리입니다 주황버섯 Lv 8 뿔버섯 Lv 16 ? Lv 24 슬라임 계열 🎁 잘 퍼준다 슬라임 Lv 15 버블 슬라임 Lv 23 ? Lv 31 ? 👑 Lv 39 초록버섯 계열 표준 초록버섯 Lv 20 이끼버섯 Lv 28 숲지기버섯 Lv 36 스텀프 계열 💪 튼튼하다 ? Lv 28 ? Lv 36 ? Lv 44 ? 👑 Lv 52 와일드보어 계열 표준 와일드보어 Lv 34 ? Lv 42 ? Lv 50 ??? ⏩ 빨리 큰다 ? Lv 42 ? Lv 50 ? Lv 58 ? \ud83d"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 3,
+    "busy": 2,
+    "held": 2
+   },
+   "walkers": 79,
+   "staff": 10,
+   "plats": 7
+  },
+  {
+   "id": "ending",
+   "label": "엔딩",
+   "shot": "v13/d-ending.webp",
+   "errors": [],
+   "clock": 1,
+   "world": {
+    "happy": 190,
+    "smile": 160882,
+    "ch": 5,
+    "gaps": [],
+    "dex": 39
+   },
+   "step": null,
+   "oren": "매니저님!! 마지막 결재 서류예요!! 도장 받으러 가요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": "ending",
+   "clickables": 87,
+   "chars": 733,
+   "numbers": 145,
+   "layer": {
+    "chars": 51,
+    "numbers": 0,
+    "buttons": 1,
+    "text": "…손님인가. …퇴근! 좋아요. 이 월드, 사람들이 좋아하네요. THE END 섬 전체에 불이 켜졌어요 계속 운영하기 →"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 2,
+    "held": 21
+   },
+   "walkers": 64,
+   "staff": 57,
+   "plats": 15
+  },
+  {
+   "id": "fullclear",
+   "label": "완전 클리어",
+   "shot": "v13/d-fullclear.webp",
+   "errors": [],
+   "clock": 1,
+   "world": {
+    "happy": 162,
+    "smile": 174977,
+    "ch": 5,
+    "gaps": [],
+    "dex": 39
+   },
+   "step": null,
+   "oren": "버섯 언덕 만원이에요!! 자리를 늘리거나 옆 던전에 드랍 이벤트를 걸어봐요!!",
+   "mode": "world",
+   "sheet": null,
+   "modal": "fullclear",
+   "clickables": 88,
+   "chars": 1031,
+   "numbers": 186,
+   "layer": {
+    "chars": 349,
+    "numbers": 41,
+    "buttons": 1,
+    "text": "✕ 🏝️ 완전 클리어 체크리스트 엔딩 ✓ 던전 ★3 14/15 도감 39/40 헤네시스 들판 ★★★ 6,722/2,000 헤네시스 사냥터 ★★★ 6,250/2,000 버섯 언덕 ★★★ 9,926/2,000 숲 입구 ★★★ 8,454/2,000 나무 위 쉼터 ★★★ 9,158/2,000 마법 숲 ★★★ 5,954/2,000 바위 언덕 ★★★ 9,439/2,000 불타는 땅 ★★★ 7,841/2,000 전사의 길 ★★★ 5,945/2,000 지하철 입구 ★★★ 6,270/2,000 공사장 ★★★ 5,908/2,000 뒷골목 ★★★ 6,514/2,000 잠든 숲 ★★★ 2,091/2,000 개미굴 ★★★ 3,382/2,000 저주받은 신전 ★★★ 333/2,000 던전 ★은 그 던전의 누적 즐거움(😊 × 시간"
+   },
+   "badges": {
+    "gap": 0,
+    "evolve": 0,
+    "busy": 3,
+    "held": 23
+   },
+   "walkers": 55,
+   "staff": 57,
+   "plats": 15
+  }
+ ]
+}

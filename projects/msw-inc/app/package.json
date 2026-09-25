@@ -13,7 +13,8 @@
     "playreview": "tsx src/sim/tools/playreview.ts",
     "smoke": "node ../tests/e2e/smoke.mjs",
     "shots": "node ../tests/e2e/shots.mjs",
-    "playreview:ui": "node ../tests/e2e/playreview.mjs"
+    "playreview:ui": "node ../tests/e2e/playreview.mjs",
+    "playreview:v13": "tsx src/sim/tools/playreview.ts --out ../notes/data/playreview-v13.json && PR_TAG=v13 node ../tests/e2e/playreview.mjs"
   },
   "dependencies": {
     "vite": "^6.0.7",

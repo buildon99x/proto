@@ -10,8 +10,11 @@ import path from "node:path";
 import { writeFile, mkdir } from "node:fs/promises";
 import { launch, sleep, ROOT } from "./cdp.mjs";
 
-const SHOTS = path.join(ROOT, "notes/play-review/shots");
-const OUT = path.join(ROOT, "notes/data/playreview-ui.json");
+// PR_TAG=v13 이면 notes/data/playreview-ui-v13.json, 그림은 shots/v13/ (기준 측정을 덮지 않는다)
+const TAG = process.env.PR_TAG || "";
+const SHOTS = path.join(ROOT, "notes/play-review/shots", TAG);
+const OUT = path.join(ROOT, `notes/data/playreview-ui${TAG ? "-" + TAG : ""}.json`);
+const rel = f => (TAG ? TAG + "/" + f : f);
 await mkdir(SHOTS, { recursive: true });
 
 // 화면 밀도: 보이는 것만 센다 (무대 1280×720 안, 크기 > 0, 숨김 아님)
@@ -49,9 +52,10 @@ const shotName = (i, id) => `f${String(i).padStart(2, "0")}-${id}.webp`;
 async function shot(file) { const r = await b.send("Page.captureScreenshot", { format: "webp", quality: 82 }); await writeFile(path.join(SHOTS, file), Buffer.from(r.data, "base64")); }
 async function mark(id, label, extra = {}) {
   const s = await m();
+  await sleep(320); // 튜토리얼 스팟 이동(0.3초)이 끝난 뒤에 굽는다 — 시각(clock)은 그 전에 잰다
   const file = shotName(flow.length, id);
   await shot(file);
-  flow.push({ id, label, inputs, shot: file, ...s, ...extra });
+  flow.push({ id, label, inputs, shot: rel(file), ...s, ...extra });
   console.log(`✓ ${String(s.clock).padStart(4)}s  입력 ${String(inputs).padStart(2)}  클릭 가능 ${String(s.clickables).padStart(3)}  글자 ${String(s.chars).padStart(4)}  ${label}`);
 }
 const click = async sel => { await b.click(sel); inputs++; await sleep(220); };
@@ -189,7 +193,7 @@ try {
     const s = await m();
     const file = `d-${id}.webp`;
     await shot(file);
-    scenes.push({ id, label, shot: file, errors: [...b.errors], ...s });
+    scenes.push({ id, label, shot: rel(file), errors: [...b.errors], ...s });
     console.log(`◇ ${id.padEnd(10)} 클릭 가능 ${String(s.clickables).padStart(3)}  글자 ${String(s.chars).padStart(4)}  숫자 ${String(s.numbers).padStart(3)}  배지 ${JSON.stringify(s.badges)}  발판 ${s.plats}  모험가 ${s.walkers}`);
   }
 } catch (e) {

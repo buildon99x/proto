@@ -13,8 +13,11 @@ const argv = process.argv.slice(2);
 const opt = k => (argv.includes(k) ? argv[argv.indexOf(k) + 1] : null);
 // --sim <file>: 다른 계측 결과로 요약만 본다. --dry: data.js를 쓰지 않는다
 const sim = JSON.parse(readFileSync(opt("--sim") || path.join(DATA, "playreview.json"), "utf8"));
-const ui = JSON.parse(readFileSync(path.join(DATA, "playreview-ui.json"), "utf8"));
-const audit = JSON.parse(readFileSync(path.join(DATA, "audit.json"), "utf8"));
+// --ui <file> --audit <file> --out <data.js> --var <전역 이름>: 개선 뒤(v1.3) 측정을 따로 굽는다
+//   node notes/play-review/build.mjs --sim notes/data/playreview-v13.json --ui notes/data/playreview-ui-v13.json --audit notes/data/audit-v13.json --out data-v13.js --var PR13
+const ui = JSON.parse(readFileSync(opt("--ui") || path.join(DATA, "playreview-ui.json"), "utf8"));
+const audit = JSON.parse(readFileSync(opt("--audit") || path.join(DATA, "audit.json"), "utf8"));
+const OUTJS = opt("--out") || "data.js", VAR = opt("--var") || "PR";
 
 const r1 = x => Math.round(x * 10) / 10;
 const r2 = x => Math.round(x * 100) / 100;
@@ -127,10 +130,28 @@ const EMO_FLOW = {
   "day2-hire": ["confused", "제목 줄이 '한 번 더 진화하면'과 '근속 5,649/2,000'을 같이 말한다"],
   "day2-approval": ["calm", "'약 11시간 뒤, 줄지 않아요'. 기다림이 예고된다"],
 };
+// v1.3 첫 세션: 새 단계와 뜻이 바뀐 단계
+const EMO_FLOW13 = {
+  "world-grow": ["curious", "×5 배속. 오렌 설명이 도는 동안 모험가가 빠르게 자라 약 35초 만에 첫 빈틈이 온다"],
+  elite: ["delight", "들판에 엘리트. 금색 발판과 1.35배 도트, 결재 막대가 두 배로 찬다. 누를 곳은 늘지 않는다"],
+  "evolve-badge2": ["alarm", "둘째 달팽이 ▲. 오렌이 그냥 진화하면 입구가 막힌다고 먼저 말한다"],
+  "promote-sheet": ["focus", "'입구가 막혀요' 경고 아래 [▲ 승진 발령 · 스마일 200]. 개업권으로 버섯 언덕"],
+  "promote-cut": ["delight", "진화 + 옮기기 + 빈자리 신입을 한 번에. 핵심 결정을 첫 세션에 겪는다"],
+  joy: ["calm", "Lv 1–15가 다 이어졌다. 결재 막대가 차기를 기다린다(30초 뒤 대본 보장)"],
+  "stamp-ready": ["curious", "결재 서류가 빛난다. 오렌: 도장 받을 수 있어요"],
+  "approval-ready": ["focus", "조건 두 개 ✓. 머쉬맘 '좋아요. 결재.'"],
+  "chapter-cut": ["delight", "쾅. 2장 엘리니아 등불. 머쉬맘이 막대 절반에서 손님이 온다고 예고한다"],
+  "hire-slime": ["focus", "1장 결재 선물 슬라임 채용권. 🎁 특성 카드"],
+  "drag-slime": ["focus", "엘리니아 빈 부지로 끌면 결과 카드에 '🎫 개업권 사용'"],
+  "boss-tease": ["curious", "막대 가운데 눈금에서 필드 보스가 온다 — 다음 출근의 이유"],
+  "tut-done": ["calm", "튜토리얼 끝. 이미 2장이다"],
+  "day2-world": ["focus", "밤새 Lv 21–30을 걸은 모험가들. 할 일이 분명하다(초록버섯 채용)"],
+};
 const flow = ui.flow.map(f => ({
   id: f.id, label: f.label, t: f.clock, inputs: f.inputs, shot: f.shot, oren: f.oren,
   clickables: f.clickables, chars: f.chars, numbers: f.numbers, layer: f.layer ? { chars: f.layer.chars, buttons: f.layer.buttons } : null,
-  emo: EMO_FLOW[f.id]?.[0] ?? "calm", note: EMO_FLOW[f.id]?.[1] ?? "",
+  emo: ((VAR === "PR13" && EMO_FLOW13[f.id]) || EMO_FLOW[f.id])?.[0] ?? "calm", note: ((VAR === "PR13" && EMO_FLOW13[f.id]) || EMO_FLOW[f.id])?.[1] ?? "",
+  world: f.world,
 }));
 const scenes = ui.scenes.map(s => ({ id: s.id, label: s.label, shot: s.shot, clickables: s.clickables, chars: s.chars, numbers: s.numbers, badges: s.badges, plats: s.plats, walkers: s.walkers, ch: s.world.ch, errors: s.errors.length }));
 
@@ -138,6 +159,6 @@ const scenes = ui.scenes.map(s => ({ id: s.id, label: s.label, shot: s.shot, cli
 const personas = audit.map(a => ({ rules: a.rules, id: a.persona, label: a.label, ends: a.seeds.map(s => (s.ch[4] == null ? null : r1(s.ch[4]))), dead: a.endDead, entH: Math.round(a.entranceH), med: a.ch[4] == null ? null : r1(a.ch[4]) }));
 
 const out = { generated: new Date().toISOString().slice(0, 10), rules: sim.rules, runs, flow, scenes, personas, cost: COST, valence: VALENCE };
-if (!argv.includes("--dry")) writeFileSync(path.join(HERE, "data.js"), "// 생성물: node notes/play-review/build.mjs\nwindow.PR = " + JSON.stringify(out) + ";\n");
-console.log("→ data.js", (JSON.stringify(out).length / 1024).toFixed(0) + "KB");
+if (!argv.includes("--dry")) writeFileSync(path.join(HERE, OUTJS), `// 생성물: node notes/play-review/build.mjs ${argv.join(" ")}\nwindow.${VAR} = ` + JSON.stringify(out) + ";\n");
+console.log("→", OUTJS, (JSON.stringify(out).length / 1024).toFixed(0) + "KB");
 for (const id of Object.keys(runs)) console.log(id, runs[id].chapters.map(c => c.firstSession ? `ch${c.ch} 첫 세션 안에 결재` : `ch${c.ch} ${c.days}d wow${c.wowPct}% strict${c.wowStrictPct}% ▲shown${c.bShown}/${c.bEvo} elites${c.elites} marks${c.marks} in${c.inputs} wait${c.waitDays} emo${JSON.stringify(c.emo)}`).join("\n  "));

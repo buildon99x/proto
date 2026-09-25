@@ -190,6 +190,7 @@ table.t tr.hl td{background:var(--stamp-soft)}
     <li><a href="#ux">조작 비용</a></li>
     <li><a href="#fix">개선점</a></li>
     <li><a href="#keep">지킬 것</a></li>
+    <li><a href="#after">개선 뒤</a></li>
     <li><a href="#appendix">부록</a></li>
   </ol>
 </nav>
@@ -210,6 +211,7 @@ table.t tr.hl td{background:var(--stamp-soft)}
   <h1 id="ttl"><small>플레이 리뷰 · 입사 첫 10분부터 엔딩까지</small>첫 닷새는 감탄이 촘촘하고,<br>나머지 27일은 결재 막대를 기다린다</h1>
   <p class="verdict">입사 뒤 <mark>4분 안에 핵심 루프(빈틈 → 채용 → 배치 → 뚫림)를 몸으로 익히고</mark>, 출근 리포트는 떠나 있던 시간을 보상으로 바꾼다. 문제는 그다음이다. 3장부터 엔딩까지 27.5일(전체의 90%) 동안 진행을 쥐는 것은 결재 ② "즐거운 시간" 누적이고, 플레이어의 수는 그 속도를 거의 바꾸지 못한다. 5장에서는 새 계열이 한 번도 쓰이지 않고, ▲ 배지는 16개씩 쌓인 채 치워지지 않는다.</p>
   <div class="figs" id="figs"></div>
+  <p class="note">이 보고서 뒤에 F1~F6, 필드 엘리트·보스, 첫 10분 한 바퀴를 고쳤다(MSW 주식회사 1.1.0 · 규칙 v1.3). 01~07절은 개선 전(v1.2) 기록 그대로 두고, 개선 뒤 다시 잰 결과는 <a href="#after">08절</a>에 있다.</p>
 </section>
 
 <section class="sec" id="method">
@@ -313,13 +315,55 @@ table.t tr.hl td{background:var(--stamp-soft)}
   </div>
 </section>
 
+<section class="sec" id="after">
+  <div class="eyebrow">08 · 개선 뒤 (v1.3)</div>
+  <h2>고친 뒤 다시 쟀다</h2>
+  <p class="lead" id="afterLead"></p>
+  <div class="panel">
+    <h3>계획한 목표와 실측<small>개선 계획(notes/improvement-plan.md §6)의 측정표. 같은 도구로 v1.2와 v1.3을 쟀다. ✕는 목표에 못 미친 것</small></h3>
+    <div class="scroll"><table class="t" id="afterTable"></table></div>
+  </div>
+  <div class="panel">
+    <div class="ctl"><h3>첫 세션: 무엇을 겪고 퇴근하나<small>가로 = 입사 뒤 실제 초(안내가 뜨면 바로 누르는 경우라 사람보다 짧다). 계단선 = 누적 입력, 옅은 띠 = 30초 넘게 누를 곳 없음</small></h3>
+      <div class="legend"><span><i style="background:var(--muted)"></i>v1.2</span><span><i style="background:var(--accent)"></i>v1.3</span></div></div>
+    <div class="scroll"><svg class="chart" id="firstCmp" viewBox="0 0 1000 300" role="img" aria-label="v1.2와 v1.3의 첫 세션 누적 입력과 주요 순간"></svg></div>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>장별 감탄 비율<small>표준 성향. 진한 막대 = 엄격(엘리트·보스를 뺀 v1.2와 같은 정의), 테두리 = 엘리트·보스를 본 체크인 포함. 점선 = 목표 70%</small></h3>
+      <svg class="chart" id="wowCmp" viewBox="0 0 480 300" role="img" aria-label="장별 감탄 비율 v1.2와 v1.3"></svg>
+    </div>
+    <div class="panel">
+      <h3>체크인 때 월드 위 ▲<small>표준 성향 평균. v1.3 옅은 막대 = 근속은 찼지만 독 칩으로 모은 진화 대기</small></h3>
+      <svg class="chart" id="evoCmp" viewBox="0 0 480 300" role="img" aria-label="장별 월드 위 진화 배지 수 v1.2와 v1.3"></svg>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>성향별 엔딩 날짜 v1.2 → v1.3<small>점 하나 = 한 판(체크인 시각 흔들기 5번). 3~5장 ② 목표를 약 8% 올려 표준을 D31±2로 되맞췄다</small></h3>
+    <div class="legend"><span><i style="background:var(--muted);border-radius:50%"></i>v1.2</span><span><i style="background:var(--accent);border-radius:50%"></i>v1.3 (지금 게임)</span></div>
+    <div class="scroll"><svg class="chart" id="endCmp" viewBox="0 0 1000 330" role="img" aria-label="성향 8개의 엔딩 날짜, v1.2와 v1.3"></svg></div>
+  </div>
+  <div class="panel">
+    <h3>개선점별 처리<small>F7~F9는 이번 범위 밖</small></h3>
+    <div class="scroll"><table class="t" id="fixTable"></table></div>
+  </div>
+  <div class="film" id="film13" aria-label="v1.3 첫 세션의 새 단계와 필드 보스"></div>
+  <p class="note" id="afterNote"></p>
+</section>
+
 <section class="sec appx" id="appendix">
-  <div class="eyebrow">08 · 부록</div>
+  <div class="eyebrow">09 · 부록</div>
   <h2>재현과 한계</h2>
-  <pre>pnpm --filter msw-inc playreview        # 규칙 시뮬레이션, 성향 4개 → notes/data/playreview.json
+  <pre># 01~07절 (개선 전, 규칙 v1.2 · 게임 1.0.0 시점에 잰 기록)
+pnpm --filter msw-inc playreview -- --rules v1.2   # 규칙 시뮬레이션, 성향 4개 → notes/data/playreview.json
+pnpm --filter msw-inc playreview:ui                 # 실제 화면 클릭·드래그, 그림 → notes/data/playreview-ui.json, shots/
+node notes/play-review/build.mjs                    # → notes/play-review/data.js
+# 08절 (개선 뒤, 규칙 v1.3 · 게임 1.1.0)
 pnpm --filter msw-inc build
-pnpm --filter msw-inc playreview:ui     # 실제 화면 클릭·드래그, 그림 → notes/data/playreview-ui.json, shots/
-node notes/play-review/build.mjs        # 보고서 데이터 → notes/play-review/data.js</pre>
+pnpm --filter msw-inc playreview:v13                # → notes/data/playreview-v13.json, playreview-ui-v13.json, shots/v13/
+pnpm --filter msw-inc audit -- --json ../notes/data/audit-v13.json
+node notes/play-review/build.mjs --sim notes/data/playreview-v13.json --ui notes/data/playreview-ui-v13.json \
+  --audit notes/data/audit-v13.json --out data-v13.js --var PR13</pre>
   <p>입력 수 추정: 행동별 입력(결재·채용·진화·발령·이벤트·자리 3, 옮기기·배치 1, 본사 전근 2)에 출근 리포트 닫기와 퇴근 2를 더했다. 실제 화면 흐름에서 잰 값이다.</p>
   <p>한계: 봇은 결과 미리보기를 모두 계산하고 붙잡기 경고를 무시한다. 사람은 더 느리고 덜 정확하며, 퇴근 직전 성향의 입구 막힘은 사람에게서 더 짧을 것이다(추정). 감정 분류는 사건 기반 모델이다. 승진 발령을 사람이 이해하는지, 촘촘 모드가 읽히는지는 사람 플레이테스트로 확인해야 한다.</p>
   <p class="small muted" id="gen"></p>
@@ -329,6 +373,7 @@ node notes/play-review/build.mjs        # 보고서 데이터 → notes/play-rev
 <div class="tip" id="tip" role="tooltip"></div>
 
 <script src="data.js"></script>
+<script src="data-v13.js"></script>
 <script>
 (() => {
 const D = window.PR;
@@ -508,8 +553,8 @@ function chapTable(R) {
 }
 
 // ── 엔딩 점 그림 ──
-function endChart() {
-  const svg = $('#endChart'); svg.innerHTML = '';
+function endChart(sel = '#endChart', personas = D.personas, sets = ['v1.1', 'v1.2']) {
+  const svg = $(sel); svg.innerHTML = '';
   const order = ['std', 'light', 'heavy', 'hasty', 'hoarder', 'stack', 'spread', 'night'];
   const names = { std: '표준 · 하루 3회', light: '가벼운 · 하루 2회', heavy: '열성 · 하루 5회', hasty: '진화 즉시', hoarder: '진화 보류', stack: '한 던전에 몰기', spread: '한 던전에 한 마리', night: '퇴근 직전 진화' };
   const X0 = 160, X1 = 930, dMax = 45, x = d => X0 + (d / dMax) * (X1 - X0), XF = 965;
@@ -521,14 +566,15 @@ function endChart() {
   order.forEach((id, i) => {
     const cy = top + i * rowH + rowH / 2;
     txt(svg, X0 - 12, cy + 4, names[id], { 'text-anchor': 'end', class: 'lbl' });
-    for (const rules of ['v1.1', 'v1.2']) {
-      const p = D.personas.find(q => q.id === id && q.rules === rules);
-      const off = rules === 'v1.1' ? -6 : 6;
+    for (const rules of sets) {
+      const old = rules === sets[0];
+      const p = personas.find(q => q.id === id && q.rules === rules);
+      const off = old ? -6 : 6;
       p.ends.forEach((e, j) => {
         const g = el('g', {}, svg);
         const h = `<b>${names[id]} · ${rules}</b><br>시드 ${j + 1}: ${e == null ? '70일 안에 엔딩 못 봄' : 'D' + e + ' 엔딩'}<div class="row"><span>멈춘 월드</span><span>${p.dead}/5</span></div><div class="row"><span>입구 막힘 (중앙값)</span><span>${fmt(p.entH)}h</span></div>`;
-        if (e == null) { txt(g, XF + (j - 2) * 5, cy + off + 4, '✕', { 'text-anchor': 'middle', style: `fill:${rules === 'v1.1' ? css('--stamp') : css('--accent')};font-size:11px;font-weight:700` }); }
-        else el('circle', { cx: x(e), cy: cy + off, r: 5, fill: rules === 'v1.1' ? 'transparent' : css('--accent'), stroke: rules === 'v1.1' ? css('--muted') : css('--sheet'), 'stroke-width': rules === 'v1.1' ? 1.6 : 1.5, opacity: rules === 'v1.1' ? .9 : .92 }, g);
+        if (e == null) { txt(g, XF + (j - 2) * 5, cy + off + 4, '✕', { 'text-anchor': 'middle', style: `fill:${old ? css('--stamp') : css('--accent')};font-size:11px;font-weight:700` }); }
+        else el('circle', { cx: x(e), cy: cy + off, r: 5, fill: old ? 'transparent' : css('--accent'), stroke: old ? css('--muted') : css('--sheet'), 'stroke-width': old ? 1.6 : 1.5, opacity: old ? .9 : .92 }, g);
         const hr = el('rect', { x: (e == null ? XF - 14 : x(e) - 7), y: cy + off - 7, width: e == null ? 28 : 14, height: 14, fill: 'transparent' }, g);
         g.addEventListener('mouseenter', ev => showTip(ev, h)); g.addEventListener('mousemove', moveTip); g.addEventListener('mouseleave', hideTip);
       });
@@ -701,7 +747,133 @@ document.querySelectorAll('main section[id]').forEach(s => io.observe(s));
 
 $('#gen').textContent = `데이터 생성 ${D.generated} · 규칙 ${D.rules} · 표준 성향 시드 0(체크인 시각 흔들기 없음)`;
 
-function drawAll() { flowChart(); journey(); endChart(); walkMultiples(); actChart(); densChart(); badgeChart(); }
+// ══ 09 · 개선 뒤 (v1.3) ══════════════════════════════════════
+const D13 = window.PR13;
+const clk = t => `${Math.floor(t / 60)}:${String(Math.round(t % 60)).padStart(2, '0')}`;
+/** 첫 세션에서 30초 넘게 입력이 늘지 않은 구간들 (튜토리얼 끝까지) */
+function idleSpans(flow) {
+  const f = flow.filter(s => s.t < 1000), end = f.findIndex(s => s.id === 'tut-done');
+  const out = [];
+  for (let i = 1; i <= end; i++) if (f[i].inputs === f[i - 1].inputs && f[i].t - f[i - 1].t > 30) out.push([f[i - 1].t, f[i].t]);
+  return out;
+}
+const idleSum = flow => idleSpans(flow).reduce((s, [a, b]) => s + b - a, 0);
+const ch12 = D.runs.std.chapters, ch13 = D13.runs.std.chapters;
+const pr13 = (id, rules) => D13.personas.find(q => q.id === id && q.rules === rules);
+const nativeHired = R => R.checkins.some(c => c.acts.some(a => /^(native|hire):(drake|eye)|^native/.test(a)));
+function afterLead() {
+  const g12 = D.flow.find(f => f.id === 'gap').t, g13 = D13.flow.find(f => f.id === 'gap').t;
+  const stamp = D13.flow.find(f => f.id === 'chapter-cut'), done = D13.flow.find(f => f.id === 'tut-done');
+  $('#afterLead').innerHTML = `첫 세션이 <b>${clk(done.t)}</b> 안에 빈틈 → 채용 → 이벤트 → 진화 → 엘리트 → <b>승진 발령 → 결재 도장 → 새 지역 채용</b> → 필드 보스 예고까지 한 바퀴를 돈다(안내가 뜨면 바로 누르는 경우, 사람은 더 걸린다). 첫 빈틈은 ${clk(g12)} → ${clk(g13)}. 3~5장은 막대 눈금, 엘리트, 필드 보스로 평평한 구간에 봉우리가 생겨 5장 "이벤트만 누른" 체크인이 ${ch12[4].emo.bored || 0}번 → ${ch13[4].emo.bored || 0}번으로 줄었다. 대가로 달력이 당겨져 3~5장 ② 목표를 약 8% 올렸다. 5장 화면의 누를 수 있는 요소는 목표(72)에 못 미쳤다.`;
+}
+function afterTable() {
+  const f12 = D.flow, f13 = D13.flow;
+  const g = (f, id) => f.find(s => s.id === id);
+  const sc = (Dx, id) => Dx.scenes.find(s => s.id === id);
+  const s12 = pr13('std', 'v1.2'), s13 = pr13('std', 'v1.3');
+  const dead13 = D13.personas.filter(p => p.rules === 'v1.3').reduce((s, p) => s + p.dead, 0);
+  const nat12 = PERS.filter(([id]) => nativeHired(D.runs[id])).length, nat13 = PERS.filter(([id]) => nativeHired(D13.runs[id])).length;
+  const wow = (C, strict) => [2, 3, 4].map(i => (strict ? (C[i].wowStrictPct ?? C[i].wowPct) : C[i].wowPct) + '%').join(' · ');
+  const rows = [
+    ['첫 빈틈 시각', clk(g(f12, 'gap').t), clk(g(f13, 'gap').t), '≤ 1:30', g(f13, 'gap').t <= 90, 'playreview:ui'],
+    ['첫 세션 30초 넘는 빈 구간 합', idleSum(f12) + '초', idleSum(f13) + '초', '≤ 40초', idleSum(f13) <= 40, 'playreview:ui'],
+    ['첫 세션에서 겪는 핵심 순환', '빈틈·채용·이벤트·진화', '+ 엘리트·승진 발령·결재 도장·새 지역·보스 예고', '+ 발령·결재·새 지역·엘리트·보스 예고', true, 'playreview:ui'],
+    ['1장 결재', 'D2.9 (표준)', `첫 세션 ${clk(g(f13, 'chapter-cut').t)}`, '첫 세션 10:00 안', g(f13, 'chapter-cut').t < 600, 'playreview:ui'],
+    ['3·4·5장 감탄 비율 (엄격)', wow(ch12, false), wow(ch13, true), '각 ≥ 70%', [2, 3, 4].every(i => ch13[i].wowStrictPct >= 70), 'playreview'],
+    ['5장 유지 보수만 한 체크인', `${ch12[4].emo.bored || 0} / ${ch12[4].checkins}`, `${ch13[4].emo.bored || 0} / ${ch13[4].checkins}`, '≤ 10 / 27', (ch13[4].emo.bored || 0) <= 10, 'playreview'],
+    ['체크인 때 월드 ▲ (5장 평균)', ch12[4].bEvo.toFixed(1), ch13[4].bShown.toFixed(1), '≤ 3', ch13[4].bShown <= 3, 'playreview'],
+    ['5장 누를 수 있는 것', sc(D, 'ch5').clickables, sc(D13, 'ch5').clickables, '≤ 72 (추정)', sc(D13, 'ch5').clickables <= 72, 'playreview:ui'],
+    ['드레이크·이블아이 채용 성향', `${nat12} / 4`, `${nat13} / 4`, '4 / 4', nat13 === 4, 'playreview'],
+    ['표준 엔딩 · 멈춘 월드 (40판)', `D${s12.med} · 0`, `D${s13.med} · ${dead13}`, 'D31±2 · 0', Math.abs(s13.med - 31) <= 2 && dead13 === 0, 'audit'],
+    ['Day 2 오렌 안내 오류 · 옛 조건 대사', '1 · 5줄', '0 · 0', '0 · 0', true, 'smoke · test'],
+  ];
+  $('#afterTable').innerHTML = `<thead><tr><th>지표</th><th class="n">v1.2</th><th class="n">v1.3</th><th>목표</th><th>판정</th><th>도구</th></tr></thead><tbody>${rows.map(r => `<tr class="${r[4] ? '' : 'hl'}"><td><b>${r[0]}</b></td><td class="n">${r[1]}</td><td class="n">${r[2]}</td><td>${r[3]}</td><td>${r[4] ? '<span class="chip" style="background:var(--ok-soft);color:var(--ok)">✓ 달성</span>' : '<span class="chip" style="background:var(--stamp-soft);color:var(--stamp)">✕ 못 미침</span>'}</td><td class="small muted" style="white-space:nowrap">${r[5]}</td></tr>`).join('')}</tbody>`;
+}
+function firstCmp() {
+  const svg = $('#firstCmp'); svg.innerHTML = '';
+  const X0 = 50, X1 = 960, T = 240, x = t => X0 + (Math.min(t, T) / T) * (X1 - X0);
+  const yTop = 30, yBase = 210, maxIn = 25, y = n => yBase - (n / maxIn) * (yBase - yTop);
+  for (let t = 0; t <= T; t += 30) { el('line', { x1: x(t), x2: x(t), y1: yBase, y2: yBase + 5, class: 'axis' }, svg); txt(svg, x(t), yBase + 18, clk(t), { 'text-anchor': 'middle' }); }
+  for (let n = 0; n <= 25; n += 5) { el('line', { x1: X0, x2: X1, y1: y(n), y2: y(n), class: 'grid' }, svg); txt(svg, X0 - 8, y(n) + 4, n, { 'text-anchor': 'end' }); }
+  txt(svg, X0 - 8, yTop - 12, '입력', { 'text-anchor': 'end' });
+  const series = [[D.flow, css('--muted'), 'v1.2', 236], [D13.flow, css('--accent'), 'v1.3', 256]];
+  for (const [flow, col, name, bandY] of series) {
+    const f = flow.filter(s => s.t < 1000), end = f.findIndex(s => s.id === 'tut-done'), ff = f.slice(0, end + 1);
+    for (const [a, b] of idleSpans(flow)) { el('rect', { x: x(a), y: bandY - 7, width: x(b) - x(a), height: 12, rx: 3, fill: col, opacity: .28 }, svg); txt(svg, (x(a) + x(b)) / 2, bandY + 3, `${b - a}초`, { 'text-anchor': 'middle', style: 'font-size:10px' }); }
+    txt(svg, X0 - 8, bandY + 3, name, { 'text-anchor': 'end' });
+    let d = `M${x(0)},${y(0)}`, prev = 0;
+    for (const s of ff) { d += ` L${x(s.t)},${y(prev)} L${x(s.t)},${y(s.inputs)}`; prev = s.inputs; }
+    el('path', { d, fill: 'none', stroke: col, 'stroke-width': name === 'v1.3' ? 2.4 : 1.8, 'stroke-linejoin': 'round' }, svg);
+    const last = ff[ff.length - 1];
+    el('circle', { cx: x(last.t), cy: y(last.inputs), r: 4, fill: col }, svg);
+    txt(svg, x(last.t) + 7, y(last.inputs) + 4, `${name} 끝 ${clk(last.t)} · 입력 ${last.inputs}`, { class: 'lbl' });
+    if (name === 'v1.3') for (const s of ff) {
+      const g = el('g', { tabindex: 0, style: 'cursor:pointer' }, svg);
+      el('circle', { cx: x(s.t), cy: y(s.inputs), r: 3.2, fill: col, stroke: css('--sheet'), 'stroke-width': 1.2 }, g);
+      const h = `<b>${clk(s.t)} · ${s.label}</b><br>${s.note}<div class="row"><span>누적 입력</span><span>${s.inputs}</span></div><div class="row"><span>누를 수 있는 요소</span><span>${s.clickables}</span></div>`;
+      g.addEventListener('mouseenter', e => showTip(e, h)); g.addEventListener('mousemove', moveTip); g.addEventListener('mouseleave', hideTip);
+    }
+  }
+  el('line', { x1: X0, x2: X1, y1: yBase, y2: yBase, class: 'axis' }, svg);
+  const ann = [['gap', '첫 빈틈', 8, 14], ['promote-cut', '승진 발령', -8, -10, 'end'], ['chapter-cut', '결재 도장 → 2장', -8, -10, 'end']];
+  for (const [id, l, dx, dy, an] of ann) { const s = D13.flow.find(q => q.id === id); if (!s) continue; el('circle', { cx: x(s.t), cy: y(s.inputs), r: 4.5, fill: 'none', stroke: css('--ink'), 'stroke-width': 1.5 }, svg); txt(svg, x(s.t) + dx, y(s.inputs) + dy, `${l} ${clk(s.t)}`, { class: 'lbl-strong', 'text-anchor': an || 'start' }); }
+}
+function barsCmp(svgSel, rows, max, fmtV, target) {
+  const svg = $(svgSel); svg.innerHTML = '';
+  const X0 = 40, X1 = 470, yB = 250, yT = 20, y = v => yB - (Math.min(v, max) / max) * (yB - yT), gw = (X1 - X0) / rows.length, bw = Math.min(34, gw / 3.2);
+  for (let v = 0; v <= max; v += max / 4) { el('line', { x1: X0, x2: X1, y1: y(v), y2: y(v), class: 'grid' }, svg); txt(svg, X0 - 6, y(v) + 4, fmtV(v), { 'text-anchor': 'end' }); }
+  rows.forEach((r, i) => {
+    const cx = X0 + gw * i + gw / 2;
+    const bars = [[r.a, css('--muted'), null], [r.b, css('--accent'), r.bOut]];
+    bars.forEach(([v, col, out], j) => {
+      const bx = cx + (j - 1) * (bw + 4) + 2;
+      if (out != null && out > v) el('rect', { x: bx, y: y(out), width: bw, height: yB - y(out), fill: 'none', stroke: col, 'stroke-width': 1.4, 'stroke-dasharray': '3 2', rx: 2 }, svg);
+      if (v == null) { txt(svg, bx + bw / 2, yB - 6, '—', { 'text-anchor': 'middle' }); return; }
+      el('rect', { x: bx, y: y(v), width: bw, height: Math.max(1, yB - y(v)), fill: col, rx: 2 }, svg);
+      // 진한 막대 값은 막대 위, 테두리(포함) 값은 테두리 위에 옅게
+      if (out != null && out > v) { txt(svg, bx + bw / 2, y(out) - 5, fmtV(out), { 'text-anchor': 'middle', style: 'font-size:10px' }); txt(svg, bx + bw / 2, y(v) - 5, fmtV(v), { 'text-anchor': 'middle', class: 'lbl-strong' }); }
+      else txt(svg, bx + bw / 2, y(v) - 5, fmtV(v), { 'text-anchor': 'middle', class: 'lbl' });
+    });
+    txt(svg, cx, yB + 18, r.label, { 'text-anchor': 'middle', class: 'lbl' });
+    if (r.sub) txt(svg, cx, yB + 33, r.sub, { 'text-anchor': 'middle' });
+  });
+  if (target != null) { el('line', { x1: X0, x2: X1, y1: y(target), y2: y(target), stroke: css('--stamp'), 'stroke-width': 1.4, 'stroke-dasharray': '5 4' }, svg); }
+  el('line', { x1: X0, x2: X1, y1: yB, y2: yB, class: 'axis' }, svg);
+}
+function wowCmp() {
+  barsCmp('#wowCmp', [2, 3, 4].map(i => ({ label: `${i + 1}장 ${REGION[i]}`, a: ch12[i].wowPct, b: ch13[i].wowStrictPct, bOut: ch13[i].wowPct })), 100, v => Math.round(v) + '%', 70);
+}
+function evoCmp() {
+  barsCmp('#evoCmp', [0, 1, 2, 3, 4].map(i => ({ label: `${i + 1}장`, a: ch12[i].bEvo, b: ch13[i].firstSession ? null : ch13[i].bShown, bOut: ch13[i].firstSession ? null : ch13[i].bEvo, sub: ch13[i].firstSession ? '첫 세션' : '' })), 20, v => (Math.round(v * 10) / 10).toString(), 3);
+}
+function fixTable() {
+  const R = [
+    ['F1', '결재 ② 막대 25·50·75% 눈금 보상(채용권 · 필드 보스 · 이벤트권 2장), 자리 확장에 "② −N시간"', `감탄(엄격) 3~5장 ${[2, 3, 4].map(i => ch13[i].wowStrictPct + '%').join(' · ')}. 빼 보면 표준 엔딩 +2.4일`],
+    ['F2', '5장 결재 ③에 슬리피우드 식구 던전 1곳, 채용 시트 초록 리본', `드레이크·이블아이 채용 성향 ${PERS.filter(([id]) => nativeHired(D13.runs[id])).length}/4`],
+    ['F3', '▲는 지금 해도 빈틈이 늘지 않는 진화만 최대 3개, 나머지는 독 칩 "▲ 진화 대기 N"', `5장 월드 ▲ ${ch12[4].bEvo.toFixed(1)} → ${ch13[4].bShown.toFixed(1)}. 누를 수 있는 것은 85 → ${D13.scenes.find(s => s.id === 'ch5').clickables}(목표 72 못 미침: 직원 수가 늘었다)`],
+    ['F4', 'Day 2 오렌: 진화할 수 있으면 "▲ 눌러서 승진 발령해요!!" → 진화 시트', '스모크가 출근 뒤 오렌 문구를 검사한다'],
+    ['F5', '머쉬맘 결재 대사를 누적 조건으로', '테스트: 대사에 "N명" 없음'],
+    ['F6', '"가로 = 레벨" 단계 배속 ×5(계획 ×3에서 실측 뒤 조정), 입사 버프 20분', `첫 빈틈 ${clk(D.flow.find(f => f.id === 'gap').t)} → ${clk(D13.flow.find(f => f.id === 'gap').t)}`],
+    ['E', '필드 엘리트(들뜬 한 시간, 입력 0) · 필드 보스(장마다 한 번 초대, 실패 없음, 도감 +4)', `체크인 사이 엘리트 약 2번, 2~5장 보스 1번씩`],
+    ['T', '1장을 첫 세션 안에: 입사 버프가 ②에도, 개업권으로 승진 발령, 결재 선물 슬라임 채용권', `결재 도장 ${clk(D13.flow.find(f => f.id === 'chapter-cut').t)}, 튜토리얼 끝 ${clk(D13.flow.find(f => f.id === 'tut-done').t)}`],
+  ];
+  $('#fixTable').innerHTML = `<thead><tr><th>개선점</th><th>한 것</th><th>측정</th></tr></thead><tbody>${R.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</tbody>`;
+}
+function film13() {
+  const ids = ['world-grow', 'elite', 'evolve-badge2', 'promote-sheet', 'promote-cut', 'approval-ready', 'chapter-cut', 'drag-slime', 'boss-tease', 'report'];
+  const frames = ids.map(id => D13.flow.find(f => f.id === id)).filter(Boolean).map(s => ({ shot: s.shot, tm: s.t < 1000 ? clk(s.t) : 'D2 07:08', label: s.label, note: s.note, inputs: s.inputs }));
+  for (const [id, note] of [['elite', '3장 · 엘리트가 선 발판. 금색 라벨과 1.35배 도트'], ['bossinv', '필드 보스 초대: 맞을 던전 카드와 토벌 예상 시간'], ['boss', '방문 중인 필드 보스와 토벌 게이지, 왼쪽 위 카드']]) {
+    const s = D13.scenes.find(q => q.id === id); if (s) frames.push({ shot: s.shot, tm: '시연', label: s.label, note, inputs: null });
+  }
+  $('#film13').innerHTML = frames.map(s => `<article class="frame"><button class="shot" data-src="shots/${s.shot}" data-cap="${s.tm} · ${s.label}" aria-label="${s.label} 크게 보기"><img src="shots/${s.shot}" alt="${s.label}" loading="lazy" width="1280" height="720"></button>
+    <div class="cap"><div class="t"><span>${s.tm}${s.inputs != null ? ' · 입력 ' + s.inputs : ''}</span><span class="chip">v1.3</span></div><h4>${s.label}</h4><p>${s.note}</p></div></article>`).join('');
+}
+function afterNote() {
+  $('#afterNote').innerHTML = `남은 것: 5장 화면의 누를 수 있는 요소(${D13.scenes.find(s => s.id === 'ch5').clickables}개)는 ▲가 줄어든 만큼 직원 도트가 늘어 목표에 못 미쳤다. 다음 순위는 F8(지역 줌)이다. 열성(하루 5회)은 여전히 표준과 엔딩이 비슷하다(v1.3 ${pr13('heavy', 'v1.3').med} vs ${pr13('std', 'v1.3').med}). 감탄 비율은 엘리트를 넣으면 거의 100%라서 엄격한 정의를 함께 본다. 모두 봇 측정이다. 첫 세션 시각은 안내가 뜨면 바로 누르는 경우라 사람은 더 걸린다(추정 5~7분). F7(스마일 쓸 곳)·F9(밤 진화 리포트)는 이번 범위 밖이다.`;
+}
+afterLead(); afterTable(); fixTable(); film13(); afterNote();
+
+function drawAll() { flowChart(); journey(); endChart(); walkMultiples(); actChart(); densChart(); badgeChart(); firstCmp(); wowCmp(); evoCmp(); endChart('#endCmp', D13.personas, ['v1.2', 'v1.3']); }
 segButtons($('#personaSeg'), persona, p => { persona = p; journey(); });
 segButtons($('#actSeg'), actP, p => { actP = p; actChart(); });
 film(); duo(); drawAll();

@@ -84,6 +84,12 @@ if (args.includes('--ablate')) {
     ['− 근속 이월', { tenureCarry: false }],
     ['− 퇴사', { releaseRefund: 0 }],
     ['− 수입 곡선', { incomeCurve: [1, 1, 1, 1, 1], costCurve: [1, 1, 1, 1, 1] }],
+    // v1.3 (플레이 리뷰 뒤)
+    ['− 막대 눈금 보상 (F1)', { joyMarks: null }],
+    ['− 5장 ③ 식구 (F2)', { nativeCond: false }],
+    ['− 엘리트 (E)', { elite: null }],
+    ['− 필드 보스 (E)', { fieldBoss: null }],
+    ['− 첫 10분 한 바퀴 (T)', { firstLoop: false, joyGoal: [300, 3000, 21500, 34500, 36500] }],
   ];
   const ps = ['std', 'light', 'hasty', 'hoarder', 'night'];
   console.log('\n══ 하나씩 빼 보기 · 엔딩 날(D) 중앙값 · 멈춘 월드 ══');

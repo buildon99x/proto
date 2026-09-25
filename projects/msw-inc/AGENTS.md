@@ -4,23 +4,24 @@ Prototype Lab 개별 프로젝트. 레포 공통 규칙은 루트 `AGENTS.md`를
 
 ## 기준 문서
 
-- 게임의 기준은 `spec.md`(규칙 v1.2와 화면)다. 수치는 `app/src/sim/rules.ts` 한 곳에 있다. 둘이 어긋나면 spec을 먼저 고친다.
+- 게임의 기준은 `spec.md`(규칙 v1.3과 화면)다. 수치는 `app/src/sim/rules.ts` 한 곳에 있다. 둘이 어긋나면 spec을 먼저 고친다.
 - 설계의 뿌리는 컨셉 v1.1(`docs/concept/maple-idle/msw-inc/`)이다. 기록으로 두고 고치지 않는다. 컨셉과 달라진 점은 spec과 `notes/choice-audit.md`에 이유와 수치를 함께 적는다.
 - 설계 판단은 다섯 원칙(P1~P5)으로 근거를 단다. **P2 "몬스터 레벨 = 던전 레벨"과 P5 "떠나 있어도 망하지 않는다"는 협상 대상이 아니다.** 어떤 선택으로도 월드가 0명으로 멈추면 안 된다(`tests/sim.test.ts`가 지킨다).
 
 ## 규칙을 바꿀 때
 
-1. `rules.ts`의 V12(게임) 값을 바꾼다. V11은 컨셉 비교용이라 건드리지 않는다.
-2. `pnpm --filter msw-inc pacing`: 첫 레벨업 0:25, 첫 빈틈 3:25 Lv 8, Day 2 리포트 😊 14 안팎이 유지되는지 본다.
-3. `pnpm --filter msw-inc audit`: 8성향 엔딩 범위가 목표 달력(D28~35) 근처에 있는지, 멈춘 월드가 0인지 본다. 결과는 `notes/data/`에 남기고 choice-audit를 고친다.
+1. `rules.ts`의 V13(게임) 값을 바꾼다. V11(컨셉)과 V12(플레이 리뷰 전)는 비교용이라 건드리지 않는다. 새 규칙은 값이 null·false면 꺼지게 만들어 옛 규칙이 그대로 재현되게 한다.
+2. `pnpm --filter msw-inc pacing`: 첫 레벨업 0:25, 첫 빈틈(실제 추정) 1:30 안 Lv 8, 첫 세션 안에 승진 발령과 1장 결재, Day 2 리포트 😊 20+가 유지되는지 본다.
+3. `pnpm --filter msw-inc audit`: v1.2와 v1.3을 나란히 굴린다. 표준 엔딩이 D31±2, 8성향이 표준 ±20% 안, 멈춘 월드가 0인지 본다. 결과는 `notes/data/`에 남기고 choice-audit를 고친다.
 4. `pnpm --filter msw-inc test`.
 
 ## 화면을 바꿀 때
 
 - 화면은 결과를 그릴 뿐 월드를 바꾸지 않는다. 월드를 바꾸는 건 `sim.ts`의 행동 함수뿐이다.
 - 모든 결정은 5초 되돌리기를 붙인다. 결과는 놓기 전에 보여 준다(유령 발판, 결과 카드).
-- 빨강은 지금 고칠 곳에만 쓴다. 경고음은 없다. 오렌은 느낌표 두 개로 한 줄, 머쉬맘은 마침표, 발록은 말줄임표로 말한다.
+- 빨강은 지금 고칠 곳에만 쓴다(엘리트·필드 보스는 금색). 경고음은 없다. 오렌은 느낌표 두 개로 한 줄, 머쉬맘은 마침표, 발록은 말줄임표로 말한다.
 - 바꾼 뒤 `pnpm --filter msw-inc build && pnpm --filter msw-inc smoke && pnpm --filter msw-inc shots`로 화면을 눈으로 확인한다.
+- 튜토리얼 단계를 바꾸면 대본을 흉내 내는 `bots.ts` firstSession, `tests/e2e/smoke.mjs`, `tests/e2e/playreview.mjs`를 같이 고친다. 단계는 이름으로 저장되므로 이름을 바꾸면 `tut.ts` load도 본다.
 
 ## 작업 규칙
 
