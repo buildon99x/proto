@@ -87,7 +87,7 @@ export const projects = [
       "playreview:v13": "pnpm --filter msw-inc playreview:v13",
       "cadence": "pnpm --filter msw-inc cadence"
     },
-    "updatedAt": "2026-09-25T14:00:03+00:00"
+    "updatedAt": "2026-09-25T15:32:38+00:00"
   },
   {
     "id": "retro-bowling",
