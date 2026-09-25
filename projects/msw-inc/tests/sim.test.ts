@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import * as S from '../app/src/sim/sim';
 import { useRules, V11, V13 } from '../app/src/sim/rules';
 import { PERSONAS, runPersona, firstSession, lightClone } from '../app/src/sim/bots';
-import { DEX_TOTAL, PLOTS } from '../app/src/sim/content';
+import { DEX_TOTAL, PLOTS, CHAPTERS } from '../app/src/sim/content';
 
 let passed = 0;
 const t = (name: string, fn: () => void) => {
@@ -216,6 +216,10 @@ t('결재 ② 눈금: 25%에 이번 장 계열 채용권, 75%까지 이벤트권
   assert.ok(w.tickets.event >= ev0 + 2, '75% 눈금 이벤트권 2장');
   w.approvalReady = true; S.approve(w);
   assert.equal(w.marks.length, 0, '새 장은 눈금을 처음부터 센다');
+});
+
+t('머쉬맘 결재 대사는 옛 조건(동시 인원 N명)을 말하지 않는다', () => {
+  for (const c of CHAPTERS) assert.ok(!/\d+\s*명/.test(c.say), c.say);
 });
 
 t('옛 세이브(v2)는 버리지 않고 v3로 올린다', () => {

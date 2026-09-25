@@ -73,6 +73,15 @@ try {
     if (m !== "report") throw new Error("리포트 안 뜸 " + m);
     await b.click('.report [data-go="world"]'); await sleep(300);
   });
+  await step("출근 뒤 오렌: 근속이 찬 직원을 두고 기다리라고 하지 않는다 (F4)", async () => {
+    await pump(1);
+    const r = await b.eval(`(() => { const {A,M} = window.__msw; const t = document.querySelector('#orenTxt').textContent;
+      const ready = M.gapSegments(A.w).map(g => M.growingToward(A.w, g)).filter(m => m && M.canEvolve(m));
+      return { t, bad: ready.length > 0 && t.includes('근속을 기다려요'), go: !!A.ui.orenGo, ready: ready.length }; })()`);
+    if (r.bad) throw new Error("오렌이 진화 가능한 직원을 두고 기다리라고 한다: " + r.t);
+    if (r.ready && !r.go) throw new Error("진화할 수 있는데 오렌을 눌러도 갈 곳이 없다: " + r.t);
+    console.log("   오렌:", r.t);
+  });
   await step("도감 열고 닫기", async () => { await b.click("#bDex"); await sleep(200); await b.click("#modal [data-close]"); });
   await step("직원 말풍선 → 현장 보기", async () => { await b.eval("window.__msw.A.speed = 1"); await pump(1); await b.click("#world .mon"); await sleep(200); await b.click(".pop-mon [data-see]"); await sleep(200); await b.click("#dBack"); });
   await step("새로고침해도 세이브가 이어진다", async () => {

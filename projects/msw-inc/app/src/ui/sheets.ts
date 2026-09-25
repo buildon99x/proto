@@ -63,10 +63,13 @@ A.openHire = (opt = {}) => {
   let sub = '1단계 직원만 뽑을 수 있어요. 높은 단계는 키워서만 얻어요';
   if (into) sub += ` · 뽑으면 바로 <b>${plotName(into)}</b>에 배치`;
   else sub += ' · 뽑은 직원은 대기실로';
-  if (growing && seg) sub = `<b>${segTxt(seg)}</b>는 ${josa(M.monName(growing), '이', '가')} 한 번 더 진화하면 이어져요 (근속 ${n(growing.tenure)} / ${n(M.evolveNeed(growing))})`;
+  if (growing && seg && M.canEvolve(growing)) sub = `<b>${segTxt(seg)}</b>는 ${josa(M.monName(growing), '이', '가')} 지금 진화하면 이어져요 <button class="subev" data-ev="${growing.id}">▲ 진화 보기</button>`;
+  else if (growing && seg) sub = `<b>${segTxt(seg)}</b>는 ${josa(M.monName(growing), '이', '가')} 한 번 더 진화하면 이어져요 (근속 ${n(growing.tenure)} / ${n(M.evolveNeed(growing))})`;
   else if (grow && seg) sub = `<b>${segTxt(seg)}</b>는 채용으로는 안 닿아요. <b>${SPECIES[grow.sp].names[0]}</b>를 뽑아 혼자 두고 키우면 진화 ${grow.stage}번에 Lv ${grow.lv}가 돼요`;
   const sh = openSheet('hire', 'var(--flow)', `<div class="sh-title">신입 채용 <small>${sub}</small></div><div class="cards">${cards}</div>`);
   $$<HTMLElement>('[data-hire]', sh).forEach(b => (b.onclick = () => doHire(b.dataset.hire as SpeciesId, into)));
+  const subev = $<HTMLElement>('.subev', sh);
+  if (subev) subev.onclick = () => { A.closeSheet(); A.openEvolve(+(subev.dataset.ev || 0)); };
   snd.play('ui');
 };
 function doHire(sp: SpeciesId, into: PlotId | null) {

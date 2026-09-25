@@ -46,11 +46,12 @@ export const TRAITS: Record<TraitId, { icon: string; name: string; desc: string 
 
 export interface Chapter { n: number; region: string; road: number; happy: number; say: string }
 export const CHAPTERS: Chapter[] = [
-  { n: 1, region: '헤네시스', road: 15, happy: 20, say: 'Lv 15까지 잇고, 20명이 즐기면. 그럼 결재.' },
-  { n: 2, region: '엘리니아', road: 30, happy: 60, say: 'Lv 30까지 이어요. 그럼 결재.' },
-  { n: 3, region: '페리온', road: 45, happy: 110, say: 'Lv 45까지. 110명. 그럼 결재.' },
-  { n: 4, region: '커닝시티', road: 60, happy: 160, say: 'Lv 60까지. 사람이 많아지겠네요. 결재는 그다음.' },
-  { n: 5, region: '슬리피우드', road: 70, happy: 220, say: '끝까지 이어요. 발록 씨 던전도 열고요. 그럼 마지막 결재.' },
+  // say는 결재 조건(v1.3)을 말한다. 숫자는 막대가 말한다. happy는 v1.1 비교용(동시 인원)이라 그대로 둔다
+  { n: 1, region: '헤네시스', road: 15, happy: 20, say: 'Lv 15까지 잇고, 즐거운 시간이 쌓이면. 그럼 결재.' },
+  { n: 2, region: '엘리니아', road: 30, happy: 60, say: 'Lv 30까지 이어요. 즐거운 시간은 막대가 셉니다. 그럼 결재.' },
+  { n: 3, region: '페리온', road: 45, happy: 110, say: 'Lv 45까지. 손님들이 즐긴 시간이 차면. 그럼 결재.' },
+  { n: 4, region: '커닝시티', road: 60, happy: 160, say: 'Lv 60까지. 사람이 많아지겠네요. 시간이 차면, 결재는 그다음.' },
+  { n: 5, region: '슬리피우드', road: 70, happy: 220, say: '끝까지 이어요. 발록 씨 던전도 열고, 슬리피우드 식구도 한 명. 그럼 마지막 결재.' },
 ];
 
 export interface Region { n: number; name: string; from: number; to: number }

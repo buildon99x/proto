@@ -326,6 +326,8 @@ export function orenPick(): OrenLine {
     if (!M.recommendSpecies(w, gap.seg)) {
       const g = M.recommendGrow(w, gap.seg);
       const grow = g && M.growingToward(w, gap.seg);
+      // F4: 이미 근속이 찼으면 기다리라고 하지 않는다 — 지금 진화 시트로 보낸다
+      if (grow && M.canEvolve(grow)) return { t: `${rng}는 ${josa(M.monName(grow), '이', '가')} 지금 진화할 수 있어요!! ▲ 눌러서 승진 발령해요!!`, go: () => A.openEvolve(grow.id) };
       if (grow) return { t: `${rng}는 ${josa(M.monName(grow), '이', '가')} 진화하면 이어져요!! 근속을 기다려요!!`, go: null };
       if (g) return { t: `${rng}는 채용으로는 안 닿아요!! ${josa(SPECIES[g.sp].names[0], '을', '를')} 뽑아 키워봐요!!`, go: () => A.openHire({ seg: gap.seg }) };
     }
