@@ -5,7 +5,7 @@
  * 서버 시간 모델: 화면이 켜져 있든 아니든 같은 step()으로 월드를 굴린다.
  * 단위: 시간은 월드 분(minute). step(w, dt)는 dt분만큼 진행한다.
  */
-import { CHAPTERS, PLOTS, SPECIES, plotInfo, fieldBoss, bossDexKey, type PlotId, type SpeciesId } from './content';
+import { CHAPTERS, PLOTS, SPECIES, FIELD_BOSSES, plotInfo, fieldBoss, bossDexKey, type PlotId, type SpeciesId } from './content';
 import { RULES } from './rules';
 
 // ── 타입 ────────────────────────────────────────────────────
@@ -129,6 +129,16 @@ export const TUT_PARTIES: TutParty[] = [
 
 /** 이 규칙에서 쓰는 부지 (v1.4 초반 사냥터 포함 여부) */
 export const plotsInPlay = () => PLOTS.filter(p => !p.extra || RULES.morePlots);
+/** 이 규칙에서 쓰는 계열인가 (v1.5 계열 사다리 포함 여부) */
+export const spInPlay = (sp: SpeciesId) => !SPECIES[sp].extra || RULES.moreSpecies;
+export const speciesInPlay = () => (Object.keys(SPECIES) as SpeciesId[]).filter(spInPlay);
+/**
+ * 도감 전체 칸 수: 직원 36(10계열 × 3단계 + 보스 5 + 발록) + 필드 보스 4 = 40.
+ * v1.5 계열 사다리는 3단계 계열 4개로 +12 = 52
+ */
+export const dexTotal = () => speciesInPlay().reduce((n, sp) => n + SPECIES[sp].names.length, 0) + FIELD_BOSSES.length;
+/** 계열이 사는 지역 (없으면 합류한 장) */
+export const spRegion = (sp: SpeciesId) => SPECIES[sp].region ?? SPECIES[sp].chapter;
 export const plotsOfRegion = (region: number) => plotsInPlay().filter(p => p.region === region).length;
 function unlockPlots(w: World, region: number) {
   for (const p of plotsInPlay()) {
@@ -441,7 +451,7 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
 /** ② 막대 눈금 보상: 25% 이번 장 계열 채용권 · 50% 필드 보스(없으면 이벤트권) · 75% 이벤트권 2장 */
 export function markReward(w: World, i: number): MarkReward {
   if (i === 0) {
-    const sps = (Object.keys(SPECIES) as SpeciesId[]).filter(sp => SPECIES[sp].chapter === w.chapter);
+    const sps = speciesInPlay().filter(sp => SPECIES[sp].chapter === w.chapter);
     const count = (sp: SpeciesId) => w.monsters.filter(m => m.sp === sp).length;
     sps.sort((a, b) => count(a) - count(b) || SPECIES[a].base - SPECIES[b].base);
     return { kind: 'hire', sp: sps[0] };
@@ -683,11 +693,12 @@ const no = (msg: string, extra: { short?: number } = {}): { ok: false; msg: stri
 const fmtN = (n: number) => Math.ceil(n).toLocaleString('ko-KR');
 
 export const hireCost = (sp: SpeciesId) => RULES.hireUnit * SPECIES[sp].base;
-export const plotCost = (id: PlotId) => RULES.plotCost * plotInfo(id).region;
+/** 개업비 = 기본 × 지역. v1.5부터 챕터 배율(plotCurve)을 곱한다 */
+export const plotCost = (w: World, id: PlotId) => Math.round(RULES.plotCost * plotInfo(id).region * (RULES.plotCurve ? RULES.plotCurve[w.chapter - 1] : 1));
 /** 지금 이 부지를 여는 데 드는 스마일: 이미 열렸으면 0, 개업권이 있으면 0 (v1.3) */
 const openCost_ = (w: World, id: PlotId) => openCost(w, id);
-export const openCost = (w: World, id: PlotId) => (w.plots[id] && w.plots[id].open ? 0 : w.tickets.plot > 0 ? 0 : plotCost(id));
-export const canHireSpecies = (w: World, sp: SpeciesId) => SPECIES[sp].chapter > 0 && SPECIES[sp].chapter <= w.chapter;
+export const openCost = (w: World, id: PlotId) => (w.plots[id] && w.plots[id].open ? 0 : w.tickets.plot > 0 ? 0 : plotCost(w, id));
+export const canHireSpecies = (w: World, sp: SpeciesId) => spInPlay(sp) && SPECIES[sp].chapter > 0 && SPECIES[sp].chapter <= w.chapter;
 export const hasHireTicket = (w: World, sp: SpeciesId) => w.tickets.hire.includes(sp);
 
 export function hire(w: World, sp: SpeciesId, into?: PlotId | null): Result<{ mon: Monster; cost: number; free: boolean }> {
@@ -874,7 +885,7 @@ export function approve(w: World): Result<{ chapter: number; ending: boolean }> 
   unlockPlots(w, w.chapter);
   // 첫 10분 한 바퀴 (v1.3): 1장 결재 선물 — 새 지역 첫 계열 채용권 + 개업권
   if (RULES.firstLoop && w.chapter === 2) {
-    const first = (Object.keys(SPECIES) as SpeciesId[]).filter(sp => SPECIES[sp].chapter === 2).sort((a, b) => SPECIES[a].base - SPECIES[b].base)[0];
+    const first = speciesInPlay().filter(sp => SPECIES[sp].chapter === 2 && spRegion(sp) === 2).sort((a, b) => SPECIES[a].base - SPECIES[b].base)[0];
     if (first) w.tickets.hire.push(first);
     w.tickets.plot++;
   }
@@ -1034,27 +1045,40 @@ export function moveFix(w: World, seg: Seg): MoveFix | null {
 
 /**
  * 붐빔 풀기 (v1.4): 자리를 더 늘릴 수 없는 던전 앞에 4명 넘게 줄을 서면, 기다리는 사람들 레벨에 던전을 하나 더 연다.
- * 새 던전은 길을 덮기만 하므로 빈틈을 만들지 않는다. 채용권이 있으면 그 계열을 먼저 쓴다
+ * 새 던전은 길을 덮기만 하므로 빈틈을 만들지 않는다. 채용권이 있으면 그 계열을 먼저 쓴다.
+ * 사다리로 나누기 (v1.5, 계열 사다리): 자리를 늘릴 수 있어도 4명 넘게 줄을 섰고, 줄 선 사람 절반 이상을 덮으면서 레벨이 3 이상 다른 계열이 있으면
+ * 그 계열로 던전을 하나 더 여는 수를 권한다(split). 같은 레벨 복제는 자리 확장이 싸니 권하지 않는다
  */
-export interface CrowdFix { d: PlotId; n: number; lo: number; hi: number; sp: SpeciesId; to: PlotId; cost: number }
+export interface CrowdFix { d: PlotId; n: number; lo: number; hi: number; sp: SpeciesId; to: PlotId; cost: number; split: boolean }
+/** 사다리로 나눌 때 던전 레벨과 떨어져야 하는 최소 레벨 차 */
+export const SPLIT_GAP = 3;
 export function crowdFix(w: World): CrowdFix | null {
   const busy: Record<string, number[]> = {};
   for (const a of w.advs) if (a.st === 'busy' && a.near) (busy[a.near] = busy[a.near] || []).push(a.lv);
-  const d = Object.keys(busy).filter(id => seatCost(w, w.dungeons[id]) == null).sort((a, b) => busy[b].length - busy[a].length)[0];
-  if (!d || busy[d].length < 4) return null;
-  const lvs = busy[d];
+  const maxed = (id: string) => seatCost(w, w.dungeons[id]) == null;
+  const byN = Object.keys(busy).sort((a, b) => busy[b].length - busy[a].length);
+  const full = byN.find(maxed);
+  // 자리가 꽉 찬 던전(가장 긴 줄) 먼저, 사다리가 켜져 있으면 자리를 늘릴 수 있는 던전도
+  const ds = [...(full ? [full] : []), ...(RULES.moreSpecies ? byN.filter(id => !maxed(id)) : [])].filter(id => busy[id].length >= 4);
+  if (!ds.length) return null;
   const to = Object.keys(w.plots).filter(id => !monsIn(w, id).length)
-    .sort((a, b) => +w.plots[b].open - +w.plots[a].open || plotCost(a) - plotCost(b))[0];
+    .sort((a, b) => +w.plots[b].open - +w.plots[a].open || plotCost(w, a) - plotCost(w, b))[0];
   if (!to) return null;
-  let best: CrowdFix | null = null, bestN = 0;
-  for (const sp of Object.keys(SPECIES) as SpeciesId[]) {
-    if (!canHireSpecies(w, sp)) continue;
-    const b = SPECIES[sp].base, n = lvs.filter(L => Math.abs(L - b) <= 5).length;
-    const cost = (hasHireTicket(w, sp) ? 0 : hireCost(sp)) + openCost(w, to);
-    if (n * 2 < lvs.length) continue;
-    if (!best || n > bestN || (n === bestN && cost < best.cost)) { best = { d, n: lvs.length, lo: Math.min(...lvs), hi: Math.max(...lvs), sp, to, cost }; bestN = n; }
+  const lv = levelsOf(w);
+  for (const d of ds) {
+    const lvs = busy[d], split = !maxed(d);
+    let best: CrowdFix | null = null, bestN = 0;
+    for (const sp of Object.keys(SPECIES) as SpeciesId[]) {
+      if (!canHireSpecies(w, sp)) continue;
+      const b = SPECIES[sp].base, n = lvs.filter(L => Math.abs(L - b) <= 5).length;
+      if (split && Math.abs(b - lv[d]) < SPLIT_GAP) continue;
+      const cost = (hasHireTicket(w, sp) ? 0 : hireCost(sp)) + openCost(w, to);
+      if (n * 2 < lvs.length) continue;
+      if (!best || n > bestN || (n === bestN && cost < best.cost)) { best = { d, n: lvs.length, lo: Math.min(...lvs), hi: Math.max(...lvs), sp, to, cost, split }; bestN = n; }
+    }
+    if (best) return best;
   }
-  return best;
+  return null;
 }
 
 /** 막힌 사람이 가장 많은 빈틈 */

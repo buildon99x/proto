@@ -72,6 +72,10 @@ export interface Rules {
   morePlots: boolean;
   /** 새 던전의 기본 자리 */
   seatBase: number;
+  /** 헤네시스·엘리니아 계열 +2종씩 (v1.5, content.ts의 extra 계열). 2장부터 채용한다 */
+  moreSpecies: boolean;
+  /** 챕터별 개업 비용 배율 (v1.5). null이면 1 */
+  plotCurve: number[] | null;
 }
 
 export const V11: Rules = {
@@ -101,6 +105,8 @@ export const V11: Rules = {
   hireUnit: 100,
   morePlots: false,
   seatBase: 8,
+  moreSpecies: false,
+  plotCurve: null,
 };
 
 export const V12: Rules = {
@@ -164,5 +170,17 @@ export const V14: Rules = {
   incomeCurve: [1, 0.6, 0.2, 0.12, 0.08],
 };
 
-export const RULES: Rules = { ...V14 };
+/**
+ * V15는 계열 사다리다. 헤네시스·엘리니아에 계열을 둘씩 더해(지역당 4종) 붐빔을 자리 확장만이 아니라
+ * "다른 레벨 계열로 던전을 하나 더"로도 풀게 한다. 근거와 수치는 notes/ladder-v15.md.
+ */
+export const V15: Rules = {
+  ...V14,
+  id: 'v1.5',
+  moreSpecies: true,
+  // 줄을 나누는 새 던전이 자리 확장과 겨룰 수 있게 2장 개업비를 절반으로 (엘리니아 1,000 → 500, 헤네시스 500 → 250)
+  plotCurve: [1, 0.5, 1, 1, 1],
+};
+
+export const RULES: Rules = { ...V15 };
 export function useRules(r: Rules): void { Object.assign(RULES, r); }

@@ -223,7 +223,7 @@ function tryEvolve(w: World, p: Persona, log: string[], onlyHelping: boolean): b
 
 /** 자리가 모자랄 때: 사람이 가장 많이 기다리는 레벨에 던전을 하나 더 연다 */
 function planExpand(w: World): { sp: SpeciesId; to: PlotId } | null {
-  const empty = Object.keys(w.plots).filter(id => !S.monsIn(w, id).length).sort((a, b) => +w.plots[b].open - +w.plots[a].open || S.plotCost(a) - S.plotCost(b));
+  const empty = Object.keys(w.plots).filter(id => !S.monsIn(w, id).length).sort((a, b) => +w.plots[b].open - +w.plots[a].open || S.plotCost(w, a) - S.plotCost(w, b));
   if (!empty.length) return null;
   // 레벨별 인구 (즐거움 + 기다림)
   const pop = new Array(101).fill(0);
@@ -314,6 +314,13 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
       const bp = S.bestPlaces(w, tr.id);
       if (bp.length && S.place(w, tr.id, bp[0]).ok) { log.push('place'); acts++; continue; }
       if ((p.release ?? true) && S.release(w, tr.id).ok) { log.push('release'); acts++; continue; }
+    }
+    // 사다리로 나누기 (v1.5): 줄 선 레벨에 맞는 다른 계열이 있으면 자리보다 던전을 하나 더 연다
+    const sf = RULES.moreSpecies ? S.crowdFix(w) : null;
+    if (sf && sf.split && sf.cost <= w.smile) {
+      const h = S.hire(w, sf.sp, null);
+      if (h.ok && S.place(w, h.mon.id, sf.to).ok) { log.push('split:' + sf.sp); acts++; continue; }
+      if (h.ok) S.unhire(w, h.mon.id, h.free ? 'ticket' : h.cost);
     }
     // 과밀: 자리 확장
     // 가장 붐비는 곳부터, 살 수 있는 자리를 산다

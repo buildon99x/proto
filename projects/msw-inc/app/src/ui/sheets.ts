@@ -2,7 +2,7 @@
  * S3 진화(+승진 발령) · S5 채용 · S6 결재 · S0 출근 리포트 · S7 매니저 퇴근 · 직원 말풍선 · 도감 · 엔딩 · 완전 클리어
  */
 import { A, $, $$, must, h, n, clamp, img, sil, monArt, josa, ro, plotName, plotShort, segTxt, clockText, dur, snd, nope, toast, emit, refresh, renderOren, rectOf, shake, joyText, save, markTicks, markLabel, RULES, M } from './app';
-import { CHAPTERS, SPECIES, SPECIES_IDS, TRAITS, DEX_TOTAL, FIELD_BOSSES, fieldBoss, bossDexKey, type PlotId, type SpeciesId } from '../sim/content';
+import { CHAPTERS, SPECIES, SPECIES_IDS, TRAITS, FIELD_BOSSES, fieldBoss, bossDexKey, type PlotId, type SpeciesId } from '../sim/content';
 
 const segList = (ss: M.Seg[]) => ss.map(segTxt).join(', ');
 
@@ -40,7 +40,7 @@ A.openHire = (opt = {}) => {
   const growing = seg && grow ? M.growingToward(w, seg) : null;
   const want3 = M.needsNative(w) && !M.hasNativeDungeon(w);
   const cond3 = (sp: SpeciesId) => want3 && M.isNative(sp);
-  const list = SPECIES_IDS.filter(sp => SPECIES[sp].chapter > 0 && SPECIES[sp].chapter <= w.chapter + 1)
+  const list = SPECIES_IDS.filter(sp => M.spInPlay(sp) && SPECIES[sp].chapter > 0 && SPECIES[sp].chapter <= w.chapter + 1)
     .sort((a, b) => (+(b === rec || b === grow?.sp) - +(a === rec || a === grow?.sp)) || (+cond3(b) - +cond3(a)) || (SPECIES[a].chapter - SPECIES[b].chapter) || (SPECIES[a].base - SPECIES[b].base));
   let cards = '';
   for (const sp of list) {
@@ -69,7 +69,9 @@ A.openHire = (opt = {}) => {
   else if (growing && seg && M.canEvolve(growing)) sub = `<b>${segTxt(seg)}</b>는 ${josa(M.monName(growing), '이', '가')} 지금 진화하면 이어져요 <button class="subev" data-ev="${growing.id}">▲ 진화 보기</button>`;
   else if (growing && seg) sub = `<b>${segTxt(seg)}</b>는 ${josa(M.monName(growing), '이', '가')} 한 번 더 진화하면 이어져요 (근속 ${n(growing.tenure)} / ${n(M.evolveNeed(growing))})`;
   else if (grow && seg) sub = `<b>${segTxt(seg)}</b>는 채용으로는 안 닿아요. <b>${SPECIES[grow.sp].names[0]}</b>를 뽑아 혼자 두고 키우면 진화 ${grow.stage}번에 Lv ${grow.lv}가 돼요`;
-  if (cf) sub = `<b>${plotName(cf.d)}</b> 앞에 ${cf.n}명이 줄 섰어요(Lv ${cf.lo}–${cf.hi}). 자리는 더 못 늘리니 같은 레벨 던전을 하나 더 — 뽑으면 <b>${plotName(cf.to)}</b>가 빛나요`;
+  if (cf) sub = cf.split
+    ? `<b>${plotName(cf.d)}</b> 앞에 ${cf.n}명이 줄 섰어요(Lv ${cf.lo}–${cf.hi}). 자리를 늘려도 되지만, 레벨이 다른 계열로 던전을 하나 더 열면 줄이 나뉘어요 — 뽑으면 <b>${plotName(cf.to)}</b>가 빛나요`
+    : `<b>${plotName(cf.d)}</b> 앞에 ${cf.n}명이 줄 섰어요(Lv ${cf.lo}–${cf.hi}). 자리는 더 못 늘리니 같은 레벨 던전을 하나 더 — 뽑으면 <b>${plotName(cf.to)}</b>가 빛나요`;
   const sh = openSheet('hire', 'var(--flow)', `<div class="sh-title">신입 채용 <small>${sub}</small></div><div class="cards">${cards}</div>`);
   $$<HTMLElement>('[data-hire]', sh).forEach(b => (b.onclick = () => doHire(b.dataset.hire as SpeciesId, into, cf && b.dataset.hire === cf.sp ? cf.to : null)));
   const subev = $<HTMLElement>('.subev', sh);
@@ -292,7 +294,7 @@ A.openApproval = () => {
   const ch = M.chapterInfo(w), c = M.approvalConds(w), j = joyText(w);
   const ok1 = w.approvalReady || c.road, ok2 = w.approvalReady || c.happy, ok3 = w.approvalReady || c.balrog, ok3n = w.approvalReady || c.native;
   const next = CHAPTERS[ch.n];
-  const nextSp = SPECIES_IDS.filter(k => SPECIES[k].chapter === ch.n + 1).map(k => SPECIES[k].names[0]);
+  const nextSp = SPECIES_IDS.filter(k => M.spInPlay(k) && SPECIES[k].chapter === ch.n + 1).map(k => SPECIES[k].names[0]);
   const modal = must('#modal');
   modal.hidden = false; A.ui.modal = 'approval';
   modal.innerHTML = `<div class="paper appr">
@@ -397,7 +399,7 @@ A.openFullClear = () => {
   modal.hidden = false; A.ui.modal = 'fullclear';
   modal.innerHTML = `<div class="codex fc"><button class="x" data-close>✕</button>
     <h2>🏝️ 완전 클리어 체크리스트</h2>
-    <div class="fcsum"><div class="${fc.ending ? 'ok' : ''}">엔딩 ${fc.ending ? '✓' : '—'}</div><div class="${fc.starred >= fc.plots ? 'ok' : ''}">던전 ★3 ${fc.starred}/${fc.plots}</div><div class="${fc.dex >= DEX_TOTAL ? 'ok' : ''}">도감 ${fc.dex}/${DEX_TOTAL}</div></div>
+    <div class="fcsum"><div class="${fc.ending ? 'ok' : ''}">엔딩 ${fc.ending ? '✓' : '—'}</div><div class="${fc.starred >= fc.plots ? 'ok' : ''}">던전 ★3 ${fc.starred}/${fc.plots}</div><div class="${fc.dex >= M.dexTotal() ? 'ok' : ''}">도감 ${fc.dex}/${M.dexTotal()}</div></div>
     <div class="fcgrid">${rows}</div>
     <div class="dim" style="margin-top:10px">던전 ★은 그 던전의 누적 즐거움(😊 × 시간)으로 올라요. ★1 100 · ★2 500 · ★3 2,000</div></div>`;
   const close = () => { modal.hidden = true; modal.innerHTML = ''; A.ui.modal = null; };
@@ -550,7 +552,7 @@ A.offDuty = why => {
 A.openCodex = () => {
   const w = A.w;
   let rows = '';
-  for (const sp of SPECIES_IDS) {
+  for (const sp of M.speciesInPlay()) {
     const s = SPECIES[sp];
     const open = sp === 'balrog' ? !!w.dex['balrog:0'] : s.chapter <= w.chapter;
     rows += `<div class="rowc"><div class="nm">${open ? (sp === 'balrog' ? '특별 입사' : s.names[0] + ' 계열') : '???'}<small>${s.trait ? TRAITS[s.trait].icon + ' ' + TRAITS[s.trait].name : s.note && open ? s.note : '표준'}</small></div>`;
@@ -568,7 +570,7 @@ A.openCodex = () => {
   rows += `</div>`;
   const modal = must('#modal');
   modal.hidden = false; A.ui.modal = 'codex';
-  modal.innerHTML = `<div class="codex"><button class="x" data-close>✕</button><h2>📖 도감 <small>${M.dexCount(w)} / ${DEX_TOTAL} · 높은 단계는 키워서만, 필드 보스는 토벌해서 얻어요</small></h2><div class="codexbody">${rows}</div></div>`;
+  modal.innerHTML = `<div class="codex"><button class="x" data-close>✕</button><h2>📖 도감 <small>${M.dexCount(w)} / ${M.dexTotal()} · 높은 단계는 키워서만, 필드 보스는 토벌해서 얻어요</small></h2><div class="codexbody">${rows}</div></div>`;
   const close = () => { modal.hidden = true; modal.innerHTML = ''; A.ui.modal = null; };
   must('[data-close]', modal).onclick = close;
   modal.onclick = e => { if (e.target === modal) close(); };

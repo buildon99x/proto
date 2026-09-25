@@ -86,6 +86,32 @@ const mBalrog = () => map([
   'h..........h', 'hh.RRRRRR.hh', '.hRRRRRRRRh.', '.RRyRRRRyRR.', '.RRRRRRRRRR.', 'wRRRkkkkRRRw', 'wwRRRRRRRRww', '..RRRRRRRR..', '..RR....RR..',
 ], { R: '#6b2a3a', h: '#c9c0a8', y: CROWN, k: '#2d2a3e', w: '#4a2030' });
 
+// v1.5 계열 사다리 (가칭 · 자리표시): 돼지·옥토퍼스(헤네시스), 주니어 네키·루팡(엘리니아)
+const mPig = (P: string, D: string, top: 'ribbon' | 'iron' | null = null) => {
+  const rows = ['.E........E.', '.EPPPPPPPPE.', 'PPPPPPPPPPPP', 'PPkPPPPPPkPP', 'PPPPNNNNPPPP', 'PPPPNnnNPPPP', '.PPPPPPPPPP.', '.DD.DD.DD.DD'];
+  if (top === 'ribbon') rows.unshift('...rr..rr...', '....rrrr....');
+  if (top === 'iron') rows.unshift('..IIIIIIII..', '.IIiIIIIIII.');
+  return map(rows, { P, D, E: D, N: '#f4b8c0', n: '#b85a6a', k: '#2d2a3e', r: '#e0533d', I: '#7a8494', i: '#c9d2dc' });
+};
+const mOcto = (O: string, T: string, hat = false) => {
+  const rows = ['...OOOOOO...', '..OOOOOOOO..', '.OOlOOOOOOO.', '.OOkOOOOkOO.', '.OOOOOOOOOO.', '..OOOrrOOO..', '.T.T.TT.T.T.', 'T.T.T..T.T.T'];
+  if (hat) rows.unshift('....HHHH....', '...HHHHHH...');
+  return map(rows, { O, T, l: '#ffffffaa', k: '#2d2a3e', r: '#2d2a3e', H: '#3a4a8a' });
+};
+const mSnake = (S: string, B: string, hood = false) => {
+  const rows = ['.......SSS..', '......SkSSS.', '......SSSSrr', '.....SS.....', '....SS......', '..SSS.......', '.SSBBSSSSSS.', 'SSSSSSSSSSSS'];
+  if (hood) { rows[0] = '......HSSSH.'; rows[1] = '.....HSkSSSH'; }
+  return map(rows, { S, B, H: B, k: '#ffe14d', r: '#e0533d' });
+};
+const mMonkey = (M: string, F: string, t: string) => map([
+  '..MMMMMM....', '.MMFFFFMM...', 'MMFkFFkFMM..', '.MFFFFFFM...', '..FFrrFF..tt', '.MMMMMMMM.t.', 'M.MMMMMM.t..', '..MM..MM....',
+], { M, F, t, k: '#2d2a3e', r: '#c0392b' });
+/** 작은 격자를 1.5배로 — 사다리 계열의 큰 도트 (자리표시, 다른 큰 도트와 폭을 맞춘다) */
+const up = (g: Grid): Grid => {
+  const h = Math.round(g.length * 1.5), w = Math.round(g[0].length * 1.5);
+  return Array.from({ length: h }, (_, y) => Array.from({ length: w }, (_, x) => g[Math.floor(y / 1.5)][Math.floor(x / 1.5)]));
+};
+
 // 필드 보스 (v1.3, 가칭 · 자리표시): 작은 격자를 크게 그려 쓴다
 const mFaust = () => map([
   '..h......h..', '..hh....hh..', '...PPPPPP...', '..PPPPPPPP..', '.PPkPPPPkPP.', '.PPPffffPPP.',
@@ -228,6 +254,10 @@ const SPR: Record<string, () => Grid> = {
   'm:idrake': () => mDrake('#6aa0c8', '#e8f0f8'), 'm:ddrake': () => mDrake('#3a2e4a', '#8a7aa8', true),
   'm:eye': () => mEye('#8a5aa8', '#d8433a'), 'm:ceye': () => mEye('#5a3a6a', '#7fd07a'), 'm:coldeye': () => mEye('#5a8ab8', '#3fa9f5'),
   'm:balrog': () => mBalrog(),
+  'm:pig': () => mPig('#f5b5c0', '#d9899a'), 'm:rpig': () => mPig('#f5b5c0', '#d9899a', 'ribbon'), 'm:ihog': () => mPig('#8a6a5a', '#5f463a', 'iron'),
+  'm:octo': () => mOcto('#e0707a', '#b84a5a'), 'm:bocto': () => mOcto('#b0508a', '#7a2f60'), 'm:kocto': () => mOcto('#5a6ac0', '#3a4a8a', true),
+  'm:necki': () => mSnake('#8ac05a', '#e8e0a8'), 'm:necki2': () => mSnake('#4f8a5a', '#d8d098'), 'm:kneck': () => mSnake('#5a3a8a', '#c9a23a', true),
+  'm:lupin': () => mMonkey('#8a5a3a', '#f0c89a', '#8a5a3a'), 'm:zlupin': () => mMonkey('#6a7a6a', '#c9d2b0', '#6a7a6a'), 'm:glupin': () => mMonkey('#c9a23a', '#f5e6a8', '#c9a23a'),
   'm:faust': () => mFaust(), 'm:golem': () => mGolem(), 'm:dyle': () => mCroco('#2a6b6b', '#c8e0a0', true), 'm:antking': () => mAnt(),
   // 큰 도트
   mush: () => mushroom({}), horn: () => mushroom({ cap: '#c46a33', shade: '#97491f', spot: '#f0b07a', horn: true }),
@@ -248,6 +278,10 @@ const SPR: Record<string, () => Grid> = {
   drake: () => drake({ c: '#6aa05a' }), rdrake: () => drake({ c: '#c0503a', belly: '#f0d0a8' }), idrake: () => drake({ c: '#6aa0c8', belly: '#e8f0f8' }),
   ddrake: () => drake({ c: '#3a2e4a', belly: '#8a7aa8', crown: true }),
   eye: () => eye({}), ceye: () => eye({ c: '#5a3a6a', iris: '#7fd07a' }), coldeye: () => eye({ c: '#5a8ab8', iris: '#3fa9f5' }),
+  pig: () => up(SPR['m:pig']()), rpig: () => up(SPR['m:rpig']()), ihog: () => up(SPR['m:ihog']()),
+  octo: () => up(SPR['m:octo']()), bocto: () => up(SPR['m:bocto']()), kocto: () => up(SPR['m:kocto']()),
+  necki: () => up(SPR['m:necki']()), necki2: () => up(SPR['m:necki2']()), kneck: () => up(SPR['m:kneck']()),
+  lupin: () => up(SPR['m:lupin']()), zlupin: () => up(SPR['m:zlupin']()), glupin: () => up(SPR['m:glupin']()),
   mom: () => mom(), oren: () => oren(), balrog: () => balrog(),
 };
 for (let i = 0; i < LOOKS.length; i++) { SPR['m:a' + i] = () => mAdv(i); SPR['a' + i] = () => adv(LOOKS[i]); }

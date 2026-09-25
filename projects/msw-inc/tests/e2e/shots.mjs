@@ -3,7 +3,7 @@
 import path from "node:path";
 import { launch, sleep, ROOT } from "./cdp.mjs";
 
-const ALL = ["intro", "gap", "hire", "dungeon", "evolve", "report", "approval", "promote", "grow", "ch2", "late", "ch5", "ending", "offduty", "codex", "fullclear", "elite", "boss", "bossinv", "rush10", "rush25", "rush40"];
+const ALL = ["intro", "gap", "hire", "dungeon", "evolve", "report", "approval", "promote", "grow", "ch2", "late", "ch5", "ending", "offduty", "codex", "fullclear", "elite", "boss", "bossinv", "rush10", "rush25", "rush40", "split"];
 const list = process.argv.slice(2).length ? process.argv.slice(2) : ALL;
 const b = await launch();
 const out = path.join(ROOT, "assets/screenshots");

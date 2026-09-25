@@ -5,7 +5,7 @@
  * 각 화면 모듈(world·dungeon·sheets·tut)이 이 객체에 자기 함수를 붙인다.
  */
 import * as M from '../sim/sim';
-import { plotInfo, SPECIES, DEX_TOTAL, fieldBoss, type PlotId } from '../sim/content';
+import { plotInfo, SPECIES, fieldBoss, type PlotId } from '../sim/content';
 import { RULES } from '../sim/rules';
 import { ART } from './art';
 
@@ -201,7 +201,7 @@ export function hudStatic() {
   const w = A.w;
   must('#vStars').innerHTML = '★'.repeat(w.stars) + '<i>' + '★'.repeat(5 - w.stars) + '</i>';
   must('#vDex').textContent = String(M.dexCount(w));
-  must('#vDexT').textContent = String(DEX_TOTAL);
+  must('#vDexT').textContent = String(M.dexTotal());
   must('#bSound').textContent = snd.on ? '🔊' : '🔇';
   $$('.proto [data-speed]').forEach(b => b.classList.toggle('on', +(b.dataset.speed || 0) === A.speed));
 }
@@ -235,7 +235,7 @@ export function renderDock(opt: { all?: boolean } = {}) {
   must('.plotsw').classList.toggle('expanded', !!opt.all && empties.length > 2);
   empties.slice(0, opt.all ? 15 : 2).forEach(id => {
     const open = w.plots[id].open;
-    pl.appendChild(h(`<div class="plot ${tg.includes(id) ? 'target' : ''}" data-plot="${id}"><b>${plotName(id)}</b>${open ? '<em class="okc">빈 던전</em>' : w.tickets.plot > 0 ? '<em class="okc">🎫 개업권</em>' : `<em><i class="mini-can"></i>${n(M.plotCost(id))}</em>`}</div>`));
+    pl.appendChild(h(`<div class="plot ${tg.includes(id) ? 'target' : ''}" data-plot="${id}"><b>${plotName(id)}</b>${open ? '<em class="okc">빈 던전</em>' : w.tickets.plot > 0 ? '<em class="okc">🎫 개업권</em>' : `<em><i class="mini-can"></i>${n(M.plotCost(w, id))}</em>`}</div>`));
   });
   if (!empties.length) pl.appendChild(h(`<div class="plot none">${w.chapter < 5 ? `부지를 다 썼어요. 다음 결재 때 부지 +${M.plotsOfRegion(w.chapter + 1)}` : '부지를 다 썼어요'}</div>`));
   if (!opt.all && empties.length > 2) pl.lastElementChild!.insertAdjacentHTML('beforeend', ` <small>+${empties.length - 2}</small>`);
@@ -311,7 +311,7 @@ export function renderDoc() {
     doc.innerHTML = `<h5>완전 클리어</h5><h4>섬 전체에 불이 켜졌어요</h4>
       <div class="stampslot done">완료</div>
       <div class="cond ${fc.starred >= fc.plots ? 'ok' : ''}"><span class="t">던전 ★3</span><div class="bar"><i style="width:${100 * fc.starred / fc.plots}%;background:var(--smile)"></i></div><span class="v">${fc.starred}/${fc.plots}</span></div>
-      <div class="cond ${fc.dex >= DEX_TOTAL ? 'ok' : ''}"><span class="t">도감</span><div class="bar"><i style="width:${100 * fc.dex / DEX_TOTAL}%;background:var(--evolve)"></i></div><span class="v">${fc.dex}/${DEX_TOTAL}</span></div>`;
+      <div class="cond ${fc.dex >= M.dexTotal() ? 'ok' : ''}"><span class="t">도감</span><div class="bar"><i style="width:${100 * fc.dex / M.dexTotal()}%;background:var(--evolve)"></i></div><span class="v">${fc.dex}/${M.dexTotal()}</span></div>`;
     return;
   }
   const ch = M.chapterInfo(w), c = M.approvalConds(w), j = joyText(w);
@@ -368,6 +368,9 @@ export function orenPick(): OrenLine {
   if (tr.length) return { t: `대기실에 ${josa(M.monName(tr[0]), '이', '가')} 기다려요!! 던전에 놓거나 본사로 보내요!!`, go: () => A.highlightBest(tr[0].id) };
   const busy = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy').sort((p, q) => q.n - p.n)[0];
   if (busy && busy.n >= 2) {
+    // v1.5 계열 사다리: 줄 선 레벨에 맞는 다른 계열이 있고 살 수 있으면 자리보다 먼저 권한다 (줄을 레벨로 나눈다)
+    const sf = M.crowdFix(w);
+    if (sf && sf.split && sf.cost <= w.smile) return { t: `${plotShort(sf.d)} 앞에 ${sf.n}명이 줄 섰어요!! ${SPECIES[sf.sp].names[0]}(Lv ${SPECIES[sf.sp].base}) 하나 뽑아 ${plotShort(sf.to)}에 열면 줄이 나뉘어요!!`, go: () => A.openHire({ crowd: sf }) };
     // 자리를 늘릴 수 있는 곳부터. 모두 최대면 같은 레벨에 던전을 하나 더 (v1.4 붐빔 풀기)
     const seatable = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy' && x.n >= 2 && M.seatCost(w, w.dungeons[x.d]) != null).sort((p, q) => q.n - p.n)[0];
     if (seatable) return { t: `${plotName(seatable.d)} 만원이에요!! 자리를 늘리거나 옆 던전에 드랍 이벤트를 걸어봐요!!`, go: () => A.openDungeon(seatable.d, { hl: 'seat' }) };
@@ -378,7 +381,7 @@ export function orenPick(): OrenLine {
   if (ev) { const m = w.monsters.find(x => x.id === ev.mon)!; return { t: `${josa(M.monName(m), '이', '가')} 진화할 수 있대요!! ▲를 눌러봐요!!`, go: () => A.openEvolve(m.id) }; }
   if (w.ended) {
     const fc = M.fullClear(w);
-    if (fc.starred < fc.plots || fc.dex < DEX_TOTAL) return { t: `완전 클리어까지 던전 ★3 ${fc.plots - fc.starred}곳, 도감 ${DEX_TOTAL - fc.dex}칸 남았어요!!`, go: () => A.openFullClear() };
+    if (fc.starred < fc.plots || fc.dex < M.dexTotal()) return { t: `완전 클리어까지 던전 ★3 ${fc.plots - fc.starred}곳, 도감 ${M.dexTotal() - fc.dex}칸 남았어요!!`, go: () => A.openFullClear() };
     return { t: '완전 클리어!! 매니저님은 이 섬의 전설이에요!!', go: null };
   }
   if (w.tickets.event > 0 && M.activeEvents(w) < M.maxEvents(w)) return { t: `무료 이벤트권 ${w.tickets.event}장 있어요!! 붐비는 던전에 경험치 2배 걸어봐요!!`, go: () => { const occ = (id: string) => w.advs.filter(a => a.st === 'happy' && a.d === id).length; const id = Object.keys(M.levelsOf(w)).filter(x => !w.dungeons[x].event).sort((p, q) => occ(q) - occ(p))[0]; if (id) A.openDungeon(id, { hl: 'exp' }); } };

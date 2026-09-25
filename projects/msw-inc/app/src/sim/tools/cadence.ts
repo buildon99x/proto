@@ -15,12 +15,12 @@
  */
 import { writeFileSync } from 'node:fs';
 import * as S from '../sim';
-import { useRules, V12, V13, RULES, type Rules } from '../rules';
+import { useRules, V12, V13, V14, RULES, type Rules } from '../rules';
 import { firstSession, watchTo, realMinutes } from '../bots';
 
 const args = process.argv.slice(2);
 const arg = (k: string) => (args.includes(k) ? args[args.indexOf(k) + 1] : null);
-const BY_ID: Record<string, Rules> = { 'v1.2': V12, 'v1.3': V13 };
+const BY_ID: Record<string, Rules> = { 'v1.2': V12, 'v1.3': V13, 'v1.4': V14 };
 const rules = BY_ID[arg('--rules') || ''] || RULES;
 useRules({ ...rules });
 const SEEDS = arg('--seed') ? [+arg('--seed')!] : [7, 11, 23, 42, 99];
@@ -32,6 +32,8 @@ export interface Moment { s: number; layer: 'A' | 'C'; kind: string }
 export interface CadenceRun {
   seed: number; moments: Moment[]; lvups: number[]; acts: Moment[];
   tutEnd: number; end: { t: number; chapter: number; happy: number; advs: number; smile: number; gaps: S.Seg[]; zone?: number };
+  /** 40분 순간 (v1.5): 줄 선 사람, 문을 연 던전, 그때까지 채용한 계열 수(튜토리얼 포함) */
+  at40: { queue: number; dungeons: number; species: number };
 }
 
 export function runCadence(seed: number, horizon = HORIZON): CadenceRun {
@@ -79,7 +81,11 @@ export function runCadence(seed: number, horizon = HORIZON): CadenceRun {
   firstSession(w, k => { if (TUT_ACTS.has(k)) act(k); }, undefined, watch);
   const tutEnd = real(w.t);
   // 2. 지켜보는 플레이어 (30초마다 최대 2수). 튜토리얼 배속이 없으면 월드 = 실제
+  const at40 = { queue: 0, dungeons: 0, species: 0 };
+  const hired = new Set<string>(w.monsters.map(m => m.sp));
   watchTo(w, w.t + horizon - real(w.t) / 60, (ev, acts) => {
+    if (real(w.t) < WINDOW * 60) for (const m of w.monsters) hired.add(m.sp);
+    else if (!at40.dungeons) Object.assign(at40, { queue: w.advs.filter(a => a.st === 'busy').length, dungeons: Object.keys(S.levelsOf(w)).length, species: hired.size });
     watch(ev);
     if (!acts.length) return;
     // 진화 뒤 바로 메우기(fix:)는 그 진화 결정의 일부라 따로 세지 않는다
@@ -89,7 +95,7 @@ export function runCadence(seed: number, horizon = HORIZON): CadenceRun {
     gapN = S.gapSize(S.gapSegments(w));
   });
   return {
-    seed, moments: moments.sort((a, b) => a.s - b.s), lvups, acts, tutEnd,
+    seed, moments: moments.sort((a, b) => a.s - b.s), lvups, acts, tutEnd, at40,
     end: { t: w.t, chapter: w.chapter, happy: S.happyCount(w), advs: w.advs.length, smile: Math.round(w.smile), gaps: S.gapSegments(w), zone: zoneOf(w) },
   };
 }
@@ -146,6 +152,13 @@ function main() {
   const kinds: Record<string, number> = {};
   for (const m of pick.r.moments) if (m.s < WINDOW * 60) kinds[m.kind] = (kinds[m.kind] || 0) + 1;
   console.log(`\n종류별 0~${WINDOW}분 (시드 ${pick.r.seed}):`, Object.entries(kinds).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(' · '));
+  // 결정 가짓수 (v1.5 계열 사다리): 0~40분 둔 수를 네 갈래로, 시드 5개 합
+  const fam = (k: string) => (/^act:(seat|slot)/.test(k) ? '자리' : /^act:(hire|split|crowd|expand|grow|rebuild|region)/.test(k) ? '채용' : /^act:(evolve|promote)/.test(k) ? '진화' : '기타');
+  const famN: Record<string, number> = { 자리: 0, 채용: 0, 진화: 0, 기타: 0 };
+  let actN = 0;
+  for (const x of rows) for (const m of x.r.acts) if (m.s < WINDOW * 60) { famN[fam(m.kind)]++; actN++; }
+  console.log(`결정 갈래 0~${WINDOW}분 (시드 합 ${actN}수):`, Object.entries(famN).map(([k, v]) => `${k} ${v} (${Math.round((100 * v) / Math.max(1, actN))}%)`).join(' · '));
+  console.log(`40분 순간 (시드 중앙값): 줄 선 사람 ${med(runs.map(r => r.at40.queue))} · 문을 연 던전 ${med(runs.map(r => r.at40.dungeons))} · 채용해 본 계열 ${med(runs.map(r => r.at40.species))}`);
   const e = pick.r.end;
   console.log(`${HORIZON}분 끝 (시드 ${pick.r.seed}): ${e.chapter}장 · 즐거움 ${e.happy}/${e.advs} · 스마일 ${e.smile} · 빈틈 ${JSON.stringify(e.gaps)}`);
   const summary = {
