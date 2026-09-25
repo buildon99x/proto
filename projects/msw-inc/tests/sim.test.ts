@@ -14,7 +14,8 @@ let passed = 0;
 const t = (name: string, fn: () => void) => {
   try { fn(); passed++; console.log('✓', name); } catch (e) { console.log('✕', name); throw e; }
 };
-const snap = (w: S.World) => JSON.stringify({ ...w, advs: w.advs.length, nextMon: 0 }); // id 번호는 되돌리지 않는다
+// id 번호는 되돌리지 않는다. 도감도 되돌리지 않는다(한 번 본 모습은 본 것이다)
+const snap = (w: S.World) => JSON.stringify({ ...w, advs: w.advs.length, nextMon: 0, dex: 0 });
 
 // ── 1. 이식 검증 (v1.1 = 컨셉 프로토타입) ─────────────────────
 useRules(V11);
@@ -46,7 +47,18 @@ t('v1.1 첫 10분·Day 2 수치가 컨셉 페이싱 점검과 같다', () => {
 
 // ── 2. v1.2 약속 (게임 규칙 v1.3으로) ─────────────────────────
 useRules(V13);
-t('v1.2 첫 출근 리포트: 세 숫자가 모두 늘어 있고 진화 가능이 있다', () => {
+t('첫 10분 한 바퀴: 첫 세션 안에 엘리트·승진 발령·1장 결재·새 지역 채용까지 겪는다', () => {
+  const w = S.createWorld(20260924);
+  const kinds: string[] = [];
+  firstSession(w, k => kinds.push(k));
+  for (const k of ['levelup', 'stuck', 'hire', 'event', 'evolve', 'elite', 'promote', 'stamp', 'region']) assert.ok(kinds.includes(k), k);
+  assert.equal(w.chapter, 2, '1장 결재를 받았다');
+  assert.ok(w.t < 12, '월드 12분 안 (실제로는 튜토리얼 배속 때문에 더 짧다) ' + w.t.toFixed(1));
+  assert.equal(w.tickets.plot, 0, '개업권 두 장(입사 선물·1장 결재 선물)을 다 썼다');
+  assert.ok(w.monsters.some(m => m.sp === 'slime' && m.d), '슬라임을 엘리니아에 두었다');
+});
+
+t('첫 출근 리포트: 세 숫자가 모두 늘어 있고 진화 가능이 있다', () => {
   const w = S.createWorld(20260924);
   firstSession(w);
   const L = S.ledgerStart(w);
@@ -55,7 +67,6 @@ t('v1.2 첫 출근 리포트: 세 숫자가 모두 늘어 있고 진화 가능�
   assert.ok(r.happy >= 12, 'happy ' + r.happy);
   assert.ok(r.levelups > 500 && r.smile > 2000);
   assert.ok(r.ready.length >= 1);
-  assert.equal(r.grads, 0, '첫날 밤에는 Lv 14–15가 끊겨 졸업이 없다');
 });
 
 t('빈틈의 모험가는 떠나지 않고 걷는다 — 입구가 막혀도 월드가 비지 않는다', () => {
@@ -118,16 +129,23 @@ t('승진 발령과 되돌리기: 월드가 발령 전과 똑같아진다', () =
   void p;
 });
 
-t('Day 2 발령은 컨셉의 한 수(버섯 언덕 개업 → Lv 14–15)를 입구를 비우지 않고 푼다', () => {
+t('첫 세션 승진 발령은 컨셉의 한 수(버섯 언덕 개업 → Lv 14–15)를 개업권으로 입구를 비우지 않고 푼다', () => {
   const w = S.createWorld(20260924);
-  firstSession(w);
-  S.advance(w, 600);
-  const sn = S.monsIn(w, 'h1').find(m => m.stage === 0 && S.canEvolve(m))!;
+  firstSession(w, undefined, x => x.monsters.some(m => m.vet && m.stage > 0) && !!x.elite);
+  const sn = S.monsIn(w, 'h1').find(m => m.stage === 0 && !m.vet)!;
+  sn.tenure = S.evolveNeed(sn);
   const plain = S.preview(w, { evolve: sn.id });
   assert.ok(plain.entranceBlocked, '그냥 진화하면 입구가 막힌다');
   const plan = S.bestPromote(w, sn.id)!;
   assert.ok(plan && !plan.pv.entranceBlocked);
   assert.equal(plan.gapAfter, 0);
+  assert.equal(plan.to, 'h3');
+  assert.equal(plan.openCost, 0, '개업권');
+  const before = snap(w);
+  const r = S.promote(w, plan);
+  assert.ok(r.ok && w.tickets.plot === 0);
+  S.unpromote(w, plan, r);
+  assert.equal(snap(w), before, '되돌리면 개업권도 돌아온다');
 });
 
 t('꽉 찬 던전에도 놓을 수 있다 (직원 자리 +1을 같이 산다)', () => {
@@ -137,10 +155,11 @@ t('꽉 찬 던전에도 놓을 수 있다 (직원 자리 +1을 같이 산다)', 
   S.addMonster(w, 'snail', 'h1');
   const extra = S.addMonster(w, 'mush', null);
   assert.equal(S.monsIn(w, 'h1').length, 3);
+  const price = S.slotCost(w, w.dungeons.h1)!; // 챕터 비용 배율을 탄다 (첫 세션 뒤 2장이면 1,500)
   const c = S.placeCheckAuto(w, extra, 'h1');
-  assert.ok(c.ok && c.slotCost === 1000);
+  assert.ok(c.ok && c.slotCost === price);
   const r = S.placeAuto(w, extra.id, 'h1');
-  assert.ok(r.ok && w.dungeons.h1.slots === 4 && w.smile === 9000);
+  assert.ok(r.ok && w.dungeons.h1.slots === 4 && w.smile === 10000 - price);
 });
 
 t('본사 전근(퇴사): 채용비 절반 환급 · 고참과 발록은 안 된다 · 되돌리기', () => {
@@ -247,7 +266,7 @@ t('필드 보스는 ② 50%에 찾아오고, 초대하지 않아도 저절로 �
   let down = false;
   for (let i = 0; i < 180 + 480 + 5 && !down; i++) { const ev: S.SimEvent[] = []; S.step(w, 1, ev); down = ev.some(e => e.type === 'bossDown'); }
   assert.ok(down, '자동 초대 3시간 + 방문 최대 8시간 안에 토벌');
-  assert.ok(w.dex['fb:2'], '도감 칸');
+  assert.ok(w.dex['fb:' + w.chapter], '도감 칸');
   assert.ok(w.cjoy >= before + goal * 0.05, '② 목표의 5%를 더한다');
 });
 

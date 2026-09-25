@@ -108,7 +108,7 @@ A.openEvolve = monId => {
   else if (pv.lost.length) {
     res = `<div class="res bad">⚠ ${pv.entranceBlocked ? '입구가 막혀요 · ' : ''}${segList(pv.lost)}가 비어요${pv.stranded ? ` · 모험가 ${pv.stranded}명이 혼자 걷게 돼요` : ''}</div>`;
     if (plan) {
-      const where = plan.stay ? '그 자리에 두고' : plan.to && w.plots[plan.to].open ? `${ro(plotShort(plan.to))} 보내고` : `${plotShort(plan.to!)}에 개업하고`;
+      const where = plan.stay ? '그 자리에 두고' : plan.to && w.plots[plan.to].open ? `${ro(plotShort(plan.to))} 보내고` : `${plotShort(plan.to!)}에 개업하고${w.tickets.plot > 0 ? '(개업권)' : ''}`;
       const back = plan.hireSp ? `빈자리엔 ${josa(SPECIES[plan.hireSp].names[0], '을', '를')}` : '';
       hint = `💡 승진 발령: ${where} ${back} ${plan.gapAfter ? `— ${segList(plan.pv.gapsAfter)}만 남아요` : '— 빈틈 없이 이어져요'}`;
     } else hint = '💡 진화한 뒤 5초 안에 되돌릴 수 있어요. 보류해도 근속은 그대로 남아요';
@@ -323,7 +323,7 @@ function marksRow(w: M.World) {
   return `<div class="marks"><b>막대 눈금 보상</b>${cells}</div>`;
 }
 const CUT_LINES: Record<number, [string, string]> = {
-  2: ['좋아요. 결재. 다음은 엘리니아예요.', '매니저님!! 엘리니아에 불이 켜졌어요!! 슬라임 신입이 들어올 수 있어요!!'],
+  2: ['좋아요. 결재. 다음은 엘리니아예요. 막대가 절반쯤 차면, 손님이 하나 더 올 거예요.', '매니저님!! 엘리니아에 불이 켜졌어요!! 슬라임 채용권이랑 개업권도 받았어요!!'],
   3: ['좋아요. 결재. 페리온은 바위투성이예요.', '매니저님!! 헤네시스에서 키운 직원을 위로 발령 보내요!!'],
   4: ['좋아요. 결재. 커닝시티는 사람이 많아요.', '매니저님!! 모험가님이 엄청 늘어요!! 자리 넉넉히요!!'],
   5: ['좋아요. 결재. 마지막은 슬리피우드. 발록 씨가 기다려요.', '매니저님!! 주니어 발록 씨가 입사 지원서를 냈어요!! 대기실에 있어요!!'],

@@ -561,7 +561,7 @@ function moveDrag(d: NonNullable<typeof V.drag>, sx: number, sy: number) {
   setPreview(pv, { kind: 'move' });
   const name = t.kind === 'tray' ? '대기실' : plotName(t.id!);
   const lines = [`${head} → <b>${name}</b>`];
-  if (t.id) lines.push(pv.before[t.id] ? `던전 Lv ${pv.before[t.id]} → ${pv.after[t.id]}` : `새 던전 Lv ${pv.after[t.id]}${check.openCost ? ` · 개업 스마일 ${n(check.openCost)}` : ''}`);
+  if (t.id) lines.push(pv.before[t.id] ? `던전 Lv ${pv.before[t.id]} → ${pv.after[t.id]}` : `새 던전 Lv ${pv.after[t.id]}${check.opens ? (check.ticket ? ' · 🎫 개업권 사용' : ` · 개업 스마일 ${n(check.openCost || 0)}`) : ''}`);
   if (check.slotCost) lines.push(`직원 자리 +1 · 스마일 ${n(check.slotCost)}`);
   if (m.d && pv.before[m.d] !== pv.after[m.d]) lines.push(`${plotName(m.d)} Lv ${pv.before[m.d]} → ${pv.after[m.d] || '휴업'}`);
   if (pv.lost.length) lines.push(`<span class="bad">✕ ${segList(pv.lost)} 비어요${pv.stranded ? ` · ${pv.stranded}명 갈 곳 잃음` : ''}${pv.entranceBlocked ? ' · 입구가 막혀요' : ''}</span>`);
@@ -584,11 +584,11 @@ function endDrag(d: NonNullable<typeof V.drag>) {
   const r = M.placeAuto(w, d.id, t.id);
   if (!r.ok) { nope(r.msg); renderDock(); return; }
   snd.play('place');
-  if (r.openCost || r.slotCost) {
-    const parts = [r.openCost ? `${plotName(t.id!)} 개업` : '', r.slotCost ? '직원 자리 +1' : ''].filter(Boolean).join(' · ');
-    toast(`${parts} · 스마일 −${n(r.openCost + r.slotCost)}`, {
+  if (r.opened || r.slotCost) {
+    const parts = [r.opened ? `${plotName(t.id!)} 개업${r.ticket ? ' (개업권)' : ''}` : '', r.slotCost ? '직원 자리 +1' : ''].filter(Boolean).join(' · ');
+    toast(`${parts}${r.openCost + r.slotCost ? ` · 스마일 −${n(r.openCost + r.slotCost)}` : ''}`, {
       undo: () => {
-        if (r.openCost) M.unopen(w, t.id!, m.id, r.from, r.openCost); else m.d = r.from;
+        if (r.opened) M.unopen(w, t.id!, m.id, r.from, r.openCost, r.ticket); else m.d = r.from;
         if (r.slotCost) M.slotDown(w, t.id!, r.slotCost);
       },
     });

@@ -96,7 +96,7 @@ export function createWorld(seed: number): World {
     nextMon: 1, nextAdv: 1, arrAcc: 0,
     dex: {},
     tut: { buffUntil: RULES.buffMin, instant: 3 },
-    tickets: { hire: ['mush'], event: 1, plot: 0 }, marks: [],
+    tickets: { hire: ['mush'], event: 1, plot: RULES.firstLoop ? 1 : 0 }, marks: [],
     elite: null, eliteAcc: 0, eliteBy: {}, boss: null, bossDone: [],
     stats: { arrivals: 0, levelups: 0, grads: 0, left: { entrance: 0, search: 0, busy: 0 }, evolves: 0, elites: 0, bosses: 0 },
     chapterAt: [0], cjoy: 0,
@@ -348,8 +348,8 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
     emit({ type: 'kill', d: id, n: kills });
     w.smile += RULES.smileHappy * RULES.incomeCurve[w.chapter - 1] * hs * dt * (d.drop ? 2 : 1) * (d.gift ? 1.3 : 1) * (d.boss ? 1.5 : 1);
     dd.joy += hs * dt / 60;
-    // ② 누적: 엘리트·필드 보스가 있는 던전은 더 빨리 찬다 (v1.3)
-    w.cjoy += (hs * dt / 60) * (d.elite ? RULES.elite!.joyX : 1) * (d.guest ? RULES.fieldBoss!.joyX : 1);
+    // ② 누적: 엘리트·필드 보스가 있는 던전은 더 빨리 찬다. 첫 세션은 입사 버프도 붙는다 (v1.3)
+    w.cjoy += (hs * dt / 60) * (d.elite ? RULES.elite!.joyX : 1) * (d.guest ? RULES.fieldBoss!.joyX : 1) * (RULES.firstLoop ? bx : 1);
     if (RULES.elite && !w.elite) { w.eliteAcc += kills; w.eliteBy[id] = (w.eliteBy[id] || 0) + kills; }
     if (d.guest && w.boss) w.boss.kills += kills;
   }
@@ -596,6 +596,9 @@ const fmtN = (n: number) => Math.ceil(n).toLocaleString('ko-KR');
 
 export const hireCost = (sp: SpeciesId) => 100 * SPECIES[sp].base;
 export const plotCost = (id: PlotId) => RULES.plotCost * plotInfo(id).region;
+/** 지금 이 부지를 여는 데 드는 스마일: 이미 열렸으면 0, 개업권이 있으면 0 (v1.3) */
+const openCost_ = (w: World, id: PlotId) => openCost(w, id);
+export const openCost = (w: World, id: PlotId) => (w.plots[id] && w.plots[id].open ? 0 : w.tickets.plot > 0 ? 0 : plotCost(id));
 export const canHireSpecies = (w: World, sp: SpeciesId) => SPECIES[sp].chapter > 0 && SPECIES[sp].chapter <= w.chapter;
 export const hasHireTicket = (w: World, sp: SpeciesId) => w.tickets.hire.includes(sp);
 
@@ -618,6 +621,7 @@ export function unhire(w: World, monId: number, refund: number | 'ticket'): void
 }
 
 export const RULES_RELEASE = () => RULES.releaseRefund > 0;
+export const RULES_GROW_BOOST = () => RULES.growBoost;
 export const RULES_GRAD = () => RULES.smileGrad;
 /** 퇴사 환급: 채용비의 절반 (v1.2). 진화한 직원도 1단계 채용비 기준 */
 export const releaseRefund = (m: Monster) => Math.floor(hireCost(m.sp) * RULES.releaseRefund);
@@ -638,7 +642,7 @@ export function unrelease(w: World, m: Monster, idx: number, refund: number): vo
   w.smile -= refund;
 }
 
-export function placeCheck(w: World, m: Monster, did: PlotId | null): Result<{ openCost?: number }> {
+export function placeCheck(w: World, m: Monster, did: PlotId | null): Result<{ openCost?: number; opens?: boolean; ticket?: boolean }> {
   if (!did) return tray(w).length >= TRAY_MAX && m.d ? no('대기실이 꽉 찼어요') : ok({});
   const p = w.plots[did];
   if (!p) return no('아직 열리지 않은 부지예요');
@@ -647,56 +651,57 @@ export function placeCheck(w: World, m: Monster, did: PlotId | null): Result<{ o
   if (inD.length >= d.slots) return no('직원 자리가 꽉 찼어요');
   if (isBoss(m) && inD.some(isBoss)) return no('보스는 던전에 한 마리만');
   if (!p.open) {
-    const cost = plotCost(did);
+    const cost = openCost(w, did);
     if (w.smile < cost) return no(`개업 비용 스마일 ${cost.toLocaleString('ko-KR')}이 필요해요`, { short: cost - w.smile });
-    return ok({ openCost: cost });
+    return ok({ openCost: cost, opens: true, ticket: w.tickets.plot > 0 });
   }
   return ok({});
 }
-export function place(w: World, monId: number, did: PlotId | null): Result<{ from: PlotId | null; openCost: number; same?: boolean }> {
+export function place(w: World, monId: number, did: PlotId | null): Result<{ from: PlotId | null; openCost: number; opened: boolean; ticket: boolean; same?: boolean }> {
   const m = w.monsters.find(x => x.id === monId);
   if (!m) return no('없는 직원');
-  if (m.d === did) return ok({ from: m.d, openCost: 0, same: true });
+  if (m.d === did) return ok({ from: m.d, openCost: 0, opened: false, ticket: false, same: true });
   const c = placeCheck(w, m, did);
   if (!c.ok) return c;
-  if (c.openCost && did) { w.smile -= c.openCost; w.plots[did].open = true; }
+  if (c.opens && did) { w.smile -= c.openCost || 0; if (c.ticket) w.tickets.plot--; w.plots[did].open = true; }
   const from = m.d;
   m.d = did;
-  return ok({ from, openCost: c.openCost || 0 });
+  return ok({ from, openCost: c.openCost || 0, opened: !!c.opens, ticket: !!c.ticket });
 }
 /**
  * 놓기 판정 + 필요한 구매까지: 빈 부지면 개업, 직원 자리가 꽉 찼으면 자리 +1을 같이 산다.
  * v1.1은 꽉 찬 던전에 놓을 수 없어 "채용 → 둘 곳 없음"의 막다른 길이 생겼다.
  */
-export function placeCheckAuto(w: World, m: Monster, did: PlotId | null): Result<{ openCost?: number; slotCost?: number }> {
+export function placeCheckAuto(w: World, m: Monster, did: PlotId | null): Result<{ openCost?: number; opens?: boolean; ticket?: boolean; slotCost?: number }> {
   const c = placeCheck(w, m, did);
   if (c.ok || !did || c.msg !== '직원 자리가 꽉 찼어요') return c;
   const d = w.dungeons[did];
   const sc = slotCost(w, d);
   if (sc == null) return no('직원 자리가 꽉 찼어요 (최대 5)');
-  const open = w.plots[did].open ? 0 : plotCost(did);
+  const open = openCost(w, did);
   if (w.smile < sc + open) return no(`직원 자리 +1에 스마일 ${fmtN(sc + open - w.smile)} 모자라요`, { short: sc + open - w.smile });
   const inD = monsIn(w, did).filter(x => x.id !== m.id);
   if (isBoss(m) && inD.some(isBoss)) return no('보스는 던전에 한 마리만');
   return ok({ slotCost: sc, openCost: open || undefined });
 }
-export function placeAuto(w: World, monId: number, did: PlotId | null): Result<{ from: PlotId | null; openCost: number; slotCost: number; same?: boolean }> {
+export function placeAuto(w: World, monId: number, did: PlotId | null): Result<{ from: PlotId | null; openCost: number; opened: boolean; ticket: boolean; slotCost: number; same?: boolean }> {
   const m = w.monsters.find(x => x.id === monId);
   if (!m) return no('없는 직원');
-  if (m.d === did) return ok({ from: m.d, openCost: 0, slotCost: 0, same: true });
+  if (m.d === did) return ok({ from: m.d, openCost: 0, opened: false, ticket: false, slotCost: 0, same: true });
   const c = placeCheckAuto(w, m, did);
   if (!c.ok) return c;
   if (c.slotCost && did) { const r = slotUp(w, did); if (!r.ok) return r; }
   const r = place(w, monId, did);
   if (!r.ok) { if (c.slotCost && did) slotDown(w, did, c.slotCost); return r; }
-  return ok({ from: r.from, openCost: r.openCost, slotCost: c.slotCost || 0 });
+  return ok({ from: r.from, openCost: r.openCost, opened: r.opened, ticket: r.ticket, slotCost: c.slotCost || 0 });
 }
 
 /** 개업 되돌리기: 그 부지에 놓은 직원은 모두 대기실로, 옮겨 온 직원은 제자리로 */
-export function unopen(w: World, did: PlotId, monId: number, from: PlotId | null, cost: number): void {
+export function unopen(w: World, did: PlotId, monId: number, from: PlotId | null, cost: number, ticket = false): void {
   for (const x of monsIn(w, did)) x.d = x.id === monId ? from : null;
   w.plots[did].open = false;
   w.smile += cost;
+  if (ticket) w.tickets.plot++;
 }
 
 export function evolveBlock(w: World, m: Monster): string | null {
@@ -778,6 +783,12 @@ export function approve(w: World): Result<{ chapter: number; ending: boolean }> 
   w.cjoy = 0;
   w.marks = [];
   unlockPlots(w, w.chapter);
+  // 첫 10분 한 바퀴 (v1.3): 1장 결재 선물 — 새 지역 첫 계열 채용권 + 개업권
+  if (RULES.firstLoop && w.chapter === 2) {
+    const first = (Object.keys(SPECIES) as SpeciesId[]).filter(sp => SPECIES[sp].chapter === 2).sort((a, b) => SPECIES[a].base - SPECIES[b].base)[0];
+    if (first) w.tickets.hire.push(first);
+    w.tickets.plot++;
+  }
   // 5장 결재 서류에는 주니어 발록 입사 지원서가 붙어 온다
   if (w.chapter === 5 && !w.monsters.some(m => m.sp === 'balrog')) addMonster(w, 'balrog', null);
   return ok({ chapter: w.chapter, ending: false });
@@ -972,7 +983,7 @@ export function badges(w: World): Badge[] {
 export interface PromotePlan {
   mon: number; to: PlotId | null; stay: boolean;
   hireSp: SpeciesId | null; hireInto: PlotId | null;
-  cost: number; openCost: number; hire: number;
+  cost: number; openCost: number; opens: boolean; hire: number;
   pv: Preview; gapAfter: number;
 }
 export function promotePlans(w: World, monId: number): PromotePlan[] {
@@ -985,12 +996,12 @@ export function promotePlans(w: World, monId: number): PromotePlan[] {
   const dests: (PlotId | null)[] = [home, ...Object.keys(w.plots).filter(id => id !== home)];
   for (const to of dests) {
     const stay = to === home;
-    let openCost = 0;
+    let openCost = 0, opens = false;
     if (!stay && to) {
       const inD = monsIn(w, to);
       if (inD.length >= w.dungeons[to].slots) continue;
       if (isBoss({ ...m, stage: m.stage + 1 }) && inD.some(isBoss)) continue;
-      if (!w.plots[to].open) openCost = plotCost(to);
+      if (!w.plots[to].open) { opens = true; openCost = openCost_(w, to); }
       // 새 레벨에서 너무 먼 던전으로는 보내지 않는다 (보내 봐야 섞여서 뭉개진다)
       const D = levelsOf(w)[to];
       if (D && Math.abs(D - newLv) > 8) continue;
@@ -1002,9 +1013,9 @@ export function promotePlans(w: World, monId: number): PromotePlan[] {
       const cost = hire + openCost;
       if (cost > w.smile) continue;
       if (!sp && stay) continue; // 그냥 진화와 같다
-      const mods: Mods = { evolve: m.id, move: { id: m.id, to }, open: openCost ? (to as PlotId) : undefined, add: sp ? { sp, to: home as PlotId } : undefined };
+      const mods: Mods = { evolve: m.id, move: { id: m.id, to }, open: opens ? (to as PlotId) : undefined, add: sp ? { sp, to: home as PlotId } : undefined };
       const pv = preview(w, mods);
-      plans.push({ mon: m.id, to, stay, hireSp: sp, hireInto: sp ? home : null, cost, openCost, hire, pv, gapAfter: gapSize(pv.gapsAfter) });
+      plans.push({ mon: m.id, to, stay, hireSp: sp, hireInto: sp ? home : null, cost, openCost, opens, hire, pv, gapAfter: gapSize(pv.gapsAfter) });
     }
   }
   plans.sort((a, b) => a.gapAfter - b.gapAfter || a.pv.lost.length - b.pv.lost.length || a.cost - b.cost);
@@ -1020,31 +1031,33 @@ export function bestPromote(w: World, monId: number): PromotePlan | null {
   if (best.gapAfter < plainGap || (best.gapAfter === plainGap && best.pv.lost.length < plain.lost.length)) return best;
   return null;
 }
-export function promote(w: World, plan: PromotePlan): Result<{ evo: { mon: Monster; from: number; isNew: boolean; tenureBefore: number }; from: PlotId | null; hired: Monster | null; hireCost: number; openCost: number; hiredFree: boolean }> {
+export function promote(w: World, plan: PromotePlan): Result<{ evo: { mon: Monster; from: number; isNew: boolean; tenureBefore: number }; from: PlotId | null; hired: Monster | null; hireCost: number; openCost: number; openTicket: boolean; hiredFree: boolean }> {
   const m = w.monsters.find(x => x.id === plan.mon);
   if (!m) return no('없는 직원');
   if (plan.cost > w.smile) return no(`스마일 ${fmtN(plan.cost - w.smile)} 모자라요`, { short: plan.cost - w.smile });
   const from = m.d;
   const evo = evolve(w, m.id);
   if (!evo.ok) return evo;
+  let openTicket = false;
   if (!plan.stay) {
     const r = place(w, m.id, plan.to);
     if (!r.ok) { unevolve(w, m.id, evo.from, evo.tenureBefore); return r; }
+    openTicket = r.ticket;
   }
   let hired: Monster | null = null, hiredFree = false;
   if (plan.hireSp && plan.hireInto) {
     const h = hire(w, plan.hireSp, plan.hireInto);
     if (h.ok) { hired = h.mon; hiredFree = h.free; place(w, h.mon.id, plan.hireInto); }
   }
-  return ok({ evo, from, hired, hireCost: hired && !hiredFree ? hireCost(plan.hireSp!) : 0, openCost: plan.openCost, hiredFree });
+  return ok({ evo, from, hired, hireCost: hired && !hiredFree ? hireCost(plan.hireSp!) : 0, openCost: plan.openCost, openTicket, hiredFree });
 }
 /** 승진 발령 되돌리기 */
-export function unpromote(w: World, plan: PromotePlan, r: { evo: { from: number; tenureBefore: number }; from: PlotId | null; hired: Monster | null; hireCost: number; openCost: number; hiredFree: boolean }): void {
+export function unpromote(w: World, plan: PromotePlan, r: { evo: { from: number; tenureBefore: number }; from: PlotId | null; hired: Monster | null; hireCost: number; openCost: number; openTicket: boolean; hiredFree: boolean }): void {
   if (r.hired) unhire(w, r.hired.id, r.hiredFree ? 'ticket' : r.hireCost);
   const m = w.monsters.find(x => x.id === plan.mon);
   if (!m) return;
   if (!plan.stay) {
-    if (r.openCost && plan.to) { for (const x of monsIn(w, plan.to)) if (x.id !== m.id) x.d = null; w.plots[plan.to].open = false; w.smile += r.openCost; }
+    if (plan.opens && plan.to) { for (const x of monsIn(w, plan.to)) if (x.id !== m.id) x.d = null; w.plots[plan.to].open = false; w.smile += r.openCost; if (r.openTicket) w.tickets.plot++; }
     m.d = r.from;
   }
   unevolve(w, m.id, r.evo.from, r.evo.tenureBefore);

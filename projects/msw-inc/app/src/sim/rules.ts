@@ -36,6 +36,8 @@ export interface Rules {
   nativeCond: boolean;
   /** 입사 첫날 버프 길이 (월드 분). 레벨업·근속 ×30, 분당 1명 도착 */
   buffMin: number;
+  /** 튜토리얼 "가로 = 레벨" 단계(누를 곳이 없다)의 월드 배속. 1이면 없다 */
+  growBoost: number;
   /**
    * 엘리트 (v1.3, R5 확장): 월드 퇴근 누적이 장별 문턱(every)을 넘으면 한 던전 직원이 min분 동안 엘리트가 된다.
    * 그 던전의 즐거운 모험가는 레벨업 ×lvX, ② 누적 ×joyX. 직원 레벨은 그대로(P2). null이면 없다
@@ -47,6 +49,11 @@ export interface Rules {
    * 토벌하면 도감 칸 + 이번 장 ② 목표의 bonus만큼. 스마일 보상은 없다. null이면 없다
    */
   fieldBoss: { need: number[]; wait: number; max: number; seats: number; arriveX: number; joyX: number; bonus: number } | null;
+  /**
+   * 첫 10분 한 바퀴 (v1.3): 입사 버프가 결재 ② 누적에도 붙고(×30), 입사 선물에 개업권 1장,
+   * 1장 결재 선물로 엘리니아 첫 계열 채용권 + 개업권 1장. 1장을 첫 세션 안에 끝낸다
+   */
+  firstLoop: boolean;
 }
 
 export const V11: Rules = {
@@ -67,8 +74,10 @@ export const V11: Rules = {
   joyMarks: null,
   nativeCond: false,
   buffMin: 15,
+  growBoost: 1,
   elite: null,
   fieldBoss: null,
+  firstLoop: false,
 };
 
 export const V12: Rules = {
@@ -93,12 +102,17 @@ export const V13: Rules = {
   joyMarks: { at: [0.25, 0.5, 0.75], from: 2 },
   // F2: 5장 새 계열(드레이크·이블아이)이 한 번도 쓰이지 않았다 → 결재 ③에 슬리피우드 식구 던전 1곳
   nativeCond: true,
-  // F6: 튜토리얼 "가로 = 레벨" 단계를 ×3 배속으로 돌리므로 버프가 대본 끝까지 남게 15 → 20분
+  // F6: 튜토리얼 "가로 = 레벨" 단계를 배속으로 돌리므로 버프가 대본 끝까지 남게 15 → 20분
   buffMin: 20,
+  // F6: 계획은 ×3이었지만 실측(playreview:ui)에서 누를 곳 없는 구간이 59초 → ×5로 약 37초, 첫 빈틈 약 1:00
+  growBoost: 5,
   // E: 엘리트는 약 3시간에 한 번(표준 봇 장별 월드 시간당 퇴근 960 · 4,200 · 6,600 · 8,300 · 10,000 기준)
   elite: { every: [3000, 12000, 20000, 25000, 30000], min: 60, lvX: 1.5, joyX: 2 },
   // E: 필드 보스는 장마다 한 번. 토벌까지 평소 규모 던전이면 약 3시간
   fieldBoss: { need: [0, 2500, 3000, 3000, 3000], wait: 180, max: 480, seats: 8, arriveX: 1.5, joyX: 2, bonus: 0.05 },
+  // T: 1장은 첫 세션 안에 승진 발령 → 결재 도장 → 새 지역까지. ② 목표는 버프 ×30 기준
+  firstLoop: true,
+  joyGoal: [30, 3000, 21500, 34500, 36500],
 };
 
 export const RULES: Rules = { ...V13 };

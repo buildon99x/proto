@@ -11,19 +11,16 @@ import { PERSONAS, checkIn, firstSession } from '../sim/bots';
 const SEED = 20260924;
 const START = 21 * 60;
 
-/** 입사 첫 세션을 대본대로 굴린다. until: 'gap' | 'full' */
-function first(until: 'gap' | 'full'): M.World {
+/** 입사 첫 세션을 봇 대본(bots.firstSession)대로 굴린다. until: 'gap'(첫 빈틈 직후) | 'evolve'(고참 진화 직후) | 'full'(첫 세션 끝) */
+function first(until: 'gap' | 'evolve' | 'full'): M.World {
   const w = M.createWorld(SEED);
   let stuckAt: number | null = null;
-  for (let i = 0; i < 12 * 8; i++) {
-    M.step(w, 1 / 12);
-    if (stuckAt === null && w.advs.some(a => a.st === 'search')) stuckAt = w.t;
-    if (until === 'gap' && stuckAt !== null && w.t >= stuckAt + 0.6) return w;
-    if (until !== 'gap' && stuckAt !== null && w.t >= stuckAt + 0.5 && !w.monsters.some(m => m.sp === 'mush')) { const hh = M.hire(w, 'mush'); if (hh.ok) M.place(w, hh.mon.id, 'h2'); }
-    if (w.t >= 5 && w.tickets.event) M.startEvent(w, 'h1', 'exp');
-    const v = w.monsters.find(m => m.vet)!;
-    if (v.stage === 0 && w.t >= 6.5) { v.tenure = Math.max(v.tenure, M.evolveNeed(v)); M.evolve(w, v.id); }
-  }
+  firstSession(w, undefined, x => {
+    if (stuckAt === null && x.advs.some(a => a.st === 'search')) stuckAt = x.t;
+    if (until === 'gap') return stuckAt !== null && x.t >= stuckAt + 0.4;
+    if (until === 'evolve') return x.monsters.some(m => m.vet && m.stage > 0) && x.t >= (stuckAt ?? 0) + 1.6;
+    return false;
+  });
   return w;
 }
 /** 표준 봇으로 cond가 참이 될 때까지 굴린다 */

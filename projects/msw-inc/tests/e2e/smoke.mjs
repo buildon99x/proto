@@ -60,15 +60,66 @@ try {
   });
   await until(s => s.step === "doc", "결재 서류 안내", 60);
   await step("결재 서류 확인", async () => { await b.click("#docw"); await sleep(250); await b.shot(path.join(out, "7-doc.png")); await b.click("#modal [data-close]"); await sleep(200); });
+  // v1.3 첫 10분 한 바퀴: 엘리트 → 승진 발령 → 결재 도장 → 새 지역 채용 → 보스 예고
+  await until(s => s.step === "elite", "엘리트 출현", 30);
+  await step("엘리트 출현 (대본 보장)", async () => { await pump(1); const e = await b.eval("!!window.__msw.A.w.elite"); if (!e) throw new Error("엘리트 없음"); await b.shot(path.join(out, "8-elite.png")); });
+  await until(s => s.step === "promote", "둘째 달팽이 진화 대기", 60);
+  await pump(1);
+  await step("둘째 달팽이 ▲ → [▲ 승진 발령] (개업권으로 버섯 언덕)", async () => {
+    await b.click(".evb"); await sleep(250);
+    const hasPromote = await b.eval("!!document.querySelector('#sheet [data-promote]')");
+    if (!hasPromote) throw new Error("승진 발령 버튼이 없다");
+    await b.shot(path.join(out, "9-promote.png"));
+    await b.click("#sheet [data-promote]"); await sleep(1500);
+    await b.click("#modal"); await sleep(200);
+    const s = await st();
+    if (s.gaps.length) throw new Error("발령 뒤에도 빈틈 " + JSON.stringify(s.gaps));
+  });
+  await until(s => s.step === "stamp", "결재 막대 가득", 120);
+  await step("결재 서류 → 결재 받기 → 챕터 컷 → 엘리니아", async () => {
+    await b.click("#docw"); await sleep(250);
+    await b.click("[data-stamp]"); await sleep(1600);
+    await b.shot(path.join(out, "10-cut.png"));
+    await b.click(".cut [data-go]"); await sleep(300);
+    const ch = await b.eval("window.__msw.A.w.chapter");
+    if (ch !== 2) throw new Error("2장이 아니다 " + ch);
+  });
+  await until(s => s.step === "newRegion", "새 지역 채용 안내", 20);
+  await step("슬라임 채용권 → 대기실 → 엘리니아 빈 부지로 끌기 (개업권)", async () => {
+    await b.click("#bHire"); await sleep(250);
+    await b.click('[data-hire="slime"]'); await sleep(300);
+    const from = await b.center("#tray .tok[data-mon]");
+    await b.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: from[0], y: from[1] });
+    await b.send("Input.dispatchMouseEvent", { type: "mousePressed", x: from[0], y: from[1], button: "left", clickCount: 1 });
+    await b.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: from[0] + 20, y: from[1] - 20, button: "left", buttons: 1 });
+    await sleep(100);
+    const to = await b.center('[data-plot="e1"]');
+    for (let i = 1; i <= 10; i++) { await b.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: from[0] + (to[0] - from[0]) * i / 10, y: from[1] + (to[1] - from[1]) * i / 10, button: "left", buttons: 1 }); await sleep(16); }
+    await b.send("Input.dispatchMouseEvent", { type: "mouseReleased", x: to[0], y: to[1], button: "left", clickCount: 1 });
+    await sleep(300);
+    const s = await st();
+    if (!s.mons.some(m => m[0] === "slime" && m[2] === "e1")) throw new Error("슬라임 배치 실패 " + JSON.stringify(s.mons));
+    const t = await b.eval("window.__msw.A.w.tickets.plot");
+    if (t !== 0) throw new Error("개업권이 남았다 " + t);
+  });
+  await until(s => s.step === "bossTease", "필드 보스 예고", 30);
+  await pump(1);
+  await b.shot(path.join(out, "11-tease.png"));
   await until(s => s.done, "튜토리얼 끝", 60);
+  await step("첫 세션은 10분 안에 결재 도장까지 끝난다", async () => {
+    const real = await b.eval("window.__msw.A.playSec");
+    console.log(`   첫 세션 ${Math.floor(real / 60)}:${String(Math.round(real % 60)).padStart(2, "0")} (실제 초, 입력 대기 제외 없이)`);
+    if (real > 600) throw new Error("10분 넘음 " + real);
+  });
   await step("퇴근 → 출근 (리포트)", async () => {
-    await b.eval("window.__msw.A.speed = 600");
+    // 밤새(약 10시간) 떠나 있다 돌아온다: 1.5초 × 배속 24,000 ≈ 600분
+    await b.eval("window.__msw.A.speed = 24000");
     await b.click("#bOff"); await sleep(200);
     const blocked = await b.eval("!!document.querySelector('.offduty')");
     if (!blocked) { await b.click("#bOff"); await sleep(200); } // 입구 경고가 붙잡았으면 한 번 더
     await sleep(1500);
     await b.click(".offduty [data-in]"); await sleep(2500);
-    await b.shot(path.join(out, "8-report.png"));
+    await b.shot(path.join(out, "12-report.png"));
     const m = (await st()).modal;
     if (m !== "report") throw new Error("리포트 안 뜸 " + m);
     await b.click('.report [data-go="world"]'); await sleep(300);

@@ -8,7 +8,7 @@
  */
 import { writeFileSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
-import { PERSONAS, checkIn, firstSession, dayNum, type Persona } from '../bots';
+import { PERSONAS, checkIn, firstSession, dayNum, realMinutes, type Persona } from '../bots';
 import * as S from '../sim';
 import { SPECIES, CHAPTERS } from '../content';
 import { RULES } from '../rules';
@@ -51,32 +51,18 @@ function run(p: Persona, seed = 0) {
   const dexSeen = new Set<string>();
   const mile = (kind: string, label: string) => miles.push({ t: w.t, day: +dayNum(w.t)!.toFixed(3), kind, label });
 
-  // ── 입사 첫 세션: 1초(=월드 1/60분) 해상도로 첫 사건들을 적는다 ──
-  const first: { sec: number; kind: string; label: string }[] = [];
+  // ── 입사 첫 세션: 봇 대본(bots.firstSession, 튜토리얼 순서)의 사건. sec = 월드 초, real = 실제 초(추정, "가로 = 레벨" ×3 배속을 되돌림) ──
+  const first: { sec: number; real: number; kind: string; label: string }[] = [];
   {
-    const once = new Set<string>();
-    const note = (kind: string, label: string) => { if (!once.has(kind)) { once.add(kind); first.push({ sec: Math.round(w.t * 60), kind, label }); } };
-    let placed = false;
-    for (let i = 0; i < 12 * 8; i++) {
-      const ev: S.SimEvent[] = [];
-      S.step(w, 1 / 12, ev);
-      for (const e of ev) {
-        if (e.type === 'arrive') note('arrive', '첫 모험가 입장');
-        if (e.type === 'levelup') note('levelup', `첫 레벨업 (Lv ${e.lv})`);
-        if (e.type === 'stuck') note('stuck', `첫 빈틈 — Lv ${e.lv} 모험가가 갈 곳이 없다`);
-        if (e.type === 'ready') note('ready', '고참 달팽이 진화 준비');
-        if (e.type === 'grad') note('grad', '첫 졸업');
-      }
-      if (!placed && w.advs.some(a => a.st === 'search')) {
-        const h = S.hire(w, 'mush');
-        if (h.ok) S.place(w, h.mon.id, 'h2');
-        placed = true; note('hire', '주황버섯 채용 → 사냥터 배치');
-      }
-      if (w.t >= 5 && w.tickets.event) { S.startEvent(w, 'h1', 'exp'); note('event', '경험치 2배 (첫 번 무료)'); }
-      const v = w.monsters.find(m => m.vet);
-      if (v && v.stage === 0 && w.t >= 6.5) { v.tenure = Math.max(v.tenure, S.evolveNeed(v)); S.evolve(w, v.id); note('evolve', '고참 달팽이 → 파란 달팽이'); }
-    }
-    first.push({ sec: Math.round(w.t * 60), kind: 'off', label: '퇴근 (첫 세션 끝)' });
+    const raw: { t: number; kind: string; label: string }[] = [];
+    firstSession(w, (kind, label) => {
+      raw.push({ t: w.t, kind, label });
+      if (kind === 'stamp') mile('chapter', `1장 결재 → ${CHAPTERS[1].region} 개방 (첫 세션)`);
+      if (kind === 'elite') mile('elite', '엘리트 첫 출현 (첫 세션)');
+    });
+    const gap = raw.find(x => x.kind === 'stuck');
+    for (const x of raw) first.push({ sec: Math.round(x.t * 60), real: Math.round(realMinutes(x.t, gap ? gap.t : null) * 60), kind: x.kind, label: x.label });
+    first.push({ sec: Math.round(w.t * 60), real: Math.round(realMinutes(w.t, gap ? gap.t : null) * 60), kind: 'off', label: '퇴근 (첫 세션 끝)' });
   }
   for (const k of Object.keys(w.dex)) dexSeen.add(k);
   const firstEnd = { ...snapshot(w) };

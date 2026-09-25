@@ -86,6 +86,7 @@ function bind() {
 let last = performance.now(), slow = 0, saveT = 0;
 function tick(dt: number, now: number) {
   if (A.ui.intro) return;
+  if (!A.ui.off) A.playSec += dt;
   simLive(dt);
   A.world.tick(dt, now);
   A.dv.tick(dt, now);
@@ -121,7 +122,7 @@ if (demo) {
   if (s) s.w = M.migrate(s.w);
   if (s && M.isWorld(s.w)) {
     A.w = s.w;
-    if (s.tut) T.st = s.tut as typeof T.st;
+    if (s.tut) T.load(s.tut as typeof T.st);
     A.checkin = s.checkin || { happy0: 0 };
     if (s.sound === false) snd.on = false;
     A.world.build();

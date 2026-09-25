@@ -25,6 +25,8 @@ export interface OrenLine { t: string; go: (() => void) | null }
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface App {
   openBoss: () => void;
+  /** 이 탭에서 실제로 흐른 플레이 시간(초). 입사 컷과 퇴근 화면은 빼고 센다 (첫 세션 길이 계측) */
+  playSec: number;
   w: M.World;
   speed: number;
   demo: string | null;
@@ -56,7 +58,7 @@ export interface App {
 }
 
 export const A = {
-  speed: 1, demo: null, frozen: false,
+  speed: 1, demo: null, frozen: false, playSec: 0,
   ui: { mode: 'world', sheet: null, modal: null, lastInput: performance.now(), off: false, offAt: 0, offSpeed: 1, intro: false, targets: null, newTok: null, orenGo: null, longAway: false },
   checkin: { happy0: 0 }, ledger: null, handlers: [], fit: { s: 1, ox: 0, oy: 0 },
 } as unknown as App;
@@ -233,7 +235,7 @@ export function renderDock(opt: { all?: boolean } = {}) {
   must('.plotsw').classList.toggle('expanded', !!opt.all && empties.length > 2);
   empties.slice(0, opt.all ? 15 : 2).forEach(id => {
     const open = w.plots[id].open;
-    pl.appendChild(h(`<div class="plot ${tg.includes(id) ? 'target' : ''}" data-plot="${id}"><b>${plotName(id)}</b>${open ? '<em class="okc">빈 던전</em>' : `<em><i class="mini-can"></i>${n(M.plotCost(id))}</em>`}</div>`));
+    pl.appendChild(h(`<div class="plot ${tg.includes(id) ? 'target' : ''}" data-plot="${id}"><b>${plotName(id)}</b>${open ? '<em class="okc">빈 던전</em>' : w.tickets.plot > 0 ? '<em class="okc">🎫 개업권</em>' : `<em><i class="mini-can"></i>${n(M.plotCost(id))}</em>`}</div>`));
   });
   if (!empties.length) pl.appendChild(h(`<div class="plot none">${w.chapter < 5 ? '부지를 다 썼어요. 다음 결재 때 부지 +3' : '부지를 다 썼어요'}</div>`));
   if (!opt.all && empties.length > 2) pl.lastElementChild!.insertAdjacentHTML('beforeend', ` <small>+${empties.length - 2}</small>`);

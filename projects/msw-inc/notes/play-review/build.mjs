@@ -28,7 +28,7 @@ function emotion(c) {
   const fixed = c.before.gapN > 0 && c.after.gapN === 0;
   let e;
   // v1.3: 결재 막대 눈금을 지난 체크인도 "성취"다 (보상이 저절로 들어온다)
-  if (c.acts.includes("approve") || (c.away.marks || []).length) e = "achieve";
+  if (c.acts.includes("approve") || (c.away.marks || []).length || (c.away.bossDown || []).length) e = "achieve";
   else if (newDex) e = "discover";
   else if (fixed) e = "relief";
   else if (c.before.gapN > 0) e = "tense";
@@ -53,6 +53,8 @@ for (const r of sim.runs) {
       happy: c.before.happy, dHappy: c.away.happyDelta, lv: c.away.levelups, smile: c.before.smile,
       joy: c.before.joy, goal: c.before.joyGoal, eta: c.etaDays, dex: c.after.dex, entMin: c.away.entranceMin, walkMin: c.away.walkMin,
       inputs: inputsOf(c.acts.filter(a => a !== "night-evolve" || r.persona === "night")),
+      elites: c.away.elites || 0, boss: !!(c.away.bossCall || (c.away.bossDown || []).length), marks: (c.away.marks || []).length,
+      shown: c.before.badges.shown ?? c.before.badges.evolve,
     };
   });
   const hours = r.hours.map(h => [r2(h.day), h.happy, h.walkers, h.busy, r2(h.joyPct), h.ch, h.entrance ? 1 : 0, h.smile]);
@@ -60,18 +62,28 @@ for (const r of sim.runs) {
   const chapters = [1, 2, 3, 4, 5].map(k => {
     const cs = cks.filter(c => c.ch === k);
     const hs = r.hours.filter(h => h.ch === k);
+    // v1.3: 1장은 첫 세션 안에 끝난다 — 체크인도 시간 기록도 없다
+    if (!cs.length || !hs.length) {
+      const stamp = r.miles.find(m => m.kind === "chapter" && m.label.startsWith(k + "장"));
+      return { ch: k, firstSession: true, from: 1.88, to: stamp ? r2(stamp.day) : null, days: 0, checkins: 0, dexFrom: 0, dexTo: 0, wow: 0, wowPct: null, wowStrictPct: null, emo: {}, acts: {}, badges: 0, bEvo: 0, bShown: 0, inputs: 0, eta0: null, stable: null, ready: null, waitDays: null, entH: 0, walkH: 0, happyMax: 0, walkersMax: 0, elites: 0, bosses: 0, marks: 0 };
+    }
     const ready = r.miles.find(m => m.kind === "ready" && m.label.startsWith(k + "장"));
     const stable = hs.find((h, i) => hs.slice(i).every(x => x.gapN === 0));
     const emo = {};
     for (const c of cs) emo[c.e] = (emo[c.e] || 0) + 1;
-    const wow = cs.filter(c => ["achieve", "discover", "relief"].includes(c.e) || c.acts.some(a => /evolve|promote/.test(a))).length;
+    // 감탄: 성취·발견·안도 체크인 + 진화·발령을 한 체크인 + (v1.3) 엘리트·필드 보스를 본 체크인
+    const wow = cs.filter(c => ["achieve", "discover", "relief"].includes(c.e) || c.acts.some(a => /evolve|promote/.test(a)) || c.elites > 0 || c.boss).length;
+    // 엄격한 감탄: 엘리트·보스를 빼고 v1.2 보고서와 같은 정의 (엘리트가 거의 매 체크인 나와 감탄 비율을 부풀리므로 함께 본다)
+    const wowStrict = cs.filter(c => ["achieve", "discover", "relief"].includes(c.e) || c.acts.some(a => /evolve|promote/.test(a))).length;
     const acts = {};
     for (const c of cs) for (const a of c.acts) { const t = a.split(":")[0]; acts[t] = (acts[t] || 0) + 1; }
     return {
       ch: k, from: r2(hs[0].day), to: r2(hs[hs.length - 1].day), days: r1(hs[hs.length - 1].day - hs[0].day), checkins: cs.length,
       dexFrom: cs[0].dex - 0, dexTo: cs[cs.length - 1].dex,
-      wow, wowPct: Math.round((wow / cs.length) * 100), emo, acts,
+      wow, wowPct: Math.round((wow / cs.length) * 100), wowStrictPct: Math.round((wowStrict / cs.length) * 100), emo, acts,
       badges: r1(cs.reduce((s, c) => s + c.badges, 0) / cs.length), bEvo: r1(cs.reduce((s, c) => s + c.bEvo, 0) / cs.length),
+      bShown: r1(cs.reduce((s, c) => s + c.shown, 0) / cs.length),
+      elites: cs.reduce((s, c) => s + c.elites, 0), bosses: cs.filter(c => c.boss).length, marks: cs.reduce((s, c) => s + c.marks, 0),
       inputs: r1(cs.reduce((s, c) => s + c.inputs, 0) / cs.length),
       eta0: cs[0].eta, stable: stable ? r2(stable.day) : null, ready: ready ? r2(ready.day) : null,
       waitDays: stable && ready ? r1(ready.day - stable.day) : null,
@@ -128,4 +140,4 @@ const personas = audit.map(a => ({ rules: a.rules, id: a.persona, label: a.label
 const out = { generated: new Date().toISOString().slice(0, 10), rules: sim.rules, runs, flow, scenes, personas, cost: COST, valence: VALENCE };
 if (!argv.includes("--dry")) writeFileSync(path.join(HERE, "data.js"), "// 생성물: node notes/play-review/build.mjs\nwindow.PR = " + JSON.stringify(out) + ";\n");
 console.log("→ data.js", (JSON.stringify(out).length / 1024).toFixed(0) + "KB");
-for (const id of Object.keys(runs)) console.log(id, runs[id].chapters.map(c => `ch${c.ch} ${c.days}d wow${c.wowPct}% badges${c.badges} evo${c.bEvo} in${c.inputs} wait${c.waitDays} emo${JSON.stringify(c.emo)}`).join("\n  "));
+for (const id of Object.keys(runs)) console.log(id, runs[id].chapters.map(c => c.firstSession ? `ch${c.ch} 첫 세션 안에 결재` : `ch${c.ch} ${c.days}d wow${c.wowPct}% strict${c.wowStrictPct}% ▲shown${c.bShown}/${c.bEvo} elites${c.elites} marks${c.marks} in${c.inputs} wait${c.waitDays} emo${JSON.stringify(c.emo)}`).join("\n  "));

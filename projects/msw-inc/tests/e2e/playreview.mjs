@@ -2,7 +2,8 @@
 // 플레이 리뷰 — 실제 화면을 사람처럼 눌러 보며 첫 진입과 화면별 복잡도를 잰다.
 //   pnpm --filter msw-inc build && pnpm --filter msw-inc playreview:ui
 // ① 새 게임: 입사 컷 → 튜토리얼 → 퇴근 → 출근 리포트 → Day 2 결정(진화·채용·결재) 을 클릭·드래그로 밟고,
-//    단계마다 걸린 시간(월드 시각 기준 실제 초), 입력 수, 화면 밀도를 적는다.
+//    단계마다 걸린 실제 초(A.playSec, 입사 컷 뒤부터), 입력 수, 화면 밀도를 적는다. 월드 초(world)도 함께.
+//    사람은 안내가 뜨면 바로 누른다고 본다(읽는 시간은 없다). 그래서 실제 사람보다 짧게 나온다.
 // ② 시연 장면(?demo=)을 열어 후반 화면의 밀도를 잰다.
 // 결과: notes/data/playreview-ui.json, 그림: notes/play-review/shots/
 import path from "node:path";
@@ -26,13 +27,13 @@ const MEASURE = `(() => {
   const layerTxt = layer ? txt(layer) : '';
   const nums = s => (s.match(/\\d[\\d,.]*/g) || []).length;
   return {
-    clock: Math.round(A.w.t * 60), step: T.st.done ? null : (T.cur() ? T.cur().id : null),
+    clock: Math.round(A.playSec), world: Math.round(A.w.t * 60), step: T.st.done ? null : (T.cur() ? T.cur().id : null),
     oren: txt(document.querySelector('#orenTxt')),
     mode: A.ui.mode, sheet: A.ui.sheet, modal: A.ui.modal,
     clickables: q(CLICK).length,
     chars: stageTxt.replace(/\\s/g, '').length, numbers: nums(stageTxt),
     layer: layer ? { chars: layerTxt.replace(/\\s/g, '').length, numbers: nums(layerTxt), buttons: [...layer.querySelectorAll('button, [data-go], [data-hire], [data-promote], [data-stamp], [data-close]')].filter(vis).length, text: layerTxt.slice(0, 400) } : null,
-    badges: { gap: q('.gapb').length, evolve: q('.evb').length, busy: q('.pill.busy').length },
+    badges: { gap: q('.gapb').length, evolve: q('.evb').length, busy: q('.pill.busy').length, held: (() => { const c = document.querySelector('#evChip'); return c && !c.hidden ? +(c.querySelector('b') || {}).textContent || 0 : 0; })() },
     walkers: q('#walkers .wk').length, staff: q('#world .mon').length, plats: q('.plat').length,
     world: { happy: M.happyCount(A.w), smile: Math.round(A.w.smile), ch: A.w.chapter, gaps: M.gapSegments(A.w), dex: M.dexCount(A.w) },
   };
@@ -117,8 +118,40 @@ try {
   await click("#docw");
   await mark("approval", "결재 서류 — 조건 ①② 막대");
   await click("#modal [data-close]");
+  // ── v1.3 첫 10분 한 바퀴 ──
+  await until(s => s.step === "elite", "elite", 30);
+  await pump(1);
+  await mark("elite", "엘리트 첫 출현 — 결재 막대 ×2");
+  await until(s => s.step === "promote", "promote", 60);
+  await pump(1);
+  await mark("evolve-badge2", "둘째 달팽이 ▲ — 그냥 진화하면 입구가 막힌다");
+  await click(".evb");
+  await mark("promote-sheet", "진화 시트 — [▲ 승진 발령] 개업권으로 버섯 언덕");
+  await click("#sheet [data-promote]"); await sleep(1500);
+  await mark("promote-cut", "승진 발령 컷 — 진화 + 옮기기 + 신입");
+  await click("#modal"); await sleep(200);
+  await until(s => s.step === "joy", "joy", 30);
+  await mark("joy", "Lv 1–15 이어짐 — 결재 막대가 차기를 기다린다");
+  await until(s => s.step === "stamp", "stamp", 200);
+  await mark("stamp-ready", "결재 서류 도착 — 도장 받기");
+  await click("#docw");
+  await mark("approval-ready", "결재함 — 조건 두 개 ✓, 결재 받기");
+  await click("[data-stamp]"); await sleep(1600);
+  await mark("chapter-cut", "챕터 컷 — 2장 엘리니아, 필드 보스 예고");
+  await click(".cut [data-go]"); await sleep(300);
+  await until(s => s.step === "newRegion", "newRegion", 20);
+  await click("#bHire");
+  await mark("hire-slime", "채용 시트 — 슬라임 채용권");
+  await click('[data-hire="slime"]');
+  const rel2 = await drag("#tray .tok[data-mon]", '[data-plot="e1"]');
+  await mark("drag-slime", "슬라임을 엘리니아로 — 개업권 사용");
+  await rel2();
+  await pump(1);
+  await until(s => s.step === "bossTease", "bossTease", 30);
+  await pump(1);
+  await mark("boss-tease", "오렌: 막대 가운데 눈금에서 필드 보스가 온다");
   await until(s => s.done, "tutorial done", 60);
-  await mark("tut-done", "튜토리얼 끝 — 퇴근해도 월드는 돈다");
+  await mark("tut-done", "튜토리얼 끝 — 2장에서 퇴근");
   // 퇴근 → 다음 날 아침 (10시간)
   await click("#bOff"); await sleep(200);
   if (!(await b.eval("!!document.querySelector('.offduty')"))) { await click("#bOff"); await sleep(200); }
@@ -148,7 +181,7 @@ try {
   if (b.errors.length) console.log("콘솔 오류:", b.errors.join(" | "));
 
   // ── ② 시연 장면: 후반 화면 밀도 ──
-  const DEMOS = [["gap", "1장 첫 빈틈"], ["hire", "채용 시트"], ["dungeon", "던전 현장"], ["evolve", "진화 시트"], ["report", "출근 리포트"], ["approval", "결재함"], ["ch2", "2장 엘리니아"], ["promote", "3장 승진 발령"], ["grow", "키워서 잇기"], ["late", "4장 후반 월드"], ["ch5", "5장 슬리피우드"], ["codex", "도감"], ["ending", "엔딩"], ["fullclear", "완전 클리어"]];
+  const DEMOS = [["gap", "1장 첫 빈틈"], ["hire", "채용 시트"], ["dungeon", "던전 현장"], ["evolve", "진화 시트"], ["report", "출근 리포트"], ["approval", "결재함"], ["ch2", "2장 엘리니아"], ["promote", "3장 승진 발령"], ["grow", "키워서 잇기"], ["elite", "엘리트 출현"], ["bossinv", "필드 보스 초대"], ["boss", "필드 보스 방문"], ["late", "4장 후반 월드"], ["ch5", "5장 슬리피우드"], ["codex", "도감"], ["ending", "엔딩"], ["fullclear", "완전 클리어"]];
   for (const [id, label] of DEMOS) {
     b.errors.length = 0;
     await b.goto("?demo=" + id);
