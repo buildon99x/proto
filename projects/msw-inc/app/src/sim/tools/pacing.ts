@@ -1,57 +1,73 @@
 /*
  * 페이싱 점검 — 문서가 약속한 시각이 규칙으로 실제로 나오는지 확인한다.
- *   pnpm --filter msw-inc pacing            (게임 규칙 v1.2)
+ *   pnpm --filter msw-inc pacing            (게임 규칙 v1.3)
  *   pnpm --filter msw-inc pacing -- v1.1    (컨셉 v1.1 규칙으로 다시 굴린다)
  *
- * 1) 첫 10분 대본: 첫 레벨업, Lv 8 빈틈, 고참 달팽이 진화 가능 시각
+ * 1) 첫 10분 대본: 첫 레벨업, Lv 8 빈틈, 승진 발령, 1장 결재 도장 (v1.1은 고참 진화까지)
  * 2) Day 2 첫 출근: 10시간 뒤 리포트에 무엇이 들어오는가
  * 3) 챕터 달력: 표준·가벼운 매니저 봇으로 1~5장 결재 날짜
  */
 import * as S from '../sim';
-import { useRules, V11, V12 } from '../rules';
-import { PERSONAS, runPersona, dayLabel } from '../bots';
+import { useRules, V11, V14 } from '../rules';
+import { PERSONAS, runPersona, dayLabel, firstSession, realMinutes } from '../bots';
 
 const legacy = process.argv.includes('v1.1');
-useRules(legacy ? V11 : V12);
+useRules(legacy ? V11 : V14);
 const fmt = (m: number) => `${Math.floor(m)}:${String(Math.round((m % 1) * 60)).padStart(2, '0')}`;
 
-console.log(`규칙 ${legacy ? 'v1.1 (컨셉)' : 'v1.2 (게임)'}\n`);
+console.log(`규칙 ${legacy ? 'v1.1 (컨셉)' : 'v1.4 (게임)'}\n`);
 
 // ── 1. 첫 10분 ──────────────────────────────────────────────
 const w = S.createWorld(20260924);
-const marks: Record<string, unknown> = {};
-let placed = false, evolved = false;
-let firstLv: number | null = null, firstGap: { t: number; lv: number } | null = null, vetReady: number | null = null;
-for (let i = 0; i < 12 * 8; i++) {
-  const ev: S.SimEvent[] = [];
-  S.step(w, 1 / 12, ev);
-  for (const e of ev) {
-    if (e.type === 'levelup' && firstLv == null) firstLv = w.t;
-    if (e.type === 'stuck' && !firstGap) firstGap = { t: w.t, lv: e.lv };
-    if (e.type === 'ready' && vetReady == null) vetReady = w.t;
-  }
-  if (firstGap && !placed && w.t >= firstGap.t + 0.5) {
-    const h = S.hire(w, 'mush');
-    if (h.ok) S.place(w, h.mon.id, 'h2');
-    placed = true;
-    marks.gapAfterPlace = S.gapSegments(w).map(s => s.join('–')).join(', ') || '없음';
-  }
-  if (w.t >= 5 && !marks.event) marks.event = S.startEvent(w, 'h1', 'exp');
-  const vet = w.monsters.find(m => m.vet);
-  if (vet && w.t >= 6.5 && !evolved) {
-    if (!S.canEvolve(vet)) { marks.forced = true; vet.tenure = S.evolveNeed(vet); }
-    marks.pv = S.preview(w, { evolve: vet.id });
-    S.evolve(w, vet.id); evolved = true;
-  }
+if (legacy) legacyFirst(); else loopFirst();
+
+/** v1.3 첫 10분 한 바퀴: 봇 대본(bots.firstSession)의 사건 시각. 실제 시각은 튜토리얼 "가로 = 레벨" 배속(×3)을 되돌려 잰 추정이다 */
+function loopFirst() {
+  const notes: { t: number; k: string; l: string }[] = [];
+  firstSession(w, (k, l) => notes.push({ t: w.t, k, l }));
+  const gap = notes.find(x => x.k === 'stuck');
+  const real = (t: number) => realMinutes(t, gap ? gap.t : null);
+  console.log(`── 입사 첫 세션 (봇 대본 · ${V14.buffMin ? '입사 첫날 버프' : '첫 파티 대본, 배속 없음'}) ── 월드 시각 / 실제 시각(추정)`);
+  const want: Record<string, string> = { levelup: '0:25', stuck: '1:30 안', promote: '', stamp: '10:00 안 (화면 실측은 playreview:ui)' };
+  for (const x of notes) console.log(x.l.padEnd(28), fmt(x.t).padStart(6), '/', fmt(real(x.t)).padStart(6), want[x.k] ? `(목표 ${want[x.k]})` : '');
+  console.log('세션 끝  즐기는', S.happyCount(w), '/ 모험가', w.advs.length, '/ 스마일', Math.round(w.smile), '/ 장', w.chapter, '/ 빈틈', JSON.stringify(S.gapSegments(w)), '/ 남은 무료권', JSON.stringify(w.tickets));
 }
-const pv = marks.pv as S.Preview;
-console.log('── 입사 첫 세션 8분 (입사 첫날 버프) ──');
-console.log('첫 레벨업           ', firstLv != null ? fmt(firstLv) : '없음', '(대본 0:25)');
-console.log('첫 빈틈 (갈 곳 없음)', firstGap ? `${fmt(firstGap.t)} Lv ${firstGap.lv}` : '없음', '(대본 3:25, Lv 8)');
-console.log('주황버섯 배치 후 빈틈', marks.gapAfterPlace);
-console.log('고참 진화 가능      ', vetReady != null ? fmt(vetReady) : '없음', marks.forced ? '(튜토리얼이 보정)' : '(6:30 전에 준비됨)');
-console.log('진화 미리보기 잃는 구간', JSON.stringify(pv.lost), '레벨', JSON.stringify(pv.after));
-console.log('8분 퇴근 시점  즐기는', S.happyCount(w), '/ 모험가', w.advs.length, '/ 스마일', Math.round(w.smile), '/ 빈틈', JSON.stringify(S.gapSegments(w)));
+function legacyFirst() {
+const w = S.createWorld(20260924);
+  const marks: Record<string, unknown> = {};
+  let placed = false, evolved = false;
+  let firstLv: number | null = null, firstGap: { t: number; lv: number } | null = null, vetReady: number | null = null;
+  for (let i = 0; i < 12 * 8; i++) {
+    const ev: S.SimEvent[] = [];
+    S.step(w, 1 / 12, ev);
+    for (const e of ev) {
+      if (e.type === 'levelup' && firstLv == null) firstLv = w.t;
+      if (e.type === 'stuck' && !firstGap) firstGap = { t: w.t, lv: e.lv };
+      if (e.type === 'ready' && vetReady == null) vetReady = w.t;
+    }
+    if (firstGap && !placed && w.t >= firstGap.t + 0.5) {
+      const h = S.hire(w, 'mush');
+      if (h.ok) S.place(w, h.mon.id, 'h2');
+      placed = true;
+      marks.gapAfterPlace = S.gapSegments(w).map(s => s.join('–')).join(', ') || '없음';
+    }
+    if (w.t >= 5 && !marks.event) marks.event = S.startEvent(w, 'h1', 'exp');
+    const vet = w.monsters.find(m => m.vet);
+    if (vet && w.t >= 6.5 && !evolved) {
+      if (!S.canEvolve(vet)) { marks.forced = true; vet.tenure = S.evolveNeed(vet); }
+      marks.pv = S.preview(w, { evolve: vet.id });
+      S.evolve(w, vet.id); evolved = true;
+    }
+  }
+  const pv = marks.pv as S.Preview;
+  console.log('── 입사 첫 세션 8분 (입사 첫날 버프) ──');
+  console.log('첫 레벨업           ', firstLv != null ? fmt(firstLv) : '없음', '(대본 0:25)');
+  console.log('첫 빈틈 (갈 곳 없음)', firstGap ? `${fmt(firstGap.t)} Lv ${firstGap.lv}` : '없음', '(대본 3:25, Lv 8)');
+  console.log('주황버섯 배치 후 빈틈', marks.gapAfterPlace);
+  console.log('고참 진화 가능      ', vetReady != null ? fmt(vetReady) : '없음', marks.forced ? '(튜토리얼이 보정)' : '(6:30 전에 준비됨)');
+  console.log('진화 미리보기 잃는 구간', JSON.stringify(pv.lost), '레벨', JSON.stringify(pv.after));
+  console.log('8분 퇴근 시점  즐기는', S.happyCount(w), '/ 모험가', w.advs.length, '/ 스마일', Math.round(w.smile), '/ 빈틈', JSON.stringify(S.gapSegments(w)));
+}
 
 // ── 2. Day 2 첫 출근 ────────────────────────────────────────
 const L = S.ledgerStart(w);

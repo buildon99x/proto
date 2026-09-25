@@ -46,11 +46,12 @@ export const TRAITS: Record<TraitId, { icon: string; name: string; desc: string 
 
 export interface Chapter { n: number; region: string; road: number; happy: number; say: string }
 export const CHAPTERS: Chapter[] = [
-  { n: 1, region: '헤네시스', road: 15, happy: 20, say: 'Lv 15까지 잇고, 20명이 즐기면. 그럼 결재.' },
-  { n: 2, region: '엘리니아', road: 30, happy: 60, say: 'Lv 30까지 이어요. 그럼 결재.' },
-  { n: 3, region: '페리온', road: 45, happy: 110, say: 'Lv 45까지. 110명. 그럼 결재.' },
-  { n: 4, region: '커닝시티', road: 60, happy: 160, say: 'Lv 60까지. 사람이 많아지겠네요. 결재는 그다음.' },
-  { n: 5, region: '슬리피우드', road: 70, happy: 220, say: '끝까지 이어요. 발록 씨 던전도 열고요. 그럼 마지막 결재.' },
+  // say는 결재 조건(v1.3)을 말한다. 숫자는 막대가 말한다. happy는 v1.1 비교용(동시 인원)이라 그대로 둔다
+  { n: 1, region: '헤네시스', road: 15, happy: 20, say: 'Lv 15까지 잇고, 즐거운 시간이 쌓이면. 그럼 결재.' },
+  { n: 2, region: '엘리니아', road: 30, happy: 60, say: 'Lv 30까지 이어요. 즐거운 시간은 막대가 셉니다. 그럼 결재.' },
+  { n: 3, region: '페리온', road: 45, happy: 110, say: 'Lv 45까지. 손님들이 즐긴 시간이 차면. 그럼 결재.' },
+  { n: 4, region: '커닝시티', road: 60, happy: 160, say: 'Lv 60까지. 사람이 많아지겠네요. 시간이 차면, 결재는 그다음.' },
+  { n: 5, region: '슬리피우드', road: 70, happy: 220, say: '끝까지 이어요. 발록 씨 던전도 열고, 슬리피우드 식구도 한 명. 그럼 마지막 결재.' },
 ];
 
 export interface Region { n: number; name: string; from: number; to: number }
@@ -63,14 +64,19 @@ export const REGIONS: Region[] = [
 ];
 
 export type PlotId = string;
-export interface PlotInfo { id: PlotId; name: string; short: string; region: number }
+/** extra: v1.4 초반 사냥터 (헤네시스·엘리니아 +2곳씩). 규칙 morePlots가 켜져 있을 때만 쓴다 */
+export interface PlotInfo { id: PlotId; name: string; short: string; region: number; extra?: boolean }
 export const PLOTS: PlotInfo[] = [
   { id: 'h1', name: '헤네시스 들판', short: '들판', region: 1 },
   { id: 'h2', name: '헤네시스 사냥터', short: '사냥터', region: 1 },
   { id: 'h3', name: '버섯 언덕', short: '버섯 언덕', region: 1 },
+  { id: 'h4', name: '작은 연못', short: '연못', region: 1, extra: true },
+  { id: 'h5', name: '풀숲 오솔길', short: '오솔길', region: 1, extra: true },
   { id: 'e1', name: '숲 입구', short: '숲 입구', region: 2 },
   { id: 'e2', name: '나무 위 쉼터', short: '쉼터', region: 2 },
   { id: 'e3', name: '마법 숲', short: '마법 숲', region: 2 },
+  { id: 'e4', name: '버섯 동굴', short: '동굴', region: 2, extra: true },
+  { id: 'e5', name: '요정 샘터', short: '샘터', region: 2, extra: true },
   { id: 'p1', name: '바위 언덕', short: '바위 언덕', region: 3 },
   { id: 'p2', name: '불타는 땅', short: '불타는 땅', region: 3 },
   { id: 'p3', name: '전사의 길', short: '전사의 길', region: 3 },
@@ -87,5 +93,20 @@ export const plotInfo = (id: PlotId): PlotInfo => {
   return p;
 };
 
-/** 도감 전체 칸 수: 10계열 × 3단계 + 보스 5 + 발록 = 36 */
-export const DEX_TOTAL = SPECIES_IDS.reduce((s, k) => s + SPECIES[k].names.length, 0);
+/**
+ * 필드 보스 (v1.3) — 직원이 아니라 장마다 한 번 찾아오는 손님이다. 던전 레벨에 들지 않는다(P2).
+ * 이름은 가칭이다. notes/content.md 절차대로 메이플스토리 월드 공식 목록과 대조해 확정한다.
+ */
+export interface FieldBoss { ch: number; name: string; art: string; lv: number; line: string }
+export const FIELD_BOSSES: FieldBoss[] = [
+  { ch: 2, name: '파우스트', art: 'faust', lv: 22, line: '…숲이 시끄럽군. 한번 놀아 볼까.' },
+  { ch: 3, name: '바위 거인', art: 'golem', lv: 38, line: '…쿵. 쿵. 덤벼라.' },
+  { ch: 4, name: '다일', art: 'dyle', lv: 52, line: '…늪에서 왔다. 오래 못 있는다.' },
+  { ch: 5, name: '개미굴 왕', art: 'antking', lv: 65, line: '…굴 밖은 처음이다.' },
+];
+export const fieldBoss = (ch: number) => FIELD_BOSSES.find(b => b.ch === ch) || null;
+export const bossDexKey = (ch: number) => 'fb:' + ch;
+
+/** 도감 전체 칸 수: 10계열 × 3단계 + 보스 5 + 발록 = 36, 필드 보스 4 (v1.3) = 40 */
+export const DEX_SPECIES = SPECIES_IDS.reduce((s, k) => s + SPECIES[k].names.length, 0);
+export const DEX_TOTAL = DEX_SPECIES + FIELD_BOSSES.length;

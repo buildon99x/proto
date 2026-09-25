@@ -3,7 +3,8 @@
  *
  * V11은 컨셉 v1.1(docs/concept/maple-idle/msw-inc/03-systems.md) 그대로다.
  * V12는 선택 점검(notes/choice-audit.md)에서 진행 속도를 크게 가르던 선택을 고친 값이다.
- * 게임은 V12로 돈다. 점검 스크립트만 useRules(V11)로 옛 규칙을 다시 굴려 비교한다.
+ * V13은 플레이 리뷰 뒤 개선(눈금 보상·엘리트·필드 보스·첫 10분)이다.
+ * 게임은 V13으로 돈다. 점검 스크립트만 useRules(V11·V12)로 옛 규칙을 다시 굴려 비교한다.
  */
 export interface Rules {
   id: string;
@@ -29,6 +30,48 @@ export interface Rules {
   costCurve: number[];
   /** 챕터별 스마일 수입 배율 (즐거운 모험가·레벨업). 후반 스마일 과잉(컨셉 D1)을 누른다 */
   incomeCurve: number[];
+  /** 결재 ② 막대 눈금 보상 (v1.3, 2장부터). null이면 없다 */
+  joyMarks: { at: number[]; from: number } | null;
+  /** 5장 결재 ③에 "슬리피우드 식구가 일하는 던전 1곳"을 더한다 (v1.3) */
+  nativeCond: boolean;
+  /** 입사 첫날 버프 길이 (월드 분). 레벨업·근속 ×30, 분당 1명 도착 */
+  buffMin: number;
+  /** 튜토리얼 "가로 = 레벨" 단계(누를 곳이 없다)의 월드 배속. 1이면 없다 */
+  growBoost: number;
+  /**
+   * 엘리트 (v1.3, R5 확장): 월드 퇴근 누적이 장별 문턱(every)을 넘으면 한 던전 직원이 min분 동안 엘리트가 된다.
+   * 그 던전의 즐거운 모험가는 레벨업 ×lvX, ② 누적 ×joyX. 직원 레벨은 그대로(P2). null이면 없다
+   */
+  elite: { every: number[]; min: number; lvX: number; joyX: number } | null;
+  /**
+   * 필드 보스 (v1.3, R5 확장): 2장부터 ② 50% 눈금에서 찾아온다. wait분 안에 초대하지 않으면 자동 초대.
+   * 방문 중 그 던전 자리 +seats, 월드 도착 ×arriveX, 그 던전 ② ×joyX. 퇴근 need[장]회면 토벌(최대 max분, 실패 없음).
+   * 토벌하면 도감 칸 + 이번 장 ② 목표의 bonus만큼. 스마일 보상은 없다. null이면 없다
+   */
+  fieldBoss: { need: number[]; wait: number; max: number; seats: number; arriveX: number; joyX: number; bonus: number } | null;
+  /**
+   * 첫 10분 한 바퀴 (v1.3): 입사 버프가 결재 ② 누적에도 붙고(×30), 입사 선물에 개업권 1장,
+   * 1장 결재 선물로 엘리니아 첫 계열 채용권 + 개업권 1장. 1장을 첫 세션 안에 끝낸다
+   */
+  firstLoop: boolean;
+  /**
+   * 도착 (v1.4): 배속(입사 버프) 대신 사람 수로 첫 40분을 채운다. 첫 hold분은 분당 rate명이 party명씩 고른 박자로 오고,
+   * fade분까지 기본 도착률로 줄어든다. 그동안 mid 비율은 열린 길 가운데 레벨로 온다(길 전체에 수요가 퍼진다).
+   * tip: 붐비는 동안 스마일 수입 배율(첫날 손님이 팁을 더 준다). 도착률과 같이 fade분까지 1로 줄어든다.
+   * null이면 v1.3 (입사 버프 동안 분당 1명, 그 뒤 기본)
+   */
+  arrive: { rate: number; hold: number; fade: number; party: [number, number]; mid: number; tip: number } | null;
+  /**
+   * 구간 개방 (v1.4): 장마다 길 끝이 ends 순서로 늘어난다. 그 장 퇴근 누적이 kills[장] × grow^(연 구간 수)를 넘고
+   * 지금 길이 이어져 있으면 다음 구간이 열린다. ends가 null인 장은 처음부터 끝까지. null이면 v1.3 (장 전체)
+   */
+  zones: { ends: (number[] | null)[]; kills: number[]; grow: number } | null;
+  /** 채용비 = 기본 레벨 × hireUnit */
+  hireUnit: number;
+  /** 헤네시스·엘리니아 사냥터 +2곳씩 (v1.4, content.ts의 extra 부지) */
+  morePlots: boolean;
+  /** 새 던전의 기본 자리 */
+  seatBase: number;
 }
 
 export const V11: Rules = {
@@ -46,6 +89,18 @@ export const V11: Rules = {
   seatCost: [500, 1000, 2000], slotCost: [1000, 3000], plotCost: 1000,
   costCurve: [1, 1, 1, 1, 1],
   incomeCurve: [1, 1, 1, 1, 1],
+  joyMarks: null,
+  nativeCond: false,
+  buffMin: 15,
+  growBoost: 1,
+  elite: null,
+  fieldBoss: null,
+  firstLoop: false,
+  arrive: null,
+  zones: null,
+  hireUnit: 100,
+  morePlots: false,
+  seatBase: 8,
 };
 
 export const V12: Rules = {
@@ -60,5 +115,54 @@ export const V12: Rules = {
   incomeCurve: [1, 0.6, 0.35, 0.22, 0.15],
 };
 
-export const RULES: Rules = { ...V12 };
+/**
+ * V13은 플레이 리뷰(notes/play-review) 뒤의 개선이다. 근거와 수치는 notes/improvement-plan.md와 choice-audit §7.
+ */
+export const V13: Rules = {
+  ...V12,
+  id: 'v1.3',
+  // F1: ② 막대 25·50·75%에 보상 칸 — 채용권 · 필드 보스 · 무료 이벤트권 2장
+  joyMarks: { at: [0.25, 0.5, 0.75], from: 2 },
+  // F2: 5장 새 계열(드레이크·이블아이)이 한 번도 쓰이지 않았다 → 결재 ③에 슬리피우드 식구 던전 1곳
+  nativeCond: true,
+  // F6: 튜토리얼 "가로 = 레벨" 단계를 배속으로 돌리므로 버프가 대본 끝까지 남게 15 → 20분
+  buffMin: 20,
+  // F6: 계획은 ×3이었지만 실측(playreview:ui)에서 누를 곳 없는 구간이 59초 → ×5로 약 37초, 첫 빈틈 약 1:00
+  growBoost: 5,
+  // E: 엘리트는 약 3시간에 한 번(표준 봇 장별 월드 시간당 퇴근 960 · 4,200 · 6,600 · 8,300 · 10,000 기준)
+  elite: { every: [3000, 12000, 20000, 25000, 30000], min: 60, lvX: 1.5, joyX: 2 },
+  // E: 필드 보스는 장마다 한 번. 토벌까지 평소 규모 던전이면 약 3시간
+  fieldBoss: { need: [0, 2500, 3000, 3000, 3000], wait: 180, max: 480, seats: 8, arriveX: 1.5, joyX: 2, bonus: 0.05 },
+  // T: 1장은 첫 세션 안에 승진 발령 → 결재 도장 → 새 지역까지. ② 목표는 버프 ×30 기준
+  firstLoop: true,
+  joyGoal: [30, 3000, 21500, 34500, 36500],
+};
+
+/**
+ * V14는 첫 40분 경험 밀도 개선이다. 배속을 없애고 사람 수·구간·획득량으로 10~20초마다 무언가 일어나게 한다.
+ * 근거와 수치는 notes/tempo-v14.md와 tools/cadence.ts.
+ */
+export const V14: Rules = {
+  ...V13,
+  id: 'v1.4',
+  // 입사 버프(레벨업·근속 ×30)를 없앤다. 한 사람의 속도는 어디서나 같다
+  buffMin: 0,
+  growBoost: 1,
+  // 파티 1~2명이 20초마다 (분당 4.5명). 40분부터 90분까지 기본 도착률(시간당 6명)로 줄어든다
+  arrive: { rate: 4.5, hold: 40, fade: 90, party: [1, 2], mid: 0.85, tip: 12 },
+  zones: { ends: [[10, 15], [20, 25, 30], null, null, null], kills: [40, 150, 0, 0, 0], grow: 1.6 },
+  // 첫 진화는 금방(새내기), 그다음부터는 길게
+  evolveNeed: [60, 12000, 45000],
+  hireUnit: 20,
+  // 첫 두 장은 자리·슬롯이 싸다 (배속이 없으니 결정 하나하나를 싸게). 3장부터는 v1.3 그대로
+  costCurve: [0.3, 0.3, 2.5, 4, 6],
+  seatBase: 12,
+  plotCost: 500,
+  morePlots: true,
+  joyGoal: [2, 3600, 28000, 45000, 47500],
+  // 자리·사냥터가 늘어 즐거운 인원이 는 만큼 3~5장 수입을 낮춘다. 그대로면 표준 봇의 스마일 최고가 약 38만(v1.3 같은 봇 약 13만)
+  incomeCurve: [1, 0.6, 0.2, 0.12, 0.08],
+};
+
+export const RULES: Rules = { ...V14 };
 export function useRules(r: Rules): void { Object.assign(RULES, r); }

@@ -86,6 +86,18 @@ const mBalrog = () => map([
   'h..........h', 'hh.RRRRRR.hh', '.hRRRRRRRRh.', '.RRyRRRRyRR.', '.RRRRRRRRRR.', 'wRRRkkkkRRRw', 'wwRRRRRRRRww', '..RRRRRRRR..', '..RR....RR..',
 ], { R: '#6b2a3a', h: '#c9c0a8', y: CROWN, k: '#2d2a3e', w: '#4a2030' });
 
+// 필드 보스 (v1.3, 가칭 · 자리표시): 작은 격자를 크게 그려 쓴다
+const mFaust = () => map([
+  '..h......h..', '..hh....hh..', '...PPPPPP...', '..PPPPPPPP..', '.PPkPPPPkPP.', '.PPPffffPPP.',
+  'PPPPfrrfPPPP', 'PP.PPPPPP.PP', 'P..PPPPPP..P', '...PP..PP...',
+], { h: '#e8e0c8', P: '#6a3a9a', k: '#ffcc33', f: '#caa8e8', r: '#2d2a3e' });
+const mGolem = () => map([
+  '...GGGG...', '..GkGGkG..', '..GGGGGG..', 'GGGGDDGGGG', 'GG.GGGG.GG', 'GG.GDDG.GG', '...GGGG...', '..GG..GG..',
+], { G: '#8a8f99', D: '#6a6f79', k: '#ff7a2e' });
+const mAnt = () => map([
+  '.a......a.', '..a.yy.a..', '...KKKK...', '..KyKKyK..', '..KKKKKK..', '.l.KKKK.l.', 'l.KKKKKK.l', '.lKKKKKKl.', '..l....l..',
+], { a: '#2d2a3e', K: '#7a2e1c', y: '#ffcc33', l: '#4a2016' });
+
 // ── 큰 도트 (던전 현장·사원증) ──────────────────────────────
 function mushroom({ cap = '#f7902a', shade = '#d4661c', spot = '#ffd08a', body = '#fbe2b4', horn = false, leaf = false }) {
   const g = G(20, 22), d = 2;
@@ -216,6 +228,7 @@ const SPR: Record<string, () => Grid> = {
   'm:idrake': () => mDrake('#6aa0c8', '#e8f0f8'), 'm:ddrake': () => mDrake('#3a2e4a', '#8a7aa8', true),
   'm:eye': () => mEye('#8a5aa8', '#d8433a'), 'm:ceye': () => mEye('#5a3a6a', '#7fd07a'), 'm:coldeye': () => mEye('#5a8ab8', '#3fa9f5'),
   'm:balrog': () => mBalrog(),
+  'm:faust': () => mFaust(), 'm:golem': () => mGolem(), 'm:dyle': () => mCroco('#2a6b6b', '#c8e0a0', true), 'm:antking': () => mAnt(),
   // 큰 도트
   mush: () => mushroom({}), horn: () => mushroom({ cap: '#c46a33', shade: '#97491f', spot: '#f0b07a', horn: true }),
   zombie: () => mushroom({ cap: '#7f93ab', shade: '#5b6d86', spot: '#b8c7d9', body: '#cfd9c6' }),

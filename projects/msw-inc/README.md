@@ -1,11 +1,36 @@
 # MSW 주식회사
 
-몬스터가 직원인 회사에 월드 매니저로 입사해 몬스터를 키우고, 던전을 이어 모험가들이 레벨 1부터 끝까지 즐겁게 올라가는 월드를 만드는 저관여 월드 매니지먼트 게임이다. 하루 몇 번, 몇 분 들어와 배지 세 종류(빨간 `!` 빈틈, 주황 🌀 과밀, 보라 ▲ 진화)를 치우고 떠난다. 월드는 서버 시간으로 계속 돈다.
+몬스터가 직원인 회사에 월드 매니저로 입사해 몬스터를 키우고, 던전을 이어 모험가들이 레벨 1부터 끝까지 즐겁게 올라가는 월드를 만드는 저관여 월드 매니지먼트 게임이다. 입사 첫날 40분은 파티가 20초마다 몰려와 쉴 틈이 없다. 그 뒤로는 하루 몇 번, 몇 분 들어와 배지 세 종류(빨간 `!` 빈틈, 주황 🌀 과밀, 보라 ▲ 진화 — 지금 해도 되는 것만 최대 3개)를 치우고 떠난다. 월드는 서버 시간으로 계속 돈다. 사냥이 쌓이면 엘리트가 나오고, 장마다 한 번 필드 보스가 찾아온다.
 
 - **해 보기:** 런처에서 "MSW 주식회사"를 연다. 또는 `pnpm --filter msw-inc dev`
-- **범위:** 입사 튜토리얼 → 1장 헤네시스 → 2장 엘리니아 → 3장 페리온 → 4장 커닝시티 → 5장 슬리피우드 → 엔딩(주니어 발록) → 완전 클리어(던전 15곳 ★3 · 도감 36)
-- **볼륨:** 표준(하루 3회) 약 5주에 엔딩. 봇 8성향 중앙값 D28~36
-- **설계:** [spec.md](spec.md) (규칙 v1.2 · 화면). 뿌리는 컨셉 v1.1 [docs/concept/maple-idle/msw-inc](../../docs/concept/maple-idle/msw-inc/README.md)
+- **범위:** 입사 첫 세션(1장 헤네시스까지 한 바퀴) → 2장 엘리니아 → 3장 페리온 → 4장 커닝시티 → 5장 슬리피우드 → 엔딩(주니어 발록) → 완전 클리어(던전 19곳 ★3 · 도감 40)
+- **볼륨:** 첫날 약 40분 붙잡힌 뒤, 표준(하루 3회) 약 4.5주(D30)에 엔딩. 봇 8성향 중앙값 D24~36
+- **설계:** [spec.md](spec.md) (규칙 v1.4 · 화면). 뿌리는 컨셉 v1.1 [docs/concept/maple-idle/msw-inc](../../docs/concept/maple-idle/msw-inc/README.md)
+
+## 첫 40분 밀도 (1.2.0 · 규칙 v1.4)
+
+"초반 40분은 10~20초마다 경험이 일어나게, 배속이 아니라 가짓수와 빈도로"라는 요청에 맞췄다. [notes/tempo-v14.md](notes/tempo-v14.md)
+
+| 0~40분 (지켜보는 플레이어, 시드 5개) | v1.3 | v1.4 |
+|---|---|---|
+| 사건 사이 최장 | 275초 | 20초 |
+| 둔 수 | 6 | 40 |
+| 결정 사이 최장 | 29분 | 3분 |
+| 40분에 즐거운 모험가 | 13 | 약 156 |
+
+입사 버프(×30)를 없애고, 파티 도착(20초 박자, 중간 레벨), 구간 개방(1장 2구간 · 2장 3구간), 헤네시스·엘리니아 사냥터 +2곳, 첫 진화 근속 60, 첫날 팁과 싼 초반 가격, 붐빔 풀기로 바꿨다.
+
+## 플레이 리뷰 뒤 무엇이 바뀌었나 (1.1.0 · 규칙 v1.3)
+
+[플레이 리뷰](notes/play-review/index.html)가 찾은 문제를 [개선 계획](notes/improvement-plan.md)대로 고쳤다. 개선 뒤 측정은 보고서 08절.
+
+| 문제 (v1.2) | v1.3 |
+|---|---|
+| 첫 세션 176초 동안 누를 곳이 없고, 승진 발령·결재 도장은 Day 2 뒤에야 본다 | **첫 세션 한 바퀴:** 첫 빈틈 0:59, 엘리트 → 승진 발령(개업권) → 1장 결재 도장 → 새 지역 채용 → 보스 예고까지 약 3분(바로 누를 때) |
+| 3~5장 27일을 결재 ② 막대가 쥐고, 5장 체크인 19/27이 이벤트만 누른다 | **② 막대 눈금 보상**(채용권 · 필드 보스 · 이벤트권), **엘리트**, **필드 보스** → 이벤트만 누른 체크인 2/28 |
+| ▲가 5장에 16개씩 쌓인다 | 지금 해도 되는 진화만 **최대 3개**, 나머지는 독 칩 "진화 대기 N" |
+| 5장 새 계열이 한 번도 쓰이지 않는다 | 결재 ③에 **슬리피우드 식구 던전** → 성향 4개 모두 채용 |
+| Day 2 오렌 안내가 틀리고, 머쉬맘이 옛 조건을 말한다 | 바로잡음 (스모크·테스트가 지킨다) |
 
 ## 컨셉 v1.1에서 무엇이 바뀌었나
 
@@ -21,30 +46,35 @@
 | 꽉 찬 던전에 놓을 수 없다 → 둘 곳 없는 신입 | 놓으면 **직원 자리 +1을 같이 산다** |
 | 후반 스마일 과잉 (배율 없이 약 180만) | 챕터 수입 배율 → 약 16만 |
 
-결과: v1.2는 40번 모두 엔딩(D27.4~38.5), 멈춘 월드 0. v1.1은 22번만 엔딩에 닿았고 13번은 월드가 멈췄다.
+결과: v1.2는 40번 모두 엔딩(D27.4~38.5), 멈춘 월드 0. v1.1은 22번만 엔딩에 닿았고 13번은 월드가 멈췄다. v1.3도 40번 모두 엔딩(D26.4~35.9), 멈춘 월드 0.
 
 ## 명령
 
 ```
 pnpm --filter msw-inc dev        개발 서버
 pnpm --filter msw-inc build      타입 검사 + 빌드
-pnpm --filter msw-inc test       타입 검사 + 규칙 테스트 19개
-pnpm --filter msw-inc pacing     첫 10분·Day 2·챕터 달력 (-- v1.1 로 옛 규칙)
-pnpm --filter msw-inc audit      선택 점검: 8성향 × 체크인 시각 흔들기 5 (v1.1·v1.2), -- --ablate 로 하나씩 빼 보기
-pnpm --filter msw-inc smoke      브라우저 스모크: 튜토리얼을 실제 클릭·드래그로 (빌드 뒤)
-pnpm --filter msw-inc shots      시연 장면 16개를 assets/screenshots/ 로 굽는다 (빌드 뒤)
+pnpm --filter msw-inc test       타입 검사 + 규칙 테스트 26개
+pnpm --filter msw-inc pacing     첫 세션·Day 2·챕터 달력 (-- v1.1 로 옛 규칙)
+pnpm --filter msw-inc cadence    첫 40분 경험 간격: 사건 사이 최장·중앙, 둔 수, 결정 사이 최장 (-- --rules v1.3 로 비교)
+pnpm --filter msw-inc run audit  선택 점검: 8성향 × 체크인 시각 흔들기 5 (v1.3·v1.4), -- --rules v1.1 한 규칙만, -- --ablate 하나씩 빼 보기
+pnpm --filter msw-inc smoke      브라우저 스모크: 첫 세션을 실제 클릭·드래그로 19단계 (빌드 뒤)
+pnpm --filter msw-inc shots      시연 장면 22개를 assets/screenshots/ 로 굽는다 (빌드 뒤)
+pnpm --filter msw-inc playreview      플레이 리뷰 계측: 입사~엔딩 체크인 기록, 성향 4개 (-- --rules v1.2 개선 전 기준)
+pnpm --filter msw-inc playreview:ui   플레이 리뷰 화면 실측: 첫 진입 클릭·드래그와 화면 밀도 (빌드 뒤)
+pnpm --filter msw-inc playreview:v13  개선 뒤 계측(규칙 + 화면) → notes/data/*-v13.json, shots/v13/
+node notes/play-review/build.mjs      플레이 리뷰 보고서 데이터 → data.js (-- --out data-v13.js --var PR13 … 개선 뒤)
 ```
 
 ## 폴더
 
 | 경로 | 내용 |
 |---|---|
-| `app/src/sim/` | 규칙(화면과 분리): `content.ts` 콘텐츠 표, `rules.ts` 수치(V11·V12), `sim.ts` 월드·행동·미리보기, `bots.ts` 봇 매니저 |
-| `app/src/sim/tools/` | `pacing.ts` 페이싱 점검, `audit.ts` 선택 점검 |
+| `app/src/sim/` | 규칙(화면과 분리): `content.ts` 콘텐츠 표(필드 보스 포함), `rules.ts` 수치(V11·V12·V13·V14), `sim.ts` 월드·행동·미리보기·엘리트·필드 보스, `bots.ts` 봇 매니저·첫 세션 대본 |
+| `app/src/sim/tools/` | `pacing.ts` 페이싱 점검, `cadence.ts` 첫 40분 경험 간격, `audit.ts` 선택 점검, `playreview.ts` 플레이 리뷰 계측 |
 | `app/src/ui/` | `app.ts` 공통(HUD·독·오렌·저장·소리), `world.ts` S1, `dungeon.ts` S2·S4, `sheets.ts` S0·S3·S5·S6·S7·도감·엔딩, `tut.ts` 첫 10분, `art.ts` 자리표시 도트, `demo.ts` 시연 장면 |
 | `tests/` | `sim.test.ts` 규칙 테스트, `e2e/` CDP 하니스·스모크·장면 굽기 |
-| `notes/` | 선택 점검, 화면 점검, 콘텐츠 이름, 결정 기록, `data/` 점검 원자료 |
+| `notes/` | 선택 점검, 화면 점검, 콘텐츠 이름, 결정 기록, `data/` 점검 원자료, `play-review/` 플레이 리뷰 보고서(HTML), `improvement-plan.md` 리뷰 후속 개선 계획, `tempo-v14.md` 첫 40분 밀도, **`handoff.md` 인수인계(지금 참인 수치 · 함정 · 다음 작업)** |
 
 ## 테스트 도구
 
-HUD 오른쪽 점선 칸은 실제 게임에 없는 도구다(평소 흐리게 접힘, 주소에 `?dev`). 배속 ×1·×60·×600, ⏭8h(8시간 뒤 출근), ↺(처음부터, 두 번). 시연 장면은 `?demo=` intro · gap · hire · dungeon · evolve · promote · grow · report · approval · ch2 · late · ch5 · ending · offduty · codex · fullclear.
+HUD 오른쪽 점선 칸은 실제 게임에 없는 도구다(평소 흐리게 접힘, 주소에 `?dev`). 배속 ×1·×60·×600, ⏭8h(8시간 뒤 출근), ↺(처음부터, 두 번). 시연 장면은 `?demo=` intro · gap · hire · dungeon · evolve · promote · grow · report · approval · ch2 · late · ch5 · ending · offduty · codex · fullclear · elite · boss · bossinv · rush10 · rush25 · rush40.

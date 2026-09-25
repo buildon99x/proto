@@ -91,6 +91,11 @@ img.px{image-rendering:pixelated;display:block;pointer-events:none}
 .gap.heal{background:linear-gradient(90deg,#3CC47C,#8ff0b5);animation:heal .9s forwards}
 @keyframes heal{0%{clip-path:inset(0 100% 0 0)}60%{clip-path:inset(0 0 0 0);opacity:1}100%{opacity:0;transform:scaleY(2)}}
 .gap.cold{background:repeating-linear-gradient(135deg,#ff5a4e2e 0 6px,#0000 6px 12px);border:2px dashed #ff5a4ecc;animation:none;box-shadow:none;top:442px;height:20px}
+/* 다음 구간 (v1.4): 졸업 문 너머 잠긴 땅 */
+.zlock{position:absolute;top:360px;height:92px;background:repeating-linear-gradient(135deg,#6b7a8c1f 0 8px,#0000 8px 16px);border-left:2px dashed #6b7a8c88;border-radius:0 8px 0 0;pointer-events:none;z-index:2}
+.zlock span{position:absolute;left:50%;top:6px;transform:translateX(-50%);white-space:nowrap;font-size:12px;font-weight:900;color:#4f5b69;background:#ffffffd9;border:1.5px solid #6b7a8c66;border-radius:8px;padding:2px 8px;text-align:center;line-height:1.25}
+.zlock small{display:block;font-size:10.5px;color:#6b7a8c}
+.pop.small{font-size:13px}
 .gaplabel.cold{background:#fff;color:var(--alert);border:1.5px solid #ff5a4e88}
 .notrans .fog,.notrans .lock{transition:none!important}
 .gaplabel{cursor:pointer;position:absolute;top:468px;transform:translateX(-50%);font-size:11.5px;font-weight:900;color:#fff;background:var(--alert);border-radius:8px;padding:1px 7px;white-space:nowrap;z-index:3}
@@ -198,10 +203,19 @@ img.px{image-rendering:pixelated;display:block;pointer-events:none}
 .doc{position:relative;height:88px;background:var(--paper);border:1px solid #e9e1c8;border-radius:8px;padding:7px 12px;box-shadow:0 2px 0 #0001}
 .doc h5{font-size:11px;color:var(--ink2);font-weight:800}
 .doc h4{font:15px var(--disp);margin:0 0 4px}
+.doc.c3{padding-top:4px}.doc.c3 h5{display:none}.doc.c3 h4{margin-bottom:1px}.doc.c3 .cond{margin-top:2px}
 .cond{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;margin-top:3px;white-space:nowrap}
 .cond .t{width:94px;overflow:hidden;text-overflow:ellipsis}
 .bar{flex:1;height:8px;border-radius:5px;background:#E6EDF3;overflow:hidden}
 .bar i{display:block;height:100%;border-radius:5px;background:var(--flow);transition:width .5s}
+.bar.mk{position:relative;overflow:visible}
+.bar.mk i{position:relative}
+.bar .nt{position:absolute;top:-3px;bottom:-3px;width:4px;margin-left:-2px;border-radius:2px;background:#fff;border:1px solid #c9b27a;z-index:1}
+.bar .nt.on{background:var(--smile);border-color:#a67c00}
+.appr .marks{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:-4px 0 12px 38px;font-size:12px;font-weight:800;color:var(--ink2)}
+.appr .marks b{color:var(--ink);margin-right:2px}
+.appr .marks span{background:#fff;border:1px solid #e0d4b8;border-radius:8px;padding:2px 8px}
+.appr .marks span.got{background:#FFF8E1;border-color:var(--smile);color:#8a6400}
 .cond .v{width:44px;text-align:right}
 .cond .v.no{color:var(--alert)}
 .cond.ok .v{color:#1f9d57}
@@ -260,6 +274,11 @@ img.px{image-rendering:pixelated;display:block;pointer-events:none}
 .slot.ready{border-color:var(--evolve);background:#F4F0FF;box-shadow:0 0 0 3px #8b6cff33}
 .slot.ready .tenure .bar i{background:var(--evolve)}
 .evbtn{position:absolute;left:8px;right:8px;bottom:36px;height:28px;border-radius:8px;background:var(--evolve);color:#fff;font-weight:900;font-size:12.5px;display:grid;place-items:center;box-shadow:0 3px 0 #5a3fcf}
+.evbtn.held{background:#fff8e1;color:#8a6400;border:2px solid var(--smile);box-shadow:none;font-size:11.5px}
+.slot.held .tenure .bar i{background:var(--smile)}
+.evchip{margin-left:auto;height:22px;border-radius:11px;padding:0 9px;background:#f4f0ff;border:2px solid var(--evolve);color:var(--evolve);font-size:11.5px;font-weight:900;cursor:pointer}
+.evchip b{font-weight:900}
+.subev{margin-left:6px;height:22px;border-radius:8px;padding:0 8px;background:var(--evolve);color:#fff;font-size:12px;font-weight:900;vertical-align:middle}
 .slot.empty{border-style:dashed;display:grid;place-items:center;text-align:center;color:var(--ink2);font-weight:900;font-size:13px;background:#fff;cursor:pointer}
 .slot.empty .plus{font-size:30px;color:var(--flow);line-height:1}
 .slot.lock{border-style:dashed;background:#fafbfc;display:grid;place-items:center;text-align:center;color:#9aa3ae;font-weight:800;font-size:12px;cursor:pointer}
@@ -386,6 +405,9 @@ img.px{image-rendering:pixelated;display:block;pointer-events:none}
 .scenes{display:flex;gap:14px;margin-top:16px;height:170px}
 .scn{width:214px;height:170px;border-radius:14px;overflow:hidden;position:relative;background:linear-gradient(#8fd3ff,#d6f1ff);border:3px solid #fff;box-shadow:0 3px 0 #0001;opacity:0;transform:scale(.9) rotate(-2deg);transition:.35s cubic-bezier(.5,1.6,.5,1)}
 .scn.in{opacity:1;transform:none}
+.scn .markbar{left:20px;right:20px;top:48px;height:16px;border-radius:8px;background:#ffffffaa;border:2px solid #fff;overflow:hidden}
+.scn .markbar i{display:block;height:100%;background:var(--smile)}
+.scn .markrw{left:14px;right:14px;top:74px;font-size:13px;font-weight:900;color:#5a3f00;text-align:center;line-height:1.5}
 .scn .cap{position:absolute;left:0;right:0;bottom:0;height:34px;background:#fff;font:15px var(--disp);display:grid;place-items:center}
 .scn .g{position:absolute;left:0;right:0;bottom:34px;height:22px;background:#b0773f;box-shadow:inset 0 5px 0 #6cc35a}
 .scn .a{position:absolute}
@@ -594,3 +616,26 @@ body.portrait #rotate{display:block}
 #sheet:not([hidden]) ~ #toast{bottom:200px}
 #stage.dragging #toast{opacity:.15;transition:opacity .2s}
 #world .ghost{z-index:9}
+
+/* v1.3 엘리트 · 필드 보스 */
+.plat.elite .aura{opacity:1;background:linear-gradient(#ffcc3300,#ffcc3344);box-shadow:inset 0 -3px 0 #ffcc33}
+.plat.guest .aura{opacity:1;background:linear-gradient(#ffcc3300,#ffb70055);box-shadow:inset 0 -3px 0 #e8a600}
+.plat .body .elb{background:#e8a600;color:#fff;border-radius:7px;padding:0 6px;font-size:11px;font-weight:900;white-space:nowrap}
+.mon.elite img{transform:scale(1.35);filter:drop-shadow(0 0 3px #ffcc33) drop-shadow(0 0 6px #ffcc33aa)}
+.mon.elite.flip img{transform:scaleX(-1.35) scaleY(1.35)}
+.fboss{position:absolute;z-index:4;pointer-events:none;display:flex;flex-direction:column;align-items:center}
+.fboss .fb-img{filter:drop-shadow(0 0 4px #ffcc33) drop-shadow(0 3px 0 #0003)}
+.fboss .fb-g{width:64px;height:7px;border-radius:4px;background:#0005;border:1px solid #fff;margin-top:2px;overflow:hidden}
+.fboss .fb-g i{display:block;height:100%;background:var(--smile)}
+.fboss .fb-n{font-size:11px;font-weight:900;color:#fff;text-shadow:0 1px 2px #000a;white-space:nowrap}
+#bossCard{position:absolute;left:14px;top:64px;z-index:25;display:flex;align-items:center;gap:8px;padding:6px 12px 6px 8px;border-radius:12px;background:#fffdf3;border:2px solid var(--smile);box-shadow:0 3px 10px #0003;text-align:left;width:300px;flex-wrap:wrap}
+#bossCard > span{flex:1;min-width:0}
+#bossCard b{display:block;font-size:13px;font-weight:900}
+#bossCard small{display:block;font-size:11px;font-weight:800;color:var(--ink2)}
+#bossCard .bar{flex-basis:100%;height:6px}
+#bossCard.wait{animation:bossglow 1.4s infinite}
+@keyframes bossglow{50%{box-shadow:0 0 0 4px #ffcc3366,0 3px 10px #0003}}
+.hcard.bosshost{justify-content:flex-start;gap:4px}
+.hcard.bossid{background:#fffdf3;border-color:var(--smile)}
+.hcard.bossid .trait{font-size:11px;line-height:1.35;white-space:normal}
+.subev.mv{background:var(--flow)}

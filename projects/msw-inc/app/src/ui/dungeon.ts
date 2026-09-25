@@ -2,8 +2,8 @@
  * S2 던전 현장 (+ S4 매니저 권한)
  * 현장은 결과를 바꾸지 않는다. 서버(sim)가 낸 사건을 샘플로 재생한다.
  */
-import { A, $, must, h, n, clamp, img, monArt, ro, plotName, plotShort, lvColor, dur, snd, nope, toast, emit, refresh, M } from './app';
-import { REGIONS, SPECIES, TRAITS, type PlotId } from '../sim/content';
+import { A, $, must, h, n, clamp, img, monArt, ro, plotName, plotShort, lvColor, dur, snd, nope, toast, emit, refresh, seatJoyGain, M } from './app';
+import { REGIONS, SPECIES, TRAITS, fieldBoss, type PlotId } from '../sim/content';
 import { ART } from './art';
 
 const GY = 212, PLAT = { y: 104, x0: 720, x1: 1120 };
@@ -74,20 +74,27 @@ function panel() {
   const lvEl = must('#dLv');
   lvEl.textContent = `던전 Lv ${D} · 적정 Lv ${Math.max(1, D - 5)}–${D + 5}`;
   lvEl.style.setProperty('--pg', lvColor(D));
-  must('#dSeat').textContent = `자리 ${occ} / ${d.seats}`;
-  must('#dEv').innerHTML = d.event ? `<span class="chip ev" style="--c:${d.event.kind === 'exp' ? 'var(--exp)' : 'var(--drop)'}">${d.event.kind === 'exp' ? '경험치 2배' : '드랍 2배'} · ${dur(d.event.end - w.t)} 남음</span>` : '';
+  must('#dSeat').textContent = `자리 ${occ} / ${M.seatsOf(w, id)}`;
+  const elite = w.elite && w.elite.d === id ? w.monsters.find(m => m.id === w.elite!.mon) : null;
+  const guest = w.boss && w.boss.d === id ? fieldBoss(w.boss.ch) : null;
+  must('#dEv').innerHTML = (d.event ? `<span class="chip ev" style="--c:${d.event.kind === 'exp' ? 'var(--exp)' : 'var(--drop)'}">${d.event.kind === 'exp' ? '경험치 2배' : '드랍 2배'} · ${dur(d.event.end - w.t)} 남음</span>` : '')
+    + (elite ? `<span class="chip ev" style="--c:#c99a00">★ 엘리트 ${M.monName(elite)} · ${dur(w.elite!.until - w.t)} 남음</span>` : '')
+    + (guest && w.boss ? `<span class="chip ev" style="--c:#c99a00">👑 ${guest.name} 방문 · 토벌 ${Math.min(100, Math.floor(100 * w.boss.kills / Math.max(1, M.bossNeed(w.boss.ch))))}%</span>` : '');
   const stars = M.dungeonStars(d), nextStar = M.JOY_STARS[stars];
   must('#dMeta').textContent = `던전 ${'★'.repeat(stars)}${'☆'.repeat(3 - stars)} · 누적 즐거움 ${n(d.joy)}${nextStar ? ` / ${n(nextStar)}` : ''}명·시간`;
 
   let slots = '';
+  const picks = M.evolvePicks(w);
   ms.forEach(m => {
-    const need = M.evolveNeed(m), ready = M.canEvolve(m) && !A.T.hideEvolve(), sp = SPECIES[m.sp];
+    const need = M.evolveNeed(m), full = M.canEvolve(m) && !A.T.hideEvolve(), sp = SPECIES[m.sp];
+    // F3: 지금 해도 되는 진화만 보라 ▲. 나머지는 금색으로 가득 찬 근속 게이지(보류가 맞을 때)
+    const ready = full && !!picks.get(m.id)?.shown, held = full && !ready;
     const tr = sp.trait ? TRAITS[sp.trait] : null;
-    slots += `<div class="slot ${ready ? 'ready' : ''} ${M.isBoss(m) ? 'bossc' : ''}">
+    slots += `<div class="slot ${ready ? 'ready' : ''} ${held ? 'held' : ''} ${M.isBoss(m) ? 'bossc' : ''}">
       <div class="nm">${M.monName(m)}</div><div class="lvl">Lv ${M.monLevel(m)} · ${m.stage + 1}단계${M.isBoss(m) ? ' · 보스' : ''}</div>
       <div class="ph">${img(monArt(m), 3)}</div>
       <span class="trait" title="${tr ? tr.desc : '특성 없음'}">${tr ? tr.icon + ' ' + tr.name : '— 표준'}</span>
-      ${ready ? `<button class="evbtn" data-ev="${m.id}">▲ 진화 가능</button>` : ''}
+      ${ready ? `<button class="evbtn" data-ev="${m.id}">▲ 진화 가능</button>` : held ? `<button class="evbtn held" data-ev="${m.id}" title="지금 진화하면 길이 끊겨요. 결과를 미리 봐요">근속 가득 · 보기</button>` : ''}
       <div class="tenure"><div class="t"><span>근속(퇴근)</span><span>${need === Infinity ? '최종 단계' : n(Math.min(m.tenure, need)) + ' / ' + n(need)}</span></div>
       <div class="bar"><i style="width:${need === Infinity ? 100 : Math.min(100, 100 * m.tenure / need)}%"></i></div></div></div>`;
   });
@@ -96,21 +103,22 @@ function panel() {
   if (sc != null) slots += `<button class="slot lock" data-slotup="1"><div>+ 직원 자리<br><span class="costrow"><i class="mini-can"></i>${n(sc)}</span></div></button>`;
 
   const hl = performance.now() < DV.hlUntil ? DV.hl : null;
-  const evCost = M.eventCost(w, id), free = w.tut.freeEvent > 0;
+  const evCost = M.eventCost(w, id), free = w.tickets.event > 0;
   const lim = M.activeEvents(w) >= M.maxEvents(w);
   const pw = (kind: 'exp' | 'drop', c: string, ic: string, name: string, line: string) => {
     const on = !!d.event && d.event.kind === kind;
     const other = !!d.event && !on;
     const dis = !on && (other || lim);
     const sub = on ? `${dur(d.event!.end - w.t)} 남음` : other ? '던전당 이벤트 하나' : lim ? `동시에 ${M.maxEvents(w)}개까지` : line;
-    const cost = on ? `<div class="ring" style="--c:${c};--p:${((d.event!.end - w.t) / M.EVENT_MIN).toFixed(3)}"><b>ON</b></div>` : free ? '<span class="okc">첫 번 무료</span>' : `<i class="mini-can"></i>${n(evCost)}`;
+    const cost = on ? `<div class="ring" style="--c:${c};--p:${((d.event!.end - w.t) / M.EVENT_MIN).toFixed(3)}"><b>ON</b></div>` : free ? `<span class="okc">🎫 무료${w.tickets.event > 1 ? ' ×' + w.tickets.event : ''}</span>` : `<i class="mini-can"></i>${n(evCost)}`;
     return `<button class="pw ${on ? 'on' : ''} ${dis ? 'dis' : ''} ${hl === kind ? 'hl' : ''}" style="--c:${c}" data-evt="${kind}" ${dis || on ? 'disabled' : ''}>
       <span class="ei" style="background:${c}">${ic}</span><span><b>${name}</b><small>${sub}</small></span><span class="cost">${cost}</span></button>`;
   };
-  const seatC = M.seatCost(w, d);
+  const seatC = M.seatCost(w, d), gain = seatJoyGain(w, id);
+  const gainTxt = gain >= 0.5 ? ` · 결재 ② 약 −${gain >= 24 ? (gain / 24).toFixed(1) + '일' : Math.round(gain) + '시간'}` : '';
   const powers = pw('exp', 'var(--exp)', 'EXP', '경험치 2배 · 4시간', '모험가를 위로 올려보낸다')
     + pw('drop', 'var(--drop)', 'DROP', '드랍 2배 · 4시간', '모험가를 불러 모은다')
-    + `<button class="pw ${seatC == null ? 'dis' : ''} ${hl === 'seat' ? 'hl' : ''}" data-seat="1" ${seatC == null ? 'disabled' : ''}><span class="ei" style="background:var(--flow)">+4</span><span><b>자리 확장</b><small>${seatC == null ? '20석이 최대' : `자리 ${d.seats} → ${d.seats + 4}`}</small></span><span class="cost">${seatC == null ? '' : `<i class="mini-can"></i>${n(seatC)}`}</span></button>`;
+    + `<button class="pw ${seatC == null ? 'dis' : ''} ${hl === 'seat' ? 'hl' : ''}" data-seat="1" ${seatC == null ? 'disabled' : ''}><span class="ei" style="background:var(--flow)">+4</span><span><b>자리 확장</b><small>${seatC == null ? `${d.seats}석이 최대` : `자리 ${d.seats} → ${d.seats + 4}${gainTxt}`}</small></span><span class="cost">${seatC == null ? '' : `<i class="mini-can"></i>${n(seatC)}`}</span></button>`;
 
   const recent = Math.round(d.recentLv);
   const html = `
@@ -151,11 +159,12 @@ function bind() {
       refresh(); return;
     }
     if (tgt.closest('[data-seat]')) {
+      const gain = seatJoyGain(w, id);
       const r = M.seatUp(w, id);
       if (!r.ok) return nope(r.msg);
       snd.play('hire');
       fx(`<div class="pop g" style="font-size:22px">자리 +4</div>`, 640, 90, 1300);
-      toast(`자리 확장 · 스마일 −${n(r.cost)}`, { undo: () => M.seatDown(w, id, r.cost) });
+      toast(`자리 확장 · 스마일 −${n(r.cost)}${gain >= 0.5 ? ` · 결재 ② 약 −${Math.round(gain)}시간` : ''}`, { undo: () => M.seatDown(w, id, r.cost) });
       refresh(); return;
     }
   });

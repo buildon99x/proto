@@ -7,6 +7,7 @@
  */
 import { SPECIES, SPECIES_IDS, type PlotId, type SpeciesId } from './content';
 import * as S from './sim';
+import { RULES } from './rules';
 import type { World } from './sim';
 
 export type EvolvePolicy = 'hasty' | 'planner' | 'hoarder';
@@ -42,6 +43,20 @@ export const PERSONAS: Persona[] = [
   { id: 'night', label: '퇴근 직전 진화 (밤에 입구를 비운다)', times: [9 * 60, 13 * 60, 21 * 60], acts: 3, evolve: 'planner', place: 'best', events: true, nightEvolve: true },
 ];
 
+/** 지켜보는 플레이어 (v1.4 첫 40분): 화면을 보고 있다가 오렌이 권하는 수를 30초마다 최대 2수. cadence·시연 장면에 쓴다 */
+export const WATCHER: Persona = { id: 'watch', label: '지켜보는 플레이어 (30초마다 2수)', times: [], acts: 2, evolve: 'planner', place: 'best', events: true };
+/** 첫 세션 뒤 지켜보는 플레이어로 월드 until분까지 굴린다 */
+export function watchTo(w: World, until: number, tap?: (ev: S.SimEvent[], acts: string[]) => void): void {
+  let next = w.t + 0.5;
+  while (w.t < until - 1e-9) {
+    const ev: S.SimEvent[] = [];
+    S.step(w, 1 / 12, ev);
+    let acts: string[] = [];
+    if (w.t >= next - 1e-9) { next += 0.5; acts = checkIn(w, WATCHER).acts; }
+    if (tap) tap(ev, acts);
+  }
+}
+
 // ── 가벼운 복제 (모험가는 공유한다 — 행동 판단은 모험가를 바꾸지 않는다) ──
 export function lightClone(w: World): World {
   return {
@@ -49,11 +64,15 @@ export function lightClone(w: World): World {
     plots: JSON.parse(JSON.stringify(w.plots)),
     dungeons: JSON.parse(JSON.stringify(w.dungeons)),
     monsters: w.monsters.map(m => ({ ...m })),
-    dex: { ...w.dex }, tut: { ...w.tut }, stats: { ...w.stats, left: { ...w.stats.left } },
+    dex: { ...w.dex }, tut: { ...w.tut }, tickets: { ...w.tickets, hire: [...w.tickets.hire] }, stats: { ...w.stats, left: { ...w.stats.left } },
+    boss: w.boss && { ...w.boss }, bossDone: [...w.bossDone], elite: w.elite && { ...w.elite }, eliteBy: { ...w.eliteBy }, marks: [...w.marks],
   };
 }
 
 const gapN = (w: World) => S.gapSize(S.gapSegments(w));
+/** 던전을 비울 때 남겨야 하는 직원: 고참, 발록, 5장 결재 ③의 마지막 슬리피우드 식구 */
+const keepHere = (w: World, m: S.Monster) => m.vet || m.sp === 'balrog' ||
+  (S.needsNative(w) && S.isNative(m.sp) && w.monsters.filter(x => S.isNative(x.sp) && x.d).length <= 1);
 
 /** 빈틈 하나를 채용 + 배치로 메울 수 있으면 그 수를 돌려준다 */
 function planHireFix(w: World, place: PlacePolicy): { sp: SpeciesId; to: PlotId } | null {
@@ -63,13 +82,13 @@ function planHireFix(w: World, place: PlacePolicy): { sp: SpeciesId; to: PlotId 
   let best: { sp: SpeciesId; to: PlotId; gap: number; cost: number; stack: number } | null = null;
   for (const sp of SPECIES_IDS) {
     if (!S.canHireSpecies(w, sp)) continue;
-    const cost = w.tut.ticket === sp ? 0 : S.hireCost(sp);
+    const cost = S.hasHireTicket(w, sp) ? 0 : S.hireCost(sp);
     for (const id in w.plots) {
       const d = w.dungeons[id], open = w.plots[id].open;
       const full = S.monsIn(w, id).length >= d.slots;
       const sc = full ? S.slotCost(w, d) : 0;
       if (sc == null) continue;
-      const total = cost + (open ? 0 : S.plotCost(id)) + sc;
+      const total = cost + (open ? 0 : S.openCost(w, id)) + sc;
       if (total > w.smile) continue;
       const lv = S.levelsOf(w, { add: { sp, to: id }, open: open ? undefined : id });
       const g = S.gapSize(S.gapSegments(w, lv));
@@ -91,7 +110,7 @@ function planRebuild(w: World, p: Persona): { sp: SpeciesId; to: PlotId } | null
   for (const id in w.plots) {
     if (!w.plots[id].open) continue;
     const ms = S.monsIn(w, id);
-    if (!ms.length || ms.some(m => m.vet || m.sp === 'balrog')) continue;
+    if (!ms.length || ms.some(m => keepHere(w, m))) continue;
     if (ms.length > room && !((p.release ?? true) && S.RULES_RELEASE())) continue;
     for (const sp of SPECIES_IDS) {
       if (!S.canHireSpecies(w, sp) || S.hireCost(sp) > w.smile) continue;
@@ -112,14 +131,14 @@ function planGrow(w: World, p: Persona): { sp: SpeciesId; to: PlotId } | null {
     if (!hint) continue;
     const cost = S.hireCost(hint.sp);
     const empty = Object.keys(w.plots).filter(id => !S.monsIn(w, id).length)
-      .map(id => ({ id, c: cost + (w.plots[id].open ? 0 : S.plotCost(id)) })).filter(x => x.c <= w.smile).sort((a, b) => a.c - b.c);
+      .map(id => ({ id, c: cost + S.openCost(w, id) })).filter(x => x.c <= w.smile).sort((a, b) => a.c - b.c);
     if (empty.length) return { sp: hint.sp, to: empty[0].id };
     // 빈 부지가 없으면: 비워도 빈틈이 늘지 않는 던전
     const room = S.TRAY_MAX - S.tray(w).length;
     const cur = gapN(w);
     for (const id in w.plots) {
       const ms = S.monsIn(w, id);
-      if (!ms.length || ms.some(m => m.vet || m.sp === 'balrog')) continue;
+      if (!ms.length || ms.some(m => keepHere(w, m))) continue;
       if (ms.length > room && !((p.release ?? true) && S.RULES_RELEASE())) continue;
       const c = lightClone(w);
       for (const m of S.monsIn(c, id)) m.d = null;
@@ -186,6 +205,16 @@ function tryEvolve(w: World, p: Persona, log: string[], onlyHelping: boolean): b
     if (r.ok) {
       log.push('evolve');
       if (p.undo && gapN(w) > before && !planHireFix(w, p.place) && !planMove(w)) { S.unevolve(w, m.id, r.from, r.tenureBefore); log.push('undo'); }
+      // 따져 보고 진화한 사람은 결과 카드에서 본 빈틈을 바로 메운다 (한 결정의 뒷수습 — 수 제한에 세지 않는다)
+      else if (p.evolve !== 'hasty' && gapN(w) > before) {
+        const mv = planMove(w), fix = mv ? null : planHireFix(w, p.place);
+        if (mv && S.place(w, mv.id, mv.to).ok) log.push('fix:move');
+        else if (fix) {
+          if (S.monsIn(w, fix.to).length >= w.dungeons[fix.to].slots) S.slotUp(w, fix.to);
+          const h = S.hire(w, fix.sp, fix.to);
+          if (h.ok && S.place(w, h.mon.id, fix.to).ok) log.push('fix:hire');
+        }
+      }
       return true;
     }
   }
@@ -203,7 +232,7 @@ function planExpand(w: World): { sp: SpeciesId; to: PlotId } | null {
   let best: { sp: SpeciesId; score: number } | null = null;
   for (const sp of SPECIES_IDS) {
     if (!S.canHireSpecies(w, sp)) continue;
-    const cost = S.hireCost(sp) + (w.plots[to].open ? 0 : S.plotCost(to));
+    const cost = S.hireCost(sp) + S.openCost(w, to);
     if (cost > w.smile) continue;
     const b = SPECIES[sp].base;
     let score = 0;
@@ -223,6 +252,22 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
   if (bal && can()) {
     const empty = Object.keys(w.plots).filter(id => !S.monsIn(w, id).length).sort((a, b) => +w.plots[b].open - +w.plots[a].open);
     for (const id of empty) if (S.place(w, bal.id, id).ok) { log.push('balrog'); acts++; break; }
+  }
+  // 필드 보스 초대: 기본은 자동 초대(3시간)를 기다린다. "진화 즉시" 성향만 뜨자마자 고른다
+  if (w.boss && !w.boss.d && p.evolve === 'hasty') {
+    const host = S.bossHosts(w)[0];
+    if (host && S.inviteBoss(w, host).ok) log.push('boss');
+  }
+  // 5장 결재 ③: 슬리피우드 식구를 뽑아 빈 부지에 혼자 둔다
+  if (S.needsNative(w) && !S.hasNativeDungeon(w) && can()) {
+    const nat = S.tray(w).find(m => S.isNative(m.sp));
+    const sp = nat ? nat.sp : (['drake', 'eye'] as SpeciesId[]).sort((a, b) => (S.hasHireTicket(w, b) ? 1 : 0) - (S.hasHireTicket(w, a) ? 1 : 0) || S.hireCost(a) - S.hireCost(b))[0];
+    const h = nat ? { ok: true as const, mon: nat } : S.hire(w, sp, null);
+    if (h.ok) {
+      const to = S.bestPlaces(w, h.mon.id)[0];
+      if (to && S.placeAuto(w, h.mon.id, to).ok) { log.push('native:' + sp); acts++; }
+      else if (!nat && 'cost' in h) S.unhire(w, h.mon.id, h.free ? 'ticket' : h.cost);
+    }
   }
   let guard = 0;
   while (can() && guard++ < 12) {
@@ -271,8 +316,16 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
       if ((p.release ?? true) && S.release(w, tr.id).ok) { log.push('release'); acts++; continue; }
     }
     // 과밀: 자리 확장
-    const busy = S.badges(w).filter((b): b is Extract<S.Badge, { kind: 'busy' }> => b.kind === 'busy').sort((a, b) => b.n - a.n)[0];
-    if (busy && busy.n >= 2 && S.seatUp(w, busy.d).ok) { log.push('seat'); acts++; continue; }
+    // 가장 붐비는 곳부터, 살 수 있는 자리를 산다
+    const busyL = S.badges(w).filter((b): b is Extract<S.Badge, { kind: 'busy' }> => b.kind === 'busy' && b.n >= 2).sort((a, b) => b.n - a.n);
+    if (busyL.some(b => S.seatUp(w, b.d).ok)) { log.push('seat'); acts++; continue; }
+    // 붐빔 풀기 (v1.4): 자리가 꽉 찬 던전 앞 줄은 같은 레벨에 던전 하나 더
+    const cf = S.crowdFix(w);
+    if (cf && cf.cost <= w.smile) {
+      const h = S.hire(w, cf.sp, null);
+      if (h.ok && S.place(w, h.mon.id, cf.to).ok) { log.push('crowd:' + cf.sp); acts++; continue; }
+      if (h.ok) S.unhire(w, h.mon.id, h.free ? 'ticket' : h.cost);
+    }
     // 즐기는 모험가가 결재 조건보다 모자라면: 꽉 찬 던전 자리 확장 → 붐비는 레벨에 던전 하나 더
     if (S.happyCount(w) < S.chapterInfo(w).happy && !gapN(w)) {
       const lv = S.levelsOf(w);
@@ -284,11 +337,12 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
     }
     // 진화 ②: 나머지는 성향대로
     if (tryEvolve(w, p, log, false)) { acts++; continue; }
-    // 이벤트: 스마일이 넉넉하면 가장 붐비는 던전에 경험치 2배
-    if (p.events && S.activeEvents(w) < S.maxEvents(w)) {
+    // 이벤트: 스마일이 넉넉하면(또는 무료 이벤트권이 있으면 성향과 관계없이) 가장 붐비는 던전에 경험치 2배
+    const freeEv = w.tickets.event > 0;
+    if ((p.events || freeEv) && S.activeEvents(w) < S.maxEvents(w)) {
       const lv = S.levelsOf(w);
       const id = Object.keys(lv).filter(x => !w.dungeons[x].event).sort((a, b) => occ(w, b) - occ(w, a))[0];
-      if (id && occ(w, id) >= 4 && w.smile > 4 * S.eventCost(w, id) && S.startEvent(w, id, 'exp').ok) { log.push('event'); acts++; continue; }
+      if (id && occ(w, id) >= 4 && (freeEv || w.smile > 4 * S.eventCost(w, id)) && S.startEvent(w, id, 'exp').ok) { log.push(freeEv ? 'event-free' : 'event'); acts++; continue; }
     }
     break;
   }
@@ -300,20 +354,78 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
 }
 const occ = (w: World, id: PlotId) => w.advs.filter(a => a.st === 'happy' && a.d === id).length;
 
-/** 입사 첫 세션 대본 (tut 순서): 빈틈 → 채용·배치 → 경험치 2배 → 고참 진화 */
-export function firstSession(w: World): void {
-  let placed = false;
-  for (let i = 0; i < 12 * 8; i++) {
-    S.step(w, 1 / 12);
-    if (!placed && w.advs.some(a => a.st === 'search')) {
+/**
+ * 입사 첫 세션 대본 (tut.ts 순서, v1.3 "첫 10분 한 바퀴"). 월드 분 단위로 화면 대본을 흉내 낸다.
+ *   빈틈 → 채용·배치 → 고참 달팽이 승진 발령(개업권, Lv 14–15) → 경험치 2배 → 엘리트 → ② 가득 → 결재 도장
+ *   → 새 지역 채용권으로 슬라임 → 퇴근
+ * on(kind, label)으로 사건을 받는다(pacing·playreview). stop(w)이 참이면 그 자리에서 멈춘다(시연 장면).
+ * 규칙에 첫 10분 한 바퀴(firstLoop)가 없으면 v1.2 대본(고참 진화까지)만 돈다.
+ */
+export function firstSession(w: World, on: (kind: string, label: string) => void = () => {}, stop?: (w: World) => boolean, tap?: (ev: S.SimEvent[]) => void): void {
+  const loop = RULES.firstLoop;
+  const once = new Set<string>();
+  const note = (kind: string, label: string) => { if (!once.has(kind)) { once.add(kind); on(kind, label); } };
+  let gapAt: number | null = null, evoAt: number | null = null, stampAt: number | null = null;
+  for (let i = 0; i < 12 * 20; i++) {
+    const ev: S.SimEvent[] = [];
+    S.step(w, 1 / 12, ev);
+    if (tap) tap(ev);
+    for (const e of ev) {
+      if (e.type === 'arrive') note('arrive', '첫 모험가 입장');
+      if (e.type === 'levelup') note('levelup', `첫 레벨업 (Lv ${e.lv})`);
+      if (e.type === 'stuck') note('stuck', `첫 빈틈 — Lv ${e.lv} 모험가가 갈 곳이 없다`);
+      if (e.type === 'approval') note('ready', '1장 결재 조건 충족');
+    }
+    if (stop && stop(w)) return;
+    if (gapAt == null && w.advs.some(a => a.st === 'search')) gapAt = w.t;
+    if (gapAt == null) continue;
+    if (!w.monsters.some(m => m.sp === 'mush') && w.t >= gapAt + 0.5) {
       const h = S.hire(w, 'mush');
       if (h.ok) S.place(w, h.mon.id, 'h2');
-      placed = true;
+      note('hire', '주황버섯 채용 → 사냥터 배치');
     }
-    if (w.t >= 5 && w.tut.freeEvent) S.startEvent(w, 'h1', 'exp');
     const v = w.monsters.find(m => m.vet);
-    if (v && v.stage === 0 && w.t >= 6.5) { v.tenure = Math.max(v.tenure, S.evolveNeed(v)); S.evolve(w, v.id); }
+    if (!loop) {
+      // v1.1·v1.2 대본: 이벤트 → 고참 그냥 진화
+      if (w.t >= gapAt + 1 && w.tickets.event && !once.has('event')) { S.startEvent(w, 'h1', 'exp'); note('event', '경험치 2배 (첫 번 무료)'); }
+      if (v && v.stage === 0 && w.t >= gapAt + 1.4) { v.tenure = Math.max(v.tenure, S.evolveNeed(v)); S.evolve(w, v.id); evoAt = w.t; note('evolve', '고참 달팽이 → 파란 달팽이'); }
+      if (evoAt != null && w.t >= 8) break;
+      continue;
+    }
+    // v1.4: 길이 이어지면 헤네시스 둘째 구간(Lv 11–15)이 열린다. 화면 대본은 "뚫렸다" 뒤 약 6초에 연다
+    if (RULES.zones && once.has('hire') && S.zoneLeft(w) && w.t >= gapAt + 1 && !S.gapSegments(w).length) { S.forceZone(w); note('zone', `구간 개방 → Lv ${S.roadEnd(w)}까지`); }
+    // v1.3.1: Lv 14–15는 채용으로 안 닿는다 → 고참 달팽이를 승진 발령으로 버섯 언덕에 보내 한 번에 잇는다. 이벤트는 그 뒤
+    if (v && v.stage === 0 && w.t >= gapAt + 1.4 && !S.zoneLeft(w)) {
+      v.tenure = Math.max(v.tenure, S.evolveNeed(v));
+      const plan = S.bestPromote(w, v.id);
+      if (plan && S.promote(w, plan).ok) note('promote', `고참 달팽이 승진 발령 → ${plan.to}${plan.opens ? ' 개업' : ''}`);
+      else { S.evolve(w, v.id); note('promote', '고참 달팽이 진화 (발령 없음)'); }
+      evoAt = w.t;
+    }
+    if (evoAt == null) continue;
+    if (w.t >= evoAt + 0.3 && w.tickets.event && !once.has('event')) { S.startEvent(w, 'h1', 'exp'); note('event', '경험치 2배 (첫 번 무료)'); }
+    if (w.t >= evoAt + 0.9 && !once.has('elite')) { S.forceElite(w); note('elite', '엘리트 첫 출현'); }
+    // ② 막대: 대본 보장 — 화면 대본은 발령 뒤 약 30초 기다린 다음 채운다. 봇은 발령 뒤 1.5분에 채운다(읽는 시간 포함)
+    if (once.has('promote') && w.chapter === 1 && !w.approvalReady && w.t >= evoAt + 1.5 && S.approvalConds(w).road) w.cjoy = Math.max(w.cjoy, S.approvalConds(w).joyGoal);
+    if (w.approvalReady && w.chapter === 1 && stampAt == null) { S.approve(w); stampAt = w.t; note('stamp', '1장 결재 도장 → 엘리니아 개방'); }
+    if (stampAt != null && w.t >= stampAt + 0.4 && !once.has('region')) {
+      const sp = w.tickets.hire.find(x => SPECIES[x].chapter === 2);
+      if (sp) { const h = S.hire(w, sp, null); if (h.ok) { const to = S.bestPlaces(w, h.mon.id)[0] || Object.keys(w.plots).find(id => !S.monsIn(w, id).length && id.startsWith('e')); if (to) S.placeAuto(w, h.mon.id, to); } }
+      note('region', '새 지역 채용권 → 엘리니아 배치');
+    }
+    if (stampAt != null && w.t >= stampAt + 1) break;
+    if (w.t >= 16) break;
   }
+}
+
+/**
+ * 월드 분 → 실제 분(추정). 튜토리얼은 현장 구경(약 0:22)부터 첫 빈틈까지만 배속(growBoost)이고 나머지는 1:1이다 (F6).
+ * gapT가 없으면(v1.1 대본) 월드 = 실제.
+ */
+export function realMinutes(t: number, gapT: number | null, watchEnd = 0.37, boost = RULES.growBoost): number {
+  if (gapT == null || t <= watchEnd || boost <= 1) return t;
+  if (t <= gapT) return watchEnd + (t - watchEnd) / boost;
+  return t - (gapT - watchEnd) * (1 - 1 / boost);
 }
 
 export interface RunResult {
@@ -334,6 +446,8 @@ export function runPersona(p: Persona, seed: number, maxDays = 60): RunResult {
     persona: p.id, seed, chapters: [null, null, null, null, null], ending: null, acts: 0, checkins: 0,
     entranceMin: 0, stuckLeft: 0, busyLeft: 0, smileEnd: 0, smilePeak: 0, happyEnd: 0, evolves: 0, hires: 0, releases: 0, undos: 0, daily: [],
   };
+  // 첫 10분 한 바퀴(v1.3): 1장은 첫 세션 안에 결재한다
+  for (let c = 1; c < w.chapter; c++) res.chapters[c - 1] = w.chapterAt[c] ?? w.t;
   const L = S.ledgerStart(w);
   for (let d = 0; d < maxDays && !w.ended; d++) {
     p.times.forEach((hh, i) => {

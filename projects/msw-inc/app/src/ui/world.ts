@@ -3,8 +3,8 @@
  * 가로축 = 레벨. 던전 = 떠 있는 발판(폭 = 적정 구간 11칸). 모험가 = 자기 레벨 위치에 선 사람.
  * 발판이 없는 땅 = 빈틈. 모험가는 거기서 😐로 혼자 천천히 걷는다(v1.2).
  */
-import { A, $, $$, must, h, n, lerp, img, monArt, plotName, plotShort, lvColor, segTxt, snd, nope, toast, emit, refresh, renderDock, rectOf, toStage, M } from './app';
-import { REGIONS, type PlotId } from '../sim/content';
+import { A, $, $$, must, h, n, lerp, img, monArt, plotName, plotShort, lvColor, segTxt, snd, nope, toast, emit, refresh, renderDock, rectOf, toStage, markLabel, M } from './app';
+import { REGIONS, fieldBoss, type PlotId } from '../sim/content';
 import { ART } from './art';
 
 const X0 = 34, GROUND = 452, TOP = 56;
@@ -98,7 +98,9 @@ function layoutMarks(force: boolean) {
   const lv = M.levelsOf(w);
   const segs = M.gapSegments(w, lv);
   const stuck = segs.map(stuckIn);
-  const sig = JSON.stringify([segs, stuck, lv, end, Math.round(V.k * 100)]);
+  const zl = M.zoneLeft(w), zNext = zl ? M.zoneEnds(w)![w.zone! + 1] : 0;
+  const zPct = zl ? Math.min(99, Math.floor((100 * (w.zoneAcc || 0)) / Math.max(1, M.zoneNeed(w)))) : 0;
+  const sig = JSON.stringify([segs, stuck, lv, end, Math.round(V.k * 100), zl, zPct]);
   if (!force && sig === marksSig && !camMoving) return;
   marksSig = sig;
   let html = '', badges = '';
@@ -124,6 +126,11 @@ function layoutMarks(force: boolean) {
   // 입구와 졸업 문
   html += `<div class="gate" style="left:${V.x(0.2)}px;top:${GROUND}px"><div class="post" style="left:-4px;height:44px;top:-44px"></div><div class="sign" style="left:-18px;top:-66px">입구</div></div>`;
   const gx = V.x(end + 0.5);
+  // 다음 구간 (v1.4): 졸업 문 너머 잠긴 땅. 퇴근이 쌓이고 길이 이어져 있으면 열린다
+  if (zl) {
+    const zx = V.x(zNext + 0.5), wait = segs.length ? ' · 길을 이으면 열려요' : '';
+    html += `<div class="zlock" style="left:${gx}px;width:${Math.max(0, zx - gx)}px" title="다음 구간 — 이 장 퇴근이 쌓이면 열려요"><span>🔒 Lv ${end + 1}–${zNext}<small>퇴근 ${zPct}%${wait}</small></span></div>`;
+  }
   html += `<div class="gate grad" style="left:${gx}px;top:${GROUND}px"><div class="arch" style="top:-74px"></div><div class="sign" style="left:-24px;top:-98px">🎓 졸업</div></div>`;
   L('marks').innerHTML = html;
   L('gapUi').innerHTML = badges;
@@ -178,13 +185,17 @@ function layoutPlats(dt: number) {
     p.el.classList.toggle('drop', !!ev && ev.kind === 'drop');
     p.el.classList.toggle('fog', D - 5 > end);
     p.el.classList.toggle('boss', M.monsIn(w, id).some(M.isBoss));
+    const elite = !!w.elite && w.elite.d === id, guest = !!w.boss && w.boss.d === id;
+    p.el.classList.toggle('elite', elite);
+    p.el.classList.toggle('guest', guest);
     const o = occ[id] || 0;
-    const sig = `${D}|${o}|${d.seats}|${busy[id] || 0}|${ev ? ev.kind + Math.ceil((ev.end - w.t) / 5) : ''}|${Math.round(wd / 20)}|${M.dungeonStars(d)}`;
+    const seats = M.seatsOf(w, id);
+    const sig = `${D}|${o}|${seats}|${busy[id] || 0}|${ev ? ev.kind + Math.ceil((ev.end - w.t) / 5) : ''}|${Math.round(wd / 20)}|${M.dungeonStars(d)}|${elite}|${guest}`;
     if (sig !== p.sig) {
       p.sig = sig;
       const narrow = wd < 230;
       const st = M.dungeonStars(d);
-      p.el.querySelector('.body')!.innerHTML = `<b>${narrow ? plotShort(id) : plotName(id)}</b><span class="lv">Lv ${D}</span><span class="seat ${o >= d.seats ? 'full' : ''}">${o}/${d.seats}</span>${st && !narrow ? `<span class="st">${'★'.repeat(st)}</span>` : ''}`;
+      p.el.querySelector('.body')!.innerHTML = `${elite ? '<span class="elb" title="엘리트 출현 — 이 던전 모험가는 레벨업 ×1.5, 결재 ② ×2">★ 엘리트</span>' : ''}<b>${narrow ? plotShort(id) : plotName(id)}</b><span class="lv">Lv ${D}</span><span class="seat ${o >= seats ? 'full' : ''}">${o}/${seats}</span>${st && !narrow ? `<span class="st">${'★'.repeat(st)}</span>` : ''}`;
       let pb = '';
       if (busy[id]) pb += `<div class="pill busy" data-busy="${id}" title="자리가 없어 기다리는 모험가 — 눌러서 자리 늘리기">🌀 ${busy[id]}</div>`;
       if (ev) {
@@ -206,6 +217,7 @@ function layoutPlats(dt: number) {
 function layoutMons(now: number) {
   const w = A.w, box = L('plats');
   const alive = new Set<number>();
+  const picks = M.evolvePicks(w);
   for (const id in V.plats) {
     const p = V.plats[id];
     const ms = M.monsIn(w, id);
@@ -228,16 +240,40 @@ function layoutMons(now: number) {
       e.el.style.top = (p.top - e.ih + 3) + 'px';
       e.el.classList.toggle('flip', dir > 0);
       e.cx = x; e.cy = p.top - e.ih / 2;
-      const r = M.canEvolve(m) && !A.T.hideEvolve();
+      // v1.3 (F3): 지금 해도 되는 진화만, 최대 3개. 나머지는 독의 "진화 대기" 칩으로
+      const r = M.canEvolve(m) && !A.T.hideEvolve() && !!picks.get(m.id)?.shown;
       if (r !== e.ready) {
         e.ready = r;
         const old = e.el.querySelector('.evb'); if (old) old.remove();
         if (r) e.el.appendChild(h(`<div class="evb" data-ev="${m.id}" title="진화할 수 있어요 — 눌러서 결과 미리 보기">▲</div>`));
       }
       e.el.classList.toggle('dragging', !!(V.drag && V.drag.started && V.drag.id === m.id));
+      e.el.classList.toggle('elite', !!w.elite && w.elite.mon === m.id);
     });
   }
   for (const id in V.mons) if (!alive.has(+id)) { V.mons[id].el.remove(); delete V.mons[id]; }
+  layoutBoss(now);
+}
+/** 방문 중인 필드 보스: 초대받은 발판 위에 크게, 토벌 게이지와 함께 (v1.3) */
+let bossEl: HTMLElement | null = null, bossKey = '';
+function layoutBoss(now: number) {
+  const w = A.w, b = w.boss, p = b && b.d ? V.plats[b.d] : null;
+  const fb = b && fieldBoss(b.ch);
+  if (!b || !p || !fb) { if (bossEl) { bossEl.remove(); bossEl = null; bossKey = ''; } return; }
+  const key = fb.art;
+  if (!bossEl || bossKey !== key) {
+    if (bossEl) bossEl.remove();
+    const [iw, ih] = ART.size('m:' + fb.art, 4);
+    bossEl = h(`<div class="fboss" title="필드 보스 ${fb.name} · Lv ${fb.lv} · 이 던전 퇴근으로 토벌 게이지가 찬다"><div class="fb-img" style="width:${iw}px;height:${ih}px">${img('m:' + fb.art, 4)}</div><div class="fb-g"><i></i></div><span class="fb-n">👑 ${fb.name}</span></div>`);
+    L('plats').appendChild(bossEl);
+    bossKey = key;
+  }
+  const pct = Math.min(1, b.kills / Math.max(1, M.bossNeed(b.ch)));
+  const [iw, ih] = ART.size('m:' + fb.art, 4);
+  const x = p.left + p.w - iw / 2 - 6, bob = Math.sin(now / 420) * 2;
+  bossEl.style.left = (x - iw / 2) + 'px';
+  bossEl.style.top = (p.top - ih - 22 + bob) + 'px';
+  (bossEl.querySelector('.fb-g i') as HTMLElement).style.width = Math.round(pct * 100) + '%';
 }
 function poofMon(monId: number) {
   const e = V.mons[monId];
@@ -363,6 +399,12 @@ function confetti(x: number, y: number) {
   for (let i = 0; i < 16; i++) html += `<i class="confetti" style="background:${cols[i % 5]};--dx:${(Math.random() - 0.5) * 120}px;--dy:${-30 - Math.random() * 70}px"></i>`;
   fx(html, x, y, 1300);
 }
+/** 파티 도착 (v1.4): 한 틱에 함께 온 인원을 입구 위에 한 번만 띄운다 */
+let partyN = 0;
+function partyFx() {
+  if (partyN++) return;
+  requestAnimationFrame(() => { fxText(`👋 +${partyN}`, V.x(0.8), GROUND - 58, 'pop small'); partyN = 0; });
+}
 let lvFxBudget = 0;
 function levelFx(id: number) {
   const key = V.figOf.get(id);
@@ -414,10 +456,41 @@ function ambient(dt: number) {
 A.handlers.push(ev => {
   for (const e of ev) {
     if (e.type === 'chapter') lightUp(e.n, true);
+    else if (e.type === 'zone') {
+      // 구간 개방 (v1.4): 새 땅이 열리고 졸업 문이 옮겨 간다
+      if (A.ui.mode === 'world') { const cx = (V.x(e.from + 0.5) + V.x(e.to + 0.5)) / 2; fxText(`Lv ${e.from + 1}–${e.to} 개방!`, cx, GROUND - 70, 'pop g'); confetti(cx, GROUND - 40); }
+      snd.play('event');
+      toast(`🗺️ 새 구간 개방 · Lv ${e.from + 1}–${e.to} · 졸업선 Lv ${e.to}`);
+      refresh();
+    }
+    else if (e.type === 'arrive' && A.ui.mode === 'world' && !V.snap && !A.demo) partyFx();
     else if (e.type === 'grad') V.exits[e.id] = 'grad';
     else if (e.type === 'leave') V.exits[e.id] = 'leave';
     else if (e.type === 'levelup' && A.ui.mode === 'world') levelFx(e.id);
     else if (e.type === 'approval') { snd.play('event'); }
+    else if (e.type === 'mark') { snd.play('event'); toast(`결재 막대 ${Math.round(e.pct * 100)}% · ${markLabel(e.reward)}!`); refresh(); }
+    else if (e.type === 'elite') {
+      const m = A.w.monsters.find(x => x.id === e.mon), p = V.plats[e.d];
+      if (p && A.ui.mode === 'world') { fxText('★ 엘리트!', p.left + p.w / 2, p.top - 70, 'pop y'); confetti(p.left + p.w / 2, p.top - 40); }
+      snd.play('event');
+      if (m) toast(`${plotShort(e.d)}에 엘리트 ${M.monName(m)}!! 한 시간 동안 레벨업 ×1.5 · 결재 ② ×2`);
+      refresh();
+    } else if (e.type === 'bossCall') {
+      const fb = fieldBoss(e.ch);
+      snd.play('stamp');
+      if (fb) toast(`👑 필드 보스 ${fb.name}(Lv ${fb.lv})가 찾아왔어요! 어느 던전에서 맞을지 골라요`);
+      refresh();
+    } else if (e.type === 'bossIn') {
+      const fb = fieldBoss(e.ch);
+      if (fb && e.auto) toast(`👑 ${fb.name}를 ${plotShort(e.d)}에서 맞았어요 (자동 초대)`);
+      refresh();
+    } else if (e.type === 'bossDown') {
+      const fb = fieldBoss(e.ch), p = e.d ? V.plats[e.d] : null;
+      if (p && A.ui.mode === 'world') { confetti(p.left + p.w - 40, p.top - 60); fxText('토벌!', p.left + p.w - 40, p.top - 96, 'pop y'); }
+      snd.play('evolve');
+      if (fb) toast(`👑 ${fb.name} 토벌!! 도감 +1${e.bonus ? ` · 결재 ② +${n(e.bonus)}` : ''}`);
+      refresh();
+    }
   }
 });
 
@@ -509,7 +582,7 @@ function moveDrag(d: NonNullable<typeof V.drag>, sx: number, sy: number) {
   setPreview(pv, { kind: 'move' });
   const name = t.kind === 'tray' ? '대기실' : plotName(t.id!);
   const lines = [`${head} → <b>${name}</b>`];
-  if (t.id) lines.push(pv.before[t.id] ? `던전 Lv ${pv.before[t.id]} → ${pv.after[t.id]}` : `새 던전 Lv ${pv.after[t.id]}${check.openCost ? ` · 개업 스마일 ${n(check.openCost)}` : ''}`);
+  if (t.id) lines.push(pv.before[t.id] ? `던전 Lv ${pv.before[t.id]} → ${pv.after[t.id]}` : `새 던전 Lv ${pv.after[t.id]}${check.opens ? (check.ticket ? ' · 🎫 개업권 사용' : ` · 개업 스마일 ${n(check.openCost || 0)}`) : ''}`);
   if (check.slotCost) lines.push(`직원 자리 +1 · 스마일 ${n(check.slotCost)}`);
   if (m.d && pv.before[m.d] !== pv.after[m.d]) lines.push(`${plotName(m.d)} Lv ${pv.before[m.d]} → ${pv.after[m.d] || '휴업'}`);
   if (pv.lost.length) lines.push(`<span class="bad">✕ ${segList(pv.lost)} 비어요${pv.stranded ? ` · ${pv.stranded}명 갈 곳 잃음` : ''}${pv.entranceBlocked ? ' · 입구가 막혀요' : ''}</span>`);
@@ -532,11 +605,11 @@ function endDrag(d: NonNullable<typeof V.drag>) {
   const r = M.placeAuto(w, d.id, t.id);
   if (!r.ok) { nope(r.msg); renderDock(); return; }
   snd.play('place');
-  if (r.openCost || r.slotCost) {
-    const parts = [r.openCost ? `${plotName(t.id!)} 개업` : '', r.slotCost ? '직원 자리 +1' : ''].filter(Boolean).join(' · ');
-    toast(`${parts} · 스마일 −${n(r.openCost + r.slotCost)}`, {
+  if (r.opened || r.slotCost) {
+    const parts = [r.opened ? `${plotName(t.id!)} 개업${r.ticket ? ' (개업권)' : ''}` : '', r.slotCost ? '직원 자리 +1' : ''].filter(Boolean).join(' · ');
+    toast(`${parts}${r.openCost + r.slotCost ? ` · 스마일 −${n(r.openCost + r.slotCost)}` : ''}`, {
       undo: () => {
-        if (r.openCost) M.unopen(w, t.id!, m.id, r.from, r.openCost); else m.d = r.from;
+        if (r.opened) M.unopen(w, t.id!, m.id, r.from, r.openCost, r.ticket); else m.d = r.from;
         if (r.slotCost) M.slotDown(w, t.id!, r.slotCost);
       },
     });
@@ -586,8 +659,8 @@ function bindInput() {
 }
 
 // ── 추천 자리 강조 ──────────────────────────────────────────
-A.highlightBest = (monId: number) => {
-  const best = M.bestPlaces(A.w, monId);
+A.highlightBest = (monId: number, only?: PlotId[]) => {
+  const best = only || M.bestPlaces(A.w, monId);
   A.ui.targets = best;
   A.ui.newTok = monId;
   renderDock();
