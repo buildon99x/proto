@@ -305,6 +305,9 @@ function ensureShape(w: World) {
   if (!w.blackMarket || !Array.isArray(w.blackMarket.listings)) w.blackMarket = { listings: [] };
   if (!w.visitedSites) w.visitedSites = {};
   if (!w.unexploredBonusGranted) w.unexploredBonusGranted = {};
+  // 진귀·국보 제보 자동 집중(v0.6.6)은 옛 세이브에도 기본값(켬)으로 채운다. 세이브 버전은
+  // 올리지 않는다 — 유물이나 진척을 바꾸는 비가역 동작이 아니고, 설정에서 언제든 끈다.
+  if (w.settings && typeof w.settings.autoFocusTips !== "boolean") w.settings.autoFocusTips = true;
 }
 
 /** 데이터셋에 새 유물이 추가돼도 옛 세이브가 열리도록 빈 칸을 채운다 */

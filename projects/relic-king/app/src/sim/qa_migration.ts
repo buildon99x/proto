@@ -77,6 +77,8 @@ const migrated = deserialize(JSON.stringify(v1Raw)) as World;
 check("version이 11로 올라간다(체인 끝까지)", migrated.version === 11);
 check("autoSellBelow가 기본값(1)으로 올라간다(체인 끝까지)", migrated.settings.autoSellBelow === 1);
 check("autoReinvest가 채워진다(체인 끝까지)", migrated.settings.autoReinvest === true);
+check("autoFocusTips가 기본값(켬)으로 채워진다(ensureShape, v0.6.6 — 버전 증가 없음)",
+  migrated.settings.autoFocusTips === true);
 check("rivals[].homeSite가 채워진다(체인 끝까지)",
   migrated.rivals.every((r) => typeof (r as any).homeSite === "string"));
 

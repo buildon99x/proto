@@ -119,6 +119,56 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 .tip-lost { border-color: #555; background: linear-gradient(90deg, #262323, #1d1b1b); }
 .tip-lost .tip-mark, .tip-lost .tip-resolved, .tip-lost .tip-clock { color: var(--muted); }
 @keyframes tip-in { from { transform: translateY(-6px); opacity: 0; } }
+.tip-odds { min-width: 0; }
+.tip-autofocus { white-space: nowrap; color: var(--accent); font-style: normal; }
+
+/* 좁은 화면 — 한 줄 가로 배치를 세로로 접는다. 예전에는 390px에서 본문이 한 글자씩
+   세로로 쌓이고(높이 약 480px) 버튼이 화면 밖으로 나갔다(completeness-review.md §7 버그 1).
+   1줄: 표지 · 남은 시간, 2줄: 본문, 3줄: 승산·유예, 4줄: 반응 버튼(전체 폭). */
+@media (max-width: 720px) {
+  .tip { flex-wrap: wrap; gap: 6px 10px; }
+  .tip > .tip-mark { order: 1; }
+  .tip > .tip-clock { order: 2; margin-left: auto; }
+  .tip > .tip-text { order: 3; flex: 1 1 100%; }
+  .tip > .tip-odds, .tip > .tip-grace, .tip > .tip-resolved { order: 4; flex: 1 1 100%; white-space: normal; }
+  .tip > button, .tip > .tip-racing, .tip > .tip-info-only, .tip > .tip-autofocus { order: 5; flex: 1 1 100%; white-space: normal; }
+  .tip > button { padding: 9px 12px; }
+}
+
+/* ── 유일 제보 알림(v0.6.6, decision-tree-10h.md P4) ─────────────
+   평소 배너보다 확실히 크게, 화면 위쪽 전체 폭으로. 화면을 막지는 않는다 — 뒤의
+   화면은 그대로 눌린다. 모달보다 위에 둔다(모달이 떠 있어도 놓치지 않게). */
+.unique-alert {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 90;
+  padding: 14px 16px 16px; box-sizing: border-box;
+  border-bottom: 3px solid var(--accent);
+  background: linear-gradient(180deg, #3a2a0c, #231a0b);
+  box-shadow: 0 10px 30px #000c;
+  animation: unique-alert-in 320ms ease-out;
+}
+.unique-alert > * { max-width: 1096px; margin-left: auto; margin-right: auto; }
+.unique-alert-head { display: flex; align-items: center; gap: 12px; }
+.unique-alert-mark {
+  padding: 3px 10px; border-radius: 3px; background: var(--accent); color: #1b140b;
+  font-size: 13px; font-weight: 800; letter-spacing: 0.12em;
+}
+.unique-alert .tip-clock { font-size: 22px; color: var(--accent); margin-left: auto; }
+.unique-alert-fold { border: 1px solid var(--line); background: none; border-radius: 4px; padding: 2px 8px; color: var(--muted); }
+.unique-alert-title { margin: 10px auto 2px; font-size: 22px; line-height: 1.35; overflow-wrap: anywhere; }
+.unique-alert-title strong { color: var(--accent); }
+.unique-alert-sub { margin: 0 auto 10px; color: var(--text); }
+.unique-alert-action { display: flex; }
+.unique-alert-action .tip-action-big {
+  flex: 1 1 auto; max-width: 420px; padding: 12px 18px; font-size: 17px; font-weight: 700;
+  border-radius: 6px; border: 2px solid var(--accent); background: var(--accent); color: #1b140b;
+}
+.unique-alert-action .tip-action-big:disabled { background: none; color: var(--accent); }
+.unique-alert-action > span { white-space: normal; font-size: 14px; }
+@keyframes unique-alert-in { from { transform: translateY(-100%); } }
+@media (max-width: 720px) {
+  .unique-alert-title { font-size: 18px; }
+  .unique-alert-action .tip-action-big { max-width: none; }
+}
 
 .ending {
   padding: 10px 12px; margin-bottom: 10px; border-radius: 6px;
@@ -363,20 +413,32 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 .rules-block h4 { margin: 0 0 6px; font-size: 13px; }
 .rival-eta-list li { grid-template-columns: 100px 1fr !important; }
 
-/* ── 온보딩 ───────────────────────────── */
-.onboarding-modal { max-width: 720px; text-align: left; }
-.onboarding-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 14px 0; }
-.onboarding-card {
+/* ── 첫 거점 카드(v0.6.6, decision-tree-10h.md P1) ───────── */
+.base-chooser { max-width: 760px; text-align: left; }
+.base-chooser-rule { margin: 6px 0 0; padding: 6px 8px; border-left: 2px solid var(--accent); background: #211c14; color: var(--text); }
+.base-chooser-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 14px 0; }
+.base-chooser-card {
   border: 1px solid var(--line); background: var(--panel-2); border-radius: 6px; padding: 12px;
-  display: flex; flex-direction: column; gap: 4px;
+  display: flex; flex-direction: column; gap: 4px; min-width: 0;
 }
-.onboarding-card h4 { margin: 0; }
-.onboarding-card-lines { list-style: none; margin: 4px 0; padding: 0; font-size: 12px; flex: 1; }
-.onboarding-card-lines li { padding: 2px 0; }
-.onboarding-card button { margin-top: 6px; padding: 8px; border-radius: 5px; border: 1px solid var(--accent); background: none; color: var(--accent); }
-.onboarding-all-list { list-style: none; margin: 10px 0; padding: 0; max-height: 260px; overflow-y: auto; }
-.onboarding-all-list li { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #241f1a; font-size: 13px; }
-.onboarding-keep { display: block; width: 100%; margin-top: 10px; padding: 10px; border-radius: 5px; border: 1px solid var(--line); background: var(--panel-2); }
+.base-chooser-card h4 { margin: 0; }
+.base-chooser-card p { margin: 0; }
+.base-chooser-facts { margin: 6px 0; display: flex; flex-direction: column; gap: 3px; font-size: 12px; flex: 1; }
+.base-chooser-facts > div { display: grid; grid-template-columns: 64px 1fr; gap: 6px; }
+.base-chooser-facts dt { color: var(--muted); }
+.base-chooser-facts dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.base-chooser-species { font-size: 18px; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1.2; }
+.base-chooser-card button { margin-top: 6px; padding: 8px; border-radius: 5px; border: 1px solid var(--accent); background: none; color: var(--accent); }
+.base-chooser-all-list { list-style: none; margin: 10px 0; padding: 0; max-height: 260px; overflow-y: auto; }
+.base-chooser-all-list li { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid #241f1a; font-size: 13px; }
+.base-chooser-later { display: block; width: 100%; margin-top: 10px; padding: 10px; border-radius: 5px; border: 1px solid var(--line); background: var(--panel-2); }
+.home-species-note { margin: 6px 0; padding: 6px 8px; border-radius: 4px; background: #241d12; border: 1px solid #5a4620; color: #d9c08a; }
+.my-bases-actions { display: flex; flex-direction: column; gap: 6px; }
+.base-chooser-reopen { padding: 7px; border-radius: 5px; border: 1px solid var(--accent); background: none; color: var(--accent); }
+
+/* 첫 전시 안내 토스트 — 복귀 요약 토스트와 같은 자리·같은 모양을 쓴다(동시에 뜰 일은 드물다) */
+.display-nudge { bottom: 76px; border-color: var(--accent); }
+.display-nudge .display-nudge-close { color: var(--muted); }
 
 /* ── 발굴 탭 ──────────────────────────── */
 .expedition { display: flex; flex-direction: column; gap: 12px; }
@@ -583,7 +645,7 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
   /* 박물관 전시 교체 — 전체화면 2단(상단 슬롯 고정 + 하단 소장고 스크롤, §6.3) */
   .museum-slots { position: sticky; top: 90px; background: var(--panel); z-index: 1; padding-bottom: 6px; }
 
-  .onboarding-cards { grid-template-columns: 1fr; }
+  .base-chooser-cards { grid-template-columns: 1fr; }
   .modal-wide { max-width: 100%; }
 }
 
