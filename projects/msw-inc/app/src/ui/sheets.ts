@@ -63,13 +63,16 @@ A.openHire = (opt = {}) => {
   let sub = '1단계 직원만 뽑을 수 있어요. 높은 단계는 키워서만 얻어요';
   if (into) sub += ` · 뽑으면 바로 <b>${plotName(into)}</b>에 배치`;
   else sub += ' · 뽑은 직원은 대기실로';
-  if (growing && seg && M.canEvolve(growing)) sub = `<b>${segTxt(seg)}</b>는 ${josa(M.monName(growing), '이', '가')} 지금 진화하면 이어져요 <button class="subev" data-ev="${growing.id}">▲ 진화 보기</button>`;
+  const mv = seg && !rec && !(growing && M.canEvolve(growing)) ? M.moveFix(w, seg) : null;
+  if (mv && seg) sub = `<b>${segTxt(seg)}</b>는 ${josa(M.monName(mv.mon), '을', '를')} <b>${ro(plotName(mv.to))}</b> 옮기면 바로 이어져요${mv.ticket ? ' (개업권 · 공짜)' : ''} <button class="subev mv" data-mv="${mv.mon.id}" data-to="${mv.to}">옮길 곳 보기</button>`;
+  else if (growing && seg && M.canEvolve(growing)) sub = `<b>${segTxt(seg)}</b>는 ${josa(M.monName(growing), '이', '가')} 지금 진화하면 이어져요 <button class="subev" data-ev="${growing.id}">▲ 진화 보기</button>`;
   else if (growing && seg) sub = `<b>${segTxt(seg)}</b>는 ${josa(M.monName(growing), '이', '가')} 한 번 더 진화하면 이어져요 (근속 ${n(growing.tenure)} / ${n(M.evolveNeed(growing))})`;
   else if (grow && seg) sub = `<b>${segTxt(seg)}</b>는 채용으로는 안 닿아요. <b>${SPECIES[grow.sp].names[0]}</b>를 뽑아 혼자 두고 키우면 진화 ${grow.stage}번에 Lv ${grow.lv}가 돼요`;
   const sh = openSheet('hire', 'var(--flow)', `<div class="sh-title">신입 채용 <small>${sub}</small></div><div class="cards">${cards}</div>`);
   $$<HTMLElement>('[data-hire]', sh).forEach(b => (b.onclick = () => doHire(b.dataset.hire as SpeciesId, into)));
   const subev = $<HTMLElement>('.subev', sh);
-  if (subev) subev.onclick = () => { A.closeSheet(); A.openEvolve(+(subev.dataset.ev || 0)); };
+  if (subev && subev.dataset.mv) subev.onclick = () => { A.closeSheet(); A.highlightBest(+(subev.dataset.mv || 0), [subev.dataset.to || '']); };
+  else if (subev) subev.onclick = () => { A.closeSheet(); A.openEvolve(+(subev.dataset.ev || 0)); };
   snd.play('ui');
 };
 function doHire(sp: SpeciesId, into: PlotId | null) {
@@ -88,13 +91,21 @@ function doHire(sp: SpeciesId, into: PlotId | null) {
 }
 
 // ── S3 진화: 결과를 월드 위에서 미리 본다 (+ 승진 발령) ─────────
+function planHint(plan: M.PromotePlan): string {
+  const w = A.w;
+  const where = plan.stay ? '그 자리에 두고' : plan.to && w.plots[plan.to].open ? `${ro(plotShort(plan.to))} 보내고` : `${plotShort(plan.to!)}에 개업하고${w.tickets.plot > 0 ? '(개업권)' : ''}`;
+  const back = plan.hireSp ? `빈자리엔 ${josa(SPECIES[plan.hireSp].names[0], '을', '를')}` : '';
+  return `💡 승진 발령: ${where} ${back} ${plan.gapAfter ? `— ${segList(plan.pv.gapsAfter)}만 남아요` : '— 빈틈 없이 이어져요'}`;
+}
 A.openEvolve = monId => {
   const w = A.w, m = w.monsters.find(x => x.id === monId);
   if (!m || !M.canEvolve(m)) return;
   if (A.ui.mode === 'dungeon') A.closeDungeon();
   const sp = SPECIES[m.sp], next = m.stage + 1;
   const pv = M.preview(w, { evolve: m.id });
-  const plan = pv.lost.length ? M.bestPromote(w, m.id) : null;
+  // 승진 발령을 권하는 때: 그냥 진화하면 길이 비거나(v1.2), 발령해야 남은 빈틈이 더 이어질 때(v1.3.1 — 1장 Lv 14–15)
+  const cand = M.bestPromote(w, m.id);
+  const plan = cand && (pv.lost.length || cand.gapAfter < M.gapSize(pv.gapsAfter)) ? cand : null;
   const known = !!w.dex[m.sp + ':' + next];
   const block = M.evolveBlock(w, m);
   let dex = '';
@@ -107,11 +118,10 @@ A.openEvolve = monId => {
   if (block) res = `<div class="res bad">✕ ${block}</div>`;
   else if (pv.lost.length) {
     res = `<div class="res bad">⚠ ${pv.entranceBlocked ? '입구가 막혀요 · ' : ''}${segList(pv.lost)}가 비어요${pv.stranded ? ` · 모험가 ${pv.stranded}명이 혼자 걷게 돼요` : ''}</div>`;
-    if (plan) {
-      const where = plan.stay ? '그 자리에 두고' : plan.to && w.plots[plan.to].open ? `${ro(plotShort(plan.to))} 보내고` : `${plotShort(plan.to!)}에 개업하고${w.tickets.plot > 0 ? '(개업권)' : ''}`;
-      const back = plan.hireSp ? `빈자리엔 ${josa(SPECIES[plan.hireSp].names[0], '을', '를')}` : '';
-      hint = `💡 승진 발령: ${where} ${back} ${plan.gapAfter ? `— ${segList(plan.pv.gapsAfter)}만 남아요` : '— 빈틈 없이 이어져요'}`;
-    } else hint = '💡 진화한 뒤 5초 안에 되돌릴 수 있어요. 보류해도 근속은 그대로 남아요';
+    hint = plan ? planHint(plan) : '💡 진화한 뒤 5초 안에 되돌릴 수 있어요. 보류해도 근속은 그대로 남아요';
+  } else if (plan) {
+    res = `<div class="res ok">✓ 빈틈이 생기지 않아요 · 그냥 진화로는 ${segList(pv.gapsAfter)}가 그대로예요</div>`;
+    hint = planHint(plan);
   } else res = `<div class="res ok">✓ 빈틈이 생기지 않아요${pv.gained.length ? ` · ${segList(pv.gained)} 새로 이어져요` : ''}</div>`;
   const btns = plan && !block
     ? `<button class="btn pri" data-promote title="진화 + 옮기기 + 빈자리 채용을 한 번에">▲ 승진 발령<small>${plan.cost ? `스마일 ${n(plan.cost)}` : '무료'}</small></button><button class="btn" data-go>그냥 진화</button><button class="btn ghostb" data-hold>보류</button>`

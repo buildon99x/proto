@@ -1,8 +1,8 @@
 /*
  * 선택 점검 — 플레이어의 선택 하나가 진행 속도를 얼마나 가르는가.
- *   pnpm --filter msw-inc audit                 (v1.2와 게임 규칙 v1.3을 나란히)
- *   pnpm --filter msw-inc audit -- --rules v1.1 (한 규칙만)
- *   pnpm --filter msw-inc audit -- --json out.json
+ *   pnpm --filter msw-inc run audit                 (v1.2와 게임 규칙 v1.3을 나란히)
+ *   pnpm --filter msw-inc run audit -- --rules v1.1 (한 규칙만)
+ *   pnpm --filter msw-inc run audit -- --json out.json
  *
  * 성향(persona)은 "오렌 따라하기" 봇 위에서 선택 한 가지만 바꾼다(bots.ts).
  * 월드 규칙은 결정적이다. 시드마다 체크인 시각을 ±90분 흔들어(bots.ts) 중앙값과 범위를 쓴다. 결과 해석은 notes/choice-audit.md.

@@ -914,6 +914,35 @@ export function growingToward(w: World, seg: Seg): Monster | null {
   return best;
 }
 
+/**
+ * 옮기기만으로 그 빈틈이 닫히는 직원과 부지 (v1.3.1, 1장 Lv 14–15 정체).
+ * 진화를 기다리라고 하기 전에, 이미 닿는 직원을 빈 부지(개업권이면 공짜)로 옮기는 수를 먼저 찾는다.
+ * 빈틈이 다른 곳에 새로 생기는 수는 고르지 않는다.
+ */
+export interface MoveFix { mon: Monster; to: PlotId; cost: number; ticket: boolean }
+export function moveFix(w: World, seg: Seg): MoveFix | null {
+  const cur = gapSize(gapSegments(w));
+  const all = (c: Uint8Array) => { for (let L = seg[0]; L <= seg[1]; L++) if (!c[L]) return false; return true; };
+  let best: (MoveFix & { gapN: number }) | null = null;
+  for (const m of w.monsters) {
+    if (!m.d) continue;
+    for (const id in w.plots) {
+      if (id === m.d) continue;
+      const c = placeCheck(w, m, id);
+      if (!c.ok) continue;
+      const mods: Mods = { move: { id: m.id, to: id } };
+      if (!w.plots[id].open) mods.open = id;
+      const lv = levelsOf(w, mods);
+      if (!all(coveredSet(lv))) continue;
+      const gapN = gapSize(gapSegments(w, lv));
+      if (gapN >= cur) continue;
+      const cost = c.openCost || 0;
+      if (!best || gapN < best.gapN || (gapN === best.gapN && cost < best.cost)) best = { mon: m, to: id, cost, ticket: !!c.ticket, gapN };
+    }
+  }
+  return best ? { mon: best.mon, to: best.to, cost: best.cost, ticket: best.ticket } : null;
+}
+
 /** 막힌 사람이 가장 많은 빈틈 */
 export function hotGap(w: World): Seg | null {
   let best: Seg | null = null, bn = 0;

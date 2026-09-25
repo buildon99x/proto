@@ -361,7 +361,7 @@ node notes/play-review/build.mjs                    # → notes/play-review/data
 # 08절 (개선 뒤, 규칙 v1.3 · 게임 1.1.0)
 pnpm --filter msw-inc build
 pnpm --filter msw-inc playreview:v13                # → notes/data/playreview-v13.json, playreview-ui-v13.json, shots/v13/
-pnpm --filter msw-inc audit -- --json ../notes/data/audit-v13.json
+pnpm --filter msw-inc run audit -- --json ../notes/data/audit-v13.json
 node notes/play-review/build.mjs --sim notes/data/playreview-v13.json --ui notes/data/playreview-ui-v13.json \
   --audit notes/data/audit-v13.json --out data-v13.js --var PR13</pre>
   <p>입력 수 추정: 행동별 입력(결재·채용·진화·발령·이벤트·자리 3, 옮기기·배치 1, 본사 전근 2)에 출근 리포트 닫기와 퇴근 2를 더했다. 실제 화면 흐름에서 잰 값이다.</p>
@@ -764,7 +764,7 @@ const nativeHired = R => R.checkins.some(c => c.acts.some(a => /^(native|hire):(
 function afterLead() {
   const g12 = D.flow.find(f => f.id === 'gap').t, g13 = D13.flow.find(f => f.id === 'gap').t;
   const stamp = D13.flow.find(f => f.id === 'chapter-cut'), done = D13.flow.find(f => f.id === 'tut-done');
-  $('#afterLead').innerHTML = `첫 세션이 <b>${clk(done.t)}</b> 안에 빈틈 → 채용 → 이벤트 → 진화 → 엘리트 → <b>승진 발령 → 결재 도장 → 새 지역 채용</b> → 필드 보스 예고까지 한 바퀴를 돈다(안내가 뜨면 바로 누르는 경우, 사람은 더 걸린다). 첫 빈틈은 ${clk(g12)} → ${clk(g13)}. 3~5장은 막대 눈금, 엘리트, 필드 보스로 평평한 구간에 봉우리가 생겨 5장 "이벤트만 누른" 체크인이 ${ch12[4].emo.bored || 0}번 → ${ch13[4].emo.bored || 0}번으로 줄었다. 대가로 달력이 당겨져 3~5장 ② 목표를 약 8% 올렸다. 5장 화면의 누를 수 있는 요소는 목표(72)에 못 미쳤다.`;
+  $('#afterLead').innerHTML = `첫 세션이 <b>${clk(done.t)}</b> 안에 빈틈 → 채용 → <b>승진 발령(Lv 14–15)</b> → 이벤트 → 엘리트 → <b>결재 도장 → 새 지역 채용</b> → 필드 보스 예고까지 한 바퀴를 돈다(안내가 뜨면 바로 누르는 경우, 사람은 더 걸린다). 첫 빈틈은 ${clk(g12)} → ${clk(g13)}. 3~5장은 막대 눈금, 엘리트, 필드 보스로 평평한 구간에 봉우리가 생겨 5장 "이벤트만 누른" 체크인이 ${ch12[4].emo.bored || 0}번 → ${ch13[4].emo.bored || 0}번으로 줄었다. 대가로 달력이 당겨져 3~5장 ② 목표를 약 8% 올렸다. 5장 화면의 누를 수 있는 요소는 목표(72)에 못 미쳤다.`;
 }
 function afterTable() {
   const f12 = D.flow, f13 = D13.flow;
@@ -778,6 +778,7 @@ function afterTable() {
     ['첫 빈틈 시각', clk(g(f12, 'gap').t), clk(g(f13, 'gap').t), '≤ 1:30', g(f13, 'gap').t <= 90, 'playreview:ui'],
     ['첫 세션 30초 넘는 빈 구간 합', idleSum(f12) + '초', idleSum(f13) + '초', '≤ 40초', idleSum(f13) <= 40, 'playreview:ui'],
     ['첫 세션에서 겪는 핵심 순환', '빈틈·채용·이벤트·진화', '+ 엘리트·승진 발령·결재 도장·새 지역·보스 예고', '+ 발령·결재·새 지역·엘리트·보스 예고', true, 'playreview:ui'],
+    ['1장 Lv 14–15 빨간 빈틈이 보이는 시간', '첫 세션에 못 이음', `${g(f13, 'promote-cut').t - g(f13, 'placed').t}초 (1.1.0은 61초)`, '≤ 30초', g(f13, 'promote-cut').t - g(f13, 'placed').t <= 30, 'playreview:ui'],
     ['1장 결재', 'D2.9 (표준)', `첫 세션 ${clk(g(f13, 'chapter-cut').t)}`, '첫 세션 10:00 안', g(f13, 'chapter-cut').t < 600, 'playreview:ui'],
     ['3·4·5장 감탄 비율 (엄격)', wow(ch12, false), wow(ch13, true), '각 ≥ 70%', [2, 3, 4].every(i => ch13[i].wowStrictPct >= 70), 'playreview'],
     ['5장 유지 보수만 한 체크인', `${ch12[4].emo.bored || 0} / ${ch12[4].checkins}`, `${ch13[4].emo.bored || 0} / ${ch13[4].checkins}`, '≤ 10 / 27', (ch13[4].emo.bored || 0) <= 10, 'playreview'],

@@ -633,3 +633,4 @@ body.portrait #rotate{display:block}
 .hcard.bosshost{justify-content:flex-start;gap:4px}
 .hcard.bossid{background:#fffdf3;border-color:var(--smile)}
 .hcard.bossid .trait{font-size:11px;line-height:1.35;white-space:normal}
+.subev.mv{background:var(--flow)}

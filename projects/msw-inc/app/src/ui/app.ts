@@ -53,7 +53,7 @@ export interface App {
   showReport: (rep: M.Report, awayMin: number) => void;
   catchUp: (minutes: number) => void;
   offDuty: (why: 'idle' | 'manual') => void;
-  highlightBest: (monId: number) => PlotId[];
+  highlightBest: (monId: number, only?: PlotId[]) => PlotId[];
   openFullClear: () => void;
 }
 
@@ -352,6 +352,12 @@ export function orenPick(): OrenLine {
       const grow = g && M.growingToward(w, gap.seg);
       // F4: 이미 근속이 찼으면 기다리라고 하지 않는다 — 지금 진화 시트로 보낸다
       if (grow && M.canEvolve(grow)) return { t: `${rng}는 ${josa(M.monName(grow), '이', '가')} 지금 진화할 수 있어요!! ▲ 눌러서 승진 발령해요!!`, go: () => A.openEvolve(grow.id) };
+      // v1.3.1: 이미 닿는 직원이 있으면 기다리라고 하기 전에 옮기라고 한다 (1장 Lv 14–15 정체)
+      const mv = M.moveFix(w, gap.seg);
+      if (mv) {
+        const pay = mv.cost === 0 ? (mv.ticket ? ' 개업권이 있어서 공짜예요!!' : '') : ` 개업 스마일 ${n(mv.cost)}!!`;
+        return { t: `${rng}는 ${josa(M.monName(mv.mon), '을', '를')} “${plotName(mv.to)}”${ro(plotName(mv.to)).slice(plotName(mv.to).length)} 옮기면 이어져요!!${pay}`, go: () => A.highlightBest(mv.mon.id, [mv.to]) };
+      }
       if (grow) return { t: `${rng}는 ${josa(M.monName(grow), '이', '가')} 진화하면 이어져요!! 근속을 기다려요!!`, go: null };
       if (g) return { t: `${rng}는 채용으로는 안 닿아요!! ${josa(SPECIES[g.sp].names[0], '을', '를')} 뽑아 키워봐요!!`, go: () => A.openHire({ seg: gap.seg }) };
     }

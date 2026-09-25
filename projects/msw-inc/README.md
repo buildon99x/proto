@@ -42,7 +42,7 @@ pnpm --filter msw-inc dev        개발 서버
 pnpm --filter msw-inc build      타입 검사 + 빌드
 pnpm --filter msw-inc test       타입 검사 + 규칙 테스트 26개
 pnpm --filter msw-inc pacing     첫 세션·Day 2·챕터 달력 (-- v1.1 로 옛 규칙)
-pnpm --filter msw-inc audit      선택 점검: 8성향 × 체크인 시각 흔들기 5 (v1.2·v1.3), -- --rules v1.1 한 규칙만, -- --ablate 하나씩 빼 보기
+pnpm --filter msw-inc run audit  선택 점검: 8성향 × 체크인 시각 흔들기 5 (v1.2·v1.3), -- --rules v1.1 한 규칙만, -- --ablate 하나씩 빼 보기
 pnpm --filter msw-inc smoke      브라우저 스모크: 첫 세션을 실제 클릭·드래그로 19단계 (빌드 뒤)
 pnpm --filter msw-inc shots      시연 장면 19개를 assets/screenshots/ 로 굽는다 (빌드 뒤)
 pnpm --filter msw-inc playreview      플레이 리뷰 계측: 입사~엔딩 체크인 기록, 성향 4개 (-- --rules v1.2 개선 전 기준)

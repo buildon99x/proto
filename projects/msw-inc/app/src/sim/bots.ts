@@ -324,7 +324,7 @@ const occ = (w: World, id: PlotId) => w.advs.filter(a => a.st === 'happy' && a.d
 
 /**
  * 입사 첫 세션 대본 (tut.ts 순서, v1.3 "첫 10분 한 바퀴"). 월드 분 단위로 화면 대본을 흉내 낸다.
- *   빈틈 → 채용·배치 → 경험치 2배 → 고참 진화 → 엘리트 → 둘째 달팽이 승진 발령(개업권) → ② 가득 → 결재 도장
+ *   빈틈 → 채용·배치 → 고참 달팽이 승진 발령(개업권, Lv 14–15) → 경험치 2배 → 엘리트 → ② 가득 → 결재 도장
  *   → 새 지역 채용권으로 슬라임 → 퇴근
  * on(kind, label)으로 사건을 받는다(pacing·playreview). stop(w)이 참이면 그 자리에서 멈춘다(시연 장면).
  * 규칙에 첫 10분 한 바퀴(firstLoop)가 없으면 v1.2 대본(고참 진화까지)만 돈다.
@@ -351,21 +351,27 @@ export function firstSession(w: World, on: (kind: string, label: string) => void
       if (h.ok) S.place(w, h.mon.id, 'h2');
       note('hire', '주황버섯 채용 → 사냥터 배치');
     }
-    if (w.t >= gapAt + 1 && w.tickets.event && !once.has('event')) { S.startEvent(w, 'h1', 'exp'); note('event', '경험치 2배 (첫 번 무료)'); }
     const v = w.monsters.find(m => m.vet);
-    if (v && v.stage === 0 && w.t >= gapAt + 1.4) { v.tenure = Math.max(v.tenure, S.evolveNeed(v)); S.evolve(w, v.id); evoAt = w.t; note('evolve', '고참 달팽이 → 파란 달팽이'); }
-    if (!loop) { if (evoAt != null && w.t >= 8) break; continue; }
-    if (evoAt == null) continue;
-    if (w.t >= evoAt + 0.9 && !once.has('elite')) { S.forceElite(w); note('elite', '엘리트 첫 출현'); }
-    const sn = w.monsters.find(m => m.sp === 'snail' && !m.vet && m.stage === 0 && m.d === 'h1');
-    if (sn && w.t >= evoAt + 1.4 && !once.has('promote')) {
-      sn.tenure = Math.max(sn.tenure, S.evolveNeed(sn));
-      const plan = S.bestPromote(w, sn.id);
-      if (plan && S.promote(w, plan).ok) note('promote', `승진 발령 → ${plan.to}${plan.opens ? ' 개업' : ''}`);
-      else { S.evolve(w, sn.id); note('promote', '둘째 달팽이 진화 (발령 없음)'); }
+    if (!loop) {
+      // v1.1·v1.2 대본: 이벤트 → 고참 그냥 진화
+      if (w.t >= gapAt + 1 && w.tickets.event && !once.has('event')) { S.startEvent(w, 'h1', 'exp'); note('event', '경험치 2배 (첫 번 무료)'); }
+      if (v && v.stage === 0 && w.t >= gapAt + 1.4) { v.tenure = Math.max(v.tenure, S.evolveNeed(v)); S.evolve(w, v.id); evoAt = w.t; note('evolve', '고참 달팽이 → 파란 달팽이'); }
+      if (evoAt != null && w.t >= 8) break;
+      continue;
     }
+    // v1.3.1: Lv 14–15는 채용으로 안 닿는다 → 고참 달팽이를 승진 발령으로 버섯 언덕에 보내 한 번에 잇는다. 이벤트는 그 뒤
+    if (v && v.stage === 0 && w.t >= gapAt + 1.4) {
+      v.tenure = Math.max(v.tenure, S.evolveNeed(v));
+      const plan = S.bestPromote(w, v.id);
+      if (plan && S.promote(w, plan).ok) note('promote', `고참 달팽이 승진 발령 → ${plan.to}${plan.opens ? ' 개업' : ''}`);
+      else { S.evolve(w, v.id); note('promote', '고참 달팽이 진화 (발령 없음)'); }
+      evoAt = w.t;
+    }
+    if (evoAt == null) continue;
+    if (w.t >= evoAt + 0.3 && w.tickets.event && !once.has('event')) { S.startEvent(w, 'h1', 'exp'); note('event', '경험치 2배 (첫 번 무료)'); }
+    if (w.t >= evoAt + 0.9 && !once.has('elite')) { S.forceElite(w); note('elite', '엘리트 첫 출현'); }
     // ② 막대: 대본 보장 — 화면 대본은 발령 뒤 약 30초 기다린 다음 채운다. 봇은 발령 뒤 1.5분에 채운다(읽는 시간 포함)
-    if (once.has('promote') && w.chapter === 1 && !w.approvalReady && w.t >= evoAt + 2.9 && S.approvalConds(w).road) w.cjoy = Math.max(w.cjoy, S.approvalConds(w).joyGoal);
+    if (once.has('promote') && w.chapter === 1 && !w.approvalReady && w.t >= evoAt + 1.5 && S.approvalConds(w).road) w.cjoy = Math.max(w.cjoy, S.approvalConds(w).joyGoal);
     if (w.approvalReady && w.chapter === 1 && stampAt == null) { S.approve(w); stampAt = w.t; note('stamp', '1장 결재 도장 → 엘리니아 개방'); }
     if (stampAt != null && w.t >= stampAt + 0.4 && !once.has('region')) {
       const sp = w.tickets.hire.find(x => SPECIES[x].chapter === 2);

@@ -638,8 +638,8 @@ function bindInput() {
 }
 
 // ── 추천 자리 강조 ──────────────────────────────────────────
-A.highlightBest = (monId: number) => {
-  const best = M.bestPlaces(A.w, monId);
+A.highlightBest = (monId: number, only?: PlotId[]) => {
+  const best = only || M.bestPlaces(A.w, monId);
   A.ui.targets = best;
   A.ui.newTok = monId;
   renderDock();

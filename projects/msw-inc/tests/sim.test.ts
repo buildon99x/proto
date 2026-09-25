@@ -51,7 +51,7 @@ t('첫 10분 한 바퀴: 첫 세션 안에 엘리트·승진 발령·1장 결재
   const w = S.createWorld(20260924);
   const kinds: string[] = [];
   firstSession(w, k => kinds.push(k));
-  for (const k of ['levelup', 'stuck', 'hire', 'event', 'evolve', 'elite', 'promote', 'stamp', 'region']) assert.ok(kinds.includes(k), k);
+  for (const k of ['levelup', 'stuck', 'hire', 'promote', 'event', 'elite', 'stamp', 'region']) assert.ok(kinds.includes(k), k);
   assert.equal(w.chapter, 2, '1장 결재를 받았다');
   assert.ok(w.t < 12, '월드 12분 안 (실제로는 튜토리얼 배속 때문에 더 짧다) ' + w.t.toFixed(1));
   assert.equal(w.tickets.plot, 0, '개업권 두 장(입사 선물·1장 결재 선물)을 다 썼다');
@@ -129,30 +129,60 @@ t('승진 발령과 되돌리기: 월드가 발령 전과 똑같아진다', () =
   void p;
 });
 
-t('첫 세션 승진 발령은 컨셉의 한 수(버섯 언덕 개업 → Lv 14–15)를 개업권으로 입구를 비우지 않고 푼다', () => {
+t('1장 Lv 14–15: 고참 달팽이 승진 발령 한 번에 버섯 언덕을 열어 잇는다 (그냥 진화는 들판 평균이라 안 닿는다)', () => {
   const w = S.createWorld(20260924);
-  firstSession(w, undefined, x => x.monsters.some(m => m.vet && m.stage > 0) && !!x.elite);
-  const sn = S.monsIn(w, 'h1').find(m => m.stage === 0 && !m.vet)!;
-  sn.tenure = S.evolveNeed(sn);
-  const plain = S.preview(w, { evolve: sn.id });
-  assert.ok(plain.entranceBlocked, '그냥 진화하면 입구가 막힌다');
-  const plan = S.bestPromote(w, sn.id)!;
+  firstSession(w, undefined, x => x.monsters.some(m => m.sp === 'mush' && m.d === 'h2'));
+  assert.deepEqual(S.gapSegments(w), [[14, 15]], '주황버섯을 놓아도 Lv 14–15가 남는다');
+  const vet = w.monsters.find(m => m.vet)!;
+  vet.tenure = S.evolveNeed(vet);
+  assert.ok(S.preview(w, { evolve: vet.id }).gapsAfter.length > 0, '그냥 진화하면 빈틈이 그대로');
+  const plan = S.bestPromote(w, vet.id)!;
   assert.ok(plan && !plan.pv.entranceBlocked);
   assert.equal(plan.gapAfter, 0);
   assert.equal(plan.to, 'h3');
   assert.equal(plan.openCost, 0, '개업권');
   const before = snap(w);
   const r = S.promote(w, plan);
-  assert.ok(r.ok && w.tickets.plot === 0);
+  assert.ok(r.ok && w.tickets.plot === 0 && !S.gapSegments(w).length);
   S.unpromote(w, plan, r);
   assert.equal(snap(w), before, '되돌리면 개업권도 돌아온다');
+});
+
+t('그냥 진화를 골라도 기다리지 않는다: 파란 달팽이를 버섯 언덕으로 옮기면 이어진다 (moveFix)', () => {
+  const w = S.createWorld(20260924);
+  firstSession(w, undefined, x => x.monsters.some(m => m.sp === 'mush' && m.d === 'h2'));
+  const vet = w.monsters.find(m => m.vet)!;
+  vet.tenure = S.evolveNeed(vet);
+  S.evolve(w, vet.id);
+  const mv = S.moveFix(w, [14, 15])!;
+  assert.ok(mv, '옮기는 수가 있다');
+  assert.equal(mv.mon.id, vet.id);
+  assert.equal(mv.to, 'h3');
+  assert.ok(mv.ticket && mv.cost === 0, '개업권으로 공짜');
+  assert.ok(S.place(w, mv.mon.id, mv.to).ok);
+  assert.equal(S.gapSegments(w).length, 0);
+  assert.equal(S.moveFix(w, [14, 15]), null, '닫힌 뒤에는 권하지 않는다');
+});
+
+t('첫 세션: Lv 14–15 빈틈은 월드 1.5분 안에 닫히고 둘째 달팽이를 기다리지 않는다', () => {
+  const w = S.createWorld(20260924);
+  let open: number | null = null, closed: number | null = null;
+  firstSession(w, undefined, x => {
+    const g = S.gapSegments(x).some(s => s[1] >= 14);
+    if (g && open == null && x.monsters.some(m => m.sp === 'mush' && m.d)) open = x.t;
+    if (!g && open != null && closed == null) closed = x.t;
+    return false;
+  });
+  assert.ok(open != null && closed != null, `${open} → ${closed}`);
+  assert.ok(closed! - open! < 1.5, `빈틈 ${(closed! - open!).toFixed(2)}분`);
+  assert.ok(w.monsters.some(m => m.sp === 'snail' && !m.vet && m.stage === 0), '둘째 달팽이는 그대로 들판');
 });
 
 t('꽉 찬 던전에도 놓을 수 있다 (직원 자리 +1을 같이 산다)', () => {
   const w = S.createWorld(8);
   firstSession(w);
   w.smile = 10000;
-  S.addMonster(w, 'snail', 'h1');
+  while (S.monsIn(w, 'h1').length < w.dungeons.h1.slots) S.addMonster(w, 'snail', 'h1');
   const extra = S.addMonster(w, 'mush', null);
   assert.equal(S.monsIn(w, 'h1').length, 3);
   const price = S.slotCost(w, w.dungeons.h1)!; // 챕터 비용 배율을 탄다 (첫 세션 뒤 2장이면 1,500)
