@@ -2,7 +2,7 @@
  * MSW 주식회사 — 시작, 입사 컷, 매 프레임 루프, 버튼
  */
 import './styles.css';
-import { A, $$, must, h, img, snd, refit, refresh, renderDock, renderDoc, renderOren, hudTick, hudStatic, simLive, save, loadSave, clearSave, toast, plotName, heldEvolves, M } from './ui/app';
+import { A, $$, must, h, img, snd, refit, refresh, renderDock, renderDoc, renderOren, renderBoss, hudTick, hudStatic, simLive, save, loadSave, clearSave, toast, plotName, heldEvolves, M } from './ui/app';
 import './ui/world';
 import './ui/dungeon';
 import './ui/sheets';
@@ -53,6 +53,7 @@ function bind() {
     clearSave(); location.reload();
   };
   must('#bHire').onclick = () => A.openHire();
+  must('#bossCard').onclick = () => { const b = A.w.boss; if (!b) return; if (!b.d) A.openBoss(); else A.openDungeon(b.d); };
   must('#evChip').onclick = () => { const m = heldEvolves(A.w)[0]; if (m) A.openEvolve(m.id); };
   must('#oren').onclick = () => { snd.play('ui'); if (A.ui.orenGo) A.ui.orenGo(); };
   must('#docw').onclick = () => A.openApproval();
@@ -91,7 +92,7 @@ function tick(dt: number, now: number) {
   hudTick(dt);
   T.tick(dt);
   slow -= dt;
-  if (slow <= 0) { slow = 0.5; renderOren(); renderDoc(); if (!A.world.drag || !A.world.drag.started) renderDock(); }
+  if (slow <= 0) { slow = 0.5; renderOren(); renderDoc(); renderBoss(); if (!A.world.drag || !A.world.drag.started) renderDock(); }
   saveT -= dt;
   if (saveT <= 0) { saveT = 5; save(); }
   if (!A.ui.off && !A.ui.modal && !A.demo && now - A.ui.lastInput > IDLE_MS) A.offDuty('idle');

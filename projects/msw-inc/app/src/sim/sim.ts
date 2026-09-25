@@ -5,7 +5,7 @@
  * 서버 시간 모델: 화면이 켜져 있든 아니든 같은 step()으로 월드를 굴린다.
  * 단위: 시간은 월드 분(minute). step(w, dt)는 dt분만큼 진행한다.
  */
-import { CHAPTERS, PLOTS, SPECIES, plotInfo, type PlotId, type SpeciesId } from './content';
+import { CHAPTERS, PLOTS, SPECIES, plotInfo, fieldBoss, bossDexKey, type PlotId, type SpeciesId } from './content';
 import { RULES } from './rules';
 
 // ── 타입 ────────────────────────────────────────────────────
@@ -20,6 +20,8 @@ export interface Adventurer {
 }
 export interface GameEvent { kind: 'exp' | 'drop'; start: number; end: number }
 export interface Tickets { hire: SpeciesId[]; event: number; plot: number }
+export interface Elite { d: PlotId; mon: number; until: number }
+export interface Boss { ch: number; at: number; d: PlotId | null; kills: number; until: number | null }
 export type MarkReward = { kind: 'hire'; sp: SpeciesId } | { kind: 'event'; n: number } | { kind: 'boss' };
 export interface Dungeon {
   id: PlotId; slots: number; seats: number; seatUp: number; slotUp: number;
@@ -38,7 +40,11 @@ export interface World {
   tickets: Tickets;
   /** 이번 장에서 받은 ② 막대 눈금 보상 (v1.3). 길이 = 지난 눈금 수 */
   marks: MarkReward[];
-  stats: { arrivals: number; levelups: number; grads: number; left: { entrance: number; search: number; busy: number }; evolves: number };
+  /** 엘리트 (v1.3): 지금 들뜬 던전 하나. eliteAcc = 지난 엘리트 뒤 월드 퇴근, eliteBy = 던전별 */
+  elite: Elite | null; eliteAcc: number; eliteBy: Record<PlotId, number>;
+  /** 필드 보스 (v1.3): 찾아온 손님 하나 (d가 null이면 초대 기다림). bossDone = 토벌한 장 */
+  boss: Boss | null; bossDone: number[];
+  stats: { arrivals: number; levelups: number; grads: number; left: { entrance: number; search: number; busy: number }; evolves: number; elites: number; bosses: number };
   /** 이번 장 누적 즐거움 (명·시간) — 결재 조건 ② (v1.2) */
   cjoy: number;
   /** 챕터가 열린 월드 시각 (리포트·점검용) */
@@ -56,7 +62,12 @@ export type SimEvent =
   | { type: 'kill'; d: PlotId; n: number }
   | { type: 'eventEnd'; d: PlotId; kind: 'exp' | 'drop' }
   | { type: 'approval' }
-  | { type: 'mark'; pct: number; reward: MarkReward };
+  | { type: 'mark'; pct: number; reward: MarkReward }
+  | { type: 'elite'; d: PlotId; mon: number }
+  | { type: 'eliteEnd'; d: PlotId }
+  | { type: 'bossCall'; ch: number }
+  | { type: 'bossIn'; ch: number; d: PlotId; auto: boolean }
+  | { type: 'bossDown'; ch: number; d: PlotId | null; bonus: number };
 
 export const SAVE_VERSION = 3;
 export const SEAT_BASE = 8, SEAT_STEP = 4;
@@ -86,7 +97,8 @@ export function createWorld(seed: number): World {
     dex: {},
     tut: { buffUntil: RULES.buffMin, instant: 3 },
     tickets: { hire: ['mush'], event: 1, plot: 0 }, marks: [],
-    stats: { arrivals: 0, levelups: 0, grads: 0, left: { entrance: 0, search: 0, busy: 0 }, evolves: 0 },
+    elite: null, eliteAcc: 0, eliteBy: {}, boss: null, bossDone: [],
+    stats: { arrivals: 0, levelups: 0, grads: 0, left: { entrance: 0, search: 0, busy: 0 }, evolves: 0, elites: 0, bosses: 0 },
     chapterAt: [0], cjoy: 0,
   };
   unlockPlots(w, 1);
@@ -132,6 +144,8 @@ export const dungeonStars = (d: Dungeon) => JOY_STARS.filter(x => d.joy >= x).le
 export const dexCount = (w: World) => Object.keys(w.dex).length;
 export const hasBalrogDungeon = (w: World) => w.monsters.some(m => m.sp === 'balrog' && m.d && w.plots[m.d] && w.plots[m.d].open);
 export const needsBalrog = (w: World) => w.chapter === 5;
+/** 지금 자리 수: 필드 보스가 방문 중이면 임시로 늘어난다 (v1.3) */
+export const seatsOf = (w: World, did: PlotId) => w.dungeons[did].seats + (RULES.fieldBoss && w.boss && w.boss.d === did ? RULES.fieldBoss.seats : 0);
 /** 5장 결재 ③ (v1.3): 슬리피우드 계열 직원이 일하는 던전이 있는가 */
 export const isNative = (sp: SpeciesId) => SPECIES[sp].chapter === 5;
 export const needsNative = (w: World) => w.chapter === 5 && RULES.nativeCond;
@@ -188,13 +202,17 @@ export const gapSize = (segs: Seg[]) => segs.reduce((s, g) => s + g[1] - g[0] + 
 export interface DInfo {
   id: PlotId; D: number; lo: number; hi: number; seats: number; occ: number;
   drop: boolean; exp: boolean; gift: boolean; strong: boolean; boss: boolean; mons: Monster[];
+  /** 엘리트가 있는 던전 · 필드 보스가 방문 중인 던전 (v1.3) */
+  elite: boolean; guest: boolean;
 }
 export function dungeonInfo(w: World): Record<PlotId, DInfo> {
   const lv = levelsOf(w), info: Record<PlotId, DInfo> = {};
   for (const id in lv) {
     const d = w.dungeons[id], ms = monsIn(w, id);
+    const guest = !!w.boss && w.boss.d === id && !!RULES.fieldBoss;
     info[id] = {
-      id, D: lv[id], lo: lv[id] - 5, hi: lv[id] + 5, seats: d.seats, occ: 0,
+      id, D: lv[id], lo: lv[id] - 5, hi: lv[id] + 5, seats: d.seats + (guest ? RULES.fieldBoss!.seats : 0), occ: 0,
+      elite: !!w.elite && w.elite.d === id, guest,
       drop: !!d.event && d.event.kind === 'drop', exp: !!d.event && d.event.kind === 'exp',
       gift: ms.some(m => SPECIES[m.sp].trait === 'gift'),
       strong: ms.some(m => SPECIES[m.sp].trait === 'strong'),
@@ -207,7 +225,9 @@ export function dungeonInfo(w: World): Record<PlotId, DInfo> {
 /** 도착률 (명/분) */
 export function arrivalPerMin(w: World): number {
   if (w.t < w.tut.buffUntil) return 1;
-  return (6 * (1 + 0.5 * w.stars)) / 60;
+  // 필드 보스 소식에 손님이 더 온다 (v1.3)
+  const fb = RULES.fieldBoss, bossX = fb && w.boss && w.boss.d ? fb.arriveX : 1;
+  return ((6 * (1 + 0.5 * w.stars)) / 60) * bossX;
 }
 
 // ── 한 걸음 ─────────────────────────────────────────────────
@@ -300,7 +320,7 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
     if (a.st !== 'happy' || !a.d) continue;
     const d = info[a.d];
     happyBy[a.d] = (happyBy[a.d] || 0) + 1;
-    const speed = bx * (d.exp ? 2 : 1) * (d.strong ? 1.2 : 1);
+    const speed = bx * (d.exp ? 2 : 1) * (d.strong ? 1.2 : 1) * (d.elite ? RULES.elite!.lvX : 1);
     a.prog += dt * speed;
     let need = 10 + a.lv;
     while (a.prog >= need) {
@@ -328,7 +348,10 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
     emit({ type: 'kill', d: id, n: kills });
     w.smile += RULES.smileHappy * RULES.incomeCurve[w.chapter - 1] * hs * dt * (d.drop ? 2 : 1) * (d.gift ? 1.3 : 1) * (d.boss ? 1.5 : 1);
     dd.joy += hs * dt / 60;
-    w.cjoy += hs * dt / 60;
+    // ② 누적: 엘리트·필드 보스가 있는 던전은 더 빨리 찬다 (v1.3)
+    w.cjoy += (hs * dt / 60) * (d.elite ? RULES.elite!.joyX : 1) * (d.guest ? RULES.fieldBoss!.joyX : 1);
+    if (RULES.elite && !w.elite) { w.eliteAcc += kills; w.eliteBy[id] = (w.eliteBy[id] || 0) + kills; }
+    if (d.guest && w.boss) w.boss.kills += kills;
   }
 
   // 이벤트 종료
@@ -338,6 +361,10 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
   }
 
   w.t += dt;
+
+  // 엘리트·필드 보스 (v1.3)
+  tickElite(w, emit);
+  tickBoss(w, emit);
 
   // 결재 ② 막대 눈금 (v1.3): 지나는 순간 보상이 저절로 들어온다
   checkMarks(w, emit);
@@ -354,7 +381,7 @@ export function markReward(w: World, i: number): MarkReward {
     sps.sort((a, b) => count(a) - count(b) || SPECIES[a].base - SPECIES[b].base);
     return { kind: 'hire', sp: sps[0] };
   }
-  if (i === 1) return { kind: 'event', n: 1 };
+  if (i === 1) return RULES.fieldBoss && fieldBoss(w.chapter) && !w.bossDone.includes(w.chapter) && !w.boss ? { kind: 'boss' } : { kind: 'event', n: 1 };
   return { kind: 'event', n: 2 };
 }
 function checkMarks(w: World, emit: (e: SimEvent) => void) {
@@ -366,6 +393,93 @@ function checkMarks(w: World, emit: (e: SimEvent) => void) {
     else if (reward.kind === 'event') w.tickets.event += reward.n;
     w.marks.push(reward);
     emit({ type: 'mark', pct: jm.at[i], reward });
+    if (reward.kind === 'boss') { w.boss = { ch: w.chapter, at: w.t, d: null, kills: 0, until: null }; emit({ type: 'bossCall', ch: w.chapter }); }
+  }
+}
+
+// ── 엘리트 (v1.3) ───────────────────────────────────────────
+/** 문턱을 넘으면 지난 엘리트 뒤 퇴근이 많았던 던전일수록 잘 뽑힌다. 추첨은 월드 시드로 결정적이다 */
+function tickElite(w: World, emit: (e: SimEvent) => void) {
+  const el = RULES.elite;
+  if (!el) return;
+  if (w.elite) {
+    const m = w.monsters.find(x => x.id === w.elite!.mon);
+    if (w.t >= w.elite.until || !m || m.d !== w.elite.d) { emit({ type: 'eliteEnd', d: w.elite.d }); w.elite = null; }
+    return;
+  }
+  if (w.eliteAcc < el.every[w.chapter - 1]) return;
+  const lv = levelsOf(w);
+  const ids = Object.keys(w.eliteBy).filter(id => lv[id] && monsIn(w, id).length);
+  const total = ids.reduce((s, id) => s + w.eliteBy[id], 0);
+  if (!total) return;
+  let r = rnd(w) * total, pick = ids[ids.length - 1];
+  for (const id of ids) { r -= w.eliteBy[id]; if (r <= 0) { pick = id; break; } }
+  startElite(w, pick, emit);
+}
+function startElite(w: World, did: PlotId, emit: (e: SimEvent) => void) {
+  const m = monsIn(w, did).sort((a, b) => b.tenure - a.tenure)[0];
+  if (!m || !RULES.elite) return;
+  w.elite = { d: did, mon: m.id, until: w.t + RULES.elite.min };
+  w.eliteAcc = 0; w.eliteBy = {}; w.stats.elites++;
+  emit({ type: 'elite', d: did, mon: m.id });
+}
+/** 대본용: 지금 엘리트를 부른다 (튜토리얼 첫 출현 보장). 던전을 안 주면 즐거운 모험가가 가장 많은 곳 */
+export function forceElite(w: World, did?: PlotId, out?: SimEvent[]): boolean {
+  if (!RULES.elite || w.elite) return false;
+  const lv = levelsOf(w);
+  const occ = (id: string) => w.advs.filter(a => a.st === 'happy' && a.d === id).length;
+  const id = did && lv[did] ? did : Object.keys(lv).sort((a, b) => occ(b) - occ(a))[0];
+  if (!id) return false;
+  startElite(w, id, out ? e => out.push(e) : () => {});
+  return !!w.elite;
+}
+
+// ── 필드 보스 (v1.3) ────────────────────────────────────────
+/** 보스를 맞을 수 있는 던전: 보스 레벨을 적정 구간에 품는 곳(자리 많은 순). 없으면 레벨이 가장 가까운 곳 */
+export function bossHosts(w: World): PlotId[] {
+  const b = w.boss && fieldBoss(w.boss.ch);
+  if (!b) return [];
+  const lv = levelsOf(w), ids = Object.keys(lv);
+  const seats = (id: string) => w.dungeons[id].seats;
+  const cover = ids.filter(id => Math.abs(lv[id] - b.lv) <= 5).sort((a, b2) => seats(b2) - seats(a) || lv[b2] - lv[a]);
+  if (cover.length) return cover.slice(0, 3);
+  return ids.sort((a, b2) => Math.abs(lv[a] - b.lv) - Math.abs(lv[b2] - b.lv)).slice(0, 1);
+}
+export const bossNeed = (ch: number) => (RULES.fieldBoss ? RULES.fieldBoss.need[ch - 1] : 0);
+export function inviteBoss(w: World, did: PlotId): Result<{ ch: number }> {
+  const fb = RULES.fieldBoss;
+  if (!fb || !w.boss) return no('찾아온 필드 보스가 없어요');
+  if (w.boss.d) return no('이미 방문 중이에요');
+  if (!bossHosts(w).includes(did)) return no('보스 레벨에 맞는 던전이 아니에요');
+  w.boss.d = did; w.boss.kills = 0; w.boss.until = w.t + fb.max;
+  return ok({ ch: w.boss.ch });
+}
+/** 초대 되돌리기 (5초) */
+export function uninviteBoss(w: World): void {
+  if (!w.boss) return;
+  w.boss.d = null; w.boss.kills = 0; w.boss.until = null;
+}
+function tickBoss(w: World, emit: (e: SimEvent) => void) {
+  const fb = RULES.fieldBoss, b = w.boss;
+  if (!fb || !b) return;
+  if (!b.d) {
+    // 초대를 기다리다 시간이 지나면 자리가 가장 많은 곳으로 자동 초대 — 놓쳐도 잃는 것이 없다(P5)
+    if (w.t >= b.at + fb.wait) {
+      const host = bossHosts(w)[0];
+      if (host && inviteBoss(w, host).ok) emit({ type: 'bossIn', ch: b.ch, d: host, auto: true });
+    }
+    return;
+  }
+  // 방문한 던전이 문을 닫으면 다른 곳으로 옮긴다
+  if (!levelsOf(w)[b.d]) { const host = bossHosts(w)[0]; b.d = host || null; if (!host) return; }
+  if (b.kills >= bossNeed(b.ch) || w.t >= (b.until ?? Infinity)) {
+    const goal = RULES.joyGoal ? RULES.joyGoal[w.chapter - 1] : 0;
+    const bonus = w.ended ? 0 : goal * fb.bonus;
+    w.cjoy += bonus;
+    w.dex[bossDexKey(b.ch)] = true;
+    w.bossDone.push(b.ch); w.stats.bosses++;
+    w.boss = null;
+    emit({ type: 'bossDown', ch: b.ch, d: b.d, bonus });
   }
 }
 
@@ -415,13 +529,14 @@ export interface Ledger {
   ready: number[]; approval: boolean; firstGrad: boolean;
   stuckMin: number;
   marks: { pct: number; reward: MarkReward }[];
+  elites: { d: PlotId; mon: number }[]; bossCall: number | null; bossDown: { ch: number; bonus: number }[];
 }
 export function ledgerStart(w: World): Ledger {
   return {
     t0: w.t, happy0: happyCount(w), smile0: w.smile, lv0: w.stats.levelups, grad0: w.stats.grads,
     work0: Object.fromEntries(w.monsters.map(m => [m.id, m.work])),
     hourLv: {}, bestBurst: null, crowdMax: null, ready: [], approval: false, firstGrad: w.stats.grads === 0,
-    stuckMin: 0, marks: [],
+    stuckMin: 0, marks: [], elites: [], bossCall: null, bossDown: [],
   };
 }
 export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
@@ -434,6 +549,9 @@ export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
     } else if (e.type === 'ready') { if (!L.ready.includes(e.mon)) L.ready.push(e.mon); }
     else if (e.type === 'approval') L.approval = true;
     else if (e.type === 'mark') L.marks.push({ pct: e.pct, reward: e.reward });
+    else if (e.type === 'elite') L.elites.push({ d: e.d, mon: e.mon });
+    else if (e.type === 'bossCall') L.bossCall = e.ch;
+    else if (e.type === 'bossDown') L.bossDown.push({ ch: e.ch, bonus: e.bonus });
   }
   const busy: Record<string, number> = {};
   let entrance = false;
@@ -449,6 +567,7 @@ export interface Report {
   smile: number; bestBurst: Ledger['bestBurst']; crowdMax: Ledger['crowdMax']; ready: number[];
   king: { id: number; n: number } | null; approval: boolean; entranceMin: number;
   marks: Ledger['marks'];
+  elites: Ledger['elites']; bossCall: number | null; bossDown: Ledger['bossDown'];
 }
 export function ledgerReport(L: Ledger, w: World): Report {
   const king = w.monsters
@@ -465,7 +584,7 @@ export function ledgerReport(L: Ledger, w: World): Report {
     king: king && king.n >= 1 ? { id: king.m.id, n: Math.round(king.n) } : null,
     approval: w.approvalReady,
     entranceMin: L.stuckMin,
-    marks: L.marks,
+    marks: L.marks, elites: L.elites, bossCall: L.bossCall, bossDown: L.bossDown,
   };
 }
 
@@ -949,6 +1068,9 @@ export function migrate(x: unknown): unknown {
     w.tickets = { hire: tut.ticket ? [tut.ticket] : [], event: (tut.freeEvent as number) || 0, plot: 0 };
     delete tut.ticket; delete tut.freeEvent;
     w.marks = [];
+    w.elite = null; w.eliteAcc = 0; w.eliteBy = {}; w.boss = null; w.bossDone = [];
+    const st = w.stats as Record<string, unknown> | undefined;
+    if (st) { st.elites = 0; st.bosses = 0; }
     w.v = 3;
   }
   return w;

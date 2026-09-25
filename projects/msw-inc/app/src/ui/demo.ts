@@ -2,6 +2,7 @@
  * 시연 장면 — index.html?demo=<장면> 으로 열면 정해진 상태를 만들고 그 순간에 멈춘다. 저장하지 않는다.
  * 문서 그림(assets/screenshots)과 화면 점검(tests/e2e)에 쓴다.
  * 장면: intro · gap · hire · dungeon · evolve · promote · report · approval · ch2 · late · ch5 · ending · offduty · codex · fullclear · grow
+ *       elite · boss · bossinv (v1.3)
  */
 import { A, must, refresh, M } from './app';
 import { T } from './tut';
@@ -39,6 +40,13 @@ function botTo(cond: (w: M.World) => boolean, maxDays = 45): M.World {
   }
   return w;
 }
+/** 1분씩 굴려 cond가 참이 되는 순간에 멈춘다 */
+function stepUntil(w: M.World, cond: (w: M.World) => boolean, maxMin = 2880): M.World {
+  for (let i = 0; i < maxMin && !cond(w); i++) M.step(w, 1);
+  return w;
+}
+/** 3장 막대 30~50%: 곧 필드 보스가 찾아온다 */
+const beforeBoss = (x: M.World) => { const c = M.approvalConds(x); return x.chapter === 3 && !x.boss && c.joy >= c.joyGoal * 0.3 && c.joy < c.joyGoal * 0.5; };
 function boot(w: M.World, tutDone = true) {
   A.w = w;
   if (tutDone) T.st.done = true; else T.reset();
@@ -96,6 +104,20 @@ export function runDemo(q: string, api: { newGame: () => void; intro: () => void
     },
     offduty() { boot(first('full')); settle(1); setTimeout(() => A.offDuty('idle'), 150); },
     codex() { boot(botTo(x => x.chapter >= 3)); settle(0.5); setTimeout(() => A.openCodex(), 150); },
+    elite() {
+      const w = botTo(x => x.chapter >= 3 && x.t > 10 * 1440);
+      if (!w.elite) M.forceElite(w);
+      boot(w); settle(2.5);
+    },
+    boss() {
+      const w = stepUntil(botTo(beforeBoss), x => !!x.boss && !!x.boss.d && x.boss.kills > M.bossNeed(x.boss.ch) * 0.4);
+      boot(w); settle(2.5);
+    },
+    bossinv() {
+      const w = stepUntil(botTo(beforeBoss), x => !!x.boss);
+      boot(w); settle(1);
+      setTimeout(() => A.openBoss(), 150);
+    },
     fullclear() { const w = botTo(x => x.ended, 60); M.advance(w, 1440); boot(w); settle(0.5); setTimeout(() => A.openFullClear(), 150); },
   };
   (scenes[q] || scenes.intro)();

@@ -5,7 +5,7 @@
  * 각 화면 모듈(world·dungeon·sheets·tut)이 이 객체에 자기 함수를 붙인다.
  */
 import * as M from '../sim/sim';
-import { plotInfo, SPECIES, type PlotId } from '../sim/content';
+import { plotInfo, SPECIES, DEX_TOTAL, fieldBoss, type PlotId } from '../sim/content';
 import { RULES } from '../sim/rules';
 import { ART } from './art';
 
@@ -24,6 +24,7 @@ export interface OrenLine { t: string; go: (() => void) | null }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface App {
+  openBoss: () => void;
   w: M.World;
   speed: number;
   demo: string | null;
@@ -198,6 +199,7 @@ export function hudStatic() {
   const w = A.w;
   must('#vStars').innerHTML = '★'.repeat(w.stars) + '<i>' + '★'.repeat(5 - w.stars) + '</i>';
   must('#vDex').textContent = String(M.dexCount(w));
+  must('#vDexT').textContent = String(DEX_TOTAL);
   must('#bSound').textContent = snd.on ? '🔊' : '🔇';
   $$('.proto [data-speed]').forEach(b => b.classList.toggle('on', +(b.dataset.speed || 0) === A.speed));
 }
@@ -236,6 +238,25 @@ export function renderDock(opt: { all?: boolean } = {}) {
   if (!empties.length) pl.appendChild(h(`<div class="plot none">${w.chapter < 5 ? '부지를 다 썼어요. 다음 결재 때 부지 +3' : '부지를 다 썼어요'}</div>`));
   if (!opt.all && empties.length > 2) pl.lastElementChild!.insertAdjacentHTML('beforeend', ` <small>+${empties.length - 2}</small>`);
   renderDoc();
+  renderBoss();
+}
+
+/** 필드 보스 카드 (v1.3): 초대 기다림이면 [어디서 맞을까?], 방문 중이면 토벌 게이지 */
+export function renderBoss() {
+  const w = A.w, el = must('#bossCard');
+  const b = w.boss, fb = b && fieldBoss(b.ch);
+  if (!b || !fb || A.ui.mode !== 'world' || A.ui.sheet === 'boss') { el.hidden = true; return; }
+  el.hidden = false;
+  el.classList.toggle('wait', !b.d);
+  if (!b.d) {
+    const left = Math.max(0, b.at + (RULES.fieldBoss ? RULES.fieldBoss.wait : 0) - w.t);
+    el.innerHTML = `${img('m:' + fb.art, 2)}<span><b>👑 ${fb.name} · Lv ${fb.lv}</b><small>눌러서 맞을 던전 고르기 · ${dur(left)} 뒤 자동</small></span>`;
+    el.title = '필드 보스 초대장';
+  } else {
+    const pct = Math.min(100, Math.floor((100 * b.kills) / Math.max(1, M.bossNeed(b.ch))));
+    el.innerHTML = `${img('m:' + fb.art, 2)}<span><b>👑 ${fb.name} · ${plotShort(b.d)}</b><small>토벌 ${pct}% · 자리 +${RULES.fieldBoss?.seats} · 결재 ② ×${RULES.fieldBoss?.joyX}</small></span><div class="bar"><i style="width:${pct}%;background:var(--smile)"></i></div>`;
+    el.title = '방문 중인 필드 보스 — 눌러서 그 던전 보기';
+  }
 }
 
 /** 근속이 찼지만 월드 위 ▲로 띄우지 않은 직원 (보류가 맞거나, 안전한 것이 이미 3개) */
@@ -288,7 +309,7 @@ export function renderDoc() {
     doc.innerHTML = `<h5>완전 클리어</h5><h4>섬 전체에 불이 켜졌어요</h4>
       <div class="stampslot done">완료</div>
       <div class="cond ${fc.starred >= fc.plots ? 'ok' : ''}"><span class="t">던전 ★3</span><div class="bar"><i style="width:${100 * fc.starred / fc.plots}%;background:var(--smile)"></i></div><span class="v">${fc.starred}/${fc.plots}</span></div>
-      <div class="cond ${fc.dex >= 36 ? 'ok' : ''}"><span class="t">직원 도감</span><div class="bar"><i style="width:${100 * fc.dex / 36}%;background:var(--evolve)"></i></div><span class="v">${fc.dex}/36</span></div>`;
+      <div class="cond ${fc.dex >= DEX_TOTAL ? 'ok' : ''}"><span class="t">도감</span><div class="bar"><i style="width:${100 * fc.dex / DEX_TOTAL}%;background:var(--evolve)"></i></div><span class="v">${fc.dex}/${DEX_TOTAL}</span></div>`;
     return;
   }
   const ch = M.chapterInfo(w), c = M.approvalConds(w), j = joyText(w);
@@ -308,6 +329,7 @@ export function orenPick(): OrenLine {
   if (A.T && A.T.active()) return A.T.line();
   if (A.ui.longAway) return { t: '매니저님 어디 가셨었어요?! 하루 넘게 비우시면 월드가 멈춰 있어요!!', go: () => { A.ui.longAway = false; renderOren(); } };
   if (w.approvalReady) return { t: w.chapter >= 5 ? '매니저님!! 마지막 결재 서류예요!! 도장 받으러 가요!!' : '매니저님!! 결재 서류에 도장 받을 수 있어요!!', go: () => A.openApproval() };
+  if (w.boss && !w.boss.d) { const fb = fieldBoss(w.boss.ch); if (fb) return { t: `필드 보스 ${fb.name}가 찾아왔어요!! 어느 던전에서 맞을지 골라요!!`, go: () => A.openBoss() }; }
   const bal = w.monsters.find(m => m.sp === 'balrog' && !m.d);
   if (bal) return { t: '주니어 발록 씨가 입사했어요!! 대기실에서 끌어서 빈 부지에 놓아 주세요!!', go: () => A.highlightBest(bal.id) };
   const trNew = A.ui.newTok != null ? M.tray(w).find(m => m.id === A.ui.newTok) : null;
@@ -342,7 +364,7 @@ export function orenPick(): OrenLine {
   if (ev) { const m = w.monsters.find(x => x.id === ev.mon)!; return { t: `${josa(M.monName(m), '이', '가')} 진화할 수 있대요!! ▲를 눌러봐요!!`, go: () => A.openEvolve(m.id) }; }
   if (w.ended) {
     const fc = M.fullClear(w);
-    if (fc.starred < fc.plots || fc.dex < 36) return { t: `완전 클리어까지 던전 ★3 ${fc.plots - fc.starred}곳, 도감 ${36 - fc.dex}칸 남았어요!!`, go: () => A.openFullClear() };
+    if (fc.starred < fc.plots || fc.dex < DEX_TOTAL) return { t: `완전 클리어까지 던전 ★3 ${fc.plots - fc.starred}곳, 도감 ${DEX_TOTAL - fc.dex}칸 남았어요!!`, go: () => A.openFullClear() };
     return { t: '완전 클리어!! 매니저님은 이 섬의 전설이에요!!', go: null };
   }
   if (w.tickets.event > 0 && M.activeEvents(w) < M.maxEvents(w)) return { t: `무료 이벤트권 ${w.tickets.event}장 있어요!! 붐비는 던전에 경험치 2배 걸어봐요!!`, go: () => { const occ = (id: string) => w.advs.filter(a => a.st === 'happy' && a.d === id).length; const id = Object.keys(M.levelsOf(w)).filter(x => !w.dungeons[x].event).sort((p, q) => occ(q) - occ(p))[0]; if (id) A.openDungeon(id, { hl: 'exp' }); } };

@@ -20,7 +20,7 @@ const MAX_DAYS = 60;
 
 interface Checkin {
   i: number; t: number; day: number; hh: number; ch: number; persona: string;
-  away: { min: number; levelups: number; grads: number; smile: number; happy: number; happyDelta: number; ready: number; entranceMin: number; walkMin: number; busyLeft: number; newDex: string[]; approval: boolean; marks: number[] };
+  away: { min: number; levelups: number; grads: number; smile: number; happy: number; happyDelta: number; ready: number; entranceMin: number; walkMin: number; busyLeft: number; newDex: string[]; approval: boolean; marks: number[]; elites: number; bossCall: number | null; bossDown: number[] };
   before: { gapN: number; gaps: S.Seg[]; entrance: boolean; walkers: number; busy: number; badges: { gap: number; busy: number; evolve: number; shown: number }; smile: number; joy: number; joyGoal: number; tray: number; open: number; staff: number; dex: number; happy: number };
   acts: string[];
   after: { gapN: number; entrance: boolean; happy: number; smile: number; dex: number; ch: number };
@@ -97,7 +97,12 @@ function run(p: Persona, seed = 0) {
         S.step(w, 1, ev);
         S.ledgerAdd(L, w, ev);
         for (const a of w.advs) if (a.st === 'search') { walkMin++; break; }
-        for (const e of ev) if (e.type === 'approval') mile('ready', `${w.chapter}장 결재 조건 충족`);
+        for (const e of ev) {
+          if (e.type === 'approval') mile('ready', `${w.chapter}장 결재 조건 충족`);
+          if (e.type === 'elite') mile('elite', `엘리트 · ${e.d}`);
+          if (e.type === 'bossCall') mile('bossCall', `${e.ch}장 필드 보스 방문`);
+          if (e.type === 'bossDown') mile('bossDown', `${e.ch}장 필드 보스 토벌`);
+        }
         if (w.stats.grads > 0 && lastGrad === 0) mile('grad', '첫 졸업');
         lastGrad = w.stats.grads;
         if (Math.floor(w.t) % 60 === 0) pushHour();
@@ -119,7 +124,7 @@ function run(p: Persona, seed = 0) {
       const etaDays = c.joyGoal && perH > 0 && !w.ended ? Math.max(0, (c.joyGoal - c.joy) / perH / 24) : null;
       checkins.push({
         i: idx++, t: w.t, day: +dayNum(w.t)!.toFixed(3), hh: Math.round(((w.t + START) % 1440) / 60), ch: ch0, persona: p.id,
-        away: { min: Math.round(rep.minutes), levelups: rep.levelups, grads: rep.grads, smile: rep.smile, happy: rep.happy, happyDelta: rep.happyDelta, ready: rep.ready.length, entranceMin: rep.entranceMin, walkMin, busyLeft: w.stats.left.busy - busyLeft0, newDex, approval: rep.approval, marks: rep.marks.map(m => m.pct) },
+        away: { min: Math.round(rep.minutes), levelups: rep.levelups, grads: rep.grads, smile: rep.smile, happy: rep.happy, happyDelta: rep.happyDelta, ready: rep.ready.length, entranceMin: rep.entranceMin, walkMin, busyLeft: w.stats.left.busy - busyLeft0, newDex, approval: rep.approval, marks: rep.marks.map(m => m.pct), elites: rep.elites.length, bossCall: rep.bossCall, bossDown: rep.bossDown.map(b => b.ch) },
         before: { ...before },
         acts: log.acts,
         after: { gapN: after.gapN, entrance: after.entrance, happy: after.happy, smile: after.smile, dex: after.dex, ch: w.chapter },

@@ -50,6 +50,7 @@ export function lightClone(w: World): World {
     dungeons: JSON.parse(JSON.stringify(w.dungeons)),
     monsters: w.monsters.map(m => ({ ...m })),
     dex: { ...w.dex }, tut: { ...w.tut }, tickets: { ...w.tickets, hire: [...w.tickets.hire] }, stats: { ...w.stats, left: { ...w.stats.left } },
+    boss: w.boss && { ...w.boss }, bossDone: [...w.bossDone], elite: w.elite && { ...w.elite }, eliteBy: { ...w.eliteBy }, marks: [...w.marks],
   };
 }
 
@@ -226,6 +227,11 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
   if (bal && can()) {
     const empty = Object.keys(w.plots).filter(id => !S.monsIn(w, id).length).sort((a, b) => +w.plots[b].open - +w.plots[a].open);
     for (const id of empty) if (S.place(w, bal.id, id).ok) { log.push('balrog'); acts++; break; }
+  }
+  // 필드 보스 초대: 기본은 자동 초대(3시간)를 기다린다. "진화 즉시" 성향만 뜨자마자 고른다
+  if (w.boss && !w.boss.d && p.evolve === 'hasty') {
+    const host = S.bossHosts(w)[0];
+    if (host && S.inviteBoss(w, host).ok) log.push('boss');
   }
   // 5장 결재 ③: 슬리피우드 식구를 뽑아 빈 부지에 혼자 둔다
   if (S.needsNative(w) && !S.hasNativeDungeon(w) && can()) {

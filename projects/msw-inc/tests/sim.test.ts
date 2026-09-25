@@ -218,13 +218,58 @@ t('결재 ② 눈금: 25%에 이번 장 계열 채용권, 75%까지 이벤트권
   assert.equal(w.marks.length, 0, '새 장은 눈금을 처음부터 센다');
 });
 
+t('엘리트·필드 보스가 있어도 던전 레벨은 직원 평균 그대로다 (P2)', () => {
+  const w = S.createWorld(17);
+  firstSession(w);
+  S.advance(w, 120);
+  const lv0 = JSON.stringify(S.levelsOf(w));
+  assert.ok(S.forceElite(w));
+  w.approvalReady = true; S.approve(w);
+  w.boss = { ch: 2, at: w.t, d: null, kills: 0, until: null };
+  const host = S.bossHosts(w)[0];
+  assert.ok(host && S.inviteBoss(w, host).ok);
+  assert.equal(JSON.stringify(S.levelsOf(w)), lv0);
+  assert.equal(S.dungeonInfo(w)[host].seats, w.dungeons[host].seats + 8, '보스가 오면 자리 +8');
+});
+
+t('필드 보스는 ② 50%에 찾아오고, 초대하지 않아도 저절로 토벌된다 (실패 없음)', () => {
+  const w = S.createWorld(18);
+  firstSession(w);
+  S.advance(w, 600);
+  w.approvalReady = true; S.approve(w);
+  const goal = S.approvalConds(w).joyGoal;
+  w.cjoy = goal * 0.51;
+  const out: S.SimEvent[] = [];
+  S.step(w, 1, out);
+  assert.ok(out.some(e => e.type === 'bossCall'), '보스가 찾아온다');
+  assert.ok(w.boss && !w.boss.d);
+  const before = w.cjoy;
+  let down = false;
+  for (let i = 0; i < 180 + 480 + 5 && !down; i++) { const ev: S.SimEvent[] = []; S.step(w, 1, ev); down = ev.some(e => e.type === 'bossDown'); }
+  assert.ok(down, '자동 초대 3시간 + 방문 최대 8시간 안에 토벌');
+  assert.ok(w.dex['fb:2'], '도감 칸');
+  assert.ok(w.cjoy >= before + goal * 0.05, '② 목표의 5%를 더한다');
+});
+
+t('필드 보스 초대 되돌리기는 초대 전과 똑같이 돌려놓는다', () => {
+  const w = S.createWorld(19);
+  firstSession(w);
+  S.advance(w, 600);
+  w.approvalReady = true; S.approve(w);
+  w.boss = { ch: 2, at: w.t, d: null, kills: 0, until: null };
+  const before = JSON.stringify(w);
+  assert.ok(S.inviteBoss(w, S.bossHosts(w)[0]).ok);
+  S.uninviteBoss(w);
+  assert.equal(JSON.stringify(w), before);
+});
+
 t('머쉬맘 결재 대사는 옛 조건(동시 인원 N명)을 말하지 않는다', () => {
   for (const c of CHAPTERS) assert.ok(!/\d+\s*명/.test(c.say), c.say);
 });
 
 t('옛 세이브(v2)는 버리지 않고 v3로 올린다', () => {
   const w = JSON.parse(JSON.stringify(S.createWorld(16)));
-  delete w.tickets; delete w.marks;
+  delete w.tickets; delete w.marks; delete w.elite; delete w.boss; delete w.bossDone; delete w.eliteAcc; delete w.eliteBy;
   w.v = 2; w.tut.ticket = 'mush'; w.tut.freeEvent = 1;
   const up = S.migrate(w);
   assert.ok(S.isWorld(up));
@@ -232,10 +277,12 @@ t('옛 세이브(v2)는 버리지 않고 v3로 올린다', () => {
   assert.deepEqual(u.tickets.hire, ['mush']);
   assert.equal(u.tickets.event, 1);
   assert.deepEqual(u.marks, []);
+  assert.equal(u.boss, null);
+  assert.deepEqual(u.bossDone, []);
 });
 
-t('콘텐츠: 도감 36칸, 부지 15곳', () => {
-  assert.equal(DEX_TOTAL, 36);
+t('콘텐츠: 도감 40칸(직원 36 + 필드 보스 4), 부지 15곳', () => {
+  assert.equal(DEX_TOTAL, 40);
   assert.equal(PLOTS.length, 15);
 });
 

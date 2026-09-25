@@ -2,7 +2,7 @@
  * S3 진화(+승진 발령) · S5 채용 · S6 결재 · S0 출근 리포트 · S7 매니저 퇴근 · 직원 말풍선 · 도감 · 엔딩 · 완전 클리어
  */
 import { A, $, $$, must, h, n, clamp, img, sil, monArt, josa, ro, plotName, plotShort, segTxt, clockText, dur, snd, nope, toast, emit, refresh, renderOren, rectOf, shake, joyText, save, markTicks, markLabel, RULES, M } from './app';
-import { CHAPTERS, SPECIES, SPECIES_IDS, TRAITS, DEX_TOTAL, PLOTS, type PlotId, type SpeciesId } from '../sim/content';
+import { CHAPTERS, SPECIES, SPECIES_IDS, TRAITS, DEX_TOTAL, PLOTS, FIELD_BOSSES, fieldBoss, bossDexKey, type PlotId, type SpeciesId } from '../sim/content';
 
 const segList = (ss: M.Seg[]) => ss.map(segTxt).join(', ');
 
@@ -185,6 +185,50 @@ function doPromote(plan: M.PromotePlan) {
   refresh();
 }
 
+// ── 필드 보스 초대 (v1.3): 어느 던전에서 맞을까 ────────────────
+A.openBoss = () => {
+  const w = A.w, b = w.boss, fb = b && fieldBoss(b.ch), rule = RULES.fieldBoss;
+  if (!b || !fb || !rule || b.d) return;
+  if (A.ui.mode === 'dungeon') A.closeDungeon();
+  const lv = M.levelsOf(w), hosts = M.bossHosts(w);
+  const occ = (id: string) => w.advs.filter(a => a.st === 'happy' && a.d === id).length;
+  const wait = (id: string) => w.advs.filter(a => a.st === 'busy' && a.near === id).length;
+  const need = M.bossNeed(b.ch);
+  let cards = '';
+  hosts.forEach((id, i) => {
+    // 토벌 예상: 방문하면 자리 +8이 차고(기다리던 사람 + 새 손님), 즐거운 모험가 1명 = 분당 퇴근 1회
+    const per = Math.max(1, Math.min(occ(id) + wait(id) + rule.seats, w.dungeons[id].seats + rule.seats));
+    const hrs = need / per / 60;
+    cards += `<div class="hcard bosshost ${i === 0 ? 'rec' : ''}" data-host="${id}">${i === 0 ? '<span class="rib">자리가 가장 많아요</span>' : ''}
+      <b>${plotName(id)}</b><span class="lvl">던전 Lv ${lv[id]} · 적정 ${lv[id] - 5}–${lv[id] + 5}</span>
+      <span class="trait">😊 ${occ(id)} · 자리 ${w.dungeons[id].seats} → ${w.dungeons[id].seats + rule.seats}</span>
+      <span class="trait">토벌까지 약 ${hrs < 1 ? Math.max(1, Math.round(hrs * 60)) + '분' : hrs.toFixed(1) + '시간'}</span>
+      <button class="go" data-invite="${id}">여기서 맞기</button></div>`;
+  });
+  const left = Math.max(0, b.at + rule.wait - w.t);
+  const sh = openSheet('boss', 'var(--smile)', `<div class="sh-title">👑 필드 보스 ${fb.name} · Lv ${fb.lv} <small>손님이라 던전 레벨은 그대로 · 머무는 동안 자리 +${rule.seats} · ② ×${rule.joyX} · 도착 ×${rule.arriveX} · 토벌하면 도감 +1, ② +${Math.round(rule.bonus * 100)}% · ${dur(left)} 뒤 자동 초대</small></div>
+    <div class="cards"><div class="hcard bossid"><div class="ph">${img('m:' + fb.art, 4)}</div><b>${fb.name}</b><span class="lvl">Lv ${fb.lv}</span><span class="trait">“${fb.line}”</span></div>${cards}</div>`);
+  const clearHl = () => $$('.plat.target').forEach(e => e.classList.remove('target'));
+  $$<HTMLElement>('[data-host]', sh).forEach(c => {
+    c.onpointerenter = () => { clearHl(); const p = A.world.plats[c.dataset.host!]; if (p) p.el.classList.add('target'); };
+    c.onpointerleave = clearHl;
+  });
+  $$<HTMLElement>('[data-invite]', sh).forEach(bt => (bt.onclick = () => {
+    const id = bt.dataset.invite!;
+    const r = M.inviteBoss(w, id);
+    if (!r.ok) return nope(r.msg);
+    clearHl();
+    A.closeSheet();
+    snd.play('event');
+    toast(`👑 ${fb.name}를 ${plotShort(id)}에서 맞아요`, { undo: () => M.uninviteBoss(w) });
+    emit([{ type: 'bossIn', ch: b.ch, d: id, auto: false }]);
+    refresh();
+  }));
+  // 처음 열면 추천 던전을 월드 위에서 보여 준다
+  if (hosts[0] && A.world.plats[hosts[0]]) A.world.plats[hosts[0]].el.classList.add('target');
+  snd.play('ui');
+};
+
 // ── 직원 말풍선 (탭) ────────────────────────────────────────
 function closePop() { $$('.pop-mon').forEach(e => e.remove()); }
 A.openMonPop = (id, el) => {
@@ -341,7 +385,7 @@ A.openFullClear = () => {
   modal.hidden = false; A.ui.modal = 'fullclear';
   modal.innerHTML = `<div class="codex fc"><button class="x" data-close>✕</button>
     <h2>🏝️ 완전 클리어 체크리스트</h2>
-    <div class="fcsum"><div class="${fc.ending ? 'ok' : ''}">엔딩 ${fc.ending ? '✓' : '—'}</div><div class="${fc.starred >= fc.plots ? 'ok' : ''}">던전 ★3 ${fc.starred}/${fc.plots}</div><div class="${fc.dex >= DEX_TOTAL ? 'ok' : ''}">직원 도감 ${fc.dex}/${DEX_TOTAL}</div></div>
+    <div class="fcsum"><div class="${fc.ending ? 'ok' : ''}">엔딩 ${fc.ending ? '✓' : '—'}</div><div class="${fc.starred >= fc.plots ? 'ok' : ''}">던전 ★3 ${fc.starred}/${fc.plots}</div><div class="${fc.dex >= DEX_TOTAL ? 'ok' : ''}">도감 ${fc.dex}/${DEX_TOTAL}</div></div>
     <div class="fcgrid">${rows}</div>
     <div class="dim" style="margin-top:10px">던전 ★은 그 던전의 누적 즐거움(😊 × 시간)으로 올라요. ★1 100 · ★2 500 · ★3 2,000</div></div>`;
   const close = () => { modal.hidden = true; modal.innerHTML = ''; A.ui.modal = null; };
@@ -358,6 +402,8 @@ function scene(kind: string, data: Record<string, unknown>) {
   if (kind === 'crowd') return { cap: `🌀 ${plotShort(data.d as PlotId)} 만원`, html: advs(5) + `<div class="a" style="left:20px;top:16px;font-size:22px">😠</div><div class="a" style="left:90px;top:10px;font-size:22px">😠</div><div class="a" style="left:150px;top:18px;font-size:22px">😊</div>` };
   if (kind === 'ready') { const m = w.monsters.find(x => x.id === data.mon); if (!m) return null; return { cap: `▲ ${M.monName(m)} 진화 준비`, html: `<div class="a glowev" style="left:60px;bottom:52px">${img(monArt(m), 4)}</div><div class="a evmini">▲</div>` }; }
   if (kind === 'doc') return { cap: '📋 결재 서류 도착', html: `<div class="a docp"></div><div class="a docs">결재</div>` };
+  if (kind === 'elite') return { cap: `★ 엘리트 ${data.n}번 출현`, html: advs(4) + `<div class="a" style="left:128px;bottom:52px;filter:drop-shadow(0 0 6px #ffcc33)">${img('m:' + (data.art as string), 4)}</div><div class="a" style="left:136px;top:18px;font-size:22px">★</div>` };
+  if (kind === 'boss') { const fb = fieldBoss(data.ch as number); if (!fb) return null; return { cap: data.down ? `👑 ${fb.name} 토벌!` : `👑 ${fb.name}가 찾아왔어요`, html: advs(3) + `<div class="a" style="left:118px;bottom:48px">${img('m:' + fb.art, 5)}</div>${data.down ? '<div class="a" style="left:24px;top:30px;font-size:22px">🎉</div>' : ''}` }; }
   if (kind === 'mark') { const ms = data.list as M.Report['marks']; return { cap: `📊 결재 막대 ${ms.map(x => Math.round(x.pct * 100) + '%').join('·')}`, html: `<div class="a markbar"><i style="width:${Math.round(ms[ms.length - 1].pct * 100)}%"></i></div><div class="a markrw">${ms.map(x => markLabel(x.reward)).join('<br>')}</div>` }; }
   if (kind === 'entrance') return { cap: `😐 입구 막힘 ${dur(data.min as number)}`, html: advs(3) + `<div class="a" style="left:30px;top:14px;font-size:22px">😐</div><div class="a" style="left:100px;top:10px;font-size:22px">😐</div>` };
   return null;
@@ -367,7 +413,10 @@ A.showReport = (rep, awayMin) => {
   A.ui.modal = 'report';
   const picks: [string, Record<string, unknown>][] = [];
   if (rep.approval) picks.push(['doc', {}]);
+  if (rep.bossDown.length) picks.push(['boss', { ch: rep.bossDown[0].ch, down: true }]);
+  else if (rep.bossCall && w.boss && !w.boss.d) picks.push(['boss', { ch: rep.bossCall, down: false }]);
   if (rep.marks.length) picks.push(['mark', { list: rep.marks }]);
+  if (rep.elites.length) { const m = w.monsters.find(x => x.id === rep.elites[rep.elites.length - 1].mon); picks.push(['elite', { n: rep.elites.length, art: m ? monArt(m) : 'snail' }]); }
   if (rep.firstGrad) picks.push(['grad', { first: true, n: rep.grads }]);
   if (rep.bestBurst && rep.bestBurst.n >= 5 && M.levelsOf(w)[rep.bestBurst.d]) picks.push(['burst', rep.bestBurst as unknown as Record<string, unknown>]);
   if (rep.ready.length) picks.push(['ready', { mon: rep.ready[0] }]);
@@ -385,6 +434,7 @@ A.showReport = (rep, awayMin) => {
   if (gap) chips.push(gap.n ? `<button class="tchip" data-go="gap" data-a="${gap.seg[0]}" data-b="${gap.seg[1]}"><i class="al">!</i>${gap.seg[0] === 1 ? '입구 막힘' : '빈틈'} ${segTxt(gap.seg)} · ${gap.n}명</button>` : `<button class="tchip" data-go="gap" data-a="${gap.seg[0]}" data-b="${gap.seg[1]}"><i class="cold">⋯</i>끊긴 길 ${segTxt(gap.seg)}</button>`);
   const evs = b.filter((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve' && x.shown); if (evs.length) chips.push(`<button class="tchip" data-go="ev" data-mon="${evs[0].mon}"><i class="ev">▲</i>진화 가능 ${evs.length}</button>`);
   const bz = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy').sort((p, q) => q.n - p.n)[0]; if (bz) chips.push(`<button class="tchip" data-go="busy" data-d="${bz.d}"><i class="bz">🌀</i>${plotShort(bz.d)} 과밀</button>`);
+  if (w.boss && !w.boss.d) chips.push(`<button class="tchip" data-go="boss"><i class="ev">👑</i>필드 보스 초대</button>`);
   const bal = w.monsters.find(m => m.sp === 'balrog' && !m.d); if (bal) chips.push(`<button class="tchip" data-go="world"><i class="ev">👹</i>발록 씨 배치</button>`);
   const ch = M.chapterInfo(w), c = M.approvalConds(w), j = joyText(w);
   const el = h(`<div class="report"><div class="paper rp">
@@ -427,6 +477,7 @@ A.showReport = (rep, awayMin) => {
     else if (g === 'gap') A.openHire({ seg: [+(bt.dataset.a || 1), +(bt.dataset.b || 1)] });
     else if (g === 'ev') A.openEvolve(+(bt.dataset.mon || 0));
     else if (g === 'busy') A.openDungeon(bt.dataset.d!, { hl: 'seat' });
+    else if (g === 'boss') A.openBoss();
   }));
 };
 
@@ -497,9 +548,15 @@ A.openCodex = () => {
     });
     rows += `</div>`;
   }
+  rows += `<div class="rowc"><div class="nm">필드 보스<small>장마다 한 번 찾아오는 손님</small></div>`;
+  for (const fb of FIELD_BOSSES) {
+    const k = w.dex[bossDexKey(fb.ch)];
+    rows += `<div class="cell ${k ? 'got' : ''}"><div class="ph">${k ? img('m:' + fb.art, 3) : sil('m:' + fb.art, 3)}</div>${k ? fb.name : '?'} 👑<br><span>${fb.ch}장 · Lv ${fb.lv}</span></div>`;
+  }
+  rows += `</div>`;
   const modal = must('#modal');
   modal.hidden = false; A.ui.modal = 'codex';
-  modal.innerHTML = `<div class="codex"><button class="x" data-close>✕</button><h2>📖 직원 도감 <small>${M.dexCount(w)} / ${DEX_TOTAL} · 높은 단계는 키워서만 얻어요</small></h2><div class="codexbody">${rows}</div></div>`;
+  modal.innerHTML = `<div class="codex"><button class="x" data-close>✕</button><h2>📖 도감 <small>${M.dexCount(w)} / ${DEX_TOTAL} · 높은 단계는 키워서만, 필드 보스는 토벌해서 얻어요</small></h2><div class="codexbody">${rows}</div></div>`;
   const close = () => { modal.hidden = true; modal.innerHTML = ''; A.ui.modal = null; };
   must('[data-close]', modal).onclick = close;
   modal.onclick = e => { if (e.target === modal) close(); };

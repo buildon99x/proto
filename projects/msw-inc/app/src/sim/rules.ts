@@ -36,6 +36,17 @@ export interface Rules {
   nativeCond: boolean;
   /** 입사 첫날 버프 길이 (월드 분). 레벨업·근속 ×30, 분당 1명 도착 */
   buffMin: number;
+  /**
+   * 엘리트 (v1.3, R5 확장): 월드 퇴근 누적이 장별 문턱(every)을 넘으면 한 던전 직원이 min분 동안 엘리트가 된다.
+   * 그 던전의 즐거운 모험가는 레벨업 ×lvX, ② 누적 ×joyX. 직원 레벨은 그대로(P2). null이면 없다
+   */
+  elite: { every: number[]; min: number; lvX: number; joyX: number } | null;
+  /**
+   * 필드 보스 (v1.3, R5 확장): 2장부터 ② 50% 눈금에서 찾아온다. wait분 안에 초대하지 않으면 자동 초대.
+   * 방문 중 그 던전 자리 +seats, 월드 도착 ×arriveX, 그 던전 ② ×joyX. 퇴근 need[장]회면 토벌(최대 max분, 실패 없음).
+   * 토벌하면 도감 칸 + 이번 장 ② 목표의 bonus만큼. 스마일 보상은 없다. null이면 없다
+   */
+  fieldBoss: { need: number[]; wait: number; max: number; seats: number; arriveX: number; joyX: number; bonus: number } | null;
 }
 
 export const V11: Rules = {
@@ -56,6 +67,8 @@ export const V11: Rules = {
   joyMarks: null,
   nativeCond: false,
   buffMin: 15,
+  elite: null,
+  fieldBoss: null,
 };
 
 export const V12: Rules = {
@@ -82,6 +95,10 @@ export const V13: Rules = {
   nativeCond: true,
   // F6: 튜토리얼 "가로 = 레벨" 단계를 ×3 배속으로 돌리므로 버프가 대본 끝까지 남게 15 → 20분
   buffMin: 20,
+  // E: 엘리트는 약 3시간에 한 번(표준 봇 장별 월드 시간당 퇴근 960 · 4,200 · 6,600 · 8,300 · 10,000 기준)
+  elite: { every: [3000, 12000, 20000, 25000, 30000], min: 60, lvX: 1.5, joyX: 2 },
+  // E: 필드 보스는 장마다 한 번. 토벌까지 평소 규모 던전이면 약 3시간
+  fieldBoss: { need: [0, 2500, 3000, 3000, 3000], wait: 180, max: 480, seats: 8, arriveX: 1.5, joyX: 2, bonus: 0.05 },
 };
 
 export const RULES: Rules = { ...V13 };

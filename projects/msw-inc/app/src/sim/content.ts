@@ -88,5 +88,20 @@ export const plotInfo = (id: PlotId): PlotInfo => {
   return p;
 };
 
-/** 도감 전체 칸 수: 10계열 × 3단계 + 보스 5 + 발록 = 36 */
-export const DEX_TOTAL = SPECIES_IDS.reduce((s, k) => s + SPECIES[k].names.length, 0);
+/**
+ * 필드 보스 (v1.3) — 직원이 아니라 장마다 한 번 찾아오는 손님이다. 던전 레벨에 들지 않는다(P2).
+ * 이름은 가칭이다. notes/content.md 절차대로 메이플스토리 월드 공식 목록과 대조해 확정한다.
+ */
+export interface FieldBoss { ch: number; name: string; art: string; lv: number; line: string }
+export const FIELD_BOSSES: FieldBoss[] = [
+  { ch: 2, name: '파우스트', art: 'faust', lv: 22, line: '…숲이 시끄럽군. 한번 놀아 볼까.' },
+  { ch: 3, name: '바위 거인', art: 'golem', lv: 38, line: '…쿵. 쿵. 덤벼라.' },
+  { ch: 4, name: '다일', art: 'dyle', lv: 52, line: '…늪에서 왔다. 오래 못 있는다.' },
+  { ch: 5, name: '개미굴 왕', art: 'antking', lv: 65, line: '…굴 밖은 처음이다.' },
+];
+export const fieldBoss = (ch: number) => FIELD_BOSSES.find(b => b.ch === ch) || null;
+export const bossDexKey = (ch: number) => 'fb:' + ch;
+
+/** 도감 전체 칸 수: 10계열 × 3단계 + 보스 5 + 발록 = 36, 필드 보스 4 (v1.3) = 40 */
+export const DEX_SPECIES = SPECIES_IDS.reduce((s, k) => s + SPECIES[k].names.length, 0);
+export const DEX_TOTAL = DEX_SPECIES + FIELD_BOSSES.length;

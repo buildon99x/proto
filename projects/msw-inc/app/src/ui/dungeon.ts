@@ -3,7 +3,7 @@
  * 현장은 결과를 바꾸지 않는다. 서버(sim)가 낸 사건을 샘플로 재생한다.
  */
 import { A, $, must, h, n, clamp, img, monArt, ro, plotName, plotShort, lvColor, dur, snd, nope, toast, emit, refresh, seatJoyGain, M } from './app';
-import { REGIONS, SPECIES, TRAITS, type PlotId } from '../sim/content';
+import { REGIONS, SPECIES, TRAITS, fieldBoss, type PlotId } from '../sim/content';
 import { ART } from './art';
 
 const GY = 212, PLAT = { y: 104, x0: 720, x1: 1120 };
@@ -74,8 +74,12 @@ function panel() {
   const lvEl = must('#dLv');
   lvEl.textContent = `던전 Lv ${D} · 적정 Lv ${Math.max(1, D - 5)}–${D + 5}`;
   lvEl.style.setProperty('--pg', lvColor(D));
-  must('#dSeat').textContent = `자리 ${occ} / ${d.seats}`;
-  must('#dEv').innerHTML = d.event ? `<span class="chip ev" style="--c:${d.event.kind === 'exp' ? 'var(--exp)' : 'var(--drop)'}">${d.event.kind === 'exp' ? '경험치 2배' : '드랍 2배'} · ${dur(d.event.end - w.t)} 남음</span>` : '';
+  must('#dSeat').textContent = `자리 ${occ} / ${M.seatsOf(w, id)}`;
+  const elite = w.elite && w.elite.d === id ? w.monsters.find(m => m.id === w.elite!.mon) : null;
+  const guest = w.boss && w.boss.d === id ? fieldBoss(w.boss.ch) : null;
+  must('#dEv').innerHTML = (d.event ? `<span class="chip ev" style="--c:${d.event.kind === 'exp' ? 'var(--exp)' : 'var(--drop)'}">${d.event.kind === 'exp' ? '경험치 2배' : '드랍 2배'} · ${dur(d.event.end - w.t)} 남음</span>` : '')
+    + (elite ? `<span class="chip ev" style="--c:#c99a00">★ 엘리트 ${M.monName(elite)} · ${dur(w.elite!.until - w.t)} 남음</span>` : '')
+    + (guest && w.boss ? `<span class="chip ev" style="--c:#c99a00">👑 ${guest.name} 방문 · 토벌 ${Math.min(100, Math.floor(100 * w.boss.kills / Math.max(1, M.bossNeed(w.boss.ch))))}%</span>` : '');
   const stars = M.dungeonStars(d), nextStar = M.JOY_STARS[stars];
   must('#dMeta').textContent = `던전 ${'★'.repeat(stars)}${'☆'.repeat(3 - stars)} · 누적 즐거움 ${n(d.joy)}${nextStar ? ` / ${n(nextStar)}` : ''}명·시간`;
 
