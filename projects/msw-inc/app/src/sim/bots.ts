@@ -54,6 +54,9 @@ export function lightClone(w: World): World {
 }
 
 const gapN = (w: World) => S.gapSize(S.gapSegments(w));
+/** 던전을 비울 때 남겨야 하는 직원: 고참, 발록, 5장 결재 ③의 마지막 슬리피우드 식구 */
+const keepHere = (w: World, m: S.Monster) => m.vet || m.sp === 'balrog' ||
+  (S.needsNative(w) && S.isNative(m.sp) && w.monsters.filter(x => S.isNative(x.sp) && x.d).length <= 1);
 
 /** 빈틈 하나를 채용 + 배치로 메울 수 있으면 그 수를 돌려준다 */
 function planHireFix(w: World, place: PlacePolicy): { sp: SpeciesId; to: PlotId } | null {
@@ -91,7 +94,7 @@ function planRebuild(w: World, p: Persona): { sp: SpeciesId; to: PlotId } | null
   for (const id in w.plots) {
     if (!w.plots[id].open) continue;
     const ms = S.monsIn(w, id);
-    if (!ms.length || ms.some(m => m.vet || m.sp === 'balrog')) continue;
+    if (!ms.length || ms.some(m => keepHere(w, m))) continue;
     if (ms.length > room && !((p.release ?? true) && S.RULES_RELEASE())) continue;
     for (const sp of SPECIES_IDS) {
       if (!S.canHireSpecies(w, sp) || S.hireCost(sp) > w.smile) continue;
@@ -119,7 +122,7 @@ function planGrow(w: World, p: Persona): { sp: SpeciesId; to: PlotId } | null {
     const cur = gapN(w);
     for (const id in w.plots) {
       const ms = S.monsIn(w, id);
-      if (!ms.length || ms.some(m => m.vet || m.sp === 'balrog')) continue;
+      if (!ms.length || ms.some(m => keepHere(w, m))) continue;
       if (ms.length > room && !((p.release ?? true) && S.RULES_RELEASE())) continue;
       const c = lightClone(w);
       for (const m of S.monsIn(c, id)) m.d = null;
@@ -223,6 +226,17 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
   if (bal && can()) {
     const empty = Object.keys(w.plots).filter(id => !S.monsIn(w, id).length).sort((a, b) => +w.plots[b].open - +w.plots[a].open);
     for (const id of empty) if (S.place(w, bal.id, id).ok) { log.push('balrog'); acts++; break; }
+  }
+  // 5장 결재 ③: 슬리피우드 식구를 뽑아 빈 부지에 혼자 둔다
+  if (S.needsNative(w) && !S.hasNativeDungeon(w) && can()) {
+    const nat = S.tray(w).find(m => S.isNative(m.sp));
+    const sp = nat ? nat.sp : (['drake', 'eye'] as SpeciesId[]).sort((a, b) => (S.hasHireTicket(w, b) ? 1 : 0) - (S.hasHireTicket(w, a) ? 1 : 0) || S.hireCost(a) - S.hireCost(b))[0];
+    const h = nat ? { ok: true as const, mon: nat } : S.hire(w, sp, null);
+    if (h.ok) {
+      const to = S.bestPlaces(w, h.mon.id)[0];
+      if (to && S.placeAuto(w, h.mon.id, to).ok) { log.push('native:' + sp); acts++; }
+      else if (!nat && 'cost' in h) S.unhire(w, h.mon.id, h.free ? 'ticket' : h.cost);
+    }
   }
   let guard = 0;
   while (can() && guard++ < 12) {

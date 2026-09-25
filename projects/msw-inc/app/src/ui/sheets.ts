@@ -37,8 +37,10 @@ A.openHire = (opt = {}) => {
   const rec = seg ? M.recommendSpecies(w, seg) : null;
   const grow = seg && !rec ? M.recommendGrow(w, seg) : null;
   const growing = seg && grow ? M.growingToward(w, seg) : null;
+  const want3 = M.needsNative(w) && !M.hasNativeDungeon(w);
+  const cond3 = (sp: SpeciesId) => want3 && M.isNative(sp);
   const list = SPECIES_IDS.filter(sp => SPECIES[sp].chapter > 0 && SPECIES[sp].chapter <= w.chapter + 1)
-    .sort((a, b) => (+(b === rec || b === grow?.sp) - +(a === rec || a === grow?.sp)) || (SPECIES[a].chapter - SPECIES[b].chapter) || (SPECIES[a].base - SPECIES[b].base));
+    .sort((a, b) => (+(b === rec || b === grow?.sp) - +(a === rec || a === grow?.sp)) || (+cond3(b) - +cond3(a)) || (SPECIES[a].chapter - SPECIES[b].chapter) || (SPECIES[a].base - SPECIES[b].base));
   let cards = '';
   for (const sp of list) {
     const s = SPECIES[sp];
@@ -47,8 +49,8 @@ A.openHire = (opt = {}) => {
     const ticket = M.hasHireTicket(w, sp);
     const cost = M.hireCost(sp);
     const can = ticket || w.smile >= cost;
-    const isRec = !locked && sp === rec, isGrow = !locked && grow && sp === grow.sp && !growing;
-    const rib = isRec && seg ? `<span class="rib">${segTxt(seg)}에 딱!</span>` : isGrow && seg ? `<span class="rib grow">진화 ${grow!.stage}번이면 ${segTxt(seg)}!</span>` : '';
+    const isRec = !locked && (sp === rec || (!rec && cond3(sp))), isGrow = !locked && grow && sp === grow.sp && !growing;
+    const rib = isRec && seg && sp === rec ? `<span class="rib">${segTxt(seg)}에 딱!</span>` : isRec && cond3(sp) ? '<span class="rib">결재 ③ 슬리피우드 식구</span>' : isGrow && seg ? `<span class="rib grow">진화 ${grow!.stage}번이면 ${segTxt(seg)}!</span>` : '';
     cards += `<div class="hcard ${isRec ? 'rec' : ''} ${isGrow ? 'grow' : ''} ${locked ? 'locked' : ''}" data-sp="${sp}">
       ${rib}
       <div class="ph">${locked ? sil(s.art[0], 2) : img(s.art[0], 2)}</div>
@@ -229,7 +231,7 @@ A.openApproval = () => {
   const w = A.w;
   if (w.ended) { A.openFullClear(); return; }
   const ch = M.chapterInfo(w), c = M.approvalConds(w), j = joyText(w);
-  const ok1 = w.approvalReady || c.road, ok2 = w.approvalReady || c.happy, ok3 = w.approvalReady || c.balrog;
+  const ok1 = w.approvalReady || c.road, ok2 = w.approvalReady || c.happy, ok3 = w.approvalReady || c.balrog, ok3n = w.approvalReady || c.native;
   const next = CHAPTERS[ch.n];
   const nextSp = SPECIES_IDS.filter(k => SPECIES[k].chapter === ch.n + 1).map(k => SPECIES[k].names[0]);
   const modal = must('#modal');
@@ -241,6 +243,7 @@ A.openApproval = () => {
     <div class="c ${ok2 ? 'ok' : ''}"><span class="ck">${ok2 ? '✓' : '2'}</span><span class="lb">모험가들의 즐거운 시간<small>😊 즐기는 모험가 × 머문 시간이 쌓여요</small></span><div class="bar mk"><i style="width:${ok2 ? 100 : j.pct}%;background:var(--smile)"></i>${markTicks(w)}</div><span class="v">${ok2 ? '완료' : `${n(j.joy)}<small>/${n(j.goal)}</small>`}</span></div>
     ${marksRow(w)}
     ${c.needBalrog ? `<div class="c ${ok3 ? 'ok' : ''}"><span class="ck">${ok3 ? '✓' : '3'}</span><span class="lb">주니어 발록 던전 개장</span><div class="bar"><i style="width:${ok3 ? 100 : 0}%;background:var(--evolve)"></i></div><span class="v">${ok3 ? '완료' : '대기실에'}</span></div>` : ''}
+    ${c.needNative ? `<div class="c ${ok3n ? 'ok' : ''}"><span class="ck">${ok3n ? '✓' : '3'}</span><span class="lb">슬리피우드 식구 던전<small>드레이크나 이블아이 계열이 일하는 던전 1곳</small></span><div class="bar"><i style="width:${ok3n ? 100 : 0}%;background:var(--evolve)"></i></div><span class="v">${ok3n ? '완료' : '채용 전'}</span></div>` : ''}
     ${!ok2 && j.eta ? `<div class="eta">지금 😊 ${M.happyCount(w)}명이면 ${j.eta} 뒤에 채워져요. 사람이 늘면 더 빨라요. <b>줄지는 않아요.</b></div>` : ''}
     <div class="rw">결재 보상: <b>★ +1</b> · 모험가 도착 +3명/시간 ${next ? `· <b>${next.region}</b> 개방 · 부지 +3${nextSp.length ? ' · ' + nextSp.join(', ') + ' 채용' : ''} · 졸업선 Lv ${ch.road} → ${next.road}` : '· <b>섬 전체에 불</b>'}${ch.n === 2 ? ' · 동시 이벤트 +1' : ''}${ch.n === 4 ? ' · 주니어 발록 입사 지원서' : ''}</div>
     ${ch.n === 5 ? `<div class="clip">${img('balrog', 2)}<div><b>입사 지원서 · 주니어 발록</b><br>"…손님이 오면, 맞아 드리겠습니다."</div></div>` : ''}

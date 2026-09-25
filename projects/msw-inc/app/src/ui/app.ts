@@ -284,7 +284,7 @@ export function renderDoc() {
     <div class="stampslot">${w.approvalReady ? '도장<br>받기' : '결재<br>대기'}</div>
     <div class="cond ${w.approvalReady || c.road ? 'ok' : ''}"><span class="t">① Lv 1–${ch.road} 잇기</span><div class="bar"><i style="width:${Math.round(100 * (ch.road - c.gapN) / ch.road)}%"></i></div><span class="v ${!c.road && !w.approvalReady ? 'no' : ''}">${w.approvalReady || c.road ? '✓' : '빈틈 ' + c.gapN}</span></div>
     <div class="cond ${w.approvalReady || j.ok ? 'ok' : ''}"><span class="t">② 즐거운 시간</span><div class="bar mk"><i style="width:${w.approvalReady ? 100 : j.pct}%;background:var(--smile)"></i>${markTicks(w)}</div><span class="v">${w.approvalReady || j.ok ? '✓' : Math.floor(j.pct) + '%'}</span></div>
-    ${c.needBalrog ? `<div class="cond ${c.balrog ? 'ok' : ''}"><span class="t">③ 발록 던전</span><span class="v" style="margin-left:auto">${c.balrog ? '✓' : '개장 전'}</span></div>` : ''}`;
+    ${c.needBalrog ? `<div class="cond ${c.balrog && c.native ? 'ok' : ''}"><span class="t">③ 발록${c.needNative ? '·식구' : ''} 던전</span><span class="v" style="margin-left:auto">${c.balrog && c.native ? '✓' : c.needNative ? `${+c.balrog + +c.native}/2` : '개장 전'}</span></div>` : ''}`;
 }
 
 // ── 오렌 (지금 가장 급한 한 가지, 1줄) ──────────────────────
@@ -298,6 +298,11 @@ export function orenPick(): OrenLine {
   const trNew = A.ui.newTok != null ? M.tray(w).find(m => m.id === A.ui.newTok) : null;
   if (trNew) return { t: `대기실에 ${josa(M.monName(trNew), '이', '가')} 기다려요!! 초록으로 빛나는 곳에 놓아주세요!!`, go: () => A.highlightBest(trNew.id) };
   const b = M.badges(w);
+  if (M.needsNative(w) && !M.hasNativeDungeon(w) && !bal && !M.gapSegments(w).length) {
+    const nat = M.tray(w).find(m => M.isNative(m.sp));
+    if (nat) return { t: `${josa(M.monName(nat), '을', '를')} 빈 부지에 놓아요!! 결재 ③ 슬리피우드 식구 던전이 돼요!!`, go: () => A.highlightBest(nat.id) };
+    return { t: '결재 ③에 슬리피우드 식구가 필요해요!! 드레이크나 이블아이를 뽑아 빈 부지에 놓아요!!', go: () => A.openHire() };
+  }
   const gaps = b.filter((x): x is Extract<M.Badge, { kind: 'gap' }> => x.kind === 'gap');
   const gap = gaps.filter(x => x.n > 0).sort((p, q) => q.n - p.n)[0] || gaps[0];
   if (gap) {

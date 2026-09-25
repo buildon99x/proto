@@ -175,7 +175,7 @@ t('"진화하면 이어져요"는 지켜질 때만 약속한다 (평균에 섞�
   assert.equal(S.growingToward(w, [56, 60])?.id, a.id, '혼자면 Lv 58 → 53–63');
 });
 
-t('5장: 결재 서류에 발록이 붙어 오고, 발록 던전이 조건 ③이다', () => {
+t('5장: 결재 서류에 발록이 붙어 오고, 발록 던전과 슬리피우드 식구 던전이 조건 ③이다', () => {
   const w = S.createWorld(11);
   for (let c = 1; c < 5; c++) { w.approvalReady = true; S.approve(w); }
   assert.equal(w.chapter, 5);
@@ -184,6 +184,12 @@ t('5장: 결재 서류에 발록이 붙어 오고, 발록 던전이 조건 ③�
   assert.equal(S.approvalConds(w).balrog, false);
   w.plots.s1.open = true; bal!.d = 's1';
   assert.equal(S.approvalConds(w).balrog, true);
+  // v1.3 ③: 슬리피우드 식구(드레이크·이블아이)가 일하는 던전도 있어야 한다
+  assert.equal(S.approvalConds(w).native, false);
+  const dr = S.addMonster(w, 'drake', null);
+  assert.deepEqual(S.bestPlaces(w, dr.id).every(id => !S.monsIn(w, id).length), true, '식구는 빈 부지를 먼저 권한다');
+  w.plots.s2.open = true; dr.d = 's2';
+  assert.equal(S.approvalConds(w).native, true);
   w.approvalReady = true;
   const r = S.approve(w);
   assert.ok(r.ok && r.ending && w.ended && w.stars === 5);

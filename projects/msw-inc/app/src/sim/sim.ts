@@ -132,6 +132,10 @@ export const dungeonStars = (d: Dungeon) => JOY_STARS.filter(x => d.joy >= x).le
 export const dexCount = (w: World) => Object.keys(w.dex).length;
 export const hasBalrogDungeon = (w: World) => w.monsters.some(m => m.sp === 'balrog' && m.d && w.plots[m.d] && w.plots[m.d].open);
 export const needsBalrog = (w: World) => w.chapter === 5;
+/** 5장 결재 ③ (v1.3): 슬리피우드 계열 직원이 일하는 던전이 있는가 */
+export const isNative = (sp: SpeciesId) => SPECIES[sp].chapter === 5;
+export const needsNative = (w: World) => w.chapter === 5 && RULES.nativeCond;
+export const hasNativeDungeon = (w: World) => w.monsters.some(m => isNative(m.sp) && m.d && w.plots[m.d] && w.plots[m.d].open);
 
 export interface Mods { move?: { id: number; to: PlotId | null }; evolve?: number; open?: PlotId; add?: { sp: SpeciesId; to: PlotId } }
 
@@ -382,11 +386,12 @@ export function approvalConds(w: World) {
     happy: joyGoal ? w.cjoy >= joyGoal : hc >= ch.happy,
     joy: w.cjoy, joyGoal, need: ch.happy,
     balrog: needsBalrog(w) ? hasBalrogDungeon(w) : true, needBalrog: needsBalrog(w),
+    native: needsNative(w) ? hasNativeDungeon(w) : true, needNative: needsNative(w),
   };
 }
 export function approvalMet(w: World): boolean {
   const c = approvalConds(w);
-  return c.road && c.happy && c.balrog;
+  return c.road && c.happy && c.balrog && c.native;
 }
 
 /** 오프라인 진행: 1분 단위, 최대 24시간. 리포트용 장부를 채운다. */
@@ -706,6 +711,14 @@ export function bestPlaces(w: World, monId: number): PlotId[] {
   opts.sort((a, b) => a.gapN - b.gapN || a.cost - b.cost);
   const best = opts[0].gapN;
   const cur = gapSize(gapSegments(w));
+  // 5장 결재 ③: 슬리피우드 식구는 빈 부지에 혼자 두면 기존 길을 흔들지 않는다
+  if (needsNative(w) && !hasNativeDungeon(w) && isNative(m.sp)) {
+    const empty = opts.filter(o => !monsIn(w, o.id).length && o.gapN <= cur).sort((a, b) => a.cost - b.cost);
+    if (empty.length) return empty.filter(o => o.cost === empty[0].cost).map(o => o.id);
+    // 빈 부지가 없으면: 길을 끊지 않는 던전 가운데 가장 싼 곳
+    const safe = opts.filter(o => o.gapN <= cur).sort((a, b) => a.cost - b.cost);
+    if (safe.length) return [safe[0].id];
+  }
   return best < cur ? opts.filter(o => o.gapN === best && o.cost === opts[0].cost).map(o => o.id) : [];
 }
 

@@ -32,6 +32,8 @@ export interface Rules {
   incomeCurve: number[];
   /** 결재 ② 막대 눈금 보상 (v1.3, 2장부터). null이면 없다 */
   joyMarks: { at: number[]; from: number } | null;
+  /** 5장 결재 ③에 "슬리피우드 식구가 일하는 던전 1곳"을 더한다 (v1.3) */
+  nativeCond: boolean;
 }
 
 export const V11: Rules = {
@@ -50,6 +52,7 @@ export const V11: Rules = {
   costCurve: [1, 1, 1, 1, 1],
   incomeCurve: [1, 1, 1, 1, 1],
   joyMarks: null,
+  nativeCond: false,
 };
 
 export const V12: Rules = {
@@ -72,6 +75,8 @@ export const V13: Rules = {
   id: 'v1.3',
   // F1: ② 막대 25·50·75%에 보상 칸 — 채용권 · 필드 보스 · 무료 이벤트권 2장
   joyMarks: { at: [0.25, 0.5, 0.75], from: 2 },
+  // F2: 5장 새 계열(드레이크·이블아이)이 한 번도 쓰이지 않았다 → 결재 ③에 슬리피우드 식구 던전 1곳
+  nativeCond: true,
 };
 
 export const RULES: Rules = { ...V13 };
