@@ -42,6 +42,9 @@ w.codex[t0.id] = "owned";
 w.codex[t3.id] = "owned";
 w.codex[t4.id] = "owned";
 w.stats.firstT4Finds = 2;
+// 화면 층(v0.7.1, G129)의 선택 필드 둘 — 전시 이력은 시즌 판정이라 비우고, 등록증의 빈칸은 남긴다
+w.shownSpecies = [t0.id, t3.id];
+w.wanted = t4.id;
 
 const fundsBefore = w.funds;
 const record = createPersistentRecord();
@@ -75,6 +78,8 @@ check("세계 원장이 초기 스톡으로 되돌아간다(T4 재고 1)", w.led
 // ── 4) 시즌 카운터 ────────────────────────────────────────────────────
 check("season이 1 올라간다", w.seasonState.season === 2);
 check("ended가 리셋된다", w.ended === false);
+check("전시 이력(shownSpecies)이 비워진다 — 엔딩의 '남들이 본 것'은 시즌 판정이다", Array.isArray(w.shownSpecies) && w.shownSpecies.length === 0);
+check("찾는 한 점(wanted)은 남는다 — 등록증은 그대로다", w.wanted === t4.id);
 
 // ── 5) 상한 검증 — carryover가 상한을 넘으면 클램프된다 ─────────────────
 const w2 = createWorld();

@@ -42,6 +42,7 @@ pnpm --filter relic-king sheets         컨택트 시트 굽기 → assets/gener
 
 node ip/src/fetch-fonts.mjs               IP 그림용 폰트 원본 받기(빌드타임, ip/.cache — 커밋 안 함)
 node ip/src/build.mjs [필터...]            IP 그림 굽기 → ip/art/, 쇼케이스 → app/public/ip/ (fonttools 필요)
+node ip/src/export-crew.mjs [--check]     크루 도트 → app/src/render/crew.generated.ts (--check는 최신인지만 검사)
 node scripts/build-worldmap.mjs           세계지도 해안선 베이크(생성 파일을 다시 굽는다)
 node scripts/build-worldmap.mjs --check   커밋된 산출물이 최신인지만 검사
 ```
@@ -133,18 +134,23 @@ v0.5.1에서 한 번도 발화하지 않던 결함 넷이 한꺼번에 나왔다
 - `app/src/ui/` — React 셸. 게임 로직을 여기에 두지 않는다.
 - `app/src/sim/` — 헤드리스 시뮬. 앱 번들에는 포함되지 않는다(진입점에서 import 하지 않음).
 
-## IP 「지구 출토」(v0.7.0) — 건드리기 전에 읽을 것
+## IP 「지구 출토」(v0.7.0, 화면 적용 v0.7.1) — 건드리기 전에 읽을 것
 
 `ip/`가 IP 층이다. 바이블 `ip/bible.md`가 `notes/world-lore.md`(게임 화면 층)의 상위 문서다.
 
-1. **화면에는 여전히 외울 단어가 없다**(G111). 바이블의 설정을 UI 문자열로 올리려면 `density --seeds 12`
-   후퇴 0과 `play`를 통과해야 한다(G124). 첫 자리는 "다음 확인" 한 줄로 좁혀 뒀다(`ip/narrative.md` §7).
+1. **화면에는 여전히 외울 단어가 없다**(G111). 화면 문구는 전부 `app/src/game/lore.ts` 하나에서 읽는다 —
+   컴포넌트에 세계관 문장을 직접 쓰지 마라(`spec.md` §15.2·§18). 문구를 늘리거나 자리를 옮기면
+   `density --seeds 12`(적용 전과 같아야 한다)와 `play lore`를 다시 돌린다(G126). **lore.ts는 숫자를 만들지
+   않는다** — 승산·가격·시간은 원래 화면이 적던 그대로다(척추 5번).
 2. **카드 위쪽은 실재 기록이다.** 유물명·소장처·현존 수량은 데이터 그대로, 픽션은 점선 아래와 2094년
    이후에만 쓴다(`ip/bible.md` §12).
 3. **그림은 코드다.** `ip/art/`를 손으로 고치지 말고 `ip/src/`를 고쳐 다시 굽는다. 굽고 나면 PNG를 연다.
    크루 도트(`ip/src/crew-sprites.mjs`)와 큰 그림(`crew-vector.mjs`)은 좌표 × 10으로 묶여 있으니 한쪽만
-   고치지 마라(`ip/visual-guide.md` §3).
+   고치지 마라(`ip/visual-guide.md` §3). 게임 속 크루 명찰도 같은 도트다 — 고친 뒤 `export-crew.mjs`를
+   다시 돌린다(`app/src/render/crew.generated.ts`는 생성 파일이다, G130).
 4. **"유물왕"은 제목이 아니라 게임 안의 칭호다**(G119). 슬러그 `relic-king`은 그대로다.
+5. **등록증·카드·크루 한 줄은 진행을 막지 않는다**(G127·G128). 새 모달·토스트·이벤트를 만들지 않았다 —
+   세계관을 더 올리고 싶으면 이미 있는 자리에 붙여라.
 
 ## 플레이어 간 경쟁(v0.5) — 건드리기 전에 읽을 것
 

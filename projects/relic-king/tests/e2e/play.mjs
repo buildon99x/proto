@@ -1355,6 +1355,201 @@ async function scenarioFork() {
   });
 }
 
+// ════════════════════════════════════════════════════════════════════════
+// S16. 「지구 출토」 화면 층(v0.8) — spec.md §15.4의 통과 조건 ②와 장치 ①~⑥
+//      판정은 여기서도 세이브에서 읽는다. 문구는 "있는가"만 보고, 문구가 담은 사실
+//      (소장처·산 사람 한 줄)은 데이터와 lore.ts가 계산한 값과 **글자 그대로** 대조한다.
+// ════════════════════════════════════════════════════════════════════════
+async function scenarioLore() {
+  const c = makeChecks("lore — 「지구 출토」 화면 층(spec.md §15·§17)");
+  const { ARTIFACT_BY_ID } = await import(pathToFileURL(path.join(ROOT, "app/src/game/artifacts.ts")).href);
+  const lore = await import(pathToFileURL(path.join(ROOT, "app/src/game/lore.ts")).href);
+  const crewSeen = new Set();
+  const collectCrew = async () => {
+    const ids = await h_eval(`[...document.querySelectorAll('.crew-note[data-crew]')].map((el) => el.dataset.crew)`);
+    for (const id of ids ?? []) crewSeen.add(id);
+  };
+  let h_eval = async () => [];
+
+  await withApp({}, async (h) => {
+    h_eval = h.evaluate;
+    await h.goto("/");
+    await h.ready();
+
+    // ① 0초 — 등록증. 모달이 아니고, 건드리지 않아도 게임이 돈다
+    const reg = await h.evaluate(`(() => {
+      const r = document.querySelector('.reg-card');
+      if (!r) return null;
+      return {
+        lines: r.querySelectorAll('.reg-card-world li').length,
+        crew: r.querySelectorAll('.reg-card-crew li').length,
+        wanted: r.querySelector('.reg-card-wanted select')?.value ?? null,
+        blocking: !!document.querySelector('.modal-back')
+      };
+    })()`);
+    c.ok("0초 — 발굴 탭 맨 위에 팀 등록증이 있다", !!reg);
+    c.ok("0초 — 세계 명제 3개 이상이 읽힌다(§15.4 ②: 첫 60초 3개)", (reg?.lines ?? 0) >= 3, `${reg?.lines}줄`);
+    c.eq("0초 — 크루 다섯의 명찰", reg?.crew, 5);
+    c.ok("0초 — 모달이 아니다(진행을 막지 않는다, §15.1)", reg && !reg.blocking);
+    const s0 = await h.state();
+    await h.waitGame(s0.t + 20);
+    const s1 = await h.state();
+    c.ok("등록증을 건드리지 않아도 게임이 돈다(척추 4번)", s1.t >= s0.t + 20 && s1.stats.drops >= s0.stats.drops,
+      `t ${fmt(s0.t)} → ${fmt(s1.t)} · 드랍 ${s1.stats.drops}`);
+    await collectCrew();
+
+    // ③ 찾는 한 점 — 기본값은 시작 거점의 유일이고, 세이브에 필드를 강제하지 않는다
+    const def = lore.WANTED_CANDIDATES.find((a) => a.site === s1.activeSite);
+    c.eq("③ 찾는 한 점 — 고르지 않으면 시작 거점의 유일", reg?.wanted, def?.id);
+    c.ok("③ 찾는 한 점 — 기본값은 계산이라 세이브에 쓰지 않는다", s1.wanted === undefined, String(s1.wanted));
+    const other = lore.WANTED_CANDIDATES.find((a) => a.site !== s1.activeSite);
+    await h.selectValue(".reg-card-wanted select", other.id);
+    await h.sleepReal(300);
+    const s2 = await h.state();
+    c.eq("③ 찾는 한 점 — 고르면 세이브에 남는다", s2.wanted, other.id);
+    c.ok("③ 찾는 한 점 — 고른 것은 규칙을 건드리지 않는다(자금·진척 그대로)",
+      s2.funds >= s1.funds - 1e-6 || s2.stats.drops > s1.stats.drops, `자금 ${fmt(s1.funds)} → ${fmt(s2.funds)}`);
+    await h.shot("lore-registration");
+
+    // ① 첫 감정 — 소장고에 카드 한 장. 위쪽은 실재 기록 그대로
+    let held = await h.state();
+    for (let i = 0; i < 400 && held.vault.length === 0; i++) {
+      await h.sleepReal(200);
+      held = await h.state();
+    }
+    await dismissChooser(h);
+    await h.tab("소장고");
+    await h.sleepReal(300);
+    const latest = held.vault[held.vault.length - 1];
+    const card = await h.text(".latest-card .record-card");
+    const a0 = latest ? ARTIFACT_BY_ID[latest.artifactId] : null;
+    c.ok("① 첫 감정 — 소장고에 '가장 최근에 연 상자' 카드가 선다", !!card, held.vault.length ? `t=${fmt(held.t)}초` : "소장 0점");
+    c.ok("① 카드 위쪽 — 마지막 확인 날짜가 한 달 단위다(G107)", (card ?? "").includes(lore.LAST_CHECKED), lore.LAST_CHECKED);
+    c.ok("① 카드 위쪽 — 소장처가 데이터와 글자 그대로 같다(픽션이 덮지 않는다)",
+      !!a0 && (card ?? "").includes(a0.holder), a0 ? `${a0.name} · ${a0.holder}` : "");
+    c.ok("§17 카드 아래쪽 — 다음 확인 칸에 우리 팀 이름이 들어 있다(쥔다 = 우리 팀)",
+      /다음 확인/.test(card ?? "") && (card ?? "").includes(lore.teamName(undefined)), (card ?? "").split("\n").slice(-1)[0] ?? "");
+    await collectCrew();
+    await h.shot("lore-first-card");
+
+    // ② 매각 — 산 사람 한 줄. lore.buyerLine과 글자 그대로
+    await h.click(".vault-grid .stack");
+    const detailCard = await h.text(".detail .record-card");
+    c.ok("① 유물 상세에도 같은 카드가 붙는다", !!detailCard && detailCard.includes(lore.LAST_CHECKED));
+    const pre = await h.state();
+    const pickedId = await h.evaluate(`document.querySelector('.vault-grid .stack.picked')?.dataset.aid ?? null`);
+    const soldItem = pre.vault.find((v) => v.artifactId === pickedId && !v.displayed);
+    const clicked = await h.clickText(".detail button", "1점 매각");
+    await h.sleepReal(300);
+    const post = await h.state();
+    const sold = await h.text(".sold-card");
+    const expected = soldItem ? lore.buyerLine(soldItem.artifactId, soldItem.uid) : "(없음)";
+    c.ok("② 매각 — 다음 확인 칸에 산 사람 한 줄이 선다", clicked && !!sold && sold.includes(expected), expected);
+    // 자금으로 판정하지 않는다 — 그 사이에도 자동 재투자·감정비가 자금을 쓴다. 판 사본이
+    // 금고에서 빠지고 매각이 정확히 1건 늘었는지를 본다(정산 경로는 1점 매각 그대로다).
+    c.ok("② 매각 — 새 이벤트가 아니다: 정산은 1점 매각 그대로(그 사본이 빠지고 매각 1건)",
+      !!soldItem && post.stats.sold === pre.stats.sold + 1 && !post.vault.some((v) => v.uid === soldItem.uid),
+      `sold ${pre.stats.sold} → ${post.stats.sold}`);
+    await collectCrew();
+    await h.shot("lore-sold");
+
+    // ⑥의 재료 — 전시하면 이력이 남는다
+    await h.tab("시설");
+    await h.sleepReal(400);
+    await collectCrew();
+    let shownId = null;
+    if (await h.exists(".museum-slot.empty")) {
+      await h.click(".museum-slot.empty");
+      await h.sleepReal(300);
+      await h.click(".swap-list button");
+      await h.sleepReal(400);
+      shownId = (await h.state()).vault.find((v) => v.displayed)?.artifactId ?? null;
+    }
+    const s3 = await h.state();
+    c.ok("⑥ 전시 — 전시한 종이 이력에 남는다(shownSpecies)", !!shownId && (s3.shownSpecies ?? []).includes(shownId),
+      shownId ? ARTIFACT_BY_ID[shownId].name : "전시 실패");
+
+    // 크루 — 첫 10분 안에 3인 이상(§15.4 ②)
+    await h.tab("발굴");
+    await h.sleepReal(300);
+    await collectCrew();
+    const tNow = (await h.state()).t;
+    c.ok("§15.4 ② — 첫 10분 안에 크루 3인 이상이 화면에서 말한다", crewSeen.size >= 3 && tNow <= 600,
+      `${[...crewSeen].map((id) => lore.CREW[id]?.name ?? id).join(", ")} · t=${fmt(tNow)}초`);
+
+    // 나머지 화면 한 줄씩 — 시장·도감(찾는 한 점 표시)·순위표
+    await h.tab("시장");
+    await h.sleepReal(300);
+    c.ok("시장 — 정도경의 한 줄", await h.exists('.crew-note[data-crew="jeong-dokyeong"]'));
+    await h.tab("도감");
+    await h.sleepReal(300);
+    c.ok("도감 — 미라의 한 줄", await h.exists('.codex .crew-note[data-crew="mira-anyango"]'));
+    await h.clickText(".codex .base-chip", ARTIFACT_BY_ID[other.id] ? (await import(pathToFileURL(path.join(ROOT, "app/src/game/balance.ts")).href)).SITE_BY_ID[other.site].city : "");
+    await h.sleepReal(300);
+    c.ok("③ 도감 — 찾는 한 점에 표시가 남는다", await h.exists(".codex-grid .codex-wanted"));
+    await h.shot("lore-codex-wanted");
+    await h.click(".stat-rank");
+    await h.sleepReal(300);
+    c.ok("순위표 — 예외7의 한 줄", await h.exists('.modal .crew-note[data-crew="yeoe7"]'));
+    await h.click(".modal-close");
+
+    // ① 감정 연출(국보) — 카드가 연출 안에도 붙는다
+    const t3 = Object.values(ARTIFACT_BY_ID).find((a) => a.tier === 3 && a.site === s1.activeSite);
+    await h.patchSave(`(w) => {
+      w.lab = Math.max(w.lab, 4);
+      w.funds = Math.max(w.funds, 1e9);
+      w.pending.push({ uid: 987654, artifactId: ${JSON.stringify(t3.id)}, remain: 1, estimate: 1000 });
+      w.codex[${JSON.stringify(t3.id)}] = "owned_unidentified";
+      w.lastTickAt = Date.now();
+    }`);
+    await h.goto("/");
+    await h.ready();
+    // 자금을 크게 넣었으니 첫 거점 카드가 이 순간 처음 뜰 수 있다 — 연출을 가리지 않게 닫는다
+    await h.sleepReal(400);
+    await dismissChooser(h);
+    let revealCard = null;
+    for (let i = 0; i < 60 && !revealCard; i++) {
+      revealCard = await h.text(".reveal .record-card");
+      if (!revealCard) await h.sleepReal(200);
+    }
+    c.ok("① 감정 연출(국보 이상) — 카드가 연출 안에 붙는다", !!revealCard && revealCard.includes(t3.holder), t3.name);
+    await dismissChooser(h);
+    if (revealCard) await h.shot("lore-reveal");
+    await h.clickText(".reveal button", "확인");
+
+    // ④ 복귀 요약 — 예외7이 한 일과 하지 않은 일
+    await h.patchSave(`(w) => { w.lastTickAt = Date.now() - 8 * 3600 * 1000; }`);
+    await h.goto("/");
+    await h.ready();
+    await h.sleepReal(2500);
+    const back = (await h.text(".offline-modal")) ?? (await h.text(".offline-toast")) ?? "";
+    c.ok("④ 복귀 요약 — 예외7이 한 일과 유일을 다투지 않은 사실(G113)", back.includes("예외7") && back.includes("유일"),
+      back.replace(/\n/g, " | ").slice(0, 120));
+    if (await h.exists(".offline-modal")) c.eq("④ 복귀 모달의 고정 4줄은 그대로(ux-v02 §8)", await h.count(".offline-fixed li"), 4);
+    await h.shot("lore-return");
+    await h.clickText(".offline-modal button, .offline-toast button", "확인");
+
+    // ⑥ 엔딩 — 판정하지 않고 숫자만
+    await h.patchSave(`(w) => { w.ended = true; w.lastTickAt = Date.now(); }`);
+    await h.goto("/");
+    await h.ready();
+    await h.sleepReal(600);
+    const ending = (await h.text(".ending")) ?? "";
+    c.ok("⑥ 엔딩 — 남들이 본 것(종 수)과 찾는 한 점이 적힌다", /남들이 본 것[^\d]*\d+종/.test(ending) && ending.includes("찾는 한 점"),
+      ending.replace(/\n/g, " | "));
+    c.ok("⑥ 엔딩 — '유물왕'은 제목이 아니라 시장이 부르는 칭호다(G119)", ending.includes(lore.KING_TITLE) && ending.includes("시장"));
+    await h.shot("lore-ending");
+
+    // 모바일 — 등록증이 한 화면 폭 안에 선다
+    await h.viewport(390, 844, true);
+    await h.tab("발굴");
+    await h.sleepReal(400);
+    const overflow = await h.evaluate(`document.documentElement.scrollWidth - document.documentElement.clientWidth`);
+    c.ok("모바일 390px — 가로 스크롤이 생기지 않는다", overflow <= 0, `${overflow}px`);
+    await h.shot("lore-mobile-registration");
+  });
+}
+
 const SCENARIOS = {
   loop: scenarioLoop,
   background: scenarioBackground,
@@ -1370,7 +1565,8 @@ const SCENARIOS = {
   bulk: scenarioBulk,
   mobile: scenarioMobile,
   nudge: scenarioNudge,
-  fork: scenarioFork
+  fork: scenarioFork,
+  lore: scenarioLore
 };
 
 async function main() {

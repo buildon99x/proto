@@ -11,6 +11,7 @@ import { clock, usd } from "../game/format";
 import { TIER_COLOR } from "../render/palette";
 import type { ExpeditionTeam, Foreman, Tip, World } from "../game/types";
 import { playCue } from "./sound";
+import { TIP_GRACE } from "../game/lore";
 import type { Game } from "./useGame";
 
 /**
@@ -96,7 +97,9 @@ function TipContent({ game, tip }: { game: Game; tip: Tip }) {
           {tip.resolved.outcome === "won" ? "먼저 도달했다 — 내 것이 됐다" : "한발 늦었다 — 라이벌이 가져갔다"}
         </span>
       ) : graceLeft > 0 ? (
-        <span className="tip-grace small">반응 유예 {Math.ceil(graceLeft)}초 — 아직 아무도 못 가져간다</span>
+        <span className="tip-grace small" title={`${TIP_GRACE}. 이 시간은 신호가 콜로니에 닿는 시간이다.`}>
+          반응 유예 {Math.ceil(graceLeft)}초 — 여섯 팀이 같이 들었다, 아직 아무도 못 가져간다
+        </span>
       ) : (
         <span className="tip-odds small">
           {odds.guaranteed

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { CrewNote } from "./Crew";
 import { SITES, SITE_BY_ID } from "../game/balance";
 import { josa, usd } from "../game/format";
 import { siteAnchorLabel } from "../game/sites";
@@ -42,6 +43,7 @@ export function FirstBaseChooser({ game }: { game: Game }) {
         onClick={(e) => e.stopPropagation()}
       >
         <h2>첫 거점을 연다</h2>
+        <CrewNote screen="base" />
         <p className="muted small">
           두 번째 거점을 열 자금이 모였다. 거점마다 나오는 유물 종이 다르다.{" "}
           {current ? (

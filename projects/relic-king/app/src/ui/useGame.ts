@@ -7,7 +7,7 @@ import {
   buyVaultLevel, buyWorker, buildAuctionHouse, buildMuseum, click, createPersistentRecord, createTeam,
   createWorld, dispatchExpedition, displayArtifact, emergencyDispatch, focusDig, fullRanking, hireEmergencyCrew, sampleRanks,
   hireAuctioneer, hireCurator, hireForeman, listAtAuction, listManyAtAuction, relocateBase, runAutoRoutine, sellArtifactCopies,
-  sellSpares, sellTierAtMost, sellVaultItems, setRoutine, switchSite, undisplayArtifact, unlockSite, unlockTeamSlot,
+  sellSpares, sellTierAtMost, sellVaultItems, setRoutine, setWanted, switchSite, undisplayArtifact, unlockSite, unlockTeamSlot,
   upgradeAuctionGrade, upgradeMuseumGrade
 } from "../game/engine";
 import { addGhost, encodeCard, makeCard, parseCard, removeGhost } from "../game/rivalcard";
@@ -364,6 +364,8 @@ export function useGame() {
       act((w) => {
         w.settings.spareDestination = dest;
       }),
+    /** 팀 등록증의 빈칸 — 찾는 한 점(G109). 규칙에 효력이 없고 표시만 바뀐다 */
+    setWanted: (artifactId: string) => act((w) => setWanted(w, artifactId)),
     setMuted: (muted: boolean) =>
       act((w) => {
         w.settings.muted = muted;

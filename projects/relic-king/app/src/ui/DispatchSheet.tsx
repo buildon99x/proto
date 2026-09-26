@@ -5,6 +5,7 @@ import { teamHomeSite, ownedSiteCap } from "../game/engine";
 import { usd } from "../game/format";
 import type { Foreman, SiteId } from "../game/types";
 import { Modal } from "./Modal";
+import { CrewNote } from "./Crew";
 import type { Game } from "./useGame";
 
 /**
@@ -36,6 +37,7 @@ export function DispatchSheet({ game, site, onClose }: { game: Game; site: SiteI
       <p className="muted small">
         {sp.unlocked ? "본거지" : "방문 가능"} · 현재 {sp.layer}층
       </p>
+      <CrewNote screen="dispatch" />
 
       {idleTeams.length === 0 ? (
         <p className="empty">유휴 발굴단이 없다. 발굴단이 귀환하거나 새 팀을 꾸려야 파견할 수 있다.</p>

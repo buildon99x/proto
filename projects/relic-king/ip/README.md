@@ -2,7 +2,8 @@
 
 게임 「유물왕」(`relic-king`)을 IP로 키운 산출물이다. 지시서는
 `prompts/ip-world-narrative-visual.md`, 결정은 `notes/decisions.md` G118~G125,
-판정은 `eval.md` §38.
+판정은 `eval.md` §38. **v0.7.1에서 게임 화면에 올렸다** — 결정 G126~G131, 규격 `spec.md` §18,
+판정 `eval.md` §39. 화면 문구는 `app/src/game/lore.ts` 하나에 있다.
 
 | 파일 | 무엇 |
 | --- | --- |
@@ -18,7 +19,7 @@
 | `art/directions/` | 발산 썸네일 넷 |
 | `art/review/` | 블라인드 리뷰에 쓴 가림판·식별 시험지 |
 | `art/finds/` | 그림 속 유물 도트(게임 렌더러 그대로) |
-| `src/` | 그림을 그리는 코드 |
+| `src/` | 그림을 그리는 코드. `export-crew.mjs`는 크루 도트를 게임(`app/src/render/crew.generated.ts`)으로 굽는다 |
 | `fonts/` | 서브셋 폰트(OFL) |
 
 굽는 법은 [visual-guide.md](visual-guide.md) §11.
