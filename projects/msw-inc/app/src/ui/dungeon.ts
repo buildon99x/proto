@@ -38,8 +38,8 @@ A.openDungeon = (id, opt) => {
     </div>
     <div class="scene b${r.n}" id="dScene">
       <div class="sky"></div>
-      <div class="hill" style="left:-60px;bottom:40px;width:520px;height:190px;background:#0000000d"></div>
-      <div class="hill" style="left:640px;bottom:40px;width:700px;height:230px;background:#0000000a"></div>
+      <div class="hill" style="left:-60px;bottom:40px;width:520px;height:190px;background:var(--sh1)"></div>
+      <div class="hill" style="left:640px;bottom:40px;width:700px;height:230px;background:var(--sh1)"></div>
       <div class="cloud" style="left:150px;top:22px;width:120px"></div><div class="cloud" style="left:880px;top:14px;width:160px"></div>
       <div class="pl" style="left:${PLAT.x0}px;width:${PLAT.x1 - PLAT.x0}px;top:${PLAT.y}px"></div>
       <div class="gr"></div>
@@ -53,7 +53,9 @@ A.openDungeon = (id, opt) => {
   if (A.T) A.T.poke();
 };
 A.closeDungeon = () => {
+  const was = DV.id, lv = was ? M.levelsOf(A.w)[was] : null;
   A.ui.mode = 'world';
+  if (lv) A.world.focus(lv);
   const el = must('#dview');
   el.hidden = true; el.innerHTML = '';
   DV.id = null;
@@ -78,8 +80,8 @@ function panel() {
   const elite = w.elite && w.elite.d === id ? w.monsters.find(m => m.id === w.elite!.mon) : null;
   const guest = w.boss && w.boss.d === id ? fieldBoss(w.boss.ch) : null;
   must('#dEv').innerHTML = (d.event ? `<span class="chip ev" style="--c:${d.event.kind === 'exp' ? 'var(--exp)' : 'var(--drop)'}">${d.event.kind === 'exp' ? '경험치 2배' : '드랍 2배'} · ${dur(d.event.end - w.t)} 남음</span>` : '')
-    + (elite ? `<span class="chip ev" style="--c:#c99a00">★ 엘리트 ${M.monName(elite)} · ${dur(w.elite!.until - w.t)} 남음</span>` : '')
-    + (guest && w.boss ? `<span class="chip ev" style="--c:#c99a00">👑 ${guest.name} 방문 · 토벌 ${Math.min(100, Math.floor(100 * w.boss.kills / Math.max(1, M.bossNeed(w.boss.ch))))}%</span>` : '');
+    + (elite ? `<span class="chip ev" style="--c:var(--gold2)">★ 엘리트 ${M.monName(elite)} · ${dur(w.elite!.until - w.t)} 남음</span>` : '')
+    + (guest && w.boss ? `<span class="chip ev" style="--c:var(--gold2)">👑 ${guest.name} 방문 · 토벌 ${Math.min(100, Math.floor(100 * w.boss.kills / Math.max(1, M.bossNeed(w.boss.ch))))}%</span>` : '');
   const stars = M.dungeonStars(d), nextStar = M.JOY_STARS[stars];
   must('#dMeta').textContent = `던전 ${'★'.repeat(stars)}${'☆'.repeat(3 - stars)} · 누적 즐거움 ${n(d.joy)}${nextStar ? ` / ${n(nextStar)}` : ''}명·시간`;
 
@@ -163,7 +165,7 @@ function bind() {
       const r = M.seatUp(w, id);
       if (!r.ok) return nope(r.msg);
       snd.play('hire');
-      fx(`<div class="pop g" style="font-size:22px">자리 +4</div>`, 640, 90, 1300);
+      fx(`<div class="pop g" style="font-size:var(--fs-xl)">자리 +4</div>`, 640, 90, 1300);
       toast(`자리 확장 · 스마일 −${n(r.cost)}${gain >= 0.5 ? ` · 결재 ② 약 −${Math.round(gain)}시간` : ''}`, { undo: () => M.seatDown(w, id, r.cost) });
       refresh(); return;
     }
@@ -178,7 +180,7 @@ function fx(html: string, x: number, y: number, life = 1200) {
 }
 function eventBurst(kind: 'exp' | 'drop') {
   if (!$('#dFx')) return;
-  const c = kind === 'exp' ? '#3FA9F5' : '#FF7BB0';
+  const c = kind === 'exp' ? 'var(--exp)' : 'var(--drop)';
   fx(`<div class="burst" style="-webkit-text-stroke:3px ${c};text-shadow:0 4px 0 ${c}">${kind === 'exp' ? 'EXP' : 'DROP'} ×2!</div>`, 640, 70, 1700);
   for (const [, a] of DV.advs) {
     if (a.leaving) continue;
@@ -293,7 +295,7 @@ function tick(dt: number, now: number) {
       m.dead = true; m.el.classList.add('dead');
       fx(`<div class="puff big">${[[0, 4, 14], [10, 0, 16], [18, 5, 13], [6, 9, 12]].map(([l, t, s]) => `<i style="left:${l}px;top:${t}px;width:${s}px;height:${s}px"></i>`).join('')}</div>`, m.x, m.y - 20, 700);
       fx(`<div class="pop" style="transform:translateX(-50%)">퇴근!</div>`, m.x, m.y - m.ih - 20, 1200);
-      fx(`<div class="pop y" style="transform:translateX(-50%);font-size:13px">+😊</div>`, m.x + 30, m.y - m.ih, 1100);
+      fx(`<div class="pop y" style="transform:translateX(-50%);font-size:var(--fs-s)">+😊</div>`, m.x + 30, m.y - m.ih, 1100);
       A.world.mote(m.x, m.y - 30 + 56 + 44);
       snd.play('poof');
       setTimeout(() => {
@@ -323,7 +325,7 @@ A.handlers.push(ev => {
       const top = Math.max(40, a.y - 118);
       fx(`<div class="bigpillar" style="height:${a.y}px"></div>`, a.x, 0, 1100);
       fx(`<div class="lvup" style="transform:translateX(-50%)">LEVEL UP!</div>`, a.x, top, 1400);
-      fx(`<div class="pop y" style="transform:translateX(-50%);font-size:14px">Lv ${e.lv}</div>`, a.x, top + 34, 1300);
+      fx(`<div class="pop y" style="transform:translateX(-50%);font-size:var(--fs-m)">Lv ${e.lv}</div>`, a.x, top + 34, 1300);
       snd.play('levelup');
       if (A.T) A.T.saw('levelup');
     }

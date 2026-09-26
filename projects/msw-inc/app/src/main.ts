@@ -2,7 +2,7 @@
  * MSW 주식회사 — 시작, 입사 컷, 매 프레임 루프, 버튼
  */
 import './styles.css';
-import { A, $$, must, h, img, snd, refit, refresh, renderDock, renderDoc, renderOren, renderBoss, hudTick, hudStatic, simLive, save, loadSave, clearSave, toast, plotName, heldEvolves, M } from './ui/app';
+import { A, $, $$, must, h, img, snd, refit, refresh, renderDock, renderDoc, renderOren, renderBoss, hudTick, hudStatic, simLive, save, loadSave, clearSave, toast, plotName, heldEvolves, M } from './ui/app';
 import './ui/world';
 import './ui/dungeon';
 import './ui/sheets';
@@ -111,7 +111,8 @@ function pump(sec: number) { let now = performance.now(); for (let t = 0; t < se
 refit();
 bind();
 const q = new URLSearchParams(location.search);
-if (q.get('dev') == null && !q.get('demo')) must('.proto').classList.add('min');
+// 테스트 도구(배속·⏭8h·↺)는 ?dev를 붙여야만 보인다. 실제 게임에는 없다
+if (q.get('dev') == null) must('.proto').hidden = true;
 const demo = q.get('demo');
 if (demo) {
   A.demo = demo;
@@ -138,4 +139,5 @@ if (demo) {
   }
 }
 (window as unknown as { __msw: unknown }).__msw = { A, M, pump, T };
+$('#boot')?.remove();
 requestAnimationFrame(frame);

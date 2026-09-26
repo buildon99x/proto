@@ -32,6 +32,8 @@ function openSheet(kind: string, color: string, html: string) {
 // ── S5 신입 채용 ────────────────────────────────────────────
 A.openHire = (opt = {}) => {
   const w = A.w;
+  if (opt.seg) A.world.focus((opt.seg[0] + opt.seg[1]) / 2);
+  else if (opt.crowd) A.world.focus(M.levelsOf(w)[opt.crowd.d] ?? 0);
   const into = opt.into || (A.ui.mode === 'dungeon' ? A.dv.id : null);
   const cf = opt.crowd || null;
   const seg = cf ? null : opt.seg || M.hotGap(w) || M.gapSegments(w)[0] || null;
@@ -105,6 +107,7 @@ A.openEvolve = monId => {
   const w = A.w, m = w.monsters.find(x => x.id === monId);
   if (!m || !M.canEvolve(m)) return;
   if (A.ui.mode === 'dungeon') A.closeDungeon();
+  A.world.focus(M.monLevel(m));
   const sp = SPECIES[m.sp], next = m.stage + 1;
   const pv = M.preview(w, { evolve: m.id });
   // 승진 발령을 권하는 때: 그냥 진화하면 길이 비거나(v1.2), 발령해야 남은 빈틈이 더 이어질 때(v1.3.1 — 1장 Lv 14–15)
@@ -253,6 +256,7 @@ A.openBox = (id, el) => {
   closePop();
   const w = A.w, bx = M.boxesOf(w).find(b => b.id === id);
   if (!bx) return;
+  A.world.focus(M.levelsOf(w)[bx.d] ?? 0);
   const anchor = el && el.isConnected ? el : $(`#world [data-box="${id}"]`) || must('#oren');
   const r = rectOf(anchor), pick = M.boxPick(w);
   const hireOpt = M.boxOptions(w).find((o): o is Extract<M.BoxReward, { kind: 'hire' }> => o.kind === 'hire')!;
@@ -292,7 +296,7 @@ A.openMonPop = (id, el) => {
   const canRel = M.RULES_RELEASE() && !m.vet && m.sp !== 'balrog';
   const pop = h(`<div class="pop-mon">
     <div class="hd">${img(monArt(m), 2)}<div><b>${M.monName(m)} #${m.no}</b><div class="s">Lv ${M.monLevel(m)} · ${m.stage + 1}단계 · ${tr ? tr.icon + ' ' + tr.name : '표준'}${m.vet ? ' · 고참' : ''}</div><div class="s">${m.d ? plotName(m.d) : '대기실'} · 퇴근 ${n(m.work)}회</div></div></div>
-    <div class="tenure"><div class="t"><span>근속(퇴근)</span><span>${need === Infinity ? '최종 단계' : n(Math.min(m.tenure, need)) + ' / ' + n(need)}</span></div><div class="bar"><i style="width:${need === Infinity ? 100 : Math.min(100, 100 * m.tenure / need)}%;background:${M.canEvolve(m) ? 'var(--evolve)' : '#b8a6ff'}"></i></div></div>
+    <div class="tenure"><div class="t"><span>근속(퇴근)</span><span>${need === Infinity ? '최종 단계' : n(Math.min(m.tenure, need)) + ' / ' + n(need)}</span></div><div class="bar"><i style="width:${need === Infinity ? 100 : Math.min(100, 100 * m.tenure / need)}%;background:${M.canEvolve(m) ? 'var(--evolve)' : 'color-mix(in srgb,var(--evolve) 45%,var(--white))'}"></i></div></div>
     <div class="row">${M.canEvolve(m) && !A.T.hideEvolve() ? '<button class="pri" data-ev>▲ 진화</button>' : ''}${m.d ? '<button data-see>현장 보기</button><button data-tray>대기실로</button>' : ''}${canRel ? `<button data-rel title="채용비 절반을 돌려받아요">본사 전근 +${n(M.releaseRefund(m))}</button>` : ''}</div>
     <div class="tip">끌어서 다른 발판에 놓으면 옮겨져요. 놓기 전에 결과가 보여요</div></div>`);
   const x = clamp(r.x + r.w / 2 - 135, 8, 1280 - 278), y = r.y > 300 ? r.y - 196 : r.y + r.h + 8;
@@ -450,15 +454,15 @@ function scene(kind: string, data: Record<string, unknown>) {
   const w = A.w;
   const advs = (k: number) => Array.from({ length: k }, (_, i) => `<div class="a" style="left:${14 + i * 38}px;bottom:52px">${img('a' + (i % 6), 2)}</div>`).join('');
   if (kind === 'burst') return { cap: `✨ 한 시간에 레벨업 ${data.n}번`, html: advs(5) + Array.from({ length: 5 }, (_, i) => `<div class="a beam" style="left:${8 + i * 38}px;bottom:52px"></div>`).join('') + `<div class="a burstn">×${data.n}</div>` };
-  if (kind === 'grad') return { cap: data.first ? '🎓 첫 졸업!' : `🎓 ${data.n}명 졸업`, html: `<div class="a" style="left:80px;bottom:52px">${img('a4', 3)}</div><div class="a" style="left:92px;top:14px;font-size:30px">🎓</div><div class="a" style="left:24px;top:40px;font-size:22px">🎉</div><div class="a" style="left:160px;top:36px;font-size:22px">🎉</div>` };
-  if (kind === 'crowd') return { cap: `🌀 ${plotShort(data.d as PlotId)} 만원`, html: advs(5) + `<div class="a" style="left:20px;top:16px;font-size:22px">😠</div><div class="a" style="left:90px;top:10px;font-size:22px">😠</div><div class="a" style="left:150px;top:18px;font-size:22px">😊</div>` };
+  if (kind === 'grad') return { cap: data.first ? '🎓 첫 졸업!' : `🎓 ${data.n}명 졸업`, html: `<div class="a" style="left:80px;bottom:52px">${img('a4', 3)}</div><div class="a" style="left:92px;top:14px;font-size:var(--fs-d1)">🎓</div><div class="a" style="left:24px;top:40px;font-size:var(--fs-xl)">🎉</div><div class="a" style="left:160px;top:36px;font-size:var(--fs-xl)">🎉</div>` };
+  if (kind === 'crowd') return { cap: `🌀 ${plotShort(data.d as PlotId)} 만원`, html: advs(5) + `<div class="a" style="left:20px;top:16px;font-size:var(--fs-xl)">😠</div><div class="a" style="left:90px;top:10px;font-size:var(--fs-xl)">😠</div><div class="a" style="left:150px;top:18px;font-size:var(--fs-xl)">😊</div>` };
   if (kind === 'ready') { const m = w.monsters.find(x => x.id === data.mon); if (!m) return null; return { cap: `▲ ${M.monName(m)} 진화 준비`, html: `<div class="a glowev" style="left:60px;bottom:52px">${img(monArt(m), 4)}</div><div class="a evmini">▲</div>` }; }
   if (kind === 'doc') return { cap: '📋 결재 서류 도착', html: `<div class="a docp"></div><div class="a docs">결재</div>` };
-  if (kind === 'elite') return { cap: `★ 엘리트 ${data.n}번 출현`, html: advs(4) + `<div class="a" style="left:128px;bottom:52px;filter:drop-shadow(0 0 6px #ffcc33)">${img('m:' + (data.art as string), 4)}</div><div class="a" style="left:136px;top:18px;font-size:22px">★</div>` };
-  if (kind === 'boss') { const fb = fieldBoss(data.ch as number); if (!fb) return null; return { cap: data.down ? `👑 ${fb.name} 토벌!` : `👑 ${fb.name}가 찾아왔어요`, html: advs(3) + `<div class="a" style="left:118px;bottom:48px">${img('m:' + fb.art, 5)}</div>${data.down ? '<div class="a" style="left:24px;top:30px;font-size:22px">🎉</div>' : ''}` }; }
+  if (kind === 'elite') return { cap: `★ 엘리트 ${data.n}번 출현`, html: advs(4) + `<div class="a" style="left:128px;bottom:52px;filter:drop-shadow(0 0 6px var(--gold))">${img('m:' + (data.art as string), 4)}</div><div class="a" style="left:136px;top:18px;font-size:var(--fs-xl)">★</div>` };
+  if (kind === 'boss') { const fb = fieldBoss(data.ch as number); if (!fb) return null; return { cap: data.down ? `👑 ${fb.name} 토벌!` : `👑 ${fb.name}가 찾아왔어요`, html: advs(3) + `<div class="a" style="left:118px;bottom:48px">${img('m:' + fb.art, 5)}</div>${data.down ? '<div class="a" style="left:24px;top:30px;font-size:var(--fs-xl)">🎉</div>' : ''}` }; }
   if (kind === 'mark') { const ms = data.list as M.Report['marks']; return { cap: `📊 결재 막대 ${ms.map(x => Math.round(x.pct * 100) + '%').join('·')}`, html: `<div class="a markbar"><i style="width:${Math.round(ms[ms.length - 1].pct * 100)}%"></i></div><div class="a markrw">${ms.map(x => markLabel(x.reward)).join('<br>')}</div>` }; }
-  if (kind === 'box') return { cap: `📦 상자 ${data.n}개가 기다려요`, html: advs(3) + Array.from({ length: Math.min(3, data.n as number) }, (_, i) => `<div class="a" style="left:${36 + i * 52}px;top:${22 + (i % 2) * 8}px;font-size:28px">📦</div>`).join('') };
-  if (kind === 'entrance') return { cap: `😐 입구 막힘 ${dur(data.min as number)}`, html: advs(3) + `<div class="a" style="left:30px;top:14px;font-size:22px">😐</div><div class="a" style="left:100px;top:10px;font-size:22px">😐</div>` };
+  if (kind === 'box') return { cap: `📦 상자 ${data.n}개가 기다려요`, html: advs(3) + Array.from({ length: Math.min(3, data.n as number) }, (_, i) => `<div class="a" style="left:${36 + i * 52}px;top:${22 + (i % 2) * 8}px;font-size:var(--fs-d1)">📦</div>`).join('') };
+  if (kind === 'entrance') return { cap: `😐 입구 막힘 ${dur(data.min as number)}`, html: advs(3) + `<div class="a" style="left:30px;top:14px;font-size:var(--fs-xl)">😐</div><div class="a" style="left:100px;top:10px;font-size:var(--fs-xl)">😐</div>` };
   return null;
 }
 A.showReport = (rep, awayMin) => {

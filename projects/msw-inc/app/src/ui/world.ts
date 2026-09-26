@@ -3,13 +3,16 @@
  * 가로축 = 레벨. 던전 = 떠 있는 발판(폭 = 적정 구간 11칸). 모험가 = 자기 레벨 위치에 선 사람.
  * 발판이 없는 땅 = 빈틈. 모험가는 거기서 😐로 혼자 천천히 걷는다(v1.2).
  */
-import { A, $, $$, must, h, n, lerp, img, monArt, plotName, plotShort, lvColor, segTxt, snd, nope, toast, emit, refresh, renderDock, rectOf, toStage, markLabel, M } from './app';
+import { A, $, $$, must, h, n, lerp, clamp, img, monArt, plotName, plotShort, lvColor, segTxt, snd, nope, toast, emit, refresh, renderDock, rectOf, toStage, markLabel, M } from './app';
 import { REGIONS, fieldBoss, type PlotId } from '../sim/content';
 import { ART } from './art';
 
 const X0 = 34, GROUND = 452, TOP = 56;
 const WS = 3, WW = 30, WH = 42; // 월드 도트 배율, 모험가 크기
-const VIEW = [25, 40, 55, 70, 76];
+/** 1~3장은 길 전체가 한 화면. 4장부터는 지역 줌(F8): 한 화면에 3지역(45레벨)만 두고, 지역 탭이나 끌기로 옮겨 본다 */
+const VIEW = [25, 40, 55];
+const WIN = 45;
+const ROAD_END = [15, 30, 45, 70, 76];
 const CROWD = 150; // 이보다 많으면 레벨 칸마다 대표 한 명 + 인원
 
 interface Plat { el: HTMLElement; D: number; y: number; sig: string; left: number; w: number; top: number }
@@ -19,29 +22,57 @@ interface Figure { key: string; a: M.Adventurer; n: number; ids: number[] }
 export interface PreviewView extends M.Preview { kind: 'move' | 'evolve' | 'promote'; lostSet?: Set<number>; label?: Record<string, string> }
 
 export const V = {
-  k: 1, max: 25, lanes: {} as Record<PlotId, number>, laneH: 100,
+  k: 1, from: 0, to: 25, want: null as number | null, lanes: {} as Record<PlotId, number>, laneH: 100,
   plats: {} as Record<PlotId, Plat>, mons: {} as Record<number, MonV>, walkers: new Map<string, Walker>(),
   exits: {} as Record<number, 'grad' | 'leave'>, figOf: new Map<number, string>(),
   gapSegs: [] as M.Seg[], dirty: true, preview: null as PreviewView | null, snap: true,
   drag: null as null | { id: number; el: HTMLElement; x0: number; y0: number; started: boolean; target?: Target | null },
-  x: (L: number) => X0 + L * V.k,
+  x: (L: number) => X0 + (L - V.from) * V.k,
   laneTop: (i: number) => GROUND - V.laneH * (i + 1),
   GROUND, TOP,
-  build, tick, bindInput, setPreview, poofMon, fxText, confetti, mote,
+  build, tick, bindInput, setPreview, poofMon, fxText, confetti, mote, focus, showRegion, zoomed,
 };
 A.world = V;
 
 const L = (id: string) => must('#' + id);
 
 // ── 카메라 ──────────────────────────────────────────────────
-const camTarget = () => VIEW[A.w.chapter - 1];
-function initCam() { V.max = camTarget(); V.k = (1280 - X0 - 24) / V.max; V.snap = true; }
+/** 4장부터 지역 줌이다 */
+function zoomed() { return A.w.chapter >= 4; }
+/** 지금 보여 줄 창 [from, to]. 줌이면 원하는 시작(want)이 있으면 그것, 없으면 가장 새로 열린 3지역 */
+function camWant(): [number, number] {
+  const ch = A.w.chapter;
+  if (!zoomed()) return [0, VIEW[ch - 1]];
+  const end = ROAD_END[ch - 1], maxFrom = end - WIN;
+  const from = clamp(V.want ?? maxFrom, 0, maxFrom);
+  return [from, from + WIN];
+}
+function setK() { V.k = (1280 - X0 - 24) / (V.to - V.from); }
+function initCam() { [V.from, V.to] = camWant(); setK(); V.snap = true; }
 let camMoving = false;
 function camTick(dt: number) {
-  const t = camTarget();
-  camMoving = Math.abs(V.max - t) > 0.02;
-  V.max = camMoving ? lerp(V.max, t, Math.min(1, dt * 1.4)) : t;
-  V.k = (1280 - X0 - 24) / V.max;
+  const [f, t] = camWant();
+  camMoving = Math.abs(V.from - f) > 0.02 || Math.abs(V.to - t) > 0.02;
+  V.from = camMoving ? lerp(V.from, f, Math.min(1, dt * 2.2)) : f;
+  V.to = camMoving ? lerp(V.to, t, Math.min(1, dt * 2.2)) : t;
+  setK();
+}
+/** 레벨 L이 창 안에 오게 한다 (오렌·리포트 칩·시트가 부른다). 줌이 아니면 아무것도 하지 않는다 */
+function focus(L: number) {
+  if (!zoomed()) return;
+  const [f, t] = camWant();
+  if (L >= f + 3 && L <= t - 3) return;
+  V.want = L - WIN / 2;
+  V.dirty = true;
+}
+/** 지역 탭: 그 지역이 창 안에 오게 한다 */
+function showRegion(k: number) {
+  if (!zoomed()) return;
+  const r = REGIONS[k - 1];
+  if (!r || r.n > A.w.chapter) return;
+  V.want = r.from;
+  V.dirty = true;
+  snd.play('ui');
 }
 
 // ── 발판 층 배정 (겹치지 않게, 한번 앉은 층은 되도록 유지) ──
@@ -86,7 +117,7 @@ function layoutBands() {
     const left = r.n === 1 ? 0 : V.x(r.from), right = r.n === 5 ? Math.max(1280, V.x(r.to)) : V.x(r.to);
     el.style.left = left + 'px'; el.style.width = Math.max(0, right - left) + 'px';
     el.classList.toggle('lit', r.n <= A.w.chapter);
-    el.style.display = left > 1290 ? 'none' : '';
+    el.style.display = left > 1290 || right < -10 ? 'none' : '';
   });
 }
 
@@ -100,13 +131,22 @@ function layoutMarks(force: boolean) {
   const stuck = segs.map(stuckIn);
   const zl = M.zoneLeft(w), zNext = zl ? M.zoneEnds(w)![w.zone! + 1] : 0;
   const zPct = zl ? Math.min(99, Math.floor((100 * (w.zoneAcc || 0)) / Math.max(1, M.zoneNeed(w)))) : 0;
-  const sig = JSON.stringify([segs, stuck, lv, end, Math.round(V.k * 100), zl, zPct]);
+  // 지역 탭: 지역마다 뜨거운 빈틈 수(빨강)와 줄 선 사람(주황)을 배지로. 줌이면 누르면 그 지역으로
+  const busyBy: Record<string, number> = {};
+  for (const a of w.advs) if (a.st === 'busy' && a.near) busyBy[a.near] = (busyBy[a.near] || 0) + 1;
+  const tabs = REGIONS.map(r => {
+    const hot = segs.reduce((k, g, i) => k + (stuck[i] > 0 && g[0] < r.to && g[1] >= r.from ? 1 : 0), 0);
+    let busy = 0;
+    for (const id in busyBy) if (lv[id] != null && lv[id] >= r.from && lv[id] < r.to) busy += busyBy[id];
+    return { r, hot, busy, on: r.n <= w.chapter && V.x(Math.max(r.from, 0.5)) >= -2 && V.x(Math.min(r.to, end + 0.5)) <= 1282 };
+  });
+  const sig = JSON.stringify([segs, stuck, lv, end, Math.round(V.k * 100), Math.round(V.from * 10), zl, zPct, w.chapter, tabs.map(t => [t.hot, t.busy, t.on])]);
   if (!force && sig === marksSig && !camMoving) return;
   marksSig = sig;
   let html = '', badges = '';
-  const step = V.max > 50 ? 10 : 5;
-  for (let Lv = 1; Lv <= V.max; Lv++) if (Lv === 1 || Lv % step === 0) html += `<div class="tick" style="left:${V.x(Lv)}px">${Lv}</div>`;
-  REGIONS.forEach(r => { if (r.n <= w.chapter + 1 && V.x(r.from) < 1280) html += `<div class="rname" style="left:${(V.x(Math.max(r.from, 0.5)) + Math.min(1270, V.x(r.to))) / 2}px">${r.name} · Lv ${Math.max(1, r.from)}–${Math.min(70, r.to)}</div>`; });
+  const step = V.to - V.from > 50 ? 10 : 5;
+  for (let Lv = Math.max(1, Math.ceil(V.from)); Lv <= Math.floor(V.to); Lv++) if (Lv === 1 || Lv % step === 0) html += `<div class="tick" style="left:${V.x(Lv)}px">${Lv}</div>`;
+  L('rtabs').innerHTML = tabs.map(({ r, hot, busy, on }) => `<button class="rtab ${on ? 'on' : ''} ${r.n > w.chapter ? 'lock' : ''}" data-region="${r.n}" title="${r.n > w.chapter ? `${r.n - 1}장 결재 후 개방` : zoomed() ? '눌러서 이 지역 보기' : `${r.name} · Lv ${Math.max(1, r.from)}–${Math.min(70, r.to)}`}">${r.n > w.chapter ? '🔒 ' : ''}${r.name}<small>Lv ${Math.max(1, r.from)}–${Math.min(70, r.to)}</small>${hot ? `<span class="n">!${hot}</span>` : ''}${busy ? `<span class="n b">🌀${busy}</span>` : ''}</button>`).join('');
   // 연결 띠 (1 ~ 졸업선)
   const c = M.coveredSet(lv);
   let s: number | null = null;
@@ -200,7 +240,7 @@ function layoutPlats(dt: number) {
       if (busy[id]) pb += `<div class="pill busy" data-busy="${id}" title="자리가 없어 기다리는 모험가 — 눌러서 자리 늘리기">🌀 ${busy[id]}</div>`;
       if (ev) {
         const rem = ev.end - w.t, c = ev.kind === 'exp' ? 'var(--exp)' : 'var(--drop)';
-        pb += `<div class="ring" style="--c:${c};--p:${(rem / M.EVENT_MIN).toFixed(3)}" title="${ev.kind === 'exp' ? '경험치' : '드랍'} 2배 남은 시간"><b>${ev.kind === 'exp' ? 'EXP' : 'DROP'}<br>${Math.floor(rem / 60)}:${String(Math.floor(rem % 60)).padStart(2, '0')}</b></div>`;
+        pb += `<div class="evp" style="--c:${c};--p:${(rem / M.EVENT_MIN).toFixed(3)}" title="${ev.kind === 'exp' ? '경험치' : '드랍'} 2배 남은 시간">${ev.kind === 'exp' ? 'EXP' : 'DROP'} ${Math.floor(rem / 60)}:${String(Math.floor(rem % 60)).padStart(2, '0')}<i></i></div>`;
       }
       p.el.querySelector('.pb')!.innerHTML = pb;
     }
@@ -418,7 +458,7 @@ function puff(x: number, y: number) {
   fx(`<div class="puff">${[[0, 4, 14], [10, 0, 16], [18, 5, 13], [6, 9, 12]].map(([l, t, s]) => `<i style="left:${l}px;top:${t}px;width:${s}px;height:${s}px"></i>`).join('')}</div>`, x, y - 10, 700);
 }
 function confetti(x: number, y: number) {
-  const cols = ['#FFC531', '#3CC47C', '#FF7BB0', '#3FA9F5', '#8B6CFF'];
+  const cols = ['var(--smile)', 'var(--flow)', 'var(--drop)', 'var(--exp)', 'var(--evolve)'];
   let html = '';
   for (let i = 0; i < 16; i++) html += `<i class="confetti" style="background:${cols[i % 5]};--dx:${(Math.random() - 0.5) * 120}px;--dy:${-30 - Math.random() * 70}px"></i>`;
   fx(html, x, y, 1300);
@@ -585,7 +625,7 @@ function startDrag(d: NonNullable<typeof V.drag>) {
   const m = A.w.monsters.find(x => x.id === d.id)!;
   const art = monArt(m);
   const [iw, ih] = ART.size(art, 3);
-  must('#drag').innerHTML = `<div style="position:absolute;left:${-iw / 2}px;top:${-ih + 10}px;filter:drop-shadow(0 6px 6px #0005)">${img(art, 3)}</div>`;
+  must('#drag').innerHTML = `<div style="position:absolute;left:${-iw / 2}px;top:${-ih + 10}px;filter:drop-shadow(0 6px 6px var(--sh3))">${img(art, 3)}</div>`;
   d.el.classList.add('dragging');
   must('#stage').classList.add('dragging');
   renderDock({ all: true });
@@ -649,6 +689,7 @@ function endDrag(d: NonNullable<typeof V.drag>) {
   refresh();
 }
 
+let pan: null | { x0: number; from: number; moved: boolean } = null;
 function bindInput() {
   const stage = must('#stage');
   stage.addEventListener('pointerdown', e => {
@@ -657,12 +698,24 @@ function bindInput() {
     const tgt = e.target as Element;
     if (tgt.closest('.evb')) return;
     const el = tgt.closest('#world .mon, #dock .tok[data-mon]') as HTMLElement | null;
-    if (!el || A.ui.mode !== 'world' || A.ui.sheet || A.ui.modal) return;
+    if (!el || A.ui.mode !== 'world' || A.ui.sheet || A.ui.modal) {
+      // 지역 줌: 빈 땅·하늘을 끌면 창이 옮겨 간다
+      if (!el && zoomed() && A.ui.mode === 'world' && !A.ui.sheet && !A.ui.modal && tgt.closest('#world') && !tgt.closest('.plat, .mon, .gapb, .gaplabel, .pill, .rtab, .evb, .wk')) {
+        pan = { x0: e.clientX, from: camWant()[0], moved: false };
+      }
+      return;
+    }
     V.drag = { id: +(el.dataset.id || el.dataset.mon || 0), el, x0: e.clientX, y0: e.clientY, started: false };
     e.preventDefault();
   });
   window.addEventListener('pointermove', e => {
     A.ui.lastInput = performance.now();
+    if (pan) {
+      const dx = (e.clientX - pan.x0) / A.fit.s;
+      if (Math.abs(dx) > 6) pan.moved = true;
+      if (pan.moved) { V.want = pan.from - dx / V.k; V.dirty = true; }
+      return;
+    }
     const d = V.drag;
     if (!d) return;
     const [sx, sy] = toStage(e.clientX, e.clientY);
@@ -670,6 +723,7 @@ function bindInput() {
     if (d.started) moveDrag(d, sx, sy);
   });
   window.addEventListener('pointerup', () => {
+    if (pan) { pan = null; }
     const d = V.drag;
     if (!d) return;
     if (d.started) endDrag(d); else { V.drag = null; A.openMonPop(d.id, d.el); }
@@ -684,6 +738,8 @@ function bindInput() {
     if (bx) { A.openBox(+(bx.dataset.box || 0), bx); return; }
     const g = tgt.closest('.gapb, .gaplabel') as HTMLElement | null;
     if (g) { A.openHire({ seg: V.gapSegs[+(g.dataset.gap || 0)] }); return; }
+    const rt = tgt.closest('.rtab') as HTMLElement | null;
+    if (rt) { showRegion(+(rt.dataset.region || 0)); return; }
     const b = tgt.closest('[data-busy]') as HTMLElement | null;
     if (b) { A.openDungeon(b.dataset.busy!, { hl: 'seat' }); return; }
     const p = tgt.closest('.plat') as HTMLElement | null;
@@ -697,6 +753,9 @@ A.highlightBest = (monId: number, only?: PlotId[]) => {
   A.ui.targets = best;
   A.ui.newTok = monId;
   renderDock();
+  // 줌이면 추천 자리가 창 안에 오게 한다
+  const lv = M.levelsOf(A.w), m = A.w.monsters.find(x => x.id === monId);
+  if (best[0]) focus(lv[best[0]] ?? (m ? M.monLevel(m) : 0));
   $$('.plat.target').forEach(e => e.classList.remove('target'));
   best.forEach(id => { if (V.plats[id]) V.plats[id].el.classList.add('target'); });
   return best;
@@ -706,8 +765,8 @@ A.highlightBest = (monId: number, only?: PlotId[]) => {
 function build() {
   buildBands();
   const b = L('bands'); b.classList.add('notrans'); setTimeout(() => b.classList.remove('notrans'), 300);
-  L('plats').innerHTML = ''; L('walkers').innerHTML = ''; L('fxL').innerHTML = ''; boxEls.clear();
-  V.plats = {}; V.mons = {}; V.walkers = new Map(); V.lanes = {};
+  L('plats').innerHTML = ''; L('walkers').innerHTML = ''; L('fxL').innerHTML = ''; L('rtabs').innerHTML = ''; boxEls.clear(); marksSig = '';
+  V.plats = {}; V.mons = {}; V.walkers = new Map(); V.lanes = {}; V.want = null;
   initCam(); V.snap = true;
 }
 function tick(dt: number, now: number) {

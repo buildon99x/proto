@@ -197,8 +197,10 @@ try {
     const s = await m();
     const file = `d-${id}.webp`;
     await shot(file);
-    scenes.push({ id, label, shot: rel(file), errors: [...b.errors], ...s });
-    console.log(`◇ ${id.padEnd(10)} 클릭 가능 ${String(s.clickables).padStart(3)}  글자 ${String(s.chars).padStart(4)}  숫자 ${String(s.numbers).padStart(3)}  배지 ${JSON.stringify(s.badges)}  발판 ${s.plats}  모험가 ${s.walkers}`);
+    // 틱 시간(JS): 프레임 루프 60틱을 동기로 돌려 한 틱의 평균 ms. 그림 그리기(레이아웃·페인트)는 들어 있지 않다 (G4 프레임 시간 기록)
+    const tickMs = await b.eval("(() => { const { pump } = window.__msw; const t0 = performance.now(); pump(2); return Math.round((performance.now() - t0) / 60 * 100) / 100; })()");
+    scenes.push({ id, label, shot: rel(file), errors: [...b.errors], tickMs, advs: await b.eval("window.__msw.A.w.advs.length"), ...s });
+    console.log(`◇ ${id.padEnd(10)} 클릭 가능 ${String(s.clickables).padStart(3)}  글자 ${String(s.chars).padStart(4)}  숫자 ${String(s.numbers).padStart(3)}  배지 ${JSON.stringify(s.badges)}  발판 ${s.plats}  모험가 ${s.walkers}  틱 ${tickMs}ms`);
   }
 } catch (e) {
   console.error("✕", e.message);
