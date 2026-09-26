@@ -18,13 +18,16 @@ export type UIEvent = M.SimEvent
   | { type: 'chapter'; n: number }
   | { type: 'healed'; a: number; b: number }
   | { type: 'docSeen' }
-  | { type: 'released'; mon: number };
+  | { type: 'released'; mon: number }
+  | { type: 'recruitStart'; kind: M.RecruitKind };
 
 export interface OrenLine { t: string; go: (() => void) | null }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface App {
   openBoss: () => void;
+  /** 모객 시트 (v1.7): 신규(입구 ×2)와 복귀(떠난 손님이 자기 레벨로) 가운데 고른다 */
+  openRecruit: () => void;
   /** 드랍 상자 열기 (v1.6): 채용권과 이벤트권 가운데 하나를 고르는 말풍선 */
   openBox: (id: number, el?: Element | null) => void;
   /** 이 탭에서 실제로 흐른 플레이 시간(초). 입사 컷과 퇴근 화면은 빼고 센다 (첫 세션 길이 계측) */
@@ -228,6 +231,14 @@ export function renderDock(opt: { all?: boolean } = {}) {
   if (tr.length > 4) trayEl.appendChild(h(`<div class="tok more" title="대기실 전체">+${tr.length - 4}</div>`));
   if (!tr.length) trayEl.appendChild(h(`<div class="trayempty">비어 있어요. 채용한 직원은 여기서 기다려요</div>`));
 
+  // 모객 버튼 (v1.7): 걸려 있으면 남은 시간, 오렌이 권하면 ›
+  const rb = must('#bRecruit');
+  rb.hidden = !RULES.guests || !w.pool;
+  if (!rb.hidden) {
+    const rc = w.recruit, pk = M.recruitPick(w);
+    rb.textContent = rc ? `📣 ${rc.kind === 'return' ? '복귀' : '신규'} 모객 중 · ${dur(rc.end - w.t)}` : pk ? `📣 모객 ›` : M.recruitTickets(w) ? `📣 모객 🎟${M.recruitTickets(w)}` : '📣 모객';
+    rb.classList.toggle('on', !!rc); rb.classList.toggle('rec', !rc && !!pk);
+  }
   const pl = must('#plots');
   pl.innerHTML = '';
   const lv = M.levelsOf(w);
@@ -398,6 +409,14 @@ export function orenPick(): OrenLine {
   }
   const ev = b.find((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve' && x.shown);
   if (ev) { const m = w.monsters.find(x => x.id === ev.mon)!; return { t: `${josa(M.monName(m), '이', '가')} 진화할 수 있대요!! ▲를 눌러봐요!!`, go: () => A.openEvolve(m.id) }; }
+  // v1.7 모객: 진화 다음, 이벤트 앞 (봇 checkIn과 같은 순서). 복귀가 먼저, 다음 신규
+  const rp = M.recruitPick(w);
+  if (rp) {
+    const free = M.recruitTickets(w) > 0 ? ' 모객권이 있어서 공짜예요!!' : '';
+    return rp.kind === 'return'
+      ? { t: `떠났던 손님 ${rp.n}명이 돌아올 수 있어요!! 자리도 있어요!! 📣 복귀 모객을 걸어요!!${free}`, go: () => A.openRecruit() }
+      : { t: `입구가 한산해요!! 빈자리 ${rp.n}석!! 📣 신규 모객으로 새 손님을 불러요!!${free}`, go: () => A.openRecruit() };
+  }
   if (w.ended) {
     const fc = M.fullClear(w);
     if (fc.starred < fc.plots || fc.dex < M.dexTotal()) return { t: `완전 클리어까지 던전 ★3 ${fc.plots - fc.starred}곳, 도감 ${M.dexTotal() - fc.dex}칸 남았어요!!`, go: () => A.openFullClear() };

@@ -116,6 +116,12 @@ const STEPS: Step[] = [
     spot: () => (A.world.drag && A.world.drag.started ? '[data-plot^="e"]' : $('#tray .tok[data-mon]') ? '#tray .tok[data-mon]' : null),
     done: s => !ch2() || !slime() || !!slime()!.d || s.age > 60,
   },
+  // v1.7: 새 지역이 열렸으니 손님을 더 부른다 — 1장 결재 선물 모객권으로 신규 모객 한 번 (R5 확장 "모객"을 배운다)
+  {
+    id: 'recruit', line: () => (A.ui.sheet === 'recruit' ? '[신규 모객]을 눌러요!! 모객권이 있어서 공짜예요!!' : '엘리니아가 열렸으니 손님을 더 불러요!! 📣 모객을 눌러요!!'),
+    spot: () => (A.ui.mode !== 'world' ? '#dBack' : A.ui.sheet === 'recruit' ? '[data-recruit="fresh"]' : A.ui.sheet ? null : '#bRecruit'),
+    done: s => !ch2() || !M.RULES_GUESTS() || !!w().recruit || M.recruitTickets(w()) === 0 || s.age > 60,
+  },
   {
     id: 'bossTease', line: '결재 막대 가운데 눈금 보이죠?! 절반이 차면 필드 보스가 찾아온대요!!',
     spot: () => (A.ui.modal || !ch2() ? null : '#docw'), done: s => !ch2() || s.age > 9,

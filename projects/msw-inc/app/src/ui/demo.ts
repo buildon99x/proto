@@ -5,6 +5,7 @@
  *       elite · boss · bossinv (v1.3) · rush10 · rush25 · rush40 (v1.4 첫 40분, 지켜보는 플레이어)
  *       split (v1.5 계열 사다리: 줄을 다른 레벨 계열로 나누는 채용 시트)
  *       box (v1.6 드랍 상자: 첫 40분에 떨어진 상자를 열어 채용권과 이벤트권 가운데 고르는 말풍선)
+ *       recruit (v1.7 모객: 떠난 손님이 돌아올 자리가 생긴 3장 월드의 모객 시트)
  */
 import { A, must, refresh, M } from './app';
 import { T } from './tut';
@@ -142,6 +143,11 @@ export function runDemo(q: string, api: { newGame: () => void; intro: () => void
       if (b0) setTimeout(() => A.openBox(b0.id), 250);
     },
     fullclear() { const w = botTo(x => x.ended, 60); M.advance(w, 1440); boot(w); settle(0.5); setTimeout(() => A.openFullClear(), 150); },
+    // v1.7: 떠난 손님이 돌아올 자리가 생긴 3장 월드 — 모객 시트 (복귀 추천)
+    recruit() {
+      const w = stepUntil(botTo(x => x.chapter >= 3 && x.t > 8 * 1440), x => { const p = M.recruitPick(x); return !!p && p.kind === 'return'; }, 1440 * 3);
+      boot(w); settle(1); setTimeout(() => A.openRecruit(), 150);
+    },
   };
   (scenes[q] || scenes.intro)();
   must('#stage').dataset.demo = q;

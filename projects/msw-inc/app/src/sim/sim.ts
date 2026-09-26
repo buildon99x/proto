@@ -315,13 +315,13 @@ export function arrivalPerMin(w: World): number {
   if (!ar && w.t < w.tut.buffUntil) return 1;
   // 필드 보스 소식에 손님이 더 온다 (v1.3)
   const fb = RULES.fieldBoss, bossX = fb && w.boss && w.boss.d ? fb.arriveX : 1;
-  // 신규 모객 (v1.7): 입구 도착 ×x
+  // 신규 모객 (v1.7): 기본 도착률 ×x. 첫날 붐빔의 파티 박자에는 곱하지 않는다(첫 40분 줄이 터진다)
   const rx = RULES.guests && w.recruit && w.recruit.kind === 'fresh' ? RULES.guests.fresh.x : 1;
   const base = ((6 * (1 + 0.5 * w.stars)) / 60) * bossX * rx;
   if (!ar || w.t >= ar.fade) return base;
   // v1.4: 첫 hold분은 붐비고, fade분까지 기본 도착률로 서서히 줄어든다
   const f = w.t < ar.hold ? 0 : (w.t - ar.hold) / (ar.fade - ar.hold);
-  return Math.max(base, (ar.rate + (base / rx - ar.rate) * f) * rx);
+  return Math.max(base, ar.rate + (base - ar.rate) * f);
 }
 /** 첫날 팁 (v1.4): 붐비는 동안 스마일 수입 배율. 도착률과 같이 줄어든다 */
 export function tipX(w: World): number {
@@ -381,7 +381,7 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
     while (rc.acc >= 1) {
       rc.acc -= 1;
       const lv = pickReturnLevel(w, info);
-      if (lv == null) { rc.acc = 0; break; }
+      if (lv == null) { rc.acc = Math.min(rc.acc, 1); break; }
       w.pool[lv]--;
       const a: Adventurer = { id: w.nextAdv++, lv, prog: 0, st: 'new', d: null, near: null, wait: 0, look: lv % 6, jit: ((lv * 7) % 10) / 14 - 0.35, seen: true };
       w.advs.push(a); w.stats.arrivals++; w.stats.returned = (w.stats.returned || 0) + 1;
@@ -730,9 +730,17 @@ export function unopenBox(w: World, r: { box: Box; idx: number; reward: BoxRewar
  * 둘 다 동시 이벤트 수 한 자리를 쓴다(던전 이벤트와 겨룬다). 스마일은 주지 않는다. 난수를 쓰지 않는다
  */
 function initGuests(w: World) { w.pool = new Array(101).fill(0); w.recruit = null; if (w.tickets.recruit == null) w.tickets.recruit = 0; }
+/**
+ * 떠난 손님을 풀에 남긴다. Lv 1~2는 새 손님과 같아 남기지 않는다. 풀이 가득 차면 가장 낮은 레벨의 손님 하나가 잊힌다 —
+ * 풀은 "돌아올 만한 손님"(중간 레벨)을 지킨다. 첫 90분에 자리를 못 찾고 돌아간 손님(L10)도 이렇게 자원이 된다
+ */
 function toPool(w: World, lv: number) {
-  if (!RULES.guests || !w.pool) return;
-  if (poolCount(w) >= RULES.guests.pool) return;
+  if (!RULES.guests || !w.pool || lv < 3) return;
+  if (poolCount(w) >= RULES.guests.pool) {
+    const low = w.pool.findIndex((n, i) => i > 0 && n > 0);
+    if (low < 0 || low >= lv) return;
+    w.pool[low]--;
+  }
   w.pool[Math.max(1, Math.min(100, lv))]++;
 }
 export const poolCount = (w: World) => (w.pool || []).reduce((s, n) => s + n, 0);
@@ -747,7 +755,8 @@ function pickReturnLevel(w: World, info: Record<PlotId, DInfo>): number | null {
     for (const id in info) { const x = info[id]; if (lv >= x.lo && lv <= x.hi) free += Math.max(0, x.seats - x.occ); }
     if (free > bestFree) { bestFree = free; best = lv; }
   }
-  return best;
+  // 빈자리가 없으면 돌아오지 않는다 — 복귀 손님이 줄을 만들지 않게 (자리가 나면 다음 걸음에 온다)
+  return bestFree > 0 ? best : null;
 }
 /** 지금 걸면 얼마나 돌아올 수 있는가: 풀의 손님 가운데 자리 있는 던전이 덮는 레벨의 인원 */
 export function returnRoom(w: World): { pool: number; room: number } {
@@ -776,13 +785,13 @@ export function entranceRoom(w: World): number {
 }
 export const recruitCost = (w: World, kind: RecruitKind) => (RULES.guests ? (kind === 'return' ? RULES.guests.return.cost : RULES.guests.fresh.cost) * w.chapter : 0);
 /**
- * 오렌이 권하는 모객: 풀에 손님이 있고 자리 있는 레벨이 5명 이상이면 복귀, 입구 던전에 빈자리가 6석 넘고 Lv 1~3 줄이 없으면 신규.
+ * 오렌이 권하는 모객: 풀에 손님이 있고 자리 있는 레벨이 8명 이상이면 복귀, 입구 던전에 빈자리가 6석 넘고 Lv 1~3 줄이 없으면 신규.
  * 이벤트 자리가 없거나 이미 모객 중이면 없다. 봇도 이것을 따른다
  */
 export function recruitPick(w: World): { kind: RecruitKind; n: number } | null {
   if (!RULES.guests || !w.pool || w.recruit || activeEvents(w) >= maxEvents(w)) return null;
   const rr = returnRoom(w);
-  if (rr.room >= 5) return { kind: 'return', n: rr.room };
+  if (rr.room >= 8) return { kind: 'return', n: rr.room };
   const busyLow = w.advs.filter(a => a.st === 'busy' && a.lv <= 3).length;
   const er = entranceRoom(w);
   if (er >= 6 && busyLow === 0 && !gapSegments(w).some(g => g[0] === 1)) return { kind: 'fresh', n: er };
@@ -798,11 +807,14 @@ export function startRecruit(w: World, kind: RecruitKind): Result<{ cost: number
   if (w.smile < cost) return no(`스마일 ${fmtN(cost - w.smile)} 모자라요`, { short: cost - w.smile });
   if (free) w.tickets.recruit!--; else w.smile -= cost;
   w.recruit = { kind, start: w.t, end: w.t + (kind === 'return' ? gu.return.min : gu.fresh.min), acc: 0 };
+  // 신규: 거는 순간 첫 손님 파티가 입구로 온다 (바로 보이는 효과). 난수를 쓰지 않는다
+  if (kind === 'fresh') w.tut.instant += gu.fresh.burst;
   return ok({ cost, free });
 }
 /** 모객 되돌리기 (5초). 이미 돌아온 손님은 돌려보내지 않는다 */
 export function cancelRecruit(w: World, refund: number, wasFree: boolean): void {
   if (!w.recruit) return;
+  if (w.recruit.kind === 'fresh' && RULES.guests) w.tut.instant = Math.max(0, w.tut.instant - RULES.guests.fresh.burst);
   w.recruit = null;
   if (wasFree) w.tickets.recruit = recruitTickets(w) + 1; else w.smile += refund;
 }
@@ -871,7 +883,7 @@ export interface Ledger {
   elites: { d: PlotId; mon: number }[]; bossCall: number | null; bossDown: { ch: number; bonus: number }[];
   /** 떠나 있는 동안 떨어진 드랍 상자 (v1.6) */
   boxes: number;
-  /** 떠나 있는 동안 돌아온 손님 (v1.7 모객) */
+  /** 장부를 시작할 때까지 돌아온 손님 (v1.7 모객). 리포트는 지금 값과의 차이를 쓴다 */
   returned: number;
 }
 export function ledgerStart(w: World): Ledger {
@@ -879,7 +891,7 @@ export function ledgerStart(w: World): Ledger {
     t0: w.t, happy0: happyCount(w), smile0: w.smile, lv0: w.stats.levelups, grad0: w.stats.grads,
     work0: Object.fromEntries(w.monsters.map(m => [m.id, m.work])),
     hourLv: {}, bestBurst: null, crowdMax: null, ready: [], approval: false, firstGrad: w.stats.grads === 0,
-    stuckMin: 0, marks: [], elites: [], bossCall: null, bossDown: [], boxes: 0, returned: 0,
+    stuckMin: 0, marks: [], elites: [], bossCall: null, bossDown: [], boxes: 0, returned: w.stats.returned || 0,
   };
 }
 export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
@@ -896,7 +908,6 @@ export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
     else if (e.type === 'bossCall') L.bossCall = e.ch;
     else if (e.type === 'bossDown') L.bossDown.push({ ch: e.ch, bonus: e.bonus });
     else if (e.type === 'box') L.boxes++;
-    else if (e.type === 'return') L.returned++;
   }
   const busy: Record<string, number> = {};
   let entrance = false;
@@ -935,7 +946,7 @@ export function ledgerReport(L: Ledger, w: World): Report {
     entranceMin: L.stuckMin,
     marks: L.marks, elites: L.elites, bossCall: L.bossCall, bossDown: L.bossDown,
     boxes: L.boxes || 0, boxesWaiting: boxesOf(w).length,
-    returned: L.returned || 0, pool: poolCount(w), recruit: recruitPick(w),
+    returned: (w.stats.returned || 0) - (L.returned || 0), pool: poolCount(w), recruit: recruitPick(w),
   };
 }
 
@@ -976,6 +987,7 @@ export const RULES_RELEASE = () => RULES.releaseRefund > 0;
 export const RULES_GROW_BOOST = () => RULES.growBoost;
 export const RULES_GRAD = () => RULES.smileGrad;
 export const RULES_GROUNDS = () => RULES.grounds;
+export const RULES_GUESTS = () => RULES.guests;
 /** 퇴사 환급: 채용비의 절반 (v1.2). 진화한 직원도 1단계 채용비 기준 */
 export const releaseRefund = (m: Monster) => Math.floor(hireCost(m.sp) * RULES.releaseRefund);
 export function release(w: World, monId: number): Result<{ refund: number; mon: Monster; idx: number }> {
@@ -1065,7 +1077,7 @@ export function evolveBlock(w: World, m: Monster): string | null {
     return '보스는 던전에 한 마리만 — 다른 던전으로 옮긴 뒤 진화해요';
   return null;
 }
-export function evolve(w: World, monId: number): Result<{ mon: Monster; from: number; isNew: boolean; tenureBefore: number }> {
+export function evolve(w: World, monId: number): Result<{ mon: Monster; from: number; isNew: boolean; tenureBefore: number; /** 승진 소식에 돌아온 손님 (v1.7 모객) */ returned: number; /** 돌아온 손님의 id (되돌리기가 풀로 돌려보낸다) */ retIds: number[] }> {
   const m = w.monsters.find(x => x.id === monId);
   if (!m) return no('없는 직원');
   const why = evolveBlock(w, m);
@@ -1079,13 +1091,44 @@ export function evolve(w: World, monId: number): Result<{ mon: Monster; from: nu
   const key = m.sp + ':' + m.stage, isNew = !w.dex[key];
   w.dex[key] = true;
   recordStage(w, m.sp, m.stage);
-  return ok({ mon: m, from, isNew, tenureBefore });
+  const retIds = evolveReturn(w, m);
+  return ok({ mon: m, from, isNew, tenureBefore, returned: retIds.length, retIds });
 }
-/** 진화 되돌리기 (5초 토스트). 도감 칸은 남긴다 — 한 번 본 모습은 본 것이다 */
-export function unevolve(w: World, monId: number, from: number, tenureBefore: number): void {
+/**
+ * 승진 소식 (v1.7 모객): 직원이 진화하면 그 던전의 새 구간에 맞는 떠난 손님이 빈자리만큼 바로 돌아온다(최대 evolveBurst).
+ * "진화했다 → 손님이 돌아온다". 진화를 미루기만 하는 것이 최선이 되지 않게 하는 경험 장치다. 5초 안에 되돌리면 돌아온 손님도 풀로 돌아간다(월드가 진화 전과 같아진다). 난수를 쓰지 않는다
+ */
+function evolveReturn(w: World, m: Monster): number[] {
+  const gu = RULES.guests;
+  const ids: number[] = [];
+  if (!gu || !w.pool || !m.d || !gu.evolveBurst) return ids;
+  const D = levelsOf(w)[m.d];
+  if (!D) return ids;
+  let free = seatsOf(w, m.d) - w.advs.filter(a => a.st === 'happy' && a.d === m.d).length;
+  for (let lv = Math.min(100, D + 5); lv >= Math.max(1, D - 5) && ids.length < gu.evolveBurst && free > 0; lv--) {
+    while (w.pool[lv] > 0 && ids.length < gu.evolveBurst && free > 0) {
+      w.pool[lv]--; free--;
+      const id = w.nextAdv++;
+      ids.push(id);
+      w.advs.push({ id, lv, prog: 0, st: 'new', d: null, near: null, wait: 0, look: lv % 6, jit: ((lv * 7) % 10) / 14 - 0.35, seen: true });
+      w.stats.arrivals++; w.stats.returned = (w.stats.returned || 0) + 1;
+    }
+  }
+  return ids;
+}
+/** 진화 되돌리기 (5초 토스트). 도감 칸은 남긴다 — 한 번 본 모습은 본 것이다. 승진 소식으로 돌아온 손님(retIds)은 풀로 돌려보낸다 */
+export function unevolve(w: World, monId: number, from: number, tenureBefore: number, retIds: number[] = []): void {
   const m = w.monsters.find(x => x.id === monId);
   if (!m) return;
   m.stage = from; m.tenure = tenureBefore; w.stats.evolves--;
+  if (retIds.length && w.pool) {
+    const set = new Set(retIds);
+    for (const a of w.advs) if (set.has(a.id)) { w.pool[Math.min(100, a.lv)]++; w.stats.arrivals--; w.stats.returned = Math.max(0, (w.stats.returned || 0) - 1); }
+    if (!w.stats.returned) delete w.stats.returned;
+    w.advs = w.advs.filter(a => !set.has(a.id));
+    const lo = Math.min(...retIds);
+    if (!w.advs.some(a => a.id >= lo)) w.nextAdv = lo;
+  }
 }
 
 export const eventCost = (w: World, did: PlotId) => { const D = levelsOf(w)[did]; return D ? 30 * D : 0; };
@@ -1464,7 +1507,7 @@ export function bestPromote(w: World, monId: number): PromotePlan | null {
   if (best.gapAfter < plainGap || (best.gapAfter === plainGap && best.pv.lost.length < plain.lost.length)) return best;
   return null;
 }
-export function promote(w: World, plan: PromotePlan): Result<{ evo: { mon: Monster; from: number; isNew: boolean; tenureBefore: number }; from: PlotId | null; hired: Monster | null; hireCost: number; openCost: number; openTicket: boolean; hiredFree: boolean }> {
+export function promote(w: World, plan: PromotePlan): Result<{ evo: { mon: Monster; from: number; isNew: boolean; tenureBefore: number; returned: number; retIds: number[] }; from: PlotId | null; hired: Monster | null; hireCost: number; openCost: number; openTicket: boolean; hiredFree: boolean }> {
   const m = w.monsters.find(x => x.id === plan.mon);
   if (!m) return no('없는 직원');
   if (plan.cost > w.smile) return no(`스마일 ${fmtN(plan.cost - w.smile)} 모자라요`, { short: plan.cost - w.smile });
@@ -1474,7 +1517,7 @@ export function promote(w: World, plan: PromotePlan): Result<{ evo: { mon: Monst
   let openTicket = false;
   if (!plan.stay) {
     const r = place(w, m.id, plan.to);
-    if (!r.ok) { unevolve(w, m.id, evo.from, evo.tenureBefore); return r; }
+    if (!r.ok) { unevolve(w, m.id, evo.from, evo.tenureBefore, evo.retIds); return r; }
     openTicket = r.ticket;
   }
   let hired: Monster | null = null, hiredFree = false;
@@ -1485,7 +1528,7 @@ export function promote(w: World, plan: PromotePlan): Result<{ evo: { mon: Monst
   return ok({ evo, from, hired, hireCost: hired && !hiredFree ? hireCost(plan.hireSp!) : 0, openCost: plan.openCost, openTicket, hiredFree });
 }
 /** 승진 발령 되돌리기 */
-export function unpromote(w: World, plan: PromotePlan, r: { evo: { from: number; tenureBefore: number }; from: PlotId | null; hired: Monster | null; hireCost: number; openCost: number; openTicket: boolean; hiredFree: boolean }): void {
+export function unpromote(w: World, plan: PromotePlan, r: { evo: { from: number; tenureBefore: number; retIds?: number[] }; from: PlotId | null; hired: Monster | null; hireCost: number; openCost: number; openTicket: boolean; hiredFree: boolean }): void {
   if (r.hired) unhire(w, r.hired.id, r.hiredFree ? 'ticket' : r.hireCost);
   const m = w.monsters.find(x => x.id === plan.mon);
   if (!m) return;
@@ -1493,7 +1536,7 @@ export function unpromote(w: World, plan: PromotePlan, r: { evo: { from: number;
     if (plan.opens && plan.to) { for (const x of monsIn(w, plan.to)) if (x.id !== m.id) x.d = null; w.plots[plan.to].open = false; w.smile += r.openCost; if (r.openTicket) w.tickets.plot++; }
     m.d = r.from;
   }
-  unevolve(w, m.id, r.evo.from, r.evo.tenureBefore);
+  unevolve(w, m.id, r.evo.from, r.evo.tenureBefore, r.evo.retIds || []);
 }
 
 /** 완전 클리어 진척 */

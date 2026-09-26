@@ -542,6 +542,13 @@ A.handlers.push(ev => {
       refresh();
     }
     else if (e.type === 'mark') { snd.play('event'); toast(`결재 막대 ${Math.round(e.pct * 100)}% · ${markLabel(e.reward)}!`); refresh(); }
+    else if (e.type === 'return') {
+      // 돌아온 손님 (v1.7 모객): 자기 레벨 자리에 "돌아왔다!"
+      if (A.ui.mode === 'world' && !V.snap && !A.demo) fxText('🔁 돌아왔다!', V.x(e.lv), GROUND - 58, 'pop small');
+      snd.play('tinyup');
+    }
+    else if (e.type === 'recruitEnd') { toast(`📣 ${e.kind === 'return' ? '복귀' : '신규'} 모객이 끝났어요`); refresh(); }
+    else if (e.type === 'recruitStart') refresh();
     else if (e.type === 'elite') {
       const m = A.w.monsters.find(x => x.id === e.mon), p = V.plats[e.d];
       if (p && A.ui.mode === 'world') { fxText('★ 엘리트!', p.left + p.w / 2, p.top - 70, 'pop y'); confetti(p.left + p.w / 2, p.top - 40); }

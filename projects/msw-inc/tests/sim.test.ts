@@ -107,7 +107,7 @@ t('진화 되돌리기는 단계·근속을 그대로 돌려놓는다 (도감은
   const before = { stage: m.stage, tenure: m.tenure };
   const r = S.evolve(w, m.id);
   assert.ok(r.ok);
-  S.unevolve(w, m.id, r.from, r.tenureBefore);
+  S.unevolve(w, m.id, r.from, r.tenureBefore, r.retIds);
   assert.deepEqual({ stage: m.stage, tenure: m.tenure }, before);
 });
 
@@ -747,13 +747,15 @@ t('모객 (v1.7): 떠난 손님은 풀에 남고, 복귀 모객이 자기 레벨
   firstSession(w);
   assert.equal(S.recruitTickets(w), 0, '튜토리얼에서 모객권 1장을 썼다');
   assert.ok(w.recruit && w.recruit.kind === 'fresh', '첫 세션에 신규 모객이 걸려 있다');
-  const a0 = S.arrivalPerMin({ ...w, recruit: null }), a1 = S.arrivalPerMin(w);
-  assert.ok(Math.abs(a1 / a0 - 2) < 1e-9, `입구 ×2 (${a0} → ${a1})`);
+  const later = { ...w, t: 200, recruit: null }, later2 = { ...w, t: 200 };
+  assert.ok(Math.abs(S.arrivalPerMin(later2) / S.arrivalPerMin(later) - 2) < 1e-9, '붐빔이 끝난 뒤 기본 도착 ×2');
+  assert.equal(S.arrivalPerMin({ ...w, t: 10 }), S.arrivalPerMin({ ...w, t: 10, recruit: null }), '첫날 붐빔의 파티 박자는 그대로');
   assert.equal(S.activeEvents(w), 1 + Object.values(w.dungeons).filter(d => d.event).length, '모객이 이벤트 자리를 쓴다');
   S.advance(w, 600);
   assert.equal(w.recruit, null, '4시간이면 끝난다');
   const pool = S.poolCount(w);
-  assert.ok(pool > 0 && pool === w.stats.left.busy + w.stats.left.search + w.stats.left.entrance || pool === RULES.guests!.pool, `떠난 손님이 풀에 남는다 ${pool}`);
+  assert.ok(pool > 0 && pool <= w.stats.left.busy + w.stats.left.search + w.stats.left.entrance, `떠난 손님이 풀에 남는다 ${pool}`);
+  assert.equal(w.pool![1] + w.pool![2], 0, 'Lv 1~2는 남기지 않는다');
   // 복귀: 돌아온 손님은 자기 레벨(1이 아니라 풀의 레벨)로 온다
   w.smile = 1e5;
   const rr = S.returnRoom(w);

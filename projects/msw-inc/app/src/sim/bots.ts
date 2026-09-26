@@ -217,7 +217,7 @@ function tryEvolve(w: World, p: Persona, log: string[], onlyHelping: boolean): b
     const r = S.evolve(w, m.id);
     if (r.ok) {
       log.push('evolve');
-      if (p.undo && gapN(w) > before && !planHireFix(w, p.place) && !planMove(w)) { S.unevolve(w, m.id, r.from, r.tenureBefore); log.push('undo'); }
+      if (p.undo && gapN(w) > before && !planHireFix(w, p.place) && !planMove(w)) { S.unevolve(w, m.id, r.from, r.tenureBefore, r.retIds); log.push('undo'); }
       // 따져 보고 진화한 사람은 결과 카드에서 본 빈틈을 바로 메운다 (한 결정의 뒷수습 — 수 제한에 세지 않는다)
       else if (p.evolve !== 'hasty' && gapN(w) > before) {
         const mv = planMove(w), fix = mv ? null : planHireFix(w, p.place);

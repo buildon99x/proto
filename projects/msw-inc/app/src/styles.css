@@ -775,3 +775,16 @@ body.portrait #rotate{display:block}
 .codex .rowc .nm em{display:block;font-style:normal;font-size:var(--fs-xs);color:var(--flow2);font-weight:800;margin-top:2px;line-height:1.3}
 .codex .rowc .nm{width:150px}
 .codex .cell{width:112px}
+
+/* ══ v1.7 G2 · 모객 ══ */
+.rbtn{position:absolute;right:10px;top:6px;height:var(--hit);padding:0 10px;border-radius:16px;background:var(--panel2);font-size:var(--fs-s);font-weight:900;color:var(--ink);border:2px solid var(--line)}
+.rbtn.rec{border-color:var(--flow);background:color-mix(in srgb,var(--flow) 12%,var(--white));box-shadow:0 0 0 3px color-mix(in srgb,var(--flow) 25%,transparent)}
+.rbtn.on{background:var(--flow);color:var(--white);border-color:var(--flow2)}
+.plotsw h6{padding-right:120px}
+.rcard{width:300px;height:132px}
+.rcard .ric{font-style:normal;font-size:var(--fs-d1);line-height:1}
+.rcard .trait{white-space:normal;line-height:1.3}
+.rcard .lvl{white-space:normal;line-height:1.3;padding-right:44px}
+.rcard.on{border-color:var(--flow);background:color-mix(in srgb,var(--flow) 12%,var(--white))}
+.tchip i.rc{background:var(--flow)}
+.tile .dd.rt{color:var(--flow2)}

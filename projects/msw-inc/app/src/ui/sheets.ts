@@ -185,7 +185,7 @@ function doEvolve(monId: number) {
   A.closeSheet();
   evolveCut(from, m, r.isNew);
   // 진화도 5초 되돌리기. 도감 칸은 남는다 — 한 번 본 모습은 본 것이다
-  setTimeout(() => toast(`${M.monName(m)} 진화`, { undo: () => M.unevolve(w, monId, r.from, r.tenureBefore) }), A.demo ? 0 : 400);
+  setTimeout(() => toast(`${M.monName(m)} 진화`, { undo: () => M.unevolve(w, monId, r.from, r.tenureBefore, r.retIds) }), A.demo ? 0 : 400);
   emit([{ type: 'evolved', mon: m.id, isNew: r.isNew }]);
   refresh();
 }
@@ -245,6 +245,46 @@ A.openBoss = () => {
   }));
   // 처음 열면 추천 던전을 월드 위에서 보여 준다
   if (hosts[0] && A.world.plats[hosts[0]]) A.world.plats[hosts[0]].el.classList.add('target');
+  snd.play('ui');
+};
+
+// ── S9 모객 (v1.7): 신규냐 복귀냐 ──────────────────────────
+/**
+ * 신규(입구 도착 ×2)와 복귀(떠난 손님이 자기 레벨로 돌아옴)는 다른 결정이다. 입구가 비었으면 신규, 중간 자리가 비었고 풀에 그 레벨 손님이 있으면 복귀.
+ * 둘 다 동시 이벤트 한 자리를 쓴다. 오렌이 권하는 카드에 리본. 모객권이 있으면 공짜. 5초 되돌리기(이미 돌아온 손님은 돌려보내지 않는다)
+ */
+A.openRecruit = () => {
+  const w = A.w, gu = RULES.guests;
+  if (!gu || !w.pool) return;
+  if (A.ui.mode === 'dungeon') A.closeDungeon();
+  const rc = w.recruit, pk = M.recruitPick(w), rr = M.returnRoom(w), er = M.entranceRoom(w), tk = M.recruitTickets(w);
+  const lim = !rc && M.activeEvents(w) >= M.maxEvents(w);
+  const price = (k: M.RecruitKind) => (tk ? `<span class="okc">🎟 모객권 · 무료${tk > 1 ? ' ×' + tk : ''}</span>` : `<i class="mini-can"></i>${n(M.recruitCost(w, k))}`);
+  const card = (k: M.RecruitKind, icon: string, name: string, eff: string, why: string, can: boolean, note: string) => `
+    <div class="hcard rcard ${pk && pk.kind === k ? 'rec' : ''} ${can ? '' : 'locked'}" data-rk="${k}">
+      ${pk && pk.kind === k ? `<span class="rib">오렌 추천 · ${pk.n}명</span>` : ''}
+      <div class="ph"><i class="ric">${icon}</i></div>
+      <b>${name}</b><span class="lvl">${eff}</span>
+      <span class="trait">${why}</span>
+      ${can ? `<button class="go" data-recruit="${k}">${price(k)}</button>` : `<div class="go dis">${note}</div>`}
+    </div>`;
+  const busyLow = w.advs.filter(a => a.st === 'busy' && a.lv <= 3).length;
+  const status = rc ? `<div class="hcard rcard on"><div class="ph"><i class="ric">📣</i></div><b>${rc.kind === 'return' ? '복귀' : '신규'} 모객 중</b><span class="lvl">${dur(rc.end - w.t)} 남음</span><span class="trait">${rc.kind === 'return' ? `돌아온 손님 ${n(w.stats.returned || 0)}명 · 풀에 ${rr.pool}명` : `입구 도착 ×${gu.fresh.x}`}</span><div class="go dis">한 번에 하나</div></div>` : '';
+  const sh = openSheet('recruit', 'var(--flow)', `<div class="sh-title">📣 모객 <small>손님을 부르는 이벤트 · 한 번에 하나 · 동시 이벤트 ${M.activeEvents(w)}/${M.maxEvents(w)} · 놓쳐도 잃는 것은 없어요</small></div>
+    <div class="cards">${status}
+      ${card('return', '🔁', '복귀 모객', `떠난 손님 ${rr.pool}명 가운데 자리 있는 레벨 ${rr.room}명 · ${gu.return.min / 60}시간 동안 시간당 ${gu.return.rate}명이 자기 레벨로`, rr.room >= 8 ? '중간 던전에 빈자리가 있어요' : rr.pool ? '자리가 없으면 돌아와도 줄을 서요' : '아직 떠난 손님이 없어요', !rc && !lim && rr.pool > 0, rc ? '모객 중' : lim ? '이벤트 자리 없음' : '떠난 손님 없음')}
+      ${card('fresh', '👋', '신규 모객', `${gu.fresh.min / 60}시간 동안 입구 도착 ×${gu.fresh.x} · 지금 입구 빈자리 ${er}석`, busyLow ? `입구 앞에 ${busyLow}명이 줄 서 있어요` : er >= 6 ? '입구가 한산해요' : '입구가 거의 찼어요', !rc && !lim, rc ? '모객 중' : '이벤트 자리 없음')}
+    </div>`);
+  $$<HTMLElement>('[data-recruit]', sh).forEach(bt => (bt.onclick = () => {
+    const k = bt.dataset.recruit as M.RecruitKind;
+    const r = M.startRecruit(w, k);
+    if (!r.ok) return nope(r.msg);
+    A.closeSheet();
+    snd.play('event');
+    toast(`📣 ${k === 'return' ? '복귀' : '신규'} 모객 시작${r.free ? ' · 모객권 사용' : ` · 스마일 −${n(r.cost)}`}`, { undo: () => M.cancelRecruit(w, r.cost, r.free) });
+    emit([{ type: 'recruitStart', kind: k }]);
+    refresh();
+  }));
   snd.play('ui');
 };
 
@@ -465,12 +505,15 @@ function scene(kind: string, data: Record<string, unknown>) {
   if (kind === 'mark') { const ms = data.list as M.Report['marks']; return { cap: `📊 결재 막대 ${ms.map(x => Math.round(x.pct * 100) + '%').join('·')}`, html: `<div class="a markbar"><i style="width:${Math.round(ms[ms.length - 1].pct * 100)}%"></i></div><div class="a markrw">${ms.map(x => markLabel(x.reward)).join('<br>')}</div>` }; }
   if (kind === 'box') return { cap: `📦 상자 ${data.n}개가 기다려요`, html: advs(3) + Array.from({ length: Math.min(3, data.n as number) }, (_, i) => `<div class="a" style="left:${36 + i * 52}px;top:${22 + (i % 2) * 8}px;font-size:var(--fs-d1)">📦</div>`).join('') };
   if (kind === 'entrance') return { cap: `😐 입구 막힘 ${dur(data.min as number)}`, html: advs(3) + `<div class="a" style="left:30px;top:14px;font-size:var(--fs-xl)">😐</div><div class="a" style="left:100px;top:10px;font-size:var(--fs-xl)">😐</div>` };
+  // v1.7 모객: 돌아온 손님이 첫 명장면이다 — 돌아온 매니저가 자기 이야기로 읽는다
+  if (kind === 'return') return { cap: `🔁 손님 ${data.n}명이 돌아왔어요`, html: advs(4) + `<div class="a" style="left:24px;top:14px;font-size:var(--fs-xl)">🔁</div><div class="a" style="left:120px;top:10px;font-size:var(--fs-xl)">😊</div>` };
   return null;
 }
 A.showReport = (rep, awayMin) => {
   const w = A.w;
   A.ui.modal = 'report';
   const picks: [string, Record<string, unknown>][] = [];
+  if (rep.returned) picks.push(['return', { n: rep.returned }]);
   if (rep.approval) picks.push(['doc', {}]);
   if (rep.bossDown.length) picks.push(['boss', { ch: rep.bossDown[0].ch, down: true }]);
   else if (rep.bossCall && w.boss && !w.boss.d) picks.push(['boss', { ch: rep.bossCall, down: false }]);
@@ -496,13 +539,14 @@ A.showReport = (rep, awayMin) => {
   const bz = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy').sort((p, q) => q.n - p.n)[0]; if (bz) chips.push(`<button class="tchip" data-go="busy" data-d="${bz.d}"><i class="bz">🌀</i>${plotShort(bz.d)} 과밀</button>`);
   if (w.boss && !w.boss.d) chips.push(`<button class="tchip" data-go="boss"><i class="ev">👑</i>필드 보스 초대</button>`);
   if (M.boxesOf(w).length) chips.push(`<button class="tchip" data-go="box"><i class="bx">📦</i>상자 ${M.boxesOf(w).length}</button>`);
+  if (rep.recruit) chips.push(`<button class="tchip" data-go="recruit"><i class="rc">📣</i>${rep.recruit.kind === 'return' ? '복귀' : '신규'} 모객${M.recruitTickets(w) ? ' · 🎟' : ''}</button>`);
   const bal = w.monsters.find(m => m.sp === 'balrog' && !m.d); if (bal) chips.push(`<button class="tchip" data-go="world"><i class="ev">👹</i>발록 씨 배치</button>`);
   const ch = M.chapterInfo(w), c = M.approvalConds(w), j = joyText(w);
   const el = h(`<div class="report"><div class="paper rp">
     <div class="stamp" id="rstamp">출근<small>${clockText(w.t).split(' · ')[1]}</small></div>
     <h1>매니저님 출근!</h1><div class="sub">매니저님이 퇴근한 ${dur(awayMin)} 동안, 월드는 이렇게 돌았어요</div>
     <div class="tiles">
-      <div class="tile main"><div class="k">😊 지금 월드를 즐기는 모험가</div><div class="v"><span data-count="${rep.happy}">0</span>${sinceIn > 0 ? `<span class="dd">▲ ${sinceIn}<small>지난 출근보다</small></span>` : ''}</div></div>
+      <div class="tile main"><div class="k">😊 지금 월드를 즐기는 모험가</div><div class="v"><span data-count="${rep.happy}">0</span>${sinceIn > 0 ? `<span class="dd">▲ ${sinceIn}<small>지난 출근보다</small></span>` : ''}${rep.returned ? `<span class="dd rt">🔁 ${rep.returned}<small>돌아온 손님</small></span>` : ''}</div></div>
       <div class="tile"><div class="k">✨ 그동안 레벨업</div><div class="v"><span data-count="${rep.levelups}">0</span><span class="dd gray">회</span></div></div>
       <div class="tile"><div class="k">스마일</div><div class="v"><div class="can big"></div>+<span data-count="${Math.max(0, rep.smile)}">0</span></div></div>
     </div>
@@ -539,6 +583,7 @@ A.showReport = (rep, awayMin) => {
     else if (g === 'ev') A.openEvolve(+(bt.dataset.mon || 0));
     else if (g === 'busy') A.openDungeon(bt.dataset.d!, { hl: 'seat' });
     else if (g === 'boss') A.openBoss();
+    else if (g === 'recruit') A.openRecruit();
     else if (g === 'box') { const b0 = M.boxesOf(A.w)[0]; if (b0) setTimeout(() => A.openBox(b0.id), 80); }
   }));
 };
@@ -550,6 +595,8 @@ A.catchUp = minutes => {
   const k = M.advance(w, minutes, L);
   const rep = M.ledgerReport(L, w);
   M.recordReport(w, rep); // 도감 운영 기록: 밤사이 퇴근왕 (v1.7)
+  // 매니저 복귀 (v1.7): 오래 떠났다 돌아오면 모객권 — 실제 플레이어의 복귀가 월드의 복귀 손님과 만난다
+  if (M.welcomeBack(w, k)) setTimeout(() => toast('📣 돌아오신 기념 모객권 +1 · 손님도 불러요'), A.demo ? 0 : 2600);
   A.world.snap = true;
   A.showReport(rep, k);
   refresh();

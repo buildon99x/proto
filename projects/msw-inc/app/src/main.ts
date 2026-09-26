@@ -53,6 +53,7 @@ function bind() {
     clearSave(); location.reload();
   };
   must('#bHire').onclick = () => A.openHire();
+  must('#bRecruit').onclick = () => A.openRecruit();
   must('#bossCard').onclick = () => { const b = A.w.boss; if (!b) return; if (!b.d) A.openBoss(); else A.openDungeon(b.d); };
   must('#evChip').onclick = () => { const m = heldEvolves(A.w)[0]; if (m) A.openEvolve(m.id); };
   must('#oren').onclick = () => { snd.play('ui'); if (A.ui.orenGo) A.ui.orenGo(); };
