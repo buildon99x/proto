@@ -35,6 +35,7 @@ export function makeWatcher(w: S.World): Watcher {
     return Object.values(busy).filter(n => n >= 2).length;
   };
   let hot = hotN(), gapN = S.gapSize(S.gapSegments(w)), busyN = busyOf(), zone = zoneOf(w), chapter = w.chapter;
+  let recruit = !!S.recruitPick(w);
   return {
     moments, lvups,
     tap(ev, s) {
@@ -70,8 +71,12 @@ export function makeWatcher(w: S.World): Watcher {
       const z = zoneOf(w);
       if (z !== zone && w.chapter === chapter) A('zone');
       zone = z; chapter = w.chapter;
+      // 모객을 권할 수 있게 된 순간 = 결정거리 (v1.7)
+      const rp = !!S.recruitPick(w);
+      if (rp && !recruit) C('recruit');
+      recruit = rp;
     },
-    settle() { hot = hotN(); gapN = S.gapSize(S.gapSegments(w)); },
+    settle() { hot = hotN(); gapN = S.gapSize(S.gapSegments(w)); recruit = !!S.recruitPick(w); },
     act(kind, s) { const m: Moment = { s, layer: 'C', kind: 'act:' + kind }; moments.push(m); return m; },
   };
 }

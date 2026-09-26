@@ -3,15 +3,19 @@
  * 현장은 결과를 바꾸지 않는다. 서버(sim)가 낸 사건을 샘플로 재생한다.
  */
 import { A, $, must, h, n, clamp, img, monArt, ro, plotName, plotShort, lvColor, dur, snd, nope, toast, emit, refresh, seatJoyGain, M } from './app';
-import { REGIONS, SPECIES, TRAITS, fieldBoss, type PlotId } from '../sim/content';
+import { REGIONS, SPECIES, TRAITS, fieldBoss, plotInfo, type PlotId } from '../sim/content';
 import { ART } from './art';
+import { SCENERY } from './scenery';
 
-const GY = 212, PLAT = { y: 104, x0: 720, x1: 1120 };
-interface MonA { id: number; el: HTMLElement; art: string; iw: number; ih: number; x: number; home: number; y: number; ph: number; dead: boolean }
+const GY = 212;
+/** 현장 발판: 부지의 층 수(tiers)에 따라 0~2개. x0~x1 폭, y = 발판 윗면 */
+interface Pl { y: number; x0: number; x1: number }
+const TIERS: Pl[][] = [[], [{ y: 104, x0: 720, x1: 1120 }], [{ y: 92, x0: 120, x1: 460 }, { y: 128, x0: 760, x1: 1160 }]];
+interface MonA { id: number; el: HTMLElement; art: string; iw: number; ih: number; x: number; home: number; y: number; ph: number; dead: boolean; range: number; dir: number; pauseT: number; fast: boolean }
 interface AdvA { id: number; el: HTMLElement; x: number; y: number; tx: number; speed: number; swingT: number; mon: MonA | null; face: number; leaving: boolean; fresh: boolean; lvT?: number }
 const DV = {
   id: null as PlotId | null, mons: {} as Record<number, MonA>, advs: new Map<number, AdvA>(), killAcc: 0, panelT: 0,
-  hl: null as string | null, hlUntil: 0,
+  hl: null as string | null, hlUntil: 0, pls: [] as Pl[],
   panel, tick, bind,
 };
 A.dv = DV;
@@ -24,25 +28,27 @@ A.openDungeon = (id, opt) => {
   A.closeSheet();
   A.ui.mode = 'dungeon';
   DV.id = id; DV.hl = (opt && opt.hl) || null; DV.hlUntil = performance.now() + 3500; DV.mons = {}; DV.advs = new Map(); DV.killAcc = 0;
-  const r = regionOf(D);
+  // v1.7: 현장은 그 부지가 있는 지역의 배경(먼 배경·소품·바닥)과 층 수만큼의 발판으로 그린다
+  const info = plotInfo(id), r = REGIONS[info.region - 1] || regionOf(D);
+  DV.pls = TIERS[info.tiers - 1] || TIERS[1];
   const el = must('#dview');
   el.hidden = false;
+  const homes = info.home.map(sp => SPECIES[sp].names[0]).join('·');
   el.innerHTML = `
     <div class="subbar">
       <button class="back" id="dBack" title="월드 길로 (Esc)">← 월드</button>
       <span class="dname">${plotName(id)}</span>
       <span class="chip lv" id="dLv" title="던전 레벨 = 직원 평균 레벨. 모험가는 ±5 안에서 즐겁다"></span>
       <span class="chip" id="dSeat"></span>
+      ${M.RULES_GROUNDS() ? `<span class="chip home" title="이 사냥터의 식구 — 여기서 일하면 근속 ×${M.RULES_GROUNDS()!.homeX}">🏠 ${homes}</span>` : ''}
       <span id="dEv"></span>
       <span class="meta" id="dMeta"></span>
     </div>
     <div class="scene b${r.n}" id="dScene">
       <div class="sky"></div>
-      <div class="hill" style="left:-60px;bottom:40px;width:520px;height:190px;background:var(--sh1)"></div>
-      <div class="hill" style="left:640px;bottom:40px;width:700px;height:230px;background:var(--sh1)"></div>
       <div class="cloud" style="left:150px;top:22px;width:120px"></div><div class="cloud" style="left:880px;top:14px;width:160px"></div>
-      <div class="pl" style="left:${PLAT.x0}px;width:${PLAT.x1 - PLAT.x0}px;top:${PLAT.y}px"></div>
-      <div class="gr"></div>
+      ${SCENERY.layers(r.n, 4)}
+      ${DV.pls.map(p => `<div class="pl" style="left:${p.x0}px;width:${p.x1 - p.x0}px;top:${p.y}px;${SCENERY.platStyle(r.n, 4)}"></div>`).join('')}
       <div id="dActors" style="position:absolute;inset:0"></div>
       <div id="dFx" style="position:absolute;inset:0;pointer-events:none"></div>
     </div>
@@ -93,7 +99,7 @@ function panel() {
     const ready = full && !!picks.get(m.id)?.shown, held = full && !ready;
     const tr = sp.trait ? TRAITS[sp.trait] : null;
     slots += `<div class="slot ${ready ? 'ready' : ''} ${held ? 'held' : ''} ${M.isBoss(m) ? 'bossc' : ''}">
-      <div class="nm">${M.monName(m)}</div><div class="lvl">Lv ${M.monLevel(m)} · ${m.stage + 1}단계${M.isBoss(m) ? ' · 보스' : ''}</div>
+      <div class="nm">${M.monName(m)}${M.atHome(m) ? ' <i class="hm" title="식구 사냥터 · 근속 ×1.2">🏠</i>' : ''}</div><div class="lvl">Lv ${M.monLevel(m)} · ${m.stage + 1}단계${M.isBoss(m) ? ' · 보스' : ''}</div>
       <div class="ph">${img(monArt(m), 3)}</div>
       <span class="trait" title="${tr ? tr.desc : '특성 없음'}">${tr ? tr.icon + ' ' + tr.name : '— 표준'}</span>
       ${ready ? `<button class="evbtn" data-ev="${m.id}">▲ 진화 가능</button>` : held ? `<button class="evbtn held" data-ev="${m.id}" title="지금 진화하면 길이 끊겨요. 결과를 미리 봐요">근속 가득 · 보기</button>` : ''}
@@ -173,10 +179,11 @@ function bind() {
 }
 
 // ── 현장 배우들 ─────────────────────────────────────────────
-function fx(html: string, x: number, y: number, life = 1200) {
-  const box = $('#dFx'); if (!box) return;
+function fx(html: string, x: number, y: number, life = 1200): HTMLElement | null {
+  const box = $('#dFx'); if (!box) return null;
   const el = h(`<div class="fx" style="left:${x}px;top:${y}px">${html}</div>`);
   box.appendChild(el); if (!A.demo) setTimeout(() => el.remove(), life);
+  return el;
 }
 function eventBurst(kind: 'exp' | 'drop') {
   if (!$('#dFx')) return;
@@ -187,14 +194,14 @@ function eventBurst(kind: 'exp' | 'drop') {
     fx(`<div class="ringfx" style="border-color:${c}"></div>`, a.x, a.y - 60, 1000);
   }
 }
-function monSpots(k: number) {
-  // 땅과 발판에 고르게 흩어 놓는다. 3마리부터 발판을 쓴다.
-  const out: { x: number; y: number }[] = [];
-  const onPlat = (i: number) => k >= 3 && i % 2 === 1;
+/** 직원 자리: 첫째는 땅, 둘째부터 발판이 있으면 발판에 번갈아, 나머지는 땅. range = 자기 자리에서 오가는 폭 */
+function monSpots(k: number): { x: number; y: number; range: number }[] {
+  const out: { x: number; y: number; range: number }[] = [];
+  const pls = DV.pls;
+  const onPlat = (i: number) => pls.length > 0 && k >= 2 && i % 2 === 1;
   const ground = [...Array(k).keys()].filter(i => !onPlat(i)), plat = [...Array(k).keys()].filter(onPlat);
-  ground.forEach((i, j) => { out[i] = { y: GY, x: 170 + (j + 0.5) * (k >= 3 ? 520 : 940) / ground.length }; });
-  plat.forEach((i, j) => { out[i] = { y: PLAT.y, x: PLAT.x0 + (j + 0.5) * (PLAT.x1 - PLAT.x0) / plat.length }; });
-  if (k >= 3) ground.forEach((i, j) => { if (j === ground.length - 1 && ground.length > 1) out[i].x = 1180; });
+  ground.forEach((i, j) => { const w = 1000 / ground.length; out[i] = { y: GY, x: 140 + (j + 0.5) * w, range: Math.min(90, w / 2 - 50) }; });
+  plat.forEach((i, j) => { const p = pls[j % pls.length], nOn = plat.filter((_, q) => q % pls.length === j % pls.length).length, at = Math.floor(j / pls.length), w = (p.x1 - p.x0) / nOn; out[i] = { y: p.y, x: p.x0 + (at + 0.5) * w, range: Math.min(60, w / 2 - 30) }; });
   return out;
 }
 function syncMons() {
@@ -209,9 +216,9 @@ function syncMons() {
       const [iw, ih] = ART.size(art, 3);
       const el = h(`<div class="actor walking">${img(art, 3)}</div>`);
       box.appendChild(el);
-      a = DV.mons[m.id] = { id: m.id, el, art, iw, ih, x: spots[i].x, home: spots[i].x, y: spots[i].y, ph: Math.random() * 6, dead: false };
+      a = DV.mons[m.id] = { id: m.id, el, art, iw, ih, x: spots[i].x, home: spots[i].x, y: spots[i].y, ph: Math.random() * 6, dead: false, range: spots[i].range, dir: 1, pauseT: 0.5 + Math.random(), fast: SPECIES[m.sp].trait === 'fast' };
     }
-    a.home = spots[i].x; a.y = spots[i].y;
+    a.home = spots[i].x; a.y = spots[i].y; a.range = spots[i].range;
   });
   for (const id in DV.mons) if (!alive.has(+id)) { DV.mons[id].el.remove(); delete DV.mons[id]; }
 }
@@ -246,11 +253,11 @@ function syncAdvs() {
     const m = ms[k % ms.length], side = Math.floor(k / ms.length);
     a.mon = m; a.y = m.y;
     const off = [-62, 62, -104, 104][side % 4];
-    const onPlat = m.y === PLAT.y;
-    a.tx = onPlat ? clamp(m.home + off, PLAT.x0 + 18, PLAT.x1 - 18) : clamp(m.home + off, 30, 1250);
+    const pl = DV.pls.find(p => p.y === m.y);
+    a.tx = pl ? clamp(m.home + off, pl.x0 + 18, pl.x1 - 18) : clamp(m.home + off, 30, 1250);
     a.face = a.tx < m.home ? 1 : -1;
     // 새로 온 모험가는 제자리 가까이에서 걸어 들어온다 (발판이면 발판 끝에서)
-    if (a.fresh) { a.fresh = false; a.x = onPlat ? PLAT.x0 + 12 : Math.max(-40, a.tx - 240); if (!A.demo) a.el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400 }); }
+    if (a.fresh) { a.fresh = false; a.x = pl ? pl.x0 + 12 : Math.max(-40, a.tx - 240); if (!A.demo) a.el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400 }); }
     k++;
   }
 }
@@ -263,9 +270,20 @@ function tick(dt: number, now: number) {
   for (const id in DV.mons) {
     const m = DV.mons[id];
     const busy = [...DV.advs.values()].some(a => a.mon === m && !a.leaving);
-    m.x = m.home + (busy ? 0 : Math.sin(now / 1000 * 0.6 + m.ph) * 30);
+    // 직원 상태: 손님이 있으면 제자리에서 대기(맞아 준다), 없으면 자기 발판 위를 오간다(순찰). 끝에 닿으면 잠깐 멈췄다 돌아선다
+    let walking = false;
+    if (!busy && !m.dead) {
+      if (m.pauseT > 0) m.pauseT -= dt;
+      else {
+        m.x += m.dir * 34 * dt; walking = true;
+        if (m.x > m.home + m.range) { m.x = m.home + m.range; m.dir = -1; m.pauseT = 0.6 + Math.random() * 1.2; }
+        if (m.x < m.home - m.range) { m.x = m.home - m.range; m.dir = 1; m.pauseT = 0.6 + Math.random() * 1.2; }
+      }
+    } else if (busy) m.x += (m.home - m.x) * Math.min(1, dt * 4);
     m.el.style.transform = `translate(${m.x - m.iw / 2}px,${m.y - m.ih + 2}px)`;
-    m.el.classList.toggle('walking', !busy);
+    m.el.classList.toggle('walking', walking);
+    m.el.classList.toggle('idle', busy);
+    m.el.classList.toggle('flip', m.dir > 0);
   }
   for (const [, a] of DV.advs) {
     const dx = a.tx - a.x;
@@ -295,13 +313,22 @@ function tick(dt: number, now: number) {
       m.dead = true; m.el.classList.add('dead');
       fx(`<div class="puff big">${[[0, 4, 14], [10, 0, 16], [18, 5, 13], [6, 9, 12]].map(([l, t, s]) => `<i style="left:${l}px;top:${t}px;width:${s}px;height:${s}px"></i>`).join('')}</div>`, m.x, m.y - 20, 700);
       fx(`<div class="pop" style="transform:translateX(-50%)">퇴근!</div>`, m.x, m.y - m.ih - 20, 1200);
+      // 드랍: 스마일 알갱이가 튀어 올라 땅에 떨어지고, 때리던 모험가가 줍는다 (원작 문법: 드랍 → 줍기)
+      const picker = [...DV.advs.values()].find(a => a.mon === m && !a.leaving);
+      for (let i = 0; i < 1 + Math.floor(Math.random() * 2); i++) {
+        const dx = (Math.random() - 0.5) * 70, el = fx(`<div class="dropi" style="--dx:${dx}px"><i></i></div>`, m.x, m.y - 10, 1500);
+        if (el && picker && !A.demo) setTimeout(() => { el.style.transition = 'transform .25s ease-in, opacity .25s'; el.style.transform = `translate(${picker.x - m.x}px,${picker.y - 40 - (m.y - 10)}px) scale(.6)`; el.style.opacity = '0'; }, 800 + i * 120);
+      }
       fx(`<div class="pop y" style="transform:translateX(-50%);font-size:var(--fs-s)">+😊</div>`, m.x + 30, m.y - m.ih, 1100);
       A.world.mote(m.x, m.y - 30 + 56 + 44);
       snd.play('poof');
+      // 출근(리젠): ⏩ 계열은 빨리 돌아온다. 사원증을 흔들며 나타난다
       setTimeout(() => {
-        m.dead = false; m.el.classList.remove('dead');
-        fx(`<div class="pop b" style="transform:translateX(-50%)">출근! 🪪</div>`, m.x, m.y - m.ih - 16, 1100);
-      }, 1400);
+        m.dead = false; m.el.classList.remove('dead'); m.el.classList.add('spawn');
+        const b = h('<span class="idcard"><i></i></span>'); m.el.appendChild(b);
+        setTimeout(() => { b.remove(); m.el.classList.remove('spawn'); }, 1100);
+        fx(`<div class="pop b" style="transform:translateX(-50%)">출근!</div>`, m.x, m.y - m.ih - 16, 1100);
+      }, m.fast ? 1000 : 1400);
     }
   }
   DV.killAcc = Math.min(DV.killAcc, 6);
@@ -322,6 +349,7 @@ A.handlers.push(ev => {
       }
       if (a.lvT && performance.now() - a.lvT < 700) continue;
       a.lvT = performance.now();
+      a.el.classList.remove('jump'); void a.el.offsetWidth; a.el.classList.add('jump');
       const top = Math.max(40, a.y - 118);
       fx(`<div class="bigpillar" style="height:${a.y}px"></div>`, a.x, 0, 1100);
       fx(`<div class="lvup" style="transform:translateX(-50%)">LEVEL UP!</div>`, a.x, top, 1400);

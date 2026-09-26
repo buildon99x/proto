@@ -11,7 +11,7 @@
  */
 import assert from 'node:assert/strict';
 import * as S from '../app/src/sim/sim';
-import { useRules, V11, V13, V14, V15, V16, V17, RULES } from '../app/src/sim/rules';
+import { useRules, V11, V13, V14, V15, V16, V17, GUESTS_V17, RULES } from '../app/src/sim/rules';
 import { PERSONAS, runPersona, firstSession, lightClone } from '../app/src/sim/bots';
 import { runCadence, gapStats } from '../app/src/sim/tools/cadence';
 import { PLOTS, CHAPTERS, SPECIES } from '../app/src/sim/content';
@@ -20,8 +20,8 @@ let passed = 0;
 const t = (name: string, fn: () => void) => {
   try { fn(); passed++; console.log('✓', name); } catch (e) { console.log('✕', name); throw e; }
 };
-// id 번호는 되돌리지 않는다. 도감도 되돌리지 않는다(한 번 본 모습은 본 것이다)
-const snap = (w: S.World) => JSON.stringify({ ...w, advs: w.advs.length, nextMon: 0, dex: 0 });
+// id 번호는 되돌리지 않는다. 도감과 운영 기록(v1.7)도 되돌리지 않는다(한 번 본 모습은 본 것이다)
+const snap = (w: S.World) => JSON.stringify({ ...w, advs: w.advs.length, nextMon: 0, dex: 0, rec: 0 });
 
 // ── 1. 이식 검증 (v1.1 = 컨셉 프로토타입) ─────────────────────
 useRules(V11);
@@ -668,7 +668,7 @@ t('봇은 상자를 열어도 수 제한에 세지 않고, 모든 성향에서 �
 
 // ── 7. v1.7 사냥터·모객 ──────────────────────────────────────
 /** v1.7의 새 필드를 모두 끈 규칙. 필드를 더할 때마다 여기에 기본값(null·false)을 적는다 */
-const V17_OFF = { ...V17 };
+const V17_OFF = { ...V17, grounds: null, guests: null };
 t('규칙 v1.7은 새 필드를 끄면 v1.6과 똑같이 흐른다 (봇 한 달, 난수 흐름까지)', () => {
   const run = (r: typeof V16) => {
     useRules(r);
@@ -680,6 +680,130 @@ t('규칙 v1.7은 새 필드를 끄면 v1.6과 똑같이 흐른다 (봇 한 달,
   };
   const a = run(V16), b = run(V17_OFF);
   assert.equal(b, a);
+  useRules(V17);
+});
+
+t('사냥터 값 (v1.7): 부지 자리는 초반 두 지역 12, 3장부터 8·12·16이고 지역 합은 12 × 부지 수 그대로, 식구는 자기 사냥터에서 근속 ×homeX', () => {
+  const w = S.createWorld(21);
+  for (let r = 1; r <= 5; r++) {
+    const ps = PLOTS.filter(p => p.region === r);
+    assert.equal(ps.reduce((s, p) => s + p.seats, 0), 12 * ps.length, `지역 ${r} 자리 합`);
+    for (const p of ps) { assert.ok((r <= 2 ? [12] : [8, 12, 16]).includes(p.seats), p.id); assert.ok(p.home.length >= 1 && p.home.every(sp => SPECIES[sp]), p.id + ' 식구'); if (r >= 3) assert.equal(p.tiers, p.seats < 12 ? 1 : p.seats === 12 ? 2 : 3, p.id + ' 층 수 = 자리'); }
+  }
+  assert.equal(w.dungeons.h1.seats, 16, '들판 12 + 선물 4');
+  w.plots.h4.open = true; w.plots.h5.open = true;
+  assert.equal(w.dungeons.h4.seats, 12); assert.equal(w.dungeons.h5.seats, 12);
+  w.plots.p1 = { open: true }; w.dungeons.p1 = { id: 'p1', slots: 3, seats: S.plotSeats('p1'), seatUp: 0, slotUp: 0, event: null, joy: 0, recentLv: 0 };
+  assert.equal(w.dungeons.p1.seats, 16); assert.equal(S.plotSeats('p2'), 8);
+  // 식구: 같은 조건에서 자기 사냥터의 근속이 1.2배
+  const a = S.createWorld(22), b = S.createWorld(22);
+  for (const x of [a, b]) { x.plots.h4.open = true; x.plots.h2.open = true; for (const m of x.monsters) m.d = null; }
+  const pa = S.addMonster(a, 'pig', 'h4'), pb = S.addMonster(b, 'pig', 'h2');
+  assert.ok(S.atHome(pa) && !S.atHome(pb));
+  for (const x of [a, b]) for (let i = 0; i < 12; i++) x.advs.push({ id: 900 + i, lv: 5, prog: 0, st: 'happy', d: x === a ? 'h4' : 'h2', near: null, wait: 0, look: 0, jit: 0 });
+  S.step(a, 1); S.step(b, 1);
+  const per = (x: S.World, m: S.Monster) => m.tenure / S.happyCount(x); // 자리 수가 달라 즐거운 인원이 다르니 한 명당 근속으로 비교한다
+  assert.ok(Math.abs(per(a, pa) / per(b, pb) - RULES.grounds!.homeX) < 1e-6, `${per(a, pa)} / ${per(b, pb)}`);
+  // 추천 자리: 빈틈·비용이 같으면 식구 사냥터가 먼저
+  const w2 = S.createWorld(23);
+  w2.plots.h4.open = true; w2.plots.h5.open = true; w2.smile = 1e5;
+  const m = S.addMonster(w2, 'pig', null);
+  const best = S.bestPlaces(w2, m.id);
+  assert.ok(best.length && best.every(id => S.isHome('pig', id)), JSON.stringify(best));
+  // 규칙을 끄면 v1.6 그대로
+  useRules({ ...V17, grounds: null });
+  const old = S.createWorld(21); old.plots.h4.open = true;
+  assert.equal(old.dungeons.h4.seats, 12);
+  assert.equal(S.atHome(S.addMonster(old, 'pig', 'h4')), false);
+  useRules(V17);
+});
+
+t('도감 운영 기록 (v1.7): 일한 사냥터·퇴근왕·단계별 첫 진화 시각이 쌓이고, 옛 세이브는 비어 있어도 된다', () => {
+  const w = S.createWorld(24);
+  firstSession(w);
+  const r = S.recordOf(w, 'snail');
+  assert.ok(r.plots.includes('h1') && r.plots.includes('h3'), '고참이 들판에서 버섯 언덕으로 발령 ' + JSON.stringify(r.plots));
+  assert.equal(r.at[0], 0, '첫 채용 시각');
+  assert.ok(r.at[1] != null && r.at[1]! > 0, '첫 진화 시각');
+  assert.equal(r.kings, 0);
+  S.recordReport(w, { king: { id: w.monsters[0].id, n: 10 } });
+  assert.equal(S.recordOf(w, w.monsters[0].sp).kings, 1);
+  // 봇 판단용 복제본에서 진화해도 진짜 월드의 기록은 바뀌지 않는다
+  const c = lightClone(w);
+  const ready = c.monsters.find(x => x.stage === 0 && !x.vet)!;
+  ready.tenure = S.evolveNeed(ready); S.evolve(c, ready.id);
+  assert.equal(S.recordOf(w, ready.sp).at[1] == null || S.recordOf(w, ready.sp).at[1] === r.at[1] && ready.sp === 'snail', true);
+  // 옛 세이브: rec가 없어도 읽을 수 있다
+  const old = JSON.parse(JSON.stringify(w)); delete old.rec;
+  assert.ok(S.isWorld(old));
+  assert.deepEqual(S.recordOf(old, 'mush').plots, []);
+});
+
+/** 모객 규칙을 켠 v1.7 (1.8.0부터 게임 값). 게임 규칙에 켜지면 이 줄은 V17과 같다 */
+const V17G = { ...V17, guests: V17.guests || GUESTS_V17 };
+t('모객 (v1.7): 떠난 손님은 풀에 남고, 복귀 모객이 자기 레벨로 데려온다. 신규 모객은 입구 도착 ×2. 둘 다 이벤트 자리 하나를 쓴다', () => {
+  useRules(V17G);
+  const w = S.createWorld(31);
+  firstSession(w);
+  assert.equal(S.recruitTickets(w), 0, '튜토리얼에서 모객권 1장을 썼다');
+  assert.ok(w.recruit && w.recruit.kind === 'fresh', '첫 세션에 신규 모객이 걸려 있다');
+  const a0 = S.arrivalPerMin({ ...w, recruit: null }), a1 = S.arrivalPerMin(w);
+  assert.ok(Math.abs(a1 / a0 - 2) < 1e-9, `입구 ×2 (${a0} → ${a1})`);
+  assert.equal(S.activeEvents(w), 1 + Object.values(w.dungeons).filter(d => d.event).length, '모객이 이벤트 자리를 쓴다');
+  S.advance(w, 600);
+  assert.equal(w.recruit, null, '4시간이면 끝난다');
+  const pool = S.poolCount(w);
+  assert.ok(pool > 0 && pool === w.stats.left.busy + w.stats.left.search + w.stats.left.entrance || pool === RULES.guests!.pool, `떠난 손님이 풀에 남는다 ${pool}`);
+  // 복귀: 돌아온 손님은 자기 레벨(1이 아니라 풀의 레벨)로 온다
+  w.smile = 1e5;
+  const rr = S.returnRoom(w);
+  const r = S.startRecruit(w, 'return');
+  assert.ok(r.ok && r.cost === RULES.guests!.return.cost * w.chapter);
+  const out: S.SimEvent[] = [];
+  const before = pool;
+  for (let i = 0; i < 60; i++) S.step(w, 1, out);
+  const ret = out.filter(e => e.type === 'return') as { type: 'return'; lv: number }[];
+  assert.ok(ret.length >= Math.min(RULES.guests!.return.rate - 1, rr.room, before) - 1 && ret.length > 0, `한 시간에 돌아온 손님 ${ret.length} (풀 ${before}, 자리 ${rr.room})`);
+  assert.ok(ret.every(e => e.lv >= 1) && ret.some(e => e.lv > 1), '자기 레벨로 돌아온다');
+  assert.ok(S.poolCount(w) >= before - ret.length && S.poolCount(w) <= RULES.guests!.pool, '풀에서 나간 만큼 줄고(그 사이 새로 떠난 손님은 더해진다), 상한을 넘지 않는다');
+  assert.equal(w.stats.returned, ret.length);
+  // 되돌리기: 모객 취소는 이벤트 자리와 스마일을 돌려놓는다 (돌아온 손님은 그대로)
+  const w2 = S.createWorld(32); firstSession(w2); S.advance(w2, 600); w2.smile = 1e4;
+  const s0 = w2.smile, r2 = S.startRecruit(w2, 'return');
+  assert.ok(r2.ok);
+  S.cancelRecruit(w2, r2.cost, r2.free);
+  assert.equal(w2.recruit, null); assert.equal(w2.smile, s0);
+  // 모객권: 6시간 넘게 떠났다 돌아오면 1장, 2장까지만
+  assert.equal(S.welcomeBack(w2, 100), false);
+  assert.equal(S.welcomeBack(w2, 400), true);
+  assert.equal(S.welcomeBack(w2, 400), true);
+  assert.equal(S.welcomeBack(w2, 400), false, '쥔 모객권 상한');
+  assert.equal(S.recruitTickets(w2), 2);
+  // 규칙을 끄면 v1.6 그대로: 풀도 모객권도 없다
+  useRules({ ...V17, guests: null });
+  const old = S.createWorld(31); firstSession(old); S.advance(old, 600);
+  assert.equal(old.pool, undefined); assert.equal(S.poolCount(old), 0); assert.equal(S.recruitPick(old), null);
+  assert.equal(S.startRecruit(old, 'fresh').ok, false);
+  useRules(V17G);
+  // 옛 세이브: 풀·모객권 칸이 없어도 첫 걸음에 채운다
+  const sv = JSON.parse(JSON.stringify(w2)); delete sv.pool; delete sv.recruit; delete sv.tickets.recruit;
+  assert.ok(S.isWorld(sv)); S.step(sv, 1);
+  assert.ok(Array.isArray(sv.pool) && sv.tickets.recruit === 0);
+  useRules(V17);
+});
+
+t('모객은 놓쳐도 잃는 것이 없고, 봇은 오렌이 권할 때만 건다 (모든 성향에서 월드가 멈추지 않는다)', () => {
+  useRules(V17G);
+  for (const p of PERSONAS) {
+    const r = runPersona(p, 11, 45);
+    assert.ok(r.happyEnd > 0, p.id + ' 멈춤');
+    assert.ok(r.recruits >= 0);
+  }
+  const w = S.createWorld(33); firstSession(w);
+  S.advance(w, 1440 * 3);
+  const c = S.poolCount(w);
+  S.advance(w, 1440 * 3);
+  assert.ok(S.poolCount(w) >= Math.min(c, RULES.guests!.pool), '풀은 줄지 않는다');
   useRules(V17);
 });
 

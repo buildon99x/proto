@@ -67,6 +67,7 @@ export function lightClone(w: World): World {
     dex: { ...w.dex }, tut: { ...w.tut }, tickets: { ...w.tickets, hire: [...w.tickets.hire] }, stats: { ...w.stats, left: { ...w.stats.left } },
     boss: w.boss && { ...w.boss }, bossDone: [...w.bossDone], elite: w.elite && { ...w.elite }, eliteBy: { ...w.eliteBy }, marks: [...w.marks],
     boxes: w.boxes && w.boxes.map(b => ({ ...b })), boxBy: w.boxBy && { ...w.boxBy },
+    rec: w.rec && JSON.parse(JSON.stringify(w.rec)),
   };
 }
 
@@ -235,7 +236,7 @@ function tryEvolve(w: World, p: Persona, log: string[], onlyHelping: boolean): b
 
 /** 자리가 모자랄 때: 사람이 가장 많이 기다리는 레벨에 던전을 하나 더 연다 */
 function planExpand(w: World): { sp: SpeciesId; to: PlotId } | null {
-  const empty = Object.keys(w.plots).filter(id => !S.monsIn(w, id).length).sort((a, b) => +w.plots[b].open - +w.plots[a].open || S.plotCost(w, a) - S.plotCost(w, b));
+  const empty = Object.keys(w.plots).filter(id => !S.monsIn(w, id).length).sort((a, b) => +w.plots[b].open - +w.plots[a].open || S.plotCost(w, a) - S.plotCost(w, b) || S.plotSeats(b) - S.plotSeats(a));
   if (!empty.length) return null;
   // 레벨별 인구 (즐거움 + 기다림)
   const pop = new Array(101).fill(0);
@@ -254,10 +255,12 @@ function planExpand(w: World): { sp: SpeciesId; to: PlotId } | null {
   return best && best.score >= 6 ? { sp: best.sp, to } : null;
 }
 
-export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: boolean } = {}): CheckinLog {
+export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: boolean; awayMin?: number } = {}): CheckinLog {
   const log: string[] = [];
   let acts = 0;
   const can = () => acts < p.acts;
+  // 매니저 복귀 (v1.7): 오래 떠났다 돌아오면 모객권 — 화면의 출근 리포트와 같은 함수
+  if (opts.awayMin != null && S.welcomeBack(w, opts.awayMin)) log.push('welcome');
   if (w.approvalReady && (!p.lateStamp || opts.first)) { S.approve(w); log.push('approve'); acts++; }
   // 5장: 발록 입사 지원서가 오면 바로 배치한다 (가장 비싼 부지라도)
   const bal = w.monsters.find(m => m.sp === 'balrog' && !m.d);
@@ -358,6 +361,12 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
     }
     // 진화 ②: 나머지는 성향대로
     if (tryEvolve(w, p, log, false)) { acts++; continue; }
+    // 모객 (v1.7): 오렌이 권하면 건다 — 풀에 손님이 있고 자리가 있으면 복귀, 입구가 한산하면 신규. 모객권이 있으면 성향과 관계없이, 없으면 이벤트를 거는 성향만 스마일이 넉넉할 때
+    const rp = S.recruitPick(w);
+    if (rp && (S.recruitTickets(w) > 0 || (p.events && w.smile > 4 * S.recruitCost(w, rp.kind)))) {
+      const r = S.startRecruit(w, rp.kind);
+      if (r.ok) { log.push('recruit:' + rp.kind + (r.free ? '-free' : '')); acts++; continue; }
+    }
     // 이벤트: 스마일이 넉넉하면(또는 무료 이벤트권이 있으면 성향과 관계없이) 가장 붐비는 던전에 경험치 2배
     const freeEv = w.tickets.event > 0;
     if ((p.events || freeEv) && S.activeEvents(w) < S.maxEvents(w)) {
@@ -436,7 +445,11 @@ export function firstSession(w: World, on: (kind: string, label: string) => void
       if (sp) { const h = S.hire(w, sp, null); if (h.ok) { const to = S.bestPlaces(w, h.mon.id)[0] || Object.keys(w.plots).find(id => !S.monsIn(w, id).length && id.startsWith('e')); if (to) S.placeAuto(w, h.mon.id, to); } }
       note('region', '새 지역 채용권 → 엘리니아 배치');
     }
-    if (stampAt != null && w.t >= stampAt + 1) break;
+    // v1.7: 1장 결재 선물 모객권으로 신규 모객 한 번 (튜토리얼 'recruit' 단계). 화면 대본은 배치 뒤 약 10초
+    if (RULES.guests && once.has('region') && w.t >= stampAt! + 0.6 && !once.has('recruit') && S.recruitTickets(w) > 0) {
+      if (S.startRecruit(w, 'fresh').ok) note('recruit', '모객권 → 신규 모객 (입구 ×2, 4시간)');
+    }
+    if (stampAt != null && w.t >= stampAt + (RULES.guests ? 1.2 : 1)) break;
     if (w.t >= 16) break;
   }
 }
@@ -461,6 +474,8 @@ export interface RunResult {
   evolves: number; hires: number; releases: number; undos: number;
   /** 연 드랍 상자 (v1.6). 체크인당 행동(acts)에는 세지 않는다 */
   boxes: number;
+  /** 건 모객 (v1.7) */
+  recruits: number;
   daily: { day: number; chapter: number; happy: number; smile: number; gap: number }[];
 }
 
@@ -469,7 +484,7 @@ export function runPersona(p: Persona, seed: number, maxDays = 60): RunResult {
   firstSession(w);
   const res: RunResult = {
     persona: p.id, seed, chapters: [null, null, null, null, null], ending: null, acts: 0, checkins: 0,
-    entranceMin: 0, stuckLeft: 0, busyLeft: 0, smileEnd: 0, smilePeak: 0, happyEnd: 0, evolves: 0, hires: 0, releases: 0, undos: 0, boxes: 0, daily: [],
+    entranceMin: 0, stuckLeft: 0, busyLeft: 0, smileEnd: 0, smilePeak: 0, happyEnd: 0, evolves: 0, hires: 0, releases: 0, undos: 0, boxes: 0, recruits: 0, daily: [],
   };
   // 첫 10분 한 바퀴(v1.3): 1장은 첫 세션 안에 결재한다
   for (let c = 1; c < w.chapter; c++) res.chapters[c - 1] = w.chapterAt[c] ?? w.t;
@@ -481,13 +496,16 @@ export function runPersona(p: Persona, seed: number, maxDays = 60): RunResult {
       // 시드마다 체크인 시각을 ±90분 흔든다 (시드 0은 정시)
       const jit = seed ? (hash(seed, d, i) % 181) - 90 : 0;
       const target = d * 1440 + 1440 + hh + jit - START; // D2 아침부터
+      const t0 = w.t;
       while (w.t < target - 0.5) { const ev: S.SimEvent[] = []; S.step(w, 1, ev); S.ledgerAdd(L, w, ev); }
       const ch0 = w.chapter;
-      const log = checkIn(w, p, { last: i === p.times.length - 1, first: i === 0 });
+      const log = checkIn(w, p, { last: i === p.times.length - 1, first: i === 0, awayMin: w.t - t0 });
       res.checkins++;
       for (const a of log.acts) {
         if (a.startsWith('box:')) { res.boxes++; continue; }
+        if (a === 'welcome') continue;
         if (a !== 'night-evolve') res.acts++;
+        if (a.startsWith('recruit')) res.recruits++;
         if (a.startsWith('hire')) res.hires++;
         if (a === 'release') res.releases++;
         if (a === 'undo') res.undos++;

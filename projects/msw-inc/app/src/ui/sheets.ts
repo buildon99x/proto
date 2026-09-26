@@ -2,7 +2,7 @@
  * S3 진화(+승진 발령) · S5 채용 · S6 결재 · S0 출근 리포트 · S7 매니저 퇴근 · 직원 말풍선 · 도감 · 엔딩 · 완전 클리어
  */
 import { A, $, $$, must, h, n, clamp, img, sil, monArt, josa, ro, plotName, plotShort, segTxt, clockText, dur, snd, nope, toast, emit, refresh, renderOren, rectOf, shake, joyText, save, markTicks, markLabel, boxReason, RULES, M } from './app';
-import { CHAPTERS, SPECIES, SPECIES_IDS, TRAITS, FIELD_BOSSES, fieldBoss, bossDexKey, type PlotId, type SpeciesId } from '../sim/content';
+import { CHAPTERS, SPECIES, SPECIES_IDS, TRAITS, FIELD_BOSSES, fieldBoss, bossDexKey, homesOf, plotInfo, type PlotId, type SpeciesId } from '../sim/content';
 
 const segList = (ss: M.Seg[]) => ss.map(segTxt).join(', ');
 
@@ -54,11 +54,13 @@ A.openHire = (opt = {}) => {
     const can = ticket || w.smile >= cost;
     const isRec = !locked && (sp === rec || (!rec && cond3(sp))), isGrow = !locked && grow && sp === grow.sp && !growing;
     const rib = isRec && cf && sp === rec ? `<span class="rib">줄 선 Lv ${cf.lo}–${cf.hi}에 딱!</span>` : isRec && seg && sp === rec ? `<span class="rib">${segTxt(seg)}에 딱!</span>` : isRec && cond3(sp) ? '<span class="rib">결재 ③ 슬리피우드 식구</span>' : isGrow && seg ? `<span class="rib grow">진화 ${grow!.stage}번이면 ${segTxt(seg)}!</span>` : '';
+    // v1.7: 식구 사냥터 — 거기서 일하면 근속 ×1.2. 열려 있거나 열 수 있는 부지만 보인다
+    const homes = M.RULES_GROUNDS() && !locked ? homesOf(sp).filter(p => w.plots[p.id]).map(p => p.short) : [];
     cards += `<div class="hcard ${isRec ? 'rec' : ''} ${isGrow ? 'grow' : ''} ${locked ? 'locked' : ''}" data-sp="${sp}">
       ${rib}
       <div class="ph">${locked ? sil(s.art[0], 2) : img(s.art[0], 2)}</div>
       <b>${locked ? '???' : s.names[0]}</b><span class="lvl">Lv ${s.base} · 적정 ${Math.max(1, s.base - 5)}–${s.base + 5}</span>
-      <span class="trait" title="${tr ? tr.desc : ''}">${tr ? tr.icon + ' ' + tr.name : '— 표준'}</span>
+      <span class="trait" title="${tr ? tr.desc : ''}">${tr ? tr.icon + ' ' + tr.name : '— 표준'}${homes.length ? ` · <i class="hm" title="식구 사냥터 — 여기서 일하면 근속 ×${M.RULES_GROUNDS()!.homeX}">🏠 ${homes.join('·')}</i>` : ''}</span>
       ${locked ? `<div class="go dis">${s.chapter - 1}장 결재 후</div>`
         : `<button class="go ${can ? '' : 'dis'}" data-hire="${sp}">${ticket ? '🎟 채용권 · 무료' : `<i class="mini-can"></i>${n(cost)}`}</button>`}
     </div>`;
@@ -547,6 +549,7 @@ A.catchUp = minutes => {
   const L = M.ledgerStart(w);
   const k = M.advance(w, minutes, L);
   const rep = M.ledgerReport(L, w);
+  M.recordReport(w, rep); // 도감 운영 기록: 밤사이 퇴근왕 (v1.7)
   A.world.snap = true;
   A.showReport(rep, k);
   refresh();
@@ -598,13 +601,19 @@ A.offDuty = why => {
 A.openCodex = () => {
   const w = A.w;
   let rows = '';
+  const dayOf = (t: number | null | undefined) => (t == null ? '' : clockText(t).split(' · ')[0]);
   for (const sp of M.speciesInPlay()) {
     const s = SPECIES[sp];
     const open = sp === 'balrog' ? !!w.dex['balrog:0'] : s.chapter <= w.chapter;
-    rows += `<div class="rowc"><div class="nm">${open ? (sp === 'balrog' ? '특별 입사' : s.names[0] + ' 계열') : '???'}<small>${s.trait ? TRAITS[s.trait].icon + ' ' + TRAITS[s.trait].name : s.note && open ? s.note : '표준'}</small></div>`;
+    // v1.7 운영 기록: 일한 사냥터 · 퇴근왕 횟수 · 단계마다 처음 진화한 날. 본 것만이 아니라 함께 일한 기록이다
+    const r = M.recordOf(w, sp);
+    const worked = r.plots.map(id => plotInfo(id).short).join('·');
+    const recLine = open && (worked || r.kings) ? `<em>${worked ? `🏠 ${worked}` : ''}${r.kings ? `${worked ? ' · ' : ''}👑 퇴근왕 ${r.kings}번` : ''}</em>` : '';
+    rows += `<div class="rowc"><div class="nm">${open ? (sp === 'balrog' ? '특별 입사' : s.names[0] + ' 계열') : '???'}<small>${s.trait ? TRAITS[s.trait].icon + ' ' + TRAITS[s.trait].name : s.note && open ? s.note : '표준'}</small>${recLine}</div>`;
     s.names.forEach((nm, i) => {
       const k = w.dex[sp + ':' + i];
-      rows += `<div class="cell ${k ? 'got' : ''}"><div class="ph">${k ? img(s.art[i], 2) : sil(s.art[i], 2)}</div>${k ? nm : '?'}${s.boss && i === s.names.length - 1 ? ' 👑' : ''}<br><span>Lv ${s.base + 8 * i}</span></div>`;
+      const at = k && r.at[i] != null ? dayOf(r.at[i]) : '';
+      rows += `<div class="cell ${k ? 'got' : ''}"><div class="ph">${k ? img(s.art[i], 2) : sil(s.art[i], 2)}</div>${k ? nm : '?'}${s.boss && i === s.names.length - 1 ? ' 👑' : ''}<br><span>Lv ${s.base + 8 * i}${at ? ` · ${i ? '진화' : '입사'} ${at}` : ''}</span></div>`;
     });
     rows += `</div>`;
   }

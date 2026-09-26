@@ -84,6 +84,20 @@ export interface Rules {
    * 열 때 채용권(지금 줄·빈틈에 맞는 계열)과 이벤트권 가운데 하나를 고른다. 스마일은 주지 않는다. null이면 없다
    */
   drop: { need: number[]; max: number; hold: number; from: number } | null;
+  /**
+   * 사냥터 값 (v1.7, G1): 부지마다 기본 자리(content.ts seats: 8 · 12 · 16, 지역 합은 그대로)와 식구 계열이 있다.
+   * 식구가 자기 사냥터에서 일하면 근속 ×homeX. 지역별 규칙이 아니라 부지의 값이다(계열 특성과 같은 자리). null이면 모든 부지가 seatBase, 식구 없음 (v1.6)
+   */
+  grounds: { homeX: number } | null;
+  /**
+   * 모객 (v1.7, G2, R5 확장): 떠난 손님은 사라지지 않고 "돌아올 수 있는 손님" 풀에 남는다(레벨별, 상한 pool. 줄지 않는다 — P5).
+   * 매니저가 거는 월드 이벤트 둘. 둘 다 동시 이벤트 수 한 자리를 쓴다(던전 이벤트와 겨룬다). 한 번에 하나.
+   *   복귀(return): min분 동안 시간당 rate명이 풀에서 자기 레벨로 돌아온다(자리 있는 던전이 덮는 레벨부터). 비용 cost × 장
+   *   신규(fresh): min분 동안 입구 도착 ×x. 비용 cost × 장
+   * 모객권(ticket): 1장 결재 선물 gift장, awayMin분 넘게 떠났다 돌아오면 1장(쥔 모객권이 hold장 미만일 때). 쓰면 비용 0.
+   * 놓쳐도 잃는 것이 없다. 타이머 압박·한정 판매는 없다. null이면 없다 (v1.6)
+   */
+  guests: { pool: number; return: { min: number; rate: number; cost: number }; fresh: { min: number; x: number; cost: number }; ticket: { gift: number; awayMin: number; hold: number } } | null;
 }
 
 export const V11: Rules = {
@@ -116,6 +130,8 @@ export const V11: Rules = {
   moreSpecies: false,
   plotCurve: null,
   drop: null,
+  grounds: null,
+  guests: null,
 };
 
 export const V12: Rules = {
@@ -210,7 +226,13 @@ export const V16: Rules = {
 export const V17: Rules = {
   ...V16,
   id: 'v1.7',
+  // G1 사냥터 값: 부지마다 자리(3장부터 8·12·16)와 식구(근속 ×1.1). 어느 부지를 열지, 누구를 어디에 둘지가 부지마다 달라진다
+  grounds: { homeX: 1.1 },
+  // G2 모객은 1.8.0에서 켠다 (GUESTS_V17). 1.7.0은 규칙 코드만 들어 있고 꺼져 있다
+  guests: null,
 };
+/** G2 모객 값: 떠난 손님이 자원이 된다. 복귀는 4시간 동안 시간당 30명, 신규는 4시간 동안 입구 ×2. 비용은 장마다 오른다(복귀 200 · 신규 150 × 장) */
+export const GUESTS_V17: NonNullable<Rules['guests']> = { pool: 300, return: { min: 240, rate: 30, cost: 200 }, fresh: { min: 240, x: 2, cost: 150 }, ticket: { gift: 1, awayMin: 360, hold: 2 } };
 
 export const RULES: Rules = { ...V17 };
 export function useRules(r: Rules): void { Object.assign(RULES, r); }

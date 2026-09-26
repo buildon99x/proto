@@ -238,7 +238,8 @@ export function renderDock(opt: { all?: boolean } = {}) {
   must('.plotsw').classList.toggle('expanded', !!opt.all && empties.length > 2);
   empties.slice(0, opt.all ? 15 : 2).forEach(id => {
     const open = w.plots[id].open;
-    pl.appendChild(h(`<div class="plot ${tg.includes(id) ? 'target' : ''}" data-plot="${id}"><b>${plotName(id)}</b>${open ? '<em class="okc">빈 던전</em>' : w.tickets.plot > 0 ? '<em class="okc">🎫 개업권</em>' : `<em><i class="mini-can"></i>${n(M.plotCost(w, id))}</em>`}</div>`));
+    const seats = RULES.grounds ? `<small class="seats" title="기본 자리">${M.plotSeats(id)}석</small>` : '';
+    pl.appendChild(h(`<div class="plot ${tg.includes(id) ? 'target' : ''}" data-plot="${id}"><b>${plotName(id)}</b>${seats}${open ? '<em class="okc">빈 던전</em>' : w.tickets.plot > 0 ? '<em class="okc">🎫 개업권</em>' : `<em><i class="mini-can"></i>${n(M.plotCost(w, id))}</em>`}</div>`));
   });
   if (!empties.length) pl.appendChild(h(`<div class="plot none">${w.chapter < 5 ? `부지를 다 썼어요. 다음 결재 때 부지 +${M.plotsOfRegion(w.chapter + 1)}` : '부지를 다 썼어요'}</div>`));
   if (!opt.all && empties.length > 2) pl.lastElementChild!.insertAdjacentHTML('beforeend', ` <small>+${empties.length - 2}</small>`);

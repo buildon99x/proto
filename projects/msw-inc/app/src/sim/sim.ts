@@ -6,6 +6,7 @@
  * 단위: 시간은 월드 분(minute). step(w, dt)는 dt분만큼 진행한다.
  */
 import { CHAPTERS, PLOTS, SPECIES, FIELD_BOSSES, plotInfo, fieldBoss, bossDexKey, type PlotId, type SpeciesId } from './content';
+export { homesOf } from './content';
 import { RULES } from './rules';
 
 // ── 타입 ────────────────────────────────────────────────────
@@ -19,13 +20,16 @@ export interface Adventurer {
   wait: number; look: number; jit: number; seen?: boolean;
 }
 export interface GameEvent { kind: 'exp' | 'drop'; start: number; end: number }
-export interface Tickets { hire: SpeciesId[]; event: number; plot: number }
+export interface Tickets { hire: SpeciesId[]; event: number; plot: number; /** 모객권 (v1.7). 옛 세이브에는 없다 */ recruit?: number }
 export interface Elite { d: PlotId; mon: number; until: number }
 export interface Boss { ch: number; at: number; d: PlotId | null; kills: number; until: number | null }
 export type MarkReward = { kind: 'hire'; sp: SpeciesId } | { kind: 'event'; n: number } | { kind: 'boss' };
 /** 드랍 상자 (v1.6): 던전 앞에 떨어져 열 때까지 기다린다 */
 export interface Box { id: number; d: PlotId; at: number }
 export type BoxReward = { kind: 'hire'; sp: SpeciesId } | { kind: 'event' };
+/** 모객 이벤트 (v1.7): 신규(입구 ×x) 또는 복귀(풀에서 돌아옴). 월드에 하나 */
+export type RecruitKind = 'fresh' | 'return';
+export interface Recruit { kind: RecruitKind; start: number; end: number; acc: number }
 export interface Dungeon {
   id: PlotId; slots: number; seats: number; seatUp: number; slotUp: number;
   event: GameEvent | null; joy: number; recentLv: number;
@@ -47,7 +51,7 @@ export interface World {
   elite: Elite | null; eliteAcc: number; eliteBy: Record<PlotId, number>;
   /** 필드 보스 (v1.3): 찾아온 손님 하나 (d가 null이면 초대 기다림). bossDone = 토벌한 장 */
   boss: Boss | null; bossDone: number[];
-  stats: { arrivals: number; levelups: number; grads: number; left: { entrance: number; search: number; busy: number }; evolves: number; elites: number; bosses: number };
+  stats: { arrivals: number; levelups: number; grads: number; left: { entrance: number; search: number; busy: number }; evolves: number; elites: number; bosses: number; /** 돌아온 손님 (v1.7) */ returned?: number };
   /** 이번 장 누적 즐거움 (명·시간) — 결재 조건 ② (v1.2) */
   cjoy: number;
   /** 챕터가 열린 월드 시각 (리포트·점검용) */
@@ -56,7 +60,13 @@ export interface World {
   zone?: number; zoneAcc?: number;
   /** 드랍 상자 (v1.6): 떨어져 있는 상자, 지난 상자 뒤 월드 퇴근(드랍 이벤트 ×2), 던전별. 없으면 규칙에 상자가 없다(옛 세이브는 첫 걸음에 채운다) */
   boxes?: Box[]; boxAcc?: number; boxBy?: Record<PlotId, number>; nextBox?: number;
+  /** 도감 운영 기록 (v1.7): 계열마다 일한 사냥터, 퇴근왕 횟수, 단계마다 처음 진화한 월드 시각. 없어도 되는 칸(옛 세이브는 비어 있다) */
+  rec?: Record<string, SpRecord>;
+  /** 모객 (v1.7): 떠난 손님 풀(레벨별 인원, 1~100)과 지금 걸린 모객 이벤트. 없어도 되는 칸(옛 세이브는 첫 걸음에 채운다) */
+  pool?: number[]; recruit?: Recruit | null;
 }
+/** 계열 하나의 운영 기록 (v1.7). plots는 일한 사냥터(순서대로), kings는 밤사이 퇴근왕 횟수, at은 단계별 첫 진화 시각(월드 분, 1단계는 첫 채용) */
+export interface SpRecord { plots: PlotId[]; kings: number; at: (number | null)[] }
 /** 대본 도착 (v1.4): at분에 이 레벨·진행도의 모험가가 함께 온다. 첫 레벨업과 첫 빈틈을 배속 없이 제시간에 */
 export interface TutParty { at: number; lv: number[]; prog: number[] }
 export type SimEvent =
@@ -78,7 +88,10 @@ export type SimEvent =
   | { type: 'bossIn'; ch: number; d: PlotId; auto: boolean }
   | { type: 'bossDown'; ch: number; d: PlotId | null; bonus: number }
   | { type: 'zone'; ch: number; from: number; to: number }
-  | { type: 'box'; id: number; d: PlotId };
+  | { type: 'box'; id: number; d: PlotId }
+  /** 돌아온 손님 (v1.7 모객) */
+  | { type: 'return'; id: number; lv: number }
+  | { type: 'recruitEnd'; kind: RecruitKind };
 
 export const SAVE_VERSION = 3;
 /** v1.3까지의 기본 자리. 지금 값은 RULES.seatBase */
@@ -116,10 +129,11 @@ export function createWorld(seed: number): World {
   };
   if (RULES.zones) { w.zone = 0; w.zoneAcc = 0; }
   if (RULES.drop) initBoxes(w);
+  if (RULES.guests) initGuests(w);
   unlockPlots(w, 1);
   w.plots.h1.open = true;
   w.plots.h2.open = true; // 입사 선물: 두 번째 부지
-  w.dungeons.h1.seats = RULES.seatBase + SEAT_STEP; w.dungeons.h1.seatUp = 1; // 입사 선물: 들판 자리 +4 (v1.3 12석, v1.4 16석)
+  w.dungeons.h1.seats = plotSeats('h1') + SEAT_STEP; w.dungeons.h1.seatUp = 1; // 입사 선물: 들판 자리 +4 (v1.3 12석, v1.4 16석)
   addMonster(w, 'snail', 'h1', { tenure: Math.round(RULES.evolveNeed[0] * VET_SHARE), vet: true });
   addMonster(w, 'snail', 'h1');
   return w;
@@ -151,7 +165,7 @@ function unlockPlots(w: World, region: number) {
   for (const p of plotsInPlay()) {
     if (p.region !== region) continue;
     if (!w.plots[p.id]) w.plots[p.id] = { open: false };
-    if (!w.dungeons[p.id]) w.dungeons[p.id] = { id: p.id, slots: SLOT_BASE, seats: RULES.seatBase, seatUp: 0, slotUp: 0, event: null, joy: 0, recentLv: 0 };
+    if (!w.dungeons[p.id]) w.dungeons[p.id] = { id: p.id, slots: SLOT_BASE, seats: plotSeats(p.id), seatUp: 0, slotUp: 0, event: null, joy: 0, recentLv: 0 };
   }
 }
 
@@ -160,7 +174,35 @@ export function addMonster(w: World, sp: SpeciesId, d: PlotId | null, opt: { ten
   m.no = w.monsters.filter(x => x.sp === sp).length + 1;
   w.monsters.push(m);
   w.dex[sp + ':0'] = true;
+  recordStage(w, sp, 0);
+  if (d) recordPlot(w, sp, d);
   return m;
+}
+
+// ── 사냥터 값 · 도감 운영 기록 (v1.7) ──────────────────────
+/** 부지의 기본 자리: 규칙 grounds가 켜져 있으면 부지 값(8·12·16), 아니면 seatBase */
+export const plotSeats = (id: PlotId) => (RULES.grounds ? plotInfo(id).seats : RULES.seatBase);
+/** 이 직원이 자기 식구 사냥터에서 일하는가 (근속 ×homeX) */
+export const atHome = (m: Monster) => !!RULES.grounds && !!m.d && plotInfo(m.d).home.includes(m.sp);
+export const isHome = (sp: SpeciesId, id: PlotId) => !!RULES.grounds && plotInfo(id).home.includes(sp);
+/** 계열의 운영 기록 (없으면 빈 기록). 화면은 읽기만 한다 */
+export function recordOf(w: World, sp: SpeciesId): SpRecord {
+  const r = (w.rec ||= {});
+  return (r[sp] ||= { plots: [], kings: 0, at: [] });
+}
+function recordStage(w: World, sp: SpeciesId, stage: number) {
+  const r = recordOf(w, sp);
+  if (r.at[stage] == null) { while (r.at.length < stage) r.at.push(null); r.at[stage] = w.t; }
+}
+function recordPlot(w: World, sp: SpeciesId, id: PlotId) {
+  const r = recordOf(w, sp);
+  if (!r.plots.includes(id)) r.plots.push(id);
+}
+/** 출근 리포트를 보여 준 뒤 퇴근왕을 기록한다 (화면이 부르는 기록 행동. 봇 checkIn도 같은 것을 부른다) */
+export function recordReport(w: World, rep: { king: { id: number; n: number } | null }): void {
+  if (!rep.king) return;
+  const m = w.monsters.find(x => x.id === rep.king!.id);
+  if (m) recordOf(w, m.sp).kings++;
 }
 
 // ── 파생 값 ─────────────────────────────────────────────────
@@ -182,7 +224,8 @@ export const chapterInfo = (w: World) => CHAPTERS[w.chapter - 1];
 export const monsIn = (w: World, did: PlotId) => w.monsters.filter(m => m.d === did);
 export const tray = (w: World) => w.monsters.filter(m => !m.d);
 export const maxEvents = (w: World) => (w.chapter >= 3 ? 3 : 2);
-export const activeEvents = (w: World) => Object.values(w.dungeons).filter(d => d.event).length;
+/** 동시 이벤트 수에 모객 이벤트(v1.7)도 든다 */
+export const activeEvents = (w: World) => Object.values(w.dungeons).filter(d => d.event).length + (w.recruit ? 1 : 0);
 export const happyCount = (w: World) => { let n = 0; for (const a of w.advs) if (a.st === 'happy') n++; return n; };
 export const dungeonStars = (d: Dungeon) => JOY_STARS.filter(x => d.joy >= x).length;
 export const dexCount = (w: World) => Object.keys(w.dex).length;
@@ -272,11 +315,13 @@ export function arrivalPerMin(w: World): number {
   if (!ar && w.t < w.tut.buffUntil) return 1;
   // 필드 보스 소식에 손님이 더 온다 (v1.3)
   const fb = RULES.fieldBoss, bossX = fb && w.boss && w.boss.d ? fb.arriveX : 1;
-  const base = ((6 * (1 + 0.5 * w.stars)) / 60) * bossX;
+  // 신규 모객 (v1.7): 입구 도착 ×x
+  const rx = RULES.guests && w.recruit && w.recruit.kind === 'fresh' ? RULES.guests.fresh.x : 1;
+  const base = ((6 * (1 + 0.5 * w.stars)) / 60) * bossX * rx;
   if (!ar || w.t >= ar.fade) return base;
   // v1.4: 첫 hold분은 붐비고, fade분까지 기본 도착률로 서서히 줄어든다
   const f = w.t < ar.hold ? 0 : (w.t - ar.hold) / (ar.fade - ar.hold);
-  return Math.max(base, ar.rate + (base - ar.rate) * f);
+  return Math.max(base, (ar.rate + (base / rx - ar.rate) * f) * rx);
 }
 /** 첫날 팁 (v1.4): 붐비는 동안 스마일 수입 배율. 도착률과 같이 줄어든다 */
 export function tipX(w: World): number {
@@ -329,6 +374,20 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
     w.arrAcc += arrivalPerMin(w) * dt;
     while (w.arrAcc >= 1) { w.arrAcc -= 1; spawn(); }
   }
+  // 복귀 모객 (v1.7): 풀에서 자기 레벨로 돌아온다. 난수를 쓰지 않는다 — 자리 있는 던전이 덮는 레벨 가운데 빈자리가 가장 많은 레벨부터
+  const gu = RULES.guests, rc = w.recruit;
+  if (gu && rc && rc.kind === 'return' && w.pool) {
+    rc.acc += (gu.return.rate / 60) * dt;
+    while (rc.acc >= 1) {
+      rc.acc -= 1;
+      const lv = pickReturnLevel(w, info);
+      if (lv == null) { rc.acc = 0; break; }
+      w.pool[lv]--;
+      const a: Adventurer = { id: w.nextAdv++, lv, prog: 0, st: 'new', d: null, near: null, wait: 0, look: lv % 6, jit: ((lv * 7) % 10) / 14 - 0.35, seen: true };
+      w.advs.push(a); w.stats.arrivals++; w.stats.returned = (w.stats.returned || 0) + 1;
+      emit({ type: 'return', id: a.id, lv });
+    }
+  }
 
   // 2. 이동 판정 — 머무는 사람의 자리를 먼저 잡는다
   const keep = new Set<number>();
@@ -358,14 +417,14 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
       // v1.2: 빈틈의 모험가는 떠나지 않고 걸어서 건넌다 (아래 레벨업에서)
       if (!RULES.gapWalk && a.wait >= RULES.searchWait) {
         const why = atEntrance ? 'entrance' : 'search';
-        gone.add(a.id); w.stats.left[why]++; emit({ type: 'leave', id: a.id, why });
+        gone.add(a.id); w.stats.left[why]++; toPool(w, a.lv); emit({ type: 'leave', id: a.id, why });
       }
       continue;
     }
     if (!free) {
       if (prevSt !== 'busy') a.wait = 0;
       a.st = 'busy'; a.near = anyCand.id; a.wait += dt;
-      if (a.wait >= RULES.busyWait) { gone.add(a.id); w.stats.left.busy++; emit({ type: 'leave', id: a.id, why: 'busy' }); }
+      if (a.wait >= RULES.busyWait) { gone.add(a.id); w.stats.left.busy++; toPool(w, a.lv); emit({ type: 'leave', id: a.id, why: 'busy' }); }
       continue;
     }
     free.occ++; a.d = free.id; a.st = 'happy'; a.wait = 0; a.near = null; a.seen = true;
@@ -381,7 +440,7 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
       // 빈틈 걷기: 혼자 천천히 자란다. 스마일·근속은 없다. 맞는 레벨에 닿으면 멈춘다
       // 졸업은 즐겁게 끝까지 간 사람만 한다: 걷기는 졸업선 바로 앞에서 멈추고, 거기서 기다리다 떠난다
       if (a.lv >= end - 1) {
-        if (a.wait >= RULES.searchWait) { gone.add(a.id); w.stats.left.search++; emit({ type: 'leave', id: a.id, why: 'search' }); }
+        if (a.wait >= RULES.searchWait) { gone.add(a.id); w.stats.left.search++; toPool(w, a.lv); emit({ type: 'leave', id: a.id, why: 'search' }); }
         continue;
       }
       a.prog += dt * bx * RULES.gapWalk;
@@ -420,7 +479,7 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
     for (const m of d.mons) {
       const before = canEvolve(m);
       m.work += kills / d.mons.length;
-      m.tenure += share * bx * (SPECIES[m.sp].trait === 'fast' ? 1.5 : 1);
+      m.tenure += share * bx * (SPECIES[m.sp].trait === 'fast' ? 1.5 : 1) * (RULES.grounds && plotInfo(id).home.includes(m.sp) ? RULES.grounds.homeX : 1);
       if (!before && canEvolve(m)) emit({ type: 'ready', mon: m.id });
     }
     emit({ type: 'kill', d: id, n: kills });
@@ -444,6 +503,8 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
     const d = w.dungeons[id];
     if (d.event && w.t + dt >= d.event.end) { emit({ type: 'eventEnd', d: id, kind: d.event.kind }); d.event = null; }
   }
+  if (w.recruit && w.t + dt >= w.recruit.end) { emit({ type: 'recruitEnd', kind: w.recruit.kind }); w.recruit = null; }
+  if (RULES.guests && !w.pool) initGuests(w);
 
   w.t += dt;
 
@@ -662,6 +723,100 @@ export function unopenBox(w: World, r: { box: Box; idx: number; reward: BoxRewar
   return true;
 }
 
+// ── 모객 (v1.7) ─────────────────────────────────────────────
+/**
+ * 떠난 손님은 사라지지 않는다. 레벨별 풀에 남아 복귀 모객으로 자기 레벨에 돌아온다(P5: 풀은 줄지 않고 상한만 있다).
+ * 신규(입구 ×2)와 복귀(풀에서 돌아옴)는 서로 다른 결정이다: 입구가 비었을 때와 중간이 비었을 때 답이 다르다.
+ * 둘 다 동시 이벤트 수 한 자리를 쓴다(던전 이벤트와 겨룬다). 스마일은 주지 않는다. 난수를 쓰지 않는다
+ */
+function initGuests(w: World) { w.pool = new Array(101).fill(0); w.recruit = null; if (w.tickets.recruit == null) w.tickets.recruit = 0; }
+function toPool(w: World, lv: number) {
+  if (!RULES.guests || !w.pool) return;
+  if (poolCount(w) >= RULES.guests.pool) return;
+  w.pool[Math.max(1, Math.min(100, lv))]++;
+}
+export const poolCount = (w: World) => (w.pool || []).reduce((s, n) => s + n, 0);
+export const recruitTickets = (w: World) => w.tickets.recruit || 0;
+/** 풀에서 돌아올 레벨: 자리 있는 던전이 덮는 레벨 가운데 빈자리가 가장 많은 것. 없으면 풀에서 가장 낮은 레벨(걷거나 기다린다) */
+function pickReturnLevel(w: World, info: Record<PlotId, DInfo>): number | null {
+  const pool = w.pool!;
+  let best: number | null = null, bestFree = -1;
+  for (let lv = 1; lv <= 100; lv++) {
+    if (!pool[lv]) continue;
+    let free = 0;
+    for (const id in info) { const x = info[id]; if (lv >= x.lo && lv <= x.hi) free += Math.max(0, x.seats - x.occ); }
+    if (free > bestFree) { bestFree = free; best = lv; }
+  }
+  return best;
+}
+/** 지금 걸면 얼마나 돌아올 수 있는가: 풀의 손님 가운데 자리 있는 던전이 덮는 레벨의 인원 */
+export function returnRoom(w: World): { pool: number; room: number } {
+  const pool = poolCount(w);
+  if (!pool) return { pool: 0, room: 0 };
+  const info = dungeonInfo(w);
+  const occ: Record<string, number> = {};
+  for (const a of w.advs) if (a.st === 'happy' && a.d) occ[a.d] = (occ[a.d] || 0) + 1;
+  let room = 0;
+  for (let lv = 1; lv <= 100; lv++) {
+    if (!w.pool![lv]) continue;
+    let free = 0;
+    for (const id in info) { const x = info[id]; if (lv >= x.lo && lv <= x.hi) free += Math.max(0, x.seats - (occ[id] || 0)); }
+    room += Math.min(w.pool![lv], free);
+  }
+  return { pool, room };
+}
+/** 입구가 한산한가: Lv 1을 덮는 던전의 빈자리 합 (신규 모객의 근거) */
+export function entranceRoom(w: World): number {
+  const info = dungeonInfo(w);
+  const occ: Record<string, number> = {};
+  for (const a of w.advs) if (a.st === 'happy' && a.d) occ[a.d] = (occ[a.d] || 0) + 1;
+  let free = 0;
+  for (const id in info) { const x = info[id]; if (x.lo <= 1) free += Math.max(0, x.seats - (occ[id] || 0)); }
+  return free;
+}
+export const recruitCost = (w: World, kind: RecruitKind) => (RULES.guests ? (kind === 'return' ? RULES.guests.return.cost : RULES.guests.fresh.cost) * w.chapter : 0);
+/**
+ * 오렌이 권하는 모객: 풀에 손님이 있고 자리 있는 레벨이 5명 이상이면 복귀, 입구 던전에 빈자리가 6석 넘고 Lv 1~3 줄이 없으면 신규.
+ * 이벤트 자리가 없거나 이미 모객 중이면 없다. 봇도 이것을 따른다
+ */
+export function recruitPick(w: World): { kind: RecruitKind; n: number } | null {
+  if (!RULES.guests || !w.pool || w.recruit || activeEvents(w) >= maxEvents(w)) return null;
+  const rr = returnRoom(w);
+  if (rr.room >= 5) return { kind: 'return', n: rr.room };
+  const busyLow = w.advs.filter(a => a.st === 'busy' && a.lv <= 3).length;
+  const er = entranceRoom(w);
+  if (er >= 6 && busyLow === 0 && !gapSegments(w).some(g => g[0] === 1)) return { kind: 'fresh', n: er };
+  return null;
+}
+export function startRecruit(w: World, kind: RecruitKind): Result<{ cost: number; free: boolean }> {
+  const gu = RULES.guests;
+  if (!gu || !w.pool) return no('모객은 아직 없어요');
+  if (w.recruit) return no('이미 모객 중이에요');
+  if (activeEvents(w) >= maxEvents(w)) return no(`이벤트는 동시에 ${maxEvents(w)}개까지`);
+  if (kind === 'return' && !poolCount(w)) return no('돌아올 손님이 아직 없어요');
+  const free = recruitTickets(w) > 0, cost = free ? 0 : recruitCost(w, kind);
+  if (w.smile < cost) return no(`스마일 ${fmtN(cost - w.smile)} 모자라요`, { short: cost - w.smile });
+  if (free) w.tickets.recruit!--; else w.smile -= cost;
+  w.recruit = { kind, start: w.t, end: w.t + (kind === 'return' ? gu.return.min : gu.fresh.min), acc: 0 };
+  return ok({ cost, free });
+}
+/** 모객 되돌리기 (5초). 이미 돌아온 손님은 돌려보내지 않는다 */
+export function cancelRecruit(w: World, refund: number, wasFree: boolean): void {
+  if (!w.recruit) return;
+  w.recruit = null;
+  if (wasFree) w.tickets.recruit = recruitTickets(w) + 1; else w.smile += refund;
+}
+/**
+ * 매니저 복귀 (v1.7): awayMin분 넘게 떠났다 돌아오면 모객권 1장 (쥔 모객권이 hold장 미만일 때).
+ * 화면(출근 리포트)과 봇(체크인)이 같은 함수를 부른다. 놓쳐도 잃는 것은 없다
+ */
+export function welcomeBack(w: World, awayMin: number): boolean {
+  const gu = RULES.guests;
+  if (!gu || !w.pool || awayMin < gu.ticket.awayMin || recruitTickets(w) >= gu.ticket.hold) return false;
+  w.tickets.recruit = recruitTickets(w) + 1;
+  return true;
+}
+
 /** 한 던전의 퇴근(근속)이 직원들에게 어떻게 나뉘는가 */
 export function tenureShare(kills: number, n: number): number {
   if (n <= 0) return 0;
@@ -716,13 +871,15 @@ export interface Ledger {
   elites: { d: PlotId; mon: number }[]; bossCall: number | null; bossDown: { ch: number; bonus: number }[];
   /** 떠나 있는 동안 떨어진 드랍 상자 (v1.6) */
   boxes: number;
+  /** 떠나 있는 동안 돌아온 손님 (v1.7 모객) */
+  returned: number;
 }
 export function ledgerStart(w: World): Ledger {
   return {
     t0: w.t, happy0: happyCount(w), smile0: w.smile, lv0: w.stats.levelups, grad0: w.stats.grads,
     work0: Object.fromEntries(w.monsters.map(m => [m.id, m.work])),
     hourLv: {}, bestBurst: null, crowdMax: null, ready: [], approval: false, firstGrad: w.stats.grads === 0,
-    stuckMin: 0, marks: [], elites: [], bossCall: null, bossDown: [], boxes: 0,
+    stuckMin: 0, marks: [], elites: [], bossCall: null, bossDown: [], boxes: 0, returned: 0,
   };
 }
 export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
@@ -739,6 +896,7 @@ export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
     else if (e.type === 'bossCall') L.bossCall = e.ch;
     else if (e.type === 'bossDown') L.bossDown.push({ ch: e.ch, bonus: e.bonus });
     else if (e.type === 'box') L.boxes++;
+    else if (e.type === 'return') L.returned++;
   }
   const busy: Record<string, number> = {};
   let entrance = false;
@@ -757,6 +915,8 @@ export interface Report {
   elites: Ledger['elites']; bossCall: number | null; bossDown: Ledger['bossDown'];
   /** 떠나 있는 동안 떨어진 상자 · 지금 기다리는 상자 (v1.6) */
   boxes: number; boxesWaiting: number;
+  /** 돌아온 손님 · 지금 풀에 남은 손님 · 오렌이 권하는 모객 (v1.7) */
+  returned: number; pool: number; recruit: { kind: RecruitKind; n: number } | null;
 }
 export function ledgerReport(L: Ledger, w: World): Report {
   const king = w.monsters
@@ -775,6 +935,7 @@ export function ledgerReport(L: Ledger, w: World): Report {
     entranceMin: L.stuckMin,
     marks: L.marks, elites: L.elites, bossCall: L.bossCall, bossDown: L.bossDown,
     boxes: L.boxes || 0, boxesWaiting: boxesOf(w).length,
+    returned: L.returned || 0, pool: poolCount(w), recruit: recruitPick(w),
   };
 }
 
@@ -814,6 +975,7 @@ export function unhire(w: World, monId: number, refund: number | 'ticket'): void
 export const RULES_RELEASE = () => RULES.releaseRefund > 0;
 export const RULES_GROW_BOOST = () => RULES.growBoost;
 export const RULES_GRAD = () => RULES.smileGrad;
+export const RULES_GROUNDS = () => RULES.grounds;
 /** 퇴사 환급: 채용비의 절반 (v1.2). 진화한 직원도 1단계 채용비 기준 */
 export const releaseRefund = (m: Monster) => Math.floor(hireCost(m.sp) * RULES.releaseRefund);
 export function release(w: World, monId: number): Result<{ refund: number; mon: Monster; idx: number }> {
@@ -857,6 +1019,7 @@ export function place(w: World, monId: number, did: PlotId | null): Result<{ fro
   if (c.opens && did) { w.smile -= c.openCost || 0; if (c.ticket) w.tickets.plot--; w.plots[did].open = true; }
   const from = m.d;
   m.d = did;
+  if (did) recordPlot(w, m.sp, did);
   return ok({ from, openCost: c.openCost || 0, opened: !!c.opens, ticket: !!c.ticket });
 }
 /**
@@ -915,6 +1078,7 @@ export function evolve(w: World, monId: number): Result<{ mon: Monster; from: nu
   w.stats.evolves++;
   const key = m.sp + ':' + m.stage, isNew = !w.dex[key];
   w.dex[key] = true;
+  recordStage(w, m.sp, m.stage);
   return ok({ mon: m, from, isNew, tenureBefore });
 }
 /** 진화 되돌리기 (5초 토스트). 도감 칸은 남긴다 — 한 번 본 모습은 본 것이다 */
@@ -982,6 +1146,8 @@ export function approve(w: World): Result<{ chapter: number; ending: boolean }> 
     const first = speciesInPlay().filter(sp => SPECIES[sp].chapter === 2 && spRegion(sp) === 2).sort((a, b) => SPECIES[a].base - SPECIES[b].base)[0];
     if (first) w.tickets.hire.push(first);
     w.tickets.plot++;
+    // v1.7: 1장 결재 선물에 모객권 — 튜토리얼이 새 지역에서 신규 모객을 한 번 가르친다
+    if (RULES.guests) w.tickets.recruit = recruitTickets(w) + RULES.guests.ticket.gift;
   }
   // 5장 결재 서류에는 주니어 발록 입사 지원서가 붙어 온다
   if (w.chapter === 5 && !w.monsters.some(m => m.sp === 'balrog')) addMonster(w, 'balrog', null);
@@ -1032,7 +1198,9 @@ export function bestPlaces(w: World, monId: number): PlotId[] {
     opts.push({ id, gapN, cost: (c.openCost || 0) + (c.slotCost || 0) });
   }
   if (!opts.length) return [];
-  opts.sort((a, b) => a.gapN - b.gapN || a.cost - b.cost);
+  // v1.7: 빈틈·비용이 같으면 식구 사냥터가 먼저 (근속 ×homeX)
+  const home = (id: PlotId) => (isHome(m.sp, id) ? 0 : 1);
+  opts.sort((a, b) => a.gapN - b.gapN || a.cost - b.cost || home(a.id) - home(b.id));
   const best = opts[0].gapN;
   const cur = gapSize(gapSegments(w));
   // 5장 결재 ③: 슬리피우드 식구는 빈 부지에 혼자 두면 기존 길을 흔들지 않는다
@@ -1043,7 +1211,10 @@ export function bestPlaces(w: World, monId: number): PlotId[] {
     const safe = opts.filter(o => o.gapN <= cur).sort((a, b) => a.cost - b.cost);
     if (safe.length) return [safe[0].id];
   }
-  return best < cur ? opts.filter(o => o.gapN === best && o.cost === opts[0].cost).map(o => o.id) : [];
+  if (best >= cur) return [];
+  const top = opts.filter(o => o.gapN === best && o.cost === opts[0].cost);
+  const homes = top.filter(o => isHome(m.sp, o.id));
+  return (homes.length ? homes : top).map(o => o.id);
 }
 
 /** 첫 빈틈(막힌 사람이 있는 곳 먼저)을 메울 수 있는 계열 */
@@ -1155,8 +1326,9 @@ export function crowdFix(w: World): CrowdFix | null {
   // 자리가 꽉 찬 던전(가장 긴 줄) 먼저, 사다리가 켜져 있으면 자리를 늘릴 수 있는 던전도
   const ds = [...(full ? [full] : []), ...(RULES.moreSpecies ? byN.filter(id => !maxed(id)) : [])].filter(id => busy[id].length >= 4);
   if (!ds.length) return null;
+  // 빈 부지: 열린 곳 → 싼 곳 → 자리가 큰 곳 (v1.7 사냥터 값: 줄이 길면 큰 사냥터를 연다)
   const to = Object.keys(w.plots).filter(id => !monsIn(w, id).length)
-    .sort((a, b) => +w.plots[b].open - +w.plots[a].open || plotCost(w, a) - plotCost(w, b))[0];
+    .sort((a, b) => +w.plots[b].open - +w.plots[a].open || plotCost(w, a) - plotCost(w, b) || plotSeats(b) - plotSeats(a))[0];
   if (!to) return null;
   const lv = levelsOf(w);
   for (const d of ds) {

@@ -4,8 +4,9 @@
  * 발판이 없는 땅 = 빈틈. 모험가는 거기서 😐로 혼자 천천히 걷는다(v1.2).
  */
 import { A, $, $$, must, h, n, lerp, clamp, img, monArt, plotName, plotShort, lvColor, segTxt, snd, nope, toast, emit, refresh, renderDock, rectOf, toStage, markLabel, M } from './app';
-import { REGIONS, fieldBoss, type PlotId } from '../sim/content';
+import { REGIONS, fieldBoss, plotInfo, type PlotId } from '../sim/content';
 import { ART } from './art';
+import { SCENERY } from './scenery';
 
 const X0 = 34, GROUND = 452, TOP = 56;
 const WS = 3, WW = 30, WH = 42; // 월드 도트 배율, 모험가 크기
@@ -95,8 +96,8 @@ function buildBands() {
   const box = L('bands');
   box.innerHTML = '';
   REGIONS.forEach(r => {
-    box.appendChild(h(`<div class="band b${r.n}" data-r="${r.n}"><div class="sky"></div><div class="hills"></div>
-      <div class="name">${r.name}<small>Lv ${Math.max(1, r.from)}–${Math.min(70, r.to)}</small></div>
+    // v1.7: 지역마다 먼 배경 · 소품 · 바닥이 다르다 (scenery.ts, 자체 픽셀아트)
+    box.appendChild(h(`<div class="band b${r.n}" data-r="${r.n}"><div class="sky"></div>${SCENERY.layers(r.n)}
       <div class="lamps"></div><div class="fog"></div><div class="lock"><b>🔒</b><span>${r.n - 1}장 결재 후 개방</span></div></div>`));
   });
   REGIONS.forEach(r => { if (r.n <= A.w.chapter) lightUp(r.n, false); });
@@ -206,7 +207,8 @@ function layoutPlats(dt: number) {
     let p = V.plats[id];
     const D = lv[id];
     if (!p) {
-      const el = h(`<div class="plat" data-plat="${id}" title="눌러서 현장 보기"><div class="aura"></div><div class="top"></div><div class="body"></div><div class="pb"></div></div>`);
+      const rg = plotInfo(id).region;
+      const el = h(`<div class="plat r${rg}" data-plat="${id}" data-r="${rg}" title="눌러서 현장 보기"><div class="aura"></div><div class="top"></div><div class="body" style="${SCENERY.platStyle(rg)}"></div><div class="pb"></div></div>`);
       box.appendChild(el);
       p = V.plats[id] = { el, D, y: V.laneTop(lanes[id]) + (V.snap ? 0 : -30), sig: '', left: 0, w: 0, top: 0 };
       if (!V.snap && !A.demo) el.animate([{ opacity: 0, transform: 'scaleX(.4)' }, { opacity: 1, transform: 'none' }], { duration: 350, easing: 'ease-out' });
@@ -655,6 +657,7 @@ function moveDrag(d: NonNullable<typeof V.drag>, sx: number, sy: number) {
   const lines = [`${head} → <b>${name}</b>`];
   if (t.id) lines.push(pv.before[t.id] ? `던전 Lv ${pv.before[t.id]} → ${pv.after[t.id]}` : `새 던전 Lv ${pv.after[t.id]}${check.opens ? (check.ticket ? ' · 🎫 개업권 사용' : ` · 개업 스마일 ${n(check.openCost || 0)}`) : ''}`);
   if (check.slotCost) lines.push(`직원 자리 +1 · 스마일 ${n(check.slotCost)}`);
+  if (t.id && M.isHome(m.sp, t.id)) lines.push(`<span class="ok">🏠 식구 사냥터 · 근속 ×${M.RULES_GROUNDS()!.homeX}</span>`);
   if (m.d && pv.before[m.d] !== pv.after[m.d]) lines.push(`${plotName(m.d)} Lv ${pv.before[m.d]} → ${pv.after[m.d] || '휴업'}`);
   if (pv.lost.length) lines.push(`<span class="bad">✕ ${segList(pv.lost)} 비어요${pv.stranded ? ` · ${pv.stranded}명 갈 곳 잃음` : ''}${pv.entranceBlocked ? ' · 입구가 막혀요' : ''}</span>`);
   if (pv.gained.length) lines.push(`<span class="ok">✓ ${segList(pv.gained)} 이어져요${pv.rescued ? ` · ${pv.rescued}명 구출` : ''}</span>`);

@@ -51,7 +51,7 @@ export interface CheckinRow {
 }
 export interface CheckinRun { persona: string; seed: number; rows: CheckinRow[]; endDay: number | null }
 
-const DEC_SKIP = /^(fix:|box:|undo|night-evolve)/;
+const DEC_SKIP = /^(fix:|box:|undo|night-evolve|welcome)/;
 const EVENT_ONLY = /^(event|event-free|recruit)/;
 
 export function runCheckin(p: Persona, seed: number, days = DAYS): CheckinRun {
@@ -77,13 +77,13 @@ export function runCheckin(p: Persona, seed: number, days = DAYS): CheckinRun {
       if (rep.bossDown.length) wowReport.push('bossDown'); else if (rep.bossCall) wowReport.push('boss');
       if (rep.firstGrad) wowReport.push('grad');
       if (rep.boxesWaiting) wowReport.push('box');
-      const rr = rep as unknown as { returned?: number };
-      if (rr.returned) wowReport.push('return');
+      if (rep.returned) wowReport.push('return');
+      S.recordReport(w, rep);
       // 결정 → 10분 지켜보기 (새 결정거리가 생기면 5분에 한 번 더)
       const t0 = w.t, eye = makeWatcher(w);
       const acts: string[] = [];
       const doActs = (log: string[]) => { for (const a of log) { acts.push(a); if (!DEC_SKIP.test(a)) eye.act(a.split(':')[0], (w.t - t0) * 60); } eye.settle(); };
-      doActs(checkIn(w, p, { last: i === p.times.length - 1, first: i === 0 }).acts);
+      doActs(checkIn(w, p, { last: i === p.times.length - 1, first: i === 0, awayMin: rep.minutes }).acts);
       let second = false, cAt = eye.moments.length;
       while (w.t < t0 + WINDOW - 1e-9) {
         const ev: S.SimEvent[] = [];
