@@ -359,14 +359,21 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
       const ex = planExpand(w);
       if (ex) { const h = S.hire(w, ex.sp, null); if (h.ok && S.place(w, h.mon.id, ex.to).ok) { log.push('expand:' + ex.sp); acts++; continue; } if (h.ok) S.unhire(w, h.mon.id, h.free ? 'ticket' : h.cost); }
     }
+    // 모객 (v1.7): 오렌이 권하면 건다 — 풀에 손님이 있고 자리가 있으면 복귀, 입구가 한산하면 신규. 모객권이 있으면 성향과 관계없이, 없으면 이벤트를 거는 성향만 스마일이 넉넉할 때
+    //   순서(1.10.0 `guests.order`): 'after' = 진화 ② 다음(v1.7 기본), 'before' = 진화 ② 앞 (오렌 orenPick과 같다)
+    const tryRecruit = () => {
+      const rp = S.recruitPick(w);
+      if (rp && (S.recruitTickets(w) > 0 || (p.events && w.smile > 4 * S.recruitCost(w, rp.kind)))) {
+        const r = S.startRecruit(w, rp.kind);
+        if (r.ok) { log.push('recruit:' + rp.kind + (r.free ? '-free' : '')); return true; }
+      }
+      return false;
+    };
+    const before = RULES.guests?.order === 'before';
+    if (before && tryRecruit()) { acts++; continue; }
     // 진화 ②: 나머지는 성향대로
     if (tryEvolve(w, p, log, false)) { acts++; continue; }
-    // 모객 (v1.7): 오렌이 권하면 건다 — 풀에 손님이 있고 자리가 있으면 복귀, 입구가 한산하면 신규. 모객권이 있으면 성향과 관계없이, 없으면 이벤트를 거는 성향만 스마일이 넉넉할 때
-    const rp = S.recruitPick(w);
-    if (rp && (S.recruitTickets(w) > 0 || (p.events && w.smile > 4 * S.recruitCost(w, rp.kind)))) {
-      const r = S.startRecruit(w, rp.kind);
-      if (r.ok) { log.push('recruit:' + rp.kind + (r.free ? '-free' : '')); acts++; continue; }
-    }
+    if (!before && tryRecruit()) { acts++; continue; }
     // 이벤트: 스마일이 넉넉하면(또는 무료 이벤트권이 있으면 성향과 관계없이) 가장 붐비는 던전에 경험치 2배
     const freeEv = w.tickets.event > 0;
     if ((p.events || freeEv) && S.activeEvents(w) < S.maxEvents(w)) {

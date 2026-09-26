@@ -300,6 +300,7 @@ export function joyText(w: M.World) {
 export function markLabel(r: M.MarkReward): string {
   if (r.kind === 'hire') return `🎟 ${SPECIES[r.sp].names[0]} 채용권`;
   if (r.kind === 'event') return `🎫 무료 이벤트권${r.n > 1 ? ' ' + r.n + '장' : ''}`;
+  if (r.kind === 'dex') return `🎫 이벤트권 ${r.event}장 · 🎟 모객권 ${r.recruit}장`;
   return '👑 필드 보스 방문';
 }
 /** ② 막대 위 눈금 (2장부터). 지난 눈금은 채워져 보인다 */
@@ -409,16 +410,21 @@ export function orenPick(): OrenLine {
     const cf = M.crowdFix(w);
     if (cf) return { t: `${plotShort(cf.d)} 앞에 ${cf.n}명이 줄 섰어요!! 자리는 꽉 찼으니 ${josa(SPECIES[cf.sp].names[0], '을', '를')} 뽑아 ${plotShort(cf.to)}에 던전을 하나 더 열어요!!`, go: () => A.openHire({ crowd: cf }) };
   }
-  const ev = b.find((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve' && x.shown);
-  if (ev) { const m = w.monsters.find(x => x.id === ev.mon)!; return { t: `${josa(M.monName(m), '이', '가')} 진화할 수 있대요!! ▲를 눌러봐요!!`, go: () => A.openEvolve(m.id) }; }
-  // v1.7 모객: 진화 다음, 이벤트 앞 (봇 checkIn과 같은 순서). 복귀가 먼저, 다음 신규
-  const rp = M.recruitPick(w);
-  if (rp) {
+  // v1.7 모객: 진화 다음, 이벤트 앞 (봇 checkIn과 같은 순서. 1.10.0 `guests.order`가 'before'면 진화 앞). 복귀가 먼저, 다음 신규
+  const recruitLine = (): OrenLine | null => {
+    const rp = M.recruitPick(w);
+    if (!rp) return null;
     const free = M.recruitTickets(w) > 0 ? ' 모객권이 있어서 공짜예요!!' : '';
     return rp.kind === 'return'
       ? { t: `떠났던 손님 ${rp.n}명이 돌아올 수 있어요!! 자리도 있어요!! 📣 복귀 모객을 걸어요!!${free}`, go: () => A.openRecruit() }
       : { t: `입구가 한산해요!! 빈자리 ${rp.n}석!! 📣 신규 모객으로 새 손님을 불러요!!${free}`, go: () => A.openRecruit() };
-  }
+  };
+  const recBefore = RULES.guests?.order === 'before' ? recruitLine() : null;
+  if (recBefore) return recBefore;
+  const ev = b.find((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve' && x.shown);
+  if (ev) { const m = w.monsters.find(x => x.id === ev.mon)!; return { t: `${josa(M.monName(m), '이', '가')} 진화할 수 있대요!! ▲를 눌러봐요!!`, go: () => A.openEvolve(m.id) }; }
+  const recAfter = RULES.guests?.order === 'before' ? null : recruitLine();
+  if (recAfter) return recAfter;
   if (w.ended) {
     const fc = M.fullClear(w);
     if (fc.starred < fc.plots || fc.dex < M.dexTotal()) return { t: `완전 클리어까지 던전 ★3 ${fc.plots - fc.starred}곳, 도감 ${M.dexTotal() - fc.dex}칸 남았어요!!`, go: () => A.openFullClear() };
@@ -433,6 +439,7 @@ export function orenPick(): OrenLine {
   const idle = [
     j.eta ? `결재까지 즐거운 시간 ${Math.floor(j.pct)}%!! 지금 속도면 ${j.eta} 남았어요!!` : '오늘도 다들 퇴근 잘하고 있어요!!',
     '직원들이 퇴근할수록 근속이 쌓여요!!', '모험가님들 표정 좀 보세요!! 😊', '매니저님 퇴근하셔도 월드는 돌아가요!!',
+    ...(RULES.dexMile && (w.dexMiles || 0) < RULES.dexMile.at.length ? [`도감 ${M.dexCount(w)}/${M.dexTotal()}!! ${Math.round(RULES.dexMile.at[w.dexMiles || 0] * 100)}%를 채우면 본사 선물이 와요!!`] : []),
   ];
   return { t: idle[Math.floor(w.t / 7) % idle.length], go: null };
 }

@@ -11,7 +11,7 @@
  */
 import assert from 'node:assert/strict';
 import * as S from '../app/src/sim/sim';
-import { useRules, V11, V13, V14, V15, V16, V17, GUESTS_V17, RULES } from '../app/src/sim/rules';
+import { useRules, V11, V13, V14, V15, V16, V17, GUESTS_V17, GUESTS_V17_PAUSE, DEX_MILE_TRIAL, RULES } from '../app/src/sim/rules';
 import { PERSONAS, runPersona, firstSession, lightClone, checkIn } from '../app/src/sim/bots';
 import { runCadence, gapStats } from '../app/src/sim/tools/cadence';
 import { PLOTS, CHAPTERS, SPECIES } from '../app/src/sim/content';
@@ -668,7 +668,7 @@ t('봇은 상자를 열어도 수 제한에 세지 않고, 모든 성향에서 �
 
 // ── 7. v1.7 사냥터·모객 ──────────────────────────────────────
 /** v1.7의 새 필드를 모두 끈 규칙. 필드를 더할 때마다 여기에 기본값(null·false)을 적는다 */
-const V17_OFF = { ...V17, grounds: null, guests: null };
+const V17_OFF = { ...V17, grounds: null, guests: null, dexMile: null };
 t('규칙 v1.7은 새 필드를 끄면 v1.6과 똑같이 흐른다 (봇 한 달, 난수 흐름까지)', () => {
   const run = (r: typeof V16) => {
     useRules(r);
@@ -830,6 +830,50 @@ t('완전 클리어 (v1.7): 엔딩 뒤 던전 전부 ★3 · 도감 전부가 �
   // 옛 세이브: clearedAt 칸이 없어도 올라온다
   const sv = JSON.parse(JSON.stringify(w)); delete sv.clearedAt;
   assert.ok(S.isWorld(sv));
+});
+
+t('1.10.0 도감 돌파 보상(실험값): 도감이 절반에 처음 닿는 걸음에 한 번, 이벤트권·모객권. 기본값(null)이면 없다', () => {
+  useRules({ ...V17G, dexMile: DEX_MILE_TRIAL });
+  const w = S.createWorld(51); firstSession(w); S.advance(w, 600);
+  assert.equal(w.dexMiles || 0, 0);
+  const ev0 = w.tickets.event, rc0 = w.tickets.recruit || 0;
+  const half = Math.ceil(0.5 * S.dexTotal());
+  const sps = S.speciesInPlay();
+  outer: for (const sp of sps) for (let i = 0; i < SPECIES[sp].names.length; i++) { if (S.dexCount(w) >= half) break outer; w.dex[sp + ':' + i] = true; }
+  const ev: S.SimEvent[] = []; S.step(w, 1 / 12, ev);
+  assert.equal(ev.filter(e => e.type === 'dexMile').length, 1);
+  assert.equal(w.dexMiles, 1);
+  assert.equal(w.tickets.event, ev0 + RULES.dexMile!.event);
+  assert.ok((w.tickets.recruit || 0) >= Math.min(rc0 + RULES.dexMile!.recruit, RULES.guests!.ticket.hold));
+  const ev2: S.SimEvent[] = []; S.step(w, 1, ev2);
+  assert.equal(ev2.filter(e => e.type === 'dexMile').length, 0, '한 번만');
+  useRules(V17G);
+  const w2 = S.createWorld(51); firstSession(w2); S.advance(w2, 600);
+  for (const sp of sps) SPECIES[sp].names.forEach((_, i) => { w2.dex[sp + ':' + i] = true; });
+  const ev3: S.SimEvent[] = []; S.step(w2, 1, ev3);
+  assert.equal(ev3.filter(e => e.type === 'dexMile').length, 0);
+  useRules(V17);
+});
+
+t('1.10.0 신규 모객 자동 쉼(실험값): 입구 줄이 pauseAt 이상이면 ×x를 쉬고, 기본값(0)이면 쉬지 않는다', () => {
+  useRules({ ...V17G, guests: GUESTS_V17_PAUSE });
+  const w = S.createWorld(52); firstSession(w); S.advance(w, 600); // 첫날 파티 박자(arrive.fade)가 끝난 뒤라야 기본 도착에 ×x가 보인다
+  w.smile = 1e5; w.recruit = null;
+  const r = S.startRecruit(w, 'fresh'); assert.ok(r.ok);
+  const base = () => { const keep = w.recruit; w.recruit = null; const v = S.arrivalPerMin(w); w.recruit = keep; return v; };
+  const q = () => w.advs.filter(a => a.st === 'busy' && a.lv <= 3).length;
+  // 줄이 없을 때 ×x
+  for (const a of w.advs) if (a.st === 'busy' && a.lv <= 3) a.st = 'new';
+  assert.ok(q() === 0);
+  assert.ok(Math.abs(S.arrivalPerMin(w) - base() * RULES.guests!.fresh.x) < 1e-9, '줄이 없으면 ×x');
+  // 줄을 pauseAt만큼 세우면 쉰다
+  let made = 0;
+  for (const a of w.advs) { if (made >= RULES.guests!.fresh.pauseAt) break; if (a.lv <= 3) { a.st = 'busy'; a.near = 'h1'; made++; } }
+  while (made < RULES.guests!.fresh.pauseAt) { w.advs.push({ id: w.nextAdv++, lv: 1, prog: 0, st: 'busy', d: null, near: 'h1', wait: 0, look: 0, jit: 0, seen: true }); made++; }
+  assert.ok(Math.abs(S.arrivalPerMin(w) - base()) < 1e-9, '줄이 서면 쉰다');
+  useRules(V17G);
+  assert.ok(Math.abs(S.arrivalPerMin(w) - base() * RULES.guests!.fresh.x) < 1e-9, '기본값(0)이면 쉬지 않는다');
+  useRules(V17);
 });
 
 console.log(`\n${passed} passed`);

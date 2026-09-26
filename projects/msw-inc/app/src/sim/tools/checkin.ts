@@ -22,7 +22,7 @@
  */
 import { writeFileSync } from 'node:fs';
 import * as S from '../sim';
-import { useRules, V13, V14, V15, V16, RULES, type Rules } from '../rules';
+import { useRules, V13, V14, V15, V16, RULES, GUESTS_V17, type Rules } from '../rules';
 import { PERSONAS, firstSession, checkIn, type Persona } from '../bots';
 import { makeWatcher, gapStats, famOf, WOW_KINDS, med, type Moment } from './moments';
 
@@ -30,6 +30,10 @@ const args = process.argv.slice(2);
 const arg = (k: string) => (args.includes(k) ? args[args.indexOf(k) + 1] : null);
 const BY_ID: Record<string, Rules> = { 'v1.3': V13, 'v1.4': V14, 'v1.5': V15, 'v1.6': V16 };
 if (arg('--rules')) useRules({ ...(BY_ID[arg('--rules')!] || RULES) });
+// --patch '{"dexMile":{"at":[0.5],"event":2,"recruit":1}}' (1.10.0): 규칙 필드 일부를 덮는다 (갈래 실험)
+if (arg('--patch')) useRules({ ...RULES, ...JSON.parse(arg('--patch')!) });
+// --order before|after (1.10.0 실험): 오렌·봇 순서에서 모객을 진화 앞에 둘지
+if (arg('--order') && RULES.guests) useRules({ ...RULES, guests: { ...(RULES.guests || GUESTS_V17), order: arg('--order') === 'before' ? 'before' : 'after' } });
 const SEEDS = arg('--seed') ? [+arg('--seed')!] : [7, 11, 23, 42, 99];
 const DAYS = +(arg('--days') || 30);
 const ONLY = (arg('--only') || 'std,light,heavy,night').split(',');

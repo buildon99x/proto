@@ -98,7 +98,12 @@ export interface Rules {
    * 승진 소식(evolveBurst): 직원이 진화하면 그 던전의 새 구간에 맞는 떠난 손님이 빈자리만큼 최대 evolveBurst명 바로 돌아온다("진화했다 → 손님이 돌아온다", F2와 G2를 잇는다).
    * 놓쳐도 잃는 것이 없다. 타이머 압박·한정 판매는 없다. null이면 없다 (v1.6)
    */
-  guests: { pool: number; return: { min: number; rate: number; cost: number }; fresh: { min: number; x: number; burst: number; cost: number }; ticket: { gift: number; awayMin: number; hold: number }; evolveBurst: number } | null;
+  guests: { pool: number; return: { min: number; rate: number; cost: number }; fresh: { min: number; x: number; burst: number; cost: number; /** 신규 모객 자동 쉼 (1.10.0 실험, 기본 0 = 안 쉰다): 입구 줄(Lv 1~3 기다리는 손님)이 이만큼이면 ×x를 쉰다. 6으로 재 보니 첫 40분 줄은 그대로고 가벼운 플레이어의 4장 반복만 늘어 채택하지 않았다 */ pauseAt: number }; ticket: { gift: number; awayMin: number; hold: number }; evolveBurst: number; /** 오렌·봇 순서 (1.10.0 실험): 모객을 진화 앞에 둘지. 'after'가 v1.7 기본 */ order: 'after' | 'before' } | null;
+  /**
+   * 도감 돌파 보상 (1.10.0 실험, 기본 null = 없다): 도감이 at[i] 비율에 처음 닿으면 무료 이벤트권 event장 + 모객권 recruit장.
+   * 진화 보류 성향의 −21.9%(choice-audit L17)를 규칙 되맞춤 없이 좁히려던 장치였으나, 1분 걸음 달력을 한 자리도 움직이지 않았다(권이 쌓여 쓰이지 않는다 — 드랍 상자 §4와 같은 교훈). DEX_MILE_TRIAL로 남긴다
+   */
+  dexMile: { at: number[]; event: number; recruit: number } | null;
 }
 
 export const V11: Rules = {
@@ -133,6 +138,7 @@ export const V11: Rules = {
   drop: null,
   grounds: null,
   guests: null,
+  dexMile: null,
 };
 
 export const V12: Rules = {
@@ -231,9 +237,14 @@ export const V17: Rules = {
   grounds: { homeX: 1.1 },
   // G2 모객 (1.8.0): 떠난 손님이 자원이 된다. 값은 GUESTS_V17
   get guests() { return GUESTS_V17; },
+  dexMile: null,
 };
 /** G2 모객 값: 복귀는 4시간 동안 시간당 6명(빈자리가 있을 때만), 신규는 거는 순간 3명 + 4시간 동안 기본 도착 ×2. 비용은 장마다 오른다(복귀 200 · 신규 150 × 장). 모객권은 1장 결재 선물 1장, 6시간 넘게 떠났다 오면 1장(2장까지) */
-export const GUESTS_V17: NonNullable<Rules['guests']> = { pool: 300, return: { min: 240, rate: 6, cost: 200 }, fresh: { min: 240, x: 2, burst: 3, cost: 150 }, ticket: { gift: 1, awayMin: 360, hold: 2 }, evolveBurst: 8 };
+export const GUESTS_V17: NonNullable<Rules['guests']> = { pool: 300, return: { min: 240, rate: 6, cost: 200 }, fresh: { min: 240, x: 2, burst: 3, cost: 150, pauseAt: 0 }, ticket: { gift: 1, awayMin: 360, hold: 2 }, evolveBurst: 8, order: 'after' };
+/** 1.10.0 실험값: 도감 돌파 보상 (채택하지 않았다). 비교용 */
+export const DEX_MILE_TRIAL: NonNullable<Rules['dexMile']> = { at: [0.5], event: 2, recruit: 1 };
+/** 1.10.0 실험값: 신규 자동 쉼 6 (채택하지 않았다 — 첫 40분 줄은 그대로고 가벼운 플레이어의 4장 반복이 6 → 11). 비교용 */
+export const GUESTS_V17_PAUSE: NonNullable<Rules['guests']> = { ...GUESTS_V17, fresh: { ...GUESTS_V17.fresh, pauseAt: 6 } };
 
 export const RULES: Rules = { ...V17 };
 export function useRules(r: Rules): void { Object.assign(RULES, r); }

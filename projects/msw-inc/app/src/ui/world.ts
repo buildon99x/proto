@@ -542,6 +542,7 @@ A.handlers.push(ev => {
       refresh();
     }
     else if (e.type === 'mark') { snd.play('event'); toast(`결재 막대 ${Math.round(e.pct * 100)}% · ${markLabel(e.reward)}!`); refresh(); }
+    else if (e.type === 'dexMile') { snd.play('event'); toast(`📖 도감 ${Math.round(e.pct * 100)}% 돌파 · 본사 선물 ${markLabel(e.reward)}!`); refresh(); }
     else if (e.type === 'return') {
       // 돌아온 손님 (v1.7 모객): 자기 레벨 자리에 "돌아왔다!"
       if (A.ui.mode === 'world' && !V.snap && !A.demo) fxText('🔁 돌아왔다!', V.x(e.lv), GROUND - 58, 'pop small');

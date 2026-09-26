@@ -526,6 +526,7 @@ function scene(kind: string, data: Record<string, unknown>) {
   if (kind === 'box') return { cap: `📦 상자 ${data.n}개가 기다려요`, html: advs(3) + Array.from({ length: Math.min(3, data.n as number) }, (_, i) => `<div class="a" style="left:${36 + i * 52}px;top:${22 + (i % 2) * 8}px;font-size:var(--fs-d1)">📦</div>`).join('') };
   if (kind === 'entrance') return { cap: `😐 입구 막힘 ${dur(data.min as number)}`, html: advs(3) + `<div class="a" style="left:30px;top:14px;font-size:var(--fs-xl)">😐</div><div class="a" style="left:100px;top:10px;font-size:var(--fs-xl)">😐</div>` };
   // v1.7 모객: 돌아온 손님이 첫 명장면이다 — 돌아온 매니저가 자기 이야기로 읽는다
+  if (kind === 'dexmile') { const ms = data.list as M.Report['dexMiles']; return { cap: `📖 도감 ${ms.map(x => Math.round(x.pct * 100) + '%').join('·')} 돌파!`, html: advs(3) + `<div class="a" style="left:90px;top:8px;font-size:var(--fs-d1)">📖</div><div class="a markrw">${ms.map(x => markLabel(x.reward)).join('<br>')}</div>` }; }
   if (kind === 'clear') return { cap: '🏝️ 완전 클리어!', html: advs(4) + `<div class="a" style="left:20px;top:10px;font-size:var(--fs-xl)">🎉</div><div class="a" style="left:96px;top:6px;font-size:var(--fs-d1)">🏝️</div><div class="a" style="left:170px;top:14px;font-size:var(--fs-xl)">🎉</div>` };
   if (kind === 'star3') return { cap: `⭐ 던전 ★3 +${data.n}`, html: advs(3) + `<div class="a" style="left:60px;top:12px;font-size:var(--fs-d1);color:var(--gold)">★★★</div>` };
   if (kind === 'return') return { cap: `🔁 손님 ${data.n}명이 돌아왔어요`, html: advs(4) + `<div class="a" style="left:24px;top:14px;font-size:var(--fs-xl)">🔁</div><div class="a" style="left:120px;top:10px;font-size:var(--fs-xl)">😊</div>` };
@@ -542,6 +543,7 @@ A.showReport = (rep, awayMin) => {
   if (rep.bossDown.length) picks.push(['boss', { ch: rep.bossDown[0].ch, down: true }]);
   else if (rep.bossCall && w.boss && !w.boss.d) picks.push(['boss', { ch: rep.bossCall, down: false }]);
   if (rep.marks.length) picks.push(['mark', { list: rep.marks }]);
+  if (rep.dexMiles && rep.dexMiles.length) picks.push(['dexmile', { list: rep.dexMiles }]);
   if (rep.elites.length) { const m = w.monsters.find(x => x.id === rep.elites[rep.elites.length - 1].mon); picks.push(['elite', { n: rep.elites.length, art: m ? monArt(m) : 'snail' }]); }
   if (rep.firstGrad) picks.push(['grad', { first: true, n: rep.grads }]);
   if (rep.bestBurst && rep.bestBurst.n >= 5 && M.levelsOf(w)[rep.bestBurst.d]) picks.push(['burst', rep.bestBurst as unknown as Record<string, unknown>]);

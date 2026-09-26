@@ -23,7 +23,7 @@ export interface GameEvent { kind: 'exp' | 'drop'; start: number; end: number }
 export interface Tickets { hire: SpeciesId[]; event: number; plot: number; /** 모객권 (v1.7). 옛 세이브에는 없다 */ recruit?: number }
 export interface Elite { d: PlotId; mon: number; until: number }
 export interface Boss { ch: number; at: number; d: PlotId | null; kills: number; until: number | null }
-export type MarkReward = { kind: 'hire'; sp: SpeciesId } | { kind: 'event'; n: number } | { kind: 'boss' };
+export type MarkReward = { kind: 'hire'; sp: SpeciesId } | { kind: 'event'; n: number } | { kind: 'boss' } | { kind: 'dex'; event: number; recruit: number };
 /** 드랍 상자 (v1.6): 던전 앞에 떨어져 열 때까지 기다린다 */
 export interface Box { id: number; d: PlotId; at: number }
 export type BoxReward = { kind: 'hire'; sp: SpeciesId } | { kind: 'event' };
@@ -49,6 +49,8 @@ export interface World {
   tickets: Tickets;
   /** 이번 장에서 받은 ② 막대 눈금 보상 (v1.3). 길이 = 지난 눈금 수 */
   marks: MarkReward[];
+  /** 도감 돌파 보상을 받은 횟수 (1.10.0). 옛 세이브에는 없다 */
+  dexMiles?: number;
   /** 엘리트 (v1.3): 지금 들뜬 던전 하나. eliteAcc = 지난 엘리트 뒤 월드 퇴근, eliteBy = 던전별 */
   elite: Elite | null; eliteAcc: number; eliteBy: Record<PlotId, number>;
   /** 필드 보스 (v1.3): 찾아온 손님 하나 (d가 null이면 초대 기다림). bossDone = 토벌한 장 */
@@ -84,6 +86,8 @@ export type SimEvent =
   | { type: 'eventEnd'; d: PlotId; kind: 'exp' | 'drop' }
   | { type: 'approval' }
   | { type: 'mark'; pct: number; reward: MarkReward }
+  /** 도감 돌파 (1.10.0) */
+  | { type: 'dexMile'; pct: number; reward: MarkReward }
   | { type: 'elite'; d: PlotId; mon: number }
   | { type: 'eliteEnd'; d: PlotId }
   | { type: 'bossCall'; ch: number }
@@ -320,7 +324,10 @@ export function arrivalPerMin(w: World): number {
   // 필드 보스 소식에 손님이 더 온다 (v1.3)
   const fb = RULES.fieldBoss, bossX = fb && w.boss && w.boss.d ? fb.arriveX : 1;
   // 신규 모객 (v1.7): 기본 도착률 ×x. 첫날 붐빔의 파티 박자에는 곱하지 않는다(첫 40분 줄이 터진다)
-  const rx = RULES.guests && w.recruit && w.recruit.kind === 'fresh' ? RULES.guests.fresh.x : 1;
+  // 1.10.0 자동 쉼: 입구 줄(Lv 1~3 기다리는 손님)이 pauseAt 이상이면 ×x를 쉰다
+  const gu = RULES.guests;
+  const paused = !!gu && gu.fresh.pauseAt > 0 && w.advs.filter(a => a.st === 'busy' && a.lv <= 3).length >= gu.fresh.pauseAt;
+  const rx = gu && w.recruit && w.recruit.kind === 'fresh' && !paused ? gu.fresh.x : 1;
   const base = ((6 * (1 + 0.5 * w.stars)) / 60) * bossX * rx;
   if (!ar || w.t >= ar.fade) return base;
   // v1.4: 첫 hold분은 붐비고, fade분까지 기본 도착률로 서서히 줄어든다
@@ -526,6 +533,7 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
 
   // 결재 ② 막대 눈금 (v1.3): 지나는 순간 보상이 저절로 들어온다
   checkMarks(w, emit);
+  checkDexMiles(w, emit);
 
   // 결재 판정 — 한 번 채우면 서류가 올라와 기다린다
   if (!w.approvalReady && !w.ended && approvalMet(w)) { w.approvalReady = true; emit({ type: 'approval' }); }
@@ -541,6 +549,18 @@ export function markReward(w: World, i: number): MarkReward {
   }
   if (i === 1) return RULES.fieldBoss && fieldBoss(w.chapter) && !w.bossDone.includes(w.chapter) && !w.boss ? { kind: 'boss' } : { kind: 'event', n: 1 };
   return { kind: 'event', n: 2 };
+}
+/** 도감 돌파 보상 (1.10.0): 도감이 at[i]에 처음 닿으면 이벤트권·모객권. 난수를 쓰지 않는다 */
+function checkDexMiles(w: World, emit: (e: SimEvent) => void) {
+  const dm = RULES.dexMile;
+  if (!dm) return;
+  const n = w.dexMiles || 0;
+  if (n >= dm.at.length) return;
+  if (dexCount(w) < dm.at[n] * dexTotal()) return;
+  w.dexMiles = n + 1;
+  w.tickets.event += dm.event;
+  if (RULES.guests && w.pool) w.tickets.recruit = Math.min((w.tickets.recruit || 0) + dm.recruit, Math.max(RULES.guests.ticket.hold, dm.recruit));
+  emit({ type: 'dexMile', pct: dm.at[n], reward: { kind: 'dex', event: dm.event, recruit: dm.recruit } });
 }
 function checkMarks(w: World, emit: (e: SimEvent) => void) {
   const jm = RULES.joyMarks, goal = RULES.joyGoal ? RULES.joyGoal[w.chapter - 1] : 0;
@@ -893,6 +913,8 @@ export interface Ledger {
   returned: number;
   /** 완전 클리어 진척 (v1.7): 시작할 때 ★3 던전 수·도감 칸, 그 사이 완전 클리어가 됐는가 */
   starred0: number; dex0: number; cleared: boolean;
+  /** 도감 돌파 (1.10.0) */
+  dexMiles: { pct: number; reward: MarkReward }[];
 }
 export function ledgerStart(w: World): Ledger {
   return {
@@ -900,7 +922,7 @@ export function ledgerStart(w: World): Ledger {
     work0: Object.fromEntries(w.monsters.map(m => [m.id, m.work])),
     hourLv: {}, bestBurst: null, crowdMax: null, ready: [], approval: false, firstGrad: w.stats.grads === 0,
     stuckMin: 0, marks: [], elites: [], bossCall: null, bossDown: [], boxes: 0, returned: w.stats.returned || 0,
-    starred0: w.ended ? fullClear(w).starred : 0, dex0: dexCount(w), cleared: false,
+    starred0: w.ended ? fullClear(w).starred : 0, dex0: dexCount(w), cleared: false, dexMiles: [],
   };
 }
 export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
@@ -913,6 +935,7 @@ export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
     } else if (e.type === 'ready') { if (!L.ready.includes(e.mon)) L.ready.push(e.mon); }
     else if (e.type === 'approval') L.approval = true;
     else if (e.type === 'fullclear') L.cleared = true;
+    else if (e.type === 'dexMile') (L.dexMiles = L.dexMiles || []).push({ pct: e.pct, reward: e.reward });
     else if (e.type === 'mark') L.marks.push({ pct: e.pct, reward: e.reward });
     else if (e.type === 'elite') L.elites.push({ d: e.d, mon: e.mon });
     else if (e.type === 'bossCall') L.bossCall = e.ch;
@@ -940,6 +963,7 @@ export interface Report {
   returned: number; pool: number; recruit: { kind: RecruitKind; n: number } | null;
   /** 완전 클리어 진척 (v1.7, 엔딩 뒤): ★3 던전 수와 그 사이 는 수, 도감 칸과 는 수, 이번에 완전 클리어가 됐는가 */
   starred: number; starredDelta: number; dex: number; dexDelta: number; cleared: boolean;
+  dexMiles: { pct: number; reward: MarkReward }[];
 }
 export function ledgerReport(L: Ledger, w: World): Report {
   const king = w.monsters
@@ -960,7 +984,7 @@ export function ledgerReport(L: Ledger, w: World): Report {
     boxes: L.boxes || 0, boxesWaiting: boxesOf(w).length,
     returned: (w.stats.returned || 0) - (L.returned || 0), pool: poolCount(w), recruit: recruitPick(w),
     starred: w.ended ? fullClear(w).starred : 0, starredDelta: w.ended ? fullClear(w).starred - (L.starred0 || 0) : 0,
-    dex: dexCount(w), dexDelta: dexCount(w) - (L.dex0 ?? dexCount(w)), cleared: !!L.cleared,
+    dex: dexCount(w), dexDelta: dexCount(w) - (L.dex0 ?? dexCount(w)), cleared: !!L.cleared, dexMiles: L.dexMiles || [],
   };
 }
 

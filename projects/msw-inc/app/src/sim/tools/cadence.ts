@@ -15,7 +15,7 @@
  */
 import { writeFileSync } from 'node:fs';
 import * as S from '../sim';
-import { useRules, V12, V13, V14, V15, V16, RULES, type Rules } from '../rules';
+import { useRules, V12, V13, V14, V15, V16, RULES, GUESTS_V17, type Rules } from '../rules';
 import { firstSession, watchTo, realMinutes } from '../bots';
 import { makeWatcher, gapStats, famOf, med, mmss, type Moment } from './moments';
 export { gapStats, type Moment };
@@ -25,6 +25,8 @@ const arg = (k: string) => (args.includes(k) ? args[args.indexOf(k) + 1] : null)
 const BY_ID: Record<string, Rules> = { 'v1.2': V12, 'v1.3': V13, 'v1.4': V14, 'v1.5': V15, 'v1.6': V16 };
 const rules = BY_ID[arg('--rules') || ''] || RULES;
 useRules({ ...rules });
+// --guests '{"evolveBurst":0}' (1.10.0): 모객 값 일부를 덮어 첫 40분 기여를 가른다
+if (arg('--guests') && RULES.guests) useRules({ ...RULES, guests: { ...(RULES.guests || GUESTS_V17), ...JSON.parse(arg('--guests')!) } });
 const SEEDS = arg('--seed') ? [+arg('--seed')!] : [7, 11, 23, 42, 99];
 const HORIZON = 90; // 분 (40분 뒤 하강까지 본다)
 const WINDOW = 40;

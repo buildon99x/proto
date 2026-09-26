@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.10.0 — 후속 실험: 도감 돌파 보상 · 신규 자동 쉼 · 모객 순서, 하나씩 빼 보기 v1.7 (규칙 값은 1.9.0 그대로)
+
+handoff §4의 다음 작업 1~3, 6을 했다. 셋은 규칙 필드로 넣고 재 본 뒤 **기본값을 껐다**(수치는 [notes/guests-v17.md](notes/guests-v17.md) §6). 게임 규칙 값은 1.9.0과 같고 달력·첫 40분·체크인 수치도 같다.
+
+- **도감 돌파 보상 (`dexMile`, 기본 null):** 도감 절반에 이벤트권 2 · 모객권 1. 진화 보류 −21.9%를 좁히려 했으나 1분 걸음 달력이 소수점까지 그대로였다(권이 쌓여 쓰이지 않는다). 코드(사건 `dexMile`, 리포트 명장면 "📖 도감 50% 돌파!", 토스트, 오렌 한 줄)와 `DEX_MILE_TRIAL`은 남겼다
+- **신규 모객 자동 쉼 (`fresh.pauseAt`, 기본 0):** 입구 줄이 6명이면 ×2를 쉰다. 40분 줄 40은 그대로(줄의 원인이 신규 모객이 아니었다: 거는 순간 3명을 빼도 32, 사냥터 값만이면 28), 가벼운 플레이어 4장 반복 6 → 11. `GUESTS_V17_PAUSE`로 남김
+- **모객 순서 (`guests.order`, 기본 'after'):** 'before'면 오렌·봇이 모객을 진화 앞에 권한다. 가벼운 플레이어 4장 반복 6 → 3이지만 달력이 표준 −2.6일·가벼운 −3.4일(5초 걸음) 당겨져 채택하지 않았다
+- **하나씩 빼 보기 v1.7 (`audit --ablate`):** v1.7 변형 5개를 더했다 — 사냥터 값, 모객 전부, 승진 소식, + 신규 자동 쉼(실험), + 도감 돌파 보상(실험). 결과는 [notes/choice-audit.md](notes/choice-audit.md) §13
+- **도구:** `checkin -- --order before|after`, `checkin -- --patch '<json>'`, `cadence -- --guests '<json>'`
+- **테스트 55개** (도감 돌파 보상 실험값·자동 쉼 실험값·기본값이면 없음)
+- 하지 않은 것: 세로 폰 재설계(ux-review R1). 화면 전체를 다시 짜는 일이라 별도 요청으로 둔다. 사람 확인 목록(handoff §6)은 그대로다
+
 ## 1.9.0 — 마감: 끊김 없는 여정 · 완전 클리어 · 튜토리얼 −36% · 전후 갤러리 · 플레이 리뷰 v1.7 (규칙 v1.7 · G3 · G4)
 
 요청 [prompts/request-live-hunting-grounds.md](prompts/request-live-hunting-grounds.md)의 마지막 릴리스. 규칙 수치는 1.8.0 그대로다. 목표별 판정은 [notes/play-review/index.html](notes/play-review/index.html) 09절과 [notes/plan-v17.md](notes/plan-v17.md) §6, 다음 사람에게는 [notes/handoff.md](notes/handoff.md).

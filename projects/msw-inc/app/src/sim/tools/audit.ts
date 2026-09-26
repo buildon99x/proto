@@ -9,7 +9,7 @@
  * 월드 규칙은 결정적이다. 시드마다 체크인 시각을 ±90분 흔들어(bots.ts) 중앙값과 범위를 쓴다. 결과 해석은 notes/choice-audit.md.
  */
 import { writeFileSync } from 'node:fs';
-import { useRules, V11, V12, V13, V14, V15, V16, V17, type Rules } from '../rules';
+import { useRules, V11, V12, V13, V14, V15, V16, V17, GUESTS_V17, GUESTS_V17_PAUSE, DEX_MILE_TRIAL, type Rules } from '../rules';
 import { PERSONAS, runPersona, dayNum, type RunResult } from '../bots';
 
 const args = process.argv.slice(2);
@@ -103,6 +103,12 @@ if (args.includes('--ablate')) {
     ['− 싼 2장 개업', { plotCurve: null }],
     // v1.6 (드랍 상자)
     ['− 드랍 상자', { drop: null }],
+    // v1.7 (사냥터 값 · 모객)
+    ['− 사냥터 값 (자리·식구)', { grounds: null }],
+    ['− 모객 전부', { guests: null }],
+    ['− 승진 소식', { guests: { ...GUESTS_V17, evolveBurst: 0 } }],
+    ['+ 신규 자동 쉼 6 (실험)', { guests: GUESTS_V17_PAUSE }],
+    ['+ 도감 돌파 보상 (실험)', { dexMile: DEX_MILE_TRIAL }],
   ];
   // --part i/n: 변형을 n개로 나눠 i번째만 (여러 프로세스로 나눠 돌린다)
   const part = args.includes('--part') ? args[args.indexOf('--part') + 1].split('/').map(Number) : null;

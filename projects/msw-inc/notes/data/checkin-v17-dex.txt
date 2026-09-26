@@ -1,0 +1,26 @@
+
+> msw-inc@1.0.0 checkin /home/user/proto/projects/msw-inc/app
+> tsx src/sim/tools/checkin.ts "--" "--guests-180" "--patch" "{\"guests\":{\"pool\":300,\"return\":{\"min\":240,\"rate\":6,\"cost\":200},\"fresh\":{\"min\":240,\"x\":2,\"burst\":3,\"cost\":150,\"pauseAt\":0},\"ticket\":{\"gift\":1,\"awayMin\":360,\"hold\":2},\"evolveBurst\":8,\"order\":\"after\"}}" "--only" "std,light,heavy" "--json" "../notes/data/checkin-v17-nopause.json"
+
+규칙 v1.7 · 시드 7,11,23,42,99 · Day 2~31 · 체크인 10분 (결정 → 지켜보기, 새 결정거리가 생기면 5분에 한 번 더)
+
+성향     체크인  결정/체크인 중앙 (2장·3장·4장·5장 | 전체)  감탄 있는 체크인(리포트 포함 | 10분 안)  이벤트만  사건 사이 중앙·p90  상자/체크인  엔딩
+std        438      6    6    3    3  |   3         100% | 92%              7%        25초 · 55초      0.3     D31.5
+         같은 수 반복 최장(장별): 2장 0 · 3장 1 · 4장 3 · 5장 3  | 장마다 새 결정 종류: 2장 hire/seat/move/promote/split/evolve · 3장 approve/crowd/recruit/slot/event-free/clear/rebuild/release/seat+ · 4장 grow/clear/rebuild/release/seat+/event/crowd · 5장 balrog/native/event/seat+/rebuild
+light      266      4    2    4    4  |   2         100% | 82%              0%        25초 · 55초      0.1     D28.8
+         같은 수 반복 최장(장별): 2장 0 · 3장 3 · 4장 6 · 5장 6  | 장마다 새 결정 종류: 2장 hire/seat/move/promote/split/evolve · 3장 approve/evolve/crowd/seat · 4장 crowd · 5장 balrog/native/seat+/slot/crowd
+heavy      744      7    8    4    3  |   4         100% | 90%             27%        25초 · 55초      0.7     D99
+         같은 수 반복 최장(장별): 2장 3 · 3장 3 · 4장 3 · 5장 4  | 장마다 새 결정 종류: 2장 hire/split/move/promote/seat/evolve/recruit/event-free · 3장 approve/crowd/recruit/event-free/slot/clear/rebuild/release/event/expand/seat+ · 4장 grow/event/seat+ · 5장 balrog/native/crowd
+
+합격선(제안): 결정 중앙 ≥ 2 · 감탄 ≥ 90% · 이벤트만 ≤ 10% · 사건 사이 중앙 ≤ 30초 · 3~4장 같은 수 반복 ≤ 3 · 3~4장 새 결정 종류 ≥ 1
+  std      → 합격
+  light    → 미달
+  heavy    → 미달
+
+표준 · 10일 칸별 (시드 합 체크인 중앙값)   결정  감탄 있는 비율  사건 사이 중앙  이벤트만
+  D2~D11           6           99%            25초        0%
+  D12~D21          3           99%            30초        5%
+  D22~D31          3          100%            25초       17%
+  10분 안 감탄 종류(시드 합): evolve 333 · promote 141 · grad 126 · box 97 · elite 19 · return 14 · zone 5 · approval 2
+  리포트 감탄 종류(시드 합): elite 422 · return 121 · box 101 · mark 56 · bossDown 20 · approval 17 · boss 12 · grad 5
+→ ../notes/data/checkin-v17-nopause.json
