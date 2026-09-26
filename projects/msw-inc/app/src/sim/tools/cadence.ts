@@ -11,16 +11,18 @@
  *   A 볼거리: 파티 도착 · 졸업 · 다음 던전으로 이사 · 5의 배수 레벨업 · 새로 막힘 · 길 뚫림 · 구간 개방
  *   C 결정  : 결정할 거리가 생김(새 빈틈 · 진화 준비 · 붐빔 · 눈금 · 엘리트 · 필드 보스 · 결재 · 드랍 상자) + 실제로 둔 수
  * 합격선(v1.4): 0~40분 A∪C 최장 간격 ≤ 20초, 중앙값 ≤ 15초, 둔 수 25 이상, 결정 사이 최장 ≤ 3분.
- * 레벨업 하나하나(빛기둥)는 기준에서 뺀다. 인원만 늘면 저절로 채워지는 값이라 참고로만 적는다.
+ * 사건 층의 정의는 tools/moments.ts(checkin과 같은 잣대). 레벨업 하나하나(빛기둥)는 기준에서 뺀다.
  */
 import { writeFileSync } from 'node:fs';
 import * as S from '../sim';
-import { useRules, V12, V13, V14, V15, RULES, type Rules } from '../rules';
+import { useRules, V12, V13, V14, V15, V16, RULES, type Rules } from '../rules';
 import { firstSession, watchTo, realMinutes } from '../bots';
+import { makeWatcher, gapStats, famOf, med, mmss, type Moment } from './moments';
+export { gapStats, type Moment };
 
 const args = process.argv.slice(2);
 const arg = (k: string) => (args.includes(k) ? args[args.indexOf(k) + 1] : null);
-const BY_ID: Record<string, Rules> = { 'v1.2': V12, 'v1.3': V13, 'v1.4': V14, 'v1.5': V15 };
+const BY_ID: Record<string, Rules> = { 'v1.2': V12, 'v1.3': V13, 'v1.4': V14, 'v1.5': V15, 'v1.6': V16 };
 const rules = BY_ID[arg('--rules') || ''] || RULES;
 useRules({ ...rules });
 const SEEDS = arg('--seed') ? [+arg('--seed')!] : [7, 11, 23, 42, 99];
@@ -28,7 +30,6 @@ const HORIZON = 90; // 분 (40분 뒤 하강까지 본다)
 const WINDOW = 40;
 
 
-export interface Moment { s: number; layer: 'A' | 'C'; kind: string }
 export interface CadenceRun {
   seed: number; moments: Moment[]; lvups: number[]; acts: Moment[];
   tutEnd: number; end: { t: number; chapter: number; happy: number; advs: number; smile: number; gaps: S.Seg[]; zone?: number };
@@ -38,47 +39,18 @@ export interface CadenceRun {
 
 export function runCadence(seed: number, horizon = HORIZON): CadenceRun {
   const w = S.createWorld(seed);
-  const moments: Moment[] = [], lvups: number[] = [], acts: Moment[] = [];
+  const acts: Moment[] = [];
   let gapT: number | null = null;
   const real = (t: number) => realMinutes(t, gapT) * 60;
-  // 틱 상태: 뜨거운 빈틈 수, 빈틈 크기, 붐비는 던전, 구간
-  let hot = 0, gapN = S.gapSize(S.gapSegments(w)), busyN = 0, zone = zoneOf(w), chapter = w.chapter;
+  const eye = makeWatcher(w);
   const watch = (ev: S.SimEvent[]) => {
-    const s = real(w.t), kinds = new Set<string>();
-    const A = (k: string) => { if (!kinds.has(k)) { kinds.add(k); moments.push({ s, layer: 'A', kind: k }); } };
-    const C = (k: string) => { if (!kinds.has(k)) { kinds.add(k); moments.push({ s, layer: 'C', kind: k }); } };
-    for (const e of ev) {
-      if (e.type === 'arrive') A('party');
-      else if (e.type === 'grad') A('grad');
-      else if (e.type === 'move' && e.from && e.from !== e.to) A('moveup');
-      else if (e.type === 'stuck') { A('stuck'); if (gapT == null) gapT = w.t; }
-      else if (e.type === 'levelup') { lvups.push(s); if (e.lv % 5 === 0) A('lv5'); }
-      else if (e.type === 'ready') C('ready');
-      else if (e.type === 'mark') C('mark');
-      else if (e.type === 'elite') C('elite');
-      else if (e.type === 'bossCall') C('boss');
-      else if (e.type === 'approval') C('approval');
-      else if (e.type === 'box') C('box');
-      else if ((e as { type: string }).type === 'zone') A('zone');
-    }
-    const segs = S.gapSegments(w), g = S.gapSize(segs);
-    const h = segs.filter(sg => w.advs.some(a => a.st === 'search' && a.lv >= sg[0] && a.lv <= sg[1])).length;
-    if (h > hot) C('gap');
-    if (g < gapN) A('heal');
-    hot = h; gapN = g;
-    const busy: Record<string, number> = {};
-    for (const a of w.advs) if (a.st === 'busy' && a.near) busy[a.near] = (busy[a.near] || 0) + 1;
-    const b = Object.values(busy).filter(n => n >= 2).length;
-    if (b > busyN) C('busy');
-    busyN = b;
-    const z = zoneOf(w);
-    if (z !== zone && w.chapter === chapter) A('zone');
-    zone = z; chapter = w.chapter;
+    if (gapT == null && ev.some(e => e.type === 'stuck')) gapT = w.t;
+    eye.tap(ev, real(w.t));
   };
-  const act = (kind: string) => { const m: Moment = { s: real(w.t), layer: 'C', kind: 'act:' + kind }; moments.push(m); acts.push(m); };
+  const act = (kind: string) => { acts.push(eye.act(kind, real(w.t))); };
 
   // 1. 튜토리얼 대본
-  const TUT_ACTS = new Set(['hire', 'promote', 'event', 'stamp', 'region']);
+  const TUT_ACTS = new Set(['hire', 'promote', 'event', 'stamp', 'region', 'recruit']);
   firstSession(w, k => { if (TUT_ACTS.has(k)) act(k); }, undefined, watch);
   const tutEnd = real(w.t);
   // 2. 지켜보는 플레이어 (30초마다 최대 2수). 튜토리얼 배속이 없으면 월드 = 실제
@@ -92,33 +64,15 @@ export function runCadence(seed: number, horizon = HORIZON): CadenceRun {
     // 진화 뒤 바로 메우기(fix:)는 그 진화 결정의 일부라 따로 세지 않는다
     for (const a of acts) if (!a.startsWith('fix:')) act(a.split(':')[0]);
     // 행동이 바꾼 빈틈·붐빔은 결정할 거리로 다시 세지 않는다
-    hot = S.gapSegments(w).filter(sg => w.advs.some(a => a.st === 'search' && a.lv >= sg[0] && a.lv <= sg[1])).length;
-    gapN = S.gapSize(S.gapSegments(w));
+    eye.settle();
   });
   return {
-    seed, moments: moments.sort((a, b) => a.s - b.s), lvups, acts, tutEnd, at40,
+    seed, moments: eye.moments.sort((a, b) => a.s - b.s), lvups: eye.lvups, acts, tutEnd, at40,
     end: { t: w.t, chapter: w.chapter, happy: S.happyCount(w), advs: w.advs.length, smile: Math.round(w.smile), gaps: S.gapSegments(w), zone: zoneOf(w) },
   };
 }
 /** 구간 개방 규칙(v1.4)이 있으면 지금 열린 구간 수 — 없으면 0 */
 function zoneOf(w: S.World): number { return (w as { zone?: number }).zone ?? 0; }
-
-export interface Gaps { n: number; max: number; med: number; p90: number; over20: number; longest: [number, number] }
-export function gapStats(ts: number[], from: number, to: number): Gaps {
-  const xs = [from, ...ts.filter(s => s > from && s < to), to];
-  const d: number[] = [];
-  let longest: [number, number] = [from, from];
-  for (let i = 1; i < xs.length; i++) {
-    const g = xs[i] - xs[i - 1];
-    d.push(g);
-    if (g > longest[1] - longest[0]) longest = [xs[i - 1], xs[i]];
-  }
-  const s = [...d].sort((a, b) => a - b);
-  return { n: xs.length - 2, max: s[s.length - 1], med: s[Math.floor(s.length / 2)], p90: s[Math.floor(s.length * 0.9)], over20: d.filter(x => x > 20.5).length, longest };
-}
-
-const mmss = (x: number) => { const s = Math.round(x); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
-const med = (xs: number[]) => { const s = [...xs].sort((a, b) => a - b); return s[Math.floor(s.length / 2)]; };
 
 if (process.argv[1] && /cadence\.ts$/.test(process.argv[1])) main();
 
@@ -154,8 +108,8 @@ function main() {
   for (const m of pick.r.moments) if (m.s < WINDOW * 60) kinds[m.kind] = (kinds[m.kind] || 0) + 1;
   console.log(`\n종류별 0~${WINDOW}분 (시드 ${pick.r.seed}):`, Object.entries(kinds).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(' · '));
   // 결정 가짓수 (v1.5 계열 사다리): 0~40분 둔 수를 갈래로, 시드 5개 합. v1.6 드랍 상자는 따로 센다
-  const fam = (k: string) => (/^act:(seat|slot)/.test(k) ? '자리' : /^act:(hire|split|crowd|expand|grow|rebuild|region)/.test(k) ? '채용' : /^act:(evolve|promote)/.test(k) ? '진화' : /^act:box/.test(k) ? '상자' : '기타');
-  const famN: Record<string, number> = { 자리: 0, 채용: 0, 진화: 0, 상자: 0, 기타: 0 };
+  const fam = famOf;
+  const famN: Record<string, number> = { 자리: 0, 채용: 0, 진화: 0, 상자: 0, 모객: 0, 기타: 0 };
   let actN = 0;
   for (const x of rows) for (const m of x.r.acts) if (m.s < WINDOW * 60) { famN[fam(m.kind)]++; actN++; }
   const noBox = actN - famN.상자;

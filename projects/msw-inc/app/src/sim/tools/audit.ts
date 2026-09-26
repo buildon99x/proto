@@ -1,6 +1,6 @@
 /*
  * 선택 점검 — 플레이어의 선택 하나가 진행 속도를 얼마나 가르는가.
- *   pnpm --filter msw-inc run audit                 (v1.5와 게임 규칙 v1.6을 나란히)
+ *   pnpm --filter msw-inc run audit                 (v1.6과 게임 규칙 v1.7을 나란히)
  *   pnpm --filter msw-inc run audit -- --rules v1.1 (한 규칙만)
  *   pnpm --filter msw-inc run audit -- --json out.json
  *   pnpm --filter msw-inc run audit -- --ablate [--part 0/4]   (하나씩 빼 보기, 네 프로세스로 나눠 돌릴 수 있다)
@@ -9,7 +9,7 @@
  * 월드 규칙은 결정적이다. 시드마다 체크인 시각을 ±90분 흔들어(bots.ts) 중앙값과 범위를 쓴다. 결과 해석은 notes/choice-audit.md.
  */
 import { writeFileSync } from 'node:fs';
-import { useRules, V11, V12, V13, V14, V15, V16, type Rules } from '../rules';
+import { useRules, V11, V12, V13, V14, V15, V16, V17, type Rules } from '../rules';
 import { PERSONAS, runPersona, dayNum, type RunResult } from '../bots';
 
 const args = process.argv.slice(2);
@@ -51,8 +51,8 @@ function runSet(r: Rules): Row[] {
 }
 
 const all: Row[] = [];
-const BY_ID: Record<string, Rules> = { 'v1.1': V11, 'v1.2': V12, 'v1.3': V13, 'v1.4': V14, 'v1.5': V15, 'v1.6': V16 };
-const sets = args.includes('--rules') ? [BY_ID[args[args.indexOf('--rules') + 1]] || V16] : [V15, V16];
+const BY_ID: Record<string, Rules> = { 'v1.1': V11, 'v1.2': V12, 'v1.3': V13, 'v1.4': V14, 'v1.5': V15, 'v1.6': V16, 'v1.7': V17 };
+const sets = args.includes('--rules') ? [BY_ID[args[args.indexOf('--rules') + 1]] || V17] : [V16, V17];
 for (const r of args.includes('--ablate') && !args.includes('--rules') ? [] : sets) {
   const rows = runSet(r);
   all.push(...rows);
@@ -76,10 +76,10 @@ if (jsonOut && all.length) {
   console.log('\n→', jsonOut);
 }
 
-// ── 하나씩 빼 보기: v1.2~v1.6의 각 변경이 무엇을 막는가 (게임 규칙 v1.6에서 하나씩 뺀다) ──
+// ── 하나씩 빼 보기: v1.2~v1.7의 각 변경이 무엇을 막는가 (게임 규칙 v1.7에서 하나씩 뺀다) ──
 if (args.includes('--ablate')) {
   const variants: [string, Partial<Rules>][] = [
-    ['v1.6 전부', {}],
+    ['v1.7 전부', {}],
     ['− 빈틈 걷기 (떠남)', { gapWalk: 0 }],
     ['− 누적 즐거움 결재 (동시 인원)', { joyGoal: null }],
     ['− 승진 발령', { promote: false }],
@@ -91,7 +91,7 @@ if (args.includes('--ablate')) {
     ['− 5장 ③ 식구 (F2)', { nativeCond: false }],
     ['− 엘리트 (E)', { elite: null }],
     ['− 필드 보스 (E)', { fieldBoss: null }],
-    ['− 첫 10분 한 바퀴 (T)', { firstLoop: false, joyGoal: [300, ...V16.joyGoal!.slice(1)] }],
+    ['− 첫 10분 한 바퀴 (T)', { firstLoop: false, joyGoal: [300, ...V17.joyGoal!.slice(1)] }],
     // v1.4 (첫 40분 밀도)
     ['− 파티 도착·팁 (버프로)', { arrive: null, buffMin: 20, growBoost: 5 }],
     ['− 구간 개방', { zones: null }],
@@ -112,7 +112,7 @@ if (args.includes('--ablate')) {
   const out: Record<string, unknown> = {};
   for (const [vi, [label, patch]] of variants.entries()) {
     if (part && vi % part[1] !== part[0]) continue;
-    useRules({ ...V16, ...patch, id: label });
+    useRules({ ...V17, ...patch, id: label });
     const cells: string[] = [], ends: number[] = [];
     for (const id of ps) {
       const p = PERSONAS.find(x => x.id === id)!;

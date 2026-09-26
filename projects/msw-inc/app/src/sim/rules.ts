@@ -4,8 +4,8 @@
  * V11은 컨셉 v1.1(docs/concept/maple-idle/msw-inc/03-systems.md) 그대로다.
  * V12는 선택 점검(notes/choice-audit.md)에서 진행 속도를 크게 가르던 선택을 고친 값이다.
  * V13은 플레이 리뷰 뒤 개선(눈금 보상·엘리트·필드 보스·첫 10분)이다.
- * V14는 첫 40분 밀도, V15는 계열 사다리, V16은 드랍 상자다.
- * 게임은 V16으로 돈다. 점검 스크립트만 useRules(V11~V15)로 옛 규칙을 다시 굴려 비교한다.
+ * V14는 첫 40분 밀도, V15는 계열 사다리, V16은 드랍 상자, V17은 사냥터·모객(규칙 v1.7)이다.
+ * 게임은 V17로 돈다. 점검 스크립트만 useRules(V11~V16)로 옛 규칙을 다시 굴려 비교한다.
  */
 export interface Rules {
   id: string;
@@ -203,5 +203,14 @@ export const V16: Rules = {
   drop: { need: [0, 400, 1000, 1400, 1400], max: 1, hold: 3, from: 2 },
 };
 
-export const RULES: Rules = { ...V16 };
+/**
+ * V17은 규칙 v1.7(1.5.0부터)이다. 사냥터 운영의 실감(G1), 모객(G2), 끊김 없는 여정(G3)의 규칙 필드가 여기에 쌓인다.
+ * 새 필드는 null·false가 기본이라 V16이 v1.6을 그대로 재현한다. 근거와 수치는 notes/plan-v17.md.
+ */
+export const V17: Rules = {
+  ...V16,
+  id: 'v1.7',
+};
+
+export const RULES: Rules = { ...V17 };
 export function useRules(r: Rules): void { Object.assign(RULES, r); }
