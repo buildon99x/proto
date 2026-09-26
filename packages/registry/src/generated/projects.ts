@@ -413,6 +413,6 @@ export const projects = [
       "playlog": "pnpm --filter relic-king playlog",
       "density": "pnpm --filter relic-king density"
     },
-    "updatedAt": "2026-09-26T03:06:50+00:00"
+    "updatedAt": "2026-09-26T03:26:46+00:00"
   }
 ] as const satisfies readonly ProjectMetadata[];
