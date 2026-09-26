@@ -1,0 +1,9 @@
+
+> msw-inc@1.0.0 playreview /home/user/proto/projects/msw-inc/app
+> tsx src/sim/tools/playreview.ts "--" "--out" "../notes/data/playreview-v17.json"
+
+std    엔딩 D30.54 · 체크인 86 · 행동 301 · 빈 체크인 0 (0%) · 도감 46
+light  엔딩 D26.38 · 체크인 49 · 행동 101 · 빈 체크인 0 (0%) · 도감 39
+hasty  엔딩 D31.54 · 체크인 89 · 행동 291 · 빈 체크인 0 (0%) · 도감 47
+night  엔딩 D34.54 · 체크인 98 · 행동 500 · 빈 체크인 0 (0%) · 도감 47
+→ ../notes/data/playreview-v17.json

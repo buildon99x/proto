@@ -6,7 +6,7 @@
  * 단위: 시간은 월드 분(minute). step(w, dt)는 dt분만큼 진행한다.
  */
 import { CHAPTERS, PLOTS, SPECIES, FIELD_BOSSES, plotInfo, fieldBoss, bossDexKey, type PlotId, type SpeciesId } from './content';
-export { homesOf } from './content';
+export { homesOf, bossDexKey, SPECIES } from './content';
 import { RULES } from './rules';
 
 // ── 타입 ────────────────────────────────────────────────────
@@ -37,6 +37,8 @@ export interface Dungeon {
 export interface World {
   v: number; seed: number; rng: number; t: number;
   smile: number; chapter: number; stars: number; approvalReady: boolean; ended: boolean; endedAt: number | null;
+  /** 완전 클리어 순간 (v1.7, 엔딩 뒤 던전 전부 ★3 · 도감 전부). 옛 세이브에는 없다 */
+  clearedAt?: number | null;
   plots: Record<PlotId, { open: boolean }>;
   dungeons: Record<PlotId, Dungeon>;
   monsters: Monster[]; advs: Adventurer[];
@@ -91,7 +93,9 @@ export type SimEvent =
   | { type: 'box'; id: number; d: PlotId }
   /** 돌아온 손님 (v1.7 모객) */
   | { type: 'return'; id: number; lv: number }
-  | { type: 'recruitEnd'; kind: RecruitKind };
+  | { type: 'recruitEnd'; kind: RecruitKind }
+  /** 완전 클리어 (v1.7): 엔딩 뒤 던전 전부 ★3 · 도감 전부 */
+  | { type: 'fullclear' };
 
 export const SAVE_VERSION = 3;
 /** v1.3까지의 기본 자리. 지금 값은 RULES.seatBase */
@@ -505,6 +509,8 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
   }
   if (w.recruit && w.t + dt >= w.recruit.end) { emit({ type: 'recruitEnd', kind: w.recruit.kind }); w.recruit = null; }
   if (RULES.guests && !w.pool) initGuests(w);
+  // 완전 클리어 (v1.7): 엔딩 뒤 던전 전부 ★3 · 도감 전부가 된 순간을 한 번 기록한다 (엔딩과 다른 연출·리포트)
+  if (w.ended && !w.clearedAt) { const fc = fullClear(w); if (fc.starred >= fc.plots && fc.dex >= dexTotal()) { w.clearedAt = w.t + dt; emit({ type: 'fullclear' }); } }
 
   w.t += dt;
 
@@ -885,6 +891,8 @@ export interface Ledger {
   boxes: number;
   /** 장부를 시작할 때까지 돌아온 손님 (v1.7 모객). 리포트는 지금 값과의 차이를 쓴다 */
   returned: number;
+  /** 완전 클리어 진척 (v1.7): 시작할 때 ★3 던전 수·도감 칸, 그 사이 완전 클리어가 됐는가 */
+  starred0: number; dex0: number; cleared: boolean;
 }
 export function ledgerStart(w: World): Ledger {
   return {
@@ -892,6 +900,7 @@ export function ledgerStart(w: World): Ledger {
     work0: Object.fromEntries(w.monsters.map(m => [m.id, m.work])),
     hourLv: {}, bestBurst: null, crowdMax: null, ready: [], approval: false, firstGrad: w.stats.grads === 0,
     stuckMin: 0, marks: [], elites: [], bossCall: null, bossDown: [], boxes: 0, returned: w.stats.returned || 0,
+    starred0: w.ended ? fullClear(w).starred : 0, dex0: dexCount(w), cleared: false,
   };
 }
 export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
@@ -903,6 +912,7 @@ export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
       if (!L.bestBurst || L.hourLv[k] > L.bestBurst.n) L.bestBurst = { d: e.d, n: L.hourLv[k] };
     } else if (e.type === 'ready') { if (!L.ready.includes(e.mon)) L.ready.push(e.mon); }
     else if (e.type === 'approval') L.approval = true;
+    else if (e.type === 'fullclear') L.cleared = true;
     else if (e.type === 'mark') L.marks.push({ pct: e.pct, reward: e.reward });
     else if (e.type === 'elite') L.elites.push({ d: e.d, mon: e.mon });
     else if (e.type === 'bossCall') L.bossCall = e.ch;
@@ -928,6 +938,8 @@ export interface Report {
   boxes: number; boxesWaiting: number;
   /** 돌아온 손님 · 지금 풀에 남은 손님 · 오렌이 권하는 모객 (v1.7) */
   returned: number; pool: number; recruit: { kind: RecruitKind; n: number } | null;
+  /** 완전 클리어 진척 (v1.7, 엔딩 뒤): ★3 던전 수와 그 사이 는 수, 도감 칸과 는 수, 이번에 완전 클리어가 됐는가 */
+  starred: number; starredDelta: number; dex: number; dexDelta: number; cleared: boolean;
 }
 export function ledgerReport(L: Ledger, w: World): Report {
   const king = w.monsters
@@ -947,6 +959,8 @@ export function ledgerReport(L: Ledger, w: World): Report {
     marks: L.marks, elites: L.elites, bossCall: L.bossCall, bossDown: L.bossDown,
     boxes: L.boxes || 0, boxesWaiting: boxesOf(w).length,
     returned: (w.stats.returned || 0) - (L.returned || 0), pool: poolCount(w), recruit: recruitPick(w),
+    starred: w.ended ? fullClear(w).starred : 0, starredDelta: w.ended ? fullClear(w).starred - (L.starred0 || 0) : 0,
+    dex: dexCount(w), dexDelta: dexCount(w) - (L.dex0 ?? dexCount(w)), cleared: !!L.cleared,
   };
 }
 

@@ -12,7 +12,7 @@
 import assert from 'node:assert/strict';
 import * as S from '../app/src/sim/sim';
 import { useRules, V11, V13, V14, V15, V16, V17, GUESTS_V17, RULES } from '../app/src/sim/rules';
-import { PERSONAS, runPersona, firstSession, lightClone } from '../app/src/sim/bots';
+import { PERSONAS, runPersona, firstSession, lightClone, checkIn } from '../app/src/sim/bots';
 import { runCadence, gapStats } from '../app/src/sim/tools/cadence';
 import { PLOTS, CHAPTERS, SPECIES } from '../app/src/sim/content';
 
@@ -807,6 +807,29 @@ t('모객은 놓쳐도 잃는 것이 없고, 봇은 오렌이 권할 때만 건�
   S.advance(w, 1440 * 3);
   assert.ok(S.poolCount(w) >= Math.min(c, RULES.guests!.pool), '풀은 줄지 않는다');
   useRules(V17);
+});
+
+t('완전 클리어 (v1.7): 엔딩 뒤 던전 전부 ★3 · 도감 전부가 되는 걸음에 한 번만 사건이 나고, 리포트가 진척과 순간을 안다', () => {
+  const w = S.createWorld(41); firstSession(w);
+  const std = PERSONAS[0];
+  for (let d = 0; d < 60 && !w.ended; d++) for (const tm of std.times) { S.advance(w, Math.max(0, d * 1440 + tm - w.t)); checkIn(w, std); }
+  assert.ok(w.ended, '엔딩');
+  assert.equal(w.clearedAt, undefined);
+  const L = S.ledgerStart(w);
+  for (const p of S.plotsInPlay()) { if (!w.plots[p.id].open) w.plots[p.id].open = true; const dg = w.dungeons[p.id]; if (dg) dg.joy = Math.max(dg.joy, S.JOY_STARS[2]); }
+  for (const sp of S.speciesInPlay()) SPECIES[sp].names.forEach((_, i) => { w.dex[sp + ':' + i] = true; });
+  for (let c = 2; c <= 5; c++) w.dex[S.bossDexKey(c)] = true;
+  const ev: S.SimEvent[] = [];
+  S.step(w, 1, ev); S.ledgerAdd(L, w, ev);
+  assert.equal(ev.filter(e => e.type === 'fullclear').length, 1);
+  assert.ok(w.clearedAt != null);
+  const ev2: S.SimEvent[] = []; S.step(w, 1, ev2);
+  assert.equal(ev2.filter(e => e.type === 'fullclear').length, 0, '한 번만');
+  const rep = S.ledgerReport(L, w);
+  assert.ok(rep.cleared && rep.starred === S.plotsInPlay().length && rep.starredDelta > 0 && rep.dex === S.dexTotal());
+  // 옛 세이브: clearedAt 칸이 없어도 올라온다
+  const sv = JSON.parse(JSON.stringify(w)); delete sv.clearedAt;
+  assert.ok(S.isWorld(sv));
 });
 
 console.log(`\n${passed} passed`);

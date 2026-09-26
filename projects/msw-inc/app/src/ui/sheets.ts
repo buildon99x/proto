@@ -471,6 +471,26 @@ function ending() {
   };
 }
 
+// ── 완전 클리어 컷 (v1.7): 엔딩(밤, 발록의 첫 손님)과 다르게 — 낮, 직원 전원이 줄 서고, 머쉬맘이 마침표로 말한다 ─────
+A.openClearCut = () => {
+  const w = A.w;
+  const sps = Array.from(new Set(w.monsters.filter(m => m.d).map(m => monArt(m)))).slice(0, 9);
+  A.ui.modal = 'clear';
+  snd.play('ending');
+  const cut = h(`<div class="cut clear"><div>
+    <div class="confetti">${Array.from({ length: 14 }, (_, i) => `<i style="left:${4 + i * 7}%;animation-delay:${(i % 5) * 0.35}s"></i>`).join('')}</div>
+    <div class="clearscene">${sps.map(a => img(a, 3)).join('')}${img('mom', 3)}</div>
+    <div class="lines">
+      <div class="ln">${img('mom', 2)}완전 클리어. 던전 ${M.plotsInPlay().length}곳이 모두 별 셋이고, 도감 ${M.dexTotal()}칸이 다 찼어요.</div>
+      <div class="ln late">${img('balrog', 2)}…축하한다.</div>
+    </div>
+    <h1 class="late2"><small>ALL CLEAR</small>🏝️ 이 섬의 전설이에요</h1>
+    <button class="btn go late2" data-go>계속 운영하기 →</button></div></div>`);
+  must('#stage').appendChild(cut);
+  must('[data-go]', cut).onclick = () => { cut.remove(); A.ui.modal = null; A.world.dirty = true; snd.play('pop'); refresh(); };
+};
+A.handlers.push(ev => { for (const e of ev) if (e.type === 'fullclear' && !A.ui.modal && !A.ui.off) A.openClearCut(); });
+
 // ── 완전 클리어 체크리스트 (엔딩 직후, 목적 상실 방지 02 §6.6) ─────
 A.openFullClear = () => {
   const w = A.w, fc = M.fullClear(w);
@@ -506,6 +526,8 @@ function scene(kind: string, data: Record<string, unknown>) {
   if (kind === 'box') return { cap: `📦 상자 ${data.n}개가 기다려요`, html: advs(3) + Array.from({ length: Math.min(3, data.n as number) }, (_, i) => `<div class="a" style="left:${36 + i * 52}px;top:${22 + (i % 2) * 8}px;font-size:var(--fs-d1)">📦</div>`).join('') };
   if (kind === 'entrance') return { cap: `😐 입구 막힘 ${dur(data.min as number)}`, html: advs(3) + `<div class="a" style="left:30px;top:14px;font-size:var(--fs-xl)">😐</div><div class="a" style="left:100px;top:10px;font-size:var(--fs-xl)">😐</div>` };
   // v1.7 모객: 돌아온 손님이 첫 명장면이다 — 돌아온 매니저가 자기 이야기로 읽는다
+  if (kind === 'clear') return { cap: '🏝️ 완전 클리어!', html: advs(4) + `<div class="a" style="left:20px;top:10px;font-size:var(--fs-xl)">🎉</div><div class="a" style="left:96px;top:6px;font-size:var(--fs-d1)">🏝️</div><div class="a" style="left:170px;top:14px;font-size:var(--fs-xl)">🎉</div>` };
+  if (kind === 'star3') return { cap: `⭐ 던전 ★3 +${data.n}`, html: advs(3) + `<div class="a" style="left:60px;top:12px;font-size:var(--fs-d1);color:var(--gold)">★★★</div>` };
   if (kind === 'return') return { cap: `🔁 손님 ${data.n}명이 돌아왔어요`, html: advs(4) + `<div class="a" style="left:24px;top:14px;font-size:var(--fs-xl)">🔁</div><div class="a" style="left:120px;top:10px;font-size:var(--fs-xl)">😊</div>` };
   return null;
 }
@@ -513,7 +535,9 @@ A.showReport = (rep, awayMin) => {
   const w = A.w;
   A.ui.modal = 'report';
   const picks: [string, Record<string, unknown>][] = [];
+  if (rep.cleared) picks.push(['clear', {}]);
   if (rep.returned) picks.push(['return', { n: rep.returned }]);
+  if (w.ended && rep.starredDelta > 0) picks.push(['star3', { n: rep.starredDelta }]);
   if (rep.approval) picks.push(['doc', {}]);
   if (rep.bossDown.length) picks.push(['boss', { ch: rep.bossDown[0].ch, down: true }]);
   else if (rep.bossCall && w.boss && !w.boss.d) picks.push(['boss', { ch: rep.bossCall, down: false }]);
@@ -555,7 +579,8 @@ A.showReport = (rep, awayMin) => {
       ${king ? `<div class="king"><h5>👑 밤사이 퇴근왕</h5><div class="ph"><span class="crown">👑</span>${img(monArt(king), 3)}</div><b>${M.monName(king)} #${king.no}</b><span>퇴근 ${n(rep.king!.n)}회</span></div>` : ''}
     </div>
     <div class="todo"><span class="lbl">할 일</span>${chips.join('') || '<span class="dim">고칠 곳이 없어요. 구경하셔도 돼요!</span>'}<button class="cta" data-go="world">월드로 →</button></div>
-    ${w.ended ? '' : `<div class="goal"><b>📋 ${ch.n}장 결재</b>① Lv 1–${ch.road} 잇기 <div class="bar"><i style="width:${Math.round(100 * (ch.road - c.roadLeft) / ch.road)}%"></i></div>${!c.road && !w.approvalReady ? `<em class="no">${c.roadNote}</em>` : '✓'}
+    ${w.ended ? (w.clearedAt ? `<div class="goal"><b>🏝️ 완전 클리어 ✓</b><span class="dim">이 섬의 전설이에요. 구경하셔도 돼요!</span></div>` : `<div class="goal"><b>🏝️ 완전 클리어</b>던전 ★3 <div class="bar"><i style="width:${Math.round(100 * rep.starred / Math.max(1, M.plotsInPlay().length))}%;background:var(--smile)"></i></div>${rep.starred}/${M.plotsInPlay().length}${rep.starredDelta > 0 ? ` <em class="up">+${rep.starredDelta}</em>` : ''}
+      <span class="g2">도감</span><div class="bar"><i style="width:${Math.round(100 * rep.dex / M.dexTotal())}%;background:var(--evolve)"></i></div>${rep.dex}/${M.dexTotal()}${rep.dexDelta > 0 ? ` <em class="up">+${rep.dexDelta}</em>` : ''}</div>`) : `<div class="goal"><b>📋 ${ch.n}장 결재</b>① Lv 1–${ch.road} 잇기 <div class="bar"><i style="width:${Math.round(100 * (ch.road - c.roadLeft) / ch.road)}%"></i></div>${!c.road && !w.approvalReady ? `<em class="no">${c.roadNote}</em>` : '✓'}
       <span class="g2">② 즐거운 시간</span><div class="bar"><i style="width:${w.approvalReady ? 100 : j.pct}%;background:var(--smile)"></i></div>${w.approvalReady || j.ok ? '✓' : Math.floor(j.pct) + '%' + (j.eta ? ` · ${j.eta}` : '')}</div>`}
   </div></div>`);
   must('#stage').appendChild(el);
@@ -578,6 +603,7 @@ A.showReport = (rep, awayMin) => {
   $$<HTMLElement>('[data-go]', el).forEach(bt => (bt.onclick = () => {
     const g = bt.dataset.go;
     close();
+    if (rep.cleared) { A.openClearCut(); return; }
     if (g === 'doc') A.openApproval();
     else if (g === 'gap') A.openHire({ seg: [+(bt.dataset.a || 1), +(bt.dataset.b || 1)] });
     else if (g === 'ev') A.openEvolve(+(bt.dataset.mon || 0));

@@ -60,6 +60,8 @@ export interface App {
   offDuty: (why: 'idle' | 'manual') => void;
   highlightBest: (monId: number, only?: PlotId[]) => PlotId[];
   openFullClear: () => void;
+  /** 완전 클리어 컷 (v1.7): 엔딩과 다른 연출 */
+  openClearCut: () => void;
 }
 
 export const A = {
@@ -235,7 +237,7 @@ export function renderDock(opt: { all?: boolean } = {}) {
   const rb = must('#bRecruit');
   rb.hidden = !RULES.guests || !w.pool;
   if (!rb.hidden) {
-    const rc = w.recruit, pk = M.recruitPick(w);
+    const rc = w.recruit, pk = A.T && A.T.hideRecruit() ? null : M.recruitPick(w);
     rb.textContent = rc ? `📣 ${rc.kind === 'return' ? '복귀' : '신규'} 모객 중 · ${dur(rc.end - w.t)}` : pk ? `📣 모객 ›` : M.recruitTickets(w) ? `📣 모객 🎟${M.recruitTickets(w)}` : '📣 모객';
     rb.classList.toggle('on', !!rc); rb.classList.toggle('rec', !rc && !!pk);
   }
@@ -332,8 +334,8 @@ export function renderDoc() {
   if (w.ended) {
     const fc = M.fullClear(w);
     doc.classList.remove('ready');
-    doc.innerHTML = `<h5>완전 클리어</h5><h4>섬 전체에 불이 켜졌어요</h4>
-      <div class="stampslot done">완료</div>
+    doc.innerHTML = `<h5>완전 클리어</h5><h4>${w.clearedAt ? '이 섬의 전설이에요' : '섬 전체에 불이 켜졌어요'}</h4>
+      <div class="stampslot done">${w.clearedAt ? '전설' : '완료'}</div>
       <div class="cond ${fc.starred >= fc.plots ? 'ok' : ''}"><span class="t">던전 ★3</span><div class="bar"><i style="width:${100 * fc.starred / fc.plots}%;background:var(--smile)"></i></div><span class="v">${fc.starred}/${fc.plots}</span></div>
       <div class="cond ${fc.dex >= M.dexTotal() ? 'ok' : ''}"><span class="t">도감</span><div class="bar"><i style="width:${100 * fc.dex / M.dexTotal()}%;background:var(--evolve)"></i></div><span class="v">${fc.dex}/${M.dexTotal()}</span></div>`;
     return;
@@ -455,7 +457,7 @@ export function renderOren() {
 // ── 시뮬레이션 구동 ─────────────────────────────────────────
 let acc = 0;
 export function simLive(dtReal: number) {
-  if (A.ui.off || A.ui.intro || A.ui.modal === 'report' || A.ui.modal === 'ending' || A.ui.paused) return;
+  if (A.ui.off || A.ui.intro || A.ui.modal === 'report' || A.ui.modal === 'ending' || A.ui.modal === 'clear' || A.ui.paused) return;
   // 튜토리얼이 배속을 걸 수 있다 (F6: "가로 = 레벨" 단계 ×3 — 누를 곳 없는 3분을 1분으로)
   acc += (dtReal / 60) * A.speed * (A.T && A.T.boost ? A.T.boost() : 1);
   let k = 0;

@@ -607,6 +607,26 @@ button.slot{text-align:center;font:inherit}
 .cut.ending .late3{opacity:0;animation:lnin .8s forwards;animation-delay:6s}
 @keyframes lnin{to{opacity:1}}
 .demo .cut.ending .ln,.demo .cut.ending .late3,.demo .endscene .party{animation:none!important;opacity:1}
+/* 완전 클리어 컷 (v1.7): 엔딩과 다르게 — 낮빛 금색, 직원 전원, 색종이 */
+.cut.clear{background:radial-gradient(ellipse at 50% 30%,color-mix(in srgb,var(--gold) 28%,var(--paper)),var(--paper))}
+.cut.clear h1{color:var(--ink)}
+.cut.clear h1 small{color:var(--ink2)}
+.cut.clear .ln{background:var(--white);box-shadow:0 3px 0 var(--sh1);color:var(--ink);opacity:0;animation:lnin .5s forwards;animation-delay:1s}
+.cut.clear .ln.late{animation-delay:2.6s}
+.cut.clear .late2{opacity:0;animation:lnin .8s forwards;animation-delay:4s}
+.clearscene{position:relative;height:150px;width:760px;margin:0 auto;display:flex;align-items:flex-end;justify-content:center;gap:10px}
+.clearscene img{animation:hop 1.2s ease-in-out infinite}
+.clearscene img:nth-child(2n){animation-delay:.3s}
+.clearscene img:nth-child(3n){animation-delay:.6s}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.confetti i{position:absolute;top:-16px;width:10px;height:14px;border-radius:2px;background:var(--gold);animation:fall 3.2s linear infinite}
+.confetti i:nth-child(3n){background:var(--evolve)}.confetti i:nth-child(3n+1){background:var(--smile)}.confetti i:nth-child(4n){background:var(--good)}
+@keyframes fall{to{transform:translateY(760px) rotate(540deg)}}
+.demo .cut.clear .ln,.demo .cut.clear .late2{animation:none!important;opacity:1}
+.demo .clearscene img,.demo .confetti i{animation:none!important}
+.demo .confetti i{top:40%}
+.report .goal em.up{color:var(--good);font-style:normal;font-weight:800}
 
 /* 리포트 */
 .can.big{width:30px;height:38px}

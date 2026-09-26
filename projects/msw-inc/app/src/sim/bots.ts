@@ -379,8 +379,17 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
   // 수 제한으로 루프가 끝났어도 떨어진 상자는 열고 간다 (탭 한 번, 수에 세지 않는다)
   openBoxes(w, log);
   // 퇴근 직전 진화: 하루 마지막 체크인에서 결과를 보지 않고 누르고 떠난다
+  // v1.7: 화면의 진화 시트는 발령이 더 이을 때 [▲ 승진 발령]이 기본 버튼이다(sheets.ts openEvolve). 결과를 안 보고 누르는 사람은 기본 버튼을 누른다.
+  //       전에는 evolve()만 불러 이 성향이 화면보다 나쁘게 굴렀다(L13, +23.5%)
   if (opts.last && p.nightEvolve) {
-    for (const m of w.monsters) if (S.canEvolve(m) && !S.evolveBlock(w, m)) { S.evolve(w, m.id); log.push('night-evolve'); }
+    for (const m of w.monsters) {
+      if (!S.canEvolve(m) || S.evolveBlock(w, m)) continue;
+      const pv = S.preview(w, { evolve: m.id });
+      const cand = S.bestPromote(w, m.id);
+      const plan = cand && (pv.lost.length || cand.gapAfter < S.gapSize(pv.gapsAfter)) ? cand : null;
+      if (plan && S.promote(w, plan).ok) log.push('night-evolve');
+      else { S.evolve(w, m.id); log.push('night-evolve'); }
+    }
   }
   return { acts: log };
 }
