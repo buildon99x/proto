@@ -60,8 +60,8 @@ export const VECTOR = {
   "jeong-dokyeong": () => `
     <rect x="22" y="196" width="34" height="42" rx="5" fill="${C.C}" ${S}/>
     <rect x="72" y="196" width="34" height="42" rx="5" fill="${C.C}" ${S}/>
-    <path d="M26 86 L114 86 Q122 88 124 100 L130 146 L112 146 L110 198 L6 198 L10 146 L12 100 Q14 88 26 86Z" fill="${C.B}" ${S}/>
-    <path d="M24 104 v88 M112 104 v40" stroke="${C.N}" stroke-width="8"/>
+    <path d="M26 86 L114 86 Q122 88 124 100 L130 146 L112 146 L110 198 L6 198 L10 146 L12 100 Q14 88 26 86Z" fill="${C.N}" ${S}/>
+    <path d="M24 104 v88 M112 104 v40" stroke="${C.V}" stroke-width="8"/>
     <line x1="70" y1="92" x2="70" y2="198" ${S} stroke-width="3"/>
     <path d="M56 86 L70 108 L84 86Z" fill="${C.w}" ${S} stroke-width="3"/>
     <circle cx="16" cy="150" r="10" fill="${C.s}" ${S}/>
@@ -76,8 +76,8 @@ export const VECTOR = {
     <path d="M60 66 h18" ${S} stroke-width="3"/>`,
 
   "haedal-hd8": () => `
-    <rect x="14" y="196" width="146" height="30" rx="15" fill="${C.M}" ${S}/>
-    ${[34, 58, 82, 106, 130].map((x) => `<circle cx="${x}" cy="211" r="6" fill="${C.m}" ${S} stroke-width="3"/>`).join("")}
+    ${[12, 52, 92, 132].map((x) => `<rect x="${x}" y="190" width="26" height="36" rx="6" fill="${C.Y}" ${S}/>
+      <rect x="${x - 2}" y="220" width="30" height="16" rx="6" fill="${C.M}" ${S}/>`).join("")}
     <rect x="66" y="112" width="92" height="88" rx="10" fill="${C.y}" ${S}/>
     <rect x="66" y="186" width="92" height="12" fill="${C.Y}"/>
     <g><path d="M70 136 h86 v14 h-86z" fill="${INK}"/>

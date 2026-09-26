@@ -1,5 +1,9 @@
 # 유물왕 — 크루 5인 (v0.7.2)
 
+> **생김새와 아크는 IP 쪽에 있다.** 캐릭터 시트·도트는 [`ip/visual-guide.md`](../ip/visual-guide.md)
+> §3·§7과 `ip/art/crew/`, 게임 밖으로 이어지는 아크는 [`ip/narrative.md`](../ip/narrative.md) §3.
+> 이 문서의 기능·동기 정의는 그대로 유효하다.
+
 > 세계는 [world-lore.md](world-lore.md), 이야기는 [synopsis.md](synopsis.md).
 > v0.7.1에서 동기를 주고(G106), v0.7.2에서 **설정 용어를 걷어냈다**(G111).
 >

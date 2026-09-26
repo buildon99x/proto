@@ -36,3 +36,12 @@ for (const p of all) {
   else renderHtml(html, path.join(IP, p.out), p.w, p.h);
   console.log("✓", p.out);
 }
+
+// 쇼케이스 — 필터 없이 돌렸을 때만 복사하고 미리보기를 굽는다
+if (!filters.length || filters.includes("showcase")) {
+  const { publishShowcase } = await import("./showcase.mjs");
+  const out = publishShowcase();
+  renderHtml(path.join(out, "index.html"), path.join(IP, "art/showcase-preview.png"), 1280, 6600);
+  renderHtml(path.join(out, "index.html"), path.join(IP, "art/showcase-preview-mobile.png"), 400, 9000);
+  console.log("✓ showcase →", path.relative(IP, out));
+}

@@ -6,7 +6,7 @@
 //   서가온   위로 뻗은 줄 한 가닥   (세로선)
 //   미라     몸 앞의 네모난 판       (판)
 //   정도경   넓은 어깨 + 옆구리 상자 (사다리꼴)
-//   해달     낮고 긴 몸 + 앞발의 짐  (가로 덩어리)
+//   해달     낮고 긴 몸 + 짧은 다리 넷 + 앞에 안은 짐 (가로 덩어리)
 //   예외7    다리 셋 + 선 없는 머리  (삼각대)
 //
 // 예외7의 머리만 외곽선(k)이 없다. "사람이 만든 것에는 선이 있다"는 규칙의
@@ -99,17 +99,17 @@ export const CREW = [
       "....kssssk......",
       ".....kssk.......",
       "..kkkkwwkkkk....",
-      ".kBBBBkwkBBBk...",
-      ".kBNBBBkBBBNk...",
-      ".kBNBBBkBBBNk...",
-      ".kBNBBBkBBBNk...",
-      ".kBkBBBkBBBkk...",
-      ".kskBBBkBBBksk..",
-      ".kBBBBBkBBBk.k..",
-      "kBBBBBkBBBk.kkkk",
-      "kBBBBBkBBBk.kuMk",
-      "kBBBBBkBBBk.kMMk",
-      ".kBBBBkBBBk.kkkk",
+      ".kNNNNkwkNNNk...",
+      ".kNVNNNkNNNVk...",
+      ".kNVNNNkNNNVk...",
+      ".kNVNNNkNNNVk...",
+      ".kNkNNNkNNNkk...",
+      ".kskNNNkNNNksk..",
+      ".kNNNNNkNNNk.k..",
+      "kNNNNNkNNNk.kkkk",
+      "kNNNNNkNNNk.kuMk",
+      "kNNNNNkNNNk.kMMk",
+      ".kNNNNkNNNk.kkkk",
       "..kCCk.kCCk.....",
       "..kCCk.kCCk.....",
       ".kkCCk.kCCkk....",
@@ -139,10 +139,10 @@ export const CREW = [
       "kkkkkkyykuukyyyk",
       ".kmkkyyykkkkyyYk",
       ".kmkYYYYYYYYYYYk",
-      ".kmkkkkkkkkkkkkk",
-      "..kMkMkMkMkMkMk.",
-      "..kkkkkkkkkkkkk.",
-      "................"
+      ".kkkkkkkkkkkkkkk",
+      ".kYk.kYk.kYk.kYk",
+      ".kMk.kMk.kMk.kMk",
+      ".kkk.kkk.kkk.kkk"
     ]
   },
   {

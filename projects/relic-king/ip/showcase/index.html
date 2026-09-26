@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>지구 출토</title>
+<meta name="description" content="게임 유물왕에서 출발한 IP. 떠나지 않은 사람들이 묻어 둔 박물관을 파내는 도굴 팀이, 257년 비어 있던 카드의 다음 줄에 누구의 이름을 쓸지 정한다.">
+<style>
+@font-face{font-family:"RK Serif";font-weight:400;font-display:swap;src:url("fonts/rk-serif-400.woff2") format("woff2")}
+@font-face{font-family:"RK Serif";font-weight:700;font-display:swap;src:url("fonts/rk-serif-700.woff2") format("woff2")}
+@font-face{font-family:"RK Serif";font-weight:900;font-display:swap;src:url("fonts/rk-serif-900.woff2") format("woff2")}
+@font-face{font-family:"RK Sans";font-weight:400;font-display:swap;src:url("fonts/rk-sans-400.woff2") format("woff2")}
+@font-face{font-family:"RK Sans";font-weight:700;font-display:swap;src:url("fonts/rk-sans-700.woff2") format("woff2")}
+@font-face{font-family:"RK Dot";font-weight:400;font-display:swap;src:url("fonts/rk-dot-400.woff2") format("woff2")}
+@font-face{font-family:"RK Dot";font-weight:700;font-display:swap;src:url("fonts/rk-dot-700.woff2") format("woff2")}
+
+:root{
+  --paper:#efe6d2; --paper-2:#e6dbc2; --ink:#12100e; --ink-2:#4a4238;
+  --grind:#d8d4cb; --grind-2:#a9a59b; --grind-comb:rgba(255,255,255,.45);
+  --soil:#7a5a3c; --trench:#241f1a; --orange:#d9692b; --signal:#e4553a;
+  --card:#f6f0e2; --rule:#12100e;
+  --serif:"RK Serif","Noto Serif KR","Nanum Myeongjo",serif;
+  --sans:"RK Sans","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --dot:"RK Dot","Galmuri11",ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#1e2731; --paper-2:#27323e; --ink:#efe6d2; --ink-2:#c6bca7;
+    --grind:#3a4450; --grind-2:#6d7782; --grind-comb:rgba(255,255,255,.08);
+    --soil:#b98f5e; --trench:#12100e; --card:#2b3a4a; --rule:#efe6d2;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1e2731; --paper-2:#27323e; --ink:#efe6d2; --ink-2:#c6bca7;
+  --grind:#3a4450; --grind-2:#6d7782; --grind-comb:rgba(255,255,255,.08);
+  --soil:#b98f5e; --trench:#12100e; --card:#2b3a4a; --rule:#efe6d2;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.7 var(--sans);word-break:keep-all;overflow-wrap:anywhere;
+  padding-inline:clamp(16px,4vw,48px);padding-block:0 64px}
+img{max-width:100%;height:auto;display:block}
+.px{image-rendering:pixelated}
+.wrap{max-width:1120px;margin-inline:auto}
+h1,h2,h3{font-family:var(--serif);font-weight:900;text-wrap:balance;margin:0;line-height:1.2}
+h2{font-size:clamp(26px,3.4vw,36px)}
+h3{font-size:20px}
+p{margin:0}
+.label{font:400 13px/1.4 var(--dot);letter-spacing:.06em;color:var(--ink-2)}
+.prose{max-width:62ch;display:grid;gap:14px}
+a{color:inherit;text-underline-offset:3px}
+a:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+code{font:13px var(--dot);background:var(--paper-2);padding:1px 5px}
+
+/* 갈린 선 — 절을 나누는 유일한 장치: 위는 결만 있는 회색 띠, 아래는 잉크 선 */
+.cut{height:34px;margin-block:64px 36px;background:
+  repeating-linear-gradient(180deg,transparent 0 5px,var(--grind-comb) 5px 6px),var(--grind);
+  border-bottom:4px solid var(--rule);position:relative}
+.cut span{position:absolute;left:0;bottom:-26px;font:13px var(--dot);color:var(--ink-2)}
+
+/* 머리 */
+.top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:18px;border-bottom:2px solid var(--rule)}
+.hero{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(24px,4vw,56px);padding-top:36px;align-items:start}
+.hero figure{margin:0;border:3px solid var(--rule)}
+.wordmark{font:900 clamp(64px,10vw,124px)/1 var(--serif);letter-spacing:.01em;margin:6px 0 14px;
+  background:linear-gradient(180deg,var(--grind-2) 0 43%,var(--ink) 43% 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;position:relative;display:inline-block;padding-top:.08em}
+.wordmark::before{content:"";position:absolute;inset:0 -.2em 57% -.2em;z-index:-1;
+  background:repeating-linear-gradient(180deg,transparent 0 5px,var(--grind-comb) 5px 6px),var(--grind);border-bottom:.035em solid var(--ink)}
+.findspot{font:700 18px var(--dot);letter-spacing:.3em}
+.logline{font:700 clamp(21px,2.4vw,27px)/1.5 var(--serif);margin-top:26px;max-width:32ch}
+.sig{margin-top:22px;padding:14px 18px;border-left:5px solid var(--orange);font:400 18px/1.6 var(--serif)}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin-top:26px;font-size:15px}
+.facts dt{font:13px var(--dot);color:var(--ink-2);padding-top:3px}
+.facts dd{margin:0}
+
+/* 기록 카드 */
+.cardwrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
+.card{background:var(--card);border:3px solid var(--rule);padding:22px 24px;font:15px/1.5 var(--dot);position:relative;
+  box-shadow:6px 8px 0 rgba(0,0,0,.22);transform:rotate(-1.5deg);max-width:520px}
+.card::after{content:"";position:absolute;right:18px;top:16px;width:14px;height:14px;border:3px solid var(--rule);border-radius:50%}
+.card .head{display:flex;gap:16px;align-items:center}
+.card .thumb{width:88px;height:88px;background:#2b3a4a;border:2px solid var(--rule);display:grid;place-items:center;flex:none}
+.card .thumb img{width:72px;height:72px}
+.card .name{font:900 22px var(--serif)}
+.card dl{display:grid;grid-template-columns:7.5em 1fr;gap:4px 10px;margin:16px 0 0}
+.card dt{opacity:.65} .card dd{margin:0}
+.card .blank{border-top:2px dashed var(--rule);margin-top:16px;padding-top:14px;display:grid;gap:14px}
+.card .blank div{display:grid;grid-template-columns:7.5em 1fr;align-items:end}
+.card .blank i{display:block;border-bottom:2px solid var(--rule);height:1.2em}
+.note{font-size:14px;color:var(--ink-2)}
+
+/* 목록·표 */
+.timeline{display:grid;gap:0;border-top:2px solid var(--rule);margin-top:22px}
+.timeline div{display:grid;grid-template-columns:7.5em 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--grind-2);font-size:15px}
+.timeline b{font:700 15px var(--dot);font-variant-numeric:tabular-nums}
+.timeline .now{background:var(--paper-2)}
+.lines{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:26px}
+.lines div{padding:16px;border:1px solid var(--grind-2);display:grid;gap:8px}
+.lines .sw{height:34px}
+.lines .l1{border-bottom:5px solid var(--ink)} .lines .l2{border-bottom:1.5px solid var(--ink)} .lines .l3{background:var(--grind)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;margin-top:28px}
+
+/* 크루 */
+.crew{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;margin-top:28px}
+.crew article{display:grid;gap:8px;align-content:start;border-top:3px solid var(--rule);padding-top:14px}
+.crew .spr{height:110px;display:flex;align-items:flex-end;background:var(--paper-2);justify-content:center;padding-bottom:8px}
+.crew .spr img{width:64px;height:96px}
+.crew .role{font:13px var(--dot);color:var(--orange)}
+.crew p{font-size:14px;line-height:1.6}
+.crew .key{font:12px/1.5 var(--dot);color:var(--ink-2)}
+figure{margin:0}
+figcaption{font:13px/1.5 var(--dot);color:var(--ink-2);margin-top:8px}
+.wide{margin-top:28px;border:2px solid var(--rule);background:#efe6d2}
+
+.places{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:28px}
+.places figure img{border:2px solid var(--rule)}
+
+.engine{width:100%;border-collapse:collapse;font-size:15px;margin-top:22px}
+.engine th,.engine td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--grind-2);vertical-align:top}
+.engine th{font:13px var(--dot);color:var(--ink-2);border-bottom:2px solid var(--rule)}
+.scroll{overflow-x:auto}
+.pitches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:26px}
+.pitches article{border:2px solid var(--rule);padding:18px;display:grid;gap:8px;align-content:start;background:var(--card)}
+.pitches .fmt{font:13px var(--dot);color:var(--orange)}
+.pitches p{font-size:15px}
+
+.dirs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:24px}
+.dirs figure img{border:2px solid var(--rule)}
+.dirs .pick img{border-color:var(--orange);border-width:4px}
+
+.verdict{width:100%;border-collapse:collapse;margin-top:22px;font-size:15px}
+.verdict th,.verdict td{padding:12px;border-bottom:1px solid var(--grind-2);text-align:left;vertical-align:top}
+.verdict th{font:13px var(--dot);color:var(--ink-2);border-bottom:2px solid var(--rule)}
+.verdict td:first-child{white-space:nowrap}
+.pill{display:inline-block;font:700 13px var(--dot);padding:2px 9px;border:2px solid var(--rule);white-space:nowrap}
+.pill.pass{background:var(--ink);color:var(--paper)}
+.pill.part{background:var(--grind)}
+.pill.fail{background:var(--signal);color:#12100e;border-color:var(--signal)}
+.files{columns:2;column-gap:40px;font-size:14px;margin-top:20px}
+.files li{break-inside:avoid;margin-bottom:6px}
+footer{margin-top:64px;padding-top:18px;border-top:2px solid var(--rule);font-size:13px;color:var(--ink-2);display:grid;gap:8px}
+
+@media (max-width:900px){
+  .hero,.cardwrap,.two{grid-template-columns:1fr}
+  .crew{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .places,.pitches{grid-template-columns:1fr}
+  .dirs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lines{grid-template-columns:1fr}
+  .files{columns:1}
+}
+@media (prefers-reduced-motion:no-preference){
+  .card{transition:transform .3s ease} .card:hover{transform:rotate(0deg)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <span class="label">도면 A–A′ · 경주 거점 · 축척 1:20 · 기록 2351.05</span>
+  <span class="label">게임 「유물왕」 v0.7.0 에서 출발한 IP</span>
+</header>
+
+<section class="hero">
+  <figure>
+    <img src="art/keyvisual.png" width="1200" height="1700" alt="키 비주얼. 위는 기계가 갈아 낸 회색 땅, 곧은 선 아래는 흙층. 그 사이를 가르는 구덩이에 주황 줄을 맨 강하 책임자가 서 있고, 바닥에서 감정사가 열린 상자 곁에 무릎을 꿇었다. 오른쪽 아래에 신라 금관의 기록 카드가 겹쳐 있고, 다음 확인 칸이 비어 있다.">
+  </figure>
+  <div>
+    <span class="label" style="display:block">제목</span>
+    <h1 class="wordmark">지구 출토</h1>
+    <div class="findspot">FINDSPOT: EARTH</div>
+    <p class="logline">떠나지 않은 사람들이 묻어 둔 박물관을 파내는 도굴 팀이, 257년 비어 있던 카드의 다음 줄에 누구의 이름을 쓸지 정한다.</p>
+    <p class="sig">다음 확인자 칸은 257년 동안 비어 있었다.</p>
+    <dl class="facts">
+      <dt>세계</dt><dd>2094년, 지구를 자원으로 갈아 내는 기계가 돌기 시작했다. 사람들은 달과 화성으로 떠났고, 떠나지 않은 박물관 사람들은 소장품을 기계가 가는 깊이보다 깊이 묻었다.</dd>
+      <dt>지금</dt><dd>2351년. 지구를 본 적 없는 사람들은 지구에서 나온 진짜 물건에 석 달치 배급을 낸다.</dd>
+      <dt>우리</dt><dd>그 상자를 파는 도굴 팀, 크루 다섯.</dd>
+      <dt>데이터</dt><dd>실존 유물 1,902종. 이름·소장처·현존 수량은 실제 기록 그대로다.</dd>
+    </dl>
+  </div>
+</section>
+
+<div class="cut"><span>갈린 선 · 계약 깊이 4.2 m</span></div>
+
+<section class="cardwrap" aria-labelledby="h-card">
+  <div class="prose">
+    <span class="label">시그니처</span>
+    <h2 id="h-card">카드 한 장</h2>
+    <p>상자마다 카드가 한 장 들어 있다. 위쪽은 2094년 3월에 누군가 흑연 연필로 적은 마지막 점검이다. 점선 아래는 비어 있다. 상자를 연 크루가 등재 기록과 대조를 마치면 그 칸에 날짜와 이름을 쓴다. 게임의 "감정"이 이 동작이다.</p>
+    <p>다음 확인 칸에 쓰는 이름이 선택이다. 팔면 산 사람의 이름, 전시하면 박물관, 쥐면 우리 팀. 결백한 이름은 없다.</p>
+    <p>팔려 간 물건의 카드에는 줄이 계속 는다. 화성의 거실에서 카드는 족보가 된다.</p>
+    <p class="note">카드 위쪽은 게임 데이터의 실재 기록이고, 아래쪽만 픽션이다. 경계가 점선이다.</p>
+  </div>
+  <div class="card" role="figure" aria-label="신라 금관의 기록 카드">
+    <div class="head">
+      <div class="thumb"><img class="px" src="art/find-silla-gold-crown.png" width="32" height="32" alt="신라 금관 도트 — 게임 화면의 아이콘 그대로"></div>
+      <div><div class="name">신라 금관</div><div>5~6세기 신라 · 경주 고분군</div></div>
+    </div>
+    <dl><dt>소장처</dt><dd>국립경주박물관</dd><dt>현존</dt><dd>완형 금관 여섯 점</dd><dt>마지막 확인</dt><dd>2094년 3월</dd><dt>상태</dt><dd>양호 · 습도 45</dd></dl>
+    <div class="blank"><div><span>다음 확인</span><i></i></div><div><span>확인자</span><i></i></div></div>
+  </div>
+</section>
+
+<div class="cut"><span>세계</span></div>
+
+<section aria-labelledby="h-world">
+  <div class="two">
+    <div class="prose">
+      <span class="label">바이블 요약</span>
+      <h2 id="h-world">기계는 서류로 돈다</h2>
+      <p>AI가 인류를 적으로 판정한 게 아니다. 자원 채굴이 자율 계약으로 넘어갔고, 계약서가 구역과 깊이와 주기를 정했다. 계약을 고칠 수 있는 사람이 먼저 떠났다. 멈추라고 할 사람이 없었다.</p>
+      <p>기계는 계약서에 적힌 깊이까지만 간다. 그 위는 한 방향으로 빗질된 회색 가루가 되고, 그 아래는 원래 층서가 그대로다. 이 경계가 <b>갈린 선</b>이다. 계약이 갱신될 때마다 선이 조금씩 내려가며 묻힌 상자를 드러낸다. 궤도의 관측망이 그걸 잡아 공개 채널로 뿌린다. 게임의 제보가 이것이다.</p>
+      <p>귀한 것일수록 깊이 묻었다. 그래서 깊이 팔수록 귀한 것이 나온다. 땅이 값을 올리는 게 아니다.</p>
+    </div>
+    <div>
+      <span class="label">연표</span>
+      <div class="timeline">
+        <div><b>2020년대</b><span>박물관 등재 기록이 공개 데이터로 정리된다. 게임의 유물 데이터가 그 기록이다</span></div>
+        <div><b>2094. 01</b><span>채굴 계약이 도시 구역까지 넓어진다</span></div>
+        <div><b>2094. 03</b><span>박물관들의 마지막 점검. 카드의 날짜가 거의 이 달이다</span></div>
+        <div><b>2094–2097</b><span>봉인. 떠나지 않은 사람들이 상자를 묻는다</span></div>
+        <div><b>2180</b><span>지구를 본 마지막 세대가 죽는다</span></div>
+        <div><b>2230년대</b><span>첫 강하. 상자가 처음 올라온다</span></div>
+        <div class="now"><b>2351</b><span>지금. 기계는 아직 돈다. 크루의 아홉 번째 강하</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:44px">선이 출처를 말한다</h3>
+  <div class="lines">
+    <div><div class="sw l1"></div><b>지구에서 사람이 만든 것</b><span class="note">굵고 조금 흔들리는 잉크. 유물, 상자, 봉분, 크루의 장비</span></div>
+    <div><div class="sw l2"></div><b>콜로니에서 인쇄한 것</b><span class="note">가늘고 곧은 선. 흠집이 없다</span></div>
+    <div><div class="sw l3"></div><b>기계가 갈아 낸 것</b><span class="note">선이 없다. 평평한 회색과 한 방향 결</span></div>
+  </div>
+</section>
+
+<div class="cut"><span>크루</span></div>
+
+<section aria-labelledby="h-crew">
+  <div class="prose">
+    <span class="label">강하 09 · 크루 다섯</span>
+    <h2 id="h-crew">색을 빼도 갈리는 다섯</h2>
+    <p>큰 그림의 좌표는 게임 도트 좌표에 10을 곱한 값이다. 16×24 도트의 한 칸이 큰 그림의 10×10이라, 게임 구석의 인물과 포스터의 인물이 같은 실루엣을 갖는다.</p>
+  </div>
+  <figure class="wide"><img src="art/crew-lineup.png" width="1600" height="760" alt="크루 다섯의 큰 그림과 게임 도트: 서가온, 미라 아냥고, 정도경, 해달, 예외7"></figure>
+  <div class="crew">
+    <article><div class="spr"><img class="px" src="art/sprite-seo-gaon.png" width="16" height="24" alt="서가온 도트"></div><h3>서가온</h3><span class="role">강하 책임 · 달 3세대</span><p>내려간 사람을 전부 데리고 올라온다. 줄에 걸리지 않은 사람은 내려가지 않는다.</p><span class="key">실루엣 · 위로 뻗은 주황 줄</span></article>
+    <article><div class="spr"><img class="px" src="art/sprite-mira-anyango.png" width="16" height="24" alt="미라 아냥고 도트"></div><h3>미라 아냥고</h3><span class="role">감정·전시 · 화성 아카이브 출신</span><p>"소실 추정" 도장을 4만 번 찍고 그 도장을 들고 나왔다. 빈칸을 실물로 메우고 모두가 보는 자리에 둔다.</p><span class="key">실루엣 · 몸 앞의 기록판</span></article>
+    <article><div class="spr"><img class="px" src="art/sprite-jeong-dokyeong.png" width="16" height="24" alt="정도경 도트"></div><h3>정도경</h3><span class="role">시장 · 콜로니 신용시장 출신</span><p>다음 달에도 이 팀이 있는 것. "우리가 안 팔면 저건 누구도 못 만져." 카드에 자기 이름을 쓰지 않는다.</p><span class="key">실루엣 · 넓은 코트와 옆구리 상자</span></article>
+    <article><div class="spr"><img class="px" src="art/sprite-haedal-hd8.png" width="16" height="24" alt="해달 도트"></div><h3>해달 (HD-8)</h3><span class="role">하역·보존 · 2091년 울산 제조</span><p>원하는 것이 없다. 독백하지 않는다. 다만 해달도 지구제이고, 언젠가 목록에 실린다.</p><span class="key">실루엣 · 낮고 긴 몸, 귀 둘</span></article>
+    <article><div class="spr"><img class="px" src="art/sprite-yeoe7.png" width="16" height="24" alt="예외7 도트"></div><h3>예외7</h3><span class="role">신호·운영 · 운영 AI</span><p>2094년 탈출 좌석을 계산한 계통. 명단의 "잔류" 열을 지우지 않는다. 머리에만 윤곽선이 없다.</p><span class="key">실루엣 · 다리 셋, 선 없는 머리</span></article>
+  </div>
+  <figure class="wide"><img src="art/conversion-overlay.png" width="1600" height="640" alt="도트를 격자째 확대한 바탕 위에 큰 그림을 반투명으로 얹은 변환 증명"><figcaption style="padding:0 12px 10px">도트 → 큰 그림. 어긋나는 곳은 모서리 반경과 한 칸 안의 디테일이다. 예외 하나: 미라의 머리는 한 칸 크다.</figcaption></figure>
+</section>
+
+<div class="cut"><span>장소</span></div>
+
+<section aria-labelledby="h-places">
+  <h2 id="h-places">세 자리</h2>
+  <div class="places">
+    <figure><img src="art/place-01-gyeongju.png" width="1600" height="900" alt="경주 봉인지. 봉분은 둥글게 남고 봉분 사이만 회색으로 갈렸다"><figcaption>경주 거점. 계약 경계가 봉분의 곡선을 따라간다. 봉분은 계약 구역 밖이다.</figcaption></figure>
+    <figure><img src="art/place-02-mars-shelf.png" width="1200" height="900" alt="화성 3구역 거실의 선반. 습도 종 아래 신라 토기 고배와 줄이 여러 개 적힌 카드"><figcaption>화성 3구역의 선반. 물려받을 때마다 카드에 한 줄이 는다. 지구 물건은 굵은 선, 콜로니 물건은 가는 선.</figcaption></figure>
+    <figure><img src="art/place-03-orbital-market.png" width="1600" height="820" alt="궤도 시장 복도. 왼쪽 경매장 문과 오른쪽 간판 없는 문 사이를 정도경이 걷는다"><figcaption>궤도 시장. 카드가 있으면 왼쪽 경매장, 없으면 오른쪽 문. 복도 하나 차이다.</figcaption></figure>
+  </div>
+</section>
+
+<div class="cut"><span>이야기</span></div>
+
+<section aria-labelledby="h-story">
+  <div class="two">
+    <div class="prose">
+      <span class="label">게임 16시간 25분</span>
+      <h2 id="h-story">먼저 연 사람이 서명한다</h2>
+      <p><b>1막, 신호.</b> 44초에 첫 감정이 끝나고 화면이 "마지막 확인: 2094년 3월"을 말한다. 79초에 첫 제보가 온다. 기계의 재통과가 상자 하나를 드러냈고, 여섯 팀이 같이 듣는다.</p>
+      <p><b>2막, 사는 사람.</b> 팔 때마다 산 사람 한 줄이 붙는다. "화성 3구역, 4세대. 할머니가 경주 사람이었다고 한다." 미라는 이름이 이어지면 물건이 사는 거라 믿고, 정도경은 같은 사실을 팔린 거라 읽는다. 둘 다 틀리지 않았다.</p>
+      <p><b>3막, 빈칸과 명단.</b> 도감의 회색 칸은 아직 열지 않은 상자이거나 이미 가루가 된 상자다. 예외7의 명단에는 "잔류" 열이 있고, 봉인자들이 거기 있다.</p>
+      <p><b>엔딩.</b> 시장은 1위 팀을 "유물왕"이라 부른다. 반은 칭찬이고 반은 비아냥이다. 화면은 한 줄을 더 적는다. 당신이 모은 것 중 남들이 본 것은 몇 점인가.</p>
+    </div>
+    <div>
+      <span class="label">이 IP의 엔진 · 상자 하나, 세 시간대</span>
+      <div class="scroll">
+      <table class="engine">
+        <thead><tr><th>시간대</th><th>누가</th><th>무엇</th></tr></thead>
+        <tbody>
+          <tr><td>2094</td><td>떠나지 않은 한 사람</td><td>물건을 상자에 넣고 카드를 쓰는 날</td></tr>
+          <tr><td>2351</td><td>강하 크루</td><td>상자를 여는 날, 서명하는 손</td></tr>
+          <tr><td>2351~</td><td>콜로니의 한 가족</td><td>카드에 줄이 늘어나는 세대들</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="note" style="margin-top:14px">에피소드 하나 = 실존 유물 하나. 1,902종이 에피소드 풀이고, 신라 금관 이야기는 여섯 편까지만 있다(현존 수량 = 공급).</p>
+    </div>
+  </div>
+  <div class="pitches">
+    <article><span class="fmt">웹툰 · 세로 스크롤 앤솔러지</span><h3>다음 확인</h3><p>한 화 = 물건 하나. 스크롤을 내리면 갈린 선을 지나 층서로, 상자로, 카드로 내려간다. 첫 장면은 화성의 거실, 카드의 마지막 빈 줄에 이름을 쓰려다 멈추는 손녀.</p></article>
+    <article><span class="fmt">단편 애니메이션 · 12분</span><h3>잔류</h3><p>2094년 경주, 탈출선 좌석을 받고도 타지 않은 한 학예사가 사흘 안에 상자 스물여섯 개를 묻는다. 확인자 칸에 연필이 닿았다 떨어진다. 257년 뒤 주황 줄이 내려온다. 왜 이름을 쓰지 않았는지는 답하지 않는다.</p></article>
+    <article><span class="fmt">보드게임 · 2~4인</span><h3>갈린 선</h3><p>선 토큰이 라운드마다 한 칸씩 내려오고 지나간 칸의 상자는 가루가 된다. 유물 카드는 실존 데이터로, 종마다 현존 수량만큼만 있다. 연 카드의 다음 줄에 누구의 이름을 쓸지가 점수다. 반환 논쟁 유물은 전시만 된다.</p></article>
+    <article><span class="fmt">전시 · 오디오 가이드</span><h3>2094년 3월</h3><p>실존 유물 옆에 가상의 카드 한 장. "마지막 확인: 이 박물관, 2094년 3월. 다음 확인 ___." 픽션이 실재를 덮지 않고 옆에 한 줄을 더한다. 기관 협업이 전제다.</p></article>
+  </div>
+</section>
+
+<div class="cut"><span>어떻게 골랐나</span></div>
+
+<section aria-labelledby="h-dirs">
+  <div class="prose">
+    <h2 id="h-dirs">네 방향, 블라인드 세 명</h2>
+    <p>방향 넷을 로그라인·장면·그림 한 장까지 밀고, 이 작업을 모르는 리뷰어 셋에게 제목과 고유명사를 가린 채 보였다. 세 명 모두 D안을 고르고 제목을 「지구 출토」로 붙였다. 기존 판(A)은 셋 모두에게서 "기존 작품과 가장 많이 겹친다"였고, 제목 「유물왕」은 5점 만점에 1·2·2점이었다.</p>
+  </div>
+  <div class="dirs">
+    <figure><img src="art/dir-a.png" width="600" height="800" alt="A안: 도감 격자와 빈칸 하나"><figcaption>A · 고향을 사는 사람들(기존 v0.7.2). 게임 층으로 남김</figcaption></figure>
+    <figure><img src="art/dir-b.png" width="600" height="800" alt="B안: 단면도 속 상자와 카드"><figcaption>B · 봉인한 사람들. 역사로 흡수</figcaption></figure>
+    <figure><img src="art/dir-c.png" width="600" height="800" alt="C안: 갈린 땅과 도시의 경계"><figcaption>C · 갈이선. 버리고 "갈린 선" 이미지만 남김</figcaption></figure>
+    <figure class="pick"><img src="art/dir-d.png" width="600" height="800" alt="D안: 감정 책상의 지구 출토 라벨"><figcaption>D · 지구 출토. 제목과 틀</figcaption></figure>
+  </div>
+</section>
+
+<div class="cut"><span>판정</span></div>
+
+<section aria-labelledby="h-verdict">
+  <div class="prose">
+    <h2 id="h-verdict">여섯 축</h2>
+    <p>1·2·5번은 작성자가 아닌 리뷰어가 블라인드로 판정했다. 답 원문은 <code>eval.md</code> §38에 있다. 리뷰 뒤에 로그라인·키 비주얼 배치·해달·정도경을 고쳤고, 고친 뒤에는 다시 재지 않았다.</p>
+  </div>
+  <div class="scroll">
+  <table class="verdict">
+    <thead><tr><th>축</th><th>판정</th><th>근거</th></tr></thead>
+    <tbody id="verdict-rows">
+      <tr><td><b>1. 고유성</b></td><td><span class="pill part">부분</span></td><td>리뷰어 셋 모두 이웃(Motel of the Mysteries · Excavation Earth · 승리호 · WALL·E)과 갈리는 문장을 썼다. 그러나 셋 모두 그 차이가 카드 한 장에만 걸려 있다고 했다.</td></tr>
+      <tr><td><b>2. 시그니처</b></td><td><span class="pill pass">통과</span></td><td>2차 셋 모두 같은 이미지(빈 서명란 카드)와 같은 문장("다음 확인 ___")을 골랐다. 주제는 대표하지만 세계 전체는 아니라는 단서가 붙었다.</td></tr>
+      <tr><td><b>3. 이식성</b></td><td><span class="pill pass">통과(조건)</span></td><td>피치 넷이 같은 세계로 읽혔다. 약한 피치는 보드게임(Excavation Earth와 겹침)과 전시(기관 수락 불가).</td></tr>
+      <tr><td><b>4. 결속</b></td><td><span class="pill pass">통과(설계)</span></td><td>17행 중 끊은 결속 0. 새로 설명된 규칙 여섯, 그중 "깊이는 연대"의 모순 하나를 풀었다. 화면 적용은 0/17.</td></tr>
+      <tr><td><b>5. 식별성</b></td><td><span class="pill pass">통과</span></td><td>게임 크기 도트 → 역할 15/15, 실루엣 → 도트 15/15. 예외7은 소품으로, 정도경은 흙 바탕에서 흐리게 읽혔다(정도경은 고침).</td></tr>
+      <tr><td><b>6. 리스크</b></td><td><span class="pill fail">높음 2건</span></td><td>도굴 미화로 읽힌다(셋 모두), 실존 국보·반환 논쟁 유물의 상품화. 제목 상표와 실존 기관명은 법률 판단이 필요하다.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<div class="cut"><span>파일</span></div>
+
+<section aria-labelledby="h-files">
+  <h2 id="h-files">문서와 그림</h2>
+  <ul class="files">
+    <li><code>ip/bible.md</code> IP 바이블 — 게임 층과 바이블 층</li>
+    <li><code>ip/narrative.md</code> 로그라인 · 16시간 · 크루 아크 · 피치 넷</li>
+    <li><code>ip/visual-guide.md</code> 선 규칙 · 팔레트 · 도트 ↔ 큰 그림 변환</li>
+    <li><code>ip/directions.md</code> 발산 네 방향과 수렴</li>
+    <li><code>notes/references-ip.md</code> 조사 출처와 조사하지 못한 것</li>
+    <li><code>eval.md</code> §38 여섯 축 판정과 리뷰어 답 원문</li>
+    <li><code>notes/decisions.md</code> G118~G125</li>
+    <li><code>ip/art/</code> 키 비주얼 · 로고 · 크루 시트 · 장소 · 검수 시트</li>
+    <li><code>ip/src/build.mjs</code> 그림을 다시 굽는 코드</li>
+  </ul>
+</section>
+
+<footer>
+  <p>유물 이름·소장처·현존 수량은 실제 기록이고, 픽션은 2094년 이후에만 일어난다. 실존 기관의 로고와 사진은 쓰지 않았다. 모든 그림은 이 프로젝트가 코드로 그렸다.</p>
+  <p>글꼴: Galmuri, Noto Serif KR, Noto Sans KR (SIL OFL 1.1). 런타임 외부 요청 없음.</p>
+</footer>
+
+</div>
+</body>
+</html>

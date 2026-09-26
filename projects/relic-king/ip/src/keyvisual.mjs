@@ -86,8 +86,8 @@ export function pages(fontCss) {
     html,body{margin:0;background:${bg}}svg{display:block}</style></head><body>
     <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${hatchDefs()}${body}</svg></body></html>`;
 
-  // ── 키 비주얼 1200×1700 ────────────────────────────────────────────────
-  {
+  // ── 키 비주얼 1200×1700 (masked = 블라인드 리뷰용: 제목·기관명을 가린다) ──
+  for (const masked of [false, true]) {
     const W = 1200, H = 1700, M = 28;
     const SURF = 300, LINE_Y = 660, BOT = 1440;
     const layers = [LINE_Y, 790, 900, 1040, 1210, 1330, BOT];
@@ -100,7 +100,7 @@ export function pages(fontCss) {
       <g clip-path="url(#sec)">
         <rect x="0" y="0" width="${W}" height="${SURF}" fill="${P.sky}"/>
         <rect x="0" y="${SURF - 70}" width="${W}" height="70" fill="${P.sky2}"/>
-        ${machine(560, 222, 0.42, 0)}
+        ${machine(600, 241, 0.42, 0)}<rect x="560" y="${SURF - 3}" width="240" height="3" fill="${P.grind[0]}"/>
         ${grind(0, SURF, W, LINE_Y - SURF, 1)}
         ${Array.from({ length: 7 }, (_, i) => `<path d="M${-100 + i * 220} ${SURF + 40 + (i % 3) * 90} q110 -30 220 0" fill="none" stroke="${P.grind[0]}" stroke-width="10" stroke-opacity=".7"/>`).join("")}
         ${strata(0, W, layers, fills, pats)}
@@ -121,13 +121,14 @@ export function pages(fontCss) {
         ${lander(60, SURF - 156, 1)}
         <path d="M256 ${SURF - 88} C 330 ${SURF - 110}, 440 ${SURF - 60}, 508 ${SURF}" fill="none" stroke="${P.orange[1]}" stroke-width="6"/>
         ${crewSvg("yeoe7", 280, SURF - 168, 0.7)}
-        ${crewSvg("jeong-dokyeong", TR + 10, SURF - 186, 0.78)}
-        ${crewSvg("haedal-hd8", TR + 140, SURF - 180, 0.75)}
+        ${crewSvg("haedal-hd8", TR + 70, SURF - 180, 0.75)}
         <!-- 서가온: 줄에 걸려 턱에 서 있다 -->
         <g clip-path="url(#below)"></g>
         <clipPath id="trench"><rect x="${TL}" y="${SURF}" width="${TR - TL}" height="${TB - SURF}"/></clipPath>
         <g clip-path="url(#trench)">${crewSvg("seo-gaon", TL + 4, LINE_Y - 200, 0.83)}</g>
         
+        <!-- 정도경: 오른쪽 턱에서 상자를 내려다본다(지표에서 기다리지 않는다) -->
+        ${crewSvg("jeong-dokyeong", BR + 4, LINE_Y - 146, 0.61)}
         <!-- 미라: 상자 곁 -->
         ${crewSvg("mira-anyango", BL + 8, TB - 206, 0.86)}
         <!-- 표기 -->
@@ -138,21 +139,23 @@ export function pages(fontCss) {
         </g>
         ${ctx(1130, 725, "101")}${ctx(1130, 845, "102")}${ctx(1130, 970, "103")}${ctx(1130, 1125, "104")}${ctx(1130, 1270, "105")}${ctx(1130, 1385, "106")}
         ${munsell(60, 845, "10YR 3/2")}${munsell(60, 970, "7.5YR 5/6")}${munsell(270, 1125, "10YR 4/3")}
-        <text x="${BL + 20}" y="${LINE_Y + 40}" font-family="RK Dot" font-size="14" fill="${P.paper}" fill-opacity=".7">T-09 · 경주 거점</text>
+        <text x="${BL + 20}" y="${LINE_Y + 40}" font-family="RK Dot" font-size="14" fill="${P.paper}" fill-opacity=".7">T-09 · ${masked ? "○○" : "경주"} 거점</text>
       </g>
       <rect x="${M}" y="${M}" width="${W - 2 * M}" height="${BOT - M}" fill="none" stroke="${INK}" stroke-width="4"/>
-      ${recordCard(700, 1180, -3, { img: find("silla-gold-crown"), name: "신라 금관", holder: "국립경주박물관", last: "2094년 3월", cond: "양호 · 습도 45" })}
+      ${recordCard(700, 1180, -3, { img: find("silla-gold-crown"), name: masked ? "○○ ○○" : "신라 금관", holder: masked ? "○○○○박물관" : "국립경주박물관", last: "2094년 3월", cond: "양호 · 습도 45" })}
       <!-- 표제란 -->
       <rect x="${M}" y="${BOT + 18}" width="${W - 2 * M}" height="${H - BOT - 18 - M}" fill="none" stroke="${INK}" stroke-width="4"/>
       <line x1="${W - 330}" y1="${BOT + 18}" x2="${W - 330}" y2="${H - M}" stroke="${INK}" stroke-width="2"/>
-      ${wordmark(64, BOT + 146, 118, { bandX: M + 2, bandW: W - 330 - M - 3, bandTop: BOT + 20 })}
+      ${masked ? `<rect x="${M + 2}" y="${BOT + 20}" width="${W - 330 - M - 3}" height="${H - BOT - 22 - M}" fill="${P.grind[2]}"/><text x="80" y="${BOT + 130}" font-family="RK Dot" font-size="28" fill="${P.paper}">[제목 가림]</text>` : `${wordmark(64, BOT + 146, 118, { bandX: M + 2, bandW: W - 330 - M - 3, bandTop: BOT + 20 })}
       <text x="68" y="${BOT + 194}" font-family="RK Dot" font-weight="700" font-size="20" letter-spacing="4" fill="${INK}">FINDSPOT: EARTH</text>
-      <text x="68" y="${BOT + 222}" font-family="RK Sans" font-size="17" fill="${INK}">떠나지 않은 사람들이 묻어 둔 박물관을, 지구를 본 적 없는 사람들이 파낸다.</text>
+      <text x="68" y="${BOT + 222}" font-family="RK Sans" font-size="17" fill="${INK}">257년 비어 있던 카드의 다음 줄에, 누구의 이름을 쓸 것인가.</text>`}
       <g font-family="RK Dot" font-size="15" fill="${INK}">
-        ${[["도면", "단면 A–A′"], ["거점", "경주"], ["축척", "1 : 20"], ["기록", "2351. 05."], ["확인자", "________"]].map(([k, v], i) =>
+        ${[["도면", "단면 A–A′"], ["거점", masked ? "○○" : "경주"], ["축척", "1 : 20"], ["기록", "2351. 05."], ["확인자", "________"]].map(([k, v], i) =>
           `<text x="${W - 306}" y="${BOT + 58 + i * 34}" fill-opacity=".6">${k}</text><text x="${W - 216}" y="${BOT + 58 + i * 34}">${v}</text>`).join("")}
       </g>`;
-    out.push({ name: "keyvisual", out: "art/keyvisual/keyvisual.png", w: W, h: H, html: wrap(W, H, body) });
+    out.push(masked
+      ? { name: "review-keyvisual-masked", out: "art/review/keyvisual-masked.png", w: W, h: H, html: wrap(W, H, body) }
+      : { name: "keyvisual", out: "art/keyvisual/keyvisual.png", w: W, h: H, html: wrap(W, H, body) });
   }
 
   // ── 타이틀 로고 ────────────────────────────────────────────────────────

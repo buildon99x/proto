@@ -40,6 +40,8 @@ pnpm --filter relic-king qa:migration   세이브 마이그레이션 v1~v11
 pnpm --filter relic-king qa:bulk        소장고 다중 선택 처분(대상 선정·도감 보존·경매 자리)
 pnpm --filter relic-king sheets         컨택트 시트 굽기 → assets/generated/
 
+node ip/src/fetch-fonts.mjs               IP 그림용 폰트 원본 받기(빌드타임, ip/.cache — 커밋 안 함)
+node ip/src/build.mjs [필터...]            IP 그림 굽기 → ip/art/, 쇼케이스 → app/public/ip/ (fonttools 필요)
 node scripts/build-worldmap.mjs           세계지도 해안선 베이크(생성 파일을 다시 굽는다)
 node scripts/build-worldmap.mjs --check   커밋된 산출물이 최신인지만 검사
 ```
@@ -130,6 +132,19 @@ v0.5.1에서 한 번도 발화하지 않던 결함 넷이 한꺼번에 나왔다
   다시 돌려라.
 - `app/src/ui/` — React 셸. 게임 로직을 여기에 두지 않는다.
 - `app/src/sim/` — 헤드리스 시뮬. 앱 번들에는 포함되지 않는다(진입점에서 import 하지 않음).
+
+## IP 「지구 출토」(v0.7.0) — 건드리기 전에 읽을 것
+
+`ip/`가 IP 층이다. 바이블 `ip/bible.md`가 `notes/world-lore.md`(게임 화면 층)의 상위 문서다.
+
+1. **화면에는 여전히 외울 단어가 없다**(G111). 바이블의 설정을 UI 문자열로 올리려면 `density --seeds 12`
+   후퇴 0과 `play`를 통과해야 한다(G124). 첫 자리는 "다음 확인" 한 줄로 좁혀 뒀다(`ip/narrative.md` §7).
+2. **카드 위쪽은 실재 기록이다.** 유물명·소장처·현존 수량은 데이터 그대로, 픽션은 점선 아래와 2094년
+   이후에만 쓴다(`ip/bible.md` §12).
+3. **그림은 코드다.** `ip/art/`를 손으로 고치지 말고 `ip/src/`를 고쳐 다시 굽는다. 굽고 나면 PNG를 연다.
+   크루 도트(`ip/src/crew-sprites.mjs`)와 큰 그림(`crew-vector.mjs`)은 좌표 × 10으로 묶여 있으니 한쪽만
+   고치지 마라(`ip/visual-guide.md` §3).
+4. **"유물왕"은 제목이 아니라 게임 안의 칭호다**(G119). 슬러그 `relic-king`은 그대로다.
 
 ## 플레이어 간 경쟁(v0.5) — 건드리기 전에 읽을 것
 

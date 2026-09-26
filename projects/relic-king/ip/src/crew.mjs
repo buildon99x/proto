@@ -38,7 +38,7 @@ export function pages(fontCss) {
   .n{font-size:15px;text-align:center}.n small{font-size:12px;opacity:.7}
   </style></head><body>${body}</body></html>`;
   out.push({ name: "crew-qa", out: "art/crew/crew-qa-sheet.png", w: 1100, h: 1460, html });
-  return out.concat(sheetPages(fontCss), conversionPage(fontCss));
+  return out.concat(sheetPages(fontCss), conversionPage(fontCss), reviewPages(fontCss));
 }
 
 // ── 캐릭터 시트 ──────────────────────────────────────────────────────────
@@ -60,13 +60,13 @@ export const PROFILE = {
   },
   "jeong-dokyeong": {
     origin: "콜로니 신용시장 출신", want: "다음 달에도 이 팀이 있는 것",
-    key: "넓게 벌어진 코트 자락과 옆구리의 상자", prop: "잠금 상자(견본·카드 사본)", color: ["콜로니 남색", "#33405a"],
+    key: "넓게 벌어진 코트 자락과 옆구리의 상자", prop: "잠금 상자(견본·카드 사본)", color: ["콜로니 남색", "#4d6084"],
     never: "카드에 자기 이름을 쓰지 않는다. 서명은 늘 미라가 한다",
     line: "\"우리가 안 팔면 저건 누구도 못 만져.\""
   },
   "haedal-hd8": {
     origin: "하역 규격 8호기 · 2091년 울산 제조", want: "없다. 다만 해달도 지구제다",
-    key: "낮고 긴 몸, 앞발에 든 짐, 귀 두 개", prop: "앞에 안은 상자·습도계", color: ["하역 황색", "#e0a92e"],
+    key: "낮고 긴 몸, 짧은 다리 넷, 앞에 안은 짐, 귀 두 개", prop: "앞에 안은 상자·습도계", color: ["하역 황색", "#e0a92e"],
     never: "독백하지 않는다. 자아를 얻지 않는다. 존재감은 습도 수치로만 나온다",
     line: "\"습도 45. 유지.\""
   },
@@ -137,7 +137,8 @@ export function sheetPages(fontCss) {
     <line x1="0" y1="100" x2="${W}" y2="100" stroke="${INK}" stroke-width="4"/>
     <text x="40" y="64" font-family="RK Serif" font-weight="900" font-size="40" fill="${INK}">크루 다섯 — 아홉 번째 강하</text>
     <text x="${W - 40}" y="64" text-anchor="end" font-family="RK Dot" font-size="18" fill="${INK}">2351 · 경주 거점</text>
-    ${body}</svg></body></html>`;
+    <defs><clipPath id="below"><rect x="0" y="104" width="${W}" height="${H}"/></clipPath></defs>
+    <g clip-path="url(#below)">${body}</g></svg></body></html>`;
   out.push({ name: "crew-lineup", out: "art/crew/crew-lineup.png", w: W, h: H, html });
   return out;
 }
@@ -161,4 +162,34 @@ export function conversionPage(fontCss) {
     <text x="40" y="92" font-family="RK Dot" font-size="17" fill="${INK}" fill-opacity=".7">바탕: 16×24 도트(게임 해상도)를 격자째 확대 · 위: 큰 그림(좌표 = 도트 × 10). 어긋나는 곳은 모서리 반경(≤ 1칸)과 한 칸 안의 디테일이다 — 예외 하나: 미라의 머리는 도트보다 한 칸 크다</text>
     <g clip-path="url(#cv)">${cols}</g></svg></body></html>`;
   return [{ name: "crew-conversion", out: "art/crew/conversion-overlay.png", w: W, h: H, html }];
+}
+
+// ── 블라인드 식별 시험지(eval.md §38.5) — 순서를 섞고 이름을 뺀다 ─────────────
+// 정답: 시험지 A  P=해달 Q=서가온 R=예외7 S=미라 T=정도경
+//       시험지 B  1=정도경 2=예외7 3=서가온 4=해달 5=미라
+export const REVIEW_KEY = {
+  A: ["haedal-hd8", "seo-gaon", "yeoe7", "mira-anyango", "jeong-dokyeong"],
+  B: ["jeong-dokyeong", "yeoe7", "seo-gaon", "haedal-hd8", "mira-anyango"]
+};
+export function reviewPages(fontCss) {
+  const byId = Object.fromEntries(CREW.map((c) => [c.id, c]));
+  const labA = ["P", "Q", "R", "S", "T"];
+  // A: 게임 크기 그대로(1배)를 흙 바탕 게임 프레임에 넣고, 옆에 2배
+  const W = 900, H = 330;
+  const frame = REVIEW_KEY.A.map((id, i) => `<div class="c"><div class="g">${img(sprite(byId[id]), 1)}</div>${img(sprite(byId[id]), 2)}<b>${labA[i]}</b></div>`).join("");
+  const htmlA = `<!doctype html><html><head><meta charset="utf-8"><style>${fontCss}
+    body{margin:0;background:${P.paper};font-family:"RK Dot";color:${INK};width:${W}px}
+    .row{display:flex;gap:30px;padding:26px}.c{display:flex;flex-direction:column;align-items:center;gap:10px;width:140px}
+    .g{width:60px;height:60px;background:${P.soil[3]};display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;border:2px solid ${INK}}
+    b{font-size:22px} p{margin:0 26px;font-size:14px}</style></head><body>
+    <p>위 칸: 게임 화면 크기 그대로(16×24 픽셀) · 아래: 2배</p><div class="row">${frame}</div></body></html>`;
+  const htmlB = `<!doctype html><html><head><meta charset="utf-8"><style>${fontCss}
+    body{margin:0;background:${P.paper};font-family:"RK Dot";color:${INK};width:${W}px}
+    .row{display:flex;gap:30px;padding:26px;align-items:flex-end}.c{display:flex;flex-direction:column;align-items:center;gap:10px;width:140px}
+    b{font-size:22px} p{margin:0 26px;font-size:14px}</style></head><body>
+    <p>실루엣 4배(64×96) · 색을 뺐다</p><div class="row">${REVIEW_KEY.B.map((id, i) => `<div class="c">${img(silhouette(byId[id]), 4)}<b>${i + 1}</b></div>`).join("")}</div></body></html>`;
+  return [
+    { name: "review-crew-a", out: "art/review/crew-test-a.png", w: W, h: 250, html: htmlA },
+    { name: "review-crew-b", out: "art/review/crew-test-b.png", w: W, h: 200, html: htmlB }
+  ];
 }
