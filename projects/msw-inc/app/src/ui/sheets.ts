@@ -2,7 +2,7 @@
  * S3 진화(+승진 발령) · S5 채용 · S6 결재 · S0 출근 리포트 · S7 매니저 퇴근 · 직원 말풍선 · 도감 · 엔딩 · 완전 클리어
  */
 import { A, $, $$, must, h, n, clamp, img, sil, monArt, josa, ro, plotName, plotShort, segTxt, clockText, dur, snd, nope, toast, emit, refresh, renderOren, rectOf, shake, joyText, save, markTicks, markLabel, boxReason, RULES, M } from './app';
-import { CHAPTERS, SPECIES, SPECIES_IDS, TRAITS, FIELD_BOSSES, fieldBoss, bossDexKey, type PlotId, type SpeciesId } from '../sim/content';
+import { CHAPTERS, SPECIES, SPECIES_IDS, TRAITS, FIELD_BOSSES, fieldBoss, bossDexKey, homesOf, plotInfo, type PlotId, type SpeciesId } from '../sim/content';
 
 const segList = (ss: M.Seg[]) => ss.map(segTxt).join(', ');
 
@@ -32,6 +32,8 @@ function openSheet(kind: string, color: string, html: string) {
 // ── S5 신입 채용 ────────────────────────────────────────────
 A.openHire = (opt = {}) => {
   const w = A.w;
+  if (opt.seg) A.world.focus((opt.seg[0] + opt.seg[1]) / 2);
+  else if (opt.crowd) A.world.focus(M.levelsOf(w)[opt.crowd.d] ?? 0);
   const into = opt.into || (A.ui.mode === 'dungeon' ? A.dv.id : null);
   const cf = opt.crowd || null;
   const seg = cf ? null : opt.seg || M.hotGap(w) || M.gapSegments(w)[0] || null;
@@ -52,11 +54,13 @@ A.openHire = (opt = {}) => {
     const can = ticket || w.smile >= cost;
     const isRec = !locked && (sp === rec || (!rec && cond3(sp))), isGrow = !locked && grow && sp === grow.sp && !growing;
     const rib = isRec && cf && sp === rec ? `<span class="rib">줄 선 Lv ${cf.lo}–${cf.hi}에 딱!</span>` : isRec && seg && sp === rec ? `<span class="rib">${segTxt(seg)}에 딱!</span>` : isRec && cond3(sp) ? '<span class="rib">결재 ③ 슬리피우드 식구</span>' : isGrow && seg ? `<span class="rib grow">진화 ${grow!.stage}번이면 ${segTxt(seg)}!</span>` : '';
+    // v1.7: 식구 사냥터 — 거기서 일하면 근속 ×1.2. 열려 있거나 열 수 있는 부지만 보인다
+    const homes = M.RULES_GROUNDS() && !locked ? homesOf(sp).filter(p => w.plots[p.id]).map(p => p.short) : [];
     cards += `<div class="hcard ${isRec ? 'rec' : ''} ${isGrow ? 'grow' : ''} ${locked ? 'locked' : ''}" data-sp="${sp}">
       ${rib}
       <div class="ph">${locked ? sil(s.art[0], 2) : img(s.art[0], 2)}</div>
       <b>${locked ? '???' : s.names[0]}</b><span class="lvl">Lv ${s.base} · 적정 ${Math.max(1, s.base - 5)}–${s.base + 5}</span>
-      <span class="trait" title="${tr ? tr.desc : ''}">${tr ? tr.icon + ' ' + tr.name : '— 표준'}</span>
+      <span class="trait" title="${tr ? tr.desc : ''}">${tr ? tr.icon + ' ' + tr.name : '— 표준'}${homes.length ? ` · <i class="hm" title="식구 사냥터 — 여기서 일하면 근속 ×${M.RULES_GROUNDS()!.homeX}">🏠 ${homes.join('·')}</i>` : ''}</span>
       ${locked ? `<div class="go dis">${s.chapter - 1}장 결재 후</div>`
         : `<button class="go ${can ? '' : 'dis'}" data-hire="${sp}">${ticket ? '🎟 채용권 · 무료' : `<i class="mini-can"></i>${n(cost)}`}</button>`}
     </div>`;
@@ -105,6 +109,7 @@ A.openEvolve = monId => {
   const w = A.w, m = w.monsters.find(x => x.id === monId);
   if (!m || !M.canEvolve(m)) return;
   if (A.ui.mode === 'dungeon') A.closeDungeon();
+  A.world.focus(M.monLevel(m));
   const sp = SPECIES[m.sp], next = m.stage + 1;
   const pv = M.preview(w, { evolve: m.id });
   // 승진 발령을 권하는 때: 그냥 진화하면 길이 비거나(v1.2), 발령해야 남은 빈틈이 더 이어질 때(v1.3.1 — 1장 Lv 14–15)
@@ -180,7 +185,7 @@ function doEvolve(monId: number) {
   A.closeSheet();
   evolveCut(from, m, r.isNew);
   // 진화도 5초 되돌리기. 도감 칸은 남는다 — 한 번 본 모습은 본 것이다
-  setTimeout(() => toast(`${M.monName(m)} 진화`, { undo: () => M.unevolve(w, monId, r.from, r.tenureBefore) }), A.demo ? 0 : 400);
+  setTimeout(() => toast(`${M.monName(m)} 진화`, { undo: () => M.unevolve(w, monId, r.from, r.tenureBefore, r.retIds) }), A.demo ? 0 : 400);
   emit([{ type: 'evolved', mon: m.id, isNew: r.isNew }]);
   refresh();
 }
@@ -243,6 +248,46 @@ A.openBoss = () => {
   snd.play('ui');
 };
 
+// ── S9 모객 (v1.7): 신규냐 복귀냐 ──────────────────────────
+/**
+ * 신규(입구 도착 ×2)와 복귀(떠난 손님이 자기 레벨로 돌아옴)는 다른 결정이다. 입구가 비었으면 신규, 중간 자리가 비었고 풀에 그 레벨 손님이 있으면 복귀.
+ * 둘 다 동시 이벤트 한 자리를 쓴다. 오렌이 권하는 카드에 리본. 모객권이 있으면 공짜. 5초 되돌리기(이미 돌아온 손님은 돌려보내지 않는다)
+ */
+A.openRecruit = () => {
+  const w = A.w, gu = RULES.guests;
+  if (!gu || !w.pool) return;
+  if (A.ui.mode === 'dungeon') A.closeDungeon();
+  const rc = w.recruit, pk = M.recruitPick(w), rr = M.returnRoom(w), er = M.entranceRoom(w), tk = M.recruitTickets(w);
+  const lim = !rc && M.activeEvents(w) >= M.maxEvents(w);
+  const price = (k: M.RecruitKind) => (tk ? `<span class="okc">🎟 모객권 · 무료${tk > 1 ? ' ×' + tk : ''}</span>` : `<i class="mini-can"></i>${n(M.recruitCost(w, k))}`);
+  const card = (k: M.RecruitKind, icon: string, name: string, eff: string, why: string, can: boolean, note: string) => `
+    <div class="hcard rcard ${pk && pk.kind === k ? 'rec' : ''} ${can ? '' : 'locked'}" data-rk="${k}">
+      ${pk && pk.kind === k ? `<span class="rib">오렌 추천 · ${pk.n}명</span>` : ''}
+      <div class="ph"><i class="ric">${icon}</i></div>
+      <b>${name}</b><span class="lvl">${eff}</span>
+      <span class="trait">${why}</span>
+      ${can ? `<button class="go" data-recruit="${k}">${price(k)}</button>` : `<div class="go dis">${note}</div>`}
+    </div>`;
+  const busyLow = w.advs.filter(a => a.st === 'busy' && a.lv <= 3).length;
+  const status = rc ? `<div class="hcard rcard on"><div class="ph"><i class="ric">📣</i></div><b>${rc.kind === 'return' ? '복귀' : '신규'} 모객 중</b><span class="lvl">${dur(rc.end - w.t)} 남음</span><span class="trait">${rc.kind === 'return' ? `돌아온 손님 ${n(w.stats.returned || 0)}명 · 풀에 ${rr.pool}명` : `입구 도착 ×${gu.fresh.x}`}</span><div class="go dis">한 번에 하나</div></div>` : '';
+  const sh = openSheet('recruit', 'var(--flow)', `<div class="sh-title">📣 모객 <small>손님을 부르는 이벤트 · 한 번에 하나 · 동시 이벤트 ${M.activeEvents(w)}/${M.maxEvents(w)} · 놓쳐도 잃는 것은 없어요</small></div>
+    <div class="cards">${status}
+      ${card('return', '🔁', '복귀 모객', `떠난 손님 ${rr.pool}명 가운데 자리 있는 레벨 ${rr.room}명 · ${gu.return.min / 60}시간 동안 시간당 ${gu.return.rate}명이 자기 레벨로`, rr.room >= 8 ? '중간 던전에 빈자리가 있어요' : rr.pool ? '자리가 없으면 돌아와도 줄을 서요' : '아직 떠난 손님이 없어요', !rc && !lim && rr.pool > 0, rc ? '모객 중' : lim ? '이벤트 자리 없음' : '떠난 손님 없음')}
+      ${card('fresh', '👋', '신규 모객', `${gu.fresh.min / 60}시간 동안 입구 도착 ×${gu.fresh.x} · 지금 입구 빈자리 ${er}석`, busyLow ? `입구 앞에 ${busyLow}명이 줄 서 있어요` : er >= 6 ? '입구가 한산해요' : '입구가 거의 찼어요', !rc && !lim, rc ? '모객 중' : '이벤트 자리 없음')}
+    </div>`);
+  $$<HTMLElement>('[data-recruit]', sh).forEach(bt => (bt.onclick = () => {
+    const k = bt.dataset.recruit as M.RecruitKind;
+    const r = M.startRecruit(w, k);
+    if (!r.ok) return nope(r.msg);
+    A.closeSheet();
+    snd.play('event');
+    toast(`📣 ${k === 'return' ? '복귀' : '신규'} 모객 시작${r.free ? ' · 모객권 사용' : ` · 스마일 −${n(r.cost)}`}`, { undo: () => M.cancelRecruit(w, r.cost, r.free) });
+    emit([{ type: 'recruitStart', kind: k }]);
+    refresh();
+  }));
+  snd.play('ui');
+};
+
 // ── 직원 말풍선 (탭) ────────────────────────────────────────
 function closePop() { $$('.pop-mon').forEach(e => e.remove()); }
 /**
@@ -253,6 +298,7 @@ A.openBox = (id, el) => {
   closePop();
   const w = A.w, bx = M.boxesOf(w).find(b => b.id === id);
   if (!bx) return;
+  A.world.focus(M.levelsOf(w)[bx.d] ?? 0);
   const anchor = el && el.isConnected ? el : $(`#world [data-box="${id}"]`) || must('#oren');
   const r = rectOf(anchor), pick = M.boxPick(w);
   const hireOpt = M.boxOptions(w).find((o): o is Extract<M.BoxReward, { kind: 'hire' }> => o.kind === 'hire')!;
@@ -292,7 +338,7 @@ A.openMonPop = (id, el) => {
   const canRel = M.RULES_RELEASE() && !m.vet && m.sp !== 'balrog';
   const pop = h(`<div class="pop-mon">
     <div class="hd">${img(monArt(m), 2)}<div><b>${M.monName(m)} #${m.no}</b><div class="s">Lv ${M.monLevel(m)} · ${m.stage + 1}단계 · ${tr ? tr.icon + ' ' + tr.name : '표준'}${m.vet ? ' · 고참' : ''}</div><div class="s">${m.d ? plotName(m.d) : '대기실'} · 퇴근 ${n(m.work)}회</div></div></div>
-    <div class="tenure"><div class="t"><span>근속(퇴근)</span><span>${need === Infinity ? '최종 단계' : n(Math.min(m.tenure, need)) + ' / ' + n(need)}</span></div><div class="bar"><i style="width:${need === Infinity ? 100 : Math.min(100, 100 * m.tenure / need)}%;background:${M.canEvolve(m) ? 'var(--evolve)' : '#b8a6ff'}"></i></div></div>
+    <div class="tenure"><div class="t"><span>근속(퇴근)</span><span>${need === Infinity ? '최종 단계' : n(Math.min(m.tenure, need)) + ' / ' + n(need)}</span></div><div class="bar"><i style="width:${need === Infinity ? 100 : Math.min(100, 100 * m.tenure / need)}%;background:${M.canEvolve(m) ? 'var(--evolve)' : 'color-mix(in srgb,var(--evolve) 45%,var(--white))'}"></i></div></div>
     <div class="row">${M.canEvolve(m) && !A.T.hideEvolve() ? '<button class="pri" data-ev>▲ 진화</button>' : ''}${m.d ? '<button data-see>현장 보기</button><button data-tray>대기실로</button>' : ''}${canRel ? `<button data-rel title="채용비 절반을 돌려받아요">본사 전근 +${n(M.releaseRefund(m))}</button>` : ''}</div>
     <div class="tip">끌어서 다른 발판에 놓으면 옮겨져요. 놓기 전에 결과가 보여요</div></div>`);
   const x = clamp(r.x + r.w / 2 - 135, 8, 1280 - 278), y = r.y > 300 ? r.y - 196 : r.y + r.h + 8;
@@ -425,6 +471,26 @@ function ending() {
   };
 }
 
+// ── 완전 클리어 컷 (v1.7): 엔딩(밤, 발록의 첫 손님)과 다르게 — 낮, 직원 전원이 줄 서고, 머쉬맘이 마침표로 말한다 ─────
+A.openClearCut = () => {
+  const w = A.w;
+  const sps = Array.from(new Set(w.monsters.filter(m => m.d).map(m => monArt(m)))).slice(0, 9);
+  A.ui.modal = 'clear';
+  snd.play('ending');
+  const cut = h(`<div class="cut clear"><div>
+    <div class="confetti">${Array.from({ length: 14 }, (_, i) => `<i style="left:${4 + i * 7}%;animation-delay:${(i % 5) * 0.35}s"></i>`).join('')}</div>
+    <div class="clearscene">${sps.map(a => img(a, 3)).join('')}${img('mom', 3)}</div>
+    <div class="lines">
+      <div class="ln">${img('mom', 2)}완전 클리어. 던전 ${M.plotsInPlay().length}곳이 모두 별 셋이고, 도감 ${M.dexTotal()}칸이 다 찼어요.</div>
+      <div class="ln late">${img('balrog', 2)}…축하한다.</div>
+    </div>
+    <h1 class="late2"><small>ALL CLEAR</small>🏝️ 이 섬의 전설이에요</h1>
+    <button class="btn go late2" data-go>계속 운영하기 →</button></div></div>`);
+  must('#stage').appendChild(cut);
+  must('[data-go]', cut).onclick = () => { cut.remove(); A.ui.modal = null; A.world.dirty = true; snd.play('pop'); refresh(); };
+};
+A.handlers.push(ev => { for (const e of ev) if (e.type === 'fullclear' && !A.ui.modal && !A.ui.off) A.openClearCut(); });
+
 // ── 완전 클리어 체크리스트 (엔딩 직후, 목적 상실 방지 02 §6.6) ─────
 A.openFullClear = () => {
   const w = A.w, fc = M.fullClear(w);
@@ -450,25 +516,34 @@ function scene(kind: string, data: Record<string, unknown>) {
   const w = A.w;
   const advs = (k: number) => Array.from({ length: k }, (_, i) => `<div class="a" style="left:${14 + i * 38}px;bottom:52px">${img('a' + (i % 6), 2)}</div>`).join('');
   if (kind === 'burst') return { cap: `✨ 한 시간에 레벨업 ${data.n}번`, html: advs(5) + Array.from({ length: 5 }, (_, i) => `<div class="a beam" style="left:${8 + i * 38}px;bottom:52px"></div>`).join('') + `<div class="a burstn">×${data.n}</div>` };
-  if (kind === 'grad') return { cap: data.first ? '🎓 첫 졸업!' : `🎓 ${data.n}명 졸업`, html: `<div class="a" style="left:80px;bottom:52px">${img('a4', 3)}</div><div class="a" style="left:92px;top:14px;font-size:30px">🎓</div><div class="a" style="left:24px;top:40px;font-size:22px">🎉</div><div class="a" style="left:160px;top:36px;font-size:22px">🎉</div>` };
-  if (kind === 'crowd') return { cap: `🌀 ${plotShort(data.d as PlotId)} 만원`, html: advs(5) + `<div class="a" style="left:20px;top:16px;font-size:22px">😠</div><div class="a" style="left:90px;top:10px;font-size:22px">😠</div><div class="a" style="left:150px;top:18px;font-size:22px">😊</div>` };
+  if (kind === 'grad') return { cap: data.first ? '🎓 첫 졸업!' : `🎓 ${data.n}명 졸업`, html: `<div class="a" style="left:80px;bottom:52px">${img('a4', 3)}</div><div class="a" style="left:92px;top:14px;font-size:var(--fs-d1)">🎓</div><div class="a" style="left:24px;top:40px;font-size:var(--fs-xl)">🎉</div><div class="a" style="left:160px;top:36px;font-size:var(--fs-xl)">🎉</div>` };
+  if (kind === 'crowd') return { cap: `🌀 ${plotShort(data.d as PlotId)} 만원`, html: advs(5) + `<div class="a" style="left:20px;top:16px;font-size:var(--fs-xl)">😠</div><div class="a" style="left:90px;top:10px;font-size:var(--fs-xl)">😠</div><div class="a" style="left:150px;top:18px;font-size:var(--fs-xl)">😊</div>` };
   if (kind === 'ready') { const m = w.monsters.find(x => x.id === data.mon); if (!m) return null; return { cap: `▲ ${M.monName(m)} 진화 준비`, html: `<div class="a glowev" style="left:60px;bottom:52px">${img(monArt(m), 4)}</div><div class="a evmini">▲</div>` }; }
   if (kind === 'doc') return { cap: '📋 결재 서류 도착', html: `<div class="a docp"></div><div class="a docs">결재</div>` };
-  if (kind === 'elite') return { cap: `★ 엘리트 ${data.n}번 출현`, html: advs(4) + `<div class="a" style="left:128px;bottom:52px;filter:drop-shadow(0 0 6px #ffcc33)">${img('m:' + (data.art as string), 4)}</div><div class="a" style="left:136px;top:18px;font-size:22px">★</div>` };
-  if (kind === 'boss') { const fb = fieldBoss(data.ch as number); if (!fb) return null; return { cap: data.down ? `👑 ${fb.name} 토벌!` : `👑 ${fb.name}가 찾아왔어요`, html: advs(3) + `<div class="a" style="left:118px;bottom:48px">${img('m:' + fb.art, 5)}</div>${data.down ? '<div class="a" style="left:24px;top:30px;font-size:22px">🎉</div>' : ''}` }; }
+  if (kind === 'elite') return { cap: `★ 엘리트 ${data.n}번 출현`, html: advs(4) + `<div class="a" style="left:128px;bottom:52px;filter:drop-shadow(0 0 6px var(--gold))">${img('m:' + (data.art as string), 4)}</div><div class="a" style="left:136px;top:18px;font-size:var(--fs-xl)">★</div>` };
+  if (kind === 'boss') { const fb = fieldBoss(data.ch as number); if (!fb) return null; return { cap: data.down ? `👑 ${fb.name} 토벌!` : `👑 ${fb.name}가 찾아왔어요`, html: advs(3) + `<div class="a" style="left:118px;bottom:48px">${img('m:' + fb.art, 5)}</div>${data.down ? '<div class="a" style="left:24px;top:30px;font-size:var(--fs-xl)">🎉</div>' : ''}` }; }
   if (kind === 'mark') { const ms = data.list as M.Report['marks']; return { cap: `📊 결재 막대 ${ms.map(x => Math.round(x.pct * 100) + '%').join('·')}`, html: `<div class="a markbar"><i style="width:${Math.round(ms[ms.length - 1].pct * 100)}%"></i></div><div class="a markrw">${ms.map(x => markLabel(x.reward)).join('<br>')}</div>` }; }
-  if (kind === 'box') return { cap: `📦 상자 ${data.n}개가 기다려요`, html: advs(3) + Array.from({ length: Math.min(3, data.n as number) }, (_, i) => `<div class="a" style="left:${36 + i * 52}px;top:${22 + (i % 2) * 8}px;font-size:28px">📦</div>`).join('') };
-  if (kind === 'entrance') return { cap: `😐 입구 막힘 ${dur(data.min as number)}`, html: advs(3) + `<div class="a" style="left:30px;top:14px;font-size:22px">😐</div><div class="a" style="left:100px;top:10px;font-size:22px">😐</div>` };
+  if (kind === 'box') return { cap: `📦 상자 ${data.n}개가 기다려요`, html: advs(3) + Array.from({ length: Math.min(3, data.n as number) }, (_, i) => `<div class="a" style="left:${36 + i * 52}px;top:${22 + (i % 2) * 8}px;font-size:var(--fs-d1)">📦</div>`).join('') };
+  if (kind === 'entrance') return { cap: `😐 입구 막힘 ${dur(data.min as number)}`, html: advs(3) + `<div class="a" style="left:30px;top:14px;font-size:var(--fs-xl)">😐</div><div class="a" style="left:100px;top:10px;font-size:var(--fs-xl)">😐</div>` };
+  // v1.7 모객: 돌아온 손님이 첫 명장면이다 — 돌아온 매니저가 자기 이야기로 읽는다
+  if (kind === 'dexmile') { const ms = data.list as M.Report['dexMiles']; return { cap: `📖 도감 ${ms.map(x => Math.round(x.pct * 100) + '%').join('·')} 돌파!`, html: advs(3) + `<div class="a" style="left:90px;top:8px;font-size:var(--fs-d1)">📖</div><div class="a markrw">${ms.map(x => markLabel(x.reward)).join('<br>')}</div>` }; }
+  if (kind === 'clear') return { cap: '🏝️ 완전 클리어!', html: advs(4) + `<div class="a" style="left:20px;top:10px;font-size:var(--fs-xl)">🎉</div><div class="a" style="left:96px;top:6px;font-size:var(--fs-d1)">🏝️</div><div class="a" style="left:170px;top:14px;font-size:var(--fs-xl)">🎉</div>` };
+  if (kind === 'star3') return { cap: `⭐ 던전 ★3 +${data.n}`, html: advs(3) + `<div class="a" style="left:60px;top:12px;font-size:var(--fs-d1);color:var(--gold)">★★★</div>` };
+  if (kind === 'return') return { cap: `🔁 손님 ${data.n}명이 돌아왔어요`, html: advs(4) + `<div class="a" style="left:24px;top:14px;font-size:var(--fs-xl)">🔁</div><div class="a" style="left:120px;top:10px;font-size:var(--fs-xl)">😊</div>` };
   return null;
 }
 A.showReport = (rep, awayMin) => {
   const w = A.w;
   A.ui.modal = 'report';
   const picks: [string, Record<string, unknown>][] = [];
+  if (rep.cleared) picks.push(['clear', {}]);
+  if (rep.returned) picks.push(['return', { n: rep.returned }]);
+  if (w.ended && rep.starredDelta > 0) picks.push(['star3', { n: rep.starredDelta }]);
   if (rep.approval) picks.push(['doc', {}]);
   if (rep.bossDown.length) picks.push(['boss', { ch: rep.bossDown[0].ch, down: true }]);
   else if (rep.bossCall && w.boss && !w.boss.d) picks.push(['boss', { ch: rep.bossCall, down: false }]);
   if (rep.marks.length) picks.push(['mark', { list: rep.marks }]);
+  if (rep.dexMiles && rep.dexMiles.length) picks.push(['dexmile', { list: rep.dexMiles }]);
   if (rep.elites.length) { const m = w.monsters.find(x => x.id === rep.elites[rep.elites.length - 1].mon); picks.push(['elite', { n: rep.elites.length, art: m ? monArt(m) : 'snail' }]); }
   if (rep.firstGrad) picks.push(['grad', { first: true, n: rep.grads }]);
   if (rep.bestBurst && rep.bestBurst.n >= 5 && M.levelsOf(w)[rep.bestBurst.d]) picks.push(['burst', rep.bestBurst as unknown as Record<string, unknown>]);
@@ -490,13 +565,14 @@ A.showReport = (rep, awayMin) => {
   const bz = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy').sort((p, q) => q.n - p.n)[0]; if (bz) chips.push(`<button class="tchip" data-go="busy" data-d="${bz.d}"><i class="bz">🌀</i>${plotShort(bz.d)} 과밀</button>`);
   if (w.boss && !w.boss.d) chips.push(`<button class="tchip" data-go="boss"><i class="ev">👑</i>필드 보스 초대</button>`);
   if (M.boxesOf(w).length) chips.push(`<button class="tchip" data-go="box"><i class="bx">📦</i>상자 ${M.boxesOf(w).length}</button>`);
+  if (rep.recruit) chips.push(`<button class="tchip" data-go="recruit"><i class="rc">📣</i>${rep.recruit.kind === 'return' ? '복귀' : '신규'} 모객${M.recruitTickets(w) ? ' · 🎟' : ''}</button>`);
   const bal = w.monsters.find(m => m.sp === 'balrog' && !m.d); if (bal) chips.push(`<button class="tchip" data-go="world"><i class="ev">👹</i>발록 씨 배치</button>`);
   const ch = M.chapterInfo(w), c = M.approvalConds(w), j = joyText(w);
   const el = h(`<div class="report"><div class="paper rp">
     <div class="stamp" id="rstamp">출근<small>${clockText(w.t).split(' · ')[1]}</small></div>
     <h1>매니저님 출근!</h1><div class="sub">매니저님이 퇴근한 ${dur(awayMin)} 동안, 월드는 이렇게 돌았어요</div>
     <div class="tiles">
-      <div class="tile main"><div class="k">😊 지금 월드를 즐기는 모험가</div><div class="v"><span data-count="${rep.happy}">0</span>${sinceIn > 0 ? `<span class="dd">▲ ${sinceIn}<small>지난 출근보다</small></span>` : ''}</div></div>
+      <div class="tile main"><div class="k">😊 지금 월드를 즐기는 모험가</div><div class="v"><span data-count="${rep.happy}">0</span>${sinceIn > 0 ? `<span class="dd">▲ ${sinceIn}<small>지난 출근보다</small></span>` : ''}${rep.returned ? `<span class="dd rt">🔁 ${rep.returned}<small>돌아온 손님</small></span>` : ''}</div></div>
       <div class="tile"><div class="k">✨ 그동안 레벨업</div><div class="v"><span data-count="${rep.levelups}">0</span><span class="dd gray">회</span></div></div>
       <div class="tile"><div class="k">스마일</div><div class="v"><div class="can big"></div>+<span data-count="${Math.max(0, rep.smile)}">0</span></div></div>
     </div>
@@ -505,7 +581,8 @@ A.showReport = (rep, awayMin) => {
       ${king ? `<div class="king"><h5>👑 밤사이 퇴근왕</h5><div class="ph"><span class="crown">👑</span>${img(monArt(king), 3)}</div><b>${M.monName(king)} #${king.no}</b><span>퇴근 ${n(rep.king!.n)}회</span></div>` : ''}
     </div>
     <div class="todo"><span class="lbl">할 일</span>${chips.join('') || '<span class="dim">고칠 곳이 없어요. 구경하셔도 돼요!</span>'}<button class="cta" data-go="world">월드로 →</button></div>
-    ${w.ended ? '' : `<div class="goal"><b>📋 ${ch.n}장 결재</b>① Lv 1–${ch.road} 잇기 <div class="bar"><i style="width:${Math.round(100 * (ch.road - c.roadLeft) / ch.road)}%"></i></div>${!c.road && !w.approvalReady ? `<em class="no">${c.roadNote}</em>` : '✓'}
+    ${w.ended ? (w.clearedAt ? `<div class="goal"><b>🏝️ 완전 클리어 ✓</b><span class="dim">이 섬의 전설이에요. 구경하셔도 돼요!</span></div>` : `<div class="goal"><b>🏝️ 완전 클리어</b>던전 ★3 <div class="bar"><i style="width:${Math.round(100 * rep.starred / Math.max(1, M.plotsInPlay().length))}%;background:var(--smile)"></i></div>${rep.starred}/${M.plotsInPlay().length}${rep.starredDelta > 0 ? ` <em class="up">+${rep.starredDelta}</em>` : ''}
+      <span class="g2">도감</span><div class="bar"><i style="width:${Math.round(100 * rep.dex / M.dexTotal())}%;background:var(--evolve)"></i></div>${rep.dex}/${M.dexTotal()}${rep.dexDelta > 0 ? ` <em class="up">+${rep.dexDelta}</em>` : ''}</div>`) : `<div class="goal"><b>📋 ${ch.n}장 결재</b>① Lv 1–${ch.road} 잇기 <div class="bar"><i style="width:${Math.round(100 * (ch.road - c.roadLeft) / ch.road)}%"></i></div>${!c.road && !w.approvalReady ? `<em class="no">${c.roadNote}</em>` : '✓'}
       <span class="g2">② 즐거운 시간</span><div class="bar"><i style="width:${w.approvalReady ? 100 : j.pct}%;background:var(--smile)"></i></div>${w.approvalReady || j.ok ? '✓' : Math.floor(j.pct) + '%' + (j.eta ? ` · ${j.eta}` : '')}</div>`}
   </div></div>`);
   must('#stage').appendChild(el);
@@ -528,11 +605,13 @@ A.showReport = (rep, awayMin) => {
   $$<HTMLElement>('[data-go]', el).forEach(bt => (bt.onclick = () => {
     const g = bt.dataset.go;
     close();
+    if (rep.cleared) { A.openClearCut(); return; }
     if (g === 'doc') A.openApproval();
     else if (g === 'gap') A.openHire({ seg: [+(bt.dataset.a || 1), +(bt.dataset.b || 1)] });
     else if (g === 'ev') A.openEvolve(+(bt.dataset.mon || 0));
     else if (g === 'busy') A.openDungeon(bt.dataset.d!, { hl: 'seat' });
     else if (g === 'boss') A.openBoss();
+    else if (g === 'recruit') A.openRecruit();
     else if (g === 'box') { const b0 = M.boxesOf(A.w)[0]; if (b0) setTimeout(() => A.openBox(b0.id), 80); }
   }));
 };
@@ -543,6 +622,9 @@ A.catchUp = minutes => {
   const L = M.ledgerStart(w);
   const k = M.advance(w, minutes, L);
   const rep = M.ledgerReport(L, w);
+  M.recordReport(w, rep); // 도감 운영 기록: 밤사이 퇴근왕 (v1.7)
+  // 매니저 복귀 (v1.7): 오래 떠났다 돌아오면 모객권 — 실제 플레이어의 복귀가 월드의 복귀 손님과 만난다
+  if (M.welcomeBack(w, k)) setTimeout(() => toast('📣 돌아오신 기념 모객권 +1 · 손님도 불러요'), A.demo ? 0 : 2600);
   A.world.snap = true;
   A.showReport(rep, k);
   refresh();
@@ -594,13 +676,19 @@ A.offDuty = why => {
 A.openCodex = () => {
   const w = A.w;
   let rows = '';
+  const dayOf = (t: number | null | undefined) => (t == null ? '' : clockText(t).split(' · ')[0]);
   for (const sp of M.speciesInPlay()) {
     const s = SPECIES[sp];
     const open = sp === 'balrog' ? !!w.dex['balrog:0'] : s.chapter <= w.chapter;
-    rows += `<div class="rowc"><div class="nm">${open ? (sp === 'balrog' ? '특별 입사' : s.names[0] + ' 계열') : '???'}<small>${s.trait ? TRAITS[s.trait].icon + ' ' + TRAITS[s.trait].name : s.note && open ? s.note : '표준'}</small></div>`;
+    // v1.7 운영 기록: 일한 사냥터 · 퇴근왕 횟수 · 단계마다 처음 진화한 날. 본 것만이 아니라 함께 일한 기록이다
+    const r = M.recordOf(w, sp);
+    const worked = r.plots.map(id => plotInfo(id).short).join('·');
+    const recLine = open && (worked || r.kings) ? `<em>${worked ? `🏠 ${worked}` : ''}${r.kings ? `${worked ? ' · ' : ''}👑 퇴근왕 ${r.kings}번` : ''}</em>` : '';
+    rows += `<div class="rowc"><div class="nm">${open ? (sp === 'balrog' ? '특별 입사' : s.names[0] + ' 계열') : '???'}<small>${s.trait ? TRAITS[s.trait].icon + ' ' + TRAITS[s.trait].name : s.note && open ? s.note : '표준'}</small>${recLine}</div>`;
     s.names.forEach((nm, i) => {
       const k = w.dex[sp + ':' + i];
-      rows += `<div class="cell ${k ? 'got' : ''}"><div class="ph">${k ? img(s.art[i], 2) : sil(s.art[i], 2)}</div>${k ? nm : '?'}${s.boss && i === s.names.length - 1 ? ' 👑' : ''}<br><span>Lv ${s.base + 8 * i}</span></div>`;
+      const at = k && r.at[i] != null ? dayOf(r.at[i]) : '';
+      rows += `<div class="cell ${k ? 'got' : ''}"><div class="ph">${k ? img(s.art[i], 2) : sil(s.art[i], 2)}</div>${k ? nm : '?'}${s.boss && i === s.names.length - 1 ? ' 👑' : ''}<br><span>Lv ${s.base + 8 * i}${at ? ` · ${i ? '진화' : '입사'} ${at}` : ''}</span></div>`;
     });
     rows += `</div>`;
   }

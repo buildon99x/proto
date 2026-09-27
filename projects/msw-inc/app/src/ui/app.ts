@@ -18,13 +18,16 @@ export type UIEvent = M.SimEvent
   | { type: 'chapter'; n: number }
   | { type: 'healed'; a: number; b: number }
   | { type: 'docSeen' }
-  | { type: 'released'; mon: number };
+  | { type: 'released'; mon: number }
+  | { type: 'recruitStart'; kind: M.RecruitKind };
 
 export interface OrenLine { t: string; go: (() => void) | null }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface App {
   openBoss: () => void;
+  /** 모객 시트 (v1.7): 신규(입구 ×2)와 복귀(떠난 손님이 자기 레벨로) 가운데 고른다 */
+  openRecruit: () => void;
   /** 드랍 상자 열기 (v1.6): 채용권과 이벤트권 가운데 하나를 고르는 말풍선 */
   openBox: (id: number, el?: Element | null) => void;
   /** 이 탭에서 실제로 흐른 플레이 시간(초). 입사 컷과 퇴근 화면은 빼고 센다 (첫 세션 길이 계측) */
@@ -57,6 +60,8 @@ export interface App {
   offDuty: (why: 'idle' | 'manual') => void;
   highlightBest: (monId: number, only?: PlotId[]) => PlotId[];
   openFullClear: () => void;
+  /** 완전 클리어 컷 (v1.7): 엔딩과 다른 연출 */
+  openClearCut: () => void;
 }
 
 export const A = {
@@ -228,6 +233,14 @@ export function renderDock(opt: { all?: boolean } = {}) {
   if (tr.length > 4) trayEl.appendChild(h(`<div class="tok more" title="대기실 전체">+${tr.length - 4}</div>`));
   if (!tr.length) trayEl.appendChild(h(`<div class="trayempty">비어 있어요. 채용한 직원은 여기서 기다려요</div>`));
 
+  // 모객 버튼 (v1.7): 걸려 있으면 남은 시간, 오렌이 권하면 ›
+  const rb = must('#bRecruit');
+  rb.hidden = !RULES.guests || !w.pool;
+  if (!rb.hidden) {
+    const rc = w.recruit, pk = A.T && A.T.hideRecruit() ? null : M.recruitPick(w);
+    rb.textContent = rc ? `📣 ${rc.kind === 'return' ? '복귀' : '신규'} 모객 중 · ${dur(rc.end - w.t)}` : pk ? `📣 모객 ›` : M.recruitTickets(w) ? `📣 모객 🎟${M.recruitTickets(w)}` : '📣 모객';
+    rb.classList.toggle('on', !!rc); rb.classList.toggle('rec', !rc && !!pk);
+  }
   const pl = must('#plots');
   pl.innerHTML = '';
   const lv = M.levelsOf(w);
@@ -238,7 +251,8 @@ export function renderDock(opt: { all?: boolean } = {}) {
   must('.plotsw').classList.toggle('expanded', !!opt.all && empties.length > 2);
   empties.slice(0, opt.all ? 15 : 2).forEach(id => {
     const open = w.plots[id].open;
-    pl.appendChild(h(`<div class="plot ${tg.includes(id) ? 'target' : ''}" data-plot="${id}"><b>${plotName(id)}</b>${open ? '<em class="okc">빈 던전</em>' : w.tickets.plot > 0 ? '<em class="okc">🎫 개업권</em>' : `<em><i class="mini-can"></i>${n(M.plotCost(w, id))}</em>`}</div>`));
+    const seats = RULES.grounds ? `<small class="seats" title="기본 자리">${M.plotSeats(id)}석</small>` : '';
+    pl.appendChild(h(`<div class="plot ${tg.includes(id) ? 'target' : ''}" data-plot="${id}"><b>${plotName(id)}</b>${seats}${open ? '<em class="okc">빈 던전</em>' : w.tickets.plot > 0 ? '<em class="okc">🎫 개업권</em>' : `<em><i class="mini-can"></i>${n(M.plotCost(w, id))}</em>`}</div>`));
   });
   if (!empties.length) pl.appendChild(h(`<div class="plot none">${w.chapter < 5 ? `부지를 다 썼어요. 다음 결재 때 부지 +${M.plotsOfRegion(w.chapter + 1)}` : '부지를 다 썼어요'}</div>`));
   if (!opt.all && empties.length > 2) pl.lastElementChild!.insertAdjacentHTML('beforeend', ` <small>+${empties.length - 2}</small>`);
@@ -286,6 +300,7 @@ export function joyText(w: M.World) {
 export function markLabel(r: M.MarkReward): string {
   if (r.kind === 'hire') return `🎟 ${SPECIES[r.sp].names[0]} 채용권`;
   if (r.kind === 'event') return `🎫 무료 이벤트권${r.n > 1 ? ' ' + r.n + '장' : ''}`;
+  if (r.kind === 'dex') return `🎫 이벤트권 ${r.event}장 · 🎟 모객권 ${r.recruit}장`;
   return '👑 필드 보스 방문';
 }
 /** ② 막대 위 눈금 (2장부터). 지난 눈금은 채워져 보인다 */
@@ -320,8 +335,8 @@ export function renderDoc() {
   if (w.ended) {
     const fc = M.fullClear(w);
     doc.classList.remove('ready');
-    doc.innerHTML = `<h5>완전 클리어</h5><h4>섬 전체에 불이 켜졌어요</h4>
-      <div class="stampslot done">완료</div>
+    doc.innerHTML = `<h5>완전 클리어</h5><h4>${w.clearedAt ? '이 섬의 전설이에요' : '섬 전체에 불이 켜졌어요'}</h4>
+      <div class="stampslot done">${w.clearedAt ? '전설' : '완료'}</div>
       <div class="cond ${fc.starred >= fc.plots ? 'ok' : ''}"><span class="t">던전 ★3</span><div class="bar"><i style="width:${100 * fc.starred / fc.plots}%;background:var(--smile)"></i></div><span class="v">${fc.starred}/${fc.plots}</span></div>
       <div class="cond ${fc.dex >= M.dexTotal() ? 'ok' : ''}"><span class="t">도감</span><div class="bar"><i style="width:${100 * fc.dex / M.dexTotal()}%;background:var(--evolve)"></i></div><span class="v">${fc.dex}/${M.dexTotal()}</span></div>`;
     return;
@@ -395,8 +410,21 @@ export function orenPick(): OrenLine {
     const cf = M.crowdFix(w);
     if (cf) return { t: `${plotShort(cf.d)} 앞에 ${cf.n}명이 줄 섰어요!! 자리는 꽉 찼으니 ${josa(SPECIES[cf.sp].names[0], '을', '를')} 뽑아 ${plotShort(cf.to)}에 던전을 하나 더 열어요!!`, go: () => A.openHire({ crowd: cf }) };
   }
+  // v1.7 모객: 진화 다음, 이벤트 앞 (봇 checkIn과 같은 순서. 1.10.0 `guests.order`가 'before'면 진화 앞). 복귀가 먼저, 다음 신규
+  const recruitLine = (): OrenLine | null => {
+    const rp = M.recruitPick(w);
+    if (!rp) return null;
+    const free = M.recruitTickets(w) > 0 ? ' 모객권이 있어서 공짜예요!!' : '';
+    return rp.kind === 'return'
+      ? { t: `떠났던 손님 ${rp.n}명이 돌아올 수 있어요!! 자리도 있어요!! 📣 복귀 모객을 걸어요!!${free}`, go: () => A.openRecruit() }
+      : { t: `입구가 한산해요!! 빈자리 ${rp.n}석!! 📣 신규 모객으로 새 손님을 불러요!!${free}`, go: () => A.openRecruit() };
+  };
+  const recBefore = RULES.guests?.order === 'before' ? recruitLine() : null;
+  if (recBefore) return recBefore;
   const ev = b.find((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve' && x.shown);
   if (ev) { const m = w.monsters.find(x => x.id === ev.mon)!; return { t: `${josa(M.monName(m), '이', '가')} 진화할 수 있대요!! ▲를 눌러봐요!!`, go: () => A.openEvolve(m.id) }; }
+  const recAfter = RULES.guests?.order === 'before' ? null : recruitLine();
+  if (recAfter) return recAfter;
   if (w.ended) {
     const fc = M.fullClear(w);
     if (fc.starred < fc.plots || fc.dex < M.dexTotal()) return { t: `완전 클리어까지 던전 ★3 ${fc.plots - fc.starred}곳, 도감 ${M.dexTotal() - fc.dex}칸 남았어요!!`, go: () => A.openFullClear() };
@@ -411,6 +439,7 @@ export function orenPick(): OrenLine {
   const idle = [
     j.eta ? `결재까지 즐거운 시간 ${Math.floor(j.pct)}%!! 지금 속도면 ${j.eta} 남았어요!!` : '오늘도 다들 퇴근 잘하고 있어요!!',
     '직원들이 퇴근할수록 근속이 쌓여요!!', '모험가님들 표정 좀 보세요!! 😊', '매니저님 퇴근하셔도 월드는 돌아가요!!',
+    ...(RULES.dexMile && (w.dexMiles || 0) < RULES.dexMile.at.length ? [`도감 ${M.dexCount(w)}/${M.dexTotal()}!! ${Math.round(RULES.dexMile.at[w.dexMiles || 0] * 100)}%를 채우면 본사 선물이 와요!!`] : []),
   ];
   return { t: idle[Math.floor(w.t / 7) % idle.length], go: null };
 }
@@ -435,7 +464,7 @@ export function renderOren() {
 // ── 시뮬레이션 구동 ─────────────────────────────────────────
 let acc = 0;
 export function simLive(dtReal: number) {
-  if (A.ui.off || A.ui.intro || A.ui.modal === 'report' || A.ui.modal === 'ending' || A.ui.paused) return;
+  if (A.ui.off || A.ui.intro || A.ui.modal === 'report' || A.ui.modal === 'ending' || A.ui.modal === 'clear' || A.ui.paused) return;
   // 튜토리얼이 배속을 걸 수 있다 (F6: "가로 = 레벨" 단계 ×3 — 누를 곳 없는 3분을 1분으로)
   acc += (dtReal / 60) * A.speed * (A.T && A.T.boost ? A.T.boost() : 1);
   let k = 0;

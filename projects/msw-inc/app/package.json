@@ -15,7 +15,8 @@
     "shots": "node ../tests/e2e/shots.mjs",
     "playreview:ui": "node ../tests/e2e/playreview.mjs",
     "playreview:v13": "tsx src/sim/tools/playreview.ts --out ../notes/data/playreview-v13.json && PR_TAG=v13 node ../tests/e2e/playreview.mjs",
-    "cadence": "tsx src/sim/tools/cadence.ts"
+    "cadence": "tsx src/sim/tools/cadence.ts",
+    "checkin": "tsx src/sim/tools/checkin.ts"
   },
   "dependencies": {
     "typescript": "^5.7.3",

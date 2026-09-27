@@ -4,18 +4,18 @@
  *   작은 도트(m:*)는 월드 길, 큰 도트는 던전 현장·사원증·리포트에 쓴다.
  * 크기 규격(04 §11): 월드 길 모험가 약 30×42, 직원 약 40×36, 현장은 3배.
  */
-type Grid = (string | null)[][];
-const K = '#3b2a20';
-const G = (w: number, h: number): Grid => Array.from({ length: h }, () => Array(w).fill(null));
-function ell(g: Grid, cx: number, cy: number, rx: number, ry: number, c: string, f?: (x: number, y: number) => boolean) {
+export type Grid = (string | null)[][];
+export const K = '#3b2a20';
+export const G = (w: number, h: number): Grid => Array.from({ length: h }, () => Array(w).fill(null));
+export function ell(g: Grid, cx: number, cy: number, rx: number, ry: number, c: string, f?: (x: number, y: number) => boolean) {
   for (let y = 0; y < g.length; y++) for (let x = 0; x < g[0].length; x++)
     if (((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 <= 1 && (!f || f(x, y))) g[y][x] = c;
 }
-function rect(g: Grid, x0: number, y0: number, x1: number, y1: number, c: string) {
+export function rect(g: Grid, x0: number, y0: number, x1: number, y1: number, c: string) {
   for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) if (g[y] && x >= 0 && x < g[0].length) g[y][x] = c;
 }
-function px(g: Grid, x: number, y: number, c: string) { if (g[y] && x >= 0 && x < g[0].length) g[y][x] = c; }
-function outline(g: Grid): Grid {
+export function px(g: Grid, x: number, y: number, c: string) { if (g[y] && x >= 0 && x < g[0].length) g[y][x] = c; }
+export function outline(g: Grid): Grid {
   const h = g.length, w = g[0].length, o = g.map(r => r.slice());
   for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (!g[y][x]) {
     if ((g[y - 1] && g[y - 1][x]) || (g[y + 1] && g[y + 1][x]) || g[y][x - 1] || g[y][x + 1]) o[y][x] = K;
@@ -24,7 +24,7 @@ function outline(g: Grid): Grid {
   return g;
 }
 /** 문자 지도 → 격자 (테두리 1칸 여백 + 자동 외곽선) */
-function map(rows: string[], pal: Record<string, string>): Grid {
+export function map(rows: string[], pal: Record<string, string>): Grid {
   const w = rows[0].length + 2, h = rows.length + 2, g = G(w, h);
   rows.forEach((r, y) => [...r].forEach((ch, x) => { if (ch !== '.') g[y + 1][x + 1] = pal[ch] || K; }));
   return outline(g);
@@ -292,6 +292,14 @@ const grid = (key: string): Grid => {
   if (!SPR[key]) throw new Error('no sprite ' + key);
   return (gridCache[key] ||= SPR[key]());
 };
+/** 격자 → 캔버스 dataURL (지역 배경·소품도 이것으로 굽는다) */
+export function drawGrid(g: Grid, s: number, fill?: string): string {
+  const cv = document.createElement('canvas');
+  cv.width = g[0].length * s; cv.height = g.length * s;
+  const c = cv.getContext('2d')!;
+  g.forEach((r, y) => r.forEach((v, x) => { if (v) { c.fillStyle = fill || v; c.fillRect(x * s, y * s, s, s); } }));
+  return cv.toDataURL();
+}
 function draw(key: string, s: number, fill?: string): string {
   const g = grid(key);
   const cv = document.createElement('canvas');

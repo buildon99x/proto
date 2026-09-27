@@ -73,29 +73,35 @@ export const REGIONS: Region[] = [
 ];
 
 export type PlotId = string;
-/** extra: v1.4 초반 사냥터 (헤네시스·엘리니아 +2곳씩). 규칙 morePlots가 켜져 있을 때만 쓴다 */
-export interface PlotInfo { id: PlotId; name: string; short: string; region: number; extra?: boolean }
+/**
+ * 사냥터 (부지). extra: v1.4 초반 사냥터 (헤네시스·엘리니아 +2곳씩). 규칙 morePlots가 켜져 있을 때만 쓴다.
+ * v1.7 사냥터 값 (규칙 grounds가 켜져 있을 때만): seats = 기본 자리(첫 40분이 걸린 헤네시스·엘리니아는 12 그대로, 3장부터 8 · 12 · 16. 지역 합은 12 × 부지 수 그대로), home = 이 사냥터의 식구(근속 ×1.2).
+ * tiers = 던전 현장의 발판 수(표현). 자리는 "어느 부지를 열까", 식구는 "어디에 둘까"에 쓰인다(P4). 지역별 규칙은 없다.
+ */
+export interface PlotInfo { id: PlotId; name: string; short: string; region: number; extra?: boolean; seats: number; tiers: 1 | 2 | 3; home: SpeciesId[] }
 export const PLOTS: PlotInfo[] = [
-  { id: 'h1', name: '헤네시스 들판', short: '들판', region: 1 },
-  { id: 'h2', name: '헤네시스 사냥터', short: '사냥터', region: 1 },
-  { id: 'h3', name: '버섯 언덕', short: '버섯 언덕', region: 1 },
-  { id: 'h4', name: '작은 연못', short: '연못', region: 1, extra: true },
-  { id: 'h5', name: '풀숲 오솔길', short: '오솔길', region: 1, extra: true },
-  { id: 'e1', name: '숲 입구', short: '숲 입구', region: 2 },
-  { id: 'e2', name: '나무 위 쉼터', short: '쉼터', region: 2 },
-  { id: 'e3', name: '마법 숲', short: '마법 숲', region: 2 },
-  { id: 'e4', name: '버섯 동굴', short: '동굴', region: 2, extra: true },
-  { id: 'e5', name: '요정 샘터', short: '샘터', region: 2, extra: true },
-  { id: 'p1', name: '바위 언덕', short: '바위 언덕', region: 3 },
-  { id: 'p2', name: '불타는 땅', short: '불타는 땅', region: 3 },
-  { id: 'p3', name: '전사의 길', short: '전사의 길', region: 3 },
-  { id: 'k1', name: '지하철 입구', short: '지하철', region: 4 },
-  { id: 'k2', name: '공사장', short: '공사장', region: 4 },
-  { id: 'k3', name: '뒷골목', short: '뒷골목', region: 4 },
-  { id: 's1', name: '잠든 숲', short: '잠든 숲', region: 5 },
-  { id: 's2', name: '개미굴', short: '개미굴', region: 5 },
-  { id: 's3', name: '저주받은 신전', short: '신전', region: 5 },
+  { id: 'h1', name: '헤네시스 들판', short: '들판', region: 1, seats: 12, tiers: 2, home: ['snail'] },
+  { id: 'h2', name: '헤네시스 사냥터', short: '사냥터', region: 1, seats: 12, tiers: 2, home: ['mush'] },
+  { id: 'h3', name: '버섯 언덕', short: '버섯 언덕', region: 1, seats: 12, tiers: 2, home: ['mush'] },
+  { id: 'h4', name: '돼지의 해안', short: '해안', region: 1, extra: true, seats: 12, tiers: 3, home: ['pig', 'octo'] },
+  { id: 'h5', name: '달팽이 언덕', short: '달팽이 언덕', region: 1, extra: true, seats: 12, tiers: 1, home: ['snail'] },
+  { id: 'e1', name: '숲 입구', short: '숲 입구', region: 2, seats: 12, tiers: 2, home: ['slime'] },
+  { id: 'e2', name: '나무 위 쉼터', short: '쉼터', region: 2, seats: 12, tiers: 2, home: ['lupin'] },
+  { id: 'e3', name: '마법 숲', short: '마법 숲', region: 2, seats: 12, tiers: 3, home: ['fairy', 'slime'] },
+  { id: 'e4', name: '버섯 동굴', short: '동굴', region: 2, extra: true, seats: 12, tiers: 2, home: ['fairy'] },
+  { id: 'e5', name: '요정 샘터', short: '샘터', region: 2, extra: true, seats: 12, tiers: 1, home: ['necki'] },
+  { id: 'p1', name: '바위 언덕', short: '바위 언덕', region: 3, seats: 16, tiers: 3, home: ['stump'] },
+  { id: 'p2', name: '불타는 땅', short: '불타는 땅', region: 3, seats: 8, tiers: 1, home: ['boar'] },
+  { id: 'p3', name: '전사의 길', short: '전사의 길', region: 3, seats: 12, tiers: 2, home: ['stump', 'boar'] },
+  { id: 'k1', name: '지하철 입구', short: '지하철', region: 4, seats: 12, tiers: 2, home: ['stirge'] },
+  { id: 'k2', name: '공사장', short: '공사장', region: 4, seats: 16, tiers: 3, home: ['ligator', 'stirge'] },
+  { id: 'k3', name: '늪지', short: '늪지', region: 4, seats: 8, tiers: 1, home: ['ligator'] },
+  { id: 's1', name: '잠든 숲', short: '잠든 숲', region: 5, seats: 12, tiers: 2, home: ['eye'] },
+  { id: 's2', name: '개미굴', short: '개미굴', region: 5, seats: 16, tiers: 3, home: ['drake'] },
+  { id: 's3', name: '저주받은 신전', short: '신전', region: 5, seats: 8, tiers: 1, home: ['eye', 'drake'] },
 ];
+/** 이 계열의 식구 사냥터 (v1.7) */
+export const homesOf = (sp: SpeciesId) => PLOTS.filter(p => p.home.includes(sp));
 export const plotInfo = (id: PlotId): PlotInfo => {
   const p = PLOTS.find(x => x.id === id);
   if (!p) throw new Error('unknown plot ' + id);
@@ -107,9 +113,10 @@ export const plotInfo = (id: PlotId): PlotInfo => {
  * 이름은 가칭이다. notes/content.md 절차대로 메이플스토리 월드 공식 목록과 대조해 확정한다.
  */
 export interface FieldBoss { ch: number; name: string; art: string; lv: number; line: string }
+/* 이름 확정 상태(v1.7)는 notes/content.md. 파우스트·다일·스톤 골렘은 원작 지역 보스 이름, 개미굴 왕은 가칭 */
 export const FIELD_BOSSES: FieldBoss[] = [
   { ch: 2, name: '파우스트', art: 'faust', lv: 22, line: '…숲이 시끄럽군. 한번 놀아 볼까.' },
-  { ch: 3, name: '바위 거인', art: 'golem', lv: 38, line: '…쿵. 쿵. 덤벼라.' },
+  { ch: 3, name: '스톤 골렘', art: 'golem', lv: 38, line: '…쿵. 쿵. 덤벼라.' },
   { ch: 4, name: '다일', art: 'dyle', lv: 52, line: '…늪에서 왔다. 오래 못 있는다.' },
   { ch: 5, name: '개미굴 왕', art: 'antking', lv: 65, line: '…굴 밖은 처음이다.' },
 ];

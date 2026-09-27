@@ -2,7 +2,7 @@
  * 플레이 리뷰 계측 — 입사부터 엔딩까지 한 판을 체크인 단위로 기록한다.
  *   pnpm --filter msw-inc playreview                    (표준·가벼운·진화 즉시·퇴근 직전, 시드 0)
  *   pnpm --filter msw-inc playreview -- --out <file>    (기본 notes/data/playreview.json)
- *   pnpm --filter msw-inc playreview -- --rules v1.2    (개선 전 기준 측정)
+ *   pnpm --filter msw-inc playreview -- --rules v1.2|v1.3|v1.6    (옛 규칙으로 기준 측정)
  *
  * 봇은 bots.ts의 "오렌 따라하기" 그대로다. 게임 규칙에 훅을 심지 않고 체크인 전후의 월드를 비교한다.
  * 결과는 notes/play-review/index.html(플레이 리뷰 보고서)이 읽는다. 해석은 그 보고서에 적는다.
@@ -12,11 +12,11 @@ import path from 'node:path';
 import { PERSONAS, checkIn, firstSession, dayNum, realMinutes, type Persona } from '../bots';
 import * as S from '../sim';
 import { SPECIES, CHAPTERS } from '../content';
-import { RULES, useRules, V12, V13 } from '../rules';
+import { RULES, useRules, V12, V13, V16 } from '../rules';
 
 const args = process.argv.slice(2);
-// --rules v1.2: 플레이 리뷰 기준 측정(개선 전)을 다시 만든다. 기본은 게임 규칙 v1.3
-if (args.includes('--rules')) useRules(args[args.indexOf('--rules') + 1] === 'v1.2' ? V12 : V13);
+// --rules v1.2·v1.3·v1.6: 옛 규칙으로 기준 측정을 다시 만든다. 기본은 게임 규칙(v1.7)
+if (args.includes('--rules')) { const id = args[args.indexOf('--rules') + 1]; useRules(id === 'v1.2' ? V12 : id === 'v1.3' ? V13 : V16); }
 const OUT = args.includes('--out') ? args[args.indexOf('--out') + 1] : path.resolve(import.meta.dirname, '../../../../notes/data/playreview.json');
 const START = 21 * 60;
 const MAX_DAYS = 60;

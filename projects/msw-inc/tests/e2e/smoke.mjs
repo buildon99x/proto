@@ -97,6 +97,17 @@ try {
     const t = await b.eval("window.__msw.A.w.tickets.plot");
     if (t !== 0) throw new Error("개업권이 남았다 " + t);
   });
+  await until(s => s.step === "recruit", "모객 안내", 30);
+  await step("📣 모객 → [신규 모객] (모객권으로 공짜, v1.7)", async () => {
+    await b.click("#bRecruit"); await sleep(250);
+    const sheet = (await st()).sheet;
+    if (sheet !== "recruit") throw new Error("모객 시트 안 열림 " + sheet);
+    await b.shot(path.join(out, "11a-recruit.png"));
+    await b.click('[data-recruit="fresh"]'); await sleep(250);
+    const r = await b.eval("(() => { const w = window.__msw.A.w; return { on: !!w.recruit && w.recruit.kind === 'fresh', t: w.tickets.recruit }; })()");
+    if (!r.on) throw new Error("신규 모객이 안 걸렸다");
+    if (r.t !== 0) throw new Error("모객권이 남았다 " + r.t);
+  });
   await until(s => s.step === "bossTease", "필드 보스 예고", 30);
   await pump(1);
   await b.shot(path.join(out, "11-tease.png"));

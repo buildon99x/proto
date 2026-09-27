@@ -155,6 +155,11 @@ try {
   await mark("drag-slime", "슬라임을 엘리니아로 — 개업권 사용");
   await rel2();
   await pump(1);
+  // v1.7: 모객권으로 신규 모객 한 번
+  await until(s => s.step === "recruit", "recruit", 30);
+  await click("#bRecruit");
+  await mark("recruit-sheet", "모객 시트 — 신규·복귀, 모객권으로 공짜");
+  await click('[data-recruit="fresh"]');
   await until(s => s.step === "bossTease", "bossTease", 30);
   await pump(1);
   await mark("boss-tease", "오렌: 막대 가운데 눈금에서 필드 보스가 온다");
@@ -189,7 +194,7 @@ try {
   if (b.errors.length) console.log("콘솔 오류:", b.errors.join(" | "));
 
   // ── ② 시연 장면: 후반 화면 밀도 ──
-  const DEMOS = [["gap", "1장 첫 빈틈"], ["hire", "채용 시트"], ["dungeon", "던전 현장"], ["rush10", "첫 40분 · 10분"], ["rush25", "첫 40분 · 25분"], ["rush40", "첫 40분 · 40분"], ["evolve", "진화 시트"], ["report", "출근 리포트"], ["approval", "결재함"], ["ch2", "2장 엘리니아"], ["promote", "3장 승진 발령"], ["grow", "키워서 잇기"], ["elite", "엘리트 출현"], ["bossinv", "필드 보스 초대"], ["boss", "필드 보스 방문"], ["late", "4장 후반 월드"], ["ch5", "5장 슬리피우드"], ["codex", "도감"], ["ending", "엔딩"], ["fullclear", "완전 클리어"]];
+  const DEMOS = [["gap", "1장 첫 빈틈"], ["hire", "채용 시트"], ["dungeon", "던전 현장"], ["rush10", "첫 40분 · 10분"], ["rush25", "첫 40분 · 25분"], ["rush40", "첫 40분 · 40분"], ["evolve", "진화 시트"], ["report", "출근 리포트"], ["approval", "결재함"], ["ch2", "2장 엘리니아"], ["promote", "3장 승진 발령"], ["grow", "키워서 잇기"], ["elite", "엘리트 출현"], ["bossinv", "필드 보스 초대"], ["boss", "필드 보스 방문"], ["late", "4장 후반 월드"], ["ch5", "5장 슬리피우드"], ["recruit", "모객 시트"], ["codex", "도감"], ["ending", "엔딩"], ["fullclear", "완전 클리어"], ["clearcut", "완전 클리어 컷"]];
   for (const [id, label] of DEMOS) {
     b.errors.length = 0;
     await b.goto("?demo=" + id);
@@ -197,8 +202,10 @@ try {
     const s = await m();
     const file = `d-${id}.webp`;
     await shot(file);
-    scenes.push({ id, label, shot: rel(file), errors: [...b.errors], ...s });
-    console.log(`◇ ${id.padEnd(10)} 클릭 가능 ${String(s.clickables).padStart(3)}  글자 ${String(s.chars).padStart(4)}  숫자 ${String(s.numbers).padStart(3)}  배지 ${JSON.stringify(s.badges)}  발판 ${s.plats}  모험가 ${s.walkers}`);
+    // 틱 시간(JS): 프레임 루프 60틱을 동기로 돌려 한 틱의 평균 ms. 그림 그리기(레이아웃·페인트)는 들어 있지 않다 (G4 프레임 시간 기록)
+    const tickMs = await b.eval("(() => { const { pump } = window.__msw; const t0 = performance.now(); pump(2); return Math.round((performance.now() - t0) / 60 * 100) / 100; })()");
+    scenes.push({ id, label, shot: rel(file), errors: [...b.errors], tickMs, advs: await b.eval("window.__msw.A.w.advs.length"), ...s });
+    console.log(`◇ ${id.padEnd(10)} 클릭 가능 ${String(s.clickables).padStart(3)}  글자 ${String(s.chars).padStart(4)}  숫자 ${String(s.numbers).padStart(3)}  배지 ${JSON.stringify(s.badges)}  발판 ${s.plats}  모험가 ${s.walkers}  틱 ${tickMs}ms`);
   }
 } catch (e) {
   console.error("✕", e.message);
