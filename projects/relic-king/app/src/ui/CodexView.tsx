@@ -7,6 +7,8 @@ import { siteAnchorLabel } from "../game/sites";
 import { TIER_COLOR } from "../render/palette";
 import { Sprite } from "./Sprite";
 import { ArtifactDetailBlock } from "./ArtifactDetail";
+import { CrewNote } from "./Crew";
+import { KING_TITLE, LAST_CHECKED, STOCK_NOTE, wantedLine, wantedOf } from "../game/lore";
 import type { Artifact, SiteId } from "../game/types";
 import type { Game } from "./useGame";
 
@@ -50,6 +52,7 @@ function CodexGrid({ game }: { game: Game }) {
     return st === "owned" || st === "owned_unidentified";
   };
   const site = SITE_BY_ID[siteId];
+  const wantedId = wantedOf(world).id;
   const all = ARTIFACTS.filter((a) => a.site === siteId);
   const shown = all
     .filter((a) => (filter === "missing" ? !owned(a.id) : filter === "owned" ? owned(a.id) : true))
@@ -64,6 +67,7 @@ function CodexGrid({ game }: { game: Game }) {
             소장 {progress.owned} · 소실 {progress.lost} · 전체 {progress.total} ({percent(progress.owned / progress.total)})
           </span>
         </div>
+        <CrewNote screen="codex" />
 
         {/* 안목 — 도감이 실제로 무엇을 바꾸는지 그 자리에 적는다(G91, 척추 5번) */}
         <div className="eye-panel">
@@ -122,8 +126,15 @@ function CodexGrid({ game }: { game: Game }) {
               const state = world.codex[a.id];
               const title = state === "unseen" ? "미발견" : state === "owned_unidentified" ? "감정 중 — ???" : a.name;
               return (
-                <button key={a.id} type="button" onClick={() => setPicked(a)} title={title}>
+                <button
+                  key={a.id}
+                  type="button"
+                  className={a.id === wantedId ? "codex-wanted" : undefined}
+                  onClick={() => setPicked(a)}
+                  title={a.id === wantedId ? `찾는 한 점 — ${title}` : title}
+                >
                   <Sprite artifact={a} size={44} state={state} />
+                  {a.id === wantedId ? <i className="codex-wanted-mark" aria-label="찾는 한 점">찾는</i> : null}
                 </button>
               );
             })}
@@ -147,6 +158,7 @@ function Entry({ artifact, game }: { artifact: Artifact; game: Game }) {
   const ownerName = game.world.rivals.find((r) => r.id === owner)?.name;
 
   const known = state === "owned" || state === "discovered_not_owned" || state === "lost";
+  const isWanted = wantedOf(game.world).id === artifact.id;
 
   return (
     <div className="entry">
@@ -155,16 +167,17 @@ function Entry({ artifact, game }: { artifact: Artifact; game: Game }) {
         {state === "unseen" ? "미발견 유물" : state === "owned_unidentified" ? "감정 중인 유물" : artifact.name}{" "}
         <em style={{ color: TIER_COLOR[artifact.tier] }}>{TIER_NAME[artifact.tier]}</em>
       </h4>
+      {isWanted ? <p className="wanted-note small">{wantedLine(game.world)}</p> : null}
       {state === "owned_unidentified" ? (
         <p className="muted">소유는 확정됐지만 아직 감정 전이다. 감정이 끝나면 이름·내력·평가액이 공개된다.</p>
       ) : known ? (
         <>
           <p className="muted small">{artifact.era} · {artifact.origin}</p>
-          <p className="muted small">현 소장처 {artifact.holder}</p>
+          <p className="record-last small">소장처 {artifact.holder} · 마지막 확인 {LAST_CHECKED}</p>
           <p className="note">{artifact.note}</p>
           {artifact.disputed ? <p className="disputed">반환 논쟁 — {artifact.disputed}</p> : null}
           <p className="muted small">
-            세계 재고 {entry.total === Infinity ? "무한" : `${entry.remaining} / ${entry.total}`}
+            세계 재고 {entry.total === Infinity ? "무한" : `${entry.remaining} / ${entry.total}`} — {STOCK_NOTE}
           </p>
           {state === "discovered_not_owned" ? (
             <p className="muted small">현재는 소장 중이 아니다 — 다시 발굴하거나 얻어야 한다.</p>
@@ -190,6 +203,7 @@ function Entry({ artifact, game }: { artifact: Artifact; game: Game }) {
 function Ledger({ game }: { game: Game }) {
   const { world } = game;
   const uniques = ARTIFACTS.filter((a) => a.tier === 4);
+  const wantedId = wantedOf(world).id;
   const daysLeft = Math.max(0, Math.ceil((world.seasonState.endsAt - world.t) / 86400));
 
   return (
@@ -197,8 +211,8 @@ function Ledger({ game }: { game: Game }) {
       <section className="card season-card">
         <h3>시즌 {world.seasonState.season}</h3>
         <p className="muted small">
-          {SEASON_LENGTH_WEEKS}주 시즌 · 종료까지 D-{daysLeft}. 종료 시점 종합 순위 1위가 그 시즌의 "유물왕"으로
-          영구 기록된다.
+          {SEASON_LENGTH_WEEKS}주 시즌 · 종료까지 D-{daysLeft}. 종료 시점 종합 순위 1위가 그 시즌의 "{KING_TITLE}"으로
+          영구 기록된다. 시장이 가장 많은 카드에 이름을 쓴 팀을 부르는 말이다.
         </p>
       </section>
 
@@ -212,7 +226,10 @@ function Ledger({ game }: { game: Game }) {
             return (
               <li key={a.id}>
                 <span style={{ color: TIER_COLOR[4] }}>✦</span>
-                <span className="ledger-name">{a.name}</span>
+                <span className="ledger-name">
+                  {a.name}
+                  {a.id === wantedId ? <em className="codex-wanted-mark inline"> 찾는 한 점</em> : null}
+                </span>
                 <span className={`ledger-state ${owner ? (mine ? "mine" : "gone") : "open"}`}>
                   {owner === undefined
                     ? "세상에 남아 있음"

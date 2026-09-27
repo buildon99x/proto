@@ -47,6 +47,7 @@ import {
   teamDigPower, travelHoursOneWay
 } from "./expedition";
 import { hashFrac } from "./hash";
+import { buyerLine } from "./lore";
 import { josa, withJosa, usd } from "./format";
 import { siteAnchorLabel } from "./sites";
 import { localPriceMult } from "./market";
@@ -755,7 +756,8 @@ function settleAuctions(w: World, t0: number, dt: number) {
       w.funds += net;
       w.stats.sold += 1;
       demoteIfEmptied(w, listing.artifactId);
-      log(w, "system", `경매 낙찰 — '${ARTIFACT_BY_ID[listing.artifactId].name}' ${usd(net)}.`);
+      // 산 사람 한 줄(G108) — 새 이벤트가 아니라 이미 있는 낙찰 줄 뒤에 붙는다.
+      log(w, "system", `경매 낙찰 — '${ARTIFACT_BY_ID[listing.artifactId].name}' ${usd(net)}. 산 사람: ${buyerLine(listing.artifactId, listing.vaultUid)}`);
     }
   }
 }
@@ -3243,6 +3245,19 @@ export function displayArtifact(w: World, uid: number, site: SiteId, slot: numbe
   item.museumSite = site;
   item.slot = slot;
   item.displaySessionStart = w.t;
+  // 엔딩의 "모은 것 중 남들이 본 것"(G110). 기록만 하고 어떤 수식도 읽지 않는다.
+  if (!w.shownSpecies) w.shownSpecies = [];
+  if (!w.shownSpecies.includes(item.artifactId)) w.shownSpecies.push(item.artifactId);
+  return true;
+}
+
+/**
+ * 팀 등록증의 빈칸(찾는 한 점, G109)을 바꾼다. 유일만 받는다. 규칙에 아무 효력이 없고
+ * 표시만 바뀐다 — 언제든 다시 고칠 수 있다.
+ */
+export function setWanted(w: World, artifactId: string): boolean {
+  if (ARTIFACT_BY_ID[artifactId]?.tier !== 4) return false;
+  w.wanted = artifactId;
   return true;
 }
 
@@ -3437,6 +3452,7 @@ export function applySeasonRollover(w: World, record: PersistentRecord): Persist
   w.lastRelocationAt = null;
 
   w.ended = false;
+  w.shownSpecies = [];
   w.stats = { drops: 0, clicks: 0, sold: 0, blindSold: 0, racesWon: 0, racesLost: 0, firstT4Finds: 0 };
   w.seasonState = initialSeasonState(season + 1, w.t);
 

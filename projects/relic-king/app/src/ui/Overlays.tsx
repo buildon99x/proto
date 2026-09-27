@@ -3,6 +3,9 @@ import { TIER_NAME } from "../game/balance";
 import { usd } from "../game/format";
 import { TIER_COLOR, TIER_GLOW } from "../render/palette";
 import { Sprite } from "./Sprite";
+import { RecordCard } from "./RecordCard";
+import { KING_TITLE, shownCount, wantedLine } from "../game/lore";
+import { codexProgress } from "../game/engine";
 import type { Game } from "./useGame";
 
 /**
@@ -41,9 +44,10 @@ export function RevealModal({ game }: { game: Game }) {
           <>
             <h2>{a.name}</h2>
             <p className="tier-line" style={{ color: TIER_COLOR[a.tier] }}>{TIER_NAME[a.tier]} · {usd(game.reveal.value)}</p>
-            <p className="muted small">{a.era} · {a.origin} · 현 소장처 {a.holder}</p>
+            <p className="muted small">{a.era} · {a.origin}</p>
             <p className="note">{a.note}</p>
             {a.disputed ? <p className="disputed">반환 논쟁 — {a.disputed}</p> : null}
+            <RecordCard artifact={a} world={game.world} ownerName={game.record.ownerName} compact />
           </>
         )}
         <button type="button" onClick={game.dismissReveal}>확인</button>
@@ -52,11 +56,23 @@ export function RevealModal({ game }: { game: Game }) {
   );
 }
 
+/**
+ * 엔딩(spec.md §15.5 ⑥, G110) — **판정하지 않고 숫자를 하나 더 적는다.** 모은 것 중
+ * 남들이 본 것(전시 이력이 있는 종), 그리고 등록증의 빈칸이 채워졌는가. 1위가 복원인지
+ * 사유화인지는 게임이 아니라 16시간 동안 매번 고른 플레이어가 안다.
+ */
 export function EndingBanner({ game }: { game: Game }) {
   if (!game.world.ended) return null;
+  const owned = codexProgress(game.world).owned;
   return (
     <div className="ending">
-      도감을 채우고 종합 순위 1위에 올랐다 — <strong>유물왕</strong>. 발굴은 계속된다.
+      <p>
+        도감을 채우고 종합 순위 1위에 올랐다 — 시장은 이 팀을 <strong>{KING_TITLE}</strong>이라 부른다. 발굴은 계속된다.
+      </p>
+      <p className="ending-count small">
+        지금 가진 {owned.toLocaleString("ko-KR")}종 · 그중 남들이 본 것(이번 시즌 한 번이라도 전시한 종){" "}
+        {shownCount(game.world).toLocaleString("ko-KR")}종 · {wantedLine(game.world)}
+      </p>
     </div>
   );
 }

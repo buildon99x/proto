@@ -4,6 +4,7 @@ import { BLACK_MARKET_BUY_PRICE_RATIO, BLACK_MARKET_SLOT_CAPACITY, BLACK_MARKET_
 import { usd } from "../game/format";
 import { TIER_COLOR } from "../render/palette";
 import { Sprite } from "./Sprite";
+import { CrewNote } from "./Crew";
 import type { BlackMarketListing } from "../game/types";
 import type { Game } from "./useGame";
 
@@ -22,6 +23,7 @@ export function MarketView({ game }: { game: Game }) {
 
   return (
     <div className="market">
+      <CrewNote screen="market" />
       <input
         type="search"
         className="explorer-search"

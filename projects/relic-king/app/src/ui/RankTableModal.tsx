@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { CrewNote } from "./Crew";
+import { KING_TITLE } from "../game/lore";
 import { GHOST_MAX } from "../game/balance";
 import { fullRanking, rankRace } from "../game/engine";
 import { duration, percent } from "../game/format";
@@ -27,6 +29,7 @@ export function RankTableModal({ game, onClose }: { game: Game; onClose: () => v
     <Modal title="순위표" onClose={onClose}>
       <RacePanel race={race} />
 
+      <CrewNote screen="rank" />
       <ul className="rank-list">
         {rows.map((r, i) => (
           <RankRow
@@ -40,7 +43,7 @@ export function RankTableModal({ game, onClose }: { game: Game; onClose: () => v
         ))}
       </ul>
       <p className="muted small">
-        "유물왕" 칭호는 종합 점수 1위 + 도감 75% 이상을 함께 유지해야 얻는다 — 팔아서 자산만 채워서는 1위에
+        "{KING_TITLE}" 칭호는 종합 점수 1위 + 도감 75% 이상을 함께 유지해야 얻는다 — 팔아서 자산만 채워서는 1위에
         오를 수 없다(도감·명성 가중치 0.70 vs 자산 0.30).
       </p>
 

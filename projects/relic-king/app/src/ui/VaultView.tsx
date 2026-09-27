@@ -17,10 +17,15 @@ import { Modal } from "./Modal";
 import { SPARE_SELL_OPTIONS } from "./sellOptions";
 import { Sprite } from "./Sprite";
 import { ArtifactDetailBlock } from "./ArtifactDetail";
+import { CrewNote } from "./Crew";
+import { RecordCard } from "./RecordCard";
+import { buyerLine } from "../game/lore";
 import type { Artifact, Auctioneer, Condition, Curator, SiteId, Tier, VaultItem, World } from "../game/types";
 import type { Game } from "./useGame";
 
 type Stack = { artifact: Artifact; items: VaultItem[] };
+/** 방금 판 것 — 카드의 다음 확인 칸에 산 사람이 들어간다(G108). 새 이벤트가 아니라 매각 버튼의 결과 줄이다 */
+type Sale = { artifactId: string; uid: number; count: number; gained: number };
 
 /**
  * 소장고 탭(spec.md §3.1.1, notes/ux-v02.md §6.5) — 미감정·봉인 보관·소장고
@@ -38,6 +43,11 @@ export function VaultView({ game }: { game: Game }) {
   const [selecting, setSelecting] = useState(false);
   const [chosen, setChosen] = useState<Set<string>>(() => new Set());
   const [notice, setNotice] = useState<string | null>(null);
+  const [sale, setSale] = useState<Sale | null>(null);
+  const pick = (id: string) => {
+    setSale(null);
+    setSelected(id);
+  };
 
   /**
    * **메모이즈하지 않는다.** 엔진은 `World`를 제자리에서 고친다 — `w.vault`를
@@ -109,6 +119,7 @@ export function VaultView({ game }: { game: Game }) {
             감정을 기다릴 것인가, 지금 {Math.round(BLIND_SELL_RATE * 100)}%에 털 것인가.
             감정에는 1점당 {appraiseSeconds(world.lab).toFixed(1)}초와 추정가의 2%가 든다.
           </p>
+          <CrewNote screen="appraisal" />
           <div className="pending-body">
             {activeQueue.length === 0 ? (
               <p className="empty">대기 중인 유물이 없다.</p>
@@ -192,6 +203,7 @@ export function VaultView({ game }: { game: Game }) {
         <p className="muted small">
           팔면 자금이 늘고 <strong>순위는 떨어진다.</strong> 자산 점수는 전시 중이 아닌 소장 유물의 평가액 합이다.
         </p>
+        <CrewNote screen="vault" />
 
         <SpareStrip game={game} />
 
@@ -237,7 +249,7 @@ export function VaultView({ game }: { game: Game }) {
                   }`}
                   disabled={selecting && !selectable(s)}
                   aria-pressed={selecting ? chosen.has(s.artifact.id) : undefined}
-                  onClick={() => (selecting ? toggleChosen(s.artifact.id) : setSelected(s.artifact.id))}
+                  onClick={() => (selecting ? toggleChosen(s.artifact.id) : pick(s.artifact.id))}
                   title={`${s.artifact.name} ×${s.items.length}`}
                 >
                   <Sprite artifact={s.artifact} size={44} />
@@ -263,9 +275,16 @@ export function VaultView({ game }: { game: Game }) {
               setNotice(message);
             }}
           />
-        ) : picked ? (
-          <Detail game={game} stack={picked} />
-        ) : null}
+        ) : (
+          <>
+            {sale ? <SoldCard game={game} sale={sale} /> : null}
+            {picked ? (
+              <Detail game={game} stack={picked} onSold={setSale} />
+            ) : !sale && world.vault.length > 0 ? (
+              <LatestCard game={game} item={world.vault[world.vault.length - 1]} onOpen={pick} />
+            ) : null}
+          </>
+        )}
       </section>
     </div>
   );
@@ -395,9 +414,13 @@ function BulkBar({ game, chosenIds, visibleIds, notice, onSelectVisible, onClear
   const allVisibleChosen = visibleIds.length > 0 && visibleIds.every((id) => chosenIds.includes(id));
 
   const sell = () => {
+    const first = targets[0];
     const { count, gained } = game.sellMany(uids);
     setConfirming(null);
-    onDone(`${count}점을 매각했다(+${usd(gained)}).`);
+    onDone(
+      `${count}점을 매각했다(+${usd(gained)}).` +
+        (first && count > 0 ? ` 다음 확인 — ${buyerLine(first.artifactId, first.uid)}${count > 1 ? ` 외 ${count - 1}명` : ""}` : "")
+    );
   };
   const auction = () => {
     const { listed, skipped } = game.auctionMany(uids);
@@ -516,13 +539,20 @@ function FilterSelect<T extends string | number>({ label, value, onChange, optio
   );
 }
 
-function Detail({ game, stack }: { game: Game; stack: Stack }) {
+function Detail({ game, stack, onSold }: { game: Game; stack: Stack; onSold: (sale: Sale) => void }) {
   const a = stack.artifact;
   const { world } = game;
   const available = stack.items.filter((i) => !i.displayed);
   const displayed = stack.items.filter((i) => i.displayed);
   const total = available.reduce((sum, i) => sum + i.value, 0);
   const unit = available[0]?.value ?? stack.items[0]?.value ?? 0;
+  const cardItem = available[0] ?? displayed[0] ?? null;
+  /** 1점 매각이 내보내는 사본은 금고 순서의 첫 비전시 사본이다(`sellArtifactCopies`) */
+  const sell = (count: number) => {
+    const first = available[0];
+    const gained = game.sell(a.id, count);
+    if (first) onSold({ artifactId: a.id, uid: first.uid, count, gained });
+  };
 
   return (
     <div className="detail">
@@ -532,9 +562,16 @@ function Detail({ game, stack }: { game: Game; stack: Stack }) {
           {a.name} {stack.items.length > 1 ? <span className="muted">×{stack.items.length}</span> : null}{" "}
           <em style={{ color: TIER_COLOR[a.tier] }}>{TIER_NAME[a.tier]}</em>
         </h4>
-        <p className="muted small">{a.era} · {a.origin} · 현 소장처 {a.holder}</p>
+        <p className="muted small">{a.era} · {a.origin}</p>
         <p className="note">{a.note}</p>
         {a.disputed ? <p className="disputed">반환 논쟁 — {a.disputed}</p> : null}
+        <RecordCard
+          artifact={a}
+          world={world}
+          ownerName={game.record.ownerName}
+          item={cardItem}
+          condition={cardItem?.condition}
+        />
         <ArtifactDetailBlock artifact={a} />
         {available.length > 0 ? (
           <p className="muted small">
@@ -546,11 +583,11 @@ function Detail({ game, stack }: { game: Game; stack: Stack }) {
           {available.length > 0 ? (
             <>
               <strong>{usd(total)}</strong>
-              <button type="button" className="ghost" onClick={() => game.sell(a.id, 1)}>
+              <button type="button" className="ghost" onClick={() => sell(1)}>
                 1점 매각 {usd(unit)}
               </button>
               {available.length > 1 ? (
-                <button type="button" className="ghost" onClick={() => game.sell(a.id, available.length)}>
+                <button type="button" className="ghost" onClick={() => sell(available.length)}>
                   전부 매각
                 </button>
               ) : null}
@@ -725,5 +762,48 @@ function AuctionAction({ game, uid }: { game: Game; uid: number }) {
         경매 등록({SITE_BY_ID[house.site].city})
       </button>
     </>
+  );
+}
+
+/**
+ * 방금 판 것(spec.md §15.5 ②, G108) — 카드의 다음 확인 칸에 산 사람이 적힌다.
+ * 새 토스트·이벤트가 아니다. 매각 버튼을 누른 그 자리에 결과가 남을 뿐이고, 다른
+ * 칸을 누르면 사라진다.
+ */
+function SoldCard({ game, sale }: { game: Game; sale: Sale }) {
+  const a = ARTIFACT_BY_ID[sale.artifactId];
+  const buyer = buyerLine(sale.artifactId, sale.uid);
+  return (
+    <div className="sold-card">
+      <CrewNote who="jeong-dokyeong">
+        {sale.count > 1 ? `${sale.count}점을 ${usd(sale.gained)}에 넘겼다.` : `${usd(sale.gained)}에 넘겼다.`} 카드의 다음 칸에
+        산 사람이 들어갔다.
+      </CrewNote>
+      <RecordCard
+        artifact={a}
+        world={game.world}
+        ownerName={game.record.ownerName}
+        next={`${buyer}${sale.count > 1 ? ` 외 ${sale.count - 1}명` : ""}`}
+        compact
+      />
+    </div>
+  );
+}
+
+/**
+ * 가장 최근에 연 상자 — 소장고에서 아무것도 고르지 않았을 때 그 자리에 카드 한 장을
+ * 둔다. 첫 감정(약 44초)에 "마지막 확인: ○○, 2094년 3월"이 화면에 서는 자리다
+ * (spec.md §15.5 ①: 가장 먼저 붙일 것). [상세]를 누르면 그 유물의 상세가 열린다.
+ */
+function LatestCard({ game, item, onOpen }: { game: Game; item: VaultItem; onOpen: (id: string) => void }) {
+  const a = ARTIFACT_BY_ID[item.artifactId];
+  return (
+    <div className="latest-card">
+      <div className="latest-card-head">
+        <span className="muted small">가장 최근에 연 상자</span>
+        <button type="button" className="ghost" onClick={() => onOpen(a.id)}>상세</button>
+      </div>
+      <RecordCard artifact={a} world={game.world} ownerName={game.record.ownerName} item={item} compact />
+    </div>
   );
 }

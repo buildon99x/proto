@@ -386,6 +386,19 @@ export type World = {
    * 같은 이유로 선택 필드이고 세이브 버전을 올리지 않는다(없으면 아직 안 배운 것).
    */
   taughtUniqueLoss?: boolean;
+  /**
+   * 팀 등록증의 빈칸 — 찾는 한 점(v0.8, spec.md §15.5 ③, G109). 유일(T4) 유물 id.
+   * **규칙에 아무 효력이 없다** — 도감·엔딩에 표시만 남는다. 선택 필드라 세이브 버전을
+   * 올리지 않는다: 없으면 시작 거점의 유일이 기본값이다(`lore.ts` `wantedOf`).
+   * 시즌이 넘어가도 남는다 — 등록증은 그대로다.
+   */
+  wanted?: string;
+  /**
+   * 이번 시즌에 한 번이라도 전시한 종 id(v0.8, spec.md §15.5 ⑥, G110) — 엔딩의
+   * "모은 것 중 남들이 본 것". `displayArtifact`만 채운다(사용자 조작 경로, `advance()`
+   * 밖). 선택 필드라 세이브 버전을 올리지 않는다: 없으면 지금 전시 중인 것만 센다.
+   */
+  shownSpecies?: string[];
   log: LogEntry[];
   settings: Settings;
   stats: Stats;

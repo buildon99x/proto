@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { CrewNote } from "./Crew";
 import {
   EXPEDITION_TEAM_UNLOCK_BASE, EXPEDITION_TEAM_UNLOCK_GROWTH, FOREMAN_HIRE_COST,
   MAX_EXPEDITION_TEAMS_CAP, SITE_BY_ID, gearCost, layerCost, workerCost
@@ -29,6 +30,7 @@ export function TeamPanel({ game }: { game: Game }) {
   return (
     <section className="card team-panel">
       <h3>발굴단</h3>
+      <CrewNote screen="dig" />
       <div className="team-slots">
         {Array.from({ length: MAX_EXPEDITION_TEAMS_CAP }, (_, i) => i).map((slot) => {
           if (slot < world.teams.length) {

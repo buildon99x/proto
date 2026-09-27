@@ -10,6 +10,7 @@ import { LegacyDigCard } from "./LegacyDigCard";
 import { Modal } from "./Modal";
 import { SitePickerModal } from "./SitePickerModal";
 import { TeamPanel } from "./TeamPanel";
+import { RegistrationCard } from "./RegistrationCard";
 import { WorldExplorer } from "./WorldExplorer";
 import type { Game } from "./useGame";
 
@@ -23,6 +24,7 @@ export function ExpeditionView({ game }: { game: Game }) {
 
   return (
     <div className="expedition">
+      <RegistrationCard game={game} />
       <div className="expedition-columns">
         <div className="expedition-explore">
           <MyBasesPanel game={game} onRelocate={() => setPickingRelocateTarget(true)} />

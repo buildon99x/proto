@@ -16,6 +16,7 @@ import { clock, percent, usd } from "../game/format";
 import { TIER_COLOR } from "../render/palette";
 import { Modal } from "./Modal";
 import { Sprite } from "./Sprite";
+import { CrewNote } from "./Crew";
 import type { Auctioneer, Curator, SiteId } from "../game/types";
 import type { Game } from "./useGame";
 
@@ -91,6 +92,7 @@ function StoragePanel({ game }: { game: Game }) {
         </span>
       </div>
       {over > 0 ? <p className="stalled small">{vaultCareLine(world)}</p> : null}
+      <CrewNote screen="storage" />
 
       <div className="storage-upgrades">
         <StorageUpgrade
@@ -182,6 +184,7 @@ function MuseumPanel({ game, site }: { game: Game; site: SiteId }) {
         <h3>{SITE_BY_ID[site].city} 박물관 — {built ? `등급${museum.grade}` : "임시 전시대"}</h3>
         <span className="muted small">순수익 {usd(Math.max(0, incomeHourly - upkeepHourly))}/h · 관람 {Math.round(visitors).toLocaleString("ko-KR")}명/일</span>
       </div>
+      <CrewNote screen="museum" />
 
       <div className="museum-slots">
         {Array.from({ length: slotCount }, (_, slot) => {
@@ -287,6 +290,7 @@ function AuctionPanel({ game, site }: { game: Game; site: SiteId }) {
     return (
       <section className="card">
         <h3>{SITE_BY_ID[site].city} 경매장 — 미건립</h3>
+        <CrewNote screen="auction" />
         <button type="button" disabled={world.funds < auctionHouseBuildCost(world.auctionHouses.length + 1)} onClick={() => game.buildAuctionHouse(site)}>
           경매장 건립 — {usd(auctionHouseBuildCost(world.auctionHouses.length + 1))}
         </button>
@@ -305,6 +309,7 @@ function AuctionPanel({ game, site }: { game: Game; site: SiteId }) {
         <h3>{SITE_BY_ID[site].city} 경매장 — 등급{house.grade}</h3>
         <span className="muted small">실질 {activeCap}/{theoreticalMax}칸</span>
       </div>
+      <CrewNote screen="auction" />
 
       <ul className="auction-slot-list">
         {Array.from({ length: theoreticalMax }, (_, i) => {
