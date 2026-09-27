@@ -5,12 +5,14 @@
  * 3) v1.3 (플레이 리뷰 뒤): 막대 눈금 보상, 옛 세이브 올리기
  * 4) v1.4 (첫 40분 밀도): 배속 없음, 파티 도착 박자, 구간 개방, 붐빔 풀기, 경험 간격
  * 5) v1.5 (계열 사다리): 2장부터 새 계열, 사다리로 줄 나누기, 싼 2장 개업, 옛 규칙 재현
- * 2)~5)는 게임 규칙(v1.5)으로 돈다
+ * 6) v1.6 (드랍 상자): 2장부터 떨어진다, 월드에 하나, 고르기와 되돌리기, 난수 흐름은 v1.5 그대로
+ * 7) v1.7 (사냥터·모객): 새 필드를 끄면 v1.6과 같다
+ * 2)~7)은 게임 규칙(v1.7)으로 돈다
  */
 import assert from 'node:assert/strict';
 import * as S from '../app/src/sim/sim';
-import { useRules, V11, V13, V14, V15, RULES } from '../app/src/sim/rules';
-import { PERSONAS, runPersona, firstSession, lightClone } from '../app/src/sim/bots';
+import { useRules, V11, V13, V14, V15, V16, V17, GUESTS_V17, GUESTS_V17_PAUSE, DEX_MILE_TRIAL, RULES } from '../app/src/sim/rules';
+import { PERSONAS, runPersona, firstSession, lightClone, checkIn } from '../app/src/sim/bots';
 import { runCadence, gapStats } from '../app/src/sim/tools/cadence';
 import { PLOTS, CHAPTERS, SPECIES } from '../app/src/sim/content';
 
@@ -18,8 +20,8 @@ let passed = 0;
 const t = (name: string, fn: () => void) => {
   try { fn(); passed++; console.log('✓', name); } catch (e) { console.log('✕', name); throw e; }
 };
-// id 번호는 되돌리지 않는다. 도감도 되돌리지 않는다(한 번 본 모습은 본 것이다)
-const snap = (w: S.World) => JSON.stringify({ ...w, advs: w.advs.length, nextMon: 0, dex: 0 });
+// id 번호는 되돌리지 않는다. 도감과 운영 기록(v1.7)도 되돌리지 않는다(한 번 본 모습은 본 것이다)
+const snap = (w: S.World) => JSON.stringify({ ...w, advs: w.advs.length, nextMon: 0, dex: 0, rec: 0 });
 
 // ── 1. 이식 검증 (v1.1 = 컨셉 프로토타입) ─────────────────────
 useRules(V11);
@@ -49,8 +51,8 @@ t('v1.1 첫 10분·Day 2 수치가 컨셉 페이싱 점검과 같다', () => {
   assert.equal(r.smile, 3269);
 });
 
-// ── 2. v1.2 약속 (게임 규칙 v1.5로) ─────────────────────────
-useRules(V15);
+// ── 2. v1.2 약속 (게임 규칙 v1.7로) ─────────────────────────
+useRules(V17);
 t('첫 10분 한 바퀴: 첫 세션 안에 엘리트·승진 발령·1장 결재·새 지역 채용까지 겪는다', () => {
   const w = S.createWorld(20260924);
   const kinds: string[] = [];
@@ -105,7 +107,7 @@ t('진화 되돌리기는 단계·근속을 그대로 돌려놓는다 (도감은
   const before = { stage: m.stage, tenure: m.tenure };
   const r = S.evolve(w, m.id);
   assert.ok(r.ok);
-  S.unevolve(w, m.id, r.from, r.tenureBefore);
+  S.unevolve(w, m.id, r.from, r.tenureBefore, r.retIds);
   assert.deepEqual({ stage: m.stage, tenure: m.tenure }, before);
 });
 
@@ -349,7 +351,7 @@ t('콘텐츠: 도감 52칸(직원 48 + 필드 보스 4), 부지 15곳 + v1.4 초
   useRules(V14);
   assert.equal(S.createWorld(1).dungeons.h1.seats, 16, 'v1.4 들판 16석(12+4)');
   assert.equal(S.dexTotal(), 40, 'v1.4 도감 40칸 그대로');
-  useRules(V15);
+  useRules(V17);
 });
 
 t('세이브 모양 확인', () => {
@@ -438,7 +440,7 @@ t('옛 세이브(구간 없음)는 장 전체 길 그대로다', () => {
 
 t('붐빔 풀기: 자리 확장을 다 한 던전 앞 줄에는 같은 레벨 새 던전을 권하고, 새 던전은 빈틈을 만들지 않는다', () => {
   const w = S.createWorld(6);
-  assert.equal(RULES.id, 'v1.5');
+  assert.equal(RULES.id, 'v1.7');
   w.smile = 1e5;
   const d = w.dungeons.h1; d.seatUp = RULES.seatCost.length; d.seats = 99;
   for (let i = 0; i < 99; i++) w.advs.push({ id: 5000 + i, lv: 3, prog: 0, st: 'happy', d: 'h1', near: null, wait: 0, look: 0, jit: 0 });
@@ -453,7 +455,7 @@ t('붐빔 풀기: 자리 확장을 다 한 던전 앞 줄에는 같은 레벨 �
   d.seatUp = 0;
   useRules(V14);
   assert.equal(S.crowdFix(w), null, 'v1.4: 자리를 늘릴 수 있으면 자리부터');
-  useRules(V15);
+  useRules(V17);
 });
 
 t('경험 간격: 첫 40분 동안 사건 사이 최장 20초, 둔 수 25 이상, 결정 사이 최장 4분 이하', () => {
@@ -497,6 +499,7 @@ t('계열 사다리는 규칙이 꺼지면 사라진다 (v1.4 재현)', () => {
   assert.equal(S.plotCost(w, 'e1'), 500, 'v1.5 2장 엘리니아 개업 500');
   w.chapter = 3;
   assert.equal(S.plotCost(w, 'p1'), 1500, '3장부터는 그대로');
+  useRules(V17);
 });
 
 t('사다리로 나누기: 자리를 늘릴 수 있어도 레벨이 다른 계열로 줄을 나누는 수를 권한다', () => {
@@ -513,6 +516,364 @@ t('사다리로 나누기: 자리를 늘릴 수 있어도 레벨이 다른 계�
   const gap0 = S.gapSize(S.gapSegments(w));
   const after = S.levelsOf(w, { add: { sp: cf.sp, to: cf.to }, open: w.plots[cf.to].open ? undefined : cf.to });
   assert.ok(S.gapSize(S.gapSegments(w, after)) <= gap0, '빈틈을 만들지 않는다');
+});
+
+// ── 6. v1.6 드랍 상자 ────────────────────────────────────────
+t('드랍 상자: 1장에는 없고, 결재하면 게이지 절반으로 2장이 시작해 곧 떨어진다', () => {
+  const w = S.createWorld(20260924);
+  firstSession(w, undefined, x => x.chapter >= 2);
+  assert.equal(w.chapter, 2);
+  assert.equal(S.boxesOf(w).length, 0, '1장(튜토리얼)에는 떨어지지 않는다');
+  const need = RULES.drop!.need[1];
+  assert.ok(w.boxAcc! >= need / 2, '결재하면 절반 찬 채로 시작 ' + w.boxAcc);
+  const ev: S.SimEvent[] = [];
+  const t0 = w.t;
+  for (let i = 0; i < 12 * 20 && !S.boxesOf(w).length; i++) S.step(w, 1 / 12, ev);
+  const box = ev.find(e => e.type === 'box');
+  assert.ok(box && box.type === 'box', '20분 안에 떨어진다');
+  assert.ok(w.t - t0 < 10, `도장 뒤 ${(w.t - t0).toFixed(1)}분`);
+  assert.ok(S.levelsOf(w)[box.d], '문을 연 던전 앞');
+});
+
+t('드랍 상자는 월드에 하나까지만 기다리고, 가득 차면 쌓지 않는다', () => {
+  const w = S.createWorld(7);
+  firstSession(w);
+  S.advance(w, 600);
+  assert.equal(S.boxesOf(w).length, RULES.drop!.max);
+  const acc = w.boxAcc;
+  S.advance(w, 600);
+  assert.equal(S.boxesOf(w).length, RULES.drop!.max);
+  assert.equal(w.boxAcc, acc, '가득 찬 동안 게이지가 오르지 않는다');
+});
+
+t('쥔 무료권이 hold장이면 상자가 쉬고, 권을 쓰면 다시 떨어진다', () => {
+  const w = S.createWorld(7);
+  firstSession(w);
+  const hold = RULES.drop!.hold;
+  w.tickets.event = hold; w.tickets.hire = [];
+  const acc = w.boxAcc;
+  S.advance(w, 600);
+  assert.equal(S.boxesOf(w).length, 0, '가득 쥐고 있으면 떨어지지 않는다');
+  assert.equal(w.boxAcc, acc, '쉬는 동안 게이지도 오르지 않는다');
+  const id = Object.keys(S.levelsOf(w)).find(x => !w.dungeons[x].event)!;
+  assert.ok(S.startEvent(w, id, 'exp').ok, '무료 이벤트권을 쓴다');
+  S.advance(w, 120);
+  assert.equal(S.boxesOf(w).length, 1, '권을 쓰면 다시 떨어진다');
+});
+
+t('상자 열기: 채용권이나 이벤트권 하나. 되돌리면 월드가 연 전과 똑같다', () => {
+  const w = S.createWorld(7);
+  firstSession(w);
+  S.advance(w, 600);
+  const b = S.boxesOf(w)[0];
+  const [hire, event] = S.boxOptions(w);
+  assert.equal(hire.kind, 'hire');
+  assert.equal(event.kind, 'event');
+  if (hire.kind === 'hire') assert.ok(S.canHireSpecies(w, hire.sp), '뽑을 수 있는 계열 ' + hire.sp);
+  for (const pick of [hire, event]) {
+    const before = snap(w);
+    const r = S.openBox(w, b.id, pick);
+    assert.ok(r.ok);
+    assert.equal(S.boxesOf(w).length, 0);
+    if (pick.kind === 'hire') assert.ok(w.tickets.hire.includes(pick.sp)); else assert.ok(w.tickets.event >= 1);
+    assert.ok(S.unopenBox(w, r));
+    assert.equal(snap(w), before);
+  }
+  assert.equal(S.openBox(w, 999, event).ok, false, '없는 상자');
+  // 받은 이벤트권을 벌써 썼으면 되돌리지 않는다
+  w.tickets.event = 0;
+  const r = S.openBox(w, b.id, { kind: 'event' });
+  assert.ok(r.ok);
+  const id = Object.keys(S.levelsOf(w)).find(x => !w.dungeons[x].event)!;
+  assert.ok(S.startEvent(w, id, 'exp').ok);
+  assert.equal(S.unopenBox(w, r), false);
+  assert.equal(S.boxesOf(w).length, 0);
+});
+
+t('오렌·봇이 권하는 상자: 줄을 나눌 계열이 있으면 그 채용권, 없으면 이벤트권', () => {
+  const w = S.createWorld(6);
+  w.approvalReady = true; S.approve(w);
+  const g = S.gapSegments(w)[0];
+  assert.ok(g, '2장이 열리면 새 구간에 빈틈이 있다');
+  assert.deepEqual(S.boxPick(w), { kind: 'hire', sp: S.recommendSpecies(w)! }, '빈틈을 메우는 계열');
+  // 길을 다 이으면(Lv 1–20) 줄도 빈틈도 없다 → 이벤트권
+  S.addMonster(w, 'mush', 'h2'); w.plots.h2.open = true;
+  S.addMonster(w, 'slime', 'e1'); w.plots.e1.open = true;
+  assert.deepEqual(S.gapSegments(w), []);
+  assert.deepEqual(S.boxPick(w), { kind: 'event' }, '줄도 빈틈도 없으면 이벤트권');
+  w.smile = 1e5;
+  for (let i = 0; i < 40; i++) w.advs.push({ id: 5000 + i, lv: 3, prog: 0, st: 'happy', d: 'h1', near: null, wait: 0, look: 0, jit: 0 });
+  for (let i = 0; i < 4; i++) w.advs.push({ id: 6000 + i, lv: 5 + (i % 3), prog: 0, st: 'busy', d: null, near: 'h1', wait: 0, look: 0, jit: 0 });
+  const cf = S.crowdFix(w)!;
+  assert.deepEqual(S.boxPick(w), { kind: 'hire', sp: cf.sp });
+  assert.equal(S.boxHireSp(w), cf.sp);
+});
+
+t('드랍 이벤트 중인 던전의 퇴근은 상자 게이지에 두 배로 쌓인다', () => {
+  const a = S.createWorld(9), b = S.createWorld(9);
+  for (const w of [a, b]) { firstSession(w, undefined, x => x.chapter >= 2); w.boxAcc = 0; w.boxBy = {}; }
+  const id = Object.keys(S.levelsOf(b)).find(x => !b.dungeons[x].event)!;
+  b.tickets.event = 1;
+  assert.ok(S.startEvent(b, id, 'drop').ok);
+  S.step(a, 1); S.step(b, 1);
+  assert.ok((b.boxBy![id] || 0) > (a.boxBy![id] || 0), `${b.boxBy![id]} > ${a.boxBy![id]}`);
+});
+
+t('상자가 떨어진 던전이 문을 닫으면 상자는 다른 던전 앞으로 옮긴다', () => {
+  const w = S.createWorld(7);
+  firstSession(w);
+  S.advance(w, 600);
+  const b = S.boxesOf(w)[0];
+  for (const m of S.monsIn(w, b.d)) if (!m.vet) m.d = null;
+  for (const m of S.monsIn(w, b.d)) m.d = 'h5';
+  if (!w.plots.h5.open) w.plots.h5.open = true;
+  S.step(w, 1);
+  assert.ok(S.levelsOf(w)[S.boxesOf(w)[0].d], '상자는 문을 연 던전 앞에 있다');
+});
+
+t('드랍 상자는 난수를 쓰지 않는다: 열지 않으면 월드가 v1.5와 똑같이 흐른다', () => {
+  const run = (r: typeof V15) => {
+    useRules(r);
+    const w = S.createWorld(11);
+    firstSession(w);
+    S.advance(w, 1440);
+    return JSON.stringify({ advs: w.advs, smile: w.smile, rng: w.rng, cjoy: w.cjoy, stats: w.stats });
+  };
+  const v15 = run(V15), v16 = run(V16);
+  assert.equal(v16, v15);
+});
+
+t('드랍 상자는 규칙이 꺼지면 없다 (v1.5 재현), 옛 세이브는 첫 걸음에 칸을 채운다', () => {
+  useRules(V15);
+  const old = S.createWorld(12);
+  assert.equal(old.boxes, undefined);
+  firstSession(old);
+  S.advance(old, 600);
+  assert.equal(S.boxesOf(old).length, 0);
+  useRules(V17);
+  S.step(old, 1);
+  assert.deepEqual(old.boxes, []);
+  S.advance(old, 600);
+  assert.equal(S.boxesOf(old).length, 1, 'v1.6으로 올리면 상자가 떨어진다');
+});
+
+t('봇은 상자를 열어도 수 제한에 세지 않고, 모든 성향에서 월드가 멈추지 않는다 (v1.6)', () => {
+  for (const p of PERSONAS) {
+    const r = runPersona(p, 11, 45);
+    assert.ok(r.happyEnd > 0, p.id + ' 멈춤');
+    assert.ok(r.boxes > 0, p.id + ' 상자를 열었다');
+    assert.ok(r.acts / r.checkins <= p.acts + 1, p.id + ' 체크인당 행동 ' + (r.acts / r.checkins).toFixed(1));
+  }
+});
+
+// ── 7. v1.7 사냥터·모객 ──────────────────────────────────────
+/** v1.7의 새 필드를 모두 끈 규칙. 필드를 더할 때마다 여기에 기본값(null·false)을 적는다 */
+const V17_OFF = { ...V17, grounds: null, guests: null, dexMile: null };
+t('규칙 v1.7은 새 필드를 끄면 v1.6과 똑같이 흐른다 (봇 한 달, 난수 흐름까지)', () => {
+  const run = (r: typeof V16) => {
+    useRules(r);
+    const w = S.createWorld(13);
+    firstSession(w);
+    S.advance(w, 1440 * 3);
+    const res = runPersona(PERSONAS[0], 7, 20);
+    return JSON.stringify({ advs: w.advs.length, smile: Math.round(w.smile), rng: w.rng, cjoy: Math.round(w.cjoy), stats: w.stats, ch: res.chapters, acts: res.acts });
+  };
+  const a = run(V16), b = run(V17_OFF);
+  assert.equal(b, a);
+  useRules(V17);
+});
+
+t('사냥터 값 (v1.7): 부지 자리는 초반 두 지역 12, 3장부터 8·12·16이고 지역 합은 12 × 부지 수 그대로, 식구는 자기 사냥터에서 근속 ×homeX', () => {
+  const w = S.createWorld(21);
+  for (let r = 1; r <= 5; r++) {
+    const ps = PLOTS.filter(p => p.region === r);
+    assert.equal(ps.reduce((s, p) => s + p.seats, 0), 12 * ps.length, `지역 ${r} 자리 합`);
+    for (const p of ps) { assert.ok((r <= 2 ? [12] : [8, 12, 16]).includes(p.seats), p.id); assert.ok(p.home.length >= 1 && p.home.every(sp => SPECIES[sp]), p.id + ' 식구'); if (r >= 3) assert.equal(p.tiers, p.seats < 12 ? 1 : p.seats === 12 ? 2 : 3, p.id + ' 층 수 = 자리'); }
+  }
+  assert.equal(w.dungeons.h1.seats, 16, '들판 12 + 선물 4');
+  w.plots.h4.open = true; w.plots.h5.open = true;
+  assert.equal(w.dungeons.h4.seats, 12); assert.equal(w.dungeons.h5.seats, 12);
+  w.plots.p1 = { open: true }; w.dungeons.p1 = { id: 'p1', slots: 3, seats: S.plotSeats('p1'), seatUp: 0, slotUp: 0, event: null, joy: 0, recentLv: 0 };
+  assert.equal(w.dungeons.p1.seats, 16); assert.equal(S.plotSeats('p2'), 8);
+  // 식구: 같은 조건에서 자기 사냥터의 근속이 1.2배
+  const a = S.createWorld(22), b = S.createWorld(22);
+  for (const x of [a, b]) { x.plots.h4.open = true; x.plots.h2.open = true; for (const m of x.monsters) m.d = null; }
+  const pa = S.addMonster(a, 'pig', 'h4'), pb = S.addMonster(b, 'pig', 'h2');
+  assert.ok(S.atHome(pa) && !S.atHome(pb));
+  for (const x of [a, b]) for (let i = 0; i < 12; i++) x.advs.push({ id: 900 + i, lv: 5, prog: 0, st: 'happy', d: x === a ? 'h4' : 'h2', near: null, wait: 0, look: 0, jit: 0 });
+  S.step(a, 1); S.step(b, 1);
+  const per = (x: S.World, m: S.Monster) => m.tenure / S.happyCount(x); // 자리 수가 달라 즐거운 인원이 다르니 한 명당 근속으로 비교한다
+  assert.ok(Math.abs(per(a, pa) / per(b, pb) - RULES.grounds!.homeX) < 1e-6, `${per(a, pa)} / ${per(b, pb)}`);
+  // 추천 자리: 빈틈·비용이 같으면 식구 사냥터가 먼저
+  const w2 = S.createWorld(23);
+  w2.plots.h4.open = true; w2.plots.h5.open = true; w2.smile = 1e5;
+  const m = S.addMonster(w2, 'pig', null);
+  const best = S.bestPlaces(w2, m.id);
+  assert.ok(best.length && best.every(id => S.isHome('pig', id)), JSON.stringify(best));
+  // 규칙을 끄면 v1.6 그대로
+  useRules({ ...V17, grounds: null });
+  const old = S.createWorld(21); old.plots.h4.open = true;
+  assert.equal(old.dungeons.h4.seats, 12);
+  assert.equal(S.atHome(S.addMonster(old, 'pig', 'h4')), false);
+  useRules(V17);
+});
+
+t('도감 운영 기록 (v1.7): 일한 사냥터·퇴근왕·단계별 첫 진화 시각이 쌓이고, 옛 세이브는 비어 있어도 된다', () => {
+  const w = S.createWorld(24);
+  firstSession(w);
+  const r = S.recordOf(w, 'snail');
+  assert.ok(r.plots.includes('h1') && r.plots.includes('h3'), '고참이 들판에서 버섯 언덕으로 발령 ' + JSON.stringify(r.plots));
+  assert.equal(r.at[0], 0, '첫 채용 시각');
+  assert.ok(r.at[1] != null && r.at[1]! > 0, '첫 진화 시각');
+  assert.equal(r.kings, 0);
+  S.recordReport(w, { king: { id: w.monsters[0].id, n: 10 } });
+  assert.equal(S.recordOf(w, w.monsters[0].sp).kings, 1);
+  // 봇 판단용 복제본에서 진화해도 진짜 월드의 기록은 바뀌지 않는다
+  const c = lightClone(w);
+  const ready = c.monsters.find(x => x.stage === 0 && !x.vet)!;
+  ready.tenure = S.evolveNeed(ready); S.evolve(c, ready.id);
+  assert.equal(S.recordOf(w, ready.sp).at[1] == null || S.recordOf(w, ready.sp).at[1] === r.at[1] && ready.sp === 'snail', true);
+  // 옛 세이브: rec가 없어도 읽을 수 있다
+  const old = JSON.parse(JSON.stringify(w)); delete old.rec;
+  assert.ok(S.isWorld(old));
+  assert.deepEqual(S.recordOf(old, 'mush').plots, []);
+});
+
+/** 모객 규칙을 켠 v1.7 (1.8.0부터 게임 값). 게임 규칙에 켜지면 이 줄은 V17과 같다 */
+const V17G = { ...V17, guests: V17.guests || GUESTS_V17 };
+t('모객 (v1.7): 떠난 손님은 풀에 남고, 복귀 모객이 자기 레벨로 데려온다. 신규 모객은 입구 도착 ×2. 둘 다 이벤트 자리 하나를 쓴다', () => {
+  useRules(V17G);
+  const w = S.createWorld(31);
+  firstSession(w);
+  assert.equal(S.recruitTickets(w), 0, '튜토리얼에서 모객권 1장을 썼다');
+  assert.ok(w.recruit && w.recruit.kind === 'fresh', '첫 세션에 신규 모객이 걸려 있다');
+  const later = { ...w, t: 200, recruit: null }, later2 = { ...w, t: 200 };
+  assert.ok(Math.abs(S.arrivalPerMin(later2) / S.arrivalPerMin(later) - 2) < 1e-9, '붐빔이 끝난 뒤 기본 도착 ×2');
+  assert.equal(S.arrivalPerMin({ ...w, t: 10 }), S.arrivalPerMin({ ...w, t: 10, recruit: null }), '첫날 붐빔의 파티 박자는 그대로');
+  assert.equal(S.activeEvents(w), 1 + Object.values(w.dungeons).filter(d => d.event).length, '모객이 이벤트 자리를 쓴다');
+  S.advance(w, 600);
+  assert.equal(w.recruit, null, '4시간이면 끝난다');
+  const pool = S.poolCount(w);
+  assert.ok(pool > 0 && pool <= w.stats.left.busy + w.stats.left.search + w.stats.left.entrance, `떠난 손님이 풀에 남는다 ${pool}`);
+  assert.equal(w.pool![1] + w.pool![2], 0, 'Lv 1~2는 남기지 않는다');
+  // 복귀: 돌아온 손님은 자기 레벨(1이 아니라 풀의 레벨)로 온다
+  w.smile = 1e5;
+  const rr = S.returnRoom(w);
+  const r = S.startRecruit(w, 'return');
+  assert.ok(r.ok && r.cost === RULES.guests!.return.cost * w.chapter);
+  const out: S.SimEvent[] = [];
+  const before = pool;
+  for (let i = 0; i < 60; i++) S.step(w, 1, out);
+  const ret = out.filter(e => e.type === 'return') as { type: 'return'; lv: number }[];
+  assert.ok(ret.length >= Math.min(RULES.guests!.return.rate - 1, rr.room, before) - 1 && ret.length > 0, `한 시간에 돌아온 손님 ${ret.length} (풀 ${before}, 자리 ${rr.room})`);
+  assert.ok(ret.every(e => e.lv >= 1) && ret.some(e => e.lv > 1), '자기 레벨로 돌아온다');
+  assert.ok(S.poolCount(w) >= before - ret.length && S.poolCount(w) <= RULES.guests!.pool, '풀에서 나간 만큼 줄고(그 사이 새로 떠난 손님은 더해진다), 상한을 넘지 않는다');
+  assert.equal(w.stats.returned, ret.length);
+  // 되돌리기: 모객 취소는 이벤트 자리와 스마일을 돌려놓는다 (돌아온 손님은 그대로)
+  const w2 = S.createWorld(32); firstSession(w2); S.advance(w2, 600); w2.smile = 1e4;
+  const s0 = w2.smile, r2 = S.startRecruit(w2, 'return');
+  assert.ok(r2.ok);
+  S.cancelRecruit(w2, r2.cost, r2.free);
+  assert.equal(w2.recruit, null); assert.equal(w2.smile, s0);
+  // 모객권: 6시간 넘게 떠났다 돌아오면 1장, 2장까지만
+  assert.equal(S.welcomeBack(w2, 100), false);
+  assert.equal(S.welcomeBack(w2, 400), true);
+  assert.equal(S.welcomeBack(w2, 400), true);
+  assert.equal(S.welcomeBack(w2, 400), false, '쥔 모객권 상한');
+  assert.equal(S.recruitTickets(w2), 2);
+  // 규칙을 끄면 v1.6 그대로: 풀도 모객권도 없다
+  useRules({ ...V17, guests: null });
+  const old = S.createWorld(31); firstSession(old); S.advance(old, 600);
+  assert.equal(old.pool, undefined); assert.equal(S.poolCount(old), 0); assert.equal(S.recruitPick(old), null);
+  assert.equal(S.startRecruit(old, 'fresh').ok, false);
+  useRules(V17G);
+  // 옛 세이브: 풀·모객권 칸이 없어도 첫 걸음에 채운다
+  const sv = JSON.parse(JSON.stringify(w2)); delete sv.pool; delete sv.recruit; delete sv.tickets.recruit;
+  assert.ok(S.isWorld(sv)); S.step(sv, 1);
+  assert.ok(Array.isArray(sv.pool) && sv.tickets.recruit === 0);
+  useRules(V17);
+});
+
+t('모객은 놓쳐도 잃는 것이 없고, 봇은 오렌이 권할 때만 건다 (모든 성향에서 월드가 멈추지 않는다)', () => {
+  useRules(V17G);
+  for (const p of PERSONAS) {
+    const r = runPersona(p, 11, 45);
+    assert.ok(r.happyEnd > 0, p.id + ' 멈춤');
+    assert.ok(r.recruits >= 0);
+  }
+  const w = S.createWorld(33); firstSession(w);
+  S.advance(w, 1440 * 3);
+  const c = S.poolCount(w);
+  S.advance(w, 1440 * 3);
+  assert.ok(S.poolCount(w) >= Math.min(c, RULES.guests!.pool), '풀은 줄지 않는다');
+  useRules(V17);
+});
+
+t('완전 클리어 (v1.7): 엔딩 뒤 던전 전부 ★3 · 도감 전부가 되는 걸음에 한 번만 사건이 나고, 리포트가 진척과 순간을 안다', () => {
+  const w = S.createWorld(41); firstSession(w);
+  const std = PERSONAS[0];
+  for (let d = 0; d < 60 && !w.ended; d++) for (const tm of std.times) { S.advance(w, Math.max(0, d * 1440 + tm - w.t)); checkIn(w, std); }
+  assert.ok(w.ended, '엔딩');
+  assert.equal(w.clearedAt, undefined);
+  const L = S.ledgerStart(w);
+  for (const p of S.plotsInPlay()) { if (!w.plots[p.id].open) w.plots[p.id].open = true; const dg = w.dungeons[p.id]; if (dg) dg.joy = Math.max(dg.joy, S.JOY_STARS[2]); }
+  for (const sp of S.speciesInPlay()) SPECIES[sp].names.forEach((_, i) => { w.dex[sp + ':' + i] = true; });
+  for (let c = 2; c <= 5; c++) w.dex[S.bossDexKey(c)] = true;
+  const ev: S.SimEvent[] = [];
+  S.step(w, 1, ev); S.ledgerAdd(L, w, ev);
+  assert.equal(ev.filter(e => e.type === 'fullclear').length, 1);
+  assert.ok(w.clearedAt != null);
+  const ev2: S.SimEvent[] = []; S.step(w, 1, ev2);
+  assert.equal(ev2.filter(e => e.type === 'fullclear').length, 0, '한 번만');
+  const rep = S.ledgerReport(L, w);
+  assert.ok(rep.cleared && rep.starred === S.plotsInPlay().length && rep.starredDelta > 0 && rep.dex === S.dexTotal());
+  // 옛 세이브: clearedAt 칸이 없어도 올라온다
+  const sv = JSON.parse(JSON.stringify(w)); delete sv.clearedAt;
+  assert.ok(S.isWorld(sv));
+});
+
+t('1.10.0 도감 돌파 보상(실험값): 도감이 절반에 처음 닿는 걸음에 한 번, 이벤트권·모객권. 기본값(null)이면 없다', () => {
+  useRules({ ...V17G, dexMile: DEX_MILE_TRIAL });
+  const w = S.createWorld(51); firstSession(w); S.advance(w, 600);
+  assert.equal(w.dexMiles || 0, 0);
+  const ev0 = w.tickets.event, rc0 = w.tickets.recruit || 0;
+  const half = Math.ceil(0.5 * S.dexTotal());
+  const sps = S.speciesInPlay();
+  outer: for (const sp of sps) for (let i = 0; i < SPECIES[sp].names.length; i++) { if (S.dexCount(w) >= half) break outer; w.dex[sp + ':' + i] = true; }
+  const ev: S.SimEvent[] = []; S.step(w, 1 / 12, ev);
+  assert.equal(ev.filter(e => e.type === 'dexMile').length, 1);
+  assert.equal(w.dexMiles, 1);
+  assert.equal(w.tickets.event, ev0 + RULES.dexMile!.event);
+  assert.ok((w.tickets.recruit || 0) >= Math.min(rc0 + RULES.dexMile!.recruit, RULES.guests!.ticket.hold));
+  const ev2: S.SimEvent[] = []; S.step(w, 1, ev2);
+  assert.equal(ev2.filter(e => e.type === 'dexMile').length, 0, '한 번만');
+  useRules(V17G);
+  const w2 = S.createWorld(51); firstSession(w2); S.advance(w2, 600);
+  for (const sp of sps) SPECIES[sp].names.forEach((_, i) => { w2.dex[sp + ':' + i] = true; });
+  const ev3: S.SimEvent[] = []; S.step(w2, 1, ev3);
+  assert.equal(ev3.filter(e => e.type === 'dexMile').length, 0);
+  useRules(V17);
+});
+
+t('1.10.0 신규 모객 자동 쉼(실험값): 입구 줄이 pauseAt 이상이면 ×x를 쉬고, 기본값(0)이면 쉬지 않는다', () => {
+  useRules({ ...V17G, guests: GUESTS_V17_PAUSE });
+  const w = S.createWorld(52); firstSession(w); S.advance(w, 600); // 첫날 파티 박자(arrive.fade)가 끝난 뒤라야 기본 도착에 ×x가 보인다
+  w.smile = 1e5; w.recruit = null;
+  const r = S.startRecruit(w, 'fresh'); assert.ok(r.ok);
+  const base = () => { const keep = w.recruit; w.recruit = null; const v = S.arrivalPerMin(w); w.recruit = keep; return v; };
+  const q = () => w.advs.filter(a => a.st === 'busy' && a.lv <= 3).length;
+  // 줄이 없을 때 ×x
+  for (const a of w.advs) if (a.st === 'busy' && a.lv <= 3) a.st = 'new';
+  assert.ok(q() === 0);
+  assert.ok(Math.abs(S.arrivalPerMin(w) - base() * RULES.guests!.fresh.x) < 1e-9, '줄이 없으면 ×x');
+  // 줄을 pauseAt만큼 세우면 쉰다
+  let made = 0;
+  for (const a of w.advs) { if (made >= RULES.guests!.fresh.pauseAt) break; if (a.lv <= 3) { a.st = 'busy'; a.near = 'h1'; made++; } }
+  while (made < RULES.guests!.fresh.pauseAt) { w.advs.push({ id: w.nextAdv++, lv: 1, prog: 0, st: 'busy', d: null, near: 'h1', wait: 0, look: 0, jit: 0, seen: true }); made++; }
+  assert.ok(Math.abs(S.arrivalPerMin(w) - base()) < 1e-9, '줄이 서면 쉰다');
+  useRules(V17G);
+  assert.ok(Math.abs(S.arrivalPerMin(w) - base() * RULES.guests!.fresh.x) < 1e-9, '기본값(0)이면 쉬지 않는다');
+  useRules(V17);
 });
 
 console.log(`\n${passed} passed`);

@@ -4,7 +4,8 @@
  * V11은 컨셉 v1.1(docs/concept/maple-idle/msw-inc/03-systems.md) 그대로다.
  * V12는 선택 점검(notes/choice-audit.md)에서 진행 속도를 크게 가르던 선택을 고친 값이다.
  * V13은 플레이 리뷰 뒤 개선(눈금 보상·엘리트·필드 보스·첫 10분)이다.
- * 게임은 V13으로 돈다. 점검 스크립트만 useRules(V11·V12)로 옛 규칙을 다시 굴려 비교한다.
+ * V14는 첫 40분 밀도, V15는 계열 사다리, V16은 드랍 상자, V17은 사냥터·모객(규칙 v1.7)이다.
+ * 게임은 V17로 돈다. 점검 스크립트만 useRules(V11~V16)로 옛 규칙을 다시 굴려 비교한다.
  */
 export interface Rules {
   id: string;
@@ -76,6 +77,33 @@ export interface Rules {
   moreSpecies: boolean;
   /** 챕터별 개업 비용 배율 (v1.5). null이면 1 */
   plotCurve: number[] | null;
+  /**
+   * 드랍 상자 (v1.6): from장부터 월드 퇴근이 need[장]회 쌓이면, 그동안 퇴근이 가장 많았던 던전 앞에 상자가 떨어진다.
+   * 드랍 이벤트 중인 던전의 퇴근은 ×2로 센다. 던전마다 하나, 월드에 max개까지. 쥔 무료권(채용권 + 이벤트권)이 hold장 이상이어도
+   * 떨어지지 않는다(권을 써야 다시 떨어진다). 막혀 있는 동안은 쌓지 않는다.
+   * 열 때 채용권(지금 줄·빈틈에 맞는 계열)과 이벤트권 가운데 하나를 고른다. 스마일은 주지 않는다. null이면 없다
+   */
+  drop: { need: number[]; max: number; hold: number; from: number } | null;
+  /**
+   * 사냥터 값 (v1.7, G1): 부지마다 기본 자리(content.ts seats: 8 · 12 · 16, 지역 합은 그대로)와 식구 계열이 있다.
+   * 식구가 자기 사냥터에서 일하면 근속 ×homeX. 지역별 규칙이 아니라 부지의 값이다(계열 특성과 같은 자리). null이면 모든 부지가 seatBase, 식구 없음 (v1.6)
+   */
+  grounds: { homeX: number } | null;
+  /**
+   * 모객 (v1.7, G2, R5 확장): 떠난 손님은 사라지지 않고 "돌아올 수 있는 손님" 풀에 남는다(레벨별, 상한 pool. 줄지 않는다 — P5).
+   * 매니저가 거는 월드 이벤트 둘. 둘 다 동시 이벤트 수 한 자리를 쓴다(던전 이벤트와 겨룬다). 한 번에 하나.
+   *   복귀(return): min분 동안 시간당 rate명이 풀에서 자기 레벨로 돌아온다(자리 있는 던전이 덮는 레벨부터). 비용 cost × 장
+   *   신규(fresh): 거는 순간 burst명이 입구로 오고, min분 동안 기본 도착률 ×x. 첫날 붐빔(파티 박자)은 곱하지 않는다 — 첫 40분 줄이 터진다. 비용 cost × 장
+   * 모객권(ticket): 1장 결재 선물 gift장, awayMin분 넘게 떠났다 돌아오면 1장(쥔 모객권이 hold장 미만일 때). 쓰면 비용 0.
+   * 승진 소식(evolveBurst): 직원이 진화하면 그 던전의 새 구간에 맞는 떠난 손님이 빈자리만큼 최대 evolveBurst명 바로 돌아온다("진화했다 → 손님이 돌아온다", F2와 G2를 잇는다).
+   * 놓쳐도 잃는 것이 없다. 타이머 압박·한정 판매는 없다. null이면 없다 (v1.6)
+   */
+  guests: { pool: number; return: { min: number; rate: number; cost: number }; fresh: { min: number; x: number; burst: number; cost: number; /** 신규 모객 자동 쉼 (1.10.0 실험, 기본 0 = 안 쉰다): 입구 줄(Lv 1~3 기다리는 손님)이 이만큼이면 ×x를 쉰다. 6으로 재 보니 첫 40분 줄은 그대로고 가벼운 플레이어의 4장 반복만 늘어 채택하지 않았다 */ pauseAt: number }; ticket: { gift: number; awayMin: number; hold: number }; evolveBurst: number; /** 오렌·봇 순서 (1.10.0 실험): 모객을 진화 앞에 둘지. 'after'가 v1.7 기본 */ order: 'after' | 'before' } | null;
+  /**
+   * 도감 돌파 보상 (1.10.0 실험, 기본 null = 없다): 도감이 at[i] 비율에 처음 닿으면 무료 이벤트권 event장 + 모객권 recruit장.
+   * 진화 보류 성향의 −21.9%(choice-audit L17)를 규칙 되맞춤 없이 좁히려던 장치였으나, 1분 걸음 달력을 한 자리도 움직이지 않았다(권이 쌓여 쓰이지 않는다 — 드랍 상자 §4와 같은 교훈). DEX_MILE_TRIAL로 남긴다
+   */
+  dexMile: { at: number[]; event: number; recruit: number } | null;
 }
 
 export const V11: Rules = {
@@ -107,6 +135,10 @@ export const V11: Rules = {
   seatBase: 8,
   moreSpecies: false,
   plotCurve: null,
+  drop: null,
+  grounds: null,
+  guests: null,
+  dexMile: null,
 };
 
 export const V12: Rules = {
@@ -182,5 +214,37 @@ export const V15: Rules = {
   plotCurve: [1, 0.5, 1, 1, 1],
 };
 
-export const RULES: Rules = { ...V15 };
+/**
+ * V16은 드랍 상자다. 자리 확장과 겹치지 않는 결정을 하나 더한다. 근거와 수치는 notes/drop-v16.md.
+ */
+export const V16: Rules = {
+  ...V15,
+  id: 'v1.6',
+  // 첫 40분(2장)은 약 3분에 하나. 3장부터는 장별 퇴근 속도에 맞춰 체크인 10분에 한두 개.
+  // 월드에 하나만: 떠나 있으면 상자 하나가 기다린다. 셋이면 체크인마다 셋을 열어 이벤트권이 수백 장 쌓였다(drop-v16 §4)
+  // 쥔 무료권이 3장이면 멈춘다: 하루 체크인마다 상자를 열면 한 달에 권이 약 90장 들어와, 무엇을 주든 60~75장이 쓰이지 않고 쌓였다(drop-v16 §4)
+  drop: { need: [0, 400, 1000, 1400, 1400], max: 1, hold: 3, from: 2 },
+};
+
+/**
+ * V17은 규칙 v1.7(1.5.0부터)이다. 사냥터 운영의 실감(G1), 모객(G2), 끊김 없는 여정(G3)의 규칙 필드가 여기에 쌓인다.
+ * 새 필드는 null·false가 기본이라 V16이 v1.6을 그대로 재현한다. 근거와 수치는 notes/plan-v17.md.
+ */
+export const V17: Rules = {
+  ...V16,
+  id: 'v1.7',
+  // G1 사냥터 값: 부지마다 자리(3장부터 8·12·16)와 식구(근속 ×1.1). 어느 부지를 열지, 누구를 어디에 둘지가 부지마다 달라진다
+  grounds: { homeX: 1.1 },
+  // G2 모객 (1.8.0): 떠난 손님이 자원이 된다. 값은 GUESTS_V17
+  get guests() { return GUESTS_V17; },
+  dexMile: null,
+};
+/** G2 모객 값: 복귀는 4시간 동안 시간당 6명(빈자리가 있을 때만), 신규는 거는 순간 3명 + 4시간 동안 기본 도착 ×2. 비용은 장마다 오른다(복귀 200 · 신규 150 × 장). 모객권은 1장 결재 선물 1장, 6시간 넘게 떠났다 오면 1장(2장까지) */
+export const GUESTS_V17: NonNullable<Rules['guests']> = { pool: 300, return: { min: 240, rate: 6, cost: 200 }, fresh: { min: 240, x: 2, burst: 3, cost: 150, pauseAt: 0 }, ticket: { gift: 1, awayMin: 360, hold: 2 }, evolveBurst: 8, order: 'after' };
+/** 1.10.0 실험값: 도감 돌파 보상 (채택하지 않았다). 비교용 */
+export const DEX_MILE_TRIAL: NonNullable<Rules['dexMile']> = { at: [0.5], event: 2, recruit: 1 };
+/** 1.10.0 실험값: 신규 자동 쉼 6 (채택하지 않았다 — 첫 40분 줄은 그대로고 가벼운 플레이어의 4장 반복이 6 → 11). 비교용 */
+export const GUESTS_V17_PAUSE: NonNullable<Rules['guests']> = { ...GUESTS_V17, fresh: { ...GUESTS_V17.fresh, pauseAt: 6 } };
+
+export const RULES: Rules = { ...V17 };
 export function useRules(r: Rules): void { Object.assign(RULES, r); }

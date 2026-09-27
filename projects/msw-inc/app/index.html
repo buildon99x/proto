@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 </head>
 <body>
+<div id="boot"><div><b>MSW</b> 주식회사<small>출근 준비 중…</small></div></div>
 <div id="fit"><div id="stage">
 
   <header id="hud">
@@ -33,13 +34,13 @@
   <main id="world">
     <div id="bands"></div>
     <div id="clouds"><i style="top:70px;width:130px;animation-duration:140s"></i><i style="top:140px;width:90px;animation-duration:190s;animation-delay:-80s"></i><i style="top:40px;width:160px;animation-duration:230s;animation-delay:-150s"></i><i style="top:190px;width:110px;animation-duration:170s;animation-delay:-40s"></i></div>
-    <div id="groundL"><div class="ground"></div></div>
     <div id="marks"></div>
     <div id="walkers"></div>
     <div id="plats"></div>
     <div id="fxL"></div>
     <div id="gapUi"></div>
     <div id="ui"></div>
+    <div id="rtabs" class="rtabs"></div>
   </main>
 
   <footer id="dock">
@@ -47,7 +48,7 @@
       <h6>대기실 <span id="vTray">0/10</span> · 끌어서 던전에 놓아요<button class="evchip" id="evChip" hidden></button></h6>
       <div class="tray"><div id="tray"></div><button class="hire" id="bHire" title="1단계 직원 채용">신입 채용<small>1단계 직원</small></button></div>
     </section>
-    <section class="plotsw"><h6>빈 부지 · 직원을 놓으면 개업</h6><div class="plots" id="plots"></div></section>
+    <section class="plotsw"><h6>빈 부지 · 직원을 놓으면 개업<button class="rbtn" id="bRecruit" title="모객 — 신규 손님을 부르거나 떠난 손님을 다시 부른다" hidden>📣 모객</button></h6><div class="plots" id="plots"></div></section>
     <section class="orenw" id="oren" title="오렌을 누르면 지금 가장 급한 곳으로 가요"><div class="face"><img class="px" id="orenImg" alt="오렌"></div><div class="bubble" id="orenTxt">…</div><button id="tutSkip" class="tskip" hidden title="튜토리얼 건너뛰기">건너뛰기</button></section>
     <section class="docw" id="docw" title="결재 서류 — 눌러서 조건 보기"><div class="doc" id="doc"></div></section>
   </footer>
