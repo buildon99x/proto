@@ -319,6 +319,22 @@ export function dungeonInfo(w: World): Record<PlotId, DInfo> {
   return info;
 }
 
+/**
+ * 결재 ② 지금 속도 (명·시간 / 시간, 1.12.0): step()의 ② 누적과 같은 식 — 즐기는 모험가 × 엘리트·필드 보스·승진한 직원 배율.
+ * 화면의 "지금 속도면 약 N일"은 전에 즐기는 인원만 셌다(배율을 빼 실제보다 길게 보였다)
+ */
+export function joyRate(w: World): { rate: number; base: number; stageX: number; queue: number } {
+  const info = dungeonInfo(w);
+  let rate = 0, base = 0, sx = 0;
+  for (const a of w.advs) {
+    if (a.st !== 'happy' || !a.d || !info[a.d]) continue;
+    const d = info[a.d], x = stageJoyX(d.mons);
+    base++; sx += x;
+    rate += (d.elite && RULES.elite ? RULES.elite.joyX : 1) * (d.guest && RULES.fieldBoss ? RULES.fieldBoss.joyX : 1) * x;
+  }
+  return { rate, base, stageX: base ? sx / base : 1, queue: w.advs.filter(a => a.st === 'busy').length };
+}
+
 /** 도착률 (명/분) */
 export function arrivalPerMin(w: World): number {
   const ar = RULES.arrive;
@@ -917,6 +933,8 @@ export interface Ledger {
   starred0: number; dex0: number; cleared: boolean;
   /** 도감 돌파 (1.10.0) */
   dexMiles: { pct: number; reward: MarkReward }[];
+  /** 떠나 있는 동안 열린 구간 · 자리가 없거나 길이 끊겨 돌아간 손님 (1.12.0 — 리포트가 말하지 않던 변화) */
+  zones: { from: number; to: number }[]; left: number;
 }
 export function ledgerStart(w: World): Ledger {
   return {
@@ -924,7 +942,7 @@ export function ledgerStart(w: World): Ledger {
     work0: Object.fromEntries(w.monsters.map(m => [m.id, m.work])),
     hourLv: {}, bestBurst: null, crowdMax: null, ready: [], approval: false, firstGrad: w.stats.grads === 0,
     stuckMin: 0, marks: [], elites: [], bossCall: null, bossDown: [], boxes: 0, returned: w.stats.returned || 0,
-    starred0: w.ended ? fullClear(w).starred : 0, dex0: dexCount(w), cleared: false, dexMiles: [],
+    starred0: w.ended ? fullClear(w).starred : 0, dex0: dexCount(w), cleared: false, dexMiles: [], zones: [], left: 0,
   };
 }
 export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
@@ -943,6 +961,8 @@ export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
     else if (e.type === 'bossCall') L.bossCall = e.ch;
     else if (e.type === 'bossDown') L.bossDown.push({ ch: e.ch, bonus: e.bonus });
     else if (e.type === 'box') L.boxes++;
+    else if (e.type === 'zone') (L.zones ||= []).push({ from: e.from, to: e.to });
+    else if (e.type === 'leave') L.left = (L.left || 0) + 1;
   }
   const busy: Record<string, number> = {};
   let entrance = false;
@@ -966,6 +986,8 @@ export interface Report {
   /** 완전 클리어 진척 (v1.7, 엔딩 뒤): ★3 던전 수와 그 사이 는 수, 도감 칸과 는 수, 이번에 완전 클리어가 됐는가 */
   starred: number; starredDelta: number; dex: number; dexDelta: number; cleared: boolean;
   dexMiles: { pct: number; reward: MarkReward }[];
+  /** 1.12.0: 열린 구간 · 돌아간 손님 (풀에 남아 모객으로 다시 부를 수 있다 — P5) */
+  zones: { from: number; to: number }[]; left: number;
 }
 export function ledgerReport(L: Ledger, w: World): Report {
   const king = w.monsters
@@ -987,6 +1009,7 @@ export function ledgerReport(L: Ledger, w: World): Report {
     returned: (w.stats.returned || 0) - (L.returned || 0), pool: poolCount(w), recruit: recruitPick(w),
     starred: w.ended ? fullClear(w).starred : 0, starredDelta: w.ended ? fullClear(w).starred - (L.starred0 || 0) : 0,
     dex: dexCount(w), dexDelta: dexCount(w) - (L.dex0 ?? dexCount(w)), cleared: !!L.cleared, dexMiles: L.dexMiles || [],
+    zones: L.zones || [], left: L.left || 0,
   };
 }
 
@@ -1054,10 +1077,10 @@ export function placeCheck(w: World, m: Monster, did: PlotId | null): Result<{ o
   const d = w.dungeons[did];
   const inD = monsIn(w, did).filter(x => x.id !== m.id);
   if (inD.length >= d.slots) return no('직원 자리가 꽉 찼어요');
-  if (isBoss(m) && inD.some(isBoss)) return no('보스는 던전에 한 마리만');
+  if (isBoss(m) && inD.some(isBoss)) return no('이 던전엔 이미 보스가 있어요. 다른 던전에 놓아요');
   if (!p.open) {
     const cost = openCost(w, did);
-    if (w.smile < cost) return no(`개업 비용 스마일 ${cost.toLocaleString('ko-KR')}이 필요해요`, { short: cost - w.smile });
+    if (w.smile < cost) return no(`개업 스마일 ${fmtN(cost - w.smile)} 모자라요`, { short: cost - w.smile });
     return ok({ openCost: cost, opens: true, ticket: w.tickets.plot > 0 });
   }
   return ok({});
@@ -1087,7 +1110,7 @@ export function placeCheckAuto(w: World, m: Monster, did: PlotId | null): Result
   const open = openCost(w, did);
   if (w.smile < sc + open) return no(`직원 자리 +1에 스마일 ${fmtN(sc + open - w.smile)} 모자라요`, { short: sc + open - w.smile });
   const inD = monsIn(w, did).filter(x => x.id !== m.id);
-  if (isBoss(m) && inD.some(isBoss)) return no('보스는 던전에 한 마리만');
+  if (isBoss(m) && inD.some(isBoss)) return no('이 던전엔 이미 보스가 있어요. 다른 던전에 놓아요');
   return ok({ slotCost: sc, openCost: open || undefined });
 }
 export function placeAuto(w: World, monId: number, did: PlotId | null): Result<{ from: PlotId | null; openCost: number; opened: boolean; ticket: boolean; slotCost: number; same?: boolean }> {
@@ -1190,6 +1213,8 @@ export function cancelEvent(w: World, did: PlotId, refund: number, wasFree: bool
   if (wasFree) w.tickets.event++; else w.smile += refund;
 }
 
+/** 이 던전의 다음 자리 확장이 초반 지역 보너스 칸인가 (1.12.0 화면 설명용) */
+export const earlySeatStep = (w: World, d: Dungeon) => !!RULES.earlySeat && RULES.earlySeat.regions.includes(plotInfo(d.id).region) && d.seatUp >= RULES.seatCost.length && seatCost(w, d) != null;
 export const seatCost = (w: World, d: Dungeon) => {
   const es = RULES.earlySeat, steps = es && es.regions.includes(plotInfo(d.id).region) ? [...RULES.seatCost, ...es.costs] : RULES.seatCost;
   return d.seatUp < steps.length ? Math.round(steps[d.seatUp] * costScale(w)) : null;
@@ -1248,7 +1273,11 @@ export interface Preview {
 }
 /** 변화 전후 비교: 새로 생기는 빈틈, 갈 곳을 잃는 모험가 수 */
 export function preview(w: World, mods: Mods): Preview {
-  const before = levelsOf(w), after = levelsOf(w, mods);
+  return previewOf(w, levelsOf(w, mods));
+}
+/** 바뀐 던전 레벨 목록으로 미리보기를 만든다 (여러 직원이 한꺼번에 움직이는 수 — 던전 다시 열기) */
+export function previewOf(w: World, after: Record<PlotId, number>): Preview {
+  const before = levelsOf(w);
   const cb = coveredSet(before), ca = coveredSet(after), end = roadEnd(w);
   const lost: number[] = [], gained: number[] = [];
   for (let L = 1; L <= end; L++) {
@@ -1269,6 +1298,11 @@ export function toSegs(list: number[]): Seg[] {
   return segs;
 }
 
+/** 혼자 둘 빈 부지 (1.12.0 키워서 잇기): 지금 살 수 있는 가장 싼 빈 부지. 봇의 planGrow와 같은 순서 */
+export function soloPlot(w: World): PlotId | null {
+  const e = Object.keys(w.plots).filter(id => !monsIn(w, id).length && openCost(w, id) <= w.smile).sort((a, b) => openCost(w, a) - openCost(w, b));
+  return e[0] || null;
+}
 /** 직원을 놓을 최선의 곳들 (빈틈이 가장 적어지는 곳) */
 export function bestPlaces(w: World, monId: number): PlotId[] {
   const m = w.monsters.find(x => x.id === monId);
@@ -1392,6 +1426,78 @@ export function moveFix(w: World, seg: Seg): MoveFix | null {
     }
   }
   return best ? { mon: best.mon, to: best.to, cost: best.cost, ticket: best.ticket } : null;
+}
+
+/**
+ * 던전 다시 열기 (1.12.0): 부지가 다 차서 채용·옮기기로 빈틈(주로 입구)을 못 메울 때, 던전 하나의 직원을 모두 대기실로 보내고
+ * 맞는 신입 한 명으로 다시 연다. 봇이 v1.2부터 쓰던 수인데 화면은 권하지 않았다 — 화면이 권하는 수만 따르면 4장부터 입구가
+ * 며칠씩 막혔다(choice-audit §15). grow: 지금은 안 닿지만 진화하면 닿는 계열을 혼자 두고 키운다(비워도 빈틈이 늘지 않을 때만).
+ * 난수를 쓰지 않는다.
+ */
+export interface RebuildPlan { to: PlotId; sp: SpeciesId; out: number[]; cost: number; free: boolean; grow: boolean; pv: Preview }
+/** 자리를 지켜야 하는 직원: 고참, 발록, 5장 결재 ③의 마지막 슬리피우드 식구 */
+export const mustStay = (w: World, m: Monster) => m.vet || m.sp === 'balrog' ||
+  (needsNative(w) && isNative(m.sp) && w.monsters.filter(x => isNative(x.sp) && x.d).length <= 1);
+function rebuiltLevels(w: World, to: PlotId, sp: SpeciesId): Record<PlotId, number> {
+  const ghost: Monster = { id: -1, sp, stage: 0, tenure: 0, work: 0, d: to, vet: false, no: 0 };
+  return levelsOf({ ...w, monsters: w.monsters.map(m => (m.d === to ? { ...m, d: null } : m)).concat(ghost) });
+}
+export function rebuildPlan(w: World, seg?: Seg): RebuildPlan | null {
+  const segs = gapSegments(w);
+  if (!segs.length) return null;
+  const cur = gapSize(segs);
+  const room = TRAY_MAX - tray(w).length;
+  const covers = (lv: Record<PlotId, number>) => { if (!seg) return true; const c = coveredSet(lv); for (let L = seg[0]; L <= seg[1]; L++) if (!c[L]) return false; return true; };
+  let best: (RebuildPlan & { g: number }) | null = null;
+  let grow: RebuildPlan | null = null;
+  const hint = recommendGrow(w, seg || segs[0]);
+  for (const id in w.plots) {
+    if (!w.plots[id].open) continue;
+    const ms = monsIn(w, id);
+    if (!ms.length || ms.length > room || ms.some(m => mustStay(w, m))) continue;
+    for (const sp of Object.keys(SPECIES) as SpeciesId[]) {
+      if (!canHireSpecies(w, sp)) continue;
+      const free = hasHireTicket(w, sp), cost = free ? 0 : hireCost(sp);
+      if (cost > w.smile) continue;
+      const lv = rebuiltLevels(w, id, sp), g = gapSize(gapSegments(w, lv));
+      if (g < cur && covers(lv) && (!best || g < best.g || (g === best.g && (ms.length < best.out.length || (ms.length === best.out.length && cost < best.cost)))))
+        best = { to: id, sp, out: ms.map(m => m.id), cost, free, grow: false, pv: previewOf(w, lv), g };
+      if (!grow && hint && sp === hint.sp && g <= cur && !growingToward(w, seg || segs[0])) grow = { to: id, sp, out: ms.map(m => m.id), cost, free, grow: true, pv: previewOf(w, lv) };
+    }
+  }
+  if (best) { const { g: _g, ...plan } = best; return plan; }
+  return grow;
+}
+export function rebuild(w: World, plan: RebuildPlan): Result<{ mon: Monster; cost: number; free: boolean }> {
+  const ms = plan.out.map(id => w.monsters.find(m => m.id === id)).filter((m): m is Monster => !!m && m.d === plan.to);
+  if (ms.length !== plan.out.length || monsIn(w, plan.to).length !== ms.length) return no('던전이 그새 바뀌었어요');
+  if (TRAY_MAX - tray(w).length < ms.length) return no('대기실이 꽉 찼어요');
+  const h = hire(w, plan.sp, null);
+  if (!h.ok) return h;
+  for (const m of ms) m.d = null;
+  h.mon.d = plan.to;
+  recordPlot(w, plan.sp, plan.to);
+  return ok({ mon: h.mon, cost: h.cost, free: h.free });
+}
+/** 5초 되돌리기: 신입은 채용 취소(비용·채용권 환급), 비운 직원은 제자리로 */
+export function unrebuild(w: World, plan: RebuildPlan, r: { mon: Monster; cost: number; free: boolean }): void {
+  unhire(w, r.mon.id, r.free ? 'ticket' : r.cost);
+  for (const id of plan.out) { const m = w.monsters.find(x => x.id === id); if (m && !m.d) m.d = plan.to; }
+}
+/** 이 빈틈을 채용 한 번(빈 부지 개업·직원 자리 +1 포함)으로 메울 수 있는가 — 없으면 오렌이 다시 열기를 권한다 */
+export function hireFixable(w: World, seg: Seg): boolean {
+  const cur = gapSize(gapSegments(w));
+  for (const sp of Object.keys(SPECIES) as SpeciesId[]) {
+    if (!canHireSpecies(w, sp) || (!hasHireTicket(w, sp) && hireCost(sp) > w.smile)) continue;
+    for (const id in w.plots) {
+      const n = monsIn(w, id).length, d = w.dungeons[id];
+      if (n >= d.slots && slotCost(w, d) == null) continue;
+      const lv = levelsOf(w, { add: { sp, to: id }, open: w.plots[id].open ? undefined : id });
+      const c = coveredSet(lv);
+      if (gapSize(gapSegments(w, lv)) < cur && c[seg[0]]) return true;
+    }
+  }
+  return false;
 }
 
 /**

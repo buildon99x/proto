@@ -1,0 +1,2982 @@
+[
+ {
+  "persona": "std",
+  "seed": 7,
+  "end": 30.824247685185185,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.704861111111111,
+    "neither": 971,
+    "joyOnly": 2677,
+    "roadOnly": 0,
+    "ready": 247,
+    "roadOnlyMax": 0,
+    "gapMax": 760
+   },
+   {
+    "ch": 3,
+    "days": 6.760416666666667,
+    "neither": 380,
+    "joyOnly": 8992,
+    "roadOnly": 0,
+    "ready": 363,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 10.059027777777777,
+    "neither": 1244,
+    "joyOnly": 13103,
+    "roadOnly": 0,
+    "ready": 138,
+    "roadOnlyMax": 0,
+    "gapMax": 619
+   },
+   {
+    "ch": 5,
+    "days": 9.421527777777778,
+    "neither": 1554,
+    "joyOnly": 11649,
+    "roadOnly": 0,
+    "ready": 364,
+    "roadOnlyMax": 0,
+    "gapMax": 578
+   }
+  ],
+  "idleMax": 0.5791666666666667,
+  "brokeRate": 0,
+  "checkins": 87
+ },
+ {
+  "persona": "std",
+  "seed": 11,
+  "end": 30.93125,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.5083333333333333,
+    "neither": 888,
+    "joyOnly": 2361,
+    "roadOnly": 0,
+    "ready": 363,
+    "roadOnlyMax": 0,
+    "gapMax": 766
+   },
+   {
+    "ch": 3,
+    "days": 7.96875,
+    "neither": 134,
+    "joyOnly": 10790,
+    "roadOnly": 0,
+    "ready": 551,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 8.567361111111111,
+    "neither": 1884,
+    "joyOnly": 10018,
+    "roadOnly": 0,
+    "ready": 435,
+    "roadOnlyMax": 0,
+    "gapMax": 833
+   },
+   {
+    "ch": 5,
+    "days": 10.008333333333333,
+    "neither": 1415,
+    "joyOnly": 12597,
+    "roadOnly": 0,
+    "ready": 400,
+    "roadOnlyMax": 0,
+    "gapMax": 730
+   }
+  ],
+  "idleMax": 0.8944444444444445,
+  "brokeRate": 0,
+  "checkins": 87
+ },
+ {
+  "persona": "std",
+  "seed": 23,
+  "end": 30.825694444444444,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.436111111111111,
+    "neither": 948,
+    "joyOnly": 2343,
+    "roadOnly": 0,
+    "ready": 217,
+    "roadOnlyMax": 0,
+    "gapMax": 646
+   },
+   {
+    "ch": 3,
+    "days": 7.102777777777778,
+    "neither": 331,
+    "joyOnly": 9267,
+    "roadOnly": 0,
+    "ready": 630,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 8.936111111111112,
+    "neither": 2304,
+    "joyOnly": 10247,
+    "roadOnly": 0,
+    "ready": 317,
+    "roadOnlyMax": 0,
+    "gapMax": 713
+   },
+   {
+    "ch": 5,
+    "days": 10.472222222222221,
+    "neither": 1803,
+    "joyOnly": 12974,
+    "roadOnly": 0,
+    "ready": 303,
+    "roadOnlyMax": 0,
+    "gapMax": 794
+   }
+  ],
+  "idleMax": 0.5993055555555555,
+  "brokeRate": 0,
+  "checkins": 87
+ },
+ {
+  "persona": "std",
+  "seed": 42,
+  "end": 32.39693287037037,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.4569444444444444,
+    "neither": 885,
+    "joyOnly": 2443,
+    "roadOnly": 0,
+    "ready": 210,
+    "roadOnlyMax": 0,
+    "gapMax": 724
+   },
+   {
+    "ch": 3,
+    "days": 7.602083333333334,
+    "neither": 319,
+    "joyOnly": 10355,
+    "roadOnly": 0,
+    "ready": 273,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 9.579861111111112,
+    "neither": 1455,
+    "joyOnly": 12207,
+    "roadOnly": 0,
+    "ready": 133,
+    "roadOnlyMax": 0,
+    "gapMax": 409
+   },
+   {
+    "ch": 5,
+    "days": 10.879861111111111,
+    "neither": 941,
+    "joyOnly": 13949,
+    "roadOnly": 0,
+    "ready": 777,
+    "roadOnlyMax": 0,
+    "gapMax": 241
+   }
+  ],
+  "idleMax": 0.6465277777777778,
+  "brokeRate": 0,
+  "checkins": 91
+ },
+ {
+  "persona": "std",
+  "seed": 99,
+  "end": 30.927777777777777,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.46875,
+    "neither": 890,
+    "joyOnly": 2232,
+    "roadOnly": 0,
+    "ready": 433,
+    "roadOnlyMax": 0,
+    "gapMax": 683
+   },
+   {
+    "ch": 3,
+    "days": 7.059027777777778,
+    "neither": 194,
+    "joyOnly": 9339,
+    "roadOnly": 0,
+    "ready": 632,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 10.009027777777778,
+    "neither": 1907,
+    "joyOnly": 11752,
+    "roadOnly": 0,
+    "ready": 754,
+    "roadOnlyMax": 0,
+    "gapMax": 644
+   },
+   {
+    "ch": 5,
+    "days": 9.5125,
+    "neither": 1877,
+    "joyOnly": 11351,
+    "roadOnly": 0,
+    "ready": 470,
+    "roadOnlyMax": 0,
+    "gapMax": 750
+   }
+  ],
+  "idleMax": 0.6041666666666666,
+  "brokeRate": 0,
+  "checkins": 87
+ },
+ {
+  "persona": "light",
+  "seed": 7,
+  "end": 26.925636574074073,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 3.0381944444444438,
+    "neither": 1451,
+    "joyOnly": 2518,
+    "roadOnly": 0,
+    "ready": 406,
+    "roadOnlyMax": 0,
+    "gapMax": 760
+   },
+   {
+    "ch": 3,
+    "days": 7.509027777777778,
+    "neither": 661,
+    "joyOnly": 9873,
+    "roadOnly": 0,
+    "ready": 279,
+    "roadOnlyMax": 0,
+    "gapMax": 114
+   },
+   {
+    "ch": 4,
+    "days": 7.94861111111111,
+    "neither": 587,
+    "joyOnly": 10453,
+    "roadOnly": 0,
+    "ready": 406,
+    "roadOnlyMax": 0,
+    "gapMax": 82
+   },
+   {
+    "ch": 5,
+    "days": 6.551388888888889,
+    "neither": 732,
+    "joyOnly": 8235,
+    "roadOnly": 0,
+    "ready": 467,
+    "roadOnlyMax": 0,
+    "gapMax": 587
+   }
+  ],
+  "idleMax": 0.5909722222222222,
+  "brokeRate": 0,
+  "checkins": 50
+ },
+ {
+  "persona": "light",
+  "seed": 11,
+  "end": 31.386805555555554,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.5083333333333333,
+    "neither": 1368,
+    "joyOnly": 2101,
+    "roadOnly": 0,
+    "ready": 143,
+    "roadOnlyMax": 0,
+    "gapMax": 766
+   },
+   {
+    "ch": 3,
+    "days": 8.975694444444445,
+    "neither": 614,
+    "joyOnly": 11828,
+    "roadOnly": 0,
+    "ready": 483,
+    "roadOnlyMax": 0,
+    "gapMax": 172
+   },
+   {
+    "ch": 4,
+    "days": 9.04861111111111,
+    "neither": 671,
+    "joyOnly": 11751,
+    "roadOnly": 0,
+    "ready": 608,
+    "roadOnlyMax": 0,
+    "gapMax": 145
+   },
+   {
+    "ch": 5,
+    "days": 8.975694444444445,
+    "neither": 638,
+    "joyOnly": 11691,
+    "roadOnly": 0,
+    "ready": 596,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   }
+  ],
+  "idleMax": 0.6041666666666666,
+  "brokeRate": 0,
+  "checkins": 59
+ },
+ {
+  "persona": "light",
+  "seed": 23,
+  "end": 30.90625,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.9993055555555554,
+    "neither": 1428,
+    "joyOnly": 2270,
+    "roadOnly": 0,
+    "ready": 621,
+    "roadOnlyMax": 0,
+    "gapMax": 646
+   },
+   {
+    "ch": 3,
+    "days": 8.040972222222223,
+    "neither": 791,
+    "joyOnly": 10673,
+    "roadOnly": 0,
+    "ready": 115,
+    "roadOnlyMax": 0,
+    "gapMax": 345
+   },
+   {
+    "ch": 4,
+    "days": 9.44513888888889,
+    "neither": 713,
+    "joyOnly": 12436,
+    "roadOnly": 0,
+    "ready": 452,
+    "roadOnlyMax": 0,
+    "gapMax": 167
+   },
+   {
+    "ch": 5,
+    "days": 8.542361111111111,
+    "neither": 727,
+    "joyOnly": 11037,
+    "roadOnly": 0,
+    "ready": 537,
+    "roadOnlyMax": 0,
+    "gapMax": 579
+   }
+  ],
+  "idleMax": 0.5951388888888889,
+  "brokeRate": 0,
+  "checkins": 58
+ },
+ {
+  "persona": "light",
+  "seed": 42,
+  "end": 28.38443287037037,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 3.011805555555556,
+    "neither": 1365,
+    "joyOnly": 2251,
+    "roadOnly": 0,
+    "ready": 721,
+    "roadOnlyMax": 0,
+    "gapMax": 724
+   },
+   {
+    "ch": 3,
+    "days": 7.506944444444445,
+    "neither": 754,
+    "joyOnly": 10012,
+    "roadOnly": 0,
+    "ready": 44,
+    "roadOnlyMax": 0,
+    "gapMax": 296
+   },
+   {
+    "ch": 4,
+    "days": 8.54027777777778,
+    "neither": 716,
+    "joyOnly": 11573,
+    "roadOnly": 0,
+    "ready": 9,
+    "roadOnlyMax": 0,
+    "gapMax": 136
+   },
+   {
+    "ch": 5,
+    "days": 7.447222222222222,
+    "neither": 656,
+    "joyOnly": 9979,
+    "roadOnly": 0,
+    "ready": 89,
+    "roadOnlyMax": 0,
+    "gapMax": 506
+   }
+  ],
+  "idleMax": 0.5979166666666667,
+  "brokeRate": 0,
+  "checkins": 53
+ },
+ {
+  "persona": "light",
+  "seed": 99,
+  "end": 27.41111111111111,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.9368055555555554,
+    "neither": 1370,
+    "joyOnly": 2189,
+    "roadOnly": 0,
+    "ready": 670,
+    "roadOnlyMax": 0,
+    "gapMax": 683
+   },
+   {
+    "ch": 3,
+    "days": 8.113888888888889,
+    "neither": 862,
+    "joyOnly": 10615,
+    "roadOnly": 0,
+    "ready": 207,
+    "roadOnlyMax": 0,
+    "gapMax": 399
+   },
+   {
+    "ch": 4,
+    "days": 8.002777777777778,
+    "neither": 574,
+    "joyOnly": 10390,
+    "roadOnly": 0,
+    "ready": 560,
+    "roadOnlyMax": 0,
+    "gapMax": 24
+   },
+   {
+    "ch": 5,
+    "days": 6.479166666666667,
+    "neither": 696,
+    "joyOnly": 8146,
+    "roadOnly": 0,
+    "ready": 488,
+    "roadOnlyMax": 0,
+    "gapMax": 498
+   }
+  ],
+  "idleMax": 0.6152777777777778,
+  "brokeRate": 0,
+  "checkins": 51
+ },
+ {
+  "persona": "heavy",
+  "seed": 7,
+  "end": 31.37980324074074,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.470138888888889,
+    "neither": 851,
+    "joyOnly": 2103,
+    "roadOnly": 0,
+    "ready": 603,
+    "roadOnlyMax": 0,
+    "gapMax": 700
+   },
+   {
+    "ch": 3,
+    "days": 6.438888888888889,
+    "neither": 1116,
+    "joyOnly": 7803,
+    "roadOnly": 0,
+    "ready": 353,
+    "roadOnlyMax": 0,
+    "gapMax": 571
+   },
+   {
+    "ch": 4,
+    "days": 10.724999999999998,
+    "neither": 391,
+    "joyOnly": 14965,
+    "roadOnly": 0,
+    "ready": 88,
+    "roadOnlyMax": 0,
+    "gapMax": 150
+   },
+   {
+    "ch": 5,
+    "days": 9.86736111111111,
+    "neither": 402,
+    "joyOnly": 13345,
+    "roadOnly": 0,
+    "ready": 462,
+    "roadOnlyMax": 0,
+    "gapMax": 231
+   }
+  ],
+  "idleMax": 1.5666666666666667,
+  "brokeRate": 0.0547945205479452,
+  "checkins": 146
+ },
+ {
+  "persona": "heavy",
+  "seed": 11,
+  "end": 30.639583333333334,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.0652777777777778,
+    "neither": 768,
+    "joyOnly": 1905,
+    "roadOnly": 0,
+    "ready": 301,
+    "roadOnlyMax": 0,
+    "gapMax": 706
+   },
+   {
+    "ch": 3,
+    "days": 7.445138888888889,
+    "neither": 1203,
+    "joyOnly": 9081,
+    "roadOnly": 0,
+    "ready": 437,
+    "roadOnlyMax": 0,
+    "gapMax": 448
+   },
+   {
+    "ch": 4,
+    "days": 9.543055555555556,
+    "neither": 607,
+    "joyOnly": 13047,
+    "roadOnly": 0,
+    "ready": 88,
+    "roadOnlyMax": 0,
+    "gapMax": 248
+   },
+   {
+    "ch": 5,
+    "days": 9.707638888888889,
+    "neither": 269,
+    "joyOnly": 13667,
+    "roadOnly": 0,
+    "ready": 43,
+    "roadOnlyMax": 0,
+    "gapMax": 269
+   }
+  ],
+  "idleMax": 1.4083333333333334,
+  "brokeRate": 0.027972027972027972,
+  "checkins": 143
+ },
+ {
+  "persona": "heavy",
+  "seed": 23,
+  "end": 32.55972222222222,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 1.9993055555555554,
+    "neither": 828,
+    "joyOnly": 1922,
+    "roadOnly": 0,
+    "ready": 129,
+    "roadOnlyMax": 0,
+    "gapMax": 586
+   },
+   {
+    "ch": 3,
+    "days": 7.497916666666667,
+    "neither": 186,
+    "joyOnly": 10587,
+    "roadOnly": 0,
+    "ready": 24,
+    "roadOnlyMax": 0,
+    "gapMax": 186
+   },
+   {
+    "ch": 4,
+    "days": 10.346527777777778,
+    "neither": 350,
+    "joyOnly": 14298,
+    "roadOnly": 0,
+    "ready": 251,
+    "roadOnlyMax": 0,
+    "gapMax": 56
+   },
+   {
+    "ch": 5,
+    "days": 10.8375,
+    "neither": 0,
+    "joyOnly": 15488,
+    "roadOnly": 0,
+    "ready": 118,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   }
+  ],
+  "idleMax": 3.472916666666667,
+  "brokeRate": 0.006535947712418301,
+  "checkins": 153
+ },
+ {
+  "persona": "heavy",
+  "seed": 42,
+  "end": 31.350405092592595,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.415277777777778,
+    "neither": 765,
+    "joyOnly": 2131,
+    "roadOnly": 0,
+    "ready": 582,
+    "roadOnlyMax": 0,
+    "gapMax": 664
+   },
+   {
+    "ch": 3,
+    "days": 7.0256944444444445,
+    "neither": 685,
+    "joyOnly": 9094,
+    "roadOnly": 0,
+    "ready": 338,
+    "roadOnlyMax": 0,
+    "gapMax": 260
+   },
+   {
+    "ch": 4,
+    "days": 9.63263888888889,
+    "neither": 562,
+    "joyOnly": 13109,
+    "roadOnly": 0,
+    "ready": 200,
+    "roadOnlyMax": 0,
+    "gapMax": 242
+   },
+   {
+    "ch": 5,
+    "days": 10.39861111111111,
+    "neither": 181,
+    "joyOnly": 14345,
+    "roadOnly": 0,
+    "ready": 448,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   }
+  ],
+  "idleMax": 2.467361111111111,
+  "brokeRate": 0.03424657534246575,
+  "checkins": 146
+ },
+ {
+  "persona": "heavy",
+  "seed": 99,
+  "end": 29.533333333333335,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.4270833333333335,
+    "neither": 770,
+    "joyOnly": 2273,
+    "roadOnly": 0,
+    "ready": 452,
+    "roadOnlyMax": 0,
+    "gapMax": 623
+   },
+   {
+    "ch": 3,
+    "days": 7.1,
+    "neither": 757,
+    "joyOnly": 8864,
+    "roadOnly": 544,
+    "ready": 59,
+    "roadOnlyMax": 544,
+    "gapMax": 590
+   },
+   {
+    "ch": 4,
+    "days": 7.915972222222222,
+    "neither": 1557,
+    "joyOnly": 9412,
+    "roadOnly": 0,
+    "ready": 430,
+    "roadOnlyMax": 0,
+    "gapMax": 712
+   },
+   {
+    "ch": 5,
+    "days": 10.211805555555555,
+    "neither": 0,
+    "joyOnly": 14630,
+    "roadOnly": 0,
+    "ready": 75,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   }
+  ],
+  "idleMax": 2.85,
+  "brokeRate": 0,
+  "checkins": 138
+ },
+ {
+  "persona": "hasty",
+  "seed": 7,
+  "end": 30.31730324074074,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.704861111111111,
+    "neither": 971,
+    "joyOnly": 2677,
+    "roadOnly": 0,
+    "ready": 247,
+    "roadOnlyMax": 0,
+    "gapMax": 760
+   },
+   {
+    "ch": 3,
+    "days": 6.760416666666667,
+    "neither": 380,
+    "joyOnly": 8992,
+    "roadOnly": 0,
+    "ready": 363,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 10.059027777777777,
+    "neither": 1553,
+    "joyOnly": 12356,
+    "roadOnly": 0,
+    "ready": 576,
+    "roadOnlyMax": 0,
+    "gapMax": 1275
+   },
+   {
+    "ch": 5,
+    "days": 8.914583333333333,
+    "neither": 3036,
+    "joyOnly": 8849,
+    "roadOnly": 382,
+    "ready": 570,
+    "roadOnlyMax": 382,
+    "gapMax": 1178
+   }
+  ],
+  "idleMax": 0.5791666666666667,
+  "brokeRate": 0,
+  "checkins": 85
+ },
+ {
+  "persona": "hasty",
+  "seed": 11,
+  "end": 30.40486111111111,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.5083333333333333,
+    "neither": 888,
+    "joyOnly": 2361,
+    "roadOnly": 0,
+    "ready": 363,
+    "roadOnlyMax": 0,
+    "gapMax": 766
+   },
+   {
+    "ch": 3,
+    "days": 7.96875,
+    "neither": 134,
+    "joyOnly": 10734,
+    "roadOnly": 0,
+    "ready": 607,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 9.065277777777778,
+    "neither": 5413,
+    "joyOnly": 7339,
+    "roadOnly": 0,
+    "ready": 302,
+    "roadOnlyMax": 0,
+    "gapMax": 2282
+   },
+   {
+    "ch": 5,
+    "days": 8.984027777777778,
+    "neither": 2363,
+    "joyOnly": 10412,
+    "roadOnly": 0,
+    "ready": 162,
+    "roadOnlyMax": 0,
+    "gapMax": 1385
+   }
+  ],
+  "idleMax": 0.5784722222222223,
+  "brokeRate": 0,
+  "checkins": 85
+ },
+ {
+  "persona": "hasty",
+  "seed": 23,
+  "end": 29.834722222222222,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.436111111111111,
+    "neither": 948,
+    "joyOnly": 2343,
+    "roadOnly": 0,
+    "ready": 217,
+    "roadOnlyMax": 0,
+    "gapMax": 646
+   },
+   {
+    "ch": 3,
+    "days": 7.102777777777778,
+    "neither": 331,
+    "joyOnly": 9267,
+    "roadOnly": 0,
+    "ready": 630,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 8.46875,
+    "neither": 1591,
+    "joyOnly": 10516,
+    "roadOnly": 0,
+    "ready": 88,
+    "roadOnlyMax": 0,
+    "gapMax": 698
+   },
+   {
+    "ch": 5,
+    "days": 9.948611111111111,
+    "neither": 2899,
+    "joyOnly": 10764,
+    "roadOnly": 244,
+    "ready": 419,
+    "roadOnlyMax": 244,
+    "gapMax": 1594
+   }
+  ],
+  "idleMax": 0.5993055555555555,
+  "brokeRate": 0,
+  "checkins": 84
+ },
+ {
+  "persona": "hasty",
+  "seed": 42,
+  "end": 32.39693287037037,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.4569444444444444,
+    "neither": 885,
+    "joyOnly": 2443,
+    "roadOnly": 0,
+    "ready": 210,
+    "roadOnlyMax": 0,
+    "gapMax": 724
+   },
+   {
+    "ch": 3,
+    "days": 7.602083333333334,
+    "neither": 319,
+    "joyOnly": 10195,
+    "roadOnly": 0,
+    "ready": 433,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 10.64027777777778,
+    "neither": 1435,
+    "joyOnly": 12887,
+    "roadOnly": 651,
+    "ready": 349,
+    "roadOnlyMax": 651,
+    "gapMax": 725
+   },
+   {
+    "ch": 5,
+    "days": 9.819444444444445,
+    "neither": 1527,
+    "joyOnly": 11671,
+    "roadOnly": 109,
+    "ready": 833,
+    "roadOnlyMax": 109,
+    "gapMax": 705
+   }
+  ],
+  "idleMax": 0.5854166666666667,
+  "brokeRate": 0,
+  "checkins": 91
+ },
+ {
+  "persona": "hasty",
+  "seed": 99,
+  "end": 29.825,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.46875,
+    "neither": 890,
+    "joyOnly": 2232,
+    "roadOnly": 0,
+    "ready": 433,
+    "roadOnlyMax": 0,
+    "gapMax": 683
+   },
+   {
+    "ch": 3,
+    "days": 7.059027777777778,
+    "neither": 194,
+    "joyOnly": 9172,
+    "roadOnly": 0,
+    "ready": 799,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 8.949305555555556,
+    "neither": 1547,
+    "joyOnly": 11037,
+    "roadOnly": 0,
+    "ready": 303,
+    "roadOnlyMax": 0,
+    "gapMax": 322
+   },
+   {
+    "ch": 5,
+    "days": 9.469444444444445,
+    "neither": 1602,
+    "joyOnly": 11793,
+    "roadOnly": 0,
+    "ready": 241,
+    "roadOnlyMax": 0,
+    "gapMax": 765
+   }
+  ],
+  "idleMax": 0.6041666666666666,
+  "brokeRate": 0,
+  "checkins": 84
+ },
+ {
+  "persona": "hoarder",
+  "seed": 7,
+  "end": 26.40341435185185,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.5118055555555556,
+    "neither": 971,
+    "joyOnly": 2087,
+    "roadOnly": 0,
+    "ready": 559,
+    "roadOnlyMax": 0,
+    "gapMax": 760
+   },
+   {
+    "ch": 3,
+    "days": 6.9534722222222225,
+    "neither": 278,
+    "joyOnly": 9257,
+    "roadOnly": 0,
+    "ready": 478,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 7.971527777777776,
+    "neither": 278,
+    "joyOnly": 10523,
+    "roadOnly": 0,
+    "ready": 678,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 5,
+    "days": 7.0881944444444445,
+    "neither": 363,
+    "joyOnly": 9354,
+    "roadOnly": 0,
+    "ready": 490,
+    "roadOnlyMax": 0,
+    "gapMax": 178
+   }
+  ],
+  "idleMax": 5.414583333333334,
+  "brokeRate": 0,
+  "checkins": 73
+ },
+ {
+  "persona": "hoarder",
+  "seed": 11,
+  "end": 27.89236111111111,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.5083333333333333,
+    "neither": 888,
+    "joyOnly": 2314,
+    "roadOnly": 0,
+    "ready": 410,
+    "roadOnlyMax": 0,
+    "gapMax": 766
+   },
+   {
+    "ch": 3,
+    "days": 7.164583333333334,
+    "neither": 134,
+    "joyOnly": 10064,
+    "roadOnly": 0,
+    "ready": 119,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 8.793055555555556,
+    "neither": 493,
+    "joyOnly": 11646,
+    "roadOnly": 0,
+    "ready": 523,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 5,
+    "days": 7.547916666666667,
+    "neither": 204,
+    "joyOnly": 10386,
+    "roadOnly": 0,
+    "ready": 279,
+    "roadOnlyMax": 0,
+    "gapMax": 61
+   }
+  ],
+  "idleMax": 6.4875,
+  "brokeRate": 0,
+  "checkins": 78
+ },
+ {
+  "persona": "hoarder",
+  "seed": 23,
+  "end": 26.59375,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.436111111111111,
+    "neither": 948,
+    "joyOnly": 2228,
+    "roadOnly": 0,
+    "ready": 332,
+    "roadOnlyMax": 0,
+    "gapMax": 646
+   },
+   {
+    "ch": 3,
+    "days": 6.590972222222222,
+    "neither": 331,
+    "joyOnly": 8730,
+    "roadOnly": 0,
+    "ready": 430,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 8.425,
+    "neither": 737,
+    "joyOnly": 10790,
+    "roadOnly": 0,
+    "ready": 605,
+    "roadOnlyMax": 0,
+    "gapMax": 71
+   },
+   {
+    "ch": 5,
+    "days": 7.263194444444444,
+    "neither": 356,
+    "joyOnly": 9871,
+    "roadOnly": 0,
+    "ready": 232,
+    "roadOnlyMax": 0,
+    "gapMax": 208
+   }
+  ],
+  "idleMax": 5.916666666666667,
+  "brokeRate": 0,
+  "checkins": 74
+ },
+ {
+  "persona": "hoarder",
+  "seed": 42,
+  "end": 26.389293981481483,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.4569444444444444,
+    "neither": 885,
+    "joyOnly": 2256,
+    "roadOnly": 0,
+    "ready": 397,
+    "roadOnlyMax": 0,
+    "gapMax": 724
+   },
+   {
+    "ch": 3,
+    "days": 7.0256944444444445,
+    "neither": 319,
+    "joyOnly": 9175,
+    "roadOnly": 0,
+    "ready": 623,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 8.027777777777779,
+    "neither": 830,
+    "joyOnly": 10220,
+    "roadOnly": 0,
+    "ready": 510,
+    "roadOnlyMax": 0,
+    "gapMax": 152
+   },
+   {
+    "ch": 5,
+    "days": 7.000694444444444,
+    "neither": 246,
+    "joyOnly": 9580,
+    "roadOnly": 0,
+    "ready": 255,
+    "roadOnlyMax": 0,
+    "gapMax": 83
+   }
+  ],
+  "idleMax": 4.872916666666667,
+  "brokeRate": 0,
+  "checkins": 73
+ },
+ {
+  "persona": "hoarder",
+  "seed": 99,
+  "end": 27.41111111111111,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.46875,
+    "neither": 890,
+    "joyOnly": 2282,
+    "roadOnly": 0,
+    "ready": 383,
+    "roadOnlyMax": 0,
+    "gapMax": 683
+   },
+   {
+    "ch": 3,
+    "days": 7.059027777777778,
+    "neither": 194,
+    "joyOnly": 9487,
+    "roadOnly": 0,
+    "ready": 484,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 8.490972222222222,
+    "neither": 658,
+    "joyOnly": 11275,
+    "roadOnly": 0,
+    "ready": 294,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 5,
+    "days": 7.513888888888889,
+    "neither": 660,
+    "joyOnly": 9786,
+    "roadOnly": 0,
+    "ready": 374,
+    "roadOnlyMax": 0,
+    "gapMax": 505
+   }
+  ],
+  "idleMax": 6.392361111111111,
+  "brokeRate": 0,
+  "checkins": 76
+ },
+ {
+  "persona": "stack",
+  "seed": 7,
+  "end": 30.547858796296296,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.704861111111111,
+    "neither": 971,
+    "joyOnly": 2677,
+    "roadOnly": 0,
+    "ready": 247,
+    "roadOnlyMax": 0,
+    "gapMax": 760
+   },
+   {
+    "ch": 3,
+    "days": 6.760416666666667,
+    "neither": 380,
+    "joyOnly": 8992,
+    "roadOnly": 0,
+    "ready": 363,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 10.059027777777777,
+    "neither": 1244,
+    "joyOnly": 13103,
+    "roadOnly": 0,
+    "ready": 138,
+    "roadOnlyMax": 0,
+    "gapMax": 619
+   },
+   {
+    "ch": 5,
+    "days": 9.145138888888889,
+    "neither": 1792,
+    "joyOnly": 11341,
+    "roadOnly": 0,
+    "ready": 36,
+    "roadOnlyMax": 0,
+    "gapMax": 578
+   }
+  ],
+  "idleMax": 0.5791666666666667,
+  "brokeRate": 0,
+  "checkins": 86
+ },
+ {
+  "persona": "stack",
+  "seed": 11,
+  "end": 30.93125,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.5083333333333333,
+    "neither": 888,
+    "joyOnly": 2361,
+    "roadOnly": 0,
+    "ready": 363,
+    "roadOnlyMax": 0,
+    "gapMax": 766
+   },
+   {
+    "ch": 3,
+    "days": 7.96875,
+    "neither": 134,
+    "joyOnly": 10790,
+    "roadOnly": 0,
+    "ready": 551,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 8.567361111111111,
+    "neither": 1884,
+    "joyOnly": 10018,
+    "roadOnly": 0,
+    "ready": 435,
+    "roadOnlyMax": 0,
+    "gapMax": 833
+   },
+   {
+    "ch": 5,
+    "days": 10.008333333333333,
+    "neither": 1415,
+    "joyOnly": 12365,
+    "roadOnly": 0,
+    "ready": 632,
+    "roadOnlyMax": 0,
+    "gapMax": 730
+   }
+  ],
+  "idleMax": 0.8493055555555555,
+  "brokeRate": 0,
+  "checkins": 87
+ },
+ {
+  "persona": "stack",
+  "seed": 23,
+  "end": 29.406944444444445,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.436111111111111,
+    "neither": 948,
+    "joyOnly": 2343,
+    "roadOnly": 0,
+    "ready": 217,
+    "roadOnlyMax": 0,
+    "gapMax": 646
+   },
+   {
+    "ch": 3,
+    "days": 7.102777777777778,
+    "neither": 331,
+    "joyOnly": 9267,
+    "roadOnly": 0,
+    "ready": 630,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 8.936111111111112,
+    "neither": 1606,
+    "joyOnly": 10992,
+    "roadOnly": 0,
+    "ready": 270,
+    "roadOnlyMax": 0,
+    "gapMax": 713
+   },
+   {
+    "ch": 5,
+    "days": 9.053472222222222,
+    "neither": 203,
+    "joyOnly": 12583,
+    "roadOnly": 0,
+    "ready": 251,
+    "roadOnlyMax": 0,
+    "gapMax": 203
+   }
+  ],
+  "idleMax": 0.5993055555555555,
+  "brokeRate": 0,
+  "checkins": 82
+ },
+ {
+  "persona": "stack",
+  "seed": 42,
+  "end": 31.51846064814815,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.4569444444444444,
+    "neither": 885,
+    "joyOnly": 2443,
+    "roadOnly": 0,
+    "ready": 210,
+    "roadOnlyMax": 0,
+    "gapMax": 724
+   },
+   {
+    "ch": 3,
+    "days": 7.602083333333334,
+    "neither": 319,
+    "joyOnly": 10355,
+    "roadOnly": 0,
+    "ready": 273,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 9.579861111111112,
+    "neither": 1455,
+    "joyOnly": 12207,
+    "roadOnly": 0,
+    "ready": 133,
+    "roadOnlyMax": 0,
+    "gapMax": 409
+   },
+   {
+    "ch": 5,
+    "days": 10.001388888888888,
+    "neither": 1318,
+    "joyOnly": 12928,
+    "roadOnly": 0,
+    "ready": 156,
+    "roadOnlyMax": 0,
+    "gapMax": 377
+   }
+  ],
+  "idleMax": 0.6465277777777778,
+  "brokeRate": 0,
+  "checkins": 89
+ },
+ {
+  "persona": "stack",
+  "seed": 99,
+  "end": 31.325,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.46875,
+    "neither": 890,
+    "joyOnly": 2232,
+    "roadOnly": 0,
+    "ready": 433,
+    "roadOnlyMax": 0,
+    "gapMax": 683
+   },
+   {
+    "ch": 3,
+    "days": 7.059027777777778,
+    "neither": 194,
+    "joyOnly": 9339,
+    "roadOnly": 0,
+    "ready": 632,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 9.430555555555555,
+    "neither": 2675,
+    "joyOnly": 10620,
+    "roadOnly": 0,
+    "ready": 285,
+    "roadOnlyMax": 0,
+    "gapMax": 1111
+   },
+   {
+    "ch": 5,
+    "days": 10.488194444444444,
+    "neither": 1947,
+    "joyOnly": 12999,
+    "roadOnly": 0,
+    "ready": 157,
+    "roadOnlyMax": 0,
+    "gapMax": 760
+   }
+  ],
+  "idleMax": 1.7673611111111112,
+  "brokeRate": 0,
+  "checkins": 88
+ },
+ {
+  "persona": "spread",
+  "seed": 7,
+  "end": 32.57008101851852,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 1.9833333333333334,
+    "neither": 971,
+    "joyOnly": 1743,
+    "roadOnly": 0,
+    "ready": 142,
+    "roadOnlyMax": 0,
+    "gapMax": 760
+   },
+   {
+    "ch": 3,
+    "days": 7.481944444444444,
+    "neither": 761,
+    "joyOnly": 9688,
+    "roadOnly": 0,
+    "ready": 325,
+    "roadOnlyMax": 0,
+    "gapMax": 236
+   },
+   {
+    "ch": 4,
+    "days": 10.059027777777777,
+    "neither": 493,
+    "joyOnly": 13789,
+    "roadOnly": 0,
+    "ready": 203,
+    "roadOnlyMax": 0,
+    "gapMax": 215
+   },
+   {
+    "ch": 5,
+    "days": 11.167361111111111,
+    "neither": 0,
+    "joyOnly": 15865,
+    "roadOnly": 0,
+    "ready": 216,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   }
+  ],
+  "idleMax": 0.5791666666666667,
+  "brokeRate": 0,
+  "checkins": 92
+ },
+ {
+  "persona": "spread",
+  "seed": 11,
+  "end": 31.5875,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.0097222222222224,
+    "neither": 888,
+    "joyOnly": 1938,
+    "roadOnly": 0,
+    "ready": 68,
+    "roadOnlyMax": 0,
+    "gapMax": 766
+   },
+   {
+    "ch": 3,
+    "days": 7.663194444444445,
+    "neither": 1358,
+    "joyOnly": 9335,
+    "roadOnly": 168,
+    "ready": 174,
+    "roadOnlyMax": 168,
+    "gapMax": 808
+   },
+   {
+    "ch": 4,
+    "days": 9.869444444444444,
+    "neither": 3262,
+    "joyOnly": 10552,
+    "roadOnly": 0,
+    "ready": 398,
+    "roadOnlyMax": 0,
+    "gapMax": 1275
+   },
+   {
+    "ch": 5,
+    "days": 10.166666666666666,
+    "neither": 1015,
+    "joyOnly": 13392,
+    "roadOnly": 0,
+    "ready": 233,
+    "roadOnlyMax": 0,
+    "gapMax": 779
+   }
+  ],
+  "idleMax": 0.5784722222222223,
+  "brokeRate": 0,
+  "checkins": 89
+ },
+ {
+  "persona": "spread",
+  "seed": 23,
+  "end": 31.529166666666665,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.036111111111111,
+    "neither": 948,
+    "joyOnly": 1766,
+    "roadOnly": 0,
+    "ready": 218,
+    "roadOnlyMax": 0,
+    "gapMax": 646
+   },
+   {
+    "ch": 3,
+    "days": 6.6715277777777775,
+    "neither": 576,
+    "joyOnly": 8777,
+    "roadOnly": 0,
+    "ready": 254,
+    "roadOnlyMax": 0,
+    "gapMax": 30
+   },
+   {
+    "ch": 4,
+    "days": 10.849305555555556,
+    "neither": 2413,
+    "joyOnly": 12644,
+    "roadOnly": 0,
+    "ready": 566,
+    "roadOnlyMax": 0,
+    "gapMax": 811
+   },
+   {
+    "ch": 5,
+    "days": 10.09375,
+    "neither": 799,
+    "joyOnly": 13682,
+    "roadOnly": 0,
+    "ready": 54,
+    "roadOnlyMax": 0,
+    "gapMax": 615
+   }
+  ],
+  "idleMax": 0.8388888888888889,
+  "brokeRate": 0,
+  "checkins": 89
+ },
+ {
+  "persona": "spread",
+  "seed": 42,
+  "end": 29.84346064814815,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.015972222222222,
+    "neither": 885,
+    "joyOnly": 1855,
+    "roadOnly": 0,
+    "ready": 163,
+    "roadOnlyMax": 0,
+    "gapMax": 724
+   },
+   {
+    "ch": 3,
+    "days": 6.694444444444445,
+    "neither": 635,
+    "joyOnly": 8875,
+    "roadOnly": 0,
+    "ready": 130,
+    "roadOnlyMax": 0,
+    "gapMax": 89
+   },
+   {
+    "ch": 4,
+    "days": 9.846527777777778,
+    "neither": 1408,
+    "joyOnly": 12584,
+    "roadOnly": 0,
+    "ready": 187,
+    "roadOnlyMax": 0,
+    "gapMax": 541
+   },
+   {
+    "ch": 5,
+    "days": 9.408333333333333,
+    "neither": 835,
+    "joyOnly": 12576,
+    "roadOnly": 0,
+    "ready": 137,
+    "roadOnlyMax": 0,
+    "gapMax": 835
+   }
+  ],
+  "idleMax": 0.5854166666666667,
+  "brokeRate": 0,
+  "checkins": 84
+ },
+ {
+  "persona": "spread",
+  "seed": 99,
+  "end": 29.336805555555557,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.46875,
+    "neither": 890,
+    "joyOnly": 2103,
+    "roadOnly": 0,
+    "ready": 562,
+    "roadOnlyMax": 0,
+    "gapMax": 683
+   },
+   {
+    "ch": 3,
+    "days": 7.059027777777778,
+    "neither": 194,
+    "joyOnly": 9794,
+    "roadOnly": 0,
+    "ready": 177,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 7.956944444444445,
+    "neither": 1653,
+    "joyOnly": 9483,
+    "roadOnly": 0,
+    "ready": 322,
+    "roadOnlyMax": 0,
+    "gapMax": 995
+   },
+   {
+    "ch": 5,
+    "days": 9.973611111111111,
+    "neither": 1260,
+    "joyOnly": 12431,
+    "roadOnly": 0,
+    "ready": 671,
+    "roadOnlyMax": 0,
+    "gapMax": 681
+   }
+  ],
+  "idleMax": 1.5131944444444445,
+  "brokeRate": 0,
+  "checkins": 82
+ },
+ {
+  "persona": "night",
+  "seed": 7,
+  "end": 32.87008101851852,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.5118055555555556,
+    "neither": 971,
+    "joyOnly": 2278,
+    "roadOnly": 0,
+    "ready": 368,
+    "roadOnlyMax": 0,
+    "gapMax": 760
+   },
+   {
+    "ch": 3,
+    "days": 8.035416666666666,
+    "neither": 2240,
+    "joyOnly": 8794,
+    "roadOnly": 0,
+    "ready": 537,
+    "roadOnlyMax": 0,
+    "gapMax": 765
+   },
+   {
+    "ch": 4,
+    "days": 11.469444444444445,
+    "neither": 6237,
+    "joyOnly": 10065,
+    "roadOnly": 0,
+    "ready": 214,
+    "roadOnlyMax": 0,
+    "gapMax": 809
+   },
+   {
+    "ch": 5,
+    "days": 8.975,
+    "neither": 3607,
+    "joyOnly": 8974,
+    "roadOnly": 0,
+    "ready": 343,
+    "roadOnlyMax": 0,
+    "gapMax": 902
+   }
+  ],
+  "idleMax": 0.5972222222222222,
+  "brokeRate": 0.010752688172043012,
+  "checkins": 93
+ },
+ {
+  "persona": "night",
+  "seed": 11,
+  "end": 31.5875,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.5083333333333333,
+    "neither": 888,
+    "joyOnly": 2147,
+    "roadOnly": 0,
+    "ready": 577,
+    "roadOnlyMax": 0,
+    "gapMax": 766
+   },
+   {
+    "ch": 3,
+    "days": 7.04375,
+    "neither": 729,
+    "joyOnly": 8975,
+    "roadOnly": 0,
+    "ready": 439,
+    "roadOnlyMax": 0,
+    "gapMax": 729
+   },
+   {
+    "ch": 4,
+    "days": 9.990277777777777,
+    "neither": 5241,
+    "joyOnly": 8812,
+    "roadOnly": 0,
+    "ready": 333,
+    "roadOnlyMax": 0,
+    "gapMax": 1275
+   },
+   {
+    "ch": 5,
+    "days": 10.166666666666666,
+    "neither": 4196,
+    "joyOnly": 9671,
+    "roadOnly": 484,
+    "ready": 289,
+    "roadOnlyMax": 484,
+    "gapMax": 1190
+   }
+  ],
+  "idleMax": 0.5784722222222223,
+  "brokeRate": 0,
+  "checkins": 89
+ },
+ {
+  "persona": "night",
+  "seed": 23,
+  "end": 33.540277777777774,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.436111111111111,
+    "neither": 948,
+    "joyOnly": 2014,
+    "roadOnly": 0,
+    "ready": 546,
+    "roadOnlyMax": 0,
+    "gapMax": 646
+   },
+   {
+    "ch": 3,
+    "days": 8.270833333333334,
+    "neither": 4054,
+    "joyOnly": 7690,
+    "roadOnly": 0,
+    "ready": 166,
+    "roadOnlyMax": 0,
+    "gapMax": 1405
+   },
+   {
+    "ch": 4,
+    "days": 11.333333333333334,
+    "neither": 5226,
+    "joyOnly": 9663,
+    "roadOnly": 835,
+    "ready": 596,
+    "roadOnlyMax": 835,
+    "gapMax": 935
+   },
+   {
+    "ch": 5,
+    "days": 9.621527777777779,
+    "neither": 4180,
+    "joyOnly": 8754,
+    "roadOnly": 737,
+    "ready": 184,
+    "roadOnlyMax": 737,
+    "gapMax": 1145
+   }
+  ],
+  "idleMax": 0.5993055555555555,
+  "brokeRate": 0,
+  "checkins": 95
+ },
+ {
+  "persona": "night",
+  "seed": 42,
+  "end": 30.578182870370373,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.4569444444444444,
+    "neither": 885,
+    "joyOnly": 2474,
+    "roadOnly": 0,
+    "ready": 179,
+    "roadOnlyMax": 0,
+    "gapMax": 724
+   },
+   {
+    "ch": 3,
+    "days": 7.602083333333334,
+    "neither": 1319,
+    "joyOnly": 9417,
+    "roadOnly": 0,
+    "ready": 211,
+    "roadOnlyMax": 0,
+    "gapMax": 724
+   },
+   {
+    "ch": 4,
+    "days": 10.397916666666667,
+    "neither": 7517,
+    "joyOnly": 7061,
+    "roadOnly": 0,
+    "ready": 395,
+    "roadOnlyMax": 0,
+    "gapMax": 1496
+   },
+   {
+    "ch": 5,
+    "days": 8.243055555555555,
+    "neither": 3495,
+    "joyOnly": 8213,
+    "roadOnly": 0,
+    "ready": 162,
+    "roadOnlyMax": 0,
+    "gapMax": 819
+   }
+  ],
+  "idleMax": 0.5854166666666667,
+  "brokeRate": 0,
+  "checkins": 86
+ },
+ {
+  "persona": "night",
+  "seed": 99,
+  "end": 35.49930555555556,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.6034722222222224,
+    "neither": 890,
+    "joyOnly": 2826,
+    "roadOnly": 0,
+    "ready": 33,
+    "roadOnlyMax": 0,
+    "gapMax": 683
+   },
+   {
+    "ch": 3,
+    "days": 10.103472222222223,
+    "neither": 1103,
+    "joyOnly": 12583,
+    "roadOnly": 601,
+    "ready": 262,
+    "roadOnlyMax": 601,
+    "gapMax": 1294
+   },
+   {
+    "ch": 4,
+    "days": 10.952777777777778,
+    "neither": 3978,
+    "joyOnly": 10328,
+    "roadOnly": 1192,
+    "ready": 274,
+    "roadOnlyMax": 1192,
+    "gapMax": 1246
+   },
+   {
+    "ch": 5,
+    "days": 9.96111111111111,
+    "neither": 8024,
+    "joyOnly": 6238,
+    "roadOnly": 0,
+    "ready": 82,
+    "roadOnlyMax": 0,
+    "gapMax": 1236
+   }
+  ],
+  "idleMax": 0.6041666666666666,
+  "brokeRate": 0.009900990099009901,
+  "checkins": 101
+ },
+ {
+  "persona": "sloppy",
+  "seed": 7,
+  "end": 26.925636574074073,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 3.0381944444444438,
+    "neither": 1451,
+    "joyOnly": 2518,
+    "roadOnly": 0,
+    "ready": 406,
+    "roadOnlyMax": 0,
+    "gapMax": 760
+   },
+   {
+    "ch": 3,
+    "days": 7.509027777777778,
+    "neither": 661,
+    "joyOnly": 9889,
+    "roadOnly": 0,
+    "ready": 263,
+    "roadOnlyMax": 0,
+    "gapMax": 114
+   },
+   {
+    "ch": 4,
+    "days": 7.94861111111111,
+    "neither": 587,
+    "joyOnly": 10707,
+    "roadOnly": 0,
+    "ready": 152,
+    "roadOnlyMax": 0,
+    "gapMax": 52
+   },
+   {
+    "ch": 5,
+    "days": 6.551388888888889,
+    "neither": 732,
+    "joyOnly": 8587,
+    "roadOnly": 0,
+    "ready": 115,
+    "roadOnlyMax": 0,
+    "gapMax": 545
+   }
+  ],
+  "idleMax": 0.5909722222222222,
+  "brokeRate": 0,
+  "checkins": 50
+ },
+ {
+  "persona": "sloppy",
+  "seed": 11,
+  "end": 30.40486111111111,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.5083333333333333,
+    "neither": 1368,
+    "joyOnly": 2101,
+    "roadOnly": 0,
+    "ready": 143,
+    "roadOnlyMax": 0,
+    "gapMax": 766
+   },
+   {
+    "ch": 3,
+    "days": 8.975694444444445,
+    "neither": 614,
+    "joyOnly": 11590,
+    "roadOnly": 0,
+    "ready": 721,
+    "roadOnlyMax": 0,
+    "gapMax": 172
+   },
+   {
+    "ch": 4,
+    "days": 9.04861111111111,
+    "neither": 671,
+    "joyOnly": 11819,
+    "roadOnly": 0,
+    "ready": 540,
+    "roadOnlyMax": 0,
+    "gapMax": 134
+   },
+   {
+    "ch": 5,
+    "days": 7.99375,
+    "neither": 638,
+    "joyOnly": 10710,
+    "roadOnly": 0,
+    "ready": 163,
+    "roadOnlyMax": 0,
+    "gapMax": 489
+   }
+  ],
+  "idleMax": 0.6041666666666666,
+  "brokeRate": 0,
+  "checkins": 57
+ },
+ {
+  "persona": "sloppy",
+  "seed": 23,
+  "end": 30.90625,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.9993055555555554,
+    "neither": 1428,
+    "joyOnly": 2270,
+    "roadOnly": 0,
+    "ready": 621,
+    "roadOnlyMax": 0,
+    "gapMax": 646
+   },
+   {
+    "ch": 3,
+    "days": 8.040972222222223,
+    "neither": 791,
+    "joyOnly": 10673,
+    "roadOnly": 0,
+    "ready": 115,
+    "roadOnlyMax": 0,
+    "gapMax": 345
+   },
+   {
+    "ch": 4,
+    "days": 9.44513888888889,
+    "neither": 713,
+    "joyOnly": 12436,
+    "roadOnly": 0,
+    "ready": 452,
+    "roadOnlyMax": 0,
+    "gapMax": 167
+   },
+   {
+    "ch": 5,
+    "days": 8.542361111111111,
+    "neither": 727,
+    "joyOnly": 11037,
+    "roadOnly": 0,
+    "ready": 537,
+    "roadOnlyMax": 0,
+    "gapMax": 579
+   }
+  ],
+  "idleMax": 0.5951388888888889,
+  "brokeRate": 0,
+  "checkins": 58
+ },
+ {
+  "persona": "sloppy",
+  "seed": 42,
+  "end": 28.81498842592593,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 3.011805555555556,
+    "neither": 1365,
+    "joyOnly": 2231,
+    "roadOnly": 0,
+    "ready": 741,
+    "roadOnlyMax": 0,
+    "gapMax": 724
+   },
+   {
+    "ch": 3,
+    "days": 7.506944444444445,
+    "neither": 754,
+    "joyOnly": 9628,
+    "roadOnly": 0,
+    "ready": 428,
+    "roadOnlyMax": 0,
+    "gapMax": 232
+   },
+   {
+    "ch": 4,
+    "days": 8.54027777777778,
+    "neither": 716,
+    "joyOnly": 11354,
+    "roadOnly": 0,
+    "ready": 228,
+    "roadOnlyMax": 0,
+    "gapMax": 164
+   },
+   {
+    "ch": 5,
+    "days": 7.877777777777778,
+    "neither": 656,
+    "joyOnly": 10282,
+    "roadOnly": 0,
+    "ready": 406,
+    "roadOnlyMax": 0,
+    "gapMax": 469
+   }
+  ],
+  "idleMax": 0.5979166666666667,
+  "brokeRate": 0,
+  "checkins": 54
+ },
+ {
+  "persona": "sloppy",
+  "seed": 99,
+  "end": 28.354861111111113,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.9368055555555554,
+    "neither": 1370,
+    "joyOnly": 2189,
+    "roadOnly": 0,
+    "ready": 670,
+    "roadOnlyMax": 0,
+    "gapMax": 683
+   },
+   {
+    "ch": 3,
+    "days": 8.113888888888889,
+    "neither": 862,
+    "joyOnly": 10697,
+    "roadOnly": 0,
+    "ready": 125,
+    "roadOnlyMax": 0,
+    "gapMax": 399
+   },
+   {
+    "ch": 4,
+    "days": 8.002777777777778,
+    "neither": 574,
+    "joyOnly": 10883,
+    "roadOnly": 0,
+    "ready": 67,
+    "roadOnlyMax": 0,
+    "gapMax": 24
+   },
+   {
+    "ch": 5,
+    "days": 7.422916666666667,
+    "neither": 696,
+    "joyOnly": 9581,
+    "roadOnly": 0,
+    "ready": 412,
+    "roadOnlyMax": 0,
+    "gapMax": 506
+   }
+  ],
+  "idleMax": 0.6152777777777778,
+  "brokeRate": 0,
+  "checkins": 53
+ },
+ {
+  "persona": "screen",
+  "seed": 7,
+  "end": null,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.704861111111111,
+    "neither": 971,
+    "joyOnly": 2677,
+    "roadOnly": 0,
+    "ready": 247,
+    "roadOnlyMax": 0,
+    "gapMax": 760
+   },
+   {
+    "ch": 3,
+    "days": 6.760416666666667,
+    "neither": 380,
+    "joyOnly": 8992,
+    "roadOnly": 0,
+    "ready": 363,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 60.52083333333332,
+    "neither": 3804,
+    "joyOnly": 10235,
+    "roadOnly": 73111,
+    "ready": 0,
+    "roadOnlyMax": 73111,
+    "gapMax": 75671
+   }
+  ],
+  "idleMax": 6.783333333333333,
+  "brokeRate": 0,
+  "checkins": 210
+ },
+ {
+  "persona": "screen",
+  "seed": 11,
+  "end": null,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.5083333333333333,
+    "neither": 888,
+    "joyOnly": 2361,
+    "roadOnly": 0,
+    "ready": 363,
+    "roadOnlyMax": 0,
+    "gapMax": 766
+   },
+   {
+    "ch": 3,
+    "days": 7.96875,
+    "neither": 134,
+    "joyOnly": 10790,
+    "roadOnly": 0,
+    "ready": 551,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 59.578472222222224,
+    "neither": 3795,
+    "joyOnly": 8394,
+    "roadOnly": 73604,
+    "ready": 0,
+    "roadOnlyMax": 73604,
+    "gapMax": 75738
+   }
+  ],
+  "idleMax": 18.99375,
+  "brokeRate": 0,
+  "checkins": 210
+ },
+ {
+  "persona": "screen",
+  "seed": 23,
+  "end": null,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.436111111111111,
+    "neither": 948,
+    "joyOnly": 2343,
+    "roadOnly": 0,
+    "ready": 217,
+    "roadOnlyMax": 0,
+    "gapMax": 646
+   },
+   {
+    "ch": 3,
+    "days": 7.102777777777778,
+    "neither": 331,
+    "joyOnly": 9267,
+    "roadOnly": 0,
+    "ready": 630,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 9.11875,
+    "neither": 3631,
+    "joyOnly": 9091,
+    "roadOnly": 146,
+    "ready": 263,
+    "roadOnlyMax": 146,
+    "gapMax": 2171
+   },
+   {
+    "ch": 5,
+    "days": 51.37013888888889,
+    "neither": 6123,
+    "joyOnly": 7461,
+    "roadOnly": 60389,
+    "ready": 0,
+    "roadOnlyMax": 60389,
+    "gapMax": 64865
+   }
+  ],
+  "idleMax": 4.05,
+  "brokeRate": 0,
+  "checkins": 210
+ },
+ {
+  "persona": "screen",
+  "seed": 42,
+  "end": 34.58373842592593,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.4569444444444444,
+    "neither": 885,
+    "joyOnly": 2443,
+    "roadOnly": 0,
+    "ready": 210,
+    "roadOnlyMax": 0,
+    "gapMax": 724
+   },
+   {
+    "ch": 3,
+    "days": 7.602083333333334,
+    "neither": 319,
+    "joyOnly": 10355,
+    "roadOnly": 0,
+    "ready": 273,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 10.64027777777778,
+    "neither": 3034,
+    "joyOnly": 10657,
+    "roadOnly": 1282,
+    "ready": 349,
+    "roadOnlyMax": 1282,
+    "gapMax": 1888
+   },
+   {
+    "ch": 5,
+    "days": 12.00625,
+    "neither": 624,
+    "joyOnly": 16589,
+    "roadOnly": 0,
+    "ready": 76,
+    "roadOnlyMax": 0,
+    "gapMax": 624
+   }
+  ],
+  "idleMax": 1.975,
+  "brokeRate": 0,
+  "checkins": 98
+ },
+ {
+  "persona": "screen",
+  "seed": 99,
+  "end": null,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.46875,
+    "neither": 890,
+    "joyOnly": 2232,
+    "roadOnly": 0,
+    "ready": 433,
+    "roadOnlyMax": 0,
+    "gapMax": 683
+   },
+   {
+    "ch": 3,
+    "days": 7.059027777777778,
+    "neither": 194,
+    "joyOnly": 9339,
+    "roadOnly": 0,
+    "ready": 632,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 10.009027777777778,
+    "neither": 1887,
+    "joyOnly": 11761,
+    "roadOnly": 0,
+    "ready": 765,
+    "roadOnlyMax": 0,
+    "gapMax": 644
+   },
+   {
+    "ch": 5,
+    "days": 50.480555555555554,
+    "neither": 11930,
+    "joyOnly": 2925,
+    "roadOnly": 57837,
+    "ready": 0,
+    "roadOnlyMax": 57837,
+    "gapMax": 69551
+   }
+  ],
+  "idleMax": 7.285416666666666,
+  "brokeRate": 0,
+  "checkins": 210
+ },
+ {
+  "persona": "away",
+  "seed": 7,
+  "end": 30.81730324074074,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 3.0118055555555547,
+    "neither": 2931,
+    "joyOnly": 1270,
+    "roadOnly": 0,
+    "ready": 136,
+    "roadOnlyMax": 0,
+    "gapMax": 1480
+   },
+   {
+    "ch": 3,
+    "days": 10.024305555555554,
+    "neither": 0,
+    "joyOnly": 13012,
+    "roadOnly": 0,
+    "ready": 1423,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 7.999305555555556,
+    "neither": 1348,
+    "joyOnly": 9834,
+    "roadOnly": 0,
+    "ready": 337,
+    "roadOnlyMax": 0,
+    "gapMax": 809
+   },
+   {
+    "ch": 5,
+    "days": 7.903472222222222,
+    "neither": 1302,
+    "joyOnly": 10037,
+    "roadOnly": 0,
+    "ready": 42,
+    "roadOnlyMax": 0,
+    "gapMax": 1158
+   }
+  ],
+  "idleMax": 1.0993055555555555,
+  "brokeRate": 0,
+  "checkins": 29
+ },
+ {
+  "persona": "away",
+  "seed": 11,
+  "end": 29.90625,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 3.0083333333333333,
+    "neither": 2839,
+    "joyOnly": 1255,
+    "roadOnly": 0,
+    "ready": 238,
+    "roadOnlyMax": 0,
+    "gapMax": 1486
+   },
+   {
+    "ch": 3,
+    "days": 9.959722222222222,
+    "neither": 0,
+    "joyOnly": 13680,
+    "roadOnly": 0,
+    "ready": 662,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 8.064583333333333,
+    "neither": 1519,
+    "joyOnly": 10083,
+    "roadOnly": 0,
+    "ready": 11,
+    "roadOnlyMax": 0,
+    "gapMax": 967
+   },
+   {
+    "ch": 5,
+    "days": 6.995138888888889,
+    "neither": 1411,
+    "joyOnly": 8465,
+    "roadOnly": 0,
+    "ready": 197,
+    "roadOnlyMax": 0,
+    "gapMax": 1254
+   }
+  ],
+  "idleMax": 1.0965277777777778,
+  "brokeRate": 0,
+  "checkins": 28
+ },
+ {
+  "persona": "away",
+  "seed": 23,
+  "end": 31.911805555555556,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.936111111111111,
+    "neither": 2935,
+    "joyOnly": 1126,
+    "roadOnly": 0,
+    "ready": 167,
+    "roadOnlyMax": 0,
+    "gapMax": 1500
+   },
+   {
+    "ch": 3,
+    "days": 10.027083333333334,
+    "neither": 0,
+    "joyOnly": 13395,
+    "roadOnly": 0,
+    "ready": 1044,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 10.004166666666666,
+    "neither": 1564,
+    "joyOnly": 12024,
+    "roadOnly": 0,
+    "ready": 818,
+    "roadOnlyMax": 0,
+    "gapMax": 946
+   },
+   {
+    "ch": 5,
+    "days": 7.065972222222222,
+    "neither": 1419,
+    "joyOnly": 7664,
+    "roadOnly": 0,
+    "ready": 1092,
+    "roadOnlyMax": 0,
+    "gapMax": 1271
+   }
+  ],
+  "idleMax": 1.1125,
+  "brokeRate": 0,
+  "checkins": 30
+ },
+ {
+  "persona": "away",
+  "seed": 42,
+  "end": 30.864293981481485,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.9569444444444453,
+    "neither": 2917,
+    "joyOnly": 1183,
+    "roadOnly": 0,
+    "ready": 158,
+    "roadOnlyMax": 0,
+    "gapMax": 1444
+   },
+   {
+    "ch": 3,
+    "days": 10.01875,
+    "neither": 0,
+    "joyOnly": 13140,
+    "roadOnly": 0,
+    "ready": 1287,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 7.98125,
+    "neither": 1524,
+    "joyOnly": 9759,
+    "roadOnly": 0,
+    "ready": 210,
+    "roadOnlyMax": 0,
+    "gapMax": 966
+   },
+   {
+    "ch": 5,
+    "days": 8.029166666666667,
+    "neither": 1557,
+    "joyOnly": 9181,
+    "roadOnly": 0,
+    "ready": 824,
+    "roadOnlyMax": 0,
+    "gapMax": 1402
+   }
+  ],
+  "idleMax": 1.08125,
+  "brokeRate": 0,
+  "checkins": 29
+ },
+ {
+  "persona": "away",
+  "seed": 99,
+  "end": 28.854861111111113,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.96875,
+    "neither": 2882,
+    "joyOnly": 1141,
+    "roadOnly": 0,
+    "ready": 252,
+    "roadOnlyMax": 0,
+    "gapMax": 1410
+   },
+   {
+    "ch": 3,
+    "days": 10.05625,
+    "neither": 0,
+    "joyOnly": 13318,
+    "roadOnly": 0,
+    "ready": 1163,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 7.979166666666667,
+    "neither": 1399,
+    "joyOnly": 10011,
+    "roadOnly": 0,
+    "ready": 80,
+    "roadOnlyMax": 0,
+    "gapMax": 846
+   },
+   {
+    "ch": 5,
+    "days": 5.972222222222222,
+    "neither": 1462,
+    "joyOnly": 6929,
+    "roadOnly": 0,
+    "ready": 209,
+    "roadOnlyMax": 0,
+    "gapMax": 1068
+   }
+  ],
+  "idleMax": 1.0756944444444445,
+  "brokeRate": 0,
+  "checkins": 27
+ },
+ {
+  "persona": "stamp",
+  "seed": 7,
+  "end": 31.421469907407406,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 3.497222222222222,
+    "neither": 971,
+    "joyOnly": 2677,
+    "roadOnly": 0,
+    "ready": 1388,
+    "roadOnlyMax": 0,
+    "gapMax": 760
+   },
+   {
+    "ch": 3,
+    "days": 7.05,
+    "neither": 328,
+    "joyOnly": 8915,
+    "roadOnly": 0,
+    "ready": 909,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 9.988194444444444,
+    "neither": 1678,
+    "joyOnly": 11713,
+    "roadOnly": 0,
+    "ready": 992,
+    "roadOnlyMax": 0,
+    "gapMax": 595
+   },
+   {
+    "ch": 5,
+    "days": 9.00763888888889,
+    "neither": 344,
+    "joyOnly": 12525,
+    "roadOnly": 0,
+    "ready": 102,
+    "roadOnlyMax": 0,
+    "gapMax": 323
+   }
+  ],
+  "idleMax": 0.5972222222222222,
+  "brokeRate": 0,
+  "checkins": 88
+ },
+ {
+  "persona": "stamp",
+  "seed": 11,
+  "end": 31.386805555555554,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.5083333333333333,
+    "neither": 888,
+    "joyOnly": 2361,
+    "roadOnly": 0,
+    "ready": 363,
+    "roadOnlyMax": 0,
+    "gapMax": 766
+   },
+   {
+    "ch": 3,
+    "days": 7.96875,
+    "neither": 134,
+    "joyOnly": 10790,
+    "roadOnly": 0,
+    "ready": 551,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 9.065277777777778,
+    "neither": 1884,
+    "joyOnly": 10018,
+    "roadOnly": 717,
+    "ready": 435,
+    "roadOnlyMax": 717,
+    "gapMax": 833
+   },
+   {
+    "ch": 5,
+    "days": 9.965972222222222,
+    "neither": 1714,
+    "joyOnly": 11918,
+    "roadOnly": 0,
+    "ready": 719,
+    "roadOnlyMax": 0,
+    "gapMax": 742
+   }
+  ],
+  "idleMax": 1.0395833333333333,
+  "brokeRate": 0,
+  "checkins": 88
+ },
+ {
+  "persona": "stamp",
+  "seed": 23,
+  "end": 31.411805555555556,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.436111111111111,
+    "neither": 948,
+    "joyOnly": 2343,
+    "roadOnly": 0,
+    "ready": 217,
+    "roadOnlyMax": 0,
+    "gapMax": 646
+   },
+   {
+    "ch": 3,
+    "days": 7.102777777777778,
+    "neither": 331,
+    "joyOnly": 9267,
+    "roadOnly": 0,
+    "ready": 630,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 8.936111111111112,
+    "neither": 2304,
+    "joyOnly": 10247,
+    "roadOnly": 0,
+    "ready": 317,
+    "roadOnlyMax": 0,
+    "gapMax": 713
+   },
+   {
+    "ch": 5,
+    "days": 11.058333333333334,
+    "neither": 1803,
+    "joyOnly": 12974,
+    "roadOnly": 0,
+    "ready": 1147,
+    "roadOnlyMax": 0,
+    "gapMax": 794
+   }
+  ],
+  "idleMax": 0.5993055555555555,
+  "brokeRate": 0,
+  "checkins": 88
+ },
+ {
+  "persona": "stamp",
+  "seed": 42,
+  "end": 32.39693287037037,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.4569444444444444,
+    "neither": 885,
+    "joyOnly": 2443,
+    "roadOnly": 0,
+    "ready": 210,
+    "roadOnlyMax": 0,
+    "gapMax": 724
+   },
+   {
+    "ch": 3,
+    "days": 8.061805555555555,
+    "neither": 319,
+    "joyOnly": 10355,
+    "roadOnly": 0,
+    "ready": 935,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 11.019444444444446,
+    "neither": 1683,
+    "joyOnly": 13101,
+    "roadOnly": 0,
+    "ready": 1084,
+    "roadOnlyMax": 0,
+    "gapMax": 980
+   },
+   {
+    "ch": 5,
+    "days": 8.980555555555556,
+    "neither": 383,
+    "joyOnly": 12148,
+    "roadOnly": 0,
+    "ready": 401,
+    "roadOnlyMax": 0,
+    "gapMax": 142
+   }
+  ],
+  "idleMax": 0.9708333333333333,
+  "brokeRate": 0,
+  "checkins": 91
+ },
+ {
+  "persona": "stamp",
+  "seed": 99,
+  "end": 31.325,
+  "chapters": [
+   {
+    "ch": 2,
+    "days": 2.46875,
+    "neither": 890,
+    "joyOnly": 2232,
+    "roadOnly": 0,
+    "ready": 433,
+    "roadOnlyMax": 0,
+    "gapMax": 683
+   },
+   {
+    "ch": 3,
+    "days": 7.059027777777778,
+    "neither": 194,
+    "joyOnly": 9339,
+    "roadOnly": 0,
+    "ready": 632,
+    "roadOnlyMax": 0,
+    "gapMax": 0
+   },
+   {
+    "ch": 4,
+    "days": 10.009027777777778,
+    "neither": 1907,
+    "joyOnly": 11752,
+    "roadOnly": 0,
+    "ready": 754,
+    "roadOnlyMax": 0,
+    "gapMax": 644
+   },
+   {
+    "ch": 5,
+    "days": 9.909722222222221,
+    "neither": 1877,
+    "joyOnly": 11351,
+    "roadOnly": 0,
+    "ready": 1042,
+    "roadOnlyMax": 0,
+    "gapMax": 750
+   }
+  ],
+  "idleMax": 0.6041666666666666,
+  "brokeRate": 0,
+  "checkins": 88
+ }
+]

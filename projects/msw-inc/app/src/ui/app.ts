@@ -51,11 +51,16 @@ export interface App {
   closeDungeon: () => void;
   openHire: (opt?: { into?: PlotId | null; seg?: M.Seg; crowd?: M.CrowdFix }) => void;
   openEvolve: (monId: number) => void;
+  /** 던전 다시 열기 (1.12.0) */
+  openRebuild: (plan: M.RebuildPlan) => void;
+  /** 빈틈을 고치는 한 입구 (1.12.0): 옮기기 → 지금 진화 → 채용 → 다시 열기 가운데 되는 것으로 보낸다 */
+  fixGap: (seg: M.Seg) => void;
   openApproval: () => void;
   openCodex: () => void;
   openMonPop: (id: number, el: Element) => void;
   closeSheet: () => void;
-  showReport: (rep: M.Report, awayMin: number) => void;
+  /** realMin: 실제로 떠나 있던 분. 월드는 awayMin(최대 24시간)만 돌았다 */
+  showReport: (rep: M.Report, awayMin: number, realMin?: number) => void;
   catchUp: (minutes: number) => void;
   offDuty: (why: 'idle' | 'manual') => void;
   highlightBest: (monId: number, only?: PlotId[]) => PlotId[];
@@ -290,7 +295,8 @@ export function heldEvolves(w: M.World): M.Monster[] {
 export function joyText(w: M.World) {
   const c = M.approvalConds(w);
   const goal = c.joyGoal || 0;
-  const perDay = M.happyCount(w) * 24;
+  // 1.12.0: 배율(엘리트·필드 보스·승진한 직원)까지 넣은 지금 속도. 전에는 즐기는 인원만 셌다
+  const perDay = M.joyRate(w).rate * 24;
   const left = Math.max(0, goal - c.joy);
   const eta = left <= 0 ? '' : perDay > 0 ? (left / perDay < 1 ? `약 ${Math.max(1, Math.round(left / perDay * 24))}시간` : `약 ${(left / perDay).toFixed(1)}일`) : '';
   return { goal, joy: c.joy, pct: goal ? Math.min(100, (100 * c.joy) / goal) : 0, eta, ok: c.happy };
@@ -353,10 +359,26 @@ export function renderDoc() {
 }
 
 // ── 오렌 (지금 가장 급한 한 가지, 1줄) ──────────────────────
+/** 다시 열기 계획은 무겁다(부지 × 계열 미리보기): 월드 분·직원 수·스마일이 같으면 다시 계산하지 않는다 */
+let rbKey = '', rbVal: M.RebuildPlan | null = null;
+function rebuildFor(w: M.World, seg: M.Seg): M.RebuildPlan | null {
+  const key = `${Math.floor(w.t)}|${w.monsters.length}|${w.monsters.filter(m => m.d).length}|${Math.floor(w.smile / 100)}|${seg}`;
+  if (key !== rbKey) { rbKey = key; rbVal = !M.moveFix(w, seg) && !M.hireFixable(w, seg) ? M.rebuildPlan(w, seg) : null; }
+  return rbVal;
+}
+A.fixGap = seg => {
+  const w = A.w;
+  const mv = M.moveFix(w, seg);
+  if (mv) { A.highlightBest(mv.mon.id, [mv.to]); return; }
+  const grow = M.growingToward(w, seg);
+  if (grow && M.canEvolve(grow)) { A.openEvolve(grow.id); return; }
+  const rb = rebuildFor(w, seg);
+  if (rb) { A.openRebuild(rb); return; }
+  A.openHire({ seg });
+};
 export function orenPick(): OrenLine {
   const w = A.w;
   if (A.T && A.T.active()) return A.T.line();
-  if (A.ui.longAway) return { t: '매니저님 어디 가셨었어요?! 하루 넘게 비우시면 월드가 멈춰 있어요!!', go: () => { A.ui.longAway = false; renderOren(); } };
   if (w.approvalReady) return { t: w.chapter >= 5 ? '매니저님!! 마지막 결재 서류예요!! 도장 받으러 가요!!' : '매니저님!! 결재 서류에 도장 받을 수 있어요!!', go: () => A.openApproval() };
   if (w.boss && !w.boss.d) { const fb = fieldBoss(w.boss.ch); if (fb) return { t: `필드 보스 ${fb.name}가 찾아왔어요!! 어느 던전에서 맞을지 골라요!!`, go: () => A.openBoss() }; }
   const bal = w.monsters.find(m => m.sp === 'balrog' && !m.d);
@@ -374,6 +396,14 @@ export function orenPick(): OrenLine {
   if (gap) {
     const rng = segTxt(gap.seg);
     const entrance = gap.seg[0] === 1;
+    // 1.12.0 던전 다시 열기: 채용·옮기기로 못 메우고 빈 부지도 없을 때. 전에는 여기서 채용 시트만 열어 막다른 길이었다(4장부터 입구가 며칠씩 막혔다)
+    const rb = rebuildFor(w, gap.seg);
+    const rbLine = (p: M.RebuildPlan): OrenLine => ({
+      t: p.grow
+        ? `${rng}는 채용으로 안 닿고 빈 부지도 없어요!! “${plotName(p.to)}”${josa(plotName(p.to), '을', '를').slice(plotName(p.to).length)} 비우고 ${josa(SPECIES[p.sp].names[0], '을', '를')} 혼자 키워요!!`
+        : `${entrance ? '입구를' : josa(rng, '을', '를')} 맡을 던전이 없어요!! “${plotName(p.to)}”${josa(plotName(p.to), '을', '를').slice(plotName(p.to).length)} 비우고 ${SPECIES[p.sp].names[0]}${ro(SPECIES[p.sp].names[0]).slice(SPECIES[p.sp].names[0].length)} 다시 열면 이어져요!!`,
+      go: () => A.openRebuild(p),
+    });
     if (!M.recommendSpecies(w, gap.seg)) {
       const g = M.recommendGrow(w, gap.seg);
       const grow = g && M.growingToward(w, gap.seg);
@@ -386,11 +416,15 @@ export function orenPick(): OrenLine {
         return { t: `${rng}는 ${josa(M.monName(mv.mon), '을', '를')} “${plotName(mv.to)}”${ro(plotName(mv.to)).slice(plotName(mv.to).length)} 옮기면 이어져요!!${pay}`, go: () => A.highlightBest(mv.mon.id, [mv.to]) };
       }
       if (grow) return { t: `${rng}는 ${josa(M.monName(grow), '이', '가')} 진화하면 이어져요!! 근속을 기다려요!!`, go: null };
+      if (rb) return rbLine(rb);
       if (g) return { t: `${rng}는 채용으로는 안 닿아요!! ${josa(SPECIES[g.sp].names[0], '을', '를')} 뽑아 키워봐요!!`, go: () => A.openHire({ seg: gap.seg }) };
     }
-    if (entrance && gap.n) return { t: `매니저님!! 입구가 막혔어요!! 새로 온 모험가님 ${gap.n}명이 혼자 걷고 있어요!!`, go: () => A.openHire({ seg: gap.seg }) };
-    return { t: gap.n ? `매니저님!! ${rng} 모험가님 ${gap.n}명이 갈 데가 없대요!!` : `${josa(rng, '이', '가')} 끊겨 있어요!! 길을 이어요!!`, go: () => A.openHire({ seg: gap.seg }) };
+    if (rb && !rb.grow) return rbLine(rb);
+    if (entrance && gap.n) return { t: `매니저님!! 입구가 막혔어요!! 새로 온 모험가님 ${gap.n}명이 혼자 걷고 있어요!!`, go: () => A.fixGap(gap.seg) };
+    return { t: gap.n ? `매니저님!! ${rng} 모험가님 ${gap.n}명이 갈 데가 없대요!!` : `${josa(rng, '이', '가')} 끊겨 있어요!! 길을 이어요!!`, go: () => A.fixGap(gap.seg) };
   }
+  // 1.12.0: 하루 넘게 비웠을 때 — 월드는 24시간만 돌고 쉬었다(OFFLINE_CAP). 결재·빈틈보다 뒤에, 한 번 누르면 사라진다
+  if (A.ui.longAway) return { t: '매니저님 오래 비우셨네요!! 월드는 24시간만 돌고 쉬었어요!! 이제 다시 돌아요!!', go: () => { A.ui.longAway = false; renderOren(); } };
   const tr = M.tray(w);
   if (tr.length) return { t: `대기실에 ${josa(M.monName(tr[0]), '이', '가')} 기다려요!! 던전에 놓거나 본사로 보내요!!`, go: () => A.highlightBest(tr[0].id) };
   // v1.6 드랍 상자: 대기실 다음, 붐빔 앞. 채용권이 줄 나누기를 싸게 하니 자리보다 먼저 연다 (봇 checkIn과 같은 순서)

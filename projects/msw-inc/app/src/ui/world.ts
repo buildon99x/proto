@@ -519,6 +519,15 @@ function ambient(dt: number) {
 }
 
 // ── 사건 수신 ───────────────────────────────────────────────
+/** 새 빈틈 알림 (1.12.0): 같은 빈틈은 한 번만. 입구면 입구 막힘 */
+let gapSeen = '';
+function gapToast() {
+  const segs = M.gapSegments(A.w), key = segs.map(g => g.join('-')).join(',');
+  if (!segs.length || key === gapSeen || V.snap || A.demo || (A.T && A.T.active())) { gapSeen = key; return; }
+  const fresh = segs.find(g => !gapSeen.split(',').includes(g.join('-')));
+  gapSeen = key;
+  if (fresh) toast(fresh[0] === 1 ? '입구가 막혔어요!! 오렌을 눌러 고쳐요' : `${segTxt(fresh)} 길이 끊겼어요!! 오렌을 눌러 고쳐요`);
+}
 A.handlers.push(ev => {
   for (const e of ev) {
     if (e.type === 'chapter') lightUp(e.n, true);
@@ -533,7 +542,13 @@ A.handlers.push(ev => {
     else if (e.type === 'grad') V.exits[e.id] = 'grad';
     else if (e.type === 'leave') V.exits[e.id] = 'leave';
     else if (e.type === 'levelup' && A.ui.mode === 'world') levelFx(e.id);
-    else if (e.type === 'approval') { snd.play('event'); }
+    // 1.12.0: 결재 조건이 채워진 순간을 소리만이 아니라 말로도 알린다
+    else if (e.type === 'approval') { snd.play('event'); if (!(A.T && A.T.active())) toast('📋 결재 서류가 올라왔어요!! 도장 받으러 가요'); refresh(); }
+    // 1.12.0: 끝나는 것도 조용히 사라지지 않게 (모객 끝과 같은 모양, 소리 없음)
+    else if (e.type === 'eventEnd') { toast(`${plotShort(e.d)} ${e.kind === 'exp' ? '경험치' : '드랍'} 2배가 끝났어요`); refresh(); }
+    else if (e.type === 'eliteEnd') { toast(`★ ${plotShort(e.d)} 엘리트 방문이 끝났어요`); refresh(); }
+    // 1.12.0: 새 빈틈이 생긴 순간 (그 빈틈에서 처음 한 명이 걷기 시작할 때 한 번). 줌으로 다른 지역을 보고 있어도 안다
+    else if (e.type === 'stuck') gapToast();
     else if (e.type === 'box') {
       // 드랍 상자 (v1.6): 발판 위에서 톡 떨어진다
       const p = V.plats[e.d];
@@ -684,9 +699,15 @@ function endDrag(d: NonNullable<typeof V.drag>) {
   $$('.plat.target').forEach(e => e.classList.remove('target'));
   if (!t) { renderDock(); return; }
   const m = w.monsters.find(x => x.id === d.id)!;
+  const lv0 = t.id ? M.levelsOf(w)[t.id] : undefined;
   const r = M.placeAuto(w, d.id, t.id);
   if (!r.ok) { nope(r.msg); renderDock(); return; }
   snd.play('place');
+  // 1.12.0: 그냥 옮기기도 결과와 5초 되돌리기 (U10 "모든 결정"). 전에는 개업·직원 자리를 살 때만 토스트가 떴다
+  if (!r.opened && !r.slotCost && !r.same) {
+    const lv1 = t.id ? M.levelsOf(w)[t.id] : undefined;
+    toast(t.id ? `${M.monName(m)} → ${plotShort(t.id)}${lv0 != null && lv1 != null && lv0 !== lv1 ? ` · 던전 Lv ${lv0} → ${lv1}` : ''}` : `${M.monName(m)} → 대기실`, { undo: () => { m.d = r.from; } });
+  }
   if (r.opened || r.slotCost) {
     const parts = [r.opened ? `${plotName(t.id!)} 개업${r.ticket ? ' (개업권)' : ''}` : '', r.slotCost ? '직원 자리 +1' : ''].filter(Boolean).join(' · ');
     toast(`${parts}${r.openCost + r.slotCost ? ` · 스마일 −${n(r.openCost + r.slotCost)}` : ''}`, {
@@ -748,7 +769,7 @@ function bindInput() {
     const bx = tgt.closest('[data-box]') as HTMLElement | null;
     if (bx) { A.openBox(+(bx.dataset.box || 0), bx); return; }
     const g = tgt.closest('.gapb, .gaplabel') as HTMLElement | null;
-    if (g) { A.openHire({ seg: V.gapSegs[+(g.dataset.gap || 0)] }); return; }
+    if (g) { A.fixGap(V.gapSegs[+(g.dataset.gap || 0)]); return; }
     const rt = tgt.closest('.rtab') as HTMLElement | null;
     if (rt) { showRegion(+(rt.dataset.region || 0)); return; }
     const b = tgt.closest('[data-busy]') as HTMLElement | null;
@@ -760,7 +781,9 @@ function bindInput() {
 
 // ── 추천 자리 강조 ──────────────────────────────────────────
 A.highlightBest = (monId: number, only?: PlotId[]) => {
+  // 1.12.0: 빈틈을 줄이는 자리가 없으면(키워서 잇기 신입) 혼자 둘 수 있는 가장 싼 빈 부지를 비춘다. 전에는 아무 곳도 빛나지 않았다
   const best = only || M.bestPlaces(A.w, monId);
+  if (!only && !best.length) { const e = M.soloPlot(A.w); if (e) best.push(e); }
   A.ui.targets = best;
   A.ui.newTok = monId;
   renderDock();

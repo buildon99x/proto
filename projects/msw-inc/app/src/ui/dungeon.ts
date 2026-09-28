@@ -131,7 +131,7 @@ function panel() {
   const gainTxt = gain >= 0.5 ? ` · 결재 ② 약 −${gain >= 24 ? (gain / 24).toFixed(1) + '일' : Math.round(gain) + '시간'}` : '';
   const powers = pw('exp', 'var(--exp)', 'EXP', '경험치 2배 · 4시간', '모험가를 위로 올려보낸다')
     + pw('drop', 'var(--drop)', 'DROP', '드랍 2배 · 4시간', '모험가를 불러 모은다')
-    + `<button class="pw ${seatC == null ? 'dis' : ''} ${hl === 'seat' ? 'hl' : ''}" data-seat="1" ${seatC == null ? 'disabled' : ''}><span class="ei" style="background:var(--flow)">+4</span><span><b>자리 확장</b><small>${seatC == null ? `${d.seats}석이 최대` : `자리 ${d.seats} → ${d.seats + 4}${gainTxt}`}</small></span><span class="cost">${seatC == null ? '' : `<i class="mini-can"></i>${n(seatC)}`}</span></button>`;
+    + `<button class="pw ${seatC == null ? 'dis' : ''} ${hl === 'seat' ? 'hl' : ''}" data-seat="1" ${seatC == null ? 'disabled' : ''}><span class="ei" style="background:var(--flow)">+4</span><span><b>자리 확장</b><small>${seatC == null ? `${d.seats}석이 최대 (이 지역 한도)` : `자리 ${d.seats} → ${d.seats + 4}${gainTxt}${M.earlySeatStep(w, d) ? ' · 초반 지역 보너스 자리' : ''}`}</small></span><span class="cost">${seatC == null ? '' : `<i class="mini-can"></i>${n(seatC)}`}</span></button>`;
 
   const recent = Math.round(d.recentLv);
   const html = `
@@ -141,7 +141,7 @@ function panel() {
       <div class="mrow"><span class="e">😊</span>즐거움<div class="bar"><i style="width:${Math.min(100, 100 * occ / d.seats)}%;background:var(--smile)"></i></div><span class="n">${occ}</span></div>
       <div class="mrow"><span class="e">😠</span>자리 기다림<div class="bar"><i style="width:${Math.min(100, 100 * wait / d.seats)}%;background:var(--busy)"></i></div><span class="n">${wait}</span></div>
       <div class="mrow"><span class="e">✨</span>최근 1시간 레벨업<span class="n wide">${recent}</span></div>
-      <div class="mrow note">적정 구간 밖으로 자란 모험가는<br>맞는 던전을 찾아 스스로 떠나요</div>
+      <div class="mrow note">😠 30분 넘게 기다리면 돌아가요 (📣 복귀 모객으로 다시 불러요)<br>적정 구간 밖으로 자라면 맞는 던전으로 옮겨요</div>
     </div>`;
   const p = must('#dPanel');
   if ((p as HTMLElement & { _h?: string })._h !== html) { p.innerHTML = html; (p as HTMLElement & { _h?: string })._h = html; }
@@ -177,7 +177,7 @@ function bind() {
       if (!r.ok) return nope(r.msg);
       snd.play('hire');
       fx(`<div class="pop g" style="font-size:var(--fs-xl)">자리 +4</div>`, 640, 90, 1300);
-      toast(`자리 확장 · 스마일 −${n(r.cost)}${gain >= 0.5 ? ` · 결재 ② 약 −${Math.round(gain)}시간` : ''}`, { undo: () => M.seatDown(w, id, r.cost) });
+      toast(`자리 확장 · 스마일 −${n(r.cost)}${gain >= 0.5 ? ` · 결재 ② 약 −${gain >= 24 ? (gain / 24).toFixed(1) + '일' : Math.round(gain) + '시간'}` : ''}`, { undo: () => M.seatDown(w, id, r.cost) });
       refresh(); return;
     }
   });

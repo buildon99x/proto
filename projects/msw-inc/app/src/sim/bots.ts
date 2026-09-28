@@ -28,6 +28,8 @@ export interface Persona {
   release?: boolean;
   /** 진화 되돌리기를 쓴다 (v1.2): 진화했더니 빈틈이 생기고 바로 못 메우면 되돌린다 */
   undo?: boolean;
+  /** 던전을 비우고 다시 여는 수를 모른다 (1.12.0 기다림 점검): 화면이 권하지 않던 수. 빈 부지가 없으면 빈틈을 못 메운다 */
+  noRebuild?: boolean;
 }
 
 const START = 21 * 60; // 입사는 저녁 9시
@@ -72,10 +74,6 @@ export function lightClone(w: World): World {
 }
 
 const gapN = (w: World) => S.gapSize(S.gapSegments(w));
-/** 던전을 비울 때 남겨야 하는 직원: 고참, 발록, 5장 결재 ③의 마지막 슬리피우드 식구 */
-const keepHere = (w: World, m: S.Monster) => m.vet || m.sp === 'balrog' ||
-  (S.needsNative(w) && S.isNative(m.sp) && w.monsters.filter(x => S.isNative(x.sp) && x.d).length <= 1);
-
 /** 빈틈 하나를 채용 + 배치로 메울 수 있으면 그 수를 돌려준다 */
 function planHireFix(w: World, place: PlacePolicy): { sp: SpeciesId; to: PlotId } | null {
   const segs = S.gapSegments(w);
@@ -104,26 +102,6 @@ function planHireFix(w: World, place: PlacePolicy): { sp: SpeciesId; to: PlotId 
   return best && { sp: best.sp, to: best.to };
 }
 
-/** 던전 하나를 통째로 비우고 신입 한 명으로 다시 여는 수 (여러 번 눌러야 하는 복구) */
-function planRebuild(w: World, p: Persona): { sp: SpeciesId; to: PlotId } | null {
-  const cur = gapN(w);
-  let best: { sp: SpeciesId; to: PlotId; g: number; n: number } | null = null;
-  const room = S.TRAY_MAX - S.tray(w).length;
-  for (const id in w.plots) {
-    if (!w.plots[id].open) continue;
-    const ms = S.monsIn(w, id);
-    if (!ms.length || ms.some(m => keepHere(w, m))) continue;
-    if (ms.length > room && !((p.release ?? true) && S.RULES_RELEASE())) continue;
-    for (const sp of SPECIES_IDS) {
-      if (!S.canHireSpecies(w, sp) || S.hireCost(sp) > w.smile) continue;
-      const c = lightClone(w);
-      for (const m of S.monsIn(c, id)) m.d = null;
-      const g = S.gapSize(S.gapSegments(c, S.levelsOf(c, { add: { sp, to: id } })));
-      if (g < cur && (!best || g < best.g || (g === best.g && ms.length < best.n))) best = { sp, to: id, g, n: ms.length };
-    }
-  }
-  return best && { sp: best.sp, to: best.to };
-}
 
 /** 키워서 잇기: 진화하면 빈틈에 닿는 계열을 빈 부지(없으면 가장 덜 아픈 던전을 비워)에 혼자 둔다 */
 function planGrow(w: World, p: Persona): { sp: SpeciesId; to: PlotId } | null {
@@ -135,17 +113,7 @@ function planGrow(w: World, p: Persona): { sp: SpeciesId; to: PlotId } | null {
     const empty = Object.keys(w.plots).filter(id => !S.monsIn(w, id).length)
       .map(id => ({ id, c: cost + S.openCost(w, id) })).filter(x => x.c <= w.smile).sort((a, b) => a.c - b.c);
     if (empty.length) return { sp: hint.sp, to: empty[0].id };
-    // 빈 부지가 없으면: 비워도 빈틈이 늘지 않는 던전
-    const room = S.TRAY_MAX - S.tray(w).length;
-    const cur = gapN(w);
-    for (const id in w.plots) {
-      const ms = S.monsIn(w, id);
-      if (!ms.length || ms.some(m => keepHere(w, m))) continue;
-      if (ms.length > room && !((p.release ?? true) && S.RULES_RELEASE())) continue;
-      const c = lightClone(w);
-      for (const m of S.monsIn(c, id)) m.d = null;
-      if (gapN(c) <= cur && cost <= w.smile) return { sp: hint.sp, to: id };
-    }
+    // 빈 부지가 없으면 checkIn이 던전 다시 열기(S.rebuildPlan의 grow)를 쓴다
   }
   return null;
 }
@@ -298,28 +266,15 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
         const h = S.hire(w, fix.sp, fix.to);
         if (h.ok) { S.place(w, h.mon.id, fix.to); log.push('hire:' + fix.sp); acts++; continue; }
       }
-      // 한 수로 안 되면: 던전 하나를 비우고(대기실·퇴사) 맞는 신입으로 다시 연다
-      const rb = planRebuild(w, p);
-      if (rb) {
-        for (const m of S.monsIn(w, rb.to)) {
-          if (S.tray(w).length < S.TRAY_MAX) S.place(w, m.id, null);
-          else if (!S.release(w, m.id).ok) break;
-          log.push('clear'); acts++;
-        }
-        const h = S.hire(w, rb.sp, rb.to);
-        if (h.ok) { S.place(w, h.mon.id, rb.to); log.push('rebuild:' + rb.sp); acts++; continue; }
-      }
-      // 채용으로 닿지 않는 빈틈: 진화하면 닿는 신입을 혼자 두고 키운다 ("키워서 잇기")
+      // 한 수로 안 되면: 던전 다시 열기 (1.12.0 — 화면의 한 결정과 같은 S.rebuildPlan. 전에는 봇만 비우기 수를 알았다)
+      const rb = p.noRebuild ? null : S.rebuildPlan(w);
+      if (rb && !rb.grow && S.rebuild(w, rb).ok) { log.push('rebuild:' + rb.sp); acts++; continue; }
+      // 채용으로 닿지 않는 빈틈: 진화하면 닿는 신입을 혼자 두고 키운다 ("키워서 잇기"). 빈 부지가 없으면 다시 열기로
       const gr = planGrow(w, p);
       if (gr) {
-        for (const m of S.monsIn(w, gr.to)) {
-          if (S.tray(w).length < S.TRAY_MAX) S.place(w, m.id, null);
-          else if (!S.release(w, m.id).ok) break;
-          log.push('clear'); acts++;
-        }
         const h = S.hire(w, gr.sp, null);
         if (h.ok && S.place(w, h.mon.id, gr.to).ok) { log.push('grow:' + gr.sp); acts++; continue; }
-      }
+      } else if (rb && rb.grow && S.rebuild(w, rb).ok) { log.push('grow:' + rb.sp); acts++; continue; }
     }
     // 진화 ①: 길을 잇는 진화(빈틈이 줄어드는 것)는 먼저 한다
     if (gapN(w) && tryEvolve(w, p, log, true)) { acts++; continue; }

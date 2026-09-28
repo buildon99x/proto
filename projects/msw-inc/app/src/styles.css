@@ -587,6 +587,7 @@ button.slot{text-align:center;font:inherit}
 .appr .c .v{width:96px}
 .appr .eta{font-size:var(--fs-s);font-weight:800;color:var(--ink2);margin:-4px 0 8px 38px}
 .appr .eta b{color:var(--flow2)}
+.appr .eta .tips{display:block;margin-top:4px;color:var(--ink2);font-size:var(--fs-xs)}
 .clip{display:flex;gap:12px;align-items:center;margin-top:10px;background:color-mix(in srgb,var(--evolve) 8%,var(--white));border:2px dashed color-mix(in srgb,var(--evolve) 45%,var(--white));border-radius:12px;padding:8px 12px;font-size:var(--fs-s);font-weight:800;transform:rotate(-1deg)}
 .clip b{font:var(--fs-m) var(--disp)}
 .cut .btn{margin:0 auto}

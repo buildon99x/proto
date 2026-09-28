@@ -910,4 +910,32 @@ t('1.11.0 초반 지역 자리 한 칸 더: 헤네시스·엘리니아 사냥터
   useRules(V17);
 });
 
+t('1.12.0 던전 다시 열기: 빈 부지가 없을 때 입구 막힘을 한 결정으로 풀고, 5초 되돌리기는 월드를 그대로 돌린다', () => {
+  useRules(V17);
+  const std = PERSONAS[0];
+  // 부지를 다 연 4장 월드를 봇으로 만든 뒤, 가장 낮은 던전 직원을 진화시켜 입구를 막는다
+  const w = S.createWorld(71); firstSession(w);
+  for (let d = 0; d < 40 && w.chapter < 4; d++) for (const tm of std.times) { S.advance(w, Math.max(0, d * 1440 + tm - w.t)); checkIn(w, std); }
+  assert.ok(w.chapter >= 4, '4장');
+  for (const id in w.plots) if (!S.monsIn(w, id).length) { w.plots[id].open = true; S.hire(w, 'stump', null); const m = S.tray(w).at(-1)!; m.d = id; }
+  w.smile = 1e6;
+  const lv = S.levelsOf(w), low = Object.keys(lv).sort((a, b) => lv[a] - lv[b])[0];
+  for (const m of S.monsIn(w, low)) m.stage = Math.min(m.stage + 1, 2);
+  for (const id in lv) if (lv[id] <= 6 && id !== low) for (const m of S.monsIn(w, id)) m.stage = Math.min(m.stage + 1, 2);
+  const seg = S.gapSegments(w)[0];
+  assert.ok(seg && seg[0] === 1, '입구가 막혔다');
+  const plan = S.rebuildPlan(w, seg)!;
+  assert.ok(plan && !plan.grow, '다시 열기를 찾는다');
+  assert.ok(plan.pv.gained.some(g => g[0] === 1), '미리보기에 입구가 이어진다');
+  const before = JSON.stringify({ m: w.monsters.map(m => [m.id, m.d, m.stage]), smile: w.smile, t: w.tickets });
+  const r = S.rebuild(w, plan);
+  assert.ok(r.ok);
+  assert.ok(S.coveredSet(S.levelsOf(w))[1], '입구가 이어졌다');
+  assert.equal(S.tray(w).length >= plan.out.length, true, '비운 직원은 대기실에');
+  S.unrebuild(w, plan, r.ok ? r : (null as never));
+  assert.equal(JSON.stringify({ m: w.monsters.map(m => [m.id, m.d, m.stage]), smile: w.smile, t: w.tickets }), before, '되돌리면 그대로');
+  // 고참·발록은 비우지 않는다
+  for (const id of plan.out) assert.ok(!S.mustStay(w, w.monsters.find(m => m.id === id)!));
+});
+
 console.log(`\n${passed} passed`);
