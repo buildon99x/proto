@@ -123,6 +123,9 @@ A.openEvolve = monId => {
     dex += `<div class="r ${i === m.stage ? 'now' : ''} ${!k && i !== next ? 'q' : ''}">${k ? img('m:' + sp.art[i], 1) : sil('m:' + sp.art[i], 1)}${k || i === next ? (k ? nm : '<b class="evc">NEW?</b>') : '?'}${sp.boss && i === sp.names.length - 1 ? ' 👑' : ''}</div>`;
   });
   const D0 = m.d ? pv.before[m.d] : null, D1 = m.d ? pv.after[m.d] : null;
+  // 승진한 직원의 던전 (1.11.0): 이 진화로 그 던전의 결재 ② 배율이 얼마나 오르는가
+  const jms = m.d ? M.monsIn(w, m.d) : [];
+  const jx = RULES.stageJoy && jms.length ? [M.stageJoyX(jms), M.stageJoyX(jms.map(x => (x.id === m.id ? { ...x, stage: x.stage + 1 } : x)))] : null;
   let res: string, hint = '';
   if (block) res = `<div class="res bad">✕ ${block}</div>`;
   else if (pv.lost.length) {
@@ -142,7 +145,7 @@ A.openEvolve = monId => {
       <div class="idc after"><div class="ph">${known ? img(sp.art[next], 3) : sil(sp.art[next], 3)}</div><b>${known ? sp.names[next] : '???'}</b><span>Lv ${M.monLevel(m) + 8} · ${next + 1}단계${sp.boss && next === sp.names.length - 1 ? ' · 보스' : ''}</span></div>
       <div class="dexrow"><b>${sp.names[0]} 계열 ${sp.trait ? TRAITS[sp.trait].icon : ''}</b>${dex}</div>
       <div class="conseq">
-        <div class="lvch">${m.d ? `${plotName(m.d)} · 던전 Lv ${D0} → ${D1}` : '대기실에서 진화'}</div>
+        <div class="lvch">${m.d ? `${plotName(m.d)} · 던전 Lv ${D0} → ${D1}${jx ? ` · 결재 ② ×${jx[0].toFixed(2)} → ×${jx[1].toFixed(2)}` : ''}` : '대기실에서 진화'}</div>
         ${res}
         <div class="hint">${hint || '보류해도 벌칙은 없어요. 근속은 그대로 남아요'}</div>
       </div>

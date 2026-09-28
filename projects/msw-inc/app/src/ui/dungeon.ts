@@ -82,7 +82,12 @@ function panel() {
   const lvEl = must('#dLv');
   lvEl.textContent = `던전 Lv ${D} · 적정 Lv ${Math.max(1, D - 5)}–${D + 5}`;
   lvEl.style.setProperty('--pg', lvColor(D));
+  // 승진한 직원의 던전 (1.11.0): 직원이 진화할수록 결재 ②가 빨리 찬다
+  const jx = M.stageJoyX(ms);
   must('#dSeat').textContent = `자리 ${occ} / ${M.seatsOf(w, id)}`;
+  const sj = must('#dSeat');
+  sj.title = jx > 1 ? `승진한 직원의 던전 — 결재 ② ×${jx.toFixed(2)}` : '';
+  if (jx > 1) sj.textContent += ` · ② ×${jx.toFixed(2)}`;
   const elite = w.elite && w.elite.d === id ? w.monsters.find(m => m.id === w.elite!.mon) : null;
   const guest = w.boss && w.boss.d === id ? fieldBoss(w.boss.ch) : null;
   must('#dEv').innerHTML = (d.event ? `<span class="chip ev" style="--c:${d.event.kind === 'exp' ? 'var(--exp)' : 'var(--drop)'}">${d.event.kind === 'exp' ? '경험치 2배' : '드랍 2배'} · ${dur(d.event.end - w.t)} 남음</span>` : '')

@@ -98,12 +98,22 @@ export interface Rules {
    * 승진 소식(evolveBurst): 직원이 진화하면 그 던전의 새 구간에 맞는 떠난 손님이 빈자리만큼 최대 evolveBurst명 바로 돌아온다("진화했다 → 손님이 돌아온다", F2와 G2를 잇는다).
    * 놓쳐도 잃는 것이 없다. 타이머 압박·한정 판매는 없다. null이면 없다 (v1.6)
    */
-  guests: { pool: number; return: { min: number; rate: number; cost: number }; fresh: { min: number; x: number; burst: number; cost: number; /** 신규 모객 자동 쉼 (1.10.0 실험, 기본 0 = 안 쉰다): 입구 줄(Lv 1~3 기다리는 손님)이 이만큼이면 ×x를 쉰다. 6으로 재 보니 첫 40분 줄은 그대로고 가벼운 플레이어의 4장 반복만 늘어 채택하지 않았다 */ pauseAt: number }; ticket: { gift: number; awayMin: number; hold: number }; evolveBurst: number; /** 오렌·봇 순서 (1.10.0 실험): 모객을 진화 앞에 둘지. 'after'가 v1.7 기본 */ order: 'after' | 'before' } | null;
+  guests: { pool: number; return: { min: number; rate: number; cost: number }; fresh: { min: number; x: number; burst: number; cost: number; /** 신규 모객 자동 쉼 (1.10.0 실험, 기본 0 = 안 쉰다): 입구 줄(Lv 1~3 기다리는 손님)이 이만큼이면 ×x를 쉰다. 6으로 재 보니 첫 40분 줄은 그대로고 가벼운 플레이어의 4장 반복만 늘어 채택하지 않았다 */ pauseAt: number }; ticket: { gift: number; awayMin: number; hold: number }; evolveBurst: number; /** 오렌·봇 순서 (1.10.0 실험): 모객을 진화 앞에 둘지. 'after'가 v1.7 기본. */ order: 'after' | 'before' } | null;
   /**
    * 도감 돌파 보상 (1.10.0 실험, 기본 null = 없다): 도감이 at[i] 비율에 처음 닿으면 무료 이벤트권 event장 + 모객권 recruit장.
    * 진화 보류 성향의 −21.9%(choice-audit L17)를 규칙 되맞춤 없이 좁히려던 장치였으나, 1분 걸음 달력을 한 자리도 움직이지 않았다(권이 쌓여 쓰이지 않는다 — 드랍 상자 §4와 같은 교훈). DEX_MILE_TRIAL로 남긴다
    */
   dexMile: { at: number[]; event: number; recruit: number } | null;
+  /**
+   * 승진한 직원의 던전 (1.11.0, 기본 null = 없다): 그 던전의 ② 누적 ×(1 + x × 직원 평균 진화 횟수). 레벨은 그대로(P2).
+   * 진화 보류 성향이 표준보다 21.9% 빨랐던 이유는 진화가 ②를 한 번도 당기지 않았기 때문이다(choice-audit §14, L17). 진화를 미루면 잃는 것이 생긴다
+   */
+  stageJoy: { x: number } | null;
+  /**
+   * 초반 지역의 자리 한 칸 더 (1.11.0, 기본 null = 없다): regions 지역 사냥터는 자리 확장을 costs 칸만큼 더 산다(값마다 한 칸, 장 배율 적용).
+   * 첫 40분에 입구 던전과 헤네시스 끝 던전이 최대 자리(24석)에 닿아 줄 40명이 서고, 부지도 다 차 40~50분에 둘 수가 3뿐이었다(choice-audit §14, L16·L18)
+   */
+  earlySeat: { regions: number[]; costs: number[] } | null;
 }
 
 export const V11: Rules = {
@@ -139,6 +149,8 @@ export const V11: Rules = {
   grounds: null,
   guests: null,
   dexMile: null,
+  stageJoy: null,
+  earlySeat: null,
 };
 
 export const V12: Rules = {
@@ -238,6 +250,11 @@ export const V17: Rules = {
   // G2 모객 (1.8.0): 떠난 손님이 자원이 된다. 값은 GUESTS_V17
   get guests() { return GUESTS_V17; },
   dexMile: null,
+  // 승진한 직원의 던전 (1.11.0): ② ×(1 + 0.1 × 평균 진화 횟수). 표준이 D26.9로 당겨졌고 아래 초반 자리까지 더해 2~5장 ② 목표를 ×1.23(1.9.0 대비) 되맞췄다(choice-audit §14)
+  stageJoy: { x: 0.1 },
+  joyGoal: [2, 4400, 34500, 55400, 58500],
+  // 초반 지역 자리 한 칸 더 (1.11.0): 헤네시스·엘리니아 사냥터는 24 → 28석. 첫 40분 줄 40 → 26, 40~50분 둔 수 3 → 6(choice-audit §14)
+  earlySeat: { regions: [1, 2], costs: [2000] },
 };
 /** G2 모객 값: 복귀는 4시간 동안 시간당 6명(빈자리가 있을 때만), 신규는 거는 순간 3명 + 4시간 동안 기본 도착 ×2. 비용은 장마다 오른다(복귀 200 · 신규 150 × 장). 모객권은 1장 결재 선물 1장, 6시간 넘게 떠났다 오면 1장(2장까지) */
 export const GUESTS_V17: NonNullable<Rules['guests']> = { pool: 300, return: { min: 240, rate: 6, cost: 200 }, fresh: { min: 240, x: 2, burst: 3, cost: 150, pauseAt: 0 }, ticket: { gift: 1, awayMin: 360, hold: 2 }, evolveBurst: 8, order: 'after' };

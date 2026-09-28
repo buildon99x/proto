@@ -234,6 +234,8 @@ export const tray = (w: World) => w.monsters.filter(m => !m.d);
 export const maxEvents = (w: World) => (w.chapter >= 3 ? 3 : 2);
 /** 동시 이벤트 수에 모객 이벤트(v1.7)도 든다 */
 export const activeEvents = (w: World) => Object.values(w.dungeons).filter(d => d.event).length + (w.recruit ? 1 : 0);
+/** 승진한 직원의 던전 (1.11.0): ② 누적 배율. 직원 평균 진화 횟수에 비례한다 */
+export const stageJoyX = (mons: Monster[]) => (RULES.stageJoy && mons.length ? 1 + RULES.stageJoy.x * mons.reduce((s, m) => s + m.stage, 0) / mons.length : 1);
 export const happyCount = (w: World) => { let n = 0; for (const a of w.advs) if (a.st === 'happy') n++; return n; };
 export const dungeonStars = (d: Dungeon) => JOY_STARS.filter(x => d.joy >= x).length;
 export const dexCount = (w: World) => Object.keys(w.dex).length;
@@ -497,7 +499,7 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
     w.smile += RULES.smileHappy * RULES.incomeCurve[w.chapter - 1] * tip * hs * dt * (d.drop ? 2 : 1) * (d.gift ? 1.3 : 1) * (d.boss ? 1.5 : 1);
     dd.joy += hs * dt / 60;
     // ② 누적: 엘리트·필드 보스가 있는 던전은 더 빨리 찬다. 첫 세션은 입사 버프도 붙는다 (v1.3)
-    w.cjoy += (hs * dt / 60) * (d.elite ? RULES.elite!.joyX : 1) * (d.guest ? RULES.fieldBoss!.joyX : 1) * (RULES.firstLoop ? bx : 1);
+    w.cjoy += (hs * dt / 60) * (d.elite ? RULES.elite!.joyX : 1) * (d.guest ? RULES.fieldBoss!.joyX : 1) * (RULES.firstLoop ? bx : 1) * stageJoyX(d.mons);
     if (RULES.elite && !w.elite) { w.eliteAcc += kills; w.eliteBy[id] = (w.eliteBy[id] || 0) + kills; }
     if (w.zoneAcc != null) w.zoneAcc += kills;
     if (d.guest && w.boss) w.boss.kills += kills;
@@ -1188,7 +1190,10 @@ export function cancelEvent(w: World, did: PlotId, refund: number, wasFree: bool
   if (wasFree) w.tickets.event++; else w.smile += refund;
 }
 
-export const seatCost = (w: World, d: Dungeon) => (d.seatUp < RULES.seatCost.length ? Math.round(RULES.seatCost[d.seatUp] * costScale(w)) : null);
+export const seatCost = (w: World, d: Dungeon) => {
+  const es = RULES.earlySeat, steps = es && es.regions.includes(plotInfo(d.id).region) ? [...RULES.seatCost, ...es.costs] : RULES.seatCost;
+  return d.seatUp < steps.length ? Math.round(steps[d.seatUp] * costScale(w)) : null;
+};
 export function seatUp(w: World, did: PlotId): Result<{ cost: number }> {
   const d = w.dungeons[did], c = seatCost(w, d);
   if (c == null) return no(`자리는 ${d.seats}석이 최대예요`);
