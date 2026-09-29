@@ -92,7 +92,7 @@ export const projects = [
       "cadence": "pnpm --filter msw-inc cadence",
       "checkin": "pnpm --filter msw-inc checkin"
     },
-    "updatedAt": "2026-09-29T00:11:31+00:00"
+    "updatedAt": "2026-09-29T02:09:42+00:00"
   },
   {
     "id": "retro-bowling",
@@ -418,6 +418,6 @@ export const projects = [
       "playlog": "pnpm --filter relic-king playlog",
       "density": "pnpm --filter relic-king density"
     },
-    "updatedAt": "2026-09-26T12:20:13+00:00"
+    "updatedAt": "2026-09-29T12:24:06+00:00"
   }
 ] as const satisfies readonly ProjectMetadata[];
