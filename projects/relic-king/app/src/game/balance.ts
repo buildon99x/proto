@@ -1,6 +1,9 @@
 import type { SiteId, Tier } from "./types";
 import { SITE_BY_ID } from "./sites";
 
+/** 새 판이 시작되는 거점(createWorld의 activeSite). 등록증의 찾는 한 점 기본값도 이 거점의 유일이다(lore.ts wantedOf). */
+export const START_SITE: SiteId = "korea";
+
 export type { SiteDef } from "./sites";
 export {
   SITES, SITE_BY_ID, WORLD_CITY_COORDS, CITY_POPULATION, SITE_THEMATIC_CATEGORY, distanceKm

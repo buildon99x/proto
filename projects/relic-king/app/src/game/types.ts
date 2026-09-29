@@ -394,6 +394,12 @@ export type World = {
    */
   wanted?: string;
   /**
+   * 자동 정리가 미감정 한 점을 팔아 도감 한 칸이 빈 마지막 순간(notes/play-review B2). 화면이
+   * 토스트 한 줄로 알린다(`ui/AutoSoldNotice.tsx`). 규칙에 효력이 없는 표시용 선택 필드라 세이브
+   * 버전을 올리지 않는다.
+   */
+  autoSold?: { estimate: number; gained: number; stalled: boolean; t: number; seen?: boolean } | null;
+  /**
    * 이번 시즌에 한 번이라도 전시한 종 id(v0.8, spec.md §15.5 ⑥, G110) — 엔딩의
    * "모은 것 중 남들이 본 것". `displayArtifact`만 채운다(사용자 조작 경로, `advance()`
    * 밖). 선택 필드라 세이브 버전을 올리지 않는다: 없으면 지금 전시 중인 것만 센다.

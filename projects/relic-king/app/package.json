@@ -25,6 +25,7 @@
     "build:worldmap": "node ../scripts/build-worldmap.mjs",
     "qa:rivalcard": "tsx src/sim/qa_rivalcard.ts",
     "qa:sprites": "tsx src/sim/qa_sprites.ts",
+    "qa:playreview": "tsx src/sim/qa_playreview.ts",
     "sheets": "tsx src/sim/contact_sheet.ts"
   },
   "dependencies": {

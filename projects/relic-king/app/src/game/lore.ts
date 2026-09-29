@@ -13,7 +13,7 @@
  * 톤을 통째로 바꾸거나 세계관을 끄는 일이 이 파일 하나의 문제로 남아야 한다.
  */
 import { ARTIFACT_BY_ID, ARTIFACTS } from "./artifacts";
-import { DEFAULT_OWNER_NAME, SITE_BY_ID } from "./balance";
+import { DEFAULT_OWNER_NAME, SITE_BY_ID, START_SITE } from "./balance";
 import { hashFrac } from "./hash";
 import type { Artifact, SiteId, World } from "./types";
 import type { CrewId } from "../render/crew.generated";
@@ -169,11 +169,16 @@ export function buyerLine(artifactId: string, uid: number): string {
 /** 고를 수 있는 것: 거점마다 하나씩 있는 유일 12점. 규칙은 하나도 바뀌지 않는다 */
 export const WANTED_CANDIDATES: Artifact[] = ARTIFACTS.filter((a) => a.tier === 4);
 
-/** 안 고르면 이것 — 시작 거점(경주 거점)의 유일. 기본값이 즉시 진행을 허용한다(척추 4번) */
+/**
+ * 안 고르면 이것 — 시작 거점(경주 거점)의 유일. 기본값이 즉시 진행을 허용한다(척추 4번).
+ * **지금 파는 거점(`activeSite`)을 따라가지 않는다.** 예전엔 따라가서, 직접 발굴이 새 거점으로
+ * 옮겨 갈 때마다 칸이 바뀌었고 빼앗긴 유일도 다음 거점의 유일로 덮였다 — "다른 팀이 먼저
+ * 가져가면 엔딩까지 빈다"가 깨졌다(notes/play-review B1, 반가사유상 → 투탕카멘 → 안티키테라).
+ */
 export function wantedOf(w: World): Artifact {
   const picked = w.wanted ? ARTIFACT_BY_ID[w.wanted] : undefined;
   if (picked && picked.tier === 4) return picked;
-  return WANTED_CANDIDATES.find((a) => a.site === w.activeSite) ?? WANTED_CANDIDATES[0];
+  return WANTED_CANDIDATES.find((a) => a.site === START_SITE) ?? WANTED_CANDIDATES[0];
 }
 
 export type WantedStatus = "open" | "found" | "gone";
@@ -200,6 +205,17 @@ export function wantedLine(w: World): string {
 
 /** 자리를 비운 동안 예외7이 한 일과 하지 않은 일(§15.3, G113). 매번 같은 한 줄이다 */
 export const OFFLINE_DID = "자리를 비운 동안 팔고, 관리하고, 다시 투자했다. 유일은 다투지 않았다 — 사람 없는 현장엔 안 내려간다.";
+
+/**
+ * 떠날 때 떠 있던 제보가 복귀 순간 어떤 상태인지(engine.ts `applyOffline`의 `tip`). 제보는 자리를
+ * 비운 동안 멈춰 있으므로 "기다리고 있다"가 사실이다. 결판난 배너는 닫고 결과를 이 한 줄로 옮긴다.
+ */
+export function offlineTipLine(note: { artifactId: string; state: "waiting" | "won" | "lost" }): string {
+  const name = ARTIFACT_BY_ID[note.artifactId].name;
+  if (note.state === "waiting") return `떠날 때 뜬 제보(${name})는 멈춰 두었다. 반응 유예가 떠날 때 그대로 남아 있다.`;
+  if (note.state === "won") return `떠나기 전에 결판난 제보 — ${name}: 우리가 먼저 닿았다.`;
+  return `떠나기 전에 결판난 제보 — ${name}: 한발 늦었다.`;
+}
 
 const ROSTER_LINES = [
   "기록 맨 끝에 2097년 대피 명단이 그대로 붙어 있다. 지우지 않았다.",

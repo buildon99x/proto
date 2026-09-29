@@ -5,7 +5,7 @@ import { duration, usd } from "../game/format";
 import type { RankSnapshot } from "./useGame";
 import type { Game } from "./useGame";
 import { CrewNote } from "./Crew";
-import { OFFLINE_DID, rosterLine } from "../game/lore";
+import { OFFLINE_DID, offlineTipLine, rosterLine } from "../game/lore";
 
 /**
  * 복귀 요약 2층(spec.md §3.3, notes/ux-v02.md §8) — 상단 고정 4줄 + 조치 필요
@@ -36,6 +36,7 @@ export function OfflineSummary({ game, onNavigate }: { game: Game; onNavigate: (
   const fundsLine = fundsLabel(fundsDelta, world.settings.autoReinvest);
 
   const roster = rosterLine(world.t, o.seconds);
+  const tipLine = o.tip ? offlineTipLine(o.tip) : null;
   const actionCount = world.theftEvents.length + (sealedT2 >= LOCKED_HOLD_CAP ? 1 : 0) + idleTeams.length;
 
   if (actionCount === 0) {
@@ -44,6 +45,7 @@ export function OfflineSummary({ game, onNavigate }: { game: Game; onNavigate: (
         <div className="offline-toast-body">
           <span>{duration(o.seconds)} 동안 {fundsLine}</span>
           <CrewNote who="yeoe7">{OFFLINE_DID}</CrewNote>
+          {tipLine ? <CrewNote who="yeoe7">{tipLine}</CrewNote> : null}
           {roster ? <CrewNote who="yeoe7">{roster}</CrewNote> : null}
         </div>
         <button type="button" onClick={game.dismissOffline}>확인</button>
@@ -62,6 +64,7 @@ export function OfflineSummary({ game, onNavigate }: { game: Game; onNavigate: (
           <li>종합 {o.rankBefore.composite}위 → {o.rankAfter.composite}위</li>
         </ul>
         <CrewNote who="yeoe7">{OFFLINE_DID}</CrewNote>
+        {tipLine ? <CrewNote who="yeoe7">{tipLine}</CrewNote> : null}
         {roster ? <CrewNote who="yeoe7">{roster}</CrewNote> : null}
 
         <h3>조치 필요 ({actionCount}건)</h3>
