@@ -2,7 +2,7 @@
  * MSW 주식회사 — 시작, 입사 컷, 매 프레임 루프, 버튼
  */
 import './styles.css';
-import { A, $, $$, must, h, img, snd, refit, refresh, renderDock, renderDoc, renderOren, renderBoss, hudTick, hudStatic, simLive, save, loadSave, clearSave, toast, plotName, heldEvolves, M } from './ui/app';
+import { A, $, $$, must, h, img, snd, refit, refresh, renderDock, renderDoc, renderOren, renderBoss, hudTick, hudStatic, simLive, save, loadSave, clearSave, toast, plotName, heldEvolves, orenTap, M } from './ui/app';
 import './ui/world';
 import './ui/dungeon';
 import './ui/sheets';
@@ -56,7 +56,7 @@ function bind() {
   must('#bRecruit').onclick = () => A.openRecruit();
   must('#bossCard').onclick = () => { const b = A.w.boss; if (!b) return; if (!b.d) A.openBoss(); else A.openDungeon(b.d); };
   must('#evChip').onclick = () => { const m = heldEvolves(A.w)[0]; if (m) A.openEvolve(m.id); };
-  must('#oren').onclick = () => { snd.play('ui'); if (A.ui.orenGo) A.ui.orenGo(); };
+  must('#oren').onclick = () => { snd.play('ui'); orenTap(); };
   must('#docw').onclick = () => A.openApproval();
   must('#tutSkip').onclick = e => { e.stopPropagation(); T.skip(); toast('튜토리얼을 건너뛰었어요'); };
   must('#plots').addEventListener('click', e => {

@@ -2,7 +2,7 @@
  * S2 던전 현장 (+ S4 매니저 권한)
  * 현장은 결과를 바꾸지 않는다. 서버(sim)가 낸 사건을 샘플로 재생한다.
  */
-import { A, $, must, h, n, clamp, img, monArt, ro, plotName, plotShort, lvColor, dur, snd, nope, toast, emit, refresh, seatJoyGain, M } from './app';
+import { A, $, must, h, n, clamp, img, monArt, ro, plotName, plotShort, lvColor, dur, snd, nope, toast, emit, refresh, seatJoyGain, RULES, M } from './app';
 import { REGIONS, SPECIES, TRAITS, fieldBoss, plotInfo, type PlotId } from '../sim/content';
 import { ART } from './art';
 import { SCENERY } from './scenery';
@@ -102,12 +102,14 @@ function panel() {
     const need = M.evolveNeed(m), full = M.canEvolve(m) && !A.T.hideEvolve(), sp = SPECIES[m.sp];
     // F3: 지금 해도 되는 진화만 보라 ▲. 나머지는 금색으로 가득 찬 근속 게이지(보류가 맞을 때)
     const ready = full && !!picks.get(m.id)?.shown, held = full && !ready;
+    // 1.15.0 B6: 임원 자격이 된 최종 단계 직원은 카드에서도 바로 (전에는 리포트 칩을 놓치면 찾을 곳이 없었다)
+    const exOk = !full && RULES.exec && !M.execBlock(w, m);
     const tr = sp.trait ? TRAITS[sp.trait] : null;
-    slots += `<div class="slot ${ready ? 'ready' : ''} ${held ? 'held' : ''} ${M.isBoss(m) ? 'bossc' : ''}">
+    slots += `<div class="slot ${ready ? 'ready' : ''} ${held ? 'held' : ''} ${exOk ? 'exok' : ''} ${M.isBoss(m) ? 'bossc' : ''}">
       <div class="nm">${M.monName(m)}${M.atHome(m) ? ' <i class="hm" title="식구 사냥터 · 근속 ×1.2">🏠</i>' : ''}</div><div class="lvl">Lv ${M.monLevel(m)} · ${m.stage + 1}단계${M.isBoss(m) ? ' · 보스' : ''}</div>
       <div class="ph">${img(monArt(m), 3)}</div>
       <span class="trait" title="${tr ? tr.desc : '특성 없음'}">${tr ? tr.icon + ' ' + tr.name : '— 표준'}</span>
-      ${ready ? `<button class="evbtn" data-ev="${m.id}">▲ 진화 가능</button>` : held ? `<button class="evbtn held" data-ev="${m.id}" title="지금 진화하면 길이 끊겨요. 결과를 미리 봐요">근속 가득 · 보기</button>` : ''}
+      ${ready ? `<button class="evbtn" data-ev="${m.id}">▲ 진화 가능</button>` : held ? `<button class="evbtn held" data-ev="${m.id}" title="지금 진화하면 길이 끊기거나 12시간 뒤 결재 ②가 늦어져요. 결과를 미리 봐요">근속 가득 · 보기</button>` : exOk ? `<button class="evbtn ex" data-exec="${m.id}" title="본사 임원으로 올리면 월드 결재 ②가 빨라져요">👔 임원 승진</button>` : ''}
       <div class="tenure"><div class="t"><span>근속(퇴근)</span><span>${need === Infinity ? '최종 단계' : n(Math.min(m.tenure, need)) + ' / ' + n(need)}</span></div>
       <div class="bar"><i style="width:${need === Infinity ? 100 : Math.min(100, 100 * m.tenure / need)}%"></i></div></div></div>`;
   });
@@ -154,6 +156,8 @@ function bind() {
     const tgt = e.target as Element;
     const ev = tgt.closest('[data-ev]') as HTMLElement | null;
     if (ev) { A.openEvolve(+(ev.dataset.ev || 0)); return; }
+    const exb = tgt.closest('[data-exec]') as HTMLElement | null;
+    if (exb) { A.openExec(+(exb.dataset.exec || 0)); return; }
     if (tgt.closest('[data-hire]')) { A.openHire({ into: id }); return; }
     if (tgt.closest('[data-slotup]')) {
       const r = M.slotUp(w, id);

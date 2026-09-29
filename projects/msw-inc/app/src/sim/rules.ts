@@ -43,7 +43,8 @@ export interface Rules {
    * 엘리트 (v1.3, R5 확장): 월드 퇴근 누적이 장별 문턱(every)을 넘으면 한 던전 직원이 min분 동안 엘리트가 된다.
    * 그 던전의 즐거운 모험가는 레벨업 ×lvX, ② 누적 ×joyX. 직원 레벨은 그대로(P2). null이면 없다
    */
-  elite: { every: number[]; min: number; lvX: number; joyX: number } | null;
+  /** seats·tenureX (1.15.0): 엘리트 동안 그 던전 자리 +seats, 엘리트 직원 근속 ×tenureX. 없으면 0·1 (옛 규칙) */
+  elite: { every: number[]; min: number; lvX: number; joyX: number; seats?: number; tenureX?: number } | null;
   /**
    * 필드 보스 (v1.3, R5 확장): 2장부터 ② 50% 눈금에서 찾아온다. wait분 안에 초대하지 않으면 자동 초대.
    * 방문 중 그 던전 자리 +seats, 월드 도착 ×arriveX, 그 던전 ② ×joyX. 퇴근 need[장]회면 토벌(최대 max분, 실패 없음).
@@ -98,7 +99,7 @@ export interface Rules {
    * 승진 소식(evolveBurst): 직원이 진화하면 그 던전의 새 구간에 맞는 떠난 손님이 빈자리만큼 최대 evolveBurst명 바로 돌아온다("진화했다 → 손님이 돌아온다", F2와 G2를 잇는다).
    * 놓쳐도 잃는 것이 없다. 타이머 압박·한정 판매는 없다. null이면 없다 (v1.6)
    */
-  guests: { pool: number; return: { min: number; rate: number; cost: number }; fresh: { min: number; x: number; burst: number; cost: number; /** 신규 모객 자동 쉼 (1.10.0 실험, 기본 0 = 안 쉰다): 입구 줄(Lv 1~3 기다리는 손님)이 이만큼이면 ×x를 쉰다. 6으로 재 보니 첫 40분 줄은 그대로고 가벼운 플레이어의 4장 반복만 늘어 채택하지 않았다 */ pauseAt: number }; ticket: { gift: number; awayMin: number; hold: number }; evolveBurst: number; /** 오렌·봇 순서 (1.10.0 실험): 모객을 진화 앞에 둘지. 'after'가 v1.7 기본. */ order: 'after' | 'before' } | null;
+  guests: { pool: number; return: { min: number; rate: number; cost: number }; fresh: { min: number; x: number; burst: number; cost: number; /** 신규 모객 자동 쉼 (1.10.0 실험, 기본 0 = 안 쉰다): 입구 줄(Lv 1~3 기다리는 손님)이 이만큼이면 ×x를 쉰다. 6으로 재 보니 첫 40분 줄은 그대로고 가벼운 플레이어의 4장 반복만 늘어 채택하지 않았다 */ pauseAt: number }; ticket: { gift: number; awayMin: number; hold: number; /** 1.15.0: 떠난 손님이 이만큼 쌓이면 1장 (있으면 awayMin 대신). 떠난 시간이 아니라 떠난 손님이 모객의 이유가 된다 */ left?: number }; evolveBurst: number; /** 오렌·봇 순서 (1.10.0 실험): 모객을 진화 앞에 둘지. 'after'가 v1.7 기본. */ order: 'after' | 'before' } | null;
   /**
    * 도감 돌파 보상 (1.10.0 실험, 기본 null = 없다): 도감이 at[i] 비율에 처음 닿으면 무료 이벤트권 event장 + 모객권 recruit장.
    * 진화 보류 성향의 −21.9%(choice-audit L17)를 규칙 되맞춤 없이 좁히려던 장치였으나, 1분 걸음 달력을 한 자리도 움직이지 않았다(권이 쌓여 쓰이지 않는다 — 드랍 상자 §4와 같은 교훈). DEX_MILE_TRIAL로 남긴다
@@ -124,6 +125,8 @@ export interface Rules {
    * 기다린 동안 쌓인 퇴근은 다음 엘리트로 넘어가 떠나 있어도 엘리트 수가 줄지 않는다. 접속이 잦은 사람의 5장 후반에 둘 것이 이벤트뿐이었다(choice-audit §17)
    */
   elitePick: { wait: number } | null;
+  /** 진화 전망 (1.15.0): 오렌·▲·봇이 12시간 뒤 ②가 hours시간 넘게 늦어지는 진화를 권하지 않는다. 없으면 1.14.0까지처럼 빈틈만 본다 */
+  evolveOutlook?: { hours: number } | null;
   exec: { from: number; max: number; r: number; /** 최종 단계에 오른 뒤 다시 채워야 하는 근속. 모두 보내면 길 끝을 맡을 직원이 사라져 엔딩을 못 봤다 */ tenure: number } | null;
 }
 
@@ -266,7 +269,9 @@ export const V17: Rules = {
   // 승진한 직원의 던전 (1.11.0): ② ×(1 + 0.1 × 평균 진화 횟수). 표준이 D26.9로 당겨졌고 아래 초반 자리까지 더해 2~5장 ② 목표를 ×1.23(1.9.0 대비) 되맞췄다(choice-audit §14)
   stageJoy: { x: 0.1 },
   // 1.13.0: 임원 승진(급하지 않은 진화 앞)이 표준을 당겨 4~5장을 ×1.25 (choice-audit §16)
-  joyGoal: [2, 4400, 34500, 69300, 73100],
+  // 1.15.0: 손님 없는 던전 다시 열기(−2.7일)·엘리트 자리/근속·진화 전망이 표준을 D24.9까지 당겨 3~5장을 되맞췄다
+  //         (34,500 · 69,300 · 73,100 → 36,000 · 76,000 · 88,000. 표준 D29.4, 진화 보류 +12% — choice-audit §18)
+  joyGoal: [2, 4400, 36000, 76000, 88000],
   // 초반 지역 자리 한 칸 더 (1.11.0): 헤네시스·엘리니아 사냥터는 24 → 28석. 첫 40분 줄 40 → 26, 40~50분 둔 수 3 → 6(choice-audit §14)
   earlySeat: { regions: [1, 2], costs: [2000] },
   // 임원 승진 (1.13.0): 4장부터 최종 단계에 근속 20,000을 다시 채운 직원을 올려 보내면 월드 ② ×(1 + 0.25 × (1 − 0.9^n)). 길 끝을 맡는 직원은 남는다. 오렌·봇은 월드 ②를 0.5% 넘게 올릴 때만 권한다(choice-audit §16)
@@ -274,10 +279,16 @@ export const V17: Rules = {
   // 엘리트 지명 (1.14.0): 준비된 엘리트는 3시간 동안 지명을 기다린다. 엘리트는 드물게·크게(간격 ×2, 두 시간): 켜져 있는 총 시간은 같고,
   // 지명이 체크인마다 끼어 판에 박힌 탭이 되지 않게 한다(간격 그대로면 표준 4장 같은 수 반복 7, choice-audit §17)
   elitePick: { wait: 180 },
-  elite: { every: [6000, 24000, 40000, 50000, 60000], min: 120, lvX: 1.5, joyX: 2 },
+  // 1.15.0 진화 전망 (플레이 리뷰 10절 B1): 빈틈만 보던 진화 권유가 붐빔·손님 없는 던전을 만들어 12시간 뒤 😊가 크게 빠졌다.
+  // 월드를 복제해 12시간 굴린 ②가 2시간 넘게 늦어지는 진화는 오렌·▲·봇이 권하지 않는다 (sim.evolveHurts).
+  // 0.5시간이면 표준이 2일 더 당겨져 진화 보류 성향과 +26%로 벌어졌다 (choice-audit §18)
+  evolveOutlook: { hours: 2 },
+  // 1.15.0 엘리트 지명의 깊이 (플레이 리뷰 10절 B3): 지명 카드 넷의 배율이 모두 같아 답이 "손님이 가장 많은 곳" 하나였다.
+  // 이제 그 던전 자리 +8(줄 선 곳에 이득), 엘리트 직원 근속 ×3(진화·임원이 가까운 직원에 이득)이 붙어 카드마다 이득의 종류가 다르다
+  elite: { every: [6000, 24000, 40000, 50000, 60000], min: 120, lvX: 1.5, joyX: 2, seats: 8, tenureX: 3 },
 };
 /** G2 모객 값: 복귀는 4시간 동안 시간당 6명(빈자리가 있을 때만), 신규는 거는 순간 3명 + 4시간 동안 기본 도착 ×2. 비용은 장마다 오른다(복귀 200 · 신규 150 × 장). 모객권은 1장 결재 선물 1장, 6시간 넘게 떠났다 오면 1장(2장까지) */
-export const GUESTS_V17: NonNullable<Rules['guests']> = { pool: 300, return: { min: 240, rate: 6, cost: 200 }, fresh: { min: 240, x: 2, burst: 3, cost: 150, pauseAt: 0 }, ticket: { gift: 1, awayMin: 360, hold: 2 }, evolveBurst: 8, order: 'after' };
+export const GUESTS_V17: NonNullable<Rules['guests']> = { pool: 300, return: { min: 240, rate: 6, cost: 200 }, fresh: { min: 240, x: 2, burst: 3, cost: 150, pauseAt: 0 }, ticket: { gift: 1, awayMin: 360, hold: 2, left: 60 }, evolveBurst: 8, order: 'after' };
 /** 1.10.0 실험값: 도감 돌파 보상 (채택하지 않았다). 비교용 */
 export const DEX_MILE_TRIAL: NonNullable<Rules['dexMile']> = { at: [0.5], event: 2, recruit: 1 };
 /** 1.10.0 실험값: 신규 자동 쉼 6 (채택하지 않았다 — 첫 40분 줄은 그대로고 가벼운 플레이어의 4장 반복이 6 → 11). 비교용 */

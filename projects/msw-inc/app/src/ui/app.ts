@@ -21,7 +21,8 @@ export type UIEvent = M.SimEvent
   | { type: 'released'; mon: number }
   | { type: 'recruitStart'; kind: M.RecruitKind };
 
-export interface OrenLine { t: string; go: (() => void) | null }
+/** key가 있는 권유는 한 번 누르거나 보류하면 이번 체크인 동안 다음 권유에 자리를 내준다 (1.15.0 B4) */
+export interface OrenLine { t: string; go: (() => void) | null; key?: string }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface App {
@@ -42,6 +43,8 @@ export interface App {
     targets: PlotId[] | null; newTok: number | null; orenGo: (() => void) | null; longAway: boolean; paused?: boolean;
   };
   checkin: { happy0: number };
+  /** 1.15.0 B4: 이번 체크인에 누르거나 보류한 권유 (key → 실제 시각 ms). 체크인이 바뀌거나 5분이 지나면 풀린다 */
+  snooze: Map<string, number>;
   ledger: M.Ledger | null;
   handlers: Handler[];
   fit: { s: number; ox: number; oy: number };
@@ -69,6 +72,8 @@ export interface App {
   offDuty: (why: 'idle' | 'manual') => void;
   highlightBest: (monId: number, only?: PlotId[]) => PlotId[];
   openFullClear: () => void;
+  /** 1.15.0: 손님이 거의 없는 던전 — 비우고 다시 열어 줄을 나눌 수 있으면 그 시트, 아니면 현장 */
+  openThin: (id: PlotId) => void;
   /** 완전 클리어 컷 (v1.7): 엔딩과 다른 연출 */
   openClearCut: () => void;
 }
@@ -76,7 +81,7 @@ export interface App {
 export const A = {
   speed: 1, demo: null, frozen: false, playSec: 0,
   ui: { mode: 'world', sheet: null, modal: null, lastInput: performance.now(), off: false, offAt: 0, offSpeed: 1, intro: false, targets: null, newTok: null, orenGo: null, longAway: false },
-  checkin: { happy0: 0 }, ledger: null, handlers: [], fit: { s: 1, ox: 0, oy: 0 },
+  checkin: { happy0: 0 }, snooze: new Map(), ledger: null, handlers: [], fit: { s: 1, ox: 0, oy: 0 },
 } as unknown as App;
 
 // ── 도구 ────────────────────────────────────────────────────
@@ -90,9 +95,20 @@ export const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 export const img = (key: string, s: number, cls = '') => { const [w, hh] = ART.size(key, s); return `<img class="px ${cls}" src="${ART.url(key, s)}" width="${w}" height="${hh}" alt="">`; };
 export const sil = (key: string, s: number) => { const [w, hh] = ART.size(key, s); return `<img class="px" src="${ART.silhouette(key, s)}" width="${w}" height="${hh}" alt="">`; };
 export const monArt = (m: M.Monster) => SPECIES[m.sp].art[m.stage];
-export const josa = (word: string, a: string, b: string) => { const c = word.charCodeAt(word.length - 1); return word + (c >= 0xac00 && c <= 0xd7a3 && (c - 0xac00) % 28 > 0 ? a : b); };
+/** 마지막 글자의 받침 번호 (0 = 없음, 8 = ㄹ). 숫자는 읽는 소리로 (1.15.0 B9: "Lv 46–60가" → "60이") */
+const DIGIT_JONG = [21, 8, 0, 16, 0, 0, 1, 8, 8, 0]; // 영 일 이 삼 사 오 육 칠 팔 구
+const jong = (word: string) => {
+  const w = word.replace(/[\s)\]}'"”’!?.]+$/, '');
+  const c = w.charCodeAt(w.length - 1);
+  if (c >= 0xac00 && c <= 0xd7a3) return (c - 0xac00) % 28;
+  if (c >= 48 && c <= 57) return DIGIT_JONG[c - 48];
+  return 0;
+};
+export const josa = (word: string, a: string, b: string) => word + (jong(word) > 0 ? a : b);
 /** "~으로/로": 받침이 없거나 ㄹ이면 "로" */
-export const ro = (word: string) => { const c = word.charCodeAt(word.length - 1); const j = c >= 0xac00 && c <= 0xd7a3 ? (c - 0xac00) % 28 : 0; return word + (j === 0 || j === 8 ? '로' : '으로'); };
+export const ro = (word: string) => { const j = jong(word); return word + (j === 0 || j === 8 ? '로' : '으로'); };
+/** 조사만 (단어 없이) */
+export const pp = (word: string, a: string, b: string) => (jong(word) > 0 ? a : b);
 export const START_MIN = 21 * 60; // 입사는 저녁 9시 — 첫 출근 리포트가 다음 날 아침이 되게
 export const clockText = (t: number) => { const tt = t + START_MIN; const d = Math.floor(tt / 1440) + 1, m = Math.floor(tt % 1440); return `D${d} · ${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`; };
 export const dur = (min: number) => { min = Math.round(min); const hh = Math.floor(min / 60), m = min % 60; if (hh >= 48) return `${Math.floor(hh / 24)}일 ${hh % 24}시간`; return hh ? `${hh}시간 ${m}분` : `${m}분`; };
@@ -100,6 +116,8 @@ export const lvColor = (L: number) => `hsl(${clamp(110 + (L - 1) * 2.4, 110, 285
 export const plotName = (id: PlotId) => plotInfo(id).name;
 export const plotShort = (id: PlotId) => plotInfo(id).short;
 export const segTxt = (s: M.Seg) => (s[0] === s[1] ? `Lv ${s[0]}` : `Lv ${s[0]}–${s[1]}`);
+/** 레벨 범위 (1.15.0 B9: 한 레벨이면 "Lv 16–16" 대신 "Lv 16") */
+export const lvRange = (lo: number, hi: number) => segTxt([lo, hi]);
 export const emit = (ev: UIEvent[]) => { for (const f of A.handlers) f(ev); };
 
 // ── 저장 (이 브라우저에만) ──────────────────────────────────
@@ -233,7 +251,7 @@ export function renderDock(opt: { all?: boolean } = {}) {
   const chip = must('#evChip');
   chip.hidden = !held.length;
   chip.innerHTML = `▲ 진화 대기 <b>${held.length}</b>`;
-  chip.title = '근속이 찼지만 지금 진화하면 길이 끊기는 직원이에요. 눌러서 결과를 미리 봐요';
+  chip.title = '근속이 찼지만 지금 진화하면 길이 끊기거나 12시간 뒤 결재 ②가 늦어지는 직원이에요. 눌러서 결과를 미리 봐요 (보류하면 다음 직원)';
   const trayEl = must('#tray');
   trayEl.innerHTML = '';
   tr.slice(0, 4).forEach(m => {
@@ -292,7 +310,7 @@ export function heldEvolves(w: M.World): M.Monster[] {
   if (A.T && A.T.hideEvolve()) return [];
   const picks = M.evolvePicks(w);
   return w.monsters.filter(m => M.canEvolve(m) && !picks.get(m.id)?.shown)
-    .sort((a, b) => (picks.get(a.id)!.rank - picks.get(b.id)!.rank) || (b.tenure - M.evolveNeed(b)) - (a.tenure - M.evolveNeed(a)));
+    .sort((a, b) => (+snoozed('evo:' + a.id) - +snoozed('evo:' + b.id)) || (picks.get(a.id)!.rank - picks.get(b.id)!.rank) || (b.tenure - M.evolveNeed(b)) - (a.tenure - M.evolveNeed(a)));
 }
 
 /** 결재 조건 ②: 이번 장 누적 즐거움. 지금 속도로 며칠 남았는지도 함께 */
@@ -363,6 +381,16 @@ export function renderDoc() {
 }
 
 // ── 오렌 (지금 가장 급한 한 가지, 1줄) ──────────────────────
+/** 1.15.0 B4: 보류·한 번 누른 권유. 5분(실제 시간) 또는 다음 체크인까지 */
+const SNOOZE_MS = 5 * 60 * 1000;
+export function snoozed(key: string): boolean {
+  const at = A.snooze.get(key);
+  if (at == null) return false;
+  if (performance.now() - at > SNOOZE_MS) { A.snooze.delete(key); return false; }
+  return true;
+}
+export function snooze(key: string | undefined) { if (key) A.snooze.set(key, performance.now()); }
+export function snoozeReset() { A.snooze.clear(); }
 /** 다시 열기 계획은 무겁다(부지 × 계열 미리보기): 월드 분·직원 수·스마일이 같으면 다시 계산하지 않는다 */
 let rbKey = '', rbVal: M.RebuildPlan | null = null;
 function rebuildFor(w: M.World, seg: M.Seg): M.RebuildPlan | null {
@@ -382,11 +410,12 @@ A.fixGap = seg => {
 };
 export function orenPick(): OrenLine {
   const w = A.w;
+  const S = (l: OrenLine): OrenLine | null => (l.key && snoozed(l.key) ? null : l);
   if (A.T && A.T.active()) return A.T.line();
   if (w.approvalReady) return { t: w.chapter >= 5 ? '매니저님!! 마지막 결재 서류예요!! 도장 받으러 가요!!' : '매니저님!! 결재 서류에 도장 받을 수 있어요!!', go: () => A.openApproval() };
-  if (w.boss && !w.boss.d) { const fb = fieldBoss(w.boss.ch); if (fb) return { t: `필드 보스 ${fb.name}가 찾아왔어요!! 어느 던전에서 맞을지 골라요!!`, go: () => A.openBoss() }; }
+  if (w.boss && !w.boss.d) { const fb = fieldBoss(w.boss.ch); if (fb) return { t: `필드 보스 ${josa(fb.name, '이', '가')} 찾아왔어요!! 어느 던전에서 맞을지 골라요!!`, go: () => A.openBoss() }; }
   // 1.14.0 엘리트 지명: 필드 보스 초대 다음 (둘 다 저절로 오는 손님을 어디서 맞을지 고르는 탭)
-  if (RULES.elitePick && w.eliteReady != null && !w.elite && !(A.T && A.T.active())) { const hh = M.eliteHosts(w)[0]; if (hh) return { t: `★ 엘리트가 나올 준비가 됐어요!! 손님이 가장 많은 “${plotName(hh.id)}”에서 맞으면 ② ×${RULES.elite!.joyX}예요!!`, go: () => A.openElite() }; }
+  if (RULES.elitePick && w.eliteReady != null && !w.elite && !(A.T && A.T.active())) { const hh = M.eliteHosts(w)[0]; if (hh) return { t: `★ 엘리트가 나올 준비가 됐어요!! “${plotName(hh.id)}”에서 맞으면 손님 ${hh.happy + hh.seat}명이 ② ×${RULES.elite!.joyX}예요!!${hh.seat ? ` 줄 선 ${hh.seat}명도 앉아요!!` : ''}`, go: () => A.openElite() }; }
   const bal = w.monsters.find(m => m.sp === 'balrog' && !m.d);
   if (bal) return { t: '주니어 발록 씨가 입사했어요!! 대기실에서 끌어서 빈 부지에 놓아 주세요!!', go: () => A.highlightBest(bal.id) };
   const trNew = A.ui.newTok != null ? M.tray(w).find(m => m.id === A.ui.newTok) : null;
@@ -399,7 +428,8 @@ export function orenPick(): OrenLine {
   }
   const gaps = b.filter((x): x is Extract<M.Badge, { kind: 'gap' }> => x.kind === 'gap');
   const gap = gaps.filter(x => x.n > 0).sort((p, q) => q.n - p.n)[0] || gaps[0];
-  if (gap) {
+  let waitLine: OrenLine | null = null;
+  gapBlock: if (gap) {
     const rng = segTxt(gap.seg);
     const entrance = gap.seg[0] === 1;
     // 1.12.0 던전 다시 열기: 채용·옮기기로 못 메우고 빈 부지도 없을 때. 전에는 여기서 채용 시트만 열어 막다른 길이었다(4장부터 입구가 며칠씩 막혔다)
@@ -421,7 +451,8 @@ export function orenPick(): OrenLine {
         const pay = mv.cost === 0 ? (mv.ticket ? ' 개업권이 있어서 공짜예요!!' : '') : ` 개업 스마일 ${n(mv.cost)}!!`;
         return { t: `${rng}는 ${josa(M.monName(mv.mon), '을', '를')} “${plotName(mv.to)}”${ro(plotName(mv.to)).slice(plotName(mv.to).length)} 옮기면 이어져요!!${pay}`, go: () => A.highlightBest(mv.mon.id, [mv.to]) };
       }
-      if (grow) return { t: `${rng}는 ${josa(M.monName(grow), '이', '가')} 진화하면 이어져요!! 근속을 기다려요!!`, go: null };
+      // 1.15.0 B4: 지금 할 수 없는 권유(근속 대기)는 다른 할 일이 없을 때만 말한다
+      if (grow) { waitLine = { t: `${rng}는 ${josa(M.monName(grow), '이', '가')} 진화하면 이어져요!! 근속을 기다려요!!`, go: null }; break gapBlock; }
       if (rb) return rbLine(rb);
       if (g) return { t: `${rng}는 채용으로는 안 닿아요!! ${josa(SPECIES[g.sp].names[0], '을', '를')} 뽑아 키워봐요!!`, go: () => A.openHire({ seg: gap.seg }) };
     }
@@ -443,29 +474,41 @@ export function orenPick(): OrenLine {
   if (busy && busy.n >= 2) {
     // v1.5 계열 사다리: 줄 선 레벨에 맞는 다른 계열이 있고 살 수 있으면 자리보다 먼저 권한다 (줄을 레벨로 나눈다)
     const sf = M.crowdFix(w);
-    if (sf && sf.split && sf.cost <= w.smile) return { t: `${plotShort(sf.d)} 앞에 ${sf.n}명이 줄 섰어요!! ${SPECIES[sf.sp].names[0]}(Lv ${SPECIES[sf.sp].base}) 하나 뽑아 ${plotShort(sf.to)}에 열면 줄이 나뉘어요!!`, go: () => A.openHire({ crowd: sf }) };
+    const sl = sf && sf.split && sf.cost <= w.smile ? S({ t: `${plotShort(sf.d)} 앞에 ${sf.n}명이 줄 섰어요!! ${SPECIES[sf.sp].names[0]}(Lv ${SPECIES[sf.sp].base}) 하나 뽑아 ${plotShort(sf.to)}에 열면 줄이 나뉘어요!!`, go: () => A.openHire({ crowd: sf }), key: 'crowd:' + sf.d }) : null;
+    if (sl) return sl;
     // 자리를 늘릴 수 있는 곳부터. 모두 최대면 같은 레벨에 던전을 하나 더 (v1.4 붐빔 풀기)
-    const seatable = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy' && x.n >= 2 && M.seatCost(w, w.dungeons[x.d]) != null).sort((p, q) => q.n - p.n)[0];
-    if (seatable) return { t: `${plotName(seatable.d)} 만원이에요!! 자리를 늘리거나 옆 던전에 드랍 이벤트를 걸어봐요!!`, go: () => A.openDungeon(seatable.d, { hl: 'seat' }) };
+    const seatable = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy' && x.n >= 2 && M.seatCost(w, w.dungeons[x.d]) != null && M.seatCost(w, w.dungeons[x.d])! <= w.smile && !snoozed('seat:' + x.d)).sort((p, q) => q.n - p.n)[0];
+    if (seatable) {
+      const d = w.dungeons[seatable.d], c = M.seatCost(w, d)!;
+      // 1.15.0 B4: 살 수 있을 때만, 줄 선 인원과 자리 변화를 말한다 (전에는 같은 문장을 며칠씩 되풀이했다)
+      const l = S({ t: `${plotName(seatable.d)} 앞에 ${seatable.n}명이 줄 섰어요!! 자리 ${d.seats} → ${d.seats + M.SEAT_STEP}석으로 늘려요!! 스마일 ${n(c)}!!`, go: () => A.openDungeon(seatable.d, { hl: 'seat' }), key: 'seat:' + seatable.d });
+      if (l) return l;
+    }
     const cf = M.crowdFix(w);
-    if (cf) return { t: `${plotShort(cf.d)} 앞에 ${cf.n}명이 줄 섰어요!! 자리는 꽉 찼으니 ${josa(SPECIES[cf.sp].names[0], '을', '를')} 뽑아 ${plotShort(cf.to)}에 던전을 하나 더 열어요!!`, go: () => A.openHire({ crowd: cf }) };
+    const cl = cf && cf.cost <= w.smile ? S({ t: `${plotShort(cf.d)} 앞에 ${cf.n}명이 줄 섰어요!! 자리는 꽉 찼으니 ${josa(SPECIES[cf.sp].names[0], '을', '를')} 뽑아 ${plotShort(cf.to)}에 던전을 하나 더 열어요!!`, go: () => A.openHire({ crowd: cf }), key: 'crowd:' + cf.d }) : null;
+    if (cl) return cl;
+    // 1.15.0 B2: 빈 부지가 없으면 손님 없는 던전을 비워 줄 선 레벨로 다시 연다 (봇 checkIn과 같은 자리)
+    const tp = M.thinRebuild(w);
+    const tl = tp ? S({ t: `${plotShort(tp.crowd.d)} 앞에 ${tp.crowd.n}명이 줄 섰는데 “${plotName(tp.to)}”${pp(plotName(tp.to), '은', '는')} 손님이 ${tp.occ}명뿐이에요!! 비우고 ${SPECIES[tp.sp].names[0]}${ro(SPECIES[tp.sp].names[0]).slice(SPECIES[tp.sp].names[0].length)} 다시 열면 줄이 나뉘어요!!`, go: () => A.openRebuild(tp), key: 'thin:' + tp.to }) : null;
+    if (tl) return tl;
   }
   // v1.7 모객: 진화 다음, 이벤트 앞 (봇 checkIn과 같은 순서. 1.10.0 `guests.order`가 'before'면 진화 앞). 복귀가 먼저, 다음 신규
   const recruitLine = (): OrenLine | null => {
     const rp = M.recruitPick(w);
-    if (!rp) return null;
+    if (!rp || snoozed('recruit')) return null;
     const free = M.recruitTickets(w) > 0 ? ' 모객권이 있어서 공짜예요!!' : '';
     return rp.kind === 'return'
-      ? { t: `떠났던 손님 ${rp.n}명이 돌아올 수 있어요!! 자리도 있어요!! 📣 복귀 모객을 걸어요!!${free}`, go: () => A.openRecruit() }
-      : { t: `입구가 한산해요!! 빈자리 ${rp.n}석!! 📣 신규 모객으로 새 손님을 불러요!!${free}`, go: () => A.openRecruit() };
+      ? { t: `떠났던 손님 ${rp.n}명이 돌아올 수 있어요!! 자리도 있어요!! 📣 복귀 모객을 걸어요!!${free}`, go: () => A.openRecruit(), key: 'recruit' }
+      : { t: `입구가 한산해요!! 빈자리 ${rp.n}석!! 📣 신규 모객으로 새 손님을 불러요!!${free}`, go: () => A.openRecruit(), key: 'recruit' };
   };
   const recBefore = RULES.guests?.order === 'before' ? recruitLine() : null;
   if (recBefore) return recBefore;
   // 1.13.0 임원 승진: 급하지 않은 진화보다 먼저 (봇 checkIn과 같은 순서). 이득이 클 때만 권한다 (M.execPick)
   const exm = M.execPick(w);
-  if (exm) return { t: `${josa(M.monName(exm), '이', '가')} 임원 자격이 됐어요!! 👔 본사 임원으로 올리면 월드 결재 ②가 빨라져요!!`, go: () => A.openExec(exm.id) };
-  const ev = b.find((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve' && x.shown);
-  if (ev) { const m = w.monsters.find(x => x.id === ev.mon)!; return { t: `${josa(M.monName(m), '이', '가')} 진화할 수 있대요!! ▲를 눌러봐요!!`, go: () => A.openEvolve(m.id) }; }
+  if (exm && !snoozed('exec:' + exm.id)) return { t: `${josa(M.monName(exm), '이', '가')} 임원 자격이 됐어요!! 👔 본사 임원으로 올리면 월드 결재 ②가 빨라져요!!`, go: () => A.openExec(exm.id), key: 'exec:' + exm.id };
+  // 1.15.0 B4: 보류한 직원은 이번 체크인 동안 권하지 않는다 (보류하자마자 같은 진화를 다시 권했다)
+  const ev = b.find((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve' && x.shown && !snoozed('evo:' + x.mon));
+  if (ev) { const m = w.monsters.find(x => x.id === ev.mon)!; return { t: `${josa(M.monName(m), '이', '가')} 진화할 수 있대요!! ▲를 눌러봐요!!`, go: () => A.openEvolve(m.id), key: 'evo:' + m.id }; }
   const recAfter = RULES.guests?.order === 'before' ? null : recruitLine();
   if (recAfter) return recAfter;
   if (w.ended) {
@@ -478,6 +521,7 @@ export function orenPick(): OrenLine {
   if (w.tickets.event > 0 && M.activeEvents(w) < M.maxEvents(w)) return { t: `무료 이벤트권 ${w.tickets.event}장 있어요!! 붐비는 던전에 경험치 2배 걸어봐요!!${boxRest ? ' 쓰면 상자가 다시 떨어져요!!' : ''}`, go: () => { const occ = (id: string) => w.advs.filter(a => a.st === 'happy' && a.d === id).length; const id = Object.keys(M.levelsOf(w)).filter(x => !w.dungeons[x].event).sort((p, q) => occ(q) - occ(p))[0]; if (id) A.openDungeon(id, { hl: 'exp' }); } };
   if (boxRest && w.tickets.hire.length) return { t: `채용권 ${w.tickets.hire.length}장이 기다려요!! 쓰면 📦 상자가 다시 떨어져요!!`, go: () => A.openHire() };
   if (M.activeEvents(w) === 0 && w.smile > 1500) return { t: '스마일이 넉넉해요!! 경험치 2배 한 번 어때요?!', go: () => { const lv = M.levelsOf(w); const id = Object.keys(lv).sort((p, q) => lv[p] - lv[q])[0]; if (id) A.openDungeon(id, { hl: 'exp' }); } };
+  if (waitLine) return waitLine;
   const j = joyText(w);
   const idle = [
     j.eta ? `결재까지 즐거운 시간 ${Math.floor(j.pct)}%!! 지금 속도면 ${j.eta} 남았어요!!` : '오늘도 다들 퇴근 잘하고 있어요!!',
@@ -487,16 +531,29 @@ export function orenPick(): OrenLine {
   return { t: idle[Math.floor(w.t / 7) % idle.length], go: null };
 }
 let lastOren = '';
+/** 1.15.0 B4: 누르는 순간 문장이 바뀌면(월드는 계속 흐른다) 방금까지 보이던 문장의 대상을 연다 */
+let shownLine: OrenLine | null = null, prevLine: OrenLine | null = null, changedAt = 0;
+export const ORENGRACE_MS = 1500;
+export function orenTap() {
+  const tut = !!(A.T && A.T.active());
+  const l = !tut && prevLine && prevLine.go && performance.now() - changedAt < ORENGRACE_MS ? prevLine : shownLine;
+  if (!l || !l.go) return;
+  snooze(l.key);
+  l.go();
+  renderOren();
+}
 export function renderOren() {
   const o = orenPick();
   A.ui.orenGo = o.go;
   if (o.t !== lastOren) {
+    if (shownLine && lastOren) { prevLine = shownLine; changedAt = performance.now(); }
     lastOren = o.t;
     const b = must('#orenTxt');
     b.textContent = o.t;
     b.classList.remove('new'); void b.offsetWidth; b.classList.add('new');
     must('#orenF .bubble').textContent = o.t;
   }
+  shownLine = o;
   must('#oren').classList.toggle('act', !!o.go);
   // 시트가 독을 가리면 오렌이 시트 위로 올라온다 (진화 시트는 월드를 가리지 않게 예외)
   const f = must('#orenF');
