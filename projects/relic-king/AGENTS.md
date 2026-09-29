@@ -33,11 +33,13 @@ pnpm --filter relic-king smoke       실시간 브라우저 스모크 + 스크�
 pnpm --filter relic-king play        실제 앱을 사람처럼 조작하는 UI 검사 (시나리오 15종)
 pnpm --filter relic-king playlog     플레이 계측 — 이벤트 타임라인·조작 노력 (--hours N, --bucket N분)
 pnpm --filter relic-king density     밀도 원장 — 첫 60초 5초 격자·첫 10분 30초 격자, 5시드 중앙/최악 (--seeds N, --tail-minutes N)
+pnpm --filter relic-king humanplay   사람처럼 한 판 — 배속 없이 한 수씩 누르고 그림·보이는 글자만 받는다(포트 7071, notes/play-review/)
 
 pnpm --filter relic-king qa:sprites     아이콘 중복·거점 구분력·유일 12종 분리
 pnpm --filter relic-king qa:rivalcard   기록패·고스트 단위 검증(왕복·적대적 입력·격리)
 pnpm --filter relic-king qa:migration   세이브 마이그레이션 v1~v11
 pnpm --filter relic-king qa:bulk        소장고 다중 선택 처분(대상 선정·도감 보존·경매 자리)
+pnpm --filter relic-king qa:playreview  플레이 리뷰 B1~B4 회귀(찾는 한 점 고정·자동 매각 알림·떠날 때 제보 멈춤·결판 배너 닫기)
 pnpm --filter relic-king sheets         컨택트 시트 굽기 → assets/generated/
 
 node ip/src/fetch-fonts.mjs               IP 그림용 폰트 원본 받기(빌드타임, ip/.cache — 커밋 안 함)

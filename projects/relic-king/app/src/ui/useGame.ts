@@ -13,6 +13,7 @@ import {
 import { addGhost, encodeCard, makeCard, parseCard, removeGhost } from "../game/rivalcard";
 import { clear, clearRecord, exportText, importText, load, loadRecord, save, saveRecord } from "../game/save";
 import type { PersistentRecord, SiteId, Tier, World } from "../game/types";
+import type { OfflineTipNote } from "../game/engine";
 import { shouldOfferFirstBase, shouldOfferExpansionFork } from "./baseChoice";
 import { DISPLAY_NUDGE_SEEN_KEY } from "./DisplayNudge";
 import { playCue } from "./sound";
@@ -32,6 +33,8 @@ export type OfflineSummary = {
   codexBefore: number;
   rankBefore: RankSnapshot;
   rankAfter: RankSnapshot;
+  /** 떠날 때 떠 있던 제보(engine.ts `applyOffline`) — 없으면 null */
+  tip: OfflineTipNote | null;
 };
 
 function rankSnapshot(w: World, record: PersistentRecord): RankSnapshot {
@@ -104,7 +107,8 @@ function catchUpOffline(w: World, record: PersistentRecord): OfflineSummary | nu
     fundsBefore,
     codexBefore,
     rankBefore,
-    rankAfter: rankSnapshot(w, record)
+    rankAfter: rankSnapshot(w, record),
+    tip: result.tip
   };
 }
 
@@ -317,6 +321,11 @@ export function useGame() {
       setReveal(null);
     },
     dismissOffline: () => setOffline(null),
+    /** 미감정 자동 매각 알림(`AutoSoldNotice`)을 닫는다 — 표시용 필드라 규칙에 영향이 없다 */
+    dismissAutoSold: () => {
+      if (world.autoSold) world.autoSold.seen = true;
+      bump((v) => v + 1);
+    },
 
     /** 첫 거점 카드(`FirstBaseChooser`). 자동으로는 한 번만 뜨고, 발굴 탭에서 다시 연다. */
     baseChooserOpen,

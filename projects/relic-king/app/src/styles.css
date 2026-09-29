@@ -438,6 +438,8 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 
 /* 첫 전시 안내 토스트 — 복귀 요약 토스트와 같은 자리·같은 모양을 쓴다(동시에 뜰 일은 드물다) */
 .display-nudge { bottom: 76px; border-color: var(--accent); }
+/* 미감정 자동 매각 알림(B2) — 전시 안내와 겹치지 않게 한 칸 위 */
+.auto-sold { bottom: 132px; border-color: var(--line); }
 .display-nudge .display-nudge-close { color: var(--muted); }
 
 /* ── 발굴 탭 ──────────────────────────── */

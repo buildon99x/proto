@@ -11,6 +11,7 @@
     "sim": "tsx src/sim/run.ts",
     "smoke": "node ../tests/e2e/smoke.mjs",
     "play": "tsx ../tests/e2e/play.mjs",
+    "humanplay": "node ../tests/e2e/humanplay.mjs",
     "qa:migration": "tsx src/sim/qa_migration.ts",
     "qa:season": "tsx src/sim/qa_season_rollover.ts",
     "qa:expedition": "tsx src/sim/qa_expedition.ts",
@@ -24,6 +25,7 @@
     "build:worldmap": "node ../scripts/build-worldmap.mjs",
     "qa:rivalcard": "tsx src/sim/qa_rivalcard.ts",
     "qa:sprites": "tsx src/sim/qa_sprites.ts",
+    "qa:playreview": "tsx src/sim/qa_playreview.ts",
     "sheets": "tsx src/sim/contact_sheet.ts"
   },
   "dependencies": {
