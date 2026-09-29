@@ -99,6 +99,7 @@ P2 "몬스터 레벨 = 던전 레벨"과 P5 "떠나 있어도 망하지 않는�
 3. **5초 걸음 표준 D30.4 · 탭을 닫는 퇴근 직전 D34.5.** 둘 다 선 안이다.
 4. **0~40분 자리 비중 32%(상자를 빼면 35%).** 자리 한 칸의 대가다. 상자를 넣기 전(v1.5)의 34% 근처로 돌아왔다. 첫 40분 화면에서 "자리만 산다"로 읽히는지 사람이 본다.
 5. **사람 플레이테스트 묶음 (규칙을 먼저 고치지 않는다).** G1 판정표(play-review 09절)를 사람이 채운다. 모객 시트에서 복귀·신규를 "다른 결정"으로 읽는가. 승진 소식("진화했더니 손님이 돌아왔다")이 읽히는가. **진화 시트의 "결재 ② ×a → ×b"가 진화할 이유로 읽히는가(1.11.0).** 완전 클리어 컷이 엔딩과 다르게 느껴지는가. 지역 줌의 지역 탭을 찾는가.
+   - **1.14.0 사람처럼 한 판(play-review 10절, 2026-09-29) 결과:** "결재 ② ×a → ×b"는 진화할 이유로 **너무 잘** 읽혔다. 진화 시트가 빈틈만 미리 보여 주므로 "빈틈 없음이면 진화"로 누르다가 12시간 뒤 😊가 두 번 크게 빠졌다(183→124, 325→270). 리포트는 이유를 말하지 않는다(B1). 3장 8.5일 정체(B2), 엘리트 지명·모객의 확인 도장화(B3), 오렌 말풍선과 여는 곳 불일치(B4), 조사 오류 여섯 곳(B9)도 이 판에서 나왔다. 규칙보다 화면(미리보기·리포트) 쪽이 먼저다. 사람 판을 다시 하려면 `pnpm --filter msw-inc humanplay` → `node notes/play-review/build-human.mjs`.
 6. **이름 확정 마무리.** 가칭 9개(계열)·부지 6·필드 보스 1(`notes/content.md`). 공식 리소스 목록을 가진 사람이 정한다. 버섯 언덕은 튜토리얼 대본 네 곳이 쓴다.
 7. **세로 폰.** 축소와 "가로로 돌리면" 안내까지다. 세로 재설계(ux-review R1)는 미착수.
 
@@ -115,6 +116,7 @@ P2 "몬스터 레벨 = 던전 레벨"과 P5 "떠나 있어도 망하지 않는�
 | v1.6 드랍 상자 · v1.5 사다리 · v1.4 첫 40분 | `notes/drop-v16.md`, `notes/ladder-v15.md`, `notes/tempo-v14.md` |
 | 달력·성향 편차 | `notes/choice-audit.md` §12(v1.7), L 목록 §12.3 |
 | 목표별 판정표·G1 판정표·첫 세션 실측 | `notes/play-review/index.html` 09절 (`data-v17.js`, `shots/v17/`) |
+| 사람처럼 한 판(1.14.0)·이전 대비 경험 변화·좋은 점/나쁜 점 B1~B10 | `notes/play-review/index.html` 10절 (`data-human.js` ← `notes/data/humanplay-v114.jsonl`, `shots/v114h/`) |
 | 전후 그림 | `assets/screenshots/gallery-v17.html` (`before-v16/` ↔ 지금) |
 | 월드 규칙 코드 | `app/src/sim/sim.ts` (모객 절: `initGuests`·`toPool`·`recruitPick`·`startRecruit`·`cancelRecruit`·`welcomeBack`·`evolveReturn`, 사냥터: `plotSeats`·`atHome`·`bestPlaces`, 기록: `recordOf`·`recordReport`, 완전 클리어: `fullClear`·`clearedAt`) |
 | 봇 성향과 대본 | `app/src/sim/bots.ts` (`PERSONAS`, `firstSession`, `checkIn`, `WATCHER`·`watchTo`) |

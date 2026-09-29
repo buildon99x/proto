@@ -15,6 +15,7 @@
     "shots": "node ../tests/e2e/shots.mjs",
     "playreview:ui": "node ../tests/e2e/playreview.mjs",
     "playreview:v13": "tsx src/sim/tools/playreview.ts --out ../notes/data/playreview-v13.json && PR_TAG=v13 node ../tests/e2e/playreview.mjs",
+    "humanplay": "node ../tests/e2e/humanplay.mjs",
     "cadence": "tsx src/sim/tools/cadence.ts",
     "checkin": "tsx src/sim/tools/checkin.ts",
     "waits": "tsx src/sim/tools/waits.ts"

@@ -74,7 +74,7 @@ p{margin:0;max-width:68ch}
 .doc h1{font-family:var(--f-disp);font-weight:400;font-size:clamp(34px,5.4vw,58px);line-height:1.12;letter-spacing:-.015em}
 .doc h1 small{display:block;font-family:var(--f-body);font-size:clamp(14px,1.6vw,17px);font-weight:500;color:var(--muted);letter-spacing:0;margin-bottom:10px}
 .verdict{font-size:clamp(17px,1.9vw,20px);line-height:1.66;max-width:60ch;color:var(--ink)}
-.verdict mark{background:linear-gradient(transparent 58%,var(--gold-soft) 58%);color:inherit;padding:0 2px}
+.lead mark,.verdict mark{background:linear-gradient(transparent 58%,var(--gold-soft) 58%);color:inherit;padding:0 2px}
 .figs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--rule)}
 @media (max-width:760px){.figs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .fig{padding:18px 18px 4px 0;display:grid;gap:4px;align-content:start}
@@ -164,6 +164,7 @@ table.t tr.hl td{background:var(--stamp-soft)}
 .keep div{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;display:grid;gap:4px}
 .keep b{font-size:15px}
 .keep span{font-size:13.5px;color:var(--ink2)}
+#goodList > div{align-content:start}
 .appx{font-size:14px;color:var(--ink2);display:grid;gap:10px}
 .appx pre{font-family:var(--f-mono);font-size:12.5px;background:var(--sheet);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;overflow-x:auto;margin:0;color:var(--ink)}
 .lb{position:fixed;inset:0;background:rgba(10,12,18,.86);display:grid;place-items:center;z-index:30;padding:20px;cursor:zoom-out}
@@ -192,6 +193,7 @@ table.t tr.hl td{background:var(--stamp-soft)}
     <li><a href="#keep">지킬 것</a></li>
     <li><a href="#after">개선 뒤</a></li>
     <li><a href="#v17">규칙 v1.7</a></li>
+    <li><a href="#human">1.14.0 한 판</a></li>
     <li><a href="#appendix">부록</a></li>
   </ol>
 </nav>
@@ -212,7 +214,7 @@ table.t tr.hl td{background:var(--stamp-soft)}
   <h1 id="ttl"><small>플레이 리뷰 · 입사 첫 10분부터 엔딩까지</small>첫 닷새는 감탄이 촘촘하고,<br>나머지 27일은 결재 막대를 기다린다</h1>
   <p class="verdict">입사 뒤 <mark>4분 안에 핵심 루프(빈틈 → 채용 → 배치 → 뚫림)를 몸으로 익히고</mark>, 출근 리포트는 떠나 있던 시간을 보상으로 바꾼다. 문제는 그다음이다. 3장부터 엔딩까지 27.5일(전체의 90%) 동안 진행을 쥐는 것은 결재 ② "즐거운 시간" 누적이고, 플레이어의 수는 그 속도를 거의 바꾸지 못한다. 5장에서는 새 계열이 한 번도 쓰이지 않고, ▲ 배지는 16개씩 쌓인 채 치워지지 않는다.</p>
   <div class="figs" id="figs"></div>
-  <p class="note">이 보고서 뒤에 F1~F6, 필드 엘리트·보스, 첫 10분 한 바퀴를 고쳤다(MSW 주식회사 1.1.0 · 규칙 v1.3). 01~07절은 개선 전(v1.2) 기록 그대로 두고, 개선 뒤 다시 잰 결과는 <a href="#after">08절</a>에 있다.</p>
+  <p class="note">이 보고서 뒤에 F1~F6, 필드 엘리트·보스, 첫 10분 한 바퀴를 고쳤다(MSW 주식회사 1.1.0 · 규칙 v1.3). 01~07절은 개선 전(v1.2) 기록 그대로 두고, 개선 뒤 다시 잰 결과는 <a href="#after">08절</a>, 규칙 v1.7(1.9.0)은 <a href="#v17">09절</a>에 있다. <b>게임 1.14.0을 사람처럼 입사부터 엔딩까지 한 판 해 본 결과와 1.9.0 대비 달라진 경험은 <a href="#human">10절</a>이다.</b></p>
 </section>
 
 <section class="sec" id="method">
@@ -378,8 +380,47 @@ table.t tr.hl td{background:var(--stamp-soft)}
   <p class="note" id="v17Note"></p>
 </section>
 
+<section class="sec" id="human">
+  <div class="eyebrow">10 · 게임 1.14.0 (규칙 v1.7, 1.9.0 뒤 다섯 릴리스) — 사람처럼 한 판</div>
+  <h2>화면만 보고 입사부터 엔딩까지 한 판을 했다</h2>
+  <p class="lead" id="humanLead"></p>
+  <div class="figs" id="humanFigs" style="border:1px solid var(--rule);border-radius:10px;background:var(--sheet);padding:0 18px"></div>
+
+  <div class="panel">
+    <h3>이전(09절, 1.9.0) 대비 달라진 플레이 경험<small>1.10.0~1.14.0 변경을 한 줄씩. 수치는 같은 도구로 잰 봇 측정(audit·checkin·waits·playreview), 마지막 열은 이번 한 판에서 겪은 것이다. 출처 파일은 표 아래</small></h3>
+    <div class="scroll"><table class="t" id="deltaTable"></table></div>
+    <p class="small muted" id="deltaSrc"></p>
+  </div>
+
+  <div class="panel">
+    <div class="ctl"><h3>한 판의 모양<small>가로 = 월드 날짜(D1 21:00 입사). 점 = 출근 순간 즐기는 모험가(리포트 첫 숫자), 막대 = 그 체크인에서 누른 수. 세로 띠 = 장. 아래 눈금 = 결재 도장: 내 판 · 표준 봇 1.14.0 · 표준 봇 1.9.0 (같은 playreview 도구, 시드 0)</small></h3>
+      <div class="legend"><span><i style="background:var(--happy);border-radius:50%"></i>😊 (출근 순간)</span><span><i style="background:var(--rule)"></i>체크인 입력</span><span><i style="background:var(--stamp)"></i>진화 뒤 급락</span><span><i style="background:var(--gold)"></i>임원 승진</span></div></div>
+    <div class="scroll"><svg class="chart" id="humanChart" viewBox="0 0 1000 380" role="img" aria-label="내 판의 날짜별 즐기는 모험가와 체크인 입력, 장별 결재 도장을 봇과 비교"></svg></div>
+  </div>
+
+  <div class="panel">
+    <h3>장별로 겪은 것<small>체크인 = 출근 한 번(첫 세션 포함). 입력 = 클릭·끌기 수. 봇 기간은 playreview 표준(1.14.0)</small></h3>
+    <div class="scroll"><table class="t" id="humanChapTable"></table></div>
+  </div>
+
+  <h3 style="margin-top:6px">좋았던 것</h3>
+  <div class="keep" id="goodList"></div>
+
+  <h3 style="margin-top:6px">나빴던 것 — 무엇부터 고칠까</h3>
+  <div class="finds" id="badList"></div>
+
+  <div class="film" id="filmHuman" aria-label="사람처럼 한 판에서 고른 장면 18장"></div>
+
+  <div class="panel">
+    <details><summary><b>플레이 일지</b> <span class="muted small">— 플레이 중 남긴 소감 <span id="noteN"></span>줄, 고치지 않고 그대로 (앞의 두 줄 '클릭 관통 의심'은 뒤에서 원인을 찾아 고쳐 적었다)</span></summary>
+      <ol class="small" id="noteList" style="margin:12px 0 0;padding-left:22px;display:grid;gap:4px;max-width:78ch"></ol>
+    </details>
+  </div>
+  <p class="note est" id="humanNote"></p>
+</section>
+
 <section class="sec appx" id="appendix">
-  <div class="eyebrow">09 · 부록</div>
+  <div class="eyebrow">11 · 부록</div>
   <h2>재현과 한계</h2>
   <pre># 01~07절 (개선 전, 규칙 v1.2 · 게임 1.0.0 시점에 잰 기록)
 pnpm --filter msw-inc playreview -- --rules v1.2   # 규칙 시뮬레이션, 성향 4개 → notes/data/playreview.json
@@ -397,7 +438,15 @@ pnpm --filter msw-inc playreview -- --out ../notes/data/playreview-v17.json
 PR_TAG=v17 pnpm --filter msw-inc playreview:ui        # → notes/data/playreview-ui-v17.json, shots/v17/
 pnpm --filter msw-inc run audit -- --json ../notes/data/audit-v17.json
 node notes/play-review/build.mjs --sim notes/data/playreview-v17.json --ui notes/data/playreview-ui-v17.json \
-  --audit notes/data/audit-v17.json --out data-v17.js --var PR17</pre>
+  --audit notes/data/audit-v17.json --out data-v17.js --var PR17
+# 10절 (게임 1.14.0 · 사람처럼 한 판)
+pnpm --filter msw-inc build
+pnpm --filter msw-inc playreview -- --out ../notes/data/playreview-v114.json    # 봇 비교(같은 도구)
+PR_TAG=v114 pnpm --filter msw-inc playreview:ui     # 첫 세션 자동 계측 → notes/data/playreview-ui-v114.json
+pnpm --filter msw-inc humanplay                     # 브라우저를 띄우고 localhost:7070에서 한 수씩 명령을 받는다
+#   curl 'localhost:7070/start' · /shot · /click?text=… · /place · /hold·/move·/release · /wait?s=30 · /away?min=720 · /note?t=…
+#   → notes/data/humanplay-v114.jsonl (원본 그림 shots/human/은 커밋하지 않는다. 보고서 그림은 shots/v114h/)
+node notes/play-review/build-human.mjs              # → notes/play-review/data-human.js</pre>
   <p>입력 수 추정: 행동별 입력(결재·채용·진화·발령·이벤트·자리 3, 옮기기·배치 1, 본사 전근 2)에 출근 리포트 닫기와 퇴근 2를 더했다. 실제 화면 흐름에서 잰 값이다.</p>
   <p>한계: 봇은 결과 미리보기를 모두 계산하고 붙잡기 경고를 무시한다. 사람은 더 느리고 덜 정확하며, 퇴근 직전 성향의 입구 막힘은 사람에게서 더 짧을 것이다(추정). 감정 분류는 사건 기반 모델이다. 승진 발령을 사람이 이해하는지, 촘촘 모드가 읽히는지는 사람 플레이테스트로 확인해야 한다.</p>
   <p class="small muted" id="gen"></p>
@@ -1031,3 +1080,208 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawAll);
 new MutationObserver(drawAll).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 })();
 </script>
+<script src="data-human.js"></script>
+<script>
+// ══ 10 · 1.14.0 사람처럼 한 판 (data-human.js ← notes/data/humanplay-v114.jsonl) ══
+(() => {
+const H = window.PRH;
+if (!H) return;
+const $ = s => document.querySelector(s);
+const NS = 'http://www.w3.org/2000/svg';
+const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (parent, x, y, s, attrs = {}) => { const t = el('text', { x, y, ...attrs }, parent); t.textContent = s; return t; };
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const mmss = s => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
+const B14 = H.bots.v114.std, B9 = H.bots.v17.std;
+const stamp = ch => H.stamps.find(s => s.ch === ch && !s.ending) || null;
+const endD = H.endDay;
+const len = ch => { const a = ch === 1 ? 1.875 : stamp(ch - 1).d, b = ch === 5 ? endD : stamp(ch).d; return b - a; };
+const botLen = (b, ch) => { const st = [1.875, ...b.stamps, b.end]; return st[ch] - st[ch - 1]; };
+const arr = H.arrivals;
+const drop1 = { from: arr.find(a => a.d === 5.81), to: arr.find(a => a.d === 6.31) };
+const drop2 = { from: arr.find(a => a.d === 23.32), to: arr.find(a => a.d === 23.82) };
+
+// ── 결론 ──
+$('#humanLead').innerHTML = `결론부터. <b>1.14.0은 1.9.0보다 4~5장이 낫고, 3장은 그대로 가장 길고, 새 함정이 하나 생겼다.</b> 임원 승진·엘리트 지명·던전 다시 열기가 들어와 4~5장 체크인에도 누를 것이 생겼고, 결재 예상일이 체크인마다 줄어 진행감이 이어졌다. 새 함정은 1.11.0이 진화에 붙인 보상에서 나왔다. 진화 시트가 <mark>“결재 ② ×1.10 → ×1.20”</mark>으로 진화할 이유를 또렷하게 보여 주는데, 미리보기는 빈틈만 보고 붐빔과 손님 없는 던전은 보지 않는다. 시트를 믿고 누른 진화 뒤 12시간 만에 즐기는 모험가가 두 번 크게 빠졌고(${drop1.from.happy}→${drop1.to.happy}, ${drop2.from.happy}→${drop2.to.happy}), 출근 리포트는 떨어진 숫자만 보여 주고 이유를 말하지 않았다. 3장은 ${len(3).toFixed(1)}일 동안 할 일이 ‘엘리트 첫 카드 + 모객권 + 자리 확장’으로 좁아졌다. 판은 D${endD.toFixed(1)}에 끝났다. 표준 봇의 1.14.0 달력(audit 중앙 D29.8)과 같은 속도다.`;
+
+const figs = [
+  { v: mmss(H.tutorialDoneSec), k: `튜토리얼 끝(읽고 누른 속도, 입력 24). 자동 계측은 안내가 뜨면 바로 눌러 2:26 · 입력 22` },
+  { v: 'D' + endD.toFixed(1), k: `엔딩. 체크인 ${H.checkins}번 · 입력 ${H.inputs} · 실제 조작 ${Math.round(H.realSec / 60)}분. 표준 봇 audit D29.8` },
+  { v: '−' + (drop1.from.happy - drop1.to.happy), k: `‘빈틈 없음’ 진화 3번 뒤 12시간, 😊 ${drop1.from.happy}→${drop1.to.happy}. 리포트에 ▼도 이유도 없다`, bad: true },
+  { v: len(3).toFixed(1) + '<small>일</small>', k: `3장 길이 · 체크인 20번. 오렌 기본 문장이 5일 동안 같았다`, bad: true },
+];
+$('#humanFigs').innerHTML = figs.map(f => `<div class="fig ${f.bad ? 'bad' : ''}"><div class="v">${f.v}</div><div class="k">${f.k}</div></div>`).join('');
+
+// ── 이전 대비 ──
+const D = [
+  ['첫 세션', '튜토리얼 2:26 · 입력 22 · 1장 결재 1:57', '같다 (1.10~1.14는 튜토리얼을 건드리지 않았다. 초 단위까지 같다)', `사람 속도 ${mmss(H.tutorialDoneSec)}. 결재 서류 “약 1시간 뒤”가 실제 1분 20초였다`],
+  ['엔딩 달력 (표준 · 8성향 중앙값 폭)', 'D30.6 · D23.9~35.8 (진화 보류 −21.9%로 선 밖)', 'D29.8 · D28.9~32.9 (8성향 모두 ±20% 안)', `내 판 D${endD.toFixed(1)}. 같은 도구 표준 봇(시드 0)보다 2장 −0.4일 · 3장 +1.0일 · 4장 +0.8일 · 5장 +0.2일`],
+  ['진화의 보상 (1.11.0)', '진화는 결재 ②를 당기지 않는다', '던전 ② ×(1 + 0.1 × 평균 진화 횟수). 시트에 “결재 ② ×a → ×b”', '진화할 이유가 처음으로 보였다. 대신 과진화 → 😊 급락 2번 (아래 나쁜 점 1)'],
+  ['엘리트 (1.14.0)', '저절로 자주. 체크인 리포트 감탄의 절반이 엘리트', '준비되면 매니저가 지명 · 간격 ×2 · 2시간', '체크인마다 거의 한 번 눌렀다. 카드 넷의 배율이 같아 늘 첫 카드 (나쁜 점 3)'],
+  ['4~5장 결정 종류 (1.13.0)', '진화뿐. 가벼운 플레이어 4~5장 “진화만” 체크인 43%(1.12.0)', '임원 승진 추가. “진화만” 20% · 표준 4장 새 종류에 exec', '제안 2번(D13, D24). 두 번째는 빈 부지를 낮은 던전으로 다시 여는 흐름으로 이어져 좋았다'],
+  ['체크인의 결이 (checkin, 표준)', '결정 중앙 3 · 이벤트만 11% · 3·4장 같은 수 반복 1·7', '결정 중앙 4 · 이벤트만 1% · 반복 2·3 · 가벼운 반복 3·1', '봇 수치는 좋아졌지만 사람은 3장 중반부터 같은 세 동작을 반복했다'],
+  ['막힘 복구 (1.12.0)', '화면만 따르면 4장부터 입구가 한 달 넘게 막힘(1.11.0 화면 1,006시간)', '던전 다시 열기 · 오렌이 권한다 · 최장 20시간', '입구 막힘이 없어 권유를 한 번도 못 봤다. 3장의 손님 없는 던전에는 쓸 길이 없었다'],
+  ['피드백 (1.12.0)', '② “지금 속도면 N일”만', '“빨리 채우려면” 줄 · 자리 확장 “결재 ② 약 −N시간” · 24시간 상한 문구 · 되돌리기 토스트', '다음 수를 고르는 데 가장 도움이 됐다 (좋은 점 4)'],
+  ['퇴근 (1.14.0)', '입구가 막혔을 때만 붙잡는다', '끊긴 길 전부를 붙잡는다', '한 번 붙잡혔다(D12). 근속을 기다리는 것 말고는 고칠 수 없는 빈틈이었다 (나쁜 점 8)'],
+  ['첫 40분 (cadence)', '40분 줄 선 사람 40 · 둔 수 57 · 결정 사이 최장 3:00', '32 · 59 · 2:00 (초반 지역 자리 한 칸, 1.11.0)', '“초반 지역 보너스 자리” 자리 확장을 2장에서 봤다'],
+];
+$('#deltaTable').innerHTML = `<thead><tr><th>축</th><th>1.9.0 (09절)</th><th>1.14.0</th><th>이번 한 판에서</th></tr></thead><tbody>${D.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('')}</tbody>`;
+$('#deltaSrc').textContent = '출처: notes/data/playreview-ui-v17.json · playreview-ui-v114.json(첫 세션), audit-v17.txt · audit-v17-elite.txt(달력), checkin-v17.txt · checkin-v17-elite.txt(체크인), cadence-v17.txt · cadence-v17-elite.txt(첫 40분), waits-v17-elite.txt(기다림), changelog 1.10.0~1.14.0, humanplay-v114.jsonl(한 판).';
+
+// ── 한 판의 모양 ──
+function chart() {
+  const svg = $('#humanChart'); svg.innerHTML = '';
+  const X0 = 56, X1 = 972, D0 = 1.5, D1 = 30.5, x = d => X0 + (d - D0) / (D1 - D0) * (X1 - X0);
+  const yT = 34, yB = 236, maxH = 360, y = h => yB - h / maxH * (yB - yT);
+  const iB = 300, iT = 256, maxI = 32, yi = n => iB - Math.min(n, maxI) / maxI * (iB - iT);
+  const bounds = [1.875, ...[1, 2, 3, 4].map(c => stamp(c).d), endD];
+  const REG = ['1장', '2장 엘리니아', '3장 페리온', '4장 커닝시티', '5장 슬리피우드'];
+  bounds.slice(0, -1).forEach((a, i) => {
+    const b = bounds[i + 1];
+    el('rect', { x: x(Math.max(a, D0)), y: yT - 22, width: Math.max(0, x(b) - x(Math.max(a, D0))), height: iB - yT + 22, fill: i % 2 ? css('--band') : 'transparent' }, svg);
+    if (i > 0) txt(svg, (x(a) + x(b)) / 2, yT - 8, REG[i], { 'text-anchor': 'middle', class: 'lbl' });
+  });
+  for (let h = 0; h <= 300; h += 100) { el('line', { x1: X0, x2: X1, y1: y(h), y2: y(h), class: 'grid' }, svg); txt(svg, X0 - 8, y(h) + 4, h, { 'text-anchor': 'end' }); }
+  txt(svg, X0 - 8, yT - 8, '😊', { 'text-anchor': 'end' });
+  txt(svg, X0 - 8, iT + 4, '입력', { 'text-anchor': 'end' });
+  el('line', { x1: X0, x2: X1, y1: iB, y2: iB, class: 'axis' }, svg);
+  // 체크인 입력 막대
+  for (const c of H.checkinsTimeline) if (c.d >= D0) el('rect', { x: x(c.d) - 3, y: yi(c.inputs), width: 6, height: iB - yi(c.inputs), fill: css('--rule'), rx: 1 }, svg);
+  // 😊 선과 점
+  const pts = arr.filter(a => a.d >= D0);
+  el('path', { d: pts.map((p, i) => `${i ? 'L' : 'M'}${x(p.d)},${y(p.happy)}`).join(' '), fill: 'none', stroke: css('--happy'), 'stroke-width': 2, 'stroke-linejoin': 'round' }, svg);
+  for (const p of pts) {
+    const c = el('circle', { cx: x(p.d), cy: y(p.happy), r: 3.2, fill: css('--happy') }, svg);
+    c.addEventListener('mouseenter', e => showTip(e, `<b>D${p.d.toFixed(2)} 출근</b><div class="row"><span>😊 즐기는 모험가</span><span>${p.happy}</span></div><div class="row"><span>장</span><span>${p.ch}장</span></div>`));
+    c.addEventListener('mousemove', moveTip); c.addEventListener('mouseleave', hideTip);
+  }
+  // 급락 두 곳
+  for (const [dr, lab] of [[drop1, '진화 3번(“빈틈 없음”) 뒤 12시간'], [drop2, '진화 2번 뒤 12시간']]) {
+    el('line', { x1: x(dr.from.d), y1: y(dr.from.happy), x2: x(dr.to.d), y2: y(dr.to.happy), stroke: css('--stamp'), 'stroke-width': 3.5, 'stroke-linecap': 'round' }, svg);
+    txt(svg, x(dr.to.d) + 8, y(dr.to.happy) + 18, `▼${dr.from.happy - dr.to.happy} · ${lab}`, { class: 'lbl-strong', fill: css('--stamp') });
+  }
+  // 임원 승진 두 번
+  for (const d of [13.32, 24.82]) { const p = arr.reduce((q, a) => Math.abs(a.d - d) < Math.abs(q.d - d) ? a : q); const yy = y(p.happy) - 12; el('path', { d: `M${x(d)},${yy} l-6,-10 h12 z`, fill: css('--gold') }, svg); txt(svg, x(d), yy - 14, '👔 임원 승진', { 'text-anchor': 'middle', class: 'lbl' }); }
+  // 결재 도장 눈금 셋
+  const rows = [['내 판', [...[1, 2, 3, 4].map(c => stamp(c).d), endD], css('--ink')], ['봇 1.14.0', [...B14.stamps, B14.end], css('--accent')], ['봇 1.9.0', [...B9.stamps, B9.end], css('--muted')]];
+  rows.forEach(([name, ds, col], i) => {
+    const yy = 326 + i * 18;
+    txt(svg, X0 - 8, yy + 4, name, { 'text-anchor': 'end' });
+    el('line', { x1: X0, x2: X1, y1: yy, y2: yy, class: 'grid' }, svg);
+    ds.forEach((d, j) => { el('rect', { x: x(d) - 2, y: yy - 6, width: 4, height: 12, fill: col, rx: 1 }, svg); if (i === 0) txt(svg, x(d), yy - 9, j === 4 ? '엔딩' : `${j + 2}장`, { 'text-anchor': 'middle' }); });
+  });
+  for (let d = 5; d <= 30; d += 5) txt(svg, x(d), 378, 'D' + d, { 'text-anchor': 'middle' });
+}
+const tip = $('#tip');
+function showTip(e, html) { tip.innerHTML = html; tip.classList.add('on'); moveTip(e); }
+function moveTip(e) { const w = tip.offsetWidth, h = tip.offsetHeight; let x = e.clientX + 14, y = e.clientY + 14; if (x + w > innerWidth - 8) x = e.clientX - w - 14; if (y + h > innerHeight - 8) y = e.clientY - h - 14; tip.style.left = x + 'px'; tip.style.top = y + 'px'; }
+function hideTip() { tip.classList.remove('on'); }
+
+// ── 장별 ──
+const chRow = ch => H.chapters.find(c => c.ch === ch);
+const CH = [
+  [1, '첫 세션 6분. 빈틈 → 채용 → 끌어 놓기 → 뚫렸다!!를 5분 안에 몸으로 익혔다. 결재 서류의 “약 1시간 뒤”가 실제 1분 20초라 어리둥절했다'],
+  [2, '가장 재밌었다. 아침 4분으로 2장 예상이 4.4일 → 2.0일. 다만 밤사이 Lv 21–25가 열려 35명이 갈 데 없는 채로 첫 출근을 맞았다'],
+  [3, '개막 10분 만에 ①이 끝나고 ② “약 11.4일”. 진화 3번 뒤 😊 183 → 112. 스마일 9만~16만이 쓸 곳 없이 쌓이고 오렌은 5일 동안 같은 말을 했다'],
+  [4, '새 부지와 자리로 😊 154 → 305, 예상일이 체크인마다 줄어 진행감이 돌아왔다. 임원 승진은 리포트 칩에서 한 번. 필드 보스는 떠나 있는 동안 왔다 갔다'],
+  [5, '①·③이 첫날 끝나고 ②만 8일. 진화 2번 뒤 😊 325 → 270. 임원으로 빈 부지를 입구 쪽 던전으로 다시 연 것이 이 장의 좋은 순간. 체크인 입력 중앙 4'],
+];
+$('#humanChapTable').innerHTML = `<thead><tr><th>장</th><th class="n">내 판 기간</th><th class="n">봇 1.14.0</th><th class="n">체크인</th><th class="n">입력 중앙</th><th>겪은 것</th></tr></thead><tbody>${CH.map(([ch, s]) => { const r = chRow(ch); return `<tr><td style="white-space:nowrap"><b>${ch}장</b></td><td class="n">${ch === 1 ? '첫 세션' : len(ch).toFixed(1) + '일'}</td><td class="n">${ch === 1 ? '첫 세션' : botLen(B14, ch).toFixed(1) + '일'}</td><td class="n">${r.checkins}</td><td class="n">${r.inputsMedian}</td><td>${s}</td></tr>`; }).join('')}</tbody>`;
+
+// ── 좋았던 것 ──
+const shot = (id, cap) => `<button class="shot" data-src="shots/v114h/${id}.webp" data-cap="${cap}" aria-label="${cap} 크게 보기" style="margin-top:6px;border-radius:6px;overflow:hidden"><img src="shots/v114h/${id}.webp" alt="${cap}" loading="lazy" width="1280" height="720"></button>`;
+const GOOD = [
+  ['첫 5분에 핵심 루프를 몸으로 익힌다', `빨간 ! → 채용권 → 끌어 놓기 → “뚫렸다!!”가 입사 1분 9초. 이어 승진 발령·결재 도장·엘리니아·모객까지 튜토리얼 ${mmss(H.tutorialDoneSec)}에 한 바퀴를 돈다. 첫 세션 입력 31.`, 'h01-first-screen', '첫 화면 · 독 네 칸과 빨간 끊긴 길'],
+  ['결과를 놓기 전에 보여 준다', '진화 시트는 유령 발판과 함께 “그냥 진화면 Lv 14–15가 그대로, 승진 발령이면 빈틈 없이”를 한 줄로 말한다. 끄는 도중 카드가 “식구 사냥터 · 근속 ×1.1 · Lv 27–29 이어져요”를 먼저 보여 준다.', 'h02-promote-sheet', '승진 발령 시트 · 유령 발판'],
+  ['출근 리포트가 떠나 있던 시간을 보상으로 바꾼다', '첫 출근에 레벨업 1,634 · 스마일 +15,231 · 밤사이 퇴근왕. 이후 “첫 졸업!”, “손님 24명이 돌아왔어요”, “파우스트 토벌!”이 체크인마다 한 장씩 온다.', 'h06-d2-report', 'D2 첫 출근 리포트'],
+  ['“빨리 채우려면”이 다음 수를 알려 준다', '결재 서류의 “줄 선 7명을 앉히면 약 +9%”, 자리 확장 버튼의 “결재 ② 약 −3시간”. 이 두 줄을 따라 D2 아침 4분 만에 2장 예상이 4.4 → 2.0일, D4 아침 뒤 12.8 → 8.0일로 줄었다.', 'h08-doc-faster', '결재 서류 · 빨리 채우려면'],
+  ['떠나도 망하지 않는다 (P5)', `12시간씩 떠난 출근이 대부분인 ${H.checkins}번의 체크인 동안 월드가 멈춘 적이 없다. 출근해서 빨간 빈틈을 본 것은 세 번이고 모두 한 번에 고쳤다.`, 'h11-d6-report-drop', 'D6 출근 · 그래도 124명이 즐긴다'],
+  ['임원 승진 시트는 얻는 몫과 잃는 몫을 나란히 보인다', '“월드 ② +2.5% · 이 던전이 잃는 몫 −1.2% → 이득 +1.3%”. 5장에서는 임원으로 빈 부지를 오렌이 곧바로 “돼지를 뽑아 마법 숲에”로 이어 줘, 3장에서 아쉬웠던 ‘낮은 던전 다시 열기’를 처음 해 봤다.', 'h17-exec', '임원 승진 시트'],
+  ['필드 보스 초대는 고를 맛이 있다', '던전마다 “자리 28 → 36 · 토벌까지 약 1.7시간”을 비교해 보인다. 엘리트 지명과 달리 고르는 이유가 카드마다 다르다.', 'h14-boss-toast', '스톤 골렘 초대 직후'],
+  ['미리 키워 둔 수가 다음 장 첫 수가 된다', '2장 내내 오렌이 권하던 좀비 루팡 진화가 3장 개막에 Lv 38–45를 한 번에 잇는다. 보람이 컸다. 다만 2장 안에서는 왜 권하는지 알 수 없었다.', null, null],
+];
+$('#goodList').innerHTML = GOOD.map(([t, d, id, cap]) => `<div><b>${t}</b><span>${d}</span>${id ? shot(id, cap) : ''}</div>`).join('');
+
+// ── 나빴던 것 ──
+const BAD = [
+  { sev: 'h', title: '진화 미리보기가 빈틈만 보고 붐빔·빈 던전은 보지 않는다. 몇 시간 뒤 😊가 설명 없이 빠진다',
+    ev: `D5 저녁 “✓ 빈틈이 생기지 않아요” 진화 3번(달팽이 언덕 18→26, 버섯 동굴 20→28, 요정 샘터 8→16) 뒤 12시간 만에 <b>😊 ${drop1.from.happy} → ${drop1.to.happy}</b>, 3장 예상 5.1 → 7.2일. 월드엔 버섯 언덕 0/12 · 사냥터 2/16 · 버섯 동굴 3/12. D23에도 진화 2번 뒤 <b>😊 ${drop2.from.happy} → ${drop2.to.happy}</b>, 5장 예상 5.9 → 6.8일. 짧게는 D2 주황버섯 진화 직후 그 던전에 🌀9, D3 루팡 진화 직후 😊 98 → 93. 리포트 😊 타일은 오를 때만 ▲를 붙여 124만 보였다.`,
+    why: '진화 시트(sheets.ts)의 결과 줄은 빈틈과 결재 ② 배율만 계산한다. 1.11.0이 붙인 “결재 ② ×a → ×b”가 진화할 이유를 더해 “빈틈 없음이면 진화”가 합리적인 규칙처럼 보인다(추정). 봇(표준)은 붐빔을 보고 두지만 화면은 그것을 말하지 않는다 — 봇이 쓰는 정보는 화면도 보여야 한다는 handoff §1 원칙에 어긋난다.',
+    fix: '진화 시트에 “이 던전 손님 N명 가운데 새 구간 밖 M명 · 아래 자리 K석이 빈다”와 월드 😊 증감 추정을 한 줄. 리포트 😊 타일에 ▼와 원인 한 줄(“버섯 언덕·버섯 동굴에 손님이 없어요”). 오렌은 손님 없는 던전을 “다시 열기” 후보로 권한다.', cost: '중 · 미리보기 계산은 execPreview와 같은 틀' },
+  { sev: 'h', title: '3장 8.5일이 한 판에서 가장 긴 정체다',
+    ev: `개막 10분 만에 ①이 끝나고 ② 2/34,500 “약 11.4일”. 밤새 11.4 → 12.8일로 늘고, D5에는 4.5시간 동안 6.2 → 6.1일. 스마일이 91,048(D7) → 167,800(4장 개막) 쌓였는데 부지는 다 찼고 자리는 대부분 최대라 쓸 곳이 없다. 오렌 기본 문장이 D6~D11 내내 “전사의 길 만원이에요!!”(자리는 이미 최대). D8부터 체크인은 “엘리트 첫 카드 → 복귀 모객” 두 번 누르고 나가는 일이 됐다.`,
+    why: '3장 부지 +3이 첫날 차고 4장까지 새 재료가 없다. 1.11.0에서 3장 ② 목표가 28,000 → 34,500으로 올랐다(추정 요인). 1.14.0 봇 수치(3장 반복 2)는 좋아졌지만 사람은 판단 규칙이 굳으면 같은 수를 반복한다.',
+    fix: '② 40~60% 지점에 부지 +1 또는 “손님 없는 던전 다시 열기” 권유를 입구 밖으로 넓힌다. 스마일을 쓰는 결정(예: 던전 이사·부지 교환). 오렌은 지금 할 수 없는 “만원”을 되풀이하지 않고 다음으로 넘어간다.', cost: '중 · ② 목표 되맞춤이 짝' },
+  { sev: 'm', title: '엘리트 지명과 모객은 결정이 아니라 확인 도장이다',
+    ev: '지명 카드 넷이 모두 “② ×2 · 레벨업 ×1.5”이고 😊 숫자만 다르다(20 · 16 · 16 · 16). 답은 늘 “손님이 가장 많아요” 첫 카드였다. 6시간 넘게 떠나면 모객권이 와서 “오렌 추천” 복귀 카드를 누른다. 4~5장 체크인 입력 중앙 7 → 4. 한 판 입력 516 가운데 104(20%)가 오렌 말풍선 누르기였다.',
+    why: 'eliteHosts가 손님 수 하나로 줄 세운다. handoff §4-2가 이미 짚은 “엘리트 지명의 깊이” 문제다.',
+    fix: '던전마다 다른 보너스(자리 +8 · 레벨업 ×2 · 드랍 ×2)나 엘리트가 된 직원의 근속·임원 자격과 엮어 비교할 거리를 준다. 모객권은 떠나 있던 시간이 아니라 떠난 손님 수로 준다.', cost: '소~중' },
+  { sev: 'm', title: '오렌이 말과 다른 곳을 열고, 보류한 수를 곧바로 다시 권한다',
+    ev: '말풍선 “숲 입구 만원이에요”를 눌렀는데 “들판 앞 4명” 채용 시트가 열렸다(D4), “좀비 루팡 진화”인데 채용 시트(D3). 보류를 누르자마자 “루팡이 진화할 수 있대요!!”(D2), 돼지도(D4). “▲ 진화 대기 12” 칩은 보류해도 늘 같은 첫 후보만 연다(D17).',
+    why: '말풍선 문장과 누르면 열 대상이 서로 다른 때 갱신되는 것으로 보인다(추정, renderOren 0.5초 주기). 보류를 기억하지 않는다.',
+    fix: '누르는 순간 보이는 문장의 대상을 연다. 보류한 직원은 그 체크인 동안 오렌 권유와 대기 칩 순서에서 뒤로 보낸다.', cost: '소' },
+  { sev: 'm', title: '끌어 놓기가 처음에 두 번 빗나갔다',
+    ev: '월드의 빈틈 위에 루팡을 놓았더니 안 놓였다(D2). 부지 목록은 끌기 시작해야 독에 펼쳐지고, 목록 길이가 6칸 → 3칸으로 바뀌어 같은 손동작이 빗나갔다(D3). 오렌의 “초록으로 빛나는 곳”이 월드가 아니라 독 목록이라는 걸 끄는 도중에야 알았다.',
+    why: '놓을 수 있는 곳이 독 부지 목록과 월드 발판뿐이고 빈틈·유령 발판은 대상이 아니다.',
+    fix: '월드의 빈틈과 유령 발판 위에 놓아도 추천 부지에 놓이게 한다. 처음 두 번은 끌기 전부터 목록을 펼쳐 둔다.', cost: '소' },
+  { sev: 'm', title: '3장부터 화면이 읽히지 않는다',
+    ev: 'D5 월드에 발판 15개와 모험가 머리 위 ×2~×9 묶음 표시 수십 개. 이름표가 ▲와 졸업 아치에 가려 “샘터”, “지의 해안”처럼 잘린다. 리포트 할 일 칩이 다섯 개가 되자 “임원 승진 킹 네 키”처럼 줄바꿈이 깨진다. 직원 카드의 “근속 가득 · 보기” 칩이 근속 글자를 덮는다. 승진 발령 뒤 발판 세로 순서가 통째로 바뀌어 위치 기억이 깨진다.',
+    why: '1.6.0 시인성 점검은 시연 장면(발판 10개 안팎) 기준이었다. 사람 판의 3장 중반은 그보다 붐빈다.',
+    fix: '×N은 3 이상만 · 확대 밖 지역은 숨김. 이름표를 ▲·아치 위로. 리포트 칩이 넷을 넘으면 두 줄 격자. 발판 세로 자리는 부지에 고정.', cost: '소~중' },
+  { sev: 'm', title: '진화 컷 “(눌러서 닫기)”가 3.2초 뒤 저절로 닫힌다',
+    ev: '컷을 읽고 누르면 이미 닫혀 있어 그 아래 발판이 눌리고 던전 현장이 열렸다(두 번).',
+    why: 'sheets.ts evolveCut의 setTimeout(close, 3200).',
+    fix: '저절로 닫힌 뒤 0.5초는 월드 클릭을 무시하거나, 문구를 “(곧 닫혀요)”로.', cost: '소' },
+  { sev: 'l', title: '퇴근 붙잡기가 지금 고칠 수 없는 빈틈에도 붙잡는다',
+    ev: 'D12 12:06 끊긴 길 Lv 54–60. 오렌은 “스티지가 진화하면 이어져요!! 근속을 기다려요!!”라고 하는데 퇴근을 누르자 붙잡혔다.',
+    why: 'sim.ts leaveGap은 빈틈을 채용·승진 발령·다시 열기로 고칠 수 있는지 보지 않는다.',
+    fix: '고칠 수 있는 빈틈만 붙잡는다. 근속 대기면 “밤새 N명이 혼자 걸어요, 내일 아침엔 이어져요”로 안내만.', cost: '소' },
+  { sev: 'l', title: '조사와 표기',
+    ev: '“스톤 골렘가 찾아왔어요”, “스톤 골렘를 숲 입구에서 맞아요”, “Lv 46–60가 끊겨 있어요”, “저주받은 신전가 빛나요”, “버섯 언덕가 빛나요”, “줄 선 Lv 16–16에 딱!”.',
+    why: '일부 문자열이 josa()를 거치지 않는다(추정). 한 레벨을 범위로 쓴다.',
+    fix: '오렌·토스트·시트 문자열을 josa로 통일하고 한 레벨은 “Lv 16”으로.', cost: '소' },
+  { sev: 'l', title: '첫 30분의 작은 어긋남',
+    ev: '결재 서류 “약 1시간 뒤”가 실제 1분 20초, 숫자 “0/2”인데 막대는 24%. 채용 시트 초록 리본 “Lv 16–20에 딱!”은 주니어 네키인데 오렌은 무료 슬라임. 모객 시트는 “입구가 거의 찼어요”인데 튜토리얼은 신규 모객을 시킨다. 독의 “헤네시스 사냥터” 칸에 놓았더니 발판 이름은 “돼지의 해안”. 퇴근 전 예고 없이 밤사이 Lv 21–25가 열려 35명이 갈 데 없는 채로 첫 출근.',
+    why: '튜토리얼 중 ② 속도와 “지금 속도면” 계산이 다르다. 부지 이름과 던전 이름이 따로 논다.',
+    fix: '튜토리얼 동안은 예상 시간을 튜토리얼 속도로. 무료 권이 있으면 리본도 그 카드에. 첫 퇴근 화면에 “밤사이 Lv 21–25가 열려요” 한 줄.', cost: '소' },
+];
+const SEV = { h: ['높음', 'h'], m: ['중간', 'm'], l: ['낮음', 'l'] };
+$('#badList').innerHTML = BAD.map((f, i) => `<article class="find${i === 0 ? ' top' : ''}"><div class="side"><div class="id">B${i + 1}</div><span class="sev ${SEV[f.sev][1]}">${SEV[f.sev][0]}</span>${i === 0 ? '<span class="pick">먼저</span>' : ''}</div>
+  <div class="body"><h3>${f.title}</h3><dl><dt>근거</dt><dd>${f.ev}</dd><dt>원인</dt><dd>${f.why}</dd><dt>제안</dt><dd>${f.fix}</dd><dt>비용</dt><dd>${f.cost}</dd></dl></div></article>`).join('');
+
+// ── 필름 ──
+const FILM = [
+  ['h01-first-screen', '0:11', '첫 화면', '독 네 칸(대기실·빈 부지·오렌·결재)과 빨간 “끊긴 길”이 한꺼번에 뜬다'],
+  ['h02-promote-sheet', '1:45', '승진 발령 시트', '유령 발판과 “그냥 진화로는 Lv 14–15가 그대로”. 결과를 누르기 전에 본다'],
+  ['h03-cut-autoclose', '2:00', '컷을 닫으려다 현장이 열림', '“(눌러서 닫기)”를 읽는 사이 컷이 닫혀 뒤 발판이 눌렸다 (B7)'],
+  ['h04-doc-1hour', '3:05', '“약 1시간 뒤”', '막대는 24%인데 숫자는 0/2. 1분 20초 뒤 도장이 왔다 (B10)'],
+  ['h05-hire-ribbon', '4:32', '리본과 오렌이 갈린다', '초록 리본은 주니어 네키, 오렌은 무료 슬라임 (B10)'],
+  ['h06-d2-report', 'D2 07:05', '첫 출근 리포트', '레벨업 1,634 · 스마일 +15,231. 할 일 첫 칸은 밤사이 생긴 35명 빈틈'],
+  ['h07-drag-card', 'D2 07:06', '끄는 중 결과 카드', '“식구 사냥터 · 근속 ×1.1 · Lv 27–29 이어져요”. 목록은 끌어야 펼쳐진다 (B5)'],
+  ['h08-doc-faster', 'D2 07:09', '빨리 채우려면', '“줄 선 7명을 앉히면 약 +9%”. 이 줄 덕에 예상 4.4 → 2.0일'],
+  ['h09-elitepick', 'D3 07:31', '엘리트 지명', '카드 넷의 배율이 같다. 늘 첫 카드 (B3)'],
+  ['h10-ch3-dense', 'D5 19:30', '3장 중반 월드', '발판 15개와 ×N 표시, 가려진 이름표 (B6)'],
+  ['h11-d6-report-drop', 'D6 07:31', '124명, 이유 없음', '어젯밤 진화 3번 뒤 184 → 124. ▼도 원인도 없다 (B1)'],
+  ['h12-d6-empty', 'D6 07:31', '손님 없는 던전', '버섯 언덕 0/12, 사냥터 2/16, 버섯 동굴 3/12 (B1)'],
+  ['h13-card-overlap', 'D6 19:32', '겹친 직원 카드', '“근속 가득 · 보기” 칩이 근속 숫자를 덮는다 (B6)'],
+  ['h14-boss-toast', 'D8 07:33', '필드 보스 초대', '자리·토벌 시간을 비교해 고른다. 토스트는 “스톤 골렘를” (B9)'],
+  ['h15-hold-unfixable', 'D12 12:06', '퇴근 붙잡기', '끊긴 길 54–60은 근속을 기다릴 수밖에 없다 (B8)'],
+  ['h16-report-chips', 'D13 07:37', '할 일 칩 다섯', '“임원 승진 킹 네 키”, “월드로 →” 줄바꿈 (B6)'],
+  ['h17-exec', 'D13 07:42', '임원 승진', '월드 +2.5% · 던전 −1.2% → 이득 +1.3%'],
+  ['h18-ending', 'D29 12:18', '엔딩', '발록 “…손님인가. …퇴근!” 판 전체 입력 516'],
+];
+$('#filmHuman').innerHTML = FILM.map(([id, tm, t, p]) => `<article class="frame"><button class="shot" data-src="shots/v114h/${id}.webp" data-cap="${tm} · ${t}" aria-label="${t} 크게 보기"><img src="shots/v114h/${id}.webp" alt="${t}" loading="lazy" width="1280" height="720"></button>
+  <div class="cap"><div class="t"><span>${tm}</span><span class="chip">1.14.0</span></div><h4>${t}</h4><p>${p}</p></div></article>`).join('');
+
+// ── 일지 ──
+$('#noteN').textContent = H.notes.length;
+$('#noteList').innerHTML = H.notes.map(n => `<li><span class="num muted">D${n.d.toFixed(2)} · ${n.ch}장</span> ${n.t.replace(/</g, '&lt;')}</li>`).join('');
+
+$('#humanNote').innerHTML = `<b>어떻게 했나, 무엇을 믿으면 안 되나.</b> 빌드한 게임을 헤드리스 크로미움으로 열고(<code>tests/e2e/humanplay.mjs</code>), 배속 없이 화면 그림과 보이는 글자만 보고 한 수씩 눌렀다. 자리를 비울 때는 탭을 닫고 세이브 시각만 당겨 다시 열었다(게임의 재접속 길 그대로). 일과는 아침 7:30 · 점심 12:00 · 저녁 19:30 · 가끔 밤 23:30이고 3장 중반부터는 하루 두 번이다. 월드 내부 값은 로그에만 남겼고 그래프와 사실 확인에만 썼다. <b>한계:</b> 리뷰어는 사람이 아니라 AI이고, 설계 문서를 읽은 뒤라 처음 하는 사람보다 규칙을 더 안다. 3장부터는 초록 칸의 위치를 찾는 데 화면 요소 위치를 읽는 보조 명령(<code>/place</code>)을 썼다. 3장 중반부터는 엘리트·보스·모객권을 첫 카드로 누르는 보조 스크립트를 썼다 — 판단 규칙이 굳었다는 것 자체가 발견(B2·B3)이다. 한 판, 한 시드다. 😊 급락 두 번의 원인이 진화라는 것은 시점이 겹친다는 관찰이고, 통제 실험은 하지 않았다(추정).`;
+
+chart();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', chart);
+new MutationObserver(chart).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+})();
+</script>
+
