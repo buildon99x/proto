@@ -98,12 +98,33 @@ export interface Rules {
    * 승진 소식(evolveBurst): 직원이 진화하면 그 던전의 새 구간에 맞는 떠난 손님이 빈자리만큼 최대 evolveBurst명 바로 돌아온다("진화했다 → 손님이 돌아온다", F2와 G2를 잇는다).
    * 놓쳐도 잃는 것이 없다. 타이머 압박·한정 판매는 없다. null이면 없다 (v1.6)
    */
-  guests: { pool: number; return: { min: number; rate: number; cost: number }; fresh: { min: number; x: number; burst: number; cost: number; /** 신규 모객 자동 쉼 (1.10.0 실험, 기본 0 = 안 쉰다): 입구 줄(Lv 1~3 기다리는 손님)이 이만큼이면 ×x를 쉰다. 6으로 재 보니 첫 40분 줄은 그대로고 가벼운 플레이어의 4장 반복만 늘어 채택하지 않았다 */ pauseAt: number }; ticket: { gift: number; awayMin: number; hold: number }; evolveBurst: number; /** 오렌·봇 순서 (1.10.0 실험): 모객을 진화 앞에 둘지. 'after'가 v1.7 기본 */ order: 'after' | 'before' } | null;
+  guests: { pool: number; return: { min: number; rate: number; cost: number }; fresh: { min: number; x: number; burst: number; cost: number; /** 신규 모객 자동 쉼 (1.10.0 실험, 기본 0 = 안 쉰다): 입구 줄(Lv 1~3 기다리는 손님)이 이만큼이면 ×x를 쉰다. 6으로 재 보니 첫 40분 줄은 그대로고 가벼운 플레이어의 4장 반복만 늘어 채택하지 않았다 */ pauseAt: number }; ticket: { gift: number; awayMin: number; hold: number }; evolveBurst: number; /** 오렌·봇 순서 (1.10.0 실험): 모객을 진화 앞에 둘지. 'after'가 v1.7 기본. */ order: 'after' | 'before' } | null;
   /**
    * 도감 돌파 보상 (1.10.0 실험, 기본 null = 없다): 도감이 at[i] 비율에 처음 닿으면 무료 이벤트권 event장 + 모객권 recruit장.
    * 진화 보류 성향의 −21.9%(choice-audit L17)를 규칙 되맞춤 없이 좁히려던 장치였으나, 1분 걸음 달력을 한 자리도 움직이지 않았다(권이 쌓여 쓰이지 않는다 — 드랍 상자 §4와 같은 교훈). DEX_MILE_TRIAL로 남긴다
    */
   dexMile: { at: number[]; event: number; recruit: number } | null;
+  /**
+   * 승진한 직원의 던전 (1.11.0, 기본 null = 없다): 그 던전의 ② 누적 ×(1 + x × 직원 평균 진화 횟수). 레벨은 그대로(P2).
+   * 진화 보류 성향이 표준보다 21.9% 빨랐던 이유는 진화가 ②를 한 번도 당기지 않았기 때문이다(choice-audit §14, L17). 진화를 미루면 잃는 것이 생긴다
+   */
+  stageJoy: { x: number } | null;
+  /**
+   * 초반 지역의 자리 한 칸 더 (1.11.0, 기본 null = 없다): regions 지역 사냥터는 자리 확장을 costs 칸만큼 더 산다(값마다 한 칸, 장 배율 적용).
+   * 첫 40분에 입구 던전과 헤네시스 끝 던전이 최대 자리(24석)에 닿아 줄 40명이 서고, 부지도 다 차 40~50분에 둘 수가 3뿐이었다(choice-audit §14, L16·L18)
+   */
+  earlySeat: { regions: number[]; costs: number[] } | null;
+  /**
+   * 본사 임원 발령 (1.13.0, 기본 null = 없다): from장부터 최종 단계 직원을 본사 임원으로 올려 보낸다. 직원은 던전을 떠나고,
+   * 월드 전체의 ② 누적이 ×(1 + max × (1 − r^임원 수)) — 첫 임원 +2.5%, 열 명이면 약 +16%, 끝없이 늘지 않는다.
+   * 4~5장에 진화를 끝낸 직원이 하루 1~2명씩 쌓여 둘 곳 없는 근속만 늘었다. 그 직원으로 두는 결정을 만든다(choice-audit §16)
+   */
+  /**
+   * 엘리트 지명 (1.14.0, 기본 null = 저절로 추첨): 엘리트 준비가 되면 매니저가 어느 던전에서 맞을지 고른다. wait분 안에 고르지 않으면 지금처럼 저절로 뽑힌다.
+   * 기다린 동안 쌓인 퇴근은 다음 엘리트로 넘어가 떠나 있어도 엘리트 수가 줄지 않는다. 접속이 잦은 사람의 5장 후반에 둘 것이 이벤트뿐이었다(choice-audit §17)
+   */
+  elitePick: { wait: number } | null;
+  exec: { from: number; max: number; r: number; /** 최종 단계에 오른 뒤 다시 채워야 하는 근속. 모두 보내면 길 끝을 맡을 직원이 사라져 엔딩을 못 봤다 */ tenure: number } | null;
 }
 
 export const V11: Rules = {
@@ -139,6 +160,10 @@ export const V11: Rules = {
   grounds: null,
   guests: null,
   dexMile: null,
+  stageJoy: null,
+  earlySeat: null,
+  elitePick: null,
+  exec: null,
 };
 
 export const V12: Rules = {
@@ -238,6 +263,18 @@ export const V17: Rules = {
   // G2 모객 (1.8.0): 떠난 손님이 자원이 된다. 값은 GUESTS_V17
   get guests() { return GUESTS_V17; },
   dexMile: null,
+  // 승진한 직원의 던전 (1.11.0): ② ×(1 + 0.1 × 평균 진화 횟수). 표준이 D26.9로 당겨졌고 아래 초반 자리까지 더해 2~5장 ② 목표를 ×1.23(1.9.0 대비) 되맞췄다(choice-audit §14)
+  stageJoy: { x: 0.1 },
+  // 1.13.0: 임원 승진(급하지 않은 진화 앞)이 표준을 당겨 4~5장을 ×1.25 (choice-audit §16)
+  joyGoal: [2, 4400, 34500, 69300, 73100],
+  // 초반 지역 자리 한 칸 더 (1.11.0): 헤네시스·엘리니아 사냥터는 24 → 28석. 첫 40분 줄 40 → 26, 40~50분 둔 수 3 → 6(choice-audit §14)
+  earlySeat: { regions: [1, 2], costs: [2000] },
+  // 임원 승진 (1.13.0): 4장부터 최종 단계에 근속 20,000을 다시 채운 직원을 올려 보내면 월드 ② ×(1 + 0.25 × (1 − 0.9^n)). 길 끝을 맡는 직원은 남는다. 오렌·봇은 월드 ②를 0.5% 넘게 올릴 때만 권한다(choice-audit §16)
+  exec: { from: 4, max: 0.25, r: 0.9, tenure: 20000 },
+  // 엘리트 지명 (1.14.0): 준비된 엘리트는 3시간 동안 지명을 기다린다. 엘리트는 드물게·크게(간격 ×2, 두 시간): 켜져 있는 총 시간은 같고,
+  // 지명이 체크인마다 끼어 판에 박힌 탭이 되지 않게 한다(간격 그대로면 표준 4장 같은 수 반복 7, choice-audit §17)
+  elitePick: { wait: 180 },
+  elite: { every: [6000, 24000, 40000, 50000, 60000], min: 120, lvX: 1.5, joyX: 2 },
 };
 /** G2 모객 값: 복귀는 4시간 동안 시간당 6명(빈자리가 있을 때만), 신규는 거는 순간 3명 + 4시간 동안 기본 도착 ×2. 비용은 장마다 오른다(복귀 200 · 신규 150 × 장). 모객권은 1장 결재 선물 1장, 6시간 넘게 떠났다 오면 1장(2장까지) */
 export const GUESTS_V17: NonNullable<Rules['guests']> = { pool: 300, return: { min: 240, rate: 6, cost: 200 }, fresh: { min: 240, x: 2, burst: 3, cost: 150, pauseAt: 0 }, ticket: { gift: 1, awayMin: 360, hold: 2 }, evolveBurst: 8, order: 'after' };

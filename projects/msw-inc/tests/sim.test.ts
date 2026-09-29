@@ -442,7 +442,7 @@ t('붐빔 풀기: 자리 확장을 다 한 던전 앞 줄에는 같은 레벨 �
   const w = S.createWorld(6);
   assert.equal(RULES.id, 'v1.7');
   w.smile = 1e5;
-  const d = w.dungeons.h1; d.seatUp = RULES.seatCost.length; d.seats = 99;
+  const d = w.dungeons.h1; while (S.seatCost(w, d) != null) d.seatUp++; d.seats = 99; // 1.11.0: 헤네시스는 한 칸 더 산다
   for (let i = 0; i < 99; i++) w.advs.push({ id: 5000 + i, lv: 3, prog: 0, st: 'happy', d: 'h1', near: null, wait: 0, look: 0, jit: 0 });
   for (let i = 0; i < 6; i++) w.advs.push({ id: 6000 + i, lv: 2 + (i % 3), prog: 0, st: 'busy', d: null, near: 'h1', wait: 0, look: 0, jit: 0 });
   const cf = S.crowdFix(w)!;
@@ -668,7 +668,7 @@ t('봇은 상자를 열어도 수 제한에 세지 않고, 모든 성향에서 �
 
 // ── 7. v1.7 사냥터·모객 ──────────────────────────────────────
 /** v1.7의 새 필드를 모두 끈 규칙. 필드를 더할 때마다 여기에 기본값(null·false)을 적는다 */
-const V17_OFF = { ...V17, grounds: null, guests: null, dexMile: null };
+const V17_OFF = { ...V17, grounds: null, guests: null, dexMile: null, stageJoy: null, earlySeat: null, exec: null, elitePick: null, elite: V16.elite, joyGoal: V16.joyGoal };
 t('규칙 v1.7은 새 필드를 끄면 v1.6과 똑같이 흐른다 (봇 한 달, 난수 흐름까지)', () => {
   const run = (r: typeof V16) => {
     useRules(r);
@@ -815,6 +815,8 @@ t('완전 클리어 (v1.7): 엔딩 뒤 던전 전부 ★3 · 도감 전부가 �
   for (let d = 0; d < 60 && !w.ended; d++) for (const tm of std.times) { S.advance(w, Math.max(0, d * 1440 + tm - w.t)); checkIn(w, std); }
   assert.ok(w.ended, '엔딩');
   assert.equal(w.clearedAt, undefined);
+  // 엔딩 무렵 이미 전부 ★3일 수 있다(1.11.0): 한 곳을 ★3 아래로 내려 두고 리포트가 늘어난 ★3을 세는지 본다
+  const low = Object.keys(S.levelsOf(w))[0]; w.dungeons[low].joy = 0;
   const L = S.ledgerStart(w);
   for (const p of S.plotsInPlay()) { if (!w.plots[p.id].open) w.plots[p.id].open = true; const dg = w.dungeons[p.id]; if (dg) dg.joy = Math.max(dg.joy, S.JOY_STARS[2]); }
   for (const sp of S.speciesInPlay()) SPECIES[sp].names.forEach((_, i) => { w.dex[sp + ':' + i] = true; });
@@ -873,6 +875,124 @@ t('1.10.0 신규 모객 자동 쉼(실험값): 입구 줄이 pauseAt 이상이�
   assert.ok(Math.abs(S.arrivalPerMin(w) - base()) < 1e-9, '줄이 서면 쉰다');
   useRules(V17G);
   assert.ok(Math.abs(S.arrivalPerMin(w) - base() * RULES.guests!.fresh.x) < 1e-9, '기본값(0)이면 쉬지 않는다');
+  useRules(V17);
+});
+
+t('1.11.0 승진한 직원의 던전: 직원 평균 진화 횟수만큼 ② 배율이 오르고, 기본값(null)인 옛 규칙에서는 1이다', () => {
+  useRules(V17);
+  const w = S.createWorld(61); firstSession(w);
+  const id = Object.keys(S.levelsOf(w))[0];
+  const ms = S.monsIn(w, id);
+  const avg = ms.reduce((s, m) => s + m.stage, 0) / ms.length;
+  assert.ok(Math.abs(S.stageJoyX(ms) - (1 + RULES.stageJoy!.x * avg)) < 1e-9);
+  assert.equal(S.stageJoyX(ms.map(m => ({ ...m, stage: 0 }))), 1, '진화하지 않은 직원만 있으면 ×1');
+  assert.ok(S.stageJoyX(ms.map(m => ({ ...m, stage: m.stage + 1 }))) > S.stageJoyX(ms), '진화하면 오른다');
+  // ② 누적이 실제로 배율을 탄다: 같은 월드를 한 걸음 굴려 비교
+  const a: S.World = structuredClone(w), b: S.World = structuredClone(w);
+  for (const m of b.monsters) if (m.d === id) m.stage = Math.min(m.stage + 1, 2);
+  const j0 = a.cjoy, j1 = b.cjoy;
+  S.step(a, 1, []); S.step(b, 1, []);
+  assert.ok(b.cjoy - j1 >= a.cjoy - j0 - 1e-9, '진화한 쪽의 ② 누적이 적지 않다');
+  useRules(V16);
+  assert.equal(S.stageJoyX(ms.map(m => ({ ...m, stage: 2 }))), 1, 'v1.6은 배율이 없다');
+  useRules(V17);
+});
+
+t('1.11.0 초반 지역 자리 한 칸 더: 헤네시스·엘리니아 사냥터만 자리 확장을 한 번 더 사고(24 → 28석), 3장부터 지역과 옛 규칙은 그대로다', () => {
+  useRules(V17);
+  const w = S.createWorld(62);
+  const steps = (id: string) => { const d = { id, slots: 3, seats: S.plotSeats(id), seatUp: 0, slotUp: 0, event: null, joy: 0, recentLv: 0 }; let k = 0; while (S.seatCost(w, d) != null) { d.seatUp++; k++; } return k; };
+  assert.equal(steps('h1'), RULES.seatCost.length + 1);
+  assert.equal(steps('e5'), RULES.seatCost.length + 1);
+  assert.equal(steps('p1'), RULES.seatCost.length);
+  useRules(V16);
+  assert.equal(steps('h1'), RULES.seatCost.length);
+  useRules(V17);
+});
+
+t('1.12.0 던전 다시 열기: 빈 부지가 없을 때 입구 막힘을 한 결정으로 풀고, 5초 되돌리기는 월드를 그대로 돌린다', () => {
+  useRules(V17);
+  const std = PERSONAS[0];
+  // 부지를 다 연 4장 월드를 봇으로 만든 뒤, 가장 낮은 던전 직원을 진화시켜 입구를 막는다
+  const w = S.createWorld(71); firstSession(w);
+  for (let d = 0; d < 40 && w.chapter < 4; d++) for (const tm of std.times) { S.advance(w, Math.max(0, d * 1440 + tm - w.t)); checkIn(w, std); }
+  assert.ok(w.chapter >= 4, '4장');
+  for (const id in w.plots) if (!S.monsIn(w, id).length) { w.plots[id].open = true; S.hire(w, 'stump', null); const m = S.tray(w).at(-1)!; m.d = id; }
+  w.smile = 1e6;
+  const lv = S.levelsOf(w), low = Object.keys(lv).sort((a, b) => lv[a] - lv[b])[0];
+  for (const m of S.monsIn(w, low)) m.stage = Math.min(m.stage + 1, 2);
+  for (const id in lv) if (lv[id] <= 6 && id !== low) for (const m of S.monsIn(w, id)) m.stage = Math.min(m.stage + 1, 2);
+  const seg = S.gapSegments(w)[0];
+  assert.ok(seg && seg[0] === 1, '입구가 막혔다');
+  const plan = S.rebuildPlan(w, seg)!;
+  assert.ok(plan && !plan.grow, '다시 열기를 찾는다');
+  assert.ok(plan.pv.gained.some(g => g[0] === 1), '미리보기에 입구가 이어진다');
+  const before = JSON.stringify({ m: w.monsters.map(m => [m.id, m.d, m.stage]), smile: w.smile, t: w.tickets });
+  const r = S.rebuild(w, plan);
+  assert.ok(r.ok);
+  assert.ok(S.coveredSet(S.levelsOf(w))[1], '입구가 이어졌다');
+  assert.equal(S.tray(w).length >= plan.out.length, true, '비운 직원은 대기실에');
+  S.unrebuild(w, plan, r.ok ? r : (null as never));
+  assert.equal(JSON.stringify({ m: w.monsters.map(m => [m.id, m.d, m.stage]), smile: w.smile, t: w.tickets }), before, '되돌리면 그대로');
+  // 고참·발록은 비우지 않는다
+  for (const id of plan.out) assert.ok(!S.mustStay(w, w.monsters.find(m => m.id === id)!));
+});
+
+t('1.13.0 임원 승진: 4장부터 최종 단계에 근속을 다시 채운 직원만, 월드 ② 배율은 체감하며 오르고, 되돌리면 그대로', () => {
+  useRules(V17);
+  const ex = RULES.exec!;
+  const w = S.createWorld(81); firstSession(w);
+  const m = w.monsters.find(x => !x.vet && x.sp !== 'balrog')!;
+  m.stage = S.maxStage(m); m.tenure = ex.tenure;
+  assert.ok(S.execBlock(w, m), '3장 전에는 안 된다');
+  w.chapter = ex.from;
+  assert.equal(S.execBlock(w, m), null);
+  m.tenure = ex.tenure - 1; assert.ok(S.execBlock(w, m), '근속을 다시 채워야 한다'); m.tenure = ex.tenure;
+  assert.equal(S.execX(w), 1);
+  assert.ok(Math.abs(S.execX(w, 1) - (1 + ex.max * (1 - ex.r))) < 1e-9);
+  assert.ok(S.execX(w, 2) - S.execX(w, 1) < S.execX(w, 1) - S.execX(w, 0), '한 명의 몫은 줄어든다');
+  assert.ok(S.execX(w, 1000) <= 1 + ex.max + 1e-9, '끝없이 늘지 않는다');
+  const before = JSON.stringify({ m: w.monsters.map(x => [x.id, x.d]), e: w.execs });
+  const r = S.promoteExec(w, m.id);
+  assert.ok(r.ok);
+  assert.equal(w.execs!.length, 1);
+  assert.ok(!w.monsters.includes(m));
+  S.unexec(w, r.ok ? r : (null as never));
+  assert.equal(JSON.stringify({ m: w.monsters.map(x => [x.id, x.d]), e: w.execs }), before, '되돌리면 그대로');
+  const vet = w.monsters.find(x => x.vet)!; vet.stage = S.maxStage(vet); vet.tenure = ex.tenure;
+  assert.ok(S.execBlock(w, vet), '고참은 안 된다');
+  useRules(V16);
+  assert.equal(S.execX({ ...w, execs: [{ sp: 'snail', stage: 2, at: 0 }] }), 1, 'v1.6은 배율이 없다');
+  useRules(V17);
+});
+
+t('1.14.0 엘리트 지명: 준비되면 기다리고, 고르면 그 던전에서, wait분이 지나면 저절로, 되돌리면 준비 상태로, 기다린 퇴근은 넘어간다', () => {
+  useRules(V17);
+  const el = RULES.elite!, ep = RULES.elitePick!;
+  const w = S.createWorld(91); firstSession(w);
+  w.elite = null; w.eliteReady = null;
+  const need = el.every[w.chapter - 1];
+  w.eliteAcc = need; w.eliteBy = {};
+  const ev: S.SimEvent[] = [];
+  S.step(w, 1, ev);
+  assert.ok(w.eliteReady != null && !w.elite, '준비만 알린다');
+  assert.ok(ev.some(e => e.type === 'eliteReady'));
+  const host = S.eliteHosts(w)[0];
+  const acc = w.eliteAcc;
+  const r = S.pickElite(w, host.id);
+  assert.ok(r.ok);
+  assert.equal(w.elite!.d, host.id);
+  assert.equal(w.eliteReady, null);
+  assert.ok(Math.abs(w.eliteAcc - Math.max(0, acc - need)) < 1e-9, '기다린 동안 쌓인 퇴근은 넘어간다');
+  S.unpickElite(w, r.ok ? r.snap : (null as never));
+  assert.ok(!w.elite && w.eliteReady != null, '되돌리면 준비 상태');
+  // 고르지 않으면 wait분 뒤 저절로
+  for (let i = 0; i < ep.wait + 2 && !w.elite; i++) S.step(w, 1, []);
+  assert.ok(w.elite, '저절로 뽑힌다');
+  useRules(V16);
+  const v = S.createWorld(91); firstSession(v); v.elite = null; v.eliteAcc = el.every[v.chapter - 1]; v.eliteBy = { [Object.keys(S.levelsOf(v))[0]]: 1 };
+  S.step(v, 1, []);
+  assert.ok(v.elite && v.eliteReady == null, 'v1.6은 바로 추첨');
   useRules(V17);
 });
 

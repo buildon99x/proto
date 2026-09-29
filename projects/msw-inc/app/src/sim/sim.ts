@@ -51,8 +51,12 @@ export interface World {
   marks: MarkReward[];
   /** 도감 돌파 보상을 받은 횟수 (1.10.0). 옛 세이브에는 없다 */
   dexMiles?: number;
+  /** 본사 임원 (1.13.0): 올려 보낸 직원의 계열·단계·시각. 옛 세이브에는 없다 */
+  execs?: { sp: SpeciesId; stage: number; at: number }[];
   /** 엘리트 (v1.3): 지금 들뜬 던전 하나. eliteAcc = 지난 엘리트 뒤 월드 퇴근, eliteBy = 던전별 */
   elite: Elite | null; eliteAcc: number; eliteBy: Record<PlotId, number>;
+  /** 엘리트 지명 (1.14.0): 준비된 시각. 매니저가 고르거나 wait분이 지나면 풀린다. 옛 세이브에는 없다 */
+  eliteReady?: number | null;
   /** 필드 보스 (v1.3): 찾아온 손님 하나 (d가 null이면 초대 기다림). bossDone = 토벌한 장 */
   boss: Boss | null; bossDone: number[];
   stats: { arrivals: number; levelups: number; grads: number; left: { entrance: number; search: number; busy: number }; evolves: number; elites: number; bosses: number; /** 돌아온 손님 (v1.7) */ returned?: number };
@@ -90,6 +94,7 @@ export type SimEvent =
   | { type: 'dexMile'; pct: number; reward: MarkReward }
   | { type: 'elite'; d: PlotId; mon: number }
   | { type: 'eliteEnd'; d: PlotId }
+  | { type: 'eliteReady' }
   | { type: 'bossCall'; ch: number }
   | { type: 'bossIn'; ch: number; d: PlotId; auto: boolean }
   | { type: 'bossDown'; ch: number; d: PlotId | null; bonus: number }
@@ -234,6 +239,8 @@ export const tray = (w: World) => w.monsters.filter(m => !m.d);
 export const maxEvents = (w: World) => (w.chapter >= 3 ? 3 : 2);
 /** 동시 이벤트 수에 모객 이벤트(v1.7)도 든다 */
 export const activeEvents = (w: World) => Object.values(w.dungeons).filter(d => d.event).length + (w.recruit ? 1 : 0);
+/** 승진한 직원의 던전 (1.11.0): ② 누적 배율. 직원 평균 진화 횟수에 비례한다 */
+export const stageJoyX = (mons: Monster[]) => (RULES.stageJoy && mons.length ? 1 + RULES.stageJoy.x * mons.reduce((s, m) => s + m.stage, 0) / mons.length : 1);
 export const happyCount = (w: World) => { let n = 0; for (const a of w.advs) if (a.st === 'happy') n++; return n; };
 export const dungeonStars = (d: Dungeon) => JOY_STARS.filter(x => d.joy >= x).length;
 export const dexCount = (w: World) => Object.keys(w.dex).length;
@@ -315,6 +322,23 @@ export function dungeonInfo(w: World): Record<PlotId, DInfo> {
     };
   }
   return info;
+}
+
+/**
+ * 결재 ② 지금 속도 (명·시간 / 시간, 1.12.0): step()의 ② 누적과 같은 식 — 즐기는 모험가 × 엘리트·필드 보스·승진한 직원 배율.
+ * 화면의 "지금 속도면 약 N일"은 전에 즐기는 인원만 셌다(배율을 빼 실제보다 길게 보였다)
+ */
+export function joyRate(w: World): { rate: number; base: number; stageX: number; queue: number } {
+  const info = dungeonInfo(w);
+  let rate = 0, base = 0, sx = 0;
+  for (const a of w.advs) {
+    if (a.st !== 'happy' || !a.d || !info[a.d]) continue;
+    const d = info[a.d], x = stageJoyX(d.mons);
+    base++; sx += x;
+    rate += (d.elite && RULES.elite ? RULES.elite.joyX : 1) * (d.guest && RULES.fieldBoss ? RULES.fieldBoss.joyX : 1) * x;
+  }
+  rate *= execX(w);
+  return { rate, base, stageX: base ? sx / base : 1, queue: w.advs.filter(a => a.st === 'busy').length };
 }
 
 /** 도착률 (명/분) */
@@ -497,7 +521,7 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
     w.smile += RULES.smileHappy * RULES.incomeCurve[w.chapter - 1] * tip * hs * dt * (d.drop ? 2 : 1) * (d.gift ? 1.3 : 1) * (d.boss ? 1.5 : 1);
     dd.joy += hs * dt / 60;
     // ② 누적: 엘리트·필드 보스가 있는 던전은 더 빨리 찬다. 첫 세션은 입사 버프도 붙는다 (v1.3)
-    w.cjoy += (hs * dt / 60) * (d.elite ? RULES.elite!.joyX : 1) * (d.guest ? RULES.fieldBoss!.joyX : 1) * (RULES.firstLoop ? bx : 1);
+    w.cjoy += (hs * dt / 60) * (d.elite ? RULES.elite!.joyX : 1) * (d.guest ? RULES.fieldBoss!.joyX : 1) * (RULES.firstLoop ? bx : 1) * stageJoyX(d.mons) * execX(w);
     if (RULES.elite && !w.elite) { w.eliteAcc += kills; w.eliteBy[id] = (w.eliteBy[id] || 0) + kills; }
     if (w.zoneAcc != null) w.zoneAcc += kills;
     if (d.guest && w.boss) w.boss.kills += kills;
@@ -604,6 +628,12 @@ function tickElite(w: World, emit: (e: SimEvent) => void) {
     return;
   }
   if (w.eliteAcc < el.every[w.chapter - 1]) return;
+  // 1.14.0 엘리트 지명: 먼저 준비만 알리고 매니저를 기다린다. wait분이 지나면 아래 추첨으로
+  const ep = RULES.elitePick;
+  if (ep) {
+    if (w.eliteReady == null) { w.eliteReady = w.t; emit({ type: 'eliteReady' }); return; }
+    if (w.t - w.eliteReady < ep.wait) return;
+  }
   const lv = levelsOf(w);
   const ids = Object.keys(w.eliteBy).filter(id => lv[id] && monsIn(w, id).length);
   const total = ids.reduce((s, id) => s + w.eliteBy[id], 0);
@@ -616,8 +646,36 @@ function startElite(w: World, did: PlotId, emit: (e: SimEvent) => void) {
   const m = monsIn(w, did).sort((a, b) => b.tenure - a.tenure)[0];
   if (!m || !RULES.elite) return;
   w.elite = { d: did, mon: m.id, until: w.t + RULES.elite.min };
-  w.eliteAcc = 0; w.eliteBy = {}; w.stats.elites++;
+  // 1.14.0: 지명을 기다린 동안 쌓인 퇴근은 다음 엘리트로 넘긴다 (떠나 있어도 엘리트 수가 줄지 않게)
+  if (RULES.elitePick) { w.eliteAcc = Math.max(0, w.eliteAcc - RULES.elite.every[w.chapter - 1]); w.eliteReady = null; } else w.eliteAcc = 0;
+  w.eliteBy = {}; w.stats.elites++;
   emit({ type: 'elite', d: did, mon: m.id });
+}
+/**
+ * 엘리트를 맞을 던전 후보 (1.14.0): 즐기는 모험가가 많은 순 (엘리트는 그 던전 ② ×2, 레벨업 ×1.5 — 사람이 많을수록 크다). 오렌은 첫째를 권한다
+ */
+export function eliteHosts(w: World): { id: PlotId; happy: number; mon: Monster }[] {
+  const lv = levelsOf(w), out: { id: PlotId; happy: number; mon: Monster }[] = [];
+  for (const id in lv) {
+    const m = monsIn(w, id).sort((a, b) => b.tenure - a.tenure)[0];
+    if (!m) continue;
+    out.push({ id, happy: w.advs.filter(a => a.st === 'happy' && a.d === id).length, mon: m });
+  }
+  return out.sort((a, b) => b.happy - a.happy);
+}
+export interface EliteSnap { acc: number; by: Record<PlotId, number>; ready: number | null }
+/** 엘리트 지명: 고른 던전에서 근속이 가장 많은 직원이 한 시간 엘리트가 된다 */
+export function pickElite(w: World, did: PlotId): Result<{ snap: EliteSnap; mon: number }> {
+  if (!RULES.elitePick || w.eliteReady == null || w.elite) return no('지금은 엘리트가 준비되지 않았어요');
+  if (!levelsOf(w)[did] || !monsIn(w, did).length) return no('직원이 있는 던전을 골라요');
+  const snap: EliteSnap = { acc: w.eliteAcc, by: { ...w.eliteBy }, ready: w.eliteReady };
+  startElite(w, did, () => {});
+  const el = w.elite as Elite | null;
+  return el ? ok({ snap, mon: el.mon }) : no('엘리트가 될 직원이 없어요');
+}
+/** 5초 되돌리기: 준비 상태로 돌아간다 */
+export function unpickElite(w: World, snap: EliteSnap): void {
+  w.elite = null; w.eliteAcc = snap.acc; w.eliteBy = snap.by; w.eliteReady = snap.ready; w.stats.elites--;
 }
 /** 대본용: 지금 엘리트를 부른다 (튜토리얼 첫 출현 보장). 던전을 안 주면 즐거운 모험가가 가장 많은 곳 */
 export function forceElite(w: World, did?: PlotId, out?: SimEvent[]): boolean {
@@ -915,6 +973,8 @@ export interface Ledger {
   starred0: number; dex0: number; cleared: boolean;
   /** 도감 돌파 (1.10.0) */
   dexMiles: { pct: number; reward: MarkReward }[];
+  /** 떠나 있는 동안 열린 구간 · 자리가 없거나 길이 끊겨 돌아간 손님 (1.12.0 — 리포트가 말하지 않던 변화) */
+  zones: { from: number; to: number }[]; left: number;
 }
 export function ledgerStart(w: World): Ledger {
   return {
@@ -922,7 +982,7 @@ export function ledgerStart(w: World): Ledger {
     work0: Object.fromEntries(w.monsters.map(m => [m.id, m.work])),
     hourLv: {}, bestBurst: null, crowdMax: null, ready: [], approval: false, firstGrad: w.stats.grads === 0,
     stuckMin: 0, marks: [], elites: [], bossCall: null, bossDown: [], boxes: 0, returned: w.stats.returned || 0,
-    starred0: w.ended ? fullClear(w).starred : 0, dex0: dexCount(w), cleared: false, dexMiles: [],
+    starred0: w.ended ? fullClear(w).starred : 0, dex0: dexCount(w), cleared: false, dexMiles: [], zones: [], left: 0,
   };
 }
 export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
@@ -941,6 +1001,8 @@ export function ledgerAdd(L: Ledger, w: World, ev: SimEvent[]): void {
     else if (e.type === 'bossCall') L.bossCall = e.ch;
     else if (e.type === 'bossDown') L.bossDown.push({ ch: e.ch, bonus: e.bonus });
     else if (e.type === 'box') L.boxes++;
+    else if (e.type === 'zone') (L.zones ||= []).push({ from: e.from, to: e.to });
+    else if (e.type === 'leave') L.left = (L.left || 0) + 1;
   }
   const busy: Record<string, number> = {};
   let entrance = false;
@@ -964,6 +1026,8 @@ export interface Report {
   /** 완전 클리어 진척 (v1.7, 엔딩 뒤): ★3 던전 수와 그 사이 는 수, 도감 칸과 는 수, 이번에 완전 클리어가 됐는가 */
   starred: number; starredDelta: number; dex: number; dexDelta: number; cleared: boolean;
   dexMiles: { pct: number; reward: MarkReward }[];
+  /** 1.12.0: 열린 구간 · 돌아간 손님 (풀에 남아 모객으로 다시 부를 수 있다 — P5) */
+  zones: { from: number; to: number }[]; left: number;
 }
 export function ledgerReport(L: Ledger, w: World): Report {
   const king = w.monsters
@@ -985,6 +1049,7 @@ export function ledgerReport(L: Ledger, w: World): Report {
     returned: (w.stats.returned || 0) - (L.returned || 0), pool: poolCount(w), recruit: recruitPick(w),
     starred: w.ended ? fullClear(w).starred : 0, starredDelta: w.ended ? fullClear(w).starred - (L.starred0 || 0) : 0,
     dex: dexCount(w), dexDelta: dexCount(w) - (L.dex0 ?? dexCount(w)), cleared: !!L.cleared, dexMiles: L.dexMiles || [],
+    zones: L.zones || [], left: L.left || 0,
   };
 }
 
@@ -1052,10 +1117,10 @@ export function placeCheck(w: World, m: Monster, did: PlotId | null): Result<{ o
   const d = w.dungeons[did];
   const inD = monsIn(w, did).filter(x => x.id !== m.id);
   if (inD.length >= d.slots) return no('직원 자리가 꽉 찼어요');
-  if (isBoss(m) && inD.some(isBoss)) return no('보스는 던전에 한 마리만');
+  if (isBoss(m) && inD.some(isBoss)) return no('이 던전엔 이미 보스가 있어요. 다른 던전에 놓아요');
   if (!p.open) {
     const cost = openCost(w, did);
-    if (w.smile < cost) return no(`개업 비용 스마일 ${cost.toLocaleString('ko-KR')}이 필요해요`, { short: cost - w.smile });
+    if (w.smile < cost) return no(`개업 스마일 ${fmtN(cost - w.smile)} 모자라요`, { short: cost - w.smile });
     return ok({ openCost: cost, opens: true, ticket: w.tickets.plot > 0 });
   }
   return ok({});
@@ -1085,7 +1150,7 @@ export function placeCheckAuto(w: World, m: Monster, did: PlotId | null): Result
   const open = openCost(w, did);
   if (w.smile < sc + open) return no(`직원 자리 +1에 스마일 ${fmtN(sc + open - w.smile)} 모자라요`, { short: sc + open - w.smile });
   const inD = monsIn(w, did).filter(x => x.id !== m.id);
-  if (isBoss(m) && inD.some(isBoss)) return no('보스는 던전에 한 마리만');
+  if (isBoss(m) && inD.some(isBoss)) return no('이 던전엔 이미 보스가 있어요. 다른 던전에 놓아요');
   return ok({ slotCost: sc, openCost: open || undefined });
 }
 export function placeAuto(w: World, monId: number, did: PlotId | null): Result<{ from: PlotId | null; openCost: number; opened: boolean; ticket: boolean; slotCost: number; same?: boolean }> {
@@ -1188,7 +1253,12 @@ export function cancelEvent(w: World, did: PlotId, refund: number, wasFree: bool
   if (wasFree) w.tickets.event++; else w.smile += refund;
 }
 
-export const seatCost = (w: World, d: Dungeon) => (d.seatUp < RULES.seatCost.length ? Math.round(RULES.seatCost[d.seatUp] * costScale(w)) : null);
+/** 이 던전의 다음 자리 확장이 초반 지역 보너스 칸인가 (1.12.0 화면 설명용) */
+export const earlySeatStep = (w: World, d: Dungeon) => !!RULES.earlySeat && RULES.earlySeat.regions.includes(plotInfo(d.id).region) && d.seatUp >= RULES.seatCost.length && seatCost(w, d) != null;
+export const seatCost = (w: World, d: Dungeon) => {
+  const es = RULES.earlySeat, steps = es && es.regions.includes(plotInfo(d.id).region) ? [...RULES.seatCost, ...es.costs] : RULES.seatCost;
+  return d.seatUp < steps.length ? Math.round(steps[d.seatUp] * costScale(w)) : null;
+};
 export function seatUp(w: World, did: PlotId): Result<{ cost: number }> {
   const d = w.dungeons[did], c = seatCost(w, d);
   if (c == null) return no(`자리는 ${d.seats}석이 최대예요`);
@@ -1243,7 +1313,11 @@ export interface Preview {
 }
 /** 변화 전후 비교: 새로 생기는 빈틈, 갈 곳을 잃는 모험가 수 */
 export function preview(w: World, mods: Mods): Preview {
-  const before = levelsOf(w), after = levelsOf(w, mods);
+  return previewOf(w, levelsOf(w, mods));
+}
+/** 바뀐 던전 레벨 목록으로 미리보기를 만든다 (여러 직원이 한꺼번에 움직이는 수 — 던전 다시 열기) */
+export function previewOf(w: World, after: Record<PlotId, number>): Preview {
+  const before = levelsOf(w);
   const cb = coveredSet(before), ca = coveredSet(after), end = roadEnd(w);
   const lost: number[] = [], gained: number[] = [];
   for (let L = 1; L <= end; L++) {
@@ -1264,6 +1338,11 @@ export function toSegs(list: number[]): Seg[] {
   return segs;
 }
 
+/** 혼자 둘 빈 부지 (1.12.0 키워서 잇기): 지금 살 수 있는 가장 싼 빈 부지. 봇의 planGrow와 같은 순서 */
+export function soloPlot(w: World): PlotId | null {
+  const e = Object.keys(w.plots).filter(id => !monsIn(w, id).length && openCost(w, id) <= w.smile).sort((a, b) => openCost(w, a) - openCost(w, b));
+  return e[0] || null;
+}
 /** 직원을 놓을 최선의 곳들 (빈틈이 가장 적어지는 곳) */
 export function bestPlaces(w: World, monId: number): PlotId[] {
   const m = w.monsters.find(x => x.id === monId);
@@ -1387,6 +1466,156 @@ export function moveFix(w: World, seg: Seg): MoveFix | null {
     }
   }
   return best ? { mon: best.mon, to: best.to, cost: best.cost, ticket: best.ticket } : null;
+}
+
+/** 본사 임원 (1.13.0): 월드 ② 배율. n명이면 1 + max × (1 − r^n) */
+export const execX = (w: World, n = (w.execs || []).length) => (RULES.exec && n ? 1 + RULES.exec.max * (1 - Math.pow(RULES.exec.r, n)) : 1);
+/** 임원으로 올려 보낼 수 있는가: from장부터, 최종 단계, 발록·고참·마지막 슬리피우드 식구가 아닌 직원 */
+export function execBlock(w: World, m: Monster): string | null {
+  const ex = RULES.exec;
+  if (!ex) return '아직 임원 발령이 없어요';
+  if (w.chapter < ex.from) return `${ex.from}장부터 임원 발령이 돼요`;
+  if (m.stage < maxStage(m)) return '진화를 끝까지 마친 직원만 임원이 돼요';
+  // 길 끝을 맡을 수 있는 직원은 남긴다: 올려 보내면 길 끝이 비었을 때 다시 키우는 데 며칠이 걸려 엔딩을 못 봤다
+  if (monLevel(m) >= roadEnd(w) - 10) return `길 끝(Lv ${roadEnd(w) - 10}+)을 맡는 직원은 남아야 해요`;
+  if (m.tenure < ex.tenure) return `임원 자격까지 근속 ${fmtN(ex.tenure - m.tenure)} 남았어요`;
+  if (m.sp === 'balrog') return '발록 씨는 섬을 지켜요';
+  if (mustStay(w, m)) return m.vet ? '고참은 회사의 얼굴이에요' : '결재 ③ 슬리피우드 식구가 한 명뿐이에요';
+  return null;
+}
+/** 임원 발령 미리보기: 그 직원이 빠진 던전 레벨 */
+export const execPreview = (w: World, monId: number) => previewOf(w, levelsOf({ ...w, monsters: w.monsters.filter(m => m.id !== monId) }));
+export function promoteExec(w: World, monId: number): Result<{ mon: Monster; idx: number; from: PlotId | null; x0: number; x1: number }> {
+  const idx = w.monsters.findIndex(m => m.id === monId);
+  if (idx < 0) return no('없는 직원');
+  const m = w.monsters[idx], why = execBlock(w, m);
+  if (why) return no(why);
+  const x0 = execX(w);
+  w.monsters.splice(idx, 1);
+  (w.execs ||= []).push({ sp: m.sp, stage: m.stage, at: w.t });
+  return ok({ mon: m, idx, from: m.d, x0, x1: execX(w) });
+}
+/**
+ * 임원 발령의 값 (1.13.0, ② 명·시간/시간): 월드 배율이 오르는 몫(gain)과 그 던전이 잃는 몫(loss).
+ * loss = 그 던전 손님 가운데 새 적정 구간 밖으로 밀리는 사람의 ② 전부 + 남는 사람의 승진 배율 하락분.
+ * 모든 임원을 올려 보내면 던전이 무너져 오히려 느려졌다(열성 봇 70일에 62명) — 그래서 이득이 클 때만 권한다
+ */
+export function execValue(w: World, monId: number): { gain: number; loss: number; net: number; x0: number; x1: number } {
+  const m = w.monsters.find(x => x.id === monId);
+  const x0 = execX(w), x1 = execX(w, (w.execs || []).length + 1);
+  const gain = joyRate(w).rate * (x1 / x0 - 1);
+  let loss = 0;
+  if (m && m.d) {
+    const ms = monsIn(w, m.d), rest = ms.filter(x => x.id !== m.id);
+    const sj0 = stageJoyX(ms), sj1 = stageJoyX(rest);
+    const D1 = rest.length ? levelsOf({ ...w, monsters: w.monsters.filter(x => x.id !== m.id) })[m.d] : null;
+    for (const a of w.advs) {
+      if (a.st !== 'happy' || a.d !== m.d) continue;
+      if (D1 == null || a.lv < D1 - 5 || a.lv > D1 + 5) loss += sj0 * x1;
+      else loss += (sj0 - sj1) * x1;
+    }
+  }
+  return { gain, loss, net: gain - loss, x0, x1 };
+}
+/**
+ * 퇴근 붙잡기 빈틈 (1.14.0): 입구 먼저, 그다음 가장 넓은 빈틈. 걷는 사람이 아직 없어도 잡는다 — 퇴근 직전에 막 끊긴 길에는 밤새 사람이 걷게 된다
+ */
+export function leaveGap(w: World): Seg | null {
+  const segs = gapSegments(w);
+  if (!segs.length) return null;
+  return segs.find(g => g[0] === 1) || [...segs].sort((a, b) => (b[1] - b[0]) - (a[1] - a[0]))[0];
+}
+/** 오렌·봇이 권하는 임원 후보 (1.13.0): 빠져도 새 빈틈이 생기지 않고, 월드가 얻는 몫이 그 던전이 잃는 몫보다 월드 ②의 0.5% 넘게 큰 직원 가운데 가장 이득인 사람 */
+export function execPick(w: World): Monster | null {
+  if (!RULES.exec || w.chapter < RULES.exec.from) return null;
+  let best: { m: Monster; net: number } | null = null;
+  for (const m of w.monsters) {
+    if (execBlock(w, m)) continue;
+    const v = execValue(w, m.id);
+    // 월드 ②를 0.5% 넘게 올릴 때만: 임원이 열다섯 명쯤 되면 한 명의 몫이 이보다 작아 더 권하지 않는다 (열성 봇이 40명을 보내 오히려 느려졌다)
+    if (v.net <= 0.005 * joyRate(w).rate || (best && v.net <= best.net)) continue;
+    if (execPreview(w, m.id).lost.length) continue;
+    best = { m, net: v.net };
+  }
+  return best && best.m;
+}
+/** 5초 되돌리기: 직원은 제자리로, 임원 명단에서 빠진다 */
+export function unexec(w: World, r: { mon: Monster; idx: number }): void {
+  w.monsters.splice(Math.min(r.idx, w.monsters.length), 0, r.mon);
+  w.execs?.pop();
+  if (w.execs && !w.execs.length) delete w.execs;
+}
+
+/**
+ * 던전 다시 열기 (1.12.0): 부지가 다 차서 채용·옮기기로 빈틈(주로 입구)을 못 메울 때, 던전 하나의 직원을 모두 대기실로 보내고
+ * 맞는 신입 한 명으로 다시 연다. 봇이 v1.2부터 쓰던 수인데 화면은 권하지 않았다 — 화면이 권하는 수만 따르면 4장부터 입구가
+ * 며칠씩 막혔다(choice-audit §15). grow: 지금은 안 닿지만 진화하면 닿는 계열을 혼자 두고 키운다(비워도 빈틈이 늘지 않을 때만).
+ * 난수를 쓰지 않는다.
+ */
+export interface RebuildPlan { to: PlotId; sp: SpeciesId; out: number[]; cost: number; free: boolean; grow: boolean; pv: Preview }
+/** 자리를 지켜야 하는 직원: 고참, 발록, 5장 결재 ③의 마지막 슬리피우드 식구 */
+export const mustStay = (w: World, m: Monster) => m.vet || m.sp === 'balrog' ||
+  (needsNative(w) && isNative(m.sp) && w.monsters.filter(x => isNative(x.sp) && x.d).length <= 1);
+function rebuiltLevels(w: World, to: PlotId, sp: SpeciesId): Record<PlotId, number> {
+  const ghost: Monster = { id: -1, sp, stage: 0, tenure: 0, work: 0, d: to, vet: false, no: 0 };
+  return levelsOf({ ...w, monsters: w.monsters.map(m => (m.d === to ? { ...m, d: null } : m)).concat(ghost) });
+}
+export function rebuildPlan(w: World, seg?: Seg): RebuildPlan | null {
+  const segs = gapSegments(w);
+  if (!segs.length) return null;
+  const cur = gapSize(segs);
+  const room = TRAY_MAX - tray(w).length;
+  const covers = (lv: Record<PlotId, number>) => { if (!seg) return true; const c = coveredSet(lv); for (let L = seg[0]; L <= seg[1]; L++) if (!c[L]) return false; return true; };
+  let best: (RebuildPlan & { g: number }) | null = null;
+  let grow: RebuildPlan | null = null;
+  const hint = recommendGrow(w, seg || segs[0]);
+  for (const id in w.plots) {
+    if (!w.plots[id].open) continue;
+    const ms = monsIn(w, id);
+    if (!ms.length || ms.length > room || ms.some(m => mustStay(w, m))) continue;
+    for (const sp of Object.keys(SPECIES) as SpeciesId[]) {
+      if (!canHireSpecies(w, sp)) continue;
+      const free = hasHireTicket(w, sp), cost = free ? 0 : hireCost(sp);
+      if (cost > w.smile) continue;
+      const lv = rebuiltLevels(w, id, sp), g = gapSize(gapSegments(w, lv));
+      if (g < cur && covers(lv) && (!best || g < best.g || (g === best.g && (ms.length < best.out.length || (ms.length === best.out.length && cost < best.cost)))))
+        best = { to: id, sp, out: ms.map(m => m.id), cost, free, grow: false, pv: previewOf(w, lv), g };
+      if (!grow && hint && sp === hint.sp && g <= cur && !growingToward(w, seg || segs[0])) grow = { to: id, sp, out: ms.map(m => m.id), cost, free, grow: true, pv: previewOf(w, lv) };
+    }
+  }
+  if (best) { const { g: _g, ...plan } = best; return plan; }
+  return grow;
+}
+export function rebuild(w: World, plan: RebuildPlan): Result<{ mon: Monster; cost: number; free: boolean }> {
+  const ms = plan.out.map(id => w.monsters.find(m => m.id === id)).filter((m): m is Monster => !!m && m.d === plan.to);
+  if (ms.length !== plan.out.length || monsIn(w, plan.to).length !== ms.length) return no('던전이 그새 바뀌었어요');
+  if (TRAY_MAX - tray(w).length < ms.length) return no('대기실이 꽉 찼어요');
+  const h = hire(w, plan.sp, null);
+  if (!h.ok) return h;
+  for (const m of ms) m.d = null;
+  h.mon.d = plan.to;
+  recordPlot(w, plan.sp, plan.to);
+  return ok({ mon: h.mon, cost: h.cost, free: h.free });
+}
+/** 5초 되돌리기: 신입은 채용 취소(비용·채용권 환급), 비운 직원은 제자리로 */
+export function unrebuild(w: World, plan: RebuildPlan, r: { mon: Monster; cost: number; free: boolean }): void {
+  unhire(w, r.mon.id, r.free ? 'ticket' : r.cost);
+  for (const id of plan.out) { const m = w.monsters.find(x => x.id === id); if (m && !m.d) m.d = plan.to; }
+}
+/** 이 빈틈을 채용 한 번(빈 부지 개업·직원 자리 +1 포함)으로 메울 수 있는가 — 없으면 오렌이 다시 열기를 권한다 */
+export function hireFixable(w: World, seg: Seg): boolean {
+  const cur = gapSize(gapSegments(w));
+  for (const sp of Object.keys(SPECIES) as SpeciesId[]) {
+    if (!canHireSpecies(w, sp) || (!hasHireTicket(w, sp) && hireCost(sp) > w.smile)) continue;
+    for (const id in w.plots) {
+      const n = monsIn(w, id).length, d = w.dungeons[id];
+      if (n >= d.slots && slotCost(w, d) == null) continue;
+      const lv = levelsOf(w, { add: { sp, to: id }, open: w.plots[id].open ? undefined : id });
+      const c = coveredSet(lv);
+      if (gapSize(gapSegments(w, lv)) < cur && c[seg[0]]) return true;
+    }
+  }
+  return false;
 }
 
 /**

@@ -15,8 +15,9 @@ Prototype Lab 개별 프로젝트. 레포 공통 규칙은 루트 `AGENTS.md`를
 2. `pnpm --filter msw-inc pacing`: 첫 레벨업 0:25, 첫 빈틈(실제 추정) 1:30 안 Lv 8, 첫 세션 안에 승진 발령과 1장 결재, Day 2 리포트 😊 20+가 유지되는지 본다.
 3. `pnpm --filter msw-inc cadence`: 첫 40분 사건 사이 최장 20초·중앙 15초 이하, 둔 수 25 이상, 결정 사이 최장 3분이 유지되는지 본다(v1.4). 결정 갈래(자리·채용·진화·상자·기타)도 본다(v1.5). 자리 비중은 "상자를 빼면" 줄과 자리 확장 수를 같이 본다(v1.6).
 4. `pnpm --filter msw-inc checkin`: Day 2~30 체크인(10분)마다 결정 2개 이상, 감탄(10분 안) 85% 이상, 이벤트만 누른 체크인 10% 이하, 사건 사이 중앙 30초 이하, 3~4장 같은 수 반복 3회 이하가 유지되는지 본다(v1.7, `notes/plan-v17.md` §4).
-5. `pnpm --filter msw-inc run audit`: v1.6과 v1.7을 나란히 굴린다(오래 걸린다. `-- --rules v1.6 --only std,light`처럼 성향을 나눠 여러 프로세스로 돌려도 된다). 표준 엔딩이 D31±2, 8성향이 표준 ±20% 안, 멈춘 월드가 0인지 본다. 무료권을 주는 규칙이면 한 달 뒤 쥔 권이 쌓이지 않는지도 본다(v1.6). 결과는 `notes/data/`에 남기고 choice-audit를 고친다.
-6. `pnpm --filter msw-inc test`.
+5. `pnpm --filter msw-inc waits` (1.12.0): 8성향과 서툰 선택 넷(sloppy·away·stamp·screen)이 장마다 "①만 남음"(②는 찼는데 길이 막힘)으로 보낸 시간이 하루를 넘지 않는지, 빨간 빈틈이 이틀을 넘지 않는지 본다. `screen`은 1.11.0 화면(다시 열기 없음) 비교용이라 막혀 있는 것이 맞다. 봇이 화면보다 잘하는 수를 새로 쓰면 화면도 같은 수를 권해야 한다(choice-audit §15).
+6. `pnpm --filter msw-inc run audit`: v1.6과 v1.7을 나란히 굴린다(오래 걸린다. `-- --rules v1.6 --only std,light`처럼 성향을 나눠 여러 프로세스로 돌려도 된다). 표준 엔딩이 D31±2, 8성향이 표준 ±20% 안, 멈춘 월드가 0인지 본다. 무료권을 주는 규칙이면 한 달 뒤 쥔 권이 쌓이지 않는지도 본다(v1.6). 결과는 `notes/data/`에 남기고 choice-audit를 고친다.
+7. `pnpm --filter msw-inc test`.
 
 ## 화면을 바꿀 때
 

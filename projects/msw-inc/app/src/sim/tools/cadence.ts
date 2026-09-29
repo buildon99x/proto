@@ -27,6 +27,8 @@ const rules = BY_ID[arg('--rules') || ''] || RULES;
 useRules({ ...rules });
 // --guests '{"evolveBurst":0}' (1.10.0): 모객 값 일부를 덮어 첫 40분 기여를 가른다
 if (arg('--guests') && RULES.guests) useRules({ ...RULES, guests: { ...(RULES.guests || GUESTS_V17), ...JSON.parse(arg('--guests')!) } });
+// --patch '{"earlySeat":null}' (1.11.0): 규칙 필드 일부를 덮는다 (checkin과 같다)
+if (arg('--patch')) useRules({ ...RULES, ...JSON.parse(arg('--patch')!) });
 const SEEDS = arg('--seed') ? [+arg('--seed')!] : [7, 11, 23, 42, 99];
 const HORIZON = 90; // 분 (40분 뒤 하강까지 본다)
 const WINDOW = 40;

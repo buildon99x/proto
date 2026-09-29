@@ -131,7 +131,7 @@ if (demo) {
     refresh();
     const away = (Date.now() - s.savedAt) / 60000;
     // 서버 시간 모델: 잠깐 새로고침해도 흐른 시간만큼 굴린다. 2분 넘게 떠나 있었으면 리포트
-    if (away >= 2) { if (away > M.OFFLINE_CAP) A.ui.longAway = true; A.catchUp(away); }
+    if (away >= 2) A.catchUp(away);
     else if (away > 0.01) M.step(A.w, away);
   } else {
     newGame();

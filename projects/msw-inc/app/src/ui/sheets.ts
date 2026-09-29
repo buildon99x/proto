@@ -123,6 +123,9 @@ A.openEvolve = monId => {
     dex += `<div class="r ${i === m.stage ? 'now' : ''} ${!k && i !== next ? 'q' : ''}">${k ? img('m:' + sp.art[i], 1) : sil('m:' + sp.art[i], 1)}${k || i === next ? (k ? nm : '<b class="evc">NEW?</b>') : '?'}${sp.boss && i === sp.names.length - 1 ? ' 👑' : ''}</div>`;
   });
   const D0 = m.d ? pv.before[m.d] : null, D1 = m.d ? pv.after[m.d] : null;
+  // 승진한 직원의 던전 (1.11.0): 이 진화로 그 던전의 결재 ② 배율이 얼마나 오르는가
+  const jms = m.d ? M.monsIn(w, m.d) : [];
+  const jx = RULES.stageJoy && jms.length ? [M.stageJoyX(jms), M.stageJoyX(jms.map(x => (x.id === m.id ? { ...x, stage: x.stage + 1 } : x)))] : null;
   let res: string, hint = '';
   if (block) res = `<div class="res bad">✕ ${block}</div>`;
   else if (pv.lost.length) {
@@ -142,7 +145,7 @@ A.openEvolve = monId => {
       <div class="idc after"><div class="ph">${known ? img(sp.art[next], 3) : sil(sp.art[next], 3)}</div><b>${known ? sp.names[next] : '???'}</b><span>Lv ${M.monLevel(m) + 8} · ${next + 1}단계${sp.boss && next === sp.names.length - 1 ? ' · 보스' : ''}</span></div>
       <div class="dexrow"><b>${sp.names[0]} 계열 ${sp.trait ? TRAITS[sp.trait].icon : ''}</b>${dex}</div>
       <div class="conseq">
-        <div class="lvch">${m.d ? `${plotName(m.d)} · 던전 Lv ${D0} → ${D1}` : '대기실에서 진화'}</div>
+        <div class="lvch">${m.d ? `${plotName(m.d)} · 던전 Lv ${D0} → ${D1}${jx ? ` · 결재 ② ×${jx[0].toFixed(2)} → ×${jx[1].toFixed(2)}` : ''}` : '대기실에서 진화'}</div>
         ${res}
         <div class="hint">${hint || '보류해도 벌칙은 없어요. 근속은 그대로 남아요'}</div>
       </div>
@@ -204,6 +207,83 @@ function doPromote(plan: M.PromotePlan) {
   refresh();
 }
 
+// ── 임원 승진 (1.13.0): 진화를 끝내고 근속을 다시 채운 직원을 본사 임원으로 ────────────────
+A.openExec = monId => {
+  const w = A.w, m = w.monsters.find(x => x.id === monId);
+  if (!m) return;
+  const why = M.execBlock(w, m);
+  if (why) { nope(why); return; }
+  if (A.ui.mode === 'dungeon') A.closeDungeon();
+  const pv = M.execPreview(w, m.id), v = M.execValue(w, m.id), k = (w.execs || []).length;
+  const D0 = m.d ? pv.before[m.d] : null, D1 = m.d ? pv.after[m.d] : null;
+  if (m.d) A.world.focus(D0 ?? M.monLevel(m));
+  const pct = (x: number) => `${x >= 0 ? '+' : ''}${(100 * x).toFixed(1)}%`;
+  const rate = Math.max(1e-9, M.joyRate(w).rate);
+  const verdict = pv.lost.length
+    ? `<div class="res bad">⚠ ${pv.entranceBlocked ? '입구가 막혀요 · ' : ''}${segList(pv.lost)}가 비어요 — 다른 직원으로 먼저 이어 두세요</div>`
+    : v.net > 0
+      ? `<div class="res ok">✓ 지금 보내면 이득이에요 · 결재 ② ${pct(v.net / rate)}</div>`
+      : `<div class="res bad">⚠ 지금은 손해예요 · 이 던전 손님이 밀려나요 (결재 ② ${pct(v.net / rate)}) — 근속은 그대로 남아요</div>`;
+  const sh = openSheet('evolve', 'var(--gold)', `
+    <div class="evs">
+      <div class="idc"><div class="ph">${img(monArt(m), 3)}</div><b>${M.monName(m)}</b><span>Lv ${M.monLevel(m)} · 최종 단계</span></div>
+      <div class="arrow">➜<small>본사<br>임원 승진</small></div>
+      <div class="idc after"><div class="ph" style="font-size:var(--fs-d2)">👔</div><b>${k + 1}번째 임원</b><span>② ×${v.x0.toFixed(2)} → ×${v.x1.toFixed(2)}</span></div>
+      <div class="conseq">
+        <div class="lvch">${m.d ? `${plotName(m.d)} · 던전 Lv ${D0} → ${D1 ?? '휴업'}` : '대기실에서 승진'}</div>
+        ${verdict}
+        <div class="hint">💡 월드 전체 ② ${pct(v.gain / rate)} · ${v.loss > 0 ? `이 던전이 잃는 몫 ${pct(-v.loss / rate)}` : '이 던전은 잃는 몫이 없어요'}. 임원이 늘수록 한 명의 몫은 줄어요. 빈자리엔 새 직원을 뽑아 다시 키워요. 5초 안에 되돌릴 수 있어요</div>
+      </div>
+      <div class="btns"><button class="btn pri" data-go ${pv.lost.length ? 'disabled' : ''}>👔 임원 승진</button><button class="btn ghostb" data-hold>보류</button></div>
+    </div>`);
+  A.world.setPreview(pv, { kind: 'move' });
+  must('[data-hold]', sh).onclick = () => { snd.play('ui'); A.closeSheet(); };
+  must('[data-go]', sh).onclick = () => {
+    const r = M.promoteExec(w, m.id);
+    if (!r.ok) { nope(r.msg); return; }
+    A.closeSheet();
+    snd.play('evolve');
+    toast(`👔 ${M.monName(r.mon)} 임원 승진 · 월드 결재 ② ×${r.x1.toFixed(2)}`, { undo: () => M.unexec(w, r) });
+    refresh();
+  };
+  snd.play('ui');
+};
+
+// ── 던전 다시 열기 (1.12.0): 부지가 다 차서 채용으로 못 메우는 빈틈 ────────────────
+A.openRebuild = plan => {
+  const w = A.w, sp = SPECIES[plan.sp], out = plan.out.map(id => w.monsters.find(m => m.id === id)).filter((m): m is M.Monster => !!m);
+  if (A.ui.mode === 'dungeon') A.closeDungeon();
+  const D0 = M.levelsOf(w)[plan.to], D1 = plan.pv.after[plan.to];
+  A.world.focus(D1 ?? 1);
+  const g = plan.grow ? M.recommendGrow(w) : null;
+  const res = plan.grow
+    ? `<div class="res ok">🌱 ${sp.names[0]}가 혼자 크면 ${g ? `${g.stage}번 진화해 Lv ${g.lv} 근처` : '위쪽 빈틈'}에 닿아요 · 지금 빈틈은 늘지 않아요</div>`
+    : `<div class="res ok">✓ ${segList(plan.pv.gained)} 이어져요${plan.pv.gapsAfter.length ? ` · ${segList(plan.pv.gapsAfter)}만 남아요` : ' · 빈틈 없이'}${plan.pv.rescued ? ` · 혼자 걷던 ${plan.pv.rescued}명이 들어가요` : ''}</div>`;
+  const sh = openSheet('evolve', 'var(--flow)', `
+    <div class="evs">
+      <div class="idc"><div class="ph">${out[0] ? img(monArt(out[0]), 3) : ''}</div><b>${plotName(plan.to)}</b><span>직원 ${out.length}명 → 대기실</span></div>
+      <div class="arrow">➜<small>던전<br>다시 열기</small></div>
+      <div class="idc after"><div class="ph">${img(sp.art[0], 3)}</div><b>${sp.names[0]}</b><span>Lv ${sp.base} · 혼자</span></div>
+      <div class="conseq">
+        <div class="lvch">${plotName(plan.to)} · 던전 Lv ${D0} → ${D1}</div>
+        ${res}
+        <div class="hint">💡 빈 부지가 없어서 던전 하나를 비워요. 대기실로 간 ${out.map(m => M.monName(m)).join('·')}는 다른 던전에 놓거나 본사로 보내요. 5초 안에 되돌릴 수 있어요</div>
+      </div>
+      <div class="btns"><button class="btn pri" data-go>🔁 다시 열기<small>${plan.cost ? `스마일 ${n(plan.cost)}` : plan.free ? '채용권' : '무료'}</small></button><button class="btn ghostb" data-hold>그만두기</button></div>
+    </div>`);
+  A.world.setPreview(plan.pv, { kind: 'promote', label: { [plan.to]: `신입 ${sp.names[0]} · Lv ${D1}` } });
+  must('[data-hold]', sh).onclick = () => { snd.play('ui'); A.closeSheet(); };
+  must('[data-go]', sh).onclick = () => {
+    const r = M.rebuild(w, plan);
+    if (!r.ok) { nope(r.msg); return; }
+    A.closeSheet();
+    snd.play('place');
+    toast(`${plotShort(plan.to)} 다시 열기 · ${sp.names[0]} 채용${r.cost ? ` · 스마일 −${n(r.cost)}` : ''}`, { undo: () => M.unrebuild(w, plan, r) });
+    refresh();
+  };
+  snd.play('ui');
+};
+
 // ── 필드 보스 초대 (v1.3): 어느 던전에서 맞을까 ────────────────
 A.openBoss = () => {
   const w = A.w, b = w.boss, fb = b && fieldBoss(b.ch), rule = RULES.fieldBoss;
@@ -248,6 +328,41 @@ A.openBoss = () => {
   snd.play('ui');
 };
 
+// ── 엘리트 지명 (1.14.0): 준비된 엘리트를 어느 던전에서 맞을까 ────────────────
+A.openElite = () => {
+  const w = A.w, el = RULES.elite, ep = RULES.elitePick;
+  if (!el || !ep || w.eliteReady == null || w.elite) return;
+  if (A.ui.mode === 'dungeon') A.closeDungeon();
+  const lv = M.levelsOf(w), hosts = M.eliteHosts(w).slice(0, 4);
+  let cards = '';
+  hosts.forEach((hh, i) => {
+    cards += `<div class="hcard bosshost ${i === 0 ? 'rec' : ''}" data-host="${hh.id}">${i === 0 ? '<span class="rib">손님이 가장 많아요</span>' : ''}
+      <b>${plotName(hh.id)}</b><span class="lvl">Lv ${lv[hh.id]} · ${M.monName(hh.mon)}</span>
+      <span class="trait">😊 ${hh.happy}명 · ② ×${el.joyX} · 레벨업 ×${el.lvX}</span>
+      <button class="go" data-pick="${hh.id}">여기서 맞기</button></div>`;
+  });
+  const left = Math.max(0, w.eliteReady + ep.wait - w.t);
+  const sh = openSheet('boss', 'var(--gold)', `<div class="sh-title">★ 엘리트 준비 완료 <small>고른 던전에서 근속이 가장 많은 직원이 ${Math.round(el.min / 60)}시간 동안 엘리트가 돼요 · 그 던전 손님이 많을수록 커요 · ${dur(left)} 뒤엔 저절로 뽑혀요 · 놓쳐도 잃는 것은 없어요</small></div>
+    <div class="cards">${cards}</div>`);
+  const clearHl = () => $$('.plat.target').forEach(e => e.classList.remove('target'));
+  $$<HTMLElement>('[data-host]', sh).forEach(c => {
+    c.onpointerenter = () => { clearHl(); const p = A.world.plats[c.dataset.host!]; if (p) p.el.classList.add('target'); };
+    c.onpointerleave = clearHl;
+  });
+  $$<HTMLElement>('[data-pick]', sh).forEach(bt => (bt.onclick = () => {
+    const id = bt.dataset.pick!;
+    const r = M.pickElite(w, id);
+    if (!r.ok) return nope(r.msg);
+    clearHl();
+    A.closeSheet();
+    toast(`★ ${plotShort(id)}에서 엘리트를 맞아요`, { undo: () => M.unpickElite(w, r.snap) });
+    emit([{ type: 'elite', d: id, mon: r.mon }]);
+    refresh();
+  }));
+  if (hosts[0] && A.world.plats[hosts[0].id]) A.world.plats[hosts[0].id].el.classList.add('target');
+  snd.play('ui');
+};
+
 // ── S9 모객 (v1.7): 신규냐 복귀냐 ──────────────────────────
 /**
  * 신규(입구 도착 ×2)와 복귀(떠난 손님이 자기 레벨로 돌아옴)는 다른 결정이다. 입구가 비었으면 신규, 중간 자리가 비었고 풀에 그 레벨 손님이 있으면 복귀.
@@ -272,8 +387,8 @@ A.openRecruit = () => {
   const status = rc ? `<div class="hcard rcard on"><div class="ph"><i class="ric">📣</i></div><b>${rc.kind === 'return' ? '복귀' : '신규'} 모객 중</b><span class="lvl">${dur(rc.end - w.t)} 남음</span><span class="trait">${rc.kind === 'return' ? `돌아온 손님 ${n(w.stats.returned || 0)}명 · 풀에 ${rr.pool}명` : `입구 도착 ×${gu.fresh.x}`}</span><div class="go dis">한 번에 하나</div></div>` : '';
   const sh = openSheet('recruit', 'var(--flow)', `<div class="sh-title">📣 모객 <small>손님을 부르는 이벤트 · 한 번에 하나 · 동시 이벤트 ${M.activeEvents(w)}/${M.maxEvents(w)} · 놓쳐도 잃는 것은 없어요</small></div>
     <div class="cards">${status}
-      ${card('return', '🔁', '복귀 모객', `떠난 손님 ${rr.pool}명 가운데 자리 있는 레벨 ${rr.room}명 · ${gu.return.min / 60}시간 동안 시간당 ${gu.return.rate}명이 자기 레벨로`, rr.room >= 8 ? '중간 던전에 빈자리가 있어요' : rr.pool ? '자리가 없으면 돌아와도 줄을 서요' : '아직 떠난 손님이 없어요', !rc && !lim && rr.pool > 0, rc ? '모객 중' : lim ? '이벤트 자리 없음' : '떠난 손님 없음')}
-      ${card('fresh', '👋', '신규 모객', `${gu.fresh.min / 60}시간 동안 입구 도착 ×${gu.fresh.x} · 지금 입구 빈자리 ${er}석`, busyLow ? `입구 앞에 ${busyLow}명이 줄 서 있어요` : er >= 6 ? '입구가 한산해요' : '입구가 거의 찼어요', !rc && !lim, rc ? '모객 중' : '이벤트 자리 없음')}
+      ${card('return', '🔁', '복귀 모객', `떠난 손님 ${rr.pool}명 가운데 자리 있는 레벨 ${rr.room}명 · ${gu.return.min / 60}시간 동안 시간당 ${gu.return.rate}명이 자기 레벨로`, rr.room >= 8 ? '중간 던전에 빈자리가 있어요' : rr.pool ? '자리가 없으면 돌아와도 줄을 서요' : '아직 떠난 손님이 없어요', !rc && !lim && rr.pool > 0, rc ? '모객 중' : lim ? `이벤트 ${M.maxEvents(w)}개 사용 중 · 하나 끝나면 돼요` : '떠난 손님 없음')}
+      ${card('fresh', '👋', '신규 모객', `${gu.fresh.min / 60}시간 동안 입구 도착 ×${gu.fresh.x} · 지금 입구 빈자리 ${er}석`, busyLow ? `입구 앞에 ${busyLow}명이 줄 서 있어요` : er >= 6 ? '입구가 한산해요' : '입구가 거의 찼어요', !rc && !lim, rc ? '모객 중' : `이벤트 ${M.maxEvents(w)}개 사용 중 · 하나 끝나면 돼요`)}
     </div>`);
   $$<HTMLElement>('[data-recruit]', sh).forEach(bt => (bt.onclick = () => {
     const k = bt.dataset.recruit as M.RecruitKind;
@@ -336,15 +451,19 @@ A.openMonPop = (id, el) => {
   const r = rectOf(el), need = M.evolveNeed(m), sp = SPECIES[m.sp];
   const tr = sp.trait ? TRAITS[sp.trait] : null;
   const canRel = M.RULES_RELEASE() && !m.vet && m.sp !== 'balrog';
+  // 1.13.0 임원 승진: 최종 단계 직원은 근속 막대가 임원 자격 막대가 된다 (4장부터)
+  const exT = RULES.exec && w.chapter >= RULES.exec.from && m.sp !== 'balrog' ? RULES.exec.tenure : 0, exOk = !M.execBlock(w, m);
   const pop = h(`<div class="pop-mon">
     <div class="hd">${img(monArt(m), 2)}<div><b>${M.monName(m)} #${m.no}</b><div class="s">Lv ${M.monLevel(m)} · ${m.stage + 1}단계 · ${tr ? tr.icon + ' ' + tr.name : '표준'}${m.vet ? ' · 고참' : ''}</div><div class="s">${m.d ? plotName(m.d) : '대기실'} · 퇴근 ${n(m.work)}회</div></div></div>
-    <div class="tenure"><div class="t"><span>근속(퇴근)</span><span>${need === Infinity ? '최종 단계' : n(Math.min(m.tenure, need)) + ' / ' + n(need)}</span></div><div class="bar"><i style="width:${need === Infinity ? 100 : Math.min(100, 100 * m.tenure / need)}%;background:${M.canEvolve(m) ? 'var(--evolve)' : 'color-mix(in srgb,var(--evolve) 45%,var(--white))'}"></i></div></div>
-    <div class="row">${M.canEvolve(m) && !A.T.hideEvolve() ? '<button class="pri" data-ev>▲ 진화</button>' : ''}${m.d ? '<button data-see>현장 보기</button><button data-tray>대기실로</button>' : ''}${canRel ? `<button data-rel title="채용비 절반을 돌려받아요">본사 전근 +${n(M.releaseRefund(m))}</button>` : ''}</div>
+    ${need === Infinity && exT ? `<div class="tenure"><div class="t"><span>👔 임원 자격 (근속)</span><span>${n(Math.min(m.tenure, exT))} / ${n(exT)}</span></div><div class="bar"><i style="width:${Math.min(100, 100 * m.tenure / exT)}%;background:${exOk ? 'var(--gold)' : 'color-mix(in srgb,var(--gold) 45%,var(--white))'}"></i></div></div>`
+      : `<div class="tenure"><div class="t"><span>근속(퇴근)</span><span>${need === Infinity ? '최종 단계' : n(Math.min(m.tenure, need)) + ' / ' + n(need)}</span></div><div class="bar"><i style="width:${need === Infinity ? 100 : Math.min(100, 100 * m.tenure / need)}%;background:${M.canEvolve(m) ? 'var(--evolve)' : 'color-mix(in srgb,var(--evolve) 45%,var(--white))'}"></i></div></div>`}
+    <div class="row">${M.canEvolve(m) && !A.T.hideEvolve() ? '<button class="pri" data-ev>▲ 진화</button>' : ''}${exOk ? '<button class="pri" data-exec>👔 임원 승진</button>' : ''}${m.d ? '<button data-see>현장 보기</button><button data-tray>대기실로</button>' : ''}${canRel ? `<button data-rel title="채용비 절반을 돌려받아요">본사 전근 +${n(M.releaseRefund(m))}</button>` : ''}</div>
     <div class="tip">끌어서 다른 발판에 놓으면 옮겨져요. 놓기 전에 결과가 보여요</div></div>`);
   const x = clamp(r.x + r.w / 2 - 135, 8, 1280 - 278), y = r.y > 300 ? r.y - 196 : r.y + r.h + 8;
   pop.style.left = x + 'px'; pop.style.top = y + 'px';
   must('#stage').appendChild(pop);
   const ev = $('[data-ev]', pop); if (ev) ev.onclick = () => { closePop(); A.openEvolve(id); };
+  const exb = $('[data-exec]', pop); if (exb) exb.onclick = () => { closePop(); A.openExec(id); };
   const see = $('[data-see]', pop); if (see) see.onclick = () => { closePop(); A.openDungeon(m.d!); };
   const tr2 = $('[data-tray]', pop); if (tr2) tr2.onclick = () => {
     closePop();
@@ -389,7 +508,7 @@ A.openApproval = () => {
     ${marksRow(w)}
     ${c.needBalrog ? `<div class="c ${ok3 ? 'ok' : ''}"><span class="ck">${ok3 ? '✓' : '3'}</span><span class="lb">주니어 발록 던전 개장</span><div class="bar"><i style="width:${ok3 ? 100 : 0}%;background:var(--evolve)"></i></div><span class="v">${ok3 ? '완료' : '대기실에'}</span></div>` : ''}
     ${c.needNative ? `<div class="c ${ok3n ? 'ok' : ''}"><span class="ck">${ok3n ? '✓' : '3'}</span><span class="lb">슬리피우드 식구 던전<small>드레이크나 이블아이 계열이 일하는 던전 1곳</small></span><div class="bar"><i style="width:${ok3n ? 100 : 0}%;background:var(--evolve)"></i></div><span class="v">${ok3n ? '완료' : '채용 전'}</span></div>` : ''}
-    ${!ok2 && j.eta ? `<div class="eta">지금 😊 ${M.happyCount(w)}명이면 ${j.eta} 뒤에 채워져요. 사람이 늘면 더 빨라요. <b>줄지는 않아요.</b></div>` : ''}
+    ${!ok2 ? (j.eta ? `<div class="eta">지금 속도면 ${j.eta} 뒤에 채워져요. <b>줄지는 않아요.</b>${joyTips(w)}</div>` : `<div class="eta">지금 즐기는 모험가가 없어서 ②가 멈춰 있어요. 빈틈을 이으면 다시 쌓여요. <b>줄지는 않아요.</b>${joyTips(w)}</div>`) : ''}
     <div class="rw">결재 보상: <b>★ +1</b> · 모험가 도착 +3명/시간 ${next ? `· <b>${next.region}</b> 개방 · 부지 +${M.plotsOfRegion(next.n)}${nextSp.length ? ' · ' + nextSp.join(', ') + ' 채용' : ''} · 졸업선 Lv ${ch.road} → ${next.road}` : '· <b>섬 전체에 불</b>'}${ch.n === 2 ? ' · 동시 이벤트 +1' : ''}${ch.n === 4 ? ' · 주니어 발록 입사 지원서' : ''}</div>
     ${ch.n === 5 ? `<div class="clip">${img('balrog', 2)}<div><b>입사 지원서 · 주니어 발록</b><br>"…손님이 오면, 맞아 드리겠습니다."</div></div>` : ''}
     <div class="boss">${img('mom', 3)}<div class="say">${w.approvalReady ? '좋아요. 결재.' : ch.say}</div></div>
@@ -413,6 +532,18 @@ A.openApproval = () => {
   };
   snd.play('ui');
 };
+/**
+ * 결재 ②를 빨리 채우는 손잡이 (1.12.0): 기다리는 동안 무엇을 하면 빨라지는지 지금 월드로 말한다.
+ * 줄 선 사람(자리·던전을 늘리면 앉는다), 승진한 직원 배율, 엘리트·필드 보스(저절로 온다)
+ */
+function joyTips(w: M.World): string {
+  const r = M.joyRate(w), tips: string[] = [];
+  if (r.queue >= 3) tips.push(`줄 선 ${r.queue}명을 앉히면 약 +${Math.round((100 * r.queue) / Math.max(1, r.rate))}% (자리 확장 · 같은 레벨 던전 하나 더)`);
+  if (RULES.stageJoy) tips.push(r.stageX > 1.001 ? `승진한 직원 덕에 ×${r.stageX.toFixed(2)} — 진화할수록 빨라져요` : '직원이 진화하면 그 던전의 ②가 빨라져요');
+  if (RULES.exec && w.chapter >= RULES.exec.from) tips.push((w.execs || []).length ? `본사 임원 ${w.execs!.length}명 덕에 ×${M.execX(w).toFixed(2)}` : '진화를 끝낸 직원이 근속을 다시 채우면 👔 임원으로 올려요');
+  if (w.chapter >= 2) tips.push('엘리트(×2)·필드 보스(×2)는 저절로 찾아와요');
+  return tips.length ? `<small class="tips">빨리 채우려면: ${tips.join(' · ')}</small>` : '';
+}
 /** 결재함: 이번 장 막대 눈금 보상 목록 */
 function marksRow(w: M.World) {
   const jm = RULES.joyMarks;
@@ -529,10 +660,12 @@ function scene(kind: string, data: Record<string, unknown>) {
   if (kind === 'dexmile') { const ms = data.list as M.Report['dexMiles']; return { cap: `📖 도감 ${ms.map(x => Math.round(x.pct * 100) + '%').join('·')} 돌파!`, html: advs(3) + `<div class="a" style="left:90px;top:8px;font-size:var(--fs-d1)">📖</div><div class="a markrw">${ms.map(x => markLabel(x.reward)).join('<br>')}</div>` }; }
   if (kind === 'clear') return { cap: '🏝️ 완전 클리어!', html: advs(4) + `<div class="a" style="left:20px;top:10px;font-size:var(--fs-xl)">🎉</div><div class="a" style="left:96px;top:6px;font-size:var(--fs-d1)">🏝️</div><div class="a" style="left:170px;top:14px;font-size:var(--fs-xl)">🎉</div>` };
   if (kind === 'star3') return { cap: `⭐ 던전 ★3 +${data.n}`, html: advs(3) + `<div class="a" style="left:60px;top:12px;font-size:var(--fs-d1);color:var(--gold)">★★★</div>` };
+  if (kind === 'zone') return { cap: `🗺️ Lv ${(data.from as number) + 1}–${data.to as number} 개방 · 졸업선 Lv ${data.to as number}`, html: advs(4) + `<div class="a" style="left:96px;top:8px;font-size:var(--fs-d1)">🗺️</div>` };
+  if (kind === 'left') return { cap: `😢 ${data.n as number}명이 돌아갔어요 · 📣 모객으로 다시 불러요`, html: advs(3) + `<div class="a" style="left:40px;top:14px;font-size:var(--fs-xl)">😢</div><div class="a" style="left:130px;top:10px;font-size:var(--fs-xl)">📣</div>` };
   if (kind === 'return') return { cap: `🔁 손님 ${data.n}명이 돌아왔어요`, html: advs(4) + `<div class="a" style="left:24px;top:14px;font-size:var(--fs-xl)">🔁</div><div class="a" style="left:120px;top:10px;font-size:var(--fs-xl)">😊</div>` };
   return null;
 }
-A.showReport = (rep, awayMin) => {
+A.showReport = (rep, awayMin, realMin = awayMin) => {
   const w = A.w;
   A.ui.modal = 'report';
   const picks: [string, Record<string, unknown>][] = [];
@@ -540,6 +673,8 @@ A.showReport = (rep, awayMin) => {
   if (rep.returned) picks.push(['return', { n: rep.returned }]);
   if (w.ended && rep.starredDelta > 0) picks.push(['star3', { n: rep.starredDelta }]);
   if (rep.approval) picks.push(['doc', {}]);
+  // 1.12.0: 밤사이 열린 구간 — 졸업선이 움직이고 새 빈틈이 생길 수 있어 이유를 먼저 말한다
+  if (rep.zones.length) picks.push(['zone', rep.zones[rep.zones.length - 1] as unknown as Record<string, unknown>]);
   if (rep.bossDown.length) picks.push(['boss', { ch: rep.bossDown[0].ch, down: true }]);
   else if (rep.bossCall && w.boss && !w.boss.d) picks.push(['boss', { ch: rep.bossCall, down: false }]);
   if (rep.marks.length) picks.push(['mark', { list: rep.marks }]);
@@ -552,6 +687,8 @@ A.showReport = (rep, awayMin) => {
   if (rep.grads && !rep.firstGrad) picks.push(['grad', { n: rep.grads }]);
   if (rep.crowdMax && rep.crowdMax.n >= 3) picks.push(['crowd', rep.crowdMax as unknown as Record<string, unknown>]);
   if (rep.boxesWaiting) picks.push(['box', { n: rep.boxesWaiting }]);
+  // 1.12.0: 자리가 없거나 길이 끊겨 돌아간 손님. 잃은 게 아니라 풀에 남아 있다(P5) — 다시 부르는 법과 같이 말한다
+  if (rep.left >= 20) picks.push(['left', { n: rep.left, pool: rep.pool }]);
   const scenes = picks.slice(0, 3).map(([k, d]) => scene(k, d)).filter((x): x is { cap: string; html: string } => !!x);
   const sinceIn = rep.happy - (A.checkin.happy0 || 0);
   const king = rep.king && w.monsters.find(x => x.id === rep.king!.id);
@@ -562,15 +699,17 @@ A.showReport = (rep, awayMin) => {
   const gap = gaps[0];
   if (gap) chips.push(gap.n ? `<button class="tchip" data-go="gap" data-a="${gap.seg[0]}" data-b="${gap.seg[1]}"><i class="al">!</i>${gap.seg[0] === 1 ? '입구 막힘' : '빈틈'} ${segTxt(gap.seg)} · ${gap.n}명</button>` : `<button class="tchip" data-go="gap" data-a="${gap.seg[0]}" data-b="${gap.seg[1]}"><i class="cold">⋯</i>끊긴 길 ${segTxt(gap.seg)}</button>`);
   const evs = b.filter((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve' && x.shown); if (evs.length) chips.push(`<button class="tchip" data-go="ev" data-mon="${evs[0].mon}"><i class="ev">▲</i>진화 가능 ${evs.length}</button>`);
+  const exm = M.execPick(w); if (exm) chips.push(`<button class="tchip" data-go="exec" data-mon="${exm.id}"><i class="ev">👔</i>임원 승진 ${M.monName(exm)}</button>`);
   const bz = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy').sort((p, q) => q.n - p.n)[0]; if (bz) chips.push(`<button class="tchip" data-go="busy" data-d="${bz.d}"><i class="bz">🌀</i>${plotShort(bz.d)} 과밀</button>`);
   if (w.boss && !w.boss.d) chips.push(`<button class="tchip" data-go="boss"><i class="ev">👑</i>필드 보스 초대</button>`);
+  if (RULES.elitePick && w.eliteReady != null && !w.elite) chips.push(`<button class="tchip" data-go="elite"><i class="ev">★</i>엘리트 지명</button>`);
   if (M.boxesOf(w).length) chips.push(`<button class="tchip" data-go="box"><i class="bx">📦</i>상자 ${M.boxesOf(w).length}</button>`);
   if (rep.recruit) chips.push(`<button class="tchip" data-go="recruit"><i class="rc">📣</i>${rep.recruit.kind === 'return' ? '복귀' : '신규'} 모객${M.recruitTickets(w) ? ' · 🎟' : ''}</button>`);
   const bal = w.monsters.find(m => m.sp === 'balrog' && !m.d); if (bal) chips.push(`<button class="tchip" data-go="world"><i class="ev">👹</i>발록 씨 배치</button>`);
   const ch = M.chapterInfo(w), c = M.approvalConds(w), j = joyText(w);
   const el = h(`<div class="report"><div class="paper rp">
     <div class="stamp" id="rstamp">출근<small>${clockText(w.t).split(' · ')[1]}</small></div>
-    <h1>매니저님 출근!</h1><div class="sub">매니저님이 퇴근한 ${dur(awayMin)} 동안, 월드는 이렇게 돌았어요</div>
+    <h1>매니저님 출근!</h1><div class="sub">${realMin > awayMin + 1 ? `매니저님이 퇴근한 ${dur(realMin)} 가운데 ${dur(awayMin)} 동안 월드가 이렇게 돌고, 그 뒤로는 쉬었어요 (최대 24시간)` : `매니저님이 퇴근한 ${dur(awayMin)} 동안, 월드는 이렇게 돌았어요`}</div>
     <div class="tiles">
       <div class="tile main"><div class="k">😊 지금 월드를 즐기는 모험가</div><div class="v"><span data-count="${rep.happy}">0</span>${sinceIn > 0 ? `<span class="dd">▲ ${sinceIn}<small>지난 출근보다</small></span>` : ''}${rep.returned ? `<span class="dd rt">🔁 ${rep.returned}<small>돌아온 손님</small></span>` : ''}</div></div>
       <div class="tile"><div class="k">✨ 그동안 레벨업</div><div class="v"><span data-count="${rep.levelups}">0</span><span class="dd gray">회</span></div></div>
@@ -607,10 +746,12 @@ A.showReport = (rep, awayMin) => {
     close();
     if (rep.cleared) { A.openClearCut(); return; }
     if (g === 'doc') A.openApproval();
-    else if (g === 'gap') A.openHire({ seg: [+(bt.dataset.a || 1), +(bt.dataset.b || 1)] });
+    else if (g === 'gap') A.fixGap([+(bt.dataset.a || 1), +(bt.dataset.b || 1)]);
     else if (g === 'ev') A.openEvolve(+(bt.dataset.mon || 0));
+    else if (g === 'exec') A.openExec(+(bt.dataset.mon || 0));
     else if (g === 'busy') A.openDungeon(bt.dataset.d!, { hl: 'seat' });
     else if (g === 'boss') A.openBoss();
+    else if (g === 'elite') A.openElite();
     else if (g === 'recruit') A.openRecruit();
     else if (g === 'box') { const b0 = M.boxesOf(A.w)[0]; if (b0) setTimeout(() => A.openBox(b0.id), 80); }
   }));
@@ -621,12 +762,14 @@ A.catchUp = minutes => {
   const w = A.w;
   const L = M.ledgerStart(w);
   const k = M.advance(w, minutes, L);
+  // 1.12.0: 하루 넘게 떠나 있었으면 오렌이 한 번 알린다 (출근하기 버튼으로 돌아와도)
+  if (minutes > M.OFFLINE_CAP) A.ui.longAway = true;
   const rep = M.ledgerReport(L, w);
   M.recordReport(w, rep); // 도감 운영 기록: 밤사이 퇴근왕 (v1.7)
   // 매니저 복귀 (v1.7): 오래 떠났다 돌아오면 모객권 — 실제 플레이어의 복귀가 월드의 복귀 손님과 만난다
   if (M.welcomeBack(w, k)) setTimeout(() => toast('📣 돌아오신 기념 모객권 +1 · 손님도 불러요'), A.demo ? 0 : 2600);
   A.world.snap = true;
-  A.showReport(rep, k);
+  A.showReport(rep, k, minutes);
   refresh();
 };
 
@@ -635,11 +778,12 @@ A.offDuty = why => {
   if (A.ui.off) return;
   // 입구가 막힌 채 퇴근하려 하면 오렌이 한 번 붙잡는다 (밤새 새 손님이 못 들어오는 걸 막는다)
   if (why === 'manual' && !A.ui.modal) {
-    const g = M.gapSegments(A.w)[0];
-    if (g && g[0] === 1 && !(A.ui as { warned?: boolean }).warned) {
+    // 1.14.0: 입구만이 아니라 끊긴 길이 있으면 붙잡는다 (퇴근 직전 진화로 끊긴 구간이 밤새 이어졌다)
+    const g = M.leaveGap(A.w);
+    if (g && !(A.ui as { warned?: boolean }).warned) {
       (A.ui as { warned?: boolean }).warned = true;
-      toast('입구가 막혀 있어요!! 밤새 새 손님이 혼자 걸어야 해요. 그래도 퇴근하려면 한 번 더 눌러요');
-      A.openHire({ seg: g });
+      toast(g[0] === 1 ? '입구가 막혀 있어요!! 밤새 새 손님이 혼자 걸어야 해요. 그래도 퇴근하려면 한 번 더 눌러요' : `${segTxt(g)} 길이 끊겨 있어요!! 밤새 손님이 혼자 걸어야 해요. 그래도 퇴근하려면 한 번 더 눌러요`);
+      A.fixGap(g);
       setTimeout(() => { (A.ui as { warned?: boolean }).warned = false; }, 8000);
       return;
     }
@@ -657,7 +801,7 @@ A.offDuty = why => {
       <div class="cancan"><div class="can big"></div></div>
       <div class="who">${img('oren', 4)}</div></div>
     <h2>매니저님 퇴근!</h2>
-    <p>${why === 'idle' ? '한동안 입력이 없어서 퇴근 처리했어요. ' : ''}월드는 서버 시간으로 계속 돌아요. 오렌이 지키고 있을게요!!</p>
+    <p>${why === 'idle' ? '한동안 입력이 없어서 퇴근 처리했어요. ' : ''}월드는 서버 시간으로 계속 돌아요(최대 24시간). 오렌이 지키고 있을게요!!</p>
     <button class="btn go big" data-in>출근하기</button>
     ${A.speed > 1 ? `<div class="dim small">테스트: 퇴근해 있는 동안 현재 배속(×${A.speed})으로 시간이 흐른 것으로 계산해요</div>` : ''}
   </div></div>`);
@@ -700,7 +844,7 @@ A.openCodex = () => {
   rows += `</div>`;
   const modal = must('#modal');
   modal.hidden = false; A.ui.modal = 'codex';
-  modal.innerHTML = `<div class="codex"><button class="x" data-close>✕</button><h2>📖 도감 <small>${M.dexCount(w)} / ${M.dexTotal()} · 높은 단계는 키워서만, 필드 보스는 토벌해서 얻어요</small></h2><div class="codexbody">${rows}</div></div>`;
+  modal.innerHTML = `<div class="codex"><button class="x" data-close>✕</button><h2>📖 도감 <small>${M.dexCount(w)} / ${M.dexTotal()} · 높은 단계는 키워서만, 필드 보스는 토벌해서 얻어요</small></h2>${(w.execs || []).length ? `<div class="execs">👔 본사 임원실 <small>월드 결재 ② ×${M.execX(w).toFixed(2)}</small> ${w.execs!.map(e => `<span title="${clockText(e.at).split(' · ')[0]} 승진">${img('m:' + SPECIES[e.sp].art[e.stage], 1)}${SPECIES[e.sp].names[e.stage]}</span>`).join('')}</div>` : ''}<div class="codexbody">${rows}</div></div>`;
   const close = () => { modal.hidden = true; modal.innerHTML = ''; A.ui.modal = null; };
   must('[data-close]', modal).onclick = close;
   modal.onclick = e => { if (e.target === modal) close(); };
