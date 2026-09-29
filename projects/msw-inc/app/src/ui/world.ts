@@ -3,7 +3,7 @@
  * 가로축 = 레벨. 던전 = 떠 있는 발판(폭 = 적정 구간 11칸). 모험가 = 자기 레벨 위치에 선 사람.
  * 발판이 없는 땅 = 빈틈. 모험가는 거기서 😐로 혼자 천천히 걷는다(v1.2).
  */
-import { A, $, $$, must, h, n, lerp, clamp, img, monArt, plotName, plotShort, lvColor, segTxt, snd, nope, toast, emit, refresh, renderDock, rectOf, toStage, markLabel, RULES, M } from './app';
+import { A, $, $$, must, h, n, lerp, clamp, img, monArt, plotName, plotShort, lvColor, segTxt, josa, snd, nope, toast, emit, refresh, renderDock, rectOf, toStage, markLabel, RULES, M } from './app';
 import { REGIONS, fieldBoss, plotInfo, type PlotId } from '../sim/content';
 import { ART } from './art';
 import { SCENERY } from './scenery';
@@ -81,12 +81,17 @@ function assignLanes(levels: Record<PlotId, number>, keep = true): { res: Record
   const ids = Object.keys(levels).sort((a, b) => levels[a] - levels[b]);
   const used: [number, number][][] = [], res: Record<PlotId, number> = {};
   const fits = (i: number, lo: number, hi: number) => !(used[i] || []).some(([a, b]) => lo < b + 0.8 && hi > a - 0.8);
+  // 1.15.0 B6: 제 층을 지킬 수 있는 발판을 먼저 앉힌다. 전에는 레벨 순으로 한 번에 앉혀, 진화 하나에 뒤 발판이 줄줄이 층을 옮겼다
+  const put = (id: PlotId, li: number) => { (used[li] = used[li] || []).push([levels[id] - 5.5, levels[id] + 5.5]); res[id] = li; };
+  const rest: PlotId[] = [];
   for (const id of ids) {
+    const li = keep ? V.lanes[id] : undefined;
+    if (li != null && fits(li, levels[id] - 5.5, levels[id] + 5.5)) put(id, li); else rest.push(id);
+  }
+  for (const id of rest) {
     const lo = levels[id] - 5.5, hi = levels[id] + 5.5;
-    let li = keep ? V.lanes[id] : undefined;
-    if (li == null || !fits(li, lo, hi)) { li = 0; while (!fits(li, lo, hi) && li < 7) li++; }
-    (used[li] = used[li] || []).push([lo, hi]);
-    res[id] = li;
+    let li = 0; while (!fits(li, lo, hi) && li < 7) li++;
+    put(id, li);
   }
   return { res, count: used.length };
 }
@@ -232,6 +237,8 @@ function layoutPlats(dt: number) {
     p.el.classList.toggle('guest', guest);
     const o = occ[id] || 0;
     const seats = M.seatsOf(w, id);
+    // 1.15.0 B1·B6: 손님이 거의 없는 던전은 흐리게 (리포트 "손님 없는 던전"과 같은 기준 M.thinNow)
+    p.el.classList.toggle('thin', o <= Math.min(4, seats / 4) && D - 5 <= end && w.t > 120);
     const sig = `${D}|${o}|${seats}|${busy[id] || 0}|${ev ? ev.kind + Math.ceil((ev.end - w.t) / 5) : ''}|${Math.round(wd / 20)}|${M.dungeonStars(d)}|${elite}|${guest}`;
     if (sig !== p.sig) {
       p.sig = sig;
@@ -392,7 +399,8 @@ function layoutWalkers(dt: number, now: number) {
       V.walkers.set(f.key, v);
     }
     v.ids = f.ids;
-    if (v.n !== f.n) { v.n = f.n; v.cnt.textContent = f.n > 1 ? '×' + f.n : ''; }
+    // 1.15.0 B6: 두 명 묶음은 표시하지 않는다 (월드 전체를 ×2가 덮었다)
+    if (v.n !== f.n) { v.n = f.n; v.cnt.textContent = f.n > 2 ? '×' + f.n : ''; v.el.title = f.n > 1 ? `모험가 ${f.n}명` : ''; }
     if (V.snap) { v.x = tg.x; v.y = tg.y; v.surf = tg.surf; v.jump = null; }
     else if (tg.surf !== v.surf && !v.jump) { v.jump = { t: 0, dur: 0.55, x0: v.x, y0: v.y }; v.surf = tg.surf; }
     let moving = false;
@@ -579,7 +587,7 @@ A.handlers.push(ev => {
       refresh();
     } else if (e.type === 'bossIn') {
       const fb = fieldBoss(e.ch);
-      if (fb && e.auto) toast(`👑 ${fb.name}를 ${plotShort(e.d)}에서 맞았어요 (자동 초대)`);
+      if (fb && e.auto) toast(`👑 ${josa(fb.name, '을', '를')} ${plotShort(e.d)}에서 맞았어요 (자동 초대)`);
       refresh();
     } else if (e.type === 'bossDown') {
       const fb = fieldBoss(e.ch), p = e.d ? V.plats[e.d] : null;
@@ -637,6 +645,19 @@ function hitTarget(sx: number, sy: number): Target | null {
   }
   return best;
 }
+/**
+ * 1.15.0 B5: 월드의 빈 땅(그 직원 레벨 자리)에 놓아도 추천 부지(초록 칸)에 들어간다.
+ * 전에는 끌기 시작해야 펼쳐지는 독의 부지 목록에만 놓을 수 있어서, 빈틈 위에 놓은 첫 끌기가 두 번 빗나갔다
+ */
+function worldGhost(m: M.Monster, sx: number, sy: number): Target | null {
+  if (m.d || sy < TOP || sy > TOP + GROUND + 30 || sx < 0 || sx > 1280) return null;
+  const L = V.from + (sx - X0) / V.k, lv = M.monLevel(m);
+  if (Math.abs(L - lv) > 6) return null;
+  const to = (A.ui.targets && A.ui.targets[0]) || M.bestPlaces(A.w, m.id)[0];
+  if (!to || M.levelsOf(A.w)[to]) return null;
+  const el = $(`#plots .plot[data-plot="${to}"]`) as HTMLElement | null;
+  return { id: to, kind: 'plot', el: el || undefined, x: sx, y: sy, w: 1, h: 1 } as Target;
+}
 function dragCard(sx: number, sy: number, html: string) {
   const box = must('#drag');
   let c = box.querySelector('.card') as HTMLElement | null;
@@ -660,7 +681,7 @@ function startDrag(d: NonNullable<typeof V.drag>) {
 const segList = (ss: M.Seg[]) => ss.map(segTxt).join(', ');
 function moveDrag(d: NonNullable<typeof V.drag>, sx: number, sy: number) {
   const w = A.w, m = w.monsters.find(x => x.id === d.id)!;
-  const t = hitTarget(sx, sy);
+  const t = hitTarget(sx, sy) || worldGhost(m, sx, sy);
   $$('.plat.hover,.plot.hover,.plat.bad,.plot.bad').forEach(e => e.classList.remove('hover', 'bad'));
   const head = `<b>${M.monName(m)}</b> Lv ${M.monLevel(m)}`;
   if (!t || t.id === m.d || (t.kind === 'tray' && !m.d)) { setPreview(null); d.target = null; dragCard(sx, sy, head + '<br><span class="dim">던전 발판이나 빈 부지에 놓아요</span>'); return; }

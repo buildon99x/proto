@@ -813,3 +813,32 @@ body.portrait #rotate{display:block}
 .codex .execs{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:0 0 10px;padding:8px 12px;border-radius:12px;background:color-mix(in srgb,var(--gold) 14%,var(--white));font:var(--fs-s) var(--body);font-weight:800}
 .codex .execs small{color:var(--ink2);font-weight:700}
 .codex .execs span{display:inline-flex;align-items:center;gap:4px}
+/* 1.15.0 B1 진화 시트 12시간 전망 */
+.fc{border-radius:10px;padding:6px 12px;font-size:var(--fs-xs);font-weight:800;line-height:1.35;background:color-mix(in srgb,var(--ink) 5%,var(--white));color:var(--ink2)}
+.fc b{font-weight:900;color:var(--ink)}
+.fc small{display:block;font-size:var(--fs-xs);font-weight:700}
+.fc.bad{background:color-mix(in srgb,var(--alert) 8%,var(--white));color:var(--alert2)}
+.fc.bad b{color:var(--alert2)}
+.fc.ok{background:color-mix(in srgb,var(--flow) 12%,var(--white));color:var(--flow2)}
+.fc.wait{opacity:.7}
+.tile .dd.down{color:var(--alert2)}
+/* 1.15.0 B6: 할 일 칩이 다섯 개를 넘어도 글자가 쪼개지지 않게 — 칩은 한 줄 그대로, 넘치면 두 줄 격자 */
+.todo .lbl,.cta,.tchip,.tile .dd small{white-space:nowrap}
+.todo .chips{display:flex;flex-wrap:wrap;gap:8px;flex:1;min-width:0}
+.todo .chips.two{display:grid;grid-template-columns:repeat(3,max-content)}
+.tchip{flex:none}
+.tile .v{flex-wrap:wrap}
+/* 1.15.0 B6: 이름표가 졸업 아치·아래층 모험가에 가리지 않게 발판을 위로. 촘촘할 때 ▲는 직원 옆으로 */
+.plat{z-index:5}
+#world.dense .evb{top:2px;left:auto;right:-24px;margin-left:0}
+.plat.thin .body{filter:saturate(.35);opacity:.72}
+.plat.thin .body .seat::after{content:' 💤'}
+/* 1.15.0 B6: 버튼이 뜨면 근속 글자는 숨긴다 (버튼이 글자를 덮었다) */
+.slot.ready .tenure .t,.slot.held .tenure .t,.slot.exok .tenure .t{visibility:hidden}
+.evbtn.ex{background:var(--gold2);box-shadow:0 3px 0 color-mix(in srgb,var(--gold2) 70%,black)}
+/* 발판을 z 5로 올린 만큼, 누르거나 끄는 것은 그 위로 */
+.mon{z-index:6}
+.gaplabel{z-index:6}
+.gapb{z-index:7}
+#world .pill.box{z-index:7}
+.fboss{z-index:6}

@@ -1329,6 +1329,63 @@ export function previewOf(w: World, after: Record<PlotId, number>): Preview {
   const rescued = w.advs.filter(a => a.st === 'search' && gainedSet.has(a.lv)).length;
   return { before, after, lost: toSegs(lost), gained: toSegs(gained), stranded, rescued, gapsAfter: gapSegments(w, after), entranceBlocked: !ca[1] };
 }
+/**
+ * 12시간 전망 (1.15.0 B1): 월드를 복제해 "이 수를 둔 월드"와 "두지 않은 월드"를 같은 step()으로 굴려 비교한다.
+ * 빈틈 미리보기(previewOf)는 레벨만 본다. 진화가 만든 붐빔·손님 없는 던전은 몇 시간 뒤에야 😊로 나타나서
+ * 사람은 "빈틈 없음"을 믿고 누르다 다음 출근에 이유 없는 하락을 봤다(play-review 10절 B1). 월드는 바꾸지 않는다.
+ */
+export interface Outlook {
+  happy: number; joy: number; busy: number;
+  /** 던전별 즐기는 손님 수 · 자리 수 (끝 시각) */
+  occ: Record<PlotId, number>; seats: Record<PlotId, number>;
+  /** 던전 앞에 줄 선 손님 수 (끝 시각) */
+  line: Record<PlotId, number>;
+}
+export const FORECAST_MIN = 720;
+export const cloneWorld = (w: World): World => JSON.parse(JSON.stringify(w)) as World;
+export function outlook(w: World, minutes = FORECAST_MIN): Outlook {
+  const x = cloneWorld(w), j0 = x.cjoy;
+  const ch0 = x.chapter;
+  for (let i = 0; i < minutes; i++) step(x, 1);
+  const occ: Record<PlotId, number> = {}, seats: Record<PlotId, number> = {};
+  for (const id in levelsOf(x)) { occ[id] = 0; seats[id] = seatsOf(x, id); }
+  let busy = 0;
+  const line: Record<PlotId, number> = {};
+  for (const a of x.advs) {
+    if (a.st === 'happy' && a.d && occ[a.d] != null) occ[a.d]++;
+    if (a.st === 'busy') { busy++; if (a.near) line[a.near] = (line[a.near] || 0) + 1; }
+  }
+  return { happy: happyCount(x), joy: x.chapter === ch0 ? x.cjoy - j0 : 0, busy, occ, seats, line };
+}
+/** 손님이 자리의 1/4도 안 되는 던전 (4명 이하) */
+export const thinDungeons = (o: Outlook) => Object.keys(o.occ).filter(id => o.occ[id] <= Math.min(4, o.seats[id] / 4));
+/** 지금 손님이 거의 없는 던전 (자리의 1/4 이하 · 4명 이하, 손님 적은 순). 리포트가 😊 하락의 이유로 말한다 (1.15.0 B1) */
+export function thinNow(w: World): { id: PlotId; occ: number; seats: number }[] {
+  const occ: Record<PlotId, number> = {};
+  for (const id in levelsOf(w)) occ[id] = 0;
+  for (const a of w.advs) if (a.st === 'happy' && a.d && occ[a.d] != null) occ[a.d]++;
+  return Object.keys(occ).map(id => ({ id, occ: occ[id], seats: seatsOf(w, id) }))
+    .filter(x => x.occ <= Math.min(4, x.seats / 4)).sort((a, b) => a.occ / a.seats - b.occ / b.seats);
+}
+export interface Forecast {
+  hold: Outlook; act: Outlook;
+  /** 수를 두면 새로 손님이 거의 없어지는 던전 · 줄이 새로 서는 던전 */
+  thin: PlotId[]; queue: PlotId[];
+  /** ② 누적 차이 (이번 장 목표 대비 비율, +면 빨라진다) */
+  joyPct: number;
+}
+export function forecast(w: World, act: (x: World) => unknown, minutes = FORECAST_MIN): Forecast {
+  const hold = outlook(w, minutes);
+  const x = cloneWorld(w);
+  act(x);
+  const a = outlook(x, minutes);
+  const holdThin = new Set(thinDungeons(hold));
+  const thin = thinDungeons(a).filter(id => !holdThin.has(id));
+  const queue = Object.keys(a.line).filter(id => a.line[id] >= 4 && a.line[id] >= (hold.line[id] || 0) + 3).sort((p, q) => a.line[q] - a.line[p]);
+  const goal = approvalConds(w).joyGoal || 0;
+  return { hold, act: a, thin, queue, joyPct: goal ? (a.joy - hold.joy) / goal : 0 };
+}
+
 export function toSegs(list: number[]): Seg[] {
   const segs: Seg[] = [];
   for (const L of list) {
