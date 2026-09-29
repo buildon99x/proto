@@ -10,6 +10,7 @@ import { EndingBanner, RevealModal } from "./ui/Overlays";
 import { Header } from "./ui/Header";
 import { OfflineSummary } from "./ui/OfflineSummary";
 import { DisplayNudge } from "./ui/DisplayNudge";
+import { AutoSoldNotice } from "./ui/AutoSoldNotice";
 import { FirstBaseChooser } from "./ui/FirstBaseChooser";
 import { ExpansionFork } from "./ui/ExpansionFork";
 import { RankTableModal } from "./ui/RankTableModal";
@@ -126,6 +127,7 @@ export default function App() {
       <RevealModal game={game} />
       <OfflineSummary game={game} onNavigate={(t) => changeTab(t)} />
       <DisplayNudge game={game} />
+      <AutoSoldNotice game={game} />
       {game.baseChooserOpen ? <FirstBaseChooser game={game} /> : null}
       {game.expansionForkOpen && !game.baseChooserOpen ? <ExpansionFork game={game} /> : null}
       {modal === "settings" ? <SettingsModal game={game} onClose={() => setModal(null)} /> : null}

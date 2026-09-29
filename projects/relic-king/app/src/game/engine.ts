@@ -34,7 +34,7 @@ import {
   TIP_UNIQUE_ANNOUNCE_WITHIN, TIP_UNRESPONDED_UNIQUE_MULT, TIP_WORLDWIDE_MIN_TIER,
   TIP_FOCUS_DIG_COST_MULT, TIP_FOCUS_DIG_HIT_CHANCE, TIP_MEAN_INTERVAL, TIP_PLAYER_HIT,
   TIP_MIN_RESPONSE_SECONDS, TIP_RETRY_INTERVAL, TIP_RIVAL_HIT, TIP_TIER_WEIGHT, TIP_RIVAL_FOCUS_MIN_TIER, TIP_RIVAL_FOCUS_HIT,
-  UNEXPLORED_BONUS_APPRAISAL_VOUCHER, WORKER_DIG,
+  START_SITE, UNEXPLORED_BONUS_APPRAISAL_VOUCHER, WORKER_DIG,
   appraiseSeconds, auctionGradeCost, auctionHouseBuildCost, conditionDecayChancePerDay, distanceKm,
   dropThreshold, gearCost, humidityLevelCost, labCost, layerCost, layerExpectedValue, marketingLevelCost,
   museumBuildCost, museumGradeCost, notionalDropThreshold, pendingCap, restorationAttemptHours, restorationLevelCost,
@@ -136,7 +136,7 @@ export function createWorld(seed = 20260917, grantTeam = true): World {
     // 첫 1분이 완전히 죽는다(스모크로 확인). 인부 한 명 값을 쥐여 주고 시작한다.
     funds: 30_000,
     sites,
-    activeSite: "korea",
+    activeSite: START_SITE,
     workers: 0,
     gear: 0,
     lab: 1,
@@ -1916,11 +1916,10 @@ function autoLiquidatePendingOverflow(w: World) {
   // demoteIfEmptied()가 codex를 "discovered_not_owned"로 되돌려 도감(엔딩 판정
   // 축, checkEnding → codexScore ≥ CODEX_GOAL_V2)이 방치 중에 감소한다.
   //
-  // **실측 주의**: 이 경로가 도감 감소를 실제로 일으킨 사례는 아직 관측되지
-  // 않았다(이 가드 추가 전후로 `sim --hours 12/24/48/96/168/336` 결과가 전부
-  // 동일했다). 관측된 감소는 전부 경매 출품 경로였고 그건 `sim/run.ts`의
-  // `listSparesAtAuction()`에서 따로 고쳤다. 이 가드는 같은 종류의 구멍을
-  // 선제적으로 막아 두는 것이다.
+  // **실측**: 이 경로가 도감 감소를 일으킨 사례가 2026-09-29 사람 한 판에서 관측됐다
+  // (notes/play-review B2). 판 시작 직후 교착 탈출은 중복분이 아직 없어서 늘 그 종의
+  // 마지막 한 점을 판다. 그 매각이 초반 자금원이라(`density` 첫 거점 해금이 1분 40초 →
+  // 14분 45초로 밀리는 것을 확인했다) 막지 않고 `w.autoSold`로 화면에 알린다.
   //
   // 그렇다고 유일 소장분을 무조건 지키면 큐가 안 빠져 G57이 고친 교착이
   // 되살아난다. 그래서 **중복분을 먼저 전부 소진하고, 그러고도 상한을 넘을
@@ -1931,7 +1930,21 @@ function autoLiquidatePendingOverflow(w: World) {
   const order = AUTO_SELL_KEEP_ONE_PER_SPECIES
     ? [...eligible.filter(heldElsewhere), ...eligible.filter((p) => !heldElsewhere(p))]
     : eligible;
-  for (const item of order.slice(0, sellCount)) blindSell(w, item.uid);
+  for (const item of order.slice(0, sellCount)) {
+    const last = !heldElsewhere(item);
+    const before = w.funds;
+    blindSell(w, item.uid);
+    // 그 종의 마지막 한 점이었으면 도감이 줄었다 — 조용히 넘기지 않는다(notes/play-review B2).
+    // 판 시작에 인부를 사서 자금이 감정비 아래로 내려가면 1분 40초에 여기로 들어와,
+    // 화면에 아무 말 없이 도감이 줄고 종합이 1위에서 7위로 떨어졌다. 매각 자체는 초반
+    // 자금원이라(G57, 봇도 자동 재투자로 같은 교착에 든다) 그대로 두고 알리기만 한다.
+    if (last) {
+      // 이름은 쓰지 않는다 — 미감정이라 플레이어는 아직 무엇인지 모른다(감정이 이름을 연다)
+      const gained = Math.round(w.funds - before);
+      w.autoSold = { estimate: item.estimate, gained, stalled: over <= 0, t: w.t };
+      log(w, "system", `${over <= 0 ? "감정비가 모자라" : "미감정 상한을 넘어"} 미감정 한 점(추정 ${usd(item.estimate)})을 팔았다(+${usd(gained)}). 도감 한 칸이 비었다.`);
+    }
+  }
 }
 
 /**
@@ -2827,16 +2840,52 @@ export function advance(
  * 이 루틴을 직접 부른다(같은 이유로 `advance()`를 거치지 않는다) — 로직은
  * 갈라지지 않지만 호출 시점은 각자의 용도에 맞게 다르다.
  */
+/** 자리를 비울 때 떠 있던 제보가 복귀 순간 어떤 상태인지 — 복귀 요약이 한 줄로 적는다 */
+export type OfflineTipNote = { artifactId: string; state: "waiting" | "won" | "lost" };
+
 export function applyOffline(
   w: World, nowMs = Date.now(), record: PersistentRecord = createPersistentRecord()
-): { seconds: number; report: StepReport } | null {
+): { seconds: number; report: StepReport; tip: OfflineTipNote | null } | null {
   const raw = (nowMs - w.lastTickAt) / 1000;
   w.lastTickAt = nowMs;
   if (raw < 60) return null;
   const seconds = Math.min(raw, OFFLINE_CAP_SECONDS);
+  const t0 = w.t;
+  // 떠날 때 결판 전이던 제보는 적분하는 동안 유예 안에 묶어 둔다(아래 settleTipAfterOffline 주석).
+  // 드랍 경로의 레이스(`rollDrop`)는 오프라인 적분에서도 돌기 때문에, 이걸 안 하면 자리를 비운
+  // 사이에 사람 없이 결판난다.
+  const open = w.tip && !w.tip.resolved ? w.tip : null;
+  const openedAt = open?.openedAt ?? 0;
+  if (open) open.openedAt = t0 + seconds + 1;
   const report = advance(w, seconds, true, 10, record);
+  if (open) open.openedAt = openedAt;
+  const tip = settleTipAfterOffline(w, w.t - t0);
   runAutoRoutine(w);
-  return { seconds, report };
+  return { seconds, report, tip };
+}
+
+/**
+ * 제보는 온라인에서만 흐른다(`advance()`의 `!offline` 분기) — 자리를 비운 동안 배너는 멈춰 있다.
+ * 그런데 반응 유예·결판 조건은 `w.t - tip.openedAt`(월드 시각 차이)로 재므로, 오프라인 적분이
+ * `w.t`만 밀면 드랍 경로의 레이스(`rollDrop`, 오프라인에서도 돈다)와 돌아온 첫 프레임의 마감 판정이
+ * 유예가 이미 다 지난 것으로 읽어 **볼 틈도 누를 틈도 없이** 결판났다(notes/play-review B3 —
+ * 코이누르가 자리를 비운 사이 "확보"). 그리고 결판난 배너는 수명
+ * (`remain`)도 온라인에서만 닳아, 접속마다 몇십 초씩만 줄며 17시간을 남았다(B4).
+ *
+ * - 결판 전 제보: `openedAt`을 비운 시간만큼 뒤로 민다. 떠날 때의 유예·남은 시간 그대로 돌아온다.
+ * - 결판난 제보: 닫는다. 결과는 복귀 요약이 한 줄로 옮긴다. 다음 제보 간격은 평균값으로 둔다 —
+ *   `advance()` 밖이라 난수를 소비하지 않는다(오프라인 적분 스텝 무관성).
+ */
+function settleTipAfterOffline(w: World, elapsed: number): OfflineTipNote | null {
+  const tip = w.tip;
+  if (!tip) return null;
+  if (tip.resolved) {
+    w.tip = null;
+    w.nextTipIn = TIP_MEAN_INTERVAL;
+    return { artifactId: tip.artifactId, state: tip.resolved.outcome };
+  }
+  tip.openedAt += elapsed;
+  return { artifactId: tip.artifactId, state: "waiting" };
 }
 
 // ── 액션 ──────────────────────────────────────────────────
