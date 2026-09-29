@@ -328,6 +328,41 @@ A.openBoss = () => {
   snd.play('ui');
 };
 
+// ── 엘리트 지명 (1.14.0): 준비된 엘리트를 어느 던전에서 맞을까 ────────────────
+A.openElite = () => {
+  const w = A.w, el = RULES.elite, ep = RULES.elitePick;
+  if (!el || !ep || w.eliteReady == null || w.elite) return;
+  if (A.ui.mode === 'dungeon') A.closeDungeon();
+  const lv = M.levelsOf(w), hosts = M.eliteHosts(w).slice(0, 4);
+  let cards = '';
+  hosts.forEach((hh, i) => {
+    cards += `<div class="hcard bosshost ${i === 0 ? 'rec' : ''}" data-host="${hh.id}">${i === 0 ? '<span class="rib">손님이 가장 많아요</span>' : ''}
+      <b>${plotName(hh.id)}</b><span class="lvl">Lv ${lv[hh.id]} · ${M.monName(hh.mon)}</span>
+      <span class="trait">😊 ${hh.happy}명 · ② ×${el.joyX} · 레벨업 ×${el.lvX}</span>
+      <button class="go" data-pick="${hh.id}">여기서 맞기</button></div>`;
+  });
+  const left = Math.max(0, w.eliteReady + ep.wait - w.t);
+  const sh = openSheet('boss', 'var(--gold)', `<div class="sh-title">★ 엘리트 준비 완료 <small>고른 던전에서 근속이 가장 많은 직원이 ${Math.round(el.min / 60)}시간 동안 엘리트가 돼요 · 그 던전 손님이 많을수록 커요 · ${dur(left)} 뒤엔 저절로 뽑혀요 · 놓쳐도 잃는 것은 없어요</small></div>
+    <div class="cards">${cards}</div>`);
+  const clearHl = () => $$('.plat.target').forEach(e => e.classList.remove('target'));
+  $$<HTMLElement>('[data-host]', sh).forEach(c => {
+    c.onpointerenter = () => { clearHl(); const p = A.world.plats[c.dataset.host!]; if (p) p.el.classList.add('target'); };
+    c.onpointerleave = clearHl;
+  });
+  $$<HTMLElement>('[data-pick]', sh).forEach(bt => (bt.onclick = () => {
+    const id = bt.dataset.pick!;
+    const r = M.pickElite(w, id);
+    if (!r.ok) return nope(r.msg);
+    clearHl();
+    A.closeSheet();
+    toast(`★ ${plotShort(id)}에서 엘리트를 맞아요`, { undo: () => M.unpickElite(w, r.snap) });
+    emit([{ type: 'elite', d: id, mon: r.mon }]);
+    refresh();
+  }));
+  if (hosts[0] && A.world.plats[hosts[0].id]) A.world.plats[hosts[0].id].el.classList.add('target');
+  snd.play('ui');
+};
+
 // ── S9 모객 (v1.7): 신규냐 복귀냐 ──────────────────────────
 /**
  * 신규(입구 도착 ×2)와 복귀(떠난 손님이 자기 레벨로 돌아옴)는 다른 결정이다. 입구가 비었으면 신규, 중간 자리가 비었고 풀에 그 레벨 손님이 있으면 복귀.
@@ -667,6 +702,7 @@ A.showReport = (rep, awayMin, realMin = awayMin) => {
   const exm = M.execPick(w); if (exm) chips.push(`<button class="tchip" data-go="exec" data-mon="${exm.id}"><i class="ev">👔</i>임원 승진 ${M.monName(exm)}</button>`);
   const bz = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy').sort((p, q) => q.n - p.n)[0]; if (bz) chips.push(`<button class="tchip" data-go="busy" data-d="${bz.d}"><i class="bz">🌀</i>${plotShort(bz.d)} 과밀</button>`);
   if (w.boss && !w.boss.d) chips.push(`<button class="tchip" data-go="boss"><i class="ev">👑</i>필드 보스 초대</button>`);
+  if (RULES.elitePick && w.eliteReady != null && !w.elite) chips.push(`<button class="tchip" data-go="elite"><i class="ev">★</i>엘리트 지명</button>`);
   if (M.boxesOf(w).length) chips.push(`<button class="tchip" data-go="box"><i class="bx">📦</i>상자 ${M.boxesOf(w).length}</button>`);
   if (rep.recruit) chips.push(`<button class="tchip" data-go="recruit"><i class="rc">📣</i>${rep.recruit.kind === 'return' ? '복귀' : '신규'} 모객${M.recruitTickets(w) ? ' · 🎟' : ''}</button>`);
   const bal = w.monsters.find(m => m.sp === 'balrog' && !m.d); if (bal) chips.push(`<button class="tchip" data-go="world"><i class="ev">👹</i>발록 씨 배치</button>`);
@@ -715,6 +751,7 @@ A.showReport = (rep, awayMin, realMin = awayMin) => {
     else if (g === 'exec') A.openExec(+(bt.dataset.mon || 0));
     else if (g === 'busy') A.openDungeon(bt.dataset.d!, { hl: 'seat' });
     else if (g === 'boss') A.openBoss();
+    else if (g === 'elite') A.openElite();
     else if (g === 'recruit') A.openRecruit();
     else if (g === 'box') { const b0 = M.boxesOf(A.w)[0]; if (b0) setTimeout(() => A.openBox(b0.id), 80); }
   }));
@@ -741,10 +778,11 @@ A.offDuty = why => {
   if (A.ui.off) return;
   // 입구가 막힌 채 퇴근하려 하면 오렌이 한 번 붙잡는다 (밤새 새 손님이 못 들어오는 걸 막는다)
   if (why === 'manual' && !A.ui.modal) {
-    const g = M.gapSegments(A.w)[0];
-    if (g && g[0] === 1 && !(A.ui as { warned?: boolean }).warned) {
+    // 1.14.0: 입구만이 아니라 끊긴 길이 있으면 붙잡는다 (퇴근 직전 진화로 끊긴 구간이 밤새 이어졌다)
+    const g = M.leaveGap(A.w);
+    if (g && !(A.ui as { warned?: boolean }).warned) {
       (A.ui as { warned?: boolean }).warned = true;
-      toast('입구가 막혀 있어요!! 밤새 새 손님이 혼자 걸어야 해요. 그래도 퇴근하려면 한 번 더 눌러요');
+      toast(g[0] === 1 ? '입구가 막혀 있어요!! 밤새 새 손님이 혼자 걸어야 해요. 그래도 퇴근하려면 한 번 더 눌러요' : `${segTxt(g)} 길이 끊겨 있어요!! 밤새 손님이 혼자 걸어야 해요. 그래도 퇴근하려면 한 번 더 눌러요`);
       A.fixGap(g);
       setTimeout(() => { (A.ui as { warned?: boolean }).warned = false; }, 8000);
       return;

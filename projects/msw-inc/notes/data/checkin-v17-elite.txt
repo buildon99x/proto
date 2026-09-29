@@ -1,0 +1,8 @@
+std        429      4    6    6    4  |   4          98% | 90%              1%        25초 · 50초      0.2     D30.4
+         같은 수 반복 최장(장별): 2장 1 · 3장 2 · 4장 3 · 5장 2  | 장마다 새 결정 종류: 2장 elite/hire/split/move/promote/seat/evolve · 3장 approve/recruit/event-free/slot · 4장 grow/crowd/exec/rebuild/release/slot/seat+/recruit · 5장 balrog/native/seat+/event/rebuild/release/event-free
+light      278      4    3    3    4  |   3         100% | 75%              0%        20초 · 50초      0.1     D29.4
+         같은 수 반복 최장(장별): 2장 1 · 3장 3 · 4장 1 · 5장 2  | 장마다 새 결정 종류: 2장 elite/hire/split/move/promote/evolve/seat/expand · 3장 approve/crowd · 4장 exec/crowd/grow · 5장 balrog/native/seat+
+heavy      750      8    8    5    3  |   5          99% | 92%             13%        25초 · 50초      0.7     D99
+         같은 수 반복 최장(장별): 2장 1 · 3장 2 · 4장 2 · 5장 2  | 장마다 새 결정 종류: 2장 elite/hire/split/move/promote/seat/evolve/recruit/event-free · 3장 approve/seat+/recruit/crowd/event-free/slot/rebuild/release/grow/event/expand · 4장 exec/event · 5장 balrog/native/seat+/event
+night      448      6    6    6    6  |   6          97% | 88%              0%        20초 · 50초      0.1     D99
+         같은 수 반복 최장(장별): 2장 0 · 3장 2 · 4장 1 · 5장 2  | 장마다 새 결정 종류: 2장 elite/hire/split/move/promote/seat/evolve/catch/recruit/event-free/slot · 3장 approve/expand/rebuild/release/slot/recruit/event-free/crowd/catch/grow · 4장 exec/crowd/grow/seat+/event-free · 5장 balrog/native/crowd/seat+/event/event-free

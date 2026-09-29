@@ -4,7 +4,7 @@
  * 오렌이 한 줄로 말하고, 노란 테두리가 누를 곳을 가리킨다.
  * 단계 완료는 순서가 아니라 월드 상태로 판정한다. 플레이어가 먼저 해 버려도 막히지 않는다.
  */
-import { A, $, must, rectOf, snd, refresh, emit, plotShort, plotName, josa, M, type OrenLine } from './app';
+import { A, $, must, rectOf, snd, refresh, emit, plotShort, plotName, josa, RULES, M, type OrenLine } from './app';
 
 /** rev: 단계 순서 판. 2 = v1.3.1 (고참 승진 발령). 없으면 옛 순서라 MOVED로 옮긴다 */
 interface St { step: number; done: boolean; age: number; flags: Record<string, boolean>; id?: string; rev?: number }
@@ -90,7 +90,7 @@ const STEPS: Step[] = [
   { id: 'doc', line: '1장 결재 서류를 눌러 조건을 봐요!!', spot: () => (A.ui.modal ? null : '#docw'), done: s => !!s.flags.docSeen },
   // ── v1.3 첫 10분 한 바퀴 ─────────────────────────────────
   {
-    id: 'elite', line: () => { const el = w().elite, m = el && w().monsters.find(x => x.id === el.mon); return m && el ? `${plotShort(el.d)}에 엘리트 ${M.monName(m)}!! 한 시간 동안 결재 막대가 두 배로 차요!!` : '사냥이 쌓이면 가끔 엘리트가 나와요!!'; },
+    id: 'elite', line: () => { const el = w().elite, m = el && w().monsters.find(x => x.id === el.mon); return m && el ? `${plotShort(el.d)}에 엘리트 ${M.monName(m)}!! ${Math.round((RULES.elite?.min ?? 60) / 60)}시간 동안 결재 막대가 두 배로 차요!!` : '사냥이 쌓이면 가끔 엘리트가 나와요!!'; },
     spot: () => (A.ui.mode === 'world' && w().elite ? plat(w().elite!.d) : null),
     // 대본 보장: 첫 엘리트는 이 단계에서 부른다
     done: s => { if (!s.flags.eliteCalled) { s.flags.eliteCalled = true; const ev: M.SimEvent[] = []; M.forceElite(w(), undefined, ev); if (ev.length) emit(ev); } return s.age > 8; },

@@ -55,6 +55,8 @@ export interface World {
   execs?: { sp: SpeciesId; stage: number; at: number }[];
   /** 엘리트 (v1.3): 지금 들뜬 던전 하나. eliteAcc = 지난 엘리트 뒤 월드 퇴근, eliteBy = 던전별 */
   elite: Elite | null; eliteAcc: number; eliteBy: Record<PlotId, number>;
+  /** 엘리트 지명 (1.14.0): 준비된 시각. 매니저가 고르거나 wait분이 지나면 풀린다. 옛 세이브에는 없다 */
+  eliteReady?: number | null;
   /** 필드 보스 (v1.3): 찾아온 손님 하나 (d가 null이면 초대 기다림). bossDone = 토벌한 장 */
   boss: Boss | null; bossDone: number[];
   stats: { arrivals: number; levelups: number; grads: number; left: { entrance: number; search: number; busy: number }; evolves: number; elites: number; bosses: number; /** 돌아온 손님 (v1.7) */ returned?: number };
@@ -92,6 +94,7 @@ export type SimEvent =
   | { type: 'dexMile'; pct: number; reward: MarkReward }
   | { type: 'elite'; d: PlotId; mon: number }
   | { type: 'eliteEnd'; d: PlotId }
+  | { type: 'eliteReady' }
   | { type: 'bossCall'; ch: number }
   | { type: 'bossIn'; ch: number; d: PlotId; auto: boolean }
   | { type: 'bossDown'; ch: number; d: PlotId | null; bonus: number }
@@ -625,6 +628,12 @@ function tickElite(w: World, emit: (e: SimEvent) => void) {
     return;
   }
   if (w.eliteAcc < el.every[w.chapter - 1]) return;
+  // 1.14.0 엘리트 지명: 먼저 준비만 알리고 매니저를 기다린다. wait분이 지나면 아래 추첨으로
+  const ep = RULES.elitePick;
+  if (ep) {
+    if (w.eliteReady == null) { w.eliteReady = w.t; emit({ type: 'eliteReady' }); return; }
+    if (w.t - w.eliteReady < ep.wait) return;
+  }
   const lv = levelsOf(w);
   const ids = Object.keys(w.eliteBy).filter(id => lv[id] && monsIn(w, id).length);
   const total = ids.reduce((s, id) => s + w.eliteBy[id], 0);
@@ -637,8 +646,36 @@ function startElite(w: World, did: PlotId, emit: (e: SimEvent) => void) {
   const m = monsIn(w, did).sort((a, b) => b.tenure - a.tenure)[0];
   if (!m || !RULES.elite) return;
   w.elite = { d: did, mon: m.id, until: w.t + RULES.elite.min };
-  w.eliteAcc = 0; w.eliteBy = {}; w.stats.elites++;
+  // 1.14.0: 지명을 기다린 동안 쌓인 퇴근은 다음 엘리트로 넘긴다 (떠나 있어도 엘리트 수가 줄지 않게)
+  if (RULES.elitePick) { w.eliteAcc = Math.max(0, w.eliteAcc - RULES.elite.every[w.chapter - 1]); w.eliteReady = null; } else w.eliteAcc = 0;
+  w.eliteBy = {}; w.stats.elites++;
   emit({ type: 'elite', d: did, mon: m.id });
+}
+/**
+ * 엘리트를 맞을 던전 후보 (1.14.0): 즐기는 모험가가 많은 순 (엘리트는 그 던전 ② ×2, 레벨업 ×1.5 — 사람이 많을수록 크다). 오렌은 첫째를 권한다
+ */
+export function eliteHosts(w: World): { id: PlotId; happy: number; mon: Monster }[] {
+  const lv = levelsOf(w), out: { id: PlotId; happy: number; mon: Monster }[] = [];
+  for (const id in lv) {
+    const m = monsIn(w, id).sort((a, b) => b.tenure - a.tenure)[0];
+    if (!m) continue;
+    out.push({ id, happy: w.advs.filter(a => a.st === 'happy' && a.d === id).length, mon: m });
+  }
+  return out.sort((a, b) => b.happy - a.happy);
+}
+export interface EliteSnap { acc: number; by: Record<PlotId, number>; ready: number | null }
+/** 엘리트 지명: 고른 던전에서 근속이 가장 많은 직원이 한 시간 엘리트가 된다 */
+export function pickElite(w: World, did: PlotId): Result<{ snap: EliteSnap; mon: number }> {
+  if (!RULES.elitePick || w.eliteReady == null || w.elite) return no('지금은 엘리트가 준비되지 않았어요');
+  if (!levelsOf(w)[did] || !monsIn(w, did).length) return no('직원이 있는 던전을 골라요');
+  const snap: EliteSnap = { acc: w.eliteAcc, by: { ...w.eliteBy }, ready: w.eliteReady };
+  startElite(w, did, () => {});
+  const el = w.elite as Elite | null;
+  return el ? ok({ snap, mon: el.mon }) : no('엘리트가 될 직원이 없어요');
+}
+/** 5초 되돌리기: 준비 상태로 돌아간다 */
+export function unpickElite(w: World, snap: EliteSnap): void {
+  w.elite = null; w.eliteAcc = snap.acc; w.eliteBy = snap.by; w.eliteReady = snap.ready; w.stats.elites--;
 }
 /** 대본용: 지금 엘리트를 부른다 (튜토리얼 첫 출현 보장). 던전을 안 주면 즐거운 모험가가 가장 많은 곳 */
 export function forceElite(w: World, did?: PlotId, out?: SimEvent[]): boolean {
@@ -1479,6 +1516,14 @@ export function execValue(w: World, monId: number): { gain: number; loss: number
     }
   }
   return { gain, loss, net: gain - loss, x0, x1 };
+}
+/**
+ * 퇴근 붙잡기 빈틈 (1.14.0): 입구 먼저, 그다음 가장 넓은 빈틈. 걷는 사람이 아직 없어도 잡는다 — 퇴근 직전에 막 끊긴 길에는 밤새 사람이 걷게 된다
+ */
+export function leaveGap(w: World): Seg | null {
+  const segs = gapSegments(w);
+  if (!segs.length) return null;
+  return segs.find(g => g[0] === 1) || [...segs].sort((a, b) => (b[1] - b[0]) - (a[1] - a[0]))[0];
 }
 /** 오렌·봇이 권하는 임원 후보 (1.13.0): 빠져도 새 빈틈이 생기지 않고, 월드가 얻는 몫이 그 던전이 잃는 몫보다 월드 ②의 0.5% 넘게 큰 직원 가운데 가장 이득인 사람 */
 export function execPick(w: World): Monster | null {

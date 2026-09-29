@@ -119,6 +119,11 @@ export interface Rules {
    * 월드 전체의 ② 누적이 ×(1 + max × (1 − r^임원 수)) — 첫 임원 +2.5%, 열 명이면 약 +16%, 끝없이 늘지 않는다.
    * 4~5장에 진화를 끝낸 직원이 하루 1~2명씩 쌓여 둘 곳 없는 근속만 늘었다. 그 직원으로 두는 결정을 만든다(choice-audit §16)
    */
+  /**
+   * 엘리트 지명 (1.14.0, 기본 null = 저절로 추첨): 엘리트 준비가 되면 매니저가 어느 던전에서 맞을지 고른다. wait분 안에 고르지 않으면 지금처럼 저절로 뽑힌다.
+   * 기다린 동안 쌓인 퇴근은 다음 엘리트로 넘어가 떠나 있어도 엘리트 수가 줄지 않는다. 접속이 잦은 사람의 5장 후반에 둘 것이 이벤트뿐이었다(choice-audit §17)
+   */
+  elitePick: { wait: number } | null;
   exec: { from: number; max: number; r: number; /** 최종 단계에 오른 뒤 다시 채워야 하는 근속. 모두 보내면 길 끝을 맡을 직원이 사라져 엔딩을 못 봤다 */ tenure: number } | null;
 }
 
@@ -157,6 +162,7 @@ export const V11: Rules = {
   dexMile: null,
   stageJoy: null,
   earlySeat: null,
+  elitePick: null,
   exec: null,
 };
 
@@ -265,6 +271,10 @@ export const V17: Rules = {
   earlySeat: { regions: [1, 2], costs: [2000] },
   // 임원 승진 (1.13.0): 4장부터 최종 단계에 근속 20,000을 다시 채운 직원을 올려 보내면 월드 ② ×(1 + 0.25 × (1 − 0.9^n)). 길 끝을 맡는 직원은 남는다. 오렌·봇은 월드 ②를 0.5% 넘게 올릴 때만 권한다(choice-audit §16)
   exec: { from: 4, max: 0.25, r: 0.9, tenure: 20000 },
+  // 엘리트 지명 (1.14.0): 준비된 엘리트는 3시간 동안 지명을 기다린다. 엘리트는 드물게·크게(간격 ×2, 두 시간): 켜져 있는 총 시간은 같고,
+  // 지명이 체크인마다 끼어 판에 박힌 탭이 되지 않게 한다(간격 그대로면 표준 4장 같은 수 반복 7, choice-audit §17)
+  elitePick: { wait: 180 },
+  elite: { every: [6000, 24000, 40000, 50000, 60000], min: 120, lvX: 1.5, joyX: 2 },
 };
 /** G2 모객 값: 복귀는 4시간 동안 시간당 6명(빈자리가 있을 때만), 신규는 거는 순간 3명 + 4시간 동안 기본 도착 ×2. 비용은 장마다 오른다(복귀 200 · 신규 150 × 장). 모객권은 1장 결재 선물 1장, 6시간 넘게 떠났다 오면 1장(2장까지) */
 export const GUESTS_V17: NonNullable<Rules['guests']> = { pool: 300, return: { min: 240, rate: 6, cost: 200 }, fresh: { min: 240, x: 2, burst: 3, cost: 150, pauseAt: 0 }, ticket: { gift: 1, awayMin: 360, hold: 2 }, evolveBurst: 8, order: 'after' };

@@ -51,6 +51,8 @@ export interface App {
   closeDungeon: () => void;
   openHire: (opt?: { into?: PlotId | null; seg?: M.Seg; crowd?: M.CrowdFix }) => void;
   openEvolve: (monId: number) => void;
+  /** 엘리트 지명 (1.14.0) */
+  openElite: () => void;
   /** 임원 승진 (1.13.0) */
   openExec: (monId: number) => void;
   /** 던전 다시 열기 (1.12.0) */
@@ -383,6 +385,8 @@ export function orenPick(): OrenLine {
   if (A.T && A.T.active()) return A.T.line();
   if (w.approvalReady) return { t: w.chapter >= 5 ? '매니저님!! 마지막 결재 서류예요!! 도장 받으러 가요!!' : '매니저님!! 결재 서류에 도장 받을 수 있어요!!', go: () => A.openApproval() };
   if (w.boss && !w.boss.d) { const fb = fieldBoss(w.boss.ch); if (fb) return { t: `필드 보스 ${fb.name}가 찾아왔어요!! 어느 던전에서 맞을지 골라요!!`, go: () => A.openBoss() }; }
+  // 1.14.0 엘리트 지명: 필드 보스 초대 다음 (둘 다 저절로 오는 손님을 어디서 맞을지 고르는 탭)
+  if (RULES.elitePick && w.eliteReady != null && !w.elite && !(A.T && A.T.active())) { const hh = M.eliteHosts(w)[0]; if (hh) return { t: `★ 엘리트가 나올 준비가 됐어요!! 손님이 가장 많은 “${plotName(hh.id)}”에서 맞으면 ② ×${RULES.elite!.joyX}예요!!`, go: () => A.openElite() }; }
   const bal = w.monsters.find(m => m.sp === 'balrog' && !m.d);
   if (bal) return { t: '주니어 발록 씨가 입사했어요!! 대기실에서 끌어서 빈 부지에 놓아 주세요!!', go: () => A.highlightBest(bal.id) };
   const trNew = A.ui.newTok != null ? M.tray(w).find(m => m.id === A.ui.newTok) : null;

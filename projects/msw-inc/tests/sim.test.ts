@@ -668,7 +668,7 @@ t('봇은 상자를 열어도 수 제한에 세지 않고, 모든 성향에서 �
 
 // ── 7. v1.7 사냥터·모객 ──────────────────────────────────────
 /** v1.7의 새 필드를 모두 끈 규칙. 필드를 더할 때마다 여기에 기본값(null·false)을 적는다 */
-const V17_OFF = { ...V17, grounds: null, guests: null, dexMile: null, stageJoy: null, earlySeat: null, exec: null, joyGoal: V16.joyGoal };
+const V17_OFF = { ...V17, grounds: null, guests: null, dexMile: null, stageJoy: null, earlySeat: null, exec: null, elitePick: null, elite: V16.elite, joyGoal: V16.joyGoal };
 t('규칙 v1.7은 새 필드를 끄면 v1.6과 똑같이 흐른다 (봇 한 달, 난수 흐름까지)', () => {
   const run = (r: typeof V16) => {
     useRules(r);
@@ -963,6 +963,36 @@ t('1.13.0 임원 승진: 4장부터 최종 단계에 근속을 다시 채운 직
   assert.ok(S.execBlock(w, vet), '고참은 안 된다');
   useRules(V16);
   assert.equal(S.execX({ ...w, execs: [{ sp: 'snail', stage: 2, at: 0 }] }), 1, 'v1.6은 배율이 없다');
+  useRules(V17);
+});
+
+t('1.14.0 엘리트 지명: 준비되면 기다리고, 고르면 그 던전에서, wait분이 지나면 저절로, 되돌리면 준비 상태로, 기다린 퇴근은 넘어간다', () => {
+  useRules(V17);
+  const el = RULES.elite!, ep = RULES.elitePick!;
+  const w = S.createWorld(91); firstSession(w);
+  w.elite = null; w.eliteReady = null;
+  const need = el.every[w.chapter - 1];
+  w.eliteAcc = need; w.eliteBy = {};
+  const ev: S.SimEvent[] = [];
+  S.step(w, 1, ev);
+  assert.ok(w.eliteReady != null && !w.elite, '준비만 알린다');
+  assert.ok(ev.some(e => e.type === 'eliteReady'));
+  const host = S.eliteHosts(w)[0];
+  const acc = w.eliteAcc;
+  const r = S.pickElite(w, host.id);
+  assert.ok(r.ok);
+  assert.equal(w.elite!.d, host.id);
+  assert.equal(w.eliteReady, null);
+  assert.ok(Math.abs(w.eliteAcc - Math.max(0, acc - need)) < 1e-9, '기다린 동안 쌓인 퇴근은 넘어간다');
+  S.unpickElite(w, r.ok ? r.snap : (null as never));
+  assert.ok(!w.elite && w.eliteReady != null, '되돌리면 준비 상태');
+  // 고르지 않으면 wait분 뒤 저절로
+  for (let i = 0; i < ep.wait + 2 && !w.elite; i++) S.step(w, 1, []);
+  assert.ok(w.elite, '저절로 뽑힌다');
+  useRules(V16);
+  const v = S.createWorld(91); firstSession(v); v.elite = null; v.eliteAcc = el.every[v.chapter - 1]; v.eliteBy = { [Object.keys(S.levelsOf(v))[0]]: 1 };
+  S.step(v, 1, []);
+  assert.ok(v.elite && v.eliteReady == null, 'v1.6은 바로 추첨');
   useRules(V17);
 });
 

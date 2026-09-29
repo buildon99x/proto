@@ -3,7 +3,7 @@
  * 가로축 = 레벨. 던전 = 떠 있는 발판(폭 = 적정 구간 11칸). 모험가 = 자기 레벨 위치에 선 사람.
  * 발판이 없는 땅 = 빈틈. 모험가는 거기서 😐로 혼자 천천히 걷는다(v1.2).
  */
-import { A, $, $$, must, h, n, lerp, clamp, img, monArt, plotName, plotShort, lvColor, segTxt, snd, nope, toast, emit, refresh, renderDock, rectOf, toStage, markLabel, M } from './app';
+import { A, $, $$, must, h, n, lerp, clamp, img, monArt, plotName, plotShort, lvColor, segTxt, snd, nope, toast, emit, refresh, renderDock, rectOf, toStage, markLabel, RULES, M } from './app';
 import { REGIONS, fieldBoss, plotInfo, type PlotId } from '../sim/content';
 import { ART } from './art';
 import { SCENERY } from './scenery';
@@ -546,6 +546,7 @@ A.handlers.push(ev => {
     else if (e.type === 'approval') { snd.play('event'); if (!(A.T && A.T.active())) toast('📋 결재 서류가 올라왔어요!! 도장 받으러 가요'); refresh(); }
     // 1.12.0: 끝나는 것도 조용히 사라지지 않게 (모객 끝과 같은 모양, 소리 없음)
     else if (e.type === 'eventEnd') { toast(`${plotShort(e.d)} ${e.kind === 'exp' ? '경험치' : '드랍'} 2배가 끝났어요`); refresh(); }
+    else if (e.type === 'eliteReady') { if (!(A.T && A.T.active())) toast('★ 엘리트가 나올 준비가 됐어요!! 어느 던전에서 맞을지 골라요'); refresh(); }
     else if (e.type === 'eliteEnd') { toast(`★ ${plotShort(e.d)} 엘리트 방문이 끝났어요`); refresh(); }
     // 1.12.0: 새 빈틈이 생긴 순간 (그 빈틈에서 처음 한 명이 걷기 시작할 때 한 번). 줌으로 다른 지역을 보고 있어도 안다
     else if (e.type === 'stuck') gapToast();
@@ -569,7 +570,7 @@ A.handlers.push(ev => {
       const m = A.w.monsters.find(x => x.id === e.mon), p = V.plats[e.d];
       if (p && A.ui.mode === 'world') { fxText('★ 엘리트!', p.left + p.w / 2, p.top - 70, 'pop y'); confetti(p.left + p.w / 2, p.top - 40); }
       snd.play('event');
-      if (m) toast(`${plotShort(e.d)}에 엘리트 ${M.monName(m)}!! 한 시간 동안 레벨업 ×1.5 · 결재 ② ×2`);
+      if (m) toast(`${plotShort(e.d)}에 엘리트 ${M.monName(m)}!! ${Math.round((RULES.elite?.min ?? 60) / 60)}시간 동안 레벨업 ×${RULES.elite?.lvX} · 결재 ② ×${RULES.elite?.joyX}`);
       refresh();
     } else if (e.type === 'bossCall') {
       const fb = fieldBoss(e.ch);

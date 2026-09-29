@@ -23,12 +23,14 @@ const START = 21 * 60;
  *   sloppy: 진화는 뜨면 바로(결과를 안 본다), 이벤트를 안 건다, 하루 두 번
  *   away: 하루 한 번 저녁에만 (가장 긴 부재)
  *   stamp: 결재 도장을 다음 날 아침에야 누른다
+ *   nighttab: 퇴근 직전 진화인데 퇴근 버튼 없이 탭을 닫는다 (1.14.0 — 화면의 퇴근 붙잡기를 겪지 않는 하한선)
  *   screen: 표준이지만 던전을 비우고 다시 여는 수를 모른다 (1.11.0까지 화면이 권하지 않았다)
  */
 export const CLUMSY: Persona[] = [
   { id: 'sloppy', label: '서툰 (진화 즉시 · 이벤트 없음 · 하루 2회)', times: [9 * 60, 21 * 60], acts: 2, evolve: 'hasty', place: 'best', events: false },
   { id: 'away', label: '하루 한 번 (저녁 9시, 3수)', times: [21 * 60], acts: 3, evolve: 'planner', place: 'best', events: true },
   { id: 'stamp', label: '도장을 늦게 (다음 날 아침)', times: [9 * 60, 13 * 60, 21 * 60], acts: 3, evolve: 'planner', place: 'best', events: true, lateStamp: true },
+  { id: 'nighttab', label: '퇴근 직전 진화 · 탭을 닫고 떠난다 (퇴근 붙잡기 없음)', times: [9 * 60, 13 * 60, 21 * 60], acts: 3, evolve: 'planner', place: 'best', events: true, nightEvolve: true },
   { id: 'screen', label: '화면이 권하는 수만 (던전 비우고 다시 열기를 모른다)', times: [9 * 60, 13 * 60, 21 * 60], acts: 3, evolve: 'planner', place: 'best', events: true, noRebuild: true },
 ];
 

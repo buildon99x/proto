@@ -30,6 +30,8 @@ export interface Persona {
   undo?: boolean;
   /** 던전을 비우고 다시 여는 수를 모른다 (1.12.0 기다림 점검): 화면이 권하지 않던 수. 빈 부지가 없으면 빈틈을 못 메운다 */
   noRebuild?: boolean;
+  /** 퇴근 버튼으로 떠난다 (1.14.0): 입구가 막힌 채 누르면 화면이 한 번 붙잡고 고칠 곳을 연다(sheets.ts offDuty → A.fixGap). 탭을 닫고 떠나는 사람은 이 붙잡기를 겪지 않는다 */
+  offDutyButton?: boolean;
   /** 본사 임원 발령을 쓰지 않는다 (1.13.0 비교용) */
   noExec?: boolean;
 }
@@ -44,7 +46,7 @@ export const PERSONAS: Persona[] = [
   { id: 'hoarder', label: '진화 보류 (길을 잇는 데 필요할 때만)', times: [9 * 60, 13 * 60, 21 * 60], acts: 3, evolve: 'hoarder', place: 'best', events: true },
   { id: 'stack', label: '한 던전에 몰기 (빈 슬롯부터 채운다)', times: [9 * 60, 13 * 60, 21 * 60], acts: 3, evolve: 'planner', place: 'stack', events: true },
   { id: 'spread', label: '한 던전에 한 마리 (부지부터 연다)', times: [9 * 60, 13 * 60, 21 * 60], acts: 3, evolve: 'planner', place: 'spread', events: true },
-  { id: 'night', label: '퇴근 직전 진화 (밤에 입구를 비운다)', times: [9 * 60, 13 * 60, 21 * 60], acts: 3, evolve: 'planner', place: 'best', events: true, nightEvolve: true },
+  { id: 'night', label: '퇴근 직전 진화 (밤에 입구를 비운다)', times: [9 * 60, 13 * 60, 21 * 60], acts: 3, evolve: 'planner', place: 'best', events: true, nightEvolve: true, offDutyButton: true },
 ];
 
 /** 지켜보는 플레이어 (v1.4 첫 40분): 화면을 보고 있다가 오렌이 권하는 수를 30초마다 최대 2수. cadence·시연 장면에 쓴다 */
@@ -243,6 +245,11 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
     const host = S.bossHosts(w)[0];
     if (host && S.inviteBoss(w, host).ok) log.push('boss');
   }
+  // 엘리트 지명 (1.14.0): 오렌이 권하는 곳(즐기는 손님이 가장 많은 던전). 필드 보스 초대처럼 수 제한에 세지 않는 탭
+  if (RULES.elitePick && w.eliteReady != null && !w.elite) {
+    const h = S.eliteHosts(w)[0];
+    if (h && S.pickElite(w, h.id).ok) log.push('elite');
+  }
   // 5장 결재 ③: 슬리피우드 식구를 뽑아 빈 부지에 혼자 둔다
   if (S.needsNative(w) && !S.hasNativeDungeon(w) && can()) {
     const nat = S.tray(w).find(m => S.isNative(m.sp));
@@ -357,6 +364,24 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
       const plan = cand && (pv.lost.length || cand.gapAfter < S.gapSize(pv.gapsAfter)) ? cand : null;
       if (plan && S.promote(w, plan).ok) log.push('night-evolve');
       else { S.evolve(w, m.id); log.push('night-evolve'); }
+    }
+  }
+  // 퇴근 붙잡기 (1.14.0): 마지막 체크인에 퇴근 버튼으로 떠나는데 빈틈이 있으면, 화면이 붙잡고 A.fixGap과 같은 순서로 고칠 곳을 연다. 연 것을 한 번 누른다
+  if (opts.last && p.offDutyButton) {
+    // 화면과 같은 빈틈: 입구 먼저, 그다음 가장 넓은 빈틈 (S.leaveGap)
+    const seg = S.leaveGap(w);
+    if (seg) {
+      const mv = S.moveFix(w, seg), rb = mv || S.hireFixable(w, seg) ? null : S.rebuildPlan(w, seg);
+      if (mv && S.place(w, mv.mon.id, mv.to).ok) log.push('catch:move');
+      else if (rb && S.rebuild(w, rb).ok) log.push('catch:rebuild');
+      else {
+        const fix = planHireFix(w, p.place);
+        if (fix) {
+          if (S.monsIn(w, fix.to).length >= w.dungeons[fix.to].slots) S.slotUp(w, fix.to);
+          const h = S.hire(w, fix.sp, fix.to);
+          if (h.ok && S.place(w, h.mon.id, fix.to).ok) log.push('catch:hire');
+        }
+      }
     }
   }
   return { acts: log };
@@ -480,7 +505,8 @@ export function runPersona(p: Persona, seed: number, maxDays = 60): RunResult {
       res.checkins++;
       for (const a of log.acts) {
         if (a.startsWith('box:')) { res.boxes++; continue; }
-        if (a === 'welcome') continue;
+        // 엘리트 지명·퇴근 붙잡기(1.14.0)는 필드 보스 초대처럼 수 제한 밖의 탭이다
+        if (a === 'welcome' || a === 'elite' || a.startsWith('catch:')) continue;
         if (a !== 'night-evolve') res.acts++;
         if (a.startsWith('recruit')) res.recruits++;
         if (a.startsWith('hire')) res.hires++;
