@@ -122,7 +122,10 @@ export async function launch({
   port = 4331,
   cdpPort = 9231,
   profile = "/tmp/relic-king-play-profile",
-  outDir = path.join(ROOT, "assets/screenshots/play")
+  outDir = path.join(ROOT, "assets/screenshots/play"),
+  // false면 가상 시계를 걸지 않는다 — 실제 시각 그대로(humanplay.mjs). 가상 시계는 문서를
+  // 새로 열 때마다 원점으로 돌아가므로, 탭을 닫았다 여는 재접속을 흉내 낼 때는 쓸 수 없다.
+  clock = true
 } = {}) {
   await rm(profile, { recursive: true, force: true });
   await mkdir(outDir, { recursive: true });
@@ -148,7 +151,7 @@ export async function launch({
   await cdp.send("Runtime.enable");
   await cdp.send("Page.enable");
   await cdp.send("Log.enable");
-  await cdp.send("Page.addScriptToEvaluateOnNewDocument", { source: clockScript(speed, epoch) });
+  if (clock) await cdp.send("Page.addScriptToEvaluateOnNewDocument", { source: clockScript(speed, epoch) });
 
   const base = `http://127.0.0.1:${port}`;
   let shotCount = 0;

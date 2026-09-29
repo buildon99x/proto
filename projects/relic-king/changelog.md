@@ -1,5 +1,16 @@
 # Changelog
 
+## 플레이 리뷰 — 0.7.1을 사람처럼 한 판 (규칙·버전 변경 없음)
+
+빌드한 게임을 배속 없이, 화면 그림과 보이는 글자만 보고 등록부터 엔딩까지 한 판을 했다(조작 16분 28초 · 입력 53 ·
+접속 7 · 엔딩 월드 24.3시간, 봇 상시 켬 기준 16시간 2분). 보고서 `notes/play-review/index.html`.
+
+- 가장 먼저 고칠 것 B1: 찾는 한 점을 안 고르면 직접 발굴 거점을 따라 바뀌어, 빼앗긴 칸이 비지 않는다(`lore.ts` `wantedOf`).
+- B2: 1분 40초에 감정 교착 탈출(`autoLiquidatePendingOverflow`)이 알림 없이 미감정 한 점을 팔아 도감이 줄었다.
+- B3: 떠날 때 열린 유일 제보는 돌아온 첫 프레임에 결판난다(오프라인이 `w.t`만 밀고 제보는 멈춰 있다).
+- 도구: `tests/e2e/humanplay.mjs`(`pnpm --filter relic-king humanplay`), `notes/play-review/build-human.mjs`.
+  `harness.mjs`의 `launch()`에 `clock: false`(가상 시계 끄기)를 더했다.
+
 ## 0.7.1 — 「지구 출토」가 게임 화면에 닿았다
 
 v0.7 세계관과 v0.7.0 IP를 게임 화면에 올렸다. **규칙·상수·세이브 버전은 그대로다.** 결정은 `notes/decisions.md`

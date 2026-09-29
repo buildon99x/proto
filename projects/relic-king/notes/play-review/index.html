@@ -1,0 +1,320 @@
+<meta charset="utf-8">
+<title>지구 출토 플레이 리뷰</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap">
+<style>
+/* 레이아웃: 발굴 기록부 — 한 줄 본문 칼럼(68ch) 위에 지층 띠 그래프, 발견은 기록 카드 한 장씩 */
+:root {
+  --ground: #f3efe6;      /* 흙 위 종이 */
+  --sheet: #fbf9f4;
+  --ink: #26221c;
+  --muted: #6d6556;
+  --rule: #d9d1c1;
+  --gold: #9a6a12;        /* 게임 헤더의 자산 금색 */
+  --good: #2f6b45;
+  --bad: #a3372b;
+  --warn: #8a5a00;
+  --strata-1: #e6dcc8; --strata-2: #d8c9ab;
+  --f-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+  --f-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --ground: #16130f; --sheet: #1f1b16; --ink: #ece5d6; --muted: #a79d8a; --rule: #3a3329;
+  --gold: #e3b04b; --good: #7cc596; --bad: #ee8a7c; --warn: #e2b25a;
+  --strata-1: #2a241c; --strata-2: #332b21; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --ground: #16130f; --sheet: #1f1b16; --ink: #ece5d6; --muted: #a79d8a; --rule: #3a3329;
+  --gold: #e3b04b; --good: #7cc596; --bad: #ee8a7c; --warn: #e2b25a;
+  --strata-1: #2a241c; --strata-2: #332b21; color-scheme: dark; }
+
+body { background: var(--ground); color: var(--ink); font: 400 16px/1.7 var(--f-body); }
+.wrap { max-width: 68rem; margin: 0 auto; padding-inline: 16px; padding-block: 40px 80px; display: grid; gap: 56px; }
+.col { max-width: 68ch; }
+h1, h2, h3 { text-wrap: balance; line-height: 1.3; margin: 0; }
+h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 700; }
+h2 { font-size: 1.35rem; font-weight: 700; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+p { margin: 0; }
+section { display: grid; gap: 18px; }
+.eyebrow { font: 600 .75rem/1 var(--f-data); letter-spacing: .08em; text-transform: uppercase; color: var(--gold); }
+.lede { font-size: 1.1rem; }
+.muted { color: var(--muted); }
+.small { font-size: .88rem; }
+code, .num { font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+code { font-size: .85em; }
+a { color: var(--gold); }
+
+.figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.figures div { background: var(--sheet); padding: 14px 16px; display: grid; gap: 4px; }
+.figures b { font: 600 1.45rem/1.1 var(--f-data); font-variant-numeric: tabular-nums; }
+.figures span { font-size: .82rem; color: var(--muted); }
+
+.chart { background: var(--sheet); border: 1px solid var(--rule); padding: 16px; overflow-x: auto; }
+.chart svg { display: block; width: 100%; min-width: 560px; height: auto; }
+.chart figcaption { font-size: .85rem; color: var(--muted); margin-top: 8px; }
+
+.tbl { overflow-x: auto; border: 1px solid var(--rule); background: var(--sheet); }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: .8rem; }
+td.n, th.n { text-align: right; font-family: var(--f-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+#checkins td:last-child { min-width: 22rem; }
+
+/* 발견 = 기록 카드. 게임의 상자 카드처럼 위는 사실, 점선 아래는 판단 */
+.cards { display: grid; gap: 16px; }
+.card { background: var(--sheet); border: 1px solid var(--rule); padding: 18px 20px; display: grid; gap: 10px; }
+.card header { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; }
+.tag { font: 600 .75rem/1 var(--f-data); padding: 4px 7px; border: 1px solid currentColor; }
+.tag.b { color: var(--bad); } .tag.g { color: var(--good); } .tag.w { color: var(--warn); }
+.card dl { display: grid; grid-template-columns: 4.5em 1fr; gap: 6px 12px; margin: 0; }
+.card dt { color: var(--muted); font-size: .85rem; padding-top: 2px; }
+.card dd { margin: 0; min-width: 0; }
+.card .cut { border-top: 1px dashed var(--rule); padding-top: 10px; }
+.card .shots { font-size: .82rem; color: var(--muted); }
+
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); gap: 20px; }
+.gallery figure { margin: 0; display: grid; gap: 6px; }
+.gallery img { border: 1px solid var(--rule); width: 100%; height: auto; display: block; }
+.gallery figcaption { font-size: .85rem; }
+.gallery figcaption b { font-family: var(--f-data); color: var(--gold); margin-right: 6px; }
+
+ol.log { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+ol.log li { display: grid; grid-template-columns: 7.5rem 1fr; gap: 12px; }
+ol.log .when { font: .8rem/1.9 var(--f-data); color: var(--muted); font-variant-numeric: tabular-nums; }
+ul.plain { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+@media (max-width: 520px) { ol.log li { grid-template-columns: 1fr; gap: 0; } .card dl { grid-template-columns: 1fr; } }
+</style>
+
+<main class="wrap">
+  <header class="col" style="display:grid;gap:14px">
+    <p class="eyebrow">relic-king 0.7.1 · 사람처럼 한 판 · 2026-09-29</p>
+    <h1>화면만 보고 등록부터 엔딩까지 한 판을 했다</h1>
+    <p class="lede">빌드한 게임을 배속 없이 열고, 화면 그림과 보이는 글자만 보고 조작했다. 자리 비움은 탭을 닫고 세이브 시각만 당겨 다시 여는 실제 재접속 길로 했다. <strong>조작 16분 28초, 입력 53회, 접속 7번 만에 월드 24.3시간째 엔딩을 봤다.</strong></p>
+    <p class="col">가장 먼저 고칠 것은 <strong>B1 찾는 한 점이 저절로 바뀐다</strong>이다. 등록증의 유일한 약속("다른 팀이 먼저 가져가면 엔딩까지 빈다")이 첫 10분 안에 깨졌다. 투탕카멘 마스크를 라이벌에게 빼앗겼는데 칸은 비지 않고 안티키테라로 바뀌었고, 그걸 찾자 "찾았다"가 됐다. 그다음은 <strong>B2 미감정 자동 매각</strong>(1분 40초에 알림 없이 도감이 줄었다)과 <strong>B3 떠날 때 열린 유일 제보</strong>(돌아오는 순간, 볼 틈 없이 결판난다)다.</p>
+  </header>
+
+  <section>
+    <div class="figures" id="figs">
+      <div><b>16:28</b><span>화면을 연 시간(분:초)</span></div>
+      <div><b>53</b><span>입력 수(클릭·휠)</span></div>
+      <div><b>7</b><span>접속 수(첫 세션 포함)</span></div>
+      <div><b>24.3h</b><span>엔딩까지 월드 시간</span></div>
+      <div><b>0</b><span>삽질 클릭</span></div>
+      <div><b>2 / 3</b><span>유일 제보 이김 / 만남</span></div>
+    </div>
+    <p class="small muted col">비교: 같은 규칙을 헤드리스 봇이 내내 켜 두고 돌리면 엔딩이 16시간 2분이다(<code>pnpm sim --hours 30</code>, 오늘 다시 잼). 이번 판은 24시간 가운데 16분만 켜 두었고 나머지는 오프라인 효율 60%로 흘렀다.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">어떻게 했나</p>
+    <h2>도구와 규칙</h2>
+    <div class="col" style="display:grid;gap:12px">
+      <p><code>tests/e2e/humanplay.mjs</code>가 크로미움을 1180×813 창으로 띄워 두고 한 수씩 명령을 받는다. 누를 때는 화면에 보이는 글자나 좌표로 누르고, 매 수마다 그림과 보이는 글자만 돌려받는다. 월드 내부 값(자금·도감 수·월드 시각)은 로그에만 남겼고, 플레이 중 판단에는 쓰지 않았다. 가상 시계는 걸지 않았다. 게임 안 1초가 실제 1초다.</p>
+      <p>자리 비움은 <code>/away?min=N</code>이다. 빈 페이지로 나가 세이브의 <code>lastTickAt</code>을 N분 당긴 뒤 다시 연다. <code>useGame.ts</code>의 첫 마운트 정산 길을 그대로 탄다. 비운 시간은 60·120·240·480·180·360분이었다(합 24시간). 첫 세션은 13분을 켜 두었다.</p>
+      <p>msw-inc 플레이 리뷰 10절(<code>claude/serene-lovelace-71t8yr</code>)의 절차를 유물왕으로 옮겼다. 게임 코드와 규칙은 바꾸지 않았다.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">한 판의 모양</p>
+    <h2>도감은 자리를 비운 동안 찼다</h2>
+    <figure class="chart" style="margin:0">
+      <svg id="shape" viewBox="0 0 760 300" role="img" aria-label="월드 시간에 따른 소장 종 수와 접속별 입력 수"></svg>
+      <figcaption>가로 = 월드 시간(0~24.3시간). 선 = 소장한 종 수, 점선 = 엔딩 기준 도감 75%(검증 1,902종의 75% = 1,427종). 아래 막대 = 그 접속에서 누른 수. 옅은 띠 = 화면을 연 구간(대부분 1분 미만이라 가늘다).</figcaption>
+    </figure>
+    <div class="tbl">
+      <table id="checkins">
+        <thead><tr><th>접속</th><th class="n">도착 월드 시각</th><th class="n">앞서 비운 시간</th><th class="n">켜 둔 시간</th><th class="n">입력</th><th class="n">소장 종(도착→떠남)</th><th>한 일</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="col">첫 세션 13분에 입력 24회를 썼고 제보가 5번 떴다. 그중 4번이 결판났다(3승 1패). 다섯째(아가멤논의 가면)는 결과를 보기 전에 배너가 사라졌고, 1시간 뒤 같은 유물로 다시 떠서 그때 이겼다. 두 번째 접속부터는 입력이 10, 7, 7, 4, 1, 0으로 줄었다. 여섯 번째 접속부터는 누를 것이 복귀 요약의 "확인" 하나였다. 엔딩은 일곱 번째 접속 직전, 자리를 비운 6시간 사이에 났다.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">이전 리뷰 대비</p>
+    <h2>v0.6.6 중간 리뷰가 지적한 것은 이번 판에서 어땠나</h2>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>지적(notes/v066-midpass-review.md)</th><th>이번 판에서 겪은 것</th></tr></thead>
+        <tbody>
+          <tr><td>1.1 첫 유일 제보는 누를 버튼이 없어 진다</td><td>고쳐졌다. 둘째 유일(안티키테라, 8분 36초)은 화면을 덮는 카드에 [긴급 인부]가 있었고, 눌러서 45%로 이겼다. 첫 유일(투탕카멘, 약 6분)은 졌다. 그때 나는 소장고 화면에서 2분을 아무것도 안 보고 기다렸다. 게임 탓보다 내 탓이 크다.</td></tr>
+          <tr><td>1.4 첫 거점 카드를 무시하면 경주에 머문다</td><td>1분 41초에 카드가 떴고 룩소르를 골랐다. 다만 시장 탭을 누르던 손 밑으로 떠서 누른 것이 탭 대신 카드 뒤 박물관 하위 탭에 들어갔다(h04).</td></tr>
+          <tr><td>1.2 결정 게이트 퇴행(첫 10분 결정이 적다)</td><td>첫 세션에 내가 스스로 내린 결정은 거점 둘, 인부 하나, 긴급 인부, 단장 둘, 박물관 건립·전시 정도다. 인부 48명·장비 Lv.8·감정소는 한 번도 누르지 않았는데 올라가 있었다. 중반 이후 결정은 0에 가깝다(B9).</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">좋았던 것</p>
+    <h2>지키고 싶은 여섯 가지</h2>
+    <div class="cards" id="good"></div>
+  </section>
+
+  <section>
+    <p class="eyebrow">나빴던 것 — 무엇부터 고칠까</p>
+    <h2>B1~B10, 고칠 순서대로</h2>
+    <p class="col small muted">표기: [실측]은 이번 판의 화면·로그, [코드]는 소스를 읽어 확인한 것, [추론]은 확인하지 않은 짐작이다.</p>
+    <div class="cards" id="bad"></div>
+  </section>
+
+  <section>
+    <p class="eyebrow">그림</p>
+    <h2>화면 14장</h2>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+  <section>
+    <p class="eyebrow">플레이 일지</p>
+    <h2>플레이 중에 남긴 소감 그대로</h2>
+    <ol class="log col" id="log"></ol>
+  </section>
+
+  <section class="col">
+    <p class="eyebrow">재현과 한계</p>
+    <h2>다시 돌리는 법, 믿지 말아야 할 곳</h2>
+    <ul class="plain">
+      <li><code>pnpm --filter relic-king build && pnpm --filter relic-king humanplay</code>로 서버를 띄우고 <code>curl 'localhost:7071/start'</code>부터 한 수씩 둔다. 끝나면 <code>node notes/play-review/build-human.mjs</code>가 로그(<code>notes/data/humanplay-v071.jsonl</code>)를 이 페이지의 <code>data-human.js</code>로 줄인다.</li>
+      <li>한 판, 한 사람(리뷰어는 Claude)이다. 제보·드랍은 매번 달라진다. 수치는 이 판의 사실이고 분포가 아니다.</li>
+      <li><code>/wait</code>는 눈을 감고 기다리는 것과 같다. 기다리는 동안 뜬 알림에 반응하지 못했다(투탕카멘). 화면을 계속 보는 사람이라면 달랐을 수 있다.</li>
+      <li>자리 비움은 세이브 시각을 당긴 것이다. 배경 탭·절전 복귀 길(<code>visibilitychange</code>·프레임 간격 감지)은 타지 않았다.</li>
+      <li>데스크톱 1180 폭만 봤다. 모바일·소리·키보드 조작은 보지 않았다.</li>
+      <li>원본 그림 85장은 <code>notes/play-review/shots/human/v071/</code>에 남고 커밋하지 않는다. 이 페이지 그림은 그중 14장을 webp로 줄인 것이다.</li>
+    </ul>
+  </section>
+</main>
+
+<script src="data-human.js"></script>
+<script>
+const D = window.PRH;
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const money = (n) => n >= 1e8 ? `$${(n / 1e8).toFixed(1)}억` : n >= 1e4 ? `$${(n / 1e4).toFixed(1)}만` : `$${n.toLocaleString("ko-KR")}`;
+const hm = (h) => { const m = Math.round(h * 60); return `${Math.floor(m / 60)}시간 ${m % 60}분`; };
+
+// ── 한 판의 모양 ──
+(function chart() {
+  const svg = $("#shape"), W = 760, H = 300, L = 56, R = 16, T = 16, CH = 190, BT = 232, BH = 44;
+  const maxH = 25, maxY = 1600, goal = 1427;
+  const x = (h) => L + (h / maxH) * (W - L - R);
+  const y = (v) => T + CH - (v / maxY) * CH;
+  const cs = getComputedStyle(document.documentElement);
+  const c = (k) => cs.getPropertyValue(k).trim();
+  let s = "";
+  // 접속 구간(온라인) 띠
+  for (const k of D.checkinsTimeline) {
+    const w = Math.max(2, x(k.arriveH + k.onlineSec / 3600) - x(k.arriveH));
+    s += `<rect x="${x(k.arriveH)}" y="${T}" width="${w}" height="${BT + BH - T}" fill="${c("--strata-2")}"/>`;
+  }
+  for (let v = 0; v <= maxY; v += 400) s += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="${c("--rule")}" stroke-width="1"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="${c("--muted")}" font-family="IBM Plex Mono, monospace">${v.toLocaleString("ko-KR")}</text>`;
+  for (let h = 0; h <= 24; h += 4) s += `<text x="${x(h)}" y="${H - 4}" text-anchor="middle" font-size="11" fill="${c("--muted")}" font-family="IBM Plex Mono, monospace">${h}h</text>`;
+  s += `<line x1="${L}" x2="${W - R}" y1="${y(goal)}" y2="${y(goal)}" stroke="${c("--gold")}" stroke-dasharray="5 4" stroke-width="1.5"/><text x="${L + 6}" y="${y(goal) - 6}" font-size="11" fill="${c("--gold")}">엔딩 기준 1,427종</text>`;
+  const pts = D.codex.map((p) => `${x(p.h).toFixed(1)},${y(p.owned).toFixed(1)}`).join(" ");
+  s += `<polyline points="${pts}" fill="none" stroke="${c("--ink")}" stroke-width="2"/>`;
+  const last = D.codex[D.codex.length - 1];
+  s += `<circle cx="${x(last.h)}" cy="${y(last.owned)}" r="4" fill="${c("--gold")}"/><text x="${x(last.h) - 8}" y="${y(last.owned) - 8}" text-anchor="end" font-size="11" fill="${c("--ink")}">엔딩 · ${last.owned.toLocaleString("ko-KR")}종</text>`;
+  // 입력 막대
+  s += `<text x="${L - 8}" y="${BT + 12}" text-anchor="end" font-size="11" fill="${c("--muted")}">입력</text>`;
+  const maxIn = 24;
+  for (const k of D.checkinsTimeline) {
+    const bh = (k.inputs / maxIn) * BH;
+    s += `<rect x="${x(k.arriveH) - 5}" y="${BT + BH - bh}" width="10" height="${Math.max(bh, 1)}" fill="${c("--gold")}"/><text x="${x(k.arriveH)}" y="${BT + BH - bh - 4}" text-anchor="middle" font-size="10" fill="${c("--ink")}" font-family="IBM Plex Mono, monospace">${k.inputs}</text>`;
+  }
+  svg.innerHTML = s;
+})();
+
+// ── 접속 표 ──
+const DID = [
+  "인부 1명, 룩소르·아테네 거점, 긴급 인부로 안티키테라, 둘째 발굴단 단장. 제보 5번 중 4번 결판(3승 1패)",
+  "셋째 슬롯·단장, 박물관 건립·관장, 아르테미시온 청동상 전시",
+  "넷째 슬롯·단장, 추천 칩(이스탄불)은 열 수 없었다",
+  "안티키테라 전시, 박물관 등급 2번. 코이누르는 떠날 때 열려 있던 제보가 돌아오자 '확보'",
+  "도감 탭·원장 확인만",
+  "쓸 곳 없는 자금 17.5억을 보고 확인만",
+  "엔딩 배너를 봤다"
+];
+$("#checkins tbody").innerHTML = D.checkinsTimeline.map((k, i) => `<tr><td>${k.n}${k.ended ? " · 엔딩" : ""}</td><td class="n">${hm(k.arriveH)}</td><td class="n">${k.awayBeforeMin ? k.awayBeforeMin + "분" : "—"}</td><td class="n">${Math.floor(k.onlineSec / 60)}:${String(k.onlineSec % 60).padStart(2, "0")}</td><td class="n">${k.inputs}</td><td class="n">${k.ownedArrive.toLocaleString("ko-KR")} → ${k.ownedLeave.toLocaleString("ko-KR")}</td><td>${esc(DID[i])}</td></tr>`).join("");
+
+// ── 좋았던 것 ──
+const GOOD = [
+  ["G1", "유일 제보는 놓칠 수 없게 뜨고, 누르면 이길 수 있다", "8분 36초 안티키테라 제보가 창 위를 덮는 카드로 떴다. 버튼 하나([긴급 인부 $6.5만], 적중 45%)를 눌렀고 1분 40초 뒤 '손에 들어왔다'가 떴다. 이 판에서 가장 좋았던 순간이다.", "h07 · h08"],
+  ["G2", "첫 세션이 짧고 빽빽하다", "13분 동안 제보가 5번 떴다(진귀 둘·유일 둘·국보 하나). 첫 제보는 30초 안에 떴고 1분 26초에는 결판나 있었다. 앉아서 보기만 해도 무언가 일어난다.", "h02"],
+  ["G3", "기록 카드가 숫자 옆에 세계를 붙인다", "상자마다 '소장처 메트로폴리탄 미술관 · 마지막 확인 2094년 3월 · 다음 확인 2351년 5월 · 우리 팀 — 우리만 본다'. 실재 기록과 픽션이 점선 하나로 갈려서 읽기 편했다. 진행을 막지 않는다.", "h03 · h08"],
+  ["G4", "복귀 요약이 짧고 진행을 막지 않는다", "한 줄 토스트(비운 시간·자금 변화)와 예외7의 한 줄. 모달이 아니라서 바로 화면을 볼 수 있었다.", "h12"],
+  ["G5", "엔딩이 판정 대신 숫자 하나를 되묻는다", "'지금 가진 1,536종 · 그중 남들이 본 것 3종'. 전시를 거의 안 한 내 판을 한 숫자로 되비춘다. 좋은 끝 문장이다.", "h14"],
+  ["G6", "클릭 0회로 엔딩까지 간다", "삽질 클릭은 한 번도 하지 않았다. 척추 4번('클릭은 언제나 선택')은 사람 손으로도 지켜졌다.", ""]
+];
+$("#good").innerHTML = GOOD.map(([id, t, ev, sh]) => `<article class="card"><header><span class="tag g">${id}</span><h3>${esc(t)}</h3></header><p>${esc(ev)}</p>${sh ? `<p class="shots">그림 ${sh}</p>` : ""}</article>`).join("");
+
+// ── 나빴던 것 ──
+const BAD = [
+  { id: "B1", sev: "b", t: "찾는 한 점이 저절로 바뀐다 — '엔딩까지 빈다'가 지켜지지 않는다",
+    ev: "[실측] 등록증의 찾는 한 점을 고르지 않았다. 처음엔 반가사유상(경주)이었는데, 룩소르를 열자 투탕카멘으로, 투탕카멘을 라이벌에게 뺏긴 뒤 아테네를 열자 안티키테라로 바뀌어 있었다. 안티키테라를 가져오자 '찾았다'가 됐다. 빼앗긴 칸이 비지 않고 다음 유일로 넘어갔다.",
+    why: "[코드] <code>lore.ts:173</code> <code>wantedOf()</code>가 고른 값이 없으면 지금 직접 발굴 중인 거점(<code>w.activeSite</code>)의 유일을 돌려준다. 직접 발굴은 새 거점을 열 때마다 자동으로 옮겨 간다. 고르지 않은 플레이어에게 이 칸은 '지금 있는 곳의 유일'이 된다.",
+    fix: "첫 화면에서 기본값을 <code>w.wanted</code>에 한 번 적어 고정한다(세이브 필드는 이미 있다). 고르지 않았다는 것도 한 줄로 보인다: '고르지 않았다 — 경주의 반가사유상으로 적어 둔다'.",
+    cost: "작다. 한 줄 고정과 문구 하나. <code>density</code>에는 영향이 없다(규칙 효력 없음).", sh: "h01 · h05 · h07" },
+  { id: "B2", sev: "b", t: "1분 40초, 미감정 한 점이 알림 없이 팔리고 도감이 줄었다",
+    ev: "[실측] 자금 $2,656에서 $27.1만으로 뛰었고 소장 종이 4에서 3으로, 종합이 1위에서 7위(도감 7위)로 떨어졌다. 화면에는 무엇이 팔렸는지 한 줄도 없었다. 같은 순간 첫 거점 카드가 떠서 더 알아차리기 어려웠다.",
+    why: "[코드] <code>engine.ts:1905</code> <code>autoLiquidatePendingOverflow()</code>가 감정비가 모자라 감정이 멈추면(<code>appraisalStalled</code>) 한 점을 추정가 70%에 판다. 판 시작에는 중복이 없어서 그 종의 유일한 소장분이 팔린다. 주석은 '이 경로가 도감 감소를 실제로 일으킨 사례는 아직 관측되지 않았다'고 적고 있다. 이번에 관측됐다.",
+    fix: "첫 감정 몇 점은 감정비를 받지 않거나, 교착일 때 파는 대신 감정비를 외상으로 한다. 그래도 팔 때는 복귀 요약·토스트 한 줄로 '감정비가 모자라 ○○을 미감정으로 팔았다'를 적는다.",
+    cost: "작다~중간. 밸런스 상수를 건드리면 <code>sim</code>·<code>density --seeds 12</code>를 다시 잰다.", sh: "h03 · h04" },
+  { id: "B3", sev: "b", t: "떠날 때 열린 유일 제보가 돌아오는 순간 결판난다",
+    ev: "[실측] 코이누르 유일 제보(반응 유예 29초 남음)가 떠 있을 때 탭을 닫았다. 4시간 뒤 다시 열자 배너는 이미 '확보 — 내 것이 됐다'였다. 바로 아래 예외7 요약은 '유일은 다투지 않았다 — 사람 없는 현장엔 안 내려간다'. 이번엔 이겼지만, 볼 틈도 누를 틈도 없었다.",
+    why: "[코드] 제보는 온라인에서만 흐른다(<code>engine.ts:2750</code> <code>if (!offline)</code>). 하지만 결판 조건은 월드 시각 차이(<code>engine.ts:2516</code> <code>w.t - tip.openedAt</code>)라서 오프라인 적분으로 <code>w.t</code>가 4시간 뛰면 유예가 다 지난 것으로 읽힌다. 첫 온라인 프레임에서 바로 결판난다. 현지 팀이 있으면 '그 자리에 있었다'로 치므로 지면 유일을 영구 상실한다[추론 — 이번 판은 이김]. 요약 문장 <code>OFFLINE_DID</code>(<code>lore.ts:202</code>)는 고정 문구라 이 경우를 모른다.",
+    fix: "<code>applyOffline()</code>이 열린 제보의 <code>openedAt</code>을 비운 시간만큼 뒤로 민다(유예·남은 시간이 떠날 때 그대로 돌아온다). 요약 문장은 열려 있던 제보가 있으면 '떠날 때 열린 제보가 기다리고 있다'로 바꾼다.",
+    cost: "중간. 척추 3번과 오프라인 적분 스텝 무관성 경계다. <code>qa:expedition</code>·<code>sim</code>의 오프라인 검사를 같이 돌린다.", sh: "h12" },
+  { id: "B4", sev: "w", t: "결판난 제보 배너가 17시간 동안 남는다",
+    ev: "[실측] 코이누르 '확보' 배너가 월드 7시간에 떠서 엔딩(24시간)까지 네 번의 접속 내내 맨 위에 있었다. 시간은 2:24, 1:28, 1:14로 접속마다 조금씩만 줄었다. 엔딩 배너가 그 아래에 붙었다.",
+    why: "[코드] 배너 수명 <code>tip.remain</code>도 온라인에서만 준다(<code>engine.ts:2756</code>). 접속마다 10~40초만 켜 두니 남은 2분이 다 닳지 않는다.",
+    fix: "결판난 제보는 오프라인 정산 때 닫는다. 결과는 복귀 요약에 한 줄로 옮긴다.", cost: "작다.", sh: "h12 · h14" },
+  { id: "B5", sev: "w", t: "첫 레이스를 이겼는데 손에 쥔 것이 자물쇠다",
+    ev: "[실측] 첫 제보(초기 철기 질그릇 항아리, 진귀)를 이겼다. 배너는 '내 것이 됐다'인데 소장고에서는 봉인 보관(감정소 Lv.2 필요)의 자물쇠 칸이었다. 둘째 레이스(아마르나 두상)도 같았다. 6분쯤에는 감정소가 저절로 올라 둘 다 풀려 있었다.",
+    why: "[추론] 첫 제보 유물 등급이 시작 감정소 등급보다 높게 나온다.", fix: "첫 레이스 전리품은 감정소 등급과 무관하게 바로 감정하거나, 첫 제보 유물을 시작 감정소가 다룰 수 있는 등급에서 고른다.", cost: "작다. <code>density</code> 첫 도달 시각 축을 다시 잰다.", sh: "h03" },
+  { id: "B6", sev: "w", t: "전시 고르기 목록이 얻은 순서라 유일이 묻힌다",
+    ev: "[실측] 박물관 '+ 빈칸'을 누르면 소장품 전부가 얻은 순서로 나온다(4시간째 744점). 흔함 수십 개 아래에 유일·진귀가 있다. 안티키테라를 찾다 휠 한 번에 지나쳐 다른 것을 걸었다. 무엇을 걸면 관람이 얼마나 느는지도 목록에 없다.",
+    why: "[실측] 정렬·거르기가 없다.", fix: "등급 높은 순으로 정렬하고, 전시 중이 아닌 국보·유일을 맨 위에 둔다. 한 줄에 예상 관람 증가를 적는다(척추 5번).", cost: "작다.", sh: "h10" },
+  { id: "B7", sev: "w", t: "추천 칩이 열 수 없는 곳과 이미 가진 곳을 추천한다",
+    ev: "[실측] 3시간째 추천 칩 '이스탄불'을 누르자 '본거지 슬롯 3/3 다 찼다 · 유휴 발굴단이 없다'. 2팀은 이미 이스탄불로 가는 중이었는데 그 말은 없었다. 7시간째와 24시간째에는 내 본거지 '경주'가 추천에 올라왔다. 같은 창에 '보유 base가 1곳일 때만'이라는 영어 낱말이 섞여 있다.",
+    why: "[추론] 추천이 해금 가능 여부·보유·진행 중 원정을 거르지 않는다.", fix: "본거지 슬롯이 차면 추천 칩 대신 '원정은 자동 순회가 돌고 있다'를 한 줄로 적는다. 'base'는 '거점'으로.", cost: "작다.", sh: "h11 · h13" },
+  { id: "B8", sev: "w", t: "고용 후보 이름이 겹친다",
+    ev: "[실측] 1팀 단장이 정민재인데 빈 슬롯 후보에 정민재가 또 있다. 관장 후보 셋 중 둘도 정민재다. 방금 고용한 T. 오코너가 다음 슬롯 후보에 그대로 다시 나온다.",
+    why: "[추론] 이름 풀이 작거나 이미 고용한 사람을 후보에서 빼지 않는다.", fix: "후보 이름을 고용 중인 사람과 겹치지 않게 뽑는다.", cost: "작다.", sh: "h09" },
+  { id: "B9", sev: "w", t: "중반부터 접속에서 할 일이 '확인' 하나다",
+    ev: "[실측] 접속 입력이 24 → 10 → 7 → 7 → 4 → 1 → 0으로 줄었다. 18시간째 자금 17.5억이 쌓였는데 살 것이 없었다(슬롯·거점 다 참, 인부·장비·감정소는 자동 재투자). 박물관 순수익은 $410/h로 4시간 +4.9억 옆에서 뜻이 없다. 엔딩은 자리를 비운 사이에 났다.",
+    why: "[추론] 자동 재투자·자동 순회가 결정을 거의 다 가져갔다. '결정이 있다'와 '조작을 요구한다'는 다르다(척추 4번)는 원칙에서, 이번 판은 조작도 결정도 없는 쪽이다.",
+    fix: "중반 결정 하나를 남긴다. 예: 쌓인 자금을 어디 쓸지(박물관 등급으로 명성 축 vs 재투자로 자산 축)를 복귀 요약의 두 버튼으로. 엔딩이 오프라인에서 나면 복귀 요약 맨 위에 엔딩을 먼저 적는다.", cost: "크다(설계). <code>playlog</code>로 두 극단을 같이 잰다.", sh: "h13 · h14" },
+  { id: "B10", sev: "w", t: "작은 것 넷",
+    ev: "[실측] ① 제보 배너가 페이지와 같이 스크롤돼 지도를 보고 있으면 안 보인다(헤더는 붙어 있다). ② 유일 획득 카드가 '이름은 감정이 끝나면 공개'라는데 배너와 등록증에 이미 이름이 있다. ③ 8분째 순위표가 '이 속도로는 못 넘는다'고 적는데 그 뒤 1분 만에 1위가 됐다. ④ 유일 제보 카드 아래로 배너의 [긴급 인부]가 한 번 더 있어 같은 버튼이 두 개다.",
+    why: "[실측]", fix: "① 제보 배너를 헤더 아래에 붙인다. ② 문구를 '내력은 감정이 끝나면'으로. ③ 표본이 적을 때는 속도 판정을 적지 않는다. ④ 카드가 떠 있을 때 배너 버튼은 숨긴다.", cost: "작다.", sh: "h02 · h06 · h07" }
+];
+$("#bad").innerHTML = BAD.map((f) => `<article class="card"><header><span class="tag ${f.sev}">${f.id}</span><h3>${esc(f.t)}</h3></header><dl><dt>근거</dt><dd>${f.ev}</dd><dt>원인</dt><dd>${f.why}</dd></dl><dl class="cut"><dt>제안</dt><dd>${f.fix}</dd><dt>비용</dt><dd>${f.cost}</dd></dl><p class="shots">그림 ${f.sh}</p></article>`).join("");
+
+// ── 그림 ──
+const SHOTS = [
+  ["h01-first-screen", "0:01 첫 화면. 등록증 다섯 문장, 찾는 한 점은 반가사유상(고르지 않음)"],
+  ["h02-first-tip", "0:32 지도에서 올라오니 첫 제보 배너가 이미 떠 있다. 자동 집중이라 누를 것은 없다"],
+  ["h03-won-sealed", "1:27 첫 레이스를 이겼는데 전리품은 봉인 보관의 자물쇠 칸"],
+  ["h04-first-base-card", "1:41 시장 탭을 누르는 순간 첫 거점 카드. 자금은 27.1만으로 뛰었고 종합은 7위"],
+  ["h05-lost-tut", "6:14 찾는 한 점이던 투탕카멘 마스크 '놓침'. 그 2분 동안 자산은 6.3만에서 4116만"],
+  ["h06-rank-table", "8:32 순위표: '이 속도로는 못 넘는다'"],
+  ["h07-unique-alert", "8:37 유일 제보 카드. 찾는 한 점은 어느새 안티키테라"],
+  ["h08-antikythera", "10:37 긴급 인부 45%로 안티키테라를 가져왔다"],
+  ["h09-foreman-names", "12:53 단장 후보에 1팀 단장과 같은 이름 정민재"],
+  ["h10-exhibit-picker", "1시간 14분 전시 고르기: 흔함부터 얻은 순서대로"],
+  ["h11-rec-full", "3시간 15분 추천 칩 이스탄불: 슬롯이 다 찼다, 유휴 발굴단 없다"],
+  ["h12-kohinoor-return", "7시간 15분 복귀: '확보 — 내 것이 됐다'와 '유일은 다투지 않았다'가 한 화면에"],
+  ["h13-idle-funds", "18시간 16분 발굴단 넷은 알아서 돈다. 자금 17.5억, 살 것이 없다"],
+  ["h14-ending", "24시간 16분 엔딩. 17시간 전 코이누르 배너 아래에 한 줄"]
+];
+$("#gallery").innerHTML = SHOTS.map(([f, cap]) => `<figure><img src="shots/v071h/${f}.webp" alt="${esc(cap)}" loading="lazy" width="1180" height="813"><figcaption><b>${f.slice(0, 3)}</b>${esc(cap)}</figcaption></figure>`).join("");
+
+// ── 일지 ──
+$("#log").innerHTML = D.notes.map((n) => {
+  const when = n.h < 0.25 ? `${Math.floor(n.realSec / 60)}:${String(n.realSec % 60).padStart(2, "0")} 첫 세션` : `월드 ${hm(n.h)}`;
+  return `<li><span class="when">${when}</span><span>${esc(n.t)}</span></li>`;
+}).join("");
+</script>
