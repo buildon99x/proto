@@ -109,7 +109,7 @@ function panel() {
       <div class="nm">${M.monName(m)}${M.atHome(m) ? ' <i class="hm" title="식구 사냥터 · 근속 ×1.2">🏠</i>' : ''}</div><div class="lvl">Lv ${M.monLevel(m)} · ${m.stage + 1}단계${M.isBoss(m) ? ' · 보스' : ''}</div>
       <div class="ph">${img(monArt(m), 3)}</div>
       <span class="trait" title="${tr ? tr.desc : '특성 없음'}">${tr ? tr.icon + ' ' + tr.name : '— 표준'}</span>
-      ${ready ? `<button class="evbtn" data-ev="${m.id}">▲ 진화 가능</button>` : held ? `<button class="evbtn held" data-ev="${m.id}" title="지금 진화하면 길이 끊겨요. 결과를 미리 봐요">근속 가득 · 보기</button>` : exOk ? `<button class="evbtn ex" data-exec="${m.id}" title="본사 임원으로 올리면 월드 결재 ②가 빨라져요">👔 임원 승진</button>` : ''}
+      ${ready ? `<button class="evbtn" data-ev="${m.id}">▲ 진화 가능</button>` : held ? `<button class="evbtn held" data-ev="${m.id}" title="지금 진화하면 길이 끊기거나 12시간 뒤 결재 ②가 늦어져요. 결과를 미리 봐요">근속 가득 · 보기</button>` : exOk ? `<button class="evbtn ex" data-exec="${m.id}" title="본사 임원으로 올리면 월드 결재 ②가 빨라져요">👔 임원 승진</button>` : ''}
       <div class="tenure"><div class="t"><span>근속(퇴근)</span><span>${need === Infinity ? '최종 단계' : n(Math.min(m.tenure, need)) + ' / ' + n(need)}</span></div>
       <div class="bar"><i style="width:${need === Infinity ? 100 : Math.min(100, 100 * m.tenure / need)}%"></i></div></div></div>`;
   });

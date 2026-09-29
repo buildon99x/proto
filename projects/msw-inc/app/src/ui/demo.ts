@@ -10,7 +10,7 @@
  *       exec (1.13.0 임원 승진: 진화를 끝내고 근속을 다시 채운 직원의 임원 승진 시트)
  *       rebuild (1.12.0 던전 다시 열기: 부지가 다 찬 4장 이후 입구 막힘 — 오렌이 권하는 다시 열기 시트)
  */
-import { A, must, refresh, M } from './app';
+import { A, must, refresh, RULES, M } from './app';
 import { T } from './tut';
 import { PERSONAS, WATCHER, checkIn, firstSession, watchTo } from '../sim/bots';
 
@@ -31,17 +31,23 @@ function first(until: 'gap' | 'evolve' | 'full'): M.World {
 }
 /** 표준 봇으로 cond가 참이 될 때까지 굴린다 */
 function botTo(cond: (w: M.World) => boolean, maxDays = 45): M.World {
-  const p = PERSONAS[0];
-  const w = M.createWorld(7);
-  firstSession(w);
-  for (let d = 0; d < maxDays; d++) for (const [i, hh] of p.times.entries()) {
-    const target = d * 1440 + 1440 + hh - START;
-    if (target > w.t) M.advance(w, target - w.t);
-    if (cond(w)) return w;
-    checkIn(w, p, { last: i === p.times.length - 1, first: i === 0 });
-    if (cond(w)) return w;
-  }
-  return w;
+  // 1.15.0: 진화 전망(월드를 복제해 12시간 굴린다)을 봇 체크인마다 돌리면 장면 하나를 만드는 데 수십 초가 걸린다.
+  // 시연 장면은 그림용이라 전망 없이 굴린다 (장면의 월드가 게임 봇과 조금 다를 수 있다)
+  const eo = RULES.evolveOutlook;
+  RULES.evolveOutlook = null;
+  try {
+    const p = PERSONAS[0];
+    const w = M.createWorld(7);
+    firstSession(w);
+    for (let d = 0; d < maxDays; d++) for (const [i, hh] of p.times.entries()) {
+      const target = d * 1440 + 1440 + hh - START;
+      if (target > w.t) M.advance(w, target - w.t);
+      if (cond(w)) return w;
+      checkIn(w, p, { last: i === p.times.length - 1, first: i === 0 });
+      if (cond(w)) return w;
+    }
+    return w;
+  } finally { RULES.evolveOutlook = eo; }
 }
 /** 1분씩 굴려 cond가 참이 되는 순간에 멈춘다 */
 function stepUntil(w: M.World, cond: (w: M.World) => boolean, maxMin = 2880): M.World {
@@ -173,14 +179,15 @@ export function runDemo(q: string, api: { newGame: () => void; intro: () => void
       const m = M.execPick(w);
       if (m) setTimeout(() => { A.openExec(m.id); A.frozen = false; setTimeout(() => { A.frozen = true; }, 900); }, 150);
     },
-    // 1.12.0: 부지가 다 차 채용·옮기기로 못 메우는 빈틈 — 오렌이 권하는 던전 다시 열기 시트
+    // 1.12.0 · 1.15.0: 부지가 다 찼을 때 오렌이 권하는 던전 다시 열기 시트
     rebuild() {
+      // 1.15.0: 표준 봇은 이제 4장 입구 막힘에 빠지지 않는다(audit 입구 막힘 0). 장면은 흔해진 다시 열기 —
+      // 부지가 다 찼는데 줄이 섰고 손님 없는 던전이 있을 때(thinRebuild) — 를 보인다. 없으면 옛 빈틈 다시 열기
       const stuck = (x: M.World) => { const g = M.gapSegments(x)[0]; return !!g && !M.moveFix(x, g) && !M.hireFixable(x, g) && !!M.rebuildPlan(x, g); };
-      const w = botTo(x => x.chapter >= 4 && stuck(x), 60);
+      const w = botTo(x => x.chapter >= 3 && (!!M.thinRebuild(x) || stuck(x)), 60);
       boot(w); settle(1);
-      const g = M.gapSegments(w)[0];
-      // 4장부터 지역 줌이라 카메라가 입구로 옮겨 가는 동안만 잠깐 굴린다 (월드 1초 남짓)
-      if (g) setTimeout(() => { A.fixGap(g); A.frozen = false; setTimeout(() => { A.frozen = true; }, 900); }, 150);
+      const tp = M.thinRebuild(w), g = M.gapSegments(w)[0];
+      setTimeout(() => { if (tp) A.openRebuild(tp); else if (g) A.fixGap(g); A.frozen = false; setTimeout(() => { A.frozen = true; }, 900); }, 150);
     },
   };
   (scenes[q] || scenes.intro)();

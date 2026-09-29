@@ -842,3 +842,4 @@ body.portrait #rotate{display:block}
 .gapb{z-index:7}
 #world .pill.box{z-index:7}
 .fboss{z-index:6}
+.hcard .trait i[data-fcx]{font-style:normal}

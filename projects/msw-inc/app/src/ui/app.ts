@@ -251,7 +251,7 @@ export function renderDock(opt: { all?: boolean } = {}) {
   const chip = must('#evChip');
   chip.hidden = !held.length;
   chip.innerHTML = `▲ 진화 대기 <b>${held.length}</b>`;
-  chip.title = '근속이 찼지만 지금 진화하면 길이 끊기는 직원이에요. 눌러서 결과를 미리 봐요';
+  chip.title = '근속이 찼지만 지금 진화하면 길이 끊기거나 12시간 뒤 결재 ②가 늦어지는 직원이에요. 눌러서 결과를 미리 봐요 (보류하면 다음 직원)';
   const trayEl = must('#tray');
   trayEl.innerHTML = '';
   tr.slice(0, 4).forEach(m => {
@@ -415,7 +415,7 @@ export function orenPick(): OrenLine {
   if (w.approvalReady) return { t: w.chapter >= 5 ? '매니저님!! 마지막 결재 서류예요!! 도장 받으러 가요!!' : '매니저님!! 결재 서류에 도장 받을 수 있어요!!', go: () => A.openApproval() };
   if (w.boss && !w.boss.d) { const fb = fieldBoss(w.boss.ch); if (fb) return { t: `필드 보스 ${josa(fb.name, '이', '가')} 찾아왔어요!! 어느 던전에서 맞을지 골라요!!`, go: () => A.openBoss() }; }
   // 1.14.0 엘리트 지명: 필드 보스 초대 다음 (둘 다 저절로 오는 손님을 어디서 맞을지 고르는 탭)
-  if (RULES.elitePick && w.eliteReady != null && !w.elite && !(A.T && A.T.active())) { const hh = M.eliteHosts(w)[0]; if (hh) return { t: `★ 엘리트가 나올 준비가 됐어요!! 손님이 가장 많은 “${plotName(hh.id)}”에서 맞으면 ② ×${RULES.elite!.joyX}예요!!`, go: () => A.openElite() }; }
+  if (RULES.elitePick && w.eliteReady != null && !w.elite && !(A.T && A.T.active())) { const hh = M.eliteHosts(w)[0]; if (hh) return { t: `★ 엘리트가 나올 준비가 됐어요!! “${plotName(hh.id)}”에서 맞으면 손님 ${hh.happy + hh.seat}명이 ② ×${RULES.elite!.joyX}예요!!${hh.seat ? ` 줄 선 ${hh.seat}명도 앉아요!!` : ''}`, go: () => A.openElite() }; }
   const bal = w.monsters.find(m => m.sp === 'balrog' && !m.d);
   if (bal) return { t: '주니어 발록 씨가 입사했어요!! 대기실에서 끌어서 빈 부지에 놓아 주세요!!', go: () => A.highlightBest(bal.id) };
   const trNew = A.ui.newTok != null ? M.tray(w).find(m => m.id === A.ui.newTok) : null;
@@ -487,6 +487,10 @@ export function orenPick(): OrenLine {
     const cf = M.crowdFix(w);
     const cl = cf && cf.cost <= w.smile ? S({ t: `${plotShort(cf.d)} 앞에 ${cf.n}명이 줄 섰어요!! 자리는 꽉 찼으니 ${josa(SPECIES[cf.sp].names[0], '을', '를')} 뽑아 ${plotShort(cf.to)}에 던전을 하나 더 열어요!!`, go: () => A.openHire({ crowd: cf }), key: 'crowd:' + cf.d }) : null;
     if (cl) return cl;
+    // 1.15.0 B2: 빈 부지가 없으면 손님 없는 던전을 비워 줄 선 레벨로 다시 연다 (봇 checkIn과 같은 자리)
+    const tp = M.thinRebuild(w);
+    const tl = tp ? S({ t: `${plotShort(tp.crowd.d)} 앞에 ${tp.crowd.n}명이 줄 섰는데 “${plotName(tp.to)}”${pp(plotName(tp.to), '은', '는')} 손님이 ${tp.occ}명뿐이에요!! 비우고 ${SPECIES[tp.sp].names[0]}${ro(SPECIES[tp.sp].names[0]).slice(SPECIES[tp.sp].names[0].length)} 다시 열면 줄이 나뉘어요!!`, go: () => A.openRebuild(tp), key: 'thin:' + tp.to }) : null;
+    if (tl) return tl;
   }
   // v1.7 모객: 진화 다음, 이벤트 앞 (봇 checkIn과 같은 순서. 1.10.0 `guests.order`가 'before'면 진화 앞). 복귀가 먼저, 다음 신규
   const recruitLine = (): OrenLine | null => {

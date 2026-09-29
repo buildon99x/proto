@@ -152,7 +152,12 @@ function wantEvolve(w: World, m: S.Monster, p: Persona): { go: boolean; plan: S.
     return { go: !!plan && plan.gapAfter < cur, plan };
   }
   // planner: 새 빈틈이 없거나, 발령으로 안 생기거나, 생겨도 바로 메울 수 있으면 한다
-  if (!pv.lost.length) return { go: true, plan: null };
+  if (!pv.lost.length) {
+    // 1.15.0 B1: 오렌·▲와 같이, 12시간 뒤 ②가 늦어지는 진화는 하지 않는다 (S.evolveHurts — 규칙 evolveOutlook이 켜져 있을 때)
+    //   승진 발령으로 빈틈이 주는 진화는 묻지 않는다 (evolvePicks와 같다)
+    if (S.evolveHurts(w, m, pv)) { const pl = RULES.promote ? S.bestPromote(w, m.id) : null; return pl && pl.gapAfter < cur ? { go: true, plan: pl } : { go: false, plan: null }; }
+    return { go: true, plan: null };
+  }
   if (plan && plan.gapAfter <= cur) return { go: true, plan };
   const c = lightClone(w);
   S.evolve(c, m.id);
@@ -314,6 +319,9 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
       if (h.ok && S.place(w, h.mon.id, cf.to).ok) { log.push('crowd:' + cf.sp); acts++; continue; }
       if (h.ok) S.unhire(w, h.mon.id, h.free ? 'ticket' : h.cost);
     }
+    // 손님 없는 던전 다시 열기 (1.15.0 B2): 빈 부지가 없으면 손님이 거의 없는 던전을 비워 줄 선 레벨로 (오렌과 같은 S.thinRebuild)
+    const tp = p.noRebuild ? null : S.thinRebuild(w);
+    if (tp && S.rebuild(w, tp).ok) { log.push('thin:' + tp.sp); acts++; continue; }
     // 즐기는 모험가가 결재 조건보다 모자라면: 꽉 찬 던전 자리 확장 → 붐비는 레벨에 던전 하나 더
     if (S.happyCount(w) < S.chapterInfo(w).happy && !gapN(w)) {
       const lv = S.levelsOf(w);

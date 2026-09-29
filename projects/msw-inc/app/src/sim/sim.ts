@@ -59,6 +59,8 @@ export interface World {
   eliteReady?: number | null;
   /** 필드 보스 (v1.3): 찾아온 손님 하나 (d가 null이면 초대 기다림). bossDone = 토벌한 장 */
   boss: Boss | null; bossDone: number[];
+  /** 1.15.0: 마지막 모객권을 줄 때까지 떠난 손님 (옛 세이브에는 없다) */
+  recLeft?: number;
   stats: { arrivals: number; levelups: number; grads: number; left: { entrance: number; search: number; busy: number }; evolves: number; elites: number; bosses: number; /** 돌아온 손님 (v1.7) */ returned?: number };
   /** 이번 장 누적 즐거움 (명·시간) — 결재 조건 ② (v1.2) */
   cjoy: number;
@@ -137,6 +139,7 @@ export function createWorld(seed: number): World {
     tut: RULES.arrive ? { buffUntil: RULES.buffMin, instant: 0, script: TUT_PARTIES.map(p => ({ ...p, lv: [...p.lv], prog: [...p.prog] })) } : { buffUntil: RULES.buffMin, instant: 3 },
     tickets: { hire: ['mush'], event: 1, plot: RULES.firstLoop ? 1 : 0 }, marks: [],
     elite: null, eliteAcc: 0, eliteBy: {}, boss: null, bossDone: [],
+    recLeft: 0,
     stats: { arrivals: 0, levelups: 0, grads: 0, left: { entrance: 0, search: 0, busy: 0 }, evolves: 0, elites: 0, bosses: 0 },
     chapterAt: [0], cjoy: 0,
   };
@@ -247,7 +250,8 @@ export const dexCount = (w: World) => Object.keys(w.dex).length;
 export const hasBalrogDungeon = (w: World) => w.monsters.some(m => m.sp === 'balrog' && m.d && w.plots[m.d] && w.plots[m.d].open);
 export const needsBalrog = (w: World) => w.chapter === 5;
 /** 지금 자리 수: 필드 보스가 방문 중이면 임시로 늘어난다 (v1.3) */
-export const seatsOf = (w: World, did: PlotId) => w.dungeons[did].seats + (RULES.fieldBoss && w.boss && w.boss.d === did ? RULES.fieldBoss.seats : 0);
+export const eliteSeats = (w: World, did: PlotId) => (RULES.elite?.seats && w.elite && w.elite.d === did ? RULES.elite.seats : 0);
+export const seatsOf = (w: World, did: PlotId) => w.dungeons[did].seats + (RULES.fieldBoss && w.boss && w.boss.d === did ? RULES.fieldBoss.seats : 0) + eliteSeats(w, did);
 /** 5장 결재 ③ (v1.3): 슬리피우드 계열 직원이 일하는 던전이 있는가 */
 export const isNative = (sp: SpeciesId) => SPECIES[sp].chapter === 5;
 export const needsNative = (w: World) => w.chapter === 5 && RULES.nativeCond;
@@ -313,7 +317,7 @@ export function dungeonInfo(w: World): Record<PlotId, DInfo> {
     const d = w.dungeons[id], ms = monsIn(w, id);
     const guest = !!w.boss && w.boss.d === id && !!RULES.fieldBoss;
     info[id] = {
-      id, D: lv[id], lo: lv[id] - 5, hi: lv[id] + 5, seats: d.seats + (guest ? RULES.fieldBoss!.seats : 0), occ: 0,
+      id, D: lv[id], lo: lv[id] - 5, hi: lv[id] + 5, seats: d.seats + (guest ? RULES.fieldBoss!.seats : 0) + eliteSeats(w, id), occ: 0,
       elite: !!w.elite && w.elite.d === id, guest,
       drop: !!d.event && d.event.kind === 'drop', exp: !!d.event && d.event.kind === 'exp',
       gift: ms.some(m => SPECIES[m.sp].trait === 'gift'),
@@ -514,7 +518,8 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
     for (const m of d.mons) {
       const before = canEvolve(m);
       m.work += kills / d.mons.length;
-      m.tenure += share * bx * (SPECIES[m.sp].trait === 'fast' ? 1.5 : 1) * (RULES.grounds && plotInfo(id).home.includes(m.sp) ? RULES.grounds.homeX : 1);
+      m.tenure += share * bx * (SPECIES[m.sp].trait === 'fast' ? 1.5 : 1) * (RULES.grounds && plotInfo(id).home.includes(m.sp) ? RULES.grounds.homeX : 1)
+        * (d.elite && RULES.elite?.tenureX && w.elite && w.elite.mon === m.id ? RULES.elite.tenureX : 1);
       if (!before && canEvolve(m)) emit({ type: 'ready', mon: m.id });
     }
     emit({ type: 'kill', d: id, n: kills });
@@ -642,8 +647,22 @@ function tickElite(w: World, emit: (e: SimEvent) => void) {
   for (const id of ids) { r -= w.eliteBy[id]; if (r <= 0) { pick = id; break; } }
   startElite(w, pick, emit);
 }
+/** 엘리트가 될 직원까지 남은 근속: 다음 진화, 최종 단계면 임원 자격(4장부터) */
+function eliteNeed(w: World, m: Monster): number {
+  const tgt = m.stage < maxStage(m) ? evolveNeed(m) : RULES.exec && w.chapter >= RULES.exec.from ? RULES.exec.tenure : Infinity;
+  return Math.max(0, tgt - m.tenure);
+}
+/** 엘리트가 될 직원: 근속이 가장 많은 직원. 1.15.0(근속 ×tenureX): 아직 문턱에 안 닿은 직원 가운데 가장 가까운 직원 */
+export function eliteMon(w: World, did: PlotId): Monster | undefined {
+  const ms = monsIn(w, did);
+  if (RULES.elite?.tenureX && RULES.elite.tenureX > 1) {
+    const open = ms.filter(m => { const n = eliteNeed(w, m); return n > 0 && isFinite(n); }).sort((a, b) => eliteNeed(w, a) - eliteNeed(w, b));
+    if (open[0]) return open[0];
+  }
+  return ms.sort((a, b) => b.tenure - a.tenure)[0];
+}
 function startElite(w: World, did: PlotId, emit: (e: SimEvent) => void) {
-  const m = monsIn(w, did).sort((a, b) => b.tenure - a.tenure)[0];
+  const m = eliteMon(w, did);
   if (!m || !RULES.elite) return;
   w.elite = { d: did, mon: m.id, until: w.t + RULES.elite.min };
   // 1.14.0: 지명을 기다린 동안 쌓인 퇴근은 다음 엘리트로 넘긴다 (떠나 있어도 엘리트 수가 줄지 않게)
@@ -654,14 +673,26 @@ function startElite(w: World, did: PlotId, emit: (e: SimEvent) => void) {
 /**
  * 엘리트를 맞을 던전 후보 (1.14.0): 즐기는 모험가가 많은 순 (엘리트는 그 던전 ② ×2, 레벨업 ×1.5 — 사람이 많을수록 크다). 오렌은 첫째를 권한다
  */
-export function eliteHosts(w: World): { id: PlotId; happy: number; mon: Monster }[] {
-  const lv = levelsOf(w), out: { id: PlotId; happy: number; mon: Monster }[] = [];
+/**
+ * 엘리트를 맞을 수 있는 던전. 1.15.0: 자리 +seats가 붙어 줄 선 손님이 앉는다 — 오렌·봇은 "엘리트 동안 즐길 손님"(지금 손님 + 앉게 될 줄)이 많은 곳을 권한다.
+ * need는 엘리트 직원이 다음 진화(최종 단계면 임원 자격)까지 남은 근속, gain은 엘리트 동안 근속 ×tenureX로 더 쌓일 근속(지금 속도 기준)
+ */
+export interface EliteHost { id: PlotId; happy: number; line: number; seat: number; mon: Monster; need: number; gain: number }
+export function eliteHosts(w: World): EliteHost[] {
+  const lv = levelsOf(w), out: EliteHost[] = [], el = RULES.elite;
+  const line: Record<string, number> = {}, occ: Record<string, number> = {};
+  for (const a of w.advs) { if (a.st === 'busy' && a.near) line[a.near] = (line[a.near] || 0) + 1; else if (a.st === 'happy' && a.d) occ[a.d] = (occ[a.d] || 0) + 1; }
   for (const id in lv) {
-    const m = monsIn(w, id).sort((a, b) => b.tenure - a.tenure)[0];
+    const ms = monsIn(w, id), m = eliteMon(w, id);
     if (!m) continue;
-    out.push({ id, happy: w.advs.filter(a => a.st === 'happy' && a.d === id).length, mon: m });
+    const seat = Math.min(el?.seats || 0, line[id] || 0);
+    const need = eliteNeed(w, m);
+    // 근속 속도(분당): 즐기는 손님 × tenureShare(1, n) × 식구·빠름 배율. 엘리트 동안 ×tenureX가 더하는 몫
+    const per = (occ[id] || 0) + seat, rate = per * tenureShare(1, ms.length) * (SPECIES[m.sp].trait === 'fast' ? 1.5 : 1) * (atHome(m) && RULES.grounds ? RULES.grounds.homeX : 1);
+    const gain = el?.tenureX && el.tenureX > 1 && isFinite(need) ? Math.min(need, rate * (el.tenureX - 1) * el.min) : 0;
+    out.push({ id, happy: occ[id] || 0, line: line[id] || 0, seat, mon: m, need, gain });
   }
-  return out.sort((a, b) => b.happy - a.happy);
+  return out.sort((a, b) => (b.happy + b.seat) - (a.happy + a.seat) || b.happy - a.happy);
 }
 export interface EliteSnap { acc: number; by: Record<PlotId, number>; ready: number | null }
 /** 엘리트 지명: 고른 던전에서 근속이 가장 많은 직원이 한 시간 엘리트가 된다 */
@@ -906,9 +937,16 @@ export function cancelRecruit(w: World, refund: number, wasFree: boolean): void 
  * 매니저 복귀 (v1.7): awayMin분 넘게 떠났다 돌아오면 모객권 1장 (쥔 모객권이 hold장 미만일 때).
  * 화면(출근 리포트)과 봇(체크인)이 같은 함수를 부른다. 놓쳐도 잃는 것은 없다
  */
+export const leftTotal = (w: World) => w.stats.left.busy + w.stats.left.search + w.stats.left.entrance;
 export function welcomeBack(w: World, awayMin: number): boolean {
   const gu = RULES.guests;
-  if (!gu || !w.pool || awayMin < gu.ticket.awayMin || recruitTickets(w) >= gu.ticket.hold) return false;
+  if (!gu || !w.pool || recruitTickets(w) >= gu.ticket.hold) return false;
+  if (gu.ticket.left) {
+    // 1.15.0: 지난 모객권 뒤로 떠난 손님이 left명 쌓였으면 (떠나 있던 시간과 관계없이). 옛 세이브는 지금부터 센다
+    if (w.recLeft == null) { w.recLeft = leftTotal(w); return false; }
+    if (leftTotal(w) - w.recLeft < gu.ticket.left) return false;
+    w.recLeft = leftTotal(w);
+  } else if (awayMin < gu.ticket.awayMin) return false;
   w.tickets.recruit = recruitTickets(w) + 1;
   return true;
 }
@@ -1343,10 +1381,10 @@ export interface Outlook {
 }
 export const FORECAST_MIN = 720;
 export const cloneWorld = (w: World): World => JSON.parse(JSON.stringify(w)) as World;
-export function outlook(w: World, minutes = FORECAST_MIN): Outlook {
+export function outlook(w: World, minutes = FORECAST_MIN, dt = 1): Outlook {
   const x = cloneWorld(w), j0 = x.cjoy;
   const ch0 = x.chapter;
-  for (let i = 0; i < minutes; i++) step(x, 1);
+  for (let i = 0; i < minutes; i += dt) step(x, dt);
   const occ: Record<PlotId, number> = {}, seats: Record<PlotId, number> = {};
   for (const id in levelsOf(x)) { occ[id] = 0; seats[id] = seatsOf(x, id); }
   let busy = 0;
@@ -1359,6 +1397,26 @@ export function outlook(w: World, minutes = FORECAST_MIN): Outlook {
 }
 /** 손님이 자리의 1/4도 안 되는 던전 (4명 이하) */
 export const thinDungeons = (o: Outlook) => Object.keys(o.occ).filter(id => o.occ[id] <= Math.min(4, o.seats[id] / 4));
+/**
+ * 진화 전망 (1.15.0 B1): 오렌·▲·봇·진화 시트가 같은 값을 쓴다(말과 시트가 어긋나지 않게). 5분 걸음(1분 걸음과 판정 96% 일치, 4배 빠르다),
+ * 월드 30분·직원 배치가 같으면 다시 굴리지 않는다
+ */
+export const FORECAST_DT = 5;
+let fcMemo: { w: World; m: Map<string, Forecast> } | null = null;
+export function evolveForecast(w: World, monId: number): Forecast {
+  if (!fcMemo || fcMemo.w !== w || fcMemo.m.size > 300) fcMemo = { w, m: new Map() };
+  const key = `${monId}|${Math.floor(w.t / 30)}|${w.chapter}|${w.approvalReady ? 1 : 0}|` + w.monsters.map(m => `${m.id}.${m.stage}.${m.d}`).join(',') + '|' + Object.keys(w.plots).filter(id => w.plots[id].open).length;
+  let f = fcMemo.m.get(key);
+  if (!f) { f = forecast(w, x => evolve(x, monId), FORECAST_MIN, undefined, FORECAST_DT); fcMemo.m.set(key, f); }
+  return f;
+}
+/** 결재 ② 차이를 지금 속도로 몇 시간인가 (+면 빨라진다) */
+export const forecastHours = (w: World, f: Forecast) => { const r = joyRate(w).rate; return r > 0 ? (f.act.joy - f.hold.joy) / r : 0; };
+/** 이 진화가 12시간 뒤 결재 ②를 규칙의 hours시간 넘게 늦추는가. 길을 새로 잇는 진화와 1장(첫 세션 대본)은 묻지 않는다 */
+export function evolveHurts(w: World, m: Monster, pv = preview(w, { evolve: m.id })): boolean {
+  if (!RULES.evolveOutlook || w.chapter < 2 || pv.lost.length || pv.gained.length || approvalConds(w).happy || w.approvalReady || w.ended) return false;
+  return forecastHours(w, evolveForecast(w, m.id)) < -RULES.evolveOutlook.hours;
+}
 /** 지금 손님이 거의 없는 던전 (자리의 1/4 이하 · 4명 이하, 손님 적은 순). 리포트가 😊 하락의 이유로 말한다 (1.15.0 B1) */
 export function thinNow(w: World): { id: PlotId; occ: number; seats: number }[] {
   const occ: Record<PlotId, number> = {};
@@ -1374,11 +1432,11 @@ export interface Forecast {
   /** ② 누적 차이 (이번 장 목표 대비 비율, +면 빨라진다) */
   joyPct: number;
 }
-export function forecast(w: World, act: (x: World) => unknown, minutes = FORECAST_MIN): Forecast {
-  const hold = outlook(w, minutes);
+export function forecast(w: World, act: (x: World) => unknown, minutes = FORECAST_MIN, base?: Outlook, dt = 1): Forecast {
+  const hold = base || outlook(w, minutes, dt);
   const x = cloneWorld(w);
   act(x);
-  const a = outlook(x, minutes);
+  const a = outlook(x, minutes, dt);
   const holdThin = new Set(thinDungeons(hold));
   const thin = thinDungeons(a).filter(id => !holdThin.has(id));
   const queue = Object.keys(a.line).filter(id => a.line[id] >= 4 && a.line[id] >= (hold.line[id] || 0) + 3).sort((p, q) => a.line[q] - a.line[p]);
@@ -1714,6 +1772,44 @@ export function crowdFix(w: World): CrowdFix | null {
   return null;
 }
 
+/**
+ * 손님 없는 던전 다시 열기 (1.15.0 B2): 부지가 다 찼는데 어느 던전 앞에 줄이 서 있고, 다른 던전은 손님이 거의 없을 때
+ * 그 던전을 비우고 줄 선 레벨의 계열로 다시 연다. 전에는 빈 부지가 없으면 붐빔 풀기(crowdFix)가 멈춰
+ * 3장 내내 "만원"과 "0/12"가 함께 있었고 스마일은 쓸 곳 없이 쌓였다(play-review 10절 B2). 빈틈은 늘리지 않는다
+ */
+export interface ThinPlan extends RebuildPlan { crowd: { d: PlotId; n: number; lo: number; hi: number }; occ: number; seats: number }
+export function thinRebuild(w: World): ThinPlan | null {
+  if (Object.keys(w.plots).some(id => !monsIn(w, id).length)) return null; // 빈 부지가 있으면 붐빔 풀기가 한다
+  const busy: Record<string, number[]> = {};
+  for (const a of w.advs) if (a.st === 'busy' && a.near) (busy[a.near] = busy[a.near] || []).push(a.lv);
+  const ds = Object.keys(busy).filter(id => busy[id].length >= 4).sort((a, b) => busy[b].length - busy[a].length);
+  if (!ds.length) return null;
+  const room = TRAY_MAX - tray(w).length, cur = gapSize(gapSegments(w)), lv = levelsOf(w);
+  const thin = thinNow(w).filter(x => {
+    const ms = monsIn(w, x.id);
+    return w.plots[x.id].open && ms.length && ms.length <= room && !ms.some(m => mustStay(w, m)) && !busy[x.id] &&
+      !(w.elite && w.elite.d === x.id) && !(w.boss && w.boss.d === x.id);
+  });
+  if (!thin.length) return null;
+  for (const d of ds) {
+    const lvs = busy[d];
+    let best: (ThinPlan & { k: number }) | null = null;
+    for (const t of thin) for (const sp of Object.keys(SPECIES) as SpeciesId[]) {
+      if (!canHireSpecies(w, sp)) continue;
+      const b = SPECIES[sp].base, k = lvs.filter(L => Math.abs(L - b) <= 5).length;
+      if (k * 2 < lvs.length || Math.abs(b - lv[t.id]) <= 5) continue;
+      const free = hasHireTicket(w, sp), cost = free ? 0 : hireCost(sp);
+      if (cost > w.smile) continue;
+      const after = rebuiltLevels(w, t.id, sp);
+      if (gapSize(gapSegments(w, after)) > cur) continue;
+      if (!best || k > best.k || (k === best.k && (t.occ < best.occ || (t.occ === best.occ && cost < best.cost))))
+        best = { to: t.id, sp, out: monsIn(w, t.id).map(m => m.id), cost, free, grow: false, pv: previewOf(w, after), crowd: { d, n: lvs.length, lo: Math.min(...lvs), hi: Math.max(...lvs) }, occ: t.occ, seats: t.seats, k };
+    }
+    if (best) { const { k: _k, ...plan } = best; return plan; }
+  }
+  return null;
+}
+
 /** 막힌 사람이 가장 많은 빈틈 */
 export function hotGap(w: World): Seg | null {
   let best: Seg | null = null, bn = 0;
@@ -1749,6 +1845,12 @@ export function evolvePicks(w: World): Map<number, EvoPick> {
     const over = m.tenure - evolveNeed(m);
     if (evolveBlock(w, m)) { list.push({ mon: m.id, safe: false, shown: false, rank: 9, over }); continue; }
     const pv = preview(w, { evolve: m.id });
+    // 1.15.0 B1: 빈틈은 없어도 12시간 뒤 ②가 늦어지는 진화는 ▲로 띄우지 않는다 (진화 대기 칩에 남는다)
+    //   승진 발령으로 빈틈이 주는 진화(첫 세션 고참 달팽이 → Lv 14–15)는 묻지 않는다
+    if (!pv.lost.length && evolveHurts(w, m, pv)) {
+      const pl = RULES.promote ? bestPromote(w, m.id) : null;
+      if (!(pl && pl.gapAfter < cur)) { list.push({ mon: m.id, safe: false, shown: false, rank: 8, over }); continue; }
+    }
     if (!pv.lost.length) { list.push({ mon: m.id, safe: true, shown: false, rank: pv.gained.length ? 0 : 1, over }); continue; }
     const plan = RULES.promote ? bestPromote(w, m.id) : null;
     if (plan && plan.gapAfter <= cur) list.push({ mon: m.id, safe: true, shown: false, rank: plan.gapAfter < cur ? 0 : 1, over });

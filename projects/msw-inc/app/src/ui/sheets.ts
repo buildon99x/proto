@@ -115,7 +115,9 @@ export function forecastText(f: M.Forecast): { tone: 'ok' | 'bad' | 'even'; html
   if (f.thin.length) why.push(`손님이 거의 없어지는 던전: ${f.thin.slice(0, 2).map(id => plotShort(id)).join('·')}${f.thin.length > 2 ? ` 외 ${f.thin.length - 2}곳` : ''}`);
   if (f.queue.length) why.push(`줄이 서는 던전: ${f.queue.slice(0, 2).map(id => `${plotShort(id)} ${f.act.line[id]}명`).join('·')}`);
   if (small && !why.length) return { tone: 'even', html: `🔮 12시간 뒤에도 비슷해요 · 😊 ${f.act.happy} (보류하면 ${f.hold.happy})` };
-  const tone = hrs < -0.5 || dh < -Math.max(5, f.hold.happy * 0.04) ? 'bad' : 'ok';
+  // 빨간색은 오렌·▲가 권하지 않는 선(규칙 evolveOutlook)과 같다 — 시트와 오렌이 어긋나지 않게. 그 밖의 하락은 숫자로만
+  const H = RULES.evolveOutlook?.hours ?? 0.5;
+  const tone = hrs < -H ? 'bad' : hrs > 0.5 && dh >= 0 ? 'ok' : 'even';
   const joy = Math.abs(hrs) < 0.5 ? '결재 ② 그대로' : `결재 ② 약 ${Math.abs(hrs) < 10 ? Math.abs(hrs).toFixed(1) : Math.round(Math.abs(hrs))}시간 ${hrs > 0 ? '빨라져요' : '늦어져요'}`;
   return { tone, html: `🔮 12시간 뒤 😊 <b>${f.act.happy}</b> (보류하면 ${f.hold.happy}) · ${joy}${why.length ? `<small>${why.join(' · ')}</small>` : ''}` };
 }
@@ -174,7 +176,7 @@ A.openEvolve = monId => {
   const fcEl = must('[data-fc]', sh);
   setTimeout(() => {
     if (!fcEl.isConnected || block) { fcEl.remove(); return; }
-    const f = M.forecast(w, x => (plan ? M.promote(x, plan) : M.evolve(x, m.id)));
+    const f = plan ? M.forecast(w, x => M.promote(x, plan), M.FORECAST_MIN, undefined, M.FORECAST_DT) : M.evolveForecast(w, m.id);
     const t = forecastText(f);
     fcEl.className = 'fc ' + t.tone;
     fcEl.innerHTML = t.html;
@@ -284,7 +286,10 @@ A.openRebuild = plan => {
   const D0 = M.levelsOf(w)[plan.to], D1 = plan.pv.after[plan.to];
   A.world.focus(D1 ?? 1);
   const g = plan.grow ? M.recommendGrow(w) : null;
-  const res = plan.grow
+  const tp = 'crowd' in plan ? (plan as M.ThinPlan) : null;
+  const res = tp
+    ? `<div class="res ok">✓ ${plotShort(tp.crowd.d)} 앞 줄 ${tp.crowd.n}명(${lvRange(tp.crowd.lo, tp.crowd.hi)})이 나뉘어요 · 빈틈은 늘지 않아요</div>`
+    : plan.grow
     ? `<div class="res ok">🌱 ${josa(sp.names[0], '이', '가')} 혼자 크면 ${g ? `${g.stage}번 진화해 Lv ${g.lv} 근처` : '위쪽 빈틈'}에 닿아요 · 지금 빈틈은 늘지 않아요</div>`
     : `<div class="res ok">✓ ${segList(plan.pv.gained)} 이어져요${plan.pv.gapsAfter.length ? ` · ${segList(plan.pv.gapsAfter)}만 남아요` : ' · 빈틈 없이'}${plan.pv.rescued ? ` · 혼자 걷던 ${plan.pv.rescued}명이 들어가요` : ''}</div>`;
   const sh = openSheet('evolve', 'var(--flow)', `
@@ -295,11 +300,18 @@ A.openRebuild = plan => {
       <div class="conseq">
         <div class="lvch">${plotName(plan.to)} · 던전 Lv ${D0} → ${D1}</div>
         ${res}
-        <div class="hint">💡 빈 부지가 없어서 던전 하나를 비워요. 대기실로 간 ${out.map(m => M.monName(m)).join('·')}${pp(M.monName(out[out.length - 1]), '은', '는')} 다른 던전에 놓거나 본사로 보내요. 5초 안에 되돌릴 수 있어요</div>
+        <div class="fc wait" data-fc>🔮 12시간 뒤를 계산하고 있어요…</div>
+        <div class="hint">💡 ${tp ? `손님이 ${tp.occ}/${tp.seats}뿐인 던전을 비워 줄 선 레벨로 옮겨요.` : '빈 부지가 없어서 던전 하나를 비워요.'} 대기실로 간 ${out.map(m => M.monName(m)).join('·')}${pp(M.monName(out[out.length - 1]), '은', '는')} 다른 던전에 놓거나 본사로 보내요. 5초 안에 되돌릴 수 있어요</div>
       </div>
       <div class="btns"><button class="btn pri" data-go>🔁 다시 열기<small>${plan.cost ? `스마일 ${n(plan.cost)}` : plan.free ? '채용권' : '무료'}</small></button><button class="btn ghostb" data-hold>그만두기</button></div>
     </div>`);
   A.world.setPreview(plan.pv, { kind: 'promote', label: { [plan.to]: `신입 ${sp.names[0]} · Lv ${D1}` } });
+  const fcEl = must('[data-fc]', sh);
+  setTimeout(() => {
+    if (!fcEl.isConnected) return;
+    const t = forecastText(M.forecast(w, x => M.rebuild(x, plan), M.FORECAST_MIN, undefined, M.FORECAST_DT));
+    fcEl.className = 'fc ' + t.tone; fcEl.innerHTML = t.html.replace('(보류하면', '(그만두면');
+  }, A.demo ? 0 : 60);
   must('[data-hold]', sh).onclick = () => { snd.play('ui'); A.closeSheet(); };
   must('[data-go]', sh).onclick = () => {
     const r = M.rebuild(w, plan);
@@ -362,15 +374,21 @@ A.openElite = () => {
   if (!el || !ep || w.eliteReady == null || w.elite) return;
   if (A.ui.mode === 'dungeon') A.closeDungeon();
   const lv = M.levelsOf(w), hosts = M.eliteHosts(w).slice(0, 4);
+  // 1.15.0 B3: 카드마다 이득의 종류가 다르다 — 손님(② ×2), 줄(자리 +8), 직원(근속 ×3). 가장 큰 쪽에 리본
+  const best = (f: (x: M.EliteHost) => number) => hosts.reduce((b, x) => (f(x) > f(b) ? x : b), hosts[0]);
+  const bSeat = hosts.length ? best(x => x.seat) : null, bGain = hosts.length ? best(x => (x.need > 0 ? x.gain / x.need : 0)) : null;
   let cards = '';
   hosts.forEach((hh, i) => {
-    cards += `<div class="hcard bosshost ${i === 0 ? 'rec' : ''}" data-host="${hh.id}">${i === 0 ? '<span class="rib">손님이 가장 많아요</span>' : ''}
-      <b>${plotName(hh.id)}</b><span class="lvl">Lv ${lv[hh.id]} · ${M.monName(hh.mon)}</span>
-      <span class="trait">😊 ${hh.happy}명 · ② ×${el.joyX} · 레벨업 ×${el.lvX}</span>
+    const rib = i === 0 ? '손님이 가장 많아요' : bSeat && hh.id === bSeat.id && hh.seat > 0 ? `줄 ${hh.seat}명이 앉아요` : bGain && hh.id === bGain.id && hh.gain > 0 ? `${hh.mon.stage < M.maxStage(hh.mon) ? '진화' : '임원'}가 가까워져요` : '';
+    const nextTxt = hh.mon.stage < M.maxStage(hh.mon) ? '진화' : '임원 자격';
+    cards += `<div class="hcard bosshost ${i === 0 ? 'rec' : ''}" data-host="${hh.id}">${rib ? `<span class="rib ${i === 0 ? '' : 'grow'}">${rib}</span>` : ''}
+      <b>${plotName(hh.id)}</b><span class="lvl">Lv ${lv[hh.id]} · ★ ${M.monName(hh.mon)}</span>
+      <span class="trait">😊 ${hh.happy}${hh.seat ? ` + 줄 ${hh.seat}` : ''}명 · ② ×${el.joyX}</span>
+      <span class="trait">${hh.need > 0 && isFinite(hh.need) && hh.gain > 0 ? `👤 근속 +${n(hh.gain)}/${n(hh.need)}` : hh.need === 0 ? `👤 ${nextTxt} 가능` : `👤 근속 ×${el.tenureX || 1}`} · <i data-fcx="${hh.id}">🔮 …</i></span>
       <button class="go" data-pick="${hh.id}">여기서 맞기</button></div>`;
   });
   const left = Math.max(0, w.eliteReady + ep.wait - w.t);
-  const sh = openSheet('boss', 'var(--gold)', `<div class="sh-title">★ 엘리트 준비 완료 <small>고른 던전에서 근속이 가장 많은 직원이 ${Math.round(el.min / 60)}시간 동안 엘리트가 돼요 · 그 던전 손님이 많을수록 커요 · ${dur(left)} 뒤엔 저절로 뽑혀요 · 놓쳐도 잃는 것은 없어요</small></div>
+  const sh = openSheet('boss', 'var(--gold)', `<div class="sh-title">★ 엘리트 준비 완료 <small>고른 던전에서 ${Math.round(el.min / 60)}시간 동안: 손님 ② ×${el.joyX} · 레벨업 ×${el.lvX}${el.seats ? ` · 자리 +${el.seats}` : ''}${el.tenureX ? ` · ★ 직원 근속 ×${el.tenureX}` : ''} · ${dur(left)} 뒤엔 저절로 뽑혀요 · 놓쳐도 잃는 것은 없어요</small></div>
     <div class="cards">${cards}</div>`);
   const clearHl = () => $$('.plat.target').forEach(e => e.classList.remove('target'));
   $$<HTMLElement>('[data-host]', sh).forEach(c => {
@@ -388,6 +406,16 @@ A.openElite = () => {
     refresh();
   }));
   if (hosts[0] && A.world.plats[hosts[0].id]) A.world.plats[hosts[0].id].el.classList.add('target');
+  // 12시간 뒤 결재 ②: 지명하지 않으면 3시간 뒤 저절로 뽑힌다. 그 월드와 비교한 몫
+  setTimeout(() => {
+    if (A.ui.sheet !== 'boss' || !sh.isConnected) return;
+    const base = M.outlook(w, M.FORECAST_MIN, M.FORECAST_DT), rate = M.joyRate(w).rate;
+    for (const hh of hosts) {
+      const f = M.forecast(w, x => M.pickElite(x, hh.id), M.FORECAST_MIN, base, M.FORECAST_DT), hrs = rate > 0 ? (f.act.joy - f.hold.joy) / rate : 0;
+      const c = $(`[data-fcx="${hh.id}"]`, sh);
+      if (c) { c.textContent = `🔮 ② ${Math.abs(hrs) < 0.5 ? '그대로' : `${hrs > 0 ? '+' : '−'}${Math.abs(hrs).toFixed(1)}시간`}`; c.title = '12시간 뒤 결재 ② — 지명하지 않고 저절로 뽑히는 월드와 비교'; }
+    }
+  }, A.demo ? 0 : 60);
   snd.play('ui');
 };
 
@@ -802,13 +830,19 @@ A.catchUp = minutes => {
   const rep = M.ledgerReport(L, w);
   M.recordReport(w, rep); // 도감 운영 기록: 밤사이 퇴근왕 (v1.7)
   // 매니저 복귀 (v1.7): 오래 떠났다 돌아오면 모객권 — 실제 플레이어의 복귀가 월드의 복귀 손님과 만난다
-  if (M.welcomeBack(w, k)) setTimeout(() => toast('📣 돌아오신 기념 모객권 +1 · 손님도 불러요'), A.demo ? 0 : 2600);
+  const lb = w.recLeft ?? M.leftTotal(w);
+  if (M.welcomeBack(w, k)) setTimeout(() => toast(RULES.guests?.ticket.left ? `📣 그동안 돌아간 손님 ${n(M.leftTotal(w) - lb)}명 · 모객권 +1 — 다시 불러요` : '📣 돌아오신 기념 모객권 +1 · 손님도 불러요'), A.demo ? 0 : 2600);
   A.world.snap = true;
   A.showReport(rep, k, minutes);
   refresh();
 };
 
-A.openThin = id => A.openDungeon(id);
+/** 리포트 "빈 던전" 칩 (1.15.0 B2): 그 던전을 비워 줄을 나눌 수 있으면 다시 열기 시트, 아니면 현장 */
+A.openThin = id => {
+  // 권하는 던전이 칩의 던전과 다를 수 있다(줄에 맞는 계열이 빈틈을 만들지 않는 곳). 권하는 쪽을 연다
+  const tp = M.thinRebuild(A.w);
+  if (tp) A.openRebuild(tp); else A.openDungeon(id);
+};
 
 // ── S7 매니저 퇴근 ──────────────────────────────────────────
 A.offDuty = why => {

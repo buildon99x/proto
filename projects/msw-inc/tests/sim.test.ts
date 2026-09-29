@@ -775,12 +775,24 @@ t('모객 (v1.7): 떠난 손님은 풀에 남고, 복귀 모객이 자기 레벨
   assert.ok(r2.ok);
   S.cancelRecruit(w2, r2.cost, r2.free);
   assert.equal(w2.recruit, null); assert.equal(w2.smile, s0);
-  // 모객권: 6시간 넘게 떠났다 돌아오면 1장, 2장까지만
+  // 모객권 (1.15.0): 떠나 있던 시간이 아니라 떠난 손님 60명마다 1장, 2장까지만
+  w2.tickets.recruit = 0; w2.recLeft = S.leftTotal(w2);
+  assert.equal(S.welcomeBack(w2, 400), false, '오래 떠나 있어도 떠난 손님이 없으면 없다');
+  w2.stats.left.busy += 59;
+  assert.equal(S.welcomeBack(w2, 10), false);
+  w2.stats.left.busy += 1;
+  assert.equal(S.welcomeBack(w2, 10), true, '60명째');
+  w2.stats.left.busy += 60;
+  assert.equal(S.welcomeBack(w2, 10), true);
+  w2.stats.left.busy += 60;
+  assert.equal(S.welcomeBack(w2, 10), false, '쥔 모객권 상한');
+  assert.equal(S.recruitTickets(w2), 2);
+  // 옛 규칙(떠난 시간): 6시간 넘게 떠났다 돌아오면 1장
+  useRules({ ...V17, guests: { ...V17.guests!, ticket: { ...V17.guests!.ticket, left: undefined } } });
+  w2.tickets.recruit = 0;
   assert.equal(S.welcomeBack(w2, 100), false);
   assert.equal(S.welcomeBack(w2, 400), true);
-  assert.equal(S.welcomeBack(w2, 400), true);
-  assert.equal(S.welcomeBack(w2, 400), false, '쥔 모객권 상한');
-  assert.equal(S.recruitTickets(w2), 2);
+  useRules(V17);
   // 규칙을 끄면 v1.6 그대로: 풀도 모객권도 없다
   useRules({ ...V17, guests: null });
   const old = S.createWorld(31); firstSession(old); S.advance(old, 600);
@@ -994,6 +1006,88 @@ t('1.14.0 엘리트 지명: 준비되면 기다리고, 고르면 그 던전에�
   S.step(v, 1, []);
   assert.ok(v.elite && v.eliteReady == null, 'v1.6은 바로 추첨');
   useRules(V17);
+});
+
+t('1.15.0 엘리트의 깊이: 그 던전 자리 +8, 엘리트 직원은 문턱에 가장 가까운 직원이고 근속 ×3, 되돌리면 그대로', () => {
+  useRules(V17);
+  const el = RULES.elite!;
+  const w = S.createWorld(91); firstSession(w);
+  for (let i = 0; i < 600; i++) S.step(w, 1, []);
+  w.elite = null; w.eliteReady = w.t; w.eliteAcc = 0; w.eliteBy = {};
+  const hosts = S.eliteHosts(w);
+  assert.ok(hosts.length > 0);
+  for (let i = 1; i < hosts.length; i++) assert.ok(hosts[i - 1].happy + hosts[i - 1].seat >= hosts[i].happy + hosts[i].seat, '엘리트 동안 즐길 손님 순');
+  const h = hosts[0], seats0 = S.seatsOf(w, h.id);
+  const r = S.pickElite(w, h.id);
+  assert.ok(r.ok);
+  assert.equal(S.seatsOf(w, h.id), seats0 + el.seats!, '자리 +8');
+  assert.equal(w.elite!.mon, S.eliteMon({ ...w, elite: null }, h.id)!.id);
+  // 근속: 같은 걸음에서 엘리트 직원은 ×3
+  const m = w.monsters.find(x => x.id === w.elite!.mon)!;
+  const x = S.cloneWorld(w); x.elite = null;
+  const t0 = m.tenure;
+  S.step(w, 1, []); S.step(x, 1, []);
+  const dm = w.monsters.find(y => y.id === m.id)!.tenure - t0, dx = x.monsters.find(y => y.id === m.id)!.tenure - t0;
+  if (dx > 0) assert.ok(dm > dx * 2, `엘리트 근속 ×3 (${dm} vs ${dx})`);
+  // 되돌리면 자리도 돌아온다
+  const w2 = S.createWorld(91); firstSession(w2);
+  for (let i = 0; i < 600; i++) S.step(w2, 1, []);
+  w2.elite = null; w2.eliteReady = w2.t;
+  const h2 = S.eliteHosts(w2)[0], s2 = S.seatsOf(w2, h2.id);
+  const r2 = S.pickElite(w2, h2.id);
+  S.unpickElite(w2, r2.ok ? r2.snap : (null as never));
+  assert.equal(S.seatsOf(w2, h2.id), s2);
+  // 옛 규칙(자리·근속 없음): 근속이 가장 많은 직원
+  useRules({ ...V17, elite: { ...el, seats: undefined, tenureX: undefined } });
+  assert.equal(S.eliteMon(w2, h2.id)!.id, S.monsIn(w2, h2.id).sort((a, b) => b.tenure - a.tenure)[0].id);
+  useRules(V17);
+});
+
+t('1.15.0 진화 전망: 월드를 바꾸지 않고, 같은 월드면 같은 값, 규칙을 끄면 권유를 막지 않는다', () => {
+  useRules(V17);
+  const w = S.createWorld(7); firstSession(w);
+  for (let i = 0; i < 3 * 1440; i++) S.step(w, 1, []);
+  const before = JSON.stringify(w);
+  const m = w.monsters.find(S.canEvolve) || w.monsters[0];
+  const f = S.forecast(w, x => S.evolve(x, m.id), 120, undefined, 5);
+  assert.equal(JSON.stringify(w), before, '전망은 월드를 바꾸지 않는다');
+  const g = S.forecast(w, x => S.evolve(x, m.id), 120, undefined, 5);
+  assert.equal(JSON.stringify(f), JSON.stringify(g), '결정적');
+  assert.ok(f.hold.happy >= 0 && f.act.happy >= 0);
+  useRules({ ...V17, evolveOutlook: null });
+  assert.equal(S.evolveHurts(w, m), false, '규칙을 끄면 묻지 않는다');
+  useRules(V17);
+});
+
+t('1.15.0 손님 없는 던전 다시 열기: 빈 부지가 없고 줄이 설 때만, 빈틈을 늘리지 않고, 줄 선 레벨로 연다', () => {
+  useRules(V17);
+  let found = false;
+  for (const seed of [7, 11, 23]) {
+    const w = S.createWorld(seed); firstSession(w);
+    const p = PERSONAS[0];
+    for (let d = 0; d < 20 && !found; d++) for (const [i, hh] of p.times.entries()) {
+      const target = d * 1440 + 1440 + hh - 21 * 60;
+      while (w.t < target - 0.5) S.step(w, 1, []);
+      const tp = S.thinRebuild(w);
+      if (tp) {
+        assert.ok(Object.keys(w.plots).every(id => S.monsIn(w, id).length > 0), '빈 부지가 없을 때만');
+        const cur = S.gapSize(S.gapSegments(w));
+        assert.ok(S.gapSize(tp.pv.gapsAfter) <= cur, '빈틈을 늘리지 않는다');
+        const b = SPECIES[tp.sp].base;
+        assert.ok(b + 5 >= tp.crowd.lo && b - 5 <= tp.crowd.hi, '줄 선 레벨의 계열');
+        const snapB = snap(w);
+        const r = S.rebuild(w, tp);
+        assert.ok(r.ok);
+        assert.equal(S.levelsOf(w)[tp.to], b);
+        if (r.ok) S.unrebuild(w, tp, r);
+        assert.equal(snap(w), snapB, '되돌리면 그대로');
+        found = true; break;
+      }
+      checkIn(w, p, { last: i === 2, first: i === 0 });
+    }
+    if (found) break;
+  }
+  assert.ok(found, '표준 봇 20일 안에 한 번은 권할 때가 온다');
 });
 
 console.log(`\n${passed} passed`);
