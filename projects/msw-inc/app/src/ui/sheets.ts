@@ -207,6 +207,48 @@ function doPromote(plan: M.PromotePlan) {
   refresh();
 }
 
+// ── 임원 승진 (1.13.0): 진화를 끝내고 근속을 다시 채운 직원을 본사 임원으로 ────────────────
+A.openExec = monId => {
+  const w = A.w, m = w.monsters.find(x => x.id === monId);
+  if (!m) return;
+  const why = M.execBlock(w, m);
+  if (why) { nope(why); return; }
+  if (A.ui.mode === 'dungeon') A.closeDungeon();
+  const pv = M.execPreview(w, m.id), v = M.execValue(w, m.id), k = (w.execs || []).length;
+  const D0 = m.d ? pv.before[m.d] : null, D1 = m.d ? pv.after[m.d] : null;
+  if (m.d) A.world.focus(D0 ?? M.monLevel(m));
+  const pct = (x: number) => `${x >= 0 ? '+' : ''}${(100 * x).toFixed(1)}%`;
+  const rate = Math.max(1e-9, M.joyRate(w).rate);
+  const verdict = pv.lost.length
+    ? `<div class="res bad">⚠ ${pv.entranceBlocked ? '입구가 막혀요 · ' : ''}${segList(pv.lost)}가 비어요 — 다른 직원으로 먼저 이어 두세요</div>`
+    : v.net > 0
+      ? `<div class="res ok">✓ 지금 보내면 이득이에요 · 결재 ② ${pct(v.net / rate)}</div>`
+      : `<div class="res bad">⚠ 지금은 손해예요 · 이 던전 손님이 밀려나요 (결재 ② ${pct(v.net / rate)}) — 근속은 그대로 남아요</div>`;
+  const sh = openSheet('evolve', 'var(--gold)', `
+    <div class="evs">
+      <div class="idc"><div class="ph">${img(monArt(m), 3)}</div><b>${M.monName(m)}</b><span>Lv ${M.monLevel(m)} · 최종 단계</span></div>
+      <div class="arrow">➜<small>본사<br>임원 승진</small></div>
+      <div class="idc after"><div class="ph" style="font-size:var(--fs-d2)">👔</div><b>${k + 1}번째 임원</b><span>② ×${v.x0.toFixed(2)} → ×${v.x1.toFixed(2)}</span></div>
+      <div class="conseq">
+        <div class="lvch">${m.d ? `${plotName(m.d)} · 던전 Lv ${D0} → ${D1 ?? '휴업'}` : '대기실에서 승진'}</div>
+        ${verdict}
+        <div class="hint">💡 월드 전체 ② ${pct(v.gain / rate)} · ${v.loss > 0 ? `이 던전이 잃는 몫 ${pct(-v.loss / rate)}` : '이 던전은 잃는 몫이 없어요'}. 임원이 늘수록 한 명의 몫은 줄어요. 빈자리엔 새 직원을 뽑아 다시 키워요. 5초 안에 되돌릴 수 있어요</div>
+      </div>
+      <div class="btns"><button class="btn pri" data-go ${pv.lost.length ? 'disabled' : ''}>👔 임원 승진</button><button class="btn ghostb" data-hold>보류</button></div>
+    </div>`);
+  A.world.setPreview(pv, { kind: 'move' });
+  must('[data-hold]', sh).onclick = () => { snd.play('ui'); A.closeSheet(); };
+  must('[data-go]', sh).onclick = () => {
+    const r = M.promoteExec(w, m.id);
+    if (!r.ok) { nope(r.msg); return; }
+    A.closeSheet();
+    snd.play('evolve');
+    toast(`👔 ${M.monName(r.mon)} 임원 승진 · 월드 결재 ② ×${r.x1.toFixed(2)}`, { undo: () => M.unexec(w, r) });
+    refresh();
+  };
+  snd.play('ui');
+};
+
 // ── 던전 다시 열기 (1.12.0): 부지가 다 차서 채용으로 못 메우는 빈틈 ────────────────
 A.openRebuild = plan => {
   const w = A.w, sp = SPECIES[plan.sp], out = plan.out.map(id => w.monsters.find(m => m.id === id)).filter((m): m is M.Monster => !!m);
@@ -374,15 +416,19 @@ A.openMonPop = (id, el) => {
   const r = rectOf(el), need = M.evolveNeed(m), sp = SPECIES[m.sp];
   const tr = sp.trait ? TRAITS[sp.trait] : null;
   const canRel = M.RULES_RELEASE() && !m.vet && m.sp !== 'balrog';
+  // 1.13.0 임원 승진: 최종 단계 직원은 근속 막대가 임원 자격 막대가 된다 (4장부터)
+  const exT = RULES.exec && w.chapter >= RULES.exec.from && m.sp !== 'balrog' ? RULES.exec.tenure : 0, exOk = !M.execBlock(w, m);
   const pop = h(`<div class="pop-mon">
     <div class="hd">${img(monArt(m), 2)}<div><b>${M.monName(m)} #${m.no}</b><div class="s">Lv ${M.monLevel(m)} · ${m.stage + 1}단계 · ${tr ? tr.icon + ' ' + tr.name : '표준'}${m.vet ? ' · 고참' : ''}</div><div class="s">${m.d ? plotName(m.d) : '대기실'} · 퇴근 ${n(m.work)}회</div></div></div>
-    <div class="tenure"><div class="t"><span>근속(퇴근)</span><span>${need === Infinity ? '최종 단계' : n(Math.min(m.tenure, need)) + ' / ' + n(need)}</span></div><div class="bar"><i style="width:${need === Infinity ? 100 : Math.min(100, 100 * m.tenure / need)}%;background:${M.canEvolve(m) ? 'var(--evolve)' : 'color-mix(in srgb,var(--evolve) 45%,var(--white))'}"></i></div></div>
-    <div class="row">${M.canEvolve(m) && !A.T.hideEvolve() ? '<button class="pri" data-ev>▲ 진화</button>' : ''}${m.d ? '<button data-see>현장 보기</button><button data-tray>대기실로</button>' : ''}${canRel ? `<button data-rel title="채용비 절반을 돌려받아요">본사 전근 +${n(M.releaseRefund(m))}</button>` : ''}</div>
+    ${need === Infinity && exT ? `<div class="tenure"><div class="t"><span>👔 임원 자격 (근속)</span><span>${n(Math.min(m.tenure, exT))} / ${n(exT)}</span></div><div class="bar"><i style="width:${Math.min(100, 100 * m.tenure / exT)}%;background:${exOk ? 'var(--gold)' : 'color-mix(in srgb,var(--gold) 45%,var(--white))'}"></i></div></div>`
+      : `<div class="tenure"><div class="t"><span>근속(퇴근)</span><span>${need === Infinity ? '최종 단계' : n(Math.min(m.tenure, need)) + ' / ' + n(need)}</span></div><div class="bar"><i style="width:${need === Infinity ? 100 : Math.min(100, 100 * m.tenure / need)}%;background:${M.canEvolve(m) ? 'var(--evolve)' : 'color-mix(in srgb,var(--evolve) 45%,var(--white))'}"></i></div></div>`}
+    <div class="row">${M.canEvolve(m) && !A.T.hideEvolve() ? '<button class="pri" data-ev>▲ 진화</button>' : ''}${exOk ? '<button class="pri" data-exec>👔 임원 승진</button>' : ''}${m.d ? '<button data-see>현장 보기</button><button data-tray>대기실로</button>' : ''}${canRel ? `<button data-rel title="채용비 절반을 돌려받아요">본사 전근 +${n(M.releaseRefund(m))}</button>` : ''}</div>
     <div class="tip">끌어서 다른 발판에 놓으면 옮겨져요. 놓기 전에 결과가 보여요</div></div>`);
   const x = clamp(r.x + r.w / 2 - 135, 8, 1280 - 278), y = r.y > 300 ? r.y - 196 : r.y + r.h + 8;
   pop.style.left = x + 'px'; pop.style.top = y + 'px';
   must('#stage').appendChild(pop);
   const ev = $('[data-ev]', pop); if (ev) ev.onclick = () => { closePop(); A.openEvolve(id); };
+  const exb = $('[data-exec]', pop); if (exb) exb.onclick = () => { closePop(); A.openExec(id); };
   const see = $('[data-see]', pop); if (see) see.onclick = () => { closePop(); A.openDungeon(m.d!); };
   const tr2 = $('[data-tray]', pop); if (tr2) tr2.onclick = () => {
     closePop();
@@ -459,6 +505,7 @@ function joyTips(w: M.World): string {
   const r = M.joyRate(w), tips: string[] = [];
   if (r.queue >= 3) tips.push(`줄 선 ${r.queue}명을 앉히면 약 +${Math.round((100 * r.queue) / Math.max(1, r.rate))}% (자리 확장 · 같은 레벨 던전 하나 더)`);
   if (RULES.stageJoy) tips.push(r.stageX > 1.001 ? `승진한 직원 덕에 ×${r.stageX.toFixed(2)} — 진화할수록 빨라져요` : '직원이 진화하면 그 던전의 ②가 빨라져요');
+  if (RULES.exec && w.chapter >= RULES.exec.from) tips.push((w.execs || []).length ? `본사 임원 ${w.execs!.length}명 덕에 ×${M.execX(w).toFixed(2)}` : '진화를 끝낸 직원이 근속을 다시 채우면 👔 임원으로 올려요');
   if (w.chapter >= 2) tips.push('엘리트(×2)·필드 보스(×2)는 저절로 찾아와요');
   return tips.length ? `<small class="tips">빨리 채우려면: ${tips.join(' · ')}</small>` : '';
 }
@@ -617,6 +664,7 @@ A.showReport = (rep, awayMin, realMin = awayMin) => {
   const gap = gaps[0];
   if (gap) chips.push(gap.n ? `<button class="tchip" data-go="gap" data-a="${gap.seg[0]}" data-b="${gap.seg[1]}"><i class="al">!</i>${gap.seg[0] === 1 ? '입구 막힘' : '빈틈'} ${segTxt(gap.seg)} · ${gap.n}명</button>` : `<button class="tchip" data-go="gap" data-a="${gap.seg[0]}" data-b="${gap.seg[1]}"><i class="cold">⋯</i>끊긴 길 ${segTxt(gap.seg)}</button>`);
   const evs = b.filter((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve' && x.shown); if (evs.length) chips.push(`<button class="tchip" data-go="ev" data-mon="${evs[0].mon}"><i class="ev">▲</i>진화 가능 ${evs.length}</button>`);
+  const exm = M.execPick(w); if (exm) chips.push(`<button class="tchip" data-go="exec" data-mon="${exm.id}"><i class="ev">👔</i>임원 승진 ${M.monName(exm)}</button>`);
   const bz = b.filter((x): x is Extract<M.Badge, { kind: 'busy' }> => x.kind === 'busy').sort((p, q) => q.n - p.n)[0]; if (bz) chips.push(`<button class="tchip" data-go="busy" data-d="${bz.d}"><i class="bz">🌀</i>${plotShort(bz.d)} 과밀</button>`);
   if (w.boss && !w.boss.d) chips.push(`<button class="tchip" data-go="boss"><i class="ev">👑</i>필드 보스 초대</button>`);
   if (M.boxesOf(w).length) chips.push(`<button class="tchip" data-go="box"><i class="bx">📦</i>상자 ${M.boxesOf(w).length}</button>`);
@@ -664,6 +712,7 @@ A.showReport = (rep, awayMin, realMin = awayMin) => {
     if (g === 'doc') A.openApproval();
     else if (g === 'gap') A.fixGap([+(bt.dataset.a || 1), +(bt.dataset.b || 1)]);
     else if (g === 'ev') A.openEvolve(+(bt.dataset.mon || 0));
+    else if (g === 'exec') A.openExec(+(bt.dataset.mon || 0));
     else if (g === 'busy') A.openDungeon(bt.dataset.d!, { hl: 'seat' });
     else if (g === 'boss') A.openBoss();
     else if (g === 'recruit') A.openRecruit();
@@ -757,7 +806,7 @@ A.openCodex = () => {
   rows += `</div>`;
   const modal = must('#modal');
   modal.hidden = false; A.ui.modal = 'codex';
-  modal.innerHTML = `<div class="codex"><button class="x" data-close>✕</button><h2>📖 도감 <small>${M.dexCount(w)} / ${M.dexTotal()} · 높은 단계는 키워서만, 필드 보스는 토벌해서 얻어요</small></h2><div class="codexbody">${rows}</div></div>`;
+  modal.innerHTML = `<div class="codex"><button class="x" data-close>✕</button><h2>📖 도감 <small>${M.dexCount(w)} / ${M.dexTotal()} · 높은 단계는 키워서만, 필드 보스는 토벌해서 얻어요</small></h2>${(w.execs || []).length ? `<div class="execs">👔 본사 임원실 <small>월드 결재 ② ×${M.execX(w).toFixed(2)}</small> ${w.execs!.map(e => `<span title="${clockText(e.at).split(' · ')[0]} 승진">${img('m:' + SPECIES[e.sp].art[e.stage], 1)}${SPECIES[e.sp].names[e.stage]}</span>`).join('')}</div>` : ''}<div class="codexbody">${rows}</div></div>`;
   const close = () => { modal.hidden = true; modal.innerHTML = ''; A.ui.modal = null; };
   must('[data-close]', modal).onclick = close;
   modal.onclick = e => { if (e.target === modal) close(); };

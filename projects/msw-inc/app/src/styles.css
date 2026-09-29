@@ -809,3 +809,7 @@ body.portrait #rotate{display:block}
 .rcard.on{border-color:var(--flow);background:color-mix(in srgb,var(--flow) 12%,var(--white))}
 .tchip i.rc{background:var(--flow)}
 .tile .dd.rt{color:var(--flow2)}
+/* 1.13.0 본사 임원실 (도감 위) */
+.codex .execs{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:0 0 10px;padding:8px 12px;border-radius:12px;background:color-mix(in srgb,var(--gold) 14%,var(--white));font:var(--fs-s) var(--body);font-weight:800}
+.codex .execs small{color:var(--ink2);font-weight:700}
+.codex .execs span{display:inline-flex;align-items:center;gap:4px}

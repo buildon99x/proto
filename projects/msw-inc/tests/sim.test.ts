@@ -668,7 +668,7 @@ t('봇은 상자를 열어도 수 제한에 세지 않고, 모든 성향에서 �
 
 // ── 7. v1.7 사냥터·모객 ──────────────────────────────────────
 /** v1.7의 새 필드를 모두 끈 규칙. 필드를 더할 때마다 여기에 기본값(null·false)을 적는다 */
-const V17_OFF = { ...V17, grounds: null, guests: null, dexMile: null, stageJoy: null, earlySeat: null, joyGoal: V16.joyGoal };
+const V17_OFF = { ...V17, grounds: null, guests: null, dexMile: null, stageJoy: null, earlySeat: null, exec: null, joyGoal: V16.joyGoal };
 t('규칙 v1.7은 새 필드를 끄면 v1.6과 똑같이 흐른다 (봇 한 달, 난수 흐름까지)', () => {
   const run = (r: typeof V16) => {
     useRules(r);
@@ -936,6 +936,34 @@ t('1.12.0 던전 다시 열기: 빈 부지가 없을 때 입구 막힘을 한 �
   assert.equal(JSON.stringify({ m: w.monsters.map(m => [m.id, m.d, m.stage]), smile: w.smile, t: w.tickets }), before, '되돌리면 그대로');
   // 고참·발록은 비우지 않는다
   for (const id of plan.out) assert.ok(!S.mustStay(w, w.monsters.find(m => m.id === id)!));
+});
+
+t('1.13.0 임원 승진: 4장부터 최종 단계에 근속을 다시 채운 직원만, 월드 ② 배율은 체감하며 오르고, 되돌리면 그대로', () => {
+  useRules(V17);
+  const ex = RULES.exec!;
+  const w = S.createWorld(81); firstSession(w);
+  const m = w.monsters.find(x => !x.vet && x.sp !== 'balrog')!;
+  m.stage = S.maxStage(m); m.tenure = ex.tenure;
+  assert.ok(S.execBlock(w, m), '3장 전에는 안 된다');
+  w.chapter = ex.from;
+  assert.equal(S.execBlock(w, m), null);
+  m.tenure = ex.tenure - 1; assert.ok(S.execBlock(w, m), '근속을 다시 채워야 한다'); m.tenure = ex.tenure;
+  assert.equal(S.execX(w), 1);
+  assert.ok(Math.abs(S.execX(w, 1) - (1 + ex.max * (1 - ex.r))) < 1e-9);
+  assert.ok(S.execX(w, 2) - S.execX(w, 1) < S.execX(w, 1) - S.execX(w, 0), '한 명의 몫은 줄어든다');
+  assert.ok(S.execX(w, 1000) <= 1 + ex.max + 1e-9, '끝없이 늘지 않는다');
+  const before = JSON.stringify({ m: w.monsters.map(x => [x.id, x.d]), e: w.execs });
+  const r = S.promoteExec(w, m.id);
+  assert.ok(r.ok);
+  assert.equal(w.execs!.length, 1);
+  assert.ok(!w.monsters.includes(m));
+  S.unexec(w, r.ok ? r : (null as never));
+  assert.equal(JSON.stringify({ m: w.monsters.map(x => [x.id, x.d]), e: w.execs }), before, '되돌리면 그대로');
+  const vet = w.monsters.find(x => x.vet)!; vet.stage = S.maxStage(vet); vet.tenure = ex.tenure;
+  assert.ok(S.execBlock(w, vet), '고참은 안 된다');
+  useRules(V16);
+  assert.equal(S.execX({ ...w, execs: [{ sp: 'snail', stage: 2, at: 0 }] }), 1, 'v1.6은 배율이 없다');
+  useRules(V17);
 });
 
 console.log(`\n${passed} passed`);

@@ -114,6 +114,12 @@ export interface Rules {
    * 첫 40분에 입구 던전과 헤네시스 끝 던전이 최대 자리(24석)에 닿아 줄 40명이 서고, 부지도 다 차 40~50분에 둘 수가 3뿐이었다(choice-audit §14, L16·L18)
    */
   earlySeat: { regions: number[]; costs: number[] } | null;
+  /**
+   * 본사 임원 발령 (1.13.0, 기본 null = 없다): from장부터 최종 단계 직원을 본사 임원으로 올려 보낸다. 직원은 던전을 떠나고,
+   * 월드 전체의 ② 누적이 ×(1 + max × (1 − r^임원 수)) — 첫 임원 +2.5%, 열 명이면 약 +16%, 끝없이 늘지 않는다.
+   * 4~5장에 진화를 끝낸 직원이 하루 1~2명씩 쌓여 둘 곳 없는 근속만 늘었다. 그 직원으로 두는 결정을 만든다(choice-audit §16)
+   */
+  exec: { from: number; max: number; r: number; /** 최종 단계에 오른 뒤 다시 채워야 하는 근속. 모두 보내면 길 끝을 맡을 직원이 사라져 엔딩을 못 봤다 */ tenure: number } | null;
 }
 
 export const V11: Rules = {
@@ -151,6 +157,7 @@ export const V11: Rules = {
   dexMile: null,
   stageJoy: null,
   earlySeat: null,
+  exec: null,
 };
 
 export const V12: Rules = {
@@ -252,9 +259,12 @@ export const V17: Rules = {
   dexMile: null,
   // 승진한 직원의 던전 (1.11.0): ② ×(1 + 0.1 × 평균 진화 횟수). 표준이 D26.9로 당겨졌고 아래 초반 자리까지 더해 2~5장 ② 목표를 ×1.23(1.9.0 대비) 되맞췄다(choice-audit §14)
   stageJoy: { x: 0.1 },
-  joyGoal: [2, 4400, 34500, 55400, 58500],
+  // 1.13.0: 임원 승진(급하지 않은 진화 앞)이 표준을 당겨 4~5장을 ×1.25 (choice-audit §16)
+  joyGoal: [2, 4400, 34500, 69300, 73100],
   // 초반 지역 자리 한 칸 더 (1.11.0): 헤네시스·엘리니아 사냥터는 24 → 28석. 첫 40분 줄 40 → 26, 40~50분 둔 수 3 → 6(choice-audit §14)
   earlySeat: { regions: [1, 2], costs: [2000] },
+  // 임원 승진 (1.13.0): 4장부터 최종 단계에 근속 20,000을 다시 채운 직원을 올려 보내면 월드 ② ×(1 + 0.25 × (1 − 0.9^n)). 길 끝을 맡는 직원은 남는다. 오렌·봇은 월드 ②를 0.5% 넘게 올릴 때만 권한다(choice-audit §16)
+  exec: { from: 4, max: 0.25, r: 0.9, tenure: 20000 },
 };
 /** G2 모객 값: 복귀는 4시간 동안 시간당 6명(빈자리가 있을 때만), 신규는 거는 순간 3명 + 4시간 동안 기본 도착 ×2. 비용은 장마다 오른다(복귀 200 · 신규 150 × 장). 모객권은 1장 결재 선물 1장, 6시간 넘게 떠났다 오면 1장(2장까지) */
 export const GUESTS_V17: NonNullable<Rules['guests']> = { pool: 300, return: { min: 240, rate: 6, cost: 200 }, fresh: { min: 240, x: 2, burst: 3, cost: 150, pauseAt: 0 }, ticket: { gift: 1, awayMin: 360, hold: 2 }, evolveBurst: 8, order: 'after' };

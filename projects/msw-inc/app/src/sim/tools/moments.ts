@@ -98,7 +98,7 @@ export function gapStats(ts: number[], from: number, to: number): Gaps {
 
 /** 둔 수의 갈래: 자리 · 채용 · 진화 · 상자 · 모객 · 기타 (cadence·checkin 공통) */
 export const famOf = (k: string) =>
-  /^act:(seat|slot)/.test(k) ? '자리' : /^act:(hire|split|crowd|expand|grow|rebuild|region)/.test(k) ? '채용' : /^act:(evolve|promote|night-evolve)/.test(k) ? '진화' : /^act:box/.test(k) ? '상자' : /^act:recruit/.test(k) ? '모객' : '기타';
-export const FAMS = ['자리', '채용', '진화', '상자', '모객', '기타'];
+  /^act:(seat|slot)/.test(k) ? '자리' : /^act:(hire|split|crowd|expand|grow|rebuild|region)/.test(k) ? '채용' : /^act:(evolve|promote|night-evolve)/.test(k) ? '진화' : /^act:box/.test(k) ? '상자' : /^act:recruit/.test(k) ? '모객' : /^act:exec/.test(k) ? '임원' : '기타';
+export const FAMS = ['자리', '채용', '진화', '상자', '모객', '임원', '기타'];
 export const med = (xs: number[]) => { if (!xs.length) return 0; const s = [...xs].sort((a, b) => a - b); return s[Math.floor(s.length / 2)]; };
 export const mmss = (x: number) => { const s = Math.round(x); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };

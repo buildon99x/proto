@@ -51,6 +51,8 @@ export interface App {
   closeDungeon: () => void;
   openHire: (opt?: { into?: PlotId | null; seg?: M.Seg; crowd?: M.CrowdFix }) => void;
   openEvolve: (monId: number) => void;
+  /** 임원 승진 (1.13.0) */
+  openExec: (monId: number) => void;
   /** 던전 다시 열기 (1.12.0) */
   openRebuild: (plan: M.RebuildPlan) => void;
   /** 빈틈을 고치는 한 입구 (1.12.0): 옮기기 → 지금 진화 → 채용 → 다시 열기 가운데 되는 것으로 보낸다 */
@@ -455,6 +457,9 @@ export function orenPick(): OrenLine {
   };
   const recBefore = RULES.guests?.order === 'before' ? recruitLine() : null;
   if (recBefore) return recBefore;
+  // 1.13.0 임원 승진: 급하지 않은 진화보다 먼저 (봇 checkIn과 같은 순서). 이득이 클 때만 권한다 (M.execPick)
+  const exm = M.execPick(w);
+  if (exm) return { t: `${josa(M.monName(exm), '이', '가')} 임원 자격이 됐어요!! 👔 본사 임원으로 올리면 월드 결재 ②가 빨라져요!!`, go: () => A.openExec(exm.id) };
   const ev = b.find((x): x is Extract<M.Badge, { kind: 'evolve' }> => x.kind === 'evolve' && x.shown);
   if (ev) { const m = w.monsters.find(x => x.id === ev.mon)!; return { t: `${josa(M.monName(m), '이', '가')} 진화할 수 있대요!! ▲를 눌러봐요!!`, go: () => A.openEvolve(m.id) }; }
   const recAfter = RULES.guests?.order === 'before' ? null : recruitLine();

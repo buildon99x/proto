@@ -51,6 +51,8 @@ export interface World {
   marks: MarkReward[];
   /** 도감 돌파 보상을 받은 횟수 (1.10.0). 옛 세이브에는 없다 */
   dexMiles?: number;
+  /** 본사 임원 (1.13.0): 올려 보낸 직원의 계열·단계·시각. 옛 세이브에는 없다 */
+  execs?: { sp: SpeciesId; stage: number; at: number }[];
   /** 엘리트 (v1.3): 지금 들뜬 던전 하나. eliteAcc = 지난 엘리트 뒤 월드 퇴근, eliteBy = 던전별 */
   elite: Elite | null; eliteAcc: number; eliteBy: Record<PlotId, number>;
   /** 필드 보스 (v1.3): 찾아온 손님 하나 (d가 null이면 초대 기다림). bossDone = 토벌한 장 */
@@ -332,6 +334,7 @@ export function joyRate(w: World): { rate: number; base: number; stageX: number;
     base++; sx += x;
     rate += (d.elite && RULES.elite ? RULES.elite.joyX : 1) * (d.guest && RULES.fieldBoss ? RULES.fieldBoss.joyX : 1) * x;
   }
+  rate *= execX(w);
   return { rate, base, stageX: base ? sx / base : 1, queue: w.advs.filter(a => a.st === 'busy').length };
 }
 
@@ -515,7 +518,7 @@ export function step(w: World, dt: number, out?: SimEvent[]): void {
     w.smile += RULES.smileHappy * RULES.incomeCurve[w.chapter - 1] * tip * hs * dt * (d.drop ? 2 : 1) * (d.gift ? 1.3 : 1) * (d.boss ? 1.5 : 1);
     dd.joy += hs * dt / 60;
     // ② 누적: 엘리트·필드 보스가 있는 던전은 더 빨리 찬다. 첫 세션은 입사 버프도 붙는다 (v1.3)
-    w.cjoy += (hs * dt / 60) * (d.elite ? RULES.elite!.joyX : 1) * (d.guest ? RULES.fieldBoss!.joyX : 1) * (RULES.firstLoop ? bx : 1) * stageJoyX(d.mons);
+    w.cjoy += (hs * dt / 60) * (d.elite ? RULES.elite!.joyX : 1) * (d.guest ? RULES.fieldBoss!.joyX : 1) * (RULES.firstLoop ? bx : 1) * stageJoyX(d.mons) * execX(w);
     if (RULES.elite && !w.elite) { w.eliteAcc += kills; w.eliteBy[id] = (w.eliteBy[id] || 0) + kills; }
     if (w.zoneAcc != null) w.zoneAcc += kills;
     if (d.guest && w.boss) w.boss.kills += kills;
@@ -1426,6 +1429,76 @@ export function moveFix(w: World, seg: Seg): MoveFix | null {
     }
   }
   return best ? { mon: best.mon, to: best.to, cost: best.cost, ticket: best.ticket } : null;
+}
+
+/** 본사 임원 (1.13.0): 월드 ② 배율. n명이면 1 + max × (1 − r^n) */
+export const execX = (w: World, n = (w.execs || []).length) => (RULES.exec && n ? 1 + RULES.exec.max * (1 - Math.pow(RULES.exec.r, n)) : 1);
+/** 임원으로 올려 보낼 수 있는가: from장부터, 최종 단계, 발록·고참·마지막 슬리피우드 식구가 아닌 직원 */
+export function execBlock(w: World, m: Monster): string | null {
+  const ex = RULES.exec;
+  if (!ex) return '아직 임원 발령이 없어요';
+  if (w.chapter < ex.from) return `${ex.from}장부터 임원 발령이 돼요`;
+  if (m.stage < maxStage(m)) return '진화를 끝까지 마친 직원만 임원이 돼요';
+  // 길 끝을 맡을 수 있는 직원은 남긴다: 올려 보내면 길 끝이 비었을 때 다시 키우는 데 며칠이 걸려 엔딩을 못 봤다
+  if (monLevel(m) >= roadEnd(w) - 10) return `길 끝(Lv ${roadEnd(w) - 10}+)을 맡는 직원은 남아야 해요`;
+  if (m.tenure < ex.tenure) return `임원 자격까지 근속 ${fmtN(ex.tenure - m.tenure)} 남았어요`;
+  if (m.sp === 'balrog') return '발록 씨는 섬을 지켜요';
+  if (mustStay(w, m)) return m.vet ? '고참은 회사의 얼굴이에요' : '결재 ③ 슬리피우드 식구가 한 명뿐이에요';
+  return null;
+}
+/** 임원 발령 미리보기: 그 직원이 빠진 던전 레벨 */
+export const execPreview = (w: World, monId: number) => previewOf(w, levelsOf({ ...w, monsters: w.monsters.filter(m => m.id !== monId) }));
+export function promoteExec(w: World, monId: number): Result<{ mon: Monster; idx: number; from: PlotId | null; x0: number; x1: number }> {
+  const idx = w.monsters.findIndex(m => m.id === monId);
+  if (idx < 0) return no('없는 직원');
+  const m = w.monsters[idx], why = execBlock(w, m);
+  if (why) return no(why);
+  const x0 = execX(w);
+  w.monsters.splice(idx, 1);
+  (w.execs ||= []).push({ sp: m.sp, stage: m.stage, at: w.t });
+  return ok({ mon: m, idx, from: m.d, x0, x1: execX(w) });
+}
+/**
+ * 임원 발령의 값 (1.13.0, ② 명·시간/시간): 월드 배율이 오르는 몫(gain)과 그 던전이 잃는 몫(loss).
+ * loss = 그 던전 손님 가운데 새 적정 구간 밖으로 밀리는 사람의 ② 전부 + 남는 사람의 승진 배율 하락분.
+ * 모든 임원을 올려 보내면 던전이 무너져 오히려 느려졌다(열성 봇 70일에 62명) — 그래서 이득이 클 때만 권한다
+ */
+export function execValue(w: World, monId: number): { gain: number; loss: number; net: number; x0: number; x1: number } {
+  const m = w.monsters.find(x => x.id === monId);
+  const x0 = execX(w), x1 = execX(w, (w.execs || []).length + 1);
+  const gain = joyRate(w).rate * (x1 / x0 - 1);
+  let loss = 0;
+  if (m && m.d) {
+    const ms = monsIn(w, m.d), rest = ms.filter(x => x.id !== m.id);
+    const sj0 = stageJoyX(ms), sj1 = stageJoyX(rest);
+    const D1 = rest.length ? levelsOf({ ...w, monsters: w.monsters.filter(x => x.id !== m.id) })[m.d] : null;
+    for (const a of w.advs) {
+      if (a.st !== 'happy' || a.d !== m.d) continue;
+      if (D1 == null || a.lv < D1 - 5 || a.lv > D1 + 5) loss += sj0 * x1;
+      else loss += (sj0 - sj1) * x1;
+    }
+  }
+  return { gain, loss, net: gain - loss, x0, x1 };
+}
+/** 오렌·봇이 권하는 임원 후보 (1.13.0): 빠져도 새 빈틈이 생기지 않고, 월드가 얻는 몫이 그 던전이 잃는 몫보다 월드 ②의 0.5% 넘게 큰 직원 가운데 가장 이득인 사람 */
+export function execPick(w: World): Monster | null {
+  if (!RULES.exec || w.chapter < RULES.exec.from) return null;
+  let best: { m: Monster; net: number } | null = null;
+  for (const m of w.monsters) {
+    if (execBlock(w, m)) continue;
+    const v = execValue(w, m.id);
+    // 월드 ②를 0.5% 넘게 올릴 때만: 임원이 열다섯 명쯤 되면 한 명의 몫이 이보다 작아 더 권하지 않는다 (열성 봇이 40명을 보내 오히려 느려졌다)
+    if (v.net <= 0.005 * joyRate(w).rate || (best && v.net <= best.net)) continue;
+    if (execPreview(w, m.id).lost.length) continue;
+    best = { m, net: v.net };
+  }
+  return best && best.m;
+}
+/** 5초 되돌리기: 직원은 제자리로, 임원 명단에서 빠진다 */
+export function unexec(w: World, r: { mon: Monster; idx: number }): void {
+  w.monsters.splice(Math.min(r.idx, w.monsters.length), 0, r.mon);
+  w.execs?.pop();
+  if (w.execs && !w.execs.length) delete w.execs;
 }
 
 /**

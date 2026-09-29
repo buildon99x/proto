@@ -30,6 +30,8 @@ export interface Persona {
   undo?: boolean;
   /** 던전을 비우고 다시 여는 수를 모른다 (1.12.0 기다림 점검): 화면이 권하지 않던 수. 빈 부지가 없으면 빈틈을 못 메운다 */
   noRebuild?: boolean;
+  /** 본사 임원 발령을 쓰지 않는다 (1.13.0 비교용) */
+  noExec?: boolean;
 }
 
 const START = 21 * 60; // 입사는 저녁 9시
@@ -326,9 +328,13 @@ export function checkIn(w: World, p: Persona, opts: { last?: boolean; first?: bo
     };
     const before = RULES.guests?.order === 'before';
     if (before && tryRecruit()) { acts++; continue; }
+    // 본사 임원 발령 (1.13.0): 이득이 큰 최종 단계 직원이 있으면 급하지 않은 진화보다 먼저 (오렌 순서와 같다 — 길을 잇는 진화 ①은 이미 위에서 했다)
+    const ex = p.noExec ? null : S.execPick(w);
+    if (ex && S.promoteExec(w, ex.id).ok) { log.push('exec:' + ex.sp); acts++; continue; }
     // 진화 ②: 나머지는 성향대로
     if (tryEvolve(w, p, log, false)) { acts++; continue; }
     if (!before && tryRecruit()) { acts++; continue; }
+
     // 이벤트: 스마일이 넉넉하면(또는 무료 이벤트권이 있으면 성향과 관계없이) 가장 붐비는 던전에 경험치 2배
     const freeEv = w.tickets.event > 0;
     if ((p.events || freeEv) && S.activeEvents(w) < S.maxEvents(w)) {

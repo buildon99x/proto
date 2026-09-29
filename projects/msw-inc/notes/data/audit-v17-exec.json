@@ -1,0 +1,8942 @@
+[
+ {
+  "rules": "v1.7",
+  "persona": "std",
+  "label": "표준 (하루 3회, 진화는 따져 보고)",
+  "ch": [
+   1.8776041666666665,
+   4.347222222222222,
+   11.417361111111111,
+   20.549247685185183,
+   29.921469907407406
+  ],
+  "endDone": 5,
+  "endMin": 27.41111111111111,
+  "endMax": 31.51846064814815,
+  "endDead": 0,
+  "entranceH": 3.7333333333333334,
+  "smileMax": 199995.46849938369,
+  "acts": 3.147727272727273,
+  "boxes": 0.06741573033707865,
+  "seeds": [
+   {
+    "seed": 7,
+    "ch": [
+     1.8775462962962963,
+     4.583275462962963,
+     11.343692129629629,
+     20.549247685185183,
+     29.921469907407406
+    ],
+    "happyEnd": 184,
+    "entranceH": 13.35,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 63,
+      "smile": 25897,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 41,
+      "smile": 50221,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 106,
+      "smile": 59458,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 173,
+      "smile": 47932,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 205,
+      "smile": 59500,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 223,
+      "smile": 66582,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 214,
+      "smile": 80094,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 178,
+      "smile": 93304,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 127,
+      "smile": 99908,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 248,
+      "smile": 93004,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 251,
+      "smile": 96823,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 207,
+      "smile": 110935,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 234,
+      "smile": 109571,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 229,
+      "smile": 106701,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 232,
+      "smile": 122652,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 224,
+      "smile": 137686,
+      "gap": 4
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 215,
+      "smile": 150696,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 215,
+      "smile": 165831,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 198,
+      "smile": 165024,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 235,
+      "smile": 153442,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 238,
+      "smile": 153958,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 250,
+      "smile": 164974,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 193,
+      "smile": 139058,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 219,
+      "smile": 148212,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 217,
+      "smile": 150440,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 217,
+      "smile": 162200,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 196,
+      "smile": 156647,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 184,
+      "smile": 119391,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 11,
+    "ch": [
+     1.8776041666666665,
+     4.386805555555556,
+     12.355555555555556,
+     20.922916666666666,
+     31.386805555555554
+    ],
+    "happyEnd": 188,
+    "entranceH": 28.033333333333335,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 67,
+      "smile": 24432,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 76,
+      "smile": 51956,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 151,
+      "smile": 55738,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 172,
+      "smile": 47456,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 186,
+      "smile": 60456,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 175,
+      "smile": 74081,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 155,
+      "smile": 71194,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 126,
+      "smile": 73096,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 132,
+      "smile": 74433,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 3,
+      "happy": 159,
+      "smile": 98147,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 275,
+      "smile": 111778,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 225,
+      "smile": 100981,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 211,
+      "smile": 94380,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 318,
+      "smile": 102925,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 253,
+      "smile": 98739,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 234,
+      "smile": 117265,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 229,
+      "smile": 135027,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 232,
+      "smile": 153218,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 166,
+      "smile": 159732,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 218,
+      "smile": 166350,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 219,
+      "smile": 177024,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 225,
+      "smile": 168559,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 182,
+      "smile": 157283,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 185,
+      "smile": 168213,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 162,
+      "smile": 178912,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 180,
+      "smile": 187816,
+      "gap": 3
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 160,
+      "smile": 196798,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 159,
+      "smile": 206941,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 196,
+      "smile": 211659,
+      "gap": 0
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 188,
+      "smile": 207629,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 23,
+    "ch": [
+     1.8776041666666665,
+     4.314583333333333,
+     11.417361111111111,
+     20.353472222222223,
+     29.406944444444445
+    ],
+    "happyEnd": 164,
+    "entranceH": 3.7333333333333334,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 65,
+      "smile": 23631,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 66,
+      "smile": 56427,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 107,
+      "smile": 55470,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 187,
+      "smile": 44942,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 171,
+      "smile": 58262,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 211,
+      "smile": 61976,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 138,
+      "smile": 73092,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 199,
+      "smile": 94022,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 170,
+      "smile": 100230,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 236,
+      "smile": 111461,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 264,
+      "smile": 126514,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 190,
+      "smile": 115867,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 250,
+      "smile": 111520,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 242,
+      "smile": 128369,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 228,
+      "smile": 144093,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 232,
+      "smile": 162233,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 239,
+      "smile": 177161,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 249,
+      "smile": 194324,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 280,
+      "smile": 199995,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 259,
+      "smile": 169336,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 267,
+      "smile": 183471,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 231,
+      "smile": 194613,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 186,
+      "smile": 195400,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 212,
+      "smile": 183555,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 219,
+      "smile": 190511,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 222,
+      "smile": 176320,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 210,
+      "smile": 145828,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 164,
+      "smile": 142120,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 42,
+    "ch": [
+     1.8773148148148149,
+     4.335127314814815,
+     11.937210648148149,
+     21.51707175925926,
+     31.51846064814815
+    ],
+    "happyEnd": 222,
+    "entranceH": 0,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 70,
+      "smile": 26310,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 68,
+      "smile": 50222,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 147,
+      "smile": 52535,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 194,
+      "smile": 54075,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 193,
+      "smile": 66786,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 144,
+      "smile": 70017,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 160,
+      "smile": 85195,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 133,
+      "smile": 102700,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 161,
+      "smile": 121997,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 151,
+      "smile": 139951,
+      "gap": 3
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 215,
+      "smile": 139613,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 243,
+      "smile": 132413,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 259,
+      "smile": 135527,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 181,
+      "smile": 128166,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 196,
+      "smile": 118949,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 218,
+      "smile": 136925,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 214,
+      "smile": 149506,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 194,
+      "smile": 164605,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 177,
+      "smile": 176764,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 206,
+      "smile": 172391,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 216,
+      "smile": 139596,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 212,
+      "smile": 150381,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 240,
+      "smile": 159568,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 235,
+      "smile": 145229,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 208,
+      "smile": 155649,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 189,
+      "smile": 165127,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 159,
+      "smile": 163192,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 154,
+      "smile": 138297,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 230,
+      "smile": 137113,
+      "gap": 0
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 222,
+      "smile": 145459,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 99,
+    "ch": [
+     1.8776041666666665,
+     4.347222222222222,
+     11.40625,
+     19.897222222222222,
+     27.41111111111111
+    ],
+    "happyEnd": 308,
+    "entranceH": 3.433333333333333,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 67,
+      "smile": 26175,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 96,
+      "smile": 52451,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 157,
+      "smile": 65319,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 191,
+      "smile": 53068,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 208,
+      "smile": 63470,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 186,
+      "smile": 71247,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 165,
+      "smile": 85500,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 144,
+      "smile": 94862,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 171,
+      "smile": 111399,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 236,
+      "smile": 121675,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 265,
+      "smile": 125508,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 256,
+      "smile": 141662,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 237,
+      "smile": 161283,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 235,
+      "smile": 176506,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 234,
+      "smile": 191788,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 208,
+      "smile": 192891,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 277,
+      "smile": 193588,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 5,
+      "happy": 225,
+      "smile": 198744,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 249,
+      "smile": 186669,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 286,
+      "smile": 199070,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 289,
+      "smile": 190280,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 294,
+      "smile": 205277,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 269,
+      "smile": 198805,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 231,
+      "smile": 207835,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 275,
+      "smile": 222820,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 308,
+      "smile": 230676,
+      "gap": 0
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "rules": "v1.7",
+  "persona": "light",
+  "label": "가벼운 (하루 2회, 2수)",
+  "ch": [
+   1.8776041666666665,
+   4.877777777777778,
+   12.91875,
+   22.41111111111111,
+   29.872858796296295
+  ],
+  "endDone": 5,
+  "endMin": 29.336805555555557,
+  "endMax": 31.411805555555556,
+  "endDead": 0,
+  "entranceH": 0,
+  "smileMax": 225066.6979983575,
+  "acts": 2,
+  "boxes": 0.05454545454545454,
+  "seeds": [
+   {
+    "seed": 7,
+    "ch": [
+     1.8775462962962963,
+     4.916608796296296,
+     12.425636574074073,
+     21.929108796296294,
+     29.872858796296295
+    ],
+    "happyEnd": 346,
+    "entranceH": 0,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 54,
+      "smile": 26450,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 62,
+      "smile": 44184,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 56,
+      "smile": 65141,
+      "gap": 6
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 106,
+      "smile": 70627,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 162,
+      "smile": 77675,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 182,
+      "smile": 81711,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 197,
+      "smile": 87246,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 205,
+      "smile": 98136,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 182,
+      "smile": 117669,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 3,
+      "happy": 188,
+      "smile": 136340,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 244,
+      "smile": 142260,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 267,
+      "smile": 138757,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 295,
+      "smile": 141731,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 263,
+      "smile": 153004,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 259,
+      "smile": 146101,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 292,
+      "smile": 165099,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 196,
+      "smile": 159643,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 266,
+      "smile": 176303,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 283,
+      "smile": 185787,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 279,
+      "smile": 204053,
+      "gap": 3
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 315,
+      "smile": 201575,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 336,
+      "smile": 201456,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 304,
+      "smile": 215306,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 316,
+      "smile": 229746,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 327,
+      "smile": 244504,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 289,
+      "smile": 258232,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 324,
+      "smile": 249677,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 346,
+      "smile": 264040,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 11,
+    "ch": [
+     1.8776041666666665,
+     4.386805555555556,
+     13.3625,
+     22.41111111111111,
+     29.40625
+    ],
+    "happyEnd": 370,
+    "entranceH": 0,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 61,
+      "smile": 25708,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 76,
+      "smile": 49616,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 119,
+      "smile": 65809,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 128,
+      "smile": 70345,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 156,
+      "smile": 72321,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 160,
+      "smile": 79785,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 101,
+      "smile": 85936,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 137,
+      "smile": 84401,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 181,
+      "smile": 101961,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 3,
+      "happy": 165,
+      "smile": 106294,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 3,
+      "happy": 182,
+      "smile": 118898,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 213,
+      "smile": 128939,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 239,
+      "smile": 129960,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 227,
+      "smile": 137876,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 266,
+      "smile": 138659,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 274,
+      "smile": 156666,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 286,
+      "smile": 168294,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 304,
+      "smile": 187373,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 273,
+      "smile": 183834,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 4,
+      "happy": 333,
+      "smile": 193759,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 339,
+      "smile": 203482,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 370,
+      "smile": 186590,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 385,
+      "smile": 190818,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 372,
+      "smile": 194669,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 260,
+      "smile": 198955,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 326,
+      "smile": 199592,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 401,
+      "smile": 193539,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 370,
+      "smile": 191002,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 23,
+    "ch": [
+     1.8776041666666665,
+     4.877777777777778,
+     12.91875,
+     23.838194444444444,
+     31.411805555555556
+    ],
+    "happyEnd": 379,
+    "entranceH": 0,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 55,
+      "smile": 25760,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 65,
+      "smile": 44510,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 91,
+      "smile": 72511,
+      "gap": 6
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 134,
+      "smile": 79399,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 169,
+      "smile": 87552,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 166,
+      "smile": 95675,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 194,
+      "smile": 102333,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 128,
+      "smile": 118792,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 138,
+      "smile": 136572,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 3,
+      "happy": 145,
+      "smile": 137944,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 175,
+      "smile": 151422,
+      "gap": 7
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 200,
+      "smile": 145337,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 227,
+      "smile": 133548,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 253,
+      "smile": 134711,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 269,
+      "smile": 144633,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 195,
+      "smile": 155469,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 251,
+      "smile": 163031,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 177,
+      "smile": 154861,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 217,
+      "smile": 168272,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 4,
+      "happy": 222,
+      "smile": 183876,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 4,
+      "happy": 258,
+      "smile": 200094,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 237,
+      "smile": 215836,
+      "gap": 3
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 249,
+      "smile": 212904,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 273,
+      "smile": 209434,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 307,
+      "smile": 225067,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 265,
+      "smile": 219945,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 375,
+      "smile": 197399,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 356,
+      "smile": 214834,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 371,
+      "smile": 213760,
+      "gap": 0
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 379,
+      "smile": 222077,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 42,
+    "ch": [
+     1.8773148148148149,
+     4.889988425925926,
+     12.396932870370373,
+     23.416377314814817,
+     30.911516203703705
+    ],
+    "happyEnd": 401,
+    "entranceH": 0,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 58,
+      "smile": 25360,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 74,
+      "smile": 45961,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 93,
+      "smile": 73605,
+      "gap": 6
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 131,
+      "smile": 80924,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 152,
+      "smile": 81050,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 182,
+      "smile": 86398,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 175,
+      "smile": 101806,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 163,
+      "smile": 116411,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 186,
+      "smile": 135257,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 3,
+      "happy": 199,
+      "smile": 145903,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 218,
+      "smile": 157763,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 238,
+      "smile": 154108,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 280,
+      "smile": 154179,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 193,
+      "smile": 166774,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 231,
+      "smile": 157520,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 191,
+      "smile": 167958,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 165,
+      "smile": 157563,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 230,
+      "smile": 172410,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 250,
+      "smile": 190531,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 4,
+      "happy": 245,
+      "smile": 206798,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 4,
+      "happy": 199,
+      "smile": 216697,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 228,
+      "smile": 224984,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 295,
+      "smile": 218850,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 317,
+      "smile": 210876,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 331,
+      "smile": 214923,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 347,
+      "smile": 206734,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 351,
+      "smile": 200689,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 378,
+      "smile": 198718,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 401,
+      "smile": 217354,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 99,
+    "ch": [
+     1.8776041666666665,
+     4.815277777777778,
+     12.929166666666667,
+     22.382638888888888,
+     29.336805555555557
+    ],
+    "happyEnd": 333,
+    "entranceH": 0,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 59,
+      "smile": 25613,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 71,
+      "smile": 46357,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 67,
+      "smile": 70711,
+      "gap": 6
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 130,
+      "smile": 77684,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 157,
+      "smile": 76628,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 167,
+      "smile": 81893,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 186,
+      "smile": 93999,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 176,
+      "smile": 101929,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 129,
+      "smile": 116390,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 3,
+      "happy": 183,
+      "smile": 123577,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 197,
+      "smile": 145505,
+      "gap": 7
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 261,
+      "smile": 138360,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 272,
+      "smile": 144976,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 278,
+      "smile": 141321,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 302,
+      "smile": 143190,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 241,
+      "smile": 154054,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 253,
+      "smile": 172028,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 240,
+      "smile": 181900,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 305,
+      "smile": 200892,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 4,
+      "happy": 291,
+      "smile": 215159,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 332,
+      "smile": 225706,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 379,
+      "smile": 208363,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 376,
+      "smile": 208713,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 339,
+      "smile": 226274,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 387,
+      "smile": 229959,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 378,
+      "smile": 247996,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 306,
+      "smile": 241268,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 333,
+      "smile": 247697,
+      "gap": 0
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "rules": "v1.7",
+  "persona": "hasty",
+  "label": "진화 즉시 (뜨면 바로 누른다)",
+  "ch": [
+   1.8776041666666665,
+   4.347222222222222,
+   11.417361111111111,
+   20.353472222222223,
+   30.825694444444444
+  ],
+  "endDone": 5,
+  "endMin": 28.852777777777778,
+  "endMax": 32.39693287037037,
+  "endDead": 0,
+  "entranceH": 48.516666666666666,
+  "smileMax": 213443.27749913651,
+  "acts": 3.048780487804878,
+  "boxes": 0.06593406593406594,
+  "seeds": [
+   {
+    "seed": 7,
+    "ch": [
+     1.8775462962962963,
+     4.583275462962963,
+     11.343692129629629,
+     20.549247685185183,
+     31.503414351851852
+    ],
+    "happyEnd": 219,
+    "entranceH": 68.26666666666667,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 63,
+      "smile": 25897,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 41,
+      "smile": 50221,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 106,
+      "smile": 59458,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 173,
+      "smile": 47932,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 205,
+      "smile": 59500,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 223,
+      "smile": 66582,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 214,
+      "smile": 80094,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 178,
+      "smile": 93304,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 127,
+      "smile": 99908,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 248,
+      "smile": 93004,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 251,
+      "smile": 96823,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 207,
+      "smile": 110935,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 234,
+      "smile": 109571,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 229,
+      "smile": 106701,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 232,
+      "smile": 122670,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 228,
+      "smile": 137759,
+      "gap": 2
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 202,
+      "smile": 150705,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 198,
+      "smile": 166102,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 204,
+      "smile": 165685,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 222,
+      "smile": 148599,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 209,
+      "smile": 159361,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 202,
+      "smile": 163005,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 187,
+      "smile": 147799,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 193,
+      "smile": 156239,
+      "gap": 2
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 172,
+      "smile": 165483,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 124,
+      "smile": 171109,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 149,
+      "smile": 154042,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 186,
+      "smile": 150677,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 167,
+      "smile": 152072,
+      "gap": 2
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 219,
+      "smile": 140476,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 11,
+    "ch": [
+     1.8776041666666665,
+     4.386805555555556,
+     12.355555555555556,
+     19.914583333333333,
+     28.852777777777778
+    ],
+    "happyEnd": 196,
+    "entranceH": 32.61666666666667,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 67,
+      "smile": 24432,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 78,
+      "smile": 50688,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 145,
+      "smile": 63245,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 181,
+      "smile": 54952,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 187,
+      "smile": 64868,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 178,
+      "smile": 79020,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 169,
+      "smile": 88484,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 126,
+      "smile": 91098,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 151,
+      "smile": 111632,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 3,
+      "happy": 138,
+      "smile": 121795,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 237,
+      "smile": 117884,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 285,
+      "smile": 120867,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 344,
+      "smile": 108578,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 316,
+      "smile": 138394,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 322,
+      "smile": 147040,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 222,
+      "smile": 147967,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 228,
+      "smile": 167671,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 5,
+      "happy": 216,
+      "smile": 179704,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 245,
+      "smile": 168296,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 258,
+      "smile": 181681,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 228,
+      "smile": 193527,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 227,
+      "smile": 206339,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 227,
+      "smile": 218637,
+      "gap": 1
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 254,
+      "smile": 230791,
+      "gap": 1
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 217,
+      "smile": 233298,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 203,
+      "smile": 243714,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 196,
+      "smile": 233462,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 23,
+    "ch": [
+     1.8776041666666665,
+     4.314583333333333,
+     11.417361111111111,
+     20.353472222222223,
+     30.825694444444444
+    ],
+    "happyEnd": 154,
+    "entranceH": 37.68333333333333,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 65,
+      "smile": 23631,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 66,
+      "smile": 56427,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 107,
+      "smile": 55470,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 187,
+      "smile": 44942,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 171,
+      "smile": 58262,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 211,
+      "smile": 61976,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 138,
+      "smile": 73092,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 199,
+      "smile": 94022,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 170,
+      "smile": 100230,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 236,
+      "smile": 111461,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 264,
+      "smile": 126514,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 190,
+      "smile": 115867,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 250,
+      "smile": 111520,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 242,
+      "smile": 128369,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 228,
+      "smile": 144093,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 232,
+      "smile": 162233,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 239,
+      "smile": 177161,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 249,
+      "smile": 194324,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 280,
+      "smile": 199995,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 259,
+      "smile": 169336,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 267,
+      "smile": 183471,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 231,
+      "smile": 194613,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 193,
+      "smile": 195373,
+      "gap": 1
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 181,
+      "smile": 194461,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 178,
+      "smile": 194287,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 159,
+      "smile": 195648,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 176,
+      "smile": 171233,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 191,
+      "smile": 174772,
+      "gap": 1
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 154,
+      "smile": 165036,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 42,
+    "ch": [
+     1.8773148148148149,
+     4.335127314814815,
+     11.937210648148149,
+     21.831655092592595,
+     32.39693287037037
+    ],
+    "happyEnd": 203,
+    "entranceH": 59.05,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 70,
+      "smile": 26310,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 68,
+      "smile": 50222,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 147,
+      "smile": 52535,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 194,
+      "smile": 54075,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 193,
+      "smile": 66786,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 144,
+      "smile": 70017,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 157,
+      "smile": 85429,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 134,
+      "smile": 102574,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 172,
+      "smile": 118022,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 145,
+      "smile": 137895,
+      "gap": 3
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 203,
+      "smile": 132484,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 221,
+      "smile": 132746,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 194,
+      "smile": 133179,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 218,
+      "smile": 143162,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 247,
+      "smile": 158597,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 215,
+      "smile": 176104,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 246,
+      "smile": 190083,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 256,
+      "smile": 210163,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 207,
+      "smile": 225411,
+      "gap": 1
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 205,
+      "smile": 232812,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 235,
+      "smile": 220799,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 182,
+      "smile": 209499,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 211,
+      "smile": 219686,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 183,
+      "smile": 221042,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 201,
+      "smile": 213212,
+      "gap": 1
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 184,
+      "smile": 221948,
+      "gap": 1
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 173,
+      "smile": 231251,
+      "gap": 1
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 203,
+      "smile": 216492,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 189,
+      "smile": 226116,
+      "gap": 0
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 164,
+      "smile": 207365,
+      "gap": 0
+     },
+     {
+      "day": 32,
+      "chapter": 5,
+      "happy": 203,
+      "smile": 212934,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 99,
+    "ch": [
+     1.8776041666666665,
+     4.347222222222222,
+     11.40625,
+     19.897222222222222,
+     29.336805555555557
+    ],
+    "happyEnd": 188,
+    "entranceH": 48.516666666666666,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 67,
+      "smile": 26175,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 96,
+      "smile": 52451,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 157,
+      "smile": 65319,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 191,
+      "smile": 53068,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 208,
+      "smile": 63470,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 186,
+      "smile": 71247,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 177,
+      "smile": 90877,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 151,
+      "smile": 100286,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 211,
+      "smile": 109187,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 224,
+      "smile": 121938,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 256,
+      "smile": 125052,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 235,
+      "smile": 125134,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 214,
+      "smile": 127200,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 267,
+      "smile": 145306,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 223,
+      "smile": 160639,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 261,
+      "smile": 170333,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 263,
+      "smile": 187870,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 5,
+      "happy": 249,
+      "smile": 200816,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 258,
+      "smile": 164820,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 221,
+      "smile": 176510,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 223,
+      "smile": 183064,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 220,
+      "smile": 194381,
+      "gap": 1
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 212,
+      "smile": 198674,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 197,
+      "smile": 196722,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 193,
+      "smile": 208313,
+      "gap": 2
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 198,
+      "smile": 199558,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 216,
+      "smile": 174931,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 188,
+      "smile": 168437,
+      "gap": 0
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "rules": "v1.7",
+  "persona": "hoarder",
+  "label": "진화 보류 (길을 잇는 데 필요할 때만)",
+  "ch": [
+   1.8776041666666665,
+   4.347222222222222,
+   11.36082175925926,
+   21.435416666666665,
+   30.399305555555557
+  ],
+  "endDone": 5,
+  "endMin": 29.401331018518515,
+  "endMax": 31.84861111111111,
+  "endDead": 0,
+  "entranceH": 0,
+  "smileMax": 311634.7559941327,
+  "acts": 2.7195121951219514,
+  "boxes": 0.36470588235294116,
+  "seeds": [
+   {
+    "seed": 7,
+    "ch": [
+     1.8775462962962963,
+     4.390219907407407,
+     11.343692129629629,
+     20.84091435185185,
+     29.401331018518515
+    ],
+    "happyEnd": 328,
+    "entranceH": 0,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 63,
+      "smile": 25897,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 102,
+      "smile": 55166,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 162,
+      "smile": 66067,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 196,
+      "smile": 62385,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 201,
+      "smile": 78764,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 202,
+      "smile": 95887,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 205,
+      "smile": 115001,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 205,
+      "smile": 135981,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 206,
+      "smile": 142207,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 241,
+      "smile": 152399,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 264,
+      "smile": 131763,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 267,
+      "smile": 134839,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 281,
+      "smile": 150599,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 281,
+      "smile": 167227,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 285,
+      "smile": 182242,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 279,
+      "smile": 195773,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 287,
+      "smile": 211693,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 290,
+      "smile": 228754,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 278,
+      "smile": 236279,
+      "gap": 3
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 302,
+      "smile": 223053,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 330,
+      "smile": 237490,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 331,
+      "smile": 246693,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 326,
+      "smile": 257697,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 304,
+      "smile": 264045,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 332,
+      "smile": 274861,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 333,
+      "smile": 286981,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 330,
+      "smile": 296563,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 328,
+      "smile": 301904,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 11,
+    "ch": [
+     1.8776041666666665,
+     4.386805555555556,
+     11.551388888888889,
+     22.41111111111111,
+     31.84861111111111
+    ],
+    "happyEnd": 307,
+    "entranceH": 0,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 67,
+      "smile": 24432,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 83,
+      "smile": 53333,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 147,
+      "smile": 53987,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 175,
+      "smile": 55240,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 179,
+      "smile": 68992,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 173,
+      "smile": 86583,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 167,
+      "smile": 105163,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 184,
+      "smile": 125780,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 180,
+      "smile": 136634,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 233,
+      "smile": 145740,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 235,
+      "smile": 155788,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 254,
+      "smile": 139883,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 253,
+      "smile": 150591,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 251,
+      "smile": 165209,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 247,
+      "smile": 176842,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 254,
+      "smile": 188692,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 261,
+      "smile": 202404,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 239,
+      "smile": 216814,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 253,
+      "smile": 229676,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 4,
+      "happy": 244,
+      "smile": 242006,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 310,
+      "smile": 243006,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 266,
+      "smile": 251034,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 279,
+      "smile": 258163,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 296,
+      "smile": 235294,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 294,
+      "smile": 242478,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 291,
+      "smile": 251333,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 290,
+      "smile": 260528,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 303,
+      "smile": 269865,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 307,
+      "smile": 280031,
+      "gap": 0
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 307,
+      "smile": 287162,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 23,
+    "ch": [
+     1.8776041666666665,
+     4.314583333333333,
+     10.905555555555555,
+     21.435416666666665,
+     30.399305555555557
+    ],
+    "happyEnd": 318,
+    "entranceH": 0,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 65,
+      "smile": 23631,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 82,
+      "smile": 54277,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 163,
+      "smile": 61251,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 195,
+      "smile": 67928,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 197,
+      "smile": 85736,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 201,
+      "smile": 93885,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 207,
+      "smile": 116837,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 195,
+      "smile": 140108,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 4,
+      "happy": 185,
+      "smile": 156252,
+      "gap": 5
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 245,
+      "smile": 165839,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 276,
+      "smile": 165133,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 267,
+      "smile": 167523,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 267,
+      "smile": 179722,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 258,
+      "smile": 193135,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 263,
+      "smile": 205325,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 268,
+      "smile": 217388,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 254,
+      "smile": 230892,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 253,
+      "smile": 242262,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 250,
+      "smile": 254010,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 313,
+      "smile": 254351,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 295,
+      "smile": 262818,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 310,
+      "smile": 252821,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 311,
+      "smile": 262632,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 308,
+      "smile": 272597,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 311,
+      "smile": 279898,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 300,
+      "smile": 288523,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 315,
+      "smile": 299643,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 313,
+      "smile": 310068,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 318,
+      "smile": 316528,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 42,
+    "ch": [
+     1.8773148148148149,
+     4.335127314814815,
+     11.36082175925926,
+     21.392766203703705,
+     30.364293981481485
+    ],
+    "happyEnd": 333,
+    "entranceH": 0,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 70,
+      "smile": 26310,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 89,
+      "smile": 52792,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 160,
+      "smile": 62363,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 182,
+      "smile": 72495,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 204,
+      "smile": 82452,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 202,
+      "smile": 90715,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 193,
+      "smile": 111771,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 195,
+      "smile": 130658,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 198,
+      "smile": 151853,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 262,
+      "smile": 161906,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 258,
+      "smile": 160913,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 277,
+      "smile": 157732,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 284,
+      "smile": 159337,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 277,
+      "smile": 174686,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 281,
+      "smile": 187708,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 265,
+      "smile": 202031,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 273,
+      "smile": 212978,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 264,
+      "smile": 224876,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 277,
+      "smile": 235929,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 339,
+      "smile": 239395,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 327,
+      "smile": 231146,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 332,
+      "smile": 244352,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 332,
+      "smile": 254952,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 323,
+      "smile": 262017,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 332,
+      "smile": 273576,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 326,
+      "smile": 283844,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 328,
+      "smile": 295861,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 334,
+      "smile": 305004,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 333,
+      "smile": 311635,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 99,
+    "ch": [
+     1.8776041666666665,
+     4.347222222222222,
+     11.40625,
+     21.813194444444445,
+     30.927777777777777
+    ],
+    "happyEnd": 299,
+    "entranceH": 0,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 67,
+      "smile": 26175,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 90,
+      "smile": 53559,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 142,
+      "smile": 61621,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 194,
+      "smile": 64187,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 180,
+      "smile": 76257,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 189,
+      "smile": 88518,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 215,
+      "smile": 104614,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 187,
+      "smile": 127433,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 205,
+      "smile": 148003,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 256,
+      "smile": 159199,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 210,
+      "smile": 158905,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 245,
+      "smile": 160642,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 240,
+      "smile": 175139,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 243,
+      "smile": 188962,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 250,
+      "smile": 203225,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 253,
+      "smile": 217864,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 240,
+      "smile": 228485,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 249,
+      "smile": 245906,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 238,
+      "smile": 256905,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 251,
+      "smile": 265666,
+      "gap": 3
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 310,
+      "smile": 250490,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 314,
+      "smile": 260547,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 307,
+      "smile": 271037,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 296,
+      "smile": 280014,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 320,
+      "smile": 292759,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 307,
+      "smile": 302197,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 285,
+      "smile": 311783,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 323,
+      "smile": 320405,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 299,
+      "smile": 333156,
+      "gap": 0
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "rules": "v1.7",
+  "persona": "heavy",
+  "label": "열성 (하루 5회, 4수)",
+  "ch": [
+   1.8776041666666665,
+   4.293460648148148,
+   11.375694444444445,
+   21.361053240740738,
+   31.37980324074074
+  ],
+  "endDone": 5,
+  "endMin": 29.506944444444443,
+  "endMax": 33.37083333333333,
+  "endDead": 0,
+  "entranceH": 29.666666666666668,
+  "smileMax": 98846.69849977338,
+  "acts": 4.085714285714285,
+  "boxes": 0.25,
+  "seeds": [
+   {
+    "seed": 7,
+    "ch": [
+     1.8775462962962963,
+     4.34855324074074,
+     10.787442129629628,
+     21.361053240740738,
+     31.37980324074074
+    ],
+    "happyEnd": 191,
+    "entranceH": 29.666666666666668,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 69,
+      "smile": 25739,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 76,
+      "smile": 55343,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 204,
+      "smile": 53213,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 190,
+      "smile": 49590,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 173,
+      "smile": 59928,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 242,
+      "smile": 83408,
+      "gap": 2
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 214,
+      "smile": 88078,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 178,
+      "smile": 89475,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 4,
+      "happy": 237,
+      "smile": 84283,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 210,
+      "smile": 82995,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 169,
+      "smile": 90697,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 165,
+      "smile": 86960,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 161,
+      "smile": 83512,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 194,
+      "smile": 60217,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 238,
+      "smile": 58902,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 174,
+      "smile": 54632,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 149,
+      "smile": 64376,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 181,
+      "smile": 68165,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 154,
+      "smile": 49012,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 234,
+      "smile": 33126,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 184,
+      "smile": 4736,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 229,
+      "smile": 9909,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 175,
+      "smile": 5625,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 212,
+      "smile": 10720,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 263,
+      "smile": 17339,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 216,
+      "smile": 10608,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 192,
+      "smile": 4875,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 203,
+      "smile": 14977,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 201,
+      "smile": 8364,
+      "gap": 0
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 191,
+      "smile": 13846,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 11,
+    "ch": [
+     1.8776041666666665,
+     3.94375,
+     11.38888888888889,
+     20.63125,
+     29.506944444444443
+    ],
+    "happyEnd": 205,
+    "entranceH": 56.75,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 86,
+      "smile": 24725,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 3,
+      "happy": 91,
+      "smile": 58944,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 161,
+      "smile": 39063,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 144,
+      "smile": 51617,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 176,
+      "smile": 68157,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 187,
+      "smile": 90939,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 142,
+      "smile": 111392,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 157,
+      "smile": 105334,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 210,
+      "smile": 93909,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 255,
+      "smile": 70463,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 255,
+      "smile": 66502,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 199,
+      "smile": 83421,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 197,
+      "smile": 83048,
+      "gap": 1
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 194,
+      "smile": 79050,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 215,
+      "smile": 60813,
+      "gap": 1
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 266,
+      "smile": 60594,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 217,
+      "smile": 62500,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 235,
+      "smile": 56074,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 296,
+      "smile": 32308,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 260,
+      "smile": 20244,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 205,
+      "smile": 26557,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 201,
+      "smile": 6859,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 213,
+      "smile": 5764,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 215,
+      "smile": 16810,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 196,
+      "smile": 10679,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 193,
+      "smile": 19769,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 184,
+      "smile": 31194,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 205,
+      "smile": 37870,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 23,
+    "ch": [
+     1.8776041666666665,
+     3.8777777777777778,
+     11.375694444444445,
+     21.894444444444446,
+     33.37083333333333
+    ],
+    "happyEnd": 176,
+    "entranceH": 20.683333333333334,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 103,
+      "smile": 28826,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 3,
+      "happy": 67,
+      "smile": 50237,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 182,
+      "smile": 15823,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 119,
+      "smile": 15132,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 139,
+      "smile": 33107,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 146,
+      "smile": 32765,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 151,
+      "smile": 39816,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 175,
+      "smile": 38567,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 175,
+      "smile": 33846,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 294,
+      "smile": 31642,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 199,
+      "smile": 33360,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 176,
+      "smile": 44811,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 176,
+      "smile": 17490,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 186,
+      "smile": 1639,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 207,
+      "smile": 2666,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 169,
+      "smile": 6760,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 157,
+      "smile": 7075,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 235,
+      "smile": 10403,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 220,
+      "smile": 11712,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 160,
+      "smile": 7629,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 166,
+      "smile": 2080,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 178,
+      "smile": 5982,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 195,
+      "smile": 5478,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 161,
+      "smile": 8068,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 213,
+      "smile": 4805,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 182,
+      "smile": 8733,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 186,
+      "smile": 4985,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 146,
+      "smile": 8324,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 152,
+      "smile": 12302,
+      "gap": 0
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 174,
+      "smile": 7125,
+      "gap": 0
+     },
+     {
+      "day": 32,
+      "chapter": 5,
+      "happy": 200,
+      "smile": 12899,
+      "gap": 0
+     },
+     {
+      "day": 33,
+      "chapter": 5,
+      "happy": 176,
+      "smile": 16104,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 42,
+    "ch": [
+     1.8773148148148149,
+     4.293460648148148,
+     11.319155092592593,
+     21.539988425925927,
+     31.435127314814817
+    ],
+    "happyEnd": 254,
+    "entranceH": 25.933333333333334,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 79,
+      "smile": 24008,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 70,
+      "smile": 54441,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 169,
+      "smile": 57696,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 165,
+      "smile": 63625,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 188,
+      "smile": 68178,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 227,
+      "smile": 86212,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 148,
+      "smile": 101217,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 155,
+      "smile": 104631,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 183,
+      "smile": 98602,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 239,
+      "smile": 68015,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 219,
+      "smile": 70623,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 158,
+      "smile": 70364,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 170,
+      "smile": 80556,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 187,
+      "smile": 94404,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 216,
+      "smile": 73138,
+      "gap": 1
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 209,
+      "smile": 90753,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 223,
+      "smile": 87497,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 169,
+      "smile": 68376,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 145,
+      "smile": 45329,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 182,
+      "smile": 49072,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 199,
+      "smile": 45618,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 207,
+      "smile": 11663,
+      "gap": 1
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 210,
+      "smile": 3227,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 168,
+      "smile": 5717,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 183,
+      "smile": 16183,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 207,
+      "smile": 7890,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 171,
+      "smile": 1113,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 273,
+      "smile": 14109,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 209,
+      "smile": 7674,
+      "gap": 0
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 254,
+      "smile": 13665,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 99,
+    "ch": [
+     1.8776041666666665,
+     4.305555555555555,
+     11.405555555555555,
+     20.31388888888889,
+     29.87152777777778
+    ],
+    "happyEnd": 166,
+    "entranceH": 42.016666666666666,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 82,
+      "smile": 25938,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 56,
+      "smile": 53005,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 201,
+      "smile": 45318,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 184,
+      "smile": 48373,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 133,
+      "smile": 59034,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 161,
+      "smile": 57036,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 184,
+      "smile": 60010,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 165,
+      "smile": 67463,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 227,
+      "smile": 73678,
+      "gap": 1
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 266,
+      "smile": 45450,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 295,
+      "smile": 57571,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 254,
+      "smile": 70020,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 204,
+      "smile": 71204,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 229,
+      "smile": 86864,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 201,
+      "smile": 79648,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 212,
+      "smile": 83779,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 229,
+      "smile": 68719,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 219,
+      "smile": 87476,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 243,
+      "smile": 74759,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 189,
+      "smile": 74401,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 208,
+      "smile": 62503,
+      "gap": 1
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 193,
+      "smile": 30812,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 195,
+      "smile": 799,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 243,
+      "smile": 11376,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 194,
+      "smile": 5955,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 153,
+      "smile": 12515,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 200,
+      "smile": 3198,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 166,
+      "smile": 9439,
+      "gap": 0
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "rules": "v1.7",
+  "persona": "stack",
+  "label": "한 던전에 몰기 (빈 슬롯부터 채운다)",
+  "ch": [
+   1.8776041666666665,
+   4.347222222222222,
+   11.417361111111111,
+   20.549247685185183,
+   29.921469907407406
+  ],
+  "endDone": 5,
+  "endMin": 27.41111111111111,
+  "endMax": 31.51846064814815,
+  "endDead": 0,
+  "entranceH": 3.7333333333333334,
+  "smileMax": 199995.46849938369,
+  "acts": 3.147727272727273,
+  "boxes": 0.06741573033707865,
+  "seeds": [
+   {
+    "seed": 7,
+    "ch": [
+     1.8775462962962963,
+     4.583275462962963,
+     11.343692129629629,
+     20.549247685185183,
+     29.921469907407406
+    ],
+    "happyEnd": 187,
+    "entranceH": 13.35,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 63,
+      "smile": 25897,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 41,
+      "smile": 50221,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 106,
+      "smile": 59458,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 173,
+      "smile": 47932,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 205,
+      "smile": 59500,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 223,
+      "smile": 66582,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 214,
+      "smile": 80094,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 178,
+      "smile": 93304,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 127,
+      "smile": 99908,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 248,
+      "smile": 93004,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 251,
+      "smile": 96823,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 207,
+      "smile": 110935,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 234,
+      "smile": 109571,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 229,
+      "smile": 106701,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 232,
+      "smile": 122652,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 224,
+      "smile": 137686,
+      "gap": 4
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 215,
+      "smile": 150696,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 215,
+      "smile": 165831,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 198,
+      "smile": 165024,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 235,
+      "smile": 153442,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 238,
+      "smile": 153958,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 250,
+      "smile": 164974,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 193,
+      "smile": 139058,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 219,
+      "smile": 148212,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 217,
+      "smile": 150440,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 217,
+      "smile": 162200,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 196,
+      "smile": 156647,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 187,
+      "smile": 119416,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 11,
+    "ch": [
+     1.8776041666666665,
+     4.386805555555556,
+     12.355555555555556,
+     20.922916666666666,
+     31.386805555555554
+    ],
+    "happyEnd": 202,
+    "entranceH": 28.033333333333335,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 67,
+      "smile": 24432,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 76,
+      "smile": 51956,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 151,
+      "smile": 55738,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 172,
+      "smile": 47456,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 186,
+      "smile": 60456,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 175,
+      "smile": 74081,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 155,
+      "smile": 71194,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 126,
+      "smile": 73096,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 132,
+      "smile": 74433,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 3,
+      "happy": 159,
+      "smile": 98147,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 275,
+      "smile": 111778,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 225,
+      "smile": 100981,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 211,
+      "smile": 94380,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 318,
+      "smile": 102925,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 253,
+      "smile": 98739,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 234,
+      "smile": 117265,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 229,
+      "smile": 135027,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 232,
+      "smile": 153218,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 166,
+      "smile": 159732,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 218,
+      "smile": 166350,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 219,
+      "smile": 177024,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 225,
+      "smile": 168559,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 182,
+      "smile": 157283,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 185,
+      "smile": 168213,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 162,
+      "smile": 178912,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 180,
+      "smile": 187816,
+      "gap": 3
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 160,
+      "smile": 196798,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 159,
+      "smile": 206941,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 202,
+      "smile": 208840,
+      "gap": 0
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 202,
+      "smile": 208213,
+      "gap": 1
+     }
+    ]
+   },
+   {
+    "seed": 23,
+    "ch": [
+     1.8776041666666665,
+     4.314583333333333,
+     11.417361111111111,
+     20.353472222222223,
+     29.406944444444445
+    ],
+    "happyEnd": 198,
+    "entranceH": 3.7333333333333334,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 65,
+      "smile": 23631,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 66,
+      "smile": 56427,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 107,
+      "smile": 55470,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 187,
+      "smile": 44942,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 171,
+      "smile": 58262,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 211,
+      "smile": 61976,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 138,
+      "smile": 73092,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 199,
+      "smile": 94022,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 170,
+      "smile": 100230,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 236,
+      "smile": 111461,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 264,
+      "smile": 126514,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 190,
+      "smile": 115867,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 250,
+      "smile": 111520,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 242,
+      "smile": 128369,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 228,
+      "smile": 144093,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 232,
+      "smile": 162233,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 239,
+      "smile": 177161,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 249,
+      "smile": 194324,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 280,
+      "smile": 199995,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 259,
+      "smile": 169336,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 267,
+      "smile": 183471,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 231,
+      "smile": 194613,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 186,
+      "smile": 195400,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 212,
+      "smile": 183555,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 219,
+      "smile": 190511,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 222,
+      "smile": 176320,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 210,
+      "smile": 133828,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 198,
+      "smile": 136673,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 42,
+    "ch": [
+     1.8773148148148149,
+     4.335127314814815,
+     11.937210648148149,
+     21.51707175925926,
+     31.51846064814815
+    ],
+    "happyEnd": 222,
+    "entranceH": 0,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 70,
+      "smile": 26310,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 68,
+      "smile": 50222,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 147,
+      "smile": 52535,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 194,
+      "smile": 54075,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 193,
+      "smile": 66786,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 144,
+      "smile": 70017,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 160,
+      "smile": 85195,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 133,
+      "smile": 102700,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 161,
+      "smile": 121997,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 151,
+      "smile": 139951,
+      "gap": 3
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 215,
+      "smile": 139613,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 243,
+      "smile": 132413,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 259,
+      "smile": 135527,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 181,
+      "smile": 128166,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 196,
+      "smile": 118949,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 218,
+      "smile": 136925,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 214,
+      "smile": 149506,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 194,
+      "smile": 164605,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 177,
+      "smile": 176764,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 206,
+      "smile": 172391,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 216,
+      "smile": 139596,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 212,
+      "smile": 150381,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 240,
+      "smile": 159568,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 235,
+      "smile": 145229,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 208,
+      "smile": 155649,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 189,
+      "smile": 165127,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 159,
+      "smile": 163192,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 154,
+      "smile": 138297,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 230,
+      "smile": 137113,
+      "gap": 0
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 222,
+      "smile": 139519,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 99,
+    "ch": [
+     1.8776041666666665,
+     4.347222222222222,
+     11.40625,
+     19.897222222222222,
+     27.41111111111111
+    ],
+    "happyEnd": 308,
+    "entranceH": 3.433333333333333,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 67,
+      "smile": 26175,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 96,
+      "smile": 52451,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 157,
+      "smile": 65319,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 191,
+      "smile": 53068,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 208,
+      "smile": 63470,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 186,
+      "smile": 71247,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 165,
+      "smile": 85500,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 144,
+      "smile": 94862,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 171,
+      "smile": 111399,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 236,
+      "smile": 121675,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 265,
+      "smile": 125508,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 256,
+      "smile": 141662,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 237,
+      "smile": 161283,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 235,
+      "smile": 176506,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 234,
+      "smile": 191788,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 208,
+      "smile": 192891,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 277,
+      "smile": 193588,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 5,
+      "happy": 225,
+      "smile": 198744,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 249,
+      "smile": 186669,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 286,
+      "smile": 199070,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 289,
+      "smile": 190280,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 294,
+      "smile": 205277,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 269,
+      "smile": 198805,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 231,
+      "smile": 207835,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 275,
+      "smile": 222820,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 308,
+      "smile": 230676,
+      "gap": 0
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "rules": "v1.7",
+  "persona": "spread",
+  "label": "한 던전에 한 마리 (부지부터 연다)",
+  "ch": [
+   1.8776041666666665,
+   3.894155092592593,
+   11.343692129629629,
+   20.353472222222223,
+   29.921469907407406
+  ],
+  "endDone": 5,
+  "endMin": 28.38443287037037,
+  "endMax": 33.90069444444445,
+  "endDead": 0,
+  "entranceH": 4.966666666666667,
+  "smileMax": 192879.6649997657,
+  "acts": 3.185185185185185,
+  "boxes": 0.047619047619047616,
+  "seeds": [
+   {
+    "seed": 7,
+    "ch": [
+     1.8775462962962963,
+     3.861747685185185,
+     11.343692129629629,
+     20.374247685185182,
+     29.921469907407406
+    ],
+    "happyEnd": 182,
+    "entranceH": 0,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 91,
+      "smile": 28800,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 3,
+      "happy": 96,
+      "smile": 59667,
+      "gap": 4
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 157,
+      "smile": 52867,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 183,
+      "smile": 49289,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 125,
+      "smile": 44988,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 173,
+      "smile": 47993,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 209,
+      "smile": 73801,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 157,
+      "smile": 97908,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 144,
+      "smile": 115071,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 217,
+      "smile": 110602,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 213,
+      "smile": 96876,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 206,
+      "smile": 99223,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 252,
+      "smile": 114352,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 310,
+      "smile": 117851,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 236,
+      "smile": 114413,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 236,
+      "smile": 122748,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 221,
+      "smile": 136707,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 220,
+      "smile": 152772,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 209,
+      "smile": 134137,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 232,
+      "smile": 96094,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 274,
+      "smile": 78580,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 260,
+      "smile": 91164,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 204,
+      "smile": 101541,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 197,
+      "smile": 103614,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 190,
+      "smile": 112701,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 183,
+      "smile": 122234,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 174,
+      "smile": 130587,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 182,
+      "smile": 139848,
+      "gap": 1
+     }
+    ]
+   },
+   {
+    "seed": 11,
+    "ch": [
+     1.8776041666666665,
+     3.8881944444444443,
+     11.551388888888889,
+     22.41111111111111,
+     33.90069444444445
+    ],
+    "happyEnd": 150,
+    "entranceH": 32.36666666666667,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 70,
+      "smile": 25579,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 3,
+      "happy": 97,
+      "smile": 57616,
+      "gap": 4
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 154,
+      "smile": 50391,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 176,
+      "smile": 47347,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 156,
+      "smile": 50232,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 165,
+      "smile": 52288,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 144,
+      "smile": 68672,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 163,
+      "smile": 82031,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 131,
+      "smile": 102196,
+      "gap": 2
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 226,
+      "smile": 101337,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 273,
+      "smile": 106683,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 196,
+      "smile": 106315,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 188,
+      "smile": 118257,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 189,
+      "smile": 116864,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 216,
+      "smile": 129729,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 179,
+      "smile": 141951,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 179,
+      "smile": 154674,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 191,
+      "smile": 167196,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 187,
+      "smile": 180692,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 4,
+      "happy": 182,
+      "smile": 181792,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 200,
+      "smile": 180584,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 153,
+      "smile": 170852,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 173,
+      "smile": 179312,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 184,
+      "smile": 188125,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 190,
+      "smile": 190176,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 214,
+      "smile": 183070,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 192,
+      "smile": 165280,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 172,
+      "smile": 165817,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 171,
+      "smile": 132970,
+      "gap": 0
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 167,
+      "smile": 132305,
+      "gap": 0
+     },
+     {
+      "day": 32,
+      "chapter": 5,
+      "happy": 173,
+      "smile": 116723,
+      "gap": 0
+     },
+     {
+      "day": 33,
+      "chapter": 5,
+      "happy": 150,
+      "smile": 107014,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 23,
+    "ch": [
+     1.8776041666666665,
+     3.9145833333333333,
+     10.58611111111111,
+     20.353472222222223,
+     31.411805555555556
+    ],
+    "happyEnd": 202,
+    "entranceH": 25.816666666666666,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 92,
+      "smile": 26677,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 3,
+      "happy": 105,
+      "smile": 63371,
+      "gap": 4
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 182,
+      "smile": 59144,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 169,
+      "smile": 61275,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 181,
+      "smile": 64511,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 173,
+      "smile": 69525,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 188,
+      "smile": 82547,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 204,
+      "smile": 98272,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 4,
+      "happy": 231,
+      "smile": 104103,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 255,
+      "smile": 112883,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 238,
+      "smile": 113863,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 204,
+      "smile": 130309,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 242,
+      "smile": 143636,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 204,
+      "smile": 158442,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 182,
+      "smile": 170261,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 157,
+      "smile": 173390,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 209,
+      "smile": 185398,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 173,
+      "smile": 194975,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 189,
+      "smile": 175005,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 279,
+      "smile": 183832,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 174,
+      "smile": 179758,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 188,
+      "smile": 182485,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 165,
+      "smile": 191007,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 182,
+      "smile": 199530,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 168,
+      "smile": 166005,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 195,
+      "smile": 165842,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 207,
+      "smile": 177838,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 165,
+      "smile": 153836,
+      "gap": 1
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 192,
+      "smile": 117534,
+      "gap": 0
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 202,
+      "smile": 123682,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 42,
+    "ch": [
+     1.8773148148148149,
+     3.894155092592593,
+     10.588599537037037,
+     19.388599537037038,
+     28.38443287037037
+    ],
+    "happyEnd": 174,
+    "entranceH": 4.016666666666667,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 91,
+      "smile": 29182,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 3,
+      "happy": 102,
+      "smile": 60761,
+      "gap": 4
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 164,
+      "smile": 47554,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 191,
+      "smile": 56930,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 206,
+      "smile": 51482,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 183,
+      "smile": 56150,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 194,
+      "smile": 84349,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 146,
+      "smile": 97704,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 4,
+      "happy": 194,
+      "smile": 108802,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 245,
+      "smile": 97105,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 177,
+      "smile": 97087,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 229,
+      "smile": 93746,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 241,
+      "smile": 95800,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 307,
+      "smile": 94934,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 272,
+      "smile": 91730,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 227,
+      "smile": 112134,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 227,
+      "smile": 126507,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 5,
+      "happy": 266,
+      "smile": 131534,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 249,
+      "smile": 121645,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 291,
+      "smile": 135086,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 199,
+      "smile": 146099,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 221,
+      "smile": 134807,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 228,
+      "smile": 124166,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 203,
+      "smile": 134533,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 202,
+      "smile": 145984,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 189,
+      "smile": 155233,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 174,
+      "smile": 159961,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 99,
+    "ch": [
+     1.8776041666666665,
+     4.347222222222222,
+     11.40625,
+     19.516666666666666,
+     28.81597222222222
+    ],
+    "happyEnd": 184,
+    "entranceH": 4.966666666666667,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 88,
+      "smile": 29675,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 96,
+      "smile": 56888,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 146,
+      "smile": 62770,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 161,
+      "smile": 62530,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 210,
+      "smile": 64768,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 189,
+      "smile": 83001,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 182,
+      "smile": 97346,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 132,
+      "smile": 104511,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 168,
+      "smile": 124634,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 265,
+      "smile": 121752,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 324,
+      "smile": 100082,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 275,
+      "smile": 115086,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 281,
+      "smile": 123564,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 228,
+      "smile": 128710,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 177,
+      "smile": 143258,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 235,
+      "smile": 159232,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 209,
+      "smile": 175211,
+      "gap": 0
+     },
+     {
+      "day": 19,
+      "chapter": 5,
+      "happy": 178,
+      "smile": 160382,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 5,
+      "happy": 255,
+      "smile": 166827,
+      "gap": 0
+     },
+     {
+      "day": 21,
+      "chapter": 5,
+      "happy": 234,
+      "smile": 158504,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 234,
+      "smile": 170082,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 233,
+      "smile": 182362,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 229,
+      "smile": 173123,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 240,
+      "smile": 173938,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 221,
+      "smile": 187853,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 178,
+      "smile": 197830,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 184,
+      "smile": 202160,
+      "gap": 0
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "rules": "v1.7",
+  "persona": "night",
+  "label": "퇴근 직전 진화 (밤에 입구를 비운다)",
+  "ch": [
+   1.8776041666666665,
+   4.386805555555556,
+   12.425636574074073,
+   23.895081018518518,
+   34.479108796296295
+  ],
+  "endDone": 5,
+  "endMin": 32.52332175925926,
+  "endMax": 35.83125,
+  "endDead": 0,
+  "entranceH": 147.36666666666667,
+  "smileMax": 121637.04150024589,
+  "acts": 3.4842105263157896,
+  "boxes": 0.058823529411764705,
+  "seeds": [
+   {
+    "seed": 7,
+    "ch": [
+     1.8775462962962963,
+     4.390219907407407,
+     12.425636574074073,
+     23.895081018518518,
+     34.479108796296295
+    ],
+    "happyEnd": 202,
+    "entranceH": 147.36666666666667,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 63,
+      "smile": 25857,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 90,
+      "smile": 46218,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 165,
+      "smile": 61069,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 172,
+      "smile": 55176,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 161,
+      "smile": 72435,
+      "gap": 4
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 144,
+      "smile": 87247,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 138,
+      "smile": 90241,
+      "gap": 2
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 142,
+      "smile": 93020,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 122,
+      "smile": 103581,
+      "gap": 2
+     },
+     {
+      "day": 11,
+      "chapter": 3,
+      "happy": 174,
+      "smile": 108607,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 178,
+      "smile": 107979,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 164,
+      "smile": 75614,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 217,
+      "smile": 87846,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 142,
+      "smile": 70687,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 144,
+      "smile": 82253,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 169,
+      "smile": 95033,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 188,
+      "smile": 106088,
+      "gap": 4
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 163,
+      "smile": 109262,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 177,
+      "smile": 97755,
+      "gap": 1
+     },
+     {
+      "day": 21,
+      "chapter": 4,
+      "happy": 186,
+      "smile": 98949,
+      "gap": 1
+     },
+     {
+      "day": 22,
+      "chapter": 4,
+      "happy": 175,
+      "smile": 109418,
+      "gap": 2
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 247,
+      "smile": 106656,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 183,
+      "smile": 89889,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 188,
+      "smile": 77620,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 189,
+      "smile": 83343,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 194,
+      "smile": 64105,
+      "gap": 1
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 257,
+      "smile": 36602,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 187,
+      "smile": 18360,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 176,
+      "smile": 28305,
+      "gap": 1
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 199,
+      "smile": 39167,
+      "gap": 1
+     },
+     {
+      "day": 32,
+      "chapter": 5,
+      "happy": 160,
+      "smile": 18723,
+      "gap": 0
+     },
+     {
+      "day": 33,
+      "chapter": 5,
+      "happy": 170,
+      "smile": 16525,
+      "gap": 6
+     },
+     {
+      "day": 34,
+      "chapter": 5,
+      "happy": 202,
+      "smile": 5090,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 11,
+    "ch": [
+     1.8776041666666665,
+     4.386805555555556,
+     11.430555555555555,
+     22.85,
+     33.52569444444445
+    ],
+    "happyEnd": 158,
+    "entranceH": 183.76666666666668,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 67,
+      "smile": 24432,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 103,
+      "smile": 55409,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 163,
+      "smile": 58732,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 176,
+      "smile": 55410,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 175,
+      "smile": 60510,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 159,
+      "smile": 79308,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 165,
+      "smile": 102956,
+      "gap": 1
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 172,
+      "smile": 121565,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 139,
+      "smile": 143376,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 247,
+      "smile": 154150,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 199,
+      "smile": 138507,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 155,
+      "smile": 120414,
+      "gap": 2
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 154,
+      "smile": 134022,
+      "gap": 2
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 183,
+      "smile": 114490,
+      "gap": 1
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 127,
+      "smile": 111824,
+      "gap": 4
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 204,
+      "smile": 99147,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 154,
+      "smile": 109722,
+      "gap": 1
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 157,
+      "smile": 104687,
+      "gap": 5
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 187,
+      "smile": 118316,
+      "gap": 1
+     },
+     {
+      "day": 21,
+      "chapter": 4,
+      "happy": 145,
+      "smile": 85407,
+      "gap": 5
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 163,
+      "smile": 80152,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 218,
+      "smile": 87609,
+      "gap": 2
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 206,
+      "smile": 93449,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 235,
+      "smile": 81227,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 191,
+      "smile": 68613,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 181,
+      "smile": 78792,
+      "gap": 2
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 195,
+      "smile": 50249,
+      "gap": 8
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 159,
+      "smile": 36499,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 191,
+      "smile": 16647,
+      "gap": 0
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 176,
+      "smile": 7348,
+      "gap": 4
+     },
+     {
+      "day": 32,
+      "chapter": 5,
+      "happy": 161,
+      "smile": 1362,
+      "gap": 0
+     },
+     {
+      "day": 33,
+      "chapter": 5,
+      "happy": 158,
+      "smile": 1301,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 23,
+    "ch": [
+     1.8776041666666665,
+     4.314583333333333,
+     12.585416666666667,
+     23.91875,
+     34.93541666666667
+    ],
+    "happyEnd": 175,
+    "entranceH": 233.88333333333333,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 65,
+      "smile": 23591,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 103,
+      "smile": 57134,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 151,
+      "smile": 59461,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 108,
+      "smile": 58167,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 157,
+      "smile": 69881,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 126,
+      "smile": 77451,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 130,
+      "smile": 82550,
+      "gap": 4
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 134,
+      "smile": 97273,
+      "gap": 1
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 160,
+      "smile": 102338,
+      "gap": 4
+     },
+     {
+      "day": 11,
+      "chapter": 3,
+      "happy": 130,
+      "smile": 119101,
+      "gap": 1
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 128,
+      "smile": 119686,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 188,
+      "smile": 106014,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 137,
+      "smile": 86454,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 224,
+      "smile": 50042,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 189,
+      "smile": 50919,
+      "gap": 2
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 162,
+      "smile": 59207,
+      "gap": 1
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 149,
+      "smile": 58168,
+      "gap": 5
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 187,
+      "smile": 68501,
+      "gap": 0
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 184,
+      "smile": 72204,
+      "gap": 3
+     },
+     {
+      "day": 21,
+      "chapter": 4,
+      "happy": 238,
+      "smile": 75121,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 4,
+      "happy": 211,
+      "smile": 86054,
+      "gap": 6
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 223,
+      "smile": 82656,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 229,
+      "smile": 69872,
+      "gap": 6
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 172,
+      "smile": 76935,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 181,
+      "smile": 62514,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 229,
+      "smile": 53157,
+      "gap": 1
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 199,
+      "smile": 32611,
+      "gap": 6
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 199,
+      "smile": 31199,
+      "gap": 3
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 158,
+      "smile": 5723,
+      "gap": 8
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 140,
+      "smile": 9577,
+      "gap": 1
+     },
+     {
+      "day": 32,
+      "chapter": 5,
+      "happy": 179,
+      "smile": 18824,
+      "gap": 1
+     },
+     {
+      "day": 33,
+      "chapter": 5,
+      "happy": 160,
+      "smile": 28695,
+      "gap": 1
+     },
+     {
+      "day": 34,
+      "chapter": 5,
+      "happy": 175,
+      "smile": 39672,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 42,
+    "ch": [
+     1.8773148148148149,
+     4.335127314814815,
+     11.937210648148149,
+     22.577488425925928,
+     32.52332175925926
+    ],
+    "happyEnd": 215,
+    "entranceH": 119.7,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 70,
+      "smile": 26310,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 81,
+      "smile": 47307,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 158,
+      "smile": 43716,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 215,
+      "smile": 43219,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 205,
+      "smile": 49769,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 155,
+      "smile": 63188,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 97,
+      "smile": 75005,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 153,
+      "smile": 86749,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 97,
+      "smile": 93425,
+      "gap": 2
+     },
+     {
+      "day": 11,
+      "chapter": 4,
+      "happy": 137,
+      "smile": 80779,
+      "gap": 7
+     },
+     {
+      "day": 12,
+      "chapter": 4,
+      "happy": 202,
+      "smile": 60032,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 4,
+      "happy": 220,
+      "smile": 71961,
+      "gap": 0
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 235,
+      "smile": 71064,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 186,
+      "smile": 78731,
+      "gap": 3
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 173,
+      "smile": 86558,
+      "gap": 1
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 193,
+      "smile": 96119,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 210,
+      "smile": 97019,
+      "gap": 2
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 193,
+      "smile": 112389,
+      "gap": 1
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 180,
+      "smile": 107787,
+      "gap": 4
+     },
+     {
+      "day": 21,
+      "chapter": 4,
+      "happy": 192,
+      "smile": 114746,
+      "gap": 1
+     },
+     {
+      "day": 22,
+      "chapter": 5,
+      "happy": 247,
+      "smile": 107336,
+      "gap": 0
+     },
+     {
+      "day": 23,
+      "chapter": 5,
+      "happy": 191,
+      "smile": 97290,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 5,
+      "happy": 245,
+      "smile": 96514,
+      "gap": 0
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 200,
+      "smile": 95476,
+      "gap": 1
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 199,
+      "smile": 95882,
+      "gap": 0
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 201,
+      "smile": 107488,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 240,
+      "smile": 87738,
+      "gap": 0
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 218,
+      "smile": 70512,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 186,
+      "smile": 82130,
+      "gap": 0
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 189,
+      "smile": 85939,
+      "gap": 1
+     },
+     {
+      "day": 32,
+      "chapter": 5,
+      "happy": 215,
+      "smile": 69792,
+      "gap": 0
+     }
+    ]
+   },
+   {
+    "seed": 99,
+    "ch": [
+     1.8776041666666665,
+     4.481944444444444,
+     14.585416666666667,
+     25.538194444444443,
+     35.83125
+    ],
+    "happyEnd": 180,
+    "entranceH": 143.46666666666667,
+    "daily": [
+     {
+      "day": 2,
+      "chapter": 2,
+      "happy": 67,
+      "smile": 26175,
+      "gap": 0
+     },
+     {
+      "day": 3,
+      "chapter": 2,
+      "happy": 98,
+      "smile": 47183,
+      "gap": 0
+     },
+     {
+      "day": 4,
+      "chapter": 3,
+      "happy": 105,
+      "smile": 52862,
+      "gap": 0
+     },
+     {
+      "day": 5,
+      "chapter": 3,
+      "happy": 159,
+      "smile": 44241,
+      "gap": 0
+     },
+     {
+      "day": 6,
+      "chapter": 3,
+      "happy": 113,
+      "smile": 48469,
+      "gap": 0
+     },
+     {
+      "day": 7,
+      "chapter": 3,
+      "happy": 122,
+      "smile": 46901,
+      "gap": 0
+     },
+     {
+      "day": 8,
+      "chapter": 3,
+      "happy": 132,
+      "smile": 47187,
+      "gap": 0
+     },
+     {
+      "day": 9,
+      "chapter": 3,
+      "happy": 101,
+      "smile": 64345,
+      "gap": 0
+     },
+     {
+      "day": 10,
+      "chapter": 3,
+      "happy": 103,
+      "smile": 65103,
+      "gap": 0
+     },
+     {
+      "day": 11,
+      "chapter": 3,
+      "happy": 99,
+      "smile": 80696,
+      "gap": 0
+     },
+     {
+      "day": 12,
+      "chapter": 3,
+      "happy": 135,
+      "smile": 87251,
+      "gap": 0
+     },
+     {
+      "day": 13,
+      "chapter": 3,
+      "happy": 125,
+      "smile": 83101,
+      "gap": 4
+     },
+     {
+      "day": 14,
+      "chapter": 4,
+      "happy": 165,
+      "smile": 81506,
+      "gap": 0
+     },
+     {
+      "day": 15,
+      "chapter": 4,
+      "happy": 212,
+      "smile": 86141,
+      "gap": 0
+     },
+     {
+      "day": 16,
+      "chapter": 4,
+      "happy": 136,
+      "smile": 61497,
+      "gap": 0
+     },
+     {
+      "day": 17,
+      "chapter": 4,
+      "happy": 207,
+      "smile": 65027,
+      "gap": 0
+     },
+     {
+      "day": 18,
+      "chapter": 4,
+      "happy": 170,
+      "smile": 78896,
+      "gap": 2
+     },
+     {
+      "day": 19,
+      "chapter": 4,
+      "happy": 171,
+      "smile": 69094,
+      "gap": 6
+     },
+     {
+      "day": 20,
+      "chapter": 4,
+      "happy": 233,
+      "smile": 82073,
+      "gap": 1
+     },
+     {
+      "day": 21,
+      "chapter": 4,
+      "happy": 174,
+      "smile": 77537,
+      "gap": 0
+     },
+     {
+      "day": 22,
+      "chapter": 4,
+      "happy": 174,
+      "smile": 91374,
+      "gap": 2
+     },
+     {
+      "day": 23,
+      "chapter": 4,
+      "happy": 203,
+      "smile": 106247,
+      "gap": 0
+     },
+     {
+      "day": 24,
+      "chapter": 4,
+      "happy": 176,
+      "smile": 120943,
+      "gap": 4
+     },
+     {
+      "day": 25,
+      "chapter": 5,
+      "happy": 206,
+      "smile": 108301,
+      "gap": 0
+     },
+     {
+      "day": 26,
+      "chapter": 5,
+      "happy": 202,
+      "smile": 116732,
+      "gap": 2
+     },
+     {
+      "day": 27,
+      "chapter": 5,
+      "happy": 193,
+      "smile": 107937,
+      "gap": 0
+     },
+     {
+      "day": 28,
+      "chapter": 5,
+      "happy": 208,
+      "smile": 117742,
+      "gap": 1
+     },
+     {
+      "day": 29,
+      "chapter": 5,
+      "happy": 195,
+      "smile": 107477,
+      "gap": 0
+     },
+     {
+      "day": 30,
+      "chapter": 5,
+      "happy": 189,
+      "smile": 74413,
+      "gap": 0
+     },
+     {
+      "day": 31,
+      "chapter": 5,
+      "happy": 189,
+      "smile": 72941,
+      "gap": 0
+     },
+     {
+      "day": 32,
+      "chapter": 5,
+      "happy": 178,
+      "smile": 52932,
+      "gap": 0
+     },
+     {
+      "day": 33,
+      "chapter": 5,
+      "happy": 207,
+      "smile": 62240,
+      "gap": 0
+     },
+     {
+      "day": 34,
+      "chapter": 5,
+      "happy": 193,
+      "smile": 66411,
+      "gap": 0
+     },
+     {
+      "day": 35,
+      "chapter": 5,
+      "happy": 180,
+      "smile": 76673,
+      "gap": 1
+     }
+    ]
+   }
+  ]
+ }
+]

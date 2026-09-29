@@ -6,6 +6,7 @@
  *       split (v1.5 계열 사다리: 줄을 다른 레벨 계열로 나누는 채용 시트)
  *       box (v1.6 드랍 상자: 첫 40분에 떨어진 상자를 열어 채용권과 이벤트권 가운데 고르는 말풍선)
  *       recruit (v1.7 모객: 떠난 손님이 돌아올 자리가 생긴 3장 월드의 모객 시트)
+ *       exec (1.13.0 임원 승진: 진화를 끝내고 근속을 다시 채운 직원의 임원 승진 시트)
  *       rebuild (1.12.0 던전 다시 열기: 부지가 다 찬 4장 이후 입구 막힘 — 오렌이 권하는 다시 열기 시트)
  */
 import { A, must, refresh, M } from './app';
@@ -157,6 +158,13 @@ export function runDemo(q: string, api: { newGame: () => void; intro: () => void
     recruit() {
       const w = stepUntil(botTo(x => x.chapter >= 3 && x.t > 8 * 1440), x => { const p = M.recruitPick(x); return !!p && p.kind === 'return'; }, 1440 * 3);
       boot(w); settle(1); setTimeout(() => A.openRecruit(), 150);
+    },
+    // 1.13.0: 오렌이 권하는 임원 승진 — 월드 ② 이득과 그 던전이 잃는 몫을 나란히
+    exec() {
+      const w = botTo(x => !!M.execPick(x), 60);
+      boot(w); settle(1);
+      const m = M.execPick(w);
+      if (m) setTimeout(() => { A.openExec(m.id); A.frozen = false; setTimeout(() => { A.frozen = true; }, 900); }, 150);
     },
     // 1.12.0: 부지가 다 차 채용·옮기기로 못 메우는 빈틈 — 오렌이 권하는 던전 다시 열기 시트
     rebuild() {
