@@ -401,7 +401,9 @@ export const projects = [
       "ipNarrative": "ip/narrative.md",
       "ipVisualGuide": "ip/visual-guide.md",
       "ipDirections": "ip/directions.md",
-      "ipReferences": "notes/references-ip.md"
+      "ipReferences": "notes/references-ip.md",
+      "handoff": "notes/handoff.md",
+      "playReview": "notes/play-review/index.html"
     },
     "assets": {
       "cover": "assets/screenshots/cover.png"
