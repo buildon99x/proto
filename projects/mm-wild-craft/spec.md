@@ -1,0 +1,4 @@
+# Playable specification
+Single-player 2D forest action scene with platform movement, timed attacks, break, health/status/card-based capture, guaranteed first capture, renewable gather nodes, partner abilities, a two-pattern boss, safe defeat recovery. Collection has role-exclusive work/partner assignment. Six facilities and fifteen paid recipes support finite buffers, transport, worker vitality/food/rest, queue balancing and progression. Ten research quests and three camp levels. Corrupted-save protection, export/import, lifecycle-safe replacement/reset and no offline production.
+
+Source facts remain distinct from game balance. No MSW/RoomService integration, multiplayer, external telemetry or purchases. The user authorized committing and pushing the project to proto on 2026-10-06. Only an isolated directory containing built game files may be privately deployed for the separately authorized actual play review.

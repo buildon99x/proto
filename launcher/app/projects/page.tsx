@@ -12,7 +12,7 @@ export default function ProjectsPage() {
 
       <div className="list">
         {projects.map((project) => {
-          const updated = formatDate(project.updatedAt);
+          const updated = formatDate("updatedAt" in project ? project.updatedAt : undefined);
           return (
             <Link className="list-row" href={`/projects/${project.id}`} key={project.id}>
               <div>

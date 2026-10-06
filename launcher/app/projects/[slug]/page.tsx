@@ -15,7 +15,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
     notFound();
   }
 
-  const updated = formatDate(project.updatedAt);
+  const updated = formatDate("updatedAt" in project ? project.updatedAt : undefined);
 
   return (
     <div className="page">

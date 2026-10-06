@@ -1,0 +1,18 @@
+{
+  "source_url": "https://chatgpt.com/s/t_6ac3de162dec8191982f56535f46b7f5",
+  "recovered_at_utc": "2026-10-06T00:25:51.016362+00:00",
+  "numbered_design_sections": 66,
+  "publication_note": "Design and response text are byte-identical to the recovered archive. Raw page HTML, post JSON, internal citation metadata JSON and private preview configuration are excluded from the repository.",
+  "files": [
+    {
+      "path": "docs/source/shared-response.md",
+      "bytes": 37011,
+      "sha256": "12e1592df22daf213101361c36c6b3a81bae331be6695dcb3de64b916d7e5e90"
+    },
+    {
+      "path": "docs/source/e2e-design-v1.0.md",
+      "bytes": 35331,
+      "sha256": "0ab73acc888143d8f5c45e1e87426c02d5749a9921476d5577f9b6ec56b8a93d"
+    }
+  ]
+}

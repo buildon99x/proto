@@ -1,0 +1,8 @@
+# Private recovery and hosting metadata must stay local.
+.openai/
+.vercel/
+docs/private-preview.json
+data/source/shared-page.html
+data/source/shared-post.json
+data/source/content-references.json
+data/source/recovery-provenance.json

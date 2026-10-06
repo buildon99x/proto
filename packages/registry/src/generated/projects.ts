@@ -249,6 +249,43 @@ export const projects = [
     "updatedAt": "2026-09-17T12:08:02+00:00"
   },
   {
+    "id": "mm-wild-craft",
+    "name": "Wild & Craft",
+    "status": "prototype",
+    "type": "webapp",
+    "runtime": "static-artifact",
+    "version": "0.2.1",
+    "summary": "몬스터 친구를 포획하고 함께 캠프를 키우는 2D 액션·크래프팅 솔로 게임",
+    "tags": [
+      "game",
+      "action-rpg",
+      "monster-collection",
+      "crafting",
+      "automation"
+    ],
+    "projectRoot": "projects/mm-wild-craft",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/mm-wild-craft/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md",
+      "design": "docs/source/e2e-design-v1.0.md",
+      "source": "docs/source/shared-response.md"
+    },
+    "assets": {},
+    "commands": {
+      "dev": "pnpm --filter mm-wild-craft dev",
+      "build": "pnpm --filter mm-wild-craft build",
+      "test": "pnpm --filter mm-wild-craft test",
+      "verify:source": "python3 projects/mm-wild-craft/tests/smoke/verify-source.py"
+    }
+  },
+  {
     "id": "blacksmith-clicker",
     "name": "대장장이 클릭커",
     "status": "prototype",
