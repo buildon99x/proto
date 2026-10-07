@@ -1,5 +1,7 @@
-# DEAD FREIGHT brief
+# DEAD FREIGHT / Black Pines
 
-Build a browser-playable sci-fi western FPS study informed by HEADCUTTER's public Steam screenshots and described mechanics. Use original code, geometry, materials and sound; do not embed source-game assets. Preserve honest development-build labeling and known verification limits.
+The latest user-selected direction supersedes the earlier urban palette: a near-monochrome first-person forest scene, cool gray/black/ivory, coarse dither, tall conifers, atmospheric depth, large angular ivory weapon and black gloves, and minimal interface. Match the supplied image through original procedural geometry and rendering rather than reusing it as a background.
 
-The user subsequently requested GPT Sites publication and a new project committed and pushed to this monorepo. The GPT Site is owner-private. This repository project remains a static artifact consumed by the launcher.
+The user also specified hardcore and stylish. Difficulty should reward aim, reload timing, attack-reading and movement, rather than simply increasing enemy health. Maintain the private GPT Site and the new project in proto on its existing source branch.
+
+Visual correspondence and actual play must be checked in a rendered browser. Model tests alone do not establish completion.

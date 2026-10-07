@@ -7,8 +7,8 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.1.0",
-    "summary": "Original browser sci-fi western FPS study with manual weapons, destructible routes and a bounty-extraction loop. Development build; live gameplay QA unverified.",
+    "version": "0.2.0",
+    "summary": "Four-tone dithered forest FPS: precise shooting, active reloads, dodgeable enemy fire and stamina-based movement. Visual and live-play QA pending.",
     "tags": [
       "game",
       "fps",
@@ -33,7 +33,7 @@ export const projects = [
       "build": "pnpm --filter dead-freight build",
       "test": "pnpm --filter dead-freight test"
     },
-    "updatedAt": "2026-10-08T00:39:23+09:00"
+    "updatedAt": "2026-10-08T00:41:09+09:00"
   },
   {
     "id": "deck-building",

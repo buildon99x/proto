@@ -1,48 +1,33 @@
-# QA — 2026-10-07
+# Black Pines 0.2.0 evaluation
 
-## Final result: blocked
+## Result: in progress, visual/play verification blocked on sign-in
 
-The source build exists and all non-rendering tests pass. It is not visually verified or production-ready.
+The latest user-supplied 640×360 reference was personally inspected. It shows near-monochrome forest fog, layered pines, coarse stippled/dithered tones, black gloves and a large angular ivory weapon with a muted rust muzzle. The previous urban/neon direction is superseded.
 
-### Passed
-- `node --check game.js`
-- `node --check core.js`
-- `node test-core.cjs`: 14 assertions/groups covering collision, manual fire/cock, finite reload, reload cancellation, headshots, damage immunity of solid walls, breakable walls, explosions, bounty pickup/extraction, death, healing, reset, alternate-route reachability and a long finite simulation
-- Official Steam screenshot pixels inspected at full resolution, rather than inferred from search descriptions
-- Third-party dependency pinned locally with license; no remote runtime asset dependency
+### Implemented
+Four-tone GPU dithering, original conifer geometry and fog, fixed-aspect low-resolution viewport, subdued HUD, original suppressed weapon silhouette, readable enemy windups, dodgeable projectiles, stamina dash, active reload risk/reward, precision rewards and breakable chains.
 
-### Blocked browser checks
-- CUA rejected `file:` because only HTTP/HTTPS are allowed
-- HTTP at `http://terminal.local:4173/` returned 502 / connection refused
-- A subsequent server command visibly reported `Serving HTTP on 0.0.0.0 port 4173`; reloading still returned connection refused
-- No security flags, browser-policy workarounds or headless-browser substitute were used
-- No screenshot of the implementation exists; no rendered visual pass claimed
+### Automated verification
+22 model checks pass: collision, manual cycling, finite reload, reload cancellation, headshot reward, cover destruction, solid geometry, explosion damage, bounty chain, death, healing, reset, alternate-route reachability, dash cost/invulnerability, stamina limits/recovery, successful and failed active reload timing, chain expiry/damage reset, enemy telegraph timing, projectile hit and movement avoidance.
+JavaScript syntax checks pass. These tests do not verify visual output, audio, browser input or feel.
 
-### Remaining important checks
-1. Open standalone HTML in a normal WebGL-capable browser and verify first-frame render
-2. Start, pause/resume and restart, including blur and pointer-lock denial
-3. Confirm movement direction, camera orientation, gun placement and hitbox alignment
-4. Confirm HUD and settings on desktop viewports; mobile is not a supported gameplay target
-5. Complete a full bounty run, including destruction, headshots, pickups and extraction
-6. Confirm repeated contracts and GPU resource use
-7. Check browser console, audio output and frame rate
+### Browser evidence and blocker
+The actual private GPT Site was opened in the cloud browser. It returned the owner sign-in page (“접속하려면 로그인하세요 / ChatGPT로 계속”), not the game. An approval request for existing-account sign-in is pending. No credentials were entered, no audience was widened and no authentication bypass was used.
+The previous local preview route returned 502; the cloud browser rejects file URLs. No generated illustration is presented as an implementation screenshot.
 
-### Reference comparison limits
-The reference has high-detail 2D character/gun sprites, grotesque illustrated portraits, strong CRT curvature, dense textured scenery and sophisticated debris. This build uses original low-poly 3D character/gun meshes, original simplified architecture, procedural textures, scanline/vignette overlay and particle fragments. The palette and broad first-person composition are informed by the screenshots, but fidelity is materially lower. Camera state matching and pixel-level comparison remain blocked.
+### Required remaining acceptance
+- Compare a real rendered frame to the source at 640×360, including palette, dither density, tree depth and weapon placement
+- Perform actual keyboard/mouse play: start, move, aim/fire/cycle, time a reload, dodge telegraphed shots, retrieve token and extract
+- Check death/retry, pause/resume, lost focus and pointer-lock fallback
+- Check browser errors, performance and audio
+- Repair issues and recapture before calling the revision complete
 
-### Sources
-- Official Steam page: https://store.steampowered.com/app/4603230/HEADCUTTER/
-- Official Steam public app metadata and four full-size screenshots, queried 2026-10-07
-- Three.js official documentation: https://threejs.org/docs/
-- Pointer Lock documentation: https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API
+### Publication
+The same owner-private GPT Site now contains this development revision: https://dead-freight-browser.buildon733500.chatgpt.site
+Deployment success is not gameplay verification. No main-branch merge is authorized or performed.
 
-## Monorepo integration validation
-- Dependency installation succeeded with repository-pinned pnpm 9.15.4 and the existing lockfile; only the new dependency-free workspace importer was added
-- Required `pnpm sync:registry` and `pnpm build:vercel` were attempted but the tsx CLI cannot create its IPC socket in this executor (`listen EPERM`)
-- The same registry script and project metadata validator ran successfully through the supported Node tsx loader (`node --import tsx`), which does not need that CLI IPC service
-- Existing registry project timestamps were preserved to avoid unrelated serialization-only changes
-- Complete monorepo/Vercel release validation is not claimed; this is a source branch, not a main merge
-- GPT Sites deployment succeeded privately for the account owner, independently of the monorepo release pipeline
-- The selected project's repository build and copy into launcher/public/runs/dead-freight passed via the Node loader
-- After the initial source commit supplied a real git-derived updatedAt value, `pnpm --filter launcher build` passed compilation, lint/type checks and generation of all 27 static pages, including the new catalog and run routes
-- Other projects' static-artifact rebuilds were not completed; the root aggregate wrapper remains blocked by its tsx CLI IPC requirement
+### Previous integration baseline
+0.1.0 passed selected-project static build, registry validation and launcher production build. The standard root build:vercel command was blocked by the executor's tsx CLI IPC restriction; scripts could run through Node's tsx loader. Existing registry timestamps and unrelated files were preserved.
+
+### 0.2.0 integration checks
+The selected project's static build, registry metadata validation, and launcher production build all passed after this revision. Launcher compilation, type checks and all 27 generated pages completed successfully. This does not resolve the outstanding browser render/play acceptance.

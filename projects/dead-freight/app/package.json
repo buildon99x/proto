@@ -1,1 +1,11 @@
-{"name":"dead-freight","version":"0.1.0","private":true,"scripts":{"dev":"python3 -m http.server 4173","build":"node build.cjs","test":"node test-core.cjs","lint":"node --check game.js && node --check core.js"}}
+{
+  "name": "dead-freight",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "dev": "python3 -m http.server 4173",
+    "build": "node build.cjs",
+    "test": "node test-core.cjs",
+    "lint": "node --check game.js && node --check core.js"
+  }
+}
