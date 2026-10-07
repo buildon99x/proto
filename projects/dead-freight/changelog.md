@@ -10,3 +10,9 @@
 - Add destructible entrance, alternate route, bounty objective and extraction
 - Add Korean instructions, source documentation and 14 model tests
 - Publish an owner-private GPT Site; live gameplay QA remains unverified
+
+## 0.3.0 — 2026-10-07
+- Add articulated gloved viewmodel and mechanical pistol details
+- Add spring recoil, slide/casing/reload motion and impact/destruction feedback
+- Add iron-sight aiming, switchable suppressor and optional laser module
+- Preserve the visual/play sign-in gate; automated geometry tests are not a rendered comparison

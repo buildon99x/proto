@@ -22,4 +22,5 @@ test('combo is lost on damage and times out',()=>{let w=new Mission();w.reward(1
 test('enemy attack is telegraphed before a dodgeable projectile',()=>{let w=new Mission();w.enemies=w.enemies.slice(0,1);let e=w.enemies[0];e.x=0;e.z=15;e.attack=0;e.alert=true;w.tick(.01);assert(e.windup>0);assert.equal(w.projectiles.length,0);assert.equal(w.player.hp,100);tick(w,.95);assert(w.projectiles.length>0);assert.equal(w.player.hp,100);});
 test('projectile actually damages at player intersection',()=>{let w=new Mission();w.projectiles.push({x:0,z:23.9,vx:0,vz:1,life:1,alive:true});w.tick(.01);assert.equal(w.player.hp,76);assert.equal(w.projectiles.length,0);});
 test('moving out of a telegraphed line avoids the attack',()=>{let w=new Mission();w.projectiles.push({x:0,z:20,vx:0,vz:12,life:1,alive:true});w.move(2,0);tick(w,.5);assert.equal(w.player.hp,100);});
+test('reload completion permits firing at ordinary 60 Hz',()=>{let w=new Mission();w.fire(null);w.load();for(let i=0;i<120;i++)w.tick(1/60);assert.equal(w.reload,0);assert.equal(w.ammo[0],6);assert(w.fire(null));});
 console.log(`FINAL: ${n} tests passed`);

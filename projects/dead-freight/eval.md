@@ -31,3 +31,16 @@ Deployment success is not gameplay verification. No main-branch merge is authori
 
 ### 0.2.0 integration checks
 The selected project's static build, registry metadata validation, and launcher production build all passed after this revision. Launcher compilation, type checks and all 27 generated pages completed successfully. This does not resolve the outstanding browser render/play acceptance.
+
+## 0.3.0 first-person detail checkpoint (not a visual pass)
+- New dedicated weapon module with chamfered receiver, ejection port, extractor, slide serrations, open trigger guard, moving trigger/hammer, grip texture, magazine and suppressor geometry
+- Segmented glove fingers with joints/knuckle pads, separate trigger index, thumb, palm, support hand, cuffs and forearms
+- Spring recoil/recovery, mechanical slide travel, casing ejection, weapon inertia, support-hand/magazine reload movement and staged reload sounds
+- Right mouse now aims through iron sights; Q retains the manual weapon cycle
+- Optional suppressor changes geometry and audio; optional rail laser has a visible module and raycast hit point (L toggle)
+- Hit confirmation, short impact slowdown, enemy collapse and larger wood fragments added
+- 22 model tests and 12 actual Three.js viewmodel-construction configurations passed; geometry coordinates were checked for finiteness
+- Constructor metrics are not image-quality evidence. No commercial-game equivalence, anatomical fidelity, animation quality or reference-level visual match is claimed without the still-pending browser render and normal-input playthrough
+
+### 0.3 runtime review repairs
+A separate rendererless review identified and verified fixes for: a negative completed-reload timer blocking future shots; detached laser origin across the two camera projections; missing barrel laser intersections; short muzzle flashes disappearing before their first rendered frame; outdated right-click cycle instructions; a trigger fingertip that did not reach the trigger; and GPU/effect cleanup paths. A fresh start/end also clears held ADS and transient presentation state. The regression suite now has 23 combat checks and 12 viewmodel configurations, including measured fingertip contact. Laser projection was checked numerically across hip/ADS/yaw/pitch cases. These are still not a substitute for visual or input-play acceptance.
