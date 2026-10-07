@@ -1,6 +1,6 @@
 # Evaluation
 
-Status: prototype; automated source/build checks passed, actual browser QA blocked.
+Status: 0.2.0 work-in-progress development checkpoint; focused automated checks passed, final growth tests/report sync and aggregate validation pending. Actual browser QA remains blocked.
 
 ## Known evidence limits
 
@@ -9,7 +9,7 @@ Status: prototype; automated source/build checks passed, actual browser QA block
 - The runtime test harness uses mocked DOM, Canvas, input, audio, storage, and animation APIs. Passing it demonstrates selected JavaScript paths and assertions only; it is not browser test evidence.
 - No completed release or commercial-game feature-parity claim is made.
 
-## Integration checks
+## Historical 0.1.0 integration checks
 
 - PASS: final game/data/style/index sources match the source handoff.
 - PASS: JavaScript syntax checks across source, test, and build scripts.
@@ -30,3 +30,11 @@ Source integration is suitable for prototype review. Browser acceptance remains 
 ### Environment note
 
 The exact `pnpm sync:registry` and `pnpm build:vercel` commands initially failed because the tsx CLI's local IPC pipe could not bind (`EPERM`). For verification, the ignored local tsx executable was temporarily adapted to `node --import tsx` so the same repository script bodies could run without the CLI IPC server. No repository build scripts or dependencies were changed, and the executable was restored afterward. This is distinct from the browser access blocker above; no browser bypass was attempted.
+
+## 0.2.0 checkpoint gates
+
+- Source handoff adds growth, rank gates, attributes, forging, elemental gear, skill orbs, combat buffering/impact, varied map topology, and legacy-map migration.
+- PASS for this checkpoint: JavaScript syntax checks (including extracted standalone code), 600-map connectivity/data checks, the seven-class/six-floor isolated mock runtime, static build, standalone packaging, and registry synchronization. These checks do not establish growth-system completeness or real gameplay behavior.
+- Dedicated pure growth tests and refreshed QA/comparison reports are pending. Existing `docs/QA.md` and comparison reports describe the 0.1.0 baseline.
+- The full aggregate build will run after the checkpoint, followed by final source/test/report synchronization.
+- This is a source-preservation checkpoint, not completion or release readiness.

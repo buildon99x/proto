@@ -40,7 +40,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "summary": "Original solo dungeon-crawler prototype: seven heroes, six seeded floors, persistent equipment, relics, and a refuge to rebuild. Browser QA remains pending.",
     "tags": [
       "game",
@@ -71,7 +71,7 @@ export const projects = [
       "lint": "pnpm --filter emberwatch lint",
       "standalone": "pnpm --filter emberwatch standalone"
     },
-    "updatedAt": "2026-10-08T01:06:15+09:00"
+    "updatedAt": "2026-10-08T01:08:39+09:00"
   },
   {
     "id": "msw-inc",

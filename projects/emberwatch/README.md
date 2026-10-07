@@ -2,7 +2,7 @@
 
 An original, dependency-free Canvas 2D solo dungeon-crawler prototype. Choose a hero, explore six generated floors, gather equipment and relics, fight three guardians, and rebuild a persistent refuge.
 
-**Status: prototype, version 0.1.0. Actual browser gameplay and visuals remain unverified.** See [eval.md](./eval.md) for evidence and blockers.
+**Status: development checkpoint, version 0.2.0. Actual browser gameplay and visuals remain unverified.** See [eval.md](./eval.md) for evidence and blockers.
 
 ## Run and build
 
@@ -49,3 +49,7 @@ Save data is stored only in the current browser's local storage under `emberwatc
 Hosted styles optionally load Google Fonts; the standalone edition removes that request and uses system fonts. The runtime includes optional, read-only WebMCP progress registration, which remains unverified in a supported browser.
 
 This is an original genre-inspired prototype. It does not include commercial game assets or claim full feature parity, production balance, or release readiness.
+
+## 0.2.0 work in progress
+
+This checkpoint expands growth, forging, elemental equipment, combat feedback, and map layouts. Dedicated growth tests and refreshed reports are still being integrated. Existing comparison/QA documents describe the prior baseline; follow `eval.md` for current verification gates.
