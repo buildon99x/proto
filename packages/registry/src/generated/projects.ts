@@ -70,7 +70,8 @@ export const projects = [
       "test": "pnpm --filter emberwatch test",
       "lint": "pnpm --filter emberwatch lint",
       "standalone": "pnpm --filter emberwatch standalone"
-    }
+    },
+    "updatedAt": "2026-10-08T01:06:15+09:00"
   },
   {
     "id": "msw-inc",

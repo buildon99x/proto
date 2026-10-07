@@ -1,6 +1,6 @@
 # Evaluation
 
-Status: prototype; source and focused checks complete, aggregate verification pending.
+Status: prototype; automated source/build checks passed, actual browser QA blocked.
 
 ## Known evidence limits
 
@@ -17,7 +17,15 @@ Status: prototype; source and focused checks complete, aggregate verification pe
 - PASS: isolated mock-runtime tests for seven class paths, six floors, equipment, guardian deaths, save/resume, and resource settlement.
 - PASS: project static build, self-contained HTML generation, and launcher static-artifact copy.
 - PASS: metadata validation and registry generation using the same repository scripts through `node --import tsx`.
-- All eleven project builds passed in the aggregate run. Launcher type checking initially stopped because the newly uncommitted project had no git-derived `updatedAt`. Commit the source, regenerate from git history, and rerun before the final branch result.
+- PASS: standalone CSS begins at `:root`, contains no `@import` or Google Fonts URL, and the generated HTML has no external script source.
+- PASS: `pnpm build:vercel` with the environment adaptation below. All eleven static project builds and the launcher production build, type checks, page generation, and build traces completed successfully. Emberwatch's project and run routes were included.
+- The first launcher type-check attempt failed because a new uncommitted project had no git-derived `updatedAt`. Committing the source and regenerating the registry from git history resolved it without changing launcher code or other projects.
+- Existing projects' registry entries are preserved; generated UTC timestamp spelling differences are normalized back to their equivalent checked-in values to avoid unrelated churn.
+- Build output, package caches, standalone output, and Sites configuration are excluded from the source commit.
+
+## Release decision
+
+Source integration is suitable for prototype review. Browser acceptance remains blocked and must be completed before any gameplay, device compatibility, performance, or release-readiness claim. No PR, main-branch merge, or deployment is part of this source integration.
 
 ### Environment note
 
