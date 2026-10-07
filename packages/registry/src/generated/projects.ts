@@ -2,6 +2,40 @@ import type { ProjectMetadata } from "../schema";
 
 export const projects = [
   {
+    "id": "dead-freight",
+    "name": "DEAD FREIGHT",
+    "status": "prototype",
+    "type": "demo",
+    "runtime": "static-artifact",
+    "version": "0.1.0",
+    "summary": "Original browser sci-fi western FPS study with manual weapons, destructible routes and a bounty-extraction loop. Development build; live gameplay QA unverified.",
+    "tags": [
+      "game",
+      "fps",
+      "webgl",
+      "prototype"
+    ],
+    "projectRoot": "projects/dead-freight",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/dead-freight/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md"
+    },
+    "assets": {},
+    "commands": {
+      "dev": "pnpm --filter dead-freight dev",
+      "build": "pnpm --filter dead-freight build",
+      "test": "pnpm --filter dead-freight test"
+    },
+    "updatedAt": "2026-10-08T00:39:23+09:00"
+  },
+  {
     "id": "deck-building",
     "name": "Deck Building",
     "status": "prototype",

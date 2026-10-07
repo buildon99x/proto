@@ -43,3 +43,6 @@ The reference has high-detail 2D character/gun sprites, grotesque illustrated po
 - Existing registry project timestamps were preserved to avoid unrelated serialization-only changes
 - Complete monorepo/Vercel release validation is not claimed; this is a source branch, not a main merge
 - GPT Sites deployment succeeded privately for the account owner, independently of the monorepo release pipeline
+- The selected project's repository build and copy into launcher/public/runs/dead-freight passed via the Node loader
+- After the initial source commit supplied a real git-derived updatedAt value, `pnpm --filter launcher build` passed compilation, lint/type checks and generation of all 27 static pages, including the new catalog and run routes
+- Other projects' static-artifact rebuilds were not completed; the root aggregate wrapper remains blocked by its tsx CLI IPC requirement
