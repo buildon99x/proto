@@ -10,7 +10,7 @@
 
 ## Controls
 
-WASD or arrow keys move; mouse aims and held left click attacks; J attacks using nearest-target aiming; Space dodges; Q/E use abilities; F interacts; R uses a potion; Tab opens inventory; Escape pauses. On-screen touch buttons are a fallback requiring real-device verification.
+WASD or arrow keys move; mouse aims and held left click attacks; J attacks using nearest-target aiming; Space dodges; Q/E use abilities; F interacts; R uses a potion; Tab opens inventory; K opens training; C uses an unlocked specialization technique; Escape pauses. On-screen touch buttons are a fallback requiring real-device verification.
 
 ## Repository and build contract
 
@@ -32,4 +32,4 @@ Run project syntax checks, tests, static build, registry synchronization, and th
 - Expand combat with queued inputs and impact feedback; expand maps with varied topology while preserving resume compatibility for legacy map versions.
 - Ship `growth.js` in the static artifact and inline it into standalone output before the game runtime.
 - Keep the permanent untested-development header warning, local save key, and all source files within this project.
-- Dedicated pure-growth coverage and refreshed comparison/report documents are pending the final source handoff. Existing map/mock tests alone do not validate the whole revision.
+- Dedicated pure-growth coverage checks migration, rank gates, point spending, forging, and map compatibility. Refreshed comparison/QA documents cover this revision. Map/mock tests do not validate real browser interaction.

@@ -1,11 +1,11 @@
 # Changelog
 
-## 0.2.0 — 2026-10-07 — development checkpoint
+## 0.2.0 — 2026-10-07 — development revision
 
 - Add skill and attribute point progression, rank-gated Training Grounds, forging, elemental equipment, and run-only skill orbs.
 - Add combat input buffering/impact feedback, varied map topology, and legacy map migration.
 - Package the new dependency-free growth module in static and standalone builds.
-- Preserve an explicit untested-development warning; dedicated growth tests, updated reports, and final QA are pending.
+- Preserve an explicit untested-development warning; dedicated growth tests and updated reports are included, while real browser QA remains pending.
 
 ## 0.1.0 — 2026-10-07
 

@@ -4,7 +4,7 @@
 
 1. JavaScript syntax checks (`node --check`).
 2. 600 seeded floor maps: all 12 room centers connected to the starting room; expected guardian-floor flags.
-3. Seven class definitions / three specialization labels each; unique eighteen-trinket roster; six building definitions.
+3. Seven class definitions / three specialization labels each; unique eighteen-trinket roster; seven building definitions.
 4. Save defaults and version migration fallback.
 5. Mock-runtime smoke: seven classes' two skills, basic attacks, six floor render code paths, equipment generation, guardian death hooks, inventory/guide/town UI construction.
 6. Mock-runtime resource settlement: death retains 60% at no upgrades; victory retains 100%.
@@ -39,3 +39,17 @@ No genuine game screenshots, human-style gameplay, fresh-game victory, death/res
 ## Quality conclusion
 
 This is a smaller original prototype. Its systems are substantially narrower than the commercial game. Automated checks are useful fault detection, not evidence of equal play quality. See review.html for exact gaps and sources.
+
+## Growth / combat / map revision 0.2.0
+
+Added permanent skill-point spending, rank gates, five attribute allocations, persistent equipment forging, elemental traits, first-chest equipment guarantee, equipment comparison grid, skill spheres, a training dummy, rank-3 behavior changes, short input buffering, dodge attack cancellation, impact pause/stagger, varied map connectivity/room shapes/corridor widths/encounter packs. Old in-progress maps keep the legacy generator.
+
+New `app/tests/growth.test.mjs` passes legacy migration and idempotency, learning/rank restrictions, costs, attribute allocation, forging/denial non-mutation, legacy-map equality, and topology diversity. Mock-runtime tests now explicitly exercise evolved Q and E for all seven classes. No one should confuse these with actual gameplay evidence.
+
+Reference pixels inspected: official Steam inventory screenshot `ss_8570e9fd7db5c2e91955df2e5686668794d84223.jpg`. It shows adjacent equipped/candidate cards, rarity-colored item slots, clear weapon/attribute requirements, detailed item effects and a dense backpack grid. The new armory adopts comparison-first layout with independently drawn icons. Reference art is not shipped.
+
+Current visual assessment is incomplete: no new-build normal-play screenshot or subjective feel measurement has been obtained. A 98% visual match is neither measured nor claimed. The UI/growth revision can be assessed from source and logic tests only until supported authenticated browser access is available.
+
+### Current private-Site check
+
+The published Emberwatch URL was opened through the supported cloud browser on 2026-10-07. It returned the site's ChatGPT sign-in screen (Korean “접속하려면 로그인하세요” / “ChatGPT로 계속”), not the game. No sign-in was attempted without authorization. This is the current blocker for baseline/new-build screenshot comparison and ordinary-control growth-loop testing; it is not evidence that the game rendered or played correctly.

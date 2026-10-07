@@ -2,7 +2,7 @@
 
 An original, dependency-free Canvas 2D solo dungeon-crawler prototype. Choose a hero, explore six generated floors, gather equipment and relics, fight three guardians, and rebuild a persistent refuge.
 
-**Status: development checkpoint, version 0.2.0. Actual browser gameplay and visuals remain unverified.** See [eval.md](./eval.md) for evidence and blockers.
+**Status: development revision, version 0.2.0. Actual browser gameplay and visuals remain unverified.** See [eval.md](./eval.md) for evidence and blockers.
 
 ## Run and build
 
@@ -24,6 +24,7 @@ The project itself has no npm dependencies. Direct use from `projects/emberwatch
 node scripts/build.mjs
 node scripts/serve.mjs
 node tests/data.test.mjs
+node tests/growth.test.mjs
 node tests/runtime.test.mjs
 ```
 
@@ -31,7 +32,7 @@ node tests/runtime.test.mjs
 
 - WASD / arrow keys: move; mouse: aim; hold left click: attack; J: nearest-target attack
 - Space: dodge; Q/E: class abilities; F: interact; R: potion
-- Tab: inventory; Escape: pause
+- Tab: inventory; K: training; C: unlocked specialization technique; Escape: pause
 - On-screen touch controls are experimental and have not been tested on a real device
 
 ## Source and evidence
@@ -50,6 +51,6 @@ Hosted styles optionally load Google Fonts; the standalone edition removes that 
 
 This is an original genre-inspired prototype. It does not include commercial game assets or claim full feature parity, production balance, or release readiness.
 
-## 0.2.0 work in progress
+## 0.2.0 development revision
 
-This checkpoint expands growth, forging, elemental equipment, combat feedback, and map layouts. Dedicated growth tests and refreshed reports are still being integrated. Existing comparison/QA documents describe the prior baseline; follow `eval.md` for current verification gates.
+This revision expands skill/attribute growth, rank-gated Training Grounds, forging, elemental equipment, skill spheres, combat feedback, and map layouts. Dedicated growth tests and refreshed reports are included. The first found item requires explicit Equip; rank-3 skills evolve their behavior; legacy expeditions preserve their old map generator. The permanent development warning remains visible, and real browser gameplay/visual verification is still blocked at the private site’s sign-in screen. Follow `eval.md` for the current evidence and acceptance gates.

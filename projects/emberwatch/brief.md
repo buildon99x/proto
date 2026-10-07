@@ -15,6 +15,6 @@ Create an original, solo browser dungeon-crawler prototype with a repeatable loo
 
 The current scope is seven hero definitions, three biomes across six generated floors, three guardians, equipment and relics, refuge upgrades, and local run persistence. It is not a finished commercial release. Browser gameplay and visual quality have not been verified in the current environment.
 
-## 0.2.0 development checkpoint
+## 0.2.0 development revision
 
-Expand permanent progression and combat feedback with spendable skill/attribute points, rank-gated training, forging, elemental equipment, skill orbs, input buffering, impact feedback, varied floor topology, and legacy map migration. This is a work-in-progress source checkpoint; dedicated growth tests, updated reporting, aggregate build, and browser acceptance are separate gates.
+Expand permanent progression and combat feedback with spendable skill/attribute points, rank-gated training, forging, elemental equipment, skill orbs, input buffering, impact feedback, varied floor topology, and legacy map migration. The source revision includes dedicated growth tests and updated reporting. Automated verification and browser acceptance remain distinct gates; this is an untested development build, not a release.

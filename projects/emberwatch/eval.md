@@ -1,10 +1,10 @@
 # Evaluation
 
-Status: 0.2.0 work-in-progress development checkpoint; focused automated checks passed, final growth tests/report sync and aggregate validation pending. Actual browser QA remains blocked.
+Status: 0.2.0 development revision; final source, reports, and automated integration checks complete. Actual browser QA remains blocked.
 
 ## Known evidence limits
 
-- Real browser QA is blocked in the current environment: the preview route returned HTTP 502 and localhost navigation returned `ERR_BLOCKED_BY_CLIENT`.
+- Earlier browser attempts were blocked by an HTTP 502 preview route and `ERR_BLOCKED_BY_CLIENT` at localhost. The current supported private-site check reached a ChatGPT sign-in screen rather than the game; no unauthorized login was attempted. See `docs/QA.md` for the observation.
 - No actual gameplay, screenshot review, mobile usability, browser performance, or end-to-end save/resume behavior has been verified.
 - The runtime test harness uses mocked DOM, Canvas, input, audio, storage, and animation APIs. Passing it demonstrates selected JavaScript paths and assertions only; it is not browser test evidence.
 - No completed release or commercial-game feature-parity claim is made.
@@ -31,10 +31,11 @@ Source integration is suitable for prototype review. Browser acceptance remains 
 
 The exact `pnpm sync:registry` and `pnpm build:vercel` commands initially failed because the tsx CLI's local IPC pipe could not bind (`EPERM`). For verification, the ignored local tsx executable was temporarily adapted to `node --import tsx` so the same repository script bodies could run without the CLI IPC server. No repository build scripts or dependencies were changed, and the executable was restored afterward. This is distinct from the browser access blocker above; no browser bypass was attempted.
 
-## 0.2.0 checkpoint gates
+## 0.2.0 verification
 
 - Source handoff adds growth, rank gates, attributes, forging, elemental gear, skill orbs, combat buffering/impact, varied map topology, and legacy-map migration.
-- PASS for this checkpoint: JavaScript syntax checks (including extracted standalone code), 600-map connectivity/data checks, the seven-class/six-floor isolated mock runtime, static build, standalone packaging, and registry synchronization. These checks do not establish growth-system completeness or real gameplay behavior.
-- Dedicated pure growth tests and refreshed QA/comparison reports are pending. Existing `docs/QA.md` and comparison reports describe the 0.1.0 baseline.
-- The full aggregate build will run after the checkpoint, followed by final source/test/report synchronization.
-- This is a source-preservation checkpoint, not completion or release readiness.
+- PASS: JavaScript syntax checks for ten source/test/build files and extracted standalone code; 600-map connectivity/data checks; legacy growth migration/idempotency, skill unlock/rank gates, attribute allocation, forge value progression/rejected-upgrade non-mutation, legacy-map preservation, and topology diversity; seven-class evolved Q/E paths and six-floor isolated mock-runtime checks.
+- PASS: static build, standalone packaging (including growth.js and no unresolved imports), source-byte comparison, and registry synchronization. These are automated checks, not real gameplay evidence.
+- Added dedicated pure growth tests and refreshed QA/comparison reports for 0.2.0. The first found item now requires explicit Equip; returning axes can hit again on their return path. Responsive training/comparison styles and narrow-screen header layout are included, but their appearance is unverified.
+- PASS: the final gameplay/CSS source passed the complete `pnpm build:vercel` pipeline using the documented tsx environment adaptation: all eleven project builds plus launcher compile, type checks, 27 static pages, and build traces. The subsequent version-meta/sign-in-report-only update was rebuilt and checked with the focused project/standalone workflow.
+- This is a development revision, not release readiness. The requested real-play and visual comparison remain blocked.

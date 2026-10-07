@@ -8,7 +8,7 @@ export const CLASSES = [
 {id:'sorcerer',name:'Sorcerer',glyph:'ϟ',color:'#7ebed0',hp:100,mana:130,damage:18,speed:168,range:380,rate:.39,kind:'spark',q:'Chain Lightning',e:'Thunderstorm',desc:'Storms made flesh. Chaining bolts and sustained lightning.',specs:['Stormcaller','Invoker','Tempest'],unlock:3}
 ];
 export const BIOMES=[
-{name:'Pinewild',sub:'The forgotten road',floor:'#303d32',alt:'#354337',wall:'#28332c',top:'#435540',light:'#eec080',enemy:['rat','bandit','archer'],resource:'wood',boss:'The Thornwarden',bossColor:'#9f9a58'},
+{name:'Pinewild',sub:'The forgotten road',floor:'#514d34',alt:'#585136',wall:'#2e3130',top:'#646050',light:'#eec080',enemy:['rat','bandit','archer'],resource:'wood',boss:'The Thornwarden',bossColor:'#9f9a58'},
 {name:'Sunken Vaults',sub:'Beneath the old abbey',floor:'#343b44',alt:'#39424c',wall:'#222934',top:'#566075',light:'#75c4c5',enemy:['skeleton','archer','mage'],resource:'stone',boss:'The Bellkeeper',bossColor:'#929ec0'},
 {name:'Ember Citadel',sub:'At the heart of the hollow crown',floor:'#403139',alt:'#4a373c',wall:'#28232e',top:'#6e4e58',light:'#ea8a57',enemy:['knight','mage','imp'],resource:'iron',boss:'The Hollow King',bossColor:'#c67861'}
 ];

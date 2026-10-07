@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node scripts/build.mjs && node scripts/serve.mjs",
     "build": "node scripts/build.mjs",
-    "test": "node tests/data.test.mjs && node tests/runtime.test.mjs",
+    "test": "node tests/data.test.mjs && node tests/growth.test.mjs && node tests/runtime.test.mjs",
     "lint": "node scripts/check.mjs",
     "standalone": "node scripts/build.mjs && node scripts/build-standalone.mjs"
   }
