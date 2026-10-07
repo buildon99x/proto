@@ -35,6 +35,44 @@ export const projects = [
     "updatedAt": "2026-07-15T15:28:50+00:00"
   },
   {
+    "id": "emberwatch",
+    "name": "Emberwatch: Crown of Cinders",
+    "status": "prototype",
+    "type": "demo",
+    "runtime": "static-artifact",
+    "version": "0.1.0",
+    "summary": "Original solo dungeon-crawler prototype: seven heroes, six seeded floors, persistent equipment, relics, and a refuge to rebuild. Browser QA remains pending.",
+    "tags": [
+      "game",
+      "dungeon-crawler",
+      "action-rpg",
+      "canvas",
+      "prototype"
+    ],
+    "projectRoot": "projects/emberwatch",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/emberwatch/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md",
+      "qa": "docs/QA.md",
+      "comparison": "docs/review.html"
+    },
+    "assets": {},
+    "commands": {
+      "dev": "pnpm --filter emberwatch dev",
+      "build": "pnpm --filter emberwatch build",
+      "test": "pnpm --filter emberwatch test",
+      "lint": "pnpm --filter emberwatch lint",
+      "standalone": "pnpm --filter emberwatch standalone"
+    }
+  },
+  {
     "id": "msw-inc",
     "name": "MSW 주식회사",
     "status": "prototype",
