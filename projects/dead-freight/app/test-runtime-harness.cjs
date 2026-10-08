@@ -13,7 +13,7 @@ function eventTarget(){
 }
 function harness(initialStorage={},options={}){
  const storage=new Map(Object.entries(initialStorage));
- let now=1000;const frames=[],renders=[],worlds=[],audioCalls=[],rendererCalls=[],reloads=[],errors=[],elements=new Map(),checkedGeometry=new WeakSet();
+ let now=1000;const frames=[],renders=[],worlds=[],bridges=[],audioCalls=[],rendererCalls=[],reloads=[],errors=[],elements=new Map(),checkedGeometry=new WeakSet();
  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
  const context2d={fillRect(){},clearRect(){},strokeRect(){},fillText(){},beginPath(){},arc(){},fill(){},moveTo(){},lineTo(){},stroke(){}};
  function element(id,tag='div'){const classes=new Set();return Object.assign(eventTarget(),{id,tagName:tag.toUpperCase(),style:{},dataset:{},classList:{toggle(k,force){const on=force??!classes.has(k);if(on)classes.add(k);else classes.delete(k);return on;},contains:k=>classes.has(k),add:k=>classes.add(k),remove:k=>classes.delete(k)},textContent:'',innerHTML:'',hidden:false,checked:false,value:'',focus(){document.activeElement=this;},blur(){if(document.activeElement===this)document.activeElement=null;},width:640,height:360,getContext(type){assert.equal(type,'2d');return context2d;}});}
@@ -44,6 +44,8 @@ function harness(initialStorage={},options={}){
   if(script==='vendor/three.min.js')continue;
   if(script==='audio.js'){context.DeadFreightAudio={create(options){audioCalls.push({method:'create',args:[options]});return audio;}};continue;}
   vm.runInContext(fs.readFileSync(path.join(root,script),'utf8'),context,{filename:script});
+  if(script==='inventory.js'&&Number.isInteger(options.secondary)){const original=context.DFInventory.starter;context.DFInventory.starter=function(index){const inv=original(index),itemId=['pistol','shotgun','smg','r4'][options.secondary],item=context.DFInventory.Catalog[itemId];if(!inv.all().some(e=>e.location.startsWith('weapon:')&&e.stack.itemId===itemId)){const meta=vm.runInContext('('+JSON.stringify({issued:true,rounds:item.magazineSize,...(itemId==='r4'?{chamber:1}:{})})+')',context),r=inv.add(itemId,1,meta);assert(r.ok);assert(inv.move(r.locations[0],'weapon:1').ok);}return inv;};}
+  if(script==='inventory-game.js'){const Bridge=context.DFInventoryGame.Bridge;context.DFInventoryGame.Bridge=class extends Bridge{constructor(...args){super(...args);bridges.push(this);}};}
   if(script==='core.js'){const Mission=context.HC.Mission;context.HC.Mission=class extends Mission{constructor(...args){super(...args);worlds.push(this);}};}
  }
  function tick(dt=1/60){assert.equal(frames.length,1,'one RAF chain must remain scheduled');const cb=frames.shift();now+=dt*1000;cb(now);for(const e of elements.values())for(const value of Object.values(e.style))assert(!/NaN|Infinity/.test(String(value)),'CSS must remain finite');}
@@ -55,7 +57,10 @@ function harness(initialStorage={},options={}){
  function world(){return worlds.at(-1);}
  function model(){for(const {scene} of renders){let found;scene.traverse(o=>{if(o.userData.slide&&o.userData.rightWrist)found=o;});if(found)return found;}assert.fail('viewmodel was not passed to renderer');}
  function camera(){const found=renders.find(({camera})=>camera.isPerspectiveCamera&&camera.near===.06);assert(found);return found.camera;}
+ function giveItem(itemId,quantity=1,meta={}){const bridge=bridges.at(-1),r=bridge.inventory.add(itemId,quantity,vm.runInContext('('+JSON.stringify(meta)+')',context));assert(r.ok,JSON.stringify(r));bridge.syncToWorld();return r;}
+ function giveWeapon(index){const itemId=['pistol','shotgun','smg','r4'][index],item=context.DFInventory.Catalog[itemId],r=giveItem(itemId,1,{issued:true,rounds:item.magazineSize,...(index===3?{chamber:1}:{})});assert(bridges.at(-1).move(r.locations[0],'weapon:1').ok);}
+ function uiAction(action,location=''){elements.get('inventory-content').dispatch('click',{target:{closest:()=>({disabled:false,dataset:{action,location}})}});}
  function eventCount(type){return audioCalls.filter(c=>c.method===type||((c.method==='event'||c.method==='reload')&&c.args[0]===type)).length;}
- return {context,document,window,elements,canvas,frames,renders,worlds,audioCalls,rendererCalls,reloads,errors,storage,tick,advance,key,tap,click,mouse,world,model,camera,eventCount};
+ return {context,document,window,elements,canvas,frames,renders,worlds,bridges,audioCalls,rendererCalls,reloads,errors,storage,tick,advance,key,tap,click,mouse,world,model,camera,eventCount,giveItem,giveWeapon,uiAction};
 }
 module.exports={harness};

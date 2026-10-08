@@ -1,11 +1,11 @@
 {
   "name": "dead-freight",
-  "version": "0.7.2",
+  "version": "0.8.0",
   "private": true,
   "scripts": {
     "dev": "python3 -m http.server 4173",
     "build": "node build.cjs",
-    "test": "node test-core.cjs && node test-viewmodel.cjs && node test-motion.cjs && node test-audio.cjs && node test-runtime.cjs && node test-movement.cjs && node test-world.cjs && node test-readability.cjs && node test-rifle-state.cjs && node test-rifle-viewmodel.cjs && node test-rifle-audio.cjs && node test-rifle-runtime.cjs && node test-startup.cjs && node test-core-lifecycle.cjs && node test-lifecycle.cjs && node test-run-clock.cjs && node test-save-state.cjs",
-    "lint": "node --check game.js && node --check core.js && node --check weapon.js && node --check motion.js && node --check audio.js && node --check world.js && node --check world-view.js && node --check render-style.js && node --check rifle-state.js && node --check rifle-audio.js && node --check run-clock.js && node --check save-state.js"
+    "test": "node test-core.cjs && node test-viewmodel.cjs && node test-motion.cjs && node test-audio.cjs && node test-runtime.cjs && node test-movement.cjs && node test-world.cjs && node test-readability.cjs && node test-rifle-state.cjs && node test-rifle-viewmodel.cjs && node test-rifle-audio.cjs && node test-rifle-runtime.cjs && node test-startup.cjs && node test-core-lifecycle.cjs && node test-lifecycle.cjs && node test-run-clock.cjs && node test-save-state.cjs && node test-inventory.cjs && node test-inventory-game.cjs && node test-stash-profile.cjs && node test-inventory-runtime.cjs && node test-inventory-ui.cjs",
+    "lint": "node --check game.js && node --check core.js && node --check weapon.js && node --check motion.js && node --check audio.js && node --check world.js && node --check world-view.js && node --check render-style.js && node --check rifle-state.js && node --check rifle-audio.js && node --check run-clock.js && node --check save-state.js && node --check inventory.js && node --check inventory-game.js && node --check stash-profile.js && node --check inventory-ui.js"
   }
 }

@@ -7,8 +7,8 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.7.2",
-    "summary": "One-rifle FPS foundation checkpoint with magazine/chamber states, buffered auto/burst fire, staged reloads, recorded Pixabay audio, stamina and readable surface-night lighting. Live gameplay/listening gate pending.",
+    "version": "0.8.0",
+    "summary": "Equipment checkpoint with two firearm slots, armor, quick-use items, slot/weight-limited bags, usable gadgets/throwables and persistent extraction stash. R-4 actual-play/listening gate remains open.",
     "tags": [
       "game",
       "fps",
@@ -33,7 +33,7 @@ export const projects = [
       "build": "pnpm --filter dead-freight build",
       "test": "pnpm --filter dead-freight test"
     },
-    "updatedAt": "2026-10-08T14:27:32+09:00"
+    "updatedAt": "2026-10-08T18:02:40+09:00"
   },
   {
     "id": "deck-building",

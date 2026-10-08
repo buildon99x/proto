@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.8.0 — equipment, carry limits and persistent raid settlement
+- Add two firearm slots, armor, four stable quick-use slots, twelve bag slots and a restricted safe pocket under an original 30kg carry cap
+- Make pickups, typed equip/swap, stack drops and capacity failures atomic; conserve loaded/reserve ammo and damaged armor
+- Add carried healing supplies, an eight-second proximity scanner and visible fused grenades with collision, cover and self-damage
+- Add inventory comparison, ground previews, a hotbar and explicit paused-bag behavior; preserve native menu keyboard use
+- Stage stash equipment without withdrawing it until deployment; reserve gear, retain extracted loot, lose failed carry except protected contents and prevent duplicate settlement
+- Preserve legacy cash/contract records, back up first migration, expose write failures and require explicit interrupted-raid recovery
+- Repair raised-drop rendering, interrupted legacy cycle recovery and paused item-cooldown handling; keep actual-play/listening acceptance open
+
 ## 0.7.2 — raid lifecycle correctness
 - Preserve native menu keyboard controls and clearly separate paused continuation from the next deployment settings
 - Explain the current HARDCORE default, unlimited raid time, carried-value loss, same-region replay and tracking-only bank

@@ -34,7 +34,7 @@ check('pause cancels pending burst and held trigger across resume',()=>{
  const w=start();h.tap('KeyB');h.tap('KeyF');h.tick();assert.equal(w.shots,1);h.tap('Escape');const time=w.time;h.advance(.5);assert.equal(w.time,time);h.click('start');h.advance(.4);assert.equal(w.shots,1);assert.equal(w.rifle.burstRemaining,0);assert(!w.paused);
 });
 check('switching away cancels pending burst and restores correct model on return',()=>{
- const w=start();h.tap('KeyB');h.tap('KeyF');h.tick();const shots=w.shots;h.tap('Digit1');h.advance(.2);assert.equal(w.weapon,0);h.tap('Digit4');h.advance(.5);assert.equal(w.weapon,3);assert(h.model().userData.opticRear);assert.equal(w.shots,shots);assert.equal(w.rifle.burstRemaining,0);
+ const w=start();h.tap('KeyB');h.tap('KeyF');h.tick();const shots=w.shots;h.tap('Digit2');h.advance(.2);assert.equal(w.weapon,0);h.tap('Digit1');h.advance(.5);assert.equal(w.weapon,3);assert(h.model().userData.opticRear);assert.equal(w.shots,shots);assert.equal(w.rifle.burstRemaining,0);
 });
 check('rifle attachment toggles retain authored reload transforms',()=>{
  start();h.tap('KeyF');h.advance(.2);h.tap('KeyR');h.advance(.6);h.tap('KeyL');h.tick();assert(h.model().userData.laserModule.visible);h.elements.get('suppressor').checked=false;h.elements.get('suppressor').dispatch('change');h.tick();assert.equal(h.model().userData.suppressor.visible,false);h.advance(1.3);const v=h.model().userData;assert(Math.abs(v.magazine.position.y-v.neutral.magazine.position.y)<1e-8);assert.equal(v.magazine.visible,true);
@@ -67,7 +67,7 @@ check('armor-stopped hit has a distinct marker and material audio instead of fal
  const w=start(),e=w.enemies[0];e.x=w.player.x;e.z=w.player.z-4;e.hp=100;e.armor=100;h.key('ArrowDown');h.advance(.12);h.key('ArrowDown','keyup');h.mouse(2);h.advance(.25);h.tap('KeyF');h.tick();assert(e.armor<100);assert.equal(e.hp,100);assert.equal(h.elements.get('hitmarker').dataset.hit,'armor');const impact=h.audioCalls.findLast(c=>c.method==='impact');assert.equal(impact.args[0],'armor');assert.equal(impact.args[1].weapon,3);h.mouse(2,'mouseup');
 });
 check('canceling a rifle reload stops its cue group and emits no future insert/charge sounds',()=>{
- start();h.tap('KeyF');h.advance(.2);h.tap('KeyR');h.advance(.4);const before=h.audioCalls.length;h.tap('Digit1');h.tick();assert(h.audioCalls.slice(before).some(c=>c.method==='cancelRifleReload'));const afterCancel=h.audioCalls.length;h.advance(2.5);assert(!h.audioCalls.slice(afterCancel).some(c=>c.method==='reload'&&c.args[1]===3));
+ start();h.tap('KeyF');h.advance(.2);h.tap('KeyR');h.advance(.4);const before=h.audioCalls.length;h.tap('Digit2');h.tick();assert(h.audioCalls.slice(before).some(c=>c.method==='cancelRifleReload'));const afterCancel=h.audioCalls.length;h.advance(2.5);assert(!h.audioCalls.slice(afterCancel).some(c=>c.method==='reload'&&c.args[1]===3));
 });
 if(failures.length)process.exitCode=1;
 console.log(`${checks} rendererless rifle integration checks passed; ${failures.length} failed. Actual browser, listening and input feel remain unverified.`);
