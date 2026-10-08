@@ -1,5 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="application-version" content="0.4.1"><title>Emberwatch · 잿불의 왕관</title><meta name="description" content="탐색·전투·회피·성장을 잇는 1인용 액션 RPG. 전사부터 완성도를 검증 중인 개발 빌드입니다."><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2312171d'/%3E%3Cpath d='M16 3L26 15 16 29 6 15Z' fill='%23e9ac56'/%3E%3Cpath d='M16 10L20 17 16 23 12 17Z' fill='%23743239'/%3E%3C/svg%3E"><link rel="stylesheet" href="style.css"></head><body>
-<div id="app"><header><div class="brand">EMBERWATCH <span>플레이 검증 전 · 개발 빌드</span></div><div id="where">잿불 피난처</div><div class="tools"><button id="sound" title="소리 켜기·끄기">소리 꺼짐</button><button id="reduced" title="화면 흔들림과 섬광 줄이기">전체 효과</button><button id="trainHero">훈련 [K]</button><button id="help">조작법</button><button id="mapToggle">지도 [M]</button><button id="pause">일시 정지</button></div></header><main><div id="saveAlert" role="alert">저장 실패 · 진행을 잃지 않도록 창을 닫지 마세요.</div><canvas id="game" width="1280" height="800" tabindex="0" aria-label="던전 게임. WASD 이동, 마우스 조준·클릭 공격, Space 회피, Q와 E 기술, F 상호작용, R 물약, Esc 일시 정지"></canvas><div id="hud"></div><div id="notice" role="status" aria-live="polite"></div><div id="overlay"></div><div id="touch"><div class="pad"><button data-key="w">↑</button><button data-key="a">←</button><button data-key="s">↓</button><button data-key="d">→</button></div><div class="acts"><button data-key="attack">공격</button><button data-key=" ">회피</button><button data-key="q">Q</button><button data-key="e">E</button><button data-key="f">상호작용</button><button data-key="r">물약</button></div></div></main><footer><span>WASD 이동 · J/마우스 공격 · Space 회피 · Q/E 기술 · F 상호작용 · Tab 장비 · K 훈련 · M 지도</span><button id="journal">모험 안내</button><span id="saveState">기기 저장</span></footer></div><script type="module" src="game.js"></script><template id="fontLicense">© 2014-2021 Adobe (http://www.adobe.com/).
+© 2014-2021 Adobe (http://www.adobe.com/).
 
 Derivative subset name: Emberwatch Korean
 Source: https://github.com/notofonts/noto-cjk
@@ -27,25 +26,25 @@ any document created using the fonts or their derivatives.
 
 DEFINITIONS
 
-&quot;Font Software&quot; refers to the set of files released by the Copyright
+"Font Software" refers to the set of files released by the Copyright
 Holder(s) under this license and clearly marked as such. This may
 include source files, build scripts and documentation.
 
-&quot;Reserved Font Name&quot; refers to any names specified as such after the
+"Reserved Font Name" refers to any names specified as such after the
 copyright statement(s).
 
-&quot;Original Version&quot; refers to the collection of Font Software components
+"Original Version" refers to the collection of Font Software components
 as distributed by the Copyright Holder(s).
 
-&quot;Modified Version&quot; refers to any derivative made by adding to,
+"Modified Version" refers to any derivative made by adding to,
 deleting, or substituting -- in part or in whole -- any of the
 components of the Original Version, by changing formats or by porting
 the Font Software to a new environment.
 
-&quot;Author&quot; refers to any designer, engineer, programmer, technical writer
+"Author" refers to any designer, engineer, programmer, technical writer
 or other person who contributed to the Font Software.
 
-PERMISSION &amp; CONDITIONS
+PERMISSION & CONDITIONS
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of the Font Software, to use, study, copy, merge, embed, modify,
@@ -85,7 +84,7 @@ not met.
 
 DISCLAIMER
 
-THE FONT SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
 OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
@@ -94,4 +93,3 @@ INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
 DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
-</template></body></html>

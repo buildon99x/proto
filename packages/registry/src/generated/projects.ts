@@ -36,12 +36,12 @@ export const projects = [
   },
   {
     "id": "emberwatch",
-    "name": "Emberwatch: Crown of Cinders",
+    "name": "Emberwatch: 잿불의 왕관",
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.2.0",
-    "summary": "Original solo dungeon-crawler prototype: seven heroes, six seeded floors, persistent equipment, relics, and a refuge to rebuild. Browser QA remains pending.",
+    "version": "0.4.1",
+    "summary": "한국어 전사 개발 빌드: 전투 모션·효과음, 원정 목표와 재도전 흐름 개선. 실제 브라우저 플레이 검증은 진행 전입니다.",
     "tags": [
       "game",
       "dungeon-crawler",
@@ -49,7 +49,7 @@ export const projects = [
       "canvas",
       "prototype"
     ],
-    "projectRoot": "projects/emberwatch",
+    "projectRoot": "projects/Emberwatch",
     "entry": {
       "kind": "iframe",
       "path": "/runs/emberwatch/index.html"
@@ -71,7 +71,7 @@ export const projects = [
       "lint": "pnpm --filter emberwatch lint",
       "standalone": "pnpm --filter emberwatch standalone"
     },
-    "updatedAt": "2026-10-08T03:24:36+09:00"
+    "updatedAt": "2026-10-08T18:22:17+09:00"
   },
   {
     "id": "msw-inc",

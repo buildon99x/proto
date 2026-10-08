@@ -2,7 +2,7 @@
 
 An original, dependency-free Canvas 2D solo dungeon-crawler prototype. Choose a hero, explore six generated floors, gather equipment and relics, fight three guardians, and rebuild a persistent refuge.
 
-**Status: Warrior-first development checkpoint, version 0.4.0. Actual browser gameplay and visuals remain unverified.** See [eval.md](./eval.md) for evidence and blockers.
+**Status: Warrior-first development checkpoint, version 0.4.1. Actual browser gameplay and visuals remain unverified.** See [eval.md](./eval.md) for evidence and blockers.
 
 ## Run and build
 
@@ -73,3 +73,11 @@ Audio is a55-clip original PCM sample bank made from layered noise, resonant tra
 The new monster framework remains disabled while the first Warrior actual-play gate is open. Existing enemy behavior remains playable; no other character or monster is represented as completed.
 
 Project lint/tests/static and standalone packaging pass. Motion proofs and integration stills are offscreen evidence. Supported dotcloud preview still returns502; private Site sign-in is not approved. Normal-control play, subjective feel/mix, device persistence and browser60FPS remain unverified. The build is not claimed to match or exceed Hades.
+
+## 한국어 개발 빌드0.4.1
+
+화면·기술·장비·성장·보상·재도전 안내가 한국어로 표시됩니다. 한글 서체를 포함해 오프라인 단일HTML에서도 외부 글꼴 요청 없이 표시합니다. WASD/J/Q/E 등은 물리키를 사용하므로 한글 자판에서도 같은 위치의 키로 조작할 수 있습니다. M은 탐색 지도입니다.
+
+보상 선택을 중단하거나 이어하기로 돌아와도 선택 기회와 제안 목록을 유지합니다. 저장 실패는 전투 중에도 경고합니다. 첫 무기→장착→기술 습득→진화·수호자 단계의 다음 목표를 표시하며, 원정 결과에서 남는 성장과 다음 도전을 확인할 수 있습니다.
+
+실제 브라우저 플레이와 장기 반복 플레이의 체감·밸런스는 미검증입니다. 관련 테스트와 게임 화면 렌더는 각각 모의 실행·오프스크린 증거로 구분합니다. 공유 레지스트리 경로 수정 승인이 남아 있어 전체런처 통합과새Site 배포는 진행하지 않았습니다.
