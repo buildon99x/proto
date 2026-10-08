@@ -40,8 +40,8 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.4.5",
-    "summary": "한국어 전사 개발 빌드: 함성 음원 교체, 이동 방향과 발소리 접지 동기화 개선. 실제 브라우저 조작·청음 검증은 진행 중입니다.",
+    "version": "0.4.6",
+    "summary": "한국어 전사 개발 빌드: 실플레이로 입구 보호·공격 예고와 판정 정합을 개선했습니다. 새 캠페인은 별도 제작 중입니다.",
     "tags": [
       "game",
       "dungeon-crawler",
@@ -71,7 +71,7 @@ export const projects = [
       "lint": "pnpm --filter emberwatch lint",
       "standalone": "pnpm --filter emberwatch standalone"
     },
-    "updatedAt": "2026-10-09T00:12:13+09:00"
+    "updatedAt": "2026-10-09T00:37:22+09:00"
   },
   {
     "id": "msw-inc",

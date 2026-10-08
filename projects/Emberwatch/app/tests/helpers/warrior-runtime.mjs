@@ -19,10 +19,11 @@ for (const match of source.matchAll(/^import\s+\{([^}]+)\}\s+from\s+['"]([^'"]+)
 }
 
 export function runtime(saved = null) {
-  const nodes = new Map(), listeners = new Map(), storage = new Map(), sounds = [], cancellations = [];
+  const nodes = new Map(), listeners = new Map(), storage = new Map(), sounds = [], cancellations = [], canvasCommands = [];
   if (saved) storage.set('emberwatch-save', saved);
   const noop = () => {};
-  const context = new Proxy({ createRadialGradient: () => ({ addColorStop: noop }) }, { get: (object, key) => object[key] ?? noop });
+  const recordCanvas = Object.fromEntries(['beginPath','moveTo','lineTo','closePath','fill','stroke','setLineDash'].map(name=>[name,(...args)=>canvasCommands.push({name,args})]));
+  const context = new Proxy({ ...recordCanvas, createRadialGradient: () => ({ addColorStop: noop }) }, { get: (object, key) => object[key] ?? noop });
   const classList = { add: noop, remove: noop, toggle: noop };
   const listen = (target, type, callback) => listeners.set(`${target}:${type}`, callback);
   function node(id) {
@@ -51,7 +52,7 @@ export function runtime(saved = null) {
       beginRun, resumeRun, attack, skill, dodge, hit, enemyUpdate, damagePlayer,
       isometric: () => {visualRenderer={};save.settings.sound=true;},
       wall: () => {map.tiles=map.tiles.map(row=>row.map(()=>0));},
-      projectile, update, persist, potion,
+      projectile, update, persist, potion, drawLegacyWarnings,
       beginFrameworkEnemy: e => updateEncounterEnemy(e,0,{player:p,entities,floor:0,move,chase,lineClear,solid,damagePlayer,projectile}),
       read: () => ({ save, run, p, entities, shots, effects, hitstop, actionBuffer }),
       mouse: value => Object.assign(mouse, value),
@@ -65,7 +66,7 @@ export function runtime(saved = null) {
     };`, sandbox);
   const api = sandbox.review;
   return {
-    ...api, storage, sounds, cancellations,
+    ...api, storage, sounds, cancellations, canvasCommands,
     pointer(x,y){listeners.get('#game:pointermove')?.({clientX:x,clientY:y,pointerType:'mouse'});},
     touch(k,down=true){listeners.get(`touch:${k}:${down?'pointerdown':'pointerup'}`)?.({preventDefault:noop,pointerId:1});},
     key(key, down = true) { listeners.get(`window:${down ? 'keydown' : 'keyup'}`)?.({ key, repeat: false, preventDefault: noop }); },

@@ -16,7 +16,7 @@ bank.file=await dataUri(bank.file,'audio/wav');
 let motion=await inlineModule('motion.js');
 motion=motion.replace(/^const MOTION_ASSETS = .*$/m,`const MOTION_ASSETS = ${JSON.stringify(motionAssets)};`).replace(/^const MOTION_AXE_ASSET = .*$/m,`const MOTION_AXE_ASSET = ${JSON.stringify(axeAsset)};`);
 let game=(await inlineModule('game.js')).replace("'assets/motion-warrior-axe.png'",JSON.stringify(axeAsset.file));
-const scripts=[await inlineModule('data.js'),await inlineModule('growth.js'),await inlineModule('lifecycle.js'),await inlineModule('combat.js'),await inlineModule('encounters.js'),`const ART=${JSON.stringify(ART)};`,motion,`const AUDIO_BANK=${JSON.stringify(bank)};`,await inlineModule('audio.js'),await inlineModule('visual.js'),await inlineModule('threat-visibility.js'),game].join('\n');
+const scripts=[await inlineModule('data.js'),await inlineModule('growth.js'),await inlineModule('lifecycle.js'),await inlineModule('combat.js'),await inlineModule('encounters.js'),`const ART=${JSON.stringify(ART)};`,motion,`const AUDIO_BANK=${JSON.stringify(bank)};`,await inlineModule('audio.js'),await inlineModule('visual.js'),await inlineModule('threat-visibility.js'),await inlineModule('legacy-telegraphs.js'),game].join('\n');
 html=html.replace('<link rel="stylesheet" href="style.css">',`<style>${css}</style>`).replace('<script type="module" src="game.js"></script>',`<script type="module">${scripts}</script>`);
 await writeFile(new URL('Emberwatch.html',dist),html);
 console.log('Created self-contained app/dist/Emberwatch.html with actor, axe and sampled audio assets');

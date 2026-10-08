@@ -12,7 +12,9 @@ export function updateEntryProtection(protectedAtEntry, player, entryRoom, tileS
 export const THREAT_NOTICE_SECONDS = 0.2;
 
 // This is a presentation gate, independent of collision and line-of-sight.
-// Include the actor and its legacy ground warning, not just an in-frame origin.
+// Require the actor and a readable local announcement, not just an in-frame origin.
+// Exact long lanes and large circles may clip at screen edges; their world-space
+// shape is retained by the renderer instead of shrinking the damaging footprint.
 // Offscreen foes may still move; they cannot begin/release a fresh attack there.
 export function enemyThreatReadable(enemy, player, {
   width, height, seen, isometric = true, camera, tileSize = 32,

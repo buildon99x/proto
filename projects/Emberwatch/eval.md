@@ -1,8 +1,10 @@
 # Evaluation
 
-Status: 0.2.0 development revision; final source, reports, and automated integration checks complete. Actual browser QA remains blocked.
+Current status (2026-10-08, 0.4.6): development build under real browser review. The user authorized public access to the existing Site. Normal controls have verified first entry, practice, combat, Q/E, potion, loot/equipment, death/retry, save/reload/resume and progression to the first guardian on floor 2. Its warning mismatch prompted this repair; post-repair combat review is pending. Full six-floor victory, mobile controls, listening quality and performance acceptance remain open. The connected campaign foundation is separate source, not the default playable game.
 
-## Known evidence limits
+The sections below retain historical evidence and blockers at each earlier checkpoint.
+
+## Historical 0.2.0 evidence limits
 
 - Earlier browser attempts were blocked by an HTTP 502 preview route and `ERR_BLOCKED_BY_CLIENT` at localhost. The current supported private-site check reached a ChatGPT sign-in screen rather than the game; no unauthorized login was attempted. See `docs/QA.md` for the observation.
 - No actual gameplay, screenshot review, mobile usability, browser performance, or end-to-end save/resume behavior has been verified.
@@ -23,7 +25,7 @@ Status: 0.2.0 development revision; final source, reports, and automated integra
 - Existing projects' registry entries are preserved; generated UTC timestamp spelling differences are normalized back to their equivalent checked-in values to avoid unrelated churn.
 - Build output, package caches, standalone output, and Sites configuration are excluded from the source commit.
 
-## Release decision
+## Historical 0.2.0 release decision
 
 Source integration is suitable for prototype review. Browser acceptance remains blocked and must be completed before any gameplay, device compatibility, performance, or release-readiness claim. No PR, main-branch merge, or deployment is part of this source integration.
 
@@ -162,3 +164,13 @@ The user explicitly authorized making the existing Emberwatch Site public for do
 A seed-dependent onboarding failure is reproduced: nearby enemies activate while the player practices in the first room; some begin through blocked line of sight and arrive later. Do not claim the first desktop screenshot proves invisible attackers. Short/portrait views independently permit offscreen legacy attack releases. Add one-way starting-room protection, ended by first departure or a confirmed hit on a real enemy; preserve that state across new saves and default old saves to protection off. Require revealed/readable threats and a short visible interval before enemy windup/release, preserving pursuit toward a readable location. Do not activate the unverified expanded monster roster.
 
 Also make the documented J keyboard auto-aim independent of stale pointer hover, while explicit mouse attacks retain their aim. Gate resume on visual readiness just as fresh starts, avoiding mid-input projection changes on a cold load. Preserve Korean UI, legacy progress, motion poses, licensed War Cry and footstep gain0.1326. Reproduce failures in focused tests, then build/publish and repeat actual browser journeys. No release-quality or original-game-equivalence claim follows from this narrow repair.
+
+## Existing-attack warning repair from guardian playtest — 2026-10-08
+
+Normal-control play reached the first guardian. The old visual renderer uses one screen-space ellipse for every legacy windup, while melee/slam collision and projectile trajectories use world-space distances. The guardian's125-unit slam therefore extends beyond its displayed warning; ranged and summon phases also look identical. Repair the existing attacks using shared world-space warning geometry and locked release plans, retaining their current damage/cadence/counts. Represent circle, charge lane, projectile fan/radial lanes and delayed zones according to their actual behavior. Snapshot random zone/spawn positions before release and cancel transient plans cleanly on interruption/death/resume. Play existing sampled enemy tell/release cues on those events. Do not enable the deferred multi-role monster framework or claim new actor animation completion.
+
+Verify collider/warning agreement, canceled release, all three existing guardians, camera projection and boundary cases in focused tests, then repeat the actual first-guardian fight on the published repair. The authored Hammerwatch II campaign and its unresolved original-game numeric rules remain separate.
+
+### Independent first-Warrior campaign art preparation
+
+Prepare new original mace/hammer art and campaign-specific Warrior motion while numerical reference gaps are resolved. Reuse the existing original armor and articulated rig, with24 genuinely varied poses per principal clip and four established facings. Add shield raising/holding/recoil, committed shield charge, mace swing and hammer cast. Keep stable anchors and contact markers; do not infer damage timing from frame count. These assets remain unactivated until campaign runtime and normal-play acceptance. No other hero or enemy art rollout is included. Preserve image-generation provenance, transparent bounds and honest articulated-animation limits.
