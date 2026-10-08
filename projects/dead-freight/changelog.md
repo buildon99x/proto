@@ -40,3 +40,15 @@
 - Add jump/landing/slide viewmodel response and smooth camera-height transitions
 - Bank extracted value in local browser storage; failed runs lose carried value
 - Add deterministic tests, source-backed navigation diagram and honest separate browser/input/audio acceptance status
+
+
+## 0.7.0 — one-rifle foundation checkpoint (live acceptance pending)
+- Add one original R-4 with separate magazine/chamber, auto/burst, bounded input buffering and sprint/ADS/switch gates
+- Add staged tactical, empty and chamber-only reloads, cancellation-safe ammunition/recovery and range/armor-aware hits
+- Add a distinct rifle rig, authoritative ADS, accumulated recoil and neutral-safe hand/magazine/bolt poses
+- Reduce all weapon hip framing so the center aim area remains clear; verify geometry coverage without claiming browser visual quality
+- Add actual-displacement walking/sprint stamina drain, jump cost, stopped regeneration and fatigue-safe slow movement
+- Apply the creator's permanent surface-night direction with physical work lamps and readable local lighting
+- Use licensed Pixabay recordings for layered rifle shot/mechanism/reload/casing/impact cues, source provenance and loading/error UI; keep raw source recordings outside the repository
+- Tie casing audio to physical contact and distinguish indoor/outdoor mixes, armor impact and interrupted reload cues
+- Preserve 0.6 as the prior development checkpoint; no later roadmap phase is claimed passed

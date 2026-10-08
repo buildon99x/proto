@@ -93,6 +93,8 @@ function createDefinition(){
  detail('direction',-28,-32,{text:'DEPOT →   ← QUARRY',width:9,y:2.8});
  // Narrow sign supports are physical. Panels sit above the standing head.
  for(const s of details.filter(v=>v.type==='sign'||v.type==='direction')){for(const x of [s.x-s.width/2-.25,s.x+s.width/2+.25])wall(x,s.z,.18,.18,s.y+.45,'steel');}
+ // Physical posts for the powered night work lamps.
+ for(const l of landmarks)wall(l.x+7,l.z+7,.22,.22,4.8,'steel',{renderProxy:true});
  // Deterministic forest: clear actual roads, landmarks, loot, opponents and major cover.
  // Every visible trunk in the traversable region has a matching narrow solid collider.
  let attempts=0;
@@ -114,7 +116,7 @@ const definition=createDefinition();
 function populate(mission){
  const region=definition;mission.region=region;mission.bounds={...region.bounds};mission.landmarks=region.landmarks;mission.routes=region.routes;mission.extractionZones=region.extractionZones.map(e=>({...e}));
  Object.assign(mission.player,region.spawn);
- for(const v of region.walls){const w=mission.wall(v.x,v.z,v.w,v.d,v.h,v.kind,v.destructible,v.y);Object.assign(w,{y:v.y||0,vaultable:!!v.vaultable,slideable:!!v.slideable,treeIndex:v.treeIndex});}
+ for(const v of region.walls){const w=mission.wall(v.x,v.z,v.w,v.d,v.h,v.kind,v.destructible,v.y);Object.assign(w,{y:v.y||0,vaultable:!!v.vaultable,slideable:!!v.slideable,treeIndex:v.treeIndex,renderProxy:!!v.renderProxy});}
  for(const p of region.pickups)mission.pickups.push({...p});
  for(const e of region.enemies)mission.enemies.push({...e,id:mission.enemies.length,attack:1+mission.rand()*2,phase:mission.rand()*6});
  return region;

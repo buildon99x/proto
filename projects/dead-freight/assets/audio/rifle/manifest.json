@@ -1,0 +1,606 @@
+{
+  "provider": "Pixabay",
+  "sampleRate": 48000,
+  "format": "PCM signed 16-bit stereo WAV",
+  "status": "signal-checked; NOT listened or browser accepted",
+  "distribution": "Combined DEAD FREIGHT game runtime only; not a standalone sound pack.",
+  "sourceHashes": {
+    "99253": "c48524441c82774df91def68c5aeb715487806bdf7aef813941dc5311e6576ce",
+    "98831": "70b99f1299876d49bd99248891aae9acfc597bdd7f5d3691bc7d7302faf31cf2",
+    "45010": "0cd65daaaa3d038af34e88921e831fc970a0ea232873ed3f62f99bd1f2df3c3c",
+    "104296": "246588c7be93507f0c171e615af4d2836ea0d5e431fd5a52314252037fd418ac",
+    "75000": "961e73500480a694577a4bfbbb1655bf2f30aafab2a2e1b8391ee93479b3f3a6",
+    "31859": "a2942b1edab06e126ff46fbe07490d7a6fb7d7f576539b39a114892d1a064ac3",
+    "6791": "4689246d30a7cdf76cb503b6716ebfcac0a8601ba529b71b52f43f41891609ef",
+    "62692": "261590f563317fbed8635754b1ba663d1ab11455f1f1acc4601c9c31d28c49b0",
+    "32436": "50a1fa5f16e46ff5dc14d3b76c9c20a07f92598157b381d174bb9e463561323b",
+    "98832": "d412de21056ede05994a542e997ae738ca07091e0f75f177f1552021faf05eb4"
+  },
+  "files": {
+    "shot-1": {
+      "frames": 39360,
+      "duration": 0.82,
+      "channels": 2,
+      "peakDbFS": -1.938,
+      "rmsDbFS": -22.657,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "f59fc70be37709ebcee2020f7732e90900f784b60833c403d3400a720cb2a652",
+      "sourceIds": [
+        "99253",
+        "98831",
+        "45010",
+        "104296"
+      ]
+    },
+    "suppressed-1": {
+      "frames": 31200,
+      "duration": 0.65,
+      "channels": 2,
+      "peakDbFS": -14.612,
+      "rmsDbFS": -34.856,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "8ef7bc193aea56a5747a5191651b74ec780c2e2c1abe772328ae594d5f6ff375",
+      "sourceIds": [
+        "99253",
+        "98831",
+        "45010",
+        "104296"
+      ]
+    },
+    "shot-indoor-1": {
+      "frames": 33600,
+      "duration": 0.7,
+      "channels": 2,
+      "peakDbFS": -1.938,
+      "rmsDbFS": -21.649,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "af3e7e01cf7076dc7cbda54faf44384e29cfed378291260802e097a5fb780f70",
+      "sourceIds": [
+        "99253",
+        "45010",
+        "104296",
+        "31859"
+      ]
+    },
+    "suppressed-indoor-1": {
+      "frames": 31200,
+      "duration": 0.65,
+      "channels": 2,
+      "peakDbFS": -13.968,
+      "rmsDbFS": -34.764,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "2ef0e02200fd0331958c933d1ad4c8f9d7051abf4a790f28572213075c82e99e",
+      "sourceIds": [
+        "99253",
+        "45010",
+        "104296",
+        "31859"
+      ]
+    },
+    "shot-2": {
+      "frames": 39360,
+      "duration": 0.82,
+      "channels": 2,
+      "peakDbFS": -1.938,
+      "rmsDbFS": -23.182,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "05e3d3d6a1358d815d084e4b61de3acce186e7bd3d57f3d3698969117ec969e0",
+      "sourceIds": [
+        "99253",
+        "98831",
+        "45010",
+        "104296"
+      ]
+    },
+    "suppressed-2": {
+      "frames": 31200,
+      "duration": 0.65,
+      "channels": 2,
+      "peakDbFS": -15.724,
+      "rmsDbFS": -35.209,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "840d73e61a4ee9b5811ea4fba8b7c7037e15d686c6e9e7962029ba822f940e99",
+      "sourceIds": [
+        "99253",
+        "98831",
+        "45010",
+        "104296"
+      ]
+    },
+    "shot-indoor-2": {
+      "frames": 33600,
+      "duration": 0.7,
+      "channels": 2,
+      "peakDbFS": -1.938,
+      "rmsDbFS": -21.988,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "325dfa3583b3a9c360b515438a8e80ae1f0a9daac50ec45f0435f0a2691be927",
+      "sourceIds": [
+        "99253",
+        "45010",
+        "104296",
+        "31859"
+      ]
+    },
+    "suppressed-indoor-2": {
+      "frames": 31200,
+      "duration": 0.65,
+      "channels": 2,
+      "peakDbFS": -15.592,
+      "rmsDbFS": -35.117,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "af6e259e00ee5a9f41eb22146d5c5fe40c162bee8a8143b56549a5879cf9f182",
+      "sourceIds": [
+        "99253",
+        "45010",
+        "104296",
+        "31859"
+      ]
+    },
+    "shot-3": {
+      "frames": 39360,
+      "duration": 0.82,
+      "channels": 2,
+      "peakDbFS": -1.938,
+      "rmsDbFS": -24.322,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "e489f1660be4a08e3e12647604270e561c09a259c9e6ae435a744acfa2ae23dc",
+      "sourceIds": [
+        "99253",
+        "98831",
+        "45010",
+        "104296"
+      ]
+    },
+    "suppressed-3": {
+      "frames": 31200,
+      "duration": 0.65,
+      "channels": 2,
+      "peakDbFS": -15.107,
+      "rmsDbFS": -36.579,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "d0e87831126fe2b8b57c10667b8776be447d8b8893c1a6b699b22fc6be187e1a",
+      "sourceIds": [
+        "99253",
+        "98831",
+        "45010",
+        "104296"
+      ]
+    },
+    "shot-indoor-3": {
+      "frames": 33600,
+      "duration": 0.7,
+      "channels": 2,
+      "peakDbFS": -1.938,
+      "rmsDbFS": -23.787,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "2054fef061fc19343b72cd22be099a4b53e676ea38ab0d6a228de3094e78423e",
+      "sourceIds": [
+        "99253",
+        "45010",
+        "104296",
+        "31859"
+      ]
+    },
+    "suppressed-indoor-3": {
+      "frames": 31200,
+      "duration": 0.65,
+      "channels": 2,
+      "peakDbFS": -14.433,
+      "rmsDbFS": -36.666,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "8c97add96727b3d597cde7ef6ce7656307bd99e7393ebdcc2d5c186f57ec16a0",
+      "sourceIds": [
+        "99253",
+        "45010",
+        "104296",
+        "31859"
+      ]
+    },
+    "mag-eject": {
+      "frames": 13920,
+      "duration": 0.29,
+      "channels": 2,
+      "peakDbFS": -11.057,
+      "rmsDbFS": -31.599,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "2f6f6272ff4215f88ea83034abd862f1f51e7b4a8d03a6e9d69b98f5f3ba019f",
+      "sourceIds": [
+        "104296",
+        "45010"
+      ]
+    },
+    "mag-insert": {
+      "frames": 13920,
+      "duration": 0.29,
+      "channels": 2,
+      "peakDbFS": -8.874,
+      "rmsDbFS": -25.487,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "c1d393829f1bfc05afaf1f5e9fffe00b502d99872096a36830caa6a4195df268",
+      "sourceIds": [
+        "104296",
+        "45010"
+      ]
+    },
+    "mag-seat": {
+      "frames": 13920,
+      "duration": 0.29,
+      "channels": 2,
+      "peakDbFS": -7.959,
+      "rmsDbFS": -28.288,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "d8af61f7befd06acd46b456be8548e83fe364099d6a4865d3895dab30aaada77",
+      "sourceIds": [
+        "104296",
+        "45010"
+      ]
+    },
+    "transition": {
+      "frames": 13920,
+      "duration": 0.29,
+      "channels": 2,
+      "peakDbFS": -16.479,
+      "rmsDbFS": -39.297,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "18a14d9cd305b08d07971466ab45031b89a77bafbf39a807c67a8f2538a8eddb",
+      "sourceIds": [
+        "104296",
+        "45010"
+      ]
+    },
+    "close": {
+      "frames": 13920,
+      "duration": 0.29,
+      "channels": 2,
+      "peakDbFS": -17.078,
+      "rmsDbFS": -41.488,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "7fcbdb5307fac51cdefba3f28c146ae804ce8c6f2c3b6d06736ca4e5627db662",
+      "sourceIds": [
+        "104296",
+        "45010"
+      ]
+    },
+    "charge": {
+      "frames": 18720,
+      "duration": 0.39,
+      "channels": 2,
+      "peakDbFS": -7.535,
+      "rmsDbFS": -27.293,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "50dec6fbb20c2c6e7d352212f6c18b915f2bdddc24ff209c9026389c6c9ade3a",
+      "sourceIds": [
+        "45010",
+        "104296"
+      ]
+    },
+    "dry-trigger": {
+      "frames": 8640,
+      "duration": 0.18,
+      "channels": 2,
+      "peakDbFS": -14.895,
+      "rmsDbFS": -39.341,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "1954257181265469e3554593d8a3c7f2ca54d775ffb2b81ba7c9f31ee22e98fc",
+      "sourceIds": [
+        "98832",
+        "104296"
+      ]
+    },
+    "impact-metal": {
+      "frames": 13920,
+      "duration": 0.29,
+      "channels": 2,
+      "peakDbFS": -6.936,
+      "rmsDbFS": -24.335,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "57576e08eba3c5effea2d41a38e259d0fe936452391624c4a915c35058dc8176",
+      "sourceIds": [
+        "31859",
+        "62692"
+      ]
+    },
+    "impact-armor": {
+      "frames": 13920,
+      "duration": 0.29,
+      "channels": 2,
+      "peakDbFS": -7.535,
+      "rmsDbFS": -26.084,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "b4b15389e83062e338cfcf7eaa7e849d736ef9af86e68fbb3d6427a6c458a79c",
+      "sourceIds": [
+        "31859",
+        "32436"
+      ]
+    },
+    "impact-wood": {
+      "frames": 13920,
+      "duration": 0.29,
+      "channels": 2,
+      "peakDbFS": -7.745,
+      "rmsDbFS": -27.118,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "a620ea38eb7782c485a505ba0a51665b336ec0dbd166b6eff52a3eb46da959ba",
+      "sourceIds": [
+        "6791",
+        "62692"
+      ]
+    },
+    "impact-stone": {
+      "frames": 13920,
+      "duration": 0.29,
+      "channels": 2,
+      "peakDbFS": -7.959,
+      "rmsDbFS": -32.954,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "0a8a4846b5f7086e481064eabc4259c6678e117afcdbd7868a543ec38bbcc88c",
+      "sourceIds": [
+        "62692",
+        "6791"
+      ]
+    },
+    "impact-body": {
+      "frames": 13920,
+      "duration": 0.29,
+      "channels": 2,
+      "peakDbFS": -9.63,
+      "rmsDbFS": -27.84,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "6c1006b8c0faa83a0bc87d23dcdc510c798a4b4d0dc72c9c7e10ee367ffebacc",
+      "sourceIds": [
+        "32436",
+        "6791"
+      ]
+    },
+    "impact-body-armored": {
+      "frames": 13920,
+      "duration": 0.29,
+      "channels": 2,
+      "peakDbFS": -8.874,
+      "rmsDbFS": -27.064,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "4df95c7f26ed7f7b60a62ba5fb4ffcfbb5e9cb32d4a5e7e95050b001cbeabd75",
+      "sourceIds": [
+        "32436",
+        "31859",
+        "6791"
+      ]
+    },
+    "casing-1": {
+      "frames": 17280,
+      "duration": 0.36,
+      "channels": 2,
+      "peakDbFS": -17.393,
+      "rmsDbFS": -39.49,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "3bc284b70a59663527d0ee60d9de9bf29e5f29aeaa55d025a45417ef15c90818",
+      "sourceIds": [
+        "75000",
+        "62692"
+      ]
+    },
+    "casing-2": {
+      "frames": 17280,
+      "duration": 0.36,
+      "channels": 2,
+      "peakDbFS": -17.393,
+      "rmsDbFS": -47.038,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "98202ad4c8eb85daea60497937cd6c85b25821b2ac3bbd31eacc6a03eea57fc8",
+      "sourceIds": [
+        "75000",
+        "62692"
+      ]
+    },
+    "casing-3": {
+      "frames": 17280,
+      "duration": 0.36,
+      "channels": 2,
+      "peakDbFS": -17.393,
+      "rmsDbFS": -48.382,
+      "firstSample": [
+        0.0,
+        0.0
+      ],
+      "lastSample": [
+        0.0,
+        0.0
+      ],
+      "sha256": "b8078ab1aa49eda1e81e01cba34e25b864095109a27c65777659e48979b81391",
+      "sourceIds": [
+        "75000",
+        "62692"
+      ]
+    }
+  }
+}

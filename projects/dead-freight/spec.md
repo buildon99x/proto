@@ -44,3 +44,16 @@ Match the visible wine/rust suppressor cap as a substantial accent rather than a
 - Local encounters alert within range/line of sight rather than activating the whole map. Optional cargo and supply caches support route choice. Defeat the relay target, collect its token, and hold an extraction site until evacuation completes; leaving its radius cancels the hold.
 - Map/objective/distance and concise Korean controls explain traversal and extraction. Restart and pause clear transient input safely.
 - Deterministic model tests exercise automatic pump, jump/land/clearance, sliding/collision/stamina, connected routes, loot and extraction conditions. Browser WebGL, ordinary input, sound and performance require separate live verification.
+
+## Assault-rifle-first foundation (pending live acceptance)
+- One original rifle with distinct receiver/stock/handguard/magazine/optic and two-handed grip; retain first-person only and existing rig reuse where useful.
+- Coherent rifle state for ready, firing rhythm, switching, sprint recovery, tactical versus empty reload, magazine and chamber; bounded fire buffer and auto/burst modes. No firing through invalid transitions or ammunition duplication.
+- Explicit rifle range falloff, reproducible cone/spread, accumulated recoil/recovery, ADS/sprint differences and camera/aim consistency. Preserve legacy tests and weapon behavior.
+- Rifle-specific recoil/reload/bolt/casing/muzzle presentation and mechanically timed events. Distinct tactical and empty reload with support-hand and magazine phases.
+- Real original/licensed audio samples with provenance for the rifle, layered and spatially mixed; no placeholder tone/beep as rifle output. Audio loading failures must be visible and not silently treated as an accepted final sound.
+- Add deterministic state/ballistic/presentation/audio and rendererless integration regressions. Release only as an unverified development checkpoint until browser rendering, ordinary controls, listening and performance have been checked.
+- No Seoul/Tokyo, five-weapon completion, advanced AI, stash/economy or finished-game claim in this checkpoint.
+
+
+## October 8 creator feedback
+The user actually played and reported excessive weapon screen occlusion. The next rig revision must preserve a clear central view and measure hip/ADS footprint. Movement must reduce stamina, including walking, with greater sprint drain and discrete jump/slide cost; stopping restores it and exhaustion must not trap the player. The creator adds perpetual surface night: atmospheric conditions prevent sunlight reaching the ground, while the upper-atmosphere event remains unexplained. Do not assert that the star physically disappeared or invent the cause. This game-specific refinement does not edit the external canon repository. Lighting uses restrained ambient readability and visible local work lamps, not a blanket grey/black filter. User also selected Pixabay explicitly for firearm samples; the final audio source must follow that request and its license.

@@ -45,8 +45,8 @@ function build({T,parent,world}){
  const wallMeshes=[];
  for(const w of wallData){let o;
   if(w.kind==='trunk'){o=mesh(geos.cylinder,proxyMat,w.x,w.h/2,w.z,w.w/2,w.h,w.d/2);o.visible=false;}
-  else{o=box(w.x,(w.y||0)+w.h/2,w.z,w.w,w.h,w.d,mats[w.kind]||mats.concrete);if(w.kind==='boundary')o.visible=false;}
-  o.name='wall-'+w.id;o.userData={kind:'wall',id:w.id,renderProxy:w.kind==='trunk'||w.kind==='boundary'};wallMeshes[w.id]=o;
+  else{o=box(w.x,(w.y||0)+w.h/2,w.z,w.w,w.h,w.d,mats[w.kind]||mats.concrete);if(w.kind==='boundary'||w.renderProxy)o.visible=false;}
+  o.name='wall-'+w.id;o.userData={kind:'wall',id:w.id,renderProxy:!!w.renderProxy||w.kind==='trunk'||w.kind==='boundary'};wallMeshes[w.id]=o;
  }
  // Whole forest: three render calls including low understory. No individual leaf objects.
  const trunks=new T.InstancedMesh(geos.cylinder,mats.trunk,data.trees.length),leaves=new T.InstancedMesh(geos.cone,mats.leaf,data.trees.length*4),brush=new T.InstancedMesh(geos.cone,mats.leaf,data.trees.length*2);
@@ -84,10 +84,15 @@ function build({T,parent,world}){
   for(let i=0;i<8;i++){const a=i*Math.PI/4,o=new T.Mesh(geos.box,i%2?dimMarker:marker);o.position.set(Math.cos(a)*(e.radius+.4),.07,Math.sin(a)*(e.radius+.4));o.scale.set(.9,.05,.5);o.rotation.y=-a;pad.add(o);}
   extractionMeshes.push(pad);
  }
+ // Perpetual surface night: old powered work lamps create useful local pools.
+ // No sun, moon or explanation for the upper-atmosphere event is invented here.
+ const lampMaterial=basic('#d4e3ec');
+ for(const l of data.landmarks){const x=l.x+7,z=l.z+7;const pole=cylinder(x,2.4,z,.11,4.8,mats.steel);pole.name='night-work-lamp';pole.userData.fixture=true;box(x,4.9,z,1.15,.22,.8,mats.dark);box(x,4.76,z,1,.05,.66,lampMaterial);const light=new T.PointLight('#a6c6df',58,34,2);light.position.set(x,4.5,z);light.name='night-landmark-light';group.add(light);}
+ for(const e of data.extractionZones){const light=new T.PointLight('#adcac8',28,20,2);light.position.set(e.x,2.2,e.z);light.name='night-extraction-light';group.add(light);}
  // Batch static, non-colliding decoration by shared geometry/material. Collision
  // targets keep their individual IDs for weapon hit/destruction synchronization.
  const batches=new Map(),decorInstances=[];
- for(const o of [...group.children]){if(!o.isMesh||o.isInstancedMesh||o.userData.kind)continue;const key=o.geometry.uuid+':'+o.material.uuid;if(!batches.has(key))batches.set(key,[]);batches.get(key).push(o);}
+ for(const o of [...group.children]){if(!o.isMesh||o.isInstancedMesh||o.userData.kind||o.userData.fixture)continue;const key=o.geometry.uuid+':'+o.material.uuid;if(!batches.has(key))batches.set(key,[]);batches.get(key).push(o);}
  for(const objects of batches.values()){if(objects.length<3)continue;const first=objects[0],inst=new T.InstancedMesh(first.geometry,first.material,objects.length);inst.name='region-decoration-batch';objects.forEach((o,i)=>{o.updateMatrix();inst.setMatrixAt(i,o.matrix);group.remove(o);});inst.instanceMatrix.needsUpdate=true;inst.computeBoundingSphere();group.add(inst);decorInstances.push(inst);}
  group.updateMatrixWorld(true);let visibleMeshes=0,triangles=0,instances=0;
  group.traverse(o=>{if(!o.isMesh||!o.visible)return;visibleMeshes++;const count=o.isInstancedMesh?o.count:1;instances+=o.isInstancedMesh?o.count:0;triangles+=((o.geometry.index?o.geometry.index.count:o.geometry.attributes.position.count)/3)*count;});

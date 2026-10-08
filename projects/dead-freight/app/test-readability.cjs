@@ -55,7 +55,7 @@ check('map, route, cargo and extraction progress have dedicated readable nodes',
  assert(!/filter:grayscale/.test(css),'map legend and objective colors must remain differentiated');
 });
 check('menu describes current movement bindings and bounded extraction scope',()=>{
- for(const text of ['<b>SPACE</b> 점프','<b>CTRL / C</b> 슬라이드','<b>X</b> 회피','<b>SHIFT</b> 달리기','펌프/슬라이드 자동 작동','탈출 중 구역 유지','0.6 EXTRACTION REGION','단일 연결 지역'])assert(html.includes(text),text);
+ for(const text of ['<b>SPACE</b> 점프','<b>CTRL / C</b> 슬라이드','<b>X</b> 회피','<b>SHIFT</b> 달리기','펌프/슬라이드 자동 작동','탈출 중 구역 유지','ASSAULT RIFLE FOUNDATION','단일 연결 지역'])assert(html.includes(text),text);
  assert(!html.includes('<b>SPACE</b> 회피'));assert(!html.includes('디더링을 적용'));
 });
 check('shader module loads before the game and exposes usable immutable source',()=>{

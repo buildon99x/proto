@@ -1,4 +1,5 @@
-/* Original procedural sound design for DEAD FREIGHT. No recordings or external assets.
+/* DEAD FREIGHT audio: legacy procedural effects (indices 0–2) plus recorded rifle (index 3).
+ * Rifle recordings and license provenance live in assets/audio and audio-provenance.md.
  * Buffers are synthesized once per variant, then reused. Web Audio starts only in resume().
  * The final shaper bounds digital output; it cannot guarantee safe headphone/device volume.
  */
@@ -8,11 +9,13 @@ const LIMITS=Object.freeze({voices:32,buffers:80,seconds:1.25,sampleRate:48000,o
 const finite=(n,fallback=0)=>Number.isFinite(n)?n:fallback;
 const object=value=>value&&typeof value==='object'?value:{};
 const clamp=(n,lo,hi,fallback=lo)=>Math.max(lo,Math.min(hi,finite(n,fallback)));
-const weaponIndex=n=>Math.round(clamp(n,0,2));
+const weaponIndex=n=>Math.round(clamp(n,0,3));
+const RifleAudio=root.DeadFreightRifleAudio||(typeof module!=='undefined'&&module.exports?require('./rifle-audio.js'):null);
 const WEAPONS=Object.freeze([
  Object.freeze({name:'pistol',body:116,end:47,tail:.23,crack:4700,mechanism:1350}),
  Object.freeze({name:'shotgun',body:78,end:33,tail:.34,crack:2900,mechanism:760}),
- Object.freeze({name:'smg',body:168,end:67,tail:.14,crack:6200,mechanism:1820})
+ Object.freeze({name:'smg',body:168,end:67,tail:.14,crack:6200,mechanism:1820}),
+ Object.freeze({name:'rifle',recorded:true})
 ]);
 const MATERIALS=Object.freeze({rock:'stone',boundary:'stone',concrete:'stone',brick:'stone',plaster:'stone',floor:'stone',trunk:'wood',crate:'wood',steel:'metal',barrel:'metal',armor:'armor',body:'body',head:'head',wood:'wood',metal:'metal',stone:'stone'});
 const layer=(wave,at,duration,level,frequency=1000,end=frequency,lowpass=15000,highpass=35)=>({wave,at,duration,level,frequency,end,lowpass,highpass});
@@ -20,6 +23,8 @@ const noise=(at,duration,level,lowpass=15000,highpass=35)=>layer('noise',at,dura
 const tone=(at,duration,level,frequency,end=frequency)=>layer('sine',at,duration,level,frequency,end);
 function recipe(type,options={}){
  options=object(options);
+ // Index 3 never aliases the legacy SMG synthesizer, even through direct recipe calls.
+ if(weaponIndex(options.weapon)===3)return null;
  const weapon=weaponIndex(options.weapon),w=WEAPONS[weapon],v=Math.round(clamp(options.variant,0,2)),pitch=1+(v-1)*.026;
  const layers=[];let length=.3;
  const add=(...items)=>layers.push(...items);
@@ -121,7 +126,7 @@ class Engine {
   options=object(options);
   this.context=options.context||null;this.ownsContext=!options.context;this.contextFactory=options.contextFactory||(()=>{const C=root.AudioContext||root.webkitAudioContext;return C?new C({latencyHint:'interactive'}):null;});
   this.muted=!!options.muted;this.volume=clamp(options.volume,0,.85,.72);this.paused=true;this.destroyed=false;
-  this.maxVoices=Math.round(clamp(options.maxVoices,8,LIMITS.voices,LIMITS.voices));this.voices=new Set();this.buffers=new Map();this.last=new Map();this.counter=0;this.bus=null;this.nodes=[];this.dropped=0;this.played=0;this.lifecycle=0;
+  this.maxVoices=Math.round(clamp(options.maxVoices,8,LIMITS.voices,LIMITS.voices));this.voices=new Set();this.buffers=new Map();this.last=new Map();this.counter=0;this.bus=null;this.nodes=[];this.dropped=0;this.played=0;this.lifecycle=0;this.rifle=RifleAudio?new RifleAudio.Bank({base:options.rifleBase,fetch:options.fetch,onStatus:options.onRifleStatus}):null;
  }
  _setup(){
   if(this.bus)return true;const c=this.context;if(!c)return false;
@@ -136,8 +141,9 @@ class Engine {
  }
  async resume(){
   if(this.destroyed)return false;const lifecycle=++this.lifecycle;
-  try{if(!this.context||this.context.state==='closed'){this.context=this.contextFactory();this.ownsContext=true;this.bus=null;this.nodes=[];this.buffers.clear();}if(!this._setup())return false;await this.context.resume();if(this.destroyed||lifecycle!==this.lifecycle)return false;this.paused=false;return this.context.state==='running';}catch(_){return false;}
+  try{if(!this.context||this.context.state==='closed'){this.context=this.contextFactory();this.ownsContext=true;this.bus=null;this.nodes=[];this.buffers.clear();this.rifle?.reset();}if(!this._setup())return false;await this.context.resume();if(this.destroyed||lifecycle!==this.lifecycle)return false;this.paused=false;return this.context.state==='running';}catch(_){return false;}
  }
+ preloadRifle(){return this.destroyed||!this.context?Promise.resolve(false):this.rifle?.load(this.context)||Promise.resolve(false);}
  async suspend(){
   this.lifecycle++;this.paused=true;this.stopAll();try{if(this.context?.state==='running')await this.context.suspend();}catch(_){}return true;
  }
@@ -148,8 +154,11 @@ class Engine {
   voice.source.onended=null;if(stop)try{voice.source.stop();}catch(_){}
   for(const node of voice.nodes)try{node.disconnect();}catch(_){}
  }
+ cancelRifleReload(){for(const voice of [...this.voices])if(voice.type==='reload'&&voice.weapon===3)this._dispose(voice,true);}
+ cancelReload(){for(const voice of [...this.voices])if(voice.type==='reload')this._dispose(voice,true);}
  stopAll(){for(const voice of [...this.voices])this._dispose(voice,true);this.last.clear();}
  _buffer(type,options){
+  if(options.weapon===3)return this.rifle?.get(type,options)||null;
   const key=[type,weaponIndex(options.weapon),!!options.suppressed,options.material||'',options.phase??'',options.variant].join(':');
   if(this.buffers.has(key)){const buffer=this.buffers.get(key);this.buffers.delete(key);this.buffers.set(key,buffer);return buffer;}
   const design=recipe(type,options);if(!design)return null;
@@ -159,12 +168,13 @@ class Engine {
  _play(type,options={}){
   if(this.destroyed||this.muted||this.paused||!this.bus||this.context?.state!=='running')return false;
   const c=this.context,now=c.currentTime,throttle=type==='shot'?.028:type==='impact'?.01:.035;
-  if(this.last.has(type)&&now-this.last.get(type)<throttle){this.dropped++;return false;}
+  const eventKey=type+':'+weaponIndex(options.weapon)+(type==='reload'?':'+options.phase:'');
+  if(this.last.has(eventKey)&&now-this.last.get(eventKey)<throttle){this.dropped++;return false;}
   const opt={...options,weapon:weaponIndex(options.weapon),variant:this.counter++%3};
   // Canonical inputs keep accidental unbounded event values from expanding cache identities.
   if(type==='impact')opt.material=MATERIALS[opt.material]||'stone';
   if(type!=='reload')delete opt.phase;
-  const buffer=this._buffer(type,opt);if(!buffer)return false;this.last.set(type,now);
+  const buffer=this._buffer(type,opt);if(!buffer)return false;this.last.set(eventKey,now);
   const priority=type==='shot'||type==='hurt'?2:type==='reload'||type==='cycle'?1:0;
   if(this.voices.size>=this.maxVoices){
    let oldest=null;for(const voice of this.voices)if(!oldest||voice.priority<oldest.priority||(voice.priority===oldest.priority&&voice.start<oldest.start))oldest=voice;
@@ -173,9 +183,13 @@ class Engine {
   const source=c.createBufferSource(),gain=c.createGain(),nodes=[source,gain];source.buffer=buffer;
   const distance=clamp(options.distance,0,150),level=clamp(options.intensity,0,1,1);gain.gain.value=level/(1+distance*.055);
   source.connect(gain);let lastNode=gain;
-  if(c.createStereoPanner){const pan=c.createStereoPanner();pan.pan.value=clamp(options.pan,-1,1,0);gain.connect(pan);lastNode=pan;nodes.push(pan);}
+  if(opt.weapon===3&&(type==='casing'||type==='casingbounce')){
+   const surface=String(options.material||'stone'),soft=['soil','dirt','ground','grass'].includes(surface),wood=['wood','crate','trunk'].includes(surface);
+   const filter=c.createBiquadFilter();filter.type='lowpass';filter.frequency.value=soft?2600:wood?6500:15500;filter.Q.value=.45;gain.gain.value*=soft?.14:wood?.48:1;gain.connect(filter);lastNode=filter;nodes.push(filter);
+  }
+  if(c.createStereoPanner){const pan=c.createStereoPanner();pan.pan.value=clamp(options.pan,-1,1,0);lastNode.connect(pan);lastNode=pan;nodes.push(pan);}
   lastNode.connect(this.bus);
-  const voice={source,nodes,start:now,priority};this.voices.add(voice);source.onended=()=>this._dispose(voice);
+  const voice={source,nodes,start:now,priority,type,weapon:opt.weapon};this.voices.add(voice);source.onended=()=>this._dispose(voice);
   try{source.start(now);source.stop(now+buffer.duration+.015);this.played++;return true;}catch(_){this._dispose(voice,true);return false;}
  }
  shot(weapon=0,options={}){return this._play('shot',{...options,weapon});}
@@ -188,14 +202,18 @@ class Engine {
   case 'blood':return this.impact(data.head?'head':'body',data);
   case 'impact':return this.impact(data.material,data);
   case 'reload':return this.reload('start',data.weapon);
+  case 'reloadstage':return this.reload(data.stage,data.weapon);
+  case 'reloadcancel':if(data.weapon===3)this.cancelRifleReload();else this.cancelReload();return true;
+  case 'casing':case 'casingbounce':return data.weapon===3?this._play('casing',data):false;
+  case 'riflecycle':return false; // The recorded shot already contains the +45 ms action layer.
   case 'perfect':case 'mistime':case 'loaded':return this.reload(type,data.weapon);
   case 'dash':case 'hurt':case 'cycle':case 'empty':case 'needcycle':case 'switch':case 'break':case 'explosion':case 'enemyshot':case 'kill':case 'warning':case 'pickup':return this._play(type,data);
   default:return false;
   }
  }
- stats(){return {ready:!!this.bus,running:!this.paused&&!this.destroyed&&this.context?.state==='running',muted:this.muted,voices:this.voices.size,buffers:this.buffers.size,played:this.played,dropped:this.dropped,maxVoices:this.maxVoices};}
+ stats(){return {ready:!!this.bus,running:!this.paused&&!this.destroyed&&this.context?.state==='running',muted:this.muted,voices:this.voices.size,buffers:this.buffers.size,played:this.played,dropped:this.dropped,maxVoices:this.maxVoices,rifle:this.rifle?.stats()||{status:'error',error:'Recorded rifle module is missing',loaded:0,total:RifleAudio?.FILES.length||28}};}
  async destroy(){
-  if(this.destroyed)return;this.destroyed=true;this.lifecycle++;this.paused=true;this.stopAll();this.buffers.clear();for(const node of this.nodes)try{node.disconnect();}catch(_){}this.nodes=[];this.bus=null;
+  if(this.destroyed)return;this.destroyed=true;this.lifecycle++;this.paused=true;this.stopAll();this.rifle?.destroy();this.buffers.clear();for(const node of this.nodes)try{node.disconnect();}catch(_){}this.nodes=[];this.bus=null;
   if(this.ownsContext&&this.context?.state!=='closed')try{await this.context?.close();}catch(_){}
  }
 }

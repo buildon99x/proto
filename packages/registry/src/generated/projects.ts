@@ -7,8 +7,8 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.6.0",
-    "summary": "Connected Black Pines extraction-region FPS with branching landmarks, cargo recovery, timed extraction, automatic pump, jump/slide and clear aim. Live browser/audio acceptance pending.",
+    "version": "0.7.0",
+    "summary": "One-rifle FPS foundation checkpoint with magazine/chamber states, buffered auto/burst fire, staged reloads, recorded Pixabay audio, stamina and readable surface-night lighting. Live gameplay/listening gate pending.",
     "tags": [
       "game",
       "fps",
@@ -33,7 +33,7 @@ export const projects = [
       "build": "pnpm --filter dead-freight build",
       "test": "pnpm --filter dead-freight test"
     },
-    "updatedAt": "2026-10-08T12:23:06+09:00"
+    "updatedAt": "2026-10-08T13:14:52+09:00"
   },
   {
     "id": "deck-building",
