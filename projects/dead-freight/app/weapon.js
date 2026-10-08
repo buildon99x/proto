@@ -10,7 +10,8 @@
     const leather = new T.MeshStandardMaterial({color: '#252d3a', roughness: .86});
     const seam = new T.MeshStandardMaterial({color: '#536071', roughness: .9});
     const cuff = new T.MeshStandardMaterial({color: '#b9c4ce', roughness: .96});
-    const rust = new T.MeshStandardMaterial({color: '#764c54', roughness: .88});
+    const rust = new T.MeshStandardMaterial({color: '#a56672', emissive:'#291218', emissiveIntensity:.28, roughness: .78, metalness:.12});
+    rust.name='oxide-red-accent';
     const boxGeo = new T.BoxGeometry(1, 1, 1);
     const jointGeo = new T.IcosahedronGeometry(1, 1);
     function box(x,y,z,w,h,d,material,parent=group) {
@@ -30,7 +31,11 @@
       geometry.translate(0,0,-d/2);const mesh=new T.Mesh(geometry,material);mesh.position.set(x,y,z);parent.add(mesh);return mesh;
     }
     const slide=new T.Group();group.add(slide);
-    bevel(0,.041,-.16,.164,.119,.46,ivory,slide,.008);
+    // A machined six-sided section, not a rectangular block: narrow crown, bevel shoulders, vertical side flats.
+    const receiverProfile=new T.Shape();receiverProfile.moveTo(-.074,-.055);receiverProfile.lineTo(.074,-.055);receiverProfile.lineTo(.083,-.026);receiverProfile.lineTo(.080,.022);receiverProfile.lineTo(.058,.060);receiverProfile.lineTo(-.058,.060);receiverProfile.lineTo(-.080,.022);receiverProfile.lineTo(-.083,-.026);receiverProfile.closePath();
+    const receiverGeo=new T.ExtrudeGeometry(receiverProfile,{depth:.452,bevelEnabled:true,bevelSize:.003,bevelThickness:.003,bevelSegments:1,steps:1});receiverGeo.translate(0,0,-.226);
+    const receiver=new T.Mesh(receiverGeo,ivory);receiver.position.set(0,.041,-.16);slide.add(receiver);
+    for(let side of [-1,1]){bone([side*.08,-.006,-.379],[side*.08,-.006,.061],.002,.002,edge,slide,5);box(side*.076,.088,-.16,.005,.006,.424,edge,slide).rotation.z=side*.52;}
     bevel(0,.108,-.173,.105,.016,.39,edge,slide,.003);
     box(0,.123,-.35,.018,.013,.041,black,slide);
     box(0,.126,.044,.088,.022,.033,black,slide);
@@ -66,11 +71,17 @@
     const hammer=bevel(0,.098,.117,.041,.044,.034,black,group,.003);
     bone([0,.036,-.365],[0,.036,-.417],.035,.035,edge,group,12);
     const suppressor=new T.Group();suppressor.visible=options.suppressed!==false;group.add(suppressor);
-    bone([0,.036,-.39],[0,.036,-.77],.071,.079,black,suppressor,14);
-    bone([0,.036,-.735],[0,.036,-.80],.080,.076,rust,suppressor,14);
-    bone([0,.036,-.798],[0,.036,-.807],.047,.047,black,suppressor,14);
-    bone([0,.036,-.807],[0,.036,-.81],.028,.028,rubber,suppressor,12);
-    for(let z of [-.421,-.468,-.523,-.64])bone([0,.036,z],[0,.036,z-.012],.073,.073,edge,suppressor,14);
+    // Stepped mount, long black body and a broad oxide-red front shroud echo the reference's silhouette.
+    bone([0,.036,-.399],[0,.036,-.429],.047,.063,edge,suppressor,20);
+    bone([0,.036,-.43],[0,.036,-.614],.069,.075,black,suppressor,20);
+    bone([0,.036,-.616],[0,.036,-.628],.077,.077,edge,suppressor,20);
+    bone([0,.036,-.630],[0,.036,-.788],.079,.076,rust,suppressor,20);
+    bone([0,.036,-.789],[0,.036,-.805],.076,.064,rust,suppressor,20);
+    bone([0,.036,-.805],[0,.036,-.808],.044,.044,black,suppressor,18);
+    bone([0,.036,-.808],[0,.036,-.813],.026,.026,rubber,suppressor,16);
+    for(let z of [-.447,-.461,-.597])bone([0,.036,z],[0,.036,z-.004],.073,.073,edge,suppressor,20);
+    // Recessed seam, small cap-index marks and a front chamfer; restrained, not a field of decorative greebles.
+    for(let angle of [.25,2.34,4.44]){let x=Math.cos(angle)*.077,y=.036+Math.sin(angle)*.077;bone([x,y,-.758],[x,y,-.777],.0022,.0022,black,suppressor,5);}
     const laserModule=new T.Group();laserModule.visible=!!options.laser;group.add(laserModule);
     bevel(.016,-.12,-.279,.115,.069,.145,black,laserModule,.005);
     bone([.042,-.116,-.35],[.042,-.116,-.364],.021,.021,edge,laserModule,10);
@@ -100,8 +111,8 @@
     bone([-.055,-.133,.135],[-.09,-.075,.063],.03,.021,leather,right);
     joint([-.055,-.133,.135],.032,rubber,right);
     bone([.052,-.27,.166],[.112,-.407,.24],.073,.086,leather,right,10);
-    bone([.107,-.393,.232],[.13,-.44,.27],.088,.092,cuff,right,10);
-    bone([.132,-.444,.271],[.31,-.78,.52],.1,.151,rubber,right,10);
+    bone([.082,-.302,.17],[.13,-.36,.22],.089,.097,cuff,right,10);
+    bone([.13,-.36,.22],[.31,-.78,.52],.10,.151,rubber,right,10);
     for(let i=0;i<3;i++)bone([.123+i*.012,-.446-i*.035,.28+i*.02],[.14+i*.016,-.465-i*.036,.30+i*.02],.101+i*.003,.101+i*.003,leather,right,9);
     box(.157,-.393,.19,.11,.037,.023,black,right).rotation.z=.27;
     // Support hand cups the grip, and departs with the magazine during reload.
@@ -121,7 +132,7 @@
     for(let i=0;i<4;i++)bone([-.287-i*.027,-.44-i*.023,.32+i*.029],[-.31-i*.027,-.461-i*.023,.347+i*.029],.105+i*.003,.105+i*.003,leather,support,9);
     if(weapon===1){bevel(0,-.045,-.41,.2,.12,.24,black);bone([.09,.03,-.4],[.09,.03,-.79],.037,.037,ivory);}
     if(weapon===2){bevel(0,-.25,-.17,.085,.32,.10,black);bevel(.112,.027,-.2,.052,.10,.22,ivory);}
-    group.position.set(.16,-.19,-.55);group.rotation.set(.22,.45,-.09);
+    group.position.set(.225,-.12,-.90);group.rotation.set(.22,.45,-.09);
     group.userData={slide,hammer,trigger,index,indexTip:new T.Vector3(...ip[3]),support,magazine,right,fingerRoots,suppressor,laserModule,laserEmitter:new T.Vector3(.042,-.116,-.369),muzzle:new T.Vector3(0,.036,options.suppressed===false?-.428:-.825)};
     return group;
   }

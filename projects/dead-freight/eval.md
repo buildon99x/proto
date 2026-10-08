@@ -44,3 +44,12 @@ The selected project's static build, registry metadata validation, and launcher 
 
 ### 0.3 runtime review repairs
 A separate rendererless review identified and verified fixes for: a negative completed-reload timer blocking future shots; detached laser origin across the two camera projections; missing barrel laser intersections; short muzzle flashes disappearing before their first rendered frame; outdated right-click cycle instructions; a trigger fingertip that did not reach the trigger; and GPU/effect cleanup paths. A fresh start/end also clears held ADS and transient presentation state. The regression suite now has 23 combat checks and 12 viewmodel configurations, including measured fingertip contact. Laser projection was checked numerically across hip/ADS/yaw/pitch cases. These are still not a substitute for visual or input-play acceptance.
+
+## 0.4.0 red-accent / silhouette correction
+The exact supplied reference was reopened from its previously materialized Library file, whose Library identity and version were verified before pixel inspection. The wine/rust muzzle cap is a substantial accent; the side of the slide has crisp machined boundaries.
+
+Changes: enlarged red front shroud, three-value red ramp retained separately from grayscale, chamfered receiver shoulders, stepped/tapered suppressor pieces and a corrected hip-fire camera distance/offset. The diagnostic exposed that the prior gun was too close to the camera and obscured most of the hands; the new placement reduces that exaggerated perspective while preserving ADS behavior.
+
+The files assets/diagnostics/viewmodel-0.3.png and viewmodel-0.4.png are CPU mesh diagnostics from the actual viewmodel geometry with approximate diffuse light. They explicitly say NOT A GAME SCREENSHOT. They contain no forest, browser UI or live controls. Do not use them as proof of browser rendering or final visual fidelity.
+
+Remaining gaps: the forest/environment and lighting have not been compared in the live game, glove/cuff silhouette still needs visual refinement, animation and accessory transitions need ordinary-input play, and no full rendered reference match or commercial-game equivalence is claimed. Private-Site sign-in approval remains unanswered; no authentication bypass, audience change or alternate browser-policy workaround was used.

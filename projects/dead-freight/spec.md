@@ -24,3 +24,6 @@ No claim of identical source-game content, campaign or assets. No mobile gamepla
 
 ## 0.3 first-person polish target
 The user explicitly requested reference-level first-person visual detail: articulated gloved hands actually gripping the weapon, a clear trigger finger, mechanical slide/chamber/sights, reload and recoil recovery, and stronger readable shot/impact/destruction response. Work in the Git repository and checkpoint/push changes. Browser visual acceptance remains gated on sign-in; geometry or unit checks alone cannot establish parity.
+
+## 0.4 red accent / hard-surface correction
+Match the visible wine/rust suppressor cap as a substantial accent rather than a barely visible sliver. Retain a restrained three-value red ramp through the four-tone post-process. Use a chamfered receiver cross-section and stepped, tapered suppressor pieces with clear machined edges. Preserve attachment controls, articulated finger contact and existing firing/reload mechanics. Any offline geometry diagnostic must be labeled separately from an actual in-game screenshot.

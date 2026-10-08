@@ -16,3 +16,9 @@
 - Add spring recoil, slide/casing/reload motion and impact/destruction feedback
 - Add iron-sight aiming, switchable suppressor and optional laser module
 - Preserve the visual/play sign-in gate; automated geometry tests are not a rendered comparison
+
+## 0.4.0 — 2026-10-08
+- Enlarge the muted wine-red suppressor shroud and preserve it through the palette pass
+- Replace rectangular slide profile with machined chamfered shoulders and stepped suppressor geometry
+- Correct hip-fire camera distance/placement against the supplied reference proportions
+- Add explicitly labeled offline mesh diagnostics, without claiming browser screenshot or gameplay verification
