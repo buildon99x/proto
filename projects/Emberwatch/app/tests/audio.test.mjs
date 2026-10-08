@@ -39,7 +39,7 @@ function harness(options={}){
   return {audio,context,counts:()=>({initializations,fetches})};
 }
 
-test('55 original PCM samples have valid bounds, non-silent content, unclipped peaks, fades and distinct variants',()=>{
+test('55 PCM samples, including the attributed War Cry, have valid bounds, non-silent content, unclipped peaks, fades and distinct variants',()=>{
   assert.equal(wav.toString('ascii',0,4),'RIFF');assert.equal(wav.toString('ascii',8,12),'WAVE');
   assert.equal(wav.readUInt16LE(22),1);assert.equal(wav.readUInt32LE(24),32000);assert.equal(wav.readUInt16LE(34),16);
   assert.equal(pcm.length/2/sr,AUDIO_BANK.duration);
@@ -142,4 +142,13 @@ test('sample read failure is reported, is retryable and never falls back to osci
   assert.equal(await h.audio.resume(),false);assert.match(h.audio.status().error,/404/);assert.equal(h.audio.play('hit'),false);
   assert.equal(await h.audio.resume(),true);assert.equal(h.audio.status().error,null);
   const source=fs.readFileSync(new URL('../src/audio.js',import.meta.url),'utf8');assert(!source.includes('createOscillator'));
+});
+
+
+test('War Cry credit ships and footsteps alternate balanced dry foot families',async()=>{
+ const credit=fs.readFileSync(new URL('../src/assets/audio-credits.txt',import.meta.url),'utf8');assert(credit.includes('spookymodem'));assert(credit.includes('https://creativecommons.org/licenses/by/3.0/'));assert(credit.includes('Changes for Emberwatch'));
+ const {audio,context}=harness({random:()=>0});await audio.resume();
+ const gains=[];
+ for(const foot of ['left','right','left','right']){context.advance(.32);assert(audio.play('footstep',{foot,tag:'heroStep'}));const source=context.sources.at(-1),index=AUDIO_BANK.clips.footstep.findIndex(x=>x.offset===source.started[1]);assert.equal(index%2,foot==='left'?0:1);const dry=source.connections[0];gains.push(dry.gain.value);}
+ assert(gains.every(x=>x===gains[0]));assert.equal(AUDIO_EVENTS.footstep.wet,0);assert.equal(audio.cancel('heroStep'),2);assert(context.sources.filter(x=>x.started).every(x=>x.stopped!==undefined));
 });

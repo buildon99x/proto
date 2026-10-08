@@ -2,17 +2,17 @@
 
 ## Provenance and scope
 
-All included audio is original authored digital sound design for Emberwatch. No recordings, commercial-game audio, external sound libraries, voices of real people, or third-party sample licenses are involved. The deterministic source is `app/scripts/render-audio.py` (NumPy/SciPy, seed `0xE8BE2026`). These are offline build tools; the shipped browser runtime has no package or network-service dependency. The project’s source/license terms govern these authored assets; no external recording-license claim is being made.
+The bank now combines 53 original procedural PCM samples with two variants derived from **Battlecry by spookymodem**, licensed [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/), obtained from [the author's OpenGameArt submission](https://opengameart.org/content/battlecry). The original download, SHA-256, and credit are recorded under `assets/audio-source/`. The author describes it as a deep warcry before charging into battle; no claim of a specific voice actor or recording method is made. Changes: silence trim (0.425–1.825 seconds), mono downmix, 32 kHz resample, high/low-pass filtering, level/fades and a quiet original armor-contact accent. No endorsement is implied. Attribution, source and license links appear in the game's Korean guide and `app/src/assets/audio-credits.txt`, including the offline HTML guide.
 
-The bank contains 55 mono, 32 kHz, 16-bit PCM samples across 20 families, in a 50.24-second, 3,215,404-byte atlas. Source families for generic magic remain compatibility support, not a claim that additional classes have passed their acceptance gate. Current acceptance is Warrior only: three-hit sword combo, Whirling Axes, War Cry, footsteps, dodge, hurt, death, and basic monster target cues.
+The deterministic tooling is `app/scripts/render-audio.py` (NumPy/SciPy). The browser runtime has no package or audio-service dependency. The 55-sample, 20-family atlas is now 51.12 seconds / 3,271,724 bytes. All 53 unrelated source samples were verified byte-identical to 0.4.1. Warrior remains the only character acceptance target.
 
 ## Sound construction
 
 - Sword swishes: shaped broadband air, low cloth motion, edge hiss, and restrained inharmonic steel resonance. Heavy swings have a wider/lower pass-by and more air mass.
 - Contacts: low filtered body/wood excitation, short broadband crack, leather/grit, and material-dependent damped steel modes. Heavy contact adds a delayed low-body layer. These are distinct from swing sounds.
 - Whirling Axes: overlapping, individually varied rotating swishes with light metal resonance.
-- War Cry: nonverbal glottal excitation through formant-like bands, air/breath noise, and a low body transient. It is synthesized, not a recording or imitation of a named person.
-- Footsteps: sole/heel body, stone/grit, and delayed scrape. Dodge uses cloth and displaced air.
+- War Cry: the attributed Battlecry sample, with preserved vocal character and a quiet, short armor accent. The previous synthesized glottal/low-body sound was rejected by the user as fart-like and is retained only in the labeled A/B comparison.
+- Footsteps: sole/heel body, stone/grit and scrape, now at event gain 0.085 instead of 0.22 (−8.26 dB), with zero room send. Alternating feet select balanced left/right variants. Dodge uses cloth and displaced air; it does not emit run footsteps.
 - Monster tells/releases: low pulsed breath excitation, throat/body filtering, and attack transients. Role variants are not copied creature recordings.
 - Ambience: seamless filtered wind/room beds; the refuge also has quiet ember crackle. No music loop competes with combat.
 - Reward and compatibility spell cues: inharmonic metallic/crystal impacts and air/grains rather than the previous single oscillator pitch sweeps.
@@ -33,13 +33,13 @@ The bank contains 55 mono, 32 kHz, 16-bit PCM samples across 20 families, in a 5
 
 The engine has 16 logical one-shot voices, per-family-group caps, event cooldowns, adjacent-variant avoidance, restrained pitch/gain variation, and priority-based voice replacement. Player hurt/death and heavy contacts outrank routine foley and rewards. Fading stolen sources may coexist for up to 12 ms while disconnecting, avoiding a sharp cut; two ambience loops are separately bounded and crossfaded.
 
-Each source has a dry path and a short stereo diffuse-room send. The summed mix is high-passed at 42 Hz, low-passed at 11 kHz, compressed (−14 dB threshold, 5:1 ratio, 3 ms attack, 160 ms release), then softly bounded by an oversampled waveshaper. Ambience ducks during important contacts. The source atlas has conservative, varied peaks, DC removal, and edge fades on one-shots. None of these numerical safeguards alone proves pleasant or convincing audio.
+Each source has a dry path and optional short stereo diffuse-room send; footsteps have no room send. The summed mix is high-passed at 42 Hz, low-passed at 11 kHz, compressed (−14 dB threshold, 5:1 ratio, 3 ms attack, 160 ms release), then softly bounded by an oversampled waveshaper. Ambience ducks during important contacts. The source atlas has conservative, varied peaks, DC removal, and edge fades on one-shots. None of these numerical safeguards alone proves pleasant or convincing audio.
 
 ## Listening deliverables
 
 Open `app/src/assets/audio-audition.html` through the project’s HTTP preview (or `assets/audio-audition.html` in the built artifact). It contains manually triggered Warrior sounds, a scripted sequence using the real runtime mixer, volume control, and Stop. Nothing autoplays.
 
-- `audio-demonstration.wav`: 33.62-second dry-source reel; the final ten seconds are an editorial Warrior example, not a gameplay capture. Cue times and per-sample measurements are in `audio-review.json`.
+- `audio-demonstration.wav`: 34.06-second dry-source reel; the final ten seconds are an editorial Warrior example, not a gameplay capture. Cue times and per-sample measurements are in `audio-review.json`.
 - `scripts/check-audio-browser.mjs`: an eleven-second stereo Warrior sequence harness intended for Chromium’s real OfflineAudioContext through `audio.js`. The attempt in this environment failed at Chromium startup (`process_singleton_posix.cc: socket() failed: Operation not permitted`), including the reviewed escalation retry. `audio-runtime-report.json` records that blocker. No `audio-runtime-render.wav` was produced, and no browser-audio rendering or listening success is claimed.
 
 ## Reproduction and evidence
@@ -55,3 +55,11 @@ The focused suite validates all sample bounds/content/fades/unique variants and 
 When run in a supported environment, the Chromium harness is designed to render the real graph without an audio output device and check finite/nonzero output, output peak and clipped-sample count, stereo response, scheduled events, and logical voice count. This path remains unverified here because Chromium could not start. A future successful OfflineAudioContext simulation would still be separate from normal game interaction.
 
 Subjective listening remains unverified: no listening-capable tool or audio output device was available in the worker environment. Do not claim that metrics, generated files, a successful render, or an HTML audio control were heard. Required acceptance still includes speaker/headphone review, repeated-play fatigue, tell intelligibility under combat, and in-game timing/cancel behavior using ordinary controls.
+
+## 0.4.2 movement contact repair
+
+The run cycle is driven by actual collision-resolved distance, with left/right landing at baked frames 0 and 12. Pointer hover no longer freezes travel-facing; attacks keep their committed aim and dodge faces its own travel. Stop, walls, action poses, damage and pause suppress/cancel footstep voices. A floating-point boundary regression caught and fixed a duplicate contact at exact cycle wraps.
+
+`assets/screenshots/feedback-0.4.2/Warrior-audio-before-after.wav` compares the previous/new War Cry and previous/new footsteps at identical playback conditions and fixed step cadence, using each version's runtime event gain. Cue times are in `audio-comparison.json`. `Warrior-travel-and-footsteps.mp4` uses actual update logic and the production motion renderer, with only the east panel's dry step events in its audio track. These are review artifacts, not captured browser play.
+
+The 2026-10-08 listening-tool attempt explicitly returned “audio content omitted because you do not support audio input.” Subjective acceptance therefore remains unverified; the user's report, source labeling, and objective signal/timing checks are distinct evidence.

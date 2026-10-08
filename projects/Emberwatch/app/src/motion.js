@@ -10,6 +10,23 @@ export const MOTION_CLIPS = Object.freeze({
 });
 export const MOTION_ASSETS = Object.freeze(Object.fromEntries(['hero'].map(kind=>[kind,{file:`assets/motion-${kind}.png`,frameWidth:112,frameHeight:112,bodyHeight:64,anchorX:56,anchorY:94,columns:24,rows:40,frames:960}])));
 export const MOTION_AXE_ASSET = Object.freeze({file:'assets/motion-warrior-axe.png',width:180,height:224,anchorX:90,anchorY:112});
+// The baked run lands its left foot at frame 0 and right foot at frame 12.
+// One full cycle covers the original Warrior's .64 s run at 158 world units/s.
+// Movement and audio share this phase; wall time and pointer hover never drive it.
+export const RUN_GAIT = Object.freeze({distance:101.12,contacts:[0,.5],startPhase:.25});
+export function advanceLocomotion(actor,dx,dy,{dt=1/60,blocked=false}={}){
+ const distance=Math.hypot(dx,dy),travel=distance>.001,locked=!!actor.action;
+ if(travel&&!locked)actor.angle=Math.atan2(dy,dx);
+ actor.moving=travel&&!blocked&&!locked&&!(actor.dashTime>0)&&actor.hp>0;
+ if(!Number.isFinite(actor.walkPhase))actor.walkPhase=RUN_GAIT.startPhase;
+ if(!actor.moving||distance>Math.max(24,dt*900)){actor.moving=false;return [];}
+ const before=actor.walkPhase,after=before+distance/RUN_GAIT.distance,contacts=[];
+ for(let step=Math.floor((before+1e-10)*2)+1;step<=Math.floor((after+1e-10)*2);step++){
+  contacts.push({foot:step%2?'right':'left',phase:step%2?.5:0,frame:step%2?12:0});
+ }
+ let phase=after%1;if(phase<1e-10||phase>1-1e-10)phase=0;else if(Math.abs(phase-.5)<1e-10)phase=.5;actor.walkPhase=phase;actor.walk=(actor.walk||0)+distance/(158/10);
+ return contacts;
+}
 const motionClamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
 const motionMix=(a,b,t)=>a+(b-a)*t;
 const motionEase=t=>t*t*(3-2*t);

@@ -2,7 +2,7 @@
 
 An original, dependency-free Canvas 2D solo dungeon-crawler prototype. Choose a hero, explore six generated floors, gather equipment and relics, fight three guardians, and rebuild a persistent refuge.
 
-**Status: Warrior-first development checkpoint, version 0.4.1. Actual browser gameplay and visuals remain unverified.** See [eval.md](./eval.md) for evidence and blockers.
+**Status: Warrior-first development checkpoint, version 0.4.2. Actual browser gameplay and visuals remain unverified.** See [eval.md](./eval.md) for evidence and blockers.
 
 ## Run and build
 
@@ -68,7 +68,7 @@ The Warrior now uses ten24-pose articulated clips in four directions. Three swor
 
 Basic attacks can chain to skills during recovery. An attack after the initial dash commits to a forward dash strike and gives up the remaining dash invulnerability. Dodging through a hit opens a brief stronger counterattack. Directional hit effects, grounded trails, generated spinning axes, practice-target feedback and reduced-FX controls are integrated.
 
-Audio is a55-clip original PCM sample bank made from layered noise, resonant transients and processed foley-like synthesis. Sword/contact/material/heavy sounds, footsteps, axes and War Cry replace the former oscillator beeps. Swish peaks are scheduled at contact and canceled when interrupted; impacts occur only on confirmed hits. Opt in with Sound. `assets/audio-audition.html` is an explicit listening page, not proof that a listening review passed.
+Audio is a 55-clip PCM bank: 53 original samples plus two attributed CC BY 3.0 Battlecry adaptations by spookymodem. See docs/audio-provenance.md and the in-game credits. Sword/contact/material/heavy sounds, footsteps, axes and War Cry replace the former oscillator beeps. Swish peaks are scheduled at contact and canceled when interrupted; impacts occur only on confirmed hits. Opt in with Sound. `assets/audio-audition.html` is an explicit listening page, not proof that a listening review passed.
 
 The new monster framework remains disabled while the first Warrior actual-play gate is open. Existing enemy behavior remains playable; no other character or monster is represented as completed.
 

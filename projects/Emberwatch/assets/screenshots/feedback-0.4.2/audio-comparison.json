@@ -1,0 +1,31 @@
+{
+  "kind": "Dry source A/B at runtime event gains, not recorded gameplay or subjective listening",
+  "cues": [
+    {
+      "at": 0.25,
+      "label": "before: synthetic War Cry"
+    },
+    {
+      "at": 2.1,
+      "label": "after: attributed Battlecry voice with short armor accent"
+    },
+    {
+      "at": 4.2,
+      "label": "before: five footsteps"
+    },
+    {
+      "at": 6.5,
+      "label": "after: five footsteps, -8.26 dB event gain and no room send"
+    },
+    {
+      "at": 8.2,
+      "label": "after: second War Cry variant"
+    }
+  ],
+  "footstep_gain_db_change": -8.260075102158268,
+  "source": "https://opengameart.org/content/battlecry",
+  "license": "CC BY 3.0",
+  "author": "spookymodem",
+  "changes": "Trimmed silence, mono/resample, filtering, level/fades, original armor accent",
+  "listening_verified": false
+}

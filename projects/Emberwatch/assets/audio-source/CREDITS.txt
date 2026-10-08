@@ -1,0 +1,6 @@
+Battlecry by spookymodem
+Source: https://opengameart.org/content/battlecry
+License: Creative Commons Attribution 3.0 Unported (CC BY 3.0)
+https://creativecommons.org/licenses/by/3.0/
+Changes for Emberwatch: trimmed silence, mono downmix, resampled to 32000 Hz, high/low-pass filtering, level adjustment, edge fades and a quiet original armor-contact accent. No endorsement implied.
+Other Emberwatch sound families are original procedural PCM.

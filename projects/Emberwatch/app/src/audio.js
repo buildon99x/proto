@@ -1,6 +1,7 @@
 import { AUDIO_BANK } from './assets/audio-manifest.js';
 
-// Original sampled fantasy foley. Nothing initializes or sounds until resume()
+// Sampled fantasy foley; War Cry attribution is in assets/audio-credits.txt.
+// Nothing initializes or sounds until resume()
 // or setEnabled(true) is called from an explicitly opted-in user interaction.
 export const AUDIO_EVENTS = Object.freeze({
   slash:{family:'slash',gain:.65,wet:.07,group:'swing',priority:4,gap:.045},
@@ -12,10 +13,10 @@ export const AUDIO_EVENTS = Object.freeze({
   magicHit:{family:'magicHit',gain:.78,wet:.21,group:'impact',priority:7,gap:.03},
   skill:{family:'magicRelease',gain:.69,wet:.22,group:'magic',priority:6,gap:.07},
   axeWhirl:{family:'axeWhirl',gain:.72,wet:.11,group:'swing',priority:6,gap:.15},
-  warCry:{family:'warCry',gain:.80,wet:.20,group:'hero',priority:8,gap:.2},
+  warCry:{family:'warCry',gain:.72,wet:.055,group:'hero',priority:8,gap:.2},
   enemyTell:{family:'enemyTell',gain:.53,wet:.16,group:'enemy',priority:5,gap:.055},
   enemyRelease:{family:'enemyRelease',gain:.61,wet:.11,group:'enemy',priority:6,gap:.055},
-  footstep:{family:'footstep',gain:.22,wet:.075,group:'foley',priority:1,gap:.13},
+  footstep:{family:'footstep',gain:.085,wet:0,group:'foley',priority:1,gap:.045},
   coin:{family:'coin',gain:.27,wet:.07,group:'reward',priority:2,gap:.085},
   hurt:{family:'hurt',gain:.84,wet:.11,group:'hero',priority:10,gap:.14},
   die:{family:'die',gain:.88,wet:.22,group:'hero',priority:10,gap:.3},
@@ -141,7 +142,9 @@ export function createFantasyAudio({enabled=false,contextFactory,fetcher,random=
     if(type==='hit'&&(options.material==='metal'||options.material==='armor'))family='metalHit';
     const variants=AUDIO_BANK.clips[family];if(!variants?.length)return false;
     let index=Math.floor(audioClamp(random(),0,.999999)*variants.length);
-    if(type.startsWith('enemy')&&options.enemy){
+    if(type==='footstep'&&options.foot){
+      const parity=options.foot==='left'?0:1;index=parity+2*Math.floor(audioClamp(random(),0,.999999)*Math.ceil((variants.length-parity)/2));
+    }else if(type.startsWith('enemy')&&options.enemy){
       const role=options.enemy;
       index=/brute|boss|guardian|heavy/.test(role)?2:/archer|caster|ranged/.test(role)?1:0;
     }else if(variants.length>1&&index===lastVariant.get(family))index=(index+1)%variants.length;

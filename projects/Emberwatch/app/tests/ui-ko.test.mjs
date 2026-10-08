@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';import fs from 'node:fs';import {spawnSy
 import {nextJourneyGoal,resourceLine,retentionRate} from '../src/lifecycle.js';import {defaultSave} from '../src/data.js';import {newHero,migrateGrowth} from '../src/growth.js';
 const capture=spawnSync(process.execPath,[new URL('../scripts/capture-korean-ui.mjs',import.meta.url).pathname],{encoding:'utf8'});assert.equal(capture.status,0,capture.stderr);
 const report=JSON.parse(fs.readFileSync(new URL('../../assets/screenshots/korean-0.4.1/runtime-ui-snapshots.json',import.meta.url),'utf8'));
-const allowed=new Set(['Tab','WASD','Space','Esc','Emberwatch','RPG']);
+const allowed=new Set(['Tab','WASD','Space','Esc','Emberwatch','RPG','Battlecry','spookymodem','CC','BY']);
 for(const page of report.snapshots){const text=page.html.replace(/<[^>]*>/g,' ');assert(/[가-힣]/.test(text),page.name+' Korean text');for(const word of text.match(/[A-Za-z]{2,}/g)||[])assert(allowed.has(word),page.name+' has untranslated display word: '+word);}
 assert.equal(report.snapshots.length,12);assert(report.inputChecks.every(Boolean),'Korean keyboard layout maps physical game keys');const first=report.snapshots[0].html;assert(first.indexOf('id="startQuick"')<first.indexOf('id="classes"'),'first-entry start action precedes long roster');
 const font=fs.readFileSync(new URL('../src/assets/fonts/EmberwatchKorean-Regular.woff',import.meta.url));assert.equal(font.subarray(0,4).toString(),'wOFF');

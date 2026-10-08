@@ -105,3 +105,18 @@ The shared registry now points to `projects/Emberwatch` and contains the current
 PASS: project syntax and the complete automated suite, all eleven metadata validations and static project builds, and the production launcher compilation/type checks/static-page generation. The tsx CLI could not create its local IPC pipe in this sandbox; equivalent repository script bodies were invoked with `node --import tsx`, with the supported local Corepack cache. No tracked build script or dependency was changed.
 
 These integration results do not complete the Warrior acceptance gate: actual browser controls, save/reload, Korean responsive layout, sound listening and target-device 60 FPS still need verification. No character or monster rollout was enabled.
+
+## 0.4.2 player-feedback repair — 2026-10-08
+
+The user heard War Cry as a fart-like sound, saw the Warrior face sideways/backwards while travelling, and found footsteps too loud and unsynchronized. Replace War Cry with a licensed human effort voice and controlled accent; keep provenance and listening limits explicit. Correct ordinary travel-facing while retaining locked attack aim. Drive the 24-frame run cycle and alternating foot contacts from actual displacement; reduce footstep level and room send, and cancel steps on stop, wall collision, attacks, dodge, hurt and pause. Validate eight screen travel directions, pointer inactivity/attack transitions and varied movement speeds without expanding characters.
+
+## 0.4.2 — 전사 피드백 수정 (2026-10-08)
+
+- 사용자가 지적한 함성의 저음 합성음을 spookymodem의 Battlecry(CC BY 3.0) 기반 음원으로 교체했습니다. 짧은 갑옷 접촉음을 낮게 섞고 무음·필터·음량을 정리했습니다. 저자·원문·라이선스·변경 표시는 게임 안내와 배포 파일에 포함합니다. 다른 53개 PCM 샘플은 이전판과 바이트가 같습니다.
+- 마우스를 한 번 움직이면 이동 방향 갱신이 멈추던 상태 의존성을 제거했습니다. 일반 이동은 실제 이동 방향을 따르고, 공격·기술 중에는 확정된 조준을 유지합니다. 회피는 회피 진행 방향을 봅니다.
+- 달리기와 발소리에 하나의 실제 이동 거리 기반 주기를 사용합니다. 네 방향 atlas의 왼발 0번·오른발 12번 접지를 시각적으로 확인했습니다. 독립 0.28초 타이머는 제거했습니다. 정지·벽 충돌·공격·피격·회피·메뉴에서는 발소리를 내거나 누적하지 않습니다.
+- 발소리 이벤트 gain을 0.22에서 0.085로 낮췄습니다(−8.26 dB). 잔향을 없애고 좌우 발 변형의 음량을 균형 있게 유지합니다. 출력 장치에서의 체감 음량 평가는 별도입니다.
+- 8방향 입력, 마우스 호버·공격 전환, 터치, 대각선 정규화, 속도 증가, 30/60/120 Hz 및 100 ms 지연, 벽, 회피 종료, 정지·일시 정지 회귀를 통과했습니다. 정확한 주기 경계에서 중복 접지가 발생하던 부동소수점 문제도 수정했습니다.
+- 비교 WAV와 접지 동기화 영상·포즈 시트를 제공합니다. 영상은 실제 소스 로직과 렌더러를 사용한 오프스크린 증거이며 브라우저 실플레이가 아닙니다. 청취 도구가 오디오 입력을 지원하지 않아 주관적 청음 완료를 주장하지 않습니다. 4개 방향 그림을 8방향 이동에 대응시키며, 새로운 8방향 그림을 만들었다고 주장하지 않습니다. 게임패드는 현재 지원하지 않습니다.
+
+0.4.2 integration: all eleven metadata validations and static project builds, plus launcher production compilation, type checks and 27-page generation passed. Shared registry changes are limited to Emberwatch metadata.

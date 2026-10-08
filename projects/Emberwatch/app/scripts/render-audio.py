@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Author Emberwatch's original physical/noise-based SFX. No external recordings.
+"""Author Emberwatch PCM SFX, including attributed Battlecry by spookymodem (CC BY 3.0).
 
 Offline tooling requires Python 3, NumPy and SciPy. The game itself has no audio
 runtime dependency beyond Web Audio. Run from any directory. Deterministic seed.
@@ -10,6 +10,7 @@ import json
 import wave
 import numpy as np
 from scipy import signal
+from scipy.io import wavfile
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'src' / 'assets'
@@ -209,7 +210,7 @@ def axe_whirl():
     return finish(y,.59)
 
 
-def war_cry():
+def legacy_war_cry():
     t=timeline(.96)
     # Nonverbal battle breath: rich glottal excitation and vocal-tract bands.
     pitch=132-32*np.clip(t/.55,0,1)+3*np.sin(TAU*7*t)
@@ -255,6 +256,17 @@ def wav(path, data):
         f.writeframes((np.clip(data,-.999,.999)*32767).astype('<i2').tobytes())
 
 
+def credit_wav(path):
+    # Embed attribution in deliverable WAVs as standard RIFF INFO metadata.
+    import struct
+    fields={'IART':'spookymodem; Emberwatch adaptation','INAM':'Emberwatch Warrior sound comparison','ICMT':'War Cry derives from Battlecry by spookymodem, CC BY 3.0. https://opengameart.org/content/battlecry https://creativecommons.org/licenses/by/3.0/ Changes: trim, mono/resample, filters, level/fades and original armor accent. No endorsement implied.'}
+    info=b'INFO'
+    for key,value in fields.items():
+        data=value.encode('utf-8')+b'\0';info+=key.encode()+struct.pack('<I',len(data))+data+(b'\0' if len(data)%2 else b'')
+    chunk=b'LIST'+struct.pack('<I',len(info))+info
+    raw=bytearray(path.read_bytes());raw[4:8]=struct.pack('<I',len(raw)+len(chunk)-8);path.write_bytes(raw+chunk)
+
+
 def main():
     OUT.mkdir(parents=True,exist_ok=True)
     families={
@@ -275,8 +287,36 @@ def main():
       'dash':[dash() for _ in range(3)],
       'level':[level() for _ in range(2)],
       'axeWhirl':[axe_whirl() for _ in range(2)],
-      'warCry':[war_cry() for _ in range(2)],
+      'warCry':[legacy_war_cry() for _ in range(2)],
       'ambienceTown':[ambience(True)],'ambienceDungeon':[ambience(False)]}
+    # Keep the legacy RNG sequence so every unrelated family remains identical.
+    old_cry=families['warCry'][0].copy()
+    rate,recording=wavfile.read(ROOT.parent/'assets/audio-source/Battlecry-spookymodem.wav')
+    recording=recording.astype(np.float64).mean(axis=1)/32768
+    voice=signal.resample_poly(recording[round(.425*rate):round(1.825*rate)],320,441)
+    voice=filt(filt(voice,130,'highpass'),7800)
+    voice/=max(np.max(np.abs(voice)),1e-9)
+    new_voices=[]
+    for accent in [0,1]:
+        y=voice.copy()*.67
+        add_at(y,families['metalHit'][accent][:round(.09*SR)],0,.075)
+        y=finish(y,.63)
+        new_voices.append(y)
+    families['warCry']=new_voices
+    review_dir=ROOT.parent/'assets/screenshots/feedback-0.4.2'
+    review_dir.mkdir(parents=True,exist_ok=True)
+    wav(review_dir/'Warrior-warcry-after.wav',new_voices[0]*.72)
+    comparison=np.zeros(SR*10,np.float32)
+    add_at(comparison,old_cry,.25,.80)
+    add_at(comparison,new_voices[0],2.1,.72)
+    for i in range(5):
+        add_at(comparison,families['footstep'][i%4],4.2+i*.32,.22)
+        add_at(comparison,families['footstep'][i%4],6.5+i*.32,.085)
+    add_at(comparison,new_voices[1],8.2,.72)
+    wav(review_dir/'Warrior-audio-before-after.wav',comparison)
+    credit_wav(review_dir/'Warrior-audio-before-after.wav')
+    credit_wav(review_dir/'Warrior-warcry-after.wav')
+    (review_dir/'audio-comparison.json').write_text(json.dumps({'kind':'Dry source A/B at runtime event gains, not recorded gameplay or subjective listening','cues':[{'at':.25,'label':'before: synthetic War Cry'},{'at':2.1,'label':'after: attributed Battlecry voice with short armor accent'},{'at':4.2,'label':'before: five footsteps'},{'at':6.5,'label':'after: five footsteps, -8.26 dB event gain and no room send'},{'at':8.2,'label':'after: second War Cry variant'}],'footstep_gain_db_change':float(20*np.log10(.085/.22)),'source':'https://opengameart.org/content/battlecry','license':'CC BY 3.0','author':'spookymodem','changes':'Trimmed silence, mono/resample, filtering, level/fades, original armor accent','listening_verified':False},indent=2))
     clips={};parts=[];cursor=0;metrics={};gap=np.zeros(round(.04*SR),np.float32)
     for name,samples in families.items():
         clips[name]=[];metrics[name]=[]
@@ -288,7 +328,7 @@ def main():
             parts.extend([x,gap]);cursor+=len(x)+len(gap)
     atlas=np.concatenate(parts);wav(OUT/'audio-fantasy.wav',atlas)
     manifest={'file':'./assets/audio-fantasy.wav','sampleRate':SR,'channels':1,'duration':round(len(atlas)/SR,6),'clips':clips}
-    (OUT/'audio-manifest.js').write_text('// Original Emberwatch sample atlas. Rebuild with scripts/render-audio.py.\nexport const AUDIO_BANK = '+json.dumps(manifest,separators=(',',':'))+';\n')
+    (OUT/'audio-manifest.js').write_text('// Emberwatch sample atlas; War Cry includes Battlecry by spookymodem, CC BY 3.0. See audio-credits.txt. Rebuild with scripts/render-audio.py.\nexport const AUDIO_BANK = '+json.dumps(manifest,separators=(',',':'))+';\n')
     # Listening demonstration: family examples then a short designed combat mix.
     demonstration=[];cues=[];cursor=0
     for name,samples in families.items():
@@ -302,8 +342,9 @@ def main():
     cues.append({'seconds':round(cursor/SR,2),'family':'Warrior demonstration: three-hit combo, dodge, Whirling Axes, War Cry, hurt and finish (editorial mock sequence, not gameplay capture)'})
     demonstration.append(fight)
     demo=np.concatenate(demonstration);wav(OUT/'audio-demonstration.wav',demo)
+    credit_wav(OUT/'audio-demonstration.wav')
     (OUT/'audio-review.json').write_text(json.dumps({'sampleRate':SR,'atlasBytes':(OUT/'audio-fantasy.wav').stat().st_size,'sampleCount':sum(map(len,families.values())),'families':metrics,'demonstrationCues':cues,'demonstrationPeak':float(np.max(np.abs(demo))),'listeningReview':'Not performed. Numerical signal checks are not subjective listening validation.'},indent=2)+'\n')
-    print(f'Rendered {sum(map(len,families.values()))} original samples in {len(families)} families; atlas {len(atlas)/SR:.2f}s / {(OUT/"audio-fantasy.wav").stat().st_size:,} bytes; demonstration {len(demo)/SR:.2f}s')
+    print(f'Rendered {sum(map(len,families.values()))} samples (War Cry includes attributed CC BY recording) in {len(families)} families; atlas {len(atlas)/SR:.2f}s / {(OUT/"audio-fantasy.wav").stat().st_size:,} bytes; demonstration {len(demo)/SR:.2f}s')
 
 
 if __name__=='__main__':main()

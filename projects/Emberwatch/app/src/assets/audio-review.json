@@ -1,6 +1,6 @@
 {
   "sampleRate": 32000,
-  "atlasBytes": 3215404,
+  "atlasBytes": 3271724,
   "sampleCount": 55,
   "families": {
     "slash": [
@@ -396,18 +396,18 @@
     ],
     "warCry": [
       {
-        "peak": 0.7,
-        "rms": 0.1081,
-        "dc": 0.0010597,
-        "peakTime": 0.058844,
-        "sha256": "46f917773724adc9ff37ea27220cb60129ef81d49be601c151a35d852a44dbe8"
+        "peak": 0.63,
+        "rms": 0.1487,
+        "dc": 0.0009331,
+        "peakTime": 0.191094,
+        "sha256": "1a1022a9dd4ac8dc0b320228feb1dd098f5063a9954a0b7820b7ddb8ed36c0c8"
       },
       {
-        "peak": 0.7,
-        "rms": 0.1123,
-        "dc": 0.0010858,
-        "peakTime": 0.035219,
-        "sha256": "8a4ec90d4aab0485a7296f285b219f45b9c9e8311f3a3b2de9e1e604a9da8202"
+        "peak": 0.63,
+        "rms": 0.1488,
+        "dc": 0.0009344,
+        "peakTime": 0.191094,
+        "sha256": "cdf071fe47793025f803e588957d4906030f050b2a825d23033d09a87ceaff52"
       }
     ],
     "ambienceTown": [
@@ -503,15 +503,15 @@
       "family": "warCry"
     },
     {
-      "seconds": 17.06,
+      "seconds": 17.5,
       "family": "ambienceTown"
     },
     {
-      "seconds": 20.34,
+      "seconds": 20.78,
       "family": "ambienceDungeon"
     },
     {
-      "seconds": 23.62,
+      "seconds": 24.06,
       "family": "Warrior demonstration: three-hit combo, dodge, Whirling Axes, War Cry, hurt and finish (editorial mock sequence, not gameplay capture)"
     }
   ],
