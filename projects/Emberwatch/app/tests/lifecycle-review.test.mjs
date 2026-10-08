@@ -67,7 +67,7 @@ function runtime(saved = null) {
   vm.createContext(sandbox);
   vm.runInContext(source.replace(/^import .*\n/gm, '') + `
     globalThis.lifecycle = {
-      beginRun, resumeRun, townPanel, trainingPanel, inventoryPanel, buildingsPanel, guide, loadFloor,
+      visualState: value=>{visualReady=value;refreshStartControls();}, beginRun, resumeRun, townPanel, trainingPanel, inventoryPanel, buildingsPanel, guide, loadFloor,
       interact, persist, pauseMenu, closePanel, gainXp, finishRun, stats, update,
       read: () => ({save, run, p, map, entities, objects, loot, panel, mode, pendingResume}),
       fixture: type => { objects = [{type, x:p.x, y:p.y, used:false, open:false}]; entities=[]; return objects[0]; },
@@ -258,3 +258,5 @@ test('reopening or reloading a relic choice preserves its original offer instead
 });
 
 test('menu keyboard navigation keeps native Tab and Space while gameplay owns its shortcuts',()=>{const game=runtime();assert.equal(game.key('Tab'),false);assert.equal(game.key(' '),false);game.beginRun();assert.equal(game.key('Tab'),true);assert.equal(game.read().panel,true);assert.equal(game.key('Tab'),false);assert.equal(game.key(' '),false);game.key('Escape');assert.equal(game.key(' '),true);});
+
+test('cold-load resume waits for art without consuming the saved expedition',()=>{const first=runtime();first.beginRun();first.persist();const raw=first.storage.get('emberwatch-save'),game=runtime(raw);game.visualState(false);assert.equal(game.node('resumeRun').disabled,true);assert.equal(game.resumeRun(),false);assert(game.read().pendingResume);assert.equal(game.read().run,null);assert.equal(game.storage.get('emberwatch-save'),raw);game.visualState(true);assert.equal(game.node('resumeRun').disabled,false);game.resumeRun();assert(game.read().run);});

@@ -70,3 +70,11 @@ No unresolved reference number becomes a claimed original rule. Death loss, exac
 ### M0 implementation boundary and next independent cores
 
 The unreleased campaign foundation stores world, character and inventory together, with a verbatim legacy backup, proven-commit recovery and Web Lock serialization across tabs. Reference catalogs remain data-only until their unresolved activation rules are verified. Add immutable authored world/quest commands and provenance-bearing seven-slot inventory/economy operations as independently tested modules; these do not by themselves enable new heroes or claim playable content. See docs/campaign/checkpoint-M0.md for current evidence and gaps.
+
+## 0.4.5 actual-browser first-entry review — 2026-10-08
+
+The user explicitly authorized making the existing Emberwatch Site public for dot-browser testing. The0.4.4 baseline is now accessible without authentication; the new campaign remains isolated source. Actual normal input has verified initial entry, movement, attacks/Q, first chest, equipment gain and equip, death/retry, pause and reload/resume.
+
+A seed-dependent onboarding failure is reproduced: nearby enemies activate while the player practices in the first room; some begin through blocked line of sight and arrive later. Do not claim the first desktop screenshot proves invisible attackers. Short/portrait views independently permit offscreen legacy attack releases. Add one-way starting-room protection, ended by first departure or a confirmed hit on a real enemy; preserve that state across new saves and default old saves to protection off. Require revealed/readable threats and a short visible interval before enemy windup/release, preserving pursuit toward a readable location. Do not activate the unverified expanded monster roster.
+
+Also make the documented J keyboard auto-aim independent of stale pointer hover, while explicit mouse attacks retain their aim. Gate resume on visual readiness just as fresh starts, avoiding mid-input projection changes on a cold load. Preserve Korean UI, legacy progress, motion poses, licensed War Cry and footstep gain0.1326. Reproduce failures in focused tests, then build/publish and repeat actual browser journeys. No release-quality or original-game-equivalence claim follows from this narrow repair.

@@ -83,3 +83,11 @@
 - Add a controller that exposes progress only after durable commit, serializes rapid commands and blocks stale writers.
 - Add fixed seven-region scene geometry with collision checks, and three offscreen scene renders. Outdoor environment art is temporary; movement/proximity, quest UI and verified combat still need runtime integration.
 - The campaign foundation now has92 focused automated checks, including world/economy/save integration. This does not satisfy the normal-play gate.
+
+## 0.4.5 — 실제 브라우저 검토와 입구 보호 (2026-10-08)
+
+- 사용자의 명시적 요청에 따라 기존 Emberwatch Site를 공개했습니다. 신규 캠페인 완성판으로 교체한 것이 아닙니다.
+- 실제 첫 진입·전투·처치·물약·상자·장비·사망/재도전·저장/재개를 확인했습니다. 일부 씨드에서 연습 공간이 적의 자동 공격에 노출되는 문제를 재현했습니다.
+- 첫 방을 나가거나 실제 적에게 피해를 주기 전까지 입구를 보호합니다. 적은 드러난 위치에서 몸과 예고가 화면 안에 보인 뒤 공격을 시작하며, 예고 중 시야 밖으로 나가면 공격을 취소하고 접근합니다.
+- J를 누른 채 포인터를 움직여도 키보드 조준을 유지합니다. 마우스 버튼을 직접 누른 공격은 포인터를 따릅니다. 그림 로딩 중에는 원정 재개도 기다립니다.
+- 기존 원정·한국어·모션·War Cry·발소리0.1326은 유지합니다. 신규 캠페인은 별도 개발 소스이며 원작 수치와 플레이 검증은 미완료입니다.
