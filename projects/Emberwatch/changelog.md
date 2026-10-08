@@ -67,3 +67,11 @@
 ## 0.4.4 — 발소리 추가 조정 (2026-10-08)
 
 - 사용자 요청에 따라 발소리 gain을 현재 0.1105에서 20% 높여 0.1326으로 조정했습니다. 접지 동기화·다른 소리·잔향·취소 동작은 유지합니다.
+
+## Campaign M0 foundation — 2026-10-08 (source checkpoint, unreleased)
+
+- Freeze the shipped 0.4.4 baseline and establish a separate three-class campaign save contract without converting existing expeditions.
+- Add committed-snapshot recovery, legacy backup, strict JSON validation, expected revisions and shared browser write locks.
+- Record Warrior, Mage and Archer four-tier reference catalogs, exact known point bands and explicit unresolved mechanics. Cached source data is not presented as current-game measurement or playable behavior.
+- Add 47 focused tests and recursive source syntax checking. Existing 0.4.4 audio, locomotion and default game remain unchanged.
+- Authored world/quest and inventory/economy integration, actual play, original-game comparison and campaign release gates remain open.

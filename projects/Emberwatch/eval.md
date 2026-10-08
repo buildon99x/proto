@@ -132,3 +132,17 @@ PASS: source syntax, full project suite including exact 0.1105 gain and unchange
 User requests footsteps another 20% louder than deployed 0.4.3. Change only event gain 0.1105 × 1.2 = 0.1326; retain samples, contact synchronization, cancellation, dry send and all other sounds. Verify the existing contracts and required builds before publication.
 
 PASS: source syntax, full project suite including exact 0.1326 gain and unchanged contact/cancellation contracts, eleven metadata/static builds and launcher production/type/static-page checks. Runtime diff is one coefficient; no sample or movement source changed.
+
+## Campaign transition — plan v1.1, 2026-10-08
+
+Canonical user plan: Library libfile_52344aab47a48191aa0d9b86f5192591 version 2, updated 2026-10-08 14:07 UTC, 56,360 UTF-8 bytes / 623 lines. The later (3) copy has identical text. This supersedes the expedition expansion objective: create a connected campaign action RPG inspired by Hammerwatch II (2023), not Heroes of Hammerwatch II.
+
+Exactly three campaign classes: warrior→Paladin, mage→Wizard, archer→Ranger; no gunner, Rogue/Warlock mixing or new subclass invention. Complete the Warrior vertical slice first, then one enemy before further presentation rollout. Preserve existing original rendering/motion/audio, Korean UI and 0.1326 footstep gain. Isolate campaign.v2 saves and retain the legacy raw save without automatic conversion.
+
+M0 gates: frozen 0.4.4 baseline, sourced three-class/four-tier catalog with confidence/unknown fields, save isolation/atomic recovery. M1: Warrior four independent actions and meaningful tier/branch/equipment/resource choices across 15–30 minutes. M2: authored hub/two fields/three-floor dungeon/optional caves, tool-gated revisit, quests/puzzles/shortcuts and persistent world. M3: seven-slot gear, linked trading/crafting/enchantment/consumables and higher tiers. M4: Mage/Archer four-tier completion. Four-player co-op remains M5 and is not claimed.
+
+No unresolved reference number becomes a claimed original rule. Death loss, exact promotion NPC conditions, respec pricing and rounding remain UNKNOWN until verified. Only functional facts are reimplemented; no copied commercial art, maps, writing or audio. Actual normal-control journeys, build choices and revisits are required for release/fun claims; logic tests alone do not satisfy them.
+
+### M0 implementation boundary and next independent cores
+
+The unreleased campaign foundation stores world, character and inventory together, with a verbatim legacy backup, proven-commit recovery and Web Lock serialization across tabs. Reference catalogs remain data-only until their unresolved activation rules are verified. Add immutable authored world/quest commands and provenance-bearing seven-slot inventory/economy operations as independently tested modules; these do not by themselves enable new heroes or claim playable content. See docs/campaign/checkpoint-M0.md for current evidence and gaps.

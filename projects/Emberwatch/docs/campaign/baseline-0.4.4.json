@@ -1,0 +1,11 @@
+{
+  "baseline_version": "0.4.4",
+  "canonical_remote_commit": "a9191766429ecc75aca9244d7be6f1976ab69369",
+  "local_commit": "74d78a4b9c86375ee345a51206dd5d8bad9d2158",
+  "root_tree": "0c9779d7f415349f00efd9d292a9768a43b73709",
+  "legacy_storage_key": "emberwatch-save",
+  "footstep_gain": 0.1326,
+  "html_sha256": "e7f37de4430f48d5d1b13cefb37d8ee2e18f64cb59999a853e176ae31cc78041",
+  "html_bytes": 21154753,
+  "preserve": "Keep the legacy key and its original raw value. Never convert a legacy Warrior into a campaign Warrior."
+}

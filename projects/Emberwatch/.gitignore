@@ -1,2 +1,4 @@
 # Retain the final delivery under its canonical filename.
 assets/screenshots/motion-warrior/*-final.mp4
+
+.local-baselines/
