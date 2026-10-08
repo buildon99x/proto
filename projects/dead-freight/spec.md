@@ -82,3 +82,6 @@ The live user's save is outside source tests. Test isolated legacy-cash2920 migr
 
 ## 0.8.1 visibility acceptance
 Restore 0.6 background #8c929f, fog #89919c/density0.0095, hemisphere #cbd2dc/#1a1e29 intensity1.7, directional readability fill #d5dbe1 intensity1.65, weapon hemisphere #cbd4df/#101724 intensity0.85 and weapon key #ffffff intensity3.2. Keep camera, geometry, reticle, no-screen-noise grading, collisions, inventory and save behavior unchanged. The directional source is a presentation fill, not a lore claim of sunlight. Verify the normal render path and get actual local-PC before/after images without starting a raid or mutating saved items.
+
+## 0.8.2 test storage contract
+Only `?testProfile=local-qa` enables test storage. No parameter preserves the current default keys. Unknown values, empty values, duplicate parameters and wrong-case testProfile spellings stop before game/storage initialization. Every owned save, migration backup and settings key passes through one fixed-prefix adapter; arbitrary keys/namespaces are rejected. The test profile starts empty and never seeds from normal state. A visible Korean test-save badge remains on menu, inventory and play screens. Recovery, retry, restart and reload operate on the same chosen namespace. There are no test cheats or altered gameplay rules.

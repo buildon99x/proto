@@ -7,7 +7,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.8.1",
+    "version": "0.8.2",
     "summary": "Equipment checkpoint with two firearm slots, armor, quick-use items, slot/weight-limited bags, usable gadgets/throwables and persistent extraction stash. R-4 actual-play/listening gate remains open.",
     "tags": [
       "game",
@@ -33,7 +33,7 @@ export const projects = [
       "build": "pnpm --filter dead-freight build",
       "test": "pnpm --filter dead-freight test"
     },
-    "updatedAt": "2026-10-08T19:04:55+09:00"
+    "updatedAt": "2026-10-08T20:04:48+09:00"
   },
   {
     "id": "deck-building",

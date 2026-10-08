@@ -1,6 +1,15 @@
 'use strict';
 (()=>{
 const $=id=>document.getElementById(id),T=globalThis.THREE;
+const storageProfile=DFStorageProfile.parse(window.location.search||'');
+if(!storageProfile.ok){
+ $('overlay').dataset.startup='unavailable';$('startup-status').textContent='테스트 저장 주소 오류 · 플레이 불가';$('startup-status').hidden=false;
+ $('description').textContent='지원하지 않거나 중복된 테스트 저장 주소입니다. 일반 저장에는 접근하지 않았습니다. 아래의 올바른 테스트 링크를 사용하세요.';
+ for(const id of ['game','hud','damage','controls','options','start','restart','fullscreen','mission-guide','save-panel','deployment-label','inventory-open','quickbar','inventory-overlay'])$(id).hidden=true;
+ $('start').disabled=true;$('restart').disabled=true;$('retry').hidden=true;$('test-profile-link').hidden=false;return;
+}
+$('storage-profile-badge').hidden=!storageProfile.isTest;
+const scopedStorage=DFStorageProfile.bind({getItem:key=>localStorage.getItem(key),setItem:(key,value)=>localStorage.setItem(key,value),removeItem:key=>localStorage.removeItem(key)},storageProfile);
 const canvas=$('game');let renderer;
 try{
  renderer=new T.WebGLRenderer({canvas,antialias:false,powerPreference:'high-performance'});
@@ -24,7 +33,7 @@ const cam=new T.PerspectiveCamera(78,1,.06,440);cam.rotation.order='YXZ';
 scene.add(new T.HemisphereLight('#cbd2dc','#1a1e29',1.7));const readabilityFill=new T.DirectionalLight('#d5dbe1',1.65);readabilityFill.position.set(-15,40,20);scene.add(readabilityFill);
 const gunScene=new T.Scene(),gunCam=new T.PerspectiveCamera(62,1,.01,10);gunScene.add(new T.HemisphereLight('#cbd4df','#101724',.85));let gl=new T.DirectionalLight('#ffffff',3.2);gl.position.set(-1.3,2.2,1.5);gl.castShadow=true;gl.shadow.mapSize.set(1024,1024);Object.assign(gl.shadow.camera,{left:-1.1,right:1.1,top:1.1,bottom:-1.1,near:.1,far:6});gl.shadow.camera.updateProjectionMatrix();gl.shadow.bias=-.00012;gl.shadow.normalBias=.003;gl.shadow.radius=1.5;gl.target.position.set(0,-.22,-.85);gunScene.add(gl,gl.target);
 let world,level=1,totalCash=0,state='title',yaw=0,pitch=0,clock=0,shake=0,recoil=0,flash=0,flashPending=false,damageFlash=0,msgTime=0,msg='',bob=0,mouseHeld=false,aimDown=false,muted=false,wallMeshes=[],enemyMeshes=[],itemMeshes=[],debris=[],decals=[],dynamic=new T.Group();scene.add(dynamic);
-const save=DFStashProfile.create({getItem:key=>localStorage.getItem(key),setItem:(key,value)=>localStorage.setItem(key,value)});
+const save=DFStashProfile.create(scopedStorage);
 level=save.snapshot().nextLevel;totalCash=save.snapshot().bank;
 const runClock=new DFRunClock.RunClock();runClock.reset(performance.now());let lastResult=null,carry=null,gear=null,prepared=null,raidId=null,bagOpen=false,bagMode='raid',bagSelection=null,bagMessage='',pendingDeployment=null,pendingSettlement=null;
 const INTRO_COPY='태양빛이 지표에 닿지 않는 영구적인 밤. 작업등과 M 지도를 따라 중계소 표적을 찾아 증표를 회수하고, 탈출 지점에서 E로 신호를 보내세요.';

@@ -33,3 +33,6 @@ The creator explicitly requested extraction equipment and a bag constrained by s
 
 ## 0.8.1 visibility rollback
 The creator reports that the current image is unreadable and explicitly says perpetual night is lore, not an instruction to darken play. Restore the known pre-0.7 world and weapon illumination/background/fog values while preserving the noise-free grade, current gameplay and inventory, and the night setting in text. This narrow checkpoint takes priority over the separate stash-capacity feature.
+
+## 0.8.2 isolated gameplay QA
+Enable the explicitly requested local-PC play test without reading, copying, spending or replacing the normal browser save. A fixed allowlisted test-profile URL must use a separate storage namespace, show a persistent test badge and run the same gameplay rules. Reject invalid profile values before storage or gameplay initialization. Audio investigation proceeds separately on the existing exact runtime/source recordings.

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.2 — isolated ordinary-input QA save
+- Add the fixed local-qa query profile with a visible test badge and strictly prefixed owned save/backup/settings keys
+- Start test progress empty without reading or copying normal records; reject malformed profile selection before initialization
+- Exercise deployment, extraction, death, restart, recovery and retry against sentinel storage; preserve default URL behavior and current audio as the comparison baseline
+
 ## 0.8.1 — restore readable brightness
 - Restore the exact pre-0.7 world background, fog, ambient/fill and weapon-light values following actual visibility feedback
 - Treat permanent night as lore rather than a screen-brightness constraint; preserve the smooth noise-free grade, local lamps and all current equipment/gameplay/save behavior
