@@ -174,3 +174,17 @@ Verify collider/warning agreement, canceled release, all three existing guardian
 ### Independent first-Warrior campaign art preparation
 
 Prepare new original mace/hammer art and campaign-specific Warrior motion while numerical reference gaps are resolved. Reuse the existing original armor and articulated rig, with24 genuinely varied poses per principal clip and four established facings. Add shield raising/holding/recoil, committed shield charge, mace swing and hammer cast. Keep stable anchors and contact markers; do not infer damage timing from frame count. These assets remain unactivated until campaign runtime and normal-play acceptance. No other hero or enemy art rollout is included. Preserve image-generation provenance, transparent bounds and honest articulated-animation limits.
+
+
+## Campaign navigation continuation — 2026-10-08
+
+Verify every authored portal with normal movement/proximity, blocked routes before tool unlock and valid revisits afterward, wall/corner interaction rejection, pause/held input, transition write failure, duplicate async commands, and saved-position restoration. Automated navigation checks remain logic evidence; a playable campaign and its normal browser review remain open.
+
+
+## Minimap usability repair — 2026-10-08
+
+Check all eight movement directions against map projection, fog and object visibility, revealed-bound fit, facing arrow, and responsive layout. Revisit the actual browser floor3 route after integration and record whether corridor navigation improves. Keep source/offscreen geometry tests distinct from player-control review.
+
+Integration checkpoint: wire the shared minimap into both renderer paths and static/standalone packaging, include minimap and campaign-navigation regressions in the required suite, and retain campaign navigation as an unactivated adapter. Browser review remains pending; do not alter the paused live save.
+
+Integration validation PASS: exact project pnpm lint (75 JavaScript files), full test command, static build and standalone generation; the extracted standalone module also passes syntax checking. All eleven project metadata validations/static builds and launcher production compilation/type checks/27-page generation passed. Aggregate script bodies ran with node --import tsx because the CLI IPC pipe is unavailable in this sandbox. Registry changes retain unrelated metadata. Reviewed the existing offscreen minimap layout at desktop, portrait and short widths; this is not live-browser evidence. Browser floor-3 review and public publication remain pending.

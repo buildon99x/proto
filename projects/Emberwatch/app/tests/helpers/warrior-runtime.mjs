@@ -50,6 +50,8 @@ export function runtime(saved = null) {
   vm.runInContext(source.replace(/^import .*\n/gm, '') + `
     globalThis.review = {
       beginRun, resumeRun, attack, skill, dodge, hit, enemyUpdate, damagePlayer,
+      render, mapState: () => ({showMap,cleanView}),
+      visualStub: () => {visualRenderer={render:()=>{}};},
       isometric: () => {visualRenderer={};save.settings.sound=true;},
       wall: () => {map.tiles=map.tiles.map(row=>row.map(()=>0));},
       projectile, update, persist, potion, drawLegacyWarnings,

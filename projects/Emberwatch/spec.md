@@ -115,3 +115,15 @@ Verify collider/warning agreement, canceled release, all three existing guardian
 ### Independent first-Warrior campaign art preparation
 
 Prepare new original mace/hammer art and campaign-specific Warrior motion while numerical reference gaps are resolved. Reuse the existing original armor and articulated rig, with24 genuinely varied poses per principal clip and four established facings. Add shield raising/holding/recoil, committed shield charge, mace swing and hammer cast. Keep stable anchors and contact markers; do not infer damage timing from frame count. These assets remain unactivated until campaign runtime and normal-play acceptance. No other hero or enemy art rollout is included. Preserve image-generation provenance, transparent bounds and honest articulated-animation limits.
+
+
+## Campaign navigation continuation — 2026-10-08
+
+Add a camera-independent navigation component over the fixed world geometry. Movement normalizes diagonals and resolves swept collisions. Interaction requires a nearby visible/reachable target; a held action cannot duplicate portal or reward commits. Region position changes become visible only after the existing controller commits the complete save. Revisit/tool/shortcut conditions reuse world commands. Combat numbers and class rollout remain separate.
+
+
+## Minimap usability repair — 2026-10-08
+
+Render the minimap using the same isometric projection as the scene (top-down only for the fallback renderer), fit revealed geometry without leaking unknown topology, identify player facing and known exit/chest/return markers, and place a readable Korean legend clear of the bottom action bar at narrow widths. Preserve M visibility and world/save rules.
+
+Integration checkpoint: wire the shared minimap into both renderer paths and static/standalone packaging, include minimap and campaign-navigation regressions in the required suite, and retain campaign navigation as an unactivated adapter. Browser review remains pending; do not alter the paused live save.
