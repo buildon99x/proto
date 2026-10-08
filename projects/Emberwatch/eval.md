@@ -120,3 +120,9 @@ The user heard War Cry as a fart-like sound, saw the Warrior face sideways/backw
 - 비교 WAV와 접지 동기화 영상·포즈 시트를 제공합니다. 영상은 실제 소스 로직과 렌더러를 사용한 오프스크린 증거이며 브라우저 실플레이가 아닙니다. 청취 도구가 오디오 입력을 지원하지 않아 주관적 청음 완료를 주장하지 않습니다. 4개 방향 그림을 8방향 이동에 대응시키며, 새로운 8방향 그림을 만들었다고 주장하지 않습니다. 게임패드는 현재 지원하지 않습니다.
 
 0.4.2 integration: all eleven metadata validations and static project builds, plus launcher production compilation, type checks and 27-page generation passed. Shared registry changes are limited to Emberwatch metadata.
+
+## 0.4.3 footstep level adjustment — 2026-10-08
+
+User feedback requests footsteps 30% louder than deployed 0.4.2. Change only the footstep event gain from 0.085 to 0.1105 (exactly ×1.3). Keep samples, alternating contact timing, cancellation, dry mix, facing and War Cry unchanged. Verify the mixer and movement contracts and publish the narrow update.
+
+PASS: source syntax, full project suite including exact 0.1105 gain and unchanged contact/cancellation contracts, all eleven metadata/static builds, and launcher production/type/static-page checks. No audio sample or movement source changed.

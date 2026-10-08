@@ -71,3 +71,7 @@ Audit source and deterministic journeys while actual browser access remains bloc
 ## 0.4.2 player-feedback repair — 2026-10-08
 
 The user heard War Cry as a fart-like sound, saw the Warrior face sideways/backwards while travelling, and found footsteps too loud and unsynchronized. Replace War Cry with a licensed human effort voice and controlled accent; keep provenance and listening limits explicit. Correct ordinary travel-facing while retaining locked attack aim. Drive the 24-frame run cycle and alternating foot contacts from actual displacement; reduce footstep level and room send, and cancel steps on stop, wall collision, attacks, dodge, hurt and pause. Validate eight screen travel directions, pointer inactivity/attack transitions and varied movement speeds without expanding characters.
+
+## 0.4.3 footstep level adjustment — 2026-10-08
+
+User feedback requests footsteps 30% louder than deployed 0.4.2. Change only the footstep event gain from 0.085 to 0.1105 (exactly ×1.3). Keep samples, alternating contact timing, cancellation, dry mix, facing and War Cry unchanged. Verify the mixer and movement contracts and publish the narrow update.

@@ -37,8 +37,8 @@ test('run phase and both contact events follow distance at 30/60/120 Hz, stalls 
  }
  const p={hp:150,action:null};const a=advanceLocomotion(p,15,0);const phase=p.walkPhase;assert.equal(advanceLocomotion(p,0,0).length,0);assert.equal(p.walkPhase,phase);advanceLocomotion(p,-15,0);assert.equal(p.angle,Math.PI);assert.equal(a.length,0);
 });
-test('footsteps are 8.26 dB quieter at the event mixer, dry and low priority',()=>{
- assert(Math.abs(20*Math.log10(AUDIO_EVENTS.footstep.gain/.22)+8.26)<.02);assert.equal(AUDIO_EVENTS.footstep.wet,0);assert(AUDIO_EVENTS.footstep.priority<AUDIO_EVENTS.hit.priority);
+test('footsteps are exactly 30% louder than 0.4.2, dry and low priority',()=>{
+ assert.equal(AUDIO_EVENTS.footstep.gain,.1105);assert(Math.abs(AUDIO_EVENTS.footstep.gain/.085-1.3)<1e-12);assert.equal(AUDIO_EVENTS.footstep.wet,0);assert(AUDIO_EVENTS.footstep.priority<AUDIO_EVENTS.hit.priority);
 });
 
 

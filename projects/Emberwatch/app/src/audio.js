@@ -16,7 +16,7 @@ export const AUDIO_EVENTS = Object.freeze({
   warCry:{family:'warCry',gain:.72,wet:.055,group:'hero',priority:8,gap:.2},
   enemyTell:{family:'enemyTell',gain:.53,wet:.16,group:'enemy',priority:5,gap:.055},
   enemyRelease:{family:'enemyRelease',gain:.61,wet:.11,group:'enemy',priority:6,gap:.055},
-  footstep:{family:'footstep',gain:.085,wet:0,group:'foley',priority:1,gap:.045},
+  footstep:{family:'footstep',gain:.1105,wet:0,group:'foley',priority:1,gap:.045},
   coin:{family:'coin',gain:.27,wet:.07,group:'reward',priority:2,gap:.085},
   hurt:{family:'hurt',gain:.84,wet:.11,group:'hero',priority:10,gap:.14},
   die:{family:'die',gain:.88,wet:.22,group:'hero',priority:10,gap:.3},

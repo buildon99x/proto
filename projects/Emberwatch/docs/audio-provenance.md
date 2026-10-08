@@ -12,7 +12,7 @@ The deterministic tooling is `app/scripts/render-audio.py` (NumPy/SciPy). The br
 - Contacts: low filtered body/wood excitation, short broadband crack, leather/grit, and material-dependent damped steel modes. Heavy contact adds a delayed low-body layer. These are distinct from swing sounds.
 - Whirling Axes: overlapping, individually varied rotating swishes with light metal resonance.
 - War Cry: the attributed Battlecry sample, with preserved vocal character and a quiet, short armor accent. The previous synthesized glottal/low-body sound was rejected by the user as fart-like and is retained only in the labeled A/B comparison.
-- Footsteps: sole/heel body, stone/grit and scrape, now at event gain 0.085 instead of 0.22 (−8.26 dB), with zero room send. Alternating feet select balanced left/right variants. Dodge uses cloth and displaced air; it does not emit run footsteps.
+- Footsteps: sole/heel body, stone/grit and scrape, now at event gain 0.1105, exactly 30% above the 0.4.2 value of 0.085, with zero room send. Alternating feet select balanced left/right variants. Dodge uses cloth and displaced air; it does not emit run footsteps.
 - Monster tells/releases: low pulsed breath excitation, throat/body filtering, and attack transients. Role variants are not copied creature recordings.
 - Ambience: seamless filtered wind/room beds; the refuge also has quiet ember crackle. No music loop competes with combat.
 - Reward and compatibility spell cues: inharmonic metallic/crystal impacts and air/grains rather than the previous single oscillator pitch sweeps.
@@ -63,3 +63,7 @@ The run cycle is driven by actual collision-resolved distance, with left/right l
 `assets/screenshots/feedback-0.4.2/Warrior-audio-before-after.wav` compares the previous/new War Cry and previous/new footsteps at identical playback conditions and fixed step cadence, using each version's runtime event gain. Cue times are in `audio-comparison.json`. `Warrior-travel-and-footsteps.mp4` uses actual update logic and the production motion renderer, with only the east panel's dry step events in its audio track. These are review artifacts, not captured browser play.
 
 The 2026-10-08 listening-tool attempt explicitly returned “audio content omitted because you do not support audio input.” Subjective acceptance therefore remains unverified; the user's report, source labeling, and objective signal/timing checks are distinct evidence.
+
+## 0.4.3 level tuning
+
+The user found 0.4.2 footsteps too quiet. Event gain is now exactly 0.085 × 1.3 = 0.1105. The source samples, foot-contact events, zero room send and cancellation behavior are unchanged. The labeled 0.4.2 A/B artifacts remain historical evidence and were not regenerated.

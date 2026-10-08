@@ -40,7 +40,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.4.2",
+    "version": "0.4.3",
     "summary": "한국어 전사 개발 빌드: 함성 음원 교체, 이동 방향과 발소리 접지 동기화 개선. 실제 브라우저 조작·청음 검증은 진행 중입니다.",
     "tags": [
       "game",
@@ -71,7 +71,7 @@ export const projects = [
       "lint": "pnpm --filter emberwatch lint",
       "standalone": "pnpm --filter emberwatch standalone"
     },
-    "updatedAt": "2026-10-08T20:01:13+09:00"
+    "updatedAt": "2026-10-08T21:49:19+09:00"
   },
   {
     "id": "msw-inc",
