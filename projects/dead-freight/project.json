@@ -4,7 +4,7 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "summary": "Equipment checkpoint with two firearm slots, armor, quick-use items, slot/weight-limited bags, usable gadgets/throwables and persistent extraction stash. R-4 actual-play/listening gate remains open.",
   "tags": [
     "game",

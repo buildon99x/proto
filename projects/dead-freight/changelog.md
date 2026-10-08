@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.1 — restore readable brightness
+- Restore the exact pre-0.7 world background, fog, ambient/fill and weapon-light values following actual visibility feedback
+- Treat permanent night as lore rather than a screen-brightness constraint; preserve the smooth noise-free grade, local lamps and all current equipment/gameplay/save behavior
+
 ## 0.8.0 — equipment, carry limits and persistent raid settlement
 - Add two firearm slots, armor, four stable quick-use slots, twelve bag slots and a restricted safe pocket under an original 30kg carry cap
 - Make pickups, typed equip/swap, stack drops and capacity failures atomic; conserve loaded/reserve ammo and damaged armor

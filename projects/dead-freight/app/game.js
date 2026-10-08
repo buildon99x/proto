@@ -18,11 +18,11 @@ try{
  console.error('DEAD FREIGHT: 3D renderer initialization failed.',error);
  return;
 }
-const scene=new T.Scene();scene.background=new T.Color('#0d1521');scene.fog=new T.FogExp2('#1c2a38',.0075);
+const scene=new T.Scene();scene.background=new T.Color('#8c929f');scene.fog=new T.FogExp2('#89919c',.0095);
 const cam=new T.PerspectiveCamera(78,1,.06,440);cam.rotation.order='YXZ';
-// Stylized low-level bounce keeps silhouettes readable; there is no direct sunlight.
-scene.add(new T.HemisphereLight('#778ca6','#111b25',.65));const nightFill=new T.DirectionalLight('#8099b9',.48);nightFill.position.set(-15,40,20);scene.add(nightFill);
-const gunScene=new T.Scene(),gunCam=new T.PerspectiveCamera(62,1,.01,10);gunScene.add(new T.HemisphereLight('#a8b9cb','#101724',.60));let gl=new T.DirectionalLight('#dce7f0',2.5);gl.position.set(-1.3,2.2,1.5);gl.castShadow=true;gl.shadow.mapSize.set(1024,1024);Object.assign(gl.shadow.camera,{left:-1.1,right:1.1,top:1.1,bottom:-1.1,near:.1,far:6});gl.shadow.camera.updateProjectionMatrix();gl.shadow.bias=-.00012;gl.shadow.normalBias=.003;gl.shadow.radius=1.5;gl.target.position.set(0,-.22,-.85);gunScene.add(gl,gl.target);
+// Restore the readable 0.6 presentation. Permanent night is lore, not a luminance cap.
+scene.add(new T.HemisphereLight('#cbd2dc','#1a1e29',1.7));const readabilityFill=new T.DirectionalLight('#d5dbe1',1.65);readabilityFill.position.set(-15,40,20);scene.add(readabilityFill);
+const gunScene=new T.Scene(),gunCam=new T.PerspectiveCamera(62,1,.01,10);gunScene.add(new T.HemisphereLight('#cbd4df','#101724',.85));let gl=new T.DirectionalLight('#ffffff',3.2);gl.position.set(-1.3,2.2,1.5);gl.castShadow=true;gl.shadow.mapSize.set(1024,1024);Object.assign(gl.shadow.camera,{left:-1.1,right:1.1,top:1.1,bottom:-1.1,near:.1,far:6});gl.shadow.camera.updateProjectionMatrix();gl.shadow.bias=-.00012;gl.shadow.normalBias=.003;gl.shadow.radius=1.5;gl.target.position.set(0,-.22,-.85);gunScene.add(gl,gl.target);
 let world,level=1,totalCash=0,state='title',yaw=0,pitch=0,clock=0,shake=0,recoil=0,flash=0,flashPending=false,damageFlash=0,msgTime=0,msg='',bob=0,mouseHeld=false,aimDown=false,muted=false,wallMeshes=[],enemyMeshes=[],itemMeshes=[],debris=[],decals=[],dynamic=new T.Group();scene.add(dynamic);
 const save=DFStashProfile.create({getItem:key=>localStorage.getItem(key),setItem:(key,value)=>localStorage.setItem(key,value)});
 level=save.snapshot().nextLevel;totalCash=save.snapshot().bank;

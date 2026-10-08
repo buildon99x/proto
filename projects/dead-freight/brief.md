@@ -30,3 +30,6 @@ Review first entry, time spent in a raid, extraction/death results and replay wi
 
 ## 0.8 equipment and carry slice
 The creator explicitly requested extraction equipment and a bag constrained by slots and weight. Implement a functional inventory slice while the R-4 actual-play quality gate remains open. Use original equipment, UI and tuning; official ARC sources confirm the general structures, weight, quick-use and loss rules, not our numeric limits. Keep bank/save compatibility, meaningful pickup/equip/use/drop actions, real consumable/gadget/throwable effects and persistent extraction/death settlement. No second map, new firearm class or full economy is implied.
+
+## 0.8.1 visibility rollback
+The creator reports that the current image is unreadable and explicitly says perpetual night is lore, not an instruction to darken play. Restore the known pre-0.7 world and weapon illumination/background/fog values while preserving the noise-free grade, current gameplay and inventory, and the night setting in text. This narrow checkpoint takes priority over the separate stash-capacity feature.
