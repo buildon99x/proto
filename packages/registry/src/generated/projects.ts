@@ -40,7 +40,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.4.6",
+    "version": "0.4.7",
     "summary": "한국어 전사 개발 빌드: 실플레이로 입구 보호·공격 예고와 판정 정합을 개선했습니다. 새 캠페인은 별도 제작 중입니다.",
     "tags": [
       "game",
@@ -71,7 +71,7 @@ export const projects = [
       "lint": "pnpm --filter emberwatch lint",
       "standalone": "pnpm --filter emberwatch standalone"
     },
-    "updatedAt": "2026-10-09T01:52:47+09:00"
+    "updatedAt": "2026-10-09T03:51:29+09:00"
   },
   {
     "id": "msw-inc",

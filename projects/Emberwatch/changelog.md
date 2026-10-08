@@ -100,8 +100,8 @@
 - 마지막 수호자가 돌진만 반복하던 공격 순서 증가 오류를 고쳤습니다. 새로운 몬스터 프레임워크를 활성화한 것은 아닙니다.
 - 수호자전 목표 안내는 피난처 건설 대신 현재 예고와 반격을 안내합니다.27개 기하/실행 회귀 검사를 추가했습니다. 실제 재검증과 캠페인 완성은 계속 진행합니다.
 
-## Unreleased minimap and navigation integration — 2026-10-08
+## 0.4.7 minimap and navigation integration — 2026-10-08
 
 - Shared minimap now follows the scene projection, fits only revealed floor, shows facing and visible landmarks with a Korean legend, and reserves responsive control space. M and clean-view visibility apply in both the isometric and fallback renderer. Static and standalone builds include the module.
 - Campaign navigation is included in the normal test suite and packaged as a separate, unactivated adapter. Its 22 checks cover all 46 directed connections, proximity/tool gates, durable transitions, failed writes, held/pause input and position restoration. Legacy save format, audio gain 0.1326 and unresolved campaign combat rules are unchanged.
-- Nine geometry/Canvas minimap checks and three entrypoint/packaging regressions supplement the existing full suite. These are source/offscreen checks; browser floor-3 corridor review remains pending. No public release or live-save modification is claimed.
+- Nine geometry/Canvas minimap checks and three entrypoint/packaging regressions supplement the existing full suite. These are source/offscreen checks; browser floor-3 corridor review remains pending. Publication is a development checkpoint, not a release-readiness claim; no live-save modification is made.
