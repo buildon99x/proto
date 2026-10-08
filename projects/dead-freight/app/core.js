@@ -31,6 +31,8 @@ class Mission {
   this.extractionZones=[{id:'south',name:'SOUTH LZ',x:0,z:25,radius:3.5,holdTime:6}];this.extractionZone=null;this.extractionProgress=0;this.extractionRequired=6;
   this._grid=new Map();this._indexedWalls=null;this._indexedCount=-1;this._gridDirty=true;
   if(options.world!==false&&regionSource?.populate)regionSource.populate(this);else this.build();
+  // Armor belongs to the encounter, including when the rifle is equipped later.
+  for(const enemy of this.enemies)enemy.armor??=enemy.boss?60:0;
   this.extractions=this.extractionZones;this.rebuildSpatialIndex();
   if(options.weapon===3)this.switchWeapon(3);
  }
@@ -177,6 +179,7 @@ class Mission {
  interact(){
   const p=this.player;if(p.hp<=0||this.extracted)return false;let changed=false;
   for(const item of this.pickups){if(!item.alive||Math.hypot(p.x-item.x,p.z-item.z)>2.5||Math.abs(p.y-(item.y||0))>2||item.type==='barrel')continue;
+   if((item.type==='health'&&p.hp>=100)||(item.type==='armor'&&p.armor>=100))continue;
    item.alive=false;changed=true;if(item.type==='health')p.hp=clamp(p.hp+45,0,100);if(item.type==='armor')p.armor=clamp(p.armor+45,0,100);if(item.type==='ammo'){for(let i=0;i<3;i++)this.reserve[i]+=[24,8,60][i];this.rifle?.addReserve(90);this.syncRifle();}if(item.type==='bounty')this.bounty=true;if(item.type==='cargo'){this.cargo++;this.cash+=item.value??150;}this.emit('pickup',{kind:item.type,value:item.value||0});
   }
   const zone=this.nearExtraction();if(zone&&this.bounty&&!this.extractionZone){this.extractionZone=zone;this.extractionProgress=0;this.extractionRequired=zone.holdTime||6;this.emit('extractionstart',{id:zone.id,duration:this.extractionRequired});changed=true;}return changed;

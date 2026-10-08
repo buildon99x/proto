@@ -64,3 +64,11 @@ The user actually played and reported excessive weapon screen occlusion. The nex
 - Show a Korean unavailable status and plain recovery guidance: reload first; if failure persists, try a WebGL-capable desktop browser or check browser graphics acceleration. Do not assert why WebGL failed.
 - Replace the invalid Start action with a working page reload; hide loadout/options, gameplay controls, fullscreen and stale HUD/canvas/damage layers. Preserve the credits link.
 - Deterministically exercise renderer failure, recovery UI, reload actions, absence of gameplay side effects, and successful startup in the rendererless harness. These checks do not establish GPU rendering, ordinary-input gameplay or audible acceptance.
+# 0.7.2 lifecycle repair contract
+
+- Saved bank and contract level retain the `deadfreight-best` compatibility key. Read/write failures are visible, failed writes can be retried without double banking, and no recovery path deletes user data.
+- Menus retain native keyboard navigation. Deployment choices are explicitly scoped to the next new contract; continuing a paused contract preserves its current loadout/difficulty. Result and pause text derive from current state.
+- Full-health medkits remain available. Target armor belongs to the enemy, independent of the selected starting weapon.
+- Slow frames use bounded fixed simulation steps and an active wall-time clock instead of losing every interval above 50ms. Pauses, hidden-page time and resume boundaries do not advance the active clock; long stalls cannot create an unbounded catch-up loop.
+- First-entry guidance states the shipped HARDCORE default, no current raid timeout, carried-value loss on death, same-region replay, and bank tracking without shop/stash spending. Do not claim the future 15–25 minute raid target is implemented.
+- Verify these with deterministic regressions and publish a reversible checkpoint. Actual 3D/combat/audio evaluation remains distinct from source tests and menu screenshots.

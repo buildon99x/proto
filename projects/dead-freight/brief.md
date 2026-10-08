@@ -24,3 +24,6 @@ The user actually played and reported excessive weapon screen occlusion. The nex
 
 ## Renderer startup failure recovery
 When the browser cannot initialize the 3D renderer, show an honest unavailable state with a working reload-and-retry action and accessible audio credits. Hide gameplay readouts and inapplicable controls, and do not create a mission, audio, gameplay input handlers or an animation loop. Do not infer a hardware fault, substitute a simulated game, or treat error handling as live-play acceptance.
+# Lifecycle correctness checkpoint 0.7.2
+
+Review first entry, time spent in a raid, extraction/death results and replay without expanding the game into new maps or progression. Preserve existing browser bank data and make persistence failure visible. Explain the actual prototype loop and current lack of bank spending, use focus-safe menu input, restore saved contract level consistently, and make health pickup/target armor behavior independent of misleading UI or loadout choices. Use bounded simulation catch-up with active elapsed time; pauses must not consume raid time. The R-4 ordinary-input/listening acceptance gate remains open.

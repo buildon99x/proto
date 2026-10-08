@@ -12,7 +12,7 @@ try{
  $('startup-status').textContent='3D 렌더러 시작 실패 · 플레이 불가';
  $('startup-status').hidden=false;
  $('description').textContent='이 브라우저 세션에서 3D 렌더러(WebGL)를 시작하지 못해 게임을 실행할 수 없습니다. 새로고침하여 다시 시도하세요. 계속 실패하면 WebGL을 지원하는 다른 데스크톱 브라우저에서 열거나 브라우저의 그래픽 가속 설정을 확인하세요.';
- for(const id of ['game','hud','damage','controls','options','start','restart','fullscreen'])$(id).hidden=true;
+ for(const id of ['game','hud','damage','controls','options','start','restart','fullscreen','mission-guide','save-panel','deployment-label'])$(id).hidden=true;
  $('start').disabled=true;$('restart').disabled=true;
  $('retry').hidden=false;$('retry').onclick=()=>window.location.reload();
  console.error('DEAD FREIGHT: 3D renderer initialization failed.',error);
@@ -23,8 +23,11 @@ const cam=new T.PerspectiveCamera(78,1,.06,440);cam.rotation.order='YXZ';
 // Stylized low-level bounce keeps silhouettes readable; there is no direct sunlight.
 scene.add(new T.HemisphereLight('#778ca6','#111b25',.65));const nightFill=new T.DirectionalLight('#8099b9',.48);nightFill.position.set(-15,40,20);scene.add(nightFill);
 const gunScene=new T.Scene(),gunCam=new T.PerspectiveCamera(62,1,.01,10);gunScene.add(new T.HemisphereLight('#a8b9cb','#101724',.60));let gl=new T.DirectionalLight('#dce7f0',2.5);gl.position.set(-1.3,2.2,1.5);gl.castShadow=true;gl.shadow.mapSize.set(1024,1024);Object.assign(gl.shadow.camera,{left:-1.1,right:1.1,top:1.1,bottom:-1.1,near:.1,far:6});gl.shadow.camera.updateProjectionMatrix();gl.shadow.bias=-.00012;gl.shadow.normalBias=.003;gl.shadow.radius=1.5;gl.target.position.set(0,-.22,-.85);gunScene.add(gl,gl.target);
-let world,level=1,totalCash=0,state='title',yaw=0,pitch=0,clock=0,shake=0,recoil=0,flash=0,damageFlash=0,msgTime=0,msg='',bob=0,mouseHeld=false,aimDown=false,muted=false,wallMeshes=[],enemyMeshes=[],itemMeshes=[],debris=[],decals=[],dynamic=new T.Group();scene.add(dynamic);
-try{const saved=JSON.parse(localStorage.getItem('deadfreight-best')||'{}');totalCash=Number.isFinite(saved.cash)?Math.max(0,saved.cash):0;}catch(e){}
+let world,level=1,totalCash=0,state='title',yaw=0,pitch=0,clock=0,shake=0,recoil=0,flash=0,flashPending=false,damageFlash=0,msgTime=0,msg='',bob=0,mouseHeld=false,aimDown=false,muted=false,wallMeshes=[],enemyMeshes=[],itemMeshes=[],debris=[],decals=[],dynamic=new T.Group();scene.add(dynamic);
+const save=DFSaveState.create({getItem:key=>localStorage.getItem(key),setItem:(key,value)=>localStorage.setItem(key,value)});
+level=save.snapshot().nextLevel;totalCash=save.snapshot().bank;
+const runClock=new DFRunClock.RunClock();runClock.reset(performance.now());let lastResult=null;
+const INTRO_COPY='태양빛이 지표에 닿지 않는 영구적인 밤. 작업등과 M 지도를 따라 중계소 표적을 찾아 증표를 회수하고, 탈출 지점에서 E로 신호를 보내세요.';
 const motion=DFMotion.create();let sound=DeadFreightAudio.create();let presentation=motion.step(0);const pendingImpacts=[];
 const casings=[];let viewEye=1.62,ads=0,reloadPhase=-1,swayX=0,swayY=0,cycleTime=0,cycleDuration=.19,hitPause=0,hitMarker=0;let keys={},firstStart=true,gunGroup=new T.Group();gunScene.add(gunGroup);let hammer,gunCylinder,muzzle;
 const geo=new T.BoxGeometry(1,1,1),sphereGeo=new T.IcosahedronGeometry(1,1);
@@ -55,12 +58,39 @@ function build(){const persistent=new Set([...Object.values(mats),black,metal,da
 }
 
 function syncItems(){world.pickups.forEach((it,i)=>{if(itemMeshes[i])return;let g=new T.Group();g.position.set(it.x,0,it.z);if(it.type==='barrel'){cylinder(0,.72,0,.55,1.4,mats.red,g,12);for(let y of [.2,1.17])cylinder(0,y,0,.565,.09,black,g,12);box(0,.77,.56,.5,.43,.015,gold,g);}else if(it.type==='bounty'){orb(0,.65,0,.3,gold,g);cylinder(0,.35,0,.36,.09,black,g);let light=new T.PointLight('#bbc8d9',4,5);g.add(light);}else{box(0,.38,0,.7,.5,.6,it.type==='health'?mat('#ddd9c6'):it.type==='cargo'?mats.crate:mat('#586674'),g);if(it.type==='health'){box(0,.64,0,.1,.01,.37,red,g);box(0,.64,0,.38,.01,.1,red,g);}else{box(0,.65,0,.5,.015,.38,gold,g);if(it.type==='cargo'){box(0,.39,0,.12,.54,.64,darkmetal,g);box(0,.39,0,.73,.54,.08,darkmetal,g);}}}g.userData={kind:it.type==='barrel'?'barrel':'item',id:i};dynamic.add(g);itemMeshes[i]=g;});}
-function resetPresentation(){world?.clearFireInput('reset');sound.stopAll();motion.reset();pendingImpacts.length=0;keys={};mouseHeld=false;aimDown=false;ads=0;recoil=0;shake=0;flash=0;damageFlash=0;hitPause=0;hitMarker=0;swayX=0;swayY=0;cycleTime=0;viewEye=1.62;reloadPhase=-1;for(let c of casings){(c.parent||gunScene).remove(c.mesh);c.mesh.geometry.dispose();c.mesh.material.dispose();}casings.length=0;}
-function createMission(){const mission=new HC.Mission(level,Number($('difficulty').value));const selected=Number($('loadout').value);mission.switchWeapon(Number.isFinite(selected)?selected:3);mission.cooldown=0;if(mission.weapon===3){for(const enemy of mission.enemies)if(enemy.boss)enemy.armor=60;}return mission;}
-function start(newGame=false){resetPresentation();if(newGame||firstStart||!world||state==='dead'){level=newGame?1:level;world=createMission();yaw=0;pitch=0;build();}if(state==='won'){level++;world=createMission();world.player.armor=0;build();yaw=0;pitch=0;}
- viewEye=Math.min(viewEye,world.player.bodyHeight-.08);world.setPaused(false);state='playing';$('overlay').style.display='none';firstStart=false;sound.setMuted(!$('sound').checked);sound.resume();sound.preloadRifle?.();try{canvas.requestPointerLock()?.catch(()=>tell('마우스 잠금 불가: 화살표 키로 조준할 수 있습니다',5));}catch(e){tell('화살표 키로 조준할 수 있습니다',5);}tell('중계소의 표적을 추적하세요. SPACE 점프 · CTRL/C 슬라이드 · M 지도',6);}
-function pause(){if(state!=='playing')return;state='paused';world.setPaused(true);world.clearFireInput('pause');sound.suspend();keys={};mouseHeld=false;aimDown=false;document.exitPointerLock?.();$('overlay').style.display='grid';$('start').textContent='계속하기';$('restart').hidden=false;$('stats').textContent='';}
-function end(win){resetPresentation();state=win?'won':'dead';sound.suspend();keys={};mouseHeld=false;document.exitPointerLock?.();$('overlay').style.display='grid';$('description').textContent=win?'계약 완료. 안개를 뚫고 살아 돌아왔습니다. 다음 계약에서도 정확한 사격과 회피 타이밍이 중요합니다.':'계약 실패. 표적은 아직 살아 있습니다. 장전을 마친 뒤 엄폐를 이용해 다시 도전하세요.';$('stats').textContent=`${win?'화물 정산 +'+world.cash:'회수 실패 · 화물 손실 '+world.cash} · ${Math.floor(world.time)}초 · ${world.kills} 처치 · ${world.style} STYLE · ${Math.round(world.hits/Math.max(1,world.shots)*100)}% 명중`;$('start').textContent=win?'다음 계약':'다시 도전';$('restart').hidden=false;if(win){totalCash+=world.cash;try{localStorage.setItem('deadfreight-best',JSON.stringify({cash:totalCash,level}));}catch(e){}}}
+function resetPresentation(){world?.clearFireInput('reset');sound.stopAll();motion.reset();pendingImpacts.length=0;keys={};mouseHeld=false;aimDown=false;ads=0;recoil=0;shake=0;flash=0;flashPending=false;damageFlash=0;hitPause=0;hitMarker=0;swayX=0;swayY=0;cycleTime=0;viewEye=1.62;reloadPhase=-1;for(let c of casings){(c.parent||gunScene).remove(c.mesh);c.mesh.geometry.dispose();c.mesh.material.dispose();}casings.length=0;}
+function createMission(){const mission=new HC.Mission(level,Number($('difficulty').value));const selected=Number($('loadout').value);mission.switchWeapon(Number.isFinite(selected)?selected:3);mission.cooldown=0;mission.activeTime=0;mission.startingWeapon=mission.weapon;return mission;}
+function formatTime(seconds){const n=Math.max(0,Math.floor(seconds||0));return Math.floor(n/60)+':'+String(n%60).padStart(2,'0');}
+function persistenceUI(){
+ const saved=save.snapshot();totalCash=saved.bank;
+ $('save-status').textContent=saved.status==='ready'?'브라우저 보관 기록 '+totalCash+' · 이 기록은 아직 상점·장비 구매에 사용되지 않습니다.':(saved.known?'마지막 확인 보관 '+totalCash:'기존 보관 기록을 읽지 못했습니다')+' · '+(saved.pending?'미저장 회수 가치 '+saved.pendingCash+' · ':'')+'저장 확인에 실패했습니다. 새로고침하거나 닫기 전에 저장 재시도를 눌러 주세요. 기존 기록은 지우지 않습니다.';
+ $('save-retry').hidden=saved.status==='ready';
+ if(lastResult){const r=lastResult;$('stats').textContent=(r.win?'회수 완료 +'+r.cash+' · '+(saved.pending?'저장 대기':'저장됨'):'회수 실패 · 화물 손실 '+r.cash)+' · '+formatTime(r.time)+' · '+r.kills+' 처치 · '+r.style+' STYLE · '+r.accuracy+'% 명중';}
+}
+function deploymentUI(){const names=['권총','샷건','SMG','R-4 라이플'],difficulty=value=>value>=1.25?'HARDCORE':value<=.6?'관광객':'현상금 사냥꾼';
+ $('deployment-label').textContent=state==='paused'?'현재 원정 '+level+' · '+names[world.weapon]+' · '+difficulty(world.difficulty)+' 유지. 아래 무기·난이도 선택은 새 원정에 적용됩니다.':'계약 '+(state==='won'?Math.max(level+1,save.snapshot().nextLevel):level)+' · 아래 무기·난이도로 새 원정을 시작합니다. 기본 난이도는 HARDCORE이며 처음이라면 관광객을 선택할 수 있습니다.';
+}
+function start(fresh=false){
+ const previousState=state;resetPresentation();
+ if(fresh||firstStart||!world||state==='dead'||state==='won'){
+  if(state==='won')level=Math.max(level+1,save.snapshot().nextLevel);
+  world=createMission();yaw=0;pitch=0;build();runClock.reset(performance.now());lastResult=null;
+ }
+ viewEye=Math.min(viewEye,world.player.bodyHeight-.08);world.setPaused(false);state='playing';runClock.setActive(true,performance.now());world.activeTime=runClock.elapsed;
+ $('description').textContent=INTRO_COPY;$('stats').textContent='';$('overlay').style.display='none';firstStart=false;
+ document.activeElement?.blur?.();canvas.focus?.({preventScroll:true});
+ sound.setMuted(!$('sound').checked);sound.resume();sound.preloadRifle?.();try{canvas.requestPointerLock()?.catch(()=>tell('마우스 잠금 불가: 화살표 키로 조준할 수 있습니다',5));}catch(e){tell('화살표 키로 조준할 수 있습니다',5);}
+ tell(previousState==='paused'&&!fresh?'원정을 계속합니다.':'중계소의 표적을 추적하세요. SPACE 점프 · CTRL/C 슬라이드 · M 지도',6);
+}
+function pause(){if(state!=='playing')return;runClock.setActive(false,performance.now());world.activeTime=runClock.elapsed;state='paused';world.setPaused(true);world.clearFireInput('pause');sound.suspend();keys={};mouseHeld=false;aimDown=false;document.exitPointerLock?.();$('overlay').style.display='grid';$('start').textContent='현재 원정 계속';$('restart').hidden=false;$('restart').textContent='새 원정 · 휴대 화물 포기';$('stats').textContent='';lastResult=null;
+ $('description').textContent='일시정지 · 원정 시간 '+formatTime(world.activeTime)+'. '+(world.bounty?'증표를 확보했습니다. 탈출 지점으로 이동하세요.':world.enemies.some(e=>e.boss&&e.alive)?'중계소의 표적을 추적하세요.':'표적은 제거되었습니다. 증표를 회수하세요.')+' 계속하기는 현재 장비와 난이도를 유지합니다.';deploymentUI();persistenceUI();}
+function end(win){if(state!=='playing')return;runClock.setActive(false,performance.now());world.activeTime=runClock.elapsed;resetPresentation();state=win?'won':'dead';sound.suspend();keys={};mouseHeld=false;document.exitPointerLock?.();$('overlay').style.display='grid';
+ const bossAlive=world.enemies.some(e=>e.boss&&e.alive);
+ $('description').textContent=win?'탈출 성공. 휴대 가치를 회수했습니다. 다음 계약은 같은 Black Pines 지역을 새로 시작하며 적·보급품·증표가 초기화됩니다.':(bossAlive?'계약 실패. 중계소 표적 제거 전에 사망했습니다.':world.bounty?'계약 실패. 증표를 확보했지만 탈출 전에 사망했습니다.':'계약 실패. 표적을 제거했지만 증표 회수·탈출을 마치지 못했습니다.')+' 휴대 화물은 잃고 기존 보관 기록은 유지됩니다.';
+ lastResult={win,cash:world.cash,time:world.activeTime,kills:world.kills,style:world.style,accuracy:Math.round(world.hits/Math.max(1,world.shots)*100)};
+ $('start').textContent=win?'다음 계약 · 같은 지역':'같은 계약 재도전';$('restart').hidden=true;
+ if(win)save.award(world.cash,level+1);deploymentUI();persistenceUI();
+}
 function tell(s,t=2.4){msg=s;msgTime=t;$('message').textContent=s;}
 $('sound').onchange=()=>sound.setMuted(!$('sound').checked);
 window.addEventListener('pagehide',()=>{pause();sound.destroy();});
@@ -108,7 +138,7 @@ function events(){for(let e of world.events){
  const ep={...e,weapon:e.weapon??world.weapon,suppressed:e.suppressed??$('suppressor').checked};
  switch(e.type){
  case'shot':
-  if(ep.weapon!==1)ejectCase(ep.weapon);flash=ep.suppressed?.024:.055;recoil=1;motion.fire(ep.weapon,ads);sound.shot(ep.weapon,{suppressed:ep.suppressed,environment:ep.environment||'outdoor'});
+  if(ep.weapon!==1)ejectCase(ep.weapon);flash=ep.suppressed?.024:.055;flashPending=true;recoil=1;motion.fire(ep.weapon,ads);sound.shot(ep.weapon,{suppressed:ep.suppressed,environment:ep.environment||'outdoor'});
   for(const impact of pendingImpacts.splice(0))sound.impact(impact.material,impact);break;
  case'switch':sound.cancelRifleReload?.();cycleTime=0;motion.impulse('swap');sound.event('switch',ep);break;
  case'dash':motion.impulse('dash');sound.event('dash',ep);break;
@@ -140,7 +170,7 @@ function events(){for(let e of world.events){
  case'win':end(true);break;
  }
  }world.events=[];syncItems();}
-function update(dt){clock+=dt;if(state==='playing'){
+function update(dt,draw=true){clock+=dt;flash=Math.max(0,flash-dt);if(state==='playing'){
  const p=world.player,simulationDt=hitPause>0?dt*.12:dt;
  hitPause=Math.max(0,hitPause-dt);
  let forward=(keys.KeyW?1:0)-(keys.KeyS?1:0),strafe=(keys.KeyD?1:0)-(keys.KeyA?1:0);
@@ -187,7 +217,7 @@ function update(dt){clock+=dt;if(state==='playing'){
   }
  }
  if(c.life<=0){c.parent.remove(c.mesh);c.mesh.geometry.dispose();c.mesh.material.dispose();casings.splice(i,1);}
-}renderer.setRenderTarget(target);renderer.clear();renderer.render(scene,cam);renderer.clearDepth();renderer.render(gunScene,gunCam);if(flash>0){flashMesh.visible=true;flashMesh.position.copy(muzzle||new T.Vector3());gunGroup.userData.model.localToWorld(flashMesh.position);flashMesh.scale.setScalar(.1+Math.random()*.12);flashMesh.rotation.z=Math.random()*6;renderer.render(flashScene,gunCam);}else flashMesh.visible=false;renderer.setRenderTarget(null);renderer.clear();postMaterial.uniforms.time.value=clock;renderer.render(postScene,postCamera);flash=Math.max(0,flash-dt);
+}if(!draw)return;renderer.setRenderTarget(target);renderer.clear();renderer.render(scene,cam);renderer.clearDepth();renderer.render(gunScene,gunCam);if(flash>0||flashPending){flashMesh.visible=true;flashMesh.position.copy(muzzle||new T.Vector3());gunGroup.userData.model.localToWorld(flashMesh.position);flashMesh.scale.setScalar(.1+Math.random()*.12);flashMesh.rotation.z=Math.random()*6;renderer.render(flashScene,gunCam);}else flashMesh.visible=false;renderer.setRenderTarget(null);renderer.clear();postMaterial.uniforms.time.value=clock;renderer.render(postScene,postCamera);flashPending=false;
 }
 const laserGeometry=new T.BufferGeometry().setFromPoints([new T.Vector3(),new T.Vector3()]);const laserLine=new T.Line(laserGeometry,new T.LineBasicMaterial({color:'#784b56',transparent:true,opacity:.38}));scene.add(laserLine);const laserDot=new T.Mesh(new T.SphereGeometry(.035,7,5),new T.MeshBasicMaterial({color:'#bd8291'}));scene.add(laserDot);
 const shotMeshes=[];for(let i=0;i<32;i++){let m=new T.Mesh(new T.SphereGeometry(.08,5,4),new T.MeshBasicMaterial({color:'#f3eeee'}));m.visible=false;scene.add(m);shotMeshes.push(m);}
@@ -200,10 +230,10 @@ function hud(){let p=world.player,rifle=world.weapon===3?world.rifle.snapshot():
  $('region').textContent=landmark.name+' / BLACK PINES';
  const angle=((yaw*180/Math.PI%360)+360)%360,directions=['N','NW','W','SW','S','SE','E','NE'];
  $('route').textContent=directions[Math.round(angle/45)%8]+' · '+(target?(world.bounty?target.name:'중계소 계약')+' '+Math.round(Math.hypot(target.x-p.x,target.z-p.z))+' m':'')+' · M 지도';
- $('loot').textContent='화물 '+world.cargo+' · 회수 가치 '+world.cash+' · 보관 '+totalCash;
+ const saved=save.snapshot();$('loot').textContent='화물 '+world.cargo+' · 회수 가치 '+world.cash+' · '+(saved.known?'보관 '+totalCash:'보관 확인 불가')+(saved.pending?' · 미저장 '+saved.pendingCash:'');$('raid-time').textContent='원정 '+formatTime(world.activeTime)+' · 현재 시간 제한 없음';
  $('extraction').hidden=!world.extractionZone;$('extractionstatus').textContent=world.extractionZone?.name||'탈출 지점 방어';$('extractiontime').textContent=Math.max(0,world.extractionRequired-world.extractionProgress).toFixed(1)+' s';$('extractionfill').style.width=(100*world.extractionProgress/Math.max(.1,world.extractionRequired))+'%';
  const near=world.pickups.find(it=>it.alive&&it.type!=='barrel'&&Math.hypot(it.x-p.x,it.z-p.z)<2.5&&Math.abs((it.y||0)-p.y)<1.5),zone=world.nearExtraction();
- $('hint').textContent=near?'[ E ] '+({health:'구급상자',armor:'방탄 장비',ammo:'탄약',cargo:'회수 화물',bounty:'현상금 증표'})[near.type]:world.extractionZone?'탈출 '+Math.max(0,world.extractionRequired-world.extractionProgress).toFixed(1)+'초 · 구역 유지':zone?(world.bounty?'[ E ] '+zone.name+' 탈출 신호':'탈출 지점 · 중계소 증표 필요'):p.slide>0?'슬라이딩':!p.grounded?'공중':'';
+ $('hint').textContent=near?(near.type==='health'&&p.hp>=100?'체력 최대 · 구급상자를 남겨 둡니다':near.type==='armor'&&p.armor>=100?'방탄 최대 · 장비를 남겨 둡니다':'[ E ] '+({health:'구급상자',armor:'방탄 장비',ammo:'탄약',cargo:'회수 화물',bounty:'현상금 증표'})[near.type]):world.extractionZone?'탈출 '+Math.max(0,world.extractionRequired-world.extractionProgress).toFixed(1)+'초 · 구역 유지':zone?(world.bounty?'[ E ] '+zone.name+' 탈출 신호':'탈출 지점 · 중계소 증표 필요'):p.slide>0?'슬라이딩':!p.grounded?'공중':'';
  if($('minimap').style.display==='block')drawMap();}
 function drawMap(){const canvas=$('minimap'),c=canvas.getContext('2d'),w=canvas.width,h=canvas.height,b=world.bounds,p=world.player,pad=12,scale=Math.min((w-pad*2)/(b.maxX-b.minX),(h-pad*2)/(b.maxZ-b.minZ)),sx=x=>pad+(x-b.minX)*scale,sz=z=>pad+(z-b.minZ)*scale;
  c.clearRect(0,0,w,h);c.strokeStyle='#778492';c.lineWidth=2;
@@ -216,12 +246,13 @@ function drawMap(){const canvas=$('minimap'),c=canvas.getContext('2d'),w=canvas.
  c.fillStyle='#fff';c.beginPath();c.arc(sx(p.x),sz(p.z),3,0,Math.PI*2);c.fill();c.strokeStyle='#fff';c.beginPath();c.moveTo(sx(p.x),sz(p.z));c.lineTo(sx(p.x)-Math.sin(yaw)*10,sz(p.z)-Math.cos(yaw)*10);c.stroke();}
 
 function resize(){let w=Math.min(innerWidth-24,(innerHeight-24)*16/9),h=w*9/16;renderer.setSize(960,540,false);canvas.style.width=w+'px';canvas.style.height=h+'px';canvas.style.left=(innerWidth-w)/2+'px';canvas.style.top=(innerHeight-h)/2+'px';cam.aspect=gunCam.aspect=16/9;cam.updateProjectionMatrix();gunCam.updateProjectionMatrix();}window.addEventListener('resize',resize);resize();
-$('loadout').onchange=()=>{if(state==='title'){world=createMission();build();}};$('laser').onchange=weaponModel;$('suppressor').onchange=weaponModel;$('start').onclick=()=>start();$('restart').onclick=()=>{state='title';start(true);};$('fullscreen').onclick=()=>{document.documentElement.requestFullscreen?.().catch(()=>tell('브라우저 메뉴에서 전체 화면을 선택하세요'));};
-window.addEventListener('keydown',e=>{if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','ControlLeft','ControlRight'].includes(e.code))e.preventDefault();keys[e.code]=true;if(e.repeat)return;if(e.code==='Escape')pause();if(state!=='playing')return;if(e.code==='KeyL'){$('laser').checked=!$('laser').checked;weaponModel();}if(e.code==='Space'){if(!world.jump()&&world.player.stamina<10)tell('점프하려면 잠시 멈춰 스태미나를 회복하세요',1.5);}if(e.code==='KeyX')world.dash();if(['ControlLeft','ControlRight','KeyC'].includes(e.code)){let f=(keys.KeyW?1:0)-(keys.KeyS?1:0),r=(keys.KeyD?1:0)-(keys.KeyA?1:0);if(!f&&!r)f=1;world.slide(-Math.sin(yaw)*f+Math.cos(yaw)*r,-Math.cos(yaw)*f-Math.sin(yaw)*r);}if(e.code==='KeyR')world.load();if(e.code==='KeyE')world.interact();if(e.code==='KeyF'){if(world.weapon===3)world.requestTrigger();else shoot();}if(e.code==='KeyB'&&world.weapon===3)world.setFireMode(world.rifle.snapshot().mode==='auto'?'burst':'auto');if(e.code==='KeyM'){const visible=$('minimap').style.display!=='block';$('minimap').style.display=visible?'block':'none';$('maplegend').style.display=visible?'flex':'none';}if(/^Digit[1234]$/.test(e.code)){world.switchWeapon(Number(e.code.at(-1))-1);hammer=null;weaponModel();}});
+const deploymentChanged=()=>{if(state==='title'){world=createMission();build();}deploymentUI();};$('loadout').onchange=deploymentChanged;$('difficulty').onchange=deploymentChanged;$('save-retry').onclick=()=>{save.retry();if(state==='title')level=Math.max(level,save.snapshot().nextLevel);persistenceUI();deploymentUI();};$('laser').onchange=weaponModel;$('suppressor').onchange=weaponModel;$('start').onclick=()=>start();$('restart').onclick=()=>start(true);$('fullscreen').onclick=()=>{document.documentElement.requestFullscreen?.().catch(()=>tell('브라우저 메뉴에서 전체 화면을 선택하세요'));};
+window.addEventListener('keydown',e=>{const target=e.target||document.activeElement;if(state!=='playing'||(!document.pointerLockElement&&(target?.isContentEditable||['INPUT','SELECT','TEXTAREA','BUTTON','A'].includes(target?.tagName))))return;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','ControlLeft','ControlRight'].includes(e.code))e.preventDefault();keys[e.code]=true;if(e.repeat)return;if(e.code==='Escape')pause();if(state!=='playing')return;if(e.code==='KeyL'){$('laser').checked=!$('laser').checked;weaponModel();}if(e.code==='Space'){if(!world.jump()&&world.player.stamina<10)tell('점프하려면 잠시 멈춰 스태미나를 회복하세요',1.5);}if(e.code==='KeyX')world.dash();if(['ControlLeft','ControlRight','KeyC'].includes(e.code)){let f=(keys.KeyW?1:0)-(keys.KeyS?1:0),r=(keys.KeyD?1:0)-(keys.KeyA?1:0);if(!f&&!r)f=1;world.slide(-Math.sin(yaw)*f+Math.cos(yaw)*r,-Math.cos(yaw)*f-Math.sin(yaw)*r);}if(e.code==='KeyR')world.load();if(e.code==='KeyE')world.interact();if(e.code==='KeyF'){if(world.weapon===3)world.requestTrigger();else shoot();}if(e.code==='KeyB'&&world.weapon===3)world.setFireMode(world.rifle.snapshot().mode==='auto'?'burst':'auto');if(e.code==='KeyM'){const visible=$('minimap').style.display!=='block';$('minimap').style.display=visible?'block':'none';$('maplegend').style.display=visible?'flex':'none';}if(/^Digit[1234]$/.test(e.code)){world.switchWeapon(Number(e.code.at(-1))-1);hammer=null;weaponModel();}});
 window.addEventListener('keyup',e=>keys[e.code]=false);window.addEventListener('blur',pause);document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();});document.addEventListener('pointerlockchange',()=>{if(!document.pointerLockElement&&state==='playing')pause();});document.addEventListener('mousemove',e=>{if(document.pointerLockElement===canvas&&state==='playing'){swayX=HC.clamp(swayX+e.movementX*.014,-1,1);swayY=HC.clamp(swayY+e.movementY*.014,-1,1);yaw-=e.movementX*.0024;pitch=HC.clamp(pitch-e.movementY*.0024,-1.05,1.05);}});canvas.addEventListener('mousedown',e=>{if(state!=='playing')return;if(e.button===0){mouseHeld=true;if(world.weapon===3)world.setFireInput(true);else shoot();}if(e.button===2)aimDown=true;});window.addEventListener('mouseup',e=>{if(e.button===0){mouseHeld=false;world?.setFireInput(false);}if(e.button===2)aimDown=false;});canvas.addEventListener('contextmenu',e=>e.preventDefault());
 world=createMission();build();
 $('overlay').dataset.startup='ready';$('startup-status').hidden=true;$('start').disabled=false;
 for(const id of ['game','hud','damage'])$(id).hidden=false;
-let previous=performance.now();function frame(now){let dt=Math.min(.05,(now-previous)/1000);previous=now;update(dt);requestAnimationFrame(frame);}requestAnimationFrame(frame);
+deploymentUI();persistenceUI();
+function frame(now){const timing=runClock.advance(now);world.activeTime=timing.elapsed;if(state==='playing'&&timing.steps){for(let i=0;i<timing.steps;i++){update(timing.step,i===timing.steps-1);if(state!=='playing'){if(i<timing.steps-1)update(0);break;}}}else update(state==='playing'?0:timing.renderDelta);requestAnimationFrame(frame);}requestAnimationFrame(frame);
 window.addEventListener('error',e=>{$('notice').textContent='실행 오류: '+e.message;});
 })();

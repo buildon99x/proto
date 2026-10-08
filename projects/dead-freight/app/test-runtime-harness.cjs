@@ -16,9 +16,9 @@ function harness(initialStorage={},options={}){
  let now=1000;const frames=[],renders=[],worlds=[],audioCalls=[],rendererCalls=[],reloads=[],errors=[],elements=new Map(),checkedGeometry=new WeakSet();
  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
  const context2d={fillRect(){},clearRect(){},strokeRect(){},fillText(){},beginPath(){},arc(){},fill(){},moveTo(){},lineTo(){},stroke(){}};
- function element(id,tag='div'){const classes=new Set();return Object.assign(eventTarget(),{id,tagName:tag.toUpperCase(),style:{},dataset:{},classList:{toggle(k,force){const on=force??!classes.has(k);if(on)classes.add(k);else classes.delete(k);return on;},contains:k=>classes.has(k),add:k=>classes.add(k),remove:k=>classes.delete(k)},textContent:'',innerHTML:'',hidden:false,checked:false,value:'',width:640,height:360,getContext(type){assert.equal(type,'2d');return context2d;}});}
+ function element(id,tag='div'){const classes=new Set();return Object.assign(eventTarget(),{id,tagName:tag.toUpperCase(),style:{},dataset:{},classList:{toggle(k,force){const on=force??!classes.has(k);if(on)classes.add(k);else classes.delete(k);return on;},contains:k=>classes.has(k),add:k=>classes.add(k),remove:k=>classes.delete(k)},textContent:'',innerHTML:'',hidden:false,checked:false,value:'',focus(){document.activeElement=this;},blur(){if(document.activeElement===this)document.activeElement=null;},width:640,height:360,getContext(type){assert.equal(type,'2d');return context2d;}});}
  for(const match of html.matchAll(/<([a-z]+)\b([^>]*\bid="([^"]+)"[^>]*)>/gi)){const e=element(match[3],match[1]);e.checked=/\bchecked\b/.test(match[2]);e.hidden=/\bhidden\b/.test(match[2]);e.disabled=/\bdisabled\b/.test(match[2]);elements.set(match[3],e);}
- const document=Object.assign(eventTarget(),{hidden:false,pointerLockElement:null,getElementById(id){assert(elements.has(id),'game requested missing DOM id '+id);return elements.get(id);},createElement(tag){return element('',tag);},documentElement:{requestFullscreen(){return Promise.resolve();}}});
+ const document=Object.assign(eventTarget(),{hidden:false,activeElement:null,pointerLockElement:null,getElementById(id){assert(elements.has(id),'game requested missing DOM id '+id);return elements.get(id);},createElement(tag){return element('',tag);},documentElement:{requestFullscreen(){return Promise.resolve();}}});
  document.exitPointerLock=()=>{document.pointerLockElement=null;document.dispatch('pointerlockchange');};
  const canvas=elements.get('game');canvas.requestPointerLock=()=>{document.pointerLockElement=canvas;document.dispatch('pointerlockchange');return Promise.resolve();};
  elements.get('difficulty').value='0.6';elements.get('loadout').value=String(options.weapon??0);elements.get('minimap').style.display='none';
@@ -36,7 +36,7 @@ function harness(initialStorage={},options={}){
  }
  const audio={};for(const method of ['resume','suspend','stopAll','setMuted','setVolume','shot','impact','reload','event','destroy','cancelRifleReload'])audio[method]=(...args)=>{audioCalls.push({method,args});return method==='resume'||method==='suspend'||method==='destroy'?Promise.resolve(true):true;};
  audio.preloadRifle=()=>Promise.resolve(true);audio.stats=()=>({ready:true,running:true,muted:false,voices:0,buffers:0,rifle:{status:'ready'}});
- const window=eventTarget();const sandbox={console:{...console,error:(...args)=>errors.push(args)},THREE:{...Three,WebGLRenderer:Renderer},document,window,innerWidth:1280,innerHeight:720,performance:{now:()=>now},requestAnimationFrame:fn=>{frames.push(fn);return frames.length;},cancelAnimationFrame(){},localStorage:{setItem(key,value){storage.set(key,String(value));},getItem(key){return storage.get(key)??null;}},setTimeout,clearTimeout};
+ const window=eventTarget();const sandbox={console:{...console,error:(...args)=>errors.push(args)},THREE:{...Three,WebGLRenderer:Renderer},document,window,innerWidth:1280,innerHeight:720,performance:{now:()=>now},requestAnimationFrame:fn=>{frames.push(fn);return frames.length;},cancelAnimationFrame(){},localStorage:{setItem(key,value){if(options.storageWriteError)throw new Error('Storage write denied');storage.set(key,String(value));},getItem(key){if(options.storageReadError)throw new Error('Storage read denied');return storage.get(key)??null;}},setTimeout,clearTimeout};
  Object.assign(window,{innerWidth:1280,innerHeight:720,location:{reload:()=>reloads.push(now)}});
  const context=vm.createContext(sandbox);
  const scripts=[...html.matchAll(/<script\b[^>]*src="([^"]+)"[^>]*><\/script>/g)].map(m=>m[1]);
@@ -48,7 +48,7 @@ function harness(initialStorage={},options={}){
  }
  function tick(dt=1/60){assert.equal(frames.length,1,'one RAF chain must remain scheduled');const cb=frames.shift();now+=dt*1000;cb(now);for(const e of elements.values())for(const value of Object.values(e.style))assert(!/NaN|Infinity/.test(String(value)),'CSS must remain finite');}
  function advance(seconds,dt=1/60){for(let n=0;n<Math.ceil(seconds/dt);n++)tick(dt);}
- function key(code,type='keydown'){window.dispatch(type,{code,repeat:false});}
+ function key(code,type='keydown',props={}){return window.dispatch(type,{code,repeat:false,...props});}
  function tap(code){key(code);key(code,'keyup');}
  function click(id){const e=elements.get(id);if(!e.disabled)e.dispatch('click');}
  function mouse(button,type='mousedown'){(type==='mousedown'?canvas:window).dispatch(type,{button});}

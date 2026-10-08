@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.2 — raid lifecycle correctness
+- Preserve native menu keyboard controls and clearly separate paused continuation from the next deployment settings
+- Explain the current HARDCORE default, unlimited raid time, carried-value loss, same-region replay and tracking-only bank
+- Surface failed save/read operations, retain pending awards for retry without double credit or deleting existing data, and restore the next contract index compatibly
+- Contextualize death/result/pause copy; retain unusable full-health/full-armor pickups; assign boss armor independently of starting weapon
+- Use bounded 120 Hz simulation catch-up with a separate active wall-time raid clock and clean pause/resume boundaries
+- Keep the single-rifle actual-play/listening gate open
+
 ## 0.7.1 — honest graphics-startup failure state
 - Show an explicit non-playable state if the browser cannot create WebGL, with a real page-reload retry and accessible audio credits
 - Hide stale gameplay HUD and unavailable loadout/start controls; do not start mission, audio, input or animation systems after renderer failure
