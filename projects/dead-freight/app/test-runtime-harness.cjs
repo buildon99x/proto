@@ -20,7 +20,7 @@ function harness(initialStorage={},options={}){
  for(const match of html.matchAll(/<([a-z]+)\b([^>]*\bid="([^"]+)"[^>]*)>/gi)){const e=element(match[3],match[1]);e.checked=/\bchecked\b/.test(match[2]);e.hidden=/\bhidden\b/.test(match[2]);e.disabled=/\bdisabled\b/.test(match[2]);elements.set(match[3],e);}
  const document=Object.assign(eventTarget(),{hidden:false,activeElement:null,pointerLockElement:null,getElementById(id){assert(elements.has(id),'game requested missing DOM id '+id);return elements.get(id);},createElement(tag){return element('',tag);},documentElement:{requestFullscreen(){return Promise.resolve();}}});
  document.exitPointerLock=()=>{document.pointerLockElement=null;document.dispatch('pointerlockchange');};
- const canvas=elements.get('game');canvas.requestPointerLock=()=>{document.pointerLockElement=canvas;document.dispatch('pointerlockchange');return Promise.resolve();};
+ const canvas=elements.get('game');canvas.requestPointerLock=()=>{if(options.pointerLockThrow)throw Object.assign(new Error('Fixture pointer lock denied'),{name:'NotAllowedError'});if(options.pointerLockReject)return Promise.reject(Object.assign(new Error('Fixture pointer lock denied'),{name:'NotAllowedError'}));document.pointerLockElement=canvas;document.dispatch('pointerlockchange');return Promise.resolve();};
  elements.get('difficulty').value='0.6';elements.get('loadout').value=String(options.weapon??0);elements.get('minimap').style.display='none';
  function finite(values,label){for(const n of values)assert(Number.isFinite(n),label+' must stay finite');}
  class Renderer {
@@ -34,8 +34,8 @@ function harness(initialStorage={},options={}){
    renders.push({scene,camera});if(renders.length>24)renders.shift();
   }
  }
- const audio={};for(const method of ['resume','suspend','stopAll','setMuted','setVolume','shot','impact','reload','event','destroy','cancelRifleReload'])audio[method]=(...args)=>{audioCalls.push({method,args});return method==='resume'||method==='suspend'||method==='destroy'?Promise.resolve(true):true;};
- audio.preloadRifle=()=>Promise.resolve(true);audio.stats=()=>({ready:true,running:true,muted:false,voices:0,buffers:0,rifle:{status:'ready'}});
+ const audio={};for(const method of ['resume','suspend','stopAll','setMuted','setVolume','shot','impact','reload','event','destroy','cancelRifleReload','cancelReload'])audio[method]=(...args)=>{audioCalls.push({method,args});return method==='resume'||method==='suspend'||method==='destroy'?Promise.resolve(true):true;};
+ audio.preloadRifle=()=>{audioCalls.push({method:'preloadRifle',args:[]});return options.audioPreload?.()||Promise.resolve(true);};audio.stats=()=>({ready:true,running:options.audioRunning!==false,muted:false,voices:0,buffers:0,rifle:options.audioBank||{status:'ready'}});if(options.audioResume)audio.resume=()=>{audioCalls.push({method:'resume',args:[]});return options.audioResume();};
  const window=eventTarget();const sandbox={URLSearchParams,console:{...console,error:(...args)=>errors.push(args)},THREE:{...Three,WebGLRenderer:Renderer},document,window,innerWidth:1280,innerHeight:720,performance:{now:()=>now},requestAnimationFrame:fn=>{frames.push(fn);return frames.length;},cancelAnimationFrame(){},localStorage:{setItem(key,value){options.onStorageWrite?.(key,value);if(options.storageWriteError)throw new Error('Storage write denied');storage.set(key,String(value));},getItem(key){options.onStorageRead?.(key);if(options.storageReadError)throw new Error('Storage read denied');return storage.get(key)??null;},removeItem(key){options.onStorageWrite?.(key,null);if(options.storageWriteError)throw new Error('Storage write denied');storage.delete(key);}},setTimeout,clearTimeout};
  Object.assign(window,{innerWidth:1280,innerHeight:720,location:{search:options.search||'',reload:()=>reloads.push(now)}});
  const context=vm.createContext(sandbox);

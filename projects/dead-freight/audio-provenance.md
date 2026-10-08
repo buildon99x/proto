@@ -1,69 +1,63 @@
-# DEAD FREIGHT rifle audio provenance
+# DEAD FREIGHT recorded firearm audio provenance
 
-Status: Pixabay-backed development mix, 2026-10-08. Waveform/engine tests are verified separately below. **Not heard, not listening-approved, and not browser/device accepted.** No Call of Duty/Battlefield parity claim is made.
+Status: all-firearm recording repair, 2026-10-08. **Signal/route checked; not heard here, not listening-approved, and not browser/device accepted.** No commercial-game parity claim is made.
 
 ## Source and distribution boundary
 
-The user's latest instruction explicitly selected Pixabay. All 28 runtime rifle WAVs are now built from the ten Pixabay downloads below. Earlier CC0-provider experiments were removed from this project; none of those earlier recordings or mixes are in this bank.
+The user explicitly selected Pixabay. All 79 runtime WAVs are built from the 13 verified Pixabay downloads below. Raw MP3s are kept outside the repository. They are integrated game media, not a standalone sound pack. Do not redistribute the source downloads or export this bank as a reusable stock-SFX library. Retain these credits with the game/source distribution.
 
-Every selected asset page says it is available under the [Pixabay Content License](https://pixabay.com/service/license-summary/). The [binding terms, section 5](https://pixabay.com/service/terms/) permit modified/adapted works, subject to the prohibited uses. They prohibit distribution of substantially unchanged audio on a standalone basis; trimming, filtering or layering alone is not a blanket permission to redistribute an SFX pack. Download/use also accepts Pixabay's terms.
+The source pages identify the [Pixabay Content License](https://pixabay.com/service/license-summary/); [binding terms, section 5](https://pixabay.com/service/terms/) allow adapted works subject to prohibited uses, including standalone distribution restrictions. Audio is not relicensed as application code or CC0 here. The supplementary Freesound pages substantiate recordings; every audio download used in the game came from its Pixabay page's public CDN URL. No login, CAPTCHA or runtime external request is used. Credits are voluntary, with no artist endorsement implied.
 
-This directory is **project-specific runtime media integrated into the DEAD FREIGHT game's mechanics, visuals and code**, not a general sound library. Do not export or market it as a standalone audio pack. Do not redistribute raw source MP3s. The repository contains only the game's edited, composed cues and provenance; the source download cache and audition fixture remain outside the repository. The files retain these license restrictions and are not relicensed as CC0 or as application code. Keep this notice when distributing the game or its complete source. If proposing another distribution format, review that format against the license first.
+## Selected recordings
 
-All downloads came from the public audio URLs exposed by the corresponding Pixabay asset pages. No account, authentication, CAPTCHA, credit card, uploaded file, game-ripped audio, or runtime CDN request was used. All artists are credited voluntarily; the license does not require attribution. No artist endorsement is implied.
+Full original URLs, SHA-256, sizes and retrieval dates are in `assets/audio/provenance.json`. The build verifies every cached original hash before editing it.
 
-## Selected source recordings
-
-All entries use the Pixabay Content License. Full source download URLs, SHA-256 hashes, byte sizes, dates, and supplementary author references are recorded in `assets/audio/provenance.json`. Source originals are deliberately absent.
-
-| ID | Artist credited by Pixabay | Source page | Role in this game |
+| ID | Artist | Pixabay page | Game use |
 |---|---|---|---|
-| 99253 | SuperPhat (via freesound_community) | [Ar15-Real Recording](https://pixabay.com/sound-effects/film-special-effects-ar15-real-recording-99253/) | Isolated close attacks and low recorded body |
-| 98831 | michorvath (via freesound_community) | [AR15 rifle shot from 50 yards away](https://pixabay.com/sound-effects/film-special-effects-ar15-rifle-shot-from-50-yards-away-98831/) | Outdoor environmental return |
-| 45010 | michorvath (via freesound_community) | [AR15 pistol load and chamber](https://pixabay.com/sound-effects/film-special-effects-ar15-pistol-load-and-chamber-45010/) | Magazine contacts, actual AR charging/bolt pull and release |
-| 104296 | Kodack (via freesound_community) | [Assault Rifle Reload](https://pixabay.com/sound-effects/film-special-effects-assault-rifle-reload-104296/) | Secondary receiver, handling and reload contact layers |
-| 98832 | michorvath (via freesound_community) | [Rifle clip empty](https://pixabay.com/sound-effects/rifle-clip-empty-98832/) | Dry trigger mechanism |
-| 75000 | Eipeiknip (via freesound_community) | [Brass shell drop onto concrete, multiple takes](https://pixabay.com/sound-effects/film-special-effects-brass-bullet-shell-drop-onto-concrete-multiple-takes-75000/) | Three distinct casing-floor contact takes |
-| 31859 | APallot (via freesound_community) | [Hitting Metal](https://pixabay.com/sound-effects/film-special-effects-hitting-metal-31859/) | Metal and armor impact, quiet indoor decay |
-| 6791 | altfuture (via freesound_community) | [Hitting Wood](https://pixabay.com/sound-effects/film-special-effects-hitting-wood-6791/) | Wooden hit and low impact support layer |
-| 62692 | Fenodyrie (via freesound_community) | [stone on stone](https://pixabay.com/sound-effects/film-special-effects-stone-on-stone-62692/) | Stone impact, small hard-surface contact |
-| 32436 | ccheatham (via freesound_community) | [real_punches_and_slaps](https://pixabay.com/sound-effects/film-special-effects-real-punches-and-slaps-32436/) | Body impact Foley and armor/body composite |
+| 45010 | michorvath | [AR15 pistol load and chamber](https://pixabay.com/sound-effects/film-special-effects-ar15-pistol-load-and-chamber-45010/) | R-4 magazine contacts, actual AR charging/bolt return |
+| 104296 | Kodack | [Assault Rifle Reload](https://pixabay.com/sound-effects/film-special-effects-assault-rifle-reload-104296/) | R-4 and fictional SMG handling/reload contacts |
+| 75000 | Eipeiknip | [Brass bullet shell drop onto concrete, multiple takes](https://pixabay.com/sound-effects/film-special-effects-brass-bullet-shell-drop-onto-concrete-multiple-takes-75000/) | Three physical casing-floor contacts |
+| 31859 | APallot | [Hitting Metal](https://pixabay.com/sound-effects/film-special-effects-hitting-metal-31859/) | Metal and armor impact |
+| 6791 | altfuture | [Hitting Wood](https://pixabay.com/sound-effects/film-special-effects-hitting-wood-6791/) | Wood and low body-impact support |
+| 62692 | Fenodyrie | [stone on stone](https://pixabay.com/sound-effects/film-special-effects-stone-on-stone-62692/) | Stone and hard-surface contact |
+| 32436 | ccheatham | [real_punches_and_slaps](https://pixabay.com/sound-effects/film-special-effects-real-punches-and-slaps-32436/) | Body and partial-armor impact |
+| 98832 | michorvath | [Rifle clip empty](https://pixabay.com/sound-effects/film-special-effects-rifle-clip-empty-98832/) | Shared dry trigger mechanism |
+| 6349 | michorvath | [9mm pistol shot](https://pixabay.com/sound-effects/film-special-effects-9mm-pistol-shot-6349/) | Pistol report; also shortened at original rate for the fictional 9 mm SMG |
+| 94496 | Kobrakon47 | [Saiga 12k Gunshot(12ga)](https://pixabay.com/sound-effects/film-special-effects-saiga-12k-gunshot12ga-94496/) | Shotgun report |
+| 98830 | michorvath | [9mm pistol load and chamber](https://pixabay.com/sound-effects/film-special-effects-9mm-pistol-load-and-chamber-98830/) | Pistol magazine and slide actions |
+| 101896 | awrmacd | [Pump Action Shotgun](https://pixabay.com/sound-effects/film-special-effects-pump-action-shotgun-101896/) | Shotgun pump/actions, fitted to existing cycle recovery |
+| 89473 | sidohzen | [machine gun](https://pixabay.com/sound-effects/film-special-effects-machine-gun-89473/) | R-4 and enemy report: isolated real M16 attacks and quiet recorded decay |
 
-The [close recording's original author description](https://freesound.org/people/SuperPhat/sounds/432366/) identifies an actual AR15 recording already combined with a small kick-drum/trigger layer and processed into a burst. It is not an unprocessed measurement, and three game variations are edited takes of that source, not three independently recorded rifles. [The outdoor source](https://freesound.org/people/michorvath/sounds/427597/) identifies a recording about 50 yards away. [Kodack](https://freesound.org/people/Kodack/sounds/256912/) describes recording and editing the manipulation sound. These references substantiate origin; the audio used here was obtained from Pixabay.
+The M16 source's [author description](https://freesound.org/people/sidohzen/sounds/165809/) identifies real automatic fire recorded with a Sony camera. [The pistol author](https://freesound.org/people/michorvath/sounds/427592/) identifies an actual 9 mm shot. [The shotgun author](https://freesound.org/people/Kobrakon47/sounds/569309/) identifies raw Saiga 12 fire with 00 buckshot. [The pump author](https://freesound.org/people/awrmacd/sounds/387190/) identifies a real Mossberg shotgun; the first cycle is used because other takes have reported compression artifacts.
 
-## Edit and timing design
+These are field/camera/MP3 recordings, not measured or studio-clean capture. The fictional SMG deliberately adapts the real 9 mm pistol report at unchanged pitch with a shorter decay. It is not represented as a separately recorded SMG. Pistol and shotgun variants are level variations of one take; R-4 variants are isolated attacks from one automatic-fire source. The earlier 99253 authored kick-drum/trigger composite and distant 98831 shot are absent from the current runtime bank and source manifest.
 
-`tools/build-rifle-audio.py` defines all trim windows, filters, retiming, layer levels and arrivals. It verifies the original MP3 hashes before rebuilding. The mix uses sampled attacks, low body, AR receiver/bolt contacts and recorded environmental decay. No oscillator, generated noise, laser tone, beep or game recording is added. Suppressed cues are designed filtering/mixing variants of these recordings, not recordings of a physical suppressor or measured attenuation.
+## Editing and timing
 
-- Three shot variations, three suppressed variations, and corresponding indoor mixes: 12 files. Main pressure/body is centered. The shot's recorded action occurs at +45 ms. There is no casing-floor bounce baked into a shot.
-- Outdoor response uses the distant field recording; indoor response uses bounded 19/37/63/104 ms early reflections and a quiet metal decay. This is an authored two-environment mix, not a room-acoustics simulation.
-- Mag eject, insert, seat, charge, close, transition and dry trigger: 7 files. Tactical reload never automatically invokes charge. Empty/chamber reload receives the actual phase event. A charging cue combines AR handle pull and bolt return; it is not a shotgun pump.
-- Metal, wood, stone, body, armor and partially penetrated armor/body response: 6 files. These are Foley-designed gameplay cues, not forensic bullet-impact recordings.
-- Three separate casing cues play only when the game reports physical first floor contact. Soft ground/wood reduce gain and high frequencies. Ejection/action and surface contact remain distinct.
+`tools/build-rifle-audio.py` is the exact deterministic recipe. It adds no oscillator, generated noise, beep, metal resonator or pitch change to gunfire. Existing original recorded Foley impact support layers remain source-based.
 
-There is no long reload sequence or timer queue in the audio engine. `reloadstage` plays only the currently emitted phase. `cancelRifleReload()` stops active rifle reload tails without cutting shot reflections. Pause, mute, stop and destruction stop active source nodes. The engine has a bounded voice count, distance/pan input sanitization, compressor, and final output shaper; it cannot guarantee a safe physical headphone volume.
+- R-4 attacks use source 89473 at 0.583, 1.903 and 2.659 seconds, 60 ms each, ending before subsequent reports. A quiet 1.30–1.54 s recorded decay supports the tail. No extra bolt smack is layered over the attack.
+- Pistol uses source 6349 at 0.141–0.701 s; SMG uses its 0.141–0.321 s attack/body, with the game's own automatic cadence. Shotgun uses source 94496 at 0.205–0.825 s.
+- Broad 35 Hz–17.5 kHz cleanup and short boundary fades remain. Suppressed variants apply authored attenuation and a gentle 7.5 kHz low-pass. They are not recordings of physical suppressors or measured attenuation. Indoor variants add quiet 19/37 ms early returns, with no metallic decay layer.
+- Actual game events control reload, cycling and dry trigger. Pistol slide and shotgun pump contacts are edited into existing 0.19/0.28 s recovery windows without pitch change. SMG manipulation uses recorded AR magazine/receiver Foley for the fictional rig. Reload files contain the current phase only; no future insert/charge is queued.
+- R-4 tactical reload does not automatically charge. Empty reload plays charge only at the actual charge event. Switch cancellation stops reload tails without cutting unrelated shot returns.
+- Casing cues occur on physical first floor contact for all four guns. Shotgun ejection still begins at its cycle event. Ground/wood attenuate and low-pass the contact.
+- Material hits, enemy gunfire and player body/armor hit use the bank independently of the equipped weapon. Synthetic kill, warning and reload-perfect/mistime/loaded overlays are removed.
+
+Remaining procedural cues are movement/dash/landing/sliding, object break, explosion and pickup. They are outside firearm/mechanical/hit routes and are not claimed to be recorded.
 
 ## Runtime/build contract
 
-Load `rifle-audio.js` before `audio.js`. Copy `assets/audio/rifle/` to the build's `audio/rifle/`, together with this provenance/license notice or equivalent game credits. No network request leaves the game origin.
+The historical API/file names `rifle-audio.js`, `audio/rifle/`, `preloadRifle()` and `stats().rifle` remain for compatibility; the bank now covers every equipped gun. Load `rifle-audio.js` before `audio.js` and copy the complete bank/manifest/credits to `audio/rifle/`. Everything loads from the game origin.
 
-After a user-gesture `audio.resume()`, call `await audio.preloadRifle()`. `audio.stats().rifle` exposes `status` (`idle`, `loading`, `ready`, `error`), `error`, `loaded`, `total`. A missing, oversized, nonfinite, silent or undecodable file fails the entire bank visibly. Weapon index 3 never silently synthesizes or aliases legacy index 2.
+After user-gesture `resume()`, preload the bank. It is atomic: any missing, oversized, nonfinite, silent or undecodable WAV produces a visible loading error for all guns. Gun routes never fall back to procedural synthesis. Until loading is complete, attempted gun cues return false and are discarded, never queued for late playback. The full PCM WAV bank is 6,375,956 bytes; decoded stereo float buffers total 12,744,960 bytes. Existing 32-voice bounds, same-origin fetch/redirect restrictions, cancellation and source-node disposal remain.
 
-- `audio.shot(3, {suppressed, environment: 'indoor'|'outdoor'})`
-- `audio.event('reloadstage', {weapon:3, stage:'eject'|'insert'|'seat'|'charge'|'close'})`
-- `audio.event('reload', {weapon:3})` plays a brief handling transition only
-- `audio.event('empty'|'switch', {weapon:3})`
-- `audio.impact(material, {weapon:3, armored, distance, pan, intensity})`
-- `audio.event('casing'|'casingbounce', {weapon:3, material, distance, pan, intensity})`
-- `audio.cancelRifleReload()` or `audio.event('reloadcancel', {weapon:3})`
-- `riflecycle` has no additional sound because the recorded shot already contains the +45 ms bolt/action layer
+The master graph still has a 30 Hz high-pass, compressor (−13 dB threshold, 12:1 ratio, 1 ms attack, 90 ms release), default gain 0.72, and bounded output shaper. The repair changes sources/processing/routing, not this graph. Digital bounds do not guarantee a safe physical headphone volume.
 
-Legacy indices 0–2 retain the previous APIs and synthesis. They are not claimed to satisfy this rifle-specific audio milestone.
+## Verification and review limits
 
-## Rebuilding and verification
+Build: `python tools/fetch-rifle-audio.py --source-dir <private-cache>` then `python tools/build-rifle-audio.py --source-dir <private-cache>`. The cache must remain outside the repository. The optional audition output is a private fixture, not a distributable SFX pack.
 
-Use `python tools/fetch-rifle-audio.py --source-dir <private-directory-outside-repo>`, then `python tools/build-rifle-audio.py --source-dir <same-directory>`. The fetch helper reuses only hash-verified copies and stops on changed sources; it does not sign in or solve a CAPTCHA. Optional `--audition <path-outside-project>` writes a private listening fixture; do not distribute it as an SFX pack.
+The manifest records all 79 output hashes, sources, stereo 48 kHz signed 16-bit format, durations, peak/RMS and exact-zero endpoints. Tests validate every file, all four gun routes, player/enemy hits, phase timing and cancellation, bounded voices, mute/pause/destroy, all-gun visible failure without synthetic fallback, and actual-event first-contact casing integration using a mocked renderer.
 
-`assets/audio/rifle/manifest.json` contains every output SHA-256, duration, peak/RMS, exact zero endpoint, and source IDs. The bank is 48 kHz, stereo, signed 16-bit PCM WAV. Individual digital peaks are at or below 0.80. Files are one-shot, not looping; faded boundaries and decaying returns are checked. `node app/test-audio.cjs` checks legacy behavior; `node app/test-rifle-audio.cjs` checks the real WAVs and engine. Set `DF_RIFLE_SOURCE_DIR` to additionally verify the private raw-source bytes.
-
-Signal/graph tests do not establish that these sounds are pleasant, convincing, balanced against all gameplay, or synchronized in a rendered browser. Listening through the game, real ordinary-input reload interruption, sustained full-auto, different surfaces/rooms, mute/pause and device volume remain required acceptance steps. No audio-perception tool was available in this worker, so **none of these sounds has been heard here**.
+The companion game-specific comparison MP4 combines the exact pre-mixer baseline/current cue banks with original project diagrams and labels. It is an offline edited sequence, not captured gameplay or the post-compressor Web Audio signal. Neither the old nor new sound has been heard by this worker. Listening through actual game/device output, ordinary-input interruption/full-auto, room/surface balance and rendered browser acceptance remain open.

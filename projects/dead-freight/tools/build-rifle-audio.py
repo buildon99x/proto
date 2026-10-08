@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline, deterministic sample-backed rifle mix. Python + numpy + scipy + ffmpeg.
+"""Offline, deterministic recorded firearm bank for every playable gun. Python + numpy + scipy + ffmpeg.
 No oscillators, generated noise, external network calls or game audio. See audio-provenance.md.
 """
 from pathlib import Path
@@ -96,8 +96,11 @@ def write(name, data, peak=None, sources=()):
     return x
 
 
-near = read('99253')
-far = read('98831')
+pistol = read('6349')
+shotgun = read('94496')
+automatic = read('89473')
+pistol_handling = read('98830')
+pump = read('101896')
 handling = read('104296')
 chamber = read('45010')
 metal = read('31859')
@@ -107,42 +110,43 @@ flesh = read('32436')
 shell = read('75000')
 dry = read('98832')
 
-# Recorded AR bolt return plus a separate receiver contact, deliberately at shot+45ms.
-action = np.zeros((round(.095*SR),2))
-add(action,normalize(filt(mono(cut(chamber,4.307,.086)),600,9400),.14))
-add(action,normalize(filt(mono(cut(handling,3.022,.052)),1600,12000),.06),.012)
+# Preserve recorded gun attacks at the source rate. No pitch shifts, split-band
+# pressure/body synthesis, added kick drum, metal resonator or loud bolt overlay.
+# M16 excerpts end before the following report; a quiet final recorded decay
+# supports each isolated single trigger event without hiding extra shots in it.
 shots, quiets = [], []
-for i, (nt, ft, speed) in enumerate([(.113,.833,1.00),(.238,.997,.985),(.363,1.165,1.017)],1):
-    # Individual recorded burst attacks are isolated before the following attack.
-    pressure = normalize(filt(retime(mono(cut(near,nt,.115)),speed),570,15500),.65)
-    body = normalize(filt(retime(mono(cut(near,nt,.115)),.88+(i-1)*.012),60,1150),.22)
-    returns = normalize(filt(cut(far,ft,.57),210,3400),.080)
-    # A quiet natural metal decay adds room texture to the designed indoor return.
-    room = normalize(filt(cut(metal,.692,.30),430,2600),.022)
-    for indoor in [False,True]:
-        out=np.zeros((round((.70 if indoor else .82)*SR),2))
-        add(out,pressure);add(out,body,.003);add(out,action,.045)
-        if indoor:
-            for at,level in [(.019,.19),(.037,.115),(.063,.065),(.104,.035)]:
-                reflected=filt(pressure,350,4400)
-                # A small L/R arrival offset makes reflections wider while keeping the attack centered.
-                add(out,reflected*np.array([1,.65]),at,level)
-                add(out,reflected*np.array([.35,1]),at+.004,level*.62)
-            add(out,room,.09)
-        else:
-            add(out,returns,.055)
-            add(out,filt(returns,300,1500)*np.array([1,.45]),.13,.22)
-            add(out,filt(returns,300,1300)*np.array([.30,1]),.137,.16)
-        suffix='-indoor' if indoor else ''
-        loud=write(f'shot{suffix}-{i}',out,.80,('99253','45010','104296','31859') if indoor else ('99253','98831','45010','104296'))
-        if not indoor: shots.append(loud)
-        quiet=np.zeros((round(.65*SR),2))
-        add(quiet,filt(pressure,170,2100),0,.25);add(quiet,body,.003,.30);add(quiet,action,.045,.90)
-        if indoor:
-            add(quiet,filt(pressure,350,2400),.023,.075);add(quiet,room,.090,.45)
-        else: add(quiet,filt(returns,220,1500),.057,.20)
-        q=write(f'suppressed{suffix}-{i}',quiet,None,('99253','45010','104296','31859') if indoor else ('99253','98831','45010','104296'))
-        if not indoor: quiets.append(q)
+shot_specs = [
+ ('',automatic,'89473',[(.583,.060),(1.903,.060),(2.659,.060)],.50),
+ ('pistol-',pistol,'6349',[(.141,.56)]*3,.65),
+ ('shotgun-',shotgun,'94496',[(.205,.62)]*3,.72),
+ # Fictional 9 mm SMG uses the same real 9 mm report, with a shorter decay.
+ # Its identity comes from actual 100 ms game cadence, never from pitch changes.
+ ('smg-',pistol,'6349',[(.141,.18)]*3,.30),
+]
+for prefix,source,source_id,windows,length in shot_specs:
+    for i,(at,duration) in enumerate(windows,1):
+        recorded=cut(source,at,duration)
+        recorded=normalize(recorded,.74*[.98,1,.96][i-1])
+        base=np.zeros((round(length*SR),2))
+        add(base,recorded)
+        if not prefix:
+            natural_return=normalize(cut(automatic,1.30,.24),.032)
+            add(base,natural_return,.045)
+        for indoor in [False,True]:
+            out=base.copy()
+            if indoor:
+                # Bounded, quiet early returns; preserve original centered attack.
+                reflected=filt(recorded,120,7000)
+                add(out,reflected,.019,.055)
+                add(out,reflected*np.array([.7,1]),.037,.030)
+            suffix='-indoor' if indoor else ''
+            loud=write(f'{prefix}shot{suffix}-{i}',out,None,(source_id,))
+            if not prefix and not indoor:shots.append(loud)
+            # Authored attenuation, not a recording of a physical suppressor.
+            # The old 2.1 kHz cut and prominent action layer are removed.
+            quiet=sosfilt(butter(1,7500,btype='lowpass',fs=SR,output='sos'),out,axis=0)*.34
+            q=write(f'{prefix}suppressed{suffix}-{i}',quiet,None,(source_id,))
+            if not prefix and not indoor:quiets.append(q)
 
 # Rifle-specific manipulation: AR15 magazine contact + separately recorded assault-rifle handling.
 # These files contain only a single phase. No delayed future reload phase is baked into them.
@@ -167,6 +171,32 @@ drycue=np.zeros((round(.18*SR),2))
 add(drycue,normalize(filt(mono(cut(dry,.082,.105)),210,11500),.80))
 add(drycue,normalize(filt(mono(cut(handling,3.023,.032)),1800,14000),.12),.008)
 write('dry-trigger',drycue,.18,('98832','104296'))
+
+# Legacy weapon state still owns event timing; each file is one action only.
+# Pistol magazine/slide are real 9 mm handling; shotgun uses real Mossberg action;
+# SMG uses the recorded AR magazine/receiver Foley shared by this fictional rig.
+for prefix,source,source_id,specs in [
+ ('pistol-',pistol_handling,'98830',{'cycle':(1.535,.26,.25),'mag-eject':(.553,.11,.22),'mag-insert':(.572,.14,.30),'mag-seat':(.593,.095,.28),'close':(1.726,.10,.26)}),
+ ('shotgun-',pump,'101896',{'cycle':(.170,.46,.30),'mag-eject':(.178,.10,.20),'mag-insert':(.488,.13,.24),'mag-seat':(.530,.085,.22),'close':(.505,.12,.24)}),
+ ('smg-',handling,'104296',{'cycle':(2.980,.11,.18),'mag-eject':(.615,.13,.24),'mag-insert':(.923,.17,.30),'mag-seat':(1.480,.11,.30),'close':(2.238,.115,.23)}),
+]:
+    for name,(at,duration,level) in specs.items():
+        # Match the game's existing recovery window without changing playback pitch.
+        # Only the present mechanical cycle is composed here, never a future reload phase.
+        if name=='cycle' and prefix in ['pistol-','shotgun-']:
+            if prefix=='pistol-':
+                out=np.zeros((round(.19*SR),2))
+                add(out,cut(source,1.546,.075))
+                add(out,cut(source,1.726,.085),.095)
+            else:
+                out=np.zeros((round(.28*SR),2))
+                add(out,cut(source,.170,.115))
+                add(out,cut(source,.505,.130),.135)
+        else:
+            clip=cut(source,at,duration)
+            out=np.zeros((round((duration+.025)*SR),2))
+            add(out,clip)
+        write(prefix+name,out,level,(source_id,))
 
 # Foley material/target response. Armor uses a tight metal contact and body mass layer.
 for name,main,start,second,secondstart,band,pk,ids in [
@@ -194,7 +224,7 @@ for i,t in enumerate([.108,2.369,5.486],1):
     write(f'casing-{i}',out,.135,('75000','62692'))
 
 report={'provider':'Pixabay','sampleRate':SR,'format':'PCM signed 16-bit stereo WAV',
-        'status':'signal-checked; NOT listened or browser accepted',
+        'status':'recorded all-gun repair; signal-checked; NOT listened or browser accepted',
         'distribution':'Combined DEAD FREIGHT game runtime only; not a standalone sound pack.',
         'sourceHashes':{r['id']:r['sha256'] for r in PROVENANCE['sources']},'files':metrics}
 (OUT/'manifest.json').write_text(json.dumps(report,indent=2)+'\n')

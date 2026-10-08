@@ -1,20 +1,29 @@
-/* Recorded, project-local rifle bank. Source credits and editing notes: ../audio-provenance.md.
+/* Recorded, project-local firearm bank for all four equipped weapons. Source credits and editing notes: ../audio-provenance.md.
  * This module never generates a replacement tone when a recording is missing.
  */
 (function(root){
 'use strict';
-const FILES=Object.freeze(['shot-1','shot-2','shot-3','suppressed-1','suppressed-2','suppressed-3','mag-eject','mag-insert','mag-seat','charge','dry-trigger','transition','close','impact-metal','impact-wood','impact-stone','impact-body','impact-armor','casing-1','casing-2','casing-3','shot-indoor-1','shot-indoor-2','shot-indoor-3','suppressed-indoor-1','suppressed-indoor-2','suppressed-indoor-3','impact-body-armored']);
+const PREFIXES=Object.freeze(['pistol-','shotgun-','smg-','']);
+const SHOTS=PREFIXES.flatMap(prefix=>['shot','suppressed','shot-indoor','suppressed-indoor'].flatMap(type=>[1,2,3].map(i=>prefix+type+'-'+i)));
+const FILES=Object.freeze([...SHOTS,'mag-eject','mag-insert','mag-seat','charge','dry-trigger','transition','close','impact-metal','impact-wood','impact-stone','impact-body','impact-armor','casing-1','casing-2','casing-3','impact-body-armored',...PREFIXES.slice(0,3).flatMap(prefix=>['cycle','mag-eject','mag-insert','mag-seat','close'].map(type=>prefix+type))]);
 const LIMITS=Object.freeze({files:FILES.length,bytesPerFile:256000,duration:1.25,channels:2,concurrency:3,timeoutMs:10000});
 const PHASES=Object.freeze({start:'transition',eject:'mag-eject',insert:'mag-insert',seat:'mag-seat',charge:'charge',close:'close'});
 function keyFor(type,options={},variant=0){
- if(type==='shot')return `${options.suppressed?'suppressed':'shot'}${options.environment==='indoor'?'-indoor':''}-${((variant%3)+3)%3+1}`;
- if(type==='reload')return PHASES[options.phase]||null;
+ const weapon=Number.isFinite(options.weapon)?Math.max(0,Math.min(3,Math.round(options.weapon))):3,prefix=PREFIXES[weapon],take=((variant%3)+3)%3+1;
+ if(type==='enemyshot')return 'shot-'+take;
+ if(type==='hurt')return options.armored?'impact-armor':'impact-body';
+ if(type==='shot')return `${prefix}${options.suppressed?'suppressed':'shot'}${options.environment==='indoor'?'-indoor':''}-${take}`;
+ if(type==='reload'){
+  const phase=Number.isFinite(options.phase)?['eject','insert','seat','close'][Math.max(0,Math.min(3,Math.round(options.phase)))]:options.phase;
+  const key=PHASES[phase];return key?(prefix&&['mag-eject','mag-insert','mag-seat','close'].includes(key)?prefix+key:key):null;
+ }
+ if(type==='cycle')return weapon===3?null:prefix+'cycle';
  if(type==='empty'||type==='needcycle')return 'dry-trigger';
  if(type==='switch')return 'transition';
- if(type==='casing'||type==='casingbounce')return 'casing-'+(((variant%3)+3)%3+1);
+ if(type==='casing'||type==='casingbounce')return 'casing-'+take;
  if(type==='impact'&&options.armored&&(options.material==='body'||options.material==='head'))return 'impact-body-armored';
  if(type==='impact')return 'impact-'+({metal:'metal',armor:'armor',wood:'wood',body:'body',head:'body'}[options.material]||'stone');
- return null; // In particular, riflecycle is already mixed at +45 ms in each shot.
+ return null; // Reload success/kill/warning markers never add a synthetic gun tone.
 }
 function validate(buffer){
  if(!buffer||!Number.isFinite(buffer.duration)||buffer.duration<=0||buffer.duration>LIMITS.duration||!Number.isInteger(buffer.numberOfChannels)||buffer.numberOfChannels<1||buffer.numberOfChannels>LIMITS.channels||!Number.isInteger(buffer.length)||buffer.length<1||buffer.length>192000*LIMITS.duration)throw Error('Invalid rifle recording format');
@@ -77,7 +86,7 @@ class Bank {
  }
  get(type,options={}){
   if(this.destroyed||this.status!=='ready')return null;
-  const key=keyFor(type,options,type==='shot'?(this.shotCounter=(this.shotCounter+1)%3):type==='casing'||type==='casingbounce'?(this.casingCounter=(this.casingCounter+1)%3):0);
+  const key=keyFor(type,options,(type==='shot'||type==='enemyshot')?(this.shotCounter=(this.shotCounter+1)%3):type==='casing'||type==='casingbounce'?(this.casingCounter=(this.casingCounter+1)%3):0);
   return key?this.buffers.get(key)||null:null;
  }
  cancel(){this.generation++;for(const c of this.controllers)c.abort();this.controllers.clear();this.pending=null;}

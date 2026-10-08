@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.9.0 — owned stash capacity and currency expansion
+- Add a dedicated owned-item grid with capacity, bank, sorting, details, equipment comparison and explicit sale confirmation
+- Expand24→64 slots in five8-slot purchases using original virtual-currency costs; show cost, resulting balance and maximum
+- Persist capacity, currency and item changes in one schema4 record with durable operation receipts; back up legacy records before first mutation
+- Preserve existing over-cap items and queue extraction/protected-death overflow durably; require claim or explicit sale before deployment
+- Keep raid bag12/30kg independent and clear sold-item preparation; preserve isolated QA profile and current audio/visibility
+
+## 0.8.4 — bounded actual-play feedback corrections
+- Give enemy faces, hats and legs dedicated brighter materials without changing global grading, lights or player hands
+- Count valid enemy impacts for accuracy, excluding scenery/barrels/invalid targets; label it explicitly
+- Synchronize new-deployment HUD before exposing play, including immediate retry/Esc
+- Preserve both synchronous and asynchronous pointer-lock failure diagnostics and playable keyboard-aim fallback
+
+## 0.8.3 — recorded audio for all existing firearms
+- Replace pistol, shotgun and SMG synthetic gun routes with recorded reports and mechanics; replace processed rifle body source with real M16 bursts
+- Remove tonal gun-result markers; preserve recording body with suppressors and make them opt-in
+- Extend casing contact and material/player hit recording routes to every firearm, with armor-break identity preserved
+- Keep the menu and inventory untouched while the first gesture prepares the complete bank; require a fresh deployment click, with visible progress, retry and mute alternatives
+- Preserve 0.8.2 isolated QA saves and restored brightness; actual ordinary-input/listening acceptance remains open
+
 ## 0.8.2 — isolated ordinary-input QA save
 - Add the fixed local-qa query profile with a visible test badge and strictly prefixed owned save/backup/settings keys
 - Start test progress empty without reading or copying normal records; reject malformed profile selection before initialization

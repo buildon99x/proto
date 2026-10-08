@@ -7,8 +7,8 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.8.2",
-    "summary": "Equipment checkpoint with two firearm slots, armor, quick-use items, slot/weight-limited bags, usable gadgets/throwables and persistent extraction stash. R-4 actual-play/listening gate remains open.",
+    "version": "0.9.0",
+    "summary": "Owned equipment stash with slot-capacity purchases, explicit item sales and durable overflow recovery, alongside the extraction carry system and recorded gun audio. R-4 actual-play/listening gate remains open.",
     "tags": [
       "game",
       "fps",

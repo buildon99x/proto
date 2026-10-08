@@ -36,3 +36,19 @@ The creator reports that the current image is unreadable and explicitly says per
 
 ## 0.8.2 isolated gameplay QA
 Enable the explicitly requested local-PC play test without reading, copying, spending or replacing the normal browser save. A fixed allowlisted test-profile URL must use a separate storage namespace, show a persistent test badge and run the same gameplay rules. Reject invalid profile values before storage or gameplay initialization. Audio investigation proceeds separately on the existing exact runtime/source recordings.
+
+## Recorded gun-audio repair
+The creator still hears electronic gunfire. Repair all currently playable firearm sounds using licensed Pixabay recordings, without expanding the firearm mechanics roster. Reduce the existing suppressed shot's excessive filtering and mechanical dominance. Preserve credible recorded transients/body and synchronous magazine, cocking, cycle, casing and material-hit cues. Listening and A/B evidence must be reported separately from signal tests; do not claim commercial-game parity.
+
+## 0.8.3 all-firearm recording correction
+The creator reports that gun feedback still sounds electronic. Replace firearm output for every currently playable weapon with verified Pixabay recordings, including manipulation, impact, player hit and physical casing contact. Remove the processed kick-drum rifle source from runtime and disable tonal gun markers. Preserve game timing and inventory behavior. Default suppressor-off is integrated by the release owner. Audio listening and rendered gameplay remain separate acceptance gates.
+
+
+Keep deployment in the menu until the recorded bank has decoded successfully. The first cold start gesture unlocks/prepares sound; a fresh explicit click starts the raid when ready. Audio preparation never reserves inventory or writes a save. Muting is an explicit alternative, not a synthesized fallback.
+
+
+## Actual-play feedback corrections
+Actual 0.8.2 play exposed a few narrow presentation issues. Keep restored lighting and the recorded-audio checkpoint intact. Improve enemy head/leg separation with dedicated materials, preserve pointer-lock failure feedback, synchronize fresh HUD before showing a deployment, and make accuracy measure enemy hits only.
+
+## 0.9 permanent stash progression
+Add a limited home inventory for owned equipment/items and allow expansion with virtual game currency. This is separate from the raid bag's 12 slots/30kg. Use original prototype tuning: 24 initial stash slots, five +8-slot purchases up to64, priced500/750/1000/1500/2000. Preserve all older items and cash without writes on load. Full extraction must never silently delete loot; retain overflow as a recovery queue that must be resolved before another deployment. Explicitly reviewed sale/claim actions provide a way to free space or earn expansion currency, without adding a general gear shop or crafting system.

@@ -69,5 +69,13 @@ check('armor-stopped hit has a distinct marker and material audio instead of fal
 check('canceling a rifle reload stops its cue group and emits no future insert/charge sounds',()=>{
  start();h.tap('KeyF');h.advance(.2);h.tap('KeyR');h.advance(.4);const before=h.audioCalls.length;h.tap('Digit2');h.tick();assert(h.audioCalls.slice(before).some(c=>c.method==='cancelRifleReload'));const afterCancel=h.audioCalls.length;h.advance(2.5);assert(!h.audioCalls.slice(afterCancel).some(c=>c.method==='reload'&&c.args[1]===3));
 });
+for(const weapon of [0,1,2])check('weapon '+weapon+' plays one recorded casing cue on physical contact',()=>{
+ const q=harness({}, {weapon});q.click('start');q.advance(.5);assert(q.elements.get('audiostatus').textContent.includes('RECORDED'));
+ const before=q.eventCount('casingbounce');q.tap('KeyF');q.advance(.12);assert.equal(q.eventCount('casingbounce'),before);q.advance(1.7);assert.equal(q.eventCount('casingbounce'),before+1);q.advance(.5);assert.equal(q.eventCount('casingbounce'),before+1);
+ const event=q.audioCalls.findLast(c=>c.method==='event'&&c.args[0]==='casingbounce');assert.equal(event.args[1].weapon,weapon);assert(event.args[1].distance>=0);q.window.dispatch('pagehide');
+});
+check('player hit emits recorded body/armor routing with equipped-gun-independent intent',()=>{
+ const w=start();w.player.armor=1;w.damage(10);h.tick();const event=h.audioCalls.findLast(c=>c.method==='event'&&c.args[0]==='hurt');assert.equal(event.args[1].armored,true);w.player.armor=0;w.damage(10);h.tick();assert.equal(h.audioCalls.findLast(c=>c.method==='event'&&c.args[0]==='hurt').args[1].armored,false);
+});
 if(failures.length)process.exitCode=1;
 console.log(`${checks} rendererless rifle integration checks passed; ${failures.length} failed. Actual browser, listening and input feel remain unverified.`);

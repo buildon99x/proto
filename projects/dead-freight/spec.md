@@ -85,3 +85,24 @@ Restore 0.6 background #8c929f, fog #89919c/density0.0095, hemisphere #cbd2dc/#1
 
 ## 0.8.2 test storage contract
 Only `?testProfile=local-qa` enables test storage. No parameter preserves the current default keys. Unknown values, empty values, duplicate parameters and wrong-case testProfile spellings stop before game/storage initialization. Every owned save, migration backup and settings key passes through one fixed-prefix adapter; arbitrary keys/namespaces are rejected. The test profile starts empty and never seeds from normal state. A visible Korean test-save badge remains on menu, inventory and play screens. Recovery, retry, restart and reload operate on the same chosen namespace. There are no test cheats or altered gameplay rules.
+
+## Audio repair contract
+All four currently playable guns require recorded gunfire/mechanical/impact routing with no procedural gun fallback. Distinguish non-gun ambience/UI cues rather than silently describing them as recorded firearm audio. Verify source provenance, licensing and exact assets. Avoid treating a preprocessed kick-layered source as an unmodified recording. A labeled, game-specific A/B comparison must identify source, weapon/mode and whether it is a pre-mixer sample; do not redistribute raw stock clips as a pack. Keep existing weapon-state timing, cancellation and voice limits. No user-PC or live saved-state mutation by this source worker.
+
+## 0.8.3 recorded firearm contract
+All four shot routes, enemy gunfire, reload/cycle/empty/switch, material hits, player hit and casing contact require decoded local recordings. None can silently fall back to synthesized tones/noise. Non-gun dash, destruction, explosion and pickup remain separate procedural cues. Use real M16 reports, real 9mm (also adapted to the fictional SMG), real shotgun report/pump and real handgun manipulation, with source hashes and honest editing notes. Preserve phase-driven reload/cycle and physical first-contact casing timing, including shotgun cycle-time ejection; cancel reload tails on switches. Missing-bank status applies to every gun.
+
+
+Audio preparation must deduplicate repeated start/restart clicks, show progress and actionable retry failure, preserve menu/save/time state, and invalidate asynchronous completion on mute or page lifecycle changes. No delayed automatic deployment or pointer lock after loading. A ready bank keeps normal warm starts. The suppressor starts unchecked.
+
+
+## Actual-play feedback corrections
+Do not change the global grading, ambient/fog values or viewmodel pose in this slice. Enemy-only accuracy counts valid living enemy impacts (including absorbed armor), excludes scenery/barrels/invalid targets, and remains at most one hit per successful shot. Show a persistent menu hint and a non-overwritten toast when pointer lock rejects or throws; retain the exception name for diagnosis without claiming browser cause. A fresh mission must synchronize HUD before its menu disappears. Dedicated enemy head/leg materials must not alter player hands or world black materials.
+
+## 0.9 stash contract
+- Permanent owned-item capacity starts at24 stacks and expands by8 through five tiers to64. A stack occupies one slot; carried bag capacity and weight are unchanged. Existing over-capacity records remain intact and clearly labeled.
+- Show occupied/available slots, next cost, current balance, post-purchase balance, next/max capacity and clear max/insufficient-currency states. Review then confirm a purchase; stale quotes, repeated requests, double-clicks, failed writes and retries must never double-spend.
+- Persist capacity and bank in one transaction under schema4, backed by the existing retry/stale-state mechanism. Preserve unknown fields, all prior items and exact legacy cash. Back up schema3 before its first upgrade write, retaining older backups. Opening or sorting never writes.
+- If retained extraction or protected-death items cannot all fit, preserve them in a durable recovery queue instead of overflowing the stash or deleting items. Resolve the queue by claiming into free slots, expanding capacity, or explicitly reviewed sales. Block another deployment while recovery remains, preventing unlimited queue bypass. Selling issued gear yields zero; no automatic sale occurs.
+- Stash and recovery item details support category/name/value/weight sorting, quantity and equipment comparisons. Prepared loadout transfers still withdraw only on deployment. Selling a selected stash item must invalidate its draft reservation so it cannot be both sold and deployed.
+- Purchases/sales are virtual in-game transactions. Automated tests use isolated records. Do not test spending, item mutation or raids against the user's live Windows save without the parent's pending approval.

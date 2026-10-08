@@ -4,38 +4,6 @@
   "rawSourcesIncluded": false,
   "sources": [
     {
-      "id": "99253",
-      "title": "Ar15-Real Recording",
-      "artist": "SuperPhat",
-      "distributor": "Pixabay / freesound_community",
-      "page": "https://pixabay.com/sound-effects/film-special-effects-ar15-real-recording-99253/",
-      "download": "https://cdn.pixabay.com/download/audio/2022/03/22/audio_c66de49233.mp3?filename=freesound_community-ar15-real-recording-99253.mp3",
-      "publishedDateVisibleOnPage": "2022-08-31",
-      "retrieved": "2026-10-08",
-      "license": "Pixabay Content License",
-      "licenseUrl": "https://pixabay.com/service/license-summary/",
-      "termsUrl": "https://pixabay.com/service/terms/",
-      "originalAuthorReference": "https://freesound.org/people/SuperPhat/sounds/432366/",
-      "sha256": "c48524441c82774df91def68c5aeb715487806bdf7aef813941dc5311e6576ce",
-      "bytes": 51360
-    },
-    {
-      "id": "98831",
-      "title": "AR15 rifle shot from 50 yards away",
-      "artist": "michorvath",
-      "distributor": "Pixabay / freesound_community",
-      "page": "https://pixabay.com/sound-effects/film-special-effects-ar15-rifle-shot-from-50-yards-away-98831/",
-      "download": "https://cdn.pixabay.com/download/audio/2022/03/21/audio_3d0e525697.mp3?filename=freesound_community-ar15-rifle-shot-from-50-yards-away-98831.mp3",
-      "publishedDateVisibleOnPage": "2022-08-31",
-      "retrieved": "2026-10-08",
-      "license": "Pixabay Content License",
-      "licenseUrl": "https://pixabay.com/service/license-summary/",
-      "termsUrl": "https://pixabay.com/service/terms/",
-      "originalAuthorReference": "https://freesound.org/people/michorvath/sounds/427597/",
-      "sha256": "70b99f1299876d49bd99248891aae9acfc597bdd7f5d3691bc7d7302faf31cf2",
-      "bytes": 124551
-    },
-    {
       "id": "45010",
       "title": "AR15 pistol load and chamber",
       "artist": "michorvath",
@@ -162,6 +130,134 @@
       "originalAuthorReference": "https://freesound.org/people/michorvath/sounds/427603/",
       "sha256": "d412de21056ede05994a542e997ae738ca07091e0f75f177f1552021faf05eb4",
       "bytes": 27585
+    },
+    {
+      "id": "6349",
+      "title": "9mm pistol shot",
+      "artist": "michorvath",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-9mm-pistol-shot-6349/",
+      "download": "https://cdn.pixabay.com/download/audio/2021/08/04/audio_35885047c8.mp3?filename=freesound_community-9mm-pistol-shot-6349.mp3",
+      "publishedDateVisibleOnPage": "2021-08-05",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": "https://freesound.org/people/michorvath/sounds/427592/",
+      "originalLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sha256": "8c1d04673954d4990c9c82eab2afbbc5951278eacdab4caaa9bb34f29352e781",
+      "bytes": 54334,
+      "sourceConstraints": [
+        "Actual 9mm pistol fired per original author description.",
+        "Author profile states recordings dated 2017+ used Sennheiser MKH 416.",
+        "Mono outdoor recording; preserve sharp onset and trim background bird/noise in the tail as appropriate.",
+        "Embed processed asset only in game; do not distribute original as standalone sound pack."
+      ],
+      "recordingEvidence": [
+        "https://freesound.org/people/michorvath/sounds/427592/",
+        "https://freesound.org/people/michorvath/"
+      ]
+    },
+    {
+      "id": "94496",
+      "title": "Saiga 12k Gunshot(12ga)",
+      "artist": "Kobrakon47",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-saiga-12k-gunshot12ga-94496/",
+      "download": "https://cdn.pixabay.com/download/audio/2022/03/17/audio_91a07ec7bc.mp3?filename=freesound_community-saiga-12k-gunshot12ga-94496.mp3",
+      "publishedDateVisibleOnPage": "2022-08-25",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": "https://freesound.org/people/Kobrakon47/sounds/569309/",
+      "originalLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sha256": "6fe53848b18ac014648849caffa1e2752dea60177c940c63c9b56ba8f815d610",
+      "bytes": 37920,
+      "sourceConstraints": [
+        "Original author explicitly identifies raw audio of self shooting Saiga 12 with 00 buckshot.",
+        "Actual 12-gauge shotgun source, not pump action itself; pair with separately recorded pump for game action.",
+        "Inspect transient clipping before normalizing; original is lossy stereo MP3.",
+        "Embed processed asset only in game; do not distribute original as standalone sound pack."
+      ],
+      "recordingEvidence": [
+        "https://freesound.org/people/Kobrakon47/sounds/569309/"
+      ]
+    },
+    {
+      "id": "98830",
+      "title": "9mm pistol load and chamber",
+      "artist": "michorvath",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-9mm-pistol-load-and-chamber-98830/",
+      "download": "https://cdn.pixabay.com/download/audio/2022/03/21/audio_f8f0daf6e7.mp3?filename=freesound_community-9mm-pistol-load-and-chamber-98830.mp3",
+      "publishedDateVisibleOnPage": "2022-08-31",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": "https://freesound.org/people/michorvath/sounds/427593/",
+      "originalLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sha256": "03270f9eacaca96284f8690e77d9169d194b541ccac4ae6ba3df75da847cea80",
+      "bytes": 71053,
+      "sourceConstraints": [
+        "Original author identifies real 9mm pistol reloading: magazine loaded and round chambered.",
+        "Mono outdoor recording with faint bird noise; trim individual action transients, avoid amplifying gaps.",
+        "Embed processed asset only in game; do not distribute original as standalone sound pack."
+      ],
+      "recordingEvidence": [
+        "https://freesound.org/people/michorvath/sounds/427593/"
+      ]
+    },
+    {
+      "id": "101896",
+      "title": "Pump Action Shotgun",
+      "artist": "awrmacd",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-pump-action-shotgun-101896/",
+      "download": "https://cdn.pixabay.com/download/audio/2022/03/24/audio_e8d506e5f9.mp3?filename=freesound_community-pump-action-shotgun-101896.mp3",
+      "publishedDateVisibleOnPage": "2022-09-02",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": "https://freesound.org/people/awrmacd/sounds/387190/",
+      "originalLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sha256": "8e1af6b90cecbb0d12f81acb5e496843213f2e0adf15b0ba91867d4caa88e07d",
+      "bytes": 94080,
+      "sourceConstraints": [
+        "Original author identifies multiple pumps of a real Mossberg12-gauge shotgun.",
+        "Three takes; original comments mention compression artifacts particularly on takes2 and3. Prefer first clean cycle after audio inspection.",
+        "Embed processed asset only in game; do not distribute original as standalone sound pack."
+      ],
+      "recordingEvidence": [
+        "https://freesound.org/people/awrmacd/sounds/387190/"
+      ]
+    },
+    {
+      "id": "89473",
+      "title": "machine gun",
+      "artist": "sidohzen",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-machine-gun-89473/",
+      "download": "https://cdn.pixabay.com/download/audio/2022/03/15/audio_27a6d194d9.mp3?filename=freesound_community-machine-gun-89473.mp3",
+      "publishedDateVisibleOnPage": "2022-08-18",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": "https://freesound.org/people/sidohzen/sounds/165809/",
+      "originalLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sha256": "d942b5ccb84c85dbff64cc8ecc693bf5dc274b6f6076b088a311a94b1fbce6ef",
+      "bytes": 182400,
+      "sourceConstraints": [
+        "Original author explicitly identifies several short bursts of actual full-auto M16 fire, captured with Sony HDR-CX160 camcorder.",
+        "Source has authentic automatic cadence; inspect camera limiter/clipping and select clean burst endings/single reports.",
+        "Embed processed asset only in game; do not distribute original as standalone sound pack."
+      ],
+      "recordingEvidence": [
+        "https://freesound.org/people/sidohzen/sounds/165809/"
+      ]
     }
   ]
 }

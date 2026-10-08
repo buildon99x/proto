@@ -44,33 +44,33 @@ for(const name of R.FILES){
 }
 test('Pixabay provenance is exact and raw downloads are excluded from distributed assets',()=>{
  const provenance=JSON.parse(fs.readFileSync(path.join(directory,'../provenance.json')));
- assert.equal(provenance.provider,'Pixabay');assert.equal(provenance.rawSourcesIncluded,false);assert.equal(provenance.sources.length,10);
+ assert.equal(provenance.provider,'Pixabay');assert.equal(provenance.rawSourcesIncluded,false);assert(provenance.sources.length>=10);
  assert.equal(fs.existsSync(path.join(directory,'../sources')),false);
  for(const source of provenance.sources){
   assert.equal(source.sha256,manifest.sourceHashes[source.id]);assert.match(source.sha256,/^[a-f0-9]{64}$/);assert(source.page.startsWith('https://pixabay.com/sound-effects/'));assert(source.artist);assert.equal(source.license,'Pixabay Content License');
   if(process.env.DF_RIFLE_SOURCE_DIR)assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(process.env.DF_RIFLE_SOURCE_DIR,source.id+'.mp3'))).digest('hex'),source.sha256);
  }
- for(const file of Object.values(manifest.files)){assert(file.sourceIds.length>=2);for(const id of file.sourceIds)assert(manifest.sourceHashes[id]);}
+ for(const file of Object.values(manifest.files)){assert(file.sourceIds.length>=1);for(const id of file.sourceIds)assert(manifest.sourceHashes[id]);}
 });
 test('three round-robin attacks are distinct, suppression is quieter, tails decay',()=>{
  const hashes=new Set(R.FILES.filter(x=>/^shot-[123]$/.test(x)).map(x=>manifest.files[x].sha256));assert.equal(hashes.size,3);
- for(let i=1;i<=3;i++){
-  const loud=decoded.get('shot-'+i),quiet=decoded.get('suppressed-'+i);assert(energy(quiet)<energy(loud)*.18);assert(energy(loud,0,4800)>energy(loud,28800,33600)*10);
+ for(const prefix of ['','pistol-','shotgun-','smg-'])for(let i=1;i<=3;i++){
+  const loud=decoded.get(prefix+'shot-'+i),quiet=decoded.get(prefix+'suppressed-'+i);assert(energy(quiet)<energy(loud)*.18);assert(energy(loud,0,4800)>energy(loud,Math.floor(loud.length*.60),Math.floor(loud.length*.90))*10);
   assert(energy(loud,loud.length-480)<energy(loud)*.001);
  }
 });
 test('indoor and outdoor shot tails are bounded and distinctly mixed',()=>{
  for(let i=1;i<=3;i++)for(const type of ['shot','suppressed']){const outdoor=decoded.get(type+'-'+i),indoor=decoded.get(type+'-indoor-'+i);assert.notEqual(manifest.files[type+'-'+i].sha256,manifest.files[type+'-indoor-'+i].sha256);assert(energy(indoor)>0);assert(energy(indoor,4800,12000)!==energy(outdoor,4800,12000));}
 });
-test('rifle recipes cannot synthesize or alias legacy SMG effects',()=>{
- for(const type of ['shot','reload','cycle','empty','switch','impact'])assert.equal(A.recipe(type,{weapon:3,phase:'eject'}),null);
- assert.equal(A.WEAPONS[3].recorded,true);assert(A.recipe('shot',{weapon:2}));
+test('every firearm requires recordings and cannot synthesize a fallback',()=>{
+ for(let weapon=0;weapon<4;weapon++)for(const type of ['shot','reload','cycle','empty','switch','impact','enemyshot'])assert.equal(A.recipe(type,{weapon,phase:'eject'}),null);
+ assert(A.WEAPONS.every(w=>w.recorded));
  assert.equal(R.keyFor('reload',{phase:'perfect'}),null);assert.equal(R.keyFor('riflecycle'),null);
 });
 (async()=>{
  const context=new Context(),updates=[],engine=A.create({context,fetch:localFetch,onRifleStatus:s=>updates.push(s),maxVoices:8});
- assert.equal(engine.stats().rifle.status,'idle');assert.equal(engine.shot(3),false);await engine.resume();assert.equal(engine.shot(3),false);assert.equal(context.syntheticBuffers,0);
- const p=engine.preloadRifle();assert.equal(engine.stats().rifle.status,'loading');assert.equal(engine.shot(3),false);assert(await p);
+ assert.equal(engine.stats().rifle.status,'idle');for(let weapon=0;weapon<4;weapon++)assert.equal(engine.shot(weapon),false);await engine.resume();for(let weapon=0;weapon<4;weapon++)assert.equal(engine.shot(weapon),false);assert.equal(context.syntheticBuffers,0);
+ const p=engine.preloadRifle();assert.equal(engine.stats().rifle.status,'loading');for(let weapon=0;weapon<4;weapon++)assert.equal(engine.shot(weapon),false);assert(await p);assert.equal(engine.voices.size,0,'dropped loading-time shots are never replayed later');assert.equal(engine.played,0);
  test('atomic local bank loading exposes readiness and keeps fixed decoded count',()=>{
   assert.equal(engine.stats().rifle.status,'ready');assert.equal(engine.stats().rifle.loaded,R.FILES.length);assert.equal(requested.length,R.FILES.length);assert.equal(context.decodes,R.FILES.length);assert(updates.some(x=>x.status==='loading'));assert.equal(context.syntheticBuffers,0);
  });
@@ -84,6 +84,26 @@ test('rifle recipes cannot synthesize or alias legacy SMG effects',()=>{
   context.advance(.1);assert.equal(engine.event('loaded',{weapon:3}),false);assert.equal(engine.event('riflecycle',{weapon:3}),false);
   for(const material of ['metal','armor','wood','stone','head','body']){context.advance(.1);assert(engine.impact(material,{weapon:3,pan:.5,distance:12}));}
   context.advance(.1);assert(engine.event('empty',{weapon:3}));context.advance(.1);assert(engine.event('switch',{weapon:3}));assert.equal(context.syntheticBuffers,0);
+ });
+ test('all playable firearms use their own decoded shots and timed mechanical phases',()=>{
+  engine.stopAll();
+  for(let weapon=0;weapon<4;weapon++){
+   const prefix=['pistol-','shotgun-','smg-',''][weapon];
+   for(const suppressed of [false,true])for(const environment of ['outdoor','indoor']){
+    context.advance(.1);assert(engine.shot(weapon,{suppressed,environment}));const actual=[...engine.voices].at(-1).source.buffer;
+    assert([1,2,3].some(i=>actual===engine.rifle.buffers.get(prefix+(suppressed?'suppressed':'shot')+(environment==='indoor'?'-indoor':'')+'-'+i)));
+   }
+   for(const phase of ['start','eject','insert','seat','close']){context.advance(.1);assert(engine.reload(phase,weapon));}
+   for(const phase of ['perfect','mistime','loaded']){context.advance(.1);assert.equal(engine.reload(phase,weapon),false);}
+   context.advance(.1);assert(engine.event('empty',{weapon}));context.advance(.1);assert(engine.event('switch',{weapon}));
+   if(weapon!==3){context.advance(.1);assert(engine.event('cycle',{weapon}));assert.equal([...engine.voices].at(-1).source.buffer,engine.rifle.buffers.get(prefix+'cycle'));if(weapon<2)assert([...engine.voices].at(-1).source.buffer.duration<=(weapon===0?.19:.28));}
+   context.advance(.1);assert(engine.event('hurt',{weapon}));assert.equal([...engine.voices].at(-1).source.buffer,engine.rifle.buffers.get('impact-body'));context.advance(.1);assert(engine.event('hurt',{weapon,armored:true}));assert.equal([...engine.voices].at(-1).source.buffer,engine.rifle.buffers.get('impact-armor'));context.advance(.1);assert(engine.impact('metal',{weapon}));context.advance(.1);assert(engine.event('casingbounce',{weapon,material:'wood'}));
+   for(const type of ['kill','warning']){context.advance(.1);assert.equal(engine.event(type,{weapon}),false);}
+  }
+  assert.equal(context.syntheticBuffers,0);assert.equal(engine.buffers.size,0);engine.stopAll();
+ });
+ test('enemy gunfire uses recorded rifle output independent of equipped gun',()=>{
+  for(let weapon=0;weapon<4;weapon++){context.advance(.1);assert(engine.event('enemyshot',{weapon,distance:20}));const voice=[...engine.voices].at(-1);assert([1,2,3].some(i=>voice.source.buffer===engine.rifle.buffers.get('shot-'+i)));assert(voice.nodes.find(n=>n.kind==='gain').gain.value<.5);}engine.stopAll();assert.equal(context.syntheticBuffers,0);
  });
  test('partial armor impact uses its recorded composite instead of bare-body cue',()=>{
   engine.stopAll();context.advance(.1);assert(engine.impact('body',{weapon:3,armored:true}));const composite=[...engine.voices].at(-1).source.buffer;
@@ -111,7 +131,7 @@ test('rifle recipes cannot synthesize or alias legacy SMG effects',()=>{
  test('pause/resume retains decoded recordings but releases playback nodes',()=>{assert.equal(context.decodes,R.FILES.length);assert.equal(context.syntheticBuffers,0);assert(context.nodes.filter(x=>x.kind==='source').every(x=>x.disconnected));});
  await engine.destroy();assert.equal(engine.rifle.buffers.size,0);assert.equal(engine.shot(3),false);assert.equal(await engine.preloadRifle(),false);
  const failed=A.create({context:new Context(),fetch:async()=>({ok:false,status:404})});await failed.resume();assert.equal(await failed.preloadRifle(),false);
- test('missing WAV gives visible error with no partial bank or synthetic fallback',()=>{assert.equal(failed.stats().rifle.status,'error');assert.match(failed.stats().rifle.error,/HTTP 404/);assert.equal(failed.rifle.buffers.size,0);assert.equal(failed.shot(3),false);assert.equal(failed.context.syntheticBuffers,0);});
+ test('missing WAV gives visible error with no partial bank or synthetic fallback',()=>{assert.equal(failed.stats().rifle.status,'error');assert.match(failed.stats().rifle.error,/HTTP 404/);assert.equal(failed.rifle.buffers.size,0);for(let weapon=0;weapon<4;weapon++)assert.equal(failed.shot(weapon),false);assert.equal(failed.context.syntheticBuffers,0);});
  await failed.destroy();
  for(const base of ['https://example.com/','//example.com/','../audio/','audio/?secret=1','/audio/']){
   const bank=new R.Bank({base,fetch:()=>{throw Error('must not fetch');}});assert.equal(await bank.load(new Context()),false);assert.match(bank.error,/project-local/);

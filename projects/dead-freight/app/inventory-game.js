@@ -25,6 +25,7 @@ class Bridge{
  _cancelReload(){
   const w=this.world;w.clearFireInput('inventory');
   if(w.rifle?.reload)w.rifle.cancelReload('inventory');
+  if(w.weapon!==3&&w.reload>0)w.emit('reloadcancel',{weapon:w.weapon,reason:'inventory'});
   w.reload=0;w.reloadDuration=0;
   // Reload may have cancelled a pending automatic legacy cycle. Resume its
   // normal delay/recovery rather than leaving a loaded firearm uncocked.

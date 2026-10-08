@@ -234,8 +234,9 @@ function starter(primaryIndex=3){
  for(const itemId of ammoIds){const result=inventory.add(itemId,reserves[itemId],issued);if(!result.ok)throw new Error('Invalid starter reserve: '+result.reason);}
  return inventory;
 }
+function reserveIdentities(ids){if(!Array.isArray(ids)||ids.some(uid=>typeof uid!=='string'||!uid.length||uid.length>120))return fail('invalid-uid');for(const uid of ids)allocatedUids.add(uid);return {ok:true};}
 function reserveUids(stacks){for(const stack of stacks){const result=validateStack(stack);if(!result.ok)return result;}return {ok:true};}
-const api={Inventory,Catalog,LIMITS,starter,defaultStarter:starter,validateStack,validateSnapshot,canPlace,stackWeight,stackValue,reserveUids};
+const api={Inventory,Catalog,LIMITS,starter,defaultStarter:starter,validateStack,validateSnapshot,canPlace,stackWeight,stackValue,reserveUids,reserveIdentities};
 if(typeof module!=='undefined'&&module.exports)module.exports=api;
 root.DFInventory=api;
 })(typeof globalThis!=='undefined'?globalThis:this);
