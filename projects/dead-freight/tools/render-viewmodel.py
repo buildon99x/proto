@@ -39,4 +39,4 @@ for t in j['triangles']:
   else:
    fac=np.clip((red-.012)/(.060-.012),0,1);fac=fac*fac*(3-2*fac);reds=np.array([[.25,.14,.19],[.53,.31,.37],[.70,.47,.53]])[np.digitize(value,[.27,.57])];tone=tone*(1-fac)+reds*fac
   d[valid]=zz[valid];pix[y0:y1+1,x0:x1+1][valid]=tone[valid]
-out=Image.fromarray((np.clip(pix,0,1)*255).astype('uint8'));canvas=Image.new('RGB',(640,408),'#090d17');canvas.paste(out,(0,26));draw=ImageDraw.Draw(canvas);draw.text((12,8),'OFFLINE MESH DIAGNOSTIC / NOT A GAME SCREENSHOT',fill='#d4d8e0');draw.text((12,391),('0.3 previous' if j['previous'] else '0.4 revised')+' / approximate light / no environment or browser verification',fill='#aab2c0');canvas.save(sys.argv[2])
+out=Image.fromarray((np.clip(pix,0,1)*255).astype('uint8'));canvas=Image.new('RGB',(640,408),'#090d17');canvas.paste(out,(0,26));draw=ImageDraw.Draw(canvas);draw.text((12,8),'OFFLINE MESH DIAGNOSTIC / NOT A GAME SCREENSHOT',fill='#d4d8e0');draw.text((12,391),j.get('label',('0.3 previous' if j['previous'] else '0.4 revised'))+' / approximate light / no environment or browser verification',fill='#aab2c0');canvas.save(sys.argv[2])

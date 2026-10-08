@@ -7,8 +7,8 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.4.0",
-    "summary": "Dithered forest FPS with articulated first-person hands, mechanical reload/recoil, suppressor, laser and iron-sight aim. Live visual/play acceptance pending.",
+    "version": "0.5.0",
+    "summary": "Dithered forest FPS with exposed-wrist first-person rig, damped weapon/camera motion, phased reload, layered original audio and impact response. Browser/audio acceptance pending.",
     "tags": [
       "game",
       "fps",
@@ -33,7 +33,7 @@ export const projects = [
       "build": "pnpm --filter dead-freight build",
       "test": "pnpm --filter dead-freight test"
     },
-    "updatedAt": "2026-10-08T02:31:04+09:00"
+    "updatedAt": "2026-10-08T09:06:28+09:00"
   },
   {
     "id": "deck-building",

@@ -27,3 +27,11 @@ The user explicitly requested reference-level first-person visual detail: articu
 
 ## 0.4 red accent / hard-surface correction
 Match the visible wine/rust suppressor cap as a substantial accent rather than a barely visible sliver. Retain a restrained three-value red ramp through the four-tone post-process. Use a chamfered receiver cross-section and stepped, tapered suppressor pieces with clear machined edges. Preserve attachment controls, articulated finger contact and existing firing/reload mechanics. Any offline geometry diagnostic must be labeled separately from an actual in-game screenshot.
+
+## 0.5 implementation acceptance
+- Shared hip/ADS pose definition, camera-relative first-person silhouette checked against the 640×360 reference; exposed wrist separated from sleeve/glove
+- Real viewmodel self-shadowing and authored creases/contact-darkening, preserving the red accent and four-tone style
+- Stable damped positional/rotational recoil with return, responsive ADS, locomotion and landing/dash response, reload magazine/support-hand/slide/audio synchronization
+- Original bounded WebAudio layers for shot transient/body/mechanics/reflection and material/target impacts; mute, pause/resume and safe master limiting
+- Tests cover construction, reference framing, wrist visibility, contact zones, motion convergence/frame-rate robustness and audio scheduling/resource limits
+- Browser-render, normal-input and audible acceptance require a working supported preview; disclose separately when blocked

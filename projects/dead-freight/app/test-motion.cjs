@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict');require('./motion.js');
+let checks=0;function check(name,fn){fn();console.log('PASS',name);checks++;}
+check('recoil begins and settles for all weapon classes',()=>{for(let w=0;w<3;w++){const m=DFMotion.create();m.fire(w,0);let a=m.step(1/60,{});assert(a.pitch>0&&a.back>0);for(let i=0;i<180;i++)a=m.step(1/60,{});assert(Math.abs(a.pitch)<1e-8&&Math.abs(a.back)<1e-8);}});
+check('recoil frame-rate independence',()=>{function sample(fps){const m=DFMotion.create();m.fire(0,0);let a;for(let i=0;i<fps/2;i++)a=m.step(1/fps,{});return a;}const a=sample(30),b=sample(120);assert(Math.abs(a.pitch-b.pitch)<1e-9);assert(Math.abs(a.back-b.back)<1e-9);});
+check('ADS reduces visual kick and smoothly converges',()=>{const a=DFMotion.create(),b=DFMotion.create();a.fire(0,0);b.fire(0,1);assert(a.step(.03).pitch>b.step(.03).pitch);let p;for(let i=0;i<90;i++)p=b.step(1/60,{aim:true});assert(p.ads>.999);});
+check('reload starts and ends neutral, magazine remains detached only in the middle',()=>{for(const t of [0,1]){const p=DFMotion.reloadPose(t);for(const n of Object.values(p))assert(Math.abs(n)<1e-8);}assert(DFMotion.reloadPose(.5).magazine<-.25);assert.equal(DFMotion.reloadPose(.9).magazine,0);});
+check('reload frames finite and continuous',()=>{let last=DFMotion.reloadPose(0);for(let i=1;i<=1000;i++){const p=DFMotion.reloadPose(i/1000);for(const k in p){assert(Number.isFinite(p[k]));assert(Math.abs(p[k]-last[k])<.04);}last=p;}});
+check('burst bounded, reset clears transient state',()=>{const m=DFMotion.create();let p;for(let i=0;i<600;i++){if(i%4===0)m.fire(2);p=m.step(1/60,{aim:true,speed:1});for(const n of Object.values(p).filter(x=>typeof x==='number'))assert(Number.isFinite(n)&&Math.abs(n)<2);}m.reset();p=m.step(0);assert.equal(p.pitch,0);assert.equal(p.ads,0);});
+check('dash, hurt and weapon-switch response remain finite',()=>{const m=DFMotion.create();['dash','hurt','swap','cycle'].forEach(m.impulse);const p=m.step(.016,{dash:true});assert(p.y<0);assert(p.rotZ<0);});
+console.log(`${checks} deterministic motion checks passed. No browser/feel verification implied.`);

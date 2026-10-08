@@ -4,8 +4,8 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
-  "version": "0.4.0",
-  "summary": "Dithered forest FPS with articulated first-person hands, mechanical reload/recoil, suppressor, laser and iron-sight aim. Live visual/play acceptance pending.",
+  "version": "0.5.0",
+  "summary": "Dithered forest FPS with exposed-wrist first-person rig, damped weapon/camera motion, phased reload, layered original audio and impact response. Browser/audio acceptance pending.",
   "tags": [
     "game",
     "fps",

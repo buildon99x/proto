@@ -3,11 +3,14 @@ const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),cp=r
 const app=path.resolve(__dirname,'../app'),T=require(path.join(app,'vendor/three.min.js'));
 const old=process.argv.includes('--previous');
 if(old)vm.runInThisContext(cp.execFileSync('git',['show','6e73875f7d096c0356631a89f31700accf683cd1:projects/dead-freight/app/weapon.js'],{encoding:'utf8'}));else require(path.join(app,'weapon.js'));
-const g=DFWeapon.create(T,0,{suppressed:true,laser:false});g.updateMatrixWorld(true);
+const g=DFWeapon.create(T,0,{suppressed:true,laser:false});let label=old?'0.3 previous':'0.5 hip';
+if(process.argv.includes('--ads')){g.position.fromArray(DFWeapon.poses.ads.position);g.rotation.set(...DFWeapon.poses.ads.rotation);label='0.5 ADS';}
+const reloadArg=process.argv.find(x=>x.startsWith('--reload='));if(reloadArg){require(path.join(app,'motion.js'));const phase=Number(reloadArg.split('=')[1]),r=DFMotion.reloadPose(phase);g.position.x+=r.x;g.position.y+=r.y;g.rotation.x+=r.pitch;g.rotation.y+=r.yaw;g.rotation.z+=r.roll;g.userData.support.position.set(r.supportX,r.supportY,r.supportZ);g.userData.support.rotation.z=-r.index*.24;g.userData.magazine.position.y=r.magazine;g.userData.slide.position.z=r.slide;label='0.5 reload '+phase;}
+g.updateMatrixWorld(true);
 const output=[];const light=new T.Vector3(-2,3,4).normalize();
 g.traverse(o=>{if(!o.isMesh)return;let p=o;while(p){if(!p.visible)return;p=p.parent;}
 const pos=o.geometry.attributes.position,normal=o.geometry.attributes.normal,index=o.geometry.index;
 const matrix=new T.Matrix3().getNormalMatrix(o.matrixWorld),N=index?index.count:pos.count;
 for(let i=0;i<N;i+=3){const points=[],normals=[];for(let j=0;j<3;j++){let k=index?index.getX(i+j):i+j;points.push(new T.Vector3().fromBufferAttribute(pos,k).applyMatrix4(o.matrixWorld).toArray());normals.push(new T.Vector3().fromBufferAttribute(normal,k).applyMatrix3(matrix).normalize());}
-const n=normals[0].clone().add(normals[1]).add(normals[2]).normalize();let intensity=.48+.40*Math.max(0,n.dot(light))+.12*Math.max(0,n.y);const col=o.material.color.clone().multiplyScalar(intensity);if(o.material.emissive)col.add(o.material.emissive.clone().multiplyScalar(o.material.emissiveIntensity||0));output.push({p:points,c:col.toArray()});}});
-process.stdout.write(JSON.stringify({previous:old,fov:62,triangles:output}));
+const n=normals[0].clone().add(normals[1]).add(normals[2]).normalize();let intensity=.48+.40*Math.max(0,n.dot(light))+.12*Math.max(0,n.y);const col=o.material.color.clone().multiplyScalar(intensity);const vertexColor=o.geometry.attributes.color;if(vertexColor){let avg=0;for(let j=0;j<3;j++){let k=index?index.getX(i+j):i+j;avg+=vertexColor.getX(k)/3;}col.multiplyScalar(avg);}if(o.material.emissive)col.add(o.material.emissive.clone().multiplyScalar(o.material.emissiveIntensity||0));output.push({p:points,c:col.toArray()});}});
+process.stdout.write(JSON.stringify({previous:old,label,fov:62,triangles:output}));

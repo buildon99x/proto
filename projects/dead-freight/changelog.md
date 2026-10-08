@@ -22,3 +22,11 @@
 - Replace rectangular slide profile with machined chamfered shoulders and stepped suppressor geometry
 - Correct hip-fire camera distance/placement against the supplied reference proportions
 - Add explicitly labeled offline mesh diagnostics, without claiming browser screenshot or gameplay verification
+
+## 0.5.0 — wrist, first-person motion and layered audio
+- Corrected hip POV/muzzle composition against the supplied reference; exposed neutral wrist sections between glove and sleeve; reshaped palms and support forearm; authored glove panels, contact creases and skin shading
+- Enabled viewmodel self-shadowing with a tight shadow camera; corrected ADS distance and rear sight notch
+- Added deterministic critically damped weapon/camera recoil, ADS/sprint/dash/switch motion and phased reload-magazine/support-hand/slide synchronization
+- Original three-weapon layered shot/mechanical/casing/reflection audio and material/head/body impacts with bounded voices, limiter and cleanup; aligned pistol/SMG shot-time ejection and shotgun cycle-time ejection
+- Confirmed hit/kill marker and finite impact decals; interruption/reset cleanup, zero-dt frame and queued-shot identity regression fixes
+- 23 combat, 12 rig, 7 motion, 34 audio and 21 rendererless integration checks; no browser/audio-quality acceptance claim

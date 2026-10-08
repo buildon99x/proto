@@ -8,3 +8,6 @@ Visual correspondence and actual play must be checked in a rendered browser. Mod
 
 ## 0.4 correction
 The user noted that the supplied image has clear red weapon accents and much more realistic firearm contours. Preserve the low-color forest direction, but enlarge the muted red suppressor-cap accent, retain its hue through the palette pass, and improve machined slide and component silhouettes. Do not claim the blocked browser comparison has passed.
+
+## 0.5 first-person composition and response
+Match the supplied first-person composition with a visible short wrist gap between dark glove and sleeve, two readable hands around the grip, and the muzzle pointing diagonally toward the upper left. Improve contact shadows, glove material breakup and wrist anatomy using original live geometry. The user additionally requested a high-quality FPS standard for motion, original layered weapon/mechanical/impact audio and shot/hit response. Treat that as a quality target, never as a claim of equivalence to any commercial game.
