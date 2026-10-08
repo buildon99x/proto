@@ -20,7 +20,7 @@ const Catalog=Object.freeze(Object.fromEntries(Object.entries({
  'ammo-smg':{name:'기관단총 탄약',category:'ammo',weight:.009,value:1,maxStack:90},
  bounty:{name:'표적 인식표',category:'quest',weight:.1,value:0,maxStack:1}
 }).map(([id,item])=>[id,Object.freeze({id,...item})])));
-const STACK_KEYS=new Set(['uid','itemId','quantity','rounds','chamber','durability','issued']);
+const STACK_KEYS=new Set(['uid','itemId','quantity','rounds','chamber','durability','issued','weaponState']);
 const EPS=1e-8;
 let nextUid=1;
 // Observe saved identities as they are validated so a reloaded stash and a new
@@ -29,7 +29,31 @@ const allocatedUids=new Set();
 const fail=reason=>({ok:false,reason});
 const own=(object,key)=>Object.prototype.hasOwnProperty.call(object,key);
 const plain=object=>!!object&&typeof object==='object'&&!Array.isArray(object)&&(Object.getPrototypeOf(object)===Object.prototype||Object.getPrototypeOf(object)===null);
-const cloneStack=stack=>stack===null?null:{...stack};
+const cloneState=state=>state===null?null:{...state,...(state.reloadCheckpoint?{reloadCheckpoint:{...state.reloadCheckpoint}}:{})};
+// Identity is fixed for the lifetime of the stack. Combat may update resource
+// fields through get(), but never retarget a loaded state to another instance.
+const cloneStack=stack=>{if(stack===null)return null;const copy={...stack,...(own(stack,'weaponState')?{weaponState:cloneState(stack.weaponState)}:{})};Object.defineProperty(copy,'uid',{value:stack.uid,enumerable:true,writable:false,configurable:false});return copy;};
+const WEAPON_STATE_KEYS=['version','weaponId','weaponInstanceId','mode','shotSequence','recoveryRemaining','reloadCheckpoint'];
+function defaultWeaponState(stack){
+ const common={version:1,weaponId:stack.itemId,weaponInstanceId:stack.uid,mode:stack.itemId==='r4'||stack.itemId==='smg'?'auto':'semi',shotSequence:0,recoveryRemaining:0,reloadCheckpoint:null};
+ return stack.itemId==='r4'?{...common,magazine:stack.rounds-stack.chamber,chamber:stack.chamber}:{...common,cocked:true,cycleNeeded:false,cycleRemaining:0};
+}
+function validateWeaponState(state,stack){
+ if(!plain(state)||state.version!==1)return fail('invalid-weapon-state-version');
+ const rifle=stack.itemId==='r4',keys=WEAPON_STATE_KEYS.concat(rifle?['magazine','chamber']:['cocked','cycleNeeded','cycleRemaining']);
+ if(Object.keys(state).length!==keys.length||keys.some(key=>!own(state,key))||Object.keys(state).some(key=>!keys.includes(key)))return fail('invalid-weapon-state');
+ if(state.weaponId!==stack.itemId||state.weaponInstanceId!==stack.uid)return fail('weapon-state-identity-mismatch');
+ if(!Number.isSafeInteger(state.shotSequence)||state.shotSequence<0||!Number.isFinite(state.recoveryRemaining)||state.recoveryRemaining<0)return fail('invalid-weapon-state');
+ if(rifle){
+  if(!['auto','burst'].includes(state.mode)||!Number.isSafeInteger(state.magazine)||state.magazine<0||state.magazine>Catalog.r4.magazineSize||(state.chamber!==0&&state.chamber!==1)||state.magazine+state.chamber!==stack.rounds||state.chamber!==stack.chamber)return fail('invalid-weapon-state');
+  const checkpoint=state.reloadCheckpoint;
+  if(checkpoint!==null&&(!plain(checkpoint)||Object.keys(checkpoint).length!==2||!own(checkpoint,'kind')||!own(checkpoint,'committed')||!['tactical','empty','chamber'].includes(checkpoint.kind)||typeof checkpoint.committed!=='boolean'))return fail('invalid-reload-checkpoint');
+ }else{
+  if(state.mode!==(stack.itemId==='smg'?'auto':'semi')||typeof state.cocked!=='boolean'||typeof state.cycleNeeded!=='boolean'||!Number.isFinite(state.cycleRemaining)||state.cycleRemaining<0||state.cycleNeeded===state.cocked||!state.cycleNeeded&&state.cycleRemaining!==0||stack.itemId==='smg'&&(!state.cocked||state.cycleNeeded)||state.reloadCheckpoint!==null)return fail('invalid-weapon-state');
+ }
+ return {ok:true};
+}
+function weaponState(stack){return own(stack,'weaponState')?cloneState(stack.weaponState):defaultWeaponState(stack);}
 const empty=()=>({bag:Array(LIMITS.bagSlots).fill(null),weapons:Array(LIMITS.weaponSlots).fill(null),armor:null,quick:Array(LIMITS.quickSlots).fill(null),safe:null});
 function parseLocation(location){
  if(location==='armor'||location==='safe')return {key:location,index:null};
@@ -63,7 +87,8 @@ function validateStack(stack){
    if(stack.chamber!==0&&stack.chamber!==1)return fail('invalid-chamber');
    if(stack.rounds<stack.chamber||stack.rounds-stack.chamber>item.magazineSize)return fail('invalid-rounds');
   }else if(stack.rounds>item.magazineSize||own(stack,'chamber'))return fail('invalid-rounds');
- }else if(own(stack,'rounds')||own(stack,'chamber'))return fail('invalid-metadata');
+  if(own(stack,'weaponState')){const valid=validateWeaponState(stack.weaponState,stack);if(!valid.ok)return valid;}
+ }else if(own(stack,'rounds')||own(stack,'chamber')||own(stack,'weaponState'))return fail('invalid-metadata');
  if(item.category==='armor'){
   if(!Number.isFinite(stack.durability)||stack.durability<0||stack.durability>item.maxDurability)return fail('invalid-durability');
  }else if(own(stack,'durability'))return fail('invalid-metadata');
@@ -99,7 +124,7 @@ function validateSnapshot(state){
  if(!plain(state))return fail('invalid-snapshot');
  if(!Array.isArray(state.bag)||state.bag.length!==LIMITS.bagSlots||!Array.isArray(state.weapons)||state.weapons.length!==LIMITS.weaponSlots||!Array.isArray(state.quick)||state.quick.length!==LIMITS.quickSlots||!own(state,'armor')||!own(state,'safe'))return fail('invalid-slots');
  // Sparse arrays or aliases must not manufacture independent copies on load.
- const refs=new Set(),uids=new Set(),weaponClasses=new Set();
+ const refs=new Set(),uids=new Set();
  for(const [key,count] of [['bag',LIMITS.bagSlots],['weapons',LIMITS.weaponSlots],['quick',LIMITS.quickSlots]]){
   if(refs.has(state[key]))return fail('duplicate-reference');refs.add(state[key]);
   for(let i=0;i<count;i++)if(!own(state[key],i))return fail('invalid-slots');
@@ -109,7 +134,6 @@ function validateSnapshot(state){
   if(refs.has(stack))return fail('duplicate-reference');refs.add(stack);
   if(uids.has(stack.uid))return fail('duplicate-uid');uids.add(stack.uid);
   if(!canPlace(location,stack))return fail('wrong-slot');
-  if(location.startsWith('weapon:')){const index=Catalog[stack.itemId].weaponIndex;if(weaponClasses.has(index))return fail('duplicate-weapon');weaponClasses.add(index);}
  }
  if(weightOf(state)>LIMITS.maxWeight+EPS)return fail('overweight');
  return {ok:true};
@@ -145,7 +169,7 @@ class Inventory{
  weight(){return weightOf(this._state);}
  usedSlots(){return this._state.bag.filter(Boolean).length;}
  value(){return this.all().reduce((sum,{stack})=>sum+stackValue(stack),0);}
- _commit(state,result){const valid=validateSnapshot(state);if(!valid.ok)return valid;this._state=state;return {ok:true,...result};}
+ _commit(state,result){const valid=validateSnapshot(state);if(!valid.ok)return valid;this._state=copyState(state);return {ok:true,...result};}
  add(itemId,quantity=1,meta={}){
   if(typeof itemId!=='string'||!own(Catalog,itemId))return fail('unknown-item');
   if(!Number.isSafeInteger(quantity)||quantity<1)return fail('invalid-quantity');
@@ -194,7 +218,7 @@ class Inventory{
   const source=this.get(location);if(!source)return fail('empty');
   const amount=count===undefined?source.quantity:count;
   if(!Number.isSafeInteger(amount)||amount<1||amount>source.quantity)return fail('invalid-quantity');
-  const state=copyState(this._state),removed={...source,quantity:amount};
+  const state=copyState(this._state),removed={...cloneStack(source),quantity:amount};
   if(amount===source.quantity)put(state,location,null);
   else{at(state,location).quantity-=amount;removed.uid=freshUid(state);}
   return this._commit(state,{location,stack:removed});
@@ -236,7 +260,7 @@ function starter(primaryIndex=3){
 }
 function reserveIdentities(ids){if(!Array.isArray(ids)||ids.some(uid=>typeof uid!=='string'||!uid.length||uid.length>120))return fail('invalid-uid');for(const uid of ids)allocatedUids.add(uid);return {ok:true};}
 function reserveUids(stacks){for(const stack of stacks){const result=validateStack(stack);if(!result.ok)return result;}return {ok:true};}
-const api={Inventory,Catalog,LIMITS,starter,defaultStarter:starter,validateStack,validateSnapshot,canPlace,stackWeight,stackValue,reserveUids,reserveIdentities};
+const api={Inventory,Catalog,LIMITS,starter,defaultStarter:starter,weaponState,validateWeaponState,validateStack,validateSnapshot,canPlace,stackWeight,stackValue,reserveUids,reserveIdentities};
 if(typeof module!=='undefined'&&module.exports)module.exports=api;
 root.DFInventory=api;
 })(typeof globalThis!=='undefined'?globalThis:this);

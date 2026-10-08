@@ -119,4 +119,52 @@ test('inventory interruption resumes an uncocked loaded legacy firearm with norm
  for(const wi of [0,1]){const f=fixture(I.starter(wi));advance(f,.5);assert(f.world.fire(null));assert(f.world.load());assert(!f.world.cocked);assert(f.bridge.move('quick:0','quick:3').ok);assert(!f.world.fire(null),'interruption cannot grant an immediate shot');advance(f,3);assert(f.world.cocked);assert(f.world.fire(null));}
 });
 test('dropping the final uncocked gun cannot produce a phantom automatic cycle',()=>{const f=fixture(I.starter(0));assert(f.world.fire(null));assert(f.world.load());assert(f.bridge.drop('weapon:0').ok);f.world.events=[];advance(f,1);assert(!f.bridge.canFire);assert(!f.world.events.some(e=>e.type==='cycle'));});
+test('two same-class rifles keep independent ammo, modes and shot sequences through repeated swaps',()=>{
+ const inv=new I.Inventory();addAt(inv,'r4',1,'weapon:0',{rounds:7,chamber:1});addAt(inv,'r4',1,'weapon:1',{rounds:19,chamber:1});addAt(inv,'ammo-rifle',60);
+ const f=fixture(inv),first=inv.get('weapon:0').uid,second=inv.get('weapon:1').uid;advance(f,.4);assert(shootRifle(f));assert(f.world.setFireMode('burst'));f.bridge.syncFromWorld();
+ assert.equal(inv.get('weapon:0').weaponState.shotSequence,1);assert.equal(inv.get('weapon:0').rounds,6);
+ assert(f.bridge.equipWeapon(1).ok);assert.equal(f.world.rifle.weaponInstanceId,second);assert.equal(f.world.rifle.mode,'auto');assert.equal(f.world.ammo[3],19);advance(f,.4);assert(shootRifle(f));
+ for(let i=0;i<8;i++){assert(f.bridge.equipWeapon(0).ok);assert.equal(f.world.rifle.weaponInstanceId,first);assert.equal(f.world.rifle.mode,'burst');assert.equal(f.world.ammo[3],6);assert.equal(f.world.rifle.shots,1);assert(f.bridge.equipWeapon(1).ok);assert.equal(f.world.ammo[3],18);}
+ assert.equal(total(inv,'r4'),84);assert.equal(inv.get('weapon:0').rounds,6);assert.equal(inv.get('weapon:1').rounds,18);
+});
+test('same-class reload commit belongs to its UID and returning retains the close deadline',()=>{
+ const inv=new I.Inventory();addAt(inv,'r4',1,'weapon:0',{rounds:5,chamber:1});addAt(inv,'r4',1,'weapon:1',{rounds:12,chamber:1});addAt(inv,'ammo-rifle',60);
+ const f=fixture(inv),initial=total(inv,'r4');advance(f,.4);assert(f.world.load());advance(f,1.06);assert.equal(inv.get('weapon:0').rounds,31);assert.equal(inv.countItem('ammo-rifle'),34);
+ assert(f.bridge.equipWeapon(1).ok);assert.equal(f.world.rifle.total,12);assert.equal(inv.get('weapon:0').weaponState.reloadCheckpoint.committed,true);advance(f,2);
+ assert(f.bridge.equipWeapon(0).ok);assert.equal(f.world.rifle.total,31);assert(f.world.rifle.cooldown>.6);assert(!shootRifle(f));advance(f,.7);assert(shootRifle(f));assert.equal(total(inv,'r4'),initial-1);assert.equal(inv.get('weapon:1').rounds,12);
+});
+test('moving twin rifle slots follows the held UID without overwriting either state',()=>{
+ const inv=new I.Inventory();addAt(inv,'r4',1,'weapon:0',{rounds:3,chamber:1});addAt(inv,'r4',1,'weapon:1',{rounds:23,chamber:1});const f=fixture(inv),uid=f.bridge.activeUid;
+ assert(f.bridge.move('weapon:0','weapon:1').ok);assert.equal(f.bridge.activeSlot,1);assert.equal(f.bridge.activeUid,uid);assert.equal(f.world.rifle.total,3);assert.equal(inv.get('weapon:0').rounds,23);
+ assert(f.bridge.equipWeapon(0).ok);assert.equal(f.world.rifle.total,23);assert.equal(inv.get('weapon:1').rounds,3);
+});
+test('same-class legacy swaps preserve each required pump and its remaining delay',()=>{
+ const inv=new I.Inventory();addAt(inv,'shotgun',1,'weapon:0',{rounds:2});addAt(inv,'shotgun',1,'weapon:1',{rounds:1});const f=fixture(inv);assert(f.world.fire(null));f.bridge.syncFromWorld();const delay=f.world.cycleDelay;
+ assert(f.bridge.equipWeapon(1).ok);assert(f.world.cocked);assert.equal(f.world.ammo[1],1);advance(f,1);assert(f.bridge.equipWeapon(0).ok);assert(!f.world.cocked);assert.equal(f.world.cycleDelay,delay);assert(!f.world.fire(null));
+ advance(f,delay/2);assert(!f.world.cocked);f.world.setPaused(true);advance(f,2);assert(!f.world.cocked);f.world.setPaused(false);advance(f,delay/2+.01);assert(f.world.cocked);assert(!f.world.fire(null));advance(f,.5);assert(f.world.fire(null));
+ assert.equal(inv.get('weapon:1').rounds,1);f.bridge.syncFromWorld();assert.equal(inv.get('weapon:0').rounds,0);assert.equal(inv.get('weapon:0').weaponState.shotSequence,2);
+});
+test('holster retains selected identity and freezes pending legacy cycle until restored',()=>{
+ const f=fixture(I.starter(0));assert(f.world.fire(null));const uid=f.bridge.activeUid;f.bridge.syncFromWorld();const delay=f.world.cycleDelay;
+ assert(f.bridge.holsterWeapon().ok);assert.equal(f.bridge.activeUid,uid);assert(f.bridge.holstered);assert(!f.bridge.canFire);assert(!f.world.fire(null));advance(f,3);assert(!f.world.events.some(event=>event.type==='cycle'));
+ assert(f.bridge.restoreWeapon().ok);assert.equal(f.bridge.activeUid,uid);assert(!f.world.cocked);assert.equal(f.world.cycleDelay,delay);assert(!f.world.fire(null));advance(f,delay+.5);assert(f.world.cocked);assert(f.world.fire(null));
+});
+test('dropped and recovered legacy weapon keeps its uncompleted cycle state',()=>{
+ const f=fixture(I.starter(1));assert(f.world.fire(null));f.bridge.syncFromWorld();const drop=f.bridge.drop('weapon:0');assert(drop.ok);assert(drop.stack.weaponState.cycleNeeded);assert.equal(drop.stack.rounds,1);advance(f,2);
+ assert(f.bridge.interact().ok);const location=f.inventory.all().find(({stack})=>stack.uid===drop.stack.uid).location;assert(f.bridge.move(location,'weapon:0').ok);assert(f.bridge.equipWeapon(0).ok);assert(!f.world.cocked);assert(f.world.cycleDelay>0);assert(!f.world.fire(null));advance(f,1);assert(f.world.fire(null));
+});
+test('holstering a committed rifle reload preserves resources and its recovery checkpoint',()=>{
+ const inv=I.starter();inv.get('weapon:0').rounds=4;const f=fixture(inv),before=total(inv,'r4');advance(f,.4);assert(f.world.load());advance(f,1.06);assert(f.bridge.holsterWeapon().ok);
+ const gun=inv.get('weapon:0');assert.equal(gun.rounds,31);assert(gun.weaponState.reloadCheckpoint.committed);const remaining=gun.weaponState.recoveryRemaining;advance(f,5);assert.equal(total(inv,'r4'),before);
+ assert(f.bridge.restoreWeapon().ok);assert(f.world.rifle.cooldown>=remaining-1e-8);assert(!shootRifle(f));advance(f,remaining+.1);assert(shootRifle(f));assert.equal(total(inv,'r4'),before-1);
+});
+test('failed moves preserve live reload and callbacks fire only for successful transitions',()=>{
+ const transitions=[],inv=I.starter();inv.get('weapon:0').rounds=3;const f=fixture(inv,{beforeWeaponChange:event=>transitions.push(['before',event]),afterWeaponChange:event=>transitions.push(['after',event])});advance(f,.4);assert(f.world.load());advance(f,.3);const reload=f.world.rifle.reload;
+ assert(!f.bridge.move('weapon:0','safe').ok);assert.equal(f.world.rifle.reload,reload);assert.equal(transitions.length,0);assert(f.bridge.equipWeapon(1).ok);assert.equal(transitions.length,2);assert.equal(transitions[0][1].reason,'equip');assert.equal(transitions[1][1].activeUid,inv.get('weapon:1').uid);
+});
+test('loaded reserve and world ammo stay conserved when one of two rifles is dropped and recovered',()=>{
+ const inv=new I.Inventory();addAt(inv,'r4',1,'weapon:0',{rounds:5,chamber:1});addAt(inv,'r4',1,'weapon:1',{rounds:17,chamber:1});addAt(inv,'ammo-rifle',40);const f=fixture(inv),initial=total(inv,'r4');advance(f,.4);assert(shootRifle(f));
+ const drop=f.bridge.drop('weapon:0');assert(drop.ok);assert.equal(total(inv,'r4')+drop.item.stack.rounds,initial-1);assert.equal(f.world.rifle.total,17);assert(f.bridge.interact().ok);assert.equal(total(inv,'r4'),initial-1);assert.equal(f.world.rifle.total,17);
+ const where=inv.all().find(({stack})=>stack.uid===drop.stack.uid).location;assert(f.bridge.move(where,'weapon:0').ok);assert(f.bridge.equipWeapon(0).ok);assert.equal(f.world.rifle.total,4);assert.equal(f.world.rifle.shots,1);assert.equal(inv.get('weapon:1').rounds,17);
+});
 console.log('FINAL: '+count+' inventory/mission bridge tests passed');

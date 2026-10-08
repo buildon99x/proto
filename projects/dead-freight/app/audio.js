@@ -1,6 +1,6 @@
 /* DEAD FREIGHT audio: recorded gun effects for every weapon; separate procedural world/UI cues.
  * Rifle recordings and license provenance live in assets/audio and audio-provenance.md.
- * Gun buffers are decoded once; only separate world/UI cues are synthesized. Audio starts in resume().
+ * Gun buffers can be prepared silently before a gesture; only resume() unlocks playback.
  * The final shaper bounds digital output; it cannot guarantee safe headphone/device volume.
  */
 (function(root){
@@ -63,7 +63,7 @@ class Engine {
   options=object(options);
   this.context=options.context||null;this.ownsContext=!options.context;this.contextFactory=options.contextFactory||(()=>{const C=root.AudioContext||root.webkitAudioContext;return C?new C({latencyHint:'interactive'}):null;});
   this.muted=!!options.muted;this.volume=clamp(options.volume,0,.85,.72);this.paused=true;this.destroyed=false;
-  this.maxVoices=Math.round(clamp(options.maxVoices,8,LIMITS.voices,LIMITS.voices));this.voices=new Set();this.buffers=new Map();this.last=new Map();this.counter=0;this.bus=null;this.nodes=[];this.dropped=0;this.played=0;this.lifecycle=0;this.rifle=RifleAudio?new RifleAudio.Bank({base:options.rifleBase,fetch:options.fetch,onStatus:options.onRifleStatus}):null;
+  this.maxVoices=Math.round(clamp(options.maxVoices,8,LIMITS.voices,LIMITS.voices));this.voices=new Set();this.buffers=new Map();this.last=new Map();this.counter=0;this.bus=null;this.nodes=[];this.dropped=0;this.played=0;this.lifecycle=0;this.preparation=0;this.preparePending=null;this.error=null;this.rifle=RifleAudio?new RifleAudio.Bank({base:options.rifleBase,fetch:options.fetch,onStatus:options.onRifleStatus}):null;
  }
  _setup(){
   if(this.bus)return true;const c=this.context;if(!c)return false;
@@ -76,13 +76,60 @@ class Engine {
   ceiling.curve=curve;ceiling.oversample='2x';bus.connect(highpass);highpass.connect(compressor);compressor.connect(master);master.connect(ceiling);ceiling.connect(c.destination);
   this.bus=bus;this.master=master;this.nodes=[bus,highpass,compressor,master,ceiling];return true;
  }
+ _ensureContext(){
+  if(!this.context||this.context.state==='closed'){
+   for(const node of this.nodes)try{node.disconnect();}catch(_){}
+   this.context=null;this.bus=null;this.nodes=[];this.buffers.clear();this.rifle?.reset();
+   this.context=this.contextFactory();this.ownsContext=true;
+  }
+  if(!this.context)throw Error('Web Audio is unavailable on this device');
+  if(!this._setup())throw Error('Audio output could not be configured');
+  return this.context;
+ }
+ _error(error,stage){this.error={stage,code:['NotAllowedError','SecurityError'].includes(error?.name)?'gesture-required':'audio-unavailable',message:String(error?.message||'Audio preparation failed').slice(0,180)};}
+ prepare(){
+  if(this.destroyed)return Promise.resolve(false);
+  if(this.preparePending)return this.preparePending;
+  const generation=++this.preparation;this.lifecycle++;this.paused=true;this.stopAll();this.error=null;
+  let context,suspended;
+  try{
+   context=this._ensureContext();
+   // Some previously permitted browsers create a running context. Suspend immediately,
+   // before scheduling any source. Preparation never calls resume or starts a source.
+   suspended=context.state==='running'?context.suspend():Promise.resolve();
+  }catch(error){this._error(error,'prepare');return Promise.resolve(false);}
+  const pending=Promise.resolve(suspended).then(async()=>{
+   if(this.destroyed||generation!==this.preparation||context!==this.context)return false;
+   if(context.state!=='suspended')throw Error('Audio context must be suspended while recordings are prepared');
+   const ready=await this.preloadRifle();
+   if(this.destroyed||generation!==this.preparation||context!==this.context)return false;
+   if(!ready)throw Error(this.rifle?.stats().error||'Recorded gun audio could not be prepared');
+   return this.stats().prepared;
+  }).catch(error=>{if(!this.destroyed&&generation===this.preparation)this._error(error,'prepare');return false;}).finally(()=>{if(this.preparePending===pending)this.preparePending=null;});
+  this.preparePending=pending;return pending;
+ }
+ cancelPreparation(){
+  this.preparation++;this.preparePending=null;
+  if(this.rifle?.stats().status==='loading')this.rifle.reset();
+ }
  async resume(){
-  if(this.destroyed)return false;const lifecycle=++this.lifecycle;
-  try{if(!this.context||this.context.state==='closed'){this.context=this.contextFactory();this.ownsContext=true;this.bus=null;this.nodes=[];this.buffers.clear();this.rifle?.reset();}if(!this._setup())return false;await this.context.resume();if(this.destroyed||lifecycle!==this.lifecycle)return false;this.paused=false;return this.context.state==='running';}catch(_){return false;}
+  if(this.destroyed)return false;const lifecycle=++this.lifecycle;this.error=null;
+  try{
+   const context=this._ensureContext();
+   // Keep this call before the first await: activation belongs to the fresh Start gesture.
+   await context.resume();
+   if(this.destroyed||lifecycle!==this.lifecycle||context!==this.context){
+    if((this.paused||this.destroyed)&&context.state==='running')try{await context.suspend();}catch(_){}
+    return false;
+   }
+   this.paused=context.state!=='running';
+   if(this.paused)this._error(Error('Audio remains suspended; retry Start or choose mute'),'resume');
+   return !this.paused;
+  }catch(error){if(lifecycle===this.lifecycle){this.paused=true;this._error(error,'resume');}return false;}
  }
  preloadRifle(){return this.destroyed||!this.context?Promise.resolve(false):this.rifle?.load(this.context)||Promise.resolve(false);}
  async suspend(){
-  this.lifecycle++;this.paused=true;this.stopAll();try{if(this.context?.state==='running')await this.context.suspend();}catch(_){}return true;
+  this.lifecycle++;this.cancelPreparation();this.paused=true;this.stopAll();try{if(this.context?.state==='running')await this.context.suspend();}catch(_){}return true;
  }
  setMuted(muted){this.muted=!!muted;if(this.master){const t=this.context.currentTime;this.master.gain.cancelScheduledValues(t);this.master.gain.setTargetAtTime(this.muted?0:this.volume,t,.006);}if(this.muted)this.stopAll();return this.muted;}
  setVolume(volume){this.volume=clamp(volume,0,.85,.72);if(this.master&&!this.muted)this.master.gain.setTargetAtTime(this.volume,this.context.currentTime,.012);return this.volume;}
@@ -148,9 +195,9 @@ class Engine {
   default:return false;
   }
  }
- stats(){return {ready:!!this.bus,running:!this.paused&&!this.destroyed&&this.context?.state==='running',muted:this.muted,voices:this.voices.size,buffers:this.buffers.size,played:this.played,dropped:this.dropped,maxVoices:this.maxVoices,rifle:this.rifle?.stats()||{status:'error',error:'Recorded gun audio module is missing',loaded:0,total:RifleAudio?.FILES.length||79}};}
+ stats(){return {ready:!!this.bus,prepared:!this.destroyed&&!!this.bus&&this.context?.state!=='closed'&&this.rifle?.context===this.context&&this.rifle?.stats().status==='ready',running:!this.paused&&!this.destroyed&&this.context?.state==='running',muted:this.muted,error:this.error,voices:this.voices.size,buffers:this.buffers.size,played:this.played,dropped:this.dropped,maxVoices:this.maxVoices,rifle:this.rifle?.stats()||{status:'error',error:'Recorded gun audio module is missing',loaded:0,total:RifleAudio?.FILES.length||79}};}
  async destroy(){
-  if(this.destroyed)return;this.destroyed=true;this.lifecycle++;this.paused=true;this.stopAll();this.rifle?.destroy();this.buffers.clear();for(const node of this.nodes)try{node.disconnect();}catch(_){}this.nodes=[];this.bus=null;
+  if(this.destroyed)return;this.destroyed=true;this.lifecycle++;this.cancelPreparation();this.paused=true;this.stopAll();this.rifle?.destroy();this.buffers.clear();for(const node of this.nodes)try{node.disconnect();}catch(_){}this.nodes=[];this.bus=null;
   if(this.ownsContext&&this.context?.state!=='closed')try{await this.context?.close();}catch(_){}
  }
 }

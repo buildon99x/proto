@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.10.0 — first FPS specification v1 foundation slice
+- Validate R4 tuning from project JSON; use 60 Hz combat scheduling, accumulated shot deadlines and single-use shot/ammunition commits
+- Preserve each weapon UID, loaded rounds, chamber, recovery and fire mode across swaps, holster, inventory and schema5 saves; support two of the same class
+- Add timed lowering/drawing and H holster, delayed empty reload, tactical-reload cancellation, sprint/air ADS gates and camera-to-muzzle obstruction
+- Route current controls through remappable actions with repeated-key and wheel throttling; retain unimplemented melee/crouch/throw-preparation keys as pending
+- Prepare the recorded bank silently in the menu, then use one normal Start gesture; cancel stale audio/lock completions without deploying or saving
+- Keep 0.9 capacity/overflow economics and earlier brightness/audio. This is a source checkpoint, not P0/P1 or actual-play acceptance
+
 ## 0.9.0 — owned stash capacity and currency expansion
 - Add a dedicated owned-item grid with capacity, bank, sorting, details, equipment comparison and explicit sale confirmation
 - Expand24→64 slots in five8-slot purchases using original virtual-currency costs; show cost, resulting balance and maximum

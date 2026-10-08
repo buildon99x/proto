@@ -52,3 +52,7 @@ Actual 0.8.2 play exposed a few narrow presentation issues. Keep restored lighti
 
 ## 0.9 permanent stash progression
 Add a limited home inventory for owned equipment/items and allow expansion with virtual game currency. This is separate from the raid bag's 12 slots/30kg. Use original prototype tuning: 24 initial stash slots, five +8-slot purchases up to64, priced500/750/1000/1500/2000. Preserve all older items and cash without writes on load. Full extraction must never silently delete loot; retain overflow as a recovery queue that must be resolved before another deployment. Explicitly reviewed sale/claim actions provide a way to free space or earn expansion currency, without adding a general gear shop or crafting system.
+
+
+## FPS specification v1 first slice
+Apply the creator-adopted FPS gunplay specification v1.0, latest Library libfile_17175a9b0b188191bffc98b8d6809dcc version1. Both487-line copies have identical returned text. Preserve0.9 as a checkpoint. First vertical slice is the common P0 foundation exercised by R4: validated weapon data, stable instance state, ammo/shot commits, input arbitration, swap/holster and reload cancellation, automatic empty reload, and muzzle obstruction. Do not add classes/maps before foundation acceptance. Actual mouse/audio/performance acceptance remains distinct from source checks and must be evaluated in the isolated QA profile.

@@ -7,8 +7,8 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.9.0",
-    "summary": "Owned equipment stash with slot-capacity purchases, explicit item sales and durable overflow recovery, alongside the extraction carry system and recorded gun audio. R-4 actual-play/listening gate remains open.",
+    "version": "0.10.0",
+    "summary": "FPS specification v1 R4 foundation: per-instance ammunition, timed equip/holster, empty reload, muzzle obstruction, remappable input and prepared-audio single Start. Actual gunplay acceptance remains open.",
     "tags": [
       "game",
       "fps",

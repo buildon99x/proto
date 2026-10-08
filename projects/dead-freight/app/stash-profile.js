@@ -9,7 +9,7 @@ if(typeof module!=='undefined'&&module.exports)module.exports=api;
 root.DFStashProfile=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(Equipment){
 'use strict';
-const KEY='deadfreight-best',BACKUP_KEY='deadfreight-backup-v2',BACKUP_V3_KEY='deadfreight-backup-v3',SCHEMA=4,TOMBSTONE_LIMIT=64;
+const KEY='deadfreight-best',BACKUP_KEY='deadfreight-backup-v2',BACKUP_V3_KEY='deadfreight-backup-v3',BACKUP_V4_KEY='deadfreight-backup-v4',SCHEMA=5,TOMBSTONE_LIMIT=64;
 const INITIAL_CAPACITY=24,CAPACITY_STEP=8,EXPANSION_COSTS=Object.freeze([500,750,1000,1500,2000]);
 const capacity=tier=>INITIAL_CAPACITY+CAPACITY_STEP*tier;
 const homeKind=kind=>['expand','sell','claim'].includes(kind);
@@ -44,14 +44,14 @@ function equal(a,b){
 function decode(raw){
  const data=raw===null?{}:JSON.parse(raw);
  if(!object(data))error('invalid-save');
- if(data.schema!==undefined&&![1,2,3,4].includes(data.schema))error('unsupported-save-schema');
+ if(data.schema!==undefined&&![1,2,3,4,5].includes(data.schema))error('unsupported-save-schema');
  const cash=Object.hasOwn(data,'cash')?data.cash:0,level=Object.hasOwn(data,'level')?data.level:(data.schema>=2?1:0);
  if(!Number.isFinite(cash)||cash<0||!Number.isSafeInteger(level)||level<0||level>=Number.MAX_SAFE_INTEGER)error('invalid-save-values');
  const nextLevel=data.schema>=2?Math.max(1,level):level+1;
  let stash=[],activeRaid=null,revision=0,settledRaids=[],stashTier=0,recovery=[],stashReceipts=[];
  // Older tabs preserve unknown fields while downgrading the schema number.
  // Validate all progression fields together; never reset a partly corrupt tier.
- if(data.schema===SCHEMA||['stashTier','recovery','stashReceipts'].some(key=>Object.hasOwn(data,key))){
+ if(data.schema>=4||['stashTier','recovery','stashReceipts'].some(key=>Object.hasOwn(data,key))){
   ({stashTier,recovery,stashReceipts}=data);
   if(!Number.isSafeInteger(stashTier)||stashTier<0||stashTier>EXPANSION_COSTS.length||!Array.isArray(recovery)||!Array.isArray(stashReceipts)||['cash','level','stash','activeRaid','revision','settledRaids'].some(key=>!Object.hasOwn(data,key)))error('invalid-stash-progression');
   const requestIds=new Set(),purchasedTiers=new Set();
@@ -82,6 +82,7 @@ function decode(raw){
   }
  }
  const retiredIds=stashReceipts.filter(receipt=>receipt.kind==='sell').map(receipt=>receipt.uid);if(retiredIds.length&&!Equipment.reserveIdentities(retiredIds).ok)error('invalid-stash-receipt');
+ if([...stash,...recovery,...(activeRaid?.safe?[activeRaid.safe]:[])].some(stack=>retiredIds.includes(stack.uid)))error('retired-item-present');
  return {raw,data,cash,nextLevel,stash,activeRaid,revision,settledRaids,stashTier,recovery,stashReceipts};
 }
 function create(storage){
@@ -121,6 +122,7 @@ function create(storage){
   for(const stack of retained){
    stackCheck(stack);
    if(Equipment.Catalog[stack.itemId].category==='quest')continue;
+   if(data.stashReceipts.some(receipt=>receipt.kind==='sell'&&receipt.uid===stack.uid))error('retired-item-present');
    if(ids.has(stack.uid))error(stashIds.has(stack.uid)?'retained-item-already-in-stash':'retained-item-already-in-recovery');
    ids.add(stack.uid);(data.stash.length<capacity(data.stashTier)?data.stash:data.recovery).push(clone(stack));
   }
@@ -192,7 +194,7 @@ function create(storage){
   let raw;
   try{raw=build(base,op);decode(raw);}catch(e){status='invalid-operation';lastReason=e.reason||e.message;return false;}
   if(base.data.schema!==SCHEMA&&base.raw!==null){
-   const backupKey=base.data.schema===3?BACKUP_V3_KEY:BACKUP_KEY;
+   const backupKey=base.data.schema===4?BACKUP_V4_KEY:base.data.schema===3?BACKUP_V3_KEY:BACKUP_KEY;
    try{if(storage.getItem(backupKey)===null)storage.setItem(backupKey,base.raw);}
    catch(e){status='backup-error';lastReason='legacy-backup-failed';return false;}
   }
@@ -284,5 +286,5 @@ function create(storage){
  }
  return {snapshot,deploy,updateSafe,settle,recoverInterrupted,retry,expandStash,sellStack,claimRecovery};
 }
-return {KEY,BACKUP_KEY,BACKUP_V3_KEY,SCHEMA,TOMBSTONE_LIMIT,INITIAL_CAPACITY,CAPACITY_STEP,EXPANSION_COSTS,decode,create};
+return {KEY,BACKUP_KEY,BACKUP_V3_KEY,BACKUP_V4_KEY,SCHEMA,TOMBSTONE_LIMIT,INITIAL_CAPACITY,CAPACITY_STEP,EXPANSION_COSTS,decode,create};
 });

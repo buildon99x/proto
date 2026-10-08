@@ -6,91 +6,146 @@ if(!model&&typeof require==='function')model=require('./inventory.js');
 const {Catalog,stackWeight,stackValue}=model;
 const WEAPONS=['pistol','shotgun','smg','r4'],AMMO=WEAPONS.map(id=>Catalog[id].ammoId);
 const EPS=1e-7,clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
-const REASONS={overweight:'휴대 중량 30 kg을 초과합니다.', 'bag-full':'가방 12칸이 모두 찼습니다.', 'wrong-slot':'이 장비를 해당 슬롯에 놓을 수 없습니다.', 'duplicate-weapon':'같은 종류의 총기는 두 칸에 장착할 수 없습니다.', empty:'빈 슬롯입니다.', 'invalid-quantity':'수량을 확인하세요.', occupied:'이미 사용 중인 슬롯입니다.', 'duplicate-uid':'이미 가지고 있는 장비입니다.', 'invalid-location':'슬롯을 확인하세요.'};
+const REASONS={overweight:'휴대 중량 30 kg을 초과합니다.', 'bag-full':'가방 12칸이 모두 찼습니다.', 'wrong-slot':'이 장비를 해당 슬롯에 놓을 수 없습니다.', empty:'빈 슬롯입니다.', 'invalid-quantity':'수량을 확인하세요.', occupied:'이미 사용 중인 슬롯입니다.', 'duplicate-uid':'이미 가지고 있는 장비입니다.', 'invalid-location':'슬롯을 확인하세요.'};
 class Bridge{
  constructor(world,inventory,options={}){
   if(!world?.player||!inventory?.get)throw new TypeError('Mission and Inventory are required');
-  this.world=world;this.inventory=inventory;this.activeSlot=0;this.activeUid=null;this.throwables=[];this.scannerRemaining=0;
-  this._bound=new Map();this._armorUid=null;this._reserves=[0,0,0,0];this._applied=false;this._nextAction=0;this._nextThrowable=1;this._lastWorldTime=world.time;
-  if(options.activeSlot===1)this.activeSlot=1;
+  this.world=world;this.inventory=inventory;this.activeSlot=options.activeSlot===1?1:0;this.activeUid=null;this.holstered=false;this.throwables=[];this.scannerRemaining=0;
+  this.sessionId=options.sessionId||'carry-session-'+(++Bridge.sessionSequence);this._callbacks=options;
+  this._bound=new Map();this._rifleUid=null;this._armorUid=null;this._reserves=[0,0,0,0];this._applied=false;this._lastShots=world.shots||0;this._nextAction=0;this._nextThrowable=1;this._lastWorldTime=world.time;
   this.syncToWorld();if(options.caches!==false)this.addCaches();
  }
  get activeWeaponUid(){return this.activeUid;}
  get activeWeapon(){return this.inventory.get('weapon:'+this.activeSlot);}
- get canFire(){const stack=this.activeWeapon;return !!stack&&stack.uid===this.activeUid&&Catalog[stack.itemId]?.weaponIndex===this.world.weapon&&this.world.player.hp>0&&!this.world.extracted&&!this.world.paused;}
+ get canFire(){const stack=this.activeWeapon;return !this.holstered&&!!stack&&stack.uid===this.activeUid&&Catalog[stack.itemId]?.weaponIndex===this.world.weapon&&this.world.player.hp>0&&!this.world.extracted&&!this.world.paused;}
  _result(ok,message,extra={}){return {ok,message,...extra};}
  _failure(reason){return this._result(false,REASONS[reason]||'지금은 이 동작을 완료할 수 없습니다.',{reason});}
  _available(){return this.world.player.hp>0&&!this.world.extracted;}
  _find(uid){return this.inventory.all().find(entry=>entry.stack.uid===uid);}
- _cancelReload(){
-  const w=this.world;w.clearFireInput('inventory');
-  if(w.rifle?.reload)w.rifle.cancelReload('inventory');
-  if(w.weapon!==3&&w.reload>0)w.emit('reloadcancel',{weapon:w.weapon,reason:'inventory'});
+ _notify(name,reason,previousUid){if(typeof this._callbacks[name]==='function')this._callbacks[name]({reason,previousUid,activeUid:this.activeUid,activeSlot:this.activeSlot,holstered:this.holstered});}
+ _setRifleReserve(reserve){if(this.world.rifle&&!this.world.rifle.setReserve(reserve))throw new Error('Invalid carried rifle reserve');}
+ _captureActive(){
+  const w=this.world,entry=this.activeUid&&this._find(this.activeUid);
+  if(!entry||this.holstered)return;
+  const stack=entry.stack,index=Catalog[stack.itemId].weaponIndex;
+  if(w.weapon!==index)return;
+  if(index===3&&w.rifle){
+   const state=w.rifle.exportInstance();
+   if(state.weaponInstanceId!==stack.uid)throw new Error('Rifle instance binding mismatch');
+   const candidate={...stack,rounds:state.magazine+state.chamber,chamber:state.chamber,weaponState:state};
+   if(!model.validateStack(candidate).ok)throw new Error('Invalid live rifle state');
+   Object.assign(stack,{rounds:candidate.rounds,chamber:candidate.chamber,weaponState:state});
+  }else{
+   const previous=model.weaponState(stack),cycleNeeded=index<2&&!w.cocked;
+   // Starting a legacy reload clears its automatic cycle timer. Cancellation
+   // must resume that required cycle instead of manufacturing a cocked weapon.
+   const cycleRemaining=cycleNeeded?(w.cycleWeapon===index?Math.max(0,w.cycleDelay):previous.cycleNeeded?previous.cycleRemaining:(index===0?.12:.26)):0;
+   stack.rounds=Math.max(0,Math.floor(w.ammo[index]));
+   stack.weaponState={...previous,cocked:!cycleNeeded,cycleNeeded,cycleRemaining,recoveryRemaining:Math.max(0,w.cooldown),shotSequence:previous.shotSequence+Math.max(0,(w.shots||0)-this._lastShots),reloadCheckpoint:null};
+  }
+  this._lastShots=w.shots||0;
+ }
+ _cancelReload(reason='inventory'){
+  const w=this.world;w.clearFireInput(reason);
+  if(w.rifle?.reload)w.rifle.cancelReload(reason);
+  if(w.weapon!==3&&w.reload>0)w.emit('reloadcancel',{weapon:w.weapon,reason});
   w.reload=0;w.reloadDuration=0;
-  // Reload may have cancelled a pending automatic legacy cycle. Resume its
-  // normal delay/recovery rather than leaving a loaded firearm uncocked.
-  if(w.weapon<2&&!w.cocked&&w.ammo[w.weapon]>0&&w.cycleWeapon===null){w.cycleWeapon=w.weapon;w.cycleDelay=w.weapon===0?.12:.26;}
+  if(!this.holstered&&this.activeUid&&w.weapon<2&&!w.cocked&&w.cycleWeapon===null){
+   const state=model.weaponState(this._find(this.activeUid).stack);w.cycleWeapon=w.weapon;w.cycleDelay=state.cycleNeeded?state.cycleRemaining:w.weapon===0?.12:.26;
+  }
   w.syncRifle();
+ }
+ beforeWeaponChange(reason='inventory'){
+  this.syncFromWorld();this._cancelReload(reason);this._captureActive();this._notify('beforeWeaponChange',reason,this.activeUid);
+  return {uid:this.activeUid,slot:this.activeSlot,holstered:this.holstered};
  }
  _objective(){
   const w=this.world;w.bounty=this.inventory.countItem('bounty',{bagOnly:true})>0;
   if(!w.bounty)w.cancelExtraction('bounty-dropped');
   w.cargo=this.inventory.countItem('scrap')+this.inventory.countItem('archive');
  }
- // Capture completed transfers before any inventory operation, including reload cancellation.
+ // The held UID owns live combat state. Class arrays remain compatibility
+ // mirrors and must never write into a second gun of the same class.
  syncFromWorld(){
   if(!this._applied)return;
-  const w=this.world;
+  const w=this.world;this._captureActive();
   for(let index=0;index<4;index++){
    const reserve=index===3&&w.rifle?w.rifle.reserve:w.reserve[index];
    const spent=Math.max(0,Math.round(this._reserves[index]-reserve));
-   if(spent)this.inventory.takeItem(AMMO[index],Math.min(spent,this.inventory.countItem(AMMO[index],{bagOnly:true})),{bagOnly:true});
-   const bound=this._bound.get(index),entry=bound&&this._find(bound.uid);
-   if(entry){entry.stack.rounds=Math.max(0,Math.floor(index===3&&w.rifle?w.rifle.total:w.ammo[index]));if(index===3)entry.stack.chamber=w.rifle?.chamber?1:0;}
-   // Only carried bag stacks supply reserve. Safe-pocket rounds are inaccessible in combat.
+   if(spent){const available=this.inventory.countItem(AMMO[index],{bagOnly:true}),amount=Math.min(spent,available);if(amount&&!this.inventory.takeItem(AMMO[index],amount,{bagOnly:true}).ok)throw new Error('Carried ammo transfer failed');}
    this._reserves[index]=this.inventory.countItem(AMMO[index],{bagOnly:true});w.reserve[index]=this._reserves[index];
   }
-  if(w.rifle)w.rifle.reserve=this._reserves[3];
+  this._setRifleReserve(this._reserves[3]);
   const armor=this._armorUid&&this._find(this._armorUid);if(armor)armor.stack.durability=clamp(w.player.armor,0,Catalog.armor.maxDurability);
   this._objective();
  }
- syncToWorld(){
+ _restoreRifle(stack,active){
+  const w=this.world;if(!w.rifle)return;
+  const state=stack?model.weaponState(stack):{version:1,weaponId:'r4',weaponInstanceId:'unarmed-'+this.sessionId,magazine:0,chamber:0,mode:'auto',shotSequence:0,recoveryRemaining:0,reloadCheckpoint:null};
+  w.rifle.bindIdentity({weaponInstanceId:state.weaponInstanceId,sessionId:this.sessionId});
+  if(!w.rifle.restoreInstance(state,{reserve:this._reserves[3],sessionId:this.sessionId,active}))throw new Error('Unable to restore carried rifle');
+  this._rifleUid=stack?.uid||null;
+ }
+ syncToWorld(options={}){
   const w=this.world,previous=this.activeUid,slots=[this.inventory.get('weapon:0'),this.inventory.get('weapon:1')];
-  // A swap follows the held item's identity when possible; dropping it chooses the other slot.
   const followed=previous?slots.findIndex(stack=>stack?.uid===previous):-1;
   if(followed>=0)this.activeSlot=followed;
-  if(!slots[this.activeSlot])this.activeSlot=slots.findIndex(Boolean)>=0?slots.findIndex(Boolean):0;
-  const active=slots[this.activeSlot],index=active?Catalog[active.itemId].weaponIndex:null;
+  if(!slots[this.activeSlot])this.activeSlot=Math.max(0,slots.findIndex(Boolean));
+  const active=slots[this.activeSlot],index=active?Catalog[active.itemId].weaponIndex:null,changed=previous!==(active?.uid||null)||!!options.forceRestore||!this._applied;
   this._bound.clear();w.ammo.fill(0);
   for(let slot=0;slot<2;slot++){
    const stack=slots[slot];if(!stack)continue;
-   const wi=Catalog[stack.itemId].weaponIndex;this._bound.set(wi,{uid:stack.uid,slot});w.ammo[wi]=stack.rounds;
+   const wi=Catalog[stack.itemId].weaponIndex;this._bound.set(stack.uid,{uid:stack.uid,slot,index:wi});
+   if(!slots.slice(0,slot).some(other=>other?.itemId===stack.itemId))w.ammo[wi]=stack.rounds;
   }
+  if(active)w.ammo[index]=active.rounds;
   for(let i=0;i<4;i++){this._reserves[i]=this.inventory.countItem(AMMO[i],{bagOnly:true});w.reserve[i]=this._reserves[i];}
-  if(w.rifle){const rifle=this._bound.get(3),stack=rifle?this.inventory.get('weapon:'+rifle.slot):null;w.rifle.chamber=stack?.chamber||0;w.rifle.magazine=(stack?.rounds||0)-w.rifle.chamber;w.rifle.reserve=this._reserves[3];}
+  const rifleStack=index===3?active:slots.find(stack=>stack?.itemId==='r4')||null;
+  if(w.rifle&&(this._rifleUid!==rifleStack?.uid||changed||!this._applied))this._restoreRifle(rifleStack,false);
+  else this._setRifleReserve(this._reserves[3]);
   this.activeUid=active?.uid||null;
-  if(index===null){w.clearFireInput('unarmed');w.rifle?.deactivate();w.reload=0;w.reloadDuration=0;w.cycleWeapon=null;w.cycleDelay=0;w.cocked=true;}
-  else if(w.weapon!==index){
-   // switchWeapon deliberately rejects pause; inventory swaps are allowed while the bag pauses play.
-   const paused=w.paused;w.paused=false;w.switchWeapon(index);w.paused=paused;
+  if(index===null||this.holstered){
+   w.clearFireInput(index===null?'unarmed':'holster');w.rifle?.deactivate();w.reload=0;w.reloadDuration=0;w.cycleWeapon=null;w.cycleDelay=0;w.cocked=index===null;
+  }else if(changed||w.weapon!==index){
+   const paused=w.paused;w.paused=false;if(w.weapon!==index)w.switchWeapon(index);w.paused=paused;
+   if(index===3){w.rifle.activate();w.rifle.setPaused(paused);}
+   else{
+    const state=model.weaponState(active);w.cocked=state.cocked;w.cycleWeapon=state.cycleNeeded?index:null;w.cycleDelay=state.cycleRemaining;w.reload=0;w.reloadDuration=0;w.cooldown=Math.max(state.recoveryRemaining,this._applied?.25:0);
+   }
+   w.clearFireInput('inventory-switch');this._lastShots=w.shots||0;
   }else if(index===3&&w.rifle&&!w.rifle.active)w.rifle.activate();
-  if(index!==null&&previous&&previous!==this.activeUid){w.clearFireInput('inventory-switch');w.cooldown=Math.max(w.cooldown,.25);}
   const armor=this.inventory.get('armor');this._armorUid=armor?.uid||null;w.player.armor=armor?.durability||0;
   w.syncRifle();this._objective();this._applied=true;
  }
  _mutate(action,message){
   if(!this._available())return this._failure('unavailable');
-  this.syncFromWorld();const result=action();if(!result.ok)return this._failure(result.reason);
-  this._cancelReload();this.syncToWorld();return this._result(true,message,result);
+  this.syncFromWorld();
+  // Validate on an isolated draft before cancellation, so failed moves leave
+  // the live reload untouched. The successful operation is applied only once.
+  const draft=new model.Inventory(this.inventory.snapshot()),original=this.inventory;let result;
+  try{this.inventory=draft;result=action();}finally{this.inventory=original;}
+  if(!result.ok)return this._failure(result.reason);
+  this.beforeWeaponChange('inventory');result=action();if(!result.ok)return this._failure(result.reason);
+  const previous=this.activeUid;this.syncToWorld();this._notify('afterWeaponChange','inventory',previous);return this._result(true,message,result);
  }
  move(from,to){return this._mutate(()=>this.inventory.move(from,to),'장비를 옮겼습니다.');}
  equipWeapon(slot){
   if(typeof slot==='string'&&/^weapon:[01]$/.test(slot))slot=Number(slot.slice(-1));
   if(!Number.isInteger(slot)||slot<0||slot>1||!this._available())return this._failure('invalid-location');
   const stack=this.inventory.get('weapon:'+slot);if(!stack)return this._failure('empty');
-  if(this.activeUid===stack.uid)return this._result(true,Catalog[stack.itemId].name+' 사용 중');
-  this.syncFromWorld();this._cancelReload();this.activeSlot=slot;this.activeUid=null;this.syncToWorld();
+  if(this.activeUid===stack.uid&&!this.holstered)return this._result(true,Catalog[stack.itemId].name+' 사용 중');
+  this.beforeWeaponChange('equip');const previous=this.activeUid;this.activeSlot=slot;this.activeUid=null;this.holstered=false;this.syncToWorld({forceRestore:true});this._notify('afterWeaponChange','equip',previous);
   return this._result(true,Catalog[stack.itemId].name+' 장착');
+ }
+ holsterWeapon(){
+  if(!this._available()||!this.activeUid)return this._failure('unavailable');
+  if(this.holstered)return this._result(true,'총기를 내려놓았습니다.');
+  this.beforeWeaponChange('holster');const previous=this.activeUid;this.holstered=true;this.syncToWorld();this._notify('afterWeaponChange','holster',previous);return this._result(true,'총기를 내렸습니다.');
+ }
+ restoreWeapon(){
+  if(!this.holstered)return this._result(true,'총기 사용 중');
+  if(!this._available()||!this.activeWeapon)return this._failure('unavailable');
+  const previous=this.activeUid;this.holstered=false;this.syncToWorld({forceRestore:true});this._notify('afterWeaponChange','restore',previous);return this._result(true,'총기를 들었습니다.');
  }
  _stackFor(item){
   if(item.type==='inventory'&&item.stack)return {...item.stack};
@@ -213,5 +268,6 @@ class Bridge{
   }
  }
 }
+Bridge.sessionSequence=0;
 const API={Bridge,WEAPONS,AMMO};root.DFInventoryGame=API;if(typeof module!=='undefined'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);

@@ -71,10 +71,10 @@ check('typed swaps validate both directions before changing equipment',()=>{
  unchanged(inv,()=>inv.move(location,'weapon:0'),'wrong-slot');unchanged(inv,()=>inv.move('weapon:0','quick:0'),'wrong-slot');unchanged(inv,()=>inv.move('armor','safe'),'wrong-slot');
  const newGun=add(inv,'shotgun',1,{rounds:2});const old=inv.get('weapon:0').uid;move(inv,newGun,'weapon:0');assert.equal(inv.get(newGun).uid,old);assert.equal(inv.get('weapon:0').itemId,'shotgun');
 });
-check('equipped firearm classes are distinct while duplicate guns can stay in the bag',()=>{
+check('same-class weapons occupy two slots with independent identities and rounds',()=>{
  const inv=starter(),location=add(inv,'r4',1,{rounds:0,chamber:0});assert.equal(inv.countItem('r4'),2);
- unchanged(inv,()=>inv.move(location,'weapon:1'),'duplicate-weapon');
- move(inv,location,'weapon:0');assert.equal(inv.get('weapon:0').rounds,0);assert.equal(inv.get(location).rounds,30);
+ move(inv,location,'weapon:1');assert.notEqual(inv.get('weapon:0').uid,inv.get('weapon:1').uid);
+ assert.equal(inv.get('weapon:0').rounds,30);assert.equal(inv.get('weapon:1').rounds,0);
 });
 check('safe pocket holds one eligible stack and refuses weapons, armor and quest items',()=>{
  const inv=new Inventory(),bandage=add(inv,'bandage',5);move(inv,bandage,'safe');assert.equal(inv.get('safe').quantity,5);
@@ -155,12 +155,12 @@ check('deserialization rejects sparse, malformed or missing slot arrays instead 
  const states=[null,[],{},new Inventory().snapshot(),new Inventory().snapshot(),new Inventory().snapshot()];delete states[3].bag[0];states[4].quick.push(null);delete states[5].safe;
  for(const state of states){assert.equal(validateSnapshot(state).ok,false);assert.throws(()=>new Inventory(state),TypeError);}
 });
-check('deserialization rejects wrong equipment, overcapacity stacks, overweight and duplicate gun classes',()=>{
+check('deserialization rejects wrong equipment, overcapacity stacks and overweight',()=>{
  const wrong=starter().snapshot();wrong.safe=placed('bounty','bad-safe');assert.equal(validateSnapshot(wrong).reason,'wrong-slot');
  const stack=new Inventory().snapshot();stack.bag[0]=placed('bandage','too-many',6);assert.equal(validateSnapshot(stack).reason,'invalid-quantity');
  const heavy=new Inventory().snapshot();for(let i=0;i<4;i++)heavy.bag[i]=placed('scrap','heavy-'+i,6);assert.equal(validateSnapshot(heavy).reason,'overweight');
- const duplicate=starter().snapshot();duplicate.weapons[1]=placed('r4','duplicate-class');assert.equal(validateSnapshot(duplicate).reason,'duplicate-weapon');
- for(const state of [wrong,stack,heavy,duplicate])assert.throws(()=>new Inventory(state),TypeError);
+ const duplicate=starter().snapshot();duplicate.weapons[1]=placed('r4','duplicate-class');assert(validateSnapshot(duplicate).ok);
+ for(const state of [wrong,stack,heavy])assert.throws(()=>new Inventory(state),TypeError);
 });
 check('invalid weapon rounds, chamber states and armor durability are rejected before pickup',()=>{
  const inv=new Inventory();for(const meta of [{rounds:-1,chamber:0},{rounds:32,chamber:1},{rounds:31,chamber:0},{rounds:0,chamber:1},{rounds:2,chamber:2},{rounds:1.5,chamber:1}])unchanged(inv,()=>inv.add('r4',1,meta));
@@ -175,5 +175,38 @@ check('deterministic mixed operations preserve all items except explicit consume
   const item=add(inv,'archive',1,{uid:'route-record-'+i}),drop=inv.remove(item);assert(drop.ok);assert.equal(drop.stack.itemId,'archive');assert.equal(drop.stack.quantity,1);
   const restored=new Inventory(JSON.parse(JSON.stringify(inv.snapshot())));assert.deepEqual(countAll(restored),initial);assert.equal(restored.weight(),mass);assert(validateSnapshot(inv.snapshot()).ok);
  }
+});
+check('weapon instance identity is immutable while combat values remain writable',()=>{
+ const inv=starter(),gun=inv.get('weapon:0'),uid=gun.uid;
+ assert.throws(()=>{gun.uid='replacement';},TypeError);assert.throws(()=>{inv.snapshot().weapons[0].uid='replacement';},TypeError);
+ gun.rounds=9;gun.chamber=1;assert.equal(inv.get('weapon:0').uid,uid);assert.equal(inv.get('weapon:0').rounds,9);
+ const location=add(inv,'r4',1,{rounds:3,chamber:1});assert.throws(()=>{inv.get(location).uid=uid;},TypeError);
+});
+check('legacy weapon metadata defaults preserve exact loaded rounds without mutating input',()=>{
+ const model=require('./inventory.js');
+ for(const [rounds,chamber]of [[0,0],[30,0],[1,1],[31,1]]){
+  const old=placed('r4','legacy-'+rounds+'-'+chamber,1,{rounds,chamber}),before=JSON.stringify(old),state=model.weaponState(old);
+  assert.equal(state.magazine+state.chamber,rounds);assert.equal(state.chamber,chamber);assert.equal(state.mode,'auto');assert.equal(state.shotSequence,0);assert.equal(JSON.stringify(old),before);
+ }
+});
+check('versioned state and reload checkpoint are copied independently through snapshots and drops',()=>{
+ const model=require('./inventory.js'),gun=placed('r4','stateful-r4',1,{rounds:17,chamber:1});gun.weaponState={...model.weaponState(gun),mode:'burst',shotSequence:40,recoveryRemaining:.72,reloadCheckpoint:{kind:'tactical',committed:true}};
+ const inv=new Inventory();assert(inv.addStack(gun,'weapon:0').ok);gun.weaponState.mode='auto';gun.weaponState.reloadCheckpoint.committed=false;
+ const snapshot=inv.snapshot();snapshot.weapons[0].weaponState.reloadCheckpoint.committed=false;
+ assert.equal(inv.get('weapon:0').weaponState.mode,'burst');assert.equal(inv.get('weapon:0').weaponState.reloadCheckpoint.committed,true);
+ const removed=inv.remove('weapon:0');assert(removed.ok);assert(inv.addStack(removed.stack,'weapon:1').ok);removed.stack.weaponState.mode='auto';
+ assert.equal(inv.get('weapon:1').weaponState.mode,'burst');assert.equal(inv.get('weapon:1').weaponState.shotSequence,40);
+});
+check('malformed, future and mismatched instance states are rejected without normalization',()=>{
+ const model=require('./inventory.js'),gun=placed('r4','validate-r4',1,{rounds:17,chamber:1}),base=model.weaponState(gun);
+ for(const patch of [{version:2},{weaponId:'pistol'},{weaponInstanceId:'other'},{magazine:17},{chamber:0},{mode:'safe'},{shotSequence:-1},{shotSequence:1.5},{recoveryRemaining:Infinity},{recoveryRemaining:-.1},{reloadCheckpoint:{kind:'empty',committed:1}},{reloadCheckpoint:{kind:'empty',committed:true,extra:1}},{extra:1}]){
+  const state={...gun,weaponState:{...base,...patch}};assert(!validateStack(state).ok,JSON.stringify(patch));
+ }
+ assert(!validateStack({...gun,weaponState:null}).ok);assert(!validateStack(placed('archive','not-gun',1,{weaponState:base})).ok);
+});
+check('legacy cycle state is strict and cannot silently cock or cross-bind a weapon',()=>{
+ const model=require('./inventory.js'),gun=placed('shotgun','pump-state',1,{rounds:1}),state={...model.weaponState(gun),cocked:false,cycleNeeded:true,cycleRemaining:.22,recoveryRemaining:.31,shotSequence:1};
+ assert(validateStack({...gun,weaponState:state}).ok);
+ for(const patch of [{cocked:true},{cycleNeeded:false},{cycleRemaining:-.1},{cycleRemaining:NaN},{reloadCheckpoint:{committed:true}},{weaponInstanceId:'different'},{mode:'auto'}])assert(!validateStack({...gun,weaponState:{...state,...patch}}).ok);
 });
 console.log(`${checks} deterministic inventory checks passed.`);

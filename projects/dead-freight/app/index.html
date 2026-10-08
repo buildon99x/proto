@@ -23,6 +23,7 @@
 
 .home-balance{display:flex;flex-direction:column;gap:7px;text-align:right;color:#dce7ed}.home-balance strong{font-size:28px}.home-balance small{font-size:11px;color:#a6b9c8}.home-tabs,.home-actions{display:flex;flex-wrap:wrap;gap:8px}.home-tabs{margin-top:18px}.home-tabs button,.home-actions button,.home-summary button,.home-recovery>button{font-size:11px;padding:10px 13px}.home-summary{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:15px 0 20px}.home-summary>div{border:1px solid #42596b;background:#152231;padding:17px}.home-summary strong{font-size:22px;color:#e1ebee}.home-summary p{margin:8px 0;font-size:12px}.home-summary button:disabled,.home-actions button:disabled,.home-recovery>button:disabled{opacity:.42;cursor:default}.home-warning{color:#e2c28b!important}.home-layout{display:grid;grid-template-columns:minmax(0,1fr) 275px;gap:20px;align-items:start}.home-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.home-item,.home-empty{min-height:112px;padding:12px;border:1px solid #344c61;background:#111f30;text-align:left;display:flex;flex-direction:column;gap:7px;color:#dbe7ed;letter-spacing:0;font-weight:normal}.home-item:hover,.home-item.selected{background:#23384b;border-color:#d6e8ea}.home-item strong{font-size:13px;line-height:1.3;font-weight:normal}.home-item small,.home-item span,.home-item em,.home-empty small{font-size:10px;line-height:1.4;color:#a9bdcf;font-style:normal}.home-item em{color:#e1d4ad}.home-empty{border-style:dashed;background:#0b1521}.home-empty small{opacity:.55}.home-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:16px 0 12px;font-size:12px}.home-toolbar h3{font-size:13px;font-weight:normal}.home-toolbar select{margin-left:8px}.home-details{margin:0;position:sticky;top:12px}.home-details dd{overflow-wrap:anywhere}.home-details .home-actions{margin-top:14px}.home-confirm{border:1px solid #d2c08c;background:#2a291f;padding:18px;margin:16px 0}.home-confirm h3{margin:0 0 10px;font-size:18px}.home-confirm p{margin:7px 0;color:#ddd9c6}.home-recovery{border:1px solid #9b8155;background:#1e211f;padding:18px;margin:20px 0}.home-recovery h3{font-size:16px;margin:0}.home-recovery .home-grid{margin-top:14px}
 @media(max-width:1000px){.home-layout{grid-template-columns:1fr 240px}.home-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:700px){.home-layout{grid-template-columns:1fr}.home-details{position:static}.home-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-summary{grid-template-columns:1fr}.home-balance{text-align:left}.home-item,.home-empty{min-height:105px}}
+#control-settings{margin-top:18px;font-size:11px;color:#b9c9d5}#binding-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:12px 0}#binding-grid button{display:flex;justify-content:space-between;gap:10px;text-align:left;padding:9px;font-size:10px;font-weight:normal;letter-spacing:0;background:#1a2939;color:#dce7ed}#binding-grid button b{color:#e8d49c}#binding-status{font-size:11px}
 </style>
 </head>
 <body>
@@ -46,7 +47,7 @@
 <div id="inventory-overlay" hidden role="dialog" aria-modal="true" aria-label="가방과 출격 준비"><div id="inventory-content"></div></div>
 <div id="damage" hidden></div>
 <div id="overlay" data-startup="pending"><div class="panel">
-  <div class="eyebrow">0.9.0 / ASSAULT RIFLE FOUNDATION · EQUIPMENT</div>
+  <div class="eyebrow">0.10.0 / ASSAULT RIFLE FOUNDATION · EQUIPMENT</div>
   <h1>DEAD<br>FREIGHT</h1>
   <p id="startup-status" role="status" aria-live="polite">3D 렌더러를 준비하고 있습니다.</p>
   <p id="description">태양빛이 지표에 닿지 않는 영구적인 밤.<br>꺼지지 않은 작업등을 따라 숲의 시설과 수송로를 탐색하세요.<br>보급품과 화물을 찾아 중계소의 표적을 추적하세요. 증표를 회수한 뒤 탈출 지점에서 구조를 기다리세요.</p>
@@ -63,7 +64,7 @@
     <div><b>R</b> 재장전 · <b>B</b> 라이플 연사/3점사</div>
     <div><b>E</b> 회수·탈출 · <b>M</b> 지도 · <b>L</b> 레이저</div>
     <div><b>← → ↑ ↓</b> 키보드 조준 · <b>ESC</b> 일시정지</div>
-    <div><b>1 / 2</b> 무기 · <b>3–6</b> 빠른 사용 · <b>TAB</b> 가방</div>
+    <div><b>1 / 2 / 휠</b> 무기 · <b>H</b> 맨손 · <b>3–6</b> 빠른 사용 · <b>TAB</b> 가방</div>
   </div>
   <div id="options" class="options"><label>시작 무기 <select id="loadout"><option value="3" selected>R-4 라이플</option><option value="0">기존 권총</option><option value="1">기존 샷건</option><option value="2">기존 SMG</option></select></label>
     <label>난이도 <select id="difficulty"><option value=".6">관광객</option><option value="1">현상금 사냥꾼</option><option value="1.25" selected>HARDCORE</option></select></label>
@@ -73,10 +74,11 @@
   </div>
   <p id="pointer-status" role="status" hidden></p>
   <details id="pointer-diagnostics" hidden><summary>마우스 조준 진단</summary><pre id="pointer-detail" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:10px;line-height:1.5"></pre></details>
-  <p id="audio-load" role="status" aria-live="polite" hidden></p>
+  <p id="audio-load" role="status" aria-live="polite" hidden></p><button id="audio-retry" class="minor" hidden>음향 준비 재시도</button>
   <div class="row"><button id="start" disabled>계약 시작</button><button id="inventory-open" class="minor">출격 장비</button><button id="stash-open" class="minor">보유 보관함</button><button id="retry" hidden aria-describedby="startup-status description">새로고침하여 재시도</button><button id="restart" class="minor" hidden>처음부터</button><button id="fullscreen" class="minor">전체 화면</button></div>
+  <details id="control-settings"><summary>조작키 변경</summary><p>Esc는 화면 닫기·취소에 항상 사용할 수 있습니다.</p><p id="binding-status" role="status"></p><div id="binding-grid"></div><button id="bindings-reset" class="minor">기본키로 복원</button></details>
   <div id="notice">HEADCUTTER의 공개 영상·스크린샷을 참고한 독립적인 브라우저 습작입니다. 단일 연결 지역을 탐험하는 개발 중인 프로토타입입니다. 원작의 코드·아트·음원은 포함되지 않습니다. 키보드와 마우스가 필요합니다. <a id="audio-credits" href="audio/rifle/CREDITS.md" target="_blank" rel="noopener">음원 출처·이용 조건</a></div>
 </div></div>
-<script src="vendor/three.min.js"></script><script src="world.js"></script><script src="world-view.js"></script><script src="rifle-state.js"></script><script src="core.js"></script><script src="weapon.js"></script><script src="motion.js"></script><script src="rifle-audio.js"></script><script src="audio.js"></script><script src="render-style.js"></script><script src="run-clock.js"></script><script src="save-state.js"></script><script src="inventory.js"></script><script src="inventory-game.js"></script><script src="stash-profile.js"></script><script src="inventory-ui.js"></script><script src="stash-ui.js"></script><script src="storage-profile.js"></script><script src="game.js"></script>
+<script src="vendor/three.min.js"></script><script src="world.js"></script><script src="world-view.js"></script><script src="weapon-content.js"></script><script src="weapon-definitions.js"></script><script src="ammo-ledger.js"></script><script src="input-router.js"></script><script src="muzzle-ballistics.js"></script><script src="loadout-action.js"></script><script src="rifle-state.js"></script><script src="core.js"></script><script src="weapon.js"></script><script src="motion.js"></script><script src="rifle-audio.js"></script><script src="audio.js"></script><script src="audio-preparation.js"></script><script src="render-style.js"></script><script src="run-clock.js"></script><script src="save-state.js"></script><script src="inventory.js"></script><script src="inventory-game.js"></script><script src="stash-profile.js"></script><script src="inventory-ui.js"></script><script src="stash-ui.js"></script><script src="storage-profile.js"></script><script src="game.js"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 (function(root){
 'use strict';
 class RunClock {
- constructor(){this.step=1/120;this.maxSteps=30;this.reset(0);}
+ constructor(){this.step=1/60;this.maxSteps=15;this.reset(0);}
  reset(now){this.elapsed=0;this.dropped=0;this.remainder=0;this.active=false;this.previous=Number.isFinite(now)?now:0;}
  setActive(active,now){this.sample(now);this.active=!!active;this.remainder=0;}
  sample(now){if(!Number.isFinite(now)||now<this.previous)return 0;const dt=(now-this.previous)/1000;this.previous=now;if(this.active)this.elapsed+=dt;return dt;}
