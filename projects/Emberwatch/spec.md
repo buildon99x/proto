@@ -93,3 +93,7 @@ No unresolved reference number becomes a claimed original rule. Death loss, exac
 ### M0 implementation boundary and next independent cores
 
 The unreleased campaign foundation stores world, character and inventory together, with a verbatim legacy backup, proven-commit recovery and Web Lock serialization across tabs. Reference catalogs remain data-only until their unresolved activation rules are verified. Add immutable authored world/quest commands and provenance-bearing seven-slot inventory/economy operations as independently tested modules; these do not by themselves enable new heroes or claim playable content. See docs/campaign/checkpoint-M0.md for current evidence and gaps.
+
+### Foundation integration contract
+
+Use createCampaignController with createCampaignSession and the world/inventory validators. Persist full reducer results before presenting reward, travel or trade success; consume replayed receipts without dispatching effects again. World commands provide state rules, while the renderer must enforce physical proximity and actual combat defeat. Coordinate-independent world data has21nodes; levels.js supplies fixed geometry. All campaign modules are copied into the static artifact; the0.4.4 entrypoint and standalone remain legacy until the Warrior runtime is verified. Source research and unresolved production policy are documented in docs/campaign/reference-gaps.md.

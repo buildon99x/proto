@@ -2,3 +2,6 @@
 assets/screenshots/motion-warrior/*-final.mp4
 
 .local-baselines/
+
+# Reproducible scene-review images are delivered in Library.
+assets/screenshots/campaign-spaces/

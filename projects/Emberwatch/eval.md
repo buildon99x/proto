@@ -146,3 +146,11 @@ No unresolved reference number becomes a claimed original rule. Death loss, exac
 ### M0 implementation boundary and next independent cores
 
 The unreleased campaign foundation stores world, character and inventory together, with a verbatim legacy backup, proven-commit recovery and Web Lock serialization across tabs. Reference catalogs remain data-only until their unresolved activation rules are verified. Add immutable authored world/quest commands and provenance-bearing seven-slot inventory/economy operations as independently tested modules; these do not by themselves enable new heroes or claim playable content. See docs/campaign/checkpoint-M0.md for current evidence and gaps.
+
+### Campaign foundation II verification
+
+92 focused automated checks cover source catalogs, storage, progression, world journeys, inventory/economy transactions, geometry and controller integration. The world journey reloads after every action; timed delivery succeeds at89minutes and expires at90. Night NPC availability uses18:00–05:59. Equipment training gates use saved tier, not level alone. Failed persistence does not acknowledge or pay rewards.
+
+The three scene-review images use actual Canvas rendering and fixed campaign geometry, with temporary environment art. They are not browser captures or playable content proof. The private Site remains0.4.4. Google authentication is awaiting the user's method approval after an automatic review block. Exact original XP/stat/regen/shield/respawn rules and normal-control gameplay remain required before faithful Warrior completion.
+
+Integrated foundation verification: complete project suite and syntax/build pass, all11static project builds and metadata validations pass, and launcher production compilation/type checks/27static pages pass. Required script bodies ran via node --import tsx because this sandbox does not provide the tsx CLI IPC pipe. Shared registry content was preserved; no unrelated project changed.

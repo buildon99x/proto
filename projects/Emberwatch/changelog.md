@@ -75,3 +75,11 @@
 - Record Warrior, Mage and Archer four-tier reference catalogs, exact known point bands and explicit unresolved mechanics. Cached source data is not presented as current-game measurement or playable behavior.
 - Add 47 focused tests and recursive source syntax checking. Existing 0.4.4 audio, locomotion and default game remain unchanged.
 - Authored world/quest and inventory/economy integration, actual play, original-game comparison and campaign release gates remain open.
+
+## Campaign foundation II — 2026-10-08 (source checkpoint, unreleased)
+
+- Add original connected world/quest data and immutable transitions: timed and night objectives, puzzles, acquired tools, return routes and exactly-once world rewards.
+- Add data-driven seven-slot inventory, trained equipment tiers, merchant cash/stock and 24-hour refresh, crafting, cooking, potion and enchantment transactions. Numeric production tables remain separate and incomplete.
+- Add a controller that exposes progress only after durable commit, serializes rapid commands and blocks stale writers.
+- Add fixed seven-region scene geometry with collision checks, and three offscreen scene renders. Outdoor environment art is temporary; movement/proximity, quest UI and verified combat still need runtime integration.
+- The campaign foundation now has92 focused automated checks, including world/economy/save integration. This does not satisfy the normal-play gate.

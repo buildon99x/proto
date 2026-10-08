@@ -1,6 +1,7 @@
 // Functional reference facts only. Cached community rows are not game captures.
 const wiki=(page,section)=>({kind:'wiki_cached',url:`https://wiki.hammerwatch2.com/${page}`,section,accessedAt:'2026-10-08',cacheAge:'approximately 2.3 years',liveFetch:'502',measured:false});
-export const CORE_REFERENCE=Object.freeze({
+const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};
+export const CORE_REFERENCE=freeze({
  game:{title:'Hammerwatch II',year:2023,steamAppId:1538970,source:{kind:'official',url:'https://store.steampowered.com/app/1538970/Hammerwatch_II/',accessedAt:'2026-10-08'}},
  classes:{
   warrior:{referenceClassId:'paladin',displayName:'전사',basePools:{health:55,mana:40,stamina:45},poolGrowth:{health:4,mana:2,stamina:3},baseAttributes:{strength:18,dexterity:12,intelligence:10}},
@@ -27,7 +28,7 @@ export const CORE_REFERENCE=Object.freeze({
   resourceRegeneration:{value:null,status:'UNKNOWN',blocking:'base regen values and delay/cancel behavior'},
   damageRounding:{value:null,status:'UNKNOWN',blocking:'final rounding, penetration ordering and negative resistance'},
   shieldActivation:{value:null,status:'UNKNOWN',blocking:'equipped shield active block cost and duration'},
-  deathGoldFraction:{value:null,status:'UNKNOWN',blocking:'campaign death settlement'},
+  deathGoldFraction:{value:null,status:'UNKNOWN',blocking:'destination/difficulty gold and elapsed-time tradeoff; not a verified universal fraction'},
   respawnRules:{value:null,status:'UNKNOWN',blocking:'exact original checkpoint and enemy reset rules'},
   promotionRequirements:{value:null,status:'UNKNOWN',blocking:'trainer/NPC/quest prerequisites beyond observed level thresholds'},
   respecPrice:{value:null,status:'UNKNOWN',blocking:'skill respec gold charge'},
