@@ -1,0 +1,520 @@
+{
+  "sampleRate": 32000,
+  "atlasBytes": 3215404,
+  "sampleCount": 55,
+  "families": {
+    "slash": [
+      {
+        "peak": 0.36,
+        "rms": 0.0606,
+        "dc": -3.17e-05,
+        "peakTime": 0.101781,
+        "sha256": "a391974fb9989a52fed1763b2e1b453860b9ca798dc6fa790d79e1b8c1402cfd"
+      },
+      {
+        "peak": 0.36,
+        "rms": 0.0599,
+        "dc": 1.36e-05,
+        "peakTime": 0.097875,
+        "sha256": "606756db0589198effc68e509a5d40ebfe27c777dc2398638cb3c38cdc15baa1"
+      },
+      {
+        "peak": 0.36,
+        "rms": 0.055,
+        "dc": -4.54e-05,
+        "peakTime": 0.091188,
+        "sha256": "7f03b14f4e259b81da983b5312231dfbc82323c0b9fb751f89d0f75310730fbc"
+      },
+      {
+        "peak": 0.36,
+        "rms": 0.0582,
+        "dc": -4.6e-05,
+        "peakTime": 0.0965,
+        "sha256": "4e9dbab2dc269ab68158642030e1d01f14089880bda89f4d620a4007342ad16d"
+      }
+    ],
+    "heavySwing": [
+      {
+        "peak": 0.46,
+        "rms": 0.0847,
+        "dc": 7.47e-05,
+        "peakTime": 0.1335,
+        "sha256": "7e3f3bac452f5c13386744a807bb69eaecc883c441eca560eb3d7855029256fd"
+      },
+      {
+        "peak": 0.46,
+        "rms": 0.0778,
+        "dc": 1.63e-05,
+        "peakTime": 0.15025,
+        "sha256": "207990847997969125898e80d1327c538a15d53adb7921dc7e1b5dd28d464e4b"
+      },
+      {
+        "peak": 0.46,
+        "rms": 0.0804,
+        "dc": 2.26e-05,
+        "peakTime": 0.160344,
+        "sha256": "c4e247c1c0fc4217a570184342bdaf7ba7ed4506742f087ffbee65ff90d2bd28"
+      }
+    ],
+    "hit": [
+      {
+        "peak": 0.67,
+        "rms": 0.0778,
+        "dc": -0.0002574,
+        "peakTime": 0.009156,
+        "sha256": "c72da8b1f72e07427600c54e99cb5e8c097597db385eb9d37b66f9f262c65ad8"
+      },
+      {
+        "peak": 0.67,
+        "rms": 0.1025,
+        "dc": -0.0006262,
+        "peakTime": 0.01825,
+        "sha256": "9abd9530b84bcf3381738bec4762a0ed6862d5c75b313e4e7c11931d4986b9a0"
+      },
+      {
+        "peak": 0.67,
+        "rms": 0.0921,
+        "dc": -0.0001869,
+        "peakTime": 0.00975,
+        "sha256": "a8bb0597458db4e92947c5319e04e25f8bcbab611ddc47c2e8923677126de05c"
+      },
+      {
+        "peak": 0.67,
+        "rms": 0.0736,
+        "dc": -0.0001717,
+        "peakTime": 0.011969,
+        "sha256": "6ca70cde3adbb31c5a2bb0ca1fcd59239f3c82f5874b603116983fcf676c0334"
+      }
+    ],
+    "metalHit": [
+      {
+        "peak": 0.67,
+        "rms": 0.1144,
+        "dc": -0.0006374,
+        "peakTime": 0.009219,
+        "sha256": "31a4eca12b0dbaa1ac350e0f45f8eff592c0cbe7fe92c611d10215443bd3bed2"
+      },
+      {
+        "peak": 0.67,
+        "rms": 0.0933,
+        "dc": -0.0004837,
+        "peakTime": 0.011969,
+        "sha256": "04b4750b03d813f2563bce8a716ba83737eb04bcd2640035c157654935965e40"
+      },
+      {
+        "peak": 0.67,
+        "rms": 0.1036,
+        "dc": -0.0006736,
+        "peakTime": 0.009875,
+        "sha256": "6f2fd6d7b6f6d678d7cae51dc56b626ce8312ded8b21d57be2d12c9376b8038b"
+      }
+    ],
+    "heavyHit": [
+      {
+        "peak": 0.82,
+        "rms": 0.1169,
+        "dc": -1.96e-05,
+        "peakTime": 0.0235,
+        "sha256": "88960dcfe8d4b1f6330a807f4a4d4fe27d04accef06efbc9a77ad9c021c2c6d9"
+      },
+      {
+        "peak": 0.82,
+        "rms": 0.1132,
+        "dc": -0.0002199,
+        "peakTime": 0.012688,
+        "sha256": "17062d9327b304c61f7d7e94415a675ea16faf30b5b13b47875f3100656ac510"
+      },
+      {
+        "peak": 0.82,
+        "rms": 0.0892,
+        "dc": -0.0004072,
+        "peakTime": 0.008906,
+        "sha256": "1fd7d96ea5f91079e89bce87022c523e6fdb951996b3f6f436b9fa4fad70e2c9"
+      }
+    ],
+    "magicCharge": [
+      {
+        "peak": 0.39,
+        "rms": 0.0853,
+        "dc": 0.0001094,
+        "peakTime": 0.369563,
+        "sha256": "311b5e26bdc6ee6eda635a4adb3a9dc1ad3451e4af535bc274acd3e8cedad758"
+      },
+      {
+        "peak": 0.39,
+        "rms": 0.0839,
+        "dc": 5.92e-05,
+        "peakTime": 0.366375,
+        "sha256": "b730262fb4f404c7d4bee73765f9d99fae577c3315c48e5980aae3a84ff22f6c"
+      },
+      {
+        "peak": 0.39,
+        "rms": 0.07,
+        "dc": 1.25e-05,
+        "peakTime": 0.39725,
+        "sha256": "9df16802a6700af82cc223fb2a758ffed75cf843895b041cc9168a0886251729"
+      }
+    ],
+    "magicRelease": [
+      {
+        "peak": 0.56,
+        "rms": 0.0821,
+        "dc": -7.97e-05,
+        "peakTime": 0.013719,
+        "sha256": "d53e03927afac935f767a34a00d0265436a17c03722b1f7711d8ae1921bc4370"
+      },
+      {
+        "peak": 0.56,
+        "rms": 0.081,
+        "dc": -0.0001796,
+        "peakTime": 0.011406,
+        "sha256": "53f260921d62751c262e7fc31b7dcd76bb02b7bc06d12db171f48ad4f2c9d574"
+      },
+      {
+        "peak": 0.56,
+        "rms": 0.0841,
+        "dc": -0.0001591,
+        "peakTime": 0.015281,
+        "sha256": "980f6e35bd6da03fa71cd8667c426023340e208ccfb74aabb46386815440bbc9"
+      }
+    ],
+    "magicHit": [
+      {
+        "peak": 0.69,
+        "rms": 0.0627,
+        "dc": -6.25e-05,
+        "peakTime": 0.009719,
+        "sha256": "0092bfb42fb2e41f76f8d712c015916b83c1cc50ce6343c892c90f6aab629c15"
+      },
+      {
+        "peak": 0.69,
+        "rms": 0.0613,
+        "dc": -9.21e-05,
+        "peakTime": 0.012625,
+        "sha256": "b8b92b52336bba12fc4ae83e92bf4ede0b9a1cdbb2704a4829395bf1b3c9dc45"
+      },
+      {
+        "peak": 0.69,
+        "rms": 0.0811,
+        "dc": -0.0001503,
+        "peakTime": 0.011031,
+        "sha256": "3a04bb1c3c8854875749b3dd3000da8a61b7f12d90f7af775cb70b50d8de7049"
+      }
+    ],
+    "footstep": [
+      {
+        "peak": 0.37,
+        "rms": 0.0454,
+        "dc": -5.89e-05,
+        "peakTime": 0.01075,
+        "sha256": "f0eb871a6f91a58d27d898632157bf980a1be5ea43a4b043da611787fefa9a08"
+      },
+      {
+        "peak": 0.37,
+        "rms": 0.0398,
+        "dc": -0.0001142,
+        "peakTime": 0.009844,
+        "sha256": "a9fd8f54be315f15a064fe8270ab44157b5cc827a0aa8d249ca6bce2b48a1c96"
+      },
+      {
+        "peak": 0.37,
+        "rms": 0.0573,
+        "dc": 8.88e-05,
+        "peakTime": 0.012875,
+        "sha256": "a6dec1f7017f329f3767e6bf38001a862d14e57a548e4ddeab11e8c5c3898e9b"
+      },
+      {
+        "peak": 0.37,
+        "rms": 0.0506,
+        "dc": 9.59e-05,
+        "peakTime": 0.009344,
+        "sha256": "cb9427230cd200ee883d1bbb99cf74070c5c0875118b3eb70128528a8638ab45"
+      }
+    ],
+    "enemyTell": [
+      {
+        "peak": 0.45,
+        "rms": 0.1036,
+        "dc": -7.85e-05,
+        "peakTime": 0.062969,
+        "sha256": "e9f86d694ed2ec29839c4c4bede360c96ec08d40b9c06d411105fef9298e0c31"
+      },
+      {
+        "peak": 0.45,
+        "rms": 0.097,
+        "dc": -0.0001618,
+        "peakTime": 0.067,
+        "sha256": "2c7f4fd36a68813bc6a69aff11510def68630e8636f8ce129445055a92466f26"
+      },
+      {
+        "peak": 0.45,
+        "rms": 0.1036,
+        "dc": -0.0002774,
+        "peakTime": 0.087781,
+        "sha256": "555b1fa6d70629e9d84d05462107da870b847ef603b1cb75dd13c6f3cfac7042"
+      }
+    ],
+    "enemyRelease": [
+      {
+        "peak": 0.64,
+        "rms": 0.0758,
+        "dc": -3.6e-06,
+        "peakTime": 0.009344,
+        "sha256": "d313d4e4643e682af13aac262101756e1ac4f5ebc7cf341ea2f27fe2603b06af"
+      },
+      {
+        "peak": 0.64,
+        "rms": 0.0938,
+        "dc": -0.0001325,
+        "peakTime": 0.022594,
+        "sha256": "1b5fbf6deeef3a8999d980ec7944b5c5fb5cf7ae9a815c99bb37b04e60373946"
+      },
+      {
+        "peak": 0.64,
+        "rms": 0.1072,
+        "dc": -0.0002118,
+        "peakTime": 0.018937,
+        "sha256": "a346bf08942b51b563c0cde5c7b06445b8569f2099c12cdd40c948c26e93bc5c"
+      }
+    ],
+    "coin": [
+      {
+        "peak": 0.28,
+        "rms": 0.0604,
+        "dc": -2.06e-05,
+        "peakTime": 0.010406,
+        "sha256": "ec24bc472172518b02621689491510d19b254be4ce119cdfda4bb57559434c85"
+      },
+      {
+        "peak": 0.28,
+        "rms": 0.0573,
+        "dc": -1.95e-05,
+        "peakTime": 0.064687,
+        "sha256": "7d4968d24d53b98341732319a06a6eaee269819a209ce8b4beba8d14f370931d"
+      },
+      {
+        "peak": 0.28,
+        "rms": 0.0582,
+        "dc": 1.75e-05,
+        "peakTime": 0.0105,
+        "sha256": "3f8abd018559bc0761320e08e5e6d830c26f5d824eec94876be9f9f1db592e45"
+      }
+    ],
+    "hurt": [
+      {
+        "peak": 0.75,
+        "rms": 0.1221,
+        "dc": -0.0006624,
+        "peakTime": 0.01325,
+        "sha256": "093f18dee5a662672535c5b3832d10d3bf8b49fc406847218ef88bfa68ca80a5"
+      },
+      {
+        "peak": 0.75,
+        "rms": 0.1413,
+        "dc": -0.0006816,
+        "peakTime": 0.022375,
+        "sha256": "1da9ab7c7387ee187757f8dcb8443a60412934bb94be78ae0e243d7bcee1ca03"
+      },
+      {
+        "peak": 0.75,
+        "rms": 0.1138,
+        "dc": -0.0011085,
+        "peakTime": 0.020719,
+        "sha256": "8795db640bfd730db4c2a100d6c8fc165d360ad7d0b94f5eb468fd5fc76d7429"
+      }
+    ],
+    "die": [
+      {
+        "peak": 0.7,
+        "rms": 0.1103,
+        "dc": -0.0001008,
+        "peakTime": 0.011875,
+        "sha256": "d7e466b6cc62d6c9f577fa32c1ab8f07c06f024fdab54d0e400029e4d857a4c6"
+      },
+      {
+        "peak": 0.7,
+        "rms": 0.1203,
+        "dc": -8.95e-05,
+        "peakTime": 0.053719,
+        "sha256": "0dfede723c4250ec19f032daa1b7ea7169df653f7ba13c5dfdc16e4960ccc75a"
+      }
+    ],
+    "dash": [
+      {
+        "peak": 0.42,
+        "rms": 0.089,
+        "dc": -1.27e-05,
+        "peakTime": 0.09425,
+        "sha256": "8e707752a62bc4be319241be8430d5aff202dc0773a4f79c10ed6b0e1c45f27c"
+      },
+      {
+        "peak": 0.42,
+        "rms": 0.0746,
+        "dc": 2.67e-05,
+        "peakTime": 0.108719,
+        "sha256": "9ba5aacadd4b4d1ed6809608d6f5ba92e1b237285ba0285e9e89294da15f9bea"
+      },
+      {
+        "peak": 0.42,
+        "rms": 0.0857,
+        "dc": 1.52e-05,
+        "peakTime": 0.113656,
+        "sha256": "838dc55c0b3366e1dde58852b26b04e79c6266476eff63b13957bba9ce3fa9d8"
+      }
+    ],
+    "level": [
+      {
+        "peak": 0.51,
+        "rms": 0.1111,
+        "dc": -1.83e-05,
+        "peakTime": 0.177469,
+        "sha256": "d309e4cbb2c1fff8fe5f25553fe887d957af79b21d649ca0b78cfc704b9d84a4"
+      },
+      {
+        "peak": 0.51,
+        "rms": 0.1079,
+        "dc": -1.95e-05,
+        "peakTime": 0.197531,
+        "sha256": "e565e01ff990f6fc4f649e4bf1281190fcc70e8a641f0ee28af2befea2bda1d2"
+      }
+    ],
+    "axeWhirl": [
+      {
+        "peak": 0.59,
+        "rms": 0.148,
+        "dc": 3.78e-05,
+        "peakTime": 0.575625,
+        "sha256": "8cb6853346fc117d84568553de2932c5d57a82feafbc1d5d3c50a1252279709c"
+      },
+      {
+        "peak": 0.59,
+        "rms": 0.1546,
+        "dc": -9.84e-05,
+        "peakTime": 0.551188,
+        "sha256": "144c6e037f29dc6c0ce358301ba7c2238756fcf7a9035a83769f4cd1be9c2a37"
+      }
+    ],
+    "warCry": [
+      {
+        "peak": 0.7,
+        "rms": 0.1081,
+        "dc": 0.0010597,
+        "peakTime": 0.058844,
+        "sha256": "46f917773724adc9ff37ea27220cb60129ef81d49be601c151a35d852a44dbe8"
+      },
+      {
+        "peak": 0.7,
+        "rms": 0.1123,
+        "dc": 0.0010858,
+        "peakTime": 0.035219,
+        "sha256": "8a4ec90d4aab0485a7296f285b219f45b9c9e8311f3a3b2de9e1e604a9da8202"
+      }
+    ],
+    "ambienceTown": [
+      {
+        "peak": 0.3,
+        "rms": 0.0659,
+        "dc": 1e-07,
+        "peakTime": 1.441531,
+        "sha256": "9931806dad8a3310f34feff67f0e9983ca3bbeb311472d8423e9a92871d5188e"
+      }
+    ],
+    "ambienceDungeon": [
+      {
+        "peak": 0.3,
+        "rms": 0.066,
+        "dc": -0.0,
+        "peakTime": 1.518125,
+        "sha256": "f2dfd8d8c4f64050b02ce8facd125bec2a4fd4848bc676032cb51f1bdc1be91c"
+      }
+    ]
+  },
+  "demonstrationCues": [
+    {
+      "seconds": 0.0,
+      "family": "slash"
+    },
+    {
+      "seconds": 0.61,
+      "family": "heavySwing"
+    },
+    {
+      "seconds": 1.43,
+      "family": "hit"
+    },
+    {
+      "seconds": 2.14,
+      "family": "metalHit"
+    },
+    {
+      "seconds": 2.85,
+      "family": "heavyHit"
+    },
+    {
+      "seconds": 3.83,
+      "family": "magicCharge"
+    },
+    {
+      "seconds": 4.58,
+      "family": "magicRelease"
+    },
+    {
+      "seconds": 5.48,
+      "family": "magicHit"
+    },
+    {
+      "seconds": 6.58,
+      "family": "footstep"
+    },
+    {
+      "seconds": 7.11,
+      "family": "enemyTell"
+    },
+    {
+      "seconds": 8.04,
+      "family": "enemyRelease"
+    },
+    {
+      "seconds": 8.84,
+      "family": "coin"
+    },
+    {
+      "seconds": 9.54,
+      "family": "hurt"
+    },
+    {
+      "seconds": 10.27,
+      "family": "die"
+    },
+    {
+      "seconds": 11.75,
+      "family": "dash"
+    },
+    {
+      "seconds": 12.39,
+      "family": "level"
+    },
+    {
+      "seconds": 14.42,
+      "family": "axeWhirl"
+    },
+    {
+      "seconds": 15.82,
+      "family": "warCry"
+    },
+    {
+      "seconds": 17.06,
+      "family": "ambienceTown"
+    },
+    {
+      "seconds": 20.34,
+      "family": "ambienceDungeon"
+    },
+    {
+      "seconds": 23.62,
+      "family": "Warrior demonstration: three-hit combo, dodge, Whirling Axes, War Cry, hurt and finish (editorial mock sequence, not gameplay capture)"
+    }
+  ],
+  "demonstrationPeak": 0.8199999928474426,
+  "listeningReview": "Not performed. Numerical signal checks are not subjective listening validation."
+}

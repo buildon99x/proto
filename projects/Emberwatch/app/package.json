@@ -1,0 +1,13 @@
+{
+  "name": "emberwatch",
+  "version": "0.4.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/build.mjs && node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node tests/data.test.mjs && node tests/growth.test.mjs && node tests/runtime.test.mjs && node tests/visual.test.mjs && node tests/combat.test.mjs && node tests/encounters.test.mjs && node tests/combat-review.test.mjs && node tests/audio.test.mjs && node tests/motion.test.mjs && node tests/renderer-performance.test.mjs",
+    "lint": "node scripts/check.mjs",
+    "standalone": "node scripts/build.mjs && node scripts/build-standalone.mjs"
+  }
+}

@@ -1,0 +1,40 @@
+# Emberwatch: Crown of Cinders
+
+## Goal
+
+Create an original, solo browser dungeon-crawler prototype with a repeatable loop: choose a hero, explore generated floors, collect loot, face guardians, and reinvest resources in a persistent refuge.
+
+## Audience and constraints
+
+- Desktop keyboard-and-mouse players; touch controls are an experimental fallback.
+- Canvas 2D rendering, browser ES modules, and local saves; no runtime package dependencies, backend, accounts, or external art assets.
+- Original title, world, implementation, and procedural visuals. Genre inspiration does not mean feature parity with any commercial game.
+- Integrate as a new `projects/Emberwatch` static artifact without changing other projects.
+
+## Prototype boundary
+
+The current scope is seven hero definitions, three biomes across six generated floors, three guardians, equipment and relics, refuge upgrades, and local run persistence. It is not a finished commercial release. Browser gameplay and visual quality have not been verified in the current environment.
+
+## 0.2.0 development revision
+
+Expand permanent progression and combat feedback with spendable skill/attribute points, rank-gated training, forging, elemental equipment, skill orbs, input buffering, impact feedback, varied floor topology, and legacy map migration. The source revision includes dedicated growth tests and updated reporting. Automated verification and browser acceptance remain distinct gates; this is an untested development build, not a release.
+
+## 0.3.0 visual revision
+
+Match the supplied teal/violet ruined-citadel reference as closely as possible using original generated raster assets. Integrate coherent isometric architecture, firelight, four-direction idle/walk/attack actor sheets, projected controls, restrained combat UI, and cinematic view. A numerical 99% visual match has no validated measurement and is not claimed. Preserve existing simulation and saves.
+
+## 0.4.0 combat animation revision
+
+Improve controllable combat feel toward commercial reference principles: genuinely articulated 16–24 sampled motion frames, clear anticipation/contact/recovery, synchronized confirmed-hit feedback, and role-based monsters with fair readable attack patterns. Use original generated artwork and sprite tooling, preserving existing art direction and save compatibility. Commercial equivalence and impossible perfection are not claimed; retain candid verification limits.
+
+### Latest scope and sequence
+
+Complete the Warrior first: idle, locomotion, three-hit sword chain, Whirling Axes Q, War Cry E, dodge, hurt, death, synchronized fantasy-RPG sound and impact. Preserve other existing characters, but defer new class/enemy art rollout until the Warrior passes its gates. Audio is original layered material/noise/resonance sample design rather than the former beep tones, with bounded polyphony, mix dynamics, and opt-in playback. Listening and normal-play acceptance remain separate from numerical audio and offscreen checks.
+
+### 2026-10-08 continuation
+
+The user authorized proceeding without usage checks for this task and reaffirmed dot’s cloud computer as the execution environment. First-Warrior acceptance remains mandatory before the next character or monster rollout. New enemy pattern definitions are retained as unactivated framework source; current expedition monsters keep their prior behavior until that gate.
+
+### Bounded Canvas performance pass
+
+Measure the integrated Warrior renderer offscreen, then add bounded viewport floor caching only if it addresses a measured bottleneck. Preserve depth sorting, fog reveal, frame margins and uncached fallback. Compare stationary/moving output and report CPU timing as offscreen evidence; browser60FPS acceptance remains pending.

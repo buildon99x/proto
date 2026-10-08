@@ -1,0 +1,251 @@
+{
+  "atlas": "/workspace/scratch/1164483895fe/proto-emberwatch/projects/Emberwatch/app/src/assets/motion-hero.png",
+  "dimensions": [
+    2688,
+    4480
+  ],
+  "frames": 960,
+  "bytes": 6573396,
+  "clips": [
+    {
+      "direction": 0,
+      "action": "idle",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 0,
+      "action": "run",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 0,
+      "action": "attack1",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 0,
+      "action": "attack2",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 0,
+      "action": "attack3",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 0,
+      "action": "axes",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 0,
+      "action": "warcry",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 0,
+      "action": "dodge",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 0,
+      "action": "hurt",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 0,
+      "action": "death",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 1,
+      "action": "idle",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 1,
+      "action": "run",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 1,
+      "action": "attack1",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 1,
+      "action": "attack2",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 1,
+      "action": "attack3",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 1,
+      "action": "axes",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 1,
+      "action": "warcry",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 1,
+      "action": "dodge",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 1,
+      "action": "hurt",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 1,
+      "action": "death",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 2,
+      "action": "idle",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 2,
+      "action": "run",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 2,
+      "action": "attack1",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 2,
+      "action": "attack2",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 2,
+      "action": "attack3",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 2,
+      "action": "axes",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 2,
+      "action": "warcry",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 2,
+      "action": "dodge",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 2,
+      "action": "hurt",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 2,
+      "action": "death",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 3,
+      "action": "idle",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 3,
+      "action": "run",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 3,
+      "action": "attack1",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 3,
+      "action": "attack2",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 3,
+      "action": "attack3",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 3,
+      "action": "axes",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 3,
+      "action": "warcry",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 3,
+      "action": "dodge",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 3,
+      "action": "hurt",
+      "unique": 24,
+      "edgeClips": 0
+    },
+    {
+      "direction": 3,
+      "action": "death",
+      "unique": 24,
+      "edgeClips": 0
+    }
+  ]
+}

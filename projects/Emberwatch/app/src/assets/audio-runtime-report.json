@@ -1,0 +1,10 @@
+{
+  "pass": false,
+  "stage": "Chromium startup",
+  "attemptedAtUtc": "2026-10-08T06:02:29Z",
+  "error": "Chromium could not create its process singleton socket: Operation not permitted (EPERM)",
+  "retry": "A reviewed sandbox escalation produced the same startup failure. No further browser launch or access workaround was attempted.",
+  "renderedAudio": false,
+  "listeningReview": false,
+  "scope": "An intended OfflineAudioContext signal check, not gameplay or subjective listening. Source sample and mocked runtime tests passed separately."
+}
