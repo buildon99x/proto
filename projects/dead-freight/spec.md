@@ -35,3 +35,12 @@ Match the visible wine/rust suppressor cap as a substantial accent rather than a
 - Original bounded WebAudio layers for shot transient/body/mechanics/reflection and material/target impacts; mute, pause/resume and safe master limiting
 - Tests cover construction, reference framing, wrist visibility, contact zones, motion convergence/frame-rate robustness and audio scheduling/resource limits
 - Browser-render, normal-input and audible acceptance require a working supported preview; disclose separately when blocked
+
+## 0.6 extraction and readability acceptance
+- Persistent high-contrast center reticle with hit feedback; no stochastic or Bayer screen-space noise. Static low-amplitude material texture belongs to world surfaces. Preserve weapon accents and restrained cold palette.
+- Automatic timed cycling by default for pistol/shotgun; firing cannot skip recovery. Pump sound, casing and mechanical movement follow cycle events.
+- Space jumps with gravity, ground contact and low-cover clearance; Ctrl/C slides with stamina cost, direction, friction, duration and cooldown. Shift sprints. X retains the existing dodge.
+- A connected region approximately 320–360 m across, with multiple legible landmarks and routes; physical collisions match major cover. Use instancing/shared materials and bounded effects.
+- Local encounters alert within range/line of sight rather than activating the whole map. Optional cargo and supply caches support route choice. Defeat the relay target, collect its token, and hold an extraction site until evacuation completes; leaving its radius cancels the hold.
+- Map/objective/distance and concise Korean controls explain traversal and extraction. Restart and pause clear transient input safely.
+- Deterministic model tests exercise automatic pump, jump/land/clearance, sliding/collision/stamina, connected routes, loot and extraction conditions. Browser WebGL, ordinary input, sound and performance require separate live verification.

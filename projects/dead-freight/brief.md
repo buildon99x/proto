@@ -11,3 +11,6 @@ The user noted that the supplied image has clear red weapon accents and much mor
 
 ## 0.5 first-person composition and response
 Match the supplied first-person composition with a visible short wrist gap between dark glove and sleeve, two readable hands around the grip, and the muzzle pointing diagonally toward the upper left. Improve contact shadows, glove material breakup and wrist anatomy using original live geometry. The user additionally requested a high-quality FPS standard for motion, original layered weapon/mechanical/impact audio and shot/hit response. Treat that as a quality target, never as a claim of equivalence to any commercial game.
+
+## 0.6 extraction expansion
+The October 8 request makes readability and exploration the priority: show a persistent aim reticle, remove full-screen noise and retain weathering only on world objects, cycle/pump the gun automatically, and support jump plus momentum-based sliding. Continue in the existing proto/projects/dead-freight project. Build a substantial connected extraction region with distinct landmarks, branching routes, localized encounters, optional supply/valuable loot and a recover-and-extract loop. This is a bounded, single-player region prototype, not a claim of a finished open-world game.

@@ -30,3 +30,13 @@
 - Original three-weapon layered shot/mechanical/casing/reflection audio and material/head/body impacts with bounded voices, limiter and cleanup; aligned pistol/SMG shot-time ejection and shotgun cycle-time ejection
 - Confirmed hit/kill marker and finite impact decals; interruption/reset cleanup, zero-dt frame and queued-shot identity regression fixes
 - 23 combat, 12 rig, 7 motion, 34 audio and 21 rendererless integration checks; no browser/audio-quality acceptance claim
+
+## 0.6.0 — extraction region and readable movement
+- Keep the canonical `projects/dead-freight` directory and registry slug
+- Replace the corridor with a 340×340m connected forest region: five landmarks, ten branching routes, 720 physical trees, 17 localized enemies, supply/cargo caches and two timed extraction sites
+- Add gravity, jump/landing, low-cover clearance, stamina-based directional slide with friction/cooldown, slide-only gaps and exact-height projectile/cover collisions
+- Cycle/pump pistol/shotgun automatically with preserved recovery, synchronized mechanics/audio and safe cancellation
+- Remove full-screen dithering/grain; add a persistent outlined aim point, independent hit marker, smooth cool/red grade, readable objective/region/distance/map/extraction HUD and 960×540 internal rendering
+- Add jump/landing/slide viewmodel response and smooth camera-height transitions
+- Bank extracted value in local browser storage; failed runs lose carried value
+- Add deterministic tests, source-backed navigation diagram and honest separate browser/input/audio acceptance status
