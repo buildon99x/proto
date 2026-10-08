@@ -1,6 +1,10 @@
 # Black Pines 0.2.0 evaluation
 
-## Result: in progress, visual/play verification blocked on sign-in
+## Current status: 0.7.1 startup recovery verified in source; actual play still blocked
+
+The latest status supersedes the historical sign-in blockers below. On October 8, sign-in was authorized at 04:46 UTC, public sharing was requested at 05:07 UTC, and public Site revision 2 was verified at 05:08 UTC. A fresh public page loaded without completing login; the OTP flow was closed and no code was entered. The remaining observed browser blocker is failure to initialize WebGL, not Site access. The 0.7.1 source handles that failure gracefully; this is not proof that rendering or gameplay now works. See the latest verification entry at the end.
+
+## Historical 0.2 result: visual/play verification blocked on sign-in
 
 The latest user-supplied 640×360 reference was personally inspected. It shows near-monochrome forest fog, layered pines, coarse stippled/dithered tones, black gloves and a large angular ivory weapon with a muted rust muzzle. The previous urban/neon direction is superseded.
 
@@ -110,3 +114,15 @@ Final automated suite: 340 checks pass (23 combat, 12 legacy rig, 19 motion, 34 
 
 
 0.7 build verification: app syntax and static build, registry metadata validation and launcher production compilation/type checks/27 generated pages passed. The prescribed root `pnpm sync:registry` and `pnpm build:vercel` entry points were attempted again and remained blocked before running by the environment's pnpm store creation failure. Existing scripts ran through Node's tsx loader; unrelated registry records were preserved. The full all-project aggregate remains unverified.
+
+### Renderer startup failure repair: observed defect and acceptance plan
+The actual public browser could not create a WebGL context (`GL_VENDOR` / `GL_RENDERER` disabled and `BindToCurrentSequence` failed). The pre-repair source caught renderer construction failure but rethrew before menu handlers bound; Start remained enabled and the default gameplay HUD stayed visible. This identifies an error-handling defect, not the underlying browser cause.
+
+The repair requires a non-playable startup-error state, a working reload retry, hidden misleading gameplay UI and preserved credits. Rendererless tests must force initialization failures and verify that no mission, audio, gameplay input or RAF chain starts; existing successful-startup tests remain required. No GUI is used for this repair. Browser rendering and actual-play acceptance remain unpassed.
+
+### 0.7.1 startup recovery: implemented and verified
+Renderer construction and initial configuration are guarded. Failure logs the diagnostic without rethrowing, attempts safe cleanup of a partial renderer, and returns before any mission, sound engine, gameplay listeners or animation-frame chain is created. The menu says that 3D/WebGL could not start and that play is unavailable, offers a real page-reload retry, and suggests another WebGL-capable desktop browser or checking graphics acceleration if retries fail. It does not identify a hardware cause. Canvas/HUD/damage layers, gameplay controls/options and invalid Start/restart/fullscreen actions are hidden; credits remain a native accessible link. Start is disabled and gameplay surfaces hidden in the initial HTML until successful startup. Existing successful startup follows its normal game path. The same menu edit also repairs the malformed pistol option tag, restoring four distinct starting-weapon choices.
+
+All 353 app checks pass: the previous 340 checks plus 13 deterministic startup checks. New coverage includes initial disabled/hidden state, caught renderer-construction failure, explicit unavailable copy, hidden stale UI, retained credits, absence of mission/audio/listener/RAF creation, ignored gameplay input and page lifecycle events, real reload calls including repeat activation, unchanged saved bank, partial-renderer cleanup and cleanup failure, normal rifle startup/fire/pause/resume with one RAF chain, and four-choice loadout markup. The rendererless harness still mocks DOM/WebGL/audio; none of these checks is a browser-render, listening or ordinary-input play pass.
+
+The app lint command, syntax checks for both changed/new test files, static build and `git diff --check` pass. Built HTML/game scripts match source and the built credits file exists. Separate integration checks verified direct Node/tsx registry synchronization, all 11 project metadata validations, and launcher production compilation/type checks/27 pages. Required `pnpm sync:registry` and `pnpm build:vercel` entry points were attempted and blocked by pnpm's dependency-status setup trying to create the unavailable `/home/agent/.local/share/pnpm` store. The all-project aggregate is not claimed to pass. Unrelated registry timestamp changes were restored. No new GUI verification was performed during this source repair; publication is separate from these source checks. Actual rendering, play, listening and measured FPS remain blocked/unverified.

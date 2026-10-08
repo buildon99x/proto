@@ -57,3 +57,10 @@ Match the visible wine/rust suppressor cap as a substantial accent rather than a
 
 ## October 8 creator feedback
 The user actually played and reported excessive weapon screen occlusion. The next rig revision must preserve a clear central view and measure hip/ADS footprint. Movement must reduce stamina, including walking, with greater sprint drain and discrete jump/slide cost; stopping restores it and exhaustion must not trap the player. The creator adds perpetual surface night: atmospheric conditions prevent sunlight reaching the ground, while the upper-atmosphere event remains unexplained. Do not assert that the star physically disappeared or invent the cause. This game-specific refinement does not edit the external canon repository. Lighting uses restrained ambient readability and visible local work lamps, not a blanket grey/black filter. User also selected Pixabay explicitly for firearm samples; the final audio source must follow that request and its license.
+
+## Renderer startup failure acceptance
+- Keep Start disabled and gameplay surfaces hidden until renderer initialization succeeds.
+- Catch renderer construction/configuration failure and return before mission, audio, gameplay listeners and animation-frame scheduling. Do not rethrow an expected startup failure.
+- Show a Korean unavailable status and plain recovery guidance: reload first; if failure persists, try a WebGL-capable desktop browser or check browser graphics acceleration. Do not assert why WebGL failed.
+- Replace the invalid Start action with a working page reload; hide loadout/options, gameplay controls, fullscreen and stale HUD/canvas/damage layers. Preserve the credits link.
+- Deterministically exercise renderer failure, recovery UI, reload actions, absence of gameplay side effects, and successful startup in the rendererless harness. These checks do not establish GPU rendering, ordinary-input gameplay or audible acceptance.

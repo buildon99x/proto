@@ -20,9 +20,9 @@
 </style>
 </head>
 <body>
-<canvas id="game" aria-label="Black Pines 3D extraction shooter"></canvas>
+<canvas id="game" aria-label="Black Pines 3D extraction shooter" hidden></canvas>
 <div id="crt" hidden></div>
-<div id="hud">
+<div id="hud" hidden>
   <div id="top"><span id="region">BLACK PINES / 남부 진입로</span><span id="objective">중계소 표적을 추적하고 증표를 회수하세요</span><span id="route">M 지도 · 분기 경로와 보급 지점을 확인하세요</span><span id="loot">회수 화물 0 · 현장 보급품을 찾아보세요</span></div>
   <div id="crosshair" aria-hidden="true"><i class="aim-dot"></i><i class="aim-arm n"></i><i class="aim-arm e"></i><i class="aim-arm s"></i><i class="aim-arm w"></i></div>
   <div id="hitmarker" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -35,13 +35,14 @@
   <div id="extraction" hidden><div id="extractioncopy"><span id="extractionstatus">탈출 지점 방어</span><span id="extractiontime">0%</span></div><div id="extractiontrack"><div id="extractionfill"></div></div></div>
   <div id="map-panel"><canvas id="minimap" width="200" height="200" aria-label="Black Pines local map"></canvas><div id="maplegend"><span class="map-title">BLACK PINES / N ↑ · M 닫기</span><span><i></i>현재 위치</span><span><i class="map-enemy"></i>적</span><span><i class="map-target"></i>표적</span><span><i class="map-loot"></i>화물·보급</span><span><i class="map-exit"></i>탈출</span></div></div>
 </div>
-<div id="damage"></div>
-<div id="overlay"><div class="panel">
+<div id="damage" hidden></div>
+<div id="overlay" data-startup="pending"><div class="panel">
   <div class="eyebrow">R-4 / ASSAULT RIFLE FOUNDATION · DEVELOPMENT</div>
   <h1>DEAD<br>FREIGHT</h1>
+  <p id="startup-status" role="status" aria-live="polite">3D 렌더러를 준비하고 있습니다.</p>
   <p id="description">태양빛이 지표에 닿지 않는 영구적인 밤.<br>꺼지지 않은 작업등을 따라 숲의 시설과 수송로를 탐색하세요.<br>보급품과 화물을 찾아 중계소의 표적을 추적하세요. 증표를 회수한 뒤 탈출 지점에서 구조를 기다리세요.</p>
   <div id="stats"></div>
-  <div class="controls">
+  <div id="controls" class="controls">
     <div><b>W A S D</b> 이동 · <b>SHIFT</b> 달리기</div>
     <div><b>SPACE</b> 점프 · <b>CTRL / C</b> 슬라이드 · <b>X</b> 회피</div>
     <div><b>마우스</b> 조준 · <b>좌클릭 / F</b> 발사</div>
@@ -51,14 +52,14 @@
     <div><b>← → ↑ ↓</b> 키보드 조준 · <b>ESC</b> 일시정지</div>
     <div><b>4</b> 라이플 · <b>1 / 2 / 3</b> 기존 무기 · 탈출 중 구역 유지</div>
   </div>
-  <div class="options"><label>시작 무기 <select id="loadout"><option value="3" selected>R-4 라이플</option value="0">기존 권총</option><option value="1">기존 샷건</option><option value="2">기존 SMG</option></select></label>
+  <div id="options" class="options"><label>시작 무기 <select id="loadout"><option value="3" selected>R-4 라이플</option><option value="0">기존 권총</option><option value="1">기존 샷건</option><option value="2">기존 SMG</option></select></label>
     <label>난이도 <select id="difficulty"><option value=".6">관광객</option><option value="1">현상금 사냥꾼</option><option value="1.25" selected>HARDCORE</option></select></label>
     <input type="checkbox" id="manual" hidden aria-hidden="true" tabindex="-1">
     <input type="checkbox" id="crtsetting" hidden aria-hidden="true" tabindex="-1">
     <label><input type="checkbox" id="suppressor" checked>소음기</label><label><input type="checkbox" id="laser">레이저</label><label><input type="checkbox" id="sound" checked>사운드</label>
   </div>
-  <div class="row"><button id="start">계약 시작</button><button id="restart" class="minor" hidden>처음부터</button><button id="fullscreen" class="minor">전체 화면</button></div>
-  <div id="notice">HEADCUTTER의 공개 영상·스크린샷을 참고한 독립적인 브라우저 습작입니다. 단일 연결 지역을 탐험하는 개발 중인 프로토타입입니다. 원작의 코드·아트·음원은 포함되지 않습니다. 키보드와 마우스가 필요합니다. <a href="audio/rifle/CREDITS.md" target="_blank" rel="noopener">음원 출처·이용 조건</a></div>
+  <div class="row"><button id="start" disabled>계약 시작</button><button id="retry" hidden aria-describedby="startup-status description">새로고침하여 재시도</button><button id="restart" class="minor" hidden>처음부터</button><button id="fullscreen" class="minor">전체 화면</button></div>
+  <div id="notice">HEADCUTTER의 공개 영상·스크린샷을 참고한 독립적인 브라우저 습작입니다. 단일 연결 지역을 탐험하는 개발 중인 프로토타입입니다. 원작의 코드·아트·음원은 포함되지 않습니다. 키보드와 마우스가 필요합니다. <a id="audio-credits" href="audio/rifle/CREDITS.md" target="_blank" rel="noopener">음원 출처·이용 조건</a></div>
 </div></div>
 <script src="vendor/three.min.js"></script><script src="world.js"></script><script src="world-view.js"></script><script src="rifle-state.js"></script><script src="core.js"></script><script src="weapon.js"></script><script src="motion.js"></script><script src="rifle-audio.js"></script><script src="audio.js"></script><script src="render-style.js"></script><script src="game.js"></script>
 </body>

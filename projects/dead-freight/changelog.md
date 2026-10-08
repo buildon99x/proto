@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.1 — honest graphics-startup failure state
+- Show an explicit non-playable state if the browser cannot create WebGL, with a real page-reload retry and accessible audio credits
+- Hide stale gameplay HUD and unavailable loadout/start controls; do not start mission, audio, input or animation systems after renderer failure
+- Record the actual public-browser failure separately from rendererless tests; the R-4 human-play/listening gate remains blocked
+- Preserve the publicly shared audience requested by the creator; do not change game mechanics or advance the roadmap
+
 ## 0.2.0 — 2026-10-07
 - Replace urban palette with four-tone dithered forest, fog and ivory/black weapon composition
 - Add telegraphed projectile attacks, stamina dash, active reload and style chains

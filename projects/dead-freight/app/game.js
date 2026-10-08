@@ -1,9 +1,23 @@
 'use strict';
 (()=>{
-const $=id=>document.getElementById(id),T=THREE;
+const $=id=>document.getElementById(id),T=globalThis.THREE;
 const canvas=$('game');let renderer;
-try{renderer=new T.WebGLRenderer({canvas,antialias:false,powerPreference:'high-performance'});}catch(e){$('description').textContent='WebGL을 시작하지 못했습니다. 최신 데스크톱 브라우저에서 하드웨어 가속을 켜고 다시 열어주세요.';throw e;}
-renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.setPixelRatio(1);renderer.outputColorSpace=T.SRGBColorSpace;renderer.autoClear=false;
+try{
+ renderer=new T.WebGLRenderer({canvas,antialias:false,powerPreference:'high-performance'});
+ renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.setPixelRatio(1);renderer.outputColorSpace=T.SRGBColorSpace;renderer.autoClear=false;
+}catch(error){
+ // Stop before creating a mission, sound engine, gameplay listeners or RAF chain.
+ try{renderer?.dispose();}catch(e){/* Cleanup must not hide the recovery action. */}
+ $('overlay').dataset.startup='unavailable';
+ $('startup-status').textContent='3D 렌더러 시작 실패 · 플레이 불가';
+ $('startup-status').hidden=false;
+ $('description').textContent='이 브라우저 세션에서 3D 렌더러(WebGL)를 시작하지 못해 게임을 실행할 수 없습니다. 새로고침하여 다시 시도하세요. 계속 실패하면 WebGL을 지원하는 다른 데스크톱 브라우저에서 열거나 브라우저의 그래픽 가속 설정을 확인하세요.';
+ for(const id of ['game','hud','damage','controls','options','start','restart','fullscreen'])$(id).hidden=true;
+ $('start').disabled=true;$('restart').disabled=true;
+ $('retry').hidden=false;$('retry').onclick=()=>window.location.reload();
+ console.error('DEAD FREIGHT: 3D renderer initialization failed.',error);
+ return;
+}
 const scene=new T.Scene();scene.background=new T.Color('#0d1521');scene.fog=new T.FogExp2('#1c2a38',.0075);
 const cam=new T.PerspectiveCamera(78,1,.06,440);cam.rotation.order='YXZ';
 // Stylized low-level bounce keeps silhouettes readable; there is no direct sunlight.
@@ -205,6 +219,9 @@ function resize(){let w=Math.min(innerWidth-24,(innerHeight-24)*16/9),h=w*9/16;r
 $('loadout').onchange=()=>{if(state==='title'){world=createMission();build();}};$('laser').onchange=weaponModel;$('suppressor').onchange=weaponModel;$('start').onclick=()=>start();$('restart').onclick=()=>{state='title';start(true);};$('fullscreen').onclick=()=>{document.documentElement.requestFullscreen?.().catch(()=>tell('브라우저 메뉴에서 전체 화면을 선택하세요'));};
 window.addEventListener('keydown',e=>{if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','ControlLeft','ControlRight'].includes(e.code))e.preventDefault();keys[e.code]=true;if(e.repeat)return;if(e.code==='Escape')pause();if(state!=='playing')return;if(e.code==='KeyL'){$('laser').checked=!$('laser').checked;weaponModel();}if(e.code==='Space'){if(!world.jump()&&world.player.stamina<10)tell('점프하려면 잠시 멈춰 스태미나를 회복하세요',1.5);}if(e.code==='KeyX')world.dash();if(['ControlLeft','ControlRight','KeyC'].includes(e.code)){let f=(keys.KeyW?1:0)-(keys.KeyS?1:0),r=(keys.KeyD?1:0)-(keys.KeyA?1:0);if(!f&&!r)f=1;world.slide(-Math.sin(yaw)*f+Math.cos(yaw)*r,-Math.cos(yaw)*f-Math.sin(yaw)*r);}if(e.code==='KeyR')world.load();if(e.code==='KeyE')world.interact();if(e.code==='KeyF'){if(world.weapon===3)world.requestTrigger();else shoot();}if(e.code==='KeyB'&&world.weapon===3)world.setFireMode(world.rifle.snapshot().mode==='auto'?'burst':'auto');if(e.code==='KeyM'){const visible=$('minimap').style.display!=='block';$('minimap').style.display=visible?'block':'none';$('maplegend').style.display=visible?'flex':'none';}if(/^Digit[1234]$/.test(e.code)){world.switchWeapon(Number(e.code.at(-1))-1);hammer=null;weaponModel();}});
 window.addEventListener('keyup',e=>keys[e.code]=false);window.addEventListener('blur',pause);document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();});document.addEventListener('pointerlockchange',()=>{if(!document.pointerLockElement&&state==='playing')pause();});document.addEventListener('mousemove',e=>{if(document.pointerLockElement===canvas&&state==='playing'){swayX=HC.clamp(swayX+e.movementX*.014,-1,1);swayY=HC.clamp(swayY+e.movementY*.014,-1,1);yaw-=e.movementX*.0024;pitch=HC.clamp(pitch-e.movementY*.0024,-1.05,1.05);}});canvas.addEventListener('mousedown',e=>{if(state!=='playing')return;if(e.button===0){mouseHeld=true;if(world.weapon===3)world.setFireInput(true);else shoot();}if(e.button===2)aimDown=true;});window.addEventListener('mouseup',e=>{if(e.button===0){mouseHeld=false;world?.setFireInput(false);}if(e.button===2)aimDown=false;});canvas.addEventListener('contextmenu',e=>e.preventDefault());
-world=createMission();build();let previous=performance.now();function frame(now){let dt=Math.min(.05,(now-previous)/1000);previous=now;update(dt);requestAnimationFrame(frame);}requestAnimationFrame(frame);
+world=createMission();build();
+$('overlay').dataset.startup='ready';$('startup-status').hidden=true;$('start').disabled=false;
+for(const id of ['game','hud','damage'])$(id).hidden=false;
+let previous=performance.now();function frame(now){let dt=Math.min(.05,(now-previous)/1000);previous=now;update(dt);requestAnimationFrame(frame);}requestAnimationFrame(frame);
 window.addEventListener('error',e=>{$('notice').textContent='실행 오류: '+e.message;});
 })();
