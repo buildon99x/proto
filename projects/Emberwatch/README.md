@@ -2,7 +2,7 @@
 
 An original, dependency-free Canvas 2D solo dungeon-crawler prototype. Choose a hero, explore six generated floors, gather equipment and relics, fight three guardians, and rebuild a persistent refuge.
 
-**Status: Warrior-first development checkpoint, version 0.4.3. Actual browser gameplay and visuals remain unverified.** See [eval.md](./eval.md) for evidence and blockers.
+**Status: Warrior-first development checkpoint, version 0.4.4. Actual browser gameplay and visuals remain unverified.** See [eval.md](./eval.md) for evidence and blockers.
 
 ## Run and build
 

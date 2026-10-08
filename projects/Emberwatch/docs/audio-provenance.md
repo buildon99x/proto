@@ -12,7 +12,7 @@ The deterministic tooling is `app/scripts/render-audio.py` (NumPy/SciPy). The br
 - Contacts: low filtered body/wood excitation, short broadband crack, leather/grit, and material-dependent damped steel modes. Heavy contact adds a delayed low-body layer. These are distinct from swing sounds.
 - Whirling Axes: overlapping, individually varied rotating swishes with light metal resonance.
 - War Cry: the attributed Battlecry sample, with preserved vocal character and a quiet, short armor accent. The previous synthesized glottal/low-body sound was rejected by the user as fart-like and is retained only in the labeled A/B comparison.
-- Footsteps: sole/heel body, stone/grit and scrape, now at event gain 0.1105, exactly 30% above the 0.4.2 value of 0.085, with zero room send. Alternating feet select balanced left/right variants. Dodge uses cloth and displaced air; it does not emit run footsteps.
+- Footsteps: sole/heel body, stone/grit and scrape, now at event gain 0.1326, exactly 20% above the 0.4.3 value of 0.1105, with zero room send. Alternating feet select balanced left/right variants. Dodge uses cloth and displaced air; it does not emit run footsteps.
 - Monster tells/releases: low pulsed breath excitation, throat/body filtering, and attack transients. Role variants are not copied creature recordings.
 - Ambience: seamless filtered wind/room beds; the refuge also has quiet ember crackle. No music loop competes with combat.
 - Reward and compatibility spell cues: inharmonic metallic/crystal impacts and air/grains rather than the previous single oscillator pitch sweeps.
@@ -67,3 +67,7 @@ The 2026-10-08 listening-tool attempt explicitly returned “audio content omitt
 ## 0.4.3 level tuning
 
 The user found 0.4.2 footsteps too quiet. Event gain is now exactly 0.085 × 1.3 = 0.1105. The source samples, foot-contact events, zero room send and cancellation behavior are unchanged. The labeled 0.4.2 A/B artifacts remain historical evidence and were not regenerated.
+
+## 0.4.4 level tuning
+
+Requested additional increase: 0.1105 × 1.2 = 0.1326. Only the footstep event coefficient changed. Existing samples, timing and room/cancellation behavior, including every other sound, are unchanged.

@@ -126,3 +126,9 @@ The user heard War Cry as a fart-like sound, saw the Warrior face sideways/backw
 User feedback requests footsteps 30% louder than deployed 0.4.2. Change only the footstep event gain from 0.085 to 0.1105 (exactly ×1.3). Keep samples, alternating contact timing, cancellation, dry mix, facing and War Cry unchanged. Verify the mixer and movement contracts and publish the narrow update.
 
 PASS: source syntax, full project suite including exact 0.1105 gain and unchanged contact/cancellation contracts, all eleven metadata/static builds, and launcher production/type/static-page checks. No audio sample or movement source changed.
+
+## 0.4.4 footstep level adjustment — 2026-10-08
+
+User requests footsteps another 20% louder than deployed 0.4.3. Change only event gain 0.1105 × 1.2 = 0.1326; retain samples, contact synchronization, cancellation, dry send and all other sounds. Verify the existing contracts and required builds before publication.
+
+PASS: source syntax, full project suite including exact 0.1326 gain and unchanged contact/cancellation contracts, eleven metadata/static builds and launcher production/type/static-page checks. Runtime diff is one coefficient; no sample or movement source changed.
