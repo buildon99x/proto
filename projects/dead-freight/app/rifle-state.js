@@ -136,7 +136,7 @@ class RifleState {
   if(!this.total&&this.reserve>0&&c.autoReloadDelay!==null)this.autoReloadAt=this.time+c.autoReloadDelay;
   this.emit('shot',{...shot,magazine:this.magazine,chamber:this.chamber});return shot;
  }
- tick(dt){
+ tick(dt,{allowAutoReload=true}={}){
   if(!Number.isFinite(dt)||dt<=0||this.paused||this.disabled)return;
   if(this.config.maxDelta!==null&&dt>this.config.maxDelta){this.clearFireInput('focus');dt=this.config.maxDelta;}
   const start=this.time;this.time+=dt;this._firedThisTick=0;
@@ -153,7 +153,8 @@ class RifleState {
    }
    if(this.time+EPS>=r.start+r.duration){this.reload=null;this.reloadCheckpoint=null;this.readyAt=r.start+r.duration;this.emit('loaded',{kind:r.kind});}
   }
-  if(this.config.autoReloadDelay!==null&&this.active&&!this.reload&&!this.total&&this.reserve>0&&!this.intent.sprint){
+  // Hand ownership gates initiation; active reload checkpoints and clocks keep progressing.
+  if(allowAutoReload&&this.config.autoReloadDelay!==null&&this.active&&!this.reload&&!this.total&&this.reserve>0&&!this.intent.sprint){
    if(this.autoReloadAt===null)this.autoReloadAt=this.time+this.config.autoReloadDelay;
    if(this.time+EPS>=this.autoReloadAt)this.load({automatic:true});
   }

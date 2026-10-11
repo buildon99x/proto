@@ -113,3 +113,6 @@ Continue the requested ballistic-quality work on the dot cloud computer. Preserv
 
 ## October 11 repeat-input audit
 Continue small evidence-backed improvements while browser tools are disconnected. Preserve gameplay balance and all existing saves. Prioritize preventing OS key repeat from closing the raid inventory or restoring cleared movement after interruption. Model checks do not establish local browser acceptance.
+
+## October 11 action ownership audit
+An empty R-4 must not automatically reload and spend reserve while a grenade, healing item or loadout transition owns the hands. Preserve intentional trigger buffering and tactical reload cancellation; defer only automatic reload initiation behind the existing action gate.

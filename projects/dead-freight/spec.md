@@ -183,3 +183,19 @@ Preserve the120Hz swept player-flight grid. Within an interval, resolve outgoing
 
 ## Interrupted-input edge contract
 An OS repeated keydown cannot create a newly held action after releaseAll. Existing held actions continue until physical release. An open inventory must ignore repeated Tab or rebound inventory/pause-key events; a fresh press can close it. Escape remains an intentional modal cancel. No inventory resource, action duration, movement cost or weapon balance changes.
+
+## Automatic reload action ownership
+Mission advances rifle simulation and existing resource checkpoints as before, but passes its current weaponActionBlocked gate to automatic reload initiation. Standalone rifle callers retain existing automatic-reload behavior. Once hands are ready, normal empty-reload behavior returns without firing from a stale input. No timing, ammunition, heal refund or balance policy changes.
+### Action transition audit matrix (model/source evidence)
+
+| Owner | Main transition / resource checkpoint | Interruption policy | Input and recovery contract | Evidence |
+| --- | --- | --- | --- | --- |
+| R-4 reload | start → magazine transfer → chamber transfer when needed → complete; ledger identities claim each transfer once | Before transfer: no bag ammo spent. After transfer: keep committed rounds and completion/recovery gate. Tactical trigger cancel stays supported | Fresh/buffered/held triggers stay distinct; pause freezes timeline, weapon switch captures instance state | test-rifle-state, test-inventory-game, test-gunplay-foundation |
+| Legacy fire / automatic pump | shot spends 1 round → cycle delay → pump → recovery; reload cancellation restores required uncocked cycle | Menu freezes timer; switching preserves UID-owned cycle/recovery state; dropping last gun cannot emit phantom pump | Repeated input cannot manufacture a cocked gun or skip the firing gate | test-core, test-inventory-game, test-inventory-runtime |
+| Weapon selection | lower current → commit chosen slot/holster → draw selected → ready | Repeated selection can change pending choice; using/cancelling utility preserves that choice | Held fire during a normal swap remains an intentional existing behavior; H clears fire before return; no stale post-menu fire | test-loadout-action, test-gunplay-foundation |
+| Grenade | lower → present → ready → held aim ≥0.1 s → owner release → throw commit → recovery | Damage/menu/weapon selection before commit consumes 0 and spawns 0; postcommit projectile/consumption remain once | Unrelated release cannot throw; aim does not cook fuse; recovery owns hands | test-item-action |
+| Medicine | lower → present → use → benefit+one item consumption → recovery | Damage/death/menu before commit gives no heal/consumption; committed medicine is not refunded or repeated | Recovery remains gated; cancellation starts from current pose; no policy change | test-item-action, test-inventory-runtime |
+| Automatic empty R-4 reload | eligible timer → start only when weapon action gate is clear | Utility readiness/aim/use/recovery and loadout lower/draw defer initiation | Weapon simulation/cooldown continues; existing reload checkpoints continue; normal auto reload returns once ready | New test-rifle-state and test-gunplay-foundation regressions |
+| Pause / death / restart | pause cancels utility into recovery and clears inputs; death disables combat, settlement/restart uses existing policy | Resume retains committed resources and current pending loadout; death cannot heal or release pending throw | UI/focus reset needs new presses; no repeated key reactivation | test-lifecycle, test-item-action, test-input-router |
+
+This table audits source and rendererless fixtures. It does not establish ordinary browser input, animation continuity, sound quality or perceived responsiveness.
