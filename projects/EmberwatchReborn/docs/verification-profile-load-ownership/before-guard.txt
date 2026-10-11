@@ -1,0 +1,1879 @@
+✖ delayed A first WebLock save cannot replace loaded B or bind A pools to B revision (46.967978ms)
+✖ obsolete delayed saved-profile load cannot replace B or start a new save (22.97168ms)
+✖ obsolete delayed new-game preflight cannot replace B or start a new save (18.686137ms)
+✖ late failed A load cannot clear B, change its modal or reset load state (17.388249ms)
+✖ late failed A start cannot clear B, change its modal or reset load state (20.092489ms)
+✖ showTitle dismisses a pending load without obsolete success or error reopening gameplay (4.27723ms)
+✖ showTitle dismisses a pending start without obsolete success or error reopening gameplay (9.667541ms)
+✖ same-profile overlapping continue owns the latest invocation and never starts an obsolete requested new game (30.158668ms)
+✔ normal load, reload and fresh start retain storage behavior and never remap existing progress (27.426296ms)
+✔ current load/start failures still present the title error and preserve existing raw saves (16.152355ms)
+✖ reloading while gameplay was active pauses simulation throughout a delayed load (18.891385ms)
+✖ actual delayed candidate-copy success cannot steal a newer continue selection (23.380083ms)
+✖ actual delayed candidate-copy failure cannot steal a newer continue selection (16.018874ms)
+✖ title dismissal invalidates delayed candidate-copy success (20.367722ms)
+✖ title dismissal invalidates delayed candidate-copy failure (12.699882ms)
+✖ candidate-copy intent immediately supersedes an older delayed new-game preflight (24.445352ms)
+✖ overlapping candidate copies preserve the latest target even when the earlier copy finishes last (28.479207ms)
+✔ ordinary current candidate-copy still loads its target exactly once and keeps original bytes (19.415789ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 3
+ℹ fail 15
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 492.376871
+
+✖ failing tests:
+
+test at app/tests/profile-load-ownership.test.mjs:48:1
+✖ delayed A first WebLock save cannot replace loaded B or bind A pools to B revision (46.967978ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+
+    {
+      actionSlots: {
+        expert1: null,
+        expert2: null,
+        version: 1
+  ...
+        skillPoints: 0,
+  +     skills: {},
+  -     skills: {
+  -       mace_swing: 1,
+  -       righteous_hammer: 1,
+  -       shield_block: 1,
+  -       shield_charge: 1
+  -     },
+        tier: 'apprentice',
+        xp: 0
+      },
+      difficulty: 'normal',
+      equipmentProgress: {
+  ...
+      inventory: {
+  +     consumables: {},
+  -     consumables: {
+  -       health_potion: 2
+  -     },
+        equipmentInstances: [],
+        materials: {},
+        tools: []
+      },
+      options: {
+  ...
+      },
+  -   recovery: {
+  -     combatRng: {
+  -       draws: 0,
+  -       state: 1369781
+  -     },
+  -     cooldowns: {},
+  -     innerFlame: null,
+  -     invuln: 0,
+  -     lock: 0,
+  -     manaDelay: 0,
+  -     negativeStatuses: {},
+  -     potionCooldown: 0,
+  -     procCooldownRanks: {},
+  -     procCooldowns: {},
+  -     regenBuff: null,
+  -     staminaDelay: 0,
+  -     version: 2
+  -   },
+      schema: 'emberwatch.reborn.reimplementation',
+      stats: {
+        deaths: 0,
+        earnedGold: 0,
+        earnedXp: 0,
+  ...
+      version: 5,
+  -   vitals: {
+  -     hp: 7,
+  -     mana: 3,
+  -     stamina: 5
+  -   },
+      world: {
+        claimedRewards: [],
+  +     objectives: {},
+  -     defeated: {},
+  -     life: 0,
+  -     lifeDown: false,
+  -     objectives: {
+  -       trained: 1
+  -     },
+  -     position: {
+  -       x: 260,
+  -       y: 325
+  -     },
+        region: 'ash_hamlet',
+        visited: [
+          'ash_hamlet'
+        ]
+      }
+
+      at unchanged (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:46:37)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:49:309)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: { classId: 'warrior', level: 1, tier: 'apprentice', xp: 0, attributes: [Object], attributePoints: 0, skillPoints: 0, skills: {}, exclusiveBranches: {}, equipment: [Object] }, difficulty: 'normal', equipmentProgress: { version: 'emberwatch-r3-equipment-v1', receipts: [], claimedAwards: [] }, actionSlots: { version: 1, expert1: null, expert2: null }, gold: 0, inventory: { materials: {}, consumables: {}, equipmentInstances: [], tools: [] }, world: { region: 'ash_hamlet', visited: [Array], objectives: {}, claimedRewards: [] }, stats: { kills: 0, deaths: 0, earnedGold: 0, spentGold: 0, earnedXp: 0 }, options: { masterVolume: 0.7, screenShake: 0.5, flashes: 0.5, controls: [Object] } },
+    expected: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: { classId: 'warrior', level: 1, tier: 'apprentice', xp: 0, attributes: [Object], attributePoints: 0, skillPoints: 0, skills: [Object], exclusiveBranches: {}, equipment: [Object] }, difficulty: 'normal', equipmentProgress: { version: 'emberwatch-r3-equipment-v1', receipts: [], claimedAwards: [] }, actionSlots: { version: 1, expert1: null, expert2: null }, gold: 0, inventory: { materials: {}, consumables: [Object], equipmentInstances: [], tools: [] }, world: { region: 'ash_hamlet', visited: [Array], objectives: [Object], claimedRewards: [], defeated: {}, life: 0, lifeDown: false, position: [Object] }, stats: { kills: 0, deaths: 0, earnedGold: 0, spentGold: 0, earnedXp: 0 }, options: { masterVolume: 0.7, screenShake: 0.5, flashes: 0.5, controls: [Object] }, vitals: { hp: 7, mana: 3, stamina: 5 }, recovery: { version: 2, cooldowns: {}, lock: 0, manaDelay: 0, staminaDelay: 0, invuln: 0, potionCooldown: 0, regenBuff: null, innerFlame: null, procCooldowns: {}, procCooldownRanks: {}, negativeStatuses: {}, combatRng: [Object] } },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/profile-load-ownership.test.mjs:53:33
+✖ obsolete delayed saved-profile load cannot replace B or start a new save (22.97168ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+
+    {
+      actionSlots: {
+        expert1: null,
+        expert2: null,
+        version: 1
+  ...
+        skillPoints: 0,
+  +     skills: {},
+  -     skills: {
+  -       mace_swing: 1,
+  -       righteous_hammer: 1,
+  -       shield_block: 1,
+  -       shield_charge: 1
+  -     },
+        tier: 'apprentice',
+        xp: 0
+      },
+  +   difficulty: 'hard',
+  -   difficulty: 'normal',
+      equipmentProgress: {
+        claimedAwards: [],
+        receipts: [],
+        version: 'emberwatch-r3-equipment-v1'
+      },
+      gold: 0,
+      inventory: {
+  +     consumables: {},
+  -     consumables: {
+  -       health_potion: 2
+  -     },
+        equipmentInstances: [],
+        materials: {},
+        tools: []
+      },
+      options: {
+  ...
+      },
+  -   recovery: {
+  -     combatRng: {
+  -       draws: 0,
+  -       state: 1369781
+  -     },
+  -     cooldowns: {},
+  -     innerFlame: null,
+  -     invuln: 0,
+  -     lock: 0,
+  -     manaDelay: 0,
+  -     negativeStatuses: {},
+  -     potionCooldown: 0,
+  -     procCooldownRanks: {},
+  -     procCooldowns: {},
+  -     regenBuff: null,
+  -     staminaDelay: 0,
+  -     version: 2
+  -   },
+      schema: 'emberwatch.reborn.reimplementation',
+      stats: {
+        deaths: 0,
+        earnedGold: 0,
+        earnedXp: 0,
+  ...
+      version: 5,
+  -   vitals: {
+  -     hp: 7,
+  -     mana: 3,
+  -     stamina: 5
+  -   },
+      world: {
+        claimedRewards: [],
+  +     objectives: {},
+  -     defeated: {},
+  -     life: 0,
+  -     lifeDown: false,
+  -     objectives: {
+  -       trained: 1
+  -     },
+  -     position: {
+  -       x: 260,
+  -       y: 325
+  -     },
+        region: 'ash_hamlet',
+        visited: [
+          'ash_hamlet'
+        ]
+      }
+
+      at unchanged (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:46:37)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:54:281)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: { classId: 'warrior', level: 1, tier: 'apprentice', xp: 0, attributes: [Object], attributePoints: 0, skillPoints: 0, skills: {}, exclusiveBranches: {}, equipment: [Object] }, difficulty: 'hard', equipmentProgress: { version: 'emberwatch-r3-equipment-v1', receipts: [], claimedAwards: [] }, actionSlots: { version: 1, expert1: null, expert2: null }, gold: 0, inventory: { materials: {}, consumables: {}, equipmentInstances: [], tools: [] }, world: { region: 'ash_hamlet', visited: [Array], objectives: {}, claimedRewards: [] }, stats: { kills: 0, deaths: 0, earnedGold: 0, spentGold: 0, earnedXp: 0 }, options: { masterVolume: 0.7, screenShake: 0.5, flashes: 0.5, controls: [Object] } },
+    expected: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: { classId: 'warrior', level: 1, tier: 'apprentice', xp: 0, attributes: [Object], attributePoints: 0, skillPoints: 0, skills: [Object], exclusiveBranches: {}, equipment: [Object] }, difficulty: 'normal', equipmentProgress: { version: 'emberwatch-r3-equipment-v1', receipts: [], claimedAwards: [] }, actionSlots: { version: 1, expert1: null, expert2: null }, gold: 0, inventory: { materials: {}, consumables: [Object], equipmentInstances: [], tools: [] }, world: { region: 'ash_hamlet', visited: [Array], objectives: [Object], claimedRewards: [], defeated: {}, life: 0, lifeDown: false, position: [Object] }, stats: { kills: 0, deaths: 0, earnedGold: 0, spentGold: 0, earnedXp: 0 }, options: { masterVolume: 0.7, screenShake: 0.5, flashes: 0.5, controls: [Object] }, vitals: { hp: 7, mana: 3, stamina: 5 }, recovery: { version: 2, cooldowns: {}, lock: 0, manaDelay: 0, staminaDelay: 0, invuln: 0, potionCooldown: 0, regenBuff: null, innerFlame: null, procCooldowns: {}, procCooldownRanks: {}, negativeStatuses: {}, combatRng: [Object] } },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/profile-load-ownership.test.mjs:53:33
+✖ obsolete delayed new-game preflight cannot replace B or start a new save (18.686137ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+  + null
+  - {
+  -   actionSlots: {
+  -     expert1: null,
+  -     expert2: null,
+  -     version: 1
+  -   },
+  -   character: {
+  -     attributePoints: 0,
+  -     attributes: {
+  -       dexterity: 0,
+  -       intelligence: 0,
+  -       strength: 0
+  -     },
+  -     classId: 'warrior',
+  -     equipment: {
+  -       accessory: null,
+  -       chest: null,
+  -       feet: null,
+  -       hands: null,
+  -       head: null,
+  -       mainHand: null,
+  -       offHand: null
+  -     },
+  -     exclusiveBranches: {},
+  -     level: 1,
+  -     skillPoints: 0,
+  -     skills: {
+  -       mace_swing: 1,
+  -       righteous_hammer: 1,
+  -       shield_block: 1,
+  -       shield_charge: 1
+  -     },
+  -     tier: 'apprentice',
+  -     xp: 0
+  -   },
+  -   difficulty: 'normal',
+  -   equipmentProgress: {
+  -     claimedAwards: [],
+  -     receipts: [],
+  -     version: 'emberwatch-r3-equipment-v1'
+  -   },
+  -   gold: 0,
+  -   inventory: {
+  -     consumables: {
+  -       health_potion: 2
+  -     },
+  -     equipmentInstances: [],
+  -     materials: {},
+  -     tools: []
+  -   },
+  -   options: {
+  -     controls: {
+  -       bindings: {
+  -         attack: [
+  -           'Mouse0',
+  -           'KeyJ'
+  -         ],
+  -         block: [
+  -           'Mouse2',
+  -           'ShiftLeft',
+  -           'ShiftRight'
+  -         ],
+  -         charge: [
+  -           'Space'
+  -         ],
+  -         down: [
+  -           'KeyS',
+  -           'ArrowDown'
+  -         ],
+  -         expert1: [
+  -           'Digit2'
+  -         ],
+  -         expert2: [
+  -           'Digit3'
+  -         ],
+  -         hammer: [
+  -           'KeyQ'
+  -         ],
+  -         heal: [
+  -           'KeyT'
+  -         ],
+  -         interact: [
+  -           'KeyF'
+  -         ],
+  -         judgement: [
+  -           'KeyE'
+  -         ],
+  -         left: [
+  -           'KeyA',
+  -           'ArrowLeft'
+  -         ],
+  -         menu: [
+  -           'KeyC'
+  -         ],
+  -         pause: [
+  -           'Escape'
+  -         ],
+  -         potion: [
+  -           'KeyR'
+  -         ],
+  -         right: [
+  -           'KeyD',
+  -           'ArrowRight'
+  -         ],
+  -         up: [
+  -           'KeyW',
+  -           'ArrowUp'
+  -         ]
+  -       },
+  -       blockMode: 'hold',
+  -       chargeDirection: 'aim',
+  -       preset: 'recommended',
+  -       version: 3
+  -     },
+  -     flashes: 0.5,
+  -     masterVolume: 0.7,
+  -     screenShake: 0.5
+  -   },
+  -   recovery: {
+  -     combatRng: {
+  -       draws: 0,
+  -       state: 1369781
+  -     },
+  -     cooldowns: {},
+  -     innerFlame: null,
+  -     invuln: 0,
+  -     lock: 0,
+  -     manaDelay: 0,
+  -     negativeStatuses: {},
+  -     potionCooldown: 0,
+  -     procCooldownRanks: {},
+  -     procCooldowns: {},
+  -     regenBuff: null,
+  -     staminaDelay: 0,
+  -     version: 2
+  -   },
+  -   schema: 'emberwatch.reborn.reimplementation',
+  -   stats: {
+  -     deaths: 0,
+  -     earnedGold: 0,
+  -     earnedXp: 0,
+  -     kills: 0,
+  -     spentGold: 0
+  -   },
+  -   version: 5,
+  -   vitals: {
+  -     hp: 7,
+  -     mana: 3,
+  -     stamina: 5
+  -   },
+  -   world: {
+  -     claimedRewards: [],
+  -     defeated: {},
+  -     life: 0,
+  -     lifeDown: false,
+  -     objectives: {
+  -       trained: 1
+  -     },
+  -     position: {
+  -       x: 260,
+  -       y: 325
+  -     },
+  -     region: 'ash_hamlet',
+  -     visited: [
+  -       'ash_hamlet'
+  -     ]
+  -   }
+  - }
+
+      at unchanged (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:46:37)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:54:281)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: { classId: 'warrior', level: 1, tier: 'apprentice', xp: 0, attributes: [Object], attributePoints: 0, skillPoints: 0, skills: [Object], exclusiveBranches: {}, equipment: [Object] }, difficulty: 'normal', equipmentProgress: { version: 'emberwatch-r3-equipment-v1', receipts: [], claimedAwards: [] }, actionSlots: { version: 1, expert1: null, expert2: null }, gold: 0, inventory: { materials: {}, consumables: [Object], equipmentInstances: [], tools: [] }, world: { region: 'ash_hamlet', visited: [Array], objectives: [Object], claimedRewards: [], defeated: {}, life: 0, lifeDown: false, position: [Object] }, stats: { kills: 0, deaths: 0, earnedGold: 0, spentGold: 0, earnedXp: 0 }, options: { masterVolume: 0.7, screenShake: 0.5, flashes: 0.5, controls: [Object] }, vitals: { hp: 7, mana: 3, stamina: 5 }, recovery: { version: 2, cooldowns: {}, lock: 0, manaDelay: 0, staminaDelay: 0, invuln: 0, potionCooldown: 0, regenBuff: null, innerFlame: null, procCooldowns: {}, procCooldownRanks: {}, negativeStatuses: {}, combatRng: [Object] } },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/profile-load-ownership.test.mjs:56:37
+✖ late failed A load cannot clear B, change its modal or reset load state (17.388249ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+  + null
+  - {
+  -   actionSlots: {
+  -     expert1: null,
+  -     expert2: null,
+  -     version: 1
+  -   },
+  -   character: {
+  -     attributePoints: 0,
+  -     attributes: {
+  -       dexterity: 0,
+  -       intelligence: 0,
+  -       strength: 0
+  -     },
+  -     classId: 'warrior',
+  -     equipment: {
+  -       accessory: null,
+  -       chest: null,
+  -       feet: null,
+  -       hands: null,
+  -       head: null,
+  -       mainHand: null,
+  -       offHand: null
+  -     },
+  -     exclusiveBranches: {},
+  -     level: 1,
+  -     skillPoints: 0,
+  -     skills: {
+  -       mace_swing: 1,
+  -       righteous_hammer: 1,
+  -       shield_block: 1,
+  -       shield_charge: 1
+  -     },
+  -     tier: 'apprentice',
+  -     xp: 0
+  -   },
+  -   difficulty: 'normal',
+  -   equipmentProgress: {
+  -     claimedAwards: [],
+  -     receipts: [],
+  -     version: 'emberwatch-r3-equipment-v1'
+  -   },
+  -   gold: 0,
+  -   inventory: {
+  -     consumables: {
+  -       health_potion: 2
+  -     },
+  -     equipmentInstances: [],
+  -     materials: {},
+  -     tools: []
+  -   },
+  -   options: {
+  -     controls: {
+  -       bindings: {
+  -         attack: [
+  -           'Mouse0',
+  -           'KeyJ'
+  -         ],
+  -         block: [
+  -           'Mouse2',
+  -           'ShiftLeft',
+  -           'ShiftRight'
+  -         ],
+  -         charge: [
+  -           'Space'
+  -         ],
+  -         down: [
+  -           'KeyS',
+  -           'ArrowDown'
+  -         ],
+  -         expert1: [
+  -           'Digit2'
+  -         ],
+  -         expert2: [
+  -           'Digit3'
+  -         ],
+  -         hammer: [
+  -           'KeyQ'
+  -         ],
+  -         heal: [
+  -           'KeyT'
+  -         ],
+  -         interact: [
+  -           'KeyF'
+  -         ],
+  -         judgement: [
+  -           'KeyE'
+  -         ],
+  -         left: [
+  -           'KeyA',
+  -           'ArrowLeft'
+  -         ],
+  -         menu: [
+  -           'KeyC'
+  -         ],
+  -         pause: [
+  -           'Escape'
+  -         ],
+  -         potion: [
+  -           'KeyR'
+  -         ],
+  -         right: [
+  -           'KeyD',
+  -           'ArrowRight'
+  -         ],
+  -         up: [
+  -           'KeyW',
+  -           'ArrowUp'
+  -         ]
+  -       },
+  -       blockMode: 'hold',
+  -       chargeDirection: 'aim',
+  -       preset: 'recommended',
+  -       version: 3
+  -     },
+  -     flashes: 0.5,
+  -     masterVolume: 0.7,
+  -     screenShake: 0.5
+  -   },
+  -   recovery: {
+  -     combatRng: {
+  -       draws: 0,
+  -       state: 1369781
+  -     },
+  -     cooldowns: {},
+  -     innerFlame: null,
+  -     invuln: 0,
+  -     lock: 0,
+  -     manaDelay: 0,
+  -     negativeStatuses: {},
+  -     potionCooldown: 0,
+  -     procCooldownRanks: {},
+  -     procCooldowns: {},
+  -     regenBuff: null,
+  -     staminaDelay: 0,
+  -     version: 2
+  -   },
+  -   schema: 'emberwatch.reborn.reimplementation',
+  -   stats: {
+  -     deaths: 0,
+  -     earnedGold: 0,
+  -     earnedXp: 0,
+  -     kills: 0,
+  -     spentGold: 0
+  -   },
+  -   version: 5,
+  -   vitals: {
+  -     hp: 7,
+  -     mana: 3,
+  -     stamina: 5
+  -   },
+  -   world: {
+  -     claimedRewards: [],
+  -     defeated: {},
+  -     life: 0,
+  -     lifeDown: false,
+  -     objectives: {
+  -       trained: 1
+  -     },
+  -     position: {
+  -       x: 260,
+  -       y: 325
+  -     },
+  -     region: 'ash_hamlet',
+  -     visited: [
+  -       'ash_hamlet'
+  -     ]
+  -   }
+  - }
+
+      at unchanged (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:46:37)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:57:292)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: { classId: 'warrior', level: 1, tier: 'apprentice', xp: 0, attributes: [Object], attributePoints: 0, skillPoints: 0, skills: [Object], exclusiveBranches: {}, equipment: [Object] }, difficulty: 'normal', equipmentProgress: { version: 'emberwatch-r3-equipment-v1', receipts: [], claimedAwards: [] }, actionSlots: { version: 1, expert1: null, expert2: null }, gold: 0, inventory: { materials: {}, consumables: [Object], equipmentInstances: [], tools: [] }, world: { region: 'ash_hamlet', visited: [Array], objectives: [Object], claimedRewards: [], defeated: {}, life: 0, lifeDown: false, position: [Object] }, stats: { kills: 0, deaths: 0, earnedGold: 0, spentGold: 0, earnedXp: 0 }, options: { masterVolume: 0.7, screenShake: 0.5, flashes: 0.5, controls: [Object] }, vitals: { hp: 7, mana: 3, stamina: 5 }, recovery: { version: 2, cooldowns: {}, lock: 0, manaDelay: 0, staminaDelay: 0, invuln: 0, potionCooldown: 0, regenBuff: null, innerFlame: null, procCooldowns: {}, procCooldownRanks: {}, negativeStatuses: {}, combatRng: [Object] } },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/profile-load-ownership.test.mjs:56:37
+✖ late failed A start cannot clear B, change its modal or reset load state (20.092489ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+  + null
+  - {
+  -   actionSlots: {
+  -     expert1: null,
+  -     expert2: null,
+  -     version: 1
+  -   },
+  -   character: {
+  -     attributePoints: 0,
+  -     attributes: {
+  -       dexterity: 0,
+  -       intelligence: 0,
+  -       strength: 0
+  -     },
+  -     classId: 'warrior',
+  -     equipment: {
+  -       accessory: null,
+  -       chest: null,
+  -       feet: null,
+  -       hands: null,
+  -       head: null,
+  -       mainHand: null,
+  -       offHand: null
+  -     },
+  -     exclusiveBranches: {},
+  -     level: 1,
+  -     skillPoints: 0,
+  -     skills: {
+  -       mace_swing: 1,
+  -       righteous_hammer: 1,
+  -       shield_block: 1,
+  -       shield_charge: 1
+  -     },
+  -     tier: 'apprentice',
+  -     xp: 0
+  -   },
+  -   difficulty: 'normal',
+  -   equipmentProgress: {
+  -     claimedAwards: [],
+  -     receipts: [],
+  -     version: 'emberwatch-r3-equipment-v1'
+  -   },
+  -   gold: 0,
+  -   inventory: {
+  -     consumables: {
+  -       health_potion: 2
+  -     },
+  -     equipmentInstances: [],
+  -     materials: {},
+  -     tools: []
+  -   },
+  -   options: {
+  -     controls: {
+  -       bindings: {
+  -         attack: [
+  -           'Mouse0',
+  -           'KeyJ'
+  -         ],
+  -         block: [
+  -           'Mouse2',
+  -           'ShiftLeft',
+  -           'ShiftRight'
+  -         ],
+  -         charge: [
+  -           'Space'
+  -         ],
+  -         down: [
+  -           'KeyS',
+  -           'ArrowDown'
+  -         ],
+  -         expert1: [
+  -           'Digit2'
+  -         ],
+  -         expert2: [
+  -           'Digit3'
+  -         ],
+  -         hammer: [
+  -           'KeyQ'
+  -         ],
+  -         heal: [
+  -           'KeyT'
+  -         ],
+  -         interact: [
+  -           'KeyF'
+  -         ],
+  -         judgement: [
+  -           'KeyE'
+  -         ],
+  -         left: [
+  -           'KeyA',
+  -           'ArrowLeft'
+  -         ],
+  -         menu: [
+  -           'KeyC'
+  -         ],
+  -         pause: [
+  -           'Escape'
+  -         ],
+  -         potion: [
+  -           'KeyR'
+  -         ],
+  -         right: [
+  -           'KeyD',
+  -           'ArrowRight'
+  -         ],
+  -         up: [
+  -           'KeyW',
+  -           'ArrowUp'
+  -         ]
+  -       },
+  -       blockMode: 'hold',
+  -       chargeDirection: 'aim',
+  -       preset: 'recommended',
+  -       version: 3
+  -     },
+  -     flashes: 0.5,
+  -     masterVolume: 0.7,
+  -     screenShake: 0.5
+  -   },
+  -   recovery: {
+  -     combatRng: {
+  -       draws: 0,
+  -       state: 1369781
+  -     },
+  -     cooldowns: {},
+  -     innerFlame: null,
+  -     invuln: 0,
+  -     lock: 0,
+  -     manaDelay: 0,
+  -     negativeStatuses: {},
+  -     potionCooldown: 0,
+  -     procCooldownRanks: {},
+  -     procCooldowns: {},
+  -     regenBuff: null,
+  -     staminaDelay: 0,
+  -     version: 2
+  -   },
+  -   schema: 'emberwatch.reborn.reimplementation',
+  -   stats: {
+  -     deaths: 0,
+  -     earnedGold: 0,
+  -     earnedXp: 0,
+  -     kills: 0,
+  -     spentGold: 0
+  -   },
+  -   version: 5,
+  -   vitals: {
+  -     hp: 7,
+  -     mana: 3,
+  -     stamina: 5
+  -   },
+  -   world: {
+  -     claimedRewards: [],
+  -     defeated: {},
+  -     life: 0,
+  -     lifeDown: false,
+  -     objectives: {
+  -       trained: 1
+  -     },
+  -     position: {
+  -       x: 260,
+  -       y: 325
+  -     },
+  -     region: 'ash_hamlet',
+  -     visited: [
+  -       'ash_hamlet'
+  -     ]
+  -   }
+  - }
+
+      at unchanged (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:46:37)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:57:292)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: { classId: 'warrior', level: 1, tier: 'apprentice', xp: 0, attributes: [Object], attributePoints: 0, skillPoints: 0, skills: [Object], exclusiveBranches: {}, equipment: [Object] }, difficulty: 'normal', equipmentProgress: { version: 'emberwatch-r3-equipment-v1', receipts: [], claimedAwards: [] }, actionSlots: { version: 1, expert1: null, expert2: null }, gold: 0, inventory: { materials: {}, consumables: [Object], equipmentInstances: [], tools: [] }, world: { region: 'ash_hamlet', visited: [Array], objectives: [Object], claimedRewards: [], defeated: {}, life: 0, lifeDown: false, position: [Object] }, stats: { kills: 0, deaths: 0, earnedGold: 0, spentGold: 0, earnedXp: 0 }, options: { masterVolume: 0.7, screenShake: 0.5, flashes: 0.5, controls: [Object] }, vitals: { hp: 7, mana: 3, stamina: 5 }, recovery: { version: 2, cooldowns: {}, lock: 0, manaDelay: 0, staminaDelay: 0, invuln: 0, potionCooldown: 0, regenBuff: null, innerFlame: null, procCooldowns: {}, procCooldownRanks: {}, negativeStatuses: {}, combatRng: [Object] } },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/profile-load-ownership.test.mjs:59:37
+✖ showTitle dismisses a pending load without obsolete success or error reopening gameplay (4.27723ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '<section class="panel"><div class="eyebrow">THE OATH OF EMBERS</div><h1>EMBERWATCH</h1><p class="lede">Reborn · 잿불의 서약</p><span class="pill">R12a · 전문가 황야 조사 개발 빌드 · 공개 QA 후보</span><p class="warning">공개 테스트 후보 경로입니다. 일반 저장과 별도 공간을 사용합니다. 기존 QA 기록 복사는 원본을 보존하며, 후보 진행을 기본 사이트에 자동 덮어쓰지 않습니다.</p><p>꺼져 가는 길목에 다시 불을 밝히세요.<br>전사로 훈련하고, 다수의 적을 돌파하며 첫 순찰을 완수합니다.</p><p class="warning">Cannot read properties of null (reading &#39;start&#39;)</p><label class="row">난이도 <select id="difficulty"><option value="easy">여유롭게</option><option value="normal" selected>보통</option><option value="hard">어려움</option><option value="serious">험난함</option></select></label><div class="divider"></div><label class="row">격리 QA 프로필 <input id="profile" value="qa-r2-20261009" maxlength="51" aria-label="격리 QA 프로필 이름"></label><div class="buttons"><button data-action="qa-new" >격리 새 게임</button><button data-action="qa-continue" >격리 이어하기</button></div><label class="row">QA 원본 공간 <select id="sourceNamespace"><option value="release">기본 사이트 QA</option><option value="qa-r4">이전 R4 후보 QA</option><option value="qa-r5">이전 R5 후보 QA</option><option value="qa-r6">이전 R6 후보 QA</option><option value="qa-r7">이전 R7 후보 QA</option><option value="qa-r8">이전 R8 후보 QA</option><option value="qa-r9">이전 R9 후보 QA</option><option value="qa-r10">이전 R10 후보 QA</option></select></label><label class="row">복사할 기존 QA 원본 <input id="sourceProfile" value="qa-r2-live-20261009" maxlength="51" aria-label="복사할 기존 QA 원본 이름"></label><p class="minor">기존 원본을 위의 새 후보 프로필 이름으로 복사합니다. 이미 있는 후보는 덮어쓰지 않습니다.</p><button data-action="candidate-copy" >기존 QA 기록을 후보 공간에 복사</button><p class="minor">진행은 이 브라우저에 보관되며 다른 기기로 자동 동기화되지 않습니다. 원본0.4.7과 저장 공간이 분리됩니다. 새 게임은 기존 기록을 덮어쓰지 않습니다. 입문 장비·제작과 첫 2층 던전이 연결되어 있습니다. 첫 숙련 승급·25개 노드·채석장에 이어 고갯길 조사가 연결됩니다. L12 신호 분지의 양쪽 경로·사망 재시도·저장 재진입을 검증했습니다. 역할 표식 구분은 실제 확인했고 통로 가독성은 계속 개선 중입니다. 용광로의 두 선택·렌즈 회수·보고는 별도로 실플레이 확인했습니다. 신호 묘실(T)은 보통 난이도에서 해독·석판·운반 봉인·보스·서약문 회수·에다 보고와 사망 재시도·저장 재진입을 일반 조작으로 확인했습니다. 다른 난이도와 전체 플레이 품질 검증은 계속 진행 중입니다. 전문가 승급·15개 전문 노드와 봉화 전장은 연결하여 일반 입력 검증 중입니다. 봉화 보고 뒤 황야의 측량·갈고리·수신판·엄폐 선택·기록핵·에다 보고가 연결되며 새 황야의 일반 입력 검증은 아직 필요합니다. 오린의 후속 수리소·제작은 미구현입니다. 마스터, 고급 장비/접사, 반복 원정과 전체 캠페인은 아직 완성되지 않았습니다. 클릭 후 판타지 효과음을 사용하며 메뉴에서 음량을 조절할 수 있습니다.</p></section>'
+  - '<section class="panel"><div class="eyebrow">THE OATH OF EMBERS</div><h1>EMBERWATCH</h1><p class="lede">Reborn · 잿불의 서약</p><span class="pill">R12a · 전문가 황야 조사 개발 빌드 · 공개 QA 후보</span><p class="warning">공개 테스트 후보 경로입니다. 일반 저장과 별도 공간을 사용합니다. 기존 QA 기록 복사는 원본을 보존하며, 후보 진행을 기본 사이트에 자동 덮어쓰지 않습니다.</p><p>꺼져 가는 길목에 다시 불을 밝히세요.<br>전사로 훈련하고, 다수의 적을 돌파하며 첫 순찰을 완수합니다.</p><label class="row">난이도 <select id="difficulty"><option value="easy">여유롭게</option><option value="normal" selected>보통</option><option value="hard">어려움</option><option value="serious">험난함</option></select></label><div class="divider"></div><label class="row">격리 QA 프로필 <input id="profile" value="qa-r2-20261009" maxlength="51" aria-label="격리 QA 프로필 이름"></label><div class="buttons"><button data-action="qa-new" >격리 새 게임</button><button data-action="qa-continue" >격리 이어하기</button></div><label class="row">QA 원본 공간 <select id="sourceNamespace"><option value="release">기본 사이트 QA</option><option value="qa-r4">이전 R4 후보 QA</option><option value="qa-r5">이전 R5 후보 QA</option><option value="qa-r6">이전 R6 후보 QA</option><option value="qa-r7">이전 R7 후보 QA</option><option value="qa-r8">이전 R8 후보 QA</option><option value="qa-r9">이전 R9 후보 QA</option><option value="qa-r10">이전 R10 후보 QA</option></select></label><label class="row">복사할 기존 QA 원본 <input id="sourceProfile" value="qa-r2-live-20261009" maxlength="51" aria-label="복사할 기존 QA 원본 이름"></label><p class="minor">기존 원본을 위의 새 후보 프로필 이름으로 복사합니다. 이미 있는 후보는 덮어쓰지 않습니다.</p><button data-action="candidate-copy" >기존 QA 기록을 후보 공간에 복사</button><p class="minor">진행은 이 브라우저에 보관되며 다른 기기로 자동 동기화되지 않습니다. 원본0.4.7과 저장 공간이 분리됩니다. 새 게임은 기존 기록을 덮어쓰지 않습니다. 입문 장비·제작과 첫 2층 던전이 연결되어 있습니다. 첫 숙련 승급·25개 노드·채석장에 이어 고갯길 조사가 연결됩니다. L12 신호 분지의 양쪽 경로·사망 재시도·저장 재진입을 검증했습니다. 역할 표식 구분은 실제 확인했고 통로 가독성은 계속 개선 중입니다. 용광로의 두 선택·렌즈 회수·보고는 별도로 실플레이 확인했습니다. 신호 묘실(T)은 보통 난이도에서 해독·석판·운반 봉인·보스·서약문 회수·에다 보고와 사망 재시도·저장 재진입을 일반 조작으로 확인했습니다. 다른 난이도와 전체 플레이 품질 검증은 계속 진행 중입니다. 전문가 승급·15개 전문 노드와 봉화 전장은 연결하여 일반 입력 검증 중입니다. 봉화 보고 뒤 황야의 측량·갈고리·수신판·엄폐 선택·기록핵·에다 보고가 연결되며 새 황야의 일반 입력 검증은 아직 필요합니다. 오린의 후속 수리소·제작은 미구현입니다. 마스터, 고급 장비/접사, 반복 원정과 전체 캠페인은 아직 완성되지 않았습니다. 클릭 후 판타지 효과음을 사용하며 메뉴에서 음량을 조절할 수 있습니다.</p></section>'
+
+      at unchanged (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:46:204)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:60:290)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<section class="panel"><div class="eyebrow">THE OATH OF EMBERS</div><h1>EMBERWATCH</h1><p class="lede">Reborn · 잿불의 서약</p><span class="pill">R12a · 전문가 황야 조사 개발 빌드 · 공개 QA 후보</span><p class="warning">공개 테스트 후보 경로입니다. 일반 저장과 별도 공간을 사용합니다. 기존 QA 기록 복사는 원본을 보존하며, 후보 진행을 기본 사이트에 자동 덮어쓰지 않습니다.</p><p>꺼져 가는 길목에 다시 불을 밝히세요.<br>전사로 훈련하고, 다수의 적을 돌파하며 첫 순찰을 완수합니다.</p><p class="warning">Cannot read properties of null (reading &#39;start&#39;)</p><label class="row">난이도 <select id="difficulty"><option value="easy">여유롭게</option><option value="normal" selected>보통</option><option value="hard">어려움</option><option value="serious">험난함</option></select></label><div class="divider"></div><label class="row">격리 QA 프로필 <input id="profile" value="qa-r2-20261009" maxlength="51" aria-label="격리 QA 프로필 이름"></label><div class="buttons"><button data-action="qa-new" >격리 새 게임</button><button data-action="qa-continue" >격리 이어하기</button></div><label class="row">QA 원본 공간 <select id="sourceNamespace"><option value="release">기본 사이트 QA</option><option value="qa-r4">이전 R4 후보 QA</option><option value="qa-r5">이전 R5 후보 QA</option><option value="qa-r6">이전 R6 후보 QA</option><option value="qa-r7">이전 R7 후보 QA</option><option value="qa-r8">이전 R8 후보 QA</option><option value="qa-r9">이전 R9 후보 QA</option><option value="qa-r10">이전 R10 후보 QA</option></select></label><label class="row">복사할 기존 QA 원본 <input id="sourceProfile" value="qa-r2-live-20261009" maxlength="51" aria-label="복사할 기존 QA 원본 이름"></label><p class="minor">기존 원본을 위의 새 후보 프로필 이름으로 복사합니다. 이미 있는 후보는 덮어쓰지 않습니다.</p><button data-action="candidate-copy" >기존 QA 기록을 후보 공간에 복사</button><p class="minor">진행은 이 브라우저에 보관되며 다른 기기로 자동 동기화되지 않습니다. 원본0.4.7과 저장 공간이 분리됩니다. 새 게임은 기존 기록을 덮어쓰지 않습니다. 입문 장비·제작과 첫 2층 던전이 연결되어 있습니다. 첫 숙련 승급·25개 노드·채석장에 이어 고갯길 조사가 연결됩니다. L12 신호 분지의 양쪽 경로·사망 재시도·저장 재진입을 검증했습니다. 역할 표식 구분은 실제 확인했고 통로 가독성은 계속 개선 중입니다. 용광로의 두 선택·렌즈 회수·보고는 별도로 실플레이 확인했습니다. 신호 묘실(T)은 보통 난이도에서 해독·석판·운반 봉인·보스·서약문 회수·에다 보고와 사망 재시도·저장 재진입을 일반 조작으로 확인했습니다. 다른 난이도와 전체 플레이 품질 검증은 계속 진행 중입니다. 전문가 승급·15개 전문 노드와 봉화 전장은 연결하여 일반 입력 검증 중입니다. 봉화 보고 뒤 황야의 측량·갈고리·수신판·엄폐 선택·기록핵·에다 보고가 연결되며 새 황야의 일반 입력 검증은 아직 필요합니다. 오린의 후속 수리소·제작은 미구현입니다. 마스터, 고급 장비/접사, 반복 원정과 전체 캠페인은 아직 완성되지 않았습니다. 클릭 후 판타지 효과음을 사용하며 메뉴에서 음량을 조절할 수 있습니다.</p></section>',
+    expected: '<section class="panel"><div class="eyebrow">THE OATH OF EMBERS</div><h1>EMBERWATCH</h1><p class="lede">Reborn · 잿불의 서약</p><span class="pill">R12a · 전문가 황야 조사 개발 빌드 · 공개 QA 후보</span><p class="warning">공개 테스트 후보 경로입니다. 일반 저장과 별도 공간을 사용합니다. 기존 QA 기록 복사는 원본을 보존하며, 후보 진행을 기본 사이트에 자동 덮어쓰지 않습니다.</p><p>꺼져 가는 길목에 다시 불을 밝히세요.<br>전사로 훈련하고, 다수의 적을 돌파하며 첫 순찰을 완수합니다.</p><label class="row">난이도 <select id="difficulty"><option value="easy">여유롭게</option><option value="normal" selected>보통</option><option value="hard">어려움</option><option value="serious">험난함</option></select></label><div class="divider"></div><label class="row">격리 QA 프로필 <input id="profile" value="qa-r2-20261009" maxlength="51" aria-label="격리 QA 프로필 이름"></label><div class="buttons"><button data-action="qa-new" >격리 새 게임</button><button data-action="qa-continue" >격리 이어하기</button></div><label class="row">QA 원본 공간 <select id="sourceNamespace"><option value="release">기본 사이트 QA</option><option value="qa-r4">이전 R4 후보 QA</option><option value="qa-r5">이전 R5 후보 QA</option><option value="qa-r6">이전 R6 후보 QA</option><option value="qa-r7">이전 R7 후보 QA</option><option value="qa-r8">이전 R8 후보 QA</option><option value="qa-r9">이전 R9 후보 QA</option><option value="qa-r10">이전 R10 후보 QA</option></select></label><label class="row">복사할 기존 QA 원본 <input id="sourceProfile" value="qa-r2-live-20261009" maxlength="51" aria-label="복사할 기존 QA 원본 이름"></label><p class="minor">기존 원본을 위의 새 후보 프로필 이름으로 복사합니다. 이미 있는 후보는 덮어쓰지 않습니다.</p><button data-action="candidate-copy" >기존 QA 기록을 후보 공간에 복사</button><p class="minor">진행은 이 브라우저에 보관되며 다른 기기로 자동 동기화되지 않습니다. 원본0.4.7과 저장 공간이 분리됩니다. 새 게임은 기존 기록을 덮어쓰지 않습니다. 입문 장비·제작과 첫 2층 던전이 연결되어 있습니다. 첫 숙련 승급·25개 노드·채석장에 이어 고갯길 조사가 연결됩니다. L12 신호 분지의 양쪽 경로·사망 재시도·저장 재진입을 검증했습니다. 역할 표식 구분은 실제 확인했고 통로 가독성은 계속 개선 중입니다. 용광로의 두 선택·렌즈 회수·보고는 별도로 실플레이 확인했습니다. 신호 묘실(T)은 보통 난이도에서 해독·석판·운반 봉인·보스·서약문 회수·에다 보고와 사망 재시도·저장 재진입을 일반 조작으로 확인했습니다. 다른 난이도와 전체 플레이 품질 검증은 계속 진행 중입니다. 전문가 승급·15개 전문 노드와 봉화 전장은 연결하여 일반 입력 검증 중입니다. 봉화 보고 뒤 황야의 측량·갈고리·수신판·엄폐 선택·기록핵·에다 보고가 연결되며 새 황야의 일반 입력 검증은 아직 필요합니다. 오린의 후속 수리소·제작은 미구현입니다. 마스터, 고급 장비/접사, 반복 원정과 전체 캠페인은 아직 완성되지 않았습니다. 클릭 후 판타지 효과음을 사용하며 메뉴에서 음량을 조절할 수 있습니다.</p></section>',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/profile-load-ownership.test.mjs:59:37
+✖ showTitle dismisses a pending start without obsolete success or error reopening gameplay (9.667541ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+  + {
+  +   actionSlots: {
+  +     expert1: null,
+  +     expert2: null,
+  +     version: 1
+  +   },
+  +   character: {
+  +     attributePoints: 0,
+  +     attributes: {
+  +       dexterity: 0,
+  +       intelligence: 0,
+  +       strength: 0
+  +     },
+  +     classId: 'warrior',
+  +     equipment: {
+  +       accessory: null,
+  +       chest: null,
+  +       feet: null,
+  +       hands: null,
+  +       head: null,
+  +       mainHand: null,
+  +       offHand: null
+  +     },
+  +     exclusiveBranches: {},
+  +     level: 1,
+  +     skillPoints: 0,
+  +     skills: {},
+  +     tier: 'apprentice',
+  +     xp: 0
+  +   },
+  +   difficulty: 'normal',
+  +   equipmentProgress: {
+  +     claimedAwards: [],
+  +     receipts: [],
+  +     version: 'emberwatch-r3-equipment-v1'
+  +   },
+  +   gold: 0,
+  +   inventory: {
+  +     consumables: {},
+  +     equipmentInstances: [],
+  +     materials: {},
+  +     tools: []
+  +   },
+  +   options: {
+  +     controls: {
+  +       bindings: {
+  +         attack: [
+  +           'Mouse0',
+  +           'KeyJ'
+  +         ],
+  +         block: [
+  +           'Mouse2',
+  +           'ShiftLeft',
+  +           'ShiftRight'
+  +         ],
+  +         charge: [
+  +           'Space'
+  +         ],
+  +         down: [
+  +           'KeyS',
+  +           'ArrowDown'
+  +         ],
+  +         expert1: [
+  +           'Digit2'
+  +         ],
+  +         expert2: [
+  +           'Digit3'
+  +         ],
+  +         hammer: [
+  +           'KeyQ'
+  +         ],
+  +         heal: [
+  +           'KeyT'
+  +         ],
+  +         interact: [
+  +           'KeyF'
+  +         ],
+  +         judgement: [
+  +           'KeyE'
+  +         ],
+  +         left: [
+  +           'KeyA',
+  +           'ArrowLeft'
+  +         ],
+  +         menu: [
+  +           'KeyC'
+  +         ],
+  +         pause: [
+  +           'Escape'
+  +         ],
+  +         potion: [
+  +           'KeyR'
+  +         ],
+  +         right: [
+  +           'KeyD',
+  +           'ArrowRight'
+  +         ],
+  +         up: [
+  +           'KeyW',
+  +           'ArrowUp'
+  +         ]
+  +       },
+  +       blockMode: 'hold',
+  +       chargeDirection: 'aim',
+  +       preset: 'recommended',
+  +       version: 3
+  +     },
+  +     flashes: 0.5,
+  +     masterVolume: 0.7,
+  +     screenShake: 0.5
+  +   },
+  +   schema: 'emberwatch.reborn.reimplementation',
+  +   stats: {
+  +     deaths: 0,
+  +     earnedGold: 0,
+  +     earnedXp: 0,
+  +     kills: 0,
+  +     spentGold: 0
+  +   },
+  +   version: 5,
+  +   world: {
+  +     claimedRewards: [],
+  +     objectives: {},
+  +     region: 'ash_hamlet',
+  +     visited: [
+  +       'ash_hamlet'
+  +     ]
+  +   }
+  + }
+  - null
+
+      at unchanged (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:46:37)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:60:290)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: { classId: 'warrior', level: 1, tier: 'apprentice', xp: 0, attributes: [Object], attributePoints: 0, skillPoints: 0, skills: {}, exclusiveBranches: {}, equipment: [Object] }, difficulty: 'normal', equipmentProgress: { version: 'emberwatch-r3-equipment-v1', receipts: [], claimedAwards: [] }, actionSlots: { version: 1, expert1: null, expert2: null }, gold: 0, inventory: { materials: {}, consumables: {}, equipmentInstances: [], tools: [] }, world: { region: 'ash_hamlet', visited: [Array], objectives: {}, claimedRewards: [] }, stats: { kills: 0, deaths: 0, earnedGold: 0, spentGold: 0, earnedXp: 0 }, options: { masterVolume: 0.7, screenShake: 0.5, flashes: 0.5, controls: [Object] } },
+    expected: null,
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/profile-load-ownership.test.mjs:62:1
+✖ same-profile overlapping continue owns the latest invocation and never starts an obsolete requested new game (30.158668ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+  + null
+  - {
+  -   actionSlots: {
+  -     expert1: null,
+  -     expert2: null,
+  -     version: 1
+  -   },
+  -   character: {
+  -     attributePoints: 0,
+  -     attributes: {
+  -       dexterity: 0,
+  -       intelligence: 0,
+  -       strength: 0
+  -     },
+  -     classId: 'warrior',
+  -     equipment: {
+  -       accessory: null,
+  -       chest: null,
+  -       feet: null,
+  -       hands: null,
+  -       head: null,
+  -       mainHand: null,
+  -       offHand: null
+  -     },
+  -     exclusiveBranches: {},
+  -     level: 1,
+  -     skillPoints: 0,
+  -     skills: {
+  -       mace_swing: 1,
+  -       righteous_hammer: 1,
+  -       shield_block: 1,
+  -       shield_charge: 1
+  -     },
+  -     tier: 'apprentice',
+  -     xp: 0
+  -   },
+  -   difficulty: 'normal',
+  -   equipmentProgress: {
+  -     claimedAwards: [],
+  -     receipts: [],
+  -     version: 'emberwatch-r3-equipment-v1'
+  -   },
+  -   gold: 0,
+  -   inventory: {
+  -     consumables: {
+  -       health_potion: 2
+  -     },
+  -     equipmentInstances: [],
+  -     materials: {},
+  -     tools: []
+  -   },
+  -   options: {
+  -     controls: {
+  -       bindings: {
+  -         attack: [
+  -           'Mouse0',
+  -           'KeyJ'
+  -         ],
+  -         block: [
+  -           'Mouse2',
+  -           'ShiftLeft',
+  -           'ShiftRight'
+  -         ],
+  -         charge: [
+  -           'Space'
+  -         ],
+  -         down: [
+  -           'KeyS',
+  -           'ArrowDown'
+  -         ],
+  -         expert1: [
+  -           'Digit2'
+  -         ],
+  -         expert2: [
+  -           'Digit3'
+  -         ],
+  -         hammer: [
+  -           'KeyQ'
+  -         ],
+  -         heal: [
+  -           'KeyT'
+  -         ],
+  -         interact: [
+  -           'KeyF'
+  -         ],
+  -         judgement: [
+  -           'KeyE'
+  -         ],
+  -         left: [
+  -           'KeyA',
+  -           'ArrowLeft'
+  -         ],
+  -         menu: [
+  -           'KeyC'
+  -         ],
+  -         pause: [
+  -           'Escape'
+  -         ],
+  -         potion: [
+  -           'KeyR'
+  -         ],
+  -         right: [
+  -           'KeyD',
+  -           'ArrowRight'
+  -         ],
+  -         up: [
+  -           'KeyW',
+  -           'ArrowUp'
+  -         ]
+  -       },
+  -       blockMode: 'hold',
+  -       chargeDirection: 'aim',
+  -       preset: 'recommended',
+  -       version: 3
+  -     },
+  -     flashes: 0.5,
+  -     masterVolume: 0.7,
+  -     screenShake: 0.5
+  -   },
+  -   recovery: {
+  -     combatRng: {
+  -       draws: 0,
+  -       state: 1369781
+  -     },
+  -     cooldowns: {},
+  -     innerFlame: null,
+  -     invuln: 0,
+  -     lock: 0,
+  -     manaDelay: 0,
+  -     negativeStatuses: {},
+  -     potionCooldown: 0,
+  -     procCooldownRanks: {},
+  -     procCooldowns: {},
+  -     regenBuff: null,
+  -     staminaDelay: 0,
+  -     version: 2
+  -   },
+  -   schema: 'emberwatch.reborn.reimplementation',
+  -   stats: {
+  -     deaths: 0,
+  -     earnedGold: 0,
+  -     earnedXp: 0,
+  -     kills: 0,
+  -     spentGold: 0
+  -   },
+  -   version: 5,
+  -   vitals: {
+  -     hp: 7,
+  -     mana: 3,
+  -     stamina: 5
+  -   },
+  -   world: {
+  -     claimedRewards: [],
+  -     defeated: {},
+  -     life: 0,
+  -     lifeDown: false,
+  -     objectives: {
+  -       trained: 1
+  -     },
+  -     position: {
+  -       x: 260,
+  -       y: 325
+  -     },
+  -     region: 'ash_hamlet',
+  -     visited: [
+  -       'ash_hamlet'
+  -     ]
+  -   }
+  - }
+
+      at unchanged (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:46:37)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:63:205)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: { classId: 'warrior', level: 1, tier: 'apprentice', xp: 0, attributes: [Object], attributePoints: 0, skillPoints: 0, skills: [Object], exclusiveBranches: {}, equipment: [Object] }, difficulty: 'normal', equipmentProgress: { version: 'emberwatch-r3-equipment-v1', receipts: [], claimedAwards: [] }, actionSlots: { version: 1, expert1: null, expert2: null }, gold: 0, inventory: { materials: {}, consumables: [Object], equipmentInstances: [], tools: [] }, world: { region: 'ash_hamlet', visited: [Array], objectives: [Object], claimedRewards: [], defeated: {}, life: 0, lifeDown: false, position: [Object] }, stats: { kills: 0, deaths: 0, earnedGold: 0, spentGold: 0, earnedXp: 0 }, options: { masterVolume: 0.7, screenShake: 0.5, flashes: 0.5, controls: [Object] }, vitals: { hp: 7, mana: 3, stamina: 5 }, recovery: { version: 2, cooldowns: {}, lock: 0, manaDelay: 0, staminaDelay: 0, invuln: 0, potionCooldown: 0, regenBuff: null, innerFlame: null, procCooldowns: {}, procCooldownRanks: {}, negativeStatuses: {}, combatRng: [Object] } },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/profile-load-ownership.test.mjs:73:1
+✖ reloading while gameplay was active pauses simulation throughout a delayed load (18.891385ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  false !== true
+
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:74:169)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/profile-load-ownership.test.mjs:77:32
+✖ actual delayed candidate-copy success cannot steal a newer continue selection (23.380083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+
+    {
+      actionSlots: {
+        expert1: null,
+        expert2: null,
+        version: 1
+  ...
+        skillPoints: 0,
+  +     skills: {
+  +       mace_swing: 1,
+  +       righteous_hammer: 1,
+  +       shield_block: 1,
+  +       shield_charge: 1
+  +     },
+  -     skills: {},
+        tier: 'apprentice',
+        xp: 0
+      },
+  +   difficulty: 'normal',
+  -   difficulty: 'hard',
+      equipmentProgress: {
+        claimedAwards: [],
+        receipts: [],
+        version: 'emberwatch-r3-equipment-v1'
+      },
+      gold: 0,
+      inventory: {
+  +     consumables: {
+  +       health_potion: 2
+  +     },
+  -     consumables: {},
+        equipmentInstances: [],
+        materials: {},
+        tools: []
+      },
+      options: {
+  ...
+      },
+  +   recovery: {
+  +     combatRng: {
+  +       draws: 0,
+  +       state: 1369781
+  +     },
+  +     cooldowns: {},
+  +     innerFlame: null,
+  +     invuln: 0,
+  +     lock: 0,
+  +     manaDelay: 0,
+  +     negativeStatuses: {},
+  +     potionCooldown: 0,
+  +     procCooldownRanks: {},
+  +     procCooldowns: {},
+  +     regenBuff: null,
+  +     staminaDelay: 0,
+  +     version: 2
+  +   },
+      schema: 'emberwatch.reborn.reimplementation',
+      stats: {
+        deaths: 0,
+        earnedGold: 0,
+        earnedXp: 0,
+  ...
+      version: 5,
+  +   vitals: {
+  +     hp: 7,
+  +     mana: 3,
+  +     stamina: 5
+  +   },
+      world: {
+        claimedRewards: [],
+  +     defeated: {},
+  +     life: 0,
+  +     lifeDown: false,
+  +     objectives: {
+  +       trained: 1
+  +     },
+  +     position: {
+  +       x: 260,
+  +       y: 325
+  +     },
+  -     objectives: {},
+        region: 'ash_hamlet',
+        visited: [
+          'ash_hamlet'
+        ]
+      }
+
+      at unchanged (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:46:37)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:78:297)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: { classId: 'warrior', level: 1, tier: 'apprentice', xp: 0, attributes: [Object], attributePoints: 0, skillPoints: 0, skills: [Object], exclusiveBranches: {}, equipment: [Object] }, difficulty: 'normal', equipmentProgress: { version: 'emberwatch-r3-equipment-v1', receipts: [], claimedAwards: [] }, actionSlots: { version: 1, expert1: null, expert2: null }, gold: 0, inventory: { materials: {}, consumables: [Object], equipmentInstances: [], tools: [] }, world: { region: 'ash_hamlet', visited: [Array], objectives: [Object], claimedRewards: [], defeated: {}, life: 0, lifeDown: false, position: [Object] }, stats: { kills: 0, deaths: 0, earnedGold: 0, spentGold: 0, earnedXp: 0 }, options: { masterVolume: 0.7, screenShake: 0.5, flashes: 0.5, controls: [Object] }, vitals: { hp: 7, mana: 3, stamina: 5 }, recovery: { version: 2, cooldowns: {}, lock: 0, manaDelay: 0, staminaDelay: 0, invuln: 0, potionCooldown: 0, regenBuff: null, innerFlame: null, procCooldowns: {}, procCooldownRanks: {}, negativeStatuses: {}, combatRng: [Object] } },
+    expected: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: { classId: 'warrior', level: 1, tier: 'apprentice', xp: 0, attributes: [Object], attributePoints: 0, skillPoints: 0, skills: {}, exclusiveBranches: {}, equipment: [Object] }, difficulty: 'hard', equipmentProgress: { version: 'emberwatch-r3-equipment-v1', receipts: [], claimedAwards: [] }, actionSlots: { version: 1, expert1: null, expert2: null }, gold: 0, inventory: { materials: {}, consumables: {}, equipmentInstances: [], tools: [] }, world: { region: 'ash_hamlet', visited: [Array], objectives: {}, claimedRewards: [] }, stats: { kills: 0, deaths: 0, earnedGold: 0, spentGold: 0, earnedXp: 0 }, options: { masterVolume: 0.7, screenShake: 0.5, flashes: 0.5, controls: [Object] } },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/profile-load-ownership.test.mjs:77:32
+✖ actual delayed candidate-copy failure cannot steal a newer continue selection (16.018874ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+  + null
+  - {
+  -   actionSlots: {
+  -     expert1: null,
+  -     expert2: null,
+  -     version: 1
+  -   },
+  -   character: {
+  -     attributePoints: 0,
+  -     attributes: {
+  -       dexterity: 0,
+  -       intelligence: 0,
+  -       strength: 0
+  -     },
+  -     classId: 'warrior',
+  -     equipment: {
+  -       accessory: null,
+  -       chest: null,
+  -       feet: null,
+  -       hands: null,
+  -       head: null,
+  -       mainHand: null,
+  -       offHand: null
+  -     },
+  -     exclusiveBranches: {},
+  -     level: 1,
+  -     skillPoints: 0,
+  -     skills: {},
+  -     tier: 'apprentice',
+  -     xp: 0
+  -   },
+  -   difficulty: 'hard',
+  -   equipmentProgress: {
+  -     claimedAwards: [],
+  -     receipts: [],
+  -     version: 'emberwatch-r3-equipment-v1'
+  -   },
+  -   gold: 0,
+  -   inventory: {
+  -     consumables: {},
+  -     equipmentInstances: [],
+  -     materials: {},
+  -     tools: []
+  -   },
+  -   options: {
+  -     controls: {
+  -       bindings: {
+  -         attack: [
+  -           'Mouse0',
+  -           'KeyJ'
+  -         ],
+  -         block: [
+  -           'Mouse2',
+  -           'ShiftLeft',
+  -           'ShiftRight'
+  -         ],
+  -         charge: [
+  -           'Space'
+  -         ],
+  -         down: [
+  -           'KeyS',
+  -           'ArrowDown'
+  -         ],
+  -         expert1: [
+  -           'Digit2'
+  -         ],
+  -         expert2: [
+  -           'Digit3'
+  -         ],
+  -         hammer: [
+  -           'KeyQ'
+  -         ],
+  -         heal: [
+  -           'KeyT'
+  -         ],
+  -         interact: [
+  -           'KeyF'
+  -         ],
+  -         judgement: [
+  -           'KeyE'
+  -         ],
+  -         left: [
+  -           'KeyA',
+  -           'ArrowLeft'
+  -         ],
+  -         menu: [
+  -           'KeyC'
+  -         ],
+  -         pause: [
+  -           'Escape'
+  -         ],
+  -         potion: [
+  -           'KeyR'
+  -         ],
+  -         right: [
+  -           'KeyD',
+  -           'ArrowRight'
+  -         ],
+  -         up: [
+  -           'KeyW',
+  -           'ArrowUp'
+  -         ]
+  -       },
+  -       blockMode: 'hold',
+  -       chargeDirection: 'aim',
+  -       preset: 'recommended',
+  -       version: 3
+  -     },
+  -     flashes: 0.5,
+  -     masterVolume: 0.7,
+  -     screenShake: 0.5
+  -   },
+  -   schema: 'emberwatch.reborn.reimplementation',
+  -   stats: {
+  -     deaths: 0,
+  -     earnedGold: 0,
+  -     earnedXp: 0,
+  -     kills: 0,
+  -     spentGold: 0
+  -   },
+  -   version: 5,
+  -   world: {
+  -     claimedRewards: [],
+  -     objectives: {},
+  -     region: 'ash_hamlet',
+  -     visited: [
+  -       'ash_hamlet'
+  -     ]
+  -   }
+  - }
+
+      at unchanged (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:46:37)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:78:297)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: { classId: 'warrior', level: 1, tier: 'apprentice', xp: 0, attributes: [Object], attributePoints: 0, skillPoints: 0, skills: {}, exclusiveBranches: {}, equipment: [Object] }, difficulty: 'hard', equipmentProgress: { version: 'emberwatch-r3-equipment-v1', receipts: [], claimedAwards: [] }, actionSlots: { version: 1, expert1: null, expert2: null }, gold: 0, inventory: { materials: {}, consumables: {}, equipmentInstances: [], tools: [] }, world: { region: 'ash_hamlet', visited: [Array], objectives: {}, claimedRewards: [] }, stats: { kills: 0, deaths: 0, earnedGold: 0, spentGold: 0, earnedXp: 0 }, options: { masterVolume: 0.7, screenShake: 0.5, flashes: 0.5, controls: [Object] } },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/profile-load-ownership.test.mjs:81:32
+✖ title dismissal invalidates delayed candidate-copy success (20.367722ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+  + {
+  +   actionSlots: {
+  +     expert1: null,
+  +     expert2: null,
+  +     version: 1
+  +   },
+  +   character: {
+  +     attributePoints: 0,
+  +     attributes: {
+  +       dexterity: 0,
+  +       intelligence: 0,
+  +       strength: 0
+  +     },
+  +     classId: 'warrior',
+  +     equipment: {
+  +       accessory: null,
+  +       chest: null,
+  +       feet: null,
+  +       hands: null,
+  +       head: null,
+  +       mainHand: null,
+  +       offHand: null
+  +     },
+  +     exclusiveBranches: {},
+  +     level: 1,
+  +     skillPoints: 0,
+  +     skills: {
+  +       mace_swing: 1,
+  +       righteous_hammer: 1,
+  +       shield_block: 1,
+  +       shield_charge: 1
+  +     },
+  +     tier: 'apprentice',
+  +     xp: 0
+  +   },
+  +   difficulty: 'normal',
+  +   equipmentProgress: {
+  +     claimedAwards: [],
+  +     receipts: [],
+  +     version: 'emberwatch-r3-equipment-v1'
+  +   },
+  +   gold: 0,
+  +   inventory: {
+  +     consumables: {
+  +       health_potion: 2
+  +     },
+  +     equipmentInstances: [],
+  +     materials: {},
+  +     tools: []
+  +   },
+  +   options: {
+  +     controls: {
+  +       bindings: {
+  +         attack: [
+  +           'Mouse0',
+  +           'KeyJ'
+  +         ],
+  +         block: [
+  +           'Mouse2',
+  +           'ShiftLeft',
+  +           'ShiftRight'
+  +         ],
+  +         charge: [
+  +           'Space'
+  +         ],
+  +         down: [
+  +           'KeyS',
+  +           'ArrowDown'
+  +         ],
+  +         expert1: [
+  +           'Digit2'
+  +         ],
+  +         expert2: [
+  +           'Digit3'
+  +         ],
+  +         hammer: [
+  +           'KeyQ'
+  +         ],
+  +         heal: [
+  +           'KeyT'
+  +         ],
+  +         interact: [
+  +           'KeyF'
+  +         ],
+  +         judgement: [
+  +           'KeyE'
+  +         ],
+  +         left: [
+  +           'KeyA',
+  +           'ArrowLeft'
+  +         ],
+  +         menu: [
+  +           'KeyC'
+  +         ],
+  +         pause: [
+  +           'Escape'
+  +         ],
+  +         potion: [
+  +           'KeyR'
+  +         ],
+  +         right: [
+  +           'KeyD',
+  +           'ArrowRight'
+  +         ],
+  +         up: [
+  +           'KeyW',
+  +           'ArrowUp'
+  +         ]
+  +       },
+  +       blockMode: 'hold',
+  +       chargeDirection: 'aim',
+  +       preset: 'recommended',
+  +       version: 3
+  +     },
+  +     flashes: 0.5,
+  +     masterVolume: 0.7,
+  +     screenShake: 0.5
+  +   },
+  +   recovery: {
+  +     combatRng: {
+  +       draws: 0,
+  +       state: 1369781
+  +     },
+  +     cooldowns: {},
+  +     innerFlame: null,
+  +     invuln: 0,
+  +     lock: 0,
+  +     manaDelay: 0,
+  +     negativeStatuses: {},
+  +     potionCooldown: 0,
+  +     procCooldownRanks: {},
+  +     procCooldowns: {},
+  +     regenBuff: null,
+  +     staminaDelay: 0,
+  +     version: 2
+  +   },
+  +   schema: 'emberwatch.reborn.reimplementation',
+  +   stats: {
+  +     deaths: 0,
+  +     earnedGold: 0,
+  +     earnedXp: 0,
+  +     kills: 0,
+  +     spentGold: 0
+  +   },
+  +   version: 5,
+  +   vitals: {
+  +     hp: 7,
+  +     mana: 3,
+  +     stamina: 5
+  +   },
+  +   world: {
+  +     claimedRewards: [],
+  +     defeated: {},
+  +     life: 0,
+  +     lifeDown: false,
+  +     objectives: {
+  +       trained: 1
+  +     },
+  +     position: {
+  +       x: 260,
+  +       y: 325
+  +     },
+  +     region: 'ash_hamlet',
+  +     visited: [
+  +       'ash_hamlet'
+  +     ]
+  +   }
+  + }
+  - null
+
+      at unchanged (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:46:37)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:82:185)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: { classId: 'warrior', level: 1, tier: 'apprentice', xp: 0, attributes: [Object], attributePoints: 0, skillPoints: 0, skills: [Object], exclusiveBranches: {}, equipment: [Object] }, difficulty: 'normal', equipmentProgress: { version: 'emberwatch-r3-equipment-v1', receipts: [], claimedAwards: [] }, actionSlots: { version: 1, expert1: null, expert2: null }, gold: 0, inventory: { materials: {}, consumables: [Object], equipmentInstances: [], tools: [] }, world: { region: 'ash_hamlet', visited: [Array], objectives: [Object], claimedRewards: [], defeated: {}, life: 0, lifeDown: false, position: [Object] }, stats: { kills: 0, deaths: 0, earnedGold: 0, spentGold: 0, earnedXp: 0 }, options: { masterVolume: 0.7, screenShake: 0.5, flashes: 0.5, controls: [Object] }, vitals: { hp: 7, mana: 3, stamina: 5 }, recovery: { version: 2, cooldowns: {}, lock: 0, manaDelay: 0, staminaDelay: 0, invuln: 0, potionCooldown: 0, regenBuff: null, innerFlame: null, procCooldowns: {}, procCooldownRanks: {}, negativeStatuses: {}, combatRng: [Object] } },
+    expected: null,
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/profile-load-ownership.test.mjs:81:32
+✖ title dismissal invalidates delayed candidate-copy failure (12.699882ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '<section class="panel"><div class="eyebrow">THE OATH OF EMBERS</div><h1>EMBERWATCH</h1><p class="lede">Reborn · 잿불의 서약</p><span class="pill">R12a · 전문가 황야 조사 개발 빌드 · 공개 QA 후보</span><p class="warning">공개 테스트 후보 경로입니다. 일반 저장과 별도 공간을 사용합니다. 기존 QA 기록 복사는 원본을 보존하며, 후보 진행을 기본 사이트에 자동 덮어쓰지 않습니다.</p><p>꺼져 가는 길목에 다시 불을 밝히세요.<br>전사로 훈련하고, 다수의 적을 돌파하며 첫 순찰을 완수합니다.</p><p class="warning">저장 잠금을 얻지 못했습니다.</p><label class="row">난이도 <select id="difficulty"><option value="easy">여유롭게</option><option value="normal" selected>보통</option><option value="hard">어려움</option><option value="serious">험난함</option></select></label><div class="divider"></div><label class="row">격리 QA 프로필 <input id="profile" value="qa-r2-20261009" maxlength="51" aria-label="격리 QA 프로필 이름"></label><div class="buttons"><button data-action="qa-new" >격리 새 게임</button><button data-action="qa-continue" >격리 이어하기</button></div><label class="row">QA 원본 공간 <select id="sourceNamespace"><option value="release">기본 사이트 QA</option><option value="qa-r4">이전 R4 후보 QA</option><option value="qa-r5">이전 R5 후보 QA</option><option value="qa-r6">이전 R6 후보 QA</option><option value="qa-r7">이전 R7 후보 QA</option><option value="qa-r8">이전 R8 후보 QA</option><option value="qa-r9">이전 R9 후보 QA</option><option value="qa-r10">이전 R10 후보 QA</option></select></label><label class="row">복사할 기존 QA 원본 <input id="sourceProfile" value="qa-r2-live-20261009" maxlength="51" aria-label="복사할 기존 QA 원본 이름"></label><p class="minor">기존 원본을 위의 새 후보 프로필 이름으로 복사합니다. 이미 있는 후보는 덮어쓰지 않습니다.</p><button data-action="candidate-copy" >기존 QA 기록을 후보 공간에 복사</button><p class="minor">진행은 이 브라우저에 보관되며 다른 기기로 자동 동기화되지 않습니다. 원본0.4.7과 저장 공간이 분리됩니다. 새 게임은 기존 기록을 덮어쓰지 않습니다. 입문 장비·제작과 첫 2층 던전이 연결되어 있습니다. 첫 숙련 승급·25개 노드·채석장에 이어 고갯길 조사가 연결됩니다. L12 신호 분지의 양쪽 경로·사망 재시도·저장 재진입을 검증했습니다. 역할 표식 구분은 실제 확인했고 통로 가독성은 계속 개선 중입니다. 용광로의 두 선택·렌즈 회수·보고는 별도로 실플레이 확인했습니다. 신호 묘실(T)은 보통 난이도에서 해독·석판·운반 봉인·보스·서약문 회수·에다 보고와 사망 재시도·저장 재진입을 일반 조작으로 확인했습니다. 다른 난이도와 전체 플레이 품질 검증은 계속 진행 중입니다. 전문가 승급·15개 전문 노드와 봉화 전장은 연결하여 일반 입력 검증 중입니다. 봉화 보고 뒤 황야의 측량·갈고리·수신판·엄폐 선택·기록핵·에다 보고가 연결되며 새 황야의 일반 입력 검증은 아직 필요합니다. 오린의 후속 수리소·제작은 미구현입니다. 마스터, 고급 장비/접사, 반복 원정과 전체 캠페인은 아직 완성되지 않았습니다. 클릭 후 판타지 효과음을 사용하며 메뉴에서 음량을 조절할 수 있습니다.</p></section>'
+  - '<section class="panel"><div class="eyebrow">THE OATH OF EMBERS</div><h1>EMBERWATCH</h1><p class="lede">Reborn · 잿불의 서약</p><span class="pill">R12a · 전문가 황야 조사 개발 빌드 · 공개 QA 후보</span><p class="warning">공개 테스트 후보 경로입니다. 일반 저장과 별도 공간을 사용합니다. 기존 QA 기록 복사는 원본을 보존하며, 후보 진행을 기본 사이트에 자동 덮어쓰지 않습니다.</p><p>꺼져 가는 길목에 다시 불을 밝히세요.<br>전사로 훈련하고, 다수의 적을 돌파하며 첫 순찰을 완수합니다.</p><label class="row">난이도 <select id="difficulty"><option value="easy">여유롭게</option><option value="normal" selected>보통</option><option value="hard">어려움</option><option value="serious">험난함</option></select></label><div class="divider"></div><label class="row">격리 QA 프로필 <input id="profile" value="qa-r2-20261009" maxlength="51" aria-label="격리 QA 프로필 이름"></label><div class="buttons"><button data-action="qa-new" >격리 새 게임</button><button data-action="qa-continue" >격리 이어하기</button></div><label class="row">QA 원본 공간 <select id="sourceNamespace"><option value="release">기본 사이트 QA</option><option value="qa-r4">이전 R4 후보 QA</option><option value="qa-r5">이전 R5 후보 QA</option><option value="qa-r6">이전 R6 후보 QA</option><option value="qa-r7">이전 R7 후보 QA</option><option value="qa-r8">이전 R8 후보 QA</option><option value="qa-r9">이전 R9 후보 QA</option><option value="qa-r10">이전 R10 후보 QA</option></select></label><label class="row">복사할 기존 QA 원본 <input id="sourceProfile" value="qa-r2-live-20261009" maxlength="51" aria-label="복사할 기존 QA 원본 이름"></label><p class="minor">기존 원본을 위의 새 후보 프로필 이름으로 복사합니다. 이미 있는 후보는 덮어쓰지 않습니다.</p><button data-action="candidate-copy" >기존 QA 기록을 후보 공간에 복사</button><p class="minor">진행은 이 브라우저에 보관되며 다른 기기로 자동 동기화되지 않습니다. 원본0.4.7과 저장 공간이 분리됩니다. 새 게임은 기존 기록을 덮어쓰지 않습니다. 입문 장비·제작과 첫 2층 던전이 연결되어 있습니다. 첫 숙련 승급·25개 노드·채석장에 이어 고갯길 조사가 연결됩니다. L12 신호 분지의 양쪽 경로·사망 재시도·저장 재진입을 검증했습니다. 역할 표식 구분은 실제 확인했고 통로 가독성은 계속 개선 중입니다. 용광로의 두 선택·렌즈 회수·보고는 별도로 실플레이 확인했습니다. 신호 묘실(T)은 보통 난이도에서 해독·석판·운반 봉인·보스·서약문 회수·에다 보고와 사망 재시도·저장 재진입을 일반 조작으로 확인했습니다. 다른 난이도와 전체 플레이 품질 검증은 계속 진행 중입니다. 전문가 승급·15개 전문 노드와 봉화 전장은 연결하여 일반 입력 검증 중입니다. 봉화 보고 뒤 황야의 측량·갈고리·수신판·엄폐 선택·기록핵·에다 보고가 연결되며 새 황야의 일반 입력 검증은 아직 필요합니다. 오린의 후속 수리소·제작은 미구현입니다. 마스터, 고급 장비/접사, 반복 원정과 전체 캠페인은 아직 완성되지 않았습니다. 클릭 후 판타지 효과음을 사용하며 메뉴에서 음량을 조절할 수 있습니다.</p></section>'
+
+      at unchanged (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:46:204)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:82:185)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<section class="panel"><div class="eyebrow">THE OATH OF EMBERS</div><h1>EMBERWATCH</h1><p class="lede">Reborn · 잿불의 서약</p><span class="pill">R12a · 전문가 황야 조사 개발 빌드 · 공개 QA 후보</span><p class="warning">공개 테스트 후보 경로입니다. 일반 저장과 별도 공간을 사용합니다. 기존 QA 기록 복사는 원본을 보존하며, 후보 진행을 기본 사이트에 자동 덮어쓰지 않습니다.</p><p>꺼져 가는 길목에 다시 불을 밝히세요.<br>전사로 훈련하고, 다수의 적을 돌파하며 첫 순찰을 완수합니다.</p><p class="warning">저장 잠금을 얻지 못했습니다.</p><label class="row">난이도 <select id="difficulty"><option value="easy">여유롭게</option><option value="normal" selected>보통</option><option value="hard">어려움</option><option value="serious">험난함</option></select></label><div class="divider"></div><label class="row">격리 QA 프로필 <input id="profile" value="qa-r2-20261009" maxlength="51" aria-label="격리 QA 프로필 이름"></label><div class="buttons"><button data-action="qa-new" >격리 새 게임</button><button data-action="qa-continue" >격리 이어하기</button></div><label class="row">QA 원본 공간 <select id="sourceNamespace"><option value="release">기본 사이트 QA</option><option value="qa-r4">이전 R4 후보 QA</option><option value="qa-r5">이전 R5 후보 QA</option><option value="qa-r6">이전 R6 후보 QA</option><option value="qa-r7">이전 R7 후보 QA</option><option value="qa-r8">이전 R8 후보 QA</option><option value="qa-r9">이전 R9 후보 QA</option><option value="qa-r10">이전 R10 후보 QA</option></select></label><label class="row">복사할 기존 QA 원본 <input id="sourceProfile" value="qa-r2-live-20261009" maxlength="51" aria-label="복사할 기존 QA 원본 이름"></label><p class="minor">기존 원본을 위의 새 후보 프로필 이름으로 복사합니다. 이미 있는 후보는 덮어쓰지 않습니다.</p><button data-action="candidate-copy" >기존 QA 기록을 후보 공간에 복사</button><p class="minor">진행은 이 브라우저에 보관되며 다른 기기로 자동 동기화되지 않습니다. 원본0.4.7과 저장 공간이 분리됩니다. 새 게임은 기존 기록을 덮어쓰지 않습니다. 입문 장비·제작과 첫 2층 던전이 연결되어 있습니다. 첫 숙련 승급·25개 노드·채석장에 이어 고갯길 조사가 연결됩니다. L12 신호 분지의 양쪽 경로·사망 재시도·저장 재진입을 검증했습니다. 역할 표식 구분은 실제 확인했고 통로 가독성은 계속 개선 중입니다. 용광로의 두 선택·렌즈 회수·보고는 별도로 실플레이 확인했습니다. 신호 묘실(T)은 보통 난이도에서 해독·석판·운반 봉인·보스·서약문 회수·에다 보고와 사망 재시도·저장 재진입을 일반 조작으로 확인했습니다. 다른 난이도와 전체 플레이 품질 검증은 계속 진행 중입니다. 전문가 승급·15개 전문 노드와 봉화 전장은 연결하여 일반 입력 검증 중입니다. 봉화 보고 뒤 황야의 측량·갈고리·수신판·엄폐 선택·기록핵·에다 보고가 연결되며 새 황야의 일반 입력 검증은 아직 필요합니다. 오린의 후속 수리소·제작은 미구현입니다. 마스터, 고급 장비/접사, 반복 원정과 전체 캠페인은 아직 완성되지 않았습니다. 클릭 후 판타지 효과음을 사용하며 메뉴에서 음량을 조절할 수 있습니다.</p></section>',
+    expected: '<section class="panel"><div class="eyebrow">THE OATH OF EMBERS</div><h1>EMBERWATCH</h1><p class="lede">Reborn · 잿불의 서약</p><span class="pill">R12a · 전문가 황야 조사 개발 빌드 · 공개 QA 후보</span><p class="warning">공개 테스트 후보 경로입니다. 일반 저장과 별도 공간을 사용합니다. 기존 QA 기록 복사는 원본을 보존하며, 후보 진행을 기본 사이트에 자동 덮어쓰지 않습니다.</p><p>꺼져 가는 길목에 다시 불을 밝히세요.<br>전사로 훈련하고, 다수의 적을 돌파하며 첫 순찰을 완수합니다.</p><label class="row">난이도 <select id="difficulty"><option value="easy">여유롭게</option><option value="normal" selected>보통</option><option value="hard">어려움</option><option value="serious">험난함</option></select></label><div class="divider"></div><label class="row">격리 QA 프로필 <input id="profile" value="qa-r2-20261009" maxlength="51" aria-label="격리 QA 프로필 이름"></label><div class="buttons"><button data-action="qa-new" >격리 새 게임</button><button data-action="qa-continue" >격리 이어하기</button></div><label class="row">QA 원본 공간 <select id="sourceNamespace"><option value="release">기본 사이트 QA</option><option value="qa-r4">이전 R4 후보 QA</option><option value="qa-r5">이전 R5 후보 QA</option><option value="qa-r6">이전 R6 후보 QA</option><option value="qa-r7">이전 R7 후보 QA</option><option value="qa-r8">이전 R8 후보 QA</option><option value="qa-r9">이전 R9 후보 QA</option><option value="qa-r10">이전 R10 후보 QA</option></select></label><label class="row">복사할 기존 QA 원본 <input id="sourceProfile" value="qa-r2-live-20261009" maxlength="51" aria-label="복사할 기존 QA 원본 이름"></label><p class="minor">기존 원본을 위의 새 후보 프로필 이름으로 복사합니다. 이미 있는 후보는 덮어쓰지 않습니다.</p><button data-action="candidate-copy" >기존 QA 기록을 후보 공간에 복사</button><p class="minor">진행은 이 브라우저에 보관되며 다른 기기로 자동 동기화되지 않습니다. 원본0.4.7과 저장 공간이 분리됩니다. 새 게임은 기존 기록을 덮어쓰지 않습니다. 입문 장비·제작과 첫 2층 던전이 연결되어 있습니다. 첫 숙련 승급·25개 노드·채석장에 이어 고갯길 조사가 연결됩니다. L12 신호 분지의 양쪽 경로·사망 재시도·저장 재진입을 검증했습니다. 역할 표식 구분은 실제 확인했고 통로 가독성은 계속 개선 중입니다. 용광로의 두 선택·렌즈 회수·보고는 별도로 실플레이 확인했습니다. 신호 묘실(T)은 보통 난이도에서 해독·석판·운반 봉인·보스·서약문 회수·에다 보고와 사망 재시도·저장 재진입을 일반 조작으로 확인했습니다. 다른 난이도와 전체 플레이 품질 검증은 계속 진행 중입니다. 전문가 승급·15개 전문 노드와 봉화 전장은 연결하여 일반 입력 검증 중입니다. 봉화 보고 뒤 황야의 측량·갈고리·수신판·엄폐 선택·기록핵·에다 보고가 연결되며 새 황야의 일반 입력 검증은 아직 필요합니다. 오린의 후속 수리소·제작은 미구현입니다. 마스터, 고급 장비/접사, 반복 원정과 전체 캠페인은 아직 완성되지 않았습니다. 클릭 후 판타지 효과음을 사용하며 메뉴에서 음량을 조절할 수 있습니다.</p></section>',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/profile-load-ownership.test.mjs:84:1
+✖ candidate-copy intent immediately supersedes an older delayed new-game preflight (24.445352ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+  + null
+  - {
+  -   actionSlots: {
+  -     expert1: null,
+  -     expert2: null,
+  -     version: 1
+  -   },
+  -   character: {
+  -     attributePoints: 0,
+  -     attributes: {
+  -       dexterity: 0,
+  -       intelligence: 0,
+  -       strength: 0
+  -     },
+  -     classId: 'warrior',
+  -     equipment: {
+  -       accessory: null,
+  -       chest: null,
+  -       feet: null,
+  -       hands: null,
+  -       head: null,
+  -       mainHand: null,
+  -       offHand: null
+  -     },
+  -     exclusiveBranches: {},
+  -     level: 1,
+  -     skillPoints: 0,
+  -     skills: {
+  -       mace_swing: 1,
+  -       righteous_hammer: 1,
+  -       shield_block: 1,
+  -       shield_charge: 1
+  -     },
+  -     tier: 'apprentice',
+  -     xp: 0
+  -   },
+  -   difficulty: 'normal',
+  -   equipmentProgress: {
+  -     claimedAwards: [],
+  -     receipts: [],
+  -     version: 'emberwatch-r3-equipment-v1'
+  -   },
+  -   gold: 0,
+  -   inventory: {
+  -     consumables: {
+  -       health_potion: 2
+  -     },
+  -     equipmentInstances: [],
+  -     materials: {},
+  -     tools: []
+  -   },
+  -   options: {
+  -     controls: {
+  -       bindings: {
+  -         attack: [
+  -           'Mouse0',
+  -           'KeyJ'
+  -         ],
+  -         block: [
+  -           'Mouse2',
+  -           'ShiftLeft',
+  -           'ShiftRight'
+  -         ],
+  -         charge: [
+  -           'Space'
+  -         ],
+  -         down: [
+  -           'KeyS',
+  -           'ArrowDown'
+  -         ],
+  -         expert1: [
+  -           'Digit2'
+  -         ],
+  -         expert2: [
+  -           'Digit3'
+  -         ],
+  -         hammer: [
+  -           'KeyQ'
+  -         ],
+  -         heal: [
+  -           'KeyT'
+  -         ],
+  -         interact: [
+  -           'KeyF'
+  -         ],
+  -         judgement: [
+  -           'KeyE'
+  -         ],
+  -         left: [
+  -           'KeyA',
+  -           'ArrowLeft'
+  -         ],
+  -         menu: [
+  -           'KeyC'
+  -         ],
+  -         pause: [
+  -           'Escape'
+  -         ],
+  -         potion: [
+  -           'KeyR'
+  -         ],
+  -         right: [
+  -           'KeyD',
+  -           'ArrowRight'
+  -         ],
+  -         up: [
+  -           'KeyW',
+  -           'ArrowUp'
+  -         ]
+  -       },
+  -       blockMode: 'hold',
+  -       chargeDirection: 'aim',
+  -       preset: 'recommended',
+  -       version: 3
+  -     },
+  -     flashes: 0.5,
+  -     masterVolume: 0.7,
+  -     screenShake: 0.5
+  -   },
+  -   recovery: {
+  -     combatRng: {
+  -       draws: 0,
+  -       state: 1369781
+  -     },
+  -     cooldowns: {},
+  -     innerFlame: null,
+  -     invuln: 0,
+  -     lock: 0,
+  -     manaDelay: 0,
+  -     negativeStatuses: {},
+  -     potionCooldown: 0,
+  -     procCooldownRanks: {},
+  -     procCooldowns: {},
+  -     regenBuff: null,
+  -     staminaDelay: 0,
+  -     version: 2
+  -   },
+  -   schema: 'emberwatch.reborn.reimplementation',
+  -   stats: {
+  -     deaths: 0,
+  -     earnedGold: 0,
+  -     earnedXp: 0,
+  -     kills: 0,
+  -     spentGold: 0
+  -   },
+  -   version: 5,
+  -   vitals: {
+  -     hp: 7,
+  -     mana: 3,
+  -     stamina: 5
+  -   },
+  -   world: {
+  -     claimedRewards: [],
+  -     defeated: {},
+  -     life: 0,
+  -     lifeDown: false,
+  -     objectives: {
+  -       trained: 1
+  -     },
+  -     position: {
+  -       x: 260,
+  -       y: 325
+  -     },
+  -     region: 'ash_hamlet',
+  -     visited: [
+  -       'ash_hamlet'
+  -     ]
+  -   }
+  - }
+
+      at unchanged (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:46:37)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:85:215)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: { classId: 'warrior', level: 1, tier: 'apprentice', xp: 0, attributes: [Object], attributePoints: 0, skillPoints: 0, skills: [Object], exclusiveBranches: {}, equipment: [Object] }, difficulty: 'normal', equipmentProgress: { version: 'emberwatch-r3-equipment-v1', receipts: [], claimedAwards: [] }, actionSlots: { version: 1, expert1: null, expert2: null }, gold: 0, inventory: { materials: {}, consumables: [Object], equipmentInstances: [], tools: [] }, world: { region: 'ash_hamlet', visited: [Array], objectives: [Object], claimedRewards: [], defeated: {}, life: 0, lifeDown: false, position: [Object] }, stats: { kills: 0, deaths: 0, earnedGold: 0, spentGold: 0, earnedXp: 0 }, options: { masterVolume: 0.7, screenShake: 0.5, flashes: 0.5, controls: [Object] }, vitals: { hp: 7, mana: 3, stamina: 5 }, recovery: { version: 2, cooldowns: {}, lock: 0, manaDelay: 0, staminaDelay: 0, invuln: 0, potionCooldown: 0, regenBuff: null, innerFlame: null, procCooldowns: {}, procCooldownRanks: {}, negativeStatuses: {}, combatRng: [Object] } },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/profile-load-ownership.test.mjs:87:1
+✖ overlapping candidate copies preserve the latest target even when the earlier copy finishes last (28.479207ms)
+  AssertionError [ERR_ASSERTION]: Values have same structure but are not reference-equal:
+
+  ... Skipped lines
+  {
+    areaSerial: 0,
+    areas: [],
+    attackSerial: 0,
+    awaitingAdvance: false,
+    banner: null,
+    castSerial: 0,
+    combatDraws: 0,
+    contacts: 0,
+    dead: false,
+    deathReported: false,
+    difficulty: {
+      enemyDamage: 1,
+      enemyHealth: 1,
+      reviveSeconds: 3,
+      trapDamage: 1,
+      xp: 1
+    },
+    effects: [],
+    enemies: [],
+    equipmentContext: {
+      actionSlots: {
+        expert1: null,
+        expert2: null,
+        version: 1
+      },
+      character: {
+        attributePoints: 0,
+        attributes: {
+          dexterity: 0,
+          intelligence: 0,
+          strength: 0
+        },
+        classId: 'warrior',
+        equipment: {
+          accessory: null,
+          chest: null,
+          feet: null,
+          hands: null,
+          head: null,
+          mainHand: null,
+          offHand: null
+        },
+        exclusiveBranches: {},
+        level: 1,
+        skillPoints: 0,
+        skills: {
+          mace_swing: 1,
+          righteous_hammer: 1,
+          shield_block: 1,
+  ...}
+
+      at unchanged (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:46:79)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs:88:216)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { equipmentContext: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: [Object], difficulty: 'normal', equipmentProgress: [Object], actionSlots: [Object], gold: 0, inventory: [Object], world: [Object], stats: [Object], options: [Object], vitals: [Object], recovery: [Object] }, region: 'ash_hamlet', map: { w: 23, h: 20, tiles: [Array], rooms: [Array] }, time: 0, seed: 1369781, combatDraws: 0, fxSeed: 1369781, castSerial: 0, attackSerial: 0, foeTypes: { sluice_keeper: [Object], quarry_raider: [Object], quarry_slinger: [Object], quarry_guard: [Object], pass_raider: [Object], pass_ranger: [Object], pass_elite: [Object], signal_runner: [Object], signal_archer: [Object], signal_keeper: [Object], furnace_tender: [Object], furnace_nozzle: [Object], furnace_warden: [Object], tomb_blade: [Object], tomb_scribe: [Object], tomb_vigil: [Object], tomb_piercer: [Object], tomb_oathkeeper: [Object], battlefield_revenant: [Object], battlefield_hexer: [Object], battlefield_pyromancer: [Object], battlefield_lancer: [Object], battlefield_binder: [Object], battlefield_bulwark: [Object], battlefield_usurper: [Object], wilderness_flanker: [Object], wilderness_revenant: [Object], wilderness_hexer: [Object], wilderness_binder: [Object], wilderness_pyromancer: [Object], wilderness_lancer: [Object], wilderness_bulwark: [Object], wilderness_keeper: [Object], scout: [Object], archer: [Object], bruiser: [Object], warden: [Object] }, stats: { hpMax: 55, manaMax: 40, staminaMax: 45, strength: 18, dexterity: 12, intelligence: 10, armor: 4, physicalDamage: 12, moveSpeed: 180, criticalChance: 0.05, criticalMultiplier: 1.5, healthRegen: 0, manaRegen: 4, staminaRegen: 10, manaRegenDelay: 0.5, staminaRegenDelay: 0.3, attackSpeed: 1, castSpeed: 1, spellPower: 1, resistances: [Object], equipmentAttributes: [Object], attributeBreakdown: [Object], actions: [Object], staminaCostMultiplier: 1, physicalDamageMultiplier: 1, armorPenetration: 0, innerFlame: null, flamingWrath: null, lawbringer: null, punishMultiplier: 1, guilt: null }, difficulty: { enemyHealth: 1, enemyDamage: 1, trapDamage: 1, xp: 1, reviveSeconds: 3 }, stateLife: 0, p: { x: 260, y: 325, hp: 7, mana: 3, stamina: 5, angle: 0, classId: 'warrior', action: null, walkPhase: 0, invuln: 0, block: false, cooldowns: {}, potionCooldown: 0, recoveryLock: 0, manaDelay: 0, staminaDelay: 0, combo: 0, regenBuff: null, innerFlame: null, procCooldowns: {}, procCooldownRanks: {}, negativeStatuses: {} }, enemies: [], skillIntent: null, awaitingAdvance: false, shots: [], areas: [], banner: null, areaSerial: 0, effects: [], floaters: [], events: [], dead: false, deathReported: false, shake: 0, hitstop: 0, contacts: 0, targetId: null },
+    expected: { equipmentContext: { schema: 'emberwatch.reborn.reimplementation', version: 5, character: [Object], difficulty: 'normal', equipmentProgress: [Object], actionSlots: [Object], gold: 0, inventory: [Object], world: [Object], stats: [Object], options: [Object], vitals: [Object], recovery: [Object] }, region: 'ash_hamlet', map: { w: 23, h: 20, tiles: [Array], rooms: [Array] }, time: 0, seed: 1369781, combatDraws: 0, fxSeed: 1369781, castSerial: 0, attackSerial: 0, foeTypes: { sluice_keeper: [Object], quarry_raider: [Object], quarry_slinger: [Object], quarry_guard: [Object], pass_raider: [Object], pass_ranger: [Object], pass_elite: [Object], signal_runner: [Object], signal_archer: [Object], signal_keeper: [Object], furnace_tender: [Object], furnace_nozzle: [Object], furnace_warden: [Object], tomb_blade: [Object], tomb_scribe: [Object], tomb_vigil: [Object], tomb_piercer: [Object], tomb_oathkeeper: [Object], battlefield_revenant: [Object], battlefield_hexer: [Object], battlefield_pyromancer: [Object], battlefield_lancer: [Object], battlefield_binder: [Object], battlefield_bulwark: [Object], battlefield_usurper: [Object], wilderness_flanker: [Object], wilderness_revenant: [Object], wilderness_hexer: [Object], wilderness_binder: [Object], wilderness_pyromancer: [Object], wilderness_lancer: [Object], wilderness_bulwark: [Object], wilderness_keeper: [Object], scout: [Object], archer: [Object], bruiser: [Object], warden: [Object] }, stats: { hpMax: 55, manaMax: 40, staminaMax: 45, strength: 18, dexterity: 12, intelligence: 10, armor: 4, physicalDamage: 12, moveSpeed: 180, criticalChance: 0.05, criticalMultiplier: 1.5, healthRegen: 0, manaRegen: 4, staminaRegen: 10, manaRegenDelay: 0.5, staminaRegenDelay: 0.3, attackSpeed: 1, castSpeed: 1, spellPower: 1, resistances: [Object], equipmentAttributes: [Object], attributeBreakdown: [Object], actions: [Object], staminaCostMultiplier: 1, physicalDamageMultiplier: 1, armorPenetration: 0, innerFlame: null, flamingWrath: null, lawbringer: null, punishMultiplier: 1, guilt: null }, difficulty: { enemyHealth: 1, enemyDamage: 1, trapDamage: 1, xp: 1, reviveSeconds: 3 }, stateLife: 0, p: { x: 260, y: 325, hp: 7, mana: 3, stamina: 5, angle: 0, classId: 'warrior', action: null, walkPhase: 0, invuln: 0, block: false, cooldowns: {}, potionCooldown: 0, recoveryLock: 0, manaDelay: 0, staminaDelay: 0, combo: 0, regenBuff: null, innerFlame: null, procCooldowns: {}, procCooldownRanks: {}, negativeStatuses: {} }, enemies: [], skillIntent: null, awaitingAdvance: false, shots: [], areas: [], banner: null, areaSerial: 0, effects: [], floaters: [], events: [], dead: false, deathReported: false, shake: 0, hitstop: 0, contacts: 0, targetId: null },
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

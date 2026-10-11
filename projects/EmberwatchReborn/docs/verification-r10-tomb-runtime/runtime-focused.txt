@@ -1,0 +1,24 @@
+✔ untouched v1 fresh load is byte-preserving and creates no T defaults (19.980356ms)
+✔ untouched v1 trained load is byte-preserving and creates no T defaults (22.964697ms)
+✔ untouched v2 fresh load is byte-preserving and creates no T defaults (5.591965ms)
+✔ untouched v2 trained load is byte-preserving and creates no T defaults (13.538205ms)
+✔ untouched v3 fresh load is byte-preserving and creates no T defaults (9.644849ms)
+✔ untouched v3 trained load is byte-preserving and creates no T defaults (17.751891ms)
+✔ pre-T reservation structure and unsupported Expert history fail at the global boundary without mutation (1636.579358ms)
+✔ valid checksums cannot load partial T flags, future defeats, forged receipts or reconstructed reservation (161.803731ms)
+✔ registered T stage0 live charge/hammer/projectiles cannot damage or reach future foes (677.234506ms)
+✔ registered T stage1 live charge/hammer/projectiles cannot damage or reach future foes (409.799324ms)
+✔ registered T stage2 live charge/hammer/projectiles cannot damage or reach future foes (484.760485ms)
+✔ registered T stage3 live charge/hammer/projectiles cannot damage or reach future foes (274.256437ms)
+✔ registered T stage4 live charge/hammer/projectiles cannot damage or reach future foes (68.827999ms)
+✔ registered T stage5 live charge/hammer/projectiles cannot damage or reach future foes (10.416603ms)
+✔ same-band reordered and batch settlements preserve sequential L15 XP calculation (3223.397184ms)
+✔ two session controllers race T report once and a reloaded loser cannot duplicate or release protected gold (1220.19124ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8396.912527

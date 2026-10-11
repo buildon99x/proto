@@ -1,0 +1,845 @@
+{
+  "kind": "actual reducer earned-route analytic builds; not normal-input or simulated AI play",
+  "assumptions": "L8 full Normal route fixture (1865.5XP), all35 attribute/25 skill points legally spent; +1 mace/shield. Static hits exclude crit, blocking, armor-break followups, lightning ticks, other attackers, movement and hitstop. Never treat stationary TTK floor or hit count as real fight duration/survival.",
+  "builds": [
+    {
+      "id": "strength",
+      "level": 8,
+      "earnedXp": 1865.5,
+      "attributes": {
+        "strength": 35,
+        "dexterity": 0,
+        "intelligence": 0
+      },
+      "remainingAttributes": 0,
+      "skills": {
+        "shield_charge": 1,
+        "mace_swing": 5,
+        "shield_block": 1,
+        "righteous_hammer": 3,
+        "hammer_of_sundering": 1,
+        "lay_on_hands": 1,
+        "judgement": 1,
+        "towering_strength": 2,
+        "shining_knight": 1
+      },
+      "remainingSkillPoints": 0,
+      "stats": {
+        "hp": 153,
+        "mana": 54,
+        "armor": 20.5,
+        "physicalDamage": 36,
+        "manaRegen": 4
+      },
+      "hammer": {
+        "physicalDamage": 99.4,
+        "manaCost": 31.25,
+        "fullPoolCastCount": 1,
+        "repeatManaRecovery": 8.313
+      },
+      "healManaRecovery": 8,
+      "rows": [
+        {
+          "difficulty": "easy",
+          "kind": "quarry_raider",
+          "hp": 38.28,
+          "maceHit": 63.529,
+          "maceHits": 1,
+          "maceTtkFloor": 0.182,
+          "incomingWorst": 4.929,
+          "fullHealthHitCount": 32
+        },
+        {
+          "difficulty": "easy",
+          "kind": "quarry_slinger",
+          "hp": 29.04,
+          "maceHit": 64.8,
+          "maceHits": 1,
+          "maceTtkFloor": 0.182,
+          "incomingWorst": 4.382,
+          "fullHealthHitCount": 35
+        },
+        {
+          "difficulty": "easy",
+          "kind": "quarry_guard",
+          "hp": 60.72,
+          "maceHit": 54.915,
+          "maceHits": 2,
+          "maceTtkFloor": 0.702,
+          "incomingWorst": 7.668,
+          "fullHealthHitCount": 20
+        },
+        {
+          "difficulty": "easy",
+          "kind": "pass_raider",
+          "hp": 39.6,
+          "maceHit": 63.529,
+          "maceHits": 1,
+          "maceTtkFloor": 0.182,
+          "incomingWorst": 4.929,
+          "fullHealthHitCount": 32
+        },
+        {
+          "difficulty": "easy",
+          "kind": "pass_ranger",
+          "hp": 31.68,
+          "maceHit": 64.8,
+          "maceHits": 1,
+          "maceTtkFloor": 0.182,
+          "incomingWorst": 4.929,
+          "fullHealthHitCount": 32
+        },
+        {
+          "difficulty": "easy",
+          "kind": "pass_elite",
+          "hp": 59.4,
+          "maceHit": 57.857,
+          "maceHits": 2,
+          "maceTtkFloor": 0.702,
+          "incomingWorst": 7.668,
+          "fullHealthHitCount": 20
+        },
+        {
+          "difficulty": "normal",
+          "kind": "quarry_raider",
+          "hp": 58,
+          "maceHit": 63.529,
+          "maceHits": 1,
+          "maceTtkFloor": 0.182,
+          "incomingWorst": 7.469,
+          "fullHealthHitCount": 21
+        },
+        {
+          "difficulty": "normal",
+          "kind": "quarry_slinger",
+          "hp": 44,
+          "maceHit": 64.8,
+          "maceHits": 1,
+          "maceTtkFloor": 0.182,
+          "incomingWorst": 6.639,
+          "fullHealthHitCount": 24
+        },
+        {
+          "difficulty": "normal",
+          "kind": "quarry_guard",
+          "hp": 92,
+          "maceHit": 54.915,
+          "maceHits": 2,
+          "maceTtkFloor": 0.702,
+          "incomingWorst": 11.618,
+          "fullHealthHitCount": 14
+        },
+        {
+          "difficulty": "normal",
+          "kind": "pass_raider",
+          "hp": 60,
+          "maceHit": 63.529,
+          "maceHits": 1,
+          "maceTtkFloor": 0.182,
+          "incomingWorst": 7.469,
+          "fullHealthHitCount": 21
+        },
+        {
+          "difficulty": "normal",
+          "kind": "pass_ranger",
+          "hp": 48,
+          "maceHit": 64.8,
+          "maceHits": 1,
+          "maceTtkFloor": 0.182,
+          "incomingWorst": 7.469,
+          "fullHealthHitCount": 21
+        },
+        {
+          "difficulty": "normal",
+          "kind": "pass_elite",
+          "hp": 90,
+          "maceHit": 57.857,
+          "maceHits": 2,
+          "maceTtkFloor": 0.702,
+          "incomingWorst": 11.618,
+          "fullHealthHitCount": 14
+        },
+        {
+          "difficulty": "hard",
+          "kind": "quarry_raider",
+          "hp": 72.5,
+          "maceHit": 63.529,
+          "maceHits": 2,
+          "maceTtkFloor": 0.702,
+          "incomingWorst": 9.336,
+          "fullHealthHitCount": 17
+        },
+        {
+          "difficulty": "hard",
+          "kind": "quarry_slinger",
+          "hp": 55,
+          "maceHit": 64.8,
+          "maceHits": 1,
+          "maceTtkFloor": 0.182,
+          "incomingWorst": 8.299,
+          "fullHealthHitCount": 19
+        },
+        {
+          "difficulty": "hard",
+          "kind": "quarry_guard",
+          "hp": 115,
+          "maceHit": 54.915,
+          "maceHits": 3,
+          "maceTtkFloor": 1.222,
+          "incomingWorst": 14.523,
+          "fullHealthHitCount": 11
+        },
+        {
+          "difficulty": "hard",
+          "kind": "pass_raider",
+          "hp": 75,
+          "maceHit": 63.529,
+          "maceHits": 2,
+          "maceTtkFloor": 0.702,
+          "incomingWorst": 9.336,
+          "fullHealthHitCount": 17
+        },
+        {
+          "difficulty": "hard",
+          "kind": "pass_ranger",
+          "hp": 60,
+          "maceHit": 64.8,
+          "maceHits": 1,
+          "maceTtkFloor": 0.182,
+          "incomingWorst": 9.336,
+          "fullHealthHitCount": 17
+        },
+        {
+          "difficulty": "hard",
+          "kind": "pass_elite",
+          "hp": 112.5,
+          "maceHit": 57.857,
+          "maceHits": 2,
+          "maceTtkFloor": 0.702,
+          "incomingWorst": 14.523,
+          "fullHealthHitCount": 11
+        },
+        {
+          "difficulty": "serious",
+          "kind": "quarry_raider",
+          "hp": 87,
+          "maceHit": 63.529,
+          "maceHits": 2,
+          "maceTtkFloor": 0.702,
+          "incomingWorst": 14.938,
+          "fullHealthHitCount": 11
+        },
+        {
+          "difficulty": "serious",
+          "kind": "quarry_slinger",
+          "hp": 66,
+          "maceHit": 64.8,
+          "maceHits": 2,
+          "maceTtkFloor": 0.702,
+          "incomingWorst": 13.278,
+          "fullHealthHitCount": 12
+        },
+        {
+          "difficulty": "serious",
+          "kind": "quarry_guard",
+          "hp": 138,
+          "maceHit": 54.915,
+          "maceHits": 3,
+          "maceTtkFloor": 1.222,
+          "incomingWorst": 23.237,
+          "fullHealthHitCount": 7
+        },
+        {
+          "difficulty": "serious",
+          "kind": "pass_raider",
+          "hp": 90,
+          "maceHit": 63.529,
+          "maceHits": 2,
+          "maceTtkFloor": 0.702,
+          "incomingWorst": 14.938,
+          "fullHealthHitCount": 11
+        },
+        {
+          "difficulty": "serious",
+          "kind": "pass_ranger",
+          "hp": 72,
+          "maceHit": 64.8,
+          "maceHits": 2,
+          "maceTtkFloor": 0.702,
+          "incomingWorst": 14.938,
+          "fullHealthHitCount": 11
+        },
+        {
+          "difficulty": "serious",
+          "kind": "pass_elite",
+          "hp": 135,
+          "maceHit": 57.857,
+          "maceHits": 3,
+          "maceTtkFloor": 1.222,
+          "incomingWorst": 23.237,
+          "fullHealthHitCount": 7
+        }
+      ]
+    },
+    {
+      "id": "intelligence",
+      "level": 8,
+      "earnedXp": 1865.5,
+      "attributes": {
+        "strength": 2,
+        "dexterity": 0,
+        "intelligence": 33
+      },
+      "remainingAttributes": 0,
+      "skills": {
+        "shield_charge": 1,
+        "mace_swing": 2,
+        "shield_block": 1,
+        "righteous_hammer": 5,
+        "hammer_of_wrath": 1,
+        "lay_on_hands": 1,
+        "judgement": 1,
+        "shining_knight": 1,
+        "armor_of_faith": 2
+      },
+      "remainingSkillPoints": 0,
+      "stats": {
+        "hp": 87,
+        "mana": 120,
+        "armor": 25.8,
+        "physicalDamage": 16.2,
+        "manaRegen": 5.32
+      },
+      "hammer": {
+        "physicalDamage": 178.22,
+        "manaCost": 43.75,
+        "fullPoolCastCount": 2,
+        "repeatManaRecovery": 8.724
+      },
+      "healManaRecovery": 6.139,
+      "rows": [
+        {
+          "difficulty": "easy",
+          "kind": "quarry_raider",
+          "hp": 38.28,
+          "maceHit": 19.059,
+          "maceHits": 3,
+          "maceTtkFloor": 1.222,
+          "incomingWorst": 4.722,
+          "fullHealthHitCount": 19
+        },
+        {
+          "difficulty": "easy",
+          "kind": "quarry_slinger",
+          "hp": 29.04,
+          "maceHit": 19.44,
+          "maceHits": 2,
+          "maceTtkFloor": 0.702,
+          "incomingWorst": 4.197,
+          "fullHealthHitCount": 21
+        },
+        {
+          "difficulty": "easy",
+          "kind": "quarry_guard",
+          "hp": 60.72,
+          "maceHit": 16.475,
+          "maceHits": 4,
+          "maceTtkFloor": 1.742,
+          "incomingWorst": 7.345,
+          "fullHealthHitCount": 12
+        },
+        {
+          "difficulty": "easy",
+          "kind": "pass_raider",
+          "hp": 39.6,
+          "maceHit": 19.059,
+          "maceHits": 3,
+          "maceTtkFloor": 1.222,
+          "incomingWorst": 4.722,
+          "fullHealthHitCount": 19
+        },
+        {
+          "difficulty": "easy",
+          "kind": "pass_ranger",
+          "hp": 31.68,
+          "maceHit": 19.44,
+          "maceHits": 2,
+          "maceTtkFloor": 0.702,
+          "incomingWorst": 4.722,
+          "fullHealthHitCount": 19
+        },
+        {
+          "difficulty": "easy",
+          "kind": "pass_elite",
+          "hp": 59.4,
+          "maceHit": 17.357,
+          "maceHits": 4,
+          "maceTtkFloor": 1.742,
+          "incomingWorst": 7.345,
+          "fullHealthHitCount": 12
+        },
+        {
+          "difficulty": "normal",
+          "kind": "quarry_raider",
+          "hp": 58,
+          "maceHit": 19.059,
+          "maceHits": 4,
+          "maceTtkFloor": 1.742,
+          "incomingWorst": 7.154,
+          "fullHealthHitCount": 13
+        },
+        {
+          "difficulty": "normal",
+          "kind": "quarry_slinger",
+          "hp": 44,
+          "maceHit": 19.44,
+          "maceHits": 3,
+          "maceTtkFloor": 1.222,
+          "incomingWorst": 6.359,
+          "fullHealthHitCount": 14
+        },
+        {
+          "difficulty": "normal",
+          "kind": "quarry_guard",
+          "hp": 92,
+          "maceHit": 16.475,
+          "maceHits": 6,
+          "maceTtkFloor": 2.782,
+          "incomingWorst": 11.129,
+          "fullHealthHitCount": 8
+        },
+        {
+          "difficulty": "normal",
+          "kind": "pass_raider",
+          "hp": 60,
+          "maceHit": 19.059,
+          "maceHits": 4,
+          "maceTtkFloor": 1.742,
+          "incomingWorst": 7.154,
+          "fullHealthHitCount": 13
+        },
+        {
+          "difficulty": "normal",
+          "kind": "pass_ranger",
+          "hp": 48,
+          "maceHit": 19.44,
+          "maceHits": 3,
+          "maceTtkFloor": 1.222,
+          "incomingWorst": 7.154,
+          "fullHealthHitCount": 13
+        },
+        {
+          "difficulty": "normal",
+          "kind": "pass_elite",
+          "hp": 90,
+          "maceHit": 17.357,
+          "maceHits": 6,
+          "maceTtkFloor": 2.782,
+          "incomingWorst": 11.129,
+          "fullHealthHitCount": 8
+        },
+        {
+          "difficulty": "hard",
+          "kind": "quarry_raider",
+          "hp": 72.5,
+          "maceHit": 19.059,
+          "maceHits": 4,
+          "maceTtkFloor": 1.742,
+          "incomingWorst": 8.943,
+          "fullHealthHitCount": 10
+        },
+        {
+          "difficulty": "hard",
+          "kind": "quarry_slinger",
+          "hp": 55,
+          "maceHit": 19.44,
+          "maceHits": 3,
+          "maceTtkFloor": 1.222,
+          "incomingWorst": 7.949,
+          "fullHealthHitCount": 11
+        },
+        {
+          "difficulty": "hard",
+          "kind": "quarry_guard",
+          "hp": 115,
+          "maceHit": 16.475,
+          "maceHits": 7,
+          "maceTtkFloor": 3.302,
+          "incomingWorst": 13.911,
+          "fullHealthHitCount": 7
+        },
+        {
+          "difficulty": "hard",
+          "kind": "pass_raider",
+          "hp": 75,
+          "maceHit": 19.059,
+          "maceHits": 4,
+          "maceTtkFloor": 1.742,
+          "incomingWorst": 8.943,
+          "fullHealthHitCount": 10
+        },
+        {
+          "difficulty": "hard",
+          "kind": "pass_ranger",
+          "hp": 60,
+          "maceHit": 19.44,
+          "maceHits": 4,
+          "maceTtkFloor": 1.742,
+          "incomingWorst": 8.943,
+          "fullHealthHitCount": 10
+        },
+        {
+          "difficulty": "hard",
+          "kind": "pass_elite",
+          "hp": 112.5,
+          "maceHit": 17.357,
+          "maceHits": 7,
+          "maceTtkFloor": 3.302,
+          "incomingWorst": 13.911,
+          "fullHealthHitCount": 7
+        },
+        {
+          "difficulty": "serious",
+          "kind": "quarry_raider",
+          "hp": 87,
+          "maceHit": 19.059,
+          "maceHits": 5,
+          "maceTtkFloor": 2.262,
+          "incomingWorst": 14.308,
+          "fullHealthHitCount": 7
+        },
+        {
+          "difficulty": "serious",
+          "kind": "quarry_slinger",
+          "hp": 66,
+          "maceHit": 19.44,
+          "maceHits": 4,
+          "maceTtkFloor": 1.742,
+          "incomingWorst": 12.719,
+          "fullHealthHitCount": 7
+        },
+        {
+          "difficulty": "serious",
+          "kind": "quarry_guard",
+          "hp": 138,
+          "maceHit": 16.475,
+          "maceHits": 9,
+          "maceTtkFloor": 4.342,
+          "incomingWorst": 22.258,
+          "fullHealthHitCount": 4
+        },
+        {
+          "difficulty": "serious",
+          "kind": "pass_raider",
+          "hp": 90,
+          "maceHit": 19.059,
+          "maceHits": 5,
+          "maceTtkFloor": 2.262,
+          "incomingWorst": 14.308,
+          "fullHealthHitCount": 7
+        },
+        {
+          "difficulty": "serious",
+          "kind": "pass_ranger",
+          "hp": 72,
+          "maceHit": 19.44,
+          "maceHits": 4,
+          "maceTtkFloor": 1.742,
+          "incomingWorst": 14.308,
+          "fullHealthHitCount": 7
+        },
+        {
+          "difficulty": "serious",
+          "kind": "pass_elite",
+          "hp": 135,
+          "maceHit": 17.357,
+          "maceHits": 8,
+          "maceTtkFloor": 3.822,
+          "incomingWorst": 22.258,
+          "fullHealthHitCount": 4
+        }
+      ]
+    },
+    {
+      "id": "mixed",
+      "level": 8,
+      "earnedXp": 1865.5,
+      "attributes": {
+        "strength": 18,
+        "dexterity": 5,
+        "intelligence": 12
+      },
+      "remainingAttributes": 0,
+      "skills": {
+        "shield_charge": 1,
+        "mace_swing": 4,
+        "shield_block": 1,
+        "righteous_hammer": 4,
+        "hammer_of_sundering": 1,
+        "lay_on_hands": 1,
+        "judgement": 1,
+        "shining_knight": 1,
+        "towering_strength": 1,
+        "superb_constitution": 1,
+        "armor_of_faith": 1
+      },
+      "remainingSkillPoints": 0,
+      "stats": {
+        "hp": 144,
+        "mana": 78,
+        "armor": 21,
+        "physicalDamage": 25.8,
+        "manaRegen": 4.48
+      },
+      "hammer": {
+        "physicalDamage": 128.78,
+        "manaCost": 37.5,
+        "fullPoolCastCount": 2,
+        "repeatManaRecovery": 8.871
+      },
+      "healManaRecovery": 7.196,
+      "rows": [
+        {
+          "difficulty": "easy",
+          "kind": "quarry_raider",
+          "hp": 38.28,
+          "maceHit": 40.471,
+          "maceHits": 1,
+          "maceTtkFloor": 0.178,
+          "incomingWorst": 4.909,
+          "fullHealthHitCount": 30
+        },
+        {
+          "difficulty": "easy",
+          "kind": "quarry_slinger",
+          "hp": 29.04,
+          "maceHit": 41.28,
+          "maceHits": 1,
+          "maceTtkFloor": 0.178,
+          "incomingWorst": 4.364,
+          "fullHealthHitCount": 33
+        },
+        {
+          "difficulty": "easy",
+          "kind": "quarry_guard",
+          "hp": 60.72,
+          "maceHit": 34.983,
+          "maceHits": 2,
+          "maceTtkFloor": 0.685,
+          "incomingWorst": 7.636,
+          "fullHealthHitCount": 19
+        },
+        {
+          "difficulty": "easy",
+          "kind": "pass_raider",
+          "hp": 39.6,
+          "maceHit": 40.471,
+          "maceHits": 1,
+          "maceTtkFloor": 0.178,
+          "incomingWorst": 4.909,
+          "fullHealthHitCount": 30
+        },
+        {
+          "difficulty": "easy",
+          "kind": "pass_ranger",
+          "hp": 31.68,
+          "maceHit": 41.28,
+          "maceHits": 1,
+          "maceTtkFloor": 0.178,
+          "incomingWorst": 4.909,
+          "fullHealthHitCount": 30
+        },
+        {
+          "difficulty": "easy",
+          "kind": "pass_elite",
+          "hp": 59.4,
+          "maceHit": 36.857,
+          "maceHits": 2,
+          "maceTtkFloor": 0.685,
+          "incomingWorst": 7.636,
+          "fullHealthHitCount": 19
+        },
+        {
+          "difficulty": "normal",
+          "kind": "quarry_raider",
+          "hp": 58,
+          "maceHit": 40.471,
+          "maceHits": 2,
+          "maceTtkFloor": 0.685,
+          "incomingWorst": 7.438,
+          "fullHealthHitCount": 20
+        },
+        {
+          "difficulty": "normal",
+          "kind": "quarry_slinger",
+          "hp": 44,
+          "maceHit": 41.28,
+          "maceHits": 2,
+          "maceTtkFloor": 0.685,
+          "incomingWorst": 6.612,
+          "fullHealthHitCount": 22
+        },
+        {
+          "difficulty": "normal",
+          "kind": "quarry_guard",
+          "hp": 92,
+          "maceHit": 34.983,
+          "maceHits": 3,
+          "maceTtkFloor": 1.192,
+          "incomingWorst": 11.57,
+          "fullHealthHitCount": 13
+        },
+        {
+          "difficulty": "normal",
+          "kind": "pass_raider",
+          "hp": 60,
+          "maceHit": 40.471,
+          "maceHits": 2,
+          "maceTtkFloor": 0.685,
+          "incomingWorst": 7.438,
+          "fullHealthHitCount": 20
+        },
+        {
+          "difficulty": "normal",
+          "kind": "pass_ranger",
+          "hp": 48,
+          "maceHit": 41.28,
+          "maceHits": 2,
+          "maceTtkFloor": 0.685,
+          "incomingWorst": 7.438,
+          "fullHealthHitCount": 20
+        },
+        {
+          "difficulty": "normal",
+          "kind": "pass_elite",
+          "hp": 90,
+          "maceHit": 36.857,
+          "maceHits": 3,
+          "maceTtkFloor": 1.192,
+          "incomingWorst": 11.57,
+          "fullHealthHitCount": 13
+        },
+        {
+          "difficulty": "hard",
+          "kind": "quarry_raider",
+          "hp": 72.5,
+          "maceHit": 40.471,
+          "maceHits": 2,
+          "maceTtkFloor": 0.685,
+          "incomingWorst": 9.298,
+          "fullHealthHitCount": 16
+        },
+        {
+          "difficulty": "hard",
+          "kind": "quarry_slinger",
+          "hp": 55,
+          "maceHit": 41.28,
+          "maceHits": 2,
+          "maceTtkFloor": 0.685,
+          "incomingWorst": 8.264,
+          "fullHealthHitCount": 18
+        },
+        {
+          "difficulty": "hard",
+          "kind": "quarry_guard",
+          "hp": 115,
+          "maceHit": 34.983,
+          "maceHits": 4,
+          "maceTtkFloor": 1.7,
+          "incomingWorst": 14.463,
+          "fullHealthHitCount": 10
+        },
+        {
+          "difficulty": "hard",
+          "kind": "pass_raider",
+          "hp": 75,
+          "maceHit": 40.471,
+          "maceHits": 2,
+          "maceTtkFloor": 0.685,
+          "incomingWorst": 9.298,
+          "fullHealthHitCount": 16
+        },
+        {
+          "difficulty": "hard",
+          "kind": "pass_ranger",
+          "hp": 60,
+          "maceHit": 41.28,
+          "maceHits": 2,
+          "maceTtkFloor": 0.685,
+          "incomingWorst": 9.298,
+          "fullHealthHitCount": 16
+        },
+        {
+          "difficulty": "hard",
+          "kind": "pass_elite",
+          "hp": 112.5,
+          "maceHit": 36.857,
+          "maceHits": 4,
+          "maceTtkFloor": 1.7,
+          "incomingWorst": 14.463,
+          "fullHealthHitCount": 10
+        },
+        {
+          "difficulty": "serious",
+          "kind": "quarry_raider",
+          "hp": 87,
+          "maceHit": 40.471,
+          "maceHits": 3,
+          "maceTtkFloor": 1.192,
+          "incomingWorst": 14.876,
+          "fullHealthHitCount": 10
+        },
+        {
+          "difficulty": "serious",
+          "kind": "quarry_slinger",
+          "hp": 66,
+          "maceHit": 41.28,
+          "maceHits": 2,
+          "maceTtkFloor": 0.685,
+          "incomingWorst": 13.223,
+          "fullHealthHitCount": 11
+        },
+        {
+          "difficulty": "serious",
+          "kind": "quarry_guard",
+          "hp": 138,
+          "maceHit": 34.983,
+          "maceHits": 4,
+          "maceTtkFloor": 1.7,
+          "incomingWorst": 23.14,
+          "fullHealthHitCount": 7
+        },
+        {
+          "difficulty": "serious",
+          "kind": "pass_raider",
+          "hp": 90,
+          "maceHit": 40.471,
+          "maceHits": 3,
+          "maceTtkFloor": 1.192,
+          "incomingWorst": 14.876,
+          "fullHealthHitCount": 10
+        },
+        {
+          "difficulty": "serious",
+          "kind": "pass_ranger",
+          "hp": 72,
+          "maceHit": 41.28,
+          "maceHits": 2,
+          "maceTtkFloor": 0.685,
+          "incomingWorst": 14.876,
+          "fullHealthHitCount": 10
+        },
+        {
+          "difficulty": "serious",
+          "kind": "pass_elite",
+          "hp": 135,
+          "maceHit": 36.857,
+          "maceHits": 4,
+          "maceTtkFloor": 1.7,
+          "incomingWorst": 23.14,
+          "fullHealthHitCount": 7
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,928 @@
+TAP version 13
+# Subtest: delayed A first WebLock save cannot replace loaded B or bind A pools to B revision
+ok 1 - delayed A first WebLock save cannot replace loaded B or bind A pools to B revision
+  ---
+  duration_ms: 62.803813
+  type: 'test'
+  ...
+# Subtest: obsolete delayed saved-profile load cannot replace B or start a new save
+ok 2 - obsolete delayed saved-profile load cannot replace B or start a new save
+  ---
+  duration_ms: 23.890418
+  type: 'test'
+  ...
+# Subtest: obsolete delayed new-game preflight cannot replace B or start a new save
+ok 3 - obsolete delayed new-game preflight cannot replace B or start a new save
+  ---
+  duration_ms: 16.479625
+  type: 'test'
+  ...
+# Subtest: late failed A load cannot clear B, change its modal or reset load state
+ok 4 - late failed A load cannot clear B, change its modal or reset load state
+  ---
+  duration_ms: 24.942877
+  type: 'test'
+  ...
+# Subtest: late failed A start cannot clear B, change its modal or reset load state
+ok 5 - late failed A start cannot clear B, change its modal or reset load state
+  ---
+  duration_ms: 18.891835
+  type: 'test'
+  ...
+# Subtest: showTitle dismisses a pending load without obsolete success or error reopening gameplay
+ok 6 - showTitle dismisses a pending load without obsolete success or error reopening gameplay
+  ---
+  duration_ms: 6.732075
+  type: 'test'
+  ...
+# Subtest: showTitle dismisses a pending start without obsolete success or error reopening gameplay
+ok 7 - showTitle dismisses a pending start without obsolete success or error reopening gameplay
+  ---
+  duration_ms: 9.509874
+  type: 'test'
+  ...
+# Subtest: same-profile overlapping continue owns the latest invocation and never starts an obsolete requested new game
+ok 8 - same-profile overlapping continue owns the latest invocation and never starts an obsolete requested new game
+  ---
+  duration_ms: 19.12788
+  type: 'test'
+  ...
+# Subtest: normal load, reload and fresh start retain storage behavior and never remap existing progress
+ok 9 - normal load, reload and fresh start retain storage behavior and never remap existing progress
+  ---
+  duration_ms: 24.052051
+  type: 'test'
+  ...
+# Subtest: current load/start failures still present the title error and preserve existing raw saves
+ok 10 - current load/start failures still present the title error and preserve existing raw saves
+  ---
+  duration_ms: 16.60286
+  type: 'test'
+  ...
+# Subtest: reloading while gameplay was active pauses simulation throughout a delayed load
+ok 11 - reloading while gameplay was active pauses simulation throughout a delayed load
+  ---
+  duration_ms: 18.260588
+  type: 'test'
+  ...
+# Subtest: actual delayed candidate-copy success cannot steal a newer continue selection
+ok 12 - actual delayed candidate-copy success cannot steal a newer continue selection
+  ---
+  duration_ms: 19.34768
+  type: 'test'
+  ...
+# Subtest: actual delayed candidate-copy failure cannot steal a newer continue selection
+ok 13 - actual delayed candidate-copy failure cannot steal a newer continue selection
+  ---
+  duration_ms: 14.630339
+  type: 'test'
+  ...
+# Subtest: title dismissal invalidates delayed candidate-copy success
+ok 14 - title dismissal invalidates delayed candidate-copy success
+  ---
+  duration_ms: 14.956829
+  type: 'test'
+  ...
+# Subtest: title dismissal invalidates delayed candidate-copy failure
+ok 15 - title dismissal invalidates delayed candidate-copy failure
+  ---
+  duration_ms: 11.205398
+  type: 'test'
+  ...
+# Subtest: candidate-copy intent immediately supersedes an older delayed new-game preflight
+ok 16 - candidate-copy intent immediately supersedes an older delayed new-game preflight
+  ---
+  duration_ms: 17.776131
+  type: 'test'
+  ...
+# Subtest: overlapping candidate copies preserve the latest target even when the earlier copy finishes last
+ok 17 - overlapping candidate copies preserve the latest target even when the earlier copy finishes last
+  ---
+  duration_ms: 22.793541
+  type: 'test'
+  ...
+# Subtest: ordinary current candidate-copy still loads its target exactly once and keeps original bytes
+ok 18 - ordinary current candidate-copy still loads its target exactly once and keeps original bytes
+  ---
+  duration_ms: 21.250456
+  type: 'test'
+  ...
+# Subtest: actual title pending start: Escape/pause, menu key and close cannot resume a prior battle
+ok 19 - actual title pending start: Escape/pause, menu key and close cannot resume a prior battle
+  ---
+  duration_ms: 21.296925
+  type: 'test'
+  ...
+# Subtest: actual title pending copy: Escape/pause, menu key and close cannot resume a prior battle
+ok 20 - actual title pending copy: Escape/pause, menu key and close cannot resume a prior battle
+  ---
+  duration_ms: 28.967348
+  type: 'test'
+  ...
+# Subtest: actual title pending start still installs its sole current owner after ignored Escape and close
+ok 21 - actual title pending start still installs its sole current owner after ignored Escape and close
+  ---
+  duration_ms: 6.258493
+  type: 'test'
+  ...
+# Subtest: actual title pending copy still installs its sole current owner after ignored Escape and close
+ok 22 - actual title pending copy still installs its sole current owner after ignored Escape and close
+  ---
+  duration_ms: 22.156245
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /recovery resolves only release and performs no automatic read/write
+ok 23 - dedicated root recovery /recovery resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 2.982928
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /recovery.html resolves only release and performs no automatic read/write
+ok 24 - dedicated root recovery /recovery.html resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 0.244147
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /save-recovery resolves only release and performs no automatic read/write
+ok 25 - dedicated root recovery /save-recovery resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 0.425228
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /save-recovery/ resolves only release and performs no automatic read/write
+ok 26 - dedicated root recovery /save-recovery/ resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 0.324206
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /save-recovery/index resolves only release and performs no automatic read/write
+ok 27 - dedicated root recovery /save-recovery/index resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 3.672342
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /save-recovery/index.html resolves only release and performs no automatic read/write
+ok 28 - dedicated root recovery /save-recovery/index.html resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 0.377407
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r4/recovery.html cannot select or write the release main profile
+ok 29 - candidate recovery /qa-r4/recovery.html cannot select or write the release main profile
+  ---
+  duration_ms: 0.740802
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r7/recovery.html cannot select or write the release main profile
+ok 30 - candidate recovery /qa-r7/recovery.html cannot select or write the release main profile
+  ---
+  duration_ms: 0.46657
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r11/recovery.html cannot select or write the release main profile
+ok 31 - candidate recovery /qa-r11/recovery.html cannot select or write the release main profile
+  ---
+  duration_ms: 0.476976
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r4/recovery cannot select or write the release main profile
+ok 32 - candidate recovery /qa-r4/recovery cannot select or write the release main profile
+  ---
+  duration_ms: 0.384837
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r7/recovery cannot select or write the release main profile
+ok 33 - candidate recovery /qa-r7/recovery cannot select or write the release main profile
+  ---
+  duration_ms: 0.202664
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r11/recovery cannot select or write the release main profile
+ok 34 - candidate recovery /qa-r11/recovery cannot select or write the release main profile
+  ---
+  duration_ms: 0.112749
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r12/recovery.html cannot select or write the release main profile
+ok 35 - candidate recovery /qa-r12/recovery.html cannot select or write the release main profile
+  ---
+  duration_ms: 0.089865
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r12/recovery cannot select or write the release main profile
+ok 36 - candidate recovery /qa-r12/recovery cannot select or write the release main profile
+  ---
+  duration_ms: 0.082704
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /qa-r99/recovery.html fails closed instead of falling back to release
+ok 37 - unknown recovery route /qa-r99/recovery.html fails closed instead of falling back to release
+  ---
+  duration_ms: 0.161853
+  type: 'test'
+  ...
+# Subtest: unknown recovery route / fails closed instead of falling back to release
+ok 38 - unknown recovery route / fails closed instead of falling back to release
+  ---
+  duration_ms: 0.058889
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /unknown/recovery.html fails closed instead of falling back to release
+ok 39 - unknown recovery route /unknown/recovery.html fails closed instead of falling back to release
+  ---
+  duration_ms: 0.041192
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /save-recovery/../qa-r7/ fails closed instead of falling back to release
+ok 40 - unknown recovery route /save-recovery/../qa-r7/ fails closed instead of falling back to release
+  ---
+  duration_ms: 0.041572
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /qa-r11/recovery.html/extra fails closed instead of falling back to release
+ok 41 - unknown recovery route /qa-r11/recovery.html/extra fails closed instead of falling back to release
+  ---
+  duration_ms: 0.037336
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /qa-r99/recovery fails closed instead of falling back to release
+ok 42 - unknown recovery route /qa-r99/recovery fails closed instead of falling back to release
+  ---
+  duration_ms: 0.037697
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /qa-r11/recovery/extra fails closed instead of falling back to release
+ok 43 - unknown recovery route /qa-r11/recovery/extra fails closed instead of falling back to release
+  ---
+  duration_ms: 0.036144
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /save-recoveryx fails closed instead of falling back to release
+ok 44 - unknown recovery route /save-recoveryx fails closed instead of falling back to release
+  ---
+  duration_ms: 0.044748
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /save-recovery/index/extra fails closed instead of falling back to release
+ok 45 - unknown recovery route /save-recovery/index/extra fails closed instead of falling back to release
+  ---
+  duration_ms: 0.069104
+  type: 'test'
+  ...
+# Subtest: recovery title return does not automatically restore or start gameplay
+ok 46 - recovery title return does not automatically restore or start gameplay
+  ---
+  duration_ms: 0.148042
+  type: 'test'
+  ...
+# Subtest: standalone entry is a recovery-only document and shares the app build identity
+ok 47 - standalone entry is a recovery-only document and shares the app build identity
+  ---
+  duration_ms: 0.974383
+  type: 'test'
+  ...
+# Subtest: standalone /qa-r12/recovery requires an explicit checkpoint choice before storage access
+ok 48 - standalone /qa-r12/recovery requires an explicit checkpoint choice before storage access
+  ---
+  duration_ms: 0.37364
+  type: 'test'
+  ...
+# Subtest: standalone /qa-r12/recovery.html requires an explicit checkpoint choice before storage access
+ok 49 - standalone /qa-r12/recovery.html requires an explicit checkpoint choice before storage access
+  ---
+  duration_ms: 0.130206
+  type: 'test'
+  ...
+# Subtest: standalone /save-recovery/ requires an explicit checkpoint choice before storage access
+ok 50 - standalone /save-recovery/ requires an explicit checkpoint choice before storage access
+  ---
+  duration_ms: 0.152959
+  type: 'test'
+  ...
+# Subtest: qa-r12 standalone title, v4-original preview and success never promise old-R11 gameplay access
+ok 51 - qa-r12 standalone title, v4-original preview and success never promise old-R11 gameplay access
+  ---
+  duration_ms: 0.145298
+  type: 'test'
+  ...
+# Subtest: standalone delayed pre-v5 restore cannot replace the returned title
+ok 52 - standalone delayed pre-v5 restore cannot replace the returned title
+  ---
+  duration_ms: 0.169164
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r13/recovery still fails closed
+ok 53 - unlisted R12-like recovery alias /qa-r13/recovery still fails closed
+  ---
+  duration_ms: 0.135403
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r12/recovery/ still fails closed
+ok 54 - unlisted R12-like recovery alias /qa-r12/recovery/ still fails closed
+  ---
+  duration_ms: 0.04649
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r12/recovery/index.html still fails closed
+ok 55 - unlisted R12-like recovery alias /qa-r12/recovery/index.html still fails closed
+  ---
+  duration_ms: 0.064276
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r012/recovery still fails closed
+ok 56 - unlisted R12-like recovery alias /qa-r012/recovery still fails closed
+  ---
+  duration_ms: 0.092128
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r12/recovery.html/extra still fails closed
+ok 57 - unlisted R12-like recovery alias /qa-r12/recovery.html/extra still fails closed
+  ---
+  duration_ms: 0.099289
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r12/recovery?other=release still fails closed
+ok 58 - unlisted R12-like recovery alias /qa-r12/recovery?other=release still fails closed
+  ---
+  duration_ms: 0.074482
+  type: 'test'
+  ...
+# Subtest: real recovery UI selects pre-v4, restores its exact original and keeps latest progress and both checkpoints
+ok 59 - real recovery UI selects pre-v4, restores its exact original and keeps latest progress and both checkpoints
+  ---
+  duration_ms: 55.246561
+  type: 'test'
+  ...
+# Subtest: real recovery UI selects pre-v5, restores its exact original and keeps latest progress and both checkpoints
+ok 60 - real recovery UI selects pre-v5, restores its exact original and keeps latest progress and both checkpoints
+  ---
+  duration_ms: 28.895469
+  type: 'test'
+  ...
+# Subtest: real pre-v4 UI rejects target containing head, including corrupt orphan bytes
+ok 61 - real pre-v4 UI rejects target containing head, including corrupt orphan bytes
+  ---
+  duration_ms: 21.651808
+  type: 'test'
+  ...
+# Subtest: real pre-v4 UI rejects target containing slot0, including corrupt orphan bytes
+ok 62 - real pre-v4 UI rejects target containing slot0, including corrupt orphan bytes
+  ---
+  duration_ms: 18.760928
+  type: 'test'
+  ...
+# Subtest: real pre-v4 UI rejects target containing slot1, including corrupt orphan bytes
+ok 63 - real pre-v4 UI rejects target containing slot1, including corrupt orphan bytes
+  ---
+  duration_ms: 18.759978
+  type: 'test'
+  ...
+# Subtest: real pre-v4 UI rejects target containing pre-v4, including corrupt orphan bytes
+ok 64 - real pre-v4 UI rejects target containing pre-v4, including corrupt orphan bytes
+  ---
+  duration_ms: 17.655709
+  type: 'test'
+  ...
+# Subtest: real pre-v4 UI rejects target containing pre-v5, including corrupt orphan bytes
+ok 65 - real pre-v4 UI rejects target containing pre-v5, including corrupt orphan bytes
+  ---
+  duration_ms: 18.254028
+  type: 'test'
+  ...
+# Subtest: real pre-v5 UI rejects target containing head, including corrupt orphan bytes
+ok 66 - real pre-v5 UI rejects target containing head, including corrupt orphan bytes
+  ---
+  duration_ms: 18.190803
+  type: 'test'
+  ...
+# Subtest: real pre-v5 UI rejects target containing slot0, including corrupt orphan bytes
+ok 67 - real pre-v5 UI rejects target containing slot0, including corrupt orphan bytes
+  ---
+  duration_ms: 20.115492
+  type: 'test'
+  ...
+# Subtest: real pre-v5 UI rejects target containing slot1, including corrupt orphan bytes
+ok 68 - real pre-v5 UI rejects target containing slot1, including corrupt orphan bytes
+  ---
+  duration_ms: 20.654752
+  type: 'test'
+  ...
+# Subtest: real pre-v5 UI rejects target containing pre-v4, including corrupt orphan bytes
+ok 69 - real pre-v5 UI rejects target containing pre-v4, including corrupt orphan bytes
+  ---
+  duration_ms: 18.171574
+  type: 'test'
+  ...
+# Subtest: real pre-v5 UI rejects target containing pre-v5, including corrupt orphan bytes
+ok 70 - real pre-v5 UI rejects target containing pre-v5, including corrupt orphan bytes
+  ---
+  duration_ms: 18.480678
+  type: 'test'
+  ...
+# Subtest: real delayed restore finishes only its authorized target and cannot replace a returned standalone title
+ok 71 - real delayed restore finishes only its authorized target and cannot replace a returned standalone title
+  ---
+  duration_ms: 22.433917
+  type: 'test'
+  ...
+# Subtest: backup preview is read-only, scoped and clear about its historical restoration point
+ok 72 - backup preview is read-only, scoped and clear about its historical restoration point
+  ---
+  duration_ms: 2.316998
+  type: 'test'
+  ...
+# Subtest: no backup does not fabricate history or offer a restore button
+ok 73 - no backup does not fabricate history or offer a restore button
+  ---
+  duration_ms: 0.494852
+  type: 'test'
+  ...
+# Subtest: read error is escaped, non-mutating and retains a title exit
+ok 74 - read error is escaped, non-mutating and retains a title exit
+  ---
+  duration_ms: 0.269575
+  type: 'test'
+  ...
+# Subtest: read throw is escaped, non-mutating and retains a title exit
+ok 75 - read throw is escaped, non-mutating and retains a title exit
+  ---
+  duration_ms: 0.234382
+  type: 'test'
+  ...
+# Subtest: restore requires a fresh visible preview and passes the observed token and same namespace
+ok 76 - restore requires a fresh visible preview and passes the observed token and same namespace
+  ---
+  duration_ms: 0.601273
+  type: 'test'
+  ...
+# Subtest: later mutation of a read result cannot restamp the displayed backup token
+ok 77 - later mutation of a read result cannot restamp the displayed backup token
+  ---
+  duration_ms: 0.247782
+  type: 'test'
+  ...
+# Subtest: duplicate restore clicks execute only one requested write
+ok 78 - duplicate restore clicks execute only one requested write
+  ---
+  duration_ms: 1.128333
+  type: 'test'
+  ...
+# Subtest: late restore success cannot replace the newer title/preview
+ok 79 - late restore success cannot replace the newer title/preview
+  ---
+  duration_ms: 0.344887
+  type: 'test'
+  ...
+# Subtest: late restore failure cannot replace the newer title/preview
+ok 80 - late restore failure cannot replace the newer title/preview
+  ---
+  duration_ms: 0.289034
+  type: 'test'
+  ...
+# Subtest: late restore throw cannot replace the newer title/preview
+ok 81 - late restore throw cannot replace the newer title/preview
+  ---
+  duration_ms: 0.403186
+  type: 'test'
+  ...
+# Subtest: a failed copy preserves entered target and reports the failure without automatic retry
+ok 82 - a failed copy preserves entered target and reports the failure without automatic retry
+  ---
+  duration_ms: 0.216415
+  type: 'test'
+  ...
+# Subtest: a thrown/uncertain copy is not retried or represented as success
+ok 83 - a thrown/uncertain copy is not retried or represented as success
+  ---
+  duration_ms: 0.177015
+  type: 'test'
+  ...
+# Subtest: a stale panel epoch or gameplay ownership blocks new recovery mutations
+ok 84 - a stale panel epoch or gameplay ownership blocks new recovery mutations
+  ---
+  duration_ms: 0.125288
+  type: 'test'
+  ...
+# Subtest: late completion cannot display recovery UI over a loaded gameplay owner
+ok 85 - late completion cannot display recovery UI over a loaded gameplay owner
+  ---
+  duration_ms: 0.141532
+  type: 'test'
+  ...
+# Subtest: a missing-backup preview clears an earlier restorable selection
+ok 86 - a missing-backup preview clears an earlier restorable selection
+  ---
+  duration_ms: 0.152399
+  type: 'test'
+  ...
+# Subtest: real release title binds backup buttons to the selected namespace
+ok 87 - real release title binds backup buttons to the selected namespace
+  ---
+  duration_ms: 4.820545
+  type: 'test'
+  ...
+# Subtest: real candidate title binds backup buttons to the selected namespace
+ok 88 - real candidate title binds backup buttons to the selected namespace
+  ---
+  duration_ms: 3.519973
+  type: 'test'
+  ...
+# Subtest: real backup open cancels a pending title selection before reading, without a stale controller
+ok 89 - real backup open cancels a pending title selection before reading, without a stale controller
+  ---
+  duration_ms: 2.39198
+  type: 'test'
+  ...
+# Subtest: real recovery handlers cannot replace gameplay or mutate saves from stale UI events
+ok 90 - real recovery handlers cannot replace gameplay or mutate saves from stale UI events
+  ---
+  duration_ms: 2.405391
+  type: 'test'
+  ...
+# Subtest: checkpoint choice undefined cannot read or select a default backup
+ok 91 - checkpoint choice undefined cannot read or select a default backup
+  ---
+  duration_ms: 0.110546
+  type: 'test'
+  ...
+# Subtest: checkpoint choice  cannot read or select a default backup
+ok 92 - checkpoint choice  cannot read or select a default backup
+  ---
+  duration_ms: 0.048623
+  type: 'test'
+  ...
+# Subtest: checkpoint choice pre-v3 cannot read or select a default backup
+ok 93 - checkpoint choice pre-v3 cannot read or select a default backup
+  ---
+  duration_ms: 0.048894
+  type: 'test'
+  ...
+# Subtest: checkpoint choice pre-v6 cannot read or select a default backup
+ok 94 - checkpoint choice pre-v6 cannot read or select a default backup
+  ---
+  duration_ms: 0.03975
+  type: 'test'
+  ...
+# Subtest: checkpoint choice __proto__ cannot read or select a default backup
+ok 95 - checkpoint choice __proto__ cannot read or select a default backup
+  ---
+  duration_ms: 0.037757
+  type: 'test'
+  ...
+# Subtest: checkpoint choice constructor cannot read or select a default backup
+ok 96 - checkpoint choice constructor cannot read or select a default backup
+  ---
+  duration_ms: 0.081822
+  type: 'test'
+  ...
+# Subtest: pre-v5 previews and restores the actual source version 1 with its own API
+ok 97 - pre-v5 previews and restores the actual source version 1 with its own API
+  ---
+  duration_ms: 0.344206
+  type: 'test'
+  ...
+# Subtest: pre-v5 previews and restores the actual source version 2 with its own API
+ok 98 - pre-v5 previews and restores the actual source version 2 with its own API
+  ---
+  duration_ms: 0.172209
+  type: 'test'
+  ...
+# Subtest: pre-v5 previews and restores the actual source version 3 with its own API
+ok 99 - pre-v5 previews and restores the actual source version 3 with its own API
+  ---
+  duration_ms: 0.157917
+  type: 'test'
+  ...
+# Subtest: pre-v5 previews and restores the actual source version 4 with its own API
+ok 100 - pre-v5 previews and restores the actual source version 4 with its own API
+  ---
+  duration_ms: 0.082493
+  type: 'test'
+  ...
+# Subtest: pre-v5 rejects inconsistent preview {"targetVersion":4} without a restore button
+ok 101 - pre-v5 rejects inconsistent preview {"targetVersion":4} without a restore button
+  ---
+  duration_ms: 0.162915
+  type: 'test'
+  ...
+# Subtest: pre-v5 rejects inconsistent preview {"sourceVersion":0} without a restore button
+ok 102 - pre-v5 rejects inconsistent preview {"sourceVersion":0} without a restore button
+  ---
+  duration_ms: 0.11333
+  type: 'test'
+  ...
+# Subtest: pre-v5 rejects inconsistent preview {"sourceVersion":5} without a restore button
+ok 103 - pre-v5 rejects inconsistent preview {"sourceVersion":5} without a restore button
+  ---
+  duration_ms: 0.059319
+  type: 'test'
+  ...
+# Subtest: pre-v5 rejects inconsistent preview {"sourceVersion":4.5} without a restore button
+ok 104 - pre-v5 rejects inconsistent preview {"sourceVersion":4.5} without a restore button
+  ---
+  duration_ms: 0.045729
+  type: 'test'
+  ...
+# Subtest: pre-v5 rejects inconsistent preview {"backupChecksum":""} without a restore button
+ok 105 - pre-v5 rejects inconsistent preview {"backupChecksum":""} without a restore button
+  ---
+  duration_ms: 0.056445
+  type: 'test'
+  ...
+# Subtest: pre-v4 cannot present a version4 source or a pre-v5 checkpoint
+ok 106 - pre-v4 cannot present a version4 source or a pre-v5 checkpoint
+  ---
+  duration_ms: 0.141593
+  type: 'test'
+  ...
+# Subtest: missing pre-v4 does not consult another existing sidecar or invent past history
+ok 107 - missing pre-v4 does not consult another existing sidecar or invent past history
+  ---
+  duration_ms: 0.160141
+  type: 'test'
+  ...
+# Subtest: missing pre-v5 does not consult another existing sidecar or invent past history
+ok 108 - missing pre-v5 does not consult another existing sidecar or invent past history
+  ---
+  duration_ms: 0.112178
+  type: 'test'
+  ...
+# Subtest: restore confirmation is bound to kind, checksum and exact preview selection
+ok 109 - restore confirmation is bound to kind, checksum and exact preview selection
+  ---
+  duration_ms: 0.354112
+  type: 'test'
+  ...
+# Subtest: reopening the same kind and checksum rejects a prior visible button
+ok 110 - reopening the same kind and checksum rejects a prior visible button
+  ---
+  duration_ms: 0.230296
+  type: 'test'
+  ...
+# Subtest: a failed copy reissues confirmation instead of permitting a dismissed button to retry
+ok 111 - a failed copy reissues confirmation instead of permitting a dismissed button to retry
+  ---
+  duration_ms: 0.245519
+  type: 'test'
+  ...
+# Subtest: late pre-v5 success cannot replace a newer pre-v4 selection
+ok 112 - late pre-v5 success cannot replace a newer pre-v4 selection
+  ---
+  duration_ms: 0.285989
+  type: 'test'
+  ...
+# Subtest: late pre-v5 failure cannot replace a newer pre-v4 selection
+ok 113 - late pre-v5 failure cannot replace a newer pre-v4 selection
+  ---
+  duration_ms: 0.09985
+  type: 'test'
+  ...
+# Subtest: late pre-v5 throw cannot replace a newer pre-v4 selection
+ok 114 - late pre-v5 throw cannot replace a newer pre-v4 selection
+  ---
+  duration_ms: 0.106049
+  type: 'test'
+  ...
+# Subtest: qa-r12 preview and success disclose unsupported R11 namespace access
+ok 115 - qa-r12 preview and success disclose unsupported R11 namespace access
+  ---
+  duration_ms: 0.184477
+  type: 'test'
+  ...
+# Subtest: real qa-r12 title has no default kind and routes selected pre-v5 with observed confirmation
+ok 116 - real qa-r12 title has no default kind and routes selected pre-v5 with observed confirmation
+  ---
+  duration_ms: 2.570238
+  type: 'test'
+  ...
+# Subtest: W-only town endpoints retain every old coordinate, floor and physical arch base
+ok 117 - W-only town endpoints retain every old coordinate, floor and physical arch base
+  ---
+  duration_ms: 7.680673
+  type: 'test'
+  ...
+# Subtest: real main nearest and labels preserve legacy targets with W unaccepted
+ok 118 - real main nearest and labels preserve legacy targets with W unaccepted
+  ---
+  duration_ms: 6292.316113
+  type: 'test'
+  ...
+# Subtest: real main nearest and labels preserve legacy targets with W accepted locked
+ok 119 - real main nearest and labels preserve legacy targets with W accepted locked
+  ---
+  duration_ms: 3607.44127
+  type: 'test'
+  ...
+# Subtest: real main nearest and labels preserve legacy targets with W anchored
+ok 120 - real main nearest and labels preserve legacy targets with W anchored
+  ---
+  duration_ms: 3660.215464
+  type: 'test'
+  ...
+# Subtest: real main nearest and labels preserve legacy targets with W reported
+ok 121 - real main nearest and labels preserve legacy targets with W reported
+  ---
+  duration_ms: 3941.145682
+  type: 'test'
+  ...
+# Subtest: accepted W selection is deterministic at the remaining outer-circle overlap and unique throughout its own inner48
+ok 122 - accepted W selection is deterministic at the remaining outer-circle overlap and unique throughout its own inner48
+  ---
+  duration_ms: 2811.266974
+  type: 'test'
+  ...
+# Subtest: real stepBattle town movement reaches either W endpoint from each legacy center without altered collision
+ok 123 - real stepBattle town movement reaches either W endpoint from each legacy center without altered collision
+  ---
+  duration_ms: 3257.456547
+  type: 'test'
+  ...
+# Subtest: actual main F ordinary roundtrip returns inside its own nearest zone and immediately re-enters the same route
+ok 124 - actual main F ordinary roundtrip returns inside its own nearest zone and immediately re-enters the same route
+  ---
+  duration_ms: 762.274151
+  type: 'test'
+  ...
+# Subtest: actual main F anchor roundtrip returns inside its own nearest zone and immediately re-enters the same route
+ok 125 - actual main F anchor roundtrip returns inside its own nearest zone and immediately re-enters the same route
+  ---
+  duration_ms: 861.747989
+  type: 'test'
+  ...
+# Subtest: actual atlas/projected arch and short-label bounds do not cover legacy targets or each other
+ok 126 - actual atlas/projected arch and short-label bounds do not cover legacy targets or each other
+  ---
+  duration_ms: 89.632246
+  type: 'test'
+  ...
+# Subtest: every staged inactive W foe is physically unreachable and has no reachable-floor LOS until its real gate
+ok 127 - every staged inactive W foe is physically unreachable and has no reachable-floor LOS until its real gate
+  ---
+  duration_ms: 194.431706
+  type: 'test'
+  ...
+# Subtest: registered W keeper owns authored patterns and unchanged health/body/rewards, with radial retreat in its actual arena
+ok 128 - registered W keeper owns authored patterns and unchanged health/body/rewards, with radial retreat in its actual arena
+  ---
+  duration_ms: 2182.457658
+  type: 'test'
+  ...
+# Subtest: keeper line aim and origin stay committed while real lateral movement avoids its delayed projectile
+ok 129 - keeper line aim and origin stay committed while real lateral movement avoids its delayed projectile
+  ---
+  duration_ms: 35.773794
+  type: 'test'
+  ...
+# Subtest: stationary hero receives keeper line damage and burn only when the real shot arrives
+ok 130 - stationary hero receives keeper line damage and burn only when the real shot arrives
+  ---
+  duration_ms: 28.047237
+  type: 'test'
+  ...
+# Subtest: keeper circle remains committed and lateral flank still hits through actual movement
+ok 131 - keeper circle remains committed and lateral flank still hits through actual movement
+  ---
+  duration_ms: 61.124283
+  type: 'test'
+  ...
+# Subtest: keeper circle remains committed and radial retreat avoids damage through actual movement
+ok 132 - keeper circle remains committed and radial retreat avoids damage through actual movement
+  ---
+  duration_ms: 61.120869
+  type: 'test'
+  ...
+# Subtest: keeper recovery stays vulnerable to a real mace action and returns to the line cycle without B footwork
+ok 133 - keeper recovery stays vulnerable to a real mace action and returns to the line cycle without B footwork
+  ---
+  duration_ms: 98.072622
+  type: 'test'
+  ...
+# Subtest: existing silence interrupts the W wilderness-keeper-fireline without a late release
+ok 134 - existing silence interrupts the W wilderness-keeper-fireline without a late release
+  ---
+  duration_ms: 2.946883
+  type: 'test'
+  ...
+# Subtest: existing disarm interrupts the W wilderness-keeper-burst without a late release
+ok 135 - existing disarm interrupts the W wilderness-keeper-burst without a late release
+  ---
+  duration_ms: 40.011164
+  type: 'test'
+  ...
+# Subtest: real shield charge can interrupt the W locked tell without boss immunity or extra movement policy
+ok 136 - real shield charge can interrupt the W locked tell without boss immunity or extra movement policy
+  ---
+  duration_ms: 3.699012
+  type: 'test'
+  ...
+# Subtest: real main W cover: Eda, five required groups, relic, report and optional post-report rescue
+ok 137 - real main W cover: Eda, five required groups, relic, report and optional post-report rescue
+  ---
+  duration_ms: 11104.481659
+  type: 'test'
+  ...
+# Subtest: real main W channel: Eda, five required groups, relic, report and optional post-report rescue
+ok 138 - real main W channel: Eda, five required groups, relic, report and optional post-report rescue
+  ---
+  duration_ms: 9142.021309
+  type: 'test'
+  ...
+# Subtest: W button serializes one committed report and rejects detached stale token without restamping or healing
+ok 139 - W button serializes one committed report and rejects detached stale token without restamping or healing
+  ---
+  duration_ms: 1142.281927
+  type: 'test'
+  ...
+# Subtest: W placeholder pauses before delayed checkpoint, preserves newer panel, and does not expose an action early
+ok 140 - W placeholder pauses before delayed checkpoint, preserves newer panel, and does not expose an action early
+  ---
+  duration_ms: 183.634058
+  type: 'test'
+  ...
+# Subtest: W Eda placeholder waits for an existing commit before capturing its exact revision and depleted pools
+ok 141 - W Eda placeholder waits for an existing commit before capturing its exact revision and depleted pools
+  ---
+  duration_ms: 406.752781
+  type: 'test'
+  ...
+# Subtest: W double click, old modal epoch and delayed objective save never create optimistic or duplicate rewards
+ok 142 - W double click, old modal epoch and delayed objective save never create optimistic or duplicate rewards
+  ---
+  duration_ms: 365.685933
+  type: 'test'
+  ...
+# Subtest: W failed UNAVAILABLE action preserves real storage, pools and unclaimed reward
+ok 143 - W failed UNAVAILABLE action preserves real storage, pools and unclaimed reward
+  ---
+  duration_ms: 308.908969
+  type: 'test'
+  ...
+# Subtest: W failed COMMIT_UNCERTAIN action preserves real storage, pools and unclaimed reward
+ok 144 - W failed COMMIT_UNCERTAIN action preserves real storage, pools and unclaimed reward
+  ---
+  duration_ms: 311.255372
+  type: 'test'
+  ...
+# Subtest: W failed CONFLICT action preserves real storage, pools and unclaimed reward
+ok 145 - W failed CONFLICT action preserves real storage, pools and unclaimed reward
+  ---
+  duration_ms: 310.368069
+  type: 'test'
+  ...
+# Subtest: W map-only choice preserves living actor identity, HP, projectiles, areas and committed paid recovery
+ok 146 - W map-only choice preserves living actor identity, HP, projectiles, areas and committed paid recovery
+  ---
+  duration_ms: 514.285842
+  type: 'test'
+  ...
+# Subtest: W journal prefix, paid recovery and receipts survive real reload; dead retry carries a fresh captured store token
+ok 147 - W journal prefix, paid recovery and receipts survive real reload; dead retry carries a fresh captured store token
+  ---
+  duration_ms: 719.510193
+  type: 'test'
+  ...
+# Subtest: R12 title offers explicit R11 forward-copy without changing source profile
+ok 148 - R12 title offers explicit R11 forward-copy without changing source profile
+  ---
+  duration_ms: 42.80533
+  type: 'test'
+  ...
+# Subtest: W Eda capture waits for busy paid Onslaught then durable safety cancellation before exposing a command
+ok 149 - W Eda capture waits for busy paid Onslaught then durable safety cancellation before exposing a command
+  ---
+  duration_ms: 580.446084
+  type: 'test'
+  ...
+# Subtest: W pending opening checkpoint never captures or reopens into a newer profile
+ok 150 - W pending opening checkpoint never captures or reopens into a newer profile
+  ---
+  duration_ms: 166.528047
+  type: 'test'
+  ...
+# Subtest: W actual interaction resolves its object and leaves completed hidden pickups out of target selection
+ok 151 - W actual interaction resolves its object and leaves completed hidden pickups out of target selection
+  ---
+  duration_ms: 847.628031
+  type: 'test'
+  ...
+# Subtest: W captured Eda action cannot complete at Orin and keeps his existing shop intact
+ok 152 - W captured Eda action cannot complete at Orin and keeps his existing shop intact
+  ---
+  duration_ms: 192.91888
+  type: 'test'
+  ...
+# Subtest: fresh untrained profile keeps manual checkpoint and save-to-title behavior with implicit life zero
+ok 153 - fresh untrained profile keeps manual checkpoint and save-to-title behavior with implicit life zero
+  ---
+  duration_ms: 16.273887
+  type: 'test'
+  ...
+1..153
+# tests 153
+# suites 0
+# pass 153
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 55904.370905

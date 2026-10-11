@@ -1,0 +1,134 @@
+✔ busy cancellation clears held capture immediately but waits for reconciled battle (3.037319ms)
+✔ safety reason blur never becomes normal release (0.192078ms)
+✔ safety reason hidden never becomes normal release (0.204206ms)
+✔ safety reason pointer-cancel never becomes normal release (0.161953ms)
+✔ safety reason slot-edit never becomes normal release (0.181152ms)
+✔ safety reason save-fault never becomes normal release (0.162023ms)
+✔ safety reason death never becomes normal release (0.232389ms)
+✔ safety reason store-busy-release never becomes normal release (0.236324ms)
+✔ many safety signals keep one cancellation and do not queue stale actions (0.281753ms)
+✔ obsolete battle discards cancellation without touching fresh action (0.475924ms)
+✔ obsolete owner discards cancellation without touching fresh action (0.254322ms)
+✔ obsolete life discards cancellation without touching fresh action (0.137677ms)
+✔ obsolete region discards cancellation without touching fresh action (0.087781ms)
+✔ blocked persistence does not silently permit channel cancellation/resume (0.179599ms)
+✔ a cancellation exception keeps pending state and capture for recovery gating (0.536105ms)
+✔ title/load reset drops scoped old job without producing offensive end (0.172479ms)
+✔ no battle clears stale capture without creating a persistence job (0.171257ms)
+✔ new recommended v3 offers2/3 but legacy does not steal either key (4.052233ms)
+✔ literal v2 custom2/3/E/T migrate unchanged and auxiliary rows stay unbound (2.542616ms)
+✔ historical version2 rejects injected rows instead of silently migrating a new key (0.383315ms)
+✔ expert1 rebinding rejects occupied old keys and allows explicit unbound (0.912139ms)
+✔ expert2 rebinding rejects occupied old keys and allows explicit unbound (0.478318ms)
+✔ strict empty slots need no purchased skills and never invent a binding (0.288583ms)
+✔ strict slot format refuses null (0.15321ms)
+✔ strict slot format refuses {} (0.169464ms)
+✔ strict slot format refuses [] (0.174191ms)
+✔ strict slot format refuses {"version":2,"expert1":null,"expert2":null} (0.285599ms)
+✔ strict slot format refuses {"version":1,"expert1":null} (0.180551ms)
+✔ strict slot format refuses {"version":1,"expert1":null,"expert2":null,"extra":null} (0.100901ms)
+✔ strict slot format refuses {"version":1,"expert1":"mace_swing","expert2":null} (0.160451ms)
+✔ strict slot format refuses {"version":1,"expert1":"banner_of_zeal","expert2":null} (0.113861ms)
+✔ strict slot format refuses {"version":1,"expert1":"zealous_onslaught","expert2":"zealous_onslaught"} (0.088833ms)
+✔ learned and runtime-supported are separate assignment prerequisites (0.272388ms)
+✔ assignment CAS, duplicate, unsupported and immutable source (0.267692ms)
+✔ real router Banner press is immediate once and remains finite after a normal click release (1.186601ms)
+✔ real router channel hold preserves identity and emits no repeating start (0.37978ms)
+✔ channel key-up before a simulation frame cancels pending start without later resurrection (0.188503ms)
+✔ multiple original aliases retain channel until every accepted owner releases (0.189855ms)
+✔ late alias cannot transfer an already accepted channel or restart after owner release (0.228403ms)
+✔ slot changes do not rewrite captured skill identity (5.320107ms)
+✔ menu cancels once and requires a new nonrepeat press (0.3933ms)
+✔ blur cancels once and requires a new nonrepeat press (0.170796ms)
+✔ hidden cancels once and requires a new nonrepeat press (0.205519ms)
+✔ death cancels once and requires a new nonrepeat press (0.15977ms)
+✔ slot-change cancels once and requires a new nonrepeat press (0.152779ms)
+✔ remap cancels once and requires a new nonrepeat press (0.141342ms)
+✔ save-fault cancels once and requires a new nonrepeat press (0.130155ms)
+✔ pointer loss cancels captured mouse channel but not independent keyboard channel (0.463166ms)
+✔ ordinary mouse-up then lost capture stays a normal release, never a safety Lance cancellation (0.204767ms)
+✔ lost capture before first pointer frame cancels Banner but a normal click does not (0.270797ms)
+✔ UI/paused/modified/repeat base-router refusals never reach capture (0.261492ms)
+✔ guardPressed is a pulse distinct from held or toggled shield (0.158438ms)
+✔ touch ownership uses same explicit press/release and safety path (0.230796ms)
+✔ unlearned or unavailable slots produce no owner or action (0.145398ms)
+✔ store-busy release is safety cancellation, not a delayed normal Lance release (1.387873ms)
+✔ acknowledged live-action cancellation reset permits the first fresh input after modal (0.271007ms)
+✔ W+A and W+D keep their movement and other held actions during explicit slot press (0.325409ms)
+✔ real key press/frame/checkpoint charges Onslaught once; OS repeat/hold does not restart (1964.165531ms)
+✔ actual release after paid pulse resolves exactly one Lance and persists stop (227.669218ms)
+✔ actual menu cancels paid channel with no Lance and waits for checkpoint (261.012661ms)
+✔ actual blur cancels paid channel with no Lance and waits for checkpoint (194.949476ms)
+✔ actual visibility cancels paid channel with no Lance and waits for checkpoint (190.061247ms)
+✔ release during delayed accepted-action save is safety cancellation, never late Lance or duplicate stamina (178.144599ms)
+✔ failed channel acceptance checkpoint closes gate and never resumes or fabricates a refund (91.54088ms)
+✔ UI-focused Expert key and OSrepeat leak no resources or pulses; canvas press works afterward (75.270982ms)
+✔ finite Banner touch press followed by normal up casts once with physical key unneeded (121.703448ms)
+✔ early Onslaught touch release cancels undelivered pulse, not a cast and refund (54.404329ms)
+✔ mouse capture loss after normal mouseup is not a second safety end (207.789666ms)
+✔ actual trainer UI waits for committed checkpoint and quotes one-use promotion revision/fee (319.359988ms)
+✔ actual action-slot view carries displayed CAS and revision, keeps unbound keys, and rejects replay (203.806732ms)
+✔ closing a trainer loading panel while save is delayed does not reopen its stale UI (81.908781ms)
+✔ interaction during channel consumes cancellation and does not execute an old nearby interaction later (169.858506ms)
+✖ finite Expert input during short store busy casts exactly once after commit, even after keyup (139.885448ms)
+✔ Expert Digit2 expires after 150ms with no resource or CD charge (92.365993ms)
+✔ Expert Digit3 expires after 150ms with no resource or CD charge (90.750519ms)
+✔ held Expert input during short save starts once and OSrepeat never extends expiry (137.168098ms)
+✔ Onslaught keyup during waiting save cancels unpaid input with no Lance (79.519049ms)
+✔ pending unpaid Expert is cancelled by real menu event (78.346679ms)
+✔ pending unpaid Expert is cancelled by real blur event (75.873787ms)
+✔ pending unpaid Expert is cancelled by real visibility event (75.105182ms)
+✔ pending unpaid Expert is cancelled by real focusin event (75.801288ms)
+✔ pending unpaid Expert is cancelled by real pointercancel event (102.404112ms)
+✔ new KeyJ cancels previous unpaid Expert intent (158.943291ms)
+✔ new ShiftLeft cancels previous unpaid Expert intent (86.892468ms)
+✔ new KeyW cancels previous unpaid Expert intent (90.507512ms)
+✔ new KeyF cancels previous unpaid Expert intent (89.584586ms)
+✔ new KeyR cancels previous unpaid Expert intent (101.636979ms)
+✔ new Expert skill replaces old waiting skill rather than firing both (136.980634ms)
+✔ fresh Expert press immediately after menu close drains empty safety request instead of being swallowed (136.736577ms)
+✖ fresh finite touch during save survives normal up and automatic capture loss once (127.03937ms)
+ℹ tests 90
+ℹ suites 0
+ℹ pass 88
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6401.221709
+
+✖ failing tests:
+
+test at app/tests/expert-main-input.test.mjs:44:1
+✖ finite Expert input during short store busy casts exactly once after commit, even after keyup (139.885448ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  undefined !== NaN
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11-integration/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:44:447)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: NaN,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/expert-main-input.test.mjs:52:1
+✖ fresh finite touch during save survives normal up and automatic capture loss once (127.03937ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  undefined !== NaN
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11-integration/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:52:455)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: NaN,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

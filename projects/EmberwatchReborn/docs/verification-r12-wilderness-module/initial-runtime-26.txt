@@ -1,0 +1,34 @@
+✔ untouched existing state gets no W defaults, rewards or eligibility (3.426803ms)
+✔ real detached W handlers easy/cover: five groups, exact budget, retained history and correct Eda report (2081.096061ms)
+✔ real detached W handlers easy/channel: five groups, exact budget, retained history and correct Eda report (416.097901ms)
+✔ real detached W handlers normal/cover: five groups, exact budget, retained history and correct Eda report (1864.659608ms)
+✔ real detached W handlers normal/channel: five groups, exact budget, retained history and correct Eda report (361.916163ms)
+✔ real detached W handlers hard/cover: five groups, exact budget, retained history and correct Eda report (1927.083862ms)
+✔ real detached W handlers hard/channel: five groups, exact budget, retained history and correct Eda report (427.913397ms)
+✔ real detached W handlers serious/cover: five groups, exact budget, retained history and correct Eda report (1766.006714ms)
+✔ real detached W handlers serious/channel: five groups, exact budget, retained history and correct Eda report (384.928386ms)
+✔ B report cannot be forged by level, incomplete beacon/report history, or wrong Eda location (38.820379ms)
+✔ free hook pickup and explicit anchor are distinct and immediately open safe return without puzzle, boss or spending (109.910424ms)
+✔ readable clue survives JSON round trip; wrong order resets only prefix, no XP/resource/tool loss or hidden timer (99.787309ms)
+✔ pre-encounter cover choice costs nothing, permits all D guards once and cannot change after commitment (63.629276ms)
+✔ pre-encounter channel choice costs nothing, permits all D guards once and cannot change after commitment (64.599212ms)
+✔ relic is explicit; immediate boss return is safe before relic, report remains blocked, no automatic reward (117.938914ms)
+✔ optional scout rescue before Eda report never gates route and pays exactly once (89.159717ms)
+✔ optional scout rescue after Eda report never gates route and pays exactly once (75.383539ms)
+✔ depleted paid recovery survives objectives, wrong input, JSON re-entry and both return paths without healing (99.031195ms)
+✔ simultaneous keeper kill and death settle once; explicit retry preserves clue, choice, paid cooldown/RNG and historical kills (92.350146ms)
+✔ per-foe settlement applies current-level Expert scaling at exact L30 crossing, with no batch-entry multiplier (30.02701ms)
+✔ duplicate defeats are no-op rewards; locked, foreign, duplicated and invalid reports fail before mutation (79.404916ms)
+✔ all objective and ancestry histories fail closed on missing/reversed/forged relationships (52.216627ms)
+✔ temporary ancestry projection validates real W position/pools/visited/life before substituting two location fields (27.132425ms)
+✔ stale revision, far/wall-bound/foreign interactions and unknown gates cannot grant rewards (119.811986ms)
+✔ overflow and bounded ledgers reject atomically without clearing old records (133.540242ms)
+✔ receipt/kill tables implement only combat-weighted W, no minimum-envelope second reward layer (0.37961ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10656.438568

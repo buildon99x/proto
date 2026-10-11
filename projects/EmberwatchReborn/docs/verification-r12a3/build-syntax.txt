@@ -1,0 +1,22 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> emberwatch-reborn@0.12.0-reimplementation.4 lint
+> node scripts/check.mjs
+
+Source/test syntax passed; no gameplay acceptance implied.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> emberwatch-reborn@0.12.0-reimplementation.4 build
+> node scripts/build.mjs
+
+{
+  "files": 98,
+  "bytes": 16516929,
+  "output": "/workspace/shared/emberwatch-incident-20261010-1258/recovered-source/projects/EmberwatchReborn/app/dist",
+  "gameplayAcceptance": "not_established_by_build"
+}

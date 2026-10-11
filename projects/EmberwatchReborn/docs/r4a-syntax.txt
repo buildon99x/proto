@@ -1,0 +1,5 @@
+
+> emberwatch-reborn@0.4.0-reimplementation.1 lint
+> node scripts/check.mjs
+
+Source/test syntax passed; no gameplay acceptance implied.

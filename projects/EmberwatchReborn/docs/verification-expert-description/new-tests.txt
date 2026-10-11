@@ -1,0 +1,48 @@
+✔ actual trainer cleansing_touch missing base shows conditional reference values without granting runtime effects (78.201863ms)
+✔ actual trainer turn_undead missing base shows conditional reference values without granting runtime effects (49.566365ms)
+✔ actual trainer banner_of_protection missing base shows conditional reference values without granting runtime effects (52.008131ms)
+✔ actual trainer banner_of_zeal missing base shows conditional reference values without granting runtime effects (43.811261ms)
+✔ actual trainer zealous_lance missing base shows conditional reference values without granting runtime effects (41.395376ms)
+✔ actual trainer zealous_shield missing base shows conditional reference values without granting runtime effects (48.249864ms)
+✔ actual trainer flaming_wrath missing base shows conditional reference values without granting runtime effects (43.929759ms)
+✔ actual trainer punish_the_wicked missing base shows conditional reference values without granting runtime effects (43.31082ms)
+✔ actual trainer guilt_by_association missing base shows conditional reference values without granting runtime effects (44.054207ms)
+✔ cleansing_touch rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (103.536681ms)
+✔ turn_undead rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (82.105622ms)
+✔ turn_undead rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (72.460886ms)
+✔ turn_undead rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (73.184471ms)
+✔ banner_of_protection rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (78.011498ms)
+✔ banner_of_protection rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (74.774088ms)
+✔ banner_of_protection rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (71.80418ms)
+✔ banner_of_zeal rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (70.737949ms)
+✔ banner_of_zeal rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (71.470246ms)
+✔ banner_of_zeal rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (71.951539ms)
+✔ zealous_lance rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (72.37897ms)
+✔ zealous_lance rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (69.842813ms)
+✔ zealous_lance rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (71.056535ms)
+✔ zealous_shield rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (71.681503ms)
+✔ flaming_wrath rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (78.739127ms)
+✔ flaming_wrath rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (73.703598ms)
+✔ flaming_wrath rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (68.75456ms)
+✔ punish_the_wicked rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (75.889409ms)
+✔ punish_the_wicked rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (70.263094ms)
+✔ punish_the_wicked rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (69.219237ms)
+✔ guilt_by_association rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (67.645605ms)
+✔ guilt_by_association rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (71.020501ms)
+✔ guilt_by_association rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (68.045846ms)
+✔ inner_flame rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (63.482797ms)
+✔ inner_flame rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (65.221107ms)
+✔ inner_flame rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (65.386905ms)
+✔ inner_flame rank 4 next text equals the real purchased effect and leaves quote/cost gates intact (64.776438ms)
+✔ actual trainer preserves banner_of_protection exclusive lock while explaining banner_of_zeal (37.52891ms)
+✔ actual trainer preserves banner_of_zeal exclusive lock while explaining banner_of_protection (36.103642ms)
+✔ actual trainer preserves tier, points, max-rank, unknown-source and unmodified Adept boundaries (437.377419ms)
+✔ formatter never mutates frozen reference/runtime projections or converts unknown values to zero (7.720448ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3088.50664

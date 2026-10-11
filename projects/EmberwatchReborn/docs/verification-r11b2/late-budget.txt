@@ -1,0 +1,4129 @@
+{
+  "status": "DESIGN-ONLY; production arithmetic helpers, synthetic starting inputs; no runtime/gameplay acceptance",
+  "baseCommit": "5192eeca1884cd28b46e3db486b334faec2b27a7",
+  "mandatory": {
+    "kills": 65,
+    "baseKillXp": 9400,
+    "objectiveXp": 8500,
+    "gold": 2410,
+    "materials": [
+      34,
+      14,
+      18,
+      20
+    ],
+    "potions": 10
+  },
+  "optional": {
+    "kills": 15,
+    "baseKillXp": 1930,
+    "objectiveXp": 1200,
+    "gold": 528,
+    "materials": [
+      5,
+      3,
+      6,
+      5
+    ],
+    "potions": 5
+  },
+  "subsetChecks": 576,
+  "envelopeChecks": [
+    {
+      "combatWeighted": false,
+      "difficulty": "easy",
+      "tested": 120,
+      "min": 25456,
+      "max": 27795.5,
+      "allSkippedMinimumAcrossInputInterval": 25456
+    },
+    {
+      "combatWeighted": false,
+      "difficulty": "normal",
+      "tested": 120,
+      "min": 25456,
+      "max": 27795.5,
+      "allSkippedMinimumAcrossInputInterval": 25456
+    },
+    {
+      "combatWeighted": false,
+      "difficulty": "hard",
+      "tested": 132,
+      "min": 22949.5,
+      "max": 25105.125,
+      "allSkippedMinimumAcrossInputInterval": 22949.5
+    },
+    {
+      "combatWeighted": false,
+      "difficulty": "serious",
+      "tested": 132,
+      "min": 22949.5,
+      "max": 25105.125,
+      "allSkippedMinimumAcrossInputInterval": 22949.5
+    },
+    {
+      "combatWeighted": true,
+      "difficulty": "easy",
+      "tested": 144,
+      "min": 25920,
+      "max": 28109.999999,
+      "allSkippedMinimumAcrossInputInterval": 25920
+    },
+    {
+      "combatWeighted": true,
+      "difficulty": "normal",
+      "tested": 144,
+      "min": 25920,
+      "max": 28109.999999,
+      "allSkippedMinimumAcrossInputInterval": 25920
+    },
+    {
+      "combatWeighted": true,
+      "difficulty": "hard",
+      "tested": 148,
+      "min": 23014.5,
+      "max": 24967.625,
+      "allSkippedMinimumAcrossInputInterval": 23014.5
+    },
+    {
+      "combatWeighted": true,
+      "difficulty": "serious",
+      "tested": 148,
+      "min": 23014.5,
+      "max": 24967.625,
+      "allSkippedMinimumAcrossInputInterval": 23014.5
+    }
+  ],
+  "results": [
+    {
+      "label": "Easy minimum",
+      "minimum": {
+        "stages": [
+          {
+            "region": "W",
+            "deltaXp": 3000,
+            "cumulative": 11411,
+            "level": 21,
+            "residual": 691,
+            "gold": 360
+          },
+          {
+            "region": "R",
+            "deltaXp": 3290,
+            "cumulative": 14701,
+            "level": 24,
+            "residual": 561,
+            "gold": 760
+          },
+          {
+            "region": "A",
+            "deltaXp": 3630,
+            "cumulative": 18331,
+            "level": 27,
+            "residual": 231,
+            "gold": 1210
+          },
+          {
+            "region": "F",
+            "deltaXp": 3870,
+            "cumulative": 22201,
+            "level": 29,
+            "residual": 1161,
+            "gold": 1710
+          },
+          {
+            "region": "S",
+            "deltaXp": 3255,
+            "cumulative": 25456,
+            "level": 31,
+            "residual": 1206,
+            "gold": 2410
+          }
+        ],
+        "cumulative": 25456,
+        "level": 31,
+        "residual": 1206,
+        "gold": 2410,
+        "newSkillPoints": 67
+      },
+      "full": {
+        "cumulative": 27691,
+        "level": 32,
+        "residual": 1701,
+        "gold": 2938,
+        "newSkillPoints": 73
+      },
+      "all32SubsetRange": [
+        25456,
+        27691
+      ]
+    },
+    {
+      "label": "Easy full",
+      "minimum": {
+        "stages": [
+          {
+            "region": "W",
+            "deltaXp": 3000,
+            "cumulative": 11585.5,
+            "level": 21,
+            "residual": 865.5,
+            "gold": 360
+          },
+          {
+            "region": "R",
+            "deltaXp": 3290,
+            "cumulative": 14875.5,
+            "level": 24,
+            "residual": 735.5,
+            "gold": 760
+          },
+          {
+            "region": "A",
+            "deltaXp": 3630,
+            "cumulative": 18505.5,
+            "level": 27,
+            "residual": 405.5,
+            "gold": 1210
+          },
+          {
+            "region": "F",
+            "deltaXp": 3870,
+            "cumulative": 22375.5,
+            "level": 29,
+            "residual": 1335.5,
+            "gold": 1710
+          },
+          {
+            "region": "S",
+            "deltaXp": 3180,
+            "cumulative": 25555.5,
+            "level": 31,
+            "residual": 1305.5,
+            "gold": 2410
+          }
+        ],
+        "cumulative": 25555.5,
+        "level": 31,
+        "residual": 1305.5,
+        "gold": 2410,
+        "newSkillPoints": 67
+      },
+      "full": {
+        "cumulative": 27795.5,
+        "level": 32,
+        "residual": 1805.5,
+        "gold": 2938,
+        "newSkillPoints": 73
+      },
+      "all32SubsetRange": [
+        25555.5,
+        27795.5
+      ]
+    },
+    {
+      "label": "Normal minimum",
+      "minimum": {
+        "stages": [
+          {
+            "region": "W",
+            "deltaXp": 3000,
+            "cumulative": 11411,
+            "level": 21,
+            "residual": 691,
+            "gold": 360
+          },
+          {
+            "region": "R",
+            "deltaXp": 3290,
+            "cumulative": 14701,
+            "level": 24,
+            "residual": 561,
+            "gold": 760
+          },
+          {
+            "region": "A",
+            "deltaXp": 3630,
+            "cumulative": 18331,
+            "level": 27,
+            "residual": 231,
+            "gold": 1210
+          },
+          {
+            "region": "F",
+            "deltaXp": 3870,
+            "cumulative": 22201,
+            "level": 29,
+            "residual": 1161,
+            "gold": 1710
+          },
+          {
+            "region": "S",
+            "deltaXp": 3255,
+            "cumulative": 25456,
+            "level": 31,
+            "residual": 1206,
+            "gold": 2410
+          }
+        ],
+        "cumulative": 25456,
+        "level": 31,
+        "residual": 1206,
+        "gold": 2410,
+        "newSkillPoints": 67
+      },
+      "full": {
+        "cumulative": 27691,
+        "level": 32,
+        "residual": 1701,
+        "gold": 2938,
+        "newSkillPoints": 73
+      },
+      "all32SubsetRange": [
+        25456,
+        27691
+      ]
+    },
+    {
+      "label": "Normal full",
+      "minimum": {
+        "stages": [
+          {
+            "region": "W",
+            "deltaXp": 3000,
+            "cumulative": 11585.5,
+            "level": 21,
+            "residual": 865.5,
+            "gold": 360
+          },
+          {
+            "region": "R",
+            "deltaXp": 3290,
+            "cumulative": 14875.5,
+            "level": 24,
+            "residual": 735.5,
+            "gold": 760
+          },
+          {
+            "region": "A",
+            "deltaXp": 3630,
+            "cumulative": 18505.5,
+            "level": 27,
+            "residual": 405.5,
+            "gold": 1210
+          },
+          {
+            "region": "F",
+            "deltaXp": 3870,
+            "cumulative": 22375.5,
+            "level": 29,
+            "residual": 1335.5,
+            "gold": 1710
+          },
+          {
+            "region": "S",
+            "deltaXp": 3180,
+            "cumulative": 25555.5,
+            "level": 31,
+            "residual": 1305.5,
+            "gold": 2410
+          }
+        ],
+        "cumulative": 25555.5,
+        "level": 31,
+        "residual": 1305.5,
+        "gold": 2410,
+        "newSkillPoints": 67
+      },
+      "full": {
+        "cumulative": 27795.5,
+        "level": 32,
+        "residual": 1805.5,
+        "gold": 2938,
+        "newSkillPoints": 73
+      },
+      "all32SubsetRange": [
+        25555.5,
+        27795.5
+      ]
+    },
+    {
+      "label": "Hard minimum",
+      "minimum": {
+        "stages": [
+          {
+            "region": "W",
+            "deltaXp": 2600,
+            "cumulative": 9999.5,
+            "level": 20,
+            "residual": 299.5,
+            "gold": 360
+          },
+          {
+            "region": "R",
+            "deltaXp": 2855,
+            "cumulative": 12854.5,
+            "level": 22,
+            "residual": 1054.5,
+            "gold": 760
+          },
+          {
+            "region": "A",
+            "deltaXp": 3160,
+            "cumulative": 16014.5,
+            "level": 25,
+            "residual": 614.5,
+            "gold": 1210
+          },
+          {
+            "region": "F",
+            "deltaXp": 3365,
+            "cumulative": 19379.5,
+            "level": 27,
+            "residual": 1279.5,
+            "gold": 1710
+          },
+          {
+            "region": "S",
+            "deltaXp": 3570,
+            "cumulative": 22949.5,
+            "level": 30,
+            "residual": 349.5,
+            "gold": 2410
+          }
+        ],
+        "cumulative": 22949.5,
+        "level": 30,
+        "residual": 349.5,
+        "gold": 2410,
+        "newSkillPoints": 66
+      },
+      "full": {
+        "cumulative": 24899.5,
+        "level": 31,
+        "residual": 649.5,
+        "gold": 2938,
+        "newSkillPoints": 72
+      },
+      "all32SubsetRange": [
+        22949.5,
+        24899.5
+      ]
+    },
+    {
+      "label": "Hard full",
+      "minimum": {
+        "stages": [
+          {
+            "region": "W",
+            "deltaXp": 2600,
+            "cumulative": 10205.125,
+            "level": 20,
+            "residual": 505.125,
+            "gold": 360
+          },
+          {
+            "region": "R",
+            "deltaXp": 2855,
+            "cumulative": 13060.125,
+            "level": 23,
+            "residual": 120.125,
+            "gold": 760
+          },
+          {
+            "region": "A",
+            "deltaXp": 3160,
+            "cumulative": 16220.125,
+            "level": 25,
+            "residual": 820.125,
+            "gold": 1210
+          },
+          {
+            "region": "F",
+            "deltaXp": 3365,
+            "cumulative": 19585.125,
+            "level": 28,
+            "residual": 45.125,
+            "gold": 1710
+          },
+          {
+            "region": "S",
+            "deltaXp": 3570,
+            "cumulative": 23155.125,
+            "level": 30,
+            "residual": 555.125,
+            "gold": 2410
+          }
+        ],
+        "cumulative": 23155.125,
+        "level": 30,
+        "residual": 555.125,
+        "gold": 2410,
+        "newSkillPoints": 66
+      },
+      "full": {
+        "cumulative": 25105.125,
+        "level": 31,
+        "residual": 855.125,
+        "gold": 2938,
+        "newSkillPoints": 72
+      },
+      "all32SubsetRange": [
+        23155.125,
+        25105.125
+      ]
+    },
+    {
+      "label": "Serious minimum",
+      "minimum": {
+        "stages": [
+          {
+            "region": "W",
+            "deltaXp": 2600,
+            "cumulative": 9999.5,
+            "level": 20,
+            "residual": 299.5,
+            "gold": 360
+          },
+          {
+            "region": "R",
+            "deltaXp": 2855,
+            "cumulative": 12854.5,
+            "level": 22,
+            "residual": 1054.5,
+            "gold": 760
+          },
+          {
+            "region": "A",
+            "deltaXp": 3160,
+            "cumulative": 16014.5,
+            "level": 25,
+            "residual": 614.5,
+            "gold": 1210
+          },
+          {
+            "region": "F",
+            "deltaXp": 3365,
+            "cumulative": 19379.5,
+            "level": 27,
+            "residual": 1279.5,
+            "gold": 1710
+          },
+          {
+            "region": "S",
+            "deltaXp": 3570,
+            "cumulative": 22949.5,
+            "level": 30,
+            "residual": 349.5,
+            "gold": 2410
+          }
+        ],
+        "cumulative": 22949.5,
+        "level": 30,
+        "residual": 349.5,
+        "gold": 2410,
+        "newSkillPoints": 66
+      },
+      "full": {
+        "cumulative": 24899.5,
+        "level": 31,
+        "residual": 649.5,
+        "gold": 2938,
+        "newSkillPoints": 72
+      },
+      "all32SubsetRange": [
+        22949.5,
+        24899.5
+      ]
+    },
+    {
+      "label": "Serious full",
+      "minimum": {
+        "stages": [
+          {
+            "region": "W",
+            "deltaXp": 2600,
+            "cumulative": 10205.125,
+            "level": 20,
+            "residual": 505.125,
+            "gold": 360
+          },
+          {
+            "region": "R",
+            "deltaXp": 2855,
+            "cumulative": 13060.125,
+            "level": 23,
+            "residual": 120.125,
+            "gold": 760
+          },
+          {
+            "region": "A",
+            "deltaXp": 3160,
+            "cumulative": 16220.125,
+            "level": 25,
+            "residual": 820.125,
+            "gold": 1210
+          },
+          {
+            "region": "F",
+            "deltaXp": 3365,
+            "cumulative": 19585.125,
+            "level": 28,
+            "residual": 45.125,
+            "gold": 1710
+          },
+          {
+            "region": "S",
+            "deltaXp": 3570,
+            "cumulative": 23155.125,
+            "level": 30,
+            "residual": 555.125,
+            "gold": 2410
+          }
+        ],
+        "cumulative": 23155.125,
+        "level": 30,
+        "residual": 555.125,
+        "gold": 2410,
+        "newSkillPoints": 66
+      },
+      "full": {
+        "cumulative": 25105.125,
+        "level": 31,
+        "residual": 855.125,
+        "gold": 2938,
+        "newSkillPoints": 72
+      },
+      "all32SubsetRange": [
+        23155.125,
+        25105.125
+      ]
+    },
+    {
+      "label": "Native Normal endpoint as arithmetic input",
+      "minimum": {
+        "stages": [
+          {
+            "region": "W",
+            "deltaXp": 3000,
+            "cumulative": 11565.5,
+            "level": 21,
+            "residual": 845.5,
+            "gold": 360
+          },
+          {
+            "region": "R",
+            "deltaXp": 3290,
+            "cumulative": 14855.5,
+            "level": 24,
+            "residual": 715.5,
+            "gold": 760
+          },
+          {
+            "region": "A",
+            "deltaXp": 3630,
+            "cumulative": 18485.5,
+            "level": 27,
+            "residual": 385.5,
+            "gold": 1210
+          },
+          {
+            "region": "F",
+            "deltaXp": 3870,
+            "cumulative": 22355.5,
+            "level": 29,
+            "residual": 1315.5,
+            "gold": 1710
+          },
+          {
+            "region": "S",
+            "deltaXp": 3180,
+            "cumulative": 25535.5,
+            "level": 31,
+            "residual": 1285.5,
+            "gold": 2410
+          }
+        ],
+        "cumulative": 25535.5,
+        "level": 31,
+        "residual": 1285.5,
+        "gold": 2410,
+        "newSkillPoints": 67
+      },
+      "full": {
+        "cumulative": 27775.5,
+        "level": 32,
+        "residual": 1785.5,
+        "gold": 2938,
+        "newSkillPoints": 73
+      },
+      "all32SubsetRange": [
+        25535.5,
+        27775.5
+      ]
+    }
+  ],
+  "lowestHardEvents": [
+    {
+      "id": "W:a:1",
+      "xp": 110,
+      "gold": 10,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 82.5,
+      "beforeLevel": 17,
+      "level": 17,
+      "cumulative": 7482
+    },
+    {
+      "id": "W:a:2",
+      "xp": 110,
+      "gold": 10,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 82.5,
+      "beforeLevel": 17,
+      "level": 17,
+      "cumulative": 7564.5
+    },
+    {
+      "id": "W:a:3",
+      "xp": 110,
+      "gold": 10,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 82.5,
+      "beforeLevel": 17,
+      "level": 17,
+      "cumulative": 7647
+    },
+    {
+      "id": "W:a:4",
+      "xp": 110,
+      "gold": 10,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 82.5,
+      "beforeLevel": 17,
+      "level": 17,
+      "cumulative": 7729.5
+    },
+    {
+      "id": "W:o1",
+      "xp": 200,
+      "gold": 30,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 200,
+      "beforeLevel": 17,
+      "level": 18,
+      "cumulative": 7929.5
+    },
+    {
+      "id": "W:o2",
+      "xp": 250,
+      "gold": 20,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 250,
+      "beforeLevel": 18,
+      "level": 18,
+      "cumulative": 8179.5
+    },
+    {
+      "id": "W:b:1",
+      "xp": 110,
+      "gold": 10,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 82.5,
+      "beforeLevel": 18,
+      "level": 18,
+      "cumulative": 8262
+    },
+    {
+      "id": "W:b:2",
+      "xp": 110,
+      "gold": 10,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 82.5,
+      "beforeLevel": 18,
+      "level": 18,
+      "cumulative": 8344.5
+    },
+    {
+      "id": "W:b:3",
+      "xp": 110,
+      "gold": 10,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 82.5,
+      "beforeLevel": 18,
+      "level": 18,
+      "cumulative": 8427
+    },
+    {
+      "id": "W:b:4",
+      "xp": 110,
+      "gold": 10,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 82.5,
+      "beforeLevel": 18,
+      "level": 18,
+      "cumulative": 8509.5
+    },
+    {
+      "id": "W:o3",
+      "xp": 300,
+      "gold": 35,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 300,
+      "beforeLevel": 18,
+      "level": 19,
+      "cumulative": 8809.5
+    },
+    {
+      "id": "W:c:1",
+      "xp": 110,
+      "gold": 10,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 82.5,
+      "beforeLevel": 19,
+      "level": 19,
+      "cumulative": 8892
+    },
+    {
+      "id": "W:c:2",
+      "xp": 110,
+      "gold": 10,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 82.5,
+      "beforeLevel": 19,
+      "level": 19,
+      "cumulative": 8974.5
+    },
+    {
+      "id": "W:c:3",
+      "xp": 110,
+      "gold": 10,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 82.5,
+      "beforeLevel": 19,
+      "level": 19,
+      "cumulative": 9057
+    },
+    {
+      "id": "W:c:4",
+      "xp": 110,
+      "gold": 10,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 82.5,
+      "beforeLevel": 19,
+      "level": 19,
+      "cumulative": 9139.5
+    },
+    {
+      "id": "W:o4",
+      "xp": 300,
+      "gold": 35,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 300,
+      "beforeLevel": 19,
+      "level": 19,
+      "cumulative": 9439.5
+    },
+    {
+      "id": "W:boss",
+      "xp": 280,
+      "gold": 40,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 210,
+      "beforeLevel": 19,
+      "level": 19,
+      "cumulative": 9649.5
+    },
+    {
+      "id": "W:o5",
+      "xp": 150,
+      "gold": 20,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 150,
+      "beforeLevel": 19,
+      "level": 20,
+      "cumulative": 9799.5
+    },
+    {
+      "id": "W:o6",
+      "xp": 200,
+      "gold": 60,
+      "kind": "report",
+      "multiplier": 1,
+      "appliedXp": 200,
+      "beforeLevel": 20,
+      "level": 20,
+      "cumulative": 9999.5
+    },
+    {
+      "id": "R:a:1",
+      "xp": 120,
+      "gold": 11,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 90,
+      "beforeLevel": 20,
+      "level": 20,
+      "cumulative": 10089.5
+    },
+    {
+      "id": "R:a:2",
+      "xp": 120,
+      "gold": 11,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 90,
+      "beforeLevel": 20,
+      "level": 20,
+      "cumulative": 10179.5
+    },
+    {
+      "id": "R:a:3",
+      "xp": 120,
+      "gold": 11,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 90,
+      "beforeLevel": 20,
+      "level": 20,
+      "cumulative": 10269.5
+    },
+    {
+      "id": "R:a:4",
+      "xp": 120,
+      "gold": 11,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 90,
+      "beforeLevel": 20,
+      "level": 20,
+      "cumulative": 10359.5
+    },
+    {
+      "id": "R:o1",
+      "xp": 250,
+      "gold": 25,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 250,
+      "beforeLevel": 20,
+      "level": 20,
+      "cumulative": 10609.5
+    },
+    {
+      "id": "R:o2",
+      "xp": 300,
+      "gold": 30,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 300,
+      "beforeLevel": 20,
+      "level": 21,
+      "cumulative": 10909.5
+    },
+    {
+      "id": "R:b:1",
+      "xp": 120,
+      "gold": 11,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 90,
+      "beforeLevel": 21,
+      "level": 21,
+      "cumulative": 10999.5
+    },
+    {
+      "id": "R:b:2",
+      "xp": 120,
+      "gold": 11,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 90,
+      "beforeLevel": 21,
+      "level": 21,
+      "cumulative": 11089.5
+    },
+    {
+      "id": "R:b:3",
+      "xp": 120,
+      "gold": 11,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 90,
+      "beforeLevel": 21,
+      "level": 21,
+      "cumulative": 11179.5
+    },
+    {
+      "id": "R:b:4",
+      "xp": 120,
+      "gold": 11,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 90,
+      "beforeLevel": 21,
+      "level": 21,
+      "cumulative": 11269.5
+    },
+    {
+      "id": "R:o3",
+      "xp": 350,
+      "gold": 35,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 350,
+      "beforeLevel": 21,
+      "level": 21,
+      "cumulative": 11619.5
+    },
+    {
+      "id": "R:c:1",
+      "xp": 120,
+      "gold": 11,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 90,
+      "beforeLevel": 21,
+      "level": 21,
+      "cumulative": 11709.5
+    },
+    {
+      "id": "R:c:2",
+      "xp": 120,
+      "gold": 11,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 90,
+      "beforeLevel": 21,
+      "level": 21,
+      "cumulative": 11799.5
+    },
+    {
+      "id": "R:c:3",
+      "xp": 120,
+      "gold": 11,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 90,
+      "beforeLevel": 21,
+      "level": 22,
+      "cumulative": 11889.5
+    },
+    {
+      "id": "R:c:4",
+      "xp": 120,
+      "gold": 11,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 90,
+      "beforeLevel": 22,
+      "level": 22,
+      "cumulative": 11979.5
+    },
+    {
+      "id": "R:o4",
+      "xp": 300,
+      "gold": 40,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 300,
+      "beforeLevel": 22,
+      "level": 22,
+      "cumulative": 12279.5
+    },
+    {
+      "id": "R:boss",
+      "xp": 300,
+      "gold": 45,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 225,
+      "beforeLevel": 22,
+      "level": 22,
+      "cumulative": 12504.5
+    },
+    {
+      "id": "R:o5",
+      "xp": 150,
+      "gold": 23,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 150,
+      "beforeLevel": 22,
+      "level": 22,
+      "cumulative": 12654.5
+    },
+    {
+      "id": "R:o6",
+      "xp": 200,
+      "gold": 70,
+      "kind": "report",
+      "multiplier": 1,
+      "appliedXp": 200,
+      "beforeLevel": 22,
+      "level": 22,
+      "cumulative": 12854.5
+    },
+    {
+      "id": "A:a:1",
+      "xp": 130,
+      "gold": 12,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 97.5,
+      "beforeLevel": 22,
+      "level": 23,
+      "cumulative": 12952
+    },
+    {
+      "id": "A:a:2",
+      "xp": 130,
+      "gold": 12,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 97.5,
+      "beforeLevel": 23,
+      "level": 23,
+      "cumulative": 13049.5
+    },
+    {
+      "id": "A:a:3",
+      "xp": 130,
+      "gold": 12,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 97.5,
+      "beforeLevel": 23,
+      "level": 23,
+      "cumulative": 13147
+    },
+    {
+      "id": "A:a:4",
+      "xp": 130,
+      "gold": 12,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 97.5,
+      "beforeLevel": 23,
+      "level": 23,
+      "cumulative": 13244.5
+    },
+    {
+      "id": "A:o1",
+      "xp": 250,
+      "gold": 30,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 250,
+      "beforeLevel": 23,
+      "level": 23,
+      "cumulative": 13494.5
+    },
+    {
+      "id": "A:o2",
+      "xp": 350,
+      "gold": 35,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 350,
+      "beforeLevel": 23,
+      "level": 23,
+      "cumulative": 13844.5
+    },
+    {
+      "id": "A:b:1",
+      "xp": 130,
+      "gold": 12,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 97.5,
+      "beforeLevel": 23,
+      "level": 23,
+      "cumulative": 13942
+    },
+    {
+      "id": "A:b:2",
+      "xp": 130,
+      "gold": 12,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 97.5,
+      "beforeLevel": 23,
+      "level": 23,
+      "cumulative": 14039.5
+    },
+    {
+      "id": "A:b:3",
+      "xp": 130,
+      "gold": 12,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 97.5,
+      "beforeLevel": 23,
+      "level": 23,
+      "cumulative": 14137
+    },
+    {
+      "id": "A:b:4",
+      "xp": 130,
+      "gold": 12,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 97.5,
+      "beforeLevel": 23,
+      "level": 24,
+      "cumulative": 14234.5
+    },
+    {
+      "id": "A:o3",
+      "xp": 400,
+      "gold": 45,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 400,
+      "beforeLevel": 24,
+      "level": 24,
+      "cumulative": 14634.5
+    },
+    {
+      "id": "A:c:1",
+      "xp": 130,
+      "gold": 12,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 97.5,
+      "beforeLevel": 24,
+      "level": 24,
+      "cumulative": 14732
+    },
+    {
+      "id": "A:c:2",
+      "xp": 130,
+      "gold": 12,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 97.5,
+      "beforeLevel": 24,
+      "level": 24,
+      "cumulative": 14829.5
+    },
+    {
+      "id": "A:c:3",
+      "xp": 130,
+      "gold": 12,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 97.5,
+      "beforeLevel": 24,
+      "level": 24,
+      "cumulative": 14927
+    },
+    {
+      "id": "A:c:4",
+      "xp": 130,
+      "gold": 12,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 97.5,
+      "beforeLevel": 24,
+      "level": 24,
+      "cumulative": 15024.5
+    },
+    {
+      "id": "A:o4",
+      "xp": 350,
+      "gold": 45,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 350,
+      "beforeLevel": 24,
+      "level": 24,
+      "cumulative": 15374.5
+    },
+    {
+      "id": "A:boss",
+      "xp": 320,
+      "gold": 50,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 240,
+      "beforeLevel": 24,
+      "level": 25,
+      "cumulative": 15614.5
+    },
+    {
+      "id": "A:o5",
+      "xp": 200,
+      "gold": 26,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 200,
+      "beforeLevel": 25,
+      "level": 25,
+      "cumulative": 15814.5
+    },
+    {
+      "id": "A:o6",
+      "xp": 200,
+      "gold": 75,
+      "kind": "report",
+      "multiplier": 1,
+      "appliedXp": 200,
+      "beforeLevel": 25,
+      "level": 25,
+      "cumulative": 16014.5
+    },
+    {
+      "id": "F:a:1",
+      "xp": 140,
+      "gold": 13,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 105,
+      "beforeLevel": 25,
+      "level": 25,
+      "cumulative": 16119.5
+    },
+    {
+      "id": "F:a:2",
+      "xp": 140,
+      "gold": 13,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 105,
+      "beforeLevel": 25,
+      "level": 25,
+      "cumulative": 16224.5
+    },
+    {
+      "id": "F:a:3",
+      "xp": 140,
+      "gold": 13,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 105,
+      "beforeLevel": 25,
+      "level": 25,
+      "cumulative": 16329.5
+    },
+    {
+      "id": "F:a:4",
+      "xp": 140,
+      "gold": 13,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 105,
+      "beforeLevel": 25,
+      "level": 25,
+      "cumulative": 16434.5
+    },
+    {
+      "id": "F:o1",
+      "xp": 300,
+      "gold": 35,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 300,
+      "beforeLevel": 25,
+      "level": 26,
+      "cumulative": 16734.5
+    },
+    {
+      "id": "F:o2",
+      "xp": 400,
+      "gold": 40,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 400,
+      "beforeLevel": 26,
+      "level": 26,
+      "cumulative": 17134.5
+    },
+    {
+      "id": "F:b:1",
+      "xp": 140,
+      "gold": 13,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 105,
+      "beforeLevel": 26,
+      "level": 26,
+      "cumulative": 17239.5
+    },
+    {
+      "id": "F:b:2",
+      "xp": 140,
+      "gold": 13,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 105,
+      "beforeLevel": 26,
+      "level": 26,
+      "cumulative": 17344.5
+    },
+    {
+      "id": "F:b:3",
+      "xp": 140,
+      "gold": 13,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 105,
+      "beforeLevel": 26,
+      "level": 26,
+      "cumulative": 17449.5
+    },
+    {
+      "id": "F:b:4",
+      "xp": 140,
+      "gold": 13,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 105,
+      "beforeLevel": 26,
+      "level": 26,
+      "cumulative": 17554.5
+    },
+    {
+      "id": "F:o3",
+      "xp": 400,
+      "gold": 50,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 400,
+      "beforeLevel": 26,
+      "level": 26,
+      "cumulative": 17954.5
+    },
+    {
+      "id": "F:c:1",
+      "xp": 140,
+      "gold": 13,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 105,
+      "beforeLevel": 26,
+      "level": 26,
+      "cumulative": 18059.5
+    },
+    {
+      "id": "F:c:2",
+      "xp": 140,
+      "gold": 13,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 105,
+      "beforeLevel": 26,
+      "level": 27,
+      "cumulative": 18164.5
+    },
+    {
+      "id": "F:c:3",
+      "xp": 140,
+      "gold": 13,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 105,
+      "beforeLevel": 27,
+      "level": 27,
+      "cumulative": 18269.5
+    },
+    {
+      "id": "F:c:4",
+      "xp": 140,
+      "gold": 13,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 105,
+      "beforeLevel": 27,
+      "level": 27,
+      "cumulative": 18374.5
+    },
+    {
+      "id": "F:o4",
+      "xp": 350,
+      "gold": 50,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 350,
+      "beforeLevel": 27,
+      "level": 27,
+      "cumulative": 18724.5
+    },
+    {
+      "id": "F:boss",
+      "xp": 340,
+      "gold": 60,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 255,
+      "beforeLevel": 27,
+      "level": 27,
+      "cumulative": 18979.5
+    },
+    {
+      "id": "F:o5",
+      "xp": 200,
+      "gold": 29,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 200,
+      "beforeLevel": 27,
+      "level": 27,
+      "cumulative": 19179.5
+    },
+    {
+      "id": "F:o6",
+      "xp": 200,
+      "gold": 80,
+      "kind": "report",
+      "multiplier": 1,
+      "appliedXp": 200,
+      "beforeLevel": 27,
+      "level": 27,
+      "cumulative": 19379.5
+    },
+    {
+      "id": "S:a:1",
+      "xp": 150,
+      "gold": 14,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 112.5,
+      "beforeLevel": 27,
+      "level": 27,
+      "cumulative": 19492
+    },
+    {
+      "id": "S:a:2",
+      "xp": 150,
+      "gold": 14,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 112.5,
+      "beforeLevel": 27,
+      "level": 28,
+      "cumulative": 19604.5
+    },
+    {
+      "id": "S:a:3",
+      "xp": 150,
+      "gold": 14,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 112.5,
+      "beforeLevel": 28,
+      "level": 28,
+      "cumulative": 19717
+    },
+    {
+      "id": "S:a:4",
+      "xp": 150,
+      "gold": 14,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 112.5,
+      "beforeLevel": 28,
+      "level": 28,
+      "cumulative": 19829.5
+    },
+    {
+      "id": "S:o1",
+      "xp": 350,
+      "gold": 25,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 350,
+      "beforeLevel": 28,
+      "level": 28,
+      "cumulative": 20179.5
+    },
+    {
+      "id": "S:o2",
+      "xp": 400,
+      "gold": 30,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 400,
+      "beforeLevel": 28,
+      "level": 28,
+      "cumulative": 20579.5
+    },
+    {
+      "id": "S:b:1",
+      "xp": 150,
+      "gold": 14,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 112.5,
+      "beforeLevel": 28,
+      "level": 28,
+      "cumulative": 20692
+    },
+    {
+      "id": "S:b:2",
+      "xp": 150,
+      "gold": 14,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 112.5,
+      "beforeLevel": 28,
+      "level": 28,
+      "cumulative": 20804.5
+    },
+    {
+      "id": "S:b:3",
+      "xp": 150,
+      "gold": 14,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 112.5,
+      "beforeLevel": 28,
+      "level": 28,
+      "cumulative": 20917
+    },
+    {
+      "id": "S:b:4",
+      "xp": 150,
+      "gold": 14,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 112.5,
+      "beforeLevel": 28,
+      "level": 28,
+      "cumulative": 21029.5
+    },
+    {
+      "id": "S:o3",
+      "xp": 450,
+      "gold": 40,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 450,
+      "beforeLevel": 28,
+      "level": 29,
+      "cumulative": 21479.5
+    },
+    {
+      "id": "S:c:1",
+      "xp": 150,
+      "gold": 14,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 112.5,
+      "beforeLevel": 29,
+      "level": 29,
+      "cumulative": 21592
+    },
+    {
+      "id": "S:c:2",
+      "xp": 150,
+      "gold": 14,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 112.5,
+      "beforeLevel": 29,
+      "level": 29,
+      "cumulative": 21704.5
+    },
+    {
+      "id": "S:c:3",
+      "xp": 150,
+      "gold": 14,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 112.5,
+      "beforeLevel": 29,
+      "level": 29,
+      "cumulative": 21817
+    },
+    {
+      "id": "S:c:4",
+      "xp": 150,
+      "gold": 14,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 112.5,
+      "beforeLevel": 29,
+      "level": 29,
+      "cumulative": 21929.5
+    },
+    {
+      "id": "S:o4",
+      "xp": 350,
+      "gold": 40,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 350,
+      "beforeLevel": 29,
+      "level": 29,
+      "cumulative": 22279.5
+    },
+    {
+      "id": "S:boss",
+      "xp": 360,
+      "gold": 70,
+      "kind": "kill",
+      "tier": "expert",
+      "multiplier": 0.75,
+      "appliedXp": 270,
+      "beforeLevel": 29,
+      "level": 29,
+      "cumulative": 22549.5
+    },
+    {
+      "id": "S:o5",
+      "xp": 200,
+      "gold": 27,
+      "kind": "objective",
+      "multiplier": 1,
+      "appliedXp": 200,
+      "beforeLevel": 29,
+      "level": 30,
+      "cumulative": 22749.5
+    },
+    {
+      "id": "S:o6",
+      "xp": 200,
+      "gold": 300,
+      "kind": "report",
+      "multiplier": 1,
+      "appliedXp": 200,
+      "beforeLevel": 30,
+      "level": 30,
+      "cumulative": 22949.5
+    }
+  ],
+  "walletStress": [
+    {
+      "startingGold": 0,
+      "earned": 2410,
+      "purchases": 700,
+      "deathLoss": 407,
+      "masterFee": 300,
+      "endingGold": 1003,
+      "stages": [
+        {
+          "region": "W",
+          "gold": 205,
+          "reserved": 0,
+          "spendable": 205,
+          "spent": 155
+        },
+        {
+          "region": "R",
+          "gold": 427,
+          "reserved": 0,
+          "spendable": 427,
+          "spent": 333
+        },
+        {
+          "region": "A",
+          "gold": 633,
+          "reserved": 0,
+          "spendable": 633,
+          "spent": 577
+        },
+        {
+          "region": "F",
+          "gold": 844,
+          "reserved": 0,
+          "spendable": 844,
+          "spent": 866
+        },
+        {
+          "region": "S",
+          "gold": 1303,
+          "reserved": 300,
+          "spendable": 1003,
+          "spent": 1107
+        }
+      ]
+    },
+    {
+      "startingGold": 1537,
+      "earned": 2410,
+      "purchases": 700,
+      "deathLoss": 1024,
+      "masterFee": 300,
+      "endingGold": 1923,
+      "stages": [
+        {
+          "region": "W",
+          "gold": 1593,
+          "reserved": 0,
+          "spendable": 1593,
+          "spent": 304
+        },
+        {
+          "region": "R",
+          "gold": 1680,
+          "reserved": 0,
+          "spendable": 1680,
+          "spent": 617
+        },
+        {
+          "region": "A",
+          "gold": 1763,
+          "reserved": 0,
+          "spendable": 1763,
+          "spent": 984
+        },
+        {
+          "region": "F",
+          "gold": 1863,
+          "reserved": 0,
+          "spendable": 1863,
+          "spent": 1384
+        },
+        {
+          "region": "S",
+          "gold": 2223,
+          "reserved": 300,
+          "spendable": 1923,
+          "spent": 1724
+        }
+      ]
+    }
+  ],
+  "combatWeighted": {
+    "mandatory": {
+      "kills": 105,
+      "baseKillXp": 14600,
+      "objectiveXp": 4800,
+      "gold": 2410,
+      "materials": [
+        34,
+        14,
+        18,
+        20
+      ],
+      "potions": 10
+    },
+    "results": [
+      {
+        "label": "Easy minimum",
+        "minimum": {
+          "stages": [
+            {
+              "region": "W",
+              "deltaXp": 3280,
+              "cumulative": 11691,
+              "level": 21,
+              "residual": 971,
+              "gold": 360
+            },
+            {
+              "region": "R",
+              "deltaXp": 3550,
+              "cumulative": 15241,
+              "level": 24,
+              "residual": 1101,
+              "gold": 768
+            },
+            {
+              "region": "A",
+              "deltaXp": 3870,
+              "cumulative": 19111,
+              "level": 27,
+              "residual": 1011,
+              "gold": 1214
+            },
+            {
+              "region": "F",
+              "deltaXp": 4020,
+              "cumulative": 23131,
+              "level": 30,
+              "residual": 531,
+              "gold": 1718
+            },
+            {
+              "region": "S",
+              "deltaXp": 2830,
+              "cumulative": 25961,
+              "level": 31,
+              "residual": 1711,
+              "gold": 2410
+            }
+          ],
+          "cumulative": 25961,
+          "level": 31,
+          "residual": 1711,
+          "gold": 2410,
+          "newSkillPoints": 67
+        },
+        "full": {
+          "cumulative": 28031,
+          "level": 33,
+          "residual": 211,
+          "gold": 2867
+        },
+        "all32SubsetRange": [
+          25961,
+          28031
+        ]
+      },
+      {
+        "label": "Easy full",
+        "minimum": {
+          "stages": [
+            {
+              "region": "W",
+              "deltaXp": 3280,
+              "cumulative": 11865.5,
+              "level": 22,
+              "residual": 65.5,
+              "gold": 360
+            },
+            {
+              "region": "R",
+              "deltaXp": 3550,
+              "cumulative": 15415.5,
+              "level": 25,
+              "residual": 15.5,
+              "gold": 768
+            },
+            {
+              "region": "A",
+              "deltaXp": 3870,
+              "cumulative": 19285.5,
+              "level": 27,
+              "residual": 1185.5,
+              "gold": 1214
+            },
+            {
+              "region": "F",
+              "deltaXp": 3880,
+              "cumulative": 23165.5,
+              "level": 30,
+              "residual": 565.5,
+              "gold": 1718
+            },
+            {
+              "region": "S",
+              "deltaXp": 2830,
+              "cumulative": 25995.5,
+              "level": 32,
+              "residual": 5.5,
+              "gold": 2410
+            }
+          ],
+          "cumulative": 25995.5,
+          "level": 32,
+          "residual": 5.5,
+          "gold": 2410,
+          "newSkillPoints": 73
+        },
+        "full": {
+          "cumulative": 28065.5,
+          "level": 33,
+          "residual": 245.5,
+          "gold": 2867
+        },
+        "all32SubsetRange": [
+          25995.5,
+          28065.5
+        ]
+      },
+      {
+        "label": "Normal minimum",
+        "minimum": {
+          "stages": [
+            {
+              "region": "W",
+              "deltaXp": 3280,
+              "cumulative": 11691,
+              "level": 21,
+              "residual": 971,
+              "gold": 360
+            },
+            {
+              "region": "R",
+              "deltaXp": 3550,
+              "cumulative": 15241,
+              "level": 24,
+              "residual": 1101,
+              "gold": 768
+            },
+            {
+              "region": "A",
+              "deltaXp": 3870,
+              "cumulative": 19111,
+              "level": 27,
+              "residual": 1011,
+              "gold": 1214
+            },
+            {
+              "region": "F",
+              "deltaXp": 4020,
+              "cumulative": 23131,
+              "level": 30,
+              "residual": 531,
+              "gold": 1718
+            },
+            {
+              "region": "S",
+              "deltaXp": 2830,
+              "cumulative": 25961,
+              "level": 31,
+              "residual": 1711,
+              "gold": 2410
+            }
+          ],
+          "cumulative": 25961,
+          "level": 31,
+          "residual": 1711,
+          "gold": 2410,
+          "newSkillPoints": 67
+        },
+        "full": {
+          "cumulative": 28031,
+          "level": 33,
+          "residual": 211,
+          "gold": 2867
+        },
+        "all32SubsetRange": [
+          25961,
+          28031
+        ]
+      },
+      {
+        "label": "Normal full",
+        "minimum": {
+          "stages": [
+            {
+              "region": "W",
+              "deltaXp": 3280,
+              "cumulative": 11865.5,
+              "level": 22,
+              "residual": 65.5,
+              "gold": 360
+            },
+            {
+              "region": "R",
+              "deltaXp": 3550,
+              "cumulative": 15415.5,
+              "level": 25,
+              "residual": 15.5,
+              "gold": 768
+            },
+            {
+              "region": "A",
+              "deltaXp": 3870,
+              "cumulative": 19285.5,
+              "level": 27,
+              "residual": 1185.5,
+              "gold": 1214
+            },
+            {
+              "region": "F",
+              "deltaXp": 3880,
+              "cumulative": 23165.5,
+              "level": 30,
+              "residual": 565.5,
+              "gold": 1718
+            },
+            {
+              "region": "S",
+              "deltaXp": 2830,
+              "cumulative": 25995.5,
+              "level": 32,
+              "residual": 5.5,
+              "gold": 2410
+            }
+          ],
+          "cumulative": 25995.5,
+          "level": 32,
+          "residual": 5.5,
+          "gold": 2410,
+          "newSkillPoints": 73
+        },
+        "full": {
+          "cumulative": 28065.5,
+          "level": 33,
+          "residual": 245.5,
+          "gold": 2867
+        },
+        "all32SubsetRange": [
+          25995.5,
+          28065.5
+        ]
+      },
+      {
+        "label": "Hard minimum",
+        "minimum": {
+          "stages": [
+            {
+              "region": "W",
+              "deltaXp": 2660,
+              "cumulative": 10059.5,
+              "level": 20,
+              "residual": 359.5,
+              "gold": 360
+            },
+            {
+              "region": "R",
+              "deltaXp": 2875,
+              "cumulative": 12934.5,
+              "level": 22,
+              "residual": 1134.5,
+              "gold": 768
+            },
+            {
+              "region": "A",
+              "deltaXp": 3140,
+              "cumulative": 16074.5,
+              "level": 25,
+              "residual": 674.5,
+              "gold": 1214
+            },
+            {
+              "region": "F",
+              "deltaXp": 3405,
+              "cumulative": 19479.5,
+              "level": 27,
+              "residual": 1379.5,
+              "gold": 1718
+            },
+            {
+              "region": "S",
+              "deltaXp": 3535,
+              "cumulative": 23014.5,
+              "level": 30,
+              "residual": 414.5,
+              "gold": 2410
+            }
+          ],
+          "cumulative": 23014.5,
+          "level": 30,
+          "residual": 414.5,
+          "gold": 2410,
+          "newSkillPoints": 66
+        },
+        "full": {
+          "cumulative": 24818.25,
+          "level": 31,
+          "residual": 568.25,
+          "gold": 2867
+        },
+        "all32SubsetRange": [
+          23014.5,
+          24818.25
+        ]
+      },
+      {
+        "label": "Hard full",
+        "minimum": {
+          "stages": [
+            {
+              "region": "W",
+              "deltaXp": 2660,
+              "cumulative": 10265.125,
+              "level": 20,
+              "residual": 565.125,
+              "gold": 360
+            },
+            {
+              "region": "R",
+              "deltaXp": 2875,
+              "cumulative": 13140.125,
+              "level": 23,
+              "residual": 200.125,
+              "gold": 768
+            },
+            {
+              "region": "A",
+              "deltaXp": 3140,
+              "cumulative": 16280.125,
+              "level": 25,
+              "residual": 880.125,
+              "gold": 1214
+            },
+            {
+              "region": "F",
+              "deltaXp": 3405,
+              "cumulative": 19685.125,
+              "level": 28,
+              "residual": 145.125,
+              "gold": 1718
+            },
+            {
+              "region": "S",
+              "deltaXp": 3422.5,
+              "cumulative": 23107.625,
+              "level": 30,
+              "residual": 507.625,
+              "gold": 2410
+            }
+          ],
+          "cumulative": 23107.625,
+          "level": 30,
+          "residual": 507.625,
+          "gold": 2410,
+          "newSkillPoints": 66
+        },
+        "full": {
+          "cumulative": 24967.625,
+          "level": 31,
+          "residual": 717.625,
+          "gold": 2867
+        },
+        "all32SubsetRange": [
+          23107.625,
+          24967.625
+        ]
+      },
+      {
+        "label": "Serious minimum",
+        "minimum": {
+          "stages": [
+            {
+              "region": "W",
+              "deltaXp": 2660,
+              "cumulative": 10059.5,
+              "level": 20,
+              "residual": 359.5,
+              "gold": 360
+            },
+            {
+              "region": "R",
+              "deltaXp": 2875,
+              "cumulative": 12934.5,
+              "level": 22,
+              "residual": 1134.5,
+              "gold": 768
+            },
+            {
+              "region": "A",
+              "deltaXp": 3140,
+              "cumulative": 16074.5,
+              "level": 25,
+              "residual": 674.5,
+              "gold": 1214
+            },
+            {
+              "region": "F",
+              "deltaXp": 3405,
+              "cumulative": 19479.5,
+              "level": 27,
+              "residual": 1379.5,
+              "gold": 1718
+            },
+            {
+              "region": "S",
+              "deltaXp": 3535,
+              "cumulative": 23014.5,
+              "level": 30,
+              "residual": 414.5,
+              "gold": 2410
+            }
+          ],
+          "cumulative": 23014.5,
+          "level": 30,
+          "residual": 414.5,
+          "gold": 2410,
+          "newSkillPoints": 66
+        },
+        "full": {
+          "cumulative": 24818.25,
+          "level": 31,
+          "residual": 568.25,
+          "gold": 2867
+        },
+        "all32SubsetRange": [
+          23014.5,
+          24818.25
+        ]
+      },
+      {
+        "label": "Serious full",
+        "minimum": {
+          "stages": [
+            {
+              "region": "W",
+              "deltaXp": 2660,
+              "cumulative": 10265.125,
+              "level": 20,
+              "residual": 565.125,
+              "gold": 360
+            },
+            {
+              "region": "R",
+              "deltaXp": 2875,
+              "cumulative": 13140.125,
+              "level": 23,
+              "residual": 200.125,
+              "gold": 768
+            },
+            {
+              "region": "A",
+              "deltaXp": 3140,
+              "cumulative": 16280.125,
+              "level": 25,
+              "residual": 880.125,
+              "gold": 1214
+            },
+            {
+              "region": "F",
+              "deltaXp": 3405,
+              "cumulative": 19685.125,
+              "level": 28,
+              "residual": 145.125,
+              "gold": 1718
+            },
+            {
+              "region": "S",
+              "deltaXp": 3422.5,
+              "cumulative": 23107.625,
+              "level": 30,
+              "residual": 507.625,
+              "gold": 2410
+            }
+          ],
+          "cumulative": 23107.625,
+          "level": 30,
+          "residual": 507.625,
+          "gold": 2410,
+          "newSkillPoints": 66
+        },
+        "full": {
+          "cumulative": 24967.625,
+          "level": 31,
+          "residual": 717.625,
+          "gold": 2867
+        },
+        "all32SubsetRange": [
+          23107.625,
+          24967.625
+        ]
+      },
+      {
+        "label": "Native Normal endpoint as arithmetic input",
+        "minimum": {
+          "stages": [
+            {
+              "region": "W",
+              "deltaXp": 3280,
+              "cumulative": 11845.5,
+              "level": 22,
+              "residual": 45.5,
+              "gold": 360
+            },
+            {
+              "region": "R",
+              "deltaXp": 3550,
+              "cumulative": 15395.5,
+              "level": 24,
+              "residual": 1255.5,
+              "gold": 768
+            },
+            {
+              "region": "A",
+              "deltaXp": 3870,
+              "cumulative": 19265.5,
+              "level": 27,
+              "residual": 1165.5,
+              "gold": 1214
+            },
+            {
+              "region": "F",
+              "deltaXp": 3950,
+              "cumulative": 23215.5,
+              "level": 30,
+              "residual": 615.5,
+              "gold": 1718
+            },
+            {
+              "region": "S",
+              "deltaXp": 2830,
+              "cumulative": 26045.5,
+              "level": 32,
+              "residual": 55.5,
+              "gold": 2410
+            }
+          ],
+          "cumulative": 26045.5,
+          "level": 32,
+          "residual": 55.5,
+          "gold": 2410,
+          "newSkillPoints": 73
+        },
+        "full": {
+          "cumulative": 28045.5,
+          "level": 33,
+          "residual": 225.5,
+          "gold": 2867
+        },
+        "all32SubsetRange": [
+          26045.5,
+          28045.5
+        ]
+      }
+    ],
+    "lowestHardEvents": [
+      {
+        "id": "W:a:1",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 17,
+        "level": 17,
+        "cumulative": 7482
+      },
+      {
+        "id": "W:a:2",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 17,
+        "level": 17,
+        "cumulative": 7564.5
+      },
+      {
+        "id": "W:a:3",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 17,
+        "level": 17,
+        "cumulative": 7647
+      },
+      {
+        "id": "W:o1",
+        "xp": 100,
+        "gold": 30,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 100,
+        "beforeLevel": 17,
+        "level": 17,
+        "cumulative": 7747
+      },
+      {
+        "id": "W:b:1",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 17,
+        "level": 17,
+        "cumulative": 7829.5
+      },
+      {
+        "id": "W:b:2",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 17,
+        "level": 18,
+        "cumulative": 7912
+      },
+      {
+        "id": "W:b:3",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 18,
+        "level": 18,
+        "cumulative": 7994.5
+      },
+      {
+        "id": "W:b:4",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 18,
+        "level": 18,
+        "cumulative": 8077
+      },
+      {
+        "id": "W:o2",
+        "xp": 150,
+        "gold": 20,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 150,
+        "beforeLevel": 18,
+        "level": 18,
+        "cumulative": 8227
+      },
+      {
+        "id": "W:c:1",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 18,
+        "level": 18,
+        "cumulative": 8309.5
+      },
+      {
+        "id": "W:c:2",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 18,
+        "level": 18,
+        "cumulative": 8392
+      },
+      {
+        "id": "W:c:3",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 18,
+        "level": 18,
+        "cumulative": 8474.5
+      },
+      {
+        "id": "W:c:4",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 18,
+        "level": 18,
+        "cumulative": 8557
+      },
+      {
+        "id": "W:c:5",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 18,
+        "level": 18,
+        "cumulative": 8639.5
+      },
+      {
+        "id": "W:o3",
+        "xp": 150,
+        "gold": 35,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 150,
+        "beforeLevel": 18,
+        "level": 19,
+        "cumulative": 8789.5
+      },
+      {
+        "id": "W:d:1",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 19,
+        "level": 19,
+        "cumulative": 8872
+      },
+      {
+        "id": "W:d:2",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 19,
+        "level": 19,
+        "cumulative": 8954.5
+      },
+      {
+        "id": "W:d:3",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 19,
+        "level": 19,
+        "cumulative": 9037
+      },
+      {
+        "id": "W:d:4",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 19,
+        "level": 19,
+        "cumulative": 9119.5
+      },
+      {
+        "id": "W:o4",
+        "xp": 150,
+        "gold": 35,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 150,
+        "beforeLevel": 19,
+        "level": 19,
+        "cumulative": 9269.5
+      },
+      {
+        "id": "W:e:1",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 19,
+        "level": 19,
+        "cumulative": 9352
+      },
+      {
+        "id": "W:e:2",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 19,
+        "level": 19,
+        "cumulative": 9434.5
+      },
+      {
+        "id": "W:e:3",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 19,
+        "level": 19,
+        "cumulative": 9517
+      },
+      {
+        "id": "W:e:4",
+        "xp": 110,
+        "gold": 6,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 82.5,
+        "beforeLevel": 19,
+        "level": 19,
+        "cumulative": 9599.5
+      },
+      {
+        "id": "W:boss",
+        "xp": 280,
+        "gold": 40,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 210,
+        "beforeLevel": 19,
+        "level": 20,
+        "cumulative": 9809.5
+      },
+      {
+        "id": "W:o5",
+        "xp": 100,
+        "gold": 20,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 100,
+        "beforeLevel": 20,
+        "level": 20,
+        "cumulative": 9909.5
+      },
+      {
+        "id": "W:o6",
+        "xp": 150,
+        "gold": 60,
+        "kind": "report",
+        "multiplier": 1,
+        "appliedXp": 150,
+        "beforeLevel": 20,
+        "level": 20,
+        "cumulative": 10059.5
+      },
+      {
+        "id": "R:a:1",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 20,
+        "level": 20,
+        "cumulative": 10149.5
+      },
+      {
+        "id": "R:a:2",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 20,
+        "level": 20,
+        "cumulative": 10239.5
+      },
+      {
+        "id": "R:a:3",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 20,
+        "level": 20,
+        "cumulative": 10329.5
+      },
+      {
+        "id": "R:o1",
+        "xp": 100,
+        "gold": 25,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 100,
+        "beforeLevel": 20,
+        "level": 20,
+        "cumulative": 10429.5
+      },
+      {
+        "id": "R:b:1",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 20,
+        "level": 20,
+        "cumulative": 10519.5
+      },
+      {
+        "id": "R:b:2",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 20,
+        "level": 20,
+        "cumulative": 10609.5
+      },
+      {
+        "id": "R:b:3",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 20,
+        "level": 20,
+        "cumulative": 10699.5
+      },
+      {
+        "id": "R:b:4",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 20,
+        "level": 21,
+        "cumulative": 10789.5
+      },
+      {
+        "id": "R:o2",
+        "xp": 150,
+        "gold": 30,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 150,
+        "beforeLevel": 21,
+        "level": 21,
+        "cumulative": 10939.5
+      },
+      {
+        "id": "R:c:1",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 21,
+        "level": 21,
+        "cumulative": 11029.5
+      },
+      {
+        "id": "R:c:2",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 21,
+        "level": 21,
+        "cumulative": 11119.5
+      },
+      {
+        "id": "R:c:3",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 21,
+        "level": 21,
+        "cumulative": 11209.5
+      },
+      {
+        "id": "R:c:4",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 21,
+        "level": 21,
+        "cumulative": 11299.5
+      },
+      {
+        "id": "R:c:5",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 21,
+        "level": 21,
+        "cumulative": 11389.5
+      },
+      {
+        "id": "R:o3",
+        "xp": 175,
+        "gold": 35,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 175,
+        "beforeLevel": 21,
+        "level": 21,
+        "cumulative": 11564.5
+      },
+      {
+        "id": "R:d:1",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 21,
+        "level": 21,
+        "cumulative": 11654.5
+      },
+      {
+        "id": "R:d:2",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 21,
+        "level": 21,
+        "cumulative": 11744.5
+      },
+      {
+        "id": "R:d:3",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 21,
+        "level": 22,
+        "cumulative": 11834.5
+      },
+      {
+        "id": "R:d:4",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 22,
+        "level": 22,
+        "cumulative": 11924.5
+      },
+      {
+        "id": "R:o4",
+        "xp": 175,
+        "gold": 40,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 175,
+        "beforeLevel": 22,
+        "level": 22,
+        "cumulative": 12099.5
+      },
+      {
+        "id": "R:e:1",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 22,
+        "level": 22,
+        "cumulative": 12189.5
+      },
+      {
+        "id": "R:e:2",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 22,
+        "level": 22,
+        "cumulative": 12279.5
+      },
+      {
+        "id": "R:e:3",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 22,
+        "level": 22,
+        "cumulative": 12369.5
+      },
+      {
+        "id": "R:e:4",
+        "xp": 120,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 90,
+        "beforeLevel": 22,
+        "level": 22,
+        "cumulative": 12459.5
+      },
+      {
+        "id": "R:boss",
+        "xp": 300,
+        "gold": 45,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 225,
+        "beforeLevel": 22,
+        "level": 22,
+        "cumulative": 12684.5
+      },
+      {
+        "id": "R:o5",
+        "xp": 100,
+        "gold": 23,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 100,
+        "beforeLevel": 22,
+        "level": 22,
+        "cumulative": 12784.5
+      },
+      {
+        "id": "R:o6",
+        "xp": 150,
+        "gold": 70,
+        "kind": "report",
+        "multiplier": 1,
+        "appliedXp": 150,
+        "beforeLevel": 22,
+        "level": 22,
+        "cumulative": 12934.5
+      },
+      {
+        "id": "A:a:1",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 22,
+        "level": 23,
+        "cumulative": 13032
+      },
+      {
+        "id": "A:a:2",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 23,
+        "level": 23,
+        "cumulative": 13129.5
+      },
+      {
+        "id": "A:a:3",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 23,
+        "level": 23,
+        "cumulative": 13227
+      },
+      {
+        "id": "A:o1",
+        "xp": 150,
+        "gold": 30,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 150,
+        "beforeLevel": 23,
+        "level": 23,
+        "cumulative": 13377
+      },
+      {
+        "id": "A:b:1",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 23,
+        "level": 23,
+        "cumulative": 13474.5
+      },
+      {
+        "id": "A:b:2",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 23,
+        "level": 23,
+        "cumulative": 13572
+      },
+      {
+        "id": "A:b:3",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 23,
+        "level": 23,
+        "cumulative": 13669.5
+      },
+      {
+        "id": "A:b:4",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 23,
+        "level": 23,
+        "cumulative": 13767
+      },
+      {
+        "id": "A:o2",
+        "xp": 150,
+        "gold": 35,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 150,
+        "beforeLevel": 23,
+        "level": 23,
+        "cumulative": 13917
+      },
+      {
+        "id": "A:c:1",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 23,
+        "level": 23,
+        "cumulative": 14014.5
+      },
+      {
+        "id": "A:c:2",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 23,
+        "level": 23,
+        "cumulative": 14112
+      },
+      {
+        "id": "A:c:3",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 23,
+        "level": 24,
+        "cumulative": 14209.5
+      },
+      {
+        "id": "A:c:4",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 24,
+        "level": 24,
+        "cumulative": 14307
+      },
+      {
+        "id": "A:c:5",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 24,
+        "level": 24,
+        "cumulative": 14404.5
+      },
+      {
+        "id": "A:o3",
+        "xp": 200,
+        "gold": 45,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 200,
+        "beforeLevel": 24,
+        "level": 24,
+        "cumulative": 14604.5
+      },
+      {
+        "id": "A:d:1",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 24,
+        "level": 24,
+        "cumulative": 14702
+      },
+      {
+        "id": "A:d:2",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 24,
+        "level": 24,
+        "cumulative": 14799.5
+      },
+      {
+        "id": "A:d:3",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 24,
+        "level": 24,
+        "cumulative": 14897
+      },
+      {
+        "id": "A:d:4",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 24,
+        "level": 24,
+        "cumulative": 14994.5
+      },
+      {
+        "id": "A:o4",
+        "xp": 200,
+        "gold": 45,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 200,
+        "beforeLevel": 24,
+        "level": 24,
+        "cumulative": 15194.5
+      },
+      {
+        "id": "A:e:1",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 24,
+        "level": 24,
+        "cumulative": 15292
+      },
+      {
+        "id": "A:e:2",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 24,
+        "level": 24,
+        "cumulative": 15389.5
+      },
+      {
+        "id": "A:e:3",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 24,
+        "level": 25,
+        "cumulative": 15487
+      },
+      {
+        "id": "A:e:4",
+        "xp": 130,
+        "gold": 7,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 97.5,
+        "beforeLevel": 25,
+        "level": 25,
+        "cumulative": 15584.5
+      },
+      {
+        "id": "A:boss",
+        "xp": 320,
+        "gold": 50,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 240,
+        "beforeLevel": 25,
+        "level": 25,
+        "cumulative": 15824.5
+      },
+      {
+        "id": "A:o5",
+        "xp": 100,
+        "gold": 26,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 100,
+        "beforeLevel": 25,
+        "level": 25,
+        "cumulative": 15924.5
+      },
+      {
+        "id": "A:o6",
+        "xp": 150,
+        "gold": 75,
+        "kind": "report",
+        "multiplier": 1,
+        "appliedXp": 150,
+        "beforeLevel": 25,
+        "level": 25,
+        "cumulative": 16074.5
+      },
+      {
+        "id": "F:a:1",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 25,
+        "level": 25,
+        "cumulative": 16179.5
+      },
+      {
+        "id": "F:a:2",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 25,
+        "level": 25,
+        "cumulative": 16284.5
+      },
+      {
+        "id": "F:a:3",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 25,
+        "level": 25,
+        "cumulative": 16389.5
+      },
+      {
+        "id": "F:o1",
+        "xp": 150,
+        "gold": 35,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 150,
+        "beforeLevel": 25,
+        "level": 25,
+        "cumulative": 16539.5
+      },
+      {
+        "id": "F:b:1",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 25,
+        "level": 25,
+        "cumulative": 16644.5
+      },
+      {
+        "id": "F:b:2",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 25,
+        "level": 26,
+        "cumulative": 16749.5
+      },
+      {
+        "id": "F:b:3",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 26,
+        "level": 26,
+        "cumulative": 16854.5
+      },
+      {
+        "id": "F:b:4",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 26,
+        "level": 26,
+        "cumulative": 16959.5
+      },
+      {
+        "id": "F:o2",
+        "xp": 200,
+        "gold": 40,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 200,
+        "beforeLevel": 26,
+        "level": 26,
+        "cumulative": 17159.5
+      },
+      {
+        "id": "F:c:1",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 26,
+        "level": 26,
+        "cumulative": 17264.5
+      },
+      {
+        "id": "F:c:2",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 26,
+        "level": 26,
+        "cumulative": 17369.5
+      },
+      {
+        "id": "F:c:3",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 26,
+        "level": 26,
+        "cumulative": 17474.5
+      },
+      {
+        "id": "F:c:4",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 26,
+        "level": 26,
+        "cumulative": 17579.5
+      },
+      {
+        "id": "F:c:5",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 26,
+        "level": 26,
+        "cumulative": 17684.5
+      },
+      {
+        "id": "F:o3",
+        "xp": 225,
+        "gold": 50,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 225,
+        "beforeLevel": 26,
+        "level": 26,
+        "cumulative": 17909.5
+      },
+      {
+        "id": "F:d:1",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 26,
+        "level": 26,
+        "cumulative": 18014.5
+      },
+      {
+        "id": "F:d:2",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 26,
+        "level": 27,
+        "cumulative": 18119.5
+      },
+      {
+        "id": "F:d:3",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 27,
+        "level": 27,
+        "cumulative": 18224.5
+      },
+      {
+        "id": "F:d:4",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 27,
+        "level": 27,
+        "cumulative": 18329.5
+      },
+      {
+        "id": "F:o4",
+        "xp": 225,
+        "gold": 50,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 225,
+        "beforeLevel": 27,
+        "level": 27,
+        "cumulative": 18554.5
+      },
+      {
+        "id": "F:e:1",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 27,
+        "level": 27,
+        "cumulative": 18659.5
+      },
+      {
+        "id": "F:e:2",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 27,
+        "level": 27,
+        "cumulative": 18764.5
+      },
+      {
+        "id": "F:e:3",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 27,
+        "level": 27,
+        "cumulative": 18869.5
+      },
+      {
+        "id": "F:e:4",
+        "xp": 140,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 105,
+        "beforeLevel": 27,
+        "level": 27,
+        "cumulative": 18974.5
+      },
+      {
+        "id": "F:boss",
+        "xp": 340,
+        "gold": 60,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 255,
+        "beforeLevel": 27,
+        "level": 27,
+        "cumulative": 19229.5
+      },
+      {
+        "id": "F:o5",
+        "xp": 100,
+        "gold": 29,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 100,
+        "beforeLevel": 27,
+        "level": 27,
+        "cumulative": 19329.5
+      },
+      {
+        "id": "F:o6",
+        "xp": 150,
+        "gold": 80,
+        "kind": "report",
+        "multiplier": 1,
+        "appliedXp": 150,
+        "beforeLevel": 27,
+        "level": 27,
+        "cumulative": 19479.5
+      },
+      {
+        "id": "S:a:1",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 27,
+        "level": 28,
+        "cumulative": 19592
+      },
+      {
+        "id": "S:a:2",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 28,
+        "level": 28,
+        "cumulative": 19704.5
+      },
+      {
+        "id": "S:a:3",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 28,
+        "level": 28,
+        "cumulative": 19817
+      },
+      {
+        "id": "S:o1",
+        "xp": 200,
+        "gold": 25,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 200,
+        "beforeLevel": 28,
+        "level": 28,
+        "cumulative": 20017
+      },
+      {
+        "id": "S:b:1",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 28,
+        "level": 28,
+        "cumulative": 20129.5
+      },
+      {
+        "id": "S:b:2",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 28,
+        "level": 28,
+        "cumulative": 20242
+      },
+      {
+        "id": "S:b:3",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 28,
+        "level": 28,
+        "cumulative": 20354.5
+      },
+      {
+        "id": "S:b:4",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 28,
+        "level": 28,
+        "cumulative": 20467
+      },
+      {
+        "id": "S:o2",
+        "xp": 200,
+        "gold": 30,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 200,
+        "beforeLevel": 28,
+        "level": 28,
+        "cumulative": 20667
+      },
+      {
+        "id": "S:c:1",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 28,
+        "level": 28,
+        "cumulative": 20779.5
+      },
+      {
+        "id": "S:c:2",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 28,
+        "level": 28,
+        "cumulative": 20892
+      },
+      {
+        "id": "S:c:3",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 28,
+        "level": 28,
+        "cumulative": 21004.5
+      },
+      {
+        "id": "S:c:4",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 28,
+        "level": 29,
+        "cumulative": 21117
+      },
+      {
+        "id": "S:c:5",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 29,
+        "level": 29,
+        "cumulative": 21229.5
+      },
+      {
+        "id": "S:o3",
+        "xp": 250,
+        "gold": 40,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 250,
+        "beforeLevel": 29,
+        "level": 29,
+        "cumulative": 21479.5
+      },
+      {
+        "id": "S:d:1",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 29,
+        "level": 29,
+        "cumulative": 21592
+      },
+      {
+        "id": "S:d:2",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 29,
+        "level": 29,
+        "cumulative": 21704.5
+      },
+      {
+        "id": "S:d:3",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 29,
+        "level": 29,
+        "cumulative": 21817
+      },
+      {
+        "id": "S:d:4",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 29,
+        "level": 29,
+        "cumulative": 21929.5
+      },
+      {
+        "id": "S:o4",
+        "xp": 250,
+        "gold": 40,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 250,
+        "beforeLevel": 29,
+        "level": 29,
+        "cumulative": 22179.5
+      },
+      {
+        "id": "S:e:1",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 29,
+        "level": 29,
+        "cumulative": 22292
+      },
+      {
+        "id": "S:e:2",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 29,
+        "level": 29,
+        "cumulative": 22404.5
+      },
+      {
+        "id": "S:e:3",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 29,
+        "level": 29,
+        "cumulative": 22517
+      },
+      {
+        "id": "S:e:4",
+        "xp": 150,
+        "gold": 8,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.75,
+        "appliedXp": 112.5,
+        "beforeLevel": 29,
+        "level": 30,
+        "cumulative": 22629.5
+      },
+      {
+        "id": "S:boss",
+        "xp": 360,
+        "gold": 70,
+        "kind": "kill",
+        "tier": "expert",
+        "multiplier": 0.375,
+        "appliedXp": 135,
+        "beforeLevel": 30,
+        "level": 30,
+        "cumulative": 22764.5
+      },
+      {
+        "id": "S:o5",
+        "xp": 100,
+        "gold": 27,
+        "kind": "objective",
+        "multiplier": 1,
+        "appliedXp": 100,
+        "beforeLevel": 30,
+        "level": 30,
+        "cumulative": 22864.5
+      },
+      {
+        "id": "S:o6",
+        "xp": 150,
+        "gold": 300,
+        "kind": "report",
+        "multiplier": 1,
+        "appliedXp": 150,
+        "beforeLevel": 30,
+        "level": 30,
+        "cumulative": 23014.5
+      }
+    ],
+    "walletStress": [
+      {
+        "startingGold": 0,
+        "earned": 2410,
+        "purchases": 700,
+        "deathLoss": 409,
+        "masterFee": 300,
+        "endingGold": 1001,
+        "stages": [
+          {
+            "region": "W",
+            "gold": 205,
+            "reserved": 0,
+            "spendable": 205,
+            "spent": 155
+          },
+          {
+            "region": "R",
+            "gold": 434,
+            "reserved": 0,
+            "spendable": 434,
+            "spent": 334
+          },
+          {
+            "region": "A",
+            "gold": 635,
+            "reserved": 0,
+            "spendable": 635,
+            "spent": 579
+          },
+          {
+            "region": "F",
+            "gold": 849,
+            "reserved": 0,
+            "spendable": 849,
+            "spent": 869
+          },
+          {
+            "region": "S",
+            "gold": 1301,
+            "reserved": 300,
+            "spendable": 1001,
+            "spent": 1109
+          }
+        ]
+      },
+      {
+        "startingGold": 1537,
+        "earned": 2410,
+        "purchases": 700,
+        "deathLoss": 1026,
+        "masterFee": 300,
+        "endingGold": 1921,
+        "stages": [
+          {
+            "region": "W",
+            "gold": 1593,
+            "reserved": 0,
+            "spendable": 1593,
+            "spent": 304
+          },
+          {
+            "region": "R",
+            "gold": 1686,
+            "reserved": 0,
+            "spendable": 1686,
+            "spent": 619
+          },
+          {
+            "region": "A",
+            "gold": 1765,
+            "reserved": 0,
+            "spendable": 1765,
+            "spent": 986
+          },
+          {
+            "region": "F",
+            "gold": 1869,
+            "reserved": 0,
+            "spendable": 1869,
+            "spent": 1386
+          },
+          {
+            "region": "S",
+            "gold": 2221,
+            "reserved": 300,
+            "spendable": 1921,
+            "spent": 1726
+          }
+        ]
+      }
+    ]
+  }
+}

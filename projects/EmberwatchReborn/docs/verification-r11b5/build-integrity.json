@@ -1,0 +1,16 @@
+[
+  {
+    "directory": "dist",
+    "version": "0.11.0-reimplementation.8",
+    "payloads": 90,
+    "imports": 240,
+    "allHashes": "passed"
+  },
+  {
+    "directory": "dist-recovery",
+    "version": "0.11.0-reimplementation.8",
+    "payloads": 90,
+    "imports": 240,
+    "allHashes": "passed"
+  }
+]

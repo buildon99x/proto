@@ -1,0 +1,32 @@
+✔ W mode 0: low cover and opened floor follow actual collision tiles (12.22533ms)
+✔ W mode 1: low cover and opened floor follow actual collision tiles (4.08399ms)
+✔ W mode 2: low cover and opened floor follow actual collision tiles (3.345251ms)
+✔ W opened-door cues fail closed on one solid tile and all-hidden fog (3.457881ms)
+✔ W role geometry uses explicit undead tags and keeps living flankers distinct without body or hitbox scaling (0.353049ms)
+✔ actual W renderer draws each living role and non-color threat label with static flash0 parity (9.145358ms)
+✔ W role cues exclude inactive actors (2.244399ms)
+✔ W role cues exclude dead actors (3.656489ms)
+✔ W role cues exclude zero HP actors (2.760224ms)
+✔ W role cues exclude offscreen actors (1.831439ms)
+✔ W fog prevents unobserved role labels and marks (0.608754ms)
+✔ actual W role marks, labels and low wall sprites remain below hostile warning and actor layers (3.180735ms)
+✔ real main W cover: Eda, five required groups, relic, report and optional post-report rescue (11029.371074ms)
+✔ real main W channel: Eda, five required groups, relic, report and optional post-report rescue (9226.48995ms)
+✔ W button serializes one committed report and rejects detached stale token without restamping or healing (1190.27979ms)
+✔ W placeholder pauses before delayed checkpoint, preserves newer panel, and does not expose an action early (175.130796ms)
+✔ W Eda placeholder waits for an existing commit before capturing its exact revision and depleted pools (414.800997ms)
+✔ W double click, old modal epoch and delayed objective save never create optimistic or duplicate rewards (371.035353ms)
+✔ W failed UNAVAILABLE action preserves real storage, pools and unclaimed reward (343.374674ms)
+✔ W failed COMMIT_UNCERTAIN action preserves real storage, pools and unclaimed reward (368.79102ms)
+✔ W failed CONFLICT action preserves real storage, pools and unclaimed reward (367.127395ms)
+✔ W map-only choice preserves living actor identity, HP, projectiles, areas and committed paid recovery (551.846378ms)
+✔ W journal prefix, paid recovery and receipts survive real reload; dead retry carries a fresh captured store token (641.222084ms)
+✔ R12 title offers explicit R11 forward-copy without changing source profile (35.069201ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 25038.667722

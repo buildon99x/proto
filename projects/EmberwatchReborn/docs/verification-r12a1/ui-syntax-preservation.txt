@@ -1,0 +1,17 @@
+report: unchanged from W ddee4c0
+flushActionSafety: unchanged from W ddee4c0
+dispatch: unchanged from W ddee4c0
+checkpointPanel: unchanged from W ddee4c0
+wildernessActionButton: unchanged from W ddee4c0
+showWilderness: unchanged from W ddee4c0
+loadProfile: only early unsupported-route rejection added; ddee4c0 body unchanged
+main.js: syntax pass
+candidate-profile.js: syntax pass
+recovery-main.js: syntax pass
+recovery-page.js: syntax pass
+upgrade-backup-ui.js: syntax pass
+candidate-route-guard.test.mjs: syntax pass
+recovery-page.test.mjs: syntax pass
+recovery-storage-ui.test.mjs: syntax pass
+upgrade-backup-ui.test.mjs: syntax pass
+diff whitespace: pass

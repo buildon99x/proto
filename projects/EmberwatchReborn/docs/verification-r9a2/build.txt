@@ -1,0 +1,11 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> emberwatch-reborn@0.9.0-reimplementation.3 build
+> node scripts/build.mjs
+
+{
+  "files": 65,
+  "bytes": 16162784,
+  "output": "/workspace/shared/emberwatch-r9a2-visual/projects/EmberwatchReborn/app/dist",
+  "gameplayAcceptance": "not_established_by_build"
+}

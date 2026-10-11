@@ -1,0 +1,1234 @@
+TAP version 13
+# Subtest: B validator leaves untouched old states byte-identical and does not infer completion
+ok 1 - B validator leaves untouched old states byte-identical and does not infer completion
+  ---
+  duration_ms: 2.579132
+  type: 'test'
+  ...
+# Subtest: synthetic B prerequisites: T report/level/commission cannot substitute for real Expert history
+ok 2 - synthetic B prerequisites: T report/level/commission cannot substitute for real Expert history
+  ---
+  duration_ms: 1276.485864
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement minimum easy, west→east: exact one-time budgets and Eda-only completion
+ok 3 - synthetic production B settlement minimum easy, west→east: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 1622.893125
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement minimum easy, east→west: exact one-time budgets and Eda-only completion
+ok 4 - synthetic production B settlement minimum easy, east→west: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 557.18365
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement minimum normal, west→east: exact one-time budgets and Eda-only completion
+ok 5 - synthetic production B settlement minimum normal, west→east: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 550.380628
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement minimum normal, east→west: exact one-time budgets and Eda-only completion
+ok 6 - synthetic production B settlement minimum normal, east→west: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 548.895194
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement minimum hard, west→east: exact one-time budgets and Eda-only completion
+ok 7 - synthetic production B settlement minimum hard, west→east: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 1585.661706
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement minimum hard, east→west: exact one-time budgets and Eda-only completion
+ok 8 - synthetic production B settlement minimum hard, east→west: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 513.290124
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement minimum serious, west→east: exact one-time budgets and Eda-only completion
+ok 9 - synthetic production B settlement minimum serious, west→east: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 1501.227222
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement minimum serious, east→west: exact one-time budgets and Eda-only completion
+ok 10 - synthetic production B settlement minimum serious, east→west: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 532.044882
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement full easy, west→east: exact one-time budgets and Eda-only completion
+ok 11 - synthetic production B settlement full easy, west→east: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 1630.965224
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement full easy, east→west: exact one-time budgets and Eda-only completion
+ok 12 - synthetic production B settlement full easy, east→west: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 527.271127
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement full normal, west→east: exact one-time budgets and Eda-only completion
+ok 13 - synthetic production B settlement full normal, west→east: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 1547.738192
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement full normal, east→west: exact one-time budgets and Eda-only completion
+ok 14 - synthetic production B settlement full normal, east→west: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 527.711968
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement full hard, west→east: exact one-time budgets and Eda-only completion
+ok 15 - synthetic production B settlement full hard, west→east: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 1549.174487
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement full hard, east→west: exact one-time budgets and Eda-only completion
+ok 16 - synthetic production B settlement full hard, east→west: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 520.026122
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement full serious, west→east: exact one-time budgets and Eda-only completion
+ok 17 - synthetic production B settlement full serious, west→east: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 1558.996964
+  type: 'test'
+  ...
+# Subtest: synthetic production B settlement full serious, east→west: exact one-time budgets and Eda-only completion
+ok 18 - synthetic production B settlement full serious, east→west: exact one-time budgets and Eda-only completion
+  ---
+  duration_ms: 520.104385
+  type: 'test'
+  ...
+# Subtest: synthetic B guards reject future boss kills, unpaid devices, early report and remote/forged commands
+ok 19 - synthetic B guards reject future boss kills, unpaid devices, early report and remote/forged commands
+  ---
+  duration_ms: 117.013859
+  type: 'test'
+  ...
+# Subtest: synthetic B repeat/stale clicks and partial-device load/re-entry keep earned state without refill
+ok 20 - synthetic B repeat/stale clicks and partial-device load/re-entry keep earned state without refill
+  ---
+  duration_ms: 154.155276
+  type: 'test'
+  ...
+# Subtest: synthetic B boss/hero simultaneous settlement pays once, dead load cannot claim beacon, explicit retry keeps progress
+ok 21 - synthetic B boss/hero simultaneous settlement pays once, dead load cannot claim beacon, explicit retry keeps progress
+  ---
+  duration_ms: 244.049121
+  type: 'test'
+  ...
+# Subtest: B bidirectional load validator rejects unknown/partial/forged progress and inaccessible boss receipts
+ok 22 - B bidirectional load validator rejects unknown/partial/forged progress and inaccessible boss receipts
+  ---
+  duration_ms: 268.297189
+  type: 'test'
+  ...
+# Subtest: B bounded ledgers fail atomically without truncation, extra supplies or revised progress
+ok 23 - B bounded ledgers fail atomically without truncation, extra supplies or revised progress
+  ---
+  duration_ms: 420.314445
+  type: 'test'
+  ...
+# Subtest: B pure presentation gives current orders, completed/reward/continuation truth and minimal command fields
+ok 24 - B pure presentation gives current orders, completed/reward/continuation truth and minimal command fields
+  ---
+  duration_ms: 452.339837
+  type: 'test'
+  ...
+# Subtest: synthetic isolated live B AI: authored battlefield_revenant actually produces disarm
+ok 25 - synthetic isolated live B AI: authored battlefield_revenant actually produces disarm
+  ---
+  duration_ms: 90.544212
+  type: 'test'
+  ...
+# Subtest: synthetic isolated live B AI: authored battlefield_hexer actually produces poison
+ok 26 - synthetic isolated live B AI: authored battlefield_hexer actually produces poison
+  ---
+  duration_ms: 91.003251
+  type: 'test'
+  ...
+# Subtest: synthetic isolated live B AI: authored battlefield_pyromancer actually produces burn
+ok 27 - synthetic isolated live B AI: authored battlefield_pyromancer actually produces burn
+  ---
+  duration_ms: 88.887475
+  type: 'test'
+  ...
+# Subtest: synthetic isolated live B AI: authored battlefield_lancer actually produces slow
+ok 28 - synthetic isolated live B AI: authored battlefield_lancer actually produces slow
+  ---
+  duration_ms: 104.311788
+  type: 'test'
+  ...
+# Subtest: synthetic isolated live B AI: authored battlefield_binder actually produces silence
+ok 29 - synthetic isolated live B AI: authored battlefield_binder actually produces silence
+  ---
+  duration_ms: 90.72976
+  type: 'test'
+  ...
+# Subtest: synthetic isolated live B AI: authored battlefield_bulwark actually produces stun
+ok 30 - synthetic isolated live B AI: authored battlefield_bulwark actually produces stun
+  ---
+  duration_ms: 104.002664
+  type: 'test'
+  ...
+# Subtest: synthetic isolated live B AI poison is actually cleansed by a purchased heal, without altering earlier Tomb taxonomy
+ok 31 - synthetic isolated live B AI poison is actually cleansed by a purchased heal, without altering earlier Tomb taxonomy
+  ---
+  duration_ms: 144.693172
+  type: 'test'
+  ...
+# Subtest: synthetic isolated real heal burns only authored undead in a mixed B encounter
+ok 32 - synthetic isolated real heal burns only authored undead in a mixed B encounter
+  ---
+  duration_ms: 101.507748
+  type: 'test'
+  ...
+# Subtest: synthetic isolated live B spell retains its owner and enables purchased Lawbringer rather than relying on ranged shape
+ok 33 - synthetic isolated live B spell retains its owner and enables purchased Lawbringer rather than relying on ranged shape
+  ---
+  duration_ms: 112.712518
+  type: 'test'
+  ...
+# Subtest: synthetic isolated live B boss alternates committed long spell line and broad weapon sweep, with real recovery
+ok 34 - synthetic isolated live B boss alternates committed long spell line and broad weapon sweep, with real recovery
+  ---
+  duration_ms: 211.574546
+  type: 'test'
+  ...
+# Subtest: relocated town B entrance guidance names northern clearing, never old southeast gate stack
+ok 35 - relocated town B entrance guidance names northern clearing, never old southeast gate stack
+  ---
+  duration_ms: 39.525199
+  type: 'test'
+  ...
+# Subtest: synthetic B geometry: devices 0/0, continuous radius11 routes and gated boss LOS
+ok 36 - synthetic B geometry: devices 0/0, continuous radius11 routes and gated boss LOS
+  ---
+  duration_ms: 50.735997
+  type: 'test'
+  ...
+# Subtest: synthetic B geometry: devices 1/0, continuous radius11 routes and gated boss LOS
+ok 37 - synthetic B geometry: devices 1/0, continuous radius11 routes and gated boss LOS
+  ---
+  duration_ms: 40.079311
+  type: 'test'
+  ...
+# Subtest: synthetic B geometry: devices 0/1, continuous radius11 routes and gated boss LOS
+ok 38 - synthetic B geometry: devices 0/1, continuous radius11 routes and gated boss LOS
+  ---
+  duration_ms: 35.167939
+  type: 'test'
+  ...
+# Subtest: synthetic B geometry: devices 1/1, continuous radius11 routes and gated boss LOS
+ok 39 - synthetic B geometry: devices 1/1, continuous radius11 routes and gated boss LOS
+  ---
+  duration_ms: 4.008577
+  type: 'test'
+  ...
+# Subtest: synthetic B geometry: arrivals are beyond visible activation range, cover blocks shots, lateral exits remain swept-clear
+ok 40 - synthetic B geometry: arrivals are beyond visible activation range, cover blocks shots, lateral exits remain swept-clear
+  ---
+  duration_ms: 0.439079
+  type: 'test'
+  ...
+# Subtest: B content explicitly owns tags, distinct boss attacks, all six statuses and exact authored budget
+ok 41 - B content explicitly owns tags, distinct boss attacks, all six statuses and exact authored budget
+  ---
+  duration_ms: 1.131338
+  type: 'test'
+  ...
+# Subtest: synthetic arithmetic B budget from documented T easy total, not played progression
+ok 42 - synthetic arithmetic B budget from documented T easy total, not played progression
+  ---
+  duration_ms: 1.643797
+  type: 'test'
+  ...
+# Subtest: synthetic arithmetic B budget from documented T normal total, not played progression
+ok 43 - synthetic arithmetic B budget from documented T normal total, not played progression
+  ---
+  duration_ms: 0.681102
+  type: 'test'
+  ...
+# Subtest: synthetic arithmetic B budget from documented T hard total, not played progression
+ok 44 - synthetic arithmetic B budget from documented T hard total, not played progression
+  ---
+  duration_ms: 0.536796
+  type: 'test'
+  ...
+# Subtest: synthetic arithmetic B budget from documented T serious total, not played progression
+ok 45 - synthetic arithmetic B budget from documented T serious total, not played progression
+  ---
+  duration_ms: 0.802465
+  type: 'test'
+  ...
+# Subtest: B accepted: low wall geometry follows real floor edges and paving follows the complete door
+ok 46 - B accepted: low wall geometry follows real floor edges and paving follows the complete door
+  ---
+  duration_ms: 11.350057
+  type: 'test'
+  ...
+# Subtest: B west only: low wall geometry follows real floor edges and paving follows the complete door
+ok 47 - B west only: low wall geometry follows real floor edges and paving follows the complete door
+  ---
+  duration_ms: 3.454034
+  type: 'test'
+  ...
+# Subtest: B east only: low wall geometry follows real floor edges and paving follows the complete door
+ok 48 - B east only: low wall geometry follows real floor edges and paving follows the complete door
+  ---
+  duration_ms: 1.702396
+  type: 'test'
+  ...
+# Subtest: B both devices: low wall geometry follows real floor edges and paving follows the complete door
+ok 49 - B both devices: low wall geometry follows real floor edges and paving follows the complete door
+  ---
+  duration_ms: 2.528576
+  type: 'test'
+  ...
+# Subtest: a single physically closed central-door tile suppresses every passage band despite completed objectives
+ok 50 - a single physically closed central-door tile suppresses every passage band despite completed objectives
+  ---
+  duration_ms: 2.288686
+  type: 'test'
+  ...
+# Subtest: B fog and proximity reveal only real adjacent cover and individual actual open-door tiles
+ok 51 - B fog and proximity reveal only real adjacent cover and individual actual open-door tiles
+  ---
+  duration_ms: 2.385952
+  type: 'test'
+  ...
+# Subtest: B mapping matches presentation roleShapes and reuses old glyphs without body/hitbox scaling
+ok 52 - B mapping matches presentation roleShapes and reuses old glyphs without body/hitbox scaling
+  ---
+  duration_ms: 0.350195
+  type: 'test'
+  ...
+# Subtest: only explicitly undead B rows get the side-skull, separating the two slit roles without color
+ok 53 - only explicitly undead B rows get the side-skull, separating the two slit roles without color
+  ---
+  duration_ms: 0.383215
+  type: 'test'
+  ...
+# Subtest: actual B renderer draws every living active role path and explicit catalog threat label
+ok 54 - actual B renderer draws every living active role path and explicit catalog threat label
+  ---
+  duration_ms: 4.832664
+  type: 'test'
+  ...
+# Subtest: B roles and threat names exclude inactive enemies
+ok 55 - B roles and threat names exclude inactive enemies
+  ---
+  duration_ms: 2.22479
+  type: 'test'
+  ...
+# Subtest: B roles and threat names exclude zero HP enemies
+ok 56 - B roles and threat names exclude zero HP enemies
+  ---
+  duration_ms: 1.804358
+  type: 'test'
+  ...
+# Subtest: B roles and threat names exclude dead enemies
+ok 57 - B roles and threat names exclude dead enemies
+  ---
+  duration_ms: 1.521074
+  type: 'test'
+  ...
+# Subtest: B roles and threat names exclude offscreen enemies
+ok 58 - B roles and threat names exclude offscreen enemies
+  ---
+  duration_ms: 2.063217
+  type: 'test'
+  ...
+# Subtest: B role/status visibility honors per-actor fog and never reveals unobserved enemies
+ok 59 - B role/status visibility honors per-actor fog and never reveals unobserved enemies
+  ---
+  duration_ms: 0.852069
+  type: 'test'
+  ...
+# Subtest: actual B low atlas walls, paving and role/status cues stay below hostile tells, loot and actors
+ok 60 - actual B low atlas walls, paving and role/status cues stay below hostile tells, loot and actors
+  ---
+  duration_ms: 2.8647
+  type: 'test'
+  ...
+# Subtest: threat name remains below foot glyph while applied disable statuses remain above head and HP
+ok 61 - threat name remains below foot glyph while applied disable statuses remain above head and HP
+  ---
+  duration_ms: 2.411229
+  type: 'test'
+  ...
+# Subtest: B flash0 retains static wall/paving/glyph/threat/status output without brightness requirements
+ok 62 - B flash0 retains static wall/paving/glyph/threat/status output without brightness requirements
+  ---
+  duration_ms: 4.828347
+  type: 'test'
+  ...
+# Subtest: B cues cannot alter any previous region render command or invent architecture elsewhere
+ok 63 - B cues cannot alter any previous region render command or invent architecture elsewhere
+  ---
+  duration_ms: 25.612015
+  type: 'test'
+  ...
+# Subtest: frozen map, actors, status state and catalog remain untouched by B rendering
+ok 64 - frozen map, actors, status state and catalog remain untouched by B rendering
+  ---
+  duration_ms: 3.306373
+  type: 'test'
+  ...
+# Subtest: B keeps prior floor, HP/speed/damage/budgets/IDs while only east lancers change formation
+ok 65 - B keeps prior floor, HP/speed/damage/budgets/IDs while only east lancers change formation
+  ---
+  duration_ms: 1.917027
+  type: 'test'
+  ...
+# Subtest: battlefield_hexer at step 0.01: finite vulnerable lateral walk then real locked attack
+ok 66 - battlefield_hexer at step 0.01: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 57.091587
+  type: 'test'
+  ...
+# Subtest: battlefield_hexer at step 0.02: finite vulnerable lateral walk then real locked attack
+ok 67 - battlefield_hexer at step 0.02: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 20.114894
+  type: 'test'
+  ...
+# Subtest: battlefield_hexer at step 0.05: finite vulnerable lateral walk then real locked attack
+ok 68 - battlefield_hexer at step 0.05: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 10.89199
+  type: 'test'
+  ...
+# Subtest: battlefield_hexer at step 0.25: finite vulnerable lateral walk then real locked attack
+ok 69 - battlefield_hexer at step 0.25: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 10.158979
+  type: 'test'
+  ...
+# Subtest: battlefield_pyromancer at step 0.01: finite vulnerable lateral walk then real locked attack
+ok 70 - battlefield_pyromancer at step 0.01: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 30.397779
+  type: 'test'
+  ...
+# Subtest: battlefield_pyromancer at step 0.02: finite vulnerable lateral walk then real locked attack
+ok 71 - battlefield_pyromancer at step 0.02: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 16.878516
+  type: 'test'
+  ...
+# Subtest: battlefield_pyromancer at step 0.05: finite vulnerable lateral walk then real locked attack
+ok 72 - battlefield_pyromancer at step 0.05: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 9.206509
+  type: 'test'
+  ...
+# Subtest: battlefield_pyromancer at step 0.25: finite vulnerable lateral walk then real locked attack
+ok 73 - battlefield_pyromancer at step 0.25: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 9.255493
+  type: 'test'
+  ...
+# Subtest: battlefield_binder at step 0.01: finite vulnerable lateral walk then real locked attack
+ok 74 - battlefield_binder at step 0.01: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 28.787472
+  type: 'test'
+  ...
+# Subtest: battlefield_binder at step 0.02: finite vulnerable lateral walk then real locked attack
+ok 75 - battlefield_binder at step 0.02: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 15.727929
+  type: 'test'
+  ...
+# Subtest: battlefield_binder at step 0.05: finite vulnerable lateral walk then real locked attack
+ok 76 - battlefield_binder at step 0.05: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 9.539489
+  type: 'test'
+  ...
+# Subtest: battlefield_binder at step 0.25: finite vulnerable lateral walk then real locked attack
+ok 77 - battlefield_binder at step 0.25: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 8.258426
+  type: 'test'
+  ...
+# Subtest: battlefield_lancer at step 0.01: finite vulnerable lateral walk then real locked attack
+ok 78 - battlefield_lancer at step 0.01: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 12.568847
+  type: 'test'
+  ...
+# Subtest: battlefield_lancer at step 0.02: finite vulnerable lateral walk then real locked attack
+ok 79 - battlefield_lancer at step 0.02: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 8.20087
+  type: 'test'
+  ...
+# Subtest: battlefield_lancer at step 0.05: finite vulnerable lateral walk then real locked attack
+ok 80 - battlefield_lancer at step 0.05: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 5.536961
+  type: 'test'
+  ...
+# Subtest: battlefield_lancer at step 0.25: finite vulnerable lateral walk then real locked attack
+ok 81 - battlefield_lancer at step 0.25: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 5.770852
+  type: 'test'
+  ...
+# Subtest: a fixed step ignores changed aim/actions and does not chase the moving player mid-step
+ok 82 - a fixed step ignores changed aim/actions and does not chase the moving player mid-step
+  ---
+  duration_ms: 11.488335
+  type: 'test'
+  ...
+# Subtest: windup aim/geometry and full recovery are immutable before a close caster steps
+ok 83 - windup aim/geometry and full recovery are immutable before a close caster steps
+  ---
+  duration_ms: 25.084873
+  type: 'test'
+  ...
+# Subtest: boss does not evade first tell; first lateral step follows released attack and full debt, then sweep
+ok 84 - boss does not evade first tell; first lateral step follows released attack and full debt, then sweep
+  ---
+  duration_ms: 41.913004
+  type: 'test'
+  ...
+# Subtest: Shackles reduce ordinary footwork speed and timeout leaves a hittable foe that re-engages
+ok 85 - Shackles reduce ordinary footwork speed and timeout leaves a hittable foe that re-engages
+  ---
+  duration_ms: 16.169682
+  type: 'test'
+  ...
+# Subtest: real shield-charge stun interrupts a moving target and consumes its step opportunity
+ok 86 - real shield-charge stun interrupts a moving target and consumes its step opportunity
+  ---
+  duration_ms: 11.082465
+  type: 'test'
+  ...
+# Subtest: silence cancels current role step without permitting a suppressed attack
+ok 87 - silence cancels current role step without permitting a suppressed attack
+  ---
+  duration_ms: 11.784008
+  type: 'test'
+  ...
+# Subtest: disarm cancels current role step without permitting a suppressed attack
+ok 88 - disarm cancels current role step without permitting a suppressed attack
+  ---
+  duration_ms: 11.780783
+  type: 'test'
+  ...
+# Subtest: tight corridor and occupied lateral lanes consume only one attempt and immediately attack instead
+ok 89 - tight corridor and occupied lateral lanes consume only one attempt and immediately attack instead
+  ---
+  duration_ms: 6.599897
+  type: 'test'
+  ...
+# Subtest: real west-wall LOS cannot trigger a step, and a newly closed path cancels without warp
+ok 90 - real west-wall LOS cannot trigger a step, and a newly closed path cancels without warp
+  ---
+  duration_ms: 7.392657
+  type: 'test'
+  ...
+# Subtest: repeated combat re-engages between steps, enforces six seconds, and stays within the finite tether
+ok 91 - repeated combat re-engages between steps, enforces six seconds, and stays within the finite tether
+  ---
+  duration_ms: 193.182377
+  type: 'test'
+  ...
+# Subtest: same role data outside B and older regions retain ordinary attack with no role state
+ok 92 - same role data outside B and older regions retain ordinary attack with no role state
+  ---
+  duration_ms: 6.333527
+  type: 'test'
+  ...
+# Subtest: pause/arrival/dt0 and battle reconstruction do not age steps or introduce save fields
+ok 93 - pause/arrival/dt0 and battle reconstruction do not age steps or introduce save fields
+  ---
+  duration_ms: 6.26874
+  type: 'test'
+  ...
+# Subtest: surviving B fire victims reuse delayed bounded escape only after their recovery
+ok 94 - surviving B fire victims reuse delayed bounded escape only after their recovery
+  ---
+  duration_ms: 35.10224
+  type: 'test'
+  ...
+# Subtest: strong initial E still kills native low-HP melee before any fire response
+ok 95 - strong initial E still kills native low-HP melee before any fire response
+  ---
+  duration_ms: 10.166681
+  type: 'test'
+  ...
+# Subtest: B movement spends only time remaining after fractional recovery debt
+ok 96 - B movement spends only time remaining after fractional recovery debt
+  ---
+  duration_ms: 7.591856
+  type: 'test'
+  ...
+# Subtest: B fire escape takes priority and cannot chain a fresh lateral step before another attack
+ok 97 - B fire escape takes priority and cannot chain a fresh lateral step before another attack
+  ---
+  duration_ms: 25.664404
+  type: 'test'
+  ...
+# Subtest: an ordinary hammer damages a walking B role, without immunity or HP restoration
+ok 98 - an ordinary hammer damages a walking B role, without immunity or HP restoration
+  ---
+  duration_ms: 8.91383
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-hexer-1 can step on its native flank and resume an attack
+ok 99 - real B tiles: battlefield-hexer-1 can step on its native flank and resume an attack
+  ---
+  duration_ms: 15.212756
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-pyromancer-1 can step on its native flank and resume an attack
+ok 100 - real B tiles: battlefield-pyromancer-1 can step on its native flank and resume an attack
+  ---
+  duration_ms: 15.888359
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-lancer-1 can step on its native flank and resume an attack
+ok 101 - real B tiles: battlefield-lancer-1 can step on its native flank and resume an attack
+  ---
+  duration_ms: 8.261481
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-hexer-2 can step on its native flank and resume an attack
+ok 102 - real B tiles: battlefield-hexer-2 can step on its native flank and resume an attack
+  ---
+  duration_ms: 14.817923
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-binder-1 can step on its native flank and resume an attack
+ok 103 - real B tiles: battlefield-binder-1 can step on its native flank and resume an attack
+  ---
+  duration_ms: 15.338413
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-lancer-2 can step on its native flank and resume an attack
+ok 104 - real B tiles: battlefield-lancer-2 can step on its native flank and resume an attack
+  ---
+  duration_ms: 7.946258
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-lancer-3 can step on its native flank and resume an attack
+ok 105 - real B tiles: battlefield-lancer-3 can step on its native flank and resume an attack
+  ---
+  duration_ms: 7.800459
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-usurper can step on its native flank and resume an attack
+ok 106 - real B tiles: battlefield-usurper can step on its native flank and resume an attack
+  ---
+  duration_ms: 35.678105
+  type: 'test'
+  ...
+# Subtest: registered B world, reciprocal arrivals and actual campaign entry/boss guards are live
+ok 107 - registered B world, reciprocal arrivals and actual campaign entry/boss guards are live
+  ---
+  duration_ms: 1625.105973
+  type: 'test'
+  ...
+# Subtest: controller earned normal minimum west→east: real promotion, travel, one-time B ledger and read-only reload
+ok 108 - controller earned normal minimum west→east: real promotion, travel, one-time B ledger and read-only reload
+  ---
+  duration_ms: 1740.801814
+  type: 'test'
+  ...
+# Subtest: controller earned normal minimum east→west: real promotion, travel, one-time B ledger and read-only reload
+ok 109 - controller earned normal minimum east→west: real promotion, travel, one-time B ledger and read-only reload
+  ---
+  duration_ms: 1726.465373
+  type: 'test'
+  ...
+# Subtest: controller earned normal full west→east: real promotion, travel, one-time B ledger and read-only reload
+ok 110 - controller earned normal full west→east: real promotion, travel, one-time B ledger and read-only reload
+  ---
+  duration_ms: 2940.23516
+  type: 'test'
+  ...
+# Subtest: controller earned normal full east→west: real promotion, travel, one-time B ledger and read-only reload
+ok 111 - controller earned normal full east→west: real promotion, travel, one-time B ledger and read-only reload
+  ---
+  duration_ms: 1768.166712
+  type: 'test'
+  ...
+# Subtest: controller earned hard minimum west→east: real promotion, travel, one-time B ledger and read-only reload
+ok 112 - controller earned hard minimum west→east: real promotion, travel, one-time B ledger and read-only reload
+  ---
+  duration_ms: 2617.766341
+  type: 'test'
+  ...
+# Subtest: controller earned hard minimum east→west: real promotion, travel, one-time B ledger and read-only reload
+ok 113 - controller earned hard minimum east→west: real promotion, travel, one-time B ledger and read-only reload
+  ---
+  duration_ms: 1632.628282
+  type: 'test'
+  ...
+# Subtest: controller earned hard full west→east: real promotion, travel, one-time B ledger and read-only reload
+ok 114 - controller earned hard full west→east: real promotion, travel, one-time B ledger and read-only reload
+  ---
+  duration_ms: 2746.436705
+  type: 'test'
+  ...
+# Subtest: controller earned hard full east→west: real promotion, travel, one-time B ledger and read-only reload
+ok 115 - controller earned hard full east→west: real promotion, travel, one-time B ledger and read-only reload
+  ---
+  duration_ms: 1814.940732
+  type: 'test'
+  ...
+# Subtest: B presentation snapshots use B revision independently of unrelated controller/store commits
+ok 116 - B presentation snapshots use B revision independently of unrelated controller/store commits
+  ---
+  duration_ms: 581.689355
+  type: 'test'
+  ...
+# Subtest: real travel on B and older regions invalidates B panels without minting rewards
+ok 117 - real travel on B and older regions invalidates B panels without minting rewards
+  ---
+  duration_ms: 195.883615
+  type: 'test'
+  ...
+# Subtest: depleted partial-device checkpoint, repeated load and actual re-entry preserve paid pools, cooldowns, RNG and permanent defeats
+ok 118 - depleted partial-device checkpoint, repeated load and actual re-entry preserve paid pools, cooldowns, RNG and permanent defeats
+  ---
+  duration_ms: 403.464698
+  type: 'test'
+  ...
+# Subtest: controller death/reload/retry from westReady preserves devices and paid recovery without extra death or resurrected foes
+ok 119 - controller death/reload/retry from westReady preserves devices and paid recovery without extra death or resurrected foes
+  ---
+  duration_ms: 540.40675
+  type: 'test'
+  ...
+# Subtest: controller death/reload/retry from devicesReady preserves devices and paid recovery without extra death or resurrected foes
+ok 120 - controller death/reload/retry from devicesReady preserves devices and paid recovery without extra death or resurrected foes
+  ---
+  duration_ms: 543.473973
+  type: 'test'
+  ...
+# Subtest: simultaneous real boss/hero settlement commits boss reward once, dead load cannot take beacon, retry can finish
+ok 121 - simultaneous real boss/hero settlement commits boss reward once, dead load cannot take beacon, retry can finish
+  ---
+  duration_ms: 749.273584
+  type: 'test'
+  ...
+# Subtest: untouched v1 loads read-only and migration creates no B activity
+ok 122 - untouched v1 loads read-only and migration creates no B activity
+  ---
+  duration_ms: 4.971093
+  type: 'test'
+  ...
+# Subtest: untouched v2 loads read-only and migration creates no B activity
+ok 123 - untouched v2 loads read-only and migration creates no B activity
+  ---
+  duration_ms: 4.251873
+  type: 'test'
+  ...
+# Subtest: untouched v3 loads read-only and migration creates no B activity
+ok 124 - untouched v3 loads read-only and migration creates no B activity
+  ---
+  duration_ms: 8.58066
+  type: 'test'
+  ...
+# Subtest: v1 cannot smuggle B-owned defaults, receipts, tools, region, visits or defeats through the registered world
+ok 125 - v1 cannot smuggle B-owned defaults, receipts, tools, region, visits or defeats through the registered world
+  ---
+  duration_ms: 1.20602
+  type: 'test'
+  ...
+# Subtest: v2 cannot smuggle B-owned defaults, receipts, tools, region, visits or defeats through the registered world
+ok 126 - v2 cannot smuggle B-owned defaults, receipts, tools, region, visits or defeats through the registered world
+  ---
+  duration_ms: 0.780993
+  type: 'test'
+  ...
+# Subtest: v3 cannot smuggle B-owned defaults, receipts, tools, region, visits or defeats through the registered world
+ok 127 - v3 cannot smuggle B-owned defaults, receipts, tools, region, visits or defeats through the registered world
+  ---
+  duration_ms: 1.19253
+  type: 'test'
+  ...
+# Subtest: global validation rejects fabricated/partial B progress before unrelated commands and durable writes
+ok 128 - global validation rejects fabricated/partial B progress before unrelated commands and durable writes
+  ---
+  duration_ms: 95.750393
+  type: 'test'
+  ...
+# Subtest: valid-checksum modern envelopes still reject forged B ledger, partial flags, missing tools and future boss progress
+ok 129 - valid-checksum modern envelopes still reject forged B ledger, partial flags, missing tools and future boss progress
+  ---
+  duration_ms: 427.085446
+  type: 'test'
+  ...
+# Subtest: controller accept dropped-slot save fault never exposes speculative rewards and reload resolves exactly once
+ok 130 - controller accept dropped-slot save fault never exposes speculative rewards and reload resolves exactly once
+  ---
+  duration_ms: 241.410737
+  type: 'test'
+  ...
+# Subtest: controller accept before-head save fault never exposes speculative rewards and reload resolves exactly once
+ok 131 - controller accept before-head save fault never exposes speculative rewards and reload resolves exactly once
+  ---
+  duration_ms: 252.194765
+  type: 'test'
+  ...
+# Subtest: controller accept after-head save fault never exposes speculative rewards and reload resolves exactly once
+ok 132 - controller accept after-head save fault never exposes speculative rewards and reload resolves exactly once
+  ---
+  duration_ms: 222.870866
+  type: 'test'
+  ...
+# Subtest: controller west device dropped-slot save fault never exposes speculative rewards and reload resolves exactly once
+ok 133 - controller west device dropped-slot save fault never exposes speculative rewards and reload resolves exactly once
+  ---
+  duration_ms: 261.767203
+  type: 'test'
+  ...
+# Subtest: controller west device before-head save fault never exposes speculative rewards and reload resolves exactly once
+ok 134 - controller west device before-head save fault never exposes speculative rewards and reload resolves exactly once
+  ---
+  duration_ms: 305.8781
+  type: 'test'
+  ...
+# Subtest: controller west device after-head save fault never exposes speculative rewards and reload resolves exactly once
+ok 135 - controller west device after-head save fault never exposes speculative rewards and reload resolves exactly once
+  ---
+  duration_ms: 260.457998
+  type: 'test'
+  ...
+# Subtest: controller second device dropped-slot save fault never exposes speculative rewards and reload resolves exactly once
+ok 136 - controller second device dropped-slot save fault never exposes speculative rewards and reload resolves exactly once
+  ---
+  duration_ms: 272.84326
+  type: 'test'
+  ...
+# Subtest: controller second device before-head save fault never exposes speculative rewards and reload resolves exactly once
+ok 137 - controller second device before-head save fault never exposes speculative rewards and reload resolves exactly once
+  ---
+  duration_ms: 315.431581
+  type: 'test'
+  ...
+# Subtest: controller second device after-head save fault never exposes speculative rewards and reload resolves exactly once
+ok 138 - controller second device after-head save fault never exposes speculative rewards and reload resolves exactly once
+  ---
+  duration_ms: 265.77484
+  type: 'test'
+  ...
+# Subtest: controller beacon dropped-slot save fault never exposes speculative rewards and reload resolves exactly once
+ok 139 - controller beacon dropped-slot save fault never exposes speculative rewards and reload resolves exactly once
+  ---
+  duration_ms: 264.380744
+  type: 'test'
+  ...
+# Subtest: controller beacon before-head save fault never exposes speculative rewards and reload resolves exactly once
+ok 140 - controller beacon before-head save fault never exposes speculative rewards and reload resolves exactly once
+  ---
+  duration_ms: 310.48454
+  type: 'test'
+  ...
+# Subtest: controller beacon after-head save fault never exposes speculative rewards and reload resolves exactly once
+ok 141 - controller beacon after-head save fault never exposes speculative rewards and reload resolves exactly once
+  ---
+  duration_ms: 266.439846
+  type: 'test'
+  ...
+# Subtest: controller report dropped-slot save fault never exposes speculative rewards and reload resolves exactly once
+ok 142 - controller report dropped-slot save fault never exposes speculative rewards and reload resolves exactly once
+  ---
+  duration_ms: 266.846786
+  type: 'test'
+  ...
+# Subtest: controller report before-head save fault never exposes speculative rewards and reload resolves exactly once
+ok 143 - controller report before-head save fault never exposes speculative rewards and reload resolves exactly once
+  ---
+  duration_ms: 306.901031
+  type: 'test'
+  ...
+# Subtest: controller report after-head save fault never exposes speculative rewards and reload resolves exactly once
+ok 144 - controller report after-head save fault never exposes speculative rewards and reload resolves exactly once
+  ---
+  duration_ms: 265.059684
+  type: 'test'
+  ...
+# Subtest: two real sessions race accept: only one B transaction commits and the loser reloads without duplicate reward
+ok 145 - two real sessions race accept: only one B transaction commits and the loser reloads without duplicate reward
+  ---
+  duration_ms: 229.893408
+  type: 'test'
+  ...
+# Subtest: two real sessions race west device: only one B transaction commits and the loser reloads without duplicate reward
+ok 146 - two real sessions race west device: only one B transaction commits and the loser reloads without duplicate reward
+  ---
+  duration_ms: 278.349455
+  type: 'test'
+  ...
+# Subtest: two real sessions race second device: only one B transaction commits and the loser reloads without duplicate reward
+ok 147 - two real sessions race second device: only one B transaction commits and the loser reloads without duplicate reward
+  ---
+  duration_ms: 281.269388
+  type: 'test'
+  ...
+# Subtest: two real sessions race beacon: only one B transaction commits and the loser reloads without duplicate reward
+ok 148 - two real sessions race beacon: only one B transaction commits and the loser reloads without duplicate reward
+  ---
+  duration_ms: 289.991449
+  type: 'test'
+  ...
+# Subtest: two real sessions race report: only one B transaction commits and the loser reloads without duplicate reward
+ok 149 - two real sessions race report: only one B transaction commits and the loser reloads without duplicate reward
+  ---
+  duration_ms: 288.647653
+  type: 'test'
+  ...
+# Subtest: B revision overflow rejects real travel and reward atomically before any save
+ok 150 - B revision overflow rejects real travel and reward atomically before any save
+  ---
+  duration_ms: 83.240681
+  type: 'test'
+  ...
+# Subtest: only new B town entry and its own ordinary return move; all legacy anchors and map remain
+ok 151 - only new B town entry and its own ordinary return move; all legacy anchors and map remain
+  ---
+  duration_ms: 1.514073
+  type: 'test'
+  ...
+# Subtest: new entry has non-overlapping 76-unit reach and sole selection at every legal sampled approach
+ok 152 - new entry has non-overlapping 76-unit reach and sole selection at every legal sampled approach
+  ---
+  duration_ms: 7.445937
+  type: 'test'
+  ...
+# Subtest: new projected arch footprint is separate from every existing town portal, NPC and seeded landmark
+ok 153 - new projected arch footprint is separate from every existing town portal, NPC and seeded landmark
+  ---
+  duration_ms: 0.388944
+  type: 'test'
+  ...
+# Subtest: actual movement and main nearest/F from Eda enter only B
+ok 154 - actual movement and main nearest/F from Eda enter only B
+  ---
+  duration_ms: 1318.168536
+  type: 'test'
+  ...
+# Subtest: actual movement and main nearest/F from town spawn enter only B
+ok 155 - actual movement and main nearest/F from town spawn enter only B
+  ---
+  duration_ms: 81.349612
+  type: 'test'
+  ...
+# Subtest: actual movement and main nearest/F from trainer enter only B
+ok 156 - actual movement and main nearest/F from trainer enter only B
+  ---
+  duration_ms: 73.478867
+  type: 'test'
+  ...
+# Subtest: actual movement and main nearest/F from old B endpoint enter only B
+ok 157 - actual movement and main nearest/F from old B endpoint enter only B
+  ---
+  duration_ms: 92.041301
+  type: 'test'
+  ...
+# Subtest: actual movement and main nearest/F from old B return enter only B
+ok 158 - actual movement and main nearest/F from old B return enter only B
+  ---
+  duration_ms: 89.252705
+  type: 'test'
+  ...
+# Subtest: actual main F and durable controller support ordinary B return, immediate re-entry and read-only reload
+ok 159 - actual main F and durable controller support ordinary B return, immediate re-entry and read-only reload
+  ---
+  duration_ms: 299.768666
+  type: 'test'
+  ...
+# Subtest: existing schema4 old entry position reloads without teleport, migration write or lost resources
+ok 160 - existing schema4 old entry position reloads without teleport, migration write or lost resources
+  ---
+  duration_ms: 201.409421
+  type: 'test'
+  ...
+# Subtest: existing schema4 old return position reloads without teleport, migration write or lost resources
+ok 161 - existing schema4 old return position reloads without teleport, migration write or lost resources
+  ---
+  duration_ms: 196.752201
+  type: 'test'
+  ...
+# Subtest: production fire response opts in furnace tenders and explicit B roles; furnace identity remains transient
+ok 162 - production fire response opts in furnace tenders and explicit B roles; furnace identity remains transient
+  ---
+  duration_ms: 19.874243
+  type: 'test'
+  ...
+# Subtest: easy, step 0.01: tender reacts only after .55 active exposure and existing fire tick
+ok 163 - easy, step 0.01: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 34.211183
+  type: 'test'
+  ...
+# Subtest: easy, step 0.02: tender reacts only after .55 active exposure and existing fire tick
+ok 164 - easy, step 0.02: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 17.436624
+  type: 'test'
+  ...
+# Subtest: easy, step 0.05: tender reacts only after .55 active exposure and existing fire tick
+ok 165 - easy, step 0.05: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 10.519942
+  type: 'test'
+  ...
+# Subtest: easy, step 0.25: tender reacts only after .55 active exposure and existing fire tick
+ok 166 - easy, step 0.25: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 10.16614
+  type: 'test'
+  ...
+# Subtest: normal, step 0.01: tender reacts only after .55 active exposure and existing fire tick
+ok 167 - normal, step 0.01: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 23.025333
+  type: 'test'
+  ...
+# Subtest: normal, step 0.02: tender reacts only after .55 active exposure and existing fire tick
+ok 168 - normal, step 0.02: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 13.235217
+  type: 'test'
+  ...
+# Subtest: normal, step 0.05: tender reacts only after .55 active exposure and existing fire tick
+ok 169 - normal, step 0.05: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 9.900352
+  type: 'test'
+  ...
+# Subtest: normal, step 0.25: tender reacts only after .55 active exposure and existing fire tick
+ok 170 - normal, step 0.25: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 9.186911
+  type: 'test'
+  ...
+# Subtest: hard, step 0.01: tender reacts only after .55 active exposure and existing fire tick
+ok 171 - hard, step 0.01: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 19.730116
+  type: 'test'
+  ...
+# Subtest: hard, step 0.02: tender reacts only after .55 active exposure and existing fire tick
+ok 172 - hard, step 0.02: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 12.913914
+  type: 'test'
+  ...
+# Subtest: hard, step 0.05: tender reacts only after .55 active exposure and existing fire tick
+ok 173 - hard, step 0.05: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 8.557486
+  type: 'test'
+  ...
+# Subtest: hard, step 0.25: tender reacts only after .55 active exposure and existing fire tick
+ok 174 - hard, step 0.25: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 8.377105
+  type: 'test'
+  ...
+# Subtest: serious, step 0.01: tender reacts only after .55 active exposure and existing fire tick
+ok 175 - serious, step 0.01: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 20.128144
+  type: 'test'
+  ...
+# Subtest: serious, step 0.02: tender reacts only after .55 active exposure and existing fire tick
+ok 176 - serious, step 0.02: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 12.406152
+  type: 'test'
+  ...
+# Subtest: serious, step 0.05: tender reacts only after .55 active exposure and existing fire tick
+ok 177 - serious, step 0.05: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 8.253038
+  type: 'test'
+  ...
+# Subtest: serious, step 0.25: tender reacts only after .55 active exposure and existing fire tick
+ok 178 - serious, step 0.25: tender reacts only after .55 active exposure and existing fire tick
+  ---
+  duration_ms: 8.35352
+  type: 'test'
+  ...
+# Subtest: easy: authored-health tender walks into fire and starts a vulnerable escape without an HP boost
+ok 179 - easy: authored-health tender walks into fire and starts a vulnerable escape without an HP boost
+  ---
+  duration_ms: 10.750898
+  type: 'test'
+  ...
+# Subtest: normal: authored-health tender walks into fire and starts a vulnerable escape without an HP boost
+ok 180 - normal: authored-health tender walks into fire and starts a vulnerable escape without an HP boost
+  ---
+  duration_ms: 11.547504
+  type: 'test'
+  ...
+# Subtest: hard: authored-health tender walks into fire and starts a vulnerable escape without an HP boost
+ok 181 - hard: authored-health tender walks into fire and starts a vulnerable escape without an HP boost
+  ---
+  duration_ms: 11.133322
+  type: 'test'
+  ...
+# Subtest: serious: authored-health tender walks into fire and starts a vulnerable escape without an HP boost
+ok 182 - serious: authored-health tender walks into fire and starts a vulnerable escape without an HP boost
+  ---
+  duration_ms: 10.422726
+  type: 'test'
+  ...
+# Subtest: a cast has no danger knowledge before contact and visual-only effects cannot trigger escape
+ok 183 - a cast has no danger knowledge before contact and visual-only effects cannot trigger escape
+  ---
+  duration_ms: 14.697503
+  type: 'test'
+  ...
+# Subtest: a freely pursuing tender cannot attempt before .55 even without a recovery gate
+ok 184 - a freely pursuing tender cannot attempt before .55 even without a recovery gate
+  ---
+  duration_ms: 43.058424
+  type: 'test'
+  ...
+# Subtest: continuous exposure resets outside sector, outside range or behind a wall
+ok 185 - continuous exposure resets outside sector, outside range or behind a wall
+  ---
+  duration_ms: 46.183255
+  type: 'test'
+  ...
+# Subtest: committed locked windup and recovery complete before escape, without snapping aim or cancelling damage
+ok 186 - committed locked windup and recovery complete before escape, without snapping aim or cancelling damage
+  ---
+  duration_ms: 22.739553
+  type: 'test'
+  ...
+# Subtest: escape chooses the shortest legal ray with deterministic ties, ordinary speed and a fixed endpoint
+ok 187 - escape chooses the shortest legal ray with deterministic ties, ordinary speed and a fixed endpoint
+  ---
+  duration_ms: 18.190506
+  type: 'test'
+  ...
+# Subtest: no legal exit consumes one attempt and preserves the ordinary pursuit/attack fallback
+ok 188 - no legal exit consumes one attempt and preserves the ordinary pursuit/attack fallback
+  ---
+  duration_ms: 13.023339
+  type: 'test'
+  ...
+# Subtest: one area cannot retrigger after a complete escape and re-entry
+ok 189 - one area cannot retrigger after a complete escape and re-entry
+  ---
+  duration_ms: 23.692384
+  type: 'test'
+  ...
+# Subtest: replacement casts get increasing identity independent of battle time and reset exposure and attempt
+ok 190 - replacement casts get increasing identity independent of battle time and reset exposure and attempt
+  ---
+  duration_ms: 15.791445
+  type: 'test'
+  ...
+# Subtest: Shackles slowdown and damage amplification remain active during the bounded escape
+ok 191 - Shackles slowdown and damage amplification remain active during the bounded escape
+  ---
+  duration_ms: 24.350842
+  type: 'test'
+  ...
+# Subtest: real charge stun interrupts escape, retains damage/debuffs and cannot start a second attempt
+ok 192 - real charge stun interrupts escape, retains damage/debuffs and cannot start a second attempt
+  ---
+  duration_ms: 21.785342
+  type: 'test'
+  ...
+# Subtest: pre-existing stun retains priority until expiry while real fire exposure and ticks continue
+ok 193 - pre-existing stun retains priority until expiry while real fire exposure and ticks continue
+  ---
+  duration_ms: 15.213647
+  type: 'test'
+  ...
+# Subtest: ordinary hammer can hit an escaping tender without immunity or resetting its attempt
+ok 194 - ordinary hammer can hit an escaping tender without immunity or resetting its attempt
+  ---
+  duration_ms: 17.314671
+  type: 'test'
+  ...
+# Subtest: newly blocked movement cancels safely on legal floor without retry, warp or healing
+ok 195 - newly blocked movement cancels safely on legal floor without retry, warp or healing
+  ---
+  duration_ms: 13.794897
+  type: 'test'
+  ...
+# Subtest: real furnace closed and open geometry keeps escape motion radius-11 legal and swept-clear
+ok 196 - real furnace closed and open geometry keeps escape motion radius-11 legal and swept-clear
+  ---
+  duration_ms: 74.942205
+  type: 'test'
+  ...
+# Subtest: arrival, pause, hidden tab and lost focus cannot age fire exposure or move a tender
+ok 197 - arrival, pause, hidden tab and lost focus cannot age fire exposure or move a tender
+  ---
+  duration_ms: 12.663639
+  type: 'test'
+  ...
+# Subtest: load/travel reconstruction discards fire responses and areas while retaining paid hero pools/recovery
+ok 198 - load/travel reconstruction discards fire responses and areas while retaining paid hero pools/recovery
+  ---
+  duration_ms: 13.602448
+  type: 'test'
+  ...
+# Subtest: hero death clears active response once, and tender death cannot produce duplicate defeat events
+ok 199 - hero death clears active response once, and tender death cannot produce duplicate defeat events
+  ---
+  duration_ms: 42.07575
+  type: 'test'
+  ...
+# Subtest: a strong initial real Judgement can kill an authored-health tender before response on every difficulty
+ok 200 - a strong initial real Judgement can kill an authored-health tender before response on every difficulty
+  ---
+  duration_ms: 52.959716
+  type: 'test'
+  ...
+# Subtest: all non-opt-in old and furnace roles keep ordinary fire damage and locked attack behavior
+ok 201 - all non-opt-in old and furnace roles keep ordinary fire damage and locked attack behavior
+  ---
+  duration_ms: 239.006127
+  type: 'test'
+  ...
+# Subtest: expired or non-damaging fire cannot trigger or retain an escape
+ok 202 - expired or non-damaging fire cannot trigger or retain an escape
+  ---
+  duration_ms: 18.459108
+  type: 'test'
+  ...
+# Subtest: committed recovery allows the unchanged ten fire ticks, with no duplicate tick from response bookkeeping
+ok 203 - committed recovery allows the unchanged ten fire ticks, with no duplicate tick from response bookkeeping
+  ---
+  duration_ms: 54.924316
+  type: 'test'
+  ...
+# Subtest: a still-gated furnace tender cannot escape or activate from area bookkeeping
+ok 204 - a still-gated furnace tender cannot escape or activate from area bookkeeping
+  ---
+  duration_ms: 14.202359
+  type: 'test'
+  ...
+1..204
+# tests 204
+# suites 0
+# pass 204
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 52866.301379

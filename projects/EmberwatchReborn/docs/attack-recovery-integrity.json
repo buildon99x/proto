@@ -1,0 +1,52 @@
+{
+  "app/src": {
+    "baseline_files": 100,
+    "candidate_files": 100,
+    "changed": [
+      "app/src/portable-checkpoint-ui.js",
+      "app/src/combat.js"
+    ],
+    "removed": [],
+    "added": []
+  },
+  "app/tests": {
+    "baseline_files": 178,
+    "candidate_files": 180,
+    "changed": [],
+    "removed": [],
+    "added": [
+      "app/tests/attack-recovery-lifecycle.test.mjs",
+      "app/tests/attack-recovery-movement.test.mjs"
+    ]
+  },
+  "combat_sha256": {
+    "baseline": "a10cfef593a7dab15ad85753926924b9c4488d698a911d6e8b5e30e0914bf787",
+    "candidate": "a9991e41ea8c1965d5e965b9c650377b3c4dcc1225fa6fdaa37eb526fe917d56"
+  },
+  "comparison_context": "Recovered source was read-only for this worker but changed concurrently in portable-checkpoint-ui.js after the isolated copy; that file was not edited by this task. This is not an immutable-baseline manifest.",
+  "task_written_source": [
+    "app/src/combat.js"
+  ],
+  "task_written_tests": [
+    "app/tests/attack-recovery-movement.test.mjs",
+    "app/tests/attack-recovery-lifecycle.test.mjs"
+  ],
+  "initial_comparison_utc": "2026-10-10 15:38 UTC",
+  "later_comparison_utc": "2026-10-10 15:40 UTC",
+  "later_existing_test_comparison": {
+    "files": 178,
+    "byte_identical": 177,
+    "changed_in_original_by_separate_ui_task": [
+      "app/tests/portable-checkpoint-ui.test.mjs"
+    ],
+    "edited_by_this_task": []
+  },
+  "followup_verification": {
+    "utc": "2026-10-10 15:46 UTC",
+    "new_tests": 71,
+    "selected_existing_tests": 253,
+    "total_distinct_tests": 324,
+    "full_aggregate_run": false,
+    "syntax": "passed"
+  }
+}

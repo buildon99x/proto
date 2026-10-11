@@ -1,0 +1,232 @@
+✔ actual release pause and title use the same single build label (2.150033ms)
+✔ actual candidate pause and title use the same single build label (0.917745ms)
+✔ optional read-only status registration reports the same build before and after loading (1.834179ms)
+✖ R11 app, project, index metadata and build kind share the same bounded release identity (1.09395ms)
+✔ synthetic purchase: flames_of_devotion every rank, exact SP, immutable preview and max rank (28.198527ms)
+✔ synthetic purchase: hammer_of_devotion every rank, exact SP, immutable preview and max rank (7.924548ms)
+✔ synthetic purchase: cleansing_touch every rank, exact SP, immutable preview and max rank (7.830487ms)
+✔ synthetic purchase: turn_undead every rank, exact SP, immutable preview and max rank (9.070956ms)
+✔ synthetic purchase: battle_banner every rank, exact SP, immutable preview and max rank (9.559619ms)
+✔ synthetic purchase: banner_of_protection every rank, exact SP, immutable preview and max rank (9.254371ms)
+✔ synthetic purchase: banner_of_zeal every rank, exact SP, immutable preview and max rank (9.397586ms)
+✔ synthetic purchase: zealous_onslaught every rank, exact SP, immutable preview and max rank (8.699129ms)
+✔ synthetic purchase: zealous_lance every rank, exact SP, immutable preview and max rank (8.038149ms)
+✔ synthetic purchase: zealous_shield every rank, exact SP, immutable preview and max rank (5.877169ms)
+✔ synthetic purchase: inner_flame every rank, exact SP, immutable preview and max rank (8.121534ms)
+✔ synthetic purchase: flaming_wrath every rank, exact SP, immutable preview and max rank (8.280902ms)
+✔ synthetic purchase: lawbringer every rank, exact SP, immutable preview and max rank (7.052291ms)
+✔ synthetic purchase: punish_the_wicked every rank, exact SP, immutable preview and max rank (6.784829ms)
+✔ synthetic purchase: guilt_by_association every rank, exact SP, immutable preview and max rank (6.795226ms)
+✔ synthetic purchases: all fifteen require Expert, valid SP ledger, full starters and the exact parent (6208.611299ms)
+✔ synthetic purchase/load validation: Banner and hammer branches are exclusive in both directions; all Master remains data-only (55.80102ms)
+✔ real Banner acceptance charges full first cost, immutable paid rank, starts lifetime at contact and emits once at dt0 (10.429742ms)
+✔ real Banner membership is live, inclusive at radius, regional and wall-LOS limited (7.866645ms)
+✔ real Banner expiry is before the exact next cast and leaves paid outgoing snapshots untouched (19.246272ms)
+✔ real Protection rank 1: incoming reduction follows current position, defense and successful block once (32.941675ms)
+✔ real Protection rank 2: incoming reduction follows current position, defense and successful block once (31.465599ms)
+✔ real Protection rank 3: incoming reduction follows current position, defense and successful block once (31.453011ms)
+✔ real Zeal rank 1: all finite spells use one final MP factor, fixed cooldown and cast-speed quote (78.21139ms)
+✔ real Zeal rank 2: all finite spells use one final MP factor, fixed cooldown and cast-speed quote (84.160499ms)
+✔ real Zeal rank 3: all finite spells use one final MP factor, fixed cooldown and cast-speed quote (80.621387ms)
+✔ real Banner survives fire-area replacement; one newer Banner replaces rather than stacks and load removes only its world object (17.272952ms)
+✔ real Flames rank 1: one terminal fire arc per target even after empty or multiple mace contact (23.385515ms)
+✔ real Flames rank 2: one terminal fire arc per target even after empty or multiple mace contact (15.215524ms)
+✔ real Flames rank 3: one terminal fire arc per target even after empty or multiple mace contact (16.103065ms)
+✔ real Flames keeps accepted rank and fire-only multipliers, obeys walls, and never recurses through Guilt or Flaming Wrath (15.989635ms)
+✔ real returning hammer with hammer_of_wrath: one charge, one hit per leg and preserved branch payload (25.201029ms)
+✔ real returning hammer with hammer_of_sundering: one charge, one hit per leg and preserved branch payload (24.484514ms)
+✔ real returning hammer follows current hero, returns once at a wall, and load drops it without cost refund (26.038325ms)
+✔ real Turn Undead rank 1: explicit taxonomy, pure defenses, radius96/LOS and combined heal augments (14.222774ms)
+✔ real Turn Undead rank 2: explicit taxonomy, pure defenses, radius96/LOS and combined heal augments (13.269904ms)
+✔ real Turn Undead rank 3: explicit taxonomy, pure defenses, radius96/LOS and combined heal augments (14.241983ms)
+✔ real Cleanse clears current registered noninterrupting negatives and pending ticks, retains paid/benevolent state and never resurrects (26.557845ms)
+✔ real interrupting stun/silence prevents new heal and cancels an already paid Cleanse before contact with cost/CD retained (20.698682ms)
+✔ real Inner Flame rank 1: first cast snapshots old offense, later cast benefits, live fire defense and single refresh (9.054318ms)
+✔ real Inner Flame rank 2: first cast snapshots old offense, later cast benefits, live fire defense and single refresh (9.708119ms)
+✔ real Inner Flame rank 3: first cast snapshots old offense, later cast benefits, live fire defense and single refresh (9.152105ms)
+✔ real Inner Flame rank 4: first cast snapshots old offense, later cast benefits, live fire defense and single refresh (9.653738ms)
+✔ real Flaming Wrath rank 1: one caster-wide terminal proc, lethal-root origin and original-victim inclusion (23.459084ms)
+✔ real Flaming Wrath rank 2: one caster-wide terminal proc, lethal-root origin and original-victim inclusion (22.88937ms)
+✔ real Flaming Wrath rank 3: one caster-wide terminal proc, lethal-root origin and original-victim inclusion (23.140047ms)
+✔ real Flaming Wrath exact caster-wide cooldown boundary and secondary fire/lightning have no spell-critical loops (112.897824ms)
+✔ real Lawbringer rank 1: deterministic success/failure boundary and single roll on block plus positive damage (7.062208ms)
+✔ real Lawbringer rank 2: deterministic success/failure boundary and single roll on block plus positive damage (6.365142ms)
+✔ real Lawbringer rank 3: deterministic success/failure boundary and single roll on block plus positive damage (6.775338ms)
+✔ real Lawbringer uses live ranged owner identity, interrupts weapon/spell windups, and does not erase already-fired shots (8.001969ms)
+✔ real Lawbringer exclusions: ignored invulnerability, fatal hit, missing/dead/off-map owner and environment never roll (21.30986ms)
+✔ real Punish rank 1: live disarm OR silence once, separate Shackles, and no stun-only bonus (47.631329ms)
+✔ real Punish rank 2: live disarm OR silence once, separate Shackles, and no stun-only bonus (49.327804ms)
+✔ real Punish rank 3: live disarm OR silence once, separate Shackles, and no stun-only bonus (52.112092ms)
+✔ real Guilt rank 1: raw mainhand once, one shared proc, lethal/disabled primary and terminal eligible neighbors (9.634509ms)
+✔ real Guilt rank 2: raw mainhand once, one shared proc, lethal/disabled primary and terminal eligible neighbors (9.087337ms)
+✔ real Guilt rank 3: raw mainhand once, one shared proc, lethal/disabled primary and terminal eligible neighbors (10.321499ms)
+✔ real Guilt claims its cooldown even with no neighbors; direct spells and terminal Flames never trigger it (38.791082ms)
+✔ synthetic all-rank corruption: fractional, zero, excessive, negative and missing-branch records fail without mutation (148.918695ms)
+✔ real Banner live incoming coverage updates after movement and outgoing fire damage preserves accepted aura after leaving (32.976266ms)
+✔ real Lawbringer passive fully absorbed physical block rolls once without active stamina payment (3.230538ms)
+✔ real Lawbringer suppresses only the matching weapon/spell family, refreshes to two seconds, and leaves pursuit available (7.354146ms)
+✔ real Lawbringer actual 10/15/20% RNG path has deterministic distribution sanity, not a balance measurement (495.706371ms)
+✔ real Guilt and Flaming splashes honor exact radius and wall LOS; corpse origin still has one defeat receipt (34.233322ms)
+✔ real same-timestamp hammer targets claim Flaming in target-ID order independently of insertion order (14.00749ms)
+✔ real returning hammer receipts, single payment and turn count are stable across .01/.02/.05 frames and repeated dt0 (134.822632ms)
+✔ real positive and failed Lawbringer RNG outcomes resume after load instead of replaying the same draw (3.743557ms)
+✔ real flame contact exposes exact accepted footprint metadata without changing hit geometry (4.559122ms)
+✔ real acceptance→critical checkpoint→controller/save→load keeps paid channel and RNG record without resuming offense (1533.170319ms)
+✔ paid v4 state travels and arrival load freezes resources/CDs/buffs/status ticks, preserving exact status schedule (189.424279ms)
+✔ explicit death/retry retains all paid cooldowns and RNG, clears temporary effects, revives once; actual rest alone resets CDs (338.611467ms)
+✔ checkpoint: omitted optional recovery preserves prior RNG/CD/status rather than resetting (140.475193ms)
+✔ travel: omitted optional recovery preserves prior RNG/CD/status rather than resetting (143.202947ms)
+✔ settleCombat: omitted optional recovery preserves prior RNG/CD/status rather than resetting (141.541494ms)
+✔ openChest: omitted optional recovery preserves prior RNG/CD/status rather than resetting (1190.551339ms)
+✔ drinkPotion: omitted optional recovery preserves prior RNG/CD/status rather than resetting (138.339228ms)
+✔ checkpoint: explicit malformed recovery null fails without mutation (132.839706ms)
+✔ checkpoint: explicit malformed recovery {} fails without mutation (132.947177ms)
+✔ checkpoint: explicit malformed recovery {"version":2,"cooldowns":{},"lock":0,"manaDelay":0,"staminaDelay":0,"invuln":0,"potionCooldown":0,"regenBuff":null,"innerFlame":null,"procCooldowns":{},"procCooldownRanks":{},"negativeStatuses":{},"combatRng":{"state":0,"draws":-1}} fails without mutation (132.402529ms)
+✔ travel: explicit malformed recovery null fails without mutation (131.894668ms)
+✔ travel: explicit malformed recovery {} fails without mutation (132.452896ms)
+✔ travel: explicit malformed recovery {"version":2,"cooldowns":{},"lock":0,"manaDelay":0,"staminaDelay":0,"invuln":0,"potionCooldown":0,"regenBuff":null,"innerFlame":null,"procCooldowns":{},"procCooldownRanks":{},"negativeStatuses":{},"combatRng":{"state":0,"draws":-1}} fails without mutation (132.69007ms)
+✔ settleCombat: explicit malformed recovery null fails without mutation (132.887096ms)
+✔ settleCombat: explicit malformed recovery {} fails without mutation (131.363361ms)
+✔ settleCombat: explicit malformed recovery {"version":2,"cooldowns":{},"lock":0,"manaDelay":0,"staminaDelay":0,"invuln":0,"potionCooldown":0,"regenBuff":null,"innerFlame":null,"procCooldowns":{},"procCooldownRanks":{},"negativeStatuses":{},"combatRng":{"state":0,"draws":-1}} fails without mutation (132.100736ms)
+✔ drinkPotion: explicit malformed recovery null fails without mutation (133.759977ms)
+✔ drinkPotion: explicit malformed recovery {} fails without mutation (132.706886ms)
+✔ drinkPotion: explicit malformed recovery {"version":2,"cooldowns":{},"lock":0,"manaDelay":0,"staminaDelay":0,"invuln":0,"potionCooldown":0,"regenBuff":null,"innerFlame":null,"procCooldowns":{},"procCooldownRanks":{},"negativeStatuses":{},"combatRng":{"state":0,"draws":-1}} fails without mutation (130.676911ms)
+✔ omitted potion recovery cannot bypass an already-paid potion cooldown (132.010471ms)
+✔ checkpoint: old life cannot submit an omission report to replace the current paid state (130.403309ms)
+✔ travel: old life cannot submit an omission report to replace the current paid state (128.94456ms)
+✔ settleCombat: old life cannot submit an omission report to replace the current paid state (129.605772ms)
+✔ pre-head and uncertain head save failures never merge speculative channel resources or resume offense (358.922156ms)
+✔ status rules restore exact partial schedule and an actual cleanse removes it through a saved handler (186.538548ms)
+✔ accepted rank1 Guilt keeps its1.5s paid proc after paused rank3 purchases and saves source-rank metadata (254.048407ms)
+✔ release curve is explicit authored balance with strict finite pulse input (1.319751ms)
+✔ Lance1 1 pulses release: one scaled mixed packet (35.728635ms)
+✔ Lance1 1 pulses wall: one scaled mixed packet (16.733484ms)
+✔ Lance1 1 pulses stamina: one scaled mixed packet (14.253515ms)
+✔ Lance1 2 pulses release: one scaled mixed packet (16.132288ms)
+✔ Lance1 2 pulses wall: one scaled mixed packet (15.076325ms)
+✔ Lance1 2 pulses stamina: one scaled mixed packet (15.071728ms)
+✔ Lance1 3 pulses release: one scaled mixed packet (16.162003ms)
+✔ Lance1 3 pulses wall: one scaled mixed packet (15.959036ms)
+✔ Lance1 3 pulses stamina: one scaled mixed packet (15.329978ms)
+✔ Lance1 4 pulses release: one scaled mixed packet (16.602948ms)
+✔ Lance1 4 pulses wall: one scaled mixed packet (16.523898ms)
+✔ Lance1 4 pulses stamina: one scaled mixed packet (16.680705ms)
+✔ Lance1 8 pulses release: one scaled mixed packet (24.6349ms)
+✔ Lance1 8 pulses wall: one scaled mixed packet (23.563004ms)
+✔ Lance1 8 pulses stamina: one scaled mixed packet (23.612859ms)
+✔ Lance2 1 pulses release: one scaled mixed packet (10.186352ms)
+✔ Lance2 1 pulses wall: one scaled mixed packet (10.329126ms)
+✔ Lance2 1 pulses stamina: one scaled mixed packet (10.303968ms)
+✔ Lance2 2 pulses release: one scaled mixed packet (12.709716ms)
+✔ Lance2 2 pulses wall: one scaled mixed packet (12.044103ms)
+✔ Lance2 2 pulses stamina: one scaled mixed packet (12.351987ms)
+✔ Lance2 3 pulses release: one scaled mixed packet (17.027438ms)
+✔ Lance2 3 pulses wall: one scaled mixed packet (14.240795ms)
+✔ Lance2 3 pulses stamina: one scaled mixed packet (14.019572ms)
+✔ Lance2 4 pulses release: one scaled mixed packet (15.502899ms)
+✔ Lance2 4 pulses wall: one scaled mixed packet (15.473524ms)
+✔ Lance2 4 pulses stamina: one scaled mixed packet (15.368706ms)
+✔ Lance2 8 pulses release: one scaled mixed packet (23.645518ms)
+✔ Lance2 8 pulses wall: one scaled mixed packet (24.212823ms)
+✔ Lance2 8 pulses stamina: one scaled mixed packet (22.941946ms)
+✔ Lance3 1 pulses release: one scaled mixed packet (10.189315ms)
+✔ Lance3 1 pulses wall: one scaled mixed packet (10.541577ms)
+✔ Lance3 1 pulses stamina: one scaled mixed packet (9.923635ms)
+✔ Lance3 2 pulses release: one scaled mixed packet (13.432747ms)
+✔ Lance3 2 pulses wall: one scaled mixed packet (14.917086ms)
+✔ Lance3 2 pulses stamina: one scaled mixed packet (12.222482ms)
+✔ Lance3 3 pulses release: one scaled mixed packet (13.896656ms)
+✔ Lance3 3 pulses wall: one scaled mixed packet (13.819ms)
+✔ Lance3 3 pulses stamina: one scaled mixed packet (13.983758ms)
+✔ Lance3 4 pulses release: one scaled mixed packet (15.597561ms)
+✔ Lance3 4 pulses wall: one scaled mixed packet (16.069493ms)
+✔ Lance3 4 pulses stamina: one scaled mixed packet (15.941571ms)
+✔ Lance3 8 pulses release: one scaled mixed packet (24.5824ms)
+✔ Lance3 8 pulses wall: one scaled mixed packet (23.171493ms)
+✔ Lance3 8 pulses stamina: one scaled mixed packet (22.69193ms)
+✔ real release boundary and charge cue partition dt0.01 (24.78747ms)
+✔ real release boundary and charge cue partition dt0.02 (14.23748ms)
+✔ real release boundary and charge cue partition dt0.05 (8.142529ms)
+✔ accepted Lance snapshot survives a later rank purchase without release retargeting (9.31672ms)
+✔ scaled physical and fire share exactly one critical draw and full-power maximum (11.152117ms)
+✔ fully charged safety cancellation still produces no Lance, charge or pending save action (14.696462ms)
+✔ full release threshold preserves the existing second payment at active one second (14.20437ms)
+✔ actual trainer effect projection exposes maximum pulse requirement, not a hidden damage reduction (5.365481ms)
+✔ Expert calculation provenance preserves source bytes/nulls and immutable authored policy (1.527573ms)
+✔ Expert calculation is deterministic, changes only derived stats and grants no unlearned effects (1.172608ms)
+✔ Flames calculation uses every source INT coefficient without weapon/spell conversions (0.333043ms)
+✔ Return, cleanse and all undead ranks preserve base action payloads and known cooldown additions (1.185398ms)
+✔ Banner calculation reads all source rank values and keeps placement timing distinct from lifetime (0.430329ms)
+✔ Banner support calculations cover each branch rank without applying an aura to permanent stats (0.247904ms)
+✔ Onslaught calculation covers every rank, Shield and Grace budget without double-discounting block cost (1.075231ms)
+✔ Onslaught calculation interprets source DPS once, uses fixed corridor and cast-speed startup floor (0.289186ms)
+✖ Lance calculation splits each source rank before physical-only multiplication and preserves inherited costs (1.382975ms)
+✔ Inner Flame and Flaming Wrath calculations map all source ranks without permanent buff application (0.347544ms)
+✔ Lawbringer, Punish and Guilt calculations map every rank using mainhand once and keeping predicates separate (0.389257ms)
+✔ All fifteen Expert calculations have detached preview projections; unsupported Master remains unmapped (4.743774ms)
+✔ Unlearned parent actions and passives do not acquire orphan effects in calculation fixtures (0.182976ms)
+✔ Known-row calculation rejects malformed ranks rather than admitting undefined/NaN coefficients (0.486524ms)
+ℹ tests 168
+ℹ suites 0
+ℹ pass 166
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16536.330878
+
+✖ failing tests:
+
+test at projects/EmberwatchReborn/app/tests/build-label-ui.test.mjs:41:1
+✖ R11 app, project, index metadata and build kind share the same bounded release identity (1.09395ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '0.11.0-reimplementation.3'
+  - '0.11.0-reimplementation.2'
+                             ^
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11-integration/projects/EmberwatchReborn/app/tests/build-label-ui.test.mjs:43:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '0.11.0-reimplementation.3',
+    expected: '0.11.0-reimplementation.2',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/warrior-expert-specs.test.mjs:200:1
+✖ Lance calculation splits each source rank before physical-only multiplication and preserves inherited costs (1.382975ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      arcRadians: 1.0471975511965976,
+      armorPenetration: 8,
+      fireDamage: 50,
+  +   fullPowerPulses: 4,
+      physicalDamage: 57.5,
+      range: 180,
+      rank: 1
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11-integration/projects/EmberwatchReborn/app/tests/warrior-expert-specs.test.mjs:203:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { rank: 1, physicalDamage: 57.5, fireDamage: 50, armorPenetration: 8, range: 180, arcRadians: 1.0471975511965976, fullPowerPulses: 4 },
+    expected: { rank: 1, physicalDamage: 57.5, fireDamage: 50, armorPenetration: 8, range: 180, arcRadians: 1.0471975511965976 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

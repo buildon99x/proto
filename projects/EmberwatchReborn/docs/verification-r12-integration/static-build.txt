@@ -1,0 +1,6 @@
+{
+  "files": 89,
+  "bytes": 16437139,
+  "output": "/workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/dist",
+  "gameplayAcceptance": "not_established_by_build"
+}

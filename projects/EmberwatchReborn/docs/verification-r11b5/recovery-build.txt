@@ -1,0 +1,6 @@
+{
+  "files": 90,
+  "bytes": 16392959,
+  "output": "/workspace/shared/emberwatch-r11-integration/projects/EmberwatchReborn/app/dist-recovery",
+  "gameplayAcceptance": "not_established_by_build"
+}

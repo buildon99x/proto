@@ -1,0 +1,50 @@
+Emberwatch Reborn R12a5 S visibility / wall-footing presentation patch
+2026-10-10 UTC
+
+Result
+133 focused node tests passed, 0 failures. All 8 changed/new JavaScript files pass node --check.
+Only /workspace/shared/emberwatch-r12a5-visual-work project files were edited.
+No browser, public deployment, Git command, Library upload, full suite, lint or build was run.
+Normal-input visual/feel acceptance remains OPEN; a recording canvas is not pixel evidence.
+
+Changed production files (6)
+- src/scene-visibility.js (new): read-only connected-floor and presentation core extracted from W.
+- src/wilderness-scene-visibility.js: W adapter retains its gate, object, short-label and residual-threat behavior.
+- src/signal-scene-visibility.js (new): S adapter opts into the shared policy. Idle foes require real connected floor plus authored encounter gate. Active live threats/committed warnings have an S-only safety exception. Shortcut portal art respects its real availability and completed temporary device art is hidden. Quiet labels are short, within 160 world units, LOS-valid, and suppressed while hostile shots/tells remain.
+- src/signal-readability.js: nearby (190 world unit) solid/floor boundary segments reuse lowCoverSegments. Adjacent collinear boundaries are merged into small closed rail outlines, inset 2–5 world units inside collision. Existing signalOpenPassages/map/whole-door/seen/distance rules remain unchanged.
+- src/visual.js: S rails are drawn in the ground layer, before passage/role ticks, loot, warning geometry and bodies. Tall architecture retains the existing cutaway response. S removes the late unfiltered generic floor-edge stroke. Its active-threat exception also survives secondary actor/role/hint floor clipping; shots and effects remain unfiltered. Non-S scene selection is unchanged.
+- src/main.js: add the S import; use W visibility ?? S visibility in the label default and the single per-frame snapshot. The same snapshot/seen/live map goes to the renderer and labels. F candidates, targeting, input handlers and modal text were not changed.
+
+Changed tests (2)
+- tests/signal-scene-visibility.test.mjs (new, 24 cases): production helpers, actual renderer, extracted unchanged main frame/label/nearest code. Includes closed/west/east/north, stale objective/map pairs, partial door, hidden floor/range, active LOS-broken threat behind a closed gate, residual shots/tells, cap-vs-corner shapes, order before loot/threat/actors, flash0, quiet short labels/full F names, map transitions using one snapshot, reducer-earned west/east reload, frozen state and interleaved real combat equality.
+- tests/signal-ui-integration.test.mjs: one assertion adjusted to test the short completed canvas label from an unobstructed nearby fixture while separately requiring the unchanged full F interaction name.
+
+Verification commands and evidence
+1. node --test tests/signal-scene-visibility.test.mjs tests/signal-readability.test.mjs tests/wilderness-scene-visibility.test.mjs tests/combat-readability.test.mjs tests/furnace-readability.test.mjs tests/tomb-readability.test.mjs tests/battlefield-readability.test.mjs
+   132/132 passed in about 12.1 seconds. Full current-run output: verification/focused-render.txt
+2. node --test --test-name-pattern='actual S label and renderer object preparation' tests/signal-ui-integration.test.mjs
+   1/1 passed. Full current-run output: verification/focused-label.txt
+3. node --check on all 8 files listed in verification/sha256.txt: passed.
+
+Evidence boundaries
+Geometry/actor fixtures deliberately position actors and construct stale snapshots; they are not real play.
+The earned-route portions use existing real reducers for scripted settlement/position reports; they do not claim normal-input combat or manual progression.
+Frozen battle/map/state, save bytes, actual aiming and interleaved real combat outcomes remained unchanged in the tests. Content, combat simulation, rewards, saves and balance files were not edited.
+The canonical path supplied in the assignment is not mounted in this worker executor; a read-only diff attempt returned No such file or directory. No byte-for-byte comparison against canonical is claimed. Parent should compare/integrate against its own current source.
+
+Integration and remaining verification
+- Integrate these 6 production files and 2 test files together; the new imports require both new modules to be included by the package/build output.
+- If main.js or visual.js changed in parallel, merge only the described presentation changes instead of overwriting unrelated work.
+- Run the parent environment's full test/lint/build only under its applicable authorization.
+- Recheck west/east approach, closed/open north gate, multiple view directions, dropped loot, narrow/wide keeper tells, flash0 and narrow/default viewport by normal input. Confirm the capped rails really fix the black-gap/path confusion, without mistaking an open door for a wall or increasing occlusion.
+- Keep visual/play quality acceptance pending until that pixel/normal-input check passes. No deployment or release readiness is claimed.
+
+SHA-256 (final source/test bytes)
+7dfbd311cb946080c4c0768b2dd46aebcb2d26b70e9a073a6311aee64fb64cad  src/main.js
+6e8c3f2ae897997c713992b4de8698773ec6bf0dd718a5b96ca71e08307df5a9  src/visual.js
+097c232e39551d9736402ed45ae55b9398990975c414bf85ff5c4b097054e908  src/signal-readability.js
+35c18bd87349899311e07f2aa24a161609ff78498f62eb1ea2644bc049193869  src/wilderness-scene-visibility.js
+982d6cde8e66215604391704010d27be122babafcf89951710cfc11d2651c649  src/scene-visibility.js
+2169a9e7b451d5ca2234271f935edbf79ed12b2f6efb3cd194fff1b4cb287078  src/signal-scene-visibility.js
+334a8b4d3ba6b8c4b06ee99bcca723b25e4e8c33c0dd7434d443c63ca26d97c5  tests/signal-scene-visibility.test.mjs
+e93c976986a71f4467c87a1af1fc879a55486b87592fd4b8e1bb2fbafd4f635f  tests/signal-ui-integration.test.mjs

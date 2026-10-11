@@ -1,0 +1,4 @@
+started_utc=2026-10-10T15:53:52Z
+command=node --test --test-reporter=tap --test-concurrency=1 tests/*.test.mjs
+finished_utc=2026-10-10T16:02:57Z
+exit_code=0

@@ -1,0 +1,24 @@
+[
+  {
+    "output": "dist",
+    "version": "0.12.0-reimplementation.2",
+    "payloadFiles": 95,
+    "payloadBytes": 16476431,
+    "sha256": "all_matched",
+    "relativeImports": 272,
+    "importTargets": "all_present",
+    "futureExpeditionRuntime": "excluded",
+    "gameplayAcceptance": "not_established"
+  },
+  {
+    "output": "dist-recovery",
+    "version": "0.12.0-reimplementation.2",
+    "payloadFiles": 95,
+    "payloadBytes": 16475422,
+    "sha256": "all_matched",
+    "relativeImports": 272,
+    "importTargets": "all_present",
+    "futureExpeditionRuntime": "excluded",
+    "gameplayAcceptance": "not_established"
+  }
+]

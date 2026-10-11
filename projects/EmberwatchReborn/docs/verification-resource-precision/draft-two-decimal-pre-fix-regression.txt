@@ -1,0 +1,687 @@
+✖ Trial by Fire 37.5 MP: just below HUD, aria and actual acceptance/payment agree (28.146108ms)
+✖ Trial by Fire 37.5 MP: below by 1e-10 HUD, aria and actual acceptance/payment agree (14.477547ms)
+✖ Trial by Fire 37.5 MP: adjacent float below HUD, aria and actual acceptance/payment agree (13.855969ms)
+✖ Trial by Fire 37.5 MP: exact HUD, aria and actual acceptance/payment agree (12.238801ms)
+✖ Trial by Fire 37.5 MP: adjacent float above HUD, aria and actual acceptance/payment agree (12.946133ms)
+✖ Trial by Fire 37.5 MP: above by 1e-10 HUD, aria and actual acceptance/payment agree (12.94458ms)
+✖ Trial by Fire 37.5 MP: just above HUD, aria and actual acceptance/payment agree (12.748536ms)
+✖ Zeal-discounted Trial by Fire 33.75 MP: just below HUD, aria and actual acceptance/payment agree (27.186008ms)
+✖ Zeal-discounted Trial by Fire 33.75 MP: below by 1e-10 HUD, aria and actual acceptance/payment agree (21.389387ms)
+✖ Zeal-discounted Trial by Fire 33.75 MP: adjacent float below HUD, aria and actual acceptance/payment agree (21.597509ms)
+✖ Zeal-discounted Trial by Fire 33.75 MP: exact HUD, aria and actual acceptance/payment agree (15.338414ms)
+✖ Zeal-discounted Trial by Fire 33.75 MP: adjacent float above HUD, aria and actual acceptance/payment agree (14.199004ms)
+✖ Zeal-discounted Trial by Fire 33.75 MP: above by 1e-10 HUD, aria and actual acceptance/payment agree (15.080837ms)
+✖ Zeal-discounted Trial by Fire 33.75 MP: just above HUD, aria and actual acceptance/payment agree (13.388527ms)
+✖ shielded Onslaught 11.25 stamina: just below HUD, aria and actual acceptance/payment agree (10.147683ms)
+✖ shielded Onslaught 11.25 stamina: below by 1e-10 HUD, aria and actual acceptance/payment agree (8.650926ms)
+✖ shielded Onslaught 11.25 stamina: adjacent float below HUD, aria and actual acceptance/payment agree (8.882133ms)
+✖ shielded Onslaught 11.25 stamina: exact HUD, aria and actual acceptance/payment agree (7.964475ms)
+✖ shielded Onslaught 11.25 stamina: adjacent float above HUD, aria and actual acceptance/payment agree (8.410425ms)
+✖ shielded Onslaught 11.25 stamina: above by 1e-10 HUD, aria and actual acceptance/payment agree (8.342132ms)
+✖ shielded Onslaught 11.25 stamina: just above HUD, aria and actual acceptance/payment agree (7.923824ms)
+✔ actual HUD updates the discounted quote and low-resource state when a real Banner expires (24.593235ms)
+✔ actual HUD full preserves health ceiling and conservative pool text (7.256382ms)
+✔ actual HUD empty mana/stamina with fractional living HP preserves health ceiling and conservative pool text (7.36116ms)
+✔ actual HUD dead and empty preserves health ceiling and conservative pool text (7.139017ms)
+✖ actual HUD fractional pools preserves health ceiling and conservative pool text (7.498545ms)
+✖ invalid NaN is unknown display text, never an invented usable value (7.189972ms)
+✖ invalid Infinity is unknown display text, never an invented usable value (7.144404ms)
+✖ invalid -Infinity is unknown display text, never an invented usable value (9.153719ms)
+✖ invalid -1 is unknown display text, never an invented usable value (6.526356ms)
+✖ invalid undefined is unknown display text, never an invented usable value (9.620491ms)
+✖ invalid 37.5 is unknown display text, never an invented usable value (9.913951ms)
+✔ formatting retains exact quoted decimals and never introduces an optimistic hundredth (13.524331ms)
+✔ actual HUD keeps stun above cooldown and fractional resource shortage (10.46571ms)
+✔ actual HUD keeps silence above cooldown and fractional resource shortage (11.924189ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 7
+ℹ fail 28
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 596.79191
+
+✖ failing tests:
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ Trial by Fire 37.5 MP: just below HUD, aria and actual acceptance/payment agree (28.146108ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '38 / 96'
+  - '37.49 / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '38 / 96',
+    expected: '37.49 / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ Trial by Fire 37.5 MP: below by 1e-10 HUD, aria and actual acceptance/payment agree (14.477547ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '38 / 96'
+  - '37.49 / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '38 / 96',
+    expected: '37.49 / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ Trial by Fire 37.5 MP: adjacent float below HUD, aria and actual acceptance/payment agree (13.855969ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '38 / 96'
+  - '37.49 / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '38 / 96',
+    expected: '37.49 / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ Trial by Fire 37.5 MP: exact HUD, aria and actual acceptance/payment agree (12.238801ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '38 / 96'
+  - '37.5 / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '38 / 96',
+    expected: '37.5 / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ Trial by Fire 37.5 MP: adjacent float above HUD, aria and actual acceptance/payment agree (12.946133ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '38 / 96'
+  - '37.5 / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '38 / 96',
+    expected: '37.5 / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ Trial by Fire 37.5 MP: above by 1e-10 HUD, aria and actual acceptance/payment agree (12.94458ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '38 / 96'
+  - '37.5 / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '38 / 96',
+    expected: '37.5 / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ Trial by Fire 37.5 MP: just above HUD, aria and actual acceptance/payment agree (12.748536ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '38 / 96'
+  - '37.5 / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '38 / 96',
+    expected: '37.5 / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ Zeal-discounted Trial by Fire 33.75 MP: just below HUD, aria and actual acceptance/payment agree (27.186008ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '34 / 96'
+  - '33.74 / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '34 / 96',
+    expected: '33.74 / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ Zeal-discounted Trial by Fire 33.75 MP: below by 1e-10 HUD, aria and actual acceptance/payment agree (21.389387ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '34 / 96'
+  - '33.74 / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '34 / 96',
+    expected: '33.74 / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ Zeal-discounted Trial by Fire 33.75 MP: adjacent float below HUD, aria and actual acceptance/payment agree (21.597509ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '34 / 96'
+  - '33.74 / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '34 / 96',
+    expected: '33.74 / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ Zeal-discounted Trial by Fire 33.75 MP: exact HUD, aria and actual acceptance/payment agree (15.338414ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '34 / 96'
+  - '33.75 / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '34 / 96',
+    expected: '33.75 / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ Zeal-discounted Trial by Fire 33.75 MP: adjacent float above HUD, aria and actual acceptance/payment agree (14.199004ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '34 / 96'
+  - '33.75 / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '34 / 96',
+    expected: '33.75 / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ Zeal-discounted Trial by Fire 33.75 MP: above by 1e-10 HUD, aria and actual acceptance/payment agree (15.080837ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '34 / 96'
+  - '33.75 / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '34 / 96',
+    expected: '33.75 / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ Zeal-discounted Trial by Fire 33.75 MP: just above HUD, aria and actual acceptance/payment agree (13.388527ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '34 / 96'
+  - '33.75 / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '34 / 96',
+    expected: '33.75 / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ shielded Onslaught 11.25 stamina: just below HUD, aria and actual acceptance/payment agree (10.147683ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '12 / 129'
+  - '11.24 / 129'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '12 / 129',
+    expected: '11.24 / 129',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ shielded Onslaught 11.25 stamina: below by 1e-10 HUD, aria and actual acceptance/payment agree (8.650926ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '12 / 129'
+  - '11.24 / 129'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '12 / 129',
+    expected: '11.24 / 129',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ shielded Onslaught 11.25 stamina: adjacent float below HUD, aria and actual acceptance/payment agree (8.882133ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '12 / 129'
+  - '11.24 / 129'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '12 / 129',
+    expected: '11.24 / 129',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ shielded Onslaught 11.25 stamina: exact HUD, aria and actual acceptance/payment agree (7.964475ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '12 / 129'
+  - '11.25 / 129'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '12 / 129',
+    expected: '11.25 / 129',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ shielded Onslaught 11.25 stamina: adjacent float above HUD, aria and actual acceptance/payment agree (8.410425ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '12 / 129'
+  - '11.25 / 129'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '12 / 129',
+    expected: '11.25 / 129',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ shielded Onslaught 11.25 stamina: above by 1e-10 HUD, aria and actual acceptance/payment agree (8.342132ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '12 / 129'
+  - '11.25 / 129'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '12 / 129',
+    expected: '11.25 / 129',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:49:77
+✖ shielded Onslaught 11.25 stamina: just above HUD, aria and actual acceptance/payment agree (7.923824ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '12 / 129'
+  - '11.25 / 129'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:56:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '12 / 129',
+    expected: '11.25 / 129',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:88:3
+✖ actual HUD fractional pools preserves health ceiling and conservative pool text (7.498545ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '38 / 96'
+  - '37.49 / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:90:89)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '38 / 96',
+    expected: '37.49 / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:94:67
+✖ invalid NaN is unknown display text, never an invented usable value (7.189972ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'NaN / 96'
+  - '? / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:97:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NaN / 96',
+    expected: '? / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:94:67
+✖ invalid Infinity is unknown display text, never an invented usable value (7.144404ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'Infinity / 96'
+  - '? / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:97:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Infinity / 96',
+    expected: '? / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:94:67
+✖ invalid -Infinity is unknown display text, never an invented usable value (9.153719ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '-Infinity / 96'
+  - '? / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:97:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '-Infinity / 96',
+    expected: '? / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:94:67
+✖ invalid -1 is unknown display text, never an invented usable value (6.526356ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '-1 / 96'
+  - '? / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:97:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '-1 / 96',
+    expected: '? / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:94:67
+✖ invalid undefined is unknown display text, never an invented usable value (9.620491ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'NaN / 96'
+  - '? / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:97:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NaN / 96',
+    expected: '? / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:94:67
+✖ invalid 37.5 is unknown display text, never an invented usable value (9.913951ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '38 / 96'
+  - '? / 96'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-resource-baseline-oQcdEF/tests/resource-display.test.mjs:97:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '38 / 96',
+    expected: '? / 96',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

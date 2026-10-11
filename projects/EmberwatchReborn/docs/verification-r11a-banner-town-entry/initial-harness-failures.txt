@@ -1,0 +1,218 @@
+✔ only new B town entry and its own ordinary return move; all legacy anchors and map remain (1.670127ms)
+✖ new entry has non-overlapping 76-unit reach and sole selection at every legal sampled approach (2.168054ms)
+✔ new projected arch footprint is separate from every existing town portal, NPC and seeded landmark (0.381252ms)
+✖ actual movement and main nearest/F from Eda enter only B (1427.684465ms)
+✖ actual movement and main nearest/F from town spawn enter only B (59.496131ms)
+✖ actual movement and main nearest/F from trainer enter only B (51.960859ms)
+✖ actual movement and main nearest/F from old B endpoint enter only B (71.216455ms)
+✖ actual movement and main nearest/F from old B return enter only B (100.71199ms)
+✖ actual main F and durable controller support ordinary B return, immediate re-entry and read-only reload (52.877917ms)
+✖ existing schema4 old entry position reloads without teleport, migration write or lost resources (85.541679ms)
+✖ existing schema4 old return position reloads without teleport, migration write or lost resources (87.060889ms)
+✔ Banner uses the exact live128-radius boundary and bounded arc sampling (7.111675ms)
+✔ Banner hides expired (0.635704ms)
+✔ Banner hides negative lifetime (0.122164ms)
+✔ Banner hides nonfinite (0.168003ms)
+✔ Banner hides invalid radius (0.175003ms)
+✔ Banner hides wrong region (0.095784ms)
+✔ Banner clips solid walls and unrevealed tiles without painting a far-side pocket (7.776723ms)
+✔ flames_of_devotion uses exact runtime center radius90 and its own arc, without legacy padding (1.958671ms)
+✔ zealous_lance uses exact runtime center radius180 and its own arc, without legacy padding (1.373312ms)
+✔ Expert FX opt-in needs supported identity, finite accepted geometry and living effect (0.509475ms)
+✔ Onslaught phases use accepted startup, locked angle, payments and pulses (0.329976ms)
+✔ channel spec shortened by a buff drives startup, no assumed fixed cast time (0.161082ms)
+✔ Onslaught rectangle follows current hero and accepted angle without endpoint padding (1.423917ms)
+✔ recovery is only an observed channel and stays paused with simulation, never restored from a save lock (0.454092ms)
+✔ replacement actor, region change, later time, death and another action clear remembered recovery (0.257015ms)
+✔ hero status hints expose only registered live statuses, actual Inner Flame and current Banner LOS (0.570887ms)
+✔ enemy Lawbringer hints disappear on expiry, inactive and death (0.163505ms)
+✔ actual renderer puts Banner, exact Flames/Lance and channel below loot and hostile danger (14.291974ms)
+✔ actual renderer transforms the exact Lance footprint without old slash arc or radius changes (5.492405ms)
+✔ actual hero motion uses existing art with startup/contact/recovery and locked direction (9.422384ms)
+✔ flash0 keeps Expert shapes, status labels and existing motion without mutating frozen input (24.013682ms)
+✔ absent, expired and off-region Expert data leave the existing renderer commands unchanged (13.584592ms)
+✔ recovery keeps its actual residual across a last-active frame boundary and does not extend stale locks (0.163255ms)
+✔ tagged Banner placement uses only the dedicated quiet ground ring while ordinary ring effects remain (6.911025ms)
+✔ Banner has a continuous dark casing and longer warm dash on the same exact floor boundary (12.893064ms)
+✔ combat-created Banner visual stays at the accepted placement and vanishes at the real expiry (194.731521ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 28
+ℹ fail 9
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2490.853017
+
+✖ failing tests:
+
+test at app/tests/battlefield-town-entry.test.mjs:66:1
+✖ new entry has non-overlapping 76-unit reach and sole selection at every legal sampled approach (2.168054ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + undefined
+  - 'town-battlefield-entry'
+
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11a-visual-entry/projects/EmberwatchReborn/app/tests/battlefield-town-entry.test.mjs:68:230)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'town-battlefield-entry',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/battlefield-town-entry.test.mjs:78:158
+✖ actual movement and main nearest/F from Eda enter only B (1427.684465ms)
+  AssertionError [ERR_ASSERTION]: {"ok":false,"code":"INVALID_COMMAND","reason":"지원하지 않는 입력입니다."}
+
+  false !== true
+
+      at Object.interact (file:///workspace/shared/emberwatch-r11a-visual-entry/projects/EmberwatchReborn/app/tests/battlefield-town-entry.test.mjs:46:200)
+      at async TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11a-visual-entry/projects/EmberwatchReborn/app/tests/battlefield-town-entry.test.mjs:79:175)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/battlefield-town-entry.test.mjs:78:158
+✖ actual movement and main nearest/F from town spawn enter only B (59.496131ms)
+  AssertionError [ERR_ASSERTION]: {"ok":false,"code":"INVALID_COMMAND","reason":"지원하지 않는 입력입니다."}
+
+  false !== true
+
+      at Object.interact (file:///workspace/shared/emberwatch-r11a-visual-entry/projects/EmberwatchReborn/app/tests/battlefield-town-entry.test.mjs:46:200)
+      at async TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11a-visual-entry/projects/EmberwatchReborn/app/tests/battlefield-town-entry.test.mjs:79:175)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/battlefield-town-entry.test.mjs:78:158
+✖ actual movement and main nearest/F from trainer enter only B (51.960859ms)
+  AssertionError [ERR_ASSERTION]: {"ok":false,"code":"INVALID_COMMAND","reason":"지원하지 않는 입력입니다."}
+
+  false !== true
+
+      at Object.interact (file:///workspace/shared/emberwatch-r11a-visual-entry/projects/EmberwatchReborn/app/tests/battlefield-town-entry.test.mjs:46:200)
+      at async TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11a-visual-entry/projects/EmberwatchReborn/app/tests/battlefield-town-entry.test.mjs:79:175)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/battlefield-town-entry.test.mjs:78:158
+✖ actual movement and main nearest/F from old B endpoint enter only B (71.216455ms)
+  AssertionError [ERR_ASSERTION]: {"ok":false,"code":"INVALID_COMMAND","reason":"지원하지 않는 입력입니다."}
+
+  false !== true
+
+      at Object.interact (file:///workspace/shared/emberwatch-r11a-visual-entry/projects/EmberwatchReborn/app/tests/battlefield-town-entry.test.mjs:46:200)
+      at async TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11a-visual-entry/projects/EmberwatchReborn/app/tests/battlefield-town-entry.test.mjs:79:175)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/battlefield-town-entry.test.mjs:78:158
+✖ actual movement and main nearest/F from old B return enter only B (100.71199ms)
+  AssertionError [ERR_ASSERTION]: {"ok":false,"code":"INVALID_COMMAND","reason":"지원하지 않는 입력입니다."}
+
+  false !== true
+
+      at Object.interact (file:///workspace/shared/emberwatch-r11a-visual-entry/projects/EmberwatchReborn/app/tests/battlefield-town-entry.test.mjs:46:200)
+      at async TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11a-visual-entry/projects/EmberwatchReborn/app/tests/battlefield-town-entry.test.mjs:79:175)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/battlefield-town-entry.test.mjs:81:1
+✖ actual main F and durable controller support ordinary B return, immediate re-entry and read-only reload (52.877917ms)
+  AssertionError [ERR_ASSERTION]: {"ok":false,"code":"INVALID_COMMAND","reason":"지원하지 않는 입력입니다."}
+
+  false !== true
+
+      at Object.interact (file:///workspace/shared/emberwatch-r11a-visual-entry/projects/EmberwatchReborn/app/tests/battlefield-town-entry.test.mjs:46:200)
+      at async TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11a-visual-entry/projects/EmberwatchReborn/app/tests/battlefield-town-entry.test.mjs:82:98)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/battlefield-town-entry.test.mjs:87:80
+✖ existing schema4 old entry position reloads without teleport, migration write or lost resources (85.541679ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'emberwatch.reborn.reimplementation'
+  - 'emberwatch-reborn.v1'
+               ^
+
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11a-visual-entry/projects/EmberwatchReborn/app/tests/battlefield-town-entry.test.mjs:89:217)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'emberwatch.reborn.reimplementation',
+    expected: 'emberwatch-reborn.v1',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/battlefield-town-entry.test.mjs:87:80
+✖ existing schema4 old return position reloads without teleport, migration write or lost resources (87.060889ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'emberwatch.reborn.reimplementation'
+  - 'emberwatch-reborn.v1'
+               ^
+
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11a-visual-entry/projects/EmberwatchReborn/app/tests/battlefield-town-entry.test.mjs:89:217)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'emberwatch.reborn.reimplementation',
+    expected: 'emberwatch-reborn.v1',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,43 @@
+✔ B validator leaves untouched old states byte-identical and does not infer completion (4.250122ms)
+✔ synthetic B prerequisites: T report/level/commission cannot substitute for real Expert history (1317.879599ms)
+✔ synthetic production B settlement minimum easy, west→east: exact one-time budgets and Eda-only completion (1647.282769ms)
+✔ synthetic production B settlement minimum easy, east→west: exact one-time budgets and Eda-only completion (576.664311ms)
+✔ synthetic production B settlement minimum normal, west→east: exact one-time budgets and Eda-only completion (518.14521ms)
+✔ synthetic production B settlement minimum normal, east→west: exact one-time budgets and Eda-only completion (534.717144ms)
+✔ synthetic production B settlement minimum hard, west→east: exact one-time budgets and Eda-only completion (1472.801442ms)
+✔ synthetic production B settlement minimum hard, east→west: exact one-time budgets and Eda-only completion (500.433345ms)
+✔ synthetic production B settlement minimum serious, west→east: exact one-time budgets and Eda-only completion (1589.475232ms)
+✔ synthetic production B settlement minimum serious, east→west: exact one-time budgets and Eda-only completion (586.191687ms)
+✔ synthetic production B settlement full easy, west→east: exact one-time budgets and Eda-only completion (1728.56774ms)
+✔ synthetic production B settlement full easy, east→west: exact one-time budgets and Eda-only completion (543.399353ms)
+✔ synthetic production B settlement full normal, west→east: exact one-time budgets and Eda-only completion (1663.653133ms)
+✔ synthetic production B settlement full normal, east→west: exact one-time budgets and Eda-only completion (554.38633ms)
+✔ synthetic production B settlement full hard, west→east: exact one-time budgets and Eda-only completion (1688.328129ms)
+✔ synthetic production B settlement full hard, east→west: exact one-time budgets and Eda-only completion (534.13389ms)
+✔ synthetic production B settlement full serious, west→east: exact one-time budgets and Eda-only completion (1624.389201ms)
+✔ synthetic production B settlement full serious, east→west: exact one-time budgets and Eda-only completion (584.20078ms)
+✔ synthetic B guards reject future boss kills, unpaid devices, early report and remote/forged commands (113.252326ms)
+✔ synthetic B repeat/stale clicks and partial-device load/re-entry keep earned state without refill (160.642011ms)
+✔ synthetic B boss/hero simultaneous settlement pays once, dead load cannot claim beacon, explicit retry keeps progress (291.849096ms)
+✔ B bidirectional load validator rejects unknown/partial/forged progress and inaccessible boss receipts (255.283884ms)
+✔ B bounded ledgers fail atomically without truncation, extra supplies or revised progress (405.946791ms)
+✔ B pure presentation gives current orders, completed/reward/continuation truth and minimal command fields (513.66567ms)
+✔ synthetic isolated live B AI: authored battlefield_revenant actually produces disarm (101.63953ms)
+✔ synthetic isolated live B AI: authored battlefield_hexer actually produces poison (71.374908ms)
+✔ synthetic isolated live B AI: authored battlefield_pyromancer actually produces burn (64.147948ms)
+✔ synthetic isolated live B AI: authored battlefield_lancer actually produces slow (92.597984ms)
+✔ synthetic isolated live B AI: authored battlefield_binder actually produces silence (64.458363ms)
+✔ synthetic isolated live B AI: authored battlefield_bulwark actually produces stun (105.260216ms)
+✔ synthetic isolated live B AI poison is actually cleansed by a purchased heal, without altering earlier Tomb taxonomy (117.910941ms)
+✔ synthetic isolated real heal burns only authored undead in a mixed B encounter (103.748587ms)
+✔ synthetic isolated live B spell retains its owner and enables purchased Lawbringer rather than relying on ranged shape (99.427749ms)
+✔ synthetic isolated live B boss alternates committed long spell line and broad weapon sweep, with real recovery (196.011387ms)
+✔ relocated town B entrance guidance names northern clearing, never old southeast gate stack (39.471355ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20624.277423

@@ -1,0 +1,79 @@
+{
+  "document": "emberwatch-hammerwatch2-mechanics-port-plan.md",
+  "libraryFileId": "libfile_52344aab47a48191aa0d9b86f5192591",
+  "libraryVersion": 2,
+  "internalDocumentVersion": "v1.1 / 2026-10-08",
+  "fileId": "file_0000000014ac8209a3115e8c64437f90",
+  "reportedSizeBytes": 56360,
+  "reportedTotalLines": 623,
+  "readCoverage": [
+    {
+      "startLine": 1,
+      "endLine": 500
+    },
+    {
+      "startLine": 501,
+      "endLine": 623
+    }
+  ],
+  "expectedSha256": "b29e964c2a6087a4e80c89280389ac4db3281dfd9e346307393cf4ceb28a0328",
+  "localCanonicalFile": null,
+  "actualSha256": null,
+  "hashComparison": "blocked_not_compared",
+  "materialization": {
+    "status": "blocked_http_403",
+    "exactError": "download failed with HTTP status 403",
+    "retryAttempted": false,
+    "alternateTransferAttempted": false,
+    "sourceTranscribedToBypassTransfer": false
+  },
+  "baseline": {
+    "path": "../Emberwatch",
+    "commit": "7240e494",
+    "changed": false,
+    "sources": [
+      {
+        "path": "app/src/campaign/reference-core.js",
+        "sha256": "04804f94aa38999f5e0af98094196394d703a3be4c3593d9338a3bc13bc8eb04"
+      },
+      {
+        "path": "app/src/campaign/reference-warrior.js",
+        "sha256": "1fb06923bbf69a33e80593a734f86b39d22ef7cd1f260b9d5b0be9a15261d549"
+      },
+      {
+        "path": "docs/campaign/warrior-reference.md",
+        "sha256": "def0b8b12be70498bc067190fba56c19569671e7b0cfdc9f8f5b25726a681a60"
+      }
+    ]
+  },
+  "checklist": {
+    "path": "docs/requirements/warrior-completion-checklist.md",
+    "kind": "New requirements checklist based on authorized full Library read, preserved reference files and subsequent approved Emberwatch scope; not a recovered original file.",
+    "implementationStatus": "unverified_for_new_implementation",
+    "previous425TestsInheritedAsPassing": false,
+    "warriorNodeCount": 53,
+    "baseAbilities": 16,
+    "augments": 37,
+    "tiers": {
+      "apprentice": 9,
+      "adept": 16,
+      "expert": 15,
+      "master": 13
+    }
+  },
+  "workPerformed": [
+    "Library read of all 623 lines",
+    "official pinned-version materialization attempt",
+    "read-only baseline and source hash inspection",
+    "new requirements documentation",
+    "static documentation consistency checks only"
+  ],
+  "workNotPerformed": [
+    "game code changes",
+    "game module execution",
+    "game tests",
+    "build",
+    "browser play",
+    "remote writes"
+  ]
+}

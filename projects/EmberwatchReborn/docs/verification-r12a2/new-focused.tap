@@ -1,0 +1,394 @@
+TAP version 13
+# Subtest: successful real purchase restores final trainer card, disclosures and keyboard focus after both saves
+ok 1 - successful real purchase restores final trainer card, disclosures and keyboard focus after both saves
+  ---
+  duration_ms: 1755.667165
+  type: 'test'
+  ...
+# Subtest: repeated enabled keyboard purchases preserve card position through changed text heights and charge each rank once
+ok 2 - repeated enabled keyboard purchases preserve card position through changed text heights and charge each rank once
+  ---
+  duration_ms: 577.646214
+  type: 'test'
+  ...
+# Subtest: latest scroll/disclosure choices during payment are retained instead of old click-time values
+ok 3 - latest scroll/disclosure choices during payment are retained instead of old click-time values
+  ---
+  duration_ms: 277.435095
+  type: 'test'
+  ...
+# Subtest: max rank moves reading focus to the same inert card and rejects disabled clicks
+ok 4 - max rank moves reading focus to the same inert card and rejects disabled clicks
+  ---
+  duration_ms: 328.268333
+  type: 'test'
+  ...
+# Subtest: purchase making next rank unaffordable does not focus another actionable purchase
+ok 5 - purchase making next rank unaffordable does not focus another actionable purchase
+  ---
+  duration_ms: 1170.195328
+  type: 'test'
+  ...
+# Subtest: disabled skill:flaming_wrath never submits, changes viewport or restores input
+ok 6 - disabled skill:flaming_wrath never submits, changes viewport or restores input
+  ---
+  duration_ms: 143.962693
+  type: 'test'
+  ...
+# Subtest: disabled skill:banner_of_zeal never submits, changes viewport or restores input
+ok 7 - disabled skill:banner_of_zeal never submits, changes viewport or restores input
+  ---
+  duration_ms: 161.499673
+  type: 'test'
+  ...
+# Subtest: double click, stale detached button and a click during payment cannot buy extra ranks
+ok 8 - double click, stale detached button and a click during payment cannot buy extra ranks
+  ---
+  duration_ms: 275.613432
+  type: 'test'
+  ...
+# Subtest: close during purchase invalidates the old trainer restoration
+ok 9 - close during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 171.189068
+  type: 'test'
+  ...
+# Subtest: menu during purchase invalidates the old trainer restoration
+ok 10 - menu during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 167.278279
+  type: 'test'
+  ...
+# Subtest: title during purchase invalidates the old trainer restoration
+ok 11 - title during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 165.384041
+  type: 'test'
+  ...
+# Subtest: controller during purchase invalidates the old trainer restoration
+ok 12 - controller during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 167.51944
+  type: 'test'
+  ...
+# Subtest: profile during purchase invalidates the old trainer restoration
+ok 13 - profile during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 167.956035
+  type: 'test'
+  ...
+# Subtest: battle during purchase invalidates the old trainer restoration
+ok 14 - battle during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 164.852165
+  type: 'test'
+  ...
+# Subtest: life during purchase invalidates the old trainer restoration
+ok 15 - life during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 172.804071
+  type: 'test'
+  ...
+# Subtest: region during purchase invalidates the old trainer restoration
+ok 16 - region during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 169.4151
+  type: 'test'
+  ...
+# Subtest: dead during purchase invalidates the old trainer restoration
+ok 17 - dead during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 165.161609
+  type: 'test'
+  ...
+# Subtest: close during checkpoint invalidates the old trainer restoration
+ok 18 - close during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 205.086064
+  type: 'test'
+  ...
+# Subtest: menu during checkpoint invalidates the old trainer restoration
+ok 19 - menu during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 200.18946
+  type: 'test'
+  ...
+# Subtest: title during checkpoint invalidates the old trainer restoration
+ok 20 - title during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 253.984783
+  type: 'test'
+  ...
+# Subtest: controller during checkpoint invalidates the old trainer restoration
+ok 21 - controller during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 201.640242
+  type: 'test'
+  ...
+# Subtest: profile during checkpoint invalidates the old trainer restoration
+ok 22 - profile during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 202.176726
+  type: 'test'
+  ...
+# Subtest: battle during checkpoint invalidates the old trainer restoration
+ok 23 - battle during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 199.593987
+  type: 'test'
+  ...
+# Subtest: life during checkpoint invalidates the old trainer restoration
+ok 24 - life during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 199.470783
+  type: 'test'
+  ...
+# Subtest: region during checkpoint invalidates the old trainer restoration
+ok 25 - region during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 199.898244
+  type: 'test'
+  ...
+# Subtest: dead during checkpoint invalidates the old trainer restoration
+ok 26 - dead during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 198.301922
+  type: 'test'
+  ...
+# Subtest: QUOTA during purchase cannot apply a stale view or repeat the purchase
+ok 27 - QUOTA during purchase cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 164.169242
+  type: 'test'
+  ...
+# Subtest: COMMIT_UNCERTAIN during purchase cannot apply a stale view or repeat the purchase
+ok 28 - COMMIT_UNCERTAIN during purchase cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 156.047676
+  type: 'test'
+  ...
+# Subtest: QUOTA during checkpoint cannot apply a stale view or repeat the purchase
+ok 29 - QUOTA during checkpoint cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 224.242317
+  type: 'test'
+  ...
+# Subtest: COMMIT_UNCERTAIN during checkpoint cannot apply a stale view or repeat the purchase
+ok 30 - COMMIT_UNCERTAIN during checkpoint cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 197.285088
+  type: 'test'
+  ...
+# Subtest: focus during purchase never revives the old purchase focus
+ok 31 - focus during purchase never revives the old purchase focus
+  ---
+  duration_ms: 262.856671
+  type: 'test'
+  ...
+# Subtest: blur during purchase never revives the old purchase focus
+ok 32 - blur during purchase never revives the old purchase focus
+  ---
+  duration_ms: 261.577274
+  type: 'test'
+  ...
+# Subtest: visibility during purchase never revives the old purchase focus
+ok 33 - visibility during purchase never revives the old purchase focus
+  ---
+  duration_ms: 257.182868
+  type: 'test'
+  ...
+# Subtest: focus during checkpoint never revives the old purchase focus
+ok 34 - focus during checkpoint never revives the old purchase focus
+  ---
+  duration_ms: 258.466978
+  type: 'test'
+  ...
+# Subtest: blur during checkpoint never revives the old purchase focus
+ok 35 - blur during checkpoint never revives the old purchase focus
+  ---
+  duration_ms: 256.332945
+  type: 'test'
+  ...
+# Subtest: visibility during checkpoint never revives the old purchase focus
+ok 36 - visibility during checkpoint never revives the old purchase focus
+  ---
+  duration_ms: 266.769515
+  type: 'test'
+  ...
+# Subtest: pointer purchase without owned keyboard focus preserves scroll without stealing skill focus
+ok 37 - pointer purchase without owned keyboard focus preserves scroll without stealing skill focus
+  ---
+  duration_ms: 261.111225
+  type: 'test'
+  ...
+# Subtest: successful refresh still clears held/deferred input, binding capture and native key repeat
+ok 38 - successful refresh still clears held/deferred input, binding capture and native key repeat
+  ---
+  duration_ms: 259.093281
+  type: 'test'
+  ...
+# Subtest: close and reopen during purchase leaves the new trainer at its own default view
+ok 39 - close and reopen during purchase leaves the new trainer at its own default view
+  ---
+  duration_ms: 256.511283
+  type: 'test'
+  ...
+# Subtest: close and reopen during checkpoint leaves the new trainer at its own default view
+ok 40 - close and reopen during checkpoint leaves the new trainer at its own default view
+  ---
+  duration_ms: 295.11473
+  type: 'test'
+  ...
+# Subtest: real rejected out-of-range purchase leaves state, storage, viewport and focus unchanged
+ok 41 - real rejected out-of-range purchase leaves state, storage, viewport and focus unchanged
+  ---
+  duration_ms: 132.354534
+  type: 'test'
+  ...
+# Subtest: dead battle cannot start an old enabled training purchase
+ok 42 - dead battle cannot start an old enabled training purchase
+  ---
+  duration_ms: 121.653298
+  type: 'test'
+  ...
+# Subtest: repeated blur with an identical wall-clock timestamp still invalidates purchase focus
+ok 43 - repeated blur with an identical wall-clock timestamp still invalidates purchase focus
+  ---
+  duration_ms: 266.123336
+  type: 'test'
+  ...
+# Subtest: W entered: real floor connectivity and encounter gates conceal all future-room bodies
+ok 44 - W entered: real floor connectivity and encounter gates conceal all future-room bodies
+  ---
+  duration_ms: 2649.696347
+  type: 'test'
+  ...
+# Subtest: W survey: real floor connectivity and encounter gates conceal all future-room bodies
+ok 45 - W survey: real floor connectivity and encounter gates conceal all future-room bodies
+  ---
+  duration_ms: 162.463906
+  type: 'test'
+  ...
+# Subtest: W anchor: real floor connectivity and encounter gates conceal all future-room bodies
+ok 46 - W anchor: real floor connectivity and encounter gates conceal all future-room bodies
+  ---
+  duration_ms: 157.092816
+  type: 'test'
+  ...
+# Subtest: W calibrated: real floor connectivity and encounter gates conceal all future-room bodies
+ok 47 - W calibrated: real floor connectivity and encounter gates conceal all future-room bodies
+  ---
+  duration_ms: 155.386689
+  type: 'test'
+  ...
+# Subtest: W chosen: real floor connectivity and encounter gates conceal all future-room bodies
+ok 48 - W chosen: real floor connectivity and encounter gates conceal all future-room bodies
+  ---
+  duration_ms: 156.487099
+  type: 'test'
+  ...
+# Subtest: W routed: real floor connectivity and encounter gates conceal all future-room bodies
+ok 49 - W routed: real floor connectivity and encounter gates conceal all future-room bodies
+  ---
+  duration_ms: 160.06593
+  type: 'test'
+  ...
+# Subtest: W approach: real floor connectivity and encounter gates conceal all future-room bodies
+ok 50 - W approach: real floor connectivity and encounter gates conceal all future-room bodies
+  ---
+  duration_ms: 158.977128
+  type: 'test'
+  ...
+# Subtest: W evidence: real floor connectivity and encounter gates conceal all future-room bodies
+ok 51 - W evidence: real floor connectivity and encounter gates conceal all future-room bodies
+  ---
+  duration_ms: 160.452538
+  type: 'test'
+  ...
+# Subtest: encounter gate still conceals a future actor even when a fixture supplies open collision
+ok 52 - encounter gate still conceals a future actor even when a fixture supplies open collision
+  ---
+  duration_ms: 322.767071
+  type: 'test'
+  ...
+# Subtest: actual renderer hides locked keeper body but retains accessible unaggroed keeper
+ok 53 - actual renderer hides locked keeper body but retains accessible unaggroed keeper
+  ---
+  duration_ms: 325.639519
+  type: 'test'
+  ...
+# Subtest: actual active LOS-broken foe body and committed warning remain visible, including flash0
+ok 54 - actual active LOS-broken foe body and committed warning remain visible, including flash0
+  ---
+  duration_ms: 304.299545
+  type: 'test'
+  ...
+# Subtest: hideWhenCompleted hides hook shrine and evidence crystal, while completed durable landmarks remain
+ok 55 - hideWhenCompleted hides hook shrine and evidence crystal, while completed durable landmarks remain
+  ---
+  duration_ms: 645.764305
+  type: 'test'
+  ...
+# Subtest: actual keeper return art and F candidate stay absent before defeat and appear immediately afterward
+ok 56 - actual keeper return art and F candidate stay absent before defeat and appear immediately afterward
+  ---
+  duration_ms: 1040.116722
+  type: 'test'
+  ...
+# Subtest: only unavailable in-W portals leave F candidates; town locked-anchor and available return contracts remain
+ok 57 - only unavailable in-W portals leave F candidates; town locked-anchor and available return contracts remain
+  ---
+  duration_ms: 1070.48658
+  type: 'test'
+  ...
+# Subtest: nearby W labels are short and LOS-valid; full names remain in F hints and modal views
+ok 58 - nearby W labels are short and LOS-valid; full names remain in F hints and modal views
+  ---
+  duration_ms: 778.472301
+  type: 'test'
+  ...
+# Subtest: actual main suppresses nonessential labels during combat and residual hostile tells
+ok 59 - actual main suppresses nonessential labels during combat and residual hostile tells
+  ---
+  duration_ms: 1097.189465
+  type: 'test'
+  ...
+# Subtest: actual main does not place a quiet landmark label across the player silhouette
+ok 60 - actual main does not place a quiet landmark label across the player silhouette
+  ---
+  duration_ms: 315.068367
+  type: 'test'
+  ...
+# Subtest: frozen state, live actors, map, attacks and progression stay unchanged through visibility and actual render
+ok 61 - frozen state, live actors, map, attacks and progression stay unchanged through visibility and actual render
+  ---
+  duration_ms: 329.545526
+  type: 'test'
+  ...
+# Subtest: actual main frame passes the same W snapshot to the renderer and canvas labels without changing live arrays
+ok 62 - actual main frame passes the same W snapshot to the renderer and canvas labels without changing live arrays
+  ---
+  duration_ms: 320.754595
+  type: 'test'
+  ...
+# Subtest: scout panel explicitly says 3/4 remaining after 1 recorded defeats
+ok 63 - scout panel explicitly says 3/4 remaining after 1 recorded defeats
+  ---
+  duration_ms: 2572.816992
+  type: 'test'
+  ...
+# Subtest: scout panel explicitly says 0/4 remaining after 4 recorded defeats
+ok 64 - scout panel explicitly says 0/4 remaining after 4 recorded defeats
+  ---
+  duration_ms: 86.40624
+  type: 'test'
+  ...
+1..64
+# tests 64
+# suites 0
+# pass 64
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 25337.588547

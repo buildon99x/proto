@@ -1,0 +1,5 @@
+v24.19.0
+main.js syntax passed
+New test syntax passed
+Whole main.js byte identity passes except effectText and one trainer-description call.
+All other tracked runtime/reference/original files and pre-existing tests are unchanged.

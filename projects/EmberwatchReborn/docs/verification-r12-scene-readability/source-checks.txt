@@ -1,0 +1,7 @@
+PASS node --check app/src/wilderness-scene-visibility.js
+PASS node --check app/src/main.js
+PASS node --check app/src/visual.js
+PASS node --check app/tests/wilderness-scene-visibility.test.mjs
+PASS node --check app/tests/wilderness-town-keeper.test.mjs
+PASS git diff --check
+PASS original project unchanged against e76a197

@@ -1,0 +1,436 @@
+TAP version 13
+# Subtest: real menu in windup pauses, saves full remaining debt and cannot replay queued/held input
+ok 1 - real menu in windup pauses, saves full remaining debt and cannot replay queued/held input
+  ---
+  duration_ms: 161.606157
+  type: 'test'
+  ...
+# Subtest: real menu in recovery pauses, saves full remaining debt and cannot replay queued/held input
+ok 2 - real menu in recovery pauses, saves full remaining debt and cannot replay queued/held input
+  ---
+  duration_ms: 72.583091
+  type: 'test'
+  ...
+# Subtest: real blur in windup pauses, saves full remaining debt and cannot replay queued/held input
+ok 3 - real blur in windup pauses, saves full remaining debt and cannot replay queued/held input
+  ---
+  duration_ms: 69.737113
+  type: 'test'
+  ...
+# Subtest: real blur in recovery pauses, saves full remaining debt and cannot replay queued/held input
+ok 4 - real blur in recovery pauses, saves full remaining debt and cannot replay queued/held input
+  ---
+  duration_ms: 77.73161
+  type: 'test'
+  ...
+# Subtest: real hidden in windup pauses, saves full remaining debt and cannot replay queued/held input
+ok 5 - real hidden in windup pauses, saves full remaining debt and cannot replay queued/held input
+  ---
+  duration_ms: 65.389212
+  type: 'test'
+  ...
+# Subtest: real hidden in recovery pauses, saves full remaining debt and cannot replay queued/held input
+ok 6 - real hidden in recovery pauses, saves full remaining debt and cannot replay queued/held input
+  ---
+  duration_ms: 62.533584
+  type: 'test'
+  ...
+# Subtest: real delayed menu checkpoint freezes moved recovery and retains its object through commit
+ok 7 - real delayed menu checkpoint freezes moved recovery and retains its object through commit
+  ---
+  duration_ms: 57.03856
+  type: 'test'
+  ...
+# Subtest: real failed menu checkpoint does not erase, refund or complete the live recovery action
+ok 8 - real failed menu checkpoint does not erase, refund or complete the live recovery action
+  ---
+  duration_ms: 52.149108
+  type: 'test'
+  ...
+# Subtest: real main frame counts recovery movement in walkTime and stops counting on released movement
+ok 9 - real main frame counts recovery movement in walkTime and stops counting on released movement
+  ---
+  duration_ms: 40.538867
+  type: 'test'
+  ...
+# Subtest: real main frame counts the mixed recovery/new-windup frame once and not the next stationary windup
+ok 10 - real main frame counts the mixed recovery/new-windup frame once and not the next stationary windup
+  ---
+  duration_ms: 49.979967
+  type: 'test'
+  ...
+# Subtest: planted pre-contact and exact contact; only next segment walks, dt=0.016666666666666666
+ok 11 - planted pre-contact and exact contact; only next segment walks, dt=0.016666666666666666
+  ---
+  duration_ms: 30.692291
+  type: 'test'
+  ...
+# Subtest: planted pre-contact and exact contact; only next segment walks, dt=0.02
+ok 12 - planted pre-contact and exact contact; only next segment walks, dt=0.02
+  ---
+  duration_ms: 11.309584
+  type: 'test'
+  ...
+# Subtest: planted pre-contact and exact contact; only next segment walks, dt=0.05
+ok 13 - planted pre-contact and exact contact; only next segment walks, dt=0.05
+  ---
+  duration_ms: 7.629282
+  type: 'test'
+  ...
+# Subtest: a contact-crossing external frame walks only its post-contact subsegment
+ok 14 - a contact-crossing external frame walks only its post-contact subsegment
+  ---
+  duration_ms: 8.675992
+  type: 'test'
+  ...
+# Subtest: zero dt accepts input without movement, contact, elapsed time or early recast
+ok 15 - zero dt accepts input without movement, contact, elapsed time or early recast
+  ---
+  duration_ms: 14.490431
+  type: 'test'
+  ...
+# Subtest: single moving attack preserves cadence, damage, costs and one contact/cast, dt=0.016666666666666666
+ok 16 - single moving attack preserves cadence, damage, costs and one contact/cast, dt=0.016666666666666666
+  ---
+  duration_ms: 115.079238
+  type: 'test'
+  ...
+# Subtest: held moving attack preserves cadence, damage, costs and one contact/cast, dt=0.016666666666666666
+ok 17 - held moving attack preserves cadence, damage, costs and one contact/cast, dt=0.016666666666666666
+  ---
+  duration_ms: 91.244745
+  type: 'test'
+  ...
+# Subtest: single moving attack preserves cadence, damage, costs and one contact/cast, dt=0.02
+ok 18 - single moving attack preserves cadence, damage, costs and one contact/cast, dt=0.02
+  ---
+  duration_ms: 75.39245
+  type: 'test'
+  ...
+# Subtest: held moving attack preserves cadence, damage, costs and one contact/cast, dt=0.02
+ok 19 - held moving attack preserves cadence, damage, costs and one contact/cast, dt=0.02
+  ---
+  duration_ms: 84.61087
+  type: 'test'
+  ...
+# Subtest: single moving attack preserves cadence, damage, costs and one contact/cast, dt=0.05
+ok 20 - single moving attack preserves cadence, damage, costs and one contact/cast, dt=0.05
+  ---
+  duration_ms: 33.34554
+  type: 'test'
+  ...
+# Subtest: held moving attack preserves cadence, damage, costs and one contact/cast, dt=0.05
+ok 21 - held moving attack preserves cadence, damage, costs and one contact/cast, dt=0.05
+  ---
+  duration_ms: 33.337298
+  type: 'test'
+  ...
+# Subtest: contact range and aim use original planted position and cannot sweep a second target during recovery
+ok 22 - contact range and aim use original planted position and cannot sweep a second target during recovery
+  ---
+  duration_ms: 15.929644
+  type: 'test'
+  ...
+# Subtest: full recovery debt persists while moving; held attack begins only after original duration
+ok 23 - full recovery debt persists while moving; held attack begins only after original duration
+  ---
+  duration_ms: 8.823385
+  type: 'test'
+  ...
+# Subtest: recovery uses normalized existing move speed for {"x":1,"y":0}
+ok 24 - recovery uses normalized existing move speed for {"x":1,"y":0}
+  ---
+  duration_ms: 5.694096
+  type: 'test'
+  ...
+# Subtest: recovery uses normalized existing move speed for {"x":3,"y":4}
+ok 25 - recovery uses normalized existing move speed for {"x":3,"y":4}
+  ---
+  duration_ms: 5.46129
+  type: 'test'
+  ...
+# Subtest: recovery uses normalized existing move speed for {"x":-3,"y":-4}
+ok 26 - recovery uses normalized existing move speed for {"x":-3,"y":-4}
+  ---
+  duration_ms: 5.809498
+  type: 'test'
+  ...
+# Subtest: recovery collision matches ordinary movement at wall and diagonal slide
+ok 27 - recovery collision matches ordinary movement at wall and diagonal slide
+  ---
+  duration_ms: 29.951197
+  type: 'test'
+  ...
+# Subtest: hitstop slows movement and recovery together, never enables windup, dt=0.016666666666666666
+ok 28 - hitstop slows movement and recovery together, never enables windup, dt=0.016666666666666666
+  ---
+  duration_ms: 5.61547
+  type: 'test'
+  ...
+# Subtest: hitstop slows movement and recovery together, never enables windup, dt=0.02
+ok 29 - hitstop slows movement and recovery together, never enables windup, dt=0.02
+  ---
+  duration_ms: 6.534227
+  type: 'test'
+  ...
+# Subtest: hitstop slows movement and recovery together, never enables windup, dt=0.05
+ok 30 - hitstop slows movement and recovery together, never enables windup, dt=0.05
+  ---
+  duration_ms: 8.402418
+  type: 'test'
+  ...
+# Subtest: actual contact hitstop is respected identically by stationary and recovery-moving attacks
+ok 31 - actual contact hitstop is respected identically by stationary and recovery-moving attacks
+  ---
+  duration_ms: 17.258933
+  type: 'test'
+  ...
+# Subtest: stun in windup preserves interruption/debt contract
+ok 32 - stun in windup preserves interruption/debt contract
+  ---
+  duration_ms: 7.963896
+  type: 'test'
+  ...
+# Subtest: disarm in windup preserves interruption/debt contract
+ok 33 - disarm in windup preserves interruption/debt contract
+  ---
+  duration_ms: 7.136644
+  type: 'test'
+  ...
+# Subtest: stun in recovery preserves interruption/debt contract
+ok 34 - stun in recovery preserves interruption/debt contract
+  ---
+  duration_ms: 9.656907
+  type: 'test'
+  ...
+# Subtest: disarm in recovery preserves interruption/debt contract
+ok 35 - disarm in recovery preserves interruption/debt contract
+  ---
+  duration_ms: 9.927579
+  type: 'test'
+  ...
+# Subtest: slow uses existing multiplier during recovery without changing attack timing
+ok 36 - slow uses existing multiplier during recovery without changing attack timing
+  ---
+  duration_ms: 9.556547
+  type: 'test'
+  ...
+# Subtest: fatal real projectile clears recovery and later frames cannot move, hit or attack
+ok 37 - fatal real projectile clears recovery and later frames cannot move, hit or attack
+  ---
+  duration_ms: 9.234988
+  type: 'test'
+  ...
+# Subtest: moving late recovery queues hammer once ahead of held attack
+ok 38 - moving late recovery queues hammer once ahead of held attack
+  ---
+  duration_ms: 13.980713
+  type: 'test'
+  ...
+# Subtest: moving late recovery queues charge once ahead of held attack
+ok 39 - moving late recovery queues charge once ahead of held attack
+  ---
+  duration_ms: 12.957689
+  type: 'test'
+  ...
+# Subtest: moving recovery preserves opposite movement queued-intent cancellation
+ok 40 - moving recovery preserves opposite movement queued-intent cancellation
+  ---
+  duration_ms: 15.383621
+  type: 'test'
+  ...
+# Subtest: moving recovery preserves 90-degree aim queued-intent cancellation
+ok 41 - moving recovery preserves 90-degree aim queued-intent cancellation
+  ---
+  duration_ms: 14.600595
+  type: 'test'
+  ...
+# Subtest: moving recovery preserves guard queued-intent cancellation
+ok 42 - moving recovery preserves guard queued-intent cancellation
+  ---
+  duration_ms: 10.158493
+  type: 'test'
+  ...
+# Subtest: guard cannot cancel the attack or activate early during recovery walking
+ok 43 - guard cannot cancel the attack or activate early during recovery walking
+  ---
+  duration_ms: 9.616836
+  type: 'test'
+  ...
+# Subtest: latest explicit skill keeps single-slot replacement while walking
+ok 44 - latest explicit skill keeps single-slot replacement while walking
+  ---
+  duration_ms: 10.736413
+  type: 'test'
+  ...
+# Subtest: hitstop expiry still drops the .18-second buffer while recovery can move
+ok 45 - hitstop expiry still drops the .18-second buffer while recovery can move
+  ---
+  duration_ms: 17.772437
+  type: 'test'
+  ...
+# Subtest: charge windup/recovery never gains free walking
+ok 46 - charge windup/recovery never gains free walking
+  ---
+  duration_ms: 14.664226
+  type: 'test'
+  ...
+# Subtest: hammer windup/recovery never gains free walking
+ok 47 - hammer windup/recovery never gains free walking
+  ---
+  duration_ms: 15.056984
+  type: 'test'
+  ...
+# Subtest: Onslaught remains locked to its own channel motion and payment/pulse contract
+ok 48 - Onslaught remains locked to its own channel motion and payment/pulse contract
+  ---
+  duration_ms: 47.503362
+  type: 'test'
+  ...
+# Subtest: real held keyboard router can walk after contact without a second attack press
+ok 49 - real held keyboard router can walk after contact without a second attack press
+  ---
+  duration_ms: 36.892946
+  type: 'test'
+  ...
+# Subtest: recovery movement is measured while its existing action pose and gait phase remain intact
+ok 50 - recovery movement is measured while its existing action pose and gait phase remain intact
+  ---
+  duration_ms: 6.567376
+  type: 'test'
+  ...
+# Subtest: checkpoint/store/reload retains moving attack recovery debt and cannot replay its paid contact
+ok 51 - checkpoint/store/reload retains moving attack recovery debt and cannot replay its paid contact
+  ---
+  duration_ms: 15.390451
+  type: 'test'
+  ...
+# Subtest: menu safety cancellation preserves mace object and debt, clears queued intent
+ok 52 - menu safety cancellation preserves mace object and debt, clears queued intent
+  ---
+  duration_ms: 9.493293
+  type: 'test'
+  ...
+# Subtest: blur safety cancellation preserves mace object and debt, clears queued intent
+ok 53 - blur safety cancellation preserves mace object and debt, clears queued intent
+  ---
+  duration_ms: 9.885055
+  type: 'test'
+  ...
+# Subtest: hidden safety cancellation preserves mace object and debt, clears queued intent
+ok 54 - hidden safety cancellation preserves mace object and debt, clears queued intent
+  ---
+  duration_ms: 10.722513
+  type: 'test'
+  ...
+# Subtest: an early explicit skill still rejects without moving or cancelling mace preparation
+ok 55 - an early explicit skill still rejects without moving or cancelling mace preparation
+  ---
+  duration_ms: 7.119088
+  type: 'test'
+  ...
+# Subtest: late unavailable skill does not cancel recovery or gain free payment while walking
+ok 56 - late unavailable skill does not cancel recovery or gain free payment while walking
+  ---
+  duration_ms: 9.846789
+  type: 'test'
+  ...
+# Subtest: 89-degree queued aim remains valid while walking, unlike the inclusive 90-degree boundary
+ok 57 - 89-degree queued aim remains valid while walking, unlike the inclusive 90-degree boundary
+  ---
+  duration_ms: 13.042726
+  type: 'test'
+  ...
+# Subtest: ordinary block movement resumes its existing speed only after mace completion
+ok 58 - ordinary block movement resumes its existing speed only after mace completion
+  ---
+  duration_ms: 9.468775
+  type: 'test'
+  ...
+# Subtest: banner-quoted faster mace still keeps full quoted duration and planted contact
+ok 59 - banner-quoted faster mace still keeps full quoted duration and planted contact
+  ---
+  duration_ms: 16.228629
+  type: 'test'
+  ...
+# Subtest: recovery records actual locomotion distance and moving without changing gait, dt=0.016666666666666666, move={"x":1,"y":0}
+ok 60 - recovery records actual locomotion distance and moving without changing gait, dt=0.016666666666666666, move={"x":1,"y":0}
+  ---
+  duration_ms: 6.40861
+  type: 'test'
+  ...
+# Subtest: recovery records actual locomotion distance and moving without changing gait, dt=0.016666666666666666, move={"x":3,"y":4}
+ok 61 - recovery records actual locomotion distance and moving without changing gait, dt=0.016666666666666666, move={"x":3,"y":4}
+  ---
+  duration_ms: 7.103124
+  type: 'test'
+  ...
+# Subtest: recovery records actual locomotion distance and moving without changing gait, dt=0.02, move={"x":1,"y":0}
+ok 62 - recovery records actual locomotion distance and moving without changing gait, dt=0.02, move={"x":1,"y":0}
+  ---
+  duration_ms: 6.254681
+  type: 'test'
+  ...
+# Subtest: recovery records actual locomotion distance and moving without changing gait, dt=0.02, move={"x":3,"y":4}
+ok 63 - recovery records actual locomotion distance and moving without changing gait, dt=0.02, move={"x":3,"y":4}
+  ---
+  duration_ms: 6.05202
+  type: 'test'
+  ...
+# Subtest: recovery records actual locomotion distance and moving without changing gait, dt=0.05, move={"x":1,"y":0}
+ok 64 - recovery records actual locomotion distance and moving without changing gait, dt=0.05, move={"x":1,"y":0}
+  ---
+  duration_ms: 6.162383
+  type: 'test'
+  ...
+# Subtest: recovery records actual locomotion distance and moving without changing gait, dt=0.05, move={"x":3,"y":4}
+ok 65 - recovery records actual locomotion distance and moving without changing gait, dt=0.05, move={"x":3,"y":4}
+  ---
+  duration_ms: 5.728748
+  type: 'test'
+  ...
+# Subtest: recovery movement flag resets on no input and zero dt without inventing distance
+ok 66 - recovery movement flag resets on no input and zero dt without inventing distance
+  ---
+  duration_ms: 6.176034
+  type: 'test'
+  ...
+# Subtest: fully blocked recovery reports false and zero distance; diagonal slide measures only actual travel
+ok 67 - fully blocked recovery reports false and zero distance; diagonal slide measures only actual travel
+  ---
+  duration_ms: 6.507878
+  type: 'test'
+  ...
+# Subtest: stun after measured recovery movement resets moving and preserves distance, gait and saved debt
+ok 68 - stun after measured recovery movement resets moving and preserves distance, gait and saved debt
+  ---
+  duration_ms: 6.20689
+  type: 'test'
+  ...
+# Subtest: recovery-to-held-windup split retains earlier walking for the complete outer frame
+ok 69 - recovery-to-held-windup split retains earlier walking for the complete outer frame
+  ---
+  duration_ms: 14.663088
+  type: 'test'
+  ...
+# Subtest: queued hammer after recovery does not erase earlier walking or add distance from its windup
+ok 70 - queued hammer after recovery does not erase earlier walking or add distance from its windup
+  ---
+  duration_ms: 13.702628
+  type: 'test'
+  ...
+# Subtest: fatal damage after measured recovery cannot leave moving true or accrue later distance
+ok 71 - fatal damage after measured recovery cannot leave moving true or accrue later distance
+  ---
+  duration_ms: 7.467116
+  type: 'test'
+  ...
+1..71
+# tests 71
+# suites 0
+# pass 71
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2148.823083

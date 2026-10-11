@@ -1,0 +1,150 @@
+✔ busy cancellation clears held capture immediately but waits for reconciled battle (1.903467ms)
+✔ safety reason blur never becomes normal release (0.463906ms)
+✔ safety reason hidden never becomes normal release (0.102905ms)
+✔ safety reason pointer-cancel never becomes normal release (0.105899ms)
+✔ safety reason slot-edit never becomes normal release (0.122884ms)
+✔ safety reason save-fault never becomes normal release (0.110065ms)
+✔ safety reason death never becomes normal release (0.136344ms)
+✔ safety reason store-busy-release never becomes normal release (0.407342ms)
+✔ many safety signals keep one cancellation and do not queue stale actions (0.249224ms)
+✔ obsolete battle discards cancellation without touching fresh action (0.331508ms)
+✔ obsolete owner discards cancellation without touching fresh action (0.207372ms)
+✔ obsolete life discards cancellation without touching fresh action (0.104286ms)
+✔ obsolete region discards cancellation without touching fresh action (0.058097ms)
+✔ blocked persistence does not silently permit channel cancellation/resume (0.147582ms)
+✔ a cancellation exception keeps pending state and capture for recovery gating (0.39958ms)
+✔ title/load reset drops scoped old job without producing offensive end (0.117216ms)
+✔ no battle clears stale capture without creating a persistence job (0.902024ms)
+✔ new recommended v3 offers2/3 but legacy does not steal either key (2.650218ms)
+✔ literal v2 custom2/3/E/T migrate unchanged and auxiliary rows stay unbound (1.261653ms)
+✔ historical version2 rejects injected rows instead of silently migrating a new key (0.354783ms)
+✔ expert1 rebinding rejects occupied old keys and allows explicit unbound (0.844999ms)
+✔ expert2 rebinding rejects occupied old keys and allows explicit unbound (1.357047ms)
+✔ strict empty slots need no purchased skills and never invent a binding (0.286049ms)
+✔ strict slot format refuses null (0.174291ms)
+✔ strict slot format refuses {} (0.144467ms)
+✔ strict slot format refuses [] (0.162254ms)
+✔ strict slot format refuses {"version":2,"expert1":null,"expert2":null} (0.25351ms)
+✔ strict slot format refuses {"version":1,"expert1":null} (0.199109ms)
+✔ strict slot format refuses {"version":1,"expert1":null,"expert2":null,"extra":null} (0.091147ms)
+✔ strict slot format refuses {"version":1,"expert1":"mace_swing","expert2":null} (0.192429ms)
+✔ strict slot format refuses {"version":1,"expert1":"banner_of_zeal","expert2":null} (0.10022ms)
+✔ strict slot format refuses {"version":1,"expert1":"zealous_onslaught","expert2":"zealous_onslaught"} (0.092759ms)
+✔ learned and runtime-supported are separate assignment prerequisites (0.190666ms)
+✔ assignment CAS, duplicate, unsupported and immutable source (0.269635ms)
+✔ real router Banner press is immediate once and remains finite after a normal click release (0.995624ms)
+✔ real router channel hold preserves identity and emits no repeating start (0.365749ms)
+✔ channel key-up before a simulation frame cancels pending start without later resurrection (0.201723ms)
+✔ multiple original aliases retain channel until every accepted owner releases (0.225669ms)
+✔ late alias cannot transfer an already accepted channel or restart after owner release (0.307281ms)
+✔ slot changes do not rewrite captured skill identity (0.129495ms)
+✔ menu cancels once and requires a new nonrepeat press (0.355304ms)
+✔ blur cancels once and requires a new nonrepeat press (0.169405ms)
+✔ hidden cancels once and requires a new nonrepeat press (0.192028ms)
+✔ death cancels once and requires a new nonrepeat press (0.146099ms)
+✔ slot-change cancels once and requires a new nonrepeat press (0.129144ms)
+✔ remap cancels once and requires a new nonrepeat press (0.129444ms)
+✔ save-fault cancels once and requires a new nonrepeat press (0.130155ms)
+✔ pointer loss cancels captured mouse channel but not independent keyboard channel (0.454943ms)
+✔ ordinary mouse-up then lost capture stays a normal release, never a safety Lance cancellation (0.185829ms)
+✔ lost capture before first pointer frame cancels Banner but a normal click does not (0.275724ms)
+✔ UI/paused/modified/repeat base-router refusals never reach capture (0.279089ms)
+✔ guardPressed is a pulse distinct from held or toggled shield (0.158568ms)
+✔ touch ownership uses same explicit press/release and safety path (0.27998ms)
+✔ unlearned or unavailable slots produce no owner or action (0.17319ms)
+✔ store-busy release is safety cancellation, not a delayed normal Lance release (0.269624ms)
+✔ acknowledged live-action cancellation reset permits the first fresh input after modal (0.163195ms)
+✔ W+A and W+D keep their movement and other held actions during explicit slot press (1.154974ms)
+✔ real key press/frame/checkpoint charges Onslaught once; OS repeat/hold does not restart (1602.716145ms)
+✔ actual release after paid pulse resolves exactly one Lance and persists stop (178.896527ms)
+✔ actual menu cancels paid channel with no Lance and waits for checkpoint (199.526089ms)
+✔ actual blur cancels paid channel with no Lance and waits for checkpoint (151.354869ms)
+✔ actual visibility cancels paid channel with no Lance and waits for checkpoint (147.030768ms)
+✔ release during delayed accepted-action save is safety cancellation, never late Lance or duplicate stamina (143.566782ms)
+✔ failed channel acceptance checkpoint closes gate and never resumes or fabricates a refund (74.033649ms)
+✔ UI-focused Expert key and OSrepeat leak no resources or pulses; canvas press works afterward (74.323204ms)
+✔ finite Banner touch press followed by normal up casts once with physical key unneeded (104.631597ms)
+✔ early Onslaught touch release cancels undelivered pulse, not a cast and refund (42.713246ms)
+✔ mouse capture loss after normal mouseup is not a second safety end (183.864643ms)
+✔ actual trainer UI waits for committed checkpoint and quotes one-use promotion revision/fee (308.228734ms)
+✔ actual action-slot view carries displayed CAS and revision, keeps unbound keys, and rejects replay (201.235201ms)
+✔ closing a trainer loading panel while save is delayed does not reopen its stale UI (69.57818ms)
+✔ interaction during channel consumes cancellation and does not execute an old nearby interaction later (128.855595ms)
+✖ finite Expert input during store busy is rejected instead of firing late (111.485608ms)
+ℹ tests 73
+ℹ suites 0
+ℹ pass 72
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3887.085805
+
+✖ failing tests:
+
+test at app/tests/expert-main-input.test.mjs:44:1
+✖ finite Expert input during store busy is rejected instead of firing late (111.485608ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + {
+  +   angle: 0,
+  +   castId: 1,
+  +   contact: 0.2288,
+  +   criticalChance: 0.05,
+  +   criticalMultiplier: 1.5,
+  +   duration: 0.52,
+  +   elapsed: 0.016,
+  +   fired: false,
+  +   hitIds: [],
+  +   id: 'battle_banner',
+  +   name: 'cast',
+  +   payload: {
+  +     combo: 0,
+  +     which: 'q'
+  +   },
+  +   phase: 0.030769230769230767,
+  +   spec: {
+  +     attackSpeedMultiplier: 1.1,
+  +     augmentRanks: {
+  +       banner_of_protection: 0,
+  +       banner_of_zeal: 0
+  +     },
+  +     buffDuration: 15,
+  +     castSpeedMultiplier: 1,
+  +     contact: 0.2288,
+  +     cooldown: 30,
+  +     damage: 0,
+  +     damageMultiplier: 1.1,
+  +     damageTakenMultiplier: 1,
+  +     duration: 0.52,
+  +     learned: true,
+  +     manaCost: 40,
+  +     manaCostMultiplier: 1,
+  +     offense: {
+  +       criticalChance: 0.05,
+  +       criticalMultiplier: 1.5,
+  +       damageMultiplier: 1,
+  +       fireDamageMultiplier: 1,
+  +       flamingWrath: null,
+  +       guilt: null,
+  +       punishMultiplier: 1
+  +     },
+  +     radius: 128,
+  +     range: 128,
+  +     rank: 1,
+  +     staminaCost: 0
+  +   }
+  + }
+  - null
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11-integration/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:44:287)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { id: 'battle_banner', castId: 1, name: 'cast', spec: { learned: true, rank: 1, augmentRanks: [Object], damage: 0, manaCost: 40, staminaCost: 0, cooldown: 30, duration: 0.52, contact: 0.2288, range: 128, radius: 128, buffDuration: 15, damageMultiplier: 1.1, attackSpeedMultiplier: 1.1, damageTakenMultiplier: 1, castSpeedMultiplier: 1, manaCostMultiplier: 1, offense: [Object] }, criticalChance: 0.05, criticalMultiplier: 1.5, duration: 0.52, contact: 0.2288, elapsed: 0.016, fired: false, hitIds: [], angle: 0, payload: { combo: 0, which: 'q' }, phase: 0.030769230769230767 },
+    expected: null,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

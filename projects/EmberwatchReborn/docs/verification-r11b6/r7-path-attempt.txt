@@ -1,0 +1,15 @@
+node:internal/fs/promises:697
+  return new FileHandle(await PromisePrototypeThen(
+                        ^
+
+Error: ENOENT: no such file or directory, open '/workspace/scratch/1164483895fe/emberwatch-reimplementation-checkpoints/root-r7a4-before-upgrade/files/save.js'
+    at async open (node:internal/fs/promises:697:25)
+    at async readFile (node:internal/fs/promises:1348:14)
+    at async file:///workspace/shared/emberwatch-r11-integration/projects/EmberwatchReborn/app/scripts/check-upgrade-legacy-reader.mjs:26:10 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/workspace/scratch/1164483895fe/emberwatch-reimplementation-checkpoints/root-r7a4-before-upgrade/files/save.js'
+}
+
+Node.js v24.19.0

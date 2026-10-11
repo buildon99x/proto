@@ -1,0 +1,19 @@
+✔ R14 build only writes isolated candidate and verifies exact file digests (119.216651ms)
+✔ R14 builder rejects missing module before writing candidate (55.538281ms)
+✔ R14 builder excludes paused progression and rejects imports of it (107.862807ms)
+✔ R14 builder rejects traversal module reference (60.605796ms)
+✔ R14 builder refuses unknown candidate output rather than overwrite it (58.122404ms)
+✔ R14 stale own output removes only declared obsolete files (113.202327ms)
+✔ R14 old manifest traversal never deletes outside file (119.282708ms)
+✔ R14 source symlink rejected without touching target (59.69224ms)
+✔ R14 dist symlink rejected without touching target (58.466225ms)
+✔ R14 candidate symlink rejected without touching target (59.28203ms)
+✔ R14 nested-output symlink rejected without touching target (136.34755ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1030.374486

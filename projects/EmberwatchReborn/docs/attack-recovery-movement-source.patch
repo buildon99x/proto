@@ -1,0 +1,42 @@
+--- a/app/src/combat.js
++++ b/app/src/combat.js
+@@ -352,13 +352,18 @@
+ }
+ export function stepBattle(b,character,dt,input={}){
+  if(!Number.isFinite(dt)||dt<0||dt>.25)throw new Error('Invalid step');
+- let left=Math.min(dt,.05),current=input;const events=[];
++ let left=Math.min(dt,.05),current=input,recoveryWalked=false;const events=[];
+  do{
+   const rate=b.hitstop>=left&&b.hitstop>0?.35:1,deadline=nextDeadline(b),intent=b.skillIntent?.remaining;
+   let segment=Math.min(left,deadline/rate);if(intent>1e-9)segment=Math.min(segment,intent);
+   if(segment<1e-10)segment=left;
+-  events.push(...stepBattleFrame(b,character,segment,current));left=Math.max(0,left-segment);current=continuationInput(current);
++  const wasMaceRecovery=b.p.action?.id==='mace_swing'&&b.p.action.fired;
++  events.push(...stepBattleFrame(b,character,segment,current));
++  recoveryWalked||=wasMaceRecovery&&b.p.moving;
++  left=Math.max(0,left-segment);current=continuationInput(current);
+  }while(left>1e-9);
++ // A later windup segment must not hide walking earlier in this outer frame.
++ if(recoveryWalked)b.p.moving=!b.dead;
+  b.events=events;return events;
+ }
+ 
+@@ -398,7 +403,17 @@
+    if(statusBlocked&&b.attackBlockedReason!==eligibility.blockedReason)rejectUnavailableAction(b,'mace_swing',eligibility);
+    b.attackBlockedReason=statusBlocked?eligibility.blockedReason:null;
+   }
+-  if(!p.action){const v=unit(Number.isFinite(input.move?.x)?input.move.x:0,Number.isFinite(input.move?.y)?input.move.y:0),speed=(hasStatus(p,'stun')?0:b.stats.moveSpeed)*(hasStatus(p,'slow')?HERO_STATUS_RULES[p.negativeStatuses.slow.ruleId].moveMultiplier:1)*(p.block?b.stats.actions.shield_block.moveMultiplier:1),d=move(b,p,v.x*speed*t,v.y*speed*t);const savedAngle=p.angle;const feet=advanceLocomotion(p,d.x,d.y,{dt:t});p.angle=savedAngle;for(const foot of feet)emit(b,{type:'sound',name:'footstep',foot:foot.foot});}else p.moving=false;
++  // Mace contact keeps its planted origin; only subsequent recovery segments
++  // accept walking. Retain the action (and its full debt) until normal completion.
++  const maceRecovery=p.action?.id==='mace_swing'&&p.action.fired;
++  if(!p.action||maceRecovery){
++   const v=unit(Number.isFinite(input.move?.x)?input.move.x:0,Number.isFinite(input.move?.y)?input.move.y:0),speed=(hasStatus(p,'stun')?0:b.stats.moveSpeed)*(hasStatus(p,'slow')?HERO_STATUS_RULES[p.negativeStatuses.slow.ruleId].moveMultiplier:1)*(p.block?b.stats.actions.shield_block.moveMultiplier:1),d=move(b,p,v.x*speed*t,v.y*speed*t);
++   // Measure with the same locomotion contract while the real action keeps its
++   // recovery pose, locked angle and gait phase. No recovery footsteps are emitted.
++   const savedAngle=p.angle,walker=maceRecovery?{...p,action:null}:p,feet=advanceLocomotion(walker,d.x,d.y,{dt:t});p.angle=savedAngle;
++   if(maceRecovery){p.moving=walker.moving;if(p.moving)p.walk=walker.walk;}
++   else for(const foot of feet)emit(b,{type:'sound',name:'footstep',foot:foot.foot});
++  }else p.moving=false;
+   resolveAction(b,t);
+   // Recovery ending at the exact deadline may start the queued action once;
+   // it receives no contact/movement time until the next frame.

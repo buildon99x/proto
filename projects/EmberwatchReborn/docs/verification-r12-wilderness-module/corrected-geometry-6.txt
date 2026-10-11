@@ -1,0 +1,14 @@
+✔ W registered content remains detached; all authored spawns, objects and foes fit their actual collision floors (1.423917ms)
+✔ mandatory gated floors open sequentially with a permanent retreat; no puzzle/boss condition on anchor return (2105.3114ms)
+✔ cover/channel has actual six-tile collision/LOS difference and two open flanks in both modes (4.166795ms)
+✔ survey cover creates offset real sightlines while both sides remain reachable without increasing foe HP (0.360581ms)
+✔ in-range interaction across closed cover fails with WALL_BLOCKED, never UI-only success (68.294076ms)
+✔ journal, object actions and Eda continuation are truthful, read-only and revision-bound (120.455275ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2410.757611

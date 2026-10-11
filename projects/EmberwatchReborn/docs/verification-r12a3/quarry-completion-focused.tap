@@ -1,0 +1,420 @@
+TAP version 13
+# Subtest: actual HUD preserves objective button node between unchanged frame updates
+ok 1 - actual HUD preserves objective button node between unchanged frame updates
+  ---
+  duration_ms: 3.695868
+  type: 'test'
+  ...
+# Subtest: actual goal handler uses pausing panel lifecycle and clears held/deferred intent
+ok 2 - actual goal handler uses pausing panel lifecycle and clears held/deferred intent
+  ---
+  duration_ms: 1.446493
+  type: 'test'
+  ...
+# Subtest: actual keyboard handler reserves Enter/Space and remapped skills for focused UI
+ok 3 - actual keyboard handler reserves Enter/Space and remapped skills for focused UI
+  ---
+  duration_ms: 2.267244
+  type: 'test'
+  ...
+# Subtest: actual focus and keyup handlers clear old held keys and allow a fresh canvas press
+ok 4 - actual focus and keyup handlers clear old held keys and allow a fresh canvas press
+  ---
+  duration_ms: 0.836174
+  type: 'test'
+  ...
+# Subtest: holding Escape never dismisses the pause it just opened
+ok 5 - holding Escape never dismisses the pause it just opened
+  ---
+  duration_ms: 1.331411
+  type: 'test'
+  ...
+# Subtest: actual quarry-tool click renders completion and next step; reopen/reload never repay
+ok 6 - actual quarry-tool click renders completion and next step; reopen/reload never repay
+  ---
+  duration_ms: 401.772631
+  type: 'test'
+  ...
+# Subtest: actual quarry-rescue click renders completion and next step; reopen/reload never repay
+ok 7 - actual quarry-rescue click renders completion and next step; reopen/reload never repay
+  ---
+  duration_ms: 106.062854
+  type: 'test'
+  ...
+# Subtest: actual quarry-shortcut click renders completion and next step; reopen/reload never repay
+ok 8 - actual quarry-shortcut click renders completion and next step; reopen/reload never repay
+  ---
+  duration_ms: 98.471008
+  type: 'test'
+  ...
+# Subtest: actual quarry-anchor-a click renders completion and next step; reopen/reload never repay
+ok 9 - actual quarry-anchor-a click renders completion and next step; reopen/reload never repay
+  ---
+  duration_ms: 115.059569
+  type: 'test'
+  ...
+# Subtest: actual quarry-anchor-b click renders completion and next step; reopen/reload never repay
+ok 10 - actual quarry-anchor-b click renders completion and next step; reopen/reload never repay
+  ---
+  duration_ms: 86.466538
+  type: 'test'
+  ...
+# Subtest: actual quarry-winch click renders completion and next step; reopen/reload never repay
+ok 11 - actual quarry-winch click renders completion and next step; reopen/reload never repay
+  ---
+  duration_ms: 102.64624
+  type: 'test'
+  ...
+# Subtest: actual unfinished quarry-tool at entry keeps prerequisite copy and atomic ENTRY_GUARDS_ALIVE
+ok 12 - actual unfinished quarry-tool at entry keeps prerequisite copy and atomic ENTRY_GUARDS_ALIVE
+  ---
+  duration_ms: 22.100312
+  type: 'test'
+  ...
+# Subtest: actual unfinished quarry-rescue at entry keeps prerequisite copy and atomic TOOL_REQUIRED
+ok 13 - actual unfinished quarry-rescue at entry keeps prerequisite copy and atomic TOOL_REQUIRED
+  ---
+  duration_ms: 21.586937
+  type: 'test'
+  ...
+# Subtest: actual unfinished quarry-rescue at tool keeps prerequisite copy and atomic RESCUE_GUARDS_ALIVE
+ok 14 - actual unfinished quarry-rescue at tool keeps prerequisite copy and atomic RESCUE_GUARDS_ALIVE
+  ---
+  duration_ms: 22.691401
+  type: 'test'
+  ...
+# Subtest: actual unfinished quarry-shortcut at tool keeps prerequisite copy and atomic RESCUE_REQUIRED
+ok 15 - actual unfinished quarry-shortcut at tool keeps prerequisite copy and atomic RESCUE_REQUIRED
+  ---
+  duration_ms: 21.502122
+  type: 'test'
+  ...
+# Subtest: actual unfinished quarry-anchor-a at shortcut keeps prerequisite copy and atomic WINCH_GUARDS_ALIVE
+ok 16 - actual unfinished quarry-anchor-a at shortcut keeps prerequisite copy and atomic WINCH_GUARDS_ALIVE
+  ---
+  duration_ms: 21.352388
+  type: 'test'
+  ...
+# Subtest: actual unfinished quarry-anchor-b at shortcut keeps prerequisite copy and atomic WINCH_GUARDS_ALIVE
+ok 17 - actual unfinished quarry-anchor-b at shortcut keeps prerequisite copy and atomic WINCH_GUARDS_ALIVE
+  ---
+  duration_ms: 22.752522
+  type: 'test'
+  ...
+# Subtest: actual unfinished quarry-winch at anchor-a keeps prerequisite copy and atomic ANCHORS_REQUIRED
+ok 18 - actual unfinished quarry-winch at anchor-a keeps prerequisite copy and atomic ANCHORS_REQUIRED
+  ---
+  duration_ms: 21.605966
+  type: 'test'
+  ...
+# Subtest: completed anchor panels advance from remaining anchor to winch and then report
+ok 19 - completed anchor panels advance from remaining anchor to winch and then report
+  ---
+  duration_ms: 44.536533
+  type: 'test'
+  ...
+# Subtest: reported return to quarry-tool does not request quarry report or past tasks again
+ok 20 - reported return to quarry-tool does not request quarry report or past tasks again
+  ---
+  duration_ms: 50.115263
+  type: 'test'
+  ...
+# Subtest: reported return to quarry-rescue does not request quarry report or past tasks again
+ok 21 - reported return to quarry-rescue does not request quarry report or past tasks again
+  ---
+  duration_ms: 25.193574
+  type: 'test'
+  ...
+# Subtest: reported return to quarry-shortcut does not request quarry report or past tasks again
+ok 22 - reported return to quarry-shortcut does not request quarry report or past tasks again
+  ---
+  duration_ms: 24.017413
+  type: 'test'
+  ...
+# Subtest: reported return to quarry-anchor-a does not request quarry report or past tasks again
+ok 23 - reported return to quarry-anchor-a does not request quarry report or past tasks again
+  ---
+  duration_ms: 26.285288
+  type: 'test'
+  ...
+# Subtest: reported return to quarry-anchor-b does not request quarry report or past tasks again
+ok 24 - reported return to quarry-anchor-b does not request quarry report or past tasks again
+  ---
+  duration_ms: 28.891877
+  type: 'test'
+  ...
+# Subtest: reported return to quarry-winch does not request quarry report or past tasks again
+ok 25 - reported return to quarry-winch does not request quarry report or past tasks again
+  ---
+  duration_ms: 26.414911
+  type: 'test'
+  ...
+# Subtest: presentation reads completed snapshots without mutating any state or one-time reward receipt
+ok 26 - presentation reads completed snapshots without mutating any state or one-time reward receipt
+  ---
+  duration_ms: 12.89847
+  type: 'test'
+  ...
+# Subtest: completed anchors guide only the unfinished side and then winch even without optional shortcut
+ok 27 - completed anchors guide only the unfinished side and then winch even without optional shortcut
+  ---
+  duration_ms: 61.915686
+  type: 'test'
+  ...
+# Subtest: unfinished and completed lift copy limits no-recovery statement to the region transition itself
+ok 28 - unfinished and completed lift copy limits no-recovery statement to the region transition itself
+  ---
+  duration_ms: 88.03741
+  type: 'test'
+  ...
+# Subtest: authored quarry adds 12 unique adept foes, four one-time rewards and no replacement old encounters
+ok 29 - authored quarry adds 12 unique adept foes, four one-time rewards and no replacement old encounters
+  ---
+  duration_ms: 2.360412
+  type: 'test'
+  ...
+# Subtest: all authored quarry points and portal arrivals have hero-sized clearance and connected open paths
+ok 30 - all authored quarry points and portal arrivals have hero-sized clearance and connected open paths
+  ---
+  duration_ms: 8.416472
+  type: 'test'
+  ...
+# Subtest: untouched schema v1 has no quarry records and loads without implicit acceptance
+ok 31 - untouched schema v1 has no quarry records and loads without implicit acceptance
+  ---
+  duration_ms: 12.556943
+  type: 'test'
+  ...
+# Subtest: untouched schema v2 has no quarry records and loads without implicit acceptance
+ok 32 - untouched schema v2 has no quarry records and loads without implicit acceptance
+  ---
+  duration_ms: 6.318951
+  type: 'test'
+  ...
+# Subtest: untouched schema v3 has no quarry records and loads without implicit acceptance
+ok 33 - untouched schema v3 has no quarry records and loads without implicit acceptance
+  ---
+  duration_ms: 8.441891
+  type: 'test'
+  ...
+# Subtest: acceptance requires genuine Adept promotion, alive same-life report and nearby real elder
+ok 34 - acceptance requires genuine Adept promotion, alive same-life report and nearby real elder
+  ---
+  duration_ms: 539.191032
+  type: 'test'
+  ...
+# Subtest: acceptance preserves old 37 kills/receipts, equipment, keys, pools, XP and nonzero recovery
+ok 35 - acceptance preserves old 37 kills/receipts, equipment, keys, pools, XP and nonzero recovery
+  ---
+  duration_ms: 266.068451
+  type: 'test'
+  ...
+# Subtest: easy minimum predecessor earned settlement route yields exact Q-only budget
+ok 36 - easy minimum predecessor earned settlement route yields exact Q-only budget
+  ---
+  duration_ms: 270.093995
+  type: 'test'
+  ...
+# {"fixture":"real runtime settlement; scripted positions/kills; not AI play","difficulty":"easy","full":false,"kills":27,"earnedXp":1631,"level":7,"gold":430}
+# Subtest: easy full 37-kill earned settlement route yields exact Q-only budget
+ok 37 - easy full 37-kill earned settlement route yields exact Q-only budget
+  ---
+  duration_ms: 291.664103
+  type: 'test'
+  ...
+# {"fixture":"real runtime settlement; scripted positions/kills; not AI play","difficulty":"easy","full":true,"kills":49,"earnedXp":1865.5,"level":8,"gold":548}
+# Subtest: normal minimum predecessor earned settlement route yields exact Q-only budget
+ok 38 - normal minimum predecessor earned settlement route yields exact Q-only budget
+  ---
+  duration_ms: 107.161868
+  type: 'test'
+  ...
+# {"fixture":"real runtime settlement; scripted positions/kills; not AI play","difficulty":"normal","full":false,"kills":27,"earnedXp":1631,"level":7,"gold":430}
+# Subtest: normal full 37-kill earned settlement route yields exact Q-only budget
+ok 39 - normal full 37-kill earned settlement route yields exact Q-only budget
+  ---
+  duration_ms: 98.86194
+  type: 'test'
+  ...
+# {"fixture":"real runtime settlement; scripted positions/kills; not AI play","difficulty":"normal","full":true,"kills":49,"earnedXp":1865.5,"level":8,"gold":548}
+# Subtest: hard minimum predecessor earned settlement route yields exact Q-only budget
+ok 40 - hard minimum predecessor earned settlement route yields exact Q-only budget
+  ---
+  duration_ms: 336.390092
+  type: 'test'
+  ...
+# {"fixture":"real runtime settlement; scripted positions/kills; not AI play","difficulty":"hard","full":false,"kills":27,"earnedXp":1429.5,"level":7,"gold":430}
+# Subtest: hard full 37-kill earned settlement route yields exact Q-only budget
+ok 41 - hard full 37-kill earned settlement route yields exact Q-only budget
+  ---
+  duration_ms: 286.370822
+  type: 'test'
+  ...
+# {"fixture":"real runtime settlement; scripted positions/kills; not AI play","difficulty":"hard","full":true,"kills":49,"earnedXp":1635.125,"level":7,"gold":548}
+# Subtest: serious minimum predecessor earned settlement route yields exact Q-only budget
+ok 42 - serious minimum predecessor earned settlement route yields exact Q-only budget
+  ---
+  duration_ms: 259.405492
+  type: 'test'
+  ...
+# {"fixture":"real runtime settlement; scripted positions/kills; not AI play","difficulty":"serious","full":false,"kills":27,"earnedXp":1429.5,"level":7,"gold":430}
+# Subtest: serious full 37-kill earned settlement route yields exact Q-only budget
+ok 43 - serious full 37-kill earned settlement route yields exact Q-only budget
+  ---
+  duration_ms: 337.283141
+  type: 'test'
+  ...
+# {"fixture":"real runtime settlement; scripted positions/kills; not AI play","difficulty":"serious","full":true,"kills":49,"earnedXp":1635.125,"level":7,"gold":548}
+# Subtest: actual entry and shortcut portals enforce promotion/acceptance/milestones independently
+ok 44 - actual entry and shortcut portals enforce promotion/acceptance/milestones independently
+  ---
+  duration_ms: 83.098897
+  type: 'test'
+  ...
+# Subtest: all three guard groups and both free anchors are enforced by actual runtime commands
+ok 45 - all three guard groups and both free anchors are enforced by actual runtime commands
+  ---
+  duration_ms: 164.636998
+  type: 'test'
+  ...
+# Subtest: locked future encounter reports cannot mint XP or force doors
+ok 46 - locked future encounter reports cannot mint XP or force doors
+  ---
+  duration_ms: 47.862141
+  type: 'test'
+  ...
+# Subtest: all rewards/tools are once-only and unspent-resource path never requires an optional shortcut
+ok 47 - all rewards/tools are once-only and unspent-resource path never requires an optional shortcut
+  ---
+  duration_ms: 110.583654
+  type: 'test'
+  ...
+# Subtest: empty materials and zero gold do not block the free two-anchor path (economy stress fixture)
+ok 48 - empty materials and zero gold do not block the free two-anchor path (economy stress fixture)
+  ---
+  duration_ms: 85.791875
+  type: 'test'
+  ...
+# Subtest: actual wall/corner LOS rejects an otherwise near legal rescue interaction
+ok 49 - actual wall/corner LOS rejects an otherwise near legal rescue interaction
+  ---
+  duration_ms: 29.397188
+  type: 'test'
+  ...
+# Subtest: wrong region, distant target, illegal coordinates and out-of-range resources reject atomically
+ok 50 - wrong region, distant target, illegal coordinates and out-of-range resources reject atomically
+  ---
+  duration_ms: 34.520401
+  type: 'test'
+  ...
+# Subtest: strict bounded commands reject arbitrary value/rewards/prototypes/accessors/cycles and bad recovery
+ok 51 - strict bounded commands reject arbitrary value/rewards/prototypes/accessors/cycles and bad recovery
+  ---
+  duration_ms: 13.554707
+  type: 'test'
+  ...
+# Subtest: quarry flags/receipts/tool/visits must be complete, known and bidirectionally consistent
+ok 52 - quarry flags/receipts/tool/visits must be complete, known and bidirectionally consistent
+  ---
+  duration_ms: 101.135011
+  type: 'test'
+  ...
+# Subtest: malformed quarry saves reject without getters, accidental coercion or exceptions
+ok 53 - malformed quarry saves reject without getters, accidental coercion or exceptions
+  ---
+  duration_ms: 0.552732
+  type: 'test'
+  ...
+# Subtest: receipt/gold/material overflow leaves the entire pending reward and caller immutable
+ok 54 - receipt/gold/material overflow leaves the entire pending reward and caller immutable
+  ---
+  duration_ms: 152.95387
+  type: 'test'
+  ...
+# Subtest: reward level-ups preserve reported HP/MP/stamina and existing cooldowns; absent optional recovery never clears it
+ok 55 - reward level-ups preserve reported HP/MP/stamina and existing cooldowns; absent optional recovery never clears it
+  ---
+  duration_ms: 40.11883
+  type: 'test'
+  ...
+# Subtest: same-frame last guard and hero death retains kill but cannot auto-grant anchors/winch/report
+ok 56 - same-frame last guard and hero death retains kill but cannot auto-grant anchors/winch/report
+  ---
+  duration_ms: 111.110704
+  type: 'test'
+  ...
+# Subtest: JSON reload, town rest and return retain all quarry foes defeated and cannot reset old 37
+ok 57 - JSON reload, town rest and return retain all quarry foes defeated and cannot reset old 37
+  ---
+  duration_ms: 111.307636
+  type: 'test'
+  ...
+# Subtest: new enemy patterns use the real existing AI telegraph handler without claiming new AI or play completion
+ok 58 - new enemy patterns use the real existing AI telegraph handler without claiming new AI or play completion
+  ---
+  duration_ms: 17.362552
+  type: 'test'
+  ...
+# Subtest: guidance/elder/object views follow progression and clearly stop at incomplete later content
+ok 59 - guidance/elder/object views follow progression and clearly stop at incomplete later content
+  ---
+  duration_ms: 778.300741
+  type: 'test'
+  ...
+# Subtest: real stores preserve partial anchors and once-only tool after repeated reload
+ok 60 - real stores preserve partial anchors and once-only tool after repeated reload
+  ---
+  duration_ms: 85.566499
+  type: 'test'
+  ...
+# Subtest: queued real-controller report pays once and fresh session retains exact four rewards
+ok 61 - queued real-controller report pays once and fresh session retains exact four rewards
+  ---
+  duration_ms: 121.884305
+  type: 'test'
+  ...
+# Subtest: quarry report pre-head failure blocks replay until load and preserves exact reward
+ok 62 - quarry report pre-head failure blocks replay until load and preserves exact reward
+  ---
+  duration_ms: 119.362163
+  type: 'test'
+  ...
+# Subtest: quarry report post-head failure blocks replay until load and preserves exact reward
+ok 63 - quarry report post-head failure blocks replay until load and preserves exact reward
+  ---
+  duration_ms: 107.57542
+  type: 'test'
+  ...
+# Subtest: two controller tabs cannot both commit a quarry reward from the same revision
+ok 64 - two controller tabs cannot both commit a quarry reward from the same revision
+  ---
+  duration_ms: 126.843162
+  type: 'test'
+  ...
+# Subtest: quarry entry and independent shortcut reject stale-life travel before touching resources or progress
+ok 65 - quarry entry and independent shortcut reject stale-life travel before touching resources or progress
+  ---
+  duration_ms: 59.308457
+  type: 'test'
+  ...
+# Subtest: earned healing skill and actual cast retain paid mana, cooldown and regeneration buff through quarry acceptance and entry
+ok 66 - earned healing skill and actual cast retain paid mana, cooldown and regeneration buff through quarry acceptance and entry
+  ---
+  duration_ms: 53.375952
+  type: 'test'
+  ...
+# Subtest: failed winch material-reward save keeps its receipt, money and complete inventory unpublished until reload/retry
+ok 67 - failed winch material-reward save keeps its receipt, money and complete inventory unpublished until reload/retry
+  ---
+  duration_ms: 110.628651
+  type: 'test'
+  ...
+1..67
+# tests 67
+# suites 0
+# pass 67
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7350.281501

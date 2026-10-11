@@ -1,0 +1,57 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {createState,reduceRuntime} from '../src/state.js';import {createStore,profileKeys} from '../src/save.js';
+import {copyReleaseQaProfile,candidatePath} from '../src/candidate-profile.js';
+const fixture=()=>{const data=new Map(),writes=[],storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>{writes.push(k);data.set(k,v);}},locks={request:async(_name,_options,fn)=>fn()};const source=createStore(storage,{profile:'qa-old'});let state=reduceRuntime(createState(),{type:'trainStarter',position:{x:260,y:325}}).state;delete state.options.controls;source.save(state,{expectedRevision:0});return {data,writes,storage,locks,source,state};};
+test('candidate route and keys are explicit; production key bytes stay unchanged',()=>{assert.equal(profileKeys('main').head,'emberwatch-reborn.reimplementation.v1.main.head');assert.notEqual(profileKeys('qa-old').head,profileKeys('qa-old','qa-r4').head);assert.notEqual(profileKeys('qa-old').lock,profileKeys('qa-old','qa-r4').lock);assert.throws(()=>profileKeys('main','qa-r4'));assert.throws(()=>profileKeys('qa-old','arbitrary'));assert.equal(candidatePath('/qa-r4/'),true);assert.equal(candidatePath('/'),false);assert.equal(candidatePath('/qa-r4-other/'),false);});
+test('explicit QA fork preserves original storage bytes, controls and payload checksum',async()=>{const f=fixture(),before=new Map(f.data);const r=await copyReleaseQaProfile(f.storage,f.locks,{sourceProfile:'qa-old',targetProfile:'qa-old'});assert.equal(r.ok,true);const candidate=createStore(f.storage,{profile:'qa-old',namespace:'qa-r4'}).load();assert.deepEqual(candidate.state,f.state);assert.equal(candidate.checksum,f.source.load().checksum);for(const [k,v]of before)assert.equal(f.data.get(k),v);assert.equal(candidate.state.options.controls,undefined);});
+test('candidate progress changes cannot affect release profile or its revision',async()=>{const f=fixture();await copyReleaseQaProfile(f.storage,f.locks,{sourceProfile:'qa-old',targetProfile:'qa-old'});const store=createStore(f.storage,{profile:'qa-old',namespace:'qa-r4'}),loaded=store.load(),changed=reduceRuntime(loaded.state,{type:'setOption',option:'masterVolume',value:.2}).state;assert.equal(store.save(changed,{expectedRevision:1}).ok,true);assert.equal(f.source.load().state.options.masterVolume,.7);assert.equal(f.source.load().revision,1);});
+test('candidate copy never overwrites an existing candidate and never copies main',async()=>{const f=fixture();assert.equal((await copyReleaseQaProfile(f.storage,f.locks,{sourceProfile:'qa-old',targetProfile:'qa-old'})).ok,true);const before=new Map(f.data);assert.equal((await copyReleaseQaProfile(f.storage,f.locks,{sourceProfile:'qa-old',targetProfile:'qa-old'})).code,'CANDIDATE_EXISTS');assert.equal((await copyReleaseQaProfile(f.storage,f.locks,{sourceProfile:'main',targetProfile:'qa-other'})).code,'QA_ONLY');assert.deepEqual(f.data,before);});
+test('missing/corrupt source and unavailable locks fail without writing candidate data',async()=>{const f=fixture(),before=new Map(f.data);assert.equal((await copyReleaseQaProfile(f.storage,null,{sourceProfile:'qa-old',targetProfile:'qa-old'})).code,'LOCKS_UNAVAILABLE');assert.equal((await copyReleaseQaProfile(f.storage,f.locks,{sourceProfile:'qa-missing',targetProfile:'qa-old'})).code,'NO_SOURCE');assert.deepEqual(f.data,before);for(const key of f.source.keys.slots)f.data.set(key,'broken');assert.equal((await copyReleaseQaProfile(f.storage,f.locks,{sourceProfile:'qa-old',targetProfile:'qa-old'})).code,'CORRUPT');assert.equal(createStore(f.storage,{profile:'qa-old',namespace:'qa-r4'}).load().state,null);});
+test('uncertain target commit is reported and does not touch the protected source',async()=>{const f=fixture(),before=new Map(f.data),targetHead=profileKeys('qa-old','qa-r4').head,storage={...f.storage,setItem(k,v){f.storage.setItem(k,v);if(k===targetHead)throw Error('after write');}};assert.equal((await copyReleaseQaProfile(storage,f.locks,{sourceProfile:'qa-old',targetProfile:'qa-old'})).code,'COMMIT_UNCERTAIN');for(const [k,v]of before)assert.equal(f.data.get(k),v);assert.equal(createStore(f.storage,{profile:'qa-old',namespace:'qa-r4'}).load().state.character.level,1);});
+
+test('R5 candidate copies an R4 QA snapshot without changing either release or source candidate bytes',async()=>{
+ const {candidateNamespace}=await import('../src/candidate-profile.js');assert.equal(candidateNamespace('/qa-r5/'),'qa-r5');assert.equal(candidateNamespace('/qa-r4/'),'qa-r4');assert.equal(candidateNamespace('/qa-r5-other/'),null);
+ const values=new Map(),storage={getItem:k=>values.get(k)??null,setItem:(k,v)=>values.set(k,v)},locks={request:async(_key,_options,fn)=>fn()};
+ const source=createStore(storage,{profile:'qa-r4-earned',namespace:'qa-r4'});source.save(createState(),{expectedRevision:0});const before=new Map(values);
+ const r=await copyReleaseQaProfile(storage,locks,{sourceProfile:'qa-r4-earned',targetProfile:'qa-r5-earned',sourceNamespace:'qa-r4',targetNamespace:'qa-r5'});assert.equal(r.ok,true);for(const [k,v]of before)assert.equal(values.get(k),v);assert.equal(createStore(storage,{profile:'qa-r5-earned',namespace:'qa-r5'}).load().checksum,source.load().checksum);
+ assert.equal((await copyReleaseQaProfile(storage,locks,{sourceProfile:'qa-r4-earned',targetProfile:'main',sourceNamespace:'qa-r4',targetNamespace:'qa-r5'})).ok,false);
+ assert.equal((await copyReleaseQaProfile(storage,locks,{sourceProfile:'qa-r4-earned',targetProfile:'qa-r5-earned',sourceNamespace:'qa-r4',targetNamespace:'qa-r5'})).code,'CANDIDATE_EXISTS');
+});
+
+test('R6 candidate namespace never aliases root/R4/R5 and does not match longer slugs',async()=>{
+ const {candidateNamespace}=await import('../src/candidate-profile.js');assert.equal(candidateNamespace('/qa-r6/'),'qa-r6');assert.equal(candidateNamespace('/qa-r6-other/'),null);assert.equal(new Set(['release','qa-r4','qa-r5','qa-r6'].map(namespace=>profileKeys('qa-preserve',namespace).head)).size,4);assert.throws(()=>profileKeys('main','qa-r6'));
+});
+test('explicit R5 to R6 QA copy preserves source bytes and refuses second copy or downgrade',async()=>{
+ const f=fixture(),source=createStore(f.storage,{profile:'qa-r5-earned',namespace:'qa-r5'});source.save(f.state,{expectedRevision:0});const before=new Map(f.data),request={sourceProfile:'qa-r5-earned',sourceNamespace:'qa-r5',targetProfile:'qa-r6-earned',targetNamespace:'qa-r6'};
+ assert.equal((await copyReleaseQaProfile(f.storage,f.locks,request)).ok,true);for(const[k,v]of before)assert.equal(f.data.get(k),v);assert.equal(createStore(f.storage,{profile:'qa-r6-earned',namespace:'qa-r6'}).load().checksum,source.load().checksum);assert.equal((await copyReleaseQaProfile(f.storage,f.locks,request)).code,'CANDIDATE_EXISTS');assert.equal((await copyReleaseQaProfile(f.storage,f.locks,{...request,sourceNamespace:'qa-r6',targetNamespace:'qa-r5'})).code,'INVALID_NAMESPACE');
+});
+
+test('R7 copies an earned R6 QA only forward without altering saved source or release namespaces',async()=>{
+ const {candidateNamespace}=await import('../src/candidate-profile.js');const {earnedQuarryRoute}=await import('./support/earned-quarry-route.mjs');
+ assert.equal(candidateNamespace('/qa-r7/'),'qa-r7');assert.equal(candidateNamespace('/qa-r7-other/'),null);assert.throws(()=>profileKeys('main','qa-r7'));
+ const f=fixture(),s=earnedQuarryRoute(),source=createStore(f.storage,{profile:'qa-r6-earned',namespace:'qa-r6'});assert.equal(source.save(s,{expectedRevision:0}).ok,true);const before=new Map(f.data);
+ const request={sourceProfile:'qa-r6-earned',sourceNamespace:'qa-r6',targetProfile:'qa-r7-earned',targetNamespace:'qa-r7'};
+ assert.equal((await copyReleaseQaProfile(f.storage,f.locks,request)).ok,true);for(const[k,v]of before)assert.equal(f.data.get(k),v);
+ const copied=createStore(f.storage,{profile:'qa-r7-earned',namespace:'qa-r7'}).load();assert.deepEqual(copied.state,s);assert.equal(copied.checksum,source.load().checksum);
+ assert.equal((await copyReleaseQaProfile(f.storage,f.locks,request)).code,'CANDIDATE_EXISTS');
+ for(const targetNamespace of ['release','qa-r4','qa-r5','qa-r6','qa-r7','nonsense'])assert.equal((await copyReleaseQaProfile(f.storage,f.locks,{...request,sourceNamespace:'qa-r7',targetNamespace})).code,'INVALID_NAMESPACE');
+});
+
+test('R10 candidate route is exact and every older namespace keeps its byte identity',async()=>{
+ const {candidateNamespace}=await import('../src/candidate-profile.js');
+ for(const path of ['/qa-r10','/qa-r10/','/qa-r10/sub'])assert.equal(candidateNamespace(path),'qa-r10');
+ for(const path of ['/qa-r100/','/qa-r10-other/','/qa-r13/','/qa-r010/'])assert.equal(candidateNamespace(path),null);
+ const spaces=['release','qa-r4','qa-r5','qa-r6','qa-r7','qa-r8','qa-r9','qa-r10'];assert.equal(new Set(spaces.map(namespace=>profileKeys('qa-preserve',namespace).head)).size,8);assert.throws(()=>profileKeys('main','qa-r10'));
+});
+test('actual handler-produced Furnace save copies to R10 once without touching any source bytes',async()=>{
+ const {earnedFurnaceRoute}=await import('./support/earned-furnace-route.mjs');const f=fixture(),state=earnedFurnaceRoute(),source=createStore(f.storage,{profile:'qa-r9-earned',namespace:'qa-r9'});assert.equal(source.save(state,{expectedRevision:0}).ok,true);const before=new Map(f.data);
+ const request={sourceProfile:'qa-r9-earned',targetProfile:'qa-r10-earned',sourceNamespace:'qa-r9',targetNamespace:'qa-r10'};assert.equal((await copyReleaseQaProfile(f.storage,f.locks,request)).ok,true);for(const[k,v]of before)assert.equal(f.data.get(k),v);assert.deepEqual(createStore(f.storage,{profile:'qa-r10-earned',namespace:'qa-r10'}).load().state,state);
+ assert.equal((await copyReleaseQaProfile(f.storage,f.locks,request)).code,'CANDIDATE_EXISTS');for(const targetNamespace of ['release','qa-r4','qa-r5','qa-r6','qa-r7','qa-r8','qa-r9','qa-r10'])assert.equal((await copyReleaseQaProfile(f.storage,f.locks,{...request,sourceNamespace:'qa-r10',targetNamespace})).code,'INVALID_NAMESPACE');
+});
+
+test('R11 exact namespace copies earned R10 forward once and preserves all original bytes, controls and recovery',async()=>{
+ const {candidateNamespace}=await import('../src/candidate-profile.js');const {earnedTombRoute}=await import('./support/earned-tomb-route.mjs');
+ for(const path of ['/qa-r11','/qa-r11/','/qa-r11/sub'])assert.equal(candidateNamespace(path),'qa-r11');for(const path of ['/qa-r110/','/qa-r11-other/','/qa-r13/','/qa-r011/'])assert.equal(candidateNamespace(path),null);
+ const f=fixture(),s=earnedTombRoute('normal',{full:true}),source=createStore(f.storage,{profile:'qa-r10-earned',namespace:'qa-r10'});assert.equal(source.save(s,{expectedRevision:0}).ok,true);const before=new Map(f.data),request={sourceProfile:'qa-r10-earned',sourceNamespace:'qa-r10',targetProfile:'qa-r11-earned',targetNamespace:'qa-r11'};
+ assert.equal((await copyReleaseQaProfile(f.storage,f.locks,request)).ok,true);for(const[k,v]of before)assert.equal(f.data.get(k),v);const copied=createStore(f.storage,{profile:'qa-r11-earned',namespace:'qa-r11'}).load();assert.deepEqual(copied.state,s);assert.equal(copied.checksum,source.load().checksum);assert.equal((await copyReleaseQaProfile(f.storage,f.locks,request)).code,'CANDIDATE_EXISTS');assert.throws(()=>profileKeys('main','qa-r11'));assert.equal((await copyReleaseQaProfile(f.storage,f.locks,{...request,sourceNamespace:'qa-r11',targetNamespace:'qa-r10'})).code,'INVALID_NAMESPACE');
+});

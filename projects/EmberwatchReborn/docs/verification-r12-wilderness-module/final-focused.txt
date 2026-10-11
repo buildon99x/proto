@@ -1,0 +1,42 @@
+✔ W registered content remains detached; all authored spawns, objects and foes fit their actual collision floors (1.496756ms)
+✔ mandatory gated floors open sequentially with a permanent retreat; no puzzle/boss condition on anchor return (2077.947865ms)
+✔ cover/channel has actual six-tile collision/LOS difference and two open flanks in both modes (3.087492ms)
+✔ survey cover creates offset real sightlines while both sides remain reachable without increasing foe HP (0.354602ms)
+✔ in-range interaction across closed cover fails with WALL_BLOCKED, never UI-only success (70.939618ms)
+✔ journal, object actions and Eda continuation are truthful, read-only and revision-bound (88.361289ms)
+✔ authored small entry foyer breaks every initial enemy sightline and reaches an immediate return without a fight (11.582366ms)
+✔ untouched existing state gets no W defaults, rewards or eligibility (3.432249ms)
+✔ real detached W handlers easy/cover: five groups, exact budget, retained history and correct Eda report (2022.360969ms)
+✔ real detached W handlers easy/channel: five groups, exact budget, retained history and correct Eda report (380.052374ms)
+✔ real detached W handlers normal/cover: five groups, exact budget, retained history and correct Eda report (1818.690499ms)
+✔ real detached W handlers normal/channel: five groups, exact budget, retained history and correct Eda report (381.432464ms)
+✔ real detached W handlers hard/cover: five groups, exact budget, retained history and correct Eda report (1860.599446ms)
+✔ real detached W handlers hard/channel: five groups, exact budget, retained history and correct Eda report (378.010572ms)
+✔ real detached W handlers serious/cover: five groups, exact budget, retained history and correct Eda report (1684.0823ms)
+✔ real detached W handlers serious/channel: five groups, exact budget, retained history and correct Eda report (361.299687ms)
+✔ B report cannot be forged by level, incomplete beacon/report history, or wrong Eda location (38.348781ms)
+✔ free hook pickup and explicit anchor are distinct and immediately open safe return without puzzle, boss or spending (110.057297ms)
+✔ readable clue survives JSON round trip; wrong order resets only prefix, no XP/resource/tool loss or hidden timer (114.377859ms)
+✔ pre-encounter cover choice costs nothing, permits all D guards once and cannot change after commitment (66.535946ms)
+✔ pre-encounter channel choice costs nothing, permits all D guards once and cannot change after commitment (65.372431ms)
+✔ relic is explicit; immediate boss return is safe before relic, report remains blocked, no automatic reward (118.122015ms)
+✔ optional scout rescue before Eda report never gates route and pays exactly once (88.291905ms)
+✔ optional scout rescue after Eda report never gates route and pays exactly once (72.489187ms)
+✔ depleted paid recovery survives objectives, wrong input, JSON re-entry and both return paths without healing (92.500589ms)
+✔ simultaneous keeper kill and death settle once; explicit retry preserves clue, choice, paid cooldown/RNG and historical kills (98.242993ms)
+✔ per-foe settlement applies current-level Expert scaling at exact L30 crossing, with no batch-entry multiplier (27.919123ms)
+✔ duplicate defeats are no-op rewards; locked, foreign, duplicated and invalid reports fail before mutation (75.578632ms)
+✔ all objective and ancestry histories fail closed on missing/reversed/forged relationships (49.580585ms)
+✔ temporary ancestry projection validates real W position/pools/visited/life before substituting two location fields (25.267246ms)
+✔ stale revision, far/wall-bound/foreign interactions and unknown gates cannot grant rewards (116.194423ms)
+✔ overflow and bounded ledgers reject atomically without clearing old records (148.539287ms)
+✔ receipt/kill tables implement only combat-weighted W, no minimum-envelope second reward layer (0.342875ms)
+✔ malformed JSON/accessors, foreign permanent histories and recovery cannot be projected into valid W progress (9.348494ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12697.30524

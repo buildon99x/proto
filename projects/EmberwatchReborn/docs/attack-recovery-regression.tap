@@ -1,0 +1,1529 @@
+TAP version 13
+# Subtest: real stun/mace_swing rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 1 - real stun/mace_swing rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 43.601733
+  type: 'test'
+  ...
+# Subtest: real stun/righteous_hammer rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 2 - real stun/righteous_hammer rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 23.283734
+  type: 'test'
+  ...
+# Subtest: real stun/shield_charge rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 3 - real stun/shield_charge rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 19.202347
+  type: 'test'
+  ...
+# Subtest: real stun/lay_on_hands rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 4 - real stun/lay_on_hands rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 16.218303
+  type: 'test'
+  ...
+# Subtest: real stun/judgement rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 5 - real stun/judgement rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 15.990433
+  type: 'test'
+  ...
+# Subtest: real stun/battle_banner rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 6 - real stun/battle_banner rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 15.871166
+  type: 'test'
+  ...
+# Subtest: real stun/zealous_onslaught rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 7 - real stun/zealous_onslaught rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 14.997014
+  type: 'test'
+  ...
+# Subtest: real silence/mace_swing rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 8 - real silence/mace_swing rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 8.530548
+  type: 'test'
+  ...
+# Subtest: real silence/righteous_hammer rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 9 - real silence/righteous_hammer rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 25.717299
+  type: 'test'
+  ...
+# Subtest: real silence/shield_charge rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 10 - real silence/shield_charge rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 6.002579
+  type: 'test'
+  ...
+# Subtest: real silence/lay_on_hands rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 11 - real silence/lay_on_hands rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 23.773054
+  type: 'test'
+  ...
+# Subtest: real silence/judgement rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 12 - real silence/judgement rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 23.305267
+  type: 'test'
+  ...
+# Subtest: real silence/battle_banner rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 13 - real silence/battle_banner rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 27.290802
+  type: 'test'
+  ...
+# Subtest: real silence/zealous_onslaught rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 14 - real silence/zealous_onslaught rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 24.972851
+  type: 'test'
+  ...
+# Subtest: real disarm/mace_swing rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 15 - real disarm/mace_swing rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 36.424349
+  type: 'test'
+  ...
+# Subtest: real disarm/righteous_hammer rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 16 - real disarm/righteous_hammer rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 8.801748
+  type: 'test'
+  ...
+# Subtest: real disarm/shield_charge rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 17 - real disarm/shield_charge rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 8.428873
+  type: 'test'
+  ...
+# Subtest: real disarm/lay_on_hands rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 18 - real disarm/lay_on_hands rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 8.712955
+  type: 'test'
+  ...
+# Subtest: real disarm/judgement rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 19 - real disarm/judgement rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 8.882227
+  type: 'test'
+  ...
+# Subtest: real disarm/battle_banner rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 20 - real disarm/battle_banner rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 8.624033
+  type: 'test'
+  ...
+# Subtest: real disarm/zealous_onslaught rejection or unaffected acceptance agrees with one immutable eligibility result
+ok 21 - real disarm/zealous_onslaught rejection or unaffected acceptance agrees with one immutable eligibility result
+  ---
+  duration_ms: 8.792775
+  type: 'test'
+  ...
+# Subtest: held disarmed basic attack reports once but still starts automatically after expiry; a fresh press reports again
+ok 22 - held disarmed basic attack reports once but still starts automatically after expiry; a fresh press reports again
+  ---
+  duration_ms: 35.607157
+  type: 'test'
+  ...
+# Subtest: shared rejection precedence changes from status to cooldown to actual quoted resource without payment
+ok 23 - shared rejection precedence changes from status to cooldown to actual quoted resource without payment
+  ---
+  duration_ms: 59.056789
+  type: 'test'
+  ...
+# Subtest: Banner-discounted failed spell reports its actual payable quote, not the base catalog cost
+ok 24 - Banner-discounted failed spell reports its actual payable quote, not the base catalog cost
+  ---
+  duration_ms: 13.330492
+  type: 'test'
+  ...
+# Subtest: queued spell rechecks the same status eligibility after its unrelated charge recovery and drops the intent without cost
+ok 25 - queued spell rechecks the same status eligibility after its unrelated charge recovery and drops the intent without cost
+  ---
+  duration_ms: 28.672359
+  type: 'test'
+  ...
+# Subtest: unlearned and dead queries are safe and never invent a usable cost
+ok 26 - unlearned and dead queries are safe and never invent a usable cost
+  ---
+  duration_ms: 4.064904
+  type: 'test'
+  ...
+# Subtest: low stamina feedback comes from the real charge rejection and leaves all resources/CD untouched
+ok 27 - low stamina feedback comes from the real charge rejection and leaves all resources/CD untouched
+  ---
+  duration_ms: 5.163629
+  type: 'test'
+  ...
+# Subtest: new explicit spells spend once on start, resolve once on contact, and keep distinct cooldowns
+ok 28 - new explicit spells spend once on start, resolve once on contact, and keep distinct cooldowns
+  ---
+  duration_ms: 43.130321
+  type: 'test'
+  ...
+# Subtest: heal clamps at maximum, ignores offensive multipliers and never resurrects
+ok 29 - heal clamps at maximum, ignores offensive multipliers and never resurrects
+  ---
+  duration_ms: 16.863404
+  type: 'test'
+  ...
+# Subtest: regen touch scales only existing regeneration, expires after four simulation seconds and snapshots remaining duration
+ok 30 - regen touch scales only existing regeneration, expires after four simulation seconds and snapshots remaining duration
+  ---
+  duration_ms: 61.982967
+  type: 'test'
+  ...
+# Subtest: regen buff respects resource delays and partial final-frame expiry without increasing zero base HP regen
+ok 31 - regen buff respects resource delays and partial final-frame expiry without increasing zero base HP regen
+  ---
+  duration_ms: 6.918202
+  type: 'test'
+  ...
+# Subtest: judgement hits every visible forward target once, excluding rear, range and solid-wall targets
+ok 32 - judgement hits every visible forward target once, excluding rear, range and solid-wall targets
+  ---
+  duration_ms: 43.702884
+  type: 'test'
+  ...
+# Subtest: trial fire has no instant tick, exactly ten interval ticks, fixed original sector and no physical armor/penetration scaling
+ok 33 - trial fire has no instant tick, exactly ten interval ticks, fixed original sector and no physical armor/penetration scaling
+  ---
+  duration_ms: 79.494349
+  type: 'test'
+  ...
+# Subtest: recasting fire replaces old area, and leaving a sector prevents subsequent ticks
+ok 34 - recasting fire replaces old area, and leaving a sector prevents subsequent ticks
+  ---
+  duration_ms: 27.462726
+  type: 'test'
+  ...
+# Subtest: shackles is post-contact, slows movement and amplifies subsequent damage only, with refresh rather than stacking
+ok 35 - shackles is post-contact, slows movement and amplifies subsequent damage only, with refresh rather than stacking
+  ---
+  duration_ms: 47.007891
+  type: 'test'
+  ...
+# Subtest: charge-through sweeps multiple targets exactly once with quarter-second stun; ordinary charge stops at first
+ok 36 - charge-through sweeps multiple targets exactly once with quarter-second stun; ordinary charge stops at first
+  ---
+  duration_ms: 20.544028
+  type: 'test'
+  ...
+# Subtest: charge-through cannot traverse closed wall
+ok 37 - charge-through cannot traverse closed wall
+  ---
+  duration_ms: 9.591944
+  type: 'test'
+  ...
+# Subtest: wrath emits lightning from live projectile at quarter-second intervals, outside physical sweep
+ok 38 - wrath emits lightning from live projectile at quarter-second intervals, outside physical sweep
+  ---
+  duration_ms: 43.156025
+  type: 'test'
+  ...
+# Subtest: sundering applies initial damage against old armor and a timed nonstacking armor reduction afterwards
+ok 39 - sundering applies initial damage against old armor and a timed nonstacking armor reduction afterwards
+  ---
+  duration_ms: 70.231915
+  type: 'test'
+  ...
+# Subtest: thorns samples stamina after active block payment and reflects only the one melee attacker
+ok 40 - thorns samples stamina after active block payment and reflects only the one melee attacker
+  ---
+  duration_ms: 8.464655
+  type: 'test'
+  ...
+# Subtest: thorns does not reflect ranged hits, trigger while unblocked, or recurse on reflected damage
+ok 41 - thorns does not reflect ranged hits, trigger while unblocked, or recurse on reflected damage
+  ---
+  duration_ms: 15.236379
+  type: 'test'
+  ...
+# Subtest: new spells obey short intent replacement, cancel, readiness and no held-attack starvation
+ok 42 - new spells obey short intent replacement, cancel, readiness and no held-attack starvation
+  ---
+  duration_ms: 45.439996
+  type: 'test'
+  ...
+# Subtest: unlearned inputs and heal-only input never release arrival protection; learned offensive action does
+ok 43 - unlearned inputs and heal-only input never release arrival protection; learned offensive action does
+  ---
+  duration_ms: 7.397426
+  type: 'test'
+  ...
+# Subtest: death cancels pending fields/projectiles/buff and no dead target receives duplicate kill receipts
+ok 44 - death cancels pending fields/projectiles/buff and no dead target receives duplicate kill receipts
+  ---
+  duration_ms: 98.872284
+  type: 'test'
+  ...
+# Subtest: passive successful melee block reflects current stamina without charging the active block cost
+ok 45 - passive successful melee block reflects current stamina without charging the active block cost
+  ---
+  duration_ms: 7.380191
+  type: 'test'
+  ...
+# Subtest: elemental bulwark and constitution resistance resolve incoming elemental damage separately from physical armor
+ok 46 - elemental bulwark and constitution resistance resolve incoming elemental damage separately from physical armor
+  ---
+  duration_ms: 16.599489
+  type: 'test'
+  ...
+# Subtest: expired lightning projectile never emits a late tick and moving out of LOS protects targets
+ok 47 - expired lightning projectile never emits a late tick and moving out of LOS protects targets
+  ---
+  duration_ms: 10.719713
+  type: 'test'
+  ...
+# Subtest: refresh cancels attack fields/debuffs while retaining the already paid MP, recovery and regen buff
+ok 48 - refresh cancels attack fields/debuffs while retaining the already paid MP, recovery and regen buff
+  ---
+  duration_ms: 14.604889
+  type: 'test'
+  ...
+# Subtest: an in-flight action freezes its paid rank and multipliers across a paused skill purchase
+ok 49 - an in-flight action freezes its paid rank and multipliers across a paused skill purchase
+  ---
+  duration_ms: 18.054235
+  type: 'test'
+  ...
+# Subtest: rejected explicit skill reports current cost/cooldown for feedback, without charging or queuing
+ok 50 - rejected explicit skill reports current cost/cooldown for feedback, without charging or queuing
+  ---
+  duration_ms: 6.518397
+  type: 'test'
+  ...
+# Subtest: ready hammer waits for the original mace contact and recovery, then pays once ahead of held attack
+ok 51 - ready hammer waits for the original mace contact and recovery, then pays once ahead of held attack
+  ---
+  duration_ms: 109.765451
+  type: 'test'
+  ...
+# Subtest: ready charge waits without early movement or stamina payment and executes once
+ok 52 - ready charge waits without early movement or stamina payment and executes once
+  ---
+  duration_ms: 84.729999
+  type: 'test'
+  ...
+# Subtest: latest skill pulse replaces the single intent and retains input-time movement-direction aim
+ok 53 - latest skill pulse replaces the single intent and retains input-time movement-direction aim
+  ---
+  duration_ms: 14.848968
+  type: 'test'
+  ...
+# Subtest: hammer aim is captured at press even while the mace animation faces another direction
+ok 54 - hammer aim is captured at press even while the mace animation faces another direction
+  ---
+  duration_ms: 15.180516
+  type: 'test'
+  ...
+# Subtest: an idle ready skill still starts immediately with its existing cost and cooldown
+ok 55 - an idle ready skill still starts immediately with its existing cost and cooldown
+  ---
+  duration_ms: 13.52445
+  type: 'test'
+  ...
+# Subtest: cooldown-blocked requests, including a short remaining cooldown, do not wait for later readiness
+ok 56 - cooldown-blocked requests, including a short remaining cooldown, do not wait for later readiness
+  ---
+  duration_ms: 111.736481
+  type: 'test'
+  ...
+# Subtest: insufficient resources or unlearned skills never create deferred casts
+ok 57 - insufficient resources or unlearned skills never create deferred casts
+  ---
+  duration_ms: 146.468456
+  type: 'test'
+  ...
+# Subtest: a newer unavailable request cancels rather than leaves the older intent armed
+ok 58 - a newer unavailable request cancels rather than leaves the older intent armed
+  ---
+  duration_ms: 51.856582
+  type: 'test'
+  ...
+# Subtest: queued execution rechecks resources and drops a failed attempt permanently
+ok 59 - queued execution rechecks resources and drops a failed attempt permanently
+  ---
+  duration_ms: 41.879224
+  type: 'test'
+  ...
+# Subtest: queued execution cannot bypass a cooldown which became active before recovery finished
+ok 60 - queued execution cannot bypass a cooldown which became active before recovery finished
+  ---
+  duration_ms: 54.863008
+  type: 'test'
+  ...
+# Subtest: the .18-second window expires in active frame time even when hitstop slows recovery
+ok 61 - the .18-second window expires in active frame time even when hitstop slows recovery
+  ---
+  duration_ms: 33.241952
+  type: 'test'
+  ...
+# Subtest: a recovery lock longer than the small window cannot arm an eventual skill
+ok 62 - a recovery lock longer than the small window cannot arm an eventual skill
+  ---
+  duration_ms: 26.222599
+  type: 'test'
+  ...
+# Subtest: a short saved recovery lock can accept a new explicit press without restoring an old intent
+ok 63 - a short saved recovery lock can accept a new explicit press without restoring an old intent
+  ---
+  duration_ms: 7.253771
+  type: 'test'
+  ...
+# Subtest: menu, blur and rebind integration can clear only intent without cancelling the current attack
+ok 64 - menu, blur and rebind integration can clear only intent without cancelling the current attack
+  ---
+  duration_ms: 29.805209
+  type: 'test'
+  ...
+# Subtest: OS repeats and a held skill key yield one router pulse and never refresh or repeat the buffer
+ok 65 - OS repeats and a held skill key yield one router pulse and never refresh or repeat the buffer
+  ---
+  duration_ms: 111.159111
+  type: 'test'
+  ...
+# Subtest: checkpoint/save/reload and region creation do not serialize or replay buffered intent
+ok 66 - checkpoint/save/reload and region creation do not serialize or replay buffered intent
+  ---
+  duration_ms: 49.371826
+  type: 'test'
+  ...
+# Subtest: actual fatal projectile clears a pending intent and retry constructs an empty one
+ok 67 - actual fatal projectile clears a pending intent and retry constructs an empty one
+  ---
+  duration_ms: 16.877693
+  type: 'test'
+  ...
+# Subtest: early input explicitly rejects without cancelling original preparation/contact or arming a later cast
+ok 68 - early input explicitly rejects without cancelling original preparation/contact or arming a later cast
+  ---
+  duration_ms: 22.765781
+  type: 'test'
+  ...
+# Subtest: guard cancels a queued skill and cannot arm another pending skill while held
+ok 69 - guard cancels a queued skill and cannot arm another pending skill while held
+  ---
+  duration_ms: 20.020494
+  type: 'test'
+  ...
+# Subtest: aim change 89 degrees has an inclusive 90-degree cancellation boundary
+ok 70 - aim change 89 degrees has an inclusive 90-degree cancellation boundary
+  ---
+  duration_ms: 13.641114
+  type: 'test'
+  ...
+# Subtest: aim change 90 degrees has an inclusive 90-degree cancellation boundary
+ok 71 - aim change 90 degrees has an inclusive 90-degree cancellation boundary
+  ---
+  duration_ms: 24.200327
+  type: 'test'
+  ...
+# Subtest: aim change 91 degrees has an inclusive 90-degree cancellation boundary
+ok 72 - aim change 91 degrees has an inclusive 90-degree cancellation boundary
+  ---
+  duration_ms: 23.162422
+  type: 'test'
+  ...
+# Subtest: aim change 180 degrees has an inclusive 90-degree cancellation boundary
+ok 73 - aim change 180 degrees has an inclusive 90-degree cancellation boundary
+  ---
+  duration_ms: 21.508113
+  type: 'test'
+  ...
+# Subtest: aim change -90 degrees has an inclusive 90-degree cancellation boundary
+ok 74 - aim change -90 degrees has an inclusive 90-degree cancellation boundary
+  ---
+  duration_ms: 18.477135
+  type: 'test'
+  ...
+# Subtest: aim cancellation follows wrapped angles and the input-time aim, independently of movement-based charge angle
+ok 75 - aim cancellation follows wrapped angles and the input-time aim, independently of movement-based charge angle
+  ---
+  duration_ms: 13.98812
+  type: 'test'
+  ...
+# Subtest: opposite movement cancels only when movement existed at the skill press; stopping/perpendicular movement preserves it
+ok 76 - opposite movement cancels only when movement existed at the skill press; stopping/perpendicular movement preserves it
+  ---
+  duration_ms: 42.615961
+  type: 'test'
+  ...
+# Subtest: cancel is checked on the final recovery frame before a queued skill could start
+ok 77 - cancel is checked on the final recovery frame before a queued skill could start
+  ---
+  duration_ms: 8.704282
+  type: 'test'
+  ...
+# Subtest: exact .18s action/lock boundary executes within deadline with dt=0.01
+ok 78 - exact .18s action/lock boundary executes within deadline with dt=0.01
+  ---
+  duration_ms: 17.203098
+  type: 'test'
+  ...
+# Subtest: exact .18s action/lock boundary executes within deadline with dt=0.02
+ok 79 - exact .18s action/lock boundary executes within deadline with dt=0.02
+  ---
+  duration_ms: 14.482566
+  type: 'test'
+  ...
+# Subtest: exact .18s action/lock boundary executes within deadline with dt=0.03
+ok 80 - exact .18s action/lock boundary executes within deadline with dt=0.03
+  ---
+  duration_ms: 12.649607
+  type: 'test'
+  ...
+# Subtest: exact .18s action/lock boundary executes within deadline with dt=0.045
+ok 81 - exact .18s action/lock boundary executes within deadline with dt=0.045
+  ---
+  duration_ms: 11.988753
+  type: 'test'
+  ...
+# Subtest: exact .18s action/lock boundary executes within deadline with dt=0.05
+ok 82 - exact .18s action/lock boundary executes within deadline with dt=0.05
+  ---
+  duration_ms: 13.546733
+  type: 'test'
+  ...
+# Subtest: exact .18s action/lock boundary executes within deadline with dt=0.016666666666666666
+ok 83 - exact .18s action/lock boundary executes within deadline with dt=0.016666666666666666
+  ---
+  duration_ms: 37.915917
+  type: 'test'
+  ...
+# Subtest: a frame crossing expiry is split without losing time or delivering a replacement pulse twice
+ok 84 - a frame crossing expiry is split without losing time or delivering a replacement pulse twice
+  ---
+  duration_ms: 9.245137
+  type: 'test'
+  ...
+# Subtest: split frame preserves first and second defeated/sound events for one actual settlement with no duplicate XP
+ok 85 - split frame preserves first and second defeated/sound events for one actual settlement with no duplicate XP
+  ---
+  duration_ms: 40.904613
+  type: 'test'
+  ...
+# Subtest: first substep fatal hit retains heroDead, kill and sound once despite the dead second substep
+ok 86 - first substep fatal hit retains heroDead, kill and sound once despite the dead second substep
+  ---
+  duration_ms: 23.015824
+  type: 'test'
+  ...
+# Subtest: expiry-only split matches unsplit elapsed recovery and resource totals without extending hitstop
+ok 87 - expiry-only split matches unsplit elapsed recovery and resource totals without extending hitstop
+  ---
+  duration_ms: 23.592883
+  type: 'test'
+  ...
+# Subtest: runtime numeric comparison documents .55 versus .18 acceptance boundaries and maximum effective wait
+ok 88 - runtime numeric comparison documents .55 versus .18 acceptance boundaries and maximum effective wait
+  ---
+  duration_ms: 84.805612
+  type: 'test'
+  ...
+# {"kind":"runtime numeric window comparison; no browser or screen","rows":[{"window":0.18,"acceptance":[{"remaining":0.12,"accepted":true},{"remaining":0.179,"accepted":true},{"remaining":0.18,"accepted":true},{"remaining":0.181,"accepted":false},{"remaining":0.2,"accepted":false},{"remaining":0.549,"accepted":false},{"remaining":0.55,"accepted":false},{"remaining":0.551,"accepted":false}],"acceptedAtBoundary":true,"rejectedOneMillisecondAbove":true,"effectiveWait":0.18},{"window":0.55,"acceptance":[{"remaining":0.12,"accepted":true},{"remaining":0.179,"accepted":true},{"remaining":0.18,"accepted":true},{"remaining":0.181,"accepted":true},{"remaining":0.2,"accepted":true},{"remaining":0.549,"accepted":true},{"remaining":0.55,"accepted":true},{"remaining":0.551,"accepted":false}],"acceptedAtBoundary":true,"rejectedOneMillisecondAbove":true,"effectiveWait":0.55}]}
+# Subtest: foreground boss locally fades when its body overlaps the player
+ok 89 - foreground boss locally fades when its body overlaps the player
+  ---
+  duration_ms: 0.861753
+  type: 'test'
+  ...
+# Subtest: behind, distant and nonoverlapping enemies remain opaque
+ok 90 - behind, distant and nonoverlapping enemies remain opaque
+  ---
+  duration_ms: 0.139908
+  type: 'test'
+  ...
+# Subtest: inactive and defeated actors do not trigger combat silhouette treatment
+ok 91 - inactive and defeated actors do not trigger combat silhouette treatment
+  ---
+  duration_ms: 0.101651
+  type: 'test'
+  ...
+# Subtest: nearby passage cutaway protects floor in exploration but does not fade far walls
+ok 92 - nearby passage cutaway protects floor in exploration but does not fade far walls
+  ---
+  duration_ms: 0.229532
+  type: 'test'
+  ...
+# Subtest: floor edge cues mark only collision boundaries and do not mutate map
+ok 93 - floor edge cues mark only collision boundaries and do not mutate map
+  ---
+  duration_ms: 0.432774
+  type: 'test'
+  ...
+# Subtest: floor cues remain local instead of drawing the entire distant level
+ok 94 - floor cues remain local instead of drawing the entire distant level
+  ---
+  duration_ms: 0.641135
+  type: 'test'
+  ...
+# Subtest: closed wall blocks nearby enemy activation and telegraph
+ok 95 - closed wall blocks nearby enemy activation and telegraph
+  ---
+  duration_ms: 89.023338
+  type: 'test'
+  ...
+# Subtest: mace cannot damage an otherwise-in-range enemy through a wall
+ok 96 - mace cannot damage an otherwise-in-range enemy through a wall
+  ---
+  duration_ms: 40.981717
+  type: 'test'
+  ...
+# Subtest: hammer stops at wall before a nearby target instead of applying swept damage beyond it
+ok 97 - hammer stops at wall before a nearby target instead of applying swept damage beyond it
+  ---
+  duration_ms: 34.218756
+  type: 'test'
+  ...
+# Subtest: enemy projectile cannot damage hero behind a wall
+ok 98 - enemy projectile cannot damage hero behind a wall
+  ---
+  duration_ms: 28.776942
+  type: 'test'
+  ...
+# Subtest: high-speed charge sweeps solid collision rather than jumping one-tile walls
+ok 99 - high-speed charge sweeps solid collision rather than jumping one-tile walls
+  ---
+  duration_ms: 18.775369
+  type: 'test'
+  ...
+# Subtest: quest-gated enemies remain dormant even with clear line of sight
+ok 100 - quest-gated enemies remain dormant even with clear line of sight
+  ---
+  duration_ms: 33.058057
+  type: 'test'
+  ...
+# Subtest: settled dead Adept reconstruction bypasses arrival and never emits another settlement under idle or attack input
+ok 101 - settled dead Adept reconstruction bypasses arrival and never emits another settlement under idle or attack input
+  ---
+  duration_ms: 2.6591
+  type: 'test'
+  ...
+# Subtest: actual startup immediately exposes retry and completes while optional audio remains pending
+ok 102 - actual startup immediately exposes retry and completes while optional audio remains pending
+  ---
+  duration_ms: 15.463867
+  type: 'test'
+  ...
+# Subtest: late audio readiness after explicit retry cannot restore the old death modal or repeat a charge
+ok 103 - late audio readiness after explicit retry cannot restore the old death modal or repeat a charge
+  ---
+  duration_ms: 36.022933
+  type: 'test'
+  ...
+# Subtest: repeated dead-save loads are read-only; explicit retry increments life once and preserves all earned progress
+ok 104 - repeated dead-save loads are read-only; explicit retry increments life once and preserves all earned progress
+  ---
+  duration_ms: 72.950213
+  type: 'test'
+  ...
+# Subtest: alive startup still waits safely for explicit movement or offense while audio is pending
+ok 105 - alive startup still waits safely for explicit movement or offense while audio is pending
+  ---
+  duration_ms: 26.094398
+  type: 'test'
+  ...
+# Subtest: muted saved options do not force an audio resume before death presentation
+ok 106 - muted saved options do not force an audio resume before death presentation
+  ---
+  duration_ms: 16.754941
+  type: 'test'
+  ...
+# Subtest: Onslaught rank1 shieldfalse grace0 pays exact four installments and16 pulses
+ok 107 - Onslaught rank1 shieldfalse grace0 pays exact four installments and16 pulses
+  ---
+  duration_ms: 105.569106
+  type: 'test'
+  ...
+# Subtest: Onslaught rank1 shieldfalse grace1 pays exact four installments and16 pulses
+ok 108 - Onslaught rank1 shieldfalse grace1 pays exact four installments and16 pulses
+  ---
+  duration_ms: 72.730326
+  type: 'test'
+  ...
+# Subtest: Onslaught rank1 shieldfalse grace2 pays exact four installments and16 pulses
+ok 109 - Onslaught rank1 shieldfalse grace2 pays exact four installments and16 pulses
+  ---
+  duration_ms: 57.688772
+  type: 'test'
+  ...
+# Subtest: Onslaught rank1 shieldfalse grace3 pays exact four installments and16 pulses
+ok 110 - Onslaught rank1 shieldfalse grace3 pays exact four installments and16 pulses
+  ---
+  duration_ms: 51.798926
+  type: 'test'
+  ...
+# Subtest: Onslaught rank1 shieldtrue grace0 pays exact four installments and16 pulses
+ok 111 - Onslaught rank1 shieldtrue grace0 pays exact four installments and16 pulses
+  ---
+  duration_ms: 51.13709
+  type: 'test'
+  ...
+# Subtest: Onslaught rank1 shieldtrue grace1 pays exact four installments and16 pulses
+ok 112 - Onslaught rank1 shieldtrue grace1 pays exact four installments and16 pulses
+  ---
+  duration_ms: 55.813489
+  type: 'test'
+  ...
+# Subtest: Onslaught rank1 shieldtrue grace2 pays exact four installments and16 pulses
+ok 113 - Onslaught rank1 shieldtrue grace2 pays exact four installments and16 pulses
+  ---
+  duration_ms: 51.976851
+  type: 'test'
+  ...
+# Subtest: Onslaught rank1 shieldtrue grace3 pays exact four installments and16 pulses
+ok 114 - Onslaught rank1 shieldtrue grace3 pays exact four installments and16 pulses
+  ---
+  duration_ms: 58.077145
+  type: 'test'
+  ...
+# Subtest: Onslaught rank2 shieldfalse grace0 pays exact four installments and16 pulses
+ok 115 - Onslaught rank2 shieldfalse grace0 pays exact four installments and16 pulses
+  ---
+  duration_ms: 46.104917
+  type: 'test'
+  ...
+# Subtest: Onslaught rank2 shieldfalse grace1 pays exact four installments and16 pulses
+ok 116 - Onslaught rank2 shieldfalse grace1 pays exact four installments and16 pulses
+  ---
+  duration_ms: 43.11211
+  type: 'test'
+  ...
+# Subtest: Onslaught rank2 shieldfalse grace2 pays exact four installments and16 pulses
+ok 117 - Onslaught rank2 shieldfalse grace2 pays exact four installments and16 pulses
+  ---
+  duration_ms: 44.403493
+  type: 'test'
+  ...
+# Subtest: Onslaught rank2 shieldfalse grace3 pays exact four installments and16 pulses
+ok 118 - Onslaught rank2 shieldfalse grace3 pays exact four installments and16 pulses
+  ---
+  duration_ms: 47.545351
+  type: 'test'
+  ...
+# Subtest: Onslaught rank2 shieldtrue grace0 pays exact four installments and16 pulses
+ok 119 - Onslaught rank2 shieldtrue grace0 pays exact four installments and16 pulses
+  ---
+  duration_ms: 44.282393
+  type: 'test'
+  ...
+# Subtest: Onslaught rank2 shieldtrue grace1 pays exact four installments and16 pulses
+ok 120 - Onslaught rank2 shieldtrue grace1 pays exact four installments and16 pulses
+  ---
+  duration_ms: 47.301819
+  type: 'test'
+  ...
+# Subtest: Onslaught rank2 shieldtrue grace2 pays exact four installments and16 pulses
+ok 121 - Onslaught rank2 shieldtrue grace2 pays exact four installments and16 pulses
+  ---
+  duration_ms: 62.768606
+  type: 'test'
+  ...
+# Subtest: Onslaught rank2 shieldtrue grace3 pays exact four installments and16 pulses
+ok 122 - Onslaught rank2 shieldtrue grace3 pays exact four installments and16 pulses
+  ---
+  duration_ms: 55.67012
+  type: 'test'
+  ...
+# Subtest: Onslaught rank3 shieldfalse grace0 pays exact four installments and16 pulses
+ok 123 - Onslaught rank3 shieldfalse grace0 pays exact four installments and16 pulses
+  ---
+  duration_ms: 57.817068
+  type: 'test'
+  ...
+# Subtest: Onslaught rank3 shieldfalse grace1 pays exact four installments and16 pulses
+ok 124 - Onslaught rank3 shieldfalse grace1 pays exact four installments and16 pulses
+  ---
+  duration_ms: 55.478916
+  type: 'test'
+  ...
+# Subtest: Onslaught rank3 shieldfalse grace2 pays exact four installments and16 pulses
+ok 125 - Onslaught rank3 shieldfalse grace2 pays exact four installments and16 pulses
+  ---
+  duration_ms: 55.687987
+  type: 'test'
+  ...
+# Subtest: Onslaught rank3 shieldfalse grace3 pays exact four installments and16 pulses
+ok 126 - Onslaught rank3 shieldfalse grace3 pays exact four installments and16 pulses
+  ---
+  duration_ms: 53.947415
+  type: 'test'
+  ...
+# Subtest: Onslaught rank3 shieldtrue grace0 pays exact four installments and16 pulses
+ok 127 - Onslaught rank3 shieldtrue grace0 pays exact four installments and16 pulses
+  ---
+  duration_ms: 46.173999
+  type: 'test'
+  ...
+# Subtest: Onslaught rank3 shieldtrue grace1 pays exact four installments and16 pulses
+ok 128 - Onslaught rank3 shieldtrue grace1 pays exact four installments and16 pulses
+  ---
+  duration_ms: 41.085342
+  type: 'test'
+  ...
+# Subtest: Onslaught rank3 shieldtrue grace2 pays exact four installments and16 pulses
+ok 129 - Onslaught rank3 shieldtrue grace2 pays exact four installments and16 pulses
+  ---
+  duration_ms: 56.756549
+  type: 'test'
+  ...
+# Subtest: Onslaught rank3 shieldtrue grace3 pays exact four installments and16 pulses
+ok 130 - Onslaught rank3 shieldtrue grace3 pays exact four installments and16 pulses
+  ---
+  duration_ms: 65.827295
+  type: 'test'
+  ...
+# Subtest: Onslaught rank4 shieldfalse grace0 pays exact four installments and16 pulses
+ok 131 - Onslaught rank4 shieldfalse grace0 pays exact four installments and16 pulses
+  ---
+  duration_ms: 61.681227
+  type: 'test'
+  ...
+# Subtest: Onslaught rank4 shieldfalse grace1 pays exact four installments and16 pulses
+ok 132 - Onslaught rank4 shieldfalse grace1 pays exact four installments and16 pulses
+  ---
+  duration_ms: 46.110224
+  type: 'test'
+  ...
+# Subtest: Onslaught rank4 shieldfalse grace2 pays exact four installments and16 pulses
+ok 133 - Onslaught rank4 shieldfalse grace2 pays exact four installments and16 pulses
+  ---
+  duration_ms: 47.412809
+  type: 'test'
+  ...
+# Subtest: Onslaught rank4 shieldfalse grace3 pays exact four installments and16 pulses
+ok 134 - Onslaught rank4 shieldfalse grace3 pays exact four installments and16 pulses
+  ---
+  duration_ms: 55.157717
+  type: 'test'
+  ...
+# Subtest: Onslaught rank4 shieldtrue grace0 pays exact four installments and16 pulses
+ok 135 - Onslaught rank4 shieldtrue grace0 pays exact four installments and16 pulses
+  ---
+  duration_ms: 63.988593
+  type: 'test'
+  ...
+# Subtest: Onslaught rank4 shieldtrue grace1 pays exact four installments and16 pulses
+ok 136 - Onslaught rank4 shieldtrue grace1 pays exact four installments and16 pulses
+  ---
+  duration_ms: 48.752158
+  type: 'test'
+  ...
+# Subtest: Onslaught rank4 shieldtrue grace2 pays exact four installments and16 pulses
+ok 137 - Onslaught rank4 shieldtrue grace2 pays exact four installments and16 pulses
+  ---
+  duration_ms: 44.611733
+  type: 'test'
+  ...
+# Subtest: Onslaught rank4 shieldtrue grace3 pays exact four installments and16 pulses
+ok 138 - Onslaught rank4 shieldtrue grace3 pays exact four installments and16 pulses
+  ---
+  duration_ms: 61.750365
+  type: 'test'
+  ...
+# Subtest: channel renewal/pulse order is partition independent dt0.01
+ok 139 - channel renewal/pulse order is partition independent dt0.01
+  ---
+  duration_ms: 65.397727
+  type: 'test'
+  ...
+# Subtest: channel renewal/pulse order is partition independent dt0.02
+ok 140 - channel renewal/pulse order is partition independent dt0.02
+  ---
+  duration_ms: 36.657238
+  type: 'test'
+  ...
+# Subtest: channel renewal/pulse order is partition independent dt0.05
+ok 141 - channel renewal/pulse order is partition independent dt0.05
+  ---
+  duration_ms: 19.422753
+  type: 'test'
+  ...
+# Subtest: start resources distinguish explicit mana0 from insufficient stamina and repeated dt0 cannot pay or pulse twice
+ok 142 - start resources distinguish explicit mana0 from insufficient stamina and repeated dt0 cannot pay or pulse twice
+  ---
+  duration_ms: 8.905081
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: release
+ok 143 - Lance eligibility and idempotent stop: release
+  ---
+  duration_ms: 12.461817
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: complete
+ok 144 - Lance eligibility and idempotent stop: complete
+  ---
+  duration_ms: 10.912651
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: stamina
+ok 145 - Lance eligibility and idempotent stop: stamina
+  ---
+  duration_ms: 12.32912
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: wall
+ok 146 - Lance eligibility and idempotent stop: wall
+  ---
+  duration_ms: 12.847165
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: menu
+ok 147 - Lance eligibility and idempotent stop: menu
+  ---
+  duration_ms: 9.874435
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: blur
+ok 148 - Lance eligibility and idempotent stop: blur
+  ---
+  duration_ms: 9.89872
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: hidden
+ok 149 - Lance eligibility and idempotent stop: hidden
+  ---
+  duration_ms: 12.484982
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: pointercancel
+ok 150 - Lance eligibility and idempotent stop: pointercancel
+  ---
+  duration_ms: 10.512434
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: slot-edit
+ok 151 - Lance eligibility and idempotent stop: slot-edit
+  ---
+  duration_ms: 9.543742
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: travel
+ok 152 - Lance eligibility and idempotent stop: travel
+  ---
+  duration_ms: 10.922916
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: load
+ok 153 - Lance eligibility and idempotent stop: load
+  ---
+  duration_ms: 9.104057
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: rest
+ok 154 - Lance eligibility and idempotent stop: rest
+  ---
+  duration_ms: 10.999971
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: save-fault
+ok 155 - Lance eligibility and idempotent stop: save-fault
+  ---
+  duration_ms: 10.505744
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: stun
+ok 156 - Lance eligibility and idempotent stop: stun
+  ---
+  duration_ms: 9.741696
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: silence
+ok 157 - Lance eligibility and idempotent stop: silence
+  ---
+  duration_ms: 10.600125
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: competing-input
+ok 158 - Lance eligibility and idempotent stop: competing-input
+  ---
+  duration_ms: 9.546966
+  type: 'test'
+  ...
+# Subtest: Lance eligibility and idempotent stop: death
+ok 159 - Lance eligibility and idempotent stop: death
+  ---
+  duration_ms: 10.095324
+  type: 'test'
+  ...
+# Subtest: release before first pulse never emits Lance; competing skill is consumed and does not cast
+ok 160 - release before first pulse never emits Lance; competing skill is consumed and does not cast
+  ---
+  duration_ms: 52.175001
+  type: 'test'
+  ...
+# Subtest: safety cancel emits durable event, clears guard, and no cast/projectile can resume after report reconstruction
+ok 161 - safety cancel emits durable event, clears guard, and no cast/projectile can resume after report reconstruction
+  ---
+  duration_ms: 11.862104
+  type: 'test'
+  ...
+# Subtest: stun and silence interrupt a live channel without Lance or payment refund; fired shots survive
+ok 162 - stun and silence interrupt a live channel without Lance or payment refund; fired shots survive
+  ---
+  duration_ms: 23.581096
+  type: 'test'
+  ...
+# Subtest: Zealous Shield pays ordinary block cost before renewal, which can end the next paid interval
+ok 163 - Zealous Shield pays ordinary block cost before renewal, which can end the next paid interval
+  ---
+  duration_ms: 21.154482
+  type: 'test'
+  ...
+# Subtest: Onslaught final timestamp fatal incoming attack wins before final pulse and Lance
+ok 164 - Onslaught final timestamp fatal incoming attack wins before final pulse and Lance
+  ---
+  duration_ms: 4.796373
+  type: 'test'
+  ...
+# Subtest: actual solid wall stops forward travel after a paid pulse and emits only one Lance
+ok 165 - actual solid wall stops forward travel after a paid pulse and emits only one Lance
+  ---
+  duration_ms: 12.168751
+  type: 'test'
+  ...
+# Subtest: Lance uses one mixed packet, one critical draw and exact180 range without physical-double scaling
+ok 166 - Lance uses one mixed packet, one critical draw and exact180 range without physical-double scaling
+  ---
+  duration_ms: 20.122114
+  type: 'test'
+  ...
+# Subtest: pending held Onslaught cancels on early release and cannot become a resource waiting queue
+ok 167 - pending held Onslaught cancels on early release and cannot become a resource waiting queue
+  ---
+  duration_ms: 6.1649
+  type: 'test'
+  ...
+# Subtest: accepted channel rank/cost/damage snapshot survives a later paid growth change
+ok 168 - accepted channel rank/cost/damage snapshot survives a later paid growth change
+  ---
+  duration_ms: 54.872612
+  type: 'test'
+  ...
+# Subtest: arrival freezes Banner/heal and rejected Onslaught; accepted held Onslaught breaks arrival safety
+ok 169 - arrival freezes Banner/heal and rejected Onslaught; accepted held Onslaught breaks arrival safety
+  ---
+  duration_ms: 10.779678
+  type: 'test'
+  ...
+# Subtest: ordinary committed sync preserves accepted channel and transient fields; explicit rest clears offense but preserves RNG
+ok 170 - ordinary committed sync preserves accepted channel and transient fields; explicit rest clears offense but preserves RNG
+  ---
+  duration_ms: 8.241994
+  type: 'test'
+  ...
+# Subtest: the safety-cancel interface cannot upgrade capture loss into a rewarding combat release
+ok 171 - the safety-cancel interface cannot upgrade capture loss into a rewarding combat release
+  ---
+  duration_ms: 17.171541
+  type: 'test'
+  ...
+# Subtest: real key press/frame/checkpoint charges Onslaught once; OS repeat/hold does not restart
+ok 172 - real key press/frame/checkpoint charges Onslaught once; OS repeat/hold does not restart
+  ---
+  duration_ms: 2155.948371
+  type: 'test'
+  ...
+# Subtest: actual release after paid pulse resolves exactly one Lance and persists stop
+ok 173 - actual release after paid pulse resolves exactly one Lance and persists stop
+  ---
+  duration_ms: 283.813758
+  type: 'test'
+  ...
+# Subtest: actual menu cancels paid channel with no Lance and waits for checkpoint
+ok 174 - actual menu cancels paid channel with no Lance and waits for checkpoint
+  ---
+  duration_ms: 302.900407
+  type: 'test'
+  ...
+# Subtest: actual blur cancels paid channel with no Lance and waits for checkpoint
+ok 175 - actual blur cancels paid channel with no Lance and waits for checkpoint
+  ---
+  duration_ms: 221.869702
+  type: 'test'
+  ...
+# Subtest: actual visibility cancels paid channel with no Lance and waits for checkpoint
+ok 176 - actual visibility cancels paid channel with no Lance and waits for checkpoint
+  ---
+  duration_ms: 233.88272
+  type: 'test'
+  ...
+# Subtest: release during delayed accepted-action save is safety cancellation, never late Lance or duplicate stamina
+ok 177 - release during delayed accepted-action save is safety cancellation, never late Lance or duplicate stamina
+  ---
+  duration_ms: 210.132377
+  type: 'test'
+  ...
+# Subtest: failed channel acceptance checkpoint closes gate and never resumes or fabricates a refund
+ok 178 - failed channel acceptance checkpoint closes gate and never resumes or fabricates a refund
+  ---
+  duration_ms: 105.298777
+  type: 'test'
+  ...
+# Subtest: UI-focused Expert key and OSrepeat leak no resources or pulses; canvas press works afterward
+ok 179 - UI-focused Expert key and OSrepeat leak no resources or pulses; canvas press works afterward
+  ---
+  duration_ms: 120.93144
+  type: 'test'
+  ...
+# Subtest: finite Banner touch press followed by normal up casts once with physical key unneeded
+ok 180 - finite Banner touch press followed by normal up casts once with physical key unneeded
+  ---
+  duration_ms: 154.757444
+  type: 'test'
+  ...
+# Subtest: early Onslaught touch release cancels undelivered pulse, not a cast and refund
+ok 181 - early Onslaught touch release cancels undelivered pulse, not a cast and refund
+  ---
+  duration_ms: 48.800431
+  type: 'test'
+  ...
+# Subtest: mouse capture loss after normal mouseup is not a second safety end
+ok 182 - mouse capture loss after normal mouseup is not a second safety end
+  ---
+  duration_ms: 226.595446
+  type: 'test'
+  ...
+# Subtest: actual trainer UI waits for committed checkpoint and quotes one-use promotion revision/fee
+ok 183 - actual trainer UI waits for committed checkpoint and quotes one-use promotion revision/fee
+  ---
+  duration_ms: 420.522002
+  type: 'test'
+  ...
+# Subtest: actual action-slot view carries displayed CAS and revision, keeps unbound keys, and rejects replay
+ok 184 - actual action-slot view carries displayed CAS and revision, keeps unbound keys, and rejects replay
+  ---
+  duration_ms: 282.177713
+  type: 'test'
+  ...
+# Subtest: closing a trainer loading panel while save is delayed does not reopen its stale UI
+ok 185 - closing a trainer loading panel while save is delayed does not reopen its stale UI
+  ---
+  duration_ms: 111.953429
+  type: 'test'
+  ...
+# Subtest: interaction during channel consumes cancellation and does not execute an old nearby interaction later
+ok 186 - interaction during channel consumes cancellation and does not execute an old nearby interaction later
+  ---
+  duration_ms: 240.408618
+  type: 'test'
+  ...
+# Subtest: finite Expert input during short store busy casts exactly once after commit, even after keyup
+ok 187 - finite Expert input during short store busy casts exactly once after commit, even after keyup
+  ---
+  duration_ms: 199.440938
+  type: 'test'
+  ...
+# Subtest: Expert Digit2 expires after 150ms with no resource or CD charge
+ok 188 - Expert Digit2 expires after 150ms with no resource or CD charge
+  ---
+  duration_ms: 125.591761
+  type: 'test'
+  ...
+# Subtest: Expert Digit3 expires after 150ms with no resource or CD charge
+ok 189 - Expert Digit3 expires after 150ms with no resource or CD charge
+  ---
+  duration_ms: 104.047018
+  type: 'test'
+  ...
+# Subtest: held Expert input during short save starts once and OSrepeat never extends expiry
+ok 190 - held Expert input during short save starts once and OSrepeat never extends expiry
+  ---
+  duration_ms: 191.65965
+  type: 'test'
+  ...
+# Subtest: Onslaught keyup during waiting save cancels unpaid input with no Lance
+ok 191 - Onslaught keyup during waiting save cancels unpaid input with no Lance
+  ---
+  duration_ms: 123.074962
+  type: 'test'
+  ...
+# Subtest: pending unpaid Expert is cancelled by real menu event
+ok 192 - pending unpaid Expert is cancelled by real menu event
+  ---
+  duration_ms: 103.846304
+  type: 'test'
+  ...
+# Subtest: pending unpaid Expert is cancelled by real blur event
+ok 193 - pending unpaid Expert is cancelled by real blur event
+  ---
+  duration_ms: 107.346727
+  type: 'test'
+  ...
+# Subtest: pending unpaid Expert is cancelled by real visibility event
+ok 194 - pending unpaid Expert is cancelled by real visibility event
+  ---
+  duration_ms: 112.149521
+  type: 'test'
+  ...
+# Subtest: pending unpaid Expert is cancelled by real focusin event
+ok 195 - pending unpaid Expert is cancelled by real focusin event
+  ---
+  duration_ms: 97.770785
+  type: 'test'
+  ...
+# Subtest: pending unpaid Expert is cancelled by real pointercancel event
+ok 196 - pending unpaid Expert is cancelled by real pointercancel event
+  ---
+  duration_ms: 102.921807
+  type: 'test'
+  ...
+# Subtest: new KeyJ cancels previous unpaid Expert intent
+ok 197 - new KeyJ cancels previous unpaid Expert intent
+  ---
+  duration_ms: 182.989942
+  type: 'test'
+  ...
+# Subtest: new ShiftLeft cancels previous unpaid Expert intent
+ok 198 - new ShiftLeft cancels previous unpaid Expert intent
+  ---
+  duration_ms: 105.938355
+  type: 'test'
+  ...
+# Subtest: new KeyW cancels previous unpaid Expert intent
+ok 199 - new KeyW cancels previous unpaid Expert intent
+  ---
+  duration_ms: 96.264998
+  type: 'test'
+  ...
+# Subtest: new KeyF cancels previous unpaid Expert intent
+ok 200 - new KeyF cancels previous unpaid Expert intent
+  ---
+  duration_ms: 96.624262
+  type: 'test'
+  ...
+# Subtest: new KeyR cancels previous unpaid Expert intent
+ok 201 - new KeyR cancels previous unpaid Expert intent
+  ---
+  duration_ms: 106.427638
+  type: 'test'
+  ...
+# Subtest: new Expert skill replaces old waiting skill rather than firing both
+ok 202 - new Expert skill replaces old waiting skill rather than firing both
+  ---
+  duration_ms: 145.648017
+  type: 'test'
+  ...
+# Subtest: fresh Expert press immediately after menu close drains empty safety request instead of being swallowed
+ok 203 - fresh Expert press immediately after menu close drains empty safety request instead of being swallowed
+  ---
+  duration_ms: 158.283115
+  type: 'test'
+  ...
+# Subtest: fresh finite touch during save survives normal up and automatic capture loss once
+ok 204 - fresh finite touch during save survives normal up and automatic capture loss once
+  ---
+  duration_ms: 153.265983
+  type: 'test'
+  ...
+# Subtest: failed real delayed checkpoint cancels pending Expert without cost and retains original saved state
+ok 205 - failed real delayed checkpoint cancels pending Expert without cost and retains original saved state
+  ---
+  duration_ms: 98.092675
+  type: 'test'
+  ...
+# Subtest: real queued controls commit invalidates press captured with previous binding map
+ok 206 - real queued controls commit invalidates press captured with previous binding map
+  ---
+  duration_ms: 137.385075
+  type: 'test'
+  ...
+# Subtest: real queued slot edit cannot apply old press to a changed assignment
+ok 207 - real queued slot edit cannot apply old press to a changed assignment
+  ---
+  duration_ms: 133.465392
+  type: 'test'
+  ...
+# Subtest: guard toggle during pending save cancels Expert and toggles only once under OS repeat
+ok 208 - guard toggle during pending save cancels Expert and toggles only once under OS repeat
+  ---
+  duration_ms: 158.343029
+  type: 'test'
+  ...
+# Subtest: unlearned available trainer row does not misleadingly label itself selection forbidden
+ok 209 - unlearned available trainer row does not misleadingly label itself selection forbidden
+  ---
+  duration_ms: 175.015971
+  type: 'test'
+  ...
+# Subtest: real battle rebuild invalidates pending Expert even if region/life values match
+ok 210 - real battle rebuild invalidates pending Expert even if region/life values match
+  ---
+  duration_ms: 95.396985
+  type: 'test'
+  ...
+# Subtest: real concurrent store conflict cancels pending Expert and never charges stale state
+ok 211 - real concurrent store conflict cancels pending Expert and never charges stale state
+  ---
+  duration_ms: 169.529525
+  type: 'test'
+  ...
+# Subtest: finite touch capture loss before release cancels a waiting Expert cast
+ok 212 - finite touch capture loss before release cancels a waiting Expert cast
+  ---
+  duration_ms: 137.578347
+  type: 'test'
+  ...
+# Subtest: normal finite mouse release during save and automatic capture loss cast exactly once
+ok 213 - normal finite mouse release during save and automatic capture loss cast exactly once
+  ---
+  duration_ms: 258.75595
+  type: 'test'
+  ...
+# Subtest: real r11_silence key/frame has matching toast and visible/aria hotbar, no payment or cooldown, and clears on expiry
+ok 214 - real r11_silence key/frame has matching toast and visible/aria hotbar, no payment or cooldown, and clears on expiry
+  ---
+  duration_ms: 375.571399
+  type: 'test'
+  ...
+# Subtest: real r11_stun key/frame has matching toast and visible/aria hotbar, no payment or cooldown, and clears on expiry
+ok 215 - real r11_stun key/frame has matching toast and visible/aria hotbar, no payment or cooldown, and clears on expiry
+  ---
+  duration_ms: 261.750365
+  type: 'test'
+  ...
+# Subtest: real r11_disarm key/frame has matching toast and visible/aria hotbar, no payment or cooldown, and clears on expiry
+ok 216 - real r11_disarm key/frame has matching toast and visible/aria hotbar, no payment or cooldown, and clears on expiry
+  ---
+  duration_ms: 394.472178
+  type: 'test'
+  ...
+# Subtest: real trainer explains successful heal contact and silence/stun restriction without removing the cleanse inventory
+ok 217 - real trainer explains successful heal contact and silence/stun restriction without removing the cleanse inventory
+  ---
+  duration_ms: 245.529916
+  type: 'test'
+  ...
+# Subtest: real hotbar uses runtime quote for resource/CD failures and does not claim another status blocks unrelated actions
+ok 218 - real hotbar uses runtime quote for resource/CD failures and does not claim another status blocks unrelated actions
+  ---
+  duration_ms: 70.656752
+  type: 'test'
+  ...
+# Subtest: real acceptance→critical checkpoint→controller/save→load keeps paid channel and RNG record without resuming offense
+ok 219 - real acceptance→critical checkpoint→controller/save→load keeps paid channel and RNG record without resuming offense
+  ---
+  duration_ms: 2339.751778
+  type: 'test'
+  ...
+# Subtest: paid v4 state travels and arrival load freezes resources/CDs/buffs/status ticks, preserving exact status schedule
+ok 220 - paid v4 state travels and arrival load freezes resources/CDs/buffs/status ticks, preserving exact status schedule
+  ---
+  duration_ms: 276.547821
+  type: 'test'
+  ...
+# Subtest: explicit death/retry retains all paid cooldowns and RNG, clears temporary effects, revives once; actual rest alone resets CDs
+ok 221 - explicit death/retry retains all paid cooldowns and RNG, clears temporary effects, revives once; actual rest alone resets CDs
+  ---
+  duration_ms: 497.183918
+  type: 'test'
+  ...
+# Subtest: checkpoint: omitted optional recovery preserves prior RNG/CD/status rather than resetting
+ok 222 - checkpoint: omitted optional recovery preserves prior RNG/CD/status rather than resetting
+  ---
+  duration_ms: 196.337951
+  type: 'test'
+  ...
+# Subtest: travel: omitted optional recovery preserves prior RNG/CD/status rather than resetting
+ok 223 - travel: omitted optional recovery preserves prior RNG/CD/status rather than resetting
+  ---
+  duration_ms: 212.975028
+  type: 'test'
+  ...
+# Subtest: settleCombat: omitted optional recovery preserves prior RNG/CD/status rather than resetting
+ok 224 - settleCombat: omitted optional recovery preserves prior RNG/CD/status rather than resetting
+  ---
+  duration_ms: 194.61123
+  type: 'test'
+  ...
+# Subtest: openChest: omitted optional recovery preserves prior RNG/CD/status rather than resetting
+ok 225 - openChest: omitted optional recovery preserves prior RNG/CD/status rather than resetting
+  ---
+  duration_ms: 1567.416939
+  type: 'test'
+  ...
+# Subtest: drinkPotion: omitted optional recovery preserves prior RNG/CD/status rather than resetting
+ok 226 - drinkPotion: omitted optional recovery preserves prior RNG/CD/status rather than resetting
+  ---
+  duration_ms: 174.706672
+  type: 'test'
+  ...
+# Subtest: checkpoint: explicit malformed recovery null fails without mutation
+ok 227 - checkpoint: explicit malformed recovery null fails without mutation
+  ---
+  duration_ms: 160.794699
+  type: 'test'
+  ...
+# Subtest: checkpoint: explicit malformed recovery {} fails without mutation
+ok 228 - checkpoint: explicit malformed recovery {} fails without mutation
+  ---
+  duration_ms: 199.177389
+  type: 'test'
+  ...
+# Subtest: checkpoint: explicit malformed recovery {"version":2,"cooldowns":{},"lock":0,"manaDelay":0,"staminaDelay":0,"invuln":0,"potionCooldown":0,"regenBuff":null,"innerFlame":null,"procCooldowns":{},"procCooldownRanks":{},"negativeStatuses":{},"combatRng":{"state":0,"draws":-1}} fails without mutation
+ok 229 - checkpoint: explicit malformed recovery {"version":2,"cooldowns":{},"lock":0,"manaDelay":0,"staminaDelay":0,"invuln":0,"potionCooldown":0,"regenBuff":null,"innerFlame":null,"procCooldowns":{},"procCooldownRanks":{},"negativeStatuses":{},"combatRng":{"state":0,"draws":-1}} fails without mutation
+  ---
+  duration_ms: 190.048214
+  type: 'test'
+  ...
+# Subtest: travel: explicit malformed recovery null fails without mutation
+ok 230 - travel: explicit malformed recovery null fails without mutation
+  ---
+  duration_ms: 239.304598
+  type: 'test'
+  ...
+# Subtest: travel: explicit malformed recovery {} fails without mutation
+ok 231 - travel: explicit malformed recovery {} fails without mutation
+  ---
+  duration_ms: 205.841074
+  type: 'test'
+  ...
+# Subtest: travel: explicit malformed recovery {"version":2,"cooldowns":{},"lock":0,"manaDelay":0,"staminaDelay":0,"invuln":0,"potionCooldown":0,"regenBuff":null,"innerFlame":null,"procCooldowns":{},"procCooldownRanks":{},"negativeStatuses":{},"combatRng":{"state":0,"draws":-1}} fails without mutation
+ok 232 - travel: explicit malformed recovery {"version":2,"cooldowns":{},"lock":0,"manaDelay":0,"staminaDelay":0,"invuln":0,"potionCooldown":0,"regenBuff":null,"innerFlame":null,"procCooldowns":{},"procCooldownRanks":{},"negativeStatuses":{},"combatRng":{"state":0,"draws":-1}} fails without mutation
+  ---
+  duration_ms: 170.333249
+  type: 'test'
+  ...
+# Subtest: settleCombat: explicit malformed recovery null fails without mutation
+ok 233 - settleCombat: explicit malformed recovery null fails without mutation
+  ---
+  duration_ms: 216.773214
+  type: 'test'
+  ...
+# Subtest: settleCombat: explicit malformed recovery {} fails without mutation
+ok 234 - settleCombat: explicit malformed recovery {} fails without mutation
+  ---
+  duration_ms: 197.049721
+  type: 'test'
+  ...
+# Subtest: settleCombat: explicit malformed recovery {"version":2,"cooldowns":{},"lock":0,"manaDelay":0,"staminaDelay":0,"invuln":0,"potionCooldown":0,"regenBuff":null,"innerFlame":null,"procCooldowns":{},"procCooldownRanks":{},"negativeStatuses":{},"combatRng":{"state":0,"draws":-1}} fails without mutation
+ok 235 - settleCombat: explicit malformed recovery {"version":2,"cooldowns":{},"lock":0,"manaDelay":0,"staminaDelay":0,"invuln":0,"potionCooldown":0,"regenBuff":null,"innerFlame":null,"procCooldowns":{},"procCooldownRanks":{},"negativeStatuses":{},"combatRng":{"state":0,"draws":-1}} fails without mutation
+  ---
+  duration_ms: 180.041342
+  type: 'test'
+  ...
+# Subtest: drinkPotion: explicit malformed recovery null fails without mutation
+ok 236 - drinkPotion: explicit malformed recovery null fails without mutation
+  ---
+  duration_ms: 189.82702
+  type: 'test'
+  ...
+# Subtest: drinkPotion: explicit malformed recovery {} fails without mutation
+ok 237 - drinkPotion: explicit malformed recovery {} fails without mutation
+  ---
+  duration_ms: 193.368919
+  type: 'test'
+  ...
+# Subtest: drinkPotion: explicit malformed recovery {"version":2,"cooldowns":{},"lock":0,"manaDelay":0,"staminaDelay":0,"invuln":0,"potionCooldown":0,"regenBuff":null,"innerFlame":null,"procCooldowns":{},"procCooldownRanks":{},"negativeStatuses":{},"combatRng":{"state":0,"draws":-1}} fails without mutation
+ok 238 - drinkPotion: explicit malformed recovery {"version":2,"cooldowns":{},"lock":0,"manaDelay":0,"staminaDelay":0,"invuln":0,"potionCooldown":0,"regenBuff":null,"innerFlame":null,"procCooldowns":{},"procCooldownRanks":{},"negativeStatuses":{},"combatRng":{"state":0,"draws":-1}} fails without mutation
+  ---
+  duration_ms: 168.076263
+  type: 'test'
+  ...
+# Subtest: omitted potion recovery cannot bypass an already-paid potion cooldown
+ok 239 - omitted potion recovery cannot bypass an already-paid potion cooldown
+  ---
+  duration_ms: 199.3794
+  type: 'test'
+  ...
+# Subtest: checkpoint: old life cannot submit an omission report to replace the current paid state
+ok 240 - checkpoint: old life cannot submit an omission report to replace the current paid state
+  ---
+  duration_ms: 194.356173
+  type: 'test'
+  ...
+# Subtest: travel: old life cannot submit an omission report to replace the current paid state
+ok 241 - travel: old life cannot submit an omission report to replace the current paid state
+  ---
+  duration_ms: 186.213458
+  type: 'test'
+  ...
+# Subtest: settleCombat: old life cannot submit an omission report to replace the current paid state
+ok 242 - settleCombat: old life cannot submit an omission report to replace the current paid state
+  ---
+  duration_ms: 155.663997
+  type: 'test'
+  ...
+# Subtest: pre-head and uncertain head save failures never merge speculative channel resources or resume offense
+ok 243 - pre-head and uncertain head save failures never merge speculative channel resources or resume offense
+  ---
+  duration_ms: 428.617363
+  type: 'test'
+  ...
+# Subtest: status rules restore exact partial schedule and an actual cleanse removes it through a saved handler
+ok 244 - status rules restore exact partial schedule and an actual cleanse removes it through a saved handler
+  ---
+  duration_ms: 220.996668
+  type: 'test'
+  ...
+# Subtest: accepted rank1 Guilt keeps its1.5s paid proc after paused rank3 purchases and saves source-rank metadata
+ok 245 - accepted rank1 Guilt keeps its1.5s paid proc after paused rank3 purchases and saves source-rank metadata
+  ---
+  duration_ms: 297.509271
+  type: 'test'
+  ...
+# Subtest: actual rest reducer synchronizes resources and every recovery field, clearing only its transient action state
+ok 246 - actual rest reducer synchronizes resources and every recovery field, clearing only its transient action state
+  ---
+  duration_ms: 79.624022
+  type: 'test'
+  ...
+# Subtest: ordinary committed checkpoint refreshes pools/stats without restarting or clearing action, skill cooldowns or intent
+ok 247 - ordinary committed checkpoint refreshes pools/stats without restarting or clearing action, skill cooldowns or intent
+  ---
+  duration_ms: 19.437854
+  type: 'test'
+  ...
+# Subtest: default sync preserves in-flight timing even when committed recovery contains different values
+ok 248 - default sync preserves in-flight timing even when committed recovery contains different values
+  ---
+  duration_ms: 23.727383
+  type: 'test'
+  ...
+# Subtest: reset maps saved lock to live recoveryLock and clones cooldown values rather than aliasing the save
+ok 249 - reset maps saved lock to live recoveryLock and clones cooldown values rather than aliasing the save
+  ---
+  duration_ms: 9.775587
+  type: 'test'
+  ...
+# Subtest: repeated committed rest synchronization is idempotent and leaves encounter identity and progress untouched
+ok 250 - repeated committed rest synchronization is idempotent and leaves encounter identity and progress untouched
+  ---
+  duration_ms: 18.818582
+  type: 'test'
+  ...
+# Subtest: absent battle/untrained vitals are no-ops and reset cannot silently invent missing saved recovery
+ok 251 - absent battle/untrained vitals are no-ops and reset cannot silently invent missing saved recovery
+  ---
+  duration_ms: 5.556724
+  type: 'test'
+  ...
+# Subtest: invalid committed character fails before mutating live resources
+ok 252 - invalid committed character fails before mutating live resources
+  ---
+  duration_ms: 13.226985
+  type: 'test'
+  ...
+# Subtest: success-only caller contract leaves live battle untouched after an actual rest save failure
+ok 253 - success-only caller contract leaves live battle untouched after an actual rest save failure
+  ---
+  duration_ms: 30.59549
+  type: 'test'
+  ...
+1..253
+# tests 253
+# suites 0
+# pass 253
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 26830.42592

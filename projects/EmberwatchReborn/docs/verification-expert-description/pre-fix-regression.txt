@@ -1,0 +1,394 @@
+✖ actual trainer cleansing_touch missing base shows conditional reference values without granting runtime effects (70.260861ms)
+✖ actual trainer turn_undead missing base shows conditional reference values without granting runtime effects (47.156441ms)
+✖ actual trainer banner_of_protection missing base shows conditional reference values without granting runtime effects (39.905749ms)
+✖ actual trainer banner_of_zeal missing base shows conditional reference values without granting runtime effects (37.386396ms)
+✖ actual trainer zealous_lance missing base shows conditional reference values without granting runtime effects (37.565476ms)
+✖ actual trainer zealous_shield missing base shows conditional reference values without granting runtime effects (37.337703ms)
+✖ actual trainer flaming_wrath missing base shows conditional reference values without granting runtime effects (39.810556ms)
+✖ actual trainer punish_the_wicked missing base shows conditional reference values without granting runtime effects (38.062221ms)
+✖ actual trainer guilt_by_association missing base shows conditional reference values without granting runtime effects (37.412415ms)
+✔ cleansing_touch rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (81.474834ms)
+✔ turn_undead rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (87.311675ms)
+✔ turn_undead rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (75.531152ms)
+✔ turn_undead rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (70.754081ms)
+✔ banner_of_protection rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (71.995745ms)
+✔ banner_of_protection rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (72.898791ms)
+✔ banner_of_protection rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (73.124289ms)
+✔ banner_of_zeal rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (74.689869ms)
+✔ banner_of_zeal rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (71.946721ms)
+✔ banner_of_zeal rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (79.444185ms)
+✔ zealous_lance rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (75.051401ms)
+✔ zealous_lance rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (73.619112ms)
+✔ zealous_lance rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (73.128946ms)
+✔ zealous_shield rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (69.809984ms)
+✖ flaming_wrath rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (75.154286ms)
+✖ flaming_wrath rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (71.759991ms)
+✖ flaming_wrath rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (70.848573ms)
+✔ punish_the_wicked rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (83.954325ms)
+✔ punish_the_wicked rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (80.212699ms)
+✔ punish_the_wicked rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (77.277523ms)
+✔ guilt_by_association rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (70.429806ms)
+✔ guilt_by_association rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (67.176973ms)
+✔ guilt_by_association rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (65.289379ms)
+✖ inner_flame rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (63.976508ms)
+✖ inner_flame rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (68.249261ms)
+✖ inner_flame rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (69.155341ms)
+✖ inner_flame rank 4 next text equals the real purchased effect and leaves quote/cost gates intact (65.052894ms)
+✖ actual trainer preserves banner_of_protection exclusive lock while explaining banner_of_zeal (37.580999ms)
+✖ actual trainer preserves banner_of_zeal exclusive lock while explaining banner_of_protection (35.917692ms)
+✖ actual trainer preserves tier, points, max-rank, unknown-source and unmodified Adept boundaries (419.59525ms)
+✖ formatter never mutates frozen reference/runtime projections or converts unknown values to zero (7.523192ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 20
+ℹ fail 20
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3021.155625
+
+✖ failing tests:
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:40:54
+✖ actual trainer cleansing_touch missing base shows conditional reference values without granting runtime effects (70.260861ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /다음 참조 랭크값 · 기반 기술 필요/. Input:
+
+  '<div class="row"><strong>재 씻기</strong><span>전문가 · 0/1</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:cleansing_touch" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:43:79)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<div class="row"><strong>재 씻기</strong><span>전문가 · 0/1</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:cleansing_touch" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>',
+    expected: /다음 참조 랭크값 · 기반 기술 필요/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:40:54
+✖ actual trainer turn_undead missing base shows conditional reference values without granting runtime effects (47.156441ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /다음 참조 랭크값 · 기반 기술 필요/. Input:
+
+  '<div class="row"><strong>망자 태우기</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:turn_undead" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:43:79)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<div class="row"><strong>망자 태우기</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:turn_undead" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>',
+    expected: /다음 참조 랭크값 · 기반 기술 필요/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:40:54
+✖ actual trainer banner_of_protection missing base shows conditional reference values without granting runtime effects (39.905749ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /다음 참조 랭크값 · 기반 기술 필요/. Input:
+
+  '<div class="row"><strong>수호 깃발</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">깃발 지원 배타 분기 · 선택 후 반대 분기는 잠깁니다.</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:banner_of_protection" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:43:79)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<div class="row"><strong>수호 깃발</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">깃발 지원 배타 분기 · 선택 후 반대 분기는 잠깁니다.</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:banner_of_protection" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>',
+    expected: /다음 참조 랭크값 · 기반 기술 필요/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:40:54
+✖ actual trainer banner_of_zeal missing base shows conditional reference values without granting runtime effects (37.386396ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /다음 참조 랭크값 · 기반 기술 필요/. Input:
+
+  '<div class="row"><strong>격려 깃발</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">깃발 지원 배타 분기 · 선택 후 반대 분기는 잠깁니다.</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:banner_of_zeal" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:43:79)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<div class="row"><strong>격려 깃발</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">깃발 지원 배타 분기 · 선택 후 반대 분기는 잠깁니다.</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:banner_of_zeal" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>',
+    expected: /다음 참조 랭크값 · 기반 기술 필요/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:40:54
+✖ actual trainer zealous_lance missing base shows conditional reference values without granting runtime effects (37.565476ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /다음 참조 랭크값 · 기반 기술 필요/. Input:
+
+  '<div class="row"><strong>화염 선봉</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:zealous_lance" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:43:79)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<div class="row"><strong>화염 선봉</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:zealous_lance" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>',
+    expected: /다음 참조 랭크값 · 기반 기술 필요/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:40:54
+✖ actual trainer zealous_shield missing base shows conditional reference values without granting runtime effects (37.337703ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /다음 참조 랭크값 · 기반 기술 필요/. Input:
+
+  '<div class="row"><strong>진격 방벽</strong><span>전문가 · 0/1</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:zealous_shield" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:43:79)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<div class="row"><strong>진격 방벽</strong><span>전문가 · 0/1</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:zealous_shield" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>',
+    expected: /다음 참조 랭크값 · 기반 기술 필요/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:40:54
+✖ actual trainer flaming_wrath missing base shows conditional reference values without granting runtime effects (39.810556ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /다음 참조 랭크값 · 기반 기술 필요/. Input:
+
+  '<div class="row"><strong>불꽃 반향</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 2</span><button data-action="skill:flaming_wrath" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:43:79)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<div class="row"><strong>불꽃 반향</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 2</span><button data-action="skill:flaming_wrath" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>',
+    expected: /다음 참조 랭크값 · 기반 기술 필요/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:40:54
+✖ actual trainer punish_the_wicked missing base shows conditional reference values without granting runtime effects (38.062221ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /다음 참조 랭크값 · 기반 기술 필요/. Input:
+
+  '<div class="row"><strong>틈새 응징</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 2</span><button data-action="skill:punish_the_wicked" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:43:79)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<div class="row"><strong>틈새 응징</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 2</span><button data-action="skill:punish_the_wicked" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>',
+    expected: /다음 참조 랭크값 · 기반 기술 필요/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:40:54
+✖ actual trainer guilt_by_association missing base shows conditional reference values without granting runtime effects (37.412415ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /다음 참조 랭크값 · 기반 기술 필요/. Input:
+
+  '<div class="row"><strong>퍼지는 응징</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 2</span><button data-action="skill:guilt_by_association" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:43:79)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<div class="row"><strong>퍼지는 응징</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 2</span><button data-action="skill:guilt_by_association" class="small" disabled>기반 기술을 먼저 훈련해야 합니다.</button></div>',
+    expected: /다음 참조 랭크값 · 기반 기술 필요/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:52:123
+✖ flaming_wrath rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (75.154286ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(text.includes(`주문 치명 확률 보너스 +${row.rankValues.spellCritChanceBonusPercent[rank-1]}%p`))
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:66:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:52:123
+✖ flaming_wrath rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (71.759991ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(text.includes(`주문 치명 확률 보너스 +${row.rankValues.spellCritChanceBonusPercent[rank-1]}%p`))
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:66:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:52:123
+✖ flaming_wrath rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (70.848573ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(text.includes(`주문 치명 확률 보너스 +${row.rankValues.spellCritChanceBonusPercent[rank-1]}%p`))
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:66:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:52:123
+✖ inner_flame rank 1 next text equals the real purchased effect and leaves quote/cost gates intact (63.976508ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(text.includes(`화염 저항 증가 +${row.rankValues.fireResistanceIncreasePercent[rank-1]}%p`))
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:62:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:52:123
+✖ inner_flame rank 2 next text equals the real purchased effect and leaves quote/cost gates intact (68.249261ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(text.includes(`화염 저항 증가 +${row.rankValues.fireResistanceIncreasePercent[rank-1]}%p`))
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:62:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:52:123
+✖ inner_flame rank 3 next text equals the real purchased effect and leaves quote/cost gates intact (69.155341ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(text.includes(`화염 저항 증가 +${row.rankValues.fireResistanceIncreasePercent[rank-1]}%p`))
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:62:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:52:123
+✖ inner_flame rank 4 next text equals the real purchased effect and leaves quote/cost gates intact (65.052894ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(text.includes(`화염 저항 증가 +${row.rankValues.fireResistanceIncreasePercent[rank-1]}%p`))
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:62:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:75:115
+✖ actual trainer preserves banner_of_protection exclusive lock while explaining banner_of_zeal (37.580999ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /참조 랭크값 · 반대 배타 분기 선택으로 적용 불가/. Input:
+
+  '<div class="row"><strong>격려 깃발</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">깃발 지원 배타 분기 · 선택 후 반대 분기는 잠깁니다.</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:banner_of_zeal" class="small" disabled>반대 배타 분기를 이미 선택했습니다. 현재 재분배는 지원하지 않습니다.</button></div>'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:78:52)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<div class="row"><strong>격려 깃발</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">깃발 지원 배타 분기 · 선택 후 반대 분기는 잠깁니다.</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:banner_of_zeal" class="small" disabled>반대 배타 분기를 이미 선택했습니다. 현재 재분배는 지원하지 않습니다.</button></div>',
+    expected: /참조 랭크값 · 반대 배타 분기 선택으로 적용 불가/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:75:115
+✖ actual trainer preserves banner_of_zeal exclusive lock while explaining banner_of_protection (35.917692ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /참조 랭크값 · 반대 배타 분기 선택으로 적용 불가/. Input:
+
+  '<div class="row"><strong>수호 깃발</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">깃발 지원 배타 분기 · 선택 후 반대 분기는 잠깁니다.</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:banner_of_protection" class="small" disabled>반대 배타 분기를 이미 선택했습니다. 현재 재분배는 지원하지 않습니다.</button></div>'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:78:52)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<div class="row"><strong>수호 깃발</strong><span>전문가 · 0/3</span></div><p class="effect">현재 미학습<br>다음 효과 정보 없음</p><p class="minor">깃발 지원 배타 분기 · 선택 후 반대 분기는 잠깁니다.</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">기술점수 3</span><button data-action="skill:banner_of_protection" class="small" disabled>반대 배타 분기를 이미 선택했습니다. 현재 재분배는 지원하지 않습니다.</button></div>',
+    expected: /참조 랭크값 · 반대 배타 분기 선택으로 적용 불가/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:81:1
+✖ actual trainer preserves tier, points, max-rank, unknown-source and unmodified Adept boundaries (419.59525ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /화염 저항 증가 \+50%p/. Input:
+
+  '<div class="row"><strong>가슴속 잿불</strong><span>전문가 · 4/4</span></div><p class="effect">현재 내면의 불꽃: 지속(초) 3 · 화염 피해 배율 1.25<br>다음 최대 랭크</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">최대 랭크</span><button data-action="skill:inner_flame" class="small" disabled>최대 랭크입니다.</button></div>'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:87:74)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<div class="row"><strong>가슴속 잿불</strong><span>전문가 · 4/4</span></div><p class="effect">현재 내면의 불꽃: 지속(초) 3 · 화염 피해 배율 1.25<br>다음 최대 랭크</p><p class="minor">참조 랭크표 기반 · 범위, 판정, 채널 결제와 미확인 수치는 Emberwatch 조정값입니다.</p><div class="row"><span class="minor">최대 랭크</span><button data-action="skill:inner_flame" class="small" disabled>최대 랭크입니다.</button></div>',
+    expected: /화염 저항 증가 \+50%p/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ../../../../../tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:94:1
+✖ formatter never mutates frozen reference/runtime projections or converts unknown values to zero (7.523192ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /범위 미확인/. Input:
+
+  '효과 정보 없음'
+
+      at TestContext.<anonymous> (file:///tmp/emberwatch-description-baseline-Zgm6MJ/tests/expert-description.test.mjs:96:52)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '효과 정보 없음',
+    expected: /범위 미확인/,
+    operator: 'match',
+    diff: 'simple'
+  }

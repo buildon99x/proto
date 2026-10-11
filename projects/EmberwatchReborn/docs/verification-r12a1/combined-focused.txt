@@ -1,0 +1,17 @@
+✔ actual release pause and title use the same single build label (2.403097ms)
+✔ actual candidate pause and title use the same single build label (0.93256ms)
+✔ optional read-only status registration reports the same build before and after loading (1.949517ms)
+✔ R12 app, project, index metadata and build kind share the same bounded release identity (0.373ms)
+✔ actual frozen R11b6 readers, writers and controllers fail closed across schema5 commits and resume exact recovered originals (1887.086172ms)
+✔ first earned B-to-W acceptance retains exact v4 original and independent resources/recovery (1932.630801ms)
+✔ failed W first-upgrade backup blocks queued input without acceptance or speculative epoch (279.070285ms)
+✔ uncertain first W head commits acceptance once; old captured action is not restamped (231.786047ms)
+✔ explicit pre-W recovery preserves latest W and exact earned B checkpoint without automatic load (194.246737ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4816.802292

@@ -1,0 +1,92 @@
+{
+  "originalCommit": "7240e49430ef34b08cc1f0ac332fb7912e135a4d",
+  "originalTree": "793e38bbe33a6c03d8abbf75df6c99f68be886c5",
+  "resources": [
+    {
+      "path": "app/src/assets/audio-fantasy.wav",
+      "bytes": 3271724,
+      "gitBlob": "ac7932fd070996ea8f9542c5697aaaab70b2ff47",
+      "originalRemoteFiles": [
+        "projects/Emberwatch/app/src/assets/audio-fantasy.wav"
+      ],
+      "classification": "exact-original-remote-blob"
+    },
+    {
+      "path": "app/src/assets/citadel.png",
+      "bytes": 1503690,
+      "gitBlob": "debb2e2068e94eed31ec639e4a7bdf15585ad594",
+      "originalRemoteFiles": [
+        "projects/Emberwatch/app/src/assets/citadel.png"
+      ],
+      "classification": "exact-original-remote-blob"
+    },
+    {
+      "path": "app/src/assets/fonts/EmberwatchKorean-Regular.woff",
+      "bytes": 1404016,
+      "gitBlob": "c7383bbacd23c22b0c55cd61d2ec87a3119e813e",
+      "originalRemoteFiles": [
+        "projects/Emberwatch/app/src/assets/fonts/EmberwatchKorean-Regular.woff"
+      ],
+      "classification": "exact-original-remote-blob"
+    },
+    {
+      "path": "app/src/assets/guardian.png",
+      "bytes": 1570261,
+      "gitBlob": "17aa73b7d133ef87a59c17d12f30fd9b9984b49d",
+      "originalRemoteFiles": [
+        "projects/Emberwatch/app/src/assets/guardian.png"
+      ],
+      "classification": "exact-original-remote-blob"
+    },
+    {
+      "path": "app/src/assets/hero.png",
+      "bytes": 1289949,
+      "gitBlob": "0dda35a2ab12e7139f0506443bf2703d117fcab4",
+      "originalRemoteFiles": [
+        "projects/Emberwatch/app/src/assets/hero.png"
+      ],
+      "classification": "exact-original-remote-blob"
+    },
+    {
+      "path": "app/src/assets/motion-hero.png",
+      "bytes": 6573396,
+      "gitBlob": "cb071c83a43ea089c8df74cc0a04b324f96bf4ea",
+      "originalRemoteFiles": [
+        "projects/Emberwatch/app/src/assets/motion-hero.png"
+      ],
+      "classification": "exact-original-remote-blob"
+    },
+    {
+      "path": "app/src/assets/motion-warrior-axe.png",
+      "bytes": 48027,
+      "gitBlob": "e3b1676f3d4ddbe315a54525b5ee9fce96a88a35",
+      "originalRemoteFiles": [
+        "projects/Emberwatch/app/src/assets/motion-warrior-axe.png"
+      ],
+      "classification": "exact-original-remote-blob"
+    },
+    {
+      "path": "docs/verification-r14a1/body-contact-walk.jpg",
+      "bytes": 259794,
+      "gitBlob": "6ce74692fe8fa7dbfcd0ad73c76d1267e576d61a",
+      "originalRemoteFiles": [],
+      "classification": "exclude-new-or-changed-binary"
+    },
+    {
+      "path": "docs/verification-r14a1/click-bran-no-dialog.jpg",
+      "bytes": 202316,
+      "gitBlob": "961b5d31dc035364f146458dc1937f8879530573",
+      "originalRemoteFiles": [],
+      "classification": "exclude-new-or-changed-binary"
+    },
+    {
+      "path": "docs/verification-r14a1/reload-click-controls.jpg",
+      "bytes": 254057,
+      "gitBlob": "8cd06fe7de3559ded506d691f7cffc30e8e87a8c",
+      "originalRemoteFiles": [],
+      "classification": "exclude-new-or-changed-binary"
+    }
+  ],
+  "excludedCaptureLibrary": "libfile_f6838aec787481919580f453cdaf9f13",
+  "note": "Excluded images remain in Library QA archive, not this Git checkpoint."
+}

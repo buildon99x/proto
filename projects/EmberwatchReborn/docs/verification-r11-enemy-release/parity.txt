@@ -1,0 +1,52 @@
+PASS boss line hit; dt=0.01
+PASS boss line hit; dt=0.02
+PASS boss line hit; dt=0.05
+PASS boss line hit; dt=0.25
+PASS boss line side-step miss; dt=0.01
+PASS boss line side-step miss; dt=0.02
+PASS boss line side-step miss; dt=0.05
+PASS boss line side-step miss; dt=0.25
+PASS boss line wall; dt=0.01
+PASS boss line wall; dt=0.02
+PASS boss line wall; dt=0.05
+PASS boss line wall; dt=0.25
+PASS boss line silence cancel; dt=0.01
+PASS boss line silence cancel; dt=0.02
+PASS boss line silence cancel; dt=0.05
+PASS boss line silence cancel; dt=0.25
+PASS boss sweep hit; dt=0.01
+PASS boss sweep hit; dt=0.02
+PASS boss sweep hit; dt=0.05
+PASS boss sweep hit; dt=0.25
+PASS boss sweep locked miss; dt=0.01
+PASS boss sweep locked miss; dt=0.02
+PASS boss sweep locked miss; dt=0.05
+PASS boss sweep locked miss; dt=0.25
+PASS circle hit and stun; dt=0.01
+PASS circle hit and stun; dt=0.02
+PASS circle hit and stun; dt=0.05
+PASS circle hit and stun; dt=0.25
+PASS circle locked miss; dt=0.01
+PASS circle locked miss; dt=0.02
+PASS circle locked miss; dt=0.05
+PASS circle locked miss; dt=0.25
+PASS older archer; dt=0.01
+PASS older archer; dt=0.02
+PASS older archer; dt=0.05
+PASS older archer; dt=0.25
+PASS old random boss circle; dt=0.01
+PASS old random boss circle; dt=0.02
+PASS old random boss circle; dt=0.05
+PASS old random boss circle; dt=0.25
+PASS old random boss cone; dt=0.01
+PASS old random boss cone; dt=0.02
+PASS old random boss cone; dt=0.05
+PASS old random boss cone; dt=0.25
+PASS player attack concurrent; dt=0.01
+PASS player attack concurrent; dt=0.02
+PASS player attack concurrent; dt=0.05
+PASS player attack concurrent; dt=0.25
+PASS 48 historical scenarios; 9156 frame-by-frame whole-state/event comparisons excluding only effects.
+Baseline 5192eeca1884cd28b46e3db486b334faec2b27a7; SHA256 833dd00d606f5a590cfe9501511b2a4ea86b83ea04949bf49226bc2c35057a59
+Candidate combat SHA256 a10cfef593a7dab15ad85753926924b9c4488d698a911d6e8b5e30e0914bf787
+PASS exact combat source equality after only the release-FX expression substitution.

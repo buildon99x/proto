@@ -1,0 +1,11 @@
+report: unchanged from W HEAD
+flushActionSafety: unchanged from W HEAD
+dispatch: unchanged from W HEAD
+checkpointPanel: unchanged from W HEAD
+wildernessActionButton: unchanged from W HEAD
+showWilderness: unchanged from W HEAD
+The first comparison used mutable HEAD after the integration owner advanced it
+and therefore falsely compared the guard-stripped loader to the newer loader
+that already included the guard. That comparison assertion failed; it was not
+an application test failure. The corrected verification pins original W ddee4c0
+and passes in ui-syntax-preservation.txt. No source change was made for this.

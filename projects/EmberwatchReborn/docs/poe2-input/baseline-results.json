@@ -1,0 +1,10 @@
+{
+  "shortTapLost": true,
+  "skillTapRetained": true,
+  "modelZeroDtCanStart": true,
+  "actionStartElapsed": 0,
+  "contactSeconds": 0.182,
+  "durationSeconds": 0.52,
+  "saveBusyBlocksSimulation": true,
+  "claims": "Handler/state observations only; not browser latency, audio, balance or POE2 timing."
+}

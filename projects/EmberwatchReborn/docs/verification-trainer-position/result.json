@@ -1,0 +1,36 @@
+{
+  "dateUtc": "2026-10-10",
+  "baseCommit": "128aae574de5d31f070b76191a7694340c8bdcce",
+  "node": "v24.19.0",
+  "focusedCommand": "node --test --test-concurrency=1 projects/EmberwatchReborn/app/tests/trainer-position.test.mjs projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs projects/EmberwatchReborn/app/tests/expert-description.test.mjs projects/EmberwatchReborn/app/tests/expert-promotion.test.mjs projects/EmberwatchReborn/app/tests/action-slots.test.mjs projects/EmberwatchReborn/app/tests/profile-load-ownership.test.mjs projects/EmberwatchReborn/app/tests/objective-ui.test.mjs projects/EmberwatchReborn/app/tests/dead-save-resume.test.mjs projects/EmberwatchReborn/app/tests/action-safety.test.mjs projects/EmberwatchReborn/app/tests/expert-save-input.test.mjs projects/EmberwatchReborn/app/tests/runtime-gate.test.mjs projects/EmberwatchReborn/app/tests/controls.test.mjs",
+  "focusedResults": {
+    "tests": 367,
+    "pass": 367,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "todo": 0,
+    "durationMs": 41494.16296,
+    "newTests": 43,
+    "retainedTests": 324
+  },
+  "counterfactual": {
+    "description": "Final new test file executed with unchanged base main.js in isolated /tmp copy; expected failures, no changed handlers stubbed.",
+    "tests": 43,
+    "pass": 24,
+    "fail": 19
+  },
+  "sha256": {
+    "app/src/main.js": "8d0c251fff1b32ee8dcf166f3b0c27996e5422d12fa6f0f0e469c5be87329e7f",
+    "app/tests/trainer-position.test.mjs": "9b1350f96c731d72b10ae6b85bef9d6c1e7d7a23db9ffbd7762a2b180f1f13be"
+  },
+  "registry": "blocked before execution: pnpm-home ENOENT",
+  "notRun": [
+    "full test aggregate",
+    "build",
+    "browser/native screen QA",
+    "remote push",
+    "Site deployment",
+    "Library upload"
+  ]
+}

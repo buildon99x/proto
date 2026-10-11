@@ -1,0 +1,23 @@
+{
+  "checkpoint": "R1",
+  "kind": "new_reimplementation",
+  "tests": {
+    "passed": 50,
+    "failed": 0,
+    "progression": 22,
+    "stateSave": 28,
+    "command": "npm test",
+    "type": "pure-model and actual transaction-handler tests; fixture objective and XP grants"
+  },
+  "syntax": "passed",
+  "original167Files": "Git blob and SHA256 matched",
+  "referenceCopies": "2 byte-identical",
+  "readReview": "no additional critical invariant or save defect found",
+  "monorepoRegistrySync": "failed: pnpm environment directory ENOENT; sparse root scripts/launcher absent",
+  "browser": "not_run",
+  "normalInputPlay": "not_run",
+  "visualAudio": "not_run",
+  "campaignRewardRoute": "not_connected",
+  "publicSite": "not_created",
+  "old425Inherited": false
+}

@@ -1,0 +1,10 @@
+
+> emberwatch-reborn@0.2.0-reimplementation.1 build
+> node scripts/build.mjs
+
+{
+  "files": 29,
+  "bytes": 15851632,
+  "output": "/workspace/shared/emberwatch-reimplementation-20261009/proto/projects/EmberwatchReborn/app/dist",
+  "gameplayAcceptance": "not_established_by_build"
+}

@@ -1,0 +1,26 @@
+✔ W entered: real floor connectivity and encounter gates conceal all future-room bodies (2778.866042ms)
+✔ W survey: real floor connectivity and encounter gates conceal all future-room bodies (164.74125ms)
+✔ W anchor: real floor connectivity and encounter gates conceal all future-room bodies (247.107159ms)
+✔ W calibrated: real floor connectivity and encounter gates conceal all future-room bodies (177.716742ms)
+✔ W chosen: real floor connectivity and encounter gates conceal all future-room bodies (201.123174ms)
+✔ W routed: real floor connectivity and encounter gates conceal all future-room bodies (181.632882ms)
+✔ W approach: real floor connectivity and encounter gates conceal all future-room bodies (171.34708ms)
+✔ W evidence: real floor connectivity and encounter gates conceal all future-room bodies (200.676269ms)
+✔ encounter gate still conceals a future actor even when a fixture supplies open collision (325.234675ms)
+✔ actual renderer hides locked keeper body but retains accessible unaggroed keeper (323.544659ms)
+✔ actual active LOS-broken foe body and committed warning remain visible, including flash0 (309.123435ms)
+✔ hideWhenCompleted hides hook shrine and evidence crystal, while completed durable landmarks remain (621.391275ms)
+✔ actual keeper return art and F candidate stay absent before defeat and appear immediately afterward (1047.95953ms)
+✔ only unavailable in-W portals leave F candidates; town locked-anchor and available return contracts remain (1107.542164ms)
+✔ nearby W labels are short and LOS-valid; full names remain in F hints and modal views (776.813277ms)
+✔ actual main suppresses nonessential labels during combat and residual hostile tells (1043.098174ms)
+✔ actual main does not place a quiet landmark label across the player silhouette (305.098744ms)
+✔ frozen state, live actors, map, attacks and progression stay unchanged through visibility and actual render (315.614197ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10449.479937

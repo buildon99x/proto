@@ -1,0 +1,9 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';
+import {controlPreset,createInputRouter} from '/workspace/shared/emberwatch-incident-20261010-1258/recovered-source/projects/EmberwatchReborn/app/src/controls.js';
+import {createState,reduceRuntime} from '/workspace/shared/emberwatch-incident-20261010-1258/recovered-source/projects/EmberwatchReborn/app/src/state.js';
+import {createBattle,stepBattle} from '/workspace/shared/emberwatch-incident-20261010-1258/recovered-source/projects/EmberwatchReborn/app/src/combat.js';
+import {createRuntimeGate} from '/workspace/shared/emberwatch-incident-20261010-1258/recovered-source/projects/EmberwatchReborn/app/src/runtime-gate.js';
+const c=controlPreset(),r=createInputRouter();r.down('Mouse0',c);r.up('Mouse0');const shortTap=r.snapshot(c);assert.equal(shortTap.attack,false);
+const trained=reduceRuntime(createState(),{type:'trainStarter',position:{x:260,y:325}});assert.equal(trained.ok,true);const state=trained.state;
+const b=createBattle(state),p={...b.p},events=stepBattle(b,state.character,0,{attack:true,aim:{x:b.p.x+100,y:b.p.y}});assert.ok(b.p.action);assert.equal(b.p.action.elapsed,0);assert.equal(b.p.action.fired,false);assert.ok(events.some(e=>e.type==='actionStarted'));
+const result={shortTapLost:!shortTap.attack,skillTapRetained:((()=>{r.down('KeyQ',c);r.up('KeyQ');return r.snapshot(c).hammer;})()),modelZeroDtCanStart:true,actionStartElapsed:b.p.action.elapsed,contactSeconds:b.p.action.contact,durationSeconds:b.p.action.duration,saveBusyBlocksSimulation:!createRuntimeGate().canStep({hasBattle:true,paused:false,busy:true,hidden:false,focused:true}),claims:'Handler/state observations only; not browser latency, audio, balance or POE2 timing.'};fs.writeFileSync(new URL('./baseline-results.json',import.meta.url),JSON.stringify(result,null,2)+'\n');console.log(result);

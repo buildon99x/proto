@@ -1,0 +1,270 @@
+✔ planted pre-contact and exact contact; only next segment walks, dt=0.016666666666666666 (48.814236ms)
+✔ planted pre-contact and exact contact; only next segment walks, dt=0.02 (11.86498ms)
+✔ planted pre-contact and exact contact; only next segment walks, dt=0.05 (8.480866ms)
+✔ a contact-crossing external frame walks only its post-contact subsegment (8.342079ms)
+✔ zero dt accepts input without movement, contact, elapsed time or early recast (12.278175ms)
+✖ single moving attack preserves cadence, damage, costs and one contact/cast, dt=0.016666666666666666 (97.665887ms)
+✔ held moving attack preserves cadence, damage, costs and one contact/cast, dt=0.016666666666666666 (87.829985ms)
+✖ single moving attack preserves cadence, damage, costs and one contact/cast, dt=0.02 (65.594959ms)
+✔ held moving attack preserves cadence, damage, costs and one contact/cast, dt=0.02 (71.718474ms)
+✖ single moving attack preserves cadence, damage, costs and one contact/cast, dt=0.05 (28.687655ms)
+✔ held moving attack preserves cadence, damage, costs and one contact/cast, dt=0.05 (67.887389ms)
+✖ contact range and aim use original planted position and cannot sweep a second target during recovery (21.656115ms)
+✔ full recovery debt persists while moving; held attack begins only after original duration (10.563174ms)
+✔ recovery uses normalized existing move speed for {"x":1,"y":0} (6.402253ms)
+✔ recovery uses normalized existing move speed for {"x":3,"y":4} (5.765376ms)
+✔ recovery uses normalized existing move speed for {"x":-3,"y":-4} (5.158083ms)
+✔ recovery collision matches ordinary movement at wall and diagonal slide (25.804983ms)
+✔ hitstop slows movement and recovery together, never enables windup, dt=0.016666666666666666 (6.354353ms)
+✔ hitstop slows movement and recovery together, never enables windup, dt=0.02 (7.853473ms)
+✔ hitstop slows movement and recovery together, never enables windup, dt=0.05 (12.655822ms)
+✔ actual contact hitstop is respected identically by stationary and recovery-moving attacks (14.937727ms)
+✔ stun in windup preserves interruption/debt contract (5.809913ms)
+✔ disarm in windup preserves interruption/debt contract (4.834191ms)
+✔ stun in recovery preserves interruption/debt contract (7.269945ms)
+✔ disarm in recovery preserves interruption/debt contract (7.283756ms)
+✔ slow uses existing multiplier during recovery without changing attack timing (6.632907ms)
+✔ fatal real projectile clears recovery and later frames cannot move, hit or attack (6.817532ms)
+✔ moving late recovery queues hammer once ahead of held attack (9.906507ms)
+✔ moving late recovery queues charge once ahead of held attack (8.952116ms)
+✔ moving recovery preserves opposite movement queued-intent cancellation (12.689948ms)
+✔ moving recovery preserves 90-degree aim queued-intent cancellation (12.452644ms)
+✔ moving recovery preserves guard queued-intent cancellation (10.492799ms)
+✔ guard cannot cancel the attack or activate early during recovery walking (8.964775ms)
+✔ latest explicit skill keeps single-slot replacement while walking (9.587062ms)
+✔ hitstop expiry still drops the .18-second buffer while recovery can move (11.376103ms)
+✔ charge windup/recovery never gains free walking (12.327829ms)
+✔ hammer windup/recovery never gains free walking (14.819751ms)
+✔ Onslaught remains locked to its own channel motion and payment/pulse contract (41.32548ms)
+✔ real held keyboard router can walk after contact without a second attack press (9.945856ms)
+✔ existing recovery pose and locomotion lock remain intact; no invented animation swap (7.307511ms)
+✔ checkpoint/store/reload retains moving attack recovery debt and cannot replay its paid contact (15.256566ms)
+✔ menu safety cancellation preserves mace object and debt, clears queued intent (9.130192ms)
+✔ blur safety cancellation preserves mace object and debt, clears queued intent (10.834839ms)
+✔ hidden safety cancellation preserves mace object and debt, clears queued intent (9.462115ms)
+ℹ tests 44
+ℹ suites 0
+ℹ pass 40
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1041.827795
+
+✖ failing tests:
+
+test at app/tests/attack-recovery-movement.test.mjs:61:63
+✖ single moving attack preserves cadence, damage, costs and one contact/cast, dt=0.016666666666666666 (97.665887ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+  
+    [
+      {
+        name: 'slash',
+        type: 'sound'
+      },
+  ...
+      },
+  +   {
+  +     foot: 'right',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'left',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'right',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'left',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'right',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'left',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'right',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   }
+    ]
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-attack-recovery-prototype-20261010/app/tests/attack-recovery-movement.test.mjs:70:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { type: 'sound', name: 'slash' }, { type: 'actionStarted', id: 'mace_swing', castId: 1, manaCost: 0, staminaCost: 0 }, { type: 'combatRandom', state: 420989072, draws: 1 }, { type: 'combatRandom', state: 2459796143, draws: 2 }, { type: 'sound', name: 'hit', x: 340, y: 300 }, { type: 'enemyHit', id: 'target', hit: true, damage: 12, rawDamage: 12, critical: false, defeated: false, wasDisabled: false, position: [Object], context: [Object], components: [Array] }, { type: 'sound', name: 'footstep', foot: 'right' }, { type: 'sound', name: 'footstep', foot: 'left' }, { type: 'sound', name: 'footstep', foot: 'right' }, { type: 'sound', name: 'footstep', foot: 'left' }, { type: 'sound', name: 'footstep', foot: 'right' }, { type: 'sound', name: 'footstep', foot: 'left' }, { type: 'sound', name: 'footstep', foot: 'right' } ],
+    expected: [ { type: 'sound', name: 'slash' }, { type: 'actionStarted', id: 'mace_swing', castId: 1, manaCost: 0, staminaCost: 0 }, { type: 'combatRandom', state: 420989072, draws: 1 }, { type: 'combatRandom', state: 2459796143, draws: 2 }, { type: 'sound', name: 'hit', x: 340, y: 300 }, { type: 'enemyHit', id: 'target', hit: true, damage: 12, rawDamage: 12, critical: false, defeated: false, wasDisabled: false, position: [Object], context: [Object], components: [Array] } ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/attack-recovery-movement.test.mjs:61:63
+✖ single moving attack preserves cadence, damage, costs and one contact/cast, dt=0.02 (65.594959ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+  
+    [
+      {
+        name: 'slash',
+        type: 'sound'
+      },
+  ...
+      },
+  +   {
+  +     foot: 'right',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'left',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'right',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'left',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'right',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'left',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'right',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   }
+    ]
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-attack-recovery-prototype-20261010/app/tests/attack-recovery-movement.test.mjs:70:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { type: 'sound', name: 'slash' }, { type: 'actionStarted', id: 'mace_swing', castId: 1, manaCost: 0, staminaCost: 0 }, { type: 'combatRandom', state: 420989072, draws: 1 }, { type: 'combatRandom', state: 2459796143, draws: 2 }, { type: 'sound', name: 'hit', x: 340, y: 300 }, { type: 'enemyHit', id: 'target', hit: true, damage: 12, rawDamage: 12, critical: false, defeated: false, wasDisabled: false, position: [Object], context: [Object], components: [Array] }, { type: 'sound', name: 'footstep', foot: 'right' }, { type: 'sound', name: 'footstep', foot: 'left' }, { type: 'sound', name: 'footstep', foot: 'right' }, { type: 'sound', name: 'footstep', foot: 'left' }, { type: 'sound', name: 'footstep', foot: 'right' }, { type: 'sound', name: 'footstep', foot: 'left' }, { type: 'sound', name: 'footstep', foot: 'right' } ],
+    expected: [ { type: 'sound', name: 'slash' }, { type: 'actionStarted', id: 'mace_swing', castId: 1, manaCost: 0, staminaCost: 0 }, { type: 'combatRandom', state: 420989072, draws: 1 }, { type: 'combatRandom', state: 2459796143, draws: 2 }, { type: 'sound', name: 'hit', x: 340, y: 300 }, { type: 'enemyHit', id: 'target', hit: true, damage: 12, rawDamage: 12, critical: false, defeated: false, wasDisabled: false, position: [Object], context: [Object], components: [Array] } ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/attack-recovery-movement.test.mjs:61:63
+✖ single moving attack preserves cadence, damage, costs and one contact/cast, dt=0.05 (28.687655ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+  
+    [
+      {
+        name: 'slash',
+        type: 'sound'
+      },
+  ...
+      },
+  +   {
+  +     foot: 'right',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'left',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'right',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'left',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'right',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'left',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   },
+  +   {
+  +     foot: 'right',
+  +     name: 'footstep',
+  +     type: 'sound'
+  +   }
+    ]
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-attack-recovery-prototype-20261010/app/tests/attack-recovery-movement.test.mjs:70:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { type: 'sound', name: 'slash' }, { type: 'actionStarted', id: 'mace_swing', castId: 1, manaCost: 0, staminaCost: 0 }, { type: 'combatRandom', state: 420989072, draws: 1 }, { type: 'combatRandom', state: 2459796143, draws: 2 }, { type: 'sound', name: 'hit', x: 340, y: 300 }, { type: 'enemyHit', id: 'target', hit: true, damage: 12, rawDamage: 12, critical: false, defeated: false, wasDisabled: false, position: [Object], context: [Object], components: [Array] }, { type: 'sound', name: 'footstep', foot: 'right' }, { type: 'sound', name: 'footstep', foot: 'left' }, { type: 'sound', name: 'footstep', foot: 'right' }, { type: 'sound', name: 'footstep', foot: 'left' }, { type: 'sound', name: 'footstep', foot: 'right' }, { type: 'sound', name: 'footstep', foot: 'left' }, { type: 'sound', name: 'footstep', foot: 'right' } ],
+    expected: [ { type: 'sound', name: 'slash' }, { type: 'actionStarted', id: 'mace_swing', castId: 1, manaCost: 0, staminaCost: 0 }, { type: 'combatRandom', state: 420989072, draws: 1 }, { type: 'combatRandom', state: 2459796143, draws: 2 }, { type: 'sound', name: 'hit', x: 340, y: 300 }, { type: 'enemyHit', id: 'target', hit: true, damage: 12, rawDamage: 12, critical: false, defeated: false, wasDisabled: false, position: [Object], context: [Object], components: [Array] } ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/attack-recovery-movement.test.mjs:76:1
+✖ contact range and aim use original planted position and cannot sweep a second target during recovery (21.656115ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-attack-recovery-prototype-20261010/app/tests/attack-recovery-movement.test.mjs:78:129)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

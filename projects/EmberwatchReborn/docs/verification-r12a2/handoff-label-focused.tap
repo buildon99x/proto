@@ -1,0 +1,1054 @@
+TAP version 13
+# Subtest: actual release pause and title use the same single build label
+ok 1 - actual release pause and title use the same single build label
+  ---
+  duration_ms: 2.240352
+  type: 'test'
+  ...
+# Subtest: actual candidate pause and title use the same single build label
+ok 2 - actual candidate pause and title use the same single build label
+  ---
+  duration_ms: 0.852359
+  type: 'test'
+  ...
+# Subtest: optional read-only status registration reports the same build before and after loading
+ok 3 - optional read-only status registration reports the same build before and after loading
+  ---
+  duration_ms: 1.856426
+  type: 'test'
+  ...
+# Subtest: R12 app, project, index metadata and build kind share the same bounded release identity
+ok 4 - R12 app, project, index metadata and build kind share the same bounded release identity
+  ---
+  duration_ms: 0.363876
+  type: 'test'
+  ...
+# Subtest: existing sector center tolerance and angular boundary are shared with combat unchanged
+ok 5 - existing sector center tolerance and angular boundary are shared with combat unchanged
+  ---
+  duration_ms: 4.187874
+  type: 'test'
+  ...
+# Subtest: open-field outline follows actual range plus tolerance and exact sector side angles
+ok 6 - open-field outline follows actual range plus tolerance and exact sector side angles
+  ---
+  duration_ms: 2.55942
+  type: 'test'
+  ...
+# Subtest: closed walls clip the persistent footprint using production damage LOS traversal
+ok 7 - closed walls clip the persistent footprint using production damage LOS traversal
+  ---
+  duration_ms: 1.555284
+  type: 'test'
+  ...
+# Subtest: persistent footprint exists newborn
+ok 8 - persistent footprint exists newborn
+  ---
+  duration_ms: 8.123159
+  type: 'test'
+  ...
+# Subtest: persistent footprint exists between ticks
+ok 9 - persistent footprint exists between ticks
+  ---
+  duration_ms: 3.448254
+  type: 'test'
+  ...
+# Subtest: persistent footprint exists last instant
+ok 10 - persistent footprint exists last instant
+  ---
+  duration_ms: 4.569347
+  type: 'test'
+  ...
+# Subtest: invalid or inactive footprint is absent: expired
+ok 11 - invalid or inactive footprint is absent: expired
+  ---
+  duration_ms: 1.415665
+  type: 'test'
+  ...
+# Subtest: invalid or inactive footprint is absent: past end
+ok 12 - invalid or inactive footprint is absent: past end
+  ---
+  duration_ms: 1.639771
+  type: 'test'
+  ...
+# Subtest: invalid or inactive footprint is absent: negative age
+ok 13 - invalid or inactive footprint is absent: negative age
+  ---
+  duration_ms: 1.415444
+  type: 'test'
+  ...
+# Subtest: invalid or inactive footprint is absent: no damage
+ok 14 - invalid or inactive footprint is absent: no damage
+  ---
+  duration_ms: 1.636135
+  type: 'test'
+  ...
+# Subtest: invalid or inactive footprint is absent: bad range
+ok 15 - invalid or inactive footprint is absent: bad range
+  ---
+  duration_ms: 1.303225
+  type: 'test'
+  ...
+# Subtest: invalid or inactive footprint is absent: bad angle
+ok 16 - invalid or inactive footprint is absent: bad angle
+  ---
+  duration_ms: 1.327362
+  type: 'test'
+  ...
+# Subtest: actual renderer draws the clipped ground polygon with low-alpha fill and static edge
+ok 17 - actual renderer draws the clipped ground polygon with low-alpha fill and static edge
+  ---
+  duration_ms: 4.945271
+  type: 'test'
+  ...
+# Subtest: flash-zero retains identical footprint without animated brightness or simulation mutation
+ok 18 - flash-zero retains identical footprint without animated brightness or simulation mutation
+  ---
+  duration_ms: 7.504781
+  type: 'test'
+  ...
+# Subtest: area remains underneath loot, hostile warnings and player or enemy bodies
+ok 19 - area remains underneath loot, hostile warnings and player or enemy bodies
+  ---
+  duration_ms: 3.461124
+  type: 'test'
+  ...
+# Subtest: hidden footprint and absent areas leave the old renderer command stream untouched
+ok 20 - hidden footprint and absent areas leave the old renderer command stream untouched
+  ---
+  duration_ms: 6.307906
+  type: 'test'
+  ...
+# Subtest: real main render handoff forwards the live area rather than a generated preview
+ok 21 - real main render handoff forwards the live area rather than a generated preview
+  ---
+  duration_ms: 5.273704
+  type: 'test'
+  ...
+# Subtest: observed low-contrast boundary correction adds a same-path static outer keyline
+ok 22 - observed low-contrast boundary correction adds a same-path static outer keyline
+  ---
+  duration_ms: 2.709285
+  type: 'test'
+  ...
+# Subtest: flash-zero preserves both contrast strokes and does not introduce extra bright area fills
+ok 23 - flash-zero preserves both contrast strokes and does not introduce extra bright area fills
+  ---
+  duration_ms: 4.632963
+  type: 'test'
+  ...
+# Subtest: F low masonry reuses the owned atlas within a bounded sub-hero height
+ok 24 - F low masonry reuses the owned atlas within a bounded sub-hero height
+  ---
+  duration_ms: 0.986801
+  type: 'test'
+  ...
+# Subtest: closed: each cover segment lies on a true solid/visible-floor collision boundary
+ok 25 - closed: each cover segment lies on a true solid/visible-floor collision boundary
+  ---
+  duration_ms: 3.07887
+  type: 'test'
+  ...
+# Subtest: cover: each cover segment lies on a true solid/visible-floor collision boundary
+ok 26 - cover: each cover segment lies on a true solid/visible-floor collision boundary
+  ---
+  duration_ms: 2.023436
+  type: 'test'
+  ...
+# Subtest: channel: each cover segment lies on a true solid/visible-floor collision boundary
+ok 27 - channel: each cover segment lies on a true solid/visible-floor collision boundary
+  ---
+  duration_ms: 0.605639
+  type: 'test'
+  ...
+# Subtest: exhaust: each cover segment lies on a true solid/visible-floor collision boundary
+ok 28 - exhaust: each cover segment lies on a true solid/visible-floor collision boundary
+  ---
+  duration_ms: 0.73964
+  type: 'test'
+  ...
+# Subtest: all: each cover segment lies on a true solid/visible-floor collision boundary
+ok 29 - all: each cover segment lies on a true solid/visible-floor collision boundary
+  ---
+  duration_ms: 0.937006
+  type: 'test'
+  ...
+# Subtest: closed: opened paving comes only from the actual door floor (0 tiles)
+ok 30 - closed: opened paving comes only from the actual door floor (0 tiles)
+  ---
+  duration_ms: 0.351177
+  type: 'test'
+  ...
+# Subtest: cover: opened paving comes only from the actual door floor (10 tiles)
+ok 31 - cover: opened paving comes only from the actual door floor (10 tiles)
+  ---
+  duration_ms: 0.338097
+  type: 'test'
+  ...
+# Subtest: channel: opened paving comes only from the actual door floor (22 tiles)
+ok 32 - channel: opened paving comes only from the actual door floor (22 tiles)
+  ---
+  duration_ms: 0.415032
+  type: 'test'
+  ...
+# Subtest: exhaust: opened paving comes only from the actual door floor (38 tiles)
+ok 33 - exhaust: opened paving comes only from the actual door floor (38 tiles)
+  ---
+  duration_ms: 0.470366
+  type: 'test'
+  ...
+# Subtest: all: opened paving comes only from the actual door floor (50 tiles)
+ok 34 - all: opened paving comes only from the actual door floor (50 tiles)
+  ---
+  duration_ms: 0.317196
+  type: 'test'
+  ...
+# Subtest: closed central cover remains solid in cover mode and vanishes in the actual opened channel
+ok 35 - closed central cover remains solid in cover mode and vanishes in the actual opened channel
+  ---
+  duration_ms: 0.589064
+  type: 'test'
+  ...
+# Subtest: partial/stale open geometry cannot advertise a complete channel or exhaust opening
+ok 36 - partial/stale open geometry cannot advertise a complete channel or exhaust opening
+  ---
+  duration_ms: 0.362264
+  type: 'test'
+  ...
+# Subtest: F architecture/paving obey map visibility, distance and exact region without mutation
+ok 37 - F architecture/paving obey map visibility, distance and exact region without mutation
+  ---
+  duration_ms: 1.443757
+  type: 'test'
+  ...
+# Subtest: production F renderer replaces seeded tall clutter with low atlas masonry only
+ok 38 - production F renderer replaces seeded tall clutter with low atlas masonry only
+  ---
+  duration_ms: 6.710149
+  type: 'test'
+  ...
+# Subtest: all F cover, exact boundary edges and bands precede loot, threats, player and enemy bodies
+ok 39 - all F cover, exact boundary edges and bands precede loot, threats, player and enemy bodies
+  ---
+  duration_ms: 3.173993
+  type: 'test'
+  ...
+# Subtest: full renderer cannot paint unseen architecture or floor cues
+ok 40 - full renderer cannot paint unseen architecture or floor cues
+  ---
+  duration_ms: 1.008774
+  type: 'test'
+  ...
+# Subtest: paving paths stay within each actually open tile and keep original warning/hero geometry
+ok 41 - paving paths stay within each actually open tile and keep original warning/hero geometry
+  ---
+  duration_ms: 4.576527
+  type: 'test'
+  ...
+# Subtest: low baffles and passage bands are static under reduced flashes and time changes
+ok 42 - low baffles and passage bands are static under reduced flashes and time changes
+  ---
+  duration_ms: 4.952632
+  type: 'test'
+  ...
+# Subtest: F uses the same geometry with floor caching, including in-place open/seen changes
+ok 43 - F uses the same geometry with floor caching, including in-place open/seen changes
+  ---
+  duration_ms: 8.694306
+  type: 'test'
+  ...
+# Subtest: non-F scenes retain legacy tall atlas drawing and receive no F geometry
+ok 44 - non-F scenes retain legacy tall atlas drawing and receive no F geometry
+  ---
+  duration_ms: 11.515059
+  type: 'test'
+  ...
+# Subtest: the actual main.js renderer call passes live F map and region without a preview shim
+ok 45 - the actual main.js renderer call passes live F map and region without a preview shim
+  ---
+  duration_ms: 4.113713
+  type: 'test'
+  ...
+# Subtest: rendering the production earned-entry battle preserves aim, map, state and durable save bytes
+ok 46 - rendering the production earned-entry battle preserves aim, map, state and durable save bytes
+  ---
+  duration_ms: 584.469184
+  type: 'test'
+  ...
+# Subtest: interleaved full rendering does not change actual combat timing, contacts, damage or outcomes
+ok 47 - interleaved full rendering does not change actual combat timing, contacts, damage or outcomes
+  ---
+  duration_ms: 167.347058
+  type: 'test'
+  ...
+# Subtest: cover: player hammer obeys the same visible center baffle
+ok 48 - cover: player hammer obeys the same visible center baffle
+  ---
+  duration_ms: 70.68602
+  type: 'test'
+  ...
+# Subtest: cover: hostile shot obeys the same visible center baffle
+ok 49 - cover: hostile shot obeys the same visible center baffle
+  ---
+  duration_ms: 66.759438
+  type: 'test'
+  ...
+# Subtest: channel: player hammer obeys the same visible center baffle
+ok 50 - channel: player hammer obeys the same visible center baffle
+  ---
+  duration_ms: 74.340674
+  type: 'test'
+  ...
+# Subtest: channel: hostile shot obeys the same visible center baffle
+ok 51 - channel: hostile shot obeys the same visible center baffle
+  ---
+  duration_ms: 72.654464
+  type: 'test'
+  ...
+# Subtest: F tender, nozzle and warden reuse distinct frozen S glyphs without inheriting S body scaling
+ok 52 - F tender, nozzle and warden reuse distinct frozen S glyphs without inheriting S body scaling
+  ---
+  duration_ms: 1.386781
+  type: 'test'
+  ...
+# Subtest: role mapping is specific to the matching region and never marks unknown or cross-region kinds
+ok 53 - role mapping is specific to the matching region and never marks unknown or cross-region kinds
+  ---
+  duration_ms: 0.223645
+  type: 'test'
+  ...
+# Subtest: production F renderer draws all three exact paths with the established keyline and foot-shadow offset
+ok 54 - production F renderer draws all three exact paths with the established keyline and foot-shadow offset
+  ---
+  duration_ms: 10.50298
+  type: 'test'
+  ...
+# Subtest: F role strokes stay below loot, danger areas, locked tells and actor bodies
+ok 55 - F role strokes stay below loot, danger areas, locked tells and actor bodies
+  ---
+  duration_ms: 3.342816
+  type: 'test'
+  ...
+# Subtest: F ground glyphs exclude inactive actors of every role
+ok 56 - F ground glyphs exclude inactive actors of every role
+  ---
+  duration_ms: 2.65219
+  type: 'test'
+  ...
+# Subtest: F ground glyphs exclude zero HP actors of every role
+ok 57 - F ground glyphs exclude zero HP actors of every role
+  ---
+  duration_ms: 1.114062
+  type: 'test'
+  ...
+# Subtest: F ground glyphs exclude dead actors of every role
+ok 58 - F ground glyphs exclude dead actors of every role
+  ---
+  duration_ms: 1.136405
+  type: 'test'
+  ...
+# Subtest: F ground glyphs exclude offscreen actors of every role
+ok 59 - F ground glyphs exclude offscreen actors of every role
+  ---
+  duration_ms: 1.3594
+  type: 'test'
+  ...
+# Subtest: F ground glyphs obey actual fog visibility independently for each live actor
+ok 60 - F ground glyphs obey actual fog visibility independently for each live actor
+  ---
+  duration_ms: 0.945709
+  type: 'test'
+  ...
+# Subtest: reduced-flash F mode retains static glyph paths while suppressing actor hit brightness
+ok 61 - reduced-flash F mode retains static glyph paths while suppressing actor hit brightness
+  ---
+  duration_ms: 2.849986
+  type: 'test'
+  ...
+# Subtest: adding F glyphs preserves every other render command, metrics, state and actor occlusion
+ok 62 - adding F glyphs preserves every other render command, metrics, state and actor occlusion
+  ---
+  duration_ms: 4.590228
+  type: 'test'
+  ...
+# Subtest: F kinds do not alter non-F render output or enable S passage cues elsewhere
+ok 63 - F kinds do not alter non-F render output or enable S passage cues elsewhere
+  ---
+  duration_ms: 11.508279
+  type: 'test'
+  ...
+# Subtest: the actual main renderer handoff draws each live F role without a preview-only path
+ok 64 - the actual main renderer handoff draws each live F role without a preview-only path
+  ---
+  duration_ms: 4.488586
+  type: 'test'
+  ...
+# Subtest: S roles have distinct static shapes and bounded proportions independent of color
+ok 65 - S roles have distinct static shapes and bounded proportions independent of color
+  ---
+  duration_ms: 1.568243
+  type: 'test'
+  ...
+# Subtest: role treatment is excluded from other regions and unknown actors
+ok 66 - role treatment is excluded from other regions and unknown actors
+  ---
+  duration_ms: 0.161011
+  type: 'test'
+  ...
+# Subtest: only the actually open west threshold receives landing marks
+ok 67 - only the actually open west threshold receives landing marks
+  ---
+  duration_ms: 0.460221
+  type: 'test'
+  ...
+# Subtest: only the actually open east threshold receives landing marks
+ok 68 - only the actually open east threshold receives landing marks
+  ---
+  duration_ms: 0.223715
+  type: 'test'
+  ...
+# Subtest: north threshold has real landing tiles on both sides and never paints a closed gate
+ok 69 - north threshold has real landing tiles on both sides and never paints a closed gate
+  ---
+  duration_ms: 0.681413
+  type: 'test'
+  ...
+# Subtest: partial or stale map geometry cannot advertise an open door
+ok 70 - partial or stale map geometry cannot advertise an open door
+  ---
+  duration_ms: 0.212769
+  type: 'test'
+  ...
+# Subtest: passage cues obey seen tiles, proximity and existing landing floor without mutation
+ok 71 - passage cues obey seen tiles, proximity and existing landing floor without mutation
+  ---
+  duration_ms: 0.529644
+  type: 'test'
+  ...
+# Subtest: production renderer draws static role and passage strokes below loot, danger and bodies
+ok 72 - production renderer draws static role and passage strokes below loot, danger and bodies
+  ---
+  duration_ms: 11.062921
+  type: 'test'
+  ...
+# Subtest: each role uses one dark outline followed immediately by its unchanged bright inner path
+ok 73 - each role uses one dark outline followed immediately by its unchanged bright inner path
+  ---
+  duration_ms: 4.431329
+  type: 'test'
+  ...
+# Subtest: role symbols retain their exact dimensions and move only eight units below the feet
+ok 74 - role symbols retain their exact dimensions and move only eight units below the feet
+  ---
+  duration_ms: 3.530007
+  type: 'test'
+  ...
+# Subtest: neither outline nor inner stroke leaks into non-S or inactive combat views
+ok 75 - neither outline nor inner stroke leaks into non-S or inactive combat views
+  ---
+  duration_ms: 5.045562
+  type: 'test'
+  ...
+# Subtest: role ground marks exclude dead, inactive, hidden and offscreen actors
+ok 76 - role ground marks exclude dead, inactive, hidden and offscreen actors
+  ---
+  duration_ms: 2.39882
+  type: 'test'
+  ...
+# Subtest: renderer applies the three visual silhouettes without changing ground anchors or health
+ok 77 - renderer applies the three visual silhouettes without changing ground anchors or health
+  ---
+  duration_ms: 3.079512
+  type: 'test'
+  ...
+# Subtest: non-S rendering retains legacy body dimensions and emits no S marks or added cutaways
+ok 78 - non-S rendering retains legacy body dimensions and emits no S marks or added cutaways
+  ---
+  duration_ms: 5.196227
+  type: 'test'
+  ...
+# Subtest: reduced flashes preserves static cues and telegraphs while suppressing actor hit brightness
+ok 79 - reduced flashes preserves static cues and telegraphs while suppressing actor hit brightness
+  ---
+  duration_ms: 4.290258
+  type: 'test'
+  ...
+# Subtest: role cues leave danger paths, target reticle and hero art dimensions unchanged
+ok 80 - role cues leave danger paths, target reticle and hero art dimensions unchanged
+  ---
+  duration_ms: 4.878931
+  type: 'test'
+  ...
+# Subtest: taller S keeper retains local player-occlusion protection without changing non-S behavior
+ok 81 - taller S keeper retains local player-occlusion protection without changing non-S behavior
+  ---
+  duration_ms: 0.104978
+  type: 'test'
+  ...
+# Subtest: production renderer adds only local cutaways at a genuinely opened north landing
+ok 82 - production renderer adds only local cutaways at a genuinely opened north landing
+  ---
+  duration_ms: 6.411581
+  type: 'test'
+  ...
+# Subtest: actual main renderer call supplies the live region and map without changing options or objects
+ok 83 - actual main renderer call supplies the live region and map without changing options or objects
+  ---
+  duration_ms: 6.025602
+  type: 'test'
+  ...
+# Subtest: rendering leaves the live battle, aim interpretation, collision and durable save bytes unchanged
+ok 84 - rendering leaves the live battle, aim interpretation, collision and durable save bytes unchanged
+  ---
+  duration_ms: 440.742825
+  type: 'test'
+  ...
+# Subtest: interleaved rendering does not alter real combat contacts, damage, timing or outcomes
+ok 85 - interleaved rendering does not alter real combat contacts, damage, timing or outcomes
+  ---
+  duration_ms: 216.708308
+  type: 'test'
+  ...
+# Subtest: S roster, authored health and exact reward budget stay unchanged
+ok 86 - S roster, authored health and exact reward budget stay unchanged
+  ---
+  duration_ms: 0.303165
+  type: 'test'
+  ...
+# Subtest: actual normal T UI completes explicit four chambers, original return, oath and Eda report
+ok 87 - actual normal T UI completes explicit four chambers, original return, oath and Eda report
+  ---
+  duration_ms: 2084.433087
+  type: 'test'
+  ...
+# Subtest: actual normal T UI completes explicit four chambers, optional stair, oath and Eda report
+ok 88 - actual normal T UI completes explicit four chambers, optional stair, oath and Eda report
+  ---
+  duration_ms: 1232.731746
+  type: 'test'
+  ...
+# Subtest: actual hard T UI completes explicit four chambers, original return, oath and Eda report
+ok 89 - actual hard T UI completes explicit four chambers, original return, oath and Eda report
+  ---
+  duration_ms: 1791.13655
+  type: 'test'
+  ...
+# Subtest: actual hard T UI completes explicit four chambers, optional stair, oath and Eda report
+ok 90 - actual hard T UI completes explicit four chambers, optional stair, oath and Eda report
+  ---
+  duration_ms: 1247.822742
+  type: 'test'
+  ...
+# Subtest: actual decode-ready map update preserves the battle, live tells and paid resource recovery
+ok 91 - actual decode-ready map update preserves the battle, live tells and paid resource recovery
+  ---
+  duration_ms: 179.490594
+  type: 'test'
+  ...
+# Subtest: actual partial map update preserves the battle, live tells and paid resource recovery
+ok 92 - actual partial map update preserves the battle, live tells and paid resource recovery
+  ---
+  duration_ms: 190.208431
+  type: 'test'
+  ...
+# Subtest: actual solved map update preserves the battle, live tells and paid resource recovery
+ok 93 - actual solved map update preserves the battle, live tells and paid resource recovery
+  ---
+  duration_ms: 159.0022
+  type: 'test'
+  ...
+# Subtest: actual midpoint-ready map update preserves the battle, live tells and paid resource recovery
+ok 94 - actual midpoint-ready map update preserves the battle, live tells and paid resource recovery
+  ---
+  duration_ms: 158.420158
+  type: 'test'
+  ...
+# Subtest: actual seal-ready map update preserves the battle, live tells and paid resource recovery
+ok 95 - actual seal-ready map update preserves the battle, live tells and paid resource recovery
+  ---
+  duration_ms: 161.151807
+  type: 'test'
+  ...
+# Subtest: actual captured glyph tokens reject old panel clicks and double-click activation without becoming a wrong glyph
+ok 96 - actual captured glyph tokens reject old panel clicks and double-click activation without becoming a wrong glyph
+  ---
+  duration_ms: 142.217127
+  type: 'test'
+  ...
+# Subtest: actual current panel carries the old revision through another committed T input and gets STALE_REVISION
+ok 97 - actual current panel carries the old revision through another committed T input and gets STALE_REVISION
+  ---
+  duration_ms: 111.387672
+  type: 'test'
+  ...
+# Subtest: actual rapid concurrent glyph clicks issue one controller command and award once
+ok 98 - actual rapid concurrent glyph clicks issue one controller command and award once
+  ---
+  duration_ms: 98.403823
+  type: 'test'
+  ...
+# Subtest: actual pending T decode commit cannot replace newer close navigation
+ok 99 - actual pending T decode commit cannot replace newer close navigation
+  ---
+  duration_ms: 108.691736
+  type: 'test'
+  ...
+# Subtest: actual pending T decode commit cannot replace newer objective navigation
+ok 100 - actual pending T decode commit cannot replace newer objective navigation
+  ---
+  duration_ms: 107.039645
+  type: 'test'
+  ...
+# Subtest: actual pending T decode commit cannot replace newer menu navigation
+ok 101 - actual pending T decode commit cannot replace newer menu navigation
+  ---
+  duration_ms: 107.651363
+  type: 'test'
+  ...
+# Subtest: actual pending T decode commit cannot replace newer journal navigation
+ok 102 - actual pending T decode commit cannot replace newer journal navigation
+  ---
+  duration_ms: 108.91504
+  type: 'test'
+  ...
+# Subtest: actual pending T glyph commit cannot replace newer close navigation
+ok 103 - actual pending T glyph commit cannot replace newer close navigation
+  ---
+  duration_ms: 108.833048
+  type: 'test'
+  ...
+# Subtest: actual pending T glyph commit cannot replace newer objective navigation
+ok 104 - actual pending T glyph commit cannot replace newer objective navigation
+  ---
+  duration_ms: 110.026399
+  type: 'test'
+  ...
+# Subtest: actual pending T glyph commit cannot replace newer menu navigation
+ok 105 - actual pending T glyph commit cannot replace newer menu navigation
+  ---
+  duration_ms: 108.178946
+  type: 'test'
+  ...
+# Subtest: actual pending T glyph commit cannot replace newer journal navigation
+ok 106 - actual pending T glyph commit cannot replace newer journal navigation
+  ---
+  duration_ms: 108.667498
+  type: 'test'
+  ...
+# Subtest: actual pending T accept commit cannot replace newer close navigation
+ok 107 - actual pending T accept commit cannot replace newer close navigation
+  ---
+  duration_ms: 81.235952
+  type: 'test'
+  ...
+# Subtest: actual pending T accept commit cannot replace newer objective navigation
+ok 108 - actual pending T accept commit cannot replace newer objective navigation
+  ---
+  duration_ms: 82.842523
+  type: 'test'
+  ...
+# Subtest: actual pending T accept commit cannot replace newer menu navigation
+ok 109 - actual pending T accept commit cannot replace newer menu navigation
+  ---
+  duration_ms: 79.340788
+  type: 'test'
+  ...
+# Subtest: actual pending T accept commit cannot replace newer journal navigation
+ok 110 - actual pending T accept commit cannot replace newer journal navigation
+  ---
+  duration_ms: 81.384355
+  type: 'test'
+  ...
+# Subtest: actual pending T report commit cannot replace newer close navigation
+ok 111 - actual pending T report commit cannot replace newer close navigation
+  ---
+  duration_ms: 232.775754
+  type: 'test'
+  ...
+# Subtest: actual pending T report commit cannot replace newer objective navigation
+ok 112 - actual pending T report commit cannot replace newer objective navigation
+  ---
+  duration_ms: 113.236633
+  type: 'test'
+  ...
+# Subtest: actual pending T report commit cannot replace newer menu navigation
+ok 113 - actual pending T report commit cannot replace newer menu navigation
+  ---
+  duration_ms: 112.662301
+  type: 'test'
+  ...
+# Subtest: actual pending T report commit cannot replace newer journal navigation
+ok 114 - actual pending T report commit cannot replace newer journal navigation
+  ---
+  duration_ms: 111.617514
+  type: 'test'
+  ...
+# Subtest: actual pending T opening checkpoint yields to newer close
+ok 115 - actual pending T opening checkpoint yields to newer close
+  ---
+  duration_ms: 54.469087
+  type: 'test'
+  ...
+# Subtest: actual pending T opening checkpoint yields to newer objective
+ok 116 - actual pending T opening checkpoint yields to newer objective
+  ---
+  duration_ms: 58.378552
+  type: 'test'
+  ...
+# Subtest: actual pending T opening checkpoint yields to newer menu
+ok 117 - actual pending T opening checkpoint yields to newer menu
+  ---
+  duration_ms: 54.391199
+  type: 'test'
+  ...
+# Subtest: actual pending T opening checkpoint yields to newer journal
+ok 118 - actual pending T opening checkpoint yields to newer journal
+  ---
+  duration_ms: 53.631409
+  type: 'test'
+  ...
+# Subtest: actual delayed commit cannot replace a newly loaded profile or its modal ownership
+ok 119 - actual delayed commit cannot replace a newly loaded profile or its modal ownership
+  ---
+  duration_ms: 107.202237
+  type: 'test'
+  ...
+# Subtest: actual decoded journal preserves the complete decoded clue independently of the current goal
+ok 120 - actual decoded journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 76.565775
+  type: 'test'
+  ...
+# Subtest: actual partial journal preserves the complete decoded clue independently of the current goal
+ok 121 - actual partial journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 78.44851
+  type: 'test'
+  ...
+# Subtest: actual solved journal preserves the complete decoded clue independently of the current goal
+ok 122 - actual solved journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 78.471454
+  type: 'test'
+  ...
+# Subtest: actual carried journal preserves the complete decoded clue independently of the current goal
+ok 123 - actual carried journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 79.943804
+  type: 'test'
+  ...
+# Subtest: actual midpoint journal preserves the complete decoded clue independently of the current goal
+ok 124 - actual midpoint journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 77.636841
+  type: 'test'
+  ...
+# Subtest: actual sealed journal preserves the complete decoded clue independently of the current goal
+ok 125 - actual sealed journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 78.250453
+  type: 'test'
+  ...
+# Subtest: actual boss-down journal preserves the complete decoded clue independently of the current goal
+ok 126 - actual boss-down journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 96.412847
+  type: 'test'
+  ...
+# Subtest: actual oath journal preserves the complete decoded clue independently of the current goal
+ok 127 - actual oath journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 111.588322
+  type: 'test'
+  ...
+# Subtest: actual report-ready journal preserves the complete decoded clue independently of the current goal
+ok 128 - actual report-ready journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 85.714027
+  type: 'test'
+  ...
+# Subtest: actual reported journal preserves the complete decoded clue independently of the current goal
+ok 129 - actual reported journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 114.218566
+  type: 'test'
+  ...
+# Subtest: actual decoded projection remains available and reread updates its token without extra reward
+ok 130 - actual decoded projection remains available and reread updates its token without extra reward
+  ---
+  duration_ms: 96.390865
+  type: 'test'
+  ...
+# Subtest: actual entry object tomb-projection uses explicit completed state rather than absent actions
+ok 131 - actual entry object tomb-projection uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 53.480281
+  type: 'test'
+  ...
+# Subtest: actual entry object tomb-ward-origin uses explicit completed state rather than absent actions
+ok 132 - actual entry object tomb-ward-origin uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 51.657825
+  type: 'test'
+  ...
+# Subtest: actual entry object tomb-oath uses explicit completed state rather than absent actions
+ok 133 - actual entry object tomb-oath uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 53.393861
+  type: 'test'
+  ...
+# Subtest: actual decoded object tomb-projection uses explicit completed state rather than absent actions
+ok 134 - actual decoded object tomb-projection uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 52.802003
+  type: 'test'
+  ...
+# Subtest: actual solved object tomb-glyph-crescent uses explicit completed state rather than absent actions
+ok 135 - actual solved object tomb-glyph-crescent uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 52.957556
+  type: 'test'
+  ...
+# Subtest: actual carried object tomb-ward-origin uses explicit completed state rather than absent actions
+ok 136 - actual carried object tomb-ward-origin uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 56.977851
+  type: 'test'
+  ...
+# Subtest: actual midpoint object tomb-ward-midpoint uses explicit completed state rather than absent actions
+ok 137 - actual midpoint object tomb-ward-midpoint uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 54.216546
+  type: 'test'
+  ...
+# Subtest: actual sealed object tomb-ward-final uses explicit completed state rather than absent actions
+ok 138 - actual sealed object tomb-ward-final uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 54.406731
+  type: 'test'
+  ...
+# Subtest: actual oath object tomb-oath uses explicit completed state rather than absent actions
+ok 139 - actual oath object tomb-oath uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 54.39947
+  type: 'test'
+  ...
+# Subtest: actual town T portals are absent from labels, render objects and selection before acceptance
+ok 140 - actual town T portals are absent from labels, render objects and selection before acceptance
+  ---
+  duration_ms: 15.479327
+  type: 'test'
+  ...
+# Subtest: actual town T portals are visible and selectable after acceptance
+ok 141 - actual town T portals are visible and selectable after acceptance
+  ---
+  duration_ms: 20.133393
+  type: 'test'
+  ...
+# Subtest: actual T optional stair precedence is limited to its ready reachable console pair
+ok 142 - actual T optional stair precedence is limited to its ready reachable console pair
+  ---
+  duration_ms: 118.086313
+  type: 'test'
+  ...
+# Subtest: actual predecessor T quest actions belong only to Eda while Orin keeps equipment and Bran keeps skills
+ok 143 - actual predecessor T quest actions belong only to Eda while Orin keeps equipment and Bran keeps skills
+  ---
+  duration_ms: 156.642701
+  type: 'test'
+  ...
+# Subtest: actual report-ready T quest actions belong only to Eda while Orin keeps equipment and Bran keeps skills
+ok 144 - actual report-ready T quest actions belong only to Eda while Orin keeps equipment and Bran keeps skills
+  ---
+  duration_ms: 196.721004
+  type: 'test'
+  ...
+# Subtest: actual reported T quest actions belong only to Eda while Orin keeps equipment and Bran keeps skills
+ok 145 - actual reported T quest actions belong only to Eda while Orin keeps equipment and Bran keeps skills
+  ---
+  duration_ms: 200.374994
+  type: 'test'
+  ...
+# Subtest: actual T HUD, inventory, shop and workshop show the same total, spendable and protected gold
+ok 146 - actual T HUD, inventory, shop and workshop show the same total, spendable and protected gold
+  ---
+  duration_ms: 60.910134
+  type: 'test'
+  ...
+# Subtest: actual custom interaction label stays synchronized in T object, objective and HUD text
+ok 147 - actual custom interaction label stays synchronized in T object, objective and HUD text
+  ---
+  duration_ms: 124.931468
+  type: 'test'
+  ...
+# Subtest: actual T SAVE_FAILED neither advances the panel nor invents reward and reload restores saved prefix
+ok 148 - actual T SAVE_FAILED neither advances the panel nor invents reward and reload restores saved prefix
+  ---
+  duration_ms: 135.628426
+  type: 'test'
+  ...
+# Subtest: actual T COMMIT_UNCERTAIN neither advances the panel nor invents reward and reload restores saved prefix
+ok 149 - actual T COMMIT_UNCERTAIN neither advances the panel nor invents reward and reload restores saved prefix
+  ---
+  duration_ms: 202.683935
+  type: 'test'
+  ...
+# Subtest: actual dead carry save shows retry, cannot manipulate T, and preserves relay progress after retry and return
+ok 150 - actual dead carry save shows retry, cannot manipulate T, and preserves relay progress after retry and return
+  ---
+  duration_ms: 158.335572
+  type: 'test'
+  ...
+# Subtest: actual main renderer forwards the durable carried ward without changing game state
+ok 151 - actual main renderer forwards the durable carried ward without changing game state
+  ---
+  duration_ms: 5.498434
+  type: 'test'
+  ...
+# Subtest: actual R11 candidate title separates observed Normal T from unqualified Expert/B and offers R10 forward copy
+ok 152 - actual R11 candidate title separates observed Normal T from unqualified Expert/B and offers R10 forward copy
+  ---
+  duration_ms: 14.760087
+  type: 'test'
+  ...
+# Subtest: actual T accept synchronizes paid pools without rebuilding the live battle
+ok 153 - actual T accept synchronizes paid pools without rebuilding the live battle
+  ---
+  duration_ms: 110.525117
+  type: 'test'
+  ...
+# Subtest: actual T oath synchronizes paid pools without rebuilding the live battle
+ok 154 - actual T oath synchronizes paid pools without rebuilding the live battle
+  ---
+  duration_ms: 98.818699
+  type: 'test'
+  ...
+# Subtest: actual T report synchronizes paid pools without rebuilding the live battle
+ok 155 - actual T report synchronizes paid pools without rebuilding the live battle
+  ---
+  duration_ms: 141.3007
+  type: 'test'
+  ...
+# Subtest: actual T two-tab glyph conflict blocks resume and reload restores exactly the other saved prefix
+ok 156 - actual T two-tab glyph conflict blocks resume and reload restores exactly the other saved prefix
+  ---
+  duration_ms: 250.07856
+  type: 'test'
+  ...
+# Subtest: actual dead report snapshot cannot pay the commission even if its old Eda button is replayed
+ok 157 - actual dead report snapshot cannot pay the commission even if its old Eda button is replayed
+  ---
+  duration_ms: 71.031848
+  type: 'test'
+  ...
+# Subtest: actual no-prerequisite Eda and fresh town never expose T acceptance or either T entrance
+ok 158 - actual no-prerequisite Eda and fresh town never expose T acceptance or either T entrance
+  ---
+  duration_ms: 4.242228
+  type: 'test'
+  ...
+# Subtest: actual T report with explicitly spent-to-zero gold remains available at earned Hard L14 and reserves its own reward
+ok 159 - actual T report with explicitly spent-to-zero gold remains available at earned Hard L14 and reserves its own reward
+  ---
+  duration_ms: 149.141601
+  type: 'test'
+  ...
+# Subtest: actual R10 copy handler loads an earned R9 source into a new isolated slot and never overwrites either source or existing target
+ok 160 - actual R10 copy handler loads an earned R9 source into a new isolated slot and never overwrites either source or existing target
+  ---
+  duration_ms: 48.794516
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual first T acceptance uses neutral travel copy and one current-goal paragraph at Eda
+ok 161 - guidance correction: actual first T acceptance uses neutral travel copy and one current-goal paragraph at Eda
+  ---
+  duration_ms: 110.908758
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual returning, report-ready and completed Eda cards do not repeat the current T detail
+ok 162 - guidance correction: actual returning, report-ready and completed Eda cards do not repeat the current T detail
+  ---
+  duration_ms: 192.239907
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual unfinished first-patrol accept/report and duplicate-reward protection remain intact
+ok 163 - guidance correction: actual unfinished first-patrol accept/report and duplicate-reward protection remain intact
+  ---
+  duration_ms: 75.652393
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual Eda Pass history names completed rewards and implemented S/F/T scope
+ok 164 - guidance correction: actual Eda Pass history names completed rewards and implemented S/F/T scope
+  ---
+  duration_ms: 38.997229
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual final glyph, journal and projection stop warning about resetting a completed sequence
+ok 165 - guidance correction: actual final glyph, journal and projection stop warning about resetting a completed sequence
+  ---
+  duration_ms: 123.637746
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual lower ward panels distinguish missing, carried, clear and already-connected states
+ok 166 - guidance correction: actual lower ward panels distinguish missing, carried, clear and already-connected states
+  ---
+  duration_ms: 331.340775
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual upper ward panels distinguish missing ward, pending midpoint, clear and sealed states
+ok 167 - guidance correction: actual upper ward panels distinguish missing ward, pending midpoint, clear and sealed states
+  ---
+  duration_ms: 463.826503
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual oath panel stops repeating completed seal and boss prerequisites
+ok 168 - guidance correction: actual oath panel stops repeating completed seal and boss prerequisites
+  ---
+  duration_ms: 301.401633
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual current-goal and carried-ward origin panels recognize already-cleared pockets
+ok 169 - guidance correction: actual current-goal and carried-ward origin panels recognize already-cleared pockets
+  ---
+  duration_ms: 202.203824
+  type: 'test'
+  ...
+# Subtest: actual B main UI west then east opens map without resetting live battle, then separately collects/reports
+ok 170 - actual B main UI west then east opens map without resetting live battle, then separately collects/reports
+  ---
+  duration_ms: 2237.378826
+  type: 'test'
+  ...
+# Subtest: actual B main UI east then west opens map without resetting live battle, then separately collects/reports
+ok 171 - actual B main UI east then west opens map without resetting live battle, then separately collects/reports
+  ---
+  duration_ms: 1149.305412
+  type: 'test'
+  ...
+# Subtest: actual B UI rejects double activation, stale dialog epochs and failed persistence without marking a device
+ok 172 - actual B UI rejects double activation, stale dialog epochs and failed persistence without marking a device
+  ---
+  duration_ms: 492.891199
+  type: 'test'
+  ...
+# Subtest: closing actual B panel during delayed successful commit does not reopen a stale dialog
+ok 173 - closing actual B panel during delayed successful commit does not reopen a stale dialog
+  ---
+  duration_ms: 454.808908
+  type: 'test'
+  ...
+# Subtest: actual B ready-device copy and collected beacon inventory use current objective labels
+ok 174 - actual B ready-device copy and collected beacon inventory use current objective labels
+  ---
+  duration_ms: 840.26659
+  type: 'test'
+  ...
+1..174
+# tests 174
+# suites 0
+# pass 174
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 23024.296835

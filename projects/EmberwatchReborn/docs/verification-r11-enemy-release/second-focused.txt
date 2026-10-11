@@ -1,0 +1,72 @@
+✔ actual B boss line at 0: compact directional cue and unchanged shot payload (40.915559ms)
+✔ actual B boss line at 0.7: compact directional cue and unchanged shot payload (22.481279ms)
+✔ actual B boss line at 1.5707963267948966: compact directional cue and unchanged shot payload (19.595982ms)
+✔ actual B boss line at 3.141592653589793: compact directional cue and unchanged shot payload (18.344865ms)
+✔ actual B boss line at -1.5707963267948966: compact directional cue and unchanged shot payload (16.023834ms)
+✔ actual B boss line at -2.6: compact directional cue and unchanged shot payload (15.596022ms)
+✔ battlefield_usurper: release follows actual cone center, radius and angle (14.221381ms)
+✔ battlefield_revenant: release follows actual cone center, radius and angle (11.584836ms)
+✔ battlefield_lancer: release follows actual cone center, radius and angle (19.17441ms)
+✔ battlefield_bulwark: release follows actual circle center, radius and angle (14.865236ms)
+✔ scout: release follows actual cone center, radius and angle (9.637935ms)
+✔ older archer uses the same bounded cue while retaining240 speed and528 travel range (11.122973ms)
+✔ actual B projectile moves before contact, then deals native fire damage and burn once (21.634339ms)
+✔ side-step after locked line misses; cue expiry neither removes nor redirects projectile (30.600969ms)
+✔ wall interception after release keeps the original swept projectile collision (17.756553ms)
+✖ battlefield_usurper keeps immediate area damage and status semantics (14.056954ms)
+✖ battlefield_bulwark keeps immediate area damage and status semantics (15.172757ms)
+✔ suppressed windup releases neither damage, projectile nor presentation (3.641462ms)
+✔ actual line FX renders exact two-stroke static shape at flash0 below later warnings/actors (36.696751ms)
+✔ actual cone FX renders exact two-stroke static shape at flash0 below later warnings/actors (24.800298ms)
+✔ actual circle FX renders exact two-stroke static shape at flash0 below later warnings/actors (26.6217ms)
+✔ unrelated player slash retains its previous geometry and layers (7.891336ms)
+✔ old warden circle keeps authored shape and original single selector RNG draw (17.098216ms)
+✔ old warden cone keeps authored shape and original single selector RNG draw (15.387069ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 22
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 573.669975
+
+✖ failing tests:
+
+test at projects/EmberwatchReborn/app/tests/enemy-release.test.mjs:68:126
+✖ battlefield_usurper keeps immediate area damage and status semantics (14.056954ms)
+  AssertionError [ERR_ASSERTION]: 0 != 14.423076923076923
+      at near (file:///workspace/shared/emberwatch-r11-enemy-release/projects/EmberwatchReborn/app/tests/enemy-release.test.mjs:12:26)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11-enemy-release/projects/EmberwatchReborn/app/tests/enemy-release.test.mjs:69:153)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/enemy-release.test.mjs:68:126
+✖ battlefield_bulwark keeps immediate area damage and status semantics (15.172757ms)
+  AssertionError [ERR_ASSERTION]: 0 != 9.615384615384615
+      at near (file:///workspace/shared/emberwatch-r11-enemy-release/projects/EmberwatchReborn/app/tests/enemy-release.test.mjs:12:26)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11-enemy-release/projects/EmberwatchReborn/app/tests/enemy-release.test.mjs:69:153)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

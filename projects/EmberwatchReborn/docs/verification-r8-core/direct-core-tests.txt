@@ -1,0 +1,15 @@
+✔ production world registers exact S content and every reciprocal portal arrival (1.284698ms)
+✔ untouched schema v1 loads read-only without creating S progress (8.175003ms)
+✔ untouched schema v2 loads read-only without creating S progress (4.766266ms)
+✔ untouched schema v3 loads read-only without creating S progress (5.430753ms)
+✔ production campaign selects S portal guards and retains paid state on round trips (384.754039ms)
+✔ common validation and durable store reject unearned or partial S records before unrelated commands (20.312856ms)
+✔ S integration preserves the real Adept-only runtime tier boundary (8.786551ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 547.838425

@@ -1,0 +1,8 @@
+
+Changed source/test syntax: PASS
+Git diff whitespace: PASS
+projects/EmberwatchReborn/app/src/battlefield-content.js
+projects/EmberwatchReborn/app/src/expert-presentation.js
+projects/EmberwatchReborn/app/tests/expert-presentation.test.mjs
+
+New source-specific regression: app/tests/battlefield-town-entry.test.mjs

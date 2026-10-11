@@ -1,0 +1,26 @@
+✔ delayed A first WebLock save cannot replace loaded B or bind A pools to B revision (66.581859ms)
+✔ obsolete delayed saved-profile load cannot replace B or start a new save (20.857647ms)
+✔ obsolete delayed new-game preflight cannot replace B or start a new save (16.230492ms)
+✔ late failed A load cannot clear B, change its modal or reset load state (16.047297ms)
+✔ late failed A start cannot clear B, change its modal or reset load state (25.372534ms)
+✔ showTitle dismisses a pending load without obsolete success or error reopening gameplay (5.377111ms)
+✔ showTitle dismisses a pending start without obsolete success or error reopening gameplay (8.890174ms)
+✔ same-profile overlapping continue owns the latest invocation and never starts an obsolete requested new game (23.390299ms)
+✔ normal load, reload and fresh start retain storage behavior and never remap existing progress (24.481988ms)
+✔ current load/start failures still present the title error and preserve existing raw saves (15.686236ms)
+✔ reloading while gameplay was active pauses simulation throughout a delayed load (19.278227ms)
+✔ actual delayed candidate-copy success cannot steal a newer continue selection (20.0332ms)
+✔ actual delayed candidate-copy failure cannot steal a newer continue selection (16.292916ms)
+✔ title dismissal invalidates delayed candidate-copy success (14.478963ms)
+✔ title dismissal invalidates delayed candidate-copy failure (12.767464ms)
+✔ candidate-copy intent immediately supersedes an older delayed new-game preflight (22.962998ms)
+✔ overlapping candidate copies preserve the latest target even when the earlier copy finishes last (23.391811ms)
+✔ ordinary current candidate-copy still loads its target exactly once and keeps original bytes (19.968553ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 498.312661

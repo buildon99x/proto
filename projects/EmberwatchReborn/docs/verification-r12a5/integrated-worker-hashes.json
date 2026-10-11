@@ -1,0 +1,10 @@
+{
+  "src/main.js": "7dfbd311cb946080c4c0768b2dd46aebcb2d26b70e9a073a6311aee64fb64cad",
+  "src/visual.js": "6e8c3f2ae897997c713992b4de8698773ec6bf0dd718a5b96ca71e08307df5a9",
+  "src/signal-readability.js": "097c232e39551d9736402ed45ae55b9398990975c414bf85ff5c4b097054e908",
+  "src/wilderness-scene-visibility.js": "35c18bd87349899311e07f2aa24a161609ff78498f62eb1ea2644bc049193869",
+  "src/scene-visibility.js": "982d6cde8e66215604391704010d27be122babafcf89951710cfc11d2651c649",
+  "src/signal-scene-visibility.js": "2169a9e7b451d5ca2234271f935edbf79ed12b2f6efb3cd194fff1b4cb287078",
+  "tests/signal-scene-visibility.test.mjs": "334a8b4d3ba6b8c4b06ee99bcca723b25e4e8c33c0dd7434d443c63ca26d97c5",
+  "tests/signal-ui-integration.test.mjs": "e93c976986a71f4467c87a1af1fc879a55486b87592fd4b8e1bb2fbafd4f635f"
+}

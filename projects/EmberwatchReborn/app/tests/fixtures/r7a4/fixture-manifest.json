@@ -1,0 +1,133 @@
+{
+  "sourceCommit": "a8df609a4b8c6a9b6c07194867bd828442aa4dab",
+  "source": "Preserved Emberwatch Reborn public root R7a4 static modules",
+  "version": "0.7.0-reimplementation.5",
+  "purpose": "Frozen exact-byte historical reader/validator/controller comparison. Not shipped runtime. No browser or gameplay acceptance. main.js is provenance label only; not evaluated.",
+  "files": [
+    {
+      "path": "campaign.js",
+      "bytes": 10527,
+      "sha256": "106bcb4db0d39462bb209ade2fb95b1d59f4cbbd4532e5bb9277d8f6e90a94e8"
+    },
+    {
+      "path": "controller.js",
+      "bytes": 3530,
+      "sha256": "9c805d4afe28027485aef6c4f2cd4da0559b074a99fd4c8e8ccc174d949a6e12"
+    },
+    {
+      "path": "controls.js",
+      "bytes": 7699,
+      "sha256": "ec4e4e1a735fe3393ae9c61cb88cce09fa655b473ef45e17e4fbe80ac5b08037"
+    },
+    {
+      "path": "dungeon-content.js",
+      "bytes": 6564,
+      "sha256": "fd43d23d2cfe5f414d81e852a794110c8b116f8abc55fb3bd1cd08da8a7b646f"
+    },
+    {
+      "path": "dungeon.js",
+      "bytes": 19451,
+      "sha256": "8300a82c03c60e750dd9cdb14e082199575986e3e48619ca27edba195af8db1b"
+    },
+    {
+      "path": "equipment-content.js",
+      "bytes": 4505,
+      "sha256": "1d3bb0724960016bfd5c176eba6e57cf202c0ed97e4a31218d3e8425fbeb5883"
+    },
+    {
+      "path": "equipment-runtime.js",
+      "bytes": 2016,
+      "sha256": "440ed2a74d49716efb90b438b425a0f45c25858bb275ebe18df5be2562d930ba"
+    },
+    {
+      "path": "equipment.js",
+      "bytes": 22785,
+      "sha256": "69ed450e179a7d8f390cec04ce5a5ca3f851f2ce57a069bc5506377b2d91cdba"
+    },
+    {
+      "path": "main.js",
+      "bytes": 58949,
+      "sha256": "7b30f133d9ed82fb31e56cb61d02a241636d8c9f7adeab440fcd88a0a2c0a19c"
+    },
+    {
+      "path": "pass-content.js",
+      "bytes": 5622,
+      "sha256": "f8fc5ec25cdb261689a02101c36498f29a15c2748cb590b7fd5714019681a1e9"
+    },
+    {
+      "path": "pass.js",
+      "bytes": 15291,
+      "sha256": "1414cd2af14f5ff618592919096d0adc0ebd4d22ba96268cd8b8939055f2a58e"
+    },
+    {
+      "path": "progression-balance.js",
+      "bytes": 1222,
+      "sha256": "cdf42126fbff2bb26f1b52969ddd206cfb67c798bb8dc247c5b1eecc2edcbc51"
+    },
+    {
+      "path": "progression.js",
+      "bytes": 9395,
+      "sha256": "678a31ff57f9e3cd1ee3a313e088236c5b103613c0fe0f7b13c45d7d233c0adf"
+    },
+    {
+      "path": "promotion.js",
+      "bytes": 3146,
+      "sha256": "ebb9ebcdf1e61d5e94da3a061ae1a850766c2229e2907a81ace43e3944a96116"
+    },
+    {
+      "path": "quarry-content.js",
+      "bytes": 5071,
+      "sha256": "7f4b8c1419210df92ad2121b208a52e8bd5c0a76ed404d6d0cf4fea65992f930"
+    },
+    {
+      "path": "quarry.js",
+      "bytes": 14961,
+      "sha256": "f7a1a2a3edbfc27e33fcb2982cb529e2662bbc94cb2e512070b55da9d326c322"
+    },
+    {
+      "path": "recovery.js",
+      "bytes": 1915,
+      "sha256": "582259b1029bd47a7d33b4e4779beb181c091fbf9f2bfe10c1336551669fc892"
+    },
+    {
+      "path": "reference-core.js",
+      "bytes": 3686,
+      "sha256": "04804f94aa38999f5e0af98094196394d703a3be4c3593d9338a3bc13bc8eb04"
+    },
+    {
+      "path": "reference-warrior.js",
+      "bytes": 25544,
+      "sha256": "1fb06923bbf69a33e80593a734f86b39d22ef7cd1f260b9d5b0be9a15261d549"
+    },
+    {
+      "path": "save.js",
+      "bytes": 6305,
+      "sha256": "a4d7bffd242c48f8c1dadba6a5e94554d77081d97fa0fbf951b6547ed77079d5"
+    },
+    {
+      "path": "state.js",
+      "bytes": 13039,
+      "sha256": "0a608cdc300e086fa759f8da1e8bc460fae93eaa5108efed7f800bcdab603fa5"
+    },
+    {
+      "path": "warrior-balance.js",
+      "bytes": 6013,
+      "sha256": "fcde6f21f2cafd151bc1a3bd1215582e9d7dbcd01e16039b944154fc53606812"
+    },
+    {
+      "path": "warrior-growth.js",
+      "bytes": 23760,
+      "sha256": "3d1c3ad97cf4643e731378044a998f2e3598b6c907f0476d9fc216ca40d84a88"
+    },
+    {
+      "path": "world-geometry.js",
+      "bytes": 2399,
+      "sha256": "192573c0552c0d193f4fe3036f4cd1a01443101003621a921a9622b773f641f1"
+    },
+    {
+      "path": "world.js",
+      "bytes": 3289,
+      "sha256": "f1e42354b32c67500107ee5a49cdeb5170dc120c7fc29a655684b72760715bd8"
+    }
+  ]
+}

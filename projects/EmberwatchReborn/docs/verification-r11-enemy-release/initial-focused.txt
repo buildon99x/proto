@@ -1,0 +1,106 @@
+✔ actual B boss line at 0: compact directional cue and unchanged shot payload (44.90345ms)
+✖ actual B boss line at 0.7: compact directional cue and unchanged shot payload (24.042221ms)
+✔ actual B boss line at 1.5707963267948966: compact directional cue and unchanged shot payload (19.140809ms)
+✔ actual B boss line at 3.141592653589793: compact directional cue and unchanged shot payload (18.203103ms)
+✔ actual B boss line at -1.5707963267948966: compact directional cue and unchanged shot payload (16.124184ms)
+✔ actual B boss line at -2.6: compact directional cue and unchanged shot payload (16.288511ms)
+✔ battlefield_usurper: release follows actual cone center, radius and angle (14.95407ms)
+✔ battlefield_revenant: release follows actual cone center, radius and angle (12.770304ms)
+✔ battlefield_lancer: release follows actual cone center, radius and angle (17.879577ms)
+✔ battlefield_bulwark: release follows actual circle center, radius and angle (15.240288ms)
+✔ scout: release follows actual cone center, radius and angle (12.043543ms)
+✔ older archer uses the same bounded cue while retaining240 speed and528 travel range (15.766768ms)
+✔ actual B projectile moves before contact, then deals native fire damage and burn once (30.282761ms)
+✔ side-step after locked line misses; cue expiry neither removes nor redirects projectile (30.733116ms)
+✔ wall interception after release keeps the original swept projectile collision (18.004024ms)
+✖ battlefield_usurper keeps immediate area damage and status semantics (13.168851ms)
+✖ battlefield_bulwark keeps immediate area damage and status semantics (13.739257ms)
+✔ suppressed windup releases neither damage, projectile nor presentation (3.523946ms)
+✔ actual line FX renders exact two-stroke static shape at flash0 below later warnings/actors (38.328739ms)
+✔ actual cone FX renders exact two-stroke static shape at flash0 below later warnings/actors (27.026877ms)
+✔ actual circle FX renders exact two-stroke static shape at flash0 below later warnings/actors (28.576201ms)
+✔ unrelated player slash retains its previous geometry and layers (7.748302ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 19
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 566.517703
+
+✖ failing tests:
+
+test at projects/EmberwatchReborn/app/tests/enemy-release.test.mjs:28:61
+✖ actual B boss line at 0.7: compact directional cue and unchanged shot payload (24.042221ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+  
+    {
+      attackFamily: 'spell',
+      attackId: 1,
+      attackerId: 'battlefield-usurper',
+      damage: 13,
+  ...
+      ],
+  +   vx: 168.2652812025875,
+  +   vy: 141.727891192292,
+  -   vx: 168.26528120258746,
+  -   vy: 141.72789119229202,
+      x: 512,
+      y: 512
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11-enemy-release/projects/EmberwatchReborn/app/tests/enemy-release.test.mjs:33:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { kind: 'arrow', enemy: true, x: 512, y: 512, vx: 168.2652812025875, vy: 141.727891192292, damage: 13, damageType: 'fire', attackerId: 'battlefield-usurper', attackFamily: 'spell', statusRuleIds: [ 'r11_burn' ], attackId: 1, originSkillId: 'battlefield-usurper-fireline', life: 1.6 },
+    expected: { kind: 'arrow', enemy: true, x: 512, y: 512, vx: 168.26528120258746, vy: 141.72789119229202, damage: 13, damageType: 'fire', attackerId: 'battlefield-usurper', attackFamily: 'spell', statusRuleIds: [ 'r11_burn' ], attackId: 1, originSkillId: 'battlefield-usurper-fireline', life: 1.6 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/enemy-release.test.mjs:68:126
+✖ battlefield_usurper keeps immediate area damage and status semantics (13.168851ms)
+  AssertionError [ERR_ASSERTION]: 0 != 14.423076923076923
+      at near (file:///workspace/shared/emberwatch-r11-enemy-release/projects/EmberwatchReborn/app/tests/enemy-release.test.mjs:12:26)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11-enemy-release/projects/EmberwatchReborn/app/tests/enemy-release.test.mjs:69:142)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/enemy-release.test.mjs:68:126
+✖ battlefield_bulwark keeps immediate area damage and status semantics (13.739257ms)
+  AssertionError [ERR_ASSERTION]: 0 != 9.615384615384615
+      at near (file:///workspace/shared/emberwatch-r11-enemy-release/projects/EmberwatchReborn/app/tests/enemy-release.test.mjs:12:26)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r11-enemy-release/projects/EmberwatchReborn/app/tests/enemy-release.test.mjs:69:142)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

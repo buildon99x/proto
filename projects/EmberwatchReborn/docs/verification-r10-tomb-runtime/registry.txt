@@ -1,0 +1,3 @@
+pnpm sync:registry attempted from repository root.
+[ENOENT] ENOENT: no such file or directory, mkdir /home/agent/.local/share/pnpm
+No registry output or installation workaround performed.

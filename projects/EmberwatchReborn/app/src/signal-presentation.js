@@ -1,0 +1,60 @@
+// Read-only authored S-region guidance. Continuation reflects connected runtime
+// content; it does not grant promotion, rewards, or later objective progress.
+import {SIGNAL_GROUPS,SIGNAL_NODE_NAMES} from './signal-content.js';
+import {signalTierAllowed} from './signal.js';
+const eligible=s=>signalTierAllowed(s.character?.tier)&&s.world.objectives.pass_reported===1&&s.world.claimedRewards.includes('r7:p:report');
+const left=(s,group)=>SIGNAL_GROUPS[group].filter(id=>!(s.world.defeated?.signal_basin??[]).includes(id)).length;
+const result=(id,title,detail)=>({id,title,detail});
+const order='송신 → 수신은 서쪽, 수신 → 송신은 동쪽';
+const route=o=>o.signal_west_open?'서쪽':o.signal_east_open?'동쪽':null;
+const routeStatus=o=>!o.signal_decoded?'먼저 입구 중앙 북쪽 해독판에서 신호를 해독하세요.':o.signal_route_ready?`${route(o)} 접근로를 연결했습니다. 선택은 고정되며 보상은 양쪽 모두 같습니다.`:o.signal_route_step===1?`순서 1/2. 다음은 ${o.signal_route_first===1?'수신':'송신'} 레버입니다.`:'순서 0/2. 어느 레버부터 누를지 고르세요.';
+const travelRecovery='지역 전환 자체는 자원을 회복하거나 쿨다운을 초기화하지 않습니다. 보행 중에는 기존 회복·쿨다운 규칙이 적용됩니다.';
+const reportStatus=o=>o.signal_reported?'대장장이 오린에게 보고까지 마쳤습니다.':'마을 대장장이 오린에게 보고하세요.';
+function decodePrerequisites(state){
+ const remaining=left(state,'entry');
+ return remaining?`입구에 남은 적 ${remaining}/${SIGNAL_GROUPS.entry.length}명을 처치하세요.`:'입구 전투 완료. 해독판에서 신호를 해독할 수 있습니다.';
+}
+function transmitterPrerequisites(state){
+ const o=state.world.objectives,remaining=left(state,'yard');
+ if(!o.signal_decoded)return '먼저 입구 중앙 북쪽 해독판에서 신호를 해독하세요.';
+ if(!o.signal_route_ready)return `해독 완료. 두 레버 순서로 접근로를 고르세요. ${routeStatus(o)}`;
+ if(remaining)return `${route(o)} 접근로 선택 완료. 중계장에 남은 적 ${remaining}/${SIGNAL_GROUPS.yard.length}명을 처치하세요.`;
+ return '접근로 선택·중계장 전투 완료. 송신기를 복원할 수 있습니다.';
+}
+function receiverPrerequisites(state){
+ const o=state.world.objectives,remaining=left(state,'receiver');
+ if(!o.signal_transmitter_restored)return '먼저 중앙 폐허 남쪽 송신기를 복원하세요. 복원하면 중앙 북쪽 통로가 열립니다.';
+ if(remaining)return `송신기 복원 완료. 수신탑에 남은 파수병 ${remaining}/${SIGNAL_GROUPS.receiver.length}명을 처치하세요.`;
+ return '송신기 복원·파수병 처치 완료. 수신기를 복원할 수 있습니다.';
+}
+export function signalObjectView(state,object){
+ const o=state.world.objectives,view=(name,detail,label,done=false)=>({name,detail,actions:done?[]:[{label}]});
+ switch(object.actionKind){
+  case 'decode':return view(o.signal_decoded?'중계 해독판 · 사본 보관 중':'고갯길 신호 해독',o.signal_decoded?`해독판 사본과 경험치100·금화10은 이미 받았습니다. 다시 읽어도 보상을 추가 지급하지 않습니다. ${order} 접근로입니다. ${routeStatus(o)} 두 레버는 해독판 아래에 있습니다.`:`${decodePrerequisites(state)} 고갯길 비문 사본으로 신호를 해독합니다. ${order} 접근로를 엽니다. 해독은 경험치100·금화10과 비소모 해독판을 한 번 줍니다. 다시 읽기는 무료입니다.`,o.signal_decoded?'해독판 다시 읽기':'신호 해독');
+  case 'route':return view(`접근로 선택 · ${SIGNAL_NODE_NAMES[object.node]} 레버`,o.signal_route_ready?`${order} 접근로입니다. ${routeStatus(o)} 두 길 모두 같은 중계장으로 이어집니다.`:`${order} 접근로입니다. ${routeStatus(o)} 두 레버는 입구 중앙에 있습니다. 같은 레버를 두 번 누르면 미완료 순서만 초기화됩니다. 대기 시간·비용·보상은 없고, 두 길 모두 중앙 폐허 양쪽에서 같은 적을 만납니다.`,`${SIGNAL_NODE_NAMES[object.node]} 레버 누르기`,o.signal_route_ready);
+  case 'transmitter':return view(o.signal_transmitter_restored?'분지 송신기 · 복원 완료':'분지 송신기 복원',o.signal_transmitter_restored?`송신기가 복원되어 중앙 북쪽 수신탑 문이 열렸습니다. 송신 보상은 이미 받았습니다. ${o.signal_receiver_restored?reportStatus(o):receiverPrerequisites(state)}`:`${transmitterPrerequisites(state)} 중앙 폐허 남쪽의 송신기 복원은 경험치110·금화30과 북쪽 길을 한 번 줍니다.`,'송신기 복원',o.signal_transmitter_restored);
+  case 'receiver':return view(o.signal_receiver_restored?'북쪽 수신기 · 복원 완료':'북쪽 수신기 복원',o.signal_receiver_restored?`송신·수신 연결을 복원했습니다. 보급과 보상은 이미 받았습니다. ${reportStatus(o)}`:`${receiverPrerequisites(state)} 수신기 복원은 경험치120·금화40·철4·목재1·실3·잿불 조각1·물약1을 한 번 줍니다.`,'수신기 복원',o.signal_receiver_restored);
+  case 'shortcut':return view(o.signal_shortcut_open?'중계 승강기 · 연결 완료':'중계 승강기 연결',o.signal_shortcut_open?`마을과 입구 동쪽이 연결되었습니다. ${travelRecovery}`:`${o.signal_decoded?'해독 완료. 지금 무료로 연결할 수 있습니다.':'먼저 입구 중앙 북쪽 해독판에서 신호를 해독하세요.'} 중계장 전투·접근로 선택은 필요하지 않습니다. 선택 귀환로이며 마지막 수신기·보고의 조건이 아닙니다. 연결에는 비용·보상·자원 회복이 없습니다. ${travelRecovery}`,'승강기 연결',o.signal_shortcut_open);
+  default:return {name:object.name,detail:'사용할 수 없는 대상입니다.',actions:[]};
+ }
+}
+export function signalGuidance(state){
+ if(!eligible(state))return null;
+ const o=state.world.objectives;
+ if(!o.signal_accepted)return result('signal-accept','대장장이 오린에게 신호 복원 받기','고갯길 보고를 마쳤습니다. 마을 남서쪽 오린에게 다음 조사를 받은 뒤 서쪽 신호 분지 입구로 가세요. 입장료·특정 기술·장비 조건은 없습니다.');
+ if(state.world.region!=='signal_basin'&&!o.signal_receiver_restored)return result('signal-travel','신호 분지로 이동해 조사 계속하기',state.world.region==='ash_hamlet'?(o.signal_shortcut_open?`마을 서쪽의 신호 분지 중계 승강기가 연결되어 있습니다. 승강기 또는 잿불 신호 분지 입구로 돌아가 현재 조사부터 이어가세요. ${travelRecovery}`:`마을 서쪽의 잿불 신호 분지 입구로 이동해 상호작용하세요. ${o.signal_decoded?'도착 후 현재 조사 단계부터 이어가세요.':`${decodePrerequisites(state)} 중앙 북쪽 해독판을 확인하세요.`} 조사 수락만으로 전투나 보상이 완료되지는 않습니다.`):'현재 지역 출구로 마을에 돌아간 뒤 서쪽의 잿불 신호 분지 입구로 가세요. 이미 완료한 조사와 보상은 유지됩니다.');
+ if(!o.signal_decoded)return result('signal-decode','입구 정리 · 중앙 해독판 확인',`${decodePrerequisites(state)} 중앙 북쪽 해독판을 읽으세요. 돌격병의 좁은 찌르기는 옆으로, 조준수의 선 전조는 엄폐물 뒤로 피하세요. 적 발밑의 겹화살표는 돌격병, 갈래화살표는 조준수, 넓은 방패는 파수병입니다.`);
+ if(!o.signal_route_ready)return result('signal-route','두 레버 순서로 접근 방향 선택',`${order} 접근로입니다. ${routeStatus(o)} 레버는 해독판 아래에 있습니다. ${o.signal_shortcut_open?'동쪽 승강기는 이미 연결되어 있습니다.':'동쪽 승강기는 지금 무료로 연결해도 되고 건너뛰어도 됩니다.'}`);
+ if(!o.signal_transmitter_restored)return result('signal-transmitter',`${route(o)} 접근로 · 중앙 송신기 복원`,`${transmitterPrerequisites(state)} ${left(state,'yard')?`입구의 ${route(o)} 끝 길로 올라가세요. 중앙 폐허는 사수의 조준선을 끊습니다.`:'중앙 폐허 남쪽 송신기를 확인하세요.'} 선택 귀환로는 입구 동쪽입니다.`);
+ if(!o.signal_receiver_restored)return result('signal-receiver','중앙 북쪽 통로 · 수신기 복원',`${receiverPrerequisites(state)} 송신기 위 중앙 통로로 올라가 북쪽 수신기를 확인하세요. 좁고 긴 찌르기와 짧고 넓은 휩쓸기 전조를 구별하세요. 발밑의 넓은 방패 표식이 파수병을 구분합니다. 열린 통로의 작은 모서리 표식은 바닥 길을 보여 줍니다.`);
+ if(!o.signal_reported)return result('signal-report','마을 대장장이 오린에게 보고','송신·수신 연결을 마쳤습니다. 입구 또는 선택 승강기로 마을에 돌아가 오린에게 보고하면 경험치90·금화60을 한 번 받습니다. 추가 레벨·지름길은 요구하지 않습니다.');
+ return result('signal-complete','신호 복원 완료 · 용광로 조사로','분지 송신기와 북쪽 수신기 복원을 오린에게 보고했습니다. 오린에게 용광로 수리 의뢰를 받을 수 있습니다. 용광로 보고 후 신호 묘실 조사는 촌장 에다에게 받을 수 있습니다. 묘실 보고 후 브란에게 전문가 승급을 하고 에다의 봉화 전장 의뢰로 이어집니다. 달인 승급과 전체 캠페인 결말은 아직 구현되지 않았습니다.');
+}
+export function signalBlacksmithView(state){
+ if(!eligible(state))return null;
+ const o=state.world.objectives;
+ if(!o.signal_accepted)return {title:'새 조사 · 신호 복원',detail:`고갯길의 신호가 분지 중계소에서 끊겼습니다. 해독판을 얻고 두 레버의 순서로 접근로를 골라 송신기와 수신기를 복원해 주세요. ${order}입니다. 수락·필수 진행은 무료입니다.`,action:'accept',label:'신호 복원 수락'};
+ if(o.signal_reported)return {title:'신호 복원 · 보고 완료',detail:`중계 송신기와 수신기 연결을 확인했습니다. ${o.furnace_reported?'용광로 수리 보고도 마쳤습니다. 다음 신호 묘실 조사는 촌장 에다에게 수락하고 보고하세요.':o.furnace_accepted?'진행 중인 용광로 수리 기록을 확인하세요.':'다음 용광로 수리 의뢰를 확인하세요.'} 묘실 이후 전문가 승급·전문 기술·봉화 전장·황야 조사까지 연결되어 있습니다. 달인 승급과 기술은 아직 개발 중입니다.`,action:null,label:''};
+ if(o.signal_receiver_restored)return {title:'신호 복원 결과 보고',detail:'경험치90·금화60을 한 번 받습니다. 추가 레벨·비용·선택 승강기는 필요하지 않습니다.',action:'report',label:'신호 복원 보고'};
+ return {title:'신호 복원 진행 중',detail:signalGuidance(state).detail,action:null,label:''};
+}

@@ -1,0 +1,68 @@
+✔ W registered content remains detached; all authored spawns, objects and foes fit their actual collision floors (1.465408ms)
+✔ mandatory gated floors open sequentially with a permanent retreat; no puzzle/boss condition on anchor return (2094.26672ms)
+✔ cover/channel has actual six-tile collision/LOS difference and two open flanks in both modes (3.481591ms)
+✔ survey cover creates offset real sightlines while both sides remain reachable without increasing foe HP (0.32693ms)
+✔ in-range interaction across closed cover fails with WALL_BLOCKED, never UI-only success (74.144494ms)
+✔ journal, object actions and Eda continuation are truthful, read-only and revision-bound (87.369085ms)
+✔ authored small entry foyer breaks every initial enemy sightline and reaches an immediate return without a fight (12.138833ms)
+✔ untouched existing state gets no W defaults, rewards or eligibility (4.227329ms)
+✔ real detached W handlers easy/cover: five groups, exact budget, retained history and correct Eda report (2001.188031ms)
+✔ real detached W handlers easy/channel: five groups, exact budget, retained history and correct Eda report (390.76642ms)
+✔ real detached W handlers normal/cover: five groups, exact budget, retained history and correct Eda report (1927.509378ms)
+✔ real detached W handlers normal/channel: five groups, exact budget, retained history and correct Eda report (373.220466ms)
+✔ real detached W handlers hard/cover: five groups, exact budget, retained history and correct Eda report (1826.065373ms)
+✔ real detached W handlers hard/channel: five groups, exact budget, retained history and correct Eda report (414.278602ms)
+✔ real detached W handlers serious/cover: five groups, exact budget, retained history and correct Eda report (1755.080824ms)
+✔ real detached W handlers serious/channel: five groups, exact budget, retained history and correct Eda report (375.401112ms)
+✔ B report cannot be forged by level, incomplete beacon/report history, or wrong Eda location (40.384181ms)
+✔ free hook pickup and explicit anchor are distinct and immediately open safe return without puzzle, boss or spending (123.969897ms)
+✔ readable clue survives JSON round trip; wrong order resets only prefix, no XP/resource/tool loss or hidden timer (107.929262ms)
+✔ pre-encounter cover choice costs nothing, permits all D guards once and cannot change after commitment (66.921016ms)
+✔ pre-encounter channel choice costs nothing, permits all D guards once and cannot change after commitment (66.928938ms)
+✔ relic is explicit; immediate boss return is safe before relic, report remains blocked, no automatic reward (123.001795ms)
+✔ optional scout rescue before Eda report never gates route and pays exactly once (90.507686ms)
+✔ optional scout rescue after Eda report never gates route and pays exactly once (75.296516ms)
+✔ depleted paid recovery survives objectives, wrong input, JSON re-entry and both return paths without healing (109.305822ms)
+✖ simultaneous keeper kill and death settle once; explicit retry preserves clue, choice, paid cooldown/RNG and historical kills (53.749135ms)
+✔ per-foe settlement applies current-level Expert scaling at exact L30 crossing, with no batch-entry multiplier (27.881412ms)
+✔ duplicate defeats are no-op rewards; locked, foreign, duplicated and invalid reports fail before mutation (71.276964ms)
+✔ all objective and ancestry histories fail closed on missing/reversed/forged relationships (48.003404ms)
+✔ temporary ancestry projection validates real W position/pools/visited/life before substituting two location fields (24.715123ms)
+✔ stale revision, far/wall-bound/foreign interactions and unknown gates cannot grant rewards (116.398184ms)
+✔ overflow and bounded ledgers reject atomically without clearing old records (159.924926ms)
+✔ receipt/kill tables implement only combat-weighted W, no minimum-envelope second reward layer (0.395283ms)
+✔ malformed JSON/accessors, foreign permanent histories and recovery cannot be projected into valid W progress (9.258161ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 33
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12907.37839
+
+✖ failing tests:
+
+test at projects/EmberwatchReborn/app/tests/wilderness-runtime.test.mjs:64:1
+✖ simultaneous keeper kill and death settle once; explicit retry preserves clue, choice, paid cooldown/RNG and historical kills (53.749135ms)
+  AssertionError [ERR_ASSERTION]: {"ok":false,"code":"INVALID_REPORT","reason":"현재 위치·자원·회수 상태를 확인할 수 없습니다."}
+  + actual - expected
+
+  + 'INVALID_REPORT'
+  - 'NOT_DOWN'
+
+      at reject (file:///workspace/shared/emberwatch-wilderness-runtime/projects/EmberwatchReborn/app/tests/wilderness-runtime.test.mjs:11:175)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-runtime/projects/EmberwatchReborn/app/tests/wilderness-runtime.test.mjs:66:811)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'INVALID_REPORT',
+    expected: 'NOT_DOWN',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

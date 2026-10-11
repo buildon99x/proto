@@ -1,0 +1,62 @@
+{
+  "sourceCommit": "a93ed235e0f54244e793bdd92091a8cc194b3d10",
+  "appSourceAndTestsTree": "8af6dfbb427ee2af3e4bf420bd37719520418724",
+  "candidate": "R12a1",
+  "version": "0.12.0-reimplementation.2",
+  "aggregate": {
+    "tests": 2446,
+    "passed": 2446,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "todo": 0,
+    "durationMs": 399540.152311,
+    "command": "node --test --test-concurrency=1 tests/*.test.mjs",
+    "sourceCommit": "f6dc8fc7948018cc4ca154bbf3fb49162a1ecead",
+    "scope": "before final wording-only correction; not rerun afterward by parent instruction"
+  },
+  "nodeVersion": "v24.19.0",
+  "builds": [
+    {
+      "output": "dist",
+      "version": "0.12.0-reimplementation.2",
+      "payloadFiles": 95,
+      "payloadBytes": 16476431,
+      "sha256": "all_matched",
+      "relativeImports": 272,
+      "importTargets": "all_present",
+      "futureExpeditionRuntime": "excluded",
+      "gameplayAcceptance": "not_established",
+      "manifestSha256": "961d04bf7d124768dd919c8d54f22a975821ffa0f169db69f4148f8a89622e07"
+    },
+    {
+      "output": "dist-recovery",
+      "version": "0.12.0-reimplementation.2",
+      "payloadFiles": 95,
+      "payloadBytes": 16475422,
+      "sha256": "all_matched",
+      "relativeImports": 272,
+      "importTargets": "all_present",
+      "futureExpeditionRuntime": "excluded",
+      "gameplayAcceptance": "not_established",
+      "manifestSha256": "cd18325540820471c309241958b58f04b2e37585184be2df3b4bb52cc759d542"
+    }
+  ],
+  "originalFilesMatched": 167,
+  "registry": "blocked ENOENT pnpm home; exit1",
+  "vercel": "blocked ENOENT pnpm home; exit1",
+  "externalActions": [],
+  "nativeWAcceptance": "pending parent ordinary-input QA",
+  "baselineW": "ddee4c007a9402da01fa2676ce46b10e93908ffa",
+  "baselineR11": "17b13fa04fec8336d2c08f3c4603a0d2e8d00276",
+  "displayPatch": "bc0189889924eae44a8cd0d1d8e4b9ef43155f10",
+  "postAggregateChange": {
+    "kind": "one Wilderness reentry sentence clarified; ordinary walking regeneration sentence unchanged",
+    "sourceCommit": "a93ed235e0f54244e793bdd92091a8cc194b3d10",
+    "focusedTests": 1,
+    "focusedPassed": 1,
+    "durationMs": 2817.039931,
+    "syntax": "passed after wording",
+    "fullAggregateRerun": false
+  }
+}

@@ -1,0 +1,8 @@
+Initial focused geometry/presentation run: 5/6 passed, 1 failed.
+Failure: test "in-range interaction across closed cover fails with WALL_BLOCKED,
+never UI-only success" could not find an in-range collision-blocked point near
+the original relay at (336,464). No production handler failure was asserted.
+Correction: position the new authored relay at (480,496), immediately north of
+the central cover, where an actual adjacent-corner LOS block exists. This also
+puts the relay at its named cover-facing location. Other gates/rewards unchanged.
+The corrected six-test output is preserved in corrected-geometry-6.txt.

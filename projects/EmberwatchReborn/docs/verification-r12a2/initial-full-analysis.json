@@ -1,0 +1,28 @@
+{
+  "sourceBefore": "01b226418477c1bd057bbda056512a105ac5ad76",
+  "initialFull": {
+    "tests": 2510,
+    "pass": 2505,
+    "fail": 5,
+    "durationMs": 416601.088782
+  },
+  "failures": [
+    "fire-area-presentation: actual main handoff",
+    "furnace-readability: actual main handoff",
+    "furnace-role-readability: actual main handoff",
+    "signal-readability: actual main handoff",
+    "tomb-ui-integration: actual main handoff"
+  ],
+  "cause": "Extraction terminator drawLabels(); changed to drawLabels(sceneVisibility);. Five fixtures now use the actual new boundary plus production non-W helper output. All prior output/state assertions retained.",
+  "native": "New readability/trainer-position runtime not yet browser tested; prior R12a1 QA is separate.",
+  "fullRerun": {
+    "source": "53a38c856b09d883f6e910b065db7daad66665b5",
+    "tests": 2510,
+    "pass": 2510,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "todo": 0,
+    "durationMs": 421803.891301
+  }
+}

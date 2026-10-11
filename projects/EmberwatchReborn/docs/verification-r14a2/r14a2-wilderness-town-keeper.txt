@@ -1,0 +1,28 @@
+✔ W-only town endpoints retain every old coordinate, floor and physical arch base (8.676447ms)
+✔ real main nearest and labels preserve legacy targets with W unaccepted (6519.344995ms)
+✔ real main nearest and labels preserve legacy targets with W accepted locked (3827.957994ms)
+✔ real main nearest and labels preserve legacy targets with W anchored (3986.490684ms)
+✔ real main nearest and labels preserve legacy targets with W reported (3921.138056ms)
+✔ accepted W selection is deterministic at the remaining outer-circle overlap and unique throughout its own inner48 (2996.049028ms)
+✔ real stepBattle town movement reaches either W endpoint from each legacy center without altered collision (3409.364498ms)
+✔ actual main F ordinary roundtrip returns inside its own nearest zone and immediately re-enters the same route (1084.896433ms)
+✔ actual main F anchor roundtrip returns inside its own nearest zone and immediately re-enters the same route (1108.22058ms)
+✔ actual atlas/projected arch and short-label bounds do not cover legacy targets or each other (107.702232ms)
+✔ every staged inactive W foe is physically unreachable and has no reachable-floor LOS until its real gate (291.341943ms)
+✔ registered W keeper owns authored patterns and unchanged health/body/rewards, with radial retreat in its actual arena (3018.077701ms)
+✔ keeper line aim and origin stay committed while real lateral movement avoids its delayed projectile (60.67608ms)
+✔ stationary hero receives keeper line damage and burn only when the real shot arrives (47.758622ms)
+✔ keeper circle remains committed and lateral flank still hits through actual movement (64.060845ms)
+✔ keeper circle remains committed and radial retreat avoids damage through actual movement (67.646009ms)
+✔ keeper recovery stays vulnerable to a real mace action and returns to the line cycle without B footwork (118.796813ms)
+✔ existing silence interrupts the W wilderness-keeper-fireline without a late release (3.431496ms)
+✔ existing disarm interrupts the W wilderness-keeper-burst without a late release (42.796249ms)
+✔ real shield charge can interrupt the W locked tell without boss immunity or extra movement policy (4.802135ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 30853.923334

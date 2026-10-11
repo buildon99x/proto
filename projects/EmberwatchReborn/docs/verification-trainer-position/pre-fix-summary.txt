@@ -1,0 +1,53 @@
+Counterfactual only: final 43-test file executed with base main.js at 128aae574de5d31f070b76191a7694340c8bdcce.
+This is expected to fail. Unmodified base imports/controller/store are retained.
+✖ successful real purchase restores final trainer card, disclosures and keyboard focus after both saves (1529.333442ms)
+✖ repeated enabled keyboard purchases preserve card position through changed text heights and charge each rank once (276.274905ms)
+✖ latest scroll/disclosure choices during payment are retained instead of old click-time values (294.826116ms)
+✖ max rank moves reading focus to the same inert card and rejects disabled clicks (320.116924ms)
+✖ purchase making next rank unaffordable does not focus another actionable purchase (1225.442777ms)
+✔ disabled skill:flaming_wrath never submits, changes viewport or restores input (123.994283ms)
+✔ disabled skill:banner_of_zeal never submits, changes viewport or restores input (159.113769ms)
+✖ double click, stale detached button and a click during payment cannot buy extra ranks (439.906509ms)
+✖ close during purchase invalidates the old trainer restoration (256.000922ms)
+✖ menu during purchase invalidates the old trainer restoration (256.388453ms)
+✔ title during purchase invalidates the old trainer restoration (160.397756ms)
+✔ controller during purchase invalidates the old trainer restoration (158.053528ms)
+✖ profile during purchase invalidates the old trainer restoration (253.966638ms)
+✖ battle during purchase invalidates the old trainer restoration (255.045127ms)
+✖ life during purchase invalidates the old trainer restoration (171.46613ms)
+✖ region during purchase invalidates the old trainer restoration (269.749449ms)
+✖ dead during purchase invalidates the old trainer restoration (263.469089ms)
+✔ close during checkpoint invalidates the old trainer restoration (197.2437ms)
+✔ menu during checkpoint invalidates the old trainer restoration (197.656511ms)
+✔ title during checkpoint invalidates the old trainer restoration (196.329809ms)
+✔ controller during checkpoint invalidates the old trainer restoration (299.038713ms)
+✖ profile during checkpoint invalidates the old trainer restoration (287.885148ms)
+✔ battle during checkpoint invalidates the old trainer restoration (240.195273ms)
+✖ life during checkpoint invalidates the old trainer restoration (355.246499ms)
+✖ region during checkpoint invalidates the old trainer restoration (262.700267ms)
+✔ dead during checkpoint invalidates the old trainer restoration (224.177541ms)
+✔ QUOTA during purchase cannot apply a stale view or repeat the purchase (193.843663ms)
+✔ COMMIT_UNCERTAIN during purchase cannot apply a stale view or repeat the purchase (167.890373ms)
+✔ QUOTA during checkpoint cannot apply a stale view or repeat the purchase (187.313478ms)
+✔ COMMIT_UNCERTAIN during checkpoint cannot apply a stale view or repeat the purchase (222.549459ms)
+✔ focus during purchase never revives the old purchase focus (252.439135ms)
+✔ blur during purchase never revives the old purchase focus (253.88138ms)
+✔ visibility during purchase never revives the old purchase focus (254.567931ms)
+✔ focus during checkpoint never revives the old purchase focus (251.270942ms)
+✔ blur during checkpoint never revives the old purchase focus (255.564386ms)
+✔ visibility during checkpoint never revives the old purchase focus (256.399791ms)
+✖ pointer purchase without owned keyboard focus preserves scroll without stealing skill focus (250.23725ms)
+✖ successful refresh still clears held/deferred input, binding capture and native key repeat (255.715705ms)
+✔ close and reopen during purchase leaves the new trainer at its own default view (305.260744ms)
+✔ close and reopen during checkpoint leaves the new trainer at its own default view (291.123793ms)
+✔ real rejected out-of-range purchase leaves state, storage, viewport and focus unchanged (132.58019ms)
+✖ dead battle cannot start an old enabled training purchase (255.251938ms)
+✔ repeated blur with an identical wall-clock timestamp still invalidates purchase focus (255.374452ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 24
+ℹ fail 19
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12854.017247

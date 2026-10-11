@@ -1,0 +1,826 @@
+TAP version 13
+# Subtest: unsupported candidate /qa-r99 has no release fallback at startup, click or direct profile load
+ok 1 - unsupported candidate /qa-r99 has no release fallback at startup, click or direct profile load
+  ---
+  duration_ms: 5.89597
+  type: 'test'
+  ...
+# Subtest: unsupported candidate /qa-r99/ has no release fallback at startup, click or direct profile load
+ok 2 - unsupported candidate /qa-r99/ has no release fallback at startup, click or direct profile load
+  ---
+  duration_ms: 2.854339
+  type: 'test'
+  ...
+# Subtest: unsupported candidate /qa-r13/index.html has no release fallback at startup, click or direct profile load
+ok 3 - unsupported candidate /qa-r13/index.html has no release fallback at startup, click or direct profile load
+  ---
+  duration_ms: 3.509451
+  type: 'test'
+  ...
+# Subtest: unsupported candidate /qa-r3/ has no release fallback at startup, click or direct profile load
+ok 4 - unsupported candidate /qa-r3/ has no release fallback at startup, click or direct profile load
+  ---
+  duration_ms: 2.584916
+  type: 'test'
+  ...
+# Subtest: unsupported candidate /qa-r12-other/ has no release fallback at startup, click or direct profile load
+ok 5 - unsupported candidate /qa-r12-other/ has no release fallback at startup, click or direct profile load
+  ---
+  duration_ms: 2.964174
+  type: 'test'
+  ...
+# Subtest: unsupported candidate /qa-r012/ has no release fallback at startup, click or direct profile load
+ok 6 - unsupported candidate /qa-r012/ has no release fallback at startup, click or direct profile load
+  ---
+  duration_ms: 2.933999
+  type: 'test'
+  ...
+# Subtest: unsupported candidate /qa-unknown/ has no release fallback at startup, click or direct profile load
+ok 7 - unsupported candidate /qa-unknown/ has no release fallback at startup, click or direct profile load
+  ---
+  duration_ms: 2.678436
+  type: 'test'
+  ...
+# Subtest: unsupported candidate /QA-r99/ has no release fallback at startup, click or direct profile load
+ok 8 - unsupported candidate /QA-r99/ has no release fallback at startup, click or direct profile load
+  ---
+  duration_ms: 3.656121
+  type: 'test'
+  ...
+# Subtest: unsupported candidate /%71a-r99/ has no release fallback at startup, click or direct profile load
+ok 9 - unsupported candidate /%71a-r99/ has no release fallback at startup, click or direct profile load
+  ---
+  duration_ms: 2.562112
+  type: 'test'
+  ...
+# Subtest: unsupported candidate //qa-r99/ has no release fallback at startup, click or direct profile load
+ok 10 - unsupported candidate //qa-r99/ has no release fallback at startup, click or direct profile load
+  ---
+  duration_ms: 2.676242
+  type: 'test'
+  ...
+# Subtest: supported qa-r4 aliases retain their exact namespace and normal start/load path
+ok 11 - supported qa-r4 aliases retain their exact namespace and normal start/load path
+  ---
+  duration_ms: 9.073733
+  type: 'test'
+  ...
+# Subtest: supported qa-r5 aliases retain their exact namespace and normal start/load path
+ok 12 - supported qa-r5 aliases retain their exact namespace and normal start/load path
+  ---
+  duration_ms: 7.515217
+  type: 'test'
+  ...
+# Subtest: supported qa-r6 aliases retain their exact namespace and normal start/load path
+ok 13 - supported qa-r6 aliases retain their exact namespace and normal start/load path
+  ---
+  duration_ms: 7.318822
+  type: 'test'
+  ...
+# Subtest: supported qa-r7 aliases retain their exact namespace and normal start/load path
+ok 14 - supported qa-r7 aliases retain their exact namespace and normal start/load path
+  ---
+  duration_ms: 7.720355
+  type: 'test'
+  ...
+# Subtest: supported qa-r8 aliases retain their exact namespace and normal start/load path
+ok 15 - supported qa-r8 aliases retain their exact namespace and normal start/load path
+  ---
+  duration_ms: 7.713884
+  type: 'test'
+  ...
+# Subtest: supported qa-r9 aliases retain their exact namespace and normal start/load path
+ok 16 - supported qa-r9 aliases retain their exact namespace and normal start/load path
+  ---
+  duration_ms: 8.279943
+  type: 'test'
+  ...
+# Subtest: supported qa-r10 aliases retain their exact namespace and normal start/load path
+ok 17 - supported qa-r10 aliases retain their exact namespace and normal start/load path
+  ---
+  duration_ms: 7.15018
+  type: 'test'
+  ...
+# Subtest: supported qa-r11 aliases retain their exact namespace and normal start/load path
+ok 18 - supported qa-r11 aliases retain their exact namespace and normal start/load path
+  ---
+  duration_ms: 7.325352
+  type: 'test'
+  ...
+# Subtest: supported qa-r12 aliases retain their exact namespace and normal start/load path
+ok 19 - supported qa-r12 aliases retain their exact namespace and normal start/load path
+  ---
+  duration_ms: 8.988085
+  type: 'test'
+  ...
+# Subtest: non-QA release path / keeps previous behavior
+ok 20 - non-QA release path / keeps previous behavior
+  ---
+  duration_ms: 2.615972
+  type: 'test'
+  ...
+# Subtest: non-QA release path /index keeps previous behavior
+ok 21 - non-QA release path /index keeps previous behavior
+  ---
+  duration_ms: 2.535161
+  type: 'test'
+  ...
+# Subtest: non-QA release path /index.html keeps previous behavior
+ok 22 - non-QA release path /index.html keeps previous behavior
+  ---
+  duration_ms: 2.518516
+  type: 'test'
+  ...
+# Subtest: non-QA release path /ordinary-existing-release-path keeps previous behavior
+ok 23 - non-QA release path /ordinary-existing-release-path keeps previous behavior
+  ---
+  duration_ms: 2.472086
+  type: 'test'
+  ...
+# Subtest: non-QA release path /ordinary%ZZ keeps previous behavior
+ok 24 - non-QA release path /ordinary%ZZ keeps previous behavior
+  ---
+  duration_ms: 2.492587
+  type: 'test'
+  ...
+# Subtest: non-QA release path /%E0%A4%A keeps previous behavior
+ok 25 - non-QA release path /%E0%A4%A keeps previous behavior
+  ---
+  duration_ms: 2.478776
+  type: 'test'
+  ...
+# Subtest: malformed route inputs fail closed without creating another URL alias
+ok 26 - malformed route inputs fail closed without creating another URL alias
+  ---
+  duration_ms: 0.127511
+  type: 'test'
+  ...
+# Subtest: delayed A first WebLock save cannot replace loaded B or bind A pools to B revision
+ok 27 - delayed A first WebLock save cannot replace loaded B or bind A pools to B revision
+  ---
+  duration_ms: 64.683159
+  type: 'test'
+  ...
+# Subtest: obsolete delayed saved-profile load cannot replace B or start a new save
+ok 28 - obsolete delayed saved-profile load cannot replace B or start a new save
+  ---
+  duration_ms: 22.277941
+  type: 'test'
+  ...
+# Subtest: obsolete delayed new-game preflight cannot replace B or start a new save
+ok 29 - obsolete delayed new-game preflight cannot replace B or start a new save
+  ---
+  duration_ms: 17.058126
+  type: 'test'
+  ...
+# Subtest: late failed A load cannot clear B, change its modal or reset load state
+ok 30 - late failed A load cannot clear B, change its modal or reset load state
+  ---
+  duration_ms: 25.516978
+  type: 'test'
+  ...
+# Subtest: late failed A start cannot clear B, change its modal or reset load state
+ok 31 - late failed A start cannot clear B, change its modal or reset load state
+  ---
+  duration_ms: 22.618151
+  type: 'test'
+  ...
+# Subtest: showTitle dismisses a pending load without obsolete success or error reopening gameplay
+ok 32 - showTitle dismisses a pending load without obsolete success or error reopening gameplay
+  ---
+  duration_ms: 6.985082
+  type: 'test'
+  ...
+# Subtest: showTitle dismisses a pending start without obsolete success or error reopening gameplay
+ok 33 - showTitle dismisses a pending start without obsolete success or error reopening gameplay
+  ---
+  duration_ms: 10.451971
+  type: 'test'
+  ...
+# Subtest: same-profile overlapping continue owns the latest invocation and never starts an obsolete requested new game
+ok 34 - same-profile overlapping continue owns the latest invocation and never starts an obsolete requested new game
+  ---
+  duration_ms: 23.745651
+  type: 'test'
+  ...
+# Subtest: normal load, reload and fresh start retain storage behavior and never remap existing progress
+ok 35 - normal load, reload and fresh start retain storage behavior and never remap existing progress
+  ---
+  duration_ms: 28.360962
+  type: 'test'
+  ...
+# Subtest: current load/start failures still present the title error and preserve existing raw saves
+ok 36 - current load/start failures still present the title error and preserve existing raw saves
+  ---
+  duration_ms: 16.738927
+  type: 'test'
+  ...
+# Subtest: reloading while gameplay was active pauses simulation throughout a delayed load
+ok 37 - reloading while gameplay was active pauses simulation throughout a delayed load
+  ---
+  duration_ms: 20.278813
+  type: 'test'
+  ...
+# Subtest: actual delayed candidate-copy success cannot steal a newer continue selection
+ok 38 - actual delayed candidate-copy success cannot steal a newer continue selection
+  ---
+  duration_ms: 21.451011
+  type: 'test'
+  ...
+# Subtest: actual delayed candidate-copy failure cannot steal a newer continue selection
+ok 39 - actual delayed candidate-copy failure cannot steal a newer continue selection
+  ---
+  duration_ms: 17.497294
+  type: 'test'
+  ...
+# Subtest: title dismissal invalidates delayed candidate-copy success
+ok 40 - title dismissal invalidates delayed candidate-copy success
+  ---
+  duration_ms: 17.340738
+  type: 'test'
+  ...
+# Subtest: title dismissal invalidates delayed candidate-copy failure
+ok 41 - title dismissal invalidates delayed candidate-copy failure
+  ---
+  duration_ms: 12.981763
+  type: 'test'
+  ...
+# Subtest: candidate-copy intent immediately supersedes an older delayed new-game preflight
+ok 42 - candidate-copy intent immediately supersedes an older delayed new-game preflight
+  ---
+  duration_ms: 23.023018
+  type: 'test'
+  ...
+# Subtest: overlapping candidate copies preserve the latest target even when the earlier copy finishes last
+ok 43 - overlapping candidate copies preserve the latest target even when the earlier copy finishes last
+  ---
+  duration_ms: 25.427212
+  type: 'test'
+  ...
+# Subtest: ordinary current candidate-copy still loads its target exactly once and keeps original bytes
+ok 44 - ordinary current candidate-copy still loads its target exactly once and keeps original bytes
+  ---
+  duration_ms: 18.826937
+  type: 'test'
+  ...
+# Subtest: actual title pending start: Escape/pause, menu key and close cannot resume a prior battle
+ok 45 - actual title pending start: Escape/pause, menu key and close cannot resume a prior battle
+  ---
+  duration_ms: 22.849028
+  type: 'test'
+  ...
+# Subtest: actual title pending copy: Escape/pause, menu key and close cannot resume a prior battle
+ok 46 - actual title pending copy: Escape/pause, menu key and close cannot resume a prior battle
+  ---
+  duration_ms: 34.186335
+  type: 'test'
+  ...
+# Subtest: actual title pending start still installs its sole current owner after ignored Escape and close
+ok 47 - actual title pending start still installs its sole current owner after ignored Escape and close
+  ---
+  duration_ms: 6.488669
+  type: 'test'
+  ...
+# Subtest: actual title pending copy still installs its sole current owner after ignored Escape and close
+ok 48 - actual title pending copy still installs its sole current owner after ignored Escape and close
+  ---
+  duration_ms: 19.281438
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /recovery resolves only release and performs no automatic read/write
+ok 49 - dedicated root recovery /recovery resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 2.768872
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /recovery.html resolves only release and performs no automatic read/write
+ok 50 - dedicated root recovery /recovery.html resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 0.220901
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /save-recovery resolves only release and performs no automatic read/write
+ok 51 - dedicated root recovery /save-recovery resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 0.214652
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /save-recovery/ resolves only release and performs no automatic read/write
+ok 52 - dedicated root recovery /save-recovery/ resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 0.201252
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /save-recovery/index resolves only release and performs no automatic read/write
+ok 53 - dedicated root recovery /save-recovery/index resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 0.261292
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /save-recovery/index.html resolves only release and performs no automatic read/write
+ok 54 - dedicated root recovery /save-recovery/index.html resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 0.17376
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r4/recovery.html cannot select or write the release main profile
+ok 55 - candidate recovery /qa-r4/recovery.html cannot select or write the release main profile
+  ---
+  duration_ms: 0.451818
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r7/recovery.html cannot select or write the release main profile
+ok 56 - candidate recovery /qa-r7/recovery.html cannot select or write the release main profile
+  ---
+  duration_ms: 0.212178
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r11/recovery.html cannot select or write the release main profile
+ok 57 - candidate recovery /qa-r11/recovery.html cannot select or write the release main profile
+  ---
+  duration_ms: 0.302604
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r4/recovery cannot select or write the release main profile
+ok 58 - candidate recovery /qa-r4/recovery cannot select or write the release main profile
+  ---
+  duration_ms: 0.329504
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r7/recovery cannot select or write the release main profile
+ok 59 - candidate recovery /qa-r7/recovery cannot select or write the release main profile
+  ---
+  duration_ms: 0.174782
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r11/recovery cannot select or write the release main profile
+ok 60 - candidate recovery /qa-r11/recovery cannot select or write the release main profile
+  ---
+  duration_ms: 0.108943
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r12/recovery.html cannot select or write the release main profile
+ok 61 - candidate recovery /qa-r12/recovery.html cannot select or write the release main profile
+  ---
+  duration_ms: 0.092498
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r12/recovery cannot select or write the release main profile
+ok 62 - candidate recovery /qa-r12/recovery cannot select or write the release main profile
+  ---
+  duration_ms: 0.080431
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /qa-r99/recovery.html fails closed instead of falling back to release
+ok 63 - unknown recovery route /qa-r99/recovery.html fails closed instead of falling back to release
+  ---
+  duration_ms: 0.116165
+  type: 'test'
+  ...
+# Subtest: unknown recovery route / fails closed instead of falling back to release
+ok 64 - unknown recovery route / fails closed instead of falling back to release
+  ---
+  duration_ms: 0.051076
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /unknown/recovery.html fails closed instead of falling back to release
+ok 65 - unknown recovery route /unknown/recovery.html fails closed instead of falling back to release
+  ---
+  duration_ms: 0.042414
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /save-recovery/../qa-r7/ fails closed instead of falling back to release
+ok 66 - unknown recovery route /save-recovery/../qa-r7/ fails closed instead of falling back to release
+  ---
+  duration_ms: 0.049755
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /qa-r11/recovery.html/extra fails closed instead of falling back to release
+ok 67 - unknown recovery route /qa-r11/recovery.html/extra fails closed instead of falling back to release
+  ---
+  duration_ms: 0.051226
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /qa-r99/recovery fails closed instead of falling back to release
+ok 68 - unknown recovery route /qa-r99/recovery fails closed instead of falling back to release
+  ---
+  duration_ms: 0.052689
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /qa-r11/recovery/extra fails closed instead of falling back to release
+ok 69 - unknown recovery route /qa-r11/recovery/extra fails closed instead of falling back to release
+  ---
+  duration_ms: 0.038217
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /save-recoveryx fails closed instead of falling back to release
+ok 70 - unknown recovery route /save-recoveryx fails closed instead of falling back to release
+  ---
+  duration_ms: 0.040721
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /save-recovery/index/extra fails closed instead of falling back to release
+ok 71 - unknown recovery route /save-recovery/index/extra fails closed instead of falling back to release
+  ---
+  duration_ms: 0.066079
+  type: 'test'
+  ...
+# Subtest: recovery title return does not automatically restore or start gameplay
+ok 72 - recovery title return does not automatically restore or start gameplay
+  ---
+  duration_ms: 0.152478
+  type: 'test'
+  ...
+# Subtest: standalone entry is a recovery-only document and shares the app build identity
+ok 73 - standalone entry is a recovery-only document and shares the app build identity
+  ---
+  duration_ms: 0.801382
+  type: 'test'
+  ...
+# Subtest: standalone /qa-r12/recovery requires an explicit checkpoint choice before storage access
+ok 74 - standalone /qa-r12/recovery requires an explicit checkpoint choice before storage access
+  ---
+  duration_ms: 0.34636
+  type: 'test'
+  ...
+# Subtest: standalone /qa-r12/recovery.html requires an explicit checkpoint choice before storage access
+ok 75 - standalone /qa-r12/recovery.html requires an explicit checkpoint choice before storage access
+  ---
+  duration_ms: 0.171357
+  type: 'test'
+  ...
+# Subtest: standalone /save-recovery/ requires an explicit checkpoint choice before storage access
+ok 76 - standalone /save-recovery/ requires an explicit checkpoint choice before storage access
+  ---
+  duration_ms: 0.143415
+  type: 'test'
+  ...
+# Subtest: qa-r12 standalone title, v4-original preview and success never promise old-R11 gameplay access
+ok 77 - qa-r12 standalone title, v4-original preview and success never promise old-R11 gameplay access
+  ---
+  duration_ms: 0.176825
+  type: 'test'
+  ...
+# Subtest: standalone delayed pre-v5 restore cannot replace the returned title
+ok 78 - standalone delayed pre-v5 restore cannot replace the returned title
+  ---
+  duration_ms: 0.1666
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r13/recovery still fails closed
+ok 79 - unlisted R12-like recovery alias /qa-r13/recovery still fails closed
+  ---
+  duration_ms: 0.105108
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r12/recovery/ still fails closed
+ok 80 - unlisted R12-like recovery alias /qa-r12/recovery/ still fails closed
+  ---
+  duration_ms: 0.095874
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r12/recovery/index.html still fails closed
+ok 81 - unlisted R12-like recovery alias /qa-r12/recovery/index.html still fails closed
+  ---
+  duration_ms: 0.062494
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r012/recovery still fails closed
+ok 82 - unlisted R12-like recovery alias /qa-r012/recovery still fails closed
+  ---
+  duration_ms: 0.037616
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r12/recovery.html/extra still fails closed
+ok 83 - unlisted R12-like recovery alias /qa-r12/recovery.html/extra still fails closed
+  ---
+  duration_ms: 0.125648
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r12/recovery?other=release still fails closed
+ok 84 - unlisted R12-like recovery alias /qa-r12/recovery?other=release still fails closed
+  ---
+  duration_ms: 0.045228
+  type: 'test'
+  ...
+# Subtest: recovery /qa-r12/recovery keeps its explicit gameplay link in the same namespace
+ok 85 - recovery /qa-r12/recovery keeps its explicit gameplay link in the same namespace
+  ---
+  duration_ms: 0.090556
+  type: 'test'
+  ...
+# Subtest: recovery /qa-r11/recovery.html keeps its explicit gameplay link in the same namespace
+ok 86 - recovery /qa-r11/recovery.html keeps its explicit gameplay link in the same namespace
+  ---
+  duration_ms: 0.042443
+  type: 'test'
+  ...
+# Subtest: recovery /save-recovery/ keeps its explicit gameplay link in the same namespace
+ok 87 - recovery /save-recovery/ keeps its explicit gameplay link in the same namespace
+  ---
+  duration_ms: 0.034092
+  type: 'test'
+  ...
+# Subtest: storage-unavailable recovery entry /qa-r12/recovery preserves a truthful return destination
+ok 88 - storage-unavailable recovery entry /qa-r12/recovery preserves a truthful return destination
+  ---
+  duration_ms: 1.405277
+  type: 'test'
+  ...
+# Subtest: storage-unavailable recovery entry /qa-r11/recovery.html preserves a truthful return destination
+ok 89 - storage-unavailable recovery entry /qa-r11/recovery.html preserves a truthful return destination
+  ---
+  duration_ms: 0.608663
+  type: 'test'
+  ...
+# Subtest: storage-unavailable recovery entry /save-recovery/ preserves a truthful return destination
+ok 90 - storage-unavailable recovery entry /save-recovery/ preserves a truthful return destination
+  ---
+  duration_ms: 0.484556
+  type: 'test'
+  ...
+# Subtest: storage-unavailable recovery entry /qa-r99/recovery preserves a truthful return destination
+ok 91 - storage-unavailable recovery entry /qa-r99/recovery preserves a truthful return destination
+  ---
+  duration_ms: 0.603585
+  type: 'test'
+  ...
+# Subtest: backup preview is read-only, scoped and clear about its historical restoration point
+ok 92 - backup preview is read-only, scoped and clear about its historical restoration point
+  ---
+  duration_ms: 2.125336
+  type: 'test'
+  ...
+# Subtest: no backup does not fabricate history or offer a restore button
+ok 93 - no backup does not fabricate history or offer a restore button
+  ---
+  duration_ms: 0.48004
+  type: 'test'
+  ...
+# Subtest: read error is escaped, non-mutating and retains a title exit
+ok 94 - read error is escaped, non-mutating and retains a title exit
+  ---
+  duration_ms: 0.271437
+  type: 'test'
+  ...
+# Subtest: read throw is escaped, non-mutating and retains a title exit
+ok 95 - read throw is escaped, non-mutating and retains a title exit
+  ---
+  duration_ms: 0.157646
+  type: 'test'
+  ...
+# Subtest: restore requires a fresh visible preview and passes the observed token and same namespace
+ok 96 - restore requires a fresh visible preview and passes the observed token and same namespace
+  ---
+  duration_ms: 0.461161
+  type: 'test'
+  ...
+# Subtest: later mutation of a read result cannot restamp the displayed backup token
+ok 97 - later mutation of a read result cannot restamp the displayed backup token
+  ---
+  duration_ms: 0.266279
+  type: 'test'
+  ...
+# Subtest: duplicate restore clicks execute only one requested write
+ok 98 - duplicate restore clicks execute only one requested write
+  ---
+  duration_ms: 1.283975
+  type: 'test'
+  ...
+# Subtest: late restore success cannot replace the newer title/preview
+ok 99 - late restore success cannot replace the newer title/preview
+  ---
+  duration_ms: 0.294722
+  type: 'test'
+  ...
+# Subtest: late restore failure cannot replace the newer title/preview
+ok 100 - late restore failure cannot replace the newer title/preview
+  ---
+  duration_ms: 0.263565
+  type: 'test'
+  ...
+# Subtest: late restore throw cannot replace the newer title/preview
+ok 101 - late restore throw cannot replace the newer title/preview
+  ---
+  duration_ms: 0.372528
+  type: 'test'
+  ...
+# Subtest: a failed copy preserves entered target and reports the failure without automatic retry
+ok 102 - a failed copy preserves entered target and reports the failure without automatic retry
+  ---
+  duration_ms: 0.244176
+  type: 'test'
+  ...
+# Subtest: a thrown/uncertain copy is not retried or represented as success
+ok 103 - a thrown/uncertain copy is not retried or represented as success
+  ---
+  duration_ms: 0.212228
+  type: 'test'
+  ...
+# Subtest: a stale panel epoch or gameplay ownership blocks new recovery mutations
+ok 104 - a stale panel epoch or gameplay ownership blocks new recovery mutations
+  ---
+  duration_ms: 0.130075
+  type: 'test'
+  ...
+# Subtest: late completion cannot display recovery UI over a loaded gameplay owner
+ok 105 - late completion cannot display recovery UI over a loaded gameplay owner
+  ---
+  duration_ms: 0.135954
+  type: 'test'
+  ...
+# Subtest: a missing-backup preview clears an earlier restorable selection
+ok 106 - a missing-backup preview clears an earlier restorable selection
+  ---
+  duration_ms: 0.122814
+  type: 'test'
+  ...
+# Subtest: real release title binds backup buttons to the selected namespace
+ok 107 - real release title binds backup buttons to the selected namespace
+  ---
+  duration_ms: 4.826045
+  type: 'test'
+  ...
+# Subtest: real candidate title binds backup buttons to the selected namespace
+ok 108 - real candidate title binds backup buttons to the selected namespace
+  ---
+  duration_ms: 4.337954
+  type: 'test'
+  ...
+# Subtest: real backup open cancels a pending title selection before reading, without a stale controller
+ok 109 - real backup open cancels a pending title selection before reading, without a stale controller
+  ---
+  duration_ms: 2.408531
+  type: 'test'
+  ...
+# Subtest: real recovery handlers cannot replace gameplay or mutate saves from stale UI events
+ok 110 - real recovery handlers cannot replace gameplay or mutate saves from stale UI events
+  ---
+  duration_ms: 2.46089
+  type: 'test'
+  ...
+# Subtest: checkpoint choice undefined cannot read or select a default backup
+ok 111 - checkpoint choice undefined cannot read or select a default backup
+  ---
+  duration_ms: 0.11315
+  type: 'test'
+  ...
+# Subtest: checkpoint choice  cannot read or select a default backup
+ok 112 - checkpoint choice  cannot read or select a default backup
+  ---
+  duration_ms: 0.094963
+  type: 'test'
+  ...
+# Subtest: checkpoint choice pre-v3 cannot read or select a default backup
+ok 113 - checkpoint choice pre-v3 cannot read or select a default backup
+  ---
+  duration_ms: 0.05985
+  type: 'test'
+  ...
+# Subtest: checkpoint choice pre-v6 cannot read or select a default backup
+ok 114 - checkpoint choice pre-v6 cannot read or select a default backup
+  ---
+  duration_ms: 0.041362
+  type: 'test'
+  ...
+# Subtest: checkpoint choice __proto__ cannot read or select a default backup
+ok 115 - checkpoint choice __proto__ cannot read or select a default backup
+  ---
+  duration_ms: 0.06678
+  type: 'test'
+  ...
+# Subtest: checkpoint choice constructor cannot read or select a default backup
+ok 116 - checkpoint choice constructor cannot read or select a default backup
+  ---
+  duration_ms: 0.042653
+  type: 'test'
+  ...
+# Subtest: pre-v5 previews and restores the actual source version 1 with its own API
+ok 117 - pre-v5 previews and restores the actual source version 1 with its own API
+  ---
+  duration_ms: 0.237115
+  type: 'test'
+  ...
+# Subtest: pre-v5 previews and restores the actual source version 2 with its own API
+ok 118 - pre-v5 previews and restores the actual source version 2 with its own API
+  ---
+  duration_ms: 0.129984
+  type: 'test'
+  ...
+# Subtest: pre-v5 previews and restores the actual source version 3 with its own API
+ok 119 - pre-v5 previews and restores the actual source version 3 with its own API
+  ---
+  duration_ms: 0.114762
+  type: 'test'
+  ...
+# Subtest: pre-v5 previews and restores the actual source version 4 with its own API
+ok 120 - pre-v5 previews and restores the actual source version 4 with its own API
+  ---
+  duration_ms: 0.135163
+  type: 'test'
+  ...
+# Subtest: pre-v5 rejects inconsistent preview {"targetVersion":4} without a restore button
+ok 121 - pre-v5 rejects inconsistent preview {"targetVersion":4} without a restore button
+  ---
+  duration_ms: 0.153139
+  type: 'test'
+  ...
+# Subtest: pre-v5 rejects inconsistent preview {"sourceVersion":0} without a restore button
+ok 122 - pre-v5 rejects inconsistent preview {"sourceVersion":0} without a restore button
+  ---
+  duration_ms: 0.076465
+  type: 'test'
+  ...
+# Subtest: pre-v5 rejects inconsistent preview {"sourceVersion":5} without a restore button
+ok 123 - pre-v5 rejects inconsistent preview {"sourceVersion":5} without a restore button
+  ---
+  duration_ms: 0.060802
+  type: 'test'
+  ...
+# Subtest: pre-v5 rejects inconsistent preview {"sourceVersion":4.5} without a restore button
+ok 124 - pre-v5 rejects inconsistent preview {"sourceVersion":4.5} without a restore button
+  ---
+  duration_ms: 0.059809
+  type: 'test'
+  ...
+# Subtest: pre-v5 rejects inconsistent preview {"backupChecksum":""} without a restore button
+ok 125 - pre-v5 rejects inconsistent preview {"backupChecksum":""} without a restore button
+  ---
+  duration_ms: 0.100261
+  type: 'test'
+  ...
+# Subtest: pre-v4 cannot present a version4 source or a pre-v5 checkpoint
+ok 126 - pre-v4 cannot present a version4 source or a pre-v5 checkpoint
+  ---
+  duration_ms: 0.17331
+  type: 'test'
+  ...
+# Subtest: missing pre-v4 does not consult another existing sidecar or invent past history
+ok 127 - missing pre-v4 does not consult another existing sidecar or invent past history
+  ---
+  duration_ms: 0.169214
+  type: 'test'
+  ...
+# Subtest: missing pre-v5 does not consult another existing sidecar or invent past history
+ok 128 - missing pre-v5 does not consult another existing sidecar or invent past history
+  ---
+  duration_ms: 0.159439
+  type: 'test'
+  ...
+# Subtest: restore confirmation is bound to kind, checksum and exact preview selection
+ok 129 - restore confirmation is bound to kind, checksum and exact preview selection
+  ---
+  duration_ms: 0.261722
+  type: 'test'
+  ...
+# Subtest: reopening the same kind and checksum rejects a prior visible button
+ok 130 - reopening the same kind and checksum rejects a prior visible button
+  ---
+  duration_ms: 0.12652
+  type: 'test'
+  ...
+# Subtest: a failed copy reissues confirmation instead of permitting a dismissed button to retry
+ok 131 - a failed copy reissues confirmation instead of permitting a dismissed button to retry
+  ---
+  duration_ms: 0.20633
+  type: 'test'
+  ...
+# Subtest: late pre-v5 success cannot replace a newer pre-v4 selection
+ok 132 - late pre-v5 success cannot replace a newer pre-v4 selection
+  ---
+  duration_ms: 0.211356
+  type: 'test'
+  ...
+# Subtest: late pre-v5 failure cannot replace a newer pre-v4 selection
+ok 133 - late pre-v5 failure cannot replace a newer pre-v4 selection
+  ---
+  duration_ms: 0.092018
+  type: 'test'
+  ...
+# Subtest: late pre-v5 throw cannot replace a newer pre-v4 selection
+ok 134 - late pre-v5 throw cannot replace a newer pre-v4 selection
+  ---
+  duration_ms: 0.108322
+  type: 'test'
+  ...
+# Subtest: qa-r12 preview and success disclose unsupported R11 namespace access
+ok 135 - qa-r12 preview and success disclose unsupported R11 namespace access
+  ---
+  duration_ms: 0.156545
+  type: 'test'
+  ...
+# Subtest: real qa-r12 title has no default kind and routes selected pre-v5 with observed confirmation
+ok 136 - real qa-r12 title has no default kind and routes selected pre-v5 with observed confirmation
+  ---
+  duration_ms: 2.805065
+  type: 'test'
+  ...
+1..136
+# tests 136
+# suites 0
+# pass 136
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1045.736727

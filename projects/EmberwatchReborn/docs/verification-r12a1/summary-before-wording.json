@@ -1,0 +1,51 @@
+{
+  "sourceCommit": "f6dc8fc7948018cc4ca154bbf3fb49162a1ecead",
+  "appSourceAndTestsTree": "2f07739d1b788d4fd9ad086fcb48eb64e06a5ea2",
+  "candidate": "R12a1",
+  "version": "0.12.0-reimplementation.2",
+  "aggregate": {
+    "tests": 2446,
+    "passed": 2446,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "todo": 0,
+    "durationMs": 399540.152311,
+    "command": "node --test --test-concurrency=1 tests/*.test.mjs"
+  },
+  "nodeVersion": "v24.19.0",
+  "builds": [
+    {
+      "output": "dist",
+      "version": "0.12.0-reimplementation.2",
+      "payloadFiles": 95,
+      "payloadBytes": 16476417,
+      "sha256": "all_matched",
+      "relativeImports": 272,
+      "importTargets": "all_present",
+      "futureExpeditionRuntime": "excluded",
+      "gameplayAcceptance": "not_established",
+      "manifestSha256": "274358f05134895393c11e9941e996d0545d9c0a012d5f0dd255de8542e5f801"
+    },
+    {
+      "output": "dist-recovery",
+      "version": "0.12.0-reimplementation.2",
+      "payloadFiles": 95,
+      "payloadBytes": 16475408,
+      "sha256": "all_matched",
+      "relativeImports": 272,
+      "importTargets": "all_present",
+      "futureExpeditionRuntime": "excluded",
+      "gameplayAcceptance": "not_established",
+      "manifestSha256": "c24ec532c7e0cccff4e0532851395d14da1ba4eba4938017f4589c209a89100f"
+    }
+  ],
+  "originalFilesMatched": 167,
+  "registry": "blocked ENOENT pnpm home; exit1",
+  "vercel": "blocked ENOENT pnpm home; exit1",
+  "externalActions": [],
+  "nativeWAcceptance": "pending parent ordinary-input QA",
+  "baselineW": "ddee4c007a9402da01fa2676ce46b10e93908ffa",
+  "baselineR11": "17b13fa04fec8336d2c08f3c4603a0d2e8d00276",
+  "displayPatch": "bc0189889924eae44a8cd0d1d8e4b9ef43155f10"
+}

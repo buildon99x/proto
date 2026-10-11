@@ -1,0 +1,27 @@
+✔ W entered: real floor connectivity and encounter gates conceal all future-room bodies (2795.396976ms)
+✔ W survey: real floor connectivity and encounter gates conceal all future-room bodies (174.273156ms)
+✔ W anchor: real floor connectivity and encounter gates conceal all future-room bodies (166.467688ms)
+✔ W calibrated: real floor connectivity and encounter gates conceal all future-room bodies (162.672432ms)
+✔ W chosen: real floor connectivity and encounter gates conceal all future-room bodies (165.883089ms)
+✔ W routed: real floor connectivity and encounter gates conceal all future-room bodies (176.186759ms)
+✔ W approach: real floor connectivity and encounter gates conceal all future-room bodies (178.738996ms)
+✔ W evidence: real floor connectivity and encounter gates conceal all future-room bodies (170.786614ms)
+✔ encounter gate still conceals a future actor even when a fixture supplies open collision (384.257761ms)
+✔ actual renderer hides locked keeper body but retains accessible unaggroed keeper (389.044342ms)
+✔ actual active LOS-broken foe body and committed warning remain visible, including flash0 (313.631165ms)
+✔ hideWhenCompleted hides hook shrine and evidence crystal, while completed durable landmarks remain (653.167368ms)
+✔ actual keeper return art and F candidate stay absent before defeat and appear immediately afterward (1096.6591ms)
+✔ only unavailable in-W portals leave F candidates; town locked-anchor and available return contracts remain (1088.511212ms)
+✔ nearby W labels are short and LOS-valid; full names remain in F hints and modal views (904.336403ms)
+✔ actual main suppresses nonessential labels during combat and residual hostile tells (1268.993451ms)
+✔ actual main does not place a quiet landmark label across the player silhouette (428.397921ms)
+✔ frozen state, live actors, map, attacks and progression stay unchanged through visibility and actual render (372.114118ms)
+✔ actual main frame passes the same W snapshot to the renderer and canvas labels without changing live arrays (327.391298ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11377.955927

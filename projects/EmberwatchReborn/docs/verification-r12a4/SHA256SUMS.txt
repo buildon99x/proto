@@ -1,0 +1,4 @@
+e090add2c609d09ff838ec633a3df3d58993cc22fd76ad80c185db0853351cd9  app/src/signal-presentation.js
+c5a057699a6b507f6d6a011373635e0f0a259f76d88f53667f7fb3d801175331  app/tests/signal-prerequisite-copy.test.mjs
+52dbe99d4b80373cb555f3c0ecad573fe97c541258fab65d96bca8c376c4b6e0  /tmp/emberwatch-signal-copy-20261010/focused-final.txt
+ccc43168731b69471e4d7fca67e691568f55d99f4afbfc7019b7ec390127e1f7  /tmp/emberwatch-signal-copy-20261010/syntax.txt

@@ -1,0 +1,63 @@
+node:internal/modules/esm/resolve:271
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/shared/emberwatch-incident-20261010-1258/recovered-source/projects/EmberwatchReborn/app/src/session.js' imported from /workspace/shared/emberwatch-incident-20261010-1258/recovered-source/projects/EmberwatchReborn/app/tests/checkpoint-position-message.test.mjs
+    at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:163:33)
+    at ModuleJob.link (node:internal/modules/esm/module_job:253:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///workspace/shared/emberwatch-incident-20261010-1258/recovered-source/projects/EmberwatchReborn/app/src/session.js'
+}
+
+Node.js v24.19.0
+✖ app/tests/checkpoint-position-message.test.mjs (95.63479ms)
+✔ actual signal panel at entry identifies only unfinished prerequisites and preserves CLUE_REQUIRED (418.611309ms)
+✔ actual signal panel at clue identifies only unfinished prerequisites and preserves RESCUE_REQUIRED (81.19359ms)
+✔ actual signal panel at rescued identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE (54.426366ms)
+✔ actual signal panel at two-defeats identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE (55.887269ms)
+✔ actual signal panel at four-defeats identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE (54.850457ms)
+✔ ready, partial, reset and reloaded actual panels retain readiness without repeating completed prerequisites (222.441778ms)
+✔ reported return panels retain completed report without asking for past work or paying again (120.222198ms)
+✔ all prerequisite and completion views are read-only across the three signal objects (1.414104ms)
+✔ candidate title, recovery and generated manifest identify the same game build (0.992957ms)
+✔ actual signal-code panel at entry shows remaining work and preserves ENTRY_GUARDS_ALIVE (610.669062ms)
+✔ actual signal-code panel at entry-partial shows remaining work and preserves ENTRY_GUARDS_ALIVE (77.484095ms)
+✔ actual signal-route-transmitter panel at entry shows remaining work and preserves DECODE_REQUIRED (52.962087ms)
+✔ actual signal-transmitter panel at entry shows remaining work and preserves DECODE_REQUIRED (52.158952ms)
+✔ actual signal-transmitter panel at decoded shows remaining work and preserves ROUTE_REQUIRED (78.478199ms)
+✔ actual signal-transmitter panel at routed shows remaining work and preserves YARD_GUARDS_ALIVE (66.29107ms)
+✔ actual signal-transmitter panel at yard-partial shows remaining work and preserves YARD_GUARDS_ALIVE (54.529309ms)
+✔ actual signal-receiver panel at routed shows remaining work and preserves TRANSMITTER_REQUIRED (39.036305ms)
+✔ actual signal-receiver panel at transmitted shows remaining work and preserves RECEIVER_GUARDS_ALIVE (66.106785ms)
+✔ actual signal-receiver panel at receiver-partial shows remaining work and preserves RECEIVER_GUARDS_ALIVE (46.836712ms)
+✔ actual signal-shortcut panel at entry shows remaining work and preserves DECODE_REQUIRED (33.085711ms)
+✔ actual ready signal-code panel pays once and persists its completed copy (100.822412ms)
+✔ actual ready signal-transmitter panel pays once and persists its completed copy (83.926271ms)
+✔ actual ready signal-receiver panel pays once and persists its completed copy (95.801671ms)
+✔ actual west lever copy survives reset/reload and preserves exclusive selection (208.379575ms)
+✔ actual east lever copy survives reset/reload and preserves exclusive selection (202.989977ms)
+✔ actual optional lift stays optional, grants nothing and scopes resource copy to region transition (130.073707ms)
+✔ actual report click without the optional lift pays once and all returned devices acknowledge completion (160.121077ms)
+✔ all views are read-only and completed fights never ask to defeat zero enemies (43.006242ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 28
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2511.061413
+
+✖ failing tests:
+
+test at app/tests/checkpoint-position-message.test.mjs:1:1
+✖ app/tests/checkpoint-position-message.test.mjs (95.63479ms)
+  'test failed'

@@ -1,0 +1,6 @@
+{
+  "files": 71,
+  "bytes": 16240099,
+  "output": "/tmp/emberwatch-r11-promotion-build.XsxpF1/app/dist",
+  "gameplayAcceptance": "not_established_by_build"
+}

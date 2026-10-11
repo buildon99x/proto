@@ -1,0 +1,92 @@
+2026-10-10 UTC | R11 B module dependency-overlay verification
+Combat dependency checkpoint:
+8d6f54062ecbfef5aa1d1b38b37b94bfe01b39ac
+WORKTREE: geometry + existing world/T geometry regressions
+✔ synthetic B geometry: devices 0/0, continuous radius11 routes and gated boss LOS (55.423897ms)
+✔ synthetic B geometry: devices 1/0, continuous radius11 routes and gated boss LOS (43.021576ms)
+✔ synthetic B geometry: devices 0/1, continuous radius11 routes and gated boss LOS (39.437211ms)
+✔ synthetic B geometry: devices 1/1, continuous radius11 routes and gated boss LOS (4.205643ms)
+✔ synthetic B geometry: arrivals are beyond visible activation range, cover blocks shots, lateral exits remain swept-clear (0.416986ms)
+✔ B content explicitly owns tags, distinct boss attacks, all six statuses and exact authored budget (1.153782ms)
+✔ synthetic arithmetic B budget from documented T easy total, not played progression (1.680993ms)
+✔ synthetic arithmetic B budget from documented T normal total, not played progression (0.705709ms)
+✔ synthetic arithmetic B budget from documented T hard total, not played progression (0.640471ms)
+✔ synthetic arithmetic B budget from documented T serious total, not played progression (0.654282ms)
+✔ T physical stage0 has reachable active anchors and blocks sub-tile LOS/swept access to future foes (95.331223ms)
+✔ T physical stage1 has reachable active anchors and blocks sub-tile LOS/swept access to future foes (117.604948ms)
+✔ T physical stage2 has reachable active anchors and blocks sub-tile LOS/swept access to future foes (115.699779ms)
+✔ T physical stage3 has reachable active anchors and blocks sub-tile LOS/swept access to future foes (77.776372ms)
+✔ T physical stage4 has reachable active anchors and blocks sub-tile LOS/swept access to future foes (28.723698ms)
+✔ T physical stage5 has reachable active anchors and blocks sub-tile LOS/swept access to future foes (3.033954ms)
+✔ T fixed objects and arrival points are valid with prerequisites and both sarcophagi/plinth are physical (2.09181ms)
+✔ hand-authored rooms leave solid space and a separately gated connecting passage (0.948694ms)
+✔ closed doorway blocks straight vision and traversal even when endpoint is valid (0.321242ms)
+✔ open doorway permits vision and radius-safe traversal (0.738539ms)
+✔ path search cannot cross a locked door and routes around a solid room separation (1.66559ms)
+✔ cardinal navigation reaches destination without clipping the wall corner (3.075737ms)
+✔ nonfinite or out-of-map endpoints never count as visible or walkable (0.207321ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 533.085293
+DEPENDENCY OVERLAY: all B module/live-AI cases (synthetic fixtures)
+✔ B validator leaves untouched old states byte-identical and does not infer completion (2.49807ms)
+✔ synthetic B prerequisites: T report/level/commission cannot substitute for real Expert history (1146.352032ms)
+✔ synthetic production B settlement minimum easy, west→east: exact one-time budgets and Eda-only completion (1371.920962ms)
+✔ synthetic production B settlement minimum easy, east→west: exact one-time budgets and Eda-only completion (385.963401ms)
+✔ synthetic production B settlement minimum normal, west→east: exact one-time budgets and Eda-only completion (405.074259ms)
+✔ synthetic production B settlement minimum normal, east→west: exact one-time budgets and Eda-only completion (419.990395ms)
+✔ synthetic production B settlement minimum hard, west→east: exact one-time budgets and Eda-only completion (1467.450258ms)
+✔ synthetic production B settlement minimum hard, east→west: exact one-time budgets and Eda-only completion (410.354326ms)
+✔ synthetic production B settlement minimum serious, west→east: exact one-time budgets and Eda-only completion (1533.400067ms)
+✔ synthetic production B settlement minimum serious, east→west: exact one-time budgets and Eda-only completion (430.614708ms)
+✔ synthetic production B settlement full easy, west→east: exact one-time budgets and Eda-only completion (1436.111825ms)
+✔ synthetic production B settlement full easy, east→west: exact one-time budgets and Eda-only completion (398.245114ms)
+✔ synthetic production B settlement full normal, west→east: exact one-time budgets and Eda-only completion (1395.443186ms)
+✔ synthetic production B settlement full normal, east→west: exact one-time budgets and Eda-only completion (404.188338ms)
+✔ synthetic production B settlement full hard, west→east: exact one-time budgets and Eda-only completion (1509.024191ms)
+✔ synthetic production B settlement full hard, east→west: exact one-time budgets and Eda-only completion (395.19876ms)
+✔ synthetic production B settlement full serious, west→east: exact one-time budgets and Eda-only completion (1412.540645ms)
+✔ synthetic production B settlement full serious, east→west: exact one-time budgets and Eda-only completion (383.056683ms)
+✔ synthetic B guards reject future boss kills, unpaid devices, early report and remote/forged commands (104.924704ms)
+✔ synthetic B repeat/stale clicks and partial-device load/re-entry keep earned state without refill (125.411427ms)
+✔ synthetic B boss/hero simultaneous settlement pays once, dead load cannot claim beacon, explicit retry keeps progress (178.10745ms)
+✔ B bidirectional load validator rejects unknown/partial/forged progress and inaccessible boss receipts (232.149033ms)
+✔ B bounded ledgers fail atomically without truncation, extra supplies or revised progress (378.24844ms)
+✔ B pure presentation gives current orders, completed/reward/continuation truth and minimal command fields (380.145869ms)
+✔ synthetic isolated live B AI: authored battlefield_revenant actually produces disarm (90.329556ms)
+✔ synthetic isolated live B AI: authored battlefield_hexer actually produces poison (66.441197ms)
+✔ synthetic isolated live B AI: authored battlefield_pyromancer actually produces burn (64.544862ms)
+✔ synthetic isolated live B AI: authored battlefield_lancer actually produces slow (91.988206ms)
+✔ synthetic isolated live B AI: authored battlefield_binder actually produces silence (70.75403ms)
+✔ synthetic isolated live B AI: authored battlefield_bulwark actually produces stun (102.728132ms)
+✔ synthetic isolated live B AI poison is actually cleansed by a purchased heal, without altering earlier Tomb taxonomy (112.895911ms)
+✔ synthetic isolated real heal burns only authored undead in a mixed B encounter (96.857343ms)
+✔ synthetic isolated live B spell retains its owner and enables purchased Lawbringer rather than relying on ranged shape (87.657967ms)
+✔ synthetic isolated live B boss alternates committed long spell line and broad weapon sweep, with real recovery (208.422258ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17443.081445
+SYNTAX
+Source/test syntax passed; no gameplay acceptance implied.
+ORIGINAL/REFERENCE DIFF
+SCOPED WHITESPACE
+DEPENDENCY OVERLAY SOURCE HASHES (exact tested bytes)
+1c778cb969ffdd4f3c9f86cc09a960a3d3826af37bd278a6afc572d4590f53df  src/combat.js
+c29272750386d02c51cf93001f8122d5bf1626229646c743d498e6ac967831f3  src/warrior-growth.js
+81b84747f1fc4858bc654b819504669a7d96fcf5eebb27e785fc514c1fedd80e  src/warrior-expert.js
+ab14675e9546e3f437ee95de7ab5bb2e71f0e9eb5bc987312f2cdf22828191a6  src/hero-status.js
+adf4560789a0e758bdbc0217dc40db03e4a67feeb1d291671aaa64386a743433  src/state.js
+280f560f67ea0d51d889374e7788cead5011da13db3dfc73a56efbfb76509a54  src/recovery.js
+5732aef4fff19c072b624b48ddccf001f63a0325370804e0e9a23361fc61d07b  src/promotion.js
+411d7b11da5971667b8f8d374911372dbc528b48c12618ce589745f4cb92e664  src/campaign.js
+8b9f13b2824c3e8fd555d8040770f2472910fd98dd3ec5788b0ad894bbe2728e  src/world.js

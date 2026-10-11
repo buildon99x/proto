@@ -1,0 +1,42 @@
+✔ observations separate receipt/start/render/audio/contact without advancing simulation (2.044813ms)
+✔ save wait is observed separately and delayed start keeps original receipt (0.218254ms)
+✔ cancellation clears pending attribution and no late event becomes an old press (0.261409ms)
+✔ mobility start and first rendered pose have one identity and only one render mark (0.351162ms)
+✔ observations are bounded detached snapshots without external storage (0.554986ms)
+✔ R14 only real contact events create FX and duplicate casts are ignored (2.34529ms)
+✔ contact effects have strict 12-instance ceiling and clearing removes old scene (2.046255ms)
+✔ mace_swing bounded contact motif at flash 0 with no combat mutation (0.845688ms)
+✔ mace_swing bounded contact motif at flash 0.5 with no combat mutation (0.276592ms)
+✔ mace_swing bounded contact motif at flash 1 with no combat mutation (0.209472ms)
+✔ righteous_hammer bounded contact motif at flash 0 with no combat mutation (0.298114ms)
+✔ righteous_hammer bounded contact motif at flash 0.5 with no combat mutation (0.178685ms)
+✔ righteous_hammer bounded contact motif at flash 1 with no combat mutation (0.175992ms)
+✔ shield_charge bounded contact motif at flash 0 with no combat mutation (0.153558ms)
+✔ shield_charge bounded contact motif at flash 0.5 with no combat mutation (0.239556ms)
+✔ shield_charge bounded contact motif at flash 1 with no combat mutation (0.32293ms)
+✔ lay_on_hands bounded contact motif at flash 0 with no combat mutation (0.176592ms)
+✔ lay_on_hands bounded contact motif at flash 0.5 with no combat mutation (0.122052ms)
+✔ lay_on_hands bounded contact motif at flash 1 with no combat mutation (0.102723ms)
+✔ judgement bounded contact motif at flash 0 with no combat mutation (0.11428ms)
+✔ judgement bounded contact motif at flash 0.5 with no combat mutation (0.182631ms)
+✔ judgement bounded contact motif at flash 1 with no combat mutation (0.162492ms)
+✔ battle_banner bounded contact motif at flash 0 with no combat mutation (0.133198ms)
+✔ battle_banner bounded contact motif at flash 0.5 with no combat mutation (0.099038ms)
+✔ battle_banner bounded contact motif at flash 1 with no combat mutation (0.927511ms)
+✔ zealous_onslaught bounded contact motif at flash 0 with no combat mutation (0.071416ms)
+✔ zealous_onslaught bounded contact motif at flash 0.5 with no combat mutation (0.051196ms)
+✔ zealous_onslaught bounded contact motif at flash 1 with no combat mutation (0.043635ms)
+✔ legacy presentation never gets POE feedback overlay (0.120469ms)
+✔ preparation shows before contact and disappears after action fires, even flash zero (0.231595ms)
+✔ maximum effect ceiling stays bounded in reduced and full modes (0.8133ms)
+✔ roll, hurt and sprint reuse existing motion with phase bounded over 24 observations (0.448247ms)
+✔ POE ground FX paints before hostile danger and actor layers (0.424832ms)
+✔ sprint uses distance-driven gait to retain footstep contact synchronization (0.102152ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 123.560755

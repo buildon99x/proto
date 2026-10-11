@@ -1,0 +1,3 @@
+Source/test syntax passed; no gameplay acceptance implied.
+node scripts/check.mjs: passed before the independent presentation module was added.
+git diff --check: passed.

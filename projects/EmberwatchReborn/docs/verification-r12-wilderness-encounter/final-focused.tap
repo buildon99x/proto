@@ -1,0 +1,184 @@
+TAP version 13
+# Subtest: W registered content resolves; all authored spawns, objects and foes fit their actual collision floors
+ok 1 - W registered content resolves; all authored spawns, objects and foes fit their actual collision floors
+  ---
+  duration_ms: 1.44615
+  type: 'test'
+  ...
+# Subtest: mandatory gated floors open sequentially with a permanent retreat; no puzzle/boss condition on anchor return
+ok 2 - mandatory gated floors open sequentially with a permanent retreat; no puzzle/boss condition on anchor return
+  ---
+  duration_ms: 2426.036669
+  type: 'test'
+  ...
+# Subtest: cover/channel has actual six-tile collision/LOS difference and two open flanks in both modes
+ok 3 - cover/channel has actual six-tile collision/LOS difference and two open flanks in both modes
+  ---
+  duration_ms: 2.846119
+  type: 'test'
+  ...
+# Subtest: survey cover creates offset real sightlines while both sides remain reachable without increasing foe HP
+ok 4 - survey cover creates offset real sightlines while both sides remain reachable without increasing foe HP
+  ---
+  duration_ms: 0.480301
+  type: 'test'
+  ...
+# Subtest: in-range interaction across closed cover fails with WALL_BLOCKED, never UI-only success
+ok 5 - in-range interaction across closed cover fails with WALL_BLOCKED, never UI-only success
+  ---
+  duration_ms: 82.916438
+  type: 'test'
+  ...
+# Subtest: journal, object actions and Eda continuation are truthful, read-only and revision-bound
+ok 6 - journal, object actions and Eda continuation are truthful, read-only and revision-bound
+  ---
+  duration_ms: 199.821336
+  type: 'test'
+  ...
+# Subtest: authored small entry foyer breaks every initial enemy sightline and reaches an immediate return without a fight
+ok 7 - authored small entry foyer breaks every initial enemy sightline and reaches an immediate return without a fight
+  ---
+  duration_ms: 25.750921
+  type: 'test'
+  ...
+# Subtest: pre-choice relay foes have no reachable position or line of sight through the mode-gated doorway
+ok 8 - pre-choice relay foes have no reachable position or line of sight through the mode-gated doorway
+  ---
+  duration_ms: 422.601773
+  type: 'test'
+  ...
+# Subtest: views expose no executable actions without a captured trusted store epoch
+ok 9 - views expose no executable actions without a captured trusted store epoch
+  ---
+  duration_ms: 41.878996
+  type: 'test'
+  ...
+# Subtest: W-only town endpoints retain every old coordinate, floor and physical arch base
+ok 10 - W-only town endpoints retain every old coordinate, floor and physical arch base
+  ---
+  duration_ms: 5.196746
+  type: 'test'
+  ...
+# Subtest: real main nearest and labels preserve legacy targets with W unaccepted
+ok 11 - real main nearest and labels preserve legacy targets with W unaccepted
+  ---
+  duration_ms: 5847.82686
+  type: 'test'
+  ...
+# Subtest: real main nearest and labels preserve legacy targets with W accepted locked
+ok 12 - real main nearest and labels preserve legacy targets with W accepted locked
+  ---
+  duration_ms: 3664.098067
+  type: 'test'
+  ...
+# Subtest: real main nearest and labels preserve legacy targets with W anchored
+ok 13 - real main nearest and labels preserve legacy targets with W anchored
+  ---
+  duration_ms: 3764.617087
+  type: 'test'
+  ...
+# Subtest: real main nearest and labels preserve legacy targets with W reported
+ok 14 - real main nearest and labels preserve legacy targets with W reported
+  ---
+  duration_ms: 3708.635354
+  type: 'test'
+  ...
+# Subtest: accepted W selection is deterministic at the remaining outer-circle overlap and unique throughout its own inner48
+ok 15 - accepted W selection is deterministic at the remaining outer-circle overlap and unique throughout its own inner48
+  ---
+  duration_ms: 2691.301519
+  type: 'test'
+  ...
+# Subtest: real stepBattle town movement reaches either W endpoint from each legacy center without altered collision
+ok 16 - real stepBattle town movement reaches either W endpoint from each legacy center without altered collision
+  ---
+  duration_ms: 3015.244728
+  type: 'test'
+  ...
+# Subtest: actual main F ordinary roundtrip returns inside its own nearest zone and immediately re-enters the same route
+ok 17 - actual main F ordinary roundtrip returns inside its own nearest zone and immediately re-enters the same route
+  ---
+  duration_ms: 788.974727
+  type: 'test'
+  ...
+# Subtest: actual main F anchor roundtrip returns inside its own nearest zone and immediately re-enters the same route
+ok 18 - actual main F anchor roundtrip returns inside its own nearest zone and immediately re-enters the same route
+  ---
+  duration_ms: 877.849991
+  type: 'test'
+  ...
+# Subtest: actual atlas/projected arch and short-label bounds do not cover legacy targets or each other
+ok 19 - actual atlas/projected arch and short-label bounds do not cover legacy targets or each other
+  ---
+  duration_ms: 90.620577
+  type: 'test'
+  ...
+# Subtest: every staged inactive W foe is physically unreachable and has no reachable-floor LOS until its real gate
+ok 20 - every staged inactive W foe is physically unreachable and has no reachable-floor LOS until its real gate
+  ---
+  duration_ms: 194.63035
+  type: 'test'
+  ...
+# Subtest: registered W keeper owns authored patterns and unchanged health/body/rewards, with radial retreat in its actual arena
+ok 21 - registered W keeper owns authored patterns and unchanged health/body/rewards, with radial retreat in its actual arena
+  ---
+  duration_ms: 2298.640763
+  type: 'test'
+  ...
+# Subtest: keeper line aim and origin stay committed while real lateral movement avoids its delayed projectile
+ok 22 - keeper line aim and origin stay committed while real lateral movement avoids its delayed projectile
+  ---
+  duration_ms: 37.699328
+  type: 'test'
+  ...
+# Subtest: stationary hero receives keeper line damage and burn only when the real shot arrives
+ok 23 - stationary hero receives keeper line damage and burn only when the real shot arrives
+  ---
+  duration_ms: 29.785773
+  type: 'test'
+  ...
+# Subtest: keeper circle remains committed and lateral flank still hits through actual movement
+ok 24 - keeper circle remains committed and lateral flank still hits through actual movement
+  ---
+  duration_ms: 73.328946
+  type: 'test'
+  ...
+# Subtest: keeper circle remains committed and radial retreat avoids damage through actual movement
+ok 25 - keeper circle remains committed and radial retreat avoids damage through actual movement
+  ---
+  duration_ms: 66.281256
+  type: 'test'
+  ...
+# Subtest: keeper recovery stays vulnerable to a real mace action and returns to the line cycle without B footwork
+ok 26 - keeper recovery stays vulnerable to a real mace action and returns to the line cycle without B footwork
+  ---
+  duration_ms: 103.828035
+  type: 'test'
+  ...
+# Subtest: existing silence interrupts the W wilderness-keeper-fireline without a late release
+ok 27 - existing silence interrupts the W wilderness-keeper-fireline without a late release
+  ---
+  duration_ms: 2.963867
+  type: 'test'
+  ...
+# Subtest: existing disarm interrupts the W wilderness-keeper-burst without a late release
+ok 28 - existing disarm interrupts the W wilderness-keeper-burst without a late release
+  ---
+  duration_ms: 41.876106
+  type: 'test'
+  ...
+# Subtest: real shield charge can interrupt the W locked tell without boss immunity or extra movement policy
+ok 29 - real shield charge can interrupt the W locked tell without boss immunity or extra movement policy
+  ---
+  duration_ms: 3.781935
+  type: 'test'
+  ...
+1..29
+# tests 29
+# suites 0
+# pass 29
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 30757.936186

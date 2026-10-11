@@ -1,0 +1,262 @@
+TAP version 13
+# Subtest: B keeps prior floor, HP/speed/damage/budgets/IDs while only east lancers change formation
+ok 1 - B keeps prior floor, HP/speed/damage/budgets/IDs while only east lancers change formation
+  ---
+  duration_ms: 2.242216
+  type: 'test'
+  ...
+# Subtest: battlefield_hexer at step 0.01: finite vulnerable lateral walk then real locked attack
+ok 2 - battlefield_hexer at step 0.01: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 59.884108
+  type: 'test'
+  ...
+# Subtest: battlefield_hexer at step 0.02: finite vulnerable lateral walk then real locked attack
+ok 3 - battlefield_hexer at step 0.02: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 24.724808
+  type: 'test'
+  ...
+# Subtest: battlefield_hexer at step 0.05: finite vulnerable lateral walk then real locked attack
+ok 4 - battlefield_hexer at step 0.05: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 12.38478
+  type: 'test'
+  ...
+# Subtest: battlefield_hexer at step 0.25: finite vulnerable lateral walk then real locked attack
+ok 5 - battlefield_hexer at step 0.25: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 12.3249
+  type: 'test'
+  ...
+# Subtest: battlefield_pyromancer at step 0.01: finite vulnerable lateral walk then real locked attack
+ok 6 - battlefield_pyromancer at step 0.01: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 33.81628
+  type: 'test'
+  ...
+# Subtest: battlefield_pyromancer at step 0.02: finite vulnerable lateral walk then real locked attack
+ok 7 - battlefield_pyromancer at step 0.02: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 17.695562
+  type: 'test'
+  ...
+# Subtest: battlefield_pyromancer at step 0.05: finite vulnerable lateral walk then real locked attack
+ok 8 - battlefield_pyromancer at step 0.05: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 9.059548
+  type: 'test'
+  ...
+# Subtest: battlefield_pyromancer at step 0.25: finite vulnerable lateral walk then real locked attack
+ok 9 - battlefield_pyromancer at step 0.25: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 10.362004
+  type: 'test'
+  ...
+# Subtest: battlefield_binder at step 0.01: finite vulnerable lateral walk then real locked attack
+ok 10 - battlefield_binder at step 0.01: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 31.706453
+  type: 'test'
+  ...
+# Subtest: battlefield_binder at step 0.02: finite vulnerable lateral walk then real locked attack
+ok 11 - battlefield_binder at step 0.02: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 16.661159
+  type: 'test'
+  ...
+# Subtest: battlefield_binder at step 0.05: finite vulnerable lateral walk then real locked attack
+ok 12 - battlefield_binder at step 0.05: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 8.365957
+  type: 'test'
+  ...
+# Subtest: battlefield_binder at step 0.25: finite vulnerable lateral walk then real locked attack
+ok 13 - battlefield_binder at step 0.25: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 9.012518
+  type: 'test'
+  ...
+# Subtest: battlefield_lancer at step 0.01: finite vulnerable lateral walk then real locked attack
+ok 14 - battlefield_lancer at step 0.01: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 13.622017
+  type: 'test'
+  ...
+# Subtest: battlefield_lancer at step 0.02: finite vulnerable lateral walk then real locked attack
+ok 15 - battlefield_lancer at step 0.02: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 9.826009
+  type: 'test'
+  ...
+# Subtest: battlefield_lancer at step 0.05: finite vulnerable lateral walk then real locked attack
+ok 16 - battlefield_lancer at step 0.05: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 6.276912
+  type: 'test'
+  ...
+# Subtest: battlefield_lancer at step 0.25: finite vulnerable lateral walk then real locked attack
+ok 17 - battlefield_lancer at step 0.25: finite vulnerable lateral walk then real locked attack
+  ---
+  duration_ms: 6.037302
+  type: 'test'
+  ...
+# Subtest: a fixed step ignores changed aim/actions and does not chase the moving player mid-step
+ok 18 - a fixed step ignores changed aim/actions and does not chase the moving player mid-step
+  ---
+  duration_ms: 11.910668
+  type: 'test'
+  ...
+# Subtest: windup aim/geometry and full recovery are immutable before a close caster steps
+ok 19 - windup aim/geometry and full recovery are immutable before a close caster steps
+  ---
+  duration_ms: 27.458436
+  type: 'test'
+  ...
+# Subtest: boss does not evade first tell; first lateral step follows released attack and full debt, then sweep
+ok 20 - boss does not evade first tell; first lateral step follows released attack and full debt, then sweep
+  ---
+  duration_ms: 42.049297
+  type: 'test'
+  ...
+# Subtest: Shackles reduce ordinary footwork speed and timeout leaves a hittable foe that re-engages
+ok 21 - Shackles reduce ordinary footwork speed and timeout leaves a hittable foe that re-engages
+  ---
+  duration_ms: 16.253086
+  type: 'test'
+  ...
+# Subtest: real shield-charge stun interrupts a moving target and consumes its step opportunity
+ok 22 - real shield-charge stun interrupts a moving target and consumes its step opportunity
+  ---
+  duration_ms: 11.585621
+  type: 'test'
+  ...
+# Subtest: silence cancels current role step without permitting a suppressed attack
+ok 23 - silence cancels current role step without permitting a suppressed attack
+  ---
+  duration_ms: 13.202999
+  type: 'test'
+  ...
+# Subtest: disarm cancels current role step without permitting a suppressed attack
+ok 24 - disarm cancels current role step without permitting a suppressed attack
+  ---
+  duration_ms: 12.281114
+  type: 'test'
+  ...
+# Subtest: tight corridor and occupied lateral lanes consume only one attempt and immediately attack instead
+ok 25 - tight corridor and occupied lateral lanes consume only one attempt and immediately attack instead
+  ---
+  duration_ms: 7.270083
+  type: 'test'
+  ...
+# Subtest: real west-wall LOS cannot trigger a step, and a newly closed path cancels without warp
+ok 26 - real west-wall LOS cannot trigger a step, and a newly closed path cancels without warp
+  ---
+  duration_ms: 7.530663
+  type: 'test'
+  ...
+# Subtest: repeated combat re-engages between steps, enforces six seconds, and stays within the finite tether
+ok 27 - repeated combat re-engages between steps, enforces six seconds, and stays within the finite tether
+  ---
+  duration_ms: 194.789015
+  type: 'test'
+  ...
+# Subtest: same role data outside B and older regions retain ordinary attack with no role state
+ok 28 - same role data outside B and older regions retain ordinary attack with no role state
+  ---
+  duration_ms: 6.476972
+  type: 'test'
+  ...
+# Subtest: pause/arrival/dt0 and battle reconstruction do not age steps or introduce save fields
+ok 29 - pause/arrival/dt0 and battle reconstruction do not age steps or introduce save fields
+  ---
+  duration_ms: 6.372595
+  type: 'test'
+  ...
+# Subtest: surviving B fire victims reuse delayed bounded escape only after their recovery
+ok 30 - surviving B fire victims reuse delayed bounded escape only after their recovery
+  ---
+  duration_ms: 37.408191
+  type: 'test'
+  ...
+# Subtest: strong initial E still kills native low-HP melee before any fire response
+ok 31 - strong initial E still kills native low-HP melee before any fire response
+  ---
+  duration_ms: 10.179199
+  type: 'test'
+  ...
+# Subtest: B movement spends only time remaining after fractional recovery debt
+ok 32 - B movement spends only time remaining after fractional recovery debt
+  ---
+  duration_ms: 7.679938
+  type: 'test'
+  ...
+# Subtest: B fire escape takes priority and cannot chain a fresh lateral step before another attack
+ok 33 - B fire escape takes priority and cannot chain a fresh lateral step before another attack
+  ---
+  duration_ms: 25.970143
+  type: 'test'
+  ...
+# Subtest: an ordinary hammer damages a walking B role, without immunity or HP restoration
+ok 34 - an ordinary hammer damages a walking B role, without immunity or HP restoration
+  ---
+  duration_ms: 8.539738
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-hexer-1 can step on its native flank and resume an attack
+ok 35 - real B tiles: battlefield-hexer-1 can step on its native flank and resume an attack
+  ---
+  duration_ms: 15.187638
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-pyromancer-1 can step on its native flank and resume an attack
+ok 36 - real B tiles: battlefield-pyromancer-1 can step on its native flank and resume an attack
+  ---
+  duration_ms: 15.834909
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-lancer-1 can step on its native flank and resume an attack
+ok 37 - real B tiles: battlefield-lancer-1 can step on its native flank and resume an attack
+  ---
+  duration_ms: 8.734351
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-hexer-2 can step on its native flank and resume an attack
+ok 38 - real B tiles: battlefield-hexer-2 can step on its native flank and resume an attack
+  ---
+  duration_ms: 15.302039
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-binder-1 can step on its native flank and resume an attack
+ok 39 - real B tiles: battlefield-binder-1 can step on its native flank and resume an attack
+  ---
+  duration_ms: 17.101
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-lancer-2 can step on its native flank and resume an attack
+ok 40 - real B tiles: battlefield-lancer-2 can step on its native flank and resume an attack
+  ---
+  duration_ms: 7.513497
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-lancer-3 can step on its native flank and resume an attack
+ok 41 - real B tiles: battlefield-lancer-3 can step on its native flank and resume an attack
+  ---
+  duration_ms: 7.905858
+  type: 'test'
+  ...
+# Subtest: real B tiles: battlefield-usurper can step on its native flank and resume an attack
+ok 42 - real B tiles: battlefield-usurper can step on its native flank and resume an attack
+  ---
+  duration_ms: 35.107518
+  type: 'test'
+  ...
+1..42
+# tests 42
+# suites 0
+# pass 42
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 983.359454

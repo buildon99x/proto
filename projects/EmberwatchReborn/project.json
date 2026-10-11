@@ -1,0 +1,34 @@
+{
+  "id": "emberwatch-reborn",
+  "name": "Emberwatch Reborn · 잿불의 서약",
+  "status": "prototype",
+  "type": "demo",
+  "runtime": "static-artifact",
+  "version": "0.14.0-reimplementation.2",
+  "summary": "R14a2 POE형 전사 입력 격리 개발 후보: 즉시성·두 이동모드·조준·회피와 질주 통합 중. 실제 QA 및 전체 회귀 미완료.",
+  "tags": [
+    "game",
+    "action-rpg",
+    "canvas",
+    "prototype"
+  ],
+  "projectRoot": "projects/EmberwatchReborn",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/emberwatch-reborn/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md"
+  },
+  "assets": {},
+  "commands": {
+    "dev": "pnpm --filter emberwatch-reborn dev",
+    "build": "pnpm --filter emberwatch-reborn build",
+    "test": "pnpm --filter emberwatch-reborn test",
+    "lint": "pnpm --filter emberwatch-reborn lint"
+  }
+}

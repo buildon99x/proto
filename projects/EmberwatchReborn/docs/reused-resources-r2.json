@@ -1,0 +1,158 @@
+[
+  {
+    "path": "app/src/art.js",
+    "originalPath": "projects/Emberwatch/app/src/art.js",
+    "bytes": 3169,
+    "sha256": "0c4a6e0356fb5d3c4a1fcdc58e43033893b8d2a90b9b0fa06dfb2f0dfbd1fd35",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "app/src/motion.js",
+    "originalPath": "projects/Emberwatch/app/src/motion.js",
+    "bytes": 14184,
+    "sha256": "b2792e0aa13e35aaf34d59ddbcd254d5aa14123dc94ea93f8a9e855d013460dd",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "app/src/visual.js",
+    "originalPath": "projects/Emberwatch/app/src/visual.js",
+    "bytes": 21584,
+    "sha256": "b1c1b8dae1d6145f0446dc55621c7ede3952331c3d4004ace85d1c2f28cf5dc8",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "adapted_from_original",
+    "originalSha256": "14ebac007405621a5ee39faf39514920a6df4c278480c5a86ddae7529135df15",
+    "changes": "R2 configurable actor flash intensity"
+  },
+  {
+    "path": "app/src/audio.js",
+    "originalPath": "projects/Emberwatch/app/src/audio.js",
+    "bytes": 13824,
+    "sha256": "3a49069cf2dc9aadebcdce64c283c825eea61d2e3914940db20f94bc2a17c480",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "adapted_from_original",
+    "originalSha256": "6e3f5ffeb8dcce97bfccd4c403c01cd1eed90afe9594e9336d17e23252c247b3",
+    "changes": "R2 live master-volume control"
+  },
+  {
+    "path": "app/src/assets/hero.png",
+    "originalPath": "projects/Emberwatch/app/src/assets/hero.png",
+    "bytes": 1289949,
+    "sha256": "b1f9216e478a06f15e5c477eb8bbf890e4f564c3f8fa1ac13db6212033d7cb9c",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "app/src/assets/guardian.png",
+    "originalPath": "projects/Emberwatch/app/src/assets/guardian.png",
+    "bytes": 1570261,
+    "sha256": "967248448fd4dce6fc14c464a2914e3a2a2c8a357ec5290c3adca02b4a72f073",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "app/src/assets/citadel.png",
+    "originalPath": "projects/Emberwatch/app/src/assets/citadel.png",
+    "bytes": 1503690,
+    "sha256": "b3f3aa50f49de0e53a6d0cc770e4e0e6fcdc922507b3a94afc7deed5cb2f2490",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "app/src/assets/motion-hero.png",
+    "originalPath": "projects/Emberwatch/app/src/assets/motion-hero.png",
+    "bytes": 6573396,
+    "sha256": "e8c2c22f80ff6820a44bb58dd1cdfd68ac22dcf54a31af99f1a7dec984163c75",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "app/src/assets/motion-warrior-axe.png",
+    "originalPath": "projects/Emberwatch/app/src/assets/motion-warrior-axe.png",
+    "bytes": 48027,
+    "sha256": "67345d4d50956d72d39e5e711b26a95bb29f5de761577577fd1c6d2b191e9ce2",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "app/src/assets/audio-fantasy.wav",
+    "originalPath": "projects/Emberwatch/app/src/assets/audio-fantasy.wav",
+    "bytes": 3271724,
+    "sha256": "e6e383ab5284d33fa5b992c5888dc7537cc9337112f17091c37b731a425e37b9",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "app/src/assets/audio-manifest.js",
+    "originalPath": "projects/Emberwatch/app/src/assets/audio-manifest.js",
+    "bytes": 3383,
+    "sha256": "06054e1f572019e87d2ffb531a1f57defed39f3e357d09b8ca66d39df89ef50a",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "app/src/assets/audio-credits.txt",
+    "originalPath": "projects/Emberwatch/app/src/assets/audio-credits.txt",
+    "bytes": 443,
+    "sha256": "30976dde6bda652dd0361eae0966c0eef9377869da4df988c5ff0371626925b7",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "app/src/assets/fonts/EmberwatchKorean-Regular.woff",
+    "originalPath": "projects/Emberwatch/app/src/assets/fonts/EmberwatchKorean-Regular.woff",
+    "bytes": 1404016,
+    "sha256": "6301a62528a0c5e89b4e3b96a5084e07b6a3e189628fe6b0124e3ed9cace4062",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "app/src/assets/fonts/OFL-EmberwatchKorean.txt",
+    "originalPath": "projects/Emberwatch/app/src/assets/fonts/OFL-EmberwatchKorean.txt",
+    "bytes": 4267,
+    "sha256": "47572125d74281eca3a99dd1297b1544461560ce26aa48870859a2a50e5fd43e",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "assets/provenance.md",
+    "originalPath": "projects/Emberwatch/assets/provenance.md",
+    "bytes": 1337,
+    "sha256": "92fd323e2d1d504f60604832946b174be93e524fe4449a967559fe9b49f28bb1",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "assets/motion-provenance.md",
+    "originalPath": "projects/Emberwatch/assets/motion-provenance.md",
+    "bytes": 8382,
+    "sha256": "31bfdcaec0bb7055e6c9635163d3a8c9fd3c5e262662e3af52e284090b454132",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "assets/audio-source/provenance.json",
+    "originalPath": "projects/Emberwatch/assets/audio-source/provenance.json",
+    "bytes": 544,
+    "sha256": "571784f00fdccbd903ad59cad594aed593feee644dcc3399eaa971e344f5c873",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "assets/fonts/provenance.json",
+    "originalPath": "projects/Emberwatch/assets/fonts/provenance.json",
+    "bytes": 438,
+    "sha256": "134d0e91d8a514f5c1b22bd81ec2df8244fdc7ea1ec0ace8e1747aa4e3a2ee34",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  },
+  {
+    "path": "docs/audio-provenance.md",
+    "originalPath": "projects/Emberwatch/docs/audio-provenance.md",
+    "bytes": 9626,
+    "sha256": "0984df346f872cc3b39f6c9e94a74de4416e5efd29406d3728afa08434e4c615",
+    "origin": "original_emberwatch_0.4.7_7240e494",
+    "copy": "byte_identical"
+  }
+]

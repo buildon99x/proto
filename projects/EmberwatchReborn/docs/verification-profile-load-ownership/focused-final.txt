@@ -1,0 +1,32 @@
+✔ settled dead Adept reconstruction bypasses arrival and never emits another settlement under idle or attack input (2.530449ms)
+✔ actual startup immediately exposes retry and completes while optional audio remains pending (14.938483ms)
+✔ late audio readiness after explicit retry cannot restore the old death modal or repeat a charge (46.860729ms)
+✔ repeated dead-save loads are read-only; explicit retry increments life once and preserves all earned progress (43.494445ms)
+✔ alive startup still waits safely for explicit movement or offense while audio is pending (24.051362ms)
+✔ muted saved options do not force an audio resume before death presentation (14.289819ms)
+✔ delayed A first WebLock save cannot replace loaded B or bind A pools to B revision (59.074441ms)
+✔ obsolete delayed saved-profile load cannot replace B or start a new save (19.751557ms)
+✔ obsolete delayed new-game preflight cannot replace B or start a new save (15.060927ms)
+✔ late failed A load cannot clear B, change its modal or reset load state (16.216531ms)
+✔ late failed A start cannot clear B, change its modal or reset load state (17.052285ms)
+✔ showTitle dismisses a pending load without obsolete success or error reopening gameplay (5.865183ms)
+✔ showTitle dismisses a pending start without obsolete success or error reopening gameplay (11.131369ms)
+✔ same-profile overlapping continue owns the latest invocation and never starts an obsolete requested new game (26.969912ms)
+✔ normal load, reload and fresh start retain storage behavior and never remap existing progress (25.474101ms)
+✔ current load/start failures still present the title error and preserve existing raw saves (15.467376ms)
+✔ reloading while gameplay was active pauses simulation throughout a delayed load (18.981821ms)
+✔ actual delayed candidate-copy success cannot steal a newer continue selection (19.801823ms)
+✔ actual delayed candidate-copy failure cannot steal a newer continue selection (15.964193ms)
+✔ title dismissal invalidates delayed candidate-copy success (14.539103ms)
+✔ title dismissal invalidates delayed candidate-copy failure (12.516888ms)
+✔ candidate-copy intent immediately supersedes an older delayed new-game preflight (21.176456ms)
+✔ overlapping candidate copies preserve the latest target even when the earlier copy finishes last (22.922897ms)
+✔ ordinary current candidate-copy still loads its target exactly once and keeps original bytes (18.542592ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 993.756273

@@ -1,0 +1,32 @@
+✔ actual B boss line at 0: compact directional cue and unchanged shot payload (39.776696ms)
+✔ actual B boss line at 0.7: compact directional cue and unchanged shot payload (21.572444ms)
+✔ actual B boss line at 1.5707963267948966: compact directional cue and unchanged shot payload (19.752204ms)
+✔ actual B boss line at 3.141592653589793: compact directional cue and unchanged shot payload (18.320306ms)
+✔ actual B boss line at -1.5707963267948966: compact directional cue and unchanged shot payload (16.01528ms)
+✔ actual B boss line at -2.6: compact directional cue and unchanged shot payload (15.613586ms)
+✔ battlefield_usurper: release follows actual cone center, radius and angle (14.073548ms)
+✔ battlefield_revenant: release follows actual cone center, radius and angle (14.045835ms)
+✔ battlefield_lancer: release follows actual cone center, radius and angle (17.690482ms)
+✔ battlefield_bulwark: release follows actual circle center, radius and angle (14.57584ms)
+✔ scout: release follows actual cone center, radius and angle (10.30157ms)
+✔ older archer uses the same bounded cue while retaining240 speed and528 travel range (18.147157ms)
+✔ actual B projectile moves before contact, then deals native fire damage and burn once (22.289459ms)
+✔ side-step after locked line misses; cue expiry neither removes nor redirects projectile (28.807424ms)
+✔ wall interception after release keeps the original swept projectile collision (16.959445ms)
+✔ battlefield_usurper keeps immediate area damage and status semantics (13.754809ms)
+✔ battlefield_bulwark keeps immediate area damage and status semantics (14.279907ms)
+✔ suppressed windup releases neither damage, projectile nor presentation (3.817646ms)
+✔ actual line FX renders exact two-stroke static shape at flash0 below later warnings/actors (36.275244ms)
+✔ actual cone FX renders exact two-stroke static shape at flash0 below later warnings/actors (28.6648ms)
+✔ actual circle FX renders exact two-stroke static shape at flash0 below later warnings/actors (26.326123ms)
+✔ unrelated player slash retains its previous geometry and layers (7.70763ms)
+✔ old warden circle keeps authored shape and original single selector RNG draw (16.631594ms)
+✔ old warden cone keeps authored shape and original single selector RNG draw (15.812785ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 581.700494

@@ -1,0 +1,32 @@
+# R10 Tomb read-only presentation contract
+
+2026-10-10 UTC. New source `app/src/tomb-presentation.js` and its focused tests only. This task did not edit the renderer, main handler, campaign guidance, world, state, combat, references or predecessor presentation. Parent integration owns their wiring, brief/spec/eval, registry/build, external preservation and ordinary-input review. Canonical v1.1/Library version2 source status and local requirements trace were read; this task did not retry the recorded HTTP403 materialization.
+
+## API and callback ownership
+
+- `tombObjectView(state, object)` preserves the F `name/detail/actions` shape. Objects resolve by the immutable catalog's ID and `type:'tomb'`; caller-supplied actionKind/name/glyph cannot substitute another command. Each action has `label`, `type:'interactTomb'`, `objectId`, `expectedRevision`, and, only for actual plates, `glyph` and `expectedStep`.
+- Capture the action from the current panel generation. `tombCommandFields(action)` returns **only** the accepted command identity/token fields. Merge with the caller's real position/life/vitals/recovery and dispatch through the controller/session. Do not spread the full action/card into a reducer command. Do not refresh revision or step on an old click: duplicate/stale inputs must remain failures, never fresh wrong glyphs.
+- Keep the existing menu-generation, load/travel/death/retry, pointer/native-key-repeat and uncertain-save input ownership. These pure helpers neither replace those guards nor commit anything themselves. `expectedRevision` is the T token from `tombInputRevision`, not store revision.
+- `completed` is explicit. Use it for `hideWhenCompleted`; do **not** infer completion from `actions.length===0`, because a locked object or dead hero also has no available actions. The projection is completed after decoding but retains one free reread action. No completed reward claim has a repeat-claim button. The unconnected optional stair remains available after the main report.
+- `tombElderView` keeps F's `title/detail/action/label`, plus `npcId:'elder'`, `type` and `expectedRevision` for available accept/report commands. Mount it only on actual Eda, not Orin or Bran. Capture its fields through the same command helper. It offers report at genuine L14; no L15, existing120G, stair or promotion prerequisite is invented.
+
+## Durable guidance and copy
+
+- Prefer `tombGuidance(state)` before the completed F/S/P/Q guidance in the latest-objective chain. It follows earned predecessor receipts and every T stage, including separate ward take/midpoint/seal and boss defeat/oath pickup/report. Town returns keep the actual unfinished target and the real northeast entrance.
+- Mount `tombClueView(state)` independently in the journal after decode. The full catalog-derived **초승달 → 갈라진 빛줄기 → 잿불** order remains available when the latest objective moves on. It returns glyph identity/name/order/shape/objectId, current prefix, next glyph and completion. Before decode it returns null. Wrong fresh inputs clear only the prefix, with no damage/resource/gold/reward/time penalty.
+- `tombEventCopy(event)` maps actual reducer clue, sequence, ward, oath and commission events to concise feedback. Unknown events and `tombReward`/`tombChanged` return an empty string; the existing reward pipeline owns award feedback and must not duplicate it. An actual wrong input names the pressed and expected glyph; a stale command remains the reducer's rejection.
+- `tombGoldView` calls the authoritative wallet helper and exposes total/reserved/spendable. The report120G is part of total gold, not another wallet or grant; the current reserved amount is protected from ordinary equipment spending and death loss. Invalid balances return an error without invented numbers. Report copy separates the upcoming reservation from the current wallet.
+- Eda completion acknowledges only the T report and commission. It does not advertise a completed promotion, purchased skills, all Expert nodes or campaign completion. Expert skills and the next field remain identified as development work.
+
+## Portal and rendering data
+
+- `tombPortalLabel`/`tombPortalView` resolve actual portal IDs. Gate status agrees with the production T gate helper, and dead heroes are unavailable. The boss return is genuinely open after the kill even before oath pickup: it shows **서약문 미회수**, not an invented oath lock. The return detail asks for the separate pickup. Connection labels do not imply resource restoration.
+- `tombPresentationHints` exposes non-color glyph/role shape data, carried-ward state, a non-colliding ward cue, region-to-screen direction mapping and current `controlsFor/actionLabel` interaction text. F/custom/legacy bindings are derived without mutating saves. Role glyphs come from `TOMB_FOES`, not a parallel role list.
+- Region north/east/south/west project to screen upper-right/lower-right/lower-left/upper-left. Movement keys remain screen-relative. Render shapes, names/order and sufficient outlines at reduced flashes; this module alone is not visual accessibility verification.
+
+## Checks performed
+
+- `node --check app/src/tomb-presentation.js` and `node --check app/tests/tomb-presentation.test.mjs`: passed.
+- `node --test app/tests/tomb-presentation.test.mjs`: **16/16 passed, zero skipped/failed** on production state/world registration. Tests cover earned F prerequisites; authoritative object identity; locked-vs-completed buttons; persistent full clue/reload/reread; actual captured-token repeat rejection and wrong-order feedback; every stage; optional stair skipped/connected; distinct boss/oath/report; exact Eda versus Orin/Bran; actual minimum Hard/Serious L14→L15 report and120G reservation; death/retry; live remapping/projection/shape metadata; read-only saved views and invalid wallet copy.
+- Fixtures execute the real production reducers and save/load. Positions and kill reports are scripted; no earned-route XP/level/tier/tools/flags/gold are injected. Explicit corrupt fixtures test failure presentation only. These tests do not demonstrate combat survival, ordinary-input play, screen geometry/readability, mobile input, listening, balance quality or a finished Expert implementation.
+- Full suite, build, browser, publication, Library checkpoint and Git remote writes were not performed by this bounded task. Parent owns those separate gates; local commit is source preservation only.

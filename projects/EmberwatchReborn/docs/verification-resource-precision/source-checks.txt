@@ -1,0 +1,7 @@
+v24.19.0
+app/src/resource-display.js syntax passed
+app/src/action-feedback.js syntax passed
+app/src/main.js syntax passed
+app/tests/resource-display.test.mjs syntax passed
+Diff whitespace passed
+Combat/growth/input/save/state/balance/original source paths unchanged

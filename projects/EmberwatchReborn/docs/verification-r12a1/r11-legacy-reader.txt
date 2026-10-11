@@ -1,0 +1,15 @@
+Command: node --test --test-concurrency=1 tests/upgrade-v5-legacy-reader.test.mjs
+Working directory: projects/EmberwatchReborn/app
+Run: 2026-10-10 10:11 UTC
+Exit: 0
+The following stdout is preserved from the focused run; no second test run was made to create this log.
+
+✔ actual frozen R11b6 readers, writers and controllers fail closed across schema5 commits and resume exact recovered originals (2018.698694ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2115.323948

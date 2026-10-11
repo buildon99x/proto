@@ -1,0 +1,628 @@
+TAP version 13
+# Subtest: synthetic B geometry: devices 0/0, continuous radius11 routes and gated boss LOS
+ok 1 - synthetic B geometry: devices 0/0, continuous radius11 routes and gated boss LOS
+  ---
+  duration_ms: 52.976828
+  type: 'test'
+  ...
+# Subtest: synthetic B geometry: devices 1/0, continuous radius11 routes and gated boss LOS
+ok 2 - synthetic B geometry: devices 1/0, continuous radius11 routes and gated boss LOS
+  ---
+  duration_ms: 41.380499
+  type: 'test'
+  ...
+# Subtest: synthetic B geometry: devices 0/1, continuous radius11 routes and gated boss LOS
+ok 3 - synthetic B geometry: devices 0/1, continuous radius11 routes and gated boss LOS
+  ---
+  duration_ms: 36.243308
+  type: 'test'
+  ...
+# Subtest: synthetic B geometry: devices 1/1, continuous radius11 routes and gated boss LOS
+ok 4 - synthetic B geometry: devices 1/1, continuous radius11 routes and gated boss LOS
+  ---
+  duration_ms: 6.683633
+  type: 'test'
+  ...
+# Subtest: synthetic B geometry: arrivals are beyond visible activation range, cover blocks shots, lateral exits remain swept-clear
+ok 5 - synthetic B geometry: arrivals are beyond visible activation range, cover blocks shots, lateral exits remain swept-clear
+  ---
+  duration_ms: 0.443586
+  type: 'test'
+  ...
+# Subtest: B content explicitly owns tags, distinct boss attacks, all six statuses and exact authored budget
+ok 6 - B content explicitly owns tags, distinct boss attacks, all six statuses and exact authored budget
+  ---
+  duration_ms: 1.444128
+  type: 'test'
+  ...
+# Subtest: synthetic arithmetic B budget from documented T easy total, not played progression
+ok 7 - synthetic arithmetic B budget from documented T easy total, not played progression
+  ---
+  duration_ms: 1.926512
+  type: 'test'
+  ...
+# Subtest: synthetic arithmetic B budget from documented T normal total, not played progression
+ok 8 - synthetic arithmetic B budget from documented T normal total, not played progression
+  ---
+  duration_ms: 1.079801
+  type: 'test'
+  ...
+# Subtest: synthetic arithmetic B budget from documented T hard total, not played progression
+ok 9 - synthetic arithmetic B budget from documented T hard total, not played progression
+  ---
+  duration_ms: 0.67924
+  type: 'test'
+  ...
+# Subtest: synthetic arithmetic B budget from documented T serious total, not played progression
+ok 10 - synthetic arithmetic B budget from documented T serious total, not played progression
+  ---
+  duration_ms: 0.940972
+  type: 'test'
+  ...
+# Subtest: B accepted: low wall geometry follows real floor edges and paving follows the complete door
+ok 11 - B accepted: low wall geometry follows real floor edges and paving follows the complete door
+  ---
+  duration_ms: 11.232562
+  type: 'test'
+  ...
+# Subtest: B west only: low wall geometry follows real floor edges and paving follows the complete door
+ok 12 - B west only: low wall geometry follows real floor edges and paving follows the complete door
+  ---
+  duration_ms: 3.77697
+  type: 'test'
+  ...
+# Subtest: B east only: low wall geometry follows real floor edges and paving follows the complete door
+ok 13 - B east only: low wall geometry follows real floor edges and paving follows the complete door
+  ---
+  duration_ms: 1.81219
+  type: 'test'
+  ...
+# Subtest: B both devices: low wall geometry follows real floor edges and paving follows the complete door
+ok 14 - B both devices: low wall geometry follows real floor edges and paving follows the complete door
+  ---
+  duration_ms: 2.67074
+  type: 'test'
+  ...
+# Subtest: a single physically closed central-door tile suppresses every passage band despite completed objectives
+ok 15 - a single physically closed central-door tile suppresses every passage band despite completed objectives
+  ---
+  duration_ms: 2.702547
+  type: 'test'
+  ...
+# Subtest: B fog and proximity reveal only real adjacent cover and individual actual open-door tiles
+ok 16 - B fog and proximity reveal only real adjacent cover and individual actual open-door tiles
+  ---
+  duration_ms: 3.106453
+  type: 'test'
+  ...
+# Subtest: B mapping matches presentation roleShapes and reuses old glyphs without body/hitbox scaling
+ok 17 - B mapping matches presentation roleShapes and reuses old glyphs without body/hitbox scaling
+  ---
+  duration_ms: 0.471288
+  type: 'test'
+  ...
+# Subtest: only explicitly undead B rows get the side-skull, separating the two slit roles without color
+ok 18 - only explicitly undead B rows get the side-skull, separating the two slit roles without color
+  ---
+  duration_ms: 0.604878
+  type: 'test'
+  ...
+# Subtest: actual B renderer draws every living active role path and explicit catalog threat label
+ok 19 - actual B renderer draws every living active role path and explicit catalog threat label
+  ---
+  duration_ms: 8.262453
+  type: 'test'
+  ...
+# Subtest: B roles and threat names exclude inactive enemies
+ok 20 - B roles and threat names exclude inactive enemies
+  ---
+  duration_ms: 2.783758
+  type: 'test'
+  ...
+# Subtest: B roles and threat names exclude zero HP enemies
+ok 21 - B roles and threat names exclude zero HP enemies
+  ---
+  duration_ms: 2.353263
+  type: 'test'
+  ...
+# Subtest: B roles and threat names exclude dead enemies
+ok 22 - B roles and threat names exclude dead enemies
+  ---
+  duration_ms: 1.734604
+  type: 'test'
+  ...
+# Subtest: B roles and threat names exclude offscreen enemies
+ok 23 - B roles and threat names exclude offscreen enemies
+  ---
+  duration_ms: 2.241825
+  type: 'test'
+  ...
+# Subtest: B role/status visibility honors per-actor fog and never reveals unobserved enemies
+ok 24 - B role/status visibility honors per-actor fog and never reveals unobserved enemies
+  ---
+  duration_ms: 1.280522
+  type: 'test'
+  ...
+# Subtest: actual B low atlas walls, paving and role/status cues stay below hostile tells, loot and actors
+ok 25 - actual B low atlas walls, paving and role/status cues stay below hostile tells, loot and actors
+  ---
+  duration_ms: 4.715829
+  type: 'test'
+  ...
+# Subtest: threat name remains below foot glyph while applied disable statuses remain above head and HP
+ok 26 - threat name remains below foot glyph while applied disable statuses remain above head and HP
+  ---
+  duration_ms: 1.789406
+  type: 'test'
+  ...
+# Subtest: B flash0 retains static wall/paving/glyph/threat/status output without brightness requirements
+ok 27 - B flash0 retains static wall/paving/glyph/threat/status output without brightness requirements
+  ---
+  duration_ms: 6.245556
+  type: 'test'
+  ...
+# Subtest: B cues cannot alter any previous region render command or invent architecture elsewhere
+ok 28 - B cues cannot alter any previous region render command or invent architecture elsewhere
+  ---
+  duration_ms: 30.300361
+  type: 'test'
+  ...
+# Subtest: frozen map, actors, status state and catalog remain untouched by B rendering
+ok 29 - frozen map, actors, status state and catalog remain untouched by B rendering
+  ---
+  duration_ms: 2.41785
+  type: 'test'
+  ...
+# Subtest: only new B town entry and its own ordinary return move; all legacy anchors and map remain
+ok 30 - only new B town entry and its own ordinary return move; all legacy anchors and map remain
+  ---
+  duration_ms: 1.690598
+  type: 'test'
+  ...
+# Subtest: new entry has non-overlapping 76-unit reach and sole selection at every legal sampled approach
+ok 31 - new entry has non-overlapping 76-unit reach and sole selection at every legal sampled approach
+  ---
+  duration_ms: 8.623145
+  type: 'test'
+  ...
+# Subtest: new projected arch footprint is separate from every existing town portal, NPC and seeded landmark
+ok 32 - new projected arch footprint is separate from every existing town portal, NPC and seeded landmark
+  ---
+  duration_ms: 0.440432
+  type: 'test'
+  ...
+# Subtest: actual movement and main nearest/F from Eda enter only B
+ok 33 - actual movement and main nearest/F from Eda enter only B
+  ---
+  duration_ms: 1381.178492
+  type: 'test'
+  ...
+# Subtest: actual movement and main nearest/F from town spawn enter only B
+ok 34 - actual movement and main nearest/F from town spawn enter only B
+  ---
+  duration_ms: 80.420167
+  type: 'test'
+  ...
+# Subtest: actual movement and main nearest/F from trainer enter only B
+ok 35 - actual movement and main nearest/F from trainer enter only B
+  ---
+  duration_ms: 74.082112
+  type: 'test'
+  ...
+# Subtest: actual movement and main nearest/F from old B endpoint enter only B
+ok 36 - actual movement and main nearest/F from old B endpoint enter only B
+  ---
+  duration_ms: 95.460999
+  type: 'test'
+  ...
+# Subtest: actual movement and main nearest/F from old B return enter only B
+ok 37 - actual movement and main nearest/F from old B return enter only B
+  ---
+  duration_ms: 90.238979
+  type: 'test'
+  ...
+# Subtest: actual main F and durable controller support ordinary B return, immediate re-entry and read-only reload
+ok 38 - actual main F and durable controller support ordinary B return, immediate re-entry and read-only reload
+  ---
+  duration_ms: 298.078736
+  type: 'test'
+  ...
+# Subtest: existing schema4 old entry position reloads without teleport, migration write or lost resources
+ok 39 - existing schema4 old entry position reloads without teleport, migration write or lost resources
+  ---
+  duration_ms: 213.550401
+  type: 'test'
+  ...
+# Subtest: existing schema4 old return position reloads without teleport, migration write or lost resources
+ok 40 - existing schema4 old return position reloads without teleport, migration write or lost resources
+  ---
+  duration_ms: 198.624202
+  type: 'test'
+  ...
+# Subtest: Banner uses the exact live128-radius boundary and bounded arc sampling
+ok 41 - Banner uses the exact live128-radius boundary and bounded arc sampling
+  ---
+  duration_ms: 5.872267
+  type: 'test'
+  ...
+# Subtest: Banner hides expired
+ok 42 - Banner hides expired
+  ---
+  duration_ms: 0.53911
+  type: 'test'
+  ...
+# Subtest: Banner hides negative lifetime
+ok 43 - Banner hides negative lifetime
+  ---
+  duration_ms: 0.112469
+  type: 'test'
+  ...
+# Subtest: Banner hides nonfinite
+ok 44 - Banner hides nonfinite
+  ---
+  duration_ms: 0.122113
+  type: 'test'
+  ...
+# Subtest: Banner hides invalid radius
+ok 45 - Banner hides invalid radius
+  ---
+  duration_ms: 0.087922
+  type: 'test'
+  ...
+# Subtest: Banner hides wrong region
+ok 46 - Banner hides wrong region
+  ---
+  duration_ms: 0.097746
+  type: 'test'
+  ...
+# Subtest: Banner clips solid walls and unrevealed tiles without painting a far-side pocket
+ok 47 - Banner clips solid walls and unrevealed tiles without painting a far-side pocket
+  ---
+  duration_ms: 9.956368
+  type: 'test'
+  ...
+# Subtest: flames_of_devotion uses exact runtime center radius90 and its own arc, without legacy padding
+ok 48 - flames_of_devotion uses exact runtime center radius90 and its own arc, without legacy padding
+  ---
+  duration_ms: 2.242086
+  type: 'test'
+  ...
+# Subtest: zealous_lance uses exact runtime center radius180 and its own arc, without legacy padding
+ok 49 - zealous_lance uses exact runtime center radius180 and its own arc, without legacy padding
+  ---
+  duration_ms: 1.366632
+  type: 'test'
+  ...
+# Subtest: Expert FX opt-in needs supported identity, finite accepted geometry and living effect
+ok 50 - Expert FX opt-in needs supported identity, finite accepted geometry and living effect
+  ---
+  duration_ms: 0.403796
+  type: 'test'
+  ...
+# Subtest: Onslaught phases use accepted startup, locked angle, payments and pulses
+ok 51 - Onslaught phases use accepted startup, locked angle, payments and pulses
+  ---
+  duration_ms: 0.400602
+  type: 'test'
+  ...
+# Subtest: channel spec shortened by a buff drives startup, no assumed fixed cast time
+ok 52 - channel spec shortened by a buff drives startup, no assumed fixed cast time
+  ---
+  duration_ms: 0.157146
+  type: 'test'
+  ...
+# Subtest: Onslaught rectangle follows current hero and accepted angle without endpoint padding
+ok 53 - Onslaught rectangle follows current hero and accepted angle without endpoint padding
+  ---
+  duration_ms: 1.327473
+  type: 'test'
+  ...
+# Subtest: recovery is only an observed channel and stays paused with simulation, never restored from a save lock
+ok 54 - recovery is only an observed channel and stays paused with simulation, never restored from a save lock
+  ---
+  duration_ms: 0.444817
+  type: 'test'
+  ...
+# Subtest: replacement actor, region change, later time, death and another action clear remembered recovery
+ok 55 - replacement actor, region change, later time, death and another action clear remembered recovery
+  ---
+  duration_ms: 0.287251
+  type: 'test'
+  ...
+# Subtest: hero status hints expose only registered live statuses, actual Inner Flame and current Banner LOS
+ok 56 - hero status hints expose only registered live statuses, actual Inner Flame and current Banner LOS
+  ---
+  duration_ms: 0.498748
+  type: 'test'
+  ...
+# Subtest: enemy Lawbringer hints disappear on expiry, inactive and death
+ok 57 - enemy Lawbringer hints disappear on expiry, inactive and death
+  ---
+  duration_ms: 0.150185
+  type: 'test'
+  ...
+# Subtest: actual renderer puts Banner, exact Flames/Lance and channel below loot and hostile danger
+ok 58 - actual renderer puts Banner, exact Flames/Lance and channel below loot and hostile danger
+  ---
+  duration_ms: 12.438904
+  type: 'test'
+  ...
+# Subtest: actual renderer transforms the exact Lance footprint without old slash arc or radius changes
+ok 59 - actual renderer transforms the exact Lance footprint without old slash arc or radius changes
+  ---
+  duration_ms: 4.926085
+  type: 'test'
+  ...
+# Subtest: actual hero motion uses existing art with startup/contact/recovery and locked direction
+ok 60 - actual hero motion uses existing art with startup/contact/recovery and locked direction
+  ---
+  duration_ms: 7.831778
+  type: 'test'
+  ...
+# Subtest: flash0 keeps Expert shapes, status labels and existing motion without mutating frozen input
+ok 61 - flash0 keeps Expert shapes, status labels and existing motion without mutating frozen input
+  ---
+  duration_ms: 16.327723
+  type: 'test'
+  ...
+# Subtest: absent, expired and off-region Expert data leave the existing renderer commands unchanged
+ok 62 - absent, expired and off-region Expert data leave the existing renderer commands unchanged
+  ---
+  duration_ms: 13.935131
+  type: 'test'
+  ...
+# Subtest: recovery keeps its actual residual across a last-active frame boundary and does not extend stale locks
+ok 63 - recovery keeps its actual residual across a last-active frame boundary and does not extend stale locks
+  ---
+  duration_ms: 0.235394
+  type: 'test'
+  ...
+# Subtest: tagged Banner placement uses only the dedicated quiet ground ring while ordinary ring effects remain
+ok 64 - tagged Banner placement uses only the dedicated quiet ground ring while ordinary ring effects remain
+  ---
+  duration_ms: 5.507558
+  type: 'test'
+  ...
+# Subtest: Banner has a continuous dark casing and longer warm dash on the same exact floor boundary
+ok 65 - Banner has a continuous dark casing and longer warm dash on the same exact floor boundary
+  ---
+  duration_ms: 11.796561
+  type: 'test'
+  ...
+# Subtest: combat-created Banner visual stays at the accepted placement and vanishes at the real expiry
+ok 66 - combat-created Banner visual stays at the accepted placement and vanishes at the real expiry
+  ---
+  duration_ms: 191.873136
+  type: 'test'
+  ...
+# Subtest: existing sector center tolerance and angular boundary are shared with combat unchanged
+ok 67 - existing sector center tolerance and angular boundary are shared with combat unchanged
+  ---
+  duration_ms: 4.334027
+  type: 'test'
+  ...
+# Subtest: open-field outline follows actual range plus tolerance and exact sector side angles
+ok 68 - open-field outline follows actual range plus tolerance and exact sector side angles
+  ---
+  duration_ms: 3.222378
+  type: 'test'
+  ...
+# Subtest: closed walls clip the persistent footprint using production damage LOS traversal
+ok 69 - closed walls clip the persistent footprint using production damage LOS traversal
+  ---
+  duration_ms: 1.593202
+  type: 'test'
+  ...
+# Subtest: persistent footprint exists newborn
+ok 70 - persistent footprint exists newborn
+  ---
+  duration_ms: 8.379751
+  type: 'test'
+  ...
+# Subtest: persistent footprint exists between ticks
+ok 71 - persistent footprint exists between ticks
+  ---
+  duration_ms: 3.660786
+  type: 'test'
+  ...
+# Subtest: persistent footprint exists last instant
+ok 72 - persistent footprint exists last instant
+  ---
+  duration_ms: 2.609377
+  type: 'test'
+  ...
+# Subtest: invalid or inactive footprint is absent: expired
+ok 73 - invalid or inactive footprint is absent: expired
+  ---
+  duration_ms: 2.960094
+  type: 'test'
+  ...
+# Subtest: invalid or inactive footprint is absent: past end
+ok 74 - invalid or inactive footprint is absent: past end
+  ---
+  duration_ms: 1.466442
+  type: 'test'
+  ...
+# Subtest: invalid or inactive footprint is absent: negative age
+ok 75 - invalid or inactive footprint is absent: negative age
+  ---
+  duration_ms: 1.832441
+  type: 'test'
+  ...
+# Subtest: invalid or inactive footprint is absent: no damage
+ok 76 - invalid or inactive footprint is absent: no damage
+  ---
+  duration_ms: 1.446682
+  type: 'test'
+  ...
+# Subtest: invalid or inactive footprint is absent: bad range
+ok 77 - invalid or inactive footprint is absent: bad range
+  ---
+  duration_ms: 1.441794
+  type: 'test'
+  ...
+# Subtest: invalid or inactive footprint is absent: bad angle
+ok 78 - invalid or inactive footprint is absent: bad angle
+  ---
+  duration_ms: 1.413903
+  type: 'test'
+  ...
+# Subtest: actual renderer draws the clipped ground polygon with low-alpha fill and static edge
+ok 79 - actual renderer draws the clipped ground polygon with low-alpha fill and static edge
+  ---
+  duration_ms: 3.700535
+  type: 'test'
+  ...
+# Subtest: flash-zero retains identical footprint without animated brightness or simulation mutation
+ok 80 - flash-zero retains identical footprint without animated brightness or simulation mutation
+  ---
+  duration_ms: 8.289335
+  type: 'test'
+  ...
+# Subtest: area remains underneath loot, hostile warnings and player or enemy bodies
+ok 81 - area remains underneath loot, hostile warnings and player or enemy bodies
+  ---
+  duration_ms: 4.732826
+  type: 'test'
+  ...
+# Subtest: hidden footprint and absent areas leave the old renderer command stream untouched
+ok 82 - hidden footprint and absent areas leave the old renderer command stream untouched
+  ---
+  duration_ms: 5.728951
+  type: 'test'
+  ...
+# Subtest: real main render handoff forwards the live area rather than a generated preview
+ok 83 - real main render handoff forwards the live area rather than a generated preview
+  ---
+  duration_ms: 5.02231
+  type: 'test'
+  ...
+# Subtest: observed low-contrast boundary correction adds a same-path static outer keyline
+ok 84 - observed low-contrast boundary correction adds a same-path static outer keyline
+  ---
+  duration_ms: 2.285091
+  type: 'test'
+  ...
+# Subtest: flash-zero preserves both contrast strokes and does not introduce extra bright area fills
+ok 85 - flash-zero preserves both contrast strokes and does not introduce extra bright area fills
+  ---
+  duration_ms: 5.209141
+  type: 'test'
+  ...
+# Subtest: actual Pass geometry reproduces locked portal before and rope target after correction
+ok 86 - actual Pass geometry reproduces locked portal before and rope target after correction
+  ---
+  duration_ms: 367.428542
+  type: 'test'
+  ...
+# Subtest: quarry exact-overlap selection is independent of portal/object source order
+ok 87 - quarry exact-overlap selection is independent of portal/object source order
+  ---
+  duration_ms: 187.706991
+  type: 'test'
+  ...
+# Subtest: Pass: only explicit existing command connects, grants no resources, then normal portal travel works
+ok 88 - Pass: only explicit existing command connects, grants no resources, then normal portal travel works
+  ---
+  duration_ms: 14.756995
+  type: 'test'
+  ...
+# Subtest: Pass: pre-rescue visible actions do not elevate unlock target or bypass reducer requirements
+ok 89 - Pass: pre-rescue visible actions do not elevate unlock target or bypass reducer requirements
+  ---
+  duration_ms: 4.213466
+  type: 'test'
+  ...
+# Subtest: Pass: stale life and stale completion still reject existing commands without mutation
+ok 90 - Pass: stale life and stale completion still reject existing commands without mutation
+  ---
+  duration_ms: 16.096747
+  type: 'test'
+  ...
+# Subtest: quarry: only explicit existing command connects, grants no resources, then normal portal travel works
+ok 91 - quarry: only explicit existing command connects, grants no resources, then normal portal travel works
+  ---
+  duration_ms: 12.158995
+  type: 'test'
+  ...
+# Subtest: quarry: pre-rescue visible actions do not elevate unlock target or bypass reducer requirements
+ok 92 - quarry: pre-rescue visible actions do not elevate unlock target or bypass reducer requirements
+  ---
+  duration_ms: 3.494386
+  type: 'test'
+  ...
+# Subtest: quarry: stale life and stale completion still reject existing commands without mutation
+ok 93 - quarry: stale life and stale completion still reject existing commands without mutation
+  ---
+  duration_ms: 13.676794
+  type: 'test'
+  ...
+# Subtest: 76-unit default reach is preserved and distant Pass rope is never pulled into range
+ok 94 - 76-unit default reach is preserved and distant Pass rope is never pulled into range
+  ---
+  duration_ms: 0.661343
+  type: 'test'
+  ...
+# Subtest: visible locked portal never selects its linked object through an intervening wall
+ok 95 - visible locked portal never selects its linked object through an intervening wall
+  ---
+  duration_ms: 0.475764
+  type: 'test'
+  ...
+# Subtest: nearest unrelated NPC, chest, object or open portal remains authoritative
+ok 96 - nearest unrelated NPC, chest, object or open portal remains authoritative
+  ---
+  duration_ms: 0.53959
+  type: 'test'
+  ...
+# Subtest: relationship matching is exact for region, portal ID, gate, object ID, kind and action kind
+ok 97 - relationship matching is exact for region, portal ID, gate, object ID, kind and action kind
+  ---
+  duration_ms: 0.841012
+  type: 'test'
+  ...
+# Subtest: no linked local object means no promotion, including town endpoints and ambiguous duplicates
+ok 98 - no linked local object means no promotion, including town endpoints and ambiguous duplicates
+  ---
+  duration_ms: 0.350106
+  type: 'test'
+  ...
+# Subtest: stale, absent, malformed or disabled actions never elevate an unlock object
+ok 99 - stale, absent, malformed or disabled actions never elevate an unlock object
+  ---
+  duration_ms: 0.420691
+  type: 'test'
+  ...
+# Subtest: missing, inherited, truthy, malformed and stale objective values do not grant priority
+ok 100 - missing, inherited, truthy, malformed and stale objective values do not grant priority
+  ---
+  duration_ms: 1.379541
+  type: 'test'
+  ...
+# Subtest: malformed selection contexts fail closed and malformed candidates are ignored
+ok 101 - malformed selection contexts fail closed and malformed candidates are ignored
+  ---
+  duration_ms: 0.423937
+  type: 'test'
+  ...
+# Subtest: ordinary equal-distance order and input identity are preserved without mutations
+ok 102 - ordinary equal-distance order and input identity are preserved without mutations
+  ---
+  duration_ms: 0.9124
+  type: 'test'
+  ...
+# Subtest: relationship metadata still names actual source objects, gates and independent shortcut conditions
+ok 103 - relationship metadata still names actual source objects, gates and independent shortcut conditions
+  ---
+  duration_ms: 0.415954
+  type: 'test'
+  ...
+1..103
+# tests 103
+# suites 0
+# pass 103
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4263.887839

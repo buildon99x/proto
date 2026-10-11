@@ -1,0 +1,18 @@
+import {cpSync,mkdirSync,readdirSync,readFileSync,writeFileSync,lstatSync,existsSync,unlinkSync} from 'node:fs';
+import {join,dirname,resolve,relative} from 'node:path';import {fileURLToPath} from 'node:url';import {createHash} from 'node:crypto';
+const base=resolve(dirname(fileURLToPath(import.meta.url)),'..'),src=join(base,'src'),out=join(base,'dist','qa-r14'),excluded=new Set(['expedition-content.js','expedition-ledger.js']);
+if(process.argv.length>2)throw Error('No build arguments accepted');
+if(lstatSync(src).isSymbolicLink())throw Error('Source root symlink');
+function safeOutput(path){const rel=relative(out,path);if(rel.startsWith('..')||rel.startsWith('/'))throw Error('Unsafe output path');let current=out;for(const part of rel.split('/')){if(!part)continue;current=join(current,part);if(existsSync(current)&&lstatSync(current).isSymbolicLink())throw Error('Output symlink '+current);}}
+for(const p of [join(base,'dist'),out])if(existsSync(p)&&lstatSync(p).isSymbolicLink())throw Error('Output symlinks are not permitted');
+const files=[];function walk(dir,rel=''){for(const e of readdirSync(dir,{withFileTypes:true})){const path=join(dir,e.name),name=join(rel,e.name);if(e.isSymbolicLink())throw Error('Source symlink '+name);if(e.isDirectory())walk(path,name);else if(e.isFile()&&!excluded.has(name))files.push(name);}}
+walk(src);
+const fileSet=new Set(files);
+for(const name of files.filter(x=>x.endsWith('.js'))){const text=readFileSync(join(src,name),'utf8');for(const m of text.matchAll(/(?:from\s*|import\s*\(\s*|import\s*)['"](\.\.?\/[^'"?#]+)['"]/g)){const ref=relative(src,resolve(dirname(join(src,name)),m[1]));if(ref.startsWith('..')||!fileSet.has(ref))throw Error('Invalid module reference '+name+' -> '+m[1]);}}
+for(const required of ['index.html','entry-r14.js','main.js','recovery.html','recovery-entry-r14.js','style.css','assets/motion-hero.png','assets/audio-fantasy.wav'])if(!fileSet.has(required))throw Error('Missing '+required);
+mkdirSync(out,{recursive:true});
+const previous=join(out,'build-manifest.json');safeOutput(previous);if(!existsSync(previous)&&readdirSync(out).length)throw Error('Unknown existing output; preserve and inspect before building');if(existsSync(previous)){const old=JSON.parse(readFileSync(previous));if(old.namespace!=='qa-r14')throw Error('Unknown output ownership');for(const f of old.files){const path=resolve(out,f.path);if(!path.startsWith(out+'/'))throw Error('Unsafe old output path');safeOutput(path);if(!fileSet.has(f.path)&&f.path!=='recovery/index.html'&&existsSync(path))unlinkSync(path);}}
+for(const name of files){const target=join(out,name);safeOutput(target);mkdirSync(dirname(target),{recursive:true});if(existsSync(target)&&lstatSync(target).isSymbolicLink())throw Error('Output symlink '+name);cpSync(join(src,name),target);}
+safeOutput(join(out,'recovery/index.html'));mkdirSync(join(out,'recovery'),{recursive:true});writeFileSync(join(out,'recovery/index.html'),readFileSync(join(src,'recovery.html'),'utf8').replace('href="style.css"','href="../style.css"').replace('src="recovery-entry-r14.js"','src="../recovery-entry-r14.js"'));files.push('recovery/index.html');
+const entries=files.map(path=>{const b=readFileSync(join(out,path));return {path,bytes:b.length,sha256:createHash('sha256').update(b).digest('hex')};});
+const manifest={version:JSON.parse(readFileSync(join(base,'package.json'))).version,namespace:'qa-r14',kind:'R14a2 POE-style input candidate. Browser/FX/play acceptance is independent of build.',files:entries};writeFileSync(previous,JSON.stringify(manifest,null,2)+'\n');console.log(JSON.stringify({output:out,files:entries.length,bytes:entries.reduce((s,x)=>s+x.bytes,0),version:manifest.version}));

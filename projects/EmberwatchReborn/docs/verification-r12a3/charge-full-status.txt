@@ -1,0 +1,6 @@
+started=2026-10-10T16:37:46.667192+00:00
+command=node --test --test-reporter=tap --test-concurrency=2 tests/*.test.mjs
+exit_code=0
+finished=2026-10-10T16:42:39.714453+00:00
+elapsed_seconds=293.0472861849994
+frozen_changed=[]

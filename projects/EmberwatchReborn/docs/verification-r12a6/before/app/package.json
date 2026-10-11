@@ -1,0 +1,12 @@
+{
+  "name": "emberwatch-reborn",
+  "version": "0.12.0-reimplementation.6",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "lint": "node scripts/check.mjs",
+    "build": "node scripts/build.mjs",
+    "dev": "python3 -m http.server 4182 --directory src --bind 0.0.0.0"
+  }
+}

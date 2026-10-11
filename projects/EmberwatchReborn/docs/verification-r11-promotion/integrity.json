@@ -1,0 +1,10 @@
+{
+  "originalFiles": 167,
+  "mismatches": [],
+  "referenceCatalogs": {
+    "reference-core.js": "04804f94aa38999f5e0af98094196394d703a3be4c3593d9338a3bc13bc8eb04",
+    "reference-warrior.js": "1fb06923bbf69a33e80593a734f86b39d22ef7cd1f260b9d5b0be9a15261d549"
+  },
+  "baseline": "806d61a",
+  "noReferenceChanges": true
+}

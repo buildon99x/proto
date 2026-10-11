@@ -1,0 +1,30 @@
+✔ delayed A first WebLock save cannot replace loaded B or bind A pools to B revision (63.039751ms)
+✔ obsolete delayed saved-profile load cannot replace B or start a new save (20.875644ms)
+✔ obsolete delayed new-game preflight cannot replace B or start a new save (16.299417ms)
+✔ late failed A load cannot clear B, change its modal or reset load state (17.901852ms)
+✔ late failed A start cannot clear B, change its modal or reset load state (27.161195ms)
+✔ showTitle dismisses a pending load without obsolete success or error reopening gameplay (6.480374ms)
+✔ showTitle dismisses a pending start without obsolete success or error reopening gameplay (10.038503ms)
+✔ same-profile overlapping continue owns the latest invocation and never starts an obsolete requested new game (24.624218ms)
+✔ normal load, reload and fresh start retain storage behavior and never remap existing progress (36.860188ms)
+✔ current load/start failures still present the title error and preserve existing raw saves (16.659798ms)
+✔ reloading while gameplay was active pauses simulation throughout a delayed load (21.169755ms)
+✔ actual delayed candidate-copy success cannot steal a newer continue selection (22.474012ms)
+✔ actual delayed candidate-copy failure cannot steal a newer continue selection (17.744005ms)
+✔ title dismissal invalidates delayed candidate-copy success (16.2748ms)
+✔ title dismissal invalidates delayed candidate-copy failure (16.533588ms)
+✔ candidate-copy intent immediately supersedes an older delayed new-game preflight (23.307754ms)
+✔ overlapping candidate copies preserve the latest target even when the earlier copy finishes last (25.808245ms)
+✔ ordinary current candidate-copy still loads its target exactly once and keeps original bytes (20.31335ms)
+✔ actual title pending start: Escape/pause, menu key and close cannot resume a prior battle (22.245319ms)
+✔ actual title pending copy: Escape/pause, menu key and close cannot resume a prior battle (31.752515ms)
+✔ actual title pending start still installs its sole current owner after ignored Escape and close (6.725652ms)
+✔ actual title pending copy still installs its sole current owner after ignored Escape and close (20.063745ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 604.957893

@@ -1,0 +1,12 @@
+# Warrior gap update after R7 root promotion
+
+2026-10-09. This dated update supplements, rather than rewrites, the detailed53-row R6a1 matrix and canonical source record.
+
+- Public v25/R7a4 now includes the normal-input verified route through earnedL10 Pass, plus root L4 migration and fresh-entry regressions.25/53 nodes and2/4 tiers are still the functional scope. Earlier25-node observations do not establish every rank/effect in actual combat.
+- Pass mandatory clue/rescue/rune/report, optional shortcut, repeat-information no reward, partial sequence reload, deliberate death/retry and legacy controls now have dated normal-input evidence. See R7a/R7a1/R7a4 reports.
+- S implementation is a separate R8 candidate. Its real core passes635 Node checks before UI integration (590 previous+38 existingS+7 direct-core). R8a/R8a1 ordinary-input east and west routes now reach earnedL12 with exact1140XP/232G, death/retry and save/reload evidence. This proves connected progression, not duration or enjoyment. Two lever orders open different approaches to the same battle; readable role/threshold cues and tactical depth are still being improved.
+- Required remaining progression: actual S play/correction, furnace and tomb routes with exact earned XP budgets, meaningful L15 Expert conditions and15 skill nodes, Master growth13nodes and final campaign. Tier guards must be widened together, with paid cost/CD/branch/save handling, not by unlocking a data catalog.
+- Repeat expeditions are pure ledger code only. No live enemy-reset/award loop exists; integrating permanent run IDs, atomic settlement, nonduplicate reward and repeated ordinary-input play remains required.
+- Equipment is an early8-item/+2 crafting slice, not the planned full tiered itemization/respec curve. Current economy and MP sustain need route-level repeated play, not only deterministic budget arithmetic.
+- Qualitative open findings: powerful judgement builds can delete elites before patterns matter; enemy roles share a base silhouette and few motion frames; town NPCs use reused statue sprites; corridors/walls and goal direction need clearer spatial guidance. Record and fix from actual screen evidence. Hearing, mobile, complete time/depth and AAA-quality acceptance remain open.
+- Current priority after R7 input correctness: verify S's actual approach choice/cover/combat/reward loop, then complete Expert access and behavior-changing skills. No class expansion before warrior completion.

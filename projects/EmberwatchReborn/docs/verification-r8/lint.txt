@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> emberwatch-reborn@0.8.0-reimplementation.1 lint
+> node scripts/check.mjs
+
+Source/test syntax passed; no gameplay acceptance implied.

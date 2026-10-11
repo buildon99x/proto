@@ -1,0 +1,37 @@
+✔ registered W validates actual world location and constructs production battle; untouched state stays W-free (2135.324232ms)
+✔ existing genuinely earned version4 B store loads version5 without rewriting any saved bytes (203.118527ms)
+✔ version1 envelope rejects all future W record categories before migration (3.308365ms)
+✔ version2 envelope rejects all future W record categories before migration (3.101746ms)
+✔ version3 envelope rejects all future W record categories before migration (2.781305ms)
+✔ version4 envelope rejects all future W record categories before migration (3.13105ms)
+✔ explicit qa-r11→qa-r12 copy preserves every source byte, refuses duplicate/backward/main and old W forgery (56.730664ms)
+✔ actual controller/store full W route easy/cover:21 kills,800 objectiveXP,one report (4571.857411ms)
+✔ actual controller/store full W route easy/channel:21 kills,800 objectiveXP,one report (2886.187452ms)
+✔ actual controller/store full W route normal/cover:21 kills,800 objectiveXP,one report (2799.047662ms)
+✔ actual controller/store full W route normal/channel:21 kills,800 objectiveXP,one report (2766.712775ms)
+✔ actual controller/store full W route hard/cover:21 kills,800 objectiveXP,one report (4235.221046ms)
+✔ actual controller/store full W route hard/channel:21 kills,800 objectiveXP,one report (2873.48787ms)
+✔ actual controller/store full W route serious/cover:21 kills,800 objectiveXP,one report (4268.500231ms)
+✔ actual controller/store full W route serious/channel:21 kills,800 objectiveXP,one report (2863.47799ms)
+✔ actual controller/save optional rescue before main report is independent and once-only (3231.57058ms)
+✔ actual controller/save optional rescue after main report is independent and once-only (3223.10214ms)
+✔ controller captures independent atomic snapshots; immutable objective epoch loses to later paid checkpoint (642.998869ms)
+✔ old checkpoint cannot rollback a newer objective, and missing/forged command context is refused (273.872241ms)
+✔ duplicate settled kills never undo later paid recovery or level-up pools (588.950507ms)
+✔ queued identical commands commit once, clone caller data and refuse stale queued objective (219.646753ms)
+✔ staged write failure blocks until actual reload and grants no speculative objective (433.301601ms)
+✔ head-write-then-throw reload recovers committed objective and never pays again (306.504846ms)
+✔ two controllers sharing real session conflict instead of overwriting later paid snapshot (459.40816ms)
+✔ paid pools/recovery/clue prefix survive real store load, wrong input, anchor roundtrip and later objective (2489.421947ms)
+✔ same-frame keeper kill/death, dead reload and retry settle once with retained history (2483.685031ms)
+✔ all travel while W active invalidates W objective epoch and old live reports, including legacy region reentry (1528.839766ms)
+✔ keeper gate opens on actual generic settlement without recreating living enemies or transient combat (2124.970972ms)
+✔ all complete ancestor histories remain necessary in registered production validator (48.427193ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 47850.530299

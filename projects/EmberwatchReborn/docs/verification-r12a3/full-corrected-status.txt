@@ -1,0 +1,12 @@
+started=2026-10-10T16:19:09.347344+00:00
+command=node --test --test-reporter=tap --test-concurrency=1 tests/*.test.mjs
+frozen_file_count=291
+frozen_tree_sha256=53c7ee0183ab10fff4979b908a9d9d33edede947e4363262ac1cb5b590eef2f1
+original_full.tap_sha256=b0eafde58c65aee5357b62cd11235cc931352cd67ece5a787c6a556ac0cdfc6f
+original_full-status.txt_sha256=bcb20b68fc46a26c07a61a10e5302b31714513a19887e12c22a93047fcc768af
+exit_code=0
+finished=2026-10-10T16:28:17.286307+00:00
+elapsed_seconds=547.9388669210002
+frozen_changed=[]
+original_logs_changed=[]
+corrected_log_sha256=527c831aba28338b06351a88fab732dca74f65d54631069144a5020cbf480c33

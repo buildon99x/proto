@@ -1,0 +1,12 @@
+✔ R10 candidate route is exact and every older namespace keeps its byte identity (1.38587ms)
+✔ R11 exact namespace copies earned R10 forward once and preserves all original bytes, controls and recovery (1410.066104ms)
+✔ production fire response opts in furnace tenders and explicit B/W roles; furnace identity remains transient (21.671531ms)
+✔ actual trainer effect projection exposes maximum pulse requirement, not a hidden damage reduction (23.325594ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1778.272495

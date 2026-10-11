@@ -1,0 +1,48 @@
+✔ new recommended v3 offers2/3 but legacy does not steal either key (1.706161ms)
+✔ literal v2 custom2/3/E/T migrate unchanged and auxiliary rows stay unbound (1.064898ms)
+✔ historical version2 rejects injected rows instead of silently migrating a new key (0.244658ms)
+✔ expert1 rebinding rejects occupied old keys and allows explicit unbound (0.554092ms)
+✔ expert2 rebinding rejects occupied old keys and allows explicit unbound (1.154513ms)
+✔ strict empty slots need no purchased skills and never invent a binding (0.220901ms)
+✔ strict slot format refuses null (0.172529ms)
+✔ strict slot format refuses {} (0.092559ms)
+✔ strict slot format refuses [] (0.110235ms)
+✔ strict slot format refuses {"version":2,"expert1":null,"expert2":null} (0.167772ms)
+✔ strict slot format refuses {"version":1,"expert1":null} (0.156204ms)
+✔ strict slot format refuses {"version":1,"expert1":null,"expert2":null,"extra":null} (0.077606ms)
+✔ strict slot format refuses {"version":1,"expert1":"mace_swing","expert2":null} (0.078578ms)
+✔ strict slot format refuses {"version":1,"expert1":"banner_of_zeal","expert2":null} (0.071638ms)
+✔ strict slot format refuses {"version":1,"expert1":"zealous_onslaught","expert2":"zealous_onslaught"} (0.045458ms)
+✔ learned and runtime-supported are separate assignment prerequisites (0.130346ms)
+✔ assignment CAS, duplicate, unsupported and immutable source (0.177637ms)
+✔ real router Banner press is immediate once and remains finite after a normal click release (0.741744ms)
+✔ real router channel hold preserves identity and emits no repeating start (0.230185ms)
+✔ channel key-up before a simulation frame cancels pending start without later resurrection (0.130756ms)
+✔ multiple original aliases retain channel until every accepted owner releases (0.148573ms)
+✔ late alias cannot transfer an already accepted channel or restart after owner release (0.150546ms)
+✔ slot changes do not rewrite captured skill identity (0.084667ms)
+✔ menu cancels once and requires a new nonrepeat press (0.217627ms)
+✔ blur cancels once and requires a new nonrepeat press (0.092849ms)
+✔ hidden cancels once and requires a new nonrepeat press (0.072268ms)
+✔ death cancels once and requires a new nonrepeat press (0.103676ms)
+✔ slot-change cancels once and requires a new nonrepeat press (0.07294ms)
+✔ remap cancels once and requires a new nonrepeat press (0.060831ms)
+✔ save-fault cancels once and requires a new nonrepeat press (0.055583ms)
+✔ pointer loss cancels captured mouse channel but not independent keyboard channel (0.207732ms)
+✔ ordinary mouse-up then lost capture stays a normal release, never a safety Lance cancellation (0.126761ms)
+✔ lost capture before first pointer frame cancels Banner but a normal click does not (0.171948ms)
+✔ UI/paused/modified/repeat base-router refusals never reach capture (0.221623ms)
+✔ guardPressed is a pulse distinct from held or toggled shield (0.129835ms)
+✔ touch ownership uses same explicit press/release and safety path (0.22042ms)
+✔ unlearned or unavailable slots produce no owner or action (0.111948ms)
+✔ store-busy release is safety cancellation, not a delayed normal Lance release (0.108914ms)
+✔ acknowledged live-action cancellation reset permits the first fresh input after modal (0.102224ms)
+✔ W+A and W+D keep their movement and other held actions during explicit slot press (0.168763ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 105.599511

@@ -1,0 +1,9 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {combatActorOpacity} from '../src/combat-readability.js';
+const hero={x:200,y:200},boss={x:240,y:240,type:'boss',active:true,hp:220};
+test('foreground boss locally fades when its body overlaps the player',()=>{assert.equal(combatActorOpacity(boss,hero),.64);assert.equal(boss.hp,220);});
+test('behind, distant and nonoverlapping enemies remain opaque',()=>{for(const actor of [{...boss,x:180,y:180},{...boss,x:360,y:360},{...boss,x:290,y:200}])assert.equal(combatActorOpacity(actor,hero),1);});
+test('inactive and defeated actors do not trigger combat silhouette treatment',()=>{assert.equal(combatActorOpacity({...boss,active:false},hero),1);assert.equal(combatActorOpacity({...boss,hp:0},hero),1);});
+import {localPassageBounds,nearbyFloorEdges} from '../src/combat-readability.js';import {foregroundAlpha} from '../src/visual.js';import {mapFromRegion} from '../src/world-geometry.js';
+test('nearby passage cutaway protects floor in exploration but does not fade far walls',()=>{const b=localPassageBounds(hero,{x:400,y:400},1),region={w:100,h:150,ax:50,ay:148};assert.equal(foregroundAlpha({type:'wall',width:100,x:440,y:430,depth:400},region,[b]),.22);assert.equal(foregroundAlpha({type:'wall',width:100,x:900,y:430,depth:400},region,[b]),1);});
+test('floor edge cues mark only collision boundaries and do not mutate map',()=>{const map=mapFromRegion({w:8,h:8,rooms:[{x:2,y:2,w:2,h:2}]}),before=JSON.stringify(map),edges=nearbyFloorEdges(map,{x:96,y:96});assert.equal(edges.length,8);assert.ok(edges.every(e=>e.every(p=>p.x===64||p.x===128||p.y===64||p.y===128)));assert.equal(JSON.stringify(map),before);});
+test('floor cues remain local instead of drawing the entire distant level',()=>{const map=mapFromRegion({w:80,h:80});assert.equal(nearbyFloorEdges(map,{x:1200,y:1200},100).length,0);assert.ok(nearbyFloorEdges(map,{x:60,y:60},100).length>0);});

@@ -1,0 +1,1171 @@
+[
+  {
+    "path": "projects/Emberwatch/.gitignore",
+    "mode": "100644",
+    "bytes": 221,
+    "git_blob_sha1": "d0066441bc658bc8118c3011fc221796bc971cce",
+    "sha256": "84b06ea13bf972b88b7f6bb49718e19ad064494e227dd64d2b10a17c2829b537"
+  },
+  {
+    "path": "projects/Emberwatch/AGENTS.md",
+    "mode": "100644",
+    "bytes": 1072,
+    "git_blob_sha1": "7f2ffe0777529bc5678bb1d23bfaf0da096e1b7f",
+    "sha256": "0326bae8082c7b4e2738876731891f890ec77e6ddc74a1380a7605252b501bd9"
+  },
+  {
+    "path": "projects/Emberwatch/CLAUDE.md",
+    "mode": "100644",
+    "bytes": 103,
+    "git_blob_sha1": "b985d942e75c6b43fa15ef1c168603433246d637",
+    "sha256": "f0f9aca85da820a381a83297385ad855e9aa20f16388cf8d8b2595b879e650f1"
+  },
+  {
+    "path": "projects/Emberwatch/README.md",
+    "mode": "100644",
+    "bytes": 7106,
+    "git_blob_sha1": "8e830d45c92d15b31b3ee46dd62ae91b31e82eb2",
+    "sha256": "4220b075f32c8517313921f2afc8fae93ac1a0529ea77007f4080911269bc881"
+  },
+  {
+    "path": "projects/Emberwatch/app/package.json",
+    "mode": "100644",
+    "bytes": 1486,
+    "git_blob_sha1": "3726a048822be2e8f5d7fdfa2738e81db4b319c0",
+    "sha256": "21087add1241c3dfeb697ccd8e721033abe7237b4cd4538fbe50176cdfbfc88a"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/bake-motion.mjs",
+    "mode": "100644",
+    "bytes": 13557,
+    "git_blob_sha1": "ae0c6cc540160202de0e4d2c4c54dc83dd60bf55",
+    "sha256": "b888ee5766f547613c466bf5a757a137b2237cf0ba170f2a16783ff55db4ce17"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/build-korean-font.py",
+    "mode": "100644",
+    "bytes": 2972,
+    "git_blob_sha1": "aec8cfdb2f660ad371cd9e3a9e6e9a9ddfacfb6f",
+    "sha256": "74c3756b44f9a93c470a18ebd22c0f1825f5049f43f3665faaf2f2ae851a162e"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/build-korean-review.mjs",
+    "mode": "100644",
+    "bytes": 3405,
+    "git_blob_sha1": "24b2ea816938d20d22c0b12893dde34d8b3c2d37",
+    "sha256": "e9f8488a32a5cbedf4b867c368311f505469d50d96610a738b418886c5bdf960"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/build-standalone.mjs",
+    "mode": "100644",
+    "bytes": 2403,
+    "git_blob_sha1": "c7d0b406e7dc039ae7fab499706fbf273febfa41",
+    "sha256": "7bf4b4dc62129efe2cc661551c9004775373d54f56cf1a5bc8ae58906f554c43"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/build.mjs",
+    "mode": "100644",
+    "bytes": 670,
+    "git_blob_sha1": "17c974ebf3c2e92067b8dda89284dfe21e85f1f2",
+    "sha256": "a5e32537043d00d6802b6b21dce909547a98fcf7c6182785e9ea08a12dd6342f"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/capture-korean-ui.mjs",
+    "mode": "100644",
+    "bytes": 3397,
+    "git_blob_sha1": "cfccabbec43f7b278bc182e28b454f80d4697996",
+    "sha256": "f9672ad25d0788c5a341653560c416fbfe32f70aca232c81b5e59aed93609c1d"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/check-audio-browser.mjs",
+    "mode": "100644",
+    "bytes": 6317,
+    "git_blob_sha1": "d5d17e0d1bff818541a16e52dcaa77fcf9105ec7",
+    "sha256": "ab391cdc3a769faebaf547936b75ebf887ea507738b202d03deed21172a852da"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/check.mjs",
+    "mode": "100644",
+    "bytes": 835,
+    "git_blob_sha1": "adf5bbe8a645bcbbfaeebb3a03ee8b07d11c533f",
+    "sha256": "24da3478e376f40b20cbe596fa5bbb5ae58bbf8f8b88f00acc656a9df8f62ada"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/render-art-check.mjs",
+    "mode": "100644",
+    "bytes": 2556,
+    "git_blob_sha1": "350e1a3d5870ef85052a36c882826aefa3ea7c1a",
+    "sha256": "c0b6119008606ee89df93ab4a416347e95c3f63ddc3cca9810a25c826a709f7c"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/render-audio.py",
+    "mode": "100644",
+    "bytes": 16712,
+    "git_blob_sha1": "1fe0fc511266672916b37f9f4cff1b718a83b840",
+    "sha256": "23ee26923bfd9b5f337eef542e2f617c6181ba7ec3bb7129d64e3f9e2a2b2735"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/render-campaign-spaces.mjs",
+    "mode": "100644",
+    "bytes": 4431,
+    "git_blob_sha1": "0cf1a28db09edbd26ad11f875bd2098ba0820a2b",
+    "sha256": "55566287645b3438f3aa744c08b5c1dd898f4169aeb94854d3ff7609375d49bf"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/render-combat-check.mjs",
+    "mode": "100644",
+    "bytes": 3096,
+    "git_blob_sha1": "607475c20878067a24d2428e82f34d5eef87cdbd",
+    "sha256": "e08a5c1390b1523ac80e588bb8f7a7038f9ea311c7998bb9c12422134afbedb2"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/render-korean-proof.mjs",
+    "mode": "100644",
+    "bytes": 3444,
+    "git_blob_sha1": "01f0165204a7669f299cb1f7ac393d4626213923",
+    "sha256": "21bbb32c166b3d860ad8c754d8782826878e8bce2bde18bc0362aeba777c72bd"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/render-locomotion-feedback.mjs",
+    "mode": "100644",
+    "bytes": 7764,
+    "git_blob_sha1": "effe5bcda0073d87ce9d1eff9d00141584a788e6",
+    "sha256": "9dd2f0663cead685a8f738baab9b427b4d2efc12f06dd3a782a7201b8badd4c5"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/render-motion-proof.mjs",
+    "mode": "100644",
+    "bytes": 5158,
+    "git_blob_sha1": "9f319e083d456ee99ec238edd7224b7bc106edbe",
+    "sha256": "5dd0a07b6f7abc689f3a2a066969437657f313fa2bc58f3377f2f3d72d436ff0"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/serve.mjs",
+    "mode": "100644",
+    "bytes": 1184,
+    "git_blob_sha1": "8a38ef698d7c505d7399fb0e4e90f8570b796752",
+    "sha256": "fbd221eaa4e611325c91eee266289b5a8d07e9e2daefbccf228289cebf609849"
+  },
+  {
+    "path": "projects/Emberwatch/app/scripts/start-preview.sh",
+    "mode": "100755",
+    "bytes": 149,
+    "git_blob_sha1": "0c4f909286c705691a37b0826b4cab3be8a6ed48",
+    "sha256": "841cdd0a28c2ab370e6799aaaa2f462d39fcb073332032d8d455c7efb2973730"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/art.js",
+    "mode": "100644",
+    "bytes": 3169,
+    "git_blob_sha1": "6312fc51a8a325e305ed6e6f0404a27aa08546be",
+    "sha256": "0c4a6e0356fb5d3c4a1fcdc58e43033893b8d2a90b9b0fa06dfb2f0dfbd1fd35"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/assets/audio-audition.html",
+    "mode": "100644",
+    "bytes": 6914,
+    "git_blob_sha1": "b986cdf8c8fb0849c4f659bc23138ffd1cd903ce",
+    "sha256": "08df016560f3554e7d0ac32fc83aa85e3376922a76fac0c4479e73314be56f45"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/assets/audio-credits.txt",
+    "mode": "100644",
+    "bytes": 443,
+    "git_blob_sha1": "1aeff34211f0984ae5a6b4ba3da26a2c249ac599",
+    "sha256": "30976dde6bda652dd0361eae0966c0eef9377869da4df988c5ff0371626925b7"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/assets/audio-demonstration.wav",
+    "mode": "100644",
+    "bytes": 2180240,
+    "git_blob_sha1": "14172759fb77e08a16632fd80df60083e2c1b766",
+    "sha256": "9a2fab116f886a990195fab208659e7d3bda558297133a7f63a529a31f1e188a"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/assets/audio-fantasy.wav",
+    "mode": "100644",
+    "bytes": 3271724,
+    "git_blob_sha1": "ac7932fd070996ea8f9542c5697aaaab70b2ff47",
+    "sha256": "e6e383ab5284d33fa5b992c5888dc7537cc9337112f17091c37b731a425e37b9"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/assets/audio-manifest.js",
+    "mode": "100644",
+    "bytes": 3383,
+    "git_blob_sha1": "1a1a148d5d917ca7432304e403dbf496bcc0cd54",
+    "sha256": "06054e1f572019e87d2ffb531a1f57defed39f3e357d09b8ca66d39df89ef50a"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/assets/audio-review.json",
+    "mode": "100644",
+    "bytes": 13271,
+    "git_blob_sha1": "24653811ae4a0ed947e5e95e19cdb5088edfea11",
+    "sha256": "d16676351d082d9ba5a90d040455c533a12d67520455f92d24c2c509abcf8744"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/assets/audio-runtime-report.json",
+    "mode": "100644",
+    "bytes": 548,
+    "git_blob_sha1": "40ae04f99fc125d8d75d93f76511f3828810decf",
+    "sha256": "57b2b5c8dbc5997cb600692fe19311b7bbc0d56eee09680c64d94d1b6765cee6"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/assets/citadel.png",
+    "mode": "100644",
+    "bytes": 1503690,
+    "git_blob_sha1": "debb2e2068e94eed31ec639e4a7bdf15585ad594",
+    "sha256": "b3f3aa50f49de0e53a6d0cc770e4e0e6fcdc922507b3a94afc7deed5cb2f2490"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/assets/fonts/EmberwatchKorean-Regular.woff",
+    "mode": "100644",
+    "bytes": 1404016,
+    "git_blob_sha1": "c7383bbacd23c22b0c55cd61d2ec87a3119e813e",
+    "sha256": "6301a62528a0c5e89b4e3b96a5084e07b6a3e189628fe6b0124e3ed9cace4062"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/assets/fonts/OFL-EmberwatchKorean.txt",
+    "mode": "100644",
+    "bytes": 4267,
+    "git_blob_sha1": "b3ea52ae2382965c623f62a06a1164797113c49b",
+    "sha256": "47572125d74281eca3a99dd1297b1544461560ce26aa48870859a2a50e5fd43e"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/assets/guardian.png",
+    "mode": "100644",
+    "bytes": 1570261,
+    "git_blob_sha1": "17aa73b7d133ef87a59c17d12f30fd9b9984b49d",
+    "sha256": "967248448fd4dce6fc14c464a2914e3a2a2c8a357ec5290c3adca02b4a72f073"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/assets/hero.png",
+    "mode": "100644",
+    "bytes": 1289949,
+    "git_blob_sha1": "0dda35a2ab12e7139f0506443bf2703d117fcab4",
+    "sha256": "b1f9216e478a06f15e5c477eb8bbf890e4f564c3f8fa1ac13db6212033d7cb9c"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/assets/motion-hero.png",
+    "mode": "100644",
+    "bytes": 6573396,
+    "git_blob_sha1": "cb071c83a43ea089c8df74cc0a04b324f96bf4ea",
+    "sha256": "e8c2c22f80ff6820a44bb58dd1cdfd68ac22dcf54a31af99f1a7dec984163c75"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/assets/motion-warrior-axe.png",
+    "mode": "100644",
+    "bytes": 48027,
+    "git_blob_sha1": "e3b1676f3d4ddbe315a54525b5ee9fce96a88a35",
+    "sha256": "67345d4d50956d72d39e5e711b26a95bb29f5de761577577fd1c6d2b191e9ce2"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/audio.js",
+    "mode": "100644",
+    "bytes": 13661,
+    "git_blob_sha1": "406b8f2115ad12ec09488c55b24aa4853201a95d",
+    "sha256": "6e3f5ffeb8dcce97bfccd4c403c01cd1eed90afe9594e9336d17e23252c247b3"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/campaign/controller.js",
+    "mode": "100644",
+    "bytes": 3082,
+    "git_blob_sha1": "0b085ab18a8c678bcdf81f24b3d985e86c02eda8",
+    "sha256": "b9d762de1966912a8b2065ea2457ac0484f21d97ba6ce75e403b489437bbab73"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/campaign/economy.js",
+    "mode": "100644",
+    "bytes": 20219,
+    "git_blob_sha1": "57c6525fd72a7e8bae3c7c9b7382f8fa619368d4",
+    "sha256": "0062b9bdf632bd9bf7482f64661eb8a3c3fbaae803058dc20c67a61f090e95ed"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/campaign/inventory.js",
+    "mode": "100644",
+    "bytes": 16265,
+    "git_blob_sha1": "9a517d140f17283799740837962dfd4693ba7155",
+    "sha256": "0e866192e7775baf47e49c08b6cf8cd5ce6fb2eb2af72f0c9319449628676b10"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/campaign/levels.js",
+    "mode": "100644",
+    "bytes": 4276,
+    "git_blob_sha1": "4c20520e03c3cd063f4bbc1f6d72093fd6ae85b8",
+    "sha256": "d8bd1a434d986e5dcc23a71c7c99fcc0386aa0f9df354b344dfcca34e207b7fc"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/campaign/navigation.js",
+    "mode": "100644",
+    "bytes": 21107,
+    "git_blob_sha1": "f4ff3ace951dccdf73b34e97834d769f9db39013",
+    "sha256": "e0ac09498848888903815c7cd65980ff305692f53a7defec49a30c6180f7afee"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/campaign/progression.js",
+    "mode": "100644",
+    "bytes": 5552,
+    "git_blob_sha1": "635506e836c9af940cdd6a0d115b9135bcd7d600",
+    "sha256": "38ab02ef91b3c7219520505c0055f6b454c3b04b50d6a848dd8fa55f04bacbd4"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/campaign/reference-archer.js",
+    "mode": "100644",
+    "bytes": 20011,
+    "git_blob_sha1": "ae16463076d9f0a8d7489f3575454a31731e15de",
+    "sha256": "184b21944580b43c83aa21b2666e05b56c75d4e6a3dd7ea84a28d0273db868f6"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/campaign/reference-core.js",
+    "mode": "100644",
+    "bytes": 3686,
+    "git_blob_sha1": "576b981b7594b9bdee587a3ea4ef28dbd99557f8",
+    "sha256": "04804f94aa38999f5e0af98094196394d703a3be4c3593d9338a3bc13bc8eb04"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/campaign/reference-mage.js",
+    "mode": "100644",
+    "bytes": 22820,
+    "git_blob_sha1": "c7cf1743de2dd3641f24d157307bd69d2fdbdc2e",
+    "sha256": "ce31fc6d1615b7b0d77c146a3fa05b15f0cc4eace570bbe1b5f8e5c253a8d6e3"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/campaign/reference-warrior.js",
+    "mode": "100644",
+    "bytes": 25544,
+    "git_blob_sha1": "13c5f33c0d44160eb9adc4cdedf769a6fbeea236",
+    "sha256": "1fb06923bbf69a33e80593a734f86b39d22ef7cd1f260b9d5b0be9a15261d549"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/campaign/save.js",
+    "mode": "100644",
+    "bytes": 10221,
+    "git_blob_sha1": "e4ade6544725bd97eb49270d4747cccf6bbf0303",
+    "sha256": "6fac2ee9dce82ed7897456e6c0f9e0863aaeffbe366d8ee1cb2d1515cda06bb6"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/campaign/world-content.js",
+    "mode": "100644",
+    "bytes": 16406,
+    "git_blob_sha1": "fbe53b419cbcfacd701345b5c33be1cbc732514e",
+    "sha256": "b1a7c0004ef5083591ae8de3b1dcf81ca0f71d9fceb27fd74647c63db5336e81"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/campaign/world.js",
+    "mode": "100644",
+    "bytes": 25720,
+    "git_blob_sha1": "c2c0d4d52a45ddbd242d925a523d4375bd333c4c",
+    "sha256": "2d5a225987698175709160bd9f7c8dc6c70ea8706b70d5c5ede559d4e94c9de5"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/combat.js",
+    "mode": "100644",
+    "bytes": 1383,
+    "git_blob_sha1": "550872e51ed3aeef3a12094000069acc76e230e7",
+    "sha256": "f36b11c394e8b48a6d3016d4e277f0455e02e29a9544012b7b61152fadb66a19"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/data.js",
+    "mode": "100644",
+    "bytes": 10994,
+    "git_blob_sha1": "5324f108740acb0820ee518c146c1e7e55ad5b4c",
+    "sha256": "95f567cb81af8c1fd60e66ac6cf36c218fe2ddcc466178ce1510f0a3d3201fa3"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/encounters.js",
+    "mode": "100644",
+    "bytes": 20273,
+    "git_blob_sha1": "cfb59c3ca155830f09ab89f827eff31b3c9df330",
+    "sha256": "7f889cac5b656321925086fe9d1214e58e670e0759218dd0fa2faf52e7b26b43"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/game.js",
+    "mode": "100644",
+    "bytes": 91347,
+    "git_blob_sha1": "762a456ae416f31573ab04fb2db45cb6b789cbd2",
+    "sha256": "3ffad055bd53d8d9c6dd52cef39ee199462caa13331a9a9ac03d977a70e316a2"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/growth.js",
+    "mode": "100644",
+    "bytes": 5212,
+    "git_blob_sha1": "df0a8df37f674c94c71c4e99c752f672e4690f7b",
+    "sha256": "5171aa94f1167d314342a7614f4fb3b917fe93b44b42962b51b5c7795a50e0cd"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/index.html",
+    "mode": "100644",
+    "bytes": 6749,
+    "git_blob_sha1": "3e628ec7459778ce02e83b8e25b14063df97b2e6",
+    "sha256": "91bd1df3045fa72c503e48dbe35c162d01eb99ce83c87d10022e6b9cbdd81a56"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/legacy-telegraphs.js",
+    "mode": "100644",
+    "bytes": 11067,
+    "git_blob_sha1": "45f5b36e371d771bd72b48c6b4e7996f4434033a",
+    "sha256": "f3fcb24f1367e833954aa2f39a18a1b12377fee4d02e76d42a08bc723e4f1e50"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/lifecycle.js",
+    "mode": "100644",
+    "bytes": 3931,
+    "git_blob_sha1": "57920192fa1b72cbaa23234f3c80f93707ad31c0",
+    "sha256": "44fae2ffe693a1fdcfc7903e45d60fd2903a46510ee73cf2a1ebe11ba8b23ee0"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/minimap.js",
+    "mode": "100644",
+    "bytes": 13232,
+    "git_blob_sha1": "921ca974d48790da88a11c7d55b778372ec400e0",
+    "sha256": "f6cb8c92825844b4cac0c740265875a3f4b8b9ca26d5a7d07f3332313c7afef2"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/motion.js",
+    "mode": "100644",
+    "bytes": 14184,
+    "git_blob_sha1": "b47ddbb88d6d988c6bf26d8571e530322856d165",
+    "sha256": "b2792e0aa13e35aaf34d59ddbcd254d5aa14123dc94ea93f8a9e855d013460dd"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/review.html",
+    "mode": "100644",
+    "bytes": 3532,
+    "git_blob_sha1": "a69d2ec2d99a96686c14c2451a925b3c4deeafbd",
+    "sha256": "1b7c2f4c44749c6171dff2901bd9f7f0a753296ae904b102220bf63b0c492313"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/style.css",
+    "mode": "100644",
+    "bytes": 16700,
+    "git_blob_sha1": "72c8cc1766dc040add9d58c6eb563613e5332bf3",
+    "sha256": "06c571d5799438019ad88b0907ef0f4dd7251f93d7e713f53656d059016f1665"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/threat-visibility.js",
+    "mode": "100644",
+    "bytes": 3312,
+    "git_blob_sha1": "6c45edfe3e46ebfbfa147e2ab499d763ed6b84ac",
+    "sha256": "dcfc2fb3f693b890bd92594881fad51ef2cead5454e7de3fb495f344f9917626"
+  },
+  {
+    "path": "projects/Emberwatch/app/src/visual.js",
+    "mode": "100644",
+    "bytes": 21512,
+    "git_blob_sha1": "f0ae908e19afe2ce5692b233a02c24195f5bb73d",
+    "sha256": "14ebac007405621a5ee39faf39514920a6df4c278480c5a86ddae7529135df15"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/audio.test.mjs",
+    "mode": "100644",
+    "bytes": 11659,
+    "git_blob_sha1": "09090fd37aaecdc2f56ec4c7d0a1d9a477725e1d",
+    "sha256": "7fc48908ee10519643a2ce29b479b0043dd883fd1bc674b0ca016f77a9ac4b52"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/browser-review-controls.test.mjs",
+    "mode": "100644",
+    "bytes": 1052,
+    "git_blob_sha1": "a3e90e06a18f437514e3414fb7b127f314288429",
+    "sha256": "e0d7bfc3ea60967e521d4c1f02cdddcd9da051d5aba4e1430e533562949459c9"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/campaign-controller.test.mjs",
+    "mode": "100644",
+    "bytes": 2699,
+    "git_blob_sha1": "2e55edbe6b78c4e925b6dd4c453c4e9fbcd1b8f6",
+    "sha256": "3de0fd27d712f25b8644ba2382080dbd01c1ee140e51457f7c5d127d60dae8d2"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/campaign-integration.test.mjs",
+    "mode": "100644",
+    "bytes": 3506,
+    "git_blob_sha1": "c778245743d0eda43500c876d4e33d901734ff13",
+    "sha256": "8571c769a4dfbe7c2fa0ef0f67b41cd98e7766c4601bb7247ba6be3fae284512"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/campaign-inventory.test.mjs",
+    "mode": "100644",
+    "bytes": 27278,
+    "git_blob_sha1": "f6afb2d76ea10d27d3fa8dab2a6ac9e0aedc7c96",
+    "sha256": "258c7d03019ab86b7c8a0f3a393d182cb4089699eb4ab7b199642dbe9cc1aee6"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/campaign-levels.test.mjs",
+    "mode": "100644",
+    "bytes": 2393,
+    "git_blob_sha1": "8e2ec1639dc4aa0ac9456e69234a8097dbeb365f",
+    "sha256": "a0312cef9ba9bf6333fb34c82d94d2b6dae480fb366ebad06b135aa1251bf64f"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/campaign-navigation.test.mjs",
+    "mode": "100644",
+    "bytes": 24987,
+    "git_blob_sha1": "e380ef1049442aa1ee22fe5bca1b0d99efc429b0",
+    "sha256": "41ad1431955a6289cdaf23e849b7439e167b10009af3715a1e2f33a563d19239"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/campaign-progression.test.mjs",
+    "mode": "100644",
+    "bytes": 4187,
+    "git_blob_sha1": "8fc260c11dc4dc48eca0cfa6c32319b5df804fd8",
+    "sha256": "08ad420d24f3651316ac3b2de1ad6fc8a5f8072060899e7dc89f7ba74d71d8b6"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/campaign-reference-ranged.test.mjs",
+    "mode": "100644",
+    "bytes": 13521,
+    "git_blob_sha1": "9242eb91ba703f4c57c6e84245ccf2e0878b409f",
+    "sha256": "e3fba097be60b514892503d17f4ea613df6de5dbc51babcbc0fed499d6b64063"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/campaign-reference-warrior.test.mjs",
+    "mode": "100644",
+    "bytes": 11423,
+    "git_blob_sha1": "12fb7c240a786164c998c962072c09c8bc7f49ed",
+    "sha256": "ea42855f878c55c4043273c30be5ea50fee246ab9eade6d8210619b7eca33128"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/campaign-save.test.mjs",
+    "mode": "100644",
+    "bytes": 6949,
+    "git_blob_sha1": "dd2c348970a5ec84d753c72fc2fe7f9670d85119",
+    "sha256": "ee03a0fbc795cb681258b335e2e88b7c2cfa8c4d6c5eeaeed5a641ee463c17f7"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/campaign-world.test.mjs",
+    "mode": "100644",
+    "bytes": 20683,
+    "git_blob_sha1": "681c6bd6a28fcbb5e8a84eff9cb665d6e5e6d4a2",
+    "sha256": "d81881dd62a5dbe065ccc890b11bd38455a6884f5d0b29e39115111cbaec86aa"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/catalog-ko.test.mjs",
+    "mode": "100644",
+    "bytes": 6437,
+    "git_blob_sha1": "45976ec5cef92e042cc53f5bb7187c41d8430d21",
+    "sha256": "91c61f1125dc93b4da6d0305ff5a98b7d2eb8f8ebd87097856469b298e09e2d3"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/combat-review.test.mjs",
+    "mode": "100644",
+    "bytes": 10388,
+    "git_blob_sha1": "00d34d9381bc47db03bbc9f32446c02eaf9d9958",
+    "sha256": "64e5ef548b9395f71375b88266d3a403557c1fb4b9148a1b710b293b2a3fba8e"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/combat.test.mjs",
+    "mode": "100644",
+    "bytes": 1356,
+    "git_blob_sha1": "fcc55591471d1a838224e5c6a7b6223aa3e713d9",
+    "sha256": "4c3aecf2ddabc507821d3a70fce7595852c5153ea2b5f7f8c91ef3d22c61030b"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/data.test.mjs",
+    "mode": "100644",
+    "bytes": 1056,
+    "git_blob_sha1": "541973cc237caea0819b1997bb5295edfc73cf9b",
+    "sha256": "f89678e44ee03937c60755814a7210424d5137bdcd3cfb362ca883660e65b5b6"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/encounters.test.mjs",
+    "mode": "100644",
+    "bytes": 12646,
+    "git_blob_sha1": "30172643d5be81c93495f6515c037153ac41047f",
+    "sha256": "c2f89a86cf29c0039ee714fc58f82126518bd316606689e98b988856ed298197"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/first-entry-threats.test.mjs",
+    "mode": "100644",
+    "bytes": 9383,
+    "git_blob_sha1": "98975c5063b9e8ce1c298eda38dd2177fb1d2348",
+    "sha256": "ee797d84248c39381eb1f00efa5226ccb5790b17e51ef277359af022d7864191"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/growth.test.mjs",
+    "mode": "100644",
+    "bytes": 2096,
+    "git_blob_sha1": "1cf5b7c4d2a614b7497aa02cc5983627c72d95fe",
+    "sha256": "4a1a6271828c1c08b34f96bbecdf0c7a1fd1540517be92625321a4450aa9aa48"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/helpers/warrior-runtime.mjs",
+    "mode": "100644",
+    "bytes": 4844,
+    "git_blob_sha1": "7969588e71005e23d20dba87322724adb2c57593",
+    "sha256": "ed42a6b9288d4289267092239dc98701a1dc2c6ba28de8c10b3d4826eaceb042"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/legacy-runtime-review.test.mjs",
+    "mode": "100644",
+    "bytes": 4991,
+    "git_blob_sha1": "e8f3001b876d35b07bbcfb14238e448fb5551010",
+    "sha256": "7e539891843d1ac426c87068a457f4f32cb6b32778dd80cef4059df8b64e61a3"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/legacy-telegraphs.test.mjs",
+    "mode": "100644",
+    "bytes": 15387,
+    "git_blob_sha1": "1799b59bf3f5fac28771400122177e0453e0177d",
+    "sha256": "1ea7cfc8d6c6dd9e1e7a88f9761e4b1e7753d47ec20649c94de4264579d4b903"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/lifecycle-review.test.mjs",
+    "mode": "100644",
+    "bytes": 14814,
+    "git_blob_sha1": "7ecc6b2d9f7532bb0718365cc4e3498f3f5745dd",
+    "sha256": "57f6f38e44ae1bd38d3ac13b30bab20d2c94bfd6fb759d2343442c4a644e143e"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/locomotion-review.test.mjs",
+    "mode": "100644",
+    "bytes": 5544,
+    "git_blob_sha1": "840593e55b757dbbc8ed1dcbf759fe82f7507cd0",
+    "sha256": "03d380e903ee337df3a79455025672d5076e8efb8db4471062c6f471ee7e3a16"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/minimap-integration.test.mjs",
+    "mode": "100644",
+    "bytes": 1751,
+    "git_blob_sha1": "93d93295e96a4b68ddce74e691c3267a51727cf9",
+    "sha256": "771815d12d55c3d6d5bd773c2bb3668352e6abc681cf04a32e6e820a3d03abce"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/minimap.test.mjs",
+    "mode": "100644",
+    "bytes": 11291,
+    "git_blob_sha1": "740b746b322114c0e8b2eee8da1b1221ce7194a2",
+    "sha256": "926789e32e319eb6632204aa81ac97b58eeddf5c4550be4402afe2d1a7b9a602"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/motion.test.mjs",
+    "mode": "100644",
+    "bytes": 5769,
+    "git_blob_sha1": "133f9a0f15e4b737ceb3814b194d6a288014627c",
+    "sha256": "b2e7f536541c0eb7c90ec4e6044d854028161b245720e15f852453afd03866e6"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/renderer-performance.test.mjs",
+    "mode": "100644",
+    "bytes": 9455,
+    "git_blob_sha1": "cf194c3fc5a68ec1f9d233e67017c3291ad67c1a",
+    "sha256": "45a41c9baf7d2cedaae33f2ef4b36796fc7b2f5df3bbd3c67bf3cddf0e5291b3"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/runtime.test.mjs",
+    "mode": "100644",
+    "bytes": 6648,
+    "git_blob_sha1": "f2c6e4532a5f077d17f5623a998aaa570d5012fe",
+    "sha256": "e02bb0eb52dbd3bdf353ca546c6197216fc186e8d3a87ed787b3272cba19c5f3"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/ui-ko.test.mjs",
+    "mode": "100644",
+    "bytes": 3391,
+    "git_blob_sha1": "8b21f952119a01b3942819d2b9b0a5aa8acc403a",
+    "sha256": "a05e6afcddd02af7077853f18849a4cc5c87031ae3f5550791c3863e920785c2"
+  },
+  {
+    "path": "projects/Emberwatch/app/tests/visual.test.mjs",
+    "mode": "100644",
+    "bytes": 1933,
+    "git_blob_sha1": "0ce69481977d26722da015a992956bcb2923c120",
+    "sha256": "d0ff874adb88b4d544fb0c3c72fc3ff91e26d637ecce2be1075f8a77e981bda0"
+  },
+  {
+    "path": "projects/Emberwatch/assets/art-manifest.json",
+    "mode": "100644",
+    "bytes": 6921,
+    "git_blob_sha1": "20bb76151d25ebb2a95d3002d62e799971d8cfd5",
+    "sha256": "7b6c06baa12385278fd98f455627ecf04c0cfa263fc25bd228d9def6b54c4825"
+  },
+  {
+    "path": "projects/Emberwatch/assets/audio-source/Battlecry-spookymodem.wav",
+    "mode": "100644",
+    "bytes": 429096,
+    "git_blob_sha1": "4f492996e040b1532459750ff84249e229504f7d",
+    "sha256": "fe09126cfce9d90ad26936b116354d1c162de261a9053854a82696daee80e241"
+  },
+  {
+    "path": "projects/Emberwatch/assets/audio-source/CREDITS.txt",
+    "mode": "100644",
+    "bytes": 443,
+    "git_blob_sha1": "1aeff34211f0984ae5a6b4ba3da26a2c249ac599",
+    "sha256": "30976dde6bda652dd0361eae0966c0eef9377869da4df988c5ff0371626925b7"
+  },
+  {
+    "path": "projects/Emberwatch/assets/audio-source/provenance.json",
+    "mode": "100644",
+    "bytes": 544,
+    "git_blob_sha1": "85e0c8596d57ec9d9ec000c47ba272c29f221946",
+    "sha256": "571784f00fdccbd903ad59cad594aed593feee644dcc3399eaa971e344f5c873"
+  },
+  {
+    "path": "projects/Emberwatch/assets/fonts/EmberwatchKorean-Regular.otf",
+    "mode": "100644",
+    "bytes": 1921324,
+    "git_blob_sha1": "d8cc0e524524d0578b5720925b3b431bc387ed72",
+    "sha256": "94dad353f3c67bb7ac0fcd7ec7de8a3ec1c0f6dbd4e912379d5d850de89c8a60"
+  },
+  {
+    "path": "projects/Emberwatch/assets/fonts/provenance.json",
+    "mode": "100644",
+    "bytes": 438,
+    "git_blob_sha1": "4d0f881d18a05f9e86fe3fbe3c4a59065558f693",
+    "sha256": "134d0e91d8a514f5c1b22bd81ec2df8244fdc7ea1ec0ace8e1747aa4e3a2ee34"
+  },
+  {
+    "path": "projects/Emberwatch/assets/motion-provenance.md",
+    "mode": "100644",
+    "bytes": 8382,
+    "git_blob_sha1": "2640b3d01ef7036e7533fd5bd6485819459447c2",
+    "sha256": "31bfdcaec0bb7055e6c9635163d3a8c9fd3c5e262662e3af52e284090b454132"
+  },
+  {
+    "path": "projects/Emberwatch/assets/motion-source/motion-creatures-source.png",
+    "mode": "100644",
+    "bytes": 1947418,
+    "git_blob_sha1": "8200ed1c150c8fe93ca9974407a4dc6fcbe9a4f0",
+    "sha256": "d802c279d6713fb57c345c254c6152bb5b8c85407c788b71755d954a28d6c55f"
+  },
+  {
+    "path": "projects/Emberwatch/assets/motion-source/motion-warrior-axes-source.png",
+    "mode": "100644",
+    "bytes": 1049462,
+    "git_blob_sha1": "7677684e4550d920c9f4721692ead6a7e93a4a1a",
+    "sha256": "dc13d93ca3e563dc09e17239ff0fe5a0a40dae30cfef582e510b0fe1bba287a2"
+  },
+  {
+    "path": "projects/Emberwatch/assets/provenance.md",
+    "mode": "100644",
+    "bytes": 1337,
+    "git_blob_sha1": "c0f2ddc3ba9d2d839f69a5d26bdc23f94a8f91aa",
+    "sha256": "92fd323e2d1d504f60604832946b174be93e524fe4449a967559fe9b49f28bb1"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/combat-0.4.0/hero-anchor-check.png",
+    "mode": "100644",
+    "bytes": 142129,
+    "git_blob_sha1": "9e451b40aba687bcf4ccb497586e8943fc0ec38c",
+    "sha256": "24fc173e9a49b1eb145411513cfa1b54871129ad97f208dc7c7a482b2a241de6"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/combat-0.4.0/renderer-landscape.png",
+    "mode": "100644",
+    "bytes": 2067566,
+    "git_blob_sha1": "4ca5eba23c6488c07da683afd2dd1f445bd1c362",
+    "sha256": "56a9c1dd6f4c425fa60b67842bfc23893033510ed6d50f5478018b71656f3559"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/combat-0.4.0/renderer-portrait.png",
+    "mode": "100644",
+    "bytes": 1565887,
+    "git_blob_sha1": "c990ab6baae81ac7724d28a9a0d1d57eb984f4ef",
+    "sha256": "d5fcb4fac0439b000a704bf88dd3702096f5021c320040eac331d54889ae07a6"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/feedback-0.4.2/Warrior-audio-before-after.wav",
+    "mode": "100644",
+    "bytes": 640400,
+    "git_blob_sha1": "f78995b5423e2c827272c639dec9141b906a4c9c",
+    "sha256": "7073714693421a2f26181e4c1718f084e8b7634ca30fbc20708338e2efc59983"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/feedback-0.4.2/Warrior-eight-travel-directions.png",
+    "mode": "100644",
+    "bytes": 123943,
+    "git_blob_sha1": "7a9101d3b228865d6ab6db0710efe76c06f8770b",
+    "sha256": "171d3de1d9089972e8262c73ab2283f4a5f12270f541902b6514a82e404ee6f5"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/feedback-0.4.2/Warrior-run-contact-cells.png",
+    "mode": "100644",
+    "bytes": 255987,
+    "git_blob_sha1": "99d1b45285b518fa9044d653c86f9ba890495868",
+    "sha256": "68ea7c744c97531646c23e4556744b1d29d54207e6c7a151c6a5e12d611d0100"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/feedback-0.4.2/Warrior-travel-and-footsteps.mp4",
+    "mode": "100644",
+    "bytes": 3330313,
+    "git_blob_sha1": "d632afddd34693b64bd28089993475b3ed4f5265",
+    "sha256": "f0eb5edc933d8d2e200751b3bb83e4f4202ce1f32679adca111a105c5dc443ee"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/feedback-0.4.2/Warrior-warcry-after.wav",
+    "mode": "100644",
+    "bytes": 90000,
+    "git_blob_sha1": "aa96668abf6777148a415b67ad6f5bd321cd99a9",
+    "sha256": "5b702e80320474beb6b3493c0a1cb2b836fbc73d4e0fd8e436734f2f63df14d7"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/feedback-0.4.2/audio-comparison.json",
+    "mode": "100644",
+    "bytes": 833,
+    "git_blob_sha1": "63fee740e590968dc18a008be08667f4d9d7c9df",
+    "sha256": "5cc55b67a5e4d3150b24c40d08a83e6d281b8b001dc41bcf8ed878fd92a48e4c"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/feedback-0.4.2/locomotion-proof.json",
+    "mode": "100644",
+    "bytes": 16411,
+    "git_blob_sha1": "0af3be5fae8298e75e510f7e7e0b3b7b635e8393",
+    "sha256": "2d80d6b9a5e134330102300c6d482e927ebbe284856c410fbe35b3dc0ee54299"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/korean-0.4.1/Emberwatch-Korean-menu-review.html",
+    "mode": "100644",
+    "bytes": 1920553,
+    "git_blob_sha1": "0e181488c9f67905e02681a8f14fa9f7fa2c28af",
+    "sha256": "ce83b6ce0f73f3280f67ba71ec50310bd5e6b57a1684526902ac2b94e8abc645"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/korean-0.4.1/hero-anchor-check.png",
+    "mode": "100644",
+    "bytes": 142129,
+    "git_blob_sha1": "9e451b40aba687bcf4ccb497586e8943fc0ec38c",
+    "sha256": "24fc173e9a49b1eb145411513cfa1b54871129ad97f208dc7c7a482b2a241de6"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/korean-0.4.1/renderer-landscape.png",
+    "mode": "100644",
+    "bytes": 2072460,
+    "git_blob_sha1": "8ba42407b6c3a486e271937d453db8930f092869",
+    "sha256": "0af8f227ffefb052dc2439a4269b4e9a228b45a0d2b4d3592cb13be254e43368"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/korean-0.4.1/renderer-portrait.png",
+    "mode": "100644",
+    "bytes": 1572452,
+    "git_blob_sha1": "eb578bc1495f9db4e55495955125844ca3cbad3d",
+    "sha256": "d5a76a7ab00f28b5f60e90903437537224d7bb745aedf82a054323def5bc2f77"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/korean-0.4.1/runtime-ui-snapshots.json",
+    "mode": "100644",
+    "bytes": 25036,
+    "git_blob_sha1": "45869677a6dcece16fc2d7af1e294483da915b5c",
+    "sha256": "5de1c2229ea7d4661daf48d14388df771447cf38da2e63e4b4c89a0c5581936e"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/bake-summary.json",
+    "mode": "100644",
+    "bytes": 4261,
+    "git_blob_sha1": "39f5d50ed5f6c0ac264119ea846ab4e39869d8f4",
+    "sha256": "ebad95ab24aae046cf94387fab3b291586172aab61adb5f7c0da66d1c6a2b157"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-attack1-strip.png",
+    "mode": "100644",
+    "bytes": 166640,
+    "git_blob_sha1": "11d509397c70cdfbeff0746f89f4d3547274dbdb",
+    "sha256": "bcd4e3424850bff38f90240c67b3bd3f518b7953e3a2fa51892916dbce7c13cd"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-attack2-strip.png",
+    "mode": "100644",
+    "bytes": 168023,
+    "git_blob_sha1": "c09e45a1bc05e82a4137b070297a22bcaec5c8a6",
+    "sha256": "26bfe7c87c3c28b1234a54cad1d213c01dcaff4c4944c32eab2224f910cc281b"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-attack3-strip.png",
+    "mode": "100644",
+    "bytes": 166696,
+    "git_blob_sha1": "281dc4a84aed53f25c94487e01ed0dab36a2f232",
+    "sha256": "9f27e723c2fdc42e8c5c383fd099604d768f733ef66bb6ad3123a71bf87eeb7f"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-axes-strip.png",
+    "mode": "100644",
+    "bytes": 159545,
+    "git_blob_sha1": "fc87330b1e4e5081bb57e7281de8c64387df8405",
+    "sha256": "83a9e1332b0aa02a657a40fe6bd63c7713eb093b0db35757db5c3e0cf2781315"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-death-strip.png",
+    "mode": "100644",
+    "bytes": 127587,
+    "git_blob_sha1": "f94b004b20aa7706c3c50dc6fde0e2c61604c2f6",
+    "sha256": "30319520f61918ee06b247bed8cb4d4814830fad5994cc37c60c59213d2dd4f3"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-dodge-strip.png",
+    "mode": "100644",
+    "bytes": 144537,
+    "git_blob_sha1": "02d1992f57954bb817dad192e69c4639faa6fbc8",
+    "sha256": "68164f87cc7fb27ec4039f50b367aab91bf0e49e7a5ff7702bd6257a523dd1ba"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-hurt-strip.png",
+    "mode": "100644",
+    "bytes": 155568,
+    "git_blob_sha1": "b6c8709368fce5786ddf7b6671913a3fb184c50f",
+    "sha256": "d0caf05d07ea4374fa0a2312cb00dd2d52a3f5f1f5771e054a3c2502307e5295"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-idle-strip.png",
+    "mode": "100644",
+    "bytes": 157429,
+    "git_blob_sha1": "aa46d67fd76f5813ee2c56154255222f4dc68e24",
+    "sha256": "01238711f123f0eb4ebfabc7739feaff283881a5f20f2315fe0991ae11df30b1"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-run-strip.png",
+    "mode": "100644",
+    "bytes": 165491,
+    "git_blob_sha1": "5cee70bb22c923be1d584da4fb048d2cd7080fb4",
+    "sha256": "f167bcb353173b6ede84d1d0efe2e59ad1d3be71fcc31cc7dd68a0352cf4c3a9"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-warcry-strip.png",
+    "mode": "100644",
+    "bytes": 167615,
+    "git_blob_sha1": "9f0c182da1b00bc3e23f001151df6b9306b8f6a3",
+    "sha256": "7af6b55c14e36acb0d7f454ff7577c5217068ed43a85a1d53782f097da6e2dcf"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-proof-report.json",
+    "mode": "100644",
+    "bytes": 3932,
+    "git_blob_sha1": "ff350aa8210539239b25f3327efa71e5de8b1b1a",
+    "sha256": "e6a5c07ae6a15e6711ed1913467dc11686f7f42e93b82e91403cdf2b9bb48f1f"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-proof-still.png",
+    "mode": "100644",
+    "bytes": 196732,
+    "git_blob_sha1": "10c3ac1f8d68a7d8f8c52cf24229db0e24aed9ce",
+    "sha256": "c8d93fc453d79cf210f816aaca78e017d89817542f62a13ba615b4b6de2931ee"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-warrior-validation.json",
+    "mode": "100644",
+    "bytes": 657692,
+    "git_blob_sha1": "a835ed83d2c92834f177493e1b3516bcc84276cf",
+    "sha256": "bb81387bdd142386d009edc333ea7e208f46f475868a4053a3dc714e6eef6554"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-attack-detail.png",
+    "mode": "100644",
+    "bytes": 186835,
+    "git_blob_sha1": "e732a265ec8d2f8c9484a3eff52c0e416e0673f8",
+    "sha256": "788c8f294305bb8d72011dcdeca5cbc5074cd49f171d9dcdd7954043ac18b0da"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-death-detail.png",
+    "mode": "100644",
+    "bytes": 159868,
+    "git_blob_sha1": "d8eef8098634c97629f1b74ef18d8488c5daedb2",
+    "sha256": "c9875a3c935eb68b6d000e6b4d4f6eef5bb2087cd8420ae37d960686b0c100f8"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-direction-0.png",
+    "mode": "100644",
+    "bytes": 972122,
+    "git_blob_sha1": "07106def844dbe9325048f5d3cf42e1bf4523bab",
+    "sha256": "5566d6b243766bfbc4d678fa9c9c930cfb10be79c24ddabb0492eb29112e70b3"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-direction-1.png",
+    "mode": "100644",
+    "bytes": 861488,
+    "git_blob_sha1": "cad66365018a90930a6072f8cb61a09a2c5d55ff",
+    "sha256": "a8eddbf424ba338af3687eced63d8084dd7a9cd5fc6f621b559b67dca15422db"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-direction-2.png",
+    "mode": "100644",
+    "bytes": 881813,
+    "git_blob_sha1": "14405624933689e378558cf8704cb116a2732747",
+    "sha256": "59fde5f31298d3d9bd1837338bd74d04c67b115c0d8b607ec855ded4b6801167"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-direction-3.png",
+    "mode": "100644",
+    "bytes": 970593,
+    "git_blob_sha1": "699bcabcb9f94c1f3844625d1a0895752b430719",
+    "sha256": "54ef452c9b059e490d23751b37c4cb49eff2c0da4ef16969798f1033947b6d2d"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-key-poses.png",
+    "mode": "100644",
+    "bytes": 828214,
+    "git_blob_sha1": "bce1c41fe4f4a979abf6c4f05bbf51eabb4e759c",
+    "sha256": "fed2ed5d553c7cf0ce431f40b5f1e72097652412dff0b1951de13511aef3f435"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-motion-proof-final.json",
+    "mode": "100644",
+    "bytes": 3938,
+    "git_blob_sha1": "9cd7687293b276098b2781c9613a8535f543a3ab",
+    "sha256": "aa8002a5677d6bef0e2d86f692b1510482c07ac4070d021c9eb9c9bd1bd445e6"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-motion-proof.mp4",
+    "mode": "100644",
+    "bytes": 3260152,
+    "git_blob_sha1": "3595e7fe2345c0026a09bdb34b58283f378d1feb",
+    "sha256": "2f695d1cc914bafce173692b35606b0e00192861dd47e4a22eb09bce92a868b3"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/visual-0.3.0/hero-anchor-check.png",
+    "mode": "100644",
+    "bytes": 142129,
+    "git_blob_sha1": "9e451b40aba687bcf4ccb497586e8943fc0ec38c",
+    "sha256": "24fc173e9a49b1eb145411513cfa1b54871129ad97f208dc7c7a482b2a241de6"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/visual-0.3.0/renderer-landscape.png",
+    "mode": "100644",
+    "bytes": 2081751,
+    "git_blob_sha1": "2334d193b057b396ec6333bb4ba1e2185c23ac7d",
+    "sha256": "76f1dc9a3fd13f395ae1b16d36cb476987e86047a6ac9e9e2def6916eb6f1ef1"
+  },
+  {
+    "path": "projects/Emberwatch/assets/screenshots/visual-0.3.0/renderer-portrait.png",
+    "mode": "100644",
+    "bytes": 1573916,
+    "git_blob_sha1": "8c40bde1e90e0d633aada1c5db102243e92a1156",
+    "sha256": "6cf0447c60f37cb8a8d5b12e6b4448d900d75fcab2c1b0816d5a6f29f460ef32"
+  },
+  {
+    "path": "projects/Emberwatch/brief.md",
+    "mode": "100644",
+    "bytes": 13167,
+    "git_blob_sha1": "fbd9e09d0cec56900a657f26f2d34d1276c10697",
+    "sha256": "0f44ae86557e080bb6a4c8cdfb66abc42767679c9878cecadf249abc565903f0"
+  },
+  {
+    "path": "projects/Emberwatch/changelog.md",
+    "mode": "100644",
+    "bytes": 12741,
+    "git_blob_sha1": "421065aaf37eeda35662348ffaa6a52437d2ab6b",
+    "sha256": "7f8450d9c24dcf0145b150e50c47226d316f4d4538083c299707fc0383a3aae0"
+  },
+  {
+    "path": "projects/Emberwatch/docs/QA.md",
+    "mode": "100644",
+    "bytes": 14250,
+    "git_blob_sha1": "aa3c2255c33ca8d3d51cb05bd277573632fccf1f",
+    "sha256": "aa94f6df7dd7c1971928a6cf68879075be1094555147fbb8bb8ba81b34422417"
+  },
+  {
+    "path": "projects/Emberwatch/docs/audio-provenance.md",
+    "mode": "100644",
+    "bytes": 9626,
+    "git_blob_sha1": "1c45280fd63e4b08d37dce104a4de261abf61f7e",
+    "sha256": "0984df346f872cc3b39f6c9e94a74de4416e5efd29406d3728afa08434e4c615"
+  },
+  {
+    "path": "projects/Emberwatch/docs/campaign/baseline-0.4.4.json",
+    "mode": "100644",
+    "bytes": 530,
+    "git_blob_sha1": "60e72a2346a3bd13bb297c21bf61d16265eb6e52",
+    "sha256": "2a84e6de00e8848bc4db89f9e4d0cc76d3639c6c9b2537e8db9fbe2190d281f4"
+  },
+  {
+    "path": "projects/Emberwatch/docs/campaign/checkpoint-M0.md",
+    "mode": "100644",
+    "bytes": 2212,
+    "git_blob_sha1": "034af4cb619a3aa0f8129ca75087fa0365da0488",
+    "sha256": "1afcb9ee42c08cec28844e63b9b6b7835dd91bc48f55cf585b285012c3a34660"
+  },
+  {
+    "path": "projects/Emberwatch/docs/campaign/inventory-design.md",
+    "mode": "100644",
+    "bytes": 15990,
+    "git_blob_sha1": "08551676a4da0903e4e8871b579d5fe9e7c0d96c",
+    "sha256": "73a4b7fc88b5556ca7195a0023e96d291b5e58fb15e79f7bc8c0a1f818face9e"
+  },
+  {
+    "path": "projects/Emberwatch/docs/campaign/navigation.md",
+    "mode": "100644",
+    "bytes": 8362,
+    "git_blob_sha1": "ae8c641d5588e2acb250a59adc6198059a26cec7",
+    "sha256": "9a5189b4f8890929ca2b38f138faff78a87861fdbddfc52f39fb292ce437df32"
+  },
+  {
+    "path": "projects/Emberwatch/docs/campaign/ranged-reference.md",
+    "mode": "100644",
+    "bytes": 13215,
+    "git_blob_sha1": "40abe68649142f41f9f993e8a9e71fe03f1459be",
+    "sha256": "a68ecc66367f141df9cc2349637ff8b90837fe4c4bda5942f7d2c21fae940de8"
+  },
+  {
+    "path": "projects/Emberwatch/docs/campaign/reference-gaps.md",
+    "mode": "100644",
+    "bytes": 4827,
+    "git_blob_sha1": "4b20a6b8d0213dcdaca2f19155d746bf68ff3111",
+    "sha256": "ef865f35f9f3c5c72fb06cf285dd130eed988b8771ac39e880942cbf507083c2"
+  },
+  {
+    "path": "projects/Emberwatch/docs/campaign/warrior-reference.md",
+    "mode": "100644",
+    "bytes": 12750,
+    "git_blob_sha1": "9aad401ebec29b300ff494257669a5c04aca3070",
+    "sha256": "def0b8b12be70498bc067190fba56c19569671e7b0cfdc9f8f5b25726a681a60"
+  },
+  {
+    "path": "projects/Emberwatch/docs/campaign/world-design.md",
+    "mode": "100644",
+    "bytes": 13738,
+    "git_blob_sha1": "944e29697b92aa9b479d0313714b3906f4736892",
+    "sha256": "fa91bb3d75f2226c2dc3a6e88e2f2ad4ab4246f6ea4dd81e03f4b8c4b907aa2c"
+  },
+  {
+    "path": "projects/Emberwatch/docs/combat-0.4-checkpoint.md",
+    "mode": "100644",
+    "bytes": 3220,
+    "git_blob_sha1": "691526ee30665832f5233c7770f5c7fc62590bec",
+    "sha256": "000afc5bc67528555b9ec7090c7b395cd7766cc0b93cbd2fc0907498eb76be43"
+  },
+  {
+    "path": "projects/Emberwatch/docs/enemy-patterns.md",
+    "mode": "100644",
+    "bytes": 10969,
+    "git_blob_sha1": "027d5f82b842c78ac24230d507380d6bcd30cff2",
+    "sha256": "aa62e3de44d111a7222735eb671f0d6248eec18ba6af9191216aca531298ffbc"
+  },
+  {
+    "path": "projects/Emberwatch/docs/legacy-telegraph-contract.md",
+    "mode": "100644",
+    "bytes": 9261,
+    "git_blob_sha1": "890d6833fbb7a600ac2185ffefc90e5f7d0820be",
+    "sha256": "280dc410cd3896ca0fd8c81e03b8ba6e7ed9f6b63e3a53d0ec07781d25c41139"
+  },
+  {
+    "path": "projects/Emberwatch/docs/review.html",
+    "mode": "100644",
+    "bytes": 11398,
+    "git_blob_sha1": "dbf424220be0cd8fb593d42d74e361312865b375",
+    "sha256": "3c34b4c4b1c3c9f254003cf89ab2184fc90af36af7cee65aefde68e11a5b0ee5"
+  },
+  {
+    "path": "projects/Emberwatch/docs/source-notes.md",
+    "mode": "100644",
+    "bytes": 4228,
+    "git_blob_sha1": "cc7d9dc6d693d6024dcbb2279a87e6d6c0187dd4",
+    "sha256": "86bd45eb3926101f93a44125218b590a3580964e1d629c6c8a0efe2d74494d29"
+  },
+  {
+    "path": "projects/Emberwatch/eval.md",
+    "mode": "100644",
+    "bytes": 27265,
+    "git_blob_sha1": "26cf66f568367f409f4a14e853d258b6862698d5",
+    "sha256": "3290c07343c137178150a71cebdd36e4aec7647893838fee6bc34e0efd8079e6"
+  },
+  {
+    "path": "projects/Emberwatch/project.json",
+    "mode": "100644",
+    "bytes": 1046,
+    "git_blob_sha1": "a5434b3ccf29097c81aa24d12ec834aa66c06eea",
+    "sha256": "02d95213751a6dd3b7cef9accd0721c79e41a16403139660b8489cd43503e47a"
+  },
+  {
+    "path": "projects/Emberwatch/spec.md",
+    "mode": "100644",
+    "bytes": 16636,
+    "git_blob_sha1": "a41a630766818aee8e08a3d1dbba966ce5db369d",
+    "sha256": "673afb2139f2c92678c964666df4cee43066451c26cd41a258b55723fd67de65"
+  }
+]

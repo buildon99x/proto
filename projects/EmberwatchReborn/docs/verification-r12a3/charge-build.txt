@@ -1,0 +1,6 @@
+{
+  "files": 98,
+  "bytes": 16517376,
+  "output": "/workspace/shared/emberwatch-incident-20261010-1258/recovered-source/projects/EmberwatchReborn/app/dist",
+  "gameplayAcceptance": "not_established_by_build"
+}

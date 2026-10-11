@@ -1,0 +1,13 @@
+✔ actual qa-r9 title and forward-copy handler preserve earned qa-r8 source and all earlier namespace bytes (636.953752ms)
+✔ actual delayed commit cannot replace a newly loaded profile or its modal ownership (1125.928167ms)
+✔ actual R10 copy handler loads an earned R9 source into a new isolated slot and never overwrites either source or existing target (64.028695ms)
+✔ W pending opening checkpoint never captures or reopens into a newer profile (2771.183516ms)
+✔ fresh untrained profile keeps manual checkpoint and save-to-title behavior with implicit life zero (17.856973ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5090.494587

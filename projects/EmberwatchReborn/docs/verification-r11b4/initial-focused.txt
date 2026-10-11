@@ -1,0 +1,30 @@
+✔ actual release pause and title use the same single build label (2.655975ms)
+✔ actual candidate pause and title use the same single build label (1.000211ms)
+✔ optional read-only status registration reports the same build before and after loading (1.912419ms)
+✔ R11 app, project, index metadata and build kind share the same bounded release identity (0.365529ms)
+✔ delayed A first WebLock save cannot replace loaded B or bind A pools to B revision (62.798999ms)
+✔ obsolete delayed saved-profile load cannot replace B or start a new save (22.621032ms)
+✔ obsolete delayed new-game preflight cannot replace B or start a new save (17.638647ms)
+✔ late failed A load cannot clear B, change its modal or reset load state (17.080378ms)
+✔ late failed A start cannot clear B, change its modal or reset load state (16.938677ms)
+✔ showTitle dismisses a pending load without obsolete success or error reopening gameplay (5.276958ms)
+✔ showTitle dismisses a pending start without obsolete success or error reopening gameplay (12.788369ms)
+✔ same-profile overlapping continue owns the latest invocation and never starts an obsolete requested new game (28.706723ms)
+✔ normal load, reload and fresh start retain storage behavior and never remap existing progress (29.966394ms)
+✔ current load/start failures still present the title error and preserve existing raw saves (15.724184ms)
+✔ reloading while gameplay was active pauses simulation throughout a delayed load (20.75351ms)
+✔ actual delayed candidate-copy success cannot steal a newer continue selection (22.343986ms)
+✔ actual delayed candidate-copy failure cannot steal a newer continue selection (18.822342ms)
+✔ title dismissal invalidates delayed candidate-copy success (18.119528ms)
+✔ title dismissal invalidates delayed candidate-copy failure (17.579338ms)
+✔ candidate-copy intent immediately supersedes an older delayed new-game preflight (30.240685ms)
+✔ overlapping candidate copies preserve the latest target even when the earlier copy finishes last (26.172131ms)
+✔ ordinary current candidate-copy still loads its target exactly once and keeps original bytes (19.305527ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 636.047894

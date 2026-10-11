@@ -1,0 +1,256 @@
+TAP version 13
+# Subtest: checkpoint reason for wall preserves rejection and state
+ok 1 - checkpoint reason for wall preserves rejection and state
+  ---
+  duration_ms: 7.72833
+  type: 'test'
+  ...
+# Subtest: checkpoint reason for missing-position preserves rejection and state
+ok 2 - checkpoint reason for missing-position preserves rejection and state
+  ---
+  duration_ms: 3.858612
+  type: 'test'
+  ...
+# Subtest: checkpoint reason for NaN-position preserves rejection and state
+ok 3 - checkpoint reason for NaN-position preserves rejection and state
+  ---
+  duration_ms: 2.372591
+  type: 'test'
+  ...
+# Subtest: checkpoint reason for stale-life preserves rejection and state
+ok 4 - checkpoint reason for stale-life preserves rejection and state
+  ---
+  duration_ms: 0.3898
+  type: 'test'
+  ...
+# Subtest: checkpoint reason for negative-recovery preserves rejection and state
+ok 5 - checkpoint reason for negative-recovery preserves rejection and state
+  ---
+  duration_ms: 2.682032
+  type: 'test'
+  ...
+# Subtest: checkpoint reason for over-max-hp preserves rejection and state
+ok 6 - checkpoint reason for over-max-hp preserves rejection and state
+  ---
+  duration_ms: 3.010971
+  type: 'test'
+  ...
+# Subtest: checkpoint reason for over-max-mana preserves rejection and state
+ok 7 - checkpoint reason for over-max-mana preserves rejection and state
+  ---
+  duration_ms: 2.702621
+  type: 'test'
+  ...
+# Subtest: checkpoint reason for over-max-stamina preserves rejection and state
+ok 8 - checkpoint reason for over-max-stamina preserves rejection and state
+  ---
+  duration_ms: 2.406571
+  type: 'test'
+  ...
+# Subtest: checkpoint reason for dead preserves rejection and state
+ok 9 - checkpoint reason for dead preserves rejection and state
+  ---
+  duration_ms: 1.350319
+  type: 'test'
+  ...
+# Subtest: checkpoint reason for wall-and-dead preserves rejection and state
+ok 10 - checkpoint reason for wall-and-dead preserves rejection and state
+  ---
+  duration_ms: 1.523818
+  type: 'test'
+  ...
+# Subtest: checkpoint reason for wall-and-recovery preserves rejection and state
+ok 11 - checkpoint reason for wall-and-recovery preserves rejection and state
+  ---
+  duration_ms: 2.611657
+  type: 'test'
+  ...
+# Subtest: valid checkpoint, untrained rejection and invalid settlement keep their contracts
+ok 12 - valid checkpoint, untrained rejection and invalid settlement keep their contracts
+  ---
+  duration_ms: 18.004231
+  type: 'test'
+  ...
+# Subtest: real controller/store preserve confirmed save after position rejection and reload it
+ok 13 - real controller/store preserve confirmed save after position rejection and reload it
+  ---
+  duration_ms: 86.124822
+  type: 'test'
+  ...
+# Subtest: actual signal panel at entry identifies only unfinished prerequisites and preserves CLUE_REQUIRED
+ok 14 - actual signal panel at entry identifies only unfinished prerequisites and preserves CLUE_REQUIRED
+  ---
+  duration_ms: 536.062674
+  type: 'test'
+  ...
+# Subtest: actual signal panel at clue identifies only unfinished prerequisites and preserves RESCUE_REQUIRED
+ok 15 - actual signal panel at clue identifies only unfinished prerequisites and preserves RESCUE_REQUIRED
+  ---
+  duration_ms: 65.702282
+  type: 'test'
+  ...
+# Subtest: actual signal panel at rescued identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE
+ok 16 - actual signal panel at rescued identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE
+  ---
+  duration_ms: 59.197111
+  type: 'test'
+  ...
+# Subtest: actual signal panel at two-defeats identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE
+ok 17 - actual signal panel at two-defeats identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE
+  ---
+  duration_ms: 54.018494
+  type: 'test'
+  ...
+# Subtest: actual signal panel at four-defeats identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE
+ok 18 - actual signal panel at four-defeats identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE
+  ---
+  duration_ms: 56.459066
+  type: 'test'
+  ...
+# Subtest: ready, partial, reset and reloaded actual panels retain readiness without repeating completed prerequisites
+ok 19 - ready, partial, reset and reloaded actual panels retain readiness without repeating completed prerequisites
+  ---
+  duration_ms: 189.143404
+  type: 'test'
+  ...
+# Subtest: reported return panels retain completed report without asking for past work or paying again
+ok 20 - reported return panels retain completed report without asking for past work or paying again
+  ---
+  duration_ms: 85.516587
+  type: 'test'
+  ...
+# Subtest: all prerequisite and completion views are read-only across the three signal objects
+ok 21 - all prerequisite and completion views are read-only across the three signal objects
+  ---
+  duration_ms: 1.281608
+  type: 'test'
+  ...
+# Subtest: candidate title, recovery and generated manifest identify the same game build
+ok 22 - candidate title, recovery and generated manifest identify the same game build
+  ---
+  duration_ms: 1.374225
+  type: 'test'
+  ...
+# Subtest: actual signal-code panel at entry shows remaining work and preserves ENTRY_GUARDS_ALIVE
+ok 23 - actual signal-code panel at entry shows remaining work and preserves ENTRY_GUARDS_ALIVE
+  ---
+  duration_ms: 642.479868
+  type: 'test'
+  ...
+# Subtest: actual signal-code panel at entry-partial shows remaining work and preserves ENTRY_GUARDS_ALIVE
+ok 24 - actual signal-code panel at entry-partial shows remaining work and preserves ENTRY_GUARDS_ALIVE
+  ---
+  duration_ms: 59.71435
+  type: 'test'
+  ...
+# Subtest: actual signal-route-transmitter panel at entry shows remaining work and preserves DECODE_REQUIRED
+ok 25 - actual signal-route-transmitter panel at entry shows remaining work and preserves DECODE_REQUIRED
+  ---
+  duration_ms: 38.804695
+  type: 'test'
+  ...
+# Subtest: actual signal-transmitter panel at entry shows remaining work and preserves DECODE_REQUIRED
+ok 26 - actual signal-transmitter panel at entry shows remaining work and preserves DECODE_REQUIRED
+  ---
+  duration_ms: 35.621679
+  type: 'test'
+  ...
+# Subtest: actual signal-transmitter panel at decoded shows remaining work and preserves ROUTE_REQUIRED
+ok 27 - actual signal-transmitter panel at decoded shows remaining work and preserves ROUTE_REQUIRED
+  ---
+  duration_ms: 59.586771
+  type: 'test'
+  ...
+# Subtest: actual signal-transmitter panel at routed shows remaining work and preserves YARD_GUARDS_ALIVE
+ok 28 - actual signal-transmitter panel at routed shows remaining work and preserves YARD_GUARDS_ALIVE
+  ---
+  duration_ms: 59.211893
+  type: 'test'
+  ...
+# Subtest: actual signal-transmitter panel at yard-partial shows remaining work and preserves YARD_GUARDS_ALIVE
+ok 29 - actual signal-transmitter panel at yard-partial shows remaining work and preserves YARD_GUARDS_ALIVE
+  ---
+  duration_ms: 46.687985
+  type: 'test'
+  ...
+# Subtest: actual signal-receiver panel at routed shows remaining work and preserves TRANSMITTER_REQUIRED
+ok 30 - actual signal-receiver panel at routed shows remaining work and preserves TRANSMITTER_REQUIRED
+  ---
+  duration_ms: 31.914162
+  type: 'test'
+  ...
+# Subtest: actual signal-receiver panel at transmitted shows remaining work and preserves RECEIVER_GUARDS_ALIVE
+ok 31 - actual signal-receiver panel at transmitted shows remaining work and preserves RECEIVER_GUARDS_ALIVE
+  ---
+  duration_ms: 63.745275
+  type: 'test'
+  ...
+# Subtest: actual signal-receiver panel at receiver-partial shows remaining work and preserves RECEIVER_GUARDS_ALIVE
+ok 32 - actual signal-receiver panel at receiver-partial shows remaining work and preserves RECEIVER_GUARDS_ALIVE
+  ---
+  duration_ms: 47.093039
+  type: 'test'
+  ...
+# Subtest: actual signal-shortcut panel at entry shows remaining work and preserves DECODE_REQUIRED
+ok 33 - actual signal-shortcut panel at entry shows remaining work and preserves DECODE_REQUIRED
+  ---
+  duration_ms: 34.456656
+  type: 'test'
+  ...
+# Subtest: actual ready signal-code panel pays once and persists its completed copy
+ok 34 - actual ready signal-code panel pays once and persists its completed copy
+  ---
+  duration_ms: 101.4782
+  type: 'test'
+  ...
+# Subtest: actual ready signal-transmitter panel pays once and persists its completed copy
+ok 35 - actual ready signal-transmitter panel pays once and persists its completed copy
+  ---
+  duration_ms: 88.226609
+  type: 'test'
+  ...
+# Subtest: actual ready signal-receiver panel pays once and persists its completed copy
+ok 36 - actual ready signal-receiver panel pays once and persists its completed copy
+  ---
+  duration_ms: 104.747646
+  type: 'test'
+  ...
+# Subtest: actual west lever copy survives reset/reload and preserves exclusive selection
+ok 37 - actual west lever copy survives reset/reload and preserves exclusive selection
+  ---
+  duration_ms: 224.613026
+  type: 'test'
+  ...
+# Subtest: actual east lever copy survives reset/reload and preserves exclusive selection
+ok 38 - actual east lever copy survives reset/reload and preserves exclusive selection
+  ---
+  duration_ms: 196.008707
+  type: 'test'
+  ...
+# Subtest: actual optional lift stays optional, grants nothing and scopes resource copy to region transition
+ok 39 - actual optional lift stays optional, grants nothing and scopes resource copy to region transition
+  ---
+  duration_ms: 120.49798
+  type: 'test'
+  ...
+# Subtest: actual report click without the optional lift pays once and all returned devices acknowledge completion
+ok 40 - actual report click without the optional lift pays once and all returned devices acknowledge completion
+  ---
+  duration_ms: 142.825307
+  type: 'test'
+  ...
+# Subtest: all views are read-only and completed fights never ask to defeat zero enemies
+ok 41 - all views are read-only and completed fights never ask to defeat zero enemies
+  ---
+  duration_ms: 39.007963
+  type: 'test'
+  ...
+1..41
+# tests 41
+# suites 0
+# pass 41
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2703.30872

@@ -1,0 +1,2 @@
+node projects/EmberwatchReborn/app/scripts/check.mjs
+Source/test syntax passed; no gameplay acceptance implied.

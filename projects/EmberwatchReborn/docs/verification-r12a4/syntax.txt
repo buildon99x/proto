@@ -1,0 +1,4 @@
+Command: node --check app/src/signal-presentation.js
+PASS
+Command: node --check app/tests/signal-prerequisite-copy.test.mjs
+PASS

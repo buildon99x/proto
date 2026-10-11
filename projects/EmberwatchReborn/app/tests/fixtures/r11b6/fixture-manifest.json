@@ -1,0 +1,302 @@
+{
+  "sourceCommit": "17b13fa04fec8336d2c08f3c4603a0d2e8d00276",
+  "source": "Exact-byte Emberwatch Reborn R11b6 production source modules preserved from Git",
+  "sourceTree": "projects/EmberwatchReborn/app/src",
+  "version": "0.11.0-reimplementation.9",
+  "stateVersion": 4,
+  "entryModules": [
+    "save.js",
+    "state.js",
+    "controller.js"
+  ],
+  "purpose": "Frozen actual historical reader, writer, validator and controller. main.js is provenance label only and is never evaluated. Not shipped runtime, browser QA or gameplay acceptance. Do not edit historical modules.",
+  "files": [
+    {
+      "path": "action-slots.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/action-slots.js",
+      "bytes": 2406,
+      "sha256": "f949e7761f72b62b9e62abc8de48c6584d3dd095e6fd5878ec24507a65ebf778",
+      "gitBlob": "787cb164a6bef933d428c349f50c6c6efaca1a6d"
+    },
+    {
+      "path": "battlefield-content.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/battlefield-content.js",
+      "bytes": 7951,
+      "sha256": "4b4df981aa19093f7d882a5845a1e4d247fbc0785f63e64b866f695d9b703d8d",
+      "gitBlob": "9e112bf81e9c7731eec79387e35fe38af8523783"
+    },
+    {
+      "path": "battlefield.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/battlefield.js",
+      "bytes": 16812,
+      "sha256": "adcf0f3224b1f910e89740ec36d6aa541e77cb19c3f3522c0d1522b5a99d18e6",
+      "gitBlob": "cf313473a41056346e41e6ec2163216b97d362d7"
+    },
+    {
+      "path": "campaign.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/campaign.js",
+      "bytes": 11715,
+      "sha256": "09ad267c1e03f9b82f7af42738d2bdafe219e1a62ca1fb7a581418fc98384869",
+      "gitBlob": "537f1b9798f4a59a9ef3670369d2b2b5380a26ff"
+    },
+    {
+      "path": "controller.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/controller.js",
+      "bytes": 4246,
+      "sha256": "c525aa29861cf3bf53020bf20cd0a960903b0e380f1e0e1f1416bcc4f59e0449",
+      "gitBlob": "05206dd0d7b3ca815b34f4228fad0c65644fc701"
+    },
+    {
+      "path": "controls.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/controls.js",
+      "bytes": 8222,
+      "sha256": "1dd9fbd91d65bfd308af373d403c73fd6da9e16a4494074aac73823ff4d130e2",
+      "gitBlob": "d5f3215658e6c60398c6e1c296b8a954b30f8e46"
+    },
+    {
+      "path": "dungeon-content.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/dungeon-content.js",
+      "bytes": 6564,
+      "sha256": "fd43d23d2cfe5f414d81e852a794110c8b116f8abc55fb3bd1cd08da8a7b646f",
+      "gitBlob": "5db059dada67fc6ba02ccceb94903adf8fc22729"
+    },
+    {
+      "path": "dungeon.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/dungeon.js",
+      "bytes": 19451,
+      "sha256": "8300a82c03c60e750dd9cdb14e082199575986e3e48619ca27edba195af8db1b",
+      "gitBlob": "a5ab16d627966c7d95bec236df2485ef602f8f72"
+    },
+    {
+      "path": "equipment-content.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/equipment-content.js",
+      "bytes": 4505,
+      "sha256": "1d3bb0724960016bfd5c176eba6e57cf202c0ed97e4a31218d3e8425fbeb5883",
+      "gitBlob": "fbcc1f3376d3bfa52f0b3b54377a76b52cafc5e4"
+    },
+    {
+      "path": "equipment-runtime.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/equipment-runtime.js",
+      "bytes": 2016,
+      "sha256": "440ed2a74d49716efb90b438b425a0f45c25858bb275ebe18df5be2562d930ba",
+      "gitBlob": "a0ac3f99ee113804cbbc4c3ab96d5f62bf851888"
+    },
+    {
+      "path": "equipment.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/equipment.js",
+      "bytes": 22956,
+      "sha256": "be3c373ccf3e1b27b3eec20b1113ad9ef1dcc5fb1aa20ebb9596070642e7b2ae",
+      "gitBlob": "56c87557b6d4daed6a7484d87e9ded5de8edff6a"
+    },
+    {
+      "path": "expert-input.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/expert-input.js",
+      "bytes": 5223,
+      "sha256": "3cef5ceb3a5d41c87554ab035fe73a7c8421b6435a03059964099f7e19584501",
+      "gitBlob": "3cdfbe19ccd9593272aaaca804fc8282128b1549"
+    },
+    {
+      "path": "expert-save-input.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/expert-save-input.js",
+      "bytes": 1761,
+      "sha256": "ef6441a6fd1a32e0cdfd51536b868cad1cd4e6ab6cafb5bab138d43a21678bb0",
+      "gitBlob": "168573c9e520aeb4bb457a16026cebef92e45802"
+    },
+    {
+      "path": "furnace-content.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/furnace-content.js",
+      "bytes": 6257,
+      "sha256": "ad6bd139fe17e31f7787840e7bca83b9a977244eb4edef1418e348fc8ad9e8ba",
+      "gitBlob": "1a1becbea8bd4a8fb5ca6e32ed5ed7b40d367921"
+    },
+    {
+      "path": "furnace.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/furnace.js",
+      "bytes": 17492,
+      "sha256": "072b540bff5de6f989cb299a15fdd77ec8dbc1267de917b996a7f7e51a34df34",
+      "gitBlob": "83006b63d0b11c354c2c7c63b5baaef50708f1dc"
+    },
+    {
+      "path": "hero-status.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/hero-status.js",
+      "bytes": 1582,
+      "sha256": "ab14675e9546e3f437ee95de7ab5bb2e71f0e9eb5bc987312f2cdf22828191a6",
+      "gitBlob": "2baeaa718eadb7907d8c475a5a8b43d7932ed034"
+    },
+    {
+      "path": "immediate-input.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/immediate-input.js",
+      "bytes": 1116,
+      "sha256": "c9dac29aea17be5249cc7dbb6cf863e9a0ade5dab968dc1876b98059963f1d04",
+      "gitBlob": "21d6ab91520fd573eff5fb682d05d9a2d5ca94f2"
+    },
+    {
+      "path": "main.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/main.js",
+      "bytes": 86512,
+      "sha256": "cc8da6f16fcb0ca38c76fdaf0c157256f385918184644925e2a4a7116e4d77ad",
+      "gitBlob": "d65d3fa6827d1d8cb809481bde05872302b05ee0"
+    },
+    {
+      "path": "pass-content.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/pass-content.js",
+      "bytes": 5622,
+      "sha256": "f8fc5ec25cdb261689a02101c36498f29a15c2748cb590b7fd5714019681a1e9",
+      "gitBlob": "5c02a888eaa3efb6d935c891ede51389e544f6bc"
+    },
+    {
+      "path": "pass.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/pass.js",
+      "bytes": 15300,
+      "sha256": "98e0546b3ee134ae17a321e772dc86a6345547ff00149d427927a19a527db35a",
+      "gitBlob": "d9c795ae5d0adf03705ce47d72ee258dc302644e"
+    },
+    {
+      "path": "progression-balance.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/progression-balance.js",
+      "bytes": 1222,
+      "sha256": "cdf42126fbff2bb26f1b52969ddd206cfb67c798bb8dc247c5b1eecc2edcbc51",
+      "gitBlob": "1afb1acac4ad82eaf427399ed389520228f193e5"
+    },
+    {
+      "path": "progression.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/progression.js",
+      "bytes": 9395,
+      "sha256": "678a31ff57f9e3cd1ee3a313e088236c5b103613c0fe0f7b13c45d7d233c0adf",
+      "gitBlob": "37051910e6657bf781d862235ebf239a549e9fde"
+    },
+    {
+      "path": "promotion.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/promotion.js",
+      "bytes": 9730,
+      "sha256": "5732aef4fff19c072b624b48ddccf001f63a0325370804e0e9a23361fc61d07b",
+      "gitBlob": "474567664af1aab69cdecc9d7ae54e938f06a75d"
+    },
+    {
+      "path": "quarry-content.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/quarry-content.js",
+      "bytes": 5071,
+      "sha256": "7f4b8c1419210df92ad2121b208a52e8bd5c0a76ed404d6d0cf4fea65992f930",
+      "gitBlob": "67be7fa4e15eed465a9544c62d5ac7756a5ce44b"
+    },
+    {
+      "path": "quarry.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/quarry.js",
+      "bytes": 14980,
+      "sha256": "08d0c0b07c3d48b29e4f82f28adb48387aef3b96d7ade02eb05d190f98ced35e",
+      "gitBlob": "ba563d108cdaff426b99b81b001ae54f7e99a528"
+    },
+    {
+      "path": "recovery.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/recovery.js",
+      "bytes": 4913,
+      "sha256": "280f560f67ea0d51d889374e7788cead5011da13db3dfc73a56efbfb76509a54",
+      "gitBlob": "f20bd17f9f58d41c5f240c326440d5c87491b0ee"
+    },
+    {
+      "path": "reference-core.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/reference-core.js",
+      "bytes": 3686,
+      "sha256": "04804f94aa38999f5e0af98094196394d703a3be4c3593d9338a3bc13bc8eb04",
+      "gitBlob": "576b981b7594b9bdee587a3ea4ef28dbd99557f8"
+    },
+    {
+      "path": "reference-warrior.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/reference-warrior.js",
+      "bytes": 25544,
+      "sha256": "1fb06923bbf69a33e80593a734f86b39d22ef7cd1f260b9d5b0be9a15261d549",
+      "gitBlob": "13c5f33c0d44160eb9adc4cdedf769a6fbeea236"
+    },
+    {
+      "path": "save.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/save.js",
+      "bytes": 7670,
+      "sha256": "27d6e22c3400f250bf7518290ea736bb6975203c7bf7f48eb8da7d7edb587aa4",
+      "gitBlob": "762974486e26b3efe199013bb50227e3a16dd464"
+    },
+    {
+      "path": "signal-content.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/signal-content.js",
+      "bytes": 6665,
+      "sha256": "8e85330a74319acf6f0193fa4f9c4aa81226d66b0933909f2e1f1d0d1802d701",
+      "gitBlob": "03dd41df6b8538f72d4598c3e2c68be4f05cefe5"
+    },
+    {
+      "path": "signal.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/signal.js",
+      "bytes": 18041,
+      "sha256": "367dedf11b2a73606d2929b0be6ea4911925f5ce3bfb3d903c9aad864a414284",
+      "gitBlob": "a82cf63a59b7236842c22214d7e5cfde6547b580"
+    },
+    {
+      "path": "state.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/state.js",
+      "bytes": 16784,
+      "sha256": "00870dd03bb7a9d8a2e7155471329c540f60826c9201c7c3e2042d1060b1a12d",
+      "gitBlob": "eb96ab87738ce3caba9ff130ae9d6432655e7543"
+    },
+    {
+      "path": "tomb-content.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/tomb-content.js",
+      "bytes": 7971,
+      "sha256": "8ea824839405a9c413049bcdb382d1d26f77a49bdb70b2553e5827f72d033570",
+      "gitBlob": "886c2baad780130c3e57839c60214d2adbfff17e"
+    },
+    {
+      "path": "tomb.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/tomb.js",
+      "bytes": 22000,
+      "sha256": "a83d9963b7dd93157b3de9ea2aa3212f1740400688f105556a80a92fc6cbf217",
+      "gitBlob": "9c554e28cc2b3595fc13cbc5e30f879b36a71b5f"
+    },
+    {
+      "path": "training-economy.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/training-economy.js",
+      "bytes": 1773,
+      "sha256": "6e2028a3093c8382c04720d350894526cfba14e7c2a41f071c7f7634e1a66630",
+      "gitBlob": "b8b3ab1ac9ed2acd842c8102d07fc1ee18b5babb"
+    },
+    {
+      "path": "upgrade-backup.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/upgrade-backup.js",
+      "bytes": 9146,
+      "sha256": "d0fb4f13165c2afb87f72f5e17e87620747f1405b3568da0cb9475a3a99f9a41",
+      "gitBlob": "7149d90566cec4a2e6cdcfaaffb25459c5354d80"
+    },
+    {
+      "path": "warrior-balance.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/warrior-balance.js",
+      "bytes": 6395,
+      "sha256": "9d4f9d3eb55275bee5427309596f8791f01e23b92855d74e99e0753ec5426994",
+      "gitBlob": "fa266816a032a28d22b2996c3c20885a77ad4b74"
+    },
+    {
+      "path": "warrior-expert.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/warrior-expert.js",
+      "bytes": 13898,
+      "sha256": "7a440a78ddb506916bcf8e5b0f4bdf206d235eb0422108e23915dd014e1ae649",
+      "gitBlob": "3db56a0e568bda482edb7b8e9d2ade2b6b551ade"
+    },
+    {
+      "path": "warrior-growth.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/warrior-growth.js",
+      "bytes": 24248,
+      "sha256": "c29272750386d02c51cf93001f8122d5bf1626229646c743d498e6ac967831f3",
+      "gitBlob": "9db7063a93be624964cd03a476ca87ffb626425b"
+    },
+    {
+      "path": "world-geometry.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/world-geometry.js",
+      "bytes": 2399,
+      "sha256": "192573c0552c0d193f4fe3036f4cd1a01443101003621a921a9622b773f641f1",
+      "gitBlob": "fe8d27590a28230ebc85911ddff23dfeac1d9159"
+    },
+    {
+      "path": "world.js",
+      "sourcePath": "projects/EmberwatchReborn/app/src/world.js",
+      "bytes": 3865,
+      "sha256": "8b9f13b2824c3e8fd555d8040770f2472910fd98dd3ec5788b0ad894bbe2728e",
+      "gitBlob": "ade4e5da965f235359c63f5918cfacac31df7cea"
+    }
+  ]
+}

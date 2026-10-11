@@ -1,0 +1,232 @@
+TAP version 13
+# Subtest: only new B town entry and its own ordinary return move; all legacy anchors and map remain
+ok 1 - only new B town entry and its own ordinary return move; all legacy anchors and map remain
+  ---
+  duration_ms: 1.708615
+  type: 'test'
+  ...
+# Subtest: new entry has non-overlapping 76-unit reach and sole selection at every legal sampled approach
+ok 2 - new entry has non-overlapping 76-unit reach and sole selection at every legal sampled approach
+  ---
+  duration_ms: 8.324205
+  type: 'test'
+  ...
+# Subtest: new projected arch footprint is separate from every existing town portal, NPC and seeded landmark
+ok 3 - new projected arch footprint is separate from every existing town portal, NPC and seeded landmark
+  ---
+  duration_ms: 0.440151
+  type: 'test'
+  ...
+# Subtest: actual movement and main nearest/F from Eda enter only B
+ok 4 - actual movement and main nearest/F from Eda enter only B
+  ---
+  duration_ms: 1442.948432
+  type: 'test'
+  ...
+# Subtest: actual movement and main nearest/F from town spawn enter only B
+ok 5 - actual movement and main nearest/F from town spawn enter only B
+  ---
+  duration_ms: 82.597629
+  type: 'test'
+  ...
+# Subtest: actual movement and main nearest/F from trainer enter only B
+ok 6 - actual movement and main nearest/F from trainer enter only B
+  ---
+  duration_ms: 75.662588
+  type: 'test'
+  ...
+# Subtest: actual movement and main nearest/F from old B endpoint enter only B
+ok 7 - actual movement and main nearest/F from old B endpoint enter only B
+  ---
+  duration_ms: 96.368691
+  type: 'test'
+  ...
+# Subtest: actual movement and main nearest/F from old B return enter only B
+ok 8 - actual movement and main nearest/F from old B return enter only B
+  ---
+  duration_ms: 90.798609
+  type: 'test'
+  ...
+# Subtest: actual main F and durable controller support ordinary B return, immediate re-entry and read-only reload
+ok 9 - actual main F and durable controller support ordinary B return, immediate re-entry and read-only reload
+  ---
+  duration_ms: 315.089197
+  type: 'test'
+  ...
+# Subtest: existing schema4 old entry position reloads without teleport, migration write or lost resources
+ok 10 - existing schema4 old entry position reloads without teleport, migration write or lost resources
+  ---
+  duration_ms: 217.671611
+  type: 'test'
+  ...
+# Subtest: existing schema4 old return position reloads without teleport, migration write or lost resources
+ok 11 - existing schema4 old return position reloads without teleport, migration write or lost resources
+  ---
+  duration_ms: 205.291026
+  type: 'test'
+  ...
+# Subtest: Banner uses the exact live128-radius boundary and bounded arc sampling
+ok 12 - Banner uses the exact live128-radius boundary and bounded arc sampling
+  ---
+  duration_ms: 6.549452
+  type: 'test'
+  ...
+# Subtest: Banner hides expired
+ok 13 - Banner hides expired
+  ---
+  duration_ms: 0.621123
+  type: 'test'
+  ...
+# Subtest: Banner hides negative lifetime
+ok 14 - Banner hides negative lifetime
+  ---
+  duration_ms: 0.136415
+  type: 'test'
+  ...
+# Subtest: Banner hides nonfinite
+ok 15 - Banner hides nonfinite
+  ---
+  duration_ms: 0.129304
+  type: 'test'
+  ...
+# Subtest: Banner hides invalid radius
+ok 16 - Banner hides invalid radius
+  ---
+  duration_ms: 0.186971
+  type: 'test'
+  ...
+# Subtest: Banner hides wrong region
+ok 17 - Banner hides wrong region
+  ---
+  duration_ms: 0.087642
+  type: 'test'
+  ...
+# Subtest: Banner clips solid walls and unrevealed tiles without painting a far-side pocket
+ok 18 - Banner clips solid walls and unrevealed tiles without painting a far-side pocket
+  ---
+  duration_ms: 7.549312
+  type: 'test'
+  ...
+# Subtest: flames_of_devotion uses exact runtime center radius90 and its own arc, without legacy padding
+ok 19 - flames_of_devotion uses exact runtime center radius90 and its own arc, without legacy padding
+  ---
+  duration_ms: 2.229236
+  type: 'test'
+  ...
+# Subtest: zealous_lance uses exact runtime center radius180 and its own arc, without legacy padding
+ok 20 - zealous_lance uses exact runtime center radius180 and its own arc, without legacy padding
+  ---
+  duration_ms: 1.329245
+  type: 'test'
+  ...
+# Subtest: Expert FX opt-in needs supported identity, finite accepted geometry and living effect
+ok 21 - Expert FX opt-in needs supported identity, finite accepted geometry and living effect
+  ---
+  duration_ms: 0.455294
+  type: 'test'
+  ...
+# Subtest: Onslaught phases use accepted startup, locked angle, payments and pulses
+ok 22 - Onslaught phases use accepted startup, locked angle, payments and pulses
+  ---
+  duration_ms: 0.357466
+  type: 'test'
+  ...
+# Subtest: channel spec shortened by a buff drives startup, no assumed fixed cast time
+ok 23 - channel spec shortened by a buff drives startup, no assumed fixed cast time
+  ---
+  duration_ms: 0.207772
+  type: 'test'
+  ...
+# Subtest: Onslaught rectangle follows current hero and accepted angle without endpoint padding
+ok 24 - Onslaught rectangle follows current hero and accepted angle without endpoint padding
+  ---
+  duration_ms: 1.935145
+  type: 'test'
+  ...
+# Subtest: recovery is only an observed channel and stays paused with simulation, never restored from a save lock
+ok 25 - recovery is only an observed channel and stays paused with simulation, never restored from a save lock
+  ---
+  duration_ms: 0.474412
+  type: 'test'
+  ...
+# Subtest: replacement actor, region change, later time, death and another action clear remembered recovery
+ok 26 - replacement actor, region change, later time, death and another action clear remembered recovery
+  ---
+  duration_ms: 0.285919
+  type: 'test'
+  ...
+# Subtest: hero status hints expose only registered live statuses, actual Inner Flame and current Banner LOS
+ok 27 - hero status hints expose only registered live statuses, actual Inner Flame and current Banner LOS
+  ---
+  duration_ms: 0.550056
+  type: 'test'
+  ...
+# Subtest: enemy Lawbringer hints disappear on expiry, inactive and death
+ok 28 - enemy Lawbringer hints disappear on expiry, inactive and death
+  ---
+  duration_ms: 0.160631
+  type: 'test'
+  ...
+# Subtest: actual renderer puts Banner, exact Flames/Lance and channel below loot and hostile danger
+ok 29 - actual renderer puts Banner, exact Flames/Lance and channel below loot and hostile danger
+  ---
+  duration_ms: 14.910092
+  type: 'test'
+  ...
+# Subtest: actual renderer transforms the exact Lance footprint without old slash arc or radius changes
+ok 30 - actual renderer transforms the exact Lance footprint without old slash arc or radius changes
+  ---
+  duration_ms: 5.205034
+  type: 'test'
+  ...
+# Subtest: actual hero motion uses existing art with startup/contact/recovery and locked direction
+ok 31 - actual hero motion uses existing art with startup/contact/recovery and locked direction
+  ---
+  duration_ms: 8.320159
+  type: 'test'
+  ...
+# Subtest: flash0 keeps Expert shapes, status labels and existing motion without mutating frozen input
+ok 32 - flash0 keeps Expert shapes, status labels and existing motion without mutating frozen input
+  ---
+  duration_ms: 19.714514
+  type: 'test'
+  ...
+# Subtest: absent, expired and off-region Expert data leave the existing renderer commands unchanged
+ok 33 - absent, expired and off-region Expert data leave the existing renderer commands unchanged
+  ---
+  duration_ms: 12.317781
+  type: 'test'
+  ...
+# Subtest: recovery keeps its actual residual across a last-active frame boundary and does not extend stale locks
+ok 34 - recovery keeps its actual residual across a last-active frame boundary and does not extend stale locks
+  ---
+  duration_ms: 0.166149
+  type: 'test'
+  ...
+# Subtest: tagged Banner placement uses only the dedicated quiet ground ring while ordinary ring effects remain
+ok 35 - tagged Banner placement uses only the dedicated quiet ground ring while ordinary ring effects remain
+  ---
+  duration_ms: 6.673258
+  type: 'test'
+  ...
+# Subtest: Banner has a continuous dark casing and longer warm dash on the same exact floor boundary
+ok 36 - Banner has a continuous dark casing and longer warm dash on the same exact floor boundary
+  ---
+  duration_ms: 13.994637
+  type: 'test'
+  ...
+# Subtest: combat-created Banner visual stays at the accepted placement and vanishes at the real expiry
+ok 37 - combat-created Banner visual stays at the accepted placement and vanishes at the real expiry
+  ---
+  duration_ms: 205.238468
+  type: 'test'
+  ...
+1..37
+# tests 37
+# suites 0
+# pass 37
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3093.874573

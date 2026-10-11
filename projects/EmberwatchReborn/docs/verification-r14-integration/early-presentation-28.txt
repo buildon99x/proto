@@ -1,0 +1,36 @@
+✔ R14 only real contact events create FX and duplicate casts are ignored (2.540373ms)
+✔ contact effects have strict 12-instance ceiling and clearing removes old scene (2.279215ms)
+✔ mace_swing bounded contact motif at flash 0 with no combat mutation (1.025628ms)
+✔ mace_swing bounded contact motif at flash 0.5 with no combat mutation (0.237264ms)
+✔ mace_swing bounded contact motif at flash 1 with no combat mutation (0.219857ms)
+✔ righteous_hammer bounded contact motif at flash 0 with no combat mutation (0.310573ms)
+✔ righteous_hammer bounded contact motif at flash 0.5 with no combat mutation (0.186017ms)
+✔ righteous_hammer bounded contact motif at flash 1 with no combat mutation (0.178696ms)
+✔ shield_charge bounded contact motif at flash 0 with no combat mutation (0.18813ms)
+✔ shield_charge bounded contact motif at flash 0.5 with no combat mutation (0.210463ms)
+✔ shield_charge bounded contact motif at flash 1 with no combat mutation (0.195692ms)
+✔ lay_on_hands bounded contact motif at flash 0 with no combat mutation (0.253658ms)
+✔ lay_on_hands bounded contact motif at flash 0.5 with no combat mutation (0.122933ms)
+✔ lay_on_hands bounded contact motif at flash 1 with no combat mutation (0.115973ms)
+✔ judgement bounded contact motif at flash 0 with no combat mutation (0.102232ms)
+✔ judgement bounded contact motif at flash 0.5 with no combat mutation (0.190023ms)
+✔ judgement bounded contact motif at flash 1 with no combat mutation (0.157555ms)
+✔ battle_banner bounded contact motif at flash 0 with no combat mutation (0.130775ms)
+✔ battle_banner bounded contact motif at flash 0.5 with no combat mutation (0.091256ms)
+✔ battle_banner bounded contact motif at flash 1 with no combat mutation (0.789997ms)
+✔ zealous_onslaught bounded contact motif at flash 0 with no combat mutation (0.058677ms)
+✔ zealous_onslaught bounded contact motif at flash 0.5 with no combat mutation (0.058597ms)
+✔ zealous_onslaught bounded contact motif at flash 1 with no combat mutation (0.042854ms)
+✔ legacy presentation never gets POE feedback overlay (0.102062ms)
+✔ preparation shows before contact and disappears after action fires, even flash zero (0.266117ms)
+✔ maximum effect ceiling stays bounded in reduced and full modes (0.741444ms)
+✔ roll, hurt and sprint reuse existing motion with phase bounded over 24 observations (0.525853ms)
+✔ POE ground FX paints before hostile danger and actor layers (0.375749ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 108.797495

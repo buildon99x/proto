@@ -1,0 +1,10 @@
+{
+  "version": "0.12.0-reimplementation.1",
+  "manifestFiles": 89,
+  "payloadBytes": 16437139,
+  "sha256": "all_matched",
+  "relativeImports": 264,
+  "importTargets": "all_present",
+  "futureExpeditionRuntime": "excluded",
+  "gameplayAcceptance": "not_established"
+}

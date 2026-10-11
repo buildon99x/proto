@@ -1,0 +1,19 @@
+✔ only new B town entry and its own ordinary return move; all legacy anchors and map remain (1.859026ms)
+✔ new entry has non-overlapping 76-unit reach and sole selection at every legal sampled approach (6.757534ms)
+✔ new projected arch footprint is separate from every existing town portal, NPC and seeded landmark (0.432624ms)
+✔ actual movement and main nearest/F from Eda enter only B (1509.015363ms)
+✔ actual movement and main nearest/F from town spawn enter only B (83.936988ms)
+✔ actual movement and main nearest/F from trainer enter only B (74.583481ms)
+✔ actual movement and main nearest/F from old B endpoint enter only B (105.484499ms)
+✔ actual movement and main nearest/F from old B return enter only B (100.685378ms)
+✔ actual main F and durable controller support ordinary B return, immediate re-entry and read-only reload (293.53122ms)
+✔ existing schema4 old entry position reloads without teleport, migration write or lost resources (245.92949ms)
+✔ existing schema4 old return position reloads without teleport, migration write or lost resources (250.428594ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2820.000671

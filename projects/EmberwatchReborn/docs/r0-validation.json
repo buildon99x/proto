@@ -1,0 +1,11 @@
+{
+  "checkpoint": "R0 requirements/provenance only",
+  "originalFilesMatchedGitBlobAndSha256": 167,
+  "warriorReferenceIdsListedOnceAsUnverified": 53,
+  "checklistCheckboxItems": 102,
+  "checklistSha256": "ddfef30b574245070a1e3b8d207b29dcde24e5331a16bfe1b0a3558aaed18bf4",
+  "canonicalFullFileHash": "blocked_not_compared",
+  "gameRuntimeTests": "not_started",
+  "browserPlay": "not_started",
+  "historical425TestsInherited": false
+}

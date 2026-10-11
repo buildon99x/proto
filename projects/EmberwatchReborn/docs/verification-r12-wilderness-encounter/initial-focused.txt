@@ -1,0 +1,99 @@
+✔ W registered content resolves; all authored spawns, objects and foes fit their actual collision floors (1.475235ms)
+✔ mandatory gated floors open sequentially with a permanent retreat; no puzzle/boss condition on anchor return (2591.354697ms)
+✔ cover/channel has actual six-tile collision/LOS difference and two open flanks in both modes (2.882187ms)
+✔ survey cover creates offset real sightlines while both sides remain reachable without increasing foe HP (0.493571ms)
+✔ in-range interaction across closed cover fails with WALL_BLOCKED, never UI-only success (85.092258ms)
+✔ journal, object actions and Eda continuation are truthful, read-only and revision-bound (194.374377ms)
+✔ authored small entry foyer breaks every initial enemy sightline and reaches an immediate return without a fight (26.171015ms)
+✔ pre-choice relay foes have no reachable position or line of sight through the mode-gated doorway (564.436401ms)
+✔ views expose no executable actions without a captured trusted store epoch (40.751831ms)
+✔ W-only town endpoints retain every old coordinate, floor and physical arch base (4.500064ms)
+✔ real main nearest and labels preserve legacy targets with W unaccepted (5895.979256ms)
+✔ real main nearest and labels preserve legacy targets with W accepted locked (3622.277343ms)
+✔ real main nearest and labels preserve legacy targets with W anchored (3664.997643ms)
+✔ real main nearest and labels preserve legacy targets with W reported (3707.945937ms)
+✔ accepted W selection is deterministic at the remaining outer-circle overlap and unique throughout its own inner48 (2721.511986ms)
+✔ real stepBattle town movement reaches either W endpoint from each legacy center without altered collision (2975.806621ms)
+✔ actual atlas/projected arch and short-label bounds do not cover legacy targets or each other (36.95467ms)
+✔ registered W keeper owns authored patterns and unchanged health/body/rewards, with radial retreat in its actual arena (2245.66371ms)
+✔ keeper line aim and origin stay committed while real lateral movement avoids its delayed projectile (38.51682ms)
+✔ stationary hero receives keeper line damage and burn only when the real shot arrives (29.367793ms)
+✖ keeper circle remains committed and lateral flank still hits through actual movement (68.314494ms)
+✔ keeper circle remains committed and radial retreat avoids damage through actual movement (63.447608ms)
+✖ keeper recovery stays vulnerable to a real paid mace action and returns to the line cycle without B footwork (74.056312ms)
+✔ existing silence interrupts the W wilderness-keeper-fireline without a late release (3.026292ms)
+✔ existing disarm interrupts the W wilderness-keeper-burst without a late release (43.496991ms)
+✖ real shield charge can interrupt the W locked tell without boss immunity or extra movement policy (3.999844ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 23
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 28968.000258
+
+✖ failing tests:
+
+test at app/tests/wilderness-town-keeper.test.mjs:128:113
+✖ keeper circle remains committed and lateral flank still hits through actual movement (68.314494ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(burst[0].damage>0)
+
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/wilderness-town-keeper.test.mjs:131:219)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at app/tests/wilderness-town-keeper.test.mjs:134:1
+✖ keeper recovery stays vulnerable to a real paid mace action and returns to the line cycle without B footwork (74.056312ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(f.b.p.stamina<stamina)
+
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/wilderness-town-keeper.test.mjs:136:186)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at app/tests/wilderness-town-keeper.test.mjs:144:1
+✖ real shield charge can interrupt the W locked tell without boss immunity or extra movement policy (3.999844ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(f.e.hp<hp)
+
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-wilderness-integration/projects/EmberwatchReborn/app/tests/wilderness-town-keeper.test.mjs:145:269)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

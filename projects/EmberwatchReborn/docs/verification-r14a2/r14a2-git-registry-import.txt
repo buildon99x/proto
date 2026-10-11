@@ -1,0 +1,1 @@
+Synced 12 project(s) to packages/registry/src/generated/projects.ts

@@ -1,0 +1,212 @@
+{
+  "kind": "analytic earned-route fixture; not AI/normal-input QA",
+  "loadout": {
+    "level": 6,
+    "attributes": {
+      "strength": 2,
+      "dexterity": 0,
+      "intelligence": 2
+    },
+    "skills": {
+      "shield_charge": 1,
+      "mace_swing": 2,
+      "shield_block": 1,
+      "righteous_hammer": 3,
+      "hammer_of_sundering": 1,
+      "lay_on_hands": 1,
+      "judgement": 1
+    },
+    "stats": {
+      "hp": 79,
+      "mana": 54,
+      "armor": 7.2,
+      "damage": 16.2,
+      "manaRegen": 4.08
+    },
+    "mace": {
+      "learned": true,
+      "damage": 19.44,
+      "damageType": "physical",
+      "manaCost": 0,
+      "staminaCost": 0,
+      "cooldown": 0.1,
+      "duration": 0.52,
+      "contact": 0.182,
+      "range": 76,
+      "arcRadians": 2.1,
+      "armorPenetration": 0,
+      "stunChance": 0,
+      "stunSeconds": 0.6
+    },
+    "heal": {
+      "learned": true,
+      "heal": 60,
+      "damage": 0,
+      "manaCost": 30,
+      "staminaCost": 0,
+      "cooldown": 13,
+      "duration": 0.51485149,
+      "contact": 0.22653466,
+      "range": 96,
+      "radius": 96,
+      "regenBuff": null
+    },
+    "hammer": {
+      "learned": true,
+      "damage": 82.5,
+      "damageType": "physical",
+      "manaCost": 31.25,
+      "staminaCost": 0,
+      "cooldown": 1,
+      "duration": 0.51485149,
+      "contact": 0.22653466,
+      "range": 460,
+      "speed": 560,
+      "radius": 16,
+      "pierces": true,
+      "armorPenetration": 0,
+      "lightning": null,
+      "armorBreak": {
+        "amount": 5,
+        "duration": 3
+      }
+    }
+  },
+  "assumptions": "Stationary attack contact; no crit, passive block, healing, movement, hitstop or multiple attackers. Kill TTK is a lower bound, survival hit count is single-hit worst-pattern arithmetic, not actual survival time.",
+  "manaRecovery30Seconds": 7.853,
+  "guardMaceAfterBreak": 17.204,
+  "rows": [
+    {
+      "difficulty": "easy",
+      "foe": "quarry_raider",
+      "hp": 38.28,
+      "maceHit": 19.059,
+      "maceHits": 3,
+      "stationaryMaceTtkSeconds": 1.222,
+      "maxUnblockedHit": 5.541,
+      "fullHpHitsToDeath": 15,
+      "healHitEquivalent": 10.828
+    },
+    {
+      "difficulty": "easy",
+      "foe": "quarry_slinger",
+      "hp": 29.04,
+      "maceHit": 19.44,
+      "maceHits": 2,
+      "stationaryMaceTtkSeconds": 0.702,
+      "maxUnblockedHit": 4.925,
+      "fullHpHitsToDeath": 17,
+      "healHitEquivalent": 12.182
+    },
+    {
+      "difficulty": "easy",
+      "foe": "quarry_guard",
+      "hp": 60.72,
+      "maceHit": 16.475,
+      "maceHits": 4,
+      "stationaryMaceTtkSeconds": 1.742,
+      "maxUnblockedHit": 8.619,
+      "fullHpHitsToDeath": 10,
+      "healHitEquivalent": 6.961
+    },
+    {
+      "difficulty": "normal",
+      "foe": "quarry_raider",
+      "hp": 58,
+      "maceHit": 19.059,
+      "maceHits": 4,
+      "stationaryMaceTtkSeconds": 1.742,
+      "maxUnblockedHit": 8.396,
+      "fullHpHitsToDeath": 10,
+      "healHitEquivalent": 7.147
+    },
+    {
+      "difficulty": "normal",
+      "foe": "quarry_slinger",
+      "hp": 44,
+      "maceHit": 19.44,
+      "maceHits": 3,
+      "stationaryMaceTtkSeconds": 1.222,
+      "maxUnblockedHit": 7.463,
+      "fullHpHitsToDeath": 11,
+      "healHitEquivalent": 8.04
+    },
+    {
+      "difficulty": "normal",
+      "foe": "quarry_guard",
+      "hp": 92,
+      "maceHit": 16.475,
+      "maceHits": 6,
+      "stationaryMaceTtkSeconds": 2.782,
+      "maxUnblockedHit": 13.06,
+      "fullHpHitsToDeath": 7,
+      "healHitEquivalent": 4.594
+    },
+    {
+      "difficulty": "hard",
+      "foe": "quarry_raider",
+      "hp": 72.5,
+      "maceHit": 19.059,
+      "maceHits": 4,
+      "stationaryMaceTtkSeconds": 1.742,
+      "maxUnblockedHit": 10.494,
+      "fullHpHitsToDeath": 8,
+      "healHitEquivalent": 5.717
+    },
+    {
+      "difficulty": "hard",
+      "foe": "quarry_slinger",
+      "hp": 55,
+      "maceHit": 19.44,
+      "maceHits": 3,
+      "stationaryMaceTtkSeconds": 1.222,
+      "maxUnblockedHit": 9.328,
+      "fullHpHitsToDeath": 9,
+      "healHitEquivalent": 6.432
+    },
+    {
+      "difficulty": "hard",
+      "foe": "quarry_guard",
+      "hp": 115,
+      "maceHit": 16.475,
+      "maceHits": 7,
+      "stationaryMaceTtkSeconds": 3.302,
+      "maxUnblockedHit": 16.325,
+      "fullHpHitsToDeath": 5,
+      "healHitEquivalent": 3.675
+    },
+    {
+      "difficulty": "serious",
+      "foe": "quarry_raider",
+      "hp": 87,
+      "maceHit": 19.059,
+      "maceHits": 5,
+      "stationaryMaceTtkSeconds": 2.262,
+      "maxUnblockedHit": 16.791,
+      "fullHpHitsToDeath": 5,
+      "healHitEquivalent": 3.573
+    },
+    {
+      "difficulty": "serious",
+      "foe": "quarry_slinger",
+      "hp": 66,
+      "maceHit": 19.44,
+      "maceHits": 4,
+      "stationaryMaceTtkSeconds": 1.742,
+      "maxUnblockedHit": 14.925,
+      "fullHpHitsToDeath": 6,
+      "healHitEquivalent": 4.02
+    },
+    {
+      "difficulty": "serious",
+      "foe": "quarry_guard",
+      "hp": 138,
+      "maceHit": 16.475,
+      "maceHits": 9,
+      "stationaryMaceTtkSeconds": 4.342,
+      "maxUnblockedHit": 26.119,
+      "fullHpHitsToDeath": 4,
+      "healHitEquivalent": 2.297
+    }
+  ]
+}

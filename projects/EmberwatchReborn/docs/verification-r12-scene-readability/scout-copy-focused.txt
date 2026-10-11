@@ -1,0 +1,10 @@
+✔ scout panel explicitly says 3/4 remaining after 1 recorded defeats (2557.143001ms)
+✔ scout panel explicitly says 0/4 remaining after 4 recorded defeats (91.405433ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2762.069108
