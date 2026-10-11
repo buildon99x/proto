@@ -1,0 +1,29 @@
+{
+  "baselineBuild": "R14a14",
+  "candidateBuild": "R14a15",
+  "changedPaths": [
+    "app/src/frame-observation.js",
+    "app/src/index.html",
+    "app/src/main.js",
+    "app/src/recovery-page.js",
+    "app/tests/build-label-ui.test.mjs",
+    "app/tests/expert-main-input.test.mjs",
+    "app/tests/frame-observation.test.mjs",
+    "app/tests/frame-stall-diagnostics.test.mjs",
+    "app/tests/tomb-ui-integration.test.mjs",
+    "app/tests/wilderness-ui-integration.test.mjs",
+    "app/scripts/build-r14.mjs",
+    "app/package.json",
+    "project.json",
+    "AGENTS.md",
+    "README.md",
+    "brief.md",
+    "spec.md",
+    "eval.md",
+    "changelog.md"
+  ],
+  "path": "code-and-tests.patch",
+  "sha256": "97286d57dbeb7b8ec8dd18cdb58b01239d8a4f63093b1793d7e6aa952bc54a80",
+  "bytes": 79098,
+  "excluded": "generated dist, binary assets and verification archives/logs; use independent candidate folder for the complete deliverable"
+}

@@ -1,0 +1,114 @@
+{
+  "build": "R14a15",
+  "version": "0.14.0-reimplementation.15",
+  "atUtc": "2026-10-11T13:08:55.299687+00:00",
+  "status": "ready for coordinator review and supported-browser QA; no stall cause or performance fix claimed",
+  "baseline": "independent frozen R14a14 candidate",
+  "uniqueTests": 4360,
+  "passed": 4360,
+  "failed": 0,
+  "skipped": 0,
+  "cancelled": 0,
+  "newUniqueTests": 22,
+  "newObserverTests": 13,
+  "newActualMainTests": 9,
+  "baselineNewTests": {
+    "tests": 22,
+    "failed": 22,
+    "logs": [
+      "red-diagnostics-final.log",
+      "red-main.log"
+    ]
+  },
+  "durationMs": 133990.137101,
+  "initialAggregate": {
+    "tests": 4360,
+    "passed": 4358,
+    "failed": 2,
+    "log": "initial-full-tests.log",
+    "cause": "Two unchanged source-extraction fixtures depended on separate audio.tick line. Restored linebreak without changing their assertions or runtime semantics; both focused checks and final aggregate pass."
+  },
+  "finalFullLog": "full-tests.log",
+  "lint": "passed",
+  "appBuild": "passed",
+  "buildFiles": 124,
+  "buildBytes": 16737071,
+  "builtSourceHashesVerified": 123,
+  "sourcePreservation": {
+    "baseline": "R14a14 independent frozen candidate",
+    "sourceTotal": 125,
+    "sourceChanged": [
+      "app/src/frame-observation.js",
+      "app/src/index.html",
+      "app/src/main.js",
+      "app/src/recovery-page.js"
+    ],
+    "sourceUnchanged": 121,
+    "protectedModelModulesUnchanged": true,
+    "assetsByteIdentical": true,
+    "assetCount": 14,
+    "buildFiles": 124,
+    "buildBytes": 16737071,
+    "builtSourceHashesVerified": 123,
+    "mainSha256": "8430cbe5e0e216cbdd04adde35484c79fa701c361e983dfb54bad9cf470adabd",
+    "observerSha256": "8b30bbd513cbf4df6fe81f4734100cebbceb849e47f467038e601b6bb3400969",
+    "manifestSha256": "60fc9edb3361a0e10bd3d099b3d9f72dc8ba10a7e65b69fb2db16fa91f749e49",
+    "baselineMainSha256": "dd9ef09fedf7fafd45959024f92fd6d052baf1ff0042b62d852a1095be6c0d7d"
+  },
+  "staticReview": {
+    "blockingIssues": 0,
+    "evidence": "static-review.md",
+    "correction": "Derived between-callback duration is null for invalid predecessor/current clocks; regression added."
+  },
+  "diagnostics": {
+    "default": "OFF",
+    "memoryOnly": true,
+    "incidentCapacity": 12,
+    "shownIncidents": 6,
+    "incidentThresholdMs": 500,
+    "incidentComparison": ">",
+    "runtimeProtection": "unchanged strict >500ms; pause and input clearing remain",
+    "legacyStatisticalExclusion": "unchanged >=500ms",
+    "retainedAcross": [
+      "menu",
+      "new active segment"
+    ],
+    "resetOn": [
+      "OFF",
+      "manual clear",
+      "profile load",
+      "travel",
+      "reload"
+    ],
+    "phases": [
+      "step",
+      "render",
+      "ui",
+      "scene",
+      "audio.tick",
+      "events including synchronous save entry and audio requests",
+      "safety",
+      "input/aim",
+      "other residual"
+    ],
+    "attribution": "synchronous frame observations only; no GPU/device/GC/audio-output cause established"
+  },
+  "patch": {
+    "path": "code-and-tests.patch",
+    "bytes": 79098,
+    "sha256": "97286d57dbeb7b8ec8dd18cdb58b01239d8a4f63093b1793d7e6aa952bc54a80",
+    "appliedToSeparateA14Copy": true,
+    "resultFilesByteIdentical": 19
+  },
+  "gitWritten": false,
+  "sitePublished": false,
+  "libraryArchived": false,
+  "nativeBrowserA15": "not performed; publisher-owned supported dot browser QA remains",
+  "remaining": [
+    "Capture exact >500ms native incident with normal input and inspect previous/current callback costs",
+    "Check native safety-menu containment and new QA details/refresh",
+    "Only after evidence, consider a bounded same-input original-volume vs volume-zero comparison within authorization",
+    "Coordinator-owned backup/Git/publication after results review"
+  ],
+  "forbiddenBenchmarkRetries": "No nativeCanvas exit137 or blocked Chromium socket attempt retried"
+}

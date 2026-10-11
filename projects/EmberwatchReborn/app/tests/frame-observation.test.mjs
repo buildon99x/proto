@@ -32,7 +32,7 @@ test('frame observation is OFF by default, reads no clock or context, and keeps 
 test('rAF scheduling interval, total JS, step, render and UI remain distinct clocks',()=>{
  const f=fixture();frame(f,100,active,{start:400});frame(f,120,active,{start:700,step:3,render:7,ui:2,rest:4});
  const s=f.probe.snapshot(),row=s.samples[1];
- assert.equal(row.rafIntervalMs,20);assert.equal(row.totalMs,16);assert.deepEqual(row.phaseMs,{step:3,render:7,ui:2});
+ assert.equal(row.rafIntervalMs,20);assert.equal(row.totalMs,16);assert.deepEqual(row.phaseMs,{step:3,render:7,ui:2,scene:null,audio:null,events:null,safety:null,input:null});
  assert.equal(s.active.rafInterval.n,1);assert.equal(s.active.total.n,2);assert.equal(s.active.rafInterval.p50Ms,20);
  assert.match(s.measurement,/not GPU, display, audio, or physical input latency/);
 });

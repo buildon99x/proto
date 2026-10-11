@@ -1,0 +1,464 @@
+--- a/app/src/frame-observation.js
++++ b/app/src/frame-observation.js
+@@ -3,11 +3,12 @@
+ // neither is GPU cost, display scanout, or physical key-to-photon latency.
+ export const FRAME_OBSERVATION_LIMIT=240;
+ export const FRAME_SUSPENSION_MS=500;
+-export const FRAME_OBSERVATION_PHASES=Object.freeze(['step','render','ui']);
++export const FRAME_STALL_DIAGNOSTIC_LIMIT=12;
++export const FRAME_OBSERVATION_PHASES=Object.freeze(['step','render','ui','scene','audio','events','safety','input']);
+ export const FRAME_OBSERVATION_MODES=Object.freeze(['combat','combat-moving','moving','idle','menu','entry-wait','save-wait','inactive','unavailable']);
+ const ACTIVE_MODES=new Set(['combat','combat-moving','moving','idle']);
+-const emptyPhases=()=>({step:null,render:null,ui:null});
+-const emptyStatus=()=>({step:'not-observed',render:'not-observed',ui:'not-observed'});
++const emptyPhases=()=>({step:null,render:null,ui:null,scene:null,audio:null,events:null,safety:null,input:null});
++const emptyStatus=()=>({step:'not-observed',render:'not-observed',ui:'not-observed',scene:'not-observed',audio:'not-observed',events:'not-observed',safety:'not-observed',input:'not-observed'});
+ const validTime=value=>Number.isFinite(value)&&value>=0;
+ const clockStatus=value=>value==null?'missing':!Number.isFinite(value)?'nonfinite':value<0?'negative':'ok';
+ 
+@@ -38,7 +39,9 @@
+   render:summarize(work.filter(row=>row.phaseStatus.render==='ok').map(row=>row.phaseMs.render)),
+   ui:summarize(work.filter(row=>row.phaseStatus.ui==='ok').map(row=>row.phaseMs.ui))};
+ }
+-const copySamples=rows=>rows.map(row=>({...row,phaseMs:{...row.phaseMs},phaseStatus:{...row.phaseStatus}}));
++const copySample=row=>row?({...row,context:{...row.context},phaseMs:{...row.phaseMs},phaseStatus:{...row.phaseStatus}}):null;
++const copySamples=rows=>rows.map(copySample);
++const diagnosticContext=context=>({hidden:typeof context?.hidden==='boolean'?context.hidden:null,focused:typeof context?.focused==='boolean'?context.focused:null,visibilityState:['visible','hidden','prerender'].includes(context?.visibilityState)?context.visibilityState:null,focusEpoch:Number.isSafeInteger(context?.focusEpoch)&&context.focusEpoch>=0?context.focusEpoch:null});
+ const summarizeModes=rows=>Object.fromEntries(FRAME_OBSERVATION_MODES.map(mode=>[mode,groupSummary(rows.filter(row=>row.mode===mode))]));
+ const summarizeSuspensions=rows=>({frames:rows.filter(row=>row.suspended).length,rafInterval:summarize(rows.filter(row=>row.suspended).map(row=>row.rafIntervalMs))});
+ 
+@@ -47,7 +50,8 @@
+  const activeCapacity=Math.min(capacity,FRAME_OBSERVATION_LIMIT);
+  let recording=enabled===true,rows=[],current=null,previous=null,sequence=0,totalFrames=0,abandonedFrames=0,lastClearReason='initial';
+  let lastActiveRows=[],activeSegmentOpen=false,activeSegment=0,activeFrames=0,activeEndedBy=null;
+- const clear=(reason='manual')=>{rows=[];lastActiveRows=[];activeSegmentOpen=false;activeSegment=0;activeFrames=0;activeEndedBy=null;current=null;previous=null;sequence=0;totalFrames=0;abandonedFrames=0;lastClearReason=typeof reason==='string'?reason.slice(0,80):'manual';};
++ let incidents=[],totalIncidents=0,lastCompleted=null;
++ const clear=(reason='manual')=>{incidents=[];totalIncidents=0;lastCompleted=null;rows=[];lastActiveRows=[];activeSegmentOpen=false;activeSegment=0;activeFrames=0;activeEndedBy=null;current=null;previous=null;sequence=0;totalFrames=0;abandonedFrames=0;lastClearReason=typeof reason==='string'?reason.slice(0,80):'manual';};
+  const readClock=()=>{try{return typeof now==='function'?now():undefined;}catch{return undefined;}};
+  const sampleClock=()=>{
+   const value=readClock(),status=clockStatus(value);
+@@ -81,11 +85,21 @@
+      else {rafIntervalMs=delta;rafStatus=delta>=FRAME_SUSPENSION_MS?'suspension':previous.mode!==mode?'transition':'ok';}
+     }
+    }
+-   const previousMode=previous?.mode??null;
++   const previousMode=previous?.mode??null,previousRafTimestampMs=previous?.timestamp??null;
++   const runtimePreviousRafTimestampMs=validTime(context?.runtimePreviousRafTimestampMs)?context.runtimePreviousRafTimestampMs:null;
++   const runtimeIntervalMs=runtimePreviousRafTimestampMs!==null&&inputStatus==='ok'&&rafTimestamp>=runtimePreviousRafTimestampMs?rafTimestamp-runtimePreviousRafTimestampMs:null;
+    // A bad timestamp breaks continuity. The next valid timestamp is warm-up.
+    previous=inputStatus==='ok'&&rafStatus!=='backwards'&&rafStatus!=='frozen'?{timestamp:rafTimestamp,mode}:null;
+-   current={sequence:++sequence,mode,previousMode,rafTimestampMs:validTime(rafTimestamp)?rafTimestamp:null,rafIntervalMs,rafStatus,suspended:rafStatus==='suspension',phaseMs:emptyPhases(),phaseStatus:emptyStatus(),openPhase:null,clockIssue:null,lastClock:null,startedAt:null};
+-   current.startedAt=sampleClock();return true;
++   current={sequence:++sequence,mode,previousMode,previousRafTimestampMs,runtimePreviousRafTimestampMs,runtimeIntervalMs,runtimeSuspended:runtimeIntervalMs===null?null:runtimeIntervalMs>FRAME_SUSPENSION_MS,context:diagnosticContext(context),safetyStop:null,rafTimestampMs:validTime(rafTimestamp)?rafTimestamp:null,rafIntervalMs,rafStatus,suspended:rafStatus==='suspension',phaseMs:emptyPhases(),phaseStatus:emptyStatus(),openPhase:null,clockIssue:null,lastClock:null,startedAt:null};
++   const observedStart=sampleClock(),entry=context?.callbackStartedAtMs;
++   // Supplied entry is sampled by main before its context/preparation work. A
++   // malformed entry never turns a backwards clock into valid work.
++   if(entry!==undefined&&(!validTime(entry)||observedStart===null||entry>observedStart))current.clockIssue??='invalid-entry-clock';
++   current.startedAt=entry===undefined?observedStart:validTime(entry)?entry:null;return true;
++  },
++  markSafetyStop(reason){
++   if(!recording||!current||!['frame-gap','hidden','blur'].includes(reason))return false;
++   current.safetyStop=reason;return true;
+   },
+   beginPhase(name){
+    if(!recording||!current)return false;
+@@ -112,8 +126,20 @@
+    const duration=end===null||frame.startedAt===null?null:end-frame.startedAt;
+    const workStatus=options?.failed===true?'failed':frame.clockIssue??(duration===0?'frozen-or-below-resolution':!Number.isFinite(duration)||duration<0?'invalid-clock':'ok');
+    if(workStatus!=='ok')for(const name of FRAME_OBSERVATION_PHASES){if(frame.phaseStatus[name]==='ok')frame.phaseStatus[name]='invalid-frame-clock';frame.phaseMs[name]=null;}
+-   const row={sequence:frame.sequence,mode:frame.mode,previousMode:frame.previousMode,rafTimestampMs:frame.rafTimestampMs,rafIntervalMs:frame.rafIntervalMs,rafStatus:frame.rafStatus,suspended:frame.suspended,workStatus,totalMs:workStatus==='ok'?duration:null,phaseMs:frame.phaseMs,phaseStatus:frame.phaseStatus};
+-   rows.push(row);
++   const phaseValid=FRAME_OBSERVATION_PHASES.every(name=>['ok','not-observed'].includes(frame.phaseStatus[name]));
++   const phaseTotal=FRAME_OBSERVATION_PHASES.reduce((sum,name)=>sum+(frame.phaseMs[name]??0),0);
++   const otherMs=workStatus==='ok'&&phaseValid&&phaseTotal<=duration?duration-phaseTotal:null;
++   const row={sequence:frame.sequence,mode:frame.mode,previousMode:frame.previousMode,context:frame.context,previousRafTimestampMs:frame.previousRafTimestampMs,runtimePreviousRafTimestampMs:frame.runtimePreviousRafTimestampMs,runtimeIntervalMs:frame.runtimeIntervalMs,runtimeSuspended:frame.runtimeSuspended,safetyStop:frame.safetyStop,callbackStartedAtMs:frame.startedAt,callbackEndedAtMs:end,otherMs,rafTimestampMs:frame.rafTimestampMs,rafIntervalMs:frame.rafIntervalMs,rafStatus:frame.rafStatus,suspended:frame.suspended,workStatus,totalMs:workStatus==='ok'?duration:null,phaseMs:frame.phaseMs,phaseStatus:frame.phaseStatus};
++   // Preserve exact long-gap pairs independently of the fast/menu rings.
++   // The legacy >=500 statistical exclusion stays separate from strict >500
++   // gap diagnostics and the actual runtime safety-stop decision.
++   if(row.rafIntervalMs>FRAME_SUSPENSION_MS||row.runtimeSuspended===true){
++    const prior=lastCompleted?.sequence===row.sequence-1&&lastCompleted.rafTimestampMs===row.previousRafTimestampMs?lastCompleted:null;
++    const between=prior&&prior.workStatus==='ok'&&row.workStatus==='ok'&&validTime(row.callbackStartedAtMs)&&validTime(prior.callbackEndedAtMs)?row.callbackStartedAtMs-prior.callbackEndedAtMs:null;
++    incidents.push({previous:prior,current:row,sincePreviousCallbackEndMs:between!==null&&between>=0?between:null});
++    if(incidents.length>FRAME_STALL_DIAGNOSTIC_LIMIT)incidents.shift();totalIncidents++;
++   }
++   lastCompleted=row;rows.push(row);
+    if(ACTIVE_MODES.has(frame.mode)){lastActiveRows.push(row);if(lastActiveRows.length>activeCapacity)lastActiveRows.shift();activeFrames++;}
+    if(rows.length>capacity)rows.shift();totalFrames++;return true;
+   },
+@@ -124,6 +150,7 @@
+     measurement:'Browser rAF scheduling intervals and synchronous JS elapsed time only; not GPU, display, audio, or physical input latency.',
+     active:groupSummary(samples.filter(row=>ACTIVE_MODES.has(row.mode))),byMode,
+     lastActive:{status:activeSegmentOpen?'recording':activeSamples.length?'retained':'empty',segment:activeSegment,capacity:activeCapacity,sampleCount:activeSamples.length,totalFrames:activeFrames,evictedFrames:Math.max(0,activeFrames-activeSamples.length),endedBy:activeEndedBy,firstSequence:activeSamples[0]?.sequence??null,lastSequence:activeSamples.at(-1)?.sequence??null,active:groupSummary(activeSamples),byMode:summarizeModes(activeSamples),suspensions:summarizeSuspensions(activeSamples),samples:activeSamples},
++    stallDiagnostics:{capacity:FRAME_STALL_DIAGNOSTIC_LIMIT,totalIncidents,evictedIncidents:Math.max(0,totalIncidents-incidents.length),thresholdMs:FRAME_SUSPENSION_MS,comparison:'>',incidents:incidents.map(i=>({...i,previous:copySample(i.previous),current:copySample(i.current)}))},
+     suspensions:summarizeSuspensions(samples),
+     transitions:{frames:samples.filter(row=>row.rafStatus==='transition').length},samples};
+   }
+--- a/app/src/index.html
++++ b/app/src/index.html
+@@ -1,5 +1,5 @@
+ <!doctype html>
+-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="Emberwatch Reborn R14a14: 전사 훈련·장비 제작·숙련 및 전문가 성장·봉화 전장과 황야 조사를 연결하는 격리 개발 후보. 전체 캠페인은 개발 중입니다. 진행은 이 브라우저에 보관됩니다."><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23131c2d%27/%3E%3Cpath d=%27M17 3 7 19l9 10 10-11-9-15z%27 fill=%27%23e8aa61%27/%3E%3Cpath d=%27m17 12-5 8 5 5 4-6z%27 fill=%27%23fff0b8%27/%3E%3C/svg%3E"><title>Emberwatch Reborn · 잿불의 서약</title><link rel="stylesheet" href="style.css"></head>
++<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="Emberwatch Reborn R14a15: 전사 훈련·장비 제작·숙련 및 전문가 성장·봉화 전장과 황야 조사를 연결하는 격리 개발 후보. 전체 캠페인은 개발 중입니다. 진행은 이 브라우저에 보관됩니다."><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23131c2d%27/%3E%3Cpath d=%27M17 3 7 19l9 10 10-11-9-15z%27 fill=%27%23e8aa61%27/%3E%3Cpath d=%27m17 12-5 8 5 5 4-6z%27 fill=%27%23fff0b8%27/%3E%3C/svg%3E"><title>Emberwatch Reborn · 잿불의 서약</title><link rel="stylesheet" href="style.css"></head>
+ <body>
+ <canvas id="world" aria-label="잿불 마을과 전투 화면"></canvas>
+ <div id="hud" hidden>
+--- a/app/src/main.js
++++ b/app/src/main.js
+@@ -101,7 +101,7 @@
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const button=(label,action,extra='')=>`<button data-action="${action}" ${extra}>${label}</button>`;
+ // One label for title, pause UI and the optional read-only status tool.
+-const BUILD_LABEL='R14a14';
++const BUILD_LABEL='R14a15';
+ function clearInput(reason='safety'){if(dismissRecoveryNotice($('toast')))noticeUntil=0;releasedAimBySkill={};contextClick.clear(reason);contextSuppressHeld=false;locomotionIntent.clear();clearInputFeedback();inputLatency.clear(typeof reason==='string'?reason:'safety');deferredImmediate.clear();router.clear();clearBattleIntent(battle);expertSafety.request(battle,controller,typeof reason==='string'?reason:'pointer-cancel');if(battle)battle.targetId=null;}
+ function flushActionSafety(){
+  const result=expertSafety.drain(battle,controller,{busy,blocked:gate.blocked});
+@@ -432,8 +432,13 @@
+  if(!candidate||!state||!battle)return;
+  const frames=frameObservation.snapshot(),trace=contactTrace.snapshot();
+  const metric=m=>m?.n?`${m.n}개 · p50 ${m.p50Ms.toFixed(2)} / p95 ${m.p95Ms.toFixed(2)} / 최대 ${m.maxMs.toFixed(2)}ms · 16.7ms 초과 ${(m.over16_7Ratio*100).toFixed(1)}% · 33.3ms 초과 ${(m.over33_3Ratio*100).toFixed(1)}%`:'미관측';
++ const ms=value=>Number.isFinite(value)?value.toFixed(2)+'ms':'미관측';
++ const phaseNames={step:'stepBattle',render:'렌더+표식',ui:'HUD',scene:'장면 준비',audio:'audio.tick',events:'이벤트·음향 요청·저장 진입',safety:'안전·대기입력 처리',input:'입력 라우팅·조준'};
++ const sample=(label,row)=>row?`<p><strong>${label} #${row.sequence} · ${esc(row.mode)}</strong><br>rAF 시각 ${ms(row.rafTimestampMs)} · 콜백 진입/관측 종료 ${ms(row.callbackStartedAtMs)} / ${ms(row.callbackEndedAtMs)}<br>동기 JS 관측 구간 ${ms(row.totalMs)} (${esc(row.workStatus)})<br>${Object.entries(phaseNames).map(([key,name])=>`${name} ${ms(row.phaseMs[key])}${row.phaseStatus[key]==='ok'?'':` (${esc(row.phaseStatus[key])})`}`).join(' · ')}<br>기타 동기 구간 ${ms(row.otherMs)}<br>숨김 ${row.context.hidden===null?'미관측':row.context.hidden?'예':'아니오'} · 포커스 ${row.context.focused===null?'미관측':row.context.focused?'있음':'없음'} · visibility ${esc(row.context.visibilityState??'미관측')} · 포커스/표시 변경 순번 ${row.context.focusEpoch??'미관측'}</p>`:'<p>'+label+' 완료 콜백 미관측</p>';
++ const diagnostics=frames.stallDiagnostics;
++ const incidents=(diagnostics?.incidents??[]).slice(-6).reverse().map(i=>`<article class="skill"><strong>긴 간격 #${i.current.sequence} · ${ms(i.current.rafIntervalMs)} · 안전정지 ${esc(i.current.safetyStop??'이 콜백에서 발생 안 함')}</strong><p>직전/현재 관측 rAF ${ms(i.current.previousRafTimestampMs)} → ${ms(i.current.rafTimestampMs)}<br>실제 보호 기준 시각 ${ms(i.current.runtimePreviousRafTimestampMs)} → ${ms(i.current.rafTimestampMs)} · 간격 ${ms(i.current.runtimeIntervalMs)} · 500ms 초과 ${i.current.runtimeSuspended===null?'미관측':i.current.runtimeSuspended?'예':'아니오'}<br>직전 관측 종료 → 현재 콜백 진입 ${ms(i.sincePreviousCallbackEndMs)}. 다른 이벤트·비동기 작업·대기 등이 섞일 수 있으며 유휴/GPU 시간으로 해석하지 않습니다.</p><details><summary>직전 / 현재 콜백 비용과 상태 보기</summary>${sample('직전',i.previous)}${sample('현재',i.current)}</details></article>`).join('');
+  const group=(label,g)=>`<article class="skill"><strong>${label}</strong><p>rAF 간격: ${metric(g?.rafInterval)}<br>동기 JS 전체: ${metric(g?.total)}<br>stepBattle: ${metric(g?.step)}<br>렌더+접점 표식: ${metric(g?.render)}<br>HUD: ${metric(g?.ui)}</p></article>`;
+- panel('QA 접점 / 프레임 관측',`<p class="warning">검증용 읽기 전용 표면입니다. 기본 OFF이며 현재 접속 메모리에만 남습니다. 진행·적·충돌을 변경하거나 외부로 전송하지 않습니다.</p><div class="buttons">${button(contactTrace.enabled?'접점 표식 끄기':'접점 표식 켜기','observe-contact-toggle')}${button(frameObservation.enabled?'프레임 기록 끄기':'프레임 기록 켜기','observe-frame-toggle')}${button('관측 기록 비우기','observe-clear')}</div><p>접점 ${contactTrace.enabled?'ON':'OFF'} · 최근 위치 ${trace.frames.length}개 · 주변 몸 ${trace.bodies.length}개. 원은 실제 지면 충돌 몸, 점선은 표본 사이의 추정 궤적, 녹색은 엔진의 마지막 시뮬레이션 조각 경로입니다. 마름모는 거리/굴절에서 추정한 표시이며 충돌 이벤트나 벽 충돌 원인 확정이 아닙니다. 구르기 몸 반경0은 점으로 표시합니다.</p><p>프레임 기록 ${frameObservation.enabled?'ON':'OFF'} · 최근 최대240개. rAF 간격과 동기 JS 실행 비용을 구분합니다. GPU·물리 디스플레이·소리 지연은 측정하지 않습니다. 관측 자체의 비용도 포함됩니다. 500ms 이상 중단은 정규 통계에서 제외합니다. 메뉴/저장/진입대기는 교전 통계와 섞지 않습니다.</p><h3>마지막 활성 구간 · ${esc(frames.lastActive?.status??'empty')}</h3><p class="minor">메뉴를 오래 열어도 직전 활성 구간은 최대240개 별도 보존됩니다. 새 활성 구간과 프로필/지역/재로드 변경 시 갱신·초기화합니다.</p>${group('마지막 활성 구간',frames.lastActive?.active)}${Object.entries(frames.lastActive?.byMode??{}).filter(([,g])=>g.frames>0).map(([name,g])=>group(esc(name),g)).join('')}<h3>현재 전체 링</h3>${group('활동 표본',frames.active)}${Object.entries(frames.byMode??{}).filter(([,g])=>g.frames>0).map(([name,g])=>group(esc(name),g)).join('')}${button('돌아가기','menu')}`,true);
++ panel('QA 접점 / 프레임 관측',`<p class="warning">검증용 읽기 전용 표면입니다. 기본 OFF이며 현재 접속 메모리에만 남습니다. 진행·적·충돌을 변경하거나 외부로 전송하지 않습니다.</p><div class="buttons">${button(contactTrace.enabled?'접점 표식 끄기':'접점 표식 켜기','observe-contact-toggle')}${button(frameObservation.enabled?'프레임 기록 끄기':'프레임 기록 켜기','observe-frame-toggle')}${button('관측 기록 비우기','observe-clear')}${button('표시 새로고침','observe-refresh')}</div><p>접점 ${contactTrace.enabled?'ON':'OFF'} · 최근 위치 ${trace.frames.length}개 · 주변 몸 ${trace.bodies.length}개. 원은 실제 지면 충돌 몸, 점선은 표본 사이의 추정 궤적, 녹색은 엔진의 마지막 시뮬레이션 조각 경로입니다. 마름모는 거리/굴절에서 추정한 표시이며 충돌 이벤트나 벽 충돌 원인 확정이 아닙니다. 구르기 몸 반경0은 점으로 표시합니다.</p><p>프레임 기록 ${frameObservation.enabled?'ON':'OFF'} · 최근 최대240개. rAF 간격과 동기 JS 실행 비용을 구분합니다. GPU·물리 디스플레이·소리 지연은 측정하지 않습니다. 관측 자체의 비용도 포함됩니다. 500ms 이상 간격은 기존 정규 통계에서 제외하며 아래 사고 기록은 500ms 초과만 보존합니다. 실제 재생 보호조건은 500ms 초과 그대로입니다. 메뉴/저장/진입대기는 교전 통계와 섞지 않습니다.</p><h3>500ms 초과 간격 진단</h3><p>총 ${diagnostics?.totalIncidents??0}건 · 최대12쌍 보존 · 최근6쌍 표시 · 오래된 기록 ${diagnostics?.evictedIncidents??0}건 삭제. 메뉴·새 활성 구간을 거쳐도 보존하며 관측 OFF/비우기·지역/프로필/재로드 시 초기화합니다. 화면은 열기/새로고침 때만 갱신합니다.</p><p class="minor">audio.tick은 동기 스케줄러 비용입니다. 음향 요청과 저장 진입은 이벤트 구간에, 그 밖의 동기 처리는 기타에 포함됩니다. 비동기 저장 완료·다른 이벤트 핸들러·GPU·실제 소리 지연은 분리 측정하지 않습니다. 직전 비용과 긴 간격의 동시 관측만으로 원인을 확정할 수 없습니다. 진단 자체 부하도 포함됩니다.</p>${incidents||'<p>관측된 500ms 초과 간격이 없습니다.</p>'}<h3>마지막 활성 구간 · ${esc(frames.lastActive?.status??'empty')}</h3><p class="minor">메뉴를 오래 열어도 직전 활성 구간은 최대240개 별도 보존됩니다. 새 활성 구간과 프로필/지역/재로드 변경 시 갱신·초기화합니다.</p>${group('마지막 활성 구간',frames.lastActive?.active)}${Object.entries(frames.lastActive?.byMode??{}).filter(([,g])=>g.frames>0).map(([name,g])=>group(esc(name),g)).join('')}<h3>현재 전체 링</h3>${group('활동 표본',frames.active)}${Object.entries(frames.byMode??{}).filter(([,g])=>g.frames>0).map(([name,g])=>group(esc(name),g)).join('')}${button('돌아가기','menu')}`,true);
+ }
+ function showInputObservations(){
+  const records=inputLatency.snapshot(),inputs=records.filter(r=>r.kind==='input').slice(-12).reverse(),heldStarts=records.filter(r=>r.kind==='action-start'&&r.heldRepeat||r.kind==='mobility-start'&&r.heldTransition).slice(-12).reverse();
+@@ -626,7 +631,7 @@
+  if(action==='reload'){const r=await controller.load();if(!r.ok){toast(r.reason);return;}if(!gate.resolveLoad(r)){toast('복원할 저장을 확인하지 못했습니다.');return;}state=r.state;contactTrace.clear();frameObservation.clear('reload');battle=createBattle(state);router.clear({resetMovement:true});if(state.world.lifeDown)showDeath();else closePanel();return;}
+  if(action==='input-observations')return showInputObservations();
+  if(action==='observe-panel')return showQaObservations();
+- if(candidate&&['observe-contact-toggle','observe-frame-toggle','observe-clear'].includes(action)){if(action==='observe-contact-toggle')contactTrace.setEnabled(!contactTrace.enabled);else if(action==='observe-frame-toggle')frameObservation.setEnabled(!frameObservation.enabled);else {contactTrace.clear();frameObservation.clear('manual');}return showQaObservations();}
++ if(candidate&&['observe-contact-toggle','observe-frame-toggle','observe-clear','observe-refresh'].includes(action)){if(action==='observe-contact-toggle')contactTrace.setEnabled(!contactTrace.enabled);else if(action==='observe-frame-toggle')frameObservation.setEnabled(!frameObservation.enabled);else if(action==='observe-clear'){contactTrace.clear();frameObservation.clear('manual');}return showQaObservations();}
+  if(action==='action-slots')return showActionSlots();
+  if(action==='enable-skill-loadout'){if(e.detail>1||!STARTER_SKILLS.every(id=>state.character.skills[id]>0))return;const c=enableSkillLoadout(state.options.controls??config(),{skills:state.character.skills,actionSlots:state.actionSlots});if(await dispatch({type:'setControls',controls:c}))await showSkillSlots();return;}
+  if(action==='assign-skill-slot'){if(e.detail>1||config().version!==5)return;const r=await dispatch({type:'assignSkillSlot',slot:target.dataset.slot,skillId:target.dataset.skill||null,expectedSkillId:target.dataset.expected||null,expectedRevision:Number(target.dataset.revision),life:state.world.life??0});if(r)await showSkillSlots();return;}
+@@ -701,31 +706,37 @@
+ function drawLabels(sceneVisibility=wildernessSceneVisibility(battle,{objectives:state.world.objectives,objectView:o=>wildernessView(state,'object',o.id),portalView:o=>wildernessView(state,'portal',o.id)})??signalSceneVisibility(battle,{objectives:state.world.objectives,objectView:o=>signalObjectView(state,o)})){const r=getRegion(battle.region),focus=projectWorld(battle.p.x,battle.p.y);ctx.save();ctx.font='12px EmberwatchKorean';ctx.textAlign='center';for(const n of [...(townPortalCandidate(state)?[townPortalCandidate(state)]:[]),...r.npcs,...r.portals.filter(x=>(!x.gate?.startsWith('furnace_')||state.world.objectives.furnace_accepted===1)&&(!x.gate?.startsWith('tomb_')||state.world.objectives.tomb_accepted===1)&&(!x.gate?.startsWith('battlefield_')||state.world.objectives.battlefield_accepted===1)&&(!x.gate?.startsWith('wilderness_')||state.world.objectives.wilderness_accepted===1)).map(x=>({...x,name:x.id.includes('wilderness')?wildernessView(state,'portal',x.id).name:x.gate?.startsWith('battlefield_')?battlefieldPortalLabel(state,x):x.gate?.startsWith('tomb_')?tombPortalLabel(state,x):x.name})),...r.objects.filter(o=>['dungeon','quarry','pass','signal','furnace','tomb','battlefield','wilderness'].includes(o.type)&&near(battle.p,o,230)).map(o=>({...o,name:o.type==='wilderness'?wildernessView(state,'object',o.id).name:(o.type==='battlefield'?battlefieldObjectView:o.type==='tomb'?tombObjectView:o.type==='furnace'?furnaceObjectView:o.type==='signal'?signalObjectView:o.type==='pass'?passObjectView:o.type==='quarry'?quarryObjectView:dungeonObjectView)(state,o).name}))]){const q=projectWorld(n.x,n.y),x=canvas.width*.5+(q.x-focus.x)*ISO.zoom,y=canvas.height*.55+(q.y-focus.y)*ISO.zoom;const text=n.kind==='townPortal'?(lineOfSight(battle.map,battle.p,n)&&near(battle.p,n,160)&&!sceneVisibility?.combat?n.name:null):sceneVisibility?sceneVisibility.landmarkLabel(n):n.name;if(!text)continue;if(sceneVisibility&&x-60<canvas.width*.5+25&&x+60>canvas.width*.5-25&&y-74<canvas.height*.55+8&&y-53>canvas.height*.55-64)continue;ctx.fillStyle='#121725cc';ctx.fillRect(x-60,y-74,120,21);ctx.fillStyle=n.to?'#a2d5d3':'#ead09e';ctx.fillText(text,x,y-60);}ctx.restore();}
+ async function loadArt(){const images={motion:{}};const load=(path,set)=>new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>{set(image);resolve();};image.onerror=()=>reject(new Error(path));image.src=path;});await Promise.all([...['environment','hero','enemy'].map(k=>load(ART[k].file,i=>images[k]=i)),load(MOTION_ASSETS.hero.file,i=>images.motion.hero=i),load('assets/motion-warrior-axe.png',i=>images.axe=i)]);renderer=createVisualRenderer(ctx,ART,images);await document.fonts.ready;showTitle();}
+ let hudTimer=0;
+-function frame(now){let qaStepped=false,qaMove=null,qaFailed=false;const suspended=frameWasSuspended(now,last),dt=frameDelta(now,last);last=now;
++function frame(now){const qaStartedAt=frameObservation.enabled?performance.now():null,qaPreviousRaf=last;let qaStepped=false,qaMove=null,qaFailed=false;const suspended=frameWasSuspended(now,last),dt=frameDelta(now,last);last=now;
+  try{
+-  if(frameObservation.enabled)frameObservation.beginFrame(now,{hasBattle:!!battle,paused,busy,awaitingAdvance:battle?.awaitingAdvance,combat:battle?.enemies.some(e=>e.active&&e.hp>0),moving:battle?.p.moving,hidden:document.hidden,focused:document.hasFocus()});
++  if(frameObservation.enabled)frameObservation.beginFrame(now,{hasBattle:!!battle,paused,busy,awaitingAdvance:battle?.awaitingAdvance,combat:battle?.enemies.some(e=>e.active&&e.hp>0),moving:battle?.p.moving,hidden:document.hidden,focused:document.hasFocus(),visibilityState:document.visibilityState,focusEpoch:focusEvents.safetyEpoch??0,runtimePreviousRafTimestampMs:qaPreviousRaf,callbackStartedAtMs:qaStartedAt});
+   if(battle&&renderer){
+-   if(!paused&&(document.hidden||!document.hasFocus()||suspended)){showMenu(document.hidden?'게임 탭이 숨겨짐':!document.hasFocus()?'브라우저 포커스가 벗어남':'화면 처리가 0.5초 이상 중단됨',{safety:true});}
++   if(frameObservation.enabled)frameObservation.beginPhase('safety');
++   if(!paused&&(document.hidden||!document.hasFocus()||suspended)){if(frameObservation.enabled)frameObservation.markSafetyStop(document.hidden?'hidden':!document.hasFocus()?'blur':'frame-gap');showMenu(document.hidden?'게임 탭이 숨겨짐':!document.hasFocus()?'브라우저 포커스가 벗어남':'화면 처리가 0.5초 이상 중단됨',{safety:true});}
+    flushActionSafety();
+    flushDeferredSkills();
+    const deferred=deferredImmediate.flush({now:performance.now(),life:battle.stateLife,region:battle.region,busy,paused,blocked:gate.blocked,lifeDown:state.world.lifeDown||battle.p.hp<=0,focused:document.hasFocus(),hidden:document.hidden},immediateAction);
+    if(deferred.status==='expired')toast('저장 처리가 늦어 입력을 취소했습니다. 다시 눌러 주세요.');
++   if(frameObservation.enabled)frameObservation.endPhase('safety');
+    if(paused)menuTime+=dt;
+    if(gate.canStep({hasBattle:!!battle,paused,busy:busy||expertSafety.pending,hidden:document.hidden,focused:document.hasFocus()}))stepContextClick(dt);
+-   if(gate.canStep({hasBattle:!!battle,paused,busy,hidden:document.hidden,focused:document.hasFocus()})){if(battle.awaitingAdvance)arrivalWaitTime+=dt;else displayTime+=dt;const expired=[...router.expirePending(performance.now()),...skillCapture.expirePending(performance.now())];if(expired.length){inputLatency.clear('save-input-expired');toast('저장 대기가 길어 입력을 취소했습니다. 다시 눌러 주세요.');}const routed=sampledCombatInput();
++   if(gate.canStep({hasBattle:!!battle,paused,busy,hidden:document.hidden,focused:document.hasFocus()})){if(battle.awaitingAdvance)arrivalWaitTime+=dt;else displayTime+=dt;const expired=[...router.expirePending(performance.now()),...skillCapture.expirePending(performance.now())];if(expired.length){inputLatency.clear('save-input-expired');toast('저장 대기가 길어 입력을 취소했습니다. 다시 눌러 주세요.');}if(frameObservation.enabled)frameObservation.beginPhase('input');const routed=sampledCombatInput();if(frameObservation.enabled)frameObservation.endPhase('input');
+     if(battle.awaitingAdvance&&routed.heal&&state.character.skills.lay_on_hands)toast('진입 안전대기 중 · 이동 또는 공격한 뒤 치유를 사용하세요.');
+     poeFeedback.step(dt);frameObservation.beginPhase('step');const events=stepBattle(battle,state.character,dt,routed);frameObservation.endPhase('step');qaStepped=true;qaMove=routed.move;
+     if(battle.enemies.some(e=>e.active&&e.hp>0))combatTime+=dt;if(battle.p.moving)walkTime+=dt;if(!battle.awaitingAdvance)combatSaveElapsed+=dt;
+-    deliverCombatEvents(events);
++    if(frameObservation.enabled)frameObservation.beginPhase('events');deliverCombatEvents(events);if(frameObservation.enabled)frameObservation.endPhase('events');
+    }
++   if(frameObservation.enabled)frameObservation.beginPhase('scene');
+    const sceneVisibility=wildernessSceneVisibility(battle,{objectives:state.world.objectives,objectView:o=>wildernessView(state,'object',o.id),portalView:o=>wildernessView(state,'portal',o.id)})??signalSceneVisibility(battle,{objectives:state.world.objectives,objectView:o=>signalObjectView(state,o)});
+    const r=getRegion(battle.region),objects=[...r.objects.map(o=>({...o,type:o.type==='dungeon'?({record:'bird',crank:'barrel',rune:'orb',inlet:'shrine',outlet:'shrine',flow:'shrine',lift:'shrine',bell:'relic',core:'relic',store:'chest'}[o.actionKind]):['quarry','pass','signal','furnace','tomb','battlefield','wilderness'].includes(o.type)?(o.visualType??'relic'):o.type,used:o.type==='wilderness'?wildernessView(state,'object',o.id).completed:o.type==='battlefield'?battlefieldObjectView(state,o).completed:o.type==='tomb'?tombObjectView(state,o).completed:['quarry','pass','signal','furnace','tomb','battlefield','wilderness'].includes(o.type)?(o.type==='battlefield'?battlefieldObjectView:o.type==='tomb'?tombObjectView:o.type==='furnace'?furnaceObjectView:o.type==='signal'?signalObjectView:o.type==='pass'?passObjectView:quarryObjectView)(state,o).actions.length===0:o.type==='dungeon'&&['crank','core'].includes(o.actionKind)&&dungeonObjectView(state,o).actions.length===0,open:state.world.claimedRewards.includes('chest:'+o.id)||(o.actionKind==='store'&&state.world.claimedRewards.includes('r4:store'))})),...r.npcs.map(o=>({...o,type:'shrine'})),...r.portals.filter(o=>(!o.gate?.startsWith('furnace_')||state.world.objectives.furnace_accepted===1)&&(!o.gate?.startsWith('tomb_')||state.world.objectives.tomb_accepted===1)&&(!o.gate?.startsWith('battlefield_')||state.world.objectives.battlefield_accepted===1)&&(!o.gate?.startsWith('wilderness_')||state.world.objectives.wilderness_accepted===1)).map(o=>({...o,type:o.to==='ash_hamlet'?'return':'exit'}))];
+    if(contactTrace.enabled)contactTrace.observe(battle,{stepped:qaStepped,move:qaMove,entityVisible:sceneVisibility?.entityVisible});
++   if(frameObservation.enabled)frameObservation.endPhase('scene');
+    frameObservation.beginPhase('render');
+    const renderObservation=inputLatency.renderEntered(battle.p.action,battle.p.presentationPose);
+    renderer.render({width:canvas.width,height:canvas.height,regionId:battle.region,map:battle.map,p:battle.p,entities:battle.enemies,objects,sceneVisibility,seen:sceneVisibility?.seen,wardCarried:tombWardCarried(state),moveDestination:battle.moveDestination,presentationPose:battle.p.presentationPose,poeInput:isPoeControls(config()),poeFeedback:poeFeedback.snapshot(),banner:battle.banner,areas:battle.areas,shots:battle.shots,effects:battle.effects,floaters:battle.floaters,time:battle.time,shake:battle.shake*state.options.screenShake,reduced:state.options.flashes===0,flashScale:state.options.flashes,stats:battle.stats,classId:'warrior',targetId:battle.targetId,cleanView:true,townPortal:visibleTownPortal(),wallTimeMs:townPortalNow()});inputLatency.renderReturned(renderObservation);drawLabels(sceneVisibility);if(contactTrace.enabled)contactTrace.draw(ctx,{width:canvas.width,height:canvas.height,focus:battle.p,time:battle.time,shake:battle.shake*state.options.screenShake});if(contextClick.active){const q=contextProjection(contextClick.target);ctx.save();ctx.strokeStyle='#f1d697';ctx.lineWidth=2;ctx.beginPath();for(const dx of [-1,1]){ctx.moveTo(q.x+dx*16,q.y-5);ctx.lineTo(q.x+dx*21,q.y);ctx.lineTo(q.x+dx*16,q.y+5);}ctx.stroke();ctx.restore();}
+    frameObservation.endPhase('render');
++   if(frameObservation.enabled)frameObservation.beginPhase('audio');
+    audio.tick(dt,{paused,scene:battle.region==='ash_hamlet'?'town':'dungeon',combat:battle.enemies.some(e=>e.active&&e.hp>0)?1:0});
++   if(frameObservation.enabled)frameObservation.endPhase('audio');
+    frameObservation.beginPhase('ui');
+    const n=nearest(),targeted=battle.enemies.find(e=>e.id===battle.targetId&&e.hp>0);$('hint').textContent=!paused&&battle.skillIntent?`${({shield_charge:'돌진',righteous_hammer:'망치',lay_on_hands:'온기',judgement:'단죄',battle_banner:'깃발',zealous_onslaught:'진격'}[battle.skillIntent.id])} 예약 · ${isPoeControls(config())?'가드/다른 기술/상호작용으로 취소':'가드/반대 조준/상호작용으로 취소'}`:battle.awaitingAdvance&&!paused?`이동하거나 공격하면 전투가 시작됩니다 · ${keyName('pause')}로 조작 안내`:!paused&&n?`${keyName('interact')} · ${n.name??'상자 열기'}`:!paused&&targeted?`조준 · ${FOES[targeted.kind].name}${targeted.kind.startsWith('wilderness_')&&FOES[targeted.kind].tags.includes('undead')?' · 망자':''}`:'';hudTimer+=dt;if(hudTimer>.1){updateHud();hudTimer=0;}frameObservation.endPhase('ui');
+   }
+--- a/app/src/recovery-page.js
++++ b/app/src/recovery-page.js
+@@ -2,7 +2,7 @@
+ import {candidateNamespace} from './candidate-profile.js';
+ import {createUpgradeBackupUi} from './upgrade-backup-ui.js';
+ import {createPortableCheckpointUi} from './portable-checkpoint-ui.js';
+-export const RECOVERY_BUILD='R14a14';
++export const RECOVERY_BUILD='R14a15';
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ export function recoveryNamespace(pathname){
+  if(['/recovery','/recovery.html','/save-recovery','/save-recovery/','/save-recovery/index','/save-recovery/index.html'].includes(pathname))return 'release';
+--- a/app/tests/build-label-ui.test.mjs
++++ b/app/tests/build-label-ui.test.mjs
+@@ -41,6 +41,6 @@
+ 
+ test('R14 app, project, index metadata and build kind share the same bounded candidate identity',()=>{
+  const pkg=JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8')),project=JSON.parse(readFileSync(new URL('../../project.json',import.meta.url),'utf8')),index=readFileSync(new URL('../src/index.html',import.meta.url),'utf8'),build=readFileSync(new URL('../scripts/build-r14.mjs',import.meta.url),'utf8');
+- assert.equal(pkg.version,'0.14.0-reimplementation.14');assert.equal(project.version,pkg.version);assert.equal(project.id,'emberwatch-reborn');assert.equal(project.projectRoot,'projects/EmberwatchReborn');assert.ok(project.summary.includes(label));assert.ok(index.includes('Reborn '+label+':'));assert.ok(build.includes("kind:'"+label+' POE-style input candidate'));assert.match(build,/Browser\/FX\/play acceptance is independent of build/);
++ assert.equal(pkg.version,'0.14.0-reimplementation.15');assert.equal(project.version,pkg.version);assert.equal(project.id,'emberwatch-reborn');assert.equal(project.projectRoot,'projects/EmberwatchReborn');assert.ok(project.summary.includes(label));assert.ok(index.includes('Reborn '+label+':'));assert.ok(build.includes("kind:'"+label+' POE-style input candidate'));assert.match(build,/Browser\/FX\/play acceptance is independent of build/);
+  assert.match(readFileSync(new URL('../scripts/build.mjs',import.meta.url),'utf8'),/Master, advanced gear, live repeat expeditions and whole campaign incomplete/);
+ });
+--- a/app/tests/expert-main-input.test.mjs
++++ b/app/tests/expert-main-input.test.mjs
+@@ -10,7 +10,7 @@
+ // Actual production frame, browser event handlers, safety coordinator and store.
+ // DOM/render/audio boundaries are probes. Earned predecessor travel/defeats are
+ // scripted fixtures, not native key/browser gameplay or pixel/quality evidence.
+-async function ui({promoted=true,skills=[],poeMode=null,runMode='combined',realInteractions=false,audioResult=false,renderDuration=0,realNotice=false,candidate=true}={}){
++async function ui({promoted=true,skills=[],poeMode=null,runMode='combined',realInteractions=false,audioResult=false,renderDuration=0,realNotice=false,candidate=true,phaseCosts={}}={}){
+  let s=promoted?fixture():earnedTombRoute('normal',{full:true});
+  for(const skillId of skills){const r=reduceRuntime(s,{type:'purchaseSkill',skillId,position:{x:260,y:325}});assert.equal(r.ok,true,skillId);s=r.state;}
+  if(poeMode)s=reduceRuntime(s,{type:'setControls',controls:imports.poeControlPreset(s.options.controls,poeMode,runMode)}).state;
+@@ -24,11 +24,12 @@
+  const router=imports.createInputRouter({captureAttackTap:true,now:()=>now}),expertCapture=imports.createExpertInputCapture(),skillCapture=imports.createSkillLoadoutInput({now:()=>now}),allSkillCapture={clear(reason){expertCapture.clear(reason);skillCapture.clear(reason);},reset(options){expertCapture.reset(options);skillCapture.reset(options);}},expertSafety=imports.createActionSafety({capture:allSkillCapture,cancel:imports.cancelBattleAction}),gate=imports.createRuntimeGate();
+  const env={...imports,townPortalPreview:null,state:controller.snapshot(),battle:imports.createBattle(s),controller,router,expertCapture,skillCapture,expertSafety,gate,modal,canvas,document,window:{addEventListener:(n,f)=>wh[n]=f},$,paused:false,busy:false,captureBinding:null,suppressNextClick:false,combatSaveElapsed:0,contextClick:imports.createContextClickIntent(),contextSuppressHeld:false,releasedAimBySkill:{},locomotionIntent:imports.createLocomotionIntent(),poeFeedback:imports.createPoeFeedback(),inputFeedback:null,inputLatency:imports.createInputLatency({now:()=>now}),contactTrace:imports.createContactTrace(),frameObservation:imports.createFrameObservation({now:()=>now}),deferredImmediate:imports.createImmediateInput(),input:{pointerScreen:null},last:0,hudTimer:0,displayTime:0,combatTime:0,walkTime:0,menuTime:0,arrivalWaitTime:0,noticeUntil:0,lastObjectiveHtml:'',profile:'qa-r11-main-input',candidate,saveNamespace:'qa-r11',focusEvents:{},pauseReason:'',
+  ctx:{save(){},restore(){},beginPath(){},moveTo(){},lineTo(){},stroke(){},closePath(){},setLineDash(){},fillText(){}},renderer:{render:r=>{renderClocks.push({at:now,observations:env.inputLatency.snapshot()});rendered.push(r);now+=renderDuration;}},drawLabels(){},audio:{cancel(tag){audioCancellations.push(tag);},play(...args){audioRequests.push({args,at:now});return audioResult;},pause(){},tick(){}},requestAnimationFrame(){},toast:t=>toasts.push(t),interact:()=>toasts.push('INTERACT'),applyBinding(){},showControls(){},showDeath(){},performance:{now:()=>now},console:{error(error){throw error;}}};
++ const observedEnd=env.frameObservation.endPhase;env.frameObservation.endPhase=name=>{if(env.frameObservation.enabled)now+=phaseCosts[name]??0;return observedEnd(name);};
+  const funcs=['openTownPortal','visibleTownPortal',...(realNotice?['toast','showDeath']:[]),...(realInteractions?['interact']:[]),'wildernessView','interactionCandidates','contextSceneVisibility','contextProjection','contextIsVisible','contextHasLabel','beginContextOrGroundClick','stepContextClick','showSkillSlots','flushDeferredSkills','showInputObservations','showQaObservations','showControls','beginBinding','applyBinding','updateHud','effectText','checkpointPanel','showTraining','showActionSlots','showNpc','nearest','showInputFeedback','clearInputFeedback','clearInput','flushActionSafety','acceptCombatPress','currentPoeAim','sampledCombatInput','deliverCombatAudio','deliverCombatEvents','flushFreshCombatInput','releaseCombatToken','panel','closePanel','report','syncVitals','dispatch','immediateAction','showMenu','frame'];
+  const program=[cut('const actionSkill=','const tierLabel='),cut('const esc=','function clearInput('),cut('const config=','let controller='),cut('const tierLabel=','const focusEvents='),...funcs.map(fn),cut("document.addEventListener('click',","document.addEventListener('change',"),cut("document.addEventListener('change',","$('menuButton').onclick"),cut("window.addEventListener('keydown'","function resize("),`return {frame,toast,showDeath,get noticeUntil(){return noticeUntil},deliverCombatEvents,interactionCandidates,contextProjection,get contextClick(){return contextClick},showControls,showSkillSlots,showInputObservations,closePanel,updateHud,clearInput,sampledCombatInput,flushActionSafety,dispatch,report,showTraining,showActionSlots,get inputObservations(){return inputLatency.snapshot()},get state(){return state},get battle(){return battle},get busy(){return busy},get paused(){return paused},get capture(){return expertCapture},get gate(){return gate},get controller(){return controller}};`].join('\n');
+  const app=new Function(...Object.keys(env),program)(...Object.values(env));let now=0;
+  const event=(code,extra={})=>({code,target:canvas,preventDefault(){},stopImmediatePropagation(){},repeat:false,ctrlKey:false,altKey:false,metaKey:false,...extra});
+- return {app,contactTrace:env.contactTrace,frameObservation:env.frameObservation,notice:$('toast'),router,expertCapture,skillCapture,expertSafety,gate,modal,document,buttons,ch,wh,dh,toasts,async click(action,fields={}){const target={dataset:{action,...fields},disabled:false};return dh.click({target:{closest:()=>target},detail:1,preventDefault(){},stopPropagation(){}});},rendered,renderClocks,audioRequests,audioCancellations,store,data,key:(code,extra)=>wh.keydown(event(code,extra)),up:code=>wh.keyup(event(code)),async frame(dt=.016){now+=dt*1000;app.frame(now);await next();},delay(){delayed=true;},fail(result={ok:false,code:'QUOTA',reason:'fixture'}){failure=result;},async finish(failed=false){pending(failed?{ok:false,code:"QUOTA",reason:"fixture"}:undefined);pending=null;await next();}};
++ return {app,boundaries:env,setRenderDuration:value=>{renderDuration=value;},async frameAt(raf,enteredAt=raf){now=enteredAt;app.frame(raf);await next();},contactTrace:env.contactTrace,frameObservation:env.frameObservation,notice:$('toast'),router,expertCapture,skillCapture,expertSafety,gate,modal,document,buttons,ch,wh,dh,toasts,async click(action,fields={}){const target={dataset:{action,...fields},disabled:false};return dh.click({target:{closest:()=>target},detail:1,preventDefault(){},stopPropagation(){}});},rendered,renderClocks,audioRequests,audioCancellations,store,data,key:(code,extra)=>wh.keydown(event(code,extra)),up:code=>wh.keyup(event(code)),async frame(dt=.016){now+=dt*1000;app.frame(now);await next();},delay(){delayed=true;},fail(result={ok:false,code:'QUOTA',reason:'fixture'}){failure=result;},async finish(failed=false){pending(failed?{ok:false,code:"QUOTA",reason:"fixture"}:undefined);pending=null;await next();}};
+ }
+ test('real key press/frame/checkpoint charges Onslaught once; OS repeat/hold does not restart',async()=>{const h=await ui(),start=h.app.battle.p.stamina;h.key('Digit2');await h.frame();assert.equal(h.app.battle.p.action.id,'zealous_onslaught');assert.equal(h.app.battle.p.stamina,start-9);assert.equal(h.store.load().state.recovery.cooldowns.zealous_onslaught,10);const id=h.app.battle.p.action.castId;h.key('Digit2',{repeat:true});await h.frame();assert.equal(h.app.battle.p.action.castId,id);assert.equal(h.app.battle.p.action.paidSeconds,1);});
+ test('actual release after paid pulse resolves exactly one Lance and persists stop',async()=>{const h=await ui();h.key('Digit2');for(let n=0;n<38;n++)await h.frame();assert.ok(h.app.battle.p.action.pulses>=1);h.up('Digit2');await h.frame();assert.equal(h.app.battle.p.action,null);assert.equal(h.app.battle.events.filter(e=>e.type==='lanceResolved').length,1);assert.ok(h.store.load().state.recovery.lock>0);h.up('Digit2');await h.frame();assert.equal(h.app.battle.events.filter(e=>e.type==='lanceResolved').length,0);});
+@@ -457,3 +458,36 @@
+  const h=await ui({poeMode:'wasd'}),before=structuredClone(h.store.load());h.fail({ok:false,code:'COMMIT_UNCERTAIN',reason:'fixture uncertain commit'});await h.frame(.501);await next();assert.equal(h.gate.blocked,true);assert.equal(h.modal.safetyPause,false);assert.match(h.modal.innerHTML,/data-action="reload"/);assert.doesNotMatch(h.modal.innerHTML,/data-action="safety-menu"/);assert.deepEqual(h.store.load(),before);
+  h.key('Escape');assert.equal(h.app.paused,true);assert.equal(h.modal.hidden,false);
+ });
++
++
++// R14a15: synthetic costs establish attribution contracts, never browser/GPU performance.
++test('R14a15 real >500ms stop retains distinct previous/current callback costs and actual pause',async()=>{
++ const h=await ui({poeMode:'wasd',renderDuration:200});h.frameObservation.setEnabled(true);h.key('KeyD');await h.frameAt(100,105);h.setRenderDuration(3);const time=h.app.battle.time;await h.frameAt(701,730);
++ const i=h.frameObservation.snapshot().stallDiagnostics.incidents[0];assert.equal(i.previous.rafTimestampMs,100);assert.equal(i.previous.callbackStartedAtMs,105);assert.equal(i.previous.totalMs,200);assert.equal(i.current.rafIntervalMs,601);assert.equal(i.current.callbackStartedAtMs,730);assert.equal(i.current.totalMs,3);assert.equal(i.current.phaseMs.render,3);assert.equal(i.current.phaseMs.step,null);assert.equal(i.current.safetyStop,'frame-gap');assert.equal(i.current.context.focused,true);assert.equal(i.current.context.hidden,false);assert.equal(i.sincePreviousCallbackEndMs,425);
++ assert.equal(h.app.battle.time,time);assert.equal(h.app.paused,true);assert.equal(h.modal.safetyPause,true);assert.doesNotMatch(h.modal.innerHTML,/data-action="observe-panel"/);
++});
++test('R14a15 real 500ms boundary neither pauses nor creates a strict-gap incident; 501ms does',async()=>{
++ const h=await ui({poeMode:'wasd',renderDuration:1});h.frameObservation.setEnabled(true);await h.frameAt(100);await h.frameAt(600);assert.equal(h.app.paused,false);assert.equal(h.frameObservation.snapshot().stallDiagnostics.incidents.length,0);await h.frameAt(1101);assert.equal(h.app.paused,true);assert.equal(h.frameObservation.snapshot().stallDiagnostics.incidents[0].current.runtimeIntervalMs,501);
++});
++test('R14a15 real cheap callbacks with delayed entry retain unexplained separation without assigning GPU cost',async()=>{
++ const h=await ui({poeMode:'wasd',renderDuration:2});h.frameObservation.setEnabled(true);await h.frameAt(100,103);await h.frameAt(800,920);const i=h.frameObservation.snapshot().stallDiagnostics.incidents[0];assert.equal(i.previous.totalMs,2);assert.equal(i.current.totalMs,2);assert.equal(i.sincePreviousCallbackEndMs,815);assert.equal(i.current.runtimeIntervalMs,700);
++});
++test('R14a15 real nonoverlapping phase brackets include scene, event/save entry, safety, audio tick and aim',async()=>{
++ const phaseCosts={step:1,scene:2,render:3,audio:4,ui:5,events:6,safety:7,input:8},h=await ui({poeMode:'wasd',phaseCosts});h.frameObservation.setEnabled(true);h.key('KeyD');await h.frameAt(100);const row=h.frameObservation.snapshot().samples[0];for(const [name,value] of Object.entries(phaseCosts)){assert.equal(row.phaseMs[name],value,name);assert.equal(row.phaseStatus[name],'ok',name);}assert.equal(row.totalMs,36);assert.equal(row.otherMs,0);
++});
++test('R14a15 real diagnostics ON/OFF preserve movement/combat, queues, saves and long-gap cancellation',async()=>{
++ const on=await ui({poeMode:'wasd',renderDuration:1}),off=await ui({poeMode:'wasd',renderDuration:1});on.frameObservation.setEnabled(true);
++ for(const h of [on,off]){h.key('KeyD');mouseDown(h,2);assert.equal(h.app.battle.p.action?.id,'righteous_hammer');assert.equal(h.app.battle.castSerial,1);}await next();
++ for(const raf of [100,116,132,148,164,700]){await on.frameAt(raf);await off.frameAt(raf);assert.deepEqual(on.app.report(),off.app.report());assert.deepEqual(JSON.parse(JSON.stringify(on.app.battle)),JSON.parse(JSON.stringify(off.app.battle)));assert.deepEqual(on.store.load(),off.store.load());assert.equal(on.app.controller.revision(),off.app.controller.revision());assert.equal(on.app.paused,off.app.paused);assert.equal(on.router.hasPendingCombat(),off.router.hasPendingCombat());}
++ assert.equal(on.frameObservation.snapshot().stallDiagnostics.incidents.length,1);assert.equal(off.frameObservation.snapshot().sampleCount,0);
++});
++for(const [name,context] of [['hidden',{hidden:true,visibilityState:'hidden'}],['blur',{hasFocus:()=>false}]])test(`R14a15 real ${name} frame retains prior/current context and unchanged safety pause`,async()=>{
++ const h=await ui({poeMode:'wasd',renderDuration:1});h.frameObservation.setEnabled(true);await h.frameAt(100);Object.assign(h.document,context);await h.frameAt(701);const i=h.frameObservation.snapshot().stallDiagnostics.incidents[0];assert.equal(i.previous.context.hidden,false);assert.equal(i.previous.context.focused,true);assert.equal(i.current.safetyStop,name);assert.equal(h.app.paused,true);assert.equal(h.modal.safetyPause,true);
++});
++test('R14a15 real QA UI retains gap after long menu and next resume, with refresh never clearing evidence',async()=>{
++ const h=await ui({poeMode:'wasd',renderDuration:1});h.frameObservation.setEnabled(true);await h.frameAt(100);await h.frameAt(701);await h.click('safety-menu');await h.click('observe-panel');assert.match(h.modal.innerHTML,/601.00ms/);assert.match(h.modal.innerHTML,/audio.tick/);assert.match(h.modal.innerHTML,/직전 \/ 현재 콜백/);assert.match(h.modal.innerHTML,/유휴\/GPU 시간으로 해석하지/);
++ for(let n=1;n<=260;n++)await h.frameAt(701+n*16);await h.click('observe-refresh');assert.equal(h.frameObservation.snapshot().stallDiagnostics.incidents.length,1);assert.match(h.modal.innerHTML,/601.00ms/);h.app.closePanel();await h.frameAt(4880);await h.click('observe-panel');assert.equal(h.frameObservation.snapshot().stallDiagnostics.incidents.length,1);await h.click('observe-clear');assert.equal(h.frameObservation.snapshot().stallDiagnostics.incidents.length,0);
++});
++test('R14a15 actual failed render retains incomplete frame evidence and existing recovery panel',async()=>{
++ const h=await ui({poeMode:'wasd',renderDuration:1});h.frameObservation.setEnabled(true);await h.frameAt(100);h.boundaries.renderer.render=()=>{throw Error('synthetic render failure');};const errors=[];h.boundaries.console.error=e=>errors.push(e);await h.frameAt(701);const row=h.frameObservation.snapshot().stallDiagnostics.incidents[0].current;assert.equal(row.workStatus,'failed');assert.equal(row.phaseStatus.render,'incomplete');assert.equal(row.totalMs,null);assert.equal(row.otherMs,null);assert.equal(errors.length,1);assert.equal(h.gate.blocked,true);assert.match(h.modal.innerHTML,/data-action="reload"/);
++});
+--- a/app/tests/frame-observation.test.mjs
++++ b/app/tests/frame-observation.test.mjs
+@@ -32,7 +32,7 @@
+ test('rAF scheduling interval, total JS, step, render and UI remain distinct clocks',()=>{
+  const f=fixture();frame(f,100,active,{start:400});frame(f,120,active,{start:700,step:3,render:7,ui:2,rest:4});
+  const s=f.probe.snapshot(),row=s.samples[1];
+- assert.equal(row.rafIntervalMs,20);assert.equal(row.totalMs,16);assert.deepEqual(row.phaseMs,{step:3,render:7,ui:2});
++ assert.equal(row.rafIntervalMs,20);assert.equal(row.totalMs,16);assert.deepEqual(row.phaseMs,{step:3,render:7,ui:2,scene:null,audio:null,events:null,safety:null,input:null});
+  assert.equal(s.active.rafInterval.n,1);assert.equal(s.active.total.n,2);assert.equal(s.active.rafInterval.p50Ms,20);
+  assert.match(s.measurement,/not GPU, display, audio, or physical input latency/);
+ });
+--- /dev/null
++++ b/app/tests/frame-stall-diagnostics.test.mjs
+@@ -0,0 +1,59 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import {createFrameObservation} from '../src/frame-observation.js';
++const active={hasBattle:true,paused:false,busy:false,hidden:false,focused:true,visibilityState:'visible',focusEpoch:0};
++function fixture(options={}){let clock=0;const probe=createFrameObservation({enabled:true,now:()=>clock,...options});return {probe,set:n=>{clock=n;}};}
++function frame(f,raf,{context=active,start=raf,costs={step:1,scene:2,render:3,audio:4,ui:5,events:6,safety:7},rest=8,runtimePreviousRafTimestampMs,failed=false,safetyStop=null}={}){
++ let at=start;f.set(at);f.probe.beginFrame(raf,{...context,runtimePreviousRafTimestampMs,callbackStartedAtMs:start});
++ if(safetyStop)f.probe.markSafetyStop(safetyStop);
++ for(const [name,cost] of Object.entries(costs)){f.probe.beginPhase(name);f.set(at+=cost);f.probe.endPhase(name);}
++ f.set(at+rest);f.probe.endFrame({failed});return f.probe.snapshot();
++}
++test('exact long-gap incident retains previous and current callback and rAF clocks with disjoint costs',()=>{
++ const f=fixture();frame(f,100,{start:104});const s=frame(f,701,{start:720,runtimePreviousRafTimestampMs:100});
++ const incident=s.stallDiagnostics.incidents[0];assert.equal(incident.previous.rafTimestampMs,100);assert.equal(incident.current.previousRafTimestampMs,100);assert.equal(incident.current.rafTimestampMs,701);assert.equal(incident.current.rafIntervalMs,601);
++ assert.equal(incident.current.callbackStartedAtMs,720);assert.equal(incident.current.callbackEndedAtMs,756);assert.equal(incident.current.totalMs,36);assert.deepEqual(incident.previous.phaseMs,{step:1,render:3,ui:5,scene:2,audio:4,events:6,safety:7,input:null});assert.equal(incident.current.otherMs,8);assert.equal(incident.sincePreviousCallbackEndMs,580);assert.equal(incident.current.runtimeIntervalMs,601);assert.equal(incident.current.runtimeSuspended,true);
++ assert.equal(s.active.total.n,1,'long-gap work remains excluded from normal statistics');assert.equal(s.stallDiagnostics.totalIncidents,1);
++});
++test('500ms observation boundary is separate from strict runtime >500ms safety condition',()=>{
++ const f=fixture();frame(f,0);frame(f,500,{runtimePreviousRafTimestampMs:0});let s=f.probe.snapshot();assert.equal(s.stallDiagnostics.incidents.length,0);assert.equal(s.samples.at(-1).runtimeSuspended,false);assert.equal(s.samples.at(-1).safetyStop,null);
++ s=frame(f,1001,{runtimePreviousRafTimestampMs:500,safetyStop:'frame-gap'});assert.equal(s.stallDiagnostics.incidents[0].current.runtimeSuspended,true);assert.equal(s.stallDiagnostics.incidents[0].current.safetyStop,'frame-gap');
++});
++test('runtime reset reference is distinct from previous observed rAF and is not called a safety stop',()=>{
++ const f=fixture();frame(f,100);const s=frame(f,800,{runtimePreviousRafTimestampMs:790});const row=s.stallDiagnostics.incidents[0].current;assert.equal(row.previousRafTimestampMs,100);assert.equal(row.runtimePreviousRafTimestampMs,790);assert.equal(row.runtimeIntervalMs,10);assert.equal(row.runtimeSuspended,false);assert.equal(row.safetyStop,null);
++});
++test('first observed callback can retain an actual runtime gap with no invented previous observed sample',()=>{
++ const f=fixture();const s=frame(f,900,{runtimePreviousRafTimestampMs:100,safetyStop:'frame-gap'}),i=s.stallDiagnostics.incidents[0];assert.equal(i.previous,null);assert.equal(i.current.rafStatus,'warmup');assert.equal(i.current.runtimeIntervalMs,800);assert.equal(i.current.previousRafTimestampMs,null);
++});
++test('incidents outlive full menu-ring eviction and a fresh active segment',()=>{
++ const f=fixture({limit:2});frame(f,0);frame(f,501,{runtimePreviousRafTimestampMs:0});for(let n=1;n<=300;n++)frame(f,501+n*16,{context:{...active,paused:true}});frame(f,5400);const s=f.probe.snapshot();assert.equal(s.sampleCount,2);assert.equal(s.lastActive.segment,2);assert.equal(s.stallDiagnostics.incidents.length,1);assert.equal(s.stallDiagnostics.incidents[0].previous.rafTimestampMs,0);
++});
++test('incident ring has fixed 12-pair retention and tracks eviction without per-frame growth',()=>{
++ const f=fixture({limit:1});for(let n=0;n<30;n++)frame(f,n*501);const d=f.probe.snapshot().stallDiagnostics;assert.equal(d.capacity,12);assert.equal(d.totalIncidents,29);assert.equal(d.evictedIncidents,17);assert.equal(d.incidents.length,12);assert.equal(d.incidents[0].current.sequence,19);assert.equal(d.incidents.at(-1).current.sequence,30);
++});
++test('before/current focus and visibility are immutable bounded context without profile or user data',()=>{
++ const f=fixture();frame(f,0);const context={...active,focused:false,hidden:true,visibilityState:'hidden',focusEpoch:2,profile:'PRIVATE',location:'PRIVATE'};const s=frame(f,600,{context}),i=s.stallDiagnostics.incidents[0];assert.deepEqual(i.previous.context,{hidden:false,focused:true,visibilityState:'visible',focusEpoch:0});assert.deepEqual(i.current.context,{hidden:true,focused:false,visibilityState:'hidden',focusEpoch:2});assert.doesNotMatch(JSON.stringify(s),/PRIVATE/);context.visibilityState='forged';assert.equal(i.current.context.visibilityState,'hidden');
++ i.previous.context.focused=false;i.current.phaseMs.audio=999;const d=f.probe.snapshot().stallDiagnostics;assert.equal(d.incidents[0].previous.context.focused,true);assert.equal(d.incidents[0].current.phaseMs.audio,4);
++});
++test('invalid visibility and focus values are unknown rather than coerced trusted values',()=>{
++ const f=fixture();const s=frame(f,0,{context:{hasBattle:true,hidden:'false',focused:1,visibilityState:'private arbitrary text',focusEpoch:Infinity}});assert.deepEqual(s.samples[0].context,{hidden:null,focused:null,visibilityState:null,focusEpoch:null});
++});
++test('failed or incomplete callbacks retain diagnostic status without invented residual',()=>{
++ const f=fixture();frame(f,0);let s=frame(f,601,{failed:true});assert.equal(s.stallDiagnostics.incidents[0].current.workStatus,'failed');assert.equal(s.stallDiagnostics.incidents[0].current.otherMs,null);
++ f.set(1300);f.probe.beginFrame(1300,active);f.probe.beginPhase('scene');f.set(1304);f.probe.endFrame();s=f.probe.snapshot();assert.equal(s.stallDiagnostics.incidents.at(-1).current.phaseStatus.scene,'incomplete');assert.equal(s.stallDiagnostics.incidents.at(-1).current.otherMs,null);
++});
++test('abandoned callback never attaches an older completed callback as the immediate predecessor',()=>{
++ const f=fixture();frame(f,0);f.set(16);f.probe.beginFrame(16,active);const s=frame(f,700);assert.equal(s.stallDiagnostics.incidents[0].previous,null);assert.equal(s.stallDiagnostics.incidents[0].current.previousRafTimestampMs,16);
++});
++test('clear/travel/profile/reload/disable remove retained incidents and no work is recorded while OFF',()=>{
++ for(const reason of ['manual','travel','profile-load','reload']){const f=fixture();frame(f,0);frame(f,501);f.probe.clear(reason);const d=f.probe.snapshot().stallDiagnostics;assert.equal(d.incidents.length,0);assert.equal(d.totalIncidents,0);}
++ const f=fixture();frame(f,0);frame(f,501);f.probe.setEnabled(false);assert.equal(f.probe.markSafetyStop('frame-gap'),false);frame(f,1002);assert.equal(f.probe.snapshot().stallDiagnostics.incidents.length,0);
++});
++test('diagnostic entry timestamp includes pre-begin preparation in total and residual time',()=>{
++ const f=fixture();f.set(110);f.probe.beginFrame(100,{...active,callbackStartedAtMs:102});f.probe.beginPhase('render');f.set(113);f.probe.endPhase('render');f.set(116);f.probe.endFrame();const row=f.probe.snapshot().samples[0];assert.equal(row.callbackStartedAtMs,102);assert.equal(row.totalMs,14);assert.equal(row.phaseMs.render,3);assert.equal(row.otherMs,11);
++});
++
++test('rejected current entry clock or invalid previous callback cannot fabricate between-callback time',()=>{
++ const f=fixture();frame(f,0,{costs:{render:2},rest:8});f.set(600);f.probe.beginFrame(600,{...active,callbackStartedAtMs:700});f.set(610);f.probe.endFrame();let i=f.probe.snapshot().stallDiagnostics.incidents[0];assert.equal(i.current.workStatus,'invalid-entry-clock');assert.equal(i.sincePreviousCallbackEndMs,null);
++ const g=fixture();g.set(10);g.probe.beginFrame(0,active);g.probe.beginPhase('step');g.set(5);g.probe.endPhase('step');g.set(20);g.probe.endFrame();i=frame(g,601).stallDiagnostics.incidents[0];assert.equal(i.previous.workStatus,'backwards');assert.equal(i.sincePreviousCallbackEndMs,null);
++});
+--- a/app/tests/tomb-ui-integration.test.mjs
++++ b/app/tests/tomb-ui-integration.test.mjs
+@@ -276,7 +276,7 @@
+ });
+ 
+ test('actual R11 candidate title separates observed Normal T from unqualified Expert/B and offers R10 forward copy',async()=>{
+- const h=await browser(stage('predecessor'),{namespace:'qa-r11'});h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a14 · POE형 전사 입력 개발 후보/);assert.match(h.modal.innerHTML,/일반 조작으로 확인했습니다/);assert.match(h.modal.innerHTML,/마스터.*아직 완성되지 않았습니다/);assert.match(h.modal.innerHTML,/<option value="qa-r10">/);assert.match(h.modal.innerHTML,/전문가 승급.*일반 입력 검증 중/);assert.doesNotMatch(h.modal.innerHTML,/data-action="new"/);
++ const h=await browser(stage('predecessor'),{namespace:'qa-r11'});h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a15 · POE형 전사 입력 개발 후보/);assert.match(h.modal.innerHTML,/일반 조작으로 확인했습니다/);assert.match(h.modal.innerHTML,/마스터.*아직 완성되지 않았습니다/);assert.match(h.modal.innerHTML,/<option value="qa-r10">/);assert.match(h.modal.innerHTML,/전문가 승급.*일반 입력 검증 중/);assert.doesNotMatch(h.modal.innerHTML,/data-action="new"/);
+ });
+ 
+ for(const operation of ['accept','oath','report'])test(`actual T ${operation} synchronizes paid pools without rebuilding the live battle`,async()=>{
+--- a/app/tests/wilderness-ui-integration.test.mjs
++++ b/app/tests/wilderness-ui-integration.test.mjs
+@@ -171,7 +171,7 @@
+  loaded.ui.closePanel();loaded.ui.battle.p.hp=0;assert.equal(await loaded.ui.dispatch({type:'settleCombat',defeated:[],...loaded.ui.report()}),true);const revision=loaded.ui.controller.revision(),dead=copy(loaded.ui.state);loaded.ui.showDeath();await loaded.click('retry');assert.equal(loaded.commands.findLast(c=>c.type==='retry').expectedStoreRevision,revision);assert.equal(loaded.ui.state.world.life,dead.world.life+1);assert.equal(loaded.ui.state.stats.deaths,dead.stats.deaths);assert.equal(loaded.ui.state.world.objectives.wilderness_sequence_step,1);
+ });
+ test('current candidate title offers explicit R11 forward-copy without changing source profile',async()=>{
+- const h=await browser(earnedBattlefield());h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a14/);assert.match(h.modal.innerHTML,/<option value="qa-r11">이전 R11 후보 QA/);assert.match(h.modal.innerHTML,/일반 입력 검증은 아직 필요/);
++ const h=await browser(earnedBattlefield());h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a15/);assert.match(h.modal.innerHTML,/<option value="qa-r11">이전 R11 후보 QA/);assert.match(h.modal.innerHTML,/일반 입력 검증은 아직 필요/);
+ });
+ test('W Eda capture waits for busy paid Onslaught then durable safety cancellation before exposing a command',async()=>{
+  const h=await browser(earnedBattlefield());h.move(trainer);assert.equal(await h.ui.dispatch({type:'purchaseSkill',skillId:'zealous_onslaught',position:trainer}),true);h.move(elder);const b=h.ui.battle,stamina=b.p.stamina;
+--- a/app/scripts/build-r14.mjs
++++ b/app/scripts/build-r14.mjs
+@@ -15,4 +15,4 @@
+ for(const name of files){const target=join(out,name);safeOutput(target);mkdirSync(dirname(target),{recursive:true});if(existsSync(target)&&lstatSync(target).isSymbolicLink())throw Error('Output symlink '+name);cpSync(join(src,name),target);}
+ safeOutput(join(out,'recovery/index.html'));mkdirSync(join(out,'recovery'),{recursive:true});writeFileSync(join(out,'recovery/index.html'),readFileSync(join(src,'recovery.html'),'utf8').replace('href="style.css"','href="../style.css"').replace('src="recovery-entry-r14.js"','src="../recovery-entry-r14.js"'));files.push('recovery/index.html');
+ const entries=files.map(path=>{const b=readFileSync(join(out,path));return {path,bytes:b.length,sha256:createHash('sha256').update(b).digest('hex')};});
+-const manifest={version:JSON.parse(readFileSync(join(base,'package.json'))).version,namespace:'qa-r14',kind:'R14a14 POE-style input candidate. Browser/FX/play acceptance is independent of build.',files:entries};writeFileSync(previous,JSON.stringify(manifest,null,2)+'\n');console.log(JSON.stringify({output:out,files:entries.length,bytes:entries.reduce((s,x)=>s+x.bytes,0),version:manifest.version}));
++const manifest={version:JSON.parse(readFileSync(join(base,'package.json'))).version,namespace:'qa-r14',kind:'R14a15 POE-style input candidate. Browser/FX/play acceptance is independent of build.',files:entries};writeFileSync(previous,JSON.stringify(manifest,null,2)+'\n');console.log(JSON.stringify({output:out,files:entries.length,bytes:entries.reduce((s,x)=>s+x.bytes,0),version:manifest.version}));
+--- a/app/package.json
++++ b/app/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "emberwatch-reborn",
+-  "version": "0.14.0-reimplementation.14",
++  "version": "0.14.0-reimplementation.15",
+   "private": true,
+   "type": "module",
+   "scripts": {
+--- a/project.json
++++ b/project.json
+@@ -4,8 +4,8 @@
+   "status": "prototype",
+   "type": "demo",
+   "runtime": "static-artifact",
+-  "version": "0.14.0-reimplementation.14",
+-  "summary": "R14a14 안전정지 메뉴 분리 후보: 긴 프레임 간격·포커스 이탈로 정지하면 재개 또는 전체 메뉴 진입을 명시 선택. 기존 전투 표현·수치·포탈·세이브·0.5초 안전 기준 보존. 프레임 중단 원인과 실제 품질은 별도 검증.",
++  "version": "0.14.0-reimplementation.15",
++  "summary": "R14a15 긴 프레임 간격 진단 후보: 직전/현재 rAF·동기 콜백 세부 비용과 표시/포커스 상태를 기본 OFF 메모리 진단으로 보존. 실제 500ms 초과 안전정지·입력·전투·렌더·음향 모델은 유지. 중단 원인과 실제 품질은 미확정.",
+   "tags": [
+     "game",
+     "action-rpg",
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -34,3 +34,7 @@
+ 
+ ## R14a14 current candidate
+ Independent safety-dialog containment from frozen a13. Read docs/verification-r14a14 before claiming acceptance. No rendering-performance fix is asserted: native QA observed rAF stalls, and isolated paired full-scene benchmarking remains incomplete. Keep frameWasSuspended >500ms, frameDelta clamp, input cancellation, original art, balances, saves, and portal semantics byte-identical. Safety-origin pauses expose only Continue and explicit full-menu acknowledgement; voluntary menu and keyboard access remain unchanged. Git/publication remain coordinator-owned after results review.
++
++
++## R14a15 current diagnostic candidate
++Independent diagnostic-only candidate from frozen a14. Read docs/verification-r14a15 before claiming acceptance. No stall cause or performance fix is asserted. Preserve strict runtime >500ms safety pause, dt clamp, input clearing, simulation, render/audio models, AI/FX and save behavior. The optional frame observer keeps 12 strict-long-gap pairs and displays six only on QA panel open/refresh. All clocks/phase costs are synchronous browser observations, not GPU/speaker/input-latency evidence. No nativeCanvas or isolated Chromium retry is authorized. Git and publication remain coordinator-owned.
+--- a/README.md
++++ b/README.md
+@@ -84,3 +84,9 @@
+ 
+ 
+ Final R14a12: **4,138/4,138 unique tests**, 0 fail/skip/cancel, 118393.823682ms; app lint and static build passed (120 files, 16,697,741 bytes), with every built source hash verified. Includes the a11 baseline 4,081 plus 57 new (41 hitstop-intent, 16 impact-direction). The portal 79 and combat 95 focused counts are included, not added again. Actual native-browser/input/FX/audio acceptance, Git and public Site publication remain separate.
++
++
++## R14a15 diagnostic candidate
++This independent candidate adds exact long-gap observations; it does not resolve or attribute the native stalls. In candidate QA: open menu → 접속 기록 · 입력 / QA → QA 접점 / 프레임 관측 → 프레임 기록 켜기, resume, and use ordinary movement/combat. On a safety stop choose 전체 메뉴 열기 explicitly, then reopen QA. The new “500ms 초과 간격 진단” section retains 12 pairs, displays six, and expands previous/current costs. “표시 새로고침” only updates the read-only view. Preserve the actual stop; do not raise the protection threshold.
++
++See docs/verification-r14a15/README.md for test results, interpretation limits and the native-browser handoff. Browser/listening acceptance and causal attribution remain open. No Git or deployment is included in this preparation.
+--- a/brief.md
++++ b/brief.md
+@@ -224,3 +224,7 @@
+ Independent copy of frozen a13. Safety-origin pauses require an explicit choice before exposing ordinary menu actions. Voluntary pause, keyboard/focus access, the >500 ms threshold, cancellation and gameplay/save/art contracts remain unchanged. This addresses incidental later clicks entering a full menu; QA did not observe an actual allocation change. The cause of observed long rAF gaps is still under investigation and this change is not a claimed rendering fix. Final verification is recorded separately in docs/verification-r14a14.
+ 
+ Final a14 automatic verification: 4,338/4,338 tests (4,312 prior + 26 new), zero failures/skips/cancellations; lint and build passed. Build 124 files / 16,729,021 bytes, 123 source-copy hashes verified. All rendering/audio/gameplay/timing models and 14 original assets remain byte-identical to a13. Native a14 browser acceptance and coordinated Git/archive/publication are pending.
++
++
++## R14a15 exact long-gap observation
++Repeated a13 native rAF safety pauses were not represented in the existing normal-frame QA statistics. This independent a14-based candidate exposes the exact >500ms incident and preceding completed callback, retained across long menus and resumed active segments. It instruments input/aim, step, event delivery and synchronous save entry, scene preparation, render, audio tick, HUD and safety processing, with an explicit unbracketed residual. This is observation-only, default OFF, in-memory, bounded to 12 pairs, and does not send telemetry. Runtime >500ms protection, dt clamp and every gameplay/render/audio model remain unchanged. Device, GC, browser scheduling, GPU and sound causes remain undetermined.
+--- a/spec.md
++++ b/spec.md
+@@ -306,3 +306,12 @@
+ Independent copy of frozen a13. Safety-origin pauses require an explicit choice before exposing ordinary menu actions. Voluntary pause, keyboard/focus access, the >500 ms threshold, cancellation and gameplay/save/art contracts remain unchanged. This addresses incidental later clicks entering a full menu; QA did not observe an actual allocation change. The cause of observed long rAF gaps is still under investigation and this change is not a claimed rendering fix. Final verification is recorded separately in docs/verification-r14a14.
+ 
+ Final a14 automatic verification: 4,338/4,338 tests (4,312 prior + 26 new), zero failures/skips/cancellations; lint and build passed. Build 124 files / 16,729,021 bytes, 123 source-copy hashes verified. All rendering/audio/gameplay/timing models and 14 original assets remain byte-identical to a13. Native a14 browser acceptance and coordinated Git/archive/publication are pending.
++
++
++## R14a15 long-gap diagnosis contract
++- Keep normal-frame observer's historical >=500ms exclusion separate from the unchanged runtime strict >500ms guard. New incident retention is strict >500ms in observed rAF interval or runtime reference interval. A rAF gap may be observed while already paused; do not call every gap an actual safety pause.
++- Capture previous/current rAF timestamps and the runtime last reference independently, because closePanel resets runtime last to performance.now(). Capture the actual callback safety branch and entry hidden/focused/visibility state plus focus-event epoch. No profile, URLs, input tokens or arbitrary context strings enter the records.
++- Capture callback entry before frame context/preparation, end immediately before observer bookkeeping and rAF scheduling. Preserve previous completed callback and current callback costs separately. Null/invalid phases and failed or invalid-clock frames must not become zero costs. Derived between-callback elapsed is null unless both callback clocks are valid.
++- New disjoint phases: safety flush/queued dispatch, sampled input/aim, event delivery including audio requests/synchronous save entry, scene visibility/objects/contact preparation, audio.tick. Existing step/render/HUD brackets remain. Other equals valid observed total minus valid nonoverlapping phases. Async save continuations, other event handlers, browser scheduling, GC attribution, compositor/GPU and speaker output are not separately measured.
++- Memory bound: existing 240-frame active tail/all-context default ring plus a separate 12-pair incident ring and one previous completed callback. Expose last six incidents on explicit panel open/refresh; no automatic UI refresh, JSON serialization, DOM/canvas readback, unbounded logging or telemetry in frame recording. Manual clear/OFF/profile/travel/reload retain existing reset boundaries.
++- Existing safety dialog still owns all input. New QA refresh is candidate-only and cannot bypass the safety dialog's explicit full-menu acknowledgement. No gameplay timing/input/AI/FX/audio/render/save model changes.
+--- a/eval.md
++++ b/eval.md
+@@ -422,3 +422,11 @@
+ Independent copy of frozen a13. Safety-origin pauses require an explicit choice before exposing ordinary menu actions. Voluntary pause, keyboard/focus access, the >500 ms threshold, cancellation and gameplay/save/art contracts remain unchanged. This addresses incidental later clicks entering a full menu; QA did not observe an actual allocation change. The cause of observed long rAF gaps is still under investigation and this change is not a claimed rendering fix. Final verification is recorded separately in docs/verification-r14a14.
+ 
+ Final a14 automatic verification: 4,338/4,338 tests (4,312 prior + 26 new), zero failures/skips/cancellations; lint and build passed. Build 124 files / 16,729,021 bytes, 123 source-copy hashes verified. All rendering/audio/gameplay/timing models and 14 original assets remain byte-identical to a13. Native a14 browser acceptance and coordinated Git/archive/publication are pending.
++
++
++## R14a15 diagnostic evaluation
++The final regression set adds 22 unique cases: 13 observer cases and 9 extracted production-main/handler cases. The exact final cases fail 22/22 against unchanged a14 source and pass after the patch. Synthetic clocks and boundary stubs validate clock separation, bracket attribution, bounded retention, failure evidence and model/input/store parity; they are not native performance measurements. The initial main test failure arose from fixture async-save settling, function identity comparison and a nonexistent test-only router.sample call; the test harness was corrected without changing gameplay or weakening data parity.
++
++The independent review identified invalid between-callback duration after a rejected current entry/previous backwards clock. The patch now leaves this derived duration null unless both observed callbacks have valid work clocks, with a new regression. Native stalls and their causes remain unverified in a15. Final aggregate/lint/build and preservation results are recorded in docs/verification-r14a15/final-summary.json.
++
++Initial R14a15 aggregate 4,358/4,360 found two unchanged scene source-extraction checks whose `audio.tick` line anchor had moved into the diagnostic bracket line. Restoring the original separate audio.tick line fixed both focused checks, without changing their assertions or runtime semantics. The final aggregate runs after this format correction and the strengthened real right-click accepted-cast precondition.
+--- a/changelog.md
++++ b/changelog.md
+@@ -88,3 +88,9 @@
+ Independent copy of frozen a13. Safety-origin pauses require an explicit choice before exposing ordinary menu actions. Voluntary pause, keyboard/focus access, the >500 ms threshold, cancellation and gameplay/save/art contracts remain unchanged. This addresses incidental later clicks entering a full menu; QA did not observe an actual allocation change. The cause of observed long rAF gaps is still under investigation and this change is not a claimed rendering fix. Final verification is recorded separately in docs/verification-r14a14.
+ 
+ Final a14 automatic verification: 4,338/4,338 tests (4,312 prior + 26 new), zero failures/skips/cancellations; lint and build passed. Build 124 files / 16,729,021 bytes, 123 source-copy hashes verified. All rendering/audio/gameplay/timing models and 14 original assets remain byte-identical to a13. Native a14 browser acceptance and coordinated Git/archive/publication are pending.
++
++
++## R14a15 — exact frame-gap diagnostics (independent candidate)
++- Retain the last 12 strict >500ms incident pairs across menus and new active segments; display six in the existing optional QA panel. Include previous/current rAF and runtime reference, callback start/end, per-phase costs, residual and focus/visibility state.
++- Add guarded, nonoverlapping synchronous phase probes for scene, audio.tick, safety, event/save entry and input/aim. No stall/performance fix or browser acceptance claimed.
++- Add 13 observer and 9 actual-main regressions with pre-change failures; protect runtime 500/501ms boundary, cancellation, save/gameplay parity, clock rejection, bounded retention and read-only UI.

@@ -41,6 +41,6 @@ test('optional read-only status registration reports the same build before and a
 
 test('R14 app, project, index metadata and build kind share the same bounded candidate identity',()=>{
  const pkg=JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8')),project=JSON.parse(readFileSync(new URL('../../project.json',import.meta.url),'utf8')),index=readFileSync(new URL('../src/index.html',import.meta.url),'utf8'),build=readFileSync(new URL('../scripts/build-r14.mjs',import.meta.url),'utf8');
- assert.equal(pkg.version,'0.14.0-reimplementation.14');assert.equal(project.version,pkg.version);assert.equal(project.id,'emberwatch-reborn');assert.equal(project.projectRoot,'projects/EmberwatchReborn');assert.ok(project.summary.includes(label));assert.ok(index.includes('Reborn '+label+':'));assert.ok(build.includes("kind:'"+label+' POE-style input candidate'));assert.match(build,/Browser\/FX\/play acceptance is independent of build/);
+ assert.equal(pkg.version,'0.14.0-reimplementation.15');assert.equal(project.version,pkg.version);assert.equal(project.id,'emberwatch-reborn');assert.equal(project.projectRoot,'projects/EmberwatchReborn');assert.ok(project.summary.includes(label));assert.ok(index.includes('Reborn '+label+':'));assert.ok(build.includes("kind:'"+label+' POE-style input candidate'));assert.match(build,/Browser\/FX\/play acceptance is independent of build/);
  assert.match(readFileSync(new URL('../scripts/build.mjs',import.meta.url),'utf8'),/Master, advanced gear, live repeat expeditions and whole campaign incomplete/);
 });

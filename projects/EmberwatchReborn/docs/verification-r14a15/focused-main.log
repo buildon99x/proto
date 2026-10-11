@@ -1,0 +1,17 @@
+✔ R14a15 real >500ms stop retains distinct previous/current callback costs and actual pause (2297.809432ms)
+✔ R14a15 real 500ms boundary neither pauses nor creates a strict-gap incident; 501ms does (161.110936ms)
+✔ R14a15 real cheap callbacks with delayed entry retain unexplained separation without assigning GPU cost (188.559777ms)
+✔ R14a15 real nonoverlapping phase brackets include scene, event/save entry, safety, audio tick and aim (111.236777ms)
+✔ R14a15 real diagnostics ON/OFF preserve movement/combat, queues, saves and long-gap cancellation (645.708782ms)
+✔ R14a15 real hidden frame retains prior/current context and unchanged safety pause (150.486641ms)
+✔ R14a15 real blur frame retains prior/current context and unchanged safety pause (148.27115ms)
+✔ R14a15 real QA UI retains gap after long menu and next resume, with refresh never clearing evidence (326.179621ms)
+✔ R14a15 actual failed render retains incomplete frame evidence and existing recovery panel (164.531662ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4418.501504

@@ -1,0 +1,21 @@
+{
+  "baseline": "R14a14 independent frozen candidate",
+  "sourceTotal": 125,
+  "sourceChanged": [
+    "app/src/frame-observation.js",
+    "app/src/index.html",
+    "app/src/main.js",
+    "app/src/recovery-page.js"
+  ],
+  "sourceUnchanged": 121,
+  "protectedModelModulesUnchanged": true,
+  "assetsByteIdentical": true,
+  "assetCount": 14,
+  "buildFiles": 124,
+  "buildBytes": 16737071,
+  "builtSourceHashesVerified": 123,
+  "mainSha256": "8430cbe5e0e216cbdd04adde35484c79fa701c361e983dfb54bad9cf470adabd",
+  "observerSha256": "8b30bbd513cbf4df6fe81f4734100cebbceb849e47f467038e601b6bb3400969",
+  "manifestSha256": "60fc9edb3361a0e10bd3d099b3d9f72dc8ba10a7e65b69fb2db16fa91f749e49",
+  "baselineMainSha256": "dd9ef09fedf7fafd45959024f92fd6d052baf1ff0042b62d852a1095be6c0d7d"
+}

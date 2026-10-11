@@ -1,0 +1,180 @@
+✖ exact long-gap incident retains previous and current callback and rAF clocks with disjoint costs (2.447739ms)
+✖ 500ms observation boundary is separate from strict runtime >500ms safety condition (0.513053ms)
+✖ runtime reset reference is distinct from previous observed rAF and is not called a safety stop (1.383687ms)
+✖ first observed callback can retain an actual runtime gap with no invented previous observed sample (0.258063ms)
+✖ incidents outlive full menu-ring eviction and a fresh active segment (10.836382ms)
+✖ incident ring has fixed 12-pair retention and tracks eviction without per-frame growth (0.698279ms)
+✖ before/current focus and visibility are immutable bounded context without profile or user data (0.338113ms)
+✖ invalid visibility and focus values are unknown rather than coerced trusted values (1.893055ms)
+✖ failed or incomplete callbacks retain diagnostic status without invented residual (0.324312ms)
+✖ abandoned callback never attaches an older completed callback as the immediate predecessor (0.384361ms)
+✖ clear/travel/profile/reload/disable remove retained incidents and no work is recorded while OFF (0.559191ms)
+✖ diagnostic entry timestamp includes pre-begin preparation in total and residual time (0.43693ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 0
+ℹ fail 12
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 110.108886
+
+✖ failing tests:
+
+test at app/tests/frame-stall-diagnostics.test.mjs:12:1
+✖ exact long-gap incident retains previous and current callback and rAF clocks with disjoint costs (2.447739ms)
+  TypeError: Cannot read properties of undefined (reading 'incidents')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-frame-stall-diagnostics/app/tests/frame-stall-diagnostics.test.mjs:14:36)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+
+test at app/tests/frame-stall-diagnostics.test.mjs:18:1
+✖ 500ms observation boundary is separate from strict runtime >500ms safety condition (0.513053ms)
+  TypeError: Cannot read properties of undefined (reading 'incidents')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-frame-stall-diagnostics/app/tests/frame-stall-diagnostics.test.mjs:19:135)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at app/tests/frame-stall-diagnostics.test.mjs:22:1
+✖ runtime reset reference is distinct from previous observed rAF and is not called a safety stop (1.383687ms)
+  TypeError: Cannot read properties of undefined (reading 'incidents')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-frame-stall-diagnostics/app/tests/frame-stall-diagnostics.test.mjs:23:119)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at app/tests/frame-stall-diagnostics.test.mjs:25:1
+✖ first observed callback can retain an actual runtime gap with no invented previous observed sample (0.258063ms)
+  TypeError: f.probe.markSafetyStop is not a function
+      at frame (file:///workspace/shared/emberwatch-frame-stall-diagnostics/app/tests/frame-stall-diagnostics.test.mjs:8:24)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-frame-stall-diagnostics/app/tests/frame-stall-diagnostics.test.mjs:26:28)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at app/tests/frame-stall-diagnostics.test.mjs:28:1
+✖ incidents outlive full menu-ring eviction and a fresh active segment (10.836382ms)
+  TypeError: Cannot read properties of undefined (reading 'incidents')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-frame-stall-diagnostics/app/tests/frame-stall-diagnostics.test.mjs:29:302)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at app/tests/frame-stall-diagnostics.test.mjs:31:1
+✖ incident ring has fixed 12-pair retention and tracks eviction without per-frame growth (0.698279ms)
+  TypeError: Cannot read properties of undefined (reading 'capacity')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-frame-stall-diagnostics/app/tests/frame-stall-diagnostics.test.mjs:32:124)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at app/tests/frame-stall-diagnostics.test.mjs:34:1
+✖ before/current focus and visibility are immutable bounded context without profile or user data (0.338113ms)
+  TypeError: Cannot read properties of undefined (reading 'incidents')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-frame-stall-diagnostics/app/tests/frame-stall-diagnostics.test.mjs:35:210)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at app/tests/frame-stall-diagnostics.test.mjs:38:1
+✖ invalid visibility and focus values are unknown rather than coerced trusted values (1.893055ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - {
+  -   focusEpoch: null,
+  -   focused: null,
+  -   hidden: null,
+  -   visibilityState: null
+  - }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-frame-stall-diagnostics/app/tests/frame-stall-diagnostics.test.mjs:39:159)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { hidden: null, focused: null, visibilityState: null, focusEpoch: null },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/frame-stall-diagnostics.test.mjs:41:1
+✖ failed or incomplete callbacks retain diagnostic status without invented residual (0.324312ms)
+  TypeError: Cannot read properties of undefined (reading 'incidents')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-frame-stall-diagnostics/app/tests/frame-stall-diagnostics.test.mjs:42:96)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at app/tests/frame-stall-diagnostics.test.mjs:45:1
+✖ abandoned callback never attaches an older completed callback as the immediate predecessor (0.384361ms)
+  TypeError: Cannot read properties of undefined (reading 'incidents')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-frame-stall-diagnostics/app/tests/frame-stall-diagnostics.test.mjs:46:124)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at app/tests/frame-stall-diagnostics.test.mjs:48:1
+✖ clear/travel/profile/reload/disable remove retained incidents and no work is recorded while OFF (0.559191ms)
+  TypeError: Cannot read properties of undefined (reading 'incidents')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-frame-stall-diagnostics/app/tests/frame-stall-diagnostics.test.mjs:49:190)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at app/tests/frame-stall-diagnostics.test.mjs:52:1
+✖ diagnostic entry timestamp includes pre-begin preparation in total and residual time (0.43693ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  undefined !== 102
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-frame-stall-diagnostics/app/tests/frame-stall-diagnostics.test.mjs:53:235)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 102,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

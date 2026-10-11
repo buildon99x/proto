@@ -1,0 +1,102 @@
+✖ R14a15 real >500ms stop retains distinct previous/current callback costs and actual pause (1852.024954ms)
+✖ R14a15 real 500ms boundary neither pauses nor creates a strict-gap incident; 501ms does (103.356734ms)
+✖ R14a15 real cheap callbacks with delayed entry retain unexplained separation without assigning GPU cost (151.254969ms)
+✖ R14a15 real nonoverlapping phase brackets include scene, event/save entry, safety, audio tick and aim (93.620915ms)
+✖ R14a15 real diagnostics ON/OFF preserve movement/combat, queues, saves and long-gap cancellation (710.215012ms)
+✖ R14a15 real hidden frame retains prior/current context and unchanged safety pause (147.214214ms)
+✖ R14a15 real blur frame retains prior/current context and unchanged safety pause (140.258967ms)
+✖ R14a15 real QA UI retains gap after long menu and next resume, with refresh never clearing evidence (142.734436ms)
+✖ R14a15 actual failed render retains incomplete frame evidence and existing recovery panel (152.332446ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 0
+ℹ fail 9
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3653.852687
+
+✖ failing tests:
+
+test at ../emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:464:1
+✖ R14a15 real >500ms stop retains distinct previous/current callback costs and actual pause (1852.024954ms)
+  TypeError: Cannot read properties of undefined (reading 'incidents')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:466:56)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at ../emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:469:1
+✖ R14a15 real 500ms boundary neither pauses nor creates a strict-gap incident; 501ms does (103.356734ms)
+  TypeError: Cannot read properties of undefined (reading 'incidents')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:470:224)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at ../emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:472:1
+✖ R14a15 real cheap callbacks with delayed entry retain unexplained separation without assigning GPU cost (151.254969ms)
+  TypeError: Cannot read properties of undefined (reading 'incidents')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:473:194)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at ../emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:475:1
+✖ R14a15 real nonoverlapping phase brackets include scene, event/save entry, safety, audio tick and aim (93.620915ms)
+  AssertionError [ERR_ASSERTION]: scene
+  
+  undefined !== 2
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:476:307)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:478:1
+✖ R14a15 real diagnostics ON/OFF preserve movement/combat, queues, saves and long-gap cancellation (710.215012ms)
+  TypeError: Cannot read properties of undefined (reading 'incidents')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:482:62)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at ../emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:484:111
+✖ R14a15 real hidden frame retains prior/current context and unchanged safety pause (147.214214ms)
+  TypeError: Cannot read properties of undefined (reading 'incidents')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:485:220)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at ../emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:484:111
+✖ R14a15 real blur frame retains prior/current context and unchanged safety pause (140.258967ms)
+  TypeError: Cannot read properties of undefined (reading 'incidents')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:485:220)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at ../emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:487:1
+✖ R14a15 real QA UI retains gap after long menu and next resume, with refresh never clearing evidence (142.734436ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /601.00ms/. Input:
+  
+  '<section class="panel wide" role="dialog" aria-modal="true" aria-labelledby="dialog-title" tabindex="-1"><h2 id="dialog-title">QA 접점 / 프레임 관측</h2><p class="warning">검증용 읽기 전용 표면입니다. 기본 OFF이며 현재 접속 메모리에만 남습니다. 진행·적·충돌을 변경하거나 외부로 전송하지 않습니다.</p><div class="buttons"><button data-action="observe-contact-toggle" >접점 표식 켜기</button><button data-action="observe-frame-toggle" >프레임 기록 끄기</button><button data-action="observe-clear" >관측 기록 비우기</button></div><p>접점 OFF · 최근 위치 0개 · 주변 몸 0개. 원은 실제 지면 충돌 몸, 점선은 표본 사이의 추정 궤적, 녹색은 엔진의 마지막 시뮬레이션 조각 경로입니다. 마름모는 거리/굴절에서 추정한 표시이며 충돌 이벤트나 벽 충돌 원인 확정이 아닙니다. 구르기 몸 반경0은 점으로 표시합니다.</p><p>프레임 기록 ON · 최근 최대240개. rAF 간격과 동기 JS 실행 비용을 구분합니다. GPU·물리 디스플레이·소리 지연은 측정하지 않습니다. 관측 자체의 비용도 포함됩니다. 500ms 이상 중단은 정규 통계에서 제외합니다. 메뉴/저장/진입대기는 교전 통계와 섞지 않습니다.</p><h3>마지막 활성 구간 · recording</h3><p class="minor">메뉴를 오래 열어도 직전 활성 구간은 최대240개 별도 보존됩니다. 새 활성 구간과 프로필/지역/재로드 변경 시 갱신·초기화합니다.</p><article class="skill"><strong>마지막 활성 구간</strong><p>rAF 간격: 미관측<br>동기 JS 전체: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>stepBattle: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>렌더+접점 표식: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>HUD: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%</p></article><article class="skill"><strong>idle</strong><p>rAF 간격: 미관측<br>동기 JS 전체: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>stepBattle: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>렌더+접점 표식: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>HUD: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%</p></article><h3>현재 전체 링</h3><article class="skill"><strong>활동 표본</strong><p>rAF 간격: 미관측<br>동기 JS 전체: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>stepBattle: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>렌더+접점 표식: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>HUD: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%</p></article><article class="skill"><strong>idle</strong><p>rAF 간격: 미관측<br>동기 JS 전체: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>stepBattle: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>렌더+접점 표식: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>HUD: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%</p></article><button data-action="menu" >돌아가기</button></section>'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:488:199)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<section class="panel wide" role="dialog" aria-modal="true" aria-labelledby="dialog-title" tabindex="-1"><h2 id="dialog-title">QA 접점 / 프레임 관측</h2><p class="warning">검증용 읽기 전용 표면입니다. 기본 OFF이며 현재 접속 메모리에만 남습니다. 진행·적·충돌을 변경하거나 외부로 전송하지 않습니다.</p><div class="buttons"><button data-action="observe-contact-toggle" >접점 표식 켜기</button><button data-action="observe-frame-toggle" >프레임 기록 끄기</button><button data-action="observe-clear" >관측 기록 비우기</button></div><p>접점 OFF · 최근 위치 0개 · 주변 몸 0개. 원은 실제 지면 충돌 몸, 점선은 표본 사이의 추정 궤적, 녹색은 엔진의 마지막 시뮬레이션 조각 경로입니다. 마름모는 거리/굴절에서 추정한 표시이며 충돌 이벤트나 벽 충돌 원인 확정이 아닙니다. 구르기 몸 반경0은 점으로 표시합니다.</p><p>프레임 기록 ON · 최근 최대240개. rAF 간격과 동기 JS 실행 비용을 구분합니다. GPU·물리 디스플레이·소리 지연은 측정하지 않습니다. 관측 자체의 비용도 포함됩니다. 500ms 이상 중단은 정규 통계에서 제외합니다. 메뉴/저장/진입대기는 교전 통계와 섞지 않습니다.</p><h3>마지막 활성 구간 · recording</h3><p class="minor">메뉴를 오래 열어도 직전 활성 구간은 최대240개 별도 보존됩니다. 새 활성 구간과 프로필/지역/재로드 변경 시 갱신·초기화합니다.</p><article class="skill"><strong>마지막 활성 구간</strong><p>rAF 간격: 미관측<br>동기 JS 전체: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>stepBattle: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>렌더+접점 표식: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>HUD: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%</p></article><article class="skill"><strong>idle</strong><p>rAF 간격: 미관측<br>동기 JS 전체: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>stepBattle: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>렌더+접점 표식: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>HUD: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%</p></article><h3>현재 전체 링</h3><article class="skill"><strong>활동 표본</strong><p>rAF 간격: 미관측<br>동기 JS 전체: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>stepBattle: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>렌더+접점 표식: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>HUD: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%</p></article><article class="skill"><strong>idle</strong><p>rAF 간격: 미관측<br>동기 JS 전체: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>stepBattle: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>렌더+접점 표식: 1개 · p50 1.00 / p95 1.00 / 최대 1.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%<br>HUD: 1개 · p50 0.00 / p95 0.00 / 최대 0.00ms · 16.7ms 초과 0.0% · 33.3ms 초과 0.0%</p></article><button data-action="menu" >돌아가기</button></section>',
+    expected: /601.00ms/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ../emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:491:1
+✖ R14a15 actual failed render retains incomplete frame evidence and existing recovery panel (152.332446ms)
+  TypeError: Cannot read properties of undefined (reading 'incidents')
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-a15-red-fixture/app/tests/expert-main-input.test.mjs:492:325)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

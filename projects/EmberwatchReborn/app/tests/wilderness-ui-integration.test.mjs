@@ -171,7 +171,7 @@ test('W journal prefix, paid recovery and receipts survive real reload; dead ret
  loaded.ui.closePanel();loaded.ui.battle.p.hp=0;assert.equal(await loaded.ui.dispatch({type:'settleCombat',defeated:[],...loaded.ui.report()}),true);const revision=loaded.ui.controller.revision(),dead=copy(loaded.ui.state);loaded.ui.showDeath();await loaded.click('retry');assert.equal(loaded.commands.findLast(c=>c.type==='retry').expectedStoreRevision,revision);assert.equal(loaded.ui.state.world.life,dead.world.life+1);assert.equal(loaded.ui.state.stats.deaths,dead.stats.deaths);assert.equal(loaded.ui.state.world.objectives.wilderness_sequence_step,1);
 });
 test('current candidate title offers explicit R11 forward-copy without changing source profile',async()=>{
- const h=await browser(earnedBattlefield());h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a14/);assert.match(h.modal.innerHTML,/<option value="qa-r11">이전 R11 후보 QA/);assert.match(h.modal.innerHTML,/일반 입력 검증은 아직 필요/);
+ const h=await browser(earnedBattlefield());h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a15/);assert.match(h.modal.innerHTML,/<option value="qa-r11">이전 R11 후보 QA/);assert.match(h.modal.innerHTML,/일반 입력 검증은 아직 필요/);
 });
 test('W Eda capture waits for busy paid Onslaught then durable safety cancellation before exposing a command',async()=>{
  const h=await browser(earnedBattlefield());h.move(trainer);assert.equal(await h.ui.dispatch({type:'purchaseSkill',skillId:'zealous_onslaught',position:trainer}),true);h.move(elder);const b=h.ui.battle,stamina=b.p.stamina;

@@ -34,3 +34,7 @@ Separate presentation integration from frozen R14a12. Read docs/verification-r14
 
 ## R14a14 current candidate
 Independent safety-dialog containment from frozen a13. Read docs/verification-r14a14 before claiming acceptance. No rendering-performance fix is asserted: native QA observed rAF stalls, and isolated paired full-scene benchmarking remains incomplete. Keep frameWasSuspended >500ms, frameDelta clamp, input cancellation, original art, balances, saves, and portal semantics byte-identical. Safety-origin pauses expose only Continue and explicit full-menu acknowledgement; voluntary menu and keyboard access remain unchanged. Git/publication remain coordinator-owned after results review.
+
+
+## R14a15 current diagnostic candidate
+Independent diagnostic-only candidate from frozen a14. Read docs/verification-r14a15 before claiming acceptance. No stall cause or performance fix is asserted. Preserve strict runtime >500ms safety pause, dt clamp, input clearing, simulation, render/audio models, AI/FX and save behavior. The optional frame observer keeps 12 strict-long-gap pairs and displays six only on QA panel open/refresh. All clocks/phase costs are synchronous browser observations, not GPU/speaker/input-latency evidence. No nativeCanvas or isolated Chromium retry is authorized. Git and publication remain coordinator-owned.

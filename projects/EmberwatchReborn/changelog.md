@@ -88,3 +88,9 @@ Move help controls before the guide; add labeled dialogs, bounded Tab focus, ver
 Independent copy of frozen a13. Safety-origin pauses require an explicit choice before exposing ordinary menu actions. Voluntary pause, keyboard/focus access, the >500 ms threshold, cancellation and gameplay/save/art contracts remain unchanged. This addresses incidental later clicks entering a full menu; QA did not observe an actual allocation change. The cause of observed long rAF gaps is still under investigation and this change is not a claimed rendering fix. Final verification is recorded separately in docs/verification-r14a14.
 
 Final a14 automatic verification: 4,338/4,338 tests (4,312 prior + 26 new), zero failures/skips/cancellations; lint and build passed. Build 124 files / 16,729,021 bytes, 123 source-copy hashes verified. All rendering/audio/gameplay/timing models and 14 original assets remain byte-identical to a13. Native a14 browser acceptance and coordinated Git/archive/publication are pending.
+
+
+## R14a15 — exact frame-gap diagnostics (independent candidate)
+- Retain the last 12 strict >500ms incident pairs across menus and new active segments; display six in the existing optional QA panel. Include previous/current rAF and runtime reference, callback start/end, per-phase costs, residual and focus/visibility state.
+- Add guarded, nonoverlapping synchronous phase probes for scene, audio.tick, safety, event/save entry and input/aim. No stall/performance fix or browser acceptance claimed.
+- Add 13 observer and 9 actual-main regressions with pre-change failures; protect runtime 500/501ms boundary, cancellation, save/gameplay parity, clock rejection, bounded retention and read-only UI.

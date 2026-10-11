@@ -84,3 +84,9 @@ Final R14a11: **4,081/4,081 unique tests**, 0 fail/skip/cancel, 117874.756099ms;
 
 
 Final R14a12: **4,138/4,138 unique tests**, 0 fail/skip/cancel, 118393.823682ms; app lint and static build passed (120 files, 16,697,741 bytes), with every built source hash verified. Includes the a11 baseline 4,081 plus 57 new (41 hitstop-intent, 16 impact-direction). The portal 79 and combat 95 focused counts are included, not added again. Actual native-browser/input/FX/audio acceptance, Git and public Site publication remain separate.
+
+
+## R14a15 diagnostic candidate
+This independent candidate adds exact long-gap observations; it does not resolve or attribute the native stalls. In candidate QA: open menu → 접속 기록 · 입력 / QA → QA 접점 / 프레임 관측 → 프레임 기록 켜기, resume, and use ordinary movement/combat. On a safety stop choose 전체 메뉴 열기 explicitly, then reopen QA. The new “500ms 초과 간격 진단” section retains 12 pairs, displays six, and expands previous/current costs. “표시 새로고침” only updates the read-only view. Preserve the actual stop; do not raise the protection threshold.
+
+See docs/verification-r14a15/README.md for test results, interpretation limits and the native-browser handoff. Browser/listening acceptance and causal attribution remain open. No Git or deployment is included in this preparation.

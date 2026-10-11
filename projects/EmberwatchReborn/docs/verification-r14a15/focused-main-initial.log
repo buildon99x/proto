@@ -1,0 +1,65 @@
+✔ R14a15 real >500ms stop retains distinct previous/current callback costs and actual pause (1786.709049ms)
+✔ R14a15 real 500ms boundary neither pauses nor creates a strict-gap incident; 501ms does (156.052011ms)
+✔ R14a15 real cheap callbacks with delayed entry retain unexplained separation without assigning GPU cost (144.899806ms)
+✔ R14a15 real nonoverlapping phase brackets include scene, event/save entry, safety, audio tick and aim (91.017545ms)
+✖ R14a15 real diagnostics ON/OFF preserve movement/combat, queues, saves and long-gap cancellation (295.994034ms)
+✔ R14a15 real hidden frame retains prior/current context and unchanged safety pause (150.193719ms)
+✔ R14a15 real blur frame retains prior/current context and unchanged safety pause (138.489573ms)
+✔ R14a15 real QA UI retains gap after long menu and next resume, with refresh never clearing evidence (265.643799ms)
+✔ R14a15 actual failed render retains incomplete frame evidence and existing recovery panel (167.207345ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3345.398779
+
+✖ failing tests:
+
+test at app/tests/expert-main-input.test.mjs:478:1
+✖ R14a15 real diagnostics ON/OFF preserve movement/combat, queues, saves and long-gap cancellation (295.994034ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      expectedStoreRevision: 2,
+      life: 0,
+      position: {
+  +     x: 260,
+  +     y: 325
+  -     x: 263.5001785668734,
+  -     y: 321.4998214331266
+      },
+      recovery: {
+        combatRng: {
+          draws: 0,
+          state: 1369781
+        },
+        cooldowns: {
+  +       righteous_hammer: 1
+  -       righteous_hammer: 0.95
+        },
+        innerFlame: null,
+        invuln: 0,
+  +     lock: 0.52,
+  +     manaDelay: 0.5,
+  -     lock: 0.47000000000000003,
+  -     manaDelay: 0.45,
+        negativeStatuses: {},
+        potionCooldown: 0,
+        procCooldownRanks: {},
+        procCooldowns: {},
+        regenBuff: null,
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-frame-stall-diagnostics/app/tests/expert-main-input.test.mjs:481:98)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { life: 0, position: { x: 260, y: 325 }, vitals: { hp: 115, mana: 55, stamina: 90 }, recovery: { version: 2, cooldowns: [Object], lock: 0.52, manaDelay: 0.5, staminaDelay: 0, invuln: 0, potionCooldown: 0, regenBuff: null, innerFlame: null, procCooldowns: {}, procCooldownRanks: {}, negativeStatuses: {}, combatRng: [Object] }, expectedStoreRevision: 2 },
+    expected: { life: 0, position: { x: 263.5001785668734, y: 321.4998214331266 }, vitals: { hp: 115, mana: 55, stamina: 90 }, recovery: { version: 2, cooldowns: [Object], lock: 0.47000000000000003, manaDelay: 0.45, staminaDelay: 0, invuln: 0, potionCooldown: 0, regenBuff: null, innerFlame: null, procCooldowns: {}, procCooldownRanks: {}, negativeStatuses: {}, combatRng: [Object] }, expectedStoreRevision: 2 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,10 @@
+✔ actual main frame supplies one S snapshot to live renderer, floor cues and labels at each map transition (9.246852ms)
+✔ actual main frame passes the same W snapshot to the renderer and canvas labels without changing live arrays (3154.922033ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3352.616853
