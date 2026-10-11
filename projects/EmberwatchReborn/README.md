@@ -1,3 +1,11 @@
+# R14a4 현재 체크포인트
+
+진격 채널의 실제 pulse에 FX를 연결하는 presentation 수정. 전체3,792 자동검사·lint·빌드 통과, 실제 후보 화면 비교는 미완료입니다. docs/verification-r14a4/README.md 참고.
+
+# R14a3 현재 체크포인트
+
+R14a2 실제 입력에서 찾은 관측·키 이름 표시 수정. 전체3,774 자동검사 통과, 정적 빌드 완료. R14a3 실제 후보 검증은 진행 전입니다. docs/verification-r14a3/README.md 참고.
+
 # Emberwatch Reborn — recovery reimplementation
 
 This new work surface starts from preserved original Emberwatch0.4.7, commit7240e49430ef34b08cc1f0ac332fb7912e135a4d. It is a reimplementation after the2026-10-09 environment incident, not recovery of the missing cedd0f2 Reborn source or its Git history.

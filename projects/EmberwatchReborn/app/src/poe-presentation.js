@@ -18,9 +18,19 @@ export function mobilityMotion(pose,actor=null){
  return null;
 }
 export function createPoeFeedback(){
- let particles=[];const seen=new Set();
- return {clear(){particles=[];seen.clear();},accept(events,p){
-  for(const e of events){if(e.type!=='actionContact'||!POE_FEEDBACK_STYLES[e.id])continue;const key=`${e.castId}:${e.id}`;if(seen.has(key))continue;seen.add(key);if(seen.size>96)seen.delete(seen.values().next().value);particles.push({skillId:e.id,castId:e.castId,x:p.x,y:p.y,angle:p.action?.angle??p.angle,life:.42,duration:.42});}
+ let particles=[];const seen=new Set(),channels=new Set();
+ return {clear(){particles=[];seen.clear();channels.clear();},accept(events,p){
+  for(const e of events){
+   // Onslaught emits real channelPulse events instead of actionContact. Track
+   // accepted casts so its last pulse still works when combat already ended it.
+   if(e.type==='actionStarted'&&e.id==='zealous_onslaught'){channels.add(e.castId);if(channels.size>96)channels.delete(channels.values().next().value);continue;}
+   if(e.type==='channelEnded'){channels.delete(e.castId);continue;}
+   const pulse=e.type==='channelPulse'&&channels.has(e.castId)&&Number.isInteger(e.index)&&e.index>0;
+   const id=pulse?'zealous_onslaught':e.type==='actionContact'?e.id:null;
+   if(!POE_FEEDBACK_STYLES[id])continue;
+   const key=`${e.castId}:${id}${pulse?`:pulse:${e.index}`:''}`;
+   if(seen.has(key))continue;seen.add(key);if(seen.size>96)seen.delete(seen.values().next().value);particles.push({skillId:id,castId:e.castId,x:p.x,y:p.y,angle:p.action?.angle??p.angle,life:.42,duration:.42});
+  }
   if(particles.length>12)particles=particles.slice(-12);
  },step(dt){if(!Number.isFinite(dt)||dt<0)return;particles=particles.map(e=>({...e,life:e.life-dt})).filter(e=>e.life>0);},snapshot(){return particles.map(e=>({...e}));}};
 }
@@ -39,7 +49,8 @@ export function drawPoeGroundFeedback(ctx,{player,pose,destination,feedback=[],p
   for(let i=0;i<2;i++){const o=polar(player,-i*10,angle);stroke([polar(o,length*.7,angle+2.55),o,polar(o,length*.7,angle-2.55)],'#b9d8df',.38-i*.1,1.4);}
  }
  const action=player.action,style=POE_FEEDBACK_STYLES[action?.id];
- if(style&&!action.fired&&action.contact>0){
+ // Channels never set fired: their accepted startup boundary ends preparation.
+ if(style&&!action.fired&&action.contact>0&&(!action.spec?.channel||action.elapsed+1e-9<action.contact)){
   const phase=bounded(action.elapsed/action.contact),angle=action.angle??player.angle,radius=13+9*phase;
   stroke(circle(player,radius,24,-phase),style.color,.3+.15*phase,1.1);
   for(let i=0;i<4;i++){const theta=angle+i*Math.PI*.5;stroke([polar(player,radius+3,theta),polar(player,radius+9,theta)],style.accent,.55,1.4);}

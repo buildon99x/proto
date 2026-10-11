@@ -234,6 +234,16 @@ test('R14a2 input observations UI is read-only and distinguishes event time from
  const h=await v5Ui();h.key('KeyF');const first=h.app.inputObservations;assert.equal(first.find(e=>e.kind==='action-start').delayMs,0);assert.equal(first.some(e=>e.kind==='first-render-dispatch'),false);await h.frame();h.up('KeyF');await next();const before=structuredClone(h.app.state),revision=h.app.controller.revision();await h.click('input-observations');assert.match(h.modal.innerHTML,/입력.*기록|입력.*관측/);assert.match(h.modal.innerHTML,/모니터 표시와 스피커 소리의 물리 지연 실측은 아닙니다/);assert.match(h.modal.innerHTML,/시작 0.00 ms · 첫 렌더 호출 16.00 ms/);assert.deepEqual(h.app.state,before);assert.equal(h.app.controller.revision(),revision);
 });
 
+for(const hz of [30,60,120])for(const blockedBy of ['hammer-recovery','roll'])test(`R14a2 ${hz}Hz actual ${blockedBy} rejection and held restart are both visible with separate clocks`,async()=>{
+ const h=await v5Ui(),b=h.app.battle;
+ if(blockedBy==='hammer-recovery'){mouseDown(h,0);await h.frame(.025);mouseUp(h,0);}else{h.key('Space');await next();}
+ h.key('KeyF');await next();
+ const pulse=h.app.inputObservations.filter(row=>row.kind==='input'&&row.action==='expert1').at(-1);assert.ok(pulse);assert.ok(h.app.inputObservations.some(row=>row.kind==='cancelled'&&row.sequence===pulse.sequence&&row.reason==='recovery-too-early'));
+ for(let frame=0;frame<180&&!h.app.inputObservations.some(row=>row.kind==='contact'&&h.app.inputObservations.some(start=>start.kind==='action-start'&&start.heldRepeat&&start.skillId==='mace_swing'&&start.sequence===row.sequence));frame++)await h.frame(1/hz);
+ const observations=h.app.inputObservations,start=observations.find(row=>row.kind==='action-start'&&row.heldRepeat&&row.skillId==='mace_swing'),render=observations.find(row=>row.kind==='first-render-dispatch'&&row.sequence===start?.sequence),contact=observations.find(row=>row.kind==='contact'&&row.sequence===start?.sequence);assert.ok(start);assert.ok(render);assert.ok(contact);assert.notEqual(start.sequence,pulse.sequence);assert.equal(start.receivedAt,null);assert.equal(start.delayMs,null);assert.equal(start.timingBasis,'action-start');assert.equal(observations.some(row=>row.kind==='input'&&row.sequence===start.sequence),false);assert.equal(observations.some(row=>row.kind==='action-start'&&row.sequence===pulse.sequence),false);assert.equal(b.p.action?.id,'mace_swing');
+ h.up('KeyF');if(blockedBy==='roll')h.up('Space');await next();const before=structuredClone(h.app.state),revision=h.app.controller.revision();h.app.showInputObservations();const html=h.modal.innerHTML,articles=[...html.matchAll(/<article class="skill">[\s\S]*?<\/article>/g)].map(match=>match[0]),initial=articles.find(row=>row.includes(`· 입력 ${pulse.sequence}</strong>`)),held=articles.find(row=>row.includes(`홀드 반복 관측 ${start.sequence}</strong>`));assert.ok(initial);assert.ok(held);assert.match(html,/<h3>최초 입력 기준<\/h3>/);assert.match(html,/<h3>홀드 반복 시작 기준<\/h3>/);assert.match(initial,/시작 미관찰/);assert.match(initial,/최초 입력 취소: recovery-too-early/);assert.match(held,/철퇴/);assert.match(held,/입력 → 시작 지연 미측정 · 액션 시작 시점 기준/);assert.ok(held.includes(`첫 렌더 호출 ${(render.at-start.at).toFixed(2)} ms`));assert.ok(held.includes(`접촉 ${(contact.at-start.at).toFixed(2)} ms`));assert.doesNotMatch(held,/시작 0\.00 ms|최초 입력 취소/);assert.deepEqual(h.app.state,before);assert.equal(h.app.controller.revision(),revision);
+});
+
 async function contextUi(){const h=await ui({poeMode:'click',realInteractions:true});Object.assign(h.app.battle.p,{x:450,y:325});assert.equal(await h.app.dispatch({type:'checkpoint',...h.app.report()}),true);return h;}
 const clickContextLabel=(h,object)=>{const p=h.app.contextProjection(object);h.ch.mousedown({button:0,clientX:p.x,clientY:p.y-63.5,preventDefault(){}});mouseUp(h,0);};
 test('R14a2 real context mousedown selects distant trainer, walks via production frames and opens that exact NPC instead of the initially nearest elder',async()=>{
@@ -260,4 +270,18 @@ test('R14a2 newest explicit moved mace replaces waiting banner without charging 
 });
 test('R14a2 failed real save discards waiting moved skill and preserves exact last committed state',async()=>{
  const h=await v5Ui(),before=h.store.load().state;h.delay();const task=h.app.dispatch({type:'checkpoint',...h.app.report()},{critical:true});await next();h.key('KeyG');h.up('KeyG');await h.finish(true);assert.equal(await task,false);await h.frame();assert.equal(h.gate.blocked,true);assert.equal(h.app.battle.p.action,null);assert.equal(h.app.battle.p.cooldowns.battle_banner??0,0);assert.deepEqual(h.store.load().state,before);assert.deepEqual(h.app.report().vitals,before.vitals);
+});
+
+
+test('R14a3 binding add/remove ARIA labels follow the moved skill, not historical action slot',async()=>{
+ const h=await v5Ui();h.app.showControls();
+ assert.match(h.modal.innerHTML,/aria-label="기술 슬롯 7 · 철퇴 F 제거"/);
+ assert.match(h.modal.innerHTML,/aria-label="기술 슬롯 7 · 철퇴 키 추가"/);
+ assert.match(h.modal.innerHTML,/aria-label="기술 슬롯 6 · 불굴의 진격 R 제거"/);
+ assert.doesNotMatch(h.modal.innerHTML,/aria-label="전문 기술 슬롯 1 F 제거"/);
+});
+test('R14a3 v4 help names current click attack key instead of asserting LMB attack',async()=>{
+ const h=await ui({poeMode:'click'});h.app.showControls();
+ assert.match(h.modal.innerHTML,/현재 기본 공격: J/);
+ assert.doesNotMatch(h.modal.innerHTML,/좌클릭 기본 반복/);
 });

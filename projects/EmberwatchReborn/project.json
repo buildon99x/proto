@@ -4,8 +4,8 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
-  "version": "0.14.0-reimplementation.2",
-  "summary": "R14a2 POE형 전사 입력 격리 개발 후보: 즉시성·두 이동모드·조준·회피와 질주 통합 중. 실제 QA 및 전체 회귀 미완료.",
+  "version": "0.14.0-reimplementation.4",
+  "summary": "R14a4 POE형 전사 입력 격리 개발 후보: 즉시성·두 이동모드·조준·회피와 질주 통합 중. 실제 QA 및 전체 회귀 미완료.",
   "tags": [
     "game",
     "action-rpg",

@@ -1,0 +1,91 @@
+✔ mace_swing real start -> prepare -> contact/pulse -> end reaches renderer at flash 0 (113.105452ms)
+✔ mace_swing real start -> prepare -> contact/pulse -> end reaches renderer at flash 1 (61.7944ms)
+✔ righteous_hammer real start -> prepare -> contact/pulse -> end reaches renderer at flash 0 (53.483265ms)
+✔ righteous_hammer real start -> prepare -> contact/pulse -> end reaches renderer at flash 1 (43.662315ms)
+✔ shield_charge real start -> prepare -> contact/pulse -> end reaches renderer at flash 0 (42.820212ms)
+✔ shield_charge real start -> prepare -> contact/pulse -> end reaches renderer at flash 1 (39.767641ms)
+✔ lay_on_hands real start -> prepare -> contact/pulse -> end reaches renderer at flash 0 (47.178456ms)
+✔ lay_on_hands real start -> prepare -> contact/pulse -> end reaches renderer at flash 1 (40.329417ms)
+✔ judgement real start -> prepare -> contact/pulse -> end reaches renderer at flash 0 (49.331924ms)
+✔ judgement real start -> prepare -> contact/pulse -> end reaches renderer at flash 1 (45.23181ms)
+✔ battle_banner real start -> prepare -> contact/pulse -> end reaches renderer at flash 0 (47.391663ms)
+✔ battle_banner real start -> prepare -> contact/pulse -> end reaches renderer at flash 1 (46.320574ms)
+✖ zealous_onslaught real start -> prepare -> contact/pulse -> end reaches renderer at flash 0 (22.844275ms)
+✖ zealous_onslaught real start -> prepare -> contact/pulse -> end reaches renderer at flash 1 (22.085646ms)
+✔ real precontact roll cancellation removes preparation without inventing a hit (37.679846ms)
+✔ real pre-pulse channel safety cancellation leaves no preparation or invented contact (12.764629ms)
+✖ real channel completion retains final pulse, respects cap, and clears with scene (124.773842ms)
+✔ rejected real action never creates preparation, payment or contact FX (7.618404ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 15
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 986.512329
+
+✖ failing tests:
+
+test at ../../../../tmp/emberwatch-poe-fx-before/tests/poe2-presentation-runtime.test.mjs:53:80
+✖ zealous_onslaught real start -> prepare -> contact/pulse -> end reaches renderer at flash 0 (22.844275ms)
+  AssertionError [ERR_ASSERTION]: preparation ends at channel startup, before a damage pulse
+  
+  6 !== 0
+  
+      at TestContext.<anonymous> (file:///tmp/emberwatch-poe-fx-before/tests/poe2-presentation-runtime.test.mjs:59:120)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 6,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../tmp/emberwatch-poe-fx-before/tests/poe2-presentation-runtime.test.mjs:53:80
+✖ zealous_onslaught real start -> prepare -> contact/pulse -> end reaches renderer at flash 1 (22.085646ms)
+  AssertionError [ERR_ASSERTION]: preparation ends at channel startup, before a damage pulse
+  
+  6 !== 0
+  
+      at TestContext.<anonymous> (file:///tmp/emberwatch-poe-fx-before/tests/poe2-presentation-runtime.test.mjs:59:120)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 6,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../tmp/emberwatch-poe-fx-before/tests/poe2-presentation-runtime.test.mjs:74:1
+✖ real channel completion retains final pulse, respects cap, and clears with scene (124.773842ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(f.feedback.snapshot().length>0&&f.feedback.snapshot().length<=12)
+  
+      at TestContext.<anonymous> (file:///tmp/emberwatch-poe-fx-before/tests/poe2-presentation-runtime.test.mjs:75:351)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
