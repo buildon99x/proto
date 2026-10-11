@@ -1,0 +1,278 @@
+✔ settled dead Adept reconstruction bypasses arrival and never emits another settlement under idle or attack input (4.598273ms)
+✔ actual startup immediately exposes retry and completes while optional audio remains pending (25.536604ms)
+✔ late audio readiness after explicit retry cannot restore the old death modal or repeat a charge (66.43297ms)
+✔ repeated dead-save loads are read-only; explicit retry increments life once and preserves all earned progress (63.275568ms)
+✔ alive startup still waits safely for explicit movement or offense while audio is pending (38.231967ms)
+✔ muted saved options do not force an audio resume before death presentation (21.519906ms)
+✔ actual help puts its first focused controls/return actions before long guidance (54.453249ms)
+✔ actual panel marks a labeled modal dialog and permits native initial-focus scrolling (37.107186ms)
+✔ actual modal Tab wraps at its last control (35.445727ms)
+✔ actual modal Shift+Tab wraps at its first control (41.977177ms)
+✔ actual controls screen Shift+Tab never reaches the background potion (26.672311ms)
+✔ actual Tab cycle excludes hidden, disabled and closed-details descendants (32.470266ms)
+✔ actual interior Tab uses native navigation without unnecessary interception (29.64611ms)
+✔ actual modal preserves browser ctrlKey+Tab (22.704245ms)
+✔ actual modal preserves browser altKey+Tab (20.571216ms)
+✔ actual modal preserves browser metaKey+Tab (20.479159ms)
+✔ actual Escape restores the usable menu-button trigger and resumes only once (22.346403ms)
+✔ actual nested menu/help/controls preserves the original background trigger (34.966866ms)
+✔ actual removed original trigger falls back safely to canvas (50.999929ms)
+✔ actual disabled original trigger falls back safely to canvas (33.18598ms)
+✔ actual hidden original trigger falls back safely to canvas (26.065299ms)
+✔ actual reopened dialog replaces the old return target with the new trigger (25.765705ms)
+✔ actual focusin behind an open modal returns to an eligible dialog control (23.536102ms)
+✔ actual empty dialog retains Tab focus on its labeled section (22.063703ms)
+✔ actual uncertain-save dialog wraps its single Reload control and rejects Escape resume (20.153375ms)
+✔ actual binding capture still accepts Tab as a key and Escape cancels to controls (27.735861ms)
+✔ actual restored HUD trigger admits one fresh default game key on canvas (17.623477ms)
+✔ actual restored HUD trigger admits one fresh remapped game key on canvas (16.591973ms)
+✔ actual restored HUD trigger preserves native Enter without gameplay (16.95958ms)
+✔ actual restored HUD trigger preserves native NumpadEnter without gameplay (15.992182ms)
+✔ actual restored HUD trigger preserves native Space without gameplay (17.130173ms)
+✔ actual restored HUD trigger preserves native Tab without gameplay (15.971762ms)
+✔ actual restored trigger rejects shortcut/repeat handoff {"ctrlKey":true} (16.389292ms)
+✔ actual restored trigger rejects shortcut/repeat handoff {"altKey":true} (20.513981ms)
+✔ actual restored trigger rejects shortcut/repeat handoff {"metaKey":true} (18.853274ms)
+✔ actual restored trigger rejects shortcut/repeat handoff {"repeat":true} (21.518823ms)
+✔ actual arbitrary HUD-button focus never gains the one-shot resumed-game exception (18.410696ms)
+✔ actual focus departure consumes resumed-trigger ownership even if the original button is refocused (15.57357ms)
+✔ actual blocked state prevents restored-trigger game handoff (20.7561ms)
+✔ actual dead state prevents restored-trigger game handoff (17.979124ms)
+✔ actual BODY origin restores canvas rather than an unfocusable page container (15.198793ms)
+✔ actual HTML origin restores canvas rather than an unfocusable page container (14.663498ms)
+✔ actual failed trigger focus falls back to canvas instead of falsely claiming restoration (17.104494ms)
+✔ actual Tab excludes a closed-details child even when its rectangle probe is nonempty (15.534773ms)
+✔ actual Tab excludes nested closed details and a non-first summary (15.778644ms)
+✔ actual HUD preserves objective button node between unchanged frame updates (7.312355ms)
+✔ actual goal handler uses pausing panel lifecycle and clears held/deferred intent (2.945987ms)
+✔ actual keyboard handler reserves Enter/Space and remapped skills for focused UI (11.332603ms)
+✔ actual focus and keyup handlers clear old held keys and allow a fresh canvas press (2.421147ms)
+✔ holding Escape never dismisses the pause it just opened (5.457359ms)
+✔ delayed A first WebLock save cannot replace loaded B or bind A pools to B revision (129.744181ms)
+✔ obsolete delayed saved-profile load cannot replace B or start a new save (45.052452ms)
+✔ obsolete delayed new-game preflight cannot replace B or start a new save (34.204583ms)
+✔ late failed A load cannot clear B, change its modal or reset load state (38.040241ms)
+✔ late failed A start cannot clear B, change its modal or reset load state (24.914689ms)
+✔ showTitle dismisses a pending load without obsolete success or error reopening gameplay (11.032203ms)
+✔ showTitle dismisses a pending start without obsolete success or error reopening gameplay (18.214695ms)
+✔ same-profile overlapping continue owns the latest invocation and never starts an obsolete requested new game (35.141305ms)
+✔ normal load, reload and fresh start retain storage behavior and never remap existing progress (50.276663ms)
+✔ current load/start failures still present the title error and preserve existing raw saves (32.579148ms)
+✔ reloading while gameplay was active pauses simulation throughout a delayed load (34.924222ms)
+✔ actual delayed candidate-copy success cannot steal a newer continue selection (30.46731ms)
+✔ actual delayed candidate-copy failure cannot steal a newer continue selection (24.520814ms)
+✔ title dismissal invalidates delayed candidate-copy success (27.767859ms)
+✔ title dismissal invalidates delayed candidate-copy failure (20.973003ms)
+✔ candidate-copy intent immediately supersedes an older delayed new-game preflight (35.681909ms)
+✔ overlapping candidate copies preserve the latest target even when the earlier copy finishes last (42.644814ms)
+✔ ordinary current candidate-copy still loads its target exactly once and keeps original bytes (26.767312ms)
+✔ actual title pending start: Escape/pause, menu key and close cannot resume a prior battle (33.066968ms)
+✔ actual title pending copy: Escape/pause, menu key and close cannot resume a prior battle (33.418756ms)
+✔ actual title pending start still installs its sole current owner after ignored Escape and close (7.523238ms)
+✔ actual title pending copy still installs its sole current owner after ignored Escape and close (20.939583ms)
+✔ actual qa-new wasd:combined commits only the chosen controls and starts matching mobility (14.888132ms)
+✔ actual qa-new click:combined commits only the chosen controls and starts matching mobility (14.078278ms)
+✔ actual qa-new wasd:separate commits only the chosen controls and starts matching mobility (14.170966ms)
+✔ actual qa-new click:separate commits only the chosen controls and starts matching mobility (14.155243ms)
+✔ actual qa-new unchanged choice preserves the original v3 controls with one commit (7.599892ms)
+✔ actual continue ignores new-game wasd:combined selection and preserves custom saved controls (19.632942ms)
+✔ actual copy ignores new-game wasd:combined selection and preserves custom saved controls (32.27433ms)
+✔ actual continue ignores new-game click:combined selection and preserves custom saved controls (26.22724ms)
+✔ actual copy ignores new-game click:combined selection and preserves custom saved controls (32.895128ms)
+✔ actual continue ignores new-game wasd:separate selection and preserves custom saved controls (24.599452ms)
+✔ actual copy ignores new-game wasd:separate selection and preserves custom saved controls (29.324232ms)
+✔ actual continue ignores new-game click:separate selection and preserves custom saved controls (30.11086ms)
+✔ actual copy ignores new-game click:separate selection and preserves custom saved controls (30.13701ms)
+✔ failed second wasd:combined preset save leaves an untrained v3 profile that continue recovers unchanged (21.431534ms)
+✔ failed second click:combined preset save leaves an untrained v3 profile that continue recovers unchanged (17.155805ms)
+✔ failed second wasd:separate preset save leaves an untrained v3 profile that continue recovers unchanged (14.617679ms)
+✔ failed second click:separate preset save leaves an untrained v3 profile that continue recovers unchanged (14.601576ms)
+✔ late second wasd:combined preset commit cannot replace a newer loaded profile (28.329875ms)
+✔ late second click:combined preset commit cannot replace a newer loaded profile (27.08821ms)
+✔ late second wasd:separate preset commit cannot replace a newer loaded profile (31.742281ms)
+✔ late second click:separate preset commit cannot replace a newer loaded profile (38.964558ms)
+✔ successful real purchase restores final trainer card, disclosures and keyboard focus after both saves (2199.674722ms)
+✔ repeated enabled keyboard purchases preserve card position through changed text heights and charge each rank once (709.141089ms)
+✔ latest scroll/disclosure choices during payment are retained instead of old click-time values (336.950384ms)
+✔ max rank moves reading focus to the same inert card and rejects disabled clicks (412.795231ms)
+✔ purchase making next rank unaffordable does not focus another actionable purchase (1442.563925ms)
+✔ disabled skill:flaming_wrath never submits, changes viewport or restores input (156.348442ms)
+✔ disabled skill:banner_of_zeal never submits, changes viewport or restores input (184.444079ms)
+✔ double click, stale detached button and a click during payment cannot buy extra ranks (294.124934ms)
+✔ close during purchase invalidates the old trainer restoration (201.010781ms)
+✔ menu during purchase invalidates the old trainer restoration (192.46322ms)
+✔ title during purchase invalidates the old trainer restoration (203.566859ms)
+✔ controller during purchase invalidates the old trainer restoration (202.752444ms)
+✔ profile during purchase invalidates the old trainer restoration (179.745122ms)
+✔ battle during purchase invalidates the old trainer restoration (181.051303ms)
+✔ life during purchase invalidates the old trainer restoration (172.560036ms)
+✔ region during purchase invalidates the old trainer restoration (178.756008ms)
+✔ dead during purchase invalidates the old trainer restoration (199.282353ms)
+✔ close during checkpoint invalidates the old trainer restoration (229.000836ms)
+✔ menu during checkpoint invalidates the old trainer restoration (259.698059ms)
+✔ title during checkpoint invalidates the old trainer restoration (294.147172ms)
+✔ controller during checkpoint invalidates the old trainer restoration (244.029182ms)
+✔ profile during checkpoint invalidates the old trainer restoration (243.483656ms)
+✔ battle during checkpoint invalidates the old trainer restoration (242.961891ms)
+✔ life during checkpoint invalidates the old trainer restoration (253.921992ms)
+✔ region during checkpoint invalidates the old trainer restoration (246.225993ms)
+✔ dead during checkpoint invalidates the old trainer restoration (255.940838ms)
+✔ QUOTA during purchase cannot apply a stale view or repeat the purchase (193.803195ms)
+✖ COMMIT_UNCERTAIN during purchase cannot apply a stale view or repeat the purchase (185.825704ms)
+✖ QUOTA during checkpoint cannot apply a stale view or repeat the purchase (210.338993ms)
+✖ COMMIT_UNCERTAIN during checkpoint cannot apply a stale view or repeat the purchase (225.40716ms)
+✔ focus during purchase never revives the old purchase focus (305.965856ms)
+✔ blur during purchase never revives the old purchase focus (291.958581ms)
+✔ visibility during purchase never revives the old purchase focus (314.205138ms)
+✔ focus during checkpoint never revives the old purchase focus (289.487023ms)
+✔ blur during checkpoint never revives the old purchase focus (287.070436ms)
+✔ visibility during checkpoint never revives the old purchase focus (313.81957ms)
+✔ pointer purchase without owned keyboard focus preserves scroll without stealing skill focus (304.355057ms)
+✔ successful refresh still clears held/deferred input, binding capture and native key repeat (284.870646ms)
+✔ close and reopen during purchase leaves the new trainer at its own default view (307.858909ms)
+✔ close and reopen during checkpoint leaves the new trainer at its own default view (354.452453ms)
+✔ real rejected out-of-range purchase leaves state, storage, viewport and focus unchanged (156.449626ms)
+✔ dead battle cannot start an old enabled training purchase (149.548188ms)
+✔ repeated blur with an identical wall-clock timestamp still invalidates purchase focus (293.779864ms)
+ℹ tests 136
+ℹ suites 0
+ℹ pass 133
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14454.789342
+
+✖ failing tests:
+
+test at app/tests/trainer-position.test.mjs:126:96
+✖ COMMIT_UNCERTAIN during purchase cannot apply a stale view or repeat the purchase (185.825704ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  
+  + {
+  - <ref *1> {
+  -   card: undefined,
+      closest: [Function: closest],
+  -   dataset: {
+  -     action: 'reload'
+  -   },
+      disabled: false,
+      focus: [Function: focus],
+  +   tagName: 'BODY'
+  -   group: undefined,
+  -   pane: {
+  -     buttons: [
+  -       [Circular *1]
+  -     ],
+  -     cards: [],
+  -     contains: [Function: contains],
+  -     getBoundingClientRect: [Function: getBoundingClientRect],
+  -     groups: [],
+  -     querySelector: [Function: querySelector],
+  -     querySelectorAll: [Function: querySelectorAll],
+  -     scrollTop: 0,
+  -     title: '저장을 확인해야 합니다'
+  -   },
+  -   tagName: 'BUTTON',
+  -   textContent: '저장 다시 읽기'
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/trainer-position.test.mjs:128:248)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Object],
+    expected: [Object],
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/trainer-position.test.mjs:126:96
+✖ QUOTA during checkpoint cannot apply a stale view or repeat the purchase (210.338993ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  
+  + {
+  - <ref *1> {
+  -   card: undefined,
+      closest: [Function: closest],
+  -   dataset: {
+  -     action: 'reload'
+  -   },
+      disabled: false,
+      focus: [Function: focus],
+  +   tagName: 'BODY'
+  -   group: undefined,
+  -   pane: {
+  -     buttons: [
+  -       [Circular *1]
+  -     ],
+  -     cards: [],
+  -     contains: [Function: contains],
+  -     getBoundingClientRect: [Function: getBoundingClientRect],
+  -     groups: [],
+  -     querySelector: [Function: querySelector],
+  -     querySelectorAll: [Function: querySelectorAll],
+  -     scrollTop: 0,
+  -     title: '저장을 확인해야 합니다'
+  -   },
+  -   tagName: 'BUTTON',
+  -   textContent: '저장 다시 읽기'
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/trainer-position.test.mjs:128:248)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Object],
+    expected: [Object],
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/trainer-position.test.mjs:126:96
+✖ COMMIT_UNCERTAIN during checkpoint cannot apply a stale view or repeat the purchase (225.40716ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  
+  + {
+  - <ref *1> {
+  -   card: undefined,
+      closest: [Function: closest],
+  -   dataset: {
+  -     action: 'reload'
+  -   },
+      disabled: false,
+      focus: [Function: focus],
+  +   tagName: 'BODY'
+  -   group: undefined,
+  -   pane: {
+  -     buttons: [
+  -       [Circular *1]
+  -     ],
+  -     cards: [],
+  -     contains: [Function: contains],
+  -     getBoundingClientRect: [Function: getBoundingClientRect],
+  -     groups: [],
+  -     querySelector: [Function: querySelector],
+  -     querySelectorAll: [Function: querySelectorAll],
+  -     scrollTop: 0,
+  -     title: '저장을 확인해야 합니다'
+  -   },
+  -   tagName: 'BUTTON',
+  -   textContent: '저장 다시 읽기'
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/trainer-position.test.mjs:128:248)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Object],
+    expected: [Object],
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -16,3 +16,8 @@
 ## R14a9 current checkpoint
 
 Adaptive HUD and primary-first pause panel. Source is separate from the frozen a8 project. Read docs/verification-r14a9/README.md and final-summary.json. Do not infer actual screen/touch acceptance from automated tests.
+
+
+## R14a10 current checkpoint
+
+Read docs/verification-r14a10 and final-summary.json. Preserve a9 checkpoint and all game/save/binding semantics. Automated DOM probes do not establish native browser focus acceptance.

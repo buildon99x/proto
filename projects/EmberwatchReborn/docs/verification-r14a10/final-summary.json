@@ -1,0 +1,22 @@
+{
+  "build": "R14a10",
+  "version": "0.14.0-reimplementation.10",
+  "dateUtc": "2026-10-11",
+  "baseCommit": "fa4b6cf93c6c8ca8200bec4f94b7b108a31a0d0d",
+  "uniqueTests": 4002,
+  "passed": 4002,
+  "failed": 0,
+  "skipped": 0,
+  "cancelled": 0,
+  "durationMs": 121563.5436,
+  "newTests": 39,
+  "lint": "passed",
+  "appBuild": "passed",
+  "buildFiles": 118,
+  "buildBytes": 16685172,
+  "monorepoSync": "blocked: no installed tsx/dependencies",
+  "monorepoBuildVercel": "blocked: unavailable corepack home cache/dependencies",
+  "browserQa": "not run on a10; required after publication",
+  "sitesPublication": "not performed by this task",
+  "gitPublication": "separate receipt after commit/ref verification"
+}

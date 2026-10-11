@@ -1,0 +1,28 @@
+✔ actual help puts its first focused controls/return actions before long guidance (44.602496ms)
+✔ actual panel marks a labeled modal dialog and permits native initial-focus scrolling (25.351237ms)
+✔ actual modal Tab wraps at its last control (19.307167ms)
+✔ actual modal Shift+Tab wraps at its first control (19.37585ms)
+✔ actual controls screen Shift+Tab never reaches the background potion (23.677317ms)
+✔ actual Tab cycle excludes hidden, disabled and closed-details descendants (18.856968ms)
+✔ actual interior Tab uses native navigation without unnecessary interception (16.208589ms)
+✔ actual modal preserves browser ctrlKey+Tab (19.243342ms)
+✔ actual modal preserves browser altKey+Tab (18.175394ms)
+✔ actual modal preserves browser metaKey+Tab (18.266859ms)
+✔ actual Escape restores the usable menu-button trigger and resumes only once (18.597121ms)
+✔ actual nested menu/help/controls preserves the original background trigger (24.259343ms)
+✔ actual removed original trigger falls back safely to canvas (18.463843ms)
+✔ actual disabled original trigger falls back safely to canvas (21.206653ms)
+✔ actual hidden original trigger falls back safely to canvas (19.618571ms)
+✔ actual reopened dialog replaces the old return target with the new trigger (15.459885ms)
+✔ actual focusin behind an open modal returns to an eligible dialog control (15.96757ms)
+✔ actual empty dialog retains Tab focus on its labeled section (16.641612ms)
+✔ actual uncertain-save dialog wraps its single Reload control and rejects Escape resume (16.278112ms)
+✔ actual binding capture still accepts Tab as a key and Escape cancels to controls (17.679877ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 579.591455

@@ -36,3 +36,6 @@
 .pause-details summary:focus-visible{outline:2px solid #75dfd6;outline-offset:2px}
 .pause-details[open]{padding-bottom:12px}
 @media(max-height:600px){.overlay{padding:12px}.panel{max-height:calc(100dvh - 24px);padding:20px}.panel h2{margin-bottom:12px}}
+
+/* R14a10: help navigation is reachable before the long guide. */
+.dialog-actions{margin-top:0;margin-bottom:16px}.dialog-actions button{min-height:44px}

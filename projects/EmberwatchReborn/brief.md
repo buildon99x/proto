@@ -202,3 +202,8 @@ The actual public v58 first-boss retry exposed a misleading live dodge/sprint an
 ## R14a9 compact HUD / pause-menu scope
 
 Fix the normal-input 889×562 QA regressions: six visible actions wrap as five plus an orphan potion, and the initial focused Continue button is below the pause panel viewport. Preserve action order, bindings, save flow and combat values; keep readable labels and usable targets.
+
+
+## R14a10 dialog focus
+
+Fix two remaining issues observed in v61/a9 at889×561: help initially focuses an offscreen bottom button, and Shift+Tab from the first controls button reaches the background potion. Introduction version is not established. Preserve bindings, combat, save and balance.

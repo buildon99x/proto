@@ -1,0 +1,516 @@
+✖ actual help puts its first focused controls/return actions before long guidance (44.517516ms)
+✖ actual panel marks a labeled modal dialog and permits native initial-focus scrolling (22.113266ms)
+✖ actual modal Tab wraps at its last control (18.612872ms)
+✖ actual modal Shift+Tab wraps at its first control (18.53101ms)
+✖ actual controls screen Shift+Tab never reaches the background potion (26.562394ms)
+✖ actual Tab cycle excludes hidden, disabled and closed-details descendants (20.382913ms)
+✔ actual interior Tab uses native navigation without unnecessary interception (19.762391ms)
+✔ actual modal preserves browser ctrlKey+Tab (18.920539ms)
+✔ actual modal preserves browser altKey+Tab (16.938682ms)
+✔ actual modal preserves browser metaKey+Tab (19.420783ms)
+✖ actual Escape restores the usable menu-button trigger and resumes only once (21.96742ms)
+✖ actual nested menu/help/controls preserves the original background trigger (27.200573ms)
+✔ actual removed original trigger falls back safely to canvas (26.143511ms)
+✔ actual disabled original trigger falls back safely to canvas (19.152103ms)
+✔ actual hidden original trigger falls back safely to canvas (18.84764ms)
+✖ actual reopened dialog replaces the old return target with the new trigger (20.04436ms)
+✖ actual focusin behind an open modal returns to an eligible dialog control (18.351142ms)
+✖ actual empty dialog retains Tab focus on its labeled section (17.446267ms)
+✖ actual uncertain-save dialog wraps its single Reload control and rejects Escape resume (18.758317ms)
+✔ actual binding capture still accepts Tab as a key and Escape cancels to controls (22.00773ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 8
+ℹ fail 12
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 603.752759
+
+✖ failing tests:
+
+test at app/tests/dialog-focus.test.mjs:51:1
+✖ actual help puts its first focused controls/return actions before long guidance (44.517516ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(html.indexOf('data-action="controls"')<html.indexOf('class="controls"'))
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:52:68)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at app/tests/dialog-focus.test.mjs:54:1
+✖ actual panel marks a labeled modal dialog and permits native initial-focus scrolling (22.113266ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'dialog'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:55:109)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'dialog',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dialog-focus.test.mjs:57:35
+✖ actual modal Tab wraps at its last control (18.612872ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:58:225)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dialog-focus.test.mjs:57:35
+✖ actual modal Shift+Tab wraps at its first control (18.53101ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:58:225)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dialog-focus.test.mjs:60:1
+✖ actual controls screen Shift+Tab never reaches the background potion (26.562394ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:61:200)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dialog-focus.test.mjs:63:1
+✖ actual Tab cycle excludes hidden, disabled and closed-details descendants (20.382913ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:64:332)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dialog-focus.test.mjs:72:1
+✖ actual Escape restores the usable menu-button trigger and resumes only once (21.96742ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  ... Skipped lines
+  
+  + <ref *1> {
+  - {
+      attributes: {},
+      closest: [Function: closest],
+      disabled: false,
+      focus: [Function: focus],
+  +   focusOptions: [
+  +     {
+  +       preventScroll: true
+  +     }
+  +   ],
+  -   focusOptions: [],
+      getAttribute: [Function: getAttribute],
+      getClientRects: [Function: getClientRects],
+      hidden: false,
+      isConnected: true,
+      matches: [Function: matches],
+  +   name: 'canvas',
+  +   ownerDocument: {
+  +     activeElement: [Getter] [Circular *1],
+  -   name: 'menu-trigger',
+  -   ownerDocument: <ref *1> {
+  -     activeElement: [Getter] {
+  -       attributes: {},
+  -       closest: [Function: closest],
+  -       disabled: false,
+  -       focus: [Function: focus],
+  -       focusOptions: [
+  -         {
+  -           preventScroll: true
+  -         }
+  -       ],
+  -       getAttribute: [Function: getAttribute],
+  -       getClientRects: [Function: getClientRects],
+  -       hidden: false,
+  -       isConnected: true,
+  -       matches: [Function: matches],
+  -       name: 'canvas',
+  -       ownerDocument: [Circular *1],
+  -       scrollCalls: [],
+  -       scrollIntoView: [Function: scrollIntoView],
+  -       setAttribute: [Function: setAttribute],
+  -       tabIndex: -1,
+  -       tagName: 'CANVAS'
+  -     },
+        addEventListener: [Function: addEventListener],
+        hasFocus: [Function: hasFocus],
+        hidden: false,
+        visibilityState: 'visible'
+      },
+  ...
+      setAttribute: [Function: setAttribute],
+  +   tabIndex: -1,
+  +   tagName: 'CANVAS'
+  -   tabIndex: 0,
+  -   tagName: 'BUTTON'
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:73:200)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Object],
+    expected: [Object],
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dialog-focus.test.mjs:75:1
+✖ actual nested menu/help/controls preserves the original background trigger (27.200573ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  ... Skipped lines
+  
+  + <ref *1> {
+  - {
+      attributes: {},
+      closest: [Function: closest],
+      disabled: false,
+      focus: [Function: focus],
+  +   focusOptions: [
+  +     {
+  +       preventScroll: true
+  +     }
+  +   ],
+  -   focusOptions: [],
+      getAttribute: [Function: getAttribute],
+      getClientRects: [Function: getClientRects],
+      hidden: false,
+      isConnected: true,
+      matches: [Function: matches],
+  +   name: 'canvas',
+  +   ownerDocument: {
+  +     activeElement: [Getter] [Circular *1],
+  -   name: 'menu-trigger',
+  -   ownerDocument: <ref *1> {
+  -     activeElement: [Getter] {
+  -       attributes: {},
+  -       closest: [Function: closest],
+  -       disabled: false,
+  -       focus: [Function: focus],
+  -       focusOptions: [
+  -         {
+  -           preventScroll: true
+  -         }
+  -       ],
+  -       getAttribute: [Function: getAttribute],
+  -       getClientRects: [Function: getClientRects],
+  -       hidden: false,
+  -       isConnected: true,
+  -       matches: [Function: matches],
+  -       name: 'canvas',
+  -       ownerDocument: [Circular *1],
+  -       scrollCalls: [],
+  -       scrollIntoView: [Function: scrollIntoView],
+  -       setAttribute: [Function: setAttribute],
+  -       tabIndex: -1,
+  -       tagName: 'CANVAS'
+  -     },
+        addEventListener: [Function: addEventListener],
+        hasFocus: [Function: hasFocus],
+        hidden: false,
+        visibilityState: 'visible'
+      },
+  ...
+      setAttribute: [Function: setAttribute],
+  +   tabIndex: -1,
+  +   tagName: 'CANVAS'
+  -   tabIndex: 0,
+  -   tagName: 'BUTTON'
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:76:107)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Object],
+    expected: [Object],
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dialog-focus.test.mjs:81:1
+✖ actual reopened dialog replaces the old return target with the new trigger (20.04436ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  ... Skipped lines
+  
+  + <ref *1> {
+  - {
+      attributes: {},
+      closest: [Function: closest],
+      disabled: false,
+      focus: [Function: focus],
+      focusOptions: [
+  +     {
+  +       preventScroll: true
+  +     },
+  +     {
+  +       preventScroll: true
+  +     }
+  -     undefined
+      ],
+      getAttribute: [Function: getAttribute],
+      getClientRects: [Function: getClientRects],
+      hidden: false,
+      isConnected: true,
+      matches: [Function: matches],
+  +   name: 'canvas',
+  +   ownerDocument: {
+  +     activeElement: [Getter] [Circular *1],
+  -   name: 'second-trigger',
+  -   ownerDocument: <ref *1> {
+  -     activeElement: [Getter] {
+  -       attributes: {},
+  -       closest: [Function: closest],
+  -       disabled: false,
+  -       focus: [Function: focus],
+  -       focusOptions: [
+  -         {
+  -           preventScroll: true
+  -         },
+  -         {
+  -           preventScroll: true
+  -         }
+  -       ],
+  -       getAttribute: [Function: getAttribute],
+  -       getClientRects: [Function: getClientRects],
+  -       hidden: false,
+  -       isConnected: true,
+  -       matches: [Function: matches],
+  -       name: 'canvas',
+  -       ownerDocument: [Circular *1],
+  -       scrollCalls: [],
+  -       scrollIntoView: [Function: scrollIntoView],
+  -       setAttribute: [Function: setAttribute],
+  -       tabIndex: -1,
+  -       tagName: 'CANVAS'
+  -     },
+        addEventListener: [Function: addEventListener],
+        hasFocus: [Function: hasFocus],
+        hidden: false,
+        visibilityState: 'visible'
+      },
+  ...
+      setAttribute: [Function: setAttribute],
+  +   tabIndex: -1,
+  +   tagName: 'CANVAS'
+  -   tabIndex: 0,
+  -   tagName: 'BUTTON'
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:82:147)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Object],
+    expected: [Object],
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dialog-focus.test.mjs:84:1
+✖ actual focusin behind an open modal returns to an eligible dialog control (18.351142ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'background-potion'
+  - 'close'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:85:60)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'background-potion',
+    expected: 'close',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dialog-focus.test.mjs:87:1
+✖ actual empty dialog retains Tab focus on its labeled section (17.446267ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  ... Skipped lines
+  
+  + <ref *1> {
+  +   attributes: {},
+  - {
+  -   attributes: {
+  -     class: 'panel '
+  -   },
+      closest: [Function: closest],
+      disabled: false,
+      focus: [Function: focus],
+      focusOptions: [],
+      getAttribute: [Function: getAttribute],
+  ...
+      matches: [Function: matches],
+  +   name: 'menu-trigger',
+  +   ownerDocument: {
+  +     activeElement: [Getter] [Circular *1],
+  -   name: 'dialog-section',
+  -   ownerDocument: <ref *1> {
+  -     activeElement: [Getter] {
+  -       attributes: {},
+  -       closest: [Function: closest],
+  -       disabled: false,
+  -       focus: [Function: focus],
+  -       focusOptions: [],
+  -       getAttribute: [Function: getAttribute],
+  -       getClientRects: [Function: getClientRects],
+  -       hidden: false,
+  -       isConnected: true,
+  -       matches: [Function: matches],
+  -       name: 'menu-trigger',
+  -       ownerDocument: [Circular *1],
+  -       scrollCalls: [],
+  -       scrollIntoView: [Function: scrollIntoView],
+  -       setAttribute: [Function: setAttribute],
+  -       tabIndex: 0,
+  -       tagName: 'BUTTON'
+  -     },
+        addEventListener: [Function: addEventListener],
+        hasFocus: [Function: hasFocus],
+        hidden: false,
+        visibilityState: 'visible'
+      },
+      scrollCalls: [],
+      scrollIntoView: [Function: scrollIntoView],
+  -   scrollTop: 0,
+      setAttribute: [Function: setAttribute],
+  +   tabIndex: 0,
+  +   tagName: 'BUTTON'
+  -   tabIndex: -1,
+  -   tagName: 'SECTION'
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:88:68)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Object],
+    expected: [Object],
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dialog-focus.test.mjs:90:1
+✖ actual uncertain-save dialog wraps its single Reload control and rejects Escape resume (18.758317ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:91:119)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -43,8 +43,8 @@ function domProbe(){
  const modal={hidden:true,presentationEpoch:0,querySelector(selector){return selector==='.panel'?pane:pane?.querySelector(selector)??null;},get innerHTML(){return html;},set innerHTML(value){
   if(pane?.contains(document.activeElement))document.activeElement=body;
   html=value;pane=null;if(!value)return;
-  pane={scrollTop:0,groups:[],buttons:[],cards:[],title:/<h2>(.*?)<\/h2>/.exec(value)?.[1],getBoundingClientRect:()=>({top:50}),contains(node){return node?.pane===this;},querySelectorAll:selector=>selector==='details'?pane.groups:[],querySelector(selector){
-   if(selector==='button:not([disabled]),input,select,textarea')return this.buttons.find(node=>!node.disabled)??null;
+  pane={scrollTop:0,groups:[],buttons:[],cards:[],title:/<h2\b[^>]*>(.*?)<\/h2>/.exec(value)?.[1],getBoundingClientRect:()=>({top:50}),contains(node){return node?.pane===this;},querySelectorAll:selector=>selector==='details'?pane.groups:[],querySelector(selector){
+   if(selector.startsWith('button:not([disabled])'))return this.buttons.find(node=>!node.disabled)??null;
    const action=/data-action="([^"]+)"/.exec(selector)?.[1];return this.buttons.find(node=>node.dataset.action===action)??null;
   }};
   const current=pane;

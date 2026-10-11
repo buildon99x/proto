@@ -1,0 +1,508 @@
+✔ actual help puts its first focused controls/return actions before long guidance (37.059726ms)
+✔ actual panel marks a labeled modal dialog and permits native initial-focus scrolling (19.477442ms)
+✔ actual modal Tab wraps at its last control (16.794963ms)
+✔ actual modal Shift+Tab wraps at its first control (16.219728ms)
+✔ actual controls screen Shift+Tab never reaches the background potion (19.01813ms)
+✔ actual Tab cycle excludes hidden, disabled and closed-details descendants (15.620296ms)
+✔ actual interior Tab uses native navigation without unnecessary interception (15.169416ms)
+✔ actual modal preserves browser ctrlKey+Tab (15.276766ms)
+✔ actual modal preserves browser altKey+Tab (15.152351ms)
+✔ actual modal preserves browser metaKey+Tab (16.164637ms)
+✔ actual Escape restores the usable menu-button trigger and resumes only once (17.10918ms)
+✔ actual nested menu/help/controls preserves the original background trigger (23.248539ms)
+✔ actual removed original trigger falls back safely to canvas (21.584454ms)
+✔ actual disabled original trigger falls back safely to canvas (17.657016ms)
+✔ actual hidden original trigger falls back safely to canvas (16.215001ms)
+✔ actual reopened dialog replaces the old return target with the new trigger (15.919782ms)
+✔ actual focusin behind an open modal returns to an eligible dialog control (15.53514ms)
+✔ actual empty dialog retains Tab focus on its labeled section (14.578408ms)
+✔ actual uncertain-save dialog wraps its single Reload control and rejects Escape resume (15.979461ms)
+✔ actual binding capture still accepts Tab as a key and Escape cancels to controls (18.042368ms)
+✖ actual restored HUD trigger admits one fresh default game key on canvas (17.259173ms)
+✖ actual restored HUD trigger admits one fresh remapped game key on canvas (15.555481ms)
+✔ actual restored HUD trigger preserves native Enter without gameplay (15.592124ms)
+✔ actual restored HUD trigger preserves native NumpadEnter without gameplay (15.201294ms)
+✔ actual restored HUD trigger preserves native Space without gameplay (15.590302ms)
+✔ actual restored HUD trigger preserves native Tab without gameplay (16.228612ms)
+✔ actual restored trigger rejects shortcut/repeat handoff {"ctrlKey":true} (16.472093ms)
+✔ actual restored trigger rejects shortcut/repeat handoff {"altKey":true} (16.141111ms)
+✔ actual restored trigger rejects shortcut/repeat handoff {"metaKey":true} (17.60613ms)
+✔ actual restored trigger rejects shortcut/repeat handoff {"repeat":true} (19.127171ms)
+✔ actual arbitrary HUD-button focus never gains the one-shot resumed-game exception (15.678283ms)
+✔ actual focus departure consumes resumed-trigger ownership even if the original button is refocused (18.189747ms)
+✔ actual blocked state prevents restored-trigger game handoff (19.289363ms)
+✔ actual dead state prevents restored-trigger game handoff (14.987225ms)
+✖ actual BODY origin restores canvas rather than an unfocusable page container (17.52534ms)
+✖ actual HTML origin restores canvas rather than an unfocusable page container (19.539023ms)
+✖ actual failed trigger focus falls back to canvas instead of falsely claiming restoration (16.621255ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 32
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 798.895501
+
+✖ failing tests:
+
+test at app/tests/dialog-focus.test.mjs:97:36
+✖ actual restored HUD trigger admits one fresh default game key on canvas (17.259173ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  
+  + <ref *1> {
+  - {
+      attributes: {},
+      closest: [Function: closest],
+      disabled: false,
+      focus: [Function: focus],
+  +   focusOptions: [
+  +     {
+  +       preventScroll: false
+  +     }
+  +   ],
+  -   focusOptions: [],
+      getAttribute: [Function: getAttribute],
+      getClientRects: [Function: getClientRects],
+      hidden: false,
+      isConnected: true,
+      matches: [Function: matches],
+  +   name: 'menu-trigger',
+  +   ownerDocument: {
+  +     activeElement: [Getter] [Circular *1],
+  -   name: 'canvas',
+  -   ownerDocument: <ref *1> {
+  -     activeElement: [Getter] {
+  -       attributes: {},
+  -       closest: [Function: closest],
+  -       disabled: false,
+  -       focus: [Function: focus],
+  -       focusOptions: [
+  -         {
+  -           preventScroll: false
+  -         }
+  -       ],
+  -       getAttribute: [Function: getAttribute],
+  -       getClientRects: [Function: getClientRects],
+  -       hidden: false,
+  -       isConnected: true,
+  -       matches: [Function: matches],
+  -       name: 'menu-trigger',
+  -       ownerDocument: [Circular *1],
+  -       scrollCalls: [
+  -         {
+  -           block: 'nearest',
+  -           inline: 'nearest'
+  -         }
+  -       ],
+  -       scrollIntoView: [Function: scrollIntoView],
+  -       setAttribute: [Function: setAttribute],
+  -       tabIndex: 0,
+  -       tagName: 'BUTTON'
+  -     },
+        addEventListener: [Function: addEventListener],
+        hasFocus: [Function: hasFocus],
+        hidden: false,
+        visibilityState: 'visible'
+      },
+  +   scrollCalls: [
+  +     {
+  +       block: 'nearest',
+  +       inline: 'nearest'
+  +     }
+  +   ],
+  -   scrollCalls: [],
+      scrollIntoView: [Function: scrollIntoView],
+      setAttribute: [Function: setAttribute],
+  +   tabIndex: 0,
+  +   tagName: 'BUTTON'
+  -   tabIndex: -1,
+  -   tagName: 'CANVAS'
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:100:39)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Object],
+    expected: [Object],
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dialog-focus.test.mjs:97:36
+✖ actual restored HUD trigger admits one fresh remapped game key on canvas (15.555481ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  
+  + <ref *1> {
+  - {
+      attributes: {},
+      closest: [Function: closest],
+      disabled: false,
+      focus: [Function: focus],
+  +   focusOptions: [
+  +     {
+  +       preventScroll: false
+  +     }
+  +   ],
+  -   focusOptions: [],
+      getAttribute: [Function: getAttribute],
+      getClientRects: [Function: getClientRects],
+      hidden: false,
+      isConnected: true,
+      matches: [Function: matches],
+  +   name: 'menu-trigger',
+  +   ownerDocument: {
+  +     activeElement: [Getter] [Circular *1],
+  -   name: 'canvas',
+  -   ownerDocument: <ref *1> {
+  -     activeElement: [Getter] {
+  -       attributes: {},
+  -       closest: [Function: closest],
+  -       disabled: false,
+  -       focus: [Function: focus],
+  -       focusOptions: [
+  -         {
+  -           preventScroll: false
+  -         }
+  -       ],
+  -       getAttribute: [Function: getAttribute],
+  -       getClientRects: [Function: getClientRects],
+  -       hidden: false,
+  -       isConnected: true,
+  -       matches: [Function: matches],
+  -       name: 'menu-trigger',
+  -       ownerDocument: [Circular *1],
+  -       scrollCalls: [
+  -         {
+  -           block: 'nearest',
+  -           inline: 'nearest'
+  -         }
+  -       ],
+  -       scrollIntoView: [Function: scrollIntoView],
+  -       setAttribute: [Function: setAttribute],
+  -       tabIndex: 0,
+  -       tagName: 'BUTTON'
+  -     },
+        addEventListener: [Function: addEventListener],
+        hasFocus: [Function: hasFocus],
+        hidden: false,
+        visibilityState: 'visible'
+      },
+  +   scrollCalls: [
+  +     {
+  +       block: 'nearest',
+  +       inline: 'nearest'
+  +     }
+  +   ],
+  -   scrollCalls: [],
+      scrollIntoView: [Function: scrollIntoView],
+      setAttribute: [Function: setAttribute],
+  +   tabIndex: 0,
+  +   tagName: 'BUTTON'
+  -   tabIndex: -1,
+  -   tagName: 'CANVAS'
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:100:39)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Object],
+    expected: [Object],
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dialog-focus.test.mjs:117:34
+✖ actual BODY origin restores canvas rather than an unfocusable page container (17.52534ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  
+  + <ref *1> {
+  - {
+      attributes: {},
+      closest: [Function: closest],
+      disabled: false,
+      focus: [Function: focus],
+  +   focusOptions: [
+  +     undefined,
+  +     {
+  +       preventScroll: false
+  +     }
+  +   ],
+  -   focusOptions: [],
+      getAttribute: [Function: getAttribute],
+      getClientRects: [Function: getClientRects],
+      hidden: false,
+      isConnected: true,
+      matches: [Function: matches],
+  +   name: 'page-origin',
+  +   ownerDocument: {
+  +     activeElement: [Getter] [Circular *1],
+  -   name: 'canvas',
+  -   ownerDocument: <ref *1> {
+  -     activeElement: [Getter] {
+  -       attributes: {},
+  -       closest: [Function: closest],
+  -       disabled: false,
+  -       focus: [Function: focus],
+  -       focusOptions: [
+  -         undefined,
+  -         {
+  -           preventScroll: false
+  -         }
+  -       ],
+  -       getAttribute: [Function: getAttribute],
+  -       getClientRects: [Function: getClientRects],
+  -       hidden: false,
+  -       isConnected: true,
+  -       matches: [Function: matches],
+  -       name: 'page-origin',
+  -       ownerDocument: [Circular *1],
+  -       scrollCalls: [
+  -         {
+  -           block: 'nearest',
+  -           inline: 'nearest'
+  -         }
+  -       ],
+  -       scrollIntoView: [Function: scrollIntoView],
+  -       setAttribute: [Function: setAttribute],
+  -       tabIndex: 0,
+  -       tagName: 'BODY'
+  -     },
+        addEventListener: [Function: addEventListener],
+        hasFocus: [Function: hasFocus],
+        hidden: false,
+        visibilityState: 'visible'
+      },
+  +   scrollCalls: [
+  +     {
+  +       block: 'nearest',
+  +       inline: 'nearest'
+  +     }
+  +   ],
+  -   scrollCalls: [],
+      scrollIntoView: [Function: scrollIntoView],
+      setAttribute: [Function: setAttribute],
+  +   tabIndex: 0,
+  +   tagName: 'BODY'
+  -   tabIndex: -1,
+  -   tagName: 'CANVAS'
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:118:112)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Object],
+    expected: [Object],
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dialog-focus.test.mjs:117:34
+✖ actual HTML origin restores canvas rather than an unfocusable page container (19.539023ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  
+  + <ref *1> {
+  - {
+      attributes: {},
+      closest: [Function: closest],
+      disabled: false,
+      focus: [Function: focus],
+  +   focusOptions: [
+  +     undefined,
+  +     {
+  +       preventScroll: false
+  +     }
+  +   ],
+  -   focusOptions: [],
+      getAttribute: [Function: getAttribute],
+      getClientRects: [Function: getClientRects],
+      hidden: false,
+      isConnected: true,
+      matches: [Function: matches],
+  +   name: 'page-origin',
+  +   ownerDocument: {
+  +     activeElement: [Getter] [Circular *1],
+  -   name: 'canvas',
+  -   ownerDocument: <ref *1> {
+  -     activeElement: [Getter] {
+  -       attributes: {},
+  -       closest: [Function: closest],
+  -       disabled: false,
+  -       focus: [Function: focus],
+  -       focusOptions: [
+  -         undefined,
+  -         {
+  -           preventScroll: false
+  -         }
+  -       ],
+  -       getAttribute: [Function: getAttribute],
+  -       getClientRects: [Function: getClientRects],
+  -       hidden: false,
+  -       isConnected: true,
+  -       matches: [Function: matches],
+  -       name: 'page-origin',
+  -       ownerDocument: [Circular *1],
+  -       scrollCalls: [
+  -         {
+  -           block: 'nearest',
+  -           inline: 'nearest'
+  -         }
+  -       ],
+  -       scrollIntoView: [Function: scrollIntoView],
+  -       setAttribute: [Function: setAttribute],
+  -       tabIndex: 0,
+  -       tagName: 'HTML'
+  -     },
+        addEventListener: [Function: addEventListener],
+        hasFocus: [Function: hasFocus],
+        hidden: false,
+        visibilityState: 'visible'
+      },
+  +   scrollCalls: [
+  +     {
+  +       block: 'nearest',
+  +       inline: 'nearest'
+  +     }
+  +   ],
+  -   scrollCalls: [],
+      scrollIntoView: [Function: scrollIntoView],
+      setAttribute: [Function: setAttribute],
+  +   tabIndex: 0,
+  +   tagName: 'HTML'
+  -   tabIndex: -1,
+  -   tagName: 'CANVAS'
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:118:112)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Object],
+    expected: [Object],
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dialog-focus.test.mjs:120:1
+✖ actual failed trigger focus falls back to canvas instead of falsely claiming restoration (16.621255ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  
+  + <ref *1> {
+  - {
+      attributes: {},
+      closest: [Function: closest],
+  +   dataset: {
+  +     action: 'close'
+  +   },
+      disabled: false,
+      focus: [Function: focus],
+  +   focusOptions: [
+  +     {
+  +       preventScroll: false
+  +     }
+  +   ],
+  -   focusOptions: [],
+      getAttribute: [Function: getAttribute],
+      getClientRects: [Function: getClientRects],
+      hidden: false,
+  +   isConnected: false,
+  -   isConnected: true,
+      matches: [Function: matches],
+  +   name: 'close',
+  +   ownerDocument: {
+  +     activeElement: [Getter] [Circular *1],
+  -   name: 'canvas',
+  -   ownerDocument: <ref *1> {
+  -     activeElement: [Getter] {
+  -       attributes: {},
+  -       closest: [Function: closest],
+  -       dataset: {
+  -         action: 'close'
+  -       },
+  -       disabled: false,
+  -       focus: [Function: focus],
+  -       focusOptions: [
+  -         {
+  -           preventScroll: false
+  -         }
+  -       ],
+  -       getAttribute: [Function: getAttribute],
+  -       getClientRects: [Function: getClientRects],
+  -       hidden: false,
+  -       isConnected: false,
+  -       matches: [Function: matches],
+  -       name: 'close',
+  -       ownerDocument: [Circular *1],
+  -       scrollCalls: [
+  -         {
+  -           block: 'nearest',
+  -           inline: 'nearest'
+  -         }
+  -       ],
+  -       scrollIntoView: [Function: scrollIntoView],
+  -       setAttribute: [Function: setAttribute],
+  -       tabIndex: 0,
+  -       tagName: 'BUTTON'
+  -     },
+        addEventListener: [Function: addEventListener],
+        hasFocus: [Function: hasFocus],
+        hidden: false,
+        visibilityState: 'visible'
+      },
+  +   scrollCalls: [
+  +     {
+  +       block: 'nearest',
+  +       inline: 'nearest'
+  +     }
+  +   ],
+  -   scrollCalls: [],
+      scrollIntoView: [Function: scrollIntoView],
+      setAttribute: [Function: setAttribute],
+  +   tabIndex: 0,
+  +   tagName: 'BUTTON'
+  -   tabIndex: -1,
+  -   tagName: 'CANVAS'
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dialog-focus.test.mjs:121:82)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Object],
+    expected: [Object],
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

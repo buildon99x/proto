@@ -1,0 +1,47 @@
+✔ actual help puts its first focused controls/return actions before long guidance (44.96934ms)
+✔ actual panel marks a labeled modal dialog and permits native initial-focus scrolling (22.82783ms)
+✔ actual modal Tab wraps at its last control (18.628836ms)
+✔ actual modal Shift+Tab wraps at its first control (18.126098ms)
+✔ actual controls screen Shift+Tab never reaches the background potion (19.375306ms)
+✔ actual Tab cycle excludes hidden, disabled and closed-details descendants (16.159683ms)
+✔ actual interior Tab uses native navigation without unnecessary interception (15.936482ms)
+✔ actual modal preserves browser ctrlKey+Tab (15.818766ms)
+✔ actual modal preserves browser altKey+Tab (16.207003ms)
+✔ actual modal preserves browser metaKey+Tab (17.460197ms)
+✔ actual Escape restores the usable menu-button trigger and resumes only once (18.571771ms)
+✔ actual nested menu/help/controls preserves the original background trigger (23.225202ms)
+✔ actual removed original trigger falls back safely to canvas (24.625514ms)
+✔ actual disabled original trigger falls back safely to canvas (21.126541ms)
+✔ actual hidden original trigger falls back safely to canvas (23.101858ms)
+✔ actual reopened dialog replaces the old return target with the new trigger (16.356866ms)
+✔ actual focusin behind an open modal returns to an eligible dialog control (22.960949ms)
+✔ actual empty dialog retains Tab focus on its labeled section (18.045108ms)
+✔ actual uncertain-save dialog wraps its single Reload control and rejects Escape resume (15.790344ms)
+✔ actual binding capture still accepts Tab as a key and Escape cancels to controls (17.794855ms)
+✔ actual restored HUD trigger admits one fresh default game key on canvas (16.581931ms)
+✔ actual restored HUD trigger admits one fresh remapped game key on canvas (15.606801ms)
+✔ actual restored HUD trigger preserves native Enter without gameplay (15.540653ms)
+✔ actual restored HUD trigger preserves native NumpadEnter without gameplay (16.089349ms)
+✔ actual restored HUD trigger preserves native Space without gameplay (20.468232ms)
+✔ actual restored HUD trigger preserves native Tab without gameplay (16.279031ms)
+✔ actual restored trigger rejects shortcut/repeat handoff {"ctrlKey":true} (31.814886ms)
+✔ actual restored trigger rejects shortcut/repeat handoff {"altKey":true} (26.923872ms)
+✔ actual restored trigger rejects shortcut/repeat handoff {"metaKey":true} (24.506447ms)
+✔ actual restored trigger rejects shortcut/repeat handoff {"repeat":true} (31.347471ms)
+✔ actual arbitrary HUD-button focus never gains the one-shot resumed-game exception (17.243515ms)
+✔ actual focus departure consumes resumed-trigger ownership even if the original button is refocused (22.180437ms)
+✔ actual blocked state prevents restored-trigger game handoff (24.104649ms)
+✔ actual dead state prevents restored-trigger game handoff (16.18772ms)
+✔ actual BODY origin restores canvas rather than an unfocusable page container (18.527866ms)
+✔ actual HTML origin restores canvas rather than an unfocusable page container (19.951082ms)
+✔ actual failed trigger focus falls back to canvas instead of falsely claiming restoration (19.19722ms)
+✔ actual Tab excludes a closed-details child even when its rectangle probe is nonempty (16.283888ms)
+✔ actual Tab excludes nested closed details and a non-first summary (16.380192ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 965.399795

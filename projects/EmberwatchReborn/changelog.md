@@ -58,3 +58,8 @@ play, external preservation and qa-r12 publication remain parent gates.
 ## R14a9
 
 Presentation-only adaptive hotbar and primary-first pause menu. Preserve controls, save flow, combat timing/costs and all owned game resources. Actual a9 screen acceptance remains pending.
+
+
+## R14a10
+
+Move help controls before the guide; add labeled dialogs, bounded Tab focus, verified opener restoration and a one-shot configured-game-key focus handoff. Preserve native UI and key-capture semantics.

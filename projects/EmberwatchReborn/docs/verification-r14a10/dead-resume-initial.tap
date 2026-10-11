@@ -1,0 +1,67 @@
+✔ settled dead Adept reconstruction bypasses arrival and never emits another settlement under idle or attack input (3.952374ms)
+✖ actual startup immediately exposes retry and completes while optional audio remains pending (23.461812ms)
+✔ late audio readiness after explicit retry cannot restore the old death modal or repeat a charge (54.532576ms)
+✖ repeated dead-save loads are read-only; explicit retry increments life once and preserves all earned progress (10.679002ms)
+✔ alive startup still waits safely for explicit movement or offense while audio is pending (32.334094ms)
+✖ muted saved options do not force an audio resume before death presentation (24.457ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 3
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 717.574695
+
+✖ failing tests:
+
+test at app/tests/dead-save-resume.test.mjs:67:1
+✖ actual startup immediately exposes retry and completes while optional audio remains pending (23.461812ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dead-save-resume.test.mjs:71:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dead-save-resume.test.mjs:91:1
+✖ repeated dead-save loads are read-only; explicit retry increments life once and preserves all earned progress (10.679002ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dead-save-resume.test.mjs:94:25)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/dead-save-resume.test.mjs:118:1
+✖ muted saved options do not force an audio resume before death presentation (24.457ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a10-dialog-focus-project/app/tests/dead-save-resume.test.mjs:121:38)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

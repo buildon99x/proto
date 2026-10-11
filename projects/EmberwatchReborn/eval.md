@@ -390,3 +390,10 @@ Final R14a8 automated check: **3,940/3,940 unique tests**, 0 fail/skip/cancel, 1
 Execute production HUD and menu handlers with compact/full layouts and lifecycle states; preserve pause/resume/save/failure and repeated navigation tests. Run the entire unique test suite, syntax check and static build. No browser/visual pass is claimed from these checks; published 889×562 initial focus and six-button alignment remain an explicit gate.
 
 Final R14a9: **3,963/3,963 unique tests**,0 fail/skip/cancel,117023.812816ms; app lint and static build passed. Includes existing3,940 plus23 new. Monorepo aggregate checks are blocked by absent dependencies; actual a9 browser QA and Sites publication remain separate.
+
+
+## R14a10 verification plan
+
+Write and run production-handler regressions against untouched a9 first, then implement and run focused plus full unique tests, syntax lint and static build. Test initial focus scrolling, semantic dialog labeling, both Tab boundaries, hidden/disabled/collapsed controls, nested panels, trigger loss, Escape, capture mode and save gates. Browser visual/focus acceptance remains a separate post-publication gate; no a9 anonymous-hash retry is part of this task.
+
+Final R14a10: **4,002/4,002 unique tests**, 0 fail/skip/cancel, 121563.5436ms; app lint and static build passed (118 files). Includes existing 3,963 plus 39 new. Local monorepo aggregate checks remain blocked by unavailable dependencies/corepack cache; exact-commit remote CI is recorded separately. Actual a10 browser QA and Sites publication remain separate.

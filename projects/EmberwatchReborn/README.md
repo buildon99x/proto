@@ -57,3 +57,10 @@ Final R14a8 automated check: **3,940/3,940 unique tests**, 0 fail/skip/cancel, 1
 Separate from a8. Responsive visible-action grid and primary pause actions address the actual 889×561 defects. See docs/verification-r14a9 for automated results, aggregate-build limits and remaining post-publication browser gates.
 
 Final R14a9: **3,963/3,963 unique tests**,0 fail/skip/cancel,117023.812816ms; app lint and static build passed. Includes existing3,940 plus23 new. Monorepo aggregate checks are blocked by absent dependencies; actual a9 browser QA and Sites publication remain separate.
+
+
+## R14a10 dialog-focus candidate
+
+Help navigation, modal Tab containment, visible initial focus and safe opener restoration. See docs/verification-r14a10. Actual a10 browser acceptance is pending after separate publication.
+
+Final R14a10: **4,002/4,002 unique tests**, 0 fail/skip/cancel, 121563.5436ms; app lint and static build passed (118 files). Includes existing 3,963 plus 39 new. Local monorepo aggregate checks remain blocked by unavailable dependencies/corepack cache; exact-commit remote CI is recorded separately. Actual a10 browser QA and Sites publication remain separate.

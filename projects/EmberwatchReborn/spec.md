@@ -282,3 +282,8 @@ Death takes priority over dodge/sprint posture and potion count/cooldown in the 
 ## R14a9 responsive presentation contract
 
 Visible HUD actions determine a balanced grid from available width (88px minimum target width, 72px height, unchanged keyboard handlers). Main pause actions precede profile/statistics and optional details. Continue remains first focus; existing save, settings, leave and recovery gates are unchanged. Key help remains one button away. Actual pixels are verified separately after publication.
+
+
+## R14a10 dialog focus contract
+
+Help navigation actions appear before long guidance. Modal Tab/Shift+Tab wrap only eligible visible controls; focus follows native scrolling and cannot remain behind a visible modal. Preserve key-capture Tab assignment and Escape-to-cancel behavior. On ordinary dismissal restore the original connected usable trigger, otherwise canvas. Nested panels must not overwrite that original trigger. Keep the save-recovery gate and no-resume-on-death unchanged.

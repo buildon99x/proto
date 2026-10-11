@@ -4,8 +4,8 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
-  "version": "0.14.0-reimplementation.9",
-  "summary": "R14a9 작은 화면 HUD·메뉴 후보: 표시 버튼 수에 맞는 핫바와 상단 주요 메뉴. 자동검사와 실제 화면 검증은 별도 기록.",
+  "version": "0.14.0-reimplementation.10",
+  "summary": "R14a10 대화상자 초점 후보: 도움말 상단 액션, Tab 순환, 원래 버튼 초점 복구. 자동검사와 공개 후보 실제 화면 검증은 별도 기록.",
   "tags": [
     "game",
     "action-rpg",

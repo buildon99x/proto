@@ -1,0 +1,49 @@
+{
+  "runtimeFilesUnchanged": 114,
+  "runtimeChanges": [
+    {
+      "path": "dialog-focus.js",
+      "oldSha256": null,
+      "newSha256": "7f2b9b98d950092e2f30d59a99761dd00d51ef468194049eb663442864c2d8c9"
+    },
+    {
+      "path": "index.html",
+      "oldSha256": "f3d8cede402edd5ad023eeec7e53f15564c213a3e52117a63564d5e2dcc96c81",
+      "newSha256": "3fddae139b29b2d258302200c2bbd175182c2a2f444a57789bd69de654508e1a"
+    },
+    {
+      "path": "main.js",
+      "oldSha256": "45bb76ed34f11a9740c3ff768f9112cc723ebbc99ddbc4ac9d46ee3c26ac9b65",
+      "newSha256": "c882e713cce8569e4fb26c6a3e8a69b73bb905b2b9edb68c6f79012832001812"
+    },
+    {
+      "path": "recovery-page.js",
+      "oldSha256": "5321e566717129760f63ec532c38874f0b00cb660e369e645edc02f9c5d964ad",
+      "newSha256": "8b4ba3b8ad303d4f0daaaabb3f8466146d2b3d991cefe4f6f6a90ae29b0d0619"
+    },
+    {
+      "path": "style.css",
+      "oldSha256": "8b61a379cc79b69939aa3eea9ce116a360cce0cc2c82f4cda5bd2f3f305763ad",
+      "newSha256": "4944727b664a2d5a5cdfca9837c6669591b812e03fa9f2ab9d24a6df262f8a3c"
+    }
+  ],
+  "unchangedProductionHandlers": [
+    "clearInput",
+    "flushActionSafety",
+    "acceptCombatPress",
+    "releaseCombatToken",
+    "report",
+    "syncVitals",
+    "dispatch",
+    "immediateAction",
+    "loadProfile",
+    "showDeath",
+    "updateHud",
+    "frame",
+    "resize",
+    "showMenu",
+    "showControls"
+  ],
+  "assetsChanged": false,
+  "browserValidation": false
+}

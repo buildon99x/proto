@@ -23,7 +23,7 @@ test('actual goal handler uses pausing panel lifecycle and clears held/deferred 
  let cleared=0,audioPaused=false,checkpoint=0;const modal={hidden:true,innerHTML:''};
  const panel=source.slice(source.indexOf('function panel('),source.indexOf('function closePanel('));
  const objective=source.slice(source.indexOf('function showObjective('),source.indexOf('function showMenu('));
- const context=vm.createContext({state:{vitals:{hp:20},world:{lifeDown:false}},battle:{},captureBinding:'attack',paused:false,gate:{blocked:false},modal,esc,button,clearInput(){cleared++;},audio:{pause(v){audioPaused=v;}},dispatch(c){assert.equal(c.type,'checkpoint');checkpoint++;},report:()=>({}),campaignGuidance:()=>({title:'Find <guide>',detail:'Read <clue>'})});
+ const context=vm.createContext({...createMainInputFixture(),state:{vitals:{hp:20},world:{lifeDown:false}},battle:{},captureBinding:'attack',paused:false,gate:{blocked:false},modal,esc,button,clearInput(){cleared++;},audio:{pause(v){audioPaused=v;}},dispatch(c){assert.equal(c.type,'checkpoint');checkpoint++;},report:()=>({}),campaignGuidance:()=>({title:'Find <guide>',detail:'Read <clue>'})});
  new vm.Script(panel+objective+'showObjective();').runInContext(context);
  assert.equal(context.paused,true);assert.equal(cleared,1);assert.equal(audioPaused,true);assert.equal(checkpoint,1);assert.equal(context.captureBinding,null);assert.equal(modal.hidden,false);assert.match(modal.innerHTML,/안내를 읽는 동안 일시정지/);assert.match(modal.innerHTML,/Find &lt;guide&gt;/);assert.match(modal.innerHTML,/Read &lt;clue&gt;/);assert.match(modal.innerHTML,/북쪽 ↗/);
  context.state.world.lifeDown=true;new vm.Script('showObjective();').runInContext(context);assert.equal(cleared,1);assert.equal(checkpoint,1);
