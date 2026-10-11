@@ -110,3 +110,6 @@ Recovered 0.11.7 archive SHA 9f2431b39e0ed10b2ccf0563fd8625da16261c43b0fb69f81cb
 
 ## 0.12.1 contact-order correction brief
 Continue the requested ballistic-quality work on the dot cloud computer. Preserve saves, the published root and candidate, and unrelated projects. Correct demonstrated ordering defects where an incoming fatal projectile suppresses a physically earlier outgoing contact; do not treat model evidence as actual-play acceptance. GPU/settings bypass and an unapproved switch to the user's Windows computer are out of scope.
+
+## October 11 repeat-input audit
+Continue small evidence-backed improvements while browser tools are disconnected. Preserve gameplay balance and all existing saves. Prioritize preventing OS key repeat from closing the raid inventory or restoring cleared movement after interruption. Model checks do not establish local browser acceptance.

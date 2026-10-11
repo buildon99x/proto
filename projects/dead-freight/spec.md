@@ -180,3 +180,6 @@ Independent review correction: within each fixed step, contacts resolve in incre
 
 ## 0.12.1 chronological incoming damage
 Preserve the120Hz swept player-flight grid. Within an interval, resolve outgoing contacts through the time of each chronologically sorted incoming contact before applying that incoming damage. If the incoming damage kills the player, discard only later in-flight contacts. Maintain single ammo/hit claims and moving-target interpolation when a timed boundary splits a flight interval. This changes ordering only; weapon balance, storage formats, normal-profile keys and published Site artifacts are unchanged.
+
+## Interrupted-input edge contract
+An OS repeated keydown cannot create a newly held action after releaseAll. Existing held actions continue until physical release. An open inventory must ignore repeated Tab or rebound inventory/pause-key events; a fresh press can close it. Escape remains an intentional modal cancel. No inventory resource, action duration, movement cost or weapon balance changes.

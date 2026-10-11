@@ -10,7 +10,7 @@ class InputRouter {
  constructor(bindings=DEFAULTS){if(!validate(bindings))throw Error('Invalid or conflicting input bindings');this.bindings={...bindings};this.heldCodes=new Set();this.requests=[];this.sequence=0;this.lastWheel=-Infinity;}
  actionFor(code){let action=Object.keys(this.bindings).find(a=>this.bindings[a]===code);if(!action&&ALIASES[code]&&this.bindings[Object.keys(DEFAULTS).find(a=>DEFAULTS[a]===ALIASES[code])]===ALIASES[code])action=Object.keys(DEFAULTS).find(a=>DEFAULTS[a]===ALIASES[code]);return action||null;}
  canonical(code){const action=this.actionFor(code);return action?DEFAULTS[action]:null;}
- press(code,timestamp=0,repeat=false){const action=this.actionFor(code);if(!action)return null;const wasHeld=this.heldCodes.has(code);this.heldCodes.add(code);if(repeat||wasHeld)return null;const request={action,code,timestamp:Number.isFinite(timestamp)?timestamp:0,sequence:++this.sequence};this.requests.push(request);return request;}
+ press(code,timestamp=0,repeat=false){const action=this.actionFor(code);if(!action||repeat)return null;const wasHeld=this.heldCodes.has(code);this.heldCodes.add(code);if(wasHeld)return null;const request={action,code,timestamp:Number.isFinite(timestamp)?timestamp:0,sequence:++this.sequence};this.requests.push(request);return request;}
  release(code){this.heldCodes.delete(code);return this.actionFor(code);}
  held(action){return [...this.heldCodes].some(code=>this.actionFor(code)===action);}
  drain(){return this.requests.splice(0);}
