@@ -1,0 +1,11 @@
+{
+  "status": "incomplete_benchmark_not_a_performance_pass",
+  "nativeRuns": [
+    {"log": "native-run.log", "exitCode": 137, "completedRows": "rig and a13 town walking"},
+    {"log": "native-flushed-run.log", "exitCode": 137, "completedRows": "rig and four a13 town modes", "methodChange": "60 measured frames and benchmark-only readback after timing to flush native draw work"}
+  ],
+  "nativeRigCompletedWithinPartialRuns": {"samplesEach": 2000, "directions": 4, "canvases": 45, "pixels": 295745, "ordinaryWalkingSamples": 2000, "ordinaryWalkingRigDraws": 0, "ordinaryWalkingCanvases": 0},
+  "browserBenchmark": {"status": "not_started", "blocker": "Chromium process_singleton_posix.cc socket() Operation not permitted", "regularLog": "chromium-run.log", "officialEscalationLog": "chromium-run-escalated.log", "officialEscalationAttempts": 1, "furtherAttempts": false},
+  "gameSourceModified": false,
+  "conclusion": "No demonstrated new rig render-cost cause for the reported >500ms native rAF gap. No renderer optimization is claimed. Native process terminations are not evidence of the live browser stall cause."
+}

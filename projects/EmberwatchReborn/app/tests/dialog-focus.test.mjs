@@ -28,9 +28,9 @@ function fixture(){
    focus(options){active=this;this.focusOptions.push(options);calls.push(['focus',name]);},
    scrollIntoView(options){this.scrollCalls.push(options);},getClientRects(){return hidden||collapsed?[]:[{}];},
    getAttribute(key){return this.attributes[key]??null;},setAttribute(key,value){this.attributes[key]=String(value);if(key==='tabindex')this.tabIndex=Number(value);},
-   matches(selector){return selector===':disabled'?this.disabled:false;},closest(selector){if(selector==='#hud')return inHud?{id:'hud'}:null;return this.hidden&&selector.includes('[hidden]')?this:null;}};
+   matches(selector){return selector===':disabled'?this.disabled:false;},closest(selector){if(selector==='[data-action]')return this.dataset?.action?this:null;if(selector==='#hud')return inHud?{id:'hud'}:null;return this.hidden&&selector.includes('[hidden]')?this:null;}};
  }
- const canvas=element('canvas',{tag:'CANVAS',tabIndex:-1}),trigger=element('menu-trigger',{inHud:true}),potion=element('background-potion');active=trigger;
+ const canvas=element('canvas',{tag:'CANVAS',tabIndex:-1}),trigger=element('menu-trigger',{inHud:true}),potion=element('background-potion');active=trigger;props.set('menuButton',trigger);props.set('touchInteract',element('touch-interact'));potion.dataset={action:'potion'};
  const section=element('dialog-section',{tag:'SECTION',tabIndex:-1});section.scrollTop=0;
  const modal={hidden:true,ownerDocument:document,presentationEpoch:0,contains(el){return el===section||nodes.includes(el);},
   get innerHTML(){return html},set innerHTML(value){for(const n of nodes)n.isConnected=false;html=value;nodes=[];section.attributes={};
@@ -39,14 +39,14 @@ function fixture(){
   },querySelector(selector){if(selector.includes('data-action="close"'))return nodes.find(n=>n.name==='close'&&!n.disabled)??null;if(selector.includes('data-dialog-initial'))return null;if(selector==='.panel'||selector.includes('role="dialog"'))return section;return nodes.find(n=>!n.disabled&&!n.hidden)??null;},
   querySelectorAll(){return nodes;}};
  const env={...imports,state,battle:imports.createBattle(state),controller:{},modal,canvas,document,window:{addEventListener:(name,handler)=>events[name]=handler},expertSafety:null,gate:imports.createRuntimeGate(),
-  paused:false,captureBinding:null,last:0,profile:'dialog-qa',candidate:true,saveNamespace:'qa-r14',pauseReason:'',busy:false,
+  paused:false,captureBinding:null,suppressNextClick:false,last:0,profile:'dialog-qa',candidate:true,saveNamespace:'qa-r14',pauseReason:'',busy:false,
   displayTime:0,combatTime:0,walkTime:0,menuTime:0,arrivalWaitTime:0,focusEvents:{},
-  clearInput(){calls.push(['clear']);},audio:{cancel(){},pause(value){calls.push(['audio',value]);}},dispatch(){calls.push(['save']);return Promise.resolve(true);},report:()=>({}),toast(){},
+  clearInput(){calls.push(['clear']);},audio:{cancel(){},pause(value){calls.push(['audio',value]);}},dispatch(command){calls.push(['save',command]);return Promise.resolve(true);},report:()=>({}),toast(){},
   acceptCombatPress(action,token){calls.push(['accepted',action,token]);},applyBinding(token){calls.push(['bind',token]);},$:id=>props.get(id),interact(){},deferredImmediate:imports.createImmediateInput(),router:imports.createInputRouter()};
  const handlers=['panel','closePanel','showMenu','help','showControls','immediateAction'];
- const ui=new Function(...Object.keys(env),[mainInputSource,...['config','keyName','tierLabel','esc','button','BUILD_LABEL'].map(declaration),...handlers.map(fn),cut("window.addEventListener('keydown'","window.addEventListener('keyup'"),source.split('\n').find(s=>s.startsWith("document.addEventListener('focusin'")),`return {${handlers.join(',')},get paused(){return paused},get state(){return state},set capture(value){captureBinding=value},get capture(){return captureBinding}};`].join('\n'))(...Object.values(env));
+ const ui=new Function(...Object.keys(env),[mainInputSource,...['config','keyName','tierLabel','esc','button','BUILD_LABEL'].map(declaration),...handlers.map(fn),cut("document.addEventListener('click',","$('menuButton').onclick"),source.split('\n').find(s=>s.startsWith("$('menuButton').onclick")),cut("window.addEventListener('keydown'","window.addEventListener('keyup'"),...['document.addEventListener(\'focusin\'','window.addEventListener(\'blur\'','document.addEventListener(\'visibilitychange\''].map(prefix=>source.split('\n').find(s=>s.startsWith(prefix))),`return {${handlers.join(',')},get paused(){return paused},get state(){return state},set capture(value){captureBinding=value},get capture(){return captureBinding}};`].join('\n'))(...Object.values(env));
  function key(code,extra={}){let prevented=false,stopped=false;const e={code,key:code,target:active,repeat:false,shiftKey:false,ctrlKey:false,altKey:false,metaKey:false,preventDefault(){prevented=true},stopImmediatePropagation(){stopped=true},...extra};events.keydown(e);return {prevented,stopped};}
- return {ui,modal,section,trigger,canvas,potion,gate:env.gate,router:env.router,calls,document,key,element,get active(){return active},get nodes(){return nodes},replaceNodes(value){nodes=value;},focusOutside(){active=potion;events.focusin({target:potion});}};
+ return {ui,modal,section,trigger,canvas,potion,gate:env.gate,router:env.router,calls,document,key,element,events,async click(target,detail=1){if(typeof target==='string')target=nodes.find(n=>n.name===target);assert.ok(target);return events.click({target,detail,preventDefault(){},stopPropagation(){}});},async change(dataset,value){return events.change({target:{dataset,value}});},get active(){return active},get nodes(){return nodes},replaceNodes(value){nodes=value;},focusOutside(){active=potion;events.focusin({target:potion});}};
 }
 test('actual help puts its first focused controls/return actions before long guidance',()=>{
  const h=fixture();h.ui.help();const html=h.modal.innerHTML;assert.ok(html.indexOf('data-action="controls"')<html.indexOf('class="controls"'));assert.ok(html.indexOf('data-action="menu"')<html.indexOf('class="controls"'));assert.equal(h.active.name,'controls');
@@ -125,4 +125,60 @@ test('actual Tab excludes a closed-details child even when its rectangle probe i
 });
 test('actual Tab excludes nested closed details and a non-first summary',()=>{
  const h=fixture();h.ui.panel('상세','<button data-action="first">First</button>');const first=h.nodes[0],summary=h.element('summary',{tag:'SUMMARY'}),extra=h.element('extra-summary',{tag:'SUMMARY'}),nestedSummary=h.element('nested-summary',{tag:'SUMMARY'});const outer={tagName:'DETAILS',open:false,children:[summary,extra],parentElement:null},inner={tagName:'DETAILS',open:false,children:[nestedSummary],parentElement:outer};summary.parentElement=extra.parentElement=outer;nestedSummary.parentElement=inner;h.replaceNodes([first,summary,extra,nestedSummary]);first.focus();h.key('Tab',{shiftKey:true});assert.equal(h.active,summary);
+});
+
+
+// Production safety-stop menu/click/change routes; the DOM remains a boundary
+// probe, not native pointer, layout, screen-reader or perceived-stall acceptance.
+for(const source of ['blur','visibility'])test(`actual ${source} opens only the safety choice and focuses Continue`,()=>{
+ const h=fixture();h.canvas.focus();if(source==='blur')h.events.blur();else{h.document.hidden=true;h.events.visibilitychange();}
+ assert.equal(h.ui.paused,true);assert.equal(h.modal.safetyPause,true);assert.deepEqual(h.nodes.map(n=>n.name),['close','safety-menu']);assert.equal(h.active.name,'close');
+ assert.equal(h.section.attributes.role,'dialog');assert.equal(h.section.attributes['aria-modal'],'true');assert.equal(h.section.attributes['aria-labelledby'],'dialog-title');
+ assert.equal(h.calls.filter(([kind])=>kind==='save').length,1);assert.ok(h.calls.some(([kind,value])=>kind==='audio'&&value===true));
+});
+test('actual safety stop rejects fresh background and stale full-menu clicks before acknowledgement',async()=>{
+ const h=fixture();h.ui.showMenu();const staleAttribute=h.nodes.find(n=>n.name==='attribute:strength'),staleContinue=h.nodes.find(n=>n.name==='close');h.ui.closePanel();h.events.blur();const html=h.modal.innerHTML,before=structuredClone(h.ui.state),saves=h.calls.filter(([kind])=>kind==='save').length;
+ const actions=['attribute:strength','attribute:dexterity','attribute:intelligence','action-slots','assign-skill-slot','controls','save','leave','objective','journal','inventory','observe-panel','reload','qa-new','candidate-copy','menu'];
+ for(const action of actions){const target=h.element(action);target.dataset={action};await h.click(target);}
+ await h.click(staleAttribute);await h.click(staleContinue);await h.click(h.potion);
+ assert.equal(h.modal.innerHTML,html);assert.equal(h.modal.safetyPause,true);assert.equal(h.ui.paused,true);assert.equal(h.calls.filter(([kind])=>kind==='save').length,saves);assert.deepEqual(h.ui.state,before);
+});
+test('actual safety stop blocks background HUD menu and immediate menu until explicit full-menu entry',()=>{
+ const h=fixture();h.events.blur();const html=h.modal.innerHTML;h.trigger.onclick({type:'click'});h.ui.immediateAction('menu');h.ui.showMenu();assert.equal(h.modal.innerHTML,html);assert.equal(h.modal.safetyPause,true);
+});
+test('actual safety stop rejects option and binding changes before acknowledgement',async()=>{
+ const h=fixture();h.events.blur();const before=structuredClone(h.ui.state),saves=h.calls.filter(([kind])=>kind==='save').length;
+ await h.change({option:'masterVolume'},'0');await h.change({controlOption:'blockMode'},'toggle');await h.change({poeOption:'aimingMode'},'player');
+ assert.equal(h.calls.filter(([kind])=>kind==='save').length,saves);assert.deepEqual(h.ui.state,before);assert.equal(h.modal.safetyPause,true);
+});
+for(const detail of [0,1])test(`actual safety full-menu choice accepts ${detail?'pointer':'keyboard'} activation without another checkpoint`,async()=>{
+ const h=fixture();h.ui.state.character.attributePoints=1;h.events.blur();const saves=h.calls.filter(([kind])=>kind==='save').length,stale=h.nodes.find(n=>n.name==='safety-menu');await h.click(stale,detail);
+ assert.equal(h.modal.safetyPause,false);assert.equal(h.ui.paused,true);assert.equal(h.active.name,'close');assert.ok(h.nodes.some(n=>n.name==='attribute:strength'));assert.ok(h.nodes.some(n=>n.name==='action-slots'));
+ assert.equal(h.calls.filter(([kind])=>kind==='save').length,saves);await h.click(stale);assert.equal(h.calls.filter(([kind])=>kind==='save').length,saves);
+ await h.click('attribute:strength');assert.ok(h.calls.some(([kind,command])=>kind==='save'&&command.type==='allocateAttribute'&&command.attribute==='strength'));
+});
+for(const method of ['click','Escape'])test(`actual safety ${method} resumes and restores canvas without opening full menu`,async()=>{
+ const h=fixture();h.canvas.focus();h.events.blur();const saves=h.calls.filter(([kind])=>kind==='save').length;if(method==='click')await h.click('close');else h.key('Escape');
+ assert.equal(h.modal.safetyPause,false);assert.equal(h.modal.hidden,true);assert.equal(h.ui.paused,false);assert.equal(h.active,h.canvas);assert.equal(h.calls.filter(([kind])=>kind==='save').length,saves);assert.ok(h.calls.some(([kind,value])=>kind==='audio'&&value===false));
+ h.key('KeyD');assert.equal(h.router.isHeld('right'),true);
+});
+test('actual safety Tab and Shift+Tab remain in its two choices and focus cannot escape',()=>{
+ const h=fixture();h.events.blur();const [resume,menu]=h.nodes;assert.equal(h.active,resume);assert.equal(h.key('Tab',{shiftKey:true}).prevented,true);assert.equal(h.active,menu);assert.equal(h.key('Tab').prevented,true);assert.equal(h.active,resume);
+ h.focusOutside();assert.equal(h.active,resume);assert.equal(h.modal.safetyPause,true);
+});
+for(const code of ['Enter','NumpadEnter','Space'])test(`actual safety preserves first native ${code} activation and prevents held repeats`,()=>{
+ const h=fixture();h.events.blur();assert.equal(h.key(code).prevented,false);assert.equal(h.key(code,{repeat:true}).prevented,true);assert.equal(h.calls.some(([kind])=>kind==='accepted'),false);assert.equal(h.modal.safetyPause,true);
+});
+test('actual repeated Escape cannot resume a safety dialog until a fresh press',()=>{
+ const h=fixture();h.events.blur();h.key('Escape',{repeat:true});assert.equal(h.modal.safetyPause,true);assert.equal(h.ui.paused,true);h.key('Escape');assert.equal(h.ui.paused,false);assert.equal(h.modal.safetyPause,false);
+});
+for(const entry of ['keyboard','HUD'])test(`actual voluntary ${entry} pause still opens the complete menu directly`,async()=>{
+ const h=fixture();if(entry==='keyboard'){h.canvas.focus();h.key('Escape');}else h.trigger.onclick({type:'click'});
+ assert.equal(h.modal.safetyPause,false);assert.equal(h.ui.paused,true);assert.ok(h.nodes.some(n=>n.name==='attribute:strength'));assert.ok(h.nodes.some(n=>n.name==='controls'));assert.ok(!h.nodes.some(n=>n.name==='safety-menu'));await h.click('close');assert.equal(h.ui.paused,false);
+});
+test('actual save recovery supersedes a safety choice and still forbids Escape resume',()=>{
+ const h=fixture();h.events.blur();h.gate.block('uncertain save');h.ui.panel('fault','');assert.equal(h.modal.safetyPause,false);assert.equal(h.active.name,'reload');assert.deepEqual(h.nodes.map(n=>n.name),['reload']);h.key('Escape');assert.equal(h.ui.paused,true);assert.equal(h.modal.hidden,false);
+});
+test('actual safety entry with an already blocked save renders recovery instead of unusable acknowledgement',()=>{
+ const h=fixture();h.gate.block('uncertain save');h.events.blur();assert.equal(h.modal.safetyPause,false);assert.equal(h.active.name,'reload');h.key('Escape');assert.equal(h.ui.paused,true);
 });

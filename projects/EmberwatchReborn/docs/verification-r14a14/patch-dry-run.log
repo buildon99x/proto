@@ -1,0 +1,9 @@
+checking file app/src/index.html
+checking file app/src/main.js
+checking file app/src/recovery-page.js
+checking file app/tests/build-label-ui.test.mjs
+checking file app/tests/dialog-focus.test.mjs
+checking file app/tests/expert-main-input.test.mjs
+checking file app/tests/tomb-ui-integration.test.mjs
+checking file app/tests/wilderness-ui-integration.test.mjs
+checking file app/scripts/build-r14.mjs

@@ -1,0 +1,12 @@
+✔ actual release pause and title use the same single build label (3.141312ms)
+✔ actual candidate pause and title use the same single build label (1.023953ms)
+✔ optional read-only status registration reports the same build before and after loading (2.062878ms)
+✔ R14 app, project, index metadata and build kind share the same bounded candidate identity (0.840991ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 172.633784

@@ -1,0 +1,4 @@
+import {createRequire} from 'node:module';import {fileURLToPath} from 'node:url';import {writeFileSync} from 'node:fs';import {runBench} from './benchmark-core.mjs';
+const {createCanvas,loadImage}=createRequire(import.meta.url)('@napi-rs/canvas');
+const report=await runBench({roots:{a12:'file:///workspace/shared/emberwatch-r14a12-combat-response-project/app/src/',a13:'file:///workspace/shared/emberwatch-r14a13-combat-presentation-project/app/src/'},afterFrame:canvas=>canvas.getContext('2d').getImageData(0,0,1,1),createCanvas,loadImage:u=>loadImage(fileURLToPath(u)),progress:row=>console.log(JSON.stringify(row))});
+report.engine='Node @napi-rs/canvas native raster, no live browser';report.at=new Date().toISOString();writeFileSync(new URL('./native-results.json',import.meta.url),JSON.stringify(report,null,2)+'\n');

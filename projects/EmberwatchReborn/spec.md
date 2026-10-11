@@ -299,3 +299,10 @@ Hammer impact FX use the actual projectile velocity at each outward/return conta
 
 ## R14a13 presentation integration contract
 Enemy reaction metadata is presentation-only; dead-only attack fields are cleared without changing the existing .7-second retirement or reward timing. Directional effects follow contact vectors and independently launched hammer contacts survive allowed action cancellation. Audio ownership distinguishes cast preparation, hero movement, enemy attack and resolved hit identities; nominal charge actionContact is not its swept impact. Warrior presentation must read actual traveled distance and authoritative action elapsed/contact without writing combat state. Build labels advance together while the qa-r14 save namespace and schema remain unchanged. Integration uses separate hunks, not whole shared-file replacement. See docs/verification-r14a13 for exact final evidence and the inherited standalone-audio approval cancellation.
+
+
+## R14a14 safety-stop containment — 2026-10-11
+
+Independent copy of frozen a13. Safety-origin pauses require an explicit choice before exposing ordinary menu actions. Voluntary pause, keyboard/focus access, the >500 ms threshold, cancellation and gameplay/save/art contracts remain unchanged. This addresses incidental later clicks entering a full menu; QA did not observe an actual allocation change. The cause of observed long rAF gaps is still under investigation and this change is not a claimed rendering fix. Final verification is recorded separately in docs/verification-r14a14.
+
+Final a14 automatic verification: 4,338/4,338 tests (4,312 prior + 26 new), zero failures/skips/cancellations; lint and build passed. Build 124 files / 16,729,021 bytes, 123 source-copy hashes verified. All rendering/audio/gameplay/timing models and 14 original assets remain byte-identical to a13. Native a14 browser acceptance and coordinated Git/archive/publication are pending.

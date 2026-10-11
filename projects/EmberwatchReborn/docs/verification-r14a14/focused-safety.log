@@ -1,0 +1,38 @@
+✔ actual blur opens only the safety choice and focuses Continue (44.719077ms)
+✔ actual visibility opens only the safety choice and focuses Continue (23.653565ms)
+✔ actual safety stop rejects fresh background and stale full-menu clicks before acknowledgement (22.59929ms)
+✔ actual safety stop blocks background HUD menu and immediate menu until explicit full-menu entry (22.814789ms)
+✔ actual safety stop rejects option and binding changes before acknowledgement (17.416706ms)
+✔ actual safety full-menu choice accepts keyboard activation without another checkpoint (18.078488ms)
+✔ actual safety full-menu choice accepts pointer activation without another checkpoint (21.193353ms)
+✔ actual safety click resumes and restores canvas without opening full menu (19.171922ms)
+✔ actual safety Escape resumes and restores canvas without opening full menu (19.575031ms)
+✔ actual safety Tab and Shift+Tab remain in its two choices and focus cannot escape (25.480507ms)
+✔ actual safety preserves first native Enter activation and prevents held repeats (20.730385ms)
+✔ actual safety preserves first native NumpadEnter activation and prevents held repeats (19.962065ms)
+✔ actual safety preserves first native Space activation and prevents held repeats (19.552577ms)
+✔ actual repeated Escape cannot resume a safety dialog until a fresh press (17.44677ms)
+✔ actual voluntary keyboard pause still opens the complete menu directly (18.842893ms)
+✔ actual voluntary HUD pause still opens the complete menu directly (16.609978ms)
+✔ actual save recovery supersedes a safety choice and still forbids Escape resume (16.676016ms)
+✔ actual safety entry with an already blocked save renders recovery instead of unusable acknowledgement (17.608561ms)
+✔ release during delayed accepted-action save is safety cancellation, never late Lance or duplicate stamina (1716.857336ms)
+✔ mouse capture loss after normal mouseup is not a second safety end (265.545424ms)
+✔ fresh Expert press immediately after menu close drains empty safety request instead of being swallowed (157.67143ms)
+✔ actual non-pausing safety drain stops mobility-owned audio on pointer cancellation (220.621024ms)
+✔ actual 500ms frame keeps the existing stall boundary and safety-only presentation (92.768877ms)
+✔ actual 501ms frame keeps the existing stall boundary and safety-only presentation (144.494704ms)
+✔ actual blur safety stop rejects menu mutation and clears held/deferred intent through resume (173.889285ms)
+✔ actual visibility safety stop rejects menu mutation and clears held/deferred intent through resume (168.887968ms)
+✔ actual frame-focus safety stop rejects menu mutation and clears held/deferred intent through resume (162.971171ms)
+✔ actual stall safety stop rejects menu mutation and clears held/deferred intent through resume (163.461079ms)
+✔ actual safety full-menu acknowledgement is presentation-only and preserves the saved revision (174.245756ms)
+✔ actual safety checkpoint failure keeps the existing recovery gate authoritative (156.021189ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4299.157249

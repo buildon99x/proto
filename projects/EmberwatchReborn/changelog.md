@@ -81,3 +81,10 @@ Move help controls before the guide; add labeled dialogs, bounded Tab focus, ver
 - Integrate Warrior articulated upper/lower-body skill presentation and real hammer projectile silhouette.
 - Preserve R14a12 input clock, gameplay values, original assets, user portal and save contracts.
 - Final 4,312 tests, lint/build and 144 paired gameplay/RNG comparisons passed. Native screen/audio acceptance, Git and publication remain separate gates.
+
+
+## R14a14 safety-stop containment — 2026-10-11
+
+Independent copy of frozen a13. Safety-origin pauses require an explicit choice before exposing ordinary menu actions. Voluntary pause, keyboard/focus access, the >500 ms threshold, cancellation and gameplay/save/art contracts remain unchanged. This addresses incidental later clicks entering a full menu; QA did not observe an actual allocation change. The cause of observed long rAF gaps is still under investigation and this change is not a claimed rendering fix. Final verification is recorded separately in docs/verification-r14a14.
+
+Final a14 automatic verification: 4,338/4,338 tests (4,312 prior + 26 new), zero failures/skips/cancellations; lint and build passed. Build 124 files / 16,729,021 bytes, 123 source-copy hashes verified. All rendering/audio/gameplay/timing models and 14 original assets remain byte-identical to a13. Native a14 browser acceptance and coordinated Git/archive/publication are pending.

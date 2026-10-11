@@ -217,3 +217,10 @@ Continue the user's input-immediacy and clear, expressive combat-FX priority wit
 
 ## R14a13 integrated combat presentation
 Combine reviewed directional enemy recoil/death, simulation-owned preparation/contact/release audio, and Warrior upper/lower-body and skill/projectile presentation in an independent copy. Existing damage, action/contact/recovery times, cost, cooldown, RNG, movement/collision, save and the user-defined 60-second one-way town portal remain fixed. PoE2-inspired quality is a target, not verified parity; the full mechanism matrix remains unfinished. Native pixels, repeated ordinary-input use and real listening stay separate from automatic verification.
+
+
+## R14a14 safety-stop containment — 2026-10-11
+
+Independent copy of frozen a13. Safety-origin pauses require an explicit choice before exposing ordinary menu actions. Voluntary pause, keyboard/focus access, the >500 ms threshold, cancellation and gameplay/save/art contracts remain unchanged. This addresses incidental later clicks entering a full menu; QA did not observe an actual allocation change. The cause of observed long rAF gaps is still under investigation and this change is not a claimed rendering fix. Final verification is recorded separately in docs/verification-r14a14.
+
+Final a14 automatic verification: 4,338/4,338 tests (4,312 prior + 26 new), zero failures/skips/cancellations; lint and build passed. Build 124 files / 16,729,021 bytes, 123 source-copy hashes verified. All rendering/audio/gameplay/timing models and 14 original assets remain byte-identical to a13. Native a14 browser acceptance and coordinated Git/archive/publication are pending.

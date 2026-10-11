@@ -1,0 +1,108 @@
+✔ actual blur opens only the safety choice and focuses Continue (50.817878ms)
+✔ actual visibility opens only the safety choice and focuses Continue (26.591988ms)
+✔ actual safety stop rejects fresh background and stale full-menu clicks before acknowledgement (23.354874ms)
+✔ actual safety stop blocks background HUD menu and immediate menu until explicit full-menu entry (22.741051ms)
+✔ actual safety stop rejects option and binding changes before acknowledgement (18.996646ms)
+✔ actual safety full-menu choice accepts keyboard activation without another checkpoint (18.960168ms)
+✔ actual safety full-menu choice accepts pointer activation without another checkpoint (18.42996ms)
+✔ actual safety click resumes and restores canvas without opening full menu (27.816108ms)
+✔ actual safety Escape resumes and restores canvas without opening full menu (19.498288ms)
+✔ actual safety Tab and Shift+Tab remain in its two choices and focus cannot escape (22.690366ms)
+✔ actual safety preserves first native Enter activation and prevents held repeats (22.080168ms)
+✔ actual safety preserves first native NumpadEnter activation and prevents held repeats (18.358343ms)
+✔ actual safety preserves first native Space activation and prevents held repeats (27.421843ms)
+✔ actual repeated Escape cannot resume a safety dialog until a fresh press (18.902542ms)
+✔ actual voluntary keyboard pause still opens the complete menu directly (21.287509ms)
+✔ actual voluntary HUD pause still opens the complete menu directly (17.896936ms)
+✔ actual save recovery supersedes a safety choice and still forbids Escape resume (19.00855ms)
+✔ actual safety entry with an already blocked save renders recovery instead of unusable acknowledgement (19.09603ms)
+✔ release during delayed accepted-action save is safety cancellation, never late Lance or duplicate stamina (1832.717913ms)
+✔ mouse capture loss after normal mouseup is not a second safety end (288.031802ms)
+✔ fresh Expert press immediately after menu close drains empty safety request instead of being swallowed (154.250572ms)
+✔ actual non-pausing safety drain stops mobility-owned audio on pointer cancellation (218.637878ms)
+✔ actual 500ms frame keeps the existing stall boundary and safety-only presentation (85.450222ms)
+✔ actual 501ms frame keeps the existing stall boundary and safety-only presentation (143.191566ms)
+✖ actual blur safety stop rejects menu mutation and clears held/deferred intent through resume (137.667636ms)
+✖ actual visibility safety stop rejects menu mutation and clears held/deferred intent through resume (117.449491ms)
+✖ actual frame-focus safety stop rejects menu mutation and clears held/deferred intent through resume (115.676405ms)
+✖ actual stall safety stop rejects menu mutation and clears held/deferred intent through resume (118.462117ms)
+✔ actual safety full-menu acknowledgement is presentation-only and preserves the saved revision (168.386325ms)
+✔ actual safety checkpoint failure keeps the existing recovery gate authoritative (149.984528ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 26
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4295.915031
+
+✖ failing tests:
+
+test at tests/expert-main-input.test.mjs:442:64
+✖ actual blur safety stop rejects menu mutation and clears held/deferred intent through resume (137.667636ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'idle' !== 'waiting'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a14-frame-safety-project/app/tests/expert-main-input.test.mjs:444:235)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'idle',
+    expected: 'waiting',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:442:64
+✖ actual visibility safety stop rejects menu mutation and clears held/deferred intent through resume (117.449491ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'idle' !== 'waiting'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a14-frame-safety-project/app/tests/expert-main-input.test.mjs:444:235)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'idle',
+    expected: 'waiting',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:442:64
+✖ actual frame-focus safety stop rejects menu mutation and clears held/deferred intent through resume (115.676405ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'idle' !== 'waiting'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a14-frame-safety-project/app/tests/expert-main-input.test.mjs:444:235)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'idle',
+    expected: 'waiting',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:442:64
+✖ actual stall safety stop rejects menu mutation and clears held/deferred intent through resume (118.462117ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'idle' !== 'waiting'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a14-frame-safety-project/app/tests/expert-main-input.test.mjs:444:235)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'idle',
+    expected: 'waiting',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

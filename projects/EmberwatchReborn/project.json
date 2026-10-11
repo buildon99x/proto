@@ -4,8 +4,8 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
-  "version": "0.14.0-reimplementation.13",
-  "summary": "R14a13 전투 표현 통합 후보: 전사 상하체·스킬 포즈, 망치 실루엣, 적 피격·죽음, 실제 접촉 사건 음향. 기존 밸런스·포탈·세이브 보존. 자동검사와 실제 화면·청음 품질은 별도 검증.",
+  "version": "0.14.0-reimplementation.14",
+  "summary": "R14a14 안전정지 메뉴 분리 후보: 긴 프레임 간격·포커스 이탈로 정지하면 재개 또는 전체 메뉴 진입을 명시 선택. 기존 전투 표현·수치·포탈·세이브·0.5초 안전 기준 보존. 프레임 중단 원인과 실제 품질은 별도 검증.",
   "tags": [
     "game",
     "action-rpg",

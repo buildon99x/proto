@@ -415,3 +415,10 @@ The required monorepo commands were attempted again in an independent a12 monore
 Final integrated tests/lint/build passed. Fresh terminal logs, production-handler reaction/audio cross-checks, 144 paired baseline gameplay/RNG comparisons and protected-file hashes are recorded under docs/verification-r14a13. Standalone audio full-test/lint runs previously ended with automatic approval review cancellation; those results are incomplete and are not retried or inherited. The final combined candidate is a new verification target. No native-browser, real listening, subjective quality, publication or Git success is implied by local automatic tests.
 
 Final R14a13: **4,312/4,312 unique tests**,0fail/skip/cancel,122355.118341ms; lint/app-build passed (124files,16,727,884bytes),123built source hashes verified. This newly executed count is the prior4,138 suite plus174 new tests; focused subsets are not added again. Initial7 expectation failures are retained with exact corrections. No native-browser or listening, Git/remote-CI/publication, or external backup acceptance is inferred.
+
+
+## R14a14 safety-stop containment — 2026-10-11
+
+Independent copy of frozen a13. Safety-origin pauses require an explicit choice before exposing ordinary menu actions. Voluntary pause, keyboard/focus access, the >500 ms threshold, cancellation and gameplay/save/art contracts remain unchanged. This addresses incidental later clicks entering a full menu; QA did not observe an actual allocation change. The cause of observed long rAF gaps is still under investigation and this change is not a claimed rendering fix. Final verification is recorded separately in docs/verification-r14a14.
+
+Final a14 automatic verification: 4,338/4,338 tests (4,312 prior + 26 new), zero failures/skips/cancellations; lint and build passed. Build 124 files / 16,729,021 bytes, 123 source-copy hashes verified. All rendering/audio/gameplay/timing models and 14 original assets remain byte-identical to a13. Native a14 browser acceptance and coordinated Git/archive/publication are pending.

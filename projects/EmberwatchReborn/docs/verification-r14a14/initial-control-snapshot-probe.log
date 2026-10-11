@@ -1,0 +1,116 @@
+✔ actual blur opens only the safety choice and focuses Continue (46.964546ms)
+✔ actual visibility opens only the safety choice and focuses Continue (33.860388ms)
+✔ actual safety stop rejects fresh background and stale full-menu clicks before acknowledgement (32.232837ms)
+✔ actual safety stop blocks background HUD menu and immediate menu until explicit full-menu entry (30.712005ms)
+✔ actual safety stop rejects option and binding changes before acknowledgement (30.154997ms)
+✔ actual safety full-menu choice accepts keyboard activation without another checkpoint (27.136298ms)
+✔ actual safety full-menu choice accepts pointer activation without another checkpoint (27.207122ms)
+✔ actual safety click resumes and restores canvas without opening full menu (21.303784ms)
+✔ actual safety Escape resumes and restores canvas without opening full menu (18.561835ms)
+✔ actual safety Tab and Shift+Tab remain in its two choices and focus cannot escape (20.780815ms)
+✔ actual safety preserves first native Enter activation and prevents held repeats (23.689501ms)
+✔ actual safety preserves first native NumpadEnter activation and prevents held repeats (19.518788ms)
+✔ actual safety preserves first native Space activation and prevents held repeats (26.74794ms)
+✔ actual repeated Escape cannot resume a safety dialog until a fresh press (23.216492ms)
+✔ actual voluntary keyboard pause still opens the complete menu directly (25.462067ms)
+✔ actual voluntary HUD pause still opens the complete menu directly (24.656039ms)
+✔ actual save recovery supersedes a safety choice and still forbids Escape resume (27.65567ms)
+✔ actual safety entry with an already blocked save renders recovery instead of unusable acknowledgement (26.912739ms)
+✔ release during delayed accepted-action save is safety cancellation, never late Lance or duplicate stamina (1947.991426ms)
+✔ mouse capture loss after normal mouseup is not a second safety end (239.345701ms)
+✔ fresh Expert press immediately after menu close drains empty safety request instead of being swallowed (150.950265ms)
+✔ actual non-pausing safety drain stops mobility-owned audio on pointer cancellation (211.671018ms)
+✔ actual 500ms frame keeps the existing stall boundary and safety-only presentation (84.734448ms)
+✔ actual 501ms frame keeps the existing stall boundary and safety-only presentation (144.047399ms)
+✖ actual blur safety stop rejects menu mutation and clears held/deferred intent through resume (132.863856ms)
+✖ actual visibility safety stop rejects menu mutation and clears held/deferred intent through resume (115.146507ms)
+✖ actual frame-focus safety stop rejects menu mutation and clears held/deferred intent through resume (115.878075ms)
+✖ actual stall safety stop rejects menu mutation and clears held/deferred intent through resume (123.281324ms)
+✔ actual safety full-menu acknowledgement is presentation-only and preserves the saved revision (172.960468ms)
+✔ actual safety checkpoint failure keeps the existing recovery gate authoritative (151.201538ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 26
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4441.641489
+
+✖ failing tests:
+
+test at tests/expert-main-input.test.mjs:442:64
+✖ actual blur safety stop rejects menu mutation and clears held/deferred intent through resume (132.863856ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'cancelled'
+  - 'waiting'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a14-frame-safety-project/app/tests/expert-main-input.test.mjs:444:235)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'cancelled',
+    expected: 'waiting',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:442:64
+✖ actual visibility safety stop rejects menu mutation and clears held/deferred intent through resume (115.146507ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'cancelled'
+  - 'waiting'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a14-frame-safety-project/app/tests/expert-main-input.test.mjs:444:235)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'cancelled',
+    expected: 'waiting',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:442:64
+✖ actual frame-focus safety stop rejects menu mutation and clears held/deferred intent through resume (115.878075ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'cancelled'
+  - 'waiting'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a14-frame-safety-project/app/tests/expert-main-input.test.mjs:444:235)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'cancelled',
+    expected: 'waiting',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:442:64
+✖ actual stall safety stop rejects menu mutation and clears held/deferred intent through resume (123.281324ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'cancelled'
+  - 'waiting'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a14-frame-safety-project/app/tests/expert-main-input.test.mjs:444:235)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'cancelled',
+    expected: 'waiting',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,47 @@
+[
+  {
+    "path": "app/src/index.html",
+    "sha256": "16ac26520aedb790b7c589cc6e4d9b0bf880012fb83c3a2851995822fd92a9b4",
+    "bytes": 1695
+  },
+  {
+    "path": "app/src/main.js",
+    "sha256": "dd9ef09fedf7fafd45959024f92fd6d052baf1ff0042b62d852a1095be6c0d7d",
+    "bytes": 141834
+  },
+  {
+    "path": "app/src/recovery-page.js",
+    "sha256": "9e9800d4bea7ca0204fc471da3970de51c07c2695962b2bc93590b8945b752cd",
+    "bytes": 5067
+  },
+  {
+    "path": "app/tests/build-label-ui.test.mjs",
+    "sha256": "7fac00146c85e79f64e27695ed98dfe96ec0fcbeeed0ee1a5e21ae1911d7e552",
+    "bytes": 4159
+  },
+  {
+    "path": "app/tests/dialog-focus.test.mjs",
+    "sha256": "c69766a84ef4735bb04e3daa327ab9a464ffa80f35fb2cb95e9e6893ac78d578",
+    "bytes": 23401
+  },
+  {
+    "path": "app/tests/expert-main-input.test.mjs",
+    "sha256": "eb1fd7123483b5c4baf47c67823f2032f157c324e6e1ebf8a2c3c0014ee82f8b",
+    "bytes": 88828
+  },
+  {
+    "path": "app/tests/tomb-ui-integration.test.mjs",
+    "sha256": "a84ce29956efb07686967ba72ed6ebdbbba98bfb4ceaa234379fc625be46cb92",
+    "bytes": 56490
+  },
+  {
+    "path": "app/tests/wilderness-ui-integration.test.mjs",
+    "sha256": "00f800ef53ef77542884b0dd6c40d30242dc1c50783cc98e2befe146792d39bb",
+    "bytes": 28136
+  },
+  {
+    "path": "app/scripts/build-r14.mjs",
+    "sha256": "00fb3acf291f79e1ca1c1d2e63259a18111bd46c915c9094bd8964b2adc4bd2c",
+    "bytes": 3711
+  }
+]

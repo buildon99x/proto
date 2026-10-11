@@ -1,0 +1,74 @@
+{
+  "build": "R14a14",
+  "version": "0.14.0-reimplementation.14",
+  "atUtc": "2026-10-11T12:50:29.880578+00:00",
+  "status": "ready_for_parent_results_review; no Git or publication in this preparation",
+  "baselineCommit": "495c6d3f07b2dbc2970d641b629f2a1dcd2dd4fc",
+  "independentCandidate": true,
+  "uniqueTests": 4338,
+  "passed": 4338,
+  "failed": 0,
+  "skipped": 0,
+  "cancelled": 0,
+  "newUniqueTests": 26,
+  "durationMs": 125475.125151,
+  "fullTestLog": "full-tests.log",
+  "focusedSafety": {
+    "passed": 30,
+    "newCasesIncluded": 26,
+    "log": "focused-safety.log"
+  },
+  "initialAggregate": {
+    "tests": 4338,
+    "pass": 4336,
+    "fail": 2,
+    "log": "initial-full-tests.log",
+    "correction": "Recovery build display constant still said a13; corrected to a14 without changing recovery behavior."
+  },
+  "lint": "passed",
+  "appBuild": "passed",
+  "buildFiles": 124,
+  "buildBytes": 16729021,
+  "builtSourceHashesVerified": 123,
+  "preservation": {
+    "frozenA13SourceFilesUnchanged": 1172,
+    "sourceFilesTotal": 125,
+    "sourceFilesUnchanged": 122,
+    "sourceFilesChanged": [
+      "index.html",
+      "recovery-page.js",
+      "main.js"
+    ],
+    "unchangedAssets": {
+      "assets": 4,
+      "app/src/assets": 10
+    },
+    "allCombatRenderAudioTimingAndSaveModelModulesByteIdentical": true
+  },
+  "staticReview": {
+    "blockingIssues": 0,
+    "scope": "Safety-only menu ownership, voluntary pause, keyboard/focus, error/death transitions, unchanged cancellation/thresholds; no native browser operation."
+  },
+  "change": "Automatic safety pause exposes only Continue and explicit full menu; denies other click/change actions before acknowledgement. No render optimization or stall cause fix claimed.",
+  "a13ObservedIncident": "Subsequent fresh gameplay clicks entered skill layout after automatic full-menu pause. No actual stat/skill allocation mutation was observed.",
+  "performance": {
+    "cause": "not established",
+    "ordinaryMovementRigCalls": 0,
+    "rigDirectionCachePixels": 295745,
+    "nativeRigProbes": 2000,
+    "pairedFullSceneBenchmark": "incomplete; native batches terminated with exit137",
+    "isolatedChromium": "not started; process socket OS permission restriction remained after one official escalation",
+    "nativeRecordedSegment": "Later D800ms segment: rAF max416.5ms, synchronous JS max278.2ms, render max4.6ms. Not the exact previous >500ms suspension sample.",
+    "evidence": "performance/README.md"
+  },
+  "gitWritten": false,
+  "sitePublished": false,
+  "libraryArchived": false,
+  "nativeBrowserA14": "not yet performed",
+  "remaining": [
+    "Native browser acceptance of safety menu and compact/keyboard interaction",
+    "Capture exact long-gap callback with total/unbracketed work versus browser/GPU scheduling",
+    "Source backup and coordinated Git/publication sequence after parent review",
+    "Full combat quality/PoE2 parity and speaker-output listening remain outside this narrow correction"
+  ]
+}
