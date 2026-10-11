@@ -1,0 +1,56 @@
+{
+  "status": "R14a18 label-final source frozen; Git/CI/Library handled separately",
+  "completedAtUtc": "2026-10-11T16:37:46.564961+00:00",
+  "baselineCommit": "57c80841e8a9c2682a1a8c4f57d575a23804d80d",
+  "runtimeChangedFilesVsA17": [
+    "app/src/index.html",
+    "app/src/main.js",
+    "app/src/recovery-page.js",
+    "app/src/save.js"
+  ],
+  "functionalChange": "One createStore.load hunk in save.js, byte-identical to the reviewed head-first patch",
+  "labelOnlyRuntimeFiles": [
+    "app/src/main.js",
+    "app/src/index.html",
+    "app/src/recovery-page.js"
+  ],
+  "sourceFreezeEntries": 371,
+  "priorFullVerification": {
+    "log": "../verification-head-first-save/full-diagnostic.tap",
+    "tests": 4483,
+    "passed": 4483,
+    "failed": 0,
+    "scope": "Identical functional source before a17-to-a18 display/version relabel. Not a second full run after relabel.",
+    "initialFailureRetained": "../verification-head-first-save/full-suite-diagnosis.md"
+  },
+  "afterLabelVerification": {
+    "tests": {
+      "tests": 215,
+      "pass": 215,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "files": 6,
+    "durationMs": 24228.808956,
+    "lintExit": 0,
+    "buildExit": 0
+  },
+  "build": {
+    "payloadFiles": 125,
+    "payloadBytes": 16744195,
+    "copiedSourceHashesVerified": 124,
+    "manifestSha256": "febc7c18adb849ec6a11642643c0269ba9070626b54846aad4b3404e37ae6323",
+    "mainSha256": "5d283a079c798051ed7ca590c9c7131ea30050500c2d7373073442a23bcdb7f0",
+    "saveSha256": "a0538302f14ea9fafb1da8eb163871b463d60832ac6551640a17d201fcb8c86e"
+  },
+  "preservation": {
+    "reviewedHeadFirstSourceTestFreezeReverified": 371,
+    "allExistingTestsChangedOnlyForThreeReleaseExpectations": true,
+    "assetAndProvenanceFilesUnchanged": 14,
+    "threeRawReadsCasWebLocksReadbacksFallbackUpgradeFences": true,
+    "busy150msExpiry500msSafetyAndGameModelsUnchanged": true
+  },
+  "claimBoundary": "One unused normal-head slot validation removed (checkpoint calls 7 to 6). Scripted normal checkpoint stage medians fell 12.6–17.0%; browser input expiry and immediate-input quality are not established as fixed.",
+  "gitDeploymentLibrary": "not part of this source freeze; see separate exact-SHA release receipt"
+}

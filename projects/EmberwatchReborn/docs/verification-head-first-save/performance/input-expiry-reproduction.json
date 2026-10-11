@@ -1,0 +1,130 @@
+{
+  "ok": true,
+  "scope": "Two extracted production main handlers + real router/gate/latency with logical clock; combat delivery is a probe. No actual store I/O or native timing measured.",
+  "results": [
+    {
+      "logicalSaveWaitAgeMs": 149,
+      "dodgePulseDelivered": true,
+      "heldAfterExpiry": true,
+      "toast": null,
+      "observations": [
+        {
+          "kind": "input",
+          "at": 100,
+          "sequence": 1,
+          "action": "dodgeSprint",
+          "skillId": null,
+          "intent": "mobility",
+          "receivedAt": 100
+        },
+        {
+          "kind": "save-wait",
+          "at": 100,
+          "sequence": 1,
+          "action": "dodgeSprint",
+          "skillId": null,
+          "intent": "mobility",
+          "receivedAt": 100
+        }
+      ]
+    },
+    {
+      "logicalSaveWaitAgeMs": 150,
+      "dodgePulseDelivered": true,
+      "heldAfterExpiry": true,
+      "toast": null,
+      "observations": [
+        {
+          "kind": "input",
+          "at": 100,
+          "sequence": 1,
+          "action": "dodgeSprint",
+          "skillId": null,
+          "intent": "mobility",
+          "receivedAt": 100
+        },
+        {
+          "kind": "save-wait",
+          "at": 100,
+          "sequence": 1,
+          "action": "dodgeSprint",
+          "skillId": null,
+          "intent": "mobility",
+          "receivedAt": 100
+        }
+      ]
+    },
+    {
+      "logicalSaveWaitAgeMs": 151,
+      "dodgePulseDelivered": false,
+      "heldAfterExpiry": true,
+      "toast": "저장 대기가 길어 입력을 취소했습니다. 다시 눌러 주세요.",
+      "observations": [
+        {
+          "kind": "input",
+          "at": 100,
+          "sequence": 1,
+          "action": "dodgeSprint",
+          "skillId": null,
+          "intent": "mobility",
+          "receivedAt": 100
+        },
+        {
+          "kind": "save-wait",
+          "at": 100,
+          "sequence": 1,
+          "action": "dodgeSprint",
+          "skillId": null,
+          "intent": "mobility",
+          "receivedAt": 100
+        },
+        {
+          "kind": "cancelled",
+          "at": 251,
+          "sequence": 1,
+          "action": "dodgeSprint",
+          "skillId": null,
+          "intent": "mobility",
+          "receivedAt": 100,
+          "reason": "save-input-expired"
+        }
+      ]
+    },
+    {
+      "logicalSaveWaitAgeMs": 300,
+      "dodgePulseDelivered": false,
+      "heldAfterExpiry": true,
+      "toast": "저장 대기가 길어 입력을 취소했습니다. 다시 눌러 주세요.",
+      "observations": [
+        {
+          "kind": "input",
+          "at": 100,
+          "sequence": 1,
+          "action": "dodgeSprint",
+          "skillId": null,
+          "intent": "mobility",
+          "receivedAt": 100
+        },
+        {
+          "kind": "save-wait",
+          "at": 100,
+          "sequence": 1,
+          "action": "dodgeSprint",
+          "skillId": null,
+          "intent": "mobility",
+          "receivedAt": 100
+        },
+        {
+          "kind": "cancelled",
+          "at": 400,
+          "sequence": 1,
+          "action": "dodgeSprint",
+          "skillId": null,
+          "intent": "mobility",
+          "receivedAt": 100,
+          "reason": "save-input-expired"
+        }
+      ]
+    }
+  ]
+}

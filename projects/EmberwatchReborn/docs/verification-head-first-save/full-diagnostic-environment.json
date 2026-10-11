@@ -1,0 +1,20 @@
+{
+  "probeExit": 0,
+  "node": {
+    "version": "v24.19.0",
+    "availableParallelism": 9,
+    "heapLimitBytes": 2348810240,
+    "constrainedMemoryBytes": 0,
+    "availableMemoryBytes": 2218541056
+  },
+  "startedAtUtc": "2026-10-11T16:27:54.870670+00:00",
+  "sourceUnchanged": true,
+  "testReporter": "tap",
+  "testConcurrency": "Node default, not overridden",
+  "samplingIntervalSeconds": 0.5,
+  "resourceScope": "Read-only /proc RSS of the launched Node test process and its descendants; no heap dump or environment-secret logging.",
+  "memory.max": "not exposed at conventional cgroup path",
+  "memory.current": "not exposed at conventional cgroup path",
+  "memory.events": "not exposed at conventional cgroup path",
+  "cpu.max": "not exposed at conventional cgroup path"
+}

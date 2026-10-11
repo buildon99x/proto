@@ -1,0 +1,1623 @@
+{
+  "scope": "Unmodified a17 modules; isolated Node earned-state checkpoint pipeline; in-memory string storage and immediate fake Web Lock. Not live browser save duration, lock contention, native CPU or an input fix.",
+  "trialsPerStage": 6,
+  "stages": [
+    {
+      "stage": "entered",
+      "summary": {
+        "elapsedMs": {
+          "n": 6,
+          "min": 122.51399000000015,
+          "p50": 134.25483199999996,
+          "p95": 174.574161,
+          "max": 174.574161
+        },
+        "processCpuMs": {
+          "n": 6,
+          "min": 128.604,
+          "p50": 173.435,
+          "p95": 241.697,
+          "max": 241.697
+        },
+        "phaseTotals": {},
+        "storageReads": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "storageWrites": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "trials": [
+        {
+          "elapsedMs": 174.574161,
+          "processCpuMs": 241.697,
+          "revision": 3,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.006939999999985957
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0003399999999942338
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0001700000000255386
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0019629999999324355
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8017,
+              "ms": 0.005607999999938329
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00022000000001298758
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00022000000001298758
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0018830000000207292
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00027000000000043656
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 63.09797699999996
+            }
+          ]
+        },
+        {
+          "elapsedMs": 136.05027999999993,
+          "processCpuMs": 175.238,
+          "revision": 4,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0019330000000081782
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00027000000000043656
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00024999999993724487
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0016819999999597712
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8017,
+              "ms": 0.006268999999974767
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00023999999996249244
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0001700000000255386
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0018330000000332802
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.000279999999975189
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 55.324092000000064
+            }
+          ]
+        },
+        {
+          "elapsedMs": 134.25483199999996,
+          "processCpuMs": 173.435,
+          "revision": 5,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.002104000000031192
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00034100000004855247
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00014999999996234692
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0014620000000604705
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8017,
+              "ms": 0.005308000000013635
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.000431000000048698
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00020000000006348273
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0038359999999784122
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0001700000000255386
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 60.43968599999994
+            }
+          ]
+        },
+        {
+          "elapsedMs": 124.32970999999998,
+          "processCpuMs": 141.905,
+          "revision": 6,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0016630000000077416
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00034100000004855247
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0001700000000255386
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0015619999999216816
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8017,
+              "ms": 0.010836000000040258
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00022000000001298758
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00016000000005078618
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0007709999999860884
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0001609999999345746
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 53.04948000000002
+            }
+          ]
+        },
+        {
+          "elapsedMs": 126.28379399999994,
+          "processCpuMs": 130.512,
+          "revision": 7,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.002132999999957974
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00028099999997266423
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00016000000005078618
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001502000000073167
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8017,
+              "ms": 0.0020130000000335713
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00021999999989930075
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00018000000000029104
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0005109999999604042
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00016000000005078618
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 56.09131200000013
+            }
+          ]
+        },
+        {
+          "elapsedMs": 122.51399000000015,
+          "processCpuMs": 128.604,
+          "revision": 8,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0025040000000444707
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0005400000000008731
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00018000000000029104
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0024029999999584106
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8017,
+              "ms": 0.002663999999867883
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0002110000000357104
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0001700000000255386
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00048100000003614696
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00018000000000029104
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 51.85435499999994
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage": "chosen",
+      "summary": {
+        "elapsedMs": {
+          "n": 6,
+          "min": 124.60656199999994,
+          "p50": 128.39806099999987,
+          "p95": 130.988384,
+          "max": 130.988384
+        },
+        "processCpuMs": {
+          "n": 6,
+          "min": 130.498,
+          "p50": 136.452,
+          "p95": 139.605,
+          "max": 139.605
+        },
+        "phaseTotals": {},
+        "storageReads": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "storageWrites": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "trials": [
+        {
+          "elapsedMs": 130.42199900000014,
+          "processCpuMs": 139.077,
+          "revision": 3,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0023940000000948203
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0003299999998489511
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00014999999984866008
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0023040000000946748
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8468,
+              "ms": 0.0022230000001854933
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0001999999999497959
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0002009999998335843
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00026099999990947254
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00015000000007603376
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 56.086667000000034
+            }
+          ]
+        },
+        {
+          "elapsedMs": 130.988384,
+          "processCpuMs": 139.605,
+          "revision": 4,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0021639999999933934
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00046099999985926843
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00013999999987390765
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001491999999871041
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8468,
+              "ms": 0.0013420000000223808
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0003710000000864966
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00018000000000029104
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00031000000012681994
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00015000000007603376
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 54.46851300000003
+            }
+          ]
+        },
+        {
+          "elapsedMs": 125.12583500000005,
+          "processCpuMs": 131.507,
+          "revision": 5,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0028540000000703003
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00056100000006154
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00037999999995008693
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0014519999999720312
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8468,
+              "ms": 0.0018130000000837754
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00023000000010142685
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00022100000001046283
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00026000000002568413
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0001700000000255386
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 53.922021000000086
+            }
+          ]
+        },
+        {
+          "elapsedMs": 128.39806099999987,
+          "processCpuMs": 130.498,
+          "revision": 6,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.002993999999944208
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0004910000000108994
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0001700000000255386
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.002132999999957974
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8468,
+              "ms": 0.0015819999998711864
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0001999999999497959
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00020100000006095797
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0002809999998589774
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00016000000005078618
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 56.27842499999997
+            }
+          ]
+        },
+        {
+          "elapsedMs": 124.60656199999994,
+          "processCpuMs": 131.989,
+          "revision": 7,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0019220000001496373
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00026099999990947254
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0002009999998335843
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0019629999999324355
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8468,
+              "ms": 0.0018329999998059066
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0004109999999855063
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0002500000000509317
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00025999999979831045
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00015000000007603376
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 51.38479700000016
+            }
+          ]
+        },
+        {
+          "elapsedMs": 125.67377899999974,
+          "processCpuMs": 136.452,
+          "revision": 8,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.003324999999904321
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0005400000000008731
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00014099999998506973
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0016929999997046252
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8468,
+              "ms": 0.0022229999999581196
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0004909999997835257
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0001710000001367007
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00028100000008635106
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00016000000005078618
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 54.55707400000006
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage": "approach",
+      "summary": {
+        "elapsedMs": {
+          "n": 6,
+          "min": 125.07829399999991,
+          "p50": 127.91412199999968,
+          "p95": 146.52918799999998,
+          "max": 146.52918799999998
+        },
+        "processCpuMs": {
+          "n": 6,
+          "min": 131.822,
+          "p50": 141.398,
+          "p95": 155.392,
+          "max": 155.392
+        },
+        "phaseTotals": {},
+        "storageReads": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "storageWrites": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "trials": [
+        {
+          "elapsedMs": 127.554216,
+          "processCpuMs": 141.763,
+          "revision": 3,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.002173000000311731
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.002532999999857566
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.028892999999698077
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0018420000001242443
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8682,
+              "ms": 0.002013000000260945
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00025999999979831045
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00011999999969702912
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0001999999999497959
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00014099999998506973
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 53.636495000000195
+            }
+          ]
+        },
+        {
+          "elapsedMs": 127.91412199999968,
+          "processCpuMs": 137.694,
+          "revision": 4,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0017030000003614987
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00018099999988407944
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00011000000040439772
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0013619999999718857
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8682,
+              "ms": 0.0018829999999070424
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00016000000005078618
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00011999999969702912
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00024000000030355295
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00011999999969702912
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 56.77308099999982
+            }
+          ]
+        },
+        {
+          "elapsedMs": 125.47129799999993,
+          "processCpuMs": 132.283,
+          "revision": 5,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0015220000000226719
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00019000000020241714
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00009999999974752427
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0017230000003110035
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8682,
+              "ms": 0.0015220000000226719
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00019000000020241714
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012999999989915523
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0002299999996466795
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012100000003556488
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 52.736307000000124
+            }
+          ]
+        },
+        {
+          "elapsedMs": 125.07829399999991,
+          "processCpuMs": 131.822,
+          "revision": 6,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0014419999997699051
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00027099999988422496
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0001609999999345746
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0013920000001235167
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8682,
+              "ms": 0.0017130000001088774
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00016999999979816494
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00014000000010128133
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00024100000018734136
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.000210000000151922
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 54.24470099999962
+            }
+          ]
+        },
+        {
+          "elapsedMs": 138.15879899999982,
+          "processCpuMs": 141.398,
+          "revision": 7,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0021729999998569838
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0002399999998488056
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00010000000020227162
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001502000000073167
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8682,
+              "ms": 0.0019820000002255256
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00019000000020241714
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00014000000010128133
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00023099999998521525
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00013999999964653398
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 58.576604000000316
+            }
+          ]
+        },
+        {
+          "elapsedMs": 146.52918799999998,
+          "processCpuMs": 155.392,
+          "revision": 8,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.006560000000263244
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0003710000000864966
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00020999999969717464
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001332000000275002
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8682,
+              "ms": 0.0011810000000878063
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00043000000005122274
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012000000015177648
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00024100000018734136
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012000000015177648
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 61.18349100000023
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage": "evidence",
+      "summary": {
+        "elapsedMs": {
+          "n": 6,
+          "min": 121.81515000000036,
+          "p50": 123.29706400000032,
+          "p95": 129.83395699999983,
+          "max": 129.83395699999983
+        },
+        "processCpuMs": {
+          "n": 6,
+          "min": 124.984,
+          "p50": 132.869,
+          "p95": 140.499,
+          "max": 140.499
+        },
+        "phaseTotals": {},
+        "storageReads": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "storageWrites": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "trials": [
+        {
+          "elapsedMs": 121.96851800000013,
+          "processCpuMs": 124.984,
+          "revision": 3,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.002553999999690859
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00021999999989930075
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00010999999994965037
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0022229999999581196
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8747,
+              "ms": 0.00171299999965413
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0002899999999499414
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00011999999969702912
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0002399999998488056
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012000000015177648
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 52.45031199999994
+            }
+          ]
+        },
+        {
+          "elapsedMs": 122.61624100000017,
+          "processCpuMs": 126.575,
+          "revision": 4,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.002193000000261236
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0002210000002378365
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00013000000035390258
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0019929999998566927
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8747,
+              "ms": 0.0018529999997554114
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00018099999988407944
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00021999999989930075
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0002509999999347201
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00010999999994965037
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 52.249713000000156
+            }
+          ]
+        },
+        {
+          "elapsedMs": 129.83395699999983,
+          "processCpuMs": 137.004,
+          "revision": 5,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0021339999998417625
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00028000000020256266
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00009999999974752427
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0012719999999717402
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8747,
+              "ms": 0.002223999999841908
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00019000000020241714
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012000000015177648
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00021999999989930075
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00011099999983343878
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 53.37415599999986
+            }
+          ]
+        },
+        {
+          "elapsedMs": 126.35618400000021,
+          "processCpuMs": 132.869,
+          "revision": 6,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00174200000037672
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0002210000002378365
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00014000000010128133
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0017829999997047707
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8747,
+              "ms": 0.0013219999996181286
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00016999999979816494
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00011999999969702912
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00019000000020241714
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00014000000010128133
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 53.683444999999665
+            }
+          ]
+        },
+        {
+          "elapsedMs": 121.81515000000036,
+          "processCpuMs": 140.499,
+          "revision": 7,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0017530000000078871
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0003710000000864966
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00010999999994965037
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001081000000340282
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8747,
+              "ms": 0.0021729999998569838
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0003010000000358559
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012999999989915523
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00023000000010142685
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012100000003556488
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 52.082112999999936
+            }
+          ]
+        },
+        {
+          "elapsedMs": 123.29706400000032,
+          "processCpuMs": 129.248,
+          "revision": 8,
+          "phases": [],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0019329999995534308
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00034099999993486563
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00010999999994965037
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0025040000000444707
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8747,
+              "ms": 0.002352999999857275
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00019000000020241714
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012100000003556488
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0002509999999347201
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012999999989915523
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 53.890863999999965
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ok": true
+}

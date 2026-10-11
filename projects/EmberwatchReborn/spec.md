@@ -330,3 +330,7 @@ Final a14 automatic verification: 4,338/4,338 tests (4,312 prior + 26 new), zero
 - Wilderness ancestry and progress validator bodies are unchanged. A first canonical read executes them normally; only subsequent same-root reads reuse immutable internal results. Returned validation objects are fresh copies, preventing caller mutation of future decisions.
 - Main wilderness view caching has the same provenance boundary. In-place changes to arbitrary mutable test/external states cannot reuse stale views. New save/profile identities cannot collide on objective revision.
 - Frame loop, strict >500ms safety, diagnostics, input policies, renderer/audio/models and save validation are unchanged. The a16 death/AX features remain integrated.
+
+## R14a18 head-first normal save candidate
+
+The normal load validates the head-selected slot first and avoids one unused alternate-slot validation when its receipt matches. All three raw reads, decoder decisions, fallback recovery, CAS, locks, readbacks, upgrade fences, busy/input atomicity and 150 ms expiry remain intact. The same immutable-freeze scene optimization and death accessibility from a17 remain. No fix to actual browser input expiry is claimed. See docs/verification-r14a18 for release-label checks and docs/verification-head-first-save for the original 4,483-test full pass, retained initial unexplained file-process failure, 50 new checks and bounded paired timings. No validation-reuse second phase is included.

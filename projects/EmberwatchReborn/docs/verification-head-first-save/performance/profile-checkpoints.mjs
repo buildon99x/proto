@@ -1,0 +1,17 @@
+// Run only after publisher confirms native input has stopped.
+import assert from 'node:assert/strict';import {readFileSync,writeFileSync} from 'node:fs';
+import {createSession} from './instrumented/save.js';import {createController} from './instrumented/controller.js';import {recordPhases} from './instrumented/diagnostic-phase.js';
+const fixtures=JSON.parse(readFileSync(new URL('../r14a15-scene-cost-audit/earned-scene-fixtures.json',import.meta.url),'utf8'));
+const result={scope:'Isolated Node earned-state checkpoint pipeline; in-memory string storage and immediate fake Web Lock. Not live browser save duration, lock contention, native CPU or an input fix.',trialsPerStage:6,stages:[]};
+const stats=xs=>{const a=xs.toSorted((x,y)=>x-y);return {n:a.length,min:a[0],p50:a[Math.floor(a.length*.5)],p95:a[Math.min(a.length-1,Math.floor(a.length*.95))],max:a.at(-1)};};
+for(const stage of ['entered','chosen','approach','evidence']){
+ const state=structuredClone(fixtures[stage]),data=new Map();let ops=[],lockEvents=[];
+ const storage={getItem(k){const start=performance.now(),v=data.get(k)??null;ops.push({op:'get',key:k,ms:performance.now()-start});return v;},setItem(k,v){const start=performance.now();data.set(k,v);ops.push({op:'set',key:k,bytes:v.length,ms:performance.now()-start});}};
+ const store=createSession(storage,{async request(name,opts,fn){const start=performance.now();try{return fn();}finally{lockEvents.push({name,ms:performance.now()-start});}}},{profile:'qa-save-diagnosis',namespace:'qa-r14'});
+ assert.equal((await store.save(state,{expectedRevision:0})).ok,true);assert.equal((await store.save(state,{expectedRevision:1})).ok,true);const controller=createController(store);assert.equal((await controller.load()).ok,true);const trials=[];
+ for(let i=0;i<result.trialsPerStage;i++){
+  const snap=controller.snapshot(),command={type:'checkpoint',life:snap.world.life??0,position:{...snap.world.position},vitals:{...snap.vitals},recovery:structuredClone(snap.recovery),expectedStoreRevision:controller.revision()};ops=[];lockEvents=[];const phases=[];recordPhases(phases);const cpu=process.cpuUsage(),start=performance.now(),r=await controller.dispatch(command),elapsedMs=performance.now()-start,used=process.cpuUsage(cpu);recordPhases(null);assert.equal(r.ok,true,r.reason);assert.deepEqual(r.state,snap);trials.push({elapsedMs,processCpuMs:(used.user+used.system)/1000,revision:r.revision,phases,storageOperations:ops,lockEvents});
+ }
+ const names=[...new Set(trials.flatMap(t=>t.phases.map(p=>p.name)))];const summary={elapsedMs:stats(trials.map(t=>t.elapsedMs)),processCpuMs:stats(trials.map(t=>t.processCpuMs)),phaseTotals:Object.fromEntries(names.map(n=>[n,{calls:trials.map(t=>t.phases.filter(p=>p.name===n).length),inclusiveMs:stats(trials.map(t=>t.phases.filter(p=>p.name===n).reduce((a,p)=>a+p.inclusiveMs,0))),exclusiveMs:stats(trials.map(t=>t.phases.filter(p=>p.name===n).reduce((a,p)=>a+p.exclusiveMs,0)))}])),storageReads:trials.map(t=>t.storageOperations.filter(x=>x.op==='get').length),storageWrites:trials.map(t=>t.storageOperations.filter(x=>x.op==='set').length)};result.stages.push({stage,summary,trials});
+}
+result.ok=true;writeFileSync(new URL('./checkpoint-profile.json',import.meta.url),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify({ok:true,scope:result.scope,stages:result.stages.map(({stage,summary})=>({stage,...summary}))},null,2));

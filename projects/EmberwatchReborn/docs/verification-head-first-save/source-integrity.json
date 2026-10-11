@@ -1,0 +1,47 @@
+{
+  "status": "source and tests frozen; worker CPU checks finished",
+  "baselineRoot": "/workspace/shared/emberwatch-r14a17-scene-cache-project",
+  "candidateRoot": "/workspace/shared/emberwatch-head-first-save-patch",
+  "baselineFilesChecked": 1461,
+  "changedOriginalFiles": [
+    {
+      "path": "app/src/save.js",
+      "baselineSha256": "bf5c4aa227d8da700164a0ae17f4dd26a19b9f0ce072297a405a30cc2723a7c4",
+      "candidateSha256": "a0538302f14ea9fafb1da8eb163871b463d60832ac6551640a17d201fcb8c86e"
+    }
+  ],
+  "missingOriginalFiles": [],
+  "unchangedSourceFiles": 125,
+  "unchangedAssetsFiles": 4,
+  "newTest": {
+    "path": "app/tests/save-head-first.test.mjs",
+    "sha256": "5b025787ff5cd5cf4e9a6d96df767d82cf8929040c118a70f0256e2a87c20f03",
+    "tests": 50
+  },
+  "productionHunks": 1,
+  "focused": {
+    "tests": 823,
+    "pass": 823,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "files": 21,
+    "exit": 0
+  },
+  "baselineNegativeControl": {
+    "tests": 3,
+    "failedAsExpected": 3,
+    "exit": 1
+  },
+  "checkpointCounts": {
+    "stages": 4,
+    "baselineValidations": 7,
+    "candidateValidations": 6,
+    "baselineDecodes": 2,
+    "candidateDecodes": 1,
+    "exactResultStoredBytesStorageAndLockParity": true
+  },
+  "releaseRelabeled": false,
+  "fullSuiteLintBuild": "not run by worker; coordinator owned",
+  "gitDeploymentLibrary": "not performed"
+}

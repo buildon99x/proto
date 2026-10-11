@@ -99,3 +99,7 @@ See docs/verification-r14a16/README.md and final-summary.json. Actual supported-
 
 ## R14a17 integrated candidate
 The current preparation combines R14a16 death-overlay accessibility guards with a measured reduction in repeated wilderness scene validation. Main owns a canonical immutable copy of each validated received snapshot; only those copies may reuse full validation results. The mutable controller API, malformed/Proxy checks, saves, assets, combat rules, RNG and strict >500ms safety threshold remain intact. See docs/verification-r14a17 for the integrated aggregate and before/after evidence. Native browser stall resolution and AX acceptance are still separate gates.
+
+## R14a18 head-first normal save candidate
+
+The normal load validates the head-selected slot first and avoids one unused alternate-slot validation when its receipt matches. All three raw reads, decoder decisions, fallback recovery, CAS, locks, readbacks, upgrade fences, busy/input atomicity and 150 ms expiry remain intact. The same immutable-freeze scene optimization and death accessibility from a17 remain. No fix to actual browser input expiry is claimed. See docs/verification-r14a18 for release-label checks and docs/verification-head-first-save for the original 4,483-test full pass, retained initial unexplained file-process failure, 50 new checks and bounded paired timings. No validation-reuse second phase is included.

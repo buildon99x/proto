@@ -1,0 +1,4411 @@
+{
+  "scope": "Isolated Node earned-state checkpoint pipeline; in-memory string storage and immediate fake Web Lock. Not live browser save duration, lock contention, native CPU or an input fix.",
+  "trialsPerStage": 6,
+  "stages": [
+    {
+      "stage": "entered",
+      "summary": {
+        "elapsedMs": {
+          "n": 6,
+          "min": 118.46206399999983,
+          "p50": 143.53893600000004,
+          "p95": 150.15876400000002,
+          "max": 150.15876400000002
+        },
+        "processCpuMs": {
+          "n": 6,
+          "min": 122.922,
+          "p50": 179.096,
+          "p95": 210.633,
+          "max": 210.633
+        },
+        "phaseTotals": {
+          "state.reduceRuntime": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 53.120169999999916,
+              "p50": 64.80199200000004,
+              "p95": 70.49420800000001,
+              "max": 70.49420800000001
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.5647390000001451,
+              "p50": 0.8443149999999378,
+              "p95": 3.1265050000000656,
+              "max": 3.1265050000000656
+            }
+          },
+          "state.validateState": {
+            "calls": [
+              7,
+              7,
+              7,
+              7,
+              7,
+              7
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 117.05295099999944,
+              "p50": 141.93172700000002,
+              "p95": 146.49872899999997,
+              "max": 146.49872899999997
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 117.05295099999944,
+              "p50": 141.93172700000002,
+              "p95": 146.49872899999997,
+              "max": 146.49872899999997
+            }
+          },
+          "state.migrateState": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 18.021950999999945,
+              "p50": 21.081436000000053,
+              "p95": 23.294614000000024,
+              "max": 23.294614000000024
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.18502399999999852,
+              "p50": 0.20143999999993412,
+              "p95": 0.25269600000001446,
+              "max": 0.25269600000001446
+            }
+          },
+          "store.save": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 48.94822199999999,
+              "p50": 58.20860800000003,
+              "p95": 59.355801999999926,
+              "max": 59.355801999999926
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.12748000000010506,
+              "p50": 0.14440399999989495,
+              "p95": 0.19238700000005338,
+              "max": 0.19238700000005338
+            }
+          },
+          "store.load": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 33.030426000000034,
+              "p50": 39.018260999999995,
+              "p95": 39.64438099999995,
+              "max": 39.64438099999995
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.036785000000122636,
+              "p50": 0.047319000000015876,
+              "p95": 0.06110999999998512,
+              "max": 0.06110999999998512
+            }
+          },
+          "save.decode": {
+            "calls": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 32.98970599999984,
+              "p50": 38.95715100000001,
+              "p95": 39.59706199999994,
+              "max": 39.59706199999994
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.2593059999999241,
+              "p50": 0.317250999999942,
+              "p95": 0.3425290000000132,
+              "max": 0.3425290000000132
+            }
+          }
+        },
+        "storageReads": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "storageWrites": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "trials": [
+        {
+          "elapsedMs": 150.15876400000002,
+          "processCpuMs": 210.633,
+          "revision": 3,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 70.49420800000001,
+              "exclusiveMs": 2.16112899999996
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 24.299527000000012,
+              "exclusiveMs": 24.299527000000012
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 23.294614000000024,
+              "exclusiveMs": 0.24533400000007077
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 23.049279999999953,
+              "exclusiveMs": 23.049279999999953
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 20.73893800000002,
+              "exclusiveMs": 20.73893800000002
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 20.747226000000012,
+              "exclusiveMs": 20.747226000000012
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 58.20860800000003,
+              "exclusiveMs": 0.1741680000000656
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 19.016178999999966,
+              "exclusiveMs": 19.016178999999966
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 39.018260999999995,
+              "exclusiveMs": 0.06110999999998512
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 19.133422999999993,
+              "exclusiveMs": 0.15013399999998
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 18.983289000000013,
+              "exclusiveMs": 18.983289000000013
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 19.823728000000017,
+              "exclusiveMs": 0.15943800000002284
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 19.664289999999994,
+              "exclusiveMs": 19.664289999999994
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.005958999999961634
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0005209999999920001
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00018000000000029104
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0015030000000137989
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8017,
+              "ms": 0.0056380000000331165
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0004610000000297987
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0002599999999688407
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0017929999999637403
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0001699999999686952
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 58.22389099999998
+            }
+          ]
+        },
+        {
+          "elapsedMs": 143.53893600000004,
+          "processCpuMs": 179.096,
+          "revision": 4,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 64.80199200000004,
+              "exclusiveMs": 0.5648380000000657
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 23.245531000000028,
+              "exclusiveMs": 23.245531000000028
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 20.637286999999958,
+              "exclusiveMs": 0.18729899999999589
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 20.449987999999962,
+              "exclusiveMs": 20.449987999999962
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 20.35433599999999,
+              "exclusiveMs": 20.35433599999999
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 19.83398299999999,
+              "exclusiveMs": 19.83398299999999
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 58.62695000000008,
+              "exclusiveMs": 0.19238700000005338
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 18.790182000000073,
+              "exclusiveMs": 18.790182000000073
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 39.64438099999995,
+              "exclusiveMs": 0.047319000000015876
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 20.62722199999996,
+              "exclusiveMs": 0.13766499999996995
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 20.48955699999999,
+              "exclusiveMs": 20.48955699999999
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 18.969839999999976,
+              "exclusiveMs": 0.20168999999998505
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 18.76814999999999,
+              "exclusiveMs": 18.76814999999999
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001092000000085136
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0005310000000235959
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00018000000000029104
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0015720000000101209
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8017,
+              "ms": 0.006148999999936677
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00022100000001046283
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00015099999995982216
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0017720000000736036
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00016999999991185177
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 58.63582300000007
+            }
+          ]
+        },
+        {
+          "elapsedMs": 147.297549,
+          "processCpuMs": 187.887,
+          "revision": 5,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 69.099516,
+              "exclusiveMs": 3.1265050000000656
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 19.875534000000016,
+              "exclusiveMs": 19.875534000000016
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 23.148566999999957,
+              "exclusiveMs": 0.20143999999993412
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 22.947127000000023,
+              "exclusiveMs": 22.947127000000023
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 22.948909999999955,
+              "exclusiveMs": 22.948909999999955
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 18.605687999999986,
+              "exclusiveMs": 18.605687999999986
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 59.355801999999926,
+              "exclusiveMs": 0.14440399999989495
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 19.61736099999996,
+              "exclusiveMs": 19.61736099999996
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 39.59403700000007,
+              "exclusiveMs": 0.036785000000122636
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 20.77370899999994,
+              "exclusiveMs": 0.16233099999999467
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 20.611377999999945,
+              "exclusiveMs": 20.611377999999945
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 18.78354300000001,
+              "exclusiveMs": 0.1801980000000185
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 18.60334499999999,
+              "exclusiveMs": 18.60334499999999
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0012120000000095388
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0006909999999606953
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00015099999995982216
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0008310000000619766
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8017,
+              "ms": 0.006318999999962216
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00027000000000043656
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00027000000000043656
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0038959999999406136
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0002610000000231594
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 59.36649799999998
+            }
+          ]
+        },
+        {
+          "elapsedMs": 125.94195500000001,
+          "processCpuMs": 144.277,
+          "revision": 6,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 57.37774400000001,
+              "exclusiveMs": 0.8443149999999378
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 19.930406000000062,
+              "exclusiveMs": 19.930406000000062
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.839376000000016,
+              "exclusiveMs": 0.25269600000001446
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 18.58668,
+              "exclusiveMs": 18.58668
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.76364699999999,
+              "exclusiveMs": 17.76364699999999
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 16.789560999999935,
+              "exclusiveMs": 16.789560999999935
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 51.502987000000076,
+              "exclusiveMs": 0.13751400000001013
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.44733800000006,
+              "exclusiveMs": 17.44733800000006
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 33.91813500000001,
+              "exclusiveMs": 0.04172300000004725
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.23838699999999,
+              "exclusiveMs": 0.13339799999994284
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 17.104989000000046,
+              "exclusiveMs": 17.104989000000046
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 16.63802499999997,
+              "exclusiveMs": 0.18385299999999916
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 16.45417199999997,
+              "exclusiveMs": 16.45417199999997
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0009519999999838547
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0008209999999735373
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0001700000000255386
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0012920000000349319
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8017,
+              "ms": 0.007971999999995205
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0001700000000255386
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0002500000000509317
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0004999999999881766
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00018000000000029104
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 51.51600700000006
+            }
+          ]
+        },
+        {
+          "elapsedMs": 132.11961299999996,
+          "processCpuMs": 136.307,
+          "revision": 7,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 55.60697400000004,
+              "exclusiveMs": 0.58739300000002
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 17.136365999999953,
+              "exclusiveMs": 17.136365999999953
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 21.081436000000053,
+              "exclusiveMs": 0.18502399999999852
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 20.896412000000055,
+              "exclusiveMs": 20.896412000000055
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 16.80177900000001,
+              "exclusiveMs": 16.80177900000001
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 18.04068899999993,
+              "exclusiveMs": 18.04068899999993
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 58.19761200000005,
+              "exclusiveMs": 0.14056000000005042
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 24.397260999999958,
+              "exclusiveMs": 24.397260999999958
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 33.65979100000004,
+              "exclusiveMs": 0.04736000000002605
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 16.711765000000014,
+              "exclusiveMs": 0.12943199999995159
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 16.582333000000062,
+              "exclusiveMs": 16.582333000000062
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 16.900666,
+              "exclusiveMs": 0.17288699999994606
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 16.727779000000055,
+              "exclusiveMs": 16.727779000000055
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0013119999999844367
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0005409999999983484
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00016000000005078618
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0017130000001088774
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8017,
+              "ms": 0.002334000000018932
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00026000000002568413
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0001599999998234125
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0004610000000866421
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0001700000000255386
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 58.21257400000002
+            }
+          ]
+        },
+        {
+          "elapsedMs": 118.46206399999983,
+          "processCpuMs": 122.922,
+          "revision": 8,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 53.120169999999916,
+              "exclusiveMs": 0.5647390000001451
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 17.14657199999988,
+              "exclusiveMs": 17.14657199999988
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.021950999999945,
+              "exclusiveMs": 0.18717799999990348
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 17.83477300000004,
+              "exclusiveMs": 17.83477300000004
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.38690799999995,
+              "exclusiveMs": 17.38690799999995
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 16.163981999999805,
+              "exclusiveMs": 16.163981999999805
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 48.94822199999999,
+              "exclusiveMs": 0.12748000000010506
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 15.790315999999848,
+              "exclusiveMs": 15.790315999999848
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 33.030426000000034,
+              "exclusiveMs": 0.04072000000019216
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 16.20588399999997,
+              "exclusiveMs": 0.1260780000000068
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 16.079805999999962,
+              "exclusiveMs": 16.079805999999962
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 16.783821999999873,
+              "exclusiveMs": 0.1332279999999173
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 16.650593999999955,
+              "exclusiveMs": 16.650593999999955
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001222000000097978
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0005909999999857973
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0001609999999345746
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0014619999999467836
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8017,
+              "ms": 0.0022339999998166604
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0001700000000255386
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00013999999987390765
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0004809999998087733
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00016000000005078618
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 48.96115099999997
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage": "chosen",
+      "summary": {
+        "elapsedMs": {
+          "n": 6,
+          "min": 120.89832299999989,
+          "p50": 127.84780600000022,
+          "p95": 142.9333059999999,
+          "max": 142.9333059999999
+        },
+        "processCpuMs": {
+          "n": 6,
+          "min": 123.335,
+          "p50": 138.043,
+          "p95": 150.248,
+          "max": 150.248
+        },
+        "phaseTotals": {
+          "state.reduceRuntime": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 52.317096999999876,
+              "p50": 54.62841500000013,
+              "p95": 57.70919600000002,
+              "max": 57.70919600000002
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.49140099999976883,
+              "p50": 0.5737530000003517,
+              "p95": 0.8602580000001581,
+              "max": 0.8602580000001581
+            }
+          },
+          "state.validateState": {
+            "calls": [
+              7,
+              7,
+              7,
+              7,
+              7,
+              7
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 119.39171400000009,
+              "p50": 126.4019880000003,
+              "p95": 141.1217939999999,
+              "max": 141.1217939999999
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 119.39171400000009,
+              "p50": 126.4019880000003,
+              "p95": 141.1217939999999,
+              "max": 141.1217939999999
+            }
+          },
+          "state.migrateState": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 16.36751400000003,
+              "p50": 18.110292999999956,
+              "p95": 18.73317800000018,
+              "max": 18.73317800000018
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.16468400000007932,
+              "p50": 0.19018300000016097,
+              "p95": 0.23764299999993455,
+              "max": 0.23764299999993455
+            }
+          },
+          "store.save": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 50.0294879999999,
+              "p50": 55.05756799999995,
+              "p95": 66.06819300000006,
+              "max": 66.06819300000006
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.10344399999985399,
+              "p50": 0.11338899999987007,
+              "p95": 0.1725460000000112,
+              "max": 0.1725460000000112
+            }
+          },
+          "store.load": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 33.71083599999997,
+              "p50": 36.656312999999955,
+              "p95": 47.327334000000064,
+              "max": 47.327334000000064
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.04363400000011097,
+              "p50": 0.05137600000011844,
+              "p95": 0.09276699999986704,
+              "max": 0.09276699999986704
+            }
+          },
+          "save.decode": {
+            "calls": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 33.66720199999986,
+              "p50": 36.60715899999991,
+              "p95": 47.27918300000033,
+              "max": 47.27918300000033
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.26216100000010556,
+              "p50": 0.32467300000007526,
+              "p95": 0.45452399999999216,
+              "max": 0.45452399999999216
+            }
+          }
+        },
+        "storageReads": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "storageWrites": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "trials": [
+        {
+          "elapsedMs": 129.49090300000012,
+          "processCpuMs": 138.043,
+          "revision": 3,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 54.62841500000013,
+              "exclusiveMs": 0.5737530000003517
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 16.75685199999998,
+              "exclusiveMs": 16.75685199999998
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 16.943088999999873,
+              "exclusiveMs": 0.23764299999993455
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 16.705445999999938,
+              "exclusiveMs": 16.705445999999938
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 20.354720999999927,
+              "exclusiveMs": 20.354720999999927
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 18.310890999999856,
+              "exclusiveMs": 18.310890999999856
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 56.28278799999998,
+              "exclusiveMs": 0.1725460000000112
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.437783999999965,
+              "exclusiveMs": 17.437783999999965
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 38.672458000000006,
+              "exclusiveMs": 0.0891830000000482
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.58437099999992,
+              "exclusiveMs": 0.1919439999999213
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 17.392426999999998,
+              "exclusiveMs": 17.392426999999998
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 20.99890400000004,
+              "exclusiveMs": 0.26258000000007087
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 20.736323999999968,
+              "exclusiveMs": 20.736323999999968
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0015329999998812127
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.000730999999859705
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0001700000000255386
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0012110000000120635
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8468,
+              "ms": 0.0019629999999324355
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00023099999998521525
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0001999999999497959
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0001999999999497959
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00010999999994965037
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 56.30019399999992
+            }
+          ]
+        },
+        {
+          "elapsedMs": 127.84780600000022,
+          "processCpuMs": 140.494,
+          "revision": 4,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 54.67767300000014,
+              "exclusiveMs": 0.5467820000001211
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.339353000000074,
+              "exclusiveMs": 18.339353000000074
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.638877999999977,
+              "exclusiveMs": 0.21069299999999203
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 18.428184999999985,
+              "exclusiveMs": 18.428184999999985
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.15265999999997,
+              "exclusiveMs": 17.15265999999997
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 17.861924000000045,
+              "exclusiveMs": 17.861924000000045
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 55.05756799999995,
+              "exclusiveMs": 0.11338899999987007
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 18.287866000000122,
+              "exclusiveMs": 18.287866000000122
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 36.656312999999955,
+              "exclusiveMs": 0.04915400000004411
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.993017999999893,
+              "exclusiveMs": 0.13072399999987283
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 17.86229400000002,
+              "exclusiveMs": 17.86229400000002
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 18.614141000000018,
+              "exclusiveMs": 0.14443499999993037
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 18.469706000000087,
+              "exclusiveMs": 18.469706000000087
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0016619999998965795
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0007009999999354477
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0001199999999244028
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001502000000073167
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8468,
+              "ms": 0.0015319999999974243
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00029999999992469384
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0001310000000103173
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00018000000000029104
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012100000003556488
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 55.06397700000002
+            }
+          ]
+        },
+        {
+          "elapsedMs": 142.9333059999999,
+          "processCpuMs": 150.248,
+          "revision": 5,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 57.70919600000002,
+              "exclusiveMs": 0.8602580000001581
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 17.50710600000002,
+              "exclusiveMs": 17.50710600000002
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.110292999999956,
+              "exclusiveMs": 0.19018300000016097
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 17.920109999999795,
+              "exclusiveMs": 17.920109999999795
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 21.231538999999884,
+              "exclusiveMs": 21.231538999999884
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 18.87785299999996,
+              "exclusiveMs": 18.87785299999996
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 66.06819300000006,
+              "exclusiveMs": 0.11018300000000636
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 18.630675999999994,
+              "exclusiveMs": 18.630675999999994
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 47.327334000000064,
+              "exclusiveMs": 0.04815099999973427
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 29.365893000000142,
+              "exclusiveMs": 0.176633000000038
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 29.189260000000104,
+              "exclusiveMs": 29.189260000000104
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.91329000000019,
+              "exclusiveMs": 0.14804000000003725
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 17.76525000000015,
+              "exclusiveMs": 17.76525000000015
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0017130000001088774
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0008810000001631124
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00014000000010128133
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001211999999895852
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8468,
+              "ms": 0.002184000000170272
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0002809999998589774
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0001199999999244028
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0002399999998488056
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00009999999997489795
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 66.0743829999999
+            }
+          ]
+        },
+        {
+          "elapsedMs": 120.89832299999989,
+          "processCpuMs": 123.335,
+          "revision": 6,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 53.62042199999996,
+              "exclusiveMs": 0.6325099999996837
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 17.392316000000164,
+              "exclusiveMs": 17.392316000000164
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 17.338887000000113,
+              "exclusiveMs": 0.18200100000012753
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 17.156885999999986,
+              "exclusiveMs": 17.156885999999986
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 18.256709,
+              "exclusiveMs": 18.256709
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 16.968195999999807,
+              "exclusiveMs": 16.968195999999807
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 50.0294879999999,
+              "exclusiveMs": 0.10344399999985399
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 16.215208000000075,
+              "exclusiveMs": 16.215208000000075
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 33.71083599999997,
+              "exclusiveMs": 0.04363400000011097
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.15050700000006,
+              "exclusiveMs": 0.12814000000003034
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 17.02236700000003,
+              "exclusiveMs": 17.02236700000003
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 16.5166949999998,
+              "exclusiveMs": 0.13666299999977127
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 16.38003200000003,
+              "exclusiveMs": 16.38003200000003
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0015729999997802224
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0009009999998852436
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00014099999998506973
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001191999999946347
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8468,
+              "ms": 0.0015220000000226719
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0001300000001265289
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00010999999994965037
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0001700000000255386
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00010999999994965037
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 50.03472600000009
+            }
+          ]
+        },
+        {
+          "elapsedMs": 122.2214190000002,
+          "processCpuMs": 130.881,
+          "revision": 7,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 53.8194390000001,
+              "exclusiveMs": 0.5084050000002662
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 17.609047999999802,
+              "exclusiveMs": 17.609047999999802
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.73317800000018,
+              "exclusiveMs": 0.16468400000007932
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 18.5684940000001,
+              "exclusiveMs": 18.5684940000001
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 16.968807999999854,
+              "exclusiveMs": 16.968807999999854
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 16.98442,
+              "exclusiveMs": 16.98442
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 51.1714149999998,
+              "exclusiveMs": 0.10933199999999488
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 16.2623779999999,
+              "exclusiveMs": 16.2623779999999
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 34.7997049999999,
+              "exclusiveMs": 0.09276699999986704
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.26291500000002,
+              "exclusiveMs": 0.1295340000001488
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 17.133380999999872,
+              "exclusiveMs": 17.133380999999872
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.444023000000016,
+              "exclusiveMs": 0.13262699999995675
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 17.31139600000006,
+              "exclusiveMs": 17.31139600000006
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0014830000000074506
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0007209999998849526
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00019100000008620555
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0014619999999467836
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8468,
+              "ms": 0.002444000000195956
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00024099999995996768
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012000000015177648
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00018999999997504347
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00015000000007603376
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 51.17708300000004
+            }
+          ]
+        },
+        {
+          "elapsedMs": 121.87244099999998,
+          "processCpuMs": 131.193,
+          "revision": 8,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 52.317096999999876,
+              "exclusiveMs": 0.49140099999976883
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 17.687544000000116,
+              "exclusiveMs": 17.687544000000116
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 16.36751400000003,
+              "exclusiveMs": 0.16848000000004504
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 16.199033999999983,
+              "exclusiveMs": 16.199033999999983
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.770637999999963,
+              "exclusiveMs": 17.770637999999963
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 16.93772100000001,
+              "exclusiveMs": 16.93772100000001
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 52.38448600000015,
+              "exclusiveMs": 0.1365330000000995
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 16.551245999999992,
+              "exclusiveMs": 16.551245999999992
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 35.69670700000006,
+              "exclusiveMs": 0.05137600000011844
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.751248999999916,
+              "exclusiveMs": 0.12740899999994326
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 17.623839999999973,
+              "exclusiveMs": 17.623839999999973
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.894082000000026,
+              "exclusiveMs": 0.24728699999991477
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 17.64679500000011,
+              "exclusiveMs": 17.64679500000011
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001702000000022963
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0005810000000110449
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0001300000001265289
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0019029999998565472
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8468,
+              "ms": 0.002432999999882668
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00015000000007603376
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00009999999997489795
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0001700000000255386
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0001199999999244028
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 52.389995
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage": "approach",
+      "summary": {
+        "elapsedMs": {
+          "n": 6,
+          "min": 124.11037100000021,
+          "p50": 127.46626300000025,
+          "p95": 129.05247199999985,
+          "max": 129.05247199999985
+        },
+        "processCpuMs": {
+          "n": 6,
+          "min": 127.446,
+          "p50": 135.769,
+          "p95": 143.495,
+          "max": 143.495
+        },
+        "phaseTotals": {
+          "state.reduceRuntime": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 54.54932999999983,
+              "p50": 55.39555900000005,
+              "p95": 55.779149999999845,
+              "max": 55.779149999999845
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.5104300000002695,
+              "p50": 0.5759970000003705,
+              "p95": 0.6790489999993952,
+              "max": 0.6790489999993952
+            }
+          },
+          "state.validateState": {
+            "calls": [
+              7,
+              7,
+              7,
+              7,
+              7,
+              7
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 122.71308200000021,
+              "p50": 126.08119000000079,
+              "p95": 127.55866100000048,
+              "max": 127.55866100000048
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 122.71308200000021,
+              "p50": 126.08119000000079,
+              "p95": 127.55866100000048,
+              "max": 127.55866100000048
+            }
+          },
+          "state.migrateState": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 17.996439999999893,
+              "p50": 18.238858999999593,
+              "p95": 18.630491999999776,
+              "max": 18.630491999999776
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.1777139999994688,
+              "p50": 0.18830099999968297,
+              "p95": 0.21035299999994095,
+              "max": 0.21035299999994095
+            }
+          },
+          "store.save": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 52.02891099999988,
+              "p50": 53.98668399999997,
+              "p95": 55.304523999999674,
+              "max": 55.304523999999674
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.10197199999993245,
+              "p50": 0.10739999999987049,
+              "p95": 0.3629799999998795,
+              "max": 0.3629799999998795
+            }
+          },
+          "store.load": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 34.52722799999992,
+              "p50": 36.41155200000003,
+              "p95": 37.57458099999985,
+              "max": 37.57458099999985
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.029746000000159256,
+              "p50": 0.030715000000327564,
+              "p95": 0.03178600000001097,
+              "max": 0.03178600000001097
+            }
+          },
+          "save.decode": {
+            "calls": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 34.49655299999995,
+              "p50": 36.38180599999987,
+              "p95": 37.54462599999988,
+              "max": 37.54462599999988
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.24949000000015076,
+              "p50": 0.25738400000000183,
+              "p95": 0.3873469999994086,
+              "max": 0.3873469999994086
+            }
+          }
+        },
+        "storageReads": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "storageWrites": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "trials": [
+        {
+          "elapsedMs": 125.8329590000003,
+          "processCpuMs": 143.495,
+          "revision": 3,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 54.750936999999794,
+              "exclusiveMs": 0.5104300000002695
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.181700999999975,
+              "exclusiveMs": 18.181700999999975
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.630491999999776,
+              "exclusiveMs": 0.1777139999994688
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 18.452778000000308,
+              "exclusiveMs": 18.452778000000308
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.428313999999773,
+              "exclusiveMs": 17.428313999999773
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 17.088648999999805,
+              "exclusiveMs": 17.088648999999805
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 53.7726560000001,
+              "exclusiveMs": 0.19771499999978914
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.19509700000026,
+              "exclusiveMs": 17.19509700000026
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 36.37984400000005,
+              "exclusiveMs": 0.030745999999908236
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.104432000000088,
+              "exclusiveMs": 0.1215900000001966
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 16.98284199999989,
+              "exclusiveMs": 16.98284199999989
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 19.244666000000052,
+              "exclusiveMs": 0.12789999999995416
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 19.116766000000098,
+              "exclusiveMs": 19.116766000000098
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0015029999999569554
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0004500000000007276
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00012999999989915523
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001712000000225089
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8682,
+              "ms": 0.002793999999994412
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00039100000003600144
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00019100000008620555
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00028100000008635106
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0001999999999497959
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 53.77852400000029
+            }
+          ]
+        },
+        {
+          "elapsedMs": 125.94985700000007,
+          "processCpuMs": 137.441,
+          "revision": 4,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 54.54932999999983,
+              "exclusiveMs": 0.5447389999994812
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.505657000000156,
+              "exclusiveMs": 18.505657000000156
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.047946000000138,
+              "exclusiveMs": 0.21035299999994095
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 17.837593000000197,
+              "exclusiveMs": 17.837593000000197
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.450988000000052,
+              "exclusiveMs": 17.450988000000052
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 17.200054999999793,
+              "exclusiveMs": 17.200054999999793
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 53.98668399999997,
+              "exclusiveMs": 0.3629799999998795
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.012255000000096,
+              "exclusiveMs": 17.012255000000096
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 36.61144899999999,
+              "exclusiveMs": 0.030715000000327564
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 18.58709799999997,
+              "exclusiveMs": 0.1230529999997998
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 18.46404500000017,
+              "exclusiveMs": 18.46404500000017
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.993635999999697,
+              "exclusiveMs": 0.2642939999996088
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 17.729342000000088,
+              "exclusiveMs": 17.729342000000088
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0015319999997700506
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0006009999997331761
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00012999999989915523
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0019330000000081782
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8682,
+              "ms": 0.002122999999755848
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00016000000005078618
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00010000000020227162
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0002110000000357104
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00014000000010128133
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 53.99320399999988
+            }
+          ]
+        },
+        {
+          "elapsedMs": 128.29370299999982,
+          "processCpuMs": 135.769,
+          "revision": 5,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 55.39555900000005,
+              "exclusiveMs": 0.5116100000000188
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.663151000000198,
+              "exclusiveMs": 18.663151000000198
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 17.996439999999893,
+              "exclusiveMs": 0.18093999999973676
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 17.815500000000156,
+              "exclusiveMs": 17.815500000000156
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 18.22435799999994,
+              "exclusiveMs": 18.22435799999994
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 19.388790999999856,
+              "exclusiveMs": 19.388790999999856
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 53.29755900000009,
+              "exclusiveMs": 0.10654900000008638
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.29703900000004,
+              "exclusiveMs": 17.29703900000004
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 35.893970999999965,
+              "exclusiveMs": 0.03178600000001097
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 18.022117999999864,
+              "exclusiveMs": 0.12268300000005183
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 17.899434999999812,
+              "exclusiveMs": 17.899434999999812
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.84006700000009,
+              "exclusiveMs": 0.13470099999995
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 17.70536600000014,
+              "exclusiveMs": 17.70536600000014
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0015330000001085864
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0004999999996471161
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00012999999989915523
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0012319999996179831
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8682,
+              "ms": 0.0019330000000081782
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0003209999999853608
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00011999999969702912
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00023099999998521525
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00010000000020227162
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 53.30357699999968
+            }
+          ]
+        },
+        {
+          "elapsedMs": 129.05247199999985,
+          "processCpuMs": 135.171,
+          "revision": 6,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 55.779149999999845,
+              "exclusiveMs": 0.6790489999993952
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 19.22186200000033,
+              "exclusiveMs": 19.22186200000033
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.01961399999982,
+              "exclusiveMs": 0.18869099999983519
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 17.830922999999984,
+              "exclusiveMs": 17.830922999999984
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.858625000000302,
+              "exclusiveMs": 17.858625000000302
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 17.727720000000318,
+              "exclusiveMs": 17.727720000000318
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 55.304523999999674,
+              "exclusiveMs": 0.10197199999993245
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.62797099999989,
+              "exclusiveMs": 17.62797099999989
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 37.57458099999985,
+              "exclusiveMs": 0.029954999999972642
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 18.54411399999981,
+              "exclusiveMs": 0.12296299999979965
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 18.42115100000001,
+              "exclusiveMs": 18.42115100000001
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 19.00051200000007,
+              "exclusiveMs": 0.13010300000041752
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 18.870408999999654,
+              "exclusiveMs": 18.870408999999654
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0021430000001601
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00039100000003600144
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00013100000023769098
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0014519999999720312
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8682,
+              "ms": 0.0017530000000078871
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0001999999999497959
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00009999999974752427
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00016999999979816494
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00010999999994965037
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 55.31066299999975
+            }
+          ]
+        },
+        {
+          "elapsedMs": 124.11037100000021,
+          "processCpuMs": 127.446,
+          "revision": 7,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 55.249823000000106,
+              "exclusiveMs": 0.5759970000003705
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 17.876890999999887,
+              "exclusiveMs": 17.876890999999887
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.51285800000005,
+              "exclusiveMs": 0.18830099999968297
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 18.324557000000368,
+              "exclusiveMs": 18.324557000000368
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 18.284076999999797,
+              "exclusiveMs": 18.284076999999797
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 16.620292999999947,
+              "exclusiveMs": 16.620292999999947
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 52.02891099999988,
+              "exclusiveMs": 0.10739999999987049
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.394283000000087,
+              "exclusiveMs": 17.394283000000087
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 34.52722799999992,
+              "exclusiveMs": 0.030674999999973807
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.229347999999845,
+              "exclusiveMs": 0.12434499999972104
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 17.105003000000124,
+              "exclusiveMs": 17.105003000000124
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.267205000000104,
+              "exclusiveMs": 0.15922700000010082
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 17.107978000000003,
+              "exclusiveMs": 17.107978000000003
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001671999999871332
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0004210000001876324
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00012999999989915523
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0015520000001743028
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8682,
+              "ms": 0.002152999999907479
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0003400000000510772
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012999999989915523
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0003010000000358559
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012000000015177648
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 52.0345699999998
+            }
+          ]
+        },
+        {
+          "elapsedMs": 127.46626300000025,
+          "processCpuMs": 134.689,
+          "revision": 8,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 55.7384790000001,
+              "exclusiveMs": 0.5811450000001059
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 19.705041000000165,
+              "exclusiveMs": 19.705041000000165
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.238858999999593,
+              "exclusiveMs": 0.17876599999954124
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 18.06009300000005,
+              "exclusiveMs": 18.06009300000005
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.213434000000234,
+              "exclusiveMs": 17.213434000000234
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 17.225161999999727,
+              "exclusiveMs": 17.225161999999727
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 54.26965399999972,
+              "exclusiveMs": 0.10512499999958891
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.7529770000001,
+              "exclusiveMs": 17.7529770000001
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 36.41155200000003,
+              "exclusiveMs": 0.029746000000159256
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.72977200000014,
+              "exclusiveMs": 0.12376399999993737
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 17.6060080000002,
+              "exclusiveMs": 17.6060080000002
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 18.65203399999973,
+              "exclusiveMs": 0.13355899999942267
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 18.518475000000308,
+              "exclusiveMs": 18.518475000000308
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0015619999999216816
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0006909999997333216
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00012000000015177648
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001220999999986816
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8682,
+              "ms": 0.0016729999997551204
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0003810000002886227
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00009999999974752427
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0001899999997476698
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00014000000010128133
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 54.275322999999844
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage": "evidence",
+      "summary": {
+        "elapsedMs": {
+          "n": 6,
+          "min": 129.90591700000004,
+          "p50": 136.36212999999998,
+          "p95": 143.45491500000026,
+          "max": 143.45491500000026
+        },
+        "processCpuMs": {
+          "n": 6,
+          "min": 132.963,
+          "p50": 143.531,
+          "p95": 151.256,
+          "max": 151.256
+        },
+        "phaseTotals": {
+          "state.reduceRuntime": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 55.034051999999974,
+              "p50": 58.542129999999815,
+              "p95": 65.87743099999989,
+              "max": 65.87743099999989
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.5199530000004415,
+              "p50": 0.5465140000001156,
+              "p95": 0.8163439999993898,
+              "max": 0.8163439999993898
+            }
+          },
+          "state.validateState": {
+            "calls": [
+              7,
+              7,
+              7,
+              7,
+              7,
+              7
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 127.98583199999985,
+              "p50": 135.0490760000007,
+              "p95": 141.98360800000046,
+              "max": 141.98360800000046
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 127.98583199999985,
+              "p50": 135.0490760000007,
+              "p95": 141.98360800000046,
+              "max": 141.98360800000046
+            }
+          },
+          "state.migrateState": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 16.86311399999977,
+              "p50": 20.392143000000033,
+              "p95": 24.53555600000027,
+              "max": 24.53555600000027
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.1655470000000605,
+              "p50": 0.16982300000017858,
+              "p95": 0.1920460000001185,
+              "max": 0.1920460000001185
+            }
+          },
+          "store.save": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 55.8537409999999,
+              "p50": 57.40517399999999,
+              "p95": 62.43770399999994,
+              "max": 62.43770399999994
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.10353399999985413,
+              "p50": 0.1091310000001613,
+              "p95": 0.16048899999987043,
+              "max": 0.16048899999987043
+            }
+          },
+          "store.load": {
+            "calls": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 35.519554999999855,
+              "p50": 39.208030999999664,
+              "p95": 43.268920999999864,
+              "max": 43.268920999999864
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.029152999999951135,
+              "p50": 0.033910999999989144,
+              "p95": 0.0813109999999142,
+              "max": 0.0813109999999142
+            }
+          },
+          "save.decode": {
+            "calls": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ],
+            "inclusiveMs": {
+              "n": 6,
+              "min": 35.488978999999745,
+              "p50": 39.12671999999975,
+              "p95": 43.23448999999982,
+              "max": 43.23448999999982
+            },
+            "exclusiveMs": {
+              "n": 6,
+              "min": 0.2608890000001338,
+              "p50": 0.26480299999957424,
+              "p95": 0.8167240000002494,
+              "max": 0.8167240000002494
+            }
+          }
+        },
+        "storageReads": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "storageWrites": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "trials": [
+        {
+          "elapsedMs": 129.90591700000004,
+          "processCpuMs": 132.963,
+          "revision": 3,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 55.034051999999974,
+              "exclusiveMs": 0.5199530000004415
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 20.083823999999822,
+              "exclusiveMs": 20.083823999999822
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 16.86311399999977,
+              "exclusiveMs": 0.1672089999997297
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 16.69590500000004,
+              "exclusiveMs": 16.69590500000004
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.567160999999942,
+              "exclusiveMs": 17.567160999999942
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 17.244892000000164,
+              "exclusiveMs": 17.244892000000164
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 57.40517399999999,
+              "exclusiveMs": 0.16048899999987043
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.23588800000016,
+              "exclusiveMs": 17.23588800000016
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 40.00879699999996,
+              "exclusiveMs": 0.033910999999989144
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 21.197696000000178,
+              "exclusiveMs": 0.13094500000033804
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 21.06675099999984,
+              "exclusiveMs": 21.06675099999984
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 18.77718999999979,
+              "exclusiveMs": 0.6857789999999113
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 18.09141099999988,
+              "exclusiveMs": 18.09141099999988
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0016630000000077416
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0005310000001372828
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00012999999989915523
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0018430000000080327
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8747,
+              "ms": 0.0015519999997195555
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0002110000000357104
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00013999999964653398
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0002500000000509317
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012000000015177648
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 57.41081200000008
+            }
+          ]
+        },
+        {
+          "elapsedMs": 139.05729400000018,
+          "processCpuMs": 143.531,
+          "revision": 4,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 57.70891100000017,
+              "exclusiveMs": 0.5465140000001156
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.63514899999973,
+              "exclusiveMs": 18.63514899999973
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 19.527706000000308,
+              "exclusiveMs": 0.16953200000034485
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 19.358173999999963,
+              "exclusiveMs": 19.358173999999963
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 18.99954200000002,
+              "exclusiveMs": 18.99954200000002
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 18.691863999999896,
+              "exclusiveMs": 18.691863999999896
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 62.43770399999994,
+              "exclusiveMs": 0.14278200000035213
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 19.026000999999724,
+              "exclusiveMs": 19.026000999999724
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 43.268920999999864,
+              "exclusiveMs": 0.03443100000004051
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 22.22024199999987,
+              "exclusiveMs": 0.12232200000016746
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 22.097919999999704,
+              "exclusiveMs": 22.097919999999704
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 21.014247999999952,
+              "exclusiveMs": 0.14872099999956845
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 20.865527000000384,
+              "exclusiveMs": 20.865527000000384
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0017430000002605084
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0006710000002385641
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00014099999998506973
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0015619999999216816
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8747,
+              "ms": 0.001682000000073458
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0002200000003540481
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00014999999984866008
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.000210000000151922
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00015100000018719584
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 62.44410400000015
+            }
+          ]
+        },
+        {
+          "elapsedMs": 143.45491500000026,
+          "processCpuMs": 150.301,
+          "revision": 5,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 65.87743099999989,
+              "exclusiveMs": 0.5200429999995322
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 22.39854800000012,
+              "exclusiveMs": 22.39854800000012
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 24.53555600000027,
+              "exclusiveMs": 0.16982300000017858
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 24.36573300000009,
+              "exclusiveMs": 24.36573300000009
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 18.423283999999967,
+              "exclusiveMs": 18.423283999999967
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 18.218249000000014,
+              "exclusiveMs": 18.218249000000014
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 59.02744199999961,
+              "exclusiveMs": 0.10353399999985413
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 19.71587700000009,
+              "exclusiveMs": 19.71587700000009
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 39.208030999999664,
+              "exclusiveMs": 0.0813109999999142
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 18.75482699999975,
+              "exclusiveMs": 0.12555599999950573
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 18.629271000000244,
+              "exclusiveMs": 18.629271000000244
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 20.371893,
+              "exclusiveMs": 0.1392470000000685
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 20.23264599999993,
+              "exclusiveMs": 20.23264599999993
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0019029999998565472
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.049593999999615335
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0002600000002530578
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001182000000426342
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8747,
+              "ms": 0.0020730000001094595
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00021999999989930075
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00011999999969702912
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0002399999998488056
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0003309999997327395
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 59.03359099999989
+            }
+          ]
+        },
+        {
+          "elapsedMs": 133.27698699999974,
+          "processCpuMs": 138.542,
+          "revision": 6,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 59.07999999999993,
+              "exclusiveMs": 0.5803519999994933
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 19.064178000000084,
+              "exclusiveMs": 19.064178000000084
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 21.38168500000029,
+              "exclusiveMs": 0.1655470000000605
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 21.216138000000228,
+              "exclusiveMs": 21.216138000000228
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 18.05378500000006,
+              "exclusiveMs": 18.05378500000006
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 17.93290399999978,
+              "exclusiveMs": 17.93290399999978
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 56.051144999999906,
+              "exclusiveMs": 0.10748000000012325
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 17.157440999999835,
+              "exclusiveMs": 17.157440999999835
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 38.78622399999995,
+              "exclusiveMs": 0.029152999999951135
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 19.60187700000006,
+              "exclusiveMs": 0.12694899999996778
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 19.47492800000009,
+              "exclusiveMs": 19.47492800000009
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 19.155193999999938,
+              "exclusiveMs": 0.13394000000016604
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 19.02125399999977,
+              "exclusiveMs": 19.02125399999977
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001682000000073458
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0005509999996320403
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00012999999989915523
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0014720000003762834
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8747,
+              "ms": 0.002484000000094966
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00016999999979816494
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00009999999974752427
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00018000000000029104
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012000000015177648
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 56.05709399999978
+            }
+          ]
+        },
+        {
+          "elapsedMs": 133.4733180000003,
+          "processCpuMs": 151.256,
+          "revision": 7,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 58.542129999999815,
+              "exclusiveMs": 0.8163439999993898
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.671874000000116,
+              "exclusiveMs": 18.671874000000116
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 20.392143000000033,
+              "exclusiveMs": 0.1920460000001185
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 20.200096999999914,
+              "exclusiveMs": 20.200096999999914
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 18.661769000000277,
+              "exclusiveMs": 18.661769000000277
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 18.851470999999947,
+              "exclusiveMs": 18.851470999999947
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 55.8537409999999,
+              "exclusiveMs": 0.1091310000001613
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 18.95850100000007,
+              "exclusiveMs": 18.95850100000007
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 36.78610899999967,
+              "exclusiveMs": 0.03187699999944016
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 18.294483000000128,
+              "exclusiveMs": 0.12866200000007666
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 18.16582100000005,
+              "exclusiveMs": 18.16582100000005
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 18.4597490000001,
+              "exclusiveMs": 0.1346110000004046
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 18.325137999999697,
+              "exclusiveMs": 18.325137999999697
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0016019999998206913
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.0006809999999859428
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.0002610000001368462
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0014620000001741573
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "bytes": 8747,
+              "ms": 0.002644000000145752
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.00021999999989930075
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012999999989915523
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.0002509999999347201
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00010999999994965037
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 55.859219000000394
+            }
+          ]
+        },
+        {
+          "elapsedMs": 136.36212999999998,
+          "processCpuMs": 142.325,
+          "revision": 8,
+          "phases": [
+            {
+              "name": "state.reduceRuntime",
+              "identity": 1,
+              "depth": 0,
+              "inclusiveMs": 55.06505199999992,
+              "exclusiveMs": 0.5306399999994937
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.559711000000334,
+              "exclusiveMs": 18.559711000000334
+            },
+            {
+              "name": "state.migrateState",
+              "identity": 1,
+              "depth": 1,
+              "inclusiveMs": 18.987773999999717,
+              "exclusiveMs": 0.17032299999937095
+            },
+            {
+              "name": "state.validateState",
+              "identity": 1,
+              "depth": 2,
+              "inclusiveMs": 18.817451000000347,
+              "exclusiveMs": 18.817451000000347
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 16.986927000000378,
+              "exclusiveMs": 16.986927000000378
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 23.900661000000127,
+              "exclusiveMs": 23.900661000000127
+            },
+            {
+              "name": "store.save",
+              "identity": 2,
+              "depth": 0,
+              "inclusiveMs": 57.186133000000154,
+              "exclusiveMs": 0.10892100000046412
+            },
+            {
+              "name": "state.validateState",
+              "identity": 2,
+              "depth": 1,
+              "inclusiveMs": 21.557656999999836,
+              "exclusiveMs": 21.557656999999836
+            },
+            {
+              "name": "store.load",
+              "identity": null,
+              "depth": 1,
+              "inclusiveMs": 35.519554999999855,
+              "exclusiveMs": 0.03057600000011007
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.858032999999978,
+              "exclusiveMs": 0.1309439999999995
+            },
+            {
+              "name": "state.validateState",
+              "identity": 3,
+              "depth": 3,
+              "inclusiveMs": 17.727088999999978,
+              "exclusiveMs": 17.727088999999978
+            },
+            {
+              "name": "save.decode",
+              "identity": null,
+              "depth": 2,
+              "inclusiveMs": 17.630945999999767,
+              "exclusiveMs": 0.13136600000007093
+            },
+            {
+              "name": "state.validateState",
+              "identity": 4,
+              "depth": 3,
+              "inclusiveMs": 17.499579999999696,
+              "exclusiveMs": 17.499579999999696
+            }
+          ],
+          "storageOperations": [
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.0016129999999066058
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot0",
+              "ms": 0.000661000000036438
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00012100000003556488
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.001111999999920954
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "bytes": 8747,
+              "ms": 0.0025340000001961016
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.slot1",
+              "ms": 0.00014999999984866008
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00012100000003556488
+            },
+            {
+              "op": "set",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "bytes": 108,
+              "ms": 0.00018000000000029104
+            },
+            {
+              "op": "get",
+              "key": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.head",
+              "ms": 0.00027099999988422496
+            }
+          ],
+          "lockEvents": [
+            {
+              "name": "emberwatch-reborn.candidate.r14.v1.qa-save-diagnosis.writer",
+              "ms": 57.19305300000042
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ok": true
+}

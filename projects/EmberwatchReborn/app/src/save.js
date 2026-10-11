@@ -40,10 +40,17 @@ export function createStore(storage, {profile = 'main', namespace = 'release'} =
     try {
       const rawHead = storage.getItem(keys.head);
       const raws = keys.slots.map(k => storage.getItem(k));
-      const slots = raws.map(decode);
       let head;
       try { head = JSON.parse(rawHead); } catch { /* attempt last committed receipt */ }
-      if (receiptMatches(head, slots[head?.slot])) return {ok: true, ...slots[head.slot], slot: head.slot, recovered: false};
+      // Keep all storage reads above: an unread alternate could hide a read failure.
+      const primary = [0, 1].includes(head?.slot) ? head.slot : null;
+      const slots = [null, null];
+      if (primary !== null) {
+        slots[primary] = decode(raws[primary]);
+        if (receiptMatches(head, slots[primary])) return {ok: true, ...slots[primary], slot: primary, recovered: false};
+      }
+      // Failed primary entries are already decoded, even when the result is null.
+      for (let slot = 0; slot < raws.length; slot++) if (slot !== primary) slots[slot] = decode(raws[slot]);
       // Do not promote uncommitted staged data by selecting the largest revision.
       const receipts = [head?.previousCommit, head?.upgradePreviousCommit, head?.upgradeV5PreviousCommit, ...slots.map(x => x?.previousCommit)];
       const recoverable = receipts.filter(r => receiptMatches(r, slots[r?.slot])).map(r => ({...slots[r.slot], slot: r.slot})).sort((a, b) => b.revision - a.revision);

@@ -1,0 +1,72 @@
+{
+  "scope": "Actual isolated Node checkpoint graph, memory storage and immediate fake Web Lock; call counts and semantic parity only. No native latency or input-fix claim.",
+  "stages": [
+    {
+      "stage": "entered",
+      "baseline": {
+        "validations": 7,
+        "decodes": 2
+      },
+      "candidate": {
+        "validations": 6,
+        "decodes": 1
+      },
+      "exactResultAndStoredBytesEqual": true,
+      "exactStorageAndLockProtocolEqual": true,
+      "storageReads": 7,
+      "storageWrites": 2,
+      "stateSha256": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb"
+    },
+    {
+      "stage": "chosen",
+      "baseline": {
+        "validations": 7,
+        "decodes": 2
+      },
+      "candidate": {
+        "validations": 6,
+        "decodes": 1
+      },
+      "exactResultAndStoredBytesEqual": true,
+      "exactStorageAndLockProtocolEqual": true,
+      "storageReads": 7,
+      "storageWrites": 2,
+      "stateSha256": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5"
+    },
+    {
+      "stage": "approach",
+      "baseline": {
+        "validations": 7,
+        "decodes": 2
+      },
+      "candidate": {
+        "validations": 6,
+        "decodes": 1
+      },
+      "exactResultAndStoredBytesEqual": true,
+      "exactStorageAndLockProtocolEqual": true,
+      "storageReads": 7,
+      "storageWrites": 2,
+      "stateSha256": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164"
+    },
+    {
+      "stage": "evidence",
+      "baseline": {
+        "validations": 7,
+        "decodes": 2
+      },
+      "candidate": {
+        "validations": 6,
+        "decodes": 1
+      },
+      "exactResultAndStoredBytesEqual": true,
+      "exactStorageAndLockProtocolEqual": true,
+      "storageReads": 7,
+      "storageWrites": 2,
+      "stateSha256": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1"
+    }
+  ],
+  "baselineSaveSha256": "bf5c4aa227d8da700164a0ae17f4dd26a19b9f0ce072297a405a30cc2723a7c4",
+  "candidateSaveSha256": "a0538302f14ea9fafb1da8eb163871b463d60832ac6551640a17d201fcb8c86e",
+  "ok": true
+}

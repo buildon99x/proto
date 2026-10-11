@@ -1,0 +1,1300 @@
+TAP version 13
+# Subtest: actual release pause and title use the same single build label
+ok 1 - actual release pause and title use the same single build label
+  ---
+  duration_ms: 4.173889
+  type: 'test'
+  ...
+# Subtest: actual candidate pause and title use the same single build label
+ok 2 - actual candidate pause and title use the same single build label
+  ---
+  duration_ms: 1.52607
+  type: 'test'
+  ...
+# Subtest: optional read-only status registration reports the same build before and after loading
+ok 3 - optional read-only status registration reports the same build before and after loading
+  ---
+  duration_ms: 2.977309
+  type: 'test'
+  ...
+# Subtest: R14 app, project, index metadata and build kind share the same bounded candidate identity
+ok 4 - R14 app, project, index metadata and build kind share the same bounded candidate identity
+  ---
+  duration_ms: 0.421857
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /recovery resolves only release and performs no automatic read/write
+ok 5 - dedicated root recovery /recovery resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 4.184865
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /recovery.html resolves only release and performs no automatic read/write
+ok 6 - dedicated root recovery /recovery.html resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 0.390531
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /save-recovery resolves only release and performs no automatic read/write
+ok 7 - dedicated root recovery /save-recovery resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 0.361487
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /save-recovery/ resolves only release and performs no automatic read/write
+ok 8 - dedicated root recovery /save-recovery/ resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 0.360857
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /save-recovery/index resolves only release and performs no automatic read/write
+ok 9 - dedicated root recovery /save-recovery/index resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 0.366936
+  type: 'test'
+  ...
+# Subtest: dedicated root recovery /save-recovery/index.html resolves only release and performs no automatic read/write
+ok 10 - dedicated root recovery /save-recovery/index.html resolves only release and performs no automatic read/write
+  ---
+  duration_ms: 0.308989
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r4/recovery.html cannot select or write the release main profile
+ok 11 - candidate recovery /qa-r4/recovery.html cannot select or write the release main profile
+  ---
+  duration_ms: 0.650528
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r7/recovery.html cannot select or write the release main profile
+ok 12 - candidate recovery /qa-r7/recovery.html cannot select or write the release main profile
+  ---
+  duration_ms: 0.413445
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r11/recovery.html cannot select or write the release main profile
+ok 13 - candidate recovery /qa-r11/recovery.html cannot select or write the release main profile
+  ---
+  duration_ms: 0.370451
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r4/recovery cannot select or write the release main profile
+ok 14 - candidate recovery /qa-r4/recovery cannot select or write the release main profile
+  ---
+  duration_ms: 0.490269
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r7/recovery cannot select or write the release main profile
+ok 15 - candidate recovery /qa-r7/recovery cannot select or write the release main profile
+  ---
+  duration_ms: 0.264354
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r11/recovery cannot select or write the release main profile
+ok 16 - candidate recovery /qa-r11/recovery cannot select or write the release main profile
+  ---
+  duration_ms: 0.190033
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r12/recovery.html cannot select or write the release main profile
+ok 17 - candidate recovery /qa-r12/recovery.html cannot select or write the release main profile
+  ---
+  duration_ms: 0.184364
+  type: 'test'
+  ...
+# Subtest: candidate recovery /qa-r12/recovery cannot select or write the release main profile
+ok 18 - candidate recovery /qa-r12/recovery cannot select or write the release main profile
+  ---
+  duration_ms: 0.207519
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /qa-r99/recovery.html fails closed instead of falling back to release
+ok 19 - unknown recovery route /qa-r99/recovery.html fails closed instead of falling back to release
+  ---
+  duration_ms: 0.180559
+  type: 'test'
+  ...
+# Subtest: unknown recovery route / fails closed instead of falling back to release
+ok 20 - unknown recovery route / fails closed instead of falling back to release
+  ---
+  duration_ms: 0.095572
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /unknown/recovery.html fails closed instead of falling back to release
+ok 21 - unknown recovery route /unknown/recovery.html fails closed instead of falling back to release
+  ---
+  duration_ms: 0.085948
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /save-recovery/../qa-r7/ fails closed instead of falling back to release
+ok 22 - unknown recovery route /save-recovery/../qa-r7/ fails closed instead of falling back to release
+  ---
+  duration_ms: 0.095502
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /qa-r11/recovery.html/extra fails closed instead of falling back to release
+ok 23 - unknown recovery route /qa-r11/recovery.html/extra fails closed instead of falling back to release
+  ---
+  duration_ms: 0.095933
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /qa-r99/recovery fails closed instead of falling back to release
+ok 24 - unknown recovery route /qa-r99/recovery fails closed instead of falling back to release
+  ---
+  duration_ms: 0.118446
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /qa-r11/recovery/extra fails closed instead of falling back to release
+ok 25 - unknown recovery route /qa-r11/recovery/extra fails closed instead of falling back to release
+  ---
+  duration_ms: 0.094961
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /save-recoveryx fails closed instead of falling back to release
+ok 26 - unknown recovery route /save-recoveryx fails closed instead of falling back to release
+  ---
+  duration_ms: 0.097535
+  type: 'test'
+  ...
+# Subtest: unknown recovery route /save-recovery/index/extra fails closed instead of falling back to release
+ok 27 - unknown recovery route /save-recovery/index/extra fails closed instead of falling back to release
+  ---
+  duration_ms: 0.163263
+  type: 'test'
+  ...
+# Subtest: recovery title return does not automatically restore or start gameplay
+ok 28 - recovery title return does not automatically restore or start gameplay
+  ---
+  duration_ms: 0.235641
+  type: 'test'
+  ...
+# Subtest: standalone entry is a recovery-only document and shares the app build identity
+ok 29 - standalone entry is a recovery-only document and shares the app build identity
+  ---
+  duration_ms: 1.574392
+  type: 'test'
+  ...
+# Subtest: standalone /qa-r12/recovery requires an explicit checkpoint choice before storage access
+ok 30 - standalone /qa-r12/recovery requires an explicit checkpoint choice before storage access
+  ---
+  duration_ms: 0.518572
+  type: 'test'
+  ...
+# Subtest: standalone /qa-r12/recovery.html requires an explicit checkpoint choice before storage access
+ok 31 - standalone /qa-r12/recovery.html requires an explicit checkpoint choice before storage access
+  ---
+  duration_ms: 0.249831
+  type: 'test'
+  ...
+# Subtest: standalone /save-recovery/ requires an explicit checkpoint choice before storage access
+ok 32 - standalone /save-recovery/ requires an explicit checkpoint choice before storage access
+  ---
+  duration_ms: 0.157654
+  type: 'test'
+  ...
+# Subtest: qa-r12 standalone title, v4-original preview and success never promise old-R11 gameplay access
+ok 33 - qa-r12 standalone title, v4-original preview and success never promise old-R11 gameplay access
+  ---
+  duration_ms: 0.187429
+  type: 'test'
+  ...
+# Subtest: standalone delayed pre-v5 restore cannot replace the returned title
+ok 34 - standalone delayed pre-v5 restore cannot replace the returned title
+  ---
+  duration_ms: 0.313105
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r13/recovery still fails closed
+ok 35 - unlisted R12-like recovery alias /qa-r13/recovery still fails closed
+  ---
+  duration_ms: 0.13441
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r12/recovery/ still fails closed
+ok 36 - unlisted R12-like recovery alias /qa-r12/recovery/ still fails closed
+  ---
+  duration_ms: 0.11433
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r12/recovery/index.html still fails closed
+ok 37 - unlisted R12-like recovery alias /qa-r12/recovery/index.html still fails closed
+  ---
+  duration_ms: 0.063745
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r012/recovery still fails closed
+ok 38 - unlisted R12-like recovery alias /qa-r012/recovery still fails closed
+  ---
+  duration_ms: 0.059298
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r12/recovery.html/extra still fails closed
+ok 39 - unlisted R12-like recovery alias /qa-r12/recovery.html/extra still fails closed
+  ---
+  duration_ms: 0.068102
+  type: 'test'
+  ...
+# Subtest: unlisted R12-like recovery alias /qa-r12/recovery?other=release still fails closed
+ok 40 - unlisted R12-like recovery alias /qa-r12/recovery?other=release still fails closed
+  ---
+  duration_ms: 0.083314
+  type: 'test'
+  ...
+# Subtest: recovery /qa-r12/recovery keeps its explicit gameplay link in the same namespace
+ok 41 - recovery /qa-r12/recovery keeps its explicit gameplay link in the same namespace
+  ---
+  duration_ms: 0.18115
+  type: 'test'
+  ...
+# Subtest: recovery /qa-r11/recovery.html keeps its explicit gameplay link in the same namespace
+ok 42 - recovery /qa-r11/recovery.html keeps its explicit gameplay link in the same namespace
+  ---
+  duration_ms: 0.071816
+  type: 'test'
+  ...
+# Subtest: recovery /save-recovery/ keeps its explicit gameplay link in the same namespace
+ok 43 - recovery /save-recovery/ keeps its explicit gameplay link in the same namespace
+  ---
+  duration_ms: 0.054461
+  type: 'test'
+  ...
+# Subtest: storage-unavailable recovery entry /qa-r12/recovery preserves a truthful return destination
+ok 44 - storage-unavailable recovery entry /qa-r12/recovery preserves a truthful return destination
+  ---
+  duration_ms: 1.899616
+  type: 'test'
+  ...
+# Subtest: storage-unavailable recovery entry /qa-r11/recovery.html preserves a truthful return destination
+ok 45 - storage-unavailable recovery entry /qa-r11/recovery.html preserves a truthful return destination
+  ---
+  duration_ms: 0.905137
+  type: 'test'
+  ...
+# Subtest: storage-unavailable recovery entry /save-recovery/ preserves a truthful return destination
+ok 46 - storage-unavailable recovery entry /save-recovery/ preserves a truthful return destination
+  ---
+  duration_ms: 0.765779
+  type: 'test'
+  ...
+# Subtest: storage-unavailable recovery entry /qa-r99/recovery preserves a truthful return destination
+ok 47 - storage-unavailable recovery entry /qa-r99/recovery preserves a truthful return destination
+  ---
+  duration_ms: 0.822984
+  type: 'test'
+  ...
+# Subtest: real recovery UI selects pre-v4, restores its exact original and keeps latest progress and both checkpoints
+ok 48 - real recovery UI selects pre-v4, restores its exact original and keeps latest progress and both checkpoints
+  ---
+  duration_ms: 64.008728
+  type: 'test'
+  ...
+# Subtest: real recovery UI selects pre-v5, restores its exact original and keeps latest progress and both checkpoints
+ok 49 - real recovery UI selects pre-v5, restores its exact original and keeps latest progress and both checkpoints
+  ---
+  duration_ms: 30.814529
+  type: 'test'
+  ...
+# Subtest: real pre-v4 UI rejects target containing head, including corrupt orphan bytes
+ok 50 - real pre-v4 UI rejects target containing head, including corrupt orphan bytes
+  ---
+  duration_ms: 17.150884
+  type: 'test'
+  ...
+# Subtest: real pre-v4 UI rejects target containing slot0, including corrupt orphan bytes
+ok 51 - real pre-v4 UI rejects target containing slot0, including corrupt orphan bytes
+  ---
+  duration_ms: 16.138127
+  type: 'test'
+  ...
+# Subtest: real pre-v4 UI rejects target containing slot1, including corrupt orphan bytes
+ok 52 - real pre-v4 UI rejects target containing slot1, including corrupt orphan bytes
+  ---
+  duration_ms: 16.242262
+  type: 'test'
+  ...
+# Subtest: real pre-v4 UI rejects target containing pre-v4, including corrupt orphan bytes
+ok 53 - real pre-v4 UI rejects target containing pre-v4, including corrupt orphan bytes
+  ---
+  duration_ms: 15.643501
+  type: 'test'
+  ...
+# Subtest: real pre-v4 UI rejects target containing pre-v5, including corrupt orphan bytes
+ok 54 - real pre-v4 UI rejects target containing pre-v5, including corrupt orphan bytes
+  ---
+  duration_ms: 20.886986
+  type: 'test'
+  ...
+# Subtest: real pre-v5 UI rejects target containing head, including corrupt orphan bytes
+ok 55 - real pre-v5 UI rejects target containing head, including corrupt orphan bytes
+  ---
+  duration_ms: 27.644182
+  type: 'test'
+  ...
+# Subtest: real pre-v5 UI rejects target containing slot0, including corrupt orphan bytes
+ok 56 - real pre-v5 UI rejects target containing slot0, including corrupt orphan bytes
+  ---
+  duration_ms: 23.525961
+  type: 'test'
+  ...
+# Subtest: real pre-v5 UI rejects target containing slot1, including corrupt orphan bytes
+ok 57 - real pre-v5 UI rejects target containing slot1, including corrupt orphan bytes
+  ---
+  duration_ms: 19.454831
+  type: 'test'
+  ...
+# Subtest: real pre-v5 UI rejects target containing pre-v4, including corrupt orphan bytes
+ok 58 - real pre-v5 UI rejects target containing pre-v4, including corrupt orphan bytes
+  ---
+  duration_ms: 21.867375
+  type: 'test'
+  ...
+# Subtest: real pre-v5 UI rejects target containing pre-v5, including corrupt orphan bytes
+ok 59 - real pre-v5 UI rejects target containing pre-v5, including corrupt orphan bytes
+  ---
+  duration_ms: 22.142418
+  type: 'test'
+  ...
+# Subtest: real delayed restore finishes only its authorized target and cannot replace a returned standalone title
+ok 60 - real delayed restore finishes only its authorized target and cannot replace a returned standalone title
+  ---
+  duration_ms: 33.247378
+  type: 'test'
+  ...
+# Subtest: head-first optimization: revision 2 validates only the selected slot after all three reads
+ok 61 - head-first optimization: revision 2 validates only the selected slot after all three reads
+  ---
+  duration_ms: 18.402425
+  type: 'test'
+  ...
+# Subtest: head-first optimization: revision 3 validates only the selected slot after all three reads
+ok 62 - head-first optimization: revision 3 validates only the selected slot after all three reads
+  ---
+  duration_ms: 11.840318
+  type: 'test'
+  ...
+# Subtest: head-first optimization: ordinary save removes one old-slot validation and preserves the exact read/write protocol
+ok 63 - head-first optimization: ordinary save removes one old-slot validation and preserves the exact read/write protocol
+  ---
+  duration_ms: 8.114391
+  type: 'test'
+  ...
+# Subtest: slot 0 missing: current-head and recovery decisions equal eager load
+ok 64 - slot 0 missing: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 11.77129
+  type: 'test'
+  ...
+# Subtest: slot 0 json: current-head and recovery decisions equal eager load
+ok 65 - slot 0 json: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 10.323256
+  type: 'test'
+  ...
+# Subtest: slot 0 schema: current-head and recovery decisions equal eager load
+ok 66 - slot 0 schema: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 9.911524
+  type: 'test'
+  ...
+# Subtest: slot 0 zeroRevision: current-head and recovery decisions equal eager load
+ok 67 - slot 0 zeroRevision: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 13.742749
+  type: 'test'
+  ...
+# Subtest: slot 0 unsafeRevision: current-head and recovery decisions equal eager load
+ok 68 - slot 0 unsafeRevision: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 10.252882
+  type: 'test'
+  ...
+# Subtest: slot 0 checksum: current-head and recovery decisions equal eager load
+ok 69 - slot 0 checksum: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 11.186811
+  type: 'test'
+  ...
+# Subtest: slot 0 payloadJson: current-head and recovery decisions equal eager load
+ok 70 - slot 0 payloadJson: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 13.998915
+  type: 'test'
+  ...
+# Subtest: slot 0 semantic: current-head and recovery decisions equal eager load
+ok 71 - slot 0 semantic: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 13.726188
+  type: 'test'
+  ...
+# Subtest: slot 0 payloadLimit: current-head and recovery decisions equal eager load
+ok 72 - slot 0 payloadLimit: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 76.42694
+  type: 'test'
+  ...
+# Subtest: slot 0 rawLimit: current-head and recovery decisions equal eager load
+ok 73 - slot 0 rawLimit: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 48.043388
+  type: 'test'
+  ...
+# Subtest: slot 1 missing: current-head and recovery decisions equal eager load
+ok 74 - slot 1 missing: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 30.742666
+  type: 'test'
+  ...
+# Subtest: slot 1 json: current-head and recovery decisions equal eager load
+ok 75 - slot 1 json: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 16.461457
+  type: 'test'
+  ...
+# Subtest: slot 1 schema: current-head and recovery decisions equal eager load
+ok 76 - slot 1 schema: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 18.255817
+  type: 'test'
+  ...
+# Subtest: slot 1 zeroRevision: current-head and recovery decisions equal eager load
+ok 77 - slot 1 zeroRevision: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 18.831143
+  type: 'test'
+  ...
+# Subtest: slot 1 unsafeRevision: current-head and recovery decisions equal eager load
+ok 78 - slot 1 unsafeRevision: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 14.882549
+  type: 'test'
+  ...
+# Subtest: slot 1 checksum: current-head and recovery decisions equal eager load
+ok 79 - slot 1 checksum: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 15.558154
+  type: 'test'
+  ...
+# Subtest: slot 1 payloadJson: current-head and recovery decisions equal eager load
+ok 80 - slot 1 payloadJson: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 12.385395
+  type: 'test'
+  ...
+# Subtest: slot 1 semantic: current-head and recovery decisions equal eager load
+ok 81 - slot 1 semantic: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 19.426628
+  type: 'test'
+  ...
+# Subtest: slot 1 payloadLimit: current-head and recovery decisions equal eager load
+ok 82 - slot 1 payloadLimit: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 49.392595
+  type: 'test'
+  ...
+# Subtest: slot 1 rawLimit: current-head and recovery decisions equal eager load
+ok 83 - slot 1 rawLimit: current-head and recovery decisions equal eager load
+  ---
+  duration_ms: 29.118406
+  type: 'test'
+  ...
+# Subtest: head missing: decode each slot once and preserve recovery receipt selection
+ok 84 - head missing: decode each slot once and preserve recovery receipt selection
+  ---
+  duration_ms: 16.802215
+  type: 'test'
+  ...
+# Subtest: head "{": decode each slot once and preserve recovery receipt selection
+ok 85 - head "{": decode each slot once and preserve recovery receipt selection
+  ---
+  duration_ms: 9.945225
+  type: 'test'
+  ...
+# Subtest: head "null": decode each slot once and preserve recovery receipt selection
+ok 86 - head "null": decode each slot once and preserve recovery receipt selection
+  ---
+  duration_ms: 6.886063
+  type: 'test'
+  ...
+# Subtest: head "{}": decode each slot once and preserve recovery receipt selection
+ok 87 - head "{}": decode each slot once and preserve recovery receipt selection
+  ---
+  duration_ms: 9.304066
+  type: 'test'
+  ...
+# Subtest: head "[]": decode each slot once and preserve recovery receipt selection
+ok 88 - head "[]": decode each slot once and preserve recovery receipt selection
+  ---
+  duration_ms: 7.550522
+  type: 'test'
+  ...
+# Subtest: head "true": decode each slot once and preserve recovery receipt selection
+ok 89 - head "true": decode each slot once and preserve recovery receipt selection
+  ---
+  duration_ms: 6.516924
+  type: 'test'
+  ...
+# Subtest: head "1": decode each slot once and preserve recovery receipt selection
+ok 90 - head "1": decode each slot once and preserve recovery receipt selection
+  ---
+  duration_ms: 6.365078
+  type: 'test'
+  ...
+# Subtest: head "\\"head\\"": decode each slot once and preserve recovery receipt selection
+ok 91 - head "\\"head\\"": decode each slot once and preserve recovery receipt selection
+  ---
+  duration_ms: 5.143201
+  type: 'test'
+  ...
+# Subtest: head "{\\"slot\\":\\"0\\"}": decode each slot once and preserve recovery receipt selection
+ok 92 - head "{\\"slot\\":\\"0\\"}": decode each slot once and preserve recovery receipt selection
+  ---
+  duration_ms: 6.342716
+  type: 'test'
+  ...
+# Subtest: head "{\\"slot\\":2}": decode each slot once and preserve recovery receipt selection
+ok 93 - head "{\\"slot\\":2}": decode each slot once and preserve recovery receipt selection
+  ---
+  duration_ms: 6.397817
+  type: 'test'
+  ...
+# Subtest: head "{\\"slot\\":-1}": decode each slot once and preserve recovery receipt selection
+ok 94 - head "{\\"slot\\":-1}": decode each slot once and preserve recovery receipt selection
+  ---
+  duration_ms: 6.636452
+  type: 'test'
+  ...
+# Subtest: head "{\\"slot\\":null}": decode each slot once and preserve recovery receipt selection
+ok 95 - head "{\\"slot\\":null}": decode each slot once and preserve recovery receipt selection
+  ---
+  duration_ms: 6.015068
+  type: 'test'
+  ...
+# Subtest: failed primary 0 is never decoded or validated twice during fallback
+ok 96 - failed primary 0 is never decoded or validated twice during fallback
+  ---
+  duration_ms: 19.924533
+  type: 'test'
+  ...
+# Subtest: failed primary 1 is never decoded or validated twice during fallback
+ok 97 - failed primary 1 is never decoded or validated twice during fallback
+  ---
+  duration_ms: 13.135861
+  type: 'test'
+  ...
+# Subtest: staged newer valid data is never promoted without a commit receipt
+ok 98 - staged newer valid data is never promoted without a commit receipt
+  ---
+  duration_ms: 11.395162
+  type: 'test'
+  ...
+# Subtest: read exception at head preserves order and precedes all decoding
+ok 99 - read exception at head preserves order and precedes all decoding
+  ---
+  duration_ms: 0.376701
+  type: 'test'
+  ...
+# Subtest: read exception at slot0 preserves order and precedes all decoding
+ok 100 - read exception at slot0 preserves order and precedes all decoding
+  ---
+  duration_ms: 0.108982
+  type: 'test'
+  ...
+# Subtest: read exception at slot1 preserves order and precedes all decoding
+ok 101 - read exception at slot1 preserves order and precedes all decoding
+  ---
+  duration_ms: 0.089734
+  type: 'test'
+  ...
+# Subtest: every load rereads both slots and same-revision changed payloads are fully validated
+ok 102 - every load rereads both slots and same-revision changed payloads are fully validated
+  ---
+  duration_ms: 3.615058
+  type: 'test'
+  ...
+# Subtest: caller mutations of loaded state and nested receipt data cannot poison a later load or recovery
+ok 103 - caller mutations of loaded state and nested receipt data cannot poison a later load or recovery
+  ---
+  duration_ms: 9.372792
+  type: 'test'
+  ...
+# Subtest: v1 load stays read-only, mutable and semantically identical
+ok 104 - v1 load stays read-only, mutable and semantically identical
+  ---
+  duration_ms: 4.945958
+  type: 'test'
+  ...
+# Subtest: v2 load stays read-only, mutable and semantically identical
+ok 105 - v2 load stays read-only, mutable and semantically identical
+  ---
+  duration_ms: 3.659874
+  type: 'test'
+  ...
+# Subtest: v3 load stays read-only, mutable and semantically identical
+ok 106 - v3 load stays read-only, mutable and semantically identical
+  ---
+  duration_ms: 6.454792
+  type: 'test'
+  ...
+# Subtest: v4 load stays read-only, mutable and semantically identical
+ok 107 - v4 load stays read-only, mutable and semantically identical
+  ---
+  duration_ms: 7.529
+  type: 'test'
+  ...
+# Subtest: v5 load stays read-only, mutable and semantically identical
+ok 108 - v5 load stays read-only, mutable and semantically identical
+  ---
+  duration_ms: 6.922307
+  type: 'test'
+  ...
+# Subtest: current reader preserves first v4 upgrade fence and fallback receipt
+ok 109 - current reader preserves first v4 upgrade fence and fallback receipt
+  ---
+  duration_ms: 12.2215
+  type: 'test'
+  ...
+# Subtest: current reader preserves first v5 upgrade fence and fallback receipt
+ok 110 - current reader preserves first v5 upgrade fence and fallback receipt
+  ---
+  duration_ms: 10.700909
+  type: 'test'
+  ...
+# Subtest: actual normal T UI completes explicit four chambers, original return, oath and Eda report
+ok 111 - actual normal T UI completes explicit four chambers, original return, oath and Eda report
+  ---
+  duration_ms: 2379.942905
+  type: 'test'
+  ...
+# Subtest: actual normal T UI completes explicit four chambers, optional stair, oath and Eda report
+ok 112 - actual normal T UI completes explicit four chambers, optional stair, oath and Eda report
+  ---
+  duration_ms: 1165.369557
+  type: 'test'
+  ...
+# Subtest: actual hard T UI completes explicit four chambers, original return, oath and Eda report
+ok 113 - actual hard T UI completes explicit four chambers, original return, oath and Eda report
+  ---
+  duration_ms: 1739.608743
+  type: 'test'
+  ...
+# Subtest: actual hard T UI completes explicit four chambers, optional stair, oath and Eda report
+ok 114 - actual hard T UI completes explicit four chambers, optional stair, oath and Eda report
+  ---
+  duration_ms: 1169.695061
+  type: 'test'
+  ...
+# Subtest: actual decode-ready map update preserves the battle, live tells and paid resource recovery
+ok 115 - actual decode-ready map update preserves the battle, live tells and paid resource recovery
+  ---
+  duration_ms: 203.662035
+  type: 'test'
+  ...
+# Subtest: actual partial map update preserves the battle, live tells and paid resource recovery
+ok 116 - actual partial map update preserves the battle, live tells and paid resource recovery
+  ---
+  duration_ms: 204.149174
+  type: 'test'
+  ...
+# Subtest: actual solved map update preserves the battle, live tells and paid resource recovery
+ok 117 - actual solved map update preserves the battle, live tells and paid resource recovery
+  ---
+  duration_ms: 151.257236
+  type: 'test'
+  ...
+# Subtest: actual midpoint-ready map update preserves the battle, live tells and paid resource recovery
+ok 118 - actual midpoint-ready map update preserves the battle, live tells and paid resource recovery
+  ---
+  duration_ms: 155.834882
+  type: 'test'
+  ...
+# Subtest: actual seal-ready map update preserves the battle, live tells and paid resource recovery
+ok 119 - actual seal-ready map update preserves the battle, live tells and paid resource recovery
+  ---
+  duration_ms: 159.21138
+  type: 'test'
+  ...
+# Subtest: actual captured glyph tokens reject old panel clicks and double-click activation without becoming a wrong glyph
+ok 120 - actual captured glyph tokens reject old panel clicks and double-click activation without becoming a wrong glyph
+  ---
+  duration_ms: 139.383832
+  type: 'test'
+  ...
+# Subtest: actual current panel carries the old revision through another committed T input and gets STALE_REVISION
+ok 121 - actual current panel carries the old revision through another committed T input and gets STALE_REVISION
+  ---
+  duration_ms: 112.72282
+  type: 'test'
+  ...
+# Subtest: actual rapid concurrent glyph clicks issue one controller command and award once
+ok 122 - actual rapid concurrent glyph clicks issue one controller command and award once
+  ---
+  duration_ms: 100.566228
+  type: 'test'
+  ...
+# Subtest: actual pending T decode commit cannot replace newer close navigation
+ok 123 - actual pending T decode commit cannot replace newer close navigation
+  ---
+  duration_ms: 111.749507
+  type: 'test'
+  ...
+# Subtest: actual pending T decode commit cannot replace newer objective navigation
+ok 124 - actual pending T decode commit cannot replace newer objective navigation
+  ---
+  duration_ms: 115.803457
+  type: 'test'
+  ...
+# Subtest: actual pending T decode commit cannot replace newer menu navigation
+ok 125 - actual pending T decode commit cannot replace newer menu navigation
+  ---
+  duration_ms: 112.59496
+  type: 'test'
+  ...
+# Subtest: actual pending T decode commit cannot replace newer journal navigation
+ok 126 - actual pending T decode commit cannot replace newer journal navigation
+  ---
+  duration_ms: 105.258927
+  type: 'test'
+  ...
+# Subtest: actual pending T glyph commit cannot replace newer close navigation
+ok 127 - actual pending T glyph commit cannot replace newer close navigation
+  ---
+  duration_ms: 101.923256
+  type: 'test'
+  ...
+# Subtest: actual pending T glyph commit cannot replace newer objective navigation
+ok 128 - actual pending T glyph commit cannot replace newer objective navigation
+  ---
+  duration_ms: 105.528279
+  type: 'test'
+  ...
+# Subtest: actual pending T glyph commit cannot replace newer menu navigation
+ok 129 - actual pending T glyph commit cannot replace newer menu navigation
+  ---
+  duration_ms: 101.814304
+  type: 'test'
+  ...
+# Subtest: actual pending T glyph commit cannot replace newer journal navigation
+ok 130 - actual pending T glyph commit cannot replace newer journal navigation
+  ---
+  duration_ms: 104.367632
+  type: 'test'
+  ...
+# Subtest: actual pending T accept commit cannot replace newer close navigation
+ok 131 - actual pending T accept commit cannot replace newer close navigation
+  ---
+  duration_ms: 77.870468
+  type: 'test'
+  ...
+# Subtest: actual pending T accept commit cannot replace newer objective navigation
+ok 132 - actual pending T accept commit cannot replace newer objective navigation
+  ---
+  duration_ms: 78.36235
+  type: 'test'
+  ...
+# Subtest: actual pending T accept commit cannot replace newer menu navigation
+ok 133 - actual pending T accept commit cannot replace newer menu navigation
+  ---
+  duration_ms: 76.061688
+  type: 'test'
+  ...
+# Subtest: actual pending T accept commit cannot replace newer journal navigation
+ok 134 - actual pending T accept commit cannot replace newer journal navigation
+  ---
+  duration_ms: 78.737989
+  type: 'test'
+  ...
+# Subtest: actual pending T report commit cannot replace newer close navigation
+ok 135 - actual pending T report commit cannot replace newer close navigation
+  ---
+  duration_ms: 248.719931
+  type: 'test'
+  ...
+# Subtest: actual pending T report commit cannot replace newer objective navigation
+ok 136 - actual pending T report commit cannot replace newer objective navigation
+  ---
+  duration_ms: 123.635522
+  type: 'test'
+  ...
+# Subtest: actual pending T report commit cannot replace newer menu navigation
+ok 137 - actual pending T report commit cannot replace newer menu navigation
+  ---
+  duration_ms: 130.200111
+  type: 'test'
+  ...
+# Subtest: actual pending T report commit cannot replace newer journal navigation
+ok 138 - actual pending T report commit cannot replace newer journal navigation
+  ---
+  duration_ms: 110.105607
+  type: 'test'
+  ...
+# Subtest: actual pending T opening checkpoint yields to newer close
+ok 139 - actual pending T opening checkpoint yields to newer close
+  ---
+  duration_ms: 57.584464
+  type: 'test'
+  ...
+# Subtest: actual pending T opening checkpoint yields to newer objective
+ok 140 - actual pending T opening checkpoint yields to newer objective
+  ---
+  duration_ms: 60.853136
+  type: 'test'
+  ...
+# Subtest: actual pending T opening checkpoint yields to newer menu
+ok 141 - actual pending T opening checkpoint yields to newer menu
+  ---
+  duration_ms: 65.850856
+  type: 'test'
+  ...
+# Subtest: actual pending T opening checkpoint yields to newer journal
+ok 142 - actual pending T opening checkpoint yields to newer journal
+  ---
+  duration_ms: 82.5909
+  type: 'test'
+  ...
+# Subtest: actual delayed commit cannot replace a newly loaded profile or its modal ownership
+ok 143 - actual delayed commit cannot replace a newly loaded profile or its modal ownership
+  ---
+  duration_ms: 125.249333
+  type: 'test'
+  ...
+# Subtest: actual decoded journal preserves the complete decoded clue independently of the current goal
+ok 144 - actual decoded journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 87.550358
+  type: 'test'
+  ...
+# Subtest: actual partial journal preserves the complete decoded clue independently of the current goal
+ok 145 - actual partial journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 90.136054
+  type: 'test'
+  ...
+# Subtest: actual solved journal preserves the complete decoded clue independently of the current goal
+ok 146 - actual solved journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 92.60109
+  type: 'test'
+  ...
+# Subtest: actual carried journal preserves the complete decoded clue independently of the current goal
+ok 147 - actual carried journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 79.600321
+  type: 'test'
+  ...
+# Subtest: actual midpoint journal preserves the complete decoded clue independently of the current goal
+ok 148 - actual midpoint journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 77.014085
+  type: 'test'
+  ...
+# Subtest: actual sealed journal preserves the complete decoded clue independently of the current goal
+ok 149 - actual sealed journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 78.221231
+  type: 'test'
+  ...
+# Subtest: actual boss-down journal preserves the complete decoded clue independently of the current goal
+ok 150 - actual boss-down journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 76.679858
+  type: 'test'
+  ...
+# Subtest: actual oath journal preserves the complete decoded clue independently of the current goal
+ok 151 - actual oath journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 81.78021
+  type: 'test'
+  ...
+# Subtest: actual report-ready journal preserves the complete decoded clue independently of the current goal
+ok 152 - actual report-ready journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 83.919016
+  type: 'test'
+  ...
+# Subtest: actual reported journal preserves the complete decoded clue independently of the current goal
+ok 153 - actual reported journal preserves the complete decoded clue independently of the current goal
+  ---
+  duration_ms: 119.262598
+  type: 'test'
+  ...
+# Subtest: actual decoded projection remains available and reread updates its token without extra reward
+ok 154 - actual decoded projection remains available and reread updates its token without extra reward
+  ---
+  duration_ms: 110.005543
+  type: 'test'
+  ...
+# Subtest: actual entry object tomb-projection uses explicit completed state rather than absent actions
+ok 155 - actual entry object tomb-projection uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 84.81609
+  type: 'test'
+  ...
+# Subtest: actual entry object tomb-ward-origin uses explicit completed state rather than absent actions
+ok 156 - actual entry object tomb-ward-origin uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 78.047808
+  type: 'test'
+  ...
+# Subtest: actual entry object tomb-oath uses explicit completed state rather than absent actions
+ok 157 - actual entry object tomb-oath uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 95.332373
+  type: 'test'
+  ...
+# Subtest: actual decoded object tomb-projection uses explicit completed state rather than absent actions
+ok 158 - actual decoded object tomb-projection uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 96.5604
+  type: 'test'
+  ...
+# Subtest: actual solved object tomb-glyph-crescent uses explicit completed state rather than absent actions
+ok 159 - actual solved object tomb-glyph-crescent uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 89.536021
+  type: 'test'
+  ...
+# Subtest: actual carried object tomb-ward-origin uses explicit completed state rather than absent actions
+ok 160 - actual carried object tomb-ward-origin uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 58.984697
+  type: 'test'
+  ...
+# Subtest: actual midpoint object tomb-ward-midpoint uses explicit completed state rather than absent actions
+ok 161 - actual midpoint object tomb-ward-midpoint uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 57.780937
+  type: 'test'
+  ...
+# Subtest: actual sealed object tomb-ward-final uses explicit completed state rather than absent actions
+ok 162 - actual sealed object tomb-ward-final uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 59.417621
+  type: 'test'
+  ...
+# Subtest: actual oath object tomb-oath uses explicit completed state rather than absent actions
+ok 163 - actual oath object tomb-oath uses explicit completed state rather than absent actions
+  ---
+  duration_ms: 59.904506
+  type: 'test'
+  ...
+# Subtest: actual town T portals are absent from labels, render objects and selection before acceptance
+ok 164 - actual town T portals are absent from labels, render objects and selection before acceptance
+  ---
+  duration_ms: 16.795112
+  type: 'test'
+  ...
+# Subtest: actual town T portals are visible and selectable after acceptance
+ok 165 - actual town T portals are visible and selectable after acceptance
+  ---
+  duration_ms: 21.915558
+  type: 'test'
+  ...
+# Subtest: actual T optional stair precedence is limited to its ready reachable console pair
+ok 166 - actual T optional stair precedence is limited to its ready reachable console pair
+  ---
+  duration_ms: 128.647346
+  type: 'test'
+  ...
+# Subtest: actual predecessor T quest actions belong only to Eda while Orin keeps equipment and Bran keeps skills
+ok 167 - actual predecessor T quest actions belong only to Eda while Orin keeps equipment and Bran keeps skills
+  ---
+  duration_ms: 159.434682
+  type: 'test'
+  ...
+# Subtest: actual report-ready T quest actions belong only to Eda while Orin keeps equipment and Bran keeps skills
+ok 168 - actual report-ready T quest actions belong only to Eda while Orin keeps equipment and Bran keeps skills
+  ---
+  duration_ms: 236.17974
+  type: 'test'
+  ...
+# Subtest: actual reported T quest actions belong only to Eda while Orin keeps equipment and Bran keeps skills
+ok 169 - actual reported T quest actions belong only to Eda while Orin keeps equipment and Bran keeps skills
+  ---
+  duration_ms: 222.214137
+  type: 'test'
+  ...
+# Subtest: actual T HUD, inventory, shop and workshop show the same total, spendable and protected gold
+ok 170 - actual T HUD, inventory, shop and workshop show the same total, spendable and protected gold
+  ---
+  duration_ms: 61.710367
+  type: 'test'
+  ...
+# Subtest: actual custom interaction label stays synchronized in T object, objective and HUD text
+ok 171 - actual custom interaction label stays synchronized in T object, objective and HUD text
+  ---
+  duration_ms: 151.533778
+  type: 'test'
+  ...
+# Subtest: actual T SAVE_FAILED neither advances the panel nor invents reward and reload restores saved prefix
+ok 172 - actual T SAVE_FAILED neither advances the panel nor invents reward and reload restores saved prefix
+  ---
+  duration_ms: 180.686885
+  type: 'test'
+  ...
+# Subtest: actual T COMMIT_UNCERTAIN neither advances the panel nor invents reward and reload restores saved prefix
+ok 173 - actual T COMMIT_UNCERTAIN neither advances the panel nor invents reward and reload restores saved prefix
+  ---
+  duration_ms: 187.041812
+  type: 'test'
+  ...
+# Subtest: actual dead carry save shows retry, cannot manipulate T, and preserves relay progress after retry and return
+ok 174 - actual dead carry save shows retry, cannot manipulate T, and preserves relay progress after retry and return
+  ---
+  duration_ms: 157.895832
+  type: 'test'
+  ...
+# Subtest: actual main renderer forwards the durable carried ward without changing game state
+ok 175 - actual main renderer forwards the durable carried ward without changing game state
+  ---
+  duration_ms: 5.782911
+  type: 'test'
+  ...
+# Subtest: actual R11 candidate title separates observed Normal T from unqualified Expert/B and offers R10 forward copy
+ok 176 - actual R11 candidate title separates observed Normal T from unqualified Expert/B and offers R10 forward copy
+  ---
+  duration_ms: 15.838918
+  type: 'test'
+  ...
+# Subtest: actual T accept synchronizes paid pools without rebuilding the live battle
+ok 177 - actual T accept synchronizes paid pools without rebuilding the live battle
+  ---
+  duration_ms: 109.086233
+  type: 'test'
+  ...
+# Subtest: actual T oath synchronizes paid pools without rebuilding the live battle
+ok 178 - actual T oath synchronizes paid pools without rebuilding the live battle
+  ---
+  duration_ms: 98.574248
+  type: 'test'
+  ...
+# Subtest: actual T report synchronizes paid pools without rebuilding the live battle
+ok 179 - actual T report synchronizes paid pools without rebuilding the live battle
+  ---
+  duration_ms: 135.86961
+  type: 'test'
+  ...
+# Subtest: actual T two-tab glyph conflict blocks resume and reload restores exactly the other saved prefix
+ok 180 - actual T two-tab glyph conflict blocks resume and reload restores exactly the other saved prefix
+  ---
+  duration_ms: 228.261582
+  type: 'test'
+  ...
+# Subtest: actual dead report snapshot cannot pay the commission even if its old Eda button is replayed
+ok 181 - actual dead report snapshot cannot pay the commission even if its old Eda button is replayed
+  ---
+  duration_ms: 66.393943
+  type: 'test'
+  ...
+# Subtest: actual no-prerequisite Eda and fresh town never expose T acceptance or either T entrance
+ok 182 - actual no-prerequisite Eda and fresh town never expose T acceptance or either T entrance
+  ---
+  duration_ms: 4.937775
+  type: 'test'
+  ...
+# Subtest: actual T report with explicitly spent-to-zero gold remains available at earned Hard L14 and reserves its own reward
+ok 183 - actual T report with explicitly spent-to-zero gold remains available at earned Hard L14 and reserves its own reward
+  ---
+  duration_ms: 144.444905
+  type: 'test'
+  ...
+# Subtest: actual R10 copy handler loads an earned R9 source into a new isolated slot and never overwrites either source or existing target
+ok 184 - actual R10 copy handler loads an earned R9 source into a new isolated slot and never overwrites either source or existing target
+  ---
+  duration_ms: 51.021208
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual first T acceptance uses neutral travel copy and one current-goal paragraph at Eda
+ok 185 - guidance correction: actual first T acceptance uses neutral travel copy and one current-goal paragraph at Eda
+  ---
+  duration_ms: 107.465152
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual returning, report-ready and completed Eda cards do not repeat the current T detail
+ok 186 - guidance correction: actual returning, report-ready and completed Eda cards do not repeat the current T detail
+  ---
+  duration_ms: 197.483984
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual unfinished first-patrol accept/report and duplicate-reward protection remain intact
+ok 187 - guidance correction: actual unfinished first-patrol accept/report and duplicate-reward protection remain intact
+  ---
+  duration_ms: 79.64683
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual Eda Pass history names completed rewards and implemented S/F/T scope
+ok 188 - guidance correction: actual Eda Pass history names completed rewards and implemented S/F/T scope
+  ---
+  duration_ms: 43.0961
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual final glyph, journal and projection stop warning about resetting a completed sequence
+ok 189 - guidance correction: actual final glyph, journal and projection stop warning about resetting a completed sequence
+  ---
+  duration_ms: 128.465628
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual lower ward panels distinguish missing, carried, clear and already-connected states
+ok 190 - guidance correction: actual lower ward panels distinguish missing, carried, clear and already-connected states
+  ---
+  duration_ms: 417.602369
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual upper ward panels distinguish missing ward, pending midpoint, clear and sealed states
+ok 191 - guidance correction: actual upper ward panels distinguish missing ward, pending midpoint, clear and sealed states
+  ---
+  duration_ms: 552.876563
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual oath panel stops repeating completed seal and boss prerequisites
+ok 192 - guidance correction: actual oath panel stops repeating completed seal and boss prerequisites
+  ---
+  duration_ms: 310.488324
+  type: 'test'
+  ...
+# Subtest: guidance correction: actual current-goal and carried-ward origin panels recognize already-cleared pockets
+ok 193 - guidance correction: actual current-goal and carried-ward origin panels recognize already-cleared pockets
+  ---
+  duration_ms: 184.709234
+  type: 'test'
+  ...
+# Subtest: actual B main UI west then east opens map without resetting live battle, then separately collects/reports
+ok 194 - actual B main UI west then east opens map without resetting live battle, then separately collects/reports
+  ---
+  duration_ms: 2216.402766
+  type: 'test'
+  ...
+# Subtest: actual B main UI east then west opens map without resetting live battle, then separately collects/reports
+ok 195 - actual B main UI east then west opens map without resetting live battle, then separately collects/reports
+  ---
+  duration_ms: 1075.979663
+  type: 'test'
+  ...
+# Subtest: actual B UI rejects double activation, stale dialog epochs and failed persistence without marking a device
+ok 196 - actual B UI rejects double activation, stale dialog epochs and failed persistence without marking a device
+  ---
+  duration_ms: 496.294845
+  type: 'test'
+  ...
+# Subtest: closing actual B panel during delayed successful commit does not reopen a stale dialog
+ok 197 - closing actual B panel during delayed successful commit does not reopen a stale dialog
+  ---
+  duration_ms: 453.106925
+  type: 'test'
+  ...
+# Subtest: actual B ready-device copy and collected beacon inventory use current objective labels
+ok 198 - actual B ready-device copy and collected beacon inventory use current objective labels
+  ---
+  duration_ms: 781.855502
+  type: 'test'
+  ...
+# Subtest: real main W cover: Eda, five required groups, relic, report and optional post-report rescue
+ok 199 - real main W cover: Eda, five required groups, relic, report and optional post-report rescue
+  ---
+  duration_ms: 9669.735854
+  type: 'test'
+  ...
+# Subtest: real main W channel: Eda, five required groups, relic, report and optional post-report rescue
+ok 200 - real main W channel: Eda, five required groups, relic, report and optional post-report rescue
+  ---
+  duration_ms: 8015.014482
+  type: 'test'
+  ...
+# Subtest: W button serializes one committed report and rejects detached stale token without restamping or healing
+ok 201 - W button serializes one committed report and rejects detached stale token without restamping or healing
+  ---
+  duration_ms: 1342.170871
+  type: 'test'
+  ...
+# Subtest: W placeholder pauses before delayed checkpoint, preserves newer panel, and does not expose an action early
+ok 202 - W placeholder pauses before delayed checkpoint, preserves newer panel, and does not expose an action early
+  ---
+  duration_ms: 209.681847
+  type: 'test'
+  ...
+# Subtest: W Eda placeholder waits for an existing commit before capturing its exact revision and depleted pools
+ok 203 - W Eda placeholder waits for an existing commit before capturing its exact revision and depleted pools
+  ---
+  duration_ms: 400.680676
+  type: 'test'
+  ...
+# Subtest: W double click, old modal epoch and delayed objective save never create optimistic or duplicate rewards
+ok 204 - W double click, old modal epoch and delayed objective save never create optimistic or duplicate rewards
+  ---
+  duration_ms: 321.030189
+  type: 'test'
+  ...
+# Subtest: W failed UNAVAILABLE action preserves real storage, pools and unclaimed reward
+ok 205 - W failed UNAVAILABLE action preserves real storage, pools and unclaimed reward
+  ---
+  duration_ms: 307.810265
+  type: 'test'
+  ...
+# Subtest: W failed COMMIT_UNCERTAIN action preserves real storage, pools and unclaimed reward
+ok 206 - W failed COMMIT_UNCERTAIN action preserves real storage, pools and unclaimed reward
+  ---
+  duration_ms: 301.363187
+  type: 'test'
+  ...
+# Subtest: W failed CONFLICT action preserves real storage, pools and unclaimed reward
+ok 207 - W failed CONFLICT action preserves real storage, pools and unclaimed reward
+  ---
+  duration_ms: 307.735569
+  type: 'test'
+  ...
+# Subtest: W map-only choice preserves living actor identity, HP, projectiles, areas and committed paid recovery
+ok 208 - W map-only choice preserves living actor identity, HP, projectiles, areas and committed paid recovery
+  ---
+  duration_ms: 531.126654
+  type: 'test'
+  ...
+# Subtest: W journal prefix, paid recovery and receipts survive real reload; dead retry carries a fresh captured store token
+ok 209 - W journal prefix, paid recovery and receipts survive real reload; dead retry carries a fresh captured store token
+  ---
+  duration_ms: 594.764077
+  type: 'test'
+  ...
+# Subtest: current candidate title offers explicit R11 forward-copy without changing source profile
+ok 210 - current candidate title offers explicit R11 forward-copy without changing source profile
+  ---
+  duration_ms: 40.998467
+  type: 'test'
+  ...
+# Subtest: W Eda capture waits for busy paid Onslaught then durable safety cancellation before exposing a command
+ok 211 - W Eda capture waits for busy paid Onslaught then durable safety cancellation before exposing a command
+  ---
+  duration_ms: 600.148555
+  type: 'test'
+  ...
+# Subtest: W pending opening checkpoint never captures or reopens into a newer profile
+ok 212 - W pending opening checkpoint never captures or reopens into a newer profile
+  ---
+  duration_ms: 185.529638
+  type: 'test'
+  ...
+# Subtest: W actual interaction resolves its object and leaves completed hidden pickups out of target selection
+ok 213 - W actual interaction resolves its object and leaves completed hidden pickups out of target selection
+  ---
+  duration_ms: 917.773403
+  type: 'test'
+  ...
+# Subtest: W captured Eda action cannot complete at Orin and keeps his existing shop intact
+ok 214 - W captured Eda action cannot complete at Orin and keeps his existing shop intact
+  ---
+  duration_ms: 197.340574
+  type: 'test'
+  ...
+# Subtest: fresh untrained profile keeps manual checkpoint and save-to-title behavior with implicit life zero
+ok 215 - fresh untrained profile keeps manual checkpoint and save-to-title behavior with implicit life zero
+  ---
+  duration_ms: 15.931555
+  type: 'test'
+  ...
+1..215
+# tests 215
+# suites 0
+# pass 215
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 24228.808956

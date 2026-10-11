@@ -1,0 +1,11 @@
+[
+  "app/package.json",
+  "app/scripts/build-r14.mjs",
+  "app/src/main.js",
+  "app/src/index.html",
+  "app/src/recovery-page.js",
+  "app/tests/tomb-ui-integration.test.mjs",
+  "app/tests/wilderness-ui-integration.test.mjs",
+  "app/tests/build-label-ui.test.mjs",
+  "project.json"
+]

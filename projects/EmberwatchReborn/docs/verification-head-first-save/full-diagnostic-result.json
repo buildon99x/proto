@@ -1,0 +1,64 @@
+{
+  "exitCode": 0,
+  "completedAtUtc": "2026-10-11T16:32:22.711278+00:00",
+  "elapsedSeconds": 267.9286489549995,
+  "samples": 534,
+  "sampledPeakNodeFamily": {
+    "elapsedSeconds": 71.04608513800486,
+    "processCount": 9,
+    "totalRssKiB": 1350748,
+    "processes": [
+      {
+        "pid": 14,
+        "ppid": 2,
+        "rssKiB": 70684
+      },
+      {
+        "pid": 437,
+        "ppid": 14,
+        "rssKiB": 259096
+      },
+      {
+        "pid": 1157,
+        "ppid": 14,
+        "rssKiB": 143096
+      },
+      {
+        "pid": 1197,
+        "ppid": 14,
+        "rssKiB": 204100
+      },
+      {
+        "pid": 1205,
+        "ppid": 14,
+        "rssKiB": 133716
+      },
+      {
+        "pid": 1229,
+        "ppid": 14,
+        "rssKiB": 217836
+      },
+      {
+        "pid": 1349,
+        "ppid": 14,
+        "rssKiB": 101648
+      },
+      {
+        "pid": 1365,
+        "ppid": 14,
+        "rssKiB": 128556
+      },
+      {
+        "pid": 1381,
+        "ppid": 14,
+        "rssKiB": 92016
+      }
+    ]
+  },
+  "childUsage": {
+    "userSeconds": 928.667976,
+    "systemSeconds": 20.288751,
+    "maxRssKiB": 281628
+  },
+  "caveat": "Sampled RSS does not prove the cause of an earlier uninstrumented termination. No test timeout/concurrency/assertion/source was changed."
+}

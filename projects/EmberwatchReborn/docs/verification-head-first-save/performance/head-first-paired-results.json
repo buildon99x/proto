@@ -1,0 +1,3734 @@
+{
+  "startedAtUtc": "2026-10-11T16:13:31.336Z",
+  "scope": "Uninstrumented a17 vs head-first-only candidate, earned synthetic states, in-memory exact-string storage and immediate fake Web Lock. Not real localStorage/lock-wait/native input performance, and not proof of all save-input expiry resolution.",
+  "pairsPerStage": 8,
+  "warmupsPerVariantStage": 2,
+  "stages": [
+    {
+      "stage": "entered",
+      "baseline": {
+        "n": 8,
+        "min": 118.97585799999979,
+        "p50": 122.47772000000009,
+        "p95": 148.74830799999995,
+        "max": 148.74830799999995
+      },
+      "candidate": {
+        "n": 8,
+        "min": 100.98975700000005,
+        "p50": 106.80833500000017,
+        "p95": 136.1369840000002,
+        "max": 136.1369840000002
+      },
+      "pairedDifferenceMs": {
+        "n": 8,
+        "min": 10.177992999999788,
+        "p50": 18.677780999999868,
+        "p95": 23.69164100000023,
+        "max": 23.69164100000023
+      },
+      "identicalStateEventsStorageAndReadWriteOperations": true,
+      "pairs": [
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 129.22697200000005,
+            "processCpuMs": 166.259,
+            "revision": 5,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "10623e7013961427384732d16c019683a3ee448c125336cdf553022d691710e3",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "43fd456a6e3d7268f103974b4c43e846cba6b75eb880d9408e4637f85b082cf6"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "60b6029f6e01ab67c81d1302f1a1d9bda8b9c3b7c627d4a9b021d559619389f5"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "836682419b81fd1b74e816469de850db25f46c389165e317ec446c14d147418c"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "43fd456a6e3d7268f103974b4c43e846cba6b75eb880d9408e4637f85b082cf6"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "7adfdbf0f6c5f8188ac80bb831aaf9b4fc76030c3ccf6ce3c592df39a9ff51a9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "7adfdbf0f6c5f8188ac80bb831aaf9b4fc76030c3ccf6ce3c592df39a9ff51a9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "43fd456a6e3d7268f103974b4c43e846cba6b75eb880d9408e4637f85b082cf6"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "63bc383daec9e3832b93f53bad05a2efc77dab7b1d47facd59a3237cedb1a9ab"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "63bc383daec9e3832b93f53bad05a2efc77dab7b1d47facd59a3237cedb1a9ab"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 105.53533099999981,
+            "processCpuMs": 114.795,
+            "revision": 5,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "10623e7013961427384732d16c019683a3ee448c125336cdf553022d691710e3",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "43fd456a6e3d7268f103974b4c43e846cba6b75eb880d9408e4637f85b082cf6"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "60b6029f6e01ab67c81d1302f1a1d9bda8b9c3b7c627d4a9b021d559619389f5"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "836682419b81fd1b74e816469de850db25f46c389165e317ec446c14d147418c"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "43fd456a6e3d7268f103974b4c43e846cba6b75eb880d9408e4637f85b082cf6"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "7adfdbf0f6c5f8188ac80bb831aaf9b4fc76030c3ccf6ce3c592df39a9ff51a9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "7adfdbf0f6c5f8188ac80bb831aaf9b4fc76030c3ccf6ce3c592df39a9ff51a9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "43fd456a6e3d7268f103974b4c43e846cba6b75eb880d9408e4637f85b082cf6"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "63bc383daec9e3832b93f53bad05a2efc77dab7b1d47facd59a3237cedb1a9ab"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "63bc383daec9e3832b93f53bad05a2efc77dab7b1d47facd59a3237cedb1a9ab"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 122.47772000000009,
+            "processCpuMs": 138.976,
+            "revision": 6,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "ee1873ff067245855feb7fe630296fbf58dc3f909714f3463e0a523070451ef0",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "63bc383daec9e3832b93f53bad05a2efc77dab7b1d47facd59a3237cedb1a9ab"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "7adfdbf0f6c5f8188ac80bb831aaf9b4fc76030c3ccf6ce3c592df39a9ff51a9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "836682419b81fd1b74e816469de850db25f46c389165e317ec446c14d147418c"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "63bc383daec9e3832b93f53bad05a2efc77dab7b1d47facd59a3237cedb1a9ab"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "4ebe39e028f31e7014cdb81622bdab95e611a1d131f14d0a4f9a64dbfe346e55"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "4ebe39e028f31e7014cdb81622bdab95e611a1d131f14d0a4f9a64dbfe346e55"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "63bc383daec9e3832b93f53bad05a2efc77dab7b1d47facd59a3237cedb1a9ab"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b28d9d067305256fe372a206c744c5d369cf3dd1521a58c95ea4db1665801063"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b28d9d067305256fe372a206c744c5d369cf3dd1521a58c95ea4db1665801063"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 109.98845600000004,
+            "processCpuMs": 145.595,
+            "revision": 6,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "ee1873ff067245855feb7fe630296fbf58dc3f909714f3463e0a523070451ef0",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "63bc383daec9e3832b93f53bad05a2efc77dab7b1d47facd59a3237cedb1a9ab"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "7adfdbf0f6c5f8188ac80bb831aaf9b4fc76030c3ccf6ce3c592df39a9ff51a9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "836682419b81fd1b74e816469de850db25f46c389165e317ec446c14d147418c"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "63bc383daec9e3832b93f53bad05a2efc77dab7b1d47facd59a3237cedb1a9ab"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "4ebe39e028f31e7014cdb81622bdab95e611a1d131f14d0a4f9a64dbfe346e55"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "4ebe39e028f31e7014cdb81622bdab95e611a1d131f14d0a4f9a64dbfe346e55"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "63bc383daec9e3832b93f53bad05a2efc77dab7b1d47facd59a3237cedb1a9ab"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b28d9d067305256fe372a206c744c5d369cf3dd1521a58c95ea4db1665801063"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b28d9d067305256fe372a206c744c5d369cf3dd1521a58c95ea4db1665801063"
+              }
+            ]
+          }
+        },
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 120.11264099999994,
+            "processCpuMs": 123.423,
+            "revision": 7,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "364487fc991b0ae9baeb92ac2e1832a041e915d32e512c47ad72246f395a97a6",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b28d9d067305256fe372a206c744c5d369cf3dd1521a58c95ea4db1665801063"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "7adfdbf0f6c5f8188ac80bb831aaf9b4fc76030c3ccf6ce3c592df39a9ff51a9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "4ebe39e028f31e7014cdb81622bdab95e611a1d131f14d0a4f9a64dbfe346e55"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b28d9d067305256fe372a206c744c5d369cf3dd1521a58c95ea4db1665801063"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "fad42ee5c7ecfc1c63c6b7629aa72edfc927bc1791072d376cd6d83e31915112"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "fad42ee5c7ecfc1c63c6b7629aa72edfc927bc1791072d376cd6d83e31915112"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b28d9d067305256fe372a206c744c5d369cf3dd1521a58c95ea4db1665801063"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b19cc174c0b83ef969990ac760320dd57a067f236226224f7ece0c1d8fc3a6d4"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b19cc174c0b83ef969990ac760320dd57a067f236226224f7ece0c1d8fc3a6d4"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 102.728564,
+            "processCpuMs": 112.572,
+            "revision": 7,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "364487fc991b0ae9baeb92ac2e1832a041e915d32e512c47ad72246f395a97a6",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b28d9d067305256fe372a206c744c5d369cf3dd1521a58c95ea4db1665801063"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "7adfdbf0f6c5f8188ac80bb831aaf9b4fc76030c3ccf6ce3c592df39a9ff51a9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "4ebe39e028f31e7014cdb81622bdab95e611a1d131f14d0a4f9a64dbfe346e55"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b28d9d067305256fe372a206c744c5d369cf3dd1521a58c95ea4db1665801063"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "fad42ee5c7ecfc1c63c6b7629aa72edfc927bc1791072d376cd6d83e31915112"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "fad42ee5c7ecfc1c63c6b7629aa72edfc927bc1791072d376cd6d83e31915112"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b28d9d067305256fe372a206c744c5d369cf3dd1521a58c95ea4db1665801063"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b19cc174c0b83ef969990ac760320dd57a067f236226224f7ece0c1d8fc3a6d4"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b19cc174c0b83ef969990ac760320dd57a067f236226224f7ece0c1d8fc3a6d4"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 119.66753799999992,
+            "processCpuMs": 125.05,
+            "revision": 8,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "662dc63a4476bede52713a1f376da4055bfb5c5240acd3e6e4dd8762c23299b2",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b19cc174c0b83ef969990ac760320dd57a067f236226224f7ece0c1d8fc3a6d4"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "fad42ee5c7ecfc1c63c6b7629aa72edfc927bc1791072d376cd6d83e31915112"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "4ebe39e028f31e7014cdb81622bdab95e611a1d131f14d0a4f9a64dbfe346e55"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b19cc174c0b83ef969990ac760320dd57a067f236226224f7ece0c1d8fc3a6d4"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "85a4ef40fec4a9131b14df76addf63c0dce6c2e20eaf2fc0eaaf9daa69913c8b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "85a4ef40fec4a9131b14df76addf63c0dce6c2e20eaf2fc0eaaf9daa69913c8b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b19cc174c0b83ef969990ac760320dd57a067f236226224f7ece0c1d8fc3a6d4"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b2a2085b9ca1b12f1b9cd55e9cdfdb4c3c9b6791ac8d24529c4175d97ca4431a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b2a2085b9ca1b12f1b9cd55e9cdfdb4c3c9b6791ac8d24529c4175d97ca4431a"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 100.98975700000005,
+            "processCpuMs": 103.809,
+            "revision": 8,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "662dc63a4476bede52713a1f376da4055bfb5c5240acd3e6e4dd8762c23299b2",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b19cc174c0b83ef969990ac760320dd57a067f236226224f7ece0c1d8fc3a6d4"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "fad42ee5c7ecfc1c63c6b7629aa72edfc927bc1791072d376cd6d83e31915112"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "4ebe39e028f31e7014cdb81622bdab95e611a1d131f14d0a4f9a64dbfe346e55"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b19cc174c0b83ef969990ac760320dd57a067f236226224f7ece0c1d8fc3a6d4"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "85a4ef40fec4a9131b14df76addf63c0dce6c2e20eaf2fc0eaaf9daa69913c8b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "85a4ef40fec4a9131b14df76addf63c0dce6c2e20eaf2fc0eaaf9daa69913c8b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b19cc174c0b83ef969990ac760320dd57a067f236226224f7ece0c1d8fc3a6d4"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b2a2085b9ca1b12f1b9cd55e9cdfdb4c3c9b6791ac8d24529c4175d97ca4431a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b2a2085b9ca1b12f1b9cd55e9cdfdb4c3c9b6791ac8d24529c4175d97ca4431a"
+              }
+            ]
+          }
+        },
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 148.74830799999995,
+            "processCpuMs": 265.768,
+            "revision": 9,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "2aecf4e218fda176abf034c2baad093803e40e33d399f60e229835f932767eec",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b2a2085b9ca1b12f1b9cd55e9cdfdb4c3c9b6791ac8d24529c4175d97ca4431a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "fad42ee5c7ecfc1c63c6b7629aa72edfc927bc1791072d376cd6d83e31915112"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "85a4ef40fec4a9131b14df76addf63c0dce6c2e20eaf2fc0eaaf9daa69913c8b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b2a2085b9ca1b12f1b9cd55e9cdfdb4c3c9b6791ac8d24529c4175d97ca4431a"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "1d9f37777305eaf731c9607c2a46390b0f783e4bc53261a053275ca24d0b451d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "1d9f37777305eaf731c9607c2a46390b0f783e4bc53261a053275ca24d0b451d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b2a2085b9ca1b12f1b9cd55e9cdfdb4c3c9b6791ac8d24529c4175d97ca4431a"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9ccb3c9c06696025002f269831799bb92c206567be378443b37a2ca006130ccb"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9ccb3c9c06696025002f269831799bb92c206567be378443b37a2ca006130ccb"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 136.1369840000002,
+            "processCpuMs": 258.589,
+            "revision": 9,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "2aecf4e218fda176abf034c2baad093803e40e33d399f60e229835f932767eec",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b2a2085b9ca1b12f1b9cd55e9cdfdb4c3c9b6791ac8d24529c4175d97ca4431a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "fad42ee5c7ecfc1c63c6b7629aa72edfc927bc1791072d376cd6d83e31915112"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "85a4ef40fec4a9131b14df76addf63c0dce6c2e20eaf2fc0eaaf9daa69913c8b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b2a2085b9ca1b12f1b9cd55e9cdfdb4c3c9b6791ac8d24529c4175d97ca4431a"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "1d9f37777305eaf731c9607c2a46390b0f783e4bc53261a053275ca24d0b451d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "1d9f37777305eaf731c9607c2a46390b0f783e4bc53261a053275ca24d0b451d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b2a2085b9ca1b12f1b9cd55e9cdfdb4c3c9b6791ac8d24529c4175d97ca4431a"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9ccb3c9c06696025002f269831799bb92c206567be378443b37a2ca006130ccb"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9ccb3c9c06696025002f269831799bb92c206567be378443b37a2ca006130ccb"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 126.39951500000006,
+            "processCpuMs": 161.171,
+            "revision": 10,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "c8eec3b3576f4c6146a7b7b8ad16a6588c77b49d54eaa19e9050b8ff0c7018c7",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9ccb3c9c06696025002f269831799bb92c206567be378443b37a2ca006130ccb"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "1d9f37777305eaf731c9607c2a46390b0f783e4bc53261a053275ca24d0b451d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "85a4ef40fec4a9131b14df76addf63c0dce6c2e20eaf2fc0eaaf9daa69913c8b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9ccb3c9c06696025002f269831799bb92c206567be378443b37a2ca006130ccb"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "63f545aad5179716811d4b71575e693f662b3acc23a143c1b48f926b6dddf8b9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "63f545aad5179716811d4b71575e693f662b3acc23a143c1b48f926b6dddf8b9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9ccb3c9c06696025002f269831799bb92c206567be378443b37a2ca006130ccb"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9502673fc494e56c80da9704150e63abf08f7fc81ca530ccc92da567fee928a6"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9502673fc494e56c80da9704150e63abf08f7fc81ca530ccc92da567fee928a6"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 106.80833500000017,
+            "processCpuMs": 129.899,
+            "revision": 10,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "c8eec3b3576f4c6146a7b7b8ad16a6588c77b49d54eaa19e9050b8ff0c7018c7",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9ccb3c9c06696025002f269831799bb92c206567be378443b37a2ca006130ccb"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "1d9f37777305eaf731c9607c2a46390b0f783e4bc53261a053275ca24d0b451d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "85a4ef40fec4a9131b14df76addf63c0dce6c2e20eaf2fc0eaaf9daa69913c8b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9ccb3c9c06696025002f269831799bb92c206567be378443b37a2ca006130ccb"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "63f545aad5179716811d4b71575e693f662b3acc23a143c1b48f926b6dddf8b9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "63f545aad5179716811d4b71575e693f662b3acc23a143c1b48f926b6dddf8b9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9ccb3c9c06696025002f269831799bb92c206567be378443b37a2ca006130ccb"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9502673fc494e56c80da9704150e63abf08f7fc81ca530ccc92da567fee928a6"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9502673fc494e56c80da9704150e63abf08f7fc81ca530ccc92da567fee928a6"
+              }
+            ]
+          }
+        },
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 118.97585799999979,
+            "processCpuMs": 155.26,
+            "revision": 11,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "61f51f788edab49f934ce57ee128228b75e813dffcf3246475231cf1f48a0b19",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9502673fc494e56c80da9704150e63abf08f7fc81ca530ccc92da567fee928a6"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "1d9f37777305eaf731c9607c2a46390b0f783e4bc53261a053275ca24d0b451d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "63f545aad5179716811d4b71575e693f662b3acc23a143c1b48f926b6dddf8b9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9502673fc494e56c80da9704150e63abf08f7fc81ca530ccc92da567fee928a6"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c387ce51b2eb2eb402753649d17f227d10c91bf50f15fa90c6466d0a4c09097a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c387ce51b2eb2eb402753649d17f227d10c91bf50f15fa90c6466d0a4c09097a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9502673fc494e56c80da9704150e63abf08f7fc81ca530ccc92da567fee928a6"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "32abb5d8ea7d45906fd528f8bd49b3879991dec69bd8b66eba14e4d9ae4cac0c"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "32abb5d8ea7d45906fd528f8bd49b3879991dec69bd8b66eba14e4d9ae4cac0c"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 108.797865,
+            "processCpuMs": 145.856,
+            "revision": 11,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "61f51f788edab49f934ce57ee128228b75e813dffcf3246475231cf1f48a0b19",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9502673fc494e56c80da9704150e63abf08f7fc81ca530ccc92da567fee928a6"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "1d9f37777305eaf731c9607c2a46390b0f783e4bc53261a053275ca24d0b451d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "63f545aad5179716811d4b71575e693f662b3acc23a143c1b48f926b6dddf8b9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9502673fc494e56c80da9704150e63abf08f7fc81ca530ccc92da567fee928a6"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c387ce51b2eb2eb402753649d17f227d10c91bf50f15fa90c6466d0a4c09097a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c387ce51b2eb2eb402753649d17f227d10c91bf50f15fa90c6466d0a4c09097a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9502673fc494e56c80da9704150e63abf08f7fc81ca530ccc92da567fee928a6"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "32abb5d8ea7d45906fd528f8bd49b3879991dec69bd8b66eba14e4d9ae4cac0c"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "32abb5d8ea7d45906fd528f8bd49b3879991dec69bd8b66eba14e4d9ae4cac0c"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 121.92393500000026,
+            "processCpuMs": 136.004,
+            "revision": 12,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "17f82bb9d4baebcd4c572b108713c8519aaba642d22ccff47dd839cfe30e2655",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "32abb5d8ea7d45906fd528f8bd49b3879991dec69bd8b66eba14e4d9ae4cac0c"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c387ce51b2eb2eb402753649d17f227d10c91bf50f15fa90c6466d0a4c09097a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "63f545aad5179716811d4b71575e693f662b3acc23a143c1b48f926b6dddf8b9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "32abb5d8ea7d45906fd528f8bd49b3879991dec69bd8b66eba14e4d9ae4cac0c"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "bdab1f0c65db448586d7ae2e174354f3a3798e27d0b4964db4a4b1025f2ce5a2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "bdab1f0c65db448586d7ae2e174354f3a3798e27d0b4964db4a4b1025f2ce5a2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "32abb5d8ea7d45906fd528f8bd49b3879991dec69bd8b66eba14e4d9ae4cac0c"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "99ac65d507e37254d0084bc2f2b1828c9b1d141be0440b5e233c695e67daaeb7"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "99ac65d507e37254d0084bc2f2b1828c9b1d141be0440b5e233c695e67daaeb7"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 101.66109599999982,
+            "processCpuMs": 110.76,
+            "revision": 12,
+            "stateHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "17f82bb9d4baebcd4c572b108713c8519aaba642d22ccff47dd839cfe30e2655",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "32abb5d8ea7d45906fd528f8bd49b3879991dec69bd8b66eba14e4d9ae4cac0c"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c387ce51b2eb2eb402753649d17f227d10c91bf50f15fa90c6466d0a4c09097a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "63f545aad5179716811d4b71575e693f662b3acc23a143c1b48f926b6dddf8b9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "32abb5d8ea7d45906fd528f8bd49b3879991dec69bd8b66eba14e4d9ae4cac0c"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "bdab1f0c65db448586d7ae2e174354f3a3798e27d0b4964db4a4b1025f2ce5a2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "bdab1f0c65db448586d7ae2e174354f3a3798e27d0b4964db4a4b1025f2ce5a2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "32abb5d8ea7d45906fd528f8bd49b3879991dec69bd8b66eba14e4d9ae4cac0c"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "99ac65d507e37254d0084bc2f2b1828c9b1d141be0440b5e233c695e67daaeb7"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "99ac65d507e37254d0084bc2f2b1828c9b1d141be0440b5e233c695e67daaeb7"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "stage": "chosen",
+      "baseline": {
+        "n": 8,
+        "min": 117.1647550000007,
+        "p50": 120.45790300000044,
+        "p95": 135.08631199999945,
+        "max": 135.08631199999945
+      },
+      "candidate": {
+        "n": 8,
+        "min": 100.3422730000002,
+        "p50": 105.31807299999946,
+        "p95": 124.33104400000002,
+        "max": 124.33104400000002
+      },
+      "pairedDifferenceMs": {
+        "n": 8,
+        "min": 6.350386000000071,
+        "p50": 15.784540000000561,
+        "p95": 21.167961999999534,
+        "max": 21.167961999999534
+      },
+      "identicalStateEventsStorageAndReadWriteOperations": true,
+      "pairs": [
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 126.27678800000012,
+            "processCpuMs": 133.958,
+            "revision": 5,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "47809fc85af7ebb09cbf43755c491aa495cd2332022468f919fbfb59c1981797",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b10656087b4d7d53aa694a85c8149d91a2d86b10c6fb9f35e84fe0dfda4e4b7a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "14e76da3d684cd9c69b74b61aa70bf066d1c576cec84263b30ad767b7454640b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "aa65307aa10410cf14ca03ed1122c6c047adfb0dbff79630c6626a5fc4e1a582"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b10656087b4d7d53aa694a85c8149d91a2d86b10c6fb9f35e84fe0dfda4e4b7a"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "579b313cbe6c0a59778a849b07a5a37d3ba8aa1d11fe06d85308318e00ecdc1f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "579b313cbe6c0a59778a849b07a5a37d3ba8aa1d11fe06d85308318e00ecdc1f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b10656087b4d7d53aa694a85c8149d91a2d86b10c6fb9f35e84fe0dfda4e4b7a"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9064db8d6e415393b6cd9dc94b1407777a5c04082d679c2f4891db2beb896fed"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9064db8d6e415393b6cd9dc94b1407777a5c04082d679c2f4891db2beb896fed"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 111.52019400000017,
+            "processCpuMs": 118.313,
+            "revision": 5,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "47809fc85af7ebb09cbf43755c491aa495cd2332022468f919fbfb59c1981797",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b10656087b4d7d53aa694a85c8149d91a2d86b10c6fb9f35e84fe0dfda4e4b7a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "14e76da3d684cd9c69b74b61aa70bf066d1c576cec84263b30ad767b7454640b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "aa65307aa10410cf14ca03ed1122c6c047adfb0dbff79630c6626a5fc4e1a582"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b10656087b4d7d53aa694a85c8149d91a2d86b10c6fb9f35e84fe0dfda4e4b7a"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "579b313cbe6c0a59778a849b07a5a37d3ba8aa1d11fe06d85308318e00ecdc1f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "579b313cbe6c0a59778a849b07a5a37d3ba8aa1d11fe06d85308318e00ecdc1f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b10656087b4d7d53aa694a85c8149d91a2d86b10c6fb9f35e84fe0dfda4e4b7a"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9064db8d6e415393b6cd9dc94b1407777a5c04082d679c2f4891db2beb896fed"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9064db8d6e415393b6cd9dc94b1407777a5c04082d679c2f4891db2beb896fed"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 130.6814300000001,
+            "processCpuMs": 136.764,
+            "revision": 6,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "d454079e4903e3a4fd37859200c8c4cb36fbd48aecb9932a1f6fe19e29a2ed29",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9064db8d6e415393b6cd9dc94b1407777a5c04082d679c2f4891db2beb896fed"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "579b313cbe6c0a59778a849b07a5a37d3ba8aa1d11fe06d85308318e00ecdc1f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "aa65307aa10410cf14ca03ed1122c6c047adfb0dbff79630c6626a5fc4e1a582"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9064db8d6e415393b6cd9dc94b1407777a5c04082d679c2f4891db2beb896fed"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d0347b3f99648910eb82196d018cc1bf96c4788571e7220a0cc1dbabac85b1df"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d0347b3f99648910eb82196d018cc1bf96c4788571e7220a0cc1dbabac85b1df"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9064db8d6e415393b6cd9dc94b1407777a5c04082d679c2f4891db2beb896fed"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "15eb4da739af54eb08c83d9ddfecb289f7ddc2633f0d27503b086f29e56f5c40"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "15eb4da739af54eb08c83d9ddfecb289f7ddc2633f0d27503b086f29e56f5c40"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 124.33104400000002,
+            "processCpuMs": 127.178,
+            "revision": 6,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "d454079e4903e3a4fd37859200c8c4cb36fbd48aecb9932a1f6fe19e29a2ed29",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9064db8d6e415393b6cd9dc94b1407777a5c04082d679c2f4891db2beb896fed"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "579b313cbe6c0a59778a849b07a5a37d3ba8aa1d11fe06d85308318e00ecdc1f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "aa65307aa10410cf14ca03ed1122c6c047adfb0dbff79630c6626a5fc4e1a582"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9064db8d6e415393b6cd9dc94b1407777a5c04082d679c2f4891db2beb896fed"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d0347b3f99648910eb82196d018cc1bf96c4788571e7220a0cc1dbabac85b1df"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d0347b3f99648910eb82196d018cc1bf96c4788571e7220a0cc1dbabac85b1df"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9064db8d6e415393b6cd9dc94b1407777a5c04082d679c2f4891db2beb896fed"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "15eb4da739af54eb08c83d9ddfecb289f7ddc2633f0d27503b086f29e56f5c40"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "15eb4da739af54eb08c83d9ddfecb289f7ddc2633f0d27503b086f29e56f5c40"
+              }
+            ]
+          }
+        },
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 135.08631199999945,
+            "processCpuMs": 144.386,
+            "revision": 7,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "85bac42049f85a7184832b58d03a3e7f05ff5e05774a72743abe50d8f35eec0d",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "15eb4da739af54eb08c83d9ddfecb289f7ddc2633f0d27503b086f29e56f5c40"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "579b313cbe6c0a59778a849b07a5a37d3ba8aa1d11fe06d85308318e00ecdc1f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d0347b3f99648910eb82196d018cc1bf96c4788571e7220a0cc1dbabac85b1df"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "15eb4da739af54eb08c83d9ddfecb289f7ddc2633f0d27503b086f29e56f5c40"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "585dc36431b2833ddecb9b63cc9a8535236718dbfe9959ede69eb5063b70854d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "585dc36431b2833ddecb9b63cc9a8535236718dbfe9959ede69eb5063b70854d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "15eb4da739af54eb08c83d9ddfecb289f7ddc2633f0d27503b086f29e56f5c40"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "7ba270b6973e7be664eed2d6fcfae8b329def5c264be421ef9dfa5a33a933ff0"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "7ba270b6973e7be664eed2d6fcfae8b329def5c264be421ef9dfa5a33a933ff0"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 113.91834999999992,
+            "processCpuMs": 121.609,
+            "revision": 7,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "85bac42049f85a7184832b58d03a3e7f05ff5e05774a72743abe50d8f35eec0d",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "15eb4da739af54eb08c83d9ddfecb289f7ddc2633f0d27503b086f29e56f5c40"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "579b313cbe6c0a59778a849b07a5a37d3ba8aa1d11fe06d85308318e00ecdc1f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d0347b3f99648910eb82196d018cc1bf96c4788571e7220a0cc1dbabac85b1df"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "15eb4da739af54eb08c83d9ddfecb289f7ddc2633f0d27503b086f29e56f5c40"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "585dc36431b2833ddecb9b63cc9a8535236718dbfe9959ede69eb5063b70854d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "585dc36431b2833ddecb9b63cc9a8535236718dbfe9959ede69eb5063b70854d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "15eb4da739af54eb08c83d9ddfecb289f7ddc2633f0d27503b086f29e56f5c40"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "7ba270b6973e7be664eed2d6fcfae8b329def5c264be421ef9dfa5a33a933ff0"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "7ba270b6973e7be664eed2d6fcfae8b329def5c264be421ef9dfa5a33a933ff0"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 120.45790300000044,
+            "processCpuMs": 128.781,
+            "revision": 8,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "bcb37cdd546fbca48bf97d23135703ff90d19cdf4ea3f51b089ee811a8354eff",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "7ba270b6973e7be664eed2d6fcfae8b329def5c264be421ef9dfa5a33a933ff0"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "585dc36431b2833ddecb9b63cc9a8535236718dbfe9959ede69eb5063b70854d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d0347b3f99648910eb82196d018cc1bf96c4788571e7220a0cc1dbabac85b1df"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "7ba270b6973e7be664eed2d6fcfae8b329def5c264be421ef9dfa5a33a933ff0"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "7b5506362f73f9b12c31cc768e43080630a91dfc3cb693e306dec55e328cf540"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "7b5506362f73f9b12c31cc768e43080630a91dfc3cb693e306dec55e328cf540"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "7ba270b6973e7be664eed2d6fcfae8b329def5c264be421ef9dfa5a33a933ff0"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "34c03732fc6fccea39cfe4d7f16c341557b7f7c4c4582d77fc8d4b48e02d0da2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "34c03732fc6fccea39cfe4d7f16c341557b7f7c4c4582d77fc8d4b48e02d0da2"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 102.25519700000041,
+            "processCpuMs": 107.593,
+            "revision": 8,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "bcb37cdd546fbca48bf97d23135703ff90d19cdf4ea3f51b089ee811a8354eff",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "7ba270b6973e7be664eed2d6fcfae8b329def5c264be421ef9dfa5a33a933ff0"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "585dc36431b2833ddecb9b63cc9a8535236718dbfe9959ede69eb5063b70854d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d0347b3f99648910eb82196d018cc1bf96c4788571e7220a0cc1dbabac85b1df"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "7ba270b6973e7be664eed2d6fcfae8b329def5c264be421ef9dfa5a33a933ff0"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "7b5506362f73f9b12c31cc768e43080630a91dfc3cb693e306dec55e328cf540"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "7b5506362f73f9b12c31cc768e43080630a91dfc3cb693e306dec55e328cf540"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "7ba270b6973e7be664eed2d6fcfae8b329def5c264be421ef9dfa5a33a933ff0"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "34c03732fc6fccea39cfe4d7f16c341557b7f7c4c4582d77fc8d4b48e02d0da2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "34c03732fc6fccea39cfe4d7f16c341557b7f7c4c4582d77fc8d4b48e02d0da2"
+              }
+            ]
+          }
+        },
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 117.1647550000007,
+            "processCpuMs": 123.095,
+            "revision": 9,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "a3dca86f36253d0c43d70bb72f1a2fc6444cdb0432a18ab80db9cedf2776313d",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "34c03732fc6fccea39cfe4d7f16c341557b7f7c4c4582d77fc8d4b48e02d0da2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "585dc36431b2833ddecb9b63cc9a8535236718dbfe9959ede69eb5063b70854d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "7b5506362f73f9b12c31cc768e43080630a91dfc3cb693e306dec55e328cf540"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "34c03732fc6fccea39cfe4d7f16c341557b7f7c4c4582d77fc8d4b48e02d0da2"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "25db09a65aef9882d38eb8fad51871dfaf54f893c758e30e04856b309650e5f3"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "25db09a65aef9882d38eb8fad51871dfaf54f893c758e30e04856b309650e5f3"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "34c03732fc6fccea39cfe4d7f16c341557b7f7c4c4582d77fc8d4b48e02d0da2"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "4c26056c6722a00ab8711383c2f1379025497b22ff245689fea2fa6bbd5f3b39"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "4c26056c6722a00ab8711383c2f1379025497b22ff245689fea2fa6bbd5f3b39"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 100.3422730000002,
+            "processCpuMs": 104.841,
+            "revision": 9,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "a3dca86f36253d0c43d70bb72f1a2fc6444cdb0432a18ab80db9cedf2776313d",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "34c03732fc6fccea39cfe4d7f16c341557b7f7c4c4582d77fc8d4b48e02d0da2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "585dc36431b2833ddecb9b63cc9a8535236718dbfe9959ede69eb5063b70854d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "7b5506362f73f9b12c31cc768e43080630a91dfc3cb693e306dec55e328cf540"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "34c03732fc6fccea39cfe4d7f16c341557b7f7c4c4582d77fc8d4b48e02d0da2"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "25db09a65aef9882d38eb8fad51871dfaf54f893c758e30e04856b309650e5f3"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "25db09a65aef9882d38eb8fad51871dfaf54f893c758e30e04856b309650e5f3"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "34c03732fc6fccea39cfe4d7f16c341557b7f7c4c4582d77fc8d4b48e02d0da2"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "4c26056c6722a00ab8711383c2f1379025497b22ff245689fea2fa6bbd5f3b39"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "4c26056c6722a00ab8711383c2f1379025497b22ff245689fea2fa6bbd5f3b39"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 117.32261000000017,
+            "processCpuMs": 120.305,
+            "revision": 10,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "f2d5c70fc5c9984224e62d66f25fc5ae41dc5f5836e7b2382b976308c4e4f618",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "4c26056c6722a00ab8711383c2f1379025497b22ff245689fea2fa6bbd5f3b39"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "25db09a65aef9882d38eb8fad51871dfaf54f893c758e30e04856b309650e5f3"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "7b5506362f73f9b12c31cc768e43080630a91dfc3cb693e306dec55e328cf540"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "4c26056c6722a00ab8711383c2f1379025497b22ff245689fea2fa6bbd5f3b39"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "ca42e1273b6c02d35389f954e60baebf6d35fd6acf0f02d0d5c148c94b53bd89"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "ca42e1273b6c02d35389f954e60baebf6d35fd6acf0f02d0d5c148c94b53bd89"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "4c26056c6722a00ab8711383c2f1379025497b22ff245689fea2fa6bbd5f3b39"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "ef477f951ac12a010a537df5324ee2b205de01e7e62515279c560dc87056c331"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "ef477f951ac12a010a537df5324ee2b205de01e7e62515279c560dc87056c331"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 101.5380699999996,
+            "processCpuMs": 104.594,
+            "revision": 10,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "f2d5c70fc5c9984224e62d66f25fc5ae41dc5f5836e7b2382b976308c4e4f618",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "4c26056c6722a00ab8711383c2f1379025497b22ff245689fea2fa6bbd5f3b39"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "25db09a65aef9882d38eb8fad51871dfaf54f893c758e30e04856b309650e5f3"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "7b5506362f73f9b12c31cc768e43080630a91dfc3cb693e306dec55e328cf540"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "4c26056c6722a00ab8711383c2f1379025497b22ff245689fea2fa6bbd5f3b39"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "ca42e1273b6c02d35389f954e60baebf6d35fd6acf0f02d0d5c148c94b53bd89"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "ca42e1273b6c02d35389f954e60baebf6d35fd6acf0f02d0d5c148c94b53bd89"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "4c26056c6722a00ab8711383c2f1379025497b22ff245689fea2fa6bbd5f3b39"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "ef477f951ac12a010a537df5324ee2b205de01e7e62515279c560dc87056c331"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "ef477f951ac12a010a537df5324ee2b205de01e7e62515279c560dc87056c331"
+              }
+            ]
+          }
+        },
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 118.52921400000014,
+            "processCpuMs": 122.422,
+            "revision": 11,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "308629edf190fd47373a31d891da49ce69c8f3a8bbbe63dbb004247697b4161e",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "ef477f951ac12a010a537df5324ee2b205de01e7e62515279c560dc87056c331"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "25db09a65aef9882d38eb8fad51871dfaf54f893c758e30e04856b309650e5f3"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "ca42e1273b6c02d35389f954e60baebf6d35fd6acf0f02d0d5c148c94b53bd89"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "ef477f951ac12a010a537df5324ee2b205de01e7e62515279c560dc87056c331"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "01752bb8c2a15280a2a39f8760e4ab842e22baf296ab44bdf6aaecb9930afe54"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "01752bb8c2a15280a2a39f8760e4ab842e22baf296ab44bdf6aaecb9930afe54"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "ef477f951ac12a010a537df5324ee2b205de01e7e62515279c560dc87056c331"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "c49d1d2e651219efea09bd8ad587b70f5aa0e129877ccd9b02a73aaf2731a4a9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "c49d1d2e651219efea09bd8ad587b70f5aa0e129877ccd9b02a73aaf2731a4a9"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 105.31807299999946,
+            "processCpuMs": 111.526,
+            "revision": 11,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "308629edf190fd47373a31d891da49ce69c8f3a8bbbe63dbb004247697b4161e",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "ef477f951ac12a010a537df5324ee2b205de01e7e62515279c560dc87056c331"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "25db09a65aef9882d38eb8fad51871dfaf54f893c758e30e04856b309650e5f3"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "ca42e1273b6c02d35389f954e60baebf6d35fd6acf0f02d0d5c148c94b53bd89"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "ef477f951ac12a010a537df5324ee2b205de01e7e62515279c560dc87056c331"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "01752bb8c2a15280a2a39f8760e4ab842e22baf296ab44bdf6aaecb9930afe54"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "01752bb8c2a15280a2a39f8760e4ab842e22baf296ab44bdf6aaecb9930afe54"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "ef477f951ac12a010a537df5324ee2b205de01e7e62515279c560dc87056c331"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "c49d1d2e651219efea09bd8ad587b70f5aa0e129877ccd9b02a73aaf2731a4a9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "c49d1d2e651219efea09bd8ad587b70f5aa0e129877ccd9b02a73aaf2731a4a9"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 117.49303299999974,
+            "processCpuMs": 121.593,
+            "revision": 12,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "222827531911b7587e965231c1350a93113584623196d7ba0a78ecfece7e8060",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "c49d1d2e651219efea09bd8ad587b70f5aa0e129877ccd9b02a73aaf2731a4a9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "01752bb8c2a15280a2a39f8760e4ab842e22baf296ab44bdf6aaecb9930afe54"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "ca42e1273b6c02d35389f954e60baebf6d35fd6acf0f02d0d5c148c94b53bd89"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "c49d1d2e651219efea09bd8ad587b70f5aa0e129877ccd9b02a73aaf2731a4a9"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "e2d749e1b0fafd20169cf53e2f488273cf0b928f351f6d0adb5073d73f37b591"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "e2d749e1b0fafd20169cf53e2f488273cf0b928f351f6d0adb5073d73f37b591"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "c49d1d2e651219efea09bd8ad587b70f5aa0e129877ccd9b02a73aaf2731a4a9"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "aa1f6d60cb4c4ab3b52c3b48a6b4a72a14d4bb16c1631c0c66bcc8ed1afe6a19"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "aa1f6d60cb4c4ab3b52c3b48a6b4a72a14d4bb16c1631c0c66bcc8ed1afe6a19"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 102.21022100000027,
+            "processCpuMs": 105.899,
+            "revision": 12,
+            "stateHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "222827531911b7587e965231c1350a93113584623196d7ba0a78ecfece7e8060",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "c49d1d2e651219efea09bd8ad587b70f5aa0e129877ccd9b02a73aaf2731a4a9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "01752bb8c2a15280a2a39f8760e4ab842e22baf296ab44bdf6aaecb9930afe54"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "ca42e1273b6c02d35389f954e60baebf6d35fd6acf0f02d0d5c148c94b53bd89"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "c49d1d2e651219efea09bd8ad587b70f5aa0e129877ccd9b02a73aaf2731a4a9"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "e2d749e1b0fafd20169cf53e2f488273cf0b928f351f6d0adb5073d73f37b591"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "e2d749e1b0fafd20169cf53e2f488273cf0b928f351f6d0adb5073d73f37b591"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "c49d1d2e651219efea09bd8ad587b70f5aa0e129877ccd9b02a73aaf2731a4a9"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "aa1f6d60cb4c4ab3b52c3b48a6b4a72a14d4bb16c1631c0c66bcc8ed1afe6a19"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "aa1f6d60cb4c4ab3b52c3b48a6b4a72a14d4bb16c1631c0c66bcc8ed1afe6a19"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "stage": "approach",
+      "baseline": {
+        "n": 8,
+        "min": 120.54908799999976,
+        "p50": 123.93098900000041,
+        "p95": 129.58282599999984,
+        "max": 129.58282599999984
+      },
+      "candidate": {
+        "n": 8,
+        "min": 101.6585299999997,
+        "p50": 106.34512100000029,
+        "p95": 109.92520599999989,
+        "max": 109.92520599999989
+      },
+      "pairedDifferenceMs": {
+        "n": 8,
+        "min": 13.451647999999295,
+        "p50": 17.92312000000038,
+        "p95": 24.530617999999777,
+        "max": 24.530617999999777
+      },
+      "identicalStateEventsStorageAndReadWriteOperations": true,
+      "pairs": [
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 125.95560100000057,
+            "processCpuMs": 128.839,
+            "revision": 5,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "51f5280accfd5537be80595a83d994becd1224f5b50043a071ff9fdaba6fa2bf",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "dac08f1631406e21e0fd46edcbc87a927d8c9e990071f9fdd0e725c0021a8bc9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "4bd018707e5d6f49df65f6664aab4f5f496781618503626b9afb141cdb850b7a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "73499835e7f688bc4088ceddac7e45a09ca3dc35372fe456a7bae925bf36e55a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "dac08f1631406e21e0fd46edcbc87a927d8c9e990071f9fdd0e725c0021a8bc9"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c8db214aea210f834494deea15a12ef543145d0b95dbcce8b89c7809fa534b6f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c8db214aea210f834494deea15a12ef543145d0b95dbcce8b89c7809fa534b6f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "dac08f1631406e21e0fd46edcbc87a927d8c9e990071f9fdd0e725c0021a8bc9"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "a1108cc341457f7810b8e5306ebdc3254e70072813f1efc96a5eb1e311b66b43"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "a1108cc341457f7810b8e5306ebdc3254e70072813f1efc96a5eb1e311b66b43"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 108.03248100000019,
+            "processCpuMs": 108.791,
+            "revision": 5,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "51f5280accfd5537be80595a83d994becd1224f5b50043a071ff9fdaba6fa2bf",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "dac08f1631406e21e0fd46edcbc87a927d8c9e990071f9fdd0e725c0021a8bc9"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "4bd018707e5d6f49df65f6664aab4f5f496781618503626b9afb141cdb850b7a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "73499835e7f688bc4088ceddac7e45a09ca3dc35372fe456a7bae925bf36e55a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "dac08f1631406e21e0fd46edcbc87a927d8c9e990071f9fdd0e725c0021a8bc9"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c8db214aea210f834494deea15a12ef543145d0b95dbcce8b89c7809fa534b6f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c8db214aea210f834494deea15a12ef543145d0b95dbcce8b89c7809fa534b6f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "dac08f1631406e21e0fd46edcbc87a927d8c9e990071f9fdd0e725c0021a8bc9"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "a1108cc341457f7810b8e5306ebdc3254e70072813f1efc96a5eb1e311b66b43"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "a1108cc341457f7810b8e5306ebdc3254e70072813f1efc96a5eb1e311b66b43"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 124.5654429999995,
+            "processCpuMs": 150.891,
+            "revision": 6,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "604f7e25693c92dff74e780e9eb21386fd48e9765faf8cf2435eb7141de88772",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "a1108cc341457f7810b8e5306ebdc3254e70072813f1efc96a5eb1e311b66b43"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c8db214aea210f834494deea15a12ef543145d0b95dbcce8b89c7809fa534b6f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "73499835e7f688bc4088ceddac7e45a09ca3dc35372fe456a7bae925bf36e55a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "a1108cc341457f7810b8e5306ebdc3254e70072813f1efc96a5eb1e311b66b43"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "98f3ce36dbd994ff9a41eab2710f6b9d7236e518bb31b3f401665fc9620d5fd2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "98f3ce36dbd994ff9a41eab2710f6b9d7236e518bb31b3f401665fc9620d5fd2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "a1108cc341457f7810b8e5306ebdc3254e70072813f1efc96a5eb1e311b66b43"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b45953f5c129cbf2cb9f2f97ab90f251b63844629d2d4ae5ef44335bd1aeca3b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b45953f5c129cbf2cb9f2f97ab90f251b63844629d2d4ae5ef44335bd1aeca3b"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 109.92520599999989,
+            "processCpuMs": 116.456,
+            "revision": 6,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "604f7e25693c92dff74e780e9eb21386fd48e9765faf8cf2435eb7141de88772",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "a1108cc341457f7810b8e5306ebdc3254e70072813f1efc96a5eb1e311b66b43"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c8db214aea210f834494deea15a12ef543145d0b95dbcce8b89c7809fa534b6f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "73499835e7f688bc4088ceddac7e45a09ca3dc35372fe456a7bae925bf36e55a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "a1108cc341457f7810b8e5306ebdc3254e70072813f1efc96a5eb1e311b66b43"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "98f3ce36dbd994ff9a41eab2710f6b9d7236e518bb31b3f401665fc9620d5fd2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "98f3ce36dbd994ff9a41eab2710f6b9d7236e518bb31b3f401665fc9620d5fd2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "a1108cc341457f7810b8e5306ebdc3254e70072813f1efc96a5eb1e311b66b43"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b45953f5c129cbf2cb9f2f97ab90f251b63844629d2d4ae5ef44335bd1aeca3b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b45953f5c129cbf2cb9f2f97ab90f251b63844629d2d4ae5ef44335bd1aeca3b"
+              }
+            ]
+          }
+        },
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 123.93098900000041,
+            "processCpuMs": 132.462,
+            "revision": 7,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "9d38a4dd645ed36e3b99ddda22bce3e53959746a184cd8bf0d33d5f2564aa6b9",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b45953f5c129cbf2cb9f2f97ab90f251b63844629d2d4ae5ef44335bd1aeca3b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c8db214aea210f834494deea15a12ef543145d0b95dbcce8b89c7809fa534b6f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "98f3ce36dbd994ff9a41eab2710f6b9d7236e518bb31b3f401665fc9620d5fd2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b45953f5c129cbf2cb9f2f97ab90f251b63844629d2d4ae5ef44335bd1aeca3b"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "2c435a2f29316854971646c86711d180b3be1bc9a3025745b46e34103ad97bc0"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "2c435a2f29316854971646c86711d180b3be1bc9a3025745b46e34103ad97bc0"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b45953f5c129cbf2cb9f2f97ab90f251b63844629d2d4ae5ef44335bd1aeca3b"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f6024a5742c117e50222ee22c1c2f94643a63fe225def4779327784bc211ff27"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f6024a5742c117e50222ee22c1c2f94643a63fe225def4779327784bc211ff27"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 103.56378499999937,
+            "processCpuMs": 108.418,
+            "revision": 7,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "9d38a4dd645ed36e3b99ddda22bce3e53959746a184cd8bf0d33d5f2564aa6b9",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b45953f5c129cbf2cb9f2f97ab90f251b63844629d2d4ae5ef44335bd1aeca3b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c8db214aea210f834494deea15a12ef543145d0b95dbcce8b89c7809fa534b6f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "98f3ce36dbd994ff9a41eab2710f6b9d7236e518bb31b3f401665fc9620d5fd2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b45953f5c129cbf2cb9f2f97ab90f251b63844629d2d4ae5ef44335bd1aeca3b"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "2c435a2f29316854971646c86711d180b3be1bc9a3025745b46e34103ad97bc0"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "2c435a2f29316854971646c86711d180b3be1bc9a3025745b46e34103ad97bc0"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b45953f5c129cbf2cb9f2f97ab90f251b63844629d2d4ae5ef44335bd1aeca3b"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f6024a5742c117e50222ee22c1c2f94643a63fe225def4779327784bc211ff27"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f6024a5742c117e50222ee22c1c2f94643a63fe225def4779327784bc211ff27"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 120.54908799999976,
+            "processCpuMs": 124.588,
+            "revision": 8,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "c7c7846a6f1a4d0f725fce25815814f3b71d800fd5626107ce01bc5929993b88",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f6024a5742c117e50222ee22c1c2f94643a63fe225def4779327784bc211ff27"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "2c435a2f29316854971646c86711d180b3be1bc9a3025745b46e34103ad97bc0"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "98f3ce36dbd994ff9a41eab2710f6b9d7236e518bb31b3f401665fc9620d5fd2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f6024a5742c117e50222ee22c1c2f94643a63fe225def4779327784bc211ff27"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "27ae18f05e04b597dd7355cab1a1aeeadff847c4d88e07efdd46a9155e37801a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "27ae18f05e04b597dd7355cab1a1aeeadff847c4d88e07efdd46a9155e37801a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f6024a5742c117e50222ee22c1c2f94643a63fe225def4779327784bc211ff27"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "855fc6f1974904b79ef8dada4487af280ec39d1eb9ae0b407c5b90e8cf130390"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "855fc6f1974904b79ef8dada4487af280ec39d1eb9ae0b407c5b90e8cf130390"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 107.09744000000046,
+            "processCpuMs": 129.759,
+            "revision": 8,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "c7c7846a6f1a4d0f725fce25815814f3b71d800fd5626107ce01bc5929993b88",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f6024a5742c117e50222ee22c1c2f94643a63fe225def4779327784bc211ff27"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "2c435a2f29316854971646c86711d180b3be1bc9a3025745b46e34103ad97bc0"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "98f3ce36dbd994ff9a41eab2710f6b9d7236e518bb31b3f401665fc9620d5fd2"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f6024a5742c117e50222ee22c1c2f94643a63fe225def4779327784bc211ff27"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "27ae18f05e04b597dd7355cab1a1aeeadff847c4d88e07efdd46a9155e37801a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "27ae18f05e04b597dd7355cab1a1aeeadff847c4d88e07efdd46a9155e37801a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f6024a5742c117e50222ee22c1c2f94643a63fe225def4779327784bc211ff27"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "855fc6f1974904b79ef8dada4487af280ec39d1eb9ae0b407c5b90e8cf130390"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "855fc6f1974904b79ef8dada4487af280ec39d1eb9ae0b407c5b90e8cf130390"
+              }
+            ]
+          }
+        },
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 121.73613399999977,
+            "processCpuMs": 130.339,
+            "revision": 9,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "bea19e5725fdd620219db6dfeadf1e322db26acecec62531c6768848a2b77999",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "855fc6f1974904b79ef8dada4487af280ec39d1eb9ae0b407c5b90e8cf130390"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "2c435a2f29316854971646c86711d180b3be1bc9a3025745b46e34103ad97bc0"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "27ae18f05e04b597dd7355cab1a1aeeadff847c4d88e07efdd46a9155e37801a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "855fc6f1974904b79ef8dada4487af280ec39d1eb9ae0b407c5b90e8cf130390"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "aaf33a4a3b5a6a11cd1b71f1184f54c381ca22d9f59d3335d3ff7acb93aec368"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "aaf33a4a3b5a6a11cd1b71f1184f54c381ca22d9f59d3335d3ff7acb93aec368"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "855fc6f1974904b79ef8dada4487af280ec39d1eb9ae0b407c5b90e8cf130390"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "e0d4b01303183c2b03c7381fc9bc130a01e5a9f8710b8cd869a2c34fd7542de6"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "e0d4b01303183c2b03c7381fc9bc130a01e5a9f8710b8cd869a2c34fd7542de6"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 104.06583099999989,
+            "processCpuMs": 108.768,
+            "revision": 9,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "bea19e5725fdd620219db6dfeadf1e322db26acecec62531c6768848a2b77999",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "855fc6f1974904b79ef8dada4487af280ec39d1eb9ae0b407c5b90e8cf130390"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "2c435a2f29316854971646c86711d180b3be1bc9a3025745b46e34103ad97bc0"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "27ae18f05e04b597dd7355cab1a1aeeadff847c4d88e07efdd46a9155e37801a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "855fc6f1974904b79ef8dada4487af280ec39d1eb9ae0b407c5b90e8cf130390"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "aaf33a4a3b5a6a11cd1b71f1184f54c381ca22d9f59d3335d3ff7acb93aec368"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "aaf33a4a3b5a6a11cd1b71f1184f54c381ca22d9f59d3335d3ff7acb93aec368"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "855fc6f1974904b79ef8dada4487af280ec39d1eb9ae0b407c5b90e8cf130390"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "e0d4b01303183c2b03c7381fc9bc130a01e5a9f8710b8cd869a2c34fd7542de6"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "e0d4b01303183c2b03c7381fc9bc130a01e5a9f8710b8cd869a2c34fd7542de6"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 129.58282599999984,
+            "processCpuMs": 150.079,
+            "revision": 10,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "e117dc75245ce6e8e22e2dfa30cf3beb90e75629bcdf02cab47c119e405709d6",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "e0d4b01303183c2b03c7381fc9bc130a01e5a9f8710b8cd869a2c34fd7542de6"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "aaf33a4a3b5a6a11cd1b71f1184f54c381ca22d9f59d3335d3ff7acb93aec368"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "27ae18f05e04b597dd7355cab1a1aeeadff847c4d88e07efdd46a9155e37801a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "e0d4b01303183c2b03c7381fc9bc130a01e5a9f8710b8cd869a2c34fd7542de6"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "8f715b30d98b947cfc1107030587a4fb11fc1d4750df6c546f8c856958b337ea"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "8f715b30d98b947cfc1107030587a4fb11fc1d4750df6c546f8c856958b337ea"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "e0d4b01303183c2b03c7381fc9bc130a01e5a9f8710b8cd869a2c34fd7542de6"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "03f99fcefd7150c36740c577a65166481f7bc5c23c5ee1d95a31ca7a3324dce3"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "03f99fcefd7150c36740c577a65166481f7bc5c23c5ee1d95a31ca7a3324dce3"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 105.05220800000006,
+            "processCpuMs": 110.566,
+            "revision": 10,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "e117dc75245ce6e8e22e2dfa30cf3beb90e75629bcdf02cab47c119e405709d6",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "e0d4b01303183c2b03c7381fc9bc130a01e5a9f8710b8cd869a2c34fd7542de6"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "aaf33a4a3b5a6a11cd1b71f1184f54c381ca22d9f59d3335d3ff7acb93aec368"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "27ae18f05e04b597dd7355cab1a1aeeadff847c4d88e07efdd46a9155e37801a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "e0d4b01303183c2b03c7381fc9bc130a01e5a9f8710b8cd869a2c34fd7542de6"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "8f715b30d98b947cfc1107030587a4fb11fc1d4750df6c546f8c856958b337ea"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "8f715b30d98b947cfc1107030587a4fb11fc1d4750df6c546f8c856958b337ea"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "e0d4b01303183c2b03c7381fc9bc130a01e5a9f8710b8cd869a2c34fd7542de6"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "03f99fcefd7150c36740c577a65166481f7bc5c23c5ee1d95a31ca7a3324dce3"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "03f99fcefd7150c36740c577a65166481f7bc5c23c5ee1d95a31ca7a3324dce3"
+              }
+            ]
+          }
+        },
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 122.0915130000003,
+            "processCpuMs": 126.821,
+            "revision": 11,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "cff16a59ee76e85a3deda7b20272df94f27fadcfcd1e57fcc8fe351362e8df6c",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "03f99fcefd7150c36740c577a65166481f7bc5c23c5ee1d95a31ca7a3324dce3"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "aaf33a4a3b5a6a11cd1b71f1184f54c381ca22d9f59d3335d3ff7acb93aec368"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "8f715b30d98b947cfc1107030587a4fb11fc1d4750df6c546f8c856958b337ea"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "03f99fcefd7150c36740c577a65166481f7bc5c23c5ee1d95a31ca7a3324dce3"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "86b88450f21bf94238802ea74623d3e066aabc8c8465ece37fbddef395b5614d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "86b88450f21bf94238802ea74623d3e066aabc8c8465ece37fbddef395b5614d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "03f99fcefd7150c36740c577a65166481f7bc5c23c5ee1d95a31ca7a3324dce3"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f1ff9ef85ea6a18df80ea01e920f9d0a136d83567784b34bf000cd3b1e0ce50d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f1ff9ef85ea6a18df80ea01e920f9d0a136d83567784b34bf000cd3b1e0ce50d"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 106.34512100000029,
+            "processCpuMs": 117.007,
+            "revision": 11,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "cff16a59ee76e85a3deda7b20272df94f27fadcfcd1e57fcc8fe351362e8df6c",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "03f99fcefd7150c36740c577a65166481f7bc5c23c5ee1d95a31ca7a3324dce3"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "aaf33a4a3b5a6a11cd1b71f1184f54c381ca22d9f59d3335d3ff7acb93aec368"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "8f715b30d98b947cfc1107030587a4fb11fc1d4750df6c546f8c856958b337ea"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "03f99fcefd7150c36740c577a65166481f7bc5c23c5ee1d95a31ca7a3324dce3"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "86b88450f21bf94238802ea74623d3e066aabc8c8465ece37fbddef395b5614d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "86b88450f21bf94238802ea74623d3e066aabc8c8465ece37fbddef395b5614d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "03f99fcefd7150c36740c577a65166481f7bc5c23c5ee1d95a31ca7a3324dce3"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f1ff9ef85ea6a18df80ea01e920f9d0a136d83567784b34bf000cd3b1e0ce50d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f1ff9ef85ea6a18df80ea01e920f9d0a136d83567784b34bf000cd3b1e0ce50d"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 121.78845300000012,
+            "processCpuMs": 127.536,
+            "revision": 12,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "101b4e8297662c63e99e14ca2ab08863406decd4b9130ac284527a28fa225608",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f1ff9ef85ea6a18df80ea01e920f9d0a136d83567784b34bf000cd3b1e0ce50d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "86b88450f21bf94238802ea74623d3e066aabc8c8465ece37fbddef395b5614d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "8f715b30d98b947cfc1107030587a4fb11fc1d4750df6c546f8c856958b337ea"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f1ff9ef85ea6a18df80ea01e920f9d0a136d83567784b34bf000cd3b1e0ce50d"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "267b49bf40d62e6191248b2a97a64f493e66e1ced4e686110bddf49bb20e0585"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "267b49bf40d62e6191248b2a97a64f493e66e1ced4e686110bddf49bb20e0585"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f1ff9ef85ea6a18df80ea01e920f9d0a136d83567784b34bf000cd3b1e0ce50d"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "cae9205508c87cf22bf21851344224388f17eb5029b950fcaacb1211a107253d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "cae9205508c87cf22bf21851344224388f17eb5029b950fcaacb1211a107253d"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 101.6585299999997,
+            "processCpuMs": 115.211,
+            "revision": 12,
+            "stateHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "101b4e8297662c63e99e14ca2ab08863406decd4b9130ac284527a28fa225608",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f1ff9ef85ea6a18df80ea01e920f9d0a136d83567784b34bf000cd3b1e0ce50d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "86b88450f21bf94238802ea74623d3e066aabc8c8465ece37fbddef395b5614d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "8f715b30d98b947cfc1107030587a4fb11fc1d4750df6c546f8c856958b337ea"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f1ff9ef85ea6a18df80ea01e920f9d0a136d83567784b34bf000cd3b1e0ce50d"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "267b49bf40d62e6191248b2a97a64f493e66e1ced4e686110bddf49bb20e0585"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "267b49bf40d62e6191248b2a97a64f493e66e1ced4e686110bddf49bb20e0585"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f1ff9ef85ea6a18df80ea01e920f9d0a136d83567784b34bf000cd3b1e0ce50d"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "cae9205508c87cf22bf21851344224388f17eb5029b950fcaacb1211a107253d"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "cae9205508c87cf22bf21851344224388f17eb5029b950fcaacb1211a107253d"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "stage": "evidence",
+      "baseline": {
+        "n": 8,
+        "min": 126.52787200000057,
+        "p50": 139.66789700000118,
+        "p95": 149.96270499999991,
+        "max": 149.96270499999991
+      },
+      "candidate": {
+        "n": 8,
+        "min": 110.41290099999969,
+        "p50": 115.8844509999999,
+        "p95": 125.31194299999879,
+        "max": 125.31194299999879
+      },
+      "pairedDifferenceMs": {
+        "n": 8,
+        "min": 10.32948800000122,
+        "p50": 24.045194000000265,
+        "p95": 29.254996000001483,
+        "max": 29.254996000001483
+      },
+      "identicalStateEventsStorageAndReadWriteOperations": true,
+      "pairs": [
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 139.66789700000118,
+            "processCpuMs": 142.76,
+            "revision": 5,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "ab6ad979d79489e7e0ea3288c240623689155926ace4d4d13999c4fb3cd2237e",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "88e63a093f4453c7a5d5155f82e0a762c893e442f59987b5d2d1252d6969646b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "32ce574c130d98f795439f9bf14ba7cb70aa9237764b81e73c2272a2a4f33425"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "fdb84d2f8e62785b608ed5e417d96f39b00c8b7e5b6ad7d3d15c93cf7a4af991"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "88e63a093f4453c7a5d5155f82e0a762c893e442f59987b5d2d1252d6969646b"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c18b1c0a943546a2d3b225fc5802fc714ad31ca044721c13c058cf30fcf69a39"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c18b1c0a943546a2d3b225fc5802fc714ad31ca044721c13c058cf30fcf69a39"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "88e63a093f4453c7a5d5155f82e0a762c893e442f59987b5d2d1252d6969646b"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9e66f19121499ccd8b48cb955c7dd2e307c0ce6083e665da50902dbb255afc32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9e66f19121499ccd8b48cb955c7dd2e307c0ce6083e665da50902dbb255afc32"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 110.41290099999969,
+            "processCpuMs": 115.967,
+            "revision": 5,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "ab6ad979d79489e7e0ea3288c240623689155926ace4d4d13999c4fb3cd2237e",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "88e63a093f4453c7a5d5155f82e0a762c893e442f59987b5d2d1252d6969646b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "32ce574c130d98f795439f9bf14ba7cb70aa9237764b81e73c2272a2a4f33425"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "fdb84d2f8e62785b608ed5e417d96f39b00c8b7e5b6ad7d3d15c93cf7a4af991"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "88e63a093f4453c7a5d5155f82e0a762c893e442f59987b5d2d1252d6969646b"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c18b1c0a943546a2d3b225fc5802fc714ad31ca044721c13c058cf30fcf69a39"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c18b1c0a943546a2d3b225fc5802fc714ad31ca044721c13c058cf30fcf69a39"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "88e63a093f4453c7a5d5155f82e0a762c893e442f59987b5d2d1252d6969646b"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9e66f19121499ccd8b48cb955c7dd2e307c0ce6083e665da50902dbb255afc32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9e66f19121499ccd8b48cb955c7dd2e307c0ce6083e665da50902dbb255afc32"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 126.52787200000057,
+            "processCpuMs": 127.439,
+            "revision": 6,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "62a00902ea21aa7325fb46795a35b7f7f1e42052735cca6103a6df6aef4cc446",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9e66f19121499ccd8b48cb955c7dd2e307c0ce6083e665da50902dbb255afc32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c18b1c0a943546a2d3b225fc5802fc714ad31ca044721c13c058cf30fcf69a39"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "fdb84d2f8e62785b608ed5e417d96f39b00c8b7e5b6ad7d3d15c93cf7a4af991"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9e66f19121499ccd8b48cb955c7dd2e307c0ce6083e665da50902dbb255afc32"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "0b7ab4dbb8d0e1fd3fc17873fdf10c0e16005ce28671927ac0d9f1df67f7f64b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "0b7ab4dbb8d0e1fd3fc17873fdf10c0e16005ce28671927ac0d9f1df67f7f64b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9e66f19121499ccd8b48cb955c7dd2e307c0ce6083e665da50902dbb255afc32"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "6ab27c2341eed00303027263c6fa7511ce65dc663a22b0c932a3be99c0a1cf22"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "6ab27c2341eed00303027263c6fa7511ce65dc663a22b0c932a3be99c0a1cf22"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 110.60878299999968,
+            "processCpuMs": 114.16,
+            "revision": 6,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "62a00902ea21aa7325fb46795a35b7f7f1e42052735cca6103a6df6aef4cc446",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9e66f19121499ccd8b48cb955c7dd2e307c0ce6083e665da50902dbb255afc32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c18b1c0a943546a2d3b225fc5802fc714ad31ca044721c13c058cf30fcf69a39"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "fdb84d2f8e62785b608ed5e417d96f39b00c8b7e5b6ad7d3d15c93cf7a4af991"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9e66f19121499ccd8b48cb955c7dd2e307c0ce6083e665da50902dbb255afc32"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "0b7ab4dbb8d0e1fd3fc17873fdf10c0e16005ce28671927ac0d9f1df67f7f64b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "0b7ab4dbb8d0e1fd3fc17873fdf10c0e16005ce28671927ac0d9f1df67f7f64b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9e66f19121499ccd8b48cb955c7dd2e307c0ce6083e665da50902dbb255afc32"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "6ab27c2341eed00303027263c6fa7511ce65dc663a22b0c932a3be99c0a1cf22"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "6ab27c2341eed00303027263c6fa7511ce65dc663a22b0c932a3be99c0a1cf22"
+              }
+            ]
+          }
+        },
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 139.92964500000016,
+            "processCpuMs": 142.815,
+            "revision": 7,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "5d79019bdae4f077b66e0a116e44b917a90c7914fc5a623ea2a11d62f43cea72",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "6ab27c2341eed00303027263c6fa7511ce65dc663a22b0c932a3be99c0a1cf22"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c18b1c0a943546a2d3b225fc5802fc714ad31ca044721c13c058cf30fcf69a39"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "0b7ab4dbb8d0e1fd3fc17873fdf10c0e16005ce28671927ac0d9f1df67f7f64b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "6ab27c2341eed00303027263c6fa7511ce65dc663a22b0c932a3be99c0a1cf22"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "5c5f3a645968f97ad32d00031cda88f2e620dee20e46cd4bb3c81709d1aacf32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "5c5f3a645968f97ad32d00031cda88f2e620dee20e46cd4bb3c81709d1aacf32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "6ab27c2341eed00303027263c6fa7511ce65dc663a22b0c932a3be99c0a1cf22"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "05b8b267cfe8186490ee3b28f04c1cdf33187317716267069f6c495a347dae63"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "05b8b267cfe8186490ee3b28f04c1cdf33187317716267069f6c495a347dae63"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 115.8844509999999,
+            "processCpuMs": 118.675,
+            "revision": 7,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "5d79019bdae4f077b66e0a116e44b917a90c7914fc5a623ea2a11d62f43cea72",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "6ab27c2341eed00303027263c6fa7511ce65dc663a22b0c932a3be99c0a1cf22"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "c18b1c0a943546a2d3b225fc5802fc714ad31ca044721c13c058cf30fcf69a39"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "0b7ab4dbb8d0e1fd3fc17873fdf10c0e16005ce28671927ac0d9f1df67f7f64b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "6ab27c2341eed00303027263c6fa7511ce65dc663a22b0c932a3be99c0a1cf22"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "5c5f3a645968f97ad32d00031cda88f2e620dee20e46cd4bb3c81709d1aacf32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "5c5f3a645968f97ad32d00031cda88f2e620dee20e46cd4bb3c81709d1aacf32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "6ab27c2341eed00303027263c6fa7511ce65dc663a22b0c932a3be99c0a1cf22"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "05b8b267cfe8186490ee3b28f04c1cdf33187317716267069f6c495a347dae63"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "05b8b267cfe8186490ee3b28f04c1cdf33187317716267069f6c495a347dae63"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 135.43599099999847,
+            "processCpuMs": 142.665,
+            "revision": 8,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "a58e46da1af875fe8d4af7e6aee44f063ccd1bfa33a473fe6066798a66cb1813",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "05b8b267cfe8186490ee3b28f04c1cdf33187317716267069f6c495a347dae63"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "5c5f3a645968f97ad32d00031cda88f2e620dee20e46cd4bb3c81709d1aacf32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "0b7ab4dbb8d0e1fd3fc17873fdf10c0e16005ce28671927ac0d9f1df67f7f64b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "05b8b267cfe8186490ee3b28f04c1cdf33187317716267069f6c495a347dae63"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d52182093934fb14e814cde0787af00e5d1c207ee76de02e29f8236604203970"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d52182093934fb14e814cde0787af00e5d1c207ee76de02e29f8236604203970"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "05b8b267cfe8186490ee3b28f04c1cdf33187317716267069f6c495a347dae63"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "d1256c9cdc590d881b08bcf0dfa56f3bae36563b5cc98a1db4def2965889d254"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "d1256c9cdc590d881b08bcf0dfa56f3bae36563b5cc98a1db4def2965889d254"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 112.6787919999988,
+            "processCpuMs": 115.587,
+            "revision": 8,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "a58e46da1af875fe8d4af7e6aee44f063ccd1bfa33a473fe6066798a66cb1813",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "05b8b267cfe8186490ee3b28f04c1cdf33187317716267069f6c495a347dae63"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "5c5f3a645968f97ad32d00031cda88f2e620dee20e46cd4bb3c81709d1aacf32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "0b7ab4dbb8d0e1fd3fc17873fdf10c0e16005ce28671927ac0d9f1df67f7f64b"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "05b8b267cfe8186490ee3b28f04c1cdf33187317716267069f6c495a347dae63"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d52182093934fb14e814cde0787af00e5d1c207ee76de02e29f8236604203970"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d52182093934fb14e814cde0787af00e5d1c207ee76de02e29f8236604203970"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "05b8b267cfe8186490ee3b28f04c1cdf33187317716267069f6c495a347dae63"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "d1256c9cdc590d881b08bcf0dfa56f3bae36563b5cc98a1db4def2965889d254"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "d1256c9cdc590d881b08bcf0dfa56f3bae36563b5cc98a1db4def2965889d254"
+              }
+            ]
+          }
+        },
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 149.96270499999991,
+            "processCpuMs": 176.513,
+            "revision": 9,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "b05ed9897e264cc704282b8875496ce463a472bc77c1e769c131980059d794a1",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "d1256c9cdc590d881b08bcf0dfa56f3bae36563b5cc98a1db4def2965889d254"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "5c5f3a645968f97ad32d00031cda88f2e620dee20e46cd4bb3c81709d1aacf32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d52182093934fb14e814cde0787af00e5d1c207ee76de02e29f8236604203970"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "d1256c9cdc590d881b08bcf0dfa56f3bae36563b5cc98a1db4def2965889d254"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "82e9fae917432678d98c0331efef816fd8fe521dd7c3ac3e6000439a5850b88f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "82e9fae917432678d98c0331efef816fd8fe521dd7c3ac3e6000439a5850b88f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "d1256c9cdc590d881b08bcf0dfa56f3bae36563b5cc98a1db4def2965889d254"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "cc7d1dfc7090889a8d7f3c8cbe9522a03071380787e1e9a2277270c6f45a281e"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "cc7d1dfc7090889a8d7f3c8cbe9522a03071380787e1e9a2277270c6f45a281e"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 122.72998200000075,
+            "processCpuMs": 127.1,
+            "revision": 9,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "b05ed9897e264cc704282b8875496ce463a472bc77c1e769c131980059d794a1",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "d1256c9cdc590d881b08bcf0dfa56f3bae36563b5cc98a1db4def2965889d254"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "5c5f3a645968f97ad32d00031cda88f2e620dee20e46cd4bb3c81709d1aacf32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d52182093934fb14e814cde0787af00e5d1c207ee76de02e29f8236604203970"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "d1256c9cdc590d881b08bcf0dfa56f3bae36563b5cc98a1db4def2965889d254"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "82e9fae917432678d98c0331efef816fd8fe521dd7c3ac3e6000439a5850b88f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "82e9fae917432678d98c0331efef816fd8fe521dd7c3ac3e6000439a5850b88f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "d1256c9cdc590d881b08bcf0dfa56f3bae36563b5cc98a1db4def2965889d254"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "cc7d1dfc7090889a8d7f3c8cbe9522a03071380787e1e9a2277270c6f45a281e"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "cc7d1dfc7090889a8d7f3c8cbe9522a03071380787e1e9a2277270c6f45a281e"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 148.6523099999995,
+            "processCpuMs": 151.427,
+            "revision": 10,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "0d91690130adfbea1c25bd3bac1e7e9818a2a4daa822efdbd307f14079ef95d7",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "cc7d1dfc7090889a8d7f3c8cbe9522a03071380787e1e9a2277270c6f45a281e"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "82e9fae917432678d98c0331efef816fd8fe521dd7c3ac3e6000439a5850b88f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d52182093934fb14e814cde0787af00e5d1c207ee76de02e29f8236604203970"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "cc7d1dfc7090889a8d7f3c8cbe9522a03071380787e1e9a2277270c6f45a281e"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "49df5b0750843c8e3d86e0a6a3c2310e44c5e1c846db7fdffb2d05ca494fcc32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "49df5b0750843c8e3d86e0a6a3c2310e44c5e1c846db7fdffb2d05ca494fcc32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "cc7d1dfc7090889a8d7f3c8cbe9522a03071380787e1e9a2277270c6f45a281e"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f8f76731d15fd36a95654bb7e51c26df123feff20ab9c3236d3ecc35d46ccdca"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f8f76731d15fd36a95654bb7e51c26df123feff20ab9c3236d3ecc35d46ccdca"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 119.97313199999917,
+            "processCpuMs": 123.838,
+            "revision": 10,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "0d91690130adfbea1c25bd3bac1e7e9818a2a4daa822efdbd307f14079ef95d7",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "cc7d1dfc7090889a8d7f3c8cbe9522a03071380787e1e9a2277270c6f45a281e"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "82e9fae917432678d98c0331efef816fd8fe521dd7c3ac3e6000439a5850b88f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "d52182093934fb14e814cde0787af00e5d1c207ee76de02e29f8236604203970"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "cc7d1dfc7090889a8d7f3c8cbe9522a03071380787e1e9a2277270c6f45a281e"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "49df5b0750843c8e3d86e0a6a3c2310e44c5e1c846db7fdffb2d05ca494fcc32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "49df5b0750843c8e3d86e0a6a3c2310e44c5e1c846db7fdffb2d05ca494fcc32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "cc7d1dfc7090889a8d7f3c8cbe9522a03071380787e1e9a2277270c6f45a281e"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f8f76731d15fd36a95654bb7e51c26df123feff20ab9c3236d3ecc35d46ccdca"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f8f76731d15fd36a95654bb7e51c26df123feff20ab9c3236d3ecc35d46ccdca"
+              }
+            ]
+          }
+        },
+        {
+          "order": "baseline-candidate",
+          "baseline": {
+            "elapsedMs": 137.06820900000093,
+            "processCpuMs": 145.116,
+            "revision": 11,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "43d883c4eda919cc4212a4c10d6663f7a408a92015cc127b98841c2ee8c8d155",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f8f76731d15fd36a95654bb7e51c26df123feff20ab9c3236d3ecc35d46ccdca"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "82e9fae917432678d98c0331efef816fd8fe521dd7c3ac3e6000439a5850b88f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "49df5b0750843c8e3d86e0a6a3c2310e44c5e1c846db7fdffb2d05ca494fcc32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f8f76731d15fd36a95654bb7e51c26df123feff20ab9c3236d3ecc35d46ccdca"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "95c999024700d342edde90358f1330d369d7e84da236e85b8c2e651530f8dc33"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "95c999024700d342edde90358f1330d369d7e84da236e85b8c2e651530f8dc33"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f8f76731d15fd36a95654bb7e51c26df123feff20ab9c3236d3ecc35d46ccdca"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9dd5eb073dacffb101165499e2cf218ae52004e60dba8a3ede643f8a21977f01"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9dd5eb073dacffb101165499e2cf218ae52004e60dba8a3ede643f8a21977f01"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 115.18134500000087,
+            "processCpuMs": 117.054,
+            "revision": 11,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "43d883c4eda919cc4212a4c10d6663f7a408a92015cc127b98841c2ee8c8d155",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f8f76731d15fd36a95654bb7e51c26df123feff20ab9c3236d3ecc35d46ccdca"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "82e9fae917432678d98c0331efef816fd8fe521dd7c3ac3e6000439a5850b88f"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "49df5b0750843c8e3d86e0a6a3c2310e44c5e1c846db7fdffb2d05ca494fcc32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f8f76731d15fd36a95654bb7e51c26df123feff20ab9c3236d3ecc35d46ccdca"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "95c999024700d342edde90358f1330d369d7e84da236e85b8c2e651530f8dc33"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "95c999024700d342edde90358f1330d369d7e84da236e85b8c2e651530f8dc33"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "f8f76731d15fd36a95654bb7e51c26df123feff20ab9c3236d3ecc35d46ccdca"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9dd5eb073dacffb101165499e2cf218ae52004e60dba8a3ede643f8a21977f01"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9dd5eb073dacffb101165499e2cf218ae52004e60dba8a3ede643f8a21977f01"
+              }
+            ]
+          }
+        },
+        {
+          "order": "candidate-baseline",
+          "baseline": {
+            "elapsedMs": 135.641431,
+            "processCpuMs": 137.156,
+            "revision": 12,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "77da5fd300a83ac60fae2e32db708a95e5b7c833603329752e525a0381d38302",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9dd5eb073dacffb101165499e2cf218ae52004e60dba8a3ede643f8a21977f01"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "95c999024700d342edde90358f1330d369d7e84da236e85b8c2e651530f8dc33"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "49df5b0750843c8e3d86e0a6a3c2310e44c5e1c846db7fdffb2d05ca494fcc32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9dd5eb073dacffb101165499e2cf218ae52004e60dba8a3ede643f8a21977f01"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "ce9601bfdb023e9ab1d42e3d679d7984237b4fe98db26455ef6971fb30180b5a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "ce9601bfdb023e9ab1d42e3d679d7984237b4fe98db26455ef6971fb30180b5a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9dd5eb073dacffb101165499e2cf218ae52004e60dba8a3ede643f8a21977f01"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b1a1d9bb0feb9505f5a0553f66f0e7371b29f75459e2635aa7aa00d9813e82a8"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b1a1d9bb0feb9505f5a0553f66f0e7371b29f75459e2635aa7aa00d9813e82a8"
+              }
+            ]
+          },
+          "candidate": {
+            "elapsedMs": 125.31194299999879,
+            "processCpuMs": 126.129,
+            "revision": 12,
+            "stateHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1",
+            "eventsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "storageHash": "77da5fd300a83ac60fae2e32db708a95e5b7c833603329752e525a0381d38302",
+            "operations": [
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9dd5eb073dacffb101165499e2cf218ae52004e60dba8a3ede643f8a21977f01"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot0",
+                "valueHash": "95c999024700d342edde90358f1330d369d7e84da236e85b8c2e651530f8dc33"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "49df5b0750843c8e3d86e0a6a3c2310e44c5e1c846db7fdffb2d05ca494fcc32"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9dd5eb073dacffb101165499e2cf218ae52004e60dba8a3ede643f8a21977f01"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "ce9601bfdb023e9ab1d42e3d679d7984237b4fe98db26455ef6971fb30180b5a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.slot1",
+                "valueHash": "ce9601bfdb023e9ab1d42e3d679d7984237b4fe98db26455ef6971fb30180b5a"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "9dd5eb073dacffb101165499e2cf218ae52004e60dba8a3ede643f8a21977f01"
+              },
+              {
+                "op": "set",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b1a1d9bb0feb9505f5a0553f66f0e7371b29f75459e2635aa7aa00d9813e82a8"
+              },
+              {
+                "op": "get",
+                "key": "emberwatch-reborn.candidate.r14.v1.qa-head-first-benchmark.head",
+                "valueHash": "b1a1d9bb0feb9505f5a0553f66f0e7371b29f75459e2635aa7aa00d9813e82a8"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "completedAtUtc": "2026-10-11T16:13:41.980Z",
+  "ok": true
+}

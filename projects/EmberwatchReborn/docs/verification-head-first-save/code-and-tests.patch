@@ -1,0 +1,243 @@
+--- a/app/src/save.js
++++ b/app/src/save.js
+@@ -40,10 +40,17 @@
+     try {
+       const rawHead = storage.getItem(keys.head);
+       const raws = keys.slots.map(k => storage.getItem(k));
+-      const slots = raws.map(decode);
+       let head;
+       try { head = JSON.parse(rawHead); } catch { /* attempt last committed receipt */ }
+-      if (receiptMatches(head, slots[head?.slot])) return {ok: true, ...slots[head.slot], slot: head.slot, recovered: false};
++      // Keep all storage reads above: an unread alternate could hide a read failure.
++      const primary = [0, 1].includes(head?.slot) ? head.slot : null;
++      const slots = [null, null];
++      if (primary !== null) {
++        slots[primary] = decode(raws[primary]);
++        if (receiptMatches(head, slots[primary])) return {ok: true, ...slots[primary], slot: primary, recovered: false};
++      }
++      // Failed primary entries are already decoded, even when the result is null.
++      for (let slot = 0; slot < raws.length; slot++) if (slot !== primary) slots[slot] = decode(raws[slot]);
+       // Do not promote uncommitted staged data by selecting the largest revision.
+       const receipts = [head?.previousCommit, head?.upgradePreviousCommit, head?.upgradeV5PreviousCommit, ...slots.map(x => x?.previousCommit)];
+       const recoverable = receipts.filter(r => receiptMatches(r, slots[r?.slot])).map(r => ({...slots[r.slot], slot: r.slot})).sort((a, b) => b.revision - a.revision);
+--- /dev/null
++++ b/app/tests/save-head-first.test.mjs
+@@ -0,0 +1,218 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import {readFileSync} from 'node:fs';
++import {STATE_SCHEMA, createState, validateState, migrateState} from '../src/state.js';
++import {createStore, checksum, profileKeys, SAVE_LIMIT} from '../src/save.js';
++import {ensureUpgradeBackup} from '../src/upgrade-backup.js';
++import {ensureUpgradeBackupV5} from '../src/upgrade-backup-v5.js';
++
++// Freeze the pre-optimization load algorithm as an eager reference. Both paths
++// execute the current production decoder, checksum and real state validator.
++const eagerLoad = `  function load() {
++    try {
++      const rawHead = storage.getItem(keys.head);
++      const raws = keys.slots.map(k => storage.getItem(k));
++      const slots = raws.map(decode);
++      let head;
++      try { head = JSON.parse(rawHead); } catch { /* attempt last committed receipt */ }
++      if (receiptMatches(head, slots[head?.slot])) return {ok: true, ...slots[head.slot], slot: head.slot, recovered: false};
++      const receipts = [head?.previousCommit, head?.upgradePreviousCommit, head?.upgradeV5PreviousCommit, ...slots.map(x => x?.previousCommit)];
++      const recoverable = receipts.filter(r => receiptMatches(r, slots[r?.slot])).map(r => ({...slots[r.slot], slot: r.slot})).sort((a, b) => b.revision - a.revision);
++      if (recoverable.length) return {ok: true, ...recoverable[0], recovered: true};
++      if (rawHead !== null || raws.some(x => x !== null)) return fail('CORRUPT', '저장 기록이 손상되었습니다. 덮어쓰지 않습니다.');
++      return {ok: true, state: null, revision: 0, slot: null, recovered: false};
++    } catch { return fail('UNAVAILABLE', '브라우저 저장 공간에 접근할 수 없습니다.'); }
++  }
++`;
++const source = readFileSync(new URL('../src/save.js', import.meta.url), 'utf8');
++function sourceFactory(eager = false) {
++  let body = source;
++  if (eager) body = body.slice(0, body.indexOf('  function load() {')) + eagerLoad + body.slice(body.indexOf('  function save(state,'));
++  assert.equal(body.split('function decode(raw) {').length, 2);
++  body = body.replace(/^import .*;\n/gm, '').replace(/^export \{.*\} from .*;\n/gm, '').replace(/^export /gm, '')
++    .replace('function decode(raw) {', 'function decode(raw) { observation.decodes.push(raw);');
++  return new Function('STATE_SCHEMA', 'validateState', 'ensureUpgradeBackup', 'ensureUpgradeBackupV5', 'observation', `${body}\nreturn createStore;`);
++}
++const factories = [sourceFactory(), sourceFactory(true)];
++function observed(storage, {eager = false, options} = {}) {
++  const observation = {decodes: [], validations: []};
++  const store = factories[Number(eager)](STATE_SCHEMA, state => {
++    observation.validations.push(state);
++    return validateState(state);
++  }, ensureUpgradeBackup, ensureUpgradeBackupV5, observation)(storage, options);
++  return {store, observation};
++}
++const keys = profileKeys();
++function memory(data = new Map(), throwAt = null) {
++  const reads = [], writes = [], values = new Map(data);
++  return {data: values, reads, writes, getItem(key) {
++    reads.push(key);
++    if (key === throwAt) throw Error('read failed');
++    return values.get(key) ?? null;
++  }, setItem(key, value) { writes.push(key); values.set(key, value); }};
++}
++function fixture(revision = 3, state = createState()) {
++  const storage = memory(), store = createStore(storage);
++  for (let i = 0; i < revision; i++) assert.equal(store.save(state, {expectedRevision: i}).ok, true);
++  return new Map(storage.data);
++}
++const base = fixture();
++const receipt = (data, slot) => { const e = JSON.parse(data.get(keys.slots[slot])); return {slot, revision: e.revision, checksum: e.checksum}; };
++function rewrite(data, slot, change) {
++  const envelope = JSON.parse(data.get(keys.slots[slot]));
++  change(envelope);
++  data.set(keys.slots[slot], JSON.stringify(envelope));
++}
++function payloadChange(envelope, change) {
++  const state = JSON.parse(envelope.payload); change(state);
++  envelope.payload = JSON.stringify(state); envelope.checksum = checksum(envelope.payload);
++}
++function parity(data, throwAt = null) {
++  const current = memory(data, throwAt), reference = memory(data, throwAt);
++  const result = createStore(current).load(), eager = observed(reference, {eager: true}).store.load();
++  assert.deepEqual(result, eager);
++  assert.deepEqual(current.reads, reference.reads);
++  assert.deepEqual(current.data, data);
++  assert.deepEqual(current.writes, []);
++  return result;
++}
++
++for (const revision of [2, 3]) test(`head-first optimization: revision ${revision} validates only the selected slot after all three reads`, () => {
++  const data = fixture(revision), storage = memory(data), {store, observation} = observed(storage);
++  const result = store.load(), primary = (revision - 1) % 2;
++  assert.equal(result.ok, true); assert.equal(result.slot, primary); assert.equal(result.recovered, false);
++  assert.deepEqual(storage.reads, [keys.head, ...keys.slots]);
++  assert.equal(observation.validations.length, 1);
++  assert.deepEqual(observation.decodes, [data.get(keys.slots[primary])]);
++  const eager = observed(memory(data), {eager: true});
++  assert.deepEqual(eager.store.load(), result);
++  assert.equal(eager.observation.validations.length, 2);
++});
++
++test('head-first optimization: ordinary save removes one old-slot validation and preserves the exact read/write protocol', () => {
++  const storage = memory(base), reference = memory(base), current = observed(storage), eager = observed(reference, {eager: true});
++  const state = createState(); state.options.flashes = 0;
++  assert.deepEqual(current.store.save(state, {expectedRevision: 3}), eager.store.save(state, {expectedRevision: 3}));
++  assert.equal(current.observation.validations.length, 2); assert.equal(eager.observation.validations.length, 3);
++  assert.equal(current.observation.decodes.length, 1); assert.equal(eager.observation.decodes.length, 2);
++  assert.deepEqual(storage.data, reference.data); assert.deepEqual(storage.writes, reference.writes);
++  assert.deepEqual(storage.reads, [keys.head, ...keys.slots, keys.head, keys.slots[1], keys.head, keys.head]);
++  assert.deepEqual(storage.reads, reference.reads);
++});
++
++const corruptions = {
++  missing: (data, slot) => data.delete(keys.slots[slot]),
++  json: (data, slot) => data.set(keys.slots[slot], '{'),
++  schema: (data, slot) => rewrite(data, slot, e => { e.schema = 'other'; }),
++  zeroRevision: (data, slot) => rewrite(data, slot, e => { e.revision = 0; }),
++  unsafeRevision: (data, slot) => rewrite(data, slot, e => { e.revision = Number.MAX_SAFE_INTEGER + 1; }),
++  checksum: (data, slot) => rewrite(data, slot, e => { e.checksum = 'wrong'; }),
++  payloadJson: (data, slot) => rewrite(data, slot, e => { e.payload = '{'; e.checksum = checksum(e.payload); }),
++  semantic: (data, slot) => rewrite(data, slot, e => payloadChange(e, s => { s.gold++; })),
++  payloadLimit: (data, slot) => rewrite(data, slot, e => { e.payload = 'x'.repeat(SAVE_LIMIT + 1); e.checksum = checksum(e.payload); }),
++  rawLimit: (data, slot) => data.set(keys.slots[slot], 'x'.repeat(SAVE_LIMIT * 2 + 1)),
++};
++for (const slot of [0, 1]) for (const [name, corrupt] of Object.entries(corruptions)) test(`slot ${slot} ${name}: current-head and recovery decisions equal eager load`, () => {
++  const data = new Map(base); corrupt(data, slot);
++  const live = parity(data);
++  assert.equal(live.ok, true); assert.equal(live.revision, slot === 0 ? 2 : 3);
++  for (const head of [null, '{', '{}', JSON.stringify({...receipt(base, 0), checksum: 'wrong', previousCommit: receipt(base, 1)})]) {
++    const changed = new Map(data);
++    if (head === null) changed.delete(keys.head); else changed.set(keys.head, head);
++    parity(changed);
++  }
++});
++
++const badHeads = [null, '{', 'null', '{}', '[]', 'true', '1', '"head"', '{"slot":"0"}', '{"slot":2}', '{"slot":-1}', '{"slot":null}'];
++for (const raw of badHeads) test(`head ${raw === null ? 'missing' : JSON.stringify(raw)}: decode each slot once and preserve recovery receipt selection`, () => {
++  const data = new Map(base); if (raw === null) data.delete(keys.head); else data.set(keys.head, raw);
++  const storage = memory(data), current = observed(storage), result = current.store.load();
++  assert.deepEqual(result, parity(data)); assert.equal(result.revision, 2); assert.equal(result.recovered, true);
++  assert.deepEqual(current.observation.decodes, keys.slots.map(key => data.get(key)));
++  assert.equal(current.observation.validations.length, 2);
++});
++
++for (const slot of [0, 1]) test(`failed primary ${slot} is never decoded or validated twice during fallback`, () => {
++  for (const semantic of [false, true]) {
++    const data = fixture(slot === 0 ? 3 : 2), head = JSON.parse(data.get(keys.head));
++    if (semantic) rewrite(data, slot, e => payloadChange(e, s => { s.gold++; }));
++    else { head.checksum = 'wrong'; data.set(keys.head, JSON.stringify(head)); }
++    const current = observed(memory(data)); assert.deepEqual(current.store.load(), parity(data));
++    assert.deepEqual(current.observation.decodes, [data.get(keys.slots[slot]), data.get(keys.slots[1 - slot])]);
++    assert.equal(current.observation.validations.length, 2);
++  }
++});
++
++test('staged newer valid data is never promoted without a commit receipt', () => {
++  const data = new Map(base), previous = receipt(data, 0), state = createState(); state.options.flashes = 0;
++  const payload = JSON.stringify(state);
++  data.set(keys.slots[1], JSON.stringify({schema: STATE_SCHEMA, revision: 4, checksum: checksum(payload), previousCommit: previous, payload}));
++  assert.equal(parity(data).revision, 3);
++  for (const raw of [null, '{']) {
++    const damaged = new Map(data); if (raw === null) damaged.delete(keys.head); else damaged.set(keys.head, raw);
++    const result = parity(damaged); assert.equal(result.revision, 3); assert.equal(result.recovered, true);
++  }
++  const first = fixture(1); first.delete(keys.head); assert.equal(parity(first).code, 'CORRUPT');
++  const broken = new Map(base); broken.set(keys.slots[0], '{'); broken.set(keys.slots[1], '{'); assert.equal(parity(broken).code, 'CORRUPT');
++  assert.deepEqual(parity(new Map()), {ok: true, state: null, revision: 0, slot: null, recovered: false});
++});
++
++for (const throwAt of [keys.head, ...keys.slots]) test(`read exception at ${throwAt.split('.').at(-1)} preserves order and precedes all decoding`, () => {
++  const storage = memory(base, throwAt), current = observed(storage);
++  assert.deepEqual(current.store.load(), parity(base, throwAt)); assert.equal(current.store.load().code, 'UNAVAILABLE');
++  const expected = [keys.head, ...keys.slots].slice(0, [keys.head, ...keys.slots].indexOf(throwAt) + 1);
++  assert.deepEqual(storage.reads, [...expected, ...expected]);
++  assert.deepEqual(current.observation.decodes, []); assert.deepEqual(current.observation.validations, []);
++  assert.deepEqual(storage.writes, []);
++});
++
++test('every load rereads both slots and same-revision changed payloads are fully validated', () => {
++  const storage = memory(base), store = createStore(storage), original = store.load();
++  rewrite(storage.data, 0, e => payloadChange(e, s => { s.options.flashes = 0; }));
++  storage.data.set(keys.head, JSON.stringify({...JSON.parse(storage.data.get(keys.head)), ...receipt(storage.data, 0)}));
++  const changed = store.load(); assert.equal(changed.revision, original.revision); assert.equal(changed.state.options.flashes, 0);
++  rewrite(storage.data, 0, e => payloadChange(e, s => { s.gold++; }));
++  storage.data.set(keys.head, JSON.stringify({...JSON.parse(storage.data.get(keys.head)), ...receipt(storage.data, 0)}));
++  const rejected = store.load(); assert.equal(rejected.revision, 2); assert.equal(rejected.recovered, true);
++  assert.deepEqual(storage.reads, Array.from({length: 3}, () => [keys.head, ...keys.slots]).flat());
++  // The previously ignored alternate is checked when a later head selects it.
++  rewrite(storage.data, 1, e => payloadChange(e, s => { s.gold++; }));
++  storage.data.set(keys.head, JSON.stringify(receipt(storage.data, 1)));
++  assert.equal(store.load().code, 'CORRUPT');
++});
++
++test('caller mutations of loaded state and nested receipt data cannot poison a later load or recovery', () => {
++  const data = new Map(base); rewrite(data, 0, e => { e.previousCommit.note = {nested: ['original']}; });
++  const storage = memory(data), store = createStore(storage), first = store.load(), expected = structuredClone(first);
++  assert.equal(Object.isFrozen(first.state), false); assert.equal(Object.isFrozen(first.previousCommit), false);
++  first.state.gold = 999; first.state.world.visited.push('mutated'); first.previousCommit.slot = 0; first.previousCommit.note.nested[0] = 'mutated';
++  const second = store.load(); assert.deepEqual(second, expected); assert.notEqual(second.state, first.state);
++  assert.notEqual(second.previousCommit, first.previousCommit); assert.notEqual(second.previousCommit.note, first.previousCommit.note);
++  storage.data.delete(keys.head); assert.deepEqual(store.load(), parity(storage.data)); assert.equal(store.load().revision, 2);
++  const proposed = createState(); assert.equal(store.save(proposed, {expectedRevision: 2}).ok, true);
++  proposed.gold++; const before = new Map(storage.data); assert.equal(store.save(proposed, {expectedRevision: 3}).ok, false); assert.deepEqual(storage.data, before);
++});
++
++function legacy(version) {
++  const state = createState(); state.version = version;
++  if (version < 4) { delete state.actionSlots; state.options.controls.version = 2; delete state.options.controls.bindings.expert1; delete state.options.controls.bindings.expert2; }
++  if (version < 3) delete state.options.controls;
++  if (version === 1) delete state.equipmentProgress;
++  return state;
++}
++for (const version of [1, 2, 3, 4, 5]) test(`v${version} load stays read-only, mutable and semantically identical`, () => {
++  const state = legacy(version), data = fixture(2, state), storage = memory(data), store = createStore(storage);
++  assert.deepEqual(store.load(), parity(data)); assert.deepEqual(store.load().state, state);
++  assert.equal(Object.isFrozen(store.load().state), false); assert.deepEqual(storage.data, data); assert.deepEqual(storage.writes, []);
++});
++
++for (const targetVersion of [4, 5]) test(`current reader preserves first v${targetVersion} upgrade fence and fallback receipt`, () => {
++  const original = legacy(targetVersion - 1), storage = memory(fixture(2, original)), store = createStore(storage), next = migrateState(original);
++  next.version = targetVersion;
++  assert.equal(store.save(next, {expectedRevision: 2}).ok, true);
++  const head = JSON.parse(storage.data.get(keys.head)); assert.equal(head.previousCommit, null);
++  assert.equal(head[targetVersion === 4 ? 'upgradePreviousCommit' : 'upgradeV5PreviousCommit'].revision, 2);
++  assert.equal(parity(storage.data).state.version, targetVersion);
++  storage.data.set(keys.slots[head.slot], '{'); const result = parity(storage.data);
++  assert.equal(result.state.version, targetVersion - 1); assert.equal(result.revision, 2); assert.equal(result.recovered, true);
++});

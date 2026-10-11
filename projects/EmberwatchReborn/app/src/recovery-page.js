@@ -2,7 +2,7 @@ import {readUpgradeBackup,restoreUpgradeBackup,readUpgradeBackupV5,restoreUpgrad
 import {candidateNamespace} from './candidate-profile.js';
 import {createUpgradeBackupUi} from './upgrade-backup-ui.js';
 import {createPortableCheckpointUi} from './portable-checkpoint-ui.js';
-export const RECOVERY_BUILD='R14a17';
+export const RECOVERY_BUILD='R14a18';
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function recoveryNamespace(pathname){
  if(['/recovery','/recovery.html','/save-recovery','/save-recovery/','/save-recovery/index','/save-recovery/index.html'].includes(pathname))return 'release';

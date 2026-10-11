@@ -1,0 +1,11 @@
+=== node/npm/test script ===
+v24.19.0
+{"test":"node --test tests/*.test.mjs","availableParallelism":9,"cpus":9}
+
+=== memory.max ===
+
+=== memory.current ===
+
+=== memory.events ===
+
+=== cpu.max ===

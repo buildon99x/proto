@@ -4,8 +4,8 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
-  "version": "0.14.0-reimplementation.17",
-  "summary": "R14a17 황야 장면 준비 최적화·사망 모달 접근성 후보: 직접 만든 불변 snapshot에만 검증 결과를 재사용하고 mutable·Proxy·잘못된 입력은 원래 검증을 유지. 사망 배경 메뉴 차단과 읽기 전용 진단을 통합. 전투·저장·500ms 보호조건 보존. 실제 브라우저 stall 해결·AX 검증은 별도.",
+  "version": "0.14.0-reimplementation.18",
+  "summary": "R14a18 정상 저장 head 우선 검증 후보: 세 원문을 모두 읽고 유효한 head 슬롯을 먼저 검증해 사용하지 않는 대체 슬롯 검증 1회를 줄임. CAS·락·readback·복구·150ms 입력 만료와 500ms 보호조건 보존. 실제 브라우저 입력 만료 해결은 미검증.",
   "tags": [
     "game",
     "action-rpg",

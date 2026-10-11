@@ -1,0 +1,142 @@
+{
+  "ok": true,
+  "scope": "Unmodified a17 modules; isolated Node earned-state checkpoint pipeline; in-memory string storage and immediate fake Web Lock. Not live browser save duration, lock contention, native CPU or an input fix.",
+  "stages": [
+    {
+      "stage": "entered",
+      "elapsedMs": {
+        "n": 6,
+        "min": 122.51399000000015,
+        "p50": 134.25483199999996,
+        "p95": 174.574161,
+        "max": 174.574161
+      },
+      "processCpuMs": {
+        "n": 6,
+        "min": 128.604,
+        "p50": 173.435,
+        "p95": 241.697,
+        "max": 241.697
+      },
+      "phaseTotals": {},
+      "storageReads": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "storageWrites": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "stage": "chosen",
+      "elapsedMs": {
+        "n": 6,
+        "min": 124.60656199999994,
+        "p50": 128.39806099999987,
+        "p95": 130.988384,
+        "max": 130.988384
+      },
+      "processCpuMs": {
+        "n": 6,
+        "min": 130.498,
+        "p50": 136.452,
+        "p95": 139.605,
+        "max": 139.605
+      },
+      "phaseTotals": {},
+      "storageReads": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "storageWrites": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "stage": "approach",
+      "elapsedMs": {
+        "n": 6,
+        "min": 125.07829399999991,
+        "p50": 127.91412199999968,
+        "p95": 146.52918799999998,
+        "max": 146.52918799999998
+      },
+      "processCpuMs": {
+        "n": 6,
+        "min": 131.822,
+        "p50": 141.398,
+        "p95": 155.392,
+        "max": 155.392
+      },
+      "phaseTotals": {},
+      "storageReads": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "storageWrites": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "stage": "evidence",
+      "elapsedMs": {
+        "n": 6,
+        "min": 121.81515000000036,
+        "p50": 123.29706400000032,
+        "p95": 129.83395699999983,
+        "max": 129.83395699999983
+      },
+      "processCpuMs": {
+        "n": 6,
+        "min": 124.984,
+        "p50": 132.869,
+        "p95": 140.499,
+        "max": 140.499
+      },
+      "phaseTotals": {},
+      "storageReads": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "storageWrites": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    }
+  ]
+}

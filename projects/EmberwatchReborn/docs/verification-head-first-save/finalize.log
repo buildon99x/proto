@@ -1,0 +1,267 @@
+{
+  "status": "READY source patch; release relabel, Git, deployment and Library not performed",
+  "completedAtUtc": "2026-10-11T16:33:48.710756+00:00",
+  "baselineCommit": "57c80841e8a9c2682a1a8c4f57d575a23804d80d",
+  "baseline": "R14a17",
+  "releaseLabelsUnchanged": true,
+  "productionChangedFiles": [
+    "app/src/save.js"
+  ],
+  "productionHunks": 1,
+  "newTests": 50,
+  "fullTests": {
+    "tests": 4483,
+    "pass": 4483,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "durationMs": 267548.509356,
+  "authoritativeFullTestLog": "full-diagnostic.tap",
+  "defaultConcurrencyUnchanged": true,
+  "verificationHistory": {
+    "initialFullRun": {
+      "log": "full-tests.log",
+      "exit": 1,
+      "tests": 4373,
+      "passed": 4372,
+      "failed": 1,
+      "failure": "expert-main-input.test.mjs file process failed after 23992.564147 ms without a detailed signal/assertion cause in the spec reporter",
+      "cause": "Unresolved; retained, not classified as resource failure."
+    },
+    "isolatedFollowup": {
+      "log": "expert-main-isolated.log",
+      "exit": 0,
+      "tests": 182,
+      "passed": 182,
+      "sourceUnchanged": true
+    },
+    "fullFollowup": {
+      "log": "full-diagnostic.tap",
+      "exit": 0,
+      "sourceAssertionsTimeoutsAndConcurrencyUnchanged": true,
+      "resourceReport": "full-diagnostic-result.json"
+    },
+    "firstLintBuildReceipt": "Initial lint has no final marker; initial build was unconfirmed. Fresh final-lint/final-build are authoritative.",
+    "unlaunchedTimingAttempt": "/usr/bin/time was absent, so no tests launched; preserved exit127."
+  },
+  "diagnosticResources": {
+    "exitCode": 0,
+    "completedAtUtc": "2026-10-11T16:32:22.711278+00:00",
+    "elapsedSeconds": 267.9286489549995,
+    "samples": 534,
+    "sampledPeakNodeFamily": {
+      "elapsedSeconds": 71.04608513800486,
+      "processCount": 9,
+      "totalRssKiB": 1350748,
+      "processes": [
+        {
+          "pid": 14,
+          "ppid": 2,
+          "rssKiB": 70684
+        },
+        {
+          "pid": 437,
+          "ppid": 14,
+          "rssKiB": 259096
+        },
+        {
+          "pid": 1157,
+          "ppid": 14,
+          "rssKiB": 143096
+        },
+        {
+          "pid": 1197,
+          "ppid": 14,
+          "rssKiB": 204100
+        },
+        {
+          "pid": 1205,
+          "ppid": 14,
+          "rssKiB": 133716
+        },
+        {
+          "pid": 1229,
+          "ppid": 14,
+          "rssKiB": 217836
+        },
+        {
+          "pid": 1349,
+          "ppid": 14,
+          "rssKiB": 101648
+        },
+        {
+          "pid": 1365,
+          "ppid": 14,
+          "rssKiB": 128556
+        },
+        {
+          "pid": 1381,
+          "ppid": 14,
+          "rssKiB": 92016
+        }
+      ]
+    },
+    "childUsage": {
+      "userSeconds": 928.667976,
+      "systemSeconds": 20.288751,
+      "maxRssKiB": 281628
+    },
+    "caveat": "Sampled RSS does not prove the cause of an earlier uninstrumented termination. No test timeout/concurrency/assertion/source was changed."
+  },
+  "focusedTestsPassed": 823,
+  "negativeControl": {
+    "baselineOptimizationChecksFailed": 3,
+    "candidatePassed": 3
+  },
+  "lintExit": 0,
+  "buildExit": 0,
+  "build": {
+    "payloadFiles": 125,
+    "payloadBytes": 16744195,
+    "copiedSourceHashesVerified": 124,
+    "manifestSha256": "32acac0d190c6ffc8ef5a68a95bb67ce6e96e08f78594ba95c704f97176950a9"
+  },
+  "preservation": {
+    "originalA17FreezeEntriesVerified": 370,
+    "candidateSourceTestMetadataEntries": 371,
+    "runtimeSourceFiles": 126,
+    "unchangedRuntimeSourceFiles": 125,
+    "originalAssetProvenanceFilesUnchanged": 14,
+    "allExistingTestsByteIdentical": true,
+    "busy150msExpiry500msSafetyCasLocksAndReadbackUnchanged": true
+  },
+  "sourceHashes": {
+    "app/src/save.js": "a0538302f14ea9fafb1da8eb163871b463d60832ac6551640a17d201fcb8c86e",
+    "app/tests/save-head-first.test.mjs": "5b025787ff5cd5cf4e9a6d96df767d82cf8929040c118a70f0256e2a87c20f03",
+    "app/src/main.js": "12220374b47047098a29e9e5ea4137028988923dc6440e7d9607af985e6f2c83"
+  },
+  "codePatch": {
+    "files": 2,
+    "bytes": 16748,
+    "sha256": "5817c6a27af0f2c7fb5fed2e17330bc30b6162fa97d9cc29ee9e77b6315ff0a1",
+    "appliedWithZeroFuzzAndBothFilesByteVerified": true
+  },
+  "checkpointCallParity": {
+    "stages": 4,
+    "validateStateBefore": 7,
+    "validateStateAfter": 6,
+    "decodesBefore": 2,
+    "decodesAfter": 1,
+    "reads": 7,
+    "writes": 2,
+    "exclusiveLockCalls": 1,
+    "resultStateStorageBytesAndOperationOrderEqual": true
+  },
+  "pairedBenchmark": {
+    "scope": "Uninstrumented a17 vs head-first-only candidate, earned synthetic states, in-memory exact-string storage and immediate fake Web Lock. Not real localStorage/lock-wait/native input performance, and not proof of all save-input expiry resolution.",
+    "pairs": 32,
+    "stages": [
+      {
+        "stage": "entered",
+        "baseline": {
+          "n": 8,
+          "min": 118.97585799999979,
+          "p50": 122.47772000000009,
+          "p95": 148.74830799999995,
+          "max": 148.74830799999995
+        },
+        "candidate": {
+          "n": 8,
+          "min": 100.98975700000005,
+          "p50": 106.80833500000017,
+          "p95": 136.1369840000002,
+          "max": 136.1369840000002
+        },
+        "pairedDifferenceMs": {
+          "n": 8,
+          "min": 10.177992999999788,
+          "p50": 18.677780999999868,
+          "p95": 23.69164100000023,
+          "max": 23.69164100000023
+        },
+        "identicalStateEventsStorageAndReadWriteOperations": true
+      },
+      {
+        "stage": "chosen",
+        "baseline": {
+          "n": 8,
+          "min": 117.1647550000007,
+          "p50": 120.45790300000044,
+          "p95": 135.08631199999945,
+          "max": 135.08631199999945
+        },
+        "candidate": {
+          "n": 8,
+          "min": 100.3422730000002,
+          "p50": 105.31807299999946,
+          "p95": 124.33104400000002,
+          "max": 124.33104400000002
+        },
+        "pairedDifferenceMs": {
+          "n": 8,
+          "min": 6.350386000000071,
+          "p50": 15.784540000000561,
+          "p95": 21.167961999999534,
+          "max": 21.167961999999534
+        },
+        "identicalStateEventsStorageAndReadWriteOperations": true
+      },
+      {
+        "stage": "approach",
+        "baseline": {
+          "n": 8,
+          "min": 120.54908799999976,
+          "p50": 123.93098900000041,
+          "p95": 129.58282599999984,
+          "max": 129.58282599999984
+        },
+        "candidate": {
+          "n": 8,
+          "min": 101.6585299999997,
+          "p50": 106.34512100000029,
+          "p95": 109.92520599999989,
+          "max": 109.92520599999989
+        },
+        "pairedDifferenceMs": {
+          "n": 8,
+          "min": 13.451647999999295,
+          "p50": 17.92312000000038,
+          "p95": 24.530617999999777,
+          "max": 24.530617999999777
+        },
+        "identicalStateEventsStorageAndReadWriteOperations": true
+      },
+      {
+        "stage": "evidence",
+        "baseline": {
+          "n": 8,
+          "min": 126.52787200000057,
+          "p50": 139.66789700000118,
+          "p95": 149.96270499999991,
+          "max": 149.96270499999991
+        },
+        "candidate": {
+          "n": 8,
+          "min": 110.41290099999969,
+          "p50": 115.8844509999999,
+          "p95": 125.31194299999879,
+          "max": 125.31194299999879
+        },
+        "pairedDifferenceMs": {
+          "n": 8,
+          "min": 10.32948800000122,
+          "p50": 24.045194000000265,
+          "p95": 29.254996000001483,
+          "max": 29.254996000001483
+        },
+        "identicalStateEventsStorageAndReadWriteOperations": true
+      }
+    ]
+  },
+  "claimBoundary": "Reduced unused normal-head checkpoint computation only. Native input-expiry resolution, actual browser storage/lock latency and overall immediate-input quality remain unverified.",
+  "secondPhaseValidationReuse": "Design review only; no implementation merged. Public Proxy/mutation and generic adapter contracts require additional proof.",
+  "gitWritten": false,
+  "sitePublished": false,
+  "libraryArchived": false
+}

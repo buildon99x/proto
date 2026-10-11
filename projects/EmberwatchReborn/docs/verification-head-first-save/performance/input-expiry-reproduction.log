@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "cases": [
+    {
+      "logicalSaveWaitAgeMs": 149,
+      "dodgePulseDelivered": true,
+      "heldAfterExpiry": true,
+      "toast": null
+    },
+    {
+      "logicalSaveWaitAgeMs": 150,
+      "dodgePulseDelivered": true,
+      "heldAfterExpiry": true,
+      "toast": null
+    },
+    {
+      "logicalSaveWaitAgeMs": 151,
+      "dodgePulseDelivered": false,
+      "heldAfterExpiry": true,
+      "toast": "저장 대기가 길어 입력을 취소했습니다. 다시 눌러 주세요."
+    },
+    {
+      "logicalSaveWaitAgeMs": 300,
+      "dodgePulseDelivered": false,
+      "heldAfterExpiry": true,
+      "toast": "저장 대기가 길어 입력을 취소했습니다. 다시 눌러 주세요."
+    }
+  ]
+}

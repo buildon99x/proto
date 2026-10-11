@@ -108,3 +108,7 @@ Final a14 automatic verification: 4,338/4,338 tests (4,312 prior + 26 new), zero
 - Preserved mutable/external frozen/Proxy reevaluation and protected internal cached results from caller mutation. Main view caching uses the same provenance boundary.
 - Same-fixture Node cold scene medians169–183ms→10.6–14.7ms, including copy cost; warm medians remain comparable. This measures an established redundant computation path, not native browser stall resolution.
 - New trust/mutation/profile/save/view/RNG checks and negative controls; final aggregate, lint/build and remaining browser gates in docs/verification-r14a17.
+
+## R14a18 head-first normal save candidate
+
+The normal load validates the head-selected slot first and avoids one unused alternate-slot validation when its receipt matches. All three raw reads, decoder decisions, fallback recovery, CAS, locks, readbacks, upgrade fences, busy/input atomicity and 150 ms expiry remain intact. The same immutable-freeze scene optimization and death accessibility from a17 remain. No fix to actual browser input expiry is claimed. See docs/verification-r14a18 for release-label checks and docs/verification-head-first-save for the original 4,483-test full pass, retained initial unexplained file-process failure, 50 new checks and bounded paired timings. No validation-reuse second phase is included.

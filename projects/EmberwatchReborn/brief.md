@@ -235,3 +235,7 @@ Native a15 review found that the visually covered HUD menu remained in the acces
 
 ## R14a17 measured scene preparation
 The integrated candidate retains a16 death-overlay containment and eliminates repeated full-state validation when multiple wilderness display views read the same canonical immutable snapshot. Native a15 incidents bracketed 281.3/290.1ms in scene preparation, while precise rAF stamps also show unassigned pre-entry delay. This is a verified existing CPU-cost reduction, not proof that every browser stall is fixed. Independent paired Node measurements including canonical copy show first-scene median169–183ms becoming10.6–14.7ms across four command-earned fixtures; warm scene costs remain comparable. All requested real browser acceptance remains outstanding.
+
+## R14a18 head-first normal save candidate
+
+The normal load validates the head-selected slot first and avoids one unused alternate-slot validation when its receipt matches. All three raw reads, decoder decisions, fallback recovery, CAS, locks, readbacks, upgrade fences, busy/input atomicity and 150 ms expiry remain intact. The same immutable-freeze scene optimization and death accessibility from a17 remain. No fix to actual browser input expiry is claimed. See docs/verification-r14a18 for release-label checks and docs/verification-head-first-save for the original 4,483-test full pass, retained initial unexplained file-process failure, 50 new checks and bounded paired timings. No validation-reuse second phase is included.
