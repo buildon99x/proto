@@ -116,3 +116,6 @@ Continue small evidence-backed improvements while browser tools are disconnected
 
 ## October 11 action ownership audit
 An empty R-4 must not automatically reload and spend reserve while a grenade, healing item or loadout transition owns the hands. Preserve intentional trigger buffering and tactical reload cancellation; defer only automatic reload initiation behind the existing action gate.
+
+## Locked dependency and boundary verification
+Install only the existing frozen workspace dependencies to complete aggregate verification. Keep independent boundary audits reproducible for muzzle-first contact, reload transfer conservation and item/death/release races. Do not change balance or add a runtime fix without a reproduced defect.

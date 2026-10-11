@@ -199,3 +199,6 @@ Mission advances rifle simulation and existing resource checkpoints as before, b
 | Pause / death / restart | pause cancels utility into recovery and clears inputs; death disables combat, settlement/restart uses existing policy | Resume retains committed resources and current pending loadout; death cannot heal or release pending throw | UI/focus reset needs new presses; no repeated key reactivation | test-lifecycle, test-item-action, test-input-router |
 
 This table audits source and rendererless fixtures. It does not establish ordinary browser input, animation continuity, sound quality or perceived responsiveness.
+
+### Independent boundary audit entry points
+Run node projects/dead-freight/tools/audits/reload-boundary.cjs, item-boundary.cjs and cover-boundary.cjs. Each accepts an optional app directory, defaults to the adjacent project app, uses deterministic model fixtures and emits a JSON case count. These manual adversarial audit cases are separate from the 830 named app checks and do not imply rendered, real-input or audio acceptance.
