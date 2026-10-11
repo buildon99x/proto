@@ -1,0 +1,185 @@
+{
+  "scope": "Production-handler reproduction only; no browser, storage, source edits, speed or damage changes",
+  "results": [
+    {
+      "hz": 30,
+      "withTarget": false,
+      "prior": {
+        "action": "righteous_hammer",
+        "elapsed": 0.34,
+        "duration": 0.52,
+        "hitstop": 0
+      },
+      "acceptedIntent": {
+        "id": "mace_swing",
+        "angle": 0,
+        "aimAngle": 0,
+        "move": null,
+        "remaining": 0.18
+      },
+      "started": true,
+      "expired": false,
+      "events": [
+        {
+          "type": "actionStarted",
+          "id": "mace_swing",
+          "observedAt": 0.54,
+          "observedActionElapsed": 0.020000000000000025
+        }
+      ]
+    },
+    {
+      "hz": 30,
+      "withTarget": true,
+      "prior": {
+        "action": "righteous_hammer",
+        "elapsed": 0.34,
+        "duration": 0.52,
+        "hitstop": 0
+      },
+      "acceptedIntent": {
+        "id": "mace_swing",
+        "angle": 0,
+        "aimAngle": 0,
+        "move": null,
+        "remaining": 0.18
+      },
+      "started": true,
+      "expired": false,
+      "events": [
+        {
+          "type": "enemyHit",
+          "id": "stationary-target",
+          "observedAt": 0.37333333333333335,
+          "observedActionElapsed": 0.37333333333333335
+        },
+        {
+          "type": "actionStarted",
+          "id": "mace_swing",
+          "observedAt": 0.5733333333333334,
+          "observedActionElapsed": 0.030583333333333317
+        }
+      ]
+    },
+    {
+      "hz": 60,
+      "withTarget": false,
+      "prior": {
+        "action": "righteous_hammer",
+        "elapsed": 0.34,
+        "duration": 0.52,
+        "hitstop": 0
+      },
+      "acceptedIntent": {
+        "id": "mace_swing",
+        "angle": 0,
+        "aimAngle": 0,
+        "move": null,
+        "remaining": 0.18
+      },
+      "started": true,
+      "expired": false,
+      "events": [
+        {
+          "type": "actionStarted",
+          "id": "mace_swing",
+          "observedAt": 0.5233333333333334,
+          "observedActionElapsed": 0.0033333333333333583
+        }
+      ]
+    },
+    {
+      "hz": 60,
+      "withTarget": true,
+      "prior": {
+        "action": "righteous_hammer",
+        "elapsed": 0.34,
+        "duration": 0.52,
+        "hitstop": 0
+      },
+      "acceptedIntent": {
+        "id": "mace_swing",
+        "angle": 0,
+        "aimAngle": 0,
+        "move": null,
+        "remaining": 0.18
+      },
+      "started": true,
+      "expired": false,
+      "events": [
+        {
+          "type": "enemyHit",
+          "id": "stationary-target",
+          "observedAt": 0.37333333333333335,
+          "observedActionElapsed": 0.37333333333333335
+        },
+        {
+          "type": "actionStarted",
+          "id": "mace_swing",
+          "observedAt": 0.5566666666666669,
+          "observedActionElapsed": 0.013916666666666747
+        }
+      ]
+    },
+    {
+      "hz": 120,
+      "withTarget": false,
+      "prior": {
+        "action": "righteous_hammer",
+        "elapsed": 0.34,
+        "duration": 0.52,
+        "hitstop": 0
+      },
+      "acceptedIntent": {
+        "id": "mace_swing",
+        "angle": 0,
+        "aimAngle": 0,
+        "move": null,
+        "remaining": 0.18
+      },
+      "started": true,
+      "expired": false,
+      "events": [
+        {
+          "type": "actionStarted",
+          "id": "mace_swing",
+          "observedAt": 0.5233333333333338,
+          "observedActionElapsed": 0.003333333333333773
+        }
+      ]
+    },
+    {
+      "hz": 120,
+      "withTarget": true,
+      "prior": {
+        "action": "righteous_hammer",
+        "elapsed": 0.34,
+        "duration": 0.52,
+        "hitstop": 0
+      },
+      "acceptedIntent": {
+        "id": "mace_swing",
+        "angle": 0,
+        "aimAngle": 0,
+        "move": null,
+        "remaining": 0.18
+      },
+      "started": true,
+      "expired": false,
+      "events": [
+        {
+          "type": "enemyHit",
+          "id": "stationary-target",
+          "observedAt": 0.37333333333333346,
+          "observedActionElapsed": 0.37333333333333346
+        },
+        {
+          "type": "actionStarted",
+          "id": "mace_swing",
+          "observedAt": 0.5483333333333337,
+          "observedActionElapsed": 0.005583333333333747
+        }
+      ]
+    }
+  ]
+}

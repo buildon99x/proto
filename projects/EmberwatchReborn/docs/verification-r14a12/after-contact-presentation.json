@@ -1,0 +1,58 @@
+{
+  "scope": "Production-handler and actual renderer frame selector; no browser/audio quality claim",
+  "headingResults": [
+    {
+      "hz": 30,
+      "reverse": false,
+      "heroAngle": 0,
+      "projectileAngle": 0,
+      "impactEffectAngle": 0,
+      "hitAt": 0.7333333333333333
+    },
+    {
+      "hz": 30,
+      "reverse": true,
+      "heroAngle": 3.141592653589793,
+      "projectileAngle": 0,
+      "impactEffectAngle": 0,
+      "hitAt": 0.7333333333333333
+    },
+    {
+      "hz": 60,
+      "reverse": false,
+      "heroAngle": 0,
+      "projectileAngle": 0,
+      "impactEffectAngle": 0,
+      "hitAt": 0.733333333333334
+    },
+    {
+      "hz": 60,
+      "reverse": true,
+      "heroAngle": 3.141592653589793,
+      "projectileAngle": 0,
+      "impactEffectAngle": 0,
+      "hitAt": 0.733333333333334
+    },
+    {
+      "hz": 120,
+      "reverse": false,
+      "heroAngle": 0,
+      "projectileAngle": 0,
+      "impactEffectAngle": 0,
+      "hitAt": 0.7333333333333332
+    },
+    {
+      "hz": 120,
+      "reverse": true,
+      "heroAngle": 3.141592653589793,
+      "projectileAngle": 0,
+      "impactEffectAngle": 0,
+      "hitAt": 0.7333333333333332
+    }
+  ],
+  "deathSelection": {
+    "aliveWindup": 3,
+    "deadAtStart": 3,
+    "deadAfterHalfSecond": 3
+  }
+}

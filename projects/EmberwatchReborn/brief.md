@@ -210,3 +210,7 @@ Fix two remaining issues observed in v61/a9 at889×561: help initially focuses a
 
 ## 2026-10-11 · R14a11 town-return request
 Implement the user's explicit always-accessible cooldown portal request without changing existing combat/progression balance. P/HUD opens a no-consumable portal at the hero; existing interaction enters town. Preserve user keys, lifecycle/storage safety, objectives and earned receipts. One-way only because detailed living-enemy instance persistence is not established. Authored 60-second real-time cooldown and immediate utility behavior are distinguished from GGG's interrupted-cast reference. See docs/verification-r14a11/README.md.
+
+
+## 2026-10-11 · R14a12 accepted input and contact presentation
+Continue the user's input-immediacy and clear, expressive combat-FX priority without tuning skill speed, damage, resources or cooldowns. Preserve a11's personal town portal and all focus safeguards. Correct the reproduced accepted short-tap loss when a hammer hit slows recovery but not its queue timer, and prevent an airborne hammer's impact direction from following the hero's later aim. This is a narrow input-contract and contact-presentation correction; new FX spectacle and published subjective acceptance remain open.

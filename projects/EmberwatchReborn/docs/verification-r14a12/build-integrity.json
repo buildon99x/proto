@@ -1,0 +1,10 @@
+{
+  "version": "0.14.0-reimplementation.12",
+  "namespace": "qa-r14",
+  "files": 120,
+  "bytes": 16697741,
+  "allManifestHashesMatch": true,
+  "allSourceHashesMatch": true,
+  "generatedRecoveryPathVerified": true,
+  "buildManifestSha256": "6279d7cd3931434e63f5f0ea10f7dabec91f53a1ee582890834a90594b286b9f"
+}

@@ -1,0 +1,319 @@
+TAP version 13
+# Subtest: 30Hz PoE travelling hammer impact follows the projectile with reverse aim=false
+ok 1 - 30Hz PoE travelling hammer impact follows the projectile with reverse aim=false
+  ---
+  duration_ms: 60.687964
+  type: 'test'
+  ...
+# Subtest: 30Hz PoE travelling hammer impact follows the projectile with reverse aim=true
+not ok 2 - 30Hz PoE travelling hammer impact follows the projectile with reverse aim=true
+  ---
+  duration_ms: 29.05222
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:31:63'
+  failureType: 'testCodeFailure'
+  error: '3.141592653589793 != 0'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    nearAngle (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:11:31)
+    hitOnce (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:28:47)
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:31:163)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: 60Hz PoE travelling hammer impact follows the projectile with reverse aim=false
+ok 3 - 60Hz PoE travelling hammer impact follows the projectile with reverse aim=false
+  ---
+  duration_ms: 29.337654
+  type: 'test'
+  ...
+# Subtest: 60Hz PoE travelling hammer impact follows the projectile with reverse aim=true
+not ok 4 - 60Hz PoE travelling hammer impact follows the projectile with reverse aim=true
+  ---
+  duration_ms: 25.028235
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:31:63'
+  failureType: 'testCodeFailure'
+  error: '3.141592653589793 != 0'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    nearAngle (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:11:31)
+    hitOnce (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:28:47)
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:31:163)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 120Hz PoE travelling hammer impact follows the projectile with reverse aim=false
+ok 5 - 120Hz PoE travelling hammer impact follows the projectile with reverse aim=false
+  ---
+  duration_ms: 38.304072
+  type: 'test'
+  ...
+# Subtest: 120Hz PoE travelling hammer impact follows the projectile with reverse aim=true
+not ok 6 - 120Hz PoE travelling hammer impact follows the projectile with reverse aim=true
+  ---
+  duration_ms: 35.566689
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:31:63'
+  failureType: 'testCodeFailure'
+  error: '3.141592653589793 != 0'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    nearAngle (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:11:31)
+    hitOnce (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:28:47)
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:31:163)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 30Hz legacy travelling hammer also preserves contact direction after the hero turns
+not ok 7 - 30Hz legacy travelling hammer also preserves contact direction after the hero turns
+  ---
+  duration_ms: 11.244612
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:32:29'
+  failureType: 'testCodeFailure'
+  error: '3.141592653589793 != 0'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    nearAngle (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:11:31)
+    hitOnce (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:28:47)
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:32:128)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 60Hz legacy travelling hammer also preserves contact direction after the hero turns
+not ok 8 - 60Hz legacy travelling hammer also preserves contact direction after the hero turns
+  ---
+  duration_ms: 14.83452
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:32:29'
+  failureType: 'testCodeFailure'
+  error: '3.141592653589793 != 0'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    nearAngle (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:11:31)
+    hitOnce (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:28:47)
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:32:128)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 120Hz legacy travelling hammer also preserves contact direction after the hero turns
+not ok 9 - 120Hz legacy travelling hammer also preserves contact direction after the hero turns
+  ---
+  duration_ms: 19.294142
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:32:29'
+  failureType: 'testCodeFailure'
+  error: '3.141592653589793 != 0'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    nearAngle (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:11:31)
+    hitOnce (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:28:47)
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:32:128)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 30Hz vertical, diagonal and westward projectile impacts keep their own heading
+not ok 10 - 30Hz vertical, diagonal and westward projectile impacts keep their own heading
+  ---
+  duration_ms: 16.107222
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:33:29'
+  failureType: 'testCodeFailure'
+  error: '-1.570796326794897 != 1.5707963267948966'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    nearAngle (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:11:31)
+    hitOnce (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:28:47)
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:34:52)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 60Hz vertical, diagonal and westward projectile impacts keep their own heading
+not ok 11 - 60Hz vertical, diagonal and westward projectile impacts keep their own heading
+  ---
+  duration_ms: 21.80841
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:33:29'
+  failureType: 'testCodeFailure'
+  error: '-1.570796326794897 != 1.5707963267948966'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    nearAngle (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:11:31)
+    hitOnce (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:28:47)
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:34:52)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 120Hz vertical, diagonal and westward projectile impacts keep their own heading
+not ok 12 - 120Hz vertical, diagonal and westward projectile impacts keep their own heading
+  ---
+  duration_ms: 33.814945
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:33:29'
+  failureType: 'testCodeFailure'
+  error: '-1.570796326794897 != 1.5707963267948966'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    nearAngle (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:11:31)
+    hitOnce (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:28:47)
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:34:52)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 30Hz actual returning hammer uses each leg heading without extra hits or payment
+not ok 13 - 30Hz actual returning hammer uses each leg heading without extra hits or payment
+  ---
+  duration_ms: 22.883269
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:36:29'
+  failureType: 'testCodeFailure'
+  error: '1.5707963267948966 != 3.141592653589793'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    nearAngle (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:11:31)
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:44:181)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 60Hz actual returning hammer uses each leg heading without extra hits or payment
+not ok 14 - 60Hz actual returning hammer uses each leg heading without extra hits or payment
+  ---
+  duration_ms: 28.734049
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:36:29'
+  failureType: 'testCodeFailure'
+  error: '1.5707963267948966 != 3.141592653589793'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    nearAngle (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:11:31)
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:44:181)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 120Hz actual returning hammer uses each leg heading without extra hits or payment
+not ok 15 - 120Hz actual returning hammer uses each leg heading without extra hits or payment
+  ---
+  duration_ms: 47.902915
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:36:29'
+  failureType: 'testCodeFailure'
+  error: '1.5707963267948966 != 3.141592653589793'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    nearAngle (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:11:31)
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/hammer-impact-direction.test.mjs:44:181)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: stationary synthetic projectiles retain finite fallback heading without altering hit identity
+ok 16 - stationary synthetic projectiles retain finite fallback heading without altering hit identity
+  ---
+  duration_ms: 9.127613
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 4
+# fail 12
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 592.467229

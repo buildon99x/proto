@@ -1,3 +1,7 @@
+# R14a12 전투 입력·명중 방향 후보
+
+명중 hitstop 중 이미 수락한 PoE 콤보 예약과 망치 진행 방향에 맞는 명중 FX를 교정했습니다. 동결된 a11 포탈·a10 초점 접근성을 보존합니다. 전체4,138 자동검사·lint·빌드가 통과했으며 실제 화면·음향·손맛 검수는 별도입니다. docs/verification-r14a12 참고.
+
 # R14a5 현재 체크포인트
 
 입력 관측의 식별자/렌더 진입·반환·소리 요청 구분과 국소 스킬 FX 대비 보강. 최종 전체3,829 자동검사·lint·정적빌드 통과. 실제 R14a5 후보 QA는 진행 전이며, 이전 v58 실제 QA는 별도로 보존했습니다. docs/verification-r14a5/README.md 참고.
@@ -18,7 +22,7 @@ Original `projects/Emberwatch` remains unchanged. R3a connects first-entry train
 
 ## Current R14a2 controls work
 
-POE-oriented Warrior input transplantation takes priority; balance and R13 expansion are paused. Read `docs/poe2-input/r14a2-integration.md` for exact controls4/5, configurable skills, context click and actor-body contracts. R14a1 was published only at `/qa-r14/`; R14a2 source passed 3,763/3,763 unique automatic tests and its static build; its new normal-input/visual/audio QA is still pending. Existing public root R11b6.1 stays separate. Source/library preservation and actual QA are reported independently of Site source commits and GitHub pushes.
+POE-oriented Warrior input transplantation takes priority; balance and R13 expansion are paused. Read `docs/poe2-input/r14a2-integration.md` for exact controls 4/5, configurable skills, context click and actor-body contracts. R14a1 was published only at `/qa-r14/`; R14a2 source passed 3,763/3,763 unique automatic tests and its static build; its new normal-input/visual/audio QA is still pending. Existing public root R11b6.1 stays separate. Source/library preservation and actual QA are reported independently of Site source commits and GitHub pushes.
 
 ## Historical R12a implementation status
 
@@ -44,7 +48,7 @@ The existing remote refs, public0.4.7 and previously pending upload/import appro
 ## Current verification
 Run `npm test` and `npm run lint` in `app/`. See `docs/progression-r1.md` and `docs/state-save-r1.md` for source/tuning separation and fixture limits. The separate public GPT Site is https://emberwatch-reborn.buildon733500.chatgpt.site/ . R2f ordinary-input QA reached level2/13kills through normal inputs; see docs/r2f-normal-input-results.md. R3a equipment UI, full campaign and visual/audio acceptance remain separate unfinished gates. See docs/equipment-r3-integration.md for current checks and limitations.
 
-R14a7 final automated checkpoint:3,923/3,923 unique tests,0fail/skip/cancel,113877.982352ms; lint/build passed. Counts include prior3,853 plus70 new (32 contact,32 frame,6 integrated); overlapping focused runs are not added. Actual a7 browser/FX/frame/voice review remains unverified and no deployment occurred.
+R14a7 final automated checkpoint:3,923/3,923 unique tests,0fail/skip/cancel, 113877.982352ms; lint/build passed. Counts include prior3,853 plus70 new (32 contact,32 frame,6 integrated); overlapping focused runs are not added. Actual a7 browser/FX/frame/voice review remains unverified and no deployment occurred.
 
 ## R14a8 local lifecycle feedback candidate
 This separate work surface follows the frozen a7 source. It addresses a death/retry action-label inconsistency observed in public v58 normal play. Publication remains on hold; the actual first-boss profile reached L3 and retried, but did not defeat the boss. Read docs/verification-r14a8 for current automated checks and remaining browser gates.
@@ -56,7 +60,7 @@ Final R14a8 automated check: **3,940/3,940 unique tests**, 0 fail/skip/cancel, 1
 
 Separate from a8. Responsive visible-action grid and primary pause actions address the actual 889×561 defects. See docs/verification-r14a9 for automated results, aggregate-build limits and remaining post-publication browser gates.
 
-Final R14a9: **3,963/3,963 unique tests**,0 fail/skip/cancel,117023.812816ms; app lint and static build passed. Includes existing3,940 plus23 new. Monorepo aggregate checks are blocked by absent dependencies; actual a9 browser QA and Sites publication remain separate.
+Final R14a9: **3,963/3,963 unique tests**,0 fail/skip/cancel, 117023.812816ms; app lint and static build passed. Includes existing3,940 plus23 new. Monorepo aggregate checks are blocked by absent dependencies; actual a9 browser QA and Sites publication remain separate.
 
 
 ## R14a10 dialog-focus candidate
@@ -69,3 +73,6 @@ Final R14a10: **4,002/4,002 unique tests**, 0 fail/skip/cancel, 121563.5436ms; a
 P or ◈ 귀환 opens a no-consumable portal at the hero; the existing interaction key enters town. The one-way portal uses an authored60-second saved real-time cooldown. Existing key collisions are preserved and the HUD works when P is unavailable. See docs/verification-r14a11 for state/clock safeguards, source distinction, automated receipts and remaining native-browser/publication acceptance.
 
 Final R14a11: **4,081/4,081 unique tests**, 0 fail/skip/cancel, 117874.756099ms; app lint and static build passed (120 files, 16,697,398 bytes), with every built source hash verified. Includes existing4,002 plus79 new. Root registry/build commands remain blocked by absent dependencies/corepack cache. Actual native-browser QA and public Site publication remain separate.
+
+
+Final R14a12: **4,138/4,138 unique tests**, 0 fail/skip/cancel, 118393.823682ms; app lint and static build passed (120 files, 16,697,741 bytes), with every built source hash verified. Includes the a11 baseline 4,081 plus 57 new (41 hitstop-intent, 16 impact-direction). The portal 79 and combat 95 focused counts are included, not added again. Actual native-browser/input/FX/audio acceptance, Git and public Site publication remain separate.

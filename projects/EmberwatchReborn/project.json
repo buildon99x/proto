@@ -4,8 +4,8 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
-  "version": "0.14.0-reimplementation.11",
-  "summary": "R14a11 마을 귀환 포탈 후보: P/HUD 개방, 기존 상호작용 입장, 소모품 없는 60초 저장형 쿨다운. a10 초점 접근성 보존. 자동검사와 공개 후보 실제 화면 검증은 별도 기록.",
+  "version": "0.14.0-reimplementation.12",
+  "summary": "R14a12 전투 입력·명중 방향 후보: PoE 명중 정지 중 수락된 콤보 예약 보존, 망치 진행 방향에 맞춘 명중 FX. a11 마을 포탈과 a10 초점 접근성 보존. 자동검사와 실제 화면·음향 검증은 별도 기록.",
   "tags": [
     "game",
     "action-rpg",

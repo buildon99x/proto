@@ -1,0 +1,1055 @@
+TAP version 13
+# Subtest: ready hammer waits for the original mace contact and recovery, then pays once ahead of held attack
+ok 1 - ready hammer waits for the original mace contact and recovery, then pays once ahead of held attack
+  ---
+  duration_ms: 162.534813
+  type: 'test'
+  ...
+# Subtest: ready charge waits without early movement or stamina payment and executes once
+ok 2 - ready charge waits without early movement or stamina payment and executes once
+  ---
+  duration_ms: 130.537543
+  type: 'test'
+  ...
+# Subtest: latest skill pulse replaces the single intent and retains input-time movement-direction aim
+ok 3 - latest skill pulse replaces the single intent and retains input-time movement-direction aim
+  ---
+  duration_ms: 23.708743
+  type: 'test'
+  ...
+# Subtest: hammer aim is captured at press even while the mace animation faces another direction
+ok 4 - hammer aim is captured at press even while the mace animation faces another direction
+  ---
+  duration_ms: 16.934568
+  type: 'test'
+  ...
+# Subtest: an idle ready skill still starts immediately with its existing cost and cooldown
+ok 5 - an idle ready skill still starts immediately with its existing cost and cooldown
+  ---
+  duration_ms: 14.525394
+  type: 'test'
+  ...
+# Subtest: cooldown-blocked requests, including a short remaining cooldown, do not wait for later readiness
+ok 6 - cooldown-blocked requests, including a short remaining cooldown, do not wait for later readiness
+  ---
+  duration_ms: 140.419851
+  type: 'test'
+  ...
+# Subtest: insufficient resources or unlearned skills never create deferred casts
+ok 7 - insufficient resources or unlearned skills never create deferred casts
+  ---
+  duration_ms: 120.438822
+  type: 'test'
+  ...
+# Subtest: a newer unavailable request cancels rather than leaves the older intent armed
+ok 8 - a newer unavailable request cancels rather than leaves the older intent armed
+  ---
+  duration_ms: 42.254096
+  type: 'test'
+  ...
+# Subtest: queued execution rechecks resources and drops a failed attempt permanently
+ok 9 - queued execution rechecks resources and drops a failed attempt permanently
+  ---
+  duration_ms: 30.02053
+  type: 'test'
+  ...
+# Subtest: queued execution cannot bypass a cooldown which became active before recovery finished
+ok 10 - queued execution cannot bypass a cooldown which became active before recovery finished
+  ---
+  duration_ms: 46.386632
+  type: 'test'
+  ...
+# Subtest: the .18-second window expires in active frame time even when hitstop slows recovery
+ok 11 - the .18-second window expires in active frame time even when hitstop slows recovery
+  ---
+  duration_ms: 27.143803
+  type: 'test'
+  ...
+# Subtest: a recovery lock longer than the small window cannot arm an eventual skill
+ok 12 - a recovery lock longer than the small window cannot arm an eventual skill
+  ---
+  duration_ms: 23.344815
+  type: 'test'
+  ...
+# Subtest: a short saved recovery lock can accept a new explicit press without restoring an old intent
+ok 13 - a short saved recovery lock can accept a new explicit press without restoring an old intent
+  ---
+  duration_ms: 5.166184
+  type: 'test'
+  ...
+# Subtest: menu, blur and rebind integration can clear only intent without cancelling the current attack
+ok 14 - menu, blur and rebind integration can clear only intent without cancelling the current attack
+  ---
+  duration_ms: 23.150482
+  type: 'test'
+  ...
+# Subtest: OS repeats and a held skill key yield one router pulse and never refresh or repeat the buffer
+ok 15 - OS repeats and a held skill key yield one router pulse and never refresh or repeat the buffer
+  ---
+  duration_ms: 78.456215
+  type: 'test'
+  ...
+# Subtest: checkpoint/save/reload and region creation do not serialize or replay buffered intent
+ok 16 - checkpoint/save/reload and region creation do not serialize or replay buffered intent
+  ---
+  duration_ms: 42.073177
+  type: 'test'
+  ...
+# Subtest: actual fatal projectile clears a pending intent and retry constructs an empty one
+ok 17 - actual fatal projectile clears a pending intent and retry constructs an empty one
+  ---
+  duration_ms: 15.754242
+  type: 'test'
+  ...
+# Subtest: early input explicitly rejects without cancelling original preparation/contact or arming a later cast
+ok 18 - early input explicitly rejects without cancelling original preparation/contact or arming a later cast
+  ---
+  duration_ms: 20.858974
+  type: 'test'
+  ...
+# Subtest: guard cancels a queued skill and cannot arm another pending skill while held
+ok 19 - guard cancels a queued skill and cannot arm another pending skill while held
+  ---
+  duration_ms: 16.49916
+  type: 'test'
+  ...
+# Subtest: aim change 89 degrees has an inclusive 90-degree cancellation boundary
+ok 20 - aim change 89 degrees has an inclusive 90-degree cancellation boundary
+  ---
+  duration_ms: 10.868855
+  type: 'test'
+  ...
+# Subtest: aim change 90 degrees has an inclusive 90-degree cancellation boundary
+ok 21 - aim change 90 degrees has an inclusive 90-degree cancellation boundary
+  ---
+  duration_ms: 16.188949
+  type: 'test'
+  ...
+# Subtest: aim change 91 degrees has an inclusive 90-degree cancellation boundary
+ok 22 - aim change 91 degrees has an inclusive 90-degree cancellation boundary
+  ---
+  duration_ms: 14.827254
+  type: 'test'
+  ...
+# Subtest: aim change 180 degrees has an inclusive 90-degree cancellation boundary
+ok 23 - aim change 180 degrees has an inclusive 90-degree cancellation boundary
+  ---
+  duration_ms: 14.865119
+  type: 'test'
+  ...
+# Subtest: aim change -90 degrees has an inclusive 90-degree cancellation boundary
+ok 24 - aim change -90 degrees has an inclusive 90-degree cancellation boundary
+  ---
+  duration_ms: 14.32801
+  type: 'test'
+  ...
+# Subtest: aim cancellation follows wrapped angles and the input-time aim, independently of movement-based charge angle
+ok 25 - aim cancellation follows wrapped angles and the input-time aim, independently of movement-based charge angle
+  ---
+  duration_ms: 8.398852
+  type: 'test'
+  ...
+# Subtest: opposite movement cancels only when movement existed at the skill press; stopping/perpendicular movement preserves it
+ok 26 - opposite movement cancels only when movement existed at the skill press; stopping/perpendicular movement preserves it
+  ---
+  duration_ms: 35.290829
+  type: 'test'
+  ...
+# Subtest: cancel is checked on the final recovery frame before a queued skill could start
+ok 27 - cancel is checked on the final recovery frame before a queued skill could start
+  ---
+  duration_ms: 7.057717
+  type: 'test'
+  ...
+# Subtest: exact .18s action/lock boundary executes within deadline with dt=0.01
+ok 28 - exact .18s action/lock boundary executes within deadline with dt=0.01
+  ---
+  duration_ms: 14.634827
+  type: 'test'
+  ...
+# Subtest: exact .18s action/lock boundary executes within deadline with dt=0.02
+ok 29 - exact .18s action/lock boundary executes within deadline with dt=0.02
+  ---
+  duration_ms: 12.660891
+  type: 'test'
+  ...
+# Subtest: exact .18s action/lock boundary executes within deadline with dt=0.03
+ok 30 - exact .18s action/lock boundary executes within deadline with dt=0.03
+  ---
+  duration_ms: 11.5246
+  type: 'test'
+  ...
+# Subtest: exact .18s action/lock boundary executes within deadline with dt=0.045
+ok 31 - exact .18s action/lock boundary executes within deadline with dt=0.045
+  ---
+  duration_ms: 10.223615
+  type: 'test'
+  ...
+# Subtest: exact .18s action/lock boundary executes within deadline with dt=0.05
+ok 32 - exact .18s action/lock boundary executes within deadline with dt=0.05
+  ---
+  duration_ms: 10.709189
+  type: 'test'
+  ...
+# Subtest: exact .18s action/lock boundary executes within deadline with dt=0.016666666666666666
+ok 33 - exact .18s action/lock boundary executes within deadline with dt=0.016666666666666666
+  ---
+  duration_ms: 13.252922
+  type: 'test'
+  ...
+# Subtest: a frame crossing expiry is split without losing time or delivering a replacement pulse twice
+ok 34 - a frame crossing expiry is split without losing time or delivering a replacement pulse twice
+  ---
+  duration_ms: 7.74528
+  type: 'test'
+  ...
+# Subtest: split frame preserves first and second defeated/sound events for one actual settlement with no duplicate XP
+ok 35 - split frame preserves first and second defeated/sound events for one actual settlement with no duplicate XP
+  ---
+  duration_ms: 31.64091
+  type: 'test'
+  ...
+# Subtest: first substep fatal hit retains heroDead, kill and sound once despite the dead second substep
+ok 36 - first substep fatal hit retains heroDead, kill and sound once despite the dead second substep
+  ---
+  duration_ms: 21.566626
+  type: 'test'
+  ...
+# Subtest: expiry-only split matches unsplit elapsed recovery and resource totals without extending hitstop
+ok 37 - expiry-only split matches unsplit elapsed recovery and resource totals without extending hitstop
+  ---
+  duration_ms: 17.406649
+  type: 'test'
+  ...
+# Subtest: runtime numeric comparison documents .55 versus .18 acceptance boundaries and maximum effective wait
+ok 38 - runtime numeric comparison documents .55 versus .18 acceptance boundaries and maximum effective wait
+  ---
+  duration_ms: 71.630057
+  type: 'test'
+  ...
+# {"kind":"runtime numeric window comparison; no browser or screen","rows":[{"window":0.18,"acceptance":[{"remaining":0.12,"accepted":true},{"remaining":0.179,"accepted":true},{"remaining":0.18,"accepted":true},{"remaining":0.181,"accepted":false},{"remaining":0.2,"accepted":false},{"remaining":0.549,"accepted":false},{"remaining":0.55,"accepted":false},{"remaining":0.551,"accepted":false}],"acceptedAtBoundary":true,"rejectedOneMillisecondAbove":true,"effectiveWait":0.18},{"window":0.55,"acceptance":[{"remaining":0.12,"accepted":true},{"remaining":0.179,"accepted":true},{"remaining":0.18,"accepted":true},{"remaining":0.181,"accepted":true},{"remaining":0.2,"accepted":true},{"remaining":0.549,"accepted":true},{"remaining":0.55,"accepted":true},{"remaining":0.551,"accepted":false}],"acceptedAtBoundary":true,"rejectedOneMillisecondAbove":true,"effectiveWait":0.55}]}
+# Subtest: 30Hz PoE travelling hammer impact follows the projectile with reverse aim=false
+ok 39 - 30Hz PoE travelling hammer impact follows the projectile with reverse aim=false
+  ---
+  duration_ms: 68.749463
+  type: 'test'
+  ...
+# Subtest: 30Hz PoE travelling hammer impact follows the projectile with reverse aim=true
+ok 40 - 30Hz PoE travelling hammer impact follows the projectile with reverse aim=true
+  ---
+  duration_ms: 46.606639
+  type: 'test'
+  ...
+# Subtest: 60Hz PoE travelling hammer impact follows the projectile with reverse aim=false
+ok 41 - 60Hz PoE travelling hammer impact follows the projectile with reverse aim=false
+  ---
+  duration_ms: 55.711626
+  type: 'test'
+  ...
+# Subtest: 60Hz PoE travelling hammer impact follows the projectile with reverse aim=true
+ok 42 - 60Hz PoE travelling hammer impact follows the projectile with reverse aim=true
+  ---
+  duration_ms: 61.019145
+  type: 'test'
+  ...
+# Subtest: 120Hz PoE travelling hammer impact follows the projectile with reverse aim=false
+ok 43 - 120Hz PoE travelling hammer impact follows the projectile with reverse aim=false
+  ---
+  duration_ms: 94.130949
+  type: 'test'
+  ...
+# Subtest: 120Hz PoE travelling hammer impact follows the projectile with reverse aim=true
+ok 44 - 120Hz PoE travelling hammer impact follows the projectile with reverse aim=true
+  ---
+  duration_ms: 70.884098
+  type: 'test'
+  ...
+# Subtest: 30Hz legacy travelling hammer also preserves contact direction after the hero turns
+ok 45 - 30Hz legacy travelling hammer also preserves contact direction after the hero turns
+  ---
+  duration_ms: 16.33144
+  type: 'test'
+  ...
+# Subtest: 60Hz legacy travelling hammer also preserves contact direction after the hero turns
+ok 46 - 60Hz legacy travelling hammer also preserves contact direction after the hero turns
+  ---
+  duration_ms: 22.050396
+  type: 'test'
+  ...
+# Subtest: 120Hz legacy travelling hammer also preserves contact direction after the hero turns
+ok 47 - 120Hz legacy travelling hammer also preserves contact direction after the hero turns
+  ---
+  duration_ms: 36.130157
+  type: 'test'
+  ...
+# Subtest: 30Hz vertical, diagonal and westward projectile impacts keep their own heading
+ok 48 - 30Hz vertical, diagonal and westward projectile impacts keep their own heading
+  ---
+  duration_ms: 74.191046
+  type: 'test'
+  ...
+# Subtest: 60Hz vertical, diagonal and westward projectile impacts keep their own heading
+ok 49 - 60Hz vertical, diagonal and westward projectile impacts keep their own heading
+  ---
+  duration_ms: 74.480948
+  type: 'test'
+  ...
+# Subtest: 120Hz vertical, diagonal and westward projectile impacts keep their own heading
+ok 50 - 120Hz vertical, diagonal and westward projectile impacts keep their own heading
+  ---
+  duration_ms: 99.700958
+  type: 'test'
+  ...
+# Subtest: 30Hz actual returning hammer uses each leg heading without extra hits or payment
+ok 51 - 30Hz actual returning hammer uses each leg heading without extra hits or payment
+  ---
+  duration_ms: 40.939791
+  type: 'test'
+  ...
+# Subtest: 60Hz actual returning hammer uses each leg heading without extra hits or payment
+ok 52 - 60Hz actual returning hammer uses each leg heading without extra hits or payment
+  ---
+  duration_ms: 53.76792
+  type: 'test'
+  ...
+# Subtest: 120Hz actual returning hammer uses each leg heading without extra hits or payment
+ok 53 - 120Hz actual returning hammer uses each leg heading without extra hits or payment
+  ---
+  duration_ms: 95.949358
+  type: 'test'
+  ...
+# Subtest: stationary synthetic projectiles retain finite fallback heading without altering hit identity
+ok 54 - stationary synthetic projectiles retain finite fallback heading without altering hit identity
+  ---
+  duration_ms: 7.869344
+  type: 'test'
+  ...
+# Subtest: controls4 30Hz accepted hammer-to-mace tap survives empty-space recovery once
+ok 55 - controls4 30Hz accepted hammer-to-mace tap survives empty-space recovery once
+  ---
+  duration_ms: 93.33467
+  type: 'test'
+  ...
+# Subtest: controls4 30Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+ok 56 - controls4 30Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+  ---
+  duration_ms: 53.838476
+  type: 'test'
+  ...
+# Subtest: controls4 60Hz accepted hammer-to-mace tap survives empty-space recovery once
+ok 57 - controls4 60Hz accepted hammer-to-mace tap survives empty-space recovery once
+  ---
+  duration_ms: 82.79913
+  type: 'test'
+  ...
+# Subtest: controls4 60Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+ok 58 - controls4 60Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+  ---
+  duration_ms: 99.239021
+  type: 'test'
+  ...
+# Subtest: controls4 120Hz accepted hammer-to-mace tap survives empty-space recovery once
+ok 59 - controls4 120Hz accepted hammer-to-mace tap survives empty-space recovery once
+  ---
+  duration_ms: 73.2723
+  type: 'test'
+  ...
+# Subtest: controls4 120Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+ok 60 - controls4 120Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+  ---
+  duration_ms: 65.420833
+  type: 'test'
+  ...
+# Subtest: controls5 30Hz accepted hammer-to-mace tap survives empty-space recovery once
+ok 61 - controls5 30Hz accepted hammer-to-mace tap survives empty-space recovery once
+  ---
+  duration_ms: 29.652644
+  type: 'test'
+  ...
+# Subtest: controls5 30Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+ok 62 - controls5 30Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+  ---
+  duration_ms: 29.071679
+  type: 'test'
+  ...
+# Subtest: controls5 60Hz accepted hammer-to-mace tap survives empty-space recovery once
+ok 63 - controls5 60Hz accepted hammer-to-mace tap survives empty-space recovery once
+  ---
+  duration_ms: 46.815975
+  type: 'test'
+  ...
+# Subtest: controls5 60Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+ok 64 - controls5 60Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+  ---
+  duration_ms: 48.534266
+  type: 'test'
+  ...
+# Subtest: controls5 120Hz accepted hammer-to-mace tap survives empty-space recovery once
+ok 65 - controls5 120Hz accepted hammer-to-mace tap survives empty-space recovery once
+  ---
+  duration_ms: 78.942264
+  type: 'test'
+  ...
+# Subtest: controls5 120Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+ok 66 - controls5 120Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+  ---
+  duration_ms: 82.880941
+  type: 'test'
+  ...
+# Subtest: 30Hz consecutive real projectile contacts cannot consume an accepted tap before recovery
+ok 67 - 30Hz consecutive real projectile contacts cannot consume an accepted tap before recovery
+  ---
+  duration_ms: 27.131423
+  type: 'test'
+  ...
+# Subtest: 60Hz consecutive real projectile contacts cannot consume an accepted tap before recovery
+ok 68 - 60Hz consecutive real projectile contacts cannot consume an accepted tap before recovery
+  ---
+  duration_ms: 35.10291
+  type: 'test'
+  ...
+# Subtest: 120Hz consecutive real projectile contacts cannot consume an accepted tap before recovery
+ok 69 - 120Hz consecutive real projectile contacts cannot consume an accepted tap before recovery
+  ---
+  duration_ms: 44.305848
+  type: 'test'
+  ...
+# Subtest: 30Hz exact .18 action recovery and persistent hitstop share the same finite deadline
+ok 70 - 30Hz exact .18 action recovery and persistent hitstop share the same finite deadline
+  ---
+  duration_ms: 34.779789
+  type: 'test'
+  ...
+# Subtest: 30Hz exact .18 lock recovery and persistent hitstop share the same finite deadline
+ok 71 - 30Hz exact .18 lock recovery and persistent hitstop share the same finite deadline
+  ---
+  duration_ms: 24.135066
+  type: 'test'
+  ...
+# Subtest: 60Hz exact .18 action recovery and persistent hitstop share the same finite deadline
+ok 72 - 60Hz exact .18 action recovery and persistent hitstop share the same finite deadline
+  ---
+  duration_ms: 44.982794
+  type: 'test'
+  ...
+# Subtest: 60Hz exact .18 lock recovery and persistent hitstop share the same finite deadline
+ok 73 - 60Hz exact .18 lock recovery and persistent hitstop share the same finite deadline
+  ---
+  duration_ms: 37.9606
+  type: 'test'
+  ...
+# Subtest: 120Hz exact .18 action recovery and persistent hitstop share the same finite deadline
+ok 74 - 120Hz exact .18 action recovery and persistent hitstop share the same finite deadline
+  ---
+  duration_ms: 73.797651
+  type: 'test'
+  ...
+# Subtest: 120Hz exact .18 lock recovery and persistent hitstop share the same finite deadline
+ok 75 - 120Hz exact .18 lock recovery and persistent hitstop share the same finite deadline
+  ---
+  duration_ms: 61.776632
+  type: 'test'
+  ...
+# Subtest: 30Hz continually refreshed hitstop cannot keep an ineligible intent beyond .18/.35 active seconds
+ok 76 - 30Hz continually refreshed hitstop cannot keep an ineligible intent beyond .18/.35 active seconds
+  ---
+  duration_ms: 42.949871
+  type: 'test'
+  ...
+# Subtest: 60Hz continually refreshed hitstop cannot keep an ineligible intent beyond .18/.35 active seconds
+ok 77 - 60Hz continually refreshed hitstop cannot keep an ineligible intent beyond .18/.35 active seconds
+  ---
+  duration_ms: 63.737439
+  type: 'test'
+  ...
+# Subtest: 120Hz continually refreshed hitstop cannot keep an ineligible intent beyond .18/.35 active seconds
+ok 78 - 120Hz continually refreshed hitstop cannot keep an ineligible intent beyond .18/.35 active seconds
+  ---
+  duration_ms: 111.546747
+  type: 'test'
+  ...
+# Subtest: PoE hitstop leaves the existing 0.179s acceptance boundary unchanged
+ok 79 - PoE hitstop leaves the existing 0.179s acceptance boundary unchanged
+  ---
+  duration_ms: 7.90681
+  type: 'test'
+  ...
+# Subtest: PoE hitstop leaves the existing 0.18s acceptance boundary unchanged
+ok 80 - PoE hitstop leaves the existing 0.18s acceptance boundary unchanged
+  ---
+  duration_ms: 9.283618
+  type: 'test'
+  ...
+# Subtest: PoE hitstop leaves the existing 0.181s acceptance boundary unchanged
+ok 81 - PoE hitstop leaves the existing 0.181s acceptance boundary unchanged
+  ---
+  duration_ms: 8.735564
+  type: 'test'
+  ...
+# Subtest: partial-hitstop split preserves total recovery, resources, cooldown and event delivery
+ok 82 - partial-hitstop split preserves total recovery, resources, cooldown and event delivery
+  ---
+  duration_ms: 33.170565
+  type: 'test'
+  ...
+# Subtest: frame crossing scaled expiry splits once without losing elapsed time or retrying the old cast
+ok 83 - frame crossing scaled expiry splits once without losing elapsed time or retrying the old cast
+  ---
+  duration_ms: 27.69408
+  type: 'test'
+  ...
+# Subtest: menu clears an extended PoE intent and stale held keys cannot revive it
+ok 84 - menu clears an extended PoE intent and stale held keys cannot revive it
+  ---
+  duration_ms: 44.375532
+  type: 'test'
+  ...
+# Subtest: blur clears an extended PoE intent and stale held keys cannot revive it
+ok 85 - blur clears an extended PoE intent and stale held keys cannot revive it
+  ---
+  duration_ms: 48.812371
+  type: 'test'
+  ...
+# Subtest: region-change clears an extended PoE intent and stale held keys cannot revive it
+ok 86 - region-change clears an extended PoE intent and stale held keys cannot revive it
+  ---
+  duration_ms: 44.380649
+  type: 'test'
+  ...
+# Subtest: rebind clears an extended PoE intent and stale held keys cannot revive it
+ok 87 - rebind clears an extended PoE intent and stale held keys cannot revive it
+  ---
+  duration_ms: 38.858485
+  type: 'test'
+  ...
+# Subtest: guard, newer unavailable request, and allowed dodge each cancel an extended intent permanently
+ok 88 - guard, newer unavailable request, and allowed dodge each cancel an extended intent permanently
+  ---
+  duration_ms: 300.704726
+  type: 'test'
+  ...
+# Subtest: a newer accepted skill replaces the extended one and pays exactly once
+ok 89 - a newer accepted skill replaces the extended one and pays exactly once
+  ---
+  duration_ms: 31.231872
+  type: 'test'
+  ...
+# Subtest: extended queued execution rechecks mana and never rearms later
+ok 90 - extended queued execution rechecks mana and never rearms later
+  ---
+  duration_ms: 94.118195
+  type: 'test'
+  ...
+# Subtest: extended queued execution rechecks cooldown and never rearms later
+ok 91 - extended queued execution rechecks cooldown and never rearms later
+  ---
+  duration_ms: 102.046326
+  type: 'test'
+  ...
+# Subtest: real fatal projectile clears extended intent; retry state cannot replay it
+ok 92 - real fatal projectile clears extended intent; retry state cannot replay it
+  ---
+  duration_ms: 23.857344
+  type: 'test'
+  ...
+# Subtest: switching controls cancels extended intent without converting its time base or reviving it
+ok 93 - switching controls cancels extended intent without converting its time base or reviving it
+  ---
+  duration_ms: 63.36502
+  type: 'test'
+  ...
+# Subtest: held skill and OS repeats do not refresh the accepted timer; releasing prevents further casts
+ok 94 - held skill and OS repeats do not refresh the accepted timer; releasing prevents further casts
+  ---
+  duration_ms: 95.704664
+  type: 'test'
+  ...
+# Subtest: extended latest-aim queue retains priority over held basic attack and opposite movement
+ok 95 - extended latest-aim queue retains priority over held basic attack and opposite movement
+  ---
+  duration_ms: 30.742515
+  type: 'test'
+  ...
+# Subtest: earned sluice_upper portal preserves region history, gates, resources and inventory
+ok 96 - earned sluice_upper portal preserves region history, gates, resources and inventory
+  ---
+  duration_ms: 5025.765752
+  type: 'test'
+  ...
+# Subtest: earned sluice_lower portal preserves region history, gates, resources and inventory
+ok 97 - earned sluice_lower portal preserves region history, gates, resources and inventory
+  ---
+  duration_ms: 1036.689548
+  type: 'test'
+  ...
+# Subtest: earned ember_quarry portal preserves region history, gates, resources and inventory
+ok 98 - earned ember_quarry portal preserves region history, gates, resources and inventory
+  ---
+  duration_ms: 1175.779153
+  type: 'test'
+  ...
+# Subtest: earned ashwind_pass portal preserves region history, gates, resources and inventory
+ok 99 - earned ashwind_pass portal preserves region history, gates, resources and inventory
+  ---
+  duration_ms: 1358.254825
+  type: 'test'
+  ...
+# Subtest: earned signal_basin portal preserves region history, gates, resources and inventory
+ok 100 - earned signal_basin portal preserves region history, gates, resources and inventory
+  ---
+  duration_ms: 1383.428799
+  type: 'test'
+  ...
+# Subtest: earned ember_furnace portal preserves region history, gates, resources and inventory
+ok 101 - earned ember_furnace portal preserves region history, gates, resources and inventory
+  ---
+  duration_ms: 2526.589224
+  type: 'test'
+  ...
+# Subtest: earned signal_tomb portal preserves region history, gates, resources and inventory
+ok 102 - earned signal_tomb portal preserves region history, gates, resources and inventory
+  ---
+  duration_ms: 2604.458844
+  type: 'test'
+  ...
+# Subtest: earned beacon_battlefield portal preserves region history, gates, resources and inventory
+ok 103 - earned beacon_battlefield portal preserves region history, gates, resources and inventory
+  ---
+  duration_ms: 2839.008463
+  type: 'test'
+  ...
+# Subtest: earned signal_wilderness portal preserves region history, gates, resources and inventory
+ok 104 - earned signal_wilderness portal preserves region history, gates, resources and inventory
+  ---
+  duration_ms: 2729.179007
+  type: 'test'
+  ...
+# Subtest: earned ash_road portal preserves region history, gates, resources and inventory
+ok 105 - earned ash_road portal preserves region history, gates, resources and inventory
+  ---
+  duration_ms: 3474.709389
+  type: 'test'
+  ...
+# Subtest: unfinished W return does not unlock the anchor, advance clues or fake report completion
+ok 106 - unfinished W return does not unlock the anchor, advance clues or fake report completion
+  ---
+  duration_ms: 227.477145
+  type: 'test'
+  ...
+# Subtest: actual opening handler paints immediate pending cue before durable save and does not auto-travel
+ok 107 - actual opening handler paints immediate pending cue before durable save and does not auto-travel
+  ---
+  duration_ms: 68.786284
+  type: 'test'
+  ...
+# Subtest: actual V handler enters only the committed portal and cannot duplicate pending entry
+ok 108 - actual V handler enters only the committed portal and cannot duplicate pending entry
+  ---
+  duration_ms: 87.862701
+  type: 'test'
+  ...
+# Subtest: actual default P keyboard routes utility, leaving existing interact binding untouched
+ok 109 - actual default P keyboard routes utility, leaving existing interact binding untouched
+  ---
+  duration_ms: 28.463414
+  type: 'test'
+  ...
+# Subtest: actual opening save failure removes preview and does not spend cooldown or play success
+ok 110 - actual opening save failure removes preview and does not spend cooldown or play success
+  ---
+  duration_ms: 23.758437
+  type: 'test'
+  ...
+# Subtest: actual pending open can finish behind a newer menu without entering town or unpausing
+ok 111 - actual pending open can finish behind a newer menu without entering town or unpausing
+  ---
+  duration_ms: 30.293055
+  type: 'test'
+  ...
+# Subtest: actual old profile completion never paints its portal into a replacement session
+ok 112 - actual old profile completion never paints its portal into a replacement session
+  ---
+  duration_ms: 50.68787
+  type: 'test'
+  ...
+# Subtest: actual HUD action is blocked while dead, menu-owned or save-gated
+ok 113 - actual HUD action is blocked while dead, menu-owned or save-gated
+  ---
+  duration_ms: 54.174556
+  type: 'test'
+  ...
+# Subtest: actual repeated press reports cooldown without a save or resetting the active marker
+ok 114 - actual repeated press reports cooldown without a save or resetting the active marker
+  ---
+  duration_ms: 30.534194
+  type: 'test'
+  ...
+# Subtest: actual portal renderer stays finite and balanced with reduced=false
+ok 115 - actual portal renderer stays finite and balanced with reduced=false
+  ---
+  duration_ms: 0.4773
+  type: 'test'
+  ...
+# Subtest: actual portal renderer stays finite and balanced with reduced=true
+ok 116 - actual portal renderer stays finite and balanced with reduced=true
+  ---
+  duration_ms: 0.212406
+  type: 'test'
+  ...
+# Subtest: portal renderer is inserted before hostile warnings and actors rather than over them
+ok 117 - portal renderer is inserted before hostile warnings and actors rather than over them
+  ---
+  duration_ms: 0.318103
+  type: 'test'
+  ...
+# Subtest: open and enter are separate atomic actions; no consumable, reward, healing or gate changes
+ok 118 - open and enter are separate atomic actions; no consumable, reward, healing or gate changes
+  ---
+  duration_ms: 54.236548
+  type: 'test'
+  ...
+# Subtest: portal is available in combat with depleted resources and retains paid recovery
+ok 119 - portal is available in combat with depleted resources and retains paid recovery
+  ---
+  duration_ms: 28.380311
+  type: 'test'
+  ...
+# Subtest: repeated open at 1000 cannot replace or refresh cooldown
+ok 120 - repeated open at 1000 cannot replace or refresh cooldown
+  ---
+  duration_ms: 24.527201
+  type: 'test'
+  ...
+# Subtest: repeated open at 1001 cannot replace or refresh cooldown
+ok 121 - repeated open at 1001 cannot replace or refresh cooldown
+  ---
+  duration_ms: 24.841007
+  type: 'test'
+  ...
+# Subtest: repeated open at 60999 cannot replace or refresh cooldown
+ok 122 - repeated open at 60999 cannot replace or refresh cooldown
+  ---
+  duration_ms: 19.218975
+  type: 'test'
+  ...
+# Subtest: exact 60 second boundary replaces only the one active portal
+ok 123 - exact 60 second boundary replaces only the one active portal
+  ---
+  duration_ms: 25.149665
+  type: 'test'
+  ...
+# Subtest: missing or invalid trusted clock undefined cannot create portal
+ok 124 - missing or invalid trusted clock undefined cannot create portal
+  ---
+  duration_ms: 15.279426
+  type: 'test'
+  ...
+# Subtest: missing or invalid trusted clock NaN cannot create portal
+ok 125 - missing or invalid trusted clock NaN cannot create portal
+  ---
+  duration_ms: 11.683708
+  type: 'test'
+  ...
+# Subtest: missing or invalid trusted clock -1 cannot create portal
+ok 126 - missing or invalid trusted clock -1 cannot create portal
+  ---
+  duration_ms: 23.470729
+  type: 'test'
+  ...
+# Subtest: missing or invalid trusted clock Infinity cannot create portal
+ok 127 - missing or invalid trusted clock Infinity cannot create portal
+  ---
+  duration_ms: 25.662849
+  type: 'test'
+  ...
+# Subtest: missing or invalid trusted clock 1.1 cannot create portal
+ok 128 - missing or invalid trusted clock 1.1 cannot create portal
+  ---
+  duration_ms: 28.048057
+  type: 'test'
+  ...
+# Subtest: missing or invalid trusted clock 9007199254740991 cannot create portal
+ok 129 - missing or invalid trusted clock 9007199254740991 cannot create portal
+  ---
+  duration_ms: 23.40502
+  type: 'test'
+  ...
+# Subtest: caller-supplied future clock cannot bypass the authoritative cooldown
+ok 130 - caller-supplied future clock cannot bypass the authoritative cooldown
+  ---
+  duration_ms: 30.125086
+  type: 'test'
+  ...
+# Subtest: openTownPortal requires the original store revision
+ok 131 - openTownPortal requires the original store revision
+  ---
+  duration_ms: 20.619377
+  type: 'test'
+  ...
+# Subtest: openTownPortal rejects life without mutation
+ok 132 - openTownPortal rejects life without mutation
+  ---
+  duration_ms: 20.368425
+  type: 'test'
+  ...
+# Subtest: openTownPortal rejects region without mutation
+ok 133 - openTownPortal rejects region without mutation
+  ---
+  duration_ms: 20.086215
+  type: 'test'
+  ...
+# Subtest: openTownPortal rejects dead without mutation
+ok 134 - openTownPortal rejects dead without mutation
+  ---
+  duration_ms: 18.067463
+  type: 'test'
+  ...
+# Subtest: openTownPortal rejects invalid-position without mutation
+ok 135 - openTownPortal rejects invalid-position without mutation
+  ---
+  duration_ms: 16.273815
+  type: 'test'
+  ...
+# Subtest: openTownPortal rejects invalid-vitals without mutation
+ok 136 - openTownPortal rejects invalid-vitals without mutation
+  ---
+  duration_ms: 15.007822
+  type: 'test'
+  ...
+# Subtest: enterTownPortal requires the original store revision
+ok 137 - enterTownPortal requires the original store revision
+  ---
+  duration_ms: 14.770108
+  type: 'test'
+  ...
+# Subtest: enterTownPortal rejects life without mutation
+ok 138 - enterTownPortal rejects life without mutation
+  ---
+  duration_ms: 15.602957
+  type: 'test'
+  ...
+# Subtest: enterTownPortal rejects region without mutation
+ok 139 - enterTownPortal rejects region without mutation
+  ---
+  duration_ms: 21.144278
+  type: 'test'
+  ...
+# Subtest: enterTownPortal rejects dead without mutation
+ok 140 - enterTownPortal rejects dead without mutation
+  ---
+  duration_ms: 16.820208
+  type: 'test'
+  ...
+# Subtest: enterTownPortal rejects invalid-position without mutation
+ok 141 - enterTownPortal rejects invalid-position without mutation
+  ---
+  duration_ms: 14.960081
+  type: 'test'
+  ...
+# Subtest: enterTownPortal rejects invalid-vitals without mutation
+ok 142 - enterTownPortal rejects invalid-vitals without mutation
+  ---
+  duration_ms: 14.669578
+  type: 'test'
+  ...
+# Subtest: already in town explains the outcome without charging or creating a portal
+ok 143 - already in town explains the outcome without charging or creating a portal
+  ---
+  duration_ms: 4.714543
+  type: 'test'
+  ...
+# Subtest: enter cannot run twice and cannot be used from a different place
+ok 144 - enter cannot run twice and cannot be used from a different place
+  ---
+  duration_ms: 21.069296
+  type: 'test'
+  ...
+# Subtest: normal travel closes active portal but retains cooldown and permanent records
+ok 145 - normal travel closes active portal but retains cooldown and permanent records
+  ---
+  duration_ms: 15.569747
+  type: 'test'
+  ...
+# Subtest: death and retry close portal; rest/retry never clear its cooldown or invent revival
+ok 146 - death and retry close portal; rest/retry never clear its cooldown or invent revival
+  ---
+  duration_ms: 27.715663
+  type: 'test'
+  ...
+# Subtest: previously earned kills stay absent after portal travel and ordinary region re-entry
+ok 147 - previously earned kills stay absent after portal travel and ordinary region re-entry
+  ---
+  duration_ms: 24.497666
+  type: 'test'
+  ...
+# Subtest: malformed portal save fails closed p=>p.readyAtMs++
+ok 148 - malformed portal save fails closed p=>p.readyAtMs++
+  ---
+  duration_ms: 11.913119
+  type: 'test'
+  ...
+# Subtest: malformed portal save fails closed p=>p.openedAtMs=-1
+ok 149 - malformed portal save fails closed p=>p.openedAtMs=-1
+  ---
+  duration_ms: 12.02163
+  type: 'test'
+  ...
+# Subtest: malformed portal save fails closed p=>p.active.region='ash_hamlet'
+ok 150 - malformed portal save fails closed p=>p.active.region='ash_hamlet'
+  ---
+  duration_ms: 12.511038
+  type: 'test'
+  ...
+# Subtest: malformed portal save fails closed p=>p.active.life++
+ok 151 - malformed portal save fails closed p=>p.active.life++
+  ---
+  duration_ms: 11.827962
+  type: 'test'
+  ...
+# Subtest: malformed portal save fails closed p=>p.active.position.x=-1
+ok 152 - malformed portal save fails closed p=>p.active.position.x=-1
+  ---
+  duration_ms: 11.661875
+  type: 'test'
+  ...
+# Subtest: malformed portal save fails closed p=>p.active.extra=1
+ok 153 - malformed portal save fails closed p=>p.active.extra=1
+  ---
+  duration_ms: 12.813567
+  type: 'test'
+  ...
+# Subtest: malformed portal save fails closed p=>p.extra=1
+ok 154 - malformed portal save fails closed p=>p.extra=1
+  ---
+  duration_ms: 11.928772
+  type: 'test'
+  ...
+# Subtest: malformed portal save fails closed p=>p.active.position.extra=1
+ok 155 - malformed portal save fails closed p=>p.active.position.extra=1
+  ---
+  duration_ms: 11.98129
+  type: 'test'
+  ...
+# Subtest: cooldown uses elapsed wall time across long frames, pause and reload, never frame count
+ok 156 - cooldown uses elapsed wall time across long frames, pause and reload, never frame count
+  ---
+  duration_ms: 11.874171
+  type: 'test'
+  ...
+# Subtest: existing profiles, prior key snapshots and original bytes remain unchanged
+ok 157 - existing profiles, prior key snapshots and original bytes remain unchanged
+  ---
+  duration_ms: 0.518522
+  type: 'test'
+  ...
+# Subtest: portal control remaps, explicitly unbinds and rejects duplicates/reserved escape
+ok 158 - portal control remaps, explicitly unbinds and rejects duplicates/reserved escape
+  ---
+  duration_ms: 0.582126
+  type: 'test'
+  ...
+# Subtest: portal and V remain independent under wasd controls
+ok 159 - portal and V remain independent under wasd controls
+  ---
+  duration_ms: 0.802554
+  type: 'test'
+  ...
+# Subtest: portal and V remain independent under click controls
+ok 160 - portal and V remain independent under click controls
+  ---
+  duration_ms: 0.250733
+  type: 'test'
+  ...
+# Subtest: portal input is blocked at paused ownership boundary
+ok 161 - portal input is blocked at paused ownership boundary
+  ---
+  duration_ms: 0.250223
+  type: 'test'
+  ...
+# Subtest: portal input is blocked at editable ownership boundary
+ok 162 - portal input is blocked at editable ownership boundary
+  ---
+  duration_ms: 0.143734
+  type: 'test'
+  ...
+# Subtest: portal input is blocked at modified ownership boundary
+ok 163 - portal input is blocked at modified ownership boundary
+  ---
+  duration_ms: 0.086448
+  type: 'test'
+  ...
+# Subtest: portal input is blocked at repeat ownership boundary
+ok 164 - portal input is blocked at repeat ownership boundary
+  ---
+  duration_ms: 0.074411
+  type: 'test'
+  ...
+# Subtest: deferred portal cancels at paused
+ok 165 - deferred portal cancels at paused
+  ---
+  duration_ms: 0.223933
+  type: 'test'
+  ...
+# Subtest: deferred portal cancels at lifeDown
+ok 166 - deferred portal cancels at lifeDown
+  ---
+  duration_ms: 0.053509
+  type: 'test'
+  ...
+# Subtest: deferred portal cancels at blocked
+ok 167 - deferred portal cancels at blocked
+  ---
+  duration_ms: 0.048012
+  type: 'test'
+  ...
+# Subtest: deferred portal cancels at hidden
+ok 168 - deferred portal cancels at hidden
+  ---
+  duration_ms: 0.03397
+  type: 'test'
+  ...
+# Subtest: deferred portal expires after long frame and never fires on later resume
+ok 169 - deferred portal expires after long frame and never fires on later resume
+  ---
+  duration_ms: 0.084215
+  type: 'test'
+  ...
+# Subtest: portal at player position is reachable without an extra body or blocked front offset
+ok 170 - portal at player position is reachable without an extra body or blocked front offset
+  ---
+  duration_ms: 16.92313
+  type: 'test'
+  ...
+# Subtest: context click hits the custom doorway and executes exactly once in reach
+ok 171 - context click hits the custom doorway and executes exactly once in reach
+  ---
+  duration_ms: 12.919235
+  type: 'test'
+  ...
+# Subtest: persist/reload retains portal and exact cooldown; duplicated queued requests commit once
+ok 172 - persist/reload retains portal and exact cooldown; duplicated queued requests commit once
+  ---
+  duration_ms: 28.612656
+  type: 'test'
+  ...
+# Subtest: failed durable save leaves no portal and spends no cooldown; next explicit retry can succeed
+ok 173 - failed durable save leaves no portal and spends no cooldown; next explicit retry can succeed
+  ---
+  duration_ms: 24.339261
+  type: 'test'
+  ...
+# Subtest: monotonic session clock ignores wall-clock forward/backward changes and bad frame clocks
+ok 174 - monotonic session clock ignores wall-clock forward/backward changes and bad frame clocks
+  ---
+  duration_ms: 0.301649
+  type: 'test'
+  ...
+1..174
+# tests 174
+# suites 0
+# pass 174
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 24661.364652

@@ -68,3 +68,10 @@ Move help controls before the guide; add labeled dialogs, bounded Tab focus, ver
 - Add always-accessible, no-consumable personal town portal: P/HUD opening, existing interaction entry, one-way return, authored60-second saved cooldown.
 - Preserve old key ownership, permanent quest/kill/reward state, paid recovery, death/retry and menu/storage gates. Add compact accessible HUD/help and original warning-safe portal FX.
 - Keep a10 dialog focus and combat/progression values unchanged. Actual published-browser QA remains required separately from automated checks.
+
+
+## R14a12 — 2026-10-11
+- Preserve an already accepted PoE combo tap through the same hitstop clock as its original recovery, keeping the .18 acceptance window, a finite .18/.35 maximum active lifetime, all cancellation paths and legacy .18 active-frame expiry.
+- Orient travelling/returning hammer impact FX from the actual projectile heading instead of the hero's later aim; no damage, RNG, cost, speed or hit-test changes.
+- Add 41 hitstop-intent and 16 impact-direction production-handler regressions; integrate on frozen a11 with its 79 portal tests and dialog-focus safeguards intact.
+- Prepare only the local R14a12 candidate. Final automatic checks are recorded separately from native-browser/audio/feel acceptance, Git and public Site publication.

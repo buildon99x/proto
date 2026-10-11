@@ -1,0 +1,66 @@
+--- a/app/src/combat.js
++++ b/app/src/combat.js
+@@ -24,8 +24,9 @@
+ const unit=(x,y)=>{const n=Math.hypot(x,y);return n>0?{x:x/n,y:y/n}:{x:0,y:0};};
+ const alive=e=>e.hp>0;
+ const foeFor=(b,e)=>b.foeTypes?.[e.kind]??FOES[e.kind];
+-// Emberwatch R4c input tolerance: only the last 0.18s of current recovery,
+-// with a 0.18s active-frame lifetime. No source skill/CD/damage changes.
++// Emberwatch input tolerance: only the last 0.18s of current recovery.
++// PoE intent ages with recovery (hitstop rate >= .35, active-time cap .18/.35);
++// legacy intent retains its 0.18s active-frame lifetime. No skill/CD/damage changes.
+ const SKILL_INTENT_SECONDS=.18;
+ export function clearBattleIntent(b){if(b)b.skillIntent=null;}
+ 
+@@ -185,7 +186,7 @@
+  const x=actor.x,y=actor.y,nextX=traceSegment(b.map,actor,{x:actor.x+dx,y:actor.y},11);actor.x=nextX.x;
+  const nextY=traceSegment(b.map,actor,{x:actor.x,y:actor.y+dy},11);actor.y=nextY.y;return {x:actor.x-x,y:actor.y-y};
+ }
+-function hitEnemy(b,e,raw,{stun=0,pen=0,heavy=false,source='mace',damageType='physical',context=null,spec=null,components=null}={}){
++function hitEnemy(b,e,raw,{stun=0,pen=0,heavy=false,source='mace',damageType='physical',context=null,spec=null,components=null,impactAngle=null}={}){
+   if(!alive(e)||b.dead)return {hit:false,damage:0,critical:false,defeated:false};
+   const ctx=context??{castId:0,hitId:`legacy:${++b.attackSerial}:${e.id}`,originSkillId:source,rootKind:'secondary',procDepth:1,criticalEligible:false,canTriggerOnHit:false,attackerId:'hero',attackFamily:'weapon'};
+   const before=e.hp,wasDisabled=disabled(e),position={x:e.x,y:e.y},offense=spec?.offense??{},foe=foeFor(b,e);
+@@ -202,7 +203,7 @@
+   observePatternPhase(e,foe);
+   if(stun>0){interruptFireEscape(e);e.telegraph=null;e.state='idle';e.timer=.25;}
+   floater(b,String(Math.round(amount)),e.x,e.y,heavy?'#ffe8aa':'#eadcb5');
+-  fx(b,'impact',e.x,e.y,source==='hammer'?'#ffc263':'#c9eee1',heavy?32:22,.23,{angle:b.p.angle,heavy});
++  fx(b,'impact',e.x,e.y,source==='hammer'?'#ffc263':'#c9eee1',heavy?32:22,.23,{angle:Number.isFinite(impactAngle)?impactAngle:b.p.angle,heavy});
+   emit(b,{type:'sound',name:heavy?'heavyHit':'hit',x:e.x,y:e.y});
+   b.shake=Math.max(b.shake,heavy?5:2);b.hitstop=Math.max(b.hitstop,heavy?.035:.014);b.contacts++;
+   const result={hit:true,damage:Math.min(before,amount),rawDamage:amount,critical,defeated:e.hp===0,wasDisabled,position,context:ctx,components:packet.map(c=>c.id)};
+@@ -532,7 +533,7 @@
+  if(b.poeMobility&&!b.dead){events.push(...acceptBattleInput(b,input));current=continuationInput(input);}
+  do{
+   const rate=b.poeMobility?(b.hitstop>1e-9?.35:1):b.hitstop>=left&&b.hitstop>0?.35:1,deadline=nextDeadline(b,current,left*rate),intent=b.skillIntent?.remaining;
+-  let segment=Math.min(left,deadline/rate);if(b.poeMobility&&b.hitstop>1e-9)segment=Math.min(segment,b.hitstop);if(intent>1e-9)segment=Math.min(segment,intent);
++  let segment=Math.min(left,deadline/rate);if(b.poeMobility&&b.hitstop>1e-9)segment=Math.min(segment,b.hitstop);if(intent>1e-9)segment=Math.min(segment,intent/(b.poeMobility?rate:1));
+   if(segment<1e-10)segment=left;
+   const wasMaceRecovery=b.p.action?.id==='mace_swing'&&b.p.action.fired;
+   events.push(...stepBattleFrame(b,character,segment,current));
+@@ -572,12 +573,13 @@
+   b.events=[];
+   if(b.awaitingAdvance){const moves=Number.isFinite(input.move?.x)&&Number.isFinite(input.move?.y)&&Math.hypot(input.move.x,input.move.y)>0;const offensive=[['attack','mace_swing'],['hammer','righteous_hammer'],['charge','shield_charge'],['judgement','judgement'],['expert1','zealous_onslaught'],['expert2','zealous_onslaught']].some(([key,id])=>(key.startsWith('expert')?input[key]===id:input[key])&&actionReady(b,id)&&(id!=='zealous_onslaught'||input.channel?.held&&input.channel.ownerToken!=null));if(!moves&&!offensive&&!(b.poeMobility&&mobilityActions.some(id=>input[id])))return b.events;b.awaitingAdvance=false;}
+   const safeDt=Math.min(dt,.05);b.time+=safeDt;b.shake=Math.max(0,b.shake-safeDt*20);
+-  // Hitstop must not extend the input window. Menus/blur clear via the export.
+-  if(b.skillIntent){b.skillIntent.remaining-=safeDt;if(b.skillIntent.remaining< -1e-9)cancelSkillIntent(b,'expired');else b.skillIntent.remaining=Math.max(0,b.skillIntent.remaining);}
+   for(const e of b.effects){e.life-=safeDt;e.x+=(e.vx??0)*safeDt;e.y+=(e.vy??0)*safeDt;}b.effects=b.effects.filter(e=>e.life>0);
+   for(const f of b.floaters){f.life-=safeDt;f.lift+=safeDt*22;}b.floaters=b.floaters.filter(f=>f.life>0);
+   if(b.dead){clearBattleIntent(b);clearPoeInput(b,'death');if(!b.deathReported){emit(b,{type:'heroDead'});b.deathReported=true;}return b.events;}
+   const poeSlowed=b.poeMobility&&b.hitstop>1e-9;b.hitstop=Math.max(0,b.hitstop-safeDt);const t=(b.poeMobility?poeSlowed:b.hitstop>0)?safeDt*.35:safeDt,p=b.p;
++  // An accepted PoE tap must survive the same hitstop as its remaining recovery.
++  // The single intent still expires finitely; menus/blur clear via the export.
++  if(b.skillIntent){b.skillIntent.remaining-=b.poeMobility?t:safeDt;if(b.skillIntent.remaining< -1e-9)cancelSkillIntent(b,'expired');else b.skillIntent.remaining=Math.max(0,b.skillIntent.remaining);}
+   const heroStart={x:p.x,y:p.y},mobilityStart=b.poeMobility?.snapshot();
+   if(b.poeMobility){applyBattleInput(b,input);movePoeHero(b,input,t);}
+   const oldManaDelay=p.manaDelay,oldStaminaDelay=p.staminaDelay;
+@@ -623,7 +625,7 @@
+     if(shot.enemy){const at=b.poeMobility?relativePathContact(b.poeHeroPath,{...shot,...old},t,HERO_PROJECTILE_CONTACT_RADIUS):Infinity,speed=Math.hypot(shot.vx,shot.vy),available=traced.blocked&&speed>0?Math.min(travel,distance(old,traced)/speed):travel,contact=b.poeMobility?at<=available+1e-8:segmentDistance(p,old,shot)<HERO_PROJECTILE_CONTACT_RADIUS,evadeWindow=b.poeMobility?mobilityStart.state==='roll'&&mobilityStart.elapsed+at>=REBORN_POE_MOBILITY_TUNING.evadeStart-1e-9&&mobilityStart.elapsed+at<REBORN_POE_MOBILITY_TUNING.evadeEnd-1e-9:null;if(lineOfSight(b.map,old,p)&&contact){hurtHero(b,shot.damage,Math.atan2(shot.vy,shot.vx),b.enemies.find(e=>e.id===shot.attackerId&&alive(e))??null,shot.damageType??'physical',{attackId:shot.attackId,originSkillId:shot.originSkillId,procDepth:shot.procDepth??0,attackFamily:shot.attackFamily??'environment',melee:false,dodgeable:'projectile',evadeWindow,statusRuleIds:shot.statusRuleIds??[]});shot.life=0;}}
+     else{
+       for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(alive(e)&&lineOfSight(b.map,old,e)&&!shot.hitIds.includes(e.id)&&segmentDistance(e,old,shot)<22){
+-        shot.hitIds.push(e.id);hitEnemy(b,e,shot.damage,{pen:shot.pen??0,heavy:true,source:'hammer',spec:shot.spec,context:hitContext(b,{castId:shot.castId,id:shot.originSkillId},e,shot.leg??'outward')});
++        shot.hitIds.push(e.id);hitEnemy(b,e,shot.damage,{pen:shot.pen??0,heavy:true,source:'hammer',spec:shot.spec,impactAngle:Math.hypot(shot.vx,shot.vy)>0?Math.atan2(shot.vy,shot.vx):null,context:hitContext(b,{castId:shot.castId,id:shot.originSkillId},e,shot.leg??'outward')});
+         if(alive(e)&&shot.armorBreak)e.armorBreak={...shot.armorBreak,remaining:shot.armorBreak.duration};
+       }
+       shot.age=(shot.age??0)+travel;

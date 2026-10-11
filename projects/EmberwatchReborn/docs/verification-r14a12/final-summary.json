@@ -1,0 +1,43 @@
+{
+  "build": "R14a12",
+  "version": "0.14.0-reimplementation.12",
+  "dateUtc": "2026-10-11",
+  "baseCheckpoint": "frozen R14a11 town-portal project",
+  "baseCommit": "d9c397951f5944fe74365728e54e909bf5339247",
+  "baseCommitStatus": "direct remote HEAD and commit tree verified before a12 publication",
+  "a10AncestorCommit": "c1cd560833a4b0c40e6ae8cfd038ddb93cffd57c",
+  "uniqueTests": 4138,
+  "passed": 4138,
+  "failed": 0,
+  "skipped": 0,
+  "cancelled": 0,
+  "durationMs": 118393.823682,
+  "newTests": 57,
+  "newTestsByContract": {
+    "hitstopIntent": 41,
+    "hammerImpactDirection": 16
+  },
+  "a11PortalTestsPreserved": 79,
+  "focusedPortalAndCombat": 174,
+  "independentCombatReview": {
+    "status": "passed on final integrated copy",
+    "passed": 95,
+    "failed": 0,
+    "log": "independent-review.tap"
+  },
+  "lint": "passed",
+  "appBuild": "passed",
+  "buildFiles": 120,
+  "buildBytes": 16697741,
+  "buildSourceHashesVerified": true,
+  "resourceChanges": 0,
+  "a11MainBehaviorPreserved": "byte-identical after normalizing candidate label",
+  "stateControlsControllerDialogFocus": "byte-identical to frozen a11",
+  "sourcePatchMatchesReviewedCombat": true,
+  "browserQa": "not run on a12; actual published input/FX/audio acceptance remains separate",
+  "sitesPublication": "not performed",
+  "gitPublication": "separate remote commit/ref receipt required; this summary does not imply a Git write",
+  "baseTree": "6b50a863f0d7487b7d84db5e9eda8c8fef51e03d",
+  "monorepoSync": "blocked: pnpm home directory absent; npm script fallback confirms tsx/dependencies not installed",
+  "monorepoBuildVercel": "blocked: pnpm home directory absent; npm script fallback reaches missing corepack cache/home"
+}

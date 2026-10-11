@@ -1,0 +1,33 @@
+{
+  "a11ReadOnlyBase": "/workspace/shared/emberwatch-r14a11-town-portal-project",
+  "changedExistingSourceTests": [
+    "app/src/combat.js",
+    "app/src/index.html",
+    "app/src/main.js",
+    "app/src/recovery-page.js",
+    "app/tests/build-label-ui.test.mjs",
+    "app/tests/tomb-ui-integration.test.mjs",
+    "app/tests/wilderness-ui-integration.test.mjs"
+  ],
+  "otherExistingSourceTestsAndAssetsByteIdentical": true,
+  "mainIndexRecoveryLabelsOnly": true,
+  "portalTestsPreserved": {
+    "app/tests/town-portal.test.mjs": "cbafef9fd16f31b54260fd5a9fc3db02f8d322e2beb56bd0839ee68af7b3e1ee",
+    "app/tests/town-portal-runtime.test.mjs": "e16ca4268d1ed6d5a068ce8173dcbe631e799e42d5222bb6115cf039d55fd0e6",
+    "app/tests/town-portal-regions.test.mjs": "d0a97fd533bdd601a493943058c33674daa7b011856d096b003eeacfba0aad6a"
+  },
+  "criticalPreserved": {
+    "app/src/state.js": "9468b04fc393f172af2243585889994cc64b138754e381ad5432cab06db67188",
+    "app/src/controls.js": "968afa54129676fdd8ed4f3da27f8740b2bb97195ce1524389f62624c9d4757a",
+    "app/src/controller.js": "b212b995efb7aabe1112b88f690988d5a2d1d057a52e1153652e273f4e42200a",
+    "app/src/dialog-focus.js": "7f2b9b98d950092e2f30d59a99761dd00d51ef468194049eb663442864c2d8c9",
+    "app/tests/town-portal.test.mjs": "cbafef9fd16f31b54260fd5a9fc3db02f8d322e2beb56bd0839ee68af7b3e1ee",
+    "app/tests/town-portal-runtime.test.mjs": "e16ca4268d1ed6d5a068ce8173dcbe631e799e42d5222bb6115cf039d55fd0e6",
+    "app/tests/town-portal-regions.test.mjs": "d0a97fd533bdd601a493943058c33674daa7b011856d096b003eeacfba0aad6a"
+  },
+  "newTests": {
+    "app/tests/poe2-hitstop-intent.test.mjs": "f1fd10dbb6f99f560bbd1a085928450f407755cb8b04b71c2ddef60d29fa8cd0",
+    "app/tests/hammer-impact-direction.test.mjs": "9db2af190893db1ac4ad1e5f43217931f9eb36f394a13f6541fcd8b5d4f17ef0"
+  },
+  "combatMatchesReviewedPatch": true
+}

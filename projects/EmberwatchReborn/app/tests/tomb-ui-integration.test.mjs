@@ -276,7 +276,7 @@ test('actual main renderer forwards the durable carried ward without changing ga
 });
 
 test('actual R11 candidate title separates observed Normal T from unqualified Expert/B and offers R10 forward copy',async()=>{
- const h=await browser(stage('predecessor'),{namespace:'qa-r11'});h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a11 · POE형 전사 입력 개발 후보/);assert.match(h.modal.innerHTML,/일반 조작으로 확인했습니다/);assert.match(h.modal.innerHTML,/마스터.*아직 완성되지 않았습니다/);assert.match(h.modal.innerHTML,/<option value="qa-r10">/);assert.match(h.modal.innerHTML,/전문가 승급.*일반 입력 검증 중/);assert.doesNotMatch(h.modal.innerHTML,/data-action="new"/);
+ const h=await browser(stage('predecessor'),{namespace:'qa-r11'});h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a12 · POE형 전사 입력 개발 후보/);assert.match(h.modal.innerHTML,/일반 조작으로 확인했습니다/);assert.match(h.modal.innerHTML,/마스터.*아직 완성되지 않았습니다/);assert.match(h.modal.innerHTML,/<option value="qa-r10">/);assert.match(h.modal.innerHTML,/전문가 승급.*일반 입력 검증 중/);assert.doesNotMatch(h.modal.innerHTML,/data-action="new"/);
 });
 
 for(const operation of ['accept','oath','report'])test(`actual T ${operation} synchronizes paid pools without rebuilding the live battle`,async()=>{

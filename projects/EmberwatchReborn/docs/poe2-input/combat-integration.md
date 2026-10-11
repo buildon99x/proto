@@ -119,3 +119,7 @@ battleReport의 기존 recovery v2 `lock`은 p.recoveryLock, 남은 action durat
 - poe-skill-policy.js: `deb4018cbb423d2d365901228a8a83c89704907855ffaa2520631b19a4107ee7`
 - recovery.js: `26720f0bce3da8830771f26fe52469b429899f2cb5c09b55124bab89bbf957e7`
 - poe2-combat-integration.test.mjs: `73115b640e486dca81ce4449c3f31bf6148016f1d4b208c9817f36f0d013bc07`
+
+
+## R14a12 accepted-intent clock clarification (2026-10-11)
+The earlier .18-second queue description keeps its acceptance window and single-latest-intent depth. R14a12 intentionally changes only opt-in PoE intent lifetime from active-frame time to the same scaled clock as action recovery. `stepBattle` converts that expiry deadline with the same rate. At the existing minimum .35 rate, an unrefreshed intent has a finite .5142857143 active-second upper bound. Legacy still expires at .18 active seconds. Existing ready-at-press, ready-at-execution, safety clears, guard/dodge/new-input priority and latest queued aim stay intact. This fixes a production-handler reproduction where actual hammer hitstop expired a previously accepted mace tap that worked in empty space. No original-game buffer duration is asserted. See ../verification-r14a12 for red/green and final integrated checks; actual browser/FX/audio acceptance remains separate.

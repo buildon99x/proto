@@ -1,0 +1,799 @@
+TAP version 13
+# Subtest: controls4 30Hz accepted hammer-to-mace tap survives empty-space recovery once
+ok 1 - controls4 30Hz accepted hammer-to-mace tap survives empty-space recovery once
+  ---
+  duration_ms: 58.071231
+  type: 'test'
+  ...
+# Subtest: controls4 30Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+not ok 2 - controls4 30Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+  ---
+  duration_ms: 23.355708
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:27:93'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:31:38)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: controls4 60Hz accepted hammer-to-mace tap survives empty-space recovery once
+ok 3 - controls4 60Hz accepted hammer-to-mace tap survives empty-space recovery once
+  ---
+  duration_ms: 46.319382
+  type: 'test'
+  ...
+# Subtest: controls4 60Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+not ok 4 - controls4 60Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+  ---
+  duration_ms: 25.067834
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:27:93'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:31:38)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: controls4 120Hz accepted hammer-to-mace tap survives empty-space recovery once
+ok 5 - controls4 120Hz accepted hammer-to-mace tap survives empty-space recovery once
+  ---
+  duration_ms: 71.402569
+  type: 'test'
+  ...
+# Subtest: controls4 120Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+not ok 6 - controls4 120Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+  ---
+  duration_ms: 31.261506
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:27:93'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:31:38)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: controls5 30Hz accepted hammer-to-mace tap survives empty-space recovery once
+ok 7 - controls5 30Hz accepted hammer-to-mace tap survives empty-space recovery once
+  ---
+  duration_ms: 29.964868
+  type: 'test'
+  ...
+# Subtest: controls5 30Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+not ok 8 - controls5 30Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+  ---
+  duration_ms: 18.902755
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:27:93'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:31:38)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: controls5 60Hz accepted hammer-to-mace tap survives empty-space recovery once
+ok 9 - controls5 60Hz accepted hammer-to-mace tap survives empty-space recovery once
+  ---
+  duration_ms: 45.017386
+  type: 'test'
+  ...
+# Subtest: controls5 60Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+not ok 10 - controls5 60Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+  ---
+  duration_ms: 24.789871
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:27:93'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:31:38)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: controls5 120Hz accepted hammer-to-mace tap survives empty-space recovery once
+ok 11 - controls5 120Hz accepted hammer-to-mace tap survives empty-space recovery once
+  ---
+  duration_ms: 77.512496
+  type: 'test'
+  ...
+# Subtest: controls5 120Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+not ok 12 - controls5 120Hz accepted hammer-to-mace tap survives actual projectile hitstop once
+  ---
+  duration_ms: 37.006901
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:27:93'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:31:38)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 30Hz consecutive real projectile contacts cannot consume an accepted tap before recovery
+not ok 13 - 30Hz consecutive real projectile contacts cannot consume an accepted tap before recovery
+  ---
+  duration_ms: 26.150905
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:37:29'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:39:145)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 60Hz consecutive real projectile contacts cannot consume an accepted tap before recovery
+not ok 14 - 60Hz consecutive real projectile contacts cannot consume an accepted tap before recovery
+  ---
+  duration_ms: 35.077787
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:37:29'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:39:145)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 120Hz consecutive real projectile contacts cannot consume an accepted tap before recovery
+not ok 15 - 120Hz consecutive real projectile contacts cannot consume an accepted tap before recovery
+  ---
+  duration_ms: 42.970311
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:37:29'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:39:145)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 30Hz exact .18 action recovery and persistent hitstop share the same finite deadline
+not ok 16 - 30Hz exact .18 action recovery and persistent hitstop share the same finite deadline
+  ---
+  duration_ms: 23.923351
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:42:65'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:46:44)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 30Hz exact .18 lock recovery and persistent hitstop share the same finite deadline
+not ok 17 - 30Hz exact .18 lock recovery and persistent hitstop share the same finite deadline
+  ---
+  duration_ms: 14.802446
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:42:65'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:46:44)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 60Hz exact .18 action recovery and persistent hitstop share the same finite deadline
+not ok 18 - 60Hz exact .18 action recovery and persistent hitstop share the same finite deadline
+  ---
+  duration_ms: 27.16892
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:42:65'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:46:44)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 60Hz exact .18 lock recovery and persistent hitstop share the same finite deadline
+not ok 19 - 60Hz exact .18 lock recovery and persistent hitstop share the same finite deadline
+  ---
+  duration_ms: 18.244486
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:42:65'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:46:44)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 120Hz exact .18 action recovery and persistent hitstop share the same finite deadline
+not ok 20 - 120Hz exact .18 action recovery and persistent hitstop share the same finite deadline
+  ---
+  duration_ms: 36.620417
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:42:65'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:46:44)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 120Hz exact .18 lock recovery and persistent hitstop share the same finite deadline
+not ok 21 - 120Hz exact .18 lock recovery and persistent hitstop share the same finite deadline
+  ---
+  duration_ms: 28.00951
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:42:65'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:46:44)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 30Hz continually refreshed hitstop cannot keep an ineligible intent beyond .18/.35 active seconds
+not ok 22 - 30Hz continually refreshed hitstop cannot keep an ineligible intent beyond .18/.35 active seconds
+  ---
+  duration_ms: 26.435889
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:51:29'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(f.b.skillIntent)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:53:86)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 60Hz continually refreshed hitstop cannot keep an ineligible intent beyond .18/.35 active seconds
+not ok 23 - 60Hz continually refreshed hitstop cannot keep an ineligible intent beyond .18/.35 active seconds
+  ---
+  duration_ms: 26.320928
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:51:29'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(f.b.skillIntent)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:53:86)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 120Hz continually refreshed hitstop cannot keep an ineligible intent beyond .18/.35 active seconds
+not ok 24 - 120Hz continually refreshed hitstop cannot keep an ineligible intent beyond .18/.35 active seconds
+  ---
+  duration_ms: 37.77898
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:51:29'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(f.b.skillIntent)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:53:86)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: PoE hitstop leaves the existing 0.179s acceptance boundary unchanged
+ok 25 - PoE hitstop leaves the existing 0.179s acceptance boundary unchanged
+  ---
+  duration_ms: 9.422063
+  type: 'test'
+  ...
+# Subtest: PoE hitstop leaves the existing 0.18s acceptance boundary unchanged
+ok 26 - PoE hitstop leaves the existing 0.18s acceptance boundary unchanged
+  ---
+  duration_ms: 8.04141
+  type: 'test'
+  ...
+# Subtest: PoE hitstop leaves the existing 0.181s acceptance boundary unchanged
+ok 27 - PoE hitstop leaves the existing 0.181s acceptance boundary unchanged
+  ---
+  duration_ms: 9.982637
+  type: 'test'
+  ...
+# Subtest: partial-hitstop split preserves total recovery, resources, cooldown and event delivery
+not ok 28 - partial-hitstop split preserves total recovery, resources, cooldown and event delivery
+  ---
+  duration_ms: 33.765079
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:63:1'
+  failureType: 'testCodeFailure'
+  error: ': 0.13 != 0.14495'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    near (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:11:37)
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:66:57)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: frame crossing scaled expiry splits once without losing elapsed time or retrying the old cast
+not ok 29 - frame crossing scaled expiry splits once without losing elapsed time or retrying the old cast
+  ---
+  duration_ms: 25.968454
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:71:1'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of null (reading 'remaining')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:72:102)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: menu clears an extended PoE intent and stale held keys cannot revive it
+not ok 30 - menu clears an extended PoE intent and stale held keys cannot revive it
+  ---
+  duration_ms: 20.13685
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:76:62'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(f.b.skillIntent)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:77:67)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: blur clears an extended PoE intent and stale held keys cannot revive it
+not ok 31 - blur clears an extended PoE intent and stale held keys cannot revive it
+  ---
+  duration_ms: 19.942792
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:76:62'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(f.b.skillIntent)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:77:67)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: region-change clears an extended PoE intent and stale held keys cannot revive it
+not ok 32 - region-change clears an extended PoE intent and stale held keys cannot revive it
+  ---
+  duration_ms: 19.266996
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:76:62'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(f.b.skillIntent)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:77:67)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: rebind clears an extended PoE intent and stale held keys cannot revive it
+not ok 33 - rebind clears an extended PoE intent and stale held keys cannot revive it
+  ---
+  duration_ms: 19.675104
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:76:62'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(f.b.skillIntent)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:77:67)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: guard, newer unavailable request, and allowed dodge each cancel an extended intent permanently
+not ok 34 - guard, newer unavailable request, and allowed dodge each cancel an extended intent permanently
+  ---
+  duration_ms: 20.008879
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:82:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(f.b.skillIntent)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:83:124)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: a newer accepted skill replaces the extended one and pays exactly once
+not ok 35 - a newer accepted skill replaces the extended one and pays exactly once
+  ---
+  duration_ms: 29.514669
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:89:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:91:89)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: extended queued execution rechecks mana and never rearms later
+ok 36 - extended queued execution rechecks mana and never rearms later
+  ---
+  duration_ms: 87.06203
+  type: 'test'
+  ...
+# Subtest: extended queued execution rechecks cooldown and never rearms later
+ok 37 - extended queued execution rechecks cooldown and never rearms later
+  ---
+  duration_ms: 88.714713
+  type: 'test'
+  ...
+# Subtest: real fatal projectile clears extended intent; retry state cannot replay it
+ok 38 - real fatal projectile clears extended intent; retry state cannot replay it
+  ---
+  duration_ms: 22.90063
+  type: 'test'
+  ...
+# Subtest: switching controls cancels extended intent without converting its time base or reviving it
+ok 39 - switching controls cancels extended intent without converting its time base or reviving it
+  ---
+  duration_ms: 77.709431
+  type: 'test'
+  ...
+# Subtest: held skill and OS repeats do not refresh the accepted timer; releasing prevents further casts
+not ok 40 - held skill and OS repeats do not refresh the accepted timer; releasing prevents further casts
+  ---
+  duration_ms: 26.173048
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:110:1'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of null (reading 'remaining')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:114:23)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: extended latest-aim queue retains priority over held basic attack and opposite movement
+not ok 41 - extended latest-aim queue retains priority over held basic attack and opposite movement
+  ---
+  duration_ms: 42.004525
+  type: 'test'
+  location: '/workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:117:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/shared/emberwatch-hitstop-buffer-patch/project/app/tests/poe2-hitstop-intent.test.mjs:119:9)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+1..41
+# tests 41
+# suites 0
+# pass 13
+# fail 28
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1570.819261

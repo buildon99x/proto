@@ -101,7 +101,7 @@ let audio=createFantasyAudio();
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const button=(label,action,extra='')=>`<button data-action="${action}" ${extra}>${label}</button>`;
 // One label for title, pause UI and the optional read-only status tool.
-const BUILD_LABEL='R14a11';
+const BUILD_LABEL='R14a12';
 function clearInput(reason='safety'){if(dismissRecoveryNotice($('toast')))noticeUntil=0;releasedAimBySkill={};contextClick.clear(reason);contextSuppressHeld=false;locomotionIntent.clear();clearInputFeedback();inputLatency.clear(typeof reason==='string'?reason:'safety');deferredImmediate.clear();router.clear();clearBattleIntent(battle);expertSafety.request(battle,controller,typeof reason==='string'?reason:'pointer-cancel');if(battle)battle.targetId=null;}
 function flushActionSafety(){
  const result=expertSafety.drain(battle,controller,{busy,blocked:gate.blocked});

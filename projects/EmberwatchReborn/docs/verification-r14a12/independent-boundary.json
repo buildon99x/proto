@@ -1,0 +1,23 @@
+{
+  "sourceFilesSameAsA11": 117,
+  "sourceChanges": [
+    "src/index.html",
+    "src/combat.js",
+    "src/recovery-page.js",
+    "src/main.js"
+  ],
+  "portalTests": [
+    {
+      "file": "town-portal-regions.test.mjs",
+      "identical": true
+    },
+    {
+      "file": "town-portal.test.mjs",
+      "identical": true
+    },
+    {
+      "file": "town-portal-runtime.test.mjs",
+      "identical": true
+    }
+  ]
+}

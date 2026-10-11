@@ -24,3 +24,7 @@ Read docs/verification-r14a10 and final-summary.json. Preserve a9 checkpoint and
 
 ## R14a11 current checkpoint
 Personal one-way town-return portal. Read docs/verification-r14a11/README.md and final-summary.json. The cooldown and immediate-opening behavior are Emberwatch-authored. Preserve a10 accessibility, old controls and original projects/Emberwatch. Browser/publication acceptance must not be inferred from the automatic fixture suite.
+
+
+## R14a12 current checkpoint
+Read docs/verification-r14a12/README.md and final-summary.json. Preserve frozen a11 source, the personal town portal, and dialog focus. The PoE queue's .18-second acceptance window remains; only accepted intent lifetime follows recovery time with the same .35 hitstop floor. Legacy .18 active-frame expiry remains. Hammer impact heading is presentation-only. Do not infer live screen/audio or subjective responsiveness acceptance from automated tests.
