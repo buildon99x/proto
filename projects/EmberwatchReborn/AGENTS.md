@@ -11,3 +11,8 @@
 - Back up each verified small checkpoint as source+tests+provenance in Library; local Git alone is insufficient.
 - Current user-authorized Git scope: commit/push verified project code and text plus byte-identical original remote resources to buildon99x/proto, codex/emberwatch-rebuild, without force. Preserve original Emberwatch167 files and other projects. Exclude new/changed PNG and QA images from this Git checkpoint. Never retry or bypass unrelated pending PNG/file-import approvals.
 - The latest user request authorizes immediate publication of the current R2 development checkpoint as a separate fully public GPT Site, with incomplete scope stated. Continue normal-input review and iterative correction after publication. Preserve the original Site/version; verify the published URL and repeat QA. This does not authorize retrying the old Git PNG upload or save import.
+
+
+## R14a9 current checkpoint
+
+Adaptive HUD and primary-first pause panel. Source is separate from the frozen a8 project. Read docs/verification-r14a9/README.md and final-summary.json. Do not infer actual screen/touch acceptance from automated tests.

@@ -383,3 +383,10 @@ R14a7 final automated checkpoint:3,923/3,923 unique tests,0fail/skip/cancel,1138
 Observed defect: public v58 R14a4, normal earned L3 profile, first-boss retry. Source/fixture checks must exercise actual main HUD/update paths, dead-input rejection and normal retry restoration. a8 browser acceptance remains unverified while candidate publication is blocked and local preview is unavailable. No a7/a8 frame-cost, physical latency or audio claim may be inferred from automated assertions.
 
 Final R14a8 automated check: **3,940/3,940 unique tests**, 0 fail/skip/cancel, 115268.864147ms; lint and build passed. This includes the existing 3,923 plus 17 new lifecycle tests. Actual a8 browser/FX/contact/frame/audio acceptance remains unverified; no deployment occurred.
+
+
+## R14a9 verification plan
+
+Execute production HUD and menu handlers with compact/full layouts and lifecycle states; preserve pause/resume/save/failure and repeated navigation tests. Run the entire unique test suite, syntax check and static build. No browser/visual pass is claimed from these checks; published 889×562 initial focus and six-button alignment remain an explicit gate.
+
+Final R14a9: **3,963/3,963 unique tests**,0 fail/skip/cancel,117023.812816ms; app lint and static build passed. Includes existing3,940 plus23 new. Monorepo aggregate checks are blocked by absent dependencies; actual a9 browser QA and Sites publication remain separate.

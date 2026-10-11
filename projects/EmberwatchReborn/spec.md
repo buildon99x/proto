@@ -277,3 +277,8 @@ Contact tracing and frame observation are opt-in, default OFF, memory-only and c
 
 ## R14a8 HUD lifecycle contract
 Death takes priority over dodge/sprint posture and potion count/cooldown in the action surface. No dead actor may be represented as ready by those buttons or accessible labels; normal retry must remove the dead-state disabling without resetting unrelated state. This is presentation consistency, not a new invulnerability or recovery rule.
+
+
+## R14a9 responsive presentation contract
+
+Visible HUD actions determine a balanced grid from available width (88px minimum target width, 72px height, unchanged keyboard handlers). Main pause actions precede profile/statistics and optional details. Continue remains first focus; existing save, settings, leave and recovery gates are unchanged. Key help remains one button away. Actual pixels are verified separately after publication.

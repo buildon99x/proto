@@ -1,0 +1,22 @@
+{
+  "build": "R14a9",
+  "version": "0.14.0-reimplementation.9",
+  "dateUtc": "2026-10-11",
+  "baseCommit": "8909c8d80adaa050dcc9a946f8b28bf01ed5411c",
+  "uniqueTests": 3963,
+  "passed": 3963,
+  "failed": 0,
+  "skipped": 0,
+  "cancelled": 0,
+  "durationMs": 117023.812816,
+  "newTests": 23,
+  "lint": "passed",
+  "appBuild": "passed",
+  "buildFiles": 117,
+  "buildBytes": 16679923,
+  "monorepoSync": "blocked: no installed tsx/dependencies",
+  "monorepoBuildVercel": "blocked: no installed dependencies",
+  "browserQa": "not run on a9; required after publication",
+  "sitesPublication": "not performed by this task",
+  "gitPublication": "separate receipt after commit/ref verification"
+}

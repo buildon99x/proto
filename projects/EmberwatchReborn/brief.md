@@ -197,3 +197,8 @@ Continue the user's controls/visual priority on a new work surface while a5/a6 r
 
 ## R14a8 actual death-state feedback repair
 The actual public v58 first-boss retry exposed a misleading live dodge/sprint and potion description after death. Match these HUD/ARIA/disabled states to the existing dead-action runtime gate and restore ordinary states on retry. Do not change action execution, resource costs, balance, save format or inputs. This local candidate also inherits the unreviewed a5/a6/a7 presentation/observer changes.
+
+
+## R14a9 compact HUD / pause-menu scope
+
+Fix the normal-input 889×562 QA regressions: six visible actions wrap as five plus an orphan potion, and the initial focused Continue button is below the pause panel viewport. Preserve action order, bindings, save flow and combat values; keep readable labels and usable targets.

@@ -50,3 +50,10 @@ R14a7 final automated checkpoint:3,923/3,923 unique tests,0fail/skip/cancel,1138
 This separate work surface follows the frozen a7 source. It addresses a death/retry action-label inconsistency observed in public v58 normal play. Publication remains on hold; the actual first-boss profile reached L3 and retried, but did not defeat the boss. Read docs/verification-r14a8 for current automated checks and remaining browser gates.
 
 Final R14a8 automated check: **3,940/3,940 unique tests**, 0 fail/skip/cancel, 115268.864147ms; lint and build passed. This includes the existing 3,923 plus 17 new lifecycle tests. Actual a8 browser/FX/contact/frame/audio acceptance remains unverified; no deployment occurred.
+
+
+## R14a9 compact UI candidate
+
+Separate from a8. Responsive visible-action grid and primary pause actions address the actual 889×561 defects. See docs/verification-r14a9 for automated results, aggregate-build limits and remaining post-publication browser gates.
+
+Final R14a9: **3,963/3,963 unique tests**,0 fail/skip/cancel,117023.812816ms; app lint and static build passed. Includes existing3,940 plus23 new. Monorepo aggregate checks are blocked by absent dependencies; actual a9 browser QA and Sites publication remain separate.

@@ -53,3 +53,8 @@ play, external preservation and qa-r12 publication remain parent gates.
 ## R14a8 (unpublished)
 - Correct death/retry movement-and-potion HUD availability feedback without changing combat or save rules.
 - Preserve v58 normal-play evidence and the independently frozen a7 checkpoint.
+
+
+## R14a9
+
+Presentation-only adaptive hotbar and primary-first pause menu. Preserve controls, save flow, combat timing/costs and all owned game resources. Actual a9 screen acceptance remains pending.

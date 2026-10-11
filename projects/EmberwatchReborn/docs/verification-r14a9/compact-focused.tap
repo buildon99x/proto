@@ -1,0 +1,29 @@
+✔ balanced layout keeps six actions readable within 320px (1.007267ms)
+✔ balanced layout keeps six actions readable within 375px (0.884645ms)
+✔ balanced layout keeps six actions readable within 520px (0.093349ms)
+✔ balanced layout keeps six actions readable within 700px (0.142051ms)
+✔ balanced layout keeps six actions readable within 750px (0.104085ms)
+✔ balanced layout keeps six actions readable within 889px (0.104665ms)
+✔ balanced layout keeps six actions readable within 900px (0.098487ms)
+✔ balanced layout keeps six actions readable within 1180px (0.064596ms)
+✔ eleven actions at compact width have a balanced 6+5 layout, never 9+2 (0.132066ms)
+✔ style application is presentation-only and skips unchanged writes (0.976812ms)
+✔ actual v3/legacy HUD lays out only 5 visible actions without state changes (33.131272ms)
+✔ actual v4/combined HUD lays out only 6 visible actions without state changes (31.770329ms)
+✔ actual v4/separate HUD lays out only 7 visible actions without state changes (22.590162ms)
+✔ actual v5/combined HUD lays out only 10 visible actions without state changes (28.023319ms)
+✔ actual v5/separate HUD lays out only 11 visible actions without state changes (25.944528ms)
+✔ actual dead HUD preserves the same compact grid and disabled lifecycle labels (20.117647ms)
+✔ actual release pause starts with four primary actions before long profile and optional details (16.780545ms)
+✔ actual candidate pause starts with four primary actions before long profile and optional details (17.625271ms)
+✔ actual help and repeated return keep bindings intact and restore first-action focus (20.585862ms)
+✔ actual uncertain-save gate replaces primary actions rather than allowing resume (20.539473ms)
+✔ CSS uses adaptive columns and readable 72px HUD targets without five-column overrides (0.251964ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 399.571909

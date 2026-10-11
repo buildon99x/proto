@@ -31,7 +31,7 @@ function hud(f){
  const elements=new Map(),$=id=>{if(!elements.has(id))elements.set(id,node());return elements.get(id);};
  const buttons=Object.fromEntries(['attack','hammer','charge','block','heal','judgement','expert1','expert2','potion'].map(a=>{const el=node();el.classList.toggle=(k,v)=>v?el.classes.add(k):el.classes.delete(k);el.classList.remove=(...keys)=>keys.forEach(k=>el.classes.delete(k));return [a,el];}));
  $('hotbar').querySelector=selector=>buttons[/data-(?:combat|action)="([^"]+)"/.exec(selector)?.[1]]??null;
- const env={...imports,state:f.s,battle:f.b,$,lastObjectiveHtml:'',config:()=>imports.controlsFor(f.s),keyName:a=>imports.actionLabel(imports.controlsFor(f.s),a),visibleAction:()=>true};
+ const env={...imports,state:f.s,battle:f.b,canvas:{width:1024},$,lastObjectiveHtml:'',config:()=>imports.controlsFor(f.s),keyName:a=>imports.actionLabel(imports.controlsFor(f.s),a),visibleAction:()=>true};
  const update=new Function(...Object.keys(env),[declaration('esc'),declaration('button'),declaration('tierLabel'),fn('updateHud'),'return updateHud;'].join('\n'))(...Object.values(env));
  const toasts=[],feedback=new Function('events','audio','toast','actionBlockedText','inputLatency','battle','dismissRecoveryNotice','$','noticeUntil',rejectionLoop);
  return {update,buttons,toasts,feedback:events=>feedback(events,{play(){}},t=>toasts.push(t),actionBlockedText,imports.createInputLatency(),f.b,imports.dismissRecoveryNotice,$,0),pool(kind){return new RegExp(`<div class="bar ${kind}">.*?<span>([^<]+)</span>`).exec($('vitals').innerHTML)?.[1];}};
