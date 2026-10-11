@@ -25,12 +25,44 @@ const routes=[
  route('freight-cut',7,[[-92,58],[-46,29],[3,18],[42,25],[77,42]]),
  route('quarry-cut',6,[[-78,-58],[-74,-47],[-29,-42],[22,-36],[61,-17],[102,-49]]),
  route('evac-spur',7,[[102,-49],[134,-75],[138,-108]]),
+ route('evac-south-entry',4,[[116,-130],[121,-123],[123,-103],[138,-103],[138,-108]]),
  route('relay-evac',6,[[28,-130],[28,-154],[60,-154],[75,-142],[116,-130],[151,-128],[151,-108],[138,-108]])
 ];
 const extractionZones=[
  {id:'south-lz',name:'남쪽 착륙장',x:0,z:145,radius:7,holdTime:6},
  {id:'east-evac',name:'동쪽 긴급 회수장',x:138,z:-108,radius:7,holdTime:6}
 ];
+// Wall-end waypoints are shared by guidance and world-space entrance markers.
+const evacEntrances=[{x:123,z:-103,label:'남쪽 입구',rotation:Math.PI/4},{x:146,z:-123,label:'북동쪽 입구',rotation:0}];
+const evacGuideNodes=[{x:121,z:-123,label:'남쪽 입구 접근로'},...evacEntrances,{x:138,z:-103,label:'회수장 남쪽 통로'},{x:146,z:-108,label:'회수장 동쪽 통로'}];
+function clearWalkSegment(a,b,walls,radius=.38){
+ const minX=Math.min(a.x,b.x)-radius,maxX=Math.max(a.x,b.x)+radius,minZ=Math.min(a.z,b.z)-radius,maxZ=Math.max(a.z,b.z)+radius;
+ for(const w of walls){if(w.alive===false||(w.y||0)>=1.75||w.x+w.w/2<minX||w.x-w.w/2>maxX||w.z+w.d/2<minZ||w.z-w.d/2>maxZ)continue;
+  let lo=0,hi=1;
+  for(const [axis,extent] of [['x','w'],['z','d']]){const delta=b[axis]-a[axis],min=w[axis]-w[extent]/2-radius,max=w[axis]+w[extent]/2+radius;
+   if(Math.abs(delta)<1e-9){if(a[axis]<min||a[axis]>max){lo=2;break;}}
+   else{let t0=(min-a[axis])/delta,t1=(max-a[axis])/delta;if(t0>t1)[t0,t1]=[t1,t0];lo=Math.max(lo,t0);hi=Math.min(hi,t1);}
+  }if(lo<=hi)return false;
+ }return true;
+}
+function extractionGuide(player,zone,walls,staticEdges=null){
+ if(!zone||zone.id!=='east-evac'||Math.hypot(player.x-zone.x,player.z-zone.z)>48||clearWalkSegment(player,zone,walls))return null;
+ const nodes=[player,...evacGuideNodes,zone];
+ const visible=(u,v)=>{if(!staticEdges||u===0||v===0)return clearWalkSegment(nodes[u],nodes[v],walls);const key=Math.min(u,v)*nodes.length+Math.max(u,v);if(!staticEdges.has(key))staticEdges.set(key,clearWalkSegment(nodes[u],nodes[v],walls));return staticEdges.get(key);};
+ const cost=nodes.map(()=>Infinity),previous=nodes.map(()=>-1),done=new Set();cost[0]=0;
+ for(let n=0;n<nodes.length;n++){let u=-1;for(let i=0;i<nodes.length;i++)if(!done.has(i)&&(u<0||cost[i]<cost[u]))u=i;if(u<0||!Number.isFinite(cost[u]))break;done.add(u);
+  for(let v=1;v<nodes.length;v++){if(done.has(v)||!visible(u,v))continue;const next=cost[u]+Math.hypot(nodes[u].x-nodes[v].x,nodes[u].z-nodes[v].z);if(next<cost[v]){cost[v]=next;previous[v]=u;}}
+ }
+ let at=nodes.length-1;if(previous[at]<0)return null;while(previous[at]>0)at=previous[at];const waypoint=nodes[at];
+ return {...waypoint,distance:Math.hypot(player.x-waypoint.x,player.z-waypoint.z),remaining:cost.at(-1)};
+}
+// Mission walls have fixed authored geometry; only alive changes during a raid.
+// Cache fixed waypoint edges, never player edges. A new target or changed wall
+// membership/alive state invalidates the graph before any route is reused.
+function createExtractionGuide(walls){
+ const edges=new Map();let target=null,alive=[],references=[];
+ return (player,zone)=>{let changed=target!==zone||alive.length!==walls.length;for(let i=0;i<walls.length;i++){const state=walls[i].alive!==false;if(alive[i]!==state||references[i]!==walls[i])changed=true;alive[i]=state;references[i]=walls[i];}if(changed){edges.clear();target=zone;alive.length=walls.length;references.length=walls.length;}return extractionGuide(player,zone,walls,edges);};
+}
 function segmentDistance(x,z,a,b){const dx=b.x-a.x,dz=b.z-a.z,l=dx*dx+dz*dz,t=l?Math.max(0,Math.min(1,((x-a.x)*dx+(z-a.z)*dz)/l)):0;return Math.hypot(x-a.x-t*dx,z-a.z-t*dz);}
 function routeDistance(x,z){let best=Infinity;for(const r of routes)for(let i=1;i<r.points.length;i++)best=Math.min(best,segmentDistance(x,z,r.points[i-1],r.points[i])-r.width/2);return best;}
 function createDefinition(){
@@ -95,6 +127,8 @@ function createDefinition(){
  for(const s of details.filter(v=>v.type==='sign'||v.type==='direction')){for(const x of [s.x-s.width/2-.25,s.x+s.width/2+.25])wall(x,s.z,.18,.18,s.y+.45,'steel');}
  // Physical posts for the powered night work lamps.
  for(const l of landmarks)wall(l.x+7,l.z+7,.22,.22,4.8,'steel',{renderProxy:true});
+ // Match the two slender posts on each entrance fixture; raised panels remain above head height.
+ for(const e of evacEntrances)for(const side of [-1,1])wall(e.x+Math.cos(e.rotation)*side*3,e.z-Math.sin(e.rotation)*side*3,.12,.12,2,'steel',{renderProxy:true});
  // Deterministic forest: clear actual roads, landmarks, loot, opponents and major cover.
  // Every visible trunk in the traversable region has a matching narrow solid collider.
  let attempts=0;
@@ -110,7 +144,7 @@ function createDefinition(){
  }
  // Boss is last for existing combat/HUD compatibility; its token stays core-owned.
  guard('relay',28,-136,{boss:true,hp:180,activationRange:37,leash:27});
- return {version:VERSION,size:SIZE,bounds:{...bounds},spawn:{...spawn},landmarks:landmarks.map(l=>({...l})),routes:routes.map(r=>({...r,points:r.points.map(p=>({...p}))})),extractionZones:extractionZones.map(e=>({...e})),walls,trees,details,pickups,enemies,stats:{treeCount:trees.length,wallCount:walls.length,enemyCount:enemies.length,routeCount:routes.length}};
+ return {version:VERSION,size:SIZE,bounds:{...bounds},spawn:{...spawn},landmarks:landmarks.map(l=>({...l})),routes:routes.map(r=>({...r,points:r.points.map(p=>({...p}))})),extractionZones:extractionZones.map(e=>({...e})),evacEntrances:evacEntrances.map(e=>({...e})),walls,trees,details,pickups,enemies,stats:{treeCount:trees.length,wallCount:walls.length,enemyCount:enemies.length,routeCount:routes.length}};
 }
 const definition=createDefinition();
 function populate(mission){
@@ -121,6 +155,6 @@ function populate(mission){
  for(const e of region.enemies)mission.enemies.push({...e,id:mission.enemies.length,attack:1+mission.rand()*2,phase:mission.rand()*6});
  return region;
 }
-const api={VERSION,SIZE,bounds,spawn,landmarks,routes,extractionZones,definition,createDefinition,populate,segmentDistance,routeDistance};
+const api={VERSION,SIZE,bounds,spawn,landmarks,routes,extractionZones,evacEntrances,clearWalkSegment,extractionGuide,createExtractionGuide,definition,createDefinition,populate,segmentDistance,routeDistance};
 root.DFWorld=api;if(typeof module!=='undefined')module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this);

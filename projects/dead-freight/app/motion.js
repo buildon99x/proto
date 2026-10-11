@@ -65,6 +65,10 @@
   return r;
  }
  function rifleBolt(t){return t<.045?.056*ease(t/.045):t<.090?.056*(1-ease((t-.045)/.045)):0;}
+ function loadoutPose(lower=0){
+  const t=clamp(lower,0,1),u=t*t*t*(t*(t*6-15)+10),release=ease(t/.45);
+  return {x:.09*u,y:-.95*u,z:.12*u,pitch:-.55*u,yaw:.12*u,roll:-.20*u,index:release,supportX:-.065*u,supportY:-.10*u,supportZ:.10*u,supportRotZ:-.2*u};
+ }
  function create(){
   const s={};axes.forEach(k=>s[k]={x:0,v:0});let slide=0,ads=0,sprint=0,dash=0,locomotion=0,phase=0,shots=0,swap=0,rifleHeat=0,rifleAge=Infinity,boltAge=Infinity,lastWeapon=0;
   function reset(){axes.forEach(k=>s[k]={x:0,v:0});slide=ads=sprint=dash=locomotion=phase=swap=shots=rifleHeat=0;rifleAge=boltAge=Infinity;lastWeapon=0;}
@@ -82,5 +86,5 @@
   }
   return {fire,impulse,step,reset};
  }
- root.DFMotion={create,reloadPose,rifleReloadPose,rifleStages,rifleBolt};
+ root.DFMotion={loadoutPose,create,reloadPose,rifleReloadPose,rifleStages,rifleBolt};
 })(globalThis);

@@ -1,4 +1,4 @@
-# DEAD FREIGHT / R4 FOUNDATION CHECKPOINT 0.10.0
+# DEAD FREIGHT / BALLISTIC ORDER CHECKPOINT 0.12.1
 
 R-4 라이플 한 종의 FPS 기반과, 340×340m 단일 연결 지역을 다루는 1인칭 Extraction 개발 체크포인트입니다. `proto/projects/dead-freight`에서 개발합니다. 완성된 상용 오픈월드 규모나 품질을 의미하지 않습니다.
 
@@ -9,6 +9,12 @@ GPT Site: https://dead-freight-browser.buildon733500.chatgpt.site (사용자 요
 0.10은 사용자 FPS 명세 v1.0의 첫 구현 구간입니다. R4 데이터 정의, 무기별 탄약 상태, 유한한 꺼내기·넣기 동작, H 맨손 전환, 빈 탄창 자동 장전, 총구 엄폐 판정과 조작키 변경을 연결했습니다. 전체 요구사항과 남은 검증은 [명세 대응 현황](gunplay-spec-v1-status.md)을 보세요. 이 버전의 실제 마우스 조작·청취·화면 품질 검증은 아직 남아 있습니다.
 
 R-4는 별도 탄창/약실, 연사/3점사, 입력 버퍼, 달리기 후 사격 복귀, 일반/빈 탄창 재장전, 거리별 피해와 방어구 반응을 구현했습니다. 기존 세 무기는 유지되지만 새 기준의 완성 검증은 아직 아닙니다. 라이플 한 종의 실제 플레이·청취가 다음 단계 진입 조건입니다. 장비 보관함은 0.8에 추가했습니다. 두 도시 맵, 완성형 레이드/AI/경제 및 새 명세의 여섯 무기군 완성은 아직 구현되지 않았습니다.
+
+## 0.11 물품 동작과 HUD
+
+3–6으로 치료·탐지 물품을 사용하거나 투척물을 선택합니다. 수류탄은 손에 든 뒤 새 좌클릭/F 입력으로 던집니다. 손에 든 채로는 신관이 진행되지 않으며 투척 순간 1개를 소모합니다. 치료는 준비 후 실제 사용 시점에만 회복·소모합니다. 사용 전 피격, 메뉴, 무기 선택으로 취소할 수 있고, 효과 적용 뒤에는 반환하거나 중복 적용하지 않습니다. H 또는 1/2로 총기에 복귀합니다. 사용·복귀 동안 사격과 정밀 조준이 막힙니다.
+
+중앙 아래에는 현재 물품과 행동 단계만 표시하고, 피격 위치를 아는 경우에만 방향 표시를 냅니다. 기본 HUD는 체력·탄약·목표를 우선하며 메뉴의 상세 HUD로 총기/오디오 진단을 볼 수 있습니다. 시점 손과 소품은 원본 절차형 지오메트리입니다. 실제 GPU 화면·청음·일반 조작·성능 검증은 별도이며 AAA 수준 달성이라는 주장은 하지 않습니다.
 
 ## 플레이 루프
 
@@ -31,7 +37,7 @@ R-4는 별도 탄창/약실, 연사/3점사, 입력 버퍼, 달리기 후 사격
 - 1/2 또는 휠 장착 무기 · H 맨손/무기 복귀 · 3–6 빠른 사용 · Tab 가방 · E 회수/탈출 · M 지도 · L 레이저 · Esc 일시정지
 - 마우스 잠금이 안 되면 화살표 키로 조준
 
-메뉴의 조작키 변경에서 현재 구현된 행동을 다른 키·마우스 버튼에 배치할 수 있습니다. Esc는 화면 닫기·취소에 항상 사용할 수 있습니다. 아직 근접 공격·투척 준비·앉기는 구현되지 않아 새 명세의 전체 기본키 구성을 적용하지 않았습니다.
+메뉴의 조작키 변경에서 현재 구현된 행동을 다른 키·마우스 버튼에 배치할 수 있습니다. Esc는 화면 닫기·취소에 항상 사용할 수 있습니다. 아직 근접 공격·앉기는 구현되지 않아 새 명세의 전체 기본키 구성을 적용하지 않았습니다.
 
 걷기는 초당 2, 달리기는 초당 10의 스태미나를 실제 이동량에 따라 소비합니다. 점프 10, 슬라이드 28, 회피 45를 사용하며, 지상에서 멈추면 초당 24를 회복합니다. 소진되어도 느리게 걸을 수 있습니다.
 
@@ -88,3 +94,27 @@ E는 물품을 가방으로 회수합니다. Tab 가방에서 비교·장착·�
 물품 상세·정렬·장비 비교, 가방 준비, 묶음 전체 판매를 지원합니다. 보급품의 판매 가치는 0입니다. 기존 초과 물품은 버리지 않으며, 회수한 물품이 보관함에 들어가지 못하면 회수 대기에 안전하게 저장됩니다. 받기 또는 판매를 마쳐야 다음 원정으로 갈 수 있습니다. 판매한 물품의 임시 출격 준비는 취소됩니다.
 
 저장 형식5는 무기 개체별 약실·탄약·작동 상태를 추가하며 기존 현금·물품·용량·회수 대기를 유지합니다. 형식4 기록은 첫 변경 전에 정확한 원문을 별도 백업합니다. 읽기/쓰기 실패 시 기존 기록을 덮어쓰거나 비우지 않습니다. 저장 대기는 출격 메뉴에서 재시도하세요. 다른 창의 변경을 확인하면 중지하지만 localStorage에는 동시 탭 트랜잭션 보장이 없습니다. 별도 테스트 저장 URL의 동작은 일반 기록과 분리됩니다.
+
+
+## 0.11.1 시점 손 시인성 수정
+Windows Edge 실제 후보 검증에서 수류탄과 장갑이 어둡게 합쳐지는 문제가 관찰됐습니다. 물품 손·소품만 별도 장면의 국소 조명으로 그리고 장갑 패널·손목·본체·핀의 재질 명도를 분리했습니다. 월드/라이플 조명과 후처리는 그대로입니다. 메뉴와 제목의 버전도 0.11.1로 맞췄습니다. 수정 후 핀/의료 접촉이 실제 화면에서 읽히는지는 다시 확인해야 합니다.
+
+
+## 0.11.2 행동 HUD 접촉 영역 분리
+실제 치료 화면에서 중앙 아래 HUD가 손목 접촉을 가렸습니다. 행동 이름·단계·진행률을 왼쪽 체력 위의 좁은 영역으로 옮겼고 작은 화면에서는 단계만 보이는 축약형을 사용합니다. 전체 물품 이름과 단계는 접근성 레이블에 유지합니다. 중복 준비 메시지를 줄이고, 리그 위치·조명·치료량·저장 구조는 그대로 유지했습니다. 수정 후 실제 작은 화면 배치 검증은 별도입니다.
+
+
+0.11.3 adds saved keyboard-aim accessibility options under control settings: continuous 15/40/100% speeds or one-press 0.25/1/5-degree steps. Release the aim key before the next step. Default mouse and keyboard rates are unchanged. Actual post-patch input QA is pending.
+
+0.11.4 frag control: select4, hold fire at least0.10 active seconds, release that same button to throw. Short taps keep the grenade ready. No fuse cooking; hand-release consumption remains0.23s into throw animation.
+
+0.11.5 adds an optional held-aim throw trajectory. Dashed line predicts current-state flight/reflections and the small marker marks first collision. Walls occlude it. Disable in control settings.
+
+## 0.12.0 ballistic candidate
+Four guns now share armor coverage, damage falloff and explicit finite range. Shotgun uses9 deterministic pellets sharing one shell and automatic pump. Production fire uses350m/s pistol/shotgun,450m/s SMG and800m/s R4 projectiles, gravity9.81m/s², with no near-range hitscan switch. These are provisional gameplay values. Fixed120Hz swept contacts resolve by physical contact time; destroyed cover is retraced for later arrivals. Shot presentation is immediate; confirmed contact drives damage and impact feedback. Thin tracers show actual flight segments. Model tests do not replace actual aim, GPU, listening or FPS acceptance.
+
+
+## 0.12.1 incoming/outgoing contact order
+An incoming fatal shot no longer removes an outgoing hit that physically arrived earlier in the same simulation interval. The flight grid remains120Hz, with incoming contact times splitting an interval only when required. Earlier outgoing contacts resolve before later damage; fatal incoming damage still clears later player flight. Model regressions cover30/60/120/1000Hz update schedules and reversed incoming arrays.
+
+On2026-10-11, the published0.12.0 candidate again failed WebGL initialization in dot's normal frontmost Chromium and after one reload, with GL_VENDOR/GL_RENDERER reported Disabled. No real shot, motion, extraction, FPS or listening acceptance was possible. This0.12.1 source checkpoint has not been deployed; public root0.10.0 and candidate0.12.0 remain unchanged.

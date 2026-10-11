@@ -1,3 +1,17 @@
+## 0.12.0 — provisional ballistic candidate
+- Shared damage, finite range, falloff, helmet/body armor and per-pellet claims; R4 formula preserved.
+- Shotgun105 torso budget divided across9 pellets, one shell/report/pump.
+- All-distance high-speed gravity projectiles with120Hz swept walls and moving enemy hit volumes. No wall/body penetration or distance-threshold hitscan.
+- Contact-time priority and simultaneous-contact groups avoid array-order destruction artifacts; fatal explosions stop pending contacts.
+- Immediate firing presentation and delayed confirmed impact, pooled depth-tested flight segments, bounded contact evidence.
+- Original first-person actions, utility Foley and three candidate save namespaces preserved. Actual render, play balance, audio and FPS acceptance pending.
+
+## 0.10.1 — source checkpoint, visual acceptance pending
+- Raise only enemy coat, face and trouser diffuse colors to separate moving body parts from dark forest trunks. Preserve restored world/gun illumination, fog, grading, framing and all save formats.
+- Add a narrow, tree-cleared approach around the east evacuation south wall end, spaced world-space paint, two EVAC entrance fixtures and two bounded local lights. Keep existing walls and extraction hold rules.
+- When a nearby east evacuation path is obstructed, show collision-checked entrance and walking-route distances instead of only the misleading direct distance.
+- Add six geometry/scene checks and two rendererless feedback regressions. Actual GPU contrast, fixture readability/glare, ordinary-input approach and FPS require separate Windows Edge verification.
+
 # Changelog
 
 ## 0.10.0 — first FPS specification v1 foundation slice
@@ -112,3 +126,53 @@
 - Use licensed Pixabay recordings for layered rifle shot/mechanism/reload/casing/impact cues, source provenance and loading/error UI; keep raw source recordings outside the repository
 - Tie casing audio to physical contact and distinguish indoor/outdoor mixes, armor impact and interrupted reload cues
 - Preserve 0.6 as the prior development checkpoint; no later roadmap phase is claimed passed
+
+0.10.1 pre-deployment CPU follow-up: cache fixed evacuation graph edges per mission and invalidate on wall/target changes. A pure-model equivalence regression and reproducible CPU benchmark accompany the change; browser FPS remains unverified.
+
+
+## 0.11.0 — First-person action source candidate
+- Delayed item transaction timeline: lower/present/ready/use/commit/recover; held grenade requires a fresh fire command. Health, scanner duration and grenade inventory effects are committed exactly once after UID validation. Damage/menu/death/weapon return cancel uncommitted work.
+- Independent original articulated utility-hand rig with wrists, rounded finger segments, medical/scan props and grenade; continuous cancelled recovery and quintic loadout lowering with safe trigger index/support-hand offset.
+- Action-state HUD, selected quick slot, source-based damage direction, critical health/empty ammo emphasis, low-resolution CSS and optional detailed weapon/audio diagnostics.
+- Existing instantly consumed browser-use expectations updated to the new staged contract; inventory transaction model remains compatible. No audio files, save schema, global lighting or baseline weapon framing changed.
+- This is a local source candidate. Actual GPU/mouse/audio/FPS acceptance and sparse root aggregate are not claimed complete.
+
+
+## 0.11.1 — Utility readability correction from Windows QA
+- Inspected the actual held-grenade screenshot: glove and prop blend into the dark foreground. The supplied treatment-use image shows the returned rifle and is not a medical contact frame.
+- Render utility hands/props in a separate, active-only scene with bounded ambient/key/frontal fill. Existing world and firearm lights, fog and grade remain unchanged. Separate cool diffuse glove/panel/wrist/body/pin values, without emissive glow.
+- Keep all inventory/action timing, saves and audio unchanged. Correct stale menu/version title to 0.11.1.
+- Added light-scene ownership/active-only rendering, diffuse material separation and version consistency regressions. Actual post-fix GPU readability and performance remain pending.
+
+
+## 0.11.2 — Uncover the treatment contact
+- Inspected actual 0.11.1 treatment-B and held-grenade images; the central action box covered the medical hand/wrist contact.
+- Move action status to a compact left rail above vitals; retain progress and shorten ready controls. Small windows use a state-only label with the item preserved in the accessible label. Suppress redundant successful preparation text.
+- Preserve utility rig, improved lighting, gameplay, audio and both existing candidate namespaces. Version labels updated consistently.
+- Add analytic HUD/contact/aim/goal/vitals separation at six viewport sizes, CSS contract and accessible-state regressions. Actual post-fix browser layout remains a separate check.
+
+
+## 0.11.3 — Keyboard aiming and pointer-lock lifecycle
+- Added saved, remap-compatible 15%/40%/100% continuous keyboard aim and one-physical-press 0.25°/1°/5° angular steps; mouse sensitivity unchanged.
+- Cancelled activation now releases owned pointer lock; duplicate starts and stale failures are guarded; legacy error events stay visible; unrelated lock events do not pause keyboard fallback.
+- WrongDocumentError in Windows automation remains an unresolved focus-context limitation, not an established ordinary-user defect.
+
+
+## 0.11.4 — Prepared grenade release
+Fresh fire press now holds a presented grenade for aim; same physical input release after0.10 active seconds begins throwing. Short taps return safely to ready. HUD/motion represent held aim without fuse cooking. Existing projectile/commit/balance unchanged. Dedicated utility Foley and trajectory preview remain open.
+
+
+## 0.11.5 — Shared-physics throw preview
+Added optional thin, depth-tested dashed throw guide while holding grenade aim, plus first-impact marker. Prediction shares actual spawn/gravity/wall/floor reflection functions and does not consume or emit events. Fixed241-point GPU buffer and15Hz model refresh; current geometry/position estimate only. Actual rendering/feel/FPS/listening remain unverified.
+
+
+## 0.11.6 — Independent trajectory QA storage
+Added one fixed trajectory-qa profile for normal-rule testing without clearing or settling either existing candidate profile. Badge names the selected profile.
+
+
+## 0.12.1 — chronological incoming damage (source checkpoint,2026-10-11)
+- Fix an earlier player contact being suppressed by a later fatal incoming shot within the same update.
+- Sort incoming contacts and split the existing flight interval at their times. Preserve cancellation of later player flight after death.
+- Add frame-schedule, incoming-array-order and moving-target regressions.
+- Refresh the checkpoint title and metadata to describe current ballistics.
+- Public deployment and actual WebGL gameplay/listening remain separate acceptance gates.

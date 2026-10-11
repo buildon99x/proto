@@ -116,3 +116,67 @@ Follow the phase table in specification §17 when per-feature priority tables di
 R4 uses validated project JSON and accumulated 60 Hz shot deadlines. Separate weapon UID state and a single-use ammunition/shot journal protect round transfer, chambering, damage and audiovisual commits. Swaps lower the old gun before equipping/drawing the next; H holsters safely. Empty reload waits 0.30 s, tactical interruptions retain committed ammunition, sprint and air/slide suppress ADS, and physical muzzle obstruction prevents shooting through close cover. Current controls can be rebound without changing normal-profile keys from the isolated test URL. Preserve 0.9 stash semantics under schema5 with exact schema4 backup.
 
 Menu audio decoding is silent and independent of deployment. After readiness, one fresh Start gesture activates sound and requests pointer lock; raid creation happens only after the current activation succeeds or explicit mute is selected. Focus/Escape/mute/lifecycle changes invalidate old completions. This replaces the prior deliberate cold two-gesture UX under specification §14.2. All unimplemented actions and actual acceptance requirements are listed in [the requirement status](gunplay-spec-v1-status.md).
+
+## Visibility and extraction approach contract
+Keep global grade, fog, ambient illumination, weapon transforms and persistence unchanged. Enemy cloth/face must remain opaque, diffuse and non-emissive; use tonal separation rather than outlines or a screen overlay. East evacuation has marked south and northeast wall-end approaches, a narrow painted approach and two bounded work lights. Near extraction, replace misleading through-wall guidance with a reachable entrance waypoint only when the direct path is blocked. Verify player-clearance segments against actual world collision; do not equate those tests with rendered visibility acceptance.
+
+Near-field guidance is called from the per-frame HUD. Cache only fixed waypoint-to-waypoint visibility for the lifetime of one mission build; player edges stay live. Invalidate fixed edges when wall alive state, wall membership or extraction target changes. Mission wall geometry and extraction coordinates are authored and stationary. Compare the cached route to the uncached pure solver and measure Node CPU separately from real browser FPS.
+
+
+## First-person actions and HUD plan
+Use one cancellable item action with lower, present, ready/use, commit and recover phases. A throwable waits in hand until a fresh fire command; healing commits only at its use marker. Cancel before commit on damage, pause/menu, weapon selection or death without consuming or healing. After commit never refund or repeat the effect. Match the original inventory UID and item at commit. Clear input at transitions and block firearm/ADS until recovery. HUD must report the actual stage, never a fabricated completion. Keep hand props below the central aim region.
+
+
+## 0.11.1 actual-play readability correction
+Give utility hands/props their own scene-local lighting so additional fill cannot illuminate world or firearms. Separate glove panels, wrist, grenade body and pin by bounded cool values. Render this scene only while the utility rig is visible and preserve existing depth/flash order. Keep behavior, timing, storage schema and audio unchanged. Both menu and title report 0.11.1.
+
+
+## 0.11.2 treatment HUD correction
+Place the action HUD on the left edge above vitals, outside the central action/contact and aim regions. Use one compact label row and progress track; at small window sizes show the action label with the item name retained in the accessible label. Keep objective information above it. Do not change the item rig, gameplay timing, healing, lighting or storage.
+
+
+## 0.11.3 keyboard aiming accessibility
+Preserve default mouse behavior and default continuous keyboard aiming. Add explicit slow continuous speeds and one-press angular steps, independent of OS repeat. Persist/reset alongside existing remappable controls without touching save profiles. Diagnose pointer-lock ownership/focus and request lifecycle without suppressing original errors or bypassing browser permission. Actual Windows pointer-lock failure is not yet established as an ordinary-player defect. Rendererless checks and browser QA remain separate.
+
+Validation: all 33 app suites completed with final exit 0, 766 reported checks, lint and static packaging pass. One initial runtime failure exposed an overbroad duplicate-Start guard that blocked explicit fresh restart; fixed and rerun before completion (all attempts retained). Root registry/aggregate attempts still fail before execution at pnpm store creation, with sparse root scripts/launcher unavailable. No new actual browser acceptance claimed.
+
+
+## 0.11.4 prepared throw contract
+Address original specification §10.1: fresh physical fire press after presentation enters held aim, no item/fuse consumption while held; after at least 0.10 active seconds only release of that same physical input starts throwing. Earlier release returns safely to held-ready. Keep current release animation commit at 0.23s, no cooking, existing ballistics/balance unchanged. Cancellation and HUD/motion reflect actual state. Trajectory preview, extra throwable variants and dedicated utility Foley remain unimplemented.
+
+Validation: all33 app suites final exit0, 775 reported checks; syntax/static build pass. Full root registry/aggregate commands remain blocked before execution by pnpm store creation. Actual post-patch rendering/listening/FPS and candidate extraction-success persistence remain unverified.
+
+
+## 0.11.5 throwable trajectory preview
+Share the exact live grenade launch and gravity/wall/bounce step with pure prediction. Optional thin depth-tested dashed guide and first-impact marker only during held aim. No extra assets or screen-wide overlay; never consume, damage, emit events or start a fuse from prediction. Preview reflects current release position and current geometry, not future movement/destruction.
+
+Validation: 782 checks in33 suites, each final exit0; lint/static build pass. Shared physics matches at30/60/120Hz and hit-pause fragments after fixed120Hz accumulator correction. Null settings fallback and both GPU buffer identities are regression-tested. Root registry/aggregate are blocked before execution; no actual render/listening/FPS acceptance claimed.
+
+
+## 0.11.6 fixed independent trajectory QA profile
+Adds only testProfile=trajectory-qa to the exact allowlist, using deadfreight-test:trajectory-qa: under the existing candidate prefix when published. Default/local-qa mappings stay byte-identical. No copy/reset/deletion, arbitrary namespaces, gameplay/equipment override or extra profile creation API. Existing interrupted raids are not settled by this change.
+
+Validation: all33 app suites exit0,784 checks, lint/static packaging pass. Root registry/aggregate remain blocked before execution. New profile gameplay is identical; actual trajectory GPU/normal input acceptance remains pending.
+
+
+## 0.11.7 recorded utility Foley
+Official Pixabay UI downloads obtained through supported browser download events, raw MP3s outside repository. Add modest cloth/Velcro/tire-gauge-pin stand-in cues synced to action markers, stop only Foley on cancellation, never replay past markers. Existing gun recordings/gameplay unchanged. Source-based waveform selection is provisional, not listened/mixed quality acceptance.
+
+Validation: 793 checks across all 33 app suites exit0; lint/static build pass. Root registry/aggregate stop before execution on pnpm path ENOENT. Four new local recordings bring preparation bank to83. Per-action markers/cancellation and waveform bounds tested; listening, hardware mix, visual contact timing and FPS remain unverified.
+
+## Ballistics slice 1
+Common ShotResolver owns damage/falloff/coverage and per-pellet duplicate claims. Preserve R4 formula exactly. Provisional legacy settings: pistol48, head2.5, falloff25–70m to.65, max120m; shotgun105 total budget, head2.5 initially, falloff12–35m to.25, max60m; SMG21, head2.5, falloff18–55m to.55, max100m. Legacy limb multiplier1 preserves current close hit behavior. All use armorAbsorption1, separate helmet/body coverage. Wall damage40/90/19 and barrel50 retain legacy base budgets but receive the same distance falloff. Stage1 retains single rays only as a migration checkpoint. Later shotgun distributes105 across9, never105 per pellet. No distance-threshold hitscan switching.
+
+## Ballistics slice 2
+Shotgun now emits9 deterministic center/stratified samples under one discharge, one shell, one report and existing automatic pump. Provisional total torso budget105 is divided by9; hip cone2.6°, ADS2°. Per-pellet first-wall contacts and per-shot hit statistics remain bounded. This is a tuning hypothesis requiring actual play, not an ARC/Warzone or real-weapon claim.
+
+## Ballistics slice 3 / 0.12.0 candidate
+Runtime all four guns launch high-speed projectiles: pistol/pellet350m/s, SMG450m/s, R4 800m/s; gravity9.81m/s². These are provisional design hypotheses. No near-distance instant-hit branch, drag, wind, wall/body penetration, automatic lead or drop compensation. Camera rays only choose aim direction; world-space muzzle gate is preserved. Fixed120Hz analytic flight segments sweep walls and author-defined enemy torso/limb boxes + head sphere with relative target translation; cosmetic hat/gun and hit-pulse scale do not enlarge damage volumes. Rotation is held over each short collision interval; this is a documented approximation, not skinned-mesh collision. Current enemy slow projectiles and grenade gravity are unchanged. Existing world.fire(hit) reference adapter remains for direct model regression fixtures; production input always supplies launch geometry and never uses reference hit data for damage.
+
+At most128 live player projectiles,64 pooled thin depth-tested visual lines,4096 shot records and512 contact logs. Tracers use past/current authoritative positions only. Each contact records shotId/pelletId/origin/velocity/birth/contact time/travel distance/part/armor and damage. Per-pellet presentation claims prevent replayed impact audio/markers. Pause freezes flight; death/extraction clears it; switching equipment preserves already-fired flight. Source/gameplay tests cannot establish perceived latency, audio quality or hardware FPS.
+
+Independent review correction: within each fixed step, contacts resolve in increasing physical impact time, with simultaneous contacts grouped against their existing surface. Destruction/death causes remaining candidates to retrace; fatal barrel damage aborts every pending contact. Pellet array order must not alter wall/enemy/barrel removal outcomes.
+
+
+## 0.12.1 chronological incoming damage
+Preserve the120Hz swept player-flight grid. Within an interval, resolve outgoing contacts through the time of each chronologically sorted incoming contact before applying that incoming damage. If the incoming damage kills the player, discard only later in-flight contacts. Maintain single ammo/hit claims and moving-target interpolation when a timed boundary splits a flight interval. This changes ordering only; weapon balance, storage formats, normal-profile keys and published Site artifacts are unchanged.

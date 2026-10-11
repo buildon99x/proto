@@ -56,3 +56,57 @@ Add a limited home inventory for owned equipment/items and allow expansion with 
 
 ## FPS specification v1 first slice
 Apply the creator-adopted FPS gunplay specification v1.0, latest Library libfile_17175a9b0b188191bffc98b8d6809dcc version1. Both487-line copies have identical returned text. Preserve0.9 as a checkpoint. First vertical slice is the common P0 foundation exercised by R4: validated weapon data, stable instance state, ammo/shot commits, input arbitration, swap/holster and reload cancellation, automatic empty reload, and muzzle obstruction. Do not add classes/maps before foundation acceptance. Actual mouse/audio/performance acceptance remains distinct from source checks and must be evaluated in the isolated QA profile.
+
+## Windows Edge visibility / extraction correction
+Observed ordinary-input QA found enemies merging into trees away from work lamps and a blocked approach 12 m from east extraction. Preserve restored baseline lighting, noise-free grading, weapon framing and saves. Improve diffuse enemy-part contrast and mark actual wall-end entrances with restrained world-space signs, paint and local fixtures.
+
+
+## First-person actions and HUD plan
+First-person action checkpoint: staged holster/draw, selected held throwable, delayed committed healing and compact action HUD. Keep established weapon framing and recorded-only firearm audio. The user includes HUD quality in the same scope. Original geometry only; no commercial parity claim.
+
+
+## 0.11.1 actual-play readability correction
+Windows Edge 0.11 QA confirms selected item behavior but shows held grenade/gloves merging into the foreground. Raise only utility viewmodel readability; preserve world lighting, fog, grading and firearm framing. Correct menu/candidate version mismatch. The supplied treatment-use screenshot actually shows the returned rifle and is not evidence of medical contact visibility.
+
+
+## 0.11.2 treatment HUD correction
+Actual Windows 0.11.1 treatment frame shows the centered action HUD obscuring wrist/hand contact. Move and simplify the HUD; retain the improved utility lighting, anatomy and animation. Preserve root and both candidate storage profiles.
+
+
+## 0.11.3 keyboard aiming accessibility
+Preserve default mouse behavior and default continuous keyboard aiming. Add explicit slow continuous speeds and one-press angular steps, independent of OS repeat. Persist/reset alongside existing remappable controls without touching save profiles. Diagnose pointer-lock ownership/focus and request lifecycle without suppressing original errors or bypassing browser permission. Actual Windows pointer-lock failure is not yet established as an ordinary-player defect. Rendererless checks and browser QA remain separate.
+
+Validation: all 33 app suites completed with final exit 0, 766 reported checks, lint and static packaging pass. One initial runtime failure exposed an overbroad duplicate-Start guard that blocked explicit fresh restart; fixed and rerun before completion (all attempts retained). Root registry/aggregate attempts still fail before execution at pnpm store creation, with sparse root scripts/launcher unavailable. No new actual browser acceptance claimed.
+
+
+## 0.11.4 prepared throw contract
+Address original specification §10.1: fresh physical fire press after presentation enters held aim, no item/fuse consumption while held; after at least 0.10 active seconds only release of that same physical input starts throwing. Earlier release returns safely to held-ready. Keep current release animation commit at 0.23s, no cooking, existing ballistics/balance unchanged. Cancellation and HUD/motion reflect actual state. Trajectory preview, extra throwable variants and dedicated utility Foley remain unimplemented.
+
+Validation: all33 app suites final exit0, 775 reported checks; syntax/static build pass. Full root registry/aggregate commands remain blocked before execution by pnpm store creation. Actual post-patch rendering/listening/FPS and candidate extraction-success persistence remain unverified.
+
+
+## 0.11.5 throwable trajectory preview
+Share the exact live grenade launch and gravity/wall/bounce step with pure prediction. Optional thin depth-tested dashed guide and first-impact marker only during held aim. No extra assets or screen-wide overlay; never consume, damage, emit events or start a fuse from prediction. Preview reflects current release position and current geometry, not future movement/destruction.
+
+Validation: 782 checks in33 suites, each final exit0; lint/static build pass. Shared physics matches at30/60/120Hz and hit-pause fragments after fixed120Hz accumulator correction. Null settings fallback and both GPU buffer identities are regression-tested. Root registry/aggregate are blocked before execution; no actual render/listening/FPS acceptance claimed.
+
+
+## 0.11.6 fixed independent trajectory QA profile
+Adds only testProfile=trajectory-qa to the exact allowlist, using deadfreight-test:trajectory-qa: under the existing candidate prefix when published. Default/local-qa mappings stay byte-identical. No copy/reset/deletion, arbitrary namespaces, gameplay/equipment override or extra profile creation API. Existing interrupted raids are not settled by this change.
+
+Validation: all33 app suites exit0,784 checks, lint/static packaging pass. Root registry/aggregate remain blocked before execution. New profile gameplay is identical; actual trajectory GPU/normal input acceptance remains pending.
+
+
+## 0.11.7 recorded utility Foley
+Official Pixabay UI downloads obtained through supported browser download events, raw MP3s outside repository. Add modest cloth/Velcro/tire-gauge-pin stand-in cues synced to action markers, stop only Foley on cancellation, never replay past markers. Existing gun recordings/gameplay unchanged. Source-based waveform selection is provisional, not listened/mixed quality acceptance.
+
+Validation: 793 checks across all 33 app suites exit0; lint/static build pass. Root registry/aggregate stop before execution on pnpm path ENOENT. Four new local recordings bring preparation bank to83. Per-action markers/cancellation and waveform bounds tested; listening, hardware mix, visual contact timing and FPS remain unverified.
+
+## Ballistics implementation restart, 2026-10-10
+Recovered 0.11.7 archive SHA 9f2431b39e0ed10b2ccf0563fd8625da16261c43b0fb69f81cb25109b815182b and all119 build hashes. Implement approved proposal in small preserved slices: shared damage/range/armor, nine pellets, then fixed-step high-speed swept projectiles. Existing actions, audio and profiles remain regression gates. Values are playtest hypotheses, not reverse-engineered original-game values.
+
+0.12.0 candidate implements all three model slices; actual Windows aim/contact/readability and listening acceptance remain required.
+
+
+## 0.12.1 contact-order correction brief
+Continue the requested ballistic-quality work on the dot cloud computer. Preserve saves, the published root and candidate, and unrelated projects. Correct demonstrated ordering defects where an incoming fatal projectile suppresses a physically earlier outgoing contact; do not treat model evidence as actual-play acceptance. GPU/settings bypass and an unapproved switch to the user's Windows computer are out of scope.

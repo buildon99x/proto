@@ -39,14 +39,14 @@ function fixture(options={}){
 let checks=0;
 async function check(name,fn){await fn();checks++;console.log('PASS '+name);}
 (async()=>{
- await check('idle menu decodes all 79 recordings without resume, playback or synthetic sources',async()=>{
+ await check('idle menu decodes all 83 recordings without resume, playback or synthetic sources',async()=>{
   const {engine,context,controller,calls}=fixture();assert.equal(controller.snapshot().canStart,false);
   const pending=controller.prepare();assert.equal(controller.prepare(),pending);assert(await pending);
-  assert.equal(calls.contexts,1);assert.equal(calls.fetches,79);assert.equal(context.decodes,79);assert.equal(context.resumes,0);assert.equal(context.starts,0);assert.equal(context.state,'suspended');assert.equal(engine.buffers.size,0);
-  assert.equal(engine.event('pickup'),false);assert.equal(engine.shot(3),false);assert.equal(controller.snapshot().loaded,79);assert.equal(controller.snapshot().canStart,true);assert.equal(controller.snapshot().running,false);
+  assert.equal(calls.contexts,1);assert.equal(calls.fetches,83);assert.equal(context.decodes,83);assert.equal(context.resumes,0);assert.equal(context.starts,0);assert.equal(context.state,'suspended');assert.equal(engine.buffers.size,0);
+  assert.equal(engine.event('pickup'),false);assert.equal(engine.shot(3),false);assert.equal(controller.snapshot().loaded,83);assert.equal(controller.snapshot().canStart,true);assert.equal(controller.snapshot().running,false);
   const contextBefore=engine.context,buffersBefore=engine.rifle.buffers,bufferBefore=engine.rifle.buffers.get('shot-1');
   const activation=controller.activate();assert.equal(context.resumes,1,'resume runs before activate returns');assert.equal(activation.immediate,undefined);
-  const ready=await activation;assert(ready.ok);assert(controller.claim(ready));assert.equal(controller.claim(ready),false);assert.equal(engine.context,contextBefore);assert.equal(engine.rifle.buffers,buffersBefore);assert.equal(engine.rifle.buffers.get('shot-1'),bufferBefore);assert.equal(calls.fetches,79);
+  const ready=await activation;assert(ready.ok);assert(controller.claim(ready));assert.equal(controller.claim(ready),false);assert.equal(engine.context,contextBefore);assert.equal(engine.rifle.buffers,buffersBefore);assert.equal(engine.rifle.buffers.get('shot-1'),bufferBefore);assert.equal(calls.fetches,83);
   assert(engine.shot(3));assert.equal(context.nodes.find(n=>n.kind==='source').buffer,engine.rifle.buffers.get('shot-2'));assert.equal(context.starts,1);await controller.destroy();
  });
  await check('already-permitted running constructors are suspended before loading any recording',async()=>{
@@ -55,7 +55,7 @@ async function check(name,fn){await fn();checks++;console.log('PASS '+name);}
  });
  await check('progress stays menu-only and repeated early activation cannot queue a future start',async()=>{
   const hold=deferred();let holdOnce=true;const f=fixture({fetch:async()=>{if(holdOnce){holdOnce=false;await hold.promise;}return {ok:true,arrayBuffer:async()=>new ArrayBuffer(44)};}});
-  const preparing=f.controller.prepare();for(let i=0;i<60;i++)await flush();const progress=f.controller.snapshot();assert.equal(progress.status,'preparing');assert(progress.loaded>0&&progress.loaded<79);
+  const preparing=f.controller.prepare();for(let i=0;i<60;i++)await flush();const progress=f.controller.snapshot();assert.equal(progress.status,'preparing');assert(progress.loaded>0&&progress.loaded<83);
   const early=await f.controller.activate();assert.equal(early.ok,false);assert.equal(early.reason,'busy');assert.equal(f.context.resumes,0);hold.resolve();assert(await preparing);assert.equal(f.context.resumes,0);assert.equal(f.context.starts,0);assert.equal(f.controller.snapshot().status,'ready');await f.controller.destroy();
  });
  await check('running and muted continuations offer a synchronous one-use result',async()=>{
@@ -65,8 +65,8 @@ async function check(name,fn){await fn();checks++;console.log('PASS '+name);}
  });
  await check('an unlock denial retains all buffers and the next Start retries exactly once',async()=>{
   const f=fixture();await f.controller.prepare();f.context.resumeAction=()=>Promise.reject(Object.assign(Error('Sound permission blocked'),{name:'NotAllowedError'}));
-  assert.equal((await f.controller.activate()).ok,false);assert.match(f.controller.snapshot().error,/Sound permission blocked/);assert.equal(f.controller.snapshot().canStart,true);assert.equal(f.calls.fetches,79);assert.equal(f.engine.shot(3),false);
-  f.context.resumeAction=null;const activation=f.controller.activate(),duplicate=f.controller.activate();assert.equal((await duplicate).reason,'busy');assert(f.controller.claim(await activation));assert.equal(f.context.resumes,2);assert.equal(f.calls.fetches,79);await f.controller.destroy();
+  assert.equal((await f.controller.activate()).ok,false);assert.match(f.controller.snapshot().error,/Sound permission blocked/);assert.equal(f.controller.snapshot().canStart,true);assert.equal(f.calls.fetches,83);assert.equal(f.engine.shot(3),false);
+  f.context.resumeAction=null;const activation=f.controller.activate(),duplicate=f.controller.activate();assert.equal((await duplicate).reason,'busy');assert(f.controller.claim(await activation));assert.equal(f.context.resumes,2);assert.equal(f.calls.fetches,83);await f.controller.destroy();
  });
  await check('resolve-without-running is an unlock failure and cannot authorize gameplay',async()=>{
   const f=fixture();await f.controller.prepare();f.context.resumeAction=()=>Promise.resolve();const r=await f.controller.activate();assert.equal(r.ok,false);assert.equal(f.controller.claim(r),false);assert.match(f.controller.snapshot().error,/suspended/);assert.equal(f.controller.snapshot().canStart,true);await f.controller.destroy();
@@ -79,11 +79,11 @@ async function check(name,fn){await fn();checks++;console.log('PASS '+name);}
  await check('failed fetch stays silent and atomic; preparation retry can recover',async()=>{
   let fail=true;const f=fixture({fetch:async()=>fail?{ok:false,status:503}:{ok:true,arrayBuffer:async()=>new ArrayBuffer(44)}});
   assert.equal(await f.controller.prepare(),false);assert.equal(f.engine.rifle.buffers.size,0);assert.equal(f.controller.snapshot().canStart,false);assert.equal(f.controller.snapshot().canPrepare,true);assert.match(f.controller.snapshot().error,/503/);assert.equal(f.context.starts,0);
-  fail=false;assert(await f.controller.prepare());assert.equal(f.engine.rifle.buffers.size,79);assert.equal(f.context.resumes,0);await f.controller.destroy();
+  fail=false;assert(await f.controller.prepare());assert.equal(f.engine.rifle.buffers.size,83);assert.equal(f.context.resumes,0);await f.controller.destroy();
  });
  await check('decode rejection cannot expose partial gun buffers and can be retried',async()=>{
   const f=fixture(),decode=f.context.decodeAudioData;f.context.decodeAudioData=async()=>{throw Error('Decode rejected');};assert.equal(await f.controller.prepare(),false);assert.match(f.controller.snapshot().error,/Decode rejected/);assert.equal(f.engine.rifle.buffers.size,0);assert.equal(f.engine.shot(3),false);assert.equal(f.context.starts,0);
-  f.context.decodeAudioData=decode;assert(await f.controller.prepare());assert.equal(f.engine.rifle.buffers.size,79);assert.equal(f.context.resumes,0);await f.controller.destroy();
+  f.context.decodeAudioData=decode;assert(await f.controller.prepare());assert.equal(f.engine.rifle.buffers.size,83);assert.equal(f.context.resumes,0);await f.controller.destroy();
  });
  await check('unavailable Web Audio still permits an explicit mute without a context',async()=>{
   const f=fixture({contextFactory:()=>null});assert.equal(await f.controller.prepare(),false);assert.match(f.controller.snapshot().error,/unavailable/);assert.equal(f.calls.fetches,0);assert.equal(f.controller.snapshot().canStart,false);f.controller.setMuted(true);const activation=f.controller.activate();assert(activation.immediate.ok);assert(f.controller.claim(activation.immediate));assert.equal(f.engine.context,null);await f.controller.destroy();
@@ -118,7 +118,7 @@ async function check(name,fn){await fn();checks++;console.log('PASS '+name);}
   const restored=fixture();assert.notEqual(restored.engine,first.engine);await restored.controller.prepare();assert.equal(restored.context.resumes,0);hold.resolve();await flush();assert.equal(first.controller.snapshot().status,'destroyed');assert.equal(restored.controller.snapshot().status,'ready');assert(restored.controller.claim(await restored.controller.activate()));await restored.controller.destroy();
  });
  await check('unexpected closed contexts require fresh preparation instead of unlocking an empty replacement',async()=>{
-  const old=new Context(),fresh=new Context();let creations=0;const f=fixture({context:old,contextFactory:()=>++creations===1?old:fresh});await f.controller.prepare();old.state='closed';assert.equal(f.controller.snapshot().canStart,false);assert.equal((await f.controller.activate()).reason,'not-ready');assert(await f.controller.prepare());assert.equal(f.engine.context,fresh);assert.equal(fresh.decodes,79);assert.equal(fresh.resumes,0);assert(f.controller.claim(await f.controller.activate()));await f.controller.destroy();
+  const old=new Context(),fresh=new Context();let creations=0;const f=fixture({context:old,contextFactory:()=>++creations===1?old:fresh});await f.controller.prepare();old.state='closed';assert.equal(f.controller.snapshot().canStart,false);assert.equal((await f.controller.activate()).reason,'not-ready');assert(await f.controller.prepare());assert.equal(f.engine.context,fresh);assert.equal(fresh.decodes,83);assert.equal(fresh.resumes,0);assert(f.controller.claim(await f.controller.activate()));await f.controller.destroy();
  });
  console.log(checks+' audio preparation checks passed. Fake Web Audio is not browser/autoplay/pointer-lock/listening acceptance.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

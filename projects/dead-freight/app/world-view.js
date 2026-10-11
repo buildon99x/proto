@@ -78,6 +78,18 @@ function build({T,parent,world}){
   if(v.type==='relay-equipment'){for(let i=0;i<3;i++)box(v.x-2.7+i*2.7,2.6,v.z,1.8,.25,4.5,mats.dark);box(v.x,1.4,v.z+v.d/2+.055,v.w*.8,.35,.06,mats.rust);}
   if(v.type==='mast'){for(let h=4;h<v.height;h+=4){box(v.x,h,v.z,3.3,.14,3.3,mats.steel);beam([v.x-1.5,h,v.z+1.5],[v.x+1.5,Math.min(v.height,h+4),v.z+1.5],.1);beam([v.x+1.5,h,v.z-1.5],[v.x-1.5,Math.min(v.height,h+4),v.z-1.5],.1);}for(const h of [18,23]){box(v.x,h,v.z,10,.15,.15,mats.ivory);for(const x of [v.x-4,v.x+4])box(x,h,v.z,.25,2,.15,mats.ivory);}cylinder(v.x,v.height+1.5,v.z,.1,3,mats.steel);cylinder(v.x,v.height+3,v.z,.21,.25,redMarker);}
  }
+ // Restrained wall-end guide fixtures. These are local geometry, not outlines.
+ for(const entry of data.evacEntrances||[]){
+  const fixture=new T.Group();fixture.name='evac-entry-marker';fixture.position.set(entry.x,0,entry.z);fixture.rotation.y=entry.rotation;group.add(fixture);
+  for(const side of [-1,1]){const post=new T.Mesh(geos.box,mats.steel);post.position.set(side*3,1,0);post.scale.set(.12,2,.12);fixture.add(post);const strip=new T.Mesh(geos.box,marker);strip.position.set(side*3,1.75,0);strip.scale.set(.16,.4,.16);fixture.add(strip);}
+  const board=new T.Mesh(geos.box,mats.dark);board.position.set(0,2.6,0);board.scale.set(6.2,.65,.12);fixture.add(board);
+  // Directional chevron faces into the clear corridor and remains legible without canvas text.
+  for(const side of [-1,1]){const arrow=new T.Mesh(geos.box,marker);arrow.position.set(side*.27,2.6,.075);arrow.scale.set(.65,.09,.02);arrow.rotation.z=-side*.55;fixture.add(arrow);}
+  if(typeof document!=='undefined'&&document.createElement){const canvas=document.createElement('canvas');canvas.width=384;canvas.height=64;const ctx=canvas.getContext('2d');if(ctx){ctx.fillStyle='#202b31';ctx.fillRect(0,0,384,64);ctx.fillStyle='#c5d1ce';ctx.font='bold 40px monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('EVAC',192,34);const texture=new T.CanvasTexture(canvas);texture.colorSpace=T.SRGBColorSpace;resources.texture.add(texture);const material=new T.MeshBasicMaterial({map:texture});resources.material.add(material);for(const side of [-1,1]){const label=new T.Mesh(geos.plane,material);label.position.set(0,2.6,side*.08);label.rotation.y=side<0?Math.PI:0;label.scale.set(3.5,.58,1);fixture.add(label);}}}
+  const light=new T.PointLight('#adcac8',18,12,2);light.position.set(entry.x,2.4,entry.z);light.name='evac-entry-light';group.add(light);
+ }
+ const approach=data.routes.find(r=>r.id==='evac-south-entry');
+ if(approach)for(let i=1;i<approach.points.length;i++){const a=approach.points[i-1],b=approach.points[i],length=Math.hypot(b.x-a.x,b.z-a.z);for(let d=2;d<length;d+=4)flat(a.x+(b.x-a.x)*d/length,a.z+(b.z-a.z)*d/length,.55,.22,dimMarker,.04,Math.atan2(b.x-a.x,b.z-a.z));}
  const extractionMeshes=[];
  for(const e of data.extractionZones){const pad=new T.Group();pad.name=e.id;pad.position.set(e.x,0,e.z);group.add(pad);const ring=new T.Mesh(geos.ring,marker);ring.rotation.x=-Math.PI/2;ring.position.y=.07;ring.scale.setScalar(e.radius);pad.add(ring);
   for(const x of [-2,2]){const o=new T.Mesh(geos.box,marker);o.position.set(x,.07,0);o.scale.set(.65,.035,5.2);pad.add(o);}const cross=new T.Mesh(geos.box,marker);cross.position.y=.07;cross.scale.set(4,.035,.65);pad.add(cross);

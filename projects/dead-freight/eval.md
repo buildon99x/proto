@@ -203,3 +203,99 @@ The runtime fallback selected pnpm11 instead of the repository-pinned9.15.4, and
 The complete requirement boundary is [gunplay-spec-v1-status.md](gunplay-spec-v1-status.md). This source checkpoint does not pass P0 or P1, relative-mouse control, listening, GPU animation/composition, successful extraction or performance acceptance. No normal user save was accessed by these checks.
 
 A final independent P0 audit found no confirmed ammo duplication or save-loss blocker. It independently reproduced 24 R4 shots over two seconds at30/60/120FPS, valid reload/swap/H paths for all four primaries, and two R4s retaining distinct UIDs, rounds, modes and shot sequences after extraction. Its low-severity remapped-pause/modal inconsistency was fixed: assigned pause/inventory keys now close the bag, assigned pause cancels pending Start, and Escape remains an explicitly reserved modal cancel key. Three regressions cover those behaviors.
+
+## Windows Edge follow-on acceptance plan
+Reproduce the east-wall 12 m approach with player-radius collision, test both marked entrances and direct unblocked approach, and inspect actual Three.js scene objects without a renderer. Re-run all prior 720 checks, lint and packaging. GPU appearance, glare, moving enemy contrast, ordinary-input path following and FPS remain separate Windows Edge checks; dot WebGL is unavailable.
+
+### 0.10.1 verification boundary
+The correction adds six world geometry/scene regressions and two rendererless runtime regressions. Independent review reproduced a route label bug (an unmarked east passage was called an entrance), which is fixed with waypoint-specific labels and an exact-coordinate regression. New entrance posts have matching physical/raycast proxies; the south marker is angled and its 6 m span keeps the authored approach clear. The additional corridor changes 360 downstream procedural tree positions while retaining 720 trees; whole-region reachability checks cover the resulting forest. No weapon geometry, ADS, global lighting/fog/grade, save/storage or ammo logic changed.
+
+Root `pnpm sync:registry` and `pnpm build:vercel` were attempted and failed in pnpm auto-install because `/home/agent/.local/share/pnpm` is absent. This recovered sparse checkout also lacks the root launcher/scripts sources, so no equivalent aggregate or registry success is claimed. App checks and packaging are reported separately. No browser was used for this checkpoint: dot WebGL is unavailable and Windows Edge must still verify moving-enemy contrast, fixture readability/glare, ordinary-input extraction approach and FPS.
+
+Final 0.10.1 app run: all 728 checks across 32 suites passed (720 prior checks plus 8 new checks), followed by lint and static build. Changed test-file syntax and `git diff --check` passed. Independent final review verified all four post/collider centers and the blocked 12 m approach; all four painted path segments retain 0.55 m clearance. These are model/source/rendererless results, not rendered or ordinary-input acceptance.
+
+### Guidance CPU follow-up
+Per-frame HUD inspection motivated a fixed-edge graph cache. A reproducible pure-Node diagnostic (`app/bench-extraction-guide.cjs`) uses 825 walls, four blocked approach positions and five samples of 1,000 calls. On this executor / Node v24.19.0, per-call medians were 0.336 ms uncached, 0.375 ms cold-cache and 0.070 ms warm-cache (about 79% lower warm CPU cost). These timings are environment-dependent and do not measure browser FPS. A new deterministic regression compares 240 grid positions with the pure solver, then removes/restores walls, adds a wall and switches targets; cached and pure results agree. Runtime creates a new cache on each mission scene build and still traces player-to-waypoint segments every call.
+
+Final cached-source run passed all 729 checks across 32 suites, lint, static packaging and whitespace checks. This supersedes the earlier 728-check run for the deployment candidate. Git push was blocked by external-destination review even after the one permitted authorization-evidence retry; commits and full-source Library checkpoints are preserved locally. Publication remains the release owner’s action.
+
+
+## First-person actions and HUD plan
+Planned verification: pure action phase/30-60-120 Hz/interruption tests, Three geometry and authored pose tests without renderer, rendererless runtime tests for inventory identity, commit, cancellation, input spam, pause/resume, death, reload interruption and UI cleanup. Full existing app suite/lint/build required; sparse root aggregate remains a separate blocked stage. Rendered quality, pointer input, listening and FPS require actual browser evidence. Public official comparison references: Epic animation Blueprint documentation (https://dev.epicgames.com/documentation/unreal-engine/adding-character-animation-in-unreal-engine) for separating character/weapon animation state; Call of Duty official weapons/loadouts guide (https://www.callofduty.com/guides/multiplayer-pre-game/call-of-duty-modern-warfare-III-campaign-play-guides-weapons-loadouts) for distinct lethal and tactical actions. These inform interaction categories, not copied animations or a measured visual comparison.
+
+
+### 0.11.0 first-person action source verification
+Final complete `npm test`: 749 checks across 33 suites passed. This includes all 729 preceding checks (browser quick-use expectations intentionally updated for delayed transactions), plus 20 item action/HUD/contact regressions. Lint, changed test/build syntax, static app packaging and whitespace checks passed. All 113 files in the generated build manifest match their SHA-256 values.
+
+The damage cancellation gate now observes an actual monotonic damage sequence, so same-frame healing/armor compensation cannot conceal damage before a use commit. Cancellation preserves the current pose; recovery lowers utility hands before raising the firearm. Grenade pin geometry follows the constrained left index contact instead of vanishing. Medical applicators contact the exposed support wrist; these contact errors are tested numerically with Three.js, not visually. The action meter reports overall timeline progress across stages, including cancelled recovery.
+
+Root `pnpm sync:registry` was attempted and failed before registry execution because `/home/agent/.local/share/pnpm` is absent. The recovered checkout still lacks root `scripts` and `launcher`. `pnpm build:vercel` was not rerun in this checkpoint: the incomplete root and coordinated CPU-heavy-work hold prevent the required aggregate. No root aggregate success is claimed. Static app packaging was separately authorized and completed.
+
+No browser was opened for this checkpoint. GPU appearance, actual hand/prop contact, low-resolution HUD overlap, mouse feel, in-game listening and measured FPS remain unverified. Existing recorded audio, global lighting, firearm framing and save schema are unchanged. No AAA parity/completion claim is made. The playable acceptance checklist is `first-person-actions-qa.md`.
+
+
+## 0.11.1 actual-play readability correction
+Check source/material contrast, utility-only light ownership, render invocation only while visible, stable meshes/contacts and version labels. Run the entire 749-check baseline plus new regressions, lint and static packaging. Compare after-publication actual Windows frames at the same held/action poses; material math is not a GPU brightness acceptance. Candidate extraction/save, independently isolated damage cancellation/heal delta, listening and FPS remain open.
+
+
+### 0.11.1 verification result
+All 33 package test entries are accounted for: 752 checks passed, no missing or failed suite. A long-lived execution cell was lost without an explicit cancellation response; the completed 14-suite prefix was retained and the remainder completed in short synchronous groups with exit code 0. The receipts list every package command and corresponding suite summary. This is not presented as a single uninterrupted `npm test` process. Lint, changed test/build syntax and static packaging passed.
+
+The three new regressions verify utility light ownership and active-only render submission, material value separation without emissive glow, and menu/title/package version consistency. World, firearm lighting, grade, item action timings, inventory, save code and audio are unchanged. The photographed held-grenade region (including background) has a median luminance of 15.4/255, supporting the observed dark-value issue; this input measurement does not validate the new output. The supplied treatment-use screenshot shows the returned rifle rather than the treatment pose.
+
+Actual 0.11 QA established the specific behaviors described in the received Windows report, but extraction/save, independently isolated damage cancellation, pure healing delta, listening and FPS are still open. Actual post-0.11.1 hand/pin/wrist readability remains pending. Root aggregate remains unavailable in the sparse checkout; no GPU or AAA-quality acceptance is inferred.
+
+
+## 0.11.2 treatment HUD correction
+Inspect received actual treatment/grenade images first. Check CSS layout contracts at 1812x940, 1280x720, 640x360, 480x270 and 320x180. Project actual wrist/pin contacts through the utility camera and verify separation from the HUD. These are analytic/source checks; actual browser text layout and post-fix screenshots remain required. Run all package suites using completed synchronous chunks, lint and packaging.
+
+
+### 0.11.2 verification result
+All 33 commands in the package test manifest ran in ordered short synchronous groups. Every suite's exit code is recorded as 0, with 755 checks and no missing or failed entries. Lint, changed test syntax and static app build passed. The three new checks cover the left-rail/compact CSS contract, actual projected wrist/pin contact and aim/vitals/goal separation at six viewport sizes, and the full accessible item/state label without duplicate preparation text. This is analytic/rendererless evidence, not browser CSS or screenshot acceptance.
+
+The inspected treatment-B screenshot confirms the old centered panel covers the medical contact area. The prior Windows report also verified improved 0.11.1 held-item contrast, exact +30 healing without incoming fire, single grenade consumption and reload quantities. No new claims are made for extraction/save, instantaneous pin pulling, independent damage-only cancellation, listening or FPS. Existing lighting, utility geometry, action/inventory rules and storage are unchanged. Post-0.11.2 actual HUD layout remains to be checked.
+
+
+## 0.11.3 keyboard aiming accessibility
+Preserve default mouse behavior and default continuous keyboard aiming. Add explicit slow continuous speeds and one-press angular steps, independent of OS repeat. Persist/reset alongside existing remappable controls without touching save profiles. Diagnose pointer-lock ownership/focus and request lifecycle without suppressing original errors or bypassing browser permission. Actual Windows pointer-lock failure is not yet established as an ordinary-player defect. Rendererless checks and browser QA remain separate.
+
+Validation: all 33 app suites completed with final exit 0, 766 reported checks, lint and static packaging pass. One initial runtime failure exposed an overbroad duplicate-Start guard that blocked explicit fresh restart; fixed and rerun before completion (all attempts retained). Root registry/aggregate attempts still fail before execution at pnpm store creation, with sparse root scripts/launcher unavailable. No new actual browser acceptance claimed.
+
+
+## 0.11.4 prepared throw contract
+Address original specification §10.1: fresh physical fire press after presentation enters held aim, no item/fuse consumption while held; after at least 0.10 active seconds only release of that same physical input starts throwing. Earlier release returns safely to held-ready. Keep current release animation commit at 0.23s, no cooking, existing ballistics/balance unchanged. Cancellation and HUD/motion reflect actual state. Trajectory preview, extra throwable variants and dedicated utility Foley remain unimplemented.
+
+Validation: all33 app suites final exit0, 775 reported checks; syntax/static build pass. Full root registry/aggregate commands remain blocked before execution by pnpm store creation. Actual post-patch rendering/listening/FPS and candidate extraction-success persistence remain unverified.
+
+
+## 0.11.5 throwable trajectory preview
+Share the exact live grenade launch and gravity/wall/bounce step with pure prediction. Optional thin depth-tested dashed guide and first-impact marker only during held aim. No extra assets or screen-wide overlay; never consume, damage, emit events or start a fuse from prediction. Preview reflects current release position and current geometry, not future movement/destruction.
+
+Validation: 782 checks in33 suites, each final exit0; lint/static build pass. Shared physics matches at30/60/120Hz and hit-pause fragments after fixed120Hz accumulator correction. Null settings fallback and both GPU buffer identities are regression-tested. Root registry/aggregate are blocked before execution; no actual render/listening/FPS acceptance claimed.
+
+
+## 0.11.6 fixed independent trajectory QA profile
+Adds only testProfile=trajectory-qa to the exact allowlist, using deadfreight-test:trajectory-qa: under the existing candidate prefix when published. Default/local-qa mappings stay byte-identical. No copy/reset/deletion, arbitrary namespaces, gameplay/equipment override or extra profile creation API. Existing interrupted raids are not settled by this change.
+
+Validation: all33 app suites exit0,784 checks, lint/static packaging pass. Root registry/aggregate remain blocked before execution. New profile gameplay is identical; actual trajectory GPU/normal input acceptance remains pending.
+
+
+## 0.11.7 recorded utility Foley
+Official Pixabay UI downloads obtained through supported browser download events, raw MP3s outside repository. Add modest cloth/Velcro/tire-gauge-pin stand-in cues synced to action markers, stop only Foley on cancellation, never replay past markers. Existing gun recordings/gameplay unchanged. Source-based waveform selection is provisional, not listened/mixed quality acceptance.
+
+Validation: 793 checks across all 33 app suites exit0; lint/static build pass. Root registry/aggregate stop before execution on pnpm path ENOENT. Four new local recordings bring preparation bank to83. Per-action markers/cancellation and waveform bounds tested; listening, hardware mix, visual contact timing and FPS remain unverified.
+
+## Ballistics staged acceptance
+Require R4 formula parity, all-weapon finite range and armor coverage, duplicate shot/pellet rejection, one ammo per discharge; then9 pellet sum/occlusion; then30/60/120Hz and10/25/50/100/160m swept projectile time/drop/thin walls/moving targets. Source-only tests are not actual visual/audio/FPS acceptance. Restore has no root repository/launcher, so aggregate unavailable until separately recovered.
+
+0.12.0 final model validation: 816 checks in35 suites, all final exit0; lint/static build pass. Production renderer mocks verify delayed impact vs immediate shot,9pellet wall contacts, existing actions/HUD/storage regression. Original root aggregate unavailable in restored project-only archive; not passed. No actual GPU/normal aim/listening/FPS acceptance yet.
+
+After independent contact-order correction: final 820 checks /36 suites all exit0, lint/build pass. Reviewer independently passed wall/enemy/barrel reversal and fatal explosion tests plus37 existing focused checks. No unresolved reviewed blocker; actual GPU/audio/FPS remain pending.
+
+
+## 0.12.1 validation pass —2026-10-11
+The0.12.0 public candidate was opened in dot Chrome using its explicit trajectory-qa test profile. It failed renderer initialization before gameplay. One safe reload produced the same error; the normal frontmost Chromium window displayed the same failure. Console evidence included GL_VENDOR=Disabled, GL_RENDERER=Disabled and BindToCurrentSequence failed. The unsupported custom profile value was rejected before normal-save access. No raid, inventory settlement, normal save, graphics flags, security settings or user-PC interaction was used. The chrome://gpu diagnostic URL was blocked by browser policy and was not retried through another route.
+
+An independent source audit reproduced an outgoing pistol contact at2.357ms being discarded by incoming fatal damage due5ms into the same120Hz interval. The correction integrates timed incoming damage with the outgoing flight sweep. Exact regression and final aggregate receipts are recorded below after the final immutable source checks finish. No actual shot, successful extraction, audio listening or performance acceptance is claimed. Public root0.10.0 and candidate0.12.0 remain unchanged.
+
+Final stable-source validation: all 824 checks in 36 suites passed, including the four added chronological incoming/outgoing regressions. An independent fresh full test run and syntax lint also passed. The pre-patch source fails the earlier-contact regression (target HP 500 rather than 452); the corrected source passes. The repository-pinned pnpm 9.15.4 offline frozen install reused 157 packages with no download or lockfile change. The literal sync wrapper still fails at the tsx CLI IPC socket (EPERM). The documented node --import tsx route successfully ran unchanged registry/metadata scripts, all 11 project artifact builds, launcher compilation/type checks and all 27 pages. No unrelated project files are included in this checkpoint.

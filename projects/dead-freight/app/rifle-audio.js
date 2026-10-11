@@ -5,11 +5,13 @@
 'use strict';
 const PREFIXES=Object.freeze(['pistol-','shotgun-','smg-','']);
 const SHOTS=PREFIXES.flatMap(prefix=>['shot','suppressed','shot-indoor','suppressed-indoor'].flatMap(type=>[1,2,3].map(i=>prefix+type+'-'+i)));
-const FILES=Object.freeze([...SHOTS,'mag-eject','mag-insert','mag-seat','charge','dry-trigger','transition','close','impact-metal','impact-wood','impact-stone','impact-body','impact-armor','casing-1','casing-2','casing-3','impact-body-armored',...PREFIXES.slice(0,3).flatMap(prefix=>['cycle','mag-eject','mag-insert','mag-seat','close'].map(type=>prefix+type))]);
+const FOLEY=Object.freeze({'cloth-in':'utility-cloth-in','cloth-out':'utility-cloth-out',pin:'utility-pin',medical:'utility-medical'});
+const FILES=Object.freeze([...SHOTS,...Object.values(FOLEY),'mag-eject','mag-insert','mag-seat','charge','dry-trigger','transition','close','impact-metal','impact-wood','impact-stone','impact-body','impact-armor','casing-1','casing-2','casing-3','impact-body-armored',...PREFIXES.slice(0,3).flatMap(prefix=>['cycle','mag-eject','mag-insert','mag-seat','close'].map(type=>prefix+type))]);
 const LIMITS=Object.freeze({files:FILES.length,bytesPerFile:256000,duration:1.25,channels:2,concurrency:3,timeoutMs:10000});
 const PHASES=Object.freeze({start:'transition',eject:'mag-eject',insert:'mag-insert',seat:'mag-seat',charge:'charge',close:'close'});
 function keyFor(type,options={},variant=0){
  const weapon=Number.isFinite(options.weapon)?Math.max(0,Math.min(3,Math.round(options.weapon))):3,prefix=PREFIXES[weapon],take=((variant%3)+3)%3+1;
+ if(type==='foley')return Object.hasOwn(FOLEY,options.cue)?FOLEY[options.cue]:null;
  if(type==='enemyshot')return 'shot-'+take;
  if(type==='hurt')return options.armored?'impact-armor':'impact-body';
  if(type==='shot')return `${prefix}${options.suppressed?'suppressed':'shot'}${options.environment==='indoor'?'-indoor':''}-${take}`;
@@ -93,5 +95,5 @@ class Bank {
  reset(){this.cancel();this.buffers.clear();this.context=null;this.loaded=0;this.shotCounter=0;this.casingCounter=0;this.status='idle';this.error=null;this._notify();}
  destroy(){this.destroyed=true;this.reset();}
 }
-const api=Object.freeze({Bank,FILES,LIMITS,keyFor,validate});root.DeadFreightRifleAudio=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
+const api=Object.freeze({Bank,FILES,FOLEY,LIMITS,keyFor,validate});root.DeadFreightRifleAudio=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this);

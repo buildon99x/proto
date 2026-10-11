@@ -1,0 +1,56 @@
+# 0.11.2 first-person actions: candidate play checklist
+
+Use a separate candidate path with `?testProfile=local-qa`. Never use or import the normal bank for this check. Deploy the contents of `app/dist`, preserving the relative `vendor/` and `audio/rifle/` paths. `build-manifest.json` identifies version 0.11.2 and all 113 static payload hashes; verify it and at least game.js, item-action.js and item-view.js after publication.
+
+## Controls and behavior
+- H: lower/restore the current gun; 1/2 or wheel: switch equipped slots. Trigger index and support hand follow lowering; firing stays blocked until ready.
+- 3: bandage (starter quick slot). At full health it is rejected. At damaged health, prepare/present/use, commit once at 1.78 active seconds, then recover. No healing or consumption before this marker.
+- 4: frag (starter quick slot). Select, wait until held, then a fresh left click/F throws. No held fuse/cooking; consumption and world projectile start 0.23 seconds after throw begins. The left index should contact and pull the pin.
+- 5: scanner. Prepare/present/use; one charge is consumed and scanning begins at 0.84 active seconds.
+- Medical kit timing differs from bandage: its commit is at 2.34 active seconds.
+- Weapon selection, damage, pause/menu/focus loss before commit cancels without effect or consumption. Effects already committed are never refunded/repeated. A fresh trigger is required after item recovery.
+
+## Actual visual/input checks still required
+1. Capture 1/2/H at idle, ADS, after firing and during reload for all four firearms. Check lower/draw continuity, index position, support wrist, muzzle orientation, central view and no residual magazine or secondary hands.
+2. Capture frag selection, stable hold, index-to-ring contact, pulling, release/projectile, follow-through and gun return. Test cancellation before/after release, repeated input and holding trigger through return. Confirm exactly one projectile and one consumed item.
+3. Take ordinary gameplay damage, then bandage/medical use. Observe both hands, applicator-to-wrist contact, dressing, delayed health/count change and return. Interrupt just before and after commit, including incoming damage and menu.
+4. Test 3–6 spam, switching while reloading, changing the bag source, death/restart, pause/continue, focus loss and empty/full-health items. No delayed surprise shots, duplicate effects, ghost props or zero-time consumption.
+5. Inspect HUD at 640×360-equivalent and larger display sizes against light/dark scenery: aim remains centered, health/ammo dominate, action panel does not cover target/hint/extraction, source-based damage direction expires, detailed HUD toggles correctly, menus restore correctly.
+6. Listen on an actual output device and measure frame-time/FPS during repeated actions and firefights. No new audio assets were introduced; existing audio behavior is preserved.
+
+## Evidence boundary
+755 checks / 33 suites, lint and static packaging pass. Contact/coverage checks use Three geometry without WebGL. Full root aggregate, actual rendering, ordinary relative-mouse input, listening and FPS are not passed by these source results. The source candidate remains a prototype and does not establish AAA quality.
+
+
+## Focused 0.11.1 recheck
+At the same insertion viewpoint, compare held grenade/body, glove panels and pin ring against 0.11.0. Then capture the actual medical use phase before the gun returns, including the support wrist and applicator contact. Confirm the original world and rifle appearance stay unchanged. Menu, page title and candidate badge must all say 0.11.1. Existing candidate save namespace is deliberately retained across this patch.
+
+
+## Focused 0.11.2 recheck
+Capture real bandage/medical use before return at 1812×940 and 640×360. The action strip should sit on the left above vitals, leaving wrist/applicator contact unobscured. Check aim, objective/route text and health/stamina remain separate. At very small windows confirm the abbreviated action state remains readable; full item/state stays in the accessible label. Existing default and local-qa candidate profiles must remain intact.
+
+
+## 0.11.3 input accessibility candidate
+- Reference: actual Windows 0.11.2 follow-up report, Library libfile_055886646e1c8191a01e3086c6d22cc7. Actual screenshot libfile_35be538d7d6c8191b3864a6c335960e1 inspected; paused overlay does not establish enemy contrast.
+- Existing keyboard aim was 1.8 rad/s horizontal and 1 rad/s vertical. Added 15%/40%/100% continuous rates and 0.25°/1°/5° per physical press. Step mode ignores OS repeat/hold duration; release before next step. Modes and rate/step persist with scoped controls. Remapped aim keys apply. Mouse sensitivity unchanged.
+- Menu: expand “조작키 · 키보드 조준 설정”. Use 1° or 0.25° for fine taps, 5° for coarse one-press turning, or 15%/40% continuous tracking. Each control has a labelled select; irrelevant rate/step select is disabled. Keyboard-aim reset is separate from key-binding reset.
+- Ownership review: captured #game is supplied to renderer; no replacement/adoption found. Native request remains synchronous before audio await. WrongDocumentError can describe focus/browsing-context conditions per https://www.w3.org/TR/pointerlock-2/#extensions-to-the-element-interface; automation failure does not prove a normal-user bug. Original exception/context remain visible.
+- Fixed concrete lifecycle cases: duplicate normal starts, stale rejection after pause/death, legacy undefined-return error events, unrelated unlock event pausing fallback, and activation cancellation leaving the canvas locked.
+- 766 app checks across 33 suites; final per-suite exit codes 0. Pure angular integration verified at 30/60/144 Hz. Rendering, input feel and actual pointer lock remain unverified in this patch.
+- Windows0.11.2 evidence accepted: HUD at1812×940, +30 heal, target/token, death settlement/reload/redeploy. Candidate extraction-success persistence, small-window HUD, independent hurt cancellation, exact pin-pull, audio/FPS remain pending.
+- Keep the current paused HP10/pistol5/24 tab until normal completion or the tester chooses an interruption. A new deployment does not hot-update an already loaded page. Do not silently reset its storage to load this patch.
+
+
+## 0.11.4 prepared throw QA
+Select grenade with4, wait for held prop. Hold LMB or mapped keyboard fire at least0.10 active seconds; HUD changes to “놓으면 투척”. A short tap safely returns to ready. Release the same physical button to throw. Consumption/projectile occurs0.23 seconds later at the original animation marker. Holding does not start fuse/cooking. Other fire-input release must not throw it.
+Check remapped keys, both fire controls held, menu/focus/damage/weapon-switch cancellation, empty item/UID replacement, fresh fire after return. Observe stable hand/pin during hold, pin pull only after release, one projectile and one quantity decrement. New rendered acceptance, actual listening/FPS remain pending. Do not silently reload or reset an old active candidate session.
+
+
+## 0.11.5 trajectory QA
+Enable “투척 예상 궤적” in control settings (default on). Select4, then hold F/LMB: only aim state shows a thin dashed line and first-impact wire marker. Check flat ground, raised aiming, nearby wall and oblique wall reflection; release removes guide before actual projectile commit. The guide predicts current position/geometry with the same120Hz physics as real grenades; player movement during the0.23s release animation and future broken geometry may change the real result. It is not an enemy-targeting aid or explosion-radius overlay.
+Pause/Tab/hurt/switch/death/source replacement must hide guide; next valid aim must restore it with no old points. Toggle off persists independently for existing scoped profiles. Walls occlude the guide (depth test on); no full-screen or through-wall overlay. No asset additions. Thin line and marker still require actual low-resolution/dark-scene readability review.
+Windows0.11.4 report libfile_aa9d614700888191aca9cad595a4606e was read: short F/LMB taps preserve quantity, long hold/release consumes one and restores R4/P6, weapon-switch cancellation preserves quantity; menu-cancel only proved preparation stage. Pin removal, independent hurt cancel, listening/FPS remain unverified.
+
+
+## 0.11.6 independent QA profile
+Use /qa-actions/?testProfile=trajectory-qa and confirm the trajectory-qa badge. It starts an independent normal-rule game, without reading or copying either previous candidate journal. Existing default/local-qa interrupted raids remain unchanged. Only this exact additional name is allowed. Do not reset old profiles for trajectory testing.

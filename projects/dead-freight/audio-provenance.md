@@ -61,3 +61,14 @@ Build: `python tools/fetch-rifle-audio.py --source-dir <private-cache>` then `py
 The manifest records all 79 output hashes, sources, stereo 48 kHz signed 16-bit format, durations, peak/RMS and exact-zero endpoints. Tests validate every file, all four gun routes, player/enemy hits, phase timing and cancellation, bounded voices, mute/pause/destroy, all-gun visible failure without synthetic fallback, and actual-event first-contact casing integration using a mocked renderer.
 
 The companion game-specific comparison MP4 combines the exact pre-mixer baseline/current cue banks with original project diagrams and labels. It is an offline edited sequence, not captured gameplay or the post-compressor Web Audio signal. Neither the old nor new sound has been heard by this worker. Listening through actual game/device output, ordinary-input interruption/full-auto, room/surface balance and rendered browser acceptance remain open.
+
+## Utility Foley, 0.11.7
+Three additional recordings were obtained on 2026-10-10 using the official Pixabay HTTPS page's Free download button and the browser's supported completed-download event. No CAPTCHA, login, additional explicit agreement, or security warning was bypassed.
+
+- [Shirt Clothing Movement, leonelmail](https://pixabay.com/sound-effects/household-shirt-clothing-movement-6869/): short cloth handling edits for presentation and return.
+- [Velcro Pull 02, Rudmer_Rotteveel](https://pixabay.com/sound-effects/film-special-effects-velcro-pull-02-38722/): medical fastening stand-in, not a clinical recording.
+- [Tire gauge pin ringing and clicks, AnthonyChan0](https://pixabay.com/sound-effects/film-special-effects-tire-gauge-pin-ringing-and-clicks-33218/): small metal pin stand-in, not a recorded grenade.
+
+All three are distributed through Pixabay/freesound_community under the [Pixabay Content License summary](https://pixabay.com/service/license-summary/) and [full terms](https://pixabay.com/service/terms/), read 2026-10-09. The permission used is incorporation into this game, including edited audio. Standalone sound redistribution is not allowed; source MP3s are excluded from the repository and build. Do not infer CC0 from the distributor name. Artist credit is retained here and exact input/output hashes and edit intervals are in utility-provenance.json and utility-manifest.json.
+
+Waveform-only provisional selection: 48 kHz stereo PCM, band-limited, DC-corrected, 12 ms edge fades, bounded gain. No listening, hardware mix, or perceptual quality acceptance has been performed. Existing firearms and their samples are unchanged.

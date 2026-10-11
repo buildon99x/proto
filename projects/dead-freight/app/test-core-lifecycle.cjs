@@ -58,9 +58,9 @@ for(const world of [true,false]){
    assert.equal(m.ammo[0],6);assert.equal(m.ammo[3],27);
   }
  });
- test(`${label}: enemy armor does not change legacy pistol damage`,()=>{
+ test(`${label}: enemy armor now consistently absorbs pistol damage`,()=>{
   const m=mission(0),boss=m.enemies.find(e=>e.boss),hp=boss.hp;
-  assert(m.fire({kind:'enemy',id:boss.id}));assert.equal(boss.hp,hp-48);assert.equal(boss.armor,60);
+  assert(m.fire({kind:'enemy',id:boss.id}));assert.equal(boss.hp,hp);assert.equal(boss.armor,12);assert(m.events.some(e=>e.type==='armorhit'&&e.weapon===0&&e.stopped));
  });
  test(`${label}: explicit enemy armor, including zero, survives mission initialization`,()=>{
   for(const armor of [0,17]){

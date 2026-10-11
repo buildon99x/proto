@@ -4,20 +4,37 @@
 let model=root.DFInventory;
 if(!model&&typeof require==='function')model=require('./inventory.js');
 const {Catalog,stackWeight,stackValue}=model;
+const ItemAction=(root.DFItemAction||(typeof require==='function'?require('./item-action.js'):null)).ItemAction;
 const WEAPONS=['pistol','shotgun','smg','r4'],AMMO=WEAPONS.map(id=>Catalog[id].ammoId);
 const EPS=1e-7,clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const REASONS={overweight:'휴대 중량 30 kg을 초과합니다.', 'bag-full':'가방 12칸이 모두 찼습니다.', 'wrong-slot':'이 장비를 해당 슬롯에 놓을 수 없습니다.', empty:'빈 슬롯입니다.', 'invalid-quantity':'수량을 확인하세요.', occupied:'이미 사용 중인 슬롯입니다.', 'duplicate-uid':'이미 가지고 있는 장비입니다.', 'invalid-location':'슬롯을 확인하세요.'};
+function grenadeLaunch(w,options={}){
+ const yaw=Number.isFinite(options.yaw)?options.yaw:0,pitch=clamp(Number.isFinite(options.pitch)?options.pitch:0,-.85,.85),p=w.player,dx=-Math.sin(yaw),dz=-Math.cos(yaw),y=p.y+Math.max(.5,p.eyeHeight*.8),reach=.4;
+ const blocked=w.wallHit(p.x,y,p.z,p.x+dx*reach,y,p.z+dz*reach,.12)!==null;
+ return {x:p.x+(blocked?0:dx*reach),y,z:p.z+(blocked?0:dz*reach),vx:dx*Math.cos(pitch)*12,vy:3+Math.sin(pitch)*12,vz:dz*Math.cos(pitch)*12,fuse:2,alive:true};
+}
+function stepGrenade(w,g,dt){const nx=g.x+g.vx*dt,ny=g.y+g.vy*dt-9*dt*dt,nz=g.z+g.vz*dt,hit=w.wallHit(g.x,g.y,g.z,nx,ny,nz,.11);g.vy-=18*dt;
+   let contact=hit!==null;if(hit!==null){
+    const hx=w.wallHit(g.x,g.y,g.z,nx,g.y,g.z,.11),hy=w.wallHit(g.x,g.y,g.z,g.x,ny,g.z,.11),hz=w.wallHit(g.x,g.y,g.z,g.x,g.y,nz,.11);
+    const travel=Math.max(0,hit-.005);g.x+=(nx-g.x)*travel;g.y+=(ny-g.y)*travel;g.z+=(nz-g.z)*travel;
+    if(hx!==null)g.vx*=-.42;if(hz!==null)g.vz*=-.42;if(hy!==null)g.vy*=-.32;if(hx===null&&hy===null&&hz===null){g.vx*=-.35;g.vz*=-.35;}
+   }else{g.x=nx;g.y=ny;g.z=nz;}
+   if(g.y<.11){contact=true;g.y=.11;g.vy=Math.abs(g.vy)<1?0:Math.abs(g.vy)*.3;g.vx*=.78;g.vz*=.78;}
+   if(w.bounds){g.x=clamp(g.x,w.bounds.minX+.15,w.bounds.maxX-.15);g.z=clamp(g.z,w.bounds.minZ+.15,w.bounds.maxZ-.15);}
+   g.fuse=Math.max(0,g.fuse-dt);return contact;}
+function predictGrenade(w,options={}){const g=grenadeLaunch(w,options),points=[{x:g.x,y:g.y,z:g.z}],contacts=[];for(let i=0;i<240&&g.fuse>EPS;i++){const hit=stepGrenade(w,g,1/120),p={x:g.x,y:g.y,z:g.z};if(hit&&!contacts.length)contacts.push(p);if(i%4===3||hit||g.fuse<=EPS)points.push(p);}return {points,firstContact:contacts[0]||null,end:{x:g.x,y:g.y,z:g.z},duration:2-g.fuse};}
 class Bridge{
  constructor(world,inventory,options={}){
   if(!world?.player||!inventory?.get)throw new TypeError('Mission and Inventory are required');
   this.world=world;this.inventory=inventory;this.activeSlot=options.activeSlot===1?1:0;this.activeUid=null;this.holstered=false;this.throwables=[];this.scannerRemaining=0;
+  this.itemAction=new ItemAction();this._itemAim={yaw:0,pitch:0};this._itemVital=null;
   this.sessionId=options.sessionId||'carry-session-'+(++Bridge.sessionSequence);this._callbacks=options;
-  this._bound=new Map();this._rifleUid=null;this._armorUid=null;this._reserves=[0,0,0,0];this._applied=false;this._lastShots=world.shots||0;this._nextAction=0;this._nextThrowable=1;this._lastWorldTime=world.time;
+  this._bound=new Map();this._rifleUid=null;this._armorUid=null;this._reserves=[0,0,0,0];this._applied=false;this._lastShots=world.shots||0;this._nextAction=0;this._nextThrowable=1;this._throwableAccumulator=0;this._lastWorldTime=world.time;
   this.syncToWorld();if(options.caches!==false)this.addCaches();
  }
  get activeWeaponUid(){return this.activeUid;}
  get activeWeapon(){return this.inventory.get('weapon:'+this.activeSlot);}
- get canFire(){const stack=this.activeWeapon;return !this.holstered&&!!stack&&stack.uid===this.activeUid&&Catalog[stack.itemId]?.weaponIndex===this.world.weapon&&this.world.player.hp>0&&!this.world.extracted&&!this.world.paused;}
+ get canFire(){const stack=this.activeWeapon;return !this.itemAction.active&&!this.holstered&&!!stack&&stack.uid===this.activeUid&&Catalog[stack.itemId]?.weaponIndex===this.world.weapon&&this.world.player.hp>0&&!this.world.extracted&&!this.world.paused;}
  _result(ok,message,extra={}){return {ok,message,...extra};}
  _failure(reason){return this._result(false,REASONS[reason]||'지금은 이 동작을 완료할 수 없습니다.',{reason});}
  _available(){return this.world.player.hp>0&&!this.world.extracted;}
@@ -202,6 +219,34 @@ class Bridge{
   if(result.ok){const item={type:'inventory',...point,alive:true,stack:{...result.stack},dropped:true};this.world.pickups.push(item);return {...result,item};}
   return result;
  }
+ requestUse(location,options={}){
+  const stack=this.inventory.get(location),w=this.world;
+  if(!this._available())return this._failure('unavailable');
+  if(location==='safe')return this._failure('safe-pocket');
+  if(this.itemAction.active)return this._result(false,'동작 중입니다.',{reason:'busy'});
+  if(!stack)return this._failure('empty');
+  if(!['bandage','medkit','scanner','frag'].includes(stack.itemId))return this._failure('not-usable');
+  if(w.time+EPS<this._nextAction)return this._failure('cooldown');
+  if(['bandage','medkit'].includes(stack.itemId)&&w.player.hp>=100)return this._result(false,'체력이 가득 차 있습니다.',{reason:'full-health'});
+  this.beforeWeaponChange('item-action');this.itemAction.start(stack,location);this._itemAim=options;this._itemVital=w.player.hp+w.player.armor;this._itemDamageSequence=w.damageSequence||0;w.weaponActionBlocked=true;
+  return this._result(true,Catalog[stack.itemId].name+' 준비');
+ }
+ cancelUse(reason='cancel'){const cancelled=this.itemAction.cancel();if(cancelled){this.world.emit('itemcancel',{reason});this.world.emit('foleycancel',{});}return cancelled;}
+ triggerUse(options={}){if(!this.itemAction.trigger(options.input??null))return false;this._itemAim=options;return true;}
+ releaseUse(input=null){return this.itemAction.release(input);}
+ stepUse(dt,options={}){
+  const a=this.itemAction,w=this.world;if(!a.active)return [];
+  if(!this._available()||w.paused){this.cancelUse('unavailable');return [];}
+  const vital=w.player.hp+w.player.armor;if((w.damageSequence||0)!==this._itemDamageSequence||vital<this._itemVital-EPS)this.cancelUse('damage');this._itemDamageSequence=w.damageSequence||0;this._itemVital=vital;
+  this._itemAim=options;
+  const results=[];for(const event of a.tick(dt))if(event.type==='commit'){
+   const stack=this.inventory.get(event.location);
+   const result=stack?.uid===event.uid&&stack.itemId===event.itemId?this.use(event.location,this._itemAim):this._failure('changed-item');
+   results.push(result);if(!result.ok){a.cancelled=true;a.stage='recover';a.elapsed=0;w.emit('foleycancel',{});}
+  }
+  if(a.cancelled)a.drainCues();else for(const cue of a.drainCues())w.emit('foley',cue);
+  return results;
+ }
  use(location,options={}){
   if(typeof options==='number')options={yaw:options};
   const w=this.world;if(!this._available())return this._failure('unavailable');
@@ -216,10 +261,7 @@ class Bridge{
   if(id==='bandage'||id==='medkit'){const before=w.player.hp;w.player.hp=Math.min(100,before+(id==='bandage'?30:60));w.emit('heal',{amount:w.player.hp-before,itemId:id});}
   else if(id==='scanner'){this.scannerRemaining=8;w.emit('scan',{x:w.player.x,z:w.player.z,radius:35,duration:8});}
   else{
-   const yaw=Number.isFinite(options.yaw)?options.yaw:0,pitch=clamp(Number.isFinite(options.pitch)?options.pitch:0,-.85,.85),p=w.player;
-   const dx=-Math.sin(yaw),dz=-Math.cos(yaw),y=p.y+Math.max(.5,p.eyeHeight*.8),reach=.4;
-   const blocked=w.wallHit(p.x,y,p.z,p.x+dx*reach,y,p.z+dz*reach,.12)!==null;
-   const grenade={id:this._nextThrowable++,x:p.x+(blocked?0:dx*reach),y,z:p.z+(blocked?0:dz*reach),vx:dx*Math.cos(pitch)*12,vy:3+Math.sin(pitch)*12,vz:dz*Math.cos(pitch)*12,fuse:2,alive:true};
+   const grenade={id:this._nextThrowable++,...grenadeLaunch(w,options)};
    this.throwables.push(grenade);w.emit('throw',{id:grenade.id,itemId:'frag',x:grenade.x,y:grenade.y,z:grenade.z});result.throwable=grenade;
   }
   return result;
@@ -230,19 +272,11 @@ class Bridge{
   w.emit('explosion',{x:grenade.x,y:grenade.y,z:grenade.z,kind:'frag',radius,id:grenade.id});
   const damageTo=(x,y,z,max)=>{const distance=Math.hypot(x-grenade.x,y-grenade.y,z-grenade.z);if(distance>=radius||w.wallHit(grenade.x,grenade.y+.1,grenade.z,x,y,z,.015)!==null)return 0;return max*(1-distance/radius);};
   for(const enemy of w.enemies){if(!enemy.alive)continue;const damage=damageTo(enemy.x,(enemy.y||0)+1,enemy.z,165);if(damage<=EPS)continue;enemy.hp-=damage;enemy.hit=.2;enemy.alert=true;w.emit('blood',{x:enemy.x,z:enemy.z,damage,head:false});if(enemy.hp<=0&&enemy.alive)w.kill(enemy,80);}
-  const p=w.player,selfDamage=damageTo(p.x,p.y+Math.min(1,p.bodyHeight*.6),p.z,135);if(selfDamage>EPS)w.damage(selfDamage);
+  const p=w.player,selfDamage=damageTo(p.x,p.y+Math.min(1,p.bodyHeight*.6),p.z,135);if(selfDamage>EPS)w.damage(selfDamage,{x:grenade.x,z:grenade.z});
  }
  _stepThrowables(dt){
   const w=this.world;
-  for(const g of this.throwables){if(!g.alive)continue;const nx=g.x+g.vx*dt,ny=g.y+g.vy*dt-9*dt*dt,nz=g.z+g.vz*dt,hit=w.wallHit(g.x,g.y,g.z,nx,ny,nz,.11);g.vy-=18*dt;
-   if(hit!==null){
-    const hx=w.wallHit(g.x,g.y,g.z,nx,g.y,g.z,.11),hy=w.wallHit(g.x,g.y,g.z,g.x,ny,g.z,.11),hz=w.wallHit(g.x,g.y,g.z,g.x,g.y,nz,.11);
-    const travel=Math.max(0,hit-.005);g.x+=(nx-g.x)*travel;g.y+=(ny-g.y)*travel;g.z+=(nz-g.z)*travel;
-    if(hx!==null)g.vx*=-.42;if(hz!==null)g.vz*=-.42;if(hy!==null)g.vy*=-.32;if(hx===null&&hy===null&&hz===null){g.vx*=-.35;g.vz*=-.35;}
-   }else{g.x=nx;g.y=ny;g.z=nz;}
-   if(g.y<.11){g.y=.11;g.vy=Math.abs(g.vy)<1?0:Math.abs(g.vy)*.3;g.vx*=.78;g.vz*=.78;}
-   if(w.bounds){g.x=clamp(g.x,w.bounds.minX+.15,w.bounds.maxX-.15);g.z=clamp(g.z,w.bounds.minZ+.15,w.bounds.maxZ-.15);}
-   g.fuse=Math.max(0,g.fuse-dt);if(g.fuse<=EPS)this._blast(g);
+  for(const g of this.throwables){if(!g.alive)continue;stepGrenade(w,g,dt);if(g.fuse<=EPS)this._blast(g);
   }
  }
  beforeStep(){this.syncFromWorld();}
@@ -251,7 +285,7 @@ class Bridge{
   const elapsed=Number.isFinite(dt)?Math.min(.25,Math.max(0,dt)):Math.max(0,w.time-this._lastWorldTime);this._lastWorldTime=w.time;
   if(w.paused||w.extracted||w.player.hp<=0)return;
   this.scannerRemaining=Math.max(0,this.scannerRemaining-elapsed);
-  let remaining=elapsed;while(remaining>EPS){const step=Math.min(1/120,remaining);this._stepThrowables(step);remaining-=step;}
+  if(!this.throwables.length)this._throwableAccumulator=0;else this._throwableAccumulator+=elapsed;while(this._throwableAccumulator>=1/120-EPS){this._stepThrowables(1/120);this._throwableAccumulator=Math.max(0,this._throwableAccumulator-1/120);}
   this.throwables=this.throwables.filter(grenade=>grenade.alive);this.syncFromWorld();
  }
  addCaches(){
@@ -269,5 +303,5 @@ class Bridge{
  }
 }
 Bridge.sessionSequence=0;
-const API={Bridge,WEAPONS,AMMO};root.DFInventoryGame=API;if(typeof module!=='undefined'&&module.exports)module.exports=API;
+const API={Bridge,WEAPONS,AMMO,grenadeLaunch,stepGrenade,predictGrenade};root.DFInventoryGame=API;if(typeof module!=='undefined'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);

@@ -12,7 +12,7 @@ const clamp=(n,lo,hi,fallback=lo)=>Math.max(lo,Math.min(hi,finite(n,fallback)));
 const weaponIndex=n=>Math.round(clamp(n,0,3));
 const RifleAudio=root.DeadFreightRifleAudio||(typeof module!=='undefined'&&module.exports?require('./rifle-audio.js'):null);
 const WEAPONS=Object.freeze(['pistol','shotgun','smg','rifle'].map(name=>Object.freeze({name,recorded:true})));
-const GUN_CUES=new Set(['shot','impact','reload','cycle','empty','needcycle','switch','enemyshot','casing','casingbounce','hurt']);
+const GUN_CUES=new Set(['foley','shot','impact','reload','cycle','empty','needcycle','switch','enemyshot','casing','casingbounce','hurt']);
 const MATERIALS=Object.freeze({rock:'stone',boundary:'stone',concrete:'stone',brick:'stone',plaster:'stone',floor:'stone',trunk:'wood',crate:'wood',steel:'metal',barrel:'metal',armor:'armor',body:'body',head:'head',wood:'wood',metal:'metal',stone:'stone'});
 const layer=(wave,at,duration,level,frequency=1000,end=frequency,lowpass=15000,highpass=35)=>({wave,at,duration,level,frequency,end,lowpass,highpass});
 const noise=(at,duration,level,lowpass=15000,highpass=35)=>layer('noise',at,duration,level,1000,1000,lowpass,highpass);
@@ -139,6 +139,7 @@ class Engine {
   for(const node of voice.nodes)try{node.disconnect();}catch(_){}
  }
  cancelRifleReload(){for(const voice of [...this.voices])if(voice.type==='reload'&&voice.weapon===3)this._dispose(voice,true);}
+ cancelFoley(){for(const voice of [...this.voices])if(voice.type==='foley')this._dispose(voice,true);}
  cancelReload(){for(const voice of [...this.voices])if(voice.type==='reload')this._dispose(voice,true);}
  stopAll(){for(const voice of [...this.voices])this._dispose(voice,true);this.last.clear();}
  _buffer(type,options){
@@ -152,7 +153,7 @@ class Engine {
  _play(type,options={}){
   if(this.destroyed||this.muted||this.paused||!this.bus||this.context?.state!=='running')return false;
   const c=this.context,now=c.currentTime,throttle=type==='shot'?.028:type==='impact'?.01:.035;
-  const eventKey=type+':'+weaponIndex(options.weapon)+(type==='reload'?':'+options.phase:'');
+  const eventKey=type+':'+weaponIndex(options.weapon)+(type==='reload'?':'+options.phase:type==='foley'?':'+options.cue:'');
   if(this.last.has(eventKey)&&now-this.last.get(eventKey)<throttle){this.dropped++;return false;}
   const opt={...options,weapon:weaponIndex(options.weapon),variant:this.counter++%3};
   // Canonical inputs keep accidental unbounded event values from expanding cache identities.
@@ -182,6 +183,8 @@ class Engine {
  event(type,data={}){
   data=object(data);
   switch(type){
+  case 'foley':return this._play('foley',{...data,intensity:.65});
+  case 'foleycancel':this.cancelFoley();return true;
   case 'shot':return this.shot(data.weapon,data);
   case 'blood':return this.impact(data.head?'head':'body',data);
   case 'impact':return this.impact(data.material,data);
@@ -195,7 +198,7 @@ class Engine {
   default:return false;
   }
  }
- stats(){return {ready:!!this.bus,prepared:!this.destroyed&&!!this.bus&&this.context?.state!=='closed'&&this.rifle?.context===this.context&&this.rifle?.stats().status==='ready',running:!this.paused&&!this.destroyed&&this.context?.state==='running',muted:this.muted,error:this.error,voices:this.voices.size,buffers:this.buffers.size,played:this.played,dropped:this.dropped,maxVoices:this.maxVoices,rifle:this.rifle?.stats()||{status:'error',error:'Recorded gun audio module is missing',loaded:0,total:RifleAudio?.FILES.length||79}};}
+ stats(){return {ready:!!this.bus,prepared:!this.destroyed&&!!this.bus&&this.context?.state!=='closed'&&this.rifle?.context===this.context&&this.rifle?.stats().status==='ready',running:!this.paused&&!this.destroyed&&this.context?.state==='running',muted:this.muted,error:this.error,voices:this.voices.size,buffers:this.buffers.size,played:this.played,dropped:this.dropped,maxVoices:this.maxVoices,rifle:this.rifle?.stats()||{status:'error',error:'Recorded gun audio module is missing',loaded:0,total:RifleAudio?.FILES.length||83}};}
  async destroy(){
   if(this.destroyed)return;this.destroyed=true;this.lifecycle++;this.cancelPreparation();this.paused=true;this.stopAll();this.rifle?.destroy();this.buffers.clear();for(const node of this.nodes)try{node.disconnect();}catch(_){}this.nodes=[];this.bus=null;
   if(this.ownsContext&&this.context?.state!=='closed')try{await this.context?.close();}catch(_){}

@@ -18,9 +18,11 @@ let rifleSource=root.DFRifle;
 if(!rifleSource&&typeof require==='function'){try{rifleSource=require('./rifle-state.js');}catch(e){if(e.code!=='MODULE_NOT_FOUND'||!e.message.includes("'./rifle-state.js'"))throw e;}}
 let regionSource=root.DFWorld;
 if(!regionSource&&typeof require==='function'){try{regionSource=require('./world.js');}catch(e){if(e.code!=='MODULE_NOT_FOUND'||!e.message.includes("'./world.js'"))throw e;}}
+const shotSource=root.DFShotResolver||(typeof require==='function'?require('./shot-resolver.js'):null);
+const projectileSource=root.DFProjectiles||(typeof require==='function'?require('./player-projectiles.js'):null);
 class Mission {
  constructor(level=1,difficulty=1,seed=731,options={}){
-  this.level=level;this.difficulty=difficulty;this.seed=seed;
+  this.playerBullets=new projectileSource.Projectiles();this.shotResolver=new shotSource.ShotResolver();this.lastShotRecord=null;this.level=level;this.difficulty=difficulty;this.seed=seed;
   this.player={x:0,z:24,y:0,velocityY:0,grounded:true,bodyHeight:MOVEMENT.height,eyeHeight:MOVEMENT.eyeHeight,crouched:false,hp:100,armor:0,stamina:100,fatigued:false,dash:0,invulnerable:0,slide:0,slideCooldown:0,slideSpeed:0,slideDirX:0,slideDirZ:0};
   this.movementIntent={moving:false,sprint:false,aiming:false};
   this.walls=[];this.enemies=[];this.pickups=[];this.particles=[];this.events=[];this.projectiles=[];
@@ -103,7 +105,7 @@ class Mission {
  }
  reward(points){this.combo++;this.comboTimer=4;this.style+=Math.round(points*(1+Math.min(4,this.combo)*.25));}
  emit(type,data={}){this.events.push({type,...data});}
- damage(n){if(this.player.hp<=0||this.player.invulnerable>0||this.extracted)return;this.combo=0;this.comboTimer=0;const shield=Math.min(this.player.armor,n*.65);this.player.armor-=shield;this.player.hp=Math.max(0,this.player.hp-(n-shield));this.emit('hurt',{amount:n,armored:shield>0});if(this.player.hp<=0){this.cancelExtraction('dead');this.player.slide=0;this.player.slideSpeed=0;this.clearFireInput('dead');}}
+ damage(n,source=null){if(this.player.hp<=0||this.player.invulnerable>0||this.extracted)return;this.damageSequence=(this.damageSequence||0)+1;this.combo=0;this.comboTimer=0;const shield=Math.min(this.player.armor,n*.65);this.player.armor-=shield;this.player.hp=Math.max(0,this.player.hp-(n-shield));this.emit('hurt',{amount:n,armored:shield>0,...(Number.isFinite(source?.x)&&Number.isFinite(source?.z)?{sourceX:source.x,sourceZ:source.z}:{})});if(this.player.hp<=0){this.cancelExtraction('dead');this.playerBullets.clear();this.player.slide=0;this.player.slideSpeed=0;this.clearFireInput('dead');}}
  syncRifle(){
   if(!this.rifle)return;const r=this.rifle.snapshot();this.ammo[3]=r.total;this.reserve[3]=r.reserve;
   if(this.weapon===3){this.reload=r.reloadRemaining;this.reloadDuration=r.reloadDuration;this.cooldown=r.cooldown;this.cocked=!!r.chamber;}
@@ -135,45 +137,27 @@ class Mission {
   if(n===3)this.rifle.activate();this.syncRifle();this.emit('switch',{weapon:n});return true;
  }
  fire(hit,command){
+  if(this.muzzleBlocked||(command?.ballistic&&(!projectileSource.validLaunch(this.shotConfig(),command.ballistic)||this.playerBullets.active.length+this.shotConfig().pellets>128)))return false;
   if(this.weaponActionBlocked)return false;
   if(this.weapon===3)return this.fireRifle(hit,command);
   if(this.paused)return false;
   if(this.player.hp<=0||this.extracted||this.reload>0||this.cooldown>EPS||!this.cocked)return false;if(!this.ammo[this.weapon]){this.emit('empty');return false;}
   this.ammo[this.weapon]--;this.shots++;this.cooldown=[.2,.4,.1][this.weapon];if(this.weapon<2){this.cocked=false;this.cycleDelay=CYCLE[this.weapon].delay;this.cycleWeapon=this.weapon;}this.emit('shot',{weapon:this.weapon});
-  if(hit){if(hit.kind==='enemy'){const e=this.enemies[hit.id];if(e?.alive){this.hits++;e.hp-=([48,105,21][this.weapon])*(hit.head?2.5:1)*(this.perfect>0?1.3:1);e.hit=.16;e.alert=true;this.emit('blood',{x:e.x,z:e.z,head:hit.head});if(e.hp<=0)this.kill(e,hit.head?150:80);}}
-   if(hit.kind==='wall'){const w=this.walls[hit.id];if(w?.alive&&Number.isFinite(w.hp)){w.hp-=[40,90,19][this.weapon];if(w.hp<=0){w.alive=false;this.destroyed++;this.emit('break',{id:w.id,x:w.x,z:w.z,y:w.y||0});}}}
-   if(hit.kind==='barrel'){const b=this.pickups[hit.id];if(b?.alive){b.hp-=50;if(b.hp<=0)this.explode(b);}}
-  }return true;
+  const record=this.shotResolver.begin({weapon:this.weapon,config:shotSource.configuration(this.weapon),time:this.time,multiplier:this.perfect>0?1.3:1});this.lastShotRecord=record;this.dispatchShot(record,hit,command);return true;
  }
  fireRifle(hit,command){
   if(this.weaponActionBlocked||this.player.hp<=0||this.extracted||this.paused)return false;
   const shot=this.rifle.fire(command);if(!shot)return false;if(!this.rifle.journal.claim(shot.shotId,'damage'))return false;this.shots++;this.syncRifle();
-  if(!hit)return true;
-  const part=hit.part||(hit.head?'head':'torso'),head=part==='head';
-  if(hit.kind==='enemy'){
-   const e=this.enemies[hit.id];if(!e?.alive)return true;
-   // Body armor does not protect a bare head. Explicit armor coverage can override it.
-   const armorKey=head?'helmet':'armor',covered=hit.armored!==false,armor=covered?(Number.isFinite(e[armorKey])?e[armorKey]:0):0;
-   const result=rifleSource.damageAt(hit.distance,part,armor,this.rifle.config);
-   if(result.raw<=0)return true;this.hits++;if(result.armorDamage>0)e[armorKey]=Math.max(0,armor-result.armorDamage);e.hp-=result.damage;e.hit=.16;e.alert=true;
-   this.emit('impact',{weapon:3,kind:'enemy',id:e.id,x:e.x,z:e.z,head,...result});
-   if(result.armorDamage>0)this.emit('armorhit',{weapon:3,id:e.id,damage:result.armorDamage,stopped:result.stopped,part,head});
-   if(result.damage>0)this.emit('blood',{weapon:3,x:e.x,z:e.z,head,part,damage:result.damage});
-   if(e.hp<=0)this.kill(e,head?150:80);
-  }else if(hit.kind==='wall'){
-   const w=this.walls[hit.id];if(!w?.alive)return true;const result=rifleSource.damageAt(hit.distance,'torso',0,this.rifle.config);if(!result.raw)return true;
-   this.emit('impact',{weapon:3,kind:'wall',id:w.id,...result});if(Number.isFinite(w.hp)){w.hp-=result.damage;if(w.hp<=0){w.alive=false;this.destroyed++;this.emit('break',{id:w.id,x:w.x,z:w.z,y:w.y||0});}}
-  }else if(hit.kind==='barrel'){
-   const b=this.pickups[hit.id];if(!b?.alive)return true;const result=rifleSource.damageAt(hit.distance,'torso',0,this.rifle.config);if(!result.raw)return true;
-   this.emit('impact',{weapon:3,kind:'barrel',id:hit.id,...result});b.hp-=result.damage;if(b.hp<=0)this.explode(b);
-  }
-  return true;
+  const record=this.shotResolver.begin({weapon:3,config:shotSource.configuration(3,this.rifle.config),shotId:shot.shotId,time:this.time});this.lastShotRecord=record;this.dispatchShot(record,hit,command);return true;
  }
+ dispatchShot(record,hits,command){const presentation=this.events.findLast(e=>e.type==='shot'&&e.weapon===record.weapon);if(presentation)presentation.shotId=record.shotId;if(command?.ballistic){record.mode='projectile';record.origin={...command.ballistic.origin};record.directions=command.ballistic.directions.map(d=>({...d}));this.playerBullets.launch(this,record,command.ballistic.origin,command.ballistic.directions);}else this.resolveShotHits(record,hits);}
+ resolveShotHits(record,hits){for(const [pelletId,hit] of (Array.isArray(hits)?hits:[hits]).entries())this.shotResolver.resolve(this,record,hit,pelletId);}
+ shotConfig(){return shotSource.configuration(this.weapon,this.rifle?.config);}
  kill(e,points=0){e.alive=false;this.kills++;if(points)this.reward(points);this.cash+=e.boss?750:70;this.emit('kill',{id:e.id,x:e.x,z:e.z,boss:e.boss});if(e.boss)this.pickups.push({type:'bounty',x:e.x,z:e.z,y:e.y||0,alive:true});}
  explode(b){
   b.alive=false;this.emit('explosion',{x:b.x,z:b.z});for(const e of this.enemies)if(e.alive&&Math.hypot(e.x-b.x,e.z-b.z)<6){e.hp-=140;e.alert=true;if(e.hp<=0)this.kill(e);}
   for(const w of this.wallCandidates(b.x-5,b.z-5,b.x+5,b.z+5))if(Number.isFinite(w.hp)&&Math.hypot(w.x-b.x,w.z-b.z)<5){w.alive=false;this.destroyed++;this.emit('break',{id:w.id,x:w.x,z:w.z,y:w.y||0});}
-  if(Math.hypot(this.player.x-b.x,this.player.z-b.z,this.player.y-(b.y||0))<5)this.damage(25);
+  if(Math.hypot(this.player.x-b.x,this.player.z-b.z,this.player.y-(b.y||0))<5)this.damage(25,{x:b.x,z:b.z});
  }
  nearExtraction(){const p=this.player;return this.extractionZones.find(zone=>Math.hypot(p.x-zone.x,p.z-zone.z)<=zone.radius)||null;}
  cancelExtraction(reason='left'){if(!this.extractionZone)return;const zone=this.extractionZone;this.extractionZone=null;this.extractionProgress=0;this.emit('extractioncancel',{id:zone.id,reason});}
@@ -191,7 +175,7 @@ class Mission {
   let remaining=Math.min(.25,dt);while(remaining>EPS&&this.player.hp>0&&!this.extracted){const step=Math.min(MOVEMENT.simulationStep,remaining);this.step(step);remaining-=step;}
  }
  step(dt){
-  const p=this.player;this.time+=dt;const resting=!this.movementIntent.moving&&p.slide<=0&&p.dash<=0&&p.grounded;if(resting)p.stamina=clamp(p.stamina+dt*MOVEMENT.restRecovery,0,100);if(p.stamina<=EPS)p.fatigued=true;else if(p.stamina>=MOVEMENT.fatigueRecovery-EPS)p.fatigued=false;p.dash=Math.max(0,p.dash-dt);p.invulnerable=Math.max(0,p.invulnerable-dt);p.slideCooldown=Math.max(0,p.slideCooldown-dt);
+  const beforeEnemies=projectileSource.snapshots(this),p=this.player;this.time+=dt;const resting=!this.movementIntent.moving&&p.slide<=0&&p.dash<=0&&p.grounded;if(resting)p.stamina=clamp(p.stamina+dt*MOVEMENT.restRecovery,0,100);if(p.stamina<=EPS)p.fatigued=true;else if(p.stamina>=MOVEMENT.fatigueRecovery-EPS)p.fatigued=false;p.dash=Math.max(0,p.dash-dt);p.invulnerable=Math.max(0,p.invulnerable-dt);p.slideCooldown=Math.max(0,p.slideCooldown-dt);
   if(p.slide>0){const t=Math.min(dt,p.slide),speed=Math.max(0,p.slideSpeed-MOVEMENT.slideFriction*t),distance=(p.slideSpeed+speed)*.5*t;const moved=this.move(p.slideDirX*distance,p.slideDirZ*distance);p.slideSpeed=speed;p.slide=Math.max(0,p.slide-t);if(Math.hypot(moved.dx,moved.dz)<distance*.2){p.slide=0;p.slideSpeed=0;}if(!p.slide)this.emit('slideend');}
   this.posture();this.vertical(dt);this.posture();
   this.perfect=Math.max(0,this.perfect-dt);this.comboTimer=Math.max(0,this.comboTimer-dt);if(!this.comboTimer)this.combo=0;if(this.rifle){this.rifle.tick(dt);this.syncRifle();}if(this.weapon!==3)this.cooldown=Math.max(0,this.cooldown-dt);
@@ -208,14 +192,16 @@ class Mission {
     if(d>7&&visible){const speed=1.6*dt,nx=e.x+dx/d*speed,nz=e.z+dz/d*speed,homeX=e.homeX??e.x,homeZ=e.homeZ??e.z;if(Math.hypot(nx-homeX,nz-homeZ)<leash){if(!this.blocked(nx,e.z,.3,e.y||0,1.9))e.x=nx;if(!this.blocked(e.x,nz,.3,e.y||0,1.9))e.z=nz;}}
    }
   }
+  const incomingContacts=[];
   for(const shot of this.projectiles){
    if(!shot.alive)continue;const x=shot.x,y=shot.y??1.25,z=shot.z;shot.life-=dt;const nx=x+shot.vx*dt,ny=y+(shot.vy||0)*dt,nz=z+shot.vz*dt;
    const wall=this.wallHit(x,y,z,nx,ny,nz,.06),body=segmentBox(x,y,z,nx,ny,nz,p.x-MOVEMENT.radius-.06,p.y-.06,p.z-MOVEMENT.radius-.06,p.x+MOVEMENT.radius+.06,p.y+p.bodyHeight+.06,p.z+MOVEMENT.radius+.06);
-   if(body!==null&&(wall===null||body<wall)){this.damage(24*this.difficulty);shot.alive=false;}else if(wall!==null||shot.life<=0||ny<0)shot.alive=false;
+   if(body!==null&&(wall===null||body<wall)){incomingContacts.push({time:this.time-dt+dt*body,apply:()=>this.damage(24*this.difficulty,{x,z})});shot.alive=false;}else if(wall!==null||shot.life<=0||ny<0)shot.alive=false;
    shot.x=nx;shot.y=ny;shot.z=nz;
   }
   this.projectiles=this.projectiles.filter(shot=>shot.alive);
-  if(this.extractionZone){const zone=this.extractionZone;if(p.hp<=0||!this.bounty||Math.hypot(p.x-zone.x,p.z-zone.z)>zone.radius)this.cancelExtraction(p.hp<=0?'dead':'left');else{this.extractionProgress=Math.min(this.extractionRequired,this.extractionProgress+dt);if(this.extractionProgress>=this.extractionRequired-EPS){this.extractionProgress=this.extractionRequired;this.extracted=true;this.clearFireInput('extracted');this.emit('win',{id:zone.id,cargo:this.cargo,cash:this.cash});}}}
+  if(p.hp>0&&!this.extracted)this.playerBullets.advance(this,dt,beforeEnemies,incomingContacts);else this.playerBullets.clear();
+  if(this.extractionZone){const zone=this.extractionZone;if(p.hp<=0||!this.bounty||Math.hypot(p.x-zone.x,p.z-zone.z)>zone.radius)this.cancelExtraction(p.hp<=0?'dead':'left');else{this.extractionProgress=Math.min(this.extractionRequired,this.extractionProgress+dt);if(this.extractionProgress>=this.extractionRequired-EPS){this.extractionProgress=this.extractionRequired;this.extracted=true;this.playerBullets.clear();this.clearFireInput('extracted');this.emit('win',{id:zone.id,cargo:this.cargo,cash:this.cash});}}}
  }
 }
 root.HC={Mission,clamp,MOVEMENT,CYCLE,RIFLE:rifleSource?.RIFLE};if(typeof module!=='undefined')module.exports=root.HC;

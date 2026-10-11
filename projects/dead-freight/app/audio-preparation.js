@@ -22,7 +22,7 @@ class Controller{
   const stats=this.engine.stats(),bank=stats.rifle||{},muted=!!stats.muted,busy=this.status==='preparing'||this.status==='activating'||!!this.grant;
   return Object.freeze({status:this.status,busy,muted,prepared:this._prepared(),running:!!stats.running,
    canStart:!this.destroyed&&!busy&&(muted||this._prepared()),canPrepare:!this.destroyed&&!muted&&!busy&&!this._prepared(),
-   loaded:bank.loaded||0,total:bank.total||79,error:this.error,generation:this.generation});
+   loaded:bank.loaded||0,total:bank.total||83,error:this.error,generation:this.generation});
  }
  prepare(){
   if(this.destroyed)return Promise.resolve(false);

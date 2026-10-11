@@ -11,13 +11,8 @@ let runtimeIdentity=0;
 // Stateless indexed sample: peeking a ready shot never consumes randomness.
 function randomAt(seed,index,salt){let n=(seed^Math.imul(index+1,0x9e3779b1)^Math.imul(salt+1,0x85ebca6b))>>>0;n=Math.imul(n^(n>>>16),0x7feb352d);n=Math.imul(n^(n>>>15),0x846ca68b);return ((n^(n>>>16))>>>0)/4294967296;}
 function spreadSample(seed,index,cone){const r=Math.sqrt(randomAt(seed,index,0))*cone,a=randomAt(seed,index,1)*Math.PI*2;return Object.freeze({x:Math.cos(a)*r,y:Math.sin(a)*r,cone});}
-function damageAt(distance=0,part='torso',armor=0,config=RIFLE){
- const d=Number.isFinite(distance)?Math.max(0,distance):Infinity;
- const falloff=d>config.maxRange?0:1-clamp((d-config.falloffStart)/(config.falloffEnd-config.falloffStart),0,1)*(1-config.minimumDamage);
- const multiplier=part==='head'?config.headMultiplier:['limb','arm','leg'].includes(part)?config.limbMultiplier:1;
- const raw=config.damage*falloff*multiplier,armorDamage=Math.min(Math.max(0,Number.isFinite(armor)?armor:0),raw*config.armorAbsorption),damage=Math.max(0,raw-armorDamage);
- return {raw,damage,armorDamage,falloff,part,armored:armorDamage>EPS,stopped:raw>EPS&&damage<=EPS};
-}
+const shotSource=root.DFShotResolver||(typeof require==='function'?require('./shot-resolver.js'):null);
+function damageAt(distance=0,part='torso',armor=0,config=RIFLE){return shotSource.damageAt(distance,part,armor,config);}
 const instanceKeys=['version','weaponId','weaponInstanceId','magazine','chamber','mode','shotSequence','recoveryRemaining','reloadCheckpoint'];
 function validateInstance(state,{weaponInstanceId,magazineSize=30}={}){
  if(!state||typeof state!=='object'||Array.isArray(state)||Object.keys(state).length!==instanceKeys.length||instanceKeys.some(k=>!Object.prototype.hasOwnProperty.call(state,k)))return false;

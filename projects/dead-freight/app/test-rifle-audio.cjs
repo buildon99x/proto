@@ -5,7 +5,7 @@ const path=require('node:path');
 const crypto=require('node:crypto');
 const R=require('./rifle-audio.js'),A=require('./audio.js');
 const directory=path.join(__dirname,'../assets/audio/rifle');
-const manifest=JSON.parse(fs.readFileSync(path.join(directory,'manifest.json')));
+const manifest=JSON.parse(fs.readFileSync(path.join(directory,'manifest.json'))),utilityManifest=JSON.parse(fs.readFileSync(path.join(directory,'utility-manifest.json')));Object.assign(manifest.files,utilityManifest.files);Object.assign(manifest.sourceHashes,utilityManifest.sourceHashes);
 let checks=0;
 function test(name,fn){fn();checks++;console.log('PASS '+name);}
 function pcm(bytes){
@@ -52,6 +52,7 @@ test('Pixabay provenance is exact and raw downloads are excluded from distribute
  }
  for(const file of Object.values(manifest.files)){assert(file.sourceIds.length>=1);for(const id of file.sourceIds)assert(manifest.sourceHashes[id]);}
 });
+test('utility recordings keep explicit provenance and bounded cue names',()=>{const p=JSON.parse(fs.readFileSync(path.join(directory,'../utility-provenance.json')));assert.equal(p.rawSourcesIncluded,false);assert.equal(p.sources.length,3);for(const source of p.sources){assert.equal(source.sha256,utilityManifest.sourceHashes[source.id]);assert.equal(source.license,'Pixabay Content License');assert(source.page.startsWith('https://pixabay.com/sound-effects/'));}for(const key of ['__proto__','constructor','missing'])assert.equal(R.keyFor('foley',{cue:key}),null);});
 test('three round-robin attacks are distinct, suppression is quieter, tails decay',()=>{
  const hashes=new Set(R.FILES.filter(x=>/^shot-[123]$/.test(x)).map(x=>manifest.files[x].sha256));assert.equal(hashes.size,3);
  for(const prefix of ['','pistol-','shotgun-','smg-'])for(let i=1;i<=3;i++){
@@ -122,6 +123,7 @@ test('every firearm requires recordings and cannot synthesize a fallback',()=>{
   const used=[];for(let i=0;i<3;i++){context.advance(.1);assert(engine.event('casingbounce',{weapon:3,material:'stone',pan:.7,distance:2}));const voice=[...engine.voices].at(-1);used.push(voice.source.buffer);assert.equal(voice.type,'casing');}
   assert.equal(new Set(used).size,3);engine.stopAll();context.advance(.1);engine.event('casing',{weapon:3,material:'soil',pan:-.6});const voice=[...engine.voices].at(-1);assert.equal(voice.nodes.find(x=>x.kind==='filter').frequency.value,2600);assert.equal(voice.nodes.find(x=>x.kind==='gain').gain.value,.14);assert.equal(voice.nodes.find(x=>x.kind==='panner').pan.value,-.6);
  });
+ test('utility cancellation stops only Foley and has no deferred playback',()=>{engine.stopAll();context.advance(.1);assert(engine.shot(3));for(const cue of ['cloth-in','pin','medical']){context.advance(.1);assert(engine.event('foley',{cue}));assert.equal([...engine.voices].at(-1).source.buffer,engine.rifle.buffers.get(R.FOLEY[cue]));}const played=engine.stats().played;engine.event('foleycancel');assert.equal(engine.voices.size,1);assert.equal([...engine.voices][0].type,'shot');context.advance(4);assert.equal(engine.stats().played,played);assert.equal(context.syntheticBuffers,0);engine.stopAll();});
  test('bounded rifle voices, suppressed routes and mute cancel tails',()=>{
   for(let i=0;i<160;i++){context.advance(.031);engine.shot(3,{suppressed:!!(i%2)});assert(engine.voices.size<=8);}
   assert(engine.stats().dropped>=0);engine.setMuted(true);assert.equal(engine.voices.size,0);assert.equal(engine.shot(3),false);engine.setMuted(false);assert(engine.shot(3));
