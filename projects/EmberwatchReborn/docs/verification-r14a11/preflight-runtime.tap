@@ -1,0 +1,29 @@
+✔ actual opening handler paints immediate pending cue before durable save and does not auto-travel (70.528613ms)
+✔ actual V handler enters only the committed portal and cannot duplicate pending entry (75.156821ms)
+✔ actual default P keyboard routes utility, leaving existing interact binding untouched (32.815973ms)
+✔ actual opening save failure removes preview and does not spend cooldown or play success (33.022059ms)
+✔ actual pending open can finish behind a newer menu without entering town or unpausing (35.135262ms)
+✖ actual old profile completion never paints its portal into a replacement session (33.214751ms)
+✔ actual HUD action is blocked while dead, menu-owned or save-gated (41.587087ms)
+✔ actual repeated press reports cooldown without a save or resetting the active marker (27.461919ms)
+✔ actual portal renderer stays finite and balanced with reduced=false (0.512893ms)
+✔ actual portal renderer stays finite and balanced with reduced=true (0.321558ms)
+✔ portal renderer is inserted before hostile warnings and actors rather than over them (0.568686ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 516.632533
+
+✖ failing tests:
+
+test at app/tests/town-portal-runtime.test.mjs:28:1
+✖ actual old profile completion never paints its portal into a replacement session (33.214751ms)
+  ReferenceError: createState is not defined
+      at Object.replace (eval at fixture (file:///workspace/shared/emberwatch-r14a11-town-portal-project/app/tests/town-portal-runtime.test.mjs:20:11), <anonymous>:56:269)
+      at TestContext.<anonymous> (file:///workspace/shared/emberwatch-r14a11-town-portal-project/app/tests/town-portal-runtime.test.mjs:28:193)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

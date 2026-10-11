@@ -69,7 +69,7 @@ test('real main render handoff forwards the live area rather than a generated pr
  const source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8'),start=source.indexOf('const renderObservation=inputLatency.renderEntered('),end=source.indexOf('drawLabels(sceneVisibility);',start)+'drawLabels(sceneVisibility);'.length,s=scene(),r=render(scene({areas:[]}));r.calls.length=0;
  const battle={region:s.regionId,map:s.map,p:s.p,enemies:[],areas:s.areas,shots:[],effects:[],floaters:[],time:1,shake:0,stats:{},targetId:null};let labels=0;
  const currentState={options:{screenShake:0,flashes:0}};
- runInNewContext(source.slice(start,end),{...createMainInputFixture(),config:()=>controlsFor(currentState),tombWardCarried,sceneVisibility:wildernessSceneVisibility(battle),renderer:r.renderer,canvas:{width:s.width,height:s.height},battle,objects:[],state:currentState,drawLabels(){labels++;}});assert.equal(strokes(r).length,1);assert.equal(labels,1);
+ runInNewContext(source.slice(start,end),{...createMainInputFixture(),visibleTownPortal:()=>null,config:()=>controlsFor(currentState),tombWardCarried,sceneVisibility:wildernessSceneVisibility(battle),renderer:r.renderer,canvas:{width:s.width,height:s.height},battle,objects:[],state:currentState,drawLabels(){labels++;}});assert.equal(strokes(r).length,1);assert.equal(labels,1);
 });
 
 test('observed low-contrast boundary correction adds a same-path static outer keyline',()=>{

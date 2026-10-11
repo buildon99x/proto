@@ -1,3 +1,4 @@
+import {drawTownPortal} from './town-portal-presentation.js';
 import {drawPoeGroundFeedback,mobilityMotion} from './poe-presentation.js';
 import {createSignalBodyContourCache,signalBodyContourAllowed,SIGNAL_CONTOUR_STYLE} from './signal-body-contour.js';
 import {isWildernessScene,wildernessCoverSegments,wildernessOpenFloor,WILDERNESS_SCENE_STYLE,wildernessRolePresentation,drawWildernessRoleLabel} from './wilderness-readability.js';
@@ -201,6 +202,8 @@ export function createVisualRenderer(ctx,manifest,images,options={}){
   ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#241b26';ctx.globalAlpha=a*.72;ctx.lineWidth=4;ctx.stroke();
   ctx.strokeStyle=f.color;ctx.globalAlpha=a*.9;ctx.lineWidth=1.7;ctx.stroke();ctx.restore();
  }
+ // Personal portal stays beneath danger warnings and every body. LOS is resolved by the caller.
+ drawTownPortal(ctx,{portal:state.townPortal,toScreen,zoom,nowMs:state.wallTimeMs??0,reduced});
  // Ground-plane telegraphs stay underneath characters and architecture.
  const warningPath=shape=>{let points=telegraphOutline(shape).map(toScreen);ctx.beginPath();points.forEach((v,i)=>i?ctx.lineTo(v.x,v.y):ctx.moveTo(v.x,v.y));ctx.closePath();if(shape.type==='ring'){for(let i=0;i<=40;i++){let angle=-i/40*Math.PI*2,v=toScreen({x:shape.x+Math.cos(angle)*shape.inner,y:shape.y+Math.sin(angle)*shape.inner});if(i===0)ctx.moveTo(v.x,v.y);else ctx.lineTo(v.x,v.y);}ctx.closePath();}};
 

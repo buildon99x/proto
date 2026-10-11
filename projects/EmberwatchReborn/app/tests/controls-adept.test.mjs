@@ -47,8 +47,8 @@ test('controlsFor migrates detached reads and absence stays legacy without creat
   assert.equal(first.version,3);assert.deepEqual(first.bindings.heal,[]);assert.deepEqual(first.bindings.judgement,[]);
   first.bindings.attack[0]='KeyZ';assert.deepEqual(state,before);assert.notDeepEqual(first,second);
  }
- const absent={options:{}};assert.deepEqual(controlsFor(absent),controlPreset('legacy'));assert.deepEqual(absent,{options:{}});
- assert.deepEqual(controlsFor(null),controlPreset('legacy'));
+ const absent={options:{}};assert.deepEqual(controlsFor(absent),{...controlPreset('legacy'),bindings:{...controlPreset('legacy').bindings,townPortal:['KeyP']}});assert.deepEqual(absent,{options:{}});
+ assert.deepEqual(controlsFor(null),controlsFor(absent));
  assert.throws(()=>controlsFor({options:{controls:null}}));
 });
 

@@ -1,6 +1,6 @@
 {
   "name": "emberwatch-reborn",
-  "version": "0.14.0-reimplementation.10",
+  "version": "0.14.0-reimplementation.11",
   "private": true,
   "type": "module",
   "scripts": {

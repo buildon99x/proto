@@ -46,7 +46,7 @@ const rails=c=>c.filter(c=>c.op==='stroke'&&[WALL.color,WALL.keyColor].includes(
 const ticks=c=>c.filter(c=>c.op==='stroke'&&c.strokeStyle===MARK.passageColor);
 const source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 function main(s,b){
- const calls=[],context={...createMainInputFixture(),...mainImports,config:()=>mainImports.controlsFor(s),state:s,battle:b,canvas:{width:1600,height:1000},ctx:{save(){},restore(){},fillRect(...args){calls.push({op:'rect',args});},fillText(...args){calls.push({op:'text',args});}}};
+ const calls=[],context={...createMainInputFixture(),...mainImports,visibleTownPortal:()=>null,config:()=>mainImports.controlsFor(s),state:s,battle:b,canvas:{width:1600,height:1000},ctx:{save(){},restore(){},fillRect(...args){calls.push({op:'rect',args});},fillText(...args){calls.push({op:'text',args});}}};
  vm.createContext(context);vm.runInContext(source.slice(source.indexOf('function wildernessView('),source.indexOf('function interact('))+'\n'+source.split('\n').find(l=>l.startsWith('function drawLabels(')),context);return {calls,context};
 }
 for(const [name,objectives,counts] of [['closed',base,[6,0,0]],['west',west,[6,6,0]],['east',east,[6,6,0]],['north',north,[6,6,4]]])test(`S ${name}: floor connectivity and authored gates control idle bodies and future devices`,()=>{

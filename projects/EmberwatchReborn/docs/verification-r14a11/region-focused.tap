@@ -1,0 +1,19 @@
+✔ earned sluice_upper portal preserves region history, gates, resources and inventory (8630.608401ms)
+✔ earned sluice_lower portal preserves region history, gates, resources and inventory (1660.765319ms)
+✔ earned ember_quarry portal preserves region history, gates, resources and inventory (1763.296111ms)
+✔ earned ashwind_pass portal preserves region history, gates, resources and inventory (1844.091437ms)
+✔ earned signal_basin portal preserves region history, gates, resources and inventory (1655.360026ms)
+✔ earned ember_furnace portal preserves region history, gates, resources and inventory (2197.575698ms)
+✔ earned signal_tomb portal preserves region history, gates, resources and inventory (1882.508726ms)
+✔ earned beacon_battlefield portal preserves region history, gates, resources and inventory (2711.015217ms)
+✔ earned signal_wilderness portal preserves region history, gates, resources and inventory (2497.259341ms)
+✔ earned ash_road portal preserves region history, gates, resources and inventory (3382.415054ms)
+✔ unfinished W return does not unlock the anchor, advance clues or fake report completion (300.633106ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 28992.810334

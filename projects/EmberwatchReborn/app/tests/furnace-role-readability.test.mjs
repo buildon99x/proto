@@ -105,6 +105,6 @@ test('the actual main renderer handoff draws each live F role without a preview-
  assert.ok(start>0&&end>start);const s=state(),{renderer,calls}=render(state({entities:[]}));calls.length=0;
  const battle={region:FURNACE_REGION,map:s.map,p:s.p,enemies:s.entities,shots:[],effects:[],floaters:[],time:0,shake:0,stats:{},targetId:null};let labels=0;
  const currentState={options:{screenShake:0,flashes:0}};
- runInNewContext(source.slice(start,end),{...createMainInputFixture(),config:()=>controlsFor(currentState),tombWardCarried,sceneVisibility:wildernessSceneVisibility(battle),renderer,canvas:{width:s.width,height:s.height},battle,objects:[],state:currentState,drawLabels(){labels++;}});
+ runInNewContext(source.slice(start,end),{...createMainInputFixture(),visibleTownPortal:()=>null,config:()=>controlsFor(currentState),tombWardCarried,sceneVisibility:wildernessSceneVisibility(battle),renderer,canvas:{width:s.width,height:s.height},battle,objects:[],state:currentState,drawLabels(){labels++;}});
  assert.equal(inners(calls).length,3);assert.equal(outlines(calls).length,3);assert.equal(labels,1);
 });

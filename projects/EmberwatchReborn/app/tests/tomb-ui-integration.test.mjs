@@ -127,7 +127,7 @@ async function browser(saved,{storage=memory(),profile='qa-tomb-ui',namespace='q
  const declaredImports=new Set([...source.matchAll(/^import\s*\{([^}]+)\}/gm)].flatMap(match=>match[1].split(',').map(name=>name.trim())));
  for(const name of Object.keys(imports))assert.ok(declaredImports.has(name),`production main must import ${name}`);
  const expertCapture=createExpertInputCapture(),expertSafety=createActionSafety({capture:expertCapture,cancel:cancelBattleAction});
- const gate=createRuntimeGate(),env={...createMainInputFixture(),expertCapture,expertSafety,...imports,state:loaded.state,battle:createBattle(loaded.state),controller,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,equipmentStation:null,suppressNextClick:false,lastObjectiveHtml:'',
+ const gate=createRuntimeGate(),env={...createMainInputFixture(),visibleTownPortal:()=>null,expertCapture,expertSafety,...imports,state:loaded.state,battle:createBattle(loaded.state),controller,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,equipmentStation:null,suppressNextClick:false,lastObjectiveHtml:'',
   profile,pauseReason:'',noticeUntil:0,input:{},displayTime:0,combatTime:0,walkTime:0,menuTime:0,arrivalWaitTime:0,focusEvents:{},
   modal,gate,candidate:namespace!=='release',saveNamespace:namespace,localStorage:storage,navigator:{locks},
   $:id=>elements[id],document:{visibilityState:'visible',hasFocus:()=>true,addEventListener:(name,fn)=>{handlers[name]=fn;}},
@@ -272,11 +272,11 @@ test('actual dead carry save shows retry, cannot manipulate T, and preserves rel
 
 test('actual main renderer forwards the durable carried ward without changing game state',async()=>{
  const start=source.indexOf('const renderObservation=inputLatency.renderEntered('),end=source.indexOf('drawLabels(sceneVisibility);',start)+'drawLabels(sceneVisibility);'.length;
- for(const name of ['solved','carried','midpoint','sealed']){const saved=stage(name),before=copy(saved),battle=createBattle(saved);let rendered;vm.runInNewContext(source.slice(start,end),{...createMainInputFixture(),config:()=>controlsFor(saved),sceneVisibility:wildernessSceneVisibility(battle),renderer:{render:args=>rendered=args},canvas:{width:900,height:650},battle,objects:[],state:saved,tombWardCarried,drawLabels(){}});assert.equal(rendered.wardCarried,['carried','midpoint'].includes(name));assert.deepEqual(saved,before);}
+ for(const name of ['solved','carried','midpoint','sealed']){const saved=stage(name),before=copy(saved),battle=createBattle(saved);let rendered;vm.runInNewContext(source.slice(start,end),{...createMainInputFixture(),visibleTownPortal:()=>null,config:()=>controlsFor(saved),sceneVisibility:wildernessSceneVisibility(battle),renderer:{render:args=>rendered=args},canvas:{width:900,height:650},battle,objects:[],state:saved,tombWardCarried,drawLabels(){}});assert.equal(rendered.wardCarried,['carried','midpoint'].includes(name));assert.deepEqual(saved,before);}
 });
 
 test('actual R11 candidate title separates observed Normal T from unqualified Expert/B and offers R10 forward copy',async()=>{
- const h=await browser(stage('predecessor'),{namespace:'qa-r11'});h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a10 · POE형 전사 입력 개발 후보/);assert.match(h.modal.innerHTML,/일반 조작으로 확인했습니다/);assert.match(h.modal.innerHTML,/마스터.*아직 완성되지 않았습니다/);assert.match(h.modal.innerHTML,/<option value="qa-r10">/);assert.match(h.modal.innerHTML,/전문가 승급.*일반 입력 검증 중/);assert.doesNotMatch(h.modal.innerHTML,/data-action="new"/);
+ const h=await browser(stage('predecessor'),{namespace:'qa-r11'});h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a11 · POE형 전사 입력 개발 후보/);assert.match(h.modal.innerHTML,/일반 조작으로 확인했습니다/);assert.match(h.modal.innerHTML,/마스터.*아직 완성되지 않았습니다/);assert.match(h.modal.innerHTML,/<option value="qa-r10">/);assert.match(h.modal.innerHTML,/전문가 승급.*일반 입력 검증 중/);assert.doesNotMatch(h.modal.innerHTML,/data-action="new"/);
 });
 
 for(const operation of ['accept','oath','report'])test(`actual T ${operation} synchronizes paid pools without rebuilding the live battle`,async()=>{

@@ -1,0 +1,10 @@
+✔ real preset UI requires explicit confirmation, retains old controls, then restores them (2125.897448ms)
+✔ real independent aim/tracking changes preserve controls and progression after commit (286.710178ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2595.176049

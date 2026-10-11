@@ -181,7 +181,7 @@ test('actual main renderer call supplies the live region and map without changin
  assert.ok(start>0&&end>start);const s=state(),{renderer,calls}=render(state({entities:[]}));calls.length=0;
  const battle={region:REGION,map:s.map,p:s.p,enemies:s.entities,shots:[],effects:[],floaters:[],time:0,shake:0,stats:{},targetId:null};let labels=0;
  const currentState={options:{screenShake:0,flashes:0}};
- runInNewContext(source.slice(start,end),{...createMainInputFixture(),config:()=>controlsFor(currentState),tombWardCarried,sceneVisibility:wildernessSceneVisibility(battle),renderer,canvas:{width:900,height:650},battle,objects:[],state:currentState,drawLabels(){labels++;}});
+ runInNewContext(source.slice(start,end),{...createMainInputFixture(),visibleTownPortal:()=>null,config:()=>controlsFor(currentState),tombWardCarried,sceneVisibility:wildernessSceneVisibility(battle),renderer,canvas:{width:900,height:650},battle,objects:[],state:currentState,drawLabels(){labels++;}});
  assert.equal(roleStrokes(calls).length,3);assert.equal(passageStrokes(calls).length,6);assert.equal(labels,1);
 });
 

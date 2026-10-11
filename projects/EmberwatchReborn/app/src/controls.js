@@ -2,7 +2,8 @@ import {validateSkillSlotShape,seedSkillSlots,validateSkillSlots} from './skill-
 // Authored Emberwatch ergonomics, not a claim about Hammerwatch II default keys.
 export const ACTIONS=Object.freeze({up:'위로 이동',down:'아래로 이동',left:'왼쪽 이동',right:'오른쪽 이동',attack:'기본 공격',block:'방패',charge:'방패 돌진',hammer:'잿불 망치',interact:'상호작용',potion:'물약',menu:'성장 / 설정',pause:'일시정지',heal:'온기 나누기',judgement:'단죄의 일격',expert1:'전문 기술 슬롯 1',expert2:'전문 기술 슬롯 2'});
 export const MOBILITY_ACTIONS=Object.freeze({moveOnly:'지점으로 이동',stop:'이동 멈춤',attackInPlace:'제자리 공격',dodgeSprint:'구르기 / 홀드 질주',dodgeOnly:'구르기만',sprint:'별도 달리기'});
-const allActions={...ACTIONS,...MOBILITY_ACTIONS};
+export const UTILITY_ACTIONS=Object.freeze({townPortal:'마을 귀환 포탈'});
+const allActions={...ACTIONS,...MOBILITY_ACTIONS,...UTILITY_ACTIONS};
 const expertActions=new Set(['expert1','expert2']);
 const optionalActions=new Set(['heal','judgement',...expertActions]);
 const actionNames=Object.keys(ACTIONS),legacyActions=actionNames.filter(action=>!optionalActions.has(action)),adeptActions=actionNames.filter(action=>!expertActions.has(action));
@@ -25,11 +26,11 @@ export function validateControls(c){
  else if(c.poe!==undefined||c.priorControls!==undefined)return {ok:false,reason:'이전 입력 형식에 새 설정을 섞을 수 없습니다.'};
  if(c.version===5){const check=validateSkillSlotShape(c.skillSlots);if(!check.ok)return check;}
  else if(c.skillSlots!==undefined)return {ok:false,reason:'전체 기술 배치를 먼저 명시적으로 선택하세요.'};
- const actions=actionsForVersion(c.version);
+ const actions=[...actionsForVersion(c.version),...(Object.hasOwn(c.bindings,'townPortal')?['townPortal']:[])];
  if(Object.keys(c.bindings).length!==actions.length||!actions.every(action=>Object.hasOwn(c.bindings,action)))return {ok:false,reason:'조작 설정 형식이 올바르지 않습니다.'};
  const used=new Map();
  for(const action of actions){
-  const keys=c.bindings[action],minimum=optionalActions.has(action)||Object.hasOwn(MOBILITY_ACTIONS,action)?0:1;
+  const keys=c.bindings[action],minimum=optionalActions.has(action)||Object.hasOwn(MOBILITY_ACTIONS,action)||action==='townPortal'?0:1;
   if(!Array.isArray(keys)||keys.length<minimum||keys.length>3||!Array.from(keys).every(validToken))return {ok:false,reason:`${allActions[action]}에 ${minimum}~3개의 지원 키를 지정하세요.`};
   for(const key of keys){if(key==='Escape'&&action!=='pause')return {ok:false,reason:'Esc는 안전한 일시정지용으로 예약되어 있습니다.'};if(used.has(key))return {ok:false,reason:`${tokenLabel(key)} 키가 ${allActions[used.get(key)]}와 겹칩니다.`};used.set(key,action);}
  }
@@ -45,13 +46,16 @@ export function migrateControls(current){
  return next;
 }
 // Absent controls means a pre-R2d save. Reading never writes or replaces its keys.
-export function controlsFor(state){return state?.options?.controls===undefined?controlPreset('legacy'):migrateControls(state.options.controls);}
+// Optional utility extension preserves historical controls and prior snapshots.
+// Add a runtime default only when P is unused; never steal a saved user's key.
+export function withTownPortalControl(current){const next=clone(current);if(!Object.hasOwn(next.bindings,'townPortal'))next.bindings.townPortal=Object.values(next.bindings).some(keys=>keys.includes('KeyP'))?[]:['KeyP'];return next;}
+export function controlsFor(state){return withTownPortalControl(state?.options?.controls===undefined?controlPreset('legacy'):migrateControls(state.options.controls));}
 export function rebindControl(current,action,index,token){
  const valid=validateControls(current);if(!valid.ok)return valid;
  if(!Object.hasOwn(allActions,action)||!Number.isInteger(index)||index<0||index>2)return {ok:false,reason:'알 수 없는 조작입니다.'};
- const next=migrateControls(current),keys=next.bindings[action];if(!keys)return {ok:false,reason:'POE형 조작을 먼저 명시적으로 선택하세요.'};
- if(token!==null){const owner=actionsForVersion(next.version).find(a=>next.bindings[a].some((key,i)=>key===token&&(a!==action||i!==index)));if(owner)return {ok:false,reason:`${tokenLabel(token)} 키는 이미 ${allActions[owner]}에 지정되어 있습니다.`};}
- if(token===null){if(index>=keys.length)return {ok:false,reason:'지정된 키가 없습니다.'};if(keys.length===1&&!optionalActions.has(action)&&!Object.hasOwn(MOBILITY_ACTIONS,action))return {ok:false,reason:'최소 한 개의 키는 남겨야 합니다.'};keys.splice(index,1);}
+ const next=action==='townPortal'?withTownPortalControl(migrateControls(current)):migrateControls(current),keys=next.bindings[action];if(!keys)return {ok:false,reason:'POE형 조작을 먼저 명시적으로 선택하세요.'};
+ if(token!==null){const owner=Object.keys(next.bindings).find(a=>next.bindings[a].some((key,i)=>key===token&&(a!==action||i!==index)));if(owner)return {ok:false,reason:`${tokenLabel(token)} 키는 이미 ${allActions[owner]}에 지정되어 있습니다.`};}
+ if(token===null){if(index>=keys.length)return {ok:false,reason:'지정된 키가 없습니다.'};if(keys.length===1&&!optionalActions.has(action)&&!Object.hasOwn(MOBILITY_ACTIONS,action)&&action!=='townPortal')return {ok:false,reason:'최소 한 개의 키는 남겨야 합니다.'};keys.splice(index,1);}
  else {if(index>keys.length)return {ok:false,reason:'빈 순서대로 키를 추가하세요.'};keys[index]=token;}
  next.preset='custom';const check=validateControls(next);return check.ok?{ok:true,controls:next}:check;
 }
@@ -59,7 +63,7 @@ export function tokenLabel(token){if(typeof token!=='string'||!token)return '미
 export function actionLabel(controls,action){const keys=controls?.bindings?.[action];return Array.isArray(keys)&&keys.length?keys.map(tokenLabel).join(' / '):'미지정';}
 const snapshotSkills=['hammer','charge','heal','judgement','expert1','expert2'];
 const mobilityPulses=['stop','dodgeSprint','dodgeOnly','sprint'];
-const oneShot=new Set([...snapshotSkills,...mobilityPulses,'interact','potion','menu','pause']);
+const oneShot=new Set([...snapshotSkills,...mobilityPulses,'interact','potion','townPortal','menu','pause']);
 const breaksToggle=new Set(['attack',...snapshotSkills,...mobilityPulses]);
 // UI owns keyboard input while a form control or button (including its child) has focus.
 export function editableTarget(target){return !!target&&(target.isContentEditable===true||['INPUT','SELECT','TEXTAREA','BUTTON'].includes(target.tagName)||!!target.closest?.('button,input,select,textarea,[contenteditable="true"]'));}
@@ -77,7 +81,7 @@ export function createInputRouter({captureAttackTap=false,now=()=>performance.no
  const down=(token,controls,{repeat=false,editable=false,modified=false,paused=false}={})=>{
   if(editable||modified||repeat||held.has(token))return null;
   // Direct v1 callers have no new skill rows. Never infer defaults for them.
-  const actions=actionsForVersion(controls.version);
+  const actions=[...actionsForVersion(controls.version),...(Object.hasOwn(controls.bindings,'townPortal')?['townPortal']:[])];
   const action=token==='Escape'?'pause':actions.find(a=>Array.isArray(controls.bindings?.[a])&&controls.bindings[a].includes(token));
   return press(token,action,controls,{paused});
  };
@@ -104,7 +108,7 @@ export function poeControlPreset(previous,mode='wasd',runMode='combined'){
  c.poe={version:1,movementMode:mode,aimingMode:mode==='wasd'?'cursor':'ground',cursorTrackingAfterRelease:mode==='wasd',keepSprintingWhileMoving:false,attackInPlaceStopsMovement:true};c.priorControls=clone(prior);if(current.version===5){c.version=5;c.skillSlots=clone(current.skillSlots);}const checked=validateControls(c);if(!checked.ok)throw Error(checked.reason);return c;
 }
 export function restorePriorControls(current){if(!isPoeControls(current)||!validateControls(current).ok)return null;return clone(current.priorControls);}
-export const controlActions=current=>isPoeControls(current)?{...allActions}:{...ACTIONS};
+export const controlActions=current=>isPoeControls(current)?{...allActions}:{...ACTIONS,...UTILITY_ACTIONS};
 
 // The only v1-v4 -> v5 entry point. Snapshot BEFORE legacy migration so Restore
 // returns exactly the chosen predecessor, including a v4 profile's own history.

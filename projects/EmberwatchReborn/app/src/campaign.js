@@ -1,3 +1,4 @@
+import {reduceTownPortal,clearTownPortal} from './town-portal.js';
 import {wildernessPortalAllowed,invalidateWildernessInput,synchronizeWildernessCombatProgress} from './wilderness.js';
 import {battlefieldPortalAllowed,invalidateBattlefieldInput} from './battlefield.js';
 import {trainingGoldBalances} from './training-economy.js';
@@ -13,12 +14,12 @@ import {grantExperience,experienceMultiplier} from './progression.js';
 import {getRegion,createMap,inMap,near,findEnemy,FOES,lineOfSight} from './world.js';
 const fail=(code,reason)=>({ok:false,code,reason});
 const copy=x=>JSON.parse(JSON.stringify(x));
-export const CAMPAIGN_COMMANDS=new Set(['trainStarter','purchaseSkill','acceptPatrol','settleCombat','travel','rest','retry','drinkPotion','openChest','checkpoint']);
+export const CAMPAIGN_COMMANDS=new Set(['trainStarter','purchaseSkill','acceptPatrol','settleCombat','travel','rest','retry','drinkPotion','openChest','checkpoint','openTownPortal','enterTownPortal']);
 function initialize(next){next.world.defeated??={};next.world.life??=0;next.world.lifeDown??=false;next.world.position??={...getRegion(next.world.region).spawn};}
 function grant(next,xp,gold,events){const result=grantExperience(next.character,xp);if(!result.ok)return result;next.character=result.character;next.gold+=gold;next.stats.earnedGold+=gold;next.stats.earnedXp=Math.round((next.stats.earnedXp+result.appliedXp)*1e6)/1e6;if(result.gainedLevels)events.push({type:'levelUp',levels:result.gainedLevels});return result;}
 function validReport(next,c){const stats=deriveStats(next.character,next);if(!stats.ok)return false;return (c.recovery===undefined||validateRecovery(c.recovery,{character:next.character}))&&c.position&&inMap(createMap(next.world.region,next),c.position.x,c.position.y)&&c.vitals&&['hp','mana','stamina'].every(k=>Number.isFinite(c.vitals[k])&&c.vitals[k]>=0&&c.vitals[k]<=stats.stats[{hp:'hpMax',mana:'manaMax',stamina:'staminaMax'}[k]]);}
 function npcAt(next,c,id){const npc=getRegion(next.world.region).npcs.find(x=>x.id===id);return npc&&near(c.position,npc)&&lineOfSight(createMap(next.world.region,next),c.position,npc);}
-export function reduceCampaign(state,c){
+export function reduceCampaign(state,c,context={}){
   const balances=trainingGoldBalances(state);if(!balances.ok)return balances;
   const next=copy(state),events=[];initialize(next);
   // A manual pre-training save records only the safe town position. It does
@@ -30,6 +31,17 @@ export function reduceCampaign(state,c){
   if(c.type!=='trainStarter'&&!next.vitals)return fail('TRAIN_FIRST','먼저 마을 훈련관에게 기본 기술을 배우세요.');
   if(next.world.lifeDown&&!['retry','settleCombat'].includes(c.type))return fail('HERO_DOWN','마을에서 다시 일어나세요.');
   switch(c.type){
+    case 'openTownPortal':
+    case 'enterTownPortal':{
+      if(c.life!==next.world.life)return fail('STALE_LIFE','현재 생명의 포탈 입력만 처리할 수 있습니다.');
+      if(!validReport(next,c)||c.vitals.hp<=0)return fail('INVALID_REPORT','살아 있는 현재 위치에서 포탈을 사용하세요.');
+      const portal=reduceTownPortal(next,c,context);if(!portal.ok)return portal;
+      next.vitals={...c.vitals};next.recovery=recoveryFrom(c,next.recovery);
+      if(c.type==='enterTownPortal'){
+        for(const invalidate of [invalidateWildernessInput,invalidateBattlefieldInput,invalidateTombInput]){const revision=invalidate(next);if(!revision.ok)return revision;}
+      }
+      events.push(...portal.events);break;
+    }
     case 'trainStarter':{
       if(!npcAt(next,c,'trainer'))return fail('TRAINER_REQUIRED','훈련관 가까이에서 대화하세요.');
       const trained=trainStarterSkills(next.character,next);if(!trained.ok)return trained;next.character=trained.character;
@@ -54,7 +66,7 @@ export function reduceCampaign(state,c){
       next.vitals={...c.vitals};next.recovery=recoveryFrom(c,next.recovery);next.world.position={...c.position};let kills=0;
       // All kills in the frame settle before its single death cost.
       for(const id of c.defeated){if(receipts.includes(id))continue;const f=FOES[findEnemy(region,id).kind];const r=grant(next,f.xp*experienceMultiplier(next.character.level,f.tier,next.difficulty),f.gold,events);if(!r.ok)return r;receipts.push(id);next.stats.kills++;kills++;if(region==='ash_road'&&next.world.objectives.patrol_accepted&&!next.world.claimedRewards.includes('watch_patrol'))next.world.objectives.patrol_scouts=(next.world.objectives.patrol_scouts??0)+1;}
-      if(c.vitals.hp===0){next.recovery.regenBuff=null;next.recovery.innerFlame=null;next.recovery.negativeStatuses={};const wallet=trainingGoldBalances(next);if(!wallet.ok)return wallet;const loss=Math.floor(wallet.spendableGold*.05);next.gold-=loss;next.stats.spentGold+=loss;next.stats.deaths++;next.world.lifeDown=true;events.push({type:'died',lostGold:loss});}
+      if(c.vitals.hp===0){next.recovery.regenBuff=null;next.recovery.innerFlame=null;next.recovery.negativeStatuses={};const wallet=trainingGoldBalances(next);if(!wallet.ok)return wallet;const loss=Math.floor(wallet.spendableGold*.05);next.gold-=loss;next.stats.spentGold+=loss;next.stats.deaths++;next.world.lifeDown=true;clearTownPortal(next);events.push({type:'died',lostGold:loss});}
       else if(events.some(e=>e.type==='levelUp')){const s=deriveStats(next.character,next).stats;next.vitals.hp=Math.min(s.hpMax,next.vitals.hp+s.hpMax*.25);next.vitals.mana=Math.min(s.manaMax,next.vitals.mana+s.manaMax*.25);next.vitals.stamina=Math.min(s.staminaMax,next.vitals.stamina+s.staminaMax*.25);}
       const wilderness=synchronizeWildernessCombatProgress(next);if(!wilderness.ok)return wilderness;
       if(next.world.objectives.wilderness_accepted)events.push({type:'wildernessChanged',mapChanged:wilderness.mapChanged});
@@ -77,7 +89,7 @@ export function reduceCampaign(state,c){
       const wildernessRevision=invalidateWildernessInput(next);if(!wildernessRevision.ok)return wildernessRevision;
       const battlefieldRevision=invalidateBattlefieldInput(next);if(!battlefieldRevision.ok)return battlefieldRevision;
       const revision=invalidateTombInput(next);if(!revision.ok)return revision;
-      next.vitals={...c.vitals};next.recovery=recoveryFrom(c,next.recovery);next.world.region=c.to;next.world.position={...(portal.arrival??getRegion(c.to).spawn)};if(!next.world.visited.includes(c.to))next.world.visited.push(c.to);events.push({type:'travelled',region:c.to});break;
+      next.vitals={...c.vitals};next.recovery=recoveryFrom(c,next.recovery);clearTownPortal(next);next.world.region=c.to;next.world.position={...(portal.arrival??getRegion(c.to).spawn)};if(!next.world.visited.includes(c.to))next.world.visited.push(c.to);events.push({type:'travelled',region:c.to});break;
     }
     case 'rest':{
       if(!npcAt(next,c,'healer'))return fail('HEALER_REQUIRED','마을 치유사 가까이에서 쉬세요.');
@@ -85,7 +97,7 @@ export function reduceCampaign(state,c){
     }
     case 'retry':{
       if(!next.world.lifeDown)return fail('NOT_DOWN','아직 쓰러지지 않았습니다.');
-      const s=deriveStats(next.character,next).stats;next.vitals={hp:s.hpMax,mana:s.manaMax,stamina:s.staminaMax};next.recovery=retryRecovery(next.recovery??emptyRecovery());next.world.life++;next.world.lifeDown=false;next.world.region='ash_hamlet';next.world.position={...getRegion('ash_hamlet').spawn};events.push({type:'retried'});break;
+      const s=deriveStats(next.character,next).stats;next.vitals={hp:s.hpMax,mana:s.manaMax,stamina:s.staminaMax};next.recovery=retryRecovery(next.recovery??emptyRecovery());next.world.life++;next.world.lifeDown=false;clearTownPortal(next);next.world.region='ash_hamlet';next.world.position={...getRegion('ash_hamlet').spawn};events.push({type:'retried'});break;
     }
     case 'drinkPotion':{
       if(!validReport(next,c)||c.vitals.hp<=0)return fail('INVALID_REPORT','살아 있을 때 사용할 수 있습니다.');

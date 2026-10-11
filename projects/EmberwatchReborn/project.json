@@ -4,8 +4,8 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
-  "version": "0.14.0-reimplementation.10",
-  "summary": "R14a10 대화상자 초점 후보: 도움말 상단 액션, Tab 순환, 원래 버튼 초점 복구. 자동검사와 공개 후보 실제 화면 검증은 별도 기록.",
+  "version": "0.14.0-reimplementation.11",
+  "summary": "R14a11 마을 귀환 포탈 후보: P/HUD 개방, 기존 상호작용 입장, 소모품 없는 60초 저장형 쿨다운. a10 초점 접근성 보존. 자동검사와 공개 후보 실제 화면 검증은 별도 기록.",
   "tags": [
     "game",
     "action-rpg",

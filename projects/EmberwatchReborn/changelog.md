@@ -63,3 +63,8 @@ Presentation-only adaptive hotbar and primary-first pause menu. Preserve control
 ## R14a10
 
 Move help controls before the guide; add labeled dialogs, bounded Tab focus, verified opener restoration and a one-shot configured-game-key focus handoff. Preserve native UI and key-capture semantics.
+
+## R14a11
+- Add always-accessible, no-consumable personal town portal: P/HUD opening, existing interaction entry, one-way return, authored60-second saved cooldown.
+- Preserve old key ownership, permanent quest/kill/reward state, paid recovery, death/retry and menu/storage gates. Add compact accessible HUD/help and original warning-safe portal FX.
+- Keep a10 dialog focus and combat/progression values unchanged. Actual published-browser QA remains required separately from automated checks.

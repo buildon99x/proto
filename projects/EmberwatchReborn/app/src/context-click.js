@@ -3,7 +3,7 @@ import {inMap,lineOfSight,traceSegment,findPathStep} from './world-geometry.js';
 
 // Authored Emberwatch input policy, not measured or unpublished PoE2 values.
 export const CONTEXT_CLICK_POLICY=Object.freeze({reach:76,approachRadius:64,collisionRadius:11,stallSeconds:2.5,maxSeconds:20});
-const kinds=new Set(['npc','dungeon','quarry','pass','signal','furnace','tomb','battlefield','wilderness','portal','chest']);
+const kinds=new Set(['npc','dungeon','quarry','pass','signal','furnace','tomb','battlefield','wilderness','portal','townPortal','chest']);
 const point=p=>!!p&&Number.isFinite(p.x)&&Number.isFinite(p.y);
 const target=o=>point(o)&&typeof o.id==='string'&&o.id.length>0&&kinds.has(o.kind);
 const key=o=>JSON.stringify([o.kind,o.id]);
@@ -15,7 +15,7 @@ const yes=(predicate,o)=>{try{return typeof predicate==='function'&&predicate(o)
 const shown=(o,visible)=>target(o)&&o.hidden!==true&&o.rendered!==false&&o.visible!==false&&!(o.hideWhenCompleted&&(o.completed===true||Array.isArray(o.actions)&&o.actions.length===0))&&yes(visible,o);
 function unique(candidates,o){return Array.isArray(candidates)&&candidates.filter(c=>c&&c.kind===o.kind&&c.id===o.id).length===1;}
 function fingerprint(o){
- try{return JSON.stringify([o.open,o.completed,o.closed,o.locked,o.allowed,o.disabled,o.to,o.gate,o.actionKind,Array.isArray(o.actions)?o.actions.map(a=>[a?.label,a?.value,a?.disabled]):null]);}catch{return null;}
+ try{return JSON.stringify([o.open,o.completed,o.closed,o.locked,o.allowed,o.disabled,o.to,o.gate,o.actionKind,o.openedAtMs,Array.isArray(o.actions)?o.actions.map(a=>[a?.label,a?.value,a?.disabled]):null]);}catch{return null;}
 }
 function sprite(o){
  let type=o.kind==='npc'?'shrine':o.kind==='portal'?(o.to==='ash_hamlet'?'return':'exit'):o.kind==='chest'?'chest':o.kind==='dungeon'?({record:'bird',crank:'barrel',rune:'orb',inlet:'shrine',outlet:'shrine',flow:'shrine',lift:'shrine',bell:'relic',core:'relic',store:'chest'}[o.actionKind]):o.visualType??'relic';
@@ -36,7 +36,8 @@ export function pickContextClickTarget({screenPoint,candidates,toScreen,visible,
   let p;try{p=toScreen(o);}catch{continue;}if(!point(p))continue;
   const label=yes(labelVisible,o)&&screenPoint.x>=p.x-60&&screenPoint.x<=p.x+60&&screenPoint.y>=p.y-74&&screenPoint.y<=p.y-53;
   let body=false,score=Infinity;const art=sprite(o);
-  if(art){const k=art.width*zoom/art.frame.w,rx=art.width*zoom/2,ry=art.frame.h*k/2,cx=p.x+(art.frame.w/2-art.frame.ax)*k,cy=p.y+(art.frame.h/2-art.frame.ay)*k;score=((screenPoint.x-cx)/rx)**2+((screenPoint.y-cy)/ry)**2;body=score<=1;}
+  if(o.kind==='townPortal'){score=((screenPoint.x-p.x)/(18*zoom))**2+((screenPoint.y-(p.y-28*zoom))/(30*zoom))**2;body=score<=1;}
+  else if(art){const k=art.width*zoom/art.frame.w,rx=art.width*zoom/2,ry=art.frame.h*k/2,cx=p.x+(art.frame.w/2-art.frame.ax)*k,cy=p.y+(art.frame.h/2-art.frame.ay)*k;score=((screenPoint.x-cx)/rx)**2+((screenPoint.y-cy)/ry)**2;body=score<=1;}
   if(label||body)hits.push({o,layer:label?1:0,depth:o.x+o.y,score:label?((screenPoint.x-p.x)/60)**2+((screenPoint.y-(p.y-63.5))/10.5)**2:score,key:key(o)});
  }
  hits.sort((a,b)=>b.layer-a.layer||b.depth-a.depth||a.score-b.score||(a.key<b.key?-1:a.key>b.key?1:0));

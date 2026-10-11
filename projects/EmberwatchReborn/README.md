@@ -64,3 +64,8 @@ Final R14a9: **3,963/3,963 unique tests**,0 fail/skip/cancel,117023.812816ms; ap
 Help navigation, modal Tab containment, visible initial focus and safe opener restoration. See docs/verification-r14a10. Actual a10 browser acceptance is pending after separate publication.
 
 Final R14a10: **4,002/4,002 unique tests**, 0 fail/skip/cancel, 121563.5436ms; app lint and static build passed (118 files). Includes existing 3,963 plus 39 new. Local monorepo aggregate checks remain blocked by unavailable dependencies/corepack cache; exact-commit remote CI is recorded separately. Actual a10 browser QA and Sites publication remain separate.
+
+## R14a11 personal town portal
+P or ◈ 귀환 opens a no-consumable portal at the hero; the existing interaction key enters town. The one-way portal uses an authored60-second saved real-time cooldown. Existing key collisions are preserved and the HUD works when P is unavailable. See docs/verification-r14a11 for state/clock safeguards, source distinction, automated receipts and remaining native-browser/publication acceptance.
+
+Final R14a11: **4,081/4,081 unique tests**, 0 fail/skip/cancel, 117874.756099ms; app lint and static build passed (120 files, 16,697,398 bytes), with every built source hash verified. Includes existing4,002 plus79 new. Root registry/build commands remain blocked by absent dependencies/corepack cache. Actual native-browser QA and public Site publication remain separate.

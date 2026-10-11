@@ -207,3 +207,6 @@ Fix the normal-input 889×562 QA regressions: six visible actions wrap as five p
 ## R14a10 dialog focus
 
 Fix two remaining issues observed in v61/a9 at889×561: help initially focuses an offscreen bottom button, and Shift+Tab from the first controls button reaches the background potion. Introduction version is not established. Preserve bindings, combat, save and balance.
+
+## 2026-10-11 · R14a11 town-return request
+Implement the user's explicit always-accessible cooldown portal request without changing existing combat/progression balance. P/HUD opens a no-consumable portal at the hero; existing interaction enters town. Preserve user keys, lifecycle/storage safety, objectives and earned receipts. One-way only because detailed living-enemy instance persistence is not established. Authored 60-second real-time cooldown and immediate utility behavior are distinguished from GGG's interrupted-cast reference. See docs/verification-r14a11/README.md.

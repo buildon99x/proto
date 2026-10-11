@@ -1,6 +1,7 @@
+import {townPortalNow} from './town-portal.js';
 import {clone, jsonSafe, createState, validateState, reduceRuntime, migrateState} from './state.js';
 const fail = (code, reason) => ({ok: false, code, reason});
-export function createController(store) {
+export function createController(store,{now=townPortalNow}={}) {
   let state = null, revision = 0, blocked = null, queue = Promise.resolve();
   const listeners = new Set();
   const snapshot = () => state ? clone(state) : null;
@@ -58,7 +59,7 @@ export function createController(store) {
         if(intent.expectedRevision!==revision)return fail('STALE_REVISION','이전 승급 화면의 입력입니다. 최신 기록을 다시 확인하세요.');
       }
       let result;
-      try { result = reduceRuntime(state, intent, {revision}); } catch { return fail('COMMAND_FAILED', '입력을 처리하지 못했습니다.'); }
+      try { result = reduceRuntime(state, intent, ['openTownPortal','enterTownPortal'].includes(intent.type)?{revision,nowMs:now()}:{revision}); } catch { return fail('COMMAND_FAILED', '입력을 처리하지 못했습니다.'); }
       if (!result.ok) return result;
       return commit(result.state, result.events);
     });

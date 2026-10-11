@@ -6,7 +6,7 @@ export function createImmediateInput(){
  const clear=()=>{pending=null;};
  return {clear,
   offer(action,{now,life,region}){
-   if(!['interact','potion'].includes(action)||!Number.isFinite(now)||!Number.isInteger(life)||typeof region!=='string')return false;
+   if(!['interact','potion','townPortal'].includes(action)||!Number.isFinite(now)||!Number.isInteger(life)||typeof region!=='string')return false;
    pending={action,now,life,region};return true;
   },
   flush({now,life,region,busy=false,paused=false,blocked=false,lifeDown=false,focused=true,hidden=false},execute){

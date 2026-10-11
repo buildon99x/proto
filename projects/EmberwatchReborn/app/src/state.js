@@ -1,3 +1,4 @@
+import {validateTownPortal} from './town-portal.js';
 import {WILDERNESS_COMMANDS,reduceWilderness,validateWildernessProgress} from './wilderness.js';
 import {BATTLEFIELD_COMMANDS,reduceBattlefield,validateBattlefieldProgress} from './battlefield.js';
 import {validateSavedActionSlots,reduceActionSlots} from './action-slots.js';
@@ -87,6 +88,7 @@ export function validateState(state) {
   if (!record(s) || !['kills', 'deaths', 'earnedGold', 'spentGold'].every(k => integer(s[k])) || !Number.isFinite(s.earnedXp) || s.earnedXp < 0 || s.earnedGold - s.spentGold !== state.gold) return fail('INVALID_LEDGER', '수입과 지출 기록이 일치하지 않습니다.');
   if (!record(o) || !['masterVolume', 'screenShake', 'flashes'].every(k => Number.isFinite(o[k]) && o[k] >= 0 && o[k] <= 1)) return fail('INVALID_OPTIONS', '화면과 음량 설정이 올바르지 않습니다.');
   if (o.controls !== undefined && !validateControls(o.controls).ok) return fail('INVALID_CONTROLS', validateControls(o.controls).reason);
+  const townPortal=validateTownPortal(state);if(!townPortal.ok)return townPortal;
   if (!getRegion(w.region)) return fail('UNKNOWN_REGION', '알 수 없는 지역입니다.');
   if (state.recovery !== undefined && !validateRecovery(state.recovery,{legacy:state.version<3,version:state.version<4?1:2,character:state.character})) return fail('INVALID_RECOVERY', '재사용 대기 상태가 올바르지 않습니다.');
   if (w.defeated !== undefined && (!record(w.defeated) || !Object.entries(w.defeated).every(([id, ids]) => getRegion(id) && stringList(ids, 100) && ids.every(enemyId => findEnemy(id, enemyId))))) return fail('INVALID_ENCOUNTER', '처치 기록이 올바르지 않습니다.');
@@ -132,7 +134,7 @@ export function reduceRuntime(state, command, context = {}) {
   // Reports keep the epoch captured alongside their live data. The trusted
   // controller supplies context when dequeuing; never derive it from commands.
   const wildernessCommand=WILDERNESS_COMMANDS.has(command.type);
-  const epochRequired=wildernessCommand||!!state.world.objectives.wilderness_accepted&&(command.vitals!==undefined||command.type==='retry');
+  const epochRequired=wildernessCommand||['openTownPortal','enterTownPortal'].includes(command.type)||!!state.world.objectives.wilderness_accepted&&(command.vitals!==undefined||command.type==='retry');
   if(epochRequired||Object.hasOwn(command,'expectedStoreRevision')){
     if(!integer(command.expectedStoreRevision)||!jsonSafe(context)||!record(context)||!integer(context.revision))return fail('STORE_REVISION_REQUIRED','현재 저장 버전을 함께 기록한 입력이 필요합니다.');
     if(command.expectedStoreRevision!==context.revision)return fail('STALE_STORE_REVISION','이전 저장 상태의 입력입니다. 현재 기록에서 다시 조작하세요.');
@@ -153,7 +155,7 @@ export function reduceRuntime(state, command, context = {}) {
   if(QUARRY_COMMANDS.has(command.type)){const result=reduceQuarry(state,command);if(!result.ok)return result;const check=validateState(result.state);return check.ok?result:check;}
   if(command.type==='equipment'){const result=reduceEquipmentRuntime(state,command);if(!result.ok)return result;const check=validateState(result.state);return check.ok?result:check;}
   if (CAMPAIGN_COMMANDS.has(command.type)) {
-    const result = reduceCampaign(state, command);
+    const result = reduceCampaign(state, command, context);
     if (!result.ok) return result;
     const check = validateState(result.state);
     return check.ok ? result : check;

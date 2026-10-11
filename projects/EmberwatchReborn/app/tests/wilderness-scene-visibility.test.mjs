@@ -30,7 +30,7 @@ const enemyBodies=calls=>calls.filter(c=>c.op==='image'&&c.args[0].id==='enemy')
 const props=(calls,key)=>calls.filter(c=>c.op==='image'&&c.args[0].id==='environment'&&c.args[1]===ART.environment.sprites[key].x&&c.args[2]===ART.environment.sprites[key].y);
 const source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 function main(s,b){
- const calls=[],ctx={save(){},restore(){},fillRect(...args){calls.push({op:'rect',args});},fillText(...args){calls.push({op:'text',args});}},context={...createMainInputFixture(),...mainImports,config:()=>mainImports.controlsFor(s),state:s,battle:b,ctx,canvas:{width:1600,height:1000}};
+ const calls=[],ctx={save(){},restore(){},fillRect(...args){calls.push({op:'rect',args});},fillText(...args){calls.push({op:'text',args});}},context={...createMainInputFixture(),visibleTownPortal:()=>null,...mainImports,config:()=>mainImports.controlsFor(s),state:s,battle:b,ctx,canvas:{width:1600,height:1000}};
  vm.createContext(context);const selectors=source.slice(source.indexOf('function wildernessView('),source.indexOf('function interact(')),labels=source.split('\n').find(line=>line.startsWith('function drawLabels('));
  vm.runInContext(selectors+'\n'+labels,context);return {context,calls};
 }

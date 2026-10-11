@@ -21,3 +21,6 @@ Adaptive HUD and primary-first pause panel. Source is separate from the frozen a
 ## R14a10 current checkpoint
 
 Read docs/verification-r14a10 and final-summary.json. Preserve a9 checkpoint and all game/save/binding semantics. Automated DOM probes do not establish native browser focus acceptance.
+
+## R14a11 current checkpoint
+Personal one-way town-return portal. Read docs/verification-r14a11/README.md and final-summary.json. The cooldown and immediate-opening behavior are Emberwatch-authored. Preserve a10 accessibility, old controls and original projects/Emberwatch. Browser/publication acceptance must not be inferred from the automatic fixture suite.
