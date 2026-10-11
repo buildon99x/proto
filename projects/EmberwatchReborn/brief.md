@@ -228,3 +228,10 @@ Final a14 automatic verification: 4,338/4,338 tests (4,312 prior + 26 new), zero
 
 ## R14a15 exact long-gap observation
 Repeated a13 native rAF safety pauses were not represented in the existing normal-frame QA statistics. This independent a14-based candidate exposes the exact >500ms incident and preceding completed callback, retained across long menus and resumed active segments. It instruments input/aim, step, event delivery and synchronous save entry, scene preparation, render, audio tick, HUD and safety processing, with an explicit unbracketed residual. This is observation-only, default OFF, in-memory, bounded to 12 pairs, and does not send telemetry. Runtime >500ms protection, dt clamp and every gameplay/render/audio model remain unchanged. Device, GC, browser scheduling, GPU and sound causes remain undetermined.
+
+
+## R14a16 death-overlay accessibility boundary
+Native a15 review found that the visually covered HUD menu remained in the accessibility tree. AX activation entered a full menu while dead; Continue refused lifeDown and Leave's checkpoint was correctly rejected as HERO_DOWN. This independent follow-up blocks that presentation route, makes HUD/canvas inert and aria-hidden while game panels are open, preserves original focus state on normal close, and offers a read-only death diagnostic view when recording is enabled. No save/death/retry model, combat balance, scene timing or diagnostic capture calculation changes.
+
+## R14a17 measured scene preparation
+The integrated candidate retains a16 death-overlay containment and eliminates repeated full-state validation when multiple wilderness display views read the same canonical immutable snapshot. Native a15 incidents bracketed 281.3/290.1ms in scene preparation, while precise rAF stamps also show unassigned pre-entry delay. This is a verified existing CPU-cost reduction, not proof that every browser stall is fixed. Independent paired Node measurements including canonical copy show first-scene median169–183ms becoming10.6–14.7ms across four command-earned fixtures; warm scene costs remain comparable. All requested real browser acceptance remains outstanding.

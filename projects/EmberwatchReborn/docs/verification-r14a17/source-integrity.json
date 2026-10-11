@@ -1,0 +1,36 @@
+{
+  "frozenBaselinesUnchanged": {
+    "a15": 366,
+    "a16": 367
+  },
+  "sourceFilesTotal": 126,
+  "sourceFilesUnchangedFromA15": 120,
+  "sourceFilesChangedFromA15": [
+    "app/src/dialog-focus.js",
+    "app/src/index.html",
+    "app/src/main.js",
+    "app/src/recovery-page.js",
+    "app/src/wilderness.js"
+  ],
+  "sourceFilesChangedFromA16": [
+    "app/src/index.html",
+    "app/src/main.js",
+    "app/src/recovery-page.js",
+    "app/src/wilderness.js"
+  ],
+  "newSourceFiles": [
+    "app/src/immutable-snapshot.js"
+  ],
+  "a16MainExactAfterRevertingOnlyIntendedHunks": true,
+  "wildernessExactAfterRevertingOnlyMemoWrappers": true,
+  "frameThroughEndOfFileIdentical": true,
+  "protectedModulesByteIdenticalToA16": true,
+  "assetsByteIdentical": true,
+  "assetCount": 14,
+  "buildFiles": 125,
+  "buildBytes": 16743770,
+  "builtSourceHashesVerified": 124,
+  "mainSha256": "12220374b47047098a29e9e5ea4137028988923dc6440e7d9607af985e6f2c83",
+  "immutableSnapshotSha256": "3b788bd4a61d9c0be40aa88efc35d068e79f8c13f1a7f608bae9fa4136aa8b1c",
+  "buildManifestSha256": "8930c1d9918406b8b64a2cca43b9e4b9baa7774a896331cc6dc5c0deb4e1b57c"
+}

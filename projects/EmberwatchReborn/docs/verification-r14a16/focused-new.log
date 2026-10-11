@@ -1,0 +1,28 @@
+✔ actual startup immediately exposes retry and completes while optional audio remains pending (17.970061ms)
+✔ repeated dead-save loads are read-only; explicit retry increments life once and preserves all earned progress (59.334405ms)
+✔ R14a16 actual alive profile load removes existing dialog background blockers without changing saved state (12.432561ms)
+✔ R14a16 background helper blocks both HUD and canvas and restores missing aria-hidden exactly (1.690794ms)
+✔ R14a16 nested background locks preserve original inert and false/true aria values (0.30964ms)
+✔ R14a16 separate modal owners cannot restore one another background snapshots (0.314798ms)
+✔ R14a16 missing DOM boundaries are harmless and the modal or its ancestor is never hidden (0.264834ms)
+✔ R14a16 actual HUD menu handler and showMenu reject lifeDown death without changing modal or checkpoint (46.1448ms)
+✔ R14a16 actual HUD menu handler and showMenu reject dead death without changing modal or checkpoint (31.362277ms)
+✔ R14a16 actual HUD menu handler and showMenu reject hp death without changing modal or checkpoint (19.722456ms)
+✔ R14a16 actual modal blocks HUD and canvas AX/focus until normal close restores their previous state (23.780447ms)
+✔ R14a16 actual HUD menu handler ignores background activation behind any open dialog (21.749339ms)
+✔ R14a16 actual death QA has read-only return route and cannot resume, toggle, clear or enter full menu (21.184459ms)
+✔ R14a16 death panel exposes no diagnostic button while recording is OFF (18.226282ms)
+✔ R14a16 real saved death QA remains read-only and returns to normal retry (1946.037858ms)
+✔ R14a16 real retry unblocks background, clears only established transient records and increments life once (236.209528ms)
+✔ R14a16 real recoverable retry failure is visible in modal status and leaves save, focus ownership and retry intact (282.108465ms)
+✔ R14a16 pending retry failure stays accessible after opening death diagnostics (237.411825ms)
+✔ R14a16 uncertain retry keeps Reload authoritative, reload failure accessible, and dead reload restores retry (357.957176ms)
+✔ R14a16 stale dead settings/menu/save actions never mutate real saved state (213.942057ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3498.884754

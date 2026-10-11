@@ -1,0 +1,23 @@
+{
+  "baseline": "frozen R14a15 independent candidate",
+  "frozenBaselineEntriesUnchanged": 366,
+  "sourceFilesTotal": 125,
+  "sourceFilesUnchanged": 121,
+  "sourceFilesChanged": [
+    "app/src/dialog-focus.js",
+    "app/src/index.html",
+    "app/src/main.js",
+    "app/src/recovery-page.js"
+  ],
+  "frameFunctionThroughEndOfFileByteIdentical": true,
+  "frameObserverByteIdentical": true,
+  "modelModulesAllByteIdentical": true,
+  "assetsByteIdentical": true,
+  "assetCount": 14,
+  "buildFiles": 124,
+  "buildBytes": 16739473,
+  "builtSourceHashesVerified": 123,
+  "mainSha256": "5aff3ad2e3f74b5fae03b7fd8670dc7d8d045f51584d0ba9bb627379124f0c50",
+  "dialogFocusSha256": "de3b1e79f96f6d53de62d7fb8590ca5107f6b47972ba11ffbaf36f191b445e8c",
+  "buildManifestSha256": "bf3960861bffe8dab186e24e655946966317dcb8078c131f09f0e5e99c3cc6fb"
+}

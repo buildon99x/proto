@@ -4,8 +4,8 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
-  "version": "0.14.0-reimplementation.15",
-  "summary": "R14a15 긴 프레임 간격 진단 후보: 직전/현재 rAF·동기 콜백 세부 비용과 표시/포커스 상태를 기본 OFF 메모리 진단으로 보존. 실제 500ms 초과 안전정지·입력·전투·렌더·음향 모델은 유지. 중단 원인과 실제 품질은 미확정.",
+  "version": "0.14.0-reimplementation.17",
+  "summary": "R14a17 황야 장면 준비 최적화·사망 모달 접근성 후보: 직접 만든 불변 snapshot에만 검증 결과를 재사용하고 mutable·Proxy·잘못된 입력은 원래 검증을 유지. 사망 배경 메뉴 차단과 읽기 전용 진단을 통합. 전투·저장·500ms 보호조건 보존. 실제 브라우저 stall 해결·AX 검증은 별도.",
   "tags": [
     "game",
     "action-rpg",

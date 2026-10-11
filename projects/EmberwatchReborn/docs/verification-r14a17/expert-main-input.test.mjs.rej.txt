@@ -1,0 +1,11 @@
+--- app/tests/expert-main-input.test.mjs
++++ app/tests/expert-main-input.test.mjs
+@@ -492,3 +493,8 @@
+ test('R14a15 actual failed render retains incomplete frame evidence and existing recovery panel',async()=>{
+  const h=await ui({poeMode:'wasd',renderDuration:1});h.frameObservation.setEnabled(true);await h.frameAt(100);h.boundaries.renderer.render=()=>{throw Error('synthetic render failure');};const errors=[];h.boundaries.console.error=e=>errors.push(e);await h.frameAt(701);const row=h.frameObservation.snapshot().stallDiagnostics.incidents[0].current;assert.equal(row.workStatus,'failed');assert.equal(row.phaseStatus.render,'incomplete');assert.equal(row.totalMs,null);assert.equal(row.otherMs,null);assert.equal(errors.length,1);assert.equal(h.gate.blocked,true);assert.match(h.modal.innerHTML,/data-action="reload"/);
+ });
++
++test('actual committed main snapshot freezes only its owned copy across checkpoint controls rest and save failure',async()=>{
++ const h=await ui(),immutable=isImmutableSnapshot;assert.equal(await h.app.dispatch({type:'checkpoint',...h.app.report()}),true);const first=h.app.state;assert.equal(immutable(first),true);const copied=h.app.controller.snapshot();assert.equal(Object.isFrozen(copied),false);copied.gold=0;assert.notEqual(h.app.state.gold,copied.gold);
++ const controls=structuredClone(h.app.state.options.controls);assert.equal(await h.app.dispatch({type:'setControls',controls}),true);assert.equal(immutable(h.app.state),true);assert.notEqual(h.app.state,first);assert.equal(await h.app.dispatch({type:'rest',position:imports.getRegion('ash_hamlet').npcs.find(n=>n.id==='healer')}),true);assert.equal(immutable(h.app.state),true);const before=h.app.state;h.fail();assert.equal(await h.app.dispatch({type:'checkpoint',...h.app.report()}),false);assert.equal(h.app.state,before);assert.deepEqual(h.store.load().state,before);
++});

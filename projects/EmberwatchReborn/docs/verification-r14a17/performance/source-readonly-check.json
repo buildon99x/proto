@@ -1,0 +1,36 @@
+{
+  "a15_frozen_files_checked": 366,
+  "mismatches": [],
+  "scene_source_hashes": {
+    "scene-visibility.js": {
+      "a12": "982d6cde8e66215604391704010d27be122babafcf89951710cfc11d2651c649",
+      "a13": "982d6cde8e66215604391704010d27be122babafcf89951710cfc11d2651c649",
+      "a14": "982d6cde8e66215604391704010d27be122babafcf89951710cfc11d2651c649",
+      "a15": "982d6cde8e66215604391704010d27be122babafcf89951710cfc11d2651c649"
+    },
+    "wilderness-presentation.js": {
+      "a12": "30c95f1cc4b1bf535f01dc9af104ffa461d9e4f1f3dc2053ef766c84a8c6901d",
+      "a13": "30c95f1cc4b1bf535f01dc9af104ffa461d9e4f1f3dc2053ef766c84a8c6901d",
+      "a14": "30c95f1cc4b1bf535f01dc9af104ffa461d9e4f1f3dc2053ef766c84a8c6901d",
+      "a15": "30c95f1cc4b1bf535f01dc9af104ffa461d9e4f1f3dc2053ef766c84a8c6901d"
+    },
+    "wilderness.js": {
+      "a12": "b1620d40bbba2b448504dc3cc2da6c7ba921a1dbd15d6ff998aefab1ba5e83e1",
+      "a13": "b1620d40bbba2b448504dc3cc2da6c7ba921a1dbd15d6ff998aefab1ba5e83e1",
+      "a14": "b1620d40bbba2b448504dc3cc2da6c7ba921a1dbd15d6ff998aefab1ba5e83e1",
+      "a15": "b1620d40bbba2b448504dc3cc2da6c7ba921a1dbd15d6ff998aefab1ba5e83e1"
+    },
+    "signal-scene-visibility.js": {
+      "a12": "2169a9e7b451d5ca2234271f935edbf79ed12b2f6efb3cd194fff1b4cb287078",
+      "a13": "2169a9e7b451d5ca2234271f935edbf79ed12b2f6efb3cd194fff1b4cb287078",
+      "a14": "2169a9e7b451d5ca2234271f935edbf79ed12b2f6efb3cd194fff1b4cb287078",
+      "a15": "2169a9e7b451d5ca2234271f935edbf79ed12b2f6efb3cd194fff1b4cb287078"
+    },
+    "wilderness-scene-visibility.js": {
+      "a12": "35c18bd87349899311e07f2aa24a161609ff78498f62eb1ea2644bc049193869",
+      "a13": "35c18bd87349899311e07f2aa24a161609ff78498f62eb1ea2644bc049193869",
+      "a14": "35c18bd87349899311e07f2aa24a161609ff78498f62eb1ea2644bc049193869",
+      "a15": "35c18bd87349899311e07f2aa24a161609ff78498f62eb1ea2644bc049193869"
+    }
+  }
+}

@@ -121,7 +121,7 @@ async function browser(saved,{storage=memory(),profile='qa-tomb-ui',namespace='q
  }}),loaded=await controller.load();assert.equal(loaded.ok,true);
  const events=[],messages=[],calls=[],handlers={},labels=[],commands=[],outcomes=[];controller.subscribe(event=>events.push(event));
  const actualDispatch=controller.dispatch;controller.dispatch=async command=>{commands.push(copy(command));const result=await actualDispatch(command);outcomes.push(result);return result;};
- const modal={hidden:true,innerHTML:'',querySelector:()=>({focus:()=>calls.push(['focus-modal'])})};
+ const modal={hidden:true,innerHTML:'',contains(target){return !!target?.dataset?.action&&this.innerHTML.includes('data-action="'+target.dataset.action+'"');},querySelector:()=>({focus:()=>calls.push(['focus-modal'])})};
  const elements={toast:{textContent:''},vitals:{innerHTML:''},hotbar:{querySelector:()=>null},menuButton:{textContent:''},boss:{innerHTML:''},hud:{hidden:false},objective:{innerHTML:''},profile:{value:'qa-r9-copy'},sourceProfile:{value:'qa-r8-source'},sourceNamespace:{value:'qa-r8'}};
  const imports={...mainImports,BATTLEFIELD_TOOLS,BATTLEFIELD_COMMANDS,battlefieldObjectView,battlefieldElderView,battlefieldGuidance,battlefieldCommandFields,battlefieldPortalLabel,battlefieldEventCopy,previewExpertPromotion,quoteAction,EXPERT_SLOTS,emptyActionSlots,combatCheckpoint,createController,createSession,previewSkill,RUNTIME_SKILL_IDS,xpForLevel,previewPromotion,tokenLabel,FOES,TOMB_COMMANDS,TOMB_TOOLS,tombWardCarried,tombObjectView,tombElderView,tombCommandFields,tombClueView,tombEventCopy,tombGoldView,tombPortalLabel,createBattle,clearBattleIntent,battleReport,syncCommittedBattle,getRegion,createMap,near,lineOfSight,selectInteractionTarget,deriveStats,equipmentRows,quoteEquipment,previewRecipe,EQUIPMENT_ITEMS,EQUIPMENT_RECIPES,EQUIPMENT_SLOTS,EQUIPMENT_UPGRADES,DUNGEON_TOOLS,QUARRY_TOOLS,PASS_TOOLS,SIGNAL_TOOLS,FURNACE_TOOLS,DUNGEON_COMMANDS,QUARRY_COMMANDS,PASS_COMMANDS,SIGNAL_COMMANDS,FURNACE_COMMANDS,dungeonObjectView,quarryObjectView,quarryElderView,passObjectView,passElderView,signalObjectView,signalBlacksmithView,furnaceObjectView,furnaceBlacksmithView,campaignGuidance,chestPresentation,copyReleaseQaProfile,controlsFor,actionLabel};
  const declaredImports=new Set([...source.matchAll(/^import\s*\{([^}]+)\}/gm)].flatMap(match=>match[1].split(',').map(name=>name.trim())));
@@ -276,7 +276,7 @@ test('actual main renderer forwards the durable carried ward without changing ga
 });
 
 test('actual R11 candidate title separates observed Normal T from unqualified Expert/B and offers R10 forward copy',async()=>{
- const h=await browser(stage('predecessor'),{namespace:'qa-r11'});h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a15 · POE형 전사 입력 개발 후보/);assert.match(h.modal.innerHTML,/일반 조작으로 확인했습니다/);assert.match(h.modal.innerHTML,/마스터.*아직 완성되지 않았습니다/);assert.match(h.modal.innerHTML,/<option value="qa-r10">/);assert.match(h.modal.innerHTML,/전문가 승급.*일반 입력 검증 중/);assert.doesNotMatch(h.modal.innerHTML,/data-action="new"/);
+ const h=await browser(stage('predecessor'),{namespace:'qa-r11'});h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a17 · POE형 전사 입력 개발 후보/);assert.match(h.modal.innerHTML,/일반 조작으로 확인했습니다/);assert.match(h.modal.innerHTML,/마스터.*아직 완성되지 않았습니다/);assert.match(h.modal.innerHTML,/<option value="qa-r10">/);assert.match(h.modal.innerHTML,/전문가 승급.*일반 입력 검증 중/);assert.doesNotMatch(h.modal.innerHTML,/data-action="new"/);
 });
 
 for(const operation of ['accept','oath','report'])test(`actual T ${operation} synchronizes paid pools without rebuilding the live battle`,async()=>{
@@ -291,7 +291,7 @@ test('actual T two-tab glyph conflict blocks resume and reload restores exactly 
 });
 
 test('actual dead report snapshot cannot pay the commission even if its old Eda button is replayed',async()=>{
- const h=await browser(stage('report-ready'));h.move(elder);h.ui.showNpc('elder');await nextTurn();const target=h.tombButton();h.ui.battle.p.hp=0;const before=copy(h.ui.state);await h.clickTomb(null,{target});assert.equal(h.outcomes.at(-1).code,'HERO_DOWN');assert.deepEqual(h.ui.state,before);assert.equal(h.ui.state.reservedTrainingGold.expert,0);
+ const h=await browser(stage('report-ready'));h.move(elder);h.ui.showNpc('elder');await nextTurn();const target=h.tombButton();h.ui.battle.p.hp=0;const before=copy(h.ui.state),commands=h.commands.length,outcomes=h.outcomes.length;await h.clickTomb(null,{target});assert.equal(h.commands.length,commands,'stale dead reward UI is rejected before dispatch');assert.equal(h.outcomes.length,outcomes);assert.deepEqual(h.ui.state,before);assert.equal(h.ui.state.reservedTrainingGold.expert,0);
 });
 
 test('actual no-prerequisite Eda and fresh town never expose T acceptance or either T entrance',async()=>{

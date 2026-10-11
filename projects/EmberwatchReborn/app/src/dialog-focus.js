@@ -1,6 +1,6 @@
 // Focus ownership is presentation state only. It never reads or writes game,
 // binding or save state, and nested panels retain their original return target.
-const returnTargets=new WeakMap(),resumedTriggers=new WeakMap();
+const returnTargets=new WeakMap(),resumedTriggers=new WeakMap(),backgroundStates=new WeakMap();
 const focusableSelector='button:not([disabled]),a[href],input:not([disabled]):not([type="hidden"]),select:not([disabled]),textarea:not([disabled]),summary,[tabindex]:not([tabindex="-1"])';
 function usable(element){
  if(!element||typeof element.focus!=='function'||['BODY','HTML'].includes(element.tagName)||element.disabled||element.hidden||element.isConnected===false||element.matches?.(':disabled'))return false;
@@ -67,4 +67,23 @@ export function containDialogFocus(modal,event){
  if(modal.hidden){if(event.target!==resumedTriggers.get(modal))resumedTriggers.delete(modal);return false;}
  if(!modal.contains||modal.contains(event.target))return false;
  return focusDialog(modal);
+}
+
+// aria-modal and Tab containment do not remove background controls from AX.
+// Keep this strictly presentational and restore the exact pre-dialog state.
+export function setDialogBackground(modal,blocked){
+ if(!modal)return false;
+ if(blocked){
+  if(backgroundStates.has(modal))return true;
+  const document=modal.ownerDocument;
+  const elements=['hud','world'].map(id=>document?.getElementById?.(id)).filter(element=>element&&element!==modal&&!element.contains?.(modal));
+  const saved=elements.map(element=>({element,inert:element.inert===true,ariaHidden:element.getAttribute?.('aria-hidden')??null}));
+  backgroundStates.set(modal,saved);
+  for(const {element} of saved){element.inert=true;element.setAttribute?.('aria-hidden','true');}
+  return true;
+ }
+ const saved=backgroundStates.get(modal);if(!saved)return false;
+ backgroundStates.delete(modal);
+ for(const {element,inert,ariaHidden} of saved){element.inert=inert;if(ariaHidden===null)element.removeAttribute?.('aria-hidden');else element.setAttribute?.('aria-hidden',ariaHidden);}
+ return true;
 }

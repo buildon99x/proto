@@ -1,0 +1,15 @@
+✔ R14a16 actual HUD menu handler and showMenu reject lifeDown death without changing modal or checkpoint (46.93769ms)
+✔ R14a16 actual HUD menu handler and showMenu reject dead death without changing modal or checkpoint (26.895827ms)
+✔ R14a16 actual HUD menu handler and showMenu reject hp death without changing modal or checkpoint (20.451814ms)
+✔ R14a16 actual modal blocks HUD and canvas AX/focus until normal close restores their previous state (28.284001ms)
+✔ R14a16 actual HUD menu handler ignores background activation behind any open dialog (22.402084ms)
+✔ R14a16 actual death QA has read-only return route and cannot resume, toggle, clear or enter full menu (23.934883ms)
+✔ R14a16 death panel exposes no diagnostic button while recording is OFF (24.714683ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 386.629459

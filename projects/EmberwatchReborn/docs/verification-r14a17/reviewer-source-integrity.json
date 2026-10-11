@@ -1,0 +1,31 @@
+{
+  "sourceFilesExisting": 125,
+  "changedExistingSourceFiles": [
+    "app/src/index.html",
+    "app/src/recovery-page.js",
+    "app/src/wilderness.js",
+    "app/src/main.js"
+  ],
+  "addedSourceFiles": [
+    "app/src/immutable-snapshot.js"
+  ],
+  "normalizedMainByteIdenticalToA16": true,
+  "normalizedWildernessModuleByteIdenticalToA16": true,
+  "bothOriginalValidatorBodiesByteIdentical": true,
+  "wildernessA15A16ByteIdentical": true,
+  "frameThroughEndByteIdenticalToA16": true,
+  "frameObserverByteIdenticalToA16": true,
+  "dialogFocusByteIdenticalToA16": true,
+  "canonicalCopyModuleByteIdenticalToFrozenPatch": true,
+  "wildernessModuleByteIdenticalToFrozenPatch": true,
+  "assetsChecked": 14,
+  "assetsByteIdentical": true,
+  "sha256": {
+    "main.js": "12220374b47047098a29e9e5ea4137028988923dc6440e7d9607af985e6f2c83",
+    "wilderness.js": "b4d32c041cd99001f664abe560553eaccae3ac5a27b5a9a90187d70e99fb0fd7",
+    "immutable-snapshot.js": "3b788bd4a61d9c0be40aa88efc35d068e79f8c13f1a7f608bae9fa4136aa8b1c",
+    "dialog-focus.js": "de3b1e79f96f6d53de62d7fb8590ca5107f6b47972ba11ffbaf36f191b445e8c",
+    "runtime-clock.js": "96ec515b3d81500fa5377c3db1622d529af9af44aa33ea1bf5e2fe6fb134bb1a",
+    "frame-observation.js": "8b30bbd513cbf4df6fe81f4734100cebbceb849e47f467038e601b6bb3400969"
+  }
+}

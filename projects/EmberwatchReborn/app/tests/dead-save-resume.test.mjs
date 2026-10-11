@@ -37,10 +37,11 @@ const oneLine=name=>{const line=source.split('\n').find(line=>line.startsWith(`f
 function startup(saved,{audioReady=new Promise(()=>{})}={}){
  const storage=memory(),store=createStore(storage,{profile:'qa-dead-resume',namespace:'qa-r6'});
  assert.equal(store.save(saved,{expectedRevision:0}).ok,true);
- const elements={hud:{hidden:true},toast:{textContent:''}},modal={hidden:false,innerHTML:''},calls=[];
+ const background=()=>({inert:false,attrs:{},getAttribute(key){return this.attrs[key]??null},setAttribute(key,value){this.attrs[key]=value},removeAttribute(key){delete this.attrs[key]}});
+ const elements={hud:{...background(),hidden:true},world:background(),toast:{textContent:''}},modal={hidden:false,innerHTML:'',ownerDocument:{getElementById:id=>elements[id]}},calls=[];
  const context=createContext({...createMainInputFixture(),
   createSession,createController,createBattle,clearBattleIntent,expertSafety:createActionSafety({capture:createExpertInputCapture(),cancel:cancelBattleAction}),
-  localStorage:storage,navigator:{locks:{request:async(_key,_options,fn)=>fn()}},saveNamespace:'qa-r6',gate:createRuntimeGate(),
+  localStorage:storage,navigator:{locks:{request:async(_key,_options,fn)=>fn()}},saveNamespace:'qa-r6',candidate:true,gate:createRuntimeGate(),
   controller:null,profile:null,state:null,battle:null,paused:true,busy:false,
   noticeUntil:0,input:{aim:null,pointerScreen:null},displayTime:0,combatTime:0,menuTime:0,walkTime:0,arrivalWaitTime:0,
   captureBinding:null,modal,$:id=>elements[id],router:{clear:()=>{}},deferredImmediate:{clear:()=>{}},
@@ -122,3 +123,5 @@ test('muted saved options do not force an audio resume before death presentation
  assert.deepEqual(h.calls.filter(([type])=>type==='audio-enabled'),[['audio-enabled',false]]);
  assert.equal(h.calls.some(([type])=>type==='audio-resume'),false);
 });
+
+test('R14a16 actual alive profile load removes existing dialog background blockers without changing saved state',async()=>{const h=startup(alive),before=new Map(h.storage.data);h.context.setDialogBackground(h.context.modal,true);const hud=h.context.modal.ownerDocument.getElementById('hud'),world=h.context.modal.ownerDocument.getElementById('world');assert.equal(hud.inert,true);await h.load();assert.equal(h.context.modal.hidden,true);assert.equal(h.context.paused,false);assert.equal(hud.inert,false);assert.equal(world.inert,false);assert.equal(hud.attrs['aria-hidden'],undefined);assert.deepEqual(h.storage.data,before);});

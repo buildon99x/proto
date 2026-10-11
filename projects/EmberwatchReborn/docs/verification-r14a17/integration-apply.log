@@ -1,0 +1,8 @@
+patching file app/src/wilderness.js
+patching file app/src/immutable-snapshot.js
+patching file app/tests/immutable-snapshot.test.mjs
+patching file app/tests/wilderness-immutable-cache.test.mjs
+patching file app/tests/profile-load-ownership.test.mjs
+patching file app/tests/expert-main-input.test.mjs
+Hunk #2 FAILED at 492.
+1 out of 2 hunks FAILED -- saving rejects to file app/tests/expert-main-input.test.mjs.rej

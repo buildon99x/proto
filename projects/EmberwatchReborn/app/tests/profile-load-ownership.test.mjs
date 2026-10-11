@@ -1,3 +1,4 @@
+import {isImmutableSnapshot} from '../src/immutable-snapshot.js';
 import {createMainInputFixture,mainInputSource} from './support/main-input-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -31,7 +32,7 @@ function harness({namespace='qa-r11'}={}){
  const delayedReads=new Set();
  const createController=store=>{const owner=productionController(store);controllers.push(owner);const load=owner.load;owner.load=async()=>{const result=await load();if(!delayedReads.has(store.keys.head))return result;delayedReads.delete(store.keys.head);return new Promise((resolve,reject)=>loads.set(store.keys.head,{result,resolve,reject}));};return owner;};
  const handlers={},calls=[],elements={hud:{hidden:true},toast:{textContent:''},profile:{value:a},sourceProfile:{value:'qa-copy-source'},sourceNamespace:{value:'qa-r10'},difficulty:{value:'normal'},newControlsPreset:{value:'unchanged'}},modal={hidden:false,innerHTML:'initial title',presentationEpoch:0,querySelector:()=>({focus(){}})},expertCapture=createExpertInputCapture(),expertSafety=createActionSafety({capture:expertCapture,cancel:cancelBattleAction});
- const env={...createMainInputFixture(),createSession,createController,createBattle,clearBattleIntent,battleReport,copyReleaseQaProfile,editableTarget,controller:null,profile:null,state:null,battle:null,paused:true,busy:false,localStorage:storage,navigator:{locks},saveNamespace:namespace,candidate:true,gate:createRuntimeGate(),modal,
+ const env={...createMainInputFixture(),createSession,createController,createBattle,clearBattleIntent,battleReport,copyReleaseQaProfile,editableTarget,canvas:{focus(){}},controller:null,profile:null,state:null,battle:null,paused:true,busy:false,localStorage:storage,navigator:{locks},saveNamespace:namespace,candidate:true,gate:createRuntimeGate(),modal,
   suppressNextClick:false,document:{addEventListener:(name,handler)=>handlers[name]=handler},window:{addEventListener:(name,handler)=>handlers[name]=handler},captureBinding:null,expertSafety,expertCapture,deferredImmediate:{clear(){}},router:createInputRouter(),config:()=>{throw new Error('title keyboard must remain modal-owned');},input:{aim:null,pointerScreen:null},noticeUntil:0,displayTime:0,combatTime:0,menuTime:0,walkTime:0,arrivalWaitTime:0,
   $:id=>elements[id],audio:{cancel(){},pause:v=>calls.push(['pause',v]),setMasterVolume:v=>calls.push(['volume',v]),setEnabled:v=>calls.push(['enabled',v])},toast:text=>calls.push(['toast',text]),keyName:()=> 'F',updateHud:()=>calls.push(['hud'])};
  const names=['clearInput','panel','closePanel','immediateAction','loadProfile','showDeath','showTitle','syncAudioOptions','report'];
@@ -163,4 +164,11 @@ for(const selection of newPresets)test(`late second ${selection} preset commit c
  await h.releaseSave(a);await pending;unchanged(h,before);
  assert.equal(h.ui.profile,b);assert.deepEqual(h.ui.state,savedB);assert.deepEqual(h.store(b).load(),beforeB);for(const [key,value]of bytesB)assert.equal(h.data.get(key),value);
  assert.equal(h.store(a).load().revision,2);assert.equal(h.store(a).load().state.options.controls.version,4);
+});
+
+test('main owns frozen load/reload/profile snapshots while controller snapshots stay independent mutable copies',async()=>{
+ const h=harness(),savedA=seed(h,a),savedB=seed(h,b,createState({difficulty:'hard'})),immutable=isImmutableSnapshot;
+ await h.ui.loadProfile(a,false);const old=h.ui.state;assert.equal(immutable(old),true);assert.equal(Object.isFrozen(h.ui.controller.snapshot()),false);const external=h.ui.controller.snapshot();external.vitals.hp=1;assert.deepEqual(h.ui.state,savedA);
+ await h.click('reload');assert.equal(immutable(h.ui.state),true);assert.notEqual(h.ui.state,old);assert.deepEqual(h.ui.state,savedA);
+ await h.ui.loadProfile(b,false);assert.equal(immutable(h.ui.state),true);assert.notEqual(h.ui.state,old);assert.deepEqual(h.ui.state,savedB);assert.deepEqual(old,savedA);assert.deepEqual(h.store(a).load().state,savedA);
 });

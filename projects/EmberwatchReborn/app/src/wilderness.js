@@ -1,3 +1,4 @@
+import {isImmutableSnapshot} from './immutable-snapshot.js';
 import {validateRecovery,recoveryFrom,retryRecovery} from './recovery.js';
 import {getRegion,createMap,inMap,near,lineOfSight} from './world.js';
 import {grantExperience,experienceMultiplier,validateCharacter} from './progression.js';
@@ -62,8 +63,20 @@ function poolsValid(s){
 }
 function economyValid(s){return count(s.gold)&&record(s.stats)&&['earnedGold','spentGold','kills','deaths'].every(k=>count(s.stats[k]))&&s.stats.earnedGold-s.stats.spentGold===s.gold&&Number.isFinite(s.stats.earnedXp)&&s.stats.earnedXp>=0&&s.stats.earnedXp<=Number.MAX_SAFE_INTEGER&&record(s.inventory.materials)&&record(s.inventory.consumables)&&[...Object.values(s.inventory.materials),...Object.values(s.inventory.consumables)].every(count)&&trainingGoldBalances(s).ok;}
 const reportedB=s=>battlefieldEligible(s)&&s.world.objectives.battlefield_reported===1&&s.world.objectives.chapter_three_complete===1&&s.inventory.tools.includes('battlefield_beacon')&&has(s,'r11:b:report');
+// Reuse only immutable, complete input snapshots. Mutable/untrusted trees use
+// the original validators every time; no caller-provided validity flag exists.
+// Cache immutable copies and return fresh results so caller edits cannot change
+// a later validation decision. The identity is the entire state, not a revision.
+const ancestryValidationCache=new WeakMap(),progressValidationCache=new WeakMap();
+function immutableValidation(cache,s,validate){
+ if(!isImmutableSnapshot(s))return validate(s);
+ if(!cache.has(s))cache.set(s,Object.freeze({...validate(s)}));
+ return {...cache.get(s)};
+}
+export function validateWildernessAncestry(s){return immutableValidation(ancestryValidationCache,s,validateWildernessAncestryUncached);}
+export function validateWildernessProgress(s){return immutableValidation(progressValidationCache,s,validateWildernessProgressUncached);}
 /** Validate the real registered region and complete predecessor history. */
-export function validateWildernessAncestry(s){
+function validateWildernessAncestryUncached(s){
  if(!jsonData(s)||!record(s)||!record(s.world)||!record(s.world.objectives)||!record(s.inventory)||!list(s.inventory.tools,100)||!list(s.world.claimedRewards)||!list(s.world.visited,200)||!s.world.visited.includes(s.world.region)||!s.world.visited.includes('ash_hamlet')||!poolsValid(s))return fail('INVALID_WILDERNESS_STATE');
  if(!Object.values(s.world.objectives).every(count)||Object.keys(s.world.objectives).length>500||!record(s.world.defeated)||!Object.entries(s.world.defeated).every(([id,ids])=>{const r=id===WILDERNESS_REGION?region:getRegion(id);return r&&list(ids,100)&&ids.every(enemyId=>r.foes.some(e=>e.id===enemyId));}))return fail('INVALID_WILDERNESS_STATE');
  if(s.schema!=='emberwatch.reborn.reimplementation'||s.version!==5||!['easy','normal','hard','serious'].includes(s.difficulty)||!validateCharacter(s.character).ok||!validateWarriorGrowth(s.character,s).ok||!validatePromotion(s).ok||!validateEquipmentState(s).ok||!validateSavedActionSlots(s).ok||!economyValid(s))return fail('INVALID_WILDERNESS_STATE');
@@ -74,7 +87,7 @@ export function validateWildernessAncestry(s){
 }
 /** W-owned bidirectional invariants; untouched saves receive no defaults.
  * Full production state/save-envelope validation remains a separate gate. */
-export function validateWildernessProgress(s){
+function validateWildernessProgressUncached(s){
  if(!jsonData(s)||!record(s)||!record(s.world)||!record(s.world.objectives)||!list(s.world.claimedRewards)||!record(s.inventory)||!list(s.inventory.tools,100))return fail('INVALID_WILDERNESS_STATE');
  const w=s.world,o=w.objectives,tools=s.inventory.tools;
  if(w.defeated!==undefined&&(!record(w.defeated)||!Object.values(w.defeated).every(v=>list(v,100)))||w.visited!==undefined&&!list(w.visited,200))return fail('INVALID_WILDERNESS_STATE');

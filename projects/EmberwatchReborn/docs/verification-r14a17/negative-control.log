@@ -1,0 +1,115 @@
+✖ actual committed main snapshot freezes only its owned copy across checkpoint controls rest and save failure (1832.838137ms)
+✖ main owns frozen load/reload/profile snapshots while controller snapshots stay independent mutable copies (74.021105ms)
+✖ shallow-frozen root never reuses nested mutable validation or a main view (3017.411438ms)
+✖ mutable main view observes in-place portal eligibility and completed changes (53.987248ms)
+✖ canonical immutable identity reuses validation without trusting arbitrary frozen proxies (47.264008ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3325.084347
+
+✖ failing tests:
+
+test at app/tests/expert-main-input.test.mjs:496:1
+✖ actual committed main snapshot freezes only its owned copy across checkpoint controls rest and save failure (1832.838137ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/r14a15-scene-cache-negative-control/app/tests/expert-main-input.test.mjs:497:161)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/profile-load-ownership.test.mjs:169:1
+✖ main owns frozen load/reload/profile snapshots while controller snapshots stay independent mutable copies (74.021105ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/r14a15-scene-cache-negative-control/app/tests/profile-load-ownership.test.mjs:171:62)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/wilderness-immutable-cache.test.mjs:33:1
+✖ shallow-frozen root never reuses nested mutable validation or a main view (3017.411438ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///workspace/shared/r14a15-scene-cache-negative-control/app/tests/wilderness-immutable-cache.test.mjs:34:329)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/wilderness-immutable-cache.test.mjs:36:1
+✖ mutable main view observes in-place portal eligibility and completed changes (53.987248ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   allowed: true,
+  +   detail: '완료한 조사·장치·처치·보상은 유지됩니다. 지역 전환 자체는 자원이나 재사용 대기를 회복하지 않습니다. 살아남은 적의 전투 재구성과 일반 보행 중 정상 재생은 기존 규칙을 따릅니다.',
+  -   allowed: false,
+  -   detail: '쓰러진 상태에서는 조작하거나 보고할 수 없습니다.',
+      id: 'wilderness-town-return',
+      name: '안전한 입구에서 마을로'
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/r14a15-scene-cache-negative-control/app/tests/wilderness-immutable-cache.test.mjs:37:155)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { id: 'wilderness-town-return', name: '안전한 입구에서 마을로', allowed: true, detail: '완료한 조사·장치·처치·보상은 유지됩니다. 지역 전환 자체는 자원이나 재사용 대기를 회복하지 않습니다. 살아남은 적의 전투 재구성과 일반 보행 중 정상 재생은 기존 규칙을 따릅니다.' },
+    expected: { id: 'wilderness-town-return', name: '안전한 입구에서 마을로', allowed: false, detail: '쓰러진 상태에서는 조작하거나 보고할 수 없습니다.' },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at app/tests/wilderness-immutable-cache.test.mjs:47:1
+✖ canonical immutable identity reuses validation without trusting arbitrary frozen proxies (47.264008ms)
+  AssertionError [ERR_ASSERTION]: same canonical immutable identity avoids repeated descriptor validation
+  
+  143 !== 48
+  
+      at TestContext.<anonymous> (file:///workspace/shared/r14a15-scene-cache-negative-control/app/tests/wilderness-immutable-cache.test.mjs:50:213)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 143,
+    expected: 48,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

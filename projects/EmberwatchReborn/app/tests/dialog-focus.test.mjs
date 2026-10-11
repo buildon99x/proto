@@ -22,15 +22,15 @@ function fixture(){
  const imports=createMainInputFixture();let state=reduceRuntime(createState(),{type:'trainStarter',position:{x:260,y:325}}).state;
  state=reduceRuntime(state,{type:'setControls',controls:imports.poeControlPreset(state.options.controls,'wasd','combined')}).state;
  const events={},calls=[],props=new Map();let active=null,html='',nodes=[];
- const document={visibilityState:'visible',hidden:false,hasFocus:()=>true,get activeElement(){return active},addEventListener:(name,handler)=>events[name]=handler};
+ const document={getElementById:id=>props.get(id),visibilityState:'visible',hidden:false,hasFocus:()=>true,get activeElement(){return active},addEventListener:(name,handler)=>events[name]=handler};
  function element(name,{tag='BUTTON',disabled=false,hidden=false,tabIndex=0,collapsed=false,inHud=false}={}){
-  return {name,tagName:tag,disabled,hidden,tabIndex,isConnected:true,ownerDocument:document,attributes:{},focusOptions:[],scrollCalls:[],
+  return {name,tagName:tag,disabled,hidden,inert:false,tabIndex,isConnected:true,ownerDocument:document,attributes:{},focusOptions:[],scrollCalls:[],
    focus(options){active=this;this.focusOptions.push(options);calls.push(['focus',name]);},
    scrollIntoView(options){this.scrollCalls.push(options);},getClientRects(){return hidden||collapsed?[]:[{}];},
-   getAttribute(key){return this.attributes[key]??null;},setAttribute(key,value){this.attributes[key]=String(value);if(key==='tabindex')this.tabIndex=Number(value);},
+   getAttribute(key){return this.attributes[key]??null;},removeAttribute(key){delete this.attributes[key];},setAttribute(key,value){this.attributes[key]=String(value);if(key==='tabindex')this.tabIndex=Number(value);},
    matches(selector){return selector===':disabled'?this.disabled:false;},closest(selector){if(selector==='[data-action]')return this.dataset?.action?this:null;if(selector==='#hud')return inHud?{id:'hud'}:null;return this.hidden&&selector.includes('[hidden]')?this:null;}};
  }
- const canvas=element('canvas',{tag:'CANVAS',tabIndex:-1}),trigger=element('menu-trigger',{inHud:true}),potion=element('background-potion');active=trigger;props.set('menuButton',trigger);props.set('touchInteract',element('touch-interact'));potion.dataset={action:'potion'};
+ const hud=element('hud',{tag:'DIV'});props.set('hud',hud);const canvas=element('canvas',{tag:'CANVAS',tabIndex:-1}),trigger=element('menu-trigger',{inHud:true}),potion=element('background-potion');active=trigger;props.set('world',canvas);props.set('menuButton',trigger);props.set('touchInteract',element('touch-interact'));potion.dataset={action:'potion'};
  const section=element('dialog-section',{tag:'SECTION',tabIndex:-1});section.scrollTop=0;
  const modal={hidden:true,ownerDocument:document,presentationEpoch:0,contains(el){return el===section||nodes.includes(el);},
   get innerHTML(){return html},set innerHTML(value){for(const n of nodes)n.isConnected=false;html=value;nodes=[];section.attributes={};
@@ -43,10 +43,10 @@ function fixture(){
   displayTime:0,combatTime:0,walkTime:0,menuTime:0,arrivalWaitTime:0,focusEvents:{},
   clearInput(){calls.push(['clear']);},audio:{cancel(){},pause(value){calls.push(['audio',value]);}},dispatch(command){calls.push(['save',command]);return Promise.resolve(true);},report:()=>({}),toast(){},
   acceptCombatPress(action,token){calls.push(['accepted',action,token]);},applyBinding(token){calls.push(['bind',token]);},$:id=>props.get(id),interact(){},deferredImmediate:imports.createImmediateInput(),router:imports.createInputRouter()};
- const handlers=['panel','closePanel','showMenu','help','showControls','immediateAction'];
+ const handlers=['panel','closePanel','showMenu','showDeath','help','showControls','immediateAction'];
  const ui=new Function(...Object.keys(env),[mainInputSource,...['config','keyName','tierLabel','esc','button','BUILD_LABEL'].map(declaration),...handlers.map(fn),cut("document.addEventListener('click',","$('menuButton').onclick"),source.split('\n').find(s=>s.startsWith("$('menuButton').onclick")),cut("window.addEventListener('keydown'","window.addEventListener('keyup'"),...['document.addEventListener(\'focusin\'','window.addEventListener(\'blur\'','document.addEventListener(\'visibilitychange\''].map(prefix=>source.split('\n').find(s=>s.startsWith(prefix))),`return {${handlers.join(',')},get paused(){return paused},get state(){return state},set capture(value){captureBinding=value},get capture(){return captureBinding}};`].join('\n'))(...Object.values(env));
  function key(code,extra={}){let prevented=false,stopped=false;const e={code,key:code,target:active,repeat:false,shiftKey:false,ctrlKey:false,altKey:false,metaKey:false,preventDefault(){prevented=true},stopImmediatePropagation(){stopped=true},...extra};events.keydown(e);return {prevented,stopped};}
- return {ui,modal,section,trigger,canvas,potion,gate:env.gate,router:env.router,calls,document,key,element,events,async click(target,detail=1){if(typeof target==='string')target=nodes.find(n=>n.name===target);assert.ok(target);return events.click({target,detail,preventDefault(){},stopPropagation(){}});},async change(dataset,value){return events.change({target:{dataset,value}});},get active(){return active},get nodes(){return nodes},replaceNodes(value){nodes=value;},focusOutside(){active=potion;events.focusin({target:potion});}};
+ return {ui,hud,battle:env.battle,frameObservation:env.frameObservation,contactTrace:env.contactTrace,modal,section,trigger,canvas,potion,gate:env.gate,router:env.router,calls,document,key,element,events,async click(target,detail=1){if(typeof target==='string')target=nodes.find(n=>n.name===target);assert.ok(target);return events.click({target,detail,preventDefault(){},stopPropagation(){}});},async change(dataset,value){return events.change({target:{dataset,value}});},get active(){return active},get nodes(){return nodes},replaceNodes(value){nodes=value;},focusOutside(){active=potion;events.focusin({target:potion});}};
 }
 test('actual help puts its first focused controls/return actions before long guidance',()=>{
  const h=fixture();h.ui.help();const html=h.modal.innerHTML;assert.ok(html.indexOf('data-action="controls"')<html.indexOf('class="controls"'));assert.ok(html.indexOf('data-action="menu"')<html.indexOf('class="controls"'));assert.equal(h.active.name,'controls');
@@ -182,3 +182,21 @@ test('actual save recovery supersedes a safety choice and still forbids Escape r
 test('actual safety entry with an already blocked save renders recovery instead of unusable acknowledgement',()=>{
  const h=fixture();h.gate.block('uncertain save');h.events.blur();assert.equal(h.modal.safetyPause,false);assert.equal(h.active.name,'reload');h.key('Escape');assert.equal(h.ui.paused,true);
 });
+
+
+for(const marker of ['lifeDown','dead','hp'])test(`R14a16 actual HUD menu handler and showMenu reject ${marker} death without changing modal or checkpoint`,()=>{
+ const h=fixture();if(marker==='lifeDown')h.ui.state.world.lifeDown=true;if(marker==='dead')h.battle.dead=true;if(marker==='hp')h.battle.p.hp=0;h.ui.showDeath();const html=h.modal.innerHTML,saves=h.calls.filter(c=>c[0]==='save').length;h.trigger.onclick();h.ui.showMenu();assert.equal(h.modal.innerHTML,html);assert.equal(h.calls.filter(c=>c[0]==='save').length,saves);assert.equal(h.active.name,'retry');assert.equal(h.ui.paused,true);
+});
+test('R14a16 actual modal blocks HUD and canvas AX/focus until normal close restores their previous state',()=>{
+ const h=fixture();h.ui.showMenu();for(const e of [h.hud,h.canvas]){assert.equal(e.inert,true);assert.equal(e.attributes['aria-hidden'],'true');}h.ui.help();assert.equal(h.hud.inert,true);h.ui.closePanel();for(const e of [h.hud,h.canvas]){assert.equal(e.inert,false);assert.equal(e.attributes['aria-hidden'],undefined);}assert.equal(h.active,h.trigger);assert.equal(h.modal.hidden,true);
+});
+test('R14a16 actual HUD menu handler ignores background activation behind any open dialog',()=>{
+ const h=fixture();h.trigger.onclick();assert.match(h.modal.innerHTML,/잿불의 기록/);h.ui.help();const html=h.modal.innerHTML,saves=h.calls.filter(c=>c[0]==='save').length;h.trigger.onclick();assert.equal(h.modal.innerHTML,html);assert.equal(h.calls.filter(c=>c[0]==='save').length,saves);
+});
+test('R14a16 actual death QA has read-only return route and cannot resume, toggle, clear or enter full menu',async()=>{
+ const h=fixture();h.frameObservation.setEnabled(true);h.frameObservation.beginFrame(0,{hasBattle:true});h.frameObservation.endFrame();h.ui.state.world.lifeDown=true;h.battle.dead=true;h.battle.p.hp=0;h.ui.showDeath();assert.ok(h.nodes.some(n=>n.name==='death-observations'));const before=structuredClone(h.ui.state),samples=h.frameObservation.snapshot().sampleCount,saves=h.calls.filter(c=>c[0]==='save').length;
+ await h.click('death-observations');assert.match(h.modal.innerHTML,/사망 상태.*읽기 전용/);assert.ok(h.nodes.some(n=>n.name==='death-panel'));assert.ok(h.nodes.some(n=>n.name==='observe-refresh'));for(const action of ['observe-frame-toggle','observe-contact-toggle','observe-clear','menu','close','leave'])assert.ok(!h.nodes.some(n=>n.name===action),action);
+ for(const action of ['observe-frame-toggle','observe-contact-toggle','observe-clear']){const stale=h.element(action);stale.dataset={action};await h.click(stale);}assert.equal(h.frameObservation.enabled,true);assert.equal(h.contactTrace.enabled,false);assert.equal(h.frameObservation.snapshot().sampleCount,samples);
+ h.key('Escape');assert.equal(h.modal.hidden,false);assert.equal(h.ui.paused,true);assert.equal(h.hud.inert,true);await h.click('observe-refresh');await h.click('death-panel');assert.equal(h.active.name,'retry');assert.match(h.modal.innerHTML,/마을에서 다시 일어나기/);assert.equal(h.calls.filter(c=>c[0]==='save').length,saves);assert.deepEqual(h.ui.state,before);
+});
+test('R14a16 death panel exposes no diagnostic button while recording is OFF',()=>{const h=fixture();h.ui.state.world.lifeDown=true;h.ui.showDeath();assert.deepEqual(h.nodes.map(n=>n.name),['retry']);assert.equal(h.hud.inert,true);assert.equal(h.canvas.inert,true);});

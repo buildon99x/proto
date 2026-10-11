@@ -38,3 +38,10 @@ Independent safety-dialog containment from frozen a13. Read docs/verification-r1
 
 ## R14a15 current diagnostic candidate
 Independent diagnostic-only candidate from frozen a14. Read docs/verification-r14a15 before claiming acceptance. No stall cause or performance fix is asserted. Preserve strict runtime >500ms safety pause, dt clamp, input clearing, simulation, render/audio models, AI/FX and save behavior. The optional frame observer keeps 12 strict-long-gap pairs and displays six only on QA panel open/refresh. All clocks/phase costs are synchronous browser observations, not GPU/speaker/input-latency evidence. No nativeCanvas or isolated Chromium retry is authorized. Git and publication remain coordinator-owned.
+
+
+## R14a16 current candidate
+Independent death-overlay accessibility follow-up from frozen a15. Read docs/verification-r14a16 before asserting acceptance. Death markers block background menu/settings actions. Game panels own background HUD/canvas inert and aria-hidden state and restore it on valid close/alive profile load. Optional death diagnostics remain read-only and return to death; retry/save/death models and a15 frame/scene instrumentation remain unchanged. Normal supported-browser AX/focus verification remains required. Git and publication are coordinator-owned after review.
+
+## R14a17 integrated scene-cache and death-overlay candidate
+Read docs/verification-r14a17 before claiming acceptance. R14a16 death/AX containment is merged with a narrowly verified scene preparation optimization. Only detached canonical plain copies made by immutable-snapshot.js are memo eligible; arbitrary frozen values/Proxies and mutable states must always revalidate. Immutability is never a substitute for initial gameplay/save validation. Preserve all validator decisions, mutable controller API, original assets, balances, saves and >500ms frame-safety condition. The measured improvement removes established redundant computation; native browser stall resolution and AX acceptance remain separate unperformed gates. Git/publication wait for coordinator review.

@@ -1,0 +1,25 @@
+✔ R14a16 background helper blocks both HUD and canvas and restores missing aria-hidden exactly (1.128277ms)
+✔ R14a16 nested background locks preserve original inert and false/true aria values (0.188811ms)
+✔ R14a16 separate modal owners cannot restore one another background snapshots (0.22884ms)
+✔ R14a16 missing DOM boundaries are harmless and the modal or its ancestor is never hidden (0.261699ms)
+✔ R14a16 actual HUD menu handler and showMenu reject lifeDown death without changing modal or checkpoint (44.35111ms)
+✔ R14a16 actual HUD menu handler and showMenu reject dead death without changing modal or checkpoint (28.193898ms)
+✔ R14a16 actual HUD menu handler and showMenu reject hp death without changing modal or checkpoint (24.821878ms)
+✔ R14a16 actual modal blocks HUD and canvas AX/focus until normal close restores their previous state (24.920484ms)
+✔ R14a16 actual HUD menu handler ignores background activation behind any open dialog (23.190058ms)
+✔ R14a16 actual death QA has read-only return route and cannot resume, toggle, clear or enter full menu (33.326751ms)
+✔ R14a16 death panel exposes no diagnostic button while recording is OFF (36.300075ms)
+✔ R14a16 real saved death QA remains read-only and returns to normal retry (2019.425183ms)
+✔ R14a16 real retry unblocks background, clears only established transient records and increments life once (228.696094ms)
+✔ R14a16 real recoverable retry failure is visible in modal status and leaves save, focus ownership and retry intact (292.053208ms)
+✔ R14a16 pending retry failure stays accessible after opening death diagnostics (314.391079ms)
+✔ R14a16 uncertain retry keeps Reload authoritative, reload failure accessible, and dead reload restores retry (299.182243ms)
+✔ R14a16 stale dead settings/menu/save actions never mutate real saved state (233.731076ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3586.308252

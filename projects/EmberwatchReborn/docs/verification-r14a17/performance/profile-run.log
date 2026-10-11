@@ -1,0 +1,1 @@
+{"coldSceneCalls":40,"outputObjects":520,"limitation":"Node CPU sampling includes startup/import/fixture preparation. Filter scene call ancestry; no native-browser profile."}

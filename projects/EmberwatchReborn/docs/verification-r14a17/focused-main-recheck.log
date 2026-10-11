@@ -1,0 +1,10 @@
+✔ actual committed main snapshot freezes only its owned copy across checkpoint controls rest and save failure (1945.222794ms)
+✔ main owns frozen load/reload/profile snapshots while controller snapshots stay independent mutable copies (76.306624ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2124.359213

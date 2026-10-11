@@ -1,0 +1,143 @@
+{
+  "kind": "Isolated baseline a15 versus final a17 pure view/engine parity; scripted fixtures, not native play.",
+  "viewCalls": 741,
+  "viewStages": [
+    "before",
+    "accepted",
+    "entered",
+    "surveyGuards",
+    "survey",
+    "anchorGuards",
+    "hook",
+    "anchor",
+    "receiverGuards",
+    "prefix",
+    "calibrated",
+    "chosen",
+    "relayGuards",
+    "routed",
+    "approach",
+    "boss",
+    "evidence",
+    "home",
+    "finished"
+  ],
+  "simulationPairs": [
+    {
+      "stage": "entered",
+      "mode": "idle",
+      "frames": 90,
+      "modelSha256": "8143c535e3beb5c8c38d7b67b320067255459880ff6b5d9f27bb056fe377b814",
+      "seed": 1369781,
+      "combatDraws": 0,
+      "fxSeed": 1369781
+    },
+    {
+      "stage": "entered",
+      "mode": "move",
+      "frames": 90,
+      "modelSha256": "061e40c21a309e38a97434b75cb81fc68a071cecda63b5ae8f4f975cee93d583",
+      "seed": 1369781,
+      "combatDraws": 0,
+      "fxSeed": 1369781
+    },
+    {
+      "stage": "entered",
+      "mode": "hammer",
+      "frames": 90,
+      "modelSha256": "f530410900b66e20a8d1f6898cbea0736267cec00da8c837358da236eec3f300",
+      "seed": 1369781,
+      "combatDraws": 0,
+      "fxSeed": 1369781
+    },
+    {
+      "stage": "chosen",
+      "mode": "idle",
+      "frames": 90,
+      "modelSha256": "5e8eccb7671dadb4773a93dab9e8a52d9b104e640285c55af3e3ea1ecd84f4fd",
+      "seed": 1369781,
+      "combatDraws": 0,
+      "fxSeed": 1369781
+    },
+    {
+      "stage": "chosen",
+      "mode": "move",
+      "frames": 90,
+      "modelSha256": "4364d91548f77406af8ef719349cbefa7a0b3e073b93b54d4bdd894efa8fbbe3",
+      "seed": 1369781,
+      "combatDraws": 0,
+      "fxSeed": 1369781
+    },
+    {
+      "stage": "chosen",
+      "mode": "hammer",
+      "frames": 90,
+      "modelSha256": "dcc5e92eedac4dcc16064136eba14d4468d29249e385e84804edc46d80926fff",
+      "seed": 1369781,
+      "combatDraws": 0,
+      "fxSeed": 1369781
+    },
+    {
+      "stage": "approach",
+      "mode": "idle",
+      "frames": 90,
+      "modelSha256": "9bef1f4ac7f7798393558ba46f159e9671c548955e4f409eb3c7fc1eb03ebfa1",
+      "seed": 1369781,
+      "combatDraws": 0,
+      "fxSeed": 1369781
+    },
+    {
+      "stage": "approach",
+      "mode": "move",
+      "frames": 90,
+      "modelSha256": "3ccf4a9478d8f43bb19b92e5a61597c2d1bd3b08597a9f29b128847ecce49a63",
+      "seed": 1369781,
+      "combatDraws": 0,
+      "fxSeed": 1369781
+    },
+    {
+      "stage": "approach",
+      "mode": "hammer",
+      "frames": 90,
+      "modelSha256": "4c91c0098d2a056761466c740ddcfa3919eee774cfc96b7d83bd470475b803a8",
+      "seed": 1369781,
+      "combatDraws": 0,
+      "fxSeed": 1369781
+    },
+    {
+      "stage": "evidence",
+      "mode": "idle",
+      "frames": 90,
+      "modelSha256": "3fff5a152ec90f226d3805c2aff3955752d4976386b54c87ceabe035313bc880",
+      "seed": 1369781,
+      "combatDraws": 0,
+      "fxSeed": 1369781
+    },
+    {
+      "stage": "evidence",
+      "mode": "move",
+      "frames": 90,
+      "modelSha256": "743ca17751e31ca61a5405da204233e35d63c880851e2d36e68e5a7fa3766144",
+      "seed": 1369781,
+      "combatDraws": 0,
+      "fxSeed": 1369781
+    },
+    {
+      "stage": "evidence",
+      "mode": "hammer",
+      "frames": 90,
+      "modelSha256": "2117a5cf7ef7ff75948988d6fccac40608d524caf63261cab0bdde46473b9cf7",
+      "seed": 1369781,
+      "combatDraws": 0,
+      "fxSeed": 1369781
+    }
+  ],
+  "baselineRoot": "/workspace/shared/emberwatch-frame-stall-diagnostics/app/src/",
+  "candidateRoot": "/workspace/shared/emberwatch-r14a17-scene-cache-project/app/src/",
+  "simulationCoverage": {
+    "kind": "Non-consuming model/event/RNG-state equality only",
+    "combatDrawsConsumed": 0,
+    "actualCombatRngConsumptionVerified": false
+  },
+  "ok": true
+}

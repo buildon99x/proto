@@ -1,0 +1,209 @@
+{
+  "measurement": "Node exact-main scene: synthetic command-earned fixtures. Cold candidate includes canonical-copy+freeze cost and first scene. No native/browser/frame-gap acceptance.",
+  "sourceHashes": {
+    "baseline": "8430cbe5e0e216cbdd04adde35484c79fa701c361e983dfb54bad9cf470adabd",
+    "candidate": "c86d83d03d29d4aed05a3e1708b37b2931484a91b90df86ba4f8066e30596d96"
+  },
+  "pairs": [
+    {
+      "stage": "entered",
+      "cold": {
+        "baseline": {
+          "n": 10,
+          "p50Ms": 174.78858400000013,
+          "p95Ms": 243.80906599999997,
+          "maxMs": 243.80906599999997,
+          "canonicalCopyFreeze": {
+            "n": 10,
+            "p50Ms": 0.0006410000000300897,
+            "p95Ms": 0.0010819999999966967,
+            "maxMs": 0.0010819999999966967
+          },
+          "loopWallMs": 1832.3604,
+          "cpuUserMs": 2096.454,
+          "cpuSystemMs": 31.098
+        },
+        "candidate": {
+          "n": 10,
+          "p50Ms": 14.553964000000178,
+          "p95Ms": 40.13428999999974,
+          "maxMs": 40.13428999999974,
+          "canonicalCopyFreeze": {
+            "n": 10,
+            "p50Ms": 0.37583900000026915,
+            "p95Ms": 1.0343279999999595,
+            "maxMs": 1.0343279999999595
+          },
+          "loopWallMs": 172.20076099999983,
+          "cpuUserMs": 279.624,
+          "cpuSystemMs": 0
+        }
+      },
+      "warm": {
+        "baseline": {
+          "n": 1000,
+          "p50Ms": 0.024496999999882973,
+          "p95Ms": 0.07380000000011933,
+          "maxMs": 0.9531079999999292
+        },
+        "candidate": {
+          "n": 1000,
+          "p50Ms": 0.026139000000057422,
+          "p95Ms": 0.07076499999993757,
+          "maxMs": 0.8792680000001383
+        }
+      },
+      "outputsEqual": true
+    },
+    {
+      "stage": "chosen",
+      "cold": {
+        "candidate": {
+          "n": 10,
+          "p50Ms": 10.971965000000182,
+          "p95Ms": 14.576178000000255,
+          "maxMs": 14.576178000000255,
+          "canonicalCopyFreeze": {
+            "n": 10,
+            "p50Ms": 0.3528449999998884,
+            "p95Ms": 0.5392829999996138,
+            "maxMs": 0.5392829999996138
+          },
+          "loopWallMs": 118.18550800000003,
+          "cpuUserMs": 163.766,
+          "cpuSystemMs": 3.365
+        },
+        "baseline": {
+          "n": 10,
+          "p50Ms": 171.15093399999978,
+          "p95Ms": 194.50714599999992,
+          "maxMs": 194.50714599999992,
+          "canonicalCopyFreeze": {
+            "n": 10,
+            "p50Ms": 0.0002909999998337298,
+            "p95Ms": 0.00048100000003614696,
+            "maxMs": 0.00048100000003614696
+          },
+          "loopWallMs": 1743.5821539999997,
+          "cpuUserMs": 1977.103,
+          "cpuSystemMs": 16.062
+        }
+      },
+      "warm": {
+        "candidate": {
+          "n": 1000,
+          "p50Ms": 0.03956900000002861,
+          "p95Ms": 0.0672100000001592,
+          "maxMs": 0.9617210000001251
+        },
+        "baseline": {
+          "n": 1000,
+          "p50Ms": 0.040118999999322114,
+          "p95Ms": 0.07110600000032719,
+          "maxMs": 0.4559689999996408
+        }
+      },
+      "outputsEqual": true
+    },
+    {
+      "stage": "approach",
+      "cold": {
+        "baseline": {
+          "n": 10,
+          "p50Ms": 168.6855170000008,
+          "p95Ms": 189.10621600000013,
+          "maxMs": 189.10621600000013,
+          "canonicalCopyFreeze": {
+            "n": 10,
+            "p50Ms": 0.0003999999998995918,
+            "p95Ms": 0.0006009999997331761,
+            "maxMs": 0.0006009999997331761
+          },
+          "loopWallMs": 1738.190031,
+          "cpuUserMs": 1826.446,
+          "cpuSystemMs": 4.105
+        },
+        "candidate": {
+          "n": 10,
+          "p50Ms": 12.522221999999601,
+          "p95Ms": 16.587064000000282,
+          "maxMs": 16.587064000000282,
+          "canonicalCopyFreeze": {
+            "n": 10,
+            "p50Ms": 0.37013000000024476,
+            "p95Ms": 0.5913689999997587,
+            "maxMs": 0.5913689999997587
+          },
+          "loopWallMs": 132.83567500000026,
+          "cpuUserMs": 191.422,
+          "cpuSystemMs": 7.104
+        }
+      },
+      "warm": {
+        "baseline": {
+          "n": 1000,
+          "p50Ms": 0.052607999999963795,
+          "p95Ms": 0.10890199999994365,
+          "maxMs": 0.3935249999994994
+        },
+        "candidate": {
+          "n": 1000,
+          "p50Ms": 0.05356000000028871,
+          "p95Ms": 0.10192099999949278,
+          "maxMs": 0.4878049999997529
+        }
+      },
+      "outputsEqual": true
+    },
+    {
+      "stage": "evidence",
+      "cold": {
+        "candidate": {
+          "n": 10,
+          "p50Ms": 11.30449099999987,
+          "p95Ms": 14.402997000000141,
+          "maxMs": 14.402997000000141,
+          "canonicalCopyFreeze": {
+            "n": 10,
+            "p50Ms": 0.3382529999998951,
+            "p95Ms": 0.39462600000024395,
+            "maxMs": 0.39462600000024395
+          },
+          "loopWallMs": 115.45908799999961,
+          "cpuUserMs": 150.98,
+          "cpuSystemMs": 0.158
+        },
+        "baseline": {
+          "n": 10,
+          "p50Ms": 174.40120299999944,
+          "p95Ms": 212.02288800000042,
+          "maxMs": 212.02288800000042,
+          "canonicalCopyFreeze": {
+            "n": 10,
+            "p50Ms": 0.0003509999996822444,
+            "p95Ms": 0.0006310000007943017,
+            "maxMs": 0.0006310000007943017
+          },
+          "loopWallMs": 1802.0741200000002,
+          "cpuUserMs": 1814.876,
+          "cpuSystemMs": 4.455
+        }
+      },
+      "warm": {
+        "candidate": {
+          "n": 1000,
+          "p50Ms": 0.0568040000007386,
+          "p95Ms": 0.1334980000001451,
+          "maxMs": 1.467942000000221
+        },
+        "baseline": {
+          "n": 1000,
+          "p50Ms": 0.055182000000058906,
+          "p95Ms": 0.09983800000009069,
+          "maxMs": 0.560884000000442
+        }
+      },
+      "outputsEqual": true
+    }
+  ]
+}

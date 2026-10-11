@@ -90,3 +90,12 @@ Final R14a12: **4,138/4,138 unique tests**, 0 fail/skip/cancel, 118393.823682ms;
 This independent candidate adds exact long-gap observations; it does not resolve or attribute the native stalls. In candidate QA: open menu → 접속 기록 · 입력 / QA → QA 접점 / 프레임 관측 → 프레임 기록 켜기, resume, and use ordinary movement/combat. On a safety stop choose 전체 메뉴 열기 explicitly, then reopen QA. The new “500ms 초과 간격 진단” section retains 12 pairs, displays six, and expands previous/current costs. “표시 새로고침” only updates the read-only view. Preserve the actual stop; do not raise the protection threshold.
 
 See docs/verification-r14a15/README.md for test results, interpretation limits and the native-browser handoff. Browser/listening acceptance and causal attribution remain open. No Git or deployment is included in this preparation.
+
+
+## R14a16 death-overlay containment
+The separate a16 candidate prevents a visually covered background HUD menu from activating while a death/game dialog is open. It restores ordinary game controls and focus only on valid resume/profile load. If frame recording was already ON, the death dialog offers “사망 직전 프레임 기록”: refresh/read the evidence, then use “사망 화면으로 돌아가기” and the usual Retry. It never resumes dead gameplay or changes the stored death/retry rules.
+
+See docs/verification-r14a16/README.md and final-summary.json. Actual supported-browser AX omission, Tab/focus and accessible error announcements remain to be checked. This is not a scene-performance or stall fix.
+
+## R14a17 integrated candidate
+The current preparation combines R14a16 death-overlay accessibility guards with a measured reduction in repeated wilderness scene validation. Main owns a canonical immutable copy of each validated received snapshot; only those copies may reuse full validation results. The mutable controller API, malformed/Proxy checks, saves, assets, combat rules, RNG and strict >500ms safety threshold remain intact. See docs/verification-r14a17 for the integrated aggregate and before/after evidence. Native browser stall resolution and AX acceptance are still separate gates.

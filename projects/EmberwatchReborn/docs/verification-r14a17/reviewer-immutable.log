@@ -1,0 +1,23 @@
+✔ owned snapshot copy preserves bytes and freezes its detached nested arrays (1.375075ms)
+✔ null and scalar values never become immutable snapshot cache keys (0.582817ms)
+✔ shallow and fully frozen external roots never acquire canonical provenance (0.191755ms)
+✔ mutable input may change between copies without contaminating an earlier cache key (0.205506ms)
+✔ external references and shared acyclic subtrees are copied without freezing the originals (0.411832ms)
+✔ cloned and unrelated profile snapshots have independent provenance (0.263182ms)
+✔ accessors are rejected without running getters or freezing valid siblings (0.254638ms)
+✔ failed shape checks leave input mutable and repaired input can be copied later (0.256792ms)
+✔ custom prototypes, symbol keys, hidden keys and reserved keys cannot be copied (0.731648ms)
+✔ sparse, extended and accessor arrays are rejected without invoking values (0.446664ms)
+✔ cycles are rejected both before and after external freezing (0.220648ms)
+✔ over-deep trees and hostile inspection fail closed without stack overflow (0.556688ms)
+✔ canonical provenance alone does not establish valid game or save data (0.515717ms)
+✔ frozen Proxies with changing missing properties never become validation cache keys (0.977584ms)
+✔ a Proxy wrapping a certified copy does not inherit its provenance (0.514826ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 139.63995

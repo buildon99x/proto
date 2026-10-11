@@ -1,0 +1,7 @@
+{
+  "patchAppliedTo": "independent frozen a15 copy; repeated after pre-publication RNG evidence correction",
+  "appliedExit": 0,
+  "finalSourceFreezeEntriesCompared": 370,
+  "mismatches": [],
+  "changedPatchFiles": 27
+}

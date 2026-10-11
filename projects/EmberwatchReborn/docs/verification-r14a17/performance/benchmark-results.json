@@ -1,0 +1,420 @@
+{
+  "version": "R14a15",
+  "node": "v24.19.0",
+  "measurement": "Plain Node production JavaScript only. Exact extracted main scene block. No browser/Canvas/DOM/storage/audio/render; wall-clock intervals include scheduling/GC and are not exclusive CPU timings.",
+  "mainSha256": "8430cbe5e0e216cbdd04adde35484c79fa701c361e983dfb54bad9cf470adabd",
+  "sceneBlockSha256": "0f50cc872a737a6bb2266c030dc6975a1f3b34956e9bb9a7e1f597d0555b8516",
+  "cases": [
+    {
+      "stage": "entered",
+      "mode": "cold-new-state",
+      "n": 12,
+      "p50Ms": 302.71209699999963,
+      "p95Ms": 368.1132149999994,
+      "maxMs": 368.1132149999994,
+      "minMs": 199.3178079999998,
+      "totalMs": 3569.7582310000016,
+      "loopWallMs": 3570.058416,
+      "cpuUserMs": 3123.016,
+      "cpuSystemMs": 39.048,
+      "outputObjects": 13
+    },
+    {
+      "stage": "entered",
+      "mode": "warm-same-state",
+      "n": 1000,
+      "p50Ms": 0.019318999999086373,
+      "p95Ms": 0.05769500000133121,
+      "maxMs": 10.056201000001238,
+      "minMs": 0.015332999999372987,
+      "totalMs": 62.38294099999621,
+      "loopWallMs": 64.1756349999996,
+      "cpuUserMs": 58.568,
+      "cpuSystemMs": 0.069,
+      "outputObjects": 13
+    },
+    {
+      "stage": "chosen",
+      "mode": "cold-new-state",
+      "n": 12,
+      "p50Ms": 272.9010930000004,
+      "p95Ms": 368.8220789999996,
+      "maxMs": 368.8220789999996,
+      "minMs": 197.33228000000054,
+      "totalMs": 3275.9933200000014,
+      "loopWallMs": 3276.1149190000015,
+      "cpuUserMs": 2587.011,
+      "cpuSystemMs": 14.514,
+      "outputObjects": 13
+    },
+    {
+      "stage": "chosen",
+      "mode": "warm-same-state",
+      "n": 1000,
+      "p50Ms": 0.03549199999906705,
+      "p95Ms": 0.07445100000040838,
+      "maxMs": 1.4677519999986544,
+      "minMs": 0.03212799999892013,
+      "totalMs": 45.36236999996072,
+      "loopWallMs": 45.79550300000119,
+      "cpuUserMs": 51.37,
+      "cpuSystemMs": 0.016,
+      "outputObjects": 13
+    },
+    {
+      "stage": "approach",
+      "mode": "cold-new-state",
+      "n": 12,
+      "p50Ms": 374.9783529999986,
+      "p95Ms": 658.0237920000018,
+      "maxMs": 658.0237920000018,
+      "minMs": 244.3685149999983,
+      "totalMs": 4889.973609999999,
+      "loopWallMs": 4890.045457,
+      "cpuUserMs": 2846.46,
+      "cpuSystemMs": 34.737,
+      "outputObjects": 13
+    },
+    {
+      "stage": "approach",
+      "mode": "warm-same-state",
+      "n": 1000,
+      "p50Ms": 0.08986300000105985,
+      "p95Ms": 0.14908199999990757,
+      "maxMs": 10.856229000000894,
+      "minMs": 0.044035999999323394,
+      "totalMs": 111.30939099996249,
+      "loopWallMs": 112.2338290000007,
+      "cpuUserMs": 99.102,
+      "cpuSystemMs": 0,
+      "outputObjects": 13
+    },
+    {
+      "stage": "evidence",
+      "mode": "cold-new-state",
+      "n": 12,
+      "p50Ms": 305.1409879999992,
+      "p95Ms": 332.40242600000056,
+      "maxMs": 332.40242600000056,
+      "minMs": 210.68912499999715,
+      "totalMs": 3525.590913999986,
+      "loopWallMs": 3525.6568430000007,
+      "cpuUserMs": 2815.58,
+      "cpuSystemMs": 29.533,
+      "outputObjects": 13
+    },
+    {
+      "stage": "evidence",
+      "mode": "warm-same-state",
+      "n": 1000,
+      "p50Ms": 0.09256699999968987,
+      "p95Ms": 0.1487809999998717,
+      "maxMs": 13.892515999999887,
+      "minMs": 0.049222999998164596,
+      "totalMs": 122.95127100004902,
+      "loopWallMs": 123.54083299999911,
+      "cpuUserMs": 119.808,
+      "cpuSystemMs": 0,
+      "outputObjects": 13
+    }
+  ],
+  "components": [
+    {
+      "name": "connectedFloor",
+      "n": 2000,
+      "p50Ms": 0.013038999997661449,
+      "p95Ms": 0.016614000000117812,
+      "maxMs": 6.734207000001334,
+      "minMs": 0.006449000000429805,
+      "totalMs": 39.001701000059256,
+      "loopWallMs": 41.22882899999968,
+      "cpuUserMs": 32.073,
+      "cpuSystemMs": 0
+    },
+    {
+      "name": "createMap",
+      "n": 2000,
+      "p50Ms": 0.01329999999870779,
+      "p95Ms": 0.01503200000297511,
+      "maxMs": 0.3519830000004731,
+      "minMs": 0.010054999998828862,
+      "totalMs": 28.619999000067764,
+      "loopWallMs": 29.483295000001817,
+      "cpuUserMs": 28.883,
+      "cpuSystemMs": 0
+    },
+    {
+      "name": "validateWildernessProgress",
+      "n": 20,
+      "p50Ms": 14.844189999999799,
+      "p95Ms": 23.247809000000416,
+      "maxMs": 30.633685000000696,
+      "minMs": 8.630885999999009,
+      "totalMs": 315.4132499999978,
+      "loopWallMs": 315.48779899999863,
+      "cpuUserMs": 241.836,
+      "cpuSystemMs": 8.057
+    },
+    {
+      "name": "validateWildernessAncestry",
+      "n": 20,
+      "p50Ms": 13.827479999999923,
+      "p95Ms": 26.154348000000027,
+      "maxMs": 28.260927999999694,
+      "minMs": 7.9822820000008505,
+      "totalMs": 306.9540619999898,
+      "loopWallMs": 307.03636299999926,
+      "cpuUserMs": 250.938,
+      "cpuSystemMs": 0
+    },
+    {
+      "name": "wildernessClue",
+      "n": 20,
+      "p50Ms": 14.370194999999512,
+      "p95Ms": 28.182480999999825,
+      "maxMs": 36.77519200000097,
+      "minMs": 13.233265999999276,
+      "totalMs": 347.1605619999864,
+      "loopWallMs": 347.22816299999977,
+      "cpuUserMs": 268.013,
+      "cpuSystemMs": 4.122
+    },
+    {
+      "name": "allObjectViewsWithoutMainCache",
+      "n": 12,
+      "p50Ms": 115.56153199999972,
+      "p95Ms": 155.16845900000044,
+      "maxMs": 155.16845900000044,
+      "minMs": 89.23550299999988,
+      "totalMs": 1460.2124419999964,
+      "loopWallMs": 1460.2531940000008,
+      "cpuUserMs": 1198.43,
+      "cpuSystemMs": 21.403
+    },
+    {
+      "name": "allPortalViewsWithoutMainCache",
+      "n": 12,
+      "p50Ms": 115.25878700000249,
+      "p95Ms": 145.32539800000086,
+      "maxMs": 145.32539800000086,
+      "minMs": 92.81798400000116,
+      "totalMs": 1405.2573810000104,
+      "loopWallMs": 1405.297498,
+      "cpuUserMs": 1094.95,
+      "cpuSystemMs": 7.447
+    }
+  ],
+  "attribution": [
+    {
+      "stage": "entered",
+      "totalMs": 248.22779099999934,
+      "overlappingInclusiveFunctions": {
+        "getRegion": {
+          "n": 11,
+          "p50Ms": 0.0016919999998208368,
+          "p95Ms": 0.0050069999997504056,
+          "maxMs": 0.0050069999997504056,
+          "minMs": 0.0012719999995169928,
+          "totalMs": 0.023614999998244457
+        },
+        "wildernessObjectView": {
+          "n": 10,
+          "p50Ms": 9.067992000000231,
+          "p95Ms": 20.400501000000077,
+          "maxMs": 20.400501000000077,
+          "minMs": 8.08638300000166,
+          "totalMs": 111.95834000000104
+        },
+        "wildernessPortalView": {
+          "n": 3,
+          "p50Ms": 42.04273900000044,
+          "p95Ms": 53.805787000001146,
+          "maxMs": 53.805787000001146,
+          "minMs": 39.52725900000041,
+          "totalMs": 135.375785000002
+        },
+        "wildernessSceneVisibility": {
+          "n": 1,
+          "p50Ms": 247.79592800000137,
+          "p95Ms": 247.79592800000137,
+          "maxMs": 247.79592800000137,
+          "minMs": 247.79592800000137,
+          "totalMs": 247.79592800000137
+        }
+      }
+    },
+    {
+      "stage": "chosen",
+      "totalMs": 247.56539200000043,
+      "overlappingInclusiveFunctions": {
+        "getRegion": {
+          "n": 11,
+          "p50Ms": 0.0017830000015237601,
+          "p95Ms": 0.00497699999868928,
+          "maxMs": 0.00497699999868928,
+          "minMs": 0.001111999999920954,
+          "totalMs": 0.022013000001606997
+        },
+        "wildernessObjectView": {
+          "n": 10,
+          "p50Ms": 13.984080000000176,
+          "p95Ms": 26.58763700000054,
+          "maxMs": 26.58763700000054,
+          "minMs": 8.187582000000475,
+          "totalMs": 147.83489899999768
+        },
+        "wildernessPortalView": {
+          "n": 3,
+          "p50Ms": 31.261751000000004,
+          "p95Ms": 37.29681799999889,
+          "maxMs": 37.29681799999889,
+          "minMs": 30.738728000000265,
+          "totalMs": 99.29729699999916
+        },
+        "wildernessSceneVisibility": {
+          "n": 1,
+          "p50Ms": 247.44437199999993,
+          "p95Ms": 247.44437199999993,
+          "maxMs": 247.44437199999993,
+          "minMs": 247.44437199999993,
+          "totalMs": 247.44437199999993
+        }
+      }
+    },
+    {
+      "stage": "approach",
+      "totalMs": 291.59530099999756,
+      "overlappingInclusiveFunctions": {
+        "getRegion": {
+          "n": 11,
+          "p50Ms": 0.001843000001827022,
+          "p95Ms": 0.00596899999800371,
+          "maxMs": 0.00596899999800371,
+          "minMs": 0.0013020000005781185,
+          "totalMs": 0.026169999997364357
+        },
+        "wildernessObjectView": {
+          "n": 10,
+          "p50Ms": 12.451841999998578,
+          "p95Ms": 33.75793699999849,
+          "maxMs": 33.75793699999849,
+          "minMs": 10.069570999999996,
+          "totalMs": 157.92293499999505
+        },
+        "wildernessPortalView": {
+          "n": 3,
+          "p50Ms": 43.73856499999965,
+          "p95Ms": 50.347358999999415,
+          "maxMs": 50.347358999999415,
+          "minMs": 38.68384999999762,
+          "totalMs": 132.7697739999967
+        },
+        "wildernessSceneVisibility": {
+          "n": 1,
+          "p50Ms": 291.49510200000077,
+          "p95Ms": 291.49510200000077,
+          "maxMs": 291.49510200000077,
+          "minMs": 291.49510200000077,
+          "totalMs": 291.49510200000077
+        }
+      }
+    },
+    {
+      "stage": "evidence",
+      "totalMs": 311.01286400000026,
+      "overlappingInclusiveFunctions": {
+        "getRegion": {
+          "n": 11,
+          "p50Ms": 0.0020540000004984904,
+          "p95Ms": 0.0034850000010919757,
+          "maxMs": 0.0034850000010919757,
+          "minMs": 0.001623000000108732,
+          "totalMs": 0.02418700000271201
+        },
+        "wildernessObjectView": {
+          "n": 10,
+          "p50Ms": 14.641058000001067,
+          "p95Ms": 29.01114400000006,
+          "maxMs": 29.01114400000006,
+          "minMs": 13.9825090000013,
+          "totalMs": 171.18111199999476
+        },
+        "wildernessPortalView": {
+          "n": 3,
+          "p50Ms": 46.86838100000023,
+          "p95Ms": 49.55296100000123,
+          "maxMs": 49.55296100000123,
+          "minMs": 42.907845000001544,
+          "totalMs": 139.329187000003
+        },
+        "wildernessSceneVisibility": {
+          "n": 1,
+          "p50Ms": 310.91175400000066,
+          "p95Ms": 310.91175400000066,
+          "maxMs": 310.91175400000066,
+          "minMs": 310.91175400000066,
+          "totalMs": 310.91175400000066
+        }
+      }
+    }
+  ],
+  "fixtures": {
+    "entered": {
+      "level": 18,
+      "region": "signal_wilderness",
+      "mapWidth": 38,
+      "mapHeight": 35,
+      "tiles": 1330,
+      "floorTiles": 602,
+      "reachableTiles": 100,
+      "objects": 10,
+      "npcs": 0,
+      "portals": 3,
+      "defeated": 107,
+      "sourceHash": "b6e6ec6dc17a99b9d28e43356c28bc9b3fae257bbba55ce087af8efdd1229ecb"
+    },
+    "chosen": {
+      "level": 20,
+      "region": "signal_wilderness",
+      "mapWidth": 38,
+      "mapHeight": 35,
+      "tiles": 1330,
+      "floorTiles": 625,
+      "reachableTiles": 395,
+      "objects": 10,
+      "npcs": 0,
+      "portals": 3,
+      "defeated": 119,
+      "sourceHash": "3035c1aca2d16a3f2f3b08d6f7727867c88455b78151fae36e4e7f984edb06a5"
+    },
+    "approach": {
+      "level": 21,
+      "region": "signal_wilderness",
+      "mapWidth": 38,
+      "mapHeight": 35,
+      "tiles": 1330,
+      "floorTiles": 639,
+      "reachableTiles": 585,
+      "objects": 10,
+      "npcs": 0,
+      "portals": 3,
+      "defeated": 127,
+      "sourceHash": "d2fb6236517fefa919621246150687c447c8ed94335f5663491502e45382c164"
+    },
+    "evidence": {
+      "level": 21,
+      "region": "signal_wilderness",
+      "mapWidth": 38,
+      "mapHeight": 35,
+      "tiles": 1330,
+      "floorTiles": 643,
+      "reachableTiles": 643,
+      "objects": 10,
+      "npcs": 0,
+      "portals": 3,
+      "defeated": 128,
+      "sourceHash": "fa5fb733244e2e0110bc3c661ba27e8d9b4a324d43fce2745b19ec5147c861d1"
+    }
+  },
+  "fixtureGenerationMs": 6768.919444
+}

@@ -1,0 +1,128 @@
+{
+  "kind": "V8 sampling weights, not exclusive/browser CPU proof",
+  "totalProfileSampleMs": 10711.873,
+  "wholeProfileGcSampleMs": 570.509,
+  "underWildernessViewMs": 9883.033,
+  "topSelfFramesWithinView": [
+    {
+      "function": "jsonData",
+      "file": "equipment.js",
+      "line": 42,
+      "sampleWeightMs": 3046.006
+    },
+    {
+      "function": "jsonData",
+      "file": "quarry.js",
+      "line": 29,
+      "sampleWeightMs": 722.782
+    },
+    {
+      "function": "jsonData",
+      "file": "pass.js",
+      "line": 33,
+      "sampleWeightMs": 589.91
+    },
+    {
+      "function": "jsonData",
+      "file": "signal.js",
+      "line": 35,
+      "sampleWeightMs": 518.955
+    },
+    {
+      "function": "jsonData",
+      "file": "furnace.js",
+      "line": 35,
+      "sampleWeightMs": 407.888
+    },
+    {
+      "function": "",
+      "file": "equipment.js",
+      "line": 52,
+      "sampleWeightMs": 357.75
+    },
+    {
+      "function": "jsonData",
+      "file": "tomb.js",
+      "line": 37,
+      "sampleWeightMs": 308.129
+    },
+    {
+      "function": "jsonData",
+      "file": "wilderness.js",
+      "line": 40,
+      "sampleWeightMs": 256.888
+    },
+    {
+      "function": "analyze",
+      "file": "equipment.js",
+      "line": 177,
+      "sampleWeightMs": 192.322
+    },
+    {
+      "function": "",
+      "file": "equipment.js",
+      "line": 50,
+      "sampleWeightMs": 188.492
+    },
+    {
+      "function": "calculateStats",
+      "file": "warrior-growth.js",
+      "line": 71,
+      "sampleWeightMs": 151.085
+    },
+    {
+      "function": "jsonData",
+      "file": "battlefield.js",
+      "line": 30,
+      "sampleWeightMs": 133.803
+    },
+    {
+      "function": "jsonData",
+      "file": "dungeon.js",
+      "line": 36,
+      "sampleWeightMs": 133.146
+    },
+    {
+      "function": "validateWarriorGrowth",
+      "file": "warrior-growth.js",
+      "line": 26,
+      "sampleWeightMs": 128.743
+    },
+    {
+      "function": "jsonData",
+      "file": "progression.js",
+      "line": 25,
+      "sampleWeightMs": 125.442
+    },
+    {
+      "function": "RegExp: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,79}$",
+      "file": "",
+      "line": 0,
+      "sampleWeightMs": 114.325
+    },
+    {
+      "function": "",
+      "file": "quarry.js",
+      "line": 37,
+      "sampleWeightMs": 101.576
+    },
+    {
+      "function": "mapFromRegion",
+      "file": "world-geometry.js",
+      "line": 14,
+      "sampleWeightMs": 96.365
+    },
+    {
+      "function": "identifier",
+      "file": "equipment.js",
+      "line": 14,
+      "sampleWeightMs": 93.468
+    },
+    {
+      "function": "own",
+      "file": "equipment.js",
+      "line": 16,
+      "sampleWeightMs": 89.026
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "rawProfilePath": "/workspace/shared/r14a15-scene-cost-audit/cold-scene.cpuprofile",
+  "bytes": 1538178,
+  "sha256": "98d78d58fa0c21a65c7de7ef28cbe30bdeb396264bbe66a57e4aea6acbd47058",
+  "reason": "Raw V8 profile retained in original local audit; summarized samples and reproducible script included here. No browser profile implied."
+}

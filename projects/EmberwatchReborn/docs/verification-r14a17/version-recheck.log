@@ -1,0 +1,11 @@
+✔ R14 app, project, index metadata and build kind share the same bounded candidate identity (1.3114ms)
+✔ actual R11 candidate title separates observed Normal T from unqualified Expert/B and offers R10 forward copy (1035.021407ms)
+✔ current candidate title offers explicit R11 forward-copy without changing source profile (1955.392235ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2207.062798

@@ -1,0 +1,440 @@
+--- a/app/src/wilderness.js
++++ b/app/src/wilderness.js
+@@ -1,3 +1,4 @@
++import {isImmutableSnapshot} from './immutable-snapshot.js';
+ import {validateRecovery,recoveryFrom,retryRecovery} from './recovery.js';
+ import {getRegion,createMap,inMap,near,lineOfSight} from './world.js';
+ import {grantExperience,experienceMultiplier,validateCharacter} from './progression.js';
+@@ -62,8 +63,20 @@
+ }
+ function economyValid(s){return count(s.gold)&&record(s.stats)&&['earnedGold','spentGold','kills','deaths'].every(k=>count(s.stats[k]))&&s.stats.earnedGold-s.stats.spentGold===s.gold&&Number.isFinite(s.stats.earnedXp)&&s.stats.earnedXp>=0&&s.stats.earnedXp<=Number.MAX_SAFE_INTEGER&&record(s.inventory.materials)&&record(s.inventory.consumables)&&[...Object.values(s.inventory.materials),...Object.values(s.inventory.consumables)].every(count)&&trainingGoldBalances(s).ok;}
+ const reportedB=s=>battlefieldEligible(s)&&s.world.objectives.battlefield_reported===1&&s.world.objectives.chapter_three_complete===1&&s.inventory.tools.includes('battlefield_beacon')&&has(s,'r11:b:report');
++// Reuse only immutable, complete input snapshots. Mutable/untrusted trees use
++// the original validators every time; no caller-provided validity flag exists.
++// Cache immutable copies and return fresh results so caller edits cannot change
++// a later validation decision. The identity is the entire state, not a revision.
++const ancestryValidationCache=new WeakMap(),progressValidationCache=new WeakMap();
++function immutableValidation(cache,s,validate){
++ if(!isImmutableSnapshot(s))return validate(s);
++ if(!cache.has(s))cache.set(s,Object.freeze({...validate(s)}));
++ return {...cache.get(s)};
++}
++export function validateWildernessAncestry(s){return immutableValidation(ancestryValidationCache,s,validateWildernessAncestryUncached);}
++export function validateWildernessProgress(s){return immutableValidation(progressValidationCache,s,validateWildernessProgressUncached);}
+ /** Validate the real registered region and complete predecessor history. */
+-export function validateWildernessAncestry(s){
++function validateWildernessAncestryUncached(s){
+  if(!jsonData(s)||!record(s)||!record(s.world)||!record(s.world.objectives)||!record(s.inventory)||!list(s.inventory.tools,100)||!list(s.world.claimedRewards)||!list(s.world.visited,200)||!s.world.visited.includes(s.world.region)||!s.world.visited.includes('ash_hamlet')||!poolsValid(s))return fail('INVALID_WILDERNESS_STATE');
+  if(!Object.values(s.world.objectives).every(count)||Object.keys(s.world.objectives).length>500||!record(s.world.defeated)||!Object.entries(s.world.defeated).every(([id,ids])=>{const r=id===WILDERNESS_REGION?region:getRegion(id);return r&&list(ids,100)&&ids.every(enemyId=>r.foes.some(e=>e.id===enemyId));}))return fail('INVALID_WILDERNESS_STATE');
+  if(s.schema!=='emberwatch.reborn.reimplementation'||s.version!==5||!['easy','normal','hard','serious'].includes(s.difficulty)||!validateCharacter(s.character).ok||!validateWarriorGrowth(s.character,s).ok||!validatePromotion(s).ok||!validateEquipmentState(s).ok||!validateSavedActionSlots(s).ok||!economyValid(s))return fail('INVALID_WILDERNESS_STATE');
+@@ -74,7 +87,7 @@
+ }
+ /** W-owned bidirectional invariants; untouched saves receive no defaults.
+  * Full production state/save-envelope validation remains a separate gate. */
+-export function validateWildernessProgress(s){
++function validateWildernessProgressUncached(s){
+  if(!jsonData(s)||!record(s)||!record(s.world)||!record(s.world.objectives)||!list(s.world.claimedRewards)||!record(s.inventory)||!list(s.inventory.tools,100))return fail('INVALID_WILDERNESS_STATE');
+  const w=s.world,o=w.objectives,tools=s.inventory.tools;
+  if(w.defeated!==undefined&&(!record(w.defeated)||!Object.values(w.defeated).every(v=>list(v,100)))||w.visited!==undefined&&!list(w.visited,200))return fail('INVALID_WILDERNESS_STATE');
+--- /dev/null
++++ b/app/src/immutable-snapshot.js
+@@ -0,0 +1,55 @@
++// This certifies canonical-copy provenance, never gameplay/save validity.
++// Frozen caller objects can still be Proxies with dynamic missing properties,
++// so only plain copies constructed here may be reused by validation caches.
++const certified = new WeakSet();
++const reserved = new Set(['__proto__', 'prototype', 'constructor']);
++const own = (value, key) => Object.hasOwn(value, key);
++
++function copyTree(root) {
++  const active = new Set(), copies = new Map();
++  let remaining = 250000;
++  const invalid = () => { throw new TypeError('Expected an owned plain JSON snapshot'); };
++  function copy(value, depth) {
++    if (--remaining < 0 || depth > 40) return invalid();
++    if (value === null || typeof value === 'string' || typeof value === 'boolean') return value;
++    if (typeof value === 'number') return Number.isFinite(value) ? value : invalid();
++    if (typeof value !== 'object' || active.has(value)) return invalid();
++    if (copies.has(value)) return copies.get(value);
++    const array = Array.isArray(value);
++    if (Object.getPrototypeOf(value) !== (array ? Array.prototype : Object.prototype)) return invalid();
++    // Inspect descriptors instead of reading values, so getters never run.
++    const descriptors = Object.getOwnPropertyDescriptors(value);
++    const keys = Reflect.ownKeys(descriptors);
++    if (keys.some(key => typeof key !== 'string')) return invalid();
++    const entries = keys.filter(key => !(array && key === 'length'));
++    if (array && (!own(descriptors, 'length') || !own(descriptors.length, 'value') ||
++      entries.length !== descriptors.length.value || entries.some((key, index) => key !== String(index)))) return invalid();
++    if (entries.some(key => reserved.has(key) || !own(descriptors[key], 'value') || !descriptors[key].enumerable)) return invalid();
++    active.add(value);
++    const result = array ? [] : {};
++    for (const key of entries) Object.defineProperty(result, key, {value: copy(descriptors[key].value, depth + 1), enumerable: true, configurable: true, writable: true});
++    active.delete(value);
++    Object.freeze(result);
++    copies.set(value, result);
++    return result;
++  }
++  try { return copy(root, 0); }
++  catch { return invalid(); }
++}
++
++/** Only roots constructed by freezeOwnedSnapshot have canonical provenance.
++ * Deep-freezing an external object is insufficient, including a frozen Proxy. */
++export function isImmutableSnapshot(value) {
++  return value !== null && typeof value === 'object' && certified.has(value);
++}
++
++/** Return a detached, deeply frozen plain copy without executing getters.
++ * The caller must use the return value; its input and external aliases stay
++ * mutable. Controller snapshots and save validation keep their old contracts. */
++export function freezeOwnedSnapshot(snapshot) {
++  if (snapshot === null) return null;
++  if (isImmutableSnapshot(snapshot)) return snapshot;
++  const result = copyTree(snapshot);
++  if (result !== null && typeof result === 'object') certified.add(result);
++  return result;
++}
+--- /dev/null
++++ b/app/tests/immutable-snapshot.test.mjs
+@@ -0,0 +1,220 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import {freezeOwnedSnapshot, isImmutableSnapshot} from '../src/immutable-snapshot.js';
++import {validateWildernessProgress} from '../src/wilderness.js';
++
++const sample = () => ({world: {objectives: {accepted: 1}, defeated: ['guard']}, recovery: {cooldowns: {}, combatRng: {state: 42, draws: 19}}, rows: [[null, true, false, 'text', 2.5]]});
++const shallow = value => Object.freeze(value);
++
++test('owned snapshot copy preserves bytes and freezes its detached nested arrays', () => {
++  const source = sample(), before = JSON.stringify(source), state = freezeOwnedSnapshot(source);
++  assert.notEqual(state, source);
++  assert.notEqual(state.rows[0], source.rows[0]);
++  assert.equal(JSON.stringify(state), before);
++  assert.equal(JSON.stringify(source), before);
++  for (const value of [state, state.world, state.world.objectives, state.world.defeated, state.recovery, state.recovery.cooldowns, state.recovery.combatRng, state.rows, state.rows[0]]) assert.equal(Object.isFrozen(value), true);
++  assert.equal(Object.isFrozen(source), false);
++  assert.equal(Object.isFrozen(source.world.objectives), false);
++  assert.equal(isImmutableSnapshot(source), false);
++  assert.equal(isImmutableSnapshot(state), true);
++  assert.equal(freezeOwnedSnapshot(state), state);
++  assert.equal(isImmutableSnapshot(state), true);
++});
++
++test('null and scalar values never become immutable snapshot cache keys', () => {
++  for (const value of [null, true, false, 0, 'snapshot']) {
++    assert.equal(freezeOwnedSnapshot(value), value);
++    assert.equal(isImmutableSnapshot(value), false);
++  }
++  for (const value of [undefined, NaN, Infinity, -Infinity, 1n, Symbol('snapshot'), () => {}]) {
++    assert.equal(isImmutableSnapshot(value), false);
++    assert.throws(() => freezeOwnedSnapshot(value), TypeError);
++  }
++});
++
++test('shallow and fully frozen external roots never acquire canonical provenance', () => {
++  const child = {revision: 1}, array = [child], source = shallow({array});
++  assert.equal(isImmutableSnapshot(source), false);
++  child.revision = 2;
++  shallow(array);
++  assert.equal(isImmutableSnapshot(source), false);
++  child.revision = 3;
++  shallow(child);
++  assert.equal(isImmutableSnapshot(source), false);
++  const state = freezeOwnedSnapshot(source);
++  assert.notEqual(state, source);
++  assert.equal(isImmutableSnapshot(state), true);
++  assert.equal(state.array[0].revision, 3);
++});
++
++test('mutable input may change between copies without contaminating an earlier cache key', () => {
++  const source = sample(), first = freezeOwnedSnapshot(source);
++  source.world.objectives.accepted = 0;
++  source.recovery.combatRng.draws++;
++  assert.equal(isImmutableSnapshot(source), false);
++  const second = freezeOwnedSnapshot(source);
++  assert.notEqual(second, first);
++  assert.equal(first.world.objectives.accepted, 1);
++  assert.equal(second.world.objectives.accepted, 0);
++  assert.equal(first.recovery.combatRng.draws, 19);
++  assert.equal(second.recovery.combatRng.draws, 20);
++});
++
++test('external references and shared acyclic subtrees are copied without freezing the originals', () => {
++  const child = {amount: 4}, source = {first: child, second: child}, state = freezeOwnedSnapshot(source);
++  assert.equal(state.first, state.second);
++  assert.notEqual(state.first, child);
++  child.amount = 5;
++  assert.equal(source.second.amount, 5);
++  assert.equal(state.second.amount, 4);
++  assert.throws(() => { state.first.amount = 6; }, TypeError);
++  assert.throws(() => { state.first = {}; }, TypeError);
++  assert.throws(() => { Object.setPrototypeOf(state.first, null); }, TypeError);
++  assert.equal(isImmutableSnapshot(state), true);
++  assert.equal(isImmutableSnapshot(source), false);
++});
++
++test('cloned and unrelated profile snapshots have independent provenance', () => {
++  const original = freezeOwnedSnapshot(sample()), copy = structuredClone(original), other = sample();
++  assert.equal(isImmutableSnapshot(copy), false);
++  assert.equal(isImmutableSnapshot(other), false);
++  copy.world.objectives.accepted = 0;
++  copy.recovery.combatRng.draws++;
++  assert.equal(original.world.objectives.accepted, 1);
++  assert.equal(original.recovery.combatRng.draws, 19);
++  assert.equal(isImmutableSnapshot(original), true);
++  assert.equal(isImmutableSnapshot(freezeOwnedSnapshot(copy)), true);
++  assert.equal(isImmutableSnapshot(copy), false);
++  assert.equal(isImmutableSnapshot(other), false);
++});
++
++test('accessors are rejected without running getters or freezing valid siblings', () => {
++  let reads = 0;
++  const child = {value: 1}, source = {child};
++  Object.defineProperty(source, 'unsafe', {enumerable: true, configurable: true, get() { reads++; return child; }});
++  assert.equal(isImmutableSnapshot(source), false);
++  assert.throws(() => freezeOwnedSnapshot(source), TypeError);
++  assert.equal(reads, 0);
++  assert.equal(Object.isFrozen(child), false);
++  assert.equal(Object.isFrozen(source), false);
++  shallow(source);
++  assert.equal(isImmutableSnapshot(source), false);
++  assert.equal(reads, 0);
++});
++
++test('failed shape checks leave input mutable and repaired input can be copied later', () => {
++  const source = {child: {value: 1}};
++  Object.defineProperty(source, 'hidden', {value: 1, configurable: true});
++  assert.throws(() => freezeOwnedSnapshot(source), TypeError);
++  assert.equal(isImmutableSnapshot(source.child), false);
++  delete source.hidden;
++  source.child.value = 2;
++  const state = freezeOwnedSnapshot(source);
++  assert.equal(isImmutableSnapshot(state), true);
++  assert.equal(state.child.value, 2);
++  assert.equal(isImmutableSnapshot(source), false);
++  assert.equal(Object.isFrozen(source.child), false);
++});
++
++test('custom prototypes, symbol keys, hidden keys and reserved keys cannot be copied', () => {
++  const cases = [Object.create(null), Object.create({value: 1}), new Date(), new Map(), new Set(), new Uint8Array(), {value: NaN}, {value: undefined}, {value: 1n}, {value: () => {}}, {[Symbol('hidden')]: 1}, Object.defineProperty({}, 'hidden', {value: 1})];
++  for (const key of ['__proto__', 'prototype', 'constructor']) cases.push(Object.defineProperty({}, key, {value: 1, enumerable: true}));
++  for (const source of cases) {
++    assert.equal(isImmutableSnapshot(source), false);
++    assert.throws(() => freezeOwnedSnapshot(source), TypeError);
++    Object.freeze(source);
++    assert.equal(isImmutableSnapshot(source), false);
++    assert.throws(() => freezeOwnedSnapshot(source), TypeError);
++  }
++});
++
++test('sparse, extended and accessor arrays are rejected without invoking values', () => {
++  let reads = 0;
++  const accessor = [];
++  Object.defineProperty(accessor, '0', {enumerable: true, get() { reads++; return 1; }});
++  for (const source of [Array(2), Object.assign([1], {extra: 2}), accessor, Object.defineProperty([1], '0', {enumerable: false})]) {
++    assert.throws(() => freezeOwnedSnapshot(source), TypeError);
++    Object.freeze(source);
++    assert.equal(isImmutableSnapshot(source), false);
++    assert.throws(() => freezeOwnedSnapshot(source), TypeError);
++  }
++  assert.equal(reads, 0);
++});
++
++test('cycles are rejected both before and after external freezing', () => {
++  const root = {child: {value: 1}};
++  root.child.parent = root;
++  assert.equal(isImmutableSnapshot(root), false);
++  assert.throws(() => freezeOwnedSnapshot(root), TypeError);
++  assert.equal(Object.isFrozen(root.child), false);
++  shallow(root.child);
++  shallow(root);
++  assert.equal(isImmutableSnapshot(root), false);
++  assert.throws(() => freezeOwnedSnapshot(root), TypeError);
++  const array = [];
++  array.push(array);
++  shallow(array);
++  assert.equal(isImmutableSnapshot(array), false);
++  assert.throws(() => freezeOwnedSnapshot(array), TypeError);
++});
++
++test('over-deep trees and hostile inspection fail closed without stack overflow', () => {
++  const root = {}, nodes = [root];
++  let node = root;
++  for (let i = 0; i < 100; i++) nodes.push(node = node.child = {});
++  assert.equal(isImmutableSnapshot(root), false);
++  assert.throws(() => freezeOwnedSnapshot(root), TypeError);
++  assert.equal(Object.isFrozen(root), false);
++  nodes.reverse().forEach(Object.freeze);
++  assert.equal(isImmutableSnapshot(root), false);
++  assert.throws(() => freezeOwnedSnapshot(root), TypeError);
++  const hostile = new Proxy({}, {getPrototypeOf() { throw new Error('blocked inspection'); }});
++  assert.equal(isImmutableSnapshot(hostile), false);
++  assert.throws(() => freezeOwnedSnapshot(hostile), TypeError);
++});
++
++test('canonical provenance alone does not establish valid game or save data', () => {
++  const malformed = freezeOwnedSnapshot({world: {objectives: {wilderness_accepted: 9}}, forged: true});
++  assert.equal(isImmutableSnapshot(malformed), true);
++  assert.equal(validateWildernessProgress(malformed).ok, false);
++  assert.equal(malformed.world.objectives.wilderness_accepted, 9);
++});
++
++test('frozen Proxies with changing missing properties never become validation cache keys', () => {
++  let active = false, reads = 0;
++  const world = new Proxy(Object.freeze({objectives: Object.freeze({}), claimedRewards: Object.freeze([])}), {
++    get(target, key, receiver) {
++      if (key === 'region') { reads++; return active ? 'signal_wilderness' : 'ash_hamlet'; }
++      return Reflect.get(target, key, receiver);
++    },
++  });
++  const source = Object.freeze({world, inventory: Object.freeze({tools: Object.freeze([])})});
++  assert.equal(isImmutableSnapshot(source), false);
++  assert.deepEqual(validateWildernessProgress(source), {ok: true});
++  active = true;
++  assert.equal(validateWildernessProgress(source).code, 'INVALID_WILDERNESS_STATE');
++  const beforeCopy = reads, canonical = freezeOwnedSnapshot(source);
++  assert.equal(reads, beforeCopy, 'descriptor copying never calls missing-property get');
++  assert.notEqual(canonical, source);
++  assert.notEqual(canonical.world, world);
++  assert.equal(Object.hasOwn(canonical.world, 'region'), false);
++  assert.equal(canonical.world.region, undefined);
++  assert.equal(isImmutableSnapshot(canonical), true);
++  assert.equal(isImmutableSnapshot(source), false);
++  assert.deepEqual(validateWildernessProgress(canonical), {ok: true});
++  active = false;
++  assert.deepEqual(validateWildernessProgress(canonical), {ok: true});
++  active = true;
++  assert.equal(validateWildernessProgress(source).code, 'INVALID_WILDERNESS_STATE');
++});
++
++test('a Proxy wrapping a certified copy does not inherit its provenance', () => {
++  const canonical = freezeOwnedSnapshot(sample()), proxy = new Proxy(canonical, {});
++  assert.equal(isImmutableSnapshot(canonical), true);
++  assert.equal(isImmutableSnapshot(proxy), false);
++  const copy = freezeOwnedSnapshot(proxy);
++  assert.notEqual(copy, canonical);
++  assert.notEqual(copy, proxy);
++  assert.equal(isImmutableSnapshot(copy), true);
++  assert.deepEqual(copy, canonical);
++});
+--- /dev/null
++++ b/app/tests/wilderness-immutable-cache.test.mjs
+@@ -0,0 +1,75 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import {readFileSync} from 'node:fs';
++import {freezeOwnedSnapshot,isImmutableSnapshot} from '../src/immutable-snapshot.js';
++import {validateWildernessProgress,validateWildernessAncestry,wildernessEligible,wildernessClue} from '../src/wilderness.js';
++import {wildernessObjectView,wildernessPortalView,wildernessGuidance,wildernessElderView} from '../src/wilderness-presentation.js';
++import {WILDERNESS_LINKS} from '../src/wilderness-content.js';
++import {createBattle,stepBattle} from '../src/combat.js';
++import {mainImports} from './support/main-imports.mjs';
++import {W,stages} from './support/earned-wilderness-route.mjs';
++let earned;const route=()=>earned??=stages();
++const copy=structuredClone;
++const mainSource=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
++const cacheSource=mainSource.slice(mainSource.indexOf('function wildernessView('),mainSource.indexOf('function interactionCandidates('));
++const mainView=()=>new Function('deps',`const {${Object.keys(mainImports).join(',')}}=deps;${cacheSource};return wildernessView;`)(mainImports);
++const validation=s=>({progress:validateWildernessProgress(s),ancestry:validateWildernessAncestry(s),eligible:wildernessEligible(s),clue:wildernessClue(s)});
++const views=s=>({objects:W.objects.map(o=>wildernessObjectView(s,o)),portals:[...W.portals,...WILDERNESS_LINKS.ash_hamlet].map(o=>wildernessPortalView(s,o)),guidance:wildernessGuidance(s),elder:wildernessElderView(s,{revision:7})});
++for(const stage of ['before','accepted','entered','survey','anchor','chosen','evidence','finished'])test(`immutable ${stage}: complete validation and every view equal fresh mutable calls`,()=>{
++ const mutable=copy(route()[stage]),frozen=freezeOwnedSnapshot(copy(mutable)),before=JSON.stringify(frozen);
++ assert.deepEqual(validation(frozen),validation(mutable));assert.deepEqual(views(frozen),views(mutable));assert.deepEqual(validation(frozen),validation(copy(mutable)));assert.equal(JSON.stringify(frozen),before);
++});
++const corruptions={
++ objective:s=>s.world.objectives.wilderness_accepted=0,
++ receipt:s=>s.world.claimedRewards.splice(s.world.claimedRewards.indexOf('r12:w:accept'),1),
++ ancestry:s=>s.world.objectives.tomb_reported=0,
++ vitals:s=>s.vitals.hp=999999,
++ recovery:s=>s.recovery.lock=-1,
++ economy:s=>s.gold++,
++};
++for(const [label,mutate] of Object.entries(corruptions))test(`mutable ${label} edit invalidates previous valid decision on same identity`,()=>{
++ const s=copy(route().entered);assert.equal(validateWildernessProgress(s).ok,true);assert.equal(wildernessEligible(s),true);mutate(s);assert.equal(isImmutableSnapshot(s),false);assert.equal(validateWildernessProgress(s).ok,false);assert.equal(wildernessEligible(s),false);assert.deepEqual(validation(s),validation(copy(s)));
++});
++test('shallow-frozen root never reuses nested mutable validation or a main view',()=>{
++ const s=Object.freeze(copy(route().entered));assert.equal(isImmutableSnapshot(s),false);assert.equal(validateWildernessProgress(s).ok,true);const view=mainView(),p=W.portals[0];assert.equal(view(s,'portal',p.id).allowed,true);s.world.objectives.wilderness_accepted=0;assert.equal(validateWildernessProgress(s).ok,false);assert.equal(view(s,'portal',p.id).allowed,false);
++});
++test('mutable main view observes in-place portal eligibility and completed changes',()=>{
++ const s=copy(route().entered),view=mainView(),p=W.portals[0];assert.equal(view(s,'portal',p.id).allowed,true);s.world.lifeDown=true;s.vitals.hp=0;assert.deepEqual(view(s,'portal',p.id),wildernessPortalView(s,p));assert.equal(view(s,'portal',p.id).allowed,false);
++ const object=W.objects.find(o=>o.actionKind==='hook');assert.equal(view(s,'object',object.id).completed,false);s.world.objectives.wilderness_hook_taken=1;assert.deepEqual(view(s,'object',object.id),wildernessObjectView(s,object));assert.equal(view(s,'object',object.id).completed,true);
++});
++test('fully frozen malformed state still validates and failure results cannot poison later calls',()=>{
++ const badInput=copy(route().entered);badInput.gold++;const s=freezeOwnedSnapshot(badInput);assert.equal(isImmutableSnapshot(s),true);const bad=validateWildernessProgress(s);assert.equal(bad.ok,false);bad.ok=true;bad.code='FORGED';bad.reason='FORGED';assert.deepEqual(validateWildernessProgress(s),validateWildernessProgress(copy(s)));assert.equal(validateWildernessProgress(s).ok,false);
++ const valid=freezeOwnedSnapshot(copy(route().entered)),yes=validateWildernessAncestry(valid);yes.ok=false;yes.code='FORGED';assert.deepEqual(validateWildernessAncestry(valid),{ok:true});assert.notEqual(validateWildernessAncestry(valid),validateWildernessAncestry(valid));
++});
++test('same objective revision in different save/profile snapshots never shares decisions or views',()=>{
++ const a=freezeOwnedSnapshot(copy(route().entered)),changed=copy(a);changed.gold++;const b=freezeOwnedSnapshot(changed),view=mainView(),id=W.portals[0].id;assert.equal(a.world.objectives.wilderness_revision,b.world.objectives.wilderness_revision);assert.equal(validateWildernessProgress(a).ok,true);assert.equal(validateWildernessProgress(b).ok,false);assert.equal(view(a,'portal',id).allowed,true);assert.equal(view(b,'portal',id).allowed,false);assert.equal(view(a,'portal',id).allowed,true);
++});
++test('canonical immutable identity reuses validation without trusting arbitrary frozen proxies',()=>{
++ const s=freezeOwnedSnapshot(copy(route().entered));let inspections=0;const inspect=Object.getOwnPropertyDescriptors;
++ Object.getOwnPropertyDescriptors=value=>{if(value===s)inspections++;return inspect(value);};
++ try {assert.equal(validateWildernessProgress(s).ok,true);const count=inspections;assert.ok(count>0);assert.equal(validateWildernessProgress(s).ok,true);assert.equal(validateWildernessAncestry(s).ok,true);assert.equal(inspections,count,'same canonical immutable identity avoids repeated descriptor validation');}
++ finally {Object.getOwnPropertyDescriptors=inspect;}
++ const proxy=new Proxy(s,{});assert.equal(isImmutableSnapshot(proxy),false);assert.deepEqual(validateWildernessProgress(proxy),validateWildernessProgress(s));
++});
++test('missing optional property on frozen Proxy stays uncached and revalidates original semantics',()=>{
++ let region='ash_hamlet';const world=new Proxy(Object.freeze({objectives:Object.freeze({}),claimedRewards:Object.freeze([])}),{get(target,key){return key==='region'?region:Reflect.get(target,key);}});
++ const s=Object.freeze({world,inventory:Object.freeze({tools:Object.freeze([])})});assert.equal(isImmutableSnapshot(s),false);assert.equal(validateWildernessProgress(s).ok,true);region='signal_wilderness';assert.equal(validateWildernessProgress(s).ok,false);
++});
++for(const label of ['accessor','symbol','nonenumerable','custom-prototype','sparse','cycle'])test(`malformed ${label} is not certified and retains original rejection on repeated calls`,()=>{
++ const s=copy(route().entered);let reads=0;
++ if(label==='accessor')Object.defineProperty(s,'extra',{enumerable:true,get(){reads++;return 1;}});
++ if(label==='symbol')s[Symbol('extra')]=1;
++ if(label==='nonenumerable')Object.defineProperty(s,'extra',{value:1});
++ if(label==='custom-prototype')Object.setPrototypeOf(s,{extra:1});
++ if(label==='sparse')s.inventory.tools.length+=1;
++ if(label==='cycle')s.extra=s;
++ Object.freeze(s);assert.equal(isImmutableSnapshot(s),false);assert.equal(validateWildernessProgress(s).ok,false);assert.equal(validateWildernessProgress(s).ok,false);assert.equal(reads,0);
++});
++for(const stage of ['entered','chosen','approach','evidence'])for(const mode of ['idle','move','hammer'])test(`frozen ${stage}/${mode} simulation and RNG match mutable state`,()=>{
++ const mutable=copy(route()[stage]),frozen=freezeOwnedSnapshot(copy(mutable)),a=createBattle(mutable),b=createBattle(frozen),before=JSON.stringify(frozen);
++ for(let i=0;i<90;i++){
++  const input={move:mode==='move'?{x:i%40<20?1:-1,y:0}:{x:0,y:0},aim:{x:a.p.x+150,y:a.p.y},hammer:mode==='hammer'&&i%30===0,attack:i%24===0,block:i%18<4};
++  assert.deepEqual(stepBattle(a,mutable.character,1/60,input),stepBattle(b,frozen.character,1/60,copy(input)));
++ }
++ assert.deepEqual(JSON.parse(JSON.stringify(a)),JSON.parse(JSON.stringify(b)));assert.equal(a.seed,b.seed);assert.equal(a.combatDraws,b.combatDraws);assert.equal(a.fxSeed,b.fxSeed);assert.equal(JSON.stringify(frozen),before);
++});
+--- a/app/tests/profile-load-ownership.test.mjs
++++ b/app/tests/profile-load-ownership.test.mjs
+@@ -1,3 +1,4 @@
++import {isImmutableSnapshot} from '../src/immutable-snapshot.js';
+ import {createMainInputFixture,mainInputSource} from './support/main-input-fixture.mjs';
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+@@ -31,7 +32,7 @@
+  const delayedReads=new Set();
+  const createController=store=>{const owner=productionController(store);controllers.push(owner);const load=owner.load;owner.load=async()=>{const result=await load();if(!delayedReads.has(store.keys.head))return result;delayedReads.delete(store.keys.head);return new Promise((resolve,reject)=>loads.set(store.keys.head,{result,resolve,reject}));};return owner;};
+  const handlers={},calls=[],elements={hud:{hidden:true},toast:{textContent:''},profile:{value:a},sourceProfile:{value:'qa-copy-source'},sourceNamespace:{value:'qa-r10'},difficulty:{value:'normal'},newControlsPreset:{value:'unchanged'}},modal={hidden:false,innerHTML:'initial title',presentationEpoch:0,querySelector:()=>({focus(){}})},expertCapture=createExpertInputCapture(),expertSafety=createActionSafety({capture:expertCapture,cancel:cancelBattleAction});
+- const env={...createMainInputFixture(),createSession,createController,createBattle,clearBattleIntent,battleReport,copyReleaseQaProfile,editableTarget,controller:null,profile:null,state:null,battle:null,paused:true,busy:false,localStorage:storage,navigator:{locks},saveNamespace:namespace,candidate:true,gate:createRuntimeGate(),modal,
++ const env={...createMainInputFixture(),createSession,createController,createBattle,clearBattleIntent,battleReport,copyReleaseQaProfile,editableTarget,canvas:{focus(){}},controller:null,profile:null,state:null,battle:null,paused:true,busy:false,localStorage:storage,navigator:{locks},saveNamespace:namespace,candidate:true,gate:createRuntimeGate(),modal,
+   suppressNextClick:false,document:{addEventListener:(name,handler)=>handlers[name]=handler},window:{addEventListener:(name,handler)=>handlers[name]=handler},captureBinding:null,expertSafety,expertCapture,deferredImmediate:{clear(){}},router:createInputRouter(),config:()=>{throw new Error('title keyboard must remain modal-owned');},input:{aim:null,pointerScreen:null},noticeUntil:0,displayTime:0,combatTime:0,menuTime:0,walkTime:0,arrivalWaitTime:0,
+   $:id=>elements[id],audio:{cancel(){},pause:v=>calls.push(['pause',v]),setMasterVolume:v=>calls.push(['volume',v]),setEnabled:v=>calls.push(['enabled',v])},toast:text=>calls.push(['toast',text]),keyName:()=> 'F',updateHud:()=>calls.push(['hud'])};
+  const names=['clearInput','panel','closePanel','immediateAction','loadProfile','showDeath','showTitle','syncAudioOptions','report'];
+@@ -164,3 +165,10 @@
+  assert.equal(h.ui.profile,b);assert.deepEqual(h.ui.state,savedB);assert.deepEqual(h.store(b).load(),beforeB);for(const [key,value]of bytesB)assert.equal(h.data.get(key),value);
+  assert.equal(h.store(a).load().revision,2);assert.equal(h.store(a).load().state.options.controls.version,4);
+ });
++
++test('main owns frozen load/reload/profile snapshots while controller snapshots stay independent mutable copies',async()=>{
++ const h=harness(),savedA=seed(h,a),savedB=seed(h,b,createState({difficulty:'hard'})),immutable=isImmutableSnapshot;
++ await h.ui.loadProfile(a,false);const old=h.ui.state;assert.equal(immutable(old),true);assert.equal(Object.isFrozen(h.ui.controller.snapshot()),false);const external=h.ui.controller.snapshot();external.vitals.hp=1;assert.deepEqual(h.ui.state,savedA);
++ await h.click('reload');assert.equal(immutable(h.ui.state),true);assert.notEqual(h.ui.state,old);assert.deepEqual(h.ui.state,savedA);
++ await h.ui.loadProfile(b,false);assert.equal(immutable(h.ui.state),true);assert.notEqual(h.ui.state,old);assert.deepEqual(h.ui.state,savedB);assert.deepEqual(old,savedA);assert.deepEqual(h.store(a).load().state,savedA);
++});
+--- a/app/tests/expert-main-input.test.mjs
++++ b/app/tests/expert-main-input.test.mjs
+@@ -1,3 +1,4 @@
++import {isImmutableSnapshot} from '../src/immutable-snapshot.js';
+ import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import vm from 'node:vm';
+ import {earnedTombRoute} from './support/earned-tomb-route.mjs';import {report} from './support/earned-route.mjs';
+ const source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8'),imports={};
+@@ -491,3 +492,8 @@
+ test('R14a15 actual failed render retains incomplete frame evidence and existing recovery panel',async()=>{
+  const h=await ui({poeMode:'wasd',renderDuration:1});h.frameObservation.setEnabled(true);await h.frameAt(100);h.boundaries.renderer.render=()=>{throw Error('synthetic render failure');};const errors=[];h.boundaries.console.error=e=>errors.push(e);await h.frameAt(701);const row=h.frameObservation.snapshot().stallDiagnostics.incidents[0].current;assert.equal(row.workStatus,'failed');assert.equal(row.phaseStatus.render,'incomplete');assert.equal(row.totalMs,null);assert.equal(row.otherMs,null);assert.equal(errors.length,1);assert.equal(h.gate.blocked,true);assert.match(h.modal.innerHTML,/data-action="reload"/);
+ });
++
++test('actual committed main snapshot freezes only its owned copy across checkpoint controls rest and save failure',async()=>{
++ const h=await ui(),immutable=isImmutableSnapshot;assert.equal(await h.app.dispatch({type:'checkpoint',...h.app.report()}),true);const first=h.app.state;assert.equal(immutable(first),true);const copied=h.app.controller.snapshot();assert.equal(Object.isFrozen(copied),false);copied.gold=0;assert.notEqual(h.app.state.gold,copied.gold);
++ const controls=structuredClone(h.app.state.options.controls);assert.equal(await h.app.dispatch({type:'setControls',controls}),true);assert.equal(immutable(h.app.state),true);assert.notEqual(h.app.state,first);assert.equal(await h.app.dispatch({type:'rest',position:imports.getRegion('ash_hamlet').npcs.find(n=>n.id==='healer')}),true);assert.equal(immutable(h.app.state),true);const before=h.app.state;h.fail();assert.equal(await h.app.dispatch({type:'checkpoint',...h.app.report()}),false);assert.equal(h.app.state,before);assert.deepEqual(h.store.load().state,before);
++});

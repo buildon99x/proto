@@ -1,0 +1,98 @@
+{
+  "build": "R14a16",
+  "version": "0.14.0-reimplementation.16",
+  "atUtc": "2026-10-11T13:51:00.333167+00:00",
+  "status": "frozen and ready for coordinator integration/review; native AX verification pending",
+  "baseline": "independent frozen R14a15",
+  "uniqueTests": 4378,
+  "passed": 4378,
+  "failed": 0,
+  "skipped": 0,
+  "cancelled": 0,
+  "durationMs": 125860.077012,
+  "newUniqueTests": 18,
+  "newTestsByScope": {
+    "dialogHandlers": 7,
+    "backgroundHelper": 4,
+    "realMainAndStore": 6,
+    "aliveProfileLoad": 1
+  },
+  "baselineNewCases": {
+    "total": 18,
+    "failed": 17,
+    "passed": 1,
+    "alreadyPassingCase": "Normal retry preservation was already correct; the patch must not change it.",
+    "log": "red-final.log",
+    "strengthenedNegativeControl": "Stale action baseline now fails on actual first menu escape, before any absent fixture dependency."
+  },
+  "focusedBoundaries": {
+    "passed": 135,
+    "log": "focused-boundaries.log"
+  },
+  "initialAggregate": {
+    "tests": 4378,
+    "passed": 4372,
+    "failed": 6,
+    "log": "initial-full-tests.log",
+    "correction": "Legacy modal.contains boundaries added, intentional earlier stale-dead rejection asserted as zero dispatch with existing state/reward invariants retained, and partial-state world optional read made safe."
+  },
+  "preStrengtheningAggregate": {
+    "tests": 4378,
+    "passed": 4378,
+    "log": "pre-strengthening-full-tests.log"
+  },
+  "finalFullLog": "full-tests.log",
+  "lint": "passed",
+  "appBuild": "passed",
+  "buildFiles": 124,
+  "buildBytes": 16739473,
+  "builtSourceHashesVerified": 123,
+  "sourcePreservation": {
+    "baseline": "frozen R14a15 independent candidate",
+    "frozenBaselineEntriesUnchanged": 366,
+    "sourceFilesTotal": 125,
+    "sourceFilesUnchanged": 121,
+    "sourceFilesChanged": [
+      "app/src/dialog-focus.js",
+      "app/src/index.html",
+      "app/src/main.js",
+      "app/src/recovery-page.js"
+    ],
+    "frameFunctionThroughEndOfFileByteIdentical": true,
+    "frameObserverByteIdentical": true,
+    "modelModulesAllByteIdentical": true,
+    "assetsByteIdentical": true,
+    "assetCount": 14,
+    "buildFiles": 124,
+    "buildBytes": 16739473,
+    "builtSourceHashesVerified": 123,
+    "mainSha256": "5aff3ad2e3f74b5fae03b7fd8670dc7d8d045f51584d0ba9bb627379124f0c50",
+    "dialogFocusSha256": "de3b1e79f96f6d53de62d7fb8590ca5107f6b47972ba11ffbaf36f191b445e8c",
+    "buildManifestSha256": "bf3960861bffe8dab186e24e655946966317dcb8078c131f09f0e5e99c3cc6fb"
+  },
+  "staticReview": {
+    "blockingIssues": 0,
+    "evidence": "static-review.md",
+    "independentFocusedCases": 18,
+    "sourceHash": "5aff3ad2e3f74b5fae03b7fd8670dc7d8d045f51584d0ba9bb627379124f0c50"
+  },
+  "change": "Death-time menu and stale action/settings containment; background HUD/canvas inert+aria-hidden lifecycle; optional read-only death frame view; modal-owned accessible notices.",
+  "unchanged": "Frame loop and frame observer, scene/model logic, rendering/audio, death/retry/save rules, timing guards, original assets.",
+  "patch": {
+    "path": "code-and-tests.patch",
+    "bytes": 99065,
+    "sha256": "b3d5cd0f0bd4afefc776b562c4fa60731caeb189b1283ea28216e00337533f6c",
+    "separateA15CopyApplied": true,
+    "resultFilesByteIdentical": 22
+  },
+  "gitWritten": false,
+  "sitePublished": false,
+  "libraryArchived": false,
+  "nativeBrowserA16": "not performed by this worker",
+  "remaining": [
+    "Native AX confirms background HUD/menu/canvas absent while death/game dialog open",
+    "Native Tab/Shift+Tab, Escape protection, read-only death QA return and successful Retry focus",
+    "Coordinator-owned integration with separate scene optimization, full integrated tests, backup/Git/publication as authorized"
+  ],
+  "integrationNote": "loadProfile successful state-receive line also adds setDialogBackground(modal,false) after modal.hidden=true; retain this when merging freezeOwnedSnapshot. dispatch/reload state reception remains otherwise untouched."
+}

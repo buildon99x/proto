@@ -94,3 +94,17 @@ Final a14 automatic verification: 4,338/4,338 tests (4,312 prior + 26 new), zero
 - Retain the last 12 strict >500ms incident pairs across menus and new active segments; display six in the existing optional QA panel. Include previous/current rAF and runtime reference, callback start/end, per-phase costs, residual and focus/visibility state.
 - Add guarded, nonoverlapping synchronous phase probes for scene, audio.tick, safety, event/save entry and input/aim. No stall/performance fix or browser acceptance claimed.
 - Add 13 observer and 9 actual-main regressions with pre-change failures; protect runtime 500/501ms boundary, cancellation, save/gameplay parity, clock rejection, bounded retention and read-only UI.
+
+
+## R14a16 — death-overlay accessibility containment
+- Block death-time menu entry and stale dead/background menu/settings actions.
+- Apply and restore original HUD/canvas inert and aria-hidden around game dialogs, preserving nested focus ownership and direct alive profile loads.
+- Provide optional read-only death frame observations with refresh and back-to-death, and mirror notices inside dialog status for accessible Retry/Reload failure feedback.
+- Preserve all death/normal retry/save models and a15 frame-loop/scene/observer calculations. No native AX acceptance or stall resolution claimed.
+
+## R14a17 — canonical snapshot scene validation cache + a16 containment
+- Integrated the a16 death/background-AX and read-only postmortem observation patch.
+- Retained exact wilderness validator bodies; reused results only for detached canonical immutable copies built at main's three validated snapshot-receive boundaries.
+- Preserved mutable/external frozen/Proxy reevaluation and protected internal cached results from caller mutation. Main view caching uses the same provenance boundary.
+- Same-fixture Node cold scene medians169–183ms→10.6–14.7ms, including copy cost; warm medians remain comparable. This measures an established redundant computation path, not native browser stall resolution.
+- New trust/mutation/profile/save/view/RNG checks and negative controls; final aggregate, lint/build and remaining browser gates in docs/verification-r14a17.

@@ -1,0 +1,26 @@
+✔ R14a16 actual alive profile load removes existing dialog background blockers without changing saved state (30.219671ms)
+✔ R14a16 background helper blocks both HUD and canvas and restores missing aria-hidden exactly (1.657013ms)
+✔ R14a16 nested background locks preserve original inert and false/true aria values (14.131531ms)
+✔ R14a16 separate modal owners cannot restore one another background snapshots (0.252876ms)
+✔ R14a16 missing DOM boundaries are harmless and the modal or its ancestor is never hidden (0.198195ms)
+✔ R14a16 actual HUD menu handler and showMenu reject lifeDown death without changing modal or checkpoint (138.890958ms)
+✔ R14a16 actual HUD menu handler and showMenu reject dead death without changing modal or checkpoint (79.841185ms)
+✔ R14a16 actual HUD menu handler and showMenu reject hp death without changing modal or checkpoint (85.782685ms)
+✔ R14a16 actual modal blocks HUD and canvas AX/focus until normal close restores their previous state (91.794203ms)
+✔ R14a16 actual HUD menu handler ignores background activation behind any open dialog (77.461743ms)
+✔ R14a16 actual death QA has read-only return route and cannot resume, toggle, clear or enter full menu (83.117472ms)
+✔ R14a16 death panel exposes no diagnostic button while recording is OFF (75.077529ms)
+✔ R14a16 real saved death QA remains read-only and returns to normal retry (3964.34437ms)
+✔ R14a16 real retry unblocks background, clears only established transient records and increments life once (393.728288ms)
+✔ R14a16 real recoverable retry failure is visible in modal status and leaves save, focus ownership and retry intact (489.514887ms)
+✔ R14a16 pending retry failure stays accessible after opening death diagnostics (552.184679ms)
+✔ R14a16 uncertain retry keeps Reload authoritative, reload failure accessible, and dead reload restores retry (477.842781ms)
+✔ R14a16 stale dead settings/menu/save actions never mutate real saved state (328.108762ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6800.539785

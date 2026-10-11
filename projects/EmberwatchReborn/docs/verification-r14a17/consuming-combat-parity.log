@@ -1,0 +1,93 @@
+{
+  "kind": "Separate consuming combat boundary parity, unchanged production engine a15 vs a17 canonical-copy state.",
+  "fixtureSource": "app/tests/combat-presentation-integration.test.mjs",
+  "normalPlay": false,
+  "lootRngCovered": false,
+  "pairs": [
+    {
+      "hz": 30,
+      "skill": "attack",
+      "frames": 60,
+      "initialSeed": 1369781,
+      "finalSeed": 2459796143,
+      "combatDrawsConsumed": 2,
+      "combatRandomEvents": 2,
+      "positiveDamageHits": 1,
+      "defeatedEvents": 1,
+      "modelSha256": "395c886ff93b58748ab02bbbdfb4c559e69563038deade112486d5627909e12c",
+      "eventsSha256": "0cf9e94c107ad5dbe42cc03575ba9add0fdb7deb8b244e6fd1eb6081b64e201f"
+    },
+    {
+      "hz": 30,
+      "skill": "hammer",
+      "frames": 60,
+      "initialSeed": 1369781,
+      "finalSeed": 420989072,
+      "combatDrawsConsumed": 1,
+      "combatRandomEvents": 1,
+      "positiveDamageHits": 1,
+      "defeatedEvents": 1,
+      "modelSha256": "bcde1d4b8c7a9a68aad3a0a4fbb08729d98e8b9dc13c715a8a92661e47e85d69",
+      "eventsSha256": "849ac97a86bfa9284f2b520645c4dc93e87326007f0689f5496879ef110be7e3"
+    },
+    {
+      "hz": 60,
+      "skill": "attack",
+      "frames": 120,
+      "initialSeed": 1369781,
+      "finalSeed": 2459796143,
+      "combatDrawsConsumed": 2,
+      "combatRandomEvents": 2,
+      "positiveDamageHits": 1,
+      "defeatedEvents": 1,
+      "modelSha256": "3a6b4a7219f7c235b29ed0ce695a339b4f730c889a0636997021dca923eedb3b",
+      "eventsSha256": "0cf9e94c107ad5dbe42cc03575ba9add0fdb7deb8b244e6fd1eb6081b64e201f"
+    },
+    {
+      "hz": 60,
+      "skill": "hammer",
+      "frames": 120,
+      "initialSeed": 1369781,
+      "finalSeed": 420989072,
+      "combatDrawsConsumed": 1,
+      "combatRandomEvents": 1,
+      "positiveDamageHits": 1,
+      "defeatedEvents": 1,
+      "modelSha256": "3bc0fc3751e584980ea0fae984e43a43deaa32954ed1a7b564a3c8666b963b2b",
+      "eventsSha256": "849ac97a86bfa9284f2b520645c4dc93e87326007f0689f5496879ef110be7e3"
+    },
+    {
+      "hz": 120,
+      "skill": "attack",
+      "frames": 240,
+      "initialSeed": 1369781,
+      "finalSeed": 2459796143,
+      "combatDrawsConsumed": 2,
+      "combatRandomEvents": 2,
+      "positiveDamageHits": 1,
+      "defeatedEvents": 1,
+      "modelSha256": "d5b69efca0401e8c1aa05540f048f0777e056da8e1b2ceb7521bb7074aa26094",
+      "eventsSha256": "0cf9e94c107ad5dbe42cc03575ba9add0fdb7deb8b244e6fd1eb6081b64e201f"
+    },
+    {
+      "hz": 120,
+      "skill": "hammer",
+      "frames": 240,
+      "initialSeed": 1369781,
+      "finalSeed": 420989072,
+      "combatDrawsConsumed": 1,
+      "combatRandomEvents": 1,
+      "positiveDamageHits": 1,
+      "defeatedEvents": 1,
+      "modelSha256": "1e64eeb19377d7158cbf5f001ad502cd9de29f57b43abb355df01317e05eb85c",
+      "eventsSha256": "849ac97a86bfa9284f2b520645c4dc93e87326007f0689f5496879ef110be7e3"
+    }
+  ],
+  "limits": [
+    "Synthetic close-target fixture; no native input or browser acceptance.",
+    "No loot RNG or broad gameplay coverage is claimed.",
+    "Separate from wilderness view-output equivalence and earlier zero-draw simulations."
+  ],
+  "ok": true,
+  "combatDrawsConsumed": 9
+}

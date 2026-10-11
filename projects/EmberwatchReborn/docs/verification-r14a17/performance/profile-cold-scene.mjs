@@ -1,0 +1,13 @@
+import {readFileSync} from 'node:fs';
+import assert from 'node:assert/strict';
+const root='/workspace/shared/emberwatch-frame-stall-diagnostics/app/';
+const {mainImports}=await import(root+'tests/support/main-imports.mjs');
+const source=readFileSync(root+'src/main.js','utf8');
+const cache=source.slice(source.indexOf('function wildernessView('),source.indexOf('function interactionCandidates('));
+const start=source.indexOf('   const sceneVisibility=wildernessSceneVisibility('),end=source.indexOf("   if(frameObservation.enabled)frameObservation.endPhase('scene');",start);
+assert.ok(start>0&&end>start);
+const run=new Function('deps',`const {${Object.keys(mainImports).join(',')}}=deps;\n${cache}\nreturn function(state,battle) {const contactTrace={enabled:false},qaStepped=false,qaMove=null;\n${source.slice(start,end)}\nreturn objects;}`)(mainImports);
+const stages=JSON.parse(readFileSync('/workspace/shared/r14a15-scene-cost-audit/earned-scene-fixtures.json','utf8'));
+const states=Array.from({length:40},()=>structuredClone(stages.entered)),battle=mainImports.createBattle(stages.entered);
+let n=0;for(const state of states)n+=run(state,battle).length;
+console.log(JSON.stringify({coldSceneCalls:40,outputObjects:n,limitation:'Node CPU sampling includes startup/import/fixture preparation. Filter scene call ancestry; no native-browser profile.'}));

@@ -1,0 +1,14 @@
+✔ actual cover death/retry and saved reentry retain partial earned stage and prohibit stale rewards (1180.958001ms)
+✔ actual channel death/retry and saved reentry retain partial earned stage and prohibit stale rewards (819.181695ms)
+✔ actual dead carry save shows retry, cannot manipulate T, and preserves relay progress after retry and return (1753.36789ms)
+✔ actual dead report snapshot cannot pay the commission even if its old Eda button is replayed (254.990013ms)
+✔ real recovery handlers cannot replace gameplay or mutate saves from stale UI events (11.113796ms)
+✔ W journal prefix, paid recovery and receipts survive real reload; dead retry carries a fresh captured store token (3634.235145ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3873.237484

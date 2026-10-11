@@ -43,7 +43,7 @@ async function ui({version=4,run='combined',dead=false,emptyPotions=false}={}){
  const elements=new Map(),$=id=>{if(!elements.has(id))elements.set(id,node());return elements.get(id);};
  const buttons=Object.fromEntries([...combatActions,'potion'].map(action=>[action,{...node(),dataset:action==='potion'?{action}:{combat:action}}]));
  $('hotbar').querySelector=selector=>buttons[/data-(?:combat|action)="([^"]+)"/.exec(selector)?.[1]]??null;
- const wh={},dh={},canvas={...node(),tagName:'CANVAS',width:1000,height:700,getBoundingClientRect:()=>({left:0,top:0})},modal={...node(),hidden:true,presentationEpoch:0};
+ const wh={},dh={},canvas={...node(),tagName:'CANVAS',width:1000,height:700,getBoundingClientRect:()=>({left:0,top:0})},modal={...node(),hidden:true,presentationEpoch:0,contains(target){return !!target?.dataset?.action&&this.innerHTML.includes('data-action="'+target.dataset.action+'"');}};
  const document={hidden:false,visibilityState:'visible',hasFocus:()=>true,addEventListener:(name,fn)=>dh[name]=fn,querySelectorAll:selector=>selector==='[data-combat]'?combatActions.map(action=>buttons[action]):[]};
  const env={...imports,controller,state:controller.snapshot(),battle:imports.createBattle(state),$,canvas,modal,document,window:{addEventListener:(name,fn)=>wh[name]=fn},router:imports.createInputRouter({captureAttackTap:true}),expertSafety:null,gate:imports.createRuntimeGate(),deferredImmediate:imports.createImmediateInput(),
   paused:false,busy:false,captureBinding:null,suppressNextClick:false,combatSaveElapsed:0,noticeUntil:0,lastObjectiveHtml:'',last:0,saveNamespace:'qa-r14',candidate:true,focusEvents:{},
