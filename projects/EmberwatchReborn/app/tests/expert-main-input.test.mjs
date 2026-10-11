@@ -10,25 +10,25 @@ const next=()=>new Promise(r=>setImmediate(r));
 // Actual production frame, browser event handlers, safety coordinator and store.
 // DOM/render/audio boundaries are probes. Earned predecessor travel/defeats are
 // scripted fixtures, not native key/browser gameplay or pixel/quality evidence.
-async function ui({promoted=true,skills=[],poeMode=null,runMode='combined',realInteractions=false}={}){
+async function ui({promoted=true,skills=[],poeMode=null,runMode='combined',realInteractions=false,audioResult=false,renderDuration=0,realNotice=false,candidate=true}={}){
  let s=promoted?fixture():earnedTombRoute('normal',{full:true});
  for(const skillId of skills){const r=reduceRuntime(s,{type:'purchaseSkill',skillId,position:{x:260,y:325}});assert.equal(r.ok,true,skillId);s=r.state;}
  if(poeMode)s=reduceRuntime(s,{type:'setControls',controls:imports.poeControlPreset(s.options.controls,poeMode,runMode)}).state;
  const data=new Map(),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)},store=createStore(storage,{profile:'qa-r11-main-input'});assert.equal(store.save(s,{expectedRevision:0}).ok,true);let delayed=false,pending=null,failure=null;
  const controller=imports.createController({load:store.load,save:(s,o)=>{if(failure){const r=failure;failure=null;return r;}if(delayed){delayed=false;return new Promise(resolve=>pending=(result)=>resolve(result??store.save(s,o)));}return store.save(s,o);}});assert.equal((await controller.load()).ok,true);
- const wh={},dh={},ch={},buttons={},toasts=[],rendered=[];const el=()=>({addEventListener(){},innerHTML:'',textContent:'',hidden:false,style:{},attributes:{},setAttribute(name,value){this.attributes[name]=value;},classList:{add(){},remove(){},toggle(){}},querySelector:()=>null});const elements=new Map();const $=id=>{if(!elements.has(id))elements.set(id,el());return elements.get(id);};
+ const wh={},dh={},ch={},buttons={},toasts=[],rendered=[],renderClocks=[],audioRequests=[];const el=()=>{const classes=new Set();return {addEventListener(){},innerHTML:'',textContent:'',hidden:false,style:{},attributes:{},setAttribute(name,value){this.attributes[name]=value;},classList:{add(name){classes.add(name);},remove(name){classes.delete(name);},toggle(name){classes.has(name)?classes.delete(name):classes.add(name);},contains:name=>classes.has(name)},querySelector:()=>null};};const elements=new Map();const $=id=>{if(!elements.has(id))elements.set(id,el());return elements.get(id);};
  const modal={...el(),hidden:true,presentationEpoch:0,querySelector:()=>({focus(){}})},canvas={tagName:'CANVAS',width:1000,height:700,focus(){},setPointerCapture(){},getBoundingClientRect:()=>({left:0,top:0}),addEventListener:(n,f)=>ch[n]=f};
  for(const action of ['attack','hammer','charge','block','heal','judgement','expert1','expert2','dodgeSprint','dodgeOnly','sprint'])buttons[action]={...el(),dataset:{combat:action},handlers:{},setPointerCapture(){},addEventListener(n,f){this.handlers[n]=f;}};
  $('hotbar').querySelector=selector=>buttons[/data-combat="([^"]+)"/.exec(selector)?.[1]]??null;
  const document={hidden:false,visibilityState:'visible',hasFocus:()=>true,addEventListener:(n,f)=>dh[n]=f,querySelectorAll:q=>q==='[data-combat]'?Object.values(buttons):[]};
  const router=imports.createInputRouter({captureAttackTap:true,now:()=>now}),expertCapture=imports.createExpertInputCapture(),skillCapture=imports.createSkillLoadoutInput({now:()=>now}),allSkillCapture={clear(reason){expertCapture.clear(reason);skillCapture.clear(reason);},reset(options){expertCapture.reset(options);skillCapture.reset(options);}},expertSafety=imports.createActionSafety({capture:allSkillCapture,cancel:imports.cancelBattleAction}),gate=imports.createRuntimeGate();
- const env={...imports,state:controller.snapshot(),battle:imports.createBattle(s),controller,router,expertCapture,skillCapture,expertSafety,gate,modal,canvas,document,window:{addEventListener:(n,f)=>wh[n]=f},$,paused:false,busy:false,captureBinding:null,suppressNextClick:false,combatSaveElapsed:0,contextClick:imports.createContextClickIntent(),contextSuppressHeld:false,releasedAimBySkill:{},locomotionIntent:imports.createLocomotionIntent(),poeFeedback:imports.createPoeFeedback(),inputFeedback:null,inputLatency:imports.createInputLatency({now:()=>now}),deferredImmediate:imports.createImmediateInput(),input:{pointerScreen:null},last:0,hudTimer:0,displayTime:0,combatTime:0,walkTime:0,menuTime:0,arrivalWaitTime:0,noticeUntil:0,lastObjectiveHtml:'',profile:'qa-r11-main-input',candidate:true,saveNamespace:'qa-r11',focusEvents:{},pauseReason:'',
- ctx:{save(){},restore(){},beginPath(){},moveTo(){},lineTo(){},stroke(){}},renderer:{render:r=>rendered.push(r)},drawLabels(){},audio:{play(){},pause(){},tick(){}},requestAnimationFrame(){},toast:t=>toasts.push(t),interact:()=>toasts.push('INTERACT'),applyBinding(){},showControls(){},showDeath(){},performance:{now:()=>now},console:{error(error){throw error;}}};
- const funcs=[...(realInteractions?['interact']:[]),'wildernessView','interactionCandidates','contextSceneVisibility','contextProjection','contextIsVisible','contextHasLabel','beginContextOrGroundClick','stepContextClick','showSkillSlots','flushDeferredSkills','showInputObservations','showControls','beginBinding','applyBinding','updateHud','effectText','checkpointPanel','showTraining','showActionSlots','showNpc','nearest','showInputFeedback','clearInputFeedback','clearInput','flushActionSafety','acceptCombatPress','currentPoeAim','sampledCombatInput','deliverCombatEvents','flushFreshCombatInput','releaseCombatToken','panel','closePanel','report','syncVitals','dispatch','immediateAction','showMenu','frame'];
- const program=[cut('const actionSkill=','const tierLabel='),cut('const esc=','function clearInput('),cut('const config=','let controller='),cut('const tierLabel=','const focusEvents='),...funcs.map(fn),cut("document.addEventListener('click',","document.addEventListener('change',"),cut("document.addEventListener('change',","$('menuButton').onclick"),cut("window.addEventListener('keydown'","function resize("),`return {frame,interactionCandidates,contextProjection,get contextClick(){return contextClick},showControls,showSkillSlots,showInputObservations,closePanel,updateHud,clearInput,sampledCombatInput,flushActionSafety,dispatch,report,showTraining,showActionSlots,get inputObservations(){return inputLatency.snapshot()},get state(){return state},get battle(){return battle},get busy(){return busy},get paused(){return paused},get capture(){return expertCapture},get gate(){return gate},get controller(){return controller}};`].join('\n');
+ const env={...imports,state:controller.snapshot(),battle:imports.createBattle(s),controller,router,expertCapture,skillCapture,expertSafety,gate,modal,canvas,document,window:{addEventListener:(n,f)=>wh[n]=f},$,paused:false,busy:false,captureBinding:null,suppressNextClick:false,combatSaveElapsed:0,contextClick:imports.createContextClickIntent(),contextSuppressHeld:false,releasedAimBySkill:{},locomotionIntent:imports.createLocomotionIntent(),poeFeedback:imports.createPoeFeedback(),inputFeedback:null,inputLatency:imports.createInputLatency({now:()=>now}),contactTrace:imports.createContactTrace(),frameObservation:imports.createFrameObservation({now:()=>now}),deferredImmediate:imports.createImmediateInput(),input:{pointerScreen:null},last:0,hudTimer:0,displayTime:0,combatTime:0,walkTime:0,menuTime:0,arrivalWaitTime:0,noticeUntil:0,lastObjectiveHtml:'',profile:'qa-r11-main-input',candidate,saveNamespace:'qa-r11',focusEvents:{},pauseReason:'',
+ ctx:{save(){},restore(){},beginPath(){},moveTo(){},lineTo(){},stroke(){},closePath(){},setLineDash(){},fillText(){}},renderer:{render:r=>{renderClocks.push({at:now,observations:env.inputLatency.snapshot()});rendered.push(r);now+=renderDuration;}},drawLabels(){},audio:{play(...args){audioRequests.push({args,at:now});return audioResult;},pause(){},tick(){}},requestAnimationFrame(){},toast:t=>toasts.push(t),interact:()=>toasts.push('INTERACT'),applyBinding(){},showControls(){},showDeath(){},performance:{now:()=>now},console:{error(error){throw error;}}};
+ const funcs=[...(realNotice?['toast','showDeath']:[]),...(realInteractions?['interact']:[]),'wildernessView','interactionCandidates','contextSceneVisibility','contextProjection','contextIsVisible','contextHasLabel','beginContextOrGroundClick','stepContextClick','showSkillSlots','flushDeferredSkills','showInputObservations','showQaObservations','showControls','beginBinding','applyBinding','updateHud','effectText','checkpointPanel','showTraining','showActionSlots','showNpc','nearest','showInputFeedback','clearInputFeedback','clearInput','flushActionSafety','acceptCombatPress','currentPoeAim','sampledCombatInput','deliverCombatEvents','flushFreshCombatInput','releaseCombatToken','panel','closePanel','report','syncVitals','dispatch','immediateAction','showMenu','frame'];
+ const program=[cut('const actionSkill=','const tierLabel='),cut('const esc=','function clearInput('),cut('const config=','let controller='),cut('const tierLabel=','const focusEvents='),...funcs.map(fn),cut("document.addEventListener('click',","document.addEventListener('change',"),cut("document.addEventListener('change',","$('menuButton').onclick"),cut("window.addEventListener('keydown'","function resize("),`return {frame,toast,showDeath,get noticeUntil(){return noticeUntil},deliverCombatEvents,interactionCandidates,contextProjection,get contextClick(){return contextClick},showControls,showSkillSlots,showInputObservations,closePanel,updateHud,clearInput,sampledCombatInput,flushActionSafety,dispatch,report,showTraining,showActionSlots,get inputObservations(){return inputLatency.snapshot()},get state(){return state},get battle(){return battle},get busy(){return busy},get paused(){return paused},get capture(){return expertCapture},get gate(){return gate},get controller(){return controller}};`].join('\n');
  const app=new Function(...Object.keys(env),program)(...Object.values(env));let now=0;
  const event=(code,extra={})=>({code,target:canvas,preventDefault(){},stopImmediatePropagation(){},repeat:false,ctrlKey:false,altKey:false,metaKey:false,...extra});
- return {app,router,expertCapture,skillCapture,expertSafety,gate,modal,document,buttons,ch,wh,dh,toasts,async click(action,fields={}){const target={dataset:{action,...fields},disabled:false};return dh.click({target:{closest:()=>target},detail:1,preventDefault(){},stopPropagation(){}});},rendered,store,data,key:(code,extra)=>wh.keydown(event(code,extra)),up:code=>wh.keyup(event(code)),async frame(dt=.016){now+=dt*1000;app.frame(now);await next();},delay(){delayed=true;},fail(){failure={ok:false,code:'QUOTA',reason:'fixture'};},async finish(failed=false){pending(failed?{ok:false,code:"QUOTA",reason:"fixture"}:undefined);pending=null;await next();}};
+ return {app,contactTrace:env.contactTrace,frameObservation:env.frameObservation,notice:$('toast'),router,expertCapture,skillCapture,expertSafety,gate,modal,document,buttons,ch,wh,dh,toasts,async click(action,fields={}){const target={dataset:{action,...fields},disabled:false};return dh.click({target:{closest:()=>target},detail:1,preventDefault(){},stopPropagation(){}});},rendered,renderClocks,audioRequests,store,data,key:(code,extra)=>wh.keydown(event(code,extra)),up:code=>wh.keyup(event(code)),async frame(dt=.016){now+=dt*1000;app.frame(now);await next();},delay(){delayed=true;},fail(){failure={ok:false,code:'QUOTA',reason:'fixture'};},async finish(failed=false){pending(failed?{ok:false,code:"QUOTA",reason:"fixture"}:undefined);pending=null;await next();}};
 }
 test('real key press/frame/checkpoint charges Onslaught once; OS repeat/hold does not restart',async()=>{const h=await ui(),start=h.app.battle.p.stamina;h.key('Digit2');await h.frame();assert.equal(h.app.battle.p.action.id,'zealous_onslaught');assert.equal(h.app.battle.p.stamina,start-9);assert.equal(h.store.load().state.recovery.cooldowns.zealous_onslaught,10);const id=h.app.battle.p.action.castId;h.key('Digit2',{repeat:true});await h.frame();assert.equal(h.app.battle.p.action.castId,id);assert.equal(h.app.battle.p.action.paidSeconds,1);});
 test('actual release after paid pulse resolves exactly one Lance and persists stop',async()=>{const h=await ui();h.key('Digit2');for(let n=0;n<38;n++)await h.frame();assert.ok(h.app.battle.p.action.pulses>=1);h.up('Digit2');await h.frame();assert.equal(h.app.battle.p.action,null);assert.equal(h.app.battle.events.filter(e=>e.type==='lanceResolved').length,1);assert.ok(h.store.load().state.recovery.lock>0);h.up('Digit2');await h.frame();assert.equal(h.app.battle.events.filter(e=>e.type==='lanceResolved').length,0);});
@@ -129,7 +129,7 @@ test('R14 actual WASD movement and independent cursor aim remain while Shift in-
 test('real preset UI requires explicit confirmation, retains old controls, then restores them',async()=>{const h=await ui(),old=structuredClone(h.app.state.options.controls);h.app.showControls();assert.match(h.modal.innerHTML,/POE2식 WASD · 권장 선택/);await h.click('poe-preset:wasd:combined');assert.deepEqual(h.app.state.options.controls,old);assert.match(h.modal.innerHTML,/apply-poe-preset:wasd:combined/);await h.click('apply-poe-preset:wasd:combined');assert.equal(h.app.state.options.controls.version,4);assert.deepEqual(h.app.state.options.controls.priorControls,old);assert.ok(h.app.battle.poeMobility);await h.click('restore-prior-controls');assert.deepEqual(h.app.state.options.controls,old);assert.deepEqual(h.store.load().state.options.controls,old);});
 test('actual R14 rebind capture rejects conflict, accepts physical key and never leaks combat',async()=>{const h=await ui({poeMode:'wasd'});h.app.showControls();await h.click('bind:hammer:0');h.key('Space');await next();assert.match(h.modal.innerHTML,/회피|사용/);assert.deepEqual(h.app.state.options.controls.bindings.hammer,['Mouse2']);assert.equal(h.app.battle.p.action,null);assert.equal(h.app.battle.p.presentationPose.state,'idle');await h.click('bind:hammer:0');h.key('KeyZ');await next();await next();assert.deepEqual(h.store.load().state.options.controls.bindings.hammer,['KeyZ']);assert.equal(h.app.battle.p.action,null);h.up('KeyZ');});
 test('real independent aim/tracking changes preserve controls and progression after commit',async()=>{const h=await ui({poeMode:'wasd'}),character=structuredClone(h.app.state.character),keys=structuredClone(h.app.state.options.controls.bindings);h.app.showControls();await h.dh.change({target:{dataset:{poeOption:'aimingMode'},value:'ground'}});assert.equal(h.app.state.options.controls.poe.aimingMode,'ground');assert.equal(h.app.state.options.controls.poe.cursorTrackingAfterRelease,true);await h.dh.change({target:{dataset:{poeOption:'cursorTrackingAfterRelease'},value:'false'}});assert.equal(h.app.state.options.controls.poe.aimingMode,'ground');assert.equal(h.app.state.options.controls.poe.cursorTrackingAfterRelease,false);assert.deepEqual(h.app.state.options.controls.bindings,keys);assert.deepEqual(h.app.state.character,character);assert.deepEqual(h.store.load().state,h.app.state);});
-test('mobility input observation separates same-turn start from later render dispatch',async()=>{const h=await ui({poeMode:'wasd'});h.key('Space');const first=h.app.inputObservations;assert.equal(first.find(e=>e.kind==='mobility-start').delayMs,0);assert.equal(first.some(e=>e.kind==='mobility-first-render-dispatch'),false);await h.frame();const rows=h.app.inputObservations;assert.ok(rows.find(e=>e.kind==='mobility-first-render-dispatch').at>rows.find(e=>e.kind==='mobility-start').at);});
+test('mobility input observation separates same-turn start from later render dispatch',async()=>{const h=await ui({poeMode:'wasd'});h.key('Space');const first=h.app.inputObservations;assert.equal(first.find(e=>e.kind==='mobility-start').delayMs,0);assert.equal(first.some(e=>e.kind==='mobility-first-render-enter'),false);await h.frame();const rows=h.app.inputObservations;assert.ok(rows.find(e=>e.kind==='mobility-first-render-enter').at>rows.find(e=>e.kind==='mobility-start').at);});
 
 // R14a2 integration regressions use the real handlers and durable store above.
 // Their earned progression is a scripted settlement fixture; these are not
@@ -137,8 +137,8 @@ test('mobility input observation separates same-turn start from later render dis
 async function assignV5(h,slot,skillId){
  return h.app.dispatch({type:'assignSkillSlot',slot,skillId,expectedSkillId:h.app.state.options.controls.skillSlots[slot],expectedRevision:h.app.controller.revision(),life:h.app.battle.stateLife});
 }
-async function v5Ui({blockMode='hold'}={}){
- const h=await ui({poeMode:'wasd'});
+async function v5Ui({blockMode='hold',realNotice=false}={}){
+ const h=await ui({poeMode:'wasd',realNotice});
  await h.click('enable-skill-loadout');assert.equal(h.app.state.options.controls.version,5);
  for(const slot of ['attack','hammer','block','expert1'])assert.equal(await assignV5(h,slot,null),true,`clear ${slot}`);
  for(const [slot,id] of [['expert1','mace_swing'],['attack','righteous_hammer'],['hammer','shield_block'],['heal','zealous_onslaught']])assert.equal(await assignV5(h,slot,id),true,`${id} -> ${slot}`);
@@ -231,7 +231,7 @@ for(const entry of ['key','mouse','touch'])test(`R14a2 empty old block slot ${en
  const h=await v5Ui(),b=h.app.battle,before=h.app.report();if(entry==='key'){h.key('KeyB');h.up('KeyB');}if(entry==='mouse'){mouseDown(h,1);mouseUp(h,1);}if(entry==='touch'){touchDown(h,'block');touchUp(h,'block');}await h.frame();assert.equal(b.p.block,false);assert.equal(b.p.action,null);assert.equal(b.castSerial,0);assert.deepEqual(h.app.report().vitals,before.vitals);assert.ok(h.toasts.some(t=>t.includes('빈 기술 슬롯')));
 });
 test('R14a2 input observations UI is read-only and distinguishes event time from render dispatch',async()=>{
- const h=await v5Ui();h.key('KeyF');const first=h.app.inputObservations;assert.equal(first.find(e=>e.kind==='action-start').delayMs,0);assert.equal(first.some(e=>e.kind==='first-render-dispatch'),false);await h.frame();h.up('KeyF');await next();const before=structuredClone(h.app.state),revision=h.app.controller.revision();await h.click('input-observations');assert.match(h.modal.innerHTML,/입력.*기록|입력.*관측/);assert.match(h.modal.innerHTML,/모니터 표시와 스피커 소리의 물리 지연 실측은 아닙니다/);assert.match(h.modal.innerHTML,/시작 0.00 ms · 첫 렌더 호출 16.00 ms/);assert.deepEqual(h.app.state,before);assert.equal(h.app.controller.revision(),revision);
+ const h=await v5Ui();h.key('KeyF');const first=h.app.inputObservations;assert.equal(first.find(e=>e.kind==='action-start').delayMs,0);assert.equal(first.some(e=>e.kind==='first-render-enter'),false);await h.frame();h.up('KeyF');await next();const before=structuredClone(h.app.state),revision=h.app.controller.revision();await h.click('input-observations');assert.match(h.modal.innerHTML,/입력.*기록|입력.*관측/);assert.match(h.modal.innerHTML,/모니터 표시와 스피커 소리의 물리 지연 실측은 아닙니다/);assert.match(h.modal.innerHTML,/시작 0.00 ms · 첫 렌더 진입 16.00 ms/);assert.deepEqual(h.app.state,before);assert.equal(h.app.controller.revision(),revision);
 });
 
 for(const hz of [30,60,120])for(const blockedBy of ['hammer-recovery','roll'])test(`R14a2 ${hz}Hz actual ${blockedBy} rejection and held restart are both visible with separate clocks`,async()=>{
@@ -240,8 +240,8 @@ for(const hz of [30,60,120])for(const blockedBy of ['hammer-recovery','roll'])te
  h.key('KeyF');await next();
  const pulse=h.app.inputObservations.filter(row=>row.kind==='input'&&row.action==='expert1').at(-1);assert.ok(pulse);assert.ok(h.app.inputObservations.some(row=>row.kind==='cancelled'&&row.sequence===pulse.sequence&&row.reason==='recovery-too-early'));
  for(let frame=0;frame<180&&!h.app.inputObservations.some(row=>row.kind==='contact'&&h.app.inputObservations.some(start=>start.kind==='action-start'&&start.heldRepeat&&start.skillId==='mace_swing'&&start.sequence===row.sequence));frame++)await h.frame(1/hz);
- const observations=h.app.inputObservations,start=observations.find(row=>row.kind==='action-start'&&row.heldRepeat&&row.skillId==='mace_swing'),render=observations.find(row=>row.kind==='first-render-dispatch'&&row.sequence===start?.sequence),contact=observations.find(row=>row.kind==='contact'&&row.sequence===start?.sequence);assert.ok(start);assert.ok(render);assert.ok(contact);assert.notEqual(start.sequence,pulse.sequence);assert.equal(start.receivedAt,null);assert.equal(start.delayMs,null);assert.equal(start.timingBasis,'action-start');assert.equal(observations.some(row=>row.kind==='input'&&row.sequence===start.sequence),false);assert.equal(observations.some(row=>row.kind==='action-start'&&row.sequence===pulse.sequence),false);assert.equal(b.p.action?.id,'mace_swing');
- h.up('KeyF');if(blockedBy==='roll')h.up('Space');await next();const before=structuredClone(h.app.state),revision=h.app.controller.revision();h.app.showInputObservations();const html=h.modal.innerHTML,articles=[...html.matchAll(/<article class="skill">[\s\S]*?<\/article>/g)].map(match=>match[0]),initial=articles.find(row=>row.includes(`· 입력 ${pulse.sequence}</strong>`)),held=articles.find(row=>row.includes(`홀드 반복 관측 ${start.sequence}</strong>`));assert.ok(initial);assert.ok(held);assert.match(html,/<h3>최초 입력 기준<\/h3>/);assert.match(html,/<h3>홀드 반복 시작 기준<\/h3>/);assert.match(initial,/시작 미관찰/);assert.match(initial,/최초 입력 취소: recovery-too-early/);assert.match(held,/철퇴/);assert.match(held,/입력 → 시작 지연 미측정 · 액션 시작 시점 기준/);assert.ok(held.includes(`첫 렌더 호출 ${(render.at-start.at).toFixed(2)} ms`));assert.ok(held.includes(`접촉 ${(contact.at-start.at).toFixed(2)} ms`));assert.doesNotMatch(held,/시작 0\.00 ms|최초 입력 취소/);assert.deepEqual(h.app.state,before);assert.equal(h.app.controller.revision(),revision);
+ const observations=h.app.inputObservations,start=observations.find(row=>row.kind==='action-start'&&row.heldRepeat&&row.skillId==='mace_swing'),render=observations.find(row=>row.kind==='first-render-enter'&&row.sequence===start?.sequence),contact=observations.find(row=>row.kind==='contact'&&row.sequence===start?.sequence);assert.ok(start);assert.ok(render);assert.ok(contact);assert.notEqual(start.sequence,pulse.sequence);assert.equal(start.receivedAt,null);assert.equal(start.delayMs,null);assert.equal(start.timingBasis,'action-start');assert.equal(observations.some(row=>row.kind==='input'&&row.sequence===start.sequence),false);assert.equal(observations.some(row=>row.kind==='action-start'&&row.sequence===pulse.sequence),false);assert.equal(b.p.action?.id,'mace_swing');
+ h.up('KeyF');if(blockedBy==='roll')h.up('Space');await next();const before=structuredClone(h.app.state),revision=h.app.controller.revision();h.app.showInputObservations();const html=h.modal.innerHTML,articles=[...html.matchAll(/<article class="skill">[\s\S]*?<\/article>/g)].map(match=>match[0]),initial=articles.find(row=>row.includes(`· 입력 ${pulse.sequence}</strong>`)),held=articles.find(row=>row.includes(`홀드 반복 관측 ${start.sequence}</strong>`));assert.ok(initial);assert.ok(held);assert.match(html,/<h3>최초 입력 기준<\/h3>/);assert.match(html,/<h3>홀드 반복 시작 기준<\/h3>/);assert.match(initial,/시작 미관찰/);assert.match(initial,/입력 연결 종료: recovery-too-early/);assert.match(held,/철퇴/);assert.match(held,/입력 → 시작 지연 미측정 · 액션 시작 시점 기준/);assert.ok(held.includes(`첫 렌더 진입 ${(render.at-start.at).toFixed(2)} ms`));assert.ok(held.includes(`접촉 ${(contact.at-start.at).toFixed(2)} ms`));assert.doesNotMatch(held,/시작 0\.00 ms|입력 연결 종료/);assert.deepEqual(h.app.state,before);assert.equal(h.app.controller.revision(),revision);
 });
 
 async function contextUi(){const h=await ui({poeMode:'click',realInteractions:true});Object.assign(h.app.battle.p,{x:450,y:325});assert.equal(await h.app.dispatch({type:'checkpoint',...h.app.report()}),true);return h;}
@@ -284,4 +284,134 @@ test('R14a3 v4 help names current click attack key instead of asserting LMB atta
  const h=await ui({poeMode:'click'});h.app.showControls();
  assert.match(h.modal.innerHTML,/현재 기본 공격: J/);
  assert.doesNotMatch(h.modal.innerHTML,/좌클릭 기본 반복/);
+});
+
+test('observation main: real render is bracketed by distinct entry and return clocks without mutating action data',async()=>{
+ const h=await ui({renderDuration:5});h.key('KeyJ');const action=h.app.battle.p.action;await h.frame();const rows=h.app.inputObservations,enter=rows.find(r=>r.kind==='first-render-enter'),returned=rows.find(r=>r.kind==='first-render-return');assert.ok(enter);assert.ok(returned);assert.equal(enter.at,16);assert.equal(returned.at,21);assert.equal(h.renderClocks[0].at,enter.at);assert.ok(h.renderClocks[0].observations.some(r=>r.kind==='first-render-enter'));assert.equal(h.renderClocks[0].observations.some(r=>r.kind==='first-render-return'),false);assert.equal(Object.hasOwn(action,'presentationObserved'),false);h.up('KeyJ');await next();h.app.showInputObservations();assert.match(h.modal.innerHTML,/첫 렌더 진입 16\.00 ms · 첫 렌더 반환 21\.00 ms/);assert.doesNotMatch(h.modal.innerHTML,/첫 렌더 호출/);
+});
+test('observation main: guard receipt remains separate when held mace resumes after guard release',async()=>{
+ const h=await v5Ui();h.key('KeyF');await next();mouseDown(h,2);const guard=h.app.inputObservations.filter(r=>r.kind==='input').at(-1);assert.equal(guard.skillId,'shield_block');for(let i=0;i<40;i++)await h.frame();assert.equal(h.app.battle.p.block,true);mouseUp(h,2);await advanceUntil(h,()=>h.app.inputObservations.some(r=>r.kind==='action-start'&&r.heldRepeat&&r.skillId==='mace_swing'),'held mace has its own observation');const start=h.app.inputObservations.filter(r=>r.kind==='action-start'&&r.skillId==='mace_swing').at(-1);assert.notEqual(start.sequence,guard.sequence);assert.equal(start.receivedAt,null);assert.equal(start.delayMs,null);assert.equal(h.app.inputObservations.some(r=>r.kind==='action-start'&&r.sequence===guard.sequence),false);h.up('KeyF');
+});
+test('observation main: the remapped press records its resolved skill before action start',async()=>{
+ const h=await v5Ui();mouseDown(h,0);const rows=h.app.inputObservations,press=rows.find(r=>r.kind==='input'),start=rows.find(r=>r.kind==='action-start');assert.equal(press.action,'attack');assert.equal(press.skillId,'righteous_hammer');assert.equal(start.skillId,press.skillId);assert.equal(start.sequence,press.sequence);mouseUp(h,0);
+});
+test('observation main: start sound uses the event cast rather than an unrelated current action',async()=>{
+ const h=await ui({audioResult:true});h.key('KeyJ');await next();const current=h.app.battle.p.action,foreignCast=current.castId+99;h.app.deliverCombatEvents([{type:'actionStarted',id:'righteous_hammer',castId:foreignCast},{type:'sound',name:'magicCharge'}]);const sound=h.app.inputObservations.at(-1);assert.equal(sound.kind,'audio-request-result');assert.equal(sound.castId,foreignCast);assert.equal(sound.accepted,true);assert.notEqual(sound.castId,current.castId);assert.equal(h.app.battle.p.action,current);
+});
+test('observation main: enemy and hit sounds never borrow a live player action identity',async()=>{
+ const h=await ui({audioResult:true});h.key('KeyJ');await next();for(const name of ['enemyTell','heavyHit','footstep','magicRelease'])h.app.deliverCombatEvents([{type:'sound',name}]);const sounds=h.app.inputObservations.filter(r=>['enemyTell','heavyHit','footstep','magicRelease'].includes(r.name));assert.equal(sounds.length,4);assert.ok(sounds.every(r=>r.kind==='audio-request-result'&&r.sequence===null&&r.castId===null&&r.accepted===true));
+});
+test('observation main: a declined audio request is shown as declined, without claiming playback',async()=>{
+ const h=await ui({audioResult:false});h.key('KeyJ');h.up('KeyJ');await h.frame();const sound=h.app.inputObservations.find(r=>r.kind==='audio-request-result');assert.equal(sound.accepted,false);assert.equal(sound.name,'slash');assert.ok(sound.sequence);h.app.showInputObservations();assert.match(h.modal.innerHTML,/소리 요청 결과 0\.00 ms \(미수락\)/);assert.match(h.modal.innerHTML,/재생 시작 시각이 아닙니다/);assert.doesNotMatch(h.modal.innerHTML,/소리 전달/);
+});
+test('observation main: dodge audio is linked to its exact mobility sequence and result',async()=>{
+ const h=await ui({poeMode:'wasd',audioResult:true});h.key('Space');const rows=h.app.inputObservations,press=rows.find(r=>r.kind==='input'),start=rows.find(r=>r.kind==='mobility-start'),sound=rows.find(r=>r.kind==='audio-request-result');assert.ok(start);assert.ok(sound);assert.equal(start.sequence,press.sequence);assert.equal(sound.sequence,start.sequence);assert.equal(sound.castId,null);assert.equal(sound.accepted,true);assert.equal(sound.linkBasis,'mobility-start');h.up('Space');
+});
+test('observation main: rejected dodge observation cannot survive until later held movement',async()=>{
+ const h=await ui({poeMode:'wasd'});h.key('KeyW');h.key('Space');await next();h.up('Space');await next();h.key('Space');const rows=h.app.inputObservations,press=rows.filter(r=>r.kind==='input'&&r.action==='dodgeSprint').at(-1);assert.ok(press);assert.ok(rows.some(r=>r.kind==='cancelled'&&r.sequence===press.sequence&&r.reason==='mobility-locked'));assert.equal(rows.some(r=>r.kind==='mobility-start'&&r.sequence===press.sequence),false);await advanceUntil(h,()=>h.app.inputObservations.some(r=>r.kind==='mobility-start'&&r.state==='sprint'),'held sprint transition');const sprint=h.app.inputObservations.filter(r=>r.kind==='mobility-start'&&r.state==='sprint').at(-1);assert.notEqual(sprint.sequence,press.sequence);assert.equal(sprint.heldTransition,true);assert.equal(sprint.delayMs,null);h.up('Space');h.up('KeyW');
+});
+
+
+// R14a6: production toast, input handlers, frames, accepted action events and
+// durable save flow. DOM classes are probed; this is not browser/pixel evidence.
+const recoveryCopy='현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.';
+function recoveryVisible(h){assert.equal(h.notice.textContent,recoveryCopy);assert.equal(h.notice.classList.contains('visible'),true);assert.ok(h.app.noticeUntil>0);}
+function noRecoveryNotice(h){assert.equal(h.notice.textContent,'');assert.equal(h.notice.classList.contains('visible'),false);assert.equal(h.notice.recoverySkillId,null);assert.equal(h.app.noticeUntil,0);}
+for(const hz of [30,60,120])for(const mapped of [false,true])for(const blockedBy of ['roll','hammer-recovery'])test(`R14a6 ${hz}Hz ${mapped?'mapped F':'LMB'} held mace dismisses only its own ${blockedBy} notice when start is accepted`,async()=>{
+ const h=mapped?await v5Ui({realNotice:true}):await ui({poeMode:'wasd',realNotice:true}),b=h.app.battle;
+ if(blockedBy==='roll'){h.key('Space');await next();}else{mouseDown(h,mapped?0:2);await h.frame(.025);mouseUp(h,mapped?0:2);}
+ if(mapped)h.key('KeyF');else mouseDown(h,0);await next();recoveryVisible(h,'mace_swing');
+ for(let i=0;i<180&&!h.app.inputObservations.some(row=>row.kind==='action-start'&&row.heldRepeat&&row.skillId==='mace_swing');i++)await h.frame(1/hz);
+ const start=h.app.inputObservations.find(row=>row.kind==='action-start'&&row.heldRepeat&&row.skillId==='mace_swing');assert.ok(start);assert.equal(b.p.action.id,'mace_swing');noRecoveryNotice(h);
+ for(let i=0;i<90&&!h.app.inputObservations.some(row=>row.kind==='contact'&&row.castId===start.castId);i++)await h.frame(1/hz);
+ assert.ok(h.app.inputObservations.some(row=>row.kind==='contact'&&row.castId===start.castId));assert.equal(h.notice.textContent,'');assert.equal(h.notice.classList.contains('visible'),false);
+ if(mapped)h.up('KeyF');else mouseUp(h,0);if(blockedBy==='roll')h.up('Space');
+});
+test('R14a6 rejected single mace press remains visible, cannot repeat, then expires normally',async()=>{
+ const h=await ui({poeMode:'wasd',realNotice:true});h.key('Space');await next();mouseDown(h,0);mouseUp(h,0);h.up('Space');await next();recoveryVisible(h,'mace_swing');const until=h.app.noticeUntil;
+ for(let i=0;i<60;i++)await h.frame();recoveryVisible(h,'mace_swing');assert.equal(h.app.noticeUntil,until);assert.equal(h.app.battle.castSerial,0);
+ for(let i=0;i<160;i++)await h.frame();assert.equal(h.notice.textContent,'');assert.equal(h.notice.classList.contains('visible'),false);assert.equal(h.notice.recoverySkillId,null);assert.equal(h.app.battle.castSerial,0);
+});
+test('R14a6 different accepted skill preserves the still-relevant rejected skill notice',async()=>{
+ const h=await ui({poeMode:'wasd',realNotice:true});h.key('Space');await next();mouseDown(h,0);mouseUp(h,0);h.up('Space');await next();recoveryVisible(h,'mace_swing');const until=h.app.noticeUntil;
+ for(let i=0;i<45;i++)await h.frame();mouseDown(h,2);assert.equal(h.app.battle.p.action.id,'righteous_hammer');recoveryVisible(h,'mace_swing');assert.equal(h.app.noticeUntil,until);mouseUp(h,2);
+});
+test('R14a6 same-skill new successful press resolves an earlier single-press notice',async()=>{
+ const h=await ui({poeMode:'wasd',realNotice:true});h.key('Space');await next();mouseDown(h,0);mouseUp(h,0);h.up('Space');await next();recoveryVisible(h,'mace_swing');
+ for(let i=0;i<45;i++)await h.frame();mouseDown(h,0);assert.equal(h.app.battle.p.action.id,'mace_swing');noRecoveryNotice(h);mouseUp(h,0);
+});
+for(const boundary of ['menu','blur','death'])test(`R14a6 ${boundary} ends recovery notice ownership and clears held input`,async()=>{
+ const h=await ui({poeMode:'wasd',realNotice:true});h.key('Space');await next();mouseDown(h,0);await next();recoveryVisible(h,'mace_swing');
+ if(boundary==='menu')h.key('Escape');else if(boundary==='blur')h.wh.blur();else{h.app.battle.p.hp=0;h.app.battle.dead=true;await h.frame();}
+ await next();noRecoveryNotice(h);assert.equal(h.app.paused,true);if(boundary==='death'){assert.equal(h.app.state.world.lifeDown,true);assert.match(h.modal.innerHTML,/쓰러졌습니다/);}else{h.app.closePanel();for(let i=0;i<60;i++)await h.frame();assert.equal(h.app.battle.castSerial,0);}
+});
+test('R14a6 replacing recovery notice with an unrelated message preserves it on matching success',async()=>{
+ const h=await ui({poeMode:'wasd',realNotice:true});h.key('Space');await next();mouseDown(h,0);await next();recoveryVisible(h,'mace_swing');
+ h.app.toast('저장 대기가 길어 입력을 취소했습니다. 다시 눌러 주세요.');const until=h.app.noticeUntil;assert.equal(h.notice.recoverySkillId,null);
+ await advanceUntil(h,()=>h.app.battle.p.action?.id==='mace_swing','same held skill starts');assert.equal(h.notice.textContent,'저장 대기가 길어 입력을 취소했습니다. 다시 눌러 주세요.');assert.equal(h.notice.classList.contains('visible'),true);assert.equal(h.app.noticeUntil,until);mouseUp(h,0);h.up('Space');
+});
+test('R14a6 later different-skill rejection is not cleared by held mace success',async()=>{
+ const h=await ui({poeMode:'wasd',realNotice:true});h.key('Space');await next();mouseDown(h,0);await next();recoveryVisible(h,'mace_swing');mouseDown(h,2);mouseUp(h,2);await next();recoveryVisible(h,'righteous_hammer');
+ await advanceUntil(h,()=>h.app.battle.p.action?.id==='mace_swing','held mace starts');recoveryVisible(h,'righteous_hammer');mouseUp(h,0);h.up('Space');
+});
+test('R14a6 actual failed accepted-action checkpoint replaces notice with save error and closes gate',async()=>{
+ const h=await ui({poeMode:'wasd',realNotice:true});h.key('Space');await next();mouseDown(h,0);await next();recoveryVisible(h,'mace_swing');h.fail();
+ for(let i=0;i<90&&!h.app.gate.blocked;i++)await h.frame();assert.equal(h.app.gate.blocked,true);assert.equal(h.app.paused,true);assert.equal(h.notice.recoverySkillId,null);assert.equal(h.notice.textContent,'fixture');assert.equal(h.notice.classList.contains('visible'),true);assert.ok(h.app.noticeUntil>0);assert.match(h.modal.innerHTML,/저장을 확인해야 합니다/);
+});
+test('R14a6 not-ready resource rejection remains after another successful action',async()=>{
+ const h=await ui({poeMode:'wasd',realNotice:true});h.app.battle.p.mana=0;mouseDown(h,2);mouseUp(h,2);await next();assert.match(h.notice.textContent,/마나 부족/);assert.equal(h.notice.recoverySkillId,null);const copy=h.notice.textContent,until=h.app.noticeUntil;mouseDown(h,0);assert.equal(h.app.battle.p.action.id,'mace_swing');assert.equal(h.notice.textContent,copy);assert.equal(h.app.noticeUntil,until);mouseUp(h,0);
+});
+for(const first of ['LMB','Space'])test(`R14a6 ${first}-first simultaneous LMB and Space hold for 1350ms resumes mace without a stale notice`,async()=>{
+ const h=await ui({poeMode:'wasd',realNotice:true});
+ if(first==='LMB'){mouseDown(h,0);h.key('Space');}else{h.key('Space');mouseDown(h,0);}await next();
+ for(let i=0;i<81;i++)await h.frame(1/60);
+ const rows=h.app.inputObservations,roll=rows.find(r=>r.kind==='mobility-start'&&r.state==='roll'),resumed=rows.find(r=>r.kind==='action-start'&&r.skillId==='mace_swing'&&r.heldRepeat&&r.at>=roll?.at);
+ assert.ok(roll);assert.ok(resumed);assert.ok(rows.some(r=>r.kind==='contact'&&r.castId===resumed.castId));assert.equal(h.notice.textContent,'');assert.equal(h.notice.classList.contains('visible'),false);
+ mouseUp(h,0);h.up('Space');await next();const casts=h.app.battle.castSerial;for(let i=0;i<60;i++)await h.frame();assert.equal(h.app.battle.castSerial,casts);assert.equal(h.app.battle.p.action,null);
+});
+
+// R14a7 observability integration: actual click/frame/keyboard/store handlers.
+// Render is a boundary probe. This does not measure a browser or prove pixels.
+test('R14a7 QA controls are explicit, default OFF, and never persisted',async()=>{
+ const h=await ui({poeMode:'wasd'}),before=structuredClone(h.store.load().state),revision=h.app.controller.revision();
+ assert.equal(h.contactTrace.enabled,false);assert.equal(h.frameObservation.enabled,false);
+ await h.click('observe-panel');assert.match(h.modal.innerHTML,/검증용 읽기 전용/);assert.match(h.modal.innerHTML,/미관측/);
+ await h.click('observe-contact-toggle');await h.click('observe-frame-toggle');
+ assert.equal(h.contactTrace.enabled,true);assert.equal(h.frameObservation.enabled,true);
+ assert.deepEqual(h.store.load().state,before);assert.equal(h.app.controller.revision(),revision);
+ assert.match(h.modal.innerHTML,/GPU·물리 디스플레이·소리 지연/);
+});
+test('R14a7 production frame fills actual contact and CPU buckets without changing progression',async()=>{
+ const h=await ui({poeMode:'wasd',renderDuration:2}),off=await ui({poeMode:'wasd',renderDuration:2});
+ await h.click('observe-contact-toggle');await h.click('observe-frame-toggle');h.app.closePanel();
+ h.key('KeyD');off.key('KeyD');for(let i=0;i<8;i++){await h.frame();await off.frame();}h.up('KeyD');off.up('KeyD');
+ assert.deepEqual(h.app.report(),off.app.report());assert.deepEqual(h.store.load().state,off.store.load().state);
+ assert.ok(h.contactTrace.snapshot().frames.length>0);const rows=h.frameObservation.snapshot();
+ assert.ok(rows.active.render.n>0);assert.equal(rows.active.render.p50Ms,2);assert.equal(rows.active.total.p50Ms,2);
+ assert.equal(off.contactTrace.snapshot().frames.length,0);assert.equal(off.frameObservation.snapshot().sampleCount,0);
+ await h.click('observe-panel');assert.match(h.modal.innerHTML,/2.00/);
+});
+test('R14a7 paused and save-wait frames cannot become combat cost samples',async()=>{
+ const h=await ui({poeMode:'wasd',renderDuration:3});await h.click('observe-frame-toggle');await h.frame();
+ assert.equal(h.frameObservation.snapshot().byMode.menu.frames,1);assert.equal(h.frameObservation.snapshot().active.frames,0);
+ h.app.closePanel();h.delay();const saving=h.app.dispatch({type:'checkpoint',...h.app.report()});await next();await h.frame();
+ assert.equal(h.frameObservation.snapshot().byMode['save-wait'].frames,1);assert.equal(h.frameObservation.snapshot().active.frames,0);await h.finish();await saving;
+});
+test('R14a7 QA clear and reload discard old paths/frame observations without altering stored save',async()=>{
+ const h=await ui({poeMode:'wasd',renderDuration:1});await h.click('observe-contact-toggle');await h.click('observe-frame-toggle');h.app.closePanel();await h.frame();
+ assert.ok(h.frameObservation.snapshot().sampleCount>0);const before=structuredClone(h.store.load().state);
+ await h.click('observe-clear');assert.equal(h.frameObservation.snapshot().sampleCount,0);assert.equal(h.contactTrace.snapshot().frames.length,0);
+ assert.deepEqual(h.store.load().state,before);h.app.closePanel();await h.frame();await h.click('reload');
+ assert.equal(h.frameObservation.snapshot().sampleCount,0);assert.equal(h.frameObservation.snapshot().lastClearReason,'reload');assert.equal(h.contactTrace.snapshot().frames.length,0);assert.deepEqual(h.store.load().state,before);
+});
+test('R14a7 release surface rejects candidate QA toggles',async()=>{
+ const h=await ui({poeMode:'wasd',candidate:false}),before=structuredClone(h.store.load().state);
+ for(const action of ['observe-panel','observe-contact-toggle','observe-frame-toggle','observe-clear'])await h.click(action);
+ assert.equal(h.contactTrace.enabled,false);assert.equal(h.frameObservation.enabled,false);assert.deepEqual(h.store.load().state,before);assert.equal(h.modal.hidden,true);
+});
+
+test('R14a7 actual long menu keeps last playable frame observation readable',async()=>{
+ const h=await ui({poeMode:'wasd',renderDuration:4});await h.click('observe-frame-toggle');h.app.closePanel();h.key('KeyD');for(let i=0;i<4;i++)await h.frame();h.up('KeyD');
+ await h.click('observe-panel');for(let i=0;i<260;i++)await h.frame();await h.click('observe-panel');
+ const result=h.frameObservation.snapshot();assert.equal(result.active.frames,0);assert.equal(result.lastActive.status,'retained');assert.equal(result.lastActive.sampleCount,4);assert.equal(result.lastActive.active.render.p50Ms,4);assert.match(h.modal.innerHTML,/마지막 활성 구간/);assert.match(h.modal.innerHTML,/4.00/);
 });

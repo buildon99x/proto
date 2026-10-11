@@ -1,0 +1,2 @@
+PASS: main.js differs from preserved R14a7 only inside updateHud.
+PASS: BUILD_LABEL is unchanged at R14a7 for parent-owned version update.

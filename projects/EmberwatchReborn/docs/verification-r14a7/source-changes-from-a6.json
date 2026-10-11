@@ -1,0 +1,32 @@
+[
+  {
+    "path": "app/src/contact-trace.js",
+    "old": null,
+    "new": "c8d7582619ecf50d4ea7a7691994c75b2ce41a8f2a82dfb453d127413efb7a14"
+  },
+  {
+    "path": "app/src/frame-observation.js",
+    "old": null,
+    "new": "5fa5433a4dbc3cf7468a53825cd0c090ea7801f2a94f56e02dee1a9bbbe11e35"
+  },
+  {
+    "path": "app/src/index.html",
+    "old": "f62565296f0059f83f0b8aa62b91ea3096bcd953df3aba93f91a662541f72843",
+    "new": "2e28ff7adec80f4b39fb92e066a2796a2cbfe033d23372588baccca5586c53ed"
+  },
+  {
+    "path": "app/src/main.js",
+    "old": "a61317710831afb8cad1d851c925975f0e798b2c6acfc9ceaa508bd69ea9e56a",
+    "new": "b234ffdf599febd385832b4563248be4ad09d99a460a5e438a3d59ce902157d6"
+  },
+  {
+    "path": "app/src/recovery-page.js",
+    "old": "30c40ff997e6d96b95a7281036c1dbd315d6db1f25199dc49617212f415373df",
+    "new": "fa47d588e0946230dc1229fbc35bf546bd99657cc6c310ac16e9ca9f20abdd75"
+  },
+  {
+    "path": "app/src/style.css",
+    "old": "aace9d7abe1520ec07706178aad2c295a6bc7a88e6a38cd69b2a91c22c3a0c98",
+    "new": "bbb871cc9802408c79715a629a593c93eb7eda410c88f023da8300b51f530c1a"
+  }
+]

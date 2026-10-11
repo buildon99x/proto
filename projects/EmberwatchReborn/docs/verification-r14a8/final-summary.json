@@ -1,0 +1,29 @@
+{
+  "label": "R14a8",
+  "version": "0.14.0-reimplementation.8",
+  "tests": 3940,
+  "pass": 3940,
+  "fail": 0,
+  "skipped": 0,
+  "cancelled": 0,
+  "durationMs": 115268.864147,
+  "countPolicy": "3923 existing +17 new; overlapping focus counts not added",
+  "lint": "passed",
+  "build": {
+    "status": "passed",
+    "files": 116,
+    "bytes": 16678476,
+    "namespace": "qa-r14"
+  },
+  "actualA8BrowserAcceptance": false,
+  "publicCandidate": "v58/R14a4",
+  "published": false,
+  "firstAggregate": {
+    "tests": 3940,
+    "pass": 3878,
+    "fail": 62,
+    "cause": "objective-only extraction included action-specific declaration; moved life declaration after objective-fragment boundary without weakening assertions"
+  },
+  "runtimeChange": "HUD lifecycle availability only plus build labels",
+  "sourceCommit": null
+}

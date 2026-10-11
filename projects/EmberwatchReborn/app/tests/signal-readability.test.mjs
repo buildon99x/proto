@@ -177,7 +177,7 @@ test('production renderer adds only local cutaways at a genuinely opened north l
 });
 
 test('actual main renderer call supplies the live region and map without changing options or objects',()=>{
- const source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8'),start=source.indexOf('renderer.render({width:canvas.width'),end=source.indexOf('drawLabels(sceneVisibility);',start)+'drawLabels(sceneVisibility);'.length;
+ const source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8'),start=source.indexOf('const renderObservation=inputLatency.renderEntered('),end=source.indexOf('drawLabels(sceneVisibility);',start)+'drawLabels(sceneVisibility);'.length;
  assert.ok(start>0&&end>start);const s=state(),{renderer,calls}=render(state({entities:[]}));calls.length=0;
  const battle={region:REGION,map:s.map,p:s.p,enemies:s.entities,shots:[],effects:[],floaters:[],time:0,shake:0,stats:{},targetId:null};let labels=0;
  const currentState={options:{screenShake:0,flashes:0}};

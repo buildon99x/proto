@@ -92,7 +92,7 @@ async function browser(){
  }});
  const loaded=await controller.load();assert.equal(loaded.ok,true);
  const commands=[],actualDispatch=controller.dispatch;controller.dispatch=command=>{commands.push(command.type);return actualDispatch(command);};
- const handlers={},messages=[],calls=[],elements={objective:{innerHTML:''},hud:{hidden:false}};
+ const handlers={},messages=[],calls=[],elements={toast:{textContent:'',classList:{add(){},remove(){}}},objective:{innerHTML:''},hud:{hidden:false}};
  let activeElement,html='',modalWrites=0,regionNode=null,buttonNode=null;
  const canvas={tagName:'CANVAS',focus(){activeElement=canvas;calls.push('focus-canvas');}};activeElement=canvas;
  const modal={hidden:true,get innerHTML(){return html;},set innerHTML(value){
@@ -106,7 +106,7 @@ async function browser(){
  const imports={...mainImports,BATTLEFIELD_COMMANDS,battlefieldObjectView,battlefieldElderView,battlefieldGuidance,battlefieldCommandFields,battlefieldPortalLabel,battlefieldEventCopy,previewExpertPromotion,quoteAction,EXPERT_SLOTS,emptyActionSlots,combatCheckpoint,TOMB_COMMANDS,TOMB_TOOLS,tombWardCarried,tombObjectView,tombElderView,tombCommandFields,tombClueView,tombEventCopy,tombGoldView,tombPortalLabel,createBattle,clearBattleIntent,battleReport,syncCommittedBattle,getRegion,createMap,near,deriveStats,selectInteractionTarget,DUNGEON_COMMANDS,QUARRY_COMMANDS,PASS_COMMANDS,SIGNAL_COMMANDS,FURNACE_COMMANDS,dungeonObjectView,quarryObjectView,passObjectView,signalObjectView,furnaceObjectView,campaignGuidance,chestPresentation,ACTIONS,controlsFor,actionLabel,editableTarget};
  const expertCapture=createExpertInputCapture(),expertSafety=createActionSafety({capture:expertCapture,cancel:cancelBattleAction});
  const env={...createMainInputFixture(),...imports,expertCapture,expertSafety,state:loaded.state,battle:createBattle(loaded.state),controller,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,suppressNextClick:false,
-  modal,gate,router,deferredImmediate:createImmediateInput(),canvas,document,window:{addEventListener:(name,handler)=>handlers[name]=handler},
+  noticeUntil:0,modal,gate,router,deferredImmediate:createImmediateInput(),canvas,document,window:{addEventListener:(name,handler)=>handlers[name]=handler},
   $:id=>elements[id],audio:{pause:value=>calls.push(['pause',value]),play:value=>calls.push(['play',value])},toast:text=>messages.push(text),
   profile:'qa-pause-travel',candidate:true,saveNamespace:'qa-r8',pauseReason:'사용자 요청',focusEvents:{blurAt:'없음',visibilityAt:'없음',visibilityState:'초기'},
   last:0,lastObjectiveHtml:'',displayTime:0,combatTime:0,walkTime:0,menuTime:0,arrivalWaitTime:0,

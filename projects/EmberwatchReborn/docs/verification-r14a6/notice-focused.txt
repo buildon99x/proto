@@ -1,0 +1,154 @@
+TAP version 13
+# Subtest: R14a6 30Hz LMB held mace dismisses only its own roll notice when start is accepted
+ok 1 - R14a6 30Hz LMB held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 2179.198943
+  type: 'test'
+  ...
+# Subtest: R14a6 30Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+ok 2 - R14a6 30Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 264.994981
+  type: 'test'
+  ...
+# Subtest: R14a6 30Hz mapped F held mace dismisses only its own roll notice when start is accepted
+ok 3 - R14a6 30Hz mapped F held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 994.8158
+  type: 'test'
+  ...
+# Subtest: R14a6 30Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+ok 4 - R14a6 30Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 1086.767579
+  type: 'test'
+  ...
+# Subtest: R14a6 60Hz LMB held mace dismisses only its own roll notice when start is accepted
+ok 5 - R14a6 60Hz LMB held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 247.220539
+  type: 'test'
+  ...
+# Subtest: R14a6 60Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+ok 6 - R14a6 60Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 228.267141
+  type: 'test'
+  ...
+# Subtest: R14a6 60Hz mapped F held mace dismisses only its own roll notice when start is accepted
+ok 7 - R14a6 60Hz mapped F held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 944.246574
+  type: 'test'
+  ...
+# Subtest: R14a6 60Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+ok 8 - R14a6 60Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 1014.366872
+  type: 'test'
+  ...
+# Subtest: R14a6 120Hz LMB held mace dismisses only its own roll notice when start is accepted
+ok 9 - R14a6 120Hz LMB held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 273.608547
+  type: 'test'
+  ...
+# Subtest: R14a6 120Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+ok 10 - R14a6 120Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 292.027474
+  type: 'test'
+  ...
+# Subtest: R14a6 120Hz mapped F held mace dismisses only its own roll notice when start is accepted
+ok 11 - R14a6 120Hz mapped F held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 910.115492
+  type: 'test'
+  ...
+# Subtest: R14a6 120Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+ok 12 - R14a6 120Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 919.932783
+  type: 'test'
+  ...
+# Subtest: R14a6 rejected single mace press remains visible, cannot repeat, then expires normally
+ok 13 - R14a6 rejected single mace press remains visible, cannot repeat, then expires normally
+  ---
+  duration_ms: 524.877404
+  type: 'test'
+  ...
+# Subtest: R14a6 different accepted skill preserves the still-relevant rejected skill notice
+ok 14 - R14a6 different accepted skill preserves the still-relevant rejected skill notice
+  ---
+  duration_ms: 228.402058
+  type: 'test'
+  ...
+# Subtest: R14a6 same-skill new successful press resolves an earlier single-press notice
+ok 15 - R14a6 same-skill new successful press resolves an earlier single-press notice
+  ---
+  duration_ms: 210.875324
+  type: 'test'
+  ...
+# Subtest: R14a6 menu ends recovery notice ownership and clears held input
+ok 16 - R14a6 menu ends recovery notice ownership and clears held input
+  ---
+  duration_ms: 282.710253
+  type: 'test'
+  ...
+# Subtest: R14a6 blur ends recovery notice ownership and clears held input
+ok 17 - R14a6 blur ends recovery notice ownership and clears held input
+  ---
+  duration_ms: 246.2595
+  type: 'test'
+  ...
+# Subtest: R14a6 death ends recovery notice ownership and clears held input
+ok 18 - R14a6 death ends recovery notice ownership and clears held input
+  ---
+  duration_ms: 185.395098
+  type: 'test'
+  ...
+# Subtest: R14a6 replacing recovery notice with an unrelated message preserves it on matching success
+ok 19 - R14a6 replacing recovery notice with an unrelated message preserves it on matching success
+  ---
+  duration_ms: 201.437783
+  type: 'test'
+  ...
+# Subtest: R14a6 later different-skill rejection is not cleared by held mace success
+ok 20 - R14a6 later different-skill rejection is not cleared by held mace success
+  ---
+  duration_ms: 214.277876
+  type: 'test'
+  ...
+# Subtest: R14a6 actual failed accepted-action checkpoint replaces notice with save error and closes gate
+ok 21 - R14a6 actual failed accepted-action checkpoint replaces notice with save error and closes gate
+  ---
+  duration_ms: 222.761625
+  type: 'test'
+  ...
+# Subtest: R14a6 not-ready resource rejection remains after another successful action
+ok 22 - R14a6 not-ready resource rejection remains after another successful action
+  ---
+  duration_ms: 136.891576
+  type: 'test'
+  ...
+# Subtest: R14a6 LMB-first simultaneous LMB and Space hold for 1350ms resumes mace without a stale notice
+ok 23 - R14a6 LMB-first simultaneous LMB and Space hold for 1350ms resumes mace without a stale notice
+  ---
+  duration_ms: 528.447199
+  type: 'test'
+  ...
+# Subtest: R14a6 Space-first simultaneous LMB and Space hold for 1350ms resumes mace without a stale notice
+ok 24 - R14a6 Space-first simultaneous LMB and Space hold for 1350ms resumes mace without a stale notice
+  ---
+  duration_ms: 444.988109
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 12956.951448

@@ -268,3 +268,12 @@ Read-only Pass/Signal projection distinguishes missing prerequisites, partial ki
 ## Current priority update: R14 POE-oriented controls (2026-10-10)
 
 Balance and R13 progression expansion are paused by user direction. Follow the specified full combat-controls document under docs/poe2-input and the source-confirmed vs authored distinction. R14a2 integrates explicit controls5 eight-slot assignment, independent movement/aim, contextual click approach and living actor collision, while preserving existing saves/keys until explicit selection. Immediate input start, contact timing, per-skill cancellation/repeat, fancy FX, danger visibility and flash0 need separate real-input/visual review. See docs/poe2-input/r14a2-integration.md for current contracts and unfinished acceptance. Earlier counts are historical, not this candidate's pass count.
+
+## R14a6 recovery-notice ownership
+Only recovery-too-early toasts carry a skill ID. An actual actionStarted with that skill ID dismisses the current owned notice; another skill cannot. Any newer generic toast removes that ownership. Input safety boundaries and expiry retire the owned notice. Rejected taps retain the normal 3.3-second lifetime unless a matching accepted action or safety boundary makes the notice obsolete. No scheduling, combat state, resource, cooldown, recovery, or persistence contract is changed.
+
+## R14a7 bounded QA observability
+Contact tracing and frame observation are opt-in, default OFF, memory-only and candidate-menu-only. They never change saves or simulation, expose no hidden unreachable enemy, and reset on profile/title/reload/region boundaries. Contact markers derived from geometry are explicitly inferred, engine-last-slice paths are not whole-display-frame paths, and body rings use actual ground radii. Frame rAF intervals, synchronous step/render/HUD spans, suspension/transition/bad-clock exclusions and retained last-active windows are separate from GPU, physical input and audible timing. Normal first-combat evidence motivates a compact desktop toast; message content/expiry and mobile behavior remain intact.
+
+## R14a8 HUD lifecycle contract
+Death takes priority over dodge/sprint posture and potion count/cooldown in the action surface. No dead actor may be represented as ready by those buttons or accessible labels; normal retry must remove the dead-state disabling without resetting unrelated state. This is presentation consistency, not a new invulnerability or recovery rule.

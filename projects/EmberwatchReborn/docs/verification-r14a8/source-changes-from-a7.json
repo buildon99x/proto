@@ -1,0 +1,24 @@
+{
+  "runtimeChangedFiles": [
+    {
+      "path": "app/src/index.html",
+      "oldSha256": "2e28ff7adec80f4b39fb92e066a2796a2cbfe033d23372588baccca5586c53ed",
+      "newSha256": "04cef5ab9f7e1ca7e58e8dd38993028db76aa8cf41d1ccd587dbac30281d618a"
+    },
+    {
+      "path": "app/src/main.js",
+      "oldSha256": "b234ffdf599febd385832b4563248be4ad09d99a460a5e438a3d59ce902157d6",
+      "newSha256": "8fd2eec5ddb1b74a565dc612eea807366d74f41fc2729ab500ad5f2adddb2514"
+    },
+    {
+      "path": "app/src/recovery-page.js",
+      "oldSha256": "fa47d588e0946230dc1229fbc35bf546bd99657cc6c310ac16e9ca9f20abdd75",
+      "newSha256": "75a8b93343b5076d163c8c12b27a1d1f01a1ba2ab9c3866ce6ade68b569439e9"
+    }
+  ],
+  "otherRuntimeFilesByteIdentical": true,
+  "mainOutsideUpdateHudAndBuildLabelIdentical": true,
+  "combatDamageTimingAIMovementSaveAssetsUnchangedFromA7": true,
+  "publicCandidateStill": "v58/R14a4",
+  "newBuildUnpublished": true
+}

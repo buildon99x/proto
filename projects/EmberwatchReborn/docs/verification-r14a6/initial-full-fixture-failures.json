@@ -1,0 +1,914 @@
+[
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "144",
+    "name": "actual cover route accepts, cools, exhausts, ignites, explicitly collects lens and reports once (901.416938ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "144",
+    "name": "actual channel route accepts, cools, exhausts, ignites, explicitly collects lens and reports once (51.779987ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "180",
+    "name": "actual F acceptance shares Orin with S completion and existing purchase handlers; Eda does not offer F (59.848306ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "188",
+    "name": "actual cover cooling map-only refresh preserves damaged living enemies, projectiles and paid recovery (136.900542ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "188",
+    "name": "actual channel cooling map-only refresh preserves damaged living enemies, projectiles and paid recovery (47.98027ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "203",
+    "name": "actual exhaust opens rear aisle and central connection together without rebuilding live battle (103.150436ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "212",
+    "name": "actual ignition level-up synchronizes new caps without resource refill, lens collection or map replacement (105.432753ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "221",
+    "name": "actual cover rapid opposite cooling clicks publish exactly one durable choice and reward (45.754604ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "221",
+    "name": "actual channel rapid opposite cooling clicks publish exactly one durable choice and reward (77.813463ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "229",
+    "name": "actual cooling WRITE_FAILED preserves state, choice and map and exposes the correct recovery behavior (70.611118ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "229",
+    "name": "actual cooling COMMIT_UNCERTAIN preserves state, choice and map and exposes the correct recovery behavior (46.946022ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "241",
+    "name": "actual conflicting cooling commit cannot open either route or display success (52.020371ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "256",
+    "name": "actual furnace-cooling rejects COOLING_GUARDS_ALIVE visibly without a reward or commit (39.359595ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "256",
+    "name": "actual furnace-exhaust rejects COOLING_REQUIRED visibly without a reward or commit (44.873329ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "256",
+    "name": "actual furnace-exhaust rejects EXHAUST_GUARDS_ALIVE visibly without a reward or commit (41.132252ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "256",
+    "name": "actual furnace-ignition rejects EXHAUST_REQUIRED visibly without a reward or commit (43.743347ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "256",
+    "name": "actual furnace-ignition rejects IGNITION_GUARDS_ALIVE visibly without a reward or commit (46.710236ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "256",
+    "name": "actual furnace-lens rejects IGNITION_REQUIRED visibly without a reward or commit (77.058109ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "256",
+    "name": "actual furnace-shortcut rejects COOLING_REQUIRED visibly without a reward or commit (45.177781ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "262",
+    "name": "actual disabled/malformed cooling controls and non-cooling choice payloads cannot award or write (68.981003ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "270",
+    "name": "actual acceptance requires the earned S report and Orin, and report requires its separate lens (411.140573ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "278",
+    "name": "actual object opening checkpoints before pausing, rejects stale life, and respects blocked storage (56.878552ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "287",
+    "name": "actual unknown, out-of-range and stale-life F actions stay failed instead of turning into chests (39.906654ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "295",
+    "name": "actual cover lift outranks its nearer locked portal only when ready, visible and within reach (71.560615ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "295",
+    "name": "actual channel lift outranks its nearer locked portal only when ready, visible and within reach (786.705339ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "309",
+    "name": "actual cover death/retry and saved reentry retain partial earned stage and prohibit stale rewards (99.910779ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "309",
+    "name": "actual channel death/retry and saved reentry retain partial earned stage and prohibit stale rewards (107.149317ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "320",
+    "name": "actual predecessor objective panel and HUD show current F goal without mutating progress (54.978632ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "320",
+    "name": "actual accepted objective panel and HUD show current F goal without mutating progress (78.045948ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "320",
+    "name": "actual entry objective panel and HUD show current F goal without mutating progress (83.370454ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "320",
+    "name": "actual cooled objective panel and HUD show current F goal without mutating progress (87.517935ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "320",
+    "name": "actual exhausted objective panel and HUD show current F goal without mutating progress (68.746077ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "320",
+    "name": "actual ignited objective panel and HUD show current F goal without mutating progress (86.145218ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "320",
+    "name": "actual lens objective panel and HUD show current F goal without mutating progress (104.016167ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "320",
+    "name": "actual reported objective panel and HUD show current F goal without mutating progress (126.469939ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "326",
+    "name": "actual F goal names the saved custom interaction key and inventory resolves the permanent lens label (62.24492ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "332",
+    "name": "actual cooled furnace-cooling labels and render preparation reflect its true completion (50.500443ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "332",
+    "name": "actual exhausted furnace-exhaust labels and render preparation reflect its true completion (41.374221ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "332",
+    "name": "actual ignited furnace-ignition labels and render preparation reflect its true completion (58.217192ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "332",
+    "name": "actual ignited furnace-lens labels and render preparation reflect its true completion (42.558037ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "332",
+    "name": "actual lens furnace-lens labels and render preparation reflect its true completion (47.706695ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "341",
+    "name": "actual qa-r9 title and forward-copy handler preserve earned qa-r8 source and all earlier namespace bytes (17.843775ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "353",
+    "name": "actual pending cooling commit preserves a newer close action instead of reopening its old panel (42.011962ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "353",
+    "name": "actual pending cooling commit preserves a newer objective action instead of reopening its old panel (41.597444ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "360",
+    "name": "actual town F entrances stay hidden before acceptance without removing core gates (17.63335ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "373",
+    "name": "actual pending F accept commit retains newer close navigation (62.332306ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "373",
+    "name": "actual pending F accept commit retains newer objective navigation (29.581121ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "373",
+    "name": "actual pending F report commit retains newer close navigation (67.935227ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "373",
+    "name": "actual pending F report commit retains newer objective navigation (56.698517ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "380",
+    "name": "actual F accept retains paid HP/MP/stamina and cooldowns without a map rebuild (39.234865ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "380",
+    "name": "actual F lens retains paid HP/MP/stamina and cooldowns without a map rebuild (60.561249ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "380",
+    "name": "actual F report retains paid HP/MP/stamina and cooldowns without a map rebuild (110.032916ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "388",
+    "name": "actual pending F opening checkpoint honors newer close navigation (390.758557ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "388",
+    "name": "actual pending F opening checkpoint honors newer objective navigation (64.683437ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "393",
+    "name": "actual reload click resolves a cooling conflict to the durable opposite choice without paying again (76.201257ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "furnace-ui-integration.test.mjs",
+    "line": "402",
+    "name": "actual reload after an uncertain uncommitted cooling choice resumes saved stage before a fresh choice (68.92975ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "pass-prerequisite-copy.test.mjs",
+    "line": "63",
+    "name": "actual signal panel at entry identifies only unfinished prerequisites and preserves CLUE_REQUIRED (606.932481ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "pass-prerequisite-copy.test.mjs",
+    "line": "63",
+    "name": "actual signal panel at clue identifies only unfinished prerequisites and preserves RESCUE_REQUIRED (49.74761ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "pass-prerequisite-copy.test.mjs",
+    "line": "63",
+    "name": "actual signal panel at rescued identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE (67.616812ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "pass-prerequisite-copy.test.mjs",
+    "line": "63",
+    "name": "actual signal panel at two-defeats identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE (39.822155ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "pass-prerequisite-copy.test.mjs",
+    "line": "63",
+    "name": "actual signal panel at four-defeats identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE (41.826706ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "pass-prerequisite-copy.test.mjs",
+    "line": "67",
+    "name": "ready, partial, reset and reloaded actual panels retain readiness without repeating completed prerequisites (36.616404ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "pass-prerequisite-copy.test.mjs",
+    "line": "80",
+    "name": "reported return panels retain completed report without asking for past work or paying again (137.976065ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "pause-travel-ui.test.mjs",
+    "line": "137",
+    "name": "actual F → Escape refreshes the pause region after durable travel without rebuilding or saving again (689.717697ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "pause-travel-ui.test.mjs",
+    "line": "146",
+    "name": "actual Escape dismissal while travel is pending is not reopened by commit (34.379177ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "pause-travel-ui.test.mjs",
+    "line": "146",
+    "name": "actual close dismissal while travel is pending is not reopened by commit (27.560377ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "pause-travel-ui.test.mjs",
+    "line": "152",
+    "name": "actual newer help panel wins over the travel completion callback (34.995937ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "pause-travel-ui.test.mjs",
+    "line": "152",
+    "name": "actual newer objective panel wins over the travel completion callback (32.889786ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "pause-travel-ui.test.mjs",
+    "line": "157",
+    "name": "actual repeated Escape and menu navigation refresh only the latest open menu (27.641868ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "pause-travel-ui.test.mjs",
+    "line": "163",
+    "name": "actual failed pending travel keeps departure region and a single save attempt (34.410199ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "pause-travel-ui.test.mjs",
+    "line": "169",
+    "name": "actual uncertain pending travel replaces pause menu with the recovery gate and blocks Escape (41.884882ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "pause-travel-ui.test.mjs",
+    "line": "174",
+    "name": "actual save-and-title click during travel does not enqueue a stale checkpoint or exit before saving (25.81869ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "pause-travel-ui.test.mjs",
+    "line": "181",
+    "name": "actual ordinary pause checkpoint refreshes the current label without recursive saves or focus changes (27.247656ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "77",
+    "name": "actual quarry-tool click renders completion and next step; reopen/reload never repay (430.287291ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "77",
+    "name": "actual quarry-rescue click renders completion and next step; reopen/reload never repay (53.642941ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "77",
+    "name": "actual quarry-shortcut click renders completion and next step; reopen/reload never repay (28.264294ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "77",
+    "name": "actual quarry-anchor-a click renders completion and next step; reopen/reload never repay (45.005567ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "77",
+    "name": "actual quarry-anchor-b click renders completion and next step; reopen/reload never repay (24.903914ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "77",
+    "name": "actual quarry-winch click renders completion and next step; reopen/reload never repay (35.746881ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "92",
+    "name": "actual unfinished quarry-tool at entry keeps prerequisite copy and atomic ENTRY_GUARDS_ALIVE (16.450059ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "92",
+    "name": "actual unfinished quarry-rescue at entry keeps prerequisite copy and atomic TOOL_REQUIRED (52.401345ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "92",
+    "name": "actual unfinished quarry-rescue at tool keeps prerequisite copy and atomic RESCUE_GUARDS_ALIVE (29.659916ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "92",
+    "name": "actual unfinished quarry-shortcut at tool keeps prerequisite copy and atomic RESCUE_REQUIRED (21.795509ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "92",
+    "name": "actual unfinished quarry-anchor-a at shortcut keeps prerequisite copy and atomic WINCH_GUARDS_ALIVE (21.168754ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "92",
+    "name": "actual unfinished quarry-anchor-b at shortcut keeps prerequisite copy and atomic WINCH_GUARDS_ALIVE (24.339171ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "92",
+    "name": "actual unfinished quarry-winch at anchor-a keeps prerequisite copy and atomic ANCHORS_REQUIRED (23.653369ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "95",
+    "name": "completed anchor panels advance from remaining anchor to winch and then report (23.247514ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "98",
+    "name": "reported return to quarry-tool does not request quarry report or past tasks again (86.951442ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "98",
+    "name": "reported return to quarry-rescue does not request quarry report or past tasks again (33.143509ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "98",
+    "name": "reported return to quarry-shortcut does not request quarry report or past tasks again (29.4554ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "98",
+    "name": "reported return to quarry-anchor-a does not request quarry report or past tasks again (23.683483ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "98",
+    "name": "reported return to quarry-anchor-b does not request quarry report or past tasks again (23.439069ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "98",
+    "name": "reported return to quarry-winch does not request quarry report or past tasks again (22.767208ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "104",
+    "name": "completed anchors guide only the unfinished side and then winch even without optional shortcut (41.422834ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "quarry-completion-ui.test.mjs",
+    "line": "107",
+    "name": "unfinished and completed lift copy limits no-recovery statement to the region transition itself (16.905357ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "Trial by Fire 37.5 MP: exact HUD, aria and actual acceptance/payment agree (23.85537ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "Trial by Fire 37.5 MP: adjacent float above HUD, aria and actual acceptance/payment agree (10.349682ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "Trial by Fire 37.5 MP: above by 1e-10 HUD, aria and actual acceptance/payment agree (11.174602ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "Trial by Fire 37.5 MP: just above HUD, aria and actual acceptance/payment agree (12.788088ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "Zeal-discounted Trial by Fire 33.75 MP: exact HUD, aria and actual acceptance/payment agree (45.203376ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "Zeal-discounted Trial by Fire 33.75 MP: adjacent float above HUD, aria and actual acceptance/payment agree (24.138182ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "Zeal-discounted Trial by Fire 33.75 MP: above by 1e-10 HUD, aria and actual acceptance/payment agree (26.061219ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "Zeal-discounted Trial by Fire 33.75 MP: just above HUD, aria and actual acceptance/payment agree (30.529772ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "shielded Onslaught 11.25 stamina: exact HUD, aria and actual acceptance/payment agree (12.649521ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "shielded Onslaught 11.25 stamina: adjacent float above HUD, aria and actual acceptance/payment agree (12.060894ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "shielded Onslaught 11.25 stamina: above by 1e-10 HUD, aria and actual acceptance/payment agree (14.624517ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "shielded Onslaught 11.25 stamina: just above HUD, aria and actual acceptance/payment agree (29.383462ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "Grace-discounted shielded Onslaught 7.875 stamina: exact HUD, aria and actual acceptance/payment agree (23.7012ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "Grace-discounted shielded Onslaught 7.875 stamina: adjacent float above HUD, aria and actual acceptance/payment agree (24.99567ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "Grace-discounted shielded Onslaught 7.875 stamina: above by 1e-10 HUD, aria and actual acceptance/payment agree (20.171858ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "resource-display.test.mjs",
+    "line": "50",
+    "name": "Grace-discounted shielded Onslaught 7.875 stamina: just above HUD, aria and actual acceptance/payment agree (19.414839ms)",
+    "error": "ReferenceError: dismissRecoveryNotice is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "73",
+    "name": "actual signal-code panel at entry shows remaining work and preserves ENTRY_GUARDS_ALIVE (847.289209ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "73",
+    "name": "actual signal-code panel at entry-partial shows remaining work and preserves ENTRY_GUARDS_ALIVE (60.490356ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "73",
+    "name": "actual signal-route-transmitter panel at entry shows remaining work and preserves DECODE_REQUIRED (41.893127ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "73",
+    "name": "actual signal-transmitter panel at entry shows remaining work and preserves DECODE_REQUIRED (46.276028ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "73",
+    "name": "actual signal-transmitter panel at decoded shows remaining work and preserves ROUTE_REQUIRED (61.186522ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "73",
+    "name": "actual signal-transmitter panel at routed shows remaining work and preserves YARD_GUARDS_ALIVE (63.415278ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "73",
+    "name": "actual signal-transmitter panel at yard-partial shows remaining work and preserves YARD_GUARDS_ALIVE (41.991042ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "73",
+    "name": "actual signal-receiver panel at routed shows remaining work and preserves TRANSMITTER_REQUIRED (33.410166ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "73",
+    "name": "actual signal-receiver panel at transmitted shows remaining work and preserves RECEIVER_GUARDS_ALIVE (52.085802ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "73",
+    "name": "actual signal-receiver panel at receiver-partial shows remaining work and preserves RECEIVER_GUARDS_ALIVE (45.315609ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "73",
+    "name": "actual signal-shortcut panel at entry shows remaining work and preserves DECODE_REQUIRED (26.57048ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "82",
+    "name": "actual ready signal-code panel pays once and persists its completed copy (49.161992ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "82",
+    "name": "actual ready signal-transmitter panel pays once and persists its completed copy (31.654124ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "82",
+    "name": "actual ready signal-receiver panel pays once and persists its completed copy (37.247426ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "92",
+    "name": "actual west lever copy survives reset/reload and preserves exclusive selection (36.855152ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "92",
+    "name": "actual east lever copy survives reset/reload and preserves exclusive selection (24.596364ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "104",
+    "name": "actual optional lift stays optional, grants nothing and scopes resource copy to region transition (25.533477ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-prerequisite-copy.test.mjs",
+    "line": "121",
+    "name": "actual report click without the optional lift pays once and all returned devices acknowledge completion (43.922065ms)",
+    "error": "ReferenceError: $ is not defined"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "135",
+    "name": "actual Orin panel offers S acceptance beside existing equipment and keeps Eda unchanged (788.972252ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "145",
+    "name": "actual S acceptance and existing purchase handlers share Orin without replacing shop transactions (13.475518ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "154",
+    "name": "actual F interaction finds S decoder, checkpoints, pauses, and the real click saves its once-only reward (142.773133ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "167",
+    "name": "actual west route click feedback and map-only refresh retain live battle and paid recovery (102.03858ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "167",
+    "name": "actual east route click feedback and map-only refresh retain live battle and paid recovery (110.711403ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "189",
+    "name": "actual repeated first lever resets visible order only, without reward, route, or map rebuild (53.535398ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "197",
+    "name": "actual nearest elevates the ready S shortcut only within reach and LOS, then exposes its unlocked portal (87.927226ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "209",
+    "name": "actual transmitter click opens the north door and preserves damaged enemies while displaying objective reward (123.892242ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "218",
+    "name": "actual receiver and Orin report clicks show and commit rewards once and retain truthful completed panels (149.601232ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "233",
+    "name": "actual inventory renders the permanent signal tool name instead of its internal ID (17.915775ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "237",
+    "name": "actual signal panel does not open when its prerequisite checkpoint fails or save is blocked (19.325441ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "247",
+    "name": "disabled S controls and failed decoder prerequisites never pay, pause incorrectly, or create receipts (42.987065ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "254",
+    "name": "S guidance and completed F handoff take priority over Pass at predecessor, including actual paused objective panel (21.050467ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "254",
+    "name": "S guidance and completed F handoff take priority over Pass at accepted, including actual paused objective panel (26.85894ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "254",
+    "name": "S guidance and completed F handoff take priority over Pass at decoded, including actual paused objective panel (49.916805ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "254",
+    "name": "S guidance and completed F handoff take priority over Pass at routed, including actual paused objective panel (46.630675ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "254",
+    "name": "S guidance and completed F handoff take priority over Pass at transmitter, including actual paused objective panel (52.641272ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "254",
+    "name": "S guidance and completed F handoff take priority over Pass at receiver, including actual paused objective panel (101.674728ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "254",
+    "name": "S guidance and completed F handoff take priority over Pass at reported, including actual paused objective panel (116.19421ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "270",
+    "name": "actual qa-r8 title and candidate-copy handler preserve earned R7 source and release bytes (19.369798ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "297",
+    "name": "concurrent actual decoder clicks commit and display one reward while busy input is ignored (51.354924ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "306",
+    "name": "actual route commit conflict cannot open the map, reset the live battle, or display success (105.571882ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  },
+  {
+    "file": "signal-ui-integration.test.mjs",
+    "line": "316",
+    "name": "actual unknown signal object and out-of-range stale action do not turn into chest interactions or rewards (37.19637ms)",
+    "error": "TypeError: Cannot read properties of undefined (reading 'recoverySkillId')"
+  }
+]

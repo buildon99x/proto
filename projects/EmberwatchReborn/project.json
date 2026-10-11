@@ -4,8 +4,8 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
-  "version": "0.14.0-reimplementation.4",
-  "summary": "R14a4 POE형 전사 입력 격리 개발 후보: 즉시성·두 이동모드·조준·회피와 질주 통합 중. 실제 QA 및 전체 회귀 미완료.",
+  "version": "0.14.0-reimplementation.8",
+  "summary": "R14a8 미게시 조작 피드백 후보: 사망·회생 HUD 상태 표시 수정. 전체 회귀 결과는 검증 문서에 기록하며 실제 후보 화면 검증은 대기 중.",
   "tags": [
     "game",
     "action-rpg",

@@ -1,0 +1,32 @@
+TAP version 13
+# Subtest: reported Space death label is replaced before any stale roll or sprint instruction
+not ok 1 - reported Space death label is replaced before any stale roll or sprint instruction
+  ---
+  duration_ms: 77.072891
+  type: 'test'
+  location: '/tmp/emberwatch-dead-hud-baseline.PK6MXr/app/tests/dead-action-hud.test.mjs:112:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /<em>쓰러짐 · 행동 불가<\/em>/. Input:
+    
+    '<b>Space</b>구르기 / 홀드 질주<em>회피 후 홀드 질주</em>'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: '<b>Space</b>구르기 / 홀드 질주<em>회피 후 홀드 질주</em>'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///tmp/emberwatch-dead-hud-baseline.PK6MXr/app/tests/dead-action-hud.test.mjs:114:9)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 249.756229

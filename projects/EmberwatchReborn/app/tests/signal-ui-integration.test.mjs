@@ -110,13 +110,13 @@ async function browser(saved,{storage=memory(),profile='qa-signal-ui',namespace=
  const controller=createController(store),loaded=await controller.load();assert.equal(loaded.ok,true);
  const events=[],messages=[],calls=[],handlers={},labels=[];controller.subscribe(event=>events.push(event));
  const modal={hidden:true,innerHTML:'',querySelector:()=>({focus:()=>calls.push(['focus-modal'])})};
- const elements={hud:{hidden:false},profile:{value:'qa-r8-copy'},sourceProfile:{value:'qa-r7-source'},sourceNamespace:{value:'qa-r7'}};
+ const elements={toast:{textContent:'',classList:{add(){},remove(){}}},hud:{hidden:false},profile:{value:'qa-r8-copy'},sourceProfile:{value:'qa-r7-source'},sourceNamespace:{value:'qa-r7'}};
  const imports={...mainImports,BATTLEFIELD_COMMANDS,battlefieldObjectView,battlefieldElderView,battlefieldGuidance,battlefieldCommandFields,battlefieldPortalLabel,battlefieldEventCopy,previewExpertPromotion,quoteAction,EXPERT_SLOTS,emptyActionSlots,combatCheckpoint,TOMB_COMMANDS,TOMB_TOOLS,tombWardCarried,tombObjectView,tombElderView,tombCommandFields,tombClueView,tombEventCopy,tombGoldView,tombPortalLabel,createBattle,clearBattleIntent,battleReport,syncCommittedBattle,getRegion,createMap,near,lineOfSight,selectInteractionTarget,deriveStats,equipmentRows,quoteEquipment,previewRecipe,EQUIPMENT_ITEMS,EQUIPMENT_RECIPES,EQUIPMENT_SLOTS,EQUIPMENT_UPGRADES,DUNGEON_TOOLS,QUARRY_TOOLS,PASS_TOOLS,SIGNAL_TOOLS,FURNACE_TOOLS,DUNGEON_COMMANDS,QUARRY_COMMANDS,PASS_COMMANDS,SIGNAL_COMMANDS,FURNACE_COMMANDS,dungeonObjectView,quarryObjectView,quarryElderView,passObjectView,passElderView,signalObjectView,signalBlacksmithView,furnaceObjectView,furnaceBlacksmithView,campaignGuidance,chestPresentation,copyReleaseQaProfile};
  const declaredImports=new Set([...source.matchAll(/^import\s*\{([^}]+)\}/gm)].flatMap(match=>match[1].split(',').map(name=>name.trim())));
  for(const name of Object.keys(imports))assert.ok(declaredImports.has(name),`production main must import ${name}`);
  const expertCapture=createExpertInputCapture(),expertSafety=createActionSafety({capture:expertCapture,cancel:cancelBattleAction});
  const env={...createMainInputFixture(),...imports,expertCapture,expertSafety,state:loaded.state,battle:createBattle(loaded.state),controller,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,equipmentStation:null,suppressNextClick:false,
-  modal,gate:createRuntimeGate(),candidate:namespace!=='release',saveNamespace:namespace,localStorage:storage,navigator:{locks},
+  noticeUntil:0,modal,gate:createRuntimeGate(),candidate:namespace!=='release',saveNamespace:namespace,localStorage:storage,navigator:{locks},
   $:id=>elements[id],document:{hidden:false,hasFocus:()=>true,addEventListener:(name,fn)=>{handlers[name]=fn;}},
   audio:{pause:value=>calls.push(['audio-pause',value]),play:name=>calls.push(['audio-play',name])},
   router:tracedInputRouter(options=>calls.push(['router-clear',options])),deferredImmediate:{clear:()=>calls.push(['deferred-clear'])},

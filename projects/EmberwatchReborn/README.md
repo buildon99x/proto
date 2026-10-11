@@ -1,3 +1,7 @@
+# R14a5 현재 체크포인트
+
+입력 관측의 식별자/렌더 진입·반환·소리 요청 구분과 국소 스킬 FX 대비 보강. 최종 전체3,829 자동검사·lint·정적빌드 통과. 실제 R14a5 후보 QA는 진행 전이며, 이전 v58 실제 QA는 별도로 보존했습니다. docs/verification-r14a5/README.md 참고.
+
 # R14a4 현재 체크포인트
 
 진격 채널의 실제 pulse에 FX를 연결하는 presentation 수정. 전체3,792 자동검사·lint·빌드 통과, 실제 후보 화면 비교는 미완료입니다. docs/verification-r14a4/README.md 참고.
@@ -39,3 +43,10 @@ The existing remote refs, public0.4.7 and previously pending upload/import appro
 
 ## Current verification
 Run `npm test` and `npm run lint` in `app/`. See `docs/progression-r1.md` and `docs/state-save-r1.md` for source/tuning separation and fixture limits. The separate public GPT Site is https://emberwatch-reborn.buildon733500.chatgpt.site/ . R2f ordinary-input QA reached level2/13kills through normal inputs; see docs/r2f-normal-input-results.md. R3a equipment UI, full campaign and visual/audio acceptance remain separate unfinished gates. See docs/equipment-r3-integration.md for current checks and limitations.
+
+R14a7 final automated checkpoint:3,923/3,923 unique tests,0fail/skip/cancel,113877.982352ms; lint/build passed. Counts include prior3,853 plus70 new (32 contact,32 frame,6 integrated); overlapping focused runs are not added. Actual a7 browser/FX/frame/voice review remains unverified and no deployment occurred.
+
+## R14a8 local lifecycle feedback candidate
+This separate work surface follows the frozen a7 source. It addresses a death/retry action-label inconsistency observed in public v58 normal play. Publication remains on hold; the actual first-boss profile reached L3 and retried, but did not defeat the boss. Read docs/verification-r14a8 for current automated checks and remaining browser gates.
+
+Final R14a8 automated check: **3,940/3,940 unique tests**, 0 fail/skip/cancel, 115268.864147ms; lint and build passed. This includes the existing 3,923 plus 17 new lifecycle tests. Actual a8 browser/FX/contact/frame/audio acceptance remains unverified; no deployment occurred.

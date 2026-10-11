@@ -1,0 +1,408 @@
+✖ observation main: real render is bracketed by distinct entry and return clocks without mutating action data (1943.919093ms)
+✖ observation main: guard receipt remains separate when held mace resumes after guard release (897.483299ms)
+✖ observation main: the remapped press records its resolved skill before action start (825.17835ms)
+✖ observation main: start sound uses the event cast rather than an unrelated current action (166.566935ms)
+✖ observation main: enemy and hit sounds never borrow a live player action identity (119.559361ms)
+✖ observation main: a declined audio request is shown as declined, without claiming playback (103.897171ms)
+✖ observation main: dodge audio is linked to its exact mobility sequence and result (166.801342ms)
+✖ observation main: rejected dodge observation cannot survive until later held movement (146.340755ms)
+✖ observation identity: a guard receipt cannot become the next held mace start (3.319869ms)
+✖ observation identity: remapped slot resolves at receipt and matches the actual skill (0.797216ms)
+✖ observation identity: wrong skill cannot steal a pending receipt even in the same slot (6.240624ms)
+✖ observation identity: unresolved slots never infer the historical attack mapping (0.41023ms)
+✖ observation identity: replacement cancels the previous receipt without deleting history (1.587181ms)
+✖ observation identity: a skill receipt cannot become a mobility start (0.338904ms)
+✖ observation identity: a mobility receipt cannot become a skill start (0.280468ms)
+✖ observation identity: roll requires the exact triggering mobility command (0.257453ms)
+✖ observation identity: held sprint transitions cannot borrow a pending roll receipt (0.362409ms)
+✔ observation identity: matching direct sprint preserves the original receipt (0.404622ms)
+✖ observation render: entry and return clocks are distinct and recorded once per cast (0.281979ms)
+✖ observation render: an interrupted render has an entry but no fabricated return (0.261509ms)
+✖ observation render: return keeps captured mobility identity after a new transition (0.236492ms)
+✖ observation sound: accepted and rejected adjacent start requests retain their result and cast (0.260497ms)
+✖ observation sound: unrelated impact, enemy and stale start sounds remain unlinked (0.216572ms)
+✖ observation sound: a roll request uses its own mobility sequence and leaves an unknown result unknown (0.240849ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 1
+ℹ fail 23
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4535.940812
+
+✖ failing tests:
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:289:1
+✖ observation main: real render is bracketed by distinct entry and return clocks without mutating action data (1943.919093ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(enter)
+  
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:290:250)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:292:1
+✖ observation main: guard receipt remains separate when held mace resumes after guard release (897.483299ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'shield_block'
+  
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:293:143)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'shield_block',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:295:1
+✖ observation main: the remapped press records its resolved skill before action start (825.17835ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'righteous_hammer'
+  
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:296:197)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'righteous_hammer',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:298:1
+✖ observation main: start sound uses the event cast rather than an unrelated current action (166.566935ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'audio-dispatch'
+  - 'audio-request-result'
+           ^
+  
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:299:309)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'audio-dispatch',
+    expected: 'audio-request-result',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:301:1
+✖ observation main: enemy and hit sounds never borrow a live player action identity (119.559361ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 4
+  
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:302:307)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 4,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:304:1
+✖ observation main: a declined audio request is shown as declined, without claiming playback (103.897171ms)
+  TypeError: Cannot read properties of undefined (reading 'accepted')
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:305:179)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:307:1
+✖ observation main: dodge audio is linked to its exact mobility sequence and result (166.801342ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(sound)
+  
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:308:263)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:310:1
+✖ observation main: rejected dodge observation cannot survive until later held movement (146.340755ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(rows.some(r=>r.kind==='cancelled'&&r.sequence===press.sequence&&r.reason==='mobility-locked'))
+  
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/expert-main-input.test.mjs:311:252)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:18:1
+✖ observation identity: a guard receipt cannot become the next held mace start (3.319869ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: 1
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:19:216)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:21:1
+✖ observation identity: remapped slot resolves at receipt and matches the actual skill (0.797216ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'righteous_hammer'
+  
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:22:220)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'righteous_hammer',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:24:1
+✖ observation identity: wrong skill cannot steal a pending receipt even in the same slot (6.240624ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(rows.filter(r=>r.kind==='action-start').every(r=>r.sequence!==press.sequence&&r.heldRepeat&&r.delayMs===null))
+  
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:25:228)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:27:1
+✖ observation identity: unresolved slots never infer the historical attack mapping (0.41023ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: 1
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:28:123)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:30:1
+✖ observation identity: replacement cancels the previous receipt without deleting history (1.587181ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      'input',
+  -   'cancelled'
+    ]
+  
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:31:232)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'input' ],
+    expected: [ 'input', 'cancelled' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:33:1
+✖ observation identity: a skill receipt cannot become a mobility start (0.338904ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: 1
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:34:203)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:36:1
+✖ observation identity: a mobility receipt cannot become a skill start (0.280468ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: 1
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:37:128)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:39:1
+✖ observation identity: roll requires the exact triggering mobility command (0.257453ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: 1
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:40:148)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:42:1
+✖ observation identity: held sprint transitions cannot borrow a pending roll receipt (0.362409ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: 1
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:43:150)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:48:1
+✖ observation render: entry and return clocks are distinct and recorded once per cast (0.281979ms)
+  TypeError: trace.renderEntered is not a function
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:49:125)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:51:1
+✖ observation render: an interrupted render has an entry but no fabricated return (0.261509ms)
+  TypeError: trace.renderEntered is not a function
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:52:95)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:54:1
+✖ observation render: return keeps captured mobility identity after a new transition (0.236492ms)
+  TypeError: trace.renderEntered is not a function
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:55:138)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:57:1
+✖ observation sound: accepted and rejected adjacent start requests retain their result and cast (0.260497ms)
+  TypeError: trace.soundRequested is not a function
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:58:127)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:60:1
+✖ observation sound: unrelated impact, enemy and stale start sounds remain unlinked (0.216572ms)
+  TypeError: trace.soundRequested is not a function
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:61:196)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at ../../../tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:63:1
+✖ observation sound: a roll request uses its own mobility sequence and leaves an unknown result unknown (0.240849ms)
+  TypeError: trace.mobilitySoundRequested is not a function
+      at TestContext.<anonymous> (file:///tmp/emberwatch-observation-baseline-app/tests/input-latency.test.mjs:64:151)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

@@ -101,7 +101,7 @@ test('F kinds do not alter non-F render output or enable S passage cues elsewher
 });
 
 test('the actual main renderer handoff draws each live F role without a preview-only path',()=>{
- const source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8'),start=source.indexOf('renderer.render({width:canvas.width'),end=source.indexOf('drawLabels(sceneVisibility);',start)+'drawLabels(sceneVisibility);'.length;
+ const source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8'),start=source.indexOf('const renderObservation=inputLatency.renderEntered('),end=source.indexOf('drawLabels(sceneVisibility);',start)+'drawLabels(sceneVisibility);'.length;
  assert.ok(start>0&&end>start);const s=state(),{renderer,calls}=render(state({entities:[]}));calls.length=0;
  const battle={region:FURNACE_REGION,map:s.map,p:s.p,enemies:s.entities,shots:[],effects:[],floaters:[],time:0,shake:0,stats:{},targetId:null};let labels=0;
  const currentState={options:{screenShake:0,flashes:0}};

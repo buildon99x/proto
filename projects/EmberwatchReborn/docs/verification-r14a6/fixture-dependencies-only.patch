@@ -1,0 +1,108 @@
+--- a/app/tests/furnace-ui-integration.test.mjs
++++ b/app/tests/furnace-ui-integration.test.mjs
+@@ -116,13 +116,13 @@
+  const events=[],messages=[],calls=[],handlers={},labels=[],commands=[],outcomes=[];controller.subscribe(event=>events.push(event));
+  const actualDispatch=controller.dispatch;controller.dispatch=async command=>{commands.push(copy(command));const result=await actualDispatch(command);outcomes.push(result);return result;};
+  const modal={hidden:true,innerHTML:'',querySelector:()=>({focus:()=>calls.push(['focus-modal'])})};
+- const elements={hud:{hidden:false},objective:{innerHTML:''},profile:{value:'qa-r9-copy'},sourceProfile:{value:'qa-r8-source'},sourceNamespace:{value:'qa-r8'}};
++ const elements={toast:{textContent:'',classList:{add(){},remove(){}}},hud:{hidden:false},objective:{innerHTML:''},profile:{value:'qa-r9-copy'},sourceProfile:{value:'qa-r8-source'},sourceNamespace:{value:'qa-r8'}};
+  const imports={...mainImports,BATTLEFIELD_COMMANDS,battlefieldObjectView,battlefieldElderView,battlefieldGuidance,battlefieldCommandFields,battlefieldPortalLabel,battlefieldEventCopy,previewExpertPromotion,quoteAction,EXPERT_SLOTS,emptyActionSlots,combatCheckpoint,TOMB_COMMANDS,TOMB_TOOLS,tombWardCarried,tombObjectView,tombElderView,tombCommandFields,tombClueView,tombEventCopy,tombGoldView,tombPortalLabel,createBattle,clearBattleIntent,battleReport,syncCommittedBattle,getRegion,createMap,near,lineOfSight,selectInteractionTarget,deriveStats,equipmentRows,quoteEquipment,previewRecipe,EQUIPMENT_ITEMS,EQUIPMENT_RECIPES,EQUIPMENT_SLOTS,EQUIPMENT_UPGRADES,DUNGEON_TOOLS,QUARRY_TOOLS,PASS_TOOLS,SIGNAL_TOOLS,FURNACE_TOOLS,DUNGEON_COMMANDS,QUARRY_COMMANDS,PASS_COMMANDS,SIGNAL_COMMANDS,FURNACE_COMMANDS,dungeonObjectView,quarryObjectView,quarryElderView,passObjectView,passElderView,signalObjectView,signalBlacksmithView,furnaceObjectView,furnaceBlacksmithView,campaignGuidance,chestPresentation,copyReleaseQaProfile,controlsFor,actionLabel};
+  const declaredImports=new Set([...source.matchAll(/^import\s*\{([^}]+)\}/gm)].flatMap(match=>match[1].split(',').map(name=>name.trim())));
+  for(const name of Object.keys(imports))assert.ok(declaredImports.has(name),`production main must import ${name}`);
+  const expertCapture=createExpertInputCapture(),expertSafety=createActionSafety({capture:expertCapture,cancel:cancelBattleAction});
+  const gate=createRuntimeGate(),env={...createMainInputFixture(),expertCapture,expertSafety,...imports,state:loaded.state,battle:createBattle(loaded.state),controller,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,equipmentStation:null,suppressNextClick:false,lastObjectiveHtml:'',
+-  modal,gate,candidate:namespace!=='release',saveNamespace:namespace,localStorage:storage,navigator:{locks},
++  noticeUntil:0,modal,gate,candidate:namespace!=='release',saveNamespace:namespace,localStorage:storage,navigator:{locks},
+   $:id=>elements[id],document:{hidden:false,hasFocus:()=>true,addEventListener:(name,fn)=>{handlers[name]=fn;}},
+   audio:{pause:value=>calls.push(['audio-pause',value]),play:name=>calls.push(['audio-play',name])},
+   router:tracedInputRouter(options=>calls.push(['router-clear',options])),deferredImmediate:{clear:()=>calls.push(['deferred-clear'])},
+--- a/app/tests/pass-prerequisite-copy.test.mjs
++++ b/app/tests/pass-prerequisite-copy.test.mjs
+@@ -45,8 +45,9 @@
+  const controller=mainImports.createController(session),loaded=await controller.load();assert.equal(loaded.ok,true);
+  const handlers={},outcomes=[],messages=[],originalDispatch=controller.dispatch;controller.dispatch=async command=>{const result=await originalDispatch(command);outcomes.push(result);return result;};
+  const modal={hidden:true,innerHTML:'',querySelector:()=>({focus(){}})},expertCapture=mainImports.createExpertInputCapture();
++ const elements={toast:{textContent:'',classList:{add(){},remove(){}}}};
+  const env={...createMainInputFixture(),...mainImports,expertCapture,expertSafety:mainImports.createActionSafety({capture:expertCapture,cancel:mainImports.cancelBattleAction}),state:loaded.state,battle:mainImports.createBattle(loaded.state),controller,
+-  modal,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,suppressNextClick:false,last:0,saveNamespace:'qa-r12',candidate:true,
++  $:id=>elements[id],noticeUntil:0,modal,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,suppressNextClick:false,last:0,saveNamespace:'qa-r12',candidate:true,
+   gate:mainImports.createRuntimeGate(),router:mainImports.createInputRouter(),deferredImmediate:mainImports.createImmediateInput(),canvas:{focus(){}},audio:{pause(){},play(){}},toast:text=>messages.push(text),updateHud(){},document:{hidden:false,hasFocus:()=>true,addEventListener:(name,fn)=>handlers[name]=fn},
+  };
+  const ui=vm.compileFunction(harnessSource,Object.keys(env),{filename:'actual-main-pass-prerequisite-handlers.js'})(...Object.values(env));
+--- a/app/tests/pause-travel-ui.test.mjs
++++ b/app/tests/pause-travel-ui.test.mjs
+@@ -92,7 +92,7 @@
+  }});
+  const loaded=await controller.load();assert.equal(loaded.ok,true);
+  const commands=[],actualDispatch=controller.dispatch;controller.dispatch=command=>{commands.push(command.type);return actualDispatch(command);};
+- const handlers={},messages=[],calls=[],elements={objective:{innerHTML:''},hud:{hidden:false}};
++ const handlers={},messages=[],calls=[],elements={toast:{textContent:'',classList:{add(){},remove(){}}},objective:{innerHTML:''},hud:{hidden:false}};
+  let activeElement,html='',modalWrites=0,regionNode=null,buttonNode=null;
+  const canvas={tagName:'CANVAS',focus(){activeElement=canvas;calls.push('focus-canvas');}};activeElement=canvas;
+  const modal={hidden:true,get innerHTML(){return html;},set innerHTML(value){
+@@ -106,7 +106,7 @@
+  const imports={...mainImports,BATTLEFIELD_COMMANDS,battlefieldObjectView,battlefieldElderView,battlefieldGuidance,battlefieldCommandFields,battlefieldPortalLabel,battlefieldEventCopy,previewExpertPromotion,quoteAction,EXPERT_SLOTS,emptyActionSlots,combatCheckpoint,TOMB_COMMANDS,TOMB_TOOLS,tombWardCarried,tombObjectView,tombElderView,tombCommandFields,tombClueView,tombEventCopy,tombGoldView,tombPortalLabel,createBattle,clearBattleIntent,battleReport,syncCommittedBattle,getRegion,createMap,near,deriveStats,selectInteractionTarget,DUNGEON_COMMANDS,QUARRY_COMMANDS,PASS_COMMANDS,SIGNAL_COMMANDS,FURNACE_COMMANDS,dungeonObjectView,quarryObjectView,passObjectView,signalObjectView,furnaceObjectView,campaignGuidance,chestPresentation,ACTIONS,controlsFor,actionLabel,editableTarget};
+  const expertCapture=createExpertInputCapture(),expertSafety=createActionSafety({capture:expertCapture,cancel:cancelBattleAction});
+  const env={...createMainInputFixture(),...imports,expertCapture,expertSafety,state:loaded.state,battle:createBattle(loaded.state),controller,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,suppressNextClick:false,
+-  modal,gate,router,deferredImmediate:createImmediateInput(),canvas,document,window:{addEventListener:(name,handler)=>handlers[name]=handler},
++  noticeUntil:0,modal,gate,router,deferredImmediate:createImmediateInput(),canvas,document,window:{addEventListener:(name,handler)=>handlers[name]=handler},
+   $:id=>elements[id],audio:{pause:value=>calls.push(['pause',value]),play:value=>calls.push(['play',value])},toast:text=>messages.push(text),
+   profile:'qa-pause-travel',candidate:true,saveNamespace:'qa-r8',pauseReason:'사용자 요청',focusEvents:{blurAt:'없음',visibilityAt:'없음',visibilityState:'초기'},
+   last:0,lastObjectiveHtml:'',displayTime:0,combatTime:0,walkTime:0,menuTime:0,arrivalWaitTime:0,
+--- a/app/tests/quarry-completion-ui.test.mjs
++++ b/app/tests/quarry-completion-ui.test.mjs
+@@ -57,8 +57,9 @@
+  const controller=mainImports.createController(session),loaded=await controller.load();assert.equal(loaded.ok,true);
+  const handlers={},messages=[],commands=[],outcomes=[],actualDispatch=controller.dispatch;controller.dispatch=async command=>{commands.push(command);const result=await actualDispatch(command);outcomes.push(result);return result;};
+  const modal={hidden:true,innerHTML:'',querySelector:()=>({focus(){}})},expertCapture=mainImports.createExpertInputCapture();
++ const elements={toast:{textContent:'',classList:{add(){},remove(){}}}};
+  const env={...createMainInputFixture(),...mainImports,expertCapture,expertSafety:mainImports.createActionSafety({capture:expertCapture,cancel:mainImports.cancelBattleAction}),state:loaded.state,battle:mainImports.createBattle(loaded.state),controller,
+-  modal,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,suppressNextClick:false,last:0,saveNamespace:'qa-r12',candidate:true,
++  $:id=>elements[id],noticeUntil:0,modal,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,suppressNextClick:false,last:0,saveNamespace:'qa-r12',candidate:true,
+   gate:mainImports.createRuntimeGate(),router:mainImports.createInputRouter(),deferredImmediate:mainImports.createImmediateInput(),canvas:{focus(){}},audio:{pause(){},play(){}},toast:text=>messages.push(text),updateHud(){},document:{hidden:false,hasFocus:()=>true,addEventListener:(name,fn)=>handlers[name]=fn},
+  };
+  const ui=vm.compileFunction(harnessSource,Object.keys(env),{filename:'actual-main-quarry-completion-handlers.js'})(...Object.values(env));
+--- a/app/tests/resource-display.test.mjs
++++ b/app/tests/resource-display.test.mjs
+@@ -33,8 +33,8 @@
+  $('hotbar').querySelector=selector=>buttons[/data-(?:combat|action)="([^"]+)"/.exec(selector)?.[1]]??null;
+  const env={...imports,state:f.s,battle:f.b,$,lastObjectiveHtml:'',config:()=>imports.controlsFor(f.s),keyName:a=>imports.actionLabel(imports.controlsFor(f.s),a),visibleAction:()=>true};
+  const update=new Function(...Object.keys(env),[declaration('esc'),declaration('button'),declaration('tierLabel'),fn('updateHud'),'return updateHud;'].join('\n'))(...Object.values(env));
+- const toasts=[],feedback=new Function('events','audio','toast','actionBlockedText','inputLatency','battle',rejectionLoop);
+- return {update,buttons,toasts,feedback:events=>feedback(events,{play(){}},t=>toasts.push(t),actionBlockedText,imports.createInputLatency(),f.b),pool(kind){return new RegExp(`<div class="bar ${kind}">.*?<span>([^<]+)</span>`).exec($('vitals').innerHTML)?.[1];}};
++ const toasts=[],feedback=new Function('events','audio','toast','actionBlockedText','inputLatency','battle','dismissRecoveryNotice','$','noticeUntil',rejectionLoop);
++ return {update,buttons,toasts,feedback:events=>feedback(events,{play(){}},t=>toasts.push(t),actionBlockedText,imports.createInputLatency(),f.b,imports.dismissRecoveryNotice,$,0),pool(kind){return new RegExp(`<div class="bar ${kind}">.*?<span>([^<]+)</span>`).exec($('vitals').innerHTML)?.[1];}};
+ }
+ function adjacent(value,direction){const data=new DataView(new ArrayBuffer(8));data.setFloat64(0,value);data.setBigUint64(0,data.getBigUint64(0)+BigInt(direction));return data.getFloat64(0);}
+ const scenarios=[
+--- a/app/tests/signal-prerequisite-copy.test.mjs
++++ b/app/tests/signal-prerequisite-copy.test.mjs
+@@ -48,8 +48,9 @@
+  const controller=mainImports.createController(session),loaded=await controller.load();assert.equal(loaded.ok,true);
+  const handlers={},outcomes=[],messages=[],originalDispatch=controller.dispatch;controller.dispatch=async command=>{const result=await originalDispatch(command);outcomes.push(result);return result;};
+  const modal={hidden:true,innerHTML:'',querySelector:()=>({focus(){}})},expertCapture=mainImports.createExpertInputCapture();
++ const elements={toast:{textContent:'',classList:{add(){},remove(){}}}};
+  const env={...createMainInputFixture(),...mainImports,expertCapture,expertSafety:mainImports.createActionSafety({capture:expertCapture,cancel:mainImports.cancelBattleAction}),state:loaded.state,battle:mainImports.createBattle(loaded.state),controller,
+-  modal,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,equipmentStation:null,suppressNextClick:false,last:0,saveNamespace:'qa-r12',candidate:true,
++  $:id=>elements[id],noticeUntil:0,modal,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,equipmentStation:null,suppressNextClick:false,last:0,saveNamespace:'qa-r12',candidate:true,
+   gate:mainImports.createRuntimeGate(),router:mainImports.createInputRouter(),deferredImmediate:mainImports.createImmediateInput(),canvas:{focus(){}},audio:{pause(){},play(){}},toast:text=>messages.push(text),updateHud(){},document:{hidden:false,hasFocus:()=>true,addEventListener:(name,fn)=>handlers[name]=fn},
+  };
+  const ui=vm.compileFunction(harnessSource,Object.keys(env),{filename:'actual-main-signal-prerequisite-handlers.js'})(...Object.values(env));
+--- a/app/tests/signal-ui-integration.test.mjs
++++ b/app/tests/signal-ui-integration.test.mjs
+@@ -110,13 +110,13 @@
+  const controller=createController(store),loaded=await controller.load();assert.equal(loaded.ok,true);
+  const events=[],messages=[],calls=[],handlers={},labels=[];controller.subscribe(event=>events.push(event));
+  const modal={hidden:true,innerHTML:'',querySelector:()=>({focus:()=>calls.push(['focus-modal'])})};
+- const elements={hud:{hidden:false},profile:{value:'qa-r8-copy'},sourceProfile:{value:'qa-r7-source'},sourceNamespace:{value:'qa-r7'}};
++ const elements={toast:{textContent:'',classList:{add(){},remove(){}}},hud:{hidden:false},profile:{value:'qa-r8-copy'},sourceProfile:{value:'qa-r7-source'},sourceNamespace:{value:'qa-r7'}};
+  const imports={...mainImports,BATTLEFIELD_COMMANDS,battlefieldObjectView,battlefieldElderView,battlefieldGuidance,battlefieldCommandFields,battlefieldPortalLabel,battlefieldEventCopy,previewExpertPromotion,quoteAction,EXPERT_SLOTS,emptyActionSlots,combatCheckpoint,TOMB_COMMANDS,TOMB_TOOLS,tombWardCarried,tombObjectView,tombElderView,tombCommandFields,tombClueView,tombEventCopy,tombGoldView,tombPortalLabel,createBattle,clearBattleIntent,battleReport,syncCommittedBattle,getRegion,createMap,near,lineOfSight,selectInteractionTarget,deriveStats,equipmentRows,quoteEquipment,previewRecipe,EQUIPMENT_ITEMS,EQUIPMENT_RECIPES,EQUIPMENT_SLOTS,EQUIPMENT_UPGRADES,DUNGEON_TOOLS,QUARRY_TOOLS,PASS_TOOLS,SIGNAL_TOOLS,FURNACE_TOOLS,DUNGEON_COMMANDS,QUARRY_COMMANDS,PASS_COMMANDS,SIGNAL_COMMANDS,FURNACE_COMMANDS,dungeonObjectView,quarryObjectView,quarryElderView,passObjectView,passElderView,signalObjectView,signalBlacksmithView,furnaceObjectView,furnaceBlacksmithView,campaignGuidance,chestPresentation,copyReleaseQaProfile};
+  const declaredImports=new Set([...source.matchAll(/^import\s*\{([^}]+)\}/gm)].flatMap(match=>match[1].split(',').map(name=>name.trim())));
+  for(const name of Object.keys(imports))assert.ok(declaredImports.has(name),`production main must import ${name}`);
+  const expertCapture=createExpertInputCapture(),expertSafety=createActionSafety({capture:expertCapture,cancel:cancelBattleAction});
+  const env={...createMainInputFixture(),...imports,expertCapture,expertSafety,state:loaded.state,battle:createBattle(loaded.state),controller,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,equipmentStation:null,suppressNextClick:false,
+-  modal,gate:createRuntimeGate(),candidate:namespace!=='release',saveNamespace:namespace,localStorage:storage,navigator:{locks},
++  noticeUntil:0,modal,gate:createRuntimeGate(),candidate:namespace!=='release',saveNamespace:namespace,localStorage:storage,navigator:{locks},
+   $:id=>elements[id],document:{hidden:false,hasFocus:()=>true,addEventListener:(name,fn)=>{handlers[name]=fn;}},
+   audio:{pause:value=>calls.push(['audio-pause',value]),play:name=>calls.push(['audio-play',name])},
+   router:tracedInputRouter(options=>calls.push(['router-clear',options])),deferredImmediate:{clear:()=>calls.push(['deferred-clear'])},

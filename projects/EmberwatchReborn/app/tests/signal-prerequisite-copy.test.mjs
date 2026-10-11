@@ -48,8 +48,9 @@ async function harness(saved,{storage,seed=true}={}){
  const controller=mainImports.createController(session),loaded=await controller.load();assert.equal(loaded.ok,true);
  const handlers={},outcomes=[],messages=[],originalDispatch=controller.dispatch;controller.dispatch=async command=>{const result=await originalDispatch(command);outcomes.push(result);return result;};
  const modal={hidden:true,innerHTML:'',querySelector:()=>({focus(){}})},expertCapture=mainImports.createExpertInputCapture();
+ const elements={toast:{textContent:'',classList:{add(){},remove(){}}}};
  const env={...createMainInputFixture(),...mainImports,expertCapture,expertSafety:mainImports.createActionSafety({capture:expertCapture,cancel:mainImports.cancelBattleAction}),state:loaded.state,battle:mainImports.createBattle(loaded.state),controller,
-  modal,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,equipmentStation:null,suppressNextClick:false,last:0,saveNamespace:'qa-r12',candidate:true,
+  $:id=>elements[id],noticeUntil:0,modal,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,equipmentStation:null,suppressNextClick:false,last:0,saveNamespace:'qa-r12',candidate:true,
   gate:mainImports.createRuntimeGate(),router:mainImports.createInputRouter(),deferredImmediate:mainImports.createImmediateInput(),canvas:{focus(){}},audio:{pause(){},play(){}},toast:text=>messages.push(text),updateHud(){},document:{hidden:false,hasFocus:()=>true,addEventListener:(name,fn)=>handlers[name]=fn},
  };
  const ui=vm.compileFunction(harnessSource,Object.keys(env),{filename:'actual-main-signal-prerequisite-handlers.js'})(...Object.values(env));

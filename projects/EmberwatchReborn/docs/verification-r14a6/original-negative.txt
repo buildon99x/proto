@@ -1,0 +1,310 @@
+TAP version 13
+# Subtest: R14a6 30Hz LMB held mace dismisses only its own roll notice when start is accepted
+not ok 1 - R14a6 30Hz LMB held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 1715.067329
+  type: 'test'
+  location: '/tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:320:112'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+    - ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+  operator: 'strictEqual'
+  stack: |-
+    noRecoveryNotice (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:319:37)
+    TestContext.<anonymous> (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:325:177)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: R14a6 30Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+not ok 2 - R14a6 30Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 276.152402
+  type: 'test'
+  location: '/tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:320:112'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+    - ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+  operator: 'strictEqual'
+  stack: |-
+    noRecoveryNotice (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:319:37)
+    TestContext.<anonymous> (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:325:177)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: R14a6 30Hz mapped F held mace dismisses only its own roll notice when start is accepted
+not ok 3 - R14a6 30Hz mapped F held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 1089.176851
+  type: 'test'
+  location: '/tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:320:112'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+    - ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+  operator: 'strictEqual'
+  stack: |-
+    noRecoveryNotice (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:319:37)
+    TestContext.<anonymous> (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:325:177)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: R14a6 30Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+not ok 4 - R14a6 30Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 1052.628018
+  type: 'test'
+  location: '/tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:320:112'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+    - ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+  operator: 'strictEqual'
+  stack: |-
+    noRecoveryNotice (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:319:37)
+    TestContext.<anonymous> (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:325:177)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: R14a6 60Hz LMB held mace dismisses only its own roll notice when start is accepted
+not ok 5 - R14a6 60Hz LMB held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 219.873343
+  type: 'test'
+  location: '/tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:320:112'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+    - ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+  operator: 'strictEqual'
+  stack: |-
+    noRecoveryNotice (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:319:37)
+    TestContext.<anonymous> (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:325:177)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: R14a6 60Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+not ok 6 - R14a6 60Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 226.323298
+  type: 'test'
+  location: '/tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:320:112'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+    - ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+  operator: 'strictEqual'
+  stack: |-
+    noRecoveryNotice (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:319:37)
+    TestContext.<anonymous> (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:325:177)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: R14a6 60Hz mapped F held mace dismisses only its own roll notice when start is accepted
+not ok 7 - R14a6 60Hz mapped F held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 962.45783
+  type: 'test'
+  location: '/tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:320:112'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+    - ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+  operator: 'strictEqual'
+  stack: |-
+    noRecoveryNotice (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:319:37)
+    TestContext.<anonymous> (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:325:177)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: R14a6 60Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+not ok 8 - R14a6 60Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 972.043992
+  type: 'test'
+  location: '/tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:320:112'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+    - ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+  operator: 'strictEqual'
+  stack: |-
+    noRecoveryNotice (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:319:37)
+    TestContext.<anonymous> (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:325:177)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: R14a6 120Hz LMB held mace dismisses only its own roll notice when start is accepted
+not ok 9 - R14a6 120Hz LMB held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 232.887372
+  type: 'test'
+  location: '/tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:320:112'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+    - ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+  operator: 'strictEqual'
+  stack: |-
+    noRecoveryNotice (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:319:37)
+    TestContext.<anonymous> (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:325:177)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: R14a6 120Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+not ok 10 - R14a6 120Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 280.284324
+  type: 'test'
+  location: '/tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:320:112'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+    - ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+  operator: 'strictEqual'
+  stack: |-
+    noRecoveryNotice (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:319:37)
+    TestContext.<anonymous> (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:325:177)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: R14a6 120Hz mapped F held mace dismisses only its own roll notice when start is accepted
+not ok 11 - R14a6 120Hz mapped F held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 1097.052226
+  type: 'test'
+  location: '/tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:320:112'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+    - ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+  operator: 'strictEqual'
+  stack: |-
+    noRecoveryNotice (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:319:37)
+    TestContext.<anonymous> (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:325:177)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: R14a6 120Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+not ok 12 - R14a6 120Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 1026.361586
+  type: 'test'
+  location: '/tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:320:112'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+    - ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: '현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.'
+  operator: 'strictEqual'
+  stack: |-
+    noRecoveryNotice (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:319:37)
+    TestContext.<anonymous> (file:///tmp/emberwatch-r14a6-negative-gs6B/app/tests/expert-main-input.test.mjs:325:177)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 0
+# fail 12
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9347.949517

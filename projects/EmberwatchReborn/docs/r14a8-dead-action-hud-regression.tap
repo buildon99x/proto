@@ -1,0 +1,112 @@
+TAP version 13
+# Subtest: real v3/legacy settlement disables all HUD actions; repeated retry restores exact life once
+ok 1 - real v3/legacy settlement disables all HUD actions; repeated retry restores exact life once
+  ---
+  duration_ms: 106.292464
+  type: 'test'
+  ...
+# Subtest: real v4/combined settlement disables all HUD actions; repeated retry restores exact life once
+ok 2 - real v4/combined settlement disables all HUD actions; repeated retry restores exact life once
+  ---
+  duration_ms: 84.787177
+  type: 'test'
+  ...
+# Subtest: real v4/separate settlement disables all HUD actions; repeated retry restores exact life once
+ok 3 - real v4/separate settlement disables all HUD actions; repeated retry restores exact life once
+  ---
+  duration_ms: 69.737432
+  type: 'test'
+  ...
+# Subtest: real v5/combined settlement disables all HUD actions; repeated retry restores exact life once
+ok 4 - real v5/combined settlement disables all HUD actions; repeated retry restores exact life once
+  ---
+  duration_ms: 99.350191
+  type: 'test'
+  ...
+# Subtest: real v5/separate settlement disables all HUD actions; repeated retry restores exact life once
+ok 5 - real v5/separate settlement disables all HUD actions; repeated retry restores exact life once
+  ---
+  duration_ms: 90.848984
+  type: 'test'
+  ...
+# Subtest: real v4/combined reloaded death blocks input even with modal absent; retry accepts fresh dodge and potion
+ok 6 - real v4/combined reloaded death blocks input even with modal absent; retry accepts fresh dodge and potion
+  ---
+  duration_ms: 87.378528
+  type: 'test'
+  ...
+# Subtest: real v4/separate reloaded death blocks input even with modal absent; retry accepts fresh dodge and potion
+ok 7 - real v4/separate reloaded death blocks input even with modal absent; retry accepts fresh dodge and potion
+  ---
+  duration_ms: 78.56093
+  type: 'test'
+  ...
+# Subtest: real v5/combined reloaded death blocks input even with modal absent; retry accepts fresh dodge and potion
+ok 8 - real v5/combined reloaded death blocks input even with modal absent; retry accepts fresh dodge and potion
+  ---
+  duration_ms: 107.58461
+  type: 'test'
+  ...
+# Subtest: real v5/separate reloaded death blocks input even with modal absent; retry accepts fresh dodge and potion
+ok 9 - real v5/separate reloaded death blocks input even with modal absent; retry accepts fresh dodge and potion
+  ---
+  duration_ms: 107.427537
+  type: 'test'
+  ...
+# Subtest: HUD death priority follows existing hp gate ahead of stale mobility pose and potion cooldown
+ok 10 - HUD death priority follows existing hp gate ahead of stale mobility pose and potion cooldown
+  ---
+  duration_ms: 34.512351
+  type: 'test'
+  ...
+# Subtest: HUD death priority follows existing battle gate ahead of stale mobility pose and potion cooldown
+ok 11 - HUD death priority follows existing battle gate ahead of stale mobility pose and potion cooldown
+  ---
+  duration_ms: 33.970064
+  type: 'test'
+  ...
+# Subtest: HUD death priority follows existing state gate ahead of stale mobility pose and potion cooldown
+ok 12 - HUD death priority follows existing state gate ahead of stale mobility pose and potion cooldown
+  ---
+  duration_ms: 34.172986
+  type: 'test'
+  ...
+# Subtest: failed real retry save keeps death HUD disabled until a confirmed retry succeeds
+ok 13 - failed real retry save keeps death HUD disabled until a confirmed retry succeeds
+  ---
+  duration_ms: 51.442567
+  type: 'test'
+  ...
+# Subtest: v3 empty potions stay 0 while alive and after retry; death text takes priority
+ok 14 - v3 empty potions stay 0 while alive and after retry; death text takes priority
+  ---
+  duration_ms: 40.682337
+  type: 'test'
+  ...
+# Subtest: v4 empty potions stay 0 while alive and after retry; death text takes priority
+ok 15 - v4 empty potions stay 0 while alive and after retry; death text takes priority
+  ---
+  duration_ms: 53.624505
+  type: 'test'
+  ...
+# Subtest: v5 empty potions stay 0 while alive and after retry; death text takes priority
+ok 16 - v5 empty potions stay 0 while alive and after retry; death text takes priority
+  ---
+  duration_ms: 76.045005
+  type: 'test'
+  ...
+# Subtest: reported Space death label is replaced before any stale roll or sprint instruction
+ok 17 - reported Space death label is replaced before any stale roll or sprint instruction
+  ---
+  duration_ms: 41.864026
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1368.094486

@@ -3,12 +3,14 @@
 export const POE_FEEDBACK_STYLES=Object.freeze({
  mace_swing:{color:'#eee0c5',accent:'#cbb180',motif:'arc'},
  righteous_hammer:{color:'#ffe29a',accent:'#a9dfe9',motif:'orbit'},
- shield_charge:{color:'#b5e7df',accent:'#e1f2f0',motif:'chevron'},
+ shield_charge:{color:'#b5e7df',accent:'#e1f2f0',motif:'shield'},
  lay_on_hands:{color:'#bce5bb',accent:'#eef4cf',motif:'petal'},
- judgement:{color:'#f4c868',accent:'#fff1bc',motif:'rune'},
- battle_banner:{color:'#e8d398',accent:'#b7dce0',motif:'rune'},
- zealous_onslaught:{color:'#b9d7eb',accent:'#f0dbab',motif:'chevron'}
+ judgement:{color:'#f4c868',accent:'#fff1bc',motif:'flame'},
+ battle_banner:{color:'#e8d398',accent:'#b7dce0',motif:'banner'},
+ zealous_onslaught:{color:'#b9d7eb',accent:'#f0dbab',motif:'lance'}
 });
+// Counts are actual Canvas stroke/fillRect calls, including the local keyline.
+export const POE_FEEDBACK_LIMITS=Object.freeze({effects:12,pathsPerEffect:16,preparationPaths:12,movementPaths:4,destinationPaths:2,sparksPerEffect:8,outline:'#111520'});
 const bounded=v=>Math.max(0,Math.min(1,Number.isFinite(v)?v:0));
 export function mobilityMotion(pose,actor=null){
  if(!pose||!Number.isFinite(pose.elapsed))return null;
@@ -31,18 +33,21 @@ export function createPoeFeedback(){
    const key=`${e.castId}:${id}${pulse?`:pulse:${e.index}`:''}`;
    if(seen.has(key))continue;seen.add(key);if(seen.size>96)seen.delete(seen.values().next().value);particles.push({skillId:id,castId:e.castId,x:p.x,y:p.y,angle:p.action?.angle??p.angle,life:.42,duration:.42});
   }
-  if(particles.length>12)particles=particles.slice(-12);
+  if(particles.length>POE_FEEDBACK_LIMITS.effects)particles=particles.slice(-POE_FEEDBACK_LIMITS.effects);
  },step(dt){if(!Number.isFinite(dt)||dt<0)return;particles=particles.map(e=>({...e,life:e.life-dt})).filter(e=>e.life>0);},snapshot(){return particles.map(e=>({...e}));}};
 }
 function path(ctx,points,project){points.map(project).forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));}
 function polar(origin,radius,angle){return{x:origin.x+Math.cos(angle)*radius,y:origin.y+Math.sin(angle)*radius};}
-function circle(origin,radius,n=24,offset=0){return Array.from({length:n+1},(_,i)=>polar(origin,radius,offset+i*Math.PI*2/n));}
+function arc(origin,radius,start,sweep,n=12){return Array.from({length:n+1},(_,i)=>polar(origin,radius,start+i*sweep/n));}
 // Called before hostile tells, loot, and actors: even reduced FX leave useful
 // silhouettes without overpainting enemy danger or producing white flashes.
 export function drawPoeGroundFeedback(ctx,{player,pose,destination,feedback=[],project,zoom=1,flashScale=1,enabled=false}={}){
  if(!enabled||!player||typeof project!=='function')return {paths:0,sparks:0};
- const intensity=bounded(flashScale),metrics={paths:0,sparks:0};ctx.save();ctx.lineCap='round';
- const stroke=(points,color,alpha=.5,width=1.4)=>{ctx.beginPath();path(ctx,points,project);ctx.strokeStyle=color;ctx.globalAlpha=alpha;ctx.lineWidth=width;ctx.stroke();metrics.paths++;};
+ const intensity=bounded(flashScale),metrics={paths:0,sparks:0};ctx.save();ctx.lineCap='round';ctx.lineJoin='round';ctx.globalCompositeOperation='source-over';
+ // A crisp same-path dark casing separates motifs from noisy stone without
+ // blur, additive bloom, floor fills or a new apparent gameplay boundary.
+ const stroke=(points,color,alpha=.8,width=2.3,screen=false)=>{ctx.beginPath();path(ctx,points,screen?p=>p:project);ctx.strokeStyle=POE_FEEDBACK_LIMITS.outline;ctx.globalAlpha=Math.min(.94,alpha*1.12);ctx.lineWidth=width+2.8;ctx.stroke();ctx.strokeStyle=color;ctx.globalAlpha=alpha;ctx.lineWidth=width;ctx.stroke();metrics.paths+=2;};
+ const glyph=(origin,points,color,alpha,width=2.3,lift=0)=>{const at=project(origin);stroke(points.map(([x,y])=>({x:at.x+x*zoom,y:at.y+(y-lift)*zoom})),color,alpha,width,true);};
  if(destination&&Number.isFinite(destination.x)&&Number.isFinite(destination.y))stroke([polar(destination,8,0),polar(destination,8,Math.PI/2),polar(destination,8,Math.PI),polar(destination,8,Math.PI*1.5),polar(destination,8,0)],'#c2d5e1',.65,1.7);
  if(pose?.state==='roll'||pose?.state==='sprint'){
   const angle=Math.atan2(pose.direction?.y??0,pose.direction?.x??1),length=pose.state==='roll'?26:20;
@@ -52,17 +57,53 @@ export function drawPoeGroundFeedback(ctx,{player,pose,destination,feedback=[],p
  // Channels never set fired: their accepted startup boundary ends preparation.
  if(style&&!action.fired&&action.contact>0&&(!action.spec?.channel||action.elapsed+1e-9<action.contact)){
   const phase=bounded(action.elapsed/action.contact),angle=action.angle??player.angle,radius=13+9*phase;
-  stroke(circle(player,radius,24,-phase),style.color,.3+.15*phase,1.1);
-  for(let i=0;i<4;i++){const theta=angle+i*Math.PI*.5;stroke([polar(player,radius+3,theta),polar(player,radius+9,theta)],style.accent,.55,1.4);}
-  if(style.motif==='arc'||style.motif==='chevron'){const r=Math.min(action.spec?.range??60,72)*.48;stroke(Array.from({length:13},(_,i)=>polar(player,r,angle-.7+i*1.4/12)),style.color,.5,2);}
+  // Four separated inward braces read as preparation, not an expanding AoE.
+  for(let i=0;i<4;i++){const theta=angle+i*Math.PI*.5;stroke([polar(player,radius+8,theta-.14),polar(player,radius,theta),polar(player,radius+8,theta+.14)],style.accent,.66+.18*phase,1.8);}
+  if(['arc','shield','lance'].includes(style.motif)){const r=25+phase*7;stroke(arc(player,r,angle-.65,1.3),style.color,.7+.16*phase,2.4);}
+  else if(style.motif==='orbit')glyph(polar(player,17,angle),[[-6,-13],[6,-13],[6,-8],[-6,-8],[-6,-13]],style.color,.7+.16*phase,2,5);
+  else if(style.motif==='petal')for(let i=0;i<2;i++)glyph(player,i?[[-5,-8],[5,-8]]:[[0,-13],[0,-3]],style.color,.7+.16*phase,2,5);
+  else if(style.motif==='flame')glyph(polar(player,17,angle),[[-5,0],[-3,-9],[0,-5],[3,-16],[6,-2]],style.color,.7+.16*phase,2,7);
+  else glyph(polar(player,17,angle),[[-4,0],[-4,-19],[7,-15],[-4,-11]],style.color,.7+.16*phase,2,5);
  }
- for(const effect of feedback.slice(-12)){
-  const style=POE_FEEDBACK_STYLES[effect.skillId];if(!style)continue;const progress=bounded(1-effect.life/effect.duration),fade=(1-progress)*(.48+.16*intensity),radius=20+progress*44;
-  if(style.motif==='arc')for(let band=0;band<2;band++)stroke(Array.from({length:19},(_,i)=>polar(effect,radius+band*7,effect.angle-1.05+i*1.85/18)),band?style.accent:style.color,fade,band?1:2.3);
-  else if(style.motif==='chevron')for(let i=0;i<3;i++){const o=polar(effect,progress*45+i*10,effect.angle);stroke([polar(o,17,effect.angle+2.5),o,polar(o,17,effect.angle-2.5)],style.color,fade,2);}
-  else if(style.motif==='petal')for(let i=0;i<6;i++){const a=i*Math.PI/3;stroke([polar(effect,radius*.55,a-.12),polar(effect,radius,a),polar(effect,radius*.55,a+.12)],style.color,fade,1.8);}
-  else {stroke(circle(effect,radius,32,progress),style.color,fade,2);stroke(circle(effect,radius*.72,24,-progress),style.accent,fade*.8,1);for(let i=0;i<6;i++){const a=i*Math.PI/3+progress;stroke([polar(effect,radius*.83,a),polar(effect,radius*1.08,a)],style.accent,fade,1.7);}}
-  if(intensity>0)for(let i=0;i<8;i++){const a=effect.angle+i*2.39996+progress*.7,r=radius*(.55+(i%3)*.2),at=project(polar(effect,r,a));ctx.globalAlpha=fade*intensity;ctx.fillStyle=i%2?style.accent:style.color;const size=(1-progress)*(i%3?1.6:2.5)*zoom;ctx.fillRect(at.x-size/2,at.y-size/2,size,size);metrics.sparks++;}
+ for(const effect of feedback.slice(-POE_FEEDBACK_LIMITS.effects)){
+  const style=POE_FEEDBACK_STYLES[effect.skillId];if(!style)continue;const progress=bounded(1-effect.life/effect.duration),fade=Math.pow(1-progress,.7)*(.84+.1*intensity),radius=23+progress*30,angle=effect.angle;
+  const local=(forward,side)=>{const o=polar(effect,forward,angle);return polar(o,side,angle+Math.PI/2);};
+  if(style.motif==='arc'){
+   for(let band=0;band<2;band++)stroke(arc(effect,radius+band*8,angle-1.05+progress*.22,1.85,18),band?style.accent:style.color,fade*(band?.66:1),band?1.7:3.5);
+   for(let i=0;i<3;i++){const a=angle-.45+i*.45;stroke([polar(effect,radius-4,a),polar(effect,radius+10-i*2,a+.06)],style.accent,fade,2.1);}
+  }else if(style.motif==='lance'){
+   // Compact forward crests and a spear-shaped accent, never a closed lane.
+   for(let i=0;i<3;i++){const o=local(14+progress*30+i*12,0);stroke([polar(o,18,angle+2.5),o,polar(o,18,angle-2.5)],i===1?style.accent:style.color,fade*(1-i*.12),3.3-i*.35);}
+   stroke([local(10+progress*18,0),local(52+progress*18,0)],style.accent,fade*.86,2.2);
+   for(const side of [-1,1])stroke([local(5+progress*14,side*18),local(24+progress*24,side*12)],style.color,fade*.6,1.8);
+  }else if(style.motif==='shield'){
+   const front=24+progress*22;stroke([local(front-9,-16),local(front+5,-11),local(front+10,0),local(front+5,11),local(front-9,16)],style.color,fade,3.6);
+   stroke([local(front-2,-10),local(front+3,0),local(front-2,10)],style.accent,fade,2.1);
+   for(let i=0;i<2;i++)stroke([local(-12-i*12,-13),local(2-i*12,0),local(-12-i*12,13)],style.color,fade*(.75-i*.16),2.4);
+   for(const side of [-1,1])stroke([local(front-18,side*21),local(front+2,side*19)],style.accent,fade*.6,1.6);
+  }else if(style.motif==='petal'){
+   for(let i=0;i<6;i++){const a=i*Math.PI/3+progress*.18;stroke([polar(effect,radius*.52,a-.2),polar(effect,radius,a),polar(effect,radius*.52,a+.2)],style.color,fade,2.5);}
+   const rise=7+progress*13;glyph(effect,[[0,-12],[0,0]],style.accent,fade,2.5,rise);glyph(effect,[[-6,-6],[6,-6]],style.accent,fade,2.5,rise);
+  }else if(style.motif==='orbit'){
+   for(let i=0;i<2;i++)stroke(arc(effect,radius+i*6,angle+progress*.7+i*Math.PI,Math.PI*.72,14),i?style.accent:style.color,fade*(i?.65:1),i?1.8:3);
+   const at=local(34+progress*20,0),rise=12+progress*6;
+   glyph(at,[[-10,-13],[9,-13],[9,-4],[-10,-4],[-10,-13]],style.color,fade,3,rise);glyph(at,[[0,-4],[0,12]],style.accent,fade,2.5,rise);
+   glyph(at,[[-6,-10],[5,-10]],style.accent,fade,1.5,rise);
+   for(const side of [-1,1])glyph(at,[[side*15,-12],[side*20,-17]],style.accent,fade*.7,1.8,rise);
+  }else if(style.motif==='flame'){
+   for(let i=0;i<3;i++){const at=local(19+progress*22,(i-1)*17),rise=5+progress*10+(i===1?5:0);
+    glyph(at,[[-7,2],[-5,-9],[-2,-4],[2,-23],[8,-6],[6,2]],style.color,fade*(i===1?1:.82),2.8,rise);
+    glyph(at,[[-1,0],[2,-10],[4,-2]],style.accent,fade*.85,1.7,rise);
+   }
+   for(const side of [-1,1])stroke([local(12,side*26),local(34+progress*24,side*30)],style.accent,fade*.65,2);
+  }else if(style.motif==='banner'){
+   const at=local(30,0),rise=4+progress*8;
+   glyph(at,[[-5,5],[-5,-30]],style.accent,fade,2.5,rise);glyph(at,[[-5,-29],[15,-23],[9,-17],[-5,-19]],style.color,fade,3,rise);
+   glyph(at,[[1,-25],[9,-23],[5,-21]],style.accent,fade*.8,1.6,rise);
+   for(let i=0;i<3;i++)stroke(arc(effect,radius+i*7,angle+.4+i*.12,1.05,8),i%2?style.accent:style.color,fade*(.76-i*.16),2.1);
+   glyph(at,[[-9,-33],[-5,-37],[-1,-33]],style.color,fade*.7,1.7,rise);
+  }
+  if(intensity>0)for(let i=0;i<POE_FEEDBACK_LIMITS.sparksPerEffect;i++){const a=effect.angle+i*2.39996+progress*.7,r=radius*(.55+(i%3)*.2),at=project(polar(effect,r,a));ctx.globalAlpha=fade*intensity;ctx.fillStyle=i%2?style.accent:style.color;const size=(1-progress)*(i%3?1.6:2.5)*zoom;ctx.fillRect(at.x-size/2,at.y-size/2,size,size);metrics.sparks++;}
  }
  ctx.restore();return metrics;
 }

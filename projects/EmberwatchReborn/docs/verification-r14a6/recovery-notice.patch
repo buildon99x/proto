@@ -1,0 +1,302 @@
+--- a/app/src/main.js
++++ b/app/src/main.js
+@@ -56,7 +56,7 @@
+ import {createUpgradeBackupUi} from './upgrade-backup-ui.js';
+ import {createController} from './controller.js';
+ import {createBattle,stepBattle,acceptBattleInput,configurePoeControls,clearBattleIntent,cancelBattleAction,quoteAction,actionEligibility} from './combat.js';
+-import {actionBlockedText} from './action-feedback.js';
++import {actionBlockedText,dismissRecoveryNotice} from './action-feedback.js';
+ import {formatResourceAmount,formatResourceCost} from './resource-display.js';
+ import {getRegion,near,FOES,createMap,lineOfSight} from './world.js';
+ import {deriveStats,previewSkill,RUNTIME_SKILL_IDS,ACTION_SKILL_IDS,STARTER_SKILLS} from './warrior-growth.js';
+@@ -95,7 +95,7 @@
+ const button=(label,action,extra='')=>`<button data-action="${action}" ${extra}>${label}</button>`;
+ // One label for title, pause UI and the optional read-only status tool.
+ const BUILD_LABEL='R14a5';
+-function clearInput(reason='safety'){releasedAimBySkill={};contextClick.clear(reason);contextSuppressHeld=false;locomotionIntent.clear();clearInputFeedback();inputLatency.clear(typeof reason==='string'?reason:'safety');deferredImmediate.clear();router.clear();clearBattleIntent(battle);expertSafety.request(battle,controller,typeof reason==='string'?reason:'pointer-cancel');if(battle)battle.targetId=null;}
++function clearInput(reason='safety'){if(dismissRecoveryNotice($('toast')))noticeUntil=0;releasedAimBySkill={};contextClick.clear(reason);contextSuppressHeld=false;locomotionIntent.clear();clearInputFeedback();inputLatency.clear(typeof reason==='string'?reason:'safety');deferredImmediate.clear();router.clear();clearBattleIntent(battle);expertSafety.request(battle,controller,typeof reason==='string'?reason:'pointer-cancel');if(battle)battle.targetId=null;}
+ function flushActionSafety(){
+  const result=expertSafety.drain(battle,controller,{busy,blocked:gate.blocked});
+  if(result.status==='waiting')return true;
+@@ -143,7 +143,7 @@
+ }
+ function deliverCombatEvents(events){
+  if(isPoeControls(config()))poeFeedback.accept(events,battle.p);
+- let previousEvent=null;for(const e of events){if(e.type==='roll-start'||e.type==='sprint-start'){const start=inputLatency.mobilityStarted(e);if(e.type==='roll-start')inputLatency.mobilitySoundRequested(start,audio.play('dash'));}if(e.type==='actionStarted')inputLatency.started(e);if(e.type==='actionContact')inputLatency.mark('contact',e.castId);if(['skillIntentRejected','skillIntentCancelled','mobilityRejected'].includes(e.type))inputLatency.clear(e.reason);if(e.type==='sound')inputLatency.soundRequested(e,audio.play(e.name,e),previousEvent);if(e.type==='skillIntentRejected'&&e.reason==='recovery-too-early')toast('현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.');if(e.type==='skillIntentRejected'&&e.reason==='not-ready'&&e.learned)toast(actionBlockedText(e)||'지금 사용할 수 없습니다.');previousEvent=e;}
++ let previousEvent=null;for(const e of events){if(e.type==='roll-start'||e.type==='sprint-start'){const start=inputLatency.mobilityStarted(e);if(e.type==='roll-start')inputLatency.mobilitySoundRequested(start,audio.play('dash'));}if(e.type==='actionStarted'){inputLatency.started(e);if(dismissRecoveryNotice($('toast'),e.id))noticeUntil=0;}if(e.type==='actionContact')inputLatency.mark('contact',e.castId);if(['skillIntentRejected','skillIntentCancelled','mobilityRejected'].includes(e.type))inputLatency.clear(e.reason);if(e.type==='sound')inputLatency.soundRequested(e,audio.play(e.name,e),previousEvent);if(e.type==='skillIntentRejected'&&e.reason==='recovery-too-early')toast('현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.',{recoverySkillId:e.id});if(e.type==='skillIntentRejected'&&e.reason==='not-ready'&&e.learned)toast(actionBlockedText(e)||'지금 사용할 수 없습니다.');previousEvent=e;}
+  const checkpoint=combatCheckpoint(battle,events,{elapsed:combatSaveElapsed});if(checkpoint){const captured=controller.capture();if(!captured.state||battle.stateLife!==(captured.state.world.life??0)||battle.region!==captured.state.world.region)throw new Error('전투와 저장 위치가 다릅니다. 저장을 다시 확인하세요.');checkpoint.expectedStoreRevision=captured.revision;dispatch(checkpoint,{critical:true}).then(ok=>{if(ok&&state.world.lifeDown)showDeath();});}
+ }
+ function flushFreshCombatInput(){
+@@ -170,7 +170,7 @@
+  else if((battle?.p.action?.id==='zealous_onslaught'||isPoeControls(c))&&!busy&&!paused)flushFreshCombatInput();
+ }
+ 
+-function toast(text){$('toast').textContent=text;$('toast').classList.add('visible');noticeUntil=performance.now()+3300;}
++function toast(text,{recoverySkillId=null}={}){$('toast').recoverySkillId=recoverySkillId;$('toast').textContent=text;$('toast').classList.add('visible');noticeUntil=performance.now()+3300;}
+ function panel(title,content,wide=false){modal.presentationEpoch=(modal.presentationEpoch??0)+1;if(gate.blocked){title='저장을 확인해야 합니다';content=`<p>${esc(gate.reason)}</p><p>저장 상태를 다시 읽기 전에는 진행할 수 없습니다.</p>${button('저장 다시 읽기','reload')}`;wide=false;}captureBinding=null;paused=true;clearInput();audio.pause(true);modal.hidden=false;modal.innerHTML=`<section class="panel ${wide?'wide':''}"><h2>${title}</h2>${content}</section>`;(modal.querySelector?.('[data-action="close"]')??modal.querySelector?.('button:not([disabled]),input,select,textarea'))?.focus({preventScroll:true});}
+ function closePanel(){if(!gate.canResume({hasBattle:!!battle,lifeDown:state?.world.lifeDown}))return;modal.presentationEpoch=(modal.presentationEpoch??0)+1;modal.hidden=true;modal.innerHTML='';paused=false;clearInput();audio.pause(false);canvas.focus({preventScroll:true});last=performance.now();}
+ function report(){
+@@ -671,7 +671,7 @@
+    const n=nearest(),targeted=battle.enemies.find(e=>e.id===battle.targetId&&e.hp>0);$('hint').textContent=!paused&&battle.skillIntent?`${({shield_charge:'돌진',righteous_hammer:'망치',lay_on_hands:'온기',judgement:'단죄',battle_banner:'깃발',zealous_onslaught:'진격'}[battle.skillIntent.id])} 예약 · ${isPoeControls(config())?'가드/다른 기술/상호작용으로 취소':'가드/반대 조준/상호작용으로 취소'}`:battle.awaitingAdvance&&!paused?`이동하거나 공격하면 전투가 시작됩니다 · ${keyName('pause')}로 조작 안내`:!paused&&n?`${keyName('interact')} · ${n.name??'상자 열기'}`:!paused&&targeted?`조준 · ${FOES[targeted.kind].name}${targeted.kind.startsWith('wilderness_')&&FOES[targeted.kind].tags.includes('undead')?' · 망자':''}`:'';hudTimer+=dt;if(hudTimer>.1){updateHud();hudTimer=0;}
+   }
+   if(inputFeedback&&now-inputFeedback.at>180)clearInputFeedback();
+-  if(now>noticeUntil){$('toast').classList.remove('visible');$('toast').textContent='';}
++  if(now>noticeUntil){$('toast').recoverySkillId=null;$('toast').classList.remove('visible');$('toast').textContent='';}
+  }catch(error){console.error(error);gate.block(error.message);panel('진행을 멈췄습니다',`<p>오류를 기록했습니다. 최근 저장 상태를 다시 불러올 수 있습니다.</p><p class="minor">${esc(error.message)}</p>${button('저장 다시 읽기','reload')}`);}
+  requestAnimationFrame(frame);
+ }
+--- a/app/src/action-feedback.js
++++ b/app/src/action-feedback.js
+@@ -14,3 +14,10 @@
+   default:return '';
+  }
+ }
++
++// Dismiss only the currently displayed recovery rejection, never a later toast.
++// A matching accepted action makes it obsolete; input safety ends its lifetime.
++export function dismissRecoveryNotice(notice,skillId=null){
++ if(!notice.recoverySkillId||(skillId!==null&&notice.recoverySkillId!==skillId))return false;
++ notice.recoverySkillId=null;notice.textContent='';notice.classList.remove('visible');return true;
++}
+--- a/app/tests/expert-main-input.test.mjs
++++ b/app/tests/expert-main-input.test.mjs
+@@ -10,13 +10,13 @@
+ // Actual production frame, browser event handlers, safety coordinator and store.
+ // DOM/render/audio boundaries are probes. Earned predecessor travel/defeats are
+ // scripted fixtures, not native key/browser gameplay or pixel/quality evidence.
+-async function ui({promoted=true,skills=[],poeMode=null,runMode='combined',realInteractions=false,audioResult=false,renderDuration=0}={}){
++async function ui({promoted=true,skills=[],poeMode=null,runMode='combined',realInteractions=false,audioResult=false,renderDuration=0,realNotice=false}={}){
+  let s=promoted?fixture():earnedTombRoute('normal',{full:true});
+  for(const skillId of skills){const r=reduceRuntime(s,{type:'purchaseSkill',skillId,position:{x:260,y:325}});assert.equal(r.ok,true,skillId);s=r.state;}
+  if(poeMode)s=reduceRuntime(s,{type:'setControls',controls:imports.poeControlPreset(s.options.controls,poeMode,runMode)}).state;
+  const data=new Map(),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)},store=createStore(storage,{profile:'qa-r11-main-input'});assert.equal(store.save(s,{expectedRevision:0}).ok,true);let delayed=false,pending=null,failure=null;
+  const controller=imports.createController({load:store.load,save:(s,o)=>{if(failure){const r=failure;failure=null;return r;}if(delayed){delayed=false;return new Promise(resolve=>pending=(result)=>resolve(result??store.save(s,o)));}return store.save(s,o);}});assert.equal((await controller.load()).ok,true);
+- const wh={},dh={},ch={},buttons={},toasts=[],rendered=[],renderClocks=[],audioRequests=[];const el=()=>({addEventListener(){},innerHTML:'',textContent:'',hidden:false,style:{},attributes:{},setAttribute(name,value){this.attributes[name]=value;},classList:{add(){},remove(){},toggle(){}},querySelector:()=>null});const elements=new Map();const $=id=>{if(!elements.has(id))elements.set(id,el());return elements.get(id);};
++ const wh={},dh={},ch={},buttons={},toasts=[],rendered=[],renderClocks=[],audioRequests=[];const el=()=>{const classes=new Set();return {addEventListener(){},innerHTML:'',textContent:'',hidden:false,style:{},attributes:{},setAttribute(name,value){this.attributes[name]=value;},classList:{add(name){classes.add(name);},remove(name){classes.delete(name);},toggle(name){classes.has(name)?classes.delete(name):classes.add(name);},contains:name=>classes.has(name)},querySelector:()=>null};};const elements=new Map();const $=id=>{if(!elements.has(id))elements.set(id,el());return elements.get(id);};
+  const modal={...el(),hidden:true,presentationEpoch:0,querySelector:()=>({focus(){}})},canvas={tagName:'CANVAS',width:1000,height:700,focus(){},setPointerCapture(){},getBoundingClientRect:()=>({left:0,top:0}),addEventListener:(n,f)=>ch[n]=f};
+  for(const action of ['attack','hammer','charge','block','heal','judgement','expert1','expert2','dodgeSprint','dodgeOnly','sprint'])buttons[action]={...el(),dataset:{combat:action},handlers:{},setPointerCapture(){},addEventListener(n,f){this.handlers[n]=f;}};
+  $('hotbar').querySelector=selector=>buttons[/data-combat="([^"]+)"/.exec(selector)?.[1]]??null;
+@@ -24,11 +24,11 @@
+  const router=imports.createInputRouter({captureAttackTap:true,now:()=>now}),expertCapture=imports.createExpertInputCapture(),skillCapture=imports.createSkillLoadoutInput({now:()=>now}),allSkillCapture={clear(reason){expertCapture.clear(reason);skillCapture.clear(reason);},reset(options){expertCapture.reset(options);skillCapture.reset(options);}},expertSafety=imports.createActionSafety({capture:allSkillCapture,cancel:imports.cancelBattleAction}),gate=imports.createRuntimeGate();
+  const env={...imports,state:controller.snapshot(),battle:imports.createBattle(s),controller,router,expertCapture,skillCapture,expertSafety,gate,modal,canvas,document,window:{addEventListener:(n,f)=>wh[n]=f},$,paused:false,busy:false,captureBinding:null,suppressNextClick:false,combatSaveElapsed:0,contextClick:imports.createContextClickIntent(),contextSuppressHeld:false,releasedAimBySkill:{},locomotionIntent:imports.createLocomotionIntent(),poeFeedback:imports.createPoeFeedback(),inputFeedback:null,inputLatency:imports.createInputLatency({now:()=>now}),deferredImmediate:imports.createImmediateInput(),input:{pointerScreen:null},last:0,hudTimer:0,displayTime:0,combatTime:0,walkTime:0,menuTime:0,arrivalWaitTime:0,noticeUntil:0,lastObjectiveHtml:'',profile:'qa-r11-main-input',candidate:true,saveNamespace:'qa-r11',focusEvents:{},pauseReason:'',
+  ctx:{save(){},restore(){},beginPath(){},moveTo(){},lineTo(){},stroke(){}},renderer:{render:r=>{renderClocks.push({at:now,observations:env.inputLatency.snapshot()});rendered.push(r);now+=renderDuration;}},drawLabels(){},audio:{play(...args){audioRequests.push({args,at:now});return audioResult;},pause(){},tick(){}},requestAnimationFrame(){},toast:t=>toasts.push(t),interact:()=>toasts.push('INTERACT'),applyBinding(){},showControls(){},showDeath(){},performance:{now:()=>now},console:{error(error){throw error;}}};
+- const funcs=[...(realInteractions?['interact']:[]),'wildernessView','interactionCandidates','contextSceneVisibility','contextProjection','contextIsVisible','contextHasLabel','beginContextOrGroundClick','stepContextClick','showSkillSlots','flushDeferredSkills','showInputObservations','showControls','beginBinding','applyBinding','updateHud','effectText','checkpointPanel','showTraining','showActionSlots','showNpc','nearest','showInputFeedback','clearInputFeedback','clearInput','flushActionSafety','acceptCombatPress','currentPoeAim','sampledCombatInput','deliverCombatEvents','flushFreshCombatInput','releaseCombatToken','panel','closePanel','report','syncVitals','dispatch','immediateAction','showMenu','frame'];
+- const program=[cut('const actionSkill=','const tierLabel='),cut('const esc=','function clearInput('),cut('const config=','let controller='),cut('const tierLabel=','const focusEvents='),...funcs.map(fn),cut("document.addEventListener('click',","document.addEventListener('change',"),cut("document.addEventListener('change',","$('menuButton').onclick"),cut("window.addEventListener('keydown'","function resize("),`return {frame,deliverCombatEvents,interactionCandidates,contextProjection,get contextClick(){return contextClick},showControls,showSkillSlots,showInputObservations,closePanel,updateHud,clearInput,sampledCombatInput,flushActionSafety,dispatch,report,showTraining,showActionSlots,get inputObservations(){return inputLatency.snapshot()},get state(){return state},get battle(){return battle},get busy(){return busy},get paused(){return paused},get capture(){return expertCapture},get gate(){return gate},get controller(){return controller}};`].join('\n');
++ const funcs=[...(realNotice?['toast','showDeath']:[]),...(realInteractions?['interact']:[]),'wildernessView','interactionCandidates','contextSceneVisibility','contextProjection','contextIsVisible','contextHasLabel','beginContextOrGroundClick','stepContextClick','showSkillSlots','flushDeferredSkills','showInputObservations','showControls','beginBinding','applyBinding','updateHud','effectText','checkpointPanel','showTraining','showActionSlots','showNpc','nearest','showInputFeedback','clearInputFeedback','clearInput','flushActionSafety','acceptCombatPress','currentPoeAim','sampledCombatInput','deliverCombatEvents','flushFreshCombatInput','releaseCombatToken','panel','closePanel','report','syncVitals','dispatch','immediateAction','showMenu','frame'];
++ const program=[cut('const actionSkill=','const tierLabel='),cut('const esc=','function clearInput('),cut('const config=','let controller='),cut('const tierLabel=','const focusEvents='),...funcs.map(fn),cut("document.addEventListener('click',","document.addEventListener('change',"),cut("document.addEventListener('change',","$('menuButton').onclick"),cut("window.addEventListener('keydown'","function resize("),`return {frame,toast,showDeath,get noticeUntil(){return noticeUntil},deliverCombatEvents,interactionCandidates,contextProjection,get contextClick(){return contextClick},showControls,showSkillSlots,showInputObservations,closePanel,updateHud,clearInput,sampledCombatInput,flushActionSafety,dispatch,report,showTraining,showActionSlots,get inputObservations(){return inputLatency.snapshot()},get state(){return state},get battle(){return battle},get busy(){return busy},get paused(){return paused},get capture(){return expertCapture},get gate(){return gate},get controller(){return controller}};`].join('\n');
+  const app=new Function(...Object.keys(env),program)(...Object.values(env));let now=0;
+  const event=(code,extra={})=>({code,target:canvas,preventDefault(){},stopImmediatePropagation(){},repeat:false,ctrlKey:false,altKey:false,metaKey:false,...extra});
+- return {app,router,expertCapture,skillCapture,expertSafety,gate,modal,document,buttons,ch,wh,dh,toasts,async click(action,fields={}){const target={dataset:{action,...fields},disabled:false};return dh.click({target:{closest:()=>target},detail:1,preventDefault(){},stopPropagation(){}});},rendered,renderClocks,audioRequests,store,data,key:(code,extra)=>wh.keydown(event(code,extra)),up:code=>wh.keyup(event(code)),async frame(dt=.016){now+=dt*1000;app.frame(now);await next();},delay(){delayed=true;},fail(){failure={ok:false,code:'QUOTA',reason:'fixture'};},async finish(failed=false){pending(failed?{ok:false,code:"QUOTA",reason:"fixture"}:undefined);pending=null;await next();}};
++ return {app,notice:$('toast'),router,expertCapture,skillCapture,expertSafety,gate,modal,document,buttons,ch,wh,dh,toasts,async click(action,fields={}){const target={dataset:{action,...fields},disabled:false};return dh.click({target:{closest:()=>target},detail:1,preventDefault(){},stopPropagation(){}});},rendered,renderClocks,audioRequests,store,data,key:(code,extra)=>wh.keydown(event(code,extra)),up:code=>wh.keyup(event(code)),async frame(dt=.016){now+=dt*1000;app.frame(now);await next();},delay(){delayed=true;},fail(){failure={ok:false,code:'QUOTA',reason:'fixture'};},async finish(failed=false){pending(failed?{ok:false,code:"QUOTA",reason:"fixture"}:undefined);pending=null;await next();}};
+ }
+ test('real key press/frame/checkpoint charges Onslaught once; OS repeat/hold does not restart',async()=>{const h=await ui(),start=h.app.battle.p.stamina;h.key('Digit2');await h.frame();assert.equal(h.app.battle.p.action.id,'zealous_onslaught');assert.equal(h.app.battle.p.stamina,start-9);assert.equal(h.store.load().state.recovery.cooldowns.zealous_onslaught,10);const id=h.app.battle.p.action.castId;h.key('Digit2',{repeat:true});await h.frame();assert.equal(h.app.battle.p.action.castId,id);assert.equal(h.app.battle.p.action.paidSeconds,1);});
+ test('actual release after paid pulse resolves exactly one Lance and persists stop',async()=>{const h=await ui();h.key('Digit2');for(let n=0;n<38;n++)await h.frame();assert.ok(h.app.battle.p.action.pulses>=1);h.up('Digit2');await h.frame();assert.equal(h.app.battle.p.action,null);assert.equal(h.app.battle.events.filter(e=>e.type==='lanceResolved').length,1);assert.ok(h.store.load().state.recovery.lock>0);h.up('Digit2');await h.frame();assert.equal(h.app.battle.events.filter(e=>e.type==='lanceResolved').length,0);});
+@@ -137,8 +137,8 @@
+ async function assignV5(h,slot,skillId){
+  return h.app.dispatch({type:'assignSkillSlot',slot,skillId,expectedSkillId:h.app.state.options.controls.skillSlots[slot],expectedRevision:h.app.controller.revision(),life:h.app.battle.stateLife});
+ }
+-async function v5Ui({blockMode='hold'}={}){
+- const h=await ui({poeMode:'wasd'});
++async function v5Ui({blockMode='hold',realNotice=false}={}){
++ const h=await ui({poeMode:'wasd',realNotice});
+  await h.click('enable-skill-loadout');assert.equal(h.app.state.options.controls.version,5);
+  for(const slot of ['attack','hammer','block','expert1'])assert.equal(await assignV5(h,slot,null),true,`clear ${slot}`);
+  for(const [slot,id] of [['expert1','mace_swing'],['attack','righteous_hammer'],['hammer','shield_block'],['heal','zealous_onslaught']])assert.equal(await assignV5(h,slot,id),true,`${id} -> ${slot}`);
+@@ -310,3 +310,62 @@
+ test('observation main: rejected dodge observation cannot survive until later held movement',async()=>{
+  const h=await ui({poeMode:'wasd'});h.key('KeyW');h.key('Space');await next();h.up('Space');await next();h.key('Space');const rows=h.app.inputObservations,press=rows.filter(r=>r.kind==='input'&&r.action==='dodgeSprint').at(-1);assert.ok(press);assert.ok(rows.some(r=>r.kind==='cancelled'&&r.sequence===press.sequence&&r.reason==='mobility-locked'));assert.equal(rows.some(r=>r.kind==='mobility-start'&&r.sequence===press.sequence),false);await advanceUntil(h,()=>h.app.inputObservations.some(r=>r.kind==='mobility-start'&&r.state==='sprint'),'held sprint transition');const sprint=h.app.inputObservations.filter(r=>r.kind==='mobility-start'&&r.state==='sprint').at(-1);assert.notEqual(sprint.sequence,press.sequence);assert.equal(sprint.heldTransition,true);assert.equal(sprint.delayMs,null);h.up('Space');h.up('KeyW');
+ });
++
++
++// R14a6: production toast, input handlers, frames, accepted action events and
++// durable save flow. DOM classes are probed; this is not browser/pixel evidence.
++const recoveryCopy='현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.';
++function recoveryVisible(h){assert.equal(h.notice.textContent,recoveryCopy);assert.equal(h.notice.classList.contains('visible'),true);assert.ok(h.app.noticeUntil>0);}
++function noRecoveryNotice(h){assert.equal(h.notice.textContent,'');assert.equal(h.notice.classList.contains('visible'),false);assert.equal(h.notice.recoverySkillId,null);assert.equal(h.app.noticeUntil,0);}
++for(const hz of [30,60,120])for(const mapped of [false,true])for(const blockedBy of ['roll','hammer-recovery'])test(`R14a6 ${hz}Hz ${mapped?'mapped F':'LMB'} held mace dismisses only its own ${blockedBy} notice when start is accepted`,async()=>{
++ const h=mapped?await v5Ui({realNotice:true}):await ui({poeMode:'wasd',realNotice:true}),b=h.app.battle;
++ if(blockedBy==='roll'){h.key('Space');await next();}else{mouseDown(h,mapped?0:2);await h.frame(.025);mouseUp(h,mapped?0:2);}
++ if(mapped)h.key('KeyF');else mouseDown(h,0);await next();recoveryVisible(h,'mace_swing');
++ for(let i=0;i<180&&!h.app.inputObservations.some(row=>row.kind==='action-start'&&row.heldRepeat&&row.skillId==='mace_swing');i++)await h.frame(1/hz);
++ const start=h.app.inputObservations.find(row=>row.kind==='action-start'&&row.heldRepeat&&row.skillId==='mace_swing');assert.ok(start);assert.equal(b.p.action.id,'mace_swing');noRecoveryNotice(h);
++ for(let i=0;i<90&&!h.app.inputObservations.some(row=>row.kind==='contact'&&row.castId===start.castId);i++)await h.frame(1/hz);
++ assert.ok(h.app.inputObservations.some(row=>row.kind==='contact'&&row.castId===start.castId));assert.equal(h.notice.textContent,'');assert.equal(h.notice.classList.contains('visible'),false);
++ if(mapped)h.up('KeyF');else mouseUp(h,0);if(blockedBy==='roll')h.up('Space');
++});
++test('R14a6 rejected single mace press remains visible, cannot repeat, then expires normally',async()=>{
++ const h=await ui({poeMode:'wasd',realNotice:true});h.key('Space');await next();mouseDown(h,0);mouseUp(h,0);h.up('Space');await next();recoveryVisible(h,'mace_swing');const until=h.app.noticeUntil;
++ for(let i=0;i<60;i++)await h.frame();recoveryVisible(h,'mace_swing');assert.equal(h.app.noticeUntil,until);assert.equal(h.app.battle.castSerial,0);
++ for(let i=0;i<160;i++)await h.frame();assert.equal(h.notice.textContent,'');assert.equal(h.notice.classList.contains('visible'),false);assert.equal(h.notice.recoverySkillId,null);assert.equal(h.app.battle.castSerial,0);
++});
++test('R14a6 different accepted skill preserves the still-relevant rejected skill notice',async()=>{
++ const h=await ui({poeMode:'wasd',realNotice:true});h.key('Space');await next();mouseDown(h,0);mouseUp(h,0);h.up('Space');await next();recoveryVisible(h,'mace_swing');const until=h.app.noticeUntil;
++ for(let i=0;i<45;i++)await h.frame();mouseDown(h,2);assert.equal(h.app.battle.p.action.id,'righteous_hammer');recoveryVisible(h,'mace_swing');assert.equal(h.app.noticeUntil,until);mouseUp(h,2);
++});
++test('R14a6 same-skill new successful press resolves an earlier single-press notice',async()=>{
++ const h=await ui({poeMode:'wasd',realNotice:true});h.key('Space');await next();mouseDown(h,0);mouseUp(h,0);h.up('Space');await next();recoveryVisible(h,'mace_swing');
++ for(let i=0;i<45;i++)await h.frame();mouseDown(h,0);assert.equal(h.app.battle.p.action.id,'mace_swing');noRecoveryNotice(h);mouseUp(h,0);
++});
++for(const boundary of ['menu','blur','death'])test(`R14a6 ${boundary} ends recovery notice ownership and clears held input`,async()=>{
++ const h=await ui({poeMode:'wasd',realNotice:true});h.key('Space');await next();mouseDown(h,0);await next();recoveryVisible(h,'mace_swing');
++ if(boundary==='menu')h.key('Escape');else if(boundary==='blur')h.wh.blur();else{h.app.battle.p.hp=0;h.app.battle.dead=true;await h.frame();}
++ await next();noRecoveryNotice(h);assert.equal(h.app.paused,true);if(boundary==='death'){assert.equal(h.app.state.world.lifeDown,true);assert.match(h.modal.innerHTML,/쓰러졌습니다/);}else{h.app.closePanel();for(let i=0;i<60;i++)await h.frame();assert.equal(h.app.battle.castSerial,0);}
++});
++test('R14a6 replacing recovery notice with an unrelated message preserves it on matching success',async()=>{
++ const h=await ui({poeMode:'wasd',realNotice:true});h.key('Space');await next();mouseDown(h,0);await next();recoveryVisible(h,'mace_swing');
++ h.app.toast('저장 대기가 길어 입력을 취소했습니다. 다시 눌러 주세요.');const until=h.app.noticeUntil;assert.equal(h.notice.recoverySkillId,null);
++ await advanceUntil(h,()=>h.app.battle.p.action?.id==='mace_swing','same held skill starts');assert.equal(h.notice.textContent,'저장 대기가 길어 입력을 취소했습니다. 다시 눌러 주세요.');assert.equal(h.notice.classList.contains('visible'),true);assert.equal(h.app.noticeUntil,until);mouseUp(h,0);h.up('Space');
++});
++test('R14a6 later different-skill rejection is not cleared by held mace success',async()=>{
++ const h=await ui({poeMode:'wasd',realNotice:true});h.key('Space');await next();mouseDown(h,0);await next();recoveryVisible(h,'mace_swing');mouseDown(h,2);mouseUp(h,2);await next();recoveryVisible(h,'righteous_hammer');
++ await advanceUntil(h,()=>h.app.battle.p.action?.id==='mace_swing','held mace starts');recoveryVisible(h,'righteous_hammer');mouseUp(h,0);h.up('Space');
++});
++test('R14a6 actual failed accepted-action checkpoint replaces notice with save error and closes gate',async()=>{
++ const h=await ui({poeMode:'wasd',realNotice:true});h.key('Space');await next();mouseDown(h,0);await next();recoveryVisible(h,'mace_swing');h.fail();
++ for(let i=0;i<90&&!h.app.gate.blocked;i++)await h.frame();assert.equal(h.app.gate.blocked,true);assert.equal(h.app.paused,true);assert.equal(h.notice.recoverySkillId,null);assert.equal(h.notice.textContent,'fixture');assert.equal(h.notice.classList.contains('visible'),true);assert.ok(h.app.noticeUntil>0);assert.match(h.modal.innerHTML,/저장을 확인해야 합니다/);
++});
++test('R14a6 not-ready resource rejection remains after another successful action',async()=>{
++ const h=await ui({poeMode:'wasd',realNotice:true});h.app.battle.p.mana=0;mouseDown(h,2);mouseUp(h,2);await next();assert.match(h.notice.textContent,/마나 부족/);assert.equal(h.notice.recoverySkillId,null);const copy=h.notice.textContent,until=h.app.noticeUntil;mouseDown(h,0);assert.equal(h.app.battle.p.action.id,'mace_swing');assert.equal(h.notice.textContent,copy);assert.equal(h.app.noticeUntil,until);mouseUp(h,0);
++});
++for(const first of ['LMB','Space'])test(`R14a6 ${first}-first simultaneous LMB and Space hold for 1350ms resumes mace without a stale notice`,async()=>{
++ const h=await ui({poeMode:'wasd',realNotice:true});
++ if(first==='LMB'){mouseDown(h,0);h.key('Space');}else{h.key('Space');mouseDown(h,0);}await next();
++ for(let i=0;i<81;i++)await h.frame(1/60);
++ const rows=h.app.inputObservations,roll=rows.find(r=>r.kind==='mobility-start'&&r.state==='roll'),resumed=rows.find(r=>r.kind==='action-start'&&r.skillId==='mace_swing'&&r.heldRepeat&&r.at>=roll?.at);
++ assert.ok(roll);assert.ok(resumed);assert.ok(rows.some(r=>r.kind==='contact'&&r.castId===resumed.castId));assert.equal(h.notice.textContent,'');assert.equal(h.notice.classList.contains('visible'),false);
++ mouseUp(h,0);h.up('Space');await next();const casts=h.app.battle.castSerial;for(let i=0;i<60;i++)await h.frame();assert.equal(h.app.battle.castSerial,casts);assert.equal(h.app.battle.p.action,null);
++});
+--- a/brief.md
++++ b/brief.md
+@@ -188,3 +188,6 @@
+ ## Current priority update: R14 POE-oriented controls (2026-10-10)
+ 
+ Balance and R13 progression expansion are paused by user direction. Follow the specified full combat-controls document under docs/poe2-input and the source-confirmed vs authored distinction. R14a2 integrates explicit controls5 eight-slot assignment, independent movement/aim, contextual click approach and living actor collision, while preserving existing saves/keys until explicit selection. Immediate input start, contact timing, per-skill cancellation/repeat, fancy FX, danger visibility and flash0 need separate real-input/visual review. See docs/poe2-input/r14a2-integration.md for current contracts and unfinished acceptance. Earlier counts are historical, not this candidate's pass count.
++
++## R14a6 scoped recovery-notice correction
++A successful resumed held attack must not keep the earlier recovery-too-early toast on screen. Scope is transient presentation ownership only; combat rules, resource costs, cooldowns, save data and balance stay unchanged. Preserve rejection feedback for unsuccessful single presses and unrelated notices. Candidate browser verification is a separate required gate.
+--- a/spec.md
++++ b/spec.md
+@@ -268,3 +268,6 @@
+ ## Current priority update: R14 POE-oriented controls (2026-10-10)
+ 
+ Balance and R13 progression expansion are paused by user direction. Follow the specified full combat-controls document under docs/poe2-input and the source-confirmed vs authored distinction. R14a2 integrates explicit controls5 eight-slot assignment, independent movement/aim, contextual click approach and living actor collision, while preserving existing saves/keys until explicit selection. Immediate input start, contact timing, per-skill cancellation/repeat, fancy FX, danger visibility and flash0 need separate real-input/visual review. See docs/poe2-input/r14a2-integration.md for current contracts and unfinished acceptance. Earlier counts are historical, not this candidate's pass count.
++
++## R14a6 recovery-notice ownership
++Only recovery-too-early toasts carry a skill ID. An actual actionStarted with that skill ID dismisses the current owned notice; another skill cannot. Any newer generic toast removes that ownership. Input safety boundaries and expiry retire the owned notice. Rejected taps retain the normal 3.3-second lifetime unless a matching accepted action or safety boundary makes the notice obsolete. No scheduling, combat state, resource, cooldown, recovery, or persistence contract is changed.
+--- a/eval.md
++++ b/eval.md
+@@ -370,3 +370,6 @@
+ ## Current priority update: R14 POE-oriented controls (2026-10-10)
+ 
+ Balance and R13 progression expansion are paused by user direction. Follow the specified full combat-controls document under docs/poe2-input and the source-confirmed vs authored distinction. R14a2 integrates explicit controls5 eight-slot assignment, independent movement/aim, contextual click approach and living actor collision, while preserving existing saves/keys until explicit selection. Immediate input start, contact timing, per-skill cancellation/repeat, fancy FX, danger visibility and flash0 need separate real-input/visual review. See docs/poe2-input/r14a2-integration.md for current contracts and unfinished acceptance. Earlier counts are historical, not this candidate's pass count.
++
++## R14a6 isolated notice candidate (not published)
++See docs/verification-r14a6/README.md and its fresh logs. Tests execute actual main.js toast, event delivery, input and frame handlers with real combat/store/safety dependencies; DOM classes, audio and rendering are probes. Scripted earned progression is test setup, not native browser or campaign acceptance. The original-code negative cases reproduce the stale recovery toast after successful held-mace action start. Focused checks are not an inherited full-suite pass; final integrated lint/build/full regression and actual candidate QA remain with the integrating task.
+--- a/app/tests/furnace-ui-integration.test.mjs
++++ b/app/tests/furnace-ui-integration.test.mjs
+@@ -116,13 +116,13 @@
+  const events=[],messages=[],calls=[],handlers={},labels=[],commands=[],outcomes=[];controller.subscribe(event=>events.push(event));
+  const actualDispatch=controller.dispatch;controller.dispatch=async command=>{commands.push(copy(command));const result=await actualDispatch(command);outcomes.push(result);return result;};
+  const modal={hidden:true,innerHTML:'',querySelector:()=>({focus:()=>calls.push(['focus-modal'])})};
+- const elements={hud:{hidden:false},objective:{innerHTML:''},profile:{value:'qa-r9-copy'},sourceProfile:{value:'qa-r8-source'},sourceNamespace:{value:'qa-r8'}};
++ const elements={toast:{textContent:'',classList:{add(){},remove(){}}},hud:{hidden:false},objective:{innerHTML:''},profile:{value:'qa-r9-copy'},sourceProfile:{value:'qa-r8-source'},sourceNamespace:{value:'qa-r8'}};
+  const imports={...mainImports,BATTLEFIELD_COMMANDS,battlefieldObjectView,battlefieldElderView,battlefieldGuidance,battlefieldCommandFields,battlefieldPortalLabel,battlefieldEventCopy,previewExpertPromotion,quoteAction,EXPERT_SLOTS,emptyActionSlots,combatCheckpoint,TOMB_COMMANDS,TOMB_TOOLS,tombWardCarried,tombObjectView,tombElderView,tombCommandFields,tombClueView,tombEventCopy,tombGoldView,tombPortalLabel,createBattle,clearBattleIntent,battleReport,syncCommittedBattle,getRegion,createMap,near,lineOfSight,selectInteractionTarget,deriveStats,equipmentRows,quoteEquipment,previewRecipe,EQUIPMENT_ITEMS,EQUIPMENT_RECIPES,EQUIPMENT_SLOTS,EQUIPMENT_UPGRADES,DUNGEON_TOOLS,QUARRY_TOOLS,PASS_TOOLS,SIGNAL_TOOLS,FURNACE_TOOLS,DUNGEON_COMMANDS,QUARRY_COMMANDS,PASS_COMMANDS,SIGNAL_COMMANDS,FURNACE_COMMANDS,dungeonObjectView,quarryObjectView,quarryElderView,passObjectView,passElderView,signalObjectView,signalBlacksmithView,furnaceObjectView,furnaceBlacksmithView,campaignGuidance,chestPresentation,copyReleaseQaProfile,controlsFor,actionLabel};
+  const declaredImports=new Set([...source.matchAll(/^import\s*\{([^}]+)\}/gm)].flatMap(match=>match[1].split(',').map(name=>name.trim())));
+  for(const name of Object.keys(imports))assert.ok(declaredImports.has(name),`production main must import ${name}`);
+  const expertCapture=createExpertInputCapture(),expertSafety=createActionSafety({capture:expertCapture,cancel:cancelBattleAction});
+  const gate=createRuntimeGate(),env={...createMainInputFixture(),expertCapture,expertSafety,...imports,state:loaded.state,battle:createBattle(loaded.state),controller,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,equipmentStation:null,suppressNextClick:false,lastObjectiveHtml:'',
+-  modal,gate,candidate:namespace!=='release',saveNamespace:namespace,localStorage:storage,navigator:{locks},
++  noticeUntil:0,modal,gate,candidate:namespace!=='release',saveNamespace:namespace,localStorage:storage,navigator:{locks},
+   $:id=>elements[id],document:{hidden:false,hasFocus:()=>true,addEventListener:(name,fn)=>{handlers[name]=fn;}},
+   audio:{pause:value=>calls.push(['audio-pause',value]),play:name=>calls.push(['audio-play',name])},
+   router:tracedInputRouter(options=>calls.push(['router-clear',options])),deferredImmediate:{clear:()=>calls.push(['deferred-clear'])},
+--- a/app/tests/pass-prerequisite-copy.test.mjs
++++ b/app/tests/pass-prerequisite-copy.test.mjs
+@@ -45,8 +45,9 @@
+  const controller=mainImports.createController(session),loaded=await controller.load();assert.equal(loaded.ok,true);
+  const handlers={},outcomes=[],messages=[],originalDispatch=controller.dispatch;controller.dispatch=async command=>{const result=await originalDispatch(command);outcomes.push(result);return result;};
+  const modal={hidden:true,innerHTML:'',querySelector:()=>({focus(){}})},expertCapture=mainImports.createExpertInputCapture();
++ const elements={toast:{textContent:'',classList:{add(){},remove(){}}}};
+  const env={...createMainInputFixture(),...mainImports,expertCapture,expertSafety:mainImports.createActionSafety({capture:expertCapture,cancel:mainImports.cancelBattleAction}),state:loaded.state,battle:mainImports.createBattle(loaded.state),controller,
+-  modal,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,suppressNextClick:false,last:0,saveNamespace:'qa-r12',candidate:true,
++  $:id=>elements[id],noticeUntil:0,modal,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,suppressNextClick:false,last:0,saveNamespace:'qa-r12',candidate:true,
+   gate:mainImports.createRuntimeGate(),router:mainImports.createInputRouter(),deferredImmediate:mainImports.createImmediateInput(),canvas:{focus(){}},audio:{pause(){},play(){}},toast:text=>messages.push(text),updateHud(){},document:{hidden:false,hasFocus:()=>true,addEventListener:(name,fn)=>handlers[name]=fn},
+  };
+  const ui=vm.compileFunction(harnessSource,Object.keys(env),{filename:'actual-main-pass-prerequisite-handlers.js'})(...Object.values(env));
+--- a/app/tests/pause-travel-ui.test.mjs
++++ b/app/tests/pause-travel-ui.test.mjs
+@@ -92,7 +92,7 @@
+  }});
+  const loaded=await controller.load();assert.equal(loaded.ok,true);
+  const commands=[],actualDispatch=controller.dispatch;controller.dispatch=command=>{commands.push(command.type);return actualDispatch(command);};
+- const handlers={},messages=[],calls=[],elements={objective:{innerHTML:''},hud:{hidden:false}};
++ const handlers={},messages=[],calls=[],elements={toast:{textContent:'',classList:{add(){},remove(){}}},objective:{innerHTML:''},hud:{hidden:false}};
+  let activeElement,html='',modalWrites=0,regionNode=null,buttonNode=null;
+  const canvas={tagName:'CANVAS',focus(){activeElement=canvas;calls.push('focus-canvas');}};activeElement=canvas;
+  const modal={hidden:true,get innerHTML(){return html;},set innerHTML(value){
+@@ -106,7 +106,7 @@
+  const imports={...mainImports,BATTLEFIELD_COMMANDS,battlefieldObjectView,battlefieldElderView,battlefieldGuidance,battlefieldCommandFields,battlefieldPortalLabel,battlefieldEventCopy,previewExpertPromotion,quoteAction,EXPERT_SLOTS,emptyActionSlots,combatCheckpoint,TOMB_COMMANDS,TOMB_TOOLS,tombWardCarried,tombObjectView,tombElderView,tombCommandFields,tombClueView,tombEventCopy,tombGoldView,tombPortalLabel,createBattle,clearBattleIntent,battleReport,syncCommittedBattle,getRegion,createMap,near,deriveStats,selectInteractionTarget,DUNGEON_COMMANDS,QUARRY_COMMANDS,PASS_COMMANDS,SIGNAL_COMMANDS,FURNACE_COMMANDS,dungeonObjectView,quarryObjectView,passObjectView,signalObjectView,furnaceObjectView,campaignGuidance,chestPresentation,ACTIONS,controlsFor,actionLabel,editableTarget};
+  const expertCapture=createExpertInputCapture(),expertSafety=createActionSafety({capture:expertCapture,cancel:cancelBattleAction});
+  const env={...createMainInputFixture(),...imports,expertCapture,expertSafety,state:loaded.state,battle:createBattle(loaded.state),controller,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,suppressNextClick:false,
+-  modal,gate,router,deferredImmediate:createImmediateInput(),canvas,document,window:{addEventListener:(name,handler)=>handlers[name]=handler},
++  noticeUntil:0,modal,gate,router,deferredImmediate:createImmediateInput(),canvas,document,window:{addEventListener:(name,handler)=>handlers[name]=handler},
+   $:id=>elements[id],audio:{pause:value=>calls.push(['pause',value]),play:value=>calls.push(['play',value])},toast:text=>messages.push(text),
+   profile:'qa-pause-travel',candidate:true,saveNamespace:'qa-r8',pauseReason:'사용자 요청',focusEvents:{blurAt:'없음',visibilityAt:'없음',visibilityState:'초기'},
+   last:0,lastObjectiveHtml:'',displayTime:0,combatTime:0,walkTime:0,menuTime:0,arrivalWaitTime:0,
+--- a/app/tests/quarry-completion-ui.test.mjs
++++ b/app/tests/quarry-completion-ui.test.mjs
+@@ -57,8 +57,9 @@
+  const controller=mainImports.createController(session),loaded=await controller.load();assert.equal(loaded.ok,true);
+  const handlers={},messages=[],commands=[],outcomes=[],actualDispatch=controller.dispatch;controller.dispatch=async command=>{commands.push(command);const result=await actualDispatch(command);outcomes.push(result);return result;};
+  const modal={hidden:true,innerHTML:'',querySelector:()=>({focus(){}})},expertCapture=mainImports.createExpertInputCapture();
++ const elements={toast:{textContent:'',classList:{add(){},remove(){}}}};
+  const env={...createMainInputFixture(),...mainImports,expertCapture,expertSafety:mainImports.createActionSafety({capture:expertCapture,cancel:mainImports.cancelBattleAction}),state:loaded.state,battle:mainImports.createBattle(loaded.state),controller,
+-  modal,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,suppressNextClick:false,last:0,saveNamespace:'qa-r12',candidate:true,
++  $:id=>elements[id],noticeUntil:0,modal,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,suppressNextClick:false,last:0,saveNamespace:'qa-r12',candidate:true,
+   gate:mainImports.createRuntimeGate(),router:mainImports.createInputRouter(),deferredImmediate:mainImports.createImmediateInput(),canvas:{focus(){}},audio:{pause(){},play(){}},toast:text=>messages.push(text),updateHud(){},document:{hidden:false,hasFocus:()=>true,addEventListener:(name,fn)=>handlers[name]=fn},
+  };
+  const ui=vm.compileFunction(harnessSource,Object.keys(env),{filename:'actual-main-quarry-completion-handlers.js'})(...Object.values(env));
+--- a/app/tests/resource-display.test.mjs
++++ b/app/tests/resource-display.test.mjs
+@@ -33,8 +33,8 @@
+  $('hotbar').querySelector=selector=>buttons[/data-(?:combat|action)="([^"]+)"/.exec(selector)?.[1]]??null;
+  const env={...imports,state:f.s,battle:f.b,$,lastObjectiveHtml:'',config:()=>imports.controlsFor(f.s),keyName:a=>imports.actionLabel(imports.controlsFor(f.s),a),visibleAction:()=>true};
+  const update=new Function(...Object.keys(env),[declaration('esc'),declaration('button'),declaration('tierLabel'),fn('updateHud'),'return updateHud;'].join('\n'))(...Object.values(env));
+- const toasts=[],feedback=new Function('events','audio','toast','actionBlockedText','inputLatency','battle',rejectionLoop);
+- return {update,buttons,toasts,feedback:events=>feedback(events,{play(){}},t=>toasts.push(t),actionBlockedText,imports.createInputLatency(),f.b),pool(kind){return new RegExp(`<div class="bar ${kind}">.*?<span>([^<]+)</span>`).exec($('vitals').innerHTML)?.[1];}};
++ const toasts=[],feedback=new Function('events','audio','toast','actionBlockedText','inputLatency','battle','dismissRecoveryNotice','$','noticeUntil',rejectionLoop);
++ return {update,buttons,toasts,feedback:events=>feedback(events,{play(){}},t=>toasts.push(t),actionBlockedText,imports.createInputLatency(),f.b,imports.dismissRecoveryNotice,$,0),pool(kind){return new RegExp(`<div class="bar ${kind}">.*?<span>([^<]+)</span>`).exec($('vitals').innerHTML)?.[1];}};
+ }
+ function adjacent(value,direction){const data=new DataView(new ArrayBuffer(8));data.setFloat64(0,value);data.setBigUint64(0,data.getBigUint64(0)+BigInt(direction));return data.getFloat64(0);}
+ const scenarios=[
+--- a/app/tests/signal-prerequisite-copy.test.mjs
++++ b/app/tests/signal-prerequisite-copy.test.mjs
+@@ -48,8 +48,9 @@
+  const controller=mainImports.createController(session),loaded=await controller.load();assert.equal(loaded.ok,true);
+  const handlers={},outcomes=[],messages=[],originalDispatch=controller.dispatch;controller.dispatch=async command=>{const result=await originalDispatch(command);outcomes.push(result);return result;};
+  const modal={hidden:true,innerHTML:'',querySelector:()=>({focus(){}})},expertCapture=mainImports.createExpertInputCapture();
++ const elements={toast:{textContent:'',classList:{add(){},remove(){}}}};
+  const env={...createMainInputFixture(),...mainImports,expertCapture,expertSafety:mainImports.createActionSafety({capture:expertCapture,cancel:mainImports.cancelBattleAction}),state:loaded.state,battle:mainImports.createBattle(loaded.state),controller,
+-  modal,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,equipmentStation:null,suppressNextClick:false,last:0,saveNamespace:'qa-r12',candidate:true,
++  $:id=>elements[id],noticeUntil:0,modal,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,equipmentStation:null,suppressNextClick:false,last:0,saveNamespace:'qa-r12',candidate:true,
+   gate:mainImports.createRuntimeGate(),router:mainImports.createInputRouter(),deferredImmediate:mainImports.createImmediateInput(),canvas:{focus(){}},audio:{pause(){},play(){}},toast:text=>messages.push(text),updateHud(){},document:{hidden:false,hasFocus:()=>true,addEventListener:(name,fn)=>handlers[name]=fn},
+  };
+  const ui=vm.compileFunction(harnessSource,Object.keys(env),{filename:'actual-main-signal-prerequisite-handlers.js'})(...Object.values(env));
+--- a/app/tests/signal-ui-integration.test.mjs
++++ b/app/tests/signal-ui-integration.test.mjs
+@@ -110,13 +110,13 @@
+  const controller=createController(store),loaded=await controller.load();assert.equal(loaded.ok,true);
+  const events=[],messages=[],calls=[],handlers={},labels=[];controller.subscribe(event=>events.push(event));
+  const modal={hidden:true,innerHTML:'',querySelector:()=>({focus:()=>calls.push(['focus-modal'])})};
+- const elements={hud:{hidden:false},profile:{value:'qa-r8-copy'},sourceProfile:{value:'qa-r7-source'},sourceNamespace:{value:'qa-r7'}};
++ const elements={toast:{textContent:'',classList:{add(){},remove(){}}},hud:{hidden:false},profile:{value:'qa-r8-copy'},sourceProfile:{value:'qa-r7-source'},sourceNamespace:{value:'qa-r7'}};
+  const imports={...mainImports,BATTLEFIELD_COMMANDS,battlefieldObjectView,battlefieldElderView,battlefieldGuidance,battlefieldCommandFields,battlefieldPortalLabel,battlefieldEventCopy,previewExpertPromotion,quoteAction,EXPERT_SLOTS,emptyActionSlots,combatCheckpoint,TOMB_COMMANDS,TOMB_TOOLS,tombWardCarried,tombObjectView,tombElderView,tombCommandFields,tombClueView,tombEventCopy,tombGoldView,tombPortalLabel,createBattle,clearBattleIntent,battleReport,syncCommittedBattle,getRegion,createMap,near,lineOfSight,selectInteractionTarget,deriveStats,equipmentRows,quoteEquipment,previewRecipe,EQUIPMENT_ITEMS,EQUIPMENT_RECIPES,EQUIPMENT_SLOTS,EQUIPMENT_UPGRADES,DUNGEON_TOOLS,QUARRY_TOOLS,PASS_TOOLS,SIGNAL_TOOLS,FURNACE_TOOLS,DUNGEON_COMMANDS,QUARRY_COMMANDS,PASS_COMMANDS,SIGNAL_COMMANDS,FURNACE_COMMANDS,dungeonObjectView,quarryObjectView,quarryElderView,passObjectView,passElderView,signalObjectView,signalBlacksmithView,furnaceObjectView,furnaceBlacksmithView,campaignGuidance,chestPresentation,copyReleaseQaProfile};
+  const declaredImports=new Set([...source.matchAll(/^import\s*\{([^}]+)\}/gm)].flatMap(match=>match[1].split(',').map(name=>name.trim())));
+  for(const name of Object.keys(imports))assert.ok(declaredImports.has(name),`production main must import ${name}`);
+  const expertCapture=createExpertInputCapture(),expertSafety=createActionSafety({capture:expertCapture,cancel:cancelBattleAction});
+  const env={...createMainInputFixture(),...imports,expertCapture,expertSafety,state:loaded.state,battle:createBattle(loaded.state),controller,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,equipmentStation:null,suppressNextClick:false,
+-  modal,gate:createRuntimeGate(),candidate:namespace!=='release',saveNamespace:namespace,localStorage:storage,navigator:{locks},
++  noticeUntil:0,modal,gate:createRuntimeGate(),candidate:namespace!=='release',saveNamespace:namespace,localStorage:storage,navigator:{locks},
+   $:id=>elements[id],document:{hidden:false,hasFocus:()=>true,addEventListener:(name,fn)=>{handlers[name]=fn;}},
+   audio:{pause:value=>calls.push(['audio-pause',value]),play:name=>calls.push(['audio-play',name])},
+   router:tracedInputRouter(options=>calls.push(['router-clear',options])),deferredImmediate:{clear:()=>calls.push(['deferred-clear'])},

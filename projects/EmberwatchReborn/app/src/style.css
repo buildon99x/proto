@@ -20,3 +20,9 @@
 
 #hotbar{max-width:calc(100vw - 24px);flex-wrap:wrap;justify-content:center;width:max-content}
 @media(max-width:750px){#hotbar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));width:calc(100vw - 24px);gap:4px;bottom:8px}#hotbar button{min-width:0;max-width:none;font-size:10px;padding:5px}#hotbar button b{font-size:9px;overflow-wrap:anywhere}#hotbar button em{font-size:9px}#hint{bottom:152px;left:12px;right:12px}#touch{bottom:156px}.binding-row{flex-wrap:wrap}.binding-row>div{justify-content:flex-start}.row select{max-width:62%}}
+
+/* R14a7: first-combat capture showed centre notices masking the fight.
+   Keep status semantics/lifetime; narrow/coarse layouts need separate screen QA. */
+@media(min-width:901px) and (min-height:600px) and (pointer:fine){
+ #toast{top:auto;bottom:132px;left:50%;right:auto;transform:translateX(-50%);width:max-content;max-width:calc(100vw - 48px);padding:8px 12px;font-size:13px;line-height:1.5;pointer-events:none}
+}

@@ -49,3 +49,7 @@ play, external preservation and qa-r12 publication remain parent gates.
 - Transition wording separates travel commits from ordinary timed regen.
 - Candidate checkpoint position rejection uses the same bounded explanation as R11b6.1 root.
 - Keeps R12a3 contact collision safety, recovery walking, schema5 and independent qa-r12 storage. No new late-region or Master implementation.
+
+## R14a8 (unpublished)
+- Correct death/retry movement-and-potion HUD availability feedback without changing combat or save rules.
+- Preserve v58 normal-play evidence and the independently frozen a7 checkpoint.

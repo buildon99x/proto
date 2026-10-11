@@ -14,3 +14,10 @@ export function actionBlockedText(eligibility,{compact=false}={}){
   default:return '';
  }
 }
+
+// Dismiss only the currently displayed recovery rejection, never a later toast.
+// A matching accepted action makes it obsolete; input safety ends its lifetime.
+export function dismissRecoveryNotice(notice,skillId=null){
+ if(!notice.recoverySkillId||(skillId!==null&&notice.recoverySkillId!==skillId))return false;
+ notice.recoverySkillId=null;notice.textContent='';notice.classList.remove('visible');return true;
+}

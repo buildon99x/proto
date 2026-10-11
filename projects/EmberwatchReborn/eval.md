@@ -370,3 +370,16 @@ R12a4 focused final41/41 pass (13 position-message/store cases +8 Pass +19 Signa
 ## Current priority update: R14 POE-oriented controls (2026-10-10)
 
 Balance and R13 progression expansion are paused by user direction. Follow the specified full combat-controls document under docs/poe2-input and the source-confirmed vs authored distinction. R14a2 integrates explicit controls5 eight-slot assignment, independent movement/aim, contextual click approach and living actor collision, while preserving existing saves/keys until explicit selection. Immediate input start, contact timing, per-skill cancellation/repeat, fancy FX, danger visibility and flash0 need separate real-input/visual review. See docs/poe2-input/r14a2-integration.md for current contracts and unfinished acceptance. Earlier counts are historical, not this candidate's pass count.
+
+## R14a6 isolated notice candidate (not published)
+See docs/verification-r14a6/README.md and its fresh logs. Tests execute actual main.js toast, event delivery, input and frame handlers with real combat/store/safety dependencies; DOM classes, audio and rendering are probes. Scripted earned progression is test setup, not native browser or campaign acceptance. The original-code negative cases reproduce the stale recovery toast after successful held-mace action start. Focused checks are not an inherited full-suite pass; final integrated lint/build/full regression and actual candidate QA remain with the integrating task.
+
+## R14a7 current acceptance scope
+The new source is unpublished and has not run in a visible browser. `docs/verification-r14a7` holds exact test evidence and known infrastructure limits. Separate v58 normal first-entry→training→6kills→Eda report→L2 selected export is real play, while scripted actual-handler tests and synthetic timing/canvas probes are not. Collision centreline, new diagnostic display, new toast layout, actual frame costs, a5+ flashy FX and listening remain open. No aggregate historical count or AAA completion is inherited.
+
+R14a7 final automated checkpoint:3,923/3,923 unique tests,0fail/skip/cancel,113877.982352ms; lint/build passed. Counts include prior3,853 plus70 new (32 contact,32 frame,6 integrated); overlapping focused runs are not added. Actual a7 browser/FX/frame/voice review remains unverified and no deployment occurred.
+
+## R14a8 acceptance scope
+Observed defect: public v58 R14a4, normal earned L3 profile, first-boss retry. Source/fixture checks must exercise actual main HUD/update paths, dead-input rejection and normal retry restoration. a8 browser acceptance remains unverified while candidate publication is blocked and local preview is unavailable. No a7/a8 frame-cost, physical latency or audio claim may be inferred from automated assertions.
+
+Final R14a8 automated check: **3,940/3,940 unique tests**, 0 fail/skip/cancel, 115268.864147ms; lint and build passed. This includes the existing 3,923 plus 17 new lifecycle tests. Actual a8 browser/FX/contact/frame/audio acceptance remains unverified; no deployment occurred.

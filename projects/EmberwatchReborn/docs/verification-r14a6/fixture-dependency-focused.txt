@@ -1,0 +1,1120 @@
+TAP version 13
+# Subtest: actual cover route accepts, cools, exhausts, ignites, explicitly collects lens and reports once
+ok 1 - actual cover route accepts, cools, exhausts, ignites, explicitly collects lens and reports once
+  ---
+  duration_ms: 1668.736873
+  type: 'test'
+  ...
+# Subtest: actual channel route accepts, cools, exhausts, ignites, explicitly collects lens and reports once
+ok 2 - actual channel route accepts, cools, exhausts, ignites, explicitly collects lens and reports once
+  ---
+  duration_ms: 562.651263
+  type: 'test'
+  ...
+# Subtest: actual F acceptance shares Orin with S completion and existing purchase handlers; Eda does not offer F
+ok 3 - actual F acceptance shares Orin with S completion and existing purchase handlers; Eda does not offer F
+  ---
+  duration_ms: 120.11128
+  type: 'test'
+  ...
+# Subtest: actual cover cooling map-only refresh preserves damaged living enemies, projectiles and paid recovery
+ok 4 - actual cover cooling map-only refresh preserves damaged living enemies, projectiles and paid recovery
+  ---
+  duration_ms: 142.787776
+  type: 'test'
+  ...
+# Subtest: actual channel cooling map-only refresh preserves damaged living enemies, projectiles and paid recovery
+ok 5 - actual channel cooling map-only refresh preserves damaged living enemies, projectiles and paid recovery
+  ---
+  duration_ms: 81.279327
+  type: 'test'
+  ...
+# Subtest: actual exhaust opens rear aisle and central connection together without rebuilding live battle
+ok 6 - actual exhaust opens rear aisle and central connection together without rebuilding live battle
+  ---
+  duration_ms: 113.094568
+  type: 'test'
+  ...
+# Subtest: actual ignition level-up synchronizes new caps without resource refill, lens collection or map replacement
+ok 7 - actual ignition level-up synchronizes new caps without resource refill, lens collection or map replacement
+  ---
+  duration_ms: 109.978877
+  type: 'test'
+  ...
+# Subtest: actual cover rapid opposite cooling clicks publish exactly one durable choice and reward
+ok 8 - actual cover rapid opposite cooling clicks publish exactly one durable choice and reward
+  ---
+  duration_ms: 76.995166
+  type: 'test'
+  ...
+# Subtest: actual channel rapid opposite cooling clicks publish exactly one durable choice and reward
+ok 9 - actual channel rapid opposite cooling clicks publish exactly one durable choice and reward
+  ---
+  duration_ms: 81.889126
+  type: 'test'
+  ...
+# Subtest: actual cooling WRITE_FAILED preserves state, choice and map and exposes the correct recovery behavior
+ok 10 - actual cooling WRITE_FAILED preserves state, choice and map and exposes the correct recovery behavior
+  ---
+  duration_ms: 92.426231
+  type: 'test'
+  ...
+# Subtest: actual cooling COMMIT_UNCERTAIN preserves state, choice and map and exposes the correct recovery behavior
+ok 11 - actual cooling COMMIT_UNCERTAIN preserves state, choice and map and exposes the correct recovery behavior
+  ---
+  duration_ms: 59.461369
+  type: 'test'
+  ...
+# Subtest: actual conflicting cooling commit cannot open either route or display success
+ok 12 - actual conflicting cooling commit cannot open either route or display success
+  ---
+  duration_ms: 84.83252
+  type: 'test'
+  ...
+# Subtest: actual furnace-cooling rejects COOLING_GUARDS_ALIVE visibly without a reward or commit
+ok 13 - actual furnace-cooling rejects COOLING_GUARDS_ALIVE visibly without a reward or commit
+  ---
+  duration_ms: 47.919738
+  type: 'test'
+  ...
+# Subtest: actual furnace-exhaust rejects COOLING_REQUIRED visibly without a reward or commit
+ok 14 - actual furnace-exhaust rejects COOLING_REQUIRED visibly without a reward or commit
+  ---
+  duration_ms: 50.021959
+  type: 'test'
+  ...
+# Subtest: actual furnace-exhaust rejects EXHAUST_GUARDS_ALIVE visibly without a reward or commit
+ok 15 - actual furnace-exhaust rejects EXHAUST_GUARDS_ALIVE visibly without a reward or commit
+  ---
+  duration_ms: 49.890583
+  type: 'test'
+  ...
+# Subtest: actual furnace-ignition rejects EXHAUST_REQUIRED visibly without a reward or commit
+ok 16 - actual furnace-ignition rejects EXHAUST_REQUIRED visibly without a reward or commit
+  ---
+  duration_ms: 48.251712
+  type: 'test'
+  ...
+# Subtest: actual furnace-ignition rejects IGNITION_GUARDS_ALIVE visibly without a reward or commit
+ok 17 - actual furnace-ignition rejects IGNITION_GUARDS_ALIVE visibly without a reward or commit
+  ---
+  duration_ms: 48.831686
+  type: 'test'
+  ...
+# Subtest: actual furnace-lens rejects IGNITION_REQUIRED visibly without a reward or commit
+ok 18 - actual furnace-lens rejects IGNITION_REQUIRED visibly without a reward or commit
+  ---
+  duration_ms: 49.162819
+  type: 'test'
+  ...
+# Subtest: actual furnace-shortcut rejects COOLING_REQUIRED visibly without a reward or commit
+ok 19 - actual furnace-shortcut rejects COOLING_REQUIRED visibly without a reward or commit
+  ---
+  duration_ms: 47.198844
+  type: 'test'
+  ...
+# Subtest: actual disabled/malformed cooling controls and non-cooling choice payloads cannot award or write
+ok 20 - actual disabled/malformed cooling controls and non-cooling choice payloads cannot award or write
+  ---
+  duration_ms: 82.065809
+  type: 'test'
+  ...
+# Subtest: actual acceptance requires the earned S report and Orin, and report requires its separate lens
+ok 21 - actual acceptance requires the earned S report and Orin, and report requires its separate lens
+  ---
+  duration_ms: 462.729238
+  type: 'test'
+  ...
+# Subtest: actual object opening checkpoints before pausing, rejects stale life, and respects blocked storage
+ok 22 - actual object opening checkpoints before pausing, rejects stale life, and respects blocked storage
+  ---
+  duration_ms: 111.003513
+  type: 'test'
+  ...
+# Subtest: actual unknown, out-of-range and stale-life F actions stay failed instead of turning into chests
+ok 23 - actual unknown, out-of-range and stale-life F actions stay failed instead of turning into chests
+  ---
+  duration_ms: 60.424039
+  type: 'test'
+  ...
+# Subtest: actual cover lift outranks its nearer locked portal only when ready, visible and within reach
+ok 24 - actual cover lift outranks its nearer locked portal only when ready, visible and within reach
+  ---
+  duration_ms: 172.524821
+  type: 'test'
+  ...
+# Subtest: actual channel lift outranks its nearer locked portal only when ready, visible and within reach
+ok 25 - actual channel lift outranks its nearer locked portal only when ready, visible and within reach
+  ---
+  duration_ms: 651.442622
+  type: 'test'
+  ...
+# Subtest: actual cover death/retry and saved reentry retain partial earned stage and prohibit stale rewards
+ok 26 - actual cover death/retry and saved reentry retain partial earned stage and prohibit stale rewards
+  ---
+  duration_ms: 171.663749
+  type: 'test'
+  ...
+# Subtest: actual channel death/retry and saved reentry retain partial earned stage and prohibit stale rewards
+ok 27 - actual channel death/retry and saved reentry retain partial earned stage and prohibit stale rewards
+  ---
+  duration_ms: 163.812283
+  type: 'test'
+  ...
+# Subtest: actual predecessor objective panel and HUD show current F goal without mutating progress
+ok 28 - actual predecessor objective panel and HUD show current F goal without mutating progress
+  ---
+  duration_ms: 27.537778
+  type: 'test'
+  ...
+# Subtest: actual accepted objective panel and HUD show current F goal without mutating progress
+ok 29 - actual accepted objective panel and HUD show current F goal without mutating progress
+  ---
+  duration_ms: 37.392337
+  type: 'test'
+  ...
+# Subtest: actual entry objective panel and HUD show current F goal without mutating progress
+ok 30 - actual entry objective panel and HUD show current F goal without mutating progress
+  ---
+  duration_ms: 36.548399
+  type: 'test'
+  ...
+# Subtest: actual cooled objective panel and HUD show current F goal without mutating progress
+ok 31 - actual cooled objective panel and HUD show current F goal without mutating progress
+  ---
+  duration_ms: 38.529902
+  type: 'test'
+  ...
+# Subtest: actual exhausted objective panel and HUD show current F goal without mutating progress
+ok 32 - actual exhausted objective panel and HUD show current F goal without mutating progress
+  ---
+  duration_ms: 40.327199
+  type: 'test'
+  ...
+# Subtest: actual ignited objective panel and HUD show current F goal without mutating progress
+ok 33 - actual ignited objective panel and HUD show current F goal without mutating progress
+  ---
+  duration_ms: 37.781437
+  type: 'test'
+  ...
+# Subtest: actual lens objective panel and HUD show current F goal without mutating progress
+ok 34 - actual lens objective panel and HUD show current F goal without mutating progress
+  ---
+  duration_ms: 61.662879
+  type: 'test'
+  ...
+# Subtest: actual reported objective panel and HUD show current F goal without mutating progress
+ok 35 - actual reported objective panel and HUD show current F goal without mutating progress
+  ---
+  duration_ms: 77.463424
+  type: 'test'
+  ...
+# Subtest: actual F goal names the saved custom interaction key and inventory resolves the permanent lens label
+ok 36 - actual F goal names the saved custom interaction key and inventory resolves the permanent lens label
+  ---
+  duration_ms: 53.714118
+  type: 'test'
+  ...
+# Subtest: actual cooled furnace-cooling labels and render preparation reflect its true completion
+ok 37 - actual cooled furnace-cooling labels and render preparation reflect its true completion
+  ---
+  duration_ms: 37.756091
+  type: 'test'
+  ...
+# Subtest: actual exhausted furnace-exhaust labels and render preparation reflect its true completion
+ok 38 - actual exhausted furnace-exhaust labels and render preparation reflect its true completion
+  ---
+  duration_ms: 38.103498
+  type: 'test'
+  ...
+# Subtest: actual ignited furnace-ignition labels and render preparation reflect its true completion
+ok 39 - actual ignited furnace-ignition labels and render preparation reflect its true completion
+  ---
+  duration_ms: 37.761178
+  type: 'test'
+  ...
+# Subtest: actual ignited furnace-lens labels and render preparation reflect its true completion
+ok 40 - actual ignited furnace-lens labels and render preparation reflect its true completion
+  ---
+  duration_ms: 36.877193
+  type: 'test'
+  ...
+# Subtest: actual lens furnace-lens labels and render preparation reflect its true completion
+ok 41 - actual lens furnace-lens labels and render preparation reflect its true completion
+  ---
+  duration_ms: 36.812917
+  type: 'test'
+  ...
+# Subtest: actual qa-r9 title and forward-copy handler preserve earned qa-r8 source and all earlier namespace bytes
+ok 42 - actual qa-r9 title and forward-copy handler preserve earned qa-r8 source and all earlier namespace bytes
+  ---
+  duration_ms: 58.610894
+  type: 'test'
+  ...
+# Subtest: actual pending cooling commit preserves a newer close action instead of reopening its old panel
+ok 43 - actual pending cooling commit preserves a newer close action instead of reopening its old panel
+  ---
+  duration_ms: 73.953612
+  type: 'test'
+  ...
+# Subtest: actual pending cooling commit preserves a newer objective action instead of reopening its old panel
+ok 44 - actual pending cooling commit preserves a newer objective action instead of reopening its old panel
+  ---
+  duration_ms: 70.940567
+  type: 'test'
+  ...
+# Subtest: actual town F entrances stay hidden before acceptance without removing core gates
+ok 45 - actual town F entrances stay hidden before acceptance without removing core gates
+  ---
+  duration_ms: 15.993457
+  type: 'test'
+  ...
+# Subtest: actual town F entrances appear after acceptance without removing core gates
+ok 46 - actual town F entrances appear after acceptance without removing core gates
+  ---
+  duration_ms: 14.115141
+  type: 'test'
+  ...
+# Subtest: actual new untrained Warrior sees no F town entrance or lift label
+ok 47 - actual new untrained Warrior sees no F town entrance or lift label
+  ---
+  duration_ms: 3.525358
+  type: 'test'
+  ...
+# Subtest: actual pending F accept commit retains newer close navigation
+ok 48 - actual pending F accept commit retains newer close navigation
+  ---
+  duration_ms: 56.547954
+  type: 'test'
+  ...
+# Subtest: actual pending F accept commit retains newer objective navigation
+ok 49 - actual pending F accept commit retains newer objective navigation
+  ---
+  duration_ms: 54.91287
+  type: 'test'
+  ...
+# Subtest: actual pending F report commit retains newer close navigation
+ok 50 - actual pending F report commit retains newer close navigation
+  ---
+  duration_ms: 88.658391
+  type: 'test'
+  ...
+# Subtest: actual pending F report commit retains newer objective navigation
+ok 51 - actual pending F report commit retains newer objective navigation
+  ---
+  duration_ms: 89.636326
+  type: 'test'
+  ...
+# Subtest: actual F accept retains paid HP/MP/stamina and cooldowns without a map rebuild
+ok 52 - actual F accept retains paid HP/MP/stamina and cooldowns without a map rebuild
+  ---
+  duration_ms: 65.902048
+  type: 'test'
+  ...
+# Subtest: actual F lens retains paid HP/MP/stamina and cooldowns without a map rebuild
+ok 53 - actual F lens retains paid HP/MP/stamina and cooldowns without a map rebuild
+  ---
+  duration_ms: 83.76024
+  type: 'test'
+  ...
+# Subtest: actual F report retains paid HP/MP/stamina and cooldowns without a map rebuild
+ok 54 - actual F report retains paid HP/MP/stamina and cooldowns without a map rebuild
+  ---
+  duration_ms: 99.858583
+  type: 'test'
+  ...
+# Subtest: actual pending F opening checkpoint honors newer close navigation
+ok 55 - actual pending F opening checkpoint honors newer close navigation
+  ---
+  duration_ms: 42.737626
+  type: 'test'
+  ...
+# Subtest: actual pending F opening checkpoint honors newer objective navigation
+ok 56 - actual pending F opening checkpoint honors newer objective navigation
+  ---
+  duration_ms: 44.283007
+  type: 'test'
+  ...
+# Subtest: actual reload click resolves a cooling conflict to the durable opposite choice without paying again
+ok 57 - actual reload click resolves a cooling conflict to the durable opposite choice without paying again
+  ---
+  duration_ms: 140.597703
+  type: 'test'
+  ...
+# Subtest: actual reload after an uncertain uncommitted cooling choice resumes saved stage before a fresh choice
+ok 58 - actual reload after an uncertain uncommitted cooling choice resumes saved stage before a fresh choice
+  ---
+  duration_ms: 133.676412
+  type: 'test'
+  ...
+# Subtest: actual signal panel at entry identifies only unfinished prerequisites and preserves CLUE_REQUIRED
+ok 59 - actual signal panel at entry identifies only unfinished prerequisites and preserves CLUE_REQUIRED
+  ---
+  duration_ms: 694.398093
+  type: 'test'
+  ...
+# Subtest: actual signal panel at clue identifies only unfinished prerequisites and preserves RESCUE_REQUIRED
+ok 60 - actual signal panel at clue identifies only unfinished prerequisites and preserves RESCUE_REQUIRED
+  ---
+  duration_ms: 83.842212
+  type: 'test'
+  ...
+# Subtest: actual signal panel at rescued identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE
+ok 61 - actual signal panel at rescued identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE
+  ---
+  duration_ms: 73.654312
+  type: 'test'
+  ...
+# Subtest: actual signal panel at two-defeats identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE
+ok 62 - actual signal panel at two-defeats identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE
+  ---
+  duration_ms: 111.280943
+  type: 'test'
+  ...
+# Subtest: actual signal panel at four-defeats identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE
+ok 63 - actual signal panel at four-defeats identifies only unfinished prerequisites and preserves SIGNAL_GUARDS_ALIVE
+  ---
+  duration_ms: 66.300472
+  type: 'test'
+  ...
+# Subtest: ready, partial, reset and reloaded actual panels retain readiness without repeating completed prerequisites
+ok 64 - ready, partial, reset and reloaded actual panels retain readiness without repeating completed prerequisites
+  ---
+  duration_ms: 182.255702
+  type: 'test'
+  ...
+# Subtest: reported return panels retain completed report without asking for past work or paying again
+ok 65 - reported return panels retain completed report without asking for past work or paying again
+  ---
+  duration_ms: 89.484193
+  type: 'test'
+  ...
+# Subtest: all prerequisite and completion views are read-only across the three signal objects
+ok 66 - all prerequisite and completion views are read-only across the three signal objects
+  ---
+  duration_ms: 2.147358
+  type: 'test'
+  ...
+# Subtest: actual F → Escape refreshes the pause region after durable travel without rebuilding or saving again
+ok 67 - actual F → Escape refreshes the pause region after durable travel without rebuilding or saving again
+  ---
+  duration_ms: 870.89106
+  type: 'test'
+  ...
+# Subtest: actual Escape dismissal while travel is pending is not reopened by commit
+ok 68 - actual Escape dismissal while travel is pending is not reopened by commit
+  ---
+  duration_ms: 72.082832
+  type: 'test'
+  ...
+# Subtest: actual close dismissal while travel is pending is not reopened by commit
+ok 69 - actual close dismissal while travel is pending is not reopened by commit
+  ---
+  duration_ms: 47.705083
+  type: 'test'
+  ...
+# Subtest: actual newer help panel wins over the travel completion callback
+ok 70 - actual newer help panel wins over the travel completion callback
+  ---
+  duration_ms: 40.50353
+  type: 'test'
+  ...
+# Subtest: actual newer objective panel wins over the travel completion callback
+ok 71 - actual newer objective panel wins over the travel completion callback
+  ---
+  duration_ms: 38.305818
+  type: 'test'
+  ...
+# Subtest: actual repeated Escape and menu navigation refresh only the latest open menu
+ok 72 - actual repeated Escape and menu navigation refresh only the latest open menu
+  ---
+  duration_ms: 52.94077
+  type: 'test'
+  ...
+# Subtest: actual failed pending travel keeps departure region and a single save attempt
+ok 73 - actual failed pending travel keeps departure region and a single save attempt
+  ---
+  duration_ms: 29.796567
+  type: 'test'
+  ...
+# Subtest: actual uncertain pending travel replaces pause menu with the recovery gate and blocks Escape
+ok 74 - actual uncertain pending travel replaces pause menu with the recovery gate and blocks Escape
+  ---
+  duration_ms: 36.9436
+  type: 'test'
+  ...
+# Subtest: actual save-and-title click during travel does not enqueue a stale checkpoint or exit before saving
+ok 75 - actual save-and-title click during travel does not enqueue a stale checkpoint or exit before saving
+  ---
+  duration_ms: 81.033239
+  type: 'test'
+  ...
+# Subtest: actual ordinary pause checkpoint refreshes the current label without recursive saves or focus changes
+ok 76 - actual ordinary pause checkpoint refreshes the current label without recursive saves or focus changes
+  ---
+  duration_ms: 37.966172
+  type: 'test'
+  ...
+# Subtest: actual quarry-tool click renders completion and next step; reopen/reload never repay
+ok 77 - actual quarry-tool click renders completion and next step; reopen/reload never repay
+  ---
+  duration_ms: 704.625287
+  type: 'test'
+  ...
+# Subtest: actual quarry-rescue click renders completion and next step; reopen/reload never repay
+ok 78 - actual quarry-rescue click renders completion and next step; reopen/reload never repay
+  ---
+  duration_ms: 128.683291
+  type: 'test'
+  ...
+# Subtest: actual quarry-shortcut click renders completion and next step; reopen/reload never repay
+ok 79 - actual quarry-shortcut click renders completion and next step; reopen/reload never repay
+  ---
+  duration_ms: 133.242965
+  type: 'test'
+  ...
+# Subtest: actual quarry-anchor-a click renders completion and next step; reopen/reload never repay
+ok 80 - actual quarry-anchor-a click renders completion and next step; reopen/reload never repay
+  ---
+  duration_ms: 113.916438
+  type: 'test'
+  ...
+# Subtest: actual quarry-anchor-b click renders completion and next step; reopen/reload never repay
+ok 81 - actual quarry-anchor-b click renders completion and next step; reopen/reload never repay
+  ---
+  duration_ms: 61.734534
+  type: 'test'
+  ...
+# Subtest: actual quarry-winch click renders completion and next step; reopen/reload never repay
+ok 82 - actual quarry-winch click renders completion and next step; reopen/reload never repay
+  ---
+  duration_ms: 76.334464
+  type: 'test'
+  ...
+# Subtest: actual unfinished quarry-tool at entry keeps prerequisite copy and atomic ENTRY_GUARDS_ALIVE
+ok 83 - actual unfinished quarry-tool at entry keeps prerequisite copy and atomic ENTRY_GUARDS_ALIVE
+  ---
+  duration_ms: 19.608458
+  type: 'test'
+  ...
+# Subtest: actual unfinished quarry-rescue at entry keeps prerequisite copy and atomic TOOL_REQUIRED
+ok 84 - actual unfinished quarry-rescue at entry keeps prerequisite copy and atomic TOOL_REQUIRED
+  ---
+  duration_ms: 18.769337
+  type: 'test'
+  ...
+# Subtest: actual unfinished quarry-rescue at tool keeps prerequisite copy and atomic RESCUE_GUARDS_ALIVE
+ok 85 - actual unfinished quarry-rescue at tool keeps prerequisite copy and atomic RESCUE_GUARDS_ALIVE
+  ---
+  duration_ms: 18.647546
+  type: 'test'
+  ...
+# Subtest: actual unfinished quarry-shortcut at tool keeps prerequisite copy and atomic RESCUE_REQUIRED
+ok 86 - actual unfinished quarry-shortcut at tool keeps prerequisite copy and atomic RESCUE_REQUIRED
+  ---
+  duration_ms: 18.653806
+  type: 'test'
+  ...
+# Subtest: actual unfinished quarry-anchor-a at shortcut keeps prerequisite copy and atomic WINCH_GUARDS_ALIVE
+ok 87 - actual unfinished quarry-anchor-a at shortcut keeps prerequisite copy and atomic WINCH_GUARDS_ALIVE
+  ---
+  duration_ms: 18.870008
+  type: 'test'
+  ...
+# Subtest: actual unfinished quarry-anchor-b at shortcut keeps prerequisite copy and atomic WINCH_GUARDS_ALIVE
+ok 88 - actual unfinished quarry-anchor-b at shortcut keeps prerequisite copy and atomic WINCH_GUARDS_ALIVE
+  ---
+  duration_ms: 18.418014
+  type: 'test'
+  ...
+# Subtest: actual unfinished quarry-winch at anchor-a keeps prerequisite copy and atomic ANCHORS_REQUIRED
+ok 89 - actual unfinished quarry-winch at anchor-a keeps prerequisite copy and atomic ANCHORS_REQUIRED
+  ---
+  duration_ms: 19.6038
+  type: 'test'
+  ...
+# Subtest: completed anchor panels advance from remaining anchor to winch and then report
+ok 90 - completed anchor panels advance from remaining anchor to winch and then report
+  ---
+  duration_ms: 42.297271
+  type: 'test'
+  ...
+# Subtest: reported return to quarry-tool does not request quarry report or past tasks again
+ok 91 - reported return to quarry-tool does not request quarry report or past tasks again
+  ---
+  duration_ms: 46.245911
+  type: 'test'
+  ...
+# Subtest: reported return to quarry-rescue does not request quarry report or past tasks again
+ok 92 - reported return to quarry-rescue does not request quarry report or past tasks again
+  ---
+  duration_ms: 21.948652
+  type: 'test'
+  ...
+# Subtest: reported return to quarry-shortcut does not request quarry report or past tasks again
+ok 93 - reported return to quarry-shortcut does not request quarry report or past tasks again
+  ---
+  duration_ms: 21.599061
+  type: 'test'
+  ...
+# Subtest: reported return to quarry-anchor-a does not request quarry report or past tasks again
+ok 94 - reported return to quarry-anchor-a does not request quarry report or past tasks again
+  ---
+  duration_ms: 21.45066
+  type: 'test'
+  ...
+# Subtest: reported return to quarry-anchor-b does not request quarry report or past tasks again
+ok 95 - reported return to quarry-anchor-b does not request quarry report or past tasks again
+  ---
+  duration_ms: 21.493474
+  type: 'test'
+  ...
+# Subtest: reported return to quarry-winch does not request quarry report or past tasks again
+ok 96 - reported return to quarry-winch does not request quarry report or past tasks again
+  ---
+  duration_ms: 20.851879
+  type: 'test'
+  ...
+# Subtest: presentation reads completed snapshots without mutating any state or one-time reward receipt
+ok 97 - presentation reads completed snapshots without mutating any state or one-time reward receipt
+  ---
+  duration_ms: 9.752951
+  type: 'test'
+  ...
+# Subtest: completed anchors guide only the unfinished side and then winch even without optional shortcut
+ok 98 - completed anchors guide only the unfinished side and then winch even without optional shortcut
+  ---
+  duration_ms: 44.586841
+  type: 'test'
+  ...
+# Subtest: unfinished and completed lift copy limits no-recovery statement to the region transition itself
+ok 99 - unfinished and completed lift copy limits no-recovery statement to the region transition itself
+  ---
+  duration_ms: 96.591556
+  type: 'test'
+  ...
+# Subtest: Trial by Fire 37.5 MP: just below HUD, aria and actual acceptance/payment agree
+ok 100 - Trial by Fire 37.5 MP: just below HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 32.740741
+  type: 'test'
+  ...
+# Subtest: Trial by Fire 37.5 MP: below by 1e-10 HUD, aria and actual acceptance/payment agree
+ok 101 - Trial by Fire 37.5 MP: below by 1e-10 HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 16.13826
+  type: 'test'
+  ...
+# Subtest: Trial by Fire 37.5 MP: adjacent float below HUD, aria and actual acceptance/payment agree
+ok 102 - Trial by Fire 37.5 MP: adjacent float below HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 13.123631
+  type: 'test'
+  ...
+# Subtest: Trial by Fire 37.5 MP: exact HUD, aria and actual acceptance/payment agree
+ok 103 - Trial by Fire 37.5 MP: exact HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 15.100405
+  type: 'test'
+  ...
+# Subtest: Trial by Fire 37.5 MP: adjacent float above HUD, aria and actual acceptance/payment agree
+ok 104 - Trial by Fire 37.5 MP: adjacent float above HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 11.415548
+  type: 'test'
+  ...
+# Subtest: Trial by Fire 37.5 MP: above by 1e-10 HUD, aria and actual acceptance/payment agree
+ok 105 - Trial by Fire 37.5 MP: above by 1e-10 HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 11.334798
+  type: 'test'
+  ...
+# Subtest: Trial by Fire 37.5 MP: just above HUD, aria and actual acceptance/payment agree
+ok 106 - Trial by Fire 37.5 MP: just above HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 11.376229
+  type: 'test'
+  ...
+# Subtest: Zeal-discounted Trial by Fire 33.75 MP: just below HUD, aria and actual acceptance/payment agree
+ok 107 - Zeal-discounted Trial by Fire 33.75 MP: just below HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 25.324629
+  type: 'test'
+  ...
+# Subtest: Zeal-discounted Trial by Fire 33.75 MP: below by 1e-10 HUD, aria and actual acceptance/payment agree
+ok 108 - Zeal-discounted Trial by Fire 33.75 MP: below by 1e-10 HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 18.426578
+  type: 'test'
+  ...
+# Subtest: Zeal-discounted Trial by Fire 33.75 MP: adjacent float below HUD, aria and actual acceptance/payment agree
+ok 109 - Zeal-discounted Trial by Fire 33.75 MP: adjacent float below HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 22.215809
+  type: 'test'
+  ...
+# Subtest: Zeal-discounted Trial by Fire 33.75 MP: exact HUD, aria and actual acceptance/payment agree
+ok 110 - Zeal-discounted Trial by Fire 33.75 MP: exact HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 37.727887
+  type: 'test'
+  ...
+# Subtest: Zeal-discounted Trial by Fire 33.75 MP: adjacent float above HUD, aria and actual acceptance/payment agree
+ok 111 - Zeal-discounted Trial by Fire 33.75 MP: adjacent float above HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 45.512299
+  type: 'test'
+  ...
+# Subtest: Zeal-discounted Trial by Fire 33.75 MP: above by 1e-10 HUD, aria and actual acceptance/payment agree
+ok 112 - Zeal-discounted Trial by Fire 33.75 MP: above by 1e-10 HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 34.11618
+  type: 'test'
+  ...
+# Subtest: Zeal-discounted Trial by Fire 33.75 MP: just above HUD, aria and actual acceptance/payment agree
+ok 113 - Zeal-discounted Trial by Fire 33.75 MP: just above HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 20.273607
+  type: 'test'
+  ...
+# Subtest: shielded Onslaught 11.25 stamina: just below HUD, aria and actual acceptance/payment agree
+ok 114 - shielded Onslaught 11.25 stamina: just below HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 18.545374
+  type: 'test'
+  ...
+# Subtest: shielded Onslaught 11.25 stamina: below by 1e-10 HUD, aria and actual acceptance/payment agree
+ok 115 - shielded Onslaught 11.25 stamina: below by 1e-10 HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 11.314297
+  type: 'test'
+  ...
+# Subtest: shielded Onslaught 11.25 stamina: adjacent float below HUD, aria and actual acceptance/payment agree
+ok 116 - shielded Onslaught 11.25 stamina: adjacent float below HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 12.96173
+  type: 'test'
+  ...
+# Subtest: shielded Onslaught 11.25 stamina: exact HUD, aria and actual acceptance/payment agree
+ok 117 - shielded Onslaught 11.25 stamina: exact HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 12.212785
+  type: 'test'
+  ...
+# Subtest: shielded Onslaught 11.25 stamina: adjacent float above HUD, aria and actual acceptance/payment agree
+ok 118 - shielded Onslaught 11.25 stamina: adjacent float above HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 12.321697
+  type: 'test'
+  ...
+# Subtest: shielded Onslaught 11.25 stamina: above by 1e-10 HUD, aria and actual acceptance/payment agree
+ok 119 - shielded Onslaught 11.25 stamina: above by 1e-10 HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 19.255001
+  type: 'test'
+  ...
+# Subtest: shielded Onslaught 11.25 stamina: just above HUD, aria and actual acceptance/payment agree
+ok 120 - shielded Onslaught 11.25 stamina: just above HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 42.73351
+  type: 'test'
+  ...
+# Subtest: Grace-discounted shielded Onslaught 7.875 stamina: just below HUD, aria and actual acceptance/payment agree
+ok 121 - Grace-discounted shielded Onslaught 7.875 stamina: just below HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 13.921359
+  type: 'test'
+  ...
+# Subtest: Grace-discounted shielded Onslaught 7.875 stamina: below by 1e-10 HUD, aria and actual acceptance/payment agree
+ok 122 - Grace-discounted shielded Onslaught 7.875 stamina: below by 1e-10 HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 16.283476
+  type: 'test'
+  ...
+# Subtest: Grace-discounted shielded Onslaught 7.875 stamina: adjacent float below HUD, aria and actual acceptance/payment agree
+ok 123 - Grace-discounted shielded Onslaught 7.875 stamina: adjacent float below HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 12.205204
+  type: 'test'
+  ...
+# Subtest: Grace-discounted shielded Onslaught 7.875 stamina: exact HUD, aria and actual acceptance/payment agree
+ok 124 - Grace-discounted shielded Onslaught 7.875 stamina: exact HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 17.995385
+  type: 'test'
+  ...
+# Subtest: Grace-discounted shielded Onslaught 7.875 stamina: adjacent float above HUD, aria and actual acceptance/payment agree
+ok 125 - Grace-discounted shielded Onslaught 7.875 stamina: adjacent float above HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 25.873797
+  type: 'test'
+  ...
+# Subtest: Grace-discounted shielded Onslaught 7.875 stamina: above by 1e-10 HUD, aria and actual acceptance/payment agree
+ok 126 - Grace-discounted shielded Onslaught 7.875 stamina: above by 1e-10 HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 19.958999
+  type: 'test'
+  ...
+# Subtest: Grace-discounted shielded Onslaught 7.875 stamina: just above HUD, aria and actual acceptance/payment agree
+ok 127 - Grace-discounted shielded Onslaught 7.875 stamina: just above HUD, aria and actual acceptance/payment agree
+  ---
+  duration_ms: 20.242761
+  type: 'test'
+  ...
+# Subtest: actual HUD updates the discounted quote and low-resource state when a real Banner expires
+ok 128 - actual HUD updates the discounted quote and low-resource state when a real Banner expires
+  ---
+  duration_ms: 33.769033
+  type: 'test'
+  ...
+# Subtest: actual HUD full preserves health ceiling and conservative pool text
+ok 129 - actual HUD full preserves health ceiling and conservative pool text
+  ---
+  duration_ms: 15.472398
+  type: 'test'
+  ...
+# Subtest: actual HUD empty mana/stamina with fractional living HP preserves health ceiling and conservative pool text
+ok 130 - actual HUD empty mana/stamina with fractional living HP preserves health ceiling and conservative pool text
+  ---
+  duration_ms: 22.447094
+  type: 'test'
+  ...
+# Subtest: actual HUD dead and empty preserves health ceiling and conservative pool text
+ok 131 - actual HUD dead and empty preserves health ceiling and conservative pool text
+  ---
+  duration_ms: 10.057195
+  type: 'test'
+  ...
+# Subtest: actual HUD fractional pools preserves health ceiling and conservative pool text
+ok 132 - actual HUD fractional pools preserves health ceiling and conservative pool text
+  ---
+  duration_ms: 12.352193
+  type: 'test'
+  ...
+# Subtest: invalid NaN is unknown display text, never an invented usable value
+ok 133 - invalid NaN is unknown display text, never an invented usable value
+  ---
+  duration_ms: 14.570526
+  type: 'test'
+  ...
+# Subtest: invalid Infinity is unknown display text, never an invented usable value
+ok 134 - invalid Infinity is unknown display text, never an invented usable value
+  ---
+  duration_ms: 14.537991
+  type: 'test'
+  ...
+# Subtest: invalid -Infinity is unknown display text, never an invented usable value
+ok 135 - invalid -Infinity is unknown display text, never an invented usable value
+  ---
+  duration_ms: 16.029648
+  type: 'test'
+  ...
+# Subtest: invalid -1 is unknown display text, never an invented usable value
+ok 136 - invalid -1 is unknown display text, never an invented usable value
+  ---
+  duration_ms: 15.424297
+  type: 'test'
+  ...
+# Subtest: invalid undefined is unknown display text, never an invented usable value
+ok 137 - invalid undefined is unknown display text, never an invented usable value
+  ---
+  duration_ms: 20.516579
+  type: 'test'
+  ...
+# Subtest: invalid 37.5 is unknown display text, never an invented usable value
+ok 138 - invalid 37.5 is unknown display text, never an invented usable value
+  ---
+  duration_ms: 18.707646
+  type: 'test'
+  ...
+# Subtest: formatting retains exact quoted decimals and never introduces an optimistic thousandth
+ok 139 - formatting retains exact quoted decimals and never introduces an optimistic thousandth
+  ---
+  duration_ms: 99.21952
+  type: 'test'
+  ...
+# Subtest: actual HUD keeps stun above cooldown and fractional resource shortage
+ok 140 - actual HUD keeps stun above cooldown and fractional resource shortage
+  ---
+  duration_ms: 15.510174
+  type: 'test'
+  ...
+# Subtest: actual HUD keeps silence above cooldown and fractional resource shortage
+ok 141 - actual HUD keeps silence above cooldown and fractional resource shortage
+  ---
+  duration_ms: 14.035559
+  type: 'test'
+  ...
+# Subtest: actual signal-code panel at entry shows remaining work and preserves ENTRY_GUARDS_ALIVE
+ok 142 - actual signal-code panel at entry shows remaining work and preserves ENTRY_GUARDS_ALIVE
+  ---
+  duration_ms: 851.669072
+  type: 'test'
+  ...
+# Subtest: actual signal-code panel at entry-partial shows remaining work and preserves ENTRY_GUARDS_ALIVE
+ok 143 - actual signal-code panel at entry-partial shows remaining work and preserves ENTRY_GUARDS_ALIVE
+  ---
+  duration_ms: 90.020691
+  type: 'test'
+  ...
+# Subtest: actual signal-route-transmitter panel at entry shows remaining work and preserves DECODE_REQUIRED
+ok 144 - actual signal-route-transmitter panel at entry shows remaining work and preserves DECODE_REQUIRED
+  ---
+  duration_ms: 35.794809
+  type: 'test'
+  ...
+# Subtest: actual signal-transmitter panel at entry shows remaining work and preserves DECODE_REQUIRED
+ok 145 - actual signal-transmitter panel at entry shows remaining work and preserves DECODE_REQUIRED
+  ---
+  duration_ms: 38.283534
+  type: 'test'
+  ...
+# Subtest: actual signal-transmitter panel at decoded shows remaining work and preserves ROUTE_REQUIRED
+ok 146 - actual signal-transmitter panel at decoded shows remaining work and preserves ROUTE_REQUIRED
+  ---
+  duration_ms: 61.34259
+  type: 'test'
+  ...
+# Subtest: actual signal-transmitter panel at routed shows remaining work and preserves YARD_GUARDS_ALIVE
+ok 147 - actual signal-transmitter panel at routed shows remaining work and preserves YARD_GUARDS_ALIVE
+  ---
+  duration_ms: 64.949471
+  type: 'test'
+  ...
+# Subtest: actual signal-transmitter panel at yard-partial shows remaining work and preserves YARD_GUARDS_ALIVE
+ok 148 - actual signal-transmitter panel at yard-partial shows remaining work and preserves YARD_GUARDS_ALIVE
+  ---
+  duration_ms: 46.981146
+  type: 'test'
+  ...
+# Subtest: actual signal-receiver panel at routed shows remaining work and preserves TRANSMITTER_REQUIRED
+ok 149 - actual signal-receiver panel at routed shows remaining work and preserves TRANSMITTER_REQUIRED
+  ---
+  duration_ms: 36.953764
+  type: 'test'
+  ...
+# Subtest: actual signal-receiver panel at transmitted shows remaining work and preserves RECEIVER_GUARDS_ALIVE
+ok 150 - actual signal-receiver panel at transmitted shows remaining work and preserves RECEIVER_GUARDS_ALIVE
+  ---
+  duration_ms: 61.057145
+  type: 'test'
+  ...
+# Subtest: actual signal-receiver panel at receiver-partial shows remaining work and preserves RECEIVER_GUARDS_ALIVE
+ok 151 - actual signal-receiver panel at receiver-partial shows remaining work and preserves RECEIVER_GUARDS_ALIVE
+  ---
+  duration_ms: 53.882391
+  type: 'test'
+  ...
+# Subtest: actual signal-shortcut panel at entry shows remaining work and preserves DECODE_REQUIRED
+ok 152 - actual signal-shortcut panel at entry shows remaining work and preserves DECODE_REQUIRED
+  ---
+  duration_ms: 41.082412
+  type: 'test'
+  ...
+# Subtest: actual ready signal-code panel pays once and persists its completed copy
+ok 153 - actual ready signal-code panel pays once and persists its completed copy
+  ---
+  duration_ms: 98.052136
+  type: 'test'
+  ...
+# Subtest: actual ready signal-transmitter panel pays once and persists its completed copy
+ok 154 - actual ready signal-transmitter panel pays once and persists its completed copy
+  ---
+  duration_ms: 85.08376
+  type: 'test'
+  ...
+# Subtest: actual ready signal-receiver panel pays once and persists its completed copy
+ok 155 - actual ready signal-receiver panel pays once and persists its completed copy
+  ---
+  duration_ms: 103.49804
+  type: 'test'
+  ...
+# Subtest: actual west lever copy survives reset/reload and preserves exclusive selection
+ok 156 - actual west lever copy survives reset/reload and preserves exclusive selection
+  ---
+  duration_ms: 211.489661
+  type: 'test'
+  ...
+# Subtest: actual east lever copy survives reset/reload and preserves exclusive selection
+ok 157 - actual east lever copy survives reset/reload and preserves exclusive selection
+  ---
+  duration_ms: 201.172073
+  type: 'test'
+  ...
+# Subtest: actual optional lift stays optional, grants nothing and scopes resource copy to region transition
+ok 158 - actual optional lift stays optional, grants nothing and scopes resource copy to region transition
+  ---
+  duration_ms: 115.501455
+  type: 'test'
+  ...
+# Subtest: actual report click without the optional lift pays once and all returned devices acknowledge completion
+ok 159 - actual report click without the optional lift pays once and all returned devices acknowledge completion
+  ---
+  duration_ms: 138.35326
+  type: 'test'
+  ...
+# Subtest: all views are read-only and completed fights never ask to defeat zero enemies
+ok 160 - all views are read-only and completed fights never ask to defeat zero enemies
+  ---
+  duration_ms: 36.954325
+  type: 'test'
+  ...
+# Subtest: actual Orin panel offers S acceptance beside existing equipment and keeps Eda unchanged
+ok 161 - actual Orin panel offers S acceptance beside existing equipment and keeps Eda unchanged
+  ---
+  duration_ms: 840.351577
+  type: 'test'
+  ...
+# Subtest: actual S acceptance and existing purchase handlers share Orin without replacing shop transactions
+ok 162 - actual S acceptance and existing purchase handlers share Orin without replacing shop transactions
+  ---
+  duration_ms: 101.199056
+  type: 'test'
+  ...
+# Subtest: actual F interaction finds S decoder, checkpoints, pauses, and the real click saves its once-only reward
+ok 163 - actual F interaction finds S decoder, checkpoints, pauses, and the real click saves its once-only reward
+  ---
+  duration_ms: 190.6289
+  type: 'test'
+  ...
+# Subtest: actual west route click feedback and map-only refresh retain live battle and paid recovery
+ok 164 - actual west route click feedback and map-only refresh retain live battle and paid recovery
+  ---
+  duration_ms: 136.622148
+  type: 'test'
+  ...
+# Subtest: actual east route click feedback and map-only refresh retain live battle and paid recovery
+ok 165 - actual east route click feedback and map-only refresh retain live battle and paid recovery
+  ---
+  duration_ms: 90.820487
+  type: 'test'
+  ...
+# Subtest: actual repeated first lever resets visible order only, without reward, route, or map rebuild
+ok 166 - actual repeated first lever resets visible order only, without reward, route, or map rebuild
+  ---
+  duration_ms: 63.106596
+  type: 'test'
+  ...
+# Subtest: actual nearest elevates the ready S shortcut only within reach and LOS, then exposes its unlocked portal
+ok 167 - actual nearest elevates the ready S shortcut only within reach and LOS, then exposes its unlocked portal
+  ---
+  duration_ms: 82.43725
+  type: 'test'
+  ...
+# Subtest: actual transmitter click opens the north door and preserves damaged enemies while displaying objective reward
+ok 168 - actual transmitter click opens the north door and preserves damaged enemies while displaying objective reward
+  ---
+  duration_ms: 93.352303
+  type: 'test'
+  ...
+# Subtest: actual receiver and Orin report clicks show and commit rewards once and retain truthful completed panels
+ok 169 - actual receiver and Orin report clicks show and commit rewards once and retain truthful completed panels
+  ---
+  duration_ms: 155.08904
+  type: 'test'
+  ...
+# Subtest: actual inventory renders the permanent signal tool name instead of its internal ID
+ok 170 - actual inventory renders the permanent signal tool name instead of its internal ID
+  ---
+  duration_ms: 11.726161
+  type: 'test'
+  ...
+# Subtest: actual signal panel does not open when its prerequisite checkpoint fails or save is blocked
+ok 171 - actual signal panel does not open when its prerequisite checkpoint fails or save is blocked
+  ---
+  duration_ms: 47.204688
+  type: 'test'
+  ...
+# Subtest: disabled S controls and failed decoder prerequisites never pay, pause incorrectly, or create receipts
+ok 172 - disabled S controls and failed decoder prerequisites never pay, pause incorrectly, or create receipts
+  ---
+  duration_ms: 40.417853
+  type: 'test'
+  ...
+# Subtest: S guidance and completed F handoff take priority over Pass at predecessor, including actual paused objective panel
+ok 173 - S guidance and completed F handoff take priority over Pass at predecessor, including actual paused objective panel
+  ---
+  duration_ms: 19.958599
+  type: 'test'
+  ...
+# Subtest: S guidance and completed F handoff take priority over Pass at accepted, including actual paused objective panel
+ok 174 - S guidance and completed F handoff take priority over Pass at accepted, including actual paused objective panel
+  ---
+  duration_ms: 25.584556
+  type: 'test'
+  ...
+# Subtest: S guidance and completed F handoff take priority over Pass at decoded, including actual paused objective panel
+ok 175 - S guidance and completed F handoff take priority over Pass at decoded, including actual paused objective panel
+  ---
+  duration_ms: 26.247022
+  type: 'test'
+  ...
+# Subtest: S guidance and completed F handoff take priority over Pass at routed, including actual paused objective panel
+ok 176 - S guidance and completed F handoff take priority over Pass at routed, including actual paused objective panel
+  ---
+  duration_ms: 26.681199
+  type: 'test'
+  ...
+# Subtest: S guidance and completed F handoff take priority over Pass at transmitter, including actual paused objective panel
+ok 177 - S guidance and completed F handoff take priority over Pass at transmitter, including actual paused objective panel
+  ---
+  duration_ms: 26.690463
+  type: 'test'
+  ...
+# Subtest: S guidance and completed F handoff take priority over Pass at receiver, including actual paused objective panel
+ok 178 - S guidance and completed F handoff take priority over Pass at receiver, including actual paused objective panel
+  ---
+  duration_ms: 52.432874
+  type: 'test'
+  ...
+# Subtest: S guidance and completed F handoff take priority over Pass at reported, including actual paused objective panel
+ok 179 - S guidance and completed F handoff take priority over Pass at reported, including actual paused objective panel
+  ---
+  duration_ms: 53.712568
+  type: 'test'
+  ...
+# Subtest: actual S label and renderer object preparation reflect saved completed actions
+ok 180 - actual S label and renderer object preparation reflect saved completed actions
+  ---
+  duration_ms: 12.114478
+  type: 'test'
+  ...
+# Subtest: actual qa-r8 title and candidate-copy handler preserve earned R7 source and release bytes
+ok 181 - actual qa-r8 title and candidate-copy handler preserve earned R7 source and release bytes
+  ---
+  duration_ms: 42.773601
+  type: 'test'
+  ...
+# Subtest: actual nearest never promotes the S shortcut through a wall or beyond 76-unit reach
+ok 182 - actual nearest never promotes the S shortcut through a wall or beyond 76-unit reach
+  ---
+  duration_ms: 10.932814
+  type: 'test'
+  ...
+# Subtest: concurrent actual decoder clicks commit and display one reward while busy input is ignored
+ok 183 - concurrent actual decoder clicks commit and display one reward while busy input is ignored
+  ---
+  duration_ms: 47.174948
+  type: 'test'
+  ...
+# Subtest: actual route commit conflict cannot open the map, reset the live battle, or display success
+ok 184 - actual route commit conflict cannot open the map, reset the live battle, or display success
+  ---
+  duration_ms: 72.658678
+  type: 'test'
+  ...
+# Subtest: actual unknown signal object and out-of-range stale action do not turn into chest interactions or rewards
+ok 185 - actual unknown signal object and out-of-range stale action do not turn into chest interactions or rewards
+  ---
+  duration_ms: 22.056684
+  type: 'test'
+  ...
+1..185
+# tests 185
+# suites 0
+# pass 185
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7353.258979

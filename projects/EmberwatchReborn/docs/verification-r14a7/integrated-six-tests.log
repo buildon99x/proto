@@ -1,0 +1,14 @@
+✔ R14a7 QA controls are explicit, default OFF, and never persisted (1753.13889ms)
+✔ R14a7 production frame fills actual contact and CPU buckets without changing progression (280.467764ms)
+✔ R14a7 paused and save-wait frames cannot become combat cost samples (143.496003ms)
+✔ R14a7 QA clear and reload discard old paths/frame observations without altering stored save (154.949599ms)
+✔ R14a7 release surface rejects candidate QA toggles (102.074617ms)
+✔ R14a7 actual long menu keeps last playable frame observation readable (186.040868ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2800.065508

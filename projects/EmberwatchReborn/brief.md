@@ -188,3 +188,12 @@ After the earned L10/L12 replay, make Pass/Signal object prose reflect unfinishe
 ## Current priority update: R14 POE-oriented controls (2026-10-10)
 
 Balance and R13 progression expansion are paused by user direction. Follow the specified full combat-controls document under docs/poe2-input and the source-confirmed vs authored distinction. R14a2 integrates explicit controls5 eight-slot assignment, independent movement/aim, contextual click approach and living actor collision, while preserving existing saves/keys until explicit selection. Immediate input start, contact timing, per-skill cancellation/repeat, fancy FX, danger visibility and flash0 need separate real-input/visual review. See docs/poe2-input/r14a2-integration.md for current contracts and unfinished acceptance. Earlier counts are historical, not this candidate's pass count.
+
+## R14a6 scoped recovery-notice correction
+A successful resumed held attack must not keep the earlier recovery-too-early toast on screen. Scope is transient presentation ownership only; combat rules, resource costs, cooldowns, save data and balance stay unchanged. Preserve rejection feedback for unsuccessful single presses and unrelated notices. Candidate browser verification is a separate required gate.
+
+## R14a7 actual-play-led presentation slice (2026-10-11)
+Continue the user's controls/visual priority on a new work surface while a5/a6 remain frozen. Normal public v58 first-entry play confirms the centre recovery notice competes with the fight and town labels remain crowded. New candidate-only read-only contact/frame diagnostics and a compact desktop notice layout need actual runtime/screen acceptance; they are not quality completion. No combat balance or progression expansion belongs in this slice.
+
+## R14a8 actual death-state feedback repair
+The actual public v58 first-boss retry exposed a misleading live dodge/sprint and potion description after death. Match these HUD/ARIA/disabled states to the existing dead-action runtime gate and restore ordinary states on retry. Do not change action execution, resource costs, balance, save format or inputs. This local candidate also inherits the unreviewed a5/a6/a7 presentation/observer changes.

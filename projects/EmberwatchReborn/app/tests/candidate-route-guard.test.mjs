@@ -1,3 +1,5 @@
+import {createContactTrace} from '../src/contact-trace.js';
+import {createFrameObservation} from '../src/frame-observation.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -8,7 +10,7 @@ function fn(name){const m=new RegExp(`(?:async )?function ${name}\\(`).exec(sour
 function harness(pathname){
  const sessions=[],reads=[],writes=[],starts=[],frames=[],handlers={},modal={innerHTML:'',presentationEpoch:0,hidden:true},elements={hud:{hidden:false},difficulty:{value:'normal'},profile:{value:'qa-route'},upgradeBackupKind:{value:'pre-v5'}};
  const storage={getItem:key=>{reads.push(key);throw Error('route must not read storage');},setItem:(key,value)=>{writes.push([key,value]);throw Error('route must not write storage');}};
- const env={candidatePath,candidateNamespace,profileNamespaceForPath,location:{pathname},modal,$:id=>elements[id],state:null,battle:null,controller:null,paused:true,busy:false,suppressNextClick:false,profile:'main',clearInput(){},audio:{pause(){}},localStorage:storage,navigator:{locks:{}},loadArt:()=>{starts.push('art');return Promise.resolve();},requestAnimationFrame:fn=>frames.push(fn),frame(){},document:{addEventListener:(type,handler)=>handlers[type]=handler},createSession:(_s,_l,options)=>{sessions.push(options);return {};},createController:()=>({load:async()=>({ok:false,reason:'fixture empty profile'})}),panel(){throw Error('unexpected startup failure');}};
+ const env={contactTrace:createContactTrace(),frameObservation:createFrameObservation(),candidatePath,candidateNamespace,profileNamespaceForPath,location:{pathname},modal,$:id=>elements[id],state:null,battle:null,controller:null,paused:true,busy:false,suppressNextClick:false,profile:'main',clearInput(){},audio:{pause(){}},localStorage:storage,navigator:{locks:{}},loadArt:()=>{starts.push('art');return Promise.resolve();},requestAnimationFrame:fn=>frames.push(fn),frame(){},document:{addEventListener:(type,handler)=>handlers[type]=handler},createSession:(_s,_l,options)=>{sessions.push(options);return {};},createController:()=>({load:async()=>({ok:false,reason:'fixture empty profile'})}),panel(){throw Error('unexpected startup failure');}};
  const declarations=['candidate','esc','button','BUILD_LABEL'].map(name=>source.split('\n').find(line=>line.startsWith('const '+name+'=')));
  const startup=source.split('\n').find(line=>line.startsWith('if(saveNamespace===null)showTitle();else {loadArt()'));
  assert.ok(startup,'actual startup is guarded');

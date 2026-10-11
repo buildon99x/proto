@@ -150,7 +150,7 @@ test('non-F scenes retain legacy tall atlas drawing and receive no F geometry',(
 });
 
 test('the actual main.js renderer call passes live F map and region without a preview shim',()=>{
- const source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8'),start=source.indexOf('renderer.render({width:canvas.width'),end=source.indexOf('drawLabels(sceneVisibility);',start)+'drawLabels(sceneVisibility);'.length;
+ const source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8'),start=source.indexOf('const renderObservation=inputLatency.renderEntered('),end=source.indexOf('drawLabels(sceneVisibility);',start)+'drawLabels(sceneVisibility);'.length;
  assert.ok(start>0&&end>start);const s=state('channel'),{renderer,calls}=render(state());calls.length=0;
  const battle={region:FURNACE_REGION,map:s.map,p:s.p,enemies:s.entities,shots:[],effects:[],floaters:[],time:0,shake:0,stats:{},targetId:null};let labels=0;
  const currentState={options:{screenShake:0,flashes:0}};

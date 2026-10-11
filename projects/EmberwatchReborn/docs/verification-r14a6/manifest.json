@@ -1,0 +1,119 @@
+{
+  "base": "/workspace/shared/emberwatch-r14a2-interaction-project",
+  "candidate": "/workspace/shared/emberwatch-r14a6-notice-project",
+  "changed_source_files": [
+    "app/src/action-feedback.js",
+    "app/src/main.js"
+  ],
+  "all_other_source_bytes_match_base": true,
+  "files": [
+    {
+      "path": "app/src/main.js",
+      "base_sha256": "735d0c3506302b41c3d8794b62450823648d2bb0b3926efa088a11e81e50c49e",
+      "candidate_sha256": "a61317710831afb8cad1d851c925975f0e798b2c6acfc9ceaa508bd69ea9e56a"
+    },
+    {
+      "path": "app/src/action-feedback.js",
+      "base_sha256": "e561a5e62120bef233d498238fd641e0d544d89789c7f2d467e222fe69edea09",
+      "candidate_sha256": "d14391fe6e98f4480eaf14460fe9b5cf43d8219d1561813280b75fd63d9a2c88"
+    },
+    {
+      "path": "app/tests/expert-main-input.test.mjs",
+      "base_sha256": "73d700205e481c227965946490ea39f736fad7e5ed4ea5f35fca24f5f696f785",
+      "candidate_sha256": "a7c47e4a41fd3b29ebaa14c2d92f8cbc8bb79f44d72941d479218b2646153b97"
+    },
+    {
+      "path": "brief.md",
+      "base_sha256": "8b0f99cc0a4d4e11432911a3cfa3febff1e768d3fbf72b0b88a6ce4ab94f1156",
+      "candidate_sha256": "55808f3e2455189a302242199e1ee92b682082b5bd5f4d7697d3bfb363c5ab54"
+    },
+    {
+      "path": "spec.md",
+      "base_sha256": "6c8d6afe0887eca97989bd220f99a3e1726665b482245e509c5c8fb4ec059b96",
+      "candidate_sha256": "3416ee9d102de66f4fc590946d57c4c5976b34a72ad541bd867c70a66991426b"
+    },
+    {
+      "path": "eval.md",
+      "base_sha256": "e62b6a9cb56aa072c10326310ff87d65f81edf9c08160c119fb09398d7a5a117",
+      "candidate_sha256": "79bcdadafd7139470fc6c616c379ba37767fbce08a687e0a9a38427b71498345"
+    },
+    {
+      "path": "app/tests/furnace-ui-integration.test.mjs",
+      "base_sha256": "33fb72e7802c3ac80610639798d097028a13d8321316864001053a5102176706",
+      "candidate_sha256": "efa672cbb6797bf326a65aafc949fffeade941e88a85fcd758db0e23b8f1293c"
+    },
+    {
+      "path": "app/tests/pass-prerequisite-copy.test.mjs",
+      "base_sha256": "c7202b3e50de02a57d3f81a0c0c1e9055d97219eefcb0a86d51c1a189f3fc1a5",
+      "candidate_sha256": "127c29c6aa06e3f1d6943fe3aa73c94557c53a865c745e2b918d4d84db4bf47e"
+    },
+    {
+      "path": "app/tests/pause-travel-ui.test.mjs",
+      "base_sha256": "0f61a8d29f910d15568bd9450fc42da0b027973b1b6c5b38aa41552d050ed206",
+      "candidate_sha256": "f55ec8866ee27bc24d09165fcec4614746cfb75cfb504f6faac8e8f9f9197606"
+    },
+    {
+      "path": "app/tests/quarry-completion-ui.test.mjs",
+      "base_sha256": "a958772038b1c14bc655499684502138a15b1caf76a856aa826f6b0566d772bb",
+      "candidate_sha256": "e9ebc419035e57a654471e9d4fe9cbd61735d3c06b9a13462afd89b08288547b"
+    },
+    {
+      "path": "app/tests/resource-display.test.mjs",
+      "base_sha256": "8b88ba6aa8d5e4f30682eee160bee03b9e016319177389b443c0f34ccab22dd1",
+      "candidate_sha256": "c6ca7d00cebd767c077b78525ea204fc5f441a3a9cb308fdcb4bb31e9357d70c"
+    },
+    {
+      "path": "app/tests/signal-prerequisite-copy.test.mjs",
+      "base_sha256": "26d0f25f22784bc9593aa3305c08d65a5806f4e6784fd3c980422155b102dd63",
+      "candidate_sha256": "11972764f84a89050ee2b88ad2a0bcf8f4ab8010c3cdf8ebc40b22127e1f5fde"
+    },
+    {
+      "path": "app/tests/signal-ui-integration.test.mjs",
+      "base_sha256": "6c17faff5568f89c929534336c143f87759bf6ab124dc12071bb405a22b39596",
+      "candidate_sha256": "9c016e411c71e4d42bd8217ce77619e43bc52c5c56b15e6190de7be9d40b1599"
+    }
+  ],
+  "patch_sha256": "bf1ec5d013807ace206c910775353a026b3832b93adaee0fe0f15244f92aea34",
+  "validation": {
+    "final_notice_focused": {
+      "pass": 24,
+      "fail": 0,
+      "skip": 0
+    },
+    "handler_compatibility": {
+      "pass": 206,
+      "fail": 0,
+      "skip": 0,
+      "overlap_with_final_focused": 22
+    },
+    "original_code_negative": {
+      "pass": 0,
+      "fail": 12,
+      "all_assertions": "old recovery toast remains after accepted held-mace actionStarted"
+    },
+    "full_suite": "Initial parent run: 3701 pass, 152 fixture-dependency failures, total 3853; dependency corrections verified in focused run; integrated rerun pending.",
+    "browser": "not run; assigned browser is occupied by parent",
+    "build": "not run; integration owner will build",
+    "fixture_dependency_focused": {
+      "pass": 185,
+      "fail": 0,
+      "skip": 0,
+      "duration_ms": 7353.258979,
+      "initial_full_failures_fixed": 152,
+      "files": {
+        "furnace-ui-integration.test.mjs": 56,
+        "pass-prerequisite-copy.test.mjs": 7,
+        "pause-travel-ui.test.mjs": 10,
+        "quarry-completion-ui.test.mjs": 22,
+        "resource-display.test.mjs": 16,
+        "signal-prerequisite-copy.test.mjs": 18,
+        "signal-ui-integration.test.mjs": 23
+      },
+      "tests_added": 0,
+      "existing_test_bodies_unchanged": true,
+      "production_source_unchanged": true
+    },
+    "initial_full_log_sha256": "fb54d652c4214d0df05ad4b8dba84d2cc26cf3454968d8cc238d8fd9046eef56",
+    "initial_full_log_matches_parent_tmp": true
+  }
+}

@@ -33,8 +33,8 @@ function hud(f){
  $('hotbar').querySelector=selector=>buttons[/data-(?:combat|action)="([^"]+)"/.exec(selector)?.[1]]??null;
  const env={...imports,state:f.s,battle:f.b,$,lastObjectiveHtml:'',config:()=>imports.controlsFor(f.s),keyName:a=>imports.actionLabel(imports.controlsFor(f.s),a),visibleAction:()=>true};
  const update=new Function(...Object.keys(env),[declaration('esc'),declaration('button'),declaration('tierLabel'),fn('updateHud'),'return updateHud;'].join('\n'))(...Object.values(env));
- const toasts=[],feedback=new Function('events','audio','toast','actionBlockedText','inputLatency','battle',rejectionLoop);
- return {update,buttons,toasts,feedback:events=>feedback(events,{play(){}},t=>toasts.push(t),actionBlockedText,imports.createInputLatency(),f.b),pool(kind){return new RegExp(`<div class="bar ${kind}">.*?<span>([^<]+)</span>`).exec($('vitals').innerHTML)?.[1];}};
+ const toasts=[],feedback=new Function('events','audio','toast','actionBlockedText','inputLatency','battle','dismissRecoveryNotice','$','noticeUntil',rejectionLoop);
+ return {update,buttons,toasts,feedback:events=>feedback(events,{play(){}},t=>toasts.push(t),actionBlockedText,imports.createInputLatency(),f.b,imports.dismissRecoveryNotice,$,0),pool(kind){return new RegExp(`<div class="bar ${kind}">.*?<span>([^<]+)</span>`).exec($('vitals').innerHTML)?.[1];}};
 }
 function adjacent(value,direction){const data=new DataView(new ArrayBuffer(8));data.setFloat64(0,value);data.setBigUint64(0,data.getBigUint64(0)+BigInt(direction));return data.getFloat64(0);}
 const scenarios=[

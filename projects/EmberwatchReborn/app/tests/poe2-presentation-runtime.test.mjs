@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {configurePoeControls,acceptBattleInput,stepBattle,cancelBattleAction} from '../src/combat.js';
 import {poeControlPreset,enableSkillLoadout} from '../src/controls.js';
 import {canonicalSkillInput} from '../src/skill-loadout-input.js';
-import {createPoeFeedback,drawPoeGroundFeedback,POE_FEEDBACK_STYLES} from '../src/poe-presentation.js';
+import {createPoeFeedback,drawPoeGroundFeedback,POE_FEEDBACK_STYLES,POE_FEEDBACK_LIMITS} from '../src/poe-presentation.js';
 import {createVisualRenderer,ISO,projectWorld,spriteDirection} from '../src/visual.js';
 import {resolveActorMotion,MOTION_ACTIONS,motionFrame} from '../src/motion.js';
 import {onslaughtPresentation} from '../src/expert-presentation.js';
@@ -41,7 +41,7 @@ function render(f,r,flashScale){
  const overlay=recorder(),metrics=drawPoeGroundFeedback(overlay.ctx,{player:p,pose:p.presentationPose,feedback,project,zoom:ISO.zoom,flashScale,enabled:true});
  const enemy={id:'visible-warning',kind:'scout',type:'guardian',x:p.x+30,y:p.y,hp:100,max:100,active:true,angle:Math.PI,state:'windup',telegraph:{phase:'windup',color:warningColor,locked:true,progress:.4,shapes:[{type:'circle',x:p.x,y:p.y,r:65}]}};
  r.calls.length=0;r.renderer.render({width:1000,height:750,regionId:b.region,map:b.map,p,entities:[enemy],effects:b.effects,shots:b.shots,areas:b.areas,banner:b.banner,time:b.time,stats:b.stats,cleanView:true,poeInput:true,poeFeedback:feedback,presentationPose:p.presentationPose,flashScale,reduced:flashScale===0});
- const style=POE_FEEDBACK_STYLES[p.action?.id??feedback[0]?.skillId],colors=new Set(style?[style.color,style.accent]:[]),expected=overlay.calls.filter(c=>c.op==='stroke'),actual=r.calls.filter(c=>c.op==='stroke'&&colors.has(c.strokeStyle));
+ const style=POE_FEEDBACK_STYLES[p.action?.id??feedback[0]?.skillId],colors=new Set(style?[style.color,style.accent,POE_FEEDBACK_LIMITS.outline]:[]),expected=overlay.calls.filter(c=>c.op==='stroke'),actual=r.calls.filter(c=>c.op==='stroke'&&colors.has(c.strokeStyle));
  assert.deepEqual(actual.map(c=>[c.path,c.strokeStyle,c.globalAlpha,c.lineWidth]),expected.map(c=>[c.path,c.strokeStyle,c.globalAlpha,c.lineWidth]),'renderer consumes exact real action/feedback floor geometry');
  const sparks=overlay.calls.filter(c=>c.op==='fillRect'),renderedSparks=r.calls.filter(c=>c.op==='fillRect'&&colors.has(c.fillStyle));assert.deepEqual(renderedSparks.map(c=>[c.args,c.fillStyle,c.globalAlpha,c.globalCompositeOperation]),sparks.map(c=>[c.args,c.fillStyle,c.globalAlpha,c.globalCompositeOperation]),'full renderer honors the same spark ceiling and flash0 suppression');assert.ok(sparks.every(c=>c.args[2]<=2.5*ISO.zoom&&c.args[3]<=2.5*ISO.zoom),'sparks stay local, never screen-sized');
  const danger=r.calls.filter(c=>c.op==='stroke'&&c.strokeStyle===warningColor),actors=r.calls.filter(c=>c.op==='drawImage'&&['motion','enemy'].includes(c.args[0].id));assert.ok(danger.length&&actors.length>=2);
@@ -76,4 +76,15 @@ test('real channel completion retains final pulse, respects cap, and clears with
 });
 test('rejected real action never creates preparation, payment or contact FX',()=>{
  const f=fixture(),r=harness();f.b.p.mana=0;const events=accept(f,'righteous_hammer');assert.ok(events.some(e=>e.type==='skillIntentRejected'&&e.blockedReason==='mana'));assert.equal(f.b.p.action,null);assert.equal(f.b.p.mana,0);assert.equal(f.feedback.snapshot().length,0);assert.equal(render(f,r,0).metrics.paths,0);
+});
+for(const flashScale of [0,1])test(`real Onslaught second and fourth pulses retain layered contrast between ticks at flash ${flashScale}`,()=>{
+ const f=fixture(),r=harness();accept(f,'zealous_onslaught');const a=f.b.p.action;
+ for(const pulses of [2,4]){
+  advance(f,a.contact+a.spec.tickSeconds*(pulses+.5)-a.elapsed,{channel:ownedChannel});
+  assert.equal(a.pulses,pulses);assert.equal(f.events.filter(e=>e.type==='channelPulse').length,pulses);assert.ok(a.elapsed>a.contact,'preparation has actually ended');
+  const feedback=f.feedback.snapshot();assert.equal(feedback.length,2,'only the current and previous real pulse echoes survive');assert.ok(feedback.every(e=>e.life>0&&e.life<e.duration));
+  const {metrics}=render(f,r,flashScale);assert.equal(metrics.paths,24,'two actual pulse silhouettes, no lingering preparation');assert.equal(metrics.sparks,flashScale?16:0);
+  const cores=r.calls.filter(c=>c.op==='stroke'&&c.strokeStyle===POE_FEEDBACK_STYLES.zealous_onslaught.color);assert.ok(cores.some(c=>c.globalAlpha>.6&&c.lineWidth>=3.3),'a bright wide current crest remains halfway between actual ticks');
+ }
+ const ending=cancelBattleAction(f.b,'blur');f.feedback.accept(ending,f.b.p);advance(f,.43);assert.equal(f.feedback.snapshot().length,0);assert.equal(render(f,r,flashScale).metrics.paths,0);
 });
