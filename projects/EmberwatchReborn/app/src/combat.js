@@ -1,3 +1,4 @@
+import {recordEnemyReaction,stepEnemyReaction,ENEMY_REACTION} from './enemy-reaction.js';
 import {isPoeControls} from './controls.js';
 import {moveActorBody,previewActorBody,relativePathContact} from './actor-body.js';
 import {createPoeMobility} from './poe-mobility.js';
@@ -21,6 +22,7 @@ const innerFlameRows=WARRIOR_REFERENCE.skills.find(row=>row.id==='inner_flame').
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const angleDelta=(a,b)=>Math.atan2(Math.sin(a-b),Math.cos(a-b));
+const impactHeading=(origin,target,fallback=0)=>distance(origin,target)>1e-9?Math.atan2(target.y-origin.y,target.x-origin.x):fallback;
 const unit=(x,y)=>{const n=Math.hypot(x,y);return n>0?{x:x/n,y:y/n}:{x:0,y:0};};
 const alive=e=>e.hp>0;
 const foeFor=(b,e)=>b.foeTypes?.[e.kind]??FOES[e.kind];
@@ -148,7 +150,7 @@ function movePoeHero(b,input,t){
  }
  // The final roll slice uses its PRE-update body, even if update ended in sprint.
  const delta=moveActorBody(b,p,dx,dy,{rolling:previous.state==='roll'});b.poeHeroPath=delta.path;const savedAngle=p.angle,walker={...p,action:null};const feet=advanceLocomotion(walker,delta.x,delta.y,{dt:t});p.angle=savedAngle;p.moving=walker.moving;if(p.moving)p.walk=walker.walk;
- if(!p.action&&['idle','sprint'].includes(previous.state)){p.walkPhase=walker.walkPhase;for(const foot of feet)emit(b,{type:'sound',name:'footstep',foot:foot.foot});}
+ if(!p.action&&['idle','sprint'].includes(previous.state)){p.walkPhase=walker.walkPhase;for(const foot of feet)emit(b,{type:'sound',name:'footstep',foot:foot.foot,owner:'hero'});}
  if(previous.state==='roll'||previous.state==='sprint')p.angle=Math.atan2(previous.direction.y,previous.direction.x);
  mobilityEvents(b,result);
 }
@@ -200,15 +202,16 @@ function hitEnemy(b,e,raw,{stun=0,pen=0,heavy=false,source='mace',damageType='ph
     amount+=(type==='physical'?physicalDamage(value,Math.max(0,foe.armor-(e.armorBreak?.remaining>0?e.armorBreak.amount:0)),pen):type==='pure'?value:value*(1-clamp((foe.resistances?.[type]??0)/100,0,.9)))*taken;
   }
   e.hp=Math.max(0,e.hp-amount);e.flash=.11;e.stun=Math.max(e.stun,stun);heavy=heavy||critical;
+  recordEnemyReaction(e,{angle:Number.isFinite(impactAngle)?impactAngle:b.p.angle,heavy,damage:amount});
   observePatternPhase(e,foe);
-  if(stun>0){interruptFireEscape(e);e.telegraph=null;e.state='idle';e.timer=.25;}
+  if(stun>0){interruptFireEscape(e);e.telegraph=null;e.state='idle';e.timer=.25;emit(b,{type:'soundCancel',tag:`enemy:${e.id}`});}
   floater(b,String(Math.round(amount)),e.x,e.y,heavy?'#ffe8aa':'#eadcb5');
   fx(b,'impact',e.x,e.y,source==='hammer'?'#ffc263':'#c9eee1',heavy?32:22,.23,{angle:Number.isFinite(impactAngle)?impactAngle:b.p.angle,heavy});
-  emit(b,{type:'sound',name:heavy?'heavyHit':'hit',x:e.x,y:e.y});
+  emit(b,{type:'sound',name:heavy?'heavyHit':'hit',phase:'impact',owner:'hero',audience:'friendly',castId:ctx.castId,hitId:ctx.hitId,tag:`impact:${ctx.hitId}`,x:e.x,y:e.y});
   b.shake=Math.max(b.shake,heavy?5:2);b.hitstop=Math.max(b.hitstop,heavy?.035:.014);b.contacts++;
   const result={hit:true,damage:Math.min(before,amount),rawDamage:amount,critical,defeated:e.hp===0,wasDisabled,position,context:ctx,components:packet.map(c=>c.id)};
   emit(b,{type:'enemyHit',id:e.id,...result});
-  if(e.hp===0){clearFireResponse(e);e.dead=true;e.deathTime=.7;emit(b,{type:'defeated',id:e.id});fx(b,'blast',e.x,e.y,'#e9a45b',heavy?35:22,.32);for(let n=0;n<5;n++)fx(b,'particle',e.x,e.y,n%2?'#a6d4cb':'#e9b071',0,.45,{size:2+fxRandom(b)*3,vx:(fxRandom(b)-.5)*85,vy:(fxRandom(b)-.5)*85});}
+  if(e.hp===0){clearFireResponse(e);e.dead=true;e.deathTime=ENEMY_REACTION.deathSeconds;e.telegraph=null;e.state='dead';e.timer=0;e.moving=false;e.attackSpec=null;emit(b,{type:'defeated',id:e.id});fx(b,'enemyDeath',e.x,e.y,'#e9a45b',heavy?35:22,.32,{boss:e.type==='boss'});for(let n=0;n<5;n++)fx(b,'particle',e.x,e.y,n%2?'#a6d4cb':'#e9b071',0,.45,{size:2+fxRandom(b)*3,vx:(fxRandom(b)-.5)*85,vy:(fxRandom(b)-.5)*85,deathParticle:true});}
   dispatchHitProcs(b,e,result,spec);
   return result;
 }
@@ -218,7 +221,7 @@ function dispatchHitProcs(b,target,result,spec){
  const splash=(id,rule,type,eligible)=>{
   p.procCooldowns[id]=rule.cooldown;p.procCooldownRanks[id]=rule.rank;emit(b,{type:'procCooldownStarted',id,remaining:rule.cooldown,castId:c.castId});
   fx(b,'ring',origin.x,origin.y,id==='flaming_wrath'?'#e5a365':'#c6be95',rule.radius,.24);
-  for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(alive(e)&&eligible(e)&&distance(e,origin)<=rule.radius+1e-9&&lineOfSight(b.map,origin,e))hitEnemy(b,e,rule.damage,{damageType:type,pen:rule.armorPenetration??0,source:id,spec,context:secondary(e,id)});
+  for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(alive(e)&&eligible(e)&&distance(e,origin)<=rule.radius+1e-9&&lineOfSight(b.map,origin,e))hitEnemy(b,e,rule.damage,{damageType:type,pen:rule.armorPenetration??0,source:id,spec,impactAngle:impactHeading(origin,e,b.p.angle),context:secondary(e,id)});
  };
  if(c.rootKind==='spell'&&result.critical&&o.flamingWrath&&!(p.procCooldowns.flaming_wrath>1e-9))splash('flaming_wrath',o.flamingWrath,'fire',()=>true);
  if(c.rootKind==='mace'&&result.wasDisabled&&o.guilt&&!(p.procCooldowns.guilt_by_association>1e-9))splash('guilt_by_association',o.guilt,'physical',e=>e.id!==target.id&&!disabled(e));
@@ -233,12 +236,12 @@ function hurtHero(b,raw,angle,attacker=null,damageType='physical',{attackFamily=
   const previousHp=p.hp;p.hp=Math.max(0,p.hp-damage);const incomingId=attackId??++b.castSerial;emit(b,{type:'heroHurt',damage:previousHp-p.hp,blocked,context:{castId:incomingId,hitId:`incoming:${incomingId}:hero`,originSkillId:originSkillId??attacker?.kind??'environment',rootKind:'incoming',procDepth,criticalEligible:false,canTriggerOnHit:false,attackerId:attacker?.id??null,attackFamily}});
   if(b.poeMobility)mobilityEvents(b,b.poeMobility.hit());
   if(procDepth===0&&p.hp>0&&attacker&&alive(attacker)&&b.enemies.includes(attacker)&&inMap(b.map,attacker.x,attacker.y)&&(!attacker.region||attacker.region===b.region)&&['weapon','spell'].includes(attackFamily)&&(blocked||damage>0)&&b.stats.lawbringer){const success=random(b)<b.stats.lawbringer.chance;emit(b,{type:'lawbringerRolled',attackerId:attacker.id,success});if(success){attacker.disarm={remaining:b.stats.lawbringer.duration};attacker.silence={remaining:b.stats.lawbringer.duration};interruptDisabledAttack(b,attacker);}}
-  if(procDepth===0&&blocked&&melee&&attacker&&alive(attacker)&&shield.thorns){const spec=quoteAction(b,'shield_block'),action={id:'shield_of_thorns',castId:++b.castSerial};hitEnemy(b,attacker,p.stamina*shield.thorns.coefficient*shield.thorns.damageMultiplier,{pen:shield.thorns.armorPenetration,source:'thorns',spec,context:hitContext(b,action,attacker,'thorns','secondary',1)});}
+  if(procDepth===0&&blocked&&melee&&attacker&&alive(attacker)&&shield.thorns){const spec=quoteAction(b,'shield_block'),action={id:'shield_of_thorns',castId:++b.castSerial};hitEnemy(b,attacker,p.stamina*shield.thorns.coefficient*shield.thorns.damageMultiplier,{pen:shield.thorns.armorPenetration,source:'thorns',spec,impactAngle:impactHeading(p,attacker,p.angle),context:hitContext(b,action,attacker,'thorns','secondary',1)});}
   if(p.hp>0&&damage>0)for(const id of statusRuleIds)applyHeroStatus(b,id,attacker?.id??null);
   p.hurtTime=.24;p.invuln=.28;
   floater(b,blocked?'방어 '+Math.round(damage):'-'+Math.round(damage),p.x,p.y,blocked?'#9de1d6':'#ff9ba7');
-  fx(b,'ring',p.x,p.y,blocked?'#99e4e0':'#e97b85',22,.25);emit(b,{type:'sound',name:blocked?'heavyHit':'hurt'});b.shake=Math.max(b.shake,blocked?1:5);
-  if(p.hp===0){finishOnslaught(b,'death');p.innerFlame=null;p.negativeStatuses={};b.banner=null;p.action=null;p.block=false;p.regenBuff=null;b.shots=[];b.areas=[];for(const e of b.enemies)clearFireResponse(e);b.dead=true;clearBattleIntent(b);clearPoeInput(b,'death');emit(b,{type:'sound',name:'die'});}
+  fx(b,'ring',p.x,p.y,blocked?'#99e4e0':'#e97b85',22,.25);emit(b,{type:'sound',name:blocked?'heavyHit':'hurt',audience:'danger'});b.shake=Math.max(b.shake,blocked?1:5);
+  if(p.hp===0){emit(b,{type:'soundCancel',tag:'hero'});emit(b,{type:'soundCancel',tag:'enemy'});finishOnslaught(b,'death');p.innerFlame=null;p.negativeStatuses={};b.banner=null;p.action=null;p.block=false;p.regenBuff=null;b.shots=[];b.areas=[];for(const e of b.enemies)clearFireResponse(e);b.dead=true;clearBattleIntent(b);clearPoeInput(b,'death');emit(b,{type:'sound',name:'die'});}
 }
 function interruptDisabledAttack(b,e){
  if(e.state!=='windup')return;const family=e.attackSpec?.attackFamily??foeFor(b,e).attackFamily??'weapon';
@@ -249,7 +252,7 @@ export function applyHeroStatus(b,ruleId,sourceId=null){
  if(sourceId!==null&&(typeof sourceId!=='string'||!/^[a-zA-Z0-9:_-]{1,96}$/.test(sourceId)))return false;
  const existing=p.negativeStatuses[rule.id];p.negativeStatuses[rule.id]={ruleId,remaining:rule.duration,sourceId,...(rule.interval?{nextTick:existing?.nextTick??rule.interval}:{})};
  const action=p.action,interrupt=rule.id==='stun'||(rule.id==='silence'&&spellIds.has(action?.id))||(rule.id==='disarm'&&action?.id==='mace_swing'&&!action.fired);
- if(interrupt&&action){if(!finishOnslaught(b,rule.id)){p.recoveryLock=Math.max(p.recoveryLock,action.duration-action.elapsed);p.action=null;}clearBattleIntent(b);}
+ if(interrupt&&action){emit(b,{type:'soundCancel',tag:`cast:${action.castId}`});if(!finishOnslaught(b,rule.id)){p.recoveryLock=Math.max(p.recoveryLock,action.duration-action.elapsed);p.action=null;}clearBattleIntent(b);}
  if(rule.id==='stun'){p.block=false;if(b.poeMobility)clearPoeInput(b,'stun');}
  emit(b,{type:'heroStatusChanged',id:rule.id,applied:true});return true;
 }
@@ -295,9 +298,9 @@ function startAction(b,id,angle,ownerToken=null){
  p.action={id,castId:++b.castSerial,name,spec:a,criticalChance:b.stats.criticalChance,criticalMultiplier:b.stats.criticalMultiplier,duration:a.duration+(a.channel?a.channelDuration:0),contact:a.contact,elapsed:0,fired:false,hitIds:[],angle,payload:{combo:p.combo,which:'q'},...(a.channel?{ownerToken,paidSeconds:1,pulses:0,nextPulse:a.tickSeconds,nextPayment:a.paymentInterval,lanceResolved:false}: {})};
  startPoeAim(b,p.action);updatePoePresentation(b);
  emit(b,{type:'actionStarted',id,castId:p.action.castId,manaCost:a.manaCost,staminaCost:a.staminaCost});
- if(id==='mace_swing'){p.combo=(p.combo+1)%3;emit(b,{type:'sound',name:'slash'});}
- if(spellIds.has(id)){emit(b,{type:'sound',name:'magicCharge'});if(b.stats.innerFlame){p.innerFlame={rank:b.stats.innerFlame.rank,remaining:b.stats.innerFlame.duration};emit(b,{type:'innerFlameChanged',buff:{...p.innerFlame}});}}
- if(id==='shield_charge')emit(b,{type:'sound',name:'dash'});
+ if(id==='mace_swing'){p.combo=(p.combo+1)%3;emit(b,{type:'sound',name:'slash',phase:'windup',castId:p.action.castId,tag:`cast:${p.action.castId}`,owner:'hero',audience:'friendly'});}
+ if(spellIds.has(id)){emit(b,{type:'sound',name:'magicCharge',phase:'windup',castId:p.action.castId,tag:`cast:${p.action.castId}`,owner:'hero',audience:'friendly'});if(b.stats.innerFlame){p.innerFlame={rank:b.stats.innerFlame.rank,remaining:b.stats.innerFlame.duration};emit(b,{type:'innerFlameChanged',buff:{...p.innerFlame}});}}
+ if(id==='shield_charge')emit(b,{type:'sound',name:'dash',castId:p.action.castId,tag:`cast:${p.action.castId}`,owner:'hero',audience:'friendly'});
 
  if(a.channel)emit(b,{type:'channelPayment',id,castId:p.action.castId,index:0,staminaCost:a.staminaCost,manaCost:0});
  return true;
@@ -311,7 +314,7 @@ export function finishOnslaught(b,reason='safety'){
  if(!action.lanceResolved){action.lanceResolved=true;if(p.hp>0&&!b.dead&&action.pulses>=1&&a.lance&&lanceStops.has(reason)){
   const releaseScale=lanceReleaseScale(a.lance,action.pulses);
   emit(b,{type:'lanceResolved',castId:action.castId,reason,releaseScale,pulses:action.pulses});fx(b,'slash',p.x,p.y,'#efb066',a.lance.range,.3,{angle:action.angle,expertFootprint:{skillId:'zealous_lance',range:a.lance.range,arcRadians:a.lance.arcRadians}});
-  for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(strictSector(b,e,p,action.angle,a.lance.range,a.lance.arcRadians))hitEnemy(b,e,0,{pen:a.armorPenetration??0,source:'lance',spec:a,context:hitContext(b,action,e,'lance'),components:[{id:'physical',damageType:'physical',raw:a.lance.physicalDamage*releaseScale},{id:'fire',damageType:'fire',raw:a.lance.fireDamage*releaseScale}]});
+  for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(strictSector(b,e,p,action.angle,a.lance.range,a.lance.arcRadians))hitEnemy(b,e,0,{pen:a.armorPenetration??0,source:'lance',spec:a,impactAngle:action.angle,context:hitContext(b,action,e,'lance'),components:[{id:'physical',damageType:'physical',raw:a.lance.physicalDamage*releaseScale},{id:'fire',damageType:'fire',raw:a.lance.fireDamage*releaseScale}]});
  }}
  emit(b,{type:'channelEnded',id:action.id,castId:action.castId,reason,payments:action.paidSeconds,pulses:action.pulses});return true;
 }
@@ -319,6 +322,7 @@ export function finishOnslaught(b,reason='safety'){
 // returned critical event before resuming. Normal release uses input.channel.
 export function cancelBattleAction(b,reason='safety'){
  if(!b)return [];const start=b.events.length;clearBattleIntent(b);clearPoeInput(b,reason);
+ if(b.p.action)emit(b,{type:'soundCancel',tag:`cast:${b.p.action.castId}`});
  if(finishOnslaught(b,safetyStop(reason)))emit(b,{type:'safetyCancelled',reason});
  return b.events.slice(start);
 }
@@ -326,7 +330,7 @@ function resolveOnslaught(b){
  const p=b.p,action=p.action;if(action?.id!=='zealous_onslaught')return;const a=action.spec,active=Math.max(0,action.elapsed-a.duration);
  while(action.nextPulse<=active+1e-9&&action.pulses<16){
   action.pulses++;const tick=action.pulses;action.nextPulse=Number((tick*a.tickSeconds+a.tickSeconds).toFixed(8));
-  for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id))){const dx=e.x-p.x,dy=e.y-p.y,forward=dx*Math.cos(action.angle)+dy*Math.sin(action.angle),side=Math.abs(-dx*Math.sin(action.angle)+dy*Math.cos(action.angle));if(alive(e)&&forward>=0&&forward<=a.range+1e-9&&side<=a.halfWidth+1e-9&&lineOfSight(b.map,p,e))hitEnemy(b,e,a.damage,{pen:a.armorPenetration,source:'onslaught',spec:a,context:hitContext(b,action,e,`pulse:${tick}`)});}
+  for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id))){const dx=e.x-p.x,dy=e.y-p.y,forward=dx*Math.cos(action.angle)+dy*Math.sin(action.angle),side=Math.abs(-dx*Math.sin(action.angle)+dy*Math.cos(action.angle));if(alive(e)&&forward>=0&&forward<=a.range+1e-9&&side<=a.halfWidth+1e-9&&lineOfSight(b.map,p,e))hitEnemy(b,e,a.damage,{pen:a.armorPenetration,source:'onslaught',spec:a,impactAngle:action.angle,context:hitContext(b,action,e,`pulse:${tick}`)});}
   emit(b,{type:'channelPulse',castId:action.castId,index:tick});
  }
  if(active>=a.channelDuration-1e-9){finishOnslaught(b,'complete');return;}
@@ -396,46 +400,49 @@ function resolveAction(b,dt){
     const travel=action.stopped?0:Math.min(dt,Math.max(0,a.travelDuration-(action.elapsed-dt)));
     const delta=move(b,p,Math.cos(action.angle)*a.speed*travel,Math.sin(action.angle)*a.speed*travel);
     fx(b,'afterimage',p.x,p.y,'#bce9df',0,.18,{angle:p.angle,classId:'warrior'});
-    for(const e of [...b.enemies].sort((x,y)=>distance(x,old)-distance(y,old)))if(travel>0&&alive(e)&&lineOfSight(b.map,old,e)&&segmentDistance(e,old,p)<a.radius+12&&!action.hitIds.includes(e.id)){action.hitIds.push(e.id);hitEnemy(b,e,a.damage,{stun:a.stunSeconds,pen:a.armorPenetration??0,heavy:true,source:'charge',spec:action.spec,context:hitContext(b,action,e,'charge','charge')});if(!a.passesThroughEnemies){
+    for(const e of [...b.enemies].sort((x,y)=>distance(x,old)-distance(y,old)))if(travel>0&&alive(e)&&lineOfSight(b.map,old,e)&&segmentDistance(e,old,p)<a.radius+12&&!action.hitIds.includes(e.id)){action.hitIds.push(e.id);hitEnemy(b,e,a.damage,{stun:a.stunSeconds,pen:a.armorPenetration??0,heavy:true,source:'charge',spec:action.spec,impactAngle:action.angle,context:hitContext(b,action,e,'charge','charge')});if(!a.passesThroughEnemies){
       // Enemy contact must not undo the wall-safe sweep. Axis sliding can put
       // the enemy within the swept radius while this aimed point is in a wall.
       // Keep the original stop distance, bounded by this frame's actual travel,
       // and admit the resulting position through the same radius-11 sweep.
       const stop=Math.min(Math.hypot(delta.x,delta.y),Math.max(0,distance(old,e)-a.radius-12));
       const contact=traceSegment(b.map,old,{x:old.x+Math.cos(action.angle)*stop,y:old.y+Math.sin(action.angle)*stop},11);
-      p.x=contact.x;p.y=contact.y;action.stopped=true;break;
+      p.x=contact.x;p.y=contact.y;action.stopped=true;emit(b,{type:'soundCancel',tag:`cast:${action.castId}`});break;
     }}
-    if(travel>0&&Math.hypot(delta.x,delta.y)<.1)action.stopped=true;
+    if(travel>0&&Math.hypot(delta.x,delta.y)<.1&&!action.stopped){action.stopped=true;emit(b,{type:'soundCancel',tag:`cast:${action.castId}`});}
   }
   if(!action.fired&&action.elapsed+(b.poeMobility?1e-9:0)>=a.contact){
     action.fired=true;emit(b,{type:'actionContact',id:action.id,castId:action.castId,elapsed:action.elapsed});
     if(action.id==='mace_swing'){
+      // Dispatch the swish peak only when simulation reaches contact. A future
+      // AudioContext deadline would run ahead during subsequent hitstop.
+      emit(b,{type:'sound',name:'slash',phase:'contact',contactIn:0,castId:action.castId,tag:`cast:${action.castId}`,owner:'hero',audience:'friendly'});
       fx(b,'slash',p.x,p.y,'#ffe2ab',a.range,.25,{angle:action.angle});
       for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(alive(e)&&lineOfSight(b.map,p,e)&&distance(e,p)<=a.range+10&&Math.abs(angleDelta(Math.atan2(e.y-p.y,e.x-p.x),action.angle))<=a.arcRadians/2){
-        hitEnemy(b,e,a.damage,{stun:random(b)<(a.stunChance??0)?a.stunSeconds??.7:0,pen:a.armorPenetration??0,spec:a,context:hitContext(b,action,e,'mace','mace')});
+        hitEnemy(b,e,a.damage,{stun:random(b)<(a.stunChance??0)?a.stunSeconds??.7:0,pen:a.armorPenetration??0,spec:a,impactAngle:action.angle,context:hitContext(b,action,e,'mace','mace')});
       }
-      if(a.flameArc){fx(b,'slash',p.x,p.y,'#db9b62',a.flameArc.range,.25,{angle:action.angle,expertFootprint:{skillId:'flames_of_devotion',range:a.flameArc.range,arcRadians:a.flameArc.arcRadians}});for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(strictSector(b,e,p,action.angle,a.flameArc.range,a.flameArc.arcRadians))hitEnemy(b,e,a.flameArc.damage,{damageType:'fire',source:'flame',spec:a,context:hitContext(b,action,e,'flame','secondary',1)});}
+      if(a.flameArc){fx(b,'slash',p.x,p.y,'#db9b62',a.flameArc.range,.25,{angle:action.angle,expertFootprint:{skillId:'flames_of_devotion',range:a.flameArc.range,arcRadians:a.flameArc.arcRadians}});for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(strictSector(b,e,p,action.angle,a.flameArc.range,a.flameArc.arcRadians))hitEnemy(b,e,a.flameArc.damage,{damageType:'fire',source:'flame',spec:a,impactAngle:action.angle,context:hitContext(b,action,e,'flame','secondary',1)});}
     }else if(action.id==='righteous_hammer'){
       b.shots.push({id:`hammer-${action.castId}`,castId:action.castId,originSkillId:action.id,spec:a,returning:a.returning??null,leg:'outward',newborn:true,kind:'hammer',x:p.x,y:p.y,vx:Math.cos(action.angle)*a.speed,vy:Math.sin(action.angle)*a.speed,life:a.range/a.speed,damage:a.damage,pen:a.armorPenetration??0,lightning:a.lightning?{...a.lightning}:null,armorBreak:a.armorBreak?{...a.armorBreak}:null,age:0,nextTick:a.lightning?.tickSeconds??Infinity,hitIds:[],enemy:false});
-      emit(b,{type:'sound',name:'magicRelease'});fx(b,'ring',p.x,p.y,'#ffc870',32,.2);
+      emit(b,{type:'sound',name:'magicRelease',phase:'release',castId:action.castId,tag:`cast:${action.castId}`,owner:'hero',audience:'friendly'});fx(b,'ring',p.x,p.y,'#ffc870',32,.2);
     }else if(action.id==='battle_banner'){
       b.banner={...a,x:p.x,y:p.y,region:b.region,remaining:a.buffDuration,castId:action.castId};emit(b,{type:'bannerPlaced',castId:action.castId});fx(b,'ring',p.x,p.y,'#dec692',a.radius,.5,{bannerPlacement:true});
     }else if(action.id==='lay_on_hands'){
       const before=p.hp;p.hp=Math.min(b.stats.hpMax,p.hp+a.heal);
       if(a.cleanse){for(const [id,status] of Object.entries(p.negativeStatuses))if(HERO_STATUS_RULES[status.ruleId]?.cleansable){delete p.negativeStatuses[id];emit(b,{type:'heroStatusChanged',id,cleansed:true});}}
-      if(a.undead)for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(alive(e)&&foeFor(b,e).tags?.includes('undead')&&distance(e,p)<=a.undead.radius+1e-9&&lineOfSight(b.map,p,e))hitEnemy(b,e,a.undead.damage,{damageType:'pure',source:'turn_undead',spec:a,context:hitContext(b,action,e,'undead')});
+      if(a.undead)for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(alive(e)&&foeFor(b,e).tags?.includes('undead')&&distance(e,p)<=a.undead.radius+1e-9&&lineOfSight(b.map,p,e))hitEnemy(b,e,a.undead.damage,{damageType:'pure',source:'turn_undead',spec:a,impactAngle:impactHeading(p,e,p.angle),context:hitContext(b,action,e,'undead')});
       p.regenBuff=a.regenBuff?{remaining:a.regenBuff.duration,multiplier:a.regenBuff.multiplier}:null;
       emit(b,{type:'healApplied',amount:p.hp-before});floater(b,'+'+Math.round(p.hp-before),p.x,p.y,'#9df2c4');
-      fx(b,'ring',p.x,p.y,'#96ecc1',a.radius,.65);fx(b,'blast',p.x,p.y,'#c3ffe1',32,.35);emit(b,{type:'sound',name:'magicRelease'});
+      fx(b,'ring',p.x,p.y,'#96ecc1',a.radius,.65);fx(b,'blast',p.x,p.y,'#c3ffe1',32,.35);emit(b,{type:'sound',name:'magicRelease',phase:'release',castId:action.castId,tag:`cast:${action.castId}`,owner:'hero',audience:'friendly'});
     }else if(action.id==='judgement'){
       fx(b,'slash',p.x,p.y,'#ffd77d',a.range,.45,{angle:action.angle});fx(b,'ring',p.x,p.y,'#f7ab69',38,.3);
       for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(inSector(b,e,p,action.angle,a.range,a.arcRadians)){
-        hitEnemy(b,e,a.damage,{pen:a.armorPenetration??0,heavy:true,source:'judgement',spec:a,context:hitContext(b,action,e,'judgement')});
+        hitEnemy(b,e,a.damage,{pen:a.armorPenetration??0,heavy:true,source:'judgement',spec:a,impactAngle:action.angle,context:hitContext(b,action,e,'judgement')});
         if(alive(e)&&a.shackles)e.shackles={...a.shackles,remaining:a.shackles.duration};
       }
       // One caster owns one fixed sector; recasting replaces, never stacks it.
       if(a.fireArea)b.areas=[{id:++b.areaSerial,castId:action.castId,originSkillId:action.id,spec:a,x:p.x,y:p.y,angle:action.angle,range:a.range,arcRadians:a.arcRadians,...a.fireArea,age:0,nextTick:a.fireArea.tickSeconds,newborn:true}];
-      emit(b,{type:'sound',name:'magicRelease'});
+      emit(b,{type:'sound',name:'magicRelease',phase:'release',castId:action.castId,tag:`cast:${action.castId}`,owner:'hero',audience:'friendly'});
     }
   }
   if(action.elapsed+1e-9>=action.duration)p.action=null;
@@ -444,6 +451,7 @@ function strictSector(b,e,origin,angle,range,arc){return alive(e)&&distance(e,or
 function inSector(b,e,origin,angle,range,arc){return alive(e)&&sectorContains(b.map,e,origin,angle,range,arc);}
 const inFireArea=(b,e,area)=>inSector(b,e,area,area.angle,area.range,area.arcRadians);
 function updateEnemy(b,e,dt){
+ stepEnemyReaction(e,dt);
  e.flash=Math.max(0,(e.flash??0)-dt);
  if(!alive(e)){interruptBattlefieldRoleMovement(e);e.deathTime=Math.max(0,(e.deathTime??0)-dt);return;}
  const f=foeFor(b,e),p=b.p;e.stun=Math.max(0,e.stun-dt);observePatternPhase(e,f);
@@ -456,7 +464,7 @@ function updateEnemy(b,e,dt){
  if(e.state==='windup'){
   e.timer-=dt;e.telegraph.progress=clamp(1-e.timer/e.windupDuration,0,1);
   if(e.timer<=1e-9){
-   const shape=e.telegraph.shapes[0],attack=e.attackSpec;emit(b,{type:'sound',name:'enemyRelease'});
+   const shape=e.telegraph.shapes[0],attack=e.attackSpec;emit(b,{type:'sound',name:'enemyRelease',phase:'release',attackId:e.attackId,tag:`enemy:${e.id}`,owner:'enemy',audience:'danger',enemy:f.style,x:e.x,y:e.y});
    if(shape.type==='line')b.shots.push({kind:'arrow',enemy:true,x:e.x,y:e.y,vx:Math.cos(e.angle)*attack.speed,vy:Math.sin(e.angle)*attack.speed,damage:attack.damage,damageType:attack.damageType??'physical',attackerId:e.id,attackFamily:attack.attackFamily??f.attackFamily??'weapon',statusRuleIds:attack.statusRuleIds??[],attackId:e.attackId,originSkillId:attack.id??e.kind,life:attack.travelRange/attack.speed});
    else if(visible&&(shape.type==='circle'?distance(p,shape)<shape.r+8:distance(p,shape)<shape.r+8&&Math.abs(angleDelta(Math.atan2(p.y-shape.y,p.x-shape.x),shape.angle))<shape.halfAngle))hurtHero(b,attack.damage,e.angle,e,attack.damageType??'physical',{attackId:e.attackId,originSkillId:attack.id??e.kind,melee:shape.type==='cone',dodgeable:shape.type==='cone'?'melee':null,attackFamily:attack.attackFamily??f.attackFamily??'weapon',statusRuleIds:attack.statusRuleIds??[]});
    fx(b,'enemyRelease',shape.x,shape.y,'#e67c78',0,.25,{shape:{...shape}});e.state='recovery';e.timer=attack.recovery;e.telegraph=null;recordBattlefieldRoleAttack(b,e,f);
@@ -479,7 +487,7 @@ function updateEnemy(b,e,dt){
   let shape=attack.shape==='line'?{type:'line',x:e.x,y:e.y,x2:e.x+Math.cos(e.angle)*(attack.travelRange??440),y2:e.y+Math.sin(e.angle)*(attack.travelRange??440),width:attack.width??20}:attack.shape==='circle'?{type:'circle',x:e.x,y:e.y,r:attack.radius??attack.range}:{type:'cone',x:e.x,y:e.y,angle:e.angle,r:attack.range,halfAngle:attack.halfAngle??1};
   if(!pattern&&f.style==='boss'&&random(b)<.35)shape={type:'circle',x:e.x,y:e.y,r:115};
   if(pattern)e.patternIndex=(e.patternIndex??0)+1;
-  e.telegraph={phase:'windup',color:'#f29187',locked:true,progress:0,name:f.name,shapes:[shape]};emit(b,{type:'sound',name:'enemyTell'});return;
+  e.telegraph={phase:'windup',color:'#f29187',locked:true,progress:0,name:f.name,shapes:[shape]};emit(b,{type:'sound',name:'enemyTell',phase:'windup',attackId:e.attackId,tag:`enemy:${e.id}`,owner:'enemy',audience:'danger',enemy:f.style,x:e.x,y:e.y});return;
  }
  e.state='idle';e.pathTimer=Math.max(0,(e.pathTimer??0)-dt);
  let target=p;if(!visible){if(!e.pathTimer){e.pathTarget=findPathStep(b.map,e,p);e.pathTimer=.3;}if(!e.pathTarget){e.moving=false;return;}target=e.pathTarget;}
@@ -606,7 +614,7 @@ function stepBattleFrame(b,character,dt,input){
    // recovery pose, locked angle and gait phase. No recovery footsteps are emitted.
    const savedAngle=p.angle,walker=maceRecovery?{...p,action:null}:p,feet=advanceLocomotion(walker,d.x,d.y,{dt:t});p.angle=savedAngle;
    if(maceRecovery){p.moving=walker.moving;if(p.moving)p.walk=walker.walk;}
-   else for(const foot of feet)emit(b,{type:'sound',name:'footstep',foot:foot.foot});
+   else for(const foot of feet)emit(b,{type:'sound',name:'footstep',foot:foot.foot,owner:'hero'});
   }else p.moving=false;
   const skillTravel=p.action?.id==='shield_charge'||p.action?.spec.channel;
   resolveAction(b,t);
@@ -630,7 +638,7 @@ function stepBattleFrame(b,character,dt,input){
       }
       shot.age=(shot.age??0)+travel;
       if(shot.lightning&&(shot.life>0||shot.returning&&shot.leg==='outward'))while(shot.nextTick<=shot.age+1e-9){
-        for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(alive(e)&&distance(e,shot)<=shot.lightning.radius&&lineOfSight(b.map,shot,e))hitEnemy(b,e,shot.lightning.damage,{damageType:'lightning',source:'lightning',spec:shot.spec,context:hitContext(b,{castId:shot.castId,id:shot.originSkillId},e,`lightning:${shot.nextTick}`,'secondary',1)});
+        for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(alive(e)&&distance(e,shot)<=shot.lightning.radius&&lineOfSight(b.map,shot,e))hitEnemy(b,e,shot.lightning.damage,{damageType:'lightning',source:'lightning',spec:shot.spec,impactAngle:impactHeading(shot,e,Math.atan2(shot.vy,shot.vx)),context:hitContext(b,{castId:shot.castId,id:shot.originSkillId},e,`lightning:${shot.nextTick}`,'secondary',1)});
         fx(b,'ring',shot.x,shot.y,'#9bcfff',shot.lightning.radius,.18);shot.nextTick+=shot.lightning.tickSeconds;
       }
       fx(b,'particle',shot.x,shot.y,'#ffcf79',0,.18,{size:3});
@@ -641,7 +649,7 @@ function stepBattleFrame(b,character,dt,input){
   for(const area of b.areas){
     if(area.newborn){area.newborn=false;continue;}area.age=Math.min(area.duration,area.age+t);
     while(area.nextTick<=area.age+1e-9&&area.nextTick<=area.duration+1e-9){
-      for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(inSector(b,e,area,area.angle,area.range,area.arcRadians))hitEnemy(b,e,area.damage,{damageType:'fire',source:'fire',spec:area.spec,context:hitContext(b,{castId:area.castId,id:area.originSkillId},e,`fire:${area.nextTick}`,'secondary',1)});
+      for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(inSector(b,e,area,area.angle,area.range,area.arcRadians))hitEnemy(b,e,area.damage,{damageType:'fire',source:'fire',spec:area.spec,impactAngle:area.angle,context:hitContext(b,{castId:area.castId,id:area.originSkillId},e,`fire:${area.nextTick}`,'secondary',1)});
       fx(b,'slash',area.x,area.y,'#ff944b',area.range,.22,{angle:area.angle});area.nextTick+=area.tickSeconds;
     }
   }b.areas=b.areas.filter(a=>a.age<a.duration-1e-9);

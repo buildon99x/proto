@@ -1,0 +1,242 @@
+--- /dev/null
++++ b/app/src/warrior-rig.js
+@@ -0,0 +1,76 @@
++// Original Emberwatch hero.png anatomy, preserved from the owned 2026-10-08
++// bake-motion.mjs (SHA256 b888ee5766f547613c466bf5a757a137b2237cf0ba170f2a16783ff55db4ce17).
++// Runtime cutouts reuse those exact polygons. No new raster assets or copied
++// commercial art. Only one hero is articulated; the existing atlas is fallback.
++import {drawHammerShape} from './warrior-projectile-presentation.js';
++const RIGS=[
++ {anchor:[166,307],headPivot:[165,162],hip:[166,258],shoulder:[114,176],elbow:[105,205],shieldPivot:[207,181],feet:[[136,304],[205,304]],knees:[[138,282],[197,282]],hips:[[141,258],[190,258]],clothPivot:[168,223],
++  head:[[113,65],[209,66],[220,137],[207,166],[166,179],[122,164],[105,139]],
++  body:[[128,156],[198,156],[215,199],[205,245],[124,247],[113,203]],
++  cloth:[[125,214],[199,212],[217,264],[177,277],[163,259],[148,277],[109,266]],
++  leftLeg:[[120,256],[158,256],[159,284],[153,306],[117,309],[113,291]],rightLeg:[[175,256],[204,257],[217,286],[228,307],[189,309],[177,286]],
++  upper:[[98,158],[127,153],[143,178],[127,205],[111,215],[86,198]],
++  lower:[[88,191],[116,197],[122,217],[99,242],[78,234]],
++  sword:[[83,218],[105,229],[77,276],[59,290],[48,278],[67,246]],
++  shield:[[196,158],[224,159],[251,180],[266,219],[259,247],[226,270],[195,262],[188,214]]},
++ {anchor:[164,596],headPivot:[153,455],hip:[163,550],shoulder:[128,472],elbow:[113,500],shieldPivot:[192,465],feet:[[126,581],[207,594]],knees:[[137,559],[194,567]],hips:[[145,536],[180,542]],clothPivot:[163,513],
++  head:[[106,366],[177,365],[208,386],[218,421],[207,442],[167,465],[120,466],[96,437],[92,411]],
++  body:[[126,446],[190,434],[215,483],[190,535],[130,540],[119,499]],
++  cloth:[[128,505],[194,501],[207,557],[174,570],[159,552],[148,566],[121,555]],
++  leftLeg:[[113,540],[153,537],[157,561],[149,583],[126,590],[101,581],[102,568]],rightLeg:[[175,541],[207,542],[218,566],[225,598],[202,606],[175,591],[173,567]],
++  upper:[[113,451],[144,459],[151,480],[130,502],[109,511],[93,490]],lower:[[96,481],[123,489],[135,511],[119,536],[99,528],[84,511]],
++  sword:[[48,446],[58,438],[93,466],[115,497],[104,517],[85,503],[73,479]],
++  shield:[[174,443],[205,447],[231,476],[246,510],[239,543],[219,564],[185,565],[160,541],[156,505],[167,479]]},
++ {anchor:[174,885],headPivot:[172,740],hip:[168,832],shoulder:[179,757],elbow:[188,789],shieldPivot:[112,752],feet:[[120,880],[203,879]],knees:[[131,853],[190,854]],hips:[[139,831],[177,830]],clothPivot:[156,802],
++  head:[[130,658],[183,659],[210,680],[226,712],[221,735],[187,750],[143,746],[116,716],[114,690]],
++  body:[[119,721],[168,724],[190,751],[198,799],[176,831],[127,826],[106,784]],
++  cloth:[[124,792],[181,790],[198,825],[212,850],[176,856],[157,839],[144,857],[110,843]],
++  leftLeg:[[107,829],[146,828],[150,854],[142,882],[103,887],[96,870]],rightLeg:[[169,828],[196,828],[206,849],[225,875],[219,885],[187,885],[168,855]],
++  upper:[[164,735],[191,736],[211,760],[204,787],[180,798],[152,767]],lower:[[178,775],[201,780],[217,799],[238,809],[228,836],[203,831],[184,811]],
++  sword:[[222,805],[242,765],[266,736],[277,741],[265,776],[245,816],[232,838],[215,826]],
++  shield:[[102,725],[128,728],[142,746],[139,777],[122,814],[95,835],[77,824],[68,800],[75,757]]},
++ {anchor:[168,1183],headPivot:[165,1035],hip:[168,1128],shoulder:[217,1049],elbow:[233,1078],shieldPivot:[109,1060],feet:[[134,1176],[208,1176]],knees:[[137,1153],[196,1151]],hips:[[141,1125],[188,1127]],clothPivot:[166,1097],
++  head:[[113,939],[179,938],[211,968],[220,1015],[204,1038],[166,1047],[122,1040],[99,1015],[103,978]],
++  body:[[118,1026],[201,1029],[219,1065],[204,1112],[124,1123],[110,1070]],
++  cloth:[[119,1094],[201,1093],[220,1138],[178,1150],[165,1132],[148,1150],[102,1136]],
++  leftLeg:[[116,1125],[155,1124],[158,1152],[151,1181],[114,1185],[108,1157]],rightLeg:[[177,1125],[203,1123],[217,1154],[228,1183],[189,1185],[174,1154]],
++  upper:[[195,1023],[221,1024],[240,1048],[236,1073],[217,1089],[195,1066]],lower:[[215,1063],[239,1066],[253,1085],[252,1103],[228,1118],[215,1094]],
++  sword:[[232,1090],[256,1043],[270,1015],[283,1021],[275,1057],[255,1099],[247,1117],[227,1105]],
++  shield:[[94,1032],[118,1035],[136,1064],[126,1099],[109,1124],[82,1131],[60,1104],[58,1073],[74,1045]]}
++];
++const radians=d=>d*Math.PI/180;
++const raw=(ctx,part)=>ctx.drawImage(part.canvas,part.x,part.y);
++function rotateAt(ctx,p,angle){ctx.translate(...p);ctx.rotate(radians(angle));ctx.translate(-p[0],-p[1]);}
++function segment(ctx,part,a,b,A,B){const length=Math.hypot(b[0]-a[0],b[1]-a[1]),target=Math.hypot(B[0]-A[0],B[1]-A[1]);ctx.save();ctx.translate(...A);ctx.rotate(Math.atan2(B[1]-A[1],B[0]-A[0]));ctx.scale(target/length,1);ctx.rotate(-Math.atan2(b[1]-a[1],b[0]-a[0]));ctx.translate(-a[0],-a[1]);raw(ctx,part);ctx.restore();}
++export const WARRIOR_RIG_LIMITS=Object.freeze({directions:4,surface:128,maxMaskPixels:1_200_000});
++export function createWarriorRig(source,{createCanvas}={}){
++ const cache=new Map();let surface=null,pixels=0,disabled=false,rendered=0;
++ const canvas=(w,h)=>{if(pixels+w*h>WARRIOR_RIG_LIMITS.maxMaskPixels)throw Error('Warrior cutout pixel cap');const result=createCanvas(w,h);if(!result?.getContext)throw Error('Canvas unavailable');result.width=w;result.height=h;pixels+=w*h;return result;};
++ function directionRig(direction){
++  if(cache.has(direction))return cache.get(direction);
++  const rig=RIGS[direction],parts={};
++  const mask=(poly,half=null)=>{const xs=poly.map(p=>p[0]),ys=poly.map(p=>p[1]),x=Math.floor(Math.min(...xs))-2,y=Math.floor(Math.min(...ys))-2,w=Math.ceil(Math.max(...xs))-x+3,h=Math.ceil(Math.max(...ys))-y+3,c=canvas(w,h),ctx=c.getContext('2d');ctx.beginPath();poly.forEach((p,i)=>ctx[i?'lineTo':'moveTo'](p[0]-x,p[1]-y));ctx.closePath();ctx.clip();if(half){ctx.beginPath();ctx.rect(0,half.top?0:half.y-y-5,w,half.top?half.y-y+5:h);ctx.clip();}ctx.drawImage(source,-x,-y);return {canvas:c,x,y};};
++  for(const key of ['head','body','cloth','upper','lower','sword','shield'])parts[key]=mask(rig[key]);
++  parts.leftLeg=[mask(rig.leftLeg,{y:rig.knees[0][1],top:true}),mask(rig.leftLeg,{y:rig.knees[0][1],top:false})];
++  parts.rightLeg=[mask(rig.rightLeg,{y:rig.knees[1][1],top:true}),mask(rig.rightLeg,{y:rig.knees[1][1],top:false})];
++  const result={...rig,parts};cache.set(direction,result);return result;
++ }
++ function render(pose,{legs=pose,weapon='sword'}={}){
++  if(disabled||!source||typeof createCanvas!=='function'||source.complete===false||source.naturalWidth===0)return null;
++  try{
++   surface??=canvas(WARRIOR_RIG_LIMITS.surface,WARRIOR_RIG_LIMITS.surface);
++   const ctx=surface.getContext('2d'),rig=directionRig(pose.direction),u=2.4,bodyX=pose.rootX*u,bodyY=pose.rootY*u;
++   ctx.clearRect(0,0,surface.width,surface.height);ctx.save();ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.translate(64,102);ctx.scale(64/240,64/240);ctx.translate(-rig.anchor[0],-rig.anchor[1]);ctx.globalAlpha=pose.alpha;
++   for(let i=0;i<2;i++){const hip=rig.hips[i],knee=rig.knees[i],foot=rig.feet[i],dx=(i?legs.rightFootX:legs.leftFootX)*u,dy=(i?legs.rightFootY:legs.leftFootY)*u,bend=(i?legs.rightKnee:legs.leftKnee)*u,A=[hip[0]+bodyX,hip[1]+bodyY],B=[foot[0]+dx,foot[1]+dy],T=[(A[0]+B[0])/2+bend,(A[1]+B[1])/2-1],parts=i?rig.parts.rightLeg:rig.parts.leftLeg;segment(ctx,parts[0],hip,knee,A,T);segment(ctx,parts[1],knee,foot,T,B);}
++   ctx.save();ctx.translate(bodyX,bodyY);rotateAt(ctx,rig.hip,pose.bodyAngle);ctx.translate(...rig.hip);ctx.scale(1,pose.bodyScaleY);ctx.translate(-rig.hip[0],-rig.hip[1]);
++   const arm=()=>{ctx.save();rotateAt(ctx,rig.shoulder,pose.weaponAngle);raw(ctx,rig.parts.upper);rotateAt(ctx,rig.elbow,pose.weaponElbow);raw(ctx,rig.parts.lower);if(weapon==='sword')raw(ctx,rig.parts.sword);else if(weapon==='hammer'){const hand=[[94,227],[104,511],[216,816],[240,1100]][pose.direction];ctx.save();ctx.translate(...hand);ctx.rotate(radians([22,-23,24,16][pose.direction]));ctx.scale(2.1,2.1);drawHammerShape(ctx);ctx.restore();}ctx.restore();};
++   const shield=()=>{ctx.save();ctx.translate((pose.shieldX||0)*u,(pose.shieldY||0)*u);rotateAt(ctx,rig.shieldPivot,pose.shieldAngle);raw(ctx,rig.parts.shield);ctx.restore();};
++   if(pose.direction===1)arm();if(!pose.shieldFront&&(pose.direction===2||pose.direction===3))shield();raw(ctx,rig.parts.body);
++   ctx.save();ctx.translate(pose.clothX*u,pose.clothY*u);rotateAt(ctx,rig.clothPivot,pose.clothAngle);raw(ctx,rig.parts.cloth);ctx.restore();
++   ctx.save();ctx.translate(pose.headX*u,pose.headY*u);rotateAt(ctx,rig.headPivot,pose.headAngle);raw(ctx,rig.parts.head);ctx.restore();
++   if(pose.direction!==1)arm();if(pose.shieldFront||pose.direction===0||pose.direction===1)shield();ctx.restore();ctx.restore();rendered++;
++   return {canvas:surface,anchorX:64,anchorY:102,bodyHeight:64};
++  }catch{disabled=true;return null;}
++ }
++ return {render,metrics:()=>({directions:cache.size,pixels,rendered,disabled})};
++}
+--- /dev/null
++++ b/app/src/warrior-presentation.js
+@@ -0,0 +1,53 @@
++import {sampleActorMotion,resolveActorMotion,motionFrame,motionSamplePhase,remapMotionPhase,MOTION_CLIPS,RUN_GAIT} from './motion.js';
++import {createWarriorRig} from './warrior-rig.js';
++// Emberwatch-authored presentation mappings, not PoE2 animation measurements.
++// Gameplay timing, aim, costs, movement windows and saved state are read only.
++export const WARRIOR_SKILL_CLIPS=Object.freeze({righteous_hammer:'axes',lay_on_hands:'warcry',judgement:'attack3',battle_banner:'warcry',shield_charge:'dodge'});
++const clamp=(n,a=0,b=1)=>Math.max(a,Math.min(b,Number.isFinite(n)?n:0));
++const ease=n=>n*n*(3-2*n);
++const lift=(p,contact)=>p<=contact?ease(clamp(p/contact)):1-ease(clamp((p-contact)/(1-contact)));
++const known=new Set(['mace_swing',...Object.keys(WARRIOR_SKILL_CLIPS),'zealous_onslaught']);
++// advanceLocomotion already records collision-resolved distance in walk, in
++// units of (158 / 10). Its public footstep phase intentionally remains locked
++// during an action. Read that independent distance counter; never change it.
++export function warriorActionGait(actor){
++ if(!actor?.moving||!(actor.hp>0)||!Number.isFinite(actor.walk))return null;
++ const phase=((actor.walk*(158/10)/RUN_GAIT.distance)%1+1)%1;
++ return phase;
++}
++export function resolveWarriorPresentation(actor={},time=0,direction=0,override=null){
++ const action=actor.action,id=action?.id,guard=actor.block===true&&!action;
++ if(!(actor.hp>0)||actor.dead||!guard&&!known.has(id))return null;
++ if(override&&['dodge','hurt','run'].includes(override.action)&&id!=='shield_charge')return null;
++ direction=clamp(Math.floor(direction),0,3);const side=direction===1?-1:direction===2?1:direction===3?.55:-.55;
++ let clip=guard?'idle':WARRIOR_SKILL_CLIPS[id]??resolveActorMotion(actor,time,true).action;
++ let phase=guard?0:remapMotionPhase(clip,action.phase??(action.elapsed||0)/(action.duration||1),action.contact,action.duration);
++ if(override?.action&&MOTION_CLIPS[override.action]){clip=override.action;phase=override.phase??phase;}
++ const frame=motionFrame(clip,phase),sample=motionSamplePhase(clip,frame),pose=sampleActorMotion({action:clip,phase:sample,direction});
++ let weapon='sword';
++ if(guard){
++  pose.shieldY=-2;pose.rootY=1;pose.bodyAngle=side*5;pose.headAngle=-side*3;pose.shieldAngle=[-14,-12,12,14][direction];pose.weaponAngle=[-12,25,-25,10][direction];pose.weaponElbow=[15,-10,10,-15][direction];
++ }else if(id==='lay_on_hands'){
++  const raised=lift(sample,.44);pose.rootX=0;pose.rootY=-1.6*raised;pose.bodyAngle=-side*2*raised;pose.headY=1.5*raised;pose.headAngle=side*4*raised;
++  weapon=sample>.86?'sword':'none';pose.weaponAngle=[-12,18,-18,12][direction]*raised;pose.weaponElbow=[-85,-100,100,85][direction]*raised;pose.shieldAngle=[-16,-24,24,16][direction]*raised;pose.clothAngle=-side*3*raised;
++ }else if(id==='battle_banner'){
++  const raised=lift(sample,.44);pose.rootY=-2.2*raised;pose.bodyAngle=-side*5*raised;pose.shieldAngle=[-35,-30,30,35][direction]*raised;pose.headAngle=-side*6*raised;
++ }else if(id==='righteous_hammer'){
++  weapon=sample<.44?'hammer':sample>.83?'sword':'none';
++ }else if(id==='shield_charge'){
++  const brace=Math.sin(Math.PI*sample);pose.shieldY=-2;pose.rootY=1.4+2.4*brace;pose.bodyAngle=side*(5+9*brace);pose.headAngle=-side*(3+5*brace);pose.weaponAngle=[-10,20,-20,10][direction]*brace;pose.shieldAngle=[-14,-12,12,14][direction]*(.6+.4*brace);pose.clothAngle=-side*14*brace;
++ }
++ const gait=warriorActionGait(actor),moving=gait!==null&&id!=='shield_charge'&&id!=='zealous_onslaught';
++ const legs=moving?sampleActorMotion({action:'run',phase:motionSamplePhase('run',motionFrame('run',gait)),direction}):pose;
++ return {id:guard?'shield_block':id,clip,phase,frame,sample,pose,legs,weapon,moving,gaitPhase:moving?gait:null};
++}
++export function createWarriorPresentationRenderer(ctx,images,{createCanvas}={}){
++ const rig=createWarriorRig(images?.hero,{createCanvas});
++ function draw({actor={},player=false,x=0,y=0,height=49,time=0,direction=0,motion=null,classId='warrior'}={}){
++  if(!player||classId!=='warrior'||actor.classId&&actor.classId!=='warrior')return false;
++  const presentation=resolveWarriorPresentation(actor,time,direction,motion);if(!presentation)return false;
++  const result=rig.render(presentation.pose,{legs:presentation.legs,weapon:presentation.weapon});if(!result)return false;
++  const scale=height/result.bodyHeight;ctx.save();ctx.imageSmoothingEnabled=false;ctx.drawImage(result.canvas,Math.round(x-result.anchorX*scale),Math.round(y-result.anchorY*scale),result.canvas.width*scale,result.canvas.height*scale);ctx.restore();return presentation;
++ }
++ return {draw,metrics:rig.metrics};
++}
+--- /dev/null
++++ b/app/src/warrior-projectile-presentation.js
+@@ -0,0 +1,23 @@
++// Authored, compact hammer silhouette. Geometry only: no simulation state,
++// target queries, collision, randomness, sound scheduling or new damage events.
++const finite=Number.isFinite;
++const clamp=n=>Math.max(0,Math.min(1,finite(n)?n:0));
++export function drawHammerShape(ctx,{returning=false}={}){
++ ctx.save();ctx.lineJoin='round';ctx.lineCap='round';ctx.lineWidth=2;
++ // Head/shaft are deliberately opaque local pixels with a dark casing, not bloom.
++ ctx.strokeStyle='#151b27';ctx.fillStyle='#70523c';ctx.beginPath();ctx.moveTo(-2,-5);ctx.lineTo(2,-5);ctx.lineTo(2,13);ctx.lineTo(-2,13);ctx.closePath();ctx.fill();ctx.stroke();
++ ctx.fillStyle=returning?'#adcdd1':'#d8bd89';ctx.beginPath();ctx.moveTo(-10,-15);ctx.lineTo(8,-15);ctx.lineTo(11,-12);ctx.lineTo(11,-6);ctx.lineTo(8,-3);ctx.lineTo(-10,-3);ctx.lineTo(-12,-6);ctx.lineTo(-12,-12);ctx.closePath();ctx.fill();ctx.stroke();
++ ctx.strokeStyle=returning?'#d7ebe5':'#f4e3b6';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(-8,-12);ctx.lineTo(7,-12);ctx.stroke();ctx.fillStyle='#547c79';ctx.fillRect(-2,-11,4,5);ctx.restore();
++}
++export function drawWarriorHammer(ctx,shot,{project,zoom=1,flashScale=1,reduced=false}={}){
++ if(!shot||shot.enemy||shot.kind!=='hammer'||!(shot.life>0)||![shot.x,shot.y,shot.vx,shot.vy,zoom].every(finite)||!(zoom>0)||typeof project!=='function')return false;
++ const point=project(shot),speed=Math.hypot(shot.vx,shot.vy),back=speed>1e-9?project({x:shot.x-shot.vx/speed*18,y:shot.y-shot.vy/speed*18}):point;
++ if(![point.x,point.y,back.x,back.y].every(finite))return false;
++ ctx.save();ctx.globalCompositeOperation='source-over';ctx.lineCap='round';ctx.lineJoin='round';
++ // The short wake follows actual velocity on each leg. It cannot resemble a
++ // full collision lane or a second ground AoE and has no filled danger floor.
++ if(speed>1e-9){ctx.beginPath();ctx.moveTo(back.x,back.y-9*zoom);ctx.lineTo(point.x,point.y-9*zoom);ctx.strokeStyle='#17202b';ctx.globalAlpha=.72;ctx.lineWidth=4*zoom;ctx.stroke();ctx.strokeStyle=shot.leg==='return'?'#93c5c6':'#c7b07b';ctx.globalAlpha=.52;ctx.lineWidth=1.7*zoom;ctx.stroke();}
++ ctx.globalAlpha=1;ctx.translate(point.x,point.y-9*zoom);const heading=speed>1e-9?Math.atan2(point.y-back.y,point.x-back.x):0;ctx.rotate(heading+(finite(shot.age)?shot.age:0)*15);ctx.scale(.72*zoom,.72*zoom);drawHammerShape(ctx,{returning:shot.leg==='return'});
++ const flashes=reduced?0:clamp(flashScale);if(flashes>0){ctx.globalAlpha=flashes*.65;ctx.fillStyle='#ead7a4';ctx.fillRect(-13,-17,2,2);ctx.fillRect(12,-4,1.5,1.5);}
++ ctx.restore();return true;
++}
+--- /dev/null
++++ b/app/tests/warrior-presentation.test.mjs
+@@ -0,0 +1,78 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import {readFileSync} from 'node:fs';
++import {configurePoeControls,acceptBattleInput,stepBattle} from '../src/combat.js';
++import {poeControlPreset,enableSkillLoadout} from '../src/controls.js';
++import {fixture} from './support/expert-fixture.mjs';
++import {resolveWarriorPresentation,warriorActionGait,createWarriorPresentationRenderer} from '../src/warrior-presentation.js';
++import {createWarriorRig,WARRIOR_RIG_LIMITS} from '../src/warrior-rig.js';
++import {drawWarriorHammer} from '../src/warrior-projectile-presentation.js';
++import {MOTION_CLIPS,motionSamplePhase} from '../src/motion.js';
++const ids=['mace_swing','righteous_hammer','lay_on_hands','judgement','battle_banner','shield_charge'];
++const expected={mace_swing:'attack1',righteous_hammer:'axes',lay_on_hands:'warcry',judgement:'attack3',battle_banner:'warcry',shield_charge:'dodge'};
++const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,`${a} != ${b}`);
++function setup(){const f=fixture({lay_on_hands:1,judgement:1,battle_banner:1});configurePoeControls(f.b,enableSkillLoadout(poeControlPreset(f.s.options.controls),{skills:f.s.character.skills,actionSlots:f.s.actionSlots}));return f;}
++function start(f,id){return acceptBattleInput(f.b,{pressedSkillId:id,aim:{x:f.b.p.x+100,y:f.b.p.y}});}
++function advance(f,t,input={}){for(let s=0;s<t-1e-10;){const dt=Math.min(1/120,t-s);stepBattle(f.b,f.s.character,dt,input);s+=dt;}}
++function context(){
++ const calls=[],stack=[],state={globalAlpha:1,globalCompositeOperation:'source-over'};
++ const record=(op,...args)=>{calls.push({op,args,...state});for(const arg of args)if(typeof arg==='number')assert.ok(Number.isFinite(arg));};
++ const methods={calls,save(){stack.push({...state});},restore(){assert.ok(stack.length);Object.assign(state,stack.pop());},get stackDepth(){return stack.length;}};
++ for(const op of ['drawImage','translate','rotate','scale','beginPath','moveTo','lineTo','closePath','rect','clip','clearRect','stroke','fill','fillRect'])methods[op]=(...args)=>record(op,...args);
++ return new Proxy(methods,{get:(t,k)=>k in t?t[k]:state[k],set:(_,k,v)=>(state[k]=v,true)});
++}
++function surfaces(){const made=[];return {made,createCanvas(w,h){const ctx=context(),c={width:w,height:h,getContext:()=>ctx};made.push(c);return c;}};}
++for(const id of ids)for(let direction=0;direction<4;direction++)test(`${id} real contact selects expected articulated pose d${direction}`,()=>{
++ const f=setup();start(f,id);const a=f.b.p.action;advance(f,a.contact);const before=JSON.stringify(f.b),r=resolveWarriorPresentation(f.b.p,f.b.time,direction);
++ assert.equal(r.clip,expected[id]);assert.equal(r.pose.direction,direction);assert.equal(JSON.stringify(f.b),before);
++ if(id!=='shield_charge')near(r.phase,MOTION_CLIPS[r.clip].contact);
++ const keys=['bodyAngle','weaponAngle','weaponElbow','shieldAngle','leftFootX','rightFootY'];for(const k of keys)assert.ok(Number.isFinite(r.pose[k]));
++});
++for(const id of ids)for(let direction=0;direction<4;direction++)test(`${id} has 24 distinct joint samples excluding root and alpha d${direction}`,()=>{
++ const f=setup();start(f,id);const action=f.b.p.action,clip=expected[id],contact=MOTION_CLIPS[clip].contact;const signatures=new Set();
++ for(let frame=0;frame<24;frame++){
++  const source=motionSamplePhase(clip,frame),ratio=action.contact/action.duration,phase=contact===undefined?source:source<=contact?source/contact*ratio:ratio+(source-contact)/(1-contact)*(1-ratio);
++  const r=resolveWarriorPresentation({...f.b.p,action:{...action,phase,elapsed:phase*action.duration}},0,direction);
++  assert.equal(r.frame,frame);signatures.add(['bodyAngle','headAngle','weaponAngle','weaponElbow','shieldAngle','clothAngle','leftFootX','rightFootX','leftKnee','rightKnee'].map(k=>(r.pose[k]??0).toFixed(5)).join(','));
++ }assert.equal(signatures.size,24);
++});
++for(const id of ['mace_swing','righteous_hammer','lay_on_hands','judgement','battle_banner'])test(`${id} moving real handler keeps upper action and independent distance-driven legs`,()=>{
++ const f=setup();start(f,id);const a=f.b.p.action;advance(f,.35,{move:{x:1,y:0},aim:{x:1000,y:f.b.p.y}});const frozen=structuredClone(f.b.p);const p=resolveWarriorPresentation(f.b.p,f.b.time,2);
++ assert.equal(p.moving,true);assert.equal(p.legs.action,'run');assert.equal(p.clip,expected[id]);assert.notEqual(p.gaitPhase,0);assert.equal(f.b.p.walkPhase,0,'legacy footstep phase contract is preserved');assert.equal(f.b.p.action,a);assert.deepEqual(f.b.p,frozen);
++ const prior=p.gaitPhase;advance(f,.015,{move:{x:1,y:0}});assert.notEqual(resolveWarriorPresentation(f.b.p,f.b.time,2).gaitPhase,prior);
++});
++test('stopped/wall-blocked/dead motion never invents leg travel or writes gait',()=>{
++ for(const actor of [{hp:100,moving:false,walk:4},{hp:0,moving:true,walk:4},{hp:100,moving:true,walk:NaN}])assert.equal(warriorActionGait(actor),null);
++ const f=setup();start(f,'righteous_hammer');const before=JSON.stringify(f.b.p);for(let i=0;i<100;i++)resolveWarriorPresentation(f.b.p,10+i,2);assert.equal(JSON.stringify(f.b.p),before);assert.equal(warriorActionGait(f.b.p),null);
++});
++test('same traveled distance gives same gait across 30/60/120 Hz',()=>{const rows=[];for(const hz of [30,60,120]){const f=setup();start(f,'battle_banner');for(let n=0;n<hz*.4;n++)stepBattle(f.b,f.s.character,1/hz,{move:{x:1,y:0}});rows.push(warriorActionGait(f.b.p));}near(rows[0],rows[1]);near(rows[1],rows[2]);});
++test('pure guard requires real block, protects dead and mobility overrides',()=>{
++ assert.equal(resolveWarriorPresentation({hp:100,block:false},0,2),null);assert.equal(resolveWarriorPresentation({hp:0,block:true},0,2),null);
++ const guard=resolveWarriorPresentation({hp:100,block:true,moving:false},0,2);assert.equal(guard.id,'shield_block');assert.ok(guard.pose.shieldY<0);assert.equal(guard.pose.shieldX,undefined,'source occluded body is not exposed by translating shield pixels');
++ const f=setup();start(f,'mace_swing');assert.equal(resolveWarriorPresentation(f.b.p,0,2,{action:'dodge',phase:.5}),null);
++});
++test('hammer leaves hand at real release while healing never throws an axe',()=>{
++ const f=setup();start(f,'righteous_hammer');assert.equal(resolveWarriorPresentation(f.b.p,0,2).weapon,'hammer');advance(f,f.b.p.action.contact);assert.equal(resolveWarriorPresentation(f.b.p,0,2).weapon,'none');assert.equal(f.b.shots.length,1);
++ const heal=setup();start(heal,'lay_on_hands');advance(heal,heal.b.p.action.contact);assert.equal(resolveWarriorPresentation(heal.b.p,0,2).weapon,'none');assert.equal(heal.b.shots.length,0);
++});
++test('rig caches only bounded four-direction cutouts and preserves Canvas stack',()=>{
++ const f=setup();start(f,'judgement');advance(f,.2);const cs=surfaces(),rig=createWarriorRig({complete:true,width:1248,height:1248},cs);
++ for(let i=0;i<20;i++)for(let d=0;d<4;d++){const p=resolveWarriorPresentation(f.b.p,0,d);assert.ok(rig.render(p.pose,p));}
++ assert.equal(rig.metrics().directions,4);assert.ok(rig.metrics().pixels<WARRIOR_RIG_LIMITS.maxMaskPixels);assert.equal(rig.metrics().rendered,80);assert.equal(rig.metrics().disabled,false);for(const c of cs.made)assert.equal(c.getContext().stackDepth,0);
++});
++test('hero renderer falls back without source/canvas and never draws enemy classes',()=>{
++ const f=setup();start(f,'judgement');const ctx=context(),cs=surfaces();assert.equal(createWarriorPresentationRenderer(ctx,{},cs).draw({actor:f.b.p,player:true}),false);
++ assert.equal(createWarriorPresentationRenderer(ctx,{hero:{}},{}).draw({actor:f.b.p,player:true}),false);
++ const renderer=createWarriorPresentationRenderer(ctx,{hero:{complete:true}},cs);assert.equal(renderer.draw({actor:f.b.p,player:false}),false);assert.equal(renderer.draw({actor:f.b.p,player:true,classId:'mage'}),false);assert.ok(renderer.draw({actor:f.b.p,player:true}));assert.equal(ctx.stackDepth,0);
++});
++for(const flashScale of [0,.5,1])for(const leg of ['outward','return'])test(`actual hammer silhouette follows ${leg} velocity, respects flash ${flashScale}, no state mutation`,()=>{
++ const shot={kind:'hammer',enemy:false,life:.7,x:90,y:80,vx:leg==='return'?-560:560,vy:0,age:.1,leg},before=structuredClone(shot),ctx=context();assert.ok(drawWarriorHammer(ctx,shot,{project:p=>({x:p.x-p.y,y:(p.x+p.y)*.53}),zoom:1.26,flashScale}));assert.deepEqual(shot,before);assert.equal(ctx.stackDepth,0);assert.ok(ctx.calls.filter(c=>c.op==='fillRect').length===(flashScale?3:1),'only the gem remains at flash0; no decorative glints');assert.ok(ctx.calls.every(c=>c.globalCompositeOperation==='source-over'));
++ const moves=ctx.calls.filter(c=>c.op==='moveTo'),lines=ctx.calls.filter(c=>c.op==='lineTo');assert.ok(moves.length&&lines.length);assert.ok(Math.hypot(moves[0].args[0]-lines[0].args[0],moves[0].args[1]-lines[0].args[1])<26,'wake remains local');
++});
++test('hammer renderer ignores hostile/expired/nonfinite shots and has finite stationary fallback',()=>{
++ for(const s of [{kind:'arrow'},{kind:'hammer',enemy:true},{kind:'hammer',life:0},{kind:'hammer',life:1,x:NaN,y:0,vx:0,vy:0}])assert.equal(drawWarriorHammer(context(),s,{project:p=>p}),false);
++ assert.ok(drawWarriorHammer(context(),{kind:'hammer',life:1,x:0,y:0,vx:0,vy:0},{project:p=>p}));
++});
++test('full production renderer contains bounded hero and actual projectile routes',()=>{
++ const source=readFileSync(new URL('../src/visual.js',import.meta.url),'utf8');assert.ok(source.includes('warriorRenderer.draw({actor:a,player:true'));assert.ok(source.includes('drawWarriorHammer(ctx,b,{project:toScreen'));assert.ok(source.includes('shake=0'));assert.ok(source.includes('state.flashScale??1,reduced'));
++});

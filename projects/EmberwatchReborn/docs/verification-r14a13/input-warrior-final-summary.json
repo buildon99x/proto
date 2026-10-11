@@ -1,0 +1,77 @@
+{
+  "status": "source patch ready; integrated/public QA separate",
+  "completedUtc": "2026-10-11T11:57:40Z",
+  "baseline": "R14a12 independent copy",
+  "uniqueTests": 4205,
+  "passed": 4205,
+  "failed": 0,
+  "skipped": 0,
+  "cancelled": 0,
+  "durationMs": 135757.92998,
+  "newUniqueTests": 67,
+  "focusedTests": 229,
+  "focusedCountsIncludedInTotal": true,
+  "lint": "passed",
+  "build": {
+    "files": 123,
+    "bytes": 16714321,
+    "sourceByteComparisons": 122,
+    "allPassed": true
+  },
+  "pixels": {
+    "directions": 4,
+    "skills": 6,
+    "samplesPerClip": 24,
+    "validatedSamples": 576,
+    "uniquePerSkillDirection": 24,
+    "globalUniqueSamples": 568,
+    "clippedCells": 0,
+    "kind": "owned articulated/cutout source pixels, not independently hand-drawn art",
+    "actualRefreshMaySkipSamples": true
+  },
+  "rigCachePixels": 295745,
+  "newOrModifiedSource": [
+    {
+      "path": "app/src/visual.js",
+      "sha256": "af51e1831ee0ceb868fb7eb3b493a79ef04424117ab497918263372175a09bf0"
+    },
+    {
+      "path": "app/src/warrior-rig.js",
+      "sha256": "59431e30ac51fe6c656f38b07b33e29ca6f79c916c83cb515679661bbe9dc3a2"
+    },
+    {
+      "path": "app/src/warrior-presentation.js",
+      "sha256": "6575737bec3dfd66a49243cb7c842597ca40a6d51ff8ad7dfec4fcca0f6fa551"
+    },
+    {
+      "path": "app/src/warrior-projectile-presentation.js",
+      "sha256": "0429621618678a91f5ccfdacc77f9506ac7d588a8f86dd073e8739d1770a2b86"
+    },
+    {
+      "path": "app/tests/warrior-presentation.test.mjs",
+      "sha256": "597e8c0fb33f9063fc88f454367b3159488f3cd7867d8bf8bfb2daee76d3443f"
+    }
+  ],
+  "allExistingAssetsUnchanged": true,
+  "combatAudioBalanceControlsSaveMainUnchanged": true,
+  "browserQa": "public baseline only: dedicated new profile, starter training, patrol3kills,flash0/shake0; one error9,recovered; candidate live-browser QA not run",
+  "listening": "not performed; objective source waveform inspected only",
+  "git": "not written",
+  "deployment": "not performed",
+  "remaining": [
+    "integrated browser performance/readability and normal-input acceptance",
+    "headphone/speaker listening and device latency",
+    "fully new shield-forward art; current stance is restrained source reuse",
+    "Onslaught complete bespoke pulse motion",
+    "original basic weapon is still sword artwork despite mace skill name",
+    "commercial-quality body deformation and overall PoE2 feel remain aspirational"
+  ],
+  "integrationReview": {
+    "identifiedUtc": "2026-10-11T12:00:00Z",
+    "frozenStandaloneGap": "Active guard with hurtTime>0 can obscure the existing hurt pose; the frozen standalone tests did not cover this combination.",
+    "owner": "R14a13 integration candidate",
+    "plannedCorrection": "Return null for hurt guard without action, allowing the original hurt renderer, plus a real-handler regression test.",
+    "frozenSourceUnchanged": true,
+    "integratedVerification": "pending integrator result"
+  }
+}

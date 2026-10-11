@@ -33,7 +33,7 @@ function harness({width=889,version=4,run='combined',dead=false,candidate=true}=
  const env={...imports,state,battle:imports.createBattle(state),controller:{},$,canvas,modal,expertSafety:null,gate:imports.createRuntimeGate(),candidate,
   paused:false,captureBinding:null,pauseReason:'',lastObjectiveHtml:'',profile:'compact-qa-'+('long-profile-'.repeat(15)),last:0,
   displayTime:0,combatTime:0,walkTime:0,menuTime:0,arrivalWaitTime:0,focusEvents:{},
-  document:{visibilityState:'visible',hasFocus:()=>true},clearInput(){cleared++;},audio:{pause(){}},dispatch(){checkpoints++;},report:()=>({})};
+  document:{visibilityState:'visible',hasFocus:()=>true},clearInput(){cleared++;},audio:{cancel(){},pause(){}},dispatch(){checkpoints++;},report:()=>({})};
  if(dead){env.state.world.lifeDown=true;env.battle.p.hp=0;}
  const handlers=['updateHud','panel','closePanel','showMenu','help'];
  const ui=new Function(...Object.keys(env),[mainInputSource,...['config','keyName','tierLabel','esc','button','BUILD_LABEL'].map(declaration),...handlers.map(fn),`return {${handlers.join(',')},get state(){return state},get battle(){return battle},get paused(){return paused}};`].join('\n'))(...Object.values(env));

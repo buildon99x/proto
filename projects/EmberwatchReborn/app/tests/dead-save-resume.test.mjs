@@ -44,7 +44,7 @@ function startup(saved,{audioReady=new Promise(()=>{})}={}){
   controller:null,profile:null,state:null,battle:null,paused:true,busy:false,
   noticeUntil:0,input:{aim:null,pointerScreen:null},displayTime:0,combatTime:0,menuTime:0,walkTime:0,arrivalWaitTime:0,
   captureBinding:null,modal,$:id=>elements[id],router:{clear:()=>{}},deferredImmediate:{clear:()=>{}},
-  audio:{setEnabled:value=>{calls.push(['audio-enabled',value]);return audioReady;},resume:()=>{calls.push(['audio-resume']);return audioReady;},setMasterVolume:value=>calls.push(['audio-volume',value]),pause:value=>calls.push(['audio-paused',value])},
+  audio:{cancel(){},setEnabled:value=>{calls.push(['audio-enabled',value]);return audioReady;},resume:()=>{calls.push(['audio-resume']);return audioReady;},setMasterVolume:value=>calls.push(['audio-volume',value]),pause:value=>calls.push(['audio-paused',value])},
   updateHud:()=>calls.push(['hud']),toast:text=>calls.push(['toast',text]),keyName:()=> 'F',
   showTitle:message=>calls.push(['title',message]),esc:String,
   button:(label,action,extra='')=>`<button data-action="${action}" ${extra}>${label}</button>`

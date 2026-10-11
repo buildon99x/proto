@@ -1,0 +1,41 @@
+{
+  "frozenAtUtc": "2026-10-11T11:55:20Z",
+  "changedFiles": [
+    {
+      "path": "app/src/visual.js",
+      "sha256": "af51e1831ee0ceb868fb7eb3b493a79ef04424117ab497918263372175a09bf0"
+    },
+    {
+      "path": "app/src/warrior-rig.js",
+      "sha256": "59431e30ac51fe6c656f38b07b33e29ca6f79c916c83cb515679661bbe9dc3a2"
+    },
+    {
+      "path": "app/src/warrior-presentation.js",
+      "sha256": "6575737bec3dfd66a49243cb7c842597ca40a6d51ff8ad7dfec4fcca0f6fa551"
+    },
+    {
+      "path": "app/src/warrior-projectile-presentation.js",
+      "sha256": "0429621618678a91f5ccfdacc77f9506ac7d588a8f86dd073e8739d1770a2b86"
+    },
+    {
+      "path": "app/tests/warrior-presentation.test.mjs",
+      "sha256": "597e8c0fb33f9063fc88f454367b3159488f3cd7867d8bf8bfb2daee76d3443f"
+    }
+  ],
+  "unchangedScopes": [
+    "combat",
+    "motion",
+    "audio",
+    "main",
+    "controls",
+    "save",
+    "state",
+    "balance",
+    "all owned image/audio/font resources"
+  ],
+  "sharedHunks": [
+    "visual.js imports and createVisualRenderer hero rig construction",
+    "visual.js actor hero draw branch only",
+    "visual.js actual shot loop friendly hammer presentation branch"
+  ]
+}

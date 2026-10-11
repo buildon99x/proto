@@ -1,0 +1,24 @@
+{
+  "enemy": {
+    "path": "/workspace/shared/emberwatch-enemy-reaction-patch/docs/verification-enemy-reactions/code-and-tests.patch",
+    "sha256": "acfcd5ccb72bf76a43a1d2662ac4d68a009e3a901740dd3057b377ad0c9f705e",
+    "bytes": 57215
+  },
+  "audio": {
+    "path": "/workspace/shared/emberwatch-combat-audio.patch",
+    "sha256": "2067c4d24f7916f7657927d38ebb133b3f05c6f050b9af728d0542f7688962fe",
+    "bytes": 58313
+  },
+  "baseline": {
+    "commit": "fd3b6e1ea124788fb03d1f9bf6f044a47fa9ca32",
+    "directory": "/workspace/shared/emberwatch-r14a12-combat-response-project"
+  },
+  "warrior": {
+    "path": "/workspace/shared/emberwatch-warrior-presentation-patch/docs/verification-warrior-presentation/warrior-source-tests.patch",
+    "sha256": "c9dfb9f156c331f87209c465be463acf2887cfe4c7b5e966e50b5ac4bba707bf",
+    "bytes": 34209,
+    "ownerReadyAtUtc": "2026-10-11T11:55:59Z",
+    "freezeVerified": true,
+    "integrationCorrection": "guard hurtTime delegates to existing atlas hurt; original owner patch preserved"
+  }
+}

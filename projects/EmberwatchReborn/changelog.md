@@ -75,3 +75,9 @@ Move help controls before the guide; add labeled dialogs, bounded Tab focus, ver
 - Orient travelling/returning hammer impact FX from the actual projectile heading instead of the hero's later aim; no damage, RNG, cost, speed or hit-test changes.
 - Add 41 hitstop-intent and 16 impact-direction production-handler regressions; integrate on frozen a11 with its 79 portal tests and dialog-focus safeguards intact.
 - Prepare only the local R14a12 candidate. Final automatic checks are recorded separately from native-browser/audio/feel acceptance, Git and public Site publication.
+
+## R14a13 (2026-10-11) — isolated presentation candidate
+- Integrate enemy directional hit/stun/death rendering with simulation-owned contact/cancellation audio.
+- Integrate Warrior articulated upper/lower-body skill presentation and real hammer projectile silhouette.
+- Preserve R14a12 input clock, gameplay values, original assets, user portal and save contracts.
+- Final 4,312 tests, lint/build and 144 paired gameplay/RNG comparisons passed. Native screen/audio acceptance, Git and publication remain separate gates.

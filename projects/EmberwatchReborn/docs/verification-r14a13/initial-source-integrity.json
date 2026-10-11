@@ -1,0 +1,63 @@
+{
+  "frozenBaselineFiles": 1242,
+  "frozenBaselineUnchanged": true,
+  "assetPreservation": {
+    "assets": {
+      "files": 4,
+      "byteIdentical": true
+    },
+    "app/src/assets": {
+      "files": 10,
+      "byteIdentical": true
+    }
+  },
+  "protectedByteIdentical": [
+    "app/src/state.js",
+    "app/src/save.js",
+    "app/src/controller.js",
+    "app/src/controls.js",
+    "app/src/dialog-focus.js",
+    "app/src/town-portal.js",
+    "app/src/town-portal-presentation.js",
+    "app/src/warrior-balance.js",
+    "app/src/poe-skill-policy.js",
+    "app/src/poe-mobility.js",
+    "app/src/actor-body.js",
+    "app/src/world.js",
+    "app/src/world-geometry.js",
+    "app/src/recovery.js",
+    "app/src/skill-loadout.js",
+    "app/src/motion.js",
+    "app/src/art.js",
+    "app/src/action-safety.js"
+  ],
+  "sourceChanged": [
+    "app/src/audio.js",
+    "app/src/combat.js",
+    "app/src/index.html",
+    "app/src/main.js",
+    "app/src/recovery-page.js",
+    "app/src/visual.js"
+  ],
+  "sourceAdded": [
+    "app/src/enemy-reaction.js",
+    "app/src/warrior-presentation.js",
+    "app/src/warrior-projectile-presentation.js",
+    "app/src/warrior-rig.js"
+  ],
+  "buildFiles": 124,
+  "buildBytes": 16727770,
+  "builtSourceHashesVerified": 123,
+  "sourceHashes": {
+    "app/src/audio.js": "1424063cdf043cc0cf8cdc7f73b8ef86a87f9f289713797bb591637223b3fbed",
+    "app/src/combat.js": "fad22bd93ecb1c0eb6eb5ef5072edaf4b02471a1ef9b041b1df7f79e1e8af93f",
+    "app/src/enemy-reaction.js": "9e792a36f11539392c8f904428f7bfbcee8652c6eb8af0fa86b60fa431c4619f",
+    "app/src/index.html": "edc5d4e6116ca22ba9e692042b23f1c670c4e3b813006bfde565742380624003",
+    "app/src/main.js": "e253cfde71f42cd1a84547cf1c314491af7074c09bd7119ffa3293561ce1a56a",
+    "app/src/recovery-page.js": "a94debe81447ecfb103fdf5d1dfea431d14ee3e6a96d2b285b1558f5585930aa",
+    "app/src/visual.js": "c96f821a3823bcd5cd69b9c1095672b05cfa7ca905ef24d9ee3ff90768cc7500",
+    "app/src/warrior-presentation.js": "6575737bec3dfd66a49243cb7c842597ca40a6d51ff8ad7dfec4fcca0f6fa551",
+    "app/src/warrior-projectile-presentation.js": "0429621618678a91f5ccfdacc77f9506ac7d588a8f86dd073e8739d1770a2b86",
+    "app/src/warrior-rig.js": "59431e30ac51fe6c656f38b07b33e29ca6f79c916c83cb515679661bbe9dc3a2"
+  }
+}

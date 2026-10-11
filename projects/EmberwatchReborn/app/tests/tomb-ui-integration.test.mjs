@@ -131,7 +131,7 @@ async function browser(saved,{storage=memory(),profile='qa-tomb-ui',namespace='q
   profile,pauseReason:'',noticeUntil:0,input:{},displayTime:0,combatTime:0,walkTime:0,menuTime:0,arrivalWaitTime:0,focusEvents:{},
   modal,gate,candidate:namespace!=='release',saveNamespace:namespace,localStorage:storage,navigator:{locks},
   $:id=>elements[id],document:{visibilityState:'visible',hasFocus:()=>true,addEventListener:(name,fn)=>{handlers[name]=fn;}},
-  audio:{setMasterVolume(){},setEnabled(){},pause:value=>calls.push(['audio-pause',value]),play:name=>calls.push(['audio-play',name])},
+  audio:{cancel(){},setMasterVolume(){},setEnabled(){},pause:value=>calls.push(['audio-pause',value]),play:name=>calls.push(['audio-play',name])},
   router:tracedInputRouter(options=>calls.push(['router-clear',options])),deferredImmediate:{clear:()=>calls.push(['deferred-clear'])},
   canvas:{width:1280,height:720,focus:()=>calls.push(['focus-canvas'])},last:0,
   ctx:{save(){},restore(){},fillRect(){},fillText:text=>labels.push(text)},projectWorld:(x,y)=>({x,y}),ISO:{zoom:1},
@@ -276,7 +276,7 @@ test('actual main renderer forwards the durable carried ward without changing ga
 });
 
 test('actual R11 candidate title separates observed Normal T from unqualified Expert/B and offers R10 forward copy',async()=>{
- const h=await browser(stage('predecessor'),{namespace:'qa-r11'});h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a12 · POE형 전사 입력 개발 후보/);assert.match(h.modal.innerHTML,/일반 조작으로 확인했습니다/);assert.match(h.modal.innerHTML,/마스터.*아직 완성되지 않았습니다/);assert.match(h.modal.innerHTML,/<option value="qa-r10">/);assert.match(h.modal.innerHTML,/전문가 승급.*일반 입력 검증 중/);assert.doesNotMatch(h.modal.innerHTML,/data-action="new"/);
+ const h=await browser(stage('predecessor'),{namespace:'qa-r11'});h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a13 · POE형 전사 입력 개발 후보/);assert.match(h.modal.innerHTML,/일반 조작으로 확인했습니다/);assert.match(h.modal.innerHTML,/마스터.*아직 완성되지 않았습니다/);assert.match(h.modal.innerHTML,/<option value="qa-r10">/);assert.match(h.modal.innerHTML,/전문가 승급.*일반 입력 검증 중/);assert.doesNotMatch(h.modal.innerHTML,/data-action="new"/);
 });
 
 for(const operation of ['accept','oath','report'])test(`actual T ${operation} synchronizes paid pools without rebuilding the live battle`,async()=>{

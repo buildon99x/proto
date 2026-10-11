@@ -1,0 +1,235 @@
+{
+  "baseCommit": "fd3b6e1ea124788fb03d1f9bf6f044a47fa9ca32",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "new": false,
+      "sha256": "e2e17165ffee6b6ac32582d8206a8cf07ba7ca367d0e851a433caa1f2b358cbe"
+    },
+    {
+      "path": "README.md",
+      "new": false,
+      "sha256": "1238548288ddb52e185ec6f7398c4d8817003f3edd838f64fc30eac900d3c0d4"
+    },
+    {
+      "path": "app/package.json",
+      "new": false,
+      "sha256": "234911a482367f4bd0761e6cf6a7fe4db226379371e543b600a86e40c201cfa4"
+    },
+    {
+      "path": "app/scripts/build-r14.mjs",
+      "new": false,
+      "sha256": "dcbdfbd0816e290c1d7eb9eff0de9f080981d88ce0ac0522ae4d9603666ac244"
+    },
+    {
+      "path": "app/src/audio.js",
+      "new": false,
+      "sha256": "1424063cdf043cc0cf8cdc7f73b8ef86a87f9f289713797bb591637223b3fbed"
+    },
+    {
+      "path": "app/src/combat.js",
+      "new": false,
+      "sha256": "fad22bd93ecb1c0eb6eb5ef5072edaf4b02471a1ef9b041b1df7f79e1e8af93f"
+    },
+    {
+      "path": "app/src/enemy-reaction.js",
+      "new": true,
+      "sha256": "9e792a36f11539392c8f904428f7bfbcee8652c6eb8af0fa86b60fa431c4619f"
+    },
+    {
+      "path": "app/src/index.html",
+      "new": false,
+      "sha256": "edc5d4e6116ca22ba9e692042b23f1c670c4e3b813006bfde565742380624003"
+    },
+    {
+      "path": "app/src/main.js",
+      "new": false,
+      "sha256": "e253cfde71f42cd1a84547cf1c314491af7074c09bd7119ffa3293561ce1a56a"
+    },
+    {
+      "path": "app/src/recovery-page.js",
+      "new": false,
+      "sha256": "a94debe81447ecfb103fdf5d1dfea431d14ee3e6a96d2b285b1558f5585930aa"
+    },
+    {
+      "path": "app/src/visual.js",
+      "new": false,
+      "sha256": "c96f821a3823bcd5cd69b9c1095672b05cfa7ca905ef24d9ee3ff90768cc7500"
+    },
+    {
+      "path": "app/src/warrior-presentation.js",
+      "new": true,
+      "sha256": "0cc694b61bcea96eb8a073e7abe87d409afe51f1915e874205da580f32e93526"
+    },
+    {
+      "path": "app/src/warrior-projectile-presentation.js",
+      "new": true,
+      "sha256": "0429621618678a91f5ccfdacc77f9506ac7d588a8f86dd073e8739d1770a2b86"
+    },
+    {
+      "path": "app/src/warrior-rig.js",
+      "new": true,
+      "sha256": "59431e30ac51fe6c656f38b07b33e29ca6f79c916c83cb515679661bbe9dc3a2"
+    },
+    {
+      "path": "app/tests/attack-recovery-lifecycle.test.mjs",
+      "new": false,
+      "sha256": "31e71eccc5066350415ed41a0a5047b643bb7e9b8b06eeafcc66d05aa48c67b2"
+    },
+    {
+      "path": "app/tests/attack-recovery-movement.test.mjs",
+      "new": false,
+      "sha256": "4b360866580875b688095fbeb8438a57f767cfdff65d389887c4afc53fe0104f"
+    },
+    {
+      "path": "app/tests/build-label-ui.test.mjs",
+      "new": false,
+      "sha256": "969f5f2703188498c537d7dfbe2081a18b22aa0316e06f08e45c601eb2017d19"
+    },
+    {
+      "path": "app/tests/combat-audio-sync.test.mjs",
+      "new": true,
+      "sha256": "dd8305df88d7ffa14b1275de780b1fa57dfd4e6ce5eeef24bb0ca357533f7544"
+    },
+    {
+      "path": "app/tests/combat-presentation-integration.test.mjs",
+      "new": true,
+      "sha256": "6a26a0a078cd7130f5f8aface75b22543eddbca5f179923bdc969fde2e007283"
+    },
+    {
+      "path": "app/tests/compact-hud-menu.test.mjs",
+      "new": false,
+      "sha256": "bb51531e1a68599e76bea94d482583719592caa8c2733b92b1e76d7f8d386767"
+    },
+    {
+      "path": "app/tests/dead-action-hud.test.mjs",
+      "new": false,
+      "sha256": "a87c5651e15fd707f08fcde66e904c69d17313cc25f1c47965fe859930dff645"
+    },
+    {
+      "path": "app/tests/dead-save-resume.test.mjs",
+      "new": false,
+      "sha256": "e0f05283c90b363ea78f084fd3cd96e39830ac76dc33a0bcf6365859c45f0de4"
+    },
+    {
+      "path": "app/tests/dialog-focus.test.mjs",
+      "new": false,
+      "sha256": "6a98bf7012ba4e859e1b0543263ad163479521930de5f4148ff169dad1842c7b"
+    },
+    {
+      "path": "app/tests/enemy-reaction.test.mjs",
+      "new": true,
+      "sha256": "7b09dbdb9ae8aa86775372ed9e29c7b85bc397579ad412cd7c6241e8700fdb36"
+    },
+    {
+      "path": "app/tests/expert-main-input.test.mjs",
+      "new": false,
+      "sha256": "5295c2636145f5fb48e692099844512c21a8a9278819271dde4198f25755949f"
+    },
+    {
+      "path": "app/tests/furnace-ui-integration.test.mjs",
+      "new": false,
+      "sha256": "80e12c633ad9ccbbebbbeafefe2cddc4b85e7755200d448d46fd5d7e85c871df"
+    },
+    {
+      "path": "app/tests/objective-ui.test.mjs",
+      "new": false,
+      "sha256": "9c42911890a7d5aa86dfadcf4fbed67fb7e95da5efc0591e66b0ff00dbb82006"
+    },
+    {
+      "path": "app/tests/pass-prerequisite-copy.test.mjs",
+      "new": false,
+      "sha256": "e99ff4ecbdfe80321edf031a48a097a039c8ab1da92f4dcb4bb50c0e1c9fe4be"
+    },
+    {
+      "path": "app/tests/pause-travel-ui.test.mjs",
+      "new": false,
+      "sha256": "743770419d1140d788271aa6531ed9e0fb35a1ff103c18788c3d740d81aeee41"
+    },
+    {
+      "path": "app/tests/profile-load-ownership.test.mjs",
+      "new": false,
+      "sha256": "76ea1435af1ac1428508d030973ddb43b3a80346ba45284f19b7c082ceeb3099"
+    },
+    {
+      "path": "app/tests/quarry-completion-ui.test.mjs",
+      "new": false,
+      "sha256": "20226088d2b05e3b7aa01e64214be8efa53c64f77576ae21e367529b775f5233"
+    },
+    {
+      "path": "app/tests/resource-display.test.mjs",
+      "new": false,
+      "sha256": "e70ec7a9f02a216272d6e1739a0f53a6389d1aeed8c30ed9bd366ccb9f377ba3"
+    },
+    {
+      "path": "app/tests/signal-prerequisite-copy.test.mjs",
+      "new": false,
+      "sha256": "7c2ac034332f8a85a265316d5941c3c45a7a86e10007ff077196ac033fee6a5d"
+    },
+    {
+      "path": "app/tests/signal-readability.test.mjs",
+      "new": false,
+      "sha256": "26b2f25e126168860b48b67c6504ac21aac88bf926df10c05de3b4670954637d"
+    },
+    {
+      "path": "app/tests/signal-ui-integration.test.mjs",
+      "new": false,
+      "sha256": "8e15fe3b449ccea237a8524845be8733bb0bf5eee93df94769c8b0df4ec1ab33"
+    },
+    {
+      "path": "app/tests/support/main-input-fixture.mjs",
+      "new": false,
+      "sha256": "592dfc178a9d8a683233460917fa8f9353031ab1fb31a69cc49c99cd928f6597"
+    },
+    {
+      "path": "app/tests/tomb-ui-integration.test.mjs",
+      "new": false,
+      "sha256": "5114b6e40d90fde9c0f67c8d67222f1156b67bbb573f9173a60f7ec7ffea3230"
+    },
+    {
+      "path": "app/tests/trainer-position.test.mjs",
+      "new": false,
+      "sha256": "e59525cf542e8185d509a4c3e0927f359a7667e7848d930c999672f9992fb604"
+    },
+    {
+      "path": "app/tests/warrior-presentation.test.mjs",
+      "new": true,
+      "sha256": "f58f624adfe4b0a7ab2e3faa8ed9af5a812456be4e46f1155c3b5c4f07927e64"
+    },
+    {
+      "path": "app/tests/wilderness-ui-integration.test.mjs",
+      "new": false,
+      "sha256": "6a714b1b60ecddc24498ceadd2642762892919e46078107864fd02c59983296e"
+    },
+    {
+      "path": "brief.md",
+      "new": false,
+      "sha256": "c9e8c7765c1822366b0c02019df100c897acff9881ea7a52bc3ef091620605c4"
+    },
+    {
+      "path": "changelog.md",
+      "new": false,
+      "sha256": "dc1ecf8231471b7825e82c6285f0c4bdfdb9804483a656390bdb16e0029f1f19"
+    },
+    {
+      "path": "eval.md",
+      "new": false,
+      "sha256": "a03dd3dceb60e4beedfab82507f2854e39481e847428ce6eb61a57b403a4d4e9"
+    },
+    {
+      "path": "project.json",
+      "new": false,
+      "sha256": "fdf2340ef13adb9e09fb81f734abd6b2d95bbc65837a3e73a3d775ab53ef0982"
+    },
+    {
+      "path": "spec.md",
+      "new": false,
+      "sha256": "e2959bf24d6ff7c9f6dccdb4a2b4cf3c09088468a645a9b33bdad109313fd44f"
+    }
+  ],
+  "patch": {
+    "file": "integrated-source-tests.patch",
+    "bytes": 206000,
+    "sha256": "566ac2c49289f03856fc8fdb9a1fe5bac4fd1a1d401254a991fac11d736fb930"
+  }
+}

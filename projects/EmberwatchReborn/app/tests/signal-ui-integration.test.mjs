@@ -118,7 +118,7 @@ async function browser(saved,{storage=memory(),profile='qa-signal-ui',namespace=
  const env={...createMainInputFixture(),...imports,expertCapture,expertSafety,state:loaded.state,battle:createBattle(loaded.state),controller,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,equipmentStation:null,suppressNextClick:false,
   noticeUntil:0,modal,gate:createRuntimeGate(),candidate:namespace!=='release',saveNamespace:namespace,localStorage:storage,navigator:{locks},
   $:id=>elements[id],document:{hidden:false,hasFocus:()=>true,addEventListener:(name,fn)=>{handlers[name]=fn;}},
-  audio:{pause:value=>calls.push(['audio-pause',value]),play:name=>calls.push(['audio-play',name])},
+  audio:{cancel(){},pause:value=>calls.push(['audio-pause',value]),play:name=>calls.push(['audio-play',name])},
   router:tracedInputRouter(options=>calls.push(['router-clear',options])),deferredImmediate:{clear:()=>calls.push(['deferred-clear'])},
   canvas:{width:1280,height:720,focus:()=>calls.push(['focus-canvas'])},last:0,
   ctx:{save(){},restore(){},fillRect(){},fillText:text=>labels.push(text)},projectWorld:(x,y)=>({x,y}),ISO:{zoom:1},

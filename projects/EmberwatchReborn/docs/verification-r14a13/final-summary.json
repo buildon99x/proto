@@ -1,0 +1,81 @@
+{
+  "build": "R14a13",
+  "version": "0.14.0-reimplementation.13",
+  "dateUtc": "2026-10-11",
+  "status": "ready_for_parent_release_sequence; local automatic gates passed",
+  "baselineCommit": "fd3b6e1ea124788fb03d1f9bf6f044a47fa9ca32",
+  "independentCandidate": true,
+  "uniqueTests": 4312,
+  "passed": 4312,
+  "failed": 0,
+  "skipped": 0,
+  "cancelled": 0,
+  "durationMs": 122355.118341,
+  "newUniqueTests": 174,
+  "newTestsByContract": {
+    "enemyReaction": 30,
+    "combatAudio": 60,
+    "warriorPresentation": 72,
+    "crossModuleContact": 9,
+    "mainSafetyAudio": 3
+  },
+  "fullTestLog": "full-tests.log",
+  "initialAggregate": {
+    "tests": 4307,
+    "pass": 4300,
+    "fail": 7,
+    "log": "initial-full-tests.log",
+    "corrections": "3 exact soundCancel expectations; 1 candidate version; 3 unaugmented charge zero-damage test assumptions. Separately fixed guard hurt priority and added 5 tests."
+  },
+  "lint": "passed",
+  "appBuild": "passed",
+  "buildFiles": 124,
+  "buildBytes": 16727884,
+  "builtSourceHashesVerified": 123,
+  "gameplayParity": {
+    "cases": 144,
+    "status": "passed",
+    "scope": "Exact per-step gameplay/non-audio events/RNG across 30/60/120 Hz, PoE/legacy, lethal/nonlethal pools, guardian/boss, mace/hammer/charge, stationary/moving. Excludes new render metadata and cleared dead-only attack fields."
+  },
+  "preservation": {
+    "baselineFilesUnchanged": 1242,
+    "assetsByteIdentical": 14,
+    "protectedSourceFiles": 18,
+    "saveNamespace": "qa-r14 unchanged",
+    "saveSchemaChanged": false,
+    "balanceChanged": false
+  },
+  "staticCrossReview": {
+    "remainingIssues": 0,
+    "fixed": [
+      "Safety drain now delivers cancellation events to audio before existing checkpoint logic.",
+      "Overlapping reaction retains deadline, strongest intensity and latest hit facing.",
+      "Guard hit preserves existing hurt animation fallback."
+    ],
+    "hunkMerge": true,
+    "wholeSharedFileReplacement": false
+  },
+  "priorStandaloneAudioApproval": {
+    "aggregate": "incomplete_cancelled",
+    "lint": "incomplete_cancelled",
+    "sameCandidateRetry": false,
+    "bypassed": false,
+    "newIntegratedChecks": "executed on three-patch R14a13 and materially corrected final code; no denial received"
+  },
+  "patchDryRun": "passed against frozen baseline",
+  "newRasterAssets": 0,
+  "nativeBrowserQA": "not performed on integrated candidate",
+  "actualListening": "not performed",
+  "offscreenPixelEvidence": "Warrior and enemy worker specimens only; not integrated native browser acceptance",
+  "remainingQualityGates": [
+    "Normal-input repeated/interrupted combat, moving-cast continuity and dense danger readability.",
+    "Actual speaker-output contact/guard/enemy cues and mix listening.",
+    "Warrior original sword-shaped atlas, full forward shield art and Onslaught pulse pose remain partial.",
+    "PoE2 full mechanism matrix and exact original timing parity remain unfinished."
+  ],
+  "monorepoChecks": "not run by integration worker; parent owns current repository-wide gates",
+  "gitWritten": false,
+  "deployed": false,
+  "libraryArchived": false,
+  "localArchives": "prepared separately with receipts; no external backup completion implied"
+}

@@ -14,12 +14,12 @@ export const AUDIO_EVENTS = Object.freeze({
   skill:{family:'magicRelease',gain:.69,wet:.22,group:'magic',priority:6,gap:.07},
   axeWhirl:{family:'axeWhirl',gain:.72,wet:.11,group:'swing',priority:6,gap:.15},
   warCry:{family:'warCry',gain:.72,wet:.055,group:'hero',priority:8,gap:.2},
-  enemyTell:{family:'enemyTell',gain:.53,wet:.16,group:'enemy',priority:5,gap:.055},
-  enemyRelease:{family:'enemyRelease',gain:.61,wet:.11,group:'enemy',priority:6,gap:.055},
+  enemyTell:{family:'enemyTell',gain:.53,wet:.16,group:'enemy',priority:11,gap:.055},
+  enemyRelease:{family:'enemyRelease',gain:.61,wet:.11,group:'enemy',priority:10,gap:.055},
   footstep:{family:'footstep',gain:.1326,wet:0,group:'foley',priority:1,gap:.045},
   coin:{family:'coin',gain:.27,wet:.07,group:'reward',priority:2,gap:.085},
-  hurt:{family:'hurt',gain:.84,wet:.11,group:'hero',priority:10,gap:.14},
-  die:{family:'die',gain:.88,wet:.22,group:'hero',priority:10,gap:.3},
+  hurt:{family:'hurt',gain:.84,wet:.11,group:'hero',priority:12,gap:.14},
+  die:{family:'die',gain:.88,wet:.22,group:'hero',priority:13,gap:.3},
   dash:{family:'dash',gain:.64,wet:.09,group:'swing',priority:5,gap:.10},
   level:{family:'level',gain:.56,wet:.30,group:'reward',priority:4,gap:.5}
 });
@@ -33,7 +33,7 @@ export function createFantasyAudio({enabled=false,contextFactory,fetcher,random=
   let enabledState = enabledGetter ? true : !!enabled;
   let context=null,master=null,compressor=null,reverb=null,reverbGain=null,ambientBus=null,bank=null;
   let loading=null,disposed=false,paused=false,scene='town',combat=0,loadError=null,resumePending=null;
-  let generation=0,clock=0,duckUntil=0,lastScene=null;
+  let generation=0,clock=0,duckUntil=0,dangerUntil=0,lastScene=null;
   const voices=new Set(),ambience=new Map(),lastPlay=new Map(),lastVariant=new Map();
   const isEnabled=()=>!disposed&&enabledState&&(!enabledGetter||!!enabledGetter());
   const ramp=(param,value,duration=.03)=>{
@@ -44,7 +44,7 @@ export function createFantasyAudio({enabled=false,contextFactory,fetcher,random=
   function releaseVoice(voice,fade=.012) {
     if(!voices.delete(voice))return;
     ramp(voice.gain.gain,0,fade/3);
-    try{voice.source.stop(context.currentTime+fade);}catch{/* already finished */}
+    try{voice.source.stop(voice.started>context.currentTime?context.currentTime:context.currentTime+fade);}catch{/* already finished */}
   }
   function clearVoices(){for(const voice of [...voices])releaseVoice(voice);lastPlay.clear();}
   function stopAmbience(){
@@ -137,7 +137,12 @@ export function createFantasyAudio({enabled=false,contextFactory,fetcher,random=
     if(!isEnabled()||paused||!bank||!context||context.state!=='running')return false;
     const event=AUDIO_EVENTS[type];if(!event)return false;
     const now=context.currentTime;
-    if(now-(lastPlay.get(type)??-Infinity)<event.gap)return false;
+    // A contact must not be suppressed by its own just-started preparation.
+    // Hostile sources share bounded voices, not a global tell cooldown.
+    const gapKey=`${type}:${options.phase||''}:${type.startsWith('enemy')?options.tag||'':''}`;
+    if(now-(lastPlay.get(gapKey)??-Infinity)<event.gap)return false;
+    const danger=options.audience==='danger'||['enemyTell','enemyRelease','hurt','die'].includes(type);
+    const priority=event.priority+(type.startsWith('enemy')&&/boss|guardian|heavy/.test(options.enemy||'')?1:0);
     let family=event.family;
     if(type==='hit'&&(options.material==='metal'||options.material==='armor'))family='metalHit';
     const variants=AUDIO_BANK.clips[family];if(!variants?.length)return false;
@@ -151,22 +156,27 @@ export function createFantasyAudio({enabled=false,contextFactory,fetcher,random=
     const same=[...voices].filter(voice=>voice.group===event.group);
     if(same.length>=AUDIO_GROUP_LIMITS[event.group]){
       const weakest=same.sort((a,b)=>a.priority-b.priority||a.started-b.started)[0];
-      if(weakest.priority>event.priority)return false;
+      if(weakest.priority>priority)return false;
       releaseVoice(weakest);
     }
     if(voices.size>=16){
       const weakest=[...voices].sort((a,b)=>a.priority-b.priority||a.started-b.started)[0];
-      if(weakest.priority>event.priority)return false;
+      if(weakest.priority>priority)return false;
       releaseVoice(weakest);
     }
-    const clip=variants[index];lastVariant.set(family,index);lastPlay.set(type,now);
-    const source=context.createBufferSource(),gain=context.createGain(),wet=context.createGain();
+    const clip=variants[index];lastVariant.set(family,index);lastPlay.set(gapKey,now);if(lastPlay.size>128)lastPlay.delete(lastPlay.keys().next().value);
+    const source=context.createBufferSource(),envelope=context.createGain(),gain=context.createGain(),wet=context.createGain();
     source.buffer=bank;
     let rate=(.97+audioClamp(random(),0,1)*.06)*audioClamp(audioFinite(options.pitch,1),.8,1.2);
     let when=now,offset=clip.offset,duration=clip.duration;
+    const windup=options.phase==='windup'&&['slash','heavySwing','magicCharge'].includes(type);
+    // Reuse the quiet atlas prefix for preparation, never its contact/charge
+    // crest. Playback finishes naturally if simulation is slowed by hitstop.
+    if(windup)duration=Math.min(duration,Math.max(.015,(clip.peakTime||.1)-(type==='magicCharge'?.12:.035)));
     // Align the measured 12 ms energy peak, not just the clip's first sample.
-    // Only swishes are anticipatory. Contact impacts can never be scheduled early.
-    if((type==='slash'||type==='heavySwing')&&Number.isFinite(options.contactIn)){
+    // Legacy API callers may predict a swish. Combat instead sends contactIn:0
+    // from the real actionContact event; contact impacts are never predictive.
+    if(!windup&&(type==='slash'||type==='heavySwing')&&Number.isFinite(options.contactIn)){
       const contactIn=audioClamp(options.contactIn,0,1.5),peak=clip.peakTime||0;
       if(contactIn>0&&contactIn<peak/rate)rate=audioClamp(peak/contactIn,rate,1.6);
       const lead=peak/rate;when=now+Math.max(0,contactIn-lead);
@@ -176,9 +186,21 @@ export function createFantasyAudio({enabled=false,contextFactory,fetcher,random=
     const intensity=audioClamp(audioFinite(options.intensity,1),.35,1.35);
     const volume=audioClamp(audioFinite(options.volume,1),0,1.5);
     const variation=.92+audioClamp(random(),0,1)*.13;
-    gain.gain.value=event.gain*intensity*volume*variation;
+    const attenuation=1/(1+Math.max(0,audioFinite(options.distance,0)-120)/360);
+    const baseGain=event.gain*intensity*volume*variation*attenuation*(windup?.4:1);
+    const duckable=!danger&&['swing','impact','magic','foley','reward'].includes(event.group);
+    if(danger){
+      dangerUntil=Math.max(dangerUntil,now+.26);
+      for(const voice of voices)if(voice.duckable)ramp(voice.gain.gain,voice.baseGain*.52,.006);
+    }
+    gain.gain.value=baseGain*(duckable&&now<dangerUntil?.52:1);
     wet.gain.value=event.wet;
-    source.connect(gain);
+    // A separate short edge envelope prevents a sliced sample from clicking;
+    // detail ducking never overwrites its scheduled preparation fade-out.
+    envelope.gain.setValueAtTime(0,when);
+    envelope.gain.linearRampToValueAtTime(1,when+.002);
+    if(windup){const end=when+duration/rate;envelope.gain.setValueAtTime(1,Math.max(when+.002,end-.008));envelope.gain.linearRampToValueAtTime(0,end);}
+    source.connect(envelope);envelope.connect(gain);
     let panNode=null;
     if(context.createStereoPanner){
       panNode=context.createStereoPanner();
@@ -186,16 +208,16 @@ export function createFantasyAudio({enabled=false,contextFactory,fetcher,random=
       gain.connect(panNode);panNode.connect(master);panNode.connect(wet);
     }else{gain.connect(master);gain.connect(wet);}
     wet.connect(reverb);
-    const voice={source,gain,wet,panNode,group:event.group,priority:event.priority,started:when,tag:options.tag};
+    const voice={source,gain,wet,panNode,group:event.group,priority,started:when,tag:options.tag,owner:options.owner,baseGain,duckable};
     voices.add(voice);
-    source.onended=()=>{voices.delete(voice);source.disconnect();gain.disconnect();wet.disconnect();panNode?.disconnect();};
+    source.onended=()=>{voices.delete(voice);source.disconnect();envelope.disconnect();gain.disconnect();wet.disconnect();panNode?.disconnect();};
     source.start(when,offset,duration);
     if(event.priority>=7)duckUntil=now+.18;
     return true;
   }
   function cancel(tag) {
     if(tag==null)return 0;let count=0;
-    for(const voice of [...voices])if(voice.tag===tag){releaseVoice(voice);count++;}
+    for(const voice of [...voices])if(voice.tag===tag||voice.owner===tag){releaseVoice(voice);count++;}
     return count;
   }
   function updateAmbience() {
@@ -225,6 +247,7 @@ export function createFantasyAudio({enabled=false,contextFactory,fetcher,random=
       ramp(master?.gain,0,.012);return;
     }
     if(paused)return;
+    for(const voice of voices)if(voice.duckable)ramp(voice.gain.gain,voice.baseGain*(context.currentTime<dangerUntil?.52:1),.035);
     ramp(master?.gain,audioClamp(masterVolume,0,1),.025);
     updateAmbience();
   }

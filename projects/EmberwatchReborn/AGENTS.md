@@ -28,3 +28,6 @@ Personal one-way town-return portal. Read docs/verification-r14a11/README.md and
 
 ## R14a12 current checkpoint
 Read docs/verification-r14a12/README.md and final-summary.json. Preserve frozen a11 source, the personal town portal, and dialog focus. The PoE queue's .18-second acceptance window remains; only accepted intent lifetime follows recovery time with the same .35 hitstop floor. Legacy .18 active-frame expiry remains. Hammer impact heading is presentation-only. Do not infer live screen/audio or subjective responsiveness acceptance from automated tests.
+
+## R14a13 current candidate
+Separate presentation integration from frozen R14a12. Read docs/verification-r14a13/README.md and final-summary.json before asserting acceptance. All three frozen patches are integrated by hunks. Final 4,312 unique tests, lint and app build passed; see exact logs and remaining native-browser/listening gates. Preserve gameplay balance, source assets, input, town portal, save boundaries and original projects. Do not treat older worker pass counts as this aggregate result. Standalone audio aggregate/lint cancellation is preserved and must not be retried or bypassed. Git writes and deployment are coordinator-owned, not authorized by this integration handoff.

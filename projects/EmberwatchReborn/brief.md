@@ -214,3 +214,6 @@ Implement the user's explicit always-accessible cooldown portal request without 
 
 ## 2026-10-11 · R14a12 accepted input and contact presentation
 Continue the user's input-immediacy and clear, expressive combat-FX priority without tuning skill speed, damage, resources or cooldowns. Preserve a11's personal town portal and all focus safeguards. Correct the reproduced accepted short-tap loss when a hammer hit slows recovery but not its queue timer, and prevent an airborne hammer's impact direction from following the hero's later aim. This is a narrow input-contract and contact-presentation correction; new FX spectacle and published subjective acceptance remain open.
+
+## R14a13 integrated combat presentation
+Combine reviewed directional enemy recoil/death, simulation-owned preparation/contact/release audio, and Warrior upper/lower-body and skill/projectile presentation in an independent copy. Existing damage, action/contact/recovery times, cost, cooldown, RNG, movement/collision, save and the user-defined 60-second one-way town portal remain fixed. PoE2-inspired quality is a target, not verified parity; the full mechanism matrix remains unfinished. Native pixels, repeated ordinary-input use and real listening stay separate from automatic verification.

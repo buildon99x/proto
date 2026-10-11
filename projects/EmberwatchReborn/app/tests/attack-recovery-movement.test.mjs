@@ -201,7 +201,7 @@ test('checkpoint/store/reload retains moving attack recovery debt and cannot rep
 
 for(const reason of ['menu','blur','hidden'])test(`${reason} safety cancellation preserves mace object and debt, clears queued intent`,()=>{
  const f=fixture();start(f);elapsed(f,.36);tick(f,{hammer:true,move:east},0);const a=f.b.p.action,debt=battleReport(f.b).recovery.lock;
- assert.deepEqual(cancelBattleAction(f.b,reason),[]);assert.equal(f.b.p.action,a);assert.equal(f.b.skillIntent,null);close(battleReport(f.b).recovery.lock,debt);assert.equal(starts(run(f,.18)).length,0);
+ assert.deepEqual(cancelBattleAction(f.b,reason),[{type:'soundCancel',tag:`cast:${a.castId}`}]);assert.equal(f.b.p.action,a);assert.equal(f.b.skillIntent,null);close(battleReport(f.b).recovery.lock,debt);assert.equal(starts(run(f,.18)).length,0);
 });
 
 test('an early explicit skill still rejects without moving or cancelling mace preparation',()=>{

@@ -110,7 +110,7 @@ async function browser(saved,{storage=memory(),profile='qa-tomb-ui',namespace='q
   profile,pauseReason:'',noticeUntil:0,input:{},displayTime:0,combatTime:0,walkTime:0,menuTime:0,arrivalWaitTime:0,focusEvents:{},
   modal,gate,candidate:namespace!=='release',saveNamespace:namespace,localStorage:storage,navigator:{locks},
   $:id=>elements[id],document:{visibilityState:'visible',hasFocus:()=>true,addEventListener:(name,fn)=>{handlers[name]=fn;}},
-  audio:{setMasterVolume(){},setEnabled(){},pause:value=>calls.push(['audio-pause',value]),play:name=>calls.push(['audio-play',name])},
+  audio:{cancel(){},setMasterVolume(){},setEnabled(){},pause:value=>calls.push(['audio-pause',value]),play:name=>calls.push(['audio-play',name])},
   router:tracedInputRouter(options=>calls.push(['router-clear',options])),deferredImmediate:{clear:()=>calls.push(['deferred-clear'])},
   canvas:{width:1280,height:720,focus:()=>calls.push(['focus-canvas'])},last:0,
   ctx:{save(){},restore(){},fillRect(){},fillText:text=>labels.push(text)},projectWorld:(x,y)=>({x,y}),ISO:{zoom:1},
@@ -171,7 +171,7 @@ test('W journal prefix, paid recovery and receipts survive real reload; dead ret
  loaded.ui.closePanel();loaded.ui.battle.p.hp=0;assert.equal(await loaded.ui.dispatch({type:'settleCombat',defeated:[],...loaded.ui.report()}),true);const revision=loaded.ui.controller.revision(),dead=copy(loaded.ui.state);loaded.ui.showDeath();await loaded.click('retry');assert.equal(loaded.commands.findLast(c=>c.type==='retry').expectedStoreRevision,revision);assert.equal(loaded.ui.state.world.life,dead.world.life+1);assert.equal(loaded.ui.state.stats.deaths,dead.stats.deaths);assert.equal(loaded.ui.state.world.objectives.wilderness_sequence_step,1);
 });
 test('current candidate title offers explicit R11 forward-copy without changing source profile',async()=>{
- const h=await browser(earnedBattlefield());h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a12/);assert.match(h.modal.innerHTML,/<option value="qa-r11">이전 R11 후보 QA/);assert.match(h.modal.innerHTML,/일반 입력 검증은 아직 필요/);
+ const h=await browser(earnedBattlefield());h.ui.showTitle();assert.match(h.modal.innerHTML,/R14a13/);assert.match(h.modal.innerHTML,/<option value="qa-r11">이전 R11 후보 QA/);assert.match(h.modal.innerHTML,/일반 입력 검증은 아직 필요/);
 });
 test('W Eda capture waits for busy paid Onslaught then durable safety cancellation before exposing a command',async()=>{
  const h=await browser(earnedBattlefield());h.move(trainer);assert.equal(await h.ui.dispatch({type:'purchaseSkill',skillId:'zealous_onslaught',position:trainer}),true);h.move(elder);const b=h.ui.battle,stamina=b.p.stamina;

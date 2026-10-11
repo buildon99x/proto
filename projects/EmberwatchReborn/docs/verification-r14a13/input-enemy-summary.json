@@ -1,0 +1,58 @@
+{
+  "dateUtc": "2026-10-11",
+  "baseCommit": "fd3b6e1ea124788fb03d1f9bf6f044a47fa9ca32",
+  "status": "local patch verified; integration and native browser gate pending",
+  "uniqueTests": 4165,
+  "passed": 4165,
+  "failed": 0,
+  "skipped": 0,
+  "cancelled": 0,
+  "durationMs": 127091.656912,
+  "newTests": 27,
+  "beforeRegression": {
+    "tests": 8,
+    "passed": 0,
+    "failed": 8
+  },
+  "focusedPortalReaction": 38,
+  "focusedDirectionProcs": 131,
+  "gameplayParityCases": 48,
+  "gameplayParity": "exact per-step events and gameplay/RNG fields; excludes new visual metadata and cleared dead-only attack fields",
+  "lint": "passed",
+  "build": "passed",
+  "buildFiles": 121,
+  "buildSourceHashesVerified": 120,
+  "source": {
+    "base": "fd3b6e1ea124788fb03d1f9bf6f044a47fa9ca32",
+    "existingSourceChanged": [
+      "app/src/combat.js",
+      "app/src/visual.js"
+    ],
+    "sourceAdded": [
+      "app/src/enemy-reaction.js"
+    ],
+    "existingSourceUnchangedCount": 119,
+    "assetFilesByteIdentical": 10,
+    "protectedByteIdentical": [
+      "app/src/state.js",
+      "app/src/save.js",
+      "app/src/main.js",
+      "app/src/controls.js",
+      "app/src/motion.js",
+      "app/src/town-portal.js",
+      "app/src/town-portal-presentation.js"
+    ],
+    "sourceHashes": {
+      "app/src/combat.js": "b4e6e128d15344f9adb165cb77114ca050a301b8d30b59ca1bc0ab3ab23e3faf",
+      "app/src/visual.js": "37ca0cbea9e70b79a5e9562dfe164827f5b1cd93d5c696a8dc6b171dc519ae87",
+      "app/src/enemy-reaction.js": "f0fce95125be708aef3654cc122bd139c3ff37930f79c423b518aa07fb8b63c5"
+    },
+    "guardianSha256": "967248448fd4dce6fc14c464a2914e3a2a2c8a357ec5290c3adca02b4a72f073"
+  },
+  "art": "owned atlas pixels; no asset file changes, no commercial assets, no new PNG runtime imports",
+  "pixels": "offscreen production draw-function transforms replayed with Pillow and visually inspected; not browser screenshots",
+  "nativeBrowser": "not run: local executor server inaccessible to dot cloud browser; combined authorized preview review remains pending",
+  "audio": "not evaluated in this patch",
+  "git": "not written; coordinator owns integration",
+  "sites": "not published; coordinator owns integration"
+}

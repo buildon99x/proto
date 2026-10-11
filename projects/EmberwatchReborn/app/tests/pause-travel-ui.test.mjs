@@ -107,7 +107,7 @@ async function browser(){
  const expertCapture=createExpertInputCapture(),expertSafety=createActionSafety({capture:expertCapture,cancel:cancelBattleAction});
  const env={...createMainInputFixture(),...imports,expertCapture,expertSafety,state:loaded.state,battle:createBattle(loaded.state),controller,paused:false,busy:false,combatSaveElapsed:0,captureBinding:null,suppressNextClick:false,
   noticeUntil:0,modal,gate,router,deferredImmediate:createImmediateInput(),canvas,document,window:{addEventListener:(name,handler)=>handlers[name]=handler},
-  $:id=>elements[id],audio:{pause:value=>calls.push(['pause',value]),play:value=>calls.push(['play',value])},toast:text=>messages.push(text),
+  $:id=>elements[id],audio:{cancel(){},pause:value=>calls.push(['pause',value]),play:value=>calls.push(['play',value])},toast:text=>messages.push(text),
   profile:'qa-pause-travel',candidate:true,saveNamespace:'qa-r8',pauseReason:'사용자 요청',focusEvents:{blurAt:'없음',visibilityAt:'없음',visibilityState:'초기'},
   last:0,lastObjectiveHtml:'',displayTime:0,combatTime:0,walkTime:0,menuTime:0,arrivalWaitTime:0,
  };

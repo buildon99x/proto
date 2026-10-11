@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-11",
+  "scope": "Independent audio-only patch based on frozen R14a12; no commit, push, or publication.",
+  "newTests": {
+    "before": {
+      "total": 60,
+      "pass": 14,
+      "fail": 46,
+      "log": "before-final.tap"
+    },
+    "after": {
+      "total": 60,
+      "pass": 60,
+      "fail": 0,
+      "skip": 0,
+      "cancel": 0,
+      "log": "after.tap"
+    }
+  },
+  "earlierFocusedExisting": {
+    "tests": 227,
+    "pass": 227,
+    "fail": 0,
+    "stage": "Before final charge/mobility/region sound cancellation additions; not a final aggregate pass.",
+    "log": "focused-existing.tap"
+  },
+  "simulationParity": {
+    "cases": 12,
+    "stage": "Before final charge stop soundCancel addition; exact state comparison excluding events/function-bearing mobility and aim objects.",
+    "log": "simulation-parity.json"
+  },
+  "syntax": {
+    "status": "passed",
+    "command": "node --check app/src/audio.js && node --check app/src/main.js && node --check app/src/combat.js && node --check app/tests/combat-audio-sync.test.mjs"
+  },
+  "build": {
+    "status": "passed",
+    "files": 120,
+    "bytes": 16702486,
+    "log": "build.log",
+    "changedBuiltSourceHashesVerified": true
+  },
+  "aggregate": {
+    "status": "incomplete_cancelled",
+    "command": "cd app && npm test -- --test-reporter=tap > ../docs/verification-combat-audio/aggregate.log 2>&1",
+    "toolError": "write_stdin failed: Unified exec process failed: automatic approval review was cancelled",
+    "terminalTestSummary": false,
+    "retried": false
+  },
+  "lint": {
+    "status": "incomplete_cancelled",
+    "command": "cd app && npm run lint > ../docs/verification-combat-audio/lint.log 2>&1",
+    "terminalResult": false,
+    "retried": false
+  },
+  "actualListening": false,
+  "nativeBrowserAudioQA": false,
+  "gggSource": "https://www.pathofexile.com/forum/view-thread/3794832",
+  "changedAssets": false,
+  "globalVolumeIncrease": false
+}

@@ -41,7 +41,7 @@ function fixture(){
  const env={...imports,state,battle:imports.createBattle(state),controller:{},modal,canvas,document,window:{addEventListener:(name,handler)=>events[name]=handler},expertSafety:null,gate:imports.createRuntimeGate(),
   paused:false,captureBinding:null,last:0,profile:'dialog-qa',candidate:true,saveNamespace:'qa-r14',pauseReason:'',busy:false,
   displayTime:0,combatTime:0,walkTime:0,menuTime:0,arrivalWaitTime:0,focusEvents:{},
-  clearInput(){calls.push(['clear']);},audio:{pause(value){calls.push(['audio',value]);}},dispatch(){calls.push(['save']);return Promise.resolve(true);},report:()=>({}),toast(){},
+  clearInput(){calls.push(['clear']);},audio:{cancel(){},pause(value){calls.push(['audio',value]);}},dispatch(){calls.push(['save']);return Promise.resolve(true);},report:()=>({}),toast(){},
   acceptCombatPress(action,token){calls.push(['accepted',action,token]);},applyBinding(token){calls.push(['bind',token]);},$:id=>props.get(id),interact(){},deferredImmediate:imports.createImmediateInput(),router:imports.createInputRouter()};
  const handlers=['panel','closePanel','showMenu','help','showControls','immediateAction'];
  const ui=new Function(...Object.keys(env),[mainInputSource,...['config','keyName','tierLabel','esc','button','BUILD_LABEL'].map(declaration),...handlers.map(fn),cut("window.addEventListener('keydown'","window.addEventListener('keyup'"),source.split('\n').find(s=>s.startsWith("document.addEventListener('focusin'")),`return {${handlers.join(',')},get paused(){return paused},get state(){return state},set capture(value){captureBinding=value},get capture(){return captureBinding}};`].join('\n'))(...Object.values(env));

@@ -1,0 +1,19 @@
+patching file app/src/audio.js
+patching file app/src/combat.js
+Hunk #1 succeeded at 150 (offset 2 lines).
+Hunk #2 succeeded at 204 with fuzz 2 (offset 3 lines).
+Hunk #3 succeeded at 240 (offset 3 lines).
+Hunk #4 succeeded at 252 (offset 3 lines).
+Hunk #5 succeeded at 298 (offset 3 lines).
+Hunk #6 succeeded at 322 (offset 3 lines).
+Hunk #7 succeeded at 407 with fuzz 1 (offset 3 lines).
+Hunk #8 succeeded at 424 with fuzz 1 (offset 3 lines).
+Hunk #9 succeeded at 433 with fuzz 1 (offset 3 lines).
+Hunk #10 succeeded at 442 (offset 3 lines).
+Hunk #11 succeeded at 464 (offset 4 lines).
+Hunk #12 succeeded at 487 (offset 4 lines).
+Hunk #13 succeeded at 614 (offset 4 lines).
+patching file app/src/main.js
+patching file app/tests/combat-audio-sync.test.mjs
+patching file docs/verification-combat-audio/README.md
+patching file docs/verification-combat-audio/summary.json

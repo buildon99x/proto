@@ -1,0 +1,1301 @@
+{
+  "scope": "144 paired isolated cases; exact per-step gameplay/non-audio events/RNG. Excludes new enemy render metadata and intentionally cleared dead-only attack fields. No campaign-wide or subjective equivalence implied.",
+  "cases": [
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 30,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 60,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 1,
+      "type": "boss",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": false,
+      "hp": 100,
+      "type": "boss",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 1,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 1,
+      "type": "boss",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 100,
+      "type": "guardian",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "attack",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "attack",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "hammer",
+      "moving": true,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "charge",
+      "moving": false,
+      "identical": true
+    },
+    {
+      "hz": 120,
+      "poe": true,
+      "hp": 100,
+      "type": "boss",
+      "skill": "charge",
+      "moving": true,
+      "identical": true
+    }
+  ]
+}
