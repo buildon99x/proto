@@ -254,3 +254,8 @@ Repair reproducible queued shield-charge direction loss: movement-directed Q cur
 ## Input lifecycle follow-up
 
 Verify stuck movement/held/queued input across native-handler event delivery. Fix only demonstrated cancellation defects; treat missing cloud-browser blur/visibility delivery as unconfirmed integration behavior. Preserve normal keyup and finite-tap release, saved state and all balance.
+
+
+## Current-phase action footwork
+
+Align visible lower-body footwork with the current skill movement phase at a recovery-to-new-action frame boundary. Repeated mace or queued Judgement currently inherits running legs from an earlier recovery slice even after a planted windup has begun. Preserve actual movement statistics, input timing, balance and saved state.

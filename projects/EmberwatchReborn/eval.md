@@ -466,3 +466,8 @@ Add a red-to-green production combat test matrix for mace-recovery and dodge-to-
 ## Input lifecycle follow-up
 
 Use production main handlers with precise event sequences: D+J and pending Q, missing keyup followed by blur/visibility/UI focus/canvas pointercancel/menu/frame-focus; keyup from UI with modifiers; touch pointercancel versus ordinary up/lostcapture during an existing delayed commit. Report injected handlers separately from browser focus delivery. Run full suite and build; inventory next skill-motion/action-chain and three-melee-build implementation gaps without inventing unspecified build definitions.
+
+
+## Current-phase action footwork
+
+Red-to-green production-handler matrix:30/60/120Hz, controls4/5, repeated mace and mace→queued Judgement; reproduce aggregate movement with new planted windup, assert action legs rather than run and read-only render state. Verify walking hammer/heal/banner and mace/Judgement recovery gait stay available, with charge/dodge behavior unchanged. Full suite/lint/registry/build and byte preservation; native footwork/action-chain visual QA is separate and requires before/after candidate replay.

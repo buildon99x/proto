@@ -349,3 +349,8 @@ The selected existing chargeDirection setting must resolve queued shield-charge 
 ## Input lifecycle follow-up
 
 Explicit pointercancel is a safety boundary for combat buttons, including non-channel v4/v5 skills. It must clear base-router pending pulses, held movement and existing battle skillIntent; normal pointerup/lostcapture must retain established finite-tap behavior. Other blur, hidden, editable focus, menu and frame-focus paths are verified without speculative timeouts or modifier-trigger cancellation.
+
+
+## Current-phase action footwork
+
+Presentation only: distance-driven running legs require actor.moving and a positive existing skillMovementFactor for the CURRENT action. Guard/no action keeps existing locomotion; charge/Onslaught keep their authored poses. The aggregate p.moving flag, collision-resolved walk counter and all gameplay phase/timing/aim/cost data remain unchanged. No blanket skill movement stop or new animation lock.

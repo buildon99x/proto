@@ -1,5 +1,6 @@
 import {sampleActorMotion,resolveActorMotion,motionFrame,motionSamplePhase,remapMotionPhase,MOTION_CLIPS,RUN_GAIT} from './motion.js';
 import {createWarriorRig} from './warrior-rig.js';
+import {skillMovementFactor} from './poe-skill-policy.js';
 // Emberwatch-authored presentation mappings, not PoE2 animation measurements.
 // Gameplay timing, aim, costs, movement windows and saved state are read only.
 export const WARRIOR_SKILL_CLIPS=Object.freeze({righteous_hammer:'axes',lay_on_hands:'warcry',judgement:'attack3',battle_banner:'warcry',shield_charge:'dodge'});
@@ -39,7 +40,9 @@ export function resolveWarriorPresentation(actor={},time=0,direction=0,override=
  }else if(id==='shield_charge'){
   const brace=Math.sin(Math.PI*sample);pose.shieldY=-2;pose.rootY=1.4+2.4*brace;pose.bodyAngle=side*(5+9*brace);pose.headAngle=-side*(3+5*brace);pose.weaponAngle=[-10,20,-20,10][direction]*brace;pose.shieldAngle=[-14,-12,12,14][direction]*(.6+.4*brace);pose.clothAngle=-side*14*brace;
  }
- const gait=warriorActionGait(actor),moving=gait!==null&&id!=='shield_charge'&&id!=='zealous_onslaught';
+ // moving also measures earlier recovery slices in this frame; the current
+ // planted windup must use its own action legs instead of that older run gait.
+ const gait=warriorActionGait(actor),moving=gait!==null&&skillMovementFactor(action)>0&&id!=='shield_charge'&&id!=='zealous_onslaught';
  const legs=moving?sampleActorMotion({action:'run',phase:motionSamplePhase('run',motionFrame('run',gait)),direction}):pose;
  return {id:guard?'shield_block':id,clip,phase,frame,sample,pose,legs,weapon,moving,gaitPhase:moving?gait:null};
 }

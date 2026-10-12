@@ -1,0 +1,14 @@
+{
+  "baseline": "c5ce249be08ec865cd01c4f158a15fab4c3b2e33",
+  "changedRuntimeFiles": [
+    "projects/EmberwatchReborn/app/src/warrior-presentation.js"
+  ],
+  "unchangedRuntimeFiles": 125,
+  "originalManifestFiles": 167,
+  "originalMismatches": [],
+  "payloadFiles": 125,
+  "payloadBytes": 16744819,
+  "sourceHashMatches": 124,
+  "launcherPayloadHashMatches": 125,
+  "warriorPresentationSha256": "1cd04aea914fe6739b8446ba509b60bf0c1158b1dc00605678d2ab2aedd6129a"
+}

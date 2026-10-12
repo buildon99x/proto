@@ -1,0 +1,544 @@
+TAP version 13
+# Subtest: footwork controls4 30Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+ok 1 - footwork controls4 30Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 552.955644
+  type: 'test'
+  ...
+# Subtest: footwork controls4 30Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+ok 2 - footwork controls4 30Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 30.750294
+  type: 'test'
+  ...
+# Subtest: footwork controls4 60Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+ok 3 - footwork controls4 60Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 40.831326
+  type: 'test'
+  ...
+# Subtest: footwork controls4 60Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+ok 4 - footwork controls4 60Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 40.563603
+  type: 'test'
+  ...
+# Subtest: footwork controls4 120Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+ok 5 - footwork controls4 120Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 63.629423
+  type: 'test'
+  ...
+# Subtest: footwork controls4 120Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+ok 6 - footwork controls4 120Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 45.817261
+  type: 'test'
+  ...
+# Subtest: footwork controls5 30Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+ok 7 - footwork controls5 30Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 21.460196
+  type: 'test'
+  ...
+# Subtest: footwork controls5 30Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+ok 8 - footwork controls5 30Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 23.700399
+  type: 'test'
+  ...
+# Subtest: footwork controls5 60Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+ok 9 - footwork controls5 60Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 34.357897
+  type: 'test'
+  ...
+# Subtest: footwork controls5 60Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+ok 10 - footwork controls5 60Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 29.246184
+  type: 'test'
+  ...
+# Subtest: footwork controls5 120Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+ok 11 - footwork controls5 120Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 45.907392
+  type: 'test'
+  ...
+# Subtest: footwork controls5 120Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+ok 12 - footwork controls5 120Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 46.214486
+  type: 'test'
+  ...
+# Subtest: footwork mace_swing permits actual walking recovery immediately after contact without a new lock
+ok 13 - footwork mace_swing permits actual walking recovery immediately after contact without a new lock
+  ---
+  duration_ms: 20.394546
+  type: 'test'
+  ...
+# Subtest: footwork judgement permits actual walking recovery immediately after contact without a new lock
+ok 14 - footwork judgement permits actual walking recovery immediately after contact without a new lock
+  ---
+  duration_ms: 22.629942
+  type: 'test'
+  ...
+# Subtest: footwork righteous_hammer retains moving cast legs and independent upper-body clip before contact
+ok 15 - footwork righteous_hammer retains moving cast legs and independent upper-body clip before contact
+  ---
+  duration_ms: 10.65573
+  type: 'test'
+  ...
+# Subtest: footwork lay_on_hands retains moving cast legs and independent upper-body clip before contact
+ok 16 - footwork lay_on_hands retains moving cast legs and independent upper-body clip before contact
+  ---
+  duration_ms: 10.816314
+  type: 'test'
+  ...
+# Subtest: footwork direction/upper action pose stay intact; stopped actor never invents running legs
+ok 17 - footwork direction/upper action pose stay intact; stopped actor never invents running legs
+  ---
+  duration_ms: 10.03303
+  type: 'test'
+  ...
+# Subtest: mace_swing real contact selects expected articulated pose d0
+ok 18 - mace_swing real contact selects expected articulated pose d0
+  ---
+  duration_ms: 55.718126
+  type: 'test'
+  ...
+# Subtest: mace_swing real contact selects expected articulated pose d1
+ok 19 - mace_swing real contact selects expected articulated pose d1
+  ---
+  duration_ms: 24.907441
+  type: 'test'
+  ...
+# Subtest: mace_swing real contact selects expected articulated pose d2
+ok 20 - mace_swing real contact selects expected articulated pose d2
+  ---
+  duration_ms: 18.274625
+  type: 'test'
+  ...
+# Subtest: mace_swing real contact selects expected articulated pose d3
+ok 21 - mace_swing real contact selects expected articulated pose d3
+  ---
+  duration_ms: 17.132401
+  type: 'test'
+  ...
+# Subtest: righteous_hammer real contact selects expected articulated pose d0
+ok 22 - righteous_hammer real contact selects expected articulated pose d0
+  ---
+  duration_ms: 19.137488
+  type: 'test'
+  ...
+# Subtest: righteous_hammer real contact selects expected articulated pose d1
+ok 23 - righteous_hammer real contact selects expected articulated pose d1
+  ---
+  duration_ms: 23.276368
+  type: 'test'
+  ...
+# Subtest: righteous_hammer real contact selects expected articulated pose d2
+ok 24 - righteous_hammer real contact selects expected articulated pose d2
+  ---
+  duration_ms: 21.976406
+  type: 'test'
+  ...
+# Subtest: righteous_hammer real contact selects expected articulated pose d3
+ok 25 - righteous_hammer real contact selects expected articulated pose d3
+  ---
+  duration_ms: 22.049725
+  type: 'test'
+  ...
+# Subtest: lay_on_hands real contact selects expected articulated pose d0
+ok 26 - lay_on_hands real contact selects expected articulated pose d0
+  ---
+  duration_ms: 20.679356
+  type: 'test'
+  ...
+# Subtest: lay_on_hands real contact selects expected articulated pose d1
+ok 27 - lay_on_hands real contact selects expected articulated pose d1
+  ---
+  duration_ms: 20.123578
+  type: 'test'
+  ...
+# Subtest: lay_on_hands real contact selects expected articulated pose d2
+ok 28 - lay_on_hands real contact selects expected articulated pose d2
+  ---
+  duration_ms: 19.687198
+  type: 'test'
+  ...
+# Subtest: lay_on_hands real contact selects expected articulated pose d3
+ok 29 - lay_on_hands real contact selects expected articulated pose d3
+  ---
+  duration_ms: 19.318022
+  type: 'test'
+  ...
+# Subtest: judgement real contact selects expected articulated pose d0
+ok 30 - judgement real contact selects expected articulated pose d0
+  ---
+  duration_ms: 22.883735
+  type: 'test'
+  ...
+# Subtest: judgement real contact selects expected articulated pose d1
+ok 31 - judgement real contact selects expected articulated pose d1
+  ---
+  duration_ms: 13.743433
+  type: 'test'
+  ...
+# Subtest: judgement real contact selects expected articulated pose d2
+ok 32 - judgement real contact selects expected articulated pose d2
+  ---
+  duration_ms: 13.122205
+  type: 'test'
+  ...
+# Subtest: judgement real contact selects expected articulated pose d3
+ok 33 - judgement real contact selects expected articulated pose d3
+  ---
+  duration_ms: 12.548069
+  type: 'test'
+  ...
+# Subtest: battle_banner real contact selects expected articulated pose d0
+ok 34 - battle_banner real contact selects expected articulated pose d0
+  ---
+  duration_ms: 14.008583
+  type: 'test'
+  ...
+# Subtest: battle_banner real contact selects expected articulated pose d1
+ok 35 - battle_banner real contact selects expected articulated pose d1
+  ---
+  duration_ms: 11.703012
+  type: 'test'
+  ...
+# Subtest: battle_banner real contact selects expected articulated pose d2
+ok 36 - battle_banner real contact selects expected articulated pose d2
+  ---
+  duration_ms: 11.18521
+  type: 'test'
+  ...
+# Subtest: battle_banner real contact selects expected articulated pose d3
+ok 37 - battle_banner real contact selects expected articulated pose d3
+  ---
+  duration_ms: 11.42322
+  type: 'test'
+  ...
+# Subtest: shield_charge real contact selects expected articulated pose d0
+ok 38 - shield_charge real contact selects expected articulated pose d0
+  ---
+  duration_ms: 8.259754
+  type: 'test'
+  ...
+# Subtest: shield_charge real contact selects expected articulated pose d1
+ok 39 - shield_charge real contact selects expected articulated pose d1
+  ---
+  duration_ms: 7.798055
+  type: 'test'
+  ...
+# Subtest: shield_charge real contact selects expected articulated pose d2
+ok 40 - shield_charge real contact selects expected articulated pose d2
+  ---
+  duration_ms: 9.644173
+  type: 'test'
+  ...
+# Subtest: shield_charge real contact selects expected articulated pose d3
+ok 41 - shield_charge real contact selects expected articulated pose d3
+  ---
+  duration_ms: 8.022975
+  type: 'test'
+  ...
+# Subtest: mace_swing has 24 distinct joint samples excluding root and alpha d0
+ok 42 - mace_swing has 24 distinct joint samples excluding root and alpha d0
+  ---
+  duration_ms: 5.59603
+  type: 'test'
+  ...
+# Subtest: mace_swing has 24 distinct joint samples excluding root and alpha d1
+ok 43 - mace_swing has 24 distinct joint samples excluding root and alpha d1
+  ---
+  duration_ms: 5.313794
+  type: 'test'
+  ...
+# Subtest: mace_swing has 24 distinct joint samples excluding root and alpha d2
+ok 44 - mace_swing has 24 distinct joint samples excluding root and alpha d2
+  ---
+  duration_ms: 5.150948
+  type: 'test'
+  ...
+# Subtest: mace_swing has 24 distinct joint samples excluding root and alpha d3
+ok 45 - mace_swing has 24 distinct joint samples excluding root and alpha d3
+  ---
+  duration_ms: 5.586516
+  type: 'test'
+  ...
+# Subtest: righteous_hammer has 24 distinct joint samples excluding root and alpha d0
+ok 46 - righteous_hammer has 24 distinct joint samples excluding root and alpha d0
+  ---
+  duration_ms: 5.333794
+  type: 'test'
+  ...
+# Subtest: righteous_hammer has 24 distinct joint samples excluding root and alpha d1
+ok 47 - righteous_hammer has 24 distinct joint samples excluding root and alpha d1
+  ---
+  duration_ms: 4.950355
+  type: 'test'
+  ...
+# Subtest: righteous_hammer has 24 distinct joint samples excluding root and alpha d2
+ok 48 - righteous_hammer has 24 distinct joint samples excluding root and alpha d2
+  ---
+  duration_ms: 5.00016
+  type: 'test'
+  ...
+# Subtest: righteous_hammer has 24 distinct joint samples excluding root and alpha d3
+ok 49 - righteous_hammer has 24 distinct joint samples excluding root and alpha d3
+  ---
+  duration_ms: 4.966159
+  type: 'test'
+  ...
+# Subtest: lay_on_hands has 24 distinct joint samples excluding root and alpha d0
+ok 50 - lay_on_hands has 24 distinct joint samples excluding root and alpha d0
+  ---
+  duration_ms: 5.055594
+  type: 'test'
+  ...
+# Subtest: lay_on_hands has 24 distinct joint samples excluding root and alpha d1
+ok 51 - lay_on_hands has 24 distinct joint samples excluding root and alpha d1
+  ---
+  duration_ms: 5.041603
+  type: 'test'
+  ...
+# Subtest: lay_on_hands has 24 distinct joint samples excluding root and alpha d2
+ok 52 - lay_on_hands has 24 distinct joint samples excluding root and alpha d2
+  ---
+  duration_ms: 4.917355
+  type: 'test'
+  ...
+# Subtest: lay_on_hands has 24 distinct joint samples excluding root and alpha d3
+ok 53 - lay_on_hands has 24 distinct joint samples excluding root and alpha d3
+  ---
+  duration_ms: 5.587838
+  type: 'test'
+  ...
+# Subtest: judgement has 24 distinct joint samples excluding root and alpha d0
+ok 54 - judgement has 24 distinct joint samples excluding root and alpha d0
+  ---
+  duration_ms: 5.587978
+  type: 'test'
+  ...
+# Subtest: judgement has 24 distinct joint samples excluding root and alpha d1
+ok 55 - judgement has 24 distinct joint samples excluding root and alpha d1
+  ---
+  duration_ms: 5.314766
+  type: 'test'
+  ...
+# Subtest: judgement has 24 distinct joint samples excluding root and alpha d2
+ok 56 - judgement has 24 distinct joint samples excluding root and alpha d2
+  ---
+  duration_ms: 9.481578
+  type: 'test'
+  ...
+# Subtest: judgement has 24 distinct joint samples excluding root and alpha d3
+ok 57 - judgement has 24 distinct joint samples excluding root and alpha d3
+  ---
+  duration_ms: 14.479124
+  type: 'test'
+  ...
+# Subtest: battle_banner has 24 distinct joint samples excluding root and alpha d0
+ok 58 - battle_banner has 24 distinct joint samples excluding root and alpha d0
+  ---
+  duration_ms: 9.920175
+  type: 'test'
+  ...
+# Subtest: battle_banner has 24 distinct joint samples excluding root and alpha d1
+ok 59 - battle_banner has 24 distinct joint samples excluding root and alpha d1
+  ---
+  duration_ms: 8.162615
+  type: 'test'
+  ...
+# Subtest: battle_banner has 24 distinct joint samples excluding root and alpha d2
+ok 60 - battle_banner has 24 distinct joint samples excluding root and alpha d2
+  ---
+  duration_ms: 8.462108
+  type: 'test'
+  ...
+# Subtest: battle_banner has 24 distinct joint samples excluding root and alpha d3
+ok 61 - battle_banner has 24 distinct joint samples excluding root and alpha d3
+  ---
+  duration_ms: 7.797564
+  type: 'test'
+  ...
+# Subtest: shield_charge has 24 distinct joint samples excluding root and alpha d0
+ok 62 - shield_charge has 24 distinct joint samples excluding root and alpha d0
+  ---
+  duration_ms: 8.50963
+  type: 'test'
+  ...
+# Subtest: shield_charge has 24 distinct joint samples excluding root and alpha d1
+ok 63 - shield_charge has 24 distinct joint samples excluding root and alpha d1
+  ---
+  duration_ms: 7.70202
+  type: 'test'
+  ...
+# Subtest: shield_charge has 24 distinct joint samples excluding root and alpha d2
+ok 64 - shield_charge has 24 distinct joint samples excluding root and alpha d2
+  ---
+  duration_ms: 7.342387
+  type: 'test'
+  ...
+# Subtest: shield_charge has 24 distinct joint samples excluding root and alpha d3
+ok 65 - shield_charge has 24 distinct joint samples excluding root and alpha d3
+  ---
+  duration_ms: 7.56264
+  type: 'test'
+  ...
+# Subtest: mace_swing moving real handler keeps upper action and independent distance-driven legs
+ok 66 - mace_swing moving real handler keeps upper action and independent distance-driven legs
+  ---
+  duration_ms: 26.882964
+  type: 'test'
+  ...
+# Subtest: righteous_hammer moving real handler keeps upper action and independent distance-driven legs
+ok 67 - righteous_hammer moving real handler keeps upper action and independent distance-driven legs
+  ---
+  duration_ms: 25.571875
+  type: 'test'
+  ...
+# Subtest: lay_on_hands moving real handler keeps upper action and independent distance-driven legs
+ok 68 - lay_on_hands moving real handler keeps upper action and independent distance-driven legs
+  ---
+  duration_ms: 27.75435
+  type: 'test'
+  ...
+# Subtest: judgement moving real handler keeps upper action and independent distance-driven legs
+ok 69 - judgement moving real handler keeps upper action and independent distance-driven legs
+  ---
+  duration_ms: 27.904608
+  type: 'test'
+  ...
+# Subtest: battle_banner moving real handler keeps upper action and independent distance-driven legs
+ok 70 - battle_banner moving real handler keeps upper action and independent distance-driven legs
+  ---
+  duration_ms: 24.717755
+  type: 'test'
+  ...
+# Subtest: stopped/wall-blocked/dead motion never invents leg travel or writes gait
+ok 71 - stopped/wall-blocked/dead motion never invents leg travel or writes gait
+  ---
+  duration_ms: 8.249938
+  type: 'test'
+  ...
+# Subtest: same traveled distance gives same gait across 30/60/120 Hz
+ok 72 - same traveled distance gives same gait across 30/60/120 Hz
+  ---
+  duration_ms: 33.936075
+  type: 'test'
+  ...
+# Subtest: pure guard requires real block, protects dead and mobility overrides
+ok 73 - pure guard requires real block, protects dead and mobility overrides
+  ---
+  duration_ms: 5.173122
+  type: 'test'
+  ...
+# Subtest: hammer leaves hand at real release while healing never throws an axe
+ok 74 - hammer leaves hand at real release while healing never throws an axe
+  ---
+  duration_ms: 20.014072
+  type: 'test'
+  ...
+# Subtest: rig caches only bounded four-direction cutouts and preserves Canvas stack
+ok 75 - rig caches only bounded four-direction cutouts and preserves Canvas stack
+  ---
+  duration_ms: 14.088765
+  type: 'test'
+  ...
+# Subtest: hero renderer falls back without source/canvas and never draws enemy classes
+ok 76 - hero renderer falls back without source/canvas and never draws enemy classes
+  ---
+  duration_ms: 5.043516
+  type: 'test'
+  ...
+# Subtest: actual hammer silhouette follows outward velocity, respects flash 0, no state mutation
+ok 77 - actual hammer silhouette follows outward velocity, respects flash 0, no state mutation
+  ---
+  duration_ms: 0.446064
+  type: 'test'
+  ...
+# Subtest: actual hammer silhouette follows return velocity, respects flash 0, no state mutation
+ok 78 - actual hammer silhouette follows return velocity, respects flash 0, no state mutation
+  ---
+  duration_ms: 0.140612
+  type: 'test'
+  ...
+# Subtest: actual hammer silhouette follows outward velocity, respects flash 0.5, no state mutation
+ok 79 - actual hammer silhouette follows outward velocity, respects flash 0.5, no state mutation
+  ---
+  duration_ms: 0.097317
+  type: 'test'
+  ...
+# Subtest: actual hammer silhouette follows return velocity, respects flash 0.5, no state mutation
+ok 80 - actual hammer silhouette follows return velocity, respects flash 0.5, no state mutation
+  ---
+  duration_ms: 0.083346
+  type: 'test'
+  ...
+# Subtest: actual hammer silhouette follows outward velocity, respects flash 1, no state mutation
+ok 81 - actual hammer silhouette follows outward velocity, respects flash 1, no state mutation
+  ---
+  duration_ms: 0.140973
+  type: 'test'
+  ...
+# Subtest: actual hammer silhouette follows return velocity, respects flash 1, no state mutation
+ok 82 - actual hammer silhouette follows return velocity, respects flash 1, no state mutation
+  ---
+  duration_ms: 0.202145
+  type: 'test'
+  ...
+# Subtest: hammer renderer ignores hostile/expired/nonfinite shots and has finite stationary fallback
+ok 83 - hammer renderer ignores hostile/expired/nonfinite shots and has finite stationary fallback
+  ---
+  duration_ms: 0.361636
+  type: 'test'
+  ...
+# Subtest: full production renderer contains bounded hero and actual projectile routes
+ok 84 - full production renderer contains bounded hero and actual projectile routes
+  ---
+  duration_ms: 0.423048
+  type: 'test'
+  ...
+# Subtest: guard hurt 0.24 preserves existing atlas recoil and actor state
+ok 85 - guard hurt 0.24 preserves existing atlas recoil and actor state
+  ---
+  duration_ms: 0.285011
+  type: 'test'
+  ...
+# Subtest: guard hurt 0.12 preserves existing atlas recoil and actor state
+ok 86 - guard hurt 0.12 preserves existing atlas recoil and actor state
+  ---
+  duration_ms: 0.155846
+  type: 'test'
+  ...
+# Subtest: guard hurt 0.001 preserves existing atlas recoil and actor state
+ok 87 - guard hurt 0.001 preserves existing atlas recoil and actor state
+  ---
+  duration_ms: 0.088553
+  type: 'test'
+  ...
+# Subtest: real held-guard projectile contact from 1 keeps hurt presentation priority
+ok 88 - real held-guard projectile contact from 1 keeps hurt presentation priority
+  ---
+  duration_ms: 7.049395
+  type: 'test'
+  ...
+# Subtest: real held-guard projectile contact from -1 keeps hurt presentation priority
+ok 89 - real held-guard projectile contact from -1 keeps hurt presentation priority
+  ---
+  duration_ms: 6.042824
+  type: 'test'
+  ...
+1..89
+# tests 89
+# suites 0
+# pass 89
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1191.758671

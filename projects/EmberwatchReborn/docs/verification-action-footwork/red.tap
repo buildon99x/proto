@@ -1,0 +1,350 @@
+TAP version 13
+# Subtest: footwork controls4 30Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+not ok 1 - footwork controls4 30Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 497.213094
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:22:101'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:31:33)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.start (node:internal/test_runner/test:1242:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+  ...
+# Subtest: footwork controls4 30Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+not ok 2 - footwork controls4 30Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 23.853022
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:22:101'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:31:33)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: footwork controls4 60Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+not ok 3 - footwork controls4 60Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 39.053252
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:22:101'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:31:33)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: footwork controls4 60Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+not ok 4 - footwork controls4 60Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 33.159441
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:22:101'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:31:33)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: footwork controls4 120Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+not ok 5 - footwork controls4 120Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 52.673383
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:22:101'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:31:33)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: footwork controls4 120Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+not ok 6 - footwork controls4 120Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 50.257433
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:22:101'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:31:33)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: footwork controls5 30Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+not ok 7 - footwork controls5 30Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 24.955716
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:22:101'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:31:33)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: footwork controls5 30Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+not ok 8 - footwork controls5 30Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 22.407662
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:22:101'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:31:33)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: footwork controls5 60Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+not ok 9 - footwork controls5 60Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 41.470944
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:22:101'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:31:33)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: footwork controls5 60Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+not ok 10 - footwork controls5 60Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 36.724918
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:22:101'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:31:33)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: footwork controls5 120Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+not ok 11 - footwork controls5 120Hz mace recovery → mace_swing renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 48.794071
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:22:101'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:31:33)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: footwork controls5 120Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+not ok 12 - footwork controls5 120Hz mace recovery → judgement renders current planted preparation despite earlier-frame movement
+  ---
+  duration_ms: 41.490037
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:22:101'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/warrior-footwork-boundary.test.mjs:31:33)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: footwork mace_swing permits actual walking recovery immediately after contact without a new lock
+ok 13 - footwork mace_swing permits actual walking recovery immediately after contact without a new lock
+  ---
+  duration_ms: 21.200551
+  type: 'test'
+  ...
+# Subtest: footwork judgement permits actual walking recovery immediately after contact without a new lock
+ok 14 - footwork judgement permits actual walking recovery immediately after contact without a new lock
+  ---
+  duration_ms: 30.830813
+  type: 'test'
+  ...
+# Subtest: footwork righteous_hammer retains moving cast legs and independent upper-body clip before contact
+ok 15 - footwork righteous_hammer retains moving cast legs and independent upper-body clip before contact
+  ---
+  duration_ms: 10.73912
+  type: 'test'
+  ...
+# Subtest: footwork lay_on_hands retains moving cast legs and independent upper-body clip before contact
+ok 16 - footwork lay_on_hands retains moving cast legs and independent upper-body clip before contact
+  ---
+  duration_ms: 10.592369
+  type: 'test'
+  ...
+# Subtest: footwork direction/upper action pose stay intact; stopped actor never invents running legs
+ok 17 - footwork direction/upper action pose stay intact; stopped actor never invents running legs
+  ---
+  duration_ms: 10.845921
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 5
+# fail 12
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1138.037838
