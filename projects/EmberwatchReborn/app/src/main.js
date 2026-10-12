@@ -1,4 +1,5 @@
 import {MAGMA_RULES,magmaAvailability,setMagmaMode} from './magma-combat.js';
+import {TRAINING_GRAPH_IDS,renderTrainingGraph} from './training-graph.js';
 import {CRUSHER_RULES,crusherAvailability,setCrusherMode} from './crusher-combat.js';
 import {STORM_RULES,stormAvailability,setStormMode,stormPerfectStart} from './storm-combat.js';
 import {stormBellHover} from './storm-presentation.js';
@@ -387,12 +388,14 @@ async function showTraining(view=null){
  const promotion=state.character.tier==='apprentice'?previewPromotion(state):previewExpertPromotion(state),revision=controller.revision(),expertFee=state.character.tier==='adept';
  const promotionHtml=`<section class="quest-card"><h3>${expertFee?'다음 성장 · 전문가 승급':'훈련 단계'}</h3><p>${esc(promotion.reason)}</p>${promotion.available?button(expertFee?'전문가 승급 · 예약금120 사용':'숙련 전사로 승급 · 금화0',expertFee?'promote-expert':'promote-adept',`class="primary" data-revision="${revision}" data-gold="${promotion.goldCost}"`):''}</section>`;
  const keepFocus=view&&document.activeElement===waitingFocus;
- panel('전사의 훈련',`<p>${tierLabel(state.character.tier)} 전사 · 남은 기술점수 <strong>${state.character.skillPoints}</strong></p>${promotionHtml}${STARTER_SKILLS.every(id=>state.character.skills[id]>0)?button('전사 기술 배치','action-slots','class="primary"'):''}${['apprentice','adept','expert'].map(t=>`<details ${state.character.tier===t?'open':''}><summary>${tierLabel(t)} 기술</summary><div class="skills">${RUNTIME_SKILL_IDS.map((id,i)=>previewSkill(state.character,id,state).tier===t?rows[i]:'').join('')}</div></details>`).join('')}<p class="minor">40/53개 전사 노드의 연결을 검증 중입니다. 마스터13노드와 전체 캠페인 완성도는 아직 개발 중입니다. 승급은 기술·점수·자원을 무료 지급하지 않습니다.</p>${button('돌아가기','close')}`,true);
+ const graph=modal.trainingLayout==='graph';
+ panel('전사의 훈련',`<div data-training-root><p>${tierLabel(state.character.tier)} 전사 · 남은 기술점수 <strong>${state.character.skillPoints}</strong></p>${promotionHtml}<div class="buttons training-view-actions">${button('입문 그래프','training-layout:graph',`aria-pressed="${graph}"`)}${button('목록','training-layout:list',`aria-pressed="${!graph}"`)}${STARTER_SKILLS.every(id=>state.character.skills[id]>0)?button('전사 기술 배치','action-slots','class="primary"'):''}</div>${graph?`<section data-training-graph>${renderTrainingGraph(state,{selected:modal.trainingSelected,epoch:modal.presentationEpoch+1,format:effectText})}</section>`:''}${(graph?['adept','expert']:['apprentice','adept','expert']).map(t=>`<details ${state.character.tier===t?'open':''}><summary>${tierLabel(t)} 기술</summary><div class="skills">${RUNTIME_SKILL_IDS.map((id,i)=>previewSkill(state.character,id,state).tier===t?rows[i]:'').join('')}</div></details>`).join('')}<p class="minor">그래프는 입문 9개에 한정됩니다. 숙련·전문은 기존 목록이며 마스터13노드와 전체 캠페인은 미완입니다. 승급은 기술·점수·자원을 무료 지급하지 않습니다.</p>${button('돌아가기','close')}</div>`,true);
  if(view)view.restore(keepFocus);
 }
 async function purchaseTrainingSkill(target){
  const pane=modal.querySelector('.panel'),action=target.dataset.action;
  if(busy||modal.hidden||target.disabled||!pane?.contains(target)||!target.closest('.skill'))return;
+ if(target.dataset.trainingEpoch!==undefined){const quote=previewSkill(state.character,action.slice(6),state);if(Number(target.dataset.trainingEpoch)!==modal.presentationEpoch||!quote.ok||Number(target.dataset.trainingRank)!==quote.rank)return;}
  const owner=controller,origin=battle,selectedProfile=profile,life=state.world.life,battleLife=battle.stateLife,region=battle.region,epoch=modal.presentationEpoch;
  const focusEpoch=focusEvents.safetyEpoch??0;
  const sameSession=()=>controller===owner&&battle===origin&&profile===selectedProfile&&state.world.life===life&&battle.stateLife===battleLife&&state.world.region===region&&battle.region===region&&!state.world.lifeDown&&battle.p.hp>0&&!gate.blocked;
@@ -400,7 +403,7 @@ async function purchaseTrainingSkill(target){
  if(!await dispatch({type:'purchaseSkill',skillId:action.slice(6),position:{x:battle.p.x,y:battle.p.y}})||!sameSession()||modal.hidden||modal.presentationEpoch!==epoch||modal.querySelector('.panel')!==pane)return;
  // Sample the latest view after payment, then restore only the final trainer,
  // never its transient checkpoint panel or a newer menu/profile.
- const scrollTop=pane.scrollTop,opened=[...pane.querySelectorAll('details')].map(node=>node.open);
+ const scrollTop=pane.scrollTop,graphScrollLeft=pane.querySelector('.training-graph-scroll')?.scrollLeft,opened=[...pane.querySelectorAll('details')].map(node=>node.open);
  const offset=target.closest('.skill').getBoundingClientRect().top-pane.getBoundingClientRect().top;
  const focused=document.activeElement===target;
  await showTraining({current:sameSession,restore(keepFocus){
@@ -408,6 +411,7 @@ async function purchaseTrainingSkill(target){
   if(!sameSession()||!nextPane||!card)return;
   [...nextPane.querySelectorAll('details')].forEach((node,i)=>{node.open=opened[i];});
   nextPane.scrollTop=scrollTop;
+  if(Number.isFinite(graphScrollLeft)){const graphScroll=nextPane.querySelector('.training-graph-scroll');if(graphScroll)graphScroll.scrollLeft=graphScrollLeft;}
   nextPane.scrollTop+=card.getBoundingClientRect().top-nextPane.getBoundingClientRect().top-offset;
   if(focused&&keepFocus&&!document.hidden&&document.hasFocus()&&(focusEvents.safetyEpoch??0)===focusEpoch){
    // A completed/unaffordable row keeps reading focus on its card, never on a
@@ -565,6 +569,12 @@ document.addEventListener('click',async e=>{
  if(action==='safety-menu')return;
  const deathActive=!!(state?.world?.lifeDown||battle?.dead||battle?.p?.hp<=0);
  if(deathActive&&(!modal.contains?.(target)||!['retry','reload','death-observations','death-panel','observe-refresh'].includes(action)))return;
+ if(action==='training-layout:graph'||action==='training-layout:list'){
+  const pane=modal.querySelector('.panel');if(busy||modal.hidden||!pane?.contains(target)||!pane.querySelector('[data-training-root]'))return;modal.trainingLayout=action.endsWith(':graph')?'graph':'list';return showTraining();
+ }
+ if(action.startsWith('training-node:')){
+  const host=modal.querySelector('[data-training-graph]'),id=action.slice(14);if(busy||modal.hidden||!host?.contains(target)||!TRAINING_GRAPH_IDS.includes(id))return;const scrollLeft=host.querySelector('.training-graph-scroll')?.scrollLeft??0;modal.trainingSelected=id;host.innerHTML=renderTrainingGraph(state,{selected:id,epoch:modal.presentationEpoch,format:effectText});const scroll=host.querySelector('.training-graph-scroll');if(scroll)scroll.scrollLeft=scrollLeft;host.querySelector(`[data-action="training-node:${id}"]`)?.focus({preventScroll:true});return;
+ }
  if(action==='upgrade-backup-main'){if(!candidate)return openUpgradeBackup('main',$('upgradeBackupKind')?.value);return;}
  if(action==='upgrade-backup-qa')return openUpgradeBackup($('profile')?.value,$('upgradeBackupKind')?.value);
  if(action==='upgrade-backup-restore')return backupUi().copy($('upgradeBackupTarget')?.value,{kind:target.dataset.backupKind,backupChecksum:target.dataset.backupChecksum,selection:target.dataset.backupSelection});

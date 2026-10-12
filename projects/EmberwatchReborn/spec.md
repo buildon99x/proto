@@ -374,3 +374,8 @@ Use a separate Combo counter, not p.combo or Power Charges. Authored tests: four
 ## Magma shield defence-counter candidate
 
 Authored charge3s and block-to-release0.18s window. No Block Chance buff/Endurance Charge/Tower Shield Daze. Existing active block cost/reduction, mace Bash quote, charge stun, hammer fire spray value and mace cone reused. Same incoming attack ID handled once in this selected mode; passive/rear/unknown/non-root blocks do not arm payoffs. Normal held-shield release consumes one token; other input/safety/death/region clears it. Stored shield mode/charge fields prohibited.
+
+
+## Apprentice graph training UI
+
+Read-only graph projection of WARRIOR_REFERENCE and previewSkill; node selection does not buy. Dedicated purchase carries UI epoch/rank and reuses purchaseTrainingSkill/purchaseSkill. Native buttons support keyboard/mouse; existing repeat-key and double-click suppression remains. Eight-slot conversion/assignment uses existing controls5/revision/life API. Other tiers remain existing lists; Master stays unimplemented. Safety threshold, dt clamp and frame observer unchanged.

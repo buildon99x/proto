@@ -1,0 +1,8 @@
+{
+  "build.txt": "b23dfb93fee8be38f8fc11196b23451812783411404505e4da0b6f77fbaeb6f4",
+  "focused.tap": "51222cec1469c4f35623b0b718646e3bd2b549c7ddf41b59dfa2e20e29f29991",
+  "full-tests.tap": "3f8c73ce5485bfe928b80e983c33f11fcd422533917248635d7eeb176f037528",
+  "initial-model-fixture-failures.tap": "45023442868aa7a55f8dff0e396d47f43b033262123177de5faffcd9c63e25a9",
+  "lint.txt": "648b50ff68f7f87c7d00704113c12a439f4e09ce625ba97db93ede85d87fae70",
+  "registry.txt": "0ab4fa354cc6b03817cd3bf62d2c3786638ccab1c5dd151a85151d18f6dbba81"
+}

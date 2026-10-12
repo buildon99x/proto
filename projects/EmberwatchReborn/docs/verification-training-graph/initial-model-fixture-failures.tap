@@ -1,0 +1,572 @@
+TAP version 13
+# Subtest: actual trainer cleansing_touch missing base shows conditional reference values without granting runtime effects
+ok 1 - actual trainer cleansing_touch missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 132.254493
+  type: 'test'
+  ...
+# Subtest: actual trainer turn_undead missing base shows conditional reference values without granting runtime effects
+ok 2 - actual trainer turn_undead missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 138.728125
+  type: 'test'
+  ...
+# Subtest: actual trainer banner_of_protection missing base shows conditional reference values without granting runtime effects
+ok 3 - actual trainer banner_of_protection missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 71.636889
+  type: 'test'
+  ...
+# Subtest: actual trainer banner_of_zeal missing base shows conditional reference values without granting runtime effects
+ok 4 - actual trainer banner_of_zeal missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 70.085472
+  type: 'test'
+  ...
+# Subtest: actual trainer zealous_lance missing base shows conditional reference values without granting runtime effects
+ok 5 - actual trainer zealous_lance missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 43.985196
+  type: 'test'
+  ...
+# Subtest: actual trainer zealous_shield missing base shows conditional reference values without granting runtime effects
+ok 6 - actual trainer zealous_shield missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 43.40501
+  type: 'test'
+  ...
+# Subtest: actual trainer flaming_wrath missing base shows conditional reference values without granting runtime effects
+ok 7 - actual trainer flaming_wrath missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 52.716584
+  type: 'test'
+  ...
+# Subtest: actual trainer punish_the_wicked missing base shows conditional reference values without granting runtime effects
+ok 8 - actual trainer punish_the_wicked missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 46.43905
+  type: 'test'
+  ...
+# Subtest: actual trainer guilt_by_association missing base shows conditional reference values without granting runtime effects
+ok 9 - actual trainer guilt_by_association missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 62.008529
+  type: 'test'
+  ...
+# Subtest: cleansing_touch rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 10 - cleansing_touch rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 121.157913
+  type: 'test'
+  ...
+# Subtest: turn_undead rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 11 - turn_undead rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 85.574529
+  type: 'test'
+  ...
+# Subtest: turn_undead rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 12 - turn_undead rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 77.594113
+  type: 'test'
+  ...
+# Subtest: turn_undead rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 13 - turn_undead rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 74.940889
+  type: 'test'
+  ...
+# Subtest: banner_of_protection rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 14 - banner_of_protection rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 80.035167
+  type: 'test'
+  ...
+# Subtest: banner_of_protection rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 15 - banner_of_protection rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 78.330798
+  type: 'test'
+  ...
+# Subtest: banner_of_protection rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 16 - banner_of_protection rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 83.0801
+  type: 'test'
+  ...
+# Subtest: banner_of_zeal rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 17 - banner_of_zeal rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 79.208471
+  type: 'test'
+  ...
+# Subtest: banner_of_zeal rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 18 - banner_of_zeal rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 86.968118
+  type: 'test'
+  ...
+# Subtest: banner_of_zeal rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 19 - banner_of_zeal rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 77.368772
+  type: 'test'
+  ...
+# Subtest: zealous_lance rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 20 - zealous_lance rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 79.757116
+  type: 'test'
+  ...
+# Subtest: zealous_lance rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 21 - zealous_lance rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 91.940772
+  type: 'test'
+  ...
+# Subtest: zealous_lance rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 22 - zealous_lance rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 77.323433
+  type: 'test'
+  ...
+# Subtest: zealous_shield rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 23 - zealous_shield rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 74.147237
+  type: 'test'
+  ...
+# Subtest: flaming_wrath rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 24 - flaming_wrath rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 75.525813
+  type: 'test'
+  ...
+# Subtest: flaming_wrath rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 25 - flaming_wrath rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 73.378674
+  type: 'test'
+  ...
+# Subtest: flaming_wrath rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 26 - flaming_wrath rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 72.810896
+  type: 'test'
+  ...
+# Subtest: punish_the_wicked rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 27 - punish_the_wicked rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 78.566834
+  type: 'test'
+  ...
+# Subtest: punish_the_wicked rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 28 - punish_the_wicked rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 78.339501
+  type: 'test'
+  ...
+# Subtest: punish_the_wicked rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 29 - punish_the_wicked rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 78.984853
+  type: 'test'
+  ...
+# Subtest: guilt_by_association rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 30 - guilt_by_association rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 81.984712
+  type: 'test'
+  ...
+# Subtest: guilt_by_association rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 31 - guilt_by_association rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 76.05222
+  type: 'test'
+  ...
+# Subtest: guilt_by_association rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 32 - guilt_by_association rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 78.415647
+  type: 'test'
+  ...
+# Subtest: inner_flame rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 33 - inner_flame rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 74.191265
+  type: 'test'
+  ...
+# Subtest: inner_flame rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 34 - inner_flame rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 75.584092
+  type: 'test'
+  ...
+# Subtest: inner_flame rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 35 - inner_flame rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 73.665769
+  type: 'test'
+  ...
+# Subtest: inner_flame rank 4 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 36 - inner_flame rank 4 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 72.021752
+  type: 'test'
+  ...
+# Subtest: actual trainer preserves banner_of_protection exclusive lock while explaining banner_of_zeal
+ok 37 - actual trainer preserves banner_of_protection exclusive lock while explaining banner_of_zeal
+  ---
+  duration_ms: 39.381737
+  type: 'test'
+  ...
+# Subtest: actual trainer preserves banner_of_zeal exclusive lock while explaining banner_of_protection
+ok 38 - actual trainer preserves banner_of_zeal exclusive lock while explaining banner_of_protection
+  ---
+  duration_ms: 39.6486
+  type: 'test'
+  ...
+# Subtest: actual trainer preserves tier, points, max-rank, unknown-source and unmodified Adept boundaries
+ok 39 - actual trainer preserves tier, points, max-rank, unknown-source and unmodified Adept boundaries
+  ---
+  duration_ms: 483.770215
+  type: 'test'
+  ...
+# Subtest: formatter never mutates frozen reference/runtime projections or converts unknown values to zero
+ok 40 - formatter never mutates frozen reference/runtime projections or converts unknown values to zero
+  ---
+  duration_ms: 12.689349
+  type: 'test'
+  ...
+# Subtest: successful real purchase restores final trainer card, disclosures and keyboard focus after both saves
+ok 41 - successful real purchase restores final trainer card, disclosures and keyboard focus after both saves
+  ---
+  duration_ms: 1972.299758
+  type: 'test'
+  ...
+# Subtest: repeated enabled keyboard purchases preserve card position through changed text heights and charge each rank once
+ok 42 - repeated enabled keyboard purchases preserve card position through changed text heights and charge each rank once
+  ---
+  duration_ms: 619.179738
+  type: 'test'
+  ...
+# Subtest: latest scroll/disclosure choices during payment are retained instead of old click-time values
+ok 43 - latest scroll/disclosure choices during payment are retained instead of old click-time values
+  ---
+  duration_ms: 302.39051
+  type: 'test'
+  ...
+# Subtest: max rank moves reading focus to the same inert card and rejects disabled clicks
+ok 44 - max rank moves reading focus to the same inert card and rejects disabled clicks
+  ---
+  duration_ms: 356.781085
+  type: 'test'
+  ...
+# Subtest: purchase making next rank unaffordable does not focus another actionable purchase
+ok 45 - purchase making next rank unaffordable does not focus another actionable purchase
+  ---
+  duration_ms: 1224.731682
+  type: 'test'
+  ...
+# Subtest: disabled skill:flaming_wrath never submits, changes viewport or restores input
+ok 46 - disabled skill:flaming_wrath never submits, changes viewport or restores input
+  ---
+  duration_ms: 155.31575
+  type: 'test'
+  ...
+# Subtest: disabled skill:banner_of_zeal never submits, changes viewport or restores input
+ok 47 - disabled skill:banner_of_zeal never submits, changes viewport or restores input
+  ---
+  duration_ms: 199.926067
+  type: 'test'
+  ...
+# Subtest: double click, stale detached button and a click during payment cannot buy extra ranks
+ok 48 - double click, stale detached button and a click during payment cannot buy extra ranks
+  ---
+  duration_ms: 328.069423
+  type: 'test'
+  ...
+# Subtest: close during purchase invalidates the old trainer restoration
+ok 49 - close during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 196.539372
+  type: 'test'
+  ...
+# Subtest: menu during purchase invalidates the old trainer restoration
+ok 50 - menu during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 177.201499
+  type: 'test'
+  ...
+# Subtest: title during purchase invalidates the old trainer restoration
+ok 51 - title during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 186.195863
+  type: 'test'
+  ...
+# Subtest: controller during purchase invalidates the old trainer restoration
+ok 52 - controller during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 187.316288
+  type: 'test'
+  ...
+# Subtest: profile during purchase invalidates the old trainer restoration
+ok 53 - profile during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 206.214452
+  type: 'test'
+  ...
+# Subtest: battle during purchase invalidates the old trainer restoration
+ok 54 - battle during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 211.557747
+  type: 'test'
+  ...
+# Subtest: life during purchase invalidates the old trainer restoration
+ok 55 - life during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 216.837624
+  type: 'test'
+  ...
+# Subtest: region during purchase invalidates the old trainer restoration
+ok 56 - region during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 227.462105
+  type: 'test'
+  ...
+# Subtest: dead during purchase invalidates the old trainer restoration
+ok 57 - dead during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 199.333961
+  type: 'test'
+  ...
+# Subtest: close during checkpoint invalidates the old trainer restoration
+ok 58 - close during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 237.880063
+  type: 'test'
+  ...
+# Subtest: menu during checkpoint invalidates the old trainer restoration
+ok 59 - menu during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 221.536775
+  type: 'test'
+  ...
+# Subtest: title during checkpoint invalidates the old trainer restoration
+ok 60 - title during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 218.978564
+  type: 'test'
+  ...
+# Subtest: controller during checkpoint invalidates the old trainer restoration
+ok 61 - controller during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 211.587972
+  type: 'test'
+  ...
+# Subtest: profile during checkpoint invalidates the old trainer restoration
+ok 62 - profile during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 214.15101
+  type: 'test'
+  ...
+# Subtest: battle during checkpoint invalidates the old trainer restoration
+ok 63 - battle during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 224.515371
+  type: 'test'
+  ...
+# Subtest: life during checkpoint invalidates the old trainer restoration
+ok 64 - life during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 221.808596
+  type: 'test'
+  ...
+# Subtest: region during checkpoint invalidates the old trainer restoration
+ok 65 - region during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 228.351165
+  type: 'test'
+  ...
+# Subtest: dead during checkpoint invalidates the old trainer restoration
+ok 66 - dead during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 229.016848
+  type: 'test'
+  ...
+# Subtest: QUOTA during purchase cannot apply a stale view or repeat the purchase
+ok 67 - QUOTA during purchase cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 203.304359
+  type: 'test'
+  ...
+# Subtest: COMMIT_UNCERTAIN during purchase cannot apply a stale view or repeat the purchase
+ok 68 - COMMIT_UNCERTAIN during purchase cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 218.940036
+  type: 'test'
+  ...
+# Subtest: QUOTA during checkpoint cannot apply a stale view or repeat the purchase
+ok 69 - QUOTA during checkpoint cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 242.150834
+  type: 'test'
+  ...
+# Subtest: COMMIT_UNCERTAIN during checkpoint cannot apply a stale view or repeat the purchase
+ok 70 - COMMIT_UNCERTAIN during checkpoint cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 220.354035
+  type: 'test'
+  ...
+# Subtest: focus during purchase never revives the old purchase focus
+ok 71 - focus during purchase never revives the old purchase focus
+  ---
+  duration_ms: 335.071188
+  type: 'test'
+  ...
+# Subtest: blur during purchase never revives the old purchase focus
+ok 72 - blur during purchase never revives the old purchase focus
+  ---
+  duration_ms: 314.428193
+  type: 'test'
+  ...
+# Subtest: visibility during purchase never revives the old purchase focus
+ok 73 - visibility during purchase never revives the old purchase focus
+  ---
+  duration_ms: 323.541725
+  type: 'test'
+  ...
+# Subtest: focus during checkpoint never revives the old purchase focus
+ok 74 - focus during checkpoint never revives the old purchase focus
+  ---
+  duration_ms: 297.445153
+  type: 'test'
+  ...
+# Subtest: blur during checkpoint never revives the old purchase focus
+ok 75 - blur during checkpoint never revives the old purchase focus
+  ---
+  duration_ms: 273.021531
+  type: 'test'
+  ...
+# Subtest: visibility during checkpoint never revives the old purchase focus
+ok 76 - visibility during checkpoint never revives the old purchase focus
+  ---
+  duration_ms: 303.795622
+  type: 'test'
+  ...
+# Subtest: pointer purchase without owned keyboard focus preserves scroll without stealing skill focus
+ok 77 - pointer purchase without owned keyboard focus preserves scroll without stealing skill focus
+  ---
+  duration_ms: 300.981129
+  type: 'test'
+  ...
+# Subtest: successful refresh still clears held/deferred input, binding capture and native key repeat
+ok 78 - successful refresh still clears held/deferred input, binding capture and native key repeat
+  ---
+  duration_ms: 288.681053
+  type: 'test'
+  ...
+# Subtest: close and reopen during purchase leaves the new trainer at its own default view
+ok 79 - close and reopen during purchase leaves the new trainer at its own default view
+  ---
+  duration_ms: 297.193133
+  type: 'test'
+  ...
+# Subtest: close and reopen during checkpoint leaves the new trainer at its own default view
+ok 80 - close and reopen during checkpoint leaves the new trainer at its own default view
+  ---
+  duration_ms: 318.405414
+  type: 'test'
+  ...
+# Subtest: real rejected out-of-range purchase leaves state, storage, viewport and focus unchanged
+ok 81 - real rejected out-of-range purchase leaves state, storage, viewport and focus unchanged
+  ---
+  duration_ms: 163.689088
+  type: 'test'
+  ...
+# Subtest: dead battle cannot start an old enabled training purchase
+ok 82 - dead battle cannot start an old enabled training purchase
+  ---
+  duration_ms: 146.985773
+  type: 'test'
+  ...
+# Subtest: repeated blur with an identical wall-clock timestamp still invalidates purchase focus
+ok 83 - repeated blur with an identical wall-clock timestamp still invalidates purchase focus
+  ---
+  duration_ms: 290.751492
+  type: 'test'
+  ...
+# Subtest: graph contains the nine implemented apprentice nodes and only five actual base dependencies
+ok 84 - graph contains the nine implemented apprentice nodes and only five actual base dependencies
+  ---
+  duration_ms: 1.066894
+  type: 'test'
+  ...
+# Subtest: graph selection is read-only and purchase fields exactly match current authoritative preview
+not ok 85 - graph selection is read-only and purchase fields exactly match current authoritative preview
+  ---
+  duration_ms: 547.010881
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/training-graph.test.mjs:6:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /기반 기술: 방패 돌진/. Input:
+
+    '<p class="minor">입문 9개 기술 · 실제 기반 의존선 5개. 노드를 선택하면 설명을 읽고, 아래 강화 버튼으로 구매합니다. Tab과 Enter/Space로 선택할 수 있습니다.</p><div class="training-graph-scroll" tabindex="0" role="group" aria-label="입문 기술 관계 · 가로 스크롤"><div class="training-graph-board"><svg viewBox="0 0 1000 400" aria-hidden="true" focusable="false"><path data-training-edge="shield_charge:armored_assault" d="M125 110 V160"/><path data-training-edge="mace_swing:stunning_strikes" d="M375 110 V160"/><path data-training-edge="mace_swing:crushing_blows" d="M375 110 V135 H258 V270 H375 V285"/><path data-training-edge="shield_block:shield_training" d="M625 110 V160"/><path data-training-edge="shield_block:elemental_bulwark" d="M625 110 V135 H508 V270 H625 V285"/></svg><article class="skill training-node learned" style="left:20px;top:10px"><button type="button" data-action="training-node:shield_charge" aria-pressed="false" aria-controls="training-node-detail" aria-label="방벽 돌진 · 1/5 · 강화 가능 · 점수 1"><strong>방벽 돌진</strong><span>1/5 · 학습</span><small>기본 훈련<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node " style="left:20px;top:160px"><button type="button" data-action="training-node:armored_assault" aria-pressed="true" aria-controls="training-node-detail" aria-label="강철 충돌 · 0/3 · 강화 가능 · 점수 1"><strong>강철 충돌</strong><span>0/3 · 미학습</span><small>기반: 방벽 돌진<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node learned" style="left:270px;top:10px"><button type="button" data-action="training-node:mace_swing" aria-pressed="false" aria-controls="training-node-detail" aria-label="철퇴 휘두르기 · 1/6 · 강화 가능 · 점수 1"><strong>철퇴 휘두르기</strong><span>1/6 · 학습</span><small>기본 훈련<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node " style="left:270px;top:160px"><button type="button" data-action="training-node:stunning_strikes" aria-pressed="false" aria-controls="training-node-detail" aria-label="충격 타격 · 0/4 · 강화 가능 · 점수 1"><strong>충격 타격</strong><span>0/4 · 미학습</span><small>기반: 철퇴 휘두르기<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node " style="left:270px;top:285px"><button type="button" data-action="training-node:crushing_blows" aria-pressed="false" aria-controls="training-node-detail" aria-label="장갑 분쇄 · 0/3 · 강화 가능 · 점수 1"><strong>장갑 분쇄</strong><span>0/3 · 미학습</span><small>기반: 철퇴 휘두르기<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node learned" style="left:520px;top:10px"><button type="button" data-action="training-node:shield_block" aria-pressed="false" aria-controls="training-node-detail" aria-label="방패 버티기 · 1/4 · 강화 가능 · 점수 1"><strong>방패 버티기</strong><span>1/4 · 학습</span><small>기본 훈련<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node " style="left:520px;top:160px"><button type="button" data-action="training-node:shield_training" aria-pressed="false" aria-controls="training-node-detail" aria-label="방패 보법 · 0/3 · 강화 가능 · 점수 1"><strong>방패 보법</strong><span>0/3 · 미학습</span><small>기반: 방패 버티기<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node " style="left:520px;top:285px"><button type="button" data-action="training-node:elemental_bulwark" aria-pressed="false" aria-controls="training-node-detail" aria-label="세 원소 방벽 · 0/3 · 강화 가능 · 점수 1"><strong>세 원소 방벽</strong><span>0/3 · 미학습</span><small>기반: 방패 버티기<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node learned" style="left:770px;top:10px"><button type="button" data-action="training-node:righteous_hammer" aria-pressed="false" aria-controls="training-node-detail" aria-label="잿불 망치 · 1/5 · 강화 가능 · 점수 2"><strong>잿불 망치</strong><span>1/5 · 학습</span><small>기본 훈련<br>강화 가능 · 점수 2</small></button></article></div></div><section id="training-node-detail" class="skill training-detail" aria-labelledby="training-node-name"><h3 id="training-node-name">강철 충돌 · 0/3</h3><p>기반 기술: 방벽 돌진 첫 훈련이 필요합니다.</p><p class="effect">현재 미학습<br>다음 {&quot;chargeDamage&quot;:4,&quot;chargeStaminaCost&quot;:12.5}</p><p>강화 비용: 기술점수 1</p><button type="button" data-action="skill:armored_assault" data-training-epoch="7" data-training-rank="0" >선택 기술 강화</button></section>'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: '<p class="minor">입문 9개 기술 · 실제 기반 의존선 5개. 노드를 선택하면 설명을 읽고, 아래 강화 버튼으로 구매합니다. Tab과 Enter/Space로 선택할 수 있습니다.</p><div class="training-graph-scroll" tabindex="0" role="group" aria-label="입문 기술 관계 · 가로 스크롤"><div class="training-graph-board"><svg viewBox="0 0 1000 400" aria-hidden="true" focusable="false"><path data-training-edge="shield_charge:armored_assault" d="M125 110 V160"/><path data-training-edge="mace_swing:stunning_strikes" d="M375 110 V160"/><path data-training-edge="mace_swing:crushing_blows" d="M375 110 V135 H258 V270 H375 V285"/><path data-training-edge="shield_block:shield_training" d="M625 110 V160"/><path data-training-edge="shield_block:elemental_bulwark" d="M625 110 V135 H508 V270 H625 V285"/></svg><article class="skill training-node learned" style="left:20px;top:10px"><button type="button" data-action="training-node:shield_charge" aria-pressed="false" aria-controls="training-node-detail" aria-label="방벽 돌진 · 1/5 · 강화 가능 · 점수 1"><strong>방벽 돌진</strong><span>1/5 · 학습</span><small>기본 훈련<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node " style="left:20px;top:160px"><button type="button" data-action="training-node:armored_assault" aria-pressed="true" aria-controls="training-node-detail" aria-label="강철 충돌 · 0/3 · 강화 가능 · 점수 1"><strong>강철 충돌</strong><span>0/3 · 미학습</span><small>기반: 방벽 돌진<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node learned" style="left:270px;top:10px"><button type="button" data-action="training-node:mace_swing" aria-pressed="false" aria-controls="training-node-detail" aria-label="철퇴 휘두르기 · 1/6 · 강화 가능 · 점수 1"><strong>철퇴 휘두르기</strong><span>1/6 · 학습</span><small>기본 훈련<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node " style="left:270px;top:160px"><button type="button" data-action="training-node:stunning_strikes" aria-pressed="false" aria-controls="training-node-detail" aria-label="충격 타격 · 0/4 · 강화 가능 · 점수 1"><strong>충격 타격</strong><span>0/4 · 미학습</span><small>기반: 철퇴 휘두르기<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node " style="left:270px;top:285px"><button type="button" data-action="training-node:crushing_blows" aria-pressed="false" aria-controls="training-node-detail" aria-label="장갑 분쇄 · 0/3 · 강화 가능 · 점수 1"><strong>장갑 분쇄</strong><span>0/3 · 미학습</span><small>기반: 철퇴 휘두르기<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node learned" style="left:520px;top:10px"><button type="button" data-action="training-node:shield_block" aria-pressed="false" aria-controls="training-node-detail" aria-label="방패 버티기 · 1/4 · 강화 가능 · 점수 1"><strong>방패 버티기</strong><span>1/4 · 학습</span><small>기본 훈련<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node " style="left:520px;top:160px"><button type="button" data-action="training-node:shield_training" aria-pressed="false" aria-controls="training-node-detail" aria-label="방패 보법 · 0/3 · 강화 가능 · 점수 1"><strong>방패 보법</strong><span>0/3 · 미학습</span><small>기반: 방패 버티기<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node " style="left:520px;top:285px"><button type="button" data-action="training-node:elemental_bulwark" aria-pressed="false" aria-controls="training-node-detail" aria-label="세 원소 방벽 · 0/3 · 강화 가능 · 점수 1"><strong>세 원소 방벽</strong><span>0/3 · 미학습</span><small>기반: 방패 버티기<br>강화 가능 · 점수 1</small></button></article><article class="skill training-node learned" style="left:770px;top:10px"><button type="button" data-action="training-node:righteous_hammer" aria-pressed="false" aria-controls="training-node-detail" aria-label="잿불 망치 · 1/5 · 강화 가능 · 점수 2"><strong>잿불 망치</strong><span>1/5 · 학습</span><small>기본 훈련<br>강화 가능 · 점수 2</small></button></article></div></div><section id="training-node-detail" class="skill training-detail" aria-labelledby="training-node-name"><h3 id="training-node-name">강철 충돌 · 0/3</h3><p>기반 기술: 방벽 돌진 첫 훈련이 필요합니다.</p><p class="effect">현재 미학습<br>다음 {&quot;chargeDamage&quot;:4,&quot;chargeStaminaCost&quot;:12.5}</p><p>강화 비용: 기술점수 1</p><button type="button" data-action="skill:armored_assault" data-training-epoch="7" data-training-rank="0" >선택 기술 강화</button></section>'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/training-graph.test.mjs:6:567)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: insufficient points render a disabled real purchase rather than inventing an unlock
+not ok 86 - insufficient points render a disabled real purchase rather than inventing an unlock
+  ---
+  duration_ms: 331.341372
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/training-graph.test.mjs:7:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /기술점수가 부족합니다/. Input:
+
+    '<p class="minor">입문 9개 기술 · 실제 기반 의존선 5개. 노드를 선택하면 설명을 읽고, 아래 강화 버튼으로 구매합니다. Tab과 Enter/Space로 선택할 수 있습니다.</p><div class="training-graph-scroll" tabindex="0" role="group" aria-label="입문 기술 관계 · 가로 스크롤"><div class="training-graph-board"><svg viewBox="0 0 1000 400" aria-hidden="true" focusable="false"><path data-training-edge="shield_charge:armored_assault" d="M125 110 V160"/><path data-training-edge="mace_swing:stunning_strikes" d="M375 110 V160"/><path data-training-edge="mace_swing:crushing_blows" d="M375 110 V135 H258 V270 H375 V285"/><path data-training-edge="shield_block:shield_training" d="M625 110 V160"/><path data-training-edge="shield_block:elemental_bulwark" d="M625 110 V135 H508 V270 H625 V285"/></svg><article class="skill training-node " style="left:20px;top:10px"><button type="button" data-action="training-node:shield_charge" aria-pressed="false" aria-controls="training-node-detail" aria-label="방벽 돌진 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>방벽 돌진</strong><span>undefined/undefined · 미학습</span><small>기본 훈련<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:20px;top:160px"><button type="button" data-action="training-node:armored_assault" aria-pressed="true" aria-controls="training-node-detail" aria-label="강철 충돌 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>강철 충돌</strong><span>undefined/undefined · 미학습</span><small>기반: 방벽 돌진<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:270px;top:10px"><button type="button" data-action="training-node:mace_swing" aria-pressed="false" aria-controls="training-node-detail" aria-label="철퇴 휘두르기 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>철퇴 휘두르기</strong><span>undefined/undefined · 미학습</span><small>기본 훈련<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:270px;top:160px"><button type="button" data-action="training-node:stunning_strikes" aria-pressed="false" aria-controls="training-node-detail" aria-label="충격 타격 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>충격 타격</strong><span>undefined/undefined · 미학습</span><small>기반: 철퇴 휘두르기<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:270px;top:285px"><button type="button" data-action="training-node:crushing_blows" aria-pressed="false" aria-controls="training-node-detail" aria-label="장갑 분쇄 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>장갑 분쇄</strong><span>undefined/undefined · 미학습</span><small>기반: 철퇴 휘두르기<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:520px;top:10px"><button type="button" data-action="training-node:shield_block" aria-pressed="false" aria-controls="training-node-detail" aria-label="방패 버티기 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>방패 버티기</strong><span>undefined/undefined · 미학습</span><small>기본 훈련<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:520px;top:160px"><button type="button" data-action="training-node:shield_training" aria-pressed="false" aria-controls="training-node-detail" aria-label="방패 보법 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>방패 보법</strong><span>undefined/undefined · 미학습</span><small>기반: 방패 버티기<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:520px;top:285px"><button type="button" data-action="training-node:elemental_bulwark" aria-pressed="false" aria-controls="training-node-detail" aria-label="세 원소 방벽 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>세 원소 방벽</strong><span>undefined/undefined · 미학습</span><small>기반: 방패 버티기<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:770px;top:10px"><button type="button" data-action="training-node:righteous_hammer" aria-pressed="false" aria-controls="training-node-detail" aria-label="잿불 망치 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>잿불 망치</strong><span>undefined/undefined · 미학습</span><small>기본 훈련<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article></div></div><section id="training-node-detail" class="skill training-detail" aria-labelledby="training-node-name"><h3 id="training-node-name"> · undefined/undefined</h3><p>기반 기술: 방벽 돌진 첫 훈련이 필요합니다.</p><p class="effect">현재 미학습<br>다음 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</p><p>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</p><button type="button" data-action="skill:undefined" data-training-epoch="0" data-training-rank="undefined" disabled>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</button></section>'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: '<p class="minor">입문 9개 기술 · 실제 기반 의존선 5개. 노드를 선택하면 설명을 읽고, 아래 강화 버튼으로 구매합니다. Tab과 Enter/Space로 선택할 수 있습니다.</p><div class="training-graph-scroll" tabindex="0" role="group" aria-label="입문 기술 관계 · 가로 스크롤"><div class="training-graph-board"><svg viewBox="0 0 1000 400" aria-hidden="true" focusable="false"><path data-training-edge="shield_charge:armored_assault" d="M125 110 V160"/><path data-training-edge="mace_swing:stunning_strikes" d="M375 110 V160"/><path data-training-edge="mace_swing:crushing_blows" d="M375 110 V135 H258 V270 H375 V285"/><path data-training-edge="shield_block:shield_training" d="M625 110 V160"/><path data-training-edge="shield_block:elemental_bulwark" d="M625 110 V135 H508 V270 H625 V285"/></svg><article class="skill training-node " style="left:20px;top:10px"><button type="button" data-action="training-node:shield_charge" aria-pressed="false" aria-controls="training-node-detail" aria-label="방벽 돌진 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>방벽 돌진</strong><span>undefined/undefined · 미학습</span><small>기본 훈련<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:20px;top:160px"><button type="button" data-action="training-node:armored_assault" aria-pressed="true" aria-controls="training-node-detail" aria-label="강철 충돌 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>강철 충돌</strong><span>undefined/undefined · 미학습</span><small>기반: 방벽 돌진<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:270px;top:10px"><button type="button" data-action="training-node:mace_swing" aria-pressed="false" aria-controls="training-node-detail" aria-label="철퇴 휘두르기 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>철퇴 휘두르기</strong><span>undefined/undefined · 미학습</span><small>기본 훈련<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:270px;top:160px"><button type="button" data-action="training-node:stunning_strikes" aria-pressed="false" aria-controls="training-node-detail" aria-label="충격 타격 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>충격 타격</strong><span>undefined/undefined · 미학습</span><small>기반: 철퇴 휘두르기<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:270px;top:285px"><button type="button" data-action="training-node:crushing_blows" aria-pressed="false" aria-controls="training-node-detail" aria-label="장갑 분쇄 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>장갑 분쇄</strong><span>undefined/undefined · 미학습</span><small>기반: 철퇴 휘두르기<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:520px;top:10px"><button type="button" data-action="training-node:shield_block" aria-pressed="false" aria-controls="training-node-detail" aria-label="방패 버티기 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>방패 버티기</strong><span>undefined/undefined · 미학습</span><small>기본 훈련<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:520px;top:160px"><button type="button" data-action="training-node:shield_training" aria-pressed="false" aria-controls="training-node-detail" aria-label="방패 보법 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>방패 보법</strong><span>undefined/undefined · 미학습</span><small>기반: 방패 버티기<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:520px;top:285px"><button type="button" data-action="training-node:elemental_bulwark" aria-pressed="false" aria-controls="training-node-detail" aria-label="세 원소 방벽 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>세 원소 방벽</strong><span>undefined/undefined · 미학습</span><small>기반: 방패 버티기<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article><article class="skill training-node " style="left:770px;top:10px"><button type="button" data-action="training-node:righteous_hammer" aria-pressed="false" aria-controls="training-node-detail" aria-label="잿불 망치 · undefined/undefined · 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다."><strong>잿불 망치</strong><span>undefined/undefined · 미학습</span><small>기본 훈련<br>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</small></button></article></div></div><section id="training-node-detail" class="skill training-detail" aria-labelledby="training-node-name"><h3 id="training-node-name"> · undefined/undefined</h3><p>기반 기술: 방벽 돌진 첫 훈련이 필요합니다.</p><p class="effect">현재 미학습<br>다음 사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</p><p>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</p><button type="button" data-action="skill:undefined" data-training-epoch="0" data-training-rank="undefined" disabled>사용한 기술점수와 남은 점수가 획득 기록과 일치하지 않습니다.</button></section>'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/training-graph.test.mjs:7:286)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: unknown selection falls back to an implemented node without exposing a new command
+ok 87 - unknown selection falls back to an implemented node without exposing a new command
+  ---
+  duration_ms: 281.757723
+  type: 'test'
+  ...
+1..87
+# tests 87
+# suites 0
+# pass 85
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13708.285564

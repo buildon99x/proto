@@ -1,0 +1,16 @@
+import {WARRIOR_REFERENCE} from './reference-warrior.js';
+import {RUNTIME_SKILL_IDS,previewSkill} from './warrior-growth.js';
+const rows=WARRIOR_REFERENCE.skills.filter(x=>x.tier==='apprentice'&&RUNTIME_SKILL_IDS.includes(x.id));
+export const TRAINING_GRAPH_IDS=Object.freeze(rows.map(x=>x.id));
+export const TRAINING_GRAPH_EDGES=Object.freeze(rows.filter(x=>x.baseId&&TRAINING_GRAPH_IDS.includes(x.baseId)).map(x=>Object.freeze({from:x.baseId,to:x.id})));
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+// Layout is presentation only. All purchases/locks/values stay in existing APIs.
+export function renderTrainingGraph(state,{selected='mace_swing',epoch=0,format=x=>JSON.stringify(x)}={}){
+ if(!TRAINING_GRAPH_IDS.includes(selected))selected='mace_swing';
+ const quotes=new Map(rows.map(x=>[x.id,previewSkill(state.character,x.id,state)])),positions=new Map(),paths=[];
+ const roots=rows.filter(x=>!x.baseId);
+ roots.forEach((root,column)=>{const left=column*250+20;positions.set(root.id,{left,top:10});const children=rows.filter(x=>x.baseId===root.id);children.forEach((x,index)=>{const top=160+index*125;positions.set(x.id,{left,top});const cx=left+105;paths.push(`<path data-training-edge="${root.id}:${x.id}" d="${index?`M${cx} 110 V135 H${column*250+8} V270 H${cx} V${top}`:`M${cx} 110 V${top}`}"/>`);});});
+ const nodes=rows.map(row=>{const q=quotes.get(row.id),p=positions.get(row.id),base=rows.find(x=>x.id===row.baseId),status=q.available?`강화 가능 · 점수 ${q.cost}`:q.reason||'조건 확인';return `<article class="skill training-node ${q.rank?'learned':''}" style="left:${p.left}px;top:${p.top}px"><button type="button" data-action="training-node:${row.id}" aria-pressed="${row.id===selected}" aria-controls="training-node-detail" aria-label="${esc(row.displayName)} · ${q.rank}/${q.maxRank} · ${esc(status)}"><strong>${esc(row.displayName)}</strong><span>${q.rank}/${q.maxRank} · ${q.rank?'학습':'미학습'}</span><small>${base?`기반: ${esc(base.displayName)}`:'기본 훈련'}<br>${esc(status)}</small></button></article>`;}).join('');
+ const q=quotes.get(selected),base=rows.find(x=>x.id===rows.find(x=>x.id===selected).baseId);
+ return `<p class="minor">입문 9개 기술 · 실제 기반 의존선 5개. 노드를 선택하면 설명을 읽고, 아래 강화 버튼으로 구매합니다. Tab과 Enter/Space로 선택할 수 있습니다.</p><div class="training-graph-scroll" tabindex="0" role="group" aria-label="입문 기술 관계 · 가로 스크롤"><div class="training-graph-board"><svg viewBox="0 0 1000 400" aria-hidden="true" focusable="false">${paths.join('')}</svg>${nodes}</div></div><section id="training-node-detail" class="skill training-detail" aria-labelledby="training-node-name"><h3 id="training-node-name">${esc(q.name)} · ${q.rank}/${q.maxRank}</h3>${base?`<p>기반 기술: ${esc(base.displayName)} 첫 훈련이 필요합니다.</p>`:''}<p class="effect">현재 ${esc(q.current?format(q.current.runtimeValues):'미학습')}<br>다음 ${esc(q.next?format(q.next.runtimeValues):q.rank>=q.maxRank?'최대 랭크':q.reason)}</p><p>${q.available?`강화 비용: 기술점수 ${q.cost}`:esc(q.reason)}</p>${(q.warnings??[]).map(w=>`<p class="warning">${esc(w.reason)}</p>`).join('')}<button type="button" data-action="skill:${q.id}" data-training-epoch="${epoch}" data-training-rank="${q.rank}" ${q.available?'':'disabled'}>${q.available?'선택 기술 강화':esc(q.reason)}</button></section>`;
+}

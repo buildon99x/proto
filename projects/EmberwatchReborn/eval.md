@@ -491,3 +491,8 @@ Exercise actual enemy-hit accumulation and anti-duplicate/whiff/self-bell cases;
 ## Magma shield defence-counter candidate
 
 Production incoming attacks plus actual input/frames: active vs rear/passive block, stamina insufficiency, duplicate attack after invulnerability, timely/late release, fully charged spray once, secondary recursion prevention, blockers/LOS, attack/dodge cancel, menu/blur/hidden/capture loss, death/region/reload, no saved-field leak. Distinct shield rig/FX probes; full/lint/registry/build and source/original preservation. Native acceptance separate; storm QA fixes take precedence.
+
+
+## Apprentice graph training UI
+
+Assert9 nodes/5 authoritative edges, current/next/lock descriptions, read-only selection, rank/point updates via real UI purchase, stale/repeat/parallel clicks, delayed save close/back/profile guards, graph/list toggle and actual explicit eight-slot assignment. Preserve old list/card/focus checks. Full/lint/registry/build/hash and original167; native visual/AX acceptance separate. Return v75 safety measurement findings separately without relaxing >500ms guard.

@@ -1,0 +1,35 @@
+{
+  "baseline": "3c044a46c8b6522cbea6e1040eb65fabe7e16612",
+  "full": {
+    "tests": 4650,
+    "pass": 4650,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "focused": {
+    "tests": 92,
+    "pass": 92,
+    "fail": 0
+  },
+  "newModelCases": 4,
+  "newTrainerHandlerCases": 5,
+  "lintExit": 0,
+  "registryExit": 0,
+  "buildVercelExit": 0,
+  "graphNodes": 9,
+  "dependencyEdges": 5,
+  "newSavedFields": false,
+  "domainWritersChanged": false,
+  "abilityNumbersChanged": false,
+  "safetyThresholdOrFunctionsChanged": false,
+  "nativeGraphVisualAX": "not performed",
+  "v75StallCause": "unresolved; separate safety-investigation.md",
+  "wholePoePort": "not complete",
+  "sourceSHA256": {
+    "main.js": "c7ecb5f3403373c9afc127965887625d153ff50baf527c4387662eab6ad00d1d",
+    "style.css": "480366ab26519feeffb1d9931d513b1c45708300b3154c6b64dabb8d8d129a59",
+    "training-graph.js": "b25299d129d71d4905dcf1f4a2c3870544d123d34b83fa66b3333bb1c580a0ce"
+  }
+}

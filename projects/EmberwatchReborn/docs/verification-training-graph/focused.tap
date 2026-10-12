@@ -1,0 +1,562 @@
+TAP version 13
+# Subtest: actual trainer cleansing_touch missing base shows conditional reference values without granting runtime effects
+ok 1 - actual trainer cleansing_touch missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 129.818266
+  type: 'test'
+  ...
+# Subtest: actual trainer turn_undead missing base shows conditional reference values without granting runtime effects
+ok 2 - actual trainer turn_undead missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 94.392985
+  type: 'test'
+  ...
+# Subtest: actual trainer banner_of_protection missing base shows conditional reference values without granting runtime effects
+ok 3 - actual trainer banner_of_protection missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 104.26107
+  type: 'test'
+  ...
+# Subtest: actual trainer banner_of_zeal missing base shows conditional reference values without granting runtime effects
+ok 4 - actual trainer banner_of_zeal missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 51.964182
+  type: 'test'
+  ...
+# Subtest: actual trainer zealous_lance missing base shows conditional reference values without granting runtime effects
+ok 5 - actual trainer zealous_lance missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 53.714785
+  type: 'test'
+  ...
+# Subtest: actual trainer zealous_shield missing base shows conditional reference values without granting runtime effects
+ok 6 - actual trainer zealous_shield missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 77.764749
+  type: 'test'
+  ...
+# Subtest: actual trainer flaming_wrath missing base shows conditional reference values without granting runtime effects
+ok 7 - actual trainer flaming_wrath missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 48.791443
+  type: 'test'
+  ...
+# Subtest: actual trainer punish_the_wicked missing base shows conditional reference values without granting runtime effects
+ok 8 - actual trainer punish_the_wicked missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 42.984547
+  type: 'test'
+  ...
+# Subtest: actual trainer guilt_by_association missing base shows conditional reference values without granting runtime effects
+ok 9 - actual trainer guilt_by_association missing base shows conditional reference values without granting runtime effects
+  ---
+  duration_ms: 40.036136
+  type: 'test'
+  ...
+# Subtest: cleansing_touch rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 10 - cleansing_touch rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 100.8454
+  type: 'test'
+  ...
+# Subtest: turn_undead rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 11 - turn_undead rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 89.391711
+  type: 'test'
+  ...
+# Subtest: turn_undead rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 12 - turn_undead rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 77.585409
+  type: 'test'
+  ...
+# Subtest: turn_undead rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 13 - turn_undead rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 78.082158
+  type: 'test'
+  ...
+# Subtest: banner_of_protection rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 14 - banner_of_protection rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 84.912198
+  type: 'test'
+  ...
+# Subtest: banner_of_protection rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 15 - banner_of_protection rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 84.51554
+  type: 'test'
+  ...
+# Subtest: banner_of_protection rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 16 - banner_of_protection rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 89.642809
+  type: 'test'
+  ...
+# Subtest: banner_of_zeal rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 17 - banner_of_zeal rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 88.029043
+  type: 'test'
+  ...
+# Subtest: banner_of_zeal rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 18 - banner_of_zeal rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 99.700297
+  type: 'test'
+  ...
+# Subtest: banner_of_zeal rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 19 - banner_of_zeal rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 93.507333
+  type: 'test'
+  ...
+# Subtest: zealous_lance rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 20 - zealous_lance rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 84.916464
+  type: 'test'
+  ...
+# Subtest: zealous_lance rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 21 - zealous_lance rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 88.263477
+  type: 'test'
+  ...
+# Subtest: zealous_lance rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 22 - zealous_lance rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 78.65293
+  type: 'test'
+  ...
+# Subtest: zealous_shield rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 23 - zealous_shield rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 75.090002
+  type: 'test'
+  ...
+# Subtest: flaming_wrath rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 24 - flaming_wrath rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 75.216511
+  type: 'test'
+  ...
+# Subtest: flaming_wrath rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 25 - flaming_wrath rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 80.537665
+  type: 'test'
+  ...
+# Subtest: flaming_wrath rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 26 - flaming_wrath rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 73.268541
+  type: 'test'
+  ...
+# Subtest: punish_the_wicked rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 27 - punish_the_wicked rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 79.904859
+  type: 'test'
+  ...
+# Subtest: punish_the_wicked rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 28 - punish_the_wicked rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 73.486932
+  type: 'test'
+  ...
+# Subtest: punish_the_wicked rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 29 - punish_the_wicked rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 80.587811
+  type: 'test'
+  ...
+# Subtest: guilt_by_association rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 30 - guilt_by_association rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 81.771497
+  type: 'test'
+  ...
+# Subtest: guilt_by_association rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 31 - guilt_by_association rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 81.649596
+  type: 'test'
+  ...
+# Subtest: guilt_by_association rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 32 - guilt_by_association rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 78.530247
+  type: 'test'
+  ...
+# Subtest: inner_flame rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 33 - inner_flame rank 1 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 95.192613
+  type: 'test'
+  ...
+# Subtest: inner_flame rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 34 - inner_flame rank 2 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 120.702445
+  type: 'test'
+  ...
+# Subtest: inner_flame rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 35 - inner_flame rank 3 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 74.607552
+  type: 'test'
+  ...
+# Subtest: inner_flame rank 4 next text equals the real purchased effect and leaves quote/cost gates intact
+ok 36 - inner_flame rank 4 next text equals the real purchased effect and leaves quote/cost gates intact
+  ---
+  duration_ms: 79.790832
+  type: 'test'
+  ...
+# Subtest: actual trainer preserves banner_of_protection exclusive lock while explaining banner_of_zeal
+ok 37 - actual trainer preserves banner_of_protection exclusive lock while explaining banner_of_zeal
+  ---
+  duration_ms: 39.081125
+  type: 'test'
+  ...
+# Subtest: actual trainer preserves banner_of_zeal exclusive lock while explaining banner_of_protection
+ok 38 - actual trainer preserves banner_of_zeal exclusive lock while explaining banner_of_protection
+  ---
+  duration_ms: 39.947806
+  type: 'test'
+  ...
+# Subtest: actual trainer preserves tier, points, max-rank, unknown-source and unmodified Adept boundaries
+ok 39 - actual trainer preserves tier, points, max-rank, unknown-source and unmodified Adept boundaries
+  ---
+  duration_ms: 505.476463
+  type: 'test'
+  ...
+# Subtest: formatter never mutates frozen reference/runtime projections or converts unknown values to zero
+ok 40 - formatter never mutates frozen reference/runtime projections or converts unknown values to zero
+  ---
+  duration_ms: 11.690682
+  type: 'test'
+  ...
+# Subtest: graph real mouse/keyboard selection is read-only, lists toggle and current descriptions/locks stay available
+ok 41 - graph real mouse/keyboard selection is read-only, lists toggle and current descriptions/locks stay available
+  ---
+  duration_ms: 2073.793347
+  type: 'test'
+  ...
+# Subtest: graph real purchase updates rank/points once, keeps horizontal view and rejects repeat/stale DOM activation
+ok 42 - graph real purchase updates rank/points once, keeps horizontal view and rejects repeat/stale DOM activation
+  ---
+  duration_ms: 443.533307
+  type: 'test'
+  ...
+# Subtest: graph close during accepted purchase prevents trainer reopening and extra purchases
+ok 43 - graph close during accepted purchase prevents trainer reopening and extra purchases
+  ---
+  duration_ms: 360.170197
+  type: 'test'
+  ...
+# Subtest: graph back during accepted purchase prevents trainer reopening and extra purchases
+ok 44 - graph back during accepted purchase prevents trainer reopening and extra purchases
+  ---
+  duration_ms: 292.193131
+  type: 'test'
+  ...
+# Subtest: graph purchase activates existing combat stats and actual explicit eight-slot assignment uses revision/life guards
+ok 45 - graph purchase activates existing combat stats and actual explicit eight-slot assignment uses revision/life guards
+  ---
+  duration_ms: 736.912193
+  type: 'test'
+  ...
+# Subtest: successful real purchase restores final trainer card, disclosures and keyboard focus after both saves
+ok 46 - successful real purchase restores final trainer card, disclosures and keyboard focus after both saves
+  ---
+  duration_ms: 309.101581
+  type: 'test'
+  ...
+# Subtest: repeated enabled keyboard purchases preserve card position through changed text heights and charge each rank once
+ok 47 - repeated enabled keyboard purchases preserve card position through changed text heights and charge each rank once
+  ---
+  duration_ms: 569.388373
+  type: 'test'
+  ...
+# Subtest: latest scroll/disclosure choices during payment are retained instead of old click-time values
+ok 48 - latest scroll/disclosure choices during payment are retained instead of old click-time values
+  ---
+  duration_ms: 281.072432
+  type: 'test'
+  ...
+# Subtest: max rank moves reading focus to the same inert card and rejects disabled clicks
+ok 49 - max rank moves reading focus to the same inert card and rejects disabled clicks
+  ---
+  duration_ms: 330.383636
+  type: 'test'
+  ...
+# Subtest: purchase making next rank unaffordable does not focus another actionable purchase
+ok 50 - purchase making next rank unaffordable does not focus another actionable purchase
+  ---
+  duration_ms: 1106.93297
+  type: 'test'
+  ...
+# Subtest: disabled skill:flaming_wrath never submits, changes viewport or restores input
+ok 51 - disabled skill:flaming_wrath never submits, changes viewport or restores input
+  ---
+  duration_ms: 134.755228
+  type: 'test'
+  ...
+# Subtest: disabled skill:banner_of_zeal never submits, changes viewport or restores input
+ok 52 - disabled skill:banner_of_zeal never submits, changes viewport or restores input
+  ---
+  duration_ms: 175.588862
+  type: 'test'
+  ...
+# Subtest: double click, stale detached button and a click during payment cannot buy extra ranks
+ok 53 - double click, stale detached button and a click during payment cannot buy extra ranks
+  ---
+  duration_ms: 289.539972
+  type: 'test'
+  ...
+# Subtest: close during purchase invalidates the old trainer restoration
+ok 54 - close during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 190.051962
+  type: 'test'
+  ...
+# Subtest: menu during purchase invalidates the old trainer restoration
+ok 55 - menu during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 213.569763
+  type: 'test'
+  ...
+# Subtest: title during purchase invalidates the old trainer restoration
+ok 56 - title during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 184.296954
+  type: 'test'
+  ...
+# Subtest: controller during purchase invalidates the old trainer restoration
+ok 57 - controller during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 185.018253
+  type: 'test'
+  ...
+# Subtest: profile during purchase invalidates the old trainer restoration
+ok 58 - profile during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 181.589495
+  type: 'test'
+  ...
+# Subtest: battle during purchase invalidates the old trainer restoration
+ok 59 - battle during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 177.325887
+  type: 'test'
+  ...
+# Subtest: life during purchase invalidates the old trainer restoration
+ok 60 - life during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 184.469244
+  type: 'test'
+  ...
+# Subtest: region during purchase invalidates the old trainer restoration
+ok 61 - region during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 182.606582
+  type: 'test'
+  ...
+# Subtest: dead during purchase invalidates the old trainer restoration
+ok 62 - dead during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 193.962868
+  type: 'test'
+  ...
+# Subtest: close during checkpoint invalidates the old trainer restoration
+ok 63 - close during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 216.689388
+  type: 'test'
+  ...
+# Subtest: menu during checkpoint invalidates the old trainer restoration
+ok 64 - menu during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 216.327166
+  type: 'test'
+  ...
+# Subtest: title during checkpoint invalidates the old trainer restoration
+ok 65 - title during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 208.138752
+  type: 'test'
+  ...
+# Subtest: controller during checkpoint invalidates the old trainer restoration
+ok 66 - controller during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 252.853708
+  type: 'test'
+  ...
+# Subtest: profile during checkpoint invalidates the old trainer restoration
+ok 67 - profile during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 210.5812
+  type: 'test'
+  ...
+# Subtest: battle during checkpoint invalidates the old trainer restoration
+ok 68 - battle during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 239.678806
+  type: 'test'
+  ...
+# Subtest: life during checkpoint invalidates the old trainer restoration
+ok 69 - life during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 217.201126
+  type: 'test'
+  ...
+# Subtest: region during checkpoint invalidates the old trainer restoration
+ok 70 - region during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 210.72683
+  type: 'test'
+  ...
+# Subtest: dead during checkpoint invalidates the old trainer restoration
+ok 71 - dead during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 239.47635
+  type: 'test'
+  ...
+# Subtest: QUOTA during purchase cannot apply a stale view or repeat the purchase
+ok 72 - QUOTA during purchase cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 196.111271
+  type: 'test'
+  ...
+# Subtest: COMMIT_UNCERTAIN during purchase cannot apply a stale view or repeat the purchase
+ok 73 - COMMIT_UNCERTAIN during purchase cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 184.838401
+  type: 'test'
+  ...
+# Subtest: QUOTA during checkpoint cannot apply a stale view or repeat the purchase
+ok 74 - QUOTA during checkpoint cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 219.566938
+  type: 'test'
+  ...
+# Subtest: COMMIT_UNCERTAIN during checkpoint cannot apply a stale view or repeat the purchase
+ok 75 - COMMIT_UNCERTAIN during checkpoint cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 218.666729
+  type: 'test'
+  ...
+# Subtest: focus during purchase never revives the old purchase focus
+ok 76 - focus during purchase never revives the old purchase focus
+  ---
+  duration_ms: 312.491386
+  type: 'test'
+  ...
+# Subtest: blur during purchase never revives the old purchase focus
+ok 77 - blur during purchase never revives the old purchase focus
+  ---
+  duration_ms: 298.745471
+  type: 'test'
+  ...
+# Subtest: visibility during purchase never revives the old purchase focus
+ok 78 - visibility during purchase never revives the old purchase focus
+  ---
+  duration_ms: 286.886374
+  type: 'test'
+  ...
+# Subtest: focus during checkpoint never revives the old purchase focus
+ok 79 - focus during checkpoint never revives the old purchase focus
+  ---
+  duration_ms: 283.125563
+  type: 'test'
+  ...
+# Subtest: blur during checkpoint never revives the old purchase focus
+ok 80 - blur during checkpoint never revives the old purchase focus
+  ---
+  duration_ms: 277.202281
+  type: 'test'
+  ...
+# Subtest: visibility during checkpoint never revives the old purchase focus
+ok 81 - visibility during checkpoint never revives the old purchase focus
+  ---
+  duration_ms: 281.720781
+  type: 'test'
+  ...
+# Subtest: pointer purchase without owned keyboard focus preserves scroll without stealing skill focus
+ok 82 - pointer purchase without owned keyboard focus preserves scroll without stealing skill focus
+  ---
+  duration_ms: 275.425115
+  type: 'test'
+  ...
+# Subtest: successful refresh still clears held/deferred input, binding capture and native key repeat
+ok 83 - successful refresh still clears held/deferred input, binding capture and native key repeat
+  ---
+  duration_ms: 284.607898
+  type: 'test'
+  ...
+# Subtest: close and reopen during purchase leaves the new trainer at its own default view
+ok 84 - close and reopen during purchase leaves the new trainer at its own default view
+  ---
+  duration_ms: 323.627354
+  type: 'test'
+  ...
+# Subtest: close and reopen during checkpoint leaves the new trainer at its own default view
+ok 85 - close and reopen during checkpoint leaves the new trainer at its own default view
+  ---
+  duration_ms: 349.634206
+  type: 'test'
+  ...
+# Subtest: real rejected out-of-range purchase leaves state, storage, viewport and focus unchanged
+ok 86 - real rejected out-of-range purchase leaves state, storage, viewport and focus unchanged
+  ---
+  duration_ms: 174.032898
+  type: 'test'
+  ...
+# Subtest: dead battle cannot start an old enabled training purchase
+ok 87 - dead battle cannot start an old enabled training purchase
+  ---
+  duration_ms: 144.461432
+  type: 'test'
+  ...
+# Subtest: repeated blur with an identical wall-clock timestamp still invalidates purchase focus
+ok 88 - repeated blur with an identical wall-clock timestamp still invalidates purchase focus
+  ---
+  duration_ms: 291.144635
+  type: 'test'
+  ...
+# Subtest: graph contains the nine implemented apprentice nodes and only five actual base dependencies
+ok 89 - graph contains the nine implemented apprentice nodes and only five actual base dependencies
+  ---
+  duration_ms: 1.117477
+  type: 'test'
+  ...
+# Subtest: graph selection is read-only and purchase fields exactly match current authoritative preview
+ok 90 - graph selection is read-only and purchase fields exactly match current authoritative preview
+  ---
+  duration_ms: 632.970324
+  type: 'test'
+  ...
+# Subtest: insufficient points render a disabled real purchase rather than inventing an unlock
+ok 91 - insufficient points render a disabled real purchase rather than inventing an unlock
+  ---
+  duration_ms: 430.920231
+  type: 'test'
+  ...
+# Subtest: unknown selection falls back to an implemented node without exposing a new command
+ok 92 - unknown selection falls back to an implemented node without exposing a new command
+  ---
+  duration_ms: 295.165785
+  type: 'test'
+  ...
+1..92
+# tests 92
+# suites 0
+# pass 92
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 15420.68077

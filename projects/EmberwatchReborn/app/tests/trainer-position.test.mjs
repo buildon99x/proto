@@ -40,25 +40,36 @@ function domProbe(){
  const make=(tagName,extra={})=>({tagName,disabled:false,...extra,focus(options){assert.equal(this.disabled,false,'disabled button must not receive focus');document.activeElement=this;focuses.push({node:this,options});dh.focusin?.({target:this});},closest(selector){if(selector==='[data-action]')return this.dataset?.action?this:null;if(selector==='.panel')return this.pane??null;if(selector==='.skill')return this.card??null;if(selector==='details')return this.group??null;return null;}});
  const canvas=make('CANVAS'),body=make('BODY');document.activeElement=body;
  let pane=null,html='';
+ function parse(value,reuse=null){
+  const current=reuse??{scrollTop:0,getBoundingClientRect:()=>({top:50})};pane=current;
+  current.groups=[];current.buttons=[];current.cards=[];current.title=/<h2\b[^>]*>(.*?)<\/h2>/.exec(value)?.[1];
+  current.contains=node=>node?.pane===current&&(current.buttons.includes(node)||current.cards.includes(node)||node===current.root||node===current.graph);
+  current.querySelectorAll=selector=>selector==='details'?current.groups:[];
+  current.querySelector=selector=>{
+   if(selector==='[data-training-root]')return current.root;
+   if(selector==='[data-training-graph]')return current.graph;
+   if(selector==='.training-graph-scroll')return current.graphScroll;
+   if(selector.startsWith('button:not([disabled])'))return current.buttons.find(node=>!node.disabled)??null;
+   const action=/data-action="([^"]+)"/.exec(selector)?.[1];return current.buttons.find(node=>node.dataset.action===action)??null;
+  };
+  current.root=value.includes('data-training-root')?{pane:current}:null;
+  const start=value.indexOf('<section data-training-graph>'),end=start<0?-1:value.indexOf('</section><details',start);
+  current.graphScroll=start<0?null:{scrollLeft:0};
+  current.graph=start<0?null:{pane:current,contains:node=>current.buttons.includes(node)&&node.graph,querySelector:selector=>current.querySelector(selector),get innerHTML(){return html.slice(start+29,end);},set innerHTML(content){html=html.slice(0,start+29)+content+html.slice(end);parse(html,current);}};
+  for(const match of value.matchAll(/<details ([^>]*)>([\s\S]*?)<\/details>/g))current.groups.push({open:/\bopen\b/.test(match[1]),start:match.index,end:match.index+match[0].length,pane:current});
+  const matches=[...value.matchAll(/<article class="skill(?: [^"]+)?"[^>]*>([\s\S]*?)<\/article>/g),...value.matchAll(/<section id="training-node-detail" class="skill training-detail"[^>]*>([\s\S]*?)<\/section>/g)].sort((a,b)=>a.index-b.index);
+  for(const match of matches){const card=make('ARTICLE',{pane:current,group:current.groups.find(group=>match.index>=group.start&&match.index<group.end),start:match.index,end:match.index+match[0].length,tabIndex:null,height:100+Math.ceil(match[1].length/40)});card.card=card;card.getBoundingClientRect=()=>({top:card.group&&!card.group.open?0:50+200+current.cards.slice(0,current.cards.indexOf(card)).filter(prior=>!prior.group||prior.group.open).reduce((total,prior)=>total+prior.height,0)-current.scrollTop});current.cards.push(card);}
+  for(const match of value.matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/g)){
+   const attrs=match[1],action=/data-action="([^"]+)"/.exec(attrs)?.[1];if(!action)continue;
+   const dataset=Object.fromEntries([...attrs.matchAll(/data-([\w-]+)="([^"]*)"/g)].map(m=>[m[1].replace(/-([a-z])/g,(_,c)=>c.toUpperCase()),m[2]])),card=current.cards.find(card=>match.index>=card.start&&match.index<card.end);
+   current.buttons.push(make('BUTTON',{pane:current,card,group:card?.group,dataset,graph:match.index>start&&match.index<end,disabled:/\bdisabled\b/.test(attrs),textContent:match[2]}));
+  }
+  return current;
+ }
  const modal={hidden:true,presentationEpoch:0,querySelector(selector){return selector==='.panel'?pane:pane?.querySelector(selector)??null;},get innerHTML(){return html;},set innerHTML(value){
   if(pane?.contains(document.activeElement))document.activeElement=body;
   html=value;pane=null;if(!value)return;
-  pane={scrollTop:0,groups:[],buttons:[],cards:[],title:/<h2\b[^>]*>(.*?)<\/h2>/.exec(value)?.[1],getBoundingClientRect:()=>({top:50}),contains(node){return node?.pane===this;},querySelectorAll:selector=>selector==='details'?pane.groups:[],querySelector(selector){
-   if(selector.startsWith('button:not([disabled])'))return this.buttons.find(node=>!node.disabled)??null;
-   const action=/data-action="([^"]+)"/.exec(selector)?.[1];return this.buttons.find(node=>node.dataset.action===action)??null;
-  }};
-  const current=pane;
-  for(const match of value.matchAll(/<details ([^>]*)>([\s\S]*?)<\/details>/g))current.groups.push({open:/\bopen\b/.test(match[1]),start:match.index,end:match.index+match[0].length,pane:current});
-  for(const match of value.matchAll(/<article class="skill">([\s\S]*?)<\/article>/g)){
-   const card=make('ARTICLE',{pane:current,group:current.groups.find(group=>match.index>=group.start&&match.index<group.end),start:match.index,end:match.index+match[0].length,tabIndex:null,height:100+Math.ceil(match[1].length/40)});card.card=card;
-   card.getBoundingClientRect=()=>({top:card.group&&!card.group.open?0:50+200+current.cards.slice(0,current.cards.indexOf(card)).filter(prior=>!prior.group||prior.group.open).reduce((total,prior)=>total+prior.height,0)-current.scrollTop});
-   current.cards.push(card);
-  }
-  for(const match of value.matchAll(/<button data-action="([^"]+)"([^>]*)>([\s\S]*?)<\/button>/g)){
-   const card=current.cards.find(card=>match.index>=card.start&&match.index<card.end);
-   current.buttons.push(make('BUTTON',{pane:current,card,group:card?.group,dataset:{action:match[1]},disabled:/\bdisabled\b/.test(match[2]),textContent:match[3]}));
-  }
-  renders.push(current);
+  renders.push(parse(value));
  }};
  return {document,dh,wh,canvas,modal,focuses,renders,make,get pane(){return pane;}};
 }
@@ -74,7 +85,7 @@ async function ui({skills=[]}={}){
  const elements=new Map(),$=id=>{if(!elements.has(id))elements.set(id,{textContent:'',innerHTML:'',classList:{add(){},remove(){}}});return elements.get(id);};
  const env={...createMainInputFixture(),...imports,controller,state:controller.snapshot(),battle:imports.createBattle(state),profile:'qa-trainer-position',candidate:false,saveNamespace:'qa-r11',modal:dom.modal,document:dom.document,window:{addEventListener:(name,handler)=>dom.wh[name]=handler},canvas:dom.canvas,gate,router,expertCapture,expertSafety,
   deferredImmediate:imports.createImmediateInput(),paused:true,busy:false,captureBinding:null,suppressNextClick:false,combatSaveElapsed:0,focusEvents:{blurAt:'none',visibilityAt:'none'},audio:{cancel(){},pause(){},play(){}},toast:text=>toasts.push(text),updateHud(){},$,Date:class {toISOString(){return 'fixture-fixed-clock';}},performance:{now:()=>100},last:0};
- const names=['panel','closePanel','showDeath','showTitle','showNpc','showTraining','purchaseTrainingSkill','checkpointPanel','effectText','clearInput','flushActionSafety','syncVitals','report','dispatch','immediateAction'];
+ const names=['panel','closePanel','showDeath','showTitle','showNpc','showTraining','showActionSlots','purchaseTrainingSkill','checkpointPanel','effectText','clearInput','flushActionSafety','syncVitals','report','dispatch','immediateAction'];
  const program=[mainInputSource,cut('const config=','let controller='),cut('const esc=','function clearInput('),cut('const tierLabel=','const focusEvents='),...names.filter(name=>name!=='purchaseTrainingSkill'||source.includes('function purchaseTrainingSkill(')).map(fn),cut("document.addEventListener('click',","document.addEventListener('change',"),cut("window.addEventListener('keydown',","window.addEventListener('mousedown',"),`return {showTraining,showTitle,closePanel,panel,dispatch,report,get state(){return state},get battle(){return battle},get busy(){return busy},get paused(){return paused},get controller(){return controller},get expertSafety(){return expertSafety},get captureBinding(){return captureBinding},get deferred(){return deferredImmediate},get focusEvents(){return focusEvents},change(kind){if(kind==='controller')controller={};if(kind==='profile')profile='qa-other';if(kind==='battle')battle=createBattle(state);if(kind==='life')battle.stateLife++; if(kind==='region')battle.region='old_road';if(kind==='dead'){state={...state,world:{...state.world,lifeDown:true}};showDeath();}if(kind==='hp')battle.p.hp=0;},setCaptureBinding(value){captureBinding=value}};`].join('\n');
  const app=vm.compileFunction(program,Object.keys(env))(...Object.values(env));
  await app.showTraining();
@@ -82,6 +93,23 @@ async function ui({skills=[]}={}){
  return h;
 }
 const offset=h=>{const card=h.button('skill:inner_flame').card;return card.getBoundingClientRect().top-h.pane.getBoundingClientRect().top;};
+test('graph real mouse/keyboard selection is read-only, lists toggle and current descriptions/locks stay available',async()=>{
+ const h=await ui();await h.click('training-layout:graph');assert.equal(h.modal.trainingLayout,'graph');assert.equal(h.pane.buttons.filter(x=>x.dataset.action.startsWith('training-node:')).length,9);const before=structuredClone(h.store.load()),revision=h.app.controller.revision();h.pane.graphScroll.scrollLeft=400;
+ h.focus('training-node:stunning_strikes');const key=await h.key('Enter');assert.equal(key.prevented,false);await h.click('training-node:stunning_strikes',{detail:0});assert.equal(h.modal.trainingSelected,'stunning_strikes');assert.equal(h.pane.graphScroll.scrollLeft,400);assert.equal(h.document.activeElement,h.button('training-node:stunning_strikes'));assert.ok(h.button('skill:stunning_strikes'));assert.deepEqual(h.store.load(),before);assert.equal(h.app.controller.revision(),revision);const repeat=await h.key('Enter',{repeat:true});assert.equal(repeat.prevented,true);
+ await h.click('training-layout:list');assert.equal(h.modal.trainingLayout,'list');assert.equal(h.pane.graph,null);assert.ok(h.button('skill:stunning_strikes'));
+});
+test('graph real purchase updates rank/points once, keeps horizontal view and rejects repeat/stale DOM activation',async()=>{
+ const h=await ui();await h.click('training-layout:graph');await h.click('training-node:stunning_strikes');const q=imports.previewSkill(h.app.state.character,'stunning_strikes',h.app.state),before=h.app.state.character.skillPoints,old=h.button('skill:stunning_strikes');h.pane.graphScroll.scrollLeft=350;h.focus('skill:stunning_strikes');h.delay(1);const buying=h.click('skill:stunning_strikes');await next();assert.equal(h.waiting,true);await h.click('skill:stunning_strikes',{target:old,detail:2});await h.click('skill:stunning_strikes',{target:old});await h.release();await buying;
+ assert.equal(h.app.state.character.skills.stunning_strikes,q.nextRank);assert.equal(h.app.state.character.skillPoints,before-q.cost);assert.equal(h.pane.graphScroll.scrollLeft,350);const saved=structuredClone(h.store.load());await h.click('skill:stunning_strikes',{target:old,detail:0});assert.deepEqual(h.store.load(),saved);assert.equal(h.document.activeElement,h.button('skill:stunning_strikes'));
+});
+for(const exit of ['close','back'])test(`graph ${exit} during accepted purchase prevents trainer reopening and extra purchases`,async()=>{
+ const h=await ui();await h.click('training-layout:graph');await h.click('training-node:stunning_strikes');const q=imports.previewSkill(h.app.state.character,'stunning_strikes',h.app.state),old=h.button('skill:stunning_strikes');h.delay(1);const buying=h.click('skill:stunning_strikes');await next();if(exit==='close')h.app.closePanel();else h.app.panel('다른 화면','다른 화면');await h.release();await buying;assert.equal(h.app.state.character.skills.stunning_strikes,q.nextRank);assert.equal(h.modal.hidden,exit==='close');if(exit==='back')assert.equal(h.pane.title,'다른 화면');const points=h.app.state.character.skillPoints;await h.click('skill:stunning_strikes',{target:old});assert.equal(h.app.state.character.skillPoints,points);
+});
+test('graph purchase activates existing combat stats and actual explicit eight-slot assignment uses revision/life guards',async()=>{
+ const h=await ui();await h.click('training-layout:graph');await h.click('training-node:crushing_blows');const pen=h.app.battle.stats.actions.mace_swing.armorPenetration;await h.click('skill:crushing_blows');assert.ok(h.app.battle.stats.actions.mace_swing.armorPenetration>pen);await h.click('action-slots');await h.click('enable-skill-loadout');assert.equal(h.app.state.options.controls.version,5);assert.equal(h.pane.cards.length,8);
+ const unassign=h.pane.buttons.find(x=>x.dataset.action==='assign-skill-slot'&&x.dataset.slot==='attack'&&x.dataset.skill==='');assert.ok(unassign);await h.click('assign-skill-slot',{target:unassign});assert.equal(h.app.state.options.controls.skillSlots.attack,null);
+ const assign=h.pane.buttons.find(x=>x.dataset.action==='assign-skill-slot'&&x.dataset.slot==='heal'&&x.dataset.skill==='mace_swing');assert.ok(assign);await h.click('assign-skill-slot',{target:assign});assert.equal(h.app.state.options.controls.skillSlots.heal,'mace_swing');assert.equal(h.store.load().state.options.controls.skillSlots.heal,'mace_swing');const saved=structuredClone(h.store.load());await h.click('assign-skill-slot',{target:assign});assert.deepEqual(h.store.load(),saved);
+});
 function prepare(h,action='skill:inner_flame'){
  h.pane.groups[0].open=true;h.pane.groups[1].open=false;h.pane.groups[2].open=true;
  h.pane.scrollTop=920;h.focus(action);return {pane:h.pane,button:h.button(action),offset:h.button(action).card.getBoundingClientRect().top-h.pane.getBoundingClientRect().top,opened:h.pane.groups.map(g=>g.open)};

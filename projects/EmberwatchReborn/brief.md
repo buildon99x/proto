@@ -279,3 +279,8 @@ Second session-only loop: a distinct two-contact training-staff sequence earns C
 ## Magma shield defence-counter candidate
 
 Third independent session shield stance: actual frontal active blocks arm a short release Bash, passive time charge is consumed by the next active block for one front fire spray. Preserve existing shield resource/damage decisions and all writers.
+
+
+## Apprentice graph training UI
+
+First graph training unit: nine existing apprentice nodes/five real base dependencies, selectable descriptions, graph/list toggle, existing purchase and explicit eight-slot assignment. Keep all existing trainer/session/payment guards; no new save fields, writer, ability values or respec.
