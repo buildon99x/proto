@@ -1,0 +1,382 @@
+TAP version 13
+# Subtest: graph real mouse/keyboard selection is read-only, lists toggle and current descriptions/locks stay available
+ok 1 - graph real mouse/keyboard selection is read-only, lists toggle and current descriptions/locks stay available
+  ---
+  duration_ms: 2295.126362
+  type: 'test'
+  ...
+# Subtest: graph real purchase updates rank/points once, keeps horizontal view and rejects repeat/stale DOM activation
+ok 2 - graph real purchase updates rank/points once, keeps horizontal view and rejects repeat/stale DOM activation
+  ---
+  duration_ms: 600.957024
+  type: 'test'
+  ...
+# Subtest: graph close during accepted purchase prevents trainer reopening and extra purchases
+ok 3 - graph close during accepted purchase prevents trainer reopening and extra purchases
+  ---
+  duration_ms: 369.628323
+  type: 'test'
+  ...
+# Subtest: graph back during accepted purchase prevents trainer reopening and extra purchases
+ok 4 - graph back during accepted purchase prevents trainer reopening and extra purchases
+  ---
+  duration_ms: 302.83981
+  type: 'test'
+  ...
+# Subtest: graph purchase activates existing combat stats and actual explicit eight-slot assignment uses revision/life guards
+ok 5 - graph purchase activates existing combat stats and actual explicit eight-slot assignment uses revision/life guards
+  ---
+  duration_ms: 926.278161
+  type: 'test'
+  ...
+# Subtest: successful real purchase restores final trainer card, disclosures and keyboard focus after both saves
+ok 6 - successful real purchase restores final trainer card, disclosures and keyboard focus after both saves
+  ---
+  duration_ms: 412.041758
+  type: 'test'
+  ...
+# Subtest: repeated enabled keyboard purchases preserve card position through changed text heights and charge each rank once
+ok 7 - repeated enabled keyboard purchases preserve card position through changed text heights and charge each rank once
+  ---
+  duration_ms: 705.5869
+  type: 'test'
+  ...
+# Subtest: latest scroll/disclosure choices during payment are retained instead of old click-time values
+ok 8 - latest scroll/disclosure choices during payment are retained instead of old click-time values
+  ---
+  duration_ms: 282.663645
+  type: 'test'
+  ...
+# Subtest: max rank moves reading focus to the same inert card and rejects disabled clicks
+ok 9 - max rank moves reading focus to the same inert card and rejects disabled clicks
+  ---
+  duration_ms: 406.027207
+  type: 'test'
+  ...
+# Subtest: purchase making next rank unaffordable does not focus another actionable purchase
+ok 10 - purchase making next rank unaffordable does not focus another actionable purchase
+  ---
+  duration_ms: 1345.47248
+  type: 'test'
+  ...
+# Subtest: disabled skill:flaming_wrath never submits, changes viewport or restores input
+ok 11 - disabled skill:flaming_wrath never submits, changes viewport or restores input
+  ---
+  duration_ms: 150.472342
+  type: 'test'
+  ...
+# Subtest: disabled skill:banner_of_zeal never submits, changes viewport or restores input
+ok 12 - disabled skill:banner_of_zeal never submits, changes viewport or restores input
+  ---
+  duration_ms: 212.827574
+  type: 'test'
+  ...
+# Subtest: double click, stale detached button and a click during payment cannot buy extra ranks
+ok 13 - double click, stale detached button and a click during payment cannot buy extra ranks
+  ---
+  duration_ms: 373.280293
+  type: 'test'
+  ...
+# Subtest: close during purchase invalidates the old trainer restoration
+ok 14 - close during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 207.677691
+  type: 'test'
+  ...
+# Subtest: menu during purchase invalidates the old trainer restoration
+ok 15 - menu during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 219.738078
+  type: 'test'
+  ...
+# Subtest: title during purchase invalidates the old trainer restoration
+ok 16 - title during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 250.955093
+  type: 'test'
+  ...
+# Subtest: controller during purchase invalidates the old trainer restoration
+ok 17 - controller during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 204.993807
+  type: 'test'
+  ...
+# Subtest: profile during purchase invalidates the old trainer restoration
+ok 18 - profile during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 201.731553
+  type: 'test'
+  ...
+# Subtest: battle during purchase invalidates the old trainer restoration
+ok 19 - battle during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 199.567883
+  type: 'test'
+  ...
+# Subtest: life during purchase invalidates the old trainer restoration
+ok 20 - life during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 191.721377
+  type: 'test'
+  ...
+# Subtest: region during purchase invalidates the old trainer restoration
+ok 21 - region during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 208.781087
+  type: 'test'
+  ...
+# Subtest: dead during purchase invalidates the old trainer restoration
+ok 22 - dead during purchase invalidates the old trainer restoration
+  ---
+  duration_ms: 191.224102
+  type: 'test'
+  ...
+# Subtest: close during checkpoint invalidates the old trainer restoration
+ok 23 - close during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 239.849935
+  type: 'test'
+  ...
+# Subtest: menu during checkpoint invalidates the old trainer restoration
+ok 24 - menu during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 255.7867
+  type: 'test'
+  ...
+# Subtest: title during checkpoint invalidates the old trainer restoration
+ok 25 - title during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 240.067162
+  type: 'test'
+  ...
+# Subtest: controller during checkpoint invalidates the old trainer restoration
+ok 26 - controller during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 231.195153
+  type: 'test'
+  ...
+# Subtest: profile during checkpoint invalidates the old trainer restoration
+ok 27 - profile during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 225.886672
+  type: 'test'
+  ...
+# Subtest: battle during checkpoint invalidates the old trainer restoration
+ok 28 - battle during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 226.809124
+  type: 'test'
+  ...
+# Subtest: life during checkpoint invalidates the old trainer restoration
+ok 29 - life during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 236.727713
+  type: 'test'
+  ...
+# Subtest: region during checkpoint invalidates the old trainer restoration
+ok 30 - region during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 238.874142
+  type: 'test'
+  ...
+# Subtest: dead during checkpoint invalidates the old trainer restoration
+ok 31 - dead during checkpoint invalidates the old trainer restoration
+  ---
+  duration_ms: 255.446807
+  type: 'test'
+  ...
+# Subtest: QUOTA during purchase cannot apply a stale view or repeat the purchase
+ok 32 - QUOTA during purchase cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 190.159104
+  type: 'test'
+  ...
+# Subtest: COMMIT_UNCERTAIN during purchase cannot apply a stale view or repeat the purchase
+ok 33 - COMMIT_UNCERTAIN during purchase cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 178.921385
+  type: 'test'
+  ...
+# Subtest: QUOTA during checkpoint cannot apply a stale view or repeat the purchase
+ok 34 - QUOTA during checkpoint cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 197.904142
+  type: 'test'
+  ...
+# Subtest: COMMIT_UNCERTAIN during checkpoint cannot apply a stale view or repeat the purchase
+ok 35 - COMMIT_UNCERTAIN during checkpoint cannot apply a stale view or repeat the purchase
+  ---
+  duration_ms: 214.651507
+  type: 'test'
+  ...
+# Subtest: focus during purchase never revives the old purchase focus
+ok 36 - focus during purchase never revives the old purchase focus
+  ---
+  duration_ms: 380.040475
+  type: 'test'
+  ...
+# Subtest: blur during purchase never revives the old purchase focus
+ok 37 - blur during purchase never revives the old purchase focus
+  ---
+  duration_ms: 316.756333
+  type: 'test'
+  ...
+# Subtest: visibility during purchase never revives the old purchase focus
+ok 38 - visibility during purchase never revives the old purchase focus
+  ---
+  duration_ms: 324.972677
+  type: 'test'
+  ...
+# Subtest: focus during checkpoint never revives the old purchase focus
+ok 39 - focus during checkpoint never revives the old purchase focus
+  ---
+  duration_ms: 326.414437
+  type: 'test'
+  ...
+# Subtest: blur during checkpoint never revives the old purchase focus
+ok 40 - blur during checkpoint never revives the old purchase focus
+  ---
+  duration_ms: 279.779407
+  type: 'test'
+  ...
+# Subtest: visibility during checkpoint never revives the old purchase focus
+ok 41 - visibility during checkpoint never revives the old purchase focus
+  ---
+  duration_ms: 281.549355
+  type: 'test'
+  ...
+# Subtest: pointer purchase without owned keyboard focus preserves scroll without stealing skill focus
+ok 42 - pointer purchase without owned keyboard focus preserves scroll without stealing skill focus
+  ---
+  duration_ms: 279.526674
+  type: 'test'
+  ...
+# Subtest: successful refresh still clears held/deferred input, binding capture and native key repeat
+ok 43 - successful refresh still clears held/deferred input, binding capture and native key repeat
+  ---
+  duration_ms: 271.729845
+  type: 'test'
+  ...
+# Subtest: close and reopen during purchase leaves the new trainer at its own default view
+ok 44 - close and reopen during purchase leaves the new trainer at its own default view
+  ---
+  duration_ms: 296.152186
+  type: 'test'
+  ...
+# Subtest: close and reopen during checkpoint leaves the new trainer at its own default view
+ok 45 - close and reopen during checkpoint leaves the new trainer at its own default view
+  ---
+  duration_ms: 327.154577
+  type: 'test'
+  ...
+# Subtest: real rejected out-of-range purchase leaves state, storage, viewport and focus unchanged
+ok 46 - real rejected out-of-range purchase leaves state, storage, viewport and focus unchanged
+  ---
+  duration_ms: 156.168876
+  type: 'test'
+  ...
+# Subtest: dead battle cannot start an old enabled training purchase
+ok 47 - dead battle cannot start an old enabled training purchase
+  ---
+  duration_ms: 147.303417
+  type: 'test'
+  ...
+# Subtest: repeated blur with an identical wall-clock timestamp still invalidates purchase focus
+ok 48 - repeated blur with an identical wall-clock timestamp still invalidates purchase focus
+  ---
+  duration_ms: 321.997554
+  type: 'test'
+  ...
+# Subtest: all graph tier filters are read-only, retain valid selection and native filter focus, and discard detached targets
+ok 49 - all graph tier filters are read-only, retain valid selection and native filter focus, and discard detached targets
+  ---
+  duration_ms: 281.159219
+  type: 'test'
+  ...
+# Subtest: actual graph flaming_wrath lock uses preview and never submits disabled purchase
+ok 50 - actual graph flaming_wrath lock uses preview and never submits disabled purchase
+  ---
+  duration_ms: 244.973922
+  type: 'test'
+  ...
+# Subtest: actual graph hammer_of_sundering lock uses preview and never submits disabled purchase
+ok 51 - actual graph hammer_of_sundering lock uses preview and never submits disabled purchase
+  ---
+  duration_ms: 271.173155
+  type: 'test'
+  ...
+# Subtest: actual graph banner_of_zeal lock uses preview and never submits disabled purchase
+ok 52 - actual graph banner_of_zeal lock uses preview and never submits disabled purchase
+  ---
+  duration_ms: 293.131787
+  type: 'test'
+  ...
+# Subtest: adept graph purchase commits through existing handler and locks opposite branch without altering tier filter
+ok 53 - adept graph purchase commits through existing handler and locks opposite branch without altering tier filter
+  ---
+  duration_ms: 350.301243
+  type: 'test'
+  ...
+# Subtest: graph contains all forty implemented nodes, twenty-eight real dependencies and two exclusive groups
+ok 54 - graph contains all forty implemented nodes, twenty-eight real dependencies and two exclusive groups
+  ---
+  duration_ms: 2.442225
+  type: 'test'
+  ...
+# Subtest: graph selection is read-only and purchase fields exactly match current authoritative preview
+ok 55 - graph selection is read-only and purchase fields exactly match current authoritative preview
+  ---
+  duration_ms: 547.353967
+  type: 'test'
+  ...
+# Subtest: insufficient points render a disabled real purchase rather than inventing an unlock
+ok 56 - insufficient points render a disabled real purchase rather than inventing an unlock
+  ---
+  duration_ms: 481.175335
+  type: 'test'
+  ...
+# Subtest: unknown selection falls back to an implemented node without exposing a new command
+ok 57 - unknown selection falls back to an implemented node without exposing a new command
+  ---
+  duration_ms: 326.157761
+  type: 'test'
+  ...
+# Subtest: tier apprentice projects real nodes and edges, with a visible valid selection
+ok 58 - tier apprentice projects real nodes and edges, with a visible valid selection
+  ---
+  duration_ms: 304.16845
+  type: 'test'
+  ...
+# Subtest: tier adept projects real nodes and edges, with a visible valid selection
+ok 59 - tier adept projects real nodes and edges, with a visible valid selection
+  ---
+  duration_ms: 340.666368
+  type: 'test'
+  ...
+# Subtest: tier expert projects real nodes and edges, with a visible valid selection
+ok 60 - tier expert projects real nodes and edges, with a visible valid selection
+  ---
+  duration_ms: 364.766752
+  type: 'test'
+  ...
+# Subtest: expert tier locks and filtered hidden bases stay readable without an enabled purchase
+ok 61 - expert tier locks and filtered hidden bases stay readable without an enabled purchase
+  ---
+  duration_ms: 416.743338
+  type: 'test'
+  ...
+# Subtest: an existing exclusive purchase locks its opposite and distinct dashed relation is not a base edge
+ok 62 - an existing exclusive purchase locks its opposite and distinct dashed relation is not a base edge
+  ---
+  duration_ms: 415.233209
+  type: 'test'
+  ...
+1..62
+# tests 62
+# suites 0
+# pass 62
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 18560.84048

@@ -1,5 +1,5 @@
 import {MAGMA_RULES,magmaAvailability,setMagmaMode} from './magma-combat.js';
-import {TRAINING_GRAPH_IDS,renderTrainingGraph} from './training-graph.js';
+import {TRAINING_GRAPH_IDS,trainingGraphSelection,renderTrainingGraph} from './training-graph.js';
 import {CRUSHER_RULES,crusherAvailability,setCrusherMode} from './crusher-combat.js';
 import {STORM_RULES,stormAvailability,setStormMode,stormPerfectStart} from './storm-combat.js';
 import {stormBellHover} from './storm-presentation.js';
@@ -388,8 +388,8 @@ async function showTraining(view=null){
  const promotion=state.character.tier==='apprentice'?previewPromotion(state):previewExpertPromotion(state),revision=controller.revision(),expertFee=state.character.tier==='adept';
  const promotionHtml=`<section class="quest-card"><h3>${expertFee?'다음 성장 · 전문가 승급':'훈련 단계'}</h3><p>${esc(promotion.reason)}</p>${promotion.available?button(expertFee?'전문가 승급 · 예약금120 사용':'숙련 전사로 승급 · 금화0',expertFee?'promote-expert':'promote-adept',`class="primary" data-revision="${revision}" data-gold="${promotion.goldCost}"`):''}</section>`;
  const keepFocus=view&&document.activeElement===waitingFocus;
- const graph=modal.trainingLayout==='graph';
- panel('전사의 훈련',`<div data-training-root><p>${tierLabel(state.character.tier)} 전사 · 남은 기술점수 <strong>${state.character.skillPoints}</strong></p>${promotionHtml}<div class="buttons training-view-actions">${button('입문 그래프','training-layout:graph',`aria-pressed="${graph}"`)}${button('목록','training-layout:list',`aria-pressed="${!graph}"`)}${STARTER_SKILLS.every(id=>state.character.skills[id]>0)?button('전사 기술 배치','action-slots','class="primary"'):''}</div>${graph?`<section data-training-graph>${renderTrainingGraph(state,{selected:modal.trainingSelected,epoch:modal.presentationEpoch+1,format:effectText})}</section>`:''}${(graph?['adept','expert']:['apprentice','adept','expert']).map(t=>`<details ${state.character.tier===t?'open':''}><summary>${tierLabel(t)} 기술</summary><div class="skills">${RUNTIME_SKILL_IDS.map((id,i)=>previewSkill(state.character,id,state).tier===t?rows[i]:'').join('')}</div></details>`).join('')}<p class="minor">그래프는 입문 9개에 한정됩니다. 숙련·전문은 기존 목록이며 마스터13노드와 전체 캠페인은 미완입니다. 승급은 기술·점수·자원을 무료 지급하지 않습니다.</p>${button('돌아가기','close')}</div>`,true);
+ const graph=modal.trainingLayout==='graph';if(graph)modal.trainingSelected=trainingGraphSelection(modal.trainingSelected,modal.trainingTier);
+ panel('전사의 훈련',`<div data-training-root><p>${tierLabel(state.character.tier)} 전사 · 남은 기술점수 <strong>${state.character.skillPoints}</strong></p>${promotionHtml}<div class="buttons training-view-actions">${button('기술 그래프','training-layout:graph',`aria-pressed="${graph}"`)}${button('목록','training-layout:list',`aria-pressed="${!graph}"`)}${STARTER_SKILLS.every(id=>state.character.skills[id]>0)?button('전사 기술 배치','action-slots','class="primary"'):''}</div>${graph?`<section data-training-graph>${renderTrainingGraph(state,{selected:modal.trainingSelected,tier:modal.trainingTier,epoch:modal.presentationEpoch+1,format:effectText})}</section>`:''}${(graph?[]:['apprentice','adept','expert']).map(t=>`<details ${state.character.tier===t?'open':''}><summary>${tierLabel(t)} 기술</summary><div class="skills">${RUNTIME_SKILL_IDS.map((id,i)=>previewSkill(state.character,id,state).tier===t?rows[i]:'').join('')}</div></details>`).join('')}<p class="minor">그래프는 기존 구현 40개 기술만 표시합니다. 마스터13노드와 전체 캠페인은 미완입니다. 승급은 기술·점수·자원을 무료 지급하지 않습니다.</p>${button('돌아가기','close')}</div>`,true);
  if(view)view.restore(keepFocus);
 }
 async function purchaseTrainingSkill(target){
@@ -403,7 +403,7 @@ async function purchaseTrainingSkill(target){
  if(!await dispatch({type:'purchaseSkill',skillId:action.slice(6),position:{x:battle.p.x,y:battle.p.y}})||!sameSession()||modal.hidden||modal.presentationEpoch!==epoch||modal.querySelector('.panel')!==pane)return;
  // Sample the latest view after payment, then restore only the final trainer,
  // never its transient checkpoint panel or a newer menu/profile.
- const scrollTop=pane.scrollTop,graphScrollLeft=pane.querySelector('.training-graph-scroll')?.scrollLeft,opened=[...pane.querySelectorAll('details')].map(node=>node.open);
+ const scrollTop=pane.scrollTop,graphScrollLeft=pane.querySelector('.training-graph-scroll')?.scrollLeft,graphScrollTop=pane.querySelector('.training-graph-scroll')?.scrollTop,opened=[...pane.querySelectorAll('details')].map(node=>node.open);
  const offset=target.closest('.skill').getBoundingClientRect().top-pane.getBoundingClientRect().top;
  const focused=document.activeElement===target;
  await showTraining({current:sameSession,restore(keepFocus){
@@ -411,7 +411,7 @@ async function purchaseTrainingSkill(target){
   if(!sameSession()||!nextPane||!card)return;
   [...nextPane.querySelectorAll('details')].forEach((node,i)=>{node.open=opened[i];});
   nextPane.scrollTop=scrollTop;
-  if(Number.isFinite(graphScrollLeft)){const graphScroll=nextPane.querySelector('.training-graph-scroll');if(graphScroll)graphScroll.scrollLeft=graphScrollLeft;}
+  if(Number.isFinite(graphScrollLeft)){const graphScroll=nextPane.querySelector('.training-graph-scroll');if(graphScroll){graphScroll.scrollLeft=graphScrollLeft;graphScroll.scrollTop=graphScrollTop??0;}}
   nextPane.scrollTop+=card.getBoundingClientRect().top-nextPane.getBoundingClientRect().top-offset;
   if(focused&&keepFocus&&!document.hidden&&document.hasFocus()&&(focusEvents.safetyEpoch??0)===focusEpoch){
    // A completed/unaffordable row keeps reading focus on its card, never on a
@@ -572,8 +572,12 @@ document.addEventListener('click',async e=>{
  if(action==='training-layout:graph'||action==='training-layout:list'){
   const pane=modal.querySelector('.panel');if(busy||modal.hidden||!pane?.contains(target)||!pane.querySelector('[data-training-root]'))return;modal.trainingLayout=action.endsWith(':graph')?'graph':'list';return showTraining();
  }
- if(action.startsWith('training-node:')){
-  const host=modal.querySelector('[data-training-graph]'),id=action.slice(14);if(busy||modal.hidden||!host?.contains(target)||!TRAINING_GRAPH_IDS.includes(id))return;const scrollLeft=host.querySelector('.training-graph-scroll')?.scrollLeft??0;modal.trainingSelected=id;host.innerHTML=renderTrainingGraph(state,{selected:id,epoch:modal.presentationEpoch,format:effectText});const scroll=host.querySelector('.training-graph-scroll');if(scroll)scroll.scrollLeft=scrollLeft;host.querySelector(`[data-action="training-node:${id}"]`)?.focus({preventScroll:true});return;
+ if(action.startsWith('training-node:')||action.startsWith('training-tier:')){
+  const host=modal.querySelector('[data-training-graph]'),filter=action.startsWith('training-tier:'),id=action.slice(14);if(busy||modal.hidden||!host?.contains(target))return;
+  if(filter){if(!['all','apprentice','adept','expert'].includes(id))return;modal.trainingTier=id;}else if(!TRAINING_GRAPH_IDS.includes(id))return;
+  const oldScroll=host.querySelector('.training-graph-scroll'),scrollLeft=filter?0:oldScroll?.scrollLeft??0,scrollTop=filter?0:oldScroll?.scrollTop??0;
+  modal.trainingSelected=trainingGraphSelection(filter?modal.trainingSelected:id,modal.trainingTier);host.innerHTML=renderTrainingGraph(state,{selected:modal.trainingSelected,tier:modal.trainingTier,epoch:modal.presentationEpoch,format:effectText});
+  const scroll=host.querySelector('.training-graph-scroll');if(scroll){scroll.scrollLeft=scrollLeft;scroll.scrollTop=scrollTop;}host.querySelector(`[data-action="${filter?action:'training-node:'+modal.trainingSelected}"]`)?.focus({preventScroll:true});return;
  }
  if(action==='upgrade-backup-main'){if(!candidate)return openUpgradeBackup('main',$('upgradeBackupKind')?.value);return;}
  if(action==='upgrade-backup-qa')return openUpgradeBackup($('profile')?.value,$('upgradeBackupKind')?.value);

@@ -379,3 +379,8 @@ Authored charge3s and block-to-release0.18s window. No Block Chance buff/Enduran
 ## Apprentice graph training UI
 
 Read-only graph projection of WARRIOR_REFERENCE and previewSkill; node selection does not buy. Dedicated purchase carries UI epoch/rank and reuses purchaseTrainingSkill/purchaseSkill. Native buttons support keyboard/mouse; existing repeat-key and double-click suppression remains. Eight-slot conversion/assignment uses existing controls5/revision/life API. Other tiers remain existing lists; Master stays unimplemented. Safety threshold, dt clamp and frame observer unchanged.
+
+
+## Full implemented skill graph
+
+Graph defaults to all40 nodes; apprentice/adept/expert filters project existing metadata. Hidden bases remain named requirements, never fabricated edges. Locked nodes stay selectable; only the authoritative preview enables purchase. Exclusive alternatives are labelled and drawn separately from dependencies. Preserve keyboard focus, both scroll axes and stale purchase tickets. No save/writer/respec/balance/frame-safety changes.

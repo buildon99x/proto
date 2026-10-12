@@ -40,12 +40,12 @@
 /* R14a10: help navigation is reachable before the long guide. */
 .dialog-actions{margin-top:0;margin-bottom:16px}.dialog-actions button{min-height:44px}
 .training-view-actions button[aria-pressed="true"]{border-color:#d9bd82;background:#33434b}
-.training-graph-scroll{overflow-x:auto;margin:14px 0;border:1px solid #71848b66;border-radius:8px;background:#131b25;overscroll-behavior-x:contain}
+.training-graph-scroll{overflow:auto;max-height:60vh;margin:14px 0;border:1px solid #71848b66;border-radius:8px;background:#131b25;overscroll-behavior:contain}
 .training-graph-scroll:focus-visible{outline:2px solid #a8d7d2;outline-offset:2px}
 .training-graph-board{position:relative;width:1000px;height:400px}
 .training-graph-board svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .training-graph-board path{fill:none;stroke:#859aab;stroke-width:2}
-.training-node{position:absolute;width:210px;height:100px;padding:0;margin:0;background:none;border:0}
+.training-node{position:absolute;width:210px;height:110px;padding:0;margin:0;background:none;border:0}
 .training-node button{box-sizing:border-box;width:100%;height:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:5px;padding:10px;text-align:left;background:#202c39;border:1px solid #73848c;border-radius:7px}
 .training-node.learned button{border-color:#a89773}
 .training-node button[aria-pressed="true"]{border:2px solid #d9bc81;background:#34454c}
@@ -53,3 +53,7 @@
 .training-node span,.training-node small{font-size:12px;color:#d4d9d9}
 .training-node small{line-height:1.3}
 .training-detail{scroll-margin-top:12px}.training-detail h3{margin-top:0}.training-detail button{min-height:44px}
+
+.training-graph-board path.training-exclusive{stroke:#dab580;stroke-dasharray:5 4}
+.training-tier-actions button[aria-pressed="true"]{border-color:#d9bc81;background:#34454c}
+.training-tier-actions button:focus-visible{outline:3px solid #b6e8e0;outline-offset:2px}

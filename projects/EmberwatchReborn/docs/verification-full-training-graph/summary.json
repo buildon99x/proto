@@ -1,0 +1,52 @@
+{
+  "baseline": "0f5392f706847912cef248b185807da3f84eb25c",
+  "full": {
+    "tests": 4660,
+    "pass": 4660,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "focused": {
+    "tests": 62,
+    "pass": 62,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "keylayout": {
+    "tests": 405,
+    "pass": 405,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "newModelCases": 5,
+  "newTrainerHandlerCases": 5,
+  "lintExit": 0,
+  "registryExit": 0,
+  "buildVercelExit": 0,
+  "graphNodes": 40,
+  "dependencyEdges": 28,
+  "exclusiveGroups": 2,
+  "tierNodes": {
+    "apprentice": 9,
+    "adept": 16,
+    "expert": 15
+  },
+  "newSavedFields": false,
+  "domainWritersChanged": false,
+  "abilityNumbersChanged": false,
+  "safetyThresholdOrFunctionsChanged": false,
+  "nativeFullGraphVisualAX": "not performed",
+  "predecessorNativeQA": "native-v76-qa.md; nine-node predecessor only",
+  "wholePoePort": "not complete",
+  "sourceSHA256": {
+    "main.js": "b5d0a5f3787ad89a75d6b15eabc47a6226583ad0de36fd73edf012e55b51f671",
+    "style.css": "a5fbca2170ea3645b3732a43e518b981bab64de5430501c4f5afa1e3e0d50356",
+    "training-graph.js": "c47c45bad4f686a70624eccee74835168796817fb60a51dca073ebdb2f6e5031"
+  }
+}

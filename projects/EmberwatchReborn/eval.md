@@ -496,3 +496,8 @@ Production incoming attacks plus actual input/frames: active vs rear/passive blo
 ## Apprentice graph training UI
 
 Assert9 nodes/5 authoritative edges, current/next/lock descriptions, read-only selection, rank/point updates via real UI purchase, stale/repeat/parallel clicks, delayed save close/back/profile guards, graph/list toggle and actual explicit eight-slot assignment. Preserve old list/card/focus checks. Full/lint/registry/build/hash and original167; native visual/AX acceptance separate. Return v75 safety measurement findings separately without relaxing >500ms guard.
+
+
+## Full implemented skill graph
+
+Verify40/28/two groups from runtime metadata, tier9/16/15 projections, actual tier/base/exclusive lock descriptions and disabled purchases, read-only filter/selection, one purchase through existing handler, stale/parallel suppression, focus and both scroll axes, old apprentice/list/eight-slot regressions. Run full tests/lint/registry/build and byte preservation. Record v76 native observations separately; new layout/AX/native acceptance remains unverified.

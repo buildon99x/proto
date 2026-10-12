@@ -1,0 +1,2440 @@
+TAP version 13
+# Subtest: new state has two empty slots and does not automatically equip free Expert actions
+ok 1 - new state has two empty slots and does not automatically equip free Expert actions
+  ---
+  duration_ms: 3581.158516
+  type: 'test'
+  ...
+# Subtest: real command changes only explicit slot, preserving points/resources/recovery/economy and controller reload
+ok 2 - real command changes only explicit slot, preserving points/resources/recovery/economy and controller reload
+  ---
+  duration_ms: 202.451411
+  type: 'test'
+  ...
+# Subtest: slot command rejects unknown slot with no mutation
+ok 3 - slot command rejects unknown slot with no mutation
+  ---
+  duration_ms: 21.803771
+  type: 'test'
+  ...
+# Subtest: slot command rejects unknown skill with no mutation
+ok 4 - slot command rejects unknown skill with no mutation
+  ---
+  duration_ms: 47.105833
+  type: 'test'
+  ...
+# Subtest: slot command rejects unlearned augment with no mutation
+ok 5 - slot command rejects unlearned augment with no mutation
+  ---
+  duration_ms: 22.179789
+  type: 'test'
+  ...
+# Subtest: slot command rejects wrong current with no mutation
+ok 6 - slot command rejects wrong current with no mutation
+  ---
+  duration_ms: 23.835244
+  type: 'test'
+  ...
+# Subtest: slot command rejects stale revision with no mutation
+ok 7 - slot command rejects stale revision with no mutation
+  ---
+  duration_ms: 45.155402
+  type: 'test'
+  ...
+# Subtest: slot command rejects future revision with no mutation
+ok 8 - slot command rejects future revision with no mutation
+  ---
+  duration_ms: 22.921001
+  type: 'test'
+  ...
+# Subtest: slot command rejects stale life with no mutation
+ok 9 - slot command rejects stale life with no mutation
+  ---
+  duration_ms: 21.8767
+  type: 'test'
+  ...
+# Subtest: slot command rejects fraction revision with no mutation
+ok 10 - slot command rejects fraction revision with no mutation
+  ---
+  duration_ms: 43.062828
+  type: 'test'
+  ...
+# Subtest: slot command rejects extra field with no mutation
+ok 11 - slot command rejects extra field with no mutation
+  ---
+  duration_ms: 22.619144
+  type: 'test'
+  ...
+# Subtest: no direct reducer context cannot silently accept an assignment
+ok 12 - no direct reducer context cannot silently accept an assignment
+  ---
+  duration_ms: 21.347069
+  type: 'test'
+  ...
+# Subtest: same skill cannot occupy both slots; explicit clear and later assignment work without purchasing again
+ok 13 - same skill cannot occupy both slots; explicit clear and later assignment work without purchasing again
+  ---
+  duration_ms: 302.27842
+  type: 'test'
+  ...
+# Subtest: two queued clicks using one displayed revision commit once
+ok 14 - two queued clicks using one displayed revision commit once
+  ---
+  duration_ms: 155.161166
+  type: 'test'
+  ...
+# Subtest: failed save leaves both runtime and durable slot unchanged
+ok 15 - failed save leaves both runtime and durable slot unchanged
+  ---
+  duration_ms: 60.614974
+  type: 'test'
+  ...
+# Subtest: slot is not optimistic during delayed store commit
+ok 16 - slot is not optimistic during delayed store commit
+  ---
+  duration_ms: 114.331204
+  type: 'test'
+  ...
+# Subtest: a dead character cannot reconfigure an action before retry
+ok 17 - a dead character cannot reconfigure an action before retry
+  ---
+  duration_ms: 70.969604
+  type: 'test'
+  ...
+# Subtest: Adept has no available Expert slot despite reaching level15
+ok 18 - Adept has no available Expert slot despite reaching level15
+  ---
+  duration_ms: 16.751935
+  type: 'test'
+  ...
+# Subtest: save validator rejects invalid slots null
+ok 19 - save validator rejects invalid slots null
+  ---
+  duration_ms: 8.390134
+  type: 'test'
+  ...
+# Subtest: save validator rejects invalid slots {}
+ok 20 - save validator rejects invalid slots {}
+  ---
+  duration_ms: 24.681833
+  type: 'test'
+  ...
+# Subtest: save validator rejects invalid slots []
+ok 21 - save validator rejects invalid slots []
+  ---
+  duration_ms: 9.903903
+  type: 'test'
+  ...
+# Subtest: save validator rejects invalid slots {"version":2,"expert1":null,"expert2":null}
+ok 22 - save validator rejects invalid slots {"version":2,"expert1":null,"expert2":null}
+  ---
+  duration_ms: 12.611185
+  type: 'test'
+  ...
+# Subtest: save validator rejects invalid slots {"version":1,"expert1":"battle_banner","expert2":"battle_banner"}
+ok 23 - save validator rejects invalid slots {"version":1,"expert1":"battle_banner","expert2":"battle_banner"}
+  ---
+  duration_ms: 11.798085
+  type: 'test'
+  ...
+# Subtest: save validator rejects invalid slots {"version":1,"expert1":"unknown","expert2":null}
+ok 24 - save validator rejects invalid slots {"version":1,"expert1":"unknown","expert2":null}
+  ---
+  duration_ms: 10.829792
+  type: 'test'
+  ...
+# Subtest: save validator rejects invalid slots {"version":1,"expert1":null,"expert2":null,"extra":1}
+ok 25 - save validator rejects invalid slots {"version":1,"expert1":null,"expert2":null,"extra":1}
+  ---
+  duration_ms: 10.635829
+  type: 'test'
+  ...
+# Subtest: independent old control-v2 shape keeps E/T/Q and Digit2/3 ownership while migration adds only empty slots
+ok 26 - independent old control-v2 shape keeps E/T/Q and Digit2/3 ownership while migration adds only empty slots
+  ---
+  duration_ms: 22.161623
+  type: 'test'
+  ...
+# Subtest: slot request/context accessors are rejected before evaluation and cannot spoof revision
+ok 27 - slot request/context accessors are rejected before evaluation and cannot spoof revision
+  ---
+  duration_ms: 39.593326
+  type: 'test'
+  ...
+# Subtest: Current controls preserve Adept E/T and recommended adds E judgement and T heal; legacy adds only empty rows
+ok 28 - Current controls preserve Adept E/T and recommended adds E judgement and T heal; legacy adds only empty rows
+  ---
+  duration_ms: 4.90568
+  type: 'test'
+  ...
+# Subtest: v1 legacy migration preserves every key and option without applying a preset
+ok 29 - v1 legacy migration preserves every key and option without applying a preset
+  ---
+  duration_ms: 0.943177
+  type: 'test'
+  ...
+# Subtest: v1 recommended migration preserves every key and option without applying a preset
+ok 30 - v1 recommended migration preserves every key and option without applying a preset
+  ---
+  duration_ms: 0.661451
+  type: 'test'
+  ...
+# Subtest: v1 custom migration preserves every key and option without applying a preset
+ok 31 - v1 custom migration preserves every key and option without applying a preset
+  ---
+  duration_ms: 0.552857
+  type: 'test'
+  ...
+# Subtest: controlsFor migrates detached reads and absence stays legacy without creating a saved field
+ok 32 - controlsFor migrates detached reads and absence stays legacy without creating a saved field
+  ---
+  duration_ms: 1.200335
+  type: 'test'
+  ...
+# Subtest: v1 validator requires exactly its twelve rows and rejects new skill injection
+ok 33 - v1 validator requires exactly its twelve rows and rejects new skill injection
+  ---
+  duration_ms: 0.37674
+  type: 'test'
+  ...
+# Subtest: current validator never silently repairs omitted rows, version or options
+ok 34 - current validator never silently repairs omitted rows, version or options
+  ---
+  duration_ms: 0.615591
+  type: 'test'
+  ...
+# Subtest: optional skill rows allow zero keys; all rows enforce dense supported arrays
+ok 35 - optional skill rows allow zero keys; all rows enforce dense supported arrays
+  ---
+  duration_ms: 2.579932
+  type: 'test'
+  ...
+# Subtest: new skill bindings retain global duplicate and Escape reservation rules
+ok 36 - new skill bindings retain global duplicate and Escape reservation rules
+  ---
+  duration_ms: 2.814308
+  type: 'test'
+  ...
+# Subtest: unassigned labels are explicit and old direct callers never render undefined
+ok 37 - unassigned labels are explicit and old direct callers never render undefined
+  ---
+  duration_ms: 0.584414
+  type: 'test'
+  ...
+# Subtest: rebind normalizes v1 first, preserves its keys/options and does not change its source
+ok 38 - rebind normalizes v1 first, preserves its keys/options and does not change its source
+  ---
+  duration_ms: 1.115167
+  type: 'test'
+  ...
+# Subtest: new skill final bindings can be removed and re-added; original actions stay required
+ok 39 - new skill final bindings can be removed and re-added; original actions stay required
+  ---
+  duration_ms: 1.120165
+  type: 'test'
+  ...
+# Subtest: failed skill rebinding leaves both old and current objects byte-for-byte unchanged
+ok 40 - failed skill rebinding leaves both old and current objects byte-for-byte unchanged
+  ---
+  duration_ms: 18.566014
+  type: 'test'
+  ...
+# Subtest: valid v1 save roundtrip preserves raw storage and exposes detached unassigned v2 skills
+ok 41 - valid v1 save roundtrip preserves raw storage and exposes detached unassigned v2 skills
+  ---
+  duration_ms: 99.922173
+  type: 'test'
+  ...
+# Subtest: heal keyboard is one shot until release and an explicit fresh press
+ok 42 - heal keyboard is one shot until release and an explicit fresh press
+  ---
+  duration_ms: 0.876837
+  type: 'test'
+  ...
+# Subtest: judgement keyboard is one shot until release and an explicit fresh press
+ok 43 - judgement keyboard is one shot until release and an explicit fresh press
+  ---
+  duration_ms: 0.142525
+  type: 'test'
+  ...
+# Subtest: both new pulses occur once in the same snapshot and a release before snapshot does not lose a press
+ok 44 - both new pulses occur once in the same snapshot and a release before snapshot does not lose a press
+  ---
+  duration_ms: 0.12577
+  type: 'test'
+  ...
+# Subtest: old controls can be passed directly and unbound skills do not acquire hidden defaults
+ok 45 - old controls can be passed directly and unbound skills do not acquire hidden defaults
+  ---
+  duration_ms: 0.270189
+  type: 'test'
+  ...
+# Subtest: heal key, auxiliary mouse and virtual button share one-shot and clearing policy
+ok 46 - heal key, auxiliary mouse and virtual button share one-shot and clearing policy
+  ---
+  duration_ms: 0.6345
+  type: 'test'
+  ...
+# Subtest: judgement key, auxiliary mouse and virtual button share one-shot and clearing policy
+ok 47 - judgement key, auxiliary mouse and virtual button share one-shot and clearing policy
+  ---
+  duration_ms: 0.591625
+  type: 'test'
+  ...
+# Subtest: new skill input remains blocked for editable, modified, paused and repeated events on every adapter
+ok 48 - new skill input remains blocked for editable, modified, paused and repeated events on every adapter
+  ---
+  duration_ms: 3.031695
+  type: 'test'
+  ...
+# Subtest: toggle guard cancels on a fresh new skill press across keyboard, mouse and virtual adapters
+ok 49 - toggle guard cancels on a fresh new skill press across keyboard, mouse and virtual adapters
+  ---
+  duration_ms: 0.472434
+  type: 'test'
+  ...
+# Subtest: W+A and W+D retain diagonal movement through all skill, shield and potion presses
+ok 50 - W+A and W+D retain diagonal movement through all skill, shield and potion presses
+  ---
+  duration_ms: 0.595531
+  type: 'test'
+  ...
+# Subtest: hold guard and held basic attack remain independent while each new skill pulse is consumed
+ok 51 - hold guard and held basic attack remain independent while each new skill pulse is consumed
+  ---
+  duration_ms: 0.141164
+  type: 'test'
+  ...
+# Subtest: clear resets new pulses, held states and toggles; profile reset also removes direction memory
+ok 52 - clear resets new pulses, held states and toggles; profile reset also removes direction memory
+  ---
+  duration_ms: 0.306233
+  type: 'test'
+  ...
+# Subtest: auxiliary mouse skill release clears only that hold and never keyboard movement
+ok 53 - auxiliary mouse skill release clears only that hold and never keyboard movement
+  ---
+  duration_ms: 0.197068
+  type: 'test'
+  ...
+# Subtest: new profiles use recommended F/R while missing legacy settings preserve E/1
+ok 54 - new profiles use recommended F/R while missing legacy settings preserve E/1
+  ---
+  duration_ms: 49.833248
+  type: 'test'
+  ...
+# Subtest: both presets have all actions and globally unique physical bindings
+ok 55 - both presets have all actions and globally unique physical bindings
+  ---
+  duration_ms: 0.351302
+  type: 'test'
+  ...
+# Subtest: controls are detached and cannot mutate presets or saved state
+ok 56 - controls are detached and cannot mutate presets or saved state
+  ---
+  duration_ms: 0.340685
+  type: 'test'
+  ...
+# Subtest: duplicate binding fails atomically with the conflicting action
+ok 57 - duplicate binding fails atomically with the conflicting action
+  ---
+  duration_ms: 0.839179
+  type: 'test'
+  ...
+# Subtest: primary and auxiliary mouse buttons can be rebound once freed
+ok 58 - primary and auxiliary mouse buttons can be rebound once freed
+  ---
+  duration_ms: 0.532846
+  type: 'test'
+  ...
+# Subtest: every accepted mouse token routes to one action without phantom attack
+ok 59 - every accepted mouse token routes to one action without phantom attack
+  ---
+  duration_ms: 5.631408
+  type: 'test'
+  ...
+# Subtest: Esc remains reserved safety pause and duplicate aliases are refused
+ok 60 - Esc remains reserved safety pause and duplicate aliases are refused
+  ---
+  duration_ms: 0.31088
+  type: 'test'
+  ...
+# Subtest: removing the final binding and sparse/out-of-range slots is rejected
+ok 61 - removing the final binding and sparse/out-of-range slots is rejected
+  ---
+  duration_ms: 0.431263
+  type: 'test'
+  ...
+# Subtest: malformed settings and unsupported OS chords fail closed
+ok 62 - malformed settings and unsupported OS chords fail closed
+  ---
+  duration_ms: 0.767741
+  type: 'test'
+  ...
+# Subtest: single presses are consumed once and keyboard autorepeat cannot cast again
+ok 63 - single presses are consumed once and keyboard autorepeat cannot cast again
+  ---
+  duration_ms: 0.372223
+  type: 'test'
+  ...
+# Subtest: basic attack repeats while physically held; release ends it
+ok 64 - basic attack repeats while physically held; release ends it
+  ---
+  duration_ms: 4.369539
+  type: 'test'
+  ...
+# Subtest: two aliases keep action held until both keys release
+ok 65 - two aliases keep action held until both keys release
+  ---
+  duration_ms: 0.275416
+  type: 'test'
+  ...
+# Subtest: editable fields, contentEditable, modifiers and paused gameplay never enqueue attacks
+ok 66 - editable fields, contentEditable, modifiers and paused gameplay never enqueue attacks
+  ---
+  duration_ms: 0.303409
+  type: 'test'
+  ...
+# Subtest: modal/blur/visibility clearing cannot leak held keys through keyboard repeat
+ok 67 - modal/blur/visibility clearing cannot leak held keys through keyboard repeat
+  ---
+  duration_ms: 0.273553
+  type: 'test'
+  ...
+# Subtest: pause key never doubles as attack and remains available with a different pause binding
+ok 68 - pause key never doubles as attack and remains available with a different pause binding
+  ---
+  duration_ms: 0.259453
+  type: 'test'
+  ...
+# Subtest: opposite movement cancels and movement memory is separate from current input
+ok 69 - opposite movement cancels and movement memory is separate from current input
+  ---
+  duration_ms: 0.239212
+  type: 'test'
+  ...
+# Subtest: toggle shield breaks on fresh attack or skill and never survives a menu
+ok 70 - toggle shield breaks on fresh attack or skill and never survives a menu
+  ---
+  duration_ms: 0.18519
+  type: 'test'
+  ...
+# Subtest: hold shield is independent from attack and reports both for combat priority
+ok 71 - hold shield is independent from attack and reports both for combat priority
+  ---
+  duration_ms: 0.178801
+  type: 'test'
+  ...
+# Subtest: touch skill is single-shot and touch cancellation clears held movement
+ok 72 - touch skill is single-shot and touch cancellation clears held movement
+  ---
+  duration_ms: 0.173493
+  type: 'test'
+  ...
+# Subtest: actual runtime setControls rejects conflicts without changing profile
+ok 73 - actual runtime setControls rejects conflicts without changing profile
+  ---
+  duration_ms: 13.234689
+  type: 'test'
+  ...
+# Subtest: runtime/controller save and reload retains rebinding without changing progress or another profile
+ok 74 - runtime/controller save and reload retains rebinding without changing progress or another profile
+  ---
+  duration_ms: 75.64693
+  type: 'test'
+  ...
+# Subtest: R2c-compatible profile keeps legacy until an explicit runtime transition
+ok 75 - R2c-compatible profile keeps legacy until an explicit runtime transition
+  ---
+  duration_ms: 37.482116
+  type: 'test'
+  ...
+# Subtest: remapped skill routed through actual combat pays once for one physical press
+ok 76 - remapped skill routed through actual combat pays once for one physical press
+  ---
+  duration_ms: 112.29542
+  type: 'test'
+  ...
+# Subtest: actual combat gives held shield priority over basic attack without consuming attack resources
+ok 77 - actual combat gives held shield priority over basic attack without consuming attack resources
+  ---
+  duration_ms: 35.841754
+  type: 'test'
+  ...
+# Subtest: movement-facing charge only changes heading, retaining authored distance/cost/cooldown
+ok 78 - movement-facing charge only changes heading, retaining authored distance/cost/cooldown
+  ---
+  duration_ms: 29.924915
+  type: 'test'
+  ...
+# Subtest: loading a new profile clears previous movement-direction memory
+ok 79 - loading a new profile clears previous movement-direction memory
+  ---
+  duration_ms: 0.272362
+  type: 'test'
+  ...
+# Subtest: mouse chord mousedown/up adapter sequence preserves each button independently in either order
+ok 80 - mouse chord mousedown/up adapter sequence preserves each button independently in either order
+  ---
+  duration_ms: 0.248536
+  type: 'test'
+  ...
+# Subtest: normal mouse release/lost capture leaves held keyboard movement active
+ok 81 - normal mouse release/lost capture leaves held keyboard movement active
+  ---
+  duration_ms: 0.171229
+  type: 'test'
+  ...
+# Subtest: normal mouse release/lost capture does not cancel toggle shield
+ok 82 - normal mouse release/lost capture does not cancel toggle shield
+  ---
+  duration_ms: 4.391623
+  type: 'test'
+  ...
+# Subtest: collision hint identifies the existing owner even when edited action sorts first
+ok 83 - collision hint identifies the existing owner even when edited action sorts first
+  ---
+  duration_ms: 0.345693
+  type: 'test'
+  ...
+# Subtest: buttons and nested UI children own keys just like form fields
+ok 84 - buttons and nested UI children own keys just like form fields
+  ---
+  duration_ms: 0.368167
+  type: 'test'
+  ...
+# Subtest: router resolves attack -> shield_charge exactly once with independent held identity
+ok 85 - router resolves attack -> shield_charge exactly once with independent held identity
+  ---
+  duration_ms: 8.818689
+  type: 'test'
+  ...
+# Subtest: router resolves attack -> mace_swing exactly once with independent held identity
+ok 86 - router resolves attack -> mace_swing exactly once with independent held identity
+  ---
+  duration_ms: 0.957288
+  type: 'test'
+  ...
+# Subtest: router resolves attack -> shield_block exactly once with independent held identity
+ok 87 - router resolves attack -> shield_block exactly once with independent held identity
+  ---
+  duration_ms: 0.752779
+  type: 'test'
+  ...
+# Subtest: router resolves attack -> righteous_hammer exactly once with independent held identity
+ok 88 - router resolves attack -> righteous_hammer exactly once with independent held identity
+  ---
+  duration_ms: 2.80943
+  type: 'test'
+  ...
+# Subtest: router resolves attack -> lay_on_hands exactly once with independent held identity
+ok 89 - router resolves attack -> lay_on_hands exactly once with independent held identity
+  ---
+  duration_ms: 0.854212
+  type: 'test'
+  ...
+# Subtest: router resolves attack -> judgement exactly once with independent held identity
+ok 90 - router resolves attack -> judgement exactly once with independent held identity
+  ---
+  duration_ms: 0.70066
+  type: 'test'
+  ...
+# Subtest: router resolves attack -> battle_banner exactly once with independent held identity
+ok 91 - router resolves attack -> battle_banner exactly once with independent held identity
+  ---
+  duration_ms: 0.657544
+  type: 'test'
+  ...
+# Subtest: router resolves attack -> zealous_onslaught exactly once with independent held identity
+ok 92 - router resolves attack -> zealous_onslaught exactly once with independent held identity
+  ---
+  duration_ms: 1.282349
+  type: 'test'
+  ...
+# Subtest: router resolves hammer -> shield_charge exactly once with independent held identity
+ok 93 - router resolves hammer -> shield_charge exactly once with independent held identity
+  ---
+  duration_ms: 0.582251
+  type: 'test'
+  ...
+# Subtest: router resolves hammer -> mace_swing exactly once with independent held identity
+ok 94 - router resolves hammer -> mace_swing exactly once with independent held identity
+  ---
+  duration_ms: 0.701711
+  type: 'test'
+  ...
+# Subtest: router resolves hammer -> shield_block exactly once with independent held identity
+ok 95 - router resolves hammer -> shield_block exactly once with independent held identity
+  ---
+  duration_ms: 0.531384
+  type: 'test'
+  ...
+# Subtest: router resolves hammer -> righteous_hammer exactly once with independent held identity
+ok 96 - router resolves hammer -> righteous_hammer exactly once with independent held identity
+  ---
+  duration_ms: 0.445173
+  type: 'test'
+  ...
+# Subtest: router resolves hammer -> lay_on_hands exactly once with independent held identity
+ok 97 - router resolves hammer -> lay_on_hands exactly once with independent held identity
+  ---
+  duration_ms: 0.55575
+  type: 'test'
+  ...
+# Subtest: router resolves hammer -> judgement exactly once with independent held identity
+ok 98 - router resolves hammer -> judgement exactly once with independent held identity
+  ---
+  duration_ms: 0.624665
+  type: 'test'
+  ...
+# Subtest: router resolves hammer -> battle_banner exactly once with independent held identity
+ok 99 - router resolves hammer -> battle_banner exactly once with independent held identity
+  ---
+  duration_ms: 0.475049
+  type: 'test'
+  ...
+# Subtest: router resolves hammer -> zealous_onslaught exactly once with independent held identity
+ok 100 - router resolves hammer -> zealous_onslaught exactly once with independent held identity
+  ---
+  duration_ms: 0.671436
+  type: 'test'
+  ...
+# Subtest: router resolves block -> shield_charge exactly once with independent held identity
+ok 101 - router resolves block -> shield_charge exactly once with independent held identity
+  ---
+  duration_ms: 2.045384
+  type: 'test'
+  ...
+# Subtest: router resolves block -> mace_swing exactly once with independent held identity
+ok 102 - router resolves block -> mace_swing exactly once with independent held identity
+  ---
+  duration_ms: 0.414427
+  type: 'test'
+  ...
+# Subtest: router resolves block -> shield_block exactly once with independent held identity
+ok 103 - router resolves block -> shield_block exactly once with independent held identity
+  ---
+  duration_ms: 0.628161
+  type: 'test'
+  ...
+# Subtest: router resolves block -> righteous_hammer exactly once with independent held identity
+ok 104 - router resolves block -> righteous_hammer exactly once with independent held identity
+  ---
+  duration_ms: 0.785939
+  type: 'test'
+  ...
+# Subtest: router resolves block -> lay_on_hands exactly once with independent held identity
+ok 105 - router resolves block -> lay_on_hands exactly once with independent held identity
+  ---
+  duration_ms: 0.371031
+  type: 'test'
+  ...
+# Subtest: router resolves block -> judgement exactly once with independent held identity
+ok 106 - router resolves block -> judgement exactly once with independent held identity
+  ---
+  duration_ms: 0.350099
+  type: 'test'
+  ...
+# Subtest: router resolves block -> battle_banner exactly once with independent held identity
+ok 107 - router resolves block -> battle_banner exactly once with independent held identity
+  ---
+  duration_ms: 0.344702
+  type: 'test'
+  ...
+# Subtest: router resolves block -> zealous_onslaught exactly once with independent held identity
+ok 108 - router resolves block -> zealous_onslaught exactly once with independent held identity
+  ---
+  duration_ms: 0.322688
+  type: 'test'
+  ...
+# Subtest: router resolves charge -> shield_charge exactly once with independent held identity
+ok 109 - router resolves charge -> shield_charge exactly once with independent held identity
+  ---
+  duration_ms: 0.291421
+  type: 'test'
+  ...
+# Subtest: router resolves charge -> mace_swing exactly once with independent held identity
+ok 110 - router resolves charge -> mace_swing exactly once with independent held identity
+  ---
+  duration_ms: 0.466696
+  type: 'test'
+  ...
+# Subtest: router resolves charge -> shield_block exactly once with independent held identity
+ok 111 - router resolves charge -> shield_block exactly once with independent held identity
+  ---
+  duration_ms: 0.650785
+  type: 'test'
+  ...
+# Subtest: router resolves charge -> righteous_hammer exactly once with independent held identity
+ok 112 - router resolves charge -> righteous_hammer exactly once with independent held identity
+  ---
+  duration_ms: 0.454597
+  type: 'test'
+  ...
+# Subtest: router resolves charge -> lay_on_hands exactly once with independent held identity
+ok 113 - router resolves charge -> lay_on_hands exactly once with independent held identity
+  ---
+  duration_ms: 0.6875
+  type: 'test'
+  ...
+# Subtest: router resolves charge -> judgement exactly once with independent held identity
+ok 114 - router resolves charge -> judgement exactly once with independent held identity
+  ---
+  duration_ms: 0.407366
+  type: 'test'
+  ...
+# Subtest: router resolves charge -> battle_banner exactly once with independent held identity
+ok 115 - router resolves charge -> battle_banner exactly once with independent held identity
+  ---
+  duration_ms: 0.399894
+  type: 'test'
+  ...
+# Subtest: router resolves charge -> zealous_onslaught exactly once with independent held identity
+ok 116 - router resolves charge -> zealous_onslaught exactly once with independent held identity
+  ---
+  duration_ms: 0.491744
+  type: 'test'
+  ...
+# Subtest: router resolves judgement -> shield_charge exactly once with independent held identity
+ok 117 - router resolves judgement -> shield_charge exactly once with independent held identity
+  ---
+  duration_ms: 0.464863
+  type: 'test'
+  ...
+# Subtest: router resolves judgement -> mace_swing exactly once with independent held identity
+ok 118 - router resolves judgement -> mace_swing exactly once with independent held identity
+  ---
+  duration_ms: 0.37041
+  type: 'test'
+  ...
+# Subtest: router resolves judgement -> shield_block exactly once with independent held identity
+ok 119 - router resolves judgement -> shield_block exactly once with independent held identity
+  ---
+  duration_ms: 0.46945
+  type: 'test'
+  ...
+# Subtest: router resolves judgement -> righteous_hammer exactly once with independent held identity
+ok 120 - router resolves judgement -> righteous_hammer exactly once with independent held identity
+  ---
+  duration_ms: 0.368377
+  type: 'test'
+  ...
+# Subtest: router resolves judgement -> lay_on_hands exactly once with independent held identity
+ok 121 - router resolves judgement -> lay_on_hands exactly once with independent held identity
+  ---
+  duration_ms: 0.347025
+  type: 'test'
+  ...
+# Subtest: router resolves judgement -> judgement exactly once with independent held identity
+ok 122 - router resolves judgement -> judgement exactly once with independent held identity
+  ---
+  duration_ms: 0.394597
+  type: 'test'
+  ...
+# Subtest: router resolves judgement -> battle_banner exactly once with independent held identity
+ok 123 - router resolves judgement -> battle_banner exactly once with independent held identity
+  ---
+  duration_ms: 1.238202
+  type: 'test'
+  ...
+# Subtest: router resolves judgement -> zealous_onslaught exactly once with independent held identity
+ok 124 - router resolves judgement -> zealous_onslaught exactly once with independent held identity
+  ---
+  duration_ms: 0.312032
+  type: 'test'
+  ...
+# Subtest: router resolves heal -> shield_charge exactly once with independent held identity
+ok 125 - router resolves heal -> shield_charge exactly once with independent held identity
+  ---
+  duration_ms: 0.319253
+  type: 'test'
+  ...
+# Subtest: router resolves heal -> mace_swing exactly once with independent held identity
+ok 126 - router resolves heal -> mace_swing exactly once with independent held identity
+  ---
+  duration_ms: 0.330049
+  type: 'test'
+  ...
+# Subtest: router resolves heal -> shield_block exactly once with independent held identity
+ok 127 - router resolves heal -> shield_block exactly once with independent held identity
+  ---
+  duration_ms: 0.512025
+  type: 'test'
+  ...
+# Subtest: router resolves heal -> righteous_hammer exactly once with independent held identity
+ok 128 - router resolves heal -> righteous_hammer exactly once with independent held identity
+  ---
+  duration_ms: 0.31747
+  type: 'test'
+  ...
+# Subtest: router resolves heal -> lay_on_hands exactly once with independent held identity
+ok 129 - router resolves heal -> lay_on_hands exactly once with independent held identity
+  ---
+  duration_ms: 0.382759
+  type: 'test'
+  ...
+# Subtest: router resolves heal -> judgement exactly once with independent held identity
+ok 130 - router resolves heal -> judgement exactly once with independent held identity
+  ---
+  duration_ms: 0.307826
+  type: 'test'
+  ...
+# Subtest: router resolves heal -> battle_banner exactly once with independent held identity
+ok 131 - router resolves heal -> battle_banner exactly once with independent held identity
+  ---
+  duration_ms: 0.309749
+  type: 'test'
+  ...
+# Subtest: router resolves heal -> zealous_onslaught exactly once with independent held identity
+ok 132 - router resolves heal -> zealous_onslaught exactly once with independent held identity
+  ---
+  duration_ms: 0.339043
+  type: 'test'
+  ...
+# Subtest: router resolves expert1 -> shield_charge exactly once with independent held identity
+ok 133 - router resolves expert1 -> shield_charge exactly once with independent held identity
+  ---
+  duration_ms: 0.314045
+  type: 'test'
+  ...
+# Subtest: router resolves expert1 -> mace_swing exactly once with independent held identity
+ok 134 - router resolves expert1 -> mace_swing exactly once with independent held identity
+  ---
+  duration_ms: 0.311641
+  type: 'test'
+  ...
+# Subtest: router resolves expert1 -> shield_block exactly once with independent held identity
+ok 135 - router resolves expert1 -> shield_block exactly once with independent held identity
+  ---
+  duration_ms: 0.359614
+  type: 'test'
+  ...
+# Subtest: router resolves expert1 -> righteous_hammer exactly once with independent held identity
+ok 136 - router resolves expert1 -> righteous_hammer exactly once with independent held identity
+  ---
+  duration_ms: 0.290299
+  type: 'test'
+  ...
+# Subtest: router resolves expert1 -> lay_on_hands exactly once with independent held identity
+ok 137 - router resolves expert1 -> lay_on_hands exactly once with independent held identity
+  ---
+  duration_ms: 0.278371
+  type: 'test'
+  ...
+# Subtest: router resolves expert1 -> judgement exactly once with independent held identity
+ok 138 - router resolves expert1 -> judgement exactly once with independent held identity
+  ---
+  duration_ms: 0.349759
+  type: 'test'
+  ...
+# Subtest: router resolves expert1 -> battle_banner exactly once with independent held identity
+ok 139 - router resolves expert1 -> battle_banner exactly once with independent held identity
+  ---
+  duration_ms: 0.333805
+  type: 'test'
+  ...
+# Subtest: router resolves expert1 -> zealous_onslaught exactly once with independent held identity
+ok 140 - router resolves expert1 -> zealous_onslaught exactly once with independent held identity
+  ---
+  duration_ms: 0.298441
+  type: 'test'
+  ...
+# Subtest: router resolves expert2 -> shield_charge exactly once with independent held identity
+ok 141 - router resolves expert2 -> shield_charge exactly once with independent held identity
+  ---
+  duration_ms: 0.327035
+  type: 'test'
+  ...
+# Subtest: router resolves expert2 -> mace_swing exactly once with independent held identity
+ok 142 - router resolves expert2 -> mace_swing exactly once with independent held identity
+  ---
+  duration_ms: 0.292352
+  type: 'test'
+  ...
+# Subtest: router resolves expert2 -> shield_block exactly once with independent held identity
+ok 143 - router resolves expert2 -> shield_block exactly once with independent held identity
+  ---
+  duration_ms: 0.319033
+  type: 'test'
+  ...
+# Subtest: router resolves expert2 -> righteous_hammer exactly once with independent held identity
+ok 144 - router resolves expert2 -> righteous_hammer exactly once with independent held identity
+  ---
+  duration_ms: 0.387296
+  type: 'test'
+  ...
+# Subtest: router resolves expert2 -> lay_on_hands exactly once with independent held identity
+ok 145 - router resolves expert2 -> lay_on_hands exactly once with independent held identity
+  ---
+  duration_ms: 0.280284
+  type: 'test'
+  ...
+# Subtest: router resolves expert2 -> judgement exactly once with independent held identity
+ok 146 - router resolves expert2 -> judgement exactly once with independent held identity
+  ---
+  duration_ms: 0.530092
+  type: 'test'
+  ...
+# Subtest: router resolves expert2 -> battle_banner exactly once with independent held identity
+ok 147 - router resolves expert2 -> battle_banner exactly once with independent held identity
+  ---
+  duration_ms: 1.852733
+  type: 'test'
+  ...
+# Subtest: router resolves expert2 -> zealous_onslaught exactly once with independent held identity
+ok 148 - router resolves expert2 -> zealous_onslaught exactly once with independent held identity
+  ---
+  duration_ms: 0.904799
+  type: 'test'
+  ...
+# Subtest: subframe normal release shield_charge is finite once or cancels undelivered channel
+ok 149 - subframe normal release shield_charge is finite once or cancels undelivered channel
+  ---
+  duration_ms: 0.425504
+  type: 'test'
+  ...
+# Subtest: subframe normal release mace_swing is finite once or cancels undelivered channel
+ok 150 - subframe normal release mace_swing is finite once or cancels undelivered channel
+  ---
+  duration_ms: 0.372744
+  type: 'test'
+  ...
+# Subtest: subframe normal release shield_block is finite once or cancels undelivered channel
+ok 151 - subframe normal release shield_block is finite once or cancels undelivered channel
+  ---
+  duration_ms: 0.299193
+  type: 'test'
+  ...
+# Subtest: subframe normal release righteous_hammer is finite once or cancels undelivered channel
+ok 152 - subframe normal release righteous_hammer is finite once or cancels undelivered channel
+  ---
+  duration_ms: 0.568139
+  type: 'test'
+  ...
+# Subtest: subframe normal release lay_on_hands is finite once or cancels undelivered channel
+ok 153 - subframe normal release lay_on_hands is finite once or cancels undelivered channel
+  ---
+  duration_ms: 1.022286
+  type: 'test'
+  ...
+# Subtest: subframe normal release judgement is finite once or cancels undelivered channel
+ok 154 - subframe normal release judgement is finite once or cancels undelivered channel
+  ---
+  duration_ms: 0.305763
+  type: 'test'
+  ...
+# Subtest: subframe normal release battle_banner is finite once or cancels undelivered channel
+ok 155 - subframe normal release battle_banner is finite once or cancels undelivered channel
+  ---
+  duration_ms: 0.334756
+  type: 'test'
+  ...
+# Subtest: subframe normal release zealous_onslaught is finite once or cancels undelivered channel
+ok 156 - subframe normal release zealous_onslaught is finite once or cancels undelivered channel
+  ---
+  duration_ms: 0.335387
+  type: 'test'
+  ...
+# Subtest: captured press/held/release identity and timestamp do not follow remapping
+ok 157 - captured press/held/release identity and timestamp do not follow remapping
+  ---
+  duration_ms: 0.380015
+  type: 'test'
+  ...
+# Subtest: newest finite explicit skill supersedes older pulse, while held skills survive for repeat policy
+ok 158 - newest finite explicit skill supersedes older pulse, while held skills survive for repeat policy
+  ---
+  duration_ms: 0.39042
+  type: 'test'
+  ...
+# Subtest: mace and hammer aliases held simultaneously do not duplicate a start edge
+ok 159 - mace and hammer aliases held simultaneously do not duplicate a start edge
+  ---
+  duration_ms: 0.559246
+  type: 'test'
+  ...
+# Subtest: selected guard uses attack toggle policy rather than physical block slot
+ok 160 - selected guard uses attack toggle policy rather than physical block slot
+  ---
+  duration_ms: 0.410321
+  type: 'test'
+  ...
+# Subtest: selected guard uses hammer toggle policy rather than physical block slot
+ok 161 - selected guard uses hammer toggle policy rather than physical block slot
+  ---
+  duration_ms: 0.427777
+  type: 'test'
+  ...
+# Subtest: selected guard uses block toggle policy rather than physical block slot
+ok 162 - selected guard uses block toggle policy rather than physical block slot
+  ---
+  duration_ms: 0.420746
+  type: 'test'
+  ...
+# Subtest: selected guard uses charge toggle policy rather than physical block slot
+ok 163 - selected guard uses charge toggle policy rather than physical block slot
+  ---
+  duration_ms: 0.378973
+  type: 'test'
+  ...
+# Subtest: selected guard uses judgement toggle policy rather than physical block slot
+ok 164 - selected guard uses judgement toggle policy rather than physical block slot
+  ---
+  duration_ms: 0.377651
+  type: 'test'
+  ...
+# Subtest: selected guard uses heal toggle policy rather than physical block slot
+ok 165 - selected guard uses heal toggle policy rather than physical block slot
+  ---
+  duration_ms: 0.574269
+  type: 'test'
+  ...
+# Subtest: selected guard uses expert1 toggle policy rather than physical block slot
+ok 166 - selected guard uses expert1 toggle policy rather than physical block slot
+  ---
+  duration_ms: 0.305192
+  type: 'test'
+  ...
+# Subtest: selected guard uses expert2 toggle policy rather than physical block slot
+ok 167 - selected guard uses expert2 toggle policy rather than physical block slot
+  ---
+  duration_ms: 0.365492
+  type: 'test'
+  ...
+# Subtest: a non-guard skill on the physical block slot neither toggles nor guards
+ok 168 - a non-guard skill on the physical block slot neither toggles nor guards
+  ---
+  duration_ms: 0.325382
+  type: 'test'
+  ...
+# Subtest: guard toggle is broken by the selected competing skill
+ok 169 - guard toggle is broken by the selected competing skill
+  ---
+  duration_ms: 0.40333
+  type: 'test'
+  ...
+# Subtest: Onslaught touch hold/release ownership works from attack
+ok 170 - Onslaught touch hold/release ownership works from attack
+  ---
+  duration_ms: 2.504498
+  type: 'test'
+  ...
+# Subtest: Onslaught touch hold/release ownership works from hammer
+ok 171 - Onslaught touch hold/release ownership works from hammer
+  ---
+  duration_ms: 0.483271
+  type: 'test'
+  ...
+# Subtest: Onslaught touch hold/release ownership works from block
+ok 172 - Onslaught touch hold/release ownership works from block
+  ---
+  duration_ms: 0.895124
+  type: 'test'
+  ...
+# Subtest: Onslaught touch hold/release ownership works from charge
+ok 173 - Onslaught touch hold/release ownership works from charge
+  ---
+  duration_ms: 0.342278
+  type: 'test'
+  ...
+# Subtest: Onslaught touch hold/release ownership works from judgement
+ok 174 - Onslaught touch hold/release ownership works from judgement
+  ---
+  duration_ms: 0.372434
+  type: 'test'
+  ...
+# Subtest: Onslaught touch hold/release ownership works from heal
+ok 175 - Onslaught touch hold/release ownership works from heal
+  ---
+  duration_ms: 0.409449
+  type: 'test'
+  ...
+# Subtest: Onslaught touch hold/release ownership works from expert1
+ok 176 - Onslaught touch hold/release ownership works from expert1
+  ---
+  duration_ms: 0.391171
+  type: 'test'
+  ...
+# Subtest: Onslaught touch hold/release ownership works from expert2
+ok 177 - Onslaught touch hold/release ownership works from expert2
+  ---
+  duration_ms: 0.386655
+  type: 'test'
+  ...
+# Subtest: channel aliases accepted before first delivery reference count; late alias never takes ownership
+ok 178 - channel aliases accepted before first delivery reference count; late alias never takes ownership
+  ---
+  duration_ms: 0.67409
+  type: 'test'
+  ...
+# Subtest: an undelivered channel replaced by a finite skill never creates a phantom channel
+ok 179 - an undelivered channel replaced by a finite skill never creates a phantom channel
+  ---
+  duration_ms: 0.543502
+  type: 'test'
+  ...
+# Subtest: menu clears pulses/holds and cancels live channel once
+ok 180 - menu clears pulses/holds and cancels live channel once
+  ---
+  duration_ms: 0.478944
+  type: 'test'
+  ...
+# Subtest: blur clears pulses/holds and cancels live channel once
+ok 181 - blur clears pulses/holds and cancels live channel once
+  ---
+  duration_ms: 0.34991
+  type: 'test'
+  ...
+# Subtest: hidden clears pulses/holds and cancels live channel once
+ok 182 - hidden clears pulses/holds and cancels live channel once
+  ---
+  duration_ms: 0.430341
+  type: 'test'
+  ...
+# Subtest: death clears pulses/holds and cancels live channel once
+ok 183 - death clears pulses/holds and cancels live channel once
+  ---
+  duration_ms: 0.305011
+  type: 'test'
+  ...
+# Subtest: slot-change clears pulses/holds and cancels live channel once
+ok 184 - slot-change clears pulses/holds and cancels live channel once
+  ---
+  duration_ms: 0.298361
+  type: 'test'
+  ...
+# Subtest: remap clears pulses/holds and cancels live channel once
+ok 185 - remap clears pulses/holds and cancels live channel once
+  ---
+  duration_ms: 0.333674
+  type: 'test'
+  ...
+# Subtest: save-fault clears pulses/holds and cancels live channel once
+ok 186 - save-fault clears pulses/holds and cancels live channel once
+  ---
+  duration_ms: 0.325943
+  type: 'test'
+  ...
+# Subtest: pointer loss cancels pointer-owned channel but preserves keyboard channel
+ok 187 - pointer loss cancels pointer-owned channel but preserves keyboard channel
+  ---
+  duration_ms: 1.064961
+  type: 'test'
+  ...
+# Subtest: ordinary pointer release then capture loss remains normal channel release
+ok 188 - ordinary pointer release then capture loss remains normal channel release
+  ---
+  duration_ms: 0.618936
+  type: 'test'
+  ...
+# Subtest: lost capture drops an undelivered pointer finite pulse; normal click keeps it once
+ok 189 - lost capture drops an undelivered pointer finite pulse; normal click keeps it once
+  ---
+  duration_ms: 0.551304
+  type: 'test'
+  ...
+# Subtest: router rejects unsafe context {"repeat":true}
+ok 190 - router rejects unsafe context {"repeat":true}
+  ---
+  duration_ms: 0.395638
+  type: 'test'
+  ...
+# Subtest: router rejects unsafe context {"editable":true}
+ok 191 - router rejects unsafe context {"editable":true}
+  ---
+  duration_ms: 24.051561
+  type: 'test'
+  ...
+# Subtest: router rejects unsafe context {"modified":true}
+ok 192 - router rejects unsafe context {"modified":true}
+  ---
+  duration_ms: 0.391422
+  type: 'test'
+  ...
+# Subtest: router rejects unsafe context {"paused":true}
+ok 193 - router rejects unsafe context {"paused":true}
+  ---
+  duration_ms: 0.373996
+  type: 'test'
+  ...
+# Subtest: unlearned down cannot later activate via held state or learning while held
+ok 194 - unlearned down cannot later activate via held state or learning while held
+  ---
+  duration_ms: 0.453816
+  type: 'test'
+  ...
+# Subtest: click movement Mouse0 and WASD stay outside slot capture
+ok 195 - click movement Mouse0 and WASD stay outside slot capture
+  ---
+  duration_ms: 1.175268
+  type: 'test'
+  ...
+# Subtest: pending expiry is wall clock based; channel cannot resurrect on another snapshot
+ok 196 - pending expiry is wall clock based; channel cannot resurrect on another snapshot
+  ---
+  duration_ms: 0.600168
+  type: 'test'
+  ...
+# Subtest: canonical mapped hammer on attack uses production action start/payment exactly once
+ok 197 - canonical mapped hammer on attack uses production action start/payment exactly once
+  ---
+  duration_ms: 28.06394
+  type: 'test'
+  ...
+# Subtest: canonical mapped hammer on hammer uses production action start/payment exactly once
+ok 198 - canonical mapped hammer on hammer uses production action start/payment exactly once
+  ---
+  duration_ms: 13.835037
+  type: 'test'
+  ...
+# Subtest: canonical mapped hammer on block uses production action start/payment exactly once
+ok 199 - canonical mapped hammer on block uses production action start/payment exactly once
+  ---
+  duration_ms: 11.862303
+  type: 'test'
+  ...
+# Subtest: canonical mapped hammer on charge uses production action start/payment exactly once
+ok 200 - canonical mapped hammer on charge uses production action start/payment exactly once
+  ---
+  duration_ms: 6.085385
+  type: 'test'
+  ...
+# Subtest: canonical mapped hammer on judgement uses production action start/payment exactly once
+ok 201 - canonical mapped hammer on judgement uses production action start/payment exactly once
+  ---
+  duration_ms: 6.787527
+  type: 'test'
+  ...
+# Subtest: canonical mapped hammer on heal uses production action start/payment exactly once
+ok 202 - canonical mapped hammer on heal uses production action start/payment exactly once
+  ---
+  duration_ms: 6.845916
+  type: 'test'
+  ...
+# Subtest: canonical mapped hammer on expert1 uses production action start/payment exactly once
+ok 203 - canonical mapped hammer on expert1 uses production action start/payment exactly once
+  ---
+  duration_ms: 28.52649
+  type: 'test'
+  ...
+# Subtest: canonical mapped hammer on expert2 uses production action start/payment exactly once
+ok 204 - canonical mapped hammer on expert2 uses production action start/payment exactly once
+  ---
+  duration_ms: 10.06872
+  type: 'test'
+  ...
+# Subtest: fresh empty or unavailable slot discards earlier finite reservation instead of playing it late
+ok 205 - fresh empty or unavailable slot discards earlier finite reservation instead of playing it late
+  ---
+  duration_ms: 0.710094
+  type: 'test'
+  ...
+# Subtest: fresh empty slot cancels an undelivered channel without a phantom owner
+ok 206 - fresh empty slot cancels an undelivered channel without a phantom owner
+  ---
+  duration_ms: 0.263238
+  type: 'test'
+  ...
+# Subtest: finite press after guard replaces the undelivered guard edge
+ok 207 - finite press after guard replaces the undelivered guard edge
+  ---
+  duration_ms: 0.243308
+  type: 'test'
+  ...
+# Subtest: peekToken and up return captured immutable copies without consuming a pending edge
+ok 208 - peekToken and up return captured immutable copies without consuming a pending edge
+  ---
+  duration_ms: 0.320335
+  type: 'test'
+  ...
+# Subtest: semantic isHeld ends channel with its owner even while a late non-owner alias remains down
+ok 209 - semantic isHeld ends channel with its owner even while a late non-owner alias remains down
+  ---
+  duration_ms: 1.039993
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves attack -> shield_charge exactly once
+ok 210 - save tolerance preserves attack -> shield_charge exactly once
+  ---
+  duration_ms: 8.66129
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves attack -> mace_swing exactly once
+ok 211 - save tolerance preserves attack -> mace_swing exactly once
+  ---
+  duration_ms: 0.541399
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves attack -> shield_block exactly once
+ok 212 - save tolerance preserves attack -> shield_block exactly once
+  ---
+  duration_ms: 0.39648
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves attack -> righteous_hammer exactly once
+ok 213 - save tolerance preserves attack -> righteous_hammer exactly once
+  ---
+  duration_ms: 4.635502
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves attack -> lay_on_hands exactly once
+ok 214 - save tolerance preserves attack -> lay_on_hands exactly once
+  ---
+  duration_ms: 0.764957
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves attack -> judgement exactly once
+ok 215 - save tolerance preserves attack -> judgement exactly once
+  ---
+  duration_ms: 3.889043
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves attack -> battle_banner exactly once
+ok 216 - save tolerance preserves attack -> battle_banner exactly once
+  ---
+  duration_ms: 0.359694
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves attack -> zealous_onslaught exactly once
+ok 217 - save tolerance preserves attack -> zealous_onslaught exactly once
+  ---
+  duration_ms: 0.34363
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves hammer -> shield_charge exactly once
+ok 218 - save tolerance preserves hammer -> shield_charge exactly once
+  ---
+  duration_ms: 0.454587
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves hammer -> mace_swing exactly once
+ok 219 - save tolerance preserves hammer -> mace_swing exactly once
+  ---
+  duration_ms: 0.443561
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves hammer -> shield_block exactly once
+ok 220 - save tolerance preserves hammer -> shield_block exactly once
+  ---
+  duration_ms: 0.371853
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves hammer -> righteous_hammer exactly once
+ok 221 - save tolerance preserves hammer -> righteous_hammer exactly once
+  ---
+  duration_ms: 0.335167
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves hammer -> lay_on_hands exactly once
+ok 222 - save tolerance preserves hammer -> lay_on_hands exactly once
+  ---
+  duration_ms: 2.86902
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves hammer -> judgement exactly once
+ok 223 - save tolerance preserves hammer -> judgement exactly once
+  ---
+  duration_ms: 0.265872
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves hammer -> battle_banner exactly once
+ok 224 - save tolerance preserves hammer -> battle_banner exactly once
+  ---
+  duration_ms: 0.206312
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves hammer -> zealous_onslaught exactly once
+ok 225 - save tolerance preserves hammer -> zealous_onslaught exactly once
+  ---
+  duration_ms: 0.197158
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves block -> shield_charge exactly once
+ok 226 - save tolerance preserves block -> shield_charge exactly once
+  ---
+  duration_ms: 0.199011
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves block -> mace_swing exactly once
+ok 227 - save tolerance preserves block -> mace_swing exactly once
+  ---
+  duration_ms: 0.302427
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves block -> shield_block exactly once
+ok 228 - save tolerance preserves block -> shield_block exactly once
+  ---
+  duration_ms: 0.241636
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves block -> righteous_hammer exactly once
+ok 229 - save tolerance preserves block -> righteous_hammer exactly once
+  ---
+  duration_ms: 0.299823
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves block -> lay_on_hands exactly once
+ok 230 - save tolerance preserves block -> lay_on_hands exactly once
+  ---
+  duration_ms: 0.285151
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves block -> judgement exactly once
+ok 231 - save tolerance preserves block -> judgement exactly once
+  ---
+  duration_ms: 0.368187
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves block -> battle_banner exactly once
+ok 232 - save tolerance preserves block -> battle_banner exactly once
+  ---
+  duration_ms: 0.239493
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves block -> zealous_onslaught exactly once
+ok 233 - save tolerance preserves block -> zealous_onslaught exactly once
+  ---
+  duration_ms: 0.26436
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves charge -> shield_charge exactly once
+ok 234 - save tolerance preserves charge -> shield_charge exactly once
+  ---
+  duration_ms: 0.275967
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves charge -> mace_swing exactly once
+ok 235 - save tolerance preserves charge -> mace_swing exactly once
+  ---
+  duration_ms: 0.253253
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves charge -> shield_block exactly once
+ok 236 - save tolerance preserves charge -> shield_block exactly once
+  ---
+  duration_ms: 0.227074
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves charge -> righteous_hammer exactly once
+ok 237 - save tolerance preserves charge -> righteous_hammer exactly once
+  ---
+  duration_ms: 0.288006
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves charge -> lay_on_hands exactly once
+ok 238 - save tolerance preserves charge -> lay_on_hands exactly once
+  ---
+  duration_ms: 0.258681
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves charge -> judgement exactly once
+ok 239 - save tolerance preserves charge -> judgement exactly once
+  ---
+  duration_ms: 0.221735
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves charge -> battle_banner exactly once
+ok 240 - save tolerance preserves charge -> battle_banner exactly once
+  ---
+  duration_ms: 26.362026
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves charge -> zealous_onslaught exactly once
+ok 241 - save tolerance preserves charge -> zealous_onslaught exactly once
+  ---
+  duration_ms: 0.479145
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves judgement -> shield_charge exactly once
+ok 242 - save tolerance preserves judgement -> shield_charge exactly once
+  ---
+  duration_ms: 0.305543
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves judgement -> mace_swing exactly once
+ok 243 - save tolerance preserves judgement -> mace_swing exactly once
+  ---
+  duration_ms: 0.254725
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves judgement -> shield_block exactly once
+ok 244 - save tolerance preserves judgement -> shield_block exactly once
+  ---
+  duration_ms: 0.250259
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves judgement -> righteous_hammer exactly once
+ok 245 - save tolerance preserves judgement -> righteous_hammer exactly once
+  ---
+  duration_ms: 0.23801
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves judgement -> lay_on_hands exactly once
+ok 246 - save tolerance preserves judgement -> lay_on_hands exactly once
+  ---
+  duration_ms: 0.184008
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves judgement -> judgement exactly once
+ok 247 - save tolerance preserves judgement -> judgement exactly once
+  ---
+  duration_ms: 0.27136
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves judgement -> battle_banner exactly once
+ok 248 - save tolerance preserves judgement -> battle_banner exactly once
+  ---
+  duration_ms: 0.174544
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves judgement -> zealous_onslaught exactly once
+ok 249 - save tolerance preserves judgement -> zealous_onslaught exactly once
+  ---
+  duration_ms: 0.166141
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves heal -> shield_charge exactly once
+ok 250 - save tolerance preserves heal -> shield_charge exactly once
+  ---
+  duration_ms: 0.170528
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves heal -> mace_swing exactly once
+ok 251 - save tolerance preserves heal -> mace_swing exactly once
+  ---
+  duration_ms: 0.313304
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves heal -> shield_block exactly once
+ok 252 - save tolerance preserves heal -> shield_block exactly once
+  ---
+  duration_ms: 0.207153
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves heal -> righteous_hammer exactly once
+ok 253 - save tolerance preserves heal -> righteous_hammer exactly once
+  ---
+  duration_ms: 0.22485
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves heal -> lay_on_hands exactly once
+ok 254 - save tolerance preserves heal -> lay_on_hands exactly once
+  ---
+  duration_ms: 0.296698
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves heal -> judgement exactly once
+ok 255 - save tolerance preserves heal -> judgement exactly once
+  ---
+  duration_ms: 0.327045
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves heal -> battle_banner exactly once
+ok 256 - save tolerance preserves heal -> battle_banner exactly once
+  ---
+  duration_ms: 0.285953
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves heal -> zealous_onslaught exactly once
+ok 257 - save tolerance preserves heal -> zealous_onslaught exactly once
+  ---
+  duration_ms: 0.223318
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert1 -> shield_charge exactly once
+ok 258 - save tolerance preserves expert1 -> shield_charge exactly once
+  ---
+  duration_ms: 0.289728
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert1 -> mace_swing exactly once
+ok 259 - save tolerance preserves expert1 -> mace_swing exactly once
+  ---
+  duration_ms: 0.219202
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert1 -> shield_block exactly once
+ok 260 - save tolerance preserves expert1 -> shield_block exactly once
+  ---
+  duration_ms: 0.242958
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert1 -> righteous_hammer exactly once
+ok 261 - save tolerance preserves expert1 -> righteous_hammer exactly once
+  ---
+  duration_ms: 0.219442
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert1 -> lay_on_hands exactly once
+ok 262 - save tolerance preserves expert1 -> lay_on_hands exactly once
+  ---
+  duration_ms: 4.44278
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert1 -> judgement exactly once
+ok 263 - save tolerance preserves expert1 -> judgement exactly once
+  ---
+  duration_ms: 0.260685
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert1 -> battle_banner exactly once
+ok 264 - save tolerance preserves expert1 -> battle_banner exactly once
+  ---
+  duration_ms: 0.24441
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert1 -> zealous_onslaught exactly once
+ok 265 - save tolerance preserves expert1 -> zealous_onslaught exactly once
+  ---
+  duration_ms: 0.367596
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert2 -> shield_charge exactly once
+ok 266 - save tolerance preserves expert2 -> shield_charge exactly once
+  ---
+  duration_ms: 0.31698
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert2 -> mace_swing exactly once
+ok 267 - save tolerance preserves expert2 -> mace_swing exactly once
+  ---
+  duration_ms: 0.206002
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert2 -> shield_block exactly once
+ok 268 - save tolerance preserves expert2 -> shield_block exactly once
+  ---
+  duration_ms: 0.316319
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert2 -> righteous_hammer exactly once
+ok 269 - save tolerance preserves expert2 -> righteous_hammer exactly once
+  ---
+  duration_ms: 0.220924
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert2 -> lay_on_hands exactly once
+ok 270 - save tolerance preserves expert2 -> lay_on_hands exactly once
+  ---
+  duration_ms: 0.225651
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert2 -> judgement exactly once
+ok 271 - save tolerance preserves expert2 -> judgement exactly once
+  ---
+  duration_ms: 0.197178
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert2 -> battle_banner exactly once
+ok 272 - save tolerance preserves expert2 -> battle_banner exactly once
+  ---
+  duration_ms: 2.345748
+  type: 'test'
+  ...
+# Subtest: save tolerance preserves expert2 -> zealous_onslaught exactly once
+ok 273 - save tolerance preserves expert2 -> zealous_onslaught exactly once
+  ---
+  duration_ms: 0.252101
+  type: 'test'
+  ...
+# Subtest: save wait at invalid or expired 99 does not play later
+ok 274 - save wait at invalid or expired 99 does not play later
+  ---
+  duration_ms: 0.457081
+  type: 'test'
+  ...
+# Subtest: save wait at invalid or expired 251 does not play later
+ok 275 - save wait at invalid or expired 251 does not play later
+  ---
+  duration_ms: 0.260584
+  type: 'test'
+  ...
+# Subtest: save wait at invalid or expired 10000 does not play later
+ok 276 - save wait at invalid or expired 10000 does not play later
+  ---
+  duration_ms: 0.187353
+  type: 'test'
+  ...
+# Subtest: save wait at invalid or expired NaN does not play later
+ok 277 - save wait at invalid or expired NaN does not play later
+  ---
+  duration_ms: 0.166322
+  type: 'test'
+  ...
+# Subtest: save wait at invalid or expired Infinity does not play later
+ok 278 - save wait at invalid or expired Infinity does not play later
+  ---
+  duration_ms: 0.340836
+  type: 'test'
+  ...
+# Subtest: paused drops pending save input
+ok 279 - paused drops pending save input
+  ---
+  duration_ms: 0.233423
+  type: 'test'
+  ...
+# Subtest: blocked drops pending save input
+ok 280 - blocked drops pending save input
+  ---
+  duration_ms: 0.171279
+  type: 'test'
+  ...
+# Subtest: lifeDown drops pending save input
+ok 281 - lifeDown drops pending save input
+  ---
+  duration_ms: 4.013701
+  type: 'test'
+  ...
+# Subtest: hidden drops pending save input
+ok 282 - hidden drops pending save input
+  ---
+  duration_ms: 0.234715
+  type: 'test'
+  ...
+# Subtest: focus loss cancels pending save input
+ok 283 - focus loss cancels pending save input
+  ---
+  duration_ms: 0.314706
+  type: 'test'
+  ...
+# Subtest: changed battle invalidates captured save input
+ok 284 - changed battle invalidates captured save input
+  ---
+  duration_ms: 0.232873
+  type: 'test'
+  ...
+# Subtest: changed owner invalidates captured save input
+ok 285 - changed owner invalidates captured save input
+  ---
+  duration_ms: 0.353354
+  type: 'test'
+  ...
+# Subtest: changed life invalidates captured save input
+ok 286 - changed life invalidates captured save input
+  ---
+  duration_ms: 0.308677
+  type: 'test'
+  ...
+# Subtest: changed region invalidates captured save input
+ok 287 - changed region invalidates captured save input
+  ---
+  duration_ms: 0.194965
+  type: 'test'
+  ...
+# Subtest: changed skill invalidates captured save input
+ok 288 - changed skill invalidates captured save input
+  ---
+  duration_ms: 0.15853
+  type: 'test'
+  ...
+# Subtest: changed otherSlot invalidates captured save input
+ok 289 - changed otherSlot invalidates captured save input
+  ---
+  duration_ms: 0.408137
+  type: 'test'
+  ...
+# Subtest: changed controls invalidates captured save input
+ok 290 - changed controls invalidates captured save input
+  ---
+  duration_ms: 0.285112
+  type: 'test'
+  ...
+# Subtest: normal release while saving follows finite or hold policy for shield_charge
+ok 291 - normal release while saving follows finite or hold policy for shield_charge
+  ---
+  duration_ms: 0.674671
+  type: 'test'
+  ...
+# Subtest: normal release while saving follows finite or hold policy for mace_swing
+ok 292 - normal release while saving follows finite or hold policy for mace_swing
+  ---
+  duration_ms: 6.318157
+  type: 'test'
+  ...
+# Subtest: normal release while saving follows finite or hold policy for shield_block
+ok 293 - normal release while saving follows finite or hold policy for shield_block
+  ---
+  duration_ms: 0.213543
+  type: 'test'
+  ...
+# Subtest: normal release while saving follows finite or hold policy for righteous_hammer
+ok 294 - normal release while saving follows finite or hold policy for righteous_hammer
+  ---
+  duration_ms: 0.22426
+  type: 'test'
+  ...
+# Subtest: normal release while saving follows finite or hold policy for lay_on_hands
+ok 295 - normal release while saving follows finite or hold policy for lay_on_hands
+  ---
+  duration_ms: 0.31763
+  type: 'test'
+  ...
+# Subtest: normal release while saving follows finite or hold policy for judgement
+ok 296 - normal release while saving follows finite or hold policy for judgement
+  ---
+  duration_ms: 0.219983
+  type: 'test'
+  ...
+# Subtest: normal release while saving follows finite or hold policy for battle_banner
+ok 297 - normal release while saving follows finite or hold policy for battle_banner
+  ---
+  duration_ms: 0.194544
+  type: 'test'
+  ...
+# Subtest: normal release while saving follows finite or hold policy for zealous_onslaught
+ok 298 - normal release while saving follows finite or hold policy for zealous_onslaught
+  ---
+  duration_ms: 0.162777
+  type: 'test'
+  ...
+# Subtest: toggle shield tap during save retains the press, then toggles guard after finite release
+ok 299 - toggle shield tap during save retains the press, then toggles guard after finite release
+  ---
+  duration_ms: 0.44943
+  type: 'test'
+  ...
+# Subtest: the newest different save-wait skill replaces the earlier intent
+ok 300 - the newest different save-wait skill replaces the earlier intent
+  ---
+  duration_ms: 0.31066
+  type: 'test'
+  ...
+# Subtest: pointer cancellation for Mouse2 differs from normal finite release
+ok 301 - pointer cancellation for Mouse2 differs from normal finite release
+  ---
+  duration_ms: 0.357741
+  type: 'test'
+  ...
+# Subtest: pointer cancellation for Touch:hammer:12 differs from normal finite release
+ok 302 - pointer cancellation for Touch:hammer:12 differs from normal finite release
+  ---
+  duration_ms: 4.530113
+  type: 'test'
+  ...
+# Subtest: clear/reset/save failure discard deferred input, with explicit preserve only for acknowledged safety drain
+ok 303 - clear/reset/save failure discard deferred input, with explicit preserve only for acknowledged safety drain
+  ---
+  duration_ms: 0.639427
+  type: 'test'
+  ...
+# Subtest: invalid offered token, slot, skill and controls never enter save wait
+ok 304 - invalid offered token, slot, skill and controls never enter save wait
+  ---
+  duration_ms: 0.272132
+  type: 'test'
+  ...
+# Subtest: attached deferred capture shares the physical sequence and replay preserves it exactly
+ok 305 - attached deferred capture shares the physical sequence and replay preserves it exactly
+  ---
+  duration_ms: 0.8462
+  type: 'test'
+  ...
+# Subtest: historical controls v1 read/migrate never adopts loadout or mutates source; explicit restore is byte exact
+ok 306 - historical controls v1 read/migrate never adopts loadout or mutates source; explicit restore is byte exact
+  ---
+  duration_ms: 5.545108
+  type: 'test'
+  ...
+# Subtest: historical controls v2 read/migrate never adopts loadout or mutates source; explicit restore is byte exact
+ok 307 - historical controls v2 read/migrate never adopts loadout or mutates source; explicit restore is byte exact
+  ---
+  duration_ms: 4.949306
+  type: 'test'
+  ...
+# Subtest: historical controls v3 read/migrate never adopts loadout or mutates source; explicit restore is byte exact
+ok 308 - historical controls v3 read/migrate never adopts loadout or mutates source; explicit restore is byte exact
+  ---
+  duration_ms: 0.50947
+  type: 'test'
+  ...
+# Subtest: historical controls v4 read/migrate never adopts loadout or mutates source; explicit restore is byte exact
+ok 309 - historical controls v4 read/migrate never adopts loadout or mutates source; explicit restore is byte exact
+  ---
+  duration_ms: 7.713017
+  type: 'test'
+  ...
+# Subtest: v3/v4 preset defaults unchanged; v5 preset and rebind preserve exact predecessor and equipped skills
+ok 310 - v3/v4 preset defaults unchanged; v5 preset and rebind preserve exact predecessor and equipped skills
+  ---
+  duration_ms: 1.658649
+  type: 'test'
+  ...
+# Subtest: v5 original v4 may retain its v3 history but v5 ancestors and forged old slot fields are refused
+ok 311 - v5 original v4 may retain its v3 history but v5 ancestors and forged old slot fields are refused
+  ---
+  duration_ms: 0.835804
+  type: 'test'
+  ...
+# Subtest: opt in seeds learned skills only and keeps old expert slots independent
+ok 312 - opt in seeds learned skills only and keeps old expert slots independent
+  ---
+  duration_ms: 129.830719
+  type: 'test'
+  ...
+# Subtest: skill purchase does not silently fill opted-in empty slot
+ok 313 - skill purchase does not silently fill opted-in empty slot
+  ---
+  duration_ms: 2966.100017
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: attack <- shield_charge
+ok 314 - all active skills fit all slots: attack <- shield_charge
+  ---
+  duration_ms: 327.405348
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: attack <- mace_swing
+ok 315 - all active skills fit all slots: attack <- mace_swing
+  ---
+  duration_ms: 29.292096
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: attack <- shield_block
+ok 316 - all active skills fit all slots: attack <- shield_block
+  ---
+  duration_ms: 29.114153
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: attack <- righteous_hammer
+ok 317 - all active skills fit all slots: attack <- righteous_hammer
+  ---
+  duration_ms: 45.241524
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: attack <- lay_on_hands
+ok 318 - all active skills fit all slots: attack <- lay_on_hands
+  ---
+  duration_ms: 26.041879
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: attack <- judgement
+ok 319 - all active skills fit all slots: attack <- judgement
+  ---
+  duration_ms: 23.629521
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: attack <- battle_banner
+ok 320 - all active skills fit all slots: attack <- battle_banner
+  ---
+  duration_ms: 46.900072
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: attack <- zealous_onslaught
+ok 321 - all active skills fit all slots: attack <- zealous_onslaught
+  ---
+  duration_ms: 30.138862
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: hammer <- shield_charge
+ok 322 - all active skills fit all slots: hammer <- shield_charge
+  ---
+  duration_ms: 24.221887
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: hammer <- mace_swing
+ok 323 - all active skills fit all slots: hammer <- mace_swing
+  ---
+  duration_ms: 51.147263
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: hammer <- shield_block
+ok 324 - all active skills fit all slots: hammer <- shield_block
+  ---
+  duration_ms: 25.522774
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: hammer <- righteous_hammer
+ok 325 - all active skills fit all slots: hammer <- righteous_hammer
+  ---
+  duration_ms: 35.325112
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: hammer <- lay_on_hands
+ok 326 - all active skills fit all slots: hammer <- lay_on_hands
+  ---
+  duration_ms: 56.323346
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: hammer <- judgement
+ok 327 - all active skills fit all slots: hammer <- judgement
+  ---
+  duration_ms: 44.776942
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: hammer <- battle_banner
+ok 328 - all active skills fit all slots: hammer <- battle_banner
+  ---
+  duration_ms: 63.430441
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: hammer <- zealous_onslaught
+ok 329 - all active skills fit all slots: hammer <- zealous_onslaught
+  ---
+  duration_ms: 62.596821
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: block <- shield_charge
+ok 330 - all active skills fit all slots: block <- shield_charge
+  ---
+  duration_ms: 46.026691
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: block <- mace_swing
+ok 331 - all active skills fit all slots: block <- mace_swing
+  ---
+  duration_ms: 66.401152
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: block <- shield_block
+ok 332 - all active skills fit all slots: block <- shield_block
+  ---
+  duration_ms: 27.311318
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: block <- righteous_hammer
+ok 333 - all active skills fit all slots: block <- righteous_hammer
+  ---
+  duration_ms: 38.831028
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: block <- lay_on_hands
+ok 334 - all active skills fit all slots: block <- lay_on_hands
+  ---
+  duration_ms: 47.351328
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: block <- judgement
+ok 335 - all active skills fit all slots: block <- judgement
+  ---
+  duration_ms: 39.202525
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: block <- battle_banner
+ok 336 - all active skills fit all slots: block <- battle_banner
+  ---
+  duration_ms: 36.522944
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: block <- zealous_onslaught
+ok 337 - all active skills fit all slots: block <- zealous_onslaught
+  ---
+  duration_ms: 30.363988
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: charge <- shield_charge
+ok 338 - all active skills fit all slots: charge <- shield_charge
+  ---
+  duration_ms: 23.465343
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: charge <- mace_swing
+ok 339 - all active skills fit all slots: charge <- mace_swing
+  ---
+  duration_ms: 28.04696
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: charge <- shield_block
+ok 340 - all active skills fit all slots: charge <- shield_block
+  ---
+  duration_ms: 34.259717
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: charge <- righteous_hammer
+ok 341 - all active skills fit all slots: charge <- righteous_hammer
+  ---
+  duration_ms: 38.771072
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: charge <- lay_on_hands
+ok 342 - all active skills fit all slots: charge <- lay_on_hands
+  ---
+  duration_ms: 38.805885
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: charge <- judgement
+ok 343 - all active skills fit all slots: charge <- judgement
+  ---
+  duration_ms: 38.992868
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: charge <- battle_banner
+ok 344 - all active skills fit all slots: charge <- battle_banner
+  ---
+  duration_ms: 37.6124
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: charge <- zealous_onslaught
+ok 345 - all active skills fit all slots: charge <- zealous_onslaught
+  ---
+  duration_ms: 37.818222
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: judgement <- shield_charge
+ok 346 - all active skills fit all slots: judgement <- shield_charge
+  ---
+  duration_ms: 27.390718
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: judgement <- mace_swing
+ok 347 - all active skills fit all slots: judgement <- mace_swing
+  ---
+  duration_ms: 26.272888
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: judgement <- shield_block
+ok 348 - all active skills fit all slots: judgement <- shield_block
+  ---
+  duration_ms: 26.554664
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: judgement <- righteous_hammer
+ok 349 - all active skills fit all slots: judgement <- righteous_hammer
+  ---
+  duration_ms: 28.199251
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: judgement <- lay_on_hands
+ok 350 - all active skills fit all slots: judgement <- lay_on_hands
+  ---
+  duration_ms: 32.585777
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: judgement <- judgement
+ok 351 - all active skills fit all slots: judgement <- judgement
+  ---
+  duration_ms: 37.120507
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: judgement <- battle_banner
+ok 352 - all active skills fit all slots: judgement <- battle_banner
+  ---
+  duration_ms: 38.78313
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: judgement <- zealous_onslaught
+ok 353 - all active skills fit all slots: judgement <- zealous_onslaught
+  ---
+  duration_ms: 38.096603
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: heal <- shield_charge
+ok 354 - all active skills fit all slots: heal <- shield_charge
+  ---
+  duration_ms: 42.422227
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: heal <- mace_swing
+ok 355 - all active skills fit all slots: heal <- mace_swing
+  ---
+  duration_ms: 38.617505
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: heal <- shield_block
+ok 356 - all active skills fit all slots: heal <- shield_block
+  ---
+  duration_ms: 35.787822
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: heal <- righteous_hammer
+ok 357 - all active skills fit all slots: heal <- righteous_hammer
+  ---
+  duration_ms: 36.04425
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: heal <- lay_on_hands
+ok 358 - all active skills fit all slots: heal <- lay_on_hands
+  ---
+  duration_ms: 28.270528
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: heal <- judgement
+ok 359 - all active skills fit all slots: heal <- judgement
+  ---
+  duration_ms: 33.425551
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: heal <- battle_banner
+ok 360 - all active skills fit all slots: heal <- battle_banner
+  ---
+  duration_ms: 55.469847
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: heal <- zealous_onslaught
+ok 361 - all active skills fit all slots: heal <- zealous_onslaught
+  ---
+  duration_ms: 40.796905
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert1 <- shield_charge
+ok 362 - all active skills fit all slots: expert1 <- shield_charge
+  ---
+  duration_ms: 50.547405
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert1 <- mace_swing
+ok 363 - all active skills fit all slots: expert1 <- mace_swing
+  ---
+  duration_ms: 26.82334
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert1 <- shield_block
+ok 364 - all active skills fit all slots: expert1 <- shield_block
+  ---
+  duration_ms: 25.441631
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert1 <- righteous_hammer
+ok 365 - all active skills fit all slots: expert1 <- righteous_hammer
+  ---
+  duration_ms: 40.779789
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert1 <- lay_on_hands
+ok 366 - all active skills fit all slots: expert1 <- lay_on_hands
+  ---
+  duration_ms: 38.067748
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert1 <- judgement
+ok 367 - all active skills fit all slots: expert1 <- judgement
+  ---
+  duration_ms: 43.323394
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert1 <- battle_banner
+ok 368 - all active skills fit all slots: expert1 <- battle_banner
+  ---
+  duration_ms: 31.563185
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert1 <- zealous_onslaught
+ok 369 - all active skills fit all slots: expert1 <- zealous_onslaught
+  ---
+  duration_ms: 24.163789
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert2 <- shield_charge
+ok 370 - all active skills fit all slots: expert2 <- shield_charge
+  ---
+  duration_ms: 45.673007
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert2 <- mace_swing
+ok 371 - all active skills fit all slots: expert2 <- mace_swing
+  ---
+  duration_ms: 37.510776
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert2 <- shield_block
+ok 372 - all active skills fit all slots: expert2 <- shield_block
+  ---
+  duration_ms: 36.89139
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert2 <- righteous_hammer
+ok 373 - all active skills fit all slots: expert2 <- righteous_hammer
+  ---
+  duration_ms: 54.049579
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert2 <- lay_on_hands
+ok 374 - all active skills fit all slots: expert2 <- lay_on_hands
+  ---
+  duration_ms: 37.899114
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert2 <- judgement
+ok 375 - all active skills fit all slots: expert2 <- judgement
+  ---
+  duration_ms: 43.263543
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert2 <- battle_banner
+ok 376 - all active skills fit all slots: expert2 <- battle_banner
+  ---
+  duration_ms: 37.736488
+  type: 'test'
+  ...
+# Subtest: all active skills fit all slots: expert2 <- zealous_onslaught
+ok 377 - all active skills fit all slots: expert2 <- zealous_onslaught
+  ---
+  duration_ms: 49.774036
+  type: 'test'
+  ...
+# Subtest: strict loadout rejects null
+ok 378 - strict loadout rejects null
+  ---
+  duration_ms: 0.381086
+  type: 'test'
+  ...
+# Subtest: strict loadout rejects {}
+ok 379 - strict loadout rejects {}
+  ---
+  duration_ms: 0.091639
+  type: 'test'
+  ...
+# Subtest: strict loadout rejects []
+ok 380 - strict loadout rejects []
+  ---
+  duration_ms: 0.063997
+  type: 'test'
+  ...
+# Subtest: strict loadout rejects {"version":2,"attack":null,"hammer":null,"block":null,"charge":null,"judgement":null,"heal":null,"expert1":null,"expert2":null}
+ok 381 - strict loadout rejects {"version":2,"attack":null,"hammer":null,"block":null,"charge":null,"judgement":null,"heal":null,"expert1":null,"expert2":null}
+  ---
+  duration_ms: 0.057357
+  type: 'test'
+  ...
+# Subtest: strict loadout rejects {"version":1,"attack":null,"hammer":null,"block":null,"charge":null,"judgement":null,"heal":null,"expert1":null,"expert2":null,"extra":null}
+ok 382 - strict loadout rejects {"version":1,"attack":null,"hammer":null,"block":null,"charge":null,"judgement":null,"heal":null,"expert1":null,"expert2":null,"extra":null}
+  ---
+  duration_ms: 0.05961
+  type: 'test'
+  ...
+# Subtest: strict loadout rejects {"version":1,"hammer":null,"block":null,"charge":null,"judgement":null,"heal":null,"expert1":null,"expert2":null}
+ok 383 - strict loadout rejects {"version":1,"hammer":null,"block":null,"charge":null,"judgement":null,"heal":null,"expert1":null,"expert2":null}
+  ---
+  duration_ms: 0.054943
+  type: 'test'
+  ...
+# Subtest: strict loadout rejects {"version":1,"attack":"not_a_skill","hammer":null,"block":null,"charge":null,"judgement":null,"heal":null,"expert1":null,"expert2":null}
+ok 384 - strict loadout rejects {"version":1,"attack":"not_a_skill","hammer":null,"block":null,"charge":null,"judgement":null,"heal":null,"expert1":null,"expert2":null}
+  ---
+  duration_ms: 0.058289
+  type: 'test'
+  ...
+# Subtest: strict loadout rejects {"version":1,"attack":"towering_strength","hammer":null,"block":null,"charge":null,"judgement":null,"heal":null,"expert1":null,"expert2":null}
+ok 385 - strict loadout rejects {"version":1,"attack":"towering_strength","hammer":null,"block":null,"charge":null,"judgement":null,"heal":null,"expert1":null,"expert2":null}
+  ---
+  duration_ms: 0.05334
+  type: 'test'
+  ...
+# Subtest: strict loadout rejects {"version":1,"attack":"armored_assault","hammer":null,"block":null,"charge":null,"judgement":null,"heal":null,"expert1":null,"expert2":null}
+ok 386 - strict loadout rejects {"version":1,"attack":"armored_assault","hammer":null,"block":null,"charge":null,"judgement":null,"heal":null,"expert1":null,"expert2":null}
+  ---
+  duration_ms: 0.054222
+  type: 'test'
+  ...
+# Subtest: strict loadout rejects {"version":1,"attack":"mace_swing","hammer":"mace_swing","block":null,"charge":null,"judgement":null,"heal":null,"expert1":null,"expert2":null}
+ok 387 - strict loadout rejects {"version":1,"attack":"mace_swing","hammer":"mace_swing","block":null,"charge":null,"judgement":null,"heal":null,"expert1":null,"expert2":null}
+  ---
+  duration_ms: 0.062695
+  type: 'test'
+  ...
+# Subtest: learned check cannot be omitted or replaced with a support list
+ok 388 - learned check cannot be omitted or replaced with a support list
+  ---
+  duration_ms: 0.241134
+  type: 'test'
+  ...
+# Subtest: setControls cannot bypass learned skill validation
+ok 389 - setControls cannot bypass learned skill validation
+  ---
+  duration_ms: 10.586995
+  type: 'test'
+  ...
+# Subtest: beginner assignment rejects unknown slot without mutation
+ok 390 - beginner assignment rejects unknown slot without mutation
+  ---
+  duration_ms: 14.657128
+  type: 'test'
+  ...
+# Subtest: beginner assignment rejects unlearned without mutation
+ok 391 - beginner assignment rejects unlearned without mutation
+  ---
+  duration_ms: 14.852863
+  type: 'test'
+  ...
+# Subtest: beginner assignment rejects augment without mutation
+ok 392 - beginner assignment rejects augment without mutation
+  ---
+  duration_ms: 14.104673
+  type: 'test'
+  ...
+# Subtest: beginner assignment rejects stale old skill without mutation
+ok 393 - beginner assignment rejects stale old skill without mutation
+  ---
+  duration_ms: 14.522524
+  type: 'test'
+  ...
+# Subtest: beginner assignment rejects stale revision without mutation
+ok 394 - beginner assignment rejects stale revision without mutation
+  ---
+  duration_ms: 28.163566
+  type: 'test'
+  ...
+# Subtest: beginner assignment rejects fraction revision without mutation
+ok 395 - beginner assignment rejects fraction revision without mutation
+  ---
+  duration_ms: 14.894387
+  type: 'test'
+  ...
+# Subtest: beginner assignment rejects stale life without mutation
+ok 396 - beginner assignment rejects stale life without mutation
+  ---
+  duration_ms: 14.161929
+  type: 'test'
+  ...
+# Subtest: beginner assignment rejects extra field without mutation
+ok 397 - beginner assignment rejects extra field without mutation
+  ---
+  duration_ms: 14.774085
+  type: 'test'
+  ...
+# Subtest: trained beginner can clear and move an already learned skill with CAS
+ok 398 - trained beginner can clear and move an already learned skill with CAS
+  ---
+  duration_ms: 23.420035
+  type: 'test'
+  ...
+# Subtest: explicit duplicate skill is rejected; old-mode and missing revision contexts cannot assign
+ok 399 - explicit duplicate skill is rejected; old-mode and missing revision contexts cannot assign
+  ---
+  duration_ms: 35.537143
+  type: 'test'
+  ...
+# Subtest: dead characters cannot assign
+ok 400 - dead characters cannot assign
+  ---
+  duration_ms: 25.21614
+  type: 'test'
+  ...
+# Subtest: assignment persists exactly and same displayed revision commits at most once
+ok 401 - assignment persists exactly and same displayed revision commits at most once
+  ---
+  duration_ms: 46.128054
+  type: 'test'
+  ...
+# Subtest: save failure has no optimistic runtime or durable mutation
+ok 402 - save failure has no optimistic runtime or durable mutation
+  ---
+  duration_ms: 16.687467
+  type: 'test'
+  ...
+# Subtest: delayed commit changes assignment only after durable success
+ok 403 - delayed commit changes assignment only after durable success
+  ---
+  duration_ms: 49.850662
+  type: 'test'
+  ...
+# Subtest: accessor requests/context are rejected without execution
+ok 404 - accessor requests/context are rejected without execution
+  ---
+  duration_ms: 11.454826
+  type: 'test'
+  ...
+# Subtest: explicit v5 historical-key preset cannot strand click movement without a moveOnly binding
+ok 405 - explicit v5 historical-key preset cannot strand click movement without a moveOnly binding
+  ---
+  duration_ms: 0.520327
+  type: 'test'
+  ...
+1..405
+# tests 405
+# suites 0
+# pass 405
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7245.949025

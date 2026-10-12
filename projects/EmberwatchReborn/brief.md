@@ -284,3 +284,8 @@ Third independent session shield stance: actual frontal active blocks arm a shor
 ## Apprentice graph training UI
 
 First graph training unit: nine existing apprentice nodes/five real base dependencies, selectable descriptions, graph/list toggle, existing purchase and explicit eight-slot assignment. Keep all existing trainer/session/payment guards; no new save fields, writer, ability values or respec.
+
+
+## Full implemented skill graph
+
+Expand the graph to all40 existing runtime skills,28 authoritative base dependencies and two exclusive groups. Tier filters and selection are session presentation only; purchase and eight-slot APIs remain unchanged. Master13 is excluded.
