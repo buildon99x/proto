@@ -334,3 +334,8 @@ Final a14 automatic verification: 4,338/4,338 tests (4,312 prior + 26 new), zero
 ## R14a18 head-first normal save candidate
 
 The normal load validates the head-selected slot first and avoids one unused alternate-slot validation when its receipt matches. All three raw reads, decoder decisions, fallback recovery, CAS, locks, readbacks, upgrade fences, busy/input atomicity and 150 ms expiry remain intact. The same immutable-freeze scene optimization and death accessibility from a17 remain. No fix to actual browser input expiry is claimed. See docs/verification-r14a18 for release-label checks and docs/verification-head-first-save for the original 4,483-test full pass, retained initial unexplained file-process failure, 50 new checks and bounded paired timings. No validation-reuse second phase is included.
+
+
+## R14a18 independent recovery-feedback copy
+
+Presentation only: existing recovery-too-early toast says “후딜 중 · 동작이 끝나기 직전에 다시 누르세요.”. Retain matching-skill start, safety dismissal, 3.3-second lifetime and status region. Existing same-sequence save-wait condition displays “저장·안전 처리 대기 상태 관측 · 대기 시간 미측정”; explain that waiting observations and input-link termination reasons are separate. No new persisted fields or rule changes.

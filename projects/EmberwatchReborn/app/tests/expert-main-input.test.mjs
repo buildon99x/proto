@@ -317,7 +317,7 @@ test('observation main: rejected dodge observation cannot survive until later he
 
 // R14a6: production toast, input handlers, frames, accepted action events and
 // durable save flow. DOM classes are probed; this is not browser/pixel evidence.
-const recoveryCopy='현재 동작 진행 중 · 회수 마지막 구간에서 다시 누르세요.';
+const recoveryCopy='후딜 중 · 동작이 끝나기 직전에 다시 누르세요.';
 function recoveryVisible(h){assert.equal(h.notice.textContent,recoveryCopy);assert.equal(h.notice.classList.contains('visible'),true);assert.ok(h.app.noticeUntil>0);}
 function noRecoveryNotice(h){assert.equal(h.notice.textContent,'');assert.equal(h.notice.classList.contains('visible'),false);assert.equal(h.notice.recoverySkillId,null);assert.equal(h.app.noticeUntil,0);}
 for(const hz of [30,60,120])for(const mapped of [false,true])for(const blockedBy of ['roll','hammer-recovery'])test(`R14a6 ${hz}Hz ${mapped?'mapped F':'LMB'} held mace dismisses only its own ${blockedBy} notice when start is accepted`,async()=>{
@@ -519,4 +519,30 @@ test('R14a16 stale dead settings/menu/save actions never mutate real saved state
 test('actual committed main snapshot freezes only its owned copy across checkpoint controls rest and save failure',async()=>{
  const h=await ui(),immutable=isImmutableSnapshot;assert.equal(await h.app.dispatch({type:'checkpoint',...h.app.report()}),true);const first=h.app.state;assert.equal(immutable(first),true);const copied=h.app.controller.snapshot();assert.equal(Object.isFrozen(copied),false);copied.gold=0;assert.notEqual(h.app.state.gold,copied.gold);
  const controls=structuredClone(h.app.state.options.controls);assert.equal(await h.app.dispatch({type:'setControls',controls}),true);assert.equal(immutable(h.app.state),true);assert.notEqual(h.app.state,first);assert.equal(await h.app.dispatch({type:'rest',position:imports.getRegion('ash_hamlet').npcs.find(n=>n.id==='healer')}),true);assert.equal(immutable(h.app.state),true);const before=h.app.state;h.fail();assert.equal(await h.app.dispatch({type:'checkpoint',...h.app.report()}),false);assert.equal(h.app.state,before);assert.deepEqual(h.store.load().state,before);
+});
+
+// Independent R14a18 display-copy regression: production panel/toast handlers.
+test('recovery diagnostic separates same-sequence waiting observations from rejection causes',async()=>{
+ const h=await ui({poeMode:'wasd'}),trace=h.boundaries.inputLatency;
+ const waiting=trace.press('charge',{skillId:'shield_charge'});trace.waiting();trace.clear('recovery-too-early');
+ const rejected=trace.press('attack',{skillId:'mace_swing'});trace.clear('recovery-too-early');
+ const before=structuredClone(h.app.state),revision=h.app.controller.revision(),observations=trace.snapshot();
+ h.app.showInputObservations();
+ const articles=[...h.modal.innerHTML.matchAll(/<article class="skill">[\s\S]*?<\/article>/g)].map(m=>m[0]);
+ const row=id=>articles.find(text=>text.includes(`· 입력 ${id}</strong>`));
+ assert.match(row(waiting.sequence),/저장·안전 처리 대기 상태 관측 · 대기 시간 미측정/);
+ assert.doesNotMatch(row(rejected.sequence),/저장·안전 처리 대기 상태 관측|저장 대기 포함/);
+ for(const id of [waiting.sequence,rejected.sequence])assert.match(row(id),/입력 연결 종료: recovery-too-early/);
+ assert.match(h.modal.innerHTML,/대기 상태 관측과 입력 연결 종료 사유는 별개입니다\./);
+ assert.deepEqual(trace.snapshot(),observations);assert.deepEqual(h.app.state,before);assert.equal(h.app.controller.revision(),revision);
+});
+test('recovery copy retains one status region and key repeat does not renew the notice',async()=>{
+ const index=readFileSync(new URL('../src/index.html',import.meta.url),'utf8');
+ assert.equal([...index.matchAll(/id="toast" role="status"/g)].length,1);
+ const h=await ui({poeMode:'wasd',realNotice:true});
+ h.key('Space');await next();h.key('KeyQ');await next();recoveryVisible(h);
+ const until=h.app.noticeUntil;
+ for(let i=0;i<8;i++){h.key('KeyQ',{repeat:true});await h.frame();}
+ recoveryVisible(h);assert.equal(h.app.noticeUntil,until);
+ h.wh.blur();await next();noRecoveryNotice(h);
 });

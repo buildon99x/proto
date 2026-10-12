@@ -1,0 +1,22 @@
+{
+  "baseline": "5b767fd3724d382f81569c77054c73bfceca135f",
+  "full": {
+    "tests": 4485,
+    "pass": 4485,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "focused": {
+    "tests": 208,
+    "pass": 208,
+    "fail": 0
+  },
+  "lintExit": 0,
+  "appBuildExit": 0,
+  "registry": "blocked before script: pnpm dependency path ENOENT",
+  "buildVercel": "blocked before script: corepack cache ENOENT",
+  "nativeQA": "not performed",
+  "productionDiff": "three strings in main.js only"
+}

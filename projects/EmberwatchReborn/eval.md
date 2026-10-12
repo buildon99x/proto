@@ -451,3 +451,8 @@ R14a17 supplemental boundary evidence: verify-consuming-combat-parity.mjs reuses
 ## R14a18 head-first normal save candidate
 
 The normal load validates the head-selected slot first and avoids one unused alternate-slot validation when its receipt matches. All three raw reads, decoder decisions, fallback recovery, CAS, locks, readbacks, upgrade fences, busy/input atomicity and 150 ms expiry remain intact. The same immutable-freeze scene optimization and death accessibility from a17 remain. No fix to actual browser input expiry is claimed. See docs/verification-r14a18 for release-label checks and docs/verification-head-first-save for the original 4,483-test full pass, retained initial unexplained file-process failure, 50 new checks and bounded paired timings. No validation-reuse second phase is included.
+
+
+## R14a18 independent recovery-feedback copy
+
+Run production-handler regression for waiting/rejection sequence isolation, unchanged state/revision, existing notice dismissal/expiry, key repeat and status markup. Run full Node suite, syntax and app build; attempt existing registry command without installation. Native dot browser visibility, focus/AX and listening remain unverified. QA: near an enemy, RMB hammer → Q → Space → hold A+J; read the recovery notice, verify later mace start clears its own notice and its contact is observed separately, and check diagnostic rows independently. Also check blur/menu, rapid input and screen-reader announcement frequency.

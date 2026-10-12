@@ -239,3 +239,8 @@ The integrated candidate retains a16 death-overlay containment and eliminates re
 ## R14a18 head-first normal save candidate
 
 The normal load validates the head-selected slot first and avoids one unused alternate-slot validation when its receipt matches. All three raw reads, decoder decisions, fallback recovery, CAS, locks, readbacks, upgrade fences, busy/input atomicity and 150 ms expiry remain intact. The same immutable-freeze scene optimization and death accessibility from a17 remain. No fix to actual browser input expiry is claimed. See docs/verification-r14a18 for release-label checks and docs/verification-head-first-save for the original 4,483-test full pass, retained initial unexplained file-process failure, 50 new checks and bounded paired timings. No validation-reuse second phase is included.
+
+
+## R14a18 independent recovery-feedback copy
+
+Improve existing recovery rejection copy in Korean without a duplicate alert. Keep combat, input, save and resource semantics unchanged; distinguish diagnostic waiting observations from rejection causes.
