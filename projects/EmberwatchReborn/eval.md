@@ -476,3 +476,8 @@ Red-to-green production-handler matrix:30/60/120Hz, controls4/5, repeated mace a
 ## First crusher combat-loop candidate
 
 Execute production handlers from legal earned fixtures: direct hits/primed/heavy/wave/reset, geometry, miss/unprimed/death/movement/LOS/immunity/duplicate events, heavy timer not consumed, old armor break independent, resource/recovery constraints and classic-mode equivalence. Test actual menu selection and no profile/revision change, region carry/new-profile reset, weapon eligibility, visual marker/real-event wave probes; full suite/lint/build and original assets/save module hashes. Normal QA: train starter, earn Adept, learn Judgement, select crusher in town, prime live target with legal mace hits then aim and press current Judgement key. Native timing/visual/listening/AAA quality remain separate.
+
+
+## Crusher focus-safety selection follow-up
+
+Red-to-green real focusin then menu/selection click with no intervening frame: unlearned message and basic mode reachable, learned choice works. Preserve active finite action, actual channel-cancellation recovery debt, real delayed-save pending and stale choice guards. Run full suite, lint, registry/build and preservation hashes; native v72 rerun remains required.

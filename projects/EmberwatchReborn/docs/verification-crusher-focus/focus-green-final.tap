@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: crusher menu selects runtime mode with current keys and no profile/revision mutation; region carry and explicit reload reset
+ok 1 - crusher menu selects runtime mode with current keys and no profile/revision mutation; region carry and explicit reload reset
+  ---
+  duration_ms: 4161.792153
+  type: 'test'
+  ...
+# Subtest: crusher choice rejects missing learned strike, stale epoch and field selection
+ok 2 - crusher choice rejects missing learned strike, stale epoch and field selection
+  ---
+  duration_ms: 651.417546
+  type: 'test'
+  ...
+# Subtest: crusher menu reconciles focus safety before idle snapshot; missing learning stays visible and default mode remains selectable
+ok 3 - crusher menu reconciles focus safety before idle snapshot; missing learning stays visible and default mode remains selectable
+  ---
+  duration_ms: 241.789889
+  type: 'test'
+  ...
+# Subtest: crusher selection with real focus between buttons drains only settled safety and keeps finite action, recovery and save guards
+ok 4 - crusher selection with real focus between buttons drains only settled safety and keeps finite action, recovery and save guards
+  ---
+  duration_ms: 1425.059444
+  type: 'test'
+  ...
+# Subtest: crusher actual menu, cursor and J/E handlers build readiness then emit one target-centred payoff with unchanged save fields
+ok 5 - crusher actual menu, cursor and J/E handlers build readiness then emit one target-centred payoff with unchanged save fields
+  ---
+  duration_ms: 1321.124901
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8174.246154

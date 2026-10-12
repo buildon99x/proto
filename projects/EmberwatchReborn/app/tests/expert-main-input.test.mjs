@@ -647,6 +647,24 @@ test('crusher choice rejects missing learned strike, stale epoch and field selec
  await trained.click('crusher-mode:1',{crusherEpoch:trained.modal.presentationEpoch-1});assert.notEqual(trained.app.battle.crusherEnabled,true);
  trained.app.battle.region='ember_road';await trained.click('crusher-mode:1',{crusherEpoch:trained.modal.presentationEpoch});assert.notEqual(trained.app.battle.crusherEnabled,true);
 });
+test('crusher menu reconciles focus safety before idle snapshot; missing learning stays visible and default mode remains selectable',async()=>{
+ const h=await ui();h.key('Escape');await h.frame();
+ const focus=action=>h.dh.focusin({target:{tagName:'BUTTON',dataset:{action}}});
+ focus('crusher-menu');assert.equal(h.expertSafety.pending,true);await h.click('crusher-menu');
+ assert.doesNotMatch(h.modal.innerHTML,/진행 중인 동작과 처리가 끝난 뒤/);assert.match(h.modal.innerHTML,/단죄의 일격을 배워야/);
+ assert.match(h.modal.innerHTML,/data-action="crusher-mode:1"[^>]*disabled/);assert.doesNotMatch(h.modal.innerHTML,/data-action="crusher-mode:0"[^>]*disabled/);
+ const epoch=h.modal.presentationEpoch,before=structuredClone(h.store.load()),revision=h.app.controller.revision();focus('crusher-mode:0');assert.equal(h.expertSafety.pending,true);
+ await h.click('crusher-mode:0',{crusherEpoch:epoch});assert.equal(h.modal.hidden,true);assert.equal(h.app.battle.crusherEnabled,false);assert.deepEqual(h.store.load(),before);assert.equal(h.app.controller.revision(),revision);
+});
+test('crusher selection with real focus between buttons drains only settled safety and keeps finite action, recovery and save guards',async()=>{
+ const h=await ui({poeMode:'wasd',skills:['judgement']});h.key('Escape');await h.frame();h.dh.focusin({target:{tagName:'BUTTON',dataset:{action:'crusher-menu'}}});await h.click('crusher-menu');
+ assert.doesNotMatch(h.modal.innerHTML,/진행 중인 동작과 처리가 끝난 뒤/);const epoch=h.modal.presentationEpoch;h.dh.focusin({target:{tagName:'BUTTON',dataset:{action:'crusher-mode:1'}}});
+ await h.click('crusher-mode:1',{crusherEpoch:epoch});assert.equal(h.app.battle.crusherEnabled,true);assert.equal(h.modal.hidden,true);
+ const active=await ui({poeMode:'wasd',skills:['judgement']});active.key('KeyJ');active.up('KeyJ');await next();active.key('Escape');await active.frame();
+ const action=active.app.battle.p.action;assert.ok(action);await active.click('crusher-menu');assert.match(active.modal.innerHTML,/진행 중인 동작과 처리가 끝난 뒤/);await active.click('crusher-mode:1',{crusherEpoch:active.modal.presentationEpoch});assert.equal(active.app.battle.p.action,action);assert.notEqual(active.app.battle.crusherEnabled,true);
+ const recovering=await ui({skills:['judgement']});recovering.key('Digit2');await recovering.frame();recovering.key('Escape');for(let i=0;i<4;i++)await recovering.frame();assert.equal(recovering.app.battle.p.action,null);const debt=recovering.app.battle.p.recoveryLock;assert.ok(debt>0);await recovering.click('crusher-menu');assert.match(recovering.modal.innerHTML,/진행 중인 동작과 처리가 끝난 뒤/);await recovering.click('crusher-mode:1',{crusherEpoch:recovering.modal.presentationEpoch});assert.equal(recovering.app.battle.p.recoveryLock,debt);assert.notEqual(recovering.app.battle.crusherEnabled,true);
+ const waiting=await ui({skills:['judgement']});waiting.key('Escape');await waiting.frame();waiting.delay();const pending=waiting.app.dispatch({type:'checkpoint',...waiting.app.report()});await next();waiting.dh.focusin({target:{tagName:'BUTTON',dataset:{action:'crusher-menu'}}});await waiting.click('crusher-menu');assert.equal(waiting.app.busy,true);assert.equal(waiting.expertSafety.pending,true);await waiting.click('crusher-mode:1',{crusherEpoch:waiting.modal.presentationEpoch});assert.notEqual(waiting.app.battle.crusherEnabled,true);await waiting.finish();await pending;
+});
 test('crusher actual menu, cursor and J/E handlers build readiness then emit one target-centred payoff with unchanged save fields',async()=>{
  // Stationary synthetic enemies isolate real production input/frame/checkpoint
  // wiring. This is handler evidence, not normal-input native browser QA.

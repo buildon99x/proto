@@ -1,0 +1,192 @@
+TAP version 13
+# Subtest: crusher menu selects runtime mode with current keys and no profile/revision mutation; region carry and explicit reload reset
+ok 1 - crusher menu selects runtime mode with current keys and no profile/revision mutation; region carry and explicit reload reset
+  ---
+  duration_ms: 2513.841792
+  type: 'test'
+  ...
+# Subtest: crusher choice rejects missing learned strike, stale epoch and field selection
+ok 2 - crusher choice rejects missing learned strike, stale epoch and field selection
+  ---
+  duration_ms: 381.843337
+  type: 'test'
+  ...
+# Subtest: crusher menu reconciles focus safety before idle snapshot; missing learning stays visible and default mode remains selectable
+ok 3 - crusher menu reconciles focus safety before idle snapshot; missing learning stays visible and default mode remains selectable
+  ---
+  duration_ms: 176.05764
+  type: 'test'
+  ...
+# Subtest: crusher selection with real focus between buttons drains only settled safety and keeps finite action, recovery and save guards
+not ok 4 - crusher selection with real focus between buttons drains only settled safety and keeps finite action, recovery and save guards
+  ---
+  duration_ms: 661.278159
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:659:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + {
+    +   angle: 0,
+    +   castId: 1,
+    +   contact: 0.3,
+    +   criticalChance: 0.05,
+    +   criticalMultiplier: 1.5,
+    +   duration: 4.3,
+    +   elapsed: 0,
+    +   fired: false,
+    +   hitIds: [],
+    +   id: 'zealous_onslaught',
+    +   lanceResolved: false,
+    +   name: 'cast',
+    +   nextPayment: 1,
+    +   nextPulse: 0.25,
+    +   ownerToken: 'ExpertCapture:1',
+    +   paidSeconds: 1,
+    +   payload: {
+    +     combo: 0,
+    +     which: 'q'
+    +   },
+    +   pulses: 0,
+    +   spec: {
+    +     armorPenetration: 0,
+    +     augmentRanks: {
+    +       zealous_lance: 1,
+    +       zealous_shield: 0
+    +     },
+    +     channel: true,
+    +     channelDuration: 4,
+    +     contact: 0.3,
+    +     cooldown: 10,
+    +     damage: 15,
+    +     damageType: 'physical',
+    +     duration: 0.3,
+    +     exitRecovery: 0.18,
+    +     fullChannelStaminaCost: 36,
+    +     guard: false,
+    +     halfWidth: 18,
+    +     lance: {
+    +       arcRadians: 1.0471975511965976,
+    +       armorPenetration: 0,
+    +       fireDamage: 50,
+    +       fullPowerPulses: 4,
+    +       physicalDamage: 50,
+    +       range: 180,
+    +       rank: 1
+    +     },
+    +     learned: true,
+    +     manaCost: 0,
+    +     maxPayments: 4,
+    +     maxPulses: 16,
+    +     offense: {
+    +       criticalChance: 0.05,
+    +       criticalMultiplier: 1.5,
+    +       damageMultiplier: 1,
+    +       fireDamageMultiplier: 1,
+    +       flamingWrath: null,
+    +       guilt: null,
+    +       punishMultiplier: 1
+    +     },
+    +     paymentInterval: 1,
+    +     range: 80,
+    +     rank: 1,
+    +     recurringManaCost: 0,
+    +     speed: 90,
+    +     staminaCost: 9,
+    +     suspendStaminaRegen: true,
+    +     tickSeconds: 0.25
+    +   }
+    + }
+    - null
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ~
+  actual:
+    id: 'zealous_onslaught'
+    castId: 1
+    name: 'cast'
+    spec:
+      learned: true
+      rank: 1
+      channel: true
+      augmentRanks:
+        zealous_lance: 1
+        zealous_shield: 0
+      damage: 15
+      damageType: 'physical'
+      armorPenetration: 0
+      manaCost: 0
+      recurringManaCost: 0
+      staminaCost: 9
+      fullChannelStaminaCost: 36
+      cooldown: 10
+      duration: 0.3
+      contact: 0.3
+      channelDuration: 4
+      tickSeconds: 0.25
+      paymentInterval: 1
+      maxPayments: 4
+      maxPulses: 16
+      speed: 90
+      range: 80
+      halfWidth: 18
+      exitRecovery: 0.18
+      suspendStaminaRegen: true
+      guard: false
+      lance:
+        rank: 1
+        physicalDamage: 50
+        fireDamage: 50
+        armorPenetration: 0
+        range: 180
+        arcRadians: 1.0471975511965976
+        fullPowerPulses: 4
+      offense:
+        damageMultiplier: 1
+        fireDamageMultiplier: 1
+        criticalChance: 0.05
+        criticalMultiplier: 1.5
+        punishMultiplier: 1
+        flamingWrath: ~
+        guilt: ~
+    criticalChance: 0.05
+    criticalMultiplier: 1.5
+    duration: 4.3
+    contact: 0.3
+    elapsed: 0
+    fired: false
+    hitIds:
+    angle: 0
+    payload:
+      combo: 0
+      which: 'q'
+    ownerToken: 'ExpertCapture:1'
+    paidSeconds: 1
+    pulses: 0
+    nextPulse: 0.25
+    nextPayment: 1
+    lanceResolved: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:665:134)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: crusher actual menu, cursor and J/E handlers build readiness then emit one target-centred payoff with unchanged save fields
+ok 5 - crusher actual menu, cursor and J/E handlers build readiness then emit one target-centred payoff with unchanged save fields
+  ---
+  duration_ms: 805.130509
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 4
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4721.300713

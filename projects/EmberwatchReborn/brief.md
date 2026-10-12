@@ -264,3 +264,8 @@ Align visible lower-body footwork with the current skill movement phase at a rec
 ## First crusher combat-loop candidate
 
 First playable crusher unit: direct mace hits accumulate per-enemy readiness; existing learned Judgement resolves a targeted strike, Primed→heavy stun transition and one target-centred shockwave. Runtime-only candidate mode chosen safely in town, preserving stored progression/gear and current controls. Storm combo and magma shield are separate later loops, not recolours or official build names.
+
+
+## Crusher focus-safety selection follow-up
+
+Fix the native-observed crusher menu lock when button focus queues settled input safety immediately before the menu/selection click. Preserve real combat/recovery/save guards and progression requirements.

@@ -359,3 +359,8 @@ Presentation only: distance-driven running legs require actor.moving and a posit
 ## First crusher combat-loop candidate
 
 New explicit candidate config: valid primary mace hit=1 buildup unit;2 units=Primed. This is a hit-count prototype, not verified PoE2 damage-scaled stun/rarity thresholds; no hidden timer consumption. Heavy duration reuses WARRIOR_BALANCE.charge.stunSeconds; strike timing/cost/CD/damage and wave damage/radius use existing Judgement values. One valid live/in-range/LOS chosen target at contact; no payoff for missing/unready/immune/dead target or an already-heavy-stunned actor. One cast may produce one wave with nonrecursive secondary packets; primary not hit twice by wave. Death/heavy-expiry/region reset clears ephemeral state. No saved build field or writer change.
+
+
+## Crusher focus-safety selection follow-up
+
+Only crusher menu and choice routes drain existing action safety before reading idle conditions. Owner/life/region, busy/blocked, active action and recovery checks remain; no simulation time advancement, direct pending reset, saved field or writer changes.

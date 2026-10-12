@@ -1,0 +1,10 @@
+{
+  "focus-build.txt": "ddbc43480c9e88d5740cfc49d4f787dbb34661f75f0d236d50b8b26aa727c103",
+  "focus-final-syntax.txt": "0a1224aef8978720c2c3f0d22328780c1df87d9da7b4f72ca8bc09d2ebf86d69",
+  "focus-green-final.tap": "7029404ce57d1e29e7db0df066e9012826f36a6257a51b91cede667992f7b287",
+  "focus-green.tap": "252ccb4434afb5f1a3132007d9a785dd69e536e5b61f7ac621ea042798421dbe",
+  "focus-lint.txt": "648b50ff68f7f87c7d00704113c12a439f4e09ce625ba97db93ede85d87fae70",
+  "focus-red.tap": "4456a4c251e5e37da58ae8270047d92e3360a5107760346f5c52896d3323f075",
+  "focus-registry.txt": "0ab4fa354cc6b03817cd3bf62d2c3786638ccab1c5dd151a85151d18f6dbba81",
+  "full-tests.tap": "8032882fee0ba008f2ce53bf0685cb06c8a18e2e19b98ebba43defa852dd94ab"
+}

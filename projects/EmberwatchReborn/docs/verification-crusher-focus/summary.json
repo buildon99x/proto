@@ -1,0 +1,31 @@
+{
+  "baseline": "d58005f40c81631a54dd4f90938a9b0d1d441fb4",
+  "full": {
+    "tests": 4585,
+    "pass": 4585,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "focused": {
+    "tests": 5,
+    "pass": 5,
+    "fail": 0
+  },
+  "red": {
+    "tests": 2,
+    "pass": 0,
+    "fail": 2,
+    "purpose": "reproduce actual focusin immediately preceding crusher menu/choice clicks"
+  },
+  "lintExit": 0,
+  "registryExit": 0,
+  "buildVercelExit": 0,
+  "nativeDotRerun": "not performed",
+  "runtimeFilesChanged": [
+    "app/src/main.js"
+  ],
+  "scope": "two selection routes reconcile existing safety before idle guards; no timer, input, combat or storage changes",
+  "sourceSHA256": "5171c0b5b504f3d6c0f91ec794ea28bc37d2bd3fad98e9a7fdc4bc1cb2e29845"
+}

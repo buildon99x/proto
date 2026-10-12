@@ -622,11 +622,16 @@ document.addEventListener('click',async e=>{
  if(action.startsWith('dungeon:')){const [,objectId,value]=action.split(':');if(await dispatch({type:'interactDungeon',objectId,...(value===undefined?{}:{value:Number(value)}),...report()}))showDungeon(objectId);return;}
  if(action==='crusher-menu'){
   if(!candidate||!battle||state.world.lifeDown)return;
+  // Button focus queues input safety in the same turn. Reconcile it before
+  // taking an idle snapshot; real commits/actions still retain their guards.
+  flushActionSafety();
   const ready=crusherAvailability(battle),town=battle.region==='ash_hamlet',idle=!battle.p.action&&!(battle.p.recoveryLock>0)&&!busy&&!expertSafety.pending,epoch=(modal.presentationEpoch??0)+1;
   panel('전투 방식 · 파쇄철퇴',`<p>현재 선택: ${battle.crusherEnabled?'파쇄철퇴':'기본 전사'}</p><p>유효 철퇴 타격 ${CRUSHER_RULES.primedThreshold}회 → 적의 ◆ 준비 표식 → 조준하고 ${esc(keyName('judgement'))} 파쇄 강타 → 대상 중심 충격파. 준비되지 않은 적·허공·기절 면역에는 충격파가 나오지 않습니다.</p><p>기존 단죄를 배워야 하며 현재 철퇴를 사용합니다. 강타의 피해·비용·쿨다운·동작과 배운 효과를 재사용합니다. 파쇄 강타는 선택한 적을 직접 때리고 충격파는 주변 적에 한 번 적용합니다.</p><p class="minor">2회 준비는 첫 후보의 명시적 자체 규칙이며 PoE2의 피해 비례 기절 축적과 같은 수치가 아닙니다. 지역 이동에는 선택을 유지하지만 준비 상태는 초기화합니다. 앱 재시작·프로필 변경·다시 불러오기에는 기본으로 돌아갑니다. 저장 항목은 추가하지 않습니다.</p>${!town?'<p class="warning">마을에서 전투 방식을 선택하세요.</p>':!idle?'<p class="warning">진행 중인 동작과 처리가 끝난 뒤 다시 여세요.</p>':!ready.ok?`<p class="warning">${esc(ready.reason)}</p>`:''}<div class="buttons">${button('파쇄철퇴 선택','crusher-mode:1',`data-crusher-epoch="${epoch}" ${town&&idle&&ready.ok?'':'disabled'}`)}${button('기본 전사로','crusher-mode:0',`data-crusher-epoch="${epoch}" ${town&&idle?'':'disabled'}`)}${button('돌아가기','menu')}</div>`);return;
  }
  if(action==='crusher-mode:1'||action==='crusher-mode:0'){
-  if(!candidate||Number(target.dataset.crusherEpoch)!==modal.presentationEpoch||battle?.region!=='ash_hamlet'||battle.p.action||battle.p.recoveryLock>0||busy||expertSafety.pending||state.world.lifeDown)return;
+  if(!candidate||Number(target.dataset.crusherEpoch)!==modal.presentationEpoch||battle?.region!=='ash_hamlet'||state.world.lifeDown)return;
+  flushActionSafety();
+  if(battle.p.action||battle.p.recoveryLock>0||busy||expertSafety.pending)return;
   const result=setCrusherMode(battle,action.endsWith(':1'));if(!result.ok){toast(result.reason);return;}closePanel();updateHud();return;
  }
  if(action==='inventory'){if(state.vitals)await dispatch({type:'checkpoint',...report()});return showEquipment();}
