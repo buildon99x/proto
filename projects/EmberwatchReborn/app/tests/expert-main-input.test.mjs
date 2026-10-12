@@ -546,3 +546,21 @@ test('recovery copy retains one status region and key repeat does not renew the 
  recoveryVisible(h);assert.equal(h.app.noticeUntil,until);
  h.wh.blur();await next();noRecoveryNotice(h);
 });
+
+// Direction consistency through actual keyboard handlers; earned state is a fixture.
+for(const version of [4,5])test(`queued movement charge controls${version} keeps router heading through recovery and held-mace restart`,async()=>{
+ const h=version===5?await v5Ui():await ui({poeMode:'wasd'});
+ const controls=structuredClone(h.app.state.options.controls);controls.chargeDirection='movement';
+ assert.equal(await h.app.dispatch({type:'setControls',controls}),true);h.app.closePanel();
+ h.key('KeyD');await h.frame();const direction=imports.screenMovement(1,0),expected=Math.atan2(direction.y,direction.x);
+ if(version===5)h.key('KeyF');else mouseDown(h,0);
+ await advanceUntil(h,()=>h.app.battle.p.action?.id==='mace_swing'&&h.app.battle.p.action.duration-h.app.battle.p.action.elapsed<=.14,'mace final recovery');
+ h.key('KeyQ');h.up('KeyQ');await next();assert.equal(h.app.battle.skillIntent?.id,'shield_charge');
+ await advanceUntil(h,()=>h.app.battle.p.action?.id==='shield_charge','queued charge begins');
+ assert.ok(Math.abs(h.app.battle.p.action.angle-expected)<1e-8,`router ${expected}, action ${h.app.battle.p.action.angle}`);
+ const chargeCast=h.app.battle.p.action.castId;h.up('KeyD');
+ await advanceUntil(h,()=>h.app.battle.p.action?.id==='mace_swing','held mace resumes after charge');
+ assert.equal(h.app.inputObservations.filter(row=>row.kind==='action-start'&&row.skillId==='shield_charge').length,1);
+ assert.ok(h.app.inputObservations.some(row=>row.kind==='contact'&&row.castId===chargeCast));
+ if(version===5)h.up('KeyF');else mouseUp(h,0);
+});

@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: queued movement charge controls4 keeps router heading through recovery and held-mace restart
+not ok 1 - queued movement charge controls4 keeps router heading through recovery and held-mace restart
+  ---
+  duration_ms: 2037.461425
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:551:28'
+  failureType: 'testCodeFailure'
+  error: 'router -0.7853981633974483, action -0.7118640500811322'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:560:9)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: queued movement charge controls5 keeps router heading through recovery and held-mace restart
+not ok 2 - queued movement charge controls5 keeps router heading through recovery and held-mace restart
+  ---
+  duration_ms: 988.325472
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:551:28'
+  failureType: 'testCodeFailure'
+  error: 'router -0.7853981633974483, action 0.020785022824774648'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:560:9)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3177.016799

@@ -1,0 +1,45 @@
+{
+  "baseline": "771b61f7f73e91a556bc22883017ad75c6d7ef06",
+  "completedAtUtc": "2026-10-12T11:37:24.550775+00:00",
+  "functionalChange": "pending shield_charge respects finite movement chargeAngle instead of always overwriting it with cursor direction",
+  "fullTests": {
+    "tests": 4513,
+    "pass": 4513,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "newRegression": {
+    "modelGreen": 26,
+    "mainGreen": 2,
+    "modelBaselineRed": {
+      "pass": 1,
+      "fail": 25
+    },
+    "mainBaselineRed": {
+      "pass": 0,
+      "fail": 2
+    }
+  },
+  "lint": "passed",
+  "syncRegistry": "passed",
+  "buildVercelExit": 0,
+  "build": {
+    "payloadFiles": 125,
+    "payloadBytes": 16744549,
+    "sourceCopyHashesMatched": 124,
+    "launcherCopyHashesMatched": 125,
+    "combatSha256": "cac0d0ce42a37ec65940a32f58d1dcea49262fa97dab3b125c97f04ddd488e45"
+  },
+  "nativeBrowserPlay": "not performed",
+  "visualAcceptance": "not performed",
+  "listening": "not performed",
+  "balanceRetuned": false,
+  "deployment": "not performed",
+  "remaining": [
+    "native complex-chain timing, blur/refocus, sound and whole-play QA",
+    "existing launcher root-vs-qa-r14 entry mismatch",
+    "flashier skill FX and distinct three melee builds remain incomplete goals"
+  ]
+}

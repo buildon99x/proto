@@ -456,3 +456,8 @@ The normal load validates the head-selected slot first and avoids one unused alt
 ## R14a18 independent recovery-feedback copy
 
 Run production-handler regression for waiting/rejection sequence isolation, unchanged state/revision, existing notice dismissal/expiry, key repeat and status markup. Run full Node suite, syntax and app build; attempt existing registry command without installation. Native dot browser visibility, focus/AX and listening remain unverified. QA: near an enemy, RMB hammer → Q → Space → hold A+J; read the recovery notice, verify later mace start clears its own notice and its contact is observed separately, and check diagnostic rows independently. Also check blur/menu, rapid input and screen-reader announcement frequency.
+
+
+## Independent queued-charge heading consistency
+
+Add a red-to-green production combat test matrix for mace-recovery and dodge-to-charge at30/60/120Hz, v4/v5 and trackingON/OFF; assert heading, real motion, no pre-start payment, one start/contact/payment and active heading lock. Add real main keyboard handler repro for v4/v5, retaining held-mace restart. Run existing aim, queue/hitstop, mobility, held-repeat, save input/safety and full suite, lint, registry and build:vercel. Automated fixtures do not establish dot browser timing/visual/listening acceptance; coordinator owns candidate deployment.

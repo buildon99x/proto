@@ -1,0 +1,26 @@
+{
+  "baseline": "771b61f7f73e91a556bc22883017ad75c6d7ef06",
+  "changedRuntimeFiles": [
+    "projects/EmberwatchReborn/app/src/combat.js"
+  ],
+  "byteIdenticalTrackedRuntimeFiles": 125,
+  "originalManifestFilesChecked": 167,
+  "originalManifestMismatches": [],
+  "untouchedSaveControllerSerialization": [
+    "save.js",
+    "controller.js",
+    "state.js",
+    "equipment-runtime.js",
+    "immutable-snapshot.js"
+  ],
+  "untouchedInputPolicy": [
+    "controls.js",
+    "skill-loadout-input.js",
+    "expert-save-input.js",
+    "immediate-input.js",
+    "poe-mobility.js",
+    "poe-skill-policy.js",
+    "main.js"
+  ],
+  "combatSha256": "cac0d0ce42a37ec65940a32f58d1dcea49262fa97dab3b125c97f04ddd488e45"
+}

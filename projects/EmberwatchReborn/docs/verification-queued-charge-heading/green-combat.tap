@@ -1,0 +1,166 @@
+TAP version 13
+# Subtest: queued charge controls4 trackingfalse 30Hz mace respects movement heading and unchanged payment/contact/travel
+ok 1 - queued charge controls4 trackingfalse 30Hz mace respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 57.018431
+  type: 'test'
+  ...
+# Subtest: queued charge controls4 trackingfalse 30Hz roll respects movement heading and unchanged payment/contact/travel
+ok 2 - queued charge controls4 trackingfalse 30Hz roll respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 30.022449
+  type: 'test'
+  ...
+# Subtest: queued charge controls4 trackingfalse 60Hz mace respects movement heading and unchanged payment/contact/travel
+ok 3 - queued charge controls4 trackingfalse 60Hz mace respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 35.202612
+  type: 'test'
+  ...
+# Subtest: queued charge controls4 trackingfalse 60Hz roll respects movement heading and unchanged payment/contact/travel
+ok 4 - queued charge controls4 trackingfalse 60Hz roll respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 30.836416
+  type: 'test'
+  ...
+# Subtest: queued charge controls4 trackingfalse 120Hz mace respects movement heading and unchanged payment/contact/travel
+ok 5 - queued charge controls4 trackingfalse 120Hz mace respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 55.435874
+  type: 'test'
+  ...
+# Subtest: queued charge controls4 trackingfalse 120Hz roll respects movement heading and unchanged payment/contact/travel
+ok 6 - queued charge controls4 trackingfalse 120Hz roll respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 45.383551
+  type: 'test'
+  ...
+# Subtest: queued charge controls4 trackingtrue 30Hz mace respects movement heading and unchanged payment/contact/travel
+ok 7 - queued charge controls4 trackingtrue 30Hz mace respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 20.741819
+  type: 'test'
+  ...
+# Subtest: queued charge controls4 trackingtrue 30Hz roll respects movement heading and unchanged payment/contact/travel
+ok 8 - queued charge controls4 trackingtrue 30Hz roll respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 17.864128
+  type: 'test'
+  ...
+# Subtest: queued charge controls4 trackingtrue 60Hz mace respects movement heading and unchanged payment/contact/travel
+ok 9 - queued charge controls4 trackingtrue 60Hz mace respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 29.032425
+  type: 'test'
+  ...
+# Subtest: queued charge controls4 trackingtrue 60Hz roll respects movement heading and unchanged payment/contact/travel
+ok 10 - queued charge controls4 trackingtrue 60Hz roll respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 25.513176
+  type: 'test'
+  ...
+# Subtest: queued charge controls4 trackingtrue 120Hz mace respects movement heading and unchanged payment/contact/travel
+ok 11 - queued charge controls4 trackingtrue 120Hz mace respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 44.367497
+  type: 'test'
+  ...
+# Subtest: queued charge controls4 trackingtrue 120Hz roll respects movement heading and unchanged payment/contact/travel
+ok 12 - queued charge controls4 trackingtrue 120Hz roll respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 41.283465
+  type: 'test'
+  ...
+# Subtest: queued charge controls5 trackingfalse 30Hz mace respects movement heading and unchanged payment/contact/travel
+ok 13 - queued charge controls5 trackingfalse 30Hz mace respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 23.24874
+  type: 'test'
+  ...
+# Subtest: queued charge controls5 trackingfalse 30Hz roll respects movement heading and unchanged payment/contact/travel
+ok 14 - queued charge controls5 trackingfalse 30Hz roll respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 18.68107
+  type: 'test'
+  ...
+# Subtest: queued charge controls5 trackingfalse 60Hz mace respects movement heading and unchanged payment/contact/travel
+ok 15 - queued charge controls5 trackingfalse 60Hz mace respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 37.320828
+  type: 'test'
+  ...
+# Subtest: queued charge controls5 trackingfalse 60Hz roll respects movement heading and unchanged payment/contact/travel
+ok 16 - queued charge controls5 trackingfalse 60Hz roll respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 32.109346
+  type: 'test'
+  ...
+# Subtest: queued charge controls5 trackingfalse 120Hz mace respects movement heading and unchanged payment/contact/travel
+ok 17 - queued charge controls5 trackingfalse 120Hz mace respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 50.180466
+  type: 'test'
+  ...
+# Subtest: queued charge controls5 trackingfalse 120Hz roll respects movement heading and unchanged payment/contact/travel
+ok 18 - queued charge controls5 trackingfalse 120Hz roll respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 44.183961
+  type: 'test'
+  ...
+# Subtest: queued charge controls5 trackingtrue 30Hz mace respects movement heading and unchanged payment/contact/travel
+ok 19 - queued charge controls5 trackingtrue 30Hz mace respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 19.433845
+  type: 'test'
+  ...
+# Subtest: queued charge controls5 trackingtrue 30Hz roll respects movement heading and unchanged payment/contact/travel
+ok 20 - queued charge controls5 trackingtrue 30Hz roll respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 18.536391
+  type: 'test'
+  ...
+# Subtest: queued charge controls5 trackingtrue 60Hz mace respects movement heading and unchanged payment/contact/travel
+ok 21 - queued charge controls5 trackingtrue 60Hz mace respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 29.713512
+  type: 'test'
+  ...
+# Subtest: queued charge controls5 trackingtrue 60Hz roll respects movement heading and unchanged payment/contact/travel
+ok 22 - queued charge controls5 trackingtrue 60Hz roll respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 26.307764
+  type: 'test'
+  ...
+# Subtest: queued charge controls5 trackingtrue 120Hz mace respects movement heading and unchanged payment/contact/travel
+ok 23 - queued charge controls5 trackingtrue 120Hz mace respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 48.613212
+  type: 'test'
+  ...
+# Subtest: queued charge controls5 trackingtrue 120Hz roll respects movement heading and unchanged payment/contact/travel
+ok 24 - queued charge controls5 trackingtrue 120Hz roll respects movement heading and unchanged payment/contact/travel
+  ---
+  duration_ms: 45.114214
+  type: 'test'
+  ...
+# Subtest: pending movement heading refreshes before start, then locks; cursor-only queue keeps existing refresh
+ok 25 - pending movement heading refreshes before start, then locks; cursor-only queue keeps existing refresh
+  ---
+  duration_ms: 44.861413
+  type: 'test'
+  ...
+# Subtest: clearPoeInput cancels movement-directed queue and cannot replay it after resume
+ok 26 - clearPoeInput cancels movement-directed queue and cannot replay it after resume
+  ---
+  duration_ms: 31.107475
+  type: 'test'
+  ...
+1..26
+# tests 26
+# suites 0
+# pass 26
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1032.690695

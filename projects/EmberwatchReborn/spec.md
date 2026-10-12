@@ -339,3 +339,8 @@ The normal load validates the head-selected slot first and avoids one unused alt
 ## R14a18 independent recovery-feedback copy
 
 Presentation only: existing recovery-too-early toast says “후딜 중 · 동작이 끝나기 직전에 다시 누르세요.”. Retain matching-skill start, safety dismissal, 3.3-second lifetime and status region. Existing same-sequence save-wait condition displays “저장·안전 처리 대기 상태 관측 · 대기 시간 미측정”; explain that waiting observations and input-link termination reasons are separate. No new persisted fields or rule changes.
+
+
+## Independent queued-charge heading consistency
+
+The selected existing chargeDirection setting must resolve queued shield-charge headings the same way as immediate starts. A pending movement-directed charge uses the latest finite chargeAngle supplied by the production router; cursor/default and no-last-movement fallback remain existing live cursor behavior. Once shield-charge starts, heading is locked by its unchanged skill policy. Preserve .18-second recovery acceptance, recovery-clock TTL with .35 hitstop floor, 150ms save tolerance, fresh-input safety, costs/CD/contact/travel and all saves.

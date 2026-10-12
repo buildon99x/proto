@@ -244,3 +244,8 @@ The normal load validates the head-selected slot first and avoids one unused alt
 ## R14a18 independent recovery-feedback copy
 
 Improve existing recovery rejection copy in Korean without a duplicate alert. Keep combat, input, save and resource semantics unchanged; distinguish diagnostic waiting observations from rejection causes.
+
+
+## Independent queued-charge heading consistency
+
+Repair reproducible queued shield-charge direction loss: movement-directed Q currently becomes cursor-directed on the next recovery frame. Select this input consistency fix rather than retuning latency/balance. Preserve the larger movement/targeting, skill-FX and three-melee-build goals; this checkpoint does not complete them.

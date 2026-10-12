@@ -373,7 +373,9 @@ function handleSkillIntent(b,input){
     else if(!b.poeMobility&&aimed!==null&&Math.abs(angleDelta(aimed,b.skillIntent.aimAngle))>=Math.PI/2-1e-9)cancelSkillIntent(b,'aim-reversed');
     else if(!b.poeMobility&&moving&&b.skillIntent.move&&moving.x*b.skillIntent.move.x+moving.y*b.skillIntent.move.y<-1e-9)cancelSkillIntent(b,'movement-reversed');
   }
-  if(b.poeMobility&&b.skillIntent){b.skillIntent.angle=poeAngle(b,input,b.skillIntent.id);b.skillIntent.aimAngle=b.skillIntent.angle;}
+  // A queued charge uses the same selected heading as an immediate charge.
+  // Other queued skills retain live cursor refresh; started charge stays locked.
+  if(b.poeMobility&&b.skillIntent){b.skillIntent.angle=b.skillIntent.id==='shield_charge'&&Number.isFinite(input.chargeAngle)?input.chargeAngle:poeAngle(b,input,b.skillIntent.id);b.skillIntent.aimAngle=b.skillIntent.angle;}
   // All explicit skill inputs are the input router's one-shot pulses, not held keys.
   if(id){
     clearBattleIntent(b); // A newer pulse replaces even an older valid intent.
