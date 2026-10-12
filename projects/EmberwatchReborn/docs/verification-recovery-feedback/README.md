@@ -31,3 +31,7 @@ No release label/version change, deployment, actual dot play, visual acceptance,
 At enemy melee range: RMB hammer → Q → Space → hold A+J. Confirm the existing toast explains the rejected Q/first J immediately; later accepted mace start clears its own notice and contact is separately observed. Q remains a resource-cost HUD label; this patch does not add a dynamic rejection label.
 
 Try repeated fresh taps and OS repeat, then blur/refocus and menu open/close. Check that stale notices disappear at existing safety boundaries and do not obscure later messages. Verify screen-reader announcements and focus containment in the supported dot browser. In input diagnostics, waiting wording must appear only on an input sequence containing save-wait, never imply that a recovery rejection was caused by saving, and remain separate from later held-start rows.
+
+## Authorized aggregate follow-up
+
+After explicit dependency-install authorization, original `sync:registry` and `build:vercel` commands both passed (exit0). See [aggregate-followup/README.md](aggregate-followup/README.md), exact logs and package/hash summary. Earlier blocked results above are historical. Runtime source is unchanged; this follow-up adds evidence only. Native QA and the existing launcher root-vs-qa-r14 entry mismatch remain separate gates.

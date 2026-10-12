@@ -1,0 +1,39 @@
+(node:7766) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Scope: all 17 workspace projects
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +157
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+   ╭───────────────────────────────────────────────────────────────────╮
+   │                                                                   │
+   │                Update available! 9.15.4 → 12.11.2.                │
+   │   Changelog: https://github.com/pnpm/pnpm/releases/tag/v12.11.2   │
+   │         Run "corepack install -g pnpm@12.11.2" to update.         │
+   │                                                                   │
+   ╰───────────────────────────────────────────────────────────────────╯
+
+Progress: resolved 157, reused 0, downloaded 29, added 29
+Progress: resolved 157, reused 0, downloaded 70, added 70
+Progress: resolved 157, reused 0, downloaded 105, added 104
+Progress: resolved 157, reused 0, downloaded 150, added 150
+Progress: resolved 157, reused 0, downloaded 153, added 153
+Progress: resolved 157, reused 0, downloaded 154, added 153
+Progress: resolved 157, reused 0, downloaded 157, added 157, done
+.../esbuild@0.28.1/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
+.../sharp@0.34.5/node_modules/sharp install$ node install/check.js || npm run build
+.../esbuild@0.25.12/node_modules/esbuild postinstall: Done
+.../esbuild@0.28.1/node_modules/esbuild postinstall: Done
+.../sharp@0.34.5/node_modules/sharp install: Done
+
+devDependencies:
++ @types/node 20.19.43
++ @vercel/blob 2.8.0
++ tsx 4.22.4
++ turbo 2.9.18
++ typescript 5.9.3
++ vitest 4.1.10
+
+Done in 7.7s

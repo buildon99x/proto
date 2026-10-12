@@ -1,0 +1,22 @@
+{
+  "runtimeSourceCommit": "82466f61fd853725ff64e7465c99b17dff62e57e",
+  "installedVersions": {
+    "pnpm": "9.15.4",
+    "tsx": "4.22.4",
+    "next": "15.5.19",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "installation": "official npm registry; pnpm 9.15.4; --frozen-lockfile; workspace-only caches/store",
+  "syncRegistryExit": 0,
+  "buildVercelExit": 0,
+  "projectBuildPayloadFiles": 125,
+  "projectBuildPayloadBytes": 16744302,
+  "copiedSourceHashesMatched": 124,
+  "launcherCopiedPayloadHashesMatched": 125,
+  "mainSha256": "54aa6762761673aac3e894991e5ace0e21cb2b34f4569b187d762c2ebd350ac1",
+  "gameRuntimeUnchanged": true,
+  "nativeBrowserQA": "not performed",
+  "deployment": "not performed",
+  "entryPathNote": "project metadata points /runs/emberwatch-reborn/index.html, while existing build emits qa-r14/index.html; successful aggregate build does not validate this route"
+}
