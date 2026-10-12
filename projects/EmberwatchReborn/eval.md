@@ -486,3 +486,8 @@ Red-to-green real focusin then menu/selection click with no intervening frame: u
 ## Storm staff and bell candidate
 
 Exercise actual enemy-hit accumulation and anti-duplicate/whiff/self-bell cases; invalid placement no Combo/mana/CD spend; cap3,expiry,direct-hit throttling,perfect vs late dash,actual swept LOS/wall geometry,once-per-enemy across multiple explosions,contact/expiry competition. Actual menu focus/input/frame handler tests and staff/bell Canvas probes; full suite/lint/registry/build/hash preservation. Native loop/visual/audio quality unverified until coordinator QA.
+
+
+## Magma shield defence-counter candidate
+
+Production incoming attacks plus actual input/frames: active vs rear/passive block, stamina insufficiency, duplicate attack after invulnerability, timely/late release, fully charged spray once, secondary recursion prevention, blockers/LOS, attack/dodge cancel, menu/blur/hidden/capture loss, death/region/reload, no saved-field leak. Distinct shield rig/FX probes; full/lint/registry/build and source/original preservation. Native acceptance separate; storm QA fixes take precedence.

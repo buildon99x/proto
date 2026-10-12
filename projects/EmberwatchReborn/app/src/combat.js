@@ -1,5 +1,6 @@
 import {CRUSHER_RULES,crusherAvailability,crusherImmune,setCrusherMode,recordCrusherHit,crusherContactReady,commitCrusherPayoff,resetCrusherEnemy,stepCrusherEnemy} from './crusher-combat.js';
 import {STORM_RULES,stormAvailability,setStormMode,stormPlacement,installStormBell,liveStormBells,recordStormEnemyHit,noteStormContact,stormPerfectStart,claimStormBellHit,consumeStormBell,stepStorm} from './storm-combat.js';
+import {MAGMA_RULES,magmaAvailability,setMagmaMode,clearMagmaDefense,acceptMagmaIncoming,registerMagmaBlock,consumeMagmaRelease,stepMagma} from './magma-combat.js';
 import {recordEnemyReaction,stepEnemyReaction,ENEMY_REACTION} from './enemy-reaction.js';
 import {isPoeControls} from './controls.js';
 import {moveActorBody,previewActorBody,relativePathContact} from './actor-body.js';
@@ -116,6 +117,7 @@ function applyPoeMobilityInput(b,input){
  const aim=poeAngle(b,input,'mace_swing'),canStart=!hasStatus(p,'stun')&&!(p.recoveryLock>0)&&(requested==='sprint'?!p.action:skillCanDodgeCancel(p.action));
  const result=m.press(requested,{moveDirection,aimDirection:{x:Math.cos(aim),y:Math.sin(aim)},canStart});
  if(result.accepted&&result.state==='roll'){
+  clearMagmaDefense(b,'dodge');
   const action=p.action;
   if(action){
    const requireFresh=b.requireFreshAttack;
@@ -166,7 +168,7 @@ const disabled=e=>e.disarm?.remaining>1e-9||e.silence?.remaining>1e-9;
 function hitContext(b,action,e,part,rootKind='spell',procDepth=0){return {castId:action.castId,hitId:`${action.castId}:${part}:${e.id}`,originSkillId:action.id,rootKind,procDepth,criticalEligible:procDepth===0&&['spell','mace'].includes(rootKind),canTriggerOnHit:procDepth===0,attackerId:'hero',attackFamily:rootKind==='spell'?'spell':'weapon'};}
 export function physicalDamage(raw,armor=0,penetration=0){return Math.max(0,raw)*100/(100+Math.max(0,armor-penetration));}
 export function segmentDistance(p,a,b){const dx=b.x-a.x,dy=b.y-a.y,l=dx*dx+dy*dy,t=l?clamp(((p.x-a.x)*dx+(p.y-a.y)*dy)/l,0,1):0;return Math.hypot(p.x-a.x-t*dx,p.y-a.y-t*dy);}
-export function createBattle(state,{crusherEnabled=false,stormEnabled=false}={}) {
+export function createBattle(state,{crusherEnabled=false,stormEnabled=false,magmaEnabled=false}={}) {
   const region=getRegion(state.world.region),stats=deriveStats(state.character,state);
   if(!region||!stats.ok)throw new Error('Invalid battle initialization');
   const pools=state.vitals??{hp:stats.stats.hpMax,mana:stats.stats.manaMax,stamina:stats.stats.staminaMax};
@@ -181,6 +183,7 @@ export function createBattle(state,{crusherEnabled=false,stormEnabled=false}={})
     skillIntent:null,awaitingAdvance:!dead&&region.foes.length>0,shots:[],areas:[],banner:null,areaSerial:0,effects:[],floaters:[],events:[],dead,deathReported:state.world.lifeDown===true,shake:0,hitstop:0,contacts:0};
   if(crusherEnabled)setCrusherMode(battle,true);
   if(stormEnabled)setStormMode(battle,true);
+  if(magmaEnabled)setMagmaMode(battle,true);
   return initPoeBattle(battle,state);
 }
 function emit(b,event){b.events.push(event);}
@@ -239,11 +242,14 @@ function dispatchHitProcs(b,target,result,spec){
 function hurtHero(b,raw,angle,attacker=null,damageType='physical',{attackFamily='weapon',melee=true,statusRuleIds=[],attackId=null,originSkillId=null,procDepth=0,dodgeable=null,evadeWindow=null}={}){
   const p=b.p;if(p.hp<=0||p.invuln>0)return;
   if((evadeWindow??poeEvadeWindow(b))&&['melee','projectile'].includes(dodgeable)){emit(b,{type:'heroEvaded',damageKind:dodgeable,attackId,attackerId:attacker?.id??null});return;}
+  if(!acceptMagmaIncoming(b,attackId))return;
   const shield=p.action?.id==='zealous_onslaught'&&p.action.spec.channelShield?p.action.spec.channelShield:b.stats.actions.shield_block,innerResistance=damageType==='fire'&&p.innerFlame?.remaining>1e-9?innerFlameRows.fireResistanceIncreasePercent[p.innerFlame.rank-1]:0;const resistance=innerResistance+(b.stats.resistances[damageType]??0)+(p.block?(shield.resistanceBonus?.[damageType]??0):0);let damage=damageType==='physical'?physicalDamage(raw*b.difficulty.enemyDamage,b.stats.armor):Math.max(0,raw)*b.difficulty.enemyDamage*(1-clamp(resistance/100,0,.9)),blocked=false;
-  if(p.block&&Math.abs(angleDelta(p.angle,angle+Math.PI))<(shield.halfAngleRadians??Math.PI*.58)&&p.stamina>=shield.staminaCost){p.stamina-=shield.staminaCost;p.staminaDelay=b.stats.staminaRegenDelay;damage*=1-shield.damageReduction;blocked=true;}
+  let activeBlocked=false;
+  if(p.block&&Math.abs(angleDelta(p.angle,angle+Math.PI))<(shield.halfAngleRadians??Math.PI*.58)&&p.stamina>=shield.staminaCost){p.stamina-=shield.staminaCost;p.staminaDelay=b.stats.staminaRegenDelay;damage*=1-shield.damageReduction;blocked=true;activeBlocked=true;}
   else if(damageType===shield.passiveDamageType&&shield.learned&&random(b)<shield.passiveBlockChance){damage=Math.max(0,damage-shield.passiveBlockAmount);blocked=true;}
   damage*=bannerAt(b)?.damageTakenMultiplier??1;
   const previousHp=p.hp;p.hp=Math.max(0,p.hp-damage);const incomingId=attackId??++b.castSerial;emit(b,{type:'heroHurt',damage:previousHp-p.hp,blocked,context:{castId:incomingId,hitId:`incoming:${incomingId}:hero`,originSkillId:originSkillId??attacker?.kind??'environment',rootKind:'incoming',procDepth,criticalEligible:false,canTriggerOnHit:false,attackerId:attacker?.id??null,attackFamily}});
+  const magmaBlock=registerMagmaBlock(b,{attackId,activeBlocked,procDepth,damage:raw,angle:p.angle});if(magmaBlock){emit(b,magmaBlock);fx(b,'magma-block',p.x,p.y,'#f6d4a5',shield.halfAngleRadians,.24,{angle:p.angle,spray:magmaBlock.spray});if(magmaBlock.spray)resolveMagmaSpray(b,incomingId,p.angle);}
   if(b.poeMobility)mobilityEvents(b,b.poeMobility.hit());
   if(procDepth===0&&p.hp>0&&attacker&&alive(attacker)&&b.enemies.includes(attacker)&&inMap(b.map,attacker.x,attacker.y)&&(!attacker.region||attacker.region===b.region)&&['weapon','spell'].includes(attackFamily)&&(blocked||damage>0)&&b.stats.lawbringer){const success=random(b)<b.stats.lawbringer.chance;emit(b,{type:'lawbringerRolled',attackerId:attacker.id,success});if(success){attacker.disarm={remaining:b.stats.lawbringer.duration};attacker.silence={remaining:b.stats.lawbringer.duration};interruptDisabledAttack(b,attacker);}}
   if(procDepth===0&&blocked&&melee&&attacker&&alive(attacker)&&shield.thorns){const spec=quoteAction(b,'shield_block'),action={id:'shield_of_thorns',castId:++b.castSerial};hitEnemy(b,attacker,p.stamina*shield.thorns.coefficient*shield.thorns.damageMultiplier,{pen:shield.thorns.armorPenetration,source:'thorns',spec,impactAngle:impactHeading(p,attacker,p.angle),context:hitContext(b,action,attacker,'thorns','secondary',1)});}
@@ -251,7 +257,7 @@ function hurtHero(b,raw,angle,attacker=null,damageType='physical',{attackFamily=
   p.hurtTime=.24;p.invuln=.28;
   floater(b,blocked?'방어 '+Math.round(damage):'-'+Math.round(damage),p.x,p.y,blocked?'#9de1d6':'#ff9ba7');
   fx(b,'ring',p.x,p.y,blocked?'#99e4e0':'#e97b85',22,.25);emit(b,{type:'sound',name:blocked?'heavyHit':'hurt',audience:'danger'});b.shake=Math.max(b.shake,blocked?1:5);
-  if(p.hp===0){emit(b,{type:'soundCancel',tag:'hero'});emit(b,{type:'soundCancel',tag:'enemy'});finishOnslaught(b,'death');p.innerFlame=null;p.negativeStatuses={};b.banner=null;p.action=null;p.block=false;p.regenBuff=null;b.shots=[];b.areas=[];for(const e of b.enemies)clearFireResponse(e);b.dead=true;stepStorm(b,0);clearBattleIntent(b);clearPoeInput(b,'death');emit(b,{type:'sound',name:'die'});}
+  if(p.hp===0){emit(b,{type:'soundCancel',tag:'hero'});emit(b,{type:'soundCancel',tag:'enemy'});finishOnslaught(b,'death');p.innerFlame=null;p.negativeStatuses={};b.banner=null;p.action=null;p.block=false;p.regenBuff=null;b.shots=[];b.areas=[];for(const e of b.enemies)clearFireResponse(e);b.dead=true;stepStorm(b,0);clearMagmaDefense(b,'death');clearBattleIntent(b);clearPoeInput(b,'death');emit(b,{type:'sound',name:'die'});}
 }
 function interruptDisabledAttack(b,e){
  if(e.state!=='windup')return;const family=e.attackSpec?.attackFamily??foeFor(b,e).attackFamily??'weapon';
@@ -303,6 +309,7 @@ function startAction(b,id,angle,ownerToken=null){
  const p=b.p,a=quoteAction(b,id);
  const placement=b.stormEnabled&&id==='judgement'?stormPlacement(b,b.poeLastInput,a):null;
  if(p.action||p.recoveryLock>0||b.poeMobility?.snapshot().blocksSkills||!actionReady(b,id,a))return false;
+ clearMagmaDefense(b,'new-action',{keepCharge:true});
  if(b.poeMobility){mobilityEvents(b,b.poeMobility.skillStart());const released=b.poeLastInput?.releasedAimBySkill?.[id]?.aim;if(!b.poeQueuedStart&&finitePoint(released))angle=Math.atan2(released.y-p.y,released.x-p.x);}
  p.mana=Math.max(0,Number((p.mana-a.manaCost).toFixed(8)));p.stamina=Math.max(0,Number((p.stamina-a.staminaCost).toFixed(8)));if(a.manaCost>0)p.manaDelay=b.stats.manaRegenDelay;if(a.staminaCost>0)p.staminaDelay=b.stats.staminaRegenDelay;p.cooldowns[id]=a.cooldown;p.angle=angle;p.block=false;
  const name=id==='mace_swing'?'attack':id==='shield_charge'?'dodge':'cast';
@@ -337,7 +344,7 @@ export function finishOnslaught(b,reason='safety'){
 // UI must call this before modal/blur/hidden/capture loss/slot edit; persist its
 // returned critical event before resuming. Normal release uses input.channel.
 export function cancelBattleAction(b,reason='safety'){
- if(!b)return [];const start=b.events.length;clearBattleIntent(b);clearPoeInput(b,reason);
+ if(!b)return [];const start=b.events.length;clearMagmaDefense(b,reason);clearBattleIntent(b);clearPoeInput(b,reason);
  if(b.p.action)emit(b,{type:'soundCancel',tag:`cast:${b.p.action.castId}`});
  if(finishOnslaught(b,safetyStop(reason)))emit(b,{type:'safetyCancelled',reason});
  return b.events.slice(start);
@@ -430,6 +437,15 @@ function resolveCrusherStrike(b,action,a){
  if(a.fireArea)b.areas=[{id:++b.areaSerial,castId:action.castId,originSkillId:action.id,spec:a,x:p.x,y:p.y,angle:action.angle,range:a.range,arcRadians:a.arcRadians,...a.fireArea,age:0,nextTick:a.fireArea.tickSeconds,newborn:true}];
  emit(b,{type:'sound',name:'magicRelease',phase:'release',castId:action.castId,tag:`cast:${action.castId}`,owner:'hero',audience:'friendly'});
 }
+function resolveMagmaSpray(b,attackId,angle){
+ const a=quoteAction(b,'righteous_hammer'),cone=quoteAction(b,'mace_swing');if(!a||!cone)return;const action={id:'magma_spray',castId:++b.castSerial},hitIds=[];
+ for(const e of [...b.enemies].sort((x,y)=>x.id.localeCompare(y.id)))if(strictSector(b,e,b.p,angle,cone.range,cone.arcRadians)){const hit=hitEnemy(b,e,a.damage,{source:'magma_spray',damageType:'fire',spec:a,impactAngle:angle,context:hitContext(b,action,e,'spray','secondary',1)});if(hit.hit)hitIds.push(e.id);}
+ emit(b,{type:'magmaSpray',castId:action.castId,attackId,hitIds});fx(b,'magma-spray',b.p.x,b.p.y,'#efb96a',cone.range,.3,{angle,arc:cone.arcRadians});emit(b,{type:'sound',name:'magicRelease',phase:'impact',owner:'hero',castId:action.castId,tag:`magma:${attackId}`});
+}
+function resolveMagmaBash(b,action,a){
+ const hitIds=[];for(const e of [...b.enemies].sort((x,y)=>x.id.localeCompare(y.id)))if(strictSector(b,e,b.p,action.angle,a.range,a.arcRadians)){const hit=hitEnemy(b,e,a.damage,{source:'shield_bash',stun:b.stats.actions.shield_charge.stunSeconds,heavy:true,pen:a.armorPenetration??0,spec:a,impactAngle:action.angle,context:hitContext(b,action,e,'shieldBash','secondary',1)});if(hit.hit)hitIds.push(e.id);}
+ emit(b,{type:'magmaShieldBash',castId:action.castId,attackId:action.magmaBlockId,hitIds});fx(b,'magma-bash',b.p.x,b.p.y,'#d3c4a4',a.range,.24,{angle:action.angle,arc:a.arcRadians});
+}
 function resolveStormWave(b,bell,action,explosion=false){
  const hitIds=[],a=bell.spec;
  for(const e of [...b.enemies].sort((x,y)=>x.id.localeCompare(y.id)))if(alive(e)&&distance(e,bell)<=a.range+1e-9&&lineOfSight(b.map,bell,e)&&(!explosion||!action.stormWaveHits.includes(e.id))){
@@ -478,8 +494,9 @@ function resolveAction(b,dt){
     if(action.stormDash&&action.stormPerfect&&travel>0)for(const bell of liveStormBells(b))if(segmentDistance(bell,old,p)<=bell.radius+11&&lineOfSight(b.map,old,bell)&&consumeStormBell(b,bell,action))resolveStormWave(b,bell,action,true);
   }
   if(!action.fired&&action.elapsed+(b.poeMobility?1e-9:0)>=a.contact){
-    action.fired=true;emit(b,{type:'actionContact',id:action.id,castId:action.castId,elapsed:action.elapsed,...(action.crusherCast?{crusher:true}:{}),...(action.stormPlacement?{storm:true}:{})});
-    if(action.stormPlacement){
+    action.fired=true;emit(b,{type:'actionContact',id:action.id,castId:action.castId,elapsed:action.elapsed,...(action.crusherCast?{crusher:true}:{}),...(action.stormPlacement?{storm:true}:{}),...(action.magmaBash?{magma:true}:{})});
+    if(action.magmaBash){if(!action.magmaCancelled)resolveMagmaBash(b,action,a);
+    }else if(action.stormPlacement){
       emit(b,{type:'sound',name:'magicRelease',phase:'release',castId:action.castId,tag:`cast:${action.castId}`,owner:'hero',audience:'friendly'});
     }else if(action.id==='mace_swing'){
       // Dispatch the swish peak only when simulation reaches contact. A future
@@ -597,6 +614,7 @@ function nextDeadline(b,input={},horizon=.05){
  if(a){if(a.spec.channel){add(a.spec.duration-a.elapsed);add(a.spec.duration+a.nextPulse-a.elapsed);if(a.nextPayment<a.spec.channelDuration)add(a.spec.duration+a.nextPayment-a.elapsed);add(a.duration-a.elapsed);}else{if(!a.fired)add(a.contact-a.elapsed);add(a.duration-a.elapsed);}}
  if(a?.stormSwing&&a.stormContacts<STORM_RULES.contactsPerSwing)add(a.contact*(a.stormContacts+1)-a.elapsed);
  for(const bell of liveStormBells(b)){add(bell.remaining);add(bell.nextWave);}
+ if(b.magmaEnabled){add(MAGMA_RULES.chargeSeconds-b.magma.charge);add(b.magma.token?.remaining);}
  if(b.poeMobility){const m=b.poeMobility.snapshot();add(m.remaining);add(m.recoveryDebt);add(p.recoveryLock);if(m.state==='roll'){add(REBORN_POE_MOBILITY_TUNING.evadeStart-m.elapsed);add(REBORN_POE_MOBILITY_TUNING.evadeEnd-m.elapsed);}if(m.state==='sprint')add(REBORN_POE_MOBILITY_TUNING.sprintGrace-m.elapsed);if(a)for(const deadline of skillPolicyDeadlines(a))add(deadline);for(const cooldown of Object.values(p.cooldowns))add(cooldown);}
  add(b.banner?.remaining);add(p.innerFlame?.remaining);for(const v of Object.values(p.procCooldowns))add(v);
  for(const status of Object.values(p.negativeStatuses)){add(status.remaining);add(status.nextTick);}
@@ -632,6 +650,12 @@ function applyBattleInput(b,input){const p=b.p;
 
   if(Number.isFinite(input.aim?.x)&&Number.isFinite(input.aim?.y)&&!p.action&&!b.poeMobility?.snapshot().blocksSkills)p.angle=Math.atan2(input.aim.y-p.y,input.aim.x-p.x);
   p.block=(p.action?.id==='zealous_onslaught'?p.action.elapsed>=p.action.spec.duration&&p.action.spec.guard:!!input.block&&!p.action)&&!hasStatus(p,'stun')&&b.stats.actions.shield_block.learned&&p.stamina>=b.stats.actions.shield_block.staminaCost&&!b.poeMobility?.snapshot().blocksSkills;
+  if(b.magmaEnabled){
+   const competing=!!(input.pressedSkillId&&input.pressedSkillId!=='shield_block'||input.attack||input.hammer||input.charge||input.heal||input.judgement||input.expert1||input.expert2||input.interact||input.potion||mobilityActions.some(id=>input[id]));
+   if(competing)clearMagmaDefense(b,'competing-input',{keepCharge:true});
+   else if(b.magma.raised&&!input.block){const token=consumeMagmaRelease(b);if(token&&!p.action&&!(p.recoveryLock>0)&&!b.poeMobility?.snapshot().blocksSkills&&startAction(b,'mace_swing',p.angle)){p.action.magmaBash=true;p.action.magmaBlockId=token.attackId;emit(b,{type:'magmaBashStarted',castId:p.action.castId,attackId:token.attackId});}}
+   b.magma.raised=p.block;if(input.block&&!p.block)b.magma.token=null;
+  }
   let skillAttempted=handleSkillIntent(b,input);
   if(b.poeMobility&&!mobilityActions.some(id=>input[id])&&!skillAttempted&&!p.action&&!p.block&&!b.poeNeedsFresh.hammer&&poeHeld(input,'righteous_hammer')&&actionReady(b,'righteous_hammer'))skillAttempted=startAction(b,'righteous_hammer',poeAngle(b,input,'righteous_hammer'));
   if(!input.attack){b.requireFreshAttack=false;b.attackBlockedReason=null;}
@@ -656,9 +680,10 @@ function stepBattleFrame(b,character,dt,input){
   const safeDt=Math.min(dt,.05);b.time+=safeDt;b.shake=Math.max(0,b.shake-safeDt*20);
   for(const e of b.effects){e.life-=safeDt;e.x+=(e.vx??0)*safeDt;e.y+=(e.vy??0)*safeDt;}b.effects=b.effects.filter(e=>e.life>0);
   for(const f of b.floaters){f.life-=safeDt;f.lift+=safeDt*22;}b.floaters=b.floaters.filter(f=>f.life>0);
-  if(b.dead){stepStorm(b,0);clearBattleIntent(b);clearPoeInput(b,'death');if(!b.deathReported){emit(b,{type:'heroDead'});b.deathReported=true;}return b.events;}
+  if(b.dead){stepStorm(b,0);clearMagmaDefense(b,'death');clearBattleIntent(b);clearPoeInput(b,'death');if(!b.deathReported){emit(b,{type:'heroDead'});b.deathReported=true;}return b.events;}
   const poeSlowed=b.poeMobility&&b.hitstop>1e-9;b.hitstop=Math.max(0,b.hitstop-safeDt);const t=(b.poeMobility?poeSlowed:b.hitstop>0)?safeDt*.35:safeDt,p=b.p;
   stepStorm(b,t);
+  stepMagma(b,t);
   // An accepted PoE tap must survive the same hitstop as its remaining recovery.
   // The single intent still expires finitely; menus/blur clear via the export.
   if(b.skillIntent){b.skillIntent.remaining-=b.poeMobility?t:safeDt;if(b.skillIntent.remaining< -1e-9)cancelSkillIntent(b,'expired');else b.skillIntent.remaining=Math.max(0,b.skillIntent.remaining);}

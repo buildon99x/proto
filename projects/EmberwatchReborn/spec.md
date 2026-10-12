@@ -369,3 +369,8 @@ Only crusher menu and choice routes drain existing action safety before reading 
 ## Storm staff and bell candidate
 
 Use a separate Combo counter, not p.combo or Power Charges. Authored tests: four valid swing casts per bell,12-second life,two contacts at existing mace contact and twice that contact,.18-second post-second-contact charge-start window. Source0.5: active bell cap3,.3-second wave interval,perfect dash explosion,once-per-enemy-per-dash. Damage/cost/CD/range/charge movement reuse current quotes. Empty mainhand + existing learned actions + explicit PoE controls permit a runtime training staff; real staff gear/2H writer changes excluded.
+
+
+## Magma shield defence-counter candidate
+
+Authored charge3s and block-to-release0.18s window. No Block Chance buff/Endurance Charge/Tower Shield Daze. Existing active block cost/reduction, mace Bash quote, charge stun, hammer fire spray value and mace cone reused. Same incoming attack ID handled once in this selected mode; passive/rear/unknown/non-root blocks do not arm payoffs. Normal held-shield release consumes one token; other input/safety/death/region clears it. Stored shield mode/charge fields prohibited.

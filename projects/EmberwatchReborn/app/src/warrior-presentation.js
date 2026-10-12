@@ -19,14 +19,16 @@ export function warriorActionGait(actor){
 export function resolveWarriorPresentation(actor={},time=0,direction=0,override=null){
  const action=actor.action,id=action?.id,guard=actor.block===true&&!action;
  const stormIdle=actor.stormPose===true&&!action&&!guard;
- if(!(actor.hp>0)||actor.dead||!guard&&!stormIdle&&!known.has(id))return null;
+ const magmaIdle=actor.magmaPose===true&&!action&&!guard;
+ const shieldResponse=!!(guard&&actor.magmaImpact||action?.magmaBash&&!action.magmaCancelled);
+ if(!(actor.hp>0)||actor.dead||!guard&&!stormIdle&&!magmaIdle&&!known.has(id))return null;
  // Guard must not swallow the existing, authoritative hit-recoil clock.
- if(guard&&actor.hurtTime>0)return null;
- if(override&&['dodge','hurt','run'].includes(override.action)&&id!=='shield_charge')return null;
+ if(guard&&actor.hurtTime>0&&!actor.magmaImpact)return null;
+ if(override&&['dodge','hurt','run'].includes(override.action)&&id!=='shield_charge'&&!(override.action==='hurt'&&shieldResponse))return null;
  direction=clamp(Math.floor(direction),0,3);const side=direction===1?-1:direction===2?1:direction===3?.55:-.55;
- let clip=guard||stormIdle?'idle':WARRIOR_SKILL_CLIPS[id]??resolveActorMotion(actor,time,true).action;
- let phase=guard||stormIdle?0:remapMotionPhase(clip,action.phase??(action.elapsed||0)/(action.duration||1),action.contact,action.duration);
- if(override?.action&&MOTION_CLIPS[override.action]){clip=override.action;phase=override.phase??phase;}
+ let clip=guard||stormIdle||magmaIdle?'idle':WARRIOR_SKILL_CLIPS[id]??resolveActorMotion(actor,time,true).action;
+ let phase=guard||stormIdle||magmaIdle?0:remapMotionPhase(clip,action.phase??(action.elapsed||0)/(action.duration||1),action.contact,action.duration);
+ if(override?.action&&MOTION_CLIPS[override.action]&&!(override.action==='hurt'&&shieldResponse)){clip=override.action;phase=override.phase??phase;}
  const frame=motionFrame(clip,phase),sample=motionSamplePhase(clip,frame),pose=sampleActorMotion({action:clip,phase:sample,direction});
  let weapon=action?.crusherCast||action?.crusherMace?'hammer':'sword';
  if(guard){
@@ -45,11 +47,14 @@ export function resolveWarriorPresentation(actor={},time=0,direction=0,override=
   weapon='staff';const elapsed=action?.elapsed??0,contact=action?.contact??1,pulse=action?.stormSwing?[1,2].reduce((sum,n)=>sum+Math.exp(-(((elapsed-contact*n)/(contact*.3))**2)),0):0;
   pose.weaponAngle=[-16,28,-28,16][direction]+side*20*pulse;pose.weaponElbow=[-22,-38,38,22][direction]-side*38*pulse;pose.bodyAngle=side*(2+6*pulse);pose.headAngle=-side*4*pulse;pose.rootY+=pulse;pose.shieldFront=false;
  }
+ if(actor.magmaPose&&(guard||magmaIdle||action?.magmaBash)){
+  const bash=action?.magmaBash&&!action.magmaCancelled?lift(clamp(action.elapsed/action.duration),action.contact/action.duration):0,impact=Math.max(0,Math.min(1,(actor.magmaImpact??0)/.24));weapon='none';pose.shieldFront=true;pose.shieldY=-3-4*bash;pose.shieldAngle=[-18,-14,14,18][direction]*(guard?1: .5+2*bash);pose.bodyAngle=side*(guard?6+4*impact:2+10*bash);pose.headAngle=-side*(guard?3+4*impact:5*bash);pose.rootY+=impact+2*bash;
+ }
  // moving also measures earlier recovery slices in this frame; the current
  // planted windup must use its own action legs instead of that older run gait.
  const gait=warriorActionGait(actor),moving=gait!==null&&skillMovementFactor(action)>0&&id!=='shield_charge'&&id!=='zealous_onslaught';
  const legs=moving?sampleActorMotion({action:'run',phase:motionSamplePhase('run',motionFrame('run',gait)),direction}):pose;
- return {id:guard?'shield_block':stormIdle?'storm_staff_idle':id,clip,phase,frame,sample,pose,legs,weapon,moving,gaitPhase:moving?gait:null,...(actor.stormPose?{showShield:guard}:{})};
+ return {id:guard?'shield_block':stormIdle?'storm_staff_idle':magmaIdle?'magma_shield_idle':id,clip,phase,frame,sample,pose,legs,weapon,moving,gaitPhase:moving?gait:null,...(actor.stormPose?{showShield:guard}:{})};
 }
 export function createWarriorPresentationRenderer(ctx,images,{createCanvas}={}){
  const rig=createWarriorRig(images?.hero,{createCanvas});

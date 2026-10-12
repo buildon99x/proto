@@ -274,3 +274,8 @@ Fix the native-observed crusher menu lock when button focus queues settled input
 ## Storm staff and bell candidate
 
 Second session-only loop: a distinct two-contact training-staff sequence earns Combo from real enemy hits, spends Combo and existing Judgement resource on validated bell placement, directly strikes bells for throttled waves, and consumes bells with a precisely timed charge. No new gear/profile schema.
+
+
+## Magma shield defence-counter candidate
+
+Third independent session shield stance: actual frontal active blocks arm a short release Bash, passive time charge is consumed by the next active block for one front fire spray. Preserve existing shield resource/damage decisions and all writers.

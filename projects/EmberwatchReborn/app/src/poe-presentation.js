@@ -25,7 +25,7 @@ export function createPoeFeedback(){
   for(const e of events){
    // Crusher contact is a weapon swing, not a free ground payoff. Its real
    // damaging hit/Heavy Stun/wave are rendered from authoritative combat FX.
-   if(e.type==='actionContact'&&(e.crusher===true||e.storm===true))continue;
+   if(e.type==='actionContact'&&(e.crusher===true||e.storm===true||e.magma===true))continue;
    // Onslaught emits real channelPulse events instead of actionContact. Track
    // accepted casts so its last pulse still works when combat already ended it.
    if(e.type==='actionStarted'&&e.id==='zealous_onslaught'){channels.add(e.castId);if(channels.size>96)channels.delete(channels.values().next().value);continue;}

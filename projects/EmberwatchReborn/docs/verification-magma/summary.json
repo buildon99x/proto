@@ -1,0 +1,53 @@
+{
+  "baseline": "fdde7fb370df25c82995a124e3f18037b07d6607",
+  "full": {
+    "tests": 4641,
+    "pass": 4641,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "focused": {
+    "tests": 142,
+    "pass": 142,
+    "fail": 0
+  },
+  "actualInputHandlers": {
+    "tests": 7,
+    "pass": 7,
+    "fail": 0
+  },
+  "lintExit": 0,
+  "registryExit": 0,
+  "buildVercelExit": 0,
+  "trialRules": {
+    "chargeActiveSeconds": 3,
+    "blockToReleaseWindowSeconds": 0.18
+  },
+  "existingQuotesReused": [
+    "shield guard cost/reduction/facing",
+    "mace Bash damage/timing/cost/CD/cone",
+    "charge stun",
+    "hammer damage for fire spray"
+  ],
+  "unsupportedPoeParity": [
+    "Block Chance buff",
+    "Endurance Charge",
+    "Tower Shield Daze",
+    "Spirit reservation",
+    "shield Armour/Evasion fire scaling"
+  ],
+  "newSavedFields": false,
+  "a19Changes": false,
+  "nativeMagmaPlay": "not performed",
+  "visualAudioAXAcceptance": "not performed",
+  "wholePoePort": "not complete",
+  "sourceSHA256": {
+    "main.js": "dab574614f9fc1ce49aecafd79a802c32969ab97e3bb42559fbc92c9fd0515a5",
+    "combat.js": "3f4f2e1f3c7c462f4639056dcf0e3eb095a52f4460b044e9fc854dd4040809db",
+    "magma-combat.js": "0f777257fab861291b1a56e364774794a069dff6a3c6ae5dcf3fb6fce54d51b7",
+    "magma-presentation.js": "b0668160ee1bcf3098e48feb5a5eda9b44ba260642a208d0071db8172d6e7de2",
+    "warrior-presentation.js": "09860e82deb3683b42045c451263ac96a7bda68e53e517d4f941f93de953b544"
+  }
+}

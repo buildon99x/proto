@@ -1,0 +1,270 @@
+
+> prototype-lab-monorepo@0.1.2 build:vercel /workspace/emberwatch-proto
+> corepack pnpm sync:registry && corepack pnpm build:projects && corepack pnpm --filter launcher build
+
+
+> prototype-lab-monorepo@0.1.2 sync:registry /workspace/emberwatch-proto
+> tsx scripts/sync-launcher-registry.ts
+
+Synced 12 project(s) to packages/registry/src/generated/projects.ts
+
+> prototype-lab-monorepo@0.1.2 build:projects /workspace/emberwatch-proto
+> tsx scripts/build-all-projects.ts
+
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/emberwatch-proto
+> tsx scripts/build-project.ts "--" "deck-building"
+
+
+> deck-building@0.1.0 build /workspace/emberwatch-proto/projects/deck-building/app
+> tsc && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 27 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.40 kB │ gzip:  0.27 kB
+dist/assets/index-BNSCXCwb.css    0.57 kB │ gzip:  0.34 kB
+dist/assets/index-BMd5-7lc.js   144.16 kB │ gzip: 46.36 kB
+✓ built in 900ms
+Copied deck-building build to launcher/public/runs/deck-building
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/emberwatch-proto
+> tsx scripts/build-project.ts "--" "emberwatch-reborn"
+
+
+> emberwatch-reborn@0.14.0-reimplementation.18 build /workspace/emberwatch-proto/projects/EmberwatchReborn/app
+> node scripts/build-r14.mjs
+
+{"output":"/workspace/emberwatch-proto/projects/EmberwatchReborn/app/dist/qa-r14","files":131,"bytes":16786277,"version":"0.14.0-reimplementation.18"}
+Copied emberwatch-reborn build to launcher/public/runs/emberwatch-reborn
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/emberwatch-proto
+> tsx scripts/build-project.ts "--" "emberwatch"
+
+
+> emberwatch@0.4.7 build /workspace/emberwatch-proto/projects/Emberwatch/app
+> node scripts/build.mjs
+
+Built Emberwatch static artifact in app/dist
+Copied emberwatch build to launcher/public/runs/emberwatch
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/emberwatch-proto
+> tsx scripts/build-project.ts "--" "msw-inc"
+
+
+> msw-inc@1.0.0 build /workspace/emberwatch-proto/projects/msw-inc/app
+> tsc && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 16 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   4.52 kB │ gzip:  1.94 kB
+dist/assets/index-B5NY9Zy0.css   72.87 kB │ gzip: 14.70 kB
+dist/assets/index-DMBfkMAd.js   225.45 kB │ gzip: 82.36 kB
+✓ built in 1.03s
+Copied msw-inc build to launcher/public/runs/msw-inc
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/emberwatch-proto
+> tsx scripts/build-project.ts "--" "retro-bowling"
+
+
+> retro-bowling@0.1.0 build /workspace/emberwatch-proto/projects/retro-bowling/app
+> tsc && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 33 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.45 kB │ gzip:  0.31 kB
+dist/assets/index-BkJ8GW40.css    2.03 kB │ gzip:  0.86 kB
+dist/assets/index-C1vkN7bK.js   173.65 kB │ gzip: 57.01 kB
+✓ built in 1.18s
+Copied retro-bowling build to launcher/public/runs/retro-bowling
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/emberwatch-proto
+> tsx scripts/build-project.ts "--" "sample-project"
+
+
+> sample-project@0.1.0 build /workspace/emberwatch-proto/projects/sample-project/app
+> tsc && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 27 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.40 kB │ gzip:  0.27 kB
+dist/assets/index-BBd5_WqB.css    0.86 kB │ gzip:  0.47 kB
+dist/assets/index-BZ6FAzjt.js   144.56 kB │ gzip: 46.52 kB
+✓ built in 1.06s
+Copied sample-project build to launcher/public/runs/sample-project
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/emberwatch-proto
+> tsx scripts/build-project.ts "--" "stackflow"
+
+
+> stackflow@0.1.0 build /workspace/emberwatch-proto/projects/stackflow/app
+> tsc && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 45 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.45 kB │ gzip:  0.32 kB
+dist/assets/index-B5in2CDn.css   12.41 kB │ gzip:  3.58 kB
+dist/assets/index-BRftT3Bw.js   199.68 kB │ gzip: 65.76 kB
+✓ built in 1.44s
+Copied stackflow build to launcher/public/runs/stackflow
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/emberwatch-proto
+> tsx scripts/build-project.ts "--" "wave-runner"
+
+
+> wave-runner@0.1.0 build /workspace/emberwatch-proto/projects/wave-runner/app
+> tsc && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 50 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.71 kB │ gzip:  0.45 kB
+dist/assets/index-BSF_08DL.css   13.88 kB │ gzip:  3.31 kB
+dist/assets/index-DZgdaOf2.js   206.12 kB │ gzip: 69.23 kB
+✓ built in 1.60s
+Copied wave-runner build to launcher/public/runs/wave-runner
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/emberwatch-proto
+> tsx scripts/build-project.ts "--" "blacksmith-clicker"
+
+
+> blacksmith-clicker@0.1.0 build /workspace/emberwatch-proto/projects/blacksmith-clicker/app
+> tsc && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 27 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.40 kB │ gzip:  0.27 kB
+dist/assets/index-OacTN_ew.css   12.79 kB │ gzip:  3.90 kB
+dist/assets/index-BKb0rNNS.js   156.07 kB │ gzip: 50.91 kB
+✓ built in 1.12s
+Copied blacksmith-clicker build to launcher/public/runs/blacksmith-clicker
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/emberwatch-proto
+> tsx scripts/build-project.ts "--" "altok-dragon-hatchery"
+
+
+> altok-dragon-hatchery@0.1.0 build /workspace/emberwatch-proto/projects/altok-dragon-hatchery/app
+> tsc && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 31 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.41 kB │ gzip:   0.30 kB
+dist/assets/index-DrjIT4PY.css      6.94 kB │ gzip:   2.31 kB
+dist/assets/index-DfgymyFF.js   1,819.83 kB │ gzip: 428.25 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.83s
+Copied altok-dragon-hatchery build to launcher/public/runs/altok-dragon-hatchery
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/emberwatch-proto
+> tsx scripts/build-project.ts "--" "dragon-danmaku"
+
+
+> dragon-danmaku@0.1.0 build /workspace/emberwatch-proto/projects/dragon-danmaku/app
+> tsc && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 35 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.46 kB │ gzip:   0.34 kB
+dist/assets/index-tI6Wbw5M.css     10.45 kB │ gzip:   2.79 kB
+dist/assets/index-C8Kkc-sp.js   1,842.22 kB │ gzip: 434.25 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.57s
+Copied dragon-danmaku build to launcher/public/runs/dragon-danmaku
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/emberwatch-proto
+> tsx scripts/build-project.ts "--" "relic-king"
+
+
+> relic-king@0.1.0 build /workspace/emberwatch-proto/projects/relic-king/app
+> tsc && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 88 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.66 kB │ gzip:   0.46 kB
+dist/assets/index-Cf3HKfZK.css     33.55 kB │ gzip:   6.98 kB
+dist/assets/index-QwwKfpGO.js   1,173.29 kB │ gzip: 241.54 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 2.12s
+Copied relic-king build to launcher/public/runs/relic-king
+
+> launcher@0.1.0 build /workspace/emberwatch-proto/launcher
+> next build
+
+   ▲ Next.js 15.5.19
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 2.6s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/29) ...
+   Generating static pages (7/29)
+   Generating static pages (14/29)
+   Generating static pages (21/29)
+ ✓ Generating static pages (29/29)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                      169 B         106 kB
+├ ○ /_not-found                            996 B         103 kB
+├ ƒ /api/telemetry/[project]               123 B         103 kB
+├ ○ /projects                              169 B         106 kB
+├ ● /projects/[slug]                       169 B         106 kB
+├   ├ /projects/deck-building
+├   ├ /projects/emberwatch-reborn
+├   ├ /projects/emberwatch
+├   └ [+9 more paths]
+└ ● /projects/[slug]/run                   169 B         106 kB
+    ├ /projects/deck-building/run
+    ├ /projects/emberwatch-reborn/run
+    ├ /projects/emberwatch/run
+    └ [+9 more paths]
++ First Load JS shared by all             102 kB
+  ├ chunks/6679f20a-7783291fd31f2b67.js  54.2 kB
+  ├ chunks/834-f84b17ee602c304c.js       46.3 kB
+  └ other shared chunks (total)           1.9 kB
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
