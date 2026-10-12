@@ -27,7 +27,7 @@ export function resolveWarriorPresentation(actor={},time=0,direction=0,override=
  let phase=guard?0:remapMotionPhase(clip,action.phase??(action.elapsed||0)/(action.duration||1),action.contact,action.duration);
  if(override?.action&&MOTION_CLIPS[override.action]){clip=override.action;phase=override.phase??phase;}
  const frame=motionFrame(clip,phase),sample=motionSamplePhase(clip,frame),pose=sampleActorMotion({action:clip,phase:sample,direction});
- let weapon='sword';
+ let weapon=action?.crusherCast||action?.crusherMace?'hammer':'sword';
  if(guard){
   pose.shieldY=-2;pose.rootY=1;pose.bodyAngle=side*5;pose.headAngle=-side*3;pose.shieldAngle=[-14,-12,12,14][direction];pose.weaponAngle=[-12,25,-25,10][direction];pose.weaponElbow=[15,-10,10,-15][direction];
  }else if(id==='lay_on_hands'){

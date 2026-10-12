@@ -1,0 +1,31 @@
+TAP version 13
+# Subtest: crusher actual menu, cursor and J/E handlers build readiness then emit one target-centred payoff with unchanged save fields
+not ok 1 - crusher actual menu, cursor and J/E handlers build readiness then emit one target-centred payoff with unchanged save fields
+  ---
+  duration_ms: 2042.945082
+  type: 'test'
+  location: '/workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:650:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    {"p":{"x":260,"y":325,"hp":115,"mana":70,"stamina":90,"angle":0,"classId":"warrior","action":{"id":"mace_swing","castId":1,"name":"attack","spec":{"learned":true,"damage":12,"damageType":"physical","manaCost":0,"staminaCost":0,"cooldown":0.1,"duration":0.52,"contact":0.182,"range":76,"arcRadians":2.1,"armorPenetration":0,"stunChance":0,"stunSeconds":0.6,"flameArc":null,"offense":{"damageMultiplier":1,"fireDamageMultiplier":1,"criticalChance":0.05,"criticalMultiplier":1.5,"punishMultiplier":1,"flamingWrath":null,"guilt":null}},"criticalChance":0.05,"criticalMultiplier":1.5,"duration":0.52,"contact":0.182,"elapsed":0,"fired":false,"hitIds":[],"angle":0,"payload":{"combo":0,"which":"q"},"poeAim":{"aim":{"x":310,"y":325},"groundPoint":{"x":288.3018867924528,"y":303.3018867924528},"targetId":"crusher-handler-target","aimingMode":"cursor","groundTargeted":false,"targetingHeight":23,"active":true,"held":true,"cursorTrackingAfterRelease":true},"crusherMace":true},"walkPhase":0,"invuln":100,"block":false,"cooldowns":{"mace_swing":0.1},"potionCooldown":0,"recoveryLock":0,"manaDelay":0,"staminaDelay":0,"combo":1,"regenBuff":null,"innerFlame":null,"procCooldowns":{},"procCooldownRanks":{},"negativeStatuses":{},"presentationPose":{"state":"idle","elapsed":0,"remaining":0,"direction":{"x":0,"y":0},"evadeWindow":false,"blocksSkills":false,"recoveryDebt":0,"source":null,"skillId":"mace_swing","skillElapsed":0,"skillDuration":0.52,"skillContact":0.182},"moving":false,"hurtTime":0},"target":{"id":"crusher-handler-target","kind":"scout","type":"guardian","x":310,"y":325,"hp":1000,"max":1000,"active":true,"state":"idle","timer":0,"stun":20,"angle":3.141592653589793},"events":[{"type":"actionStarted","id":"mace_swing","castId":1,"manaCost":0,"staminaCost":0},{"type":"sound","name":"slash","phase":"windup","castId":1,"tag":"cast:1","owner":"hero","audience":"friendly"}],"toasts":["현재 생존 상태만 저장할 수 있습니다."],"gate":true,"busy":false,"paused":true}
+
+    undefined !== 2
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 2
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/emberwatch-proto/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:662:9)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2183.727906

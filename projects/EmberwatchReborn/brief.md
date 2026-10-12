@@ -259,3 +259,8 @@ Verify stuck movement/held/queued input across native-handler event delivery. Fi
 ## Current-phase action footwork
 
 Align visible lower-body footwork with the current skill movement phase at a recovery-to-new-action frame boundary. Repeated mace or queued Judgement currently inherits running legs from an earlier recovery slice even after a planted windup has begun. Preserve actual movement statistics, input timing, balance and saved state.
+
+
+## First crusher combat-loop candidate
+
+First playable crusher unit: direct mace hits accumulate per-enemy readiness; existing learned Judgement resolves a targeted strike, Primed→heavy stun transition and one target-centred shockwave. Runtime-only candidate mode chosen safely in town, preserving stored progression/gear and current controls. Storm combo and magma shield are separate later loops, not recolours or official build names.

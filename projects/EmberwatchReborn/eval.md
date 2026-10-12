@@ -471,3 +471,8 @@ Use production main handlers with precise event sequences: D+J and pending Q, mi
 ## Current-phase action footwork
 
 Red-to-green production-handler matrix:30/60/120Hz, controls4/5, repeated mace and mace→queued Judgement; reproduce aggregate movement with new planted windup, assert action legs rather than run and read-only render state. Verify walking hammer/heal/banner and mace/Judgement recovery gait stay available, with charge/dodge behavior unchanged. Full suite/lint/registry/build and byte preservation; native footwork/action-chain visual QA is separate and requires before/after candidate replay.
+
+
+## First crusher combat-loop candidate
+
+Execute production handlers from legal earned fixtures: direct hits/primed/heavy/wave/reset, geometry, miss/unprimed/death/movement/LOS/immunity/duplicate events, heavy timer not consumed, old armor break independent, resource/recovery constraints and classic-mode equivalence. Test actual menu selection and no profile/revision change, region carry/new-profile reset, weapon eligibility, visual marker/real-event wave probes; full suite/lint/build and original assets/save module hashes. Normal QA: train starter, earn Adept, learn Judgement, select crusher in town, prime live target with legal mace hits then aim and press current Judgement key. Native timing/visual/listening/AAA quality remain separate.

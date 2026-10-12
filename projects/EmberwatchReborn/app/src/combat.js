@@ -1,3 +1,4 @@
+import {CRUSHER_RULES,crusherAvailability,crusherImmune,setCrusherMode,recordCrusherHit,crusherContactReady,commitCrusherPayoff,resetCrusherEnemy,stepCrusherEnemy} from './crusher-combat.js';
 import {recordEnemyReaction,stepEnemyReaction,ENEMY_REACTION} from './enemy-reaction.js';
 import {isPoeControls} from './controls.js';
 import {moveActorBody,previewActorBody,relativePathContact} from './actor-body.js';
@@ -163,7 +164,7 @@ const disabled=e=>e.disarm?.remaining>1e-9||e.silence?.remaining>1e-9;
 function hitContext(b,action,e,part,rootKind='spell',procDepth=0){return {castId:action.castId,hitId:`${action.castId}:${part}:${e.id}`,originSkillId:action.id,rootKind,procDepth,criticalEligible:procDepth===0&&['spell','mace'].includes(rootKind),canTriggerOnHit:procDepth===0,attackerId:'hero',attackFamily:rootKind==='spell'?'spell':'weapon'};}
 export function physicalDamage(raw,armor=0,penetration=0){return Math.max(0,raw)*100/(100+Math.max(0,armor-penetration));}
 export function segmentDistance(p,a,b){const dx=b.x-a.x,dy=b.y-a.y,l=dx*dx+dy*dy,t=l?clamp(((p.x-a.x)*dx+(p.y-a.y)*dy)/l,0,1):0;return Math.hypot(p.x-a.x-t*dx,p.y-a.y-t*dy);}
-export function createBattle(state) {
+export function createBattle(state,{crusherEnabled=false}={}) {
   const region=getRegion(state.world.region),stats=deriveStats(state.character,state);
   if(!region||!stats.ok)throw new Error('Invalid battle initialization');
   const pools=state.vitals??{hp:stats.stats.hpMax,mana:stats.stats.manaMax,stamina:stats.stats.staminaMax};
@@ -176,6 +177,7 @@ export function createBattle(state) {
     p:{...pos,hp:pools.hp,mana:pools.mana,stamina:pools.stamina,angle:0,classId:'warrior',action:null,walkPhase:0,invuln:state.recovery?.invuln??0,block:false,cooldowns:{...(state.recovery?.cooldowns??{})},potionCooldown:state.recovery?.potionCooldown??0,recoveryLock:state.recovery?.lock??0,manaDelay:state.recovery?.manaDelay??0,staminaDelay:state.recovery?.staminaDelay??0,combo:0,regenBuff:recovery.regenBuff??null,innerFlame:recovery.innerFlame??null,procCooldowns:{...recovery.procCooldowns},procCooldownRanks:{...recovery.procCooldownRanks},negativeStatuses:structuredClone(recovery.negativeStatuses??{})},
     enemies:region.foes.filter(e=>!defeated.includes(e.id)).map(e=>initializePatternPhase({...e,type:FOES[e.kind].role==='boss'||e.kind==='warden'?'boss':FOES[e.kind].style==='ranged'?'mage':'guardian',hp:FOES[e.kind].hp*difficulty.enemyHealth,max:FOES[e.kind].hp*difficulty.enemyHealth,angle:0,active:false,state:'idle',timer:0,stun:0,telegraph:null},FOES[e.kind])),
     skillIntent:null,awaitingAdvance:!dead&&region.foes.length>0,shots:[],areas:[],banner:null,areaSerial:0,effects:[],floaters:[],events:[],dead,deathReported:state.world.lifeDown===true,shake:0,hitstop:0,contacts:0};
+  if(crusherEnabled)setCrusherMode(battle,true);
   return initPoeBattle(battle,state);
 }
 function emit(b,event){b.events.push(event);}
@@ -188,7 +190,7 @@ function move(b,actor,dx,dy){
  const x=actor.x,y=actor.y,nextX=traceSegment(b.map,actor,{x:actor.x+dx,y:actor.y},11);actor.x=nextX.x;
  const nextY=traceSegment(b.map,actor,{x:actor.x,y:actor.y+dy},11);actor.y=nextY.y;return {x:actor.x-x,y:actor.y-y};
 }
-function hitEnemy(b,e,raw,{stun=0,pen=0,heavy=false,source='mace',damageType='physical',context=null,spec=null,components=null,impactAngle=null}={}){
+function hitEnemy(b,e,raw,{stun=0,pen=0,heavy=false,source='mace',damageType='physical',context=null,spec=null,components=null,impactAngle=null,crusherStrike=false}={}){
   if(!alive(e)||b.dead)return {hit:false,damage:0,critical:false,defeated:false};
   const ctx=context??{castId:0,hitId:`legacy:${++b.attackSerial}:${e.id}`,originSkillId:source,rootKind:'secondary',procDepth:1,criticalEligible:false,canTriggerOnHit:false,attackerId:'hero',attackFamily:'weapon'};
   const before=e.hp,wasDisabled=disabled(e),position={x:e.x,y:e.y},offense=spec?.offense??{},foe=foeFor(b,e);
@@ -201,6 +203,9 @@ function hitEnemy(b,e,raw,{stun=0,pen=0,heavy=false,source='mace',damageType='ph
     const type=part.damageType,value=part.raw*(offense.damageMultiplier??1)*(type==='fire'?(offense.fireDamageMultiplier??1):1)*crit;
     amount+=(type==='physical'?physicalDamage(value,Math.max(0,foe.armor-(e.armorBreak?.remaining>0?e.armorBreak.amount:0)),pen):type==='pure'?value:value*(1-clamp((foe.resistances?.[type]??0)/100,0,.9)))*taken;
   }
+  const crusherPayoff=crusherStrike?commitCrusherPayoff(b,e,{castId:ctx.castId,readyAtContact:true,hit:{hit:true,damage:Math.min(before,amount),position,context:ctx,defeated:amount>=before}}):null;
+  if(crusherPayoff)emit(b,crusherPayoff);
+  if(b.crusherEnabled&&crusherImmune(b,e))stun=0;
   e.hp=Math.max(0,e.hp-amount);e.flash=.11;e.stun=Math.max(e.stun,stun);heavy=heavy||critical;
   recordEnemyReaction(e,{angle:Number.isFinite(impactAngle)?impactAngle:b.p.angle,heavy,damage:amount});
   observePatternPhase(e,foe);
@@ -209,10 +214,11 @@ function hitEnemy(b,e,raw,{stun=0,pen=0,heavy=false,source='mace',damageType='ph
   fx(b,'impact',e.x,e.y,source==='hammer'?'#ffc263':'#c9eee1',heavy?32:22,.23,{angle:Number.isFinite(impactAngle)?impactAngle:b.p.angle,heavy});
   emit(b,{type:'sound',name:heavy?'heavyHit':'hit',phase:'impact',owner:'hero',audience:'friendly',castId:ctx.castId,hitId:ctx.hitId,tag:`impact:${ctx.hitId}`,x:e.x,y:e.y});
   b.shake=Math.max(b.shake,heavy?5:2);b.hitstop=Math.max(b.hitstop,heavy?.035:.014);b.contacts++;
-  const result={hit:true,damage:Math.min(before,amount),rawDamage:amount,critical,defeated:e.hp===0,wasDisabled,position,context:ctx,components:packet.map(c=>c.id)};
+  const result={hit:true,damage:Math.min(before,amount),rawDamage:amount,critical,defeated:e.hp===0,wasDisabled,position,context:ctx,components:packet.map(c=>c.id),...(crusherPayoff?{crusherPayoff}:{})};
   emit(b,{type:'enemyHit',id:e.id,...result});
   if(e.hp===0){clearFireResponse(e);e.dead=true;e.deathTime=ENEMY_REACTION.deathSeconds;e.telegraph=null;e.state='dead';e.timer=0;e.moving=false;e.attackSpec=null;emit(b,{type:'defeated',id:e.id});fx(b,'enemyDeath',e.x,e.y,'#e9a45b',heavy?35:22,.32,{boss:e.type==='boss'});for(let n=0;n<5;n++)fx(b,'particle',e.x,e.y,n%2?'#a6d4cb':'#e9b071',0,.45,{size:2+fxRandom(b)*3,vx:(fxRandom(b)-.5)*85,vy:(fxRandom(b)-.5)*85,deathParticle:true});}
   dispatchHitProcs(b,e,result,spec);
+  const buildup=recordCrusherHit(b,e,result);if(buildup)emit(b,buildup);if(!alive(e)&&e.stunBuildup!==undefined)resetCrusherEnemy(e);
   return result;
 }
 function dispatchHitProcs(b,target,result,spec){
@@ -284,7 +290,7 @@ export function quoteAction(b,id){
 // Recovery/held-input ownership stays in the existing input/action handlers.
 export function actionEligibility(b,id,a=quoteAction(b,id)){
  const p=b.p,learned=!!a?.learned,cooldown=p.cooldowns[id]??0,manaCost=a?.manaCost??0,staminaCost=a?.staminaCost??0;
- const blockedReason=!learned?'unlearned':!(p.hp>0)?'dead':hasStatus(p,'stun')?'stun':spellIds.has(id)&&hasStatus(p,'silence')?'silence':id==='mace_swing'&&hasStatus(p,'disarm')?'disarm':cooldown>1e-9?'cooldown':!(p.mana>=manaCost)?'mana':!(p.stamina>=staminaCost)?'stamina':null;
+ const blockedReason=!learned?'unlearned':!(p.hp>0)?'dead':hasStatus(p,'stun')?'stun':spellIds.has(id)&&hasStatus(p,'silence')?'silence':id==='mace_swing'&&hasStatus(p,'disarm')?'disarm':b.crusherEnabled&&id==='judgement'&&!crusherAvailability(b).ok?'weapon':cooldown>1e-9?'cooldown':!(p.mana>=manaCost)?'mana':!(p.stamina>=staminaCost)?'stamina':null;
  return {ready:blockedReason===null,blockedReason,learned,cooldown,manaCost,staminaCost,mana:p.mana,stamina:p.stamina};
 }
 function actionReady(b,id,a=quoteAction(b,id)){return actionEligibility(b,id,a).ready;}
@@ -296,7 +302,7 @@ function startAction(b,id,angle,ownerToken=null){
  p.mana=Math.max(0,Number((p.mana-a.manaCost).toFixed(8)));p.stamina=Math.max(0,Number((p.stamina-a.staminaCost).toFixed(8)));if(a.manaCost>0)p.manaDelay=b.stats.manaRegenDelay;if(a.staminaCost>0)p.staminaDelay=b.stats.staminaRegenDelay;p.cooldowns[id]=a.cooldown;p.angle=angle;p.block=false;
  const name=id==='mace_swing'?'attack':id==='shield_charge'?'dodge':'cast';
  p.action={id,castId:++b.castSerial,name,spec:a,criticalChance:b.stats.criticalChance,criticalMultiplier:b.stats.criticalMultiplier,duration:a.duration+(a.channel?a.channelDuration:0),contact:a.contact,elapsed:0,fired:false,hitIds:[],angle,payload:{combo:p.combo,which:'q'},...(a.channel?{ownerToken,paidSeconds:1,pulses:0,nextPulse:a.tickSeconds,nextPayment:a.paymentInterval,lanceResolved:false}: {})};
- startPoeAim(b,p.action);updatePoePresentation(b);
+ startPoeAim(b,p.action);if(id==='judgement'&&b.crusherEnabled)p.action.crusherCast=true;if(id==='mace_swing'&&b.crusherEnabled&&crusherAvailability(b).ok)p.action.crusherMace=true;updatePoePresentation(b);
  emit(b,{type:'actionStarted',id,castId:p.action.castId,manaCost:a.manaCost,staminaCost:a.staminaCost});
  if(id==='mace_swing'){p.combo=(p.combo+1)%3;emit(b,{type:'sound',name:'slash',phase:'windup',castId:p.action.castId,tag:`cast:${p.action.castId}`,owner:'hero',audience:'friendly'});}
  if(spellIds.has(id)){emit(b,{type:'sound',name:'magicCharge',phase:'windup',castId:p.action.castId,tag:`cast:${p.action.castId}`,owner:'hero',audience:'friendly'});if(b.stats.innerFlame){p.innerFlame={rank:b.stats.innerFlame.rank,remaining:b.stats.innerFlame.duration};emit(b,{type:'innerFlameChanged',buff:{...p.innerFlame}});}}
@@ -393,6 +399,27 @@ function handleSkillIntent(b,input){
   // Reserve priority over held attack; resolve current-frame recovery first.
   return !!b.skillIntent;
 }
+function resolveCrusherStrike(b,action,a){
+ const p=b.p,id=action.poeAim?action.poeAim.targetId:b.targetId,chosen=b.enemies.find(e=>e.id===id);
+ const target=chosen&&inSector(b,chosen,p,action.angle,a.range,a.arcRadians)&&lineOfSight(b.map,p,chosen)?chosen:null;
+ fx(b,'slash',p.x,p.y,'#d5c3a0',a.range,.45,{angle:action.angle});
+ let payoff=null;
+ if(target&&alive(target)&&crusherAvailability(b).ok){
+  const ready=crusherContactReady(b,target,action.castId),hit=hitEnemy(b,target,a.damage,{stun:ready?CRUSHER_RULES.heavyStunSeconds:0,pen:a.armorPenetration??0,heavy:true,source:'crusher_strike',spec:a,impactAngle:action.angle,crusherStrike:ready,context:hitContext(b,action,target,'crusherStrike')});
+  payoff=hit.crusherPayoff??null;
+  if(alive(target)&&a.shackles)target.shackles={...a.shackles,remaining:a.shackles.duration};
+ }
+ if(payoff){
+  const origin={x:payoff.x,y:payoff.y},hitIds=[];
+  for(const e of [...b.enemies].sort((x,y)=>x.id.localeCompare(y.id)))if(e!==target&&alive(e)&&distance(e,origin)<=a.range+1e-9&&lineOfSight(b.map,origin,e)){
+   const hit=hitEnemy(b,e,a.damage,{pen:a.armorPenetration??0,heavy:true,source:'crusher_wave',spec:a,impactAngle:impactHeading(origin,e,action.angle),context:hitContext(b,action,e,'crusherWave','secondary',1)});if(hit.hit)hitIds.push(e.id);
+  }
+  emit(b,{type:'crusherShockwave',id:target.id,castId:action.castId,...origin,radius:a.range,damage:a.damage,hitIds});
+  fx(b,'ring',origin.x,origin.y,'#d5c3a0',a.range,.3,{crusherShockwave:true,castId:action.castId});
+ }
+ if(a.fireArea)b.areas=[{id:++b.areaSerial,castId:action.castId,originSkillId:action.id,spec:a,x:p.x,y:p.y,angle:action.angle,range:a.range,arcRadians:a.arcRadians,...a.fireArea,age:0,nextTick:a.fireArea.tickSeconds,newborn:true}];
+ emit(b,{type:'sound',name:'magicRelease',phase:'release',castId:action.castId,tag:`cast:${action.castId}`,owner:'hero',audience:'friendly'});
+}
 function resolveAction(b,dt){
   const p=b.p,action=p.action;if(!action)return;
   const a=action.spec??b.stats.actions[action.id],previous=action.elapsed;action.elapsed+=dt;action.phase=action.elapsed/action.duration;
@@ -414,7 +441,7 @@ function resolveAction(b,dt){
     if(travel>0&&Math.hypot(delta.x,delta.y)<.1&&!action.stopped){action.stopped=true;emit(b,{type:'soundCancel',tag:`cast:${action.castId}`});}
   }
   if(!action.fired&&action.elapsed+(b.poeMobility?1e-9:0)>=a.contact){
-    action.fired=true;emit(b,{type:'actionContact',id:action.id,castId:action.castId,elapsed:action.elapsed});
+    action.fired=true;emit(b,{type:'actionContact',id:action.id,castId:action.castId,elapsed:action.elapsed,...(action.crusherCast?{crusher:true}:{})});
     if(action.id==='mace_swing'){
       // Dispatch the swish peak only when simulation reaches contact. A future
       // AudioContext deadline would run ahead during subsequent hitstop.
@@ -436,6 +463,8 @@ function resolveAction(b,dt){
       p.regenBuff=a.regenBuff?{remaining:a.regenBuff.duration,multiplier:a.regenBuff.multiplier}:null;
       emit(b,{type:'healApplied',amount:p.hp-before});floater(b,'+'+Math.round(p.hp-before),p.x,p.y,'#9df2c4');
       fx(b,'ring',p.x,p.y,'#96ecc1',a.radius,.65);fx(b,'blast',p.x,p.y,'#c3ffe1',32,.35);emit(b,{type:'sound',name:'magicRelease',phase:'release',castId:action.castId,tag:`cast:${action.castId}`,owner:'hero',audience:'friendly'});
+    }else if(action.id==='judgement'&&action.crusherCast){
+      resolveCrusherStrike(b,action,a);
     }else if(action.id==='judgement'){
       fx(b,'slash',p.x,p.y,'#ffd77d',a.range,.45,{angle:action.angle});fx(b,'ring',p.x,p.y,'#f7ab69',38,.3);
       for(const e of [...b.enemies].sort((a,z)=>a.id.localeCompare(z.id)))if(inSector(b,e,p,action.angle,a.range,a.arcRadians)){
@@ -453,6 +482,7 @@ function strictSector(b,e,origin,angle,range,arc){return alive(e)&&distance(e,or
 function inSector(b,e,origin,angle,range,arc){return alive(e)&&sectorContains(b.map,e,origin,angle,range,arc);}
 const inFireArea=(b,e,area)=>inSector(b,e,area,area.angle,area.range,area.arcRadians);
 function updateEnemy(b,e,dt){
+ stepCrusherEnemy(b,e,dt);
  stepEnemyReaction(e,dt);
  e.flash=Math.max(0,(e.flash??0)-dt);
  if(!alive(e)){interruptBattlefieldRoleMovement(e);e.deathTime=Math.max(0,(e.deathTime??0)-dt);return;}
@@ -529,7 +559,7 @@ function nextDeadline(b,input={},horizon=.05){
  if(b.poeMobility){const m=b.poeMobility.snapshot();add(m.remaining);add(m.recoveryDebt);add(p.recoveryLock);if(m.state==='roll'){add(REBORN_POE_MOBILITY_TUNING.evadeStart-m.elapsed);add(REBORN_POE_MOBILITY_TUNING.evadeEnd-m.elapsed);}if(m.state==='sprint')add(REBORN_POE_MOBILITY_TUNING.sprintGrace-m.elapsed);if(a)for(const deadline of skillPolicyDeadlines(a))add(deadline);for(const cooldown of Object.values(p.cooldowns))add(cooldown);}
  add(b.banner?.remaining);add(p.innerFlame?.remaining);for(const v of Object.values(p.procCooldowns))add(v);
  for(const status of Object.values(p.negativeStatuses)){add(status.remaining);add(status.nextTick);}
- for(const e of b.enemies){for(const id of ['disarm','silence','armorBreak','shackles'])add(e[id]?.remaining);if(e.state==='windup')add(e.timer);}
+ for(const e of b.enemies){add(e.heavyStunRemaining);for(const id of ['disarm','silence','armorBreak','shackles'])add(e[id]?.remaining);if(e.state==='windup')add(e.timer);}
  for(const shot of b.shots){if(!shot.enemy){add(shot.nextTick-shot.age);add(shot.life);if(shot.leg==='return')add((distance(shot,p)-shot.returning.catchRadius)/shot.spec.speed);}const speed=Math.hypot(shot.vx,shot.vy);if(speed>0){const trace=traceSegment(b.map,shot,{x:shot.x+shot.vx*.05,y:shot.y+shot.vy*.05},2);if(trace.blocked)add(distance(shot,trace)/speed);}}
  for(const area of b.areas)add(area.nextTick-area.age);
  // Predict against the same resolved body path as execution, including stopped

@@ -1,0 +1,33 @@
+{
+  "baseline": "ac9ec129b358660dc3a4bef8049fcf4c28899190",
+  "full": {
+    "tests": 4583,
+    "pass": 4583,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "focused": {
+    "tests": 163,
+    "pass": 163,
+    "fail": 0
+  },
+  "actualMenuCursorKeyHandlers": {
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  "lintExit": 0,
+  "registryExit": 0,
+  "buildVercelExit": 0,
+  "newBuildUpRules": {
+    "origin": "emberwatch_authored_candidate",
+    "gainPerValidPrimaryMaceHit": 1,
+    "primedThreshold": 2
+  },
+  "nativeDotPlay": "not performed",
+  "visualAudioAXAcceptance": "not performed",
+  "wholePoePort": "not complete",
+  "productionScope": "first selected-mode crusher combat loop; saved schema, writers, input queues and balance module unchanged"
+}

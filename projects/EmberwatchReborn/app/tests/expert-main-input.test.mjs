@@ -628,3 +628,42 @@ test('lifecycle negative control: modified Ctrl+L without keyup/focus loss retai
  h.wh.blur();assert.equal(h.router.isHeld('right'),false);assert.equal(h.router.isHeld('attack'),false);assert.ok(h.boundaries.focusEvents.blurAt);
  const casts=h.app.battle.castSerial;h.app.closePanel();h.key('KeyJ',{repeat:true});for(let i=0;i<65;i++)await h.frame();assert.equal(h.app.battle.castSerial,casts);
 });
+
+// First crusher loop is reachable through the actual candidate menu, not docs alone.
+test('crusher menu selects runtime mode with current keys and no profile/revision mutation; region carry and explicit reload reset',async()=>{
+ const h=await ui({poeMode:'wasd',skills:['judgement']});h.key('Escape');await h.frame();await h.click('crusher-menu');await h.frame();
+ assert.match(h.modal.innerHTML,/유효 철퇴 타격 2회/);assert.match(h.modal.innerHTML,/PoE2의 피해 비례/);const epoch=h.modal.presentationEpoch;
+ const before=structuredClone(h.store.load()),revision=h.app.controller.revision(),controls=structuredClone(h.app.state.options.controls);
+ await h.click('crusher-mode:1',{crusherEpoch:epoch});assert.equal(h.app.battle.crusherEnabled,true);assert.deepEqual(h.store.load(),before);assert.equal(h.app.controller.revision(),revision);assert.deepEqual(h.app.state.options.controls,controls);assert.match(h.buttons.judgement.innerHTML,/파쇄 강타/);
+ const portal=imports.getRegion(h.app.battle.region).portals.find(p=>p.id==='road');assert.ok(portal);Object.assign(h.app.battle.p,{x:portal.x,y:portal.y});
+ assert.equal(await h.app.dispatch({type:'travel',to:portal.to,portalId:portal.id,...h.app.report()},{rebuild:true}),true);assert.equal(h.app.battle.crusherEnabled,true);assert.ok(h.app.battle.enemies.every(e=>!e.primedForStun&&!e.heavyStunned));
+ assert.doesNotMatch(JSON.stringify(h.store.load().state),/crusherEnabled|stunBuildup|primedForStun|heavyStunned/);
+ h.key('Escape');await h.frame();await h.click('reload');assert.equal(h.app.battle.crusherEnabled,undefined);
+});
+test('crusher choice rejects missing learned strike, stale epoch and field selection',async()=>{
+ const h=await ui({poeMode:'wasd'});h.key('Escape');await h.frame();await h.click('crusher-menu');await h.frame();const epoch=h.modal.presentationEpoch;
+ await h.click('crusher-mode:1',{crusherEpoch:epoch});assert.notEqual(h.app.battle.crusherEnabled,true);
+ const trained=await ui({poeMode:'wasd',skills:['judgement']});trained.key('Escape');await trained.frame();await trained.click('crusher-menu');await trained.frame();
+ await trained.click('crusher-mode:1',{crusherEpoch:trained.modal.presentationEpoch-1});assert.notEqual(trained.app.battle.crusherEnabled,true);
+ trained.app.battle.region='ember_road';await trained.click('crusher-mode:1',{crusherEpoch:trained.modal.presentationEpoch});assert.notEqual(trained.app.battle.crusherEnabled,true);
+});
+test('crusher actual menu, cursor and J/E handlers build readiness then emit one target-centred payoff with unchanged save fields',async()=>{
+ // Stationary synthetic enemies isolate real production input/frame/checkpoint
+ // wiring. This is handler evidence, not normal-input native browser QA.
+ const h=await ui({poeMode:'wasd',skills:['judgement']});h.key('Escape');await h.frame();await h.click('crusher-menu');await h.frame();
+ await h.click('crusher-mode:1',{crusherEpoch:h.modal.presentationEpoch});await h.frame();
+ const b=h.app.battle,{mapFromRegion}=await import('../src/world-geometry.js'),{projectWorld,ISO}=await import('../src/visual.js');
+ b.map=mapFromRegion({w:80,h:80});b.awaitingAdvance=false;
+ const target={id:'crusher-handler-target',kind:'scout',type:'guardian',x:b.p.x+50,y:b.p.y,hp:1000,max:1000,active:true,state:'idle',timer:0,stun:20,angle:Math.PI};
+ const neighbor={...target,id:'crusher-handler-neighbor',x:target.x+80,y:target.y+60};b.enemies=[target,neighbor];
+ const d=projectWorld(target.x-b.p.x,target.y-b.p.y);h.ch.pointermove({clientX:500+d.x*ISO.zoom,clientY:385+(d.y-23)*ISO.zoom});
+ assert.equal(h.app.sampledCombatInput().aimBySkill.judgement.targetId,target.id);
+ h.key('KeyJ');assert.equal(b.p.action?.id,'mace_swing',JSON.stringify({paused:h.app.paused,enabled:b.crusherEnabled,p:b.p,toasts:h.toasts}));for(let i=0;i<200&&!target.primedForStun;i++)await h.frame();h.up('KeyJ');
+ assert.equal(target.stunBuildup,2,JSON.stringify({p:b.p,target,events:b.events,toasts:h.toasts,gate:h.gate.blocked,busy:h.app.busy,paused:h.app.paused}));assert.equal(target.primedForStun,true);assert.equal(neighbor.stunBuildup,undefined);
+ for(let i=0;i<100&&(b.p.action||b.p.recoveryLock>0);i++)await h.frame();
+ const mana=b.p.mana;h.key('KeyE');h.up('KeyE');assert.equal(b.p.action?.id,'judgement');assert.equal(b.p.mana,mana-b.p.action.spec.manaCost);
+ const events=[];for(let i=0;i<120;i++){await h.frame();events.push(...b.events);if(!b.p.action&&events.some(e=>e.type==='crusherShockwave'))break;}
+ const waves=events.filter(e=>e.type==='crusherShockwave');assert.equal(waves.length,1);assert.equal(waves[0].id,target.id);assert.equal(waves[0].x,target.x);assert.equal(waves[0].y,target.y);assert.deepEqual(waves[0].hitIds,[neighbor.id]);
+ assert.equal(events.filter(e=>e.type==='enemyHit'&&e.id===target.id).length,1);assert.equal(target.primedForStun,false);assert.equal(target.stunBuildup,0);assert.ok(neighbor.hp<1000);
+ assert.equal(h.gate.blocked,false);assert.doesNotMatch(JSON.stringify(h.store.load().state),/crusherEnabled|stunBuildup|primedForStun|heavyStunned/);
+});

@@ -1,0 +1,9 @@
+{
+  "emberwatch-crusher-build.txt": "ca4431bb770511371b77e6566a473976fcdda562de46d24a2e0dbc564a50d0cd",
+  "emberwatch-crusher-focused.tap": "00e05ecd659ab326c128633daf7ef1a063e3db7b3fc8ff5c1188ce37103cb484",
+  "emberwatch-crusher-handler-final.tap": "0964830b3d11295ff65eacf59752f49fa02e6f71f4cb804c886ffe5b1692b9c9",
+  "emberwatch-crusher-lint.txt": "648b50ff68f7f87c7d00704113c12a439f4e09ce625ba97db93ede85d87fae70",
+  "emberwatch-crusher-registry.txt": "0ab4fa354cc6b03817cd3bf62d2c3786638ccab1c5dd151a85151d18f6dbba81",
+  "full-tests.tap": "09c154ca0fba658b5399f1aee5e5eb3c62ba232fc6de76abbb9be0ccadf0a7ad",
+  "initial-invalid-fixture.tap": "9c1043c2b41b032695d32595231ec00b134eedd449b784bf299fb42e1887f61f"
+}
