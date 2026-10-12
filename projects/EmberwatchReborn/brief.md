@@ -249,3 +249,8 @@ Improve existing recovery rejection copy in Korean without a duplicate alert. Ke
 ## Independent queued-charge heading consistency
 
 Repair reproducible queued shield-charge direction loss: movement-directed Q currently becomes cursor-directed on the next recovery frame. Select this input consistency fix rather than retuning latency/balance. Preserve the larger movement/targeting, skill-FX and three-melee-build goals; this checkpoint does not complete them.
+
+
+## Input lifecycle follow-up
+
+Verify stuck movement/held/queued input across native-handler event delivery. Fix only demonstrated cancellation defects; treat missing cloud-browser blur/visibility delivery as unconfirmed integration behavior. Preserve normal keyup and finite-tap release, saved state and all balance.

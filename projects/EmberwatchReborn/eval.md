@@ -461,3 +461,8 @@ Run production-handler regression for waiting/rejection sequence isolation, unch
 ## Independent queued-charge heading consistency
 
 Add a red-to-green production combat test matrix for mace-recovery and dodge-to-charge at30/60/120Hz, v4/v5 and trackingON/OFF; assert heading, real motion, no pre-start payment, one start/contact/payment and active heading lock. Add real main keyboard handler repro for v4/v5, retaining held-mace restart. Run existing aim, queue/hitstop, mobility, held-repeat, save input/safety and full suite, lint, registry and build:vercel. Automated fixtures do not establish dot browser timing/visual/listening acceptance; coordinator owns candidate deployment.
+
+
+## Input lifecycle follow-up
+
+Use production main handlers with precise event sequences: D+J and pending Q, missing keyup followed by blur/visibility/UI focus/canvas pointercancel/menu/frame-focus; keyup from UI with modifiers; touch pointercancel versus ordinary up/lostcapture during an existing delayed commit. Report injected handlers separately from browser focus delivery. Run full suite and build; inventory next skill-motion/action-chain and three-melee-build implementation gaps without inventing unspecified build definitions.

@@ -564,3 +564,67 @@ for(const version of [4,5])test(`queued movement charge controls${version} keeps
  assert.ok(h.app.inputObservations.some(row=>row.kind==='contact'&&row.castId===chargeCast));
  if(version===5)h.up('KeyF');else mouseUp(h,0);
 });
+
+// Explicit cancellation versus ordinary finite-tap release, through main handlers.
+for(const version of [4,5])for(const action of ['attack','charge'])test(`lifecycle controls${version} touch ${action} pointercancel removes unpaid pending pulse`,async()=>{
+ const h=version===5?await v5Ui():await ui({poeMode:'wasd'}),before=h.app.report();
+ h.delay();const pending=h.app.dispatch({type:'checkpoint',...before});await next();
+ h.key('KeyD');touchDown(h,action);h.buttons[action].handlers.pointercancel({});
+ await h.finish();await pending;await h.frame();
+ assert.equal(h.app.battle.castSerial,0);assert.equal(h.app.battle.p.action,null);assert.equal(h.router.isHeld('right'),false);
+ assert.deepEqual(h.app.report().vitals,before.vitals);
+ touchDown(h,action);assert.ok(h.app.battle.p.action);touchUp(h,action);
+});
+for(const version of [4,5])test(`lifecycle controls${version} touch pointercancel clears pending keyboard charge and held movement`,async()=>{
+ const h=version===5?await v5Ui():await ui({poeMode:'wasd'}),slot=version===5?'expert1':'attack';
+ h.key('KeyD');touchDown(h,slot);
+ await advanceUntil(h,()=>h.app.battle.p.action?.id==='mace_swing'&&h.app.battle.p.action.duration-h.app.battle.p.action.elapsed<=.14,'mace final recovery');
+ h.key('KeyQ');h.up('KeyQ');await next();assert.equal(h.app.battle.skillIntent?.id,'shield_charge');
+ h.buttons[slot].handlers.pointercancel({});assert.equal(h.app.battle.skillIntent,null);assert.equal(h.router.isHeld('right'),false);
+ const casts=h.app.battle.castSerial;for(let i=0;i<65;i++)await h.frame();assert.equal(h.app.battle.castSerial,casts);
+ assert.equal(h.app.inputObservations.some(row=>row.kind==='action-start'&&row.skillId==='shield_charge'),false);
+});
+
+for(const version of [4,5])for(const boundary of ['blur','hidden','frame-focus','editable-focus','canvas-pointercancel','touch-pointercancel','menu'])test(`lifecycle controls${version} ${boundary} clears missing-keyup movement, held mace and queued Q without replay`,async()=>{
+ const h=version===5?await v5Ui():await ui({poeMode:'wasd'}),attackKey=version===5?'KeyF':'KeyJ';
+ h.key('KeyD');h.key(attackKey);
+ await advanceUntil(h,()=>h.app.battle.p.action?.id==='mace_swing'&&h.app.battle.p.action.duration-h.app.battle.p.action.elapsed<=.14,'mace final recovery');
+ h.key('KeyQ');h.up('KeyQ');await next();assert.equal(h.app.battle.skillIntent?.id,'shield_charge');const casts=h.app.battle.castSerial;
+ if(boundary==='blur')h.wh.blur();
+ if(boundary==='hidden'){h.document.hidden=true;h.document.visibilityState='hidden';h.dh.visibilitychange();}
+ if(boundary==='frame-focus'){h.document.hasFocus=()=>false;await h.frame();}
+ if(boundary==='editable-focus')h.dh.focusin({target:{tagName:'BUTTON'}});
+ if(boundary==='canvas-pointercancel')h.ch.pointercancel();
+ if(boundary==='touch-pointercancel')h.buttons[version===5?'expert1':'attack'].handlers.pointercancel({});
+ if(boundary==='menu')h.key('Escape');
+ assert.equal(h.router.isHeld('right'),false);assert.equal(h.router.isHeld('attack'),false);assert.equal(h.skillCapture.isHeld('mace_swing'),false);assert.equal(h.app.battle.skillIntent,null);
+ h.document.hidden=false;h.document.visibilityState='visible';h.document.hasFocus=()=>true;if(boundary==='hidden')h.dh.visibilitychange();
+ await h.frame();await next();if(h.app.paused)h.app.closePanel();
+ h.dh.focusin({target:{tagName:'CANVAS'}});h.key(attackKey,{repeat:true});
+ const at={x:h.app.battle.p.x,y:h.app.battle.p.y};for(let n=0;n<80;n++)await h.frame();
+ assert.equal(h.app.battle.castSerial,casts);assert.equal(h.app.battle.p.x,at.x);assert.equal(h.app.battle.p.y,at.y);assert.equal(h.app.battle.p.cooldowns.shield_charge??0,0);
+ h.key(attackKey);assert.equal(h.app.battle.p.action?.id,'mace_swing');h.up(attackKey);
+});
+for(const modifier of ['ctrlKey','altKey','metaKey'])test(`lifecycle keyup from UI with ${modifier} still releases movement/attack; modified Q creates no edge`,async()=>{
+ const h=await ui({poeMode:'wasd'});h.key('KeyD');h.key('KeyJ');await h.frame();const casts=h.app.battle.castSerial;
+ h.key('KeyQ',{[modifier]:true});assert.equal(h.app.battle.skillIntent,null);
+ h.wh.keyup({code:'KeyD',target:{tagName:'BUTTON'},[modifier]:true});h.wh.keyup({code:'KeyJ',target:{tagName:'SELECT'},[modifier]:true});
+ assert.equal(h.router.isHeld('right'),false);assert.equal(h.router.isHeld('attack'),false);
+ const at={x:h.app.battle.p.x,y:h.app.battle.p.y};for(let i=0;i<80;i++)await h.frame();
+ assert.equal(h.app.battle.castSerial,casts);assert.equal(h.app.battle.p.x,at.x);assert.equal(h.app.battle.p.y,at.y);
+});
+for(const version of [4,5])test(`lifecycle controls${version} ordinary touch up plus lost capture preserves one finite unpaid tap and independent keyboard movement`,async()=>{
+ const h=version===5?await v5Ui():await ui({poeMode:'wasd'}),before=h.app.report();
+ h.delay();const pending=h.app.dispatch({type:'checkpoint',...before});await next();h.key('KeyD');touchDown(h,'charge');touchUp(h,'charge');h.buttons.charge.handlers.lostpointercapture({});
+ assert.equal(h.router.isHeld('right'),true);await h.finish();await pending;await h.frame();
+ assert.equal(h.app.battle.p.action?.id,'shield_charge');assert.equal(h.app.battle.castSerial,1);h.up('KeyD');
+ for(let i=0;i<80;i++)await h.frame();assert.equal(h.app.battle.castSerial,1);
+ assert.equal(h.app.inputObservations.filter(row=>row.kind==='action-start'&&row.skillId==='shield_charge').length,1);
+});
+test('lifecycle negative control: modified Ctrl+L without keyup/focus loss retains legitimate holds; later delivered blur clears them',async()=>{
+ const h=await ui({poeMode:'wasd'});h.key('KeyD');h.key('KeyJ');h.key('KeyL',{ctrlKey:true});
+ for(let i=0;i<80;i++)await h.frame();assert.equal(h.router.isHeld('right'),true);assert.equal(h.router.isHeld('attack'),true);assert.ok(h.app.battle.castSerial>=2);
+ assert.equal(h.boundaries.focusEvents.blurAt,undefined);assert.equal(h.boundaries.focusEvents.visibilityAt,undefined);
+ h.wh.blur();assert.equal(h.router.isHeld('right'),false);assert.equal(h.router.isHeld('attack'),false);assert.ok(h.boundaries.focusEvents.blurAt);
+ const casts=h.app.battle.castSerial;h.app.closePanel();h.key('KeyJ',{repeat:true});for(let i=0;i<65;i++)await h.frame();assert.equal(h.app.battle.castSerial,casts);
+});

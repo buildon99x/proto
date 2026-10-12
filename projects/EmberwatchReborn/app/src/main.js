@@ -707,7 +707,7 @@ window.addEventListener('mouseup',e=>releaseCombatToken('Mouse'+e.button));canva
 for(const el of document.querySelectorAll('[data-combat]')){
  el.addEventListener('pointerdown',e=>{e.preventDefault();if(paused)return;deferredImmediate.clear();el.setPointerCapture(e.pointerId);const action=router.virtual(el.dataset.combat,true,config());acceptCombatPress(action,'Touch:'+el.dataset.combat);});
  el.addEventListener('pointerup',()=>{router.virtual(el.dataset.combat,false,config());releaseCombatToken('Touch:'+el.dataset.combat);});
- for(const name of ['pointercancel','lostpointercapture'])el.addEventListener(name,()=>{const token='Touch:'+el.dataset.combat,capture=config().version===5?skillCapture:expertCapture,owned=capture.owns(token);router.virtual(el.dataset.combat,false,config());capture.up(token,{cancelReason:name});if(owned)clearInput(name);});
+ for(const name of ['pointercancel','lostpointercapture'])el.addEventListener(name,()=>{const token='Touch:'+el.dataset.combat,capture=config().version===5?skillCapture:expertCapture,owned=capture.owns(token);router.virtual(el.dataset.combat,false,config());capture.up(token,{cancelReason:name});if(owned||name==='pointercancel')clearInput(name);});
 }
 for(const el of document.querySelectorAll('[data-move]')){el.addEventListener('pointerdown',e=>{e.preventDefault();if(paused)return;deferredImmediate.clear();expertCapture.deferred.clear();skillCapture.deferred.clear();el.setPointerCapture(e.pointerId);router.virtual(el.dataset.move,true,config());});for(const name of ['pointerup','pointercancel','lostpointercapture'])el.addEventListener(name,()=>router.virtual(el.dataset.move,false,config()));}
 

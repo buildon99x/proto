@@ -344,3 +344,8 @@ Presentation only: existing recovery-too-early toast says “후딜 중 · 동�
 ## Independent queued-charge heading consistency
 
 The selected existing chargeDirection setting must resolve queued shield-charge headings the same way as immediate starts. A pending movement-directed charge uses the latest finite chargeAngle supplied by the production router; cursor/default and no-last-movement fallback remain existing live cursor behavior. Once shield-charge starts, heading is locked by its unchanged skill policy. Preserve .18-second recovery acceptance, recovery-clock TTL with .35 hitstop floor, 150ms save tolerance, fresh-input safety, costs/CD/contact/travel and all saves.
+
+
+## Input lifecycle follow-up
+
+Explicit pointercancel is a safety boundary for combat buttons, including non-channel v4/v5 skills. It must clear base-router pending pulses, held movement and existing battle skillIntent; normal pointerup/lostcapture must retain established finite-tap behavior. Other blur, hidden, editable focus, menu and frame-focus paths are verified without speculative timeouts or modifier-trigger cancellation.

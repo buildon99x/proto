@@ -1,0 +1,49 @@
+{
+  "baseline": "7a539febc3ede7521825391de4a0c1773a77e79d",
+  "completedAtUtc": "2026-10-12T12:17:42.761421+00:00",
+  "functionalChange": "combat-button pointercancel always calls existing clearInput, including finite/non-channel input",
+  "baselineRed": {
+    "tests": 6,
+    "pass": 0,
+    "fail": 6
+  },
+  "newEventRegression": {
+    "tests": 26,
+    "pass": 26,
+    "fail": 0
+  },
+  "full": {
+    "tests": 4539,
+    "pass": 4539,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "lint": "passed",
+  "syncRegistry": "passed",
+  "buildVercelExit": 0,
+  "integrity": {
+    "baseline": "7a539febc3ede7521825391de4a0c1773a77e79d",
+    "changedRuntimeFiles": [
+      "projects/EmberwatchReborn/app/src/main.js"
+    ],
+    "unchangedRuntimeFiles": 125,
+    "originalManifestFiles": 167,
+    "originalMismatches": [],
+    "payloadFiles": 125,
+    "payloadBytes": 16744573,
+    "sourceHashMatches": 124,
+    "launcherPayloadHashMatches": 125,
+    "mainSha256": "7a005c4d30bac4ed70b0e5929296120681bf51d8fba8c3edd6868349f3fb5609"
+  },
+  "coordinatorReportedQA": "v69 movement-directed queued Q, held J repeats, roll-to-Q; not independently repeated for new candidate",
+  "nativeFocusDelivery": "unverified",
+  "CtrlLObservationCause": "unconfirmed; negative delivered-event control retains holds when keyup/focus loss never arrives",
+  "newNativePlay": "not performed",
+  "visual": "not performed",
+  "listening": "not performed",
+  "deployment": "not performed",
+  "nextGapReport": "next-priorities.md",
+  "threeBuildDefinitions": "not resolved; optional clarification requested; no archetypes invented"
+}

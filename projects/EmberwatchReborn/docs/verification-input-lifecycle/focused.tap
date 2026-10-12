@@ -1,0 +1,166 @@
+TAP version 13
+# Subtest: lifecycle controls4 touch attack pointercancel removes unpaid pending pulse
+ok 1 - lifecycle controls4 touch attack pointercancel removes unpaid pending pulse
+  ---
+  duration_ms: 1956.68623
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 touch charge pointercancel removes unpaid pending pulse
+ok 2 - lifecycle controls4 touch charge pointercancel removes unpaid pending pulse
+  ---
+  duration_ms: 215.603918
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 touch attack pointercancel removes unpaid pending pulse
+ok 3 - lifecycle controls5 touch attack pointercancel removes unpaid pending pulse
+  ---
+  duration_ms: 890.445599
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 touch charge pointercancel removes unpaid pending pulse
+ok 4 - lifecycle controls5 touch charge pointercancel removes unpaid pending pulse
+  ---
+  duration_ms: 921.574086
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 touch pointercancel clears pending keyboard charge and held movement
+ok 5 - lifecycle controls4 touch pointercancel clears pending keyboard charge and held movement
+  ---
+  duration_ms: 334.620152
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 touch pointercancel clears pending keyboard charge and held movement
+ok 6 - lifecycle controls5 touch pointercancel clears pending keyboard charge and held movement
+  ---
+  duration_ms: 1063.10578
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 blur clears missing-keyup movement, held mace and queued Q without replay
+ok 7 - lifecycle controls4 blur clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 436.111713
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 hidden clears missing-keyup movement, held mace and queued Q without replay
+ok 8 - lifecycle controls4 hidden clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 489.859143
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 frame-focus clears missing-keyup movement, held mace and queued Q without replay
+ok 9 - lifecycle controls4 frame-focus clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 443.599578
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 editable-focus clears missing-keyup movement, held mace and queued Q without replay
+ok 10 - lifecycle controls4 editable-focus clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 385.913111
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 canvas-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+ok 11 - lifecycle controls4 canvas-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 411.54249
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 touch-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+ok 12 - lifecycle controls4 touch-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 422.269566
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 menu clears missing-keyup movement, held mace and queued Q without replay
+ok 13 - lifecycle controls4 menu clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 450.066283
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 blur clears missing-keyup movement, held mace and queued Q without replay
+ok 14 - lifecycle controls5 blur clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 1219.69724
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 hidden clears missing-keyup movement, held mace and queued Q without replay
+ok 15 - lifecycle controls5 hidden clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 1379.127386
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 frame-focus clears missing-keyup movement, held mace and queued Q without replay
+ok 16 - lifecycle controls5 frame-focus clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 1118.64182
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 editable-focus clears missing-keyup movement, held mace and queued Q without replay
+ok 17 - lifecycle controls5 editable-focus clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 1150.441787
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 canvas-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+ok 18 - lifecycle controls5 canvas-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 1095.856547
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 touch-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+ok 19 - lifecycle controls5 touch-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 1155.221743
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 menu clears missing-keyup movement, held mace and queued Q without replay
+ok 20 - lifecycle controls5 menu clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 1233.442379
+  type: 'test'
+  ...
+# Subtest: lifecycle keyup from UI with ctrlKey still releases movement/attack; modified Q creates no edge
+ok 21 - lifecycle keyup from UI with ctrlKey still releases movement/attack; modified Q creates no edge
+  ---
+  duration_ms: 302.369179
+  type: 'test'
+  ...
+# Subtest: lifecycle keyup from UI with altKey still releases movement/attack; modified Q creates no edge
+ok 22 - lifecycle keyup from UI with altKey still releases movement/attack; modified Q creates no edge
+  ---
+  duration_ms: 293.213991
+  type: 'test'
+  ...
+# Subtest: lifecycle keyup from UI with metaKey still releases movement/attack; modified Q creates no edge
+ok 23 - lifecycle keyup from UI with metaKey still releases movement/attack; modified Q creates no edge
+  ---
+  duration_ms: 275.193176
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 ordinary touch up plus lost capture preserves one finite unpaid tap and independent keyboard movement
+ok 24 - lifecycle controls4 ordinary touch up plus lost capture preserves one finite unpaid tap and independent keyboard movement
+  ---
+  duration_ms: 325.882189
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 ordinary touch up plus lost capture preserves one finite unpaid tap and independent keyboard movement
+ok 25 - lifecycle controls5 ordinary touch up plus lost capture preserves one finite unpaid tap and independent keyboard movement
+  ---
+  duration_ms: 1129.846832
+  type: 'test'
+  ...
+# Subtest: lifecycle negative control: modified Ctrl+L without keyup/focus loss retains legitimate holds; later delivered blur clears them
+ok 26 - lifecycle negative control: modified Ctrl+L without keyup/focus loss retains legitimate holds; later delivered blur clears them
+  ---
+  duration_ms: 552.252994
+  type: 'test'
+  ...
+1..26
+# tests 26
+# suites 0
+# pass 26
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 19810.418983
