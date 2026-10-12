@@ -481,3 +481,8 @@ Execute production handlers from legal earned fixtures: direct hits/primed/heavy
 ## Crusher focus-safety selection follow-up
 
 Red-to-green real focusin then menu/selection click with no intervening frame: unlearned message and basic mode reachable, learned choice works. Preserve active finite action, actual channel-cancellation recovery debt, real delayed-save pending and stale choice guards. Run full suite, lint, registry/build and preservation hashes; native v72 rerun remains required.
+
+
+## Storm staff and bell candidate
+
+Exercise actual enemy-hit accumulation and anti-duplicate/whiff/self-bell cases; invalid placement no Combo/mana/CD spend; cap3,expiry,direct-hit throttling,perfect vs late dash,actual swept LOS/wall geometry,once-per-enemy across multiple explosions,contact/expiry competition. Actual menu focus/input/frame handler tests and staff/bell Canvas probes; full suite/lint/registry/build/hash preservation. Native loop/visual/audio quality unverified until coordinator QA.

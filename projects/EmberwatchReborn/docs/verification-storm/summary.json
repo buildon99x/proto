@@ -1,0 +1,51 @@
+{
+  "baseline": "0d2520eaf7d48c79b078c6008966dc63a1ee7e86",
+  "full": {
+    "tests": 4610,
+    "pass": 4610,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "focused": {
+    "tests": 118,
+    "pass": 118,
+    "fail": 0
+  },
+  "actualMenuCursorJEQ": {
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  "lintExit": 0,
+  "registryExit": 0,
+  "buildVercelExit": 0,
+  "sourceConfirmedRules": {
+    "maxActiveBells": 3,
+    "waveIntervalSeconds": 0.3,
+    "perfectDashExplodesBell": true,
+    "dashWaveHitsEachEnemyOnce": true
+  },
+  "authoredCandidateRules": {
+    "comboRequiredAndCap": 4,
+    "gainPerPositiveEnemyHitCast": 1,
+    "contactsPerStaffSwing": 2,
+    "bellLifetimeSeconds": 12,
+    "perfectChargeStartWindowAfterSecondActualContact": 0.18
+  },
+  "newGearOrSavedFields": false,
+  "numericBalanceModuleChanged": false,
+  "nativeStormPlay": "not performed",
+  "visualAudioAXAcceptance": "not performed",
+  "wholePoePort": "not complete",
+  "coordinatorCrusherQA": "partial native results recorded separately in native-predecessor-qa.md",
+  "finalSourceSHA256": {
+    "main.js": "625a293edc5604e56e4b7e37597d5728d639592a205bbb80376460febb3e6687",
+    "combat.js": "735ad29fe64cc2acb642b139515f744142a9df2eded95d44c48985191ce55b0f",
+    "storm-combat.js": "af48438fa3dd0babe3e2ff7fd76b7f25e32fdccc09ba84c1ec300264fb39f53b",
+    "storm-presentation.js": "55c8dbead48b59f143f78e0a44793e7945f48b1eb2c1601636c2901858a11fd4",
+    "warrior-presentation.js": "d45eb25bcaed46ca1e6d8c6a574a459ccbce7cb92e7efc606fdcabc23e7c2e96",
+    "warrior-rig.js": "ecb0b113dc475ee0526478ad8efe447ae170420bd8ee4e5d45156c911768ed47"
+  }
+}

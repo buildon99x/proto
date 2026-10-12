@@ -3,6 +3,7 @@
 // Runtime cutouts reuse those exact polygons. No new raster assets or copied
 // commercial art. Only one hero is articulated; the existing atlas is fallback.
 import {drawHammerShape} from './warrior-projectile-presentation.js';
+import {drawStaffShape} from './storm-presentation.js';
 const RIGS=[
  {anchor:[166,307],headPivot:[165,162],hip:[166,258],shoulder:[114,176],elbow:[105,205],shieldPivot:[207,181],feet:[[136,304],[205,304]],knees:[[138,282],[197,282]],hips:[[141,258],[190,258]],clothPivot:[168,223],
   head:[[113,65],[209,66],[220,137],[207,166],[166,179],[122,164],[105,139]],
@@ -55,7 +56,7 @@ export function createWarriorRig(source,{createCanvas}={}){
   parts.rightLeg=[mask(rig.rightLeg,{y:rig.knees[1][1],top:true}),mask(rig.rightLeg,{y:rig.knees[1][1],top:false})];
   const result={...rig,parts};cache.set(direction,result);return result;
  }
- function render(pose,{legs=pose,weapon='sword'}={}){
+ function render(pose,{legs=pose,weapon='sword',showShield=true}={}){
   if(disabled||!source||typeof createCanvas!=='function'||source.complete===false||source.naturalWidth===0)return null;
   try{
    surface??=canvas(WARRIOR_RIG_LIMITS.surface,WARRIOR_RIG_LIMITS.surface);
@@ -63,8 +64,8 @@ export function createWarriorRig(source,{createCanvas}={}){
    ctx.clearRect(0,0,surface.width,surface.height);ctx.save();ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.translate(64,102);ctx.scale(64/240,64/240);ctx.translate(-rig.anchor[0],-rig.anchor[1]);ctx.globalAlpha=pose.alpha;
    for(let i=0;i<2;i++){const hip=rig.hips[i],knee=rig.knees[i],foot=rig.feet[i],dx=(i?legs.rightFootX:legs.leftFootX)*u,dy=(i?legs.rightFootY:legs.leftFootY)*u,bend=(i?legs.rightKnee:legs.leftKnee)*u,A=[hip[0]+bodyX,hip[1]+bodyY],B=[foot[0]+dx,foot[1]+dy],T=[(A[0]+B[0])/2+bend,(A[1]+B[1])/2-1],parts=i?rig.parts.rightLeg:rig.parts.leftLeg;segment(ctx,parts[0],hip,knee,A,T);segment(ctx,parts[1],knee,foot,T,B);}
    ctx.save();ctx.translate(bodyX,bodyY);rotateAt(ctx,rig.hip,pose.bodyAngle);ctx.translate(...rig.hip);ctx.scale(1,pose.bodyScaleY);ctx.translate(-rig.hip[0],-rig.hip[1]);
-   const arm=()=>{ctx.save();rotateAt(ctx,rig.shoulder,pose.weaponAngle);raw(ctx,rig.parts.upper);rotateAt(ctx,rig.elbow,pose.weaponElbow);raw(ctx,rig.parts.lower);if(weapon==='sword')raw(ctx,rig.parts.sword);else if(weapon==='hammer'){const hand=[[94,227],[104,511],[216,816],[240,1100]][pose.direction];ctx.save();ctx.translate(...hand);ctx.rotate(radians([22,-23,24,16][pose.direction]));ctx.scale(2.1,2.1);drawHammerShape(ctx);ctx.restore();}ctx.restore();};
-   const shield=()=>{ctx.save();ctx.translate((pose.shieldX||0)*u,(pose.shieldY||0)*u);rotateAt(ctx,rig.shieldPivot,pose.shieldAngle);raw(ctx,rig.parts.shield);ctx.restore();};
+   const arm=()=>{ctx.save();rotateAt(ctx,rig.shoulder,pose.weaponAngle);raw(ctx,rig.parts.upper);rotateAt(ctx,rig.elbow,pose.weaponElbow);raw(ctx,rig.parts.lower);if(weapon==='sword')raw(ctx,rig.parts.sword);else if(weapon==='hammer'){const hand=[[94,227],[104,511],[216,816],[240,1100]][pose.direction];ctx.save();ctx.translate(...hand);ctx.rotate(radians([22,-23,24,16][pose.direction]));ctx.scale(2.1,2.1);drawHammerShape(ctx);ctx.restore();}else if(weapon==='staff'){const hand=[[94,227],[104,511],[216,816],[240,1100]][pose.direction];ctx.save();ctx.translate(...hand);drawStaffShape(ctx);ctx.fillStyle='#59626a';ctx.fillRect(-18,-25,12,12);ctx.restore();}ctx.restore();};
+   const shield=()=>{if(!showShield)return;ctx.save();ctx.translate((pose.shieldX||0)*u,(pose.shieldY||0)*u);rotateAt(ctx,rig.shieldPivot,pose.shieldAngle);raw(ctx,rig.parts.shield);ctx.restore();};
    if(pose.direction===1)arm();if(!pose.shieldFront&&(pose.direction===2||pose.direction===3))shield();raw(ctx,rig.parts.body);
    ctx.save();ctx.translate(pose.clothX*u,pose.clothY*u);rotateAt(ctx,rig.clothPivot,pose.clothAngle);raw(ctx,rig.parts.cloth);ctx.restore();
    ctx.save();ctx.translate(pose.headX*u,pose.headY*u);rotateAt(ctx,rig.headPivot,pose.headAngle);raw(ctx,rig.parts.head);ctx.restore();

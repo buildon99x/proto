@@ -1,0 +1,9 @@
+{
+  "build.txt": "9c1cbec96b9eaa171dc0ce62089d50485c7e0abec57c1f28165cef91cb4f8bfb",
+  "focused.tap": "79c6f89e40de09f688a87a3436df3e0c2de666d168a6ba13919b17932ef4c62f",
+  "full-tests.tap": "db25f27c4d2f97bec56b5bce786375162768c3166d13198cfb7161c862d67461",
+  "intermediate-full.tap": "d2ab36659ed69cf958d7c2fe53fc4575e199ddd67162010bd3f7f5901db0ea02",
+  "lint.txt": "648b50ff68f7f87c7d00704113c12a439f4e09ce625ba97db93ede85d87fae70",
+  "main-final.tap": "de7e8f5d9d6b73510582027c35b53cf8a9e337374f48fc4711c0900ad9bd129c",
+  "registry.txt": "0ab4fa354cc6b03817cd3bf62d2c3786638ccab1c5dd151a85151d18f6dbba81"
+}

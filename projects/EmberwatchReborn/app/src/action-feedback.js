@@ -10,6 +10,10 @@ export function actionBlockedText(eligibility,{compact=false}={}){
   case 'mana':return compact?`MP 부족 · ${formatResourceCost(e.manaCost)}`:`마나 부족 · 필요 ${formatResourceCost(e.manaCost)} / 현재 ${formatResourceAmount(e.mana)}`;
   case 'stamina':return compact?`기력 부족 · ${formatResourceCost(e.staminaCost)}`:`기력 부족 · 필요 ${formatResourceCost(e.staminaCost)} / 현재 ${formatResourceAmount(e.stamina)}`;
   case 'weapon':return compact?'철퇴 필요':'파쇄 강타에는 철퇴가 필요합니다.';
+  case 'storm-setup':return compact?'훈련봉 / PoE 조작 필요':'폭풍 연격은 주무기 해제와 PoE형 조작이 필요합니다.';
+  case 'combo':return compact?'Combo 4 필요':'실제 적에게 연격을 4회 명중시키면 종을 설치할 수 있습니다.';
+  case 'bell-limit':return compact?'종 3개 유지 중':'현재 종이 3개입니다. 소모하거나 만료된 뒤 설치하세요.';
+  case 'bell-placement':return compact?'설치 위치 불가':'비어 있는 시야 내 바닥에 조준하세요. 설치 불가에는 자원을 쓰지 않습니다.';
   case 'unlearned':return '훈련 필요';
   case 'dead':return '쓰러짐 · 행동 불가';
   default:return '';

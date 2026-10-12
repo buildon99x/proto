@@ -18,13 +18,14 @@ export function warriorActionGait(actor){
 }
 export function resolveWarriorPresentation(actor={},time=0,direction=0,override=null){
  const action=actor.action,id=action?.id,guard=actor.block===true&&!action;
- if(!(actor.hp>0)||actor.dead||!guard&&!known.has(id))return null;
+ const stormIdle=actor.stormPose===true&&!action&&!guard;
+ if(!(actor.hp>0)||actor.dead||!guard&&!stormIdle&&!known.has(id))return null;
  // Guard must not swallow the existing, authoritative hit-recoil clock.
  if(guard&&actor.hurtTime>0)return null;
  if(override&&['dodge','hurt','run'].includes(override.action)&&id!=='shield_charge')return null;
  direction=clamp(Math.floor(direction),0,3);const side=direction===1?-1:direction===2?1:direction===3?.55:-.55;
- let clip=guard?'idle':WARRIOR_SKILL_CLIPS[id]??resolveActorMotion(actor,time,true).action;
- let phase=guard?0:remapMotionPhase(clip,action.phase??(action.elapsed||0)/(action.duration||1),action.contact,action.duration);
+ let clip=guard||stormIdle?'idle':WARRIOR_SKILL_CLIPS[id]??resolveActorMotion(actor,time,true).action;
+ let phase=guard||stormIdle?0:remapMotionPhase(clip,action.phase??(action.elapsed||0)/(action.duration||1),action.contact,action.duration);
  if(override?.action&&MOTION_CLIPS[override.action]){clip=override.action;phase=override.phase??phase;}
  const frame=motionFrame(clip,phase),sample=motionSamplePhase(clip,frame),pose=sampleActorMotion({action:clip,phase:sample,direction});
  let weapon=action?.crusherCast||action?.crusherMace?'hammer':'sword';
@@ -40,18 +41,22 @@ export function resolveWarriorPresentation(actor={},time=0,direction=0,override=
  }else if(id==='shield_charge'){
   const brace=Math.sin(Math.PI*sample);pose.shieldY=-2;pose.rootY=1.4+2.4*brace;pose.bodyAngle=side*(5+9*brace);pose.headAngle=-side*(3+5*brace);pose.weaponAngle=[-10,20,-20,10][direction]*brace;pose.shieldAngle=[-14,-12,12,14][direction]*(.6+.4*brace);pose.clothAngle=-side*14*brace;
  }
+ if(actor.stormPose&&!guard){
+  weapon='staff';const elapsed=action?.elapsed??0,contact=action?.contact??1,pulse=action?.stormSwing?[1,2].reduce((sum,n)=>sum+Math.exp(-(((elapsed-contact*n)/(contact*.3))**2)),0):0;
+  pose.weaponAngle=[-16,28,-28,16][direction]+side*20*pulse;pose.weaponElbow=[-22,-38,38,22][direction]-side*38*pulse;pose.bodyAngle=side*(2+6*pulse);pose.headAngle=-side*4*pulse;pose.rootY+=pulse;pose.shieldFront=false;
+ }
  // moving also measures earlier recovery slices in this frame; the current
  // planted windup must use its own action legs instead of that older run gait.
  const gait=warriorActionGait(actor),moving=gait!==null&&skillMovementFactor(action)>0&&id!=='shield_charge'&&id!=='zealous_onslaught';
  const legs=moving?sampleActorMotion({action:'run',phase:motionSamplePhase('run',motionFrame('run',gait)),direction}):pose;
- return {id:guard?'shield_block':id,clip,phase,frame,sample,pose,legs,weapon,moving,gaitPhase:moving?gait:null};
+ return {id:guard?'shield_block':stormIdle?'storm_staff_idle':id,clip,phase,frame,sample,pose,legs,weapon,moving,gaitPhase:moving?gait:null,...(actor.stormPose?{showShield:guard}:{})};
 }
 export function createWarriorPresentationRenderer(ctx,images,{createCanvas}={}){
  const rig=createWarriorRig(images?.hero,{createCanvas});
  function draw({actor={},player=false,x=0,y=0,height=49,time=0,direction=0,motion=null,classId='warrior'}={}){
   if(!player||classId!=='warrior'||actor.classId&&actor.classId!=='warrior')return false;
   const presentation=resolveWarriorPresentation(actor,time,direction,motion);if(!presentation)return false;
-  const result=rig.render(presentation.pose,{legs:presentation.legs,weapon:presentation.weapon});if(!result)return false;
+  const result=rig.render(presentation.pose,{legs:presentation.legs,weapon:presentation.weapon,...(presentation.showShield===undefined?{}:{showShield:presentation.showShield})});if(!result)return false;
   const scale=height/result.bodyHeight;ctx.save();ctx.imageSmoothingEnabled=false;ctx.drawImage(result.canvas,Math.round(x-result.anchorX*scale),Math.round(y-result.anchorY*scale),result.canvas.width*scale,result.canvas.height*scale);ctx.restore();return presentation;
  }
  return {draw,metrics:rig.metrics};

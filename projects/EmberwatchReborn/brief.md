@@ -269,3 +269,8 @@ First playable crusher unit: direct mace hits accumulate per-enemy readiness; ex
 ## Crusher focus-safety selection follow-up
 
 Fix the native-observed crusher menu lock when button focus queues settled input safety immediately before the menu/selection click. Preserve real combat/recovery/save guards and progression requirements.
+
+
+## Storm staff and bell candidate
+
+Second session-only loop: a distinct two-contact training-staff sequence earns Combo from real enemy hits, spends Combo and existing Judgement resource on validated bell placement, directly strikes bells for throttled waves, and consumes bells with a precisely timed charge. No new gear/profile schema.

@@ -1,0 +1,718 @@
+TAP version 13
+# Subtest: crusher valid direct mace contacts accumulate per enemy; critical=false and proc/duplicate cannot add units
+ok 1 - crusher valid direct mace contacts accumulate per enemy; critical=false and proc/duplicate cannot add units
+  ---
+  duration_ms: 864.782864
+  type: 'test'
+  ...
+# Subtest: crusher valid direct mace contacts accumulate per enemy; critical=true and proc/duplicate cannot add units
+ok 2 - crusher valid direct mace contacts accumulate per enemy; critical=true and proc/duplicate cannot add units
+  ---
+  duration_ms: 69.029215
+  type: 'test'
+  ...
+# Subtest: crusher actual prepared strike causes one heavy transition, target-centred wave and one hit per secondary, preserving old stun/armor break
+ok 3 - crusher actual prepared strike causes one heavy transition, target-centred wave and one hit per secondary, preserving old stun/armor break
+  ---
+  duration_ms: 136.213752
+  type: 'test'
+  ...
+# Subtest: crusher no-target at contact cannot create a free shockwave or consume stun
+ok 4 - crusher no-target at contact cannot create a free shockwave or consume stun
+  ---
+  duration_ms: 19.377861
+  type: 'test'
+  ...
+# Subtest: crusher unprepared at contact cannot create a free shockwave or consume stun
+ok 5 - crusher unprepared at contact cannot create a free shockwave or consume stun
+  ---
+  duration_ms: 30.227223
+  type: 'test'
+  ...
+# Subtest: crusher dead at contact cannot create a free shockwave or consume stun
+ok 6 - crusher dead at contact cannot create a free shockwave or consume stun
+  ---
+  duration_ms: 129.830951
+  type: 'test'
+  ...
+# Subtest: crusher moved at contact cannot create a free shockwave or consume stun
+ok 7 - crusher moved at contact cannot create a free shockwave or consume stun
+  ---
+  duration_ms: 115.042564
+  type: 'test'
+  ...
+# Subtest: crusher immune at contact cannot create a free shockwave or consume stun
+ok 8 - crusher immune at contact cannot create a free shockwave or consume stun
+  ---
+  duration_ms: 79.837135
+  type: 'test'
+  ...
+# Subtest: crusher already-heavy at contact cannot create a free shockwave or consume stun
+ok 9 - crusher already-heavy at contact cannot create a free shockwave or consume stun
+  ---
+  duration_ms: 88.249116
+  type: 'test'
+  ...
+# Subtest: stun-immune boss remains damageable by actual basic attack and never primes
+ok 10 - stun-immune boss remains damageable by actual basic attack and never primes
+  ---
+  duration_ms: 148.709278
+  type: 'test'
+  ...
+# Subtest: heavy state expires and buildup resets independently of other remaining light stun
+ok 11 - heavy state expires and buildup resets independently of other remaining light stun
+  ---
+  duration_ms: 132.07446
+  type: 'test'
+  ...
+# Subtest: wave respects real wall LOS and does not recursively prime affected enemies
+ok 12 - wave respects real wall LOS and does not recursively prime affected enemies
+  ---
+  duration_ms: 96.674669
+  type: 'test'
+  ...
+# Subtest: dead target reuse has fresh enemy identity; old remaining stun is never readiness
+ok 13 - dead target reuse has fresh enemy identity; old remaining stun is never readiness
+  ---
+  duration_ms: 42.828393
+  type: 'test'
+  ...
+# Subtest: wrong weapon disables crusher strike while basic attack eligibility remains available
+ok 14 - wrong weapon disables crusher strike while basic attack eligibility remains available
+  ---
+  duration_ms: 1.302748
+  type: 'test'
+  ...
+# Subtest: classic constructor behavior creates no buildup; selecting mode cannot change stored profile or add serialized fields
+ok 15 - classic constructor behavior creates no buildup; selecting mode cannot change stored profile or add serialized fields
+  ---
+  duration_ms: 55.664092
+  type: 'test'
+  ...
+# Subtest: primed marker follows authoritative readiness, not stun time, and preserves render state
+ok 16 - primed marker follows authoritative readiness, not stun time, and preserves render state
+  ---
+  duration_ms: 0.758225
+  type: 'test'
+  ...
+# Subtest: lethal valid payoff transitions before defeat, clears corpse state and still emits one real wave
+ok 17 - lethal valid payoff transitions before defeat, clears corpse state and still emits one real wave
+  ---
+  duration_ms: 70.754616
+  type: 'test'
+  ...
+# Subtest: crusher contact cannot fabricate a generic ground burst on whiff; classic contact feedback remains
+ok 18 - crusher contact cannot fabricate a generic ground burst on whiff; classic contact feedback remains
+  ---
+  duration_ms: 11.912885
+  type: 'test'
+  ...
+# Subtest: null action target never falls back to a different prepared hover target
+ok 19 - null action target never falls back to a different prepared hover target
+  ---
+  duration_ms: 79.044197
+  type: 'test'
+  ...
+# Subtest: classic default and explicit disabled mode retain exact actions/events/state
+ok 20 - classic default and explicit disabled mode retain exact actions/events/state
+  ---
+  duration_ms: 191.902397
+  type: 'test'
+  ...
+# Subtest: existing legal purchase/allocation/equip flow supplies a real mace to the crusher without new gear schema
+ok 21 - existing legal purchase/allocation/equip flow supplies a real mace to the crusher without new gear schema
+  ---
+  duration_ms: 34.135292
+  type: 'test'
+  ...
+# Subtest: current cooldown/resource/recovery rejection cannot produce a crusher payoff
+ok 22 - current cooldown/resource/recovery rejection cannot produce a crusher payoff
+  ---
+  duration_ms: 64.375179
+  type: 'test'
+  ...
+# Subtest: crusher mace_swing uses owned mace silhouette during actual action without changing cadence
+ok 23 - crusher mace_swing uses owned mace silhouette during actual action without changing cadence
+  ---
+  duration_ms: 1.997247
+  type: 'test'
+  ...
+# Subtest: crusher judgement uses owned mace silhouette during actual action without changing cadence
+ok 24 - crusher judgement uses owned mace silhouette during actual action without changing cadence
+  ---
+  duration_ms: 0.799978
+  type: 'test'
+  ...
+# Subtest: storm real two-contact staff swing has distinct hit IDs and one Combo per cast across contacts/enemies; no Power Charge or classic p.combo reuse
+ok 25 - storm real two-contact staff swing has distinct hit IDs and one Combo per cast across contacts/enemies; no Power Charge or classic p.combo reuse
+  ---
+  duration_ms: 916.323521
+  type: 'test'
+  ...
+# Subtest: whiff and secondary packet cannot build Combo; lethal actual primary hit still counts
+ok 26 - whiff and secondary packet cannot build Combo; lethal actual primary hit still counts
+  ---
+  duration_ms: 83.41565
+  type: 'test'
+  ...
+# Subtest: valid placement spends Combo plus exactly existing mana/CD, atomically creates a bell and preserves save reports
+ok 27 - valid placement spends Combo plus exactly existing mana/CD, atomically creates a bell and preserves save reports
+  ---
+  duration_ms: 111.999147
+  type: 'test'
+  ...
+# Subtest: invalid combo bell placement has no resource/Combo/CD/FX spend
+ok 28 - invalid combo bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 1.806258
+  type: 'test'
+  ...
+# Subtest: invalid no-pointer bell placement has no resource/Combo/CD/FX spend
+ok 29 - invalid no-pointer bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 117.786088
+  type: 'test'
+  ...
+# Subtest: invalid range bell placement has no resource/Combo/CD/FX spend
+ok 30 - invalid range bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 69.878393
+  type: 'test'
+  ...
+# Subtest: invalid hero-overlap bell placement has no resource/Combo/CD/FX spend
+ok 31 - invalid hero-overlap bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 71.040999
+  type: 'test'
+  ...
+# Subtest: invalid enemy-overlap bell placement has no resource/Combo/CD/FX spend
+ok 32 - invalid enemy-overlap bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 85.665909
+  type: 'test'
+  ...
+# Subtest: invalid wall bell placement has no resource/Combo/CD/FX spend
+ok 33 - invalid wall bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 94.399071
+  type: 'test'
+  ...
+# Subtest: source0.5 bell cap is three, overlap is rejected, capacity frees on expiry
+ok 34 - source0.5 bell cap is three, overlap is rejected, capacity frees on expiry
+  ---
+  duration_ms: 121.674491
+  type: 'test'
+  ...
+# Subtest: direct bell strike makes one real wave per swing and cannot generate Combo from the bell or its wave
+ok 35 - direct bell strike makes one real wave per swing and cannot generate Combo from the bell or its wave
+  ---
+  duration_ms: 136.765653
+  type: 'test'
+  ...
+# Subtest: bell interval is .3s and rejected/duplicate touches cannot replay a later wave from the same cast
+ok 36 - bell interval is .3s and rejected/duplicate touches cannot replay a later wave from the same cast
+  ---
+  duration_ms: 94.87497
+  type: 'test'
+  ...
+# Subtest: real timely queued charge sweeps through bell and consumes it once; subsequent duplicate consume loses race
+ok 37 - real timely queued charge sweeps through bell and consumes it once; subsequent duplicate consume loses race
+  ---
+  duration_ms: 147.714865
+  type: 'test'
+  ...
+# Subtest: late charge retains standard resource/movement but cannot consume a bell
+ok 38 - late charge retains standard resource/movement but cannot consume a bell
+  ---
+  duration_ms: 141.060484
+  type: 'test'
+  ...
+# Subtest: one actual perfect dash consumes three separated bells but overlaps damage each enemy once per use
+ok 39 - one actual perfect dash consumes three separated bells but overlaps damage each enemy once per use
+  ---
+  duration_ms: 153.660542
+  type: 'test'
+  ...
+# Subtest: an actual blocking foe or wall prevents consuming a bell beyond the resolved charge path
+ok 40 - an actual blocking foe or wall prevents consuming a bell beyond the resolved charge path
+  ---
+  duration_ms: 203.420489
+  type: 'test'
+  ...
+# Subtest: expiry at the actual first-contact boundary wins over bell strike without ghost wave or Combo
+ok 41 - expiry at the actual first-contact boundary wins over bell strike without ghost wave or Combo
+  ---
+  duration_ms: 91.811272
+  type: 'test'
+  ...
+# Subtest: release tracking OFF retains the captured bell identity when cursor moves before the next frame
+ok 42 - release tracking OFF retains the captured bell identity when cursor moves before the next frame
+  ---
+  duration_ms: 91.800567
+  type: 'test'
+  ...
+# Subtest: expiry versus strike/explosion and death clear transient objects once
+ok 43 - expiry versus strike/explosion and death clear transient objects once
+  ---
+  duration_ms: 116.608784
+  type: 'test'
+  ...
+# Subtest: default/classic has no storm state and selected session/rebuild/reload never add saved fields
+ok 44 - default/classic has no storm state and selected session/rebuild/reload never add saved fields
+  ---
+  duration_ms: 1.606627
+  type: 'test'
+  ...
+# Subtest: real progression and empty mainhand required; equipped gear is not relabelled as a staff
+ok 45 - real progression and empty mainhand required; equipped gear is not relabelled as a staff
+  ---
+  duration_ms: 0.764545
+  type: 'test'
+  ...
+# Subtest: staff posture and bell/FX helpers read authoritative state only and produce distinct geometry
+ok 46 - staff posture and bell/FX helpers read authoritative state only and produce distinct geometry
+  ---
+  duration_ms: 87.555164
+  type: 'test'
+  ...
+# Subtest: mace_swing real contact selects expected articulated pose d0
+ok 47 - mace_swing real contact selects expected articulated pose d0
+  ---
+  duration_ms: 59.90349
+  type: 'test'
+  ...
+# Subtest: mace_swing real contact selects expected articulated pose d1
+ok 48 - mace_swing real contact selects expected articulated pose d1
+  ---
+  duration_ms: 43.688952
+  type: 'test'
+  ...
+# Subtest: mace_swing real contact selects expected articulated pose d2
+ok 49 - mace_swing real contact selects expected articulated pose d2
+  ---
+  duration_ms: 23.445205
+  type: 'test'
+  ...
+# Subtest: mace_swing real contact selects expected articulated pose d3
+ok 50 - mace_swing real contact selects expected articulated pose d3
+  ---
+  duration_ms: 22.801742
+  type: 'test'
+  ...
+# Subtest: righteous_hammer real contact selects expected articulated pose d0
+ok 51 - righteous_hammer real contact selects expected articulated pose d0
+  ---
+  duration_ms: 22.963246
+  type: 'test'
+  ...
+# Subtest: righteous_hammer real contact selects expected articulated pose d1
+ok 52 - righteous_hammer real contact selects expected articulated pose d1
+  ---
+  duration_ms: 33.795358
+  type: 'test'
+  ...
+# Subtest: righteous_hammer real contact selects expected articulated pose d2
+ok 53 - righteous_hammer real contact selects expected articulated pose d2
+  ---
+  duration_ms: 16.948662
+  type: 'test'
+  ...
+# Subtest: righteous_hammer real contact selects expected articulated pose d3
+ok 54 - righteous_hammer real contact selects expected articulated pose d3
+  ---
+  duration_ms: 14.708572
+  type: 'test'
+  ...
+# Subtest: lay_on_hands real contact selects expected articulated pose d0
+ok 55 - lay_on_hands real contact selects expected articulated pose d0
+  ---
+  duration_ms: 33.861514
+  type: 'test'
+  ...
+# Subtest: lay_on_hands real contact selects expected articulated pose d1
+ok 56 - lay_on_hands real contact selects expected articulated pose d1
+  ---
+  duration_ms: 59.155996
+  type: 'test'
+  ...
+# Subtest: lay_on_hands real contact selects expected articulated pose d2
+ok 57 - lay_on_hands real contact selects expected articulated pose d2
+  ---
+  duration_ms: 22.87937
+  type: 'test'
+  ...
+# Subtest: lay_on_hands real contact selects expected articulated pose d3
+ok 58 - lay_on_hands real contact selects expected articulated pose d3
+  ---
+  duration_ms: 35.291983
+  type: 'test'
+  ...
+# Subtest: judgement real contact selects expected articulated pose d0
+ok 59 - judgement real contact selects expected articulated pose d0
+  ---
+  duration_ms: 16.880279
+  type: 'test'
+  ...
+# Subtest: judgement real contact selects expected articulated pose d1
+ok 60 - judgement real contact selects expected articulated pose d1
+  ---
+  duration_ms: 16.455746
+  type: 'test'
+  ...
+# Subtest: judgement real contact selects expected articulated pose d2
+ok 61 - judgement real contact selects expected articulated pose d2
+  ---
+  duration_ms: 15.922091
+  type: 'test'
+  ...
+# Subtest: judgement real contact selects expected articulated pose d3
+ok 62 - judgement real contact selects expected articulated pose d3
+  ---
+  duration_ms: 17.141392
+  type: 'test'
+  ...
+# Subtest: battle_banner real contact selects expected articulated pose d0
+ok 63 - battle_banner real contact selects expected articulated pose d0
+  ---
+  duration_ms: 19.354615
+  type: 'test'
+  ...
+# Subtest: battle_banner real contact selects expected articulated pose d1
+ok 64 - battle_banner real contact selects expected articulated pose d1
+  ---
+  duration_ms: 24.572687
+  type: 'test'
+  ...
+# Subtest: battle_banner real contact selects expected articulated pose d2
+ok 65 - battle_banner real contact selects expected articulated pose d2
+  ---
+  duration_ms: 13.982861
+  type: 'test'
+  ...
+# Subtest: battle_banner real contact selects expected articulated pose d3
+ok 66 - battle_banner real contact selects expected articulated pose d3
+  ---
+  duration_ms: 29.386128
+  type: 'test'
+  ...
+# Subtest: shield_charge real contact selects expected articulated pose d0
+ok 67 - shield_charge real contact selects expected articulated pose d0
+  ---
+  duration_ms: 18.057607
+  type: 'test'
+  ...
+# Subtest: shield_charge real contact selects expected articulated pose d1
+ok 68 - shield_charge real contact selects expected articulated pose d1
+  ---
+  duration_ms: 38.528859
+  type: 'test'
+  ...
+# Subtest: shield_charge real contact selects expected articulated pose d2
+ok 69 - shield_charge real contact selects expected articulated pose d2
+  ---
+  duration_ms: 11.378988
+  type: 'test'
+  ...
+# Subtest: shield_charge real contact selects expected articulated pose d3
+ok 70 - shield_charge real contact selects expected articulated pose d3
+  ---
+  duration_ms: 9.71883
+  type: 'test'
+  ...
+# Subtest: mace_swing has 24 distinct joint samples excluding root and alpha d0
+ok 71 - mace_swing has 24 distinct joint samples excluding root and alpha d0
+  ---
+  duration_ms: 7.534811
+  type: 'test'
+  ...
+# Subtest: mace_swing has 24 distinct joint samples excluding root and alpha d1
+ok 72 - mace_swing has 24 distinct joint samples excluding root and alpha d1
+  ---
+  duration_ms: 6.691658
+  type: 'test'
+  ...
+# Subtest: mace_swing has 24 distinct joint samples excluding root and alpha d2
+ok 73 - mace_swing has 24 distinct joint samples excluding root and alpha d2
+  ---
+  duration_ms: 5.769364
+  type: 'test'
+  ...
+# Subtest: mace_swing has 24 distinct joint samples excluding root and alpha d3
+ok 74 - mace_swing has 24 distinct joint samples excluding root and alpha d3
+  ---
+  duration_ms: 6.949738
+  type: 'test'
+  ...
+# Subtest: righteous_hammer has 24 distinct joint samples excluding root and alpha d0
+ok 75 - righteous_hammer has 24 distinct joint samples excluding root and alpha d0
+  ---
+  duration_ms: 11.439315
+  type: 'test'
+  ...
+# Subtest: righteous_hammer has 24 distinct joint samples excluding root and alpha d1
+ok 76 - righteous_hammer has 24 distinct joint samples excluding root and alpha d1
+  ---
+  duration_ms: 7.010139
+  type: 'test'
+  ...
+# Subtest: righteous_hammer has 24 distinct joint samples excluding root and alpha d2
+ok 77 - righteous_hammer has 24 distinct joint samples excluding root and alpha d2
+  ---
+  duration_ms: 23.401508
+  type: 'test'
+  ...
+# Subtest: righteous_hammer has 24 distinct joint samples excluding root and alpha d3
+ok 78 - righteous_hammer has 24 distinct joint samples excluding root and alpha d3
+  ---
+  duration_ms: 16.984245
+  type: 'test'
+  ...
+# Subtest: lay_on_hands has 24 distinct joint samples excluding root and alpha d0
+ok 79 - lay_on_hands has 24 distinct joint samples excluding root and alpha d0
+  ---
+  duration_ms: 11.529785
+  type: 'test'
+  ...
+# Subtest: lay_on_hands has 24 distinct joint samples excluding root and alpha d1
+ok 80 - lay_on_hands has 24 distinct joint samples excluding root and alpha d1
+  ---
+  duration_ms: 12.657489
+  type: 'test'
+  ...
+# Subtest: lay_on_hands has 24 distinct joint samples excluding root and alpha d2
+ok 81 - lay_on_hands has 24 distinct joint samples excluding root and alpha d2
+  ---
+  duration_ms: 22.621961
+  type: 'test'
+  ...
+# Subtest: lay_on_hands has 24 distinct joint samples excluding root and alpha d3
+ok 82 - lay_on_hands has 24 distinct joint samples excluding root and alpha d3
+  ---
+  duration_ms: 18.636931
+  type: 'test'
+  ...
+# Subtest: judgement has 24 distinct joint samples excluding root and alpha d0
+ok 83 - judgement has 24 distinct joint samples excluding root and alpha d0
+  ---
+  duration_ms: 15.953579
+  type: 'test'
+  ...
+# Subtest: judgement has 24 distinct joint samples excluding root and alpha d1
+ok 84 - judgement has 24 distinct joint samples excluding root and alpha d1
+  ---
+  duration_ms: 7.994125
+  type: 'test'
+  ...
+# Subtest: judgement has 24 distinct joint samples excluding root and alpha d2
+ok 85 - judgement has 24 distinct joint samples excluding root and alpha d2
+  ---
+  duration_ms: 8.394119
+  type: 'test'
+  ...
+# Subtest: judgement has 24 distinct joint samples excluding root and alpha d3
+ok 86 - judgement has 24 distinct joint samples excluding root and alpha d3
+  ---
+  duration_ms: 17.390008
+  type: 'test'
+  ...
+# Subtest: battle_banner has 24 distinct joint samples excluding root and alpha d0
+ok 87 - battle_banner has 24 distinct joint samples excluding root and alpha d0
+  ---
+  duration_ms: 7.155398
+  type: 'test'
+  ...
+# Subtest: battle_banner has 24 distinct joint samples excluding root and alpha d1
+ok 88 - battle_banner has 24 distinct joint samples excluding root and alpha d1
+  ---
+  duration_ms: 4.658137
+  type: 'test'
+  ...
+# Subtest: battle_banner has 24 distinct joint samples excluding root and alpha d2
+ok 89 - battle_banner has 24 distinct joint samples excluding root and alpha d2
+  ---
+  duration_ms: 5.398394
+  type: 'test'
+  ...
+# Subtest: battle_banner has 24 distinct joint samples excluding root and alpha d3
+ok 90 - battle_banner has 24 distinct joint samples excluding root and alpha d3
+  ---
+  duration_ms: 5.014124
+  type: 'test'
+  ...
+# Subtest: shield_charge has 24 distinct joint samples excluding root and alpha d0
+ok 91 - shield_charge has 24 distinct joint samples excluding root and alpha d0
+  ---
+  duration_ms: 7.627842
+  type: 'test'
+  ...
+# Subtest: shield_charge has 24 distinct joint samples excluding root and alpha d1
+ok 92 - shield_charge has 24 distinct joint samples excluding root and alpha d1
+  ---
+  duration_ms: 7.801884
+  type: 'test'
+  ...
+# Subtest: shield_charge has 24 distinct joint samples excluding root and alpha d2
+ok 93 - shield_charge has 24 distinct joint samples excluding root and alpha d2
+  ---
+  duration_ms: 8.005053
+  type: 'test'
+  ...
+# Subtest: shield_charge has 24 distinct joint samples excluding root and alpha d3
+ok 94 - shield_charge has 24 distinct joint samples excluding root and alpha d3
+  ---
+  duration_ms: 16.958115
+  type: 'test'
+  ...
+# Subtest: mace_swing moving real handler keeps upper action and independent distance-driven legs
+ok 95 - mace_swing moving real handler keeps upper action and independent distance-driven legs
+  ---
+  duration_ms: 29.161989
+  type: 'test'
+  ...
+# Subtest: righteous_hammer moving real handler keeps upper action and independent distance-driven legs
+ok 96 - righteous_hammer moving real handler keeps upper action and independent distance-driven legs
+  ---
+  duration_ms: 31.33393
+  type: 'test'
+  ...
+# Subtest: lay_on_hands moving real handler keeps upper action and independent distance-driven legs
+ok 97 - lay_on_hands moving real handler keeps upper action and independent distance-driven legs
+  ---
+  duration_ms: 26.33574
+  type: 'test'
+  ...
+# Subtest: judgement moving real handler keeps upper action and independent distance-driven legs
+ok 98 - judgement moving real handler keeps upper action and independent distance-driven legs
+  ---
+  duration_ms: 25.740311
+  type: 'test'
+  ...
+# Subtest: battle_banner moving real handler keeps upper action and independent distance-driven legs
+ok 99 - battle_banner moving real handler keeps upper action and independent distance-driven legs
+  ---
+  duration_ms: 25.473248
+  type: 'test'
+  ...
+# Subtest: stopped/wall-blocked/dead motion never invents leg travel or writes gait
+ok 100 - stopped/wall-blocked/dead motion never invents leg travel or writes gait
+  ---
+  duration_ms: 8.115228
+  type: 'test'
+  ...
+# Subtest: same traveled distance gives same gait across 30/60/120 Hz
+ok 101 - same traveled distance gives same gait across 30/60/120 Hz
+  ---
+  duration_ms: 62.242989
+  type: 'test'
+  ...
+# Subtest: pure guard requires real block, protects dead and mobility overrides
+ok 102 - pure guard requires real block, protects dead and mobility overrides
+  ---
+  duration_ms: 5.331083
+  type: 'test'
+  ...
+# Subtest: hammer leaves hand at real release while healing never throws an axe
+ok 103 - hammer leaves hand at real release while healing never throws an axe
+  ---
+  duration_ms: 25.596053
+  type: 'test'
+  ...
+# Subtest: rig caches only bounded four-direction cutouts and preserves Canvas stack
+ok 104 - rig caches only bounded four-direction cutouts and preserves Canvas stack
+  ---
+  duration_ms: 15.995691
+  type: 'test'
+  ...
+# Subtest: hero renderer falls back without source/canvas and never draws enemy classes
+ok 105 - hero renderer falls back without source/canvas and never draws enemy classes
+  ---
+  duration_ms: 5.580539
+  type: 'test'
+  ...
+# Subtest: actual hammer silhouette follows outward velocity, respects flash 0, no state mutation
+ok 106 - actual hammer silhouette follows outward velocity, respects flash 0, no state mutation
+  ---
+  duration_ms: 0.485965
+  type: 'test'
+  ...
+# Subtest: actual hammer silhouette follows return velocity, respects flash 0, no state mutation
+ok 107 - actual hammer silhouette follows return velocity, respects flash 0, no state mutation
+  ---
+  duration_ms: 0.127563
+  type: 'test'
+  ...
+# Subtest: actual hammer silhouette follows outward velocity, respects flash 0.5, no state mutation
+ok 108 - actual hammer silhouette follows outward velocity, respects flash 0.5, no state mutation
+  ---
+  duration_ms: 0.093942
+  type: 'test'
+  ...
+# Subtest: actual hammer silhouette follows return velocity, respects flash 0.5, no state mutation
+ok 109 - actual hammer silhouette follows return velocity, respects flash 0.5, no state mutation
+  ---
+  duration_ms: 0.078639
+  type: 'test'
+  ...
+# Subtest: actual hammer silhouette follows outward velocity, respects flash 1, no state mutation
+ok 110 - actual hammer silhouette follows outward velocity, respects flash 1, no state mutation
+  ---
+  duration_ms: 0.18505
+  type: 'test'
+  ...
+# Subtest: actual hammer silhouette follows return velocity, respects flash 1, no state mutation
+ok 111 - actual hammer silhouette follows return velocity, respects flash 1, no state mutation
+  ---
+  duration_ms: 0.107092
+  type: 'test'
+  ...
+# Subtest: hammer renderer ignores hostile/expired/nonfinite shots and has finite stationary fallback
+ok 112 - hammer renderer ignores hostile/expired/nonfinite shots and has finite stationary fallback
+  ---
+  duration_ms: 0.269808
+  type: 'test'
+  ...
+# Subtest: full production renderer contains bounded hero and actual projectile routes
+ok 113 - full production renderer contains bounded hero and actual projectile routes
+  ---
+  duration_ms: 1.07924
+  type: 'test'
+  ...
+# Subtest: guard hurt 0.24 preserves existing atlas recoil and actor state
+ok 114 - guard hurt 0.24 preserves existing atlas recoil and actor state
+  ---
+  duration_ms: 0.335366
+  type: 'test'
+  ...
+# Subtest: guard hurt 0.12 preserves existing atlas recoil and actor state
+ok 115 - guard hurt 0.12 preserves existing atlas recoil and actor state
+  ---
+  duration_ms: 0.127793
+  type: 'test'
+  ...
+# Subtest: guard hurt 0.001 preserves existing atlas recoil and actor state
+ok 116 - guard hurt 0.001 preserves existing atlas recoil and actor state
+  ---
+  duration_ms: 0.100222
+  type: 'test'
+  ...
+# Subtest: real held-guard projectile contact from 1 keeps hurt presentation priority
+ok 117 - real held-guard projectile contact from 1 keeps hurt presentation priority
+  ---
+  duration_ms: 7.001615
+  type: 'test'
+  ...
+# Subtest: real held-guard projectile contact from -1 keeps hurt presentation priority
+ok 118 - real held-guard projectile contact from -1 keeps hurt presentation priority
+  ---
+  duration_ms: 5.168507
+  type: 'test'
+  ...
+1..118
+# tests 118
+# suites 0
+# pass 118
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3077.410259

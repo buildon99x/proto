@@ -364,3 +364,8 @@ New explicit candidate config: valid primary mace hit=1 buildup unit;2 units=Pri
 ## Crusher focus-safety selection follow-up
 
 Only crusher menu and choice routes drain existing action safety before reading idle conditions. Owner/life/region, busy/blocked, active action and recovery checks remain; no simulation time advancement, direct pending reset, saved field or writer changes.
+
+
+## Storm staff and bell candidate
+
+Use a separate Combo counter, not p.combo or Power Charges. Authored tests: four valid swing casts per bell,12-second life,two contacts at existing mace contact and twice that contact,.18-second post-second-contact charge-start window. Source0.5: active bell cap3,.3-second wave interval,perfect dash explosion,once-per-enemy-per-dash. Damage/cost/CD/range/charge movement reuse current quotes. Empty mainhand + existing learned actions + explicit PoE controls permit a runtime training staff; real staff gear/2H writer changes excluded.

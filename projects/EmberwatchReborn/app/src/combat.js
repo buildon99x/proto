@@ -1,4 +1,5 @@
 import {CRUSHER_RULES,crusherAvailability,crusherImmune,setCrusherMode,recordCrusherHit,crusherContactReady,commitCrusherPayoff,resetCrusherEnemy,stepCrusherEnemy} from './crusher-combat.js';
+import {STORM_RULES,stormAvailability,setStormMode,stormPlacement,installStormBell,liveStormBells,recordStormEnemyHit,noteStormContact,stormPerfectStart,claimStormBellHit,consumeStormBell,stepStorm} from './storm-combat.js';
 import {recordEnemyReaction,stepEnemyReaction,ENEMY_REACTION} from './enemy-reaction.js';
 import {isPoeControls} from './controls.js';
 import {moveActorBody,previewActorBody,relativePathContact} from './actor-body.js';
@@ -103,6 +104,7 @@ function updatePoeAim(b,input){
  else if(held&&!wasHeld)a.poeAim=b.poeActionAim.press(sample);
  else a.poeAim=b.poeActionAim.snapshot(sample,policy);
  if(canRetarget&&(wasHeld||held||b.poeInput.cursorTrackingAfterRelease)&&finitePoint(a.poeAim.aim))a.angle=b.p.angle=Math.atan2(a.poeAim.aim.y-b.p.y,a.poeAim.aim.x-b.p.x);
+ if(a.stormSwing&&canRetarget&&(wasHeld||held||b.poeInput.cursorTrackingAfterRelease)){const bellSample=wasHeld&&!held?(input.releasedAimBySkill?.[a.id]??sample):sample;a.stormBellId=bellSample.bellId??null;}
 }
 function applyPoeMobilityInput(b,input){
  const p=b.p,m=b.poeMobility;if(!m)return false;
@@ -164,7 +166,7 @@ const disabled=e=>e.disarm?.remaining>1e-9||e.silence?.remaining>1e-9;
 function hitContext(b,action,e,part,rootKind='spell',procDepth=0){return {castId:action.castId,hitId:`${action.castId}:${part}:${e.id}`,originSkillId:action.id,rootKind,procDepth,criticalEligible:procDepth===0&&['spell','mace'].includes(rootKind),canTriggerOnHit:procDepth===0,attackerId:'hero',attackFamily:rootKind==='spell'?'spell':'weapon'};}
 export function physicalDamage(raw,armor=0,penetration=0){return Math.max(0,raw)*100/(100+Math.max(0,armor-penetration));}
 export function segmentDistance(p,a,b){const dx=b.x-a.x,dy=b.y-a.y,l=dx*dx+dy*dy,t=l?clamp(((p.x-a.x)*dx+(p.y-a.y)*dy)/l,0,1):0;return Math.hypot(p.x-a.x-t*dx,p.y-a.y-t*dy);}
-export function createBattle(state,{crusherEnabled=false}={}) {
+export function createBattle(state,{crusherEnabled=false,stormEnabled=false}={}) {
   const region=getRegion(state.world.region),stats=deriveStats(state.character,state);
   if(!region||!stats.ok)throw new Error('Invalid battle initialization');
   const pools=state.vitals??{hp:stats.stats.hpMax,mana:stats.stats.manaMax,stamina:stats.stats.staminaMax};
@@ -178,6 +180,7 @@ export function createBattle(state,{crusherEnabled=false}={}) {
     enemies:region.foes.filter(e=>!defeated.includes(e.id)).map(e=>initializePatternPhase({...e,type:FOES[e.kind].role==='boss'||e.kind==='warden'?'boss':FOES[e.kind].style==='ranged'?'mage':'guardian',hp:FOES[e.kind].hp*difficulty.enemyHealth,max:FOES[e.kind].hp*difficulty.enemyHealth,angle:0,active:false,state:'idle',timer:0,stun:0,telegraph:null},FOES[e.kind])),
     skillIntent:null,awaitingAdvance:!dead&&region.foes.length>0,shots:[],areas:[],banner:null,areaSerial:0,effects:[],floaters:[],events:[],dead,deathReported:state.world.lifeDown===true,shake:0,hitstop:0,contacts:0};
   if(crusherEnabled)setCrusherMode(battle,true);
+  if(stormEnabled)setStormMode(battle,true);
   return initPoeBattle(battle,state);
 }
 function emit(b,event){b.events.push(event);}
@@ -219,6 +222,7 @@ function hitEnemy(b,e,raw,{stun=0,pen=0,heavy=false,source='mace',damageType='ph
   if(e.hp===0){clearFireResponse(e);e.dead=true;e.deathTime=ENEMY_REACTION.deathSeconds;e.telegraph=null;e.state='dead';e.timer=0;e.moving=false;e.attackSpec=null;emit(b,{type:'defeated',id:e.id});fx(b,'enemyDeath',e.x,e.y,'#e9a45b',heavy?35:22,.32,{boss:e.type==='boss'});for(let n=0;n<5;n++)fx(b,'particle',e.x,e.y,n%2?'#a6d4cb':'#e9b071',0,.45,{size:2+fxRandom(b)*3,vx:(fxRandom(b)-.5)*85,vy:(fxRandom(b)-.5)*85,deathParticle:true});}
   dispatchHitProcs(b,e,result,spec);
   const buildup=recordCrusherHit(b,e,result);if(buildup)emit(b,buildup);if(!alive(e)&&e.stunBuildup!==undefined)resetCrusherEnemy(e);
+  const combo=recordStormEnemyHit(b,result);if(combo)emit(b,combo);
   return result;
 }
 function dispatchHitProcs(b,target,result,spec){
@@ -247,7 +251,7 @@ function hurtHero(b,raw,angle,attacker=null,damageType='physical',{attackFamily=
   p.hurtTime=.24;p.invuln=.28;
   floater(b,blocked?'방어 '+Math.round(damage):'-'+Math.round(damage),p.x,p.y,blocked?'#9de1d6':'#ff9ba7');
   fx(b,'ring',p.x,p.y,blocked?'#99e4e0':'#e97b85',22,.25);emit(b,{type:'sound',name:blocked?'heavyHit':'hurt',audience:'danger'});b.shake=Math.max(b.shake,blocked?1:5);
-  if(p.hp===0){emit(b,{type:'soundCancel',tag:'hero'});emit(b,{type:'soundCancel',tag:'enemy'});finishOnslaught(b,'death');p.innerFlame=null;p.negativeStatuses={};b.banner=null;p.action=null;p.block=false;p.regenBuff=null;b.shots=[];b.areas=[];for(const e of b.enemies)clearFireResponse(e);b.dead=true;clearBattleIntent(b);clearPoeInput(b,'death');emit(b,{type:'sound',name:'die'});}
+  if(p.hp===0){emit(b,{type:'soundCancel',tag:'hero'});emit(b,{type:'soundCancel',tag:'enemy'});finishOnslaught(b,'death');p.innerFlame=null;p.negativeStatuses={};b.banner=null;p.action=null;p.block=false;p.regenBuff=null;b.shots=[];b.areas=[];for(const e of b.enemies)clearFireResponse(e);b.dead=true;stepStorm(b,0);clearBattleIntent(b);clearPoeInput(b,'death');emit(b,{type:'sound',name:'die'});}
 }
 function interruptDisabledAttack(b,e){
  if(e.state!=='windup')return;const family=e.attackSpec?.attackFamily??foeFor(b,e).attackFamily??'weapon';
@@ -290,19 +294,25 @@ export function quoteAction(b,id){
 // Recovery/held-input ownership stays in the existing input/action handlers.
 export function actionEligibility(b,id,a=quoteAction(b,id)){
  const p=b.p,learned=!!a?.learned,cooldown=p.cooldowns[id]??0,manaCost=a?.manaCost??0,staminaCost=a?.staminaCost??0;
- const blockedReason=!learned?'unlearned':!(p.hp>0)?'dead':hasStatus(p,'stun')?'stun':spellIds.has(id)&&hasStatus(p,'silence')?'silence':id==='mace_swing'&&hasStatus(p,'disarm')?'disarm':b.crusherEnabled&&id==='judgement'&&!crusherAvailability(b).ok?'weapon':cooldown>1e-9?'cooldown':!(p.mana>=manaCost)?'mana':!(p.stamina>=staminaCost)?'stamina':null;
+ const blockedReason=!learned?'unlearned':!(p.hp>0)?'dead':hasStatus(p,'stun')?'stun':spellIds.has(id)&&hasStatus(p,'silence')?'silence':id==='mace_swing'&&hasStatus(p,'disarm')?'disarm':b.crusherEnabled&&id==='judgement'&&!crusherAvailability(b).ok?'weapon':b.stormEnabled&&['mace_swing','judgement','shield_charge'].includes(id)&&!stormAvailability(b).ok?'storm-setup':cooldown>1e-9?'cooldown':!(p.mana>=manaCost)?'mana':!(p.stamina>=staminaCost)?'stamina':b.stormEnabled&&id==='judgement'?(stormPlacement(b,b.poeLastInput,a).blockedReason??null):null;
  return {ready:blockedReason===null,blockedReason,learned,cooldown,manaCost,staminaCost,mana:p.mana,stamina:p.stamina};
 }
 function actionReady(b,id,a=quoteAction(b,id)){return actionEligibility(b,id,a).ready;}
 function rejectUnavailableAction(b,id,eligibility=actionEligibility(b,id)){emit(b,{type:'skillIntentRejected',id,reason:'not-ready',...eligibility});}
 function startAction(b,id,angle,ownerToken=null){
  const p=b.p,a=quoteAction(b,id);
+ const placement=b.stormEnabled&&id==='judgement'?stormPlacement(b,b.poeLastInput,a):null;
  if(p.action||p.recoveryLock>0||b.poeMobility?.snapshot().blocksSkills||!actionReady(b,id,a))return false;
  if(b.poeMobility){mobilityEvents(b,b.poeMobility.skillStart());const released=b.poeLastInput?.releasedAimBySkill?.[id]?.aim;if(!b.poeQueuedStart&&finitePoint(released))angle=Math.atan2(released.y-p.y,released.x-p.x);}
  p.mana=Math.max(0,Number((p.mana-a.manaCost).toFixed(8)));p.stamina=Math.max(0,Number((p.stamina-a.staminaCost).toFixed(8)));if(a.manaCost>0)p.manaDelay=b.stats.manaRegenDelay;if(a.staminaCost>0)p.staminaDelay=b.stats.staminaRegenDelay;p.cooldowns[id]=a.cooldown;p.angle=angle;p.block=false;
  const name=id==='mace_swing'?'attack':id==='shield_charge'?'dodge':'cast';
  p.action={id,castId:++b.castSerial,name,spec:a,criticalChance:b.stats.criticalChance,criticalMultiplier:b.stats.criticalMultiplier,duration:a.duration+(a.channel?a.channelDuration:0),contact:a.contact,elapsed:0,fired:false,hitIds:[],angle,payload:{combo:p.combo,which:'q'},...(a.channel?{ownerToken,paidSeconds:1,pulses:0,nextPulse:a.tickSeconds,nextPayment:a.paymentInterval,lanceResolved:false}: {})};
  startPoeAim(b,p.action);if(id==='judgement'&&b.crusherEnabled)p.action.crusherCast=true;if(id==='mace_swing'&&b.crusherEnabled&&crusherAvailability(b).ok)p.action.crusherMace=true;updatePoePresentation(b);
+ if(b.stormEnabled){
+  if(id==='mace_swing'){p.action.stormSwing=true;p.action.stormContacts=0;p.action.stormBellId=(!b.poeQueuedStart&&b.poeLastInput?.releasedAimBySkill?.[id]||poeSample(b.poeLastInput??{},id)).bellId??null;}
+  if(id==='judgement'){p.action.stormPlacement=true;const bell=installStormBell(b,placement,a,p.action.castId);if(bell)emit(b,{type:'stormBellPlaced',id:bell.id,castId:p.action.castId,x:bell.x,y:bell.y,combo:b.storm.combo});}
+  if(id==='shield_charge'){p.action.stormDash=true;p.action.stormPerfect=stormPerfectStart(b);p.action.stormWaveHits=[];emit(b,{type:'stormDashStarted',castId:p.action.castId,perfect:p.action.stormPerfect});}
+ }
  emit(b,{type:'actionStarted',id,castId:p.action.castId,manaCost:a.manaCost,staminaCost:a.staminaCost});
  if(id==='mace_swing'){p.combo=(p.combo+1)%3;emit(b,{type:'sound',name:'slash',phase:'windup',castId:p.action.castId,tag:`cast:${p.action.castId}`,owner:'hero',audience:'friendly'});}
  if(spellIds.has(id)){emit(b,{type:'sound',name:'magicCharge',phase:'windup',castId:p.action.castId,tag:`cast:${p.action.castId}`,owner:'hero',audience:'friendly'});if(b.stats.innerFlame){p.innerFlame={rank:b.stats.innerFlame.rank,remaining:b.stats.innerFlame.duration};emit(b,{type:'innerFlameChanged',buff:{...p.innerFlame}});}}
@@ -420,9 +430,35 @@ function resolveCrusherStrike(b,action,a){
  if(a.fireArea)b.areas=[{id:++b.areaSerial,castId:action.castId,originSkillId:action.id,spec:a,x:p.x,y:p.y,angle:action.angle,range:a.range,arcRadians:a.arcRadians,...a.fireArea,age:0,nextTick:a.fireArea.tickSeconds,newborn:true}];
  emit(b,{type:'sound',name:'magicRelease',phase:'release',castId:action.castId,tag:`cast:${action.castId}`,owner:'hero',audience:'friendly'});
 }
+function resolveStormWave(b,bell,action,explosion=false){
+ const hitIds=[],a=bell.spec;
+ for(const e of [...b.enemies].sort((x,y)=>x.id.localeCompare(y.id)))if(alive(e)&&distance(e,bell)<=a.range+1e-9&&lineOfSight(b.map,bell,e)&&(!explosion||!action.stormWaveHits.includes(e.id))){
+  if(explosion)action.stormWaveHits.push(e.id);
+  const hit=hitEnemy(b,e,a.damage,{pen:a.armorPenetration??0,source:explosion?'storm_explosion':'storm_wave',spec:a,impactAngle:impactHeading(bell,e,action.angle),context:hitContext(b,action,e,`bell:${bell.id}`,'secondary',1)});if(hit.hit)hitIds.push(e.id);
+ }
+ emit(b,{type:explosion?'stormBellExploded':'stormBellWave',id:bell.id,castId:action.castId,x:bell.x,y:bell.y,hitIds});
+ fx(b,'ring',bell.x,bell.y,explosion?'#e6eaff':'#acbebf',a.range,.3,{stormWave:true,explosion});
+ if(explosion)fx(b,'storm-ground',bell.x,bell.y,'#92b7cb',bell.radius,b.stats.actions.shield_charge.duration,{stormGround:true});
+ emit(b,{type:'sound',name:explosion?'heavyHit':'magicRelease',phase:'impact',owner:'hero',castId:action.castId,tag:`storm:${action.castId}:${bell.id}`,x:bell.x,y:bell.y});
+}
+function resolveStormSwing(b,action,a,ordinal){
+ emit(b,{type:'actionContact',id:action.id,castId:action.castId,elapsed:action.elapsed,storm:true,ordinal});
+ emit(b,{type:'sound',name:'slash',phase:'contact',castId:action.castId,owner:'hero',tag:`staff:${action.castId}:${ordinal}`});
+ fx(b,'storm-staff',b.p.x,b.p.y,'#c5baa1',a.range,.18,{angle:action.angle,ordinal});
+ const bell=liveStormBells(b).find(x=>x.id===action.stormBellId);let contacted=false;
+ if(action.stormBellId){
+  if(bell&&distance(b.p,bell)<=a.range+bell.radius&&Math.abs(angleDelta(Math.atan2(bell.y-b.p.y,bell.x-b.p.x),action.angle))<=a.arcRadians/2&&lineOfSight(b.map,b.p,bell)){
+   contacted=true;const wave=claimStormBellHit(b,bell,action.castId);emit(b,{type:'stormBellHit',id:bell.id,castId:action.castId,ordinal,wave});fx(b,'impact',bell.x,bell.y,'#c5baa1',22,.18,{angle:action.angle});if(wave)resolveStormWave(b,bell,action);
+  }
+ }else for(const e of [...b.enemies].sort((x,y)=>x.id.localeCompare(y.id)))if(alive(e)&&lineOfSight(b.map,b.p,e)&&distance(e,b.p)<=a.range+10&&Math.abs(angleDelta(Math.atan2(e.y-b.p.y,e.x-b.p.x),action.angle))<=a.arcRadians/2){
+  const context={...hitContext(b,action,e,`staff:${ordinal}`,'mace'),stormSwing:true};const hit=hitEnemy(b,e,a.damage,{pen:a.armorPenetration??0,spec:a,source:'staff',impactAngle:action.angle,context});if(hit.hit&&hit.damage>0)contacted=true;
+ }
+ if(contacted){noteStormContact(b,ordinal);if(ordinal===2)emit(b,{type:'stormTimingReady',castId:action.castId,window:STORM_RULES.perfectWindow});}
+}
 function resolveAction(b,dt){
   const p=b.p,action=p.action;if(!action)return;
   const a=action.spec??b.stats.actions[action.id],previous=action.elapsed;action.elapsed+=dt;action.phase=action.elapsed/action.duration;
+  if(action.stormSwing){for(let ordinal=1;ordinal<=STORM_RULES.contactsPerSwing;ordinal++)if(action.stormContacts<ordinal&&action.elapsed+1e-9>=a.contact*ordinal){action.stormContacts=ordinal;resolveStormSwing(b,action,a,ordinal);}action.fired=action.stormContacts>0;if(action.elapsed+1e-9>=action.duration)p.action=null;return;}
   if(a.channel){const travel=Math.max(0,Math.min(action.elapsed,a.duration+a.channelDuration)-Math.max(previous,a.duration));p.block=action.elapsed>=a.duration&&!!a.guard;const delta=move(b,p,Math.cos(action.angle)*a.speed*travel,Math.sin(action.angle)*a.speed*travel);if(travel>0&&Math.hypot(delta.x,delta.y)<a.speed*travel-1e-6)action.wallStopped=true;return;}
   if(action.id==='shield_charge'){
     const old={x:p.x,y:p.y};
@@ -439,10 +475,13 @@ function resolveAction(b,dt){
       p.x=contact.x;p.y=contact.y;action.stopped=true;emit(b,{type:'soundCancel',tag:`cast:${action.castId}`});break;
     }}
     if(travel>0&&Math.hypot(delta.x,delta.y)<.1&&!action.stopped){action.stopped=true;emit(b,{type:'soundCancel',tag:`cast:${action.castId}`});}
+    if(action.stormDash&&action.stormPerfect&&travel>0)for(const bell of liveStormBells(b))if(segmentDistance(bell,old,p)<=bell.radius+11&&lineOfSight(b.map,old,bell)&&consumeStormBell(b,bell,action))resolveStormWave(b,bell,action,true);
   }
   if(!action.fired&&action.elapsed+(b.poeMobility?1e-9:0)>=a.contact){
-    action.fired=true;emit(b,{type:'actionContact',id:action.id,castId:action.castId,elapsed:action.elapsed,...(action.crusherCast?{crusher:true}:{})});
-    if(action.id==='mace_swing'){
+    action.fired=true;emit(b,{type:'actionContact',id:action.id,castId:action.castId,elapsed:action.elapsed,...(action.crusherCast?{crusher:true}:{}),...(action.stormPlacement?{storm:true}:{})});
+    if(action.stormPlacement){
+      emit(b,{type:'sound',name:'magicRelease',phase:'release',castId:action.castId,tag:`cast:${action.castId}`,owner:'hero',audience:'friendly'});
+    }else if(action.id==='mace_swing'){
       // Dispatch the swish peak only when simulation reaches contact. A future
       // AudioContext deadline would run ahead during subsequent hitstop.
       emit(b,{type:'sound',name:'slash',phase:'contact',contactIn:0,castId:action.castId,tag:`cast:${action.castId}`,owner:'hero',audience:'friendly'});
@@ -556,6 +595,8 @@ function nextDeadline(b,input={},horizon=.05){
  const p=b.p,a=p.action,values=[];
  const add=v=>{if(Number.isFinite(v)&&v>1e-9)values.push(v);};
  if(a){if(a.spec.channel){add(a.spec.duration-a.elapsed);add(a.spec.duration+a.nextPulse-a.elapsed);if(a.nextPayment<a.spec.channelDuration)add(a.spec.duration+a.nextPayment-a.elapsed);add(a.duration-a.elapsed);}else{if(!a.fired)add(a.contact-a.elapsed);add(a.duration-a.elapsed);}}
+ if(a?.stormSwing&&a.stormContacts<STORM_RULES.contactsPerSwing)add(a.contact*(a.stormContacts+1)-a.elapsed);
+ for(const bell of liveStormBells(b)){add(bell.remaining);add(bell.nextWave);}
  if(b.poeMobility){const m=b.poeMobility.snapshot();add(m.remaining);add(m.recoveryDebt);add(p.recoveryLock);if(m.state==='roll'){add(REBORN_POE_MOBILITY_TUNING.evadeStart-m.elapsed);add(REBORN_POE_MOBILITY_TUNING.evadeEnd-m.elapsed);}if(m.state==='sprint')add(REBORN_POE_MOBILITY_TUNING.sprintGrace-m.elapsed);if(a)for(const deadline of skillPolicyDeadlines(a))add(deadline);for(const cooldown of Object.values(p.cooldowns))add(cooldown);}
  add(b.banner?.remaining);add(p.innerFlame?.remaining);for(const v of Object.values(p.procCooldowns))add(v);
  for(const status of Object.values(p.negativeStatuses)){add(status.remaining);add(status.nextTick);}
@@ -615,8 +656,9 @@ function stepBattleFrame(b,character,dt,input){
   const safeDt=Math.min(dt,.05);b.time+=safeDt;b.shake=Math.max(0,b.shake-safeDt*20);
   for(const e of b.effects){e.life-=safeDt;e.x+=(e.vx??0)*safeDt;e.y+=(e.vy??0)*safeDt;}b.effects=b.effects.filter(e=>e.life>0);
   for(const f of b.floaters){f.life-=safeDt;f.lift+=safeDt*22;}b.floaters=b.floaters.filter(f=>f.life>0);
-  if(b.dead){clearBattleIntent(b);clearPoeInput(b,'death');if(!b.deathReported){emit(b,{type:'heroDead'});b.deathReported=true;}return b.events;}
+  if(b.dead){stepStorm(b,0);clearBattleIntent(b);clearPoeInput(b,'death');if(!b.deathReported){emit(b,{type:'heroDead'});b.deathReported=true;}return b.events;}
   const poeSlowed=b.poeMobility&&b.hitstop>1e-9;b.hitstop=Math.max(0,b.hitstop-safeDt);const t=(b.poeMobility?poeSlowed:b.hitstop>0)?safeDt*.35:safeDt,p=b.p;
+  stepStorm(b,t);
   // An accepted PoE tap must survive the same hitstop as its remaining recovery.
   // The single intent still expires finitely; menus/blur clear via the export.
   if(b.skillIntent){b.skillIntent.remaining-=b.poeMobility?t:safeDt;if(b.skillIntent.remaining< -1e-9)cancelSkillIntent(b,'expired');else b.skillIntent.remaining=Math.max(0,b.skillIntent.remaining);}
