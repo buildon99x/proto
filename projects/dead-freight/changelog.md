@@ -184,3 +184,9 @@ Added one fixed trajectory-qa profile for normal-rule testing without clearing o
 - Migrated legacy control mappings in memory without overwriting V assignments or writing on read.
 - Reproduced and fixed rejected treatment/item commit recovery losing its current contact pose.
 - Actual UI/render/input/audio/FPS acceptance remains blocked by the supported MXC tool connection; no quality or whole-task completion claim.
+
+
+## 0.12.3 — detached pin ownership
+- Reproduced extracted-pin drift at use progress .52 before correction.
+- Anchored the detached pin to its extraction pose in utility-rig coordinates, preserving index contact and cancellation snapshots.
+- Added two rendererless regressions. Actual motion/input/audio acceptance remains open.

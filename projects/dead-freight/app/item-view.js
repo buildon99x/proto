@@ -11,7 +11,7 @@ function pose(a={}){
  const result={visible:visibility,lower,x:.30,y:-.40-(1-present)*.45-retract*.5,z:-.82+retract*.15,
   pitch:stage==='use'&&a.itemId==='frag'?.12-.75*Math.sin(use*Math.PI):.12,roll:-.14,
   leftX:-.25,leftY:stage==='use'&&a.itemId!=='frag'?Math.sin(p*Math.PI*4)*.008:0,leftZ:-.035,leftRotX:-.35,leftRotY:.2,leftRotZ:-.55,
-  rightX:0,rightY:0,rightZ:0,rightRotZ:.08,pinPull:stage==='use'&&a.itemId==='frag'?ease((p-.22)/.28):0,pinReach:a.itemId==='frag'?(stage==='present'?ease((p-.35)/.65):['ready','aim','use'].includes(stage)?1:0):0,treatment:stage==='use'&&['bandage','medkit'].includes(a.itemId)?ease(p/.2):0,
+  rightX:0,rightY:0,rightZ:0,rightRotZ:.08,pinDetached:stage==='use'&&a.itemId==='frag'&&p>=.5,pinPull:stage==='use'&&a.itemId==='frag'?ease((p-.22)/.28):0,pinReach:a.itemId==='frag'?(stage==='present'?ease((p-.35)/.65):['ready','aim','use'].includes(stage)?1:0):0,treatment:stage==='use'&&['bandage','medkit'].includes(a.itemId)?ease(p/.2):0,
   grip:a.itemId==='frag'&&stage==='use'?1-ease((p-.50)/.16):a.itemId==='frag'&&a.committed?0:1,propVisible:!a.committed||a.itemId!=='frag',ringVisible:!(a.itemId==='frag'&&stage==='use'&&p>.2),use};
  if(stage==='use'&&a.itemId!=='frag'){result.rightX=-.16*use;result.rightY=-.12*use;result.rightRotZ=.08+.65*use;result.leftRotZ=-.55+.2*use;}
  if(a.itemId==='frag'){Object.assign(result,{leftX:-.09,leftY:.075,leftRotX:-.3,leftRotY:.3,leftRotZ:-.15});if(stage==='use'){const pull=ease((p-.16)/.28);result.leftX-=.22*pull;result.leftY-=.12*pull;result.rightZ=-.19*use;result.rightY=.15*Math.sin(use*Math.PI);}}
@@ -46,7 +46,15 @@ function apply(group,a){const V=group.position.constructor,p=pose(a),v=group.use
  // Contact constraints are solved in rig coordinates after all authored joints.
  group.updateMatrixWorld(true);
  if(a.itemId==='frag'&&p.pinReach>0){
-  const target=group.worldToLocal(v.ring.getWorldPosition(new V()));target.x-=.20*p.pinPull;target.y+=.035*p.pinPull;target.z+=.025*p.pinPull;
+  let target=group.worldToLocal(v.ring.getWorldPosition(new V()));
+  if(p.pinDetached){
+   // The extracted pin belongs to the support hand, not the released grenade.
+   const reference=pose({active:true,stage:'use',itemId:'frag',progress:.5});
+   target=v.right.worldToLocal(v.ring.getWorldPosition(new V()));
+   target.applyEuler(new v.right.rotation.constructor(-.12,0,reference.rightRotZ));
+   target.add(new V(reference.rightX,reference.rightY,reference.rightZ));
+  }
+  target.x-=.20*p.pinPull;target.y+=.035*p.pinPull;target.z+=.025*p.pinPull;
   const tip=v.left.userData.fingers[3][2],contact=group.worldToLocal(tip.localToWorld(new V(0,.023,0))),delta=target.clone().sub(contact);
   v.left.position.addScaledVector(delta,p.pinReach);group.updateMatrixWorld(true);
   const reached=group.worldToLocal(tip.localToWorld(new V(0,.023,0)));v.pinError=reached.distanceTo(target);

@@ -123,3 +123,7 @@ Install only the existing frozen workspace dependencies to complete aggregate ve
 
 ## 0.12.2 quick melee source slice
 Implement one cancellable, exclusive-hand quick fist strike using existing utility hands and cloth recordings. Preserve firearm balance, carried ammunition, saves and public deployments. Human motion, listening and live input acceptance remain open.
+
+
+## 0.12.3 detached grenade pin ownership
+After pin extraction, the support hand should own the detached pin instead of following the thrown grenade hand. Correct the demonstrated rig-coordinate drift without changing inventory, release timing, ballistic launch or lighting. Actual human motion acceptance remains open.

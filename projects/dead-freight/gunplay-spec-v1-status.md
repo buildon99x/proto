@@ -1,5 +1,7 @@
 # FPS gunplay specification v1: implementation and acceptance
 
+Current source continuation: **0.12.3**. Quick melee is now implemented with a rebindable V action, exclusive-hand delayed single contact, cover/armor rules and cancellable fist recovery. Rejected treatment/item effects recover from their last contact pose, and detached grenade pins remain owned by the support hand. These supersede older entries below that list melee as absent. Final 856 model/source checks in 37 suites, 315 separate boundary audit cases, syntax/static packaging and the required aggregate build pass; actual normal input, rendering, natural motion, listening, device performance and extraction-repeat acceptance remain open. See [the laptop gate and receipts](qa-jh-laptop-2026-10-13.md). Public 0.10.0 and deployed candidate 0.12.0 have not been updated. Two authored city maps, full AI/economy, remaining weapon/class/throwable systems and other original-spec gaps remain unfinished; the new liquid-metal follow-up has not started.
+
 ## Authoritative input
 
 The creator supplied “DEAD FREIGHT — FPS 건플레이 시스템 명세 및 구현 계획 v1.0”. The complete 487-line document was read, not just its search excerpt. The latest Library copy is `libfile_17175a9b0b188191bffc98b8d6809dcc`, version 1. Its 44,559 bytes match the earlier copy: SHA-256 `1899244900ce4d2dcef6f02f7e9cf64d6abbebedbf0feb5e5cbc91754f23c1e7`.

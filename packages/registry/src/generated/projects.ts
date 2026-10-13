@@ -7,8 +7,8 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.12.2",
-    "summary": "Four-weapon finite-speed ballistics with 120 Hz swept collision, relative moving-target contacts, shared falloff and armor, and chronological incoming/outgoing hit resolution. Actual WebGL play and listening acceptance remain open. Quick melee now shares cancellable exclusive-hand actions; live motion/audio acceptance remains open.",
+    "version": "0.12.3",
+    "summary": "Finite-speed four-weapon ballistics, cancellable quick melee, preserved rejected-treatment recovery and support-hand ownership of the detached grenade pin. Actual render/input/listening/performance acceptance remains open.",
     "tags": [
       "game",
       "fps",
@@ -33,7 +33,7 @@ export const projects = [
       "build": "pnpm --filter dead-freight build",
       "test": "pnpm --filter dead-freight test"
     },
-    "updatedAt": "2026-10-14T02:09:41+09:00"
+    "updatedAt": "2026-10-14T02:25:45+09:00"
   },
   {
     "id": "deck-building",

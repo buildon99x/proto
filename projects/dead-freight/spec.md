@@ -210,3 +210,7 @@ Default V, rebindable. Preserve old bindings with a read-only migration allocati
 
 ### Rejected effect recovery
 When an item UID or effect eligibility fails at its delayed marker, capture the actual post-tick pose before entering cancelled recovery. Preserve its transforms and progress at recovery start; no rejected effect is consumed, applied or retried. This correction is shared by treatment/throw/melee actions; actual visual continuity remains an open acceptance gate.
+
+
+## 0.12.3 pin anchor contract
+At use progress .5 the pin is fully extracted. Freeze its origin to the authored extraction pose in utility-rig coordinates; keep the index fingertip contact constraint and allow normal group motion/recovery. Preserve that ownership in cancellation snapshots. Pre-detachment contact follows the live ring as before. No new mesh/frame allocation history, action timing, asset or gameplay change.

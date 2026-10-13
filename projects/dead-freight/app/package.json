@@ -1,6 +1,6 @@
 {
   "name": "dead-freight",
-  "version": "0.12.2",
+  "version": "0.12.3",
   "private": true,
   "scripts": {
     "dev": "python3 -m http.server 4173",

@@ -1,6 +1,6 @@
 # 0.11.2 first-person actions: candidate play checklist
 
-Latest laptop gate: [2026-10-13 jh-laptop reconciliation](qa-jh-laptop-2026-10-13.md). Current source is 0.12.1; read-only site checks still identify public 0.10.0 and candidate 0.12.0. Utility Foley and trajectory preview are implemented, while actual listening, motion/contact captures, live ballistics and extraction acceptance remain open. The supported UI kernel fails before browser observation; source tests do not close those gates.
+Latest laptop gate: [2026-10-13 jh-laptop reconciliation](qa-jh-laptop-2026-10-13.md). Inspection baseline was 0.12.1; the source continuations below are 0.12.2/0.12.3. Read-only site checks identify public 0.10.0 and candidate 0.12.0. Utility Foley and trajectory preview are implemented, while actual listening, motion/contact captures, live ballistics and extraction acceptance remain open. The supported UI kernel fails before browser observation; source tests do not close those gates.
 
 Use a separate candidate path with `?testProfile=local-qa`. Never use or import the normal bank for this check. Deploy the contents of `app/dist`, preserving the relative `vendor/` and `audio/rifle/` paths. `build-manifest.json` identifies version 0.11.2 and all 113 static payload hashes; verify it and at least game.js, item-action.js and item-view.js after publication.
 
@@ -60,3 +60,7 @@ Use /qa-actions/?testProfile=trajectory-qa and confirm the trajectory-qa badge. 
 
 ## 0.12.2 melee and failed-commit recovery QA
 On an identified 0.12.2 candidate, test V at hip/ADS/reload/holstered, then a custom rebound key. Inspect guard, fist extension/contact, follow-through and gun return; no magazine or utility prop remains. Test one press versus OS repeat, near/rear/side/raised targets and thin cover/barrels. Interrupt with damage, menu, focus loss, bag and weapon selection before/after contact. Hold fire through return: only a fresh physical press may shoot. Confirm unchanged carried ammunition and one hit per strike. Test a treatment item removed/replaced before its commit: no healing/consumption and recovery starts at its actual contact pose. Existing cloth/body cues are provisional and require actual listening. Source/rendererless checks do not pass this checklist.
+
+
+## 0.12.3 detached pin QA
+Observe the pinch/pull through the separation moment, then compare support-hand/pin location while the throwing hand extends and the grenade leaves. The detached pin should not follow the throwing hand. Interrupt after pin extraction but before projectile release and after release: recovery must begin at the same hand/pin contact, with original no-effect-before-commit and no-refund-after-commit rules. Numerical anchors do not prove perceived human motion or actual rendering.

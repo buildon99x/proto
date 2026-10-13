@@ -1,4 +1,4 @@
-# DEAD FREIGHT / BALLISTIC ORDER CHECKPOINT 0.12.1
+# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.12.3
 
 R-4 라이플 한 종의 FPS 기반과, 340×340m 단일 연결 지역을 다루는 1인칭 Extraction 개발 체크포인트입니다. `proto/projects/dead-freight`에서 개발합니다. 완성된 상용 오픈월드 규모나 품질을 의미하지 않습니다.
 
@@ -122,3 +122,7 @@ On2026-10-11, the published0.12.0 candidate again failed WebGL initialization in
 
 ## 0.12.2 quick melee source candidate
 V (rebindable) now performs a timed single-target fist strike. Existing saved controls retain their mappings; a free key is assigned if V was already used. The hands lower, guard, strike and recover; damage/menu/focus/weapon selection cancels before contact, and held fire cannot leak into the return. No item or ammunition is consumed. Rejected medical/item commits now recover from the actual last pose instead of snapping to the default recovery. This is source/model acceptance only; no new public deployment, human motion acceptance, listening or measured device FPS is claimed.
+
+
+## 0.12.3 grenade pin source correction
+The detached pin stays with the support hand instead of following the grenade throwing hand. Cancellation keeps its existing contact pose at recovery start. This corrects reproduced rig-coordinate drift; actual natural movement and pin readability remain unaccepted. Inventory, release timing, ballistics, audio and lighting are unchanged.
