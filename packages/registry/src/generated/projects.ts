@@ -7,7 +7,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.13.0",
+    "version": "0.13.1",
     "summary": "Two selectable prototype regions with inventory-backed extraction/home settlement, four owned firearms and finite-speed ballistics. Actual play/render/listening/performance acceptance remains open.",
     "tags": [
       "game",
@@ -33,7 +33,7 @@ export const projects = [
       "build": "pnpm --filter dead-freight build",
       "test": "pnpm --filter dead-freight test"
     },
-    "updatedAt": "2026-10-14T05:01:21+09:00"
+    "updatedAt": "2026-10-14T05:23:13+09:00"
   },
   {
     "id": "deck-building",

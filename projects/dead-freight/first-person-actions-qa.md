@@ -108,3 +108,7 @@ Inspect actual rig cycles and cancellation in tools/rig-preview/dist, then play 
 
 ## 0.13.0 second-region raid and home economy vertical slice actual QA
 Use a fresh isolated profile: choose each region, deploy actual carried loadout, travel bridges/cover, fight at least two encounter types, recover archive and bounty, test both exits and interruption, return home, sell loot, redeploy preserved equipment and die with protected loot. Verify visuals/route readability, gun/audio sync, mouse input, frame times and repeated persistence. Existing CUA/MXC blocker remains; queued panel is not a loaded/playable browser confirmation. Actual screenshots/input/device listening are required; source validation does not close this gate.
+
+
+## 0.13.1 adversarial multi-region storage gate actual QA
+On fresh real test profiles, repeat two-region deployment/extraction/home sale/next raid and reload; inspect state after browser storage or session interruptions using supported controls. Source fault injection does not establish real disk/storage behavior, browser loading or actual play. Preserve normal profiles. Existing CUA/MXC blocker remains and queued-only panel is not confirmed open. Actual screenshots/input/device listening are required; source validation does not close this gate.

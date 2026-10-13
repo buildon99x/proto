@@ -1,4 +1,4 @@
-# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.13.0
+# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.13.1
 
 R-4 라이플 한 종의 FPS 기반과, 340×340m 단일 연결 지역을 다루는 1인칭 Extraction 개발 체크포인트입니다. `proto/projects/dead-freight`에서 개발합니다. 완성된 상용 오픈월드 규모나 품질을 의미하지 않습니다.
 
@@ -174,3 +174,7 @@ Sprint/dodge/slide now cancel utility/melee before effects on original game and 
 
 ## 0.13.0 second-region raid and home economy vertical slice
 Black Pines world.js and definition remain unchanged. Added selectable Canal Ward:280×220m urban blocks, non-swimmable flood channel/two bridges, west insertion/archive loot, eight different authored encounters/east pump boss, archive+token east ferry8s and token west winch12s. Flood is movement-only, not an invisible shot/LOS wall; guidance follows collision-clear bridge nodes. Choice freezes per deployment. Existing schema5/UID/settlement/home-sale receipts return equipment/loot/cash exactly once across repeated raids; quest tokens retire and death preserves only safe loot. Ten new model/runtime checks include3270 reachable grid cells. This is two prototype regions, not two finished city maps or live two-map/economy acceptance. 953 named checks in50 suites,35 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.13.1 adversarial multi-region storage gate
+Three new isolated rendererless fault cases verify denied deployment writes, failed extraction settlement and unknown post-write acknowledgement while next-region selection changes. Retry keeps the original region/inventory/raid identity, awards cash and each loot UID once, blocks replacement raids until settled, preserves byte-identical duplicate retry and avoids a second withdrawal after lost acknowledgement. Production gameplay/save transactions are unchanged. Two-region normal loop remains953 checks/50 suites at0.13.0 plus this regression coverage; live browser persistence and full acceptance remain open. 956 named checks in51 suites,35 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
