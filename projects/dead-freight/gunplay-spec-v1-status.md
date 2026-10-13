@@ -1,6 +1,6 @@
 # FPS gunplay specification v1: implementation and acceptance
 
-Current source continuation: **0.12.10**. All existing guns own mechanical states alongside guarded utility/melee timelines; utility glove handedness/grip and archived connected sleeves are reconciled. 923 named checks/44 suites,315 separate audits, syntax/static packaging and required aggregate pass. Broader v1 ADS/input/tuning and actual normal input/render/natural motion/listening/device-performance/extraction remain open. See [the laptop gate](qa-jh-laptop-2026-10-13.md). Public0.10.0/candidate0.12.0 were not updated by this worker. Two city maps, broader AI/economy, additional classes/throwables and liquid-metal follow-up remain unfinished/deferred.
+Current source continuation: **0.12.11**. All existing guns own mechanical states alongside guarded utility/melee timelines; utility glove handedness/grip and archived connected sleeves are reconciled; medicine cancellation preserves partial dressing. 926 named checks/45 suites,315 separate audits, syntax/static packaging and required aggregate pass. Broader v1 ADS/input/tuning and actual normal input/render/natural motion/listening/device-performance/extraction remain open. See [the laptop gate](qa-jh-laptop-2026-10-13.md). Public0.10.0/candidate0.12.0 were not updated by this worker. Two city maps, broader AI/economy, additional classes/throwables and liquid-metal follow-up remain unfinished/deferred.
 
 ## Authoritative input
 

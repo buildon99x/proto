@@ -154,3 +154,5 @@ Correct source-proven utility glove anatomy and grip release after the mechanica
 
 ## 0.12.10 archived connected utility arms
 Reconcile the user's unpublished 2026-10-11 motion archive without applying it over current validated gameplay. First port its connected shoulder/elbow/forearm/wrist geometry and post-contact sleeve solver. Preserve current detached-pin ownership, corrected grip, gameplay controllers, timings and saves. Other archive motion tracks/tool details require subsequent reconciliation and live acceptance.
+## 0.12.11 treatment dressing cancellation
+Fix a reproduced recovery-only dressing pop: cancelling medicine before application currently makes a pad suddenly appear. Keep cosmetic application owned by the sampled use pose and preserve that exact partial amount when cancellation withdraws the hands. No treatment timing, benefit or inventory changes.

@@ -218,3 +218,7 @@ Utility glove dorsal panels face +Z in the authored neutral frame. The old thumb
 
 ## 0.12.10 unpublished motion archive: connected arms
 The user's Library patch/report/manifest were found and read; original artifacts remain unchanged. Selectively adapted utility shoulder/elbow/forearm/wrist geometry and post-contact sleeve solver without replacing current pin/grip/gameplay fixes. See [archive reconciliation](archived-motion-reconciliation.md) for provenance and remaining tracks/tools/origin work. 923 named checks in44 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. No actual rendering, human motion, listening, input, frame-time or extraction acceptance. No deployment or local liquid-metal implementation.
+
+
+## 0.12.11 treatment dressing cancellation
+Reproduced both medicines showing no pad at use0.25 then a pad at cancelled recovery0. Dressing now grows from use0.30 through0.55 and recovery preserves exactly its interrupted amount. No gameplay benefit/timing/material-opacity/save changes. 926 named checks in45 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual visual/natural contact/withdrawal/listening/play/frame-time/extraction remain open. No deployment or liquid-metal implementation.

@@ -16,6 +16,7 @@ function pose(a={}){
  if(stage==='use'&&a.itemId!=='frag'){result.rightX=-.16*use;result.rightY=-.12*use;result.rightRotZ=.08+.65*use;result.leftRotZ=-.55+.2*use;}
  if(a.itemId==='frag'){Object.assign(result,{leftX:-.09,leftY:.075,leftRotX:-.3,leftRotY:.3,leftRotZ:-.15});if(stage==='use'){const pull=ease((p-.16)/.28);result.leftX-=.22*pull;result.leftY-=.12*pull;result.rightZ=-.19*use;result.rightY=.15*Math.sin(use*Math.PI);}}
  if(a.itemId==='melee'){const punch=stage==='use'?Math.sin(Math.PI*p):0;Object.assign(result,{rightX:.025,rightY:.05+.10*punch,rightZ:-.12-.34*punch,rightRotZ:-.28-.14*punch,leftX:-.24,leftY:.13,leftZ:-.12,leftRotX:-.6,leftRotY:.1,leftRotZ:-.25,grip:1,propVisible:false,pinReach:0,pinPull:0,treatment:0});}
+ result.dressingLevel=['bandage','medkit'].includes(a.itemId)&&stage==='use'?ease((p-.30)/.25):0;
  return result;
 }
 function create(T){
@@ -43,7 +44,7 @@ function create(T){
 }
 function apply(group,a){const V=group.position.constructor,p=pose(a),v=group.userData;group.visible=p.visible;group.position.set(p.x,p.y,p.z);group.rotation.set(p.pitch,0,p.roll);v.right.position.set(p.rightX,p.rightY,p.rightZ);v.right.rotation.set(-.12,0,p.rightRotZ);v.left.position.set(p.leftX,-.025+p.leftY,p.leftZ);v.left.rotation.set(p.leftRotX,p.leftRotY,p.leftRotZ);
  for(const [id,g] of Object.entries(v.props))g.visible=id===a.itemId&&p.propVisible;
- v.ring.visible=p.pinPull<1e-7;v.pulledPin.visible=false;v.dressing.visible=['bandage','medkit'].includes(a.itemId)&&p.treatment>.99&&(a.progress>.3||a.stage==='recover');
+ v.ring.visible=p.pinPull<1e-7;v.pulledPin.visible=false;v.dressing.visible=['bandage','medkit'].includes(a.itemId)&&p.dressingLevel>1e-9;v.dressing.scale.x=Math.max(.01,p.dressingLevel);
  for(const h of [v.right,v.left]){const grip=h===v.left&&a.itemId==='frag'?.48:p.grip;for(const [base,middle,tip] of h.userData.fingers){base.rotation.x=-.6*grip;middle.rotation.x=-1.1*grip;tip.rotation.x=-.8*grip;}h.userData.thumb.rotation.x=-.65*grip;h.userData.thumb.rotation.z=-h.userData.thumbSide*(.28+.42*(1-grip));}
  // Contact constraints are solved in rig coordinates after all authored joints.
  group.updateMatrixWorld(true);

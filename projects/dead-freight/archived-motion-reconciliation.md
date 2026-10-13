@@ -11,7 +11,7 @@ The Library report, manifest and complete patch were read on this laptop. They d
 | Connected shoulder/elbow/forearm/wrist | 0.12.10 ports utility-owned arm meshes and post-contact solver. Current hand poses remain; authored elbow keyframes are still pending. |
 | Grenade windup, wrist rotation, follow-through, grip at release | Pending careful adaptation to current detached-pin owner and semantic index/thumb fixes. |
 | Shared authored grenade launch/preview origin | Pending; preserve current collision/ballistics/timing and verify original model/runtime routes. |
-| Treatment roll, lid, wrist stroke and withdrawal | Pending; cancellation currently also exposes dressing before application, a reproduced source defect. |
+| Treatment roll, lid, wrist stroke and withdrawal | Pending; 0.12.11 fixes the reproduced early-cancel dressing pop; roll/lid/stroke/withdrawal tracks remain pending. |
 | Melee, remapping, effect receipts and interruption guards | Current separately tested implementation exists. Archive melee uses25 damage/1.65m/.42s contact; current35/1.8m/.44s is preserved. No arbitrary gameplay rollback. Movement cancellation and once-only effect receipts still require detailed reconciliation. |
 | Read-only rig preview | Pending; its historical localhost server and screenshots are not active/current evidence. |
 

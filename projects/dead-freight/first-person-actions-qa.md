@@ -88,3 +88,7 @@ Inspect glove handedness against dorsal panels, index/thumb pinch at pin-ring co
 
 ## 0.12.10 connected utility arms actual QA
 Check upper-arm/elbow/forearm/wrist silhouette at grenade pin/hold/release, medicine contact and melee. Look for stretched sleeves, clipping, wall/weapon contrast, discontinuous cancellation and near-camera distortion using actual frames. Geometry endpoints pass; human-looking anatomy/motion remains open.
+
+
+## 0.12.11 treatment dressing actual QA
+Cancel bandage and medkit before contact, during partial application and after benefit. Capture actual frames: no pad should appear on early cancel; partial pad should withdraw with the wrist continuously. Inspect width/clipping and normal recovery. Source geometry is not human-looking contact acceptance.
