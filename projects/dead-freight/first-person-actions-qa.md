@@ -120,3 +120,7 @@ Run the bundled Node localhost server and use http://127.0.0.1:39605/?testProfil
 
 ## 0.14.1 workshop ownership and stale-draft audit actual QA
 Use supported workshop-qa isolated profile at localhost39605. After browser control recovery, verify two real tabs, restart/reload and disk persistence; stale draft cancellation must preserve the newer profile and require a fresh explicit quote. Verify repaired issued armor remains unsaleable and crafted loot is lost on death, then ordinary repeated raids in both regions. Current source tests use fake storage/rendererless UI and establish none of these actual-browser acceptance gates. Actual screenshots/input/device listening are required; source validation does not close this gate.
+
+
+## 0.14.2 fresh-controller raid lifecycle audit actual QA
+After supported browser control recovery, repeat both regions in workshop-qa using actual reload, close/reopen and two tabs. Verify pre/post-write recovery, post-settlement acknowledgement loss, journal/retained UIDs/cash and accurate conflict messaging. The automated fixtures construct fresh mocked controllers and storage handles; actual browser lifecycle, disk durability, simultaneous cross-process write scheduling, screenshots, motion, listening and frame times remain open. localStorage has no compare-and-swap and atomic cross-tab settlement is not promised. Actual screenshots/input/device listening are required; source validation does not close this gate.

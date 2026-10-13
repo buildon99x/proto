@@ -99,7 +99,7 @@ function requestWeapon(slot=null){if(state!=='playing'||!weaponAction)return fal
 function tickWeaponAction(dt){if(!weaponAction)return;let becameReady=false;for(const event of weaponAction.tick(dt)){if(event.type==='ready'){becameReady=true;continue;}actionCommit=true;const result=event.type==='holster'?gear.holsterWeapon():gear.equipWeapon(event.slot);actionCommit=false;if(!result.ok){weaponAction.failCommit();tell(result.message,2);}if(result.ok&&event.type==='equip')sound.event('foley',{cue:'cloth-in'});weaponModel();}syncActionGate();if(gear.canFire&&weaponAction.ready&&world.weapon===3)world.setFireInput(mouseHeld);return becameReady;}
 
 function formatTime(seconds){const n=Math.max(0,Math.floor(seconds||0));return Math.floor(n/60)+':'+String(n%60).padStart(2,'0');}
-function flushSettlement(){if(!pendingSettlement)return true;if(save.snapshot().pending)return false;const r=pendingSettlement,result=save.settle(r.raidId,r.win,r.carry,r.cash,r.nextLevel);if(result.ok){pendingSettlement=null;raidId=null;}return result.ok;}
+function flushSettlement(){if(!pendingSettlement)return true;if(save.snapshot().pending)return false;const r=pendingSettlement,result=save.settle(r.raidId,r.win,r.carry,r.cash,r.nextLevel);if(result.ok){if(typeof result.settledWin==='boolean'&&result.settledWin!==r.win&&lastResult){lastResult.settlementConflict=true;$('description').textContent='다른 창에서 이 원정의 정산을 이미 완료했습니다. 마지막 저장 결과를 유지하며 이 화면의 재화·회수품은 추가 반영하지 않았습니다.';}pendingSettlement=null;raidId=null;}return result.ok;}
 function persistenceUI(){
  const saved=save.snapshot();totalCash=saved.bank;
  let text=saved.known?'보관 '+totalCash+' · 장비 보관함 '+saved.used+'/'+saved.capacity+'칸. 회수 물품은 자동 판매되지 않습니다.':'기존 보관 기록을 읽지 못했습니다. 기존 데이터는 변경하지 않습니다.';
@@ -111,7 +111,7 @@ function persistenceUI(){
  $('save-retry').textContent=saved.pendingKind==='deploy'?'출격 준비 저장 재시도':'저장 재시도';$('recover-run').hidden=!saved.interrupted;
  $('stash-open').hidden=state==='playing'||state==='paused';$('restart').disabled=!audioReady.snapshot().canStart||saved.recoveryCount>0;
  $('start').disabled=!!(!audioReady.snapshot().canStart||saved.recoveryCount>0||saved.pending||saved.interrupted||pendingSettlement||!saved.known||saved.status!=='ready'||state==='paused'&&raidId&&saved.activeRaid?.id!==raidId);
- if(lastResult){const r=lastResult;$('stats').textContent=(r.win?'회수 완료 · 장비 '+r.items+' 묶음 · 현상금 +'+r.cash+' · '+(saved.pending||pendingSettlement?'저장 대기':'저장됨'):'회수 실패 · 화물 손실 '+r.cash+' · 보호 포켓만 보존')+' · '+formatTime(r.time)+' · '+r.kills+' 처치 · '+r.accuracy+'% 적 명중';}
+ if(lastResult){const r=lastResult;$('stats').textContent=r.settlementConflict?'다른 창의 정산 유지 · 이 화면의 재화·회수품 추가 반영 없음':(r.win?'회수 완료 · 장비 '+r.items+' 묶음 · 현상금 +'+r.cash+' · '+(saved.pending||pendingSettlement?'저장 대기':'저장됨'):'회수 실패 · 화물 손실 '+r.cash+' · 보호 포켓만 보존')+' · '+formatTime(r.time)+' · '+r.kills+' 처치 · '+r.accuracy+'% 적 명중';}
 }
 function bagState(){return bagMode==='raid'?carry:(prepared||(prepared=DFInventory.starter(Number($('loadout').value))));}
 function homeWritable(saved=save.snapshot()){return bagMode==='prepare'&&saved.known&&saved.status==='ready'&&!saved.pending&&!saved.activeRaid&&!pendingSettlement;}

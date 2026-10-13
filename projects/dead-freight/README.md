@@ -1,4 +1,4 @@
-# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.14.1
+# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.14.2
 
 R-4 라이플 한 종의 FPS 기반과, 340×340m 단일 연결 지역을 다루는 1인칭 Extraction 개발 체크포인트입니다. `proto/projects/dead-freight`에서 개발합니다. 완성된 상용 오픈월드 규모나 품질을 의미하지 않습니다.
 
@@ -186,3 +186,7 @@ Added home UI/catalog-derived medkit/frag/scanner/armor recipes using owned non-
 
 ## 0.14.1 workshop ownership and stale-draft audit
 Reproduced and fixed three source defects: failed workshop intent stuck after another tab writes; repaired issued armor returning as saleable owned armor; lost crafted UID accepted as fresh issued equipment. Explicit stale craft/repair cancellation keeps latest saved bytes unchanged and clears only the pending draft. New deployments retain optional UID/item/issued identities; return and repair receipts preserve ownership. Known workshop UIDs cannot use the fresh-issued exception after loss. Legacy schema6 receipts and active raids without optional metadata stay readable; no invented provenance or new gameplay feature. Fourteen focused adversarial tests cover reload, lost acknowledgement, two observed stale writers, workbench/deploy conflicts, exact bytes and identity conservation. localStorage still has no atomic compare-and-swap. 991 named checks in53 suites,36 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.14.2 fresh-controller raid lifecycle audit
+Six rendererless tests reconstruct new controllers/storage handles after deploy/settlement failure and termination, accepted writes with lost acknowledgement, safe-only uncommitted extraction recovery and observed foreign-tab conflict. Reproduced an actual display defect: another tab could commit loss recovery, then the old tab displayed its unawarded extraction cash as saved. Settlement now exposes the durable win/loss outcome and the UI states that the other settlement is retained without claiming cash/loot from this screen. No duplicate award/data overwrite was observed in these fixtures. No gameplay feature added; fake lifecycle/shared memory do not prove browser disk durability or atomic cross-process writes. 997 named checks in54 suites,36 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.

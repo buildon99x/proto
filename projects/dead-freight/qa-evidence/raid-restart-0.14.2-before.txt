@@ -1,0 +1,31 @@
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS terminated failed deploy leaves no journal and a fresh controller starts one new raid
+PASS terminated committed deploy reopens as interrupted and needs explicit loss recovery
+PASS deploy written before lost acknowledgement remains one interrupted withdrawal after restart
+PASS successful extraction followed by lost acknowledgement survives a new controller once
+PASS uncommitted extraction lost on restart retains only previously durable safe journal
+FOREIGN_RECOVERY_RESULT {"bank":0,"stats":"?뚯닔 ?꾨즺 쨌 ?λ퉬 7 臾띠쓬 쨌 ?꾩긽湲?+820 쨌 ??λ맖 쨌 0:08 쨌 2 泥섏튂 쨌 0% ??紐낆쨷","rawPreserved":true}
+node:internal/assert/utils:77
+    throw err;
+    ^
+
+AssertionError [ERR_ASSERTION]: foreign loss recovery must not display local extraction payout as saved
+    at C:\Users\cjh\Documents\Codex\2026-10-14\task\proto\projects\dead-freight\app\test-raid-restart.cjs:10:889
+    at test (C:\Users\cjh\Documents\Codex\2026-10-14\task\proto\projects\dead-freight\app\test-raid-restart.cjs:2:159)
+    at Object.<anonymous> (C:\Users\cjh\Documents\Codex\2026-10-14\task\proto\projects\dead-freight\app\test-raid-restart.cjs:10:1)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

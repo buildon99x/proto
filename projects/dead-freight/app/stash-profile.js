@@ -281,17 +281,18 @@ function create(storage){
   return prepare('safe',raidId,{safe:clone(safeStack)});
  }
  function settle(raidId,win,carry,cash=0,nextLevel=saved.nextLevel){
+  const outcome=r=>({...r,...(r.ok&&saved.settledRaids.some(s=>s.id===raidId)?{settledWin:saved.settledRaids.find(s=>s.id===raidId).win}:{})});
   if(!validId(raidId)||typeof win!=='boolean'||!Number.isFinite(cash)||cash<0||!Number.isSafeInteger(nextLevel)||nextLevel<1||nextLevel>=Number.MAX_SAFE_INTEGER)return fail('invalid-settlement',raidId);
   if(pending){
-   if((pending.kind==='settle'||pending.kind==='recover')&&pending.raidId===raidId){const ok=attempt();return result(ok,raidId,ok?null:lastReason||status);}
+   if((pending.kind==='settle'||pending.kind==='recover')&&pending.raidId===raidId){const ok=attempt();return outcome(result(ok,raidId,ok?null:lastReason||status));}
    return fail('pending-operation',raidId);
   }
   let current;try{current=read();}catch(e){status='read-error';return fail(e.reason||'save-read-failed',raidId);}
-  if(settled(current,raidId)){accept(current);status=interrupted?'interrupted-raid':'ready';lastReason=null;return {...result(true,raidId),alreadySettled:true};}
+  if(settled(current,raidId)){accept(current);status=interrupted?'interrupted-raid':'ready';lastReason=null;return outcome({...result(true,raidId),alreadySettled:true});}
   if(interrupted)return fail('interrupted-raid',raidId);
   if(!saved.activeRaid||saved.activeRaid.id!==raidId)return fail('raid-mismatch',raidId);
   if(win){try{carry=inventoryCheck(carry);}catch(e){return fail(e.reason||'invalid-inventory',raidId);}}
-  return prepare('settle',raidId,{win,carry:win?carry:null,cash,nextLevel});
+  return outcome(prepare('settle',raidId,{win,carry:win?carry:null,cash,nextLevel}));
  }
  function recoverInterrupted(){
   if(pending)return fail('pending-operation',saved.activeRaid&&saved.activeRaid.id);

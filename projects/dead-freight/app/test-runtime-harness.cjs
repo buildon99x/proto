@@ -12,7 +12,7 @@ function eventTarget(){
  };
 }
 function harness(initialStorage={},options={}){
- const storage=new Map(Object.entries(initialStorage));
+ const storage=options.sharedStorage||new Map(Object.entries(initialStorage));
  let now=1000;const frames=[],renders=[],worlds=[],bridges=[],audioCalls=[],rendererCalls=[],reloads=[],errors=[],elements=new Map(),checkedGeometry=new WeakSet();
  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
  const context2d={fillRect(){},clearRect(){},strokeRect(){},fillText(){},beginPath(){},arc(){},fill(){},moveTo(){},lineTo(){},stroke(){}};
