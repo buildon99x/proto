@@ -1,0 +1,39 @@
+{
+  "sourceCommit": "7790afe6d7d20b5b1454bcdb208bab9f43e11df6",
+  "pushedBranch": "buildon99x/proto:codex/emberwatch-rebuild",
+  "gitCheckpointConfirmed": true,
+  "sourceAndScreenshotZip": {
+    "path": "/workspace/shared/EmberwatchReborn-cloud-crusher-20261013-7790afe.zip",
+    "bytes": 77152751,
+    "sha256": "1785115df2824d6bc2263719a9abe14652c66064611421f42ef36d41a50d32af",
+    "files": 478,
+    "zipIntegrity": "passed"
+  },
+  "libraryCheckpoint": {
+    "status": "not_saved",
+    "phase": "hosted-app tool discovery before preparation/transfer/finalization",
+    "error": "library upload failed: hosted apps tools/list request failed: network",
+    "libraryFileId": null,
+    "duplicateWriteOrDirectFallbackAttempted": false
+  },
+  "resume": {
+    "environmentRespondedAfterDisconnectNotice": true,
+    "lastCheckedUtc": "2026-10-13 18:06:59 UTC",
+    "checkout": "/workspace/emberwatch-reborn",
+    "browserSession": "87744, owned Playwright process; current QA profile normally saved and paused",
+    "profile": "qa-cloud-crusher-20261013",
+    "profileState": "L7 Adept,285G,currentXP181.5,kills45,deaths3,Judgement1,LayOnHands1,brightness0; unchanged four owned item IDs",
+    "rawEvidence": "projects/EmberwatchReborn/app/artifacts/qa-cloud-20261013",
+    "readOnlySnapshot": "final-owned-qa-readonly-snapshot.json",
+    "snapshotIsNotAnAuthorizedImport": true,
+    "nextGates": [
+      "Restore supported Library upload connectivity and preserve the existing complete archive without claiming prior success",
+      "Supported dot desktop/native focus/AX/physical input-display responsiveness and actual sound listening",
+      "First-crusher quality closure before extending remaining melee builds",
+      "Verified resolution of original a19 equipment/save rejection before any protected writer work"
+    ]
+  },
+  "mainMerged": false,
+  "deployed": false,
+  "protectedWriterRecreatedOrBypassed": false
+}
