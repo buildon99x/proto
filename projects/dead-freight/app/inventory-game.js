@@ -12,7 +12,9 @@ const REASONS={overweight:'휴대 중량 30 kg을 초과합니다.', 'bag-full':
 function grenadeLaunch(w,options={}){
  const yaw=Number.isFinite(options.yaw)?options.yaw:0,pitch=clamp(Number.isFinite(options.pitch)?options.pitch:0,-.85,.85),p=w.player,dx=-Math.sin(yaw),dz=-Math.cos(yaw),y=p.y+Math.max(.5,p.eyeHeight*.8),reach=.4;
  const blocked=w.wallHit(p.x,y,p.z,p.x+dx*reach,y,p.z+dz*reach,.12)!==null;
- return {x:p.x+(blocked?0:dx*reach),y,z:p.z+(blocked?0:dz*reach),vx:dx*Math.cos(pitch)*12,vy:3+Math.sin(pitch)*12,vz:dz*Math.cos(pitch)*12,fuse:2,alive:true};
+ const origin=options.releaseOrigin,valid=origin&&['x','y','z'].every(k=>Number.isFinite(origin[k]))&&Math.hypot(origin.x-p.x,origin.y-y,origin.z-p.z)<=2.5;
+ const safe=valid&&w.wallHit(p.x,y,p.z,origin.x,origin.y,origin.z,.12)===null;
+ return {x:safe?origin.x:p.x+(blocked?0:dx*reach),y:safe?origin.y:y,z:safe?origin.z:p.z+(blocked?0:dz*reach),vx:dx*Math.cos(pitch)*12,vy:3+Math.sin(pitch)*12,vz:dz*Math.cos(pitch)*12,fuse:2,alive:true};
 }
 function stepGrenade(w,g,dt){const nx=g.x+g.vx*dt,ny=g.y+g.vy*dt-9*dt*dt,nz=g.z+g.vz*dt,hit=w.wallHit(g.x,g.y,g.z,nx,ny,nz,.11);g.vy-=18*dt;
    let contact=hit!==null;if(hit!==null){
@@ -260,7 +262,8 @@ class Bridge{
    if(!Number.isSafeInteger(event.sequence)||event.sequence<=0||event.sequence!==a.sequence||event.sequence<=this._lastActionCommit||event.uid!==a.uid||event.itemId!==a.itemId||event.location!==a.location||!a.committed||a.cancelled)continue;
    this._lastActionCommit=event.sequence;
    const stack=this.inventory.get(event.location);
-   let result;this._committingItem=true;try{result=event.itemId==='melee'?{...Melee.strike(w,this._itemAim),message:'근접 공격'}:stack?.uid===event.uid&&stack.itemId===event.itemId?this.use(event.location,this._itemAim):this._failure('changed-item');}finally{this._committingItem=false;}
+   const aim={...this._itemAim};if(event.itemId==='frag'&&typeof options.releaseOrigin==='function'){try{aim.releaseOrigin=options.releaseOrigin();}catch{delete aim.releaseOrigin;}}
+   let result;this._committingItem=true;try{result=event.itemId==='melee'?{...Melee.strike(w,this._itemAim),message:'근접 공격'}:stack?.uid===event.uid&&stack.itemId===event.itemId?this.use(event.location,aim):this._failure('changed-item');}finally{this._committingItem=false;}
    results.push(result);if(!result.ok){const rejectedPose=a.snapshot();a.cancelled=true;a.recoverFrom=rejectedPose;a.stage='recover';a.elapsed=0;w.emit('foleycancel',{});}
   }
   if(a.cancelled)a.drainCues();else for(const cue of a.drainCues())w.emit('foley',cue);

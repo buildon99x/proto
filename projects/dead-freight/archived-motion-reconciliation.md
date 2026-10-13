@@ -10,7 +10,7 @@ The Library report, manifest and complete patch were read on this laptop. They d
 | --- | --- |
 | Connected shoulder/elbow/forearm/wrist | 0.12.10 ports utility-owned arm meshes and post-contact solver; 0.12.13 adds authored elbow tracks. |
 | Grenade windup, wrist rotation, follow-through, grip at release | 0.12.13 adapts tracks and exact original release grip while preserving current detached-pin owner, extraction curve and semantic index/thumb fixes. Actual visual acceptance remains open. |
-| Shared authored grenade launch/preview origin | Pending; preserve current collision/ballistics/timing and verify original model/runtime routes. |
+| Shared authored grenade launch/preview origin | 0.12.14 adapts shared hand projection, swept-wall/finite-distance validation, callback fallback and pose restoration. Current physics/timing preserved. Actual wall/hand pixel alignment remains open. |
 | Treatment roll, lid, wrist stroke and withdrawal | 0.12.11 fixes early-cancel dressing pop; 0.12.13 ports constrained wrist/stroke, roll, lid and continuous closing withdrawal. Actual contact/withdrawal acceptance remains open. |
 | Melee, remapping, effect receipts and interruption guards | Current separately tested implementation exists. Archive melee uses25 damage/1.65m/.42s contact; current35/1.8m/.44s is preserved. No arbitrary gameplay rollback. 0.12.12 reconciles once-only effect receipts with stronger current-action identity checks; movement cancellation still requires reconciliation. |
 | Read-only rig preview | Pending; its historical localhost server and screenshots are not active/current evidence. |

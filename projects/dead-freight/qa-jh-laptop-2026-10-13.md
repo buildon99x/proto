@@ -128,3 +128,7 @@ Reconciled the archive receipt with current action identity/commit/cancel guards
 
 ## 0.12.13 archived action motion tracks
 Preserved Library action patch is selectively reconciled: connected elbow/wrist throw windup, exact release grip and follow-through, current-timing fist contact, medical wrist strokes/gauze roll/kit lid and continuous closing withdrawal. Current detached-pin/grip/dressing/receipt fixes and all gameplay timing/tuning/audio/saves are preserved. This does not certify natural human movement. 935 named checks in47 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.12.14 authored grenade release origin
+Grenade guide and committed launch now share the authored hand release point projected from utility to world view, with finite-distance/swept-wall validation and original collision-safe fallback. Commit callback is once-only and failure-tolerant; sampled utility pose is restored. Speed/fuse/gravity/blast/timing/resources/saves remain unchanged. Model and rendererless projection do not certify actual hand/projectile pixel alignment. 939 named checks in48 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.

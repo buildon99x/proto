@@ -160,3 +160,5 @@ Fix a reproduced recovery-only dressing pop: cancelling medicine before applicat
 Reconcile the archive's effect receipt with current guards. A source-injected replay of the same bandage marker after its0.4s cooldown during recovery heals and consumes twice. Guard each real action sequence/identity once at the effect boundary; preserve ordinary inputs, timelines and gameplay values.
 ## 0.12.13 archived action motion tracks
 Adapt the preserved user's throw windup/release/follow-through and medical wrist/roll/lid tracks into the current connected rig. Preserve current pin ownership, corrected thumb/index grip, dressing cancellation, effect receipts, action markers, damage, controls and audio. Model geometry does not certify natural motion.
+## 0.12.14 authored grenade release origin
+Reconcile the archive's shared view-hand release point with current motion tracks. Preview and committed world grenade launch should use the same authored release pose converted through utility/world camera projection, with collision-safe fallback. Preserve fuse, speed, gravity, blast values, inventory timing and user profiles.

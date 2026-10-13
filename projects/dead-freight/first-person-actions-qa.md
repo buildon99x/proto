@@ -96,3 +96,7 @@ Cancel bandage and medkit before contact, during partial application and after b
 
 ## 0.12.13 archived action motion tracks actual QA
 Inspect grenade pinch, windup, release and follow-through; medical roll/lid/site contact and early/partial/late cancellation; melee contact alignment. Check all gun H/swap/return interruption combinations, near-camera clipping, silhouette and HUD/world readability. Actual screenshots/input/device listening are required; source validation does not close this gate.
+
+
+## 0.12.14 authored grenade release origin actual QA
+Hold aim, inspect initial trajectory point against the release hand, throw at varied headings/pitches and near walls, then cancel and change weapons. Capture ordinary mouse release and projectile start frames; confirm no pin/tool pose jump, unexpected wall crossing or changed trajectory/balance. Actual screenshots/input/device listening are required; source validation does not close this gate.
