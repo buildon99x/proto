@@ -392,3 +392,9 @@ Reproduce the early-cancel pad pop for both medicines. Sample pre/partial/full a
 
 ## 0.12.11 treatment dressing cancellation
 Reproduced both medicines showing no pad at use0.25 then a pad at cancelled recovery0. Dressing now grows from use0.30 through0.55 and recovery preserves exactly its interrupted amount. No gameplay benefit/timing/material-opacity/save changes. 926 named checks in45 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual visual/natural contact/withdrawal/listening/play/frame-time/extraction remain open. No deployment or liquid-metal implementation.
+## 0.12.12 replay boundary validation
+Reproduce an injected repeated bandage commit after cooldown during recovery; this is model fault injection, not ordinary human-input evidence. Verify healing, frag, scanner and melee marker replays, cancelled/stale/precommit/identity mismatches and repeated future valid actions across30/60/120Hz. All source, audits and builds remain required; live visual/audio/input gates stay open.
+
+
+## 0.12.12 archived once-only action effect receipt
+Reconciled the archive receipt with current action identity/commit/cancel guards. Injected same bandage marker after cooldown during recovery reproduced HP60→90 and count2→1; this is source fault injection, not ordinary player input. Bridge now accepts only the current uncancelled committed sequence/UID/item/location once, before effect dispatch. Duplicate, stale, precommit, malformed and rejected markers cannot produce another benefit; future valid actions remain usable. 930 named checks in46 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual play, rendered motion, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.

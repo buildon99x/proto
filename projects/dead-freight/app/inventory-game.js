@@ -28,7 +28,7 @@ class Bridge{
  constructor(world,inventory,options={}){
   if(!world?.player||!inventory?.get)throw new TypeError('Mission and Inventory are required');
   this.world=world;this.inventory=inventory;this.activeSlot=options.activeSlot===1?1:0;this.activeUid=null;this.holstered=false;this.throwables=[];this.scannerRemaining=0;
-  this.itemAction=new ItemAction();this._itemAim={yaw:0,pitch:0};this._itemVital=null;
+  this.itemAction=new ItemAction();this._itemAim={yaw:0,pitch:0};this._itemVital=null;this._lastActionCommit=0;
   this.sessionId=options.sessionId||'carry-session-'+(++Bridge.sessionSequence);this._callbacks=options;
   this._bound=new Map();this._rifleUid=null;this._armorUid=null;this._reserves=[0,0,0,0];this._applied=false;this._lastShots=world.shots||0;this._nextAction=0;this._nextThrowable=1;this._throwableAccumulator=0;this._lastWorldTime=world.time;
   this.syncToWorld();if(options.caches!==false)this.addCaches();
@@ -256,6 +256,9 @@ class Bridge{
   const vital=w.player.hp+w.player.armor;if((w.damageSequence||0)!==this._itemDamageSequence||vital<this._itemVital-EPS)this.cancelUse('damage');this._itemDamageSequence=w.damageSequence||0;this._itemVital=vital;
   this._itemAim=options;
   const results=[];for(const event of a.tick(dt))if(event.type==='commit'){
+   // Reconciled archive receipt: effect dispatch remains once per real timeline identity.
+   if(!Number.isSafeInteger(event.sequence)||event.sequence<=0||event.sequence!==a.sequence||event.sequence<=this._lastActionCommit||event.uid!==a.uid||event.itemId!==a.itemId||event.location!==a.location||!a.committed||a.cancelled)continue;
+   this._lastActionCommit=event.sequence;
    const stack=this.inventory.get(event.location);
    let result;this._committingItem=true;try{result=event.itemId==='melee'?{...Melee.strike(w,this._itemAim),message:'근접 공격'}:stack?.uid===event.uid&&stack.itemId===event.itemId?this.use(event.location,this._itemAim):this._failure('changed-item');}finally{this._committingItem=false;}
    results.push(result);if(!result.ok){const rejectedPose=a.snapshot();a.cancelled=true;a.recoverFrom=rejectedPose;a.stage='recover';a.elapsed=0;w.emit('foleycancel',{});}

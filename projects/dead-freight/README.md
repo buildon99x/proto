@@ -1,4 +1,4 @@
-# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.12.11
+# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.12.12
 
 R-4 라이플 한 종의 FPS 기반과, 340×340m 단일 연결 지역을 다루는 1인칭 Extraction 개발 체크포인트입니다. `proto/projects/dead-freight`에서 개발합니다. 완성된 상용 오픈월드 규모나 품질을 의미하지 않습니다.
 
@@ -154,3 +154,7 @@ The user's Library patch/report/manifest were found and read; original artifacts
 
 ## 0.12.11 treatment dressing cancellation
 Reproduced both medicines showing no pad at use0.25 then a pad at cancelled recovery0. Dressing now grows from use0.30 through0.55 and recovery preserves exactly its interrupted amount. No gameplay benefit/timing/material-opacity/save changes. 926 named checks in45 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual visual/natural contact/withdrawal/listening/play/frame-time/extraction remain open. No deployment or liquid-metal implementation.
+
+
+## 0.12.12 archived once-only action effect receipt
+Reconciled the archive receipt with current action identity/commit/cancel guards. Injected same bandage marker after cooldown during recovery reproduced HP60→90 and count2→1; this is source fault injection, not ordinary player input. Bridge now accepts only the current uncancelled committed sequence/UID/item/location once, before effect dispatch. Duplicate, stale, precommit, malformed and rejected markers cannot produce another benefit; future valid actions remain usable. 930 named checks in46 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual play, rendered motion, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.

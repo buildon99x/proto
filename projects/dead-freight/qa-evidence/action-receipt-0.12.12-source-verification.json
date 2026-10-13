@@ -1,0 +1,530 @@
+{
+  "timestamp": "2026-10-13T19:39:04.684Z",
+  "node": "v24.19.0",
+  "sourceBase": "6c018a14da4685c41407d30ce3a29b68ae06eea2",
+  "workingTreeVersion": "0.12.12",
+  "results": [
+    {
+      "category": "test",
+      "name": "test-core.cjs",
+      "status": 0,
+      "checks": 23
+    },
+    {
+      "category": "test",
+      "name": "test-viewmodel.cjs",
+      "status": 0,
+      "checks": 12
+    },
+    {
+      "category": "test",
+      "name": "test-motion.cjs",
+      "status": 0,
+      "checks": 19
+    },
+    {
+      "category": "test",
+      "name": "test-audio.cjs",
+      "status": 0,
+      "checks": 14
+    },
+    {
+      "category": "test",
+      "name": "test-runtime.cjs",
+      "status": 0,
+      "checks": 31
+    },
+    {
+      "category": "test",
+      "name": "test-movement.cjs",
+      "status": 0,
+      "checks": 55
+    },
+    {
+      "category": "test",
+      "name": "test-world.cjs",
+      "status": 0,
+      "checks": 22
+    },
+    {
+      "category": "test",
+      "name": "test-readability.cjs",
+      "status": 0,
+      "checks": 15
+    },
+    {
+      "category": "test",
+      "name": "test-rifle-state.cjs",
+      "status": 0,
+      "checks": 58
+    },
+    {
+      "category": "test",
+      "name": "test-rifle-viewmodel.cjs",
+      "status": 0,
+      "checks": 13
+    },
+    {
+      "category": "test",
+      "name": "test-rifle-audio.cjs",
+      "status": 0,
+      "checks": 104
+    },
+    {
+      "category": "test",
+      "name": "test-rifle-runtime.cjs",
+      "status": 0,
+      "checks": 25
+    },
+    {
+      "category": "test",
+      "name": "test-startup.cjs",
+      "status": 0,
+      "checks": 13
+    },
+    {
+      "category": "test",
+      "name": "test-core-lifecycle.cjs",
+      "status": 0,
+      "checks": 14
+    },
+    {
+      "category": "test",
+      "name": "test-lifecycle.cjs",
+      "status": 0,
+      "checks": 13
+    },
+    {
+      "category": "test",
+      "name": "test-run-clock.cjs",
+      "status": 0,
+      "checks": 5
+    },
+    {
+      "category": "test",
+      "name": "test-save-state.cjs",
+      "status": 0,
+      "checks": 7
+    },
+    {
+      "category": "test",
+      "name": "test-inventory.cjs",
+      "status": 0,
+      "checks": 39
+    },
+    {
+      "category": "test",
+      "name": "test-inventory-game.cjs",
+      "status": 0,
+      "checks": 36
+    },
+    {
+      "category": "test",
+      "name": "test-stash-profile.cjs",
+      "status": 0,
+      "checks": 72
+    },
+    {
+      "category": "test",
+      "name": "test-inventory-runtime.cjs",
+      "status": 0,
+      "checks": 14
+    },
+    {
+      "category": "test",
+      "name": "test-inventory-ui.cjs",
+      "status": 0,
+      "checks": 6
+    },
+    {
+      "category": "test",
+      "name": "test-storage-profile.cjs",
+      "status": 0,
+      "checks": 11
+    },
+    {
+      "category": "test",
+      "name": "test-audio-readiness.cjs",
+      "status": 0,
+      "checks": 12
+    },
+    {
+      "category": "test",
+      "name": "test-play-feedback.cjs",
+      "status": 0,
+      "checks": 16
+    },
+    {
+      "category": "test",
+      "name": "test-stash-ui.cjs",
+      "status": 0,
+      "checks": 13
+    },
+    {
+      "category": "test",
+      "name": "test-r4-foundation.cjs",
+      "status": 0,
+      "checks": 31
+    },
+    {
+      "category": "test",
+      "name": "test-loadout-action.cjs",
+      "status": 0,
+      "checks": 9
+    },
+    {
+      "category": "test",
+      "name": "test-input-router.cjs",
+      "status": 0,
+      "checks": 17
+    },
+    {
+      "category": "test",
+      "name": "test-muzzle-ballistics.cjs",
+      "status": 0,
+      "checks": 7
+    },
+    {
+      "category": "test",
+      "name": "test-audio-preparation.cjs",
+      "status": 0,
+      "checks": 18
+    },
+    {
+      "category": "test",
+      "name": "test-gunplay-foundation.cjs",
+      "status": 0,
+      "checks": 15
+    },
+    {
+      "category": "test",
+      "name": "test-item-action.cjs",
+      "status": 0,
+      "checks": 42
+    },
+    {
+      "category": "test",
+      "name": "test-shot-resolver.cjs",
+      "status": 0,
+      "checks": 9
+    },
+    {
+      "category": "test",
+      "name": "test-player-projectiles.cjs",
+      "status": 0,
+      "checks": 14
+    },
+    {
+      "category": "test",
+      "name": "test-ballistic-contact-order.cjs",
+      "status": 0,
+      "checks": 8
+    },
+    {
+      "category": "test",
+      "name": "test-melee.cjs",
+      "status": 0,
+      "checks": 24
+    },
+    {
+      "category": "test",
+      "name": "test-action-guards.cjs",
+      "status": 0,
+      "checks": 8
+    },
+    {
+      "category": "test",
+      "name": "test-pistol-state.cjs",
+      "status": 0,
+      "checks": 17
+    },
+    {
+      "category": "test",
+      "name": "test-shotgun-state.cjs",
+      "status": 0,
+      "checks": 17
+    },
+    {
+      "category": "test",
+      "name": "test-smg-state.cjs",
+      "status": 0,
+      "checks": 13
+    },
+    {
+      "category": "test",
+      "name": "test-pump-ownership.cjs",
+      "status": 0,
+      "checks": 5
+    },
+    {
+      "category": "test",
+      "name": "test-utility-grip.cjs",
+      "status": 0,
+      "checks": 4
+    },
+    {
+      "category": "test",
+      "name": "test-connected-arms.cjs",
+      "status": 0,
+      "checks": 3
+    },
+    {
+      "category": "test",
+      "name": "test-treatment-dressing.cjs",
+      "status": 0,
+      "checks": 3
+    },
+    {
+      "category": "test",
+      "name": "test-action-receipt.cjs",
+      "status": 0,
+      "checks": 4
+    },
+    {
+      "category": "lint",
+      "name": "game.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "core.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "weapon.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "motion.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "audio.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "world.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "world-view.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "render-style.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "rifle-state.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "rifle-audio.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "run-clock.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "save-state.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "inventory.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "inventory-game.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "stash-profile.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "inventory-ui.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "storage-profile.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "stash-ui.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "weapon-content.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "weapon-definitions.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "ammo-ledger.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "loadout-action.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "input-router.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "muzzle-ballistics.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "audio-preparation.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "item-action.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "item-view.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "shot-resolver.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "player-projectiles.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "melee.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "pistol-state.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "mechanical-state.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "shotgun-state.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "lint",
+      "name": "smg-state.js",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "build",
+      "name": "build.cjs",
+      "status": 0,
+      "checks": 0
+    },
+    {
+      "category": "audit",
+      "name": "reload-boundary",
+      "status": 0
+    },
+    {
+      "category": "audit",
+      "name": "item-boundary",
+      "status": 0
+    },
+    {
+      "category": "audit",
+      "name": "cover-boundary",
+      "status": 0
+    }
+  ],
+  "actualPlay": false,
+  "actualListening": false,
+  "actualFrameTimes": false,
+  "summary": {
+    "namedChecks": 930,
+    "suites": 46,
+    "syntaxCommands": 34,
+    "matrixCases": 360,
+    "matrixIncludedInSuite": true,
+    "separateAuditCases": 315,
+    "failedCommands": 0
+  },
+  "rootAggregate": {
+    "passed": true,
+    "staticProjects": 11,
+    "launcherPages": 27,
+    "finalScopedLauncherPassed": true,
+    "lockfileUnchanged": true,
+    "pnpm": "9.15.4",
+    "taskLocalDispatcher": true
+  }
+}
