@@ -7,7 +7,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.14.0",
+    "version": "0.14.1",
     "summary": "Two prototype raid regions, catalog-derived stash crafting/armor repair, owned four-gun mechanics and finite-speed ballistics. Actual play/render/listening/storage/performance acceptance remains open.",
     "tags": [
       "game",
@@ -33,7 +33,7 @@ export const projects = [
       "build": "pnpm --filter dead-freight build",
       "test": "pnpm --filter dead-freight test"
     },
-    "updatedAt": "2026-10-14T05:35:37+09:00"
+    "updatedAt": "2026-10-14T06:22:30+09:00"
   },
   {
     "id": "deck-building",

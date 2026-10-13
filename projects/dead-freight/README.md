@@ -1,4 +1,4 @@
-# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.14.0
+# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.14.1
 
 R-4 라이플 한 종의 FPS 기반과, 340×340m 단일 연결 지역을 다루는 1인칭 Extraction 개발 체크포인트입니다. `proto/projects/dead-freight`에서 개발합니다. 완성된 상용 오픈월드 규모나 품질을 의미하지 않습니다.
 
@@ -182,3 +182,7 @@ Three new isolated rendererless fault cases verify denied deployment writes, fai
 
 ## 0.14.0 stash crafting and armor repair economy
 Added home UI/catalog-derived medkit/frag/scanner/armor recipes using owned non-issued scrap and45/40/40/120 currency, armor-only full repair preserving UID/issued flag and catalog-derived missing-durability cost. Recipe input value+cash equals existing output value; archives/quest items are excluded. Stash slot projection,12-slot/30kg carry checks, material retirement, receipt replay/conflict, backup/failed-write/unknown-ack/stale guards and prepared-state refresh connect loot→home work→next deploy. Schema6 reads old saves and backs up exact schema5 bytes before mutation. New explicit workshop-qa isolation is supported; previously provided arbitrary jh-laptop-qa URLs were invalid startup routes, despite HTTP200, and are corrected. Weapon wear/mods/EMP and broad economy/live acceptance remain open. 977 named checks in52 suites,36 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.14.1 workshop ownership and stale-draft audit
+Reproduced and fixed three source defects: failed workshop intent stuck after another tab writes; repaired issued armor returning as saleable owned armor; lost crafted UID accepted as fresh issued equipment. Explicit stale craft/repair cancellation keeps latest saved bytes unchanged and clears only the pending draft. New deployments retain optional UID/item/issued identities; return and repair receipts preserve ownership. Known workshop UIDs cannot use the fresh-issued exception after loss. Legacy schema6 receipts and active raids without optional metadata stay readable; no invented provenance or new gameplay feature. Fourteen focused adversarial tests cover reload, lost acknowledgement, two observed stale writers, workbench/deploy conflicts, exact bytes and identity conservation. localStorage still has no atomic compare-and-swap. 991 named checks in53 suites,36 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.

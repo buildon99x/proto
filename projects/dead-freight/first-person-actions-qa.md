@@ -116,3 +116,7 @@ On fresh real test profiles, repeat two-region deployment/extraction/home sale/n
 
 ## 0.14.0 stash crafting and armor repair economy actual QA
 Run the bundled Node localhost server and use http://127.0.0.1:39605/?testProfile=workshop-qa, verify the test badge/current version and one normal Start. Raid Canal Ward/Black Pines for scrap and contract cash, extract, open owned stash, quote/confirm craft or damaged armor repair, check consumed resources/retained UID, take output into loadout and redeploy. Test failure/reload only in isolated profile with supported controls. Do not clear normal profiles. Existing UI helper block remains; HTTP200 and queued panel never prove startup/render/input/play/listening. Actual screenshots/input/device listening are required; source validation does not close this gate.
+
+
+## 0.14.1 workshop ownership and stale-draft audit actual QA
+Use supported workshop-qa isolated profile at localhost39605. After browser control recovery, verify two real tabs, restart/reload and disk persistence; stale draft cancellation must preserve the newer profile and require a fresh explicit quote. Verify repaired issued armor remains unsaleable and crafted loot is lost on death, then ordinary repeated raids in both regions. Current source tests use fake storage/rendererless UI and establish none of these actual-browser acceptance gates. Actual screenshots/input/device listening are required; source validation does not close this gate.

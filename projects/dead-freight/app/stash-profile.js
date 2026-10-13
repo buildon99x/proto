@@ -15,6 +15,8 @@ const INITIAL_CAPACITY=24,CAPACITY_STEP=8,EXPANSION_COSTS=Object.freeze([500,750
 const capacity=tier=>INITIAL_CAPACITY+CAPACITY_STEP*tier;
 const homeKind=kind=>['expand','sell','claim','craft','repair'].includes(kind);
 const retiredIn=receipts=>receipts.flatMap(r=>r.kind==='sell'?[r.uid]:(r.materials||[]).filter(m=>m.retired).map(m=>m.uid));
+const workshopOwned=receipts=>[...new Set(receipts.flatMap(r=>[...(r.kind==='craft'?[r.outputUid]:r.kind==='repair'?[r.uid]:[]),...(r.materials||[]).map(m=>m.uid)]))];
+function returnIdentity(raid,stack){const original=raid?.loadoutIdentity?.find(s=>s.uid===stack.uid);if(original&&(original.itemId!==stack.itemId||original.issued!==!!stack.issued))error('returned-item-identity');}
 let sequence=0;
 const clone=value=>JSON.parse(JSON.stringify(value));
 const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
@@ -66,7 +68,7 @@ function decode(raw){
    }else if(receipt.kind==='sell'){
     if(!['stash','recovery'].includes(receipt.source)||!validId(receipt.uid)||!Number.isFinite(receipt.value)||receipt.value<0)error('invalid-stash-receipt');
    }else if(receipt.kind==='craft'){const r=Workshop.recipe(receipt.recipeId);if(!r||!validId(receipt.outputUid)||outputs.has(receipt.outputUid)||receipt.cost!==r.cost||!Workshop.validateMaterials(receipt.materials,r.scrap)||receipt.materials.some(m=>m.uid===receipt.outputUid))error('invalid-workshop-receipt');outputs.add(receipt.outputUid);
-   }else if(receipt.kind==='repair'){if(!validId(receipt.uid)||!Number.isFinite(receipt.before)||receipt.before<0||receipt.before>=Equipment.Catalog.armor.maxDurability||receipt.durability!==Equipment.Catalog.armor.maxDurability||receipt.cost!==Workshop.repairCost(receipt.before)||!Workshop.validateMaterials(receipt.materials,1)||receipt.materials.some(m=>m.uid===receipt.uid))error('invalid-workshop-receipt');
+   }else if(receipt.kind==='repair'){if(!validId(receipt.uid)||!Number.isFinite(receipt.before)||receipt.before<0||receipt.before>=Equipment.Catalog.armor.maxDurability||receipt.durability!==Equipment.Catalog.armor.maxDurability||receipt.cost!==Workshop.repairCost(receipt.before)||!Workshop.validateMaterials(receipt.materials,1)||receipt.materials.some(m=>m.uid===receipt.uid)||(Object.hasOwn(receipt,'issued')&&typeof receipt.issued!=='boolean'))error('invalid-workshop-receipt');
    }else if(!validId(receipt.target)||!Array.isArray(receipt.uids)||!receipt.uids.length||receipt.uids.some(uid=>!validId(uid))||new Set(receipt.uids).size!==receipt.uids.length||receipt.target!=='all'&&(receipt.uids.length!==1||receipt.uids[0]!==receipt.target))error('invalid-stash-receipt');
   }
  }
@@ -81,11 +83,13 @@ function decode(raw){
   const settledIds=new Set();for(const settled of settledRaids){if(!object(settled)||!validId(settled.id)||typeof settled.win!=='boolean'||settledIds.has(settled.id))error('invalid-raid-history');settledIds.add(settled.id);}
   if(activeRaid!==null){
    if(!object(activeRaid)||!validId(activeRaid.id)||!Object.hasOwn(activeRaid,'safe')||settledIds.has(activeRaid.id))error('invalid-active-raid');
-   safeCheck(activeRaid.safe);
+   if(Object.hasOwn(activeRaid,'loadoutIdentity')){const identities=activeRaid.loadoutIdentity;if(!Array.isArray(identities)||identities.length>20||new Set(identities.map(s=>s?.uid)).size!==identities.length||identities.some(s=>!object(s)||!validId(s.uid)||!Object.hasOwn(Equipment.Catalog,s.itemId)||typeof s.issued!=='boolean'))error('invalid-loadout-identity');}
+   safeCheck(activeRaid.safe);if(activeRaid.safe)returnIdentity(activeRaid,activeRaid.safe);
    if(activeRaid.safe&&ids.has(activeRaid.safe.uid))error('active-safe-already-in-stash');
   }
  }
  for(const r of stashReceipts.filter(r=>r.kind==='craft')){const output=[...stash,...recovery,...(activeRaid?.safe?[activeRaid.safe]:[])].find(s=>s.uid===r.outputUid);if(output&&(output.itemId!==r.recipeId||output.issued))error('workshop-output-identity');}
+ for(const r of stashReceipts.filter(r=>r.kind==='repair')){const output=[...stash,...recovery,...(activeRaid?.safe?[activeRaid.safe]:[])].find(s=>s.uid===r.uid);if(output&&(output.itemId!=='armor'||Object.hasOwn(r,'issued')&&!!output.issued!==r.issued))error('repair-output-identity');}
  const retiredIds=retiredIn(stashReceipts),reserved=[...retiredIds,...stashReceipts.flatMap(r=>(r.materials||[]).map(m=>m.uid)),...stashReceipts.filter(r=>r.kind==='craft').map(r=>r.outputUid)];if(reserved.length&&!Equipment.reserveIdentities(reserved).ok)error('invalid-stash-receipt');
  if([...stash,...recovery,...(activeRaid?.safe?[activeRaid.safe]:[])].some(stack=>retiredIds.includes(stack.uid)))error('retired-item-present');
  return {raw,data,cash,nextLevel,stash,activeRaid,revision,settledRaids,stashTier,recovery,stashReceipts};
@@ -104,7 +108,7 @@ function create(storage){
   capacity:capacity(saved.stashTier),used:saved.stash.length,tier:saved.stashTier,
   available:Math.max(0,capacity(saved.stashTier)-saved.stash.length),overCapacity:Math.max(0,saved.stash.length-capacity(saved.stashTier)),
   nextCost:EXPANSION_COSTS[saved.stashTier]??null,nextCapacity:saved.stashTier<EXPANSION_COSTS.length?capacity(saved.stashTier+1):null,
-  recovery:clone(saved.recovery),recoveryCount:saved.recovery.length
+  recovery:clone(saved.recovery),recoveryCount:saved.recovery.length,knownWorkshopUids:workshopOwned(saved.stashReceipts)
  };}
  function result(ok,raidId,reason){return {ok,raidId:raidId||null,...(reason?{reason}:{}),pending:pending!==null};}
  function fail(reason,raidId){lastReason=reason;return result(false,raidId,reason);}
@@ -155,7 +159,7 @@ function create(storage){
     for(const use of q.materials){const index=data.stash.findIndex(s=>s.uid===use.uid),s=data.stash[index];if(!s||s.itemId!=='scrap'||s.issued||s.quantity<use.quantity)error('insufficient-materials');if(use.retired)data.stash.splice(index,1);else s.quantity-=use.quantity;}
     data.cash-=q.cost;if(!Number.isFinite(data.cash)||data.cash<0||base.cash-data.cash!==q.cost)error('bank-overflow');
     if(op.kind==='craft'){stackCheck(op.output);if(op.output.itemId!==op.recipeId||op.output.quantity!==1||op.output.issued||[...data.stash,...data.recovery].some(s=>s.uid===op.output.uid))error('invalid-workshop-output');if(data.stash.length>=capacity(base.stashTier))error('stash-full');data.stash.push(clone(op.output));receipt={...receipt,recipeId:op.recipeId,outputUid:op.output.uid,cost:q.cost,materials:q.materials};}
-    else{const armor=data.stash.find(s=>s.uid===op.uid);armor.durability=Equipment.Catalog.armor.maxDurability;receipt={...receipt,uid:op.uid,before:op.before,durability:armor.durability,cost:q.cost,materials:q.materials};}
+    else{const armor=data.stash.find(s=>s.uid===op.uid);armor.durability=Equipment.Catalog.armor.maxDurability;receipt={...receipt,uid:op.uid,before:op.before,durability:armor.durability,issued:!!armor.issued,cost:q.cost,materials:q.materials};}
    }else{
     const free=Math.max(0,capacity(base.stashTier)-base.stash.length);
     const eligible=op.target==='all'?data.recovery:data.recovery.filter(stack=>stack.uid===op.target);
@@ -177,16 +181,16 @@ function create(storage){
      if(source.quantity!==carried.quantity)error('partial-stack-withdrawal-unsupported');
      if(!equal(source,carried))error('stash-item-changed');
      withdrawn.add(carried.uid);
-    }else if(!carried.issued||retiredIn(base.stashReceipts).includes(carried.uid))error('item-not-in-stash');
+    }else if(!carried.issued||retiredIn(base.stashReceipts).includes(carried.uid)||workshopOwned(base.stashReceipts).includes(carried.uid))error('item-not-in-stash');
    }
    data.stash=data.stash.filter(stack=>!withdrawn.has(stack.uid));
-   data.activeRaid={id:op.raidId,safe:clone(op.carry.safe),startedAt:op.startedAt};
+   data.activeRaid={id:op.raidId,safe:clone(op.carry.safe),startedAt:op.startedAt,loadoutIdentity:stacks(op.carry).map(s=>({uid:s.uid,itemId:s.itemId,issued:!!s.issued}))};
   }else{
    if(!base.activeRaid||base.activeRaid.id!==op.raidId)error('raid-mismatch');
-   if(op.kind==='safe')data.activeRaid={...base.activeRaid,safe:clone(op.safe)};
+   if(op.kind==='safe'){if(op.safe)returnIdentity(base.activeRaid,op.safe);data.activeRaid={...base.activeRaid,safe:clone(op.safe)};}
    else{
     const retained=op.kind==='settle'&&op.win?stacks(op.carry):(base.activeRaid.safe?[base.activeRaid.safe]:[]);
-    retain(data,retained);data.activeRaid=null;
+    for(const s of retained)returnIdentity(base.activeRaid,s);retain(data,retained);data.activeRaid=null;
     const win=op.kind==='settle'&&op.win;
     if(win){data.cash=base.cash+op.cash;if(!Number.isFinite(data.cash))error('bank-overflow');data.level=Math.max(base.nextLevel,op.nextLevel);}
     data.settledRaids=[...data.settledRaids,{id:op.raidId,win}].slice(-TOMBSTONE_LIMIT);
@@ -295,12 +299,17 @@ function create(storage){
   if(!interrupted)return fail('raid-still-active',saved.activeRaid.id);
   return prepare('recover',saved.activeRaid.id,{});
  }
+ function discardStaleWorkshop(){
+  if(!pending||!['craft','repair'].includes(pending.kind)||status!=='stale-state')return fail('no-stale-workshop');const op=pending;let current;try{current=read();}catch(e){status='read-error';return fail(e.reason||'save-read-failed');}
+  const receipt=receiptFor(current,op.requestId);if(receipt){if(!matches(receipt,op))return fail('request-id-conflict');finish(current,op);return {...homeResult(true,op,true),discarded:false};}
+  if(current.raw===op.expectedRaw)return fail('conflict-no-longer-current');pending=null;accept(current);status=interrupted?'interrupted-raid':'ready';lastReason=null;return {...result(true,null),discarded:true};
+ }
  function retry(){
   if(pending)return attempt();
   try{accept(read());status=interrupted?'interrupted-raid':'ready';lastReason=null;return true;}
   catch(e){status='read-error';lastReason=e.reason||e.message;return false;}
  }
- return {snapshot,deploy,updateSafe,settle,recoverInterrupted,retry,expandStash,sellStack,claimRecovery,craft,repairArmor};
+ return {snapshot,deploy,updateSafe,settle,recoverInterrupted,retry,expandStash,sellStack,claimRecovery,craft,repairArmor,discardStaleWorkshop};
 }
 return {KEY,BACKUP_KEY,BACKUP_V3_KEY,BACKUP_V4_KEY,BACKUP_V5_KEY,SCHEMA,TOMBSTONE_LIMIT,INITIAL_CAPACITY,CAPACITY_STEP,EXPANSION_COSTS,decode,create};
 });

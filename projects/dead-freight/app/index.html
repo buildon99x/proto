@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DEAD FREIGHT / First-person Actions / 0.14.0</title>
+<title>DEAD FREIGHT / First-person Actions / 0.14.1</title>
 <style>
 :root{color-scheme:dark;--paper:#e7ebec;--muted:#a3acb9;--ink:#0b101a;--accent:#b67c87;--frame-w:min(calc(100vw - 24px),calc(177.777778vh - 42.666667px));--frame-h:min(calc(56.25vw - 13.5px),calc(100vh - 24px))}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#030507;color:var(--paper);font-family:Consolas,'Courier New',monospace}button,select,input{font:inherit}button{cursor:pointer;border:0;padding:12px 21px;background:#d3d9df;color:#101620;font-size:12px;font-weight:bold;letter-spacing:1px}button:hover{background:#f3f5f5}button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #fff;outline-offset:3px}[hidden]{display:none!important}
@@ -52,14 +52,14 @@
 <div id="inventory-overlay" hidden role="dialog" aria-modal="true" aria-label="가방과 출격 준비"><div id="inventory-content"></div></div>
 <div id="damage" hidden></div>
 <div id="overlay" data-startup="pending"><div class="panel">
-  <div class="eyebrow">0.14.0 / ASSAULT RIFLE FOUNDATION · FIRST-PERSON ACTIONS</div>
+  <div class="eyebrow">0.14.1 / ASSAULT RIFLE FOUNDATION · FIRST-PERSON ACTIONS</div>
   <h1>DEAD<br>FREIGHT</h1>
   <p id="startup-status" role="status" aria-live="polite">3D 렌더러를 준비하고 있습니다.</p>
   <p id="description">태양빛이 지표에 닿지 않는 영구적인 밤.<br>꺼지지 않은 작업등을 따라 숲의 시설과 수송로를 탐색하세요.<br>보급품과 화물을 찾아 중계소의 표적을 추적하세요. 증표를 회수한 뒤 탈출 지점에서 구조를 기다리세요.</p>
   <a id="test-profile-link" href="?testProfile=local-qa" hidden>올바른 테스트 저장으로 열기</a>
   <div id="stats"></div>
   <div id="mission-guide" class="guide">중계소 표적 제거 → E로 증표 회수 → 탈출 지점에서 E → 탈출 중 구역 유지 · 6초.<br>사망하거나 새 원정을 시작하면 보호 포켓 외 휴대 장비·전리품을 잃습니다. 보관함과 현금은 유지됩니다. 현재 시간 제한은 없으며, 다음 계약도 같은 지역을 새로 시작합니다.</div>
-  <div id="save-panel" class="guide"><span id="save-status" role="status" aria-live="polite"></span><button id="recover-run" class="minor" hidden>중단 원정 정리 · 보호 포켓만 회수</button><button id="save-retry" class="minor" hidden>저장 재시도</button></div>
+  <div id="save-panel" class="guide"><span id="save-status" role="status" aria-live="polite"></span><button id="recover-run" class="minor" hidden>중단 원정 정리 · 보호 포켓만 회수</button><button id="workshop-conflict" class="minor" hidden>다른 저장 유지 · 대기 제작·수리 취소</button><button id="save-retry" class="minor" hidden>저장 재시도</button></div>
   <p id="deployment-label" class="guide"></p>
   <div id="controls" class="controls">
     <div><b>W A S D</b> 이동 · <b>SHIFT</b> 달리기</div>
