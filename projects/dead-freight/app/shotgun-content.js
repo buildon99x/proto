@@ -1,0 +1,17 @@
+/* Generated from content/shotgun.json. */
+(function(root){root.DFShotgunContent={
+  "version": 1,
+  "id": "shotgun",
+  "capacity": 2,
+  "initialRounds": 2,
+  "initialReserve": 24,
+  "fireRecovery": 0.4,
+  "cycleDelay": 0.26,
+  "cycleRecovery": 0.28,
+  "reloadDuration": 1.9,
+  "perfectStart": 0.44,
+  "perfectEnd": 0.62,
+  "perfectRemaining": 0.04,
+  "mistimePenalty": 0.35,
+  "switchRecovery": 0.25
+};})(globalThis);

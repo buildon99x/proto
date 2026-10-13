@@ -135,3 +135,7 @@ Close reproduced direct-bridge paused-use and active-action immediate-use holes.
 
 ## 0.12.5 pistol state ownership
 Migrate the existing P-6 six-round pistol into one validated data-driven per-instance state controller. Preserve the fictional gun's automatic cycling, mandatory recovery, legacy active-reload skill behavior, ballistics, controls, recordings and existing inventory/save schema. Shotgun/SMG remain separate migration gaps.
+
+
+## 0.12.6 shotgun mechanical ownership
+Port the existing two-shell Breach shotgun to validated per-UID mechanical ownership, sharing the proven controller implementation with P-6. Preserve nine-pellet ballistics, automatic pump/recovery, semi trigger behavior, atomic end-of-reload transfer, recordings and inventory/save shape. Do not imply one-shell insertion commits that the existing game does not implement.

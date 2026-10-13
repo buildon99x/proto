@@ -68,3 +68,7 @@ Observe the pinch/pull through the separation moment, then compare support-hand/
 
 ## 0.12.5 pistol live acceptance
 On an identified 0.12.5 artifact, test P-6 hip/ADS fire, automatic cycle and mandatory recovery, normal/perfect/mistimed reload, cancel before transfer, H and same-class swaps, dropping/recovering a partially cycled pistol, pause/focus/death/extraction and melee/treatment/frag arbitration. Confirm six-round conservation and detailed HUD matching the actual action. Listen to existing shot/slide/reload/contact recordings and capture return pose/frame-time. Source tests do not pass this checklist. Shotgun/SMG still use their legacy state paths.
+
+
+## 0.12.6 shotgun live acceptance
+Use an identified 0.12.6 artifact and exact QA profile. Observe automatic pump/recovery, last-shell handling, interrupted insertion and physical trigger hold/repress. Test same-class UID swaps, H/drop/recovery, pause/focus/damage/death/extraction and all utility/melee transitions. Inspect neutral hand/gun return and listen to existing mechanical/contact recordings on a real output device; measure frame-time. No rendererless/source result passes this checklist.

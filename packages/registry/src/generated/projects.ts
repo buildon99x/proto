@@ -7,8 +7,8 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.12.5",
-    "summary": "Finite-speed four-weapon ballistics, cancellable quick melee, preserved rejected-treatment recovery and support-hand ownership of the detached grenade pin. Actual render/input/listening/performance acceptance remains open. P-6 pistol mechanics now have validated data and per-instance state ownership.",
+    "version": "0.12.6",
+    "summary": "Finite-speed four-weapon ballistics, cancellable quick melee, preserved rejected-treatment recovery and support-hand ownership of the detached grenade pin. Actual render/input/listening/performance acceptance remains open. P-6 pistol mechanics now have validated data and per-instance state ownership. Breach shotgun now has per-UID mechanical ownership.",
     "tags": [
       "game",
       "fps",
@@ -33,7 +33,7 @@ export const projects = [
       "build": "pnpm --filter dead-freight build",
       "test": "pnpm --filter dead-freight test"
     },
-    "updatedAt": "2026-10-14T02:52:23+09:00"
+    "updatedAt": "2026-10-14T03:15:20+09:00"
   },
   {
     "id": "deck-building",

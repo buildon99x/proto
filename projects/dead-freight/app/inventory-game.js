@@ -53,7 +53,7 @@ class Bridge{
    const candidate={...stack,rounds:state.magazine+state.chamber,chamber:state.chamber,weaponState:state};
    if(!model.validateStack(candidate).ok)throw new Error('Invalid live rifle state');
    Object.assign(stack,{rounds:candidate.rounds,chamber:candidate.chamber,weaponState:state});
-  }else if(index===0){const state=w.pistol.exportInstance();if(state.weaponInstanceId!==stack.uid)throw new Error('Pistol instance binding mismatch');const candidate={...stack,rounds:w.pistol.rounds,weaponState:state};if(!model.validateStack(candidate).ok)throw new Error('Invalid live pistol state');Object.assign(stack,{rounds:candidate.rounds,weaponState:state});
+  }else if(w.mechanical[index]){const controller=w.mechanical[index],state=controller.exportInstance();if(state.weaponInstanceId!==stack.uid)throw new Error('Pistol instance binding mismatch');const candidate={...stack,rounds:controller.rounds,weaponState:state};if(!model.validateStack(candidate).ok)throw new Error('Invalid live pistol state');Object.assign(stack,{rounds:candidate.rounds,weaponState:state});
   }else{
    const previous=model.weaponState(stack),cycleNeeded=index<2&&!w.cocked;
    // Starting a legacy reload clears its automatic cycle timer. Cancellation
@@ -67,7 +67,7 @@ class Bridge{
  _cancelReload(reason='inventory'){
   const w=this.world;w.clearFireInput(reason);
   if(w.rifle?.reload)w.rifle.cancelReload(reason);
-  if(w.weapon===0){w.pistol.cancelReload(reason);w.syncPistol();}
+  if(w.mechanical[w.weapon]){w.mechanical[w.weapon].cancelReload(reason);w.syncMechanical();}
   if(w.weapon!==3&&w.reload>0)w.emit('reloadcancel',{weapon:w.weapon,reason});
   w.reload=0;w.reloadDuration=0;
   if(!this.holstered&&this.activeUid&&w.weapon<2&&!w.cocked&&w.cycleWeapon===null){
@@ -107,7 +107,8 @@ class Bridge{
   if(!w.rifle.restoreInstance(state,{reserve:this._reserves[3],sessionId:this.sessionId,active}))throw new Error('Unable to restore carried rifle');
   this._rifleUid=stack?.uid||null;
  }
- _restorePistol(stack){const w=this.world,state=stack?model.weaponState(stack):{version:1,weaponId:'pistol',weaponInstanceId:'unarmed-pistol-'+this.sessionId,mode:'semi',shotSequence:0,recoveryRemaining:0,reloadCheckpoint:null,cocked:true,cycleNeeded:false,cycleRemaining:0};if(!w.pistol.restoreInstance(state,{rounds:stack?.rounds||0,reserve:this._reserves[0],sessionId:this.sessionId,active:false,paused:w.paused}))throw new Error('Unable to restore carried pistol');this._pistolUid=stack?.uid||null;}
+ _restorePistol(stack){this._restoreMechanical(0,stack);}
+ _restoreMechanical(index,stack){const w=this.world,controller=w.mechanical[index],id=controller.config.id,state=stack?model.weaponState(stack):{version:1,weaponId:id,weaponInstanceId:'unarmed-'+id+'-'+this.sessionId,mode:controller.mode,shotSequence:0,recoveryRemaining:0,reloadCheckpoint:null,cocked:true,cycleNeeded:false,cycleRemaining:0};if(!controller.restoreInstance(state,{rounds:stack?.rounds||0,reserve:this._reserves[index],sessionId:this.sessionId,active:false,paused:w.paused}))throw new Error('Unable to restore carried '+id);this._mechanicalUids??=[];this._mechanicalUids[index]=stack?.uid||null;if(index===0)this._pistolUid=stack?.uid||null;}
  syncToWorld(options={}){
   const w=this.world,previous=this.activeUid,slots=[this.inventory.get('weapon:0'),this.inventory.get('weapon:1')];
   const followed=previous?slots.findIndex(stack=>stack?.uid===previous):-1;
@@ -125,19 +126,19 @@ class Bridge{
   const rifleStack=index===3?active:slots.find(stack=>stack?.itemId==='r4')||null;
   if(w.rifle&&(this._rifleUid!==rifleStack?.uid||changed||!this._applied))this._restoreRifle(rifleStack,false);
   else this._setRifleReserve(this._reserves[3]);
-  const pistolStack=index===0?active:slots.find(stack=>stack?.itemId==='pistol')||null;if(this._pistolUid!==(pistolStack?.uid||null)||changed||!this._applied)this._restorePistol(pistolStack);
+  for(const [wi,controller] of w.mechanical.entries()){const stack=index===wi?active:slots.find(stack=>stack?.itemId===controller.config.id)||null;if(this._mechanicalUids?.[wi]!==(stack?.uid||null)||changed||!this._applied)this._restoreMechanical(wi,stack);}
   this.activeUid=active?.uid||null;
   if(index===null||this.holstered){
-   w.clearFireInput(index===null?'unarmed':'holster');w.rifle?.deactivate();w.pistol.deactivate('unarmed');if(index!==0){w.reload=0;w.reloadDuration=0;w.cycleWeapon=null;w.cycleDelay=0;w.cocked=index===null;}
+   w.clearFireInput(index===null?'unarmed':'holster');w.rifle?.deactivate();for(const controller of w.mechanical)controller.deactivate('unarmed');if(!w.mechanical[index]){w.reload=0;w.reloadDuration=0;w.cycleWeapon=null;w.cycleDelay=0;w.cocked=index===null;}
   }else if(changed||w.weapon!==index){
    const paused=w.paused;w.paused=false;if(w.weapon!==index)w.switchWeapon(index);w.paused=paused;
    if(index===3){w.rifle.activate();w.rifle.setPaused(paused);}
-   else if(index===0){w.pistol.activate();w.pistol.setPaused(paused);w.pistol.cooldown=Math.max(w.pistol.cooldown,this._applied?.25:0);}
+   else if(w.mechanical[index]){const controller=w.mechanical[index];controller.activate();controller.setPaused(paused);controller.cooldown=Math.max(model.weaponState(active).recoveryRemaining,this._applied?controller.config.switchRecovery:0);}
    else{
     const state=model.weaponState(active);w.cocked=state.cocked;w.cycleWeapon=state.cycleNeeded?index:null;w.cycleDelay=state.cycleRemaining;w.reload=0;w.reloadDuration=0;w.cooldown=Math.max(state.recoveryRemaining,this._applied?.25:0);
    }
    w.clearFireInput('inventory-switch');this._lastShots=w.shots||0;
-  }else if(index===3&&w.rifle&&!w.rifle.active)w.rifle.activate();else if(index===0&&!w.pistol.active)w.pistol.activate();
+  }else if(index===3&&w.rifle&&!w.rifle.active)w.rifle.activate();else if(w.mechanical[index]&&!w.mechanical[index].active)w.mechanical[index].activate();
   const armor=this.inventory.get('armor');this._armorUid=armor?.uid||null;w.player.armor=armor?.durability||0;
   w.syncRifle();this._objective();this._applied=true;
  }
