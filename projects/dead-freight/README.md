@@ -1,4 +1,4 @@
-# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.12.15
+# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.13.0
 
 R-4 라이플 한 종의 FPS 기반과, 340×340m 단일 연결 지역을 다루는 1인칭 Extraction 개발 체크포인트입니다. `proto/projects/dead-freight`에서 개발합니다. 완성된 상용 오픈월드 규모나 품질을 의미하지 않습니다.
 
@@ -170,3 +170,7 @@ Grenade guide and committed launch now share the authored hand release point pro
 
 ## 0.12.15 archived movement cancellation and isolated rig preview
 Sprint/dodge/slide now cancel utility/melee before effects on original game and direct Bridge routes; ordinary walking and once-only committed consequences remain. Preserved motion archive source reconciliation is complete for connected joints/tracks/tools/origin/receipts/interruption, with current gameplay values retained. A local read-only rig preview builds cycles/marker/cancel samples and licensed local assets without gameplay/storage/audio/pointer-lock operations. Preview syntax/assets are inspected; rendered review remains unverified. 943 named checks in49 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.13.0 second-region raid and home economy vertical slice
+Black Pines world.js and definition remain unchanged. Added selectable Canal Ward:280×220m urban blocks, non-swimmable flood channel/two bridges, west insertion/archive loot, eight different authored encounters/east pump boss, archive+token east ferry8s and token west winch12s. Flood is movement-only, not an invisible shot/LOS wall; guidance follows collision-clear bridge nodes. Choice freezes per deployment. Existing schema5/UID/settlement/home-sale receipts return equipment/loot/cash exactly once across repeated raids; quest tokens retire and death preserves only safe loot. Ten new model/runtime checks include3270 reachable grid cells. This is two prototype regions, not two finished city maps or live two-map/economy acceptance. 953 named checks in50 suites,35 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.

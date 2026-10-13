@@ -41,7 +41,7 @@ class Mission {
   this.combo=0;this.comboTimer=0;this.style=0;this.perfect=0;this.reloadDuration=0;
   this.extractionZones=[{id:'south',name:'SOUTH LZ',x:0,z:25,radius:3.5,holdTime:6}];this.extractionZone=null;this.extractionProgress=0;this.extractionRequired=6;
   this._grid=new Map();this._indexedWalls=null;this._indexedCount=-1;this._gridDirty=true;
-  if(options.world!==false&&regionSource?.populate)regionSource.populate(this);else this.build();
+  if(options.world!==false&&regionSource?.populate)(root.DFRegions||(typeof require==='function'?require('./regions.js'):regionSource)).populate(this,options.regionId||'black-pines');else this.build();
   // Armor belongs to the encounter, including when the rifle is equipped later.
   for(const enemy of this.enemies)enemy.armor??=enemy.boss?60:0;
   this.extractions=this.extractionZones;this.rebuildSpatialIndex();
@@ -89,6 +89,7 @@ class Mission {
  }
  wallHit(ax,ay,az,bx,by,bz,r=.02){
   let nearest=null;for(const w of this.wallCandidates(Math.min(ax,bx)-r,Math.min(az,bz)-r,Math.max(ax,bx)+r,Math.max(az,bz)+r)){
+   if(w.movementOnly)continue;
    const y=w.y||0,t=segmentBox(ax,ay,az,bx,by,bz,w.x-w.w/2-r,y-r,w.z-w.d/2-r,w.x+w.w/2+r,y+w.h+r,w.z+w.d/2+r);if(t!==null&&(nearest===null||t<nearest))nearest=t;
   }return nearest;
  }
@@ -172,6 +173,7 @@ class Mission {
   for(const w of this.wallCandidates(b.x-5,b.z-5,b.x+5,b.z+5))if(Number.isFinite(w.hp)&&Math.hypot(w.x-b.x,w.z-b.z)<5){w.alive=false;this.destroyed++;this.emit('break',{id:w.id,x:w.x,z:w.z,y:w.y||0});}
   if(Math.hypot(this.player.x-b.x,this.player.z-b.z,this.player.y-(b.y||0))<5)this.damage(25,{x:b.x,z:b.z});
  }
+ canExtract(zone){return !!zone&&this.bounty&&(!zone.requiredItem||typeof this.extractionItemCount==='function'&&this.extractionItemCount(zone.requiredItem)>0);}
  nearExtraction(){const p=this.player;return this.extractionZones.find(zone=>Math.hypot(p.x-zone.x,p.z-zone.z)<=zone.radius)||null;}
  cancelExtraction(reason='left'){if(!this.extractionZone)return;const zone=this.extractionZone;this.extractionZone=null;this.extractionProgress=0;this.emit('extractioncancel',{id:zone.id,reason});}
  interact(){
@@ -180,7 +182,7 @@ class Mission {
    if((item.type==='health'&&p.hp>=100)||(item.type==='armor'&&p.armor>=100))continue;
    item.alive=false;changed=true;if(item.type==='health')p.hp=clamp(p.hp+45,0,100);if(item.type==='armor')p.armor=clamp(p.armor+45,0,100);if(item.type==='ammo'){for(let i=0;i<3;i++)this.reserve[i]+=[24,8,60][i];this.rifle?.addReserve(90);this.syncRifle();}if(item.type==='bounty')this.bounty=true;if(item.type==='cargo'){this.cargo++;this.cash+=item.value??150;}this.emit('pickup',{kind:item.type,value:item.value||0});
   }
-  const zone=this.nearExtraction();if(zone&&this.bounty&&!this.extractionZone){this.extractionZone=zone;this.extractionProgress=0;this.extractionRequired=zone.holdTime||6;this.emit('extractionstart',{id:zone.id,duration:this.extractionRequired});changed=true;}return changed;
+  const zone=this.nearExtraction();if(this.canExtract(zone)&&!this.extractionZone){this.extractionZone=zone;this.extractionProgress=0;this.extractionRequired=zone.holdTime||6;this.emit('extractionstart',{id:zone.id,duration:this.extractionRequired});changed=true;}return changed;
  }
  tick(dt){
   if(!Number.isFinite(dt)||dt<=0||this.paused)return;if(this.player.hp<=0){this.cancelExtraction('dead');this.clearFireInput('dead');return;}if(this.extracted){this.clearFireInput('extracted');return;}
@@ -212,7 +214,7 @@ class Mission {
   }
   this.projectiles=this.projectiles.filter(shot=>shot.alive);
   if(p.hp>0&&!this.extracted)this.playerBullets.advance(this,dt,beforeEnemies,incomingContacts);else this.playerBullets.clear();
-  if(this.extractionZone){const zone=this.extractionZone;if(p.hp<=0||!this.bounty||Math.hypot(p.x-zone.x,p.z-zone.z)>zone.radius)this.cancelExtraction(p.hp<=0?'dead':'left');else{this.extractionProgress=Math.min(this.extractionRequired,this.extractionProgress+dt);if(this.extractionProgress>=this.extractionRequired-EPS){this.extractionProgress=this.extractionRequired;this.extracted=true;this.playerBullets.clear();this.clearFireInput('extracted');for(const controller of this.mechanical)controller.deactivate('extracted');this.syncMechanical();this.emit('win',{id:zone.id,cargo:this.cargo,cash:this.cash});}}}
+  if(this.extractionZone){const zone=this.extractionZone;if(p.hp<=0||!this.canExtract(zone)||Math.hypot(p.x-zone.x,p.z-zone.z)>zone.radius)this.cancelExtraction(p.hp<=0?'dead':'left');else{this.extractionProgress=Math.min(this.extractionRequired,this.extractionProgress+dt);if(this.extractionProgress>=this.extractionRequired-EPS){this.extractionProgress=this.extractionRequired;this.extracted=true;this.playerBullets.clear();this.clearFireInput('extracted');for(const controller of this.mechanical)controller.deactivate('extracted');this.syncMechanical();this.emit('win',{id:zone.id,cargo:this.cargo,cash:this.cash});}}}
  }
 }
 root.HC={Mission,clamp,MOVEMENT,CYCLE,RIFLE:rifleSource?.RIFLE};if(typeof module!=='undefined')module.exports=root.HC;

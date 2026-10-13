@@ -9,11 +9,11 @@
 function build({T,parent,world}){
  const data=world.region||world,wallData=world.walls||data.walls;
  if(!T||!parent||!data.trees)throw new Error('DFWorldView requires THREE, parent and a populated region');
- const group=new T.Group();group.name='black-pines-region';parent.add(group);
+ const group=new T.Group();group.name=(world.regionId||'black-pines')+'-region';parent.add(group);
  const resources={geometry:new Set(),material:new Set(),texture:new Set()};
  const geometry=g=>(resources.geometry.add(g),g);
  const geos={box:geometry(new T.BoxGeometry(1,1,1)),cylinder:geometry(new T.CylinderGeometry(1,1,1,8)),cone:geometry(new T.ConeGeometry(1,1,7)),plane:geometry(new T.PlaneGeometry(1,1)),disc:geometry(new T.CircleGeometry(1,48)),ring:geometry(new T.TorusGeometry(1,.018,4,48))};
- const colors={soil:[64,72,76],road:[110,117,121],gravel:[133,138,140],concrete:[157,163,165],rock:[105,116,122],wood:[88,95,96],trunk:[43,52,57],leaf:[43,58,62],steel:[76,89,96],crate:[113,114,104],bark:[103,110,106],dark:[28,39,45],ivory:[197,207,207],rust:[99,42,43],mud:[64,72,77]};
+ const colors={soil:[64,72,76],road:[110,117,121],gravel:[133,138,140],concrete:[157,163,165],rock:[105,116,122],wood:[88,95,96],trunk:[43,52,57],leaf:[43,58,62],steel:[76,89,96],crate:[113,114,104],bark:[103,110,106],dark:[28,39,45],ivory:[197,207,207],rust:[99,42,43],mud:[64,72,77],water:[55,100,117]};
  function material(kind,repeat=1){const n=64,pixels=new Uint8Array(n*n*4),base=colors[kind];let s=731;
   for(let y=0;y<n;y++)for(let x=0;x<n;x++){s=(Math.imul(s,1664525)+1013904223)>>>0;let grain=(s/4294967296-.5)*(kind==='soil'?17:22),stain=Math.sin(x*.14+y*.06)*Math.sin(y*.17)*9;
    if(kind==='wood'||kind==='trunk'||kind==='bark')grain+=Math.sin(x*.73+Math.sin(y*.15))*7;
@@ -47,6 +47,7 @@ function build({T,parent,world}){
   if(w.kind==='trunk'){o=mesh(geos.cylinder,proxyMat,w.x,w.h/2,w.z,w.w/2,w.h,w.d/2);o.visible=false;}
   else{o=box(w.x,(w.y||0)+w.h/2,w.z,w.w,w.h,w.d,mats[w.kind]||mats.concrete);if(w.kind==='boundary'||w.renderProxy)o.visible=false;}
   o.name='wall-'+w.id;o.userData={kind:'wall',id:w.id,renderProxy:!!w.renderProxy||w.kind==='trunk'||w.kind==='boundary'};wallMeshes[w.id]=o;
+  if(w.movementOnly)o.raycast=()=>{};
  }
  // Whole forest: three render calls including low understory. No individual leaf objects.
  const trunks=new T.InstancedMesh(geos.cylinder,mats.trunk,data.trees.length),leaves=new T.InstancedMesh(geos.cone,mats.leaf,data.trees.length*4),brush=new T.InstancedMesh(geos.cone,mats.leaf,data.trees.length*2);
@@ -64,6 +65,8 @@ function build({T,parent,world}){
   const texture=new T.CanvasTexture(c);texture.colorSpace=T.SRGBColorSpace;texture.magFilter=T.LinearFilter;resources.texture.add(texture);const m=new T.MeshBasicMaterial({map:texture,side:T.DoubleSide});resources.material.add(m);mesh(geos.plane,m,v.x,v.y,v.z+.074,v.width,h,1);
  }
  for(const v of data.details){
+  if(v.type==='canal-water'){flat(v.x,v.z,v.w,v.d,mats.water,.026);continue;}
+  if(v.type==='urban-block'){box(v.x,v.h+.12,v.z,v.w+.4,.24,v.d+.4,mats.dark);for(const side of [-1,1])for(let y=2;y<v.h-1;y+=2.5)for(let x=-v.w/2+2;x<v.w/2;x+=4)box(v.x+x,y,v.z+side*(v.d/2+.04),1.4,1,.05,mats.dark);continue;}
   if(v.type==='sign'||v.type==='direction'){sign(v);continue;}
   if(v.type==='practice'){for(const x of [-10,-6])box(x,.79,123,1,.03,1.12,marker);sign({x:-7,z:111.9,y:2.8,width:6,text:'JUMP / SLIDE'});}
   if(v.type==='hut-roof'){const o=box(v.x,v.y+.1,v.z,v.w,.2,v.d,mats.dark);o.rotation.z=.045;box(v.x,v.y-.13,v.z+v.d/2,v.w,.24,.18,mats.ivory);}

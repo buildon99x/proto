@@ -30,6 +30,7 @@ class Bridge{
  constructor(world,inventory,options={}){
   if(!world?.player||!inventory?.get)throw new TypeError('Mission and Inventory are required');
   this.world=world;this.inventory=inventory;this.activeSlot=options.activeSlot===1?1:0;this.activeUid=null;this.holstered=false;this.throwables=[];this.scannerRemaining=0;
+  world.extractionItemCount=id=>this.inventory.countItem(id);
   this.itemAction=new ItemAction();this._itemAim={yaw:0,pitch:0};this._itemVital=null;this._lastActionCommit=0;
   this.sessionId=options.sessionId||'carry-session-'+(++Bridge.sessionSequence);this._callbacks=options;
   this._bound=new Map();this._rifleUid=null;this._armorUid=null;this._reserves=[0,0,0,0];this._applied=false;this._lastShots=world.shots||0;this._nextAction=0;this._nextThrowable=1;this._throwableAccumulator=0;this._lastWorldTime=world.time;
@@ -197,9 +198,10 @@ class Bridge{
   const w=this.world;if(!this._available()||w.paused)return this._failure('unavailable');
   this.syncFromWorld();const zone=w.nearExtraction();
   if(zone&&w.bounty){
+   if(!w.canExtract(zone))return this._result(false,'탈출에 '+Catalog[zone.requiredItem].name+' 회수가 필요합니다.',{reason:'required-extraction-item'});
    if(w.extractionZone)return this._result(false,'탈출 신호 송신 중입니다. 구역 안을 지키세요.',{reason:'extracting'});
    w.extractionZone=zone;w.extractionProgress=0;w.extractionRequired=zone.holdTime||6;w.emit('extractionstart',{id:zone.id,duration:w.extractionRequired});
-   return this._result(true,'탈출 신호 송신 · 6초 동안 구역을 지키세요.',{extraction:true});
+   return this._result(true,'탈출 신호 전송 · '+w.extractionRequired+'초 동안 구역을 지키세요.',{extraction:true});
   }
   if(w.time+EPS<this._nextAction)return this._result(false,'잠시 후 다시 시도하세요.',{reason:'cooldown'});
   const item=this.nearestPickup();if(!item)return this._result(false,zone?'탈출하려면 표적 인식표가 필요합니다.':'가까운 곳에 회수할 물품이 없습니다.',{reason:'nothing-nearby'});
@@ -315,7 +317,7 @@ class Bridge{
  addCaches(){
   const w=this.world;if(w._inventoryCaches)return;w._inventoryCaches=true;
   if(!w.landmarks?.length)return;
-  const plans=[['insertion','bandage',2],['insertion','frag',1],['lumber','shotgun',1],['lumber','ammo-shell',8],['depot','smg',1],['depot','ammo-smg',60],['quarry','frag',2],['quarry','armor',1],['relay','r4',1],['relay','scanner',1],['relay','archive',1]];
+  const plans=w.region?.cachePlans||[['insertion','bandage',2],['insertion','frag',1],['lumber','shotgun',1],['lumber','ammo-shell',8],['depot','smg',1],['depot','ammo-smg',60],['quarry','frag',2],['quarry','armor',1],['relay','r4',1],['relay','scanner',1],['relay','archive',1]];
   const originals=w.pickups.slice();let sequence=0;
   for(const [landmarkId,itemId,quantity] of plans){
    const landmark=w.landmarks.find(l=>l.id===landmarkId);if(!landmark)continue;

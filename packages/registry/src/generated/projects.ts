@@ -7,8 +7,8 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.12.15",
-    "summary": "All four existing guns own mechanical states: validated per-UID P-6/Breach/Twin controllers and R-4, finite-speed ballistics, cancellable utility/melee actions. Actual render/input/listening/performance acceptance remains open.",
+    "version": "0.13.0",
+    "summary": "Two selectable prototype regions with inventory-backed extraction/home settlement, four owned firearms and finite-speed ballistics. Actual play/render/listening/performance acceptance remains open.",
     "tags": [
       "game",
       "fps",
@@ -33,7 +33,7 @@ export const projects = [
       "build": "pnpm --filter dead-freight build",
       "test": "pnpm --filter dead-freight test"
     },
-    "updatedAt": "2026-10-14T04:53:22+09:00"
+    "updatedAt": "2026-10-14T05:01:21+09:00"
   },
   {
     "id": "deck-building",

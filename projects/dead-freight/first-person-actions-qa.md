@@ -104,3 +104,7 @@ Hold aim, inspect initial trajectory point against the release hand, throw at va
 
 ## 0.12.15 archived movement cancellation and isolated rig preview actual QA
 Inspect actual rig cycles and cancellation in tools/rig-preview/dist, then play the full isolated test profile: grenade aim/release/cancel, treatment contact/interruption, melee, H and all-gun switches/reloads, firing near cover, successful extraction/death/repeated raids. Listen and capture frames/device timing separately. Preview cannot replace full-game acceptance. Actual screenshots/input/device listening are required; source validation does not close this gate.
+
+
+## 0.13.0 second-region raid and home economy vertical slice actual QA
+Use a fresh isolated profile: choose each region, deploy actual carried loadout, travel bridges/cover, fight at least two encounter types, recover archive and bounty, test both exits and interruption, return home, sell loot, redeploy preserved equipment and die with protected loot. Verify visuals/route readability, gun/audio sync, mouse input, frame times and repeated persistence. Existing CUA/MXC blocker remains; queued panel is not a loaded/playable browser confirmation. Actual screenshots/input/device listening are required; source validation does not close this gate.
