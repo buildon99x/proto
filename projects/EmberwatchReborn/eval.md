@@ -519,3 +519,9 @@ First reproduce the contrast contract red against b6a4626 presentation, then ver
 
 ## Supported Chromium input follow-up — 2026-10-13
 See docs/verification-cloud-input-20261013. Fresh first-tier native-input checks observed late queue/held restart, startup dodge, release, duplicate charge/save, real dialog-focus clear/repress and death/Tab/Enter retry. Headless page switching did not deliver blur/visibility changes; those gates remain unverified. Six8s same-town rAF trials are page intervals only, not a60FPS/physical latency/combat guarantee. No game code changed and no new automatic aggregate is claimed. New requested Library PNG prepare succeeded but all transfers returned Forbidden; completed[] and no finalization/Library IDs. Preserve a19 and remaining-build gates.
+
+
+## Read-only input observations initial focus — 2026-10-13
+Reproduce missing top focus against the previous production handler, assert read-only state/revision, preventScroll, scroll0 and blocked-error nonoverride. Run focused input/dialog checks, whole suite, lint and app build. Reload the same normally created native QA profile, open a long input record, inspect actual top/title/latest rows, then use native Tab/Back and Escape; keep OS blur/listening/physical latency unverified.
+
+Focus repair verification completed: red1fail/1pass → focused294/294 → full4,683/4,683, zero fail/skip/cancel; lint and133-file16,800,010-byte build passed. Native screens17–20 verified initial heading/latest records, panel focus, Tab/Shift+Tab containment, Back/Enter and Escape returning to the active canvas. Cumulative native log has25batches/20screens,5 preserved locator/setup failures and zero page errors. No external blur/listening/AX or60FPS claim. See docs/verification-cloud-input-20261013.

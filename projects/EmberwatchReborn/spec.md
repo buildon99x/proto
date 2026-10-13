@@ -398,3 +398,7 @@ Read only existing crusherShockwave ring records. Keep visible outer boundary at
 
 ## Cloud crusher contrast follow-up — 2026-10-13
 Each existing ground contour and decorative fracture receives a dark outer stroke then its existing inner stroke on identical geometry and alpha. Reduced/zero-flash retains one static true-radius path with two contrast strokes, without decorative paths. No new hit, lifetime, sound, save field, item or rank. Ordinary UI is the only progression/equipment path used in QA; a19 protected changes remain blocked.
+
+
+## Read-only input observations initial focus — 2026-10-13
+After the existing input-observation panel renders, focus its already focusable dialog container with preventScroll and start its scroll at0. Do not override the protected save-error panel when the runtime gate is blocked. Tab still reaches Back, Escape/return behavior remains owned by the existing dialog system, and no serialized or observation field changes.

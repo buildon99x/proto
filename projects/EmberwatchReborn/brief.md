@@ -303,3 +303,7 @@ Resume one existing legal crusher build slice: actual equipped mace + existing J
 
 ## Cloud crusher contrast follow-up — 2026-10-13
 Normal-input Chromium QA earned iron_mace, Adept and Judgement from a fresh profile. The prepared guard/payoff screen leaves the existing ground contour and fractures difficult to separate from stone detail and the Judgement arc. Add a dark keyline on the same presentation paths only; retain real radius, alpha, .3s lifetime, reduced mode, all combat/audio/input/state/save behavior and balances. Desktop/physical display and listening remain unverified; no writer resumption or broader completion.
+
+
+## Read-only input observations initial focus — 2026-10-13
+Actual Chromium screenshots09/15 opened the long input record at its bottom because the only Back control received focus. Keep the newest observations and title visible by initially focusing the existing dialog panel and resetting its scroll to0. This UI-only unit changes no game/store/binding/observation record and preserves error-dialog focus and keyboard containment.

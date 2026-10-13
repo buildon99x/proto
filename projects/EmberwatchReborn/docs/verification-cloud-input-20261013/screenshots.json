@@ -78,5 +78,25 @@
     "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/16-ui-focus-clear-and-repress.png",
     "bytes": 315876,
     "sha256": "bc13c47b50717e61b55a03a2aff9d16e7468cadb45b885f8d7177d0c75ca0ae6"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/17-fixed-input-initial-top.png",
+    "bytes": 343459,
+    "sha256": "f5969e5a5f563d5a5372b34faba75b0f03ea703b495f7a91d1488ddea452c48b"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/18-fixed-input-tab-back.png",
+    "bytes": 287678,
+    "sha256": "5bd9feed7ee854d31c4008a36c87c2c42252300f85dc122cfd41e0a6638667cd"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/19-fixed-input-resume.png",
+    "bytes": 1491830,
+    "sha256": "a7d33b860b8962b650628e8bef82e98e4a1fcf74be44506a0d931034eeb04ea7"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/20-fixed-input-direct-escape.png",
+    "bytes": 1490995,
+    "sha256": "8560615a03c34596f987c1ac2830d7c743cea0c6405a3c9c615ccac21cccd3bc"
   }
 ]

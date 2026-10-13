@@ -1,7 +1,6 @@
 {
-  "codeCommit": "7790afe6d7d20b5b1454bcdb208bab9f43e11df6",
   "branchStart": "e1b9c0641b06f07a62e60f258cee4d1697764e23",
-  "gameCodeChanged": false,
+  "gameCodeChanged": true,
   "context": "fresh native-input profile qa-cloud-input-20261013; first-tier common handlers; not a migrated/copied/modified old earned profile",
   "browser": "installed headless Chromium via Python Playwright; real keyboard/mouse/DOM controls; read-only rAF observer",
   "oldSession": "87744 inaccessible with Unknown process id; files retained, old OS process may still exist; no profile injection/import",
@@ -9,7 +8,9 @@
   "operationFailures": [
     "Locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator(\"[data-action=close]\")\n",
     "Locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator(\"[data-action=close]\")\n",
-    "Locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator(\"[data-action=accept]\")\n"
+    "Locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator(\"[data-action=accept]\")\n",
+    "Locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator(\"[data-action=\\\"input-observations\\\"]\")\n    - locator resolved to <button data-action=\"input-observations\">입력 응답 기록</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    4 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 500ms\n",
+    "Locator.click: Error: strict mode violation: locator(\"#modal summary\") resolved to 3 elements:\n    1) <summary>능력치 · 남은 점수 0</summary> aka get_by_text(\"능력치 · 남은 점수\")\n    2) <summary>음량 · 화면 설정</summary> aka get_by_text(\"음량 · 화면 설정\")\n    3) <summary>접속 기록 · 입력 / QA</summary> aka get_by_text(\"접속 기록 · 입력 / QA\")\n\nCall log:\n  - waiting for locator(\"#modal summary\")\n"
   ],
   "duplicateSave": {
     "payloadEqual": true,
@@ -147,7 +148,7 @@
   "listening": "unverified",
   "sourceOutput": "projects/EmberwatchReborn/app/dist/qa-r14",
   "servedForNewQA": "http://127.0.0.1:4183/qa-r14/",
-  "priorAutomaticChecks": "4681/4681 at source commit7790afe; not rerun or relabelled as new cases in this documentation-only slice",
+  "priorAutomaticChecks": "4681/4681 at7790afe remains historical; current focus change has a separate full run",
   "newLibraryPngBatch": {
     "files": [
       "57-contrast-valid-contact.png",
@@ -208,8 +209,8 @@
       "life": 1,
       "lifeDown": false,
       "position": {
-        "x": 420.76724666114956,
-        "y": 349.23275333885044
+        "x": 503.76683847496446,
+        "y": 248.91771080414338
       }
     },
     "stats": {
@@ -225,5 +226,55 @@
       "stamina": 45
     },
     "gold": 0
+  },
+  "firstNativeSliceCodeCommit": "7790afe6d7d20b5b1454bcdb208bab9f43e11df6",
+  "changedSource": [
+    "app/src/main.js: showInputObservations initial dialog focus/scroll only"
+  ],
+  "observationsBeforeFixCommit": "4f536a4",
+  "nativeBatches": 25,
+  "screenshots": 20,
+  "finalReadOnlyRevision": 640,
+  "currentPage": "normal paused menu",
+  "focusRepair": {
+    "reproducedBeforeScreens": [
+      "09-skill-roll-hold-resumption.png",
+      "15-release-stops-repeat.png"
+    ],
+    "verifiedAfterScreens": [
+      "17-fixed-input-initial-top.png",
+      "18-fixed-input-tab-back.png",
+      "19-fixed-input-resume.png",
+      "20-fixed-input-direct-escape.png"
+    ],
+    "nativeInitialActive": "SECTION .panel, title/latest first visible",
+    "nativeTabAndShiftTab": "sole Back button retains focus trap",
+    "nativeBackEnter": "menu Continue button focused; canvas inert",
+    "nativeEscape": "menu trigger restored; modal hidden and canvas non-inert",
+    "runtimeBlockedGate": "unit verified no replacement focus/scroll; existing Reload remains authoritative",
+    "readOnlyModelAndRevision": "two production-handler tests verify unchanged state/revision",
+    "focusedAutomatic": {
+      "tests": 294,
+      "pass": 294,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "durationMs": 160891.32553
+    },
+    "fullAutomatic": {
+      "tests": 4683,
+      "pass": 4683,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "durationMs": 517890.789401
+    },
+    "lint": "passed",
+    "build": {
+      "files": 133,
+      "bytes": 16800010,
+      "version": "0.14.0-reimplementation.18"
+    },
+    "performanceResampledAfterFix": false
   }
 }

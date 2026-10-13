@@ -1,0 +1,35 @@
+✖ read-only input observations start at the top of the real dialog instead of its distant Back control (3121.302372ms)
+✔ read-only input observations never override the blocked save-error dialog focus (787.407207ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4067.177223
+
+✖ failing tests:
+
+test at tests/expert-main-input.test.mjs:240:1
+✖ read-only input observations start at the top of the real dialog instead of its distant Back control (3121.302372ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   {
+  -     preventScroll: true
+  -   }
+  - ]
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:245:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ { preventScroll: true } ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

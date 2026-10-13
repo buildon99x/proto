@@ -237,6 +237,23 @@ test('R14a2 input observations UI is read-only and distinguishes event time from
  const h=await v5Ui();h.key('KeyF');const first=h.app.inputObservations;assert.equal(first.find(e=>e.kind==='action-start').delayMs,0);assert.equal(first.some(e=>e.kind==='first-render-enter'),false);await h.frame();h.up('KeyF');await next();const before=structuredClone(h.app.state),revision=h.app.controller.revision();await h.click('input-observations');assert.match(h.modal.innerHTML,/입력.*기록|입력.*관측/);assert.match(h.modal.innerHTML,/모니터 표시와 스피커 소리의 물리 지연 실측은 아닙니다/);assert.match(h.modal.innerHTML,/시작 0.00 ms · 첫 렌더 진입 16.00 ms/);assert.deepEqual(h.app.state,before);assert.equal(h.app.controller.revision(),revision);
 });
 
+test('read-only input observations start at the top of the real dialog instead of its distant Back control',async()=>{
+ const h=await v5Ui();h.key('KeyF');await h.frame();h.up('KeyF');await next();
+ const before=structuredClone(h.app.state),revision=h.app.controller.revision(),focused=[],pane={scrollTop:900,focus:options=>focused.push(options)},query=h.modal.querySelector;
+ h.modal.querySelector=selector=>selector==='.panel'?pane:query(selector);
+ h.app.showInputObservations();
+ assert.deepEqual(focused,[{preventScroll:true}]);assert.equal(pane.scrollTop,0);
+ assert.match(h.modal.innerHTML,/role="dialog"/);assert.match(h.modal.innerHTML,/tabindex="-1"/);assert.match(h.modal.innerHTML,/data-action="menu"/);
+ assert.deepEqual(h.app.state,before);assert.equal(h.app.controller.revision(),revision);
+});
+test('read-only input observations never override the blocked save-error dialog focus',async()=>{
+ const h=await v5Ui(),before=structuredClone(h.app.state),revision=h.app.controller.revision(),focused=[],pane={scrollTop:900,focus:options=>focused.push(options)},query=h.modal.querySelector;
+ h.modal.querySelector=selector=>selector==='.panel'?pane:query(selector);h.app.gate.block('test existing runtime failure gate');
+ h.app.showInputObservations();
+ assert.deepEqual(focused,[]);assert.equal(pane.scrollTop,900);assert.match(h.modal.innerHTML,/저장을 확인해야 합니다/);assert.match(h.modal.innerHTML,/data-action="reload"/);
+ assert.deepEqual(h.app.state,before);assert.equal(h.app.controller.revision(),revision);
+});
+
 for(const hz of [30,60,120])for(const blockedBy of ['hammer-recovery','roll'])test(`R14a2 ${hz}Hz actual ${blockedBy} rejection and held restart are both visible with separate clocks`,async()=>{
  const h=await v5Ui(),b=h.app.battle;
  if(blockedBy==='hammer-recovery'){mouseDown(h,0);await h.frame(.025);mouseUp(h,0);}else{h.key('Space');await next();}
