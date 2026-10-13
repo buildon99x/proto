@@ -56,3 +56,7 @@ Windows0.11.4 report libfile_aa9d614700888191aca9cad595a4606e was read: short F/
 
 ## 0.11.6 independent QA profile
 Use /qa-actions/?testProfile=trajectory-qa and confirm the trajectory-qa badge. It starts an independent normal-rule game, without reading or copying either previous candidate journal. Existing default/local-qa interrupted raids remain unchanged. Only this exact additional name is allowed. Do not reset old profiles for trajectory testing.
+
+
+## 0.12.2 melee and failed-commit recovery QA
+On an identified 0.12.2 candidate, test V at hip/ADS/reload/holstered, then a custom rebound key. Inspect guard, fist extension/contact, follow-through and gun return; no magazine or utility prop remains. Test one press versus OS repeat, near/rear/side/raised targets and thin cover/barrels. Interrupt with damage, menu, focus loss, bag and weapon selection before/after contact. Hold fire through return: only a fresh physical press may shoot. Confirm unchanged carried ammunition and one hit per strike. Test a treatment item removed/replaced before its commit: no healing/consumption and recovery starts at its actual contact pose. Existing cloth/body cues are provisional and require actual listening. Source/rendererless checks do not pass this checklist.

@@ -5,6 +5,7 @@ let model=root.DFInventory;
 if(!model&&typeof require==='function')model=require('./inventory.js');
 const {Catalog,stackWeight,stackValue}=model;
 const ItemAction=(root.DFItemAction||(typeof require==='function'?require('./item-action.js'):null)).ItemAction;
+const Melee=root.DFMelee||(typeof require==='function'?require('./melee.js'):null);
 const WEAPONS=['pistol','shotgun','smg','r4'],AMMO=WEAPONS.map(id=>Catalog[id].ammoId);
 const EPS=1e-7,clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const REASONS={overweight:'휴대 중량 30 kg을 초과합니다.', 'bag-full':'가방 12칸이 모두 찼습니다.', 'wrong-slot':'이 장비를 해당 슬롯에 놓을 수 없습니다.', empty:'빈 슬롯입니다.', 'invalid-quantity':'수량을 확인하세요.', occupied:'이미 사용 중인 슬롯입니다.', 'duplicate-uid':'이미 가지고 있는 장비입니다.', 'invalid-location':'슬롯을 확인하세요.'};
@@ -219,6 +220,12 @@ class Bridge{
   if(result.ok){const item={type:'inventory',...point,alive:true,stack:{...result.stack},dropped:true};this.world.pickups.push(item);return {...result,item};}
   return result;
  }
+ requestMelee(options={}){
+  const w=this.world;if(!this._available()||w.paused)return this._failure('unavailable');
+  if(this.itemAction.active)return this._failure('busy');
+  this.beforeWeaponChange('melee');this.itemAction.start({uid:this.sessionId+':melee',itemId:'melee'},null);this._itemAim=options;this._itemVital=w.player.hp+w.player.armor;this._itemDamageSequence=w.damageSequence||0;w.weaponActionBlocked=true;
+  return this._result(true,'근접 공격 준비');
+ }
  requestUse(location,options={}){
   const stack=this.inventory.get(location),w=this.world;
   if(!this._available())return this._failure('unavailable');
@@ -241,8 +248,8 @@ class Bridge{
   this._itemAim=options;
   const results=[];for(const event of a.tick(dt))if(event.type==='commit'){
    const stack=this.inventory.get(event.location);
-   const result=stack?.uid===event.uid&&stack.itemId===event.itemId?this.use(event.location,this._itemAim):this._failure('changed-item');
-   results.push(result);if(!result.ok){a.cancelled=true;a.stage='recover';a.elapsed=0;w.emit('foleycancel',{});}
+   const result=event.itemId==='melee'?{...Melee.strike(w,this._itemAim),message:'근접 공격'}:stack?.uid===event.uid&&stack.itemId===event.itemId?this.use(event.location,this._itemAim):this._failure('changed-item');
+   results.push(result);if(!result.ok){const rejectedPose=a.snapshot();a.cancelled=true;a.recoverFrom=rejectedPose;a.stage='recover';a.elapsed=0;w.emit('foleycancel',{});}
   }
   if(a.cancelled)a.drainCues();else for(const cue of a.drainCues())w.emit('foley',cue);
   return results;

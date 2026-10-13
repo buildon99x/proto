@@ -1,7 +1,7 @@
 /* Single-owner first-person item timeline. No inventory or renderer side effects. */
 (function(root){
 'use strict';
-const timings=Object.freeze({frag:{lower:.22,present:.32,use:.38,commit:.23,recover:.66},bandage:{lower:.22,present:.38,use:1.5,commit:1.18,recover:.66},medkit:{lower:.22,present:.4,use:2.1,commit:1.72,recover:.70},scanner:{lower:.22,present:.3,use:.55,commit:.32,recover:.64}});
+const timings=Object.freeze({frag:{lower:.22,present:.32,use:.38,commit:.23,recover:.66},bandage:{lower:.22,present:.38,use:1.5,commit:1.18,recover:.66},medkit:{lower:.22,present:.4,use:2.1,commit:1.72,recover:.70},scanner:{lower:.22,present:.3,use:.55,commit:.32,recover:.64},melee:{lower:.14,present:.12,use:.36,commit:.18,recover:.36}});
 class ItemAction {
  constructor(){this.sequence=0;this.reset();}
  reset(){this.stage='idle';this.elapsed=0;this.itemId=null;this.uid=null;this.location=null;this.committed=false;this.cancelled=false;this.recoverFrom=null;this.triggerInput=null;this.cues=[];this.cueKeys=new Set();}
@@ -16,7 +16,7 @@ class ItemAction {
   if(this.stage==='ready')break;if(this.stage==='aim'){this.elapsed=Math.min(.1,this.elapsed+left);break;}
   const length=t[this.stage],next=this.stage==='use'&&!this.committed&&!this.cancelled?t.commit:length;
   const step=Math.min(left,Math.max(0,next-this.elapsed));this.elapsed+=step;left-=step;
-  if(this.stage==='use'){if(this.itemId==='frag'&&this.elapsed>=.09-1e-9)this.cue('pin','pin');if(['bandage','medkit'].includes(this.itemId)&&this.elapsed>=(this.itemId==='bandage'?.30:.42)-1e-9)this.cue('treatment','medical');}
+  if(this.stage==='use'){if(this.itemId==='melee'&&this.elapsed>=.06-1e-9)this.cue('strike','cloth-out');if(this.itemId==='frag'&&this.elapsed>=.09-1e-9)this.cue('pin','pin');if(['bandage','medkit'].includes(this.itemId)&&this.elapsed>=(this.itemId==='bandage'?.30:.42)-1e-9)this.cue('treatment','medical');}
   if(this.stage==='use'&&!this.committed&&this.elapsed>=t.commit-1e-9){this.committed=true;if(this.itemId==='frag')this.cue('release','cloth-out');events.push({type:'commit',itemId:this.itemId,uid:this.uid,location:this.location,sequence:this.sequence});continue;}
   if(this.elapsed<length-1e-9)break;
   if(this.stage==='recover'){events.push({type:'complete',sequence:this.sequence});this.reset();break;}

@@ -119,3 +119,7 @@ An empty R-4 must not automatically reload and spend reserve while a grenade, he
 
 ## Locked dependency and boundary verification
 Install only the existing frozen workspace dependencies to complete aggregate verification. Keep independent boundary audits reproducible for muzzle-first contact, reload transfer conservation and item/death/release races. Do not change balance or add a runtime fix without a reproduced defect.
+
+
+## 0.12.2 quick melee source slice
+Implement one cancellable, exclusive-hand quick fist strike using existing utility hands and cloth recordings. Preserve firearm balance, carried ammunition, saves and public deployments. Human motion, listening and live input acceptance remain open.

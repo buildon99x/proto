@@ -118,3 +118,7 @@ Four guns now share armor coverage, damage falloff and explicit finite range. Sh
 An incoming fatal shot no longer removes an outgoing hit that physically arrived earlier in the same simulation interval. The flight grid remains120Hz, with incoming contact times splitting an interval only when required. Earlier outgoing contacts resolve before later damage; fatal incoming damage still clears later player flight. Model regressions cover30/60/120/1000Hz update schedules and reversed incoming arrays.
 
 On2026-10-11, the published0.12.0 candidate again failed WebGL initialization in dot's normal frontmost Chromium and after one reload, with GL_VENDOR/GL_RENDERER reported Disabled. No real shot, motion, extraction, FPS or listening acceptance was possible. This0.12.1 source checkpoint has not been deployed; public root0.10.0 and candidate0.12.0 remain unchanged.
+
+
+## 0.12.2 quick melee source candidate
+V (rebindable) now performs a timed single-target fist strike. Existing saved controls retain their mappings; a free key is assigned if V was already used. The hands lower, guard, strike and recover; damage/menu/focus/weapon selection cancels before contact, and held fire cannot leak into the return. No item or ammunition is consumed. Rejected medical/item commits now recover from the actual last pose instead of snapping to the default recovery. This is source/model acceptance only; no new public deployment, human motion acceptance, listening or measured device FPS is claimed.

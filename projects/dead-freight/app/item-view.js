@@ -15,6 +15,7 @@ function pose(a={}){
   grip:a.itemId==='frag'&&stage==='use'?1-ease((p-.50)/.16):a.itemId==='frag'&&a.committed?0:1,propVisible:!a.committed||a.itemId!=='frag',ringVisible:!(a.itemId==='frag'&&stage==='use'&&p>.2),use};
  if(stage==='use'&&a.itemId!=='frag'){result.rightX=-.16*use;result.rightY=-.12*use;result.rightRotZ=.08+.65*use;result.leftRotZ=-.55+.2*use;}
  if(a.itemId==='frag'){Object.assign(result,{leftX:-.09,leftY:.075,leftRotX:-.3,leftRotY:.3,leftRotZ:-.15});if(stage==='use'){const pull=ease((p-.16)/.28);result.leftX-=.22*pull;result.leftY-=.12*pull;result.rightZ=-.19*use;result.rightY=.15*Math.sin(use*Math.PI);}}
+ if(a.itemId==='melee'){const punch=stage==='use'?Math.sin(Math.PI*p):0;Object.assign(result,{rightX:.025,rightY:.05+.10*punch,rightZ:-.12-.34*punch,rightRotZ:-.28-.14*punch,leftX:-.24,leftY:.13,leftZ:-.12,leftRotX:-.6,leftRotY:.1,leftRotZ:-.25,grip:1,propVisible:false,pinReach:0,pinPull:0,treatment:0});}
  return result;
 }
 function create(T){

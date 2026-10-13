@@ -202,3 +202,11 @@ This table audits source and rendererless fixtures. It does not establish ordina
 
 ### Independent boundary audit entry points
 Run node projects/dead-freight/tools/audits/reload-boundary.cjs, item-boundary.cjs and cover-boundary.cjs. Each accepts an optional app directory, defaults to the adjacent project app, uses deterministic model fixtures and emits a JSON case count. These manual adversarial audit cases are separate from the 830 named app checks and do not imply rendered, real-input or audio acceptance.
+
+
+## 0.12.2 quick melee contract
+Default V, rebindable. Preserve old bindings with a read-only migration allocating an unused key if V was already assigned. Lower .14s, present .12s, strike .36s with one contact at .18s, recover .36s; contact at .44 active seconds. One frontal fan (three rays, +/-9 degrees), 1.8m reach and the existing authored enemy volumes; first cover/barrel blocks each ray. At most one enemy per strike, 35 provisional damage with half budget absorbed by body armor, no head multiplier. No ammunition/item/stamina consumption, automatic targeting, barrel/wall damage or firearm hit-stat inflation. Damage/menu/focus/weapon selection before contact cancels; after contact never refunds/repeats. Melee owns the item timeline and blocks fire/ADS/reload until recovery. Normal relative input/render/audio remain unaccepted.
+
+
+### Rejected effect recovery
+When an item UID or effect eligibility fails at its delayed marker, capture the actual post-tick pose before entering cancelled recovery. Preserve its transforms and progress at recovery start; no rejected effect is consumed, applied or retried. This correction is shared by treatment/throw/melee actions; actual visual continuity remains an open acceptance gate.

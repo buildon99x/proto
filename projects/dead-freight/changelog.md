@@ -176,3 +176,11 @@ Added one fixed trajectory-qa profile for normal-rule testing without clearing o
 - Add frame-schedule, incoming-array-order and moving-target regressions.
 - Refresh the checkpoint title and metadata to describe current ballistics.
 - Public deployment and actual WebGL gameplay/listening remain separate acceptance gates.
+
+
+## 0.12.2 — cancellable quick melee
+- Added V/remappable exclusive-hand melee with .44s delayed single contact, bounded 1.8m frontal fan, existing authored collision volumes, cover/barrel occlusion and armor-aware provisional 35 damage.
+- Added fist/guard poses, action HUD and existing cloth/body-contact cue routing; preserved ammo, saves, firearm stats and holstered state.
+- Migrated legacy control mappings in memory without overwriting V assignments or writing on read.
+- Reproduced and fixed rejected treatment/item commit recovery losing its current contact pose.
+- Actual UI/render/input/audio/FPS acceptance remains blocked by the supported MXC tool connection; no quality or whole-task completion claim.
