@@ -1,0 +1,583 @@
+[
+  {
+    "id": "healing_flames",
+    "displayName": "생명을 잇는 불씨",
+    "baseId": "inner_flame",
+    "type": "augment",
+    "upgradeCosts": [
+      3,
+      4,
+      5
+    ],
+    "rankValues": {
+      "spellLifeLeechPercent": [
+        2,
+        3.5,
+        5
+      ],
+      "spellCostIncreasePercent": [
+        10,
+        15,
+        20
+      ]
+    },
+    "exclusiveGroup": null,
+    "unknown": [
+      {
+        "field": "purchaseRequirements",
+        "reason": "Purchase ranks, trainer requirements and extra prerequisites are not published here."
+      },
+      {
+        "field": "requires.0.rank",
+        "reason": "Base-skill relationship is documented; required purchased rank is not."
+      },
+      {
+        "field": "exclusiveGroup",
+        "reason": "No exclusivity claim found; null does not establish compatibility."
+      }
+    ],
+    "mechanics": {}
+  },
+  {
+    "id": "pillar_of_light",
+    "displayName": "새벽 불기둥",
+    "baseId": null,
+    "type": "spell",
+    "upgradeCosts": [
+      4,
+      5,
+      6
+    ],
+    "rankValues": {
+      "damage": [
+        150,
+        300,
+        500
+      ],
+      "damagePerLevel": 4,
+      "manaCost": [
+        60,
+        80,
+        100
+      ],
+      "cooldownSeconds": 15,
+      "physicalFireSplit": null,
+      "blindnessDurationSeconds": null,
+      "areaRadius": null,
+      "castTimeSeconds": null,
+      "range": null,
+      "hitbox": null,
+      "cancellationWindowSeconds": null
+    },
+    "exclusiveGroup": null,
+    "unknown": [
+      {
+        "field": "purchaseRequirements",
+        "reason": "Purchase ranks, trainer requirements and extra prerequisites are not published here."
+      },
+      {
+        "field": "exclusiveGroup",
+        "reason": "No exclusivity claim found; null does not establish compatibility."
+      },
+      {
+        "field": "rankValues.physicalFireSplit",
+        "reason": "Not quantified in the retrieved table."
+      },
+      {
+        "field": "rankValues.blindnessDurationSeconds",
+        "reason": "Not quantified in the retrieved table."
+      },
+      {
+        "field": "rankValues.areaRadius",
+        "reason": "Not quantified in the retrieved table."
+      },
+      {
+        "field": "rankValues.castTimeSeconds",
+        "reason": "Not quantified in the retrieved table."
+      },
+      {
+        "field": "rankValues.range",
+        "reason": "Not quantified in the retrieved table."
+      },
+      {
+        "field": "rankValues.hitbox",
+        "reason": "Not quantified in the retrieved table."
+      },
+      {
+        "field": "rankValues.cancellationWindowSeconds",
+        "reason": "Not quantified in the retrieved table."
+      },
+      {
+        "field": "levelScalingOrigin",
+        "reason": "Per-level origin and additive/multiplicative ordering are not specified."
+      }
+    ],
+    "mechanics": {
+      "damageTypes": [
+        "physical",
+        "fire"
+      ],
+      "status": "blindness",
+      "target": "target_location"
+    }
+  },
+  {
+    "id": "pulsing_light",
+    "displayName": "되울리는 새벽",
+    "baseId": "pillar_of_light",
+    "type": "augment",
+    "upgradeCosts": [
+      4,
+      5
+    ],
+    "rankValues": {
+      "additionalExplosions": [
+        1,
+        2
+      ],
+      "cooldownAddSeconds": 5,
+      "explosionIntervalSeconds": null
+    },
+    "exclusiveGroup": "pillar_of_light_effect",
+    "unknown": [
+      {
+        "field": "purchaseRequirements",
+        "reason": "Purchase ranks, trainer requirements and extra prerequisites are not published here."
+      },
+      {
+        "field": "requires.0.rank",
+        "reason": "Base-skill relationship is documented; required purchased rank is not."
+      },
+      {
+        "field": "rankValues.explosionIntervalSeconds",
+        "reason": "Not quantified in the retrieved table."
+      }
+    ],
+    "mechanics": {
+      "repeatAtSameLocation": true
+    }
+  },
+  {
+    "id": "heavens_wrath",
+    "displayName": "벼락 기둥",
+    "baseId": "pillar_of_light",
+    "type": "augment",
+    "upgradeCosts": [
+      4,
+      5,
+      6
+    ],
+    "rankValues": {
+      "lightningDamage": [
+        30,
+        70,
+        120
+      ],
+      "tickSeconds": 0.5,
+      "durationSeconds": 5,
+      "areaRadius": null
+    },
+    "exclusiveGroup": "pillar_of_light_effect",
+    "unknown": [
+      {
+        "field": "purchaseRequirements",
+        "reason": "Purchase ranks, trainer requirements and extra prerequisites are not published here."
+      },
+      {
+        "field": "requires.0.rank",
+        "reason": "Base-skill relationship is documented; required purchased rank is not."
+      },
+      {
+        "field": "rankValues.areaRadius",
+        "reason": "Not quantified in the retrieved table."
+      }
+    ],
+    "mechanics": {
+      "replaceDamageType": {
+        "from": "fire",
+        "to": "lightning"
+      },
+      "terrain": "electrified_ground"
+    }
+  },
+  {
+    "id": "blessed_champion",
+    "displayName": "잿불 각성",
+    "baseId": null,
+    "type": "spell",
+    "upgradeCosts": [
+      4,
+      5,
+      6
+    ],
+    "rankValues": {
+      "attributesIncreasePercent": [
+        50,
+        75,
+        100
+      ],
+      "durationSeconds": [
+        5,
+        6,
+        7
+      ],
+      "manaCost": [
+        70,
+        100,
+        130
+      ],
+      "cooldownSeconds": 30,
+      "castTimeSeconds": null,
+      "cancellationWindowSeconds": null
+    },
+    "exclusiveGroup": null,
+    "unknown": [
+      {
+        "field": "purchaseRequirements",
+        "reason": "Purchase ranks, trainer requirements and extra prerequisites are not published here."
+      },
+      {
+        "field": "exclusiveGroup",
+        "reason": "No exclusivity claim found; null does not establish compatibility."
+      },
+      {
+        "field": "rankValues.castTimeSeconds",
+        "reason": "Not quantified in the retrieved table."
+      },
+      {
+        "field": "rankValues.cancellationWindowSeconds",
+        "reason": "Not quantified in the retrieved table."
+      }
+    ],
+    "mechanics": {
+      "target": "self",
+      "immunities": [
+        "stun",
+        "slow"
+      ]
+    }
+  },
+  {
+    "id": "champion_of_truth",
+    "displayName": "흔들림 없는 일격",
+    "baseId": "blessed_champion",
+    "type": "augment",
+    "upgradeCosts": [
+      4,
+      5,
+      6
+    ],
+    "rankValues": {
+      "attackCritChancePercent": null,
+      "manaCostIncreasePercent": 25
+    },
+    "exclusiveGroup": null,
+    "unknown": [
+      {
+        "field": "purchaseRequirements",
+        "reason": "Purchase ranks, trainer requirements and extra prerequisites are not published here."
+      },
+      {
+        "field": "requires.0.rank",
+        "reason": "Base-skill relationship is documented; required purchased rank is not."
+      },
+      {
+        "field": "exclusiveGroup",
+        "reason": "No exclusivity claim found; null does not establish compatibility."
+      },
+      {
+        "field": "rankValues.attackCritChancePercent",
+        "reason": "Not quantified in the retrieved table."
+      },
+      {
+        "field": "rankValues.attackCritChancePercent",
+        "reason": "Three upgrade costs but only two critical-chance values (25%, 50%); rank mapping and missing value are unresolved."
+      },
+      {
+        "field": "trueStrikeDefinition",
+        "reason": "The ability names True Strike but does not define its exact hit/defense interaction."
+      }
+    ],
+    "mechanics": {
+      "while": "blessed_champion",
+      "grants": "true_strike"
+    }
+  },
+  {
+    "id": "champions_hammer",
+    "displayName": "끊임없는 망치",
+    "baseId": "blessed_champion",
+    "type": "augment",
+    "upgradeCosts": [
+      4,
+      5
+    ],
+    "rankValues": {
+      "righteousHammerCastSpeedIncreasePercent": [
+        50,
+        100
+      ],
+      "righteousHammerCooldownSeconds": 0,
+      "cooldownAddSeconds": 15
+    },
+    "exclusiveGroup": null,
+    "unknown": [
+      {
+        "field": "purchaseRequirements",
+        "reason": "Purchase ranks, trainer requirements and extra prerequisites are not published here."
+      },
+      {
+        "field": "requires.0.rank",
+        "reason": "Base-skill relationship is documented; required purchased rank is not."
+      },
+      {
+        "field": "exclusiveGroup",
+        "reason": "No exclusivity claim found; null does not establish compatibility."
+      },
+      {
+        "field": "cooldownModifierTarget",
+        "reason": "The +15s table row is placed under the Blessed Champion augmentation; confirm its target in-game before execution."
+      }
+    ],
+    "mechanics": {
+      "while": "blessed_champion",
+      "modifiesSkillId": "righteous_hammer"
+    }
+  },
+  {
+    "id": "crusader",
+    "displayName": "전진하는 불씨",
+    "baseId": null,
+    "type": "passive",
+    "upgradeCosts": [
+      3,
+      4
+    ],
+    "rankValues": {
+      "movementSpeedPerStackPercent": 1,
+      "damagePerStackPercent": [
+        2,
+        4
+      ],
+      "maxStacks": 20,
+      "stackDurationSeconds": 3,
+      "stacksPerKill": null
+    },
+    "exclusiveGroup": null,
+    "unknown": [
+      {
+        "field": "purchaseRequirements",
+        "reason": "Purchase ranks, trainer requirements and extra prerequisites are not published here."
+      },
+      {
+        "field": "exclusiveGroup",
+        "reason": "No exclusivity claim found; null does not establish compatibility."
+      },
+      {
+        "field": "rankValues.stacksPerKill",
+        "reason": "Not quantified in the retrieved table."
+      },
+      {
+        "field": "stackRefreshRule",
+        "reason": "Independent stack expiry versus refreshing the full stack is not documented."
+      }
+    ],
+    "mechanics": {
+      "trigger": "enemy_kill",
+      "effect": "stacking_buff"
+    }
+  },
+  {
+    "id": "dauntless",
+    "displayName": "거인 맞서기",
+    "baseId": "crusader",
+    "type": "augment",
+    "upgradeCosts": [
+      3,
+      4,
+      5
+    ],
+    "rankValues": {
+      "stacksGained": [
+        1,
+        2,
+        4
+      ]
+    },
+    "exclusiveGroup": null,
+    "unknown": [
+      {
+        "field": "purchaseRequirements",
+        "reason": "Purchase ranks, trainer requirements and extra prerequisites are not published here."
+      },
+      {
+        "field": "requires.0.rank",
+        "reason": "Base-skill relationship is documented; required purchased rank is not."
+      },
+      {
+        "field": "exclusiveGroup",
+        "reason": "No exclusivity claim found; null does not establish compatibility."
+      }
+    ],
+    "mechanics": {
+      "trigger": "attack_hit",
+      "targetKinds": [
+        "boss",
+        "superior"
+      ],
+      "grantsStacks": "crusader"
+    }
+  },
+  {
+    "id": "zealot",
+    "displayName": "타오르는 기세",
+    "baseId": "crusader",
+    "type": "augment",
+    "upgradeCosts": [
+      3,
+      4
+    ],
+    "rankValues": {
+      "damageThreshold": [
+        400,
+        200
+      ],
+      "stacksPerThreshold": null
+    },
+    "exclusiveGroup": null,
+    "unknown": [
+      {
+        "field": "purchaseRequirements",
+        "reason": "Purchase ranks, trainer requirements and extra prerequisites are not published here."
+      },
+      {
+        "field": "requires.0.rank",
+        "reason": "Base-skill relationship is documented; required purchased rank is not."
+      },
+      {
+        "field": "exclusiveGroup",
+        "reason": "No exclusivity claim found; null does not establish compatibility."
+      },
+      {
+        "field": "rankValues.stacksPerThreshold",
+        "reason": "Not quantified in the retrieved table."
+      },
+      {
+        "field": "damageAccumulatorRule",
+        "reason": "Remainders, resets and eligible damage types are not documented."
+      }
+    ],
+    "mechanics": {
+      "trigger": "damage_dealt",
+      "grantsStacks": "crusader"
+    }
+  },
+  {
+    "id": "guardian_angel",
+    "displayName": "마지막 불씨",
+    "baseId": null,
+    "type": "passive",
+    "upgradeCosts": [
+      3,
+      4,
+      5
+    ],
+    "rankValues": {
+      "damageThreshold": 200,
+      "durationSeconds": 4,
+      "cooldownSeconds": [
+        120,
+        100,
+        80
+      ],
+      "damageWindowSeconds": null
+    },
+    "exclusiveGroup": null,
+    "unknown": [
+      {
+        "field": "purchaseRequirements",
+        "reason": "Purchase ranks, trainer requirements and extra prerequisites are not published here."
+      },
+      {
+        "field": "exclusiveGroup",
+        "reason": "No exclusivity claim found; null does not establish compatibility."
+      },
+      {
+        "field": "rankValues.damageWindowSeconds",
+        "reason": "Not quantified in the retrieved table."
+      }
+    ],
+    "mechanics": {
+      "trigger": "damage_taken_within_window",
+      "effect": "invulnerability"
+    }
+  },
+  {
+    "id": "true_restoration",
+    "displayName": "되살아나는 숨",
+    "baseId": "guardian_angel",
+    "type": "augment",
+    "upgradeCosts": [
+      3,
+      4
+    ],
+    "rankValues": {
+      "healthRegenIncreasePercent": [
+        300,
+        500
+      ]
+    },
+    "exclusiveGroup": null,
+    "unknown": [
+      {
+        "field": "purchaseRequirements",
+        "reason": "Purchase ranks, trainer requirements and extra prerequisites are not published here."
+      },
+      {
+        "field": "requires.0.rank",
+        "reason": "Base-skill relationship is documented; required purchased rank is not."
+      },
+      {
+        "field": "exclusiveGroup",
+        "reason": "No exclusivity claim found; null does not establish compatibility."
+      }
+    ],
+    "mechanics": {
+      "while": "guardian_angel"
+    }
+  },
+  {
+    "id": "wrathful_avenger",
+    "displayName": "최후의 역습",
+    "baseId": "guardian_angel",
+    "type": "augment",
+    "upgradeCosts": [
+      3,
+      4
+    ],
+    "rankValues": {
+      "damageIncreasePercent": [
+        200,
+        300
+      ]
+    },
+    "exclusiveGroup": null,
+    "unknown": [
+      {
+        "field": "purchaseRequirements",
+        "reason": "Purchase ranks, trainer requirements and extra prerequisites are not published here."
+      },
+      {
+        "field": "requires.0.rank",
+        "reason": "Base-skill relationship is documented; required purchased rank is not."
+      },
+      {
+        "field": "exclusiveGroup",
+        "reason": "No exclusivity claim found; null does not establish compatibility."
+      }
+    ],
+    "mechanics": {
+      "while": "guardian_angel"
+    }
+  }
+]

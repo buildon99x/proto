@@ -289,3 +289,8 @@ First graph training unit: nine existing apprentice nodes/five real base depende
 ## Full implemented skill graph
 
 Expand the graph to all40 existing runtime skills,28 authoritative base dependencies and two exclusive groups. Tier filters and selection are session presentation only; purchase and eight-slot APIs remain unchanged. Master13 is excluded.
+
+
+## Read-only timing feedback and Master gate audit
+
+Independent presentation checkpoint: explain fresh key presses after safety resume and visualize existing shield-release/staff-perfect timing. Audit all13 Master nodes; none currently have a legal purchase/normal unlock route. Do not grant free/session Master ranks or mark missing effects implemented.

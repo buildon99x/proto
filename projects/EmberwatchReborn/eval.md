@@ -501,3 +501,8 @@ Assert9 nodes/5 authoritative edges, current/next/lock descriptions, read-only s
 ## Full implemented skill graph
 
 Verify40/28/two groups from runtime metadata, tier9/16/15 projections, actual tier/base/exclusive lock descriptions and disabled purchases, read-only filter/selection, one purchase through existing handler, stale/parallel suppression, focus and both scroll axes, old apprentice/list/eight-slot regressions. Run full tests/lint/registry/build and byte preservation. Record v76 native observations separately; new layout/AX/native acceptance remains unverified.
+
+
+## Read-only timing feedback and Master gate audit
+
+Execute real incoming block and staff contact handlers, compare indicators with actual token expiry/perfect-start boundaries, cancel/death/mode/paused suppression, readonly drawing, real HUD/frame and safety-resume input tests. Assert all13 Master preview/reducer purchases reject without state changes. Full/lint/registry/build, original167/protected30 preservation. Native readability/listening remains dot QA.

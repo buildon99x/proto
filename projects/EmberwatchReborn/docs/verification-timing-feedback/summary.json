@@ -1,0 +1,67 @@
+{
+  "baseline": "0c07fe1d982c8720ff16574911b39bea499ed101",
+  "full": {
+    "tests": 4678,
+    "pass": 4678,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "focused": {
+    "tests": 291,
+    "pass": 291,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "model": {
+    "tests": 63,
+    "pass": 63,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "safety-focused": {
+    "tests": 1,
+    "pass": 1,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "scene-recovery": {
+    "tests": 34,
+    "pass": 34,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "newCases": 18,
+  "lintExit": 0,
+  "registryExit": 0,
+  "buildVercelExit": 0,
+  "masterNodesAudited": 13,
+  "masterEffectsImplemented": 0,
+  "masterPurchaseResult": "DATA_ONLY; all13 real reducer tests",
+  "timingRulesChanged": false,
+  "newSavedFields": false,
+  "domainWritersChanged": false,
+  "abilityNumbersChanged": false,
+  "safetyLogicChanged": false,
+  "displayOnlyMainChanges": [
+    "safety text",
+    "HUD timing wording",
+    "read-only per-frame timing drawing"
+  ],
+  "nativeTimingVisualAX": "not performed",
+  "predecessorNativeQA": "native-v77-predecessor.md; graph predecessor only",
+  "initialProbes": "retained failed initial safety probe and two stopped legacy scene/harness aggregates; final guarded display integration, original fixtures unchanged",
+  "sourceSHA256": {
+    "main.js": "54397ba2a25a453a4104f7ff66c07b2593268fa1dad5f81e75bdc525754a8fae",
+    "combat-timing-presentation.js": "ac9dcf12a0eac54e109e10f785ca69db9208b4f1eeabc029b844e4eac7cee7c9"
+  }
+}

@@ -1,0 +1,1756 @@
+TAP version 13
+# Subtest: real key press/frame/checkpoint charges Onslaught once; OS repeat/hold does not restart
+ok 1 - real key press/frame/checkpoint charges Onslaught once; OS repeat/hold does not restart
+  ---
+  duration_ms: 3645.960395
+  type: 'test'
+  ...
+# Subtest: actual release after paid pulse resolves exactly one Lance and persists stop
+ok 2 - actual release after paid pulse resolves exactly one Lance and persists stop
+  ---
+  duration_ms: 412.090776
+  type: 'test'
+  ...
+# Subtest: actual menu cancels paid channel with no Lance and waits for checkpoint
+ok 3 - actual menu cancels paid channel with no Lance and waits for checkpoint
+  ---
+  duration_ms: 507.792945
+  type: 'test'
+  ...
+# Subtest: actual blur cancels paid channel with no Lance and waits for checkpoint
+ok 4 - actual blur cancels paid channel with no Lance and waits for checkpoint
+  ---
+  duration_ms: 328.688995
+  type: 'test'
+  ...
+# Subtest: actual visibility cancels paid channel with no Lance and waits for checkpoint
+ok 5 - actual visibility cancels paid channel with no Lance and waits for checkpoint
+  ---
+  duration_ms: 260.816511
+  type: 'test'
+  ...
+# Subtest: release during delayed accepted-action save is safety cancellation, never late Lance or duplicate stamina
+ok 6 - release during delayed accepted-action save is safety cancellation, never late Lance or duplicate stamina
+  ---
+  duration_ms: 234.795111
+  type: 'test'
+  ...
+# Subtest: failed channel acceptance checkpoint closes gate and never resumes or fabricates a refund
+ok 7 - failed channel acceptance checkpoint closes gate and never resumes or fabricates a refund
+  ---
+  duration_ms: 137.559857
+  type: 'test'
+  ...
+# Subtest: UI-focused Expert key and OSrepeat leak no resources or pulses; canvas press works afterward
+ok 8 - UI-focused Expert key and OSrepeat leak no resources or pulses; canvas press works afterward
+  ---
+  duration_ms: 171.012118
+  type: 'test'
+  ...
+# Subtest: finite Banner touch press followed by normal up casts once with physical key unneeded
+ok 9 - finite Banner touch press followed by normal up casts once with physical key unneeded
+  ---
+  duration_ms: 166.867314
+  type: 'test'
+  ...
+# Subtest: immediate Onslaught tap pays once at accepted press and safely stops before any pulse
+ok 10 - immediate Onslaught tap pays once at accepted press and safely stops before any pulse
+  ---
+  duration_ms: 229.929338
+  type: 'test'
+  ...
+# Subtest: mouse capture loss after normal mouseup is not a second safety end
+ok 11 - mouse capture loss after normal mouseup is not a second safety end
+  ---
+  duration_ms: 246.588451
+  type: 'test'
+  ...
+# Subtest: actual trainer UI waits for committed checkpoint and quotes one-use promotion revision/fee
+ok 12 - actual trainer UI waits for committed checkpoint and quotes one-use promotion revision/fee
+  ---
+  duration_ms: 460.30141
+  type: 'test'
+  ...
+# Subtest: actual action-slot view carries displayed CAS and revision, keeps unbound keys, and rejects replay
+ok 13 - actual action-slot view carries displayed CAS and revision, keeps unbound keys, and rejects replay
+  ---
+  duration_ms: 243.423689
+  type: 'test'
+  ...
+# Subtest: closing a trainer loading panel while save is delayed does not reopen its stale UI
+ok 14 - closing a trainer loading panel while save is delayed does not reopen its stale UI
+  ---
+  duration_ms: 115.156244
+  type: 'test'
+  ...
+# Subtest: interaction during channel consumes cancellation and does not execute an old nearby interaction later
+ok 15 - interaction during channel consumes cancellation and does not execute an old nearby interaction later
+  ---
+  duration_ms: 180.905828
+  type: 'test'
+  ...
+# Subtest: finite Expert input during short store busy casts exactly once after commit, even after keyup
+ok 16 - finite Expert input during short store busy casts exactly once after commit, even after keyup
+  ---
+  duration_ms: 151.595597
+  type: 'test'
+  ...
+# Subtest: Expert Digit2 expires after 150ms with no resource or CD charge
+ok 17 - Expert Digit2 expires after 150ms with no resource or CD charge
+  ---
+  duration_ms: 150.734656
+  type: 'test'
+  ...
+# Subtest: Expert Digit3 expires after 150ms with no resource or CD charge
+ok 18 - Expert Digit3 expires after 150ms with no resource or CD charge
+  ---
+  duration_ms: 106.983714
+  type: 'test'
+  ...
+# Subtest: held Expert input during short save starts once and OSrepeat never extends expiry
+ok 19 - held Expert input during short save starts once and OSrepeat never extends expiry
+  ---
+  duration_ms: 165.292236
+  type: 'test'
+  ...
+# Subtest: Onslaught keyup during waiting save cancels unpaid input with no Lance
+ok 20 - Onslaught keyup during waiting save cancels unpaid input with no Lance
+  ---
+  duration_ms: 119.546021
+  type: 'test'
+  ...
+# Subtest: pending unpaid Expert is cancelled by real menu event
+ok 21 - pending unpaid Expert is cancelled by real menu event
+  ---
+  duration_ms: 134.486211
+  type: 'test'
+  ...
+# Subtest: pending unpaid Expert is cancelled by real blur event
+ok 22 - pending unpaid Expert is cancelled by real blur event
+  ---
+  duration_ms: 114.456911
+  type: 'test'
+  ...
+# Subtest: pending unpaid Expert is cancelled by real visibility event
+ok 23 - pending unpaid Expert is cancelled by real visibility event
+  ---
+  duration_ms: 112.847691
+  type: 'test'
+  ...
+# Subtest: pending unpaid Expert is cancelled by real focusin event
+ok 24 - pending unpaid Expert is cancelled by real focusin event
+  ---
+  duration_ms: 117.503802
+  type: 'test'
+  ...
+# Subtest: pending unpaid Expert is cancelled by real pointercancel event
+ok 25 - pending unpaid Expert is cancelled by real pointercancel event
+  ---
+  duration_ms: 134.0758
+  type: 'test'
+  ...
+# Subtest: new KeyJ cancels previous unpaid Expert intent
+ok 26 - new KeyJ cancels previous unpaid Expert intent
+  ---
+  duration_ms: 177.911479
+  type: 'test'
+  ...
+# Subtest: new ShiftLeft cancels previous unpaid Expert intent
+ok 27 - new ShiftLeft cancels previous unpaid Expert intent
+  ---
+  duration_ms: 118.663207
+  type: 'test'
+  ...
+# Subtest: new KeyW cancels previous unpaid Expert intent
+ok 28 - new KeyW cancels previous unpaid Expert intent
+  ---
+  duration_ms: 112.864617
+  type: 'test'
+  ...
+# Subtest: new KeyF cancels previous unpaid Expert intent
+ok 29 - new KeyF cancels previous unpaid Expert intent
+  ---
+  duration_ms: 145.304046
+  type: 'test'
+  ...
+# Subtest: new KeyR cancels previous unpaid Expert intent
+ok 30 - new KeyR cancels previous unpaid Expert intent
+  ---
+  duration_ms: 208.343722
+  type: 'test'
+  ...
+# Subtest: new Expert skill replaces old waiting skill rather than firing both
+ok 31 - new Expert skill replaces old waiting skill rather than firing both
+  ---
+  duration_ms: 185.195578
+  type: 'test'
+  ...
+# Subtest: fresh Expert press immediately after menu close drains empty safety request instead of being swallowed
+ok 32 - fresh Expert press immediately after menu close drains empty safety request instead of being swallowed
+  ---
+  duration_ms: 189.042276
+  type: 'test'
+  ...
+# Subtest: fresh finite touch during save survives normal up and automatic capture loss once
+ok 33 - fresh finite touch during save survives normal up and automatic capture loss once
+  ---
+  duration_ms: 170.937177
+  type: 'test'
+  ...
+# Subtest: failed real delayed checkpoint cancels pending Expert without cost and retains original saved state
+ok 34 - failed real delayed checkpoint cancels pending Expert without cost and retains original saved state
+  ---
+  duration_ms: 135.556051
+  type: 'test'
+  ...
+# Subtest: real queued controls commit invalidates press captured with previous binding map
+ok 35 - real queued controls commit invalidates press captured with previous binding map
+  ---
+  duration_ms: 196.633479
+  type: 'test'
+  ...
+# Subtest: real queued slot edit cannot apply old press to a changed assignment
+ok 36 - real queued slot edit cannot apply old press to a changed assignment
+  ---
+  duration_ms: 141.101344
+  type: 'test'
+  ...
+# Subtest: guard toggle during pending save cancels Expert and toggles only once under OS repeat
+ok 37 - guard toggle during pending save cancels Expert and toggles only once under OS repeat
+  ---
+  duration_ms: 198.365219
+  type: 'test'
+  ...
+# Subtest: unlearned available trainer row does not misleadingly label itself selection forbidden
+ok 38 - unlearned available trainer row does not misleadingly label itself selection forbidden
+  ---
+  duration_ms: 187.500257
+  type: 'test'
+  ...
+# Subtest: real battle rebuild invalidates pending Expert even if region/life values match
+ok 39 - real battle rebuild invalidates pending Expert even if region/life values match
+  ---
+  duration_ms: 112.215066
+  type: 'test'
+  ...
+# Subtest: real concurrent store conflict cancels pending Expert and never charges stale state
+ok 40 - real concurrent store conflict cancels pending Expert and never charges stale state
+  ---
+  duration_ms: 134.831072
+  type: 'test'
+  ...
+# Subtest: finite touch capture loss before release cancels a waiting Expert cast
+ok 41 - finite touch capture loss before release cancels a waiting Expert cast
+  ---
+  duration_ms: 131.143729
+  type: 'test'
+  ...
+# Subtest: normal finite mouse release during save and automatic capture loss cast exactly once
+ok 42 - normal finite mouse release during save and automatic capture loss cast exactly once
+  ---
+  duration_ms: 278.71536
+  type: 'test'
+  ...
+# Subtest: real r11_silence key/frame has matching toast and visible/aria hotbar, no payment or cooldown, and clears on expiry
+ok 43 - real r11_silence key/frame has matching toast and visible/aria hotbar, no payment or cooldown, and clears on expiry
+  ---
+  duration_ms: 334.230832
+  type: 'test'
+  ...
+# Subtest: real r11_stun key/frame has matching toast and visible/aria hotbar, no payment or cooldown, and clears on expiry
+ok 44 - real r11_stun key/frame has matching toast and visible/aria hotbar, no payment or cooldown, and clears on expiry
+  ---
+  duration_ms: 219.830933
+  type: 'test'
+  ...
+# Subtest: real r11_disarm key/frame has matching toast and visible/aria hotbar, no payment or cooldown, and clears on expiry
+ok 45 - real r11_disarm key/frame has matching toast and visible/aria hotbar, no payment or cooldown, and clears on expiry
+  ---
+  duration_ms: 304.902504
+  type: 'test'
+  ...
+# Subtest: real trainer explains successful heal contact and silence/stun restriction without removing the cleanse inventory
+ok 46 - real trainer explains successful heal contact and silence/stun restriction without removing the cleanse inventory
+  ---
+  duration_ms: 265.491791
+  type: 'test'
+  ...
+# Subtest: real hotbar uses runtime quote for resource/CD failures and does not claim another status blocks unrelated actions
+ok 47 - real hotbar uses runtime quote for resource/CD failures and does not claim another status blocks unrelated actions
+  ---
+  duration_ms: 98.881036
+  type: 'test'
+  ...
+# Subtest: basic short tap starts inside key handler before frame and is durable without duplicate repeat
+ok 48 - basic short tap starts inside key handler before frame and is durable without duplicate repeat
+  ---
+  duration_ms: 147.42191
+  type: 'test'
+  ...
+# Subtest: basic short tap during save survives completion once without waiting another render
+ok 49 - basic short tap during save survives completion once without waiting another render
+  ---
+  duration_ms: 173.046948
+  type: 'test'
+  ...
+# Subtest: old basic tap during long save expires and never attacks on menu return
+ok 50 - old basic tap during long save expires and never attacks on menu return
+  ---
+  duration_ms: 119.064603
+  type: 'test'
+  ...
+# Subtest: R14 real wasd handler starts free dodge at press before frame and retains saved debt
+ok 51 - R14 real wasd handler starts free dodge at press before frame and retains saved debt
+  ---
+  duration_ms: 165.330269
+  type: 'test'
+  ...
+# Subtest: R14 real click handler starts free dodge at press before frame and retains saved debt
+ok 52 - R14 real click handler starts free dodge at press before frame and retains saved debt
+  ---
+  duration_ms: 157.466176
+  type: 'test'
+  ...
+# Subtest: R14 short dodge tap while saving executes once after commit without old held sprint
+ok 53 - R14 short dodge tap while saving executes once after commit without old held sprint
+  ---
+  duration_ms: 249.347827
+  type: 'test'
+  ...
+# Subtest: R14 long-save dodge expires without resource changes or delayed roll
+ok 54 - R14 long-save dodge expires without resource changes or delayed roll
+  ---
+  duration_ms: 148.468641
+  type: 'test'
+  ...
+# Subtest: R14 settings commit installs live mobility and restores exact prior controls without rebuilding combat
+ok 55 - R14 settings commit installs live mobility and restores exact prior controls without rebuilding combat
+  ---
+  duration_ms: 259.970082
+  type: 'test'
+  ...
+# Subtest: failed settings save never changes live mobility, old controls or saved profile
+ok 56 - failed settings save never changes live mobility, old controls or saved profile
+  ---
+  duration_ms: 88.839664
+  type: 'test'
+  ...
+# Subtest: R14 blur cancels held dodge/sprint and never revives on return
+ok 57 - R14 blur cancels held dodge/sprint and never revives on return
+  ---
+  duration_ms: 204.974861
+  type: 'test'
+  ...
+# Subtest: R14 visibility cancels held dodge/sprint and never revives on return
+ok 58 - R14 visibility cancels held dodge/sprint and never revives on return
+  ---
+  duration_ms: 227.137278
+  type: 'test'
+  ...
+# Subtest: R14 focusin cancels held dodge/sprint and never revives on return
+ok 59 - R14 focusin cancels held dodge/sprint and never revives on return
+  ---
+  duration_ms: 285.018724
+  type: 'test'
+  ...
+# Subtest: R14 pointercancel cancels held dodge/sprint and never revives on return
+ok 60 - R14 pointercancel cancels held dodge/sprint and never revives on return
+  ---
+  duration_ms: 298.858818
+  type: 'test'
+  ...
+# Subtest: R14 click LMB creates an independent persistent destination and never attacks
+ok 61 - R14 click LMB creates an independent persistent destination and never attacks
+  ---
+  duration_ms: 97.925162
+  type: 'test'
+  ...
+# Subtest: R14 actual WASD movement and independent cursor aim remain while Shift in-place is held
+ok 62 - R14 actual WASD movement and independent cursor aim remain while Shift in-place is held
+  ---
+  duration_ms: 88.054107
+  type: 'test'
+  ...
+# Subtest: real preset UI requires explicit confirmation, retains old controls, then restores them
+ok 63 - real preset UI requires explicit confirmation, retains old controls, then restores them
+  ---
+  duration_ms: 202.218906
+  type: 'test'
+  ...
+# Subtest: actual R14 rebind capture rejects conflict, accepts physical key and never leaks combat
+ok 64 - actual R14 rebind capture rejects conflict, accepts physical key and never leaks combat
+  ---
+  duration_ms: 166.312764
+  type: 'test'
+  ...
+# Subtest: real independent aim/tracking changes preserve controls and progression after commit
+ok 65 - real independent aim/tracking changes preserve controls and progression after commit
+  ---
+  duration_ms: 227.604016
+  type: 'test'
+  ...
+# Subtest: mobility input observation separates same-turn start from later render dispatch
+ok 66 - mobility input observation separates same-turn start from later render dispatch
+  ---
+  duration_ms: 141.187433
+  type: 'test'
+  ...
+# Subtest: R14a2 actual explicit v5 enable preserves exact predecessor, progression, pools and legacy expert slots; restore is exact
+ok 67 - R14a2 actual explicit v5 enable preserves exact predecessor, progression, pools and legacy expert slots; restore is exact
+  ---
+  duration_ms: 440.506313
+  type: 'test'
+  ...
+# Subtest: R14a2 actual assignment UI uses rendered CAS/revision and cannot replay a detached selection
+ok 68 - R14a2 actual assignment UI uses rendered CAS/revision and cannot replay a detached selection
+  ---
+  duration_ms: 1014.657027
+  type: 'test'
+  ...
+# Subtest: R14a2 actual HUD, aria, controls and assignment labels follow moved skills and show empty slots
+ok 69 - R14a2 actual HUD, aria, controls and assignment labels follow moved skills and show empty slots
+  ---
+  duration_ms: 774.963992
+  type: 'test'
+  ...
+# Subtest: R14a2 F short tap runs moved mace synchronously once; no legacy channel or repeat after release
+ok 70 - R14a2 F short tap runs moved mace synchronously once; no legacy channel or repeat after release
+  ---
+  duration_ms: 920.030919
+  type: 'test'
+  ...
+# Subtest: R14a2 LMB short tap runs moved hammer and never the previous mace action
+ok 71 - R14a2 LMB short tap runs moved hammer and never the previous mace action
+  ---
+  duration_ms: 1392.460139
+  type: 'test'
+  ...
+# Subtest: R14a2 real touch expert1 uses its moved mace_swing assignment once
+ok 72 - R14a2 real touch expert1 uses its moved mace_swing assignment once
+  ---
+  duration_ms: 1212.42994
+  type: 'test'
+  ...
+# Subtest: R14a2 real touch attack uses its moved righteous_hammer assignment once
+ok 73 - R14a2 real touch attack uses its moved righteous_hammer assignment once
+  ---
+  duration_ms: 1386.545375
+  type: 'test'
+  ...
+# Subtest: R14a2 held F mace repeats through production frames; OS repeat does not create extra edges
+ok 74 - R14a2 held F mace repeats through production frames; OS repeat does not create extra edges
+  ---
+  duration_ms: 1896.377995
+  type: 'test'
+  ...
+# Subtest: R14a2 held LMB hammer repeats after cooldown and stops on normal mouse release
+ok 75 - R14a2 held LMB hammer repeats after cooldown and stops on normal mouse release
+  ---
+  duration_ms: 1911.774994
+  type: 'test'
+  ...
+# Subtest: R14a2 newer explicit LMB hammer wins over held F mace at recovery boundary
+ok 76 - R14a2 newer explicit LMB hammer wins over held F mace at recovery boundary
+  ---
+  duration_ms: 1305.369344
+  type: 'test'
+  ...
+# Subtest: R14a2 RMB moved guard obeys hold behavior without firing old hammer
+ok 77 - R14a2 RMB moved guard obeys hold behavior without firing old hammer
+  ---
+  duration_ms: 1488.792644
+  type: 'test'
+  ...
+# Subtest: R14a2 RMB moved guard obeys toggle behavior without firing old hammer
+ok 78 - R14a2 RMB moved guard obeys toggle behavior without firing old hammer
+  ---
+  duration_ms: 1506.797919
+  type: 'test'
+  ...
+# Subtest: R14a2 moved R channel owns its original physical key, pays once and normal release makes one learned Lance
+ok 79 - R14a2 moved R channel owns its original physical key, pays once and normal release makes one learned Lance
+  ---
+  duration_ms: 1491.955919
+  type: 'test'
+  ...
+# Subtest: R14a2 key-mace finite tap during save starts exactly once immediately after committed save
+ok 80 - R14a2 key-mace finite tap during save starts exactly once immediately after committed save
+  ---
+  duration_ms: 1366.559605
+  type: 'test'
+  ...
+# Subtest: R14a2 mouse-hammer finite tap during save starts exactly once immediately after committed save
+ok 81 - R14a2 mouse-hammer finite tap during save starts exactly once immediately after committed save
+  ---
+  duration_ms: 1400.267921
+  type: 'test'
+  ...
+# Subtest: R14a2 touch-banner finite tap during save starts exactly once immediately after committed save
+ok 82 - R14a2 touch-banner finite tap during save starts exactly once immediately after committed save
+  ---
+  duration_ms: 1424.745352
+  type: 'test'
+  ...
+# Subtest: R14a2 released moved channel waiting for save never starts or charges later
+ok 83 - R14a2 released moved channel waiting for save never starts or charges later
+  ---
+  duration_ms: 1505.831274
+  type: 'test'
+  ...
+# Subtest: R14a2 release during moved channel acceptance save cancels safely with paid cost retained and no Lance
+ok 84 - R14a2 release during moved channel acceptance save cancels safely with paid cost retained and no Lance
+  ---
+  duration_ms: 1965.788419
+  type: 'test'
+  ...
+# Subtest: R14a2 moved KeyF save-wait expires after 150ms without cost or late action
+ok 85 - R14a2 moved KeyF save-wait expires after 150ms without cost or late action
+  ---
+  duration_ms: 1870.621741
+  type: 'test'
+  ...
+# Subtest: R14a2 moved KeyR save-wait expires after 150ms without cost or late action
+ok 86 - R14a2 moved KeyR save-wait expires after 150ms without cost or late action
+  ---
+  duration_ms: 1836.241118
+  type: 'test'
+  ...
+# Subtest: R14a2 moved KeyG save-wait expires after 150ms without cost or late action
+ok 87 - R14a2 moved KeyG save-wait expires after 150ms without cost or late action
+  ---
+  duration_ms: 1433.391135
+  type: 'test'
+  ...
+# Subtest: R14a2 actual menu clears moved skill pending during save
+ok 88 - R14a2 actual menu clears moved skill pending during save
+  ---
+  duration_ms: 1202.62041
+  type: 'test'
+  ...
+# Subtest: R14a2 actual blur clears moved skill pending during save
+ok 89 - R14a2 actual blur clears moved skill pending during save
+  ---
+  duration_ms: 1247.963067
+  type: 'test'
+  ...
+# Subtest: R14a2 actual visibility clears moved skill pending during save
+ok 90 - R14a2 actual visibility clears moved skill pending during save
+  ---
+  duration_ms: 1284.111671
+  type: 'test'
+  ...
+# Subtest: R14a2 actual focusin clears moved skill pending during save
+ok 91 - R14a2 actual focusin clears moved skill pending during save
+  ---
+  duration_ms: 1126.638524
+  type: 'test'
+  ...
+# Subtest: R14a2 actual pointercancel clears moved skill pending during save
+ok 92 - R14a2 actual pointercancel clears moved skill pending during save
+  ---
+  duration_ms: 1381.126563
+  type: 'test'
+  ...
+# Subtest: R14a2 menu cancels active moved channel without a Lance or restart
+ok 93 - R14a2 menu cancels active moved channel without a Lance or restart
+  ---
+  duration_ms: 1959.405049
+  type: 'test'
+  ...
+# Subtest: R14a2 blur cancels active moved channel without a Lance or restart
+ok 94 - R14a2 blur cancels active moved channel without a Lance or restart
+  ---
+  duration_ms: 1293.809363
+  type: 'test'
+  ...
+# Subtest: R14a2 committed rebind clears old physical press and never retargets its queued skill
+ok 95 - R14a2 committed rebind clears old physical press and never retargets its queued skill
+  ---
+  duration_ms: 1127.908395
+  type: 'test'
+  ...
+# Subtest: R14a2 committed assignment clears old physical press and never retargets its queued skill
+ok 96 - R14a2 committed assignment clears old physical press and never retargets its queued skill
+  ---
+  duration_ms: 1025.529825
+  type: 'test'
+  ...
+# Subtest: R14a2 real rebind capture names the moved skill, rejects conflicts and requires fresh input
+ok 97 - R14a2 real rebind capture names the moved skill, rejects conflicts and requires fresh input
+  ---
+  duration_ms: 1006.750052
+  type: 'test'
+  ...
+# Subtest: R14a2 empty old block slot key cannot invoke legacy guard or any attack
+ok 98 - R14a2 empty old block slot key cannot invoke legacy guard or any attack
+  ---
+  duration_ms: 894.327315
+  type: 'test'
+  ...
+# Subtest: R14a2 empty old block slot mouse cannot invoke legacy guard or any attack
+ok 99 - R14a2 empty old block slot mouse cannot invoke legacy guard or any attack
+  ---
+  duration_ms: 1017.883472
+  type: 'test'
+  ...
+# Subtest: R14a2 empty old block slot touch cannot invoke legacy guard or any attack
+ok 100 - R14a2 empty old block slot touch cannot invoke legacy guard or any attack
+  ---
+  duration_ms: 1122.522886
+  type: 'test'
+  ...
+# Subtest: R14a2 input observations UI is read-only and distinguishes event time from render dispatch
+ok 101 - R14a2 input observations UI is read-only and distinguishes event time from render dispatch
+  ---
+  duration_ms: 1056.910782
+  type: 'test'
+  ...
+# Subtest: R14a2 30Hz actual hammer-recovery rejection and held restart are both visible with separate clocks
+ok 102 - R14a2 30Hz actual hammer-recovery rejection and held restart are both visible with separate clocks
+  ---
+  duration_ms: 1120.142692
+  type: 'test'
+  ...
+# Subtest: R14a2 30Hz actual roll rejection and held restart are both visible with separate clocks
+ok 103 - R14a2 30Hz actual roll rejection and held restart are both visible with separate clocks
+  ---
+  duration_ms: 1358.269676
+  type: 'test'
+  ...
+# Subtest: R14a2 60Hz actual hammer-recovery rejection and held restart are both visible with separate clocks
+ok 104 - R14a2 60Hz actual hammer-recovery rejection and held restart are both visible with separate clocks
+  ---
+  duration_ms: 1341.170359
+  type: 'test'
+  ...
+# Subtest: R14a2 60Hz actual roll rejection and held restart are both visible with separate clocks
+ok 105 - R14a2 60Hz actual roll rejection and held restart are both visible with separate clocks
+  ---
+  duration_ms: 1342.113832
+  type: 'test'
+  ...
+# Subtest: R14a2 120Hz actual hammer-recovery rejection and held restart are both visible with separate clocks
+ok 106 - R14a2 120Hz actual hammer-recovery rejection and held restart are both visible with separate clocks
+  ---
+  duration_ms: 1518.723493
+  type: 'test'
+  ...
+# Subtest: R14a2 120Hz actual roll rejection and held restart are both visible with separate clocks
+ok 107 - R14a2 120Hz actual roll rejection and held restart are both visible with separate clocks
+  ---
+  duration_ms: 1383.043853
+  type: 'test'
+  ...
+# Subtest: R14a2 real context mousedown selects distant trainer, walks via production frames and opens that exact NPC instead of the initially nearest elder
+ok 108 - R14a2 real context mousedown selects distant trainer, walks via production frames and opens that exact NPC instead of the initially nearest elder
+  ---
+  duration_ms: 434.21269
+  type: 'test'
+  ...
+# Subtest: R14a2 menu cancellation prevents old context destination or NPC from executing after resume
+ok 109 - R14a2 menu cancellation prevents old context destination or NPC from executing after resume
+  ---
+  duration_ms: 758.810953
+  type: 'test'
+  ...
+# Subtest: R14a2 fresh empty-ground mousedown replaces selected context approach and cannot later open the old NPC
+ok 110 - R14a2 fresh empty-ground mousedown replaces selected context approach and cannot later open the old NPC
+  ---
+  duration_ms: 589.153851
+  type: 'test'
+  ...
+# Subtest: R14a2 unaccepted hidden portal cannot become a context target from its projected label position
+ok 111 - R14a2 unaccepted hidden portal cannot become a context target from its projected label position
+  ---
+  duration_ms: 368.565802
+  type: 'test'
+  ...
+# Subtest: R14a2 new explicit combat input cancels selected context NPC and leaves no interaction to replay
+ok 112 - R14a2 new explicit combat input cancels selected context NPC and leaves no interaction to replay
+  ---
+  duration_ms: 677.456893
+  type: 'test'
+  ...
+# Subtest: R14a2 click-mode ground destination persists through an independently aimed RMB hammer and production movement
+ok 113 - R14a2 click-mode ground destination persists through an independently aimed RMB hammer and production movement
+  ---
+  duration_ms: 326.418661
+  type: 'test'
+  ...
+# Subtest: R14a2 newest explicit moved mace replaces waiting banner without charging both skills
+ok 114 - R14a2 newest explicit moved mace replaces waiting banner without charging both skills
+  ---
+  duration_ms: 1333.896245
+  type: 'test'
+  ...
+# Subtest: R14a2 failed real save discards waiting moved skill and preserves exact last committed state
+ok 115 - R14a2 failed real save discards waiting moved skill and preserves exact last committed state
+  ---
+  duration_ms: 1063.953444
+  type: 'test'
+  ...
+# Subtest: R14a3 binding add/remove ARIA labels follow the moved skill, not historical action slot
+ok 116 - R14a3 binding add/remove ARIA labels follow the moved skill, not historical action slot
+  ---
+  duration_ms: 1094.074779
+  type: 'test'
+  ...
+# Subtest: R14a3 v4 help names current click attack key instead of asserting LMB attack
+ok 117 - R14a3 v4 help names current click attack key instead of asserting LMB attack
+  ---
+  duration_ms: 107.043848
+  type: 'test'
+  ...
+# Subtest: observation main: real render is bracketed by distinct entry and return clocks without mutating action data
+ok 118 - observation main: real render is bracketed by distinct entry and return clocks without mutating action data
+  ---
+  duration_ms: 144.069141
+  type: 'test'
+  ...
+# Subtest: observation main: guard receipt remains separate when held mace resumes after guard release
+ok 119 - observation main: guard receipt remains separate when held mace resumes after guard release
+  ---
+  duration_ms: 1134.133493
+  type: 'test'
+  ...
+# Subtest: observation main: the remapped press records its resolved skill before action start
+ok 120 - observation main: the remapped press records its resolved skill before action start
+  ---
+  duration_ms: 1379.777219
+  type: 'test'
+  ...
+# Subtest: observation main: start sound uses the event cast rather than an unrelated current action
+ok 121 - observation main: start sound uses the event cast rather than an unrelated current action
+  ---
+  duration_ms: 210.299014
+  type: 'test'
+  ...
+# Subtest: observation main: enemy and hit sounds never borrow a live player action identity
+ok 122 - observation main: enemy and hit sounds never borrow a live player action identity
+  ---
+  duration_ms: 169.385153
+  type: 'test'
+  ...
+# Subtest: observation main: a declined audio request is shown as declined, without claiming playback
+ok 123 - observation main: a declined audio request is shown as declined, without claiming playback
+  ---
+  duration_ms: 115.729217
+  type: 'test'
+  ...
+# Subtest: observation main: dodge audio is linked to its exact mobility sequence and result
+ok 124 - observation main: dodge audio is linked to its exact mobility sequence and result
+  ---
+  duration_ms: 174.262901
+  type: 'test'
+  ...
+# Subtest: observation main: rejected dodge observation cannot survive until later held movement
+ok 125 - observation main: rejected dodge observation cannot survive until later held movement
+  ---
+  duration_ms: 239.14307
+  type: 'test'
+  ...
+# Subtest: R14a6 30Hz LMB held mace dismisses only its own roll notice when start is accepted
+ok 126 - R14a6 30Hz LMB held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 315.117944
+  type: 'test'
+  ...
+# Subtest: R14a6 30Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+ok 127 - R14a6 30Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 281.265982
+  type: 'test'
+  ...
+# Subtest: R14a6 30Hz mapped F held mace dismisses only its own roll notice when start is accepted
+ok 128 - R14a6 30Hz mapped F held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 1164.164386
+  type: 'test'
+  ...
+# Subtest: R14a6 30Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+ok 129 - R14a6 30Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 1173.993825
+  type: 'test'
+  ...
+# Subtest: R14a6 60Hz LMB held mace dismisses only its own roll notice when start is accepted
+ok 130 - R14a6 60Hz LMB held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 389.158826
+  type: 'test'
+  ...
+# Subtest: R14a6 60Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+ok 131 - R14a6 60Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 300.759692
+  type: 'test'
+  ...
+# Subtest: R14a6 60Hz mapped F held mace dismisses only its own roll notice when start is accepted
+ok 132 - R14a6 60Hz mapped F held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 1095.030222
+  type: 'test'
+  ...
+# Subtest: R14a6 60Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+ok 133 - R14a6 60Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 1593.644202
+  type: 'test'
+  ...
+# Subtest: R14a6 120Hz LMB held mace dismisses only its own roll notice when start is accepted
+ok 134 - R14a6 120Hz LMB held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 545.779819
+  type: 'test'
+  ...
+# Subtest: R14a6 120Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+ok 135 - R14a6 120Hz LMB held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 415.92521
+  type: 'test'
+  ...
+# Subtest: R14a6 120Hz mapped F held mace dismisses only its own roll notice when start is accepted
+ok 136 - R14a6 120Hz mapped F held mace dismisses only its own roll notice when start is accepted
+  ---
+  duration_ms: 1687.344098
+  type: 'test'
+  ...
+# Subtest: R14a6 120Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+ok 137 - R14a6 120Hz mapped F held mace dismisses only its own hammer-recovery notice when start is accepted
+  ---
+  duration_ms: 1624.955054
+  type: 'test'
+  ...
+# Subtest: R14a6 rejected single mace press remains visible, cannot repeat, then expires normally
+ok 138 - R14a6 rejected single mace press remains visible, cannot repeat, then expires normally
+  ---
+  duration_ms: 1030.498903
+  type: 'test'
+  ...
+# Subtest: R14a6 different accepted skill preserves the still-relevant rejected skill notice
+ok 139 - R14a6 different accepted skill preserves the still-relevant rejected skill notice
+  ---
+  duration_ms: 394.923443
+  type: 'test'
+  ...
+# Subtest: R14a6 same-skill new successful press resolves an earlier single-press notice
+ok 140 - R14a6 same-skill new successful press resolves an earlier single-press notice
+  ---
+  duration_ms: 414.508291
+  type: 'test'
+  ...
+# Subtest: R14a6 menu ends recovery notice ownership and clears held input
+ok 141 - R14a6 menu ends recovery notice ownership and clears held input
+  ---
+  duration_ms: 390.285901
+  type: 'test'
+  ...
+# Subtest: R14a6 blur ends recovery notice ownership and clears held input
+ok 142 - R14a6 blur ends recovery notice ownership and clears held input
+  ---
+  duration_ms: 339.581828
+  type: 'test'
+  ...
+# Subtest: R14a6 death ends recovery notice ownership and clears held input
+ok 143 - R14a6 death ends recovery notice ownership and clears held input
+  ---
+  duration_ms: 241.388978
+  type: 'test'
+  ...
+# Subtest: R14a6 replacing recovery notice with an unrelated message preserves it on matching success
+ok 144 - R14a6 replacing recovery notice with an unrelated message preserves it on matching success
+  ---
+  duration_ms: 322.597423
+  type: 'test'
+  ...
+# Subtest: R14a6 later different-skill rejection is not cleared by held mace success
+ok 145 - R14a6 later different-skill rejection is not cleared by held mace success
+  ---
+  duration_ms: 349.78068
+  type: 'test'
+  ...
+# Subtest: R14a6 actual failed accepted-action checkpoint replaces notice with save error and closes gate
+ok 146 - R14a6 actual failed accepted-action checkpoint replaces notice with save error and closes gate
+  ---
+  duration_ms: 299.787213
+  type: 'test'
+  ...
+# Subtest: R14a6 not-ready resource rejection remains after another successful action
+ok 147 - R14a6 not-ready resource rejection remains after another successful action
+  ---
+  duration_ms: 216.323473
+  type: 'test'
+  ...
+# Subtest: R14a6 LMB-first simultaneous LMB and Space hold for 1350ms resumes mace without a stale notice
+ok 148 - R14a6 LMB-first simultaneous LMB and Space hold for 1350ms resumes mace without a stale notice
+  ---
+  duration_ms: 814.17128
+  type: 'test'
+  ...
+# Subtest: R14a6 Space-first simultaneous LMB and Space hold for 1350ms resumes mace without a stale notice
+ok 149 - R14a6 Space-first simultaneous LMB and Space hold for 1350ms resumes mace without a stale notice
+  ---
+  duration_ms: 662.265918
+  type: 'test'
+  ...
+# Subtest: R14a7 QA controls are explicit, default OFF, and never persisted
+ok 150 - R14a7 QA controls are explicit, default OFF, and never persisted
+  ---
+  duration_ms: 155.562952
+  type: 'test'
+  ...
+# Subtest: R14a7 production frame fills actual contact and CPU buckets without changing progression
+ok 151 - R14a7 production frame fills actual contact and CPU buckets without changing progression
+  ---
+  duration_ms: 365.800346
+  type: 'test'
+  ...
+# Subtest: R14a7 paused and save-wait frames cannot become combat cost samples
+ok 152 - R14a7 paused and save-wait frames cannot become combat cost samples
+  ---
+  duration_ms: 269.594802
+  type: 'test'
+  ...
+# Subtest: R14a7 QA clear and reload discard old paths/frame observations without altering stored save
+ok 153 - R14a7 QA clear and reload discard old paths/frame observations without altering stored save
+  ---
+  duration_ms: 245.094199
+  type: 'test'
+  ...
+# Subtest: R14a7 release surface rejects candidate QA toggles
+ok 154 - R14a7 release surface rejects candidate QA toggles
+  ---
+  duration_ms: 186.857618
+  type: 'test'
+  ...
+# Subtest: R14a7 actual long menu keeps last playable frame observation readable
+ok 155 - R14a7 actual long menu keeps last playable frame observation readable
+  ---
+  duration_ms: 409.91135
+  type: 'test'
+  ...
+# Subtest: actual pointercancel drains cast cancellation to audio once without changing action debt
+ok 156 - actual pointercancel drains cast cancellation to audio once without changing action debt
+  ---
+  duration_ms: 264.462776
+  type: 'test'
+  ...
+# Subtest: actual lostpointercapture cancels paid channel voice without refund or a late pulse
+ok 157 - actual lostpointercapture cancels paid channel voice without refund or a late pulse
+  ---
+  duration_ms: 210.623703
+  type: 'test'
+  ...
+# Subtest: actual non-pausing safety drain stops mobility-owned audio on pointer cancellation
+ok 158 - actual non-pausing safety drain stops mobility-owned audio on pointer cancellation
+  ---
+  duration_ms: 240.237007
+  type: 'test'
+  ...
+# Subtest: actual 500ms frame keeps the existing stall boundary and safety-only presentation
+ok 159 - actual 500ms frame keeps the existing stall boundary and safety-only presentation
+  ---
+  duration_ms: 106.631174
+  type: 'test'
+  ...
+# Subtest: actual 501ms frame keeps the existing stall boundary and safety-only presentation
+ok 160 - actual 501ms frame keeps the existing stall boundary and safety-only presentation
+  ---
+  duration_ms: 173.665914
+  type: 'test'
+  ...
+# Subtest: actual blur safety stop rejects menu mutation and clears held/deferred intent through resume
+ok 161 - actual blur safety stop rejects menu mutation and clears held/deferred intent through resume
+  ---
+  duration_ms: 207.478563
+  type: 'test'
+  ...
+# Subtest: actual visibility safety stop rejects menu mutation and clears held/deferred intent through resume
+ok 162 - actual visibility safety stop rejects menu mutation and clears held/deferred intent through resume
+  ---
+  duration_ms: 204.327024
+  type: 'test'
+  ...
+# Subtest: actual frame-focus safety stop rejects menu mutation and clears held/deferred intent through resume
+ok 163 - actual frame-focus safety stop rejects menu mutation and clears held/deferred intent through resume
+  ---
+  duration_ms: 193.657848
+  type: 'test'
+  ...
+# Subtest: actual stall safety stop rejects menu mutation and clears held/deferred intent through resume
+ok 164 - actual stall safety stop rejects menu mutation and clears held/deferred intent through resume
+  ---
+  duration_ms: 203.589818
+  type: 'test'
+  ...
+# Subtest: actual safety full-menu acknowledgement is presentation-only and preserves the saved revision
+ok 165 - actual safety full-menu acknowledgement is presentation-only and preserves the saved revision
+  ---
+  duration_ms: 209.951519
+  type: 'test'
+  ...
+# Subtest: actual safety checkpoint failure keeps the existing recovery gate authoritative
+ok 166 - actual safety checkpoint failure keeps the existing recovery gate authoritative
+  ---
+  duration_ms: 185.222537
+  type: 'test'
+  ...
+# Subtest: R14a15 real >500ms stop retains distinct previous/current callback costs and actual pause
+ok 167 - R14a15 real >500ms stop retains distinct previous/current callback costs and actual pause
+  ---
+  duration_ms: 211.153193
+  type: 'test'
+  ...
+# Subtest: R14a15 real 500ms boundary neither pauses nor creates a strict-gap incident; 501ms does
+ok 168 - R14a15 real 500ms boundary neither pauses nor creates a strict-gap incident; 501ms does
+  ---
+  duration_ms: 183.988204
+  type: 'test'
+  ...
+# Subtest: R14a15 real cheap callbacks with delayed entry retain unexplained separation without assigning GPU cost
+ok 169 - R14a15 real cheap callbacks with delayed entry retain unexplained separation without assigning GPU cost
+  ---
+  duration_ms: 192.415578
+  type: 'test'
+  ...
+# Subtest: R14a15 real nonoverlapping phase brackets include scene, event/save entry, safety, audio tick and aim
+ok 170 - R14a15 real nonoverlapping phase brackets include scene, event/save entry, safety, audio tick and aim
+  ---
+  duration_ms: 100.317069
+  type: 'test'
+  ...
+# Subtest: R14a15 real diagnostics ON/OFF preserve movement/combat, queues, saves and long-gap cancellation
+ok 171 - R14a15 real diagnostics ON/OFF preserve movement/combat, queues, saves and long-gap cancellation
+  ---
+  duration_ms: 573.69327
+  type: 'test'
+  ...
+# Subtest: R14a15 real hidden frame retains prior/current context and unchanged safety pause
+ok 172 - R14a15 real hidden frame retains prior/current context and unchanged safety pause
+  ---
+  duration_ms: 146.692864
+  type: 'test'
+  ...
+# Subtest: R14a15 real blur frame retains prior/current context and unchanged safety pause
+ok 173 - R14a15 real blur frame retains prior/current context and unchanged safety pause
+  ---
+  duration_ms: 175.200822
+  type: 'test'
+  ...
+# Subtest: R14a15 real QA UI retains gap after long menu and next resume, with refresh never clearing evidence
+ok 174 - R14a15 real QA UI retains gap after long menu and next resume, with refresh never clearing evidence
+  ---
+  duration_ms: 298.403336
+  type: 'test'
+  ...
+# Subtest: R14a15 actual failed render retains incomplete frame evidence and existing recovery panel
+ok 175 - R14a15 actual failed render retains incomplete frame evidence and existing recovery panel
+  ---
+  duration_ms: 206.117367
+  type: 'test'
+  ...
+# Subtest: R14a16 real saved death QA remains read-only and returns to normal retry
+ok 176 - R14a16 real saved death QA remains read-only and returns to normal retry
+  ---
+  duration_ms: 288.348901
+  type: 'test'
+  ...
+# Subtest: R14a16 real retry unblocks background, clears only established transient records and increments life once
+ok 177 - R14a16 real retry unblocks background, clears only established transient records and increments life once
+  ---
+  duration_ms: 300.007894
+  type: 'test'
+  ...
+# Subtest: R14a16 real recoverable retry failure is visible in modal status and leaves save, focus ownership and retry intact
+ok 178 - R14a16 real recoverable retry failure is visible in modal status and leaves save, focus ownership and retry intact
+  ---
+  duration_ms: 297.498667
+  type: 'test'
+  ...
+# Subtest: R14a16 pending retry failure stays accessible after opening death diagnostics
+ok 179 - R14a16 pending retry failure stays accessible after opening death diagnostics
+  ---
+  duration_ms: 235.75496
+  type: 'test'
+  ...
+# Subtest: R14a16 uncertain retry keeps Reload authoritative, reload failure accessible, and dead reload restores retry
+ok 180 - R14a16 uncertain retry keeps Reload authoritative, reload failure accessible, and dead reload restores retry
+  ---
+  duration_ms: 262.971109
+  type: 'test'
+  ...
+# Subtest: R14a16 stale dead settings/menu/save actions never mutate real saved state
+ok 181 - R14a16 stale dead settings/menu/save actions never mutate real saved state
+  ---
+  duration_ms: 190.277776
+  type: 'test'
+  ...
+# Subtest: actual committed main snapshot freezes only its owned copy across checkpoint controls rest and save failure
+ok 182 - actual committed main snapshot freezes only its owned copy across checkpoint controls rest and save failure
+  ---
+  duration_ms: 326.198337
+  type: 'test'
+  ...
+# Subtest: recovery diagnostic separates same-sequence waiting observations from rejection causes
+ok 183 - recovery diagnostic separates same-sequence waiting observations from rejection causes
+  ---
+  duration_ms: 114.333508
+  type: 'test'
+  ...
+# Subtest: recovery copy retains one status region and key repeat does not renew the notice
+ok 184 - recovery copy retains one status region and key repeat does not renew the notice
+  ---
+  duration_ms: 298.350809
+  type: 'test'
+  ...
+# Subtest: queued movement charge controls4 keeps router heading through recovery and held-mace restart
+ok 185 - queued movement charge controls4 keeps router heading through recovery and held-mace restart
+  ---
+  duration_ms: 822.783489
+  type: 'test'
+  ...
+# Subtest: queued movement charge controls5 keeps router heading through recovery and held-mace restart
+ok 186 - queued movement charge controls5 keeps router heading through recovery and held-mace restart
+  ---
+  duration_ms: 2375.040345
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 touch attack pointercancel removes unpaid pending pulse
+ok 187 - lifecycle controls4 touch attack pointercancel removes unpaid pending pulse
+  ---
+  duration_ms: 480.486616
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 touch charge pointercancel removes unpaid pending pulse
+ok 188 - lifecycle controls4 touch charge pointercancel removes unpaid pending pulse
+  ---
+  duration_ms: 427.434578
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 touch attack pointercancel removes unpaid pending pulse
+ok 189 - lifecycle controls5 touch attack pointercancel removes unpaid pending pulse
+  ---
+  duration_ms: 1526.54233
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 touch charge pointercancel removes unpaid pending pulse
+ok 190 - lifecycle controls5 touch charge pointercancel removes unpaid pending pulse
+  ---
+  duration_ms: 1570.380702
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 touch pointercancel clears pending keyboard charge and held movement
+ok 191 - lifecycle controls4 touch pointercancel clears pending keyboard charge and held movement
+  ---
+  duration_ms: 513.763706
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 touch pointercancel clears pending keyboard charge and held movement
+ok 192 - lifecycle controls5 touch pointercancel clears pending keyboard charge and held movement
+  ---
+  duration_ms: 1500.863158
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 blur clears missing-keyup movement, held mace and queued Q without replay
+ok 193 - lifecycle controls4 blur clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 515.829985
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 hidden clears missing-keyup movement, held mace and queued Q without replay
+ok 194 - lifecycle controls4 hidden clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 564.532486
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 frame-focus clears missing-keyup movement, held mace and queued Q without replay
+ok 195 - lifecycle controls4 frame-focus clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 567.770549
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 editable-focus clears missing-keyup movement, held mace and queued Q without replay
+ok 196 - lifecycle controls4 editable-focus clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 641.904796
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 canvas-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+ok 197 - lifecycle controls4 canvas-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 778.614836
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 touch-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+ok 198 - lifecycle controls4 touch-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 678.886748
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 menu clears missing-keyup movement, held mace and queued Q without replay
+ok 199 - lifecycle controls4 menu clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 659.22592
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 blur clears missing-keyup movement, held mace and queued Q without replay
+ok 200 - lifecycle controls5 blur clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 1807.250248
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 hidden clears missing-keyup movement, held mace and queued Q without replay
+ok 201 - lifecycle controls5 hidden clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 1730.64804
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 frame-focus clears missing-keyup movement, held mace and queued Q without replay
+ok 202 - lifecycle controls5 frame-focus clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 1551.760838
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 editable-focus clears missing-keyup movement, held mace and queued Q without replay
+ok 203 - lifecycle controls5 editable-focus clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 2098.732868
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 canvas-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+ok 204 - lifecycle controls5 canvas-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 2173.818916
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 touch-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+ok 205 - lifecycle controls5 touch-pointercancel clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 2195.465736
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 menu clears missing-keyup movement, held mace and queued Q without replay
+ok 206 - lifecycle controls5 menu clears missing-keyup movement, held mace and queued Q without replay
+  ---
+  duration_ms: 1730.765056
+  type: 'test'
+  ...
+# Subtest: lifecycle keyup from UI with ctrlKey still releases movement/attack; modified Q creates no edge
+ok 207 - lifecycle keyup from UI with ctrlKey still releases movement/attack; modified Q creates no edge
+  ---
+  duration_ms: 508.523956
+  type: 'test'
+  ...
+# Subtest: lifecycle keyup from UI with altKey still releases movement/attack; modified Q creates no edge
+ok 208 - lifecycle keyup from UI with altKey still releases movement/attack; modified Q creates no edge
+  ---
+  duration_ms: 491.580251
+  type: 'test'
+  ...
+# Subtest: lifecycle keyup from UI with metaKey still releases movement/attack; modified Q creates no edge
+ok 209 - lifecycle keyup from UI with metaKey still releases movement/attack; modified Q creates no edge
+  ---
+  duration_ms: 449.840799
+  type: 'test'
+  ...
+# Subtest: lifecycle controls4 ordinary touch up plus lost capture preserves one finite unpaid tap and independent keyboard movement
+ok 210 - lifecycle controls4 ordinary touch up plus lost capture preserves one finite unpaid tap and independent keyboard movement
+  ---
+  duration_ms: 531.35796
+  type: 'test'
+  ...
+# Subtest: lifecycle controls5 ordinary touch up plus lost capture preserves one finite unpaid tap and independent keyboard movement
+ok 211 - lifecycle controls5 ordinary touch up plus lost capture preserves one finite unpaid tap and independent keyboard movement
+  ---
+  duration_ms: 1957.514454
+  type: 'test'
+  ...
+# Subtest: lifecycle negative control: modified Ctrl+L without keyup/focus loss retains legitimate holds; later delivered blur clears them
+ok 212 - lifecycle negative control: modified Ctrl+L without keyup/focus loss retains legitimate holds; later delivered blur clears them
+  ---
+  duration_ms: 854.396264
+  type: 'test'
+  ...
+# Subtest: crusher menu selects runtime mode with current keys and no profile/revision mutation; region carry and explicit reload reset
+ok 213 - crusher menu selects runtime mode with current keys and no profile/revision mutation; region carry and explicit reload reset
+  ---
+  duration_ms: 580.555437
+  type: 'test'
+  ...
+# Subtest: crusher choice rejects missing learned strike, stale epoch and field selection
+ok 214 - crusher choice rejects missing learned strike, stale epoch and field selection
+  ---
+  duration_ms: 691.505894
+  type: 'test'
+  ...
+# Subtest: crusher menu reconciles focus safety before idle snapshot; missing learning stays visible and default mode remains selectable
+ok 215 - crusher menu reconciles focus safety before idle snapshot; missing learning stays visible and default mode remains selectable
+  ---
+  duration_ms: 286.748813
+  type: 'test'
+  ...
+# Subtest: crusher selection with real focus between buttons drains only settled safety and keeps finite action, recovery and save guards
+ok 216 - crusher selection with real focus between buttons drains only settled safety and keeps finite action, recovery and save guards
+  ---
+  duration_ms: 1191.546857
+  type: 'test'
+  ...
+# Subtest: crusher actual menu, cursor and J/E handlers build readiness then emit one target-centred payoff with unchanged save fields
+ok 217 - crusher actual menu, cursor and J/E handlers build readiness then emit one target-centred payoff with unchanged save fields
+  ---
+  duration_ms: 1114.855089
+  type: 'test'
+  ...
+# Subtest: storm actual focus/menu selection preserves controls and saved fields; region carries only mode and reload resets it
+ok 218 - storm actual focus/menu selection preserves controls and saved fields; region carries only mode and reload resets it
+  ---
+  duration_ms: 584.987961
+  type: 'test'
+  ...
+# Subtest: storm menu leaves genuine learning/control prerequisites and stale/field/busy safety guards
+ok 219 - storm menu leaves genuine learning/control prerequisites and stale/field/busy safety guards
+  ---
+  duration_ms: 575.266687
+  type: 'test'
+  ...
+# Subtest: storm real cursor/J/E/Q handlers earn enemy Combo, place and strike a separate bell, then timed queued charge consumes it without saved-state leakage
+ok 220 - storm real cursor/J/E/Q handlers earn enemy Combo, place and strike a separate bell, then timed queued charge consumes it without saved-state leakage
+  ---
+  duration_ms: 1788.991123
+  type: 'test'
+  ...
+# Subtest: magma actual focused menu selection preserves stored fields and keeps region/reload boundaries
+ok 221 - magma actual focused menu selection preserves stored fields and keeps region/reload boundaries
+  ---
+  duration_ms: 339.652336
+  type: 'test'
+  ...
+# Subtest: magma actual B hold/incoming projectile/B release gives one spray and shield Bash through production save/frame handlers
+ok 222 - magma actual B hold/incoming projectile/B release gives one spray and shield Bash through production save/frame handlers
+  ---
+  duration_ms: 953.398504
+  type: 'test'
+  ...
+# Subtest: magma actual blur clears pending defence before later physical release
+ok 223 - magma actual blur clears pending defence before later physical release
+  ---
+  duration_ms: 699.489902
+  type: 'test'
+  ...
+# Subtest: magma actual visibility clears pending defence before later physical release
+ok 224 - magma actual visibility clears pending defence before later physical release
+  ---
+  duration_ms: 744.008475
+  type: 'test'
+  ...
+# Subtest: magma actual focusin clears pending defence before later physical release
+ok 225 - magma actual focusin clears pending defence before later physical release
+  ---
+  duration_ms: 806.628044
+  type: 'test'
+  ...
+# Subtest: magma actual pointercancel clears pending defence before later physical release
+ok 226 - magma actual pointercancel clears pending defence before later physical release
+  ---
+  duration_ms: 673.652443
+  type: 'test'
+  ...
+# Subtest: magma menu respects hold-control, stale-epoch and field selection requirements
+ok 227 - magma menu respects hold-control, stale-epoch and field selection requirements
+  ---
+  duration_ms: 291.891004
+  type: 'test'
+  ...
+# Subtest: actual safety resume explains fresh press and never rearms previously held shield
+ok 228 - actual safety resume explains fresh press and never rearms previously held shield
+  ---
+  duration_ms: 684.618774
+  type: 'test'
+  ...
+# Subtest: actual frontal active block pays only existing stamina and arms one release Bash; release consumes once, no new MP cost
+ok 229 - actual frontal active block pays only existing stamina and arms one release Bash; release consumes once, no new MP cost
+  ---
+  duration_ms: 1211.725767
+  type: 'test'
+  ...
+# Subtest: three-second charge is consumed by one real block for one front fire spray; its packets cannot recurse
+ok 230 - three-second charge is consumed by one real block for one front fire spray; its packets cannot recurse
+  ---
+  duration_ms: 318.994123
+  type: 'test'
+  ...
+# Subtest: rear attacks stay outside active block even with full charge and cannot arm a Bash or spray
+ok 231 - rear attacks stay outside active block even with full charge and cannot arm a Bash or spray
+  ---
+  duration_ms: 338.279426
+  type: 'test'
+  ...
+# Subtest: same incoming attack replay after invulnerability cannot pay/arm/fire again
+ok 232 - same incoming attack replay after invulnerability cannot pay/arm/fire again
+  ---
+  duration_ms: 309.380689
+  type: 'test'
+  ...
+# Subtest: late does not grant release counter or consume a charged spray
+ok 233 - late does not grant release counter or consume a charged spray
+  ---
+  duration_ms: 305.767117
+  type: 'test'
+  ...
+# Subtest: no-block does not grant release counter or consume a charged spray
+ok 234 - no-block does not grant release counter or consume a charged spray
+  ---
+  duration_ms: 239.340731
+  type: 'test'
+  ...
+# Subtest: insufficient does not grant release counter or consume a charged spray
+ok 235 - insufficient does not grant release counter or consume a charged spray
+  ---
+  duration_ms: 273.936347
+  type: 'test'
+  ...
+# Subtest: secondary does not grant release counter or consume a charged spray
+ok 236 - secondary does not grant release counter or consume a charged spray
+  ---
+  duration_ms: 270.274682
+  type: 'test'
+  ...
+# Subtest: passive physical block is separate from active guard and cannot create payoffs
+ok 237 - passive physical block is separate from active guard and cannot create payoffs
+  ---
+  duration_ms: 253.681357
+  type: 'test'
+  ...
+# Subtest: fire/Bash are frontal and LOS constrained, with one hit per enemy
+ok 238 - fire/Bash are frontal and LOS constrained, with one hit per enemy
+  ---
+  duration_ms: 364.996454
+  type: 'test'
+  ...
+# Subtest: menu clears raised shield, token and charge; resumed release cannot counter
+ok 239 - menu clears raised shield, token and charge; resumed release cannot counter
+  ---
+  duration_ms: 249.020168
+  type: 'test'
+  ...
+# Subtest: blur clears raised shield, token and charge; resumed release cannot counter
+ok 240 - blur clears raised shield, token and charge; resumed release cannot counter
+  ---
+  duration_ms: 330.485105
+  type: 'test'
+  ...
+# Subtest: visibility clears raised shield, token and charge; resumed release cannot counter
+ok 241 - visibility clears raised shield, token and charge; resumed release cannot counter
+  ---
+  duration_ms: 257.629085
+  type: 'test'
+  ...
+# Subtest: pointercancel clears raised shield, token and charge; resumed release cannot counter
+ok 242 - pointercancel clears raised shield, token and charge; resumed release cannot counter
+  ---
+  duration_ms: 258.189342
+  type: 'test'
+  ...
+# Subtest: controls-changed clears raised shield, token and charge; resumed release cannot counter
+ok 243 - controls-changed clears raised shield, token and charge; resumed release cannot counter
+  ---
+  duration_ms: 209.071118
+  type: 'test'
+  ...
+# Subtest: a competing attack or accepted dodge clears the pending counter, not a delayed auto attack
+ok 244 - a competing attack or accepted dodge clears the pending counter, not a delayed auto attack
+  ---
+  duration_ms: 2.890328
+  type: 'test'
+  ...
+# Subtest: safety cancellation during the accepted Bash suppresses later contact without deleting ordinary recovery
+ok 245 - safety cancellation during the accepted Bash suppresses later contact without deleting ordinary recovery
+  ---
+  duration_ms: 42.225177
+  type: 'test'
+  ...
+# Subtest: lethal damage/region/reload do not retain charge or a free release token
+ok 246 - lethal damage/region/reload do not retain charge or a free release token
+  ---
+  duration_ms: 174.857057
+  type: 'test'
+  ...
+# Subtest: default battle/save shape remains unchanged; mode uses existing training shield and hold controls
+ok 247 - default battle/save shape remains unchanged; mode uses existing training shield and hold controls
+  ---
+  duration_ms: 1.243779
+  type: 'test'
+  ...
+# Subtest: blocked shield posture and separate feedback geometry preserve authoritative state
+ok 248 - blocked shield posture and separate feedback geometry preserve authoritative state
+  ---
+  duration_ms: 4.865542
+  type: 'test'
+  ...
+# Subtest: shield release pose reaches maximum shove at actual Bash contact despite residual block hurt override
+ok 249 - shield release pose reaches maximum shove at actual Bash contact despite residual block hurt override
+  ---
+  duration_ms: 1.959741
+  type: 'test'
+  ...
+# Subtest: release at 0.179s preserves the half-open counter window without extending it
+ok 250 - release at 0.179s preserves the half-open counter window without extending it
+  ---
+  duration_ms: 8.833118
+  type: 'test'
+  ...
+# Subtest: release at 0.18s preserves the half-open counter window without extending it
+ok 251 - release at 0.18s preserves the half-open counter window without extending it
+  ---
+  duration_ms: 7.53121
+  type: 'test'
+  ...
+# Subtest: release at 0.181s preserves the half-open counter window without extending it
+ok 252 - release at 0.181s preserves the half-open counter window without extending it
+  ---
+  duration_ms: 29.413187
+  type: 'test'
+  ...
+# Subtest: release timing display follows real frontal block token, expiry and safety without mutating combat
+ok 253 - release timing display follows real frontal block token, expiry and safety without mutating combat
+  ---
+  duration_ms: 18.694579
+  type: 'test'
+  ...
+# Subtest: rear/no-mode/dead defence never displays a release window
+ok 254 - rear/no-mode/dead defence never displays a release window
+  ---
+  duration_ms: 3.235939
+  type: 'test'
+  ...
+# Subtest: Master healing_flames has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 255 - Master healing_flames has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 977.361828
+  type: 'test'
+  ...
+# Subtest: Master pillar_of_light has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 256 - Master pillar_of_light has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 6.546667
+  type: 'test'
+  ...
+# Subtest: Master pulsing_light has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 257 - Master pulsing_light has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 4.741321
+  type: 'test'
+  ...
+# Subtest: Master heavens_wrath has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 258 - Master heavens_wrath has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 28.753503
+  type: 'test'
+  ...
+# Subtest: Master blessed_champion has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 259 - Master blessed_champion has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 8.134615
+  type: 'test'
+  ...
+# Subtest: Master champion_of_truth has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 260 - Master champion_of_truth has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 5.506115
+  type: 'test'
+  ...
+# Subtest: Master champions_hammer has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 261 - Master champions_hammer has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 5.332213
+  type: 'test'
+  ...
+# Subtest: Master crusader has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 262 - Master crusader has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 5.779428
+  type: 'test'
+  ...
+# Subtest: Master dauntless has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 263 - Master dauntless has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 6.95288
+  type: 'test'
+  ...
+# Subtest: Master zealot has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 264 - Master zealot has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 9.434628
+  type: 'test'
+  ...
+# Subtest: Master guardian_angel has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 265 - Master guardian_angel has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 15.193766
+  type: 'test'
+  ...
+# Subtest: Master true_restoration has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 266 - Master true_restoration has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 16.32902
+  type: 'test'
+  ...
+# Subtest: Master wrathful_avenger has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 267 - Master wrathful_avenger has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 32.320021
+  type: 'test'
+  ...
+# Subtest: storm real two-contact staff swing has distinct hit IDs and one Combo per cast across contacts/enemies; no Power Charge or classic p.combo reuse
+ok 268 - storm real two-contact staff swing has distinct hit IDs and one Combo per cast across contacts/enemies; no Power Charge or classic p.combo reuse
+  ---
+  duration_ms: 813.357976
+  type: 'test'
+  ...
+# Subtest: whiff and secondary packet cannot build Combo; lethal actual primary hit still counts
+ok 269 - whiff and secondary packet cannot build Combo; lethal actual primary hit still counts
+  ---
+  duration_ms: 79.907546
+  type: 'test'
+  ...
+# Subtest: valid placement spends Combo plus exactly existing mana/CD, atomically creates a bell and preserves save reports
+ok 270 - valid placement spends Combo plus exactly existing mana/CD, atomically creates a bell and preserves save reports
+  ---
+  duration_ms: 132.238446
+  type: 'test'
+  ...
+# Subtest: invalid combo bell placement has no resource/Combo/CD/FX spend
+ok 271 - invalid combo bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 1.239312
+  type: 'test'
+  ...
+# Subtest: invalid no-pointer bell placement has no resource/Combo/CD/FX spend
+ok 272 - invalid no-pointer bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 100.942233
+  type: 'test'
+  ...
+# Subtest: invalid range bell placement has no resource/Combo/CD/FX spend
+ok 273 - invalid range bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 103.619921
+  type: 'test'
+  ...
+# Subtest: invalid hero-overlap bell placement has no resource/Combo/CD/FX spend
+ok 274 - invalid hero-overlap bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 108.321707
+  type: 'test'
+  ...
+# Subtest: invalid enemy-overlap bell placement has no resource/Combo/CD/FX spend
+ok 275 - invalid enemy-overlap bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 90.605011
+  type: 'test'
+  ...
+# Subtest: invalid wall bell placement has no resource/Combo/CD/FX spend
+ok 276 - invalid wall bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 88.186268
+  type: 'test'
+  ...
+# Subtest: source0.5 bell cap is three, overlap is rejected, capacity frees on expiry
+ok 277 - source0.5 bell cap is three, overlap is rejected, capacity frees on expiry
+  ---
+  duration_ms: 115.684286
+  type: 'test'
+  ...
+# Subtest: direct bell strike makes one real wave per swing and cannot generate Combo from the bell or its wave
+ok 278 - direct bell strike makes one real wave per swing and cannot generate Combo from the bell or its wave
+  ---
+  duration_ms: 181.911396
+  type: 'test'
+  ...
+# Subtest: bell interval is .3s and rejected/duplicate touches cannot replay a later wave from the same cast
+ok 279 - bell interval is .3s and rejected/duplicate touches cannot replay a later wave from the same cast
+  ---
+  duration_ms: 105.1717
+  type: 'test'
+  ...
+# Subtest: real timely queued charge sweeps through bell and consumes it once; subsequent duplicate consume loses race
+ok 280 - real timely queued charge sweeps through bell and consumes it once; subsequent duplicate consume loses race
+  ---
+  duration_ms: 268.388347
+  type: 'test'
+  ...
+# Subtest: late charge retains standard resource/movement but cannot consume a bell
+ok 281 - late charge retains standard resource/movement but cannot consume a bell
+  ---
+  duration_ms: 203.360843
+  type: 'test'
+  ...
+# Subtest: one actual perfect dash consumes three separated bells but overlaps damage each enemy once per use
+ok 282 - one actual perfect dash consumes three separated bells but overlaps damage each enemy once per use
+  ---
+  duration_ms: 246.701037
+  type: 'test'
+  ...
+# Subtest: an actual blocking foe or wall prevents consuming a bell beyond the resolved charge path
+ok 283 - an actual blocking foe or wall prevents consuming a bell beyond the resolved charge path
+  ---
+  duration_ms: 373.343926
+  type: 'test'
+  ...
+# Subtest: expiry at the actual first-contact boundary wins over bell strike without ghost wave or Combo
+ok 284 - expiry at the actual first-contact boundary wins over bell strike without ghost wave or Combo
+  ---
+  duration_ms: 194.45166
+  type: 'test'
+  ...
+# Subtest: release tracking OFF retains the captured bell identity when cursor moves before the next frame
+ok 285 - release tracking OFF retains the captured bell identity when cursor moves before the next frame
+  ---
+  duration_ms: 143.518352
+  type: 'test'
+  ...
+# Subtest: expiry versus strike/explosion and death clear transient objects once
+ok 286 - expiry versus strike/explosion and death clear transient objects once
+  ---
+  duration_ms: 146.900522
+  type: 'test'
+  ...
+# Subtest: default/classic has no storm state and selected session/rebuild/reload never add saved fields
+ok 287 - default/classic has no storm state and selected session/rebuild/reload never add saved fields
+  ---
+  duration_ms: 2.001394
+  type: 'test'
+  ...
+# Subtest: real progression and empty mainhand required; equipped gear is not relabelled as a staff
+ok 288 - real progression and empty mainhand required; equipped gear is not relabelled as a staff
+  ---
+  duration_ms: 1.031299
+  type: 'test'
+  ...
+# Subtest: staff posture and bell/FX helpers read authoritative state only and produce distinct geometry
+ok 289 - staff posture and bell/FX helpers read authoritative state only and produce distinct geometry
+  ---
+  duration_ms: 149.73812
+  type: 'test'
+  ...
+# Subtest: timing indicator follows actual second contact and existing perfect-start boundary only with a live bell
+ok 290 - timing indicator follows actual second contact and existing perfect-start boundary only with a live bell
+  ---
+  duration_ms: 177.251205
+  type: 'test'
+  ...
+# Subtest: timing display is absent without a bell or before a real second contact
+ok 291 - timing display is absent without a bell or before a real second contact
+  ---
+  duration_ms: 14.606772
+  type: 'test'
+  ...
+1..291
+# tests 291
+# suites 0
+# pass 291
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 149369.183925

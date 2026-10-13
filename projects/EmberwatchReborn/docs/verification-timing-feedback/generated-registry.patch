@@ -1,0 +1,128 @@
+diff --git a/packages/registry/src/generated/projects.ts b/packages/registry/src/generated/projects.ts
+index 89e2d1c..428c125 100644
+--- a/packages/registry/src/generated/projects.ts
++++ b/packages/registry/src/generated/projects.ts
+@@ -32,7 +32,42 @@ export const projects = [
+       "build": "pnpm --filter deck-building build",
+       "test": "pnpm --filter deck-building test"
+     },
+-    "updatedAt": "2026-07-15T15:28:50+00:00"
++    "updatedAt": "2026-07-15T15:28:50Z"
++  },
++  {
++    "id": "emberwatch-reborn",
++    "name": "Emberwatch Reborn · 잿불의 서약",
++    "status": "prototype",
++    "type": "demo",
++    "runtime": "static-artifact",
++    "version": "0.14.0-reimplementation.18",
++    "summary": "R14a18 정상 저장 head 우선 검증 후보: 세 원문을 모두 읽고 유효한 head 슬롯을 먼저 검증해 사용하지 않는 대체 슬롯 검증 1회를 줄임. CAS·락·readback·복구·150ms 입력 만료와 500ms 보호조건 보존. 실제 브라우저 입력 만료 해결은 미검증.",
++    "tags": [
++      "game",
++      "action-rpg",
++      "canvas",
++      "prototype"
++    ],
++    "projectRoot": "projects/EmberwatchReborn",
++    "entry": {
++      "kind": "iframe",
++      "path": "/runs/emberwatch-reborn/index.html"
++    },
++    "docs": {
++      "brief": "brief.md",
++      "spec": "spec.md",
++      "eval": "eval.md",
++      "readme": "README.md",
++      "changelog": "changelog.md"
++    },
++    "assets": {},
++    "commands": {
++      "dev": "pnpm --filter emberwatch-reborn dev",
++      "build": "pnpm --filter emberwatch-reborn build",
++      "test": "pnpm --filter emberwatch-reborn test",
++      "lint": "pnpm --filter emberwatch-reborn lint"
++    },
++    "updatedAt": "2026-10-12T18:10:22Z"
+   },
+   {
+     "id": "emberwatch",
+@@ -71,7 +106,7 @@ export const projects = [
+       "lint": "pnpm --filter emberwatch lint",
+       "standalone": "pnpm --filter emberwatch standalone"
+     },
+-    "updatedAt": "2026-10-09T03:51:29+09:00"
++    "updatedAt": "2026-10-09T04:04:49+09:00"
+   },
+   {
+     "id": "msw-inc",
+@@ -171,7 +206,7 @@ export const projects = [
+       "build": "pnpm --filter retro-bowling build",
+       "test": "pnpm --filter retro-bowling test"
+     },
+-    "updatedAt": "2026-07-15T15:28:50+00:00"
++    "updatedAt": "2026-07-15T15:28:50Z"
+   },
+   {
+     "id": "sample-project",
+@@ -205,7 +240,7 @@ export const projects = [
+       "build": "pnpm --filter sample-project build",
+       "test": "pnpm --filter sample-project test"
+     },
+-    "updatedAt": "2026-07-15T15:28:50+00:00"
++    "updatedAt": "2026-07-15T15:28:50Z"
+   },
+   {
+     "id": "stackflow",
+@@ -242,7 +277,7 @@ export const projects = [
+       "build": "pnpm --filter stackflow build",
+       "test": "pnpm --filter stackflow test"
+     },
+-    "updatedAt": "2026-07-15T15:28:50+00:00"
++    "updatedAt": "2026-07-15T15:28:50Z"
+   },
+   {
+     "id": "wave-runner",
+@@ -285,7 +320,7 @@ export const projects = [
+       "build": "pnpm --filter wave-runner build",
+       "test": "pnpm --filter wave-runner test"
+     },
+-    "updatedAt": "2026-09-17T12:08:02+00:00"
++    "updatedAt": "2026-09-17T12:08:02Z"
+   },
+   {
+     "id": "blacksmith-clicker",
+@@ -320,7 +355,7 @@ export const projects = [
+       "build": "pnpm --filter blacksmith-clicker build",
+       "test": "pnpm --filter blacksmith-clicker test"
+     },
+-    "updatedAt": "2026-07-15T15:28:50+00:00"
++    "updatedAt": "2026-07-15T15:28:50Z"
+   },
+   {
+     "id": "altok-dragon-hatchery",
+@@ -356,7 +391,7 @@ export const projects = [
+       "build": "pnpm --filter altok-dragon-hatchery build",
+       "test": "pnpm --filter altok-dragon-hatchery test"
+     },
+-    "updatedAt": "2026-07-15T15:28:50+00:00"
++    "updatedAt": "2026-07-15T15:28:50Z"
+   },
+   {
+     "id": "dragon-danmaku",
+@@ -394,7 +429,7 @@ export const projects = [
+       "build": "pnpm --filter dragon-danmaku build",
+       "test": "pnpm --filter dragon-danmaku test"
+     },
+-    "updatedAt": "2026-07-15T15:28:50+00:00"
++    "updatedAt": "2026-07-15T15:28:50Z"
+   },
+   {
+     "id": "relic-king",
+@@ -459,6 +494,6 @@ export const projects = [
+       "playlog": "pnpm --filter relic-king playlog",
+       "density": "pnpm --filter relic-king density"
+     },
+-    "updatedAt": "2026-09-26T12:20:13+00:00"
++    "updatedAt": "2026-09-29T16:56:04Z"
+   }
+ ] as const satisfies readonly ProjectMetadata[];

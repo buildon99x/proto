@@ -384,3 +384,8 @@ Read-only graph projection of WARRIOR_REFERENCE and previewSkill; node selection
 ## Full implemented skill graph
 
 Graph defaults to all40 nodes; apprentice/adept/expert filters project existing metadata. Hidden bases remain named requirements, never fabricated edges. Locked nodes stay selectable; only the authoritative preview enables purchase. Exclusive alternatives are labelled and drawn separately from dependencies. Preserve keyboard focus, both scroll axes and stale purchase tickets. No save/writer/respec/balance/frame-safety changes.
+
+
+## Read-only timing feedback and Master gate audit
+
+Read current magma token remaining and storm lastTimedContact/time using existing rule constants/predicate. Draw a steady shrinking line and instruction near the hero only while alive, unpaused and in the relevant selected mode. No timers/events/queues/state writes, numeric combat changes or guaranteed eligibility claim. Safety dialog explicitly requests release and fresh press after resume. Master purchase/validation/tier/slots remain untouched.

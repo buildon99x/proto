@@ -1,0 +1,46 @@
+{
+  "full-tests.tap": {
+    "bytes": 1100463,
+    "sha256": "cfc28ad55573b3e167d7e495238f471cf5e2c0f39ae5772e9fd378c8c33cc9d9"
+  },
+  "focused.tap": {
+    "bytes": 71786,
+    "sha256": "2c5425df785c099837076c2cc6a7f59a2d4be03edf793f5a02a09f46482c432b"
+  },
+  "model.tap": {
+    "bytes": 15355,
+    "sha256": "8116dc20b88060b48608d72c4f056c09488a9e4dc8461adaf3242da21890c339"
+  },
+  "safety-focused.tap": {
+    "bytes": 355,
+    "sha256": "c9d85784a10e7cadfa69a18a969f89dc09c5422880faaf3d5b3e290ac8dfb211"
+  },
+  "scene-recovery.tap": {
+    "bytes": 8961,
+    "sha256": "a76ee37da581d33e7ffff9bad8f84ff34dc4e4d2794c6126f44f24602eac8971"
+  },
+  "lint.txt": {
+    "bytes": 196,
+    "sha256": "648b50ff68f7f87c7d00704113c12a439f4e09ce625ba97db93ede85d87fae70"
+  },
+  "registry.txt": {
+    "bytes": 183,
+    "sha256": "0ab4fa354cc6b03817cd3bf62d2c3786638ccab1c5dd151a85151d18f6dbba81"
+  },
+  "build.txt": {
+    "bytes": 10177,
+    "sha256": "45933420cafc7acd63457918759efbbbb4d9c7bbc1fd912611d2e19b12df3130"
+  },
+  "initial-full-harness-failure.tap": {
+    "bytes": 367318,
+    "sha256": "3172709c4022fe2b964afa4053399160f799456f4db4b0da9c6e16106008d4c4"
+  },
+  "initial-safety-probe.tap": {
+    "bytes": 72335,
+    "sha256": "0cfa98a948c325d622d38f29f2faba7a49d1807d00fe3c153bb1696a2009fe57"
+  },
+  "second-full-scene-harness-failure.tap": {
+    "bytes": 1090395,
+    "sha256": "cc7879a026b1064efee7aff2cf9999da119064a701f285c04269de7ed254244c"
+  }
+}

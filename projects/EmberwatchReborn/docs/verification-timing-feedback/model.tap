@@ -1,0 +1,388 @@
+TAP version 13
+# Subtest: actual frontal active block pays only existing stamina and arms one release Bash; release consumes once, no new MP cost
+ok 1 - actual frontal active block pays only existing stamina and arms one release Bash; release consumes once, no new MP cost
+  ---
+  duration_ms: 766.371459
+  type: 'test'
+  ...
+# Subtest: three-second charge is consumed by one real block for one front fire spray; its packets cannot recurse
+ok 2 - three-second charge is consumed by one real block for one front fire spray; its packets cannot recurse
+  ---
+  duration_ms: 137.975941
+  type: 'test'
+  ...
+# Subtest: rear attacks stay outside active block even with full charge and cannot arm a Bash or spray
+ok 3 - rear attacks stay outside active block even with full charge and cannot arm a Bash or spray
+  ---
+  duration_ms: 120.842253
+  type: 'test'
+  ...
+# Subtest: same incoming attack replay after invulnerability cannot pay/arm/fire again
+ok 4 - same incoming attack replay after invulnerability cannot pay/arm/fire again
+  ---
+  duration_ms: 141.741878
+  type: 'test'
+  ...
+# Subtest: late does not grant release counter or consume a charged spray
+ok 5 - late does not grant release counter or consume a charged spray
+  ---
+  duration_ms: 121.653742
+  type: 'test'
+  ...
+# Subtest: no-block does not grant release counter or consume a charged spray
+ok 6 - no-block does not grant release counter or consume a charged spray
+  ---
+  duration_ms: 105.048276
+  type: 'test'
+  ...
+# Subtest: insufficient does not grant release counter or consume a charged spray
+ok 7 - insufficient does not grant release counter or consume a charged spray
+  ---
+  duration_ms: 105.278303
+  type: 'test'
+  ...
+# Subtest: secondary does not grant release counter or consume a charged spray
+ok 8 - secondary does not grant release counter or consume a charged spray
+  ---
+  duration_ms: 111.895847
+  type: 'test'
+  ...
+# Subtest: passive physical block is separate from active guard and cannot create payoffs
+ok 9 - passive physical block is separate from active guard and cannot create payoffs
+  ---
+  duration_ms: 102.892661
+  type: 'test'
+  ...
+# Subtest: fire/Bash are frontal and LOS constrained, with one hit per enemy
+ok 10 - fire/Bash are frontal and LOS constrained, with one hit per enemy
+  ---
+  duration_ms: 141.804352
+  type: 'test'
+  ...
+# Subtest: menu clears raised shield, token and charge; resumed release cannot counter
+ok 11 - menu clears raised shield, token and charge; resumed release cannot counter
+  ---
+  duration_ms: 110.81545
+  type: 'test'
+  ...
+# Subtest: blur clears raised shield, token and charge; resumed release cannot counter
+ok 12 - blur clears raised shield, token and charge; resumed release cannot counter
+  ---
+  duration_ms: 104.365476
+  type: 'test'
+  ...
+# Subtest: visibility clears raised shield, token and charge; resumed release cannot counter
+ok 13 - visibility clears raised shield, token and charge; resumed release cannot counter
+  ---
+  duration_ms: 100.229619
+  type: 'test'
+  ...
+# Subtest: pointercancel clears raised shield, token and charge; resumed release cannot counter
+ok 14 - pointercancel clears raised shield, token and charge; resumed release cannot counter
+  ---
+  duration_ms: 99.079473
+  type: 'test'
+  ...
+# Subtest: controls-changed clears raised shield, token and charge; resumed release cannot counter
+ok 15 - controls-changed clears raised shield, token and charge; resumed release cannot counter
+  ---
+  duration_ms: 99.214326
+  type: 'test'
+  ...
+# Subtest: a competing attack or accepted dodge clears the pending counter, not a delayed auto attack
+ok 16 - a competing attack or accepted dodge clears the pending counter, not a delayed auto attack
+  ---
+  duration_ms: 2.769513
+  type: 'test'
+  ...
+# Subtest: safety cancellation during the accepted Bash suppresses later contact without deleting ordinary recovery
+ok 17 - safety cancellation during the accepted Bash suppresses later contact without deleting ordinary recovery
+  ---
+  duration_ms: 32.046885
+  type: 'test'
+  ...
+# Subtest: lethal damage/region/reload do not retain charge or a free release token
+ok 18 - lethal damage/region/reload do not retain charge or a free release token
+  ---
+  duration_ms: 109.901055
+  type: 'test'
+  ...
+# Subtest: default battle/save shape remains unchanged; mode uses existing training shield and hold controls
+ok 19 - default battle/save shape remains unchanged; mode uses existing training shield and hold controls
+  ---
+  duration_ms: 0.972789
+  type: 'test'
+  ...
+# Subtest: blocked shield posture and separate feedback geometry preserve authoritative state
+ok 20 - blocked shield posture and separate feedback geometry preserve authoritative state
+  ---
+  duration_ms: 2.338492
+  type: 'test'
+  ...
+# Subtest: shield release pose reaches maximum shove at actual Bash contact despite residual block hurt override
+ok 21 - shield release pose reaches maximum shove at actual Bash contact despite residual block hurt override
+  ---
+  duration_ms: 1.52292
+  type: 'test'
+  ...
+# Subtest: release at 0.179s preserves the half-open counter window without extending it
+ok 22 - release at 0.179s preserves the half-open counter window without extending it
+  ---
+  duration_ms: 7.725777
+  type: 'test'
+  ...
+# Subtest: release at 0.18s preserves the half-open counter window without extending it
+ok 23 - release at 0.18s preserves the half-open counter window without extending it
+  ---
+  duration_ms: 7.873049
+  type: 'test'
+  ...
+# Subtest: release at 0.181s preserves the half-open counter window without extending it
+ok 24 - release at 0.181s preserves the half-open counter window without extending it
+  ---
+  duration_ms: 9.678867
+  type: 'test'
+  ...
+# Subtest: release timing display follows real frontal block token, expiry and safety without mutating combat
+ok 25 - release timing display follows real frontal block token, expiry and safety without mutating combat
+  ---
+  duration_ms: 9.106331
+  type: 'test'
+  ...
+# Subtest: rear/no-mode/dead defence never displays a release window
+ok 26 - rear/no-mode/dead defence never displays a release window
+  ---
+  duration_ms: 3.102736
+  type: 'test'
+  ...
+# Subtest: Master healing_flames has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 27 - Master healing_flames has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 775.707192
+  type: 'test'
+  ...
+# Subtest: Master pillar_of_light has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 28 - Master pillar_of_light has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 5.815272
+  type: 'test'
+  ...
+# Subtest: Master pulsing_light has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 29 - Master pulsing_light has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 5.096126
+  type: 'test'
+  ...
+# Subtest: Master heavens_wrath has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 30 - Master heavens_wrath has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 4.557392
+  type: 'test'
+  ...
+# Subtest: Master blessed_champion has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 31 - Master blessed_champion has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 5.052891
+  type: 'test'
+  ...
+# Subtest: Master champion_of_truth has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 32 - Master champion_of_truth has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 7.109216
+  type: 'test'
+  ...
+# Subtest: Master champions_hammer has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 33 - Master champions_hammer has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 16.760661
+  type: 'test'
+  ...
+# Subtest: Master crusader has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 34 - Master crusader has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 6.989685
+  type: 'test'
+  ...
+# Subtest: Master dauntless has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 35 - Master dauntless has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 4.845538
+  type: 'test'
+  ...
+# Subtest: Master zealot has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 36 - Master zealot has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 7.318211
+  type: 'test'
+  ...
+# Subtest: Master guardian_angel has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 37 - Master guardian_angel has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 7.282157
+  type: 'test'
+  ...
+# Subtest: Master true_restoration has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 38 - Master true_restoration has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 4.252282
+  type: 'test'
+  ...
+# Subtest: Master wrathful_avenger has no legal current purchase: keep DATA_ONLY and state unchanged
+ok 39 - Master wrathful_avenger has no legal current purchase: keep DATA_ONLY and state unchanged
+  ---
+  duration_ms: 4.425413
+  type: 'test'
+  ...
+# Subtest: storm real two-contact staff swing has distinct hit IDs and one Combo per cast across contacts/enemies; no Power Charge or classic p.combo reuse
+ok 40 - storm real two-contact staff swing has distinct hit IDs and one Combo per cast across contacts/enemies; no Power Charge or classic p.combo reuse
+  ---
+  duration_ms: 813.078996
+  type: 'test'
+  ...
+# Subtest: whiff and secondary packet cannot build Combo; lethal actual primary hit still counts
+ok 41 - whiff and secondary packet cannot build Combo; lethal actual primary hit still counts
+  ---
+  duration_ms: 46.396655
+  type: 'test'
+  ...
+# Subtest: valid placement spends Combo plus exactly existing mana/CD, atomically creates a bell and preserves save reports
+ok 42 - valid placement spends Combo plus exactly existing mana/CD, atomically creates a bell and preserves save reports
+  ---
+  duration_ms: 104.337713
+  type: 'test'
+  ...
+# Subtest: invalid combo bell placement has no resource/Combo/CD/FX spend
+ok 43 - invalid combo bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 1.689492
+  type: 'test'
+  ...
+# Subtest: invalid no-pointer bell placement has no resource/Combo/CD/FX spend
+ok 44 - invalid no-pointer bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 88.016516
+  type: 'test'
+  ...
+# Subtest: invalid range bell placement has no resource/Combo/CD/FX spend
+ok 45 - invalid range bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 72.357099
+  type: 'test'
+  ...
+# Subtest: invalid hero-overlap bell placement has no resource/Combo/CD/FX spend
+ok 46 - invalid hero-overlap bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 87.770319
+  type: 'test'
+  ...
+# Subtest: invalid enemy-overlap bell placement has no resource/Combo/CD/FX spend
+ok 47 - invalid enemy-overlap bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 62.234612
+  type: 'test'
+  ...
+# Subtest: invalid wall bell placement has no resource/Combo/CD/FX spend
+ok 48 - invalid wall bell placement has no resource/Combo/CD/FX spend
+  ---
+  duration_ms: 58.247931
+  type: 'test'
+  ...
+# Subtest: source0.5 bell cap is three, overlap is rejected, capacity frees on expiry
+ok 49 - source0.5 bell cap is three, overlap is rejected, capacity frees on expiry
+  ---
+  duration_ms: 77.53622
+  type: 'test'
+  ...
+# Subtest: direct bell strike makes one real wave per swing and cannot generate Combo from the bell or its wave
+ok 50 - direct bell strike makes one real wave per swing and cannot generate Combo from the bell or its wave
+  ---
+  duration_ms: 93.352925
+  type: 'test'
+  ...
+# Subtest: bell interval is .3s and rejected/duplicate touches cannot replay a later wave from the same cast
+ok 51 - bell interval is .3s and rejected/duplicate touches cannot replay a later wave from the same cast
+  ---
+  duration_ms: 75.17245
+  type: 'test'
+  ...
+# Subtest: real timely queued charge sweeps through bell and consumes it once; subsequent duplicate consume loses race
+ok 52 - real timely queued charge sweeps through bell and consumes it once; subsequent duplicate consume loses race
+  ---
+  duration_ms: 150.975383
+  type: 'test'
+  ...
+# Subtest: late charge retains standard resource/movement but cannot consume a bell
+ok 53 - late charge retains standard resource/movement but cannot consume a bell
+  ---
+  duration_ms: 120.704329
+  type: 'test'
+  ...
+# Subtest: one actual perfect dash consumes three separated bells but overlaps damage each enemy once per use
+ok 54 - one actual perfect dash consumes three separated bells but overlaps damage each enemy once per use
+  ---
+  duration_ms: 143.846316
+  type: 'test'
+  ...
+# Subtest: an actual blocking foe or wall prevents consuming a bell beyond the resolved charge path
+ok 55 - an actual blocking foe or wall prevents consuming a bell beyond the resolved charge path
+  ---
+  duration_ms: 210.011675
+  type: 'test'
+  ...
+# Subtest: expiry at the actual first-contact boundary wins over bell strike without ghost wave or Combo
+ok 56 - expiry at the actual first-contact boundary wins over bell strike without ghost wave or Combo
+  ---
+  duration_ms: 94.431214
+  type: 'test'
+  ...
+# Subtest: release tracking OFF retains the captured bell identity when cursor moves before the next frame
+ok 57 - release tracking OFF retains the captured bell identity when cursor moves before the next frame
+  ---
+  duration_ms: 99.553679
+  type: 'test'
+  ...
+# Subtest: expiry versus strike/explosion and death clear transient objects once
+ok 58 - expiry versus strike/explosion and death clear transient objects once
+  ---
+  duration_ms: 86.239312
+  type: 'test'
+  ...
+# Subtest: default/classic has no storm state and selected session/rebuild/reload never add saved fields
+ok 59 - default/classic has no storm state and selected session/rebuild/reload never add saved fields
+  ---
+  duration_ms: 1.54929
+  type: 'test'
+  ...
+# Subtest: real progression and empty mainhand required; equipped gear is not relabelled as a staff
+ok 60 - real progression and empty mainhand required; equipped gear is not relabelled as a staff
+  ---
+  duration_ms: 0.826608
+  type: 'test'
+  ...
+# Subtest: staff posture and bell/FX helpers read authoritative state only and produce distinct geometry
+ok 61 - staff posture and bell/FX helpers read authoritative state only and produce distinct geometry
+  ---
+  duration_ms: 115.469423
+  type: 'test'
+  ...
+# Subtest: timing indicator follows actual second contact and existing perfect-start boundary only with a live bell
+ok 62 - timing indicator follows actual second contact and existing perfect-start boundary only with a live bell
+  ---
+  duration_ms: 89.234746
+  type: 'test'
+  ...
+# Subtest: timing display is absent without a bell or before a real second contact
+ok 63 - timing display is absent without a bell or before a real second contact
+  ---
+  duration_ms: 12.717565
+  type: 'test'
+  ...
+1..63
+# tests 63
+# suites 0
+# pass 63
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2879.539358

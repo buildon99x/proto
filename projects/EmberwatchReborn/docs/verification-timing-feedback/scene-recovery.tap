@@ -1,0 +1,214 @@
+TAP version 13
+# Subtest: real menu in windup pauses, saves full remaining debt and cannot replay queued/held input
+ok 1 - real menu in windup pauses, saves full remaining debt and cannot replay queued/held input
+  ---
+  duration_ms: 127.549938
+  type: 'test'
+  ...
+# Subtest: real menu in recovery pauses, saves full remaining debt and cannot replay queued/held input
+ok 2 - real menu in recovery pauses, saves full remaining debt and cannot replay queued/held input
+  ---
+  duration_ms: 80.650646
+  type: 'test'
+  ...
+# Subtest: real blur in windup pauses, saves full remaining debt and cannot replay queued/held input
+ok 3 - real blur in windup pauses, saves full remaining debt and cannot replay queued/held input
+  ---
+  duration_ms: 67.181282
+  type: 'test'
+  ...
+# Subtest: real blur in recovery pauses, saves full remaining debt and cannot replay queued/held input
+ok 4 - real blur in recovery pauses, saves full remaining debt and cannot replay queued/held input
+  ---
+  duration_ms: 67.21325
+  type: 'test'
+  ...
+# Subtest: real hidden in windup pauses, saves full remaining debt and cannot replay queued/held input
+ok 5 - real hidden in windup pauses, saves full remaining debt and cannot replay queued/held input
+  ---
+  duration_ms: 65.951383
+  type: 'test'
+  ...
+# Subtest: real hidden in recovery pauses, saves full remaining debt and cannot replay queued/held input
+ok 6 - real hidden in recovery pauses, saves full remaining debt and cannot replay queued/held input
+  ---
+  duration_ms: 76.419552
+  type: 'test'
+  ...
+# Subtest: real delayed menu checkpoint freezes moved recovery and retains its object through commit
+ok 7 - real delayed menu checkpoint freezes moved recovery and retains its object through commit
+  ---
+  duration_ms: 47.311315
+  type: 'test'
+  ...
+# Subtest: real failed menu checkpoint does not erase, refund or complete the live recovery action
+ok 8 - real failed menu checkpoint does not erase, refund or complete the live recovery action
+  ---
+  duration_ms: 45.758328
+  type: 'test'
+  ...
+# Subtest: real main frame counts recovery movement in walkTime and stops counting on released movement
+ok 9 - real main frame counts recovery movement in walkTime and stops counting on released movement
+  ---
+  duration_ms: 35.612296
+  type: 'test'
+  ...
+# Subtest: real main frame counts the mixed recovery/new-windup frame once and not the next stationary windup
+ok 10 - real main frame counts the mixed recovery/new-windup frame once and not the next stationary windup
+  ---
+  duration_ms: 64.858091
+  type: 'test'
+  ...
+# Subtest: S closed: floor connectivity and authored gates control idle bodies and future devices
+ok 11 - S closed: floor connectivity and authored gates control idle bodies and future devices
+  ---
+  duration_ms: 13.458959
+  type: 'test'
+  ...
+# Subtest: S west: floor connectivity and authored gates control idle bodies and future devices
+ok 12 - S west: floor connectivity and authored gates control idle bodies and future devices
+  ---
+  duration_ms: 7.64326
+  type: 'test'
+  ...
+# Subtest: S east: floor connectivity and authored gates control idle bodies and future devices
+ok 13 - S east: floor connectivity and authored gates control idle bodies and future devices
+  ---
+  duration_ms: 5.396725
+  type: 'test'
+  ...
+# Subtest: S north: floor connectivity and authored gates control idle bodies and future devices
+ok 14 - S north: floor connectivity and authored gates control idle bodies and future devices
+  ---
+  duration_ms: 6.362725
+  type: 'test'
+  ...
+# Subtest: actual renderer removes four locked keeper bodies, then shows reachable still-idle keepers immediately
+ok 15 - actual renderer removes four locked keeper bodies, then shows reachable still-idle keepers immediately
+  ---
+  duration_ms: 13.246588
+  type: 'test'
+  ...
+# Subtest: stale objective/map combinations cannot reveal idle foes or invent an open passage
+ok 16 - stale objective/map combinations cannot reveal idle foes or invent an open passage
+  ---
+  duration_ms: 1.643854
+  type: 'test'
+  ...
+# Subtest: S closed: capped footings use only nearby connected 1/0 edges, inset inside real solid tiles
+ok 17 - S closed: capped footings use only nearby connected 1/0 edges, inset inside real solid tiles
+  ---
+  duration_ms: 1.108385
+  type: 'test'
+  ...
+# Subtest: S west: capped footings use only nearby connected 1/0 edges, inset inside real solid tiles
+ok 18 - S west: capped footings use only nearby connected 1/0 edges, inset inside real solid tiles
+  ---
+  duration_ms: 0.509239
+  type: 'test'
+  ...
+# Subtest: S east: capped footings use only nearby connected 1/0 edges, inset inside real solid tiles
+ok 19 - S east: capped footings use only nearby connected 1/0 edges, inset inside real solid tiles
+  ---
+  duration_ms: 0.535048
+  type: 'test'
+  ...
+# Subtest: S north: capped footings use only nearby connected 1/0 edges, inset inside real solid tiles
+ok 20 - S north: capped footings use only nearby connected 1/0 edges, inset inside real solid tiles
+  ---
+  duration_ms: 0.696613
+  type: 'test'
+  ...
+# Subtest: west before/after: only the complete real opened door receives ticks and no footing crosses its lane
+ok 21 - west before/after: only the complete real opened door receives ticks and no footing crosses its lane
+  ---
+  duration_ms: 0.915003
+  type: 'test'
+  ...
+# Subtest: east before/after: only the complete real opened door receives ticks and no footing crosses its lane
+ok 22 - east before/after: only the complete real opened door receives ticks and no footing crosses its lane
+  ---
+  duration_ms: 1.464563
+  type: 'test'
+  ...
+# Subtest: north before/after: only the complete real opened door receives ticks and no footing crosses its lane
+ok 23 - north before/after: only the complete real opened door receives ticks and no footing crosses its lane
+  ---
+  duration_ms: 0.745357
+  type: 'test'
+  ...
+# Subtest: seen=false and remote floor do not reveal hidden-room footings or opened corner marks
+ok 24 - seen=false and remote floor do not reveal hidden-room footings or opened corner marks
+  ---
+  duration_ms: 1.151541
+  type: 'test'
+  ...
+# Subtest: actual active LOS-broken threats and committed warnings survive gate/map inconsistencies, including flash0
+ok 25 - actual active LOS-broken threats and committed warnings survive gate/map inconsistencies, including flash0
+  ---
+  duration_ms: 7.680847
+  type: 'test'
+  ...
+# Subtest: residual hostile shots and area warnings remain visible after the caster dies and keep labels suppressed
+ok 26 - residual hostile shots and area warnings remain visible after the caster dies and keep labels suppressed
+  ---
+  duration_ms: 3.319065
+  type: 'test'
+  ...
+# Subtest: capped boundaries and existing passage ticks precede loot, danger and every actor, static at flash0
+ok 27 - capped boundaries and existing passage ticks precede loot, danger and every actor, static at flash0
+  ---
+  duration_ms: 9.947923
+  type: 'test'
+  ...
+# Subtest: S quiet nearby LOS-valid short labels retain full F names; active combat suppresses labels only
+ok 28 - S quiet nearby LOS-valid short labels retain full F names; active combat suppresses labels only
+  ---
+  duration_ms: 8.123836
+  type: 'test'
+  ...
+# Subtest: shortcut marker follows availability/completion while ordinary F interaction candidates stay unchanged
+ok 29 - shortcut marker follows availability/completion while ordinary F interaction candidates stay unchanged
+  ---
+  duration_ms: 2.233525
+  type: 'test'
+  ...
+# Subtest: actual main frame supplies one S snapshot to live renderer, floor cues and labels at each map transition
+ok 30 - actual main frame supplies one S snapshot to live renderer, floor cues and labels at each map transition
+  ---
+  duration_ms: 3.008667
+  type: 'test'
+  ...
+# Subtest: S adapter and rails opt out of all other regions; W scene contract remains selected only for W
+ok 31 - S adapter and rails opt out of all other regions; W scene contract remains selected only for W
+  ---
+  duration_ms: 26.334461
+  type: 'test'
+  ...
+# Subtest: reducer-earned west gate transitions and reloaded snapshot keep display tied to committed geometry
+ok 32 - reducer-earned west gate transitions and reloaded snapshot keep display tied to committed geometry
+  ---
+  duration_ms: 665.050945
+  type: 'test'
+  ...
+# Subtest: reducer-earned east gate transitions and reloaded snapshot keep display tied to committed geometry
+ok 33 - reducer-earned east gate transitions and reloaded snapshot keep display tied to committed geometry
+  ---
+  duration_ms: 101.379676
+  type: 'test'
+  ...
+# Subtest: interleaved S visibility/rendering preserves actual combat, aiming, collision, resource and cooldown outcomes
+ok 34 - interleaved S visibility/rendering preserves actual combat, aiming, collision, resource and cooldown outcomes
+  ---
+  duration_ms: 125.083881
+  type: 'test'
+  ...
+1..34
+# tests 34
+# suites 0
+# pass 34
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1172.33709

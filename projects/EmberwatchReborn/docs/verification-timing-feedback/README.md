@@ -1,0 +1,19 @@
+# Existing combat timing feedback candidate
+
+Baseline0c07fe1d982c8720ff16574911b39bea499ed101. No deployment; retain R14a18 label.
+
+Safety dialog asks the player to release held keys/buttons and press again after Continue; shield needs a fresh press. Actual input clearing and strict >500ms frame stop remain intact. HUD and a steady shrinking line near the hero name the existing shield-release / second-contact perfect-dash windows. They are simulation clocks, not a promise of input acceptance or successful target hit. Existing resource/recovery/geometry constraints still decide. No flashing/pulsing FX or per-frame live-region announcements. Paused/dead/irrelevant mode has no timing overlay. No timers/ranks/fields are added to combat or saved state.
+
+The0.18s windows are previous Emberwatch candidate test values. The official0.5 notes confirm Gathering Storm's perfectly timed bell explosion and once-per-enemy-per-use rule, not this candidate's exact interval or damage: https://www.pathofexile.com/forum/view-thread/3932540 . Rechecked2026-10-13. No live PoE2 numerical rebalance is made.
+
+Normal QA: serve complete package ROOT and open /qa-r14/. Continue ordinary earned profile. Basic starter+PoE hold shield permits town selection of 용광 방패; face a live enemy, hold current shield binding, receive an actual front block, observe line and release within existing window. Wait past it and compare; behind/passive block should have no indicator. Cause ordinary focus loss/return, read safety explanation, Continue, release old held key and press fresh: no automatic guard/old counter should resume.
+
+For 폭풍 연격, earn Adept and purchase Judgement normally, unequip mainhand through existing UI and select mode in town. Real enemy J hits earn4Combo; aim legal empty ground and E places a bell. Strike with J, inspect the line after second actual contact, start Q in the existing window and contact the bell. Late dash keeps the bell. Line describes dash START timing, not button-receipt/queue timing, and does not guarantee LOS/contact. Compare keyboard/mouse, narrow view, flashes0 and old modes; save/reload preserves old progression and returns session mode to basic.
+
+Master13 remain blocked at legal purchase/validator/normal unlock. See master-gate-audit.md; no free runtime rank or empty skill implementation is substituted. Graph remains40. Native screen/AX/real listening/timing acceptance requires dot QA; automatic handler/Canvas probes are separate.
+
+Initial safety probe failed by sampling p.block immediately while the existing async checkpoint was still busy; action-safety correctly waits for settlement. Probe now awaits the existing settled callback/frame before asserting cleared guard, then verifies old held key stays inactive and fresh press raises it. No safety rule was changed for that test. Initial log is retained; final focused/full results are separate. Safety byte comparison normalizes ONLY the new text and read-only drawing call, so the original frame/clear/flush/close/menu control logic must otherwise match baseline exactly.
+
+The first aggregate run was stopped after ten ctx-is-not-defined errors in the old attack-recovery-lifecycle Canvas-less fixture. A temporary Canvas probe made its10 checks pass, then the second aggregate exposed a missing projection in the old signal-scene fixture. Final integration invokes the drawing helper ONLY when magma/storm is selected, so default scenes do not calculate unavailable timing feedback. The temporary fixture change was removed; both original fixtures execute unchanged. Retained initial-full-harness-failure.tap is incomplete, not a release pass. The final mode-guard integration and fresh final aggregate are the acceptance evidence.
+
+Second aggregate log is also retained as incomplete. Final source uses a mode guard around ONLY the new drawing call; original safety-byte comparison removes that entire guarded display addition before comparing frame logic.

@@ -726,3 +726,7 @@ test('magma menu respects hold-control, stale-epoch and field selection requirem
  const classic=await ui();classic.key('Escape');await classic.frame();await classic.click('magma-menu');assert.match(classic.modal.innerHTML,/PoE형 조작과 방패 누름 유지/);
  const h=await ui({poeMode:'wasd'});h.key('Escape');await h.frame();await h.click('magma-menu');await h.click('magma-mode:1',{magmaEpoch:h.modal.presentationEpoch-1});assert.notEqual(h.app.battle.magmaEnabled,true);h.app.battle.region='ember_road';await h.click('magma-mode:1',{magmaEpoch:h.modal.presentationEpoch});assert.notEqual(h.app.battle.magmaEnabled,true);
 });
+
+test('actual safety resume explains fresh press and never rearms previously held shield',async()=>{
+ const h=await magmaUi(),b=h.app.battle;assert.equal(b.p.block,true);await h.frame(.501);assert.match(h.modal.innerHTML,/누르고 있던 키·버튼을 먼저 놓고 다시 눌러/);assert.match(h.modal.innerHTML,/방패도 새로 눌러야/);await next();await h.frame();assert.equal(b.p.block,false);await h.click('close');await h.frame();assert.equal(b.p.block,false);assert.equal(b.magma.token,null);h.up('KeyB');h.key('KeyB');await h.frame();assert.equal(b.p.block,true);
+});
