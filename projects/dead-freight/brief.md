@@ -131,3 +131,7 @@ After pin extraction, the support hand should own the detached pin instead of fo
 
 ## 0.12.4 action lifecycle ownership
 Close reproduced direct-bridge paused-use and active-action immediate-use holes. Keep ordinary inventory preparation and timed effects compatible; do not equate these source API defects with an observed UI exploit.
+
+
+## 0.12.5 pistol state ownership
+Migrate the existing P-6 six-round pistol into one validated data-driven per-instance state controller. Preserve the fictional gun's automatic cycling, mandatory recovery, legacy active-reload skill behavior, ballistics, controls, recordings and existing inventory/save schema. Shotgun/SMG remain separate migration gaps.

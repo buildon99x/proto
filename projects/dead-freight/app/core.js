@@ -4,7 +4,8 @@
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const EPS=1e-6;
 const MOVEMENT=Object.freeze({radius:.38,height:1.75,eyeHeight:1.62,slideHeight:.72,slideEyeHeight:.58,jumpSpeed:6.9,gravity:19,slideCost:28,slideDuration:.8,slideSpeed:12.8,slideFriction:12,slideCooldown:1.4,maxMoveStep:.14,simulationStep:1/120,walkSpeed:4.8,sprintSpeed:7.5,aimSpeed:2.8,fatiguedSpeed:2.8,walkDrain:2,sprintDrain:10,restRecovery:24,jumpCost:10,fatigueRecovery:18});
-const CYCLE=Object.freeze([{delay:.12,recovery:.19},{delay:.26,recovery:.28},null]);
+const pistolSource=root.DFPistol||(typeof require==='function'?require('./pistol-state.js'):null);
+const CYCLE=Object.freeze([{delay:pistolSource.definition.cycleDelay,recovery:pistolSource.definition.cycleRecovery},{delay:.26,recovery:.28},null]);
 // Exact slab intersection, including zero-length segments and axis-parallel shots.
 function segmentBox(ax,ay,az,bx,by,bz,minX,minY,minZ,maxX,maxY,maxZ){
  let enter=0,exit=1;
@@ -29,6 +30,12 @@ class Mission {
   this.time=0;this.kills=0;this.bounty=false;this.extracted=false;this.shots=0;this.hits=0;this.destroyed=0;this.cash=0;this.cargo=0;
   this.rifle=rifleSource?new rifleSource.RifleState({seed,active:false,config:options.rifleConfig,definitionId:options.rifleDefinitionId,sessionId:options.combatSessionId}):null;this.paused=false;this.weaponActionBlocked=false;this.weaponHolstered=false;
   this.weapon=0;this.ammo=[6,2,24,this.rifle?.total||0];this.reserve=[72,24,144,this.rifle?.reserve||0];this.cocked=true;this.reload=0;this.cooldown=0;this.cycleDelay=0;this.cycleWeapon=null;
+  this.pistol=new pistolSource.PistolState({sessionId:options.combatSessionId});
+  Object.defineProperty(this.ammo,'0',{enumerable:true,get:()=>this.pistol.rounds,set:value=>this.pistol.setRounds(value)});
+  Object.defineProperty(this.reserve,'0',{enumerable:true,get:()=>this.pistol.reserve,set:value=>this.pistol.setReserve(value)});
+  const timerMap={cocked:'cocked',reload:'reloadRemaining',reloadDuration:'reloadDuration',cooldown:'cooldown',cycleDelay:'cycleRemaining'},legacy={};
+  for(const [key,field] of Object.entries(timerMap)){legacy[key]=this[key];Object.defineProperty(this,key,{enumerable:true,get:()=>this.weapon===0?this.pistol[field]:legacy[key],set:value=>{if(this.weapon!==0){legacy[key]=value;return;}if(key==='cocked'){this.pistol.cocked=!!value;if(value){this.pistol.cycling=false;this.pistol.cycleRemaining=0;}}else{if(!Number.isFinite(value)||value<0)throw new RangeError('Invalid pistol timer '+key);this.pistol[field]=value;}}});}
+  legacy.cycleWeapon=this.cycleWeapon;Object.defineProperty(this,'cycleWeapon',{enumerable:true,get:()=>this.weapon===0?(this.pistol.cycling?0:null):legacy.cycleWeapon,set:value=>{if(this.weapon===0)this.pistol.cycling=value===0;else legacy.cycleWeapon=value;}});
   this.combo=0;this.comboTimer=0;this.style=0;this.perfect=0;this.reloadDuration=0;
   this.extractionZones=[{id:'south',name:'SOUTH LZ',x:0,z:25,radius:3.5,holdTime:6}];this.extractionZone=null;this.extractionProgress=0;this.extractionRequired=6;
   this._grid=new Map();this._indexedWalls=null;this._indexedCount=-1;this._gridDirty=true;
@@ -105,7 +112,7 @@ class Mission {
  }
  reward(points){this.combo++;this.comboTimer=4;this.style+=Math.round(points*(1+Math.min(4,this.combo)*.25));}
  emit(type,data={}){this.events.push({type,...data});}
- damage(n,source=null){if(this.player.hp<=0||this.player.invulnerable>0||this.extracted)return;this.damageSequence=(this.damageSequence||0)+1;this.combo=0;this.comboTimer=0;const shield=Math.min(this.player.armor,n*.65);this.player.armor-=shield;this.player.hp=Math.max(0,this.player.hp-(n-shield));this.emit('hurt',{amount:n,armored:shield>0,...(Number.isFinite(source?.x)&&Number.isFinite(source?.z)?{sourceX:source.x,sourceZ:source.z}:{})});if(this.player.hp<=0){this.cancelExtraction('dead');this.playerBullets.clear();this.player.slide=0;this.player.slideSpeed=0;this.clearFireInput('dead');}}
+ damage(n,source=null){if(this.player.hp<=0||this.player.invulnerable>0||this.extracted)return;this.damageSequence=(this.damageSequence||0)+1;this.combo=0;this.comboTimer=0;const shield=Math.min(this.player.armor,n*.65);this.player.armor-=shield;this.player.hp=Math.max(0,this.player.hp-(n-shield));this.emit('hurt',{amount:n,armored:shield>0,...(Number.isFinite(source?.x)&&Number.isFinite(source?.z)?{sourceX:source.x,sourceZ:source.z}:{})});if(this.player.hp<=0){this.cancelExtraction('dead');this.playerBullets.clear();this.player.slide=0;this.player.slideSpeed=0;this.clearFireInput('dead');this.pistol.deactivate('dead');this.syncPistol();}}
  syncRifle(){
   if(!this.rifle)return;const r=this.rifle.snapshot();this.ammo[3]=r.total;this.reserve[3]=r.reserve;
   if(this.weapon===3){this.reload=r.reloadRemaining;this.reloadDuration=r.reloadDuration;this.cooldown=r.cooldown;this.cocked=!!r.chamber;}
@@ -116,34 +123,42 @@ class Mission {
  clearFireInput(reason='clear'){this.rifle?.clearFireInput(reason);}
  setWeaponIntent(intent={}){if(this.weapon===3){this.rifle.setIntent(intent);this.syncRifle();}}
  setFireMode(mode){if(this.weapon!==3||this.player.hp<=0||this.extracted)return false;const changed=this.rifle.setMode(mode);this.syncRifle();return changed;}
- setPaused(paused){this.paused=!!paused;if(this.paused)this.setMovementIntent({});this.rifle?.setPaused(paused);this.syncRifle();}
+ syncPistol(){for(const event of this.pistol.drainEvents())this.events.push(event);}
+ setPaused(paused){this.paused=!!paused;this.pistol.setPaused(paused);if(this.paused)this.setMovementIntent({});this.rifle?.setPaused(paused);this.syncRifle();}
  shouldFire(){return !this.weaponActionBlocked&&this.weapon===3&&this.player.hp>0&&!this.extracted&&!this.paused?this.rifle.shouldFire():null;}
  cycle(){
   if(this.weapon===3)return false;
+  if(this.weapon===0){const accepted=this.pistol.cycle();this.syncPistol();return accepted;}
   if(this.cocked||this.reload>0||this.cycleDelay>EPS||this.player.hp<=0||this.extracted)return false;
   const weapon=this.cycleWeapon??this.weapon;this.cocked=true;this.cycleDelay=0;this.cycleWeapon=null;this.cooldown=Math.max(this.cooldown,CYCLE[weapon]?.recovery||.19);this.emit('cycle',{weapon});return true;
  }
  load(){
   if(this.weaponActionBlocked||this.player.hp<=0||this.extracted||this.paused)return false;
   if(this.weapon===3){const accepted=this.rifle.load();this.syncRifle();return accepted;}
+  if(this.weapon===0){const result=this.pistol.load();if(result==='perfect'){this.perfect=3;this.reward(45);}this.syncPistol();return !!result;}
   if(this.reload>0){const progress=1-this.reload/this.reloadDuration;if(progress>.44&&progress<.62){this.reload=.04;this.perfect=3;this.reward(45);this.emit('perfect');}else{this.reload+=.35;this.emit('mistime');}return true;}
   if(this.ammo[this.weapon]>=[6,2,24][this.weapon]||this.reserve[this.weapon]<=0)return false;
   this.cycleDelay=0;this.cycleWeapon=null;this.reload=this.reloadDuration=[1.6,1.9,2][this.weapon];this.emit('reload',{weapon:this.weapon});return true;
  }
  switchWeapon(n){
   if(!Number.isInteger(n)||n<0||n>3||n===this.weapon||this.player.hp<=0||this.extracted||this.paused||(n===3&&!this.rifle))return false;
+  if(this.weapon===0)this.pistol.deactivate('switch');
   if(this.weapon===3)this.rifle.deactivate();else this.clearFireInput('switch');
-  this.weapon=n;this.reload=0;this.reloadDuration=0;this.cycleDelay=0;this.cycleWeapon=null;this.cocked=true;this.cooldown=.25;
+  this.weapon=n;if(n===0){this.pistol.activate();this.pistol.setPaused(this.paused);this.pistol.cooldown=Math.max(this.pistol.cooldown,this.pistol.config.switchRecovery);}else{this.reload=0;this.reloadDuration=0;this.cycleDelay=0;this.cycleWeapon=null;this.cocked=true;this.cooldown=.25;}this.syncPistol();
   if(n===3)this.rifle.activate();this.syncRifle();this.emit('switch',{weapon:n});return true;
  }
  fire(hit,command){
   if(this.muzzleBlocked||(command?.ballistic&&(!projectileSource.validLaunch(this.shotConfig(),command.ballistic)||this.playerBullets.active.length+this.shotConfig().pellets>128)))return false;
   if(this.weaponActionBlocked)return false;
   if(this.weapon===3)return this.fireRifle(hit,command);
+  if(this.weapon===0)return this.firePistol(hit,command);
   if(this.paused)return false;
   if(this.player.hp<=0||this.extracted||this.reload>0||this.cooldown>EPS||!this.cocked)return false;if(!this.ammo[this.weapon]){this.emit('empty');return false;}
   this.ammo[this.weapon]--;this.shots++;this.cooldown=[.2,.4,.1][this.weapon];if(this.weapon<2){this.cocked=false;this.cycleDelay=CYCLE[this.weapon].delay;this.cycleWeapon=this.weapon;}this.emit('shot',{weapon:this.weapon});
   const record=this.shotResolver.begin({weapon:this.weapon,config:shotSource.configuration(this.weapon),time:this.time,multiplier:this.perfect>0?1.3:1});this.lastShotRecord=record;this.dispatchShot(record,hit,command);return true;
+ }
+ firePistol(hit,command){
+  if(this.paused||this.weaponActionBlocked||this.player.hp<=0||this.extracted)return false;const shot=this.pistol.fire();if(!shot){this.syncPistol();return false;}this.shots++;this.syncPistol();const record=this.shotResolver.begin({weapon:0,config:shotSource.configuration(0),shotId:shot.shotId,time:this.time,multiplier:this.perfect>0?1.3:1});this.lastShotRecord=record;this.dispatchShot(record,hit,command);return true;
  }
  fireRifle(hit,command){
   if(this.weaponActionBlocked||this.player.hp<=0||this.extracted||this.paused)return false;
@@ -178,9 +193,9 @@ class Mission {
   const beforeEnemies=projectileSource.snapshots(this),p=this.player;this.time+=dt;const resting=!this.movementIntent.moving&&p.slide<=0&&p.dash<=0&&p.grounded;if(resting)p.stamina=clamp(p.stamina+dt*MOVEMENT.restRecovery,0,100);if(p.stamina<=EPS)p.fatigued=true;else if(p.stamina>=MOVEMENT.fatigueRecovery-EPS)p.fatigued=false;p.dash=Math.max(0,p.dash-dt);p.invulnerable=Math.max(0,p.invulnerable-dt);p.slideCooldown=Math.max(0,p.slideCooldown-dt);
   if(p.slide>0){const t=Math.min(dt,p.slide),speed=Math.max(0,p.slideSpeed-MOVEMENT.slideFriction*t),distance=(p.slideSpeed+speed)*.5*t;const moved=this.move(p.slideDirX*distance,p.slideDirZ*distance);p.slideSpeed=speed;p.slide=Math.max(0,p.slide-t);if(Math.hypot(moved.dx,moved.dz)<distance*.2){p.slide=0;p.slideSpeed=0;}if(!p.slide)this.emit('slideend');}
   this.posture();this.vertical(dt);this.posture();
-  this.perfect=Math.max(0,this.perfect-dt);this.comboTimer=Math.max(0,this.comboTimer-dt);if(!this.comboTimer)this.combo=0;if(this.rifle){this.rifle.tick(dt,{allowAutoReload:!this.weaponActionBlocked});this.syncRifle();}if(this.weapon!==3)this.cooldown=Math.max(0,this.cooldown-dt);
-  if(this.cycleWeapon!==null&&!this.reload){this.cycleDelay=Math.max(0,this.cycleDelay-dt);if(this.cycleDelay<=EPS)this.cycle();}
-  if(this.weapon!==3&&this.reload>0){this.reload=Math.max(0,this.reload-dt);if(this.reload<=EPS){this.reload=0;const n=Math.min([6,2,24][this.weapon]-this.ammo[this.weapon],this.reserve[this.weapon]);this.ammo[this.weapon]+=n;this.reserve[this.weapon]-=n;this.cocked=true;this.emit('loaded',{weapon:this.weapon});}}
+  this.perfect=Math.max(0,this.perfect-dt);this.comboTimer=Math.max(0,this.comboTimer-dt);if(!this.comboTimer)this.combo=0;if(this.rifle){this.rifle.tick(dt,{allowAutoReload:!this.weaponActionBlocked});this.syncRifle();}if(this.weapon===0){this.pistol.tick(dt);this.syncPistol();}else if(this.weapon!==3)this.cooldown=Math.max(0,this.cooldown-dt);
+  if(this.weapon!==0&&this.cycleWeapon!==null&&!this.reload){this.cycleDelay=Math.max(0,this.cycleDelay-dt);if(this.cycleDelay<=EPS)this.cycle();}
+  if(this.weapon!==0&&this.weapon!==3&&this.reload>0){this.reload=Math.max(0,this.reload-dt);if(this.reload<=EPS){this.reload=0;const n=Math.min([6,2,24][this.weapon]-this.ammo[this.weapon],this.reserve[this.weapon]);this.ammo[this.weapon]+=n;this.reserve[this.weapon]-=n;this.cocked=true;this.emit('loaded',{weapon:this.weapon});}}
   for(const e of this.enemies){
    if(!e.alive)continue;e.hit=Math.max(0,(e.hit||0)-dt);const dx=p.x-e.x,dz=p.z-e.z,d=Math.hypot(dx,dz),activation=e.activationRange||19,leash=e.leash||48;
    // Remote groups sleep; distance is checked before broadphase or line-of-sight work.
@@ -201,7 +216,7 @@ class Mission {
   }
   this.projectiles=this.projectiles.filter(shot=>shot.alive);
   if(p.hp>0&&!this.extracted)this.playerBullets.advance(this,dt,beforeEnemies,incomingContacts);else this.playerBullets.clear();
-  if(this.extractionZone){const zone=this.extractionZone;if(p.hp<=0||!this.bounty||Math.hypot(p.x-zone.x,p.z-zone.z)>zone.radius)this.cancelExtraction(p.hp<=0?'dead':'left');else{this.extractionProgress=Math.min(this.extractionRequired,this.extractionProgress+dt);if(this.extractionProgress>=this.extractionRequired-EPS){this.extractionProgress=this.extractionRequired;this.extracted=true;this.playerBullets.clear();this.clearFireInput('extracted');this.emit('win',{id:zone.id,cargo:this.cargo,cash:this.cash});}}}
+  if(this.extractionZone){const zone=this.extractionZone;if(p.hp<=0||!this.bounty||Math.hypot(p.x-zone.x,p.z-zone.z)>zone.radius)this.cancelExtraction(p.hp<=0?'dead':'left');else{this.extractionProgress=Math.min(this.extractionRequired,this.extractionProgress+dt);if(this.extractionProgress>=this.extractionRequired-EPS){this.extractionProgress=this.extractionRequired;this.extracted=true;this.playerBullets.clear();this.clearFireInput('extracted');this.pistol.deactivate('extracted');this.syncPistol();this.emit('win',{id:zone.id,cargo:this.cargo,cash:this.cash});}}}
  }
 }
 root.HC={Mission,clamp,MOVEMENT,CYCLE,RIFLE:rifleSource?.RIFLE};if(typeof module!=='undefined')module.exports=root.HC;

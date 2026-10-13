@@ -1,4 +1,4 @@
-# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.12.3
+# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.12.5
 
 R-4 라이플 한 종의 FPS 기반과, 340×340m 단일 연결 지역을 다루는 1인칭 Extraction 개발 체크포인트입니다. `proto/projects/dead-freight`에서 개발합니다. 완성된 상용 오픈월드 규모나 품질을 의미하지 않습니다.
 
@@ -126,3 +126,7 @@ V (rebindable) now performs a timed single-target fist strike. Existing saved co
 
 ## 0.12.3 grenade pin source correction
 The detached pin stays with the support hand instead of following the grenade throwing hand. Cancellation keeps its existing contact pose at recovery start. This corrects reproduced rig-coordinate drift; actual natural movement and pin readability remain unaccepted. Inventory, release timing, ballistics, audio and lighting are unchanged.
+
+
+## 0.12.5 P-6 source controller
+The existing pistol now uses validated mechanical data and a per-UID controller while preserving its six-round ammunition, automatic cycle/mandatory recovery, skill reload, save format, controls and recordings. Detailed HUD follows its actual controller state. Shotgun/SMG migration and actual game/device acceptance remain unfinished.

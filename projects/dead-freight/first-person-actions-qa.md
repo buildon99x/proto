@@ -1,6 +1,6 @@
 # 0.11.2 first-person actions: candidate play checklist
 
-Latest laptop gate: [2026-10-13 jh-laptop reconciliation](qa-jh-laptop-2026-10-13.md). Inspection baseline was 0.12.1; the source continuations below are 0.12.2/0.12.3. Read-only site checks identify public 0.10.0 and candidate 0.12.0. Utility Foley and trajectory preview are implemented, while actual listening, motion/contact captures, live ballistics and extraction acceptance remain open. The supported UI kernel fails before browser observation; source tests do not close those gates.
+Latest laptop gate: [2026-10-13 jh-laptop reconciliation](qa-jh-laptop-2026-10-13.md). Inspection baseline was 0.12.1; source continuations now reach 0.12.5. Read-only site checks identify public 0.10.0 and candidate 0.12.0. Utility Foley and trajectory preview are implemented, while actual listening, motion/contact captures, live ballistics and extraction acceptance remain open. The supported UI kernel fails before browser observation; source tests do not close those gates.
 
 Use a separate candidate path with `?testProfile=local-qa`. Never use or import the normal bank for this check. Deploy the contents of `app/dist`, preserving the relative `vendor/` and `audio/rifle/` paths. `build-manifest.json` identifies version 0.11.2 and all 113 static payload hashes; verify it and at least game.js, item-action.js and item-view.js after publication.
 
@@ -64,3 +64,7 @@ On an identified 0.12.2 candidate, test V at hip/ADS/reload/holstered, then a cu
 
 ## 0.12.3 detached pin QA
 Observe the pinch/pull through the separation moment, then compare support-hand/pin location while the throwing hand extends and the grenade leaves. The detached pin should not follow the throwing hand. Interrupt after pin extraction but before projectile release and after release: recovery must begin at the same hand/pin contact, with original no-effect-before-commit and no-refund-after-commit rules. Numerical anchors do not prove perceived human motion or actual rendering.
+
+
+## 0.12.5 pistol live acceptance
+On an identified 0.12.5 artifact, test P-6 hip/ADS fire, automatic cycle and mandatory recovery, normal/perfect/mistimed reload, cancel before transfer, H and same-class swaps, dropping/recovering a partially cycled pistol, pause/focus/death/extraction and melee/treatment/frag arbitration. Confirm six-round conservation and detailed HUD matching the actual action. Listen to existing shot/slide/reload/contact recordings and capture return pose/frame-time. Source tests do not pass this checklist. Shotgun/SMG still use their legacy state paths.
