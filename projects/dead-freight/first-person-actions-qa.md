@@ -84,3 +84,7 @@ Fire Breach then immediately select frag/healing/melee or H. The manual pump sho
 
 ## 0.12.9 utility-grip actual QA
 Inspect glove handedness against dorsal panels, index/thumb pinch at pin-ring contact, held grip, actual thumb opening at release, closed melee fist and cancelled recovery. Ensure world/gun/HUD contrast and contact locations stay readable. Capture real frames/input and listen to device output; numerical geometry/cue checks do not close this gate.
+
+
+## 0.12.10 connected utility arms actual QA
+Check upper-arm/elbow/forearm/wrist silhouette at grenade pin/hold/release, medicine contact and melee. Look for stretched sleeves, clipping, wall/weapon contrast, discontinuous cancellation and near-camera distortion using actual frames. Geometry endpoints pass; human-looking anatomy/motion remains open.

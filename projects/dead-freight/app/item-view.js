@@ -23,11 +23,13 @@ function create(T){
  function box(parent,name,pos,size,mat){const rounded=name.startsWith('finger-')||name==='thumb',palm=name==='glove-palm',radius=Math.min(size[0],size[2])*.5,geometry=rounded?new T.CapsuleGeometry(radius,Math.max(.001,size[1]-radius*2),3,8):palm?new T.SphereGeometry(1,12,8):new T.BoxGeometry(...size),mesh=new T.Mesh(geometry,mat);if(palm)mesh.scale.set(size[0]*.62,size[1]*.58,size[2]*.65);else if(rounded)mesh.scale.z=size[2]/(radius*2);mesh.name=name;mesh.position.set(...pos);parent.add(mesh);mesh.castShadow=mesh.receiveShadow=true;return mesh;}
  function hand(side){const h=new T.Group();h.name=side+'-utility-hand';group.add(h);const mirror=side==='left'?1:-1;
   box(h,'glove-palm',[0,0,0],[.105,.13,.064],glove);box(h,'glove-back-panel',[0,.005,.036],[.078,.09,.012],panel);
-  box(h,'glove-cuff',[0,-.083,.009],[.105,.033,.077],cloth);box(h,'exposed-wrist',[0,-.12,.023],[.084,.045,.065],wrist);box(h,'sleeve',[0,-.285,.10],[.12,.28,.10],cloth).rotation.x=-.32;
+  box(h,'glove-cuff',[0,-.083,.009],[.105,.033,.077],cloth);box(h,'exposed-wrist',[0,-.12,.023],[.084,.045,.065],wrist);
   const fingers=[],roles=mirror>0?['little','ring','middle','index']:['index','middle','ring','little'],lengths={index:.93,middle:1,ring:.96,little:.76};for(let i=0;i<4;i++){const role=roles[i],scale=lengths[role],proximal=.038*scale,mid=.029*scale,distal=.023*scale,finger=new T.Group();finger.name=side+'-'+role+'-finger';finger.position.set((i-1.5)*.024,.065,0);h.add(finger);const middle=new T.Group(),tip=new T.Group();middle.name=side+'-'+role+'-middle';tip.name=side+'-'+role+'-tip';box(finger,'finger-proximal',[0,proximal/2,0],[.022*scale,proximal,.027*scale],glove);middle.position.y=proximal;finger.add(middle);box(middle,'finger-middle',[0,mid/2,0],[.021*scale,mid,.024*scale],glove);tip.position.y=mid;middle.add(tip);box(tip,'finger-tip',[0,distal/2,0],[.020*scale,distal,.022*scale],glove);const contact=new T.Object3D();contact.name=side+'-'+role+'-contact';contact.position.y=distal;tip.add(contact);tip.userData.contact=contact;fingers.push([finger,middle,tip]);}
   const thumb=new T.Group();thumb.position.set(mirror*.058,.014,0);thumb.rotation.z=-mirror*.7;h.add(thumb);box(thumb,'thumb',[0,.029,0],[.031,.058,.035],glove);const indexTip=fingers[roles.indexOf('index')][2];h.userData={fingers,thumb,indexTip,indexContact:indexTip.userData.contact,thumbSide:mirror};return h;
  }
  const right=hand('right'),left=hand('left'),props={};
+ // Reconciled from the user's unpublished motion archive, after current hand fixes.
+ const arms={};for(const side of ['right','left']){const elbow=new T.Object3D();elbow.name=side+'-utility-elbow';group.add(elbow);const upper=new T.Mesh(new T.CylinderGeometry(.077,.092,1,10),cloth),forearm=new T.Mesh(new T.CylinderGeometry(.05,.077,1,10),cloth);upper.name=side+'-utility-upper-arm';forearm.name=side+'-utility-forearm';upper.castShadow=forearm.castShadow=upper.receiveShadow=forearm.receiveShadow=true;group.add(upper,forearm);arms[side]={elbow,upper,forearm,shoulder:new T.Vector3(side==='right'?.34:-.48,-.63,.57)};}
  const frag=new T.Group();frag.name='held-frag';right.add(frag);frag.position.set(0,.079,-.051);
  const body=new T.Mesh(new T.SphereGeometry(.058,10,8),metal);body.scale.y=1.2;frag.add(body);box(frag,'grenade-cap',[0,.072,0],[.037,.025,.03],metal);box(frag,'grenade-lever',[.047,.029,0],[.012,.12,.027],ivory);const ring=new T.Mesh(new T.TorusGeometry(.016,.003,5,12),pinMetal);ring.name='grenade-pin-ring';ring.position.set(-.027,.084,0);frag.add(ring);props.frag=frag;const pulledPin=new T.Group();pulledPin.name='held-pulled-pin';group.add(pulledPin);const pulledRing=new T.Mesh(new T.TorusGeometry(.016,.003,5,12),pinMetal);pulledPin.add(pulledRing);box(pulledPin,'pin-stem',[.013,-.016,0],[.003,.032,.003],pinMetal);pulledPin.visible=false;
  for(const id of ['bandage','medkit','scanner']){const g=new T.Group();g.name='held-'+id;right.add(g);g.position.set(0,.075,-.05);props[id]=g;
@@ -37,7 +39,7 @@ function create(T){
  }
  const dressing=new T.Group();dressing.name='wrist-field-dressing';left.add(dressing);dressing.position.set(0,-.12,.06);box(dressing,'dressing-pad',[0,0,0],[.07,.034,.008],ivory);for(const side of [-1,1])box(dressing,'dressing-tape',[side*.035,0,-.01],[.012,.031,.029],ivory);dressing.visible=false;
  glove.name='utility-glove';panel.name='utility-glove-panel';cloth.name='utility-sleeve';wrist.name='utility-wrist';metal.name='utility-metal';ivory.name='utility-ivory';pinMetal.name='utility-pin';
- group.userData={right,left,props,ring,pulledPin,dressing,pinError:0,treatmentError:0};group.visible=false;return group;
+ group.userData={right,left,arms,props,ring,pulledPin,dressing,pinError:0,treatmentError:0};group.visible=false;return group;
 }
 function apply(group,a){const V=group.position.constructor,p=pose(a),v=group.userData;group.visible=p.visible;group.position.set(p.x,p.y,p.z);group.rotation.set(p.pitch,0,p.roll);v.right.position.set(p.rightX,p.rightY,p.rightZ);v.right.rotation.set(-.12,0,p.rightRotZ);v.left.position.set(p.leftX,-.025+p.leftY,p.leftZ);v.left.rotation.set(p.leftRotX,p.leftRotY,p.leftRotZ);
  for(const [id,g] of Object.entries(v.props))g.visible=id===a.itemId&&p.propVisible;
@@ -65,6 +67,9 @@ function apply(group,a){const V=group.position.constructor,p=pose(a),v=group.use
   v.right.position.addScaledVector(target.clone().sub(contact),p.treatment);group.updateMatrixWorld(true);
   v.treatmentError=group.worldToLocal(contactNode.getWorldPosition(new V())).distanceTo(target);
  }
+ // Hand constraints move wrists: connect sleeves only after those constraints finish.
+ for(const side of ['right','left']){const arm=v.arms[side],h=v[side];arm.elbow.position.set(side==='right'?.19:-.36,-.30,side==='right'?.32:.30);const wrist=group.worldToLocal(h.localToWorld(new V(0,-.12,.023)));for(const [mesh,start,end] of [[arm.upper,arm.shoulder,arm.elbow.position],[arm.forearm,arm.elbow.position,wrist]]){const direction=end.clone().sub(start),length=direction.length();mesh.position.copy(start).add(end).multiplyScalar(.5);mesh.scale.y=Math.max(.001,length);mesh.quaternion.setFromUnitVectors(new V(0,1,0),direction.normalize());}}
+ group.updateMatrixWorld(true);
  return p;
 }
 function lighting(T){

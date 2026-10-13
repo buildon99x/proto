@@ -151,3 +151,6 @@ Continue existing first-person action work after mechanical migrations. A reprod
 
 ## 0.12.9 utility glove handedness and release
 Correct source-proven utility glove anatomy and grip release after the mechanical migrations. Under the authored +Z dorsal-panel/+Y fingers frame, thumbs were placed on the outward/reversed sides and stayed unchanged from held grenade to released hand. Preserve pin/wrist anchors, action timing, world/gun resources and recorded audio; visual human-motion acceptance stays open.
+
+## 0.12.10 archived connected utility arms
+Reconcile the user's unpublished 2026-10-11 motion archive without applying it over current validated gameplay. First port its connected shoulder/elbow/forearm/wrist geometry and post-contact sleeve solver. Preserve current detached-pin ownership, corrected grip, gameplay controllers, timings and saves. Other archive motion tracks/tool details require subsequent reconciliation and live acceptance.

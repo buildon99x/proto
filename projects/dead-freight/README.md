@@ -1,4 +1,4 @@
-# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.12.9
+# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.12.10
 
 R-4 라이플 한 종의 FPS 기반과, 340×340m 단일 연결 지역을 다루는 1인칭 Extraction 개발 체크포인트입니다. `proto/projects/dead-freight`에서 개발합니다. 완성된 상용 오픈월드 규모나 품질을 의미하지 않습니다.
 
@@ -146,3 +146,7 @@ Before fix, the original game/rendererless route emitted a shotgun cycle cue and
 
 ## 0.12.9 utility-grip source correction
 Utility glove dorsal panels face +Z in the authored neutral frame. The old thumb placement was outward/reversed (left X<0, right X>0) and the right thumb did not change between closed grenade hold and release. Thumb handedness now matches the inward sides; explicit semantic finger/index references track the thumb-adjacent index, and thumb closure/opening follows the authored grip. Pin/wrist contact anchors, timing, source commits, lighting, gun/world meshes and audio assets remain unchanged. These are authored geometric corrections, not acceptance of human-looking pinch/grasp/throw. 920 named checks in43 suites pass (360-case action matrix included), plus34 syntax checks, static packaging and315 separate audits. Required11-project/27-page aggregate and final scoped-registry launcher build pass with unchanged lockfile. Actual motion/input/device listening/frame-time/extraction acceptance remains open; no deployment or new liquid-metal implementation. Remaining city maps, broader AI/economy, additional weapon/throwable systems and v1 tuning are not declared complete.
+
+
+## 0.12.10 unpublished motion archive: connected arms
+The user's Library patch/report/manifest were found and read; original artifacts remain unchanged. Selectively adapted utility shoulder/elbow/forearm/wrist geometry and post-contact sleeve solver without replacing current pin/grip/gameplay fixes. See [archive reconciliation](archived-motion-reconciliation.md) for provenance and remaining tracks/tools/origin work. 923 named checks in44 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. No actual rendering, human motion, listening, input, frame-time or extraction acceptance. No deployment or local liquid-metal implementation.

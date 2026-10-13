@@ -7,7 +7,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.12.9",
+    "version": "0.12.10",
     "summary": "All four existing guns own mechanical states: validated per-UID P-6/Breach/Twin controllers and R-4, finite-speed ballistics, cancellable utility/melee actions. Actual render/input/listening/performance acceptance remains open.",
     "tags": [
       "game",
@@ -33,7 +33,7 @@ export const projects = [
       "build": "pnpm --filter dead-freight build",
       "test": "pnpm --filter dead-freight test"
     },
-    "updatedAt": "2026-10-14T04:04:24+09:00"
+    "updatedAt": "2026-10-14T04:24:32+09:00"
   },
   {
     "id": "deck-building",
