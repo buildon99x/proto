@@ -1,6 +1,6 @@
 # 0.11.2 first-person actions: candidate play checklist
 
-Latest laptop gate: [2026-10-13 jh-laptop reconciliation](qa-jh-laptop-2026-10-13.md). Inspection baseline was 0.12.1; source continuations now reach 0.12.5. Read-only site checks identify public 0.10.0 and candidate 0.12.0. Utility Foley and trajectory preview are implemented, while actual listening, motion/contact captures, live ballistics and extraction acceptance remain open. The supported UI kernel fails before browser observation; source tests do not close those gates.
+Latest laptop gate: [2026-10-13 jh-laptop reconciliation](qa-jh-laptop-2026-10-13.md). Inspection baseline was 0.12.1; source continuations now reach 0.12.7. Read-only site checks identify public 0.10.0 and candidate 0.12.0. Utility Foley and trajectory preview are implemented, while actual listening, motion/contact captures, live ballistics and extraction acceptance remain open. The supported UI kernel fails before browser observation; source tests do not close those gates.
 
 Use a separate candidate path with `?testProfile=local-qa`. Never use or import the normal bank for this check. Deploy the contents of `app/dist`, preserving the relative `vendor/` and `audio/rifle/` paths. `build-manifest.json` identifies version 0.11.2 and all 113 static payload hashes; verify it and at least game.js, item-action.js and item-view.js after publication.
 
@@ -72,3 +72,7 @@ On an identified 0.12.5 artifact, test P-6 hip/ADS fire, automatic cycle and man
 
 ## 0.12.6 shotgun live acceptance
 Use an identified 0.12.6 artifact and exact QA profile. Observe automatic pump/recovery, last-shell handling, interrupted insertion and physical trigger hold/repress. Test same-class UID swaps, H/drop/recovery, pause/focus/damage/death/extraction and all utility/melee transitions. Inspect neutral hand/gun return and listen to existing mechanical/contact recordings on a real output device; measure frame-time. No rendererless/source result passes this checklist.
+
+
+## 0.12.7 smg live acceptance
+Use an identified 0.12.7 artifact and exact QA profile. Observe held auto-fire cadence, empty hold, interrupted reload and stale input clearing. Test same-class UID swaps, H/drop/recovery, pause/focus/damage/death/extraction and all utility/melee transitions. Inspect neutral hand/gun return and listen to existing mechanical/contact recordings on a real output device; measure frame-time. No rendererless/source result passes this checklist.

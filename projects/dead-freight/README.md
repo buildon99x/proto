@@ -1,4 +1,4 @@
-# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.12.6
+# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.12.7
 
 R-4 라이플 한 종의 FPS 기반과, 340×340m 단일 연결 지역을 다루는 1인칭 Extraction 개발 체크포인트입니다. `proto/projects/dead-freight`에서 개발합니다. 완성된 상용 오픈월드 규모나 품질을 의미하지 않습니다.
 
@@ -134,3 +134,7 @@ The existing pistol now uses validated mechanical data and a per-UID controller 
 
 ## 0.12.6 shotgun mechanical migration
 Breach now shares MechanicalState with P-6 and validated content/shotgun.json, with one shell for nine pellets, automatic .26s pump/.28s recovery, two-shell capacity,1.9s atomic reload transfer and semi trigger behavior preserved. Mid-insertion cancellation before the final marker spends no reserve; after transfer never refunds. Last-shell pumping, held/repressed trigger, pending pump on UID swaps/holster/drop, damage/menu/death and healing/frag/melee ownership are covered. Initial migration accidentally retained the .25s switch penalty on first deployment; the existing immediate-fire bridge test failed, the bootstrap was corrected and a dedicated regression added before release. 898 named checks in40 suites pass, including the360-case action matrix and17 focused shotgun checks;33 syntax commands, static packaging and315 separate audits pass. Required aggregate11-project/27-page and final scoped-registry launcher build pass with unchanged lockfile. SMG is the next mechanical migration. No actual WebGL/normal input/listening/frame-time acceptance, new deployment or liquid-metal implementation. Two authored city maps and broader AI/economy/repeated live raids remain unfinished.
+
+
+## 0.12.7 smg mechanical migration
+SMG now has validated content/smg.json and per-UID MechanicalState ownership, retaining24-round capacity,.1s recovery,2s skill reload, no cycling and original held-mouse auto fire. Each discharge owns one round/identity; empty hold does not invent ammunition or auto reload. Pause/focus/item transitions clear stale firing intent via existing routing. All three existing non-R4 guns now use mechanical controllers; the old duplicate legacy timer/fire/reload branches are removed. 911 named checks in41 suites pass, including the360-case action matrix and13 focused smg checks;34 syntax commands, static packaging and315 separate audits pass. Required aggregate11-project/27-page and final scoped-registry launcher build pass with unchanged lockfile. Mechanical-owner migrations are complete for the four existing guns (R-4 owns its existing rifle controller); broader v1 ADS/input/tuning and live quality acceptance remain separate. No actual WebGL/normal input/listening/frame-time acceptance, new deployment or liquid-metal implementation. Two authored city maps and broader AI/economy/repeated live raids remain unfinished.

@@ -6,6 +6,7 @@ const EPS=1e-6;
 const MOVEMENT=Object.freeze({radius:.38,height:1.75,eyeHeight:1.62,slideHeight:.72,slideEyeHeight:.58,jumpSpeed:6.9,gravity:19,slideCost:28,slideDuration:.8,slideSpeed:12.8,slideFriction:12,slideCooldown:1.4,maxMoveStep:.14,simulationStep:1/120,walkSpeed:4.8,sprintSpeed:7.5,aimSpeed:2.8,fatiguedSpeed:2.8,walkDrain:2,sprintDrain:10,restRecovery:24,jumpCost:10,fatigueRecovery:18});
 const pistolSource=root.DFPistol||(typeof require==='function'?require('./pistol-state.js'):null);
 const shotgunSource=root.DFShotgun||(typeof require==='function'?require('./shotgun-state.js'):null);
+const smgSource=root.DFSMG||(typeof require==='function'?require('./smg-state.js'):null);
 const CYCLE=Object.freeze([{delay:pistolSource.definition.cycleDelay,recovery:pistolSource.definition.cycleRecovery},{delay:shotgunSource.definition.cycleDelay,recovery:shotgunSource.definition.cycleRecovery},null]);
 // Exact slab intersection, including zero-length segments and axis-parallel shots.
 function segmentBox(ax,ay,az,bx,by,bz,minX,minY,minZ,maxX,maxY,maxZ){
@@ -32,7 +33,7 @@ class Mission {
   this.rifle=rifleSource?new rifleSource.RifleState({seed,active:false,config:options.rifleConfig,definitionId:options.rifleDefinitionId,sessionId:options.combatSessionId}):null;this.paused=false;this.weaponActionBlocked=false;this.weaponHolstered=false;
   this.weapon=0;this.ammo=[6,2,24,this.rifle?.total||0];this.reserve=[72,24,144,this.rifle?.reserve||0];this.cocked=true;this.reload=0;this.cooldown=0;this.cycleDelay=0;this.cycleWeapon=null;
   this.pistol=new pistolSource.PistolState({sessionId:options.combatSessionId});
-  this.shotgun=new shotgunSource.ShotgunState({sessionId:options.combatSessionId,active:false});this.mechanical=[this.pistol,this.shotgun];
+  this.shotgun=new shotgunSource.ShotgunState({sessionId:options.combatSessionId,active:false});this.smg=new smgSource.SMGState({sessionId:options.combatSessionId,active:false});this.mechanical=[this.pistol,this.shotgun,this.smg];
   for(const [index,controller] of this.mechanical.entries()){Object.defineProperty(this.ammo,String(index),{enumerable:true,get:()=>controller.rounds,set:value=>controller.setRounds(value)});Object.defineProperty(this.reserve,String(index),{enumerable:true,get:()=>controller.reserve,set:value=>controller.setReserve(value)});}
   const timerMap={cocked:'cocked',reload:'reloadRemaining',reloadDuration:'reloadDuration',cooldown:'cooldown',cycleDelay:'cycleRemaining'},legacy={};
   for(const [key,field] of Object.entries(timerMap)){legacy[key]=this[key];Object.defineProperty(this,key,{enumerable:true,get:()=>this.mechanical[this.weapon]?.[field]??legacy[key],set:value=>{const controller=this.mechanical[this.weapon];if(!controller){legacy[key]=value;return;}if(key==='cocked'){controller.cocked=!!value;if(value){controller.cycling=false;controller.cycleRemaining=0;}}else{if(!Number.isFinite(value)||value<0)throw new RangeError('Invalid mechanical timer '+key);controller[field]=value;}}});}
@@ -131,16 +132,13 @@ class Mission {
  cycle(){
   if(this.weapon===3)return false;
   if(this.mechanical[this.weapon]){const accepted=this.mechanical[this.weapon].cycle();this.syncMechanical();return accepted;}
-  if(this.cocked||this.reload>0||this.cycleDelay>EPS||this.player.hp<=0||this.extracted)return false;
-  const weapon=this.cycleWeapon??this.weapon;this.cocked=true;this.cycleDelay=0;this.cycleWeapon=null;this.cooldown=Math.max(this.cooldown,CYCLE[weapon]?.recovery||.19);this.emit('cycle',{weapon});return true;
+  return false;
  }
  load(){
   if(this.weaponActionBlocked||this.player.hp<=0||this.extracted||this.paused)return false;
   if(this.weapon===3){const accepted=this.rifle.load();this.syncRifle();return accepted;}
   if(this.mechanical[this.weapon]){const result=this.mechanical[this.weapon].load();if(result==='perfect'){this.perfect=3;this.reward(45);}this.syncMechanical();return !!result;}
-  if(this.reload>0){const progress=1-this.reload/this.reloadDuration;if(progress>.44&&progress<.62){this.reload=.04;this.perfect=3;this.reward(45);this.emit('perfect');}else{this.reload+=.35;this.emit('mistime');}return true;}
-  if(this.ammo[this.weapon]>=[6,2,24][this.weapon]||this.reserve[this.weapon]<=0)return false;
-  this.cycleDelay=0;this.cycleWeapon=null;this.reload=this.reloadDuration=[1.6,1.9,2][this.weapon];this.emit('reload',{weapon:this.weapon});return true;
+  return false;
  }
  switchWeapon(n){
   if(!Number.isInteger(n)||n<0||n>3||n===this.weapon||this.player.hp<=0||this.extracted||this.paused||(n===3&&!this.rifle))return false;
@@ -154,10 +152,7 @@ class Mission {
   if(this.weaponActionBlocked)return false;
   if(this.weapon===3)return this.fireRifle(hit,command);
   if(this.mechanical[this.weapon])return this.fireMechanical(hit,command);
-  if(this.paused)return false;
-  if(this.player.hp<=0||this.extracted||this.reload>0||this.cooldown>EPS||!this.cocked)return false;if(!this.ammo[this.weapon]){this.emit('empty');return false;}
-  this.ammo[this.weapon]--;this.shots++;this.cooldown=[.2,.4,.1][this.weapon];if(this.weapon<2){this.cocked=false;this.cycleDelay=CYCLE[this.weapon].delay;this.cycleWeapon=this.weapon;}this.emit('shot',{weapon:this.weapon});
-  const record=this.shotResolver.begin({weapon:this.weapon,config:shotSource.configuration(this.weapon),time:this.time,multiplier:this.perfect>0?1.3:1});this.lastShotRecord=record;this.dispatchShot(record,hit,command);return true;
+  return false;
  }
  firePistol(hit,command){return this.fireMechanical(hit,command);}
  fireMechanical(hit,command){
@@ -196,9 +191,7 @@ class Mission {
   const beforeEnemies=projectileSource.snapshots(this),p=this.player;this.time+=dt;const resting=!this.movementIntent.moving&&p.slide<=0&&p.dash<=0&&p.grounded;if(resting)p.stamina=clamp(p.stamina+dt*MOVEMENT.restRecovery,0,100);if(p.stamina<=EPS)p.fatigued=true;else if(p.stamina>=MOVEMENT.fatigueRecovery-EPS)p.fatigued=false;p.dash=Math.max(0,p.dash-dt);p.invulnerable=Math.max(0,p.invulnerable-dt);p.slideCooldown=Math.max(0,p.slideCooldown-dt);
   if(p.slide>0){const t=Math.min(dt,p.slide),speed=Math.max(0,p.slideSpeed-MOVEMENT.slideFriction*t),distance=(p.slideSpeed+speed)*.5*t;const moved=this.move(p.slideDirX*distance,p.slideDirZ*distance);p.slideSpeed=speed;p.slide=Math.max(0,p.slide-t);if(Math.hypot(moved.dx,moved.dz)<distance*.2){p.slide=0;p.slideSpeed=0;}if(!p.slide)this.emit('slideend');}
   this.posture();this.vertical(dt);this.posture();
-  this.perfect=Math.max(0,this.perfect-dt);this.comboTimer=Math.max(0,this.comboTimer-dt);if(!this.comboTimer)this.combo=0;if(this.rifle){this.rifle.tick(dt,{allowAutoReload:!this.weaponActionBlocked});this.syncRifle();}if(this.mechanical[this.weapon]){this.mechanical[this.weapon].tick(dt);this.syncMechanical();}else if(this.weapon!==3)this.cooldown=Math.max(0,this.cooldown-dt);
-  if(!this.mechanical[this.weapon]&&this.cycleWeapon!==null&&!this.reload){this.cycleDelay=Math.max(0,this.cycleDelay-dt);if(this.cycleDelay<=EPS)this.cycle();}
-  if(!this.mechanical[this.weapon]&&this.weapon!==3&&this.reload>0){this.reload=Math.max(0,this.reload-dt);if(this.reload<=EPS){this.reload=0;const n=Math.min([6,2,24][this.weapon]-this.ammo[this.weapon],this.reserve[this.weapon]);this.ammo[this.weapon]+=n;this.reserve[this.weapon]-=n;this.cocked=true;this.emit('loaded',{weapon:this.weapon});}}
+  this.perfect=Math.max(0,this.perfect-dt);this.comboTimer=Math.max(0,this.comboTimer-dt);if(!this.comboTimer)this.combo=0;if(this.rifle){this.rifle.tick(dt,{allowAutoReload:!this.weaponActionBlocked});this.syncRifle();}if(this.mechanical[this.weapon]){this.mechanical[this.weapon].tick(dt);this.syncMechanical();}
   for(const e of this.enemies){
    if(!e.alive)continue;e.hit=Math.max(0,(e.hit||0)-dt);const dx=p.x-e.x,dz=p.z-e.z,d=Math.hypot(dx,dz),activation=e.activationRange||19,leash=e.leash||48;
    // Remote groups sleep; distance is checked before broadphase or line-of-sight work.

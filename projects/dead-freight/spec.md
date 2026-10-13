@@ -228,3 +228,7 @@ JSON mechanics authority: six-round capacity, .2s firing recovery, .12s automati
 
 ## 0.12.6 shotgun contract
 Two shells; .4s firing recovery, .26s automatic pump followed by .28s recovery,1.9s reload with existing perfect/mistime rules and .25s swap recovery. One shell per nine-pellet discharge. Holding physical trigger fires once; release/repress fires again after readiness. Reload transfer remains atomic at its existing final marker; cancellation during insertion before that marker spends no reserve, after completion never refunds. Pending pump/recovery belongs to the UID and freezes on unequip/holster; interrupted loading resumes any required pump. Damage retains existing reload behavior; death/extraction cancel unfinished transfer. Explicit pause/menu/action gates remain authoritative. SMG is still the next migration.
+
+
+## 0.12.7 SMG contract
+24-round capacity,.1s discharge recovery,2s atomic reload and existing perfect/mistime/swap recovery. SMG has no pump/cycle state: cocked=true,cycleNeeded=false,cycleRemaining=0 in old saves. Held mouse auto fires with one ammo/identity per discharge; keyboard fire remains the existing physical-press route. Empty hold never decrements below zero or invents automatic reload. Retained physical mouse hold may resume after a normal reload as before, while pause/focus/item completion release stale trigger intent. Current damage/reload behavior and death/extraction cancellation are preserved. Remove duplicate legacy timer/fire/reload branches once all three non-R4 guns are owned.

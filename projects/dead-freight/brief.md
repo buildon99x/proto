@@ -139,3 +139,7 @@ Migrate the existing P-6 six-round pistol into one validated data-driven per-ins
 
 ## 0.12.6 shotgun mechanical ownership
 Port the existing two-shell Breach shotgun to validated per-UID mechanical ownership, sharing the proven controller implementation with P-6. Preserve nine-pellet ballistics, automatic pump/recovery, semi trigger behavior, atomic end-of-reload transfer, recordings and inventory/save shape. Do not imply one-shell insertion commits that the existing game does not implement.
+
+
+## 0.12.7 SMG mechanical ownership
+Complete the remaining original non-R4 mechanical-owner migration with the existing Twin SMG. Use shared MechanicalState, validated data and per-UID saved state while preserving original auto fire, skill reload, counts, controls, recordings and ballistics. Broader v1 tuning/live quality remains separate.

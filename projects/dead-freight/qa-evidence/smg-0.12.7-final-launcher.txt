@@ -1,0 +1,43 @@
+
+> launcher@0.1.0 build C:\Users\cjh\Documents\Codex\2026-10-14\task\proto\launcher
+> next build
+
+   ??Next.js 15.5.19
+
+   Creating an optimized production build ...
+ ??Compiled successfully in 1500ms
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/27) ...
+   Generating static pages (6/27) 
+   Generating static pages (13/27) 
+   Generating static pages (20/27) 
+ ??Generating static pages (27/27)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+????/                                      169 B         106 kB
+????/_not-found                            993 B         104 kB
+??? /api/telemetry/[project]               123 B         103 kB
+????/projects                              169 B         106 kB
+????/projects/[slug]                       169 B         106 kB
+??  ??/projects/dead-freight
+??  ??/projects/deck-building
+??  ??/projects/msw-inc
+??  ??[+8 more paths]
+????/projects/[slug]/run                   169 B         106 kB
+    ??/projects/dead-freight/run
+    ??/projects/deck-building/run
+    ??/projects/msw-inc/run
+    ??[+8 more paths]
++ First Load JS shared by all             103 kB
+  ??chunks/6679f20a-7783291fd31f2b67.js  54.2 kB
+  ??chunks/834-f84b17ee602c304c.js       46.3 kB
+  ??other shared chunks (total)          1.96 kB
+
+
+?? (Static)   prerendered as static content
+?? (SSG)      prerendered as static HTML (uses generateStaticParams)
+?  (Dynamic)  server-rendered on demand
+

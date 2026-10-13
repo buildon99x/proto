@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "id": "smg",
+  "capacity": 24,
+  "initialRounds": 24,
+  "initialReserve": 144,
+  "fireRecovery": 0.1,
+  "cycleDelay": 0,
+  "cycleRecovery": 0,
+  "reloadDuration": 2,
+  "perfectStart": 0.44,
+  "perfectEnd": 0.62,
+  "perfectRemaining": 0.04,
+  "mistimePenalty": 0.35,
+  "switchRecovery": 0.25
+}
