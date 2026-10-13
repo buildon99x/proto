@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-10-13T19:57:20.042Z",
+  "version": "0.12.15",
+  "builderSyntaxPassed": true,
+  "inlineSyntaxPassed": true,
+  "localGraphAndHashPassed": true,
+  "storageAudioPointerLockOrGameEffects": false,
+  "actualRenderedReview": false,
+  "actualPlay": false,
+  "actualListening": false,
+  "manifest": {
+    "version": "0.12.15",
+    "actualRenderedReview": false,
+    "actualGameplay": false,
+    "actualListening": false,
+    "files": [
+      {
+        "file": "index.html",
+        "bytes": 4029,
+        "sha256": "fa410d7668720861f9b525d858ec133595a04ef9331fe45090d0eee911eda7ac"
+      },
+      {
+        "file": "item-action.js",
+        "bytes": 4574,
+        "sha256": "eddf5a931ff6abcc17667c39f08211c6df0b4cd6fd1915de59c8b59d9295480a"
+      },
+      {
+        "file": "item-view.js",
+        "bytes": 14850,
+        "sha256": "ee77075862098ec870df9824d1d42b2231d4eb761ef73e5e73fda64e609fa604"
+      },
+      {
+        "file": "vendor/three.min.js",
+        "bytes": 669891,
+        "sha256": "13767d37502d7b7b72296eac9bc699d083743de85b7ba17557f6842fe789b857"
+      },
+      {
+        "file": "vendor/LICENSE-three.txt",
+        "bytes": 1102,
+        "sha256": "a70d6dc2d2a6464ee9ee503b1881d5aa884abdec63b4c7064f0c5ad827a7d2b4"
+      }
+    ]
+  }
+}

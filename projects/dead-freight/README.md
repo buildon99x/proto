@@ -1,4 +1,4 @@
-# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.12.14
+# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.12.15
 
 R-4 라이플 한 종의 FPS 기반과, 340×340m 단일 연결 지역을 다루는 1인칭 Extraction 개발 체크포인트입니다. `proto/projects/dead-freight`에서 개발합니다. 완성된 상용 오픈월드 규모나 품질을 의미하지 않습니다.
 
@@ -166,3 +166,7 @@ Preserved Library action patch is selectively reconciled: connected elbow/wrist 
 
 ## 0.12.14 authored grenade release origin
 Grenade guide and committed launch now share the authored hand release point projected from utility to world view, with finite-distance/swept-wall validation and original collision-safe fallback. Commit callback is once-only and failure-tolerant; sampled utility pose is restored. Speed/fuse/gravity/blast/timing/resources/saves remain unchanged. Model and rendererless projection do not certify actual hand/projectile pixel alignment. 939 named checks in48 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.12.15 archived movement cancellation and isolated rig preview
+Sprint/dodge/slide now cancel utility/melee before effects on original game and direct Bridge routes; ordinary walking and once-only committed consequences remain. Preserved motion archive source reconciliation is complete for connected joints/tracks/tools/origin/receipts/interruption, with current gameplay values retained. A local read-only rig preview builds cycles/marker/cancel samples and licensed local assets without gameplay/storage/audio/pointer-lock operations. Preview syntax/assets are inspected; rendered review remains unverified. 943 named checks in49 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.

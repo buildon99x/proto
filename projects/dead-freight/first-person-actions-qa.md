@@ -100,3 +100,7 @@ Inspect grenade pinch, windup, release and follow-through; medical roll/lid/site
 
 ## 0.12.14 authored grenade release origin actual QA
 Hold aim, inspect initial trajectory point against the release hand, throw at varied headings/pitches and near walls, then cancel and change weapons. Capture ordinary mouse release and projectile start frames; confirm no pin/tool pose jump, unexpected wall crossing or changed trajectory/balance. Actual screenshots/input/device listening are required; source validation does not close this gate.
+
+
+## 0.12.15 archived movement cancellation and isolated rig preview actual QA
+Inspect actual rig cycles and cancellation in tools/rig-preview/dist, then play the full isolated test profile: grenade aim/release/cancel, treatment contact/interruption, melee, H and all-gun switches/reloads, firing near cover, successful extraction/death/repeated raids. Listen and capture frames/device timing separately. Preview cannot replace full-game acceptance. Actual screenshots/input/device listening are required; source validation does not close this gate.

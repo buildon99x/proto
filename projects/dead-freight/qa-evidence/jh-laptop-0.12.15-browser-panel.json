@@ -1,0 +1,20 @@
+{
+  "host": "JH-LAPTOP",
+  "sourceVersion": "0.12.15",
+  "supportedAlternative": "Codex open_in_codex browser panel",
+  "requestedUrl": "http://127.0.0.1:39605/?testProfile=jh-laptop-qa-015",
+  "openResult": {"status": "queued", "threadId": "01a13633-6020-72f7-a268-58dcdff8b08a"},
+  "browserLoadedConfirmed": false,
+  "readOnlyLocalServer": true,
+  "rigUrl": "http://127.0.0.1:39605/rig/",
+  "standaloneNodeReplToolExposed": false,
+  "existingCuaBlocker": "MXC launcher cannot locate required Windows platform directory: HRESULT 0x80070003 before browser inventory",
+  "actualPlay": false,
+  "actualListening": false,
+  "actualFrameTimes": false,
+  "screenshots": [],
+  "webglFailureEstablishedForThisVersion": false,
+  "pointerLockFailureEstablishedForThisVersion": false,
+  "freshTestSaveNamespace": "jh-laptop-qa-015",
+  "existingUserProfilesReset": false
+}

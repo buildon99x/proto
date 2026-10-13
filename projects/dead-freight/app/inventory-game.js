@@ -255,6 +255,7 @@ class Bridge{
  stepUse(dt,options={}){
   const a=this.itemAction,w=this.world;if(!a.active)return [];
   if(!this._available()||w.paused){this.cancelUse('unavailable');return [];}
+  if(w.player.dash>0||w.player.slide>0||w.movementSprinting())this.cancelUse('movement');
   const vital=w.player.hp+w.player.armor;if((w.damageSequence||0)!==this._itemDamageSequence||vital<this._itemVital-EPS)this.cancelUse('damage');this._itemDamageSequence=w.damageSequence||0;this._itemVital=vital;
   this._itemAim=options;
   const results=[];for(const event of a.tick(dt))if(event.type==='commit'){

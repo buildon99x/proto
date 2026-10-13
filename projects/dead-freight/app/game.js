@@ -297,7 +297,7 @@ function update(dt,draw=true){let becameReady=false;clock+=dt;flash=Math.max(0,f
  hitPause=Math.max(0,hitPause-dt);
  let forward=(keys.KeyW?1:0)-(keys.KeyS?1:0),strafe=(keys.KeyD?1:0)-(keys.KeyA?1:0);
  const walking=!!(forward||strafe),requestedSprint=walking&&!!(keys.ShiftLeft||keys.ShiftRight)&&!mouseHeld&&!input.held('fireKey')&&p.slide<=0;
- world.setMovementIntent({moving:walking,sprint:requestedSprint,aiming:ads>.5&&!requestedSprint&&p.grounded&&p.slide<=0});const sprinting=world.movementSprinting();
+ world.setMovementIntent({moving:walking,sprint:requestedSprint,aiming:ads>.5&&!requestedSprint&&p.grounded&&p.slide<=0});const sprinting=world.movementSprinting();if(gear.itemAction.active&&(sprinting||p.dash>0||p.slide>0))gear.cancelUse('movement');
  world.setWeaponIntent({sprint:sprinting,ads:aimDown&&!gear.itemAction.active&&weaponAction.ready&&!gear.holstered&&p.grounded&&p.slide<=0,moving:walking,airborne:!p.grounded,sliding:p.slide>0,blockedByWall:!!world.muzzleBlocked});
  world.setFireInput(mouseHeld);
  gear.beforeStep();world.tick(simulationDt);gear.afterStep(simulationDt);const wasUsing=gear.itemAction.active;for(const result of gear.stepUse(simulationDt,{yaw,pitch,releaseOrigin:grenadeReleaseOrigin})){tell(result.message,2);if(result.ok&&gear.scannerRemaining>0){$('minimap').style.display='block';$('maplegend').style.display='flex';}}if(wasUsing&&!gear.itemAction.active){mouseHeld=false;aimDown=false;input.releaseAction('fire');input.releaseAction('fireKey');input.releaseAction('ads');world.clearFireInput('item-complete');}syncActionGate();
