@@ -1,0 +1,21 @@
+{
+  "host":"JH-LAPTOP",
+  "sourceVersion":"0.14.0",
+  "supportedCall":"cua.getState()",
+  "reasonForSingleRecheck":"Prior command sessions disappeared and localhost stopped; read-only source server was restored.",
+  "stage":"kernel initialization before browser inventory or selection",
+  "kernelPid":21328,
+  "kernelStatus":"exited(code=1)",
+  "reason":"stdout_eof",
+  "stderr":"MXC launcher: cannot locate required Windows platform directory: HRESULT 0x80070003",
+  "correctedSupportedUrl":"http://127.0.0.1:39605/?testProfile=workshop-qa",
+  "oldJhLaptopQaProfileNamesSupported":false,
+  "browserLoadedConfirmed":false,
+  "actualPlay":false,
+  "actualListening":false,
+  "actualFrameTimes":false,
+  "screenshots":[],
+  "webglFailureEstablished":false,
+  "pointerLockFailureEstablished":false,
+  "normalUserProfilesResetOrCopied":false
+}

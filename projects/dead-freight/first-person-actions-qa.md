@@ -112,3 +112,7 @@ Use a fresh isolated profile: choose each region, deploy actual carried loadout,
 
 ## 0.13.1 adversarial multi-region storage gate actual QA
 On fresh real test profiles, repeat two-region deployment/extraction/home sale/next raid and reload; inspect state after browser storage or session interruptions using supported controls. Source fault injection does not establish real disk/storage behavior, browser loading or actual play. Preserve normal profiles. Existing CUA/MXC blocker remains and queued-only panel is not confirmed open. Actual screenshots/input/device listening are required; source validation does not close this gate.
+
+
+## 0.14.0 stash crafting and armor repair economy actual QA
+Run the bundled Node localhost server and use http://127.0.0.1:39605/?testProfile=workshop-qa, verify the test badge/current version and one normal Start. Raid Canal Ward/Black Pines for scrap and contract cash, extract, open owned stash, quote/confirm craft or damaged armor repair, check consumed resources/retained UID, take output into loadout and redeploy. Test failure/reload only in isolated profile with supported controls. Do not clear normal profiles. Existing UI helper block remains; HTTP200 and queued panel never prove startup/render/input/play/listening. Actual screenshots/input/device listening are required; source validation does not close this gate.

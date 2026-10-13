@@ -1,6 +1,6 @@
 'use strict';
 const assert=require('node:assert/strict');
-const {create,decode,KEY,BACKUP_KEY,BACKUP_V3_KEY,BACKUP_V4_KEY,SCHEMA,TOMBSTONE_LIMIT,EXPANSION_COSTS}=require('./stash-profile.js');
+const {create,decode,KEY,BACKUP_KEY,BACKUP_V3_KEY,BACKUP_V4_KEY,BACKUP_V5_KEY,SCHEMA,TOMBSTONE_LIMIT,EXPANSION_COSTS}=require('./stash-profile.js');
 const {Inventory,starter,stackValue}=require('./inventory.js');
 let checks=0,uid=0;
 function check(name,fn){fn();checks++;console.log('PASS',name);}
@@ -10,8 +10,8 @@ function store(raw=null){
  const faults={read:false,write:false,backupRead:false,backupWrite:false,afterWrite:false};
  return {faults,calls,get value(){return records.get(KEY)??null;},get backup(){return records.get(BACKUP_KEY)??null;},get backupV3(){return records.get(BACKUP_V3_KEY)??null;},get backupV4(){return records.get(BACKUP_V4_KEY)??null;},
   external(raw,key=KEY){if(raw===null)records.delete(key);else records.set(key,raw);},
-  getItem(key){assert([KEY,BACKUP_KEY,BACKUP_V3_KEY,BACKUP_V4_KEY].includes(key));if(faults.read||(key!==KEY&&faults.backupRead))throw Error('read denied');return records.get(key)??null;},
-  setItem(key,value){assert([KEY,BACKUP_KEY,BACKUP_V3_KEY,BACKUP_V4_KEY].includes(key));calls.push({key,value});if(faults.write||(key!==KEY&&faults.backupWrite))throw Error('write denied');records.set(key,value);if(key===KEY&&faults.afterWrite)throw Error('ack lost');}
+  getItem(key){assert([KEY,BACKUP_KEY,BACKUP_V3_KEY,BACKUP_V4_KEY,BACKUP_V5_KEY].includes(key));if(faults.read||(key!==KEY&&faults.backupRead))throw Error('read denied');return records.get(key)??null;},
+  setItem(key,value){assert([KEY,BACKUP_KEY,BACKUP_V3_KEY,BACKUP_V4_KEY,BACKUP_V5_KEY].includes(key));calls.push({key,value});if(faults.write||(key!==KEY&&faults.backupWrite))throw Error('write denied');records.set(key,value);if(key===KEY&&faults.afterWrite)throw Error('ack lost');}
  };
 }
 function stack(itemId,quantity=1,meta={}){return {uid:`fixture-${++uid}`,itemId,quantity,...meta};}
@@ -352,7 +352,7 @@ check('an older bank writer preserves tier, recovery, receipts and custom fields
 });
 check('malformed progression, receipts, duplicate identities and future schema are preserved unreadable',()=>{
  const item=stack('archive'),receipt={id:'purchase',kind:'expand',expectedLevel:0,tier:1,cost:500};
- const bad=[{stashTier:-1},{stashTier:6},{stashTier:1.5},{stashTier:null},{recovery:null},{stashReceipts:null},{stashReceipts:[receipt]},{stashTier:1,stashReceipts:[receipt,receipt]},{stashTier:1,stashReceipts:[receipt,{...receipt,id:'duplicate-tier'}]},{stashTier:1,stashReceipts:[{...receipt,cost:1}]},{recovery:[item,item]},{stash:[item],recovery:[item]},{recovery:[stack('unknown')]},{schema:6},{schema:4,stashTier:undefined},{schema:2,stashTier:1,recovery:undefined},{cash:null},{level:null},{stash:undefined},{activeRaid:undefined},{revision:undefined},{settledRaids:undefined},{stashReceipts:[{id:'bad-sale',kind:'sell',source:'stash',uid:'x',value:-1}]},{stashReceipts:[{id:'bad-claim',kind:'claim',target:'all',uids:[]}]}];
+ const bad=[{stashTier:-1},{stashTier:6},{stashTier:1.5},{stashTier:null},{recovery:null},{stashReceipts:null},{stashReceipts:[receipt]},{stashTier:1,stashReceipts:[receipt,receipt]},{stashTier:1,stashReceipts:[receipt,{...receipt,id:'duplicate-tier'}]},{stashTier:1,stashReceipts:[{...receipt,cost:1}]},{recovery:[item,item]},{stash:[item],recovery:[item]},{recovery:[stack('unknown')]},{schema:7},{schema:4,stashTier:undefined},{schema:2,stashTier:1,recovery:undefined},{cash:null},{level:null},{stash:undefined},{activeRaid:undefined},{revision:undefined},{settledRaids:undefined},{stashReceipts:[{id:'bad-sale',kind:'sell',source:'stash',uid:'x',value:-1}]},{stashReceipts:[{id:'bad-claim',kind:'claim',target:'all',uids:[]}]}];
  for(const extra of bad){const raw=home([],extra),s=store(raw),p=create(s);assert.equal(p.snapshot().known,false,raw);assert.equal(p.expandStash({expectedLevel:0,requestId:'bad-save'}).ok,false);assert.equal(p.sellStack('stash',item.uid,'bad-sale').ok,false);assert.equal(p.claimRecovery('all','bad-claim').ok,false);assert.equal(p.retry(),false);assert.equal(s.value,raw);assert.equal(s.calls.length,0);}
 });
 check('stale home sales and claims require restaging without duplicating items or credits',()=>{
@@ -380,7 +380,7 @@ check('schema 4 weapon migration reads without writes and first mutation preserv
  const rifles=[stack('r4',1,{rounds:0,chamber:0}),stack('r4',1,{rounds:30,chamber:0}),stack('r4',1,{rounds:31,chamber:1})],recovery=[stack('shotgun',1,{rounds:1})];
  const receipts=[{id:'old-tier',kind:'expand',expectedLevel:0,tier:1,cost:500},{id:'old-sale',kind:'sell',source:'stash',uid:'retired-v4',value:220}];
  const raw=home(rifles,{stashTier:1,recovery,stashReceipts:receipts,custom:{keep:'v4'}}),s=store(raw),p=create(s),before=p.snapshot();
- assert.equal(SCHEMA,5);assert.equal(before.bank,2920);assert.equal(before.capacity,32);assert.equal(s.calls.length,0);assert.equal(s.value,raw);assert.deepEqual(before.stash,rifles);assert(rifles.every(gun=>!Object.hasOwn(gun,'weaponState')));
+ assert.equal(SCHEMA,6);assert.equal(before.bank,2920);assert.equal(before.capacity,32);assert.equal(s.calls.length,0);assert.equal(s.value,raw);assert.deepEqual(before.stash,rifles);assert(rifles.every(gun=>!Object.hasOwn(gun,'weaponState')));
  assert(p.expandStash({expectedLevel:1,requestId:'v5-upgrade'}).ok);assert.equal(s.backupV4,raw);assert.equal(p.snapshot().bank,2170);assert.equal(p.snapshot().capacity,40);assert.deepEqual(p.snapshot().stash,rifles);assert.deepEqual(p.snapshot().recovery,recovery);assert.deepEqual(JSON.parse(s.value).stashReceipts.slice(0,2),receipts);
  const backup=s.backupV4;assert(p.claimRecovery('all','v5-claim').ok);assert.equal(s.backupV4,backup);assert.equal(s.calls.filter(call=>call.key===BACKUP_V4_KEY).length,1);
 });

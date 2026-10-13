@@ -1,4 +1,4 @@
-# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.13.1
+# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.14.0
 
 R-4 라이플 한 종의 FPS 기반과, 340×340m 단일 연결 지역을 다루는 1인칭 Extraction 개발 체크포인트입니다. `proto/projects/dead-freight`에서 개발합니다. 완성된 상용 오픈월드 규모나 품질을 의미하지 않습니다.
 
@@ -178,3 +178,7 @@ Black Pines world.js and definition remain unchanged. Added selectable Canal War
 
 ## 0.13.1 adversarial multi-region storage gate
 Three new isolated rendererless fault cases verify denied deployment writes, failed extraction settlement and unknown post-write acknowledgement while next-region selection changes. Retry keeps the original region/inventory/raid identity, awards cash and each loot UID once, blocks replacement raids until settled, preserves byte-identical duplicate retry and avoids a second withdrawal after lost acknowledgement. Production gameplay/save transactions are unchanged. Two-region normal loop remains953 checks/50 suites at0.13.0 plus this regression coverage; live browser persistence and full acceptance remain open. 956 named checks in51 suites,35 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.14.0 stash crafting and armor repair economy
+Added home UI/catalog-derived medkit/frag/scanner/armor recipes using owned non-issued scrap and45/40/40/120 currency, armor-only full repair preserving UID/issued flag and catalog-derived missing-durability cost. Recipe input value+cash equals existing output value; archives/quest items are excluded. Stash slot projection,12-slot/30kg carry checks, material retirement, receipt replay/conflict, backup/failed-write/unknown-ack/stale guards and prepared-state refresh connect loot→home work→next deploy. Schema6 reads old saves and backs up exact schema5 bytes before mutation. New explicit workshop-qa isolation is supported; previously provided arbitrary jh-laptop-qa URLs were invalid startup routes, despite HTTP200, and are corrected. Weapon wear/mods/EMP and broad economy/live acceptance remain open. 977 named checks in52 suites,36 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.

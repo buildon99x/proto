@@ -1,0 +1,9 @@
+{
+  "status": 200,
+  "version": "0.14.0",
+  "workshopModuleHash": "a71bf3f17c5284d1fa91e2bb2c0592b66c14e516e7915edc1355fd136c3ca125",
+  "expectedSupportedUrl": "http://127.0.0.1:39605/?testProfile=workshop-qa",
+  "actualBrowserLoaded": false,
+  "actualPlay": false,
+  "serveQaSyntaxPassed": true
+}

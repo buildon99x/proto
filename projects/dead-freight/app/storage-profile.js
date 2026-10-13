@@ -2,8 +2,8 @@
 (function(root){
 'use strict';
 const TEST_PREFIX='deadfreight-test:local-qa:';
-const TEST_PROFILES=Object.freeze({'local-qa':TEST_PREFIX,'trajectory-qa':'deadfreight-test:trajectory-qa:'});
-const OWNED_KEYS=Object.freeze(['deadfreight-best','deadfreight-backup-v2','deadfreight-backup-v3','deadfreight-backup-v4','deadfreight-settings']);
+const TEST_PROFILES=Object.freeze({'local-qa':TEST_PREFIX,'trajectory-qa':'deadfreight-test:trajectory-qa:','workshop-qa':'deadfreight-test:workshop-qa:'});
+const OWNED_KEYS=Object.freeze(['deadfreight-best','deadfreight-backup-v2','deadfreight-backup-v3','deadfreight-backup-v4','deadfreight-backup-v5','deadfreight-settings']);
 function parse(search=''){
  const query=new URLSearchParams(search),names=[...query.keys()].filter(k=>k.toLowerCase()==='testprofile');
  if(names.length===0)return Object.freeze({ok:true,id:'default',isTest:false});

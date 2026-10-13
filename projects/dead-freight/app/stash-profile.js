@@ -4,15 +4,17 @@
 (function(root,factory){
 'use strict';
 const inventory=typeof module!=='undefined'&&module.exports?require('./inventory.js'):root.DFInventory;
-const api=factory(inventory);
+const workshop=typeof module!=='undefined'&&module.exports?require('./workshop.js'):root.DFWorkshop;
+const api=factory(inventory,workshop);
 if(typeof module!=='undefined'&&module.exports)module.exports=api;
 root.DFStashProfile=api;
-})(typeof globalThis!=='undefined'?globalThis:this,function(Equipment){
+})(typeof globalThis!=='undefined'?globalThis:this,function(Equipment,Workshop){
 'use strict';
-const KEY='deadfreight-best',BACKUP_KEY='deadfreight-backup-v2',BACKUP_V3_KEY='deadfreight-backup-v3',BACKUP_V4_KEY='deadfreight-backup-v4',SCHEMA=5,TOMBSTONE_LIMIT=64;
+const KEY='deadfreight-best',BACKUP_KEY='deadfreight-backup-v2',BACKUP_V3_KEY='deadfreight-backup-v3',BACKUP_V4_KEY='deadfreight-backup-v4',BACKUP_V5_KEY='deadfreight-backup-v5',SCHEMA=6,TOMBSTONE_LIMIT=64;
 const INITIAL_CAPACITY=24,CAPACITY_STEP=8,EXPANSION_COSTS=Object.freeze([500,750,1000,1500,2000]);
 const capacity=tier=>INITIAL_CAPACITY+CAPACITY_STEP*tier;
-const homeKind=kind=>['expand','sell','claim'].includes(kind);
+const homeKind=kind=>['expand','sell','claim','craft','repair'].includes(kind);
+const retiredIn=receipts=>receipts.flatMap(r=>r.kind==='sell'?[r.uid]:(r.materials||[]).filter(m=>m.retired).map(m=>m.uid));
 let sequence=0;
 const clone=value=>JSON.parse(JSON.stringify(value));
 const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
@@ -44,7 +46,7 @@ function equal(a,b){
 function decode(raw){
  const data=raw===null?{}:JSON.parse(raw);
  if(!object(data))error('invalid-save');
- if(data.schema!==undefined&&![1,2,3,4,5].includes(data.schema))error('unsupported-save-schema');
+ if(data.schema!==undefined&&![1,2,3,4,5,6].includes(data.schema))error('unsupported-save-schema');
  const cash=Object.hasOwn(data,'cash')?data.cash:0,level=Object.hasOwn(data,'level')?data.level:(data.schema>=2?1:0);
  if(!Number.isFinite(cash)||cash<0||!Number.isSafeInteger(level)||level<0||level>=Number.MAX_SAFE_INTEGER)error('invalid-save-values');
  const nextLevel=data.schema>=2?Math.max(1,level):level+1;
@@ -54,7 +56,7 @@ function decode(raw){
  if(data.schema>=4||['stashTier','recovery','stashReceipts'].some(key=>Object.hasOwn(data,key))){
   ({stashTier,recovery,stashReceipts}=data);
   if(!Number.isSafeInteger(stashTier)||stashTier<0||stashTier>EXPANSION_COSTS.length||!Array.isArray(recovery)||!Array.isArray(stashReceipts)||['cash','level','stash','activeRaid','revision','settledRaids'].some(key=>!Object.hasOwn(data,key)))error('invalid-stash-progression');
-  const requestIds=new Set(),purchasedTiers=new Set();
+  const requestIds=new Set(),purchasedTiers=new Set(),outputs=new Set();
   for(const receipt of stashReceipts){
    if(!object(receipt)||!validId(receipt.id)||requestIds.has(receipt.id)||!homeKind(receipt.kind))error('invalid-stash-receipt');
    requestIds.add(receipt.id);
@@ -63,6 +65,8 @@ function decode(raw){
     purchasedTiers.add(receipt.tier);
    }else if(receipt.kind==='sell'){
     if(!['stash','recovery'].includes(receipt.source)||!validId(receipt.uid)||!Number.isFinite(receipt.value)||receipt.value<0)error('invalid-stash-receipt');
+   }else if(receipt.kind==='craft'){const r=Workshop.recipe(receipt.recipeId);if(!r||!validId(receipt.outputUid)||outputs.has(receipt.outputUid)||receipt.cost!==r.cost||!Workshop.validateMaterials(receipt.materials,r.scrap)||receipt.materials.some(m=>m.uid===receipt.outputUid))error('invalid-workshop-receipt');outputs.add(receipt.outputUid);
+   }else if(receipt.kind==='repair'){if(!validId(receipt.uid)||!Number.isFinite(receipt.before)||receipt.before<0||receipt.before>=Equipment.Catalog.armor.maxDurability||receipt.durability!==Equipment.Catalog.armor.maxDurability||receipt.cost!==Workshop.repairCost(receipt.before)||!Workshop.validateMaterials(receipt.materials,1)||receipt.materials.some(m=>m.uid===receipt.uid))error('invalid-workshop-receipt');
    }else if(!validId(receipt.target)||!Array.isArray(receipt.uids)||!receipt.uids.length||receipt.uids.some(uid=>!validId(uid))||new Set(receipt.uids).size!==receipt.uids.length||receipt.target!=='all'&&(receipt.uids.length!==1||receipt.uids[0]!==receipt.target))error('invalid-stash-receipt');
   }
  }
@@ -81,7 +85,8 @@ function decode(raw){
    if(activeRaid.safe&&ids.has(activeRaid.safe.uid))error('active-safe-already-in-stash');
   }
  }
- const retiredIds=stashReceipts.filter(receipt=>receipt.kind==='sell').map(receipt=>receipt.uid);if(retiredIds.length&&!Equipment.reserveIdentities(retiredIds).ok)error('invalid-stash-receipt');
+ for(const r of stashReceipts.filter(r=>r.kind==='craft')){const output=[...stash,...recovery,...(activeRaid?.safe?[activeRaid.safe]:[])].find(s=>s.uid===r.outputUid);if(output&&(output.itemId!==r.recipeId||output.issued))error('workshop-output-identity');}
+ const retiredIds=retiredIn(stashReceipts),reserved=[...retiredIds,...stashReceipts.flatMap(r=>(r.materials||[]).map(m=>m.uid)),...stashReceipts.filter(r=>r.kind==='craft').map(r=>r.outputUid)];if(reserved.length&&!Equipment.reserveIdentities(reserved).ok)error('invalid-stash-receipt');
  if([...stash,...recovery,...(activeRaid?.safe?[activeRaid.safe]:[])].some(stack=>retiredIds.includes(stack.uid)))error('retired-item-present');
  return {raw,data,cash,nextLevel,stash,activeRaid,revision,settledRaids,stashTier,recovery,stashReceipts};
 }
@@ -106,7 +111,7 @@ function create(storage){
  function settled(record,id){return record.settledRaids.some(entry=>entry.id===id);}
  function receiptFor(record,id){return record.stashReceipts.find(receipt=>receipt.id===id);}
  function matches(receipt,op){
-  return receipt.kind===op.kind&&(op.kind==='expand'?receipt.expectedLevel===op.expectedLevel:op.kind==='sell'?receipt.source===op.source&&receipt.uid===op.uid:receipt.target===op.target);
+  return receipt.kind===op.kind&&(op.kind==='expand'?receipt.expectedLevel===op.expectedLevel:op.kind==='sell'?receipt.source===op.source&&receipt.uid===op.uid:op.kind==='craft'?receipt.recipeId===op.recipeId:op.kind==='repair'?receipt.uid===op.uid&&receipt.before===op.before:receipt.target===op.target);
  }
  function homeResult(ok,op,alreadyApplied=false){
   const receipt=ok&&receiptFor(saved,op.requestId);
@@ -122,7 +127,7 @@ function create(storage){
   for(const stack of retained){
    stackCheck(stack);
    if(Equipment.Catalog[stack.itemId].category==='quest')continue;
-   if(data.stashReceipts.some(receipt=>receipt.kind==='sell'&&receipt.uid===stack.uid))error('retired-item-present');
+   if(retiredIn(data.stashReceipts).includes(stack.uid))error('retired-item-present');
    if(ids.has(stack.uid))error(stashIds.has(stack.uid)?'retained-item-already-in-stash':'retained-item-already-in-recovery');
    ids.add(stack.uid);(data.stash.length<capacity(data.stashTier)?data.stash:data.recovery).push(clone(stack));
   }
@@ -143,6 +148,14 @@ function create(storage){
     const value=Equipment.stackValue(data[op.source][index]);if(!Number.isFinite(value)||value<0)error('invalid-sale-value');
     data.cash+=value;if(!Number.isFinite(data.cash)||data.cash-base.cash!==value)error('bank-overflow');
     data[op.source].splice(index,1);receipt={...receipt,source:op.source,uid:op.uid,value};
+   }else if(op.kind==='craft'||op.kind==='repair'){
+    if(base.recovery.length)error('recovery-required');
+    const q=Workshop.quote({stash:base.stash,used:base.stash.length,capacity:capacity(base.stashTier),bank:base.cash,activeRaid:base.activeRaid,recoveryCount:base.recovery.length,pending:false},op.kind,op.kind==='craft'?op.recipeId:op.uid);
+    if(!q.ok)error(q.reason);if(op.kind==='repair'&&q.before!==op.before)error('stale-repair-quote');
+    for(const use of q.materials){const index=data.stash.findIndex(s=>s.uid===use.uid),s=data.stash[index];if(!s||s.itemId!=='scrap'||s.issued||s.quantity<use.quantity)error('insufficient-materials');if(use.retired)data.stash.splice(index,1);else s.quantity-=use.quantity;}
+    data.cash-=q.cost;if(!Number.isFinite(data.cash)||data.cash<0||base.cash-data.cash!==q.cost)error('bank-overflow');
+    if(op.kind==='craft'){stackCheck(op.output);if(op.output.itemId!==op.recipeId||op.output.quantity!==1||op.output.issued||[...data.stash,...data.recovery].some(s=>s.uid===op.output.uid))error('invalid-workshop-output');if(data.stash.length>=capacity(base.stashTier))error('stash-full');data.stash.push(clone(op.output));receipt={...receipt,recipeId:op.recipeId,outputUid:op.output.uid,cost:q.cost,materials:q.materials};}
+    else{const armor=data.stash.find(s=>s.uid===op.uid);armor.durability=Equipment.Catalog.armor.maxDurability;receipt={...receipt,uid:op.uid,before:op.before,durability:armor.durability,cost:q.cost,materials:q.materials};}
    }else{
     const free=Math.max(0,capacity(base.stashTier)-base.stash.length);
     const eligible=op.target==='all'?data.recovery:data.recovery.filter(stack=>stack.uid===op.target);
@@ -164,7 +177,7 @@ function create(storage){
      if(source.quantity!==carried.quantity)error('partial-stack-withdrawal-unsupported');
      if(!equal(source,carried))error('stash-item-changed');
      withdrawn.add(carried.uid);
-    }else if(!carried.issued||base.stashReceipts.some(receipt=>receipt.kind==='sell'&&receipt.uid===carried.uid))error('item-not-in-stash');
+    }else if(!carried.issued||retiredIn(base.stashReceipts).includes(carried.uid))error('item-not-in-stash');
    }
    data.stash=data.stash.filter(stack=>!withdrawn.has(stack.uid));
    data.activeRaid={id:op.raidId,safe:clone(op.carry.safe),startedAt:op.startedAt};
@@ -194,7 +207,7 @@ function create(storage){
   let raw;
   try{raw=build(base,op);decode(raw);}catch(e){status='invalid-operation';lastReason=e.reason||e.message;return false;}
   if(base.data.schema!==SCHEMA&&base.raw!==null){
-   const backupKey=base.data.schema===4?BACKUP_V4_KEY:base.data.schema===3?BACKUP_V3_KEY:BACKUP_KEY;
+   const backupKey=base.data.schema===5?BACKUP_V5_KEY:base.data.schema===4?BACKUP_V4_KEY:base.data.schema===3?BACKUP_V3_KEY:BACKUP_KEY;
    try{if(storage.getItem(backupKey)===null)storage.setItem(backupKey,base.raw);}
    catch(e){status='backup-error';lastReason='legacy-backup-failed';return false;}
   }
@@ -228,8 +241,11 @@ function create(storage){
    if(!matches(receipt,op))return fail('request-id-conflict');
    accept(current);status=interrupted?'interrupted-raid':'ready';lastReason=null;return homeResult(true,op,true);
   }
+  if(kind==='craft'){const inv=new Equipment.Inventory();const made=inv.add(payload.recipeId,1);if(!made.ok)return fail(made.reason);payload={...payload,output:clone(inv.get(made.locations[0]))};}
   return prepare(kind,null,payload);
  }
+ function craft(recipeId,requestId){if(!Workshop.recipe(recipeId))return fail('unknown-recipe');return homeRequest('craft',{recipeId,requestId});}
+ function repairArmor(uid,before,requestId){if(!validId(uid)||!Number.isFinite(before)||before<0||before>=Equipment.Catalog.armor.maxDurability)return fail('invalid-repair-quote');return homeRequest('repair',{uid,before,requestId});}
  function expandStash(options={}){
   if(!object(options)||!Number.isSafeInteger(options.expectedLevel)||options.expectedLevel<0||options.expectedLevel>EXPANSION_COSTS.length)return fail('invalid-expansion-level');
   return homeRequest('expand',{expectedLevel:options.expectedLevel,requestId:options.requestId});
@@ -284,7 +300,7 @@ function create(storage){
   try{accept(read());status=interrupted?'interrupted-raid':'ready';lastReason=null;return true;}
   catch(e){status='read-error';lastReason=e.reason||e.message;return false;}
  }
- return {snapshot,deploy,updateSafe,settle,recoverInterrupted,retry,expandStash,sellStack,claimRecovery};
+ return {snapshot,deploy,updateSafe,settle,recoverInterrupted,retry,expandStash,sellStack,claimRecovery,craft,repairArmor};
 }
-return {KEY,BACKUP_KEY,BACKUP_V3_KEY,BACKUP_V4_KEY,SCHEMA,TOMBSTONE_LIMIT,INITIAL_CAPACITY,CAPACITY_STEP,EXPANSION_COSTS,decode,create};
+return {KEY,BACKUP_KEY,BACKUP_V3_KEY,BACKUP_V4_KEY,BACKUP_V5_KEY,SCHEMA,TOMBSTONE_LIMIT,INITIAL_CAPACITY,CAPACITY_STEP,EXPANSION_COSTS,decode,create};
 });
