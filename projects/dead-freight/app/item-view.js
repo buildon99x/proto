@@ -2,20 +2,23 @@
 (function(root){
 'use strict';
 const clamp=x=>Math.max(0,Math.min(1,x)),ease=x=>{x=clamp(x);return x*x*x*(x*(x*6-15)+10);};
+const releaseProgress=id=>({frag:.23/.38,bandage:1.18/1.5,medkit:1.72/2.1,melee:.18/.36})[id]||.5;
+function track(p,frames){let a=frames[0],b=a;for(let i=1;i<frames.length;i++){b=frames[i];if(p<=b[0])break;a=b;}const t=ease((p-a[0])/Math.max(1e-9,b[0]-a[0])),out={};for(const k of Object.keys(a[1]))out[k]=a[1][k]+((b[1][k]??a[1][k])-a[1][k])*t;return out;}
 function pose(a={}){
  const p=a.progress||0,stage=a.stage||'idle',present=stage==='present'?ease(p):['ready','aim','use','recover'].includes(stage)?1:0;
  const use=stage==='use'?ease(p):0,lower=stage==='lower'?ease(p):stage==='recover'?1-ease(p):a.active?1:0;
  const visibility=a.active&&stage!=='lower'&&!(stage==='recover'&&p>.95);
  const retract=stage==='recover'?ease(p):0;
- if(stage==='recover'&&a.recoverFrom){const from=pose(a.recoverFrom),u=ease(p);return {...from,visible:from.visible&&p<.55,lower:from.lower*(1-ease(from.visible?(p-.38)/.62:p)),y:from.y-.5*ease(p/.55),z:from.z+.15*ease(p/.55),pinPull:a.cancelled?from.pinPull*(1-ease(p/.6)):from.pinPull};}
+ if(stage==='recover'&&a.recoverFrom){const from=pose(a.recoverFrom),u=ease(p);return {...from,visible:from.visible&&p<.98,lower:from.lower*(1-ease(from.visible?(p-.38)/.62:p)),y:from.y-.65*ease(p/.7),z:from.z+.20*ease(p/.7),pitch:from.pitch*(1-.25*u),pinPull:a.cancelled?from.pinPull*(1-ease(p/.6)):from.pinPull,toolOpen:from.toolOpen*(1-u)};}
  const result={visible:visibility,lower,x:.30,y:-.40-(1-present)*.45-retract*.5,z:-.82+retract*.15,
   pitch:stage==='use'&&a.itemId==='frag'?.12-.75*Math.sin(use*Math.PI):.12,roll:-.14,
   leftX:-.25,leftY:stage==='use'&&a.itemId!=='frag'?Math.sin(p*Math.PI*4)*.008:0,leftZ:-.035,leftRotX:-.35,leftRotY:.2,leftRotZ:-.55,
   rightX:0,rightY:0,rightZ:0,rightRotZ:.08,pinDetached:stage==='use'&&a.itemId==='frag'&&p>=.5,pinPull:stage==='use'&&a.itemId==='frag'?ease((p-.22)/.28):0,pinReach:a.itemId==='frag'?(stage==='present'?ease((p-.35)/.65):['ready','aim','use'].includes(stage)?1:0):0,treatment:stage==='use'&&['bandage','medkit'].includes(a.itemId)?ease(p/.2):0,
-  grip:a.itemId==='frag'&&stage==='use'?1-ease((p-.50)/.16):a.itemId==='frag'&&a.committed?0:1,propVisible:!a.committed||a.itemId!=='frag',ringVisible:!(a.itemId==='frag'&&stage==='use'&&p>.2),use};
+  grip:a.itemId==='frag'&&stage==='use'?1-ease((p-releaseProgress('frag')+.06)/.06):a.itemId==='frag'&&a.committed?0:1,propVisible:!a.committed||a.itemId!=='frag',ringVisible:!(a.itemId==='frag'&&stage==='use'&&p>.2),use,rightRotX:-.12,rightRotY:0,toolOpen:0,stroke:0,rightElbowX:.19,rightElbowY:-.30,rightElbowZ:.32,leftElbowX:-.36,leftElbowY:-.34,leftElbowZ:.30};
  if(stage==='use'&&a.itemId!=='frag'){result.rightX=-.16*use;result.rightY=-.12*use;result.rightRotZ=.08+.65*use;result.leftRotZ=-.55+.2*use;}
- if(a.itemId==='frag'){Object.assign(result,{leftX:-.09,leftY:.075,leftRotX:-.3,leftRotY:.3,leftRotZ:-.15});if(stage==='use'){const pull=ease((p-.16)/.28);result.leftX-=.22*pull;result.leftY-=.12*pull;result.rightZ=-.19*use;result.rightY=.15*Math.sin(use*Math.PI);}}
- if(a.itemId==='melee'){const punch=stage==='use'?Math.sin(Math.PI*p):0;Object.assign(result,{rightX:.025,rightY:.05+.10*punch,rightZ:-.12-.34*punch,rightRotZ:-.28-.14*punch,leftX:-.24,leftY:.13,leftZ:-.12,leftRotX:-.6,leftRotY:.1,leftRotZ:-.25,grip:1,propVisible:false,pinReach:0,pinPull:0,treatment:0});}
+ if(a.itemId==='frag'){Object.assign(result,{pitch:.12,leftX:-.09,leftY:.075,leftRotX:-.3,leftRotY:.3,leftRotZ:-.15});if(stage==='use'){const pull=ease((p-.16)/.28),r=releaseProgress('frag');result.leftX-=.22*pull;result.leftY-=.12*pull;Object.assign(result,track(p,[[0,{rightX:0,rightY:0,rightZ:0,rightRotX:-.12,rightRotY:0,rightRotZ:.08,rightElbowX:.19,rightElbowY:-.30,rightElbowZ:.32}],[.42,{rightX:.12,rightY:.14,rightZ:.26,rightRotX:.55,rightRotY:-.35,rightRotZ:.22,rightElbowX:.27,rightElbowY:-.19,rightElbowZ:.46}],[r,{rightX:-.06,rightY:.11,rightZ:-.48,rightRotX:-.65,rightRotY:-.12,rightRotZ:-.20,rightElbowX:.12,rightElbowY:-.13,rightElbowZ:-.06}],[1,{rightX:-.13,rightY:.02,rightZ:-.56,rightRotX:-.92,rightRotY:.13,rightRotZ:-.32,rightElbowX:.02,rightElbowY:-.22,rightElbowZ:-.15}]]));}}
+ if(['bandage','medkit'].includes(a.itemId)&&stage==='use'){result.stroke=Math.sin(p*Math.PI*4)**2*ease(p/.2)*(1-ease((p-.84)/.16));result.leftY=.06*ease(p/.2);result.leftRotX=-.35+.2*ease(p/.2);result.leftRotY=.2+.4*ease(p/.2);result.rightRotX=-.12-.25*result.stroke;result.toolOpen=a.itemId==='medkit'?ease(p/.18)*(1-ease((p-.84)/.16)):0;}
+ if(a.itemId==='melee'){Object.assign(result,{propVisible:false,rightX:.04,rightZ:.10,rightRotX:-.3,rightRotY:-.2,leftX:-.38,leftY:.025,leftRotZ:-.3,leftRotX:-.65,grip:1,pinReach:0,pinPull:0,treatment:0});if(stage==='use'){const r=releaseProgress('melee');Object.assign(result,track(p,[[0,{rightX:.04,rightY:0,rightZ:.10,rightRotX:-.3,rightRotY:-.2,rightRotZ:.08,rightElbowX:.19,rightElbowY:-.30,rightElbowZ:.32}],[.2,{rightX:.12,rightY:.06,rightZ:.18,rightRotX:-.15,rightRotY:-.4,rightRotZ:.2,rightElbowX:.28,rightElbowY:-.24,rightElbowZ:.38}],[r,{rightX:-.22,rightY:.12,rightZ:-.62,rightRotX:-1.35,rightRotY:.18,rightRotZ:-.18,rightElbowX:.02,rightElbowY:-.18,rightElbowZ:-.24}],[1,{rightX:.02,rightY:.02,rightZ:.08,rightRotX:-.3,rightRotY:-.2,rightRotZ:.08,rightElbowX:.19,rightElbowY:-.30,rightElbowZ:.32}]]));}}
  result.dressingLevel=['bandage','medkit'].includes(a.itemId)&&stage==='use'?ease((p-.30)/.25):0;
  return result;
 }
@@ -35,16 +38,19 @@ function create(T){
  const body=new T.Mesh(new T.SphereGeometry(.058,10,8),metal);body.scale.y=1.2;frag.add(body);box(frag,'grenade-cap',[0,.072,0],[.037,.025,.03],metal);box(frag,'grenade-lever',[.047,.029,0],[.012,.12,.027],ivory);const ring=new T.Mesh(new T.TorusGeometry(.016,.003,5,12),pinMetal);ring.name='grenade-pin-ring';ring.position.set(-.027,.084,0);frag.add(ring);props.frag=frag;const pulledPin=new T.Group();pulledPin.name='held-pulled-pin';group.add(pulledPin);const pulledRing=new T.Mesh(new T.TorusGeometry(.016,.003,5,12),pinMetal);pulledPin.add(pulledRing);box(pulledPin,'pin-stem',[.013,-.016,0],[.003,.032,.003],pinMetal);pulledPin.visible=false;
  for(const id of ['bandage','medkit','scanner']){const g=new T.Group();g.name='held-'+id;right.add(g);g.position.set(0,.075,-.05);props[id]=g;
   const contact=new T.Object3D();contact.name='treatment-contact';contact.position.z=id==='bandage'?-.0375:-.025;g.add(contact);g.userData.contact=contact;
-  box(g,'utility-body',[0,0,0],id==='bandage'?[.09,.075,.075]:[.10,.15,.05],id==='scanner'?metal:ivory);
+  const utilityBody=box(g,'utility-body',[0,0,0],id==='bandage'?[.09,.075,.075]:[.10,.15,.05],id==='scanner'?metal:ivory);
+  if(id==='bandage'){utilityBody.visible=false;const roll=new T.Mesh(new T.CylinderGeometry(.035,.035,.095,12),ivory);roll.name='gauze-roll';roll.rotation.z=Math.PI/2;g.add(roll);g.userData.roll=roll;}
+  if(id==='medkit'){const lid=new T.Group();lid.name='medical-kit-lid';lid.position.set(0,.065,.025);g.add(lid);box(lid,'kit-lid',[0,-.065,0],[.10,.13,.012],ivory);g.userData.lid=lid;}
   if(id==='scanner'){box(g,'scanner-screen',[0,.02,.028],[.068,.07,.005],cloth);box(g,'scanner-indicator',[0,.02,.032],[.045,.008,.004],ivory);}else{box(g,'medical-mark-horizontal',[0,0,.041],[.056,.015,.006],red);box(g,'medical-mark-vertical',[0,0,.042],[.015,.05,.006],red);}
  }
  const dressing=new T.Group();dressing.name='wrist-field-dressing';left.add(dressing);dressing.position.set(0,-.12,.06);box(dressing,'dressing-pad',[0,0,0],[.07,.034,.008],ivory);for(const side of [-1,1])box(dressing,'dressing-tape',[side*.035,0,-.01],[.012,.031,.029],ivory);dressing.visible=false;
  glove.name='utility-glove';panel.name='utility-glove-panel';cloth.name='utility-sleeve';wrist.name='utility-wrist';metal.name='utility-metal';ivory.name='utility-ivory';pinMetal.name='utility-pin';
  group.userData={right,left,arms,props,ring,pulledPin,dressing,pinError:0,treatmentError:0};group.visible=false;return group;
 }
-function apply(group,a){const V=group.position.constructor,p=pose(a),v=group.userData;group.visible=p.visible;group.position.set(p.x,p.y,p.z);group.rotation.set(p.pitch,0,p.roll);v.right.position.set(p.rightX,p.rightY,p.rightZ);v.right.rotation.set(-.12,0,p.rightRotZ);v.left.position.set(p.leftX,-.025+p.leftY,p.leftZ);v.left.rotation.set(p.leftRotX,p.leftRotY,p.leftRotZ);
+function apply(group,a){const V=group.position.constructor,p=pose(a),v=group.userData;group.visible=p.visible;group.position.set(p.x,p.y,p.z);group.rotation.set(p.pitch,0,p.roll);v.right.position.set(p.rightX,p.rightY,p.rightZ);v.right.rotation.set(p.rightRotX,p.rightRotY,p.rightRotZ);v.left.position.set(p.leftX,-.025+p.leftY,p.leftZ);v.left.rotation.set(p.leftRotX,p.leftRotY,p.leftRotZ);
  for(const [id,g] of Object.entries(v.props))g.visible=id===a.itemId&&p.propVisible;
  v.ring.visible=p.pinPull<1e-7;v.pulledPin.visible=false;v.dressing.visible=['bandage','medkit'].includes(a.itemId)&&p.dressingLevel>1e-9;v.dressing.scale.x=Math.max(.01,p.dressingLevel);
+ v.props.medkit.userData.lid.rotation.x=-1.3*p.toolOpen;v.props.bandage.userData.roll.rotation.x=p.stroke*Math.PI;
  for(const h of [v.right,v.left]){const grip=h===v.left&&a.itemId==='frag'?.48:p.grip;for(const [base,middle,tip] of h.userData.fingers){base.rotation.x=-.6*grip;middle.rotation.x=-1.1*grip;tip.rotation.x=-.8*grip;}h.userData.thumb.rotation.x=-.65*grip;h.userData.thumb.rotation.z=-h.userData.thumbSide*(.28+.42*(1-grip));}
  // Contact constraints are solved in rig coordinates after all authored joints.
  group.updateMatrixWorld(true);
@@ -54,7 +60,7 @@ function apply(group,a){const V=group.position.constructor,p=pose(a),v=group.use
    // The extracted pin belongs to the support hand, not the released grenade.
    const reference=pose({active:true,stage:'use',itemId:'frag',progress:.5});
    target=v.right.worldToLocal(v.ring.getWorldPosition(new V()));
-   target.applyEuler(new v.right.rotation.constructor(-.12,0,reference.rightRotZ));
+   target.applyEuler(new v.right.rotation.constructor(reference.rightRotX,reference.rightRotY,reference.rightRotZ));
    target.add(new V(reference.rightX,reference.rightY,reference.rightZ));
   }
   target.x-=.20*p.pinPull;target.y+=.035*p.pinPull;target.z+=.025*p.pinPull;
@@ -64,12 +70,12 @@ function apply(group,a){const V=group.position.constructor,p=pose(a),v=group.use
   v.pulledPin.position.copy(reached);v.pulledPin.rotation.copy(v.left.rotation);v.pulledPin.visible=p.pinPull>=1e-7&&group.visible;
  }
  if(p.treatment>0){
-  const target=group.worldToLocal(v.left.localToWorld(new V(0,-.12,.06))),contactNode=v.props[a.itemId].userData.contact,contact=group.worldToLocal(contactNode.getWorldPosition(new V()));
+  const target=group.worldToLocal(v.left.localToWorld(new V(0,-.12-.035*p.stroke,.06))),contactNode=v.props[a.itemId].userData.contact,contact=group.worldToLocal(contactNode.getWorldPosition(new V()));
   v.right.position.addScaledVector(target.clone().sub(contact),p.treatment);group.updateMatrixWorld(true);
   v.treatmentError=group.worldToLocal(contactNode.getWorldPosition(new V())).distanceTo(target);
  }
  // Hand constraints move wrists: connect sleeves only after those constraints finish.
- for(const side of ['right','left']){const arm=v.arms[side],h=v[side];arm.elbow.position.set(side==='right'?.19:-.36,-.30,side==='right'?.32:.30);const wrist=group.worldToLocal(h.localToWorld(new V(0,-.12,.023)));for(const [mesh,start,end] of [[arm.upper,arm.shoulder,arm.elbow.position],[arm.forearm,arm.elbow.position,wrist]]){const direction=end.clone().sub(start),length=direction.length();mesh.position.copy(start).add(end).multiplyScalar(.5);mesh.scale.y=Math.max(.001,length);mesh.quaternion.setFromUnitVectors(new V(0,1,0),direction.normalize());}}
+ for(const side of ['right','left']){const arm=v.arms[side],h=v[side];arm.elbow.position.set(p[side+'ElbowX'],p[side+'ElbowY'],p[side+'ElbowZ']);const wrist=group.worldToLocal(h.localToWorld(new V(0,-.12,.023)));for(const [mesh,start,end] of [[arm.upper,arm.shoulder,arm.elbow.position],[arm.forearm,arm.elbow.position,wrist]]){const direction=end.clone().sub(start),length=direction.length();mesh.position.copy(start).add(end).multiplyScalar(.5);mesh.scale.y=Math.max(.001,length);mesh.quaternion.setFromUnitVectors(new V(0,1,0),direction.normalize());}}
  group.updateMatrixWorld(true);
  return p;
 }
@@ -80,5 +86,5 @@ function lighting(T){
  const fill=new T.DirectionalLight('#c6d4de',2.2);fill.name='utility-frontal-fill';fill.position.set(.1,.05,2);fill.target.position.set(.2,-.4,-.8);lights.add(fill,fill.target);
  return lights;
 }
-root.DFItemView={create,apply,pose,lighting};
+root.DFItemView={create,apply,pose,lighting,releaseProgress};
 })(globalThis);

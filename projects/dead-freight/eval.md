@@ -398,3 +398,9 @@ Reproduce an injected repeated bandage commit after cooldown during recovery; th
 
 ## 0.12.12 archived once-only action effect receipt
 Reconciled the archive receipt with current action identity/commit/cancel guards. Injected same bandage marker after cooldown during recovery reproduced HP60→90 and count2→1; this is source fault injection, not ordinary player input. Bridge now accepts only the current uncancelled committed sequence/UID/item/location once, before effect dispatch. Duplicate, stale, precommit, malformed and rejected markers cannot produce another benefit; future valid actions remain usable. 930 named checks in46 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual play, rendered motion, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+## 0.12.13 motion-track checks
+Sample exact release/contact markers, presentation/use joins, interrupted recovery, tools and constrained wrist/pin/arm geometry across stages. Retain source HUD/lighting/material/grip/effect/timing invariants. Run all suites, audits and builds. Live frames, natural motion, actual device sync/listening and performance remain open.
+
+
+## 0.12.13 archived action motion tracks
+Preserved Library action patch is selectively reconciled: connected elbow/wrist throw windup, exact release grip and follow-through, current-timing fist contact, medical wrist strokes/gauze roll/kit lid and continuous closing withdrawal. Current detached-pin/grip/dressing/receipt fixes and all gameplay timing/tuning/audio/saves are preserved. This does not certify natural human movement. 935 named checks in47 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.

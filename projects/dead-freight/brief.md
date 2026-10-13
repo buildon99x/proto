@@ -158,3 +158,5 @@ Reconcile the user's unpublished 2026-10-11 motion archive without applying it o
 Fix a reproduced recovery-only dressing pop: cancelling medicine before application currently makes a pad suddenly appear. Keep cosmetic application owned by the sampled use pose and preserve that exact partial amount when cancellation withdraws the hands. No treatment timing, benefit or inventory changes.
 ## 0.12.12 archived once-only action effects
 Reconcile the archive's effect receipt with current guards. A source-injected replay of the same bandage marker after its0.4s cooldown during recovery heals and consumes twice. Guard each real action sequence/identity once at the effect boundary; preserve ordinary inputs, timelines and gameplay values.
+## 0.12.13 archived action motion tracks
+Adapt the preserved user's throw windup/release/follow-through and medical wrist/roll/lid tracks into the current connected rig. Preserve current pin ownership, corrected thumb/index grip, dressing cancellation, effect receipts, action markers, damage, controls and audio. Model geometry does not certify natural motion.

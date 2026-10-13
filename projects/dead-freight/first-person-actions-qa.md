@@ -92,3 +92,7 @@ Check upper-arm/elbow/forearm/wrist silhouette at grenade pin/hold/release, medi
 
 ## 0.12.11 treatment dressing actual QA
 Cancel bandage and medkit before contact, during partial application and after benefit. Capture actual frames: no pad should appear on early cancel; partial pad should withdraw with the wrist continuously. Inspect width/clipping and normal recovery. Source geometry is not human-looking contact acceptance.
+
+
+## 0.12.13 archived action motion tracks actual QA
+Inspect grenade pinch, windup, release and follow-through; medical roll/lid/site contact and early/partial/late cancellation; melee contact alignment. Check all gun H/swap/return interruption combinations, near-camera clipping, silhouette and HUD/world readability. Actual screenshots/input/device listening are required; source validation does not close this gate.
