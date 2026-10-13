@@ -80,3 +80,7 @@ Use an identified 0.12.7 artifact and exact QA profile. Observe held auto-fire c
 
 ## 0.12.8 pump-ownership actual QA
 Fire Breach then immediately select frag/healing/melee or H. The manual pump should wait while hands are unavailable and play once on gun return; compare normal pump/casing/audio and passive P-6/R-4 cycling. Capture real frames/input and listen to device output; numerical geometry/cue checks do not close this gate.
+
+
+## 0.12.9 utility-grip actual QA
+Inspect glove handedness against dorsal panels, index/thumb pinch at pin-ring contact, held grip, actual thumb opening at release, closed melee fist and cancelled recovery. Ensure world/gun/HUD contrast and contact locations stay readable. Capture real frames/input and listen to device output; numerical geometry/cue checks do not close this gate.

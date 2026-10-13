@@ -147,3 +147,7 @@ Complete the remaining original non-R4 mechanical-owner migration with the exist
 
 ## 0.12.8 manual pump hand ownership
 Continue existing first-person action work after mechanical migrations. A reproduced shotgun pump cue/readiness commit occurs while grenade presentation exclusively owns the hands. Defer only the operator-driven shotgun pump; preserve passive pistol slide/R-4 cycles, ordinary timings, ammo and saves.
+
+
+## 0.12.9 utility glove handedness and release
+Correct source-proven utility glove anatomy and grip release after the mechanical migrations. Under the authored +Z dorsal-panel/+Y fingers frame, thumbs were placed on the outward/reversed sides and stayed unchanged from held grenade to released hand. Preserve pin/wrist anchors, action timing, world/gun resources and recorded audio; visual human-motion acceptance stays open.

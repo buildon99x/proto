@@ -236,3 +236,7 @@ Two shells; .4s firing recovery, .26s automatic pump followed by .28s recovery,1
 
 ## 0.12.8 exclusive-hand pump gate
 While weaponActionBlocked is true, a shotgun pending pump retains its remaining delay and cannot emit cycle or manufacture cocked readiness. Clock/recovery and standalone active-reload behavior continue; no ammunition is consumed by the gate. When the weapon again owns ready hands, finish the remaining original pump delay then mandatory recovery exactly once. Holster/unequip still freeze the inactive controller. Pistol slide and R-4 passive cycling are unaffected. Public direct cycle commands obey the same blocked-shotgun gate.
+
+
+## 0.12.9 authored hand frame
+Neutral glove dorsal panel is +Z, fingers extend +Y and palms face -Z. Left thumb/index are the +X inward edge; right thumb/index are the -X inward edge. Name fingers explicitly, retain array compatibility and expose index fingertip contact anchors based on actual cap endpoints. Author bounded relative lengths (middle longest, little shortest) and link thumb flex/spread to the same grip/release value as the fingers. Pin solver uses the semantic left-index cap contact and preserves its ring/extraction anchor. Cancelled recovery begins at the same grip/contact transform. These are prototype authored geometry, not measured human anatomy or proof of natural pinch/throw.

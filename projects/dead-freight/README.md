@@ -1,4 +1,4 @@
-# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.12.8
+# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.12.9
 
 R-4 라이플 한 종의 FPS 기반과, 340×340m 단일 연결 지역을 다루는 1인칭 Extraction 개발 체크포인트입니다. `proto/projects/dead-freight`에서 개발합니다. 완성된 상용 오픈월드 규모나 품질을 의미하지 않습니다.
 
@@ -142,3 +142,7 @@ SMG now has validated content/smg.json and per-UID MechanicalState ownership, re
 
 ## 0.12.8 pump-ownership source correction
 Before fix, the original game/rendererless route emitted a shotgun cycle cue and set cocked=true while a grenade was active/present and weaponActionBlocked=true. The shotgun manual pump now freezes its remaining delay while other actions/lower/draw own the hands, then completes once after readiness returns. Shells/reserve, ordinary pump/recovery numbers, passive pistol slide/R-4 cycling and standalone active-reload timing are unchanged. 916 named checks in42 suites pass (360-case action matrix included), plus34 syntax checks, static packaging and315 separate audits. Required11-project/27-page aggregate and final scoped-registry launcher build pass with unchanged lockfile. Actual motion/input/device listening/frame-time/extraction acceptance remains open; no deployment or new liquid-metal implementation. Remaining city maps, broader AI/economy, additional weapon/throwable systems and v1 tuning are not declared complete.
+
+
+## 0.12.9 utility-grip source correction
+Utility glove dorsal panels face +Z in the authored neutral frame. The old thumb placement was outward/reversed (left X<0, right X>0) and the right thumb did not change between closed grenade hold and release. Thumb handedness now matches the inward sides; explicit semantic finger/index references track the thumb-adjacent index, and thumb closure/opening follows the authored grip. Pin/wrist contact anchors, timing, source commits, lighting, gun/world meshes and audio assets remain unchanged. These are authored geometric corrections, not acceptance of human-looking pinch/grasp/throw. 920 named checks in43 suites pass (360-case action matrix included), plus34 syntax checks, static packaging and315 separate audits. Required11-project/27-page aggregate and final scoped-registry launcher build pass with unchanged lockfile. Actual motion/input/device listening/frame-time/extraction acceptance remains open; no deployment or new liquid-metal implementation. Remaining city maps, broader AI/economy, additional weapon/throwable systems and v1 tuning are not declared complete.

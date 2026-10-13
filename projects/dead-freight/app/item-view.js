@@ -21,11 +21,11 @@ function pose(a={}){
 function create(T){
  const group=new T.Group();group.name='utility-viewmodel';const glove=new T.MeshStandardMaterial({color:'#465661',roughness:.87}),panel=new T.MeshStandardMaterial({color:'#7b8c97',roughness:.91}),cloth=new T.MeshStandardMaterial({color:'#303c48',roughness:1}),ivory=new T.MeshStandardMaterial({color:'#dae1df',roughness:.73}),red=new T.MeshStandardMaterial({color:'#8b2434',roughness:.8}),wrist=new T.MeshStandardMaterial({color:'#b6aea7',roughness:.95}),metal=new T.MeshStandardMaterial({color:'#91a09f',metalness:.18,roughness:.5}),pinMetal=new T.MeshStandardMaterial({color:'#d2dcd9',metalness:.35,roughness:.3});
  function box(parent,name,pos,size,mat){const rounded=name.startsWith('finger-')||name==='thumb',palm=name==='glove-palm',radius=Math.min(size[0],size[2])*.5,geometry=rounded?new T.CapsuleGeometry(radius,Math.max(.001,size[1]-radius*2),3,8):palm?new T.SphereGeometry(1,12,8):new T.BoxGeometry(...size),mesh=new T.Mesh(geometry,mat);if(palm)mesh.scale.set(size[0]*.62,size[1]*.58,size[2]*.65);else if(rounded)mesh.scale.z=size[2]/(radius*2);mesh.name=name;mesh.position.set(...pos);parent.add(mesh);mesh.castShadow=mesh.receiveShadow=true;return mesh;}
- function hand(side){const h=new T.Group();h.name=side+'-utility-hand';group.add(h);const mirror=side==='left'?-1:1;
+ function hand(side){const h=new T.Group();h.name=side+'-utility-hand';group.add(h);const mirror=side==='left'?1:-1;
   box(h,'glove-palm',[0,0,0],[.105,.13,.064],glove);box(h,'glove-back-panel',[0,.005,.036],[.078,.09,.012],panel);
   box(h,'glove-cuff',[0,-.083,.009],[.105,.033,.077],cloth);box(h,'exposed-wrist',[0,-.12,.023],[.084,.045,.065],wrist);box(h,'sleeve',[0,-.285,.10],[.12,.28,.10],cloth).rotation.x=-.32;
-  const fingers=[];for(let i=0;i<4;i++){const finger=new T.Group();finger.position.set((i-1.5)*.024,.065,0);h.add(finger);const middle=new T.Group(),tip=new T.Group();box(finger,'finger-proximal',[0,.019,0],[.022,.038,.027],glove);middle.position.y=.038;finger.add(middle);box(middle,'finger-middle',[0,.014,0],[.021,.029,.024],glove);tip.position.y=.029;middle.add(tip);box(tip,'finger-tip',[0,.012,0],[.020,.023,.022],glove);fingers.push([finger,middle,tip]);}
-  const thumb=new T.Group();thumb.position.set(mirror*.058,.014,0);thumb.rotation.z=-mirror*.7;h.add(thumb);box(thumb,'thumb',[0,.029,0],[.031,.058,.035],glove);h.userData={fingers,thumb};return h;
+  const fingers=[],roles=mirror>0?['little','ring','middle','index']:['index','middle','ring','little'],lengths={index:.93,middle:1,ring:.96,little:.76};for(let i=0;i<4;i++){const role=roles[i],scale=lengths[role],proximal=.038*scale,mid=.029*scale,distal=.023*scale,finger=new T.Group();finger.name=side+'-'+role+'-finger';finger.position.set((i-1.5)*.024,.065,0);h.add(finger);const middle=new T.Group(),tip=new T.Group();middle.name=side+'-'+role+'-middle';tip.name=side+'-'+role+'-tip';box(finger,'finger-proximal',[0,proximal/2,0],[.022*scale,proximal,.027*scale],glove);middle.position.y=proximal;finger.add(middle);box(middle,'finger-middle',[0,mid/2,0],[.021*scale,mid,.024*scale],glove);tip.position.y=mid;middle.add(tip);box(tip,'finger-tip',[0,distal/2,0],[.020*scale,distal,.022*scale],glove);const contact=new T.Object3D();contact.name=side+'-'+role+'-contact';contact.position.y=distal;tip.add(contact);tip.userData.contact=contact;fingers.push([finger,middle,tip]);}
+  const thumb=new T.Group();thumb.position.set(mirror*.058,.014,0);thumb.rotation.z=-mirror*.7;h.add(thumb);box(thumb,'thumb',[0,.029,0],[.031,.058,.035],glove);const indexTip=fingers[roles.indexOf('index')][2];h.userData={fingers,thumb,indexTip,indexContact:indexTip.userData.contact,thumbSide:mirror};return h;
  }
  const right=hand('right'),left=hand('left'),props={};
  const frag=new T.Group();frag.name='held-frag';right.add(frag);frag.position.set(0,.079,-.051);
@@ -42,7 +42,7 @@ function create(T){
 function apply(group,a){const V=group.position.constructor,p=pose(a),v=group.userData;group.visible=p.visible;group.position.set(p.x,p.y,p.z);group.rotation.set(p.pitch,0,p.roll);v.right.position.set(p.rightX,p.rightY,p.rightZ);v.right.rotation.set(-.12,0,p.rightRotZ);v.left.position.set(p.leftX,-.025+p.leftY,p.leftZ);v.left.rotation.set(p.leftRotX,p.leftRotY,p.leftRotZ);
  for(const [id,g] of Object.entries(v.props))g.visible=id===a.itemId&&p.propVisible;
  v.ring.visible=p.pinPull<1e-7;v.pulledPin.visible=false;v.dressing.visible=['bandage','medkit'].includes(a.itemId)&&p.treatment>.99&&(a.progress>.3||a.stage==='recover');
- for(const h of [v.right,v.left])for(const [base,middle,tip] of h.userData.fingers){const grip=h===v.left&&a.itemId==='frag'?.48:p.grip;base.rotation.x=-.6*grip;middle.rotation.x=-1.1*grip;tip.rotation.x=-.8*grip;}
+ for(const h of [v.right,v.left]){const grip=h===v.left&&a.itemId==='frag'?.48:p.grip;for(const [base,middle,tip] of h.userData.fingers){base.rotation.x=-.6*grip;middle.rotation.x=-1.1*grip;tip.rotation.x=-.8*grip;}h.userData.thumb.rotation.x=-.65*grip;h.userData.thumb.rotation.z=-h.userData.thumbSide*(.28+.42*(1-grip));}
  // Contact constraints are solved in rig coordinates after all authored joints.
  group.updateMatrixWorld(true);
  if(a.itemId==='frag'&&p.pinReach>0){
@@ -55,9 +55,9 @@ function apply(group,a){const V=group.position.constructor,p=pose(a),v=group.use
    target.add(new V(reference.rightX,reference.rightY,reference.rightZ));
   }
   target.x-=.20*p.pinPull;target.y+=.035*p.pinPull;target.z+=.025*p.pinPull;
-  const tip=v.left.userData.fingers[3][2],contact=group.worldToLocal(tip.localToWorld(new V(0,.023,0))),delta=target.clone().sub(contact);
+  const contact=group.worldToLocal(v.left.userData.indexContact.getWorldPosition(new V())),delta=target.clone().sub(contact);
   v.left.position.addScaledVector(delta,p.pinReach);group.updateMatrixWorld(true);
-  const reached=group.worldToLocal(tip.localToWorld(new V(0,.023,0)));v.pinError=reached.distanceTo(target);
+  const reached=group.worldToLocal(v.left.userData.indexContact.getWorldPosition(new V()));v.pinError=reached.distanceTo(target);
   v.pulledPin.position.copy(reached);v.pulledPin.rotation.copy(v.left.rotation);v.pulledPin.visible=p.pinPull>=1e-7&&group.visible;
  }
  if(p.treatment>0){

@@ -1,6 +1,6 @@
 # FPS gunplay specification v1: implementation and acceptance
 
-Current source continuation: **0.12.8**. All existing guns own mechanical states alongside guarded utility/melee timelines; manual shotgun pump respects exclusive-hand ownership. 916 named checks/42 suites,315 separate audits, syntax/static packaging and required aggregate pass. Broader v1 ADS/input/tuning and actual normal input/render/natural motion/listening/device-performance/extraction remain open. See [the laptop gate](qa-jh-laptop-2026-10-13.md). Public0.10.0/candidate0.12.0 were not updated by this worker. Two city maps, broader AI/economy, additional classes/throwables and liquid-metal follow-up remain unfinished/deferred.
+Current source continuation: **0.12.9**. All existing guns own mechanical states alongside guarded utility/melee timelines; utility glove handedness and thumb grip/release are corrected. 920 named checks/43 suites,315 separate audits, syntax/static packaging and required aggregate pass. Broader v1 ADS/input/tuning and actual normal input/render/natural motion/listening/device-performance/extraction remain open. See [the laptop gate](qa-jh-laptop-2026-10-13.md). Public0.10.0/candidate0.12.0 were not updated by this worker. Two city maps, broader AI/economy, additional classes/throwables and liquid-metal follow-up remain unfinished/deferred.
 
 ## Authoritative input
 
