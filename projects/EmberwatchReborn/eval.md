@@ -511,3 +511,7 @@ Execute real incoming block and staff contact handlers, compare indicators with 
 ## Crusher ground feedback integration
 
 Execute actual mace preparation/Judgement payoff and renderer: effect emitted once only on valid payoff, whiff/unprimed/wall/immune restrictions unchanged, readonly drawing, real radius/zoom transform and reduced mode. Legal buy/allocate/equip/purchase fixture retained. Full/lint/registry/build/original167/protected contracts. Real input combat/death/town/re-entry/repeat/audio/screenshots are parent QA gates and not replaced by Canvas probes.
+
+
+## Cloud crusher contrast follow-up — 2026-10-13
+First reproduce the contrast contract red against b6a4626 presentation, then verify paired geometry/color/alpha across effect ages, flash scales and real isometric transform using the production payoff record. Run focused crusher, full suite, lint, registry and build. Distinguish fresh normal-input progression, actual Chromium screenshots, internal start/render/contact/sound-request observations, and absent desktop/listening evidence. Preserve protected source and original167 byte-for-byte; no main merge or deployment. See docs/verification-cloud-crusher-20261013 for exact results and open gates.

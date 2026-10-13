@@ -299,3 +299,7 @@ Independent presentation checkpoint: explain fresh key presses after safety resu
 ## Crusher ground feedback integration
 
 Resume one existing legal crusher build slice: actual equipped mace + existing Judgement + real preparation/payoff, improve ground shockwave readability and owned FX. This is presentation, not full PoE2/build completion. Browser/computer tools are not exposed; native QA belongs to the parent path. Writer/security decision remains unavailable and is not bypassed.
+
+
+## Cloud crusher contrast follow-up — 2026-10-13
+Normal-input Chromium QA earned iron_mace, Adept and Judgement from a fresh profile. The prepared guard/payoff screen leaves the existing ground contour and fractures difficult to separate from stone detail and the Judgement arc. Add a dark keyline on the same presentation paths only; retain real radius, alpha, .3s lifetime, reduced mode, all combat/audio/input/state/save behavior and balances. Desktop/physical display and listening remain unverified; no writer resumption or broader completion.

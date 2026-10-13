@@ -1,0 +1,35 @@
+✔ crusher valid direct mace contacts accumulate per enemy; critical=false and proc/duplicate cannot add units (531.386054ms)
+✔ crusher valid direct mace contacts accumulate per enemy; critical=true and proc/duplicate cannot add units (47.173609ms)
+✔ crusher actual prepared strike causes one heavy transition, target-centred wave and one hit per secondary, preserving old stun/armor break (81.940252ms)
+✔ crusher no-target at contact cannot create a free shockwave or consume stun (14.386761ms)
+✔ crusher unprepared at contact cannot create a free shockwave or consume stun (14.932192ms)
+✔ crusher dead at contact cannot create a free shockwave or consume stun (72.169112ms)
+✔ crusher moved at contact cannot create a free shockwave or consume stun (77.728022ms)
+✔ crusher immune at contact cannot create a free shockwave or consume stun (73.209479ms)
+✔ crusher already-heavy at contact cannot create a free shockwave or consume stun (67.477073ms)
+✔ stun-immune boss remains damageable by actual basic attack and never primes (92.825868ms)
+✔ heavy state expires and buildup resets independently of other remaining light stun (100.86536ms)
+✔ wave respects real wall LOS and does not recursively prime affected enemies (72.14105ms)
+✔ dead target reuse has fresh enemy identity; old remaining stun is never readiness (29.524545ms)
+✔ wrong weapon disables crusher strike while basic attack eligibility remains available (0.969593ms)
+✔ classic constructor behavior creates no buildup; selecting mode cannot change stored profile or add serialized fields (44.27464ms)
+✔ primed marker follows authoritative readiness, not stun time, and preserves render state (0.269355ms)
+✔ lethal valid payoff transitions before defeat, clears corpse state and still emits one real wave (74.632067ms)
+✔ crusher contact cannot fabricate a generic ground burst on whiff; classic contact feedback remains (12.053806ms)
+✔ null action target never falls back to a different prepared hover target (90.962987ms)
+✔ classic default and explicit disabled mode retain exact actions/events/state (276.106311ms)
+✔ existing legal purchase/allocation/equip flow supplies a real mace to the crusher without new gear schema (37.046989ms)
+✔ current cooldown/resource/recovery rejection cannot produce a crusher payoff (88.859765ms)
+✔ crusher mace_swing uses owned mace silhouette during actual action without changing cadence (2.324182ms)
+✔ crusher judgement uses owned mace silhouette during actual action without changing cadence (1.25296ms)
+✔ real crusher payoff supplies one target-centred FX with true damage-radius contour and read-only decorative fractures (96.043992ms)
+✔ crusher reduced/zero-flash FX keeps only real contour; unrelated and expired effects remain untouched (85.090221ms)
+✔ ground feedback contrast pairs keep the same true contour and fracture paths at every age and flash mode (73.206764ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2292.901684

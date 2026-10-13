@@ -1,0 +1,56 @@
+Scope: all 17 workspace projects
+? Verifying lockfile against supply-chain policies (263 entries)...
+
+   ╭──────────────────────────────────────────╮
+   │                                          │
+   │   Update available! 11.19.0 → 12.11.2.   │
+   │   Changelog: https://pnpm.io/v/12.11.2   │
+   │     To update, run: pnpm self-update     │
+   │                                          │
+   ╰──────────────────────────────────────────╯
+
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Progress: resolved 6, reused 0, downloaded 0, added 0
+Progress: resolved 12, reused 0, downloaded 6, added 0
+Progress: resolved 13, reused 0, downloaded 11, added 0
+Progress: resolved 15, reused 0, downloaded 13, added 0
+Progress: resolved 16, reused 0, downloaded 15, added 0
+Progress: resolved 67, reused 0, downloaded 35, added 0
+Progress: resolved 73, reused 0, downloaded 61, added 0
+✓ Lockfile passes supply-chain policies (263 entries in 9.4s)
+Progress: resolved 80, reused 0, downloaded 66, added 0
+Progress: resolved 196, reused 0, downloaded 97, added 0
+Progress: resolved 255, reused 0, downloaded 146, added 0
+Packages: +153
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Packages are copied from the content-addressable store to the virtual store.
+  Content-addressable store is at: /tmp/emberwatch-pnpm/store/v11
+  Virtual store is at:             node_modules/.pnpm
+Progress: resolved 263, reused 0, downloaded 154, added 87
+Progress: resolved 263, reused 0, downloaded 154, added 151
+Progress: resolved 263, reused 0, downloaded 154, added 153, done
+
+devDependencies:
++ @types/node 20.19.43 (26.6.5 is available)
++ @vercel/blob 2.8.0 (2.8.1 is available)
++ tsx 4.22.4 (4.23.15 is available)
++ turbo 2.9.18 (2.11.7 is available)
++ typescript 5.9.3 (7.0.2 is available)
++ vitest 4.1.10 (5.0.4 is available)
+
+[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: esbuild@0.25.12, esbuild@0.28.1, sharp@0.34.5
+
+Run "pnpm approve-builds" to pick which dependencies should be allowed to run scripts.
+[ERROR] Command failed with exit code 1: /opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node /opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/pnpm/bin/pnpm.mjs install
+
+pnpm: Command failed with exit code 1: /opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node /opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/pnpm/bin/pnpm.mjs install
+    at getFinalError (file:///opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/pnpm/dist/pnpm.mjs:88973:14)
+    at makeError (file:///opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/pnpm/dist/pnpm.mjs:91280:21)
+    at getSyncResult (file:///opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/pnpm/dist/pnpm.mjs:93124:10)
+    at spawnSubprocessSync (file:///opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/pnpm/dist/pnpm.mjs:93084:14)
+    at execaCoreSync (file:///opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/pnpm/dist/pnpm.mjs:93014:23)
+    at callBoundExeca (file:///opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/pnpm/dist/pnpm.mjs:95542:23)
+    at boundExeca (file:///opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/pnpm/dist/pnpm.mjs:95519:49)
+    at sync2 (file:///opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/pnpm/dist/pnpm.mjs:95678:10)
+    at runPnpmCli (file:///opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/pnpm/dist/pnpm.mjs:252207:5)
+    at runDepsStatusCheck (file:///opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/pnpm/dist/pnpm.mjs:253973:7)

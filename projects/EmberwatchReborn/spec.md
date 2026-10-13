@@ -394,3 +394,7 @@ Read current magma token remaining and storm lastTimedContact/time using existin
 ## Crusher ground feedback integration
 
 Read only existing crusherShockwave ring records. Keep visible outer boundary at actual damage radius from first contact; interior fracture lines/rings are decorative, not delayed hit propagation. Same0.3s lifetime and all cast/target/wave/audio/save contracts. Honor flashScale0/reduced options. No new assets, skill ranks, weapon schemas or a19 writer work.
+
+
+## Cloud crusher contrast follow-up — 2026-10-13
+Each existing ground contour and decorative fracture receives a dark outer stroke then its existing inner stroke on identical geometry and alpha. Reduced/zero-flash retains one static true-radius path with two contrast strokes, without decorative paths. No new hit, lifetime, sound, save field, item or rank. Ordinary UI is the only progression/equipment path used in QA; a19 protected changes remain blocked.

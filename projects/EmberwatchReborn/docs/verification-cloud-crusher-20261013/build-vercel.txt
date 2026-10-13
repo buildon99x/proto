@@ -1,0 +1,45 @@
+Scope: all 17 workspace projects
+? Verifying lockfile against supply-chain policies (263 entries)...
+
+   ╭──────────────────────────────────────────╮
+   │                                          │
+   │   Update available! 11.19.0 → 12.11.2.   │
+   │   Changelog: https://pnpm.io/v/12.11.2   │
+   │     To update, run: pnpm self-update     │
+   │                                          │
+   ╰──────────────────────────────────────────╯
+
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Progress: resolved 12, reused 12, downloaded 0, added 0
+Progress: resolved 14, reused 13, downloaded 0, added 0
+Progress: resolved 15, reused 15, downloaded 0, added 0
+Progress: resolved 18, reused 18, downloaded 0, added 0
+✓ Lockfile passes supply-chain policies (263 entries in 5.7s)
+Progress: resolved 76, reused 63, downloaded 0, added 0
+Progress: resolved 147, reused 88, downloaded 0, added 0
+Progress: resolved 256, reused 147, downloaded 0, added 0
+Already up to date
+Progress: resolved 263, reused 154, downloaded 0, added 0, done
+
+Done in 9.7s using pnpm v11.19.0
+$ corepack pnpm sync:registry && corepack pnpm build:projects && corepack pnpm --filter launcher build
+node:fs:1411
+  const result = binding.mkdir(
+                         ^
+
+Error: ENOENT: no such file or directory, mkdir '/home/agent/.cache/node/corepack/v1'
+    at mkdirSync (node:fs:1411:26)
+    at getTemporaryFolder (/opt/codex/runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/corepack/dist/lib/corepack.cjs:21953:27)
+    at download (/opt/codex/runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/corepack/dist/lib/corepack.cjs:22288:21)
+    at installVersion (/opt/codex/runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/corepack/dist/lib/corepack.cjs:22386:61)
+    at async Engine.ensurePackageManager (/opt/codex/runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/corepack/dist/lib/corepack.cjs:22899:32)
+    at async Engine.executePackageManagerRequest (/opt/codex/runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/corepack/dist/lib/corepack.cjs:23010:25)
+    at async Object.runMain (/opt/codex/runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/corepack/dist/lib/corepack.cjs:23710:7) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'mkdir',
+  path: '/home/agent/.cache/node/corepack/v1'
+}
+
+Node.js v24.19.0
+[ELIFECYCLE] Command failed with exit code 1.

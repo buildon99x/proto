@@ -1,0 +1,100 @@
+✔ crusher valid direct mace contacts accumulate per enemy; critical=false and proc/duplicate cannot add units (576.0828ms)
+✔ crusher valid direct mace contacts accumulate per enemy; critical=true and proc/duplicate cannot add units (59.560328ms)
+✔ crusher actual prepared strike causes one heavy transition, target-centred wave and one hit per secondary, preserving old stun/armor break (103.919825ms)
+✔ crusher no-target at contact cannot create a free shockwave or consume stun (15.273227ms)
+✔ crusher unprepared at contact cannot create a free shockwave or consume stun (15.664571ms)
+✔ crusher dead at contact cannot create a free shockwave or consume stun (81.124627ms)
+✔ crusher moved at contact cannot create a free shockwave or consume stun (108.009883ms)
+✔ crusher immune at contact cannot create a free shockwave or consume stun (78.534988ms)
+✔ crusher already-heavy at contact cannot create a free shockwave or consume stun (101.57251ms)
+✔ stun-immune boss remains damageable by actual basic attack and never primes (114.834572ms)
+✔ heavy state expires and buildup resets independently of other remaining light stun (108.860544ms)
+✔ wave respects real wall LOS and does not recursively prime affected enemies (88.912202ms)
+✔ dead target reuse has fresh enemy identity; old remaining stun is never readiness (44.87909ms)
+✔ wrong weapon disables crusher strike while basic attack eligibility remains available (1.269485ms)
+✔ classic constructor behavior creates no buildup; selecting mode cannot change stored profile or add serialized fields (60.412992ms)
+✔ primed marker follows authoritative readiness, not stun time, and preserves render state (0.386428ms)
+✔ lethal valid payoff transitions before defeat, clears corpse state and still emits one real wave (87.759144ms)
+✔ crusher contact cannot fabricate a generic ground burst on whiff; classic contact feedback remains (12.434672ms)
+✔ null action target never falls back to a different prepared hover target (72.527064ms)
+✔ classic default and explicit disabled mode retain exact actions/events/state (219.45593ms)
+✔ existing legal purchase/allocation/equip flow supplies a real mace to the crusher without new gear schema (47.134742ms)
+✔ current cooldown/resource/recovery rejection cannot produce a crusher payoff (77.961495ms)
+✔ crusher mace_swing uses owned mace silhouette during actual action without changing cadence (2.043361ms)
+✔ crusher judgement uses owned mace silhouette during actual action without changing cadence (0.93278ms)
+✖ real crusher payoff supplies one target-centred FX with true damage-radius contour and read-only decorative fractures (86.776852ms)
+✖ crusher reduced/zero-flash FX keeps only real contour; unrelated and expired effects remain untouched (81.148786ms)
+✖ ground feedback contrast pairs keep the same true contour and fracture paths at every age and flash mode (82.032208ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 24
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2478.121979
+
+✖ failing tests:
+
+test at tests/crusher-combat.test.mjs:58:1
+✖ real crusher payoff supplies one target-centred FX with true damage-radius contour and read-only decorative fractures (86.776852ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  10 !== 20
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/crusher-combat.test.mjs:61:84)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 10,
+    expected: 20,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/crusher-combat.test.mjs:63:1
+✖ crusher reduced/zero-flash FX keeps only real contour; unrelated and expired effects remain untouched (81.148786ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/crusher-combat.test.mjs:64:392)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/crusher-combat.test.mjs:67:1
+✖ ground feedback contrast pairs keep the same true contour and fracture paths at every age and flash mode (82.032208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  10 !== 20
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/crusher-combat.test.mjs:72:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 10,
+    expected: 20,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

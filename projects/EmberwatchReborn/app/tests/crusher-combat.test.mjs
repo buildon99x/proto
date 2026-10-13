@@ -58,8 +58,19 @@ import {drawCrusherShockwave} from '../src/crusher-presentation.js';
 test('real crusher payoff supplies one target-centred FX with true damage-radius contour and read-only decorative fractures',()=>{
  const f=fixture(),e=enemy(f);enemy(f,'nearby',710);prime(f,e);const ev=cast(f,'judgement'),record=f.b.effects.find(x=>x.crusherShockwave);assert.equal(ev.filter(x=>x.type==='crusherShockwave').length,1);assert.ok(record);assert.equal(record.r,f.b.stats.actions.judgement.range);assert.equal(record.x,e.x);assert.equal(record.y,e.y);assert.equal(record.max,.3);
  const before=structuredClone(record),points=[],strokes=[],ctx={save(){},restore(){},beginPath(){points.push([]);},moveTo(x,y){points.at(-1).push([x,y]);},lineTo(x,y){points.at(-1).push([x,y]);},closePath(){},stroke(){strokes.push(points.at(-1));}};
- assert.equal(drawCrusherShockwave(ctx,record,p=>p,1,{flashScale:.5}),true);assert.equal(strokes.length,10);assert.ok(Math.abs(strokes[0][0][0]-(record.x+record.r))<1e-9);assert.ok(Math.abs(strokes[0][0][1]-(record.y-3))<1e-9);assert.deepEqual(record,before);assert.equal(ev.filter(x=>x.type==='sound'&&x.name==='magicRelease'&&x.castId===record.castId).length,1);
+ assert.equal(drawCrusherShockwave(ctx,record,p=>p,1,{flashScale:.5}),true);assert.equal(strokes.length,20);assert.ok(Math.abs(strokes[0][0][0]-(record.x+record.r))<1e-9);assert.ok(Math.abs(strokes[0][0][1]-(record.y-3))<1e-9);assert.deepEqual(record,before);assert.equal(ev.filter(x=>x.type==='sound'&&x.name==='magicRelease'&&x.castId===record.castId).length,1);
 });
 test('crusher reduced/zero-flash FX keeps only real contour; unrelated and expired effects remain untouched',()=>{
- const f=fixture(),e=enemy(f);prime(f,e);cast(f,'judgement');const record=f.b.effects.find(x=>x.crusherShockwave),before=structuredClone(record);for(const options of [{reduced:true},{flashScale:0}]){let strokes=0;const ctx={save(){},restore(){},beginPath(){},moveTo(){},lineTo(){},closePath(){},stroke(){strokes++;}};assert.equal(drawCrusherShockwave(ctx,record,p=>p,2,options),true);assert.equal(strokes,1);assert.equal(drawCrusherShockwave(ctx,{...record,crusherShockwave:false},p=>p,2,options),false);assert.equal(drawCrusherShockwave(ctx,{...record,life:0},p=>p,2,options),false);}assert.deepEqual(record,before);
+ const f=fixture(),e=enemy(f);prime(f,e);cast(f,'judgement');const record=f.b.effects.find(x=>x.crusherShockwave),before=structuredClone(record);for(const options of [{reduced:true},{flashScale:0}]){let strokes=0;const ctx={save(){},restore(){},beginPath(){},moveTo(){},lineTo(){},closePath(){},stroke(){strokes++;}};assert.equal(drawCrusherShockwave(ctx,record,p=>p,2,options),true);assert.equal(strokes,2);assert.equal(drawCrusherShockwave(ctx,{...record,crusherShockwave:false},p=>p,2,options),false);assert.equal(drawCrusherShockwave(ctx,{...record,life:0},p=>p,2,options),false);}assert.deepEqual(record,before);
+});
+
+test('ground feedback contrast pairs keep the same true contour and fracture paths at every age and flash mode',()=>{
+ const f=fixture(),e=enemy(f);prime(f,e);cast(f,'judgement');const record=f.b.effects.find(x=>x.crusherShockwave),before=structuredClone(record);
+ for(const life of [.3,.15,.01])for(const options of [{flashScale:1},{flashScale:.3},{reduced:true},{flashScale:0}]){
+  let path=[],strokes=[];const ctx={save(){},restore(){},beginPath(){path=[];},moveTo(x,y){path.push([x,y]);},lineTo(x,y){path.push([x,y]);},closePath(){},stroke(){strokes.push({path:structuredClone(path),color:this.strokeStyle,width:this.lineWidth,alpha:this.globalAlpha});}};
+  drawCrusherShockwave(ctx,{...record,life},p=>({x:(p.x-p.y)*1.26,y:(p.x+p.y)*.53*1.26}),1.26,options);
+  assert.equal(strokes.length,options.reduced||options.flashScale===0?2:20);
+  for(let i=0;i<strokes.length;i+=2){const outer=strokes[i],inner=strokes[i+1];assert.deepEqual(outer.path,inner.path);assert.equal(outer.color,'#171b28');assert.ok(outer.width>inner.width);assert.equal(outer.alpha,inner.alpha);assert.ok(inner.alpha>0&&inner.alpha<=life/.3);}
+ }
+ assert.deepEqual(record,before);
 });

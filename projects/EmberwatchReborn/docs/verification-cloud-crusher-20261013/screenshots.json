@@ -1,0 +1,335 @@
+{
+  "scope": "Actual headless Chromium pixels; excluded from Git. Included in requested Library checkpoint.",
+  "files": [
+    {
+      "file": "01-first-entry.png",
+      "bytes": 207763,
+      "sha256": "7b342e81c0e09cd2b032b84291b8016f8af1e457af0d950a0289b8a85db21d12"
+    },
+    {
+      "file": "02-first-entry.png",
+      "bytes": 1654985,
+      "sha256": "2a05971982a1dd154fae55d07159c2d3a71703e24cf4f6e6015ff3fdc2e47574"
+    },
+    {
+      "file": "03-elder.png",
+      "bytes": 316993,
+      "sha256": "44fff63d2db4322a8e20b2b8bfd87b4884e05d89848dff84bcf6d12d7777ffa7"
+    },
+    {
+      "file": "04-patrol-quest.png",
+      "bytes": 355072,
+      "sha256": "5ff4448039c98e8bdbb8727954df875c489cbcbdcf1d20eebf02ae61e7587b72"
+    },
+    {
+      "file": "05-road-entry.png",
+      "bytes": 1317414,
+      "sha256": "a8165262e697d0836e6fc34ec70fa9621d68617edfc98273b5f960fae0fc9860"
+    },
+    {
+      "file": "06-road.png",
+      "bytes": 1205428,
+      "sha256": "fab3c577c35f438e6a8a06ec75944af58538e97d8e88f5c1d5b3bc79e7ae9af5"
+    },
+    {
+      "file": "07-first-combat.png",
+      "bytes": 349316,
+      "sha256": "30202102cfd5cf88ef947fcdca6d6918e350e0a9eefebc200ea57c5ade1fef31"
+    },
+    {
+      "file": "08-patrol-return.png",
+      "bytes": 383827,
+      "sha256": "861ce86b6808c503ec6782c3a1bed0a6bade587228055670fdc6f466faa7a1cc"
+    },
+    {
+      "file": "09-dungeon-quest.png",
+      "bytes": 1660959,
+      "sha256": "810aafaa60e907ac0efc5c592387648f11306e0fe1fd8eb8144352300e29b9ee"
+    },
+    {
+      "file": "10-smith.png",
+      "bytes": 313875,
+      "sha256": "75e962ff0584f22d98a693f04ae46bb8a7fb50823371f60716025b4c2b6896d1"
+    },
+    {
+      "file": "11-mace-purchased.png",
+      "bytes": 310421,
+      "sha256": "d095c0cf052abd93a88f3ed67848e19e6f0bc09672aa45c1c0cd72d9d2084ff0"
+    },
+    {
+      "file": "12-mace-equipped.png",
+      "bytes": 331519,
+      "sha256": "85b80aa4633392975ef91a4793f7c2be31804da22c7dd55eab9aa38f0e792c8d"
+    },
+    {
+      "file": "13-road-reentry.png",
+      "bytes": 382722,
+      "sha256": "67fec1fe4526c0cf3f0ff52584ddeffed9e006bad5d94923b1e881eef7783fb6"
+    },
+    {
+      "file": "14-road-second.png",
+      "bytes": 1200999,
+      "sha256": "6fba537e0ec4a583e4b0676e1f056b08a88ac9011133e32033c0c25e51a484e0"
+    },
+    {
+      "file": "15-road-midfight.png",
+      "bytes": 517109,
+      "sha256": "7209e3ef43cef16140d66b7955cf1b9a53ad8d69b7b32d7a6da2b17c3919f4b7"
+    },
+    {
+      "file": "16-death-reload.png",
+      "bytes": 516087,
+      "sha256": "3b2bd404ccace9cc2dc36c918a9f5ba6ee186230381ebf58c9835709e3b5b087"
+    },
+    {
+      "file": "17-trainer-growth.png",
+      "bytes": 341833,
+      "sha256": "c2c2687bdb8a7e38ea37202c41fca05ef102d066cfed5d39bdc02478c9c9095d"
+    },
+    {
+      "file": "18-road-fight.png",
+      "bytes": 300211,
+      "sha256": "efeb6f800a4d89928e6d4de6fba2499efb200faa05f4d48804c0119b74966e0a"
+    },
+    {
+      "file": "19-road-targets.png",
+      "bytes": 2219612,
+      "sha256": "33baead7ebb5abc00b33e357997c55f260cf8aa8e3060075ad7cbf05cecb087d"
+    },
+    {
+      "file": "20-road-remaining.png",
+      "bytes": 1987841,
+      "sha256": "9f54d507f987580239005278f40b51f6b6a2eac1ef7eacbf1bccd7aa1072dd3c"
+    },
+    {
+      "file": "21-boss-fight.png",
+      "bytes": 1657987,
+      "sha256": "1a6eb766adcd937e4cf72cf0ec7588d91adc111324a34cd6a8e6f250ae09c5ee"
+    },
+    {
+      "file": "22-boss-close.png",
+      "bytes": 1940447,
+      "sha256": "9ea71ca58a1b872a4f4fad098696a79ddb726e29bd22a012138362828e1ce3d4"
+    },
+    {
+      "file": "23-boss-hit.png",
+      "bytes": 1812639,
+      "sha256": "e5eb1210147a7d9045696bcd8105de26b5985d571107c4a3db950282f85549b9"
+    },
+    {
+      "file": "24-sluice-quest.png",
+      "bytes": 1658231,
+      "sha256": "8a940e30ef9ebca7e9f5784649077ce165d7cd2073dc4946e9f8774165f39ef0"
+    },
+    {
+      "file": "25-elder-dungeon.png",
+      "bytes": 365051,
+      "sha256": "ec0ec9dd3e0c9048f148278291d179afefa8baf59a44440e57d98e7be0fbca36"
+    },
+    {
+      "file": "26-gear-award.png",
+      "bytes": 321684,
+      "sha256": "fd47f82fa638b9b5ea39f7e164d564a4ad8a965ea6d6711a4ad3602e5aa33668"
+    },
+    {
+      "file": "27-upper-entry.png",
+      "bytes": 1299110,
+      "sha256": "95355ead6d8cea7c2ef422dc5470131606ee8f3d0f5a0e49767770dc641affba"
+    },
+    {
+      "file": "28-crank.png",
+      "bytes": 306706,
+      "sha256": "8b8a736796ef323c6964b9b6506e38d54f73de2451ccb39a02821f435e23acc1"
+    },
+    {
+      "file": "29-record.png",
+      "bytes": 360557,
+      "sha256": "247cad6c9d47100729b874d7d01fab311162b74df8293a4abcd408cb298de63a"
+    },
+    {
+      "file": "30-upper-guards.png",
+      "bytes": 1738620,
+      "sha256": "35c1d17eb3c8bfc422e5356961009b9328ec5d7a44f29bc7f1ec8d10589e4b63"
+    },
+    {
+      "file": "31-rune-water.png",
+      "bytes": 334300,
+      "sha256": "a5caebe4a83e0419cd487f42367a71169254de4694fdf089edc3b06a34f94d98"
+    },
+    {
+      "file": "32-upper-archer.png",
+      "bytes": 1495450,
+      "sha256": "d7717bb93cd7d3e0a817653cd75b526daf615da6f3e5e429398485d528d0809a"
+    },
+    {
+      "file": "33-rune-progress.png",
+      "bytes": 338578,
+      "sha256": "c7f6fbb6966dd8e23dc6e357cd7e1ac3737f9ded54ff72c95c4bd331127bd508"
+    },
+    {
+      "file": "34-control-room.png",
+      "bytes": 1750363,
+      "sha256": "2a3df7cb00590b120256a98f516a04723b198d6a42a33ed22c0b31e2f760a358"
+    },
+    {
+      "file": "35-inlet.png",
+      "bytes": 411500,
+      "sha256": "be913b9b87130ebd0b9985dc57a7a28228c95cd6b34dc92f3158e20e9694240e"
+    },
+    {
+      "file": "36-lower-entry.png",
+      "bytes": 1279992,
+      "sha256": "5216865b7d9f1cf1e55b9e084a1a90fc4772aa1e61aa80fb687c12e6dddc3a40"
+    },
+    {
+      "file": "37-lift-link.png",
+      "bytes": 1080230,
+      "sha256": "c3184c46a185c3829c2ec832fb53a76bf51a3318a5cbfa85d67fdd14b4856743"
+    },
+    {
+      "file": "38-lift-ui.png",
+      "bytes": 1074219,
+      "sha256": "39a6f6857d8fff35a01edcda87e8823d271a61f9f9292642a8a37a2b38b7c531"
+    },
+    {
+      "file": "39-lift-label.png",
+      "bytes": 265374,
+      "sha256": "30a9b8e55cf4065b2ebe7fe4e27714f9794c9abed6d9521c3d1dd8592722b08d"
+    },
+    {
+      "file": "40-lower-foes.png",
+      "bytes": 1429420,
+      "sha256": "349e001933cafdd7a93c3c176f360885e93b90016f74745e7c00881451702687"
+    },
+    {
+      "file": "41-sluice-boss.png",
+      "bytes": 1160820,
+      "sha256": "b28007a3a188ad8567d95d7215990ec4afa1cfe45a3159a07d0156a3e7a6333a"
+    },
+    {
+      "file": "42-commission-earned.png",
+      "bytes": 374181,
+      "sha256": "f892a8de474301a70a7c22634083c4439c972e585a6dc2b82e2d8bddff866fbf"
+    },
+    {
+      "file": "43-judgement-earned.png",
+      "bytes": 343605,
+      "sha256": "cd192b877cb5e7d71c63a6029dc02e2b7e71ec8a689bcccb337b7c4ddd9a4523"
+    },
+    {
+      "file": "44-crusher-selection.png",
+      "bytes": 390619,
+      "sha256": "6585fe330690d605402f74c3ec51f1ec32806bef05fa2df2a4e90c8f734d95eb"
+    },
+    {
+      "file": "45-crusher-live-target.png",
+      "bytes": 1142687,
+      "sha256": "dc441cb8e2db03fad39cc4bdcee679b4e7d7c05e38b0ec36aaffa06e4f72db39"
+    },
+    {
+      "file": "46-crusher-preparation.png",
+      "bytes": 1135302,
+      "sha256": "260b675c3a551622983abaf8fb8a493b04831db57677e05eeddeab8efb0ed520"
+    },
+    {
+      "file": "47-crusher-wave-attempt.png",
+      "bytes": 1135831,
+      "sha256": "d21e243d32b066e5ccf215ba66fe7fe720f34516e19b5f9e7fdb4167e15d0106"
+    },
+    {
+      "file": "48-real-input-observations.png",
+      "bytes": 310553,
+      "sha256": "c7589bf14c516838ef130cdb826e0b130c3f181d9efd05d88bb3ecd14e74ead0"
+    },
+    {
+      "file": "49-guard-aim-check.png",
+      "bytes": 1160386,
+      "sha256": "ede95b4a0f94a08b8674027dbd4e1a2218a6b712ec1ce644397fae46caeaaf6b"
+    },
+    {
+      "file": "50-guard-prepared.png",
+      "bytes": 1136782,
+      "sha256": "2104ffbfe0f166efe066998155f46c567a6a2a341345cce5e85da3df3c77b8f2"
+    },
+    {
+      "file": "51-real-crusher-wave.png",
+      "bytes": 1163139,
+      "sha256": "f8bcdc995176f870f754e3bcbdb2bce0c5d438435bb0699915caaf8842a69a5d"
+    },
+    {
+      "file": "52-earned-reload.png",
+      "bytes": 301462,
+      "sha256": "2639369a1ec2afc0b0783ff7231f840a63d748e93fc4f1b2a588d3183723b270"
+    },
+    {
+      "file": "53-repeat-encounter.png",
+      "bytes": 1373972,
+      "sha256": "cdd5e40786aa49c1c1a4cc9f3f5e8f249fef4a3717e27d5af010af91ae180cb8"
+    },
+    {
+      "file": "54-contrast-prepared.png",
+      "bytes": 1413164,
+      "sha256": "f77c11f4f3241f45a5b44bc25513b7c6e00ec443e5b35f581df5a182958c5f32"
+    },
+    {
+      "file": "55-contrast-wave.png",
+      "bytes": 1397400,
+      "sha256": "f8a4dcdb0007d17eeea1c821baa2160abd2fef100510c3e0fb12b49cd3888ce9"
+    },
+    {
+      "file": "56-repeat-preparation-check.png",
+      "bytes": 1401175,
+      "sha256": "3fb307a536583832d2421346616da263a465f9552987ba7cb6ddcc81ea1fcc31"
+    },
+    {
+      "file": "57-contrast-valid-contact.png",
+      "bytes": 1410744,
+      "sha256": "abaa037fe17e879250406902b91a51cc32a99ff319222a76000164922131318d"
+    },
+    {
+      "file": "58-contrast-contact-followup.png",
+      "bytes": 1394566,
+      "sha256": "df5a3790bb6e16d4260a8c659793ff4b2d3bd6fb36f198520c83338243bdf378"
+    },
+    {
+      "file": "59-zero-flash-setting.png",
+      "bytes": 322877,
+      "sha256": "af7234fb4e78b8ab2b9a1810aff7b9023f395ee39bff16f51f83f940574568d0"
+    },
+    {
+      "file": "60-zero-flash-live.png",
+      "bytes": 1212169,
+      "sha256": "2c19dd08c19a54713042bc217e5b8337be06ab469492a5feab5ee441bc5316f4"
+    },
+    {
+      "file": "61-zero-flash-prepared.png",
+      "bytes": 1214591,
+      "sha256": "66b10fedfb8d16a4edf0f7cf688f761a2de4ba75e77e786f1637891c3f753ef4"
+    },
+    {
+      "file": "62-zero-flash-valid-wave.png",
+      "bytes": 1222875,
+      "sha256": "29af366da271014e570b26db866083418af42710cfdb1b6d908fde53bc729549"
+    },
+    {
+      "file": "63-crusher-death-attempt.png",
+      "bytes": 306037,
+      "sha256": "664457b06ab5c7a60c39be0c19235cfa547a9399a0038de8428adf92913804e3"
+    },
+    {
+      "file": "64-death-blocks-background.png",
+      "bytes": 306037,
+      "sha256": "664457b06ab5c7a60c39be0c19235cfa547a9399a0038de8428adf92913804e3"
+    },
+    {
+      "file": "65-crusher-death-reload.png",
+      "bytes": 305410,
+      "sha256": "5e63f67e17b34354e9020ace2cb4dca90bc9618a1e97def92c97e2ffeb617011"
+    },
+    {
+      "file": "66-reentry-roll-observations.png",
+      "bytes": 359672,
+      "sha256": "40f3302ae380b8e6a9ea6479c5a1cbb205eee585d9fbf9544e09221b95cbd58b"
+    }
+  ]
+}

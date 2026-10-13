@@ -12,10 +12,13 @@ export function drawCrusherShockwave(ctx,e,project,zoom,{reduced=false,flashScal
  const alpha=Math.max(0,Math.min(1,e.life/e.max)),age=1-alpha,detail=!reduced&&flashScale>0;
  const point=(a,r)=>{const q=project({x:e.x+Math.cos(a)*r,y:e.y+Math.sin(a)*r});return {x:q.x,y:q.y-3*zoom};};
  ctx.save();ctx.globalAlpha=alpha;ctx.strokeStyle='#d5c3a0';ctx.lineWidth=1.5;
- const ring=r=>{ctx.beginPath();for(let i=0;i<=32;i++){const q=point(i*Math.PI/16,r);ctx[i?'lineTo':'moveTo'](q.x,q.y);}ctx.closePath();ctx.stroke();};
+ // The same path gets a quiet dark keyline so stone detail and the existing
+ // Judgement arc do not erase its edge. No extra geometry, flash or hit.
+ const stroke=()=>{const color=ctx.strokeStyle,width=ctx.lineWidth;ctx.strokeStyle='#171b28';ctx.lineWidth=width+3;ctx.stroke();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();};
+ const ring=r=>{ctx.beginPath();for(let i=0;i<=32;i++){const q=point(i*Math.PI/16,r);ctx[i?'lineTo':'moveTo'](q.x,q.y);}ctx.closePath();stroke();};
  ring(e.r);
  if(detail){ctx.globalAlpha=alpha*Math.min(1,Math.max(0,flashScale));ctx.strokeStyle='#efdab2';ctx.lineWidth=2;ring(e.r*(.2+.8*age));
-  for(let i=0;i<8;i++){const a=i*Math.PI/4,start=point(a,e.r*.12),bend=point(a+.09,e.r*(.35+.25*age)),end=point(a,e.r*(.55+.4*age));ctx.beginPath();ctx.moveTo(start.x,start.y);ctx.lineTo(bend.x,bend.y);ctx.lineTo(end.x,end.y);ctx.stroke();}
+  for(let i=0;i<8;i++){const a=i*Math.PI/4,start=point(a,e.r*.12),bend=point(a+.09,e.r*(.35+.25*age)),end=point(a,e.r*(.55+.4*age));ctx.beginPath();ctx.moveTo(start.x,start.y);ctx.lineTo(bend.x,bend.y);ctx.lineTo(end.x,end.y);stroke();}
  }
  ctx.restore();return true;
 }
