@@ -127,3 +127,7 @@ Implement one cancellable, exclusive-hand quick fist strike using existing utili
 
 ## 0.12.3 detached grenade pin ownership
 After pin extraction, the support hand should own the detached pin instead of following the thrown grenade hand. Correct the demonstrated rig-coordinate drift without changing inventory, release timing, ballistic launch or lighting. Actual human motion acceptance remains open.
+
+
+## 0.12.4 action lifecycle ownership
+Close reproduced direct-bridge paused-use and active-action immediate-use holes. Keep ordinary inventory preparation and timed effects compatible; do not equate these source API defects with an observed UI exploit.

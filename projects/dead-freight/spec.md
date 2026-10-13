@@ -214,3 +214,9 @@ When an item UID or effect eligibility fails at its delayed marker, capture the 
 
 ## 0.12.3 pin anchor contract
 At use progress .5 the pin is fully extracted. Freeze its origin to the authored extraction pose in utility-rig coordinates; keep the index fingertip contact constraint and allow normal group motion/recovery. Preserve that ownership in cancellation snapshots. Pre-detachment contact follows the live ring as before. No new mesh/frame allocation history, action timing, asset or gameplay change.
+
+
+## 0.12.4 bridge lifecycle guard contract
+Paused/dead/extracted worlds reject item initiation, physical trigger/release and immediate effects. An active timeline may only apply its effect inside its own delayed commit dispatch; legacy immediate-use fixtures remain supported only while idle. Successful inventory/weapon mutation cancels an active action, except the explicit internal item-commit mutation. Failed inventory drafts leave the action unchanged. Precommit cancellation never consumes/heals/throws; postcommit effects remain final. No menu timer catch-up or delayed surprise effect on resume.
+
+Explicit paused-bag preparation is an intentional exception to initiation rejection: it records a validated no-effect intent, preserving the existing bag use/resume gesture. It cannot commit, trigger or release while paused.

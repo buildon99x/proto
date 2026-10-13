@@ -74,6 +74,7 @@ class Bridge{
   w.syncRifle();
  }
  beforeWeaponChange(reason='inventory'){
+  if(this.itemAction.active&&!['item-action','melee','item-commit'].includes(reason))this.cancelUse(reason);
   this.syncFromWorld();this._cancelReload(reason);this._captureActive();this._notify('beforeWeaponChange',reason,this.activeUid);
   return {uid:this.activeUid,slot:this.activeSlot,holstered:this.holstered};
  }
@@ -135,7 +136,7 @@ class Bridge{
   const armor=this.inventory.get('armor');this._armorUid=armor?.uid||null;w.player.armor=armor?.durability||0;
   w.syncRifle();this._objective();this._applied=true;
  }
- _mutate(action,message){
+ _mutate(action,message,reason='inventory'){
   if(!this._available())return this._failure('unavailable');
   this.syncFromWorld();
   // Validate on an isolated draft before cancellation, so failed moves leave
@@ -143,7 +144,7 @@ class Bridge{
   const draft=new model.Inventory(this.inventory.snapshot()),original=this.inventory;let result;
   try{this.inventory=draft;result=action();}finally{this.inventory=original;}
   if(!result.ok)return this._failure(result.reason);
-  this.beforeWeaponChange('inventory');result=action();if(!result.ok)return this._failure(result.reason);
+  this.beforeWeaponChange(reason);result=action();if(!result.ok)return this._failure(result.reason);
   const previous=this.activeUid;this.syncToWorld();this._notify('afterWeaponChange','inventory',previous);return this._result(true,message,result);
  }
  move(from,to){return this._mutate(()=>this.inventory.move(from,to),'장비를 옮겼습니다.');}
@@ -226,9 +227,11 @@ class Bridge{
   this.beforeWeaponChange('melee');this.itemAction.start({uid:this.sessionId+':melee',itemId:'melee'},null);this._itemAim=options;this._itemVital=w.player.hp+w.player.armor;this._itemDamageSequence=w.damageSequence||0;w.weaponActionBlocked=true;
   return this._result(true,'근접 공격 준비');
  }
- requestUse(location,options={}){
+ requestUse(location,options={}){return this._requestUse(location,options,false);}
+ prepareUseFromMenu(location,options={}){return this._requestUse(location,options,true);}
+ _requestUse(location,options={},pausedPreparation=false){
   const stack=this.inventory.get(location),w=this.world;
-  if(!this._available())return this._failure('unavailable');
+  if(!this._available()||w.paused&&!pausedPreparation)return this._failure('unavailable');
   if(location==='safe')return this._failure('safe-pocket');
   if(this.itemAction.active)return this._result(false,'동작 중입니다.',{reason:'busy'});
   if(!stack)return this._failure('empty');
@@ -239,8 +242,8 @@ class Bridge{
   return this._result(true,Catalog[stack.itemId].name+' 준비');
  }
  cancelUse(reason='cancel'){const cancelled=this.itemAction.cancel();if(cancelled){this.world.emit('itemcancel',{reason});this.world.emit('foleycancel',{});}return cancelled;}
- triggerUse(options={}){if(!this.itemAction.trigger(options.input??null))return false;this._itemAim=options;return true;}
- releaseUse(input=null){return this.itemAction.release(input);}
+ triggerUse(options={}){if(!this._available()||this.world.paused){this.cancelUse('unavailable');return false;}if(!this.itemAction.trigger(options.input??null))return false;this._itemAim=options;return true;}
+ releaseUse(input=null){if(!this._available()||this.world.paused){this.cancelUse('unavailable');return false;}return this.itemAction.release(input);}
  stepUse(dt,options={}){
   const a=this.itemAction,w=this.world;if(!a.active)return [];
   if(!this._available()||w.paused){this.cancelUse('unavailable');return [];}
@@ -248,7 +251,7 @@ class Bridge{
   this._itemAim=options;
   const results=[];for(const event of a.tick(dt))if(event.type==='commit'){
    const stack=this.inventory.get(event.location);
-   const result=event.itemId==='melee'?{...Melee.strike(w,this._itemAim),message:'근접 공격'}:stack?.uid===event.uid&&stack.itemId===event.itemId?this.use(event.location,this._itemAim):this._failure('changed-item');
+   let result;this._committingItem=true;try{result=event.itemId==='melee'?{...Melee.strike(w,this._itemAim),message:'근접 공격'}:stack?.uid===event.uid&&stack.itemId===event.itemId?this.use(event.location,this._itemAim):this._failure('changed-item');}finally{this._committingItem=false;}
    results.push(result);if(!result.ok){const rejectedPose=a.snapshot();a.cancelled=true;a.recoverFrom=rejectedPose;a.stage='recover';a.elapsed=0;w.emit('foleycancel',{});}
   }
   if(a.cancelled)a.drainCues();else for(const cue of a.drainCues())w.emit('foley',cue);
@@ -256,13 +259,14 @@ class Bridge{
  }
  use(location,options={}){
   if(typeof options==='number')options={yaw:options};
-  const w=this.world;if(!this._available())return this._failure('unavailable');
+  const w=this.world;if(!this._available()||w.paused)return this._failure('unavailable');
+  if(this.itemAction.active&&!this._committingItem)return this._failure('busy');
   if(location==='safe')return this._result(false,'안전 주머니의 물품을 먼저 가방이나 빠른 슬롯으로 옮기세요.',{reason:'safe-pocket'});
   const stack=this.inventory.get(location);if(!stack)return this._failure('empty');
   const id=stack.itemId;if(!['bandage','medkit','scanner','frag'].includes(id))return this._result(false,'이 물품은 직접 사용할 수 없습니다.',{reason:'not-usable'});
   if(w.time+EPS<this._nextAction)return this._result(false,'잠시 후 다시 사용하세요.',{reason:'cooldown'});
   if((id==='bandage'||id==='medkit')&&w.player.hp>=100)return this._result(false,'체력이 가득 차 있습니다.',{reason:'full-health'});
-  const result=this._mutate(()=>this.inventory.consume(location,1),id==='scanner'?'탐지 펄스 · 35 m 안의 적을 8초 동안 표시합니다.':id==='frag'?'수류탄 투척 · 엄폐하세요!':Catalog[id].name+' 사용');
+  const result=this._mutate(()=>this.inventory.consume(location,1),id==='scanner'?'탐지 펄스 · 35 m 안의 적을 8초 동안 표시합니다.':id==='frag'?'수류탄 투척 · 엄폐하세요!':Catalog[id].name+' 사용',this._committingItem?'item-commit':'inventory');
   if(!result.ok)return result;
   this._nextAction=w.time+.4;
   if(id==='bandage'||id==='medkit'){const before=w.player.hp;w.player.hp=Math.min(100,before+(id==='bandage'?30:60));w.emit('heal',{amount:w.player.hp-before,itemId:id});}
