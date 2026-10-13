@@ -389,3 +389,8 @@ Graph defaults to all40 nodes; apprentice/adept/expert filters project existing 
 ## Read-only timing feedback and Master gate audit
 
 Read current magma token remaining and storm lastTimedContact/time using existing rule constants/predicate. Draw a steady shrinking line and instruction near the hero only while alive, unpaused and in the relevant selected mode. No timers/events/queues/state writes, numeric combat changes or guaranteed eligibility claim. Safety dialog explicitly requests release and fresh press after resume. Master purchase/validation/tier/slots remain untouched.
+
+
+## Crusher ground feedback integration
+
+Read only existing crusherShockwave ring records. Keep visible outer boundary at actual damage radius from first contact; interior fracture lines/rings are decorative, not delayed hit propagation. Same0.3s lifetime and all cast/target/wave/audio/save contracts. Honor flashScale0/reduced options. No new assets, skill ranks, weapon schemas or a19 writer work.

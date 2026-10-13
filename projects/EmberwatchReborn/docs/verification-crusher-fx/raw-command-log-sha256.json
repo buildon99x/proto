@@ -1,0 +1,22 @@
+{
+  "full-tests.tap": {
+    "bytes": 1100819,
+    "sha256": "ce6f6b70d8a3028e4b3f470af29bca3bd4bfb11d19c037f63ba145241969c687"
+  },
+  "focused.tap": {
+    "bytes": 6647,
+    "sha256": "fdae9af99b0582c41fd40ebd5b6833409033d2e419bbd6f363fd3fc1ad79746e"
+  },
+  "lint.txt": {
+    "bytes": 196,
+    "sha256": "648b50ff68f7f87c7d00704113c12a439f4e09ce625ba97db93ede85d87fae70"
+  },
+  "registry.txt": {
+    "bytes": 183,
+    "sha256": "0ab4fa354cc6b03817cd3bf62d2c3786638ccab1c5dd151a85151d18f6dbba81"
+  },
+  "build.txt": {
+    "bytes": 10177,
+    "sha256": "6f34ce0a9c42cb3d87798ec641851e300e3381cf7c2c0af1dfbd613683b24af9"
+  }
+}

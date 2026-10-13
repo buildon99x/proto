@@ -1,0 +1,166 @@
+TAP version 13
+# Subtest: crusher valid direct mace contacts accumulate per enemy; critical=false and proc/duplicate cannot add units
+ok 1 - crusher valid direct mace contacts accumulate per enemy; critical=false and proc/duplicate cannot add units
+  ---
+  duration_ms: 533.74362
+  type: 'test'
+  ...
+# Subtest: crusher valid direct mace contacts accumulate per enemy; critical=true and proc/duplicate cannot add units
+ok 2 - crusher valid direct mace contacts accumulate per enemy; critical=true and proc/duplicate cannot add units
+  ---
+  duration_ms: 47.039671
+  type: 'test'
+  ...
+# Subtest: crusher actual prepared strike causes one heavy transition, target-centred wave and one hit per secondary, preserving old stun/armor break
+ok 3 - crusher actual prepared strike causes one heavy transition, target-centred wave and one hit per secondary, preserving old stun/armor break
+  ---
+  duration_ms: 97.490198
+  type: 'test'
+  ...
+# Subtest: crusher no-target at contact cannot create a free shockwave or consume stun
+ok 4 - crusher no-target at contact cannot create a free shockwave or consume stun
+  ---
+  duration_ms: 17.454373
+  type: 'test'
+  ...
+# Subtest: crusher unprepared at contact cannot create a free shockwave or consume stun
+ok 5 - crusher unprepared at contact cannot create a free shockwave or consume stun
+  ---
+  duration_ms: 16.062109
+  type: 'test'
+  ...
+# Subtest: crusher dead at contact cannot create a free shockwave or consume stun
+ok 6 - crusher dead at contact cannot create a free shockwave or consume stun
+  ---
+  duration_ms: 84.441777
+  type: 'test'
+  ...
+# Subtest: crusher moved at contact cannot create a free shockwave or consume stun
+ok 7 - crusher moved at contact cannot create a free shockwave or consume stun
+  ---
+  duration_ms: 84.799615
+  type: 'test'
+  ...
+# Subtest: crusher immune at contact cannot create a free shockwave or consume stun
+ok 8 - crusher immune at contact cannot create a free shockwave or consume stun
+  ---
+  duration_ms: 81.352335
+  type: 'test'
+  ...
+# Subtest: crusher already-heavy at contact cannot create a free shockwave or consume stun
+ok 9 - crusher already-heavy at contact cannot create a free shockwave or consume stun
+  ---
+  duration_ms: 84.758874
+  type: 'test'
+  ...
+# Subtest: stun-immune boss remains damageable by actual basic attack and never primes
+ok 10 - stun-immune boss remains damageable by actual basic attack and never primes
+  ---
+  duration_ms: 108.467553
+  type: 'test'
+  ...
+# Subtest: heavy state expires and buildup resets independently of other remaining light stun
+ok 11 - heavy state expires and buildup resets independently of other remaining light stun
+  ---
+  duration_ms: 118.555306
+  type: 'test'
+  ...
+# Subtest: wave respects real wall LOS and does not recursively prime affected enemies
+ok 12 - wave respects real wall LOS and does not recursively prime affected enemies
+  ---
+  duration_ms: 82.600458
+  type: 'test'
+  ...
+# Subtest: dead target reuse has fresh enemy identity; old remaining stun is never readiness
+ok 13 - dead target reuse has fresh enemy identity; old remaining stun is never readiness
+  ---
+  duration_ms: 31.924477
+  type: 'test'
+  ...
+# Subtest: wrong weapon disables crusher strike while basic attack eligibility remains available
+ok 14 - wrong weapon disables crusher strike while basic attack eligibility remains available
+  ---
+  duration_ms: 1.019454
+  type: 'test'
+  ...
+# Subtest: classic constructor behavior creates no buildup; selecting mode cannot change stored profile or add serialized fields
+ok 15 - classic constructor behavior creates no buildup; selecting mode cannot change stored profile or add serialized fields
+  ---
+  duration_ms: 47.470659
+  type: 'test'
+  ...
+# Subtest: primed marker follows authoritative readiness, not stun time, and preserves render state
+ok 16 - primed marker follows authoritative readiness, not stun time, and preserves render state
+  ---
+  duration_ms: 0.267162
+  type: 'test'
+  ...
+# Subtest: lethal valid payoff transitions before defeat, clears corpse state and still emits one real wave
+ok 17 - lethal valid payoff transitions before defeat, clears corpse state and still emits one real wave
+  ---
+  duration_ms: 82.861576
+  type: 'test'
+  ...
+# Subtest: crusher contact cannot fabricate a generic ground burst on whiff; classic contact feedback remains
+ok 18 - crusher contact cannot fabricate a generic ground burst on whiff; classic contact feedback remains
+  ---
+  duration_ms: 15.194154
+  type: 'test'
+  ...
+# Subtest: null action target never falls back to a different prepared hover target
+ok 19 - null action target never falls back to a different prepared hover target
+  ---
+  duration_ms: 89.86311
+  type: 'test'
+  ...
+# Subtest: classic default and explicit disabled mode retain exact actions/events/state
+ok 20 - classic default and explicit disabled mode retain exact actions/events/state
+  ---
+  duration_ms: 215.611972
+  type: 'test'
+  ...
+# Subtest: existing legal purchase/allocation/equip flow supplies a real mace to the crusher without new gear schema
+ok 21 - existing legal purchase/allocation/equip flow supplies a real mace to the crusher without new gear schema
+  ---
+  duration_ms: 31.668666
+  type: 'test'
+  ...
+# Subtest: current cooldown/resource/recovery rejection cannot produce a crusher payoff
+ok 22 - current cooldown/resource/recovery rejection cannot produce a crusher payoff
+  ---
+  duration_ms: 63.698176
+  type: 'test'
+  ...
+# Subtest: crusher mace_swing uses owned mace silhouette during actual action without changing cadence
+ok 23 - crusher mace_swing uses owned mace silhouette during actual action without changing cadence
+  ---
+  duration_ms: 1.68901
+  type: 'test'
+  ...
+# Subtest: crusher judgement uses owned mace silhouette during actual action without changing cadence
+ok 24 - crusher judgement uses owned mace silhouette during actual action without changing cadence
+  ---
+  duration_ms: 1.170981
+  type: 'test'
+  ...
+# Subtest: real crusher payoff supplies one target-centred FX with true damage-radius contour and read-only decorative fractures
+ok 25 - real crusher payoff supplies one target-centred FX with true damage-radius contour and read-only decorative fractures
+  ---
+  duration_ms: 81.642472
+  type: 'test'
+  ...
+# Subtest: crusher reduced/zero-flash FX keeps only real contour; unrelated and expired effects remain untouched
+ok 26 - crusher reduced/zero-flash FX keeps only real contour; unrelated and expired effects remain untouched
+  ---
+  duration_ms: 70.616045
+  type: 'test'
+  ...
+1..26
+# tests 26
+# suites 0
+# pass 26
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2209.398934

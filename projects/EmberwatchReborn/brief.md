@@ -294,3 +294,8 @@ Expand the graph to all40 existing runtime skills,28 authoritative base dependen
 ## Read-only timing feedback and Master gate audit
 
 Independent presentation checkpoint: explain fresh key presses after safety resume and visualize existing shield-release/staff-perfect timing. Audit all13 Master nodes; none currently have a legal purchase/normal unlock route. Do not grant free/session Master ranks or mark missing effects implemented.
+
+
+## Crusher ground feedback integration
+
+Resume one existing legal crusher build slice: actual equipped mace + existing Judgement + real preparation/payoff, improve ground shockwave readability and owned FX. This is presentation, not full PoE2/build completion. Browser/computer tools are not exposed; native QA belongs to the parent path. Writer/security decision remains unavailable and is not bypassed.

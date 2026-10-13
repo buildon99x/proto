@@ -506,3 +506,8 @@ Verify40/28/two groups from runtime metadata, tier9/16/15 projections, actual ti
 ## Read-only timing feedback and Master gate audit
 
 Execute real incoming block and staff contact handlers, compare indicators with actual token expiry/perfect-start boundaries, cancel/death/mode/paused suppression, readonly drawing, real HUD/frame and safety-resume input tests. Assert all13 Master preview/reducer purchases reject without state changes. Full/lint/registry/build, original167/protected30 preservation. Native readability/listening remains dot QA.
+
+
+## Crusher ground feedback integration
+
+Execute actual mace preparation/Judgement payoff and renderer: effect emitted once only on valid payoff, whiff/unprimed/wall/immune restrictions unchanged, readonly drawing, real radius/zoom transform and reduced mode. Legal buy/allocate/equip/purchase fixture retained. Full/lint/registry/build/original167/protected contracts. Real input combat/death/town/re-entry/repeat/audio/screenshots are parent QA gates and not replaced by Canvas probes.

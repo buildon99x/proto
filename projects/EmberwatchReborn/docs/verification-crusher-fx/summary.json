@@ -1,0 +1,32 @@
+{
+  "baseline": "a13803249b980ba986a196ddcf40e47e23a6b4a8",
+  "full": {
+    "tests": 4680,
+    "pass": 4680,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "focused": {
+    "tests": 26,
+    "pass": 26,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "newCases": 2,
+  "lintExit": 0,
+  "registryExit": 0,
+  "buildVercelExit": 0,
+  "combatOrAudioOrInputRulesChanged": false,
+  "saveWriterOrSchemaChanged": false,
+  "nativeScreenshotsPlayAudio": "unavailable: no computer/browser tool exposed; parent QA needed",
+  "writerReviewOrigin": "prior delegation says possible cybersecurity risk; raw invocation/decision missing, not overridden",
+  "broaderPortComplete": false,
+  "sourceSHA256": {
+    "visual.js": "b10c1a708557edd36c089a780e696a92d0647f1aab9206f3640cb25f9c77abad",
+    "crusher-presentation.js": "35bb73e685aaa1aa6172536c94194c27c900609888b405da701a34241c2a4649"
+  }
+}
