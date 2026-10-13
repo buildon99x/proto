@@ -1,5 +1,7 @@
 # 0.11.2 first-person actions: candidate play checklist
 
+Latest laptop gate: [2026-10-13 jh-laptop reconciliation](qa-jh-laptop-2026-10-13.md). Current source is 0.12.1; read-only site checks still identify public 0.10.0 and candidate 0.12.0. Utility Foley and trajectory preview are implemented, while actual listening, motion/contact captures, live ballistics and extraction acceptance remain open. The supported UI kernel fails before browser observation; source tests do not close those gates.
+
 Use a separate candidate path with `?testProfile=local-qa`. Never use or import the normal bank for this check. Deploy the contents of `app/dist`, preserving the relative `vendor/` and `audio/rifle/` paths. `build-manifest.json` identifies version 0.11.2 and all 113 static payload hashes; verify it and at least game.js, item-action.js and item-view.js after publication.
 
 ## Controls and behavior
