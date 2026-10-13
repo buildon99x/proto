@@ -232,3 +232,7 @@ Two shells; .4s firing recovery, .26s automatic pump followed by .28s recovery,1
 
 ## 0.12.7 SMG contract
 24-round capacity,.1s discharge recovery,2s atomic reload and existing perfect/mistime/swap recovery. SMG has no pump/cycle state: cocked=true,cycleNeeded=false,cycleRemaining=0 in old saves. Held mouse auto fires with one ammo/identity per discharge; keyboard fire remains the existing physical-press route. Empty hold never decrements below zero or invents automatic reload. Retained physical mouse hold may resume after a normal reload as before, while pause/focus/item completion release stale trigger intent. Current damage/reload behavior and death/extraction cancellation are preserved. Remove duplicate legacy timer/fire/reload branches once all three non-R4 guns are owned.
+
+
+## 0.12.8 exclusive-hand pump gate
+While weaponActionBlocked is true, a shotgun pending pump retains its remaining delay and cannot emit cycle or manufacture cocked readiness. Clock/recovery and standalone active-reload behavior continue; no ammunition is consumed by the gate. When the weapon again owns ready hands, finish the remaining original pump delay then mandatory recovery exactly once. Holster/unequip still freeze the inactive controller. Pistol slide and R-4 passive cycling are unaffected. Public direct cycle commands obey the same blocked-shotgun gate.

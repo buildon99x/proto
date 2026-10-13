@@ -39,8 +39,8 @@ class MechanicalState {
  activate(){this.active=true;}
  deactivate(reason='deactivate'){this.cancelReload(reason);this.active=false;}
  setPaused(value){this.paused=!!value;}
- tick(dt){if(!Number.isFinite(dt)||dt<=0||!this.active||this.paused)return;let remaining=Math.min(.25,dt);while(remaining>1e-9){const step=Math.min(STEP,remaining);remaining-=step;this.time+=step;this.cooldown=Math.max(0,this.cooldown-step);
-   if(this.cycling&&!this.reloadRemaining){this.cycleRemaining=Math.max(0,this.cycleRemaining-step);if(this.cycleRemaining<=EPS)this.cycle();}
+ tick(dt,{allowCycle=true}={}){if(!Number.isFinite(dt)||dt<=0||!this.active||this.paused)return;let remaining=Math.min(.25,dt);while(remaining>1e-9){const step=Math.min(STEP,remaining);remaining-=step;this.time+=step;this.cooldown=Math.max(0,this.cooldown-step);
+   if(allowCycle&&this.cycling&&!this.reloadRemaining){this.cycleRemaining=Math.max(0,this.cycleRemaining-step);if(this.cycleRemaining<=EPS)this.cycle();}
    if(this.reloadRemaining>0){this.reloadRemaining=Math.max(0,this.reloadRemaining-step);if(this.reloadRemaining<=EPS){const transfer=Math.min(this.config.capacity-this.rounds,this.reserve);this.rounds+=transfer;this.reserve-=transfer;this.reloadRemaining=0;this.cocked=true;this.cycling=false;this.cycleRemaining=0;this.deferredCycle=0;this.emit('loaded',{transfer});}}
   }}
  exportInstance(){return {version:1,weaponId:this.config.id,weaponInstanceId:this.weaponInstanceId,mode:this.mode,shotSequence:this.sequence,recoveryRemaining:this.cooldown,reloadCheckpoint:null,cocked:this.cocked,cycleNeeded:!this.cocked,cycleRemaining:this.cocked?0:this.cycling?this.cycleRemaining:this.deferredCycle||this.config.cycleDelay};}

@@ -130,7 +130,7 @@ class Mission {
  setPaused(paused){this.paused=!!paused;for(const controller of this.mechanical)controller.setPaused(paused);if(this.paused)this.setMovementIntent({});this.rifle?.setPaused(paused);this.syncRifle();}
  shouldFire(){return !this.weaponActionBlocked&&this.weapon===3&&this.player.hp>0&&!this.extracted&&!this.paused?this.rifle.shouldFire():null;}
  cycle(){
-  if(this.weapon===3)return false;
+  if(this.weapon===3||this.weapon===1&&this.weaponActionBlocked)return false;
   if(this.mechanical[this.weapon]){const accepted=this.mechanical[this.weapon].cycle();this.syncMechanical();return accepted;}
   return false;
  }
@@ -191,7 +191,7 @@ class Mission {
   const beforeEnemies=projectileSource.snapshots(this),p=this.player;this.time+=dt;const resting=!this.movementIntent.moving&&p.slide<=0&&p.dash<=0&&p.grounded;if(resting)p.stamina=clamp(p.stamina+dt*MOVEMENT.restRecovery,0,100);if(p.stamina<=EPS)p.fatigued=true;else if(p.stamina>=MOVEMENT.fatigueRecovery-EPS)p.fatigued=false;p.dash=Math.max(0,p.dash-dt);p.invulnerable=Math.max(0,p.invulnerable-dt);p.slideCooldown=Math.max(0,p.slideCooldown-dt);
   if(p.slide>0){const t=Math.min(dt,p.slide),speed=Math.max(0,p.slideSpeed-MOVEMENT.slideFriction*t),distance=(p.slideSpeed+speed)*.5*t;const moved=this.move(p.slideDirX*distance,p.slideDirZ*distance);p.slideSpeed=speed;p.slide=Math.max(0,p.slide-t);if(Math.hypot(moved.dx,moved.dz)<distance*.2){p.slide=0;p.slideSpeed=0;}if(!p.slide)this.emit('slideend');}
   this.posture();this.vertical(dt);this.posture();
-  this.perfect=Math.max(0,this.perfect-dt);this.comboTimer=Math.max(0,this.comboTimer-dt);if(!this.comboTimer)this.combo=0;if(this.rifle){this.rifle.tick(dt,{allowAutoReload:!this.weaponActionBlocked});this.syncRifle();}if(this.mechanical[this.weapon]){this.mechanical[this.weapon].tick(dt);this.syncMechanical();}
+  this.perfect=Math.max(0,this.perfect-dt);this.comboTimer=Math.max(0,this.comboTimer-dt);if(!this.comboTimer)this.combo=0;if(this.rifle){this.rifle.tick(dt,{allowAutoReload:!this.weaponActionBlocked});this.syncRifle();}if(this.mechanical[this.weapon]){this.mechanical[this.weapon].tick(dt,{allowCycle:this.weapon!==1||!this.weaponActionBlocked});this.syncMechanical();}
   for(const e of this.enemies){
    if(!e.alive)continue;e.hit=Math.max(0,(e.hit||0)-dt);const dx=p.x-e.x,dz=p.z-e.z,d=Math.hypot(dx,dz),activation=e.activationRange||19,leash=e.leash||48;
    // Remote groups sleep; distance is checked before broadphase or line-of-sight work.

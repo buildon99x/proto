@@ -143,3 +143,7 @@ Port the existing two-shell Breach shotgun to validated per-UID mechanical owner
 
 ## 0.12.7 SMG mechanical ownership
 Complete the remaining original non-R4 mechanical-owner migration with the existing Twin SMG. Use shared MechanicalState, validated data and per-UID saved state while preserving original auto fire, skill reload, counts, controls, recordings and ballistics. Broader v1 tuning/live quality remains separate.
+
+
+## 0.12.8 manual pump hand ownership
+Continue existing first-person action work after mechanical migrations. A reproduced shotgun pump cue/readiness commit occurs while grenade presentation exclusively owns the hands. Defer only the operator-driven shotgun pump; preserve passive pistol slide/R-4 cycles, ordinary timings, ammo and saves.

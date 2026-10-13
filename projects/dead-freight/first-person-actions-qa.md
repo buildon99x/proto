@@ -76,3 +76,7 @@ Use an identified 0.12.6 artifact and exact QA profile. Observe automatic pump/r
 
 ## 0.12.7 smg live acceptance
 Use an identified 0.12.7 artifact and exact QA profile. Observe held auto-fire cadence, empty hold, interrupted reload and stale input clearing. Test same-class UID swaps, H/drop/recovery, pause/focus/damage/death/extraction and all utility/melee transitions. Inspect neutral hand/gun return and listen to existing mechanical/contact recordings on a real output device; measure frame-time. No rendererless/source result passes this checklist.
+
+
+## 0.12.8 pump-ownership actual QA
+Fire Breach then immediately select frag/healing/melee or H. The manual pump should wait while hands are unavailable and play once on gun return; compare normal pump/casing/audio and passive P-6/R-4 cycling. Capture real frames/input and listen to device output; numerical geometry/cue checks do not close this gate.
