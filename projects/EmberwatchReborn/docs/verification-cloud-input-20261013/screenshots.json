@@ -1,0 +1,82 @@
+[
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/01-current-build-trained.png",
+    "bytes": 316683,
+    "sha256": "9534c43002535b95702a41710ceddc9436762c9db0bc483ac1c0e5dbf3e714de"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/02-hold-hammer-restart.png",
+    "bytes": 303980,
+    "sha256": "684e5632beb889f3bd32d6068a94e8e81f954043d2b246ad5acebefa2e5f0e03"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/03-late-queue-hold-restart.png",
+    "bytes": 298302,
+    "sha256": "5c0787bd0d06a258668c030c9ec645d0624f66bae344c3d55e4ac5cf2e23024d"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/04-native-focus-safety.png",
+    "bytes": 841777,
+    "sha256": "f0d6f61911bf0b2c08f41bb68b87e5273258038c818f8894b27a05136519cdff"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/04a-menu-state.png",
+    "bytes": 302872,
+    "sha256": "63d95381cb3a9b42583813d7f1e6f21b2c0998f5df224827b8d2157e9bc3acec"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/06-focus-attempt-state.png",
+    "bytes": 302867,
+    "sha256": "8dfb27da5993eb9c43adb3c00126723e2a3c402f4e28205158db48878e8ff7e1"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/07-frame-sample-scene.png",
+    "bytes": 1608833,
+    "sha256": "8ec894f9a61b814ef0a364aa3f11087e7ee1c42f710145470f6e8765d435ef32"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/08-held-frame-sample-end.png",
+    "bytes": 318794,
+    "sha256": "93e5faa9be2209d20d5ae6b27eb3fc645f267ed75f896c1fbb8a4f64cce0c999"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/09-skill-roll-hold-resumption.png",
+    "bytes": 313091,
+    "sha256": "964625b8e763238f889ea29e758fa78ba30a6727f6866047d8f407d9d5b0d6b9"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/10-duplicate-save-click.png",
+    "bytes": 319071,
+    "sha256": "a14fbc647775adf4ca80f47852865e750dcf26ce845848e1e65ed91ccc7256b0"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/11-duplicate-charge.png",
+    "bytes": 317173,
+    "sha256": "bf32980cf218a2b9d1322f5281c1b22261cf0bc31853fff6138f08a427254ce2"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/12-native-death-transition.png",
+    "bytes": 370150,
+    "sha256": "261ba41a4d55e191a8525696c1329a7e91337c6842156691123e4735a846f107"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/13-death-input-focus-contained.png",
+    "bytes": 370150,
+    "sha256": "261ba41a4d55e191a8525696c1329a7e91337c6842156691123e4735a846f107"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/14-native-enter-retry.png",
+    "bytes": 318630,
+    "sha256": "bbd38a4ee8ec1029a0a76ad5d31a211d903344c1c9156e3dd40461ab061ab42c"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/15-release-stops-repeat.png",
+    "bytes": 300844,
+    "sha256": "e46356f1e844ef3070cffc239056a489217bd9f8d0505fdf15a5a3a45e51e6bc"
+  },
+  {
+    "path": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/artifacts/qa-cloud-input-20261013/16-ui-focus-clear-and-repress.png",
+    "bytes": 315876,
+    "sha256": "bc13c47b50717e61b55a03a2aff9d16e7468cadb45b885f8d7177d0c75ca0ae6"
+  }
+]

@@ -1,0 +1,229 @@
+{
+  "codeCommit": "7790afe6d7d20b5b1454bcdb208bab9f43e11df6",
+  "branchStart": "e1b9c0641b06f07a62e60f258cee4d1697764e23",
+  "gameCodeChanged": false,
+  "context": "fresh native-input profile qa-cloud-input-20261013; first-tier common handlers; not a migrated/copied/modified old earned profile",
+  "browser": "installed headless Chromium via Python Playwright; real keyboard/mouse/DOM controls; read-only rAF observer",
+  "oldSession": "87744 inaccessible with Unknown process id; files retained, old OS process may still exist; no profile injection/import",
+  "pagesErrors": [],
+  "operationFailures": [
+    "Locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator(\"[data-action=close]\")\n",
+    "Locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator(\"[data-action=close]\")\n",
+    "Locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator(\"[data-action=accept]\")\n"
+  ],
+  "duplicateSave": {
+    "payloadEqual": true,
+    "revisionBefore": 361,
+    "revisionAfter": 362
+  },
+  "nativeUiFocus": {
+    "positions": [
+      {
+        "x": 375.62130710951925,
+        "y": 394.37869289048075
+      },
+      {
+        "x": 375.62130710951925,
+        "y": 394.37869289048075
+      },
+      {
+        "x": 375.62130710951925,
+        "y": 394.37869289048075
+      },
+      {
+        "x": 420.76724666114956,
+        "y": 349.23275333885044
+      }
+    ],
+    "sameWhileHeldAndRepeat": true,
+    "freshPressMoves": true
+  },
+  "deathTransition": {
+    "deadBeforeEnter": true,
+    "deathsBeforeEnter": 1,
+    "lifeBeforeEnter": 0,
+    "afterEnter": {
+      "dead": false,
+      "life": 1,
+      "deaths": 1
+    }
+  },
+  "frameScene": {
+    "region": "ash_hamlet",
+    "position": {
+      "x": 277.229697843673,
+      "y": 306.0352373907441
+    },
+    "viewport": [
+      1440,
+      900
+    ],
+    "samplesFiltered": false,
+    "otherPriorBrowserProcessMayBeAlive": true,
+    "physicalDelayOrGpuMeasured": false,
+    "fullCombatOr60FPSGuaranteed": false,
+    "trials": [
+      {
+        "mode": "idle",
+        "samples": 479,
+        "medianMs": 16.699999999953434,
+        "p95Ms": 16.70000000006985,
+        "p99Ms": 16.800000000046566,
+        "maxMs": 33.39999999990687,
+        "over33_5ms": 0,
+        "over500ms": 0,
+        "elapsedMs": 8003.199999999255,
+        "focused": true,
+        "visibility": "visible"
+      },
+      {
+        "mode": "idle",
+        "samples": 480,
+        "medianMs": 16.699999999953434,
+        "p95Ms": 16.70000000006985,
+        "p99Ms": 16.800000000046566,
+        "maxMs": 16.800000000046566,
+        "over33_5ms": 0,
+        "over500ms": 0,
+        "elapsedMs": 8009.200000000186,
+        "focused": true,
+        "visibility": "visible"
+      },
+      {
+        "mode": "idle",
+        "samples": 480,
+        "medianMs": 16.699999999953434,
+        "p95Ms": 16.70000000006985,
+        "p99Ms": 16.800000000046566,
+        "maxMs": 16.800000000046566,
+        "over33_5ms": 0,
+        "over500ms": 0,
+        "elapsedMs": 8010.4000000003725,
+        "focused": true,
+        "visibility": "visible"
+      },
+      {
+        "mode": "held_mace",
+        "samples": 479,
+        "medianMs": 16.699999999953434,
+        "p95Ms": 16.79999999993015,
+        "p99Ms": 16.800000000046566,
+        "maxMs": 33.40000000002328,
+        "over33_5ms": 0,
+        "over500ms": 0,
+        "elapsedMs": 8010.0999999996275,
+        "focused": true,
+        "visibility": "visible"
+      },
+      {
+        "mode": "held_mace",
+        "samples": 480,
+        "medianMs": 16.699999999953434,
+        "p95Ms": 16.70000000006985,
+        "p99Ms": 16.800000000046566,
+        "maxMs": 16.800000000046566,
+        "over33_5ms": 0,
+        "over500ms": 0,
+        "elapsedMs": 8008.9000000003725,
+        "focused": true,
+        "visibility": "visible"
+      },
+      {
+        "mode": "held_mace",
+        "samples": 479,
+        "medianMs": 16.699999999953434,
+        "p95Ms": 16.70000000006985,
+        "p99Ms": 16.800000000046566,
+        "maxMs": 33.40000000002328,
+        "over33_5ms": 0,
+        "over500ms": 0,
+        "elapsedMs": 8010.200000000186,
+        "focused": true,
+        "visibility": "visible"
+      }
+    ]
+  },
+  "physicalBrowserFocus": "not verified: native page bring_to_front kept document.hasFocus true and visibility visible; no synthetic blur/visibility event used",
+  "listening": "unverified",
+  "sourceOutput": "projects/EmberwatchReborn/app/dist/qa-r14",
+  "servedForNewQA": "http://127.0.0.1:4183/qa-r14/",
+  "priorAutomaticChecks": "4681/4681 at source commit7790afe; not rerun or relabelled as new cases in this documentation-only slice",
+  "newLibraryPngBatch": {
+    "files": [
+      "57-contrast-valid-contact.png",
+      "62-zero-flash-valid-wave.png",
+      "hero.png",
+      "motion-warrior-axe.png"
+    ],
+    "prepare": "official Library prepare succeeded; distinct new requested PNG batch, not a retry of failed archive",
+    "transfer": "current official helper SignedUrlUploader returned completed[] after Put Forbidden on all four files; stuck helper workers were terminated; no finalize",
+    "libraryIds": [],
+    "directFallbackOrRepeatedUpload": false
+  },
+  "protectedScope": "a19 equipment/save, Master13 and repeat-expedition writers unchanged and unresolved; remaining build gate retained",
+  "finalProfile": {
+    "character": {
+      "classId": "warrior",
+      "level": 1,
+      "tier": "apprentice",
+      "xp": 0,
+      "attributes": {
+        "strength": 0,
+        "dexterity": 0,
+        "intelligence": 0
+      },
+      "attributePoints": 0,
+      "skillPoints": 0,
+      "skills": {
+        "shield_charge": 1,
+        "mace_swing": 1,
+        "shield_block": 1,
+        "righteous_hammer": 1
+      },
+      "exclusiveBranches": {},
+      "equipment": {
+        "mainHand": null,
+        "offHand": null,
+        "head": null,
+        "chest": null,
+        "hands": null,
+        "feet": null,
+        "accessory": null
+      }
+    },
+    "world": {
+      "region": "ash_hamlet",
+      "visited": [
+        "ash_hamlet",
+        "ash_road"
+      ],
+      "objectives": {
+        "trained": 1,
+        "patrol_accepted": 1
+      },
+      "claimedRewards": [],
+      "defeated": {
+        "ash_road": []
+      },
+      "life": 1,
+      "lifeDown": false,
+      "position": {
+        "x": 420.76724666114956,
+        "y": 349.23275333885044
+      }
+    },
+    "stats": {
+      "kills": 0,
+      "deaths": 1,
+      "earnedGold": 0,
+      "spentGold": 0,
+      "earnedXp": 0
+    },
+    "vitals": {
+      "hp": 55,
+      "mana": 40,
+      "stamina": 45
+    },
+    "gold": 0
+  }
+}

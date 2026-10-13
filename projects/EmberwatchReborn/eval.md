@@ -515,3 +515,7 @@ Execute actual mace preparation/Judgement payoff and renderer: effect emitted on
 
 ## Cloud crusher contrast follow-up — 2026-10-13
 First reproduce the contrast contract red against b6a4626 presentation, then verify paired geometry/color/alpha across effect ages, flash scales and real isometric transform using the production payoff record. Run focused crusher, full suite, lint, registry and build. Distinguish fresh normal-input progression, actual Chromium screenshots, internal start/render/contact/sound-request observations, and absent desktop/listening evidence. Preserve protected source and original167 byte-for-byte; no main merge or deployment. See docs/verification-cloud-crusher-20261013 for exact results and open gates.
+
+
+## Supported Chromium input follow-up — 2026-10-13
+See docs/verification-cloud-input-20261013. Fresh first-tier native-input checks observed late queue/held restart, startup dodge, release, duplicate charge/save, real dialog-focus clear/repress and death/Tab/Enter retry. Headless page switching did not deliver blur/visibility changes; those gates remain unverified. Six8s same-town rAF trials are page intervals only, not a60FPS/physical latency/combat guarantee. No game code changed and no new automatic aggregate is claimed. New requested Library PNG prepare succeeded but all transfers returned Forbidden; completed[] and no finalization/Library IDs. Preserve a19 and remaining-build gates.
