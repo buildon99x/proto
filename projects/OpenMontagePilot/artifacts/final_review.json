@@ -8,5 +8,10 @@
     "Rigged 2D animation; viral performance is untested",
     "HyperFrames doctor reports optional STT/TTS/BGM models unavailable; these are not used"
   ],
-  "motion_evidence": "qa/metrics.json plus decoded-contact-sheet.jpg; upstream motion_detected is only action metadata"
+  "motion_evidence": "Decoded-frame deltas in qa/metrics.json, body/head transforms in qa/browser-qa.json, and previously visually inspected 8 decoded frames in qa/decoded-contact-sheet.jpg. Upstream reviewer motion_detected is only action metadata.",
+  "hyperframes_motion_check": {
+    "enabled": false,
+    "samples": 0,
+    "interpretation": "not executed; not evidence of motion validation"
+  }
 }

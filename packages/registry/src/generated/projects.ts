@@ -35,7 +35,7 @@ export const projects = [
       "build": "pnpm --filter openmontage-viral-pilot build",
       "test": "pnpm --filter openmontage-viral-pilot test"
     },
-    "updatedAt": "2026-10-14T14:50:33Z"
+    "updatedAt": "2026-10-14T14:56:02Z"
   },
   {
     "id": "deck-building",
