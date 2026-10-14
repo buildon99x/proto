@@ -10,6 +10,9 @@ import {
     Entity,
     FILLMODE_FILL_WINDOW,
     LightComponentSystem,
+    Mesh,
+    MeshInstance,
+    TorusGeometry,
     RESOLUTION_AUTO,
     RenderComponentSystem,
     StandardMaterial,
@@ -24,6 +27,7 @@ import type { Intent, Actor, Hit } from './game';
 import { CFG, clamp } from './physics';
 import type { V3 } from './physics';
 import './style.css';
+let graphicsLost = false;
 const canvas = document.getElementById('application-canvas') as HTMLCanvasElement,
     ui = document.getElementById('ui')!,
     game = new Game();
@@ -58,6 +62,14 @@ let audio: AudioContext | null = null,
     frames = 0,
     frameTime = 0,
     fps = 0;
+let lastInput: {
+    shotIntent: Intent;
+    target: V3;
+    issuedAt: number;
+    submittedAt: number;
+    pointerType: string;
+    accepted: boolean;
+} | null = null;
 let app: AppBase, camera: Entity;
 function unlock() {
     if (!audio) audio = new AudioContext();
@@ -242,7 +254,16 @@ document.addEventListener('visibilitychange', () => {
 });
 function issue(intent: Intent, at: V3, type: string, issuedAt = game.time) {
     unlock();
-    game.command({ shotIntent: intent, target: { ...at }, issuedAt, pointerType: type });
+    const cmd = { shotIntent: intent, target: { ...at }, issuedAt, pointerType: type };
+    game.command(cmd);
+    lastInput = {
+        shotIntent: intent,
+        target: { ...at },
+        issuedAt,
+        submittedAt: game.time,
+        pointerType: type,
+        accepted: game.actors[0].command === cmd,
+    };
 }
 const materials = new Map<string, StandardMaterial>();
 function mat(hex: string) {
@@ -263,7 +284,16 @@ function shape(
     parent?: Entity,
 ) {
     const e = new Entity(name);
-    e.addComponent('render', { type, material: mat(color), castShadows: false });
+    if (type === 'torus') {
+        const mesh = Mesh.fromGeometry(
+            app.graphicsDevice,
+            new TorusGeometry({ ringRadius: 0.45, tubeRadius: 0.025, segments: 32, sides: 6 }),
+        );
+        e.addComponent('render', {
+            meshInstances: [new MeshInstance(mesh, mat(color), e)],
+            castShadows: false,
+        });
+    } else e.addComponent('render', { type, material: mat(color), castShadows: false });
     e.setLocalPosition(p[0], p[1], p[2]);
     e.setLocalScale(s[0], s[1], s[2]);
     (parent ?? app.root).addChild(e);
@@ -473,7 +503,11 @@ function resize() {
             ? 1
             : Math.min(devicePixelRatio, settings.quality === 'HIGH' ? 2 : 1.5);
     app.resizeCanvas();
-    app.root.find(n=>n.name==='spectator'||n.name==='net mesh').forEach((n,i)=>{(n as Entity).enabled=settings.quality!=='LOW'||i%3===0;});
+    app.root
+        .find((n) => n.name === 'spectator' || n.name === 'net mesh')
+        .forEach((n, i) => {
+            (n as Entity).enabled = settings.quality !== 'LOW' || i % 3 === 0;
+        });
     const portrait = innerHeight > innerWidth;
     camera.setPosition(portrait ? 0 : 1, portrait ? 19 : 11.5, portrait ? -23 : -14);
     camera.camera!.fov = portrait ? 62 : 49;
@@ -564,12 +598,14 @@ async function boot() {
     window.addEventListener('resize', resize);
     canvas.addEventListener('webglcontextlost', (e) => {
         e.preventDefault();
+        graphicsLost = true;
         game.paused = true;
         ui.innerHTML =
             '<div class="overlay"><section class="card"><h2>GRAPHICS PAUSED</h2><p>Graphics context lost. Reload to recover safely.</p><button onclick="location.reload()">Reload game</button></section></div>';
     });
     resize();
     app.on('update', (dt: number) => {
+        if (graphicsLost) return;
         acc = Math.min(acc + Math.min(dt, 0.1), 0.1);
         let steps = 0;
         while (acc >= CFG.dt && steps < 12) {
@@ -625,10 +661,17 @@ async function boot() {
             fps,
             audioState: audio?.state ?? 'locked',
             audioEvents,
-            heapBytes:(performance as Performance & {memory?:{usedJSHeapSize:number}}).memory?.usedJSHeapSize,
-            motions: [player,opponent].map(r=>({motion:r.motion, torso:r.body.getLocalEulerAngles().clone(), racket:r.racket.getPosition().clone(),animation:r.root.anim?.baseLayer?.activeState})),
+            heapBytes: (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory
+                ?.usedJSHeapSize,
+            motions: [player, opponent].map((r) => ({
+                motion: r.motion,
+                torso: r.body.getLocalEulerAngles().clone(),
+                racket: r.racket.getPosition().clone(),
+                animation: r.root.anim?.baseLayer?.activeState,
+            })),
             settings: { ...settings },
             target: { ...target },
+            lastInput: lastInput ? { ...lastInput, target: { ...lastInput.target } } : null,
             input: game.actors[0].command ? { ...game.actors[0].command } : null,
             projectedTargets: [-1.8, 0, 1.8].flatMap((x) =>
                 [1.2, 5.8].map((z) => {

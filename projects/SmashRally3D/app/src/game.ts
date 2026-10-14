@@ -202,6 +202,7 @@ export class Game {
         };
         if (shot === 'drop') target.z = -a.side * clamp(Math.abs(target.z), 0.8, 1.9);
         if (shot === 'clear') target.z = -a.side * Math.max(5.1, Math.abs(target.z));
+        if(!isServe && a.quality==='weak')target.z=-a.side * Math.min(4.1,Math.abs(target.z));
         let result = solve(this.p, target, shot);
         // An impossible steep attack becomes a safe drive using the same solver, never a fabricated hit.
         if (result.prediction.reason === 'NET' && (shot === 'smash' || shot === 'superSmash')) {
@@ -255,10 +256,11 @@ export class Game {
         a.contact = null;
         this.reactionAt = this.time + (this.receiver === 1 ? profile.delay : 0.05);
         const delay = this.receiver === 1 ? profile.delay : 0.05;
+        const overhead = this.shots.at(-1)?.shot === 'clear';
         for (const f of this.predicted.path) {
             if (
                 f.p.z * a.side < 0.6 ||
-                f.p.y > 2.7 ||
+                f.p.y > (overhead ? 2.7 : 1.85) ||
                 f.p.y < 1.05 ||
                 f.v.y > 0 ||
                 f.t < delay + CFG.swingLead
