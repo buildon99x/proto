@@ -1,0 +1,2 @@
+# Specification provenance
+Library identity: libfile_a38c09e50b188191b9c8c1653b4b7ae0; backing file file_0000000073c082098ae86025ba9bbf86. Official Library full read in this environment returned all 777 lines, has_more=false. Stored read text: 49,735 UTF-8 bytes, SHA-256 23e965e2483eb23f412f4a22be6743e65c5a7c97aa8cadcb1cd4998ffa3b9492. Original metadata: 49,736 bytes. This does not verify original binary SHA. Official download failed due proxy 403; no download bypass used.
