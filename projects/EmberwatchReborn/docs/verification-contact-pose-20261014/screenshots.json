@@ -1,0 +1,26 @@
+[
+  {
+    "file": "images/before-side-mace-018.jpg",
+    "bytes": 197482,
+    "sha256": "cad5a7ec087f05ff4712e835ea57713545052063129dd58fc6667a6e51f03936",
+    "uneditedNativeCapture": true
+  },
+  {
+    "file": "images/after-confirmed-side-mace-008.jpg",
+    "bytes": 198877,
+    "sha256": "af8447f3b0bbb13b51374cebb643607a7fb96d1dde30072b7213b61cbc2317b8",
+    "uneditedNativeCapture": true
+  },
+  {
+    "file": "images/after-confirmed-mace-input.jpg",
+    "bytes": 83462,
+    "sha256": "140d05434e2dbca7b3b96d241a657a176311d72a1116e2609a4f6d7008eb8ae7",
+    "uneditedNativeCapture": true
+  },
+  {
+    "file": "images/final-side-mace-007.jpg",
+    "bytes": 188423,
+    "sha256": "3502e390953213e2b5b38fd3e30d205864d64370f4ff88a797ae716f1d3ade94",
+    "uneditedNativeCapture": true
+  }
+]

@@ -1,0 +1,15 @@
+{"case":"contact-pose","hz":30,"slash":{"x":260,"y":325,"angle":0},"feedback":{"x":260,"y":325,"angle":0},"playerAfterFrame":{"x":258.5024014069891,"y":320.1248386227519},"offset":0}
+✔ real main 30Hz contact-minus5ms side move keeps slash and feedback at the same contact pose (3213.706242ms)
+{"case":"contact-pose","hz":60,"slash":{"x":260,"y":325,"angle":0},"feedback":{"x":260,"y":325,"angle":0},"playerAfterFrame":{"x":259.38334175581906,"y":322.9925806093684},"offset":0}
+✔ real main 60Hz contact-minus5ms side move keeps slash and feedback at the same contact pose (515.4696ms)
+{"case":"contact-pose","hz":120,"slash":{"x":260,"y":325,"angle":0},"feedback":{"x":260,"y":325,"angle":0},"playerAfterFrame":{"x":259.823811930234,"y":324.4264516026767},"offset":0}
+✔ real main 120Hz contact-minus5ms side move keeps slash and feedback at the same contact pose (420.935787ms)
+✔ storm real cursor/J/E/Q handlers earn enemy Combo, place and strike a separate bell, then timed queued charge consumes it without saved-state leakage (2828.601294ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7258.138054

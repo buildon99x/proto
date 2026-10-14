@@ -315,3 +315,5 @@ The confirmed crusher floor wave currently renders after hostile warnings and ac
 Earn mace/equipment, campaign report, Adept and Judgement only through existing normal UI; capture actual cast/contact and hostile-warning overlap separately from controlled renderer scenes. No protected writer, balance, import or Library retry. Current delegation explicitly authorizes small non-sensitive QA JPG/PNG in the Git verification-doc folder, superseding the older blanket QA-image exclusion for this bounded evidence set.
 ## Empty-cast observation finding — 2026-10-14
 Normally earned Judgement in an empty town produced a contact timing row despite no enemy hit. Clarify the read-only observation labels; do not change combat, telemetry, progression or persistence.
+## Contact pose investigation — 2026-10-14
+Reproduce the reviewed possibility that same-frame recovery walking shifts the friendly contact motif away from the actual slash. Compare real main input/frame delivery from 5ms before mace contact at 30/60/120Hz. Only a confirmed presentation defect may change; preserve hit/damage/timing, balance and all protected equipment/save behavior.

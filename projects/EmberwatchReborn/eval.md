@@ -535,3 +535,5 @@ Layer correction verified: six expected red failures →98/98 focused →4,689/4
 First-entry→training/patrol→existing gear purchase/equip→two-layer sluice report→Adept→normal Judgement purchase→actual hostile combat, priming/payoff overlap, held input and dodge cancellation, death/return/re-entry. Read-only snapshots and native screenshot evidence do not establish listening or physical latency. App and common build outcomes remain separate.
 ## Empty-cast observation qualification
 Reproduce with normally learned Judgement in town; test production input/frame handlers yielding a timing mark without enemyHit, then verify read-only panel wording and unchanged state/revision. Keep synthetic fixture regression separate from browser gameplay and physical latency/listening.
+## Contact pose qualification
+Use real browser input/frame handlers at contact minus5ms, side movement and 1/30,1/60,1/120 frames; compare actual slash x/y/angle against the rendered feedback snapshot. Record red discrepancies, focused/full regression and native ordinary-input screenshots separately from controlled test fixtures. No listening or physical latency claim.

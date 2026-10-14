@@ -9,6 +9,19 @@ const cut=(start,end)=>source.slice(source.indexOf(start),source.indexOf(end,sou
 let saved;function fixture(){if(!saved){let s=earnedTombRoute('normal',{full:true}),r=reduceRuntime(s,{type:'promoteExpert',...report(s,{x:260,y:325}),expectedRevision:1,expectedGoldCost:120},{revision:1});assert.equal(r.ok,true);s=r.state;for(const skillId of ['battle_banner','zealous_onslaught','zealous_lance']){r=reduceRuntime(s,{type:'purchaseSkill',skillId,position:{x:260,y:325}});assert.equal(r.ok,true);s=r.state;}r=reduceRuntime(s,{type:'assignActionSlot',slot:'expert1',skillId:'zealous_onslaught',expectedSkillId:null,expectedRevision:1,life:s.world.life??0},{revision:1});assert.equal(r.ok,true);s=r.state;r=reduceRuntime(s,{type:'assignActionSlot',slot:'expert2',skillId:'battle_banner',expectedSkillId:null,expectedRevision:2,life:s.world.life??0},{revision:2});assert.equal(r.ok,true);saved=r.state;}return structuredClone(saved);}
 const next=()=>new Promise(r=>setImmediate(r));
 
+for(const hz of [30,60,120])test(`real main ${hz}Hz contact-minus5ms side move keeps slash and feedback at the same contact pose`,async()=>{
+ const h=await ui({poeMode:'wasd'});h.key('KeyJ');h.up('KeyJ');const action=h.app.battle.p.action;
+ assert.equal(action?.id,'mace_swing');const target=action.contact-.005;
+ while(action.elapsed<target-1e-10)await h.frame(Math.min(.01,target-action.elapsed));
+ assert.ok(Math.abs(action.contact-action.elapsed-.005)<1e-9);
+ h.key('KeyW');h.key('KeyD');await h.frame(1/hz);h.up('KeyW');h.up('KeyD');
+ const slash=h.app.battle.effects.find(e=>e.type==='slash'),feedback=h.rendered.at(-1).poeFeedback.find(e=>e.castId===action.castId);
+ assert.ok(slash);assert.ok(feedback);const pose={x:slash.x,y:slash.y,angle:slash.angle};
+ console.log(JSON.stringify({case:'contact-pose',hz,slash:pose,feedback:{x:feedback.x,y:feedback.y,angle:feedback.angle},playerAfterFrame:{x:h.app.battle.p.x,y:h.app.battle.p.y},offset:Math.hypot(feedback.x-slash.x,feedback.y-slash.y)}));
+ assert.ok(Math.hypot(h.app.battle.p.x-slash.x,h.app.battle.p.y-slash.y)>0,'frame includes real postcontact recovery walking');
+ assert.deepEqual({x:feedback.x,y:feedback.y,angle:feedback.angle},pose);
+});
+
 test('empty learned Judgement timing is not presented as proof of an enemy hit',async()=>{
  const h=await ui({poeMode:'wasd',skills:['judgement']}),events=[];
  assert.equal(h.app.battle.enemies.length,0);

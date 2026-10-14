@@ -1,0 +1,88 @@
+{"case":"contact-pose","hz":30,"slash":{"x":260,"y":325,"angle":0},"feedback":{"x":258.5024014069891,"y":320.1248386227519,"angle":0},"playerAfterFrame":{"x":258.5024014069891,"y":320.1248386227519},"offset":5.099999999999981}
+✖ real main 30Hz contact-minus5ms side move keeps slash and feedback at the same contact pose (2183.224934ms)
+{"case":"contact-pose","hz":60,"slash":{"x":260,"y":325,"angle":0},"feedback":{"x":259.38334175581906,"y":322.9925806093684,"angle":0},"playerAfterFrame":{"x":259.38334175581906,"y":322.9925806093684},"offset":2.0999999999999983}
+✖ real main 60Hz contact-minus5ms side move keeps slash and feedback at the same contact pose (205.358189ms)
+{"case":"contact-pose","hz":120,"slash":{"x":260,"y":325,"angle":0},"feedback":{"x":259.823811930234,"y":324.4264516026767,"angle":0},"playerAfterFrame":{"x":259.823811930234,"y":324.4264516026767},"offset":0.5999999999999888}
+✖ real main 120Hz contact-minus5ms side move keeps slash and feedback at the same contact pose (216.886847ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2763.224802
+
+✖ failing tests:
+
+test at tests/expert-main-input.test.mjs:12:29
+✖ real main 30Hz contact-minus5ms side move keeps slash and feedback at the same contact pose (2183.224934ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+    {
+      angle: 0,
+  +   x: 258.5024014069891,
+  +   y: 320.1248386227519
+  -   x: 260,
+  -   y: 325
+    }
+
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:22:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { x: 258.5024014069891, y: 320.1248386227519, angle: 0 },
+    expected: { x: 260, y: 325, angle: 0 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:12:29
+✖ real main 60Hz contact-minus5ms side move keeps slash and feedback at the same contact pose (205.358189ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+    {
+      angle: 0,
+  +   x: 259.38334175581906,
+  +   y: 322.9925806093684
+  -   x: 260,
+  -   y: 325
+    }
+
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:22:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { x: 259.38334175581906, y: 322.9925806093684, angle: 0 },
+    expected: { x: 260, y: 325, angle: 0 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:12:29
+✖ real main 120Hz contact-minus5ms side move keeps slash and feedback at the same contact pose (216.886847ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+    {
+      angle: 0,
+  +   x: 259.823811930234,
+  +   y: 324.4264516026767
+  -   x: 260,
+  -   y: 325
+    }
+
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:22:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { x: 259.823811930234, y: 324.4264516026767, angle: 0 },
+    expected: { x: 260, y: 325, angle: 0 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

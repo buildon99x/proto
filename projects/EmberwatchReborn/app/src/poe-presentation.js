@@ -34,7 +34,7 @@ export function createPoeFeedback(){
    const id=pulse?'zealous_onslaught':e.type==='actionContact'?e.id:null;
    if(!POE_FEEDBACK_STYLES[id])continue;
    const key=`${e.castId}:${id}${pulse?`:pulse:${e.index}`:''}`;
-   if(seen.has(key))continue;seen.add(key);if(seen.size>96)seen.delete(seen.values().next().value);particles.push({skillId:id,castId:e.castId,x:p.x,y:p.y,angle:p.action?.angle??p.angle,life:.42,duration:.42});
+   if(seen.has(key))continue;seen.add(key);if(seen.size>96)seen.delete(seen.values().next().value);const at=e.pose??p;particles.push({skillId:id,castId:e.castId,x:at.x,y:at.y,angle:e.pose?.angle??p.action?.angle??p.angle,life:.42,duration:.42});
   }
   if(particles.length>POE_FEEDBACK_LIMITS.effects)particles=particles.slice(-POE_FEEDBACK_LIMITS.effects);
  },step(dt){if(!Number.isFinite(dt)||dt<0)return;particles=particles.map(e=>({...e,life:e.life-dt})).filter(e=>e.life>0);},snapshot(){return particles.map(e=>({...e}));}};

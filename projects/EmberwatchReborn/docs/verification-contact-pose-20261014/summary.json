@@ -1,0 +1,80 @@
+{
+  "baseline": "c127d905a27cb9e375e5fb9dc4f6bf6e53ed268f",
+  "runtimeChange": "detached actionContact pose -> presentation motif origin; no saved field or collision/damage change",
+  "testResults": {
+    "red.tap": {
+      "tests": 3.0,
+      "pass": 0.0,
+      "fail": 3.0,
+      "cancelled": 0.0,
+      "skipped": 0.0,
+      "duration_ms": 2763.224802
+    },
+    "corrected-focused.tap": {
+      "tests": 4.0,
+      "pass": 4.0,
+      "fail": 0.0,
+      "cancelled": 0.0,
+      "skipped": 0.0,
+      "duration_ms": 7258.138054
+    },
+    "final-targeted.tap": {
+      "tests": 4.0,
+      "pass": 4.0,
+      "fail": 0.0,
+      "cancelled": 0.0,
+      "skipped": 0.0,
+      "duration_ms": 7822.507294
+    },
+    "legacy-recovery-green.tap": {
+      "tests": 61.0,
+      "pass": 61.0,
+      "fail": 0.0,
+      "cancelled": 0.0,
+      "skipped": 0.0,
+      "duration_ms": 1142.175733
+    },
+    "first-full-event-contract-fail.tap": {
+      "tests": 4693.0,
+      "pass": 4690.0,
+      "fail": 3.0,
+      "cancelled": 0.0,
+      "skipped": 0.0,
+      "duration_ms": 507146.015357
+    },
+    "full.tap": {
+      "tests": 4693.0,
+      "pass": 4693.0,
+      "fail": 0.0,
+      "cancelled": 0.0,
+      "skipped": 0.0,
+      "duration_ms": 495432.009646
+    }
+  },
+  "native": "ordinary existing profile WASD mace plus side walking, unedited native frames; not synchronized A/B or physical latency",
+  "nativeErrors": 0,
+  "retainedFailures": [
+    "preset confirmation missing in pose-001",
+    "after-reload mace initially rejected due existing cooldown in pose-003",
+    "first focused run had storm contact p ReferenceError; fixed b.p and corrected focused run",
+    "first full run had three legacy event-equality failures; limited ordinary pose to PoE runtime without weakening tests"
+  ],
+  "commonBuild": "Corepack cache ENOENT; not passed",
+  "listening": "unverified muted headless",
+  "a19": "no protected writer change/retry/alternate namespace",
+  "images": 4,
+  "preservation": {
+    "unchangedRuntimeAndAssets": {
+      "count": 132,
+      "allEqual": true
+    },
+    "originalEmberwatch": {
+      "count": 167,
+      "allEqual": true
+    },
+    "otherTrackedFiles": {
+      "count": 1451,
+      "allEqual": true
+    }
+  }
+}

@@ -458,7 +458,7 @@ function resolveStormWave(b,bell,action,explosion=false){
  emit(b,{type:'sound',name:explosion?'heavyHit':'magicRelease',phase:'impact',owner:'hero',castId:action.castId,tag:`storm:${action.castId}:${bell.id}`,x:bell.x,y:bell.y});
 }
 function resolveStormSwing(b,action,a,ordinal){
- emit(b,{type:'actionContact',id:action.id,castId:action.castId,elapsed:action.elapsed,storm:true,ordinal});
+ emit(b,{type:'actionContact',id:action.id,castId:action.castId,elapsed:action.elapsed,pose:{x:b.p.x,y:b.p.y,angle:action.angle},storm:true,ordinal});
  emit(b,{type:'sound',name:'slash',phase:'contact',castId:action.castId,owner:'hero',tag:`staff:${action.castId}:${ordinal}`});
  fx(b,'storm-staff',b.p.x,b.p.y,'#c5baa1',a.range,.18,{angle:action.angle,ordinal});
  const bell=liveStormBells(b).find(x=>x.id===action.stormBellId);let contacted=false;
@@ -494,7 +494,7 @@ function resolveAction(b,dt){
     if(action.stormDash&&action.stormPerfect&&travel>0)for(const bell of liveStormBells(b))if(segmentDistance(bell,old,p)<=bell.radius+11&&lineOfSight(b.map,old,bell)&&consumeStormBell(b,bell,action))resolveStormWave(b,bell,action,true);
   }
   if(!action.fired&&action.elapsed+(b.poeMobility?1e-9:0)>=a.contact){
-    action.fired=true;emit(b,{type:'actionContact',id:action.id,castId:action.castId,elapsed:action.elapsed,...(action.crusherCast?{crusher:true}:{}),...(action.stormPlacement?{storm:true}:{}),...(action.magmaBash?{magma:true}:{})});
+    action.fired=true;emit(b,{type:'actionContact',id:action.id,castId:action.castId,elapsed:action.elapsed,...(b.poeMobility?{pose:{x:p.x,y:p.y,angle:action.angle}}:{}),...(action.crusherCast?{crusher:true}:{}),...(action.stormPlacement?{storm:true}:{}),...(action.magmaBash?{magma:true}:{})});
     if(action.magmaBash){if(!action.magmaCancelled)resolveMagmaBash(b,action,a);
     }else if(action.stormPlacement){
       emit(b,{type:'sound',name:'magicRelease',phase:'release',castId:action.castId,tag:`cast:${action.castId}`,owner:'hero',audience:'friendly'});
