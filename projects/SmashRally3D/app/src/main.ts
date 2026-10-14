@@ -636,6 +636,7 @@ async function boot() {
     game.onHit = (h) => {
         if (reviewContact && h.actor === 0 && game.shots.length > 1 && h.shot === reviewContact) {
             reviewHit = h;
+            shakeUntil = 0;
             game.paused = true;
             camera.setPosition(game.actors[0].p.x + 1.8, 2.4, game.actors[0].p.z - 4.2);
             camera.camera!.fov = 48;
@@ -656,7 +657,7 @@ async function boot() {
             renderQueuedPerf: null,
         });
         if (impactLedger.length > 256) impactLedger.shift();
-        if (settings.shake && ['smash', 'superSmash'].includes(h.shot)) {
+        if (!reviewHit && settings.shake && ['smash', 'superSmash'].includes(h.shot)) {
             shakeBase.copy(camera.getPosition());
             shakeUntil = game.time + 0.06;
         }

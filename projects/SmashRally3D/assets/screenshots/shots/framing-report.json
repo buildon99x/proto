@@ -1,7 +1,13 @@
 {
   "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-DAbXMdty.js",
+    "sha256": "179257cb3983955913aa6dfbb45157ce02f926032247a71ade96d3fecdbde2dd",
+    "startedAt": "2026-10-14T15:47:28.311Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
   "errors": [],
   "logs": [
-    "Stable high-clear framing {\"minY\":119.69777113232949,\"maxY\":466.5491922880424,\"returns\":4,\"viewport\":[1280,720]}"
+    "Stable high-clear framing {\"minY\":123.03132287633407,\"maxY\":479.57418994464194,\"returns\":4,\"viewport\":[1280,720]}"
   ]
 }

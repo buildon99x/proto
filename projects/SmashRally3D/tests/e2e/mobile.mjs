@@ -41,8 +41,7 @@ export async function run({ page, sleep, shot, log }) {
         return (
           d.phase === "RALLY" &&
           d.receiver === 0 &&
-          d.contactAt - d.time < 0.44 &&
-          d.contactAt - d.time > 0.28
+          document.querySelector("#timing")?.textContent.includes("HIT NOW")
         );
       },
       { timeout: 30000, polling: "raf" },

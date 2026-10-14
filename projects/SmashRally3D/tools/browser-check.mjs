@@ -2,6 +2,7 @@ import { createRequire } from "node:module";
 import http from "node:http";
 import { readFile, mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { createHash } from "node:crypto";
 import { pathToFileURL } from "node:url";
 const require = createRequire(path.resolve(".playtest/package.json")),
   puppeteer = require("puppeteer");
@@ -48,6 +49,20 @@ const scenario = await import(
   )
 );
 await page.setViewport(scenario.meta?.viewport || { width: 1280, height: 720 });
+const indexBytes = await readFile(path.join(root, "index.html"));
+const sourceBundle = indexBytes.toString().match(/src="([^"]+\.js)"/)?.[1];
+const sourceHash = sourceBundle
+  ? createHash("sha256")
+      .update(await readFile(path.join(root, sourceBundle)))
+      .digest("hex")
+  : null;
+const buildEvidence = {
+  sourceBundle,
+  sha256: sourceHash,
+  startedAt: new Date().toISOString(),
+  renderer:
+    "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement",
+};
 const errors = [];
 page.on("pageerror", (e) => {
   errors.push(String(e));
@@ -74,7 +89,9 @@ try {
       console.log("SHOT", n);
     },
     log: (...v) => {
-      logs.push(v.join(" "));
+      logs.push(
+        v.map((x) => (typeof x === "string" ? x : JSON.stringify(x))).join(" "),
+      );
       console.log(...v);
     },
   });
@@ -85,7 +102,7 @@ try {
       (process.argv[2] ? path.basename(process.argv[2], ".mjs") : "ui") +
         "-report.json",
     ),
-    JSON.stringify({ pass: true, errors, logs }, null, 2),
+    JSON.stringify({ pass: true, buildEvidence, errors, logs }, null, 2),
   );
 } catch (e) {
   console.error(String(e));
@@ -95,7 +112,11 @@ try {
       (process.argv[2] ? path.basename(process.argv[2], ".mjs") : "ui") +
         "-report.json",
     ),
-    JSON.stringify({ pass: false, errors, logs, failure: String(e) }, null, 2),
+    JSON.stringify(
+      { pass: false, buildEvidence, errors, logs, failure: String(e) },
+      null,
+      2,
+    ),
   );
   process.exitCode = 1;
 } finally {

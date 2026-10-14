@@ -1,5 +1,11 @@
 {
   "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-5OyZlb22.js",
+    "sha256": "01779539106e2ee10181b095b01166e98e27d7ac61e21d4608c8d9cfd6137ed3",
+    "startedAt": "2026-10-14T15:25:39.648Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
   "errors": [],
   "logs": [
     "Mute, reduced FX, pause/resume and forced WebGL context loss/reload passed. Context loss is injected browser fault, not a natural UI event."

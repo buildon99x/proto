@@ -1,0 +1,14 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-DAbXMdty.js",
+    "sha256": "179257cb3983955913aa6dfbb45157ce02f926032247a71ade96d3fecdbde2dd",
+    "startedAt": "2026-10-14T15:46:11.820Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "Natural UI loss and PLAY AGAIN [object Object]",
+    "One normal opening serve, then deliberately no return inputs; this checks losing result/rematch only, not tactical play. No state injection."
+  ]
+}
