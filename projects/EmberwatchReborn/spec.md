@@ -405,3 +405,8 @@ After the existing input-observation panel renders, focus its already focusable 
 
 ## Crusher floor-layer contract — 2026-10-14
 Consume the same real crusherShockwave ring exactly once beneath loot, hostile telegraphs/ground hazards and living sprites. Preserve project coordinates, true radius,0.3s life, contrast strokes and reduced/zero-flash behavior. Do not replay it in the airborne/general effect pass; expired confirmed records must not become generic rings. Other effects retain existing order. No runtime/payment/AI/save change or new assets.
+
+## Ordinary Judgement evidence scope
+Separate valid/missed/rejected cast, actual contact/payoff, expiry and hostile warning overlap. Preserve failed UI navigation/setup and normal earned state; use no debug grant, profile injection/import or serializer change. Native screenshots are captured as bounded JPEG for the explicitly authorized Git documentation set.
+## Timing versus enemy hit
+The input panel labels actionContact as 타격 판정 and explains that empty attacks also emit this timing mark. It proves neither enemy damage nor crusher payoff. Keep contact record kind and all runtime behavior unchanged.

@@ -1,0 +1,29 @@
+
+──── VERIFY: EmberwatchReborn ────
+
+[verify] 1/3 lint …
+node:fs:1411
+  const result = binding.mkdir(
+                         ^
+
+Error: ENOENT: no such file or directory, mkdir '/home/agent/.cache/node/corepack/v1'
+    at mkdirSync (node:fs:1411:26)
+    at getTemporaryFolder (/opt/codex/runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/corepack/dist/lib/corepack.cjs:21953:27)
+    at download (/opt/codex/runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/corepack/dist/lib/corepack.cjs:22288:21)
+    at installVersion (/opt/codex/runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/corepack/dist/lib/corepack.cjs:22386:61)
+    at async Engine.ensurePackageManager (/opt/codex/runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/corepack/dist/lib/corepack.cjs:22899:32)
+    at async Engine.executePackageManagerRequest (/opt/codex/runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/corepack/dist/lib/corepack.cjs:23010:25)
+    at async Object.runMain (/opt/codex/runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/corepack/dist/lib/corepack.cjs:23710:7) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'mkdir',
+  path: '/home/agent/.cache/node/corepack/v1'
+}
+
+Node.js v24.19.0
+
+──── VERIFY: EmberwatchReborn ────
+❌ lint       tsc                    0.1s
+⏭️  build      tsc + vite
+⏭️  playtest   (앞 단계 실패로 skip)
+overall: ❌ FAIL → 스크린샷 0, report: projects/EmberwatchReborn/assets/screenshots/shots/verify-report.json

@@ -310,3 +310,8 @@ Actual Chromium screenshots09/15 opened the long input record at its bottom beca
 
 ## Crusher ground FX tactical layering — 2026-10-14
 The confirmed crusher floor wave currently renders after hostile warnings and actor sprites, contrary to the existing combat readability contract. Move only its existing ring/fracture rendering into the friendly ground layer. Keep all combat, cost, timing, warning/evade, balance and protected save/equipment semantics unchanged. Verify production-handler wave geometry and overlap order; distinguish controlled renderer pixels from normal UI play.
+
+## Ordinary Judgement qualification — 2026-10-14 follow-up
+Earn mace/equipment, campaign report, Adept and Judgement only through existing normal UI; capture actual cast/contact and hostile-warning overlap separately from controlled renderer scenes. No protected writer, balance, import or Library retry. Current delegation explicitly authorizes small non-sensitive QA JPG/PNG in the Git verification-doc folder, superseding the older blanket QA-image exclusion for this bounded evidence set.
+## Empty-cast observation finding — 2026-10-14
+Normally earned Judgement in an empty town produced a contact timing row despite no enemy hit. Clarify the read-only observation labels; do not change combat, telemetry, progression or persistence.

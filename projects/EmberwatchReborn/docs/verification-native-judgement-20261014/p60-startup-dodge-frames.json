@@ -1,0 +1,830 @@
+[
+  {
+    "file": "p60-startup-dodge-001.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955950.636478
+    }
+  },
+  {
+    "file": "p60-startup-dodge-002.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955950.68704
+    }
+  },
+  {
+    "file": "p60-startup-dodge-003.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955950.743915
+    }
+  },
+  {
+    "file": "p60-startup-dodge-004.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955950.792061
+    }
+  },
+  {
+    "file": "p60-startup-dodge-005.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955950.804031
+    }
+  },
+  {
+    "file": "p60-startup-dodge-006.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955950.826684
+    }
+  },
+  {
+    "file": "p60-startup-dodge-007.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955950.847613
+    }
+  },
+  {
+    "file": "p60-startup-dodge-008.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955950.860956
+    }
+  },
+  {
+    "file": "p60-startup-dodge-009.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955950.902287
+    }
+  },
+  {
+    "file": "p60-startup-dodge-010.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955950.918504
+    }
+  },
+  {
+    "file": "p60-startup-dodge-011.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955950.940405
+    }
+  },
+  {
+    "file": "p60-startup-dodge-012.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955950.977533
+    }
+  },
+  {
+    "file": "p60-startup-dodge-013.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.002772
+    }
+  },
+  {
+    "file": "p60-startup-dodge-014.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.025251
+    }
+  },
+  {
+    "file": "p60-startup-dodge-015.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.051181
+    }
+  },
+  {
+    "file": "p60-startup-dodge-016.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.073015
+    }
+  },
+  {
+    "file": "p60-startup-dodge-017.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.120148
+    }
+  },
+  {
+    "file": "p60-startup-dodge-018.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.138174
+    }
+  },
+  {
+    "file": "p60-startup-dodge-019.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.163483
+    }
+  },
+  {
+    "file": "p60-startup-dodge-020.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.188866
+    }
+  },
+  {
+    "file": "p60-startup-dodge-021.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.212537
+    }
+  },
+  {
+    "file": "p60-startup-dodge-022.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.224208
+    }
+  },
+  {
+    "file": "p60-startup-dodge-023.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.2956
+    }
+  },
+  {
+    "file": "p60-startup-dodge-024.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.314844
+    }
+  },
+  {
+    "file": "p60-startup-dodge-025.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.337189
+    }
+  },
+  {
+    "file": "p60-startup-dodge-026.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.352538
+    }
+  },
+  {
+    "file": "p60-startup-dodge-027.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.369806
+    }
+  },
+  {
+    "file": "p60-startup-dodge-028.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.395596
+    }
+  },
+  {
+    "file": "p60-startup-dodge-029.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.405941
+    }
+  },
+  {
+    "file": "p60-startup-dodge-030.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.42148
+    }
+  },
+  {
+    "file": "p60-startup-dodge-031.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.468325
+    }
+  },
+  {
+    "file": "p60-startup-dodge-032.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.497586
+    }
+  },
+  {
+    "file": "p60-startup-dodge-033.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.512898
+    }
+  },
+  {
+    "file": "p60-startup-dodge-034.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.529815
+    }
+  },
+  {
+    "file": "p60-startup-dodge-035.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.561243
+    }
+  },
+  {
+    "file": "p60-startup-dodge-036.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.574051
+    }
+  },
+  {
+    "file": "p60-startup-dodge-037.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.594551
+    }
+  },
+  {
+    "file": "p60-startup-dodge-038.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.611791
+    }
+  },
+  {
+    "file": "p60-startup-dodge-039.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.636003
+    }
+  },
+  {
+    "file": "p60-startup-dodge-040.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.654618
+    }
+  },
+  {
+    "file": "p60-startup-dodge-041.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.673396
+    }
+  },
+  {
+    "file": "p60-startup-dodge-042.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.689098
+    }
+  },
+  {
+    "file": "p60-startup-dodge-043.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.716622
+    }
+  },
+  {
+    "file": "p60-startup-dodge-044.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.732998
+    }
+  },
+  {
+    "file": "p60-startup-dodge-045.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.74826
+    }
+  },
+  {
+    "file": "p60-startup-dodge-046.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.764815
+    }
+  },
+  {
+    "file": "p60-startup-dodge-047.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.779351
+    }
+  },
+  {
+    "file": "p60-startup-dodge-048.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.796746
+    }
+  },
+  {
+    "file": "p60-startup-dodge-049.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.812276
+    }
+  },
+  {
+    "file": "p60-startup-dodge-050.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.843439
+    }
+  },
+  {
+    "file": "p60-startup-dodge-051.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.856889
+    }
+  },
+  {
+    "file": "p60-startup-dodge-052.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.893316
+    }
+  },
+  {
+    "file": "p60-startup-dodge-053.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.908136
+    }
+  },
+  {
+    "file": "p60-startup-dodge-054.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.923521
+    }
+  },
+  {
+    "file": "p60-startup-dodge-055.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.953841
+    }
+  },
+  {
+    "file": "p60-startup-dodge-056.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955951.983293
+    }
+  },
+  {
+    "file": "p60-startup-dodge-057.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955952.002351
+    }
+  },
+  {
+    "file": "p60-startup-dodge-058.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955952.014124
+    }
+  },
+  {
+    "file": "p60-startup-dodge-059.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955952.037375
+    }
+  },
+  {
+    "file": "p60-startup-dodge-060.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955952.051901
+    }
+  },
+  {
+    "file": "p60-startup-dodge-061.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955952.064996
+    }
+  },
+  {
+    "file": "p60-startup-dodge-062.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955952.078363
+    }
+  },
+  {
+    "file": "p60-startup-dodge-063.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955952.104672
+    }
+  },
+  {
+    "file": "p60-startup-dodge-064.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955952.128963
+    }
+  },
+  {
+    "file": "p60-startup-dodge-065.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955952.144348
+    }
+  },
+  {
+    "file": "p60-startup-dodge-066.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955952.162033
+    }
+  },
+  {
+    "file": "p60-startup-dodge-067.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955952.179372
+    }
+  },
+  {
+    "file": "p60-startup-dodge-068.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955952.19562
+    }
+  },
+  {
+    "file": "p60-startup-dodge-069.jpg",
+    "metadata": {
+      "offsetTop": 0,
+      "pageScaleFactor": 1,
+      "deviceWidth": 1440,
+      "deviceHeight": 900,
+      "scrollOffsetX": 0,
+      "scrollOffsetY": 0,
+      "timestamp": 1791955952.214115
+    }
+  }
+]

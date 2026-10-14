@@ -1,0 +1,28 @@
+✖ empty learned Judgement timing is not presented as proof of an enemy hit (1997.78407ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2148.72381
+
+✖ failing tests:
+
+test at tests/expert-main-input.test.mjs:12:1
+✖ empty learned Judgement timing is not presented as proof of an enemy hit (1997.78407ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /타격 판정 [0-9.]+ ms/. Input:
+
+  '<section class="panel wide" role="dialog" aria-modal="true" aria-labelledby="dialog-title" tabindex="-1"><h2 id="dialog-title">입력 응답 기록</h2><p data-dialog-status role="status" aria-live="polite"></p><p>현재 접속에서 받은 최근 입력과 홀드 반복입니다. 입력 핸들러 → 액션 시작, 첫 렌더 함수 진입/반환, 소리 요청 수락 여부, 실제 접촉 이벤트를 구분합니다. 소리 요청 결과는 오디오 함수 반환 시각이며 재생 시작 시각이 아닙니다. 모니터 표시와 스피커 소리의 물리 지연 실측은 아닙니다. 원작 POE2의 측정값도 아닙니다. 메모리에 남은 최근 관측만 표시합니다.</p><p class="minor">행동과 연결할 근거가 없는 소리 요청 1건. 방패처럼 시작 이벤트가 없는 입력은 시작 시각을 추정하지 않습니다. 입력 연결 종료는 관측 연결의 종료이며 게임 행동의 성공·실패 판정이 아닙니다. 대기 상태 관측과 입력 연결 종료 사유는 별개입니다.</p><h3>최초 입력 기준</h3><article class="skill"><strong>단죄의 일격 · 단죄의 일격 · 입력 1</strong><p>시작 0.00 ms · 첫 렌더 진입 16.00 ms · 첫 렌더 반환 16.00 ms<br>소리 요청 결과 0.00 ms (미수락) · 접촉 288.00 ms</p></article><h3>홀드 반복 시작 기준</h3><p class="minor">원래 물리 입력과 연결되지 않은 별도 시작 관측입니다. 입력 연결이 끝난 이후에도 홀드 반복이 시작될 수 있습니다. 아래 시간은 각 액션 시작부터 잽니다.</p><p>관찰된 홀드 반복이 없습니다.</p><button data-action="menu" >돌아가기</button></section>'
+
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:22:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<section class="panel wide" role="dialog" aria-modal="true" aria-labelledby="dialog-title" tabindex="-1"><h2 id="dialog-title">입력 응답 기록</h2><p data-dialog-status role="status" aria-live="polite"></p><p>현재 접속에서 받은 최근 입력과 홀드 반복입니다. 입력 핸들러 → 액션 시작, 첫 렌더 함수 진입/반환, 소리 요청 수락 여부, 실제 접촉 이벤트를 구분합니다. 소리 요청 결과는 오디오 함수 반환 시각이며 재생 시작 시각이 아닙니다. 모니터 표시와 스피커 소리의 물리 지연 실측은 아닙니다. 원작 POE2의 측정값도 아닙니다. 메모리에 남은 최근 관측만 표시합니다.</p><p class="minor">행동과 연결할 근거가 없는 소리 요청 1건. 방패처럼 시작 이벤트가 없는 입력은 시작 시각을 추정하지 않습니다. 입력 연결 종료는 관측 연결의 종료이며 게임 행동의 성공·실패 판정이 아닙니다. 대기 상태 관측과 입력 연결 종료 사유는 별개입니다.</p><h3>최초 입력 기준</h3><article class="skill"><strong>단죄의 일격 · 단죄의 일격 · 입력 1</strong><p>시작 0.00 ms · 첫 렌더 진입 16.00 ms · 첫 렌더 반환 16.00 ms<br>소리 요청 결과 0.00 ms (미수락) · 접촉 288.00 ms</p></article><h3>홀드 반복 시작 기준</h3><p class="minor">원래 물리 입력과 연결되지 않은 별도 시작 관측입니다. 입력 연결이 끝난 이후에도 홀드 반복이 시작될 수 있습니다. 아래 시간은 각 액션 시작부터 잽니다.</p><p>관찰된 홀드 반복이 없습니다.</p><button data-action="menu" >돌아가기</button></section>',
+    expected: /타격 판정 [0-9.]+ ms/,
+    operator: 'match',
+    diff: 'simple'
+  }

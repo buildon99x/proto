@@ -1,0 +1,90 @@
+[
+  {
+    "file": "images/p37-earned-commission.jpg",
+    "bytes": 43765,
+    "sha256": "5478c9937ec1251314f144e0aae9d021ac143f2f1312e80b661a2ef3fd6a07bb",
+    "caption": "Normal first-dungeon report earns commission; not a debug grant.",
+    "nativeCapture": true,
+    "edited": false
+  },
+  {
+    "file": "images/p40-empty-earned-judgement-observation-before.jpg",
+    "bytes": 85377,
+    "sha256": "5be957bcbd13c6e862ef0b5af3b58ff9c0ff90ce549158fbecc47ab4819f9b5b",
+    "caption": "Before copy fix: empty town Judgement still labelled actual contact. Separate normal trial, not synchronized A/B.",
+    "nativeCapture": true,
+    "edited": false
+  },
+  {
+    "file": "images/p44-empty-earned-judgement-observation-after.jpg",
+    "bytes": 69471,
+    "sha256": "3a6a6fa009dd8068ab96b425faab578a903e63ac02a39e44fd22c860d2dc005a",
+    "caption": "After fix and normal reload/Continue: timing mark explicitly does not prove enemy damage. Separate trial.",
+    "nativeCapture": true,
+    "edited": false
+  },
+  {
+    "file": "images/p47-earned-priming-live.jpg",
+    "bytes": 156076,
+    "sha256": "6f029169c55bae9f1bd3efb66edd7480bc5d8d5abf21858c328fe95a7c94cac2",
+    "caption": "Two actual mace contacts prime the first quarry guard; ordinary earned level5 build.",
+    "nativeCapture": true,
+    "edited": false
+  },
+  {
+    "file": "images/p48-real-payoff-014.jpg",
+    "bytes": 143299,
+    "sha256": "b253419676a13ad5b7063a4f0fc479937069fea85cb506a1fa641f3d88e393ee",
+    "caption": "First normal earned payoff, damage numbers and real ground ring/fractures; all four foes die, so no surviving hostile tell acceptance here.",
+    "nativeCapture": true,
+    "edited": false
+  },
+  {
+    "file": "images/p70-reentry-primed-separated.jpg",
+    "bytes": 167818,
+    "sha256": "addf82f9a56db2a2a2826d19e40e3c0914b3cbdb6799c53ecb37c1d44bab9b19",
+    "caption": "After normal death/retry/re-entry, prime one guard while another remains.",
+    "nativeCapture": true,
+    "edited": false
+  },
+  {
+    "file": "images/p71-live-warning-payoff-018.jpg",
+    "bytes": 153358,
+    "sha256": "d85e2998ad7a55d3a624cba77d0fabb44cc79573620353ca60dd0b4fede980c4",
+    "caption": "Same ordinary re-entry trial: actual payoff, ring/fractures, living guard and red cone overlap; friendly floor FX beneath warning and bodies.",
+    "nativeCapture": true,
+    "edited": false
+  },
+  {
+    "file": "images/p71-live-warning-payoff-025.jpg",
+    "bytes": 151699,
+    "sha256": "d4373180152f84cc404f77624a54474bd69b2f3c43d02e8b15f98b921609db44",
+    "caption": "Same capture burst after ground wave expires; survivor and red cone remain.",
+    "nativeCapture": true,
+    "edited": false
+  },
+  {
+    "file": "images/p76-empty-accepted-held-081.jpg",
+    "bytes": 159929,
+    "sha256": "2f7ee90b615338e8d74d0d698142c17b3092e388acf206ae1f4d3af05e9617b2",
+    "caption": "Accepted empty E has ordinary swing arc but no crusher ground wave or enemy payoff; sampled native frame.",
+    "nativeCapture": true,
+    "edited": false
+  },
+  {
+    "file": "images/p65-dead-reload-retained.jpg",
+    "bytes": 39026,
+    "sha256": "ed3f726bae8cfa11b6c80866968d1b166d39ca038be2e7e732ef24214bf5cb70",
+    "caption": "Normal death persists through reload/Continue; no free resurrection.",
+    "nativeCapture": true,
+    "edited": false
+  },
+  {
+    "file": "images/p79-final-earned-profile-preserved.jpg",
+    "bytes": 52047,
+    "sha256": "ace8560d85aa2335dee27d8a09ba9ac74c500311702077fdc7f8efa81042330c",
+    "caption": "Final ordinary town return and reload preserves earned profile; runtime crusher selection resets as documented.",
+    "nativeCapture": true,
+    "edited": false
+  }
+]

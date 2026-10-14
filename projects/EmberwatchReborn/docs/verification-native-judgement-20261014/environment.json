@@ -1,0 +1,17 @@
+{
+  "browser": "Chromium 151.0.7922.173 Debian13",
+  "transport": "Python Playwright standard local CDP; same default context",
+  "viewport": [
+    1440,
+    900
+  ],
+  "headless": true,
+  "muted": true,
+  "dedicatedBrowserComputerToolAvailable": false,
+  "physicalListeningAvailable": false,
+  "server": "127.0.0.1:4187/qa-r14/",
+  "debuggingEndpoint": "127.0.0.1:9224",
+  "inputs": "native DOM controls and keyboard/mouse only",
+  "stateReads": "DOM and localStorage getItem only; no game state writes/imports/hooks",
+  "screenshots": "unaltered native JPEG70 / CDP screencast JPEG65; originals byte-identically copied"
+}

@@ -8,6 +8,23 @@ function fn(name){const m=new RegExp(`(?:async )?function ${name}\\(`).exec(sour
 const cut=(start,end)=>source.slice(source.indexOf(start),source.indexOf(end,source.indexOf(start)));
 let saved;function fixture(){if(!saved){let s=earnedTombRoute('normal',{full:true}),r=reduceRuntime(s,{type:'promoteExpert',...report(s,{x:260,y:325}),expectedRevision:1,expectedGoldCost:120},{revision:1});assert.equal(r.ok,true);s=r.state;for(const skillId of ['battle_banner','zealous_onslaught','zealous_lance']){r=reduceRuntime(s,{type:'purchaseSkill',skillId,position:{x:260,y:325}});assert.equal(r.ok,true);s=r.state;}r=reduceRuntime(s,{type:'assignActionSlot',slot:'expert1',skillId:'zealous_onslaught',expectedSkillId:null,expectedRevision:1,life:s.world.life??0},{revision:1});assert.equal(r.ok,true);s=r.state;r=reduceRuntime(s,{type:'assignActionSlot',slot:'expert2',skillId:'battle_banner',expectedSkillId:null,expectedRevision:2,life:s.world.life??0},{revision:2});assert.equal(r.ok,true);saved=r.state;}return structuredClone(saved);}
 const next=()=>new Promise(r=>setImmediate(r));
+
+test('empty learned Judgement timing is not presented as proof of an enemy hit',async()=>{
+ const h=await ui({poeMode:'wasd',skills:['judgement']}),events=[];
+ assert.equal(h.app.battle.enemies.length,0);
+ h.key('KeyE');h.up('KeyE');assert.equal(h.app.battle.p.action?.id,'judgement');
+ for(let i=0;i<60;i++){await h.frame();events.push(...h.app.battle.events);}
+ assert.ok(events.some(e=>e.type==='actionContact'));
+ assert.equal(events.some(e=>e.type==='enemyHit'||e.type==='crusherPayoff'),false);
+ assert.ok(h.app.inputObservations.some(r=>r.kind==='contact'));
+ const before=structuredClone(h.app.state),revision=h.app.controller.revision();
+ h.app.showInputObservations();
+ assert.match(h.modal.innerHTML,/타격 판정 [0-9.]+ ms/);
+ assert.match(h.modal.innerHTML,/허공 공격에도 기록됩니다/);
+ assert.match(h.modal.innerHTML,/적 명중·피해·파쇄 발동의 증거가 아닙니다/);
+ assert.doesNotMatch(h.modal.innerHTML,/실제 접촉 이벤트/);
+ assert.deepEqual(h.app.state,before);assert.equal(h.app.controller.revision(),revision);
+});
 // Actual production frame, browser event handlers, safety coordinator and store.
 // DOM/render/audio boundaries are probes. Earned predecessor travel/defeats are
 // scripted fixtures, not native key/browser gameplay or pixel/quality evidence.
@@ -261,7 +278,7 @@ for(const hz of [30,60,120])for(const blockedBy of ['hammer-recovery','roll'])te
  const pulse=h.app.inputObservations.filter(row=>row.kind==='input'&&row.action==='expert1').at(-1);assert.ok(pulse);assert.ok(h.app.inputObservations.some(row=>row.kind==='cancelled'&&row.sequence===pulse.sequence&&row.reason==='recovery-too-early'));
  for(let frame=0;frame<180&&!h.app.inputObservations.some(row=>row.kind==='contact'&&h.app.inputObservations.some(start=>start.kind==='action-start'&&start.heldRepeat&&start.skillId==='mace_swing'&&start.sequence===row.sequence));frame++)await h.frame(1/hz);
  const observations=h.app.inputObservations,start=observations.find(row=>row.kind==='action-start'&&row.heldRepeat&&row.skillId==='mace_swing'),render=observations.find(row=>row.kind==='first-render-enter'&&row.sequence===start?.sequence),contact=observations.find(row=>row.kind==='contact'&&row.sequence===start?.sequence);assert.ok(start);assert.ok(render);assert.ok(contact);assert.notEqual(start.sequence,pulse.sequence);assert.equal(start.receivedAt,null);assert.equal(start.delayMs,null);assert.equal(start.timingBasis,'action-start');assert.equal(observations.some(row=>row.kind==='input'&&row.sequence===start.sequence),false);assert.equal(observations.some(row=>row.kind==='action-start'&&row.sequence===pulse.sequence),false);assert.equal(b.p.action?.id,'mace_swing');
- h.up('KeyF');if(blockedBy==='roll')h.up('Space');await next();const before=structuredClone(h.app.state),revision=h.app.controller.revision();h.app.showInputObservations();const html=h.modal.innerHTML,articles=[...html.matchAll(/<article class="skill">[\s\S]*?<\/article>/g)].map(match=>match[0]),initial=articles.find(row=>row.includes(`· 입력 ${pulse.sequence}</strong>`)),held=articles.find(row=>row.includes(`홀드 반복 관측 ${start.sequence}</strong>`));assert.ok(initial);assert.ok(held);assert.match(html,/<h3>최초 입력 기준<\/h3>/);assert.match(html,/<h3>홀드 반복 시작 기준<\/h3>/);assert.match(initial,/시작 미관찰/);assert.match(initial,/입력 연결 종료: recovery-too-early/);assert.match(held,/철퇴/);assert.match(held,/입력 → 시작 지연 미측정 · 액션 시작 시점 기준/);assert.ok(held.includes(`첫 렌더 진입 ${(render.at-start.at).toFixed(2)} ms`));assert.ok(held.includes(`접촉 ${(contact.at-start.at).toFixed(2)} ms`));assert.doesNotMatch(held,/시작 0\.00 ms|입력 연결 종료/);assert.deepEqual(h.app.state,before);assert.equal(h.app.controller.revision(),revision);
+ h.up('KeyF');if(blockedBy==='roll')h.up('Space');await next();const before=structuredClone(h.app.state),revision=h.app.controller.revision();h.app.showInputObservations();const html=h.modal.innerHTML,articles=[...html.matchAll(/<article class="skill">[\s\S]*?<\/article>/g)].map(match=>match[0]),initial=articles.find(row=>row.includes(`· 입력 ${pulse.sequence}</strong>`)),held=articles.find(row=>row.includes(`홀드 반복 관측 ${start.sequence}</strong>`));assert.ok(initial);assert.ok(held);assert.match(html,/<h3>최초 입력 기준<\/h3>/);assert.match(html,/<h3>홀드 반복 시작 기준<\/h3>/);assert.match(initial,/시작 미관찰/);assert.match(initial,/입력 연결 종료: recovery-too-early/);assert.match(held,/철퇴/);assert.match(held,/입력 → 시작 지연 미측정 · 액션 시작 시점 기준/);assert.ok(held.includes(`첫 렌더 진입 ${(render.at-start.at).toFixed(2)} ms`));assert.ok(held.includes(`타격 판정 ${(contact.at-start.at).toFixed(2)} ms`));assert.doesNotMatch(held,/시작 0\.00 ms|입력 연결 종료/);assert.deepEqual(h.app.state,before);assert.equal(h.app.controller.revision(),revision);
 });
 
 async function contextUi(){const h=await ui({poeMode:'click',realInteractions:true});Object.assign(h.app.battle.p,{x:450,y:325});assert.equal(await h.app.dispatch({type:'checkpoint',...h.app.report()}),true);return h;}

@@ -1,0 +1,67 @@
+{
+  "baseline": "ba7b346d65bcacf5bc0351373d8b624acc41ed02",
+  "branch": "codex/emberwatch-rebuild",
+  "runtimeChange": "read-only input observation wording only",
+  "runtimeMainSha256": "9f28d06154e173813b91a779c8cf59359d043321794476bb0c13d4fd0f44f1af",
+  "automatic": {
+    "focused": {
+      "pass": 231,
+      "fail": 0,
+      "durationMs": 150001.005701
+    },
+    "full": {
+      "pass": 4690,
+      "fail": 0,
+      "skip": 0,
+      "cancel": 0,
+      "durationMs": 499312.99271
+    },
+    "appLint": "passed",
+    "appBuild": {
+      "passed": true,
+      "files": 133,
+      "bytes": 16800289
+    },
+    "commonRegistry": "failed: Corepack cache ENOENT",
+    "commonBuildVercel": "failed before project execution: Corepack cache ENOENT",
+    "commonVerify": "failed at lint bootstrap; build/playtest skipped"
+  },
+  "native": {
+    "normalEarnedJudgement": true,
+    "actualCrusherPayoff": true,
+    "payoffAndLivingEnemyTelegraphInSameFrame": true,
+    "startupDodgeCancel": true,
+    "normalDeathReloadRetryReentryAndSecondCombat": true,
+    "emptyAcceptedCastAndHeldAttackResume": true,
+    "finalNormalTownReload": true,
+    "controlledFixturesUsedAsNativeProof": false,
+    "screenshotCount": 11,
+    "screenshotBytes": 1221865,
+    "pageErrors": 0,
+    "profile": "qa-judgement-persistent-20261014",
+    "finalLevel": 7,
+    "finalXpWithinLevel": 179.5,
+    "finalKills": 44,
+    "finalDeaths": 1,
+    "finalGold": 288
+  },
+  "unverified": [
+    "actual listening/speaker output",
+    "physical input/display/audio latency",
+    "human perceived motion/responsiveness",
+    "OS focus/AX/touch qualification",
+    "long-session performance/stall resolution",
+    "other three melee builds"
+  ],
+  "blockedUnfinished": [
+    "a19 protected equipment/save changes pending original rejection and verified resolution",
+    "1H/2H and left/right rings necklace belt",
+    "Master13 runtime effects",
+    "repeat expedition system",
+    "Library backup: prior Forbidden; no retry or alternate transfer"
+  ],
+  "balanceTuning": "deferred",
+  "mainMerged": false,
+  "deployed": false,
+  "qaImages": "New bounded native evidence explicitly authorized in current delegation; no old Forbidden Library file retransmission"
+}

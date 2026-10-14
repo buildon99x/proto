@@ -1,0 +1,1894 @@
+{
+  "checks": {
+    "normal_unlock": true,
+    "first_payoff_four_kills": true,
+    "death_gold_floor_5pct": true,
+    "dead_keys_no_save_change": true,
+    "dead_reload_no_resurrection": true,
+    "retry_preserves_earned_progress": true,
+    "reentry_second_payoff": true,
+    "empty_cast_no_kills_or_xp": true,
+    "final_reload_preserves_progress": true,
+    "no_page_errors": true
+  },
+  "allTrue": true,
+  "boundedEvidence": true,
+  "physicalListeningOrLatency": false,
+  "snapshots": {
+    "37": [
+      {
+        "revision": 711,
+        "payloadSha256": "9c1883fa7a276d125261a17d680d5b4578b3f3f32cfe331227fd1d738fc5ea06",
+        "region": "ash_hamlet",
+        "position": {
+          "x": 395.67496431647845,
+          "y": 376.60878389934544
+        },
+        "level": 5,
+        "xp": 239.5,
+        "gold": 232,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1
+        },
+        "skillPoints": 7,
+        "attributePoints": 5,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "stats": {
+          "kills": 33,
+          "deaths": 0,
+          "earnedGold": 326,
+          "spentGold": 94,
+          "earnedXp": 939.5
+        },
+        "vitals": {
+          "hp": 70.46752058554438,
+          "mana": 52,
+          "stamina": 60
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ]
+        }
+      }
+    ],
+    "39": [
+      {
+        "revision": 719,
+        "payloadSha256": "eafa979aafc50cce00c1377c66f579e350c48b6fcffcdac5fdc48981d0f4f760",
+        "region": "ash_hamlet",
+        "position": {
+          "x": 328.3791637303691,
+          "y": 351.01043974440876
+        },
+        "level": 5,
+        "xp": 239.5,
+        "gold": 232,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 3,
+        "attributePoints": 5,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "stats": {
+          "kills": 33,
+          "deaths": 0,
+          "earnedGold": 326,
+          "spentGold": 94,
+          "earnedXp": 939.5
+        },
+        "vitals": {
+          "hp": 70.46752058554438,
+          "mana": 52,
+          "stamina": 60
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ]
+        }
+      }
+    ],
+    "49": [
+      {
+        "revision": 768,
+        "payloadSha256": "ac2a4c59212dc72f0eaf2e15968d048e15e9585585dd12677cb915994efff12d",
+        "region": "ember_quarry",
+        "position": {
+          "x": 172.57595284616426,
+          "y": 532.9276579574747
+        },
+        "level": 5,
+        "xp": 239.5,
+        "gold": 232,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 3,
+        "attributePoints": 5,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "stats": {
+          "kills": 33,
+          "deaths": 0,
+          "earnedGold": 326,
+          "spentGold": 94,
+          "earnedXp": 939.5
+        },
+        "vitals": {
+          "hp": 84.53156450137237,
+          "mana": 52,
+          "stamina": 60
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 0,
+          "quarry_rescue_complete": 0,
+          "quarry_anchor_a": 0,
+          "quarry_anchor_b": 0,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 0,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ]
+        }
+      }
+    ],
+    "50": [
+      {
+        "revision": 771,
+        "payloadSha256": "a85685e6fb3795a4839db3ff930d2643110a7e17adc221454c8c956c9c6aae17",
+        "region": "ember_quarry",
+        "position": {
+          "x": 172.57595284616426,
+          "y": 532.9276579574747
+        },
+        "level": 6,
+        "xp": 94.5,
+        "gold": 250,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 7,
+        "attributePoints": 10,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "stats": {
+          "kills": 37,
+          "deaths": 0,
+          "earnedGold": 344,
+          "spentGold": 94,
+          "earnedXp": 1094.5
+        },
+        "vitals": {
+          "hp": 105,
+          "mana": 36.88128399999846,
+          "stamina": 63
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 0,
+          "quarry_rescue_complete": 0,
+          "quarry_anchor_a": 0,
+          "quarry_anchor_b": 0,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 0,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1"
+          ]
+        }
+      }
+    ],
+    "61": [
+      {
+        "revision": 806,
+        "payloadSha256": "22b0615a9c485c4b68cc7d5223508768c4dd0e1ebcd7fadf351cd2e2d9086fbc",
+        "region": "ember_quarry",
+        "position": {
+          "x": 721.2324247511219,
+          "y": 273.7514396555156
+        },
+        "level": 7,
+        "xp": 59.5,
+        "gold": 288,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 11,
+        "attributePoints": 15,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "stats": {
+          "kills": 41,
+          "deaths": 0,
+          "earnedGold": 382,
+          "spentGold": 94,
+          "earnedXp": 1399.5
+        },
+        "vitals": {
+          "hp": 69.31838975297347,
+          "mana": 12.853476000000182,
+          "stamina": 66
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 0,
+          "quarry_anchor_b": 0,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 0,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3"
+          ]
+        }
+      }
+    ],
+    "62": [
+      {
+        "revision": 825,
+        "payloadSha256": "253d7b8a1c115337149018ba2387e62e034f0def75d0f77abc766a8bfd3114b0",
+        "region": "ember_quarry",
+        "position": {
+          "x": 721.2324247511219,
+          "y": 273.7514396555156
+        },
+        "level": 7,
+        "xp": 59.5,
+        "gold": 274,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 11,
+        "attributePoints": 15,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "stats": {
+          "kills": 41,
+          "deaths": 1,
+          "earnedGold": 382,
+          "spentGold": 108,
+          "earnedXp": 1399.5
+        },
+        "vitals": {
+          "hp": 0,
+          "mana": 56,
+          "stamina": 66
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 0,
+          "quarry_anchor_b": 0,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 0,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3"
+          ]
+        }
+      }
+    ],
+    "63": [
+      {
+        "revision": 825,
+        "payloadSha256": "253d7b8a1c115337149018ba2387e62e034f0def75d0f77abc766a8bfd3114b0",
+        "region": "ember_quarry",
+        "position": {
+          "x": 721.2324247511219,
+          "y": 273.7514396555156
+        },
+        "level": 7,
+        "xp": 59.5,
+        "gold": 274,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 11,
+        "attributePoints": 15,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "stats": {
+          "kills": 41,
+          "deaths": 1,
+          "earnedGold": 382,
+          "spentGold": 108,
+          "earnedXp": 1399.5
+        },
+        "vitals": {
+          "hp": 0,
+          "mana": 56,
+          "stamina": 66
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 0,
+          "quarry_anchor_b": 0,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 0,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3"
+          ]
+        }
+      },
+      {
+        "revision": 825,
+        "payloadSha256": "253d7b8a1c115337149018ba2387e62e034f0def75d0f77abc766a8bfd3114b0",
+        "region": "ember_quarry",
+        "position": {
+          "x": 721.2324247511219,
+          "y": 273.7514396555156
+        },
+        "level": 7,
+        "xp": 59.5,
+        "gold": 274,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 11,
+        "attributePoints": 15,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "stats": {
+          "kills": 41,
+          "deaths": 1,
+          "earnedGold": 382,
+          "spentGold": 108,
+          "earnedXp": 1399.5
+        },
+        "vitals": {
+          "hp": 0,
+          "mana": 56,
+          "stamina": 66
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 0,
+          "quarry_anchor_b": 0,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 0,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3"
+          ]
+        }
+      }
+    ],
+    "64": [
+      {
+        "revision": 827,
+        "payloadSha256": "f9ba2e972877da564a2d9dab241b733fb1d9b4f246ea652b7b88183d64224b6e",
+        "region": "ash_hamlet",
+        "position": {
+          "x": 350,
+          "y": 420
+        },
+        "level": 7,
+        "xp": 59.5,
+        "gold": 274,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 11,
+        "attributePoints": 15,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "stats": {
+          "kills": 41,
+          "deaths": 1,
+          "earnedGold": 382,
+          "spentGold": 108,
+          "earnedXp": 1399.5
+        },
+        "vitals": {
+          "hp": 109,
+          "mana": 56,
+          "stamina": 66
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 0,
+          "quarry_anchor_b": 0,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 0,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3"
+          ]
+        }
+      },
+      {
+        "revision": 830,
+        "payloadSha256": "589b81a88807843ace539ddc2fe583221babeec8b9e979c69e92b829b84e78fd",
+        "region": "ember_quarry",
+        "position": {
+          "x": 80,
+          "y": 624
+        },
+        "level": 7,
+        "xp": 59.5,
+        "gold": 274,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 11,
+        "attributePoints": 15,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "stats": {
+          "kills": 41,
+          "deaths": 1,
+          "earnedGold": 382,
+          "spentGold": 108,
+          "earnedXp": 1399.5
+        },
+        "vitals": {
+          "hp": 109,
+          "mana": 56,
+          "stamina": 66
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 0,
+          "quarry_anchor_b": 0,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 0,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3"
+          ]
+        }
+      }
+    ],
+    "69": [
+      {
+        "revision": 843,
+        "payloadSha256": "48d146e9484373a5b955317482a46f332efebf05ab7face21ee49abb493e226e",
+        "region": "ember_quarry",
+        "position": {
+          "x": 589.4254401852594,
+          "y": 160.12818478756043
+        },
+        "level": 7,
+        "xp": 94.5,
+        "gold": 278,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 11,
+        "attributePoints": 15,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "stats": {
+          "kills": 42,
+          "deaths": 1,
+          "earnedGold": 386,
+          "spentGold": 108,
+          "earnedXp": 1434.5
+        },
+        "vitals": {
+          "hp": 109,
+          "mana": 56,
+          "stamina": 66
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 0,
+          "quarry_anchor_b": 0,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 0,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4"
+          ]
+        }
+      }
+    ],
+    "70": [
+      {
+        "revision": 847,
+        "payloadSha256": "ca402102065495f914454c3b11fe352c3445aa13a57ee0a70940b3504d62677e",
+        "region": "ember_quarry",
+        "position": {
+          "x": 589.4254401852594,
+          "y": 160.12818478756043
+        },
+        "level": 7,
+        "xp": 179.5,
+        "gold": 288,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 11,
+        "attributePoints": 15,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "stats": {
+          "kills": 44,
+          "deaths": 1,
+          "earnedGold": 396,
+          "spentGold": 108,
+          "earnedXp": 1519.5
+        },
+        "vitals": {
+          "hp": 109,
+          "mana": 28.15036399999996,
+          "stamina": 66
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 0,
+          "quarry_anchor_b": 0,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 0,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4",
+            "quarry-guard-3",
+            "quarry-slinger-4"
+          ]
+        }
+      }
+    ],
+    "72": [
+      {
+        "revision": 869,
+        "payloadSha256": "f216594b29e5a40f6fcadb62f0eafd01ccdfcbd0e7d2f1c0610d587b04241ddc",
+        "region": "ember_quarry",
+        "position": {
+          "x": 395.00000009999434,
+          "y": 162.9056681446037
+        },
+        "level": 7,
+        "xp": 179.5,
+        "gold": 288,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 11,
+        "attributePoints": 15,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "stats": {
+          "kills": 44,
+          "deaths": 1,
+          "earnedGold": 396,
+          "spentGold": 108,
+          "earnedXp": 1519.5
+        },
+        "vitals": {
+          "hp": 86.12717291857274,
+          "mana": 35.08412000000012,
+          "stamina": 66
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 0,
+          "quarry_anchor_b": 0,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 0,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4",
+            "quarry-guard-3",
+            "quarry-slinger-4"
+          ]
+        }
+      }
+    ],
+    "73": [
+      {
+        "revision": 873,
+        "payloadSha256": "9e1961e01434688bf29350614e01290c8469a695718de15b306351df1c3f9f4e",
+        "region": "ash_hamlet",
+        "position": {
+          "x": 350,
+          "y": 420
+        },
+        "level": 7,
+        "xp": 179.5,
+        "gold": 288,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 11,
+        "attributePoints": 15,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "stats": {
+          "kills": 44,
+          "deaths": 1,
+          "earnedGold": 396,
+          "spentGold": 108,
+          "earnedXp": 1519.5
+        },
+        "vitals": {
+          "hp": 86.12717291857274,
+          "mana": 37.940120000000334,
+          "stamina": 66
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 0,
+          "quarry_anchor_b": 0,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 0,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4",
+            "quarry-guard-3",
+            "quarry-slinger-4"
+          ]
+        }
+      },
+      {
+        "revision": 874,
+        "payloadSha256": "75e61c538182a61784a9d8ab937e5b318c593f28636d8213ce819e37ad286412",
+        "region": "ash_hamlet",
+        "position": {
+          "x": 350,
+          "y": 420
+        },
+        "level": 7,
+        "xp": 179.5,
+        "gold": 288,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 11,
+        "attributePoints": 15,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "stats": {
+          "kills": 44,
+          "deaths": 1,
+          "earnedGold": 396,
+          "spentGold": 108,
+          "earnedXp": 1519.5
+        },
+        "vitals": {
+          "hp": 86.12717291857274,
+          "mana": 39.843032000000385,
+          "stamina": 66
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 0,
+          "quarry_anchor_b": 0,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 0,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4",
+            "quarry-guard-3",
+            "quarry-slinger-4"
+          ]
+        }
+      }
+    ]
+  }
+}
