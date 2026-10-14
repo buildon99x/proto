@@ -55,6 +55,7 @@ let audio: AudioContext | null = null,
     acc = 0,
     lastUI = '',
     shakeUntil = 0,
+    shakeBase = new Vec3(),
     impactAt = -10,
     impactPos: V3 = { x: 0, y: 0, z: 0 },
     tutorial = !localStorage.getItem('smash-tutorial'),
@@ -509,9 +510,9 @@ function resize() {
             (n as Entity).enabled = settings.quality !== 'LOW' || i % 3 === 0;
         });
     const portrait = innerHeight > innerWidth;
-    camera.setPosition(portrait ? 0 : 1, portrait ? 19 : 11.5, portrait ? -23 : -14);
-    camera.camera!.fov = portrait ? 62 : 49;
-    camera.lookAt(0, 0.25, 0);
+    camera.setPosition(portrait ? 0 : 1, portrait ? 19 : 14, portrait ? -23 : -17);
+    camera.camera!.fov = portrait ? 62 : 58;
+    camera.lookAt(0, 2.6, 0);
 }
 async function boot() {
     const device = await createGraphicsDevice(canvas, {
@@ -592,8 +593,10 @@ async function boot() {
         sound(h);
         impactAt = game.time;
         impactPos = { ...h.p };
-        if (settings.shake && ['smash', 'superSmash'].includes(h.shot))
+        if (settings.shake && ['smash', 'superSmash'].includes(h.shot)) {
+            shakeBase.copy(camera.getPosition());
             shakeUntil = game.time + 0.06;
+        }
     };
     window.addEventListener('resize', resize);
     canvas.addEventListener('webglcontextlost', (e) => {
@@ -648,7 +651,11 @@ async function boot() {
             if (history[i * 3]) e.setPosition(history[i * 3].x, history[i * 3].y, history[i * 3].z);
         });
         if (game.time < shakeUntil)
-            camera.setLocalPosition(1 + Math.sin(game.time * 400) * 0.025, 12.5, -15);
+            camera.setLocalPosition(
+                shakeBase.x + Math.sin(game.time * 400) * 0.025,
+                shakeBase.y,
+                shakeBase.z,
+            );
         else if (shakeUntil) {
             shakeUntil = 0;
             resize();
@@ -659,6 +666,9 @@ async function boot() {
         value: () => ({
             ...game.snapshot(),
             fps,
+            shuttleScreen: camera
+                .camera!.worldToScreen(new Vec3(game.p.x, game.p.y, game.p.z))
+                .clone(),
             audioState: audio?.state ?? 'locked',
             audioEvents,
             heapBytes: (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory

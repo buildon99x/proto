@@ -202,7 +202,8 @@ export class Game {
         };
         if (shot === 'drop') target.z = -a.side * clamp(Math.abs(target.z), 0.8, 1.9);
         if (shot === 'clear') target.z = -a.side * Math.max(5.1, Math.abs(target.z));
-        if(!isServe && a.quality==='weak')target.z=-a.side * Math.min(4.1,Math.abs(target.z));
+        if (!isServe && a.quality === 'weak')
+            target.z = -a.side * Math.min(4.1, Math.abs(target.z));
         let result = solve(this.p, target, shot);
         // An impossible steep attack becomes a safe drive using the same solver, never a fabricated hit.
         if (result.prediction.reason === 'NET' && (shot === 'smash' || shot === 'superSmash')) {
@@ -289,7 +290,7 @@ export class Game {
             profile = profiles[this.difficulty];
         const n = this.shots.length;
         const intent: Intent =
-            this.difficulty === 'EASY'
+            this.difficulty === 'EASY' || (this.difficulty === 'NORMAL' && this.returns < 3)
                 ? 'clear'
                 : Math.abs(player.p.z) > 4.3
                   ? 'drop'
@@ -346,7 +347,18 @@ export class Game {
             if (this.time < a.recoverUntil && this.time - a.swingAt > 0.25) a.motion = 'Recover';
             if (this.time < a.recoverUntil || (i === this.receiver && this.time < this.reactionAt))
                 continue;
-            if (i !== this.receiver) a.target = { x: a.p.x * 0.3, y: 0, z: a.side * 3.3 };
+            if (i !== this.receiver) {
+                let recoveryX = a.p.x * 0.3;
+                if (i === 1) {
+                    const recent = this.shots
+                        .filter((h) => h.actor === 0)
+                        .slice(-3)
+                        .map((h) => h.target.x);
+                    if (recent.length === 3 && Math.max(...recent) - Math.min(...recent) < 0.5)
+                        recoveryX = (recent.reduce((v, x) => v + x, 0) / 3) * 0.35;
+                }
+                a.target = { x: recoveryX, y: 0, z: a.side * 3.3 };
+            }
             const dx = a.target.x - a.p.x,
                 dz = a.target.z - a.p.z,
                 d = Math.hypot(dx, dz),

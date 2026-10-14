@@ -131,6 +131,19 @@ describe('match and contact', () => {
         }
         console.log('10 simulated matches, max returns', maxRally);
     }, 30000);
+    it('all AI profiles obey shared travel and contact reach',()=>{
+        for(const difficulty of ['EASY','NORMAL','HARD'] as const){
+            const g=new Game();g.difficulty=difficulty;g.start();let contacts=0,last=-1;
+            g.onHit=h=>{contacts++;const a=g.actors[h.actor];expect(Math.hypot(h.p.x-(a.p.x+.35),h.p.z-(a.p.z-a.side*.3))).toBeLessThanOrEqual(CFG.reach);};
+            for(let n=0;n<120*30;n++){
+                if(g.phase==='SERVE_READY'&&g.server===0)g.command({shotIntent:'clear',target:{x:0,y:0,z:5.8},issuedAt:g.time,pointerType:'unit'});
+                if(g.phase==='RALLY'&&g.receiver===0&&g.contactAt-g.time<.14&&g.contactAt!==last){last=g.contactAt;g.command({shotIntent:'clear',target:{x:0,y:0,z:5.8},issuedAt:g.time,pointerType:'unit'});}
+                const phase=g.phase, before=g.actors.map(a=>clone(a.p));g.step();
+                if(phase==='RALLY'&&g.phase==='RALLY')g.actors.forEach((a,i)=>expect(Math.hypot(a.p.x-before[i].x,a.p.z-before[i].z)).toBeLessThan(CFG.speed*CFG.dt+.004));
+            }
+            expect(contacts).toBeGreaterThan(2);
+        }
+    });
     it('pause freezes and unreachable commands do not invent hits', () => {
         const g = new Game();
         g.start();

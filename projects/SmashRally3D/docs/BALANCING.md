@@ -6,3 +6,7 @@ Contact opportunity is chosen while the shuttle descends through 2.7–1.05m and
 EASY/NORMAL/HARD reaction delays: 0.50/0.30/0.18 seconds. Shared actor speed/acceleration; differing timing error ceilings 0.24/0.19/0.09 sec expose physically weak returns and super-smash opportunities. Deterministic variation allows reproducible tests. AI attacks the opposite horizontal space and alternates back/front tactics according to player position. Perception includes delayed movement and bounded target error; intercept prediction still uses authoritative trajectory and is a limitation relative to fully noisy perception.
 
 No claims of AAA completion or measured physical-device performance. Procedural art is original and functional, not production character animation quality. Body/arm blending, crowd art and shadow realism still warrant human play review.
+
+Camera correction after screenshot review: raised sports camera to (1,14,-17), look target y=2.6, vertical FOV58°. Previous camera clipped high clears near the top edge; stable wider framing keeps the flight readable without in-rally zoom or cuts.
+
+NORMAL now begins with safe clears for the first three rally returns before applying attacking choices. Earlier normal-opening smashes ended too many serves before learners could exchange shots. AI recovery biases toward three repeatedly attacked horizontal targets while preserving identical speed/acceleration and leaving the opposite space open.

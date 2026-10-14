@@ -20,7 +20,7 @@ export async function run({ page, sleep, shot, log }) {
   let lastContact = -1,
     longest = 0,
     captured = false;
-  const deadline = Date.now() + 180000;
+  const deadline = Date.now() + 300000;
   while (Date.now() < deadline) {
     d = await read();
     if (d.phase === "RESULTS") break;
@@ -50,7 +50,7 @@ export async function run({ page, sleep, shot, log }) {
     }
     await sleep(25);
   }
-  if (d.phase !== "RESULTS") throw new Error("Match did not reach results");
+  if (d.phase !== "RESULTS") throw new Error("Match did not reach results: "+JSON.stringify({phase:d.phase,time:d.time,scores:d.scores,points:d.points,fps:d.fps}));
   if (longest < 3) throw new Error("No normal UI rally reached 3 returns");
   await shot("04-results");
   log(
