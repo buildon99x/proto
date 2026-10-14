@@ -98,6 +98,8 @@ export type PoseActor = {
     shot: string;
     strikeTarget?: V3 | null;
     holdingServe?: boolean;
+    swingContact?: V3 | null;
+    swingTarget?: V3 | null;
     swingMotion?: string;
     attackBoost?: boolean;
 };
@@ -109,6 +111,7 @@ export type RacketPose = {
     active: boolean;
     reachable: boolean;
     phase: number;
+    receiverSide: number;
 };
 export type SkeletonPose = {
     joints: Record<string, V3>;
@@ -119,6 +122,8 @@ export type SkeletonPose = {
     footPhases: { left: boolean; right: boolean };
 };
 export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
+    const contact = a.swingContact ?? a.contact,
+        goal = a.swingTarget ?? a.strikeTarget;
     const motion = (a.motion === 'Miss' ? 'Recover' : a.motion) as MotionName,
         def = MOTIONS[motion] ?? MOTIONS.Ready,
         elapsed = time - a.swingAt,
@@ -129,7 +134,7 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
         recoverT = clamp((elapsed - a.hitFrame - previous.recover * 0.85) / 0.25, 0, 1);
     const high = motion === 'Clear' || motion === 'Smash',
         speed = Math.hypot(a.v.x, a.v.z),
-        overhead = a.contact ? clamp((a.contact.y - 2.1) / 0.6, 0, 1) : 0;
+        overhead = contact ? clamp((contact.y - 2.1) / 0.6, 0, 1) : 0;
     const hop =
         swing && high
             ? Math.sin(Math.PI * clamp(elapsed / (a.hitFrame + 0.2), 0, 1)) *
@@ -143,8 +148,8 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
         Math.hypot(rf.x - a.p.x, rf.z - a.p.z),
     );
     const crouch =
-        swing && a.contact
-            ? clamp((1.6 - a.contact.y) * 0.25, 0, 0.18) * (t * t * (3 - 2 * t)) * (1 - follow)
+        swing && contact
+            ? clamp((1.6 - contact.y) * 0.25, 0, 0.18) * (t * t * (3 - 2 * t)) * (1 - follow)
             : 0;
     const height =
         Math.min(
@@ -183,8 +188,8 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
     const shR = add(chest, add(mul(right, 0.27), { x: 0, y: 0.02, z: 0 })),
         shL = add(chest, add(mul(right, -0.27), { x: 0, y: 0.02, z: 0 }));
     const aim =
-        a.strikeTarget && a.contact
-            ? unit({ x: a.strikeTarget.x - a.contact.x, y: 0, z: a.strikeTarget.z - a.contact.z })
+        goal && contact
+            ? unit({ x: goal.x - contact.x, y: 0, z: goal.z - contact.z })
             : { x: 0, y: 0, z: -a.side };
     const normal = unit({
             x: aim.x,
@@ -200,7 +205,7 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
         }),
         shaft = unit(sub({ x: 0, y: 1, z: 0 }, mul(normal, normal.y)));
     let desired = add(shR, add(mul(right, 0.25), add(mul(forward, 0.3), { x: 0, y: -0.12, z: 0 })));
-    if (swing && a.contact) {
+    if (swing && contact) {
         const wind = add(
             shR,
             add(mul(right, motion === 'Drop' ? 0.25 : 0.55), {
@@ -210,7 +215,7 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
             }),
         );
         const through = add(
-            a.contact,
+            contact,
             add(mul(right, -(motion === 'Drop' ? 0.16 : 0.55)), {
                 x: 0,
                 y: motion === 'Clear' ? 0.28 : motion === 'Smash' ? -0.8 : -0.14,
@@ -223,12 +228,12 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
             desired = lerp(ready, wind, u * u * (3 - 2 * u));
         } else if (t < 1) {
             const u = (t - 0.3) / 0.7;
-            desired = lerp(wind, a.contact, u * u * (3 - 2 * u));
-        } else desired = lerp(a.contact, through, follow);
+            desired = lerp(wind, contact, u * u * (3 - 2 * u));
+        } else desired = lerp(contact, through, follow);
     }
-    if (motion === 'Recover' && a.contact) {
+    if (motion === 'Recover' && contact) {
         const through = add(
-            a.contact,
+            contact,
             add(mul(right, -0.55), {
                 x: 0,
                 y: a.swingMotion === 'Clear' ? 0.28 : a.swingMotion === 'Smash' ? -0.8 : -0.14,
@@ -261,8 +266,8 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
             z: forward.z * (0.13 + 0.19 * balance),
         }),
     );
-    if (a.holdingServe && a.contact)
-        offHand = lerp(a.contact, offHand, swing ? clamp(elapsed / 0.08, 0, 1) : 0);
+    if (a.holdingServe && contact)
+        offHand = lerp(contact, offHand, swing ? clamp(elapsed / 0.08, 0, 1) : 0);
     const offArm = twoBone(shL, offHand, 0.36, 0.36, mul(right, -1));
     const hipR = add(hip, { x: -a.side * 0.16, y: 0, z: 0 }),
         hipL = add(hip, { x: a.side * 0.16, y: 0, z: 0 }),
@@ -297,6 +302,7 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
             active: swing && Math.abs(elapsed - a.hitFrame) <= 0.035,
             reachable: d3(center, desired) < 0.12,
             phase: elapsed,
+            receiverSide: a.side,
         },
         hipHeight: height,
         hop,
@@ -339,7 +345,11 @@ export function contactCheck(
     }
     return {
         valid:
-            pose.active && plane <= 0.045 && radial <= 0.225 && dot(velocity, pose.normal) < -0.05,
+            pose.active &&
+            plane <= 0.045 &&
+            radial <= 0.225 &&
+            Math.abs(dot(velocity, pose.normal)) > 0.05 &&
+            velocity.z * pose.receiverSide > 0,
         planeDistance: plane,
         radialDistance: radial,
         distance: d3(point, center),
@@ -386,6 +396,8 @@ export function predictedRacket(
         v: { ...a.v },
         feet: JSON.parse(JSON.stringify(a.feet)) as Feet,
         contact: { ...point },
+        swingContact: { ...point },
+        swingTarget: { x: 0, y: 0.025, z: -a.side * 5.8 },
         motion: point.y >= 2.15 ? 'Smash' : 'BasicHit',
         swingAt: now + future - (point.y >= 2.15 ? 0.16 : 0.12),
         hitFrame: point.y >= 2.15 ? 0.16 : 0.12,
@@ -393,7 +405,13 @@ export function predictedRacket(
     };
     const target = { x: point.x + a.side * 0.35, y: 0, z: point.z + a.side * 0.3 };
     for (let t = dt; t <= future + dt * 0.1; t += dt) {
-        moveMotor(actor.p,actor.v,t>=delay&&now+t>=a.recoverUntil?target:actor.p,a.side,dt);
+        moveMotor(
+            actor.p,
+            actor.v,
+            t >= delay && now + t >= a.recoverUntil ? target : actor.p,
+            a.side,
+            dt,
+        );
         stepFeet(actor.feet, actor.p, actor.v, now + t, a.side);
     }
     return skeletonPose(actor, now + future).racket;

@@ -33,6 +33,7 @@ import { CFG, clamp } from './physics';
 import type { V3 } from './physics';
 import { MOTIONS, skeletonPose, sub } from './motion';
 import type { MotionName } from './motion';
+import { synthImpact, offlineImpacts } from './audio';
 import './style.css';
 const reviewContact = new URLSearchParams(location.search).get('review-contact');
 let reviewHit: Hit | null = null;
@@ -90,40 +91,24 @@ function save() {
         localStorage.setItem('smash-settings', JSON.stringify(settings));
     } catch {}
 }
+const impactLedger: {
+    shot: string;
+    physicsTime: number;
+    source: string;
+    impactPerf: number;
+    audioPerf: number | null;
+    audioTime: number | null;
+    fxPerf: number;
+    renderPerf: number | null;
+}[] = [];
 function sound(h: Hit) {
-    if (!settings.sound || !audio || audio.state !== 'running') return;
-    const t = audio.currentTime,
-        p = h.shot === 'superSmash' ? 1 : h.shot === 'smash' ? 0.8 : h.shot === 'drop' ? 0.25 : 0.5;
-    const b = audio.createBuffer(1, audio.sampleRate * 0.1, audio.sampleRate),
-        d = b.getChannelData(0);
-    for (let i = 0; i < d.length; i++)
-        d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (audio.sampleRate * 0.016));
-    const n = audio.createBufferSource();
-    n.buffer = b;
-    const f = audio.createBiquadFilter();
-    f.type = 'highpass';
-    f.frequency.value = { clear: 1800, drive: 3400, drop: 1200, smash: 4200, superSmash: 5200 }[
-        h.shot
-    ];
-    const g = audio.createGain();
-    g.gain.setValueAtTime(p * 0.45, t);
-    g.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
-    n.connect(f).connect(g).connect(audio.destination);
-    n.start(t);
-    const o = audio.createOscillator(),
-        body = audio.createGain();
-    o.frequency.setValueAtTime(
-        { clear: 720, drive: 1400, drop: 540, smash: 1150, superSmash: 1700 }[h.shot],
-        t,
-    );
-    o.frequency.exponentialRampToValueAtTime(150, t + 0.06);
-    body.gain.setValueAtTime(p * 0.18, t);
-    body.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
-    o.connect(body).connect(audio.destination);
-    o.start(t);
-    o.stop(t + 0.09);
+    if (!settings.sound || !audio || audio.state !== 'running') return null;
+    const result = synthImpact(audio, h.shot, h.quality);
     audioEvents++;
+    return { ...result, perf: performance.now() };
 }
+if (new URLSearchParams(location.search).has('audio-review'))
+    Object.defineProperty(window, 'smashAudioReview', { value: offlineImpacts });
 function controls() {
     return `<div class="settings">${[
         ['sound', 'Sound'],
@@ -431,7 +416,10 @@ const direction = new Vec3(),
     bodyMatrix = new Mat4(),
     bodyRotation = new Quat();
 function animate(r: ReturnType<typeof makeActor>) {
-    const pose = reviewHit&&r.a===game.actors[reviewHit.actor]?reviewHit.renderPose:(r.a.pose ?? skeletonPose(r.a, game.time)),
+    const pose =
+            reviewHit && r.a === game.actors[reviewHit.actor]
+                ? reviewHit.renderPose
+                : (r.a.pose ?? skeletonPose(r.a, game.time)),
         j = pose.joints;
     r.root.setPosition(0, 0, 0); // joint world poses own translation; skin matrices remain one coherent hierarchy
     const bodyRight = new Vec3(
@@ -653,9 +641,21 @@ async function boot() {
             camera.camera!.fov = 42;
             camera.lookAt(game.actors[0].p.x, 1.35, game.actors[0].p.z);
         }
-        sound(h);
+        const impactPerf = performance.now(),
+            scheduled = sound(h);
         impactAt = game.time;
         impactPos = { ...h.p };
+        impactLedger.push({
+            shot: h.shot,
+            physicsTime: h.time,
+            source: h.contact.source,
+            impactPerf,
+            audioPerf: scheduled?.perf ?? null,
+            audioTime: scheduled?.scheduledAt ?? null,
+            fxPerf: performance.now(),
+            renderPerf: null,
+        });
+        if (impactLedger.length > 256) impactLedger.shift();
         if (settings.shake && ['smash', 'superSmash'].includes(h.shot)) {
             shakeBase.copy(camera.getPosition());
             shakeUntil = game.time + 0.06;
@@ -727,7 +727,20 @@ async function boot() {
             shakeUntil = 0;
             resize();
         }
-        renderUI();if(reviewHit){let badge=document.getElementById('review-badge');if(!badge){badge=document.createElement('div');badge.id='review-badge';badge.style.cssText='position:fixed;bottom:110px;left:20px;background:#132837;padding:10px;color:white;font:12px Arial';document.body.appendChild(badge);}badge.textContent='EVENT-PAUSED CONTACT INSPECTION — NOT NORMAL PLAY QA';}
+        for (const event of impactLedger)
+            if (event.renderPerf === null) event.renderPerf = performance.now();
+        renderUI();
+        if (reviewHit) {
+            let badge = document.getElementById('review-badge');
+            if (!badge) {
+                badge = document.createElement('div');
+                badge.id = 'review-badge';
+                badge.style.cssText =
+                    'position:fixed;bottom:110px;left:20px;background:#132837;padding:10px;color:white;font:12px Arial';
+                document.body.appendChild(badge);
+            }
+            badge.textContent = 'EVENT-PAUSED CONTACT INSPECTION — NOT NORMAL PLAY QA';
+        }
     });
     Object.defineProperty(window, 'smashDiagnostics', {
         value: () => ({
@@ -739,6 +752,7 @@ async function boot() {
                 .clone(),
             audioState: audio?.state ?? 'locked',
             audioEvents,
+            audioLedger: impactLedger.map((e) => ({ ...e })),
             heapBytes: (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory
                 ?.usedJSHeapSize,
             motions: [player, opponent].map((r) => ({

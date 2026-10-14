@@ -4,6 +4,7 @@ import {
     stepFeet,
     skeletonPose,
     contactCheck,
+    lerp,
     moveMotor,
     predictedRacket,
 } from './motion';
@@ -44,6 +45,8 @@ export type Actor = {
     swingMotion: string;
     strikeTarget: V3 | null;
     holdingServe: boolean;
+    swingContact: V3 | null;
+    swingTarget: V3 | null;
     shot: Shot;
     quality: Quality;
     command: Command | null;
@@ -57,7 +60,7 @@ export type Hit = {
     time: number;
     target: V3;
     velocity: V3;
-    renderPose:SkeletonPose;
+    renderPose: SkeletonPose;
     requestedShot: Shot;
     fallbackReason: string | null;
     contact: {
@@ -156,6 +159,8 @@ export class Game {
             swingMotion: 'BasicHit',
             strikeTarget: null,
             holdingServe: false,
+            swingContact: null,
+            swingTarget: null,
             shot: 'drive',
             quality: 'good',
             command: null,
@@ -199,6 +204,8 @@ export class Game {
             a.armed = false;
             a.attackBoost = false;
             a.holdingServe = false;
+            a.swingContact = null;
+            a.swingTarget = null;
             a.pose = null;
             a.previousPose = null;
         }
@@ -278,10 +285,12 @@ export class Game {
         a.hitFrame = MOTIONS.Serve.lead;
         a.frameEmitted = false;
         a.contact = clone(this.p);
+        a.swingContact = { ...this.p };
         a.motion = 'Serve';
         a.swingMotion = 'Serve';
         a.attackBoost = false;
         a.strikeTarget = cmd ? { ...cmd.target } : { x: 0.3, y: 0.025, z: -a.side * 5.4 };
+        a.swingTarget = { ...a.strikeTarget! };
         a.command = cmd ?? {
             shotIntent: 'clear',
             target: { x: 0.3, y: 0, z: -a.side * 5.4 },
@@ -329,6 +338,24 @@ export class Game {
         if (!isServe) this.p = { ...contact.point };
         a.armed = false;
         a.holdingServe = false;
+        let snapshot = pose;
+        if (contact.swept && a.previousPose) {
+            const oldPose = a.previousPose;
+            snapshot = {
+                ...pose,
+                joints: Object.fromEntries(
+                    Object.entries(pose.joints).map(([name, p]) => [
+                        name,
+                        lerp(oldPose.joints[name], p, contact.alpha),
+                    ]),
+                ),
+                racket: {
+                    ...pose.racket,
+                    center: { ...contact.center },
+                    hand: lerp(oldPose.racket.hand, pose.racket.hand, contact.alpha),
+                },
+            };
+        }
         let shot: Shot = isServe
             ? 'clear'
             : chooseShot(
@@ -368,7 +395,8 @@ export class Game {
             shot,
             quality: a.quality,
             time: this.time,
-            target,renderPose:pose,
+            target,
+            renderPose: snapshot,
             requestedShot,
             fallbackReason: result.fallbackReason,
             contact: {
@@ -479,7 +507,7 @@ export class Game {
                 this.actors[1].command!.issuedAt -
                     (this.contactAt - this.inputLead(this.actors[1].command!.shotIntent, 1)),
             );
-        void profile;
+        if (this.actors[1].quality === 'miss') this.actors[1].command = null;
     }
     motionFrame(index: number) {
         const a = this.actors[index];
@@ -664,6 +692,8 @@ export class Game {
                 ? solve(a.contact, this.shotTarget(a, requested), requested).resolvedShot
                 : requested;
             a.strikeTarget = { ...this.shotTarget(a, prepared) };
+            a.swingTarget = { ...a.strikeTarget };
+            a.swingContact = a.contact ? { ...a.contact } : null;
             a.attackBoost = prepared === 'superSmash';
             a.motion = (
                 {

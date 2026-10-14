@@ -105,3 +105,49 @@ it('scores line IN, net/out/own-side faults once and serves the winner', () => {
         expect(g.server).toBe(winner);
     }
 });
+it('accepts either string face for a descending incoming attack and rejects outgoing travel', () => {
+    const a = actor();
+    a.motion = 'Smash';
+    a.hitFrame = 0.16;
+    a.contact.y = 2.7;
+    const r = skeletonPose(a, 0.16).racket;
+    expect(contactCheck(r, r.center, { x: 0, y: -6, z: -1 }).valid).toBe(true);
+    expect(contactCheck(r, r.center, { x: 0, y: -6, z: 1 }).valid).toBe(false);
+});
+it('reaches a real eligible super attack through ordinary start, commands and fixed steps', () => {
+    const g = new Game();
+    g.difficulty = 'EASY';
+    g.start();
+    let issued = -1;
+    for (let n = 0; n < 18000 && !g.shots.some((h) => h.shot === 'superSmash'); n++) {
+        if (g.phase === 'SERVE_READY' && g.server === 0)
+            g.command({
+                shotIntent: 'clear',
+                target: { x: 0, y: 0.025, z: 5.8 },
+                issuedAt: g.time,
+                pointerType: 'unit',
+            });
+        if (
+            g.phase === 'RALLY' &&
+            g.receiver === 0 &&
+            issued !== g.contactAt &&
+            g.contactAt - g.time <= 0.18 &&
+            g.contactAt - g.time > 0.1
+        ) {
+            const attack = g.incomingWeak && (g.actors[0].contact?.y ?? 0) >= 2.5;
+            g.command({
+                shotIntent: attack ? 'default' : 'clear',
+                target: { x: 1.8, y: 0.025, z: 5.8 },
+                issuedAt: g.time,
+                pointerType: 'unit',
+            });
+            issued = g.contactAt;
+        }
+        g.step();
+    }
+    const h = g.shots.find((h) => h.shot === 'superSmash');
+    expect(h).toBeDefined();
+    expect(h!.velocity.y).toBeLessThan(0);
+    expect(h!.contact.source).toBe('domain:hit_frame');
+    expect(h!.contact.radialDistance).toBeLessThanOrEqual(0.225);
+});
