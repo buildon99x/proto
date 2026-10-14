@@ -66,16 +66,20 @@ export function stepFeet(feet: Feet, p: V3, v: V3, time: number, side = -1) {
             }
         }
     }
-    if (feet.left.swing || feet.right.swing) return;
-    const key = feet.next,
+    const active = feet.left.swing || feet.right.swing;
+    if (feet.left.swing && feet.right.swing) return;
+    const key = active ? (feet.left.swing ? 'right' : 'left') : feet.next,
         f = feet[key],
         offset = key === 'left' ? side * 0.17 : -side * 0.17,
         ideal = { x: p.x + offset, y: 0.1, z: p.z };
-    if (speed > 0.35 || Math.hypot(f.p.x - ideal.x, f.p.z - ideal.z) > 0.12) {
-        if (time - feet.last < duration * 0.4) return;
+    const lag = Math.hypot(f.p.x - ideal.x, f.p.z - ideal.z);
+    // Running can have a brief airborne overlap: lift before a planted leg is overextended.
+    if (active && lag < 0.45) return;
+    if (speed > 0.35 || lag > 0.12) {
+        if (!active && time - feet.last < duration * 0.4) return;
         const dir = speed > 0.1 ? { x: v.x / speed, y: 0, z: v.z / speed } : { x: 0, y: 0, z: 0 };
         f.from = clone(f.p);
-        f.to = add(ideal, mul(dir, speed * duration * 0.8));
+        f.to = add(ideal, mul(dir, speed * duration * 0.35));
         f.to.y = 0.1;
         f.started = time;
         f.cycle++;
@@ -143,23 +147,17 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
             : 0;
     const lf = add(a.feet.left.p, { x: 0, y: hop, z: 0 }),
         rf = add(a.feet.right.p, { x: 0, y: hop, z: 0 });
-    const maxHoriz = Math.max(
-        Math.hypot(lf.x - a.p.x, lf.z - a.p.z),
-        Math.hypot(rf.x - a.p.x, rf.z - a.p.z),
-    );
+    const rightHip = { x: a.p.x - a.side * 0.16, z: a.p.z },
+        leftHip = { x: a.p.x + a.side * 0.16, z: a.p.z };
+    const limit = (foot: V3, hip: { x: number; z: number }) =>
+        foot.y +
+        Math.sqrt(Math.max(0.0004, 0.858 * 0.858 - (foot.x - hip.x) ** 2 - (foot.z - hip.z) ** 2));
     const crouch =
         swing && contact
             ? clamp((1.6 - contact.y) * 0.25, 0, 0.18) * (t * t * (3 - 2 * t)) * (1 - follow)
             : 0;
     const height =
-        Math.min(
-            speed > 2 ? 0.84 : 0.92,
-            Math.sqrt(
-                Math.max(0.36, 0.86 * 0.86 - Math.min(0.66, maxHoriz) * Math.min(0.66, maxHoriz)),
-            ) + 0.07,
-        ) +
-        hop -
-        crouch;
+        Math.min((speed > 2 ? 0.84 : 0.92) + hop, limit(rf, rightHip), limit(lf, leftHip)) - crouch;
     const hip = { x: a.p.x, y: height, z: a.p.z },
         forward = { x: 0, y: 0, z: -a.side },
         lean =

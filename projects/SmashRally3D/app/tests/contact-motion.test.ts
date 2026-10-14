@@ -151,3 +151,38 @@ it('reaches a real eligible super attack through ordinary start, commands and fi
     expect(h!.contact.source).toBe('domain:hit_frame');
     expect(h!.contact.radialDistance).toBeLessThanOrEqual(0.225);
 });
+it('plants rendered ankles through full-speed reversals without leg stretching', () => {
+    const a = actor();
+    a.contact = null;
+    a.motion = 'Run';
+    for (let n = 0; n < 500; n++) {
+        const previous = { left: { ...a.feet.left.p }, right: { ...a.feet.right.p } };
+        const cycles = { left: a.feet.left.cycle, right: a.feet.right.cycle };
+        const stance = { left: !a.feet.left.swing, right: !a.feet.right.swing };
+        a.v = { x: Math.floor(n / 55) % 2 ? 5.8 : -5.8, y: 0, z: Math.floor(n / 80) % 2 ? 0 : 1 };
+        a.p.x += a.v.x / 120;
+        a.p.z += a.v.z / 120;
+        stepFeet(a.feet, a.p, a.v, n / 120, a.side);
+        const pose = skeletonPose(a, n / 120);
+        for (const key of ['left', 'right'] as const) {
+            const foot = a.feet[key];
+            if (!foot.swing) {
+                expect(
+                    d3(pose.joints[key === 'left' ? 'AnkleL' : 'AnkleR'], foot.p),
+                    JSON.stringify({
+                        n,
+                        key,
+                        p: a.p,
+                        foot: foot.p,
+                        hip: pose.joints.Hip,
+                        other: a.feet[key === 'left' ? 'right' : 'left'],
+                    }),
+                ).toBeLessThan(0.0025);
+                if (stance[key] && cycles[key] === foot.cycle)
+                    expect(d3(previous[key], foot.p)).toBe(0);
+            }
+        }
+        expect(d3(pose.joints.HipR, pose.joints.KneeR)).toBeCloseTo(0.43, 7);
+        expect(d3(pose.joints.KneeR, pose.joints.AnkleR)).toBeCloseTo(0.43, 7);
+    }
+});

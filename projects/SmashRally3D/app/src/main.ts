@@ -99,7 +99,7 @@ const impactLedger: {
     audioPerf: number | null;
     audioTime: number | null;
     fxPerf: number;
-    renderPerf: number | null;
+    renderQueuedPerf: number | null;
 }[] = [];
 function sound(h: Hit) {
     if (!settings.sound || !audio || audio.state !== 'running') return null;
@@ -637,9 +637,9 @@ async function boot() {
         if (reviewContact && h.actor === 0 && game.shots.length > 1 && h.shot === reviewContact) {
             reviewHit = h;
             game.paused = true;
-            camera.setPosition(game.actors[0].p.x + 1.6, 2.4, game.actors[0].p.z - 3);
-            camera.camera!.fov = 42;
-            camera.lookAt(game.actors[0].p.x, 1.35, game.actors[0].p.z);
+            camera.setPosition(game.actors[0].p.x + 1.8, 2.4, game.actors[0].p.z - 4.2);
+            camera.camera!.fov = 48;
+            camera.lookAt(game.actors[0].p.x, 1.5, game.actors[0].p.z);
         }
         const impactPerf = performance.now(),
             scheduled = sound(h);
@@ -653,7 +653,7 @@ async function boot() {
             audioPerf: scheduled?.perf ?? null,
             audioTime: scheduled?.scheduledAt ?? null,
             fxPerf: performance.now(),
-            renderPerf: null,
+            renderQueuedPerf: null,
         });
         if (impactLedger.length > 256) impactLedger.shift();
         if (settings.shake && ['smash', 'superSmash'].includes(h.shot)) {
@@ -728,7 +728,7 @@ async function boot() {
             resize();
         }
         for (const event of impactLedger)
-            if (event.renderPerf === null) event.renderPerf = performance.now();
+            if (event.renderQueuedPerf === null) event.renderQueuedPerf = performance.now();
         renderUI();
         if (reviewHit) {
             let badge = document.getElementById('review-badge');

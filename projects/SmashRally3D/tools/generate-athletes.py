@@ -27,13 +27,13 @@ for uniform,filename in [('#f4b64d','athlete-gold.glb'),('#8491ed','athlete-viol
     t=max(0,min(1,(at[1]-blend[2])/(blend[3]-blend[2])));ji=[joint_index[blend[0]],joint_index[blend[1]],0,0];weights=[1-t,t,0,0]
    buf['j'].append(ji);buf['w'].append(weights)
   buf['i'].extend([v+offset for v in idx])
- part('sphere',[0,1.18,0],[.53,.76,.35],uniform,'Spine',('Spine','Chest',1.15,1.47));part('sphere',[0,.94,0],[.46,.32,.35],'#1b3145','Hip');part('sphere',[0,1.72,0],[.17,.19,.17],'#dcb08b','Neck');part('sphere',[0,1.84,0],[.36,.42,.33],'#dcb08b','Head');part('sphere',[0,1.98,-.025],[.38,.20,.34],'#263346','Head')
+ part('sphere',[0,1.18,0],[.60,.86,.39],uniform,'Spine',('Spine','Chest',1.15,1.47));part('sphere',[0,.94,0],[.46,.32,.35],'#1b3145','Hip');part('sphere',[0,1.67,0],[.19,.29,.19],'#dcb08b','Neck');part('sphere',[0,1.84,0],[.36,.42,.33],'#dcb08b','Head');part('sphere',[0,1.98,-.025],[.38,.20,.34],'#263346','Head')
  # Face +Z; player yaw0, opponent yaw180, same handed rig.
  for x in [-.070,.070]:part('sphere',[x,1.875,.146],[.047,.048,.027],'#f2f4ec','Head');part('sphere',[x,1.875,.163],[.020,.028,.015],'#263346','Head')
  part('sphere',[0,1.83,.166],[.055,.068,.060],'#d1a07d','Head')
  for suffix,sign in [('R',1),('L',-1)]:
-  x=sign*.27;part('sphere',[x,1.44,0],[.20,.22,.24],uniform,'Shoulder'+suffix);part('sphere',[x,1.27,0],[.145,.40,.145],'#dcb08b','Shoulder'+suffix);part('sphere',[x,.91,0],[.12,.40,.12],'#dcb08b','Elbow'+suffix);part('sphere',[x,.76,0],[.14,.15,.13],'#dcb08b','Wrist'+suffix)
-  x=sign*.16;part('sphere',[x,.83,0],[.25,.32,.31],'#1b3145','Hip'+suffix);part('sphere',[x,.735,0],[.19,.48,.19],'#dcb08b','Hip'+suffix);part('sphere',[x,.305,0],[.16,.49,.16],'#dcb08b','Knee'+suffix);part('box',[x,.11,.08],[.24,.14,.38],'#f2f4ec','Ankle'+suffix);part('box',[x,.053,.08],[.25,.025,.39],'#23364b','Ankle'+suffix)
+  x=sign*.27;part('sphere',[x,1.44,0],[.27,.29,.29],uniform,'Shoulder'+suffix);part('cylinder',[x,1.30,0],[.15,.36,.15],'#dcb08b','Shoulder'+suffix);part('cylinder',[x,.94,0],[.13,.36,.13],'#dcb08b','Elbow'+suffix);part('sphere',[x,1.12,0],[.17,.17,.17],'#dcb08b','Elbow'+suffix);part('sphere',[x,.76,0],[.16,.18,.16],'#dcb08b','Wrist'+suffix)
+  x=sign*.16;part('sphere',[x,.83,0],[.29,.37,.33],'#1b3145','Hip'+suffix);part('cylinder',[x,.745,0],[.19,.43,.19],'#dcb08b','Hip'+suffix);part('sphere',[x,.53,0],[.20,.20,.20],'#dcb08b','Knee'+suffix);part('cylinder',[x,.315,0],[.16,.43,.16],'#dcb08b','Knee'+suffix);part('box',[x,.11,.08],[.24,.14,.38],'#f2f4ec','Ankle'+suffix);part('box',[x,.053,.08],[.25,.025,.39],'#23364b','Ankle'+suffix)
  primitives=[];g.g['meshes']=[];g.g['materials']=[]
  for color,buf in parts.items():primitives.append({'attributes':{'POSITION':g.acc(buf['p'],'VEC3'),'NORMAL':g.acc(buf['n'],'VEC3'),'JOINTS_0':g.acc(buf['j'],'VEC4',5123),'WEIGHTS_0':g.acc(buf['w'],'VEC4')},'indices':g.acc(buf['i'],'SCALAR',5123),'material':g.material(color)})
  g.g['meshes'].append({'name':'WeightedAthlete','primitives':primitives});inverse=[]
