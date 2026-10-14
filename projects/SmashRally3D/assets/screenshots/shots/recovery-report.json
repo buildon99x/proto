@@ -1,0 +1,7 @@
+{
+  "pass": true,
+  "errors": [],
+  "logs": [
+    "Mute, reduced FX, pause/resume and forced WebGL context loss/reload passed. Context loss is injected browser fault, not a natural UI event."
+  ]
+}

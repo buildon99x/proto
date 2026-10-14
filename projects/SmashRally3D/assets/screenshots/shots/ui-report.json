@@ -2,7 +2,7 @@
   "pass": true,
   "errors": [],
   "logs": [
-    "UI match {\"score\":[5,0],\"longest\":6,\"points\":[{\"winner\":0,\"reason\":\"IN\",\"returns\":6},{\"winner\":0,\"reason\":\"IN\",\"returns\":6},{\"winner\":0,\"reason\":\"IN\",\"returns\":6},{\"winner\":0,\"reason\":\"IN\",\"returns\":6},{\"winner\":0,\"reason\":\"IN\",\"returns\":6}],\"shots\":[\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"smash\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"smash\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"smash\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"smash\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"smash\"],\"audioEvents\":35}",
+    "UI match {\"score\":[5,0],\"longest\":6,\"points\":[{\"winner\":0,\"reason\":\"IN\",\"returns\":6},{\"winner\":0,\"reason\":\"IN\",\"returns\":6},{\"winner\":0,\"reason\":\"IN\",\"returns\":6},{\"winner\":0,\"reason\":\"IN\",\"returns\":6},{\"winner\":0,\"reason\":\"IN\",\"returns\":6}],\"shots\":[\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"smash\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"smash\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"superSmash\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"superSmash\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"clear\",\"smash\"],\"audioEvents\":35}",
     "Read-only diagnostics; all match actions used real mouse/touch UI. No injected game state. Physical audio/touch latency unverified."
   ]
 }

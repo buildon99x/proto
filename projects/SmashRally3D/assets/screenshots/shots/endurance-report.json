@@ -1,0 +1,17 @@
+{
+  "pass": true,
+  "errors": [],
+  "logs": [
+    "ENDURANCE {\"match\":1,\"scores\":[0,5],\"shots\":24,\"longest\":4,\"fps\":19.35546307945385,\"heap\":11741045}",
+    "ENDURANCE {\"match\":2,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":16.719118804091462,\"heap\":12466744}",
+    "ENDURANCE {\"match\":3,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":18.09351490334269,\"heap\":13550848}",
+    "ENDURANCE {\"match\":4,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":21.291009387399832,\"heap\":13606632}",
+    "ENDURANCE {\"match\":5,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":20.954376607296048,\"heap\":12609401}",
+    "ENDURANCE {\"match\":6,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":23.608105449537536,\"heap\":12580997}",
+    "ENDURANCE {\"match\":7,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":18.689750147551084,\"heap\":14140921}",
+    "ENDURANCE {\"match\":8,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":19.998095419483196,\"heap\":11303302}",
+    "ENDURANCE {\"match\":9,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":20.956372642408308,\"heap\":14055833}",
+    "ENDURANCE {\"match\":10,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":17.706079087153658,\"heap\":15896350}",
+    "10 consecutive real UI matches, deliberately omitted returns after initial rallies to exercise natural losses, not state injection. [{\"match\":1,\"scores\":[0,5],\"shots\":24,\"longest\":4,\"fps\":19.35546307945385,\"heap\":11741045},{\"match\":2,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":16.719118804091462,\"heap\":12466744},{\"match\":3,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":18.09351490334269,\"heap\":13550848},{\"match\":4,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":21.291009387399832,\"heap\":13606632},{\"match\":5,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":20.954376607296048,\"heap\":12609401},{\"match\":6,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":23.608105449537536,\"heap\":12580997},{\"match\":7,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":18.689750147551084,\"heap\":14140921},{\"match\":8,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":19.998095419483196,\"heap\":11303302},{\"match\":9,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":20.956372642408308,\"heap\":14055833},{\"match\":10,\"scores\":[0,5],\"shots\":6,\"longest\":1,\"fps\":17.706079087153658,\"heap\":15896350}]"
+  ]
+}

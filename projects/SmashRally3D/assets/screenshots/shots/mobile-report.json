@@ -1,0 +1,8 @@
+{
+  "pass": true,
+  "errors": [],
+  "logs": [
+    "Real CDP touch UI verification [{\"intent\":\"clear\",\"issuedBeforePointerUp\":true,\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364}},{\"intent\":\"drop\",\"issuedBeforePointerUp\":true,\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364}}]",
+    "No physical device, Safari, speaker listening or physical touch-latency verification."
+  ]
+}
