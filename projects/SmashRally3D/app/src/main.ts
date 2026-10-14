@@ -123,14 +123,14 @@ function renderUI() {
         lastUI = key;
         let overlay = '';
         if (game.phase === 'MENU')
-            overlay = `<section class="card menu"><div class="eyebrow">RALLY CLUB · COURT 01</div><h1>SMASH<br><span>RALLY</span><small>3D</small></h1><p>Read the flight. Find the space.<br>Make your next shot count.</p><div class="rule">SINGLES / FIRST TO 5 / AUTO FOOTWORK</div><label class="difficulty">Opponent<select id="difficulty">${['EASY', 'NORMAL', 'HARD'].map((d) => `<option ${game.difficulty === d ? 'selected' : ''}>${d}</option>`).join('')}</select></label><button data-action="start" class="primary">QUICK MATCH <span>↗</span></button><div class="row"><button data-action="help">How to play</button><button data-action="settings">Settings</button></div></section>`;
+            overlay = `<section class="card menu"><div class="eyebrow">RALLY CLUB · COURT 01</div><h1>SMASH<br><span>RALLY</span><small>3D</small></h1><p>Read the flight. Find the space.<br>Make your next shot count.</p><div class="rule">SINGLES / FIRST TO 5 / AUTO FOOTWORK</div><label class="difficulty">Opponent<select id="difficulty">${['EASY', 'NORMAL', 'HARD'].map((d) => `<option ${game.difficulty === d ? 'selected' : ''}>${d}</option>`).join('')}</select></label><button data-action="start" class="primary">QUICK MATCH <span>PLAY</span></button><div class="row"><button data-action="help">How to play</button><button data-action="settings">Settings</button></div></section>`;
         if (game.phase === 'RESULTS')
-            overlay = `<section class="card result"><div class="eyebrow">MATCH COMPLETE</div><h2>${game.scores[0] === 5 ? 'YOU WIN' : 'KEEP RALLYING'}</h2><div class="final-score">${game.scores[0]} <span>—</span> ${game.scores[1]}</div><p>${game.shots.length} shots · Longest rally ${Math.max(0, ...game.points.map((p) => p.returns))} returns</p><button data-action="start" class="primary">PLAY AGAIN ↗</button><button data-action="menu">Main menu</button></section>`;
+            overlay = `<section class="card result"><div class="eyebrow">MATCH COMPLETE</div><h2>${game.scores[0] === 5 ? 'YOU WIN' : 'KEEP RALLYING'}</h2><div class="final-score">${game.scores[0]} <span>—</span> ${game.scores[1]}</div><p>${game.shots.length} shots · Longest rally ${Math.max(0, ...game.points.map((p) => p.returns))} returns</p><button data-action="start" class="primary">PLAY AGAIN</button><button data-action="menu">Main menu</button></section>`;
         if (game.paused)
-            overlay = `<section class="card"><div class="eyebrow">TAKE A BREATH</div><h2>PAUSED</h2><button data-action="resume" class="primary">CONTINUE ↗</button><div class="row"><button data-action="start">Restart match</button><button data-action="menu">Main menu</button></div>${controls()}</section>`;
+            overlay = `<section class="card"><div class="eyebrow">TAKE A BREATH</div><h2>PAUSED</h2><button data-action="resume" class="primary">CONTINUE</button><div class="row"><button data-action="start">Restart match</button><button data-action="menu">Main menu</button></div>${controls()}</section>`;
         if (panel)
             overlay = `<section class="card"><div class="eyebrow">RALLY CLUB</div><h2>${panel === 'help' ? 'HOW TO PLAY' : 'SETTINGS'}</h2>${panel === 'help' ? '<p>Aim at the far court. Your player moves automatically.</p><ul><li>Click / tap: return or smash a high ball.</li><li>Shift + click / swipe up: deep clear.</li><li>Right click / swipe down: front-court drop.</li><li>Press at HIT NOW, just before contact.</li><li>A weak high return + PERFECT unlocks Super Smash.</li><li>Esc pauses. Five points wins; no deuce.</li></ul>' : controls()}<button data-action="close" class="primary">BACK</button></section>`;
-        ui.innerHTML = `<header class="hud"><div class="brand">SR<span>3D</span></div><div class="scoreboard"><div><small>YOU ${game.server === 0 ? '•' : ''}</small><b>${game.scores[0]}</b></div><div class="versus">FIRST TO 5</div><div><small>${game.server === 1 ? '• ' : ''}AI</small><b>${game.scores[1]}</b></div></div><button data-action="pause" class="pause" aria-label="Pause">II</button></header><div class="arena-label">RALLY CLUB<span>INDOOR SERIES / 01</span></div><div id="feedback" aria-live="polite"></div><div id="timing"></div><div class="shot-bar" ${['MENU', 'RESULTS'].includes(game.phase) ? 'hidden' : ''}>${(['clear', 'default', 'drop'] as Intent[]).map((s, i) => `<button data-shot="${s}" ${selected === s ? 'class="active"' : ''}><span>${['↑', '↗', '↓'][i]}</span><em ${s === 'default' ? 'id="basic-label"' : ''}>${['CLEAR', 'RETURN', 'DROP'][i]}</em><small>${['SHIFT / SWIPE UP', 'CLICK / TAP', 'RIGHT / SWIPE DOWN'][i]}</small></button>`).join('')}</div><div id="tutorial" ${tutorial && game.phase === 'RALLY' && game.time < 32 ? '' : 'hidden'}></div><div class="rotate">Turn your phone sideways for a wider court view.</div>${overlay ? `<div class="overlay">${overlay}</div>` : ''}`;
+        ui.innerHTML = `<header class="hud"><div class="brand">SR<span>3D</span></div><div class="scoreboard"><div><small>YOU ${game.server === 0 ? '•' : ''}</small><b>${game.scores[0]}</b></div><div class="versus">FIRST TO 5</div><div><small>${game.server === 1 ? '• ' : ''}AI</small><b>${game.scores[1]}</b></div></div><button data-action="pause" class="pause" aria-label="Pause">II</button></header><div class="arena-label">RALLY CLUB<span>INDOOR SERIES / 01</span></div><div id="feedback" aria-live="polite"></div><div id="timing"></div><div class="shot-bar" ${['MENU', 'RESULTS'].includes(game.phase) ? 'hidden' : ''}>${(['clear', 'default', 'drop'] as Intent[]).map((s, i) => `<button data-shot="${s}" ${selected === s ? 'class="active"' : ''}><span>${['C', 'R', 'D'][i]}</span><em ${s === 'default' ? 'id="basic-label"' : ''}>${['CLEAR', 'RETURN', 'DROP'][i]}</em><small>${['SHIFT / SWIPE UP', 'CLICK / TAP', 'RIGHT / SWIPE DOWN'][i]}</small></button>`).join('')}</div><div id="tutorial" ${tutorial && game.phase === 'RALLY' && game.time < 32 ? '' : 'hidden'}></div><div class="rotate">Turn your phone sideways for a wider court view.</div>${overlay ? `<div class="overlay">${overlay}</div>` : ''}`;
     }
     const f = document.getElementById('feedback');
     if (f) {
@@ -377,7 +377,7 @@ function animate(r: ReturnType<typeof makeActor>) {
     const motion = a.motion === 'Miss' ? 'Recover' : a.motion;
     r.root.anim!.speed = game.paused ? 0 : 1;
     if (motion !== r.motion || (sw < 0.25 && a.swingAt !== r.swingId)) {
-        r.root.anim!.baseLayer.transition(motion, 0.06);
+        r.root.anim!.baseLayer!.transition(motion, 0.06);
         r.motion = motion;
         r.swingId = a.swingAt;
     }
@@ -473,6 +473,7 @@ function resize() {
             ? 1
             : Math.min(devicePixelRatio, settings.quality === 'HIGH' ? 2 : 1.5);
     app.resizeCanvas();
+    app.root.find(n=>n.name==='spectator'||n.name==='net mesh').forEach((n,i)=>{(n as Entity).enabled=settings.quality!=='LOW'||i%3===0;});
     const portrait = innerHeight > innerWidth;
     camera.setPosition(portrait ? 0 : 1, portrait ? 19 : 11.5, portrait ? -23 : -14);
     camera.camera!.fov = portrait ? 62 : 49;
@@ -624,6 +625,8 @@ async function boot() {
             fps,
             audioState: audio?.state ?? 'locked',
             audioEvents,
+            heapBytes:(performance as Performance & {memory?:{usedJSHeapSize:number}}).memory?.usedJSHeapSize,
+            motions: [player,opponent].map(r=>({motion:r.motion, torso:r.body.getLocalEulerAngles().clone(), racket:r.racket.getPosition().clone(),animation:r.root.anim?.baseLayer?.activeState})),
             settings: { ...settings },
             target: { ...target },
             input: game.actors[0].command ? { ...game.actors[0].command } : null,

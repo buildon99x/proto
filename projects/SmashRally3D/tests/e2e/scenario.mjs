@@ -86,14 +86,16 @@ export async function run({ page, sleep, shot, log }) {
     isMobile: true,
     hasTouch: true,
   });
-  await sleep(300);
+  await page.waitForFunction(()=>typeof window.smashDiagnostics==='function');
+  if((await read()).phase==='MENU')await page.click('[data-action="start"]');
+  await page.waitForFunction(()=>window.smashDiagnostics().phase==='SERVE_READY',{timeout:15000});
   await shot("07-mobile-landscape");
   d = await read();
   const mobile = d.projectedTargets.find(
     (p) => p.world.x === 0 && p.world.z === 5.8,
   ).screen;
   await page.touchscreen.tap(mobile.x, mobile.y);
-  await sleep(700);
+  await page.waitForFunction(()=>window.smashDiagnostics().phase==='RALLY',{timeout:10000});
   await shot("08-mobile-rally");
   await page.setViewport({
     width: 390,
