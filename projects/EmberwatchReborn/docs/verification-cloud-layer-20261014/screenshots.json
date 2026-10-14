@@ -1,0 +1,128 @@
+[
+  {
+    "file": "01-native-trained.png",
+    "kind": "normal UI",
+    "bytes": 316614,
+    "sha256": "4cd0f6e79d218e276f9a0d214a0a982c07a474953217933a73351424ebce3ac6"
+  },
+  {
+    "file": "02-native-elder.png",
+    "kind": "normal UI",
+    "bytes": 361172,
+    "sha256": "3da881aefdb64f3f13e92d050ff3e62b16f3c76ebd602fbea7bf9c79e6fc236a"
+  },
+  {
+    "file": "03-native-road-entry.png",
+    "kind": "normal UI",
+    "bytes": 1412442,
+    "sha256": "e3774aab282da6c8fc2a0917e4ffde5953331d0bacddb8b190d139ec29b0f748"
+  },
+  {
+    "file": "04-native-road-entered.png",
+    "kind": "normal UI",
+    "bytes": 1205428,
+    "sha256": "fab3c577c35f438e6a8a06ec75944af58538e97d8e88f5c1d5b3bc79e7ae9af5"
+  },
+  {
+    "file": "05-native-fight-tell.png",
+    "kind": "normal UI",
+    "bytes": 1564766,
+    "sha256": "bf02bd38bb4070bf33114c72154a196065800277b254e2e0f66473e9890aa1f5"
+  },
+  {
+    "file": "06-native-roll-held-combat.png",
+    "kind": "normal UI",
+    "bytes": 1560808,
+    "sha256": "ffa6028038eb29fcb8158b53f9d7161cb564e71af51ce4db900beb73bc064825"
+  },
+  {
+    "file": "07-native-death.png",
+    "kind": "normal UI",
+    "bytes": 365138,
+    "sha256": "6121d4b39ee93eaff3554c5c66820f15fe77769afecc1f68db87a26a00451069"
+  },
+  {
+    "file": "08-native-dead-input-contained.png",
+    "kind": "normal UI",
+    "bytes": 365138,
+    "sha256": "6121d4b39ee93eaff3554c5c66820f15fe77769afecc1f68db87a26a00451069"
+  },
+  {
+    "file": "09-native-dead-reload.png",
+    "kind": "normal UI",
+    "bytes": 364270,
+    "sha256": "cc7bdb25201cdca2ede4834588ec990d4b0a9b6f23e39d9f671a5ca04d4ecd7e"
+  },
+  {
+    "file": "10-native-retry-town.png",
+    "kind": "normal UI",
+    "bytes": 1656604,
+    "sha256": "ac2f9ee5adaf651d3ea22fbc996fbbf7002a91fa83bf339141ab8d84161adb42"
+  },
+  {
+    "file": "11-native-road-reentry.png",
+    "kind": "normal UI",
+    "bytes": 1202038,
+    "sha256": "b3fde98f49a03309716dd8bbcf9b7d9f3d78cf01dad5087043a2b08dd549cc8b"
+  },
+  {
+    "file": "12-native-repeat-fight.png",
+    "kind": "normal UI",
+    "bytes": 1679896,
+    "sha256": "151ed9087e4bc7b0642c715f3a49ee0e21246dcb4504e0cf581a533d5ae1f591"
+  },
+  {
+    "file": "13-native-portal-town.png",
+    "kind": "normal UI",
+    "bytes": 1656418,
+    "sha256": "4f49d4b56a4c87c199d7525629ee50f75102f7859df90dab79b9527654fb414b"
+  },
+  {
+    "file": "14-native-cancel-held-observations.png",
+    "kind": "normal UI",
+    "bytes": 334994,
+    "sha256": "4bf775cba47dd4b70eb7d67dcc75e6d1fbb9665b83d07a4628a6e88a03e1c6fb"
+  },
+  {
+    "file": "15-native-saved-town-reentry.png",
+    "kind": "normal UI",
+    "bytes": 314912,
+    "sha256": "2b21a581416fa56cf1cdb2a3d8c4036bd50d65ae37784eda45518c09d41c76f4"
+  },
+  {
+    "file": "controlled-after-flash-0.5.png",
+    "kind": "controlled fixture",
+    "bytes": 1778721,
+    "sha256": "4dd2ad6fe8a945e41c44539ae0634720b3b433311221dcc0294403afab641104"
+  },
+  {
+    "file": "controlled-after-flash-0.png",
+    "kind": "controlled fixture",
+    "bytes": 1775762,
+    "sha256": "aeddacdaa66461b4a3e003f701dc696680df5cede01f86f698b5f90cff1ea4d1"
+  },
+  {
+    "file": "controlled-after-flash-1.png",
+    "kind": "controlled fixture",
+    "bytes": 1779722,
+    "sha256": "6e7073c49cf5544e19d0b9c4b837c6de2e5995f7ecd951c6d8940afb1e11fa1e"
+  },
+  {
+    "file": "controlled-before-flash-0.5.png",
+    "kind": "controlled fixture",
+    "bytes": 1778313,
+    "sha256": "7ec7517f7b0d5aa1c66dcc4b042517b6b767d62097b8f4776a96edcd2138db29"
+  },
+  {
+    "file": "controlled-before-flash-0.png",
+    "kind": "controlled fixture",
+    "bytes": 1775076,
+    "sha256": "6aad3575de4109ec58ee3657842225c85358aade167d0bd24d09e3bc1c458580"
+  },
+  {
+    "file": "controlled-before-flash-1.png",
+    "kind": "controlled fixture",
+    "bytes": 1779954,
+    "sha256": "cb9ceddd2ab88386a43d1f2a2efdb5fb1ea4c1cb5b796ddee8f030363311d831"
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "browserMcpToolsAvailable": false,
+  "computerMcpToolsAvailable": false,
+  "browser": "installed Chromium + Python Playwright, headless",
+  "chromium": "Chromium 151.0.7922.173 built on Debian GNU/Linux 13 (trixie)",
+  "physicalSound": "unverified; Playwright Chromium launch is muted and no supported physical listening/display tool exists",
+  "earlierLibraryTransfer": "PNG signed transport Forbidden; no IDs/finalization. No upload retry or alternate transfer attempted in this slice.",
+  "initialServerSetup": [
+    "4184 alias server EADDRINUSE after closing temporary static server; initial page404, before gameplay",
+    "correct normal /qa-r14 candidate path served on4185, no changed namespace or writer"
+  ],
+  "repoVerify": "failed lint launch in Corepack /home/agent/.cache/node/corepack/v1; build/playtest skipped",
+  "registry": "failed same Corepack cache path",
+  "buildVercel": "failed same Corepack cache path"
+}

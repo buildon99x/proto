@@ -74,3 +74,27 @@ test('ground feedback contrast pairs keep the same true contour and fracture pat
  }
  assert.deepEqual(record,before);
 });
+
+// Real contact/payoff with a controlled overlapping danger fixture. Canvas
+// operation order is integration evidence, not native encounter/listening QA.
+import {createVisualRenderer} from '../src/visual.js';
+import {ART} from '../src/art.js';
+function layerRecorder(){
+ const calls=[],stack=[],data={globalAlpha:1,filter:'none',fillStyle:'#000',strokeStyle:'#000',lineWidth:1,globalCompositeOperation:'source-over'};let path=[];
+ const record=(op,args=[])=>calls.push({op,args,path:op==='stroke'?structuredClone(path):[],...data});
+ const methods={save(){stack.push({...data});},restore(){Object.assign(data,stack.pop());},beginPath(){path=[];},moveTo(...v){path.push(['moveTo',...v]);},lineTo(...v){path.push(['lineTo',...v]);},ellipse(...v){path.push(['ellipse',...v]);},closePath(){path.push(['closePath']);},stroke(){record('stroke');},fill(){record('fill');},fillRect(...v){record('fillRect',v);},drawImage(...v){record('drawImage',v);},fillText(...v){record('fillText',v);},clip(){},translate(){},scale(){},rotate(){},setLineDash(){},createRadialGradient(){return {addColorStop(){}};}};
+ const ctx=new Proxy(methods,{get:(t,k)=>k in t?t[k]:data[k],set:(_,k,v)=>(data[k]=v,true)});
+ return {ctx,calls,stack};
+}
+for(const flashScale of [0,.5,1])for(const phase of ['windup','active'])test(`real crusher payoff stays beneath overlapping ${phase} danger and bodies at flash ${flashScale}`,()=>{
+ const f=fixture(),e=enemy(f);prime(f,e);cast(f,'judgement');const wave=f.b.effects.find(x=>x.crusherShockwave);assert.ok(wave);
+ const warning={...e,state:phase,telegraph:{phase,color:'#f29187',locked:true,progress:.4,shapes:[{type:'cone',x:e.x,y:e.y,angle:Math.PI,r:80,halfAngle:.8}]}},hazard={type:'hostileZone',x:e.x,y:e.y,r:70,life:1,max:2,delay:.1,color:'#e67c78'};
+ const scene={width:1000,height:750,regionId:f.b.region,map:f.b.map,p:f.b.p,entities:[warning],effects:[wave,hazard],loot:[{type:'gold',x:e.x,y:e.y,bob:0}],time:f.b.time,stats:f.b.stats,cleanView:true,flashScale,reduced:flashScale===0};
+ const before=structuredClone(scene),r=layerRecorder(),images={environment:{id:'environment'},hero:{id:'hero'},enemy:{id:'enemy'},motion:{}};
+ createVisualRenderer(r.ctx,ART,images,{createCanvas:null}).render(scene);
+ const waves=r.calls.filter(c=>c.op==='stroke'&&['#d5c3a0','#efdab2'].includes(c.strokeStyle));assert.equal(waves.length,flashScale?10:1,'each confirmed contour/fracture rendered once');
+ const later=r.calls.filter(c=>c.op==='drawImage'&&['hero','enemy'].includes(c.args[0].id)||c.op==='stroke'&&['#f29187','#ffe6b5','#e67c78'].includes(c.strokeStyle)||c.op==='fillRect'&&c.fillStyle==='#e8c07b');
+ assert.ok(later.length>=5,'actual warning, hazard, loot and both bodies were rendered');
+ assert.ok(waves.every(c=>later.every(d=>r.calls.indexOf(c)<r.calls.indexOf(d))),'friendly ground wave must not paint over danger/body/loot');
+ assert.deepEqual(scene,before);assert.equal(r.stack.length,0);
+});

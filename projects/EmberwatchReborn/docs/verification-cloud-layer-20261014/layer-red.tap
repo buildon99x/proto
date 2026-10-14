@@ -1,0 +1,122 @@
+✖ real crusher payoff stays beneath overlapping windup danger and bodies at flash 0 (630.763708ms)
+✖ real crusher payoff stays beneath overlapping active danger and bodies at flash 0 (109.20749ms)
+✖ real crusher payoff stays beneath overlapping windup danger and bodies at flash 0.5 (78.2669ms)
+✖ real crusher payoff stays beneath overlapping active danger and bodies at flash 0.5 (73.887469ms)
+✖ real crusher payoff stays beneath overlapping windup danger and bodies at flash 1 (72.9618ms)
+✖ real crusher payoff stays beneath overlapping active danger and bodies at flash 1 (67.827491ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 0
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1173.744689
+
+✖ failing tests:
+
+test at tests/crusher-combat.test.mjs:89:73
+✖ real crusher payoff stays beneath overlapping windup danger and bodies at flash 0 (630.763708ms)
+  AssertionError [ERR_ASSERTION]: friendly ground wave must not paint over danger/body/loot
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/crusher-combat.test.mjs:98:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/crusher-combat.test.mjs:89:73
+✖ real crusher payoff stays beneath overlapping active danger and bodies at flash 0 (109.20749ms)
+  AssertionError [ERR_ASSERTION]: friendly ground wave must not paint over danger/body/loot
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/crusher-combat.test.mjs:98:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/crusher-combat.test.mjs:89:73
+✖ real crusher payoff stays beneath overlapping windup danger and bodies at flash 0.5 (78.2669ms)
+  AssertionError [ERR_ASSERTION]: friendly ground wave must not paint over danger/body/loot
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/crusher-combat.test.mjs:98:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/crusher-combat.test.mjs:89:73
+✖ real crusher payoff stays beneath overlapping active danger and bodies at flash 0.5 (73.887469ms)
+  AssertionError [ERR_ASSERTION]: friendly ground wave must not paint over danger/body/loot
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/crusher-combat.test.mjs:98:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/crusher-combat.test.mjs:89:73
+✖ real crusher payoff stays beneath overlapping windup danger and bodies at flash 1 (72.9618ms)
+  AssertionError [ERR_ASSERTION]: friendly ground wave must not paint over danger/body/loot
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/crusher-combat.test.mjs:98:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/crusher-combat.test.mjs:89:73
+✖ real crusher payoff stays beneath overlapping active danger and bodies at flash 1 (67.827491ms)
+  AssertionError [ERR_ASSERTION]: friendly ground wave must not paint over danger/body/loot
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/crusher-combat.test.mjs:98:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

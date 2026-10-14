@@ -402,3 +402,6 @@ Each existing ground contour and decorative fracture receives a dark outer strok
 
 ## Read-only input observations initial focus — 2026-10-13
 After the existing input-observation panel renders, focus its already focusable dialog container with preventScroll and start its scroll at0. Do not override the protected save-error panel when the runtime gate is blocked. Tab still reaches Back, Escape/return behavior remains owned by the existing dialog system, and no serialized or observation field changes.
+
+## Crusher floor-layer contract — 2026-10-14
+Consume the same real crusherShockwave ring exactly once beneath loot, hostile telegraphs/ground hazards and living sprites. Preserve project coordinates, true radius,0.3s life, contrast strokes and reduced/zero-flash behavior. Do not replay it in the airborne/general effect pass; expired confirmed records must not become generic rings. Other effects retain existing order. No runtime/payment/AI/save change or new assets.

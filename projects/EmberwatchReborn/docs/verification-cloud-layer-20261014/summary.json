@@ -1,0 +1,183 @@
+{
+  "baseline": "f007a491c15fdae05d9dee795c7d5970917802af",
+  "onlyChangedRuntimeSource": "app/src/visual.js",
+  "changedTests": "app/tests/crusher-combat.test.mjs: six integrated layer cases",
+  "automatic": {
+    "red": {
+      "tests": 6.0,
+      "pass": 0.0,
+      "fail": 6.0,
+      "cancelled": 0.0,
+      "skipped": 0.0,
+      "durationMs": 1173.744689
+    },
+    "focused": {
+      "tests": 98.0,
+      "pass": 98.0,
+      "fail": 0.0,
+      "cancelled": 0.0,
+      "skipped": 0.0,
+      "durationMs": 2856.231317
+    },
+    "full": {
+      "tests": 4689.0,
+      "pass": 4689.0,
+      "fail": 0.0,
+      "cancelled": 0.0,
+      "skipped": 0.0,
+      "durationMs": 418486.688242
+    }
+  },
+  "native": {
+    "batches": 9,
+    "screenshots": 15,
+    "operationFailures": [],
+    "pageErrors": [],
+    "freshProfile": "qa-cloud-layer-20261014",
+    "preexistingProfileInjectedCopiedOrImported": false,
+    "firstRoadAttempt": "screen03 remains town, nearest quarry selected; screen04 is the corrected actual road entry",
+    "finalProfile": {
+      "character": {
+        "classId": "warrior",
+        "level": 1,
+        "tier": "apprentice",
+        "xp": 58,
+        "attributes": {
+          "strength": 0,
+          "dexterity": 0,
+          "intelligence": 0
+        },
+        "attributePoints": 0,
+        "skillPoints": 0,
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 1,
+          "shield_block": 1,
+          "righteous_hammer": 1
+        },
+        "exclusiveBranches": {},
+        "equipment": {
+          "mainHand": null,
+          "offHand": null,
+          "head": null,
+          "chest": null,
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        }
+      },
+      "world": {
+        "region": "ash_hamlet",
+        "visited": [
+          "ash_hamlet",
+          "ash_road"
+        ],
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 5
+        },
+        "claimedRewards": [],
+        "defeated": {
+          "ash_road": [
+            "road-0-0",
+            "road-0-2",
+            "road-0-4",
+            "road-0-5",
+            "road-0-6"
+          ]
+        },
+        "life": 1,
+        "lifeDown": false,
+        "position": {
+          "x": 433.28393026398777,
+          "y": 319.92089648791176
+        },
+        "townPortal": {
+          "version": 1,
+          "openedAtMs": 1791949678959,
+          "readyAtMs": 1791949738959,
+          "active": null
+        }
+      },
+      "stats": {
+        "kills": 5,
+        "deaths": 1,
+        "earnedGold": 19,
+        "spentGold": 0,
+        "earnedXp": 58
+      },
+      "vitals": {
+        "hp": 42.5,
+        "mana": 32.265200000000156,
+        "stamina": 45
+      },
+      "gold": 19
+    },
+    "actualNewJudgementUnlockOrCrusherPayoffToday": false,
+    "checks": {
+      "deadInputAndReload": {
+        "revisions": [
+          84,
+          84,
+          84
+        ],
+        "samePayloadSha256": true,
+        "deaths": 1,
+        "retryFocusAndCanvasInert": true
+      },
+      "nativeRetry": {
+        "life": 1,
+        "revision": 85,
+        "fullPools": {
+          "hp": 55,
+          "mana": 40,
+          "stamina": 45
+        }
+      },
+      "repeatReturnAndReload": {
+        "kills": 5,
+        "xp": 58,
+        "gold": 19,
+        "deaths": 1,
+        "life": 1,
+        "hp": 42.5,
+        "noAdditionalKillOnSecondVisit": true,
+        "finalMana": 32.265200000000156,
+        "preLeaveMana": 30.532000000000142,
+        "wholePayloadEqualityClaimed": false
+      },
+      "inputObservation": "native hammer7 start0.80ms, roll8 start0.90ms; no hammer contact observed; held mace10/11/12 contacts200.10/182.70/183.30ms from own starts; these are handler/render/contact clocks, not physical latency or dodge-success-rate"
+    }
+  },
+  "controlled": {
+    "screenshots": 6,
+    "flashScales": [
+      0,
+      0.5,
+      1
+    ],
+    "sameSceneClockAssets": true,
+    "realHandlerContactAndWave": true,
+    "suppliedOverlappingDanger": true,
+    "isNormalPlay": false,
+    "pageErrors": []
+  },
+  "performanceOr60FPSClaim": false,
+  "actualListening": false,
+  "physicalFocusLatencyAXVerified": false,
+  "protectedSaveEquipmentGrowthModulesUnchanged": true,
+  "remainingBuildsNotExpanded": true,
+  "balanceUnchanged": true,
+  "libraryIds": [],
+  "libraryUploadRetried": false,
+  "noMainMerge": true,
+  "noDeployment": true,
+  "build": {
+    "output": "/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/dist/qa-r14",
+    "files": 133,
+    "bytes": 16800170,
+    "version": "0.14.0-reimplementation.18"
+  },
+  "lint": "Source/test syntax passed; no gameplay acceptance implied."
+}

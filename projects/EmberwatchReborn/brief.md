@@ -307,3 +307,6 @@ Normal-input Chromium QA earned iron_mace, Adept and Judgement from a fresh prof
 
 ## Read-only input observations initial focus — 2026-10-13
 Actual Chromium screenshots09/15 opened the long input record at its bottom because the only Back control received focus. Keep the newest observations and title visible by initially focusing the existing dialog panel and resetting its scroll to0. This UI-only unit changes no game/store/binding/observation record and preserves error-dialog focus and keyboard containment.
+
+## Crusher ground FX tactical layering — 2026-10-14
+The confirmed crusher floor wave currently renders after hostile warnings and actor sprites, contrary to the existing combat readability contract. Move only its existing ring/fracture rendering into the friendly ground layer. Keep all combat, cost, timing, warning/evade, balance and protected save/equipment semantics unchanged. Verify production-handler wave geometry and overlap order; distinguish controlled renderer pixels from normal UI play.

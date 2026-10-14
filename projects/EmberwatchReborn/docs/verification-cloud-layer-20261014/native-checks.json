@@ -1,0 +1,34 @@
+{
+  "deadInputAndReload": {
+    "revisions": [
+      84,
+      84,
+      84
+    ],
+    "samePayloadSha256": true,
+    "deaths": 1,
+    "retryFocusAndCanvasInert": true
+  },
+  "nativeRetry": {
+    "life": 1,
+    "revision": 85,
+    "fullPools": {
+      "hp": 55,
+      "mana": 40,
+      "stamina": 45
+    }
+  },
+  "repeatReturnAndReload": {
+    "kills": 5,
+    "xp": 58,
+    "gold": 19,
+    "deaths": 1,
+    "life": 1,
+    "hp": 42.5,
+    "noAdditionalKillOnSecondVisit": true,
+    "finalMana": 32.265200000000156,
+    "preLeaveMana": 30.532000000000142,
+    "wholePayloadEqualityClaimed": false
+  },
+  "inputObservation": "native hammer7 start0.80ms, roll8 start0.90ms; no hammer contact observed; held mace10/11/12 contacts200.10/182.70/183.30ms from own starts; these are handler/render/contact clocks, not physical latency or dodge-success-rate"
+}
