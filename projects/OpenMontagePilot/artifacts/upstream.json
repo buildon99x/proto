@@ -1,0 +1,9 @@
+{
+  "url": "https://github.com/calesthio/OpenMontage",
+  "commit": "e45f5b12bd46440b04f3675af9a77d0718e6a254",
+  "license": "AGPL-3.0",
+  "hyperframes_version": "0.8.157",
+  "hyperframes_license": "Apache-2.0",
+  "gsap_version": "3.15.0",
+  "gsap_license": "GSAP Standard no charge license"
+}

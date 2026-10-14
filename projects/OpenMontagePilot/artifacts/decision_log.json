@@ -1,0 +1,34 @@
+{
+  "entries": [
+    {
+      "category": "approval_policy",
+      "subject": "Local full-run authorization",
+      "selected": "complete local production and QA based on delegated user request"
+    },
+    {
+      "category": "render_runtime_selection",
+      "subject": "Composition runtime",
+      "selected": "hyperframes",
+      "options_considered": [
+        {
+          "name": "HyperFrames",
+          "reason": "SVG/GSAP native; installed Apache-2.0 CLI for local render"
+        },
+        {
+          "name": "Remotion",
+          "rejected_because": "not installed; React adds no benefit for this bespoke SVG rig"
+        },
+        {
+          "name": "FFmpeg",
+          "rejected_because": "post-processing only; cannot implement character acting"
+        }
+      ]
+    },
+    {
+      "category": "composition_mode",
+      "subject": "Authoring mode",
+      "selected": "bespoke atelier",
+      "reason": "Original square-headed peach/navy rig and narrative acting; default bounce/blink renderer excluded from final"
+    }
+  ]
+}

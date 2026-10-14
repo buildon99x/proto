@@ -1,0 +1,12 @@
+{
+  "output": "renders/final.mp4",
+  "render_runtime_used": "hyperframes",
+  "runtime_swap_detected": false,
+  "duration_seconds": 15,
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "cost_usd": 0,
+  "authored_entry_preserved": true,
+  "receipt": "receipt_hyperframes_compose.json"
+}

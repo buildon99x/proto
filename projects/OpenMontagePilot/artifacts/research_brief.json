@@ -1,0 +1,21 @@
+{
+  "techniques": [
+    {
+      "name": "SVG articulated pivots",
+      "source": "OpenMontage character-rigging/SKILL.md",
+      "application": "Head/torso/arms maintain joint contact"
+    },
+    {
+      "name": "GSAP paused finite timeline",
+      "source": "OpenMontage svg-character-animation/SKILL.md",
+      "application": "seekable deterministic slump, tap and startle"
+    },
+    {
+      "name": "pose holds and anticipation",
+      "source": "OpenMontage pose-library-design/SKILL.md",
+      "application": "slump anticipation, readable 6-hour shock, return-to-start"
+    }
+  ],
+  "fit": "high",
+  "limitations": "Local rigged animation, not traditional frame-by-frame drawing; no viral performance promise"
+}

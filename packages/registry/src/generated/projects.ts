@@ -2,6 +2,42 @@ import type { ProjectMetadata } from "../schema";
 
 export const projects = [
   {
+    "id": "openmontage-viral-pilot",
+    "name": "5분 자동 연장 · OpenMontagePilot",
+    "status": "prototype",
+    "type": "poc",
+    "runtime": "static-artifact",
+    "version": "0.1.0",
+    "summary": "15초 오리지널 캐릭터 코미디 영상의 로컬 제작·검수 파일럿",
+    "tags": [
+      "video",
+      "OpenMontage",
+      "local-production"
+    ],
+    "projectRoot": "projects/OpenMontagePilot",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/openmontage-viral-pilot/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md",
+      "qa": "qa/QA.md"
+    },
+    "assets": {
+      "cover": "renders/poster.png"
+    },
+    "commands": {
+      "dev": "pnpm --filter openmontage-viral-pilot dev",
+      "build": "pnpm --filter openmontage-viral-pilot build",
+      "test": "pnpm --filter openmontage-viral-pilot test"
+    },
+    "updatedAt": "2026-10-14T14:50:33Z"
+  },
+  {
     "id": "deck-building",
     "name": "Deck Building",
     "status": "prototype",

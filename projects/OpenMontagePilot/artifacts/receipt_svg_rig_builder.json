@@ -1,0 +1,285 @@
+{
+  "success": true,
+  "data": {
+    "rig_plan": {
+      "version": "1.0",
+      "characters": [
+        {
+          "character_id": "peach",
+          "rig_type": "svg_rig",
+          "parts": [
+            {
+              "id": "body",
+              "kind": "torso",
+              "layer": 20
+            },
+            {
+              "id": "head",
+              "kind": "head",
+              "layer": 40,
+              "parent": "body"
+            },
+            {
+              "id": "eye_left",
+              "kind": "eye",
+              "layer": 50,
+              "parent": "head"
+            },
+            {
+              "id": "eye_right",
+              "kind": "eye",
+              "layer": 50,
+              "parent": "head"
+            },
+            {
+              "id": "pupil_left",
+              "kind": "pupil",
+              "layer": 51,
+              "parent": "eye_left"
+            },
+            {
+              "id": "pupil_right",
+              "kind": "pupil",
+              "layer": 51,
+              "parent": "eye_right"
+            },
+            {
+              "id": "mouth",
+              "kind": "mouth",
+              "layer": 52,
+              "parent": "head"
+            },
+            {
+              "id": "arm_left",
+              "kind": "limb",
+              "layer": 35,
+              "parent": "body"
+            },
+            {
+              "id": "arm_right",
+              "kind": "limb",
+              "layer": 35,
+              "parent": "body"
+            },
+            {
+              "id": "leg_left",
+              "kind": "limb",
+              "layer": 10,
+              "parent": "body"
+            },
+            {
+              "id": "leg_right",
+              "kind": "limb",
+              "layer": 10,
+              "parent": "body"
+            }
+          ],
+          "joints": {
+            "body": {
+              "pivot": [
+                320,
+                380
+              ],
+              "rotation": [
+                -75,
+                95
+              ],
+              "scale": [
+                0.8,
+                1.2
+              ]
+            },
+            "head": {
+              "pivot": [
+                320,
+                220
+              ],
+              "rotation": [
+                -35,
+                35
+              ],
+              "scale": [
+                0.8,
+                1.2
+              ]
+            },
+            "eye_left": {
+              "pivot": [
+                288,
+                210
+              ],
+              "rotation": [
+                -75,
+                95
+              ],
+              "scale": [
+                0.8,
+                1.2
+              ]
+            },
+            "eye_right": {
+              "pivot": [
+                352,
+                210
+              ],
+              "rotation": [
+                -75,
+                95
+              ],
+              "scale": [
+                0.8,
+                1.2
+              ]
+            },
+            "pupil_left": {
+              "pivot": [
+                288,
+                210
+              ],
+              "rotation": [
+                -75,
+                95
+              ],
+              "scale": [
+                0.8,
+                1.2
+              ]
+            },
+            "pupil_right": {
+              "pivot": [
+                352,
+                210
+              ],
+              "rotation": [
+                -75,
+                95
+              ],
+              "scale": [
+                0.8,
+                1.2
+              ]
+            },
+            "mouth": {
+              "pivot": [
+                320,
+                260
+              ],
+              "rotation": [
+                -75,
+                95
+              ],
+              "scale": [
+                0.8,
+                1.2
+              ]
+            },
+            "arm_left": {
+              "pivot": [
+                260,
+                330
+              ],
+              "rotation": [
+                -75,
+                95
+              ],
+              "scale": [
+                0.8,
+                1.2
+              ]
+            },
+            "arm_right": {
+              "pivot": [
+                380,
+                330
+              ],
+              "rotation": [
+                -75,
+                95
+              ],
+              "scale": [
+                0.8,
+                1.2
+              ]
+            },
+            "leg_left": {
+              "pivot": [
+                285,
+                470
+              ],
+              "rotation": [
+                -75,
+                95
+              ],
+              "scale": [
+                0.8,
+                1.2
+              ]
+            },
+            "leg_right": {
+              "pivot": [
+                355,
+                470
+              ],
+              "rotation": [
+                -75,
+                95
+              ],
+              "scale": [
+                0.8,
+                1.2
+              ]
+            }
+          },
+          "layers": [
+            "leg_left",
+            "leg_right",
+            "body",
+            "arm_left",
+            "arm_right",
+            "head",
+            "eye_left",
+            "eye_right",
+            "pupil_left",
+            "pupil_right",
+            "mouth"
+          ],
+          "views": [
+            "front"
+          ],
+          "required_poses": [
+            "blink",
+            "idle",
+            "look_left",
+            "look_right",
+            "settle",
+            "slump",
+            "startle",
+            "surprised",
+            "thumb_tap"
+          ],
+          "required_actions": [
+            "slump",
+            "thumb_tap",
+            "startle",
+            "settle"
+          ],
+          "risks": [
+            "Generated pivots are first-pass estimates; review with preview frames."
+          ]
+        }
+      ],
+      "metadata": {
+        "source": "svg_rig_builder"
+      }
+    }
+  },
+  "artifacts": [
+    "/workspace/proto/projects/OpenMontagePilot/artifacts/rig_plan.json"
+  ],
+  "error": null,
+  "cost_usd": 0.0,
+  "duration_seconds": 0.0,
+  "seed": null,
+  "model": null,
+  "from_cache": false
+}

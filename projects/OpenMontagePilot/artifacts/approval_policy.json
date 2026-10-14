@@ -1,0 +1,5 @@
+{
+  "category": "approval_policy",
+  "source": "delegated user instruction",
+  "policy": "Full local production, package installation, quality iteration, commit/push explicitly authorized; no paid API, keys, publishing, deployment, main merge."
+}

@@ -1,0 +1,353 @@
+{
+  "ok": true,
+  "errors": [],
+  "warnings": [],
+  "contrast": [
+    {
+      "time": 1.5,
+      "selector": "text",
+      "text": "z",
+      "ratio": 7.56,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(255,231,201)",
+      "bg": "rgb(88,65,90)"
+    },
+    {
+      "time": 1.5,
+      "selector": "text",
+      "text": "z",
+      "ratio": 7.52,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(255,231,201)",
+      "bg": "rgb(89,65,91)"
+    },
+    {
+      "time": 1.5,
+      "selector": "text",
+      "text": "+5분 연장",
+      "ratio": 10.68,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(39,32,55)",
+      "bg": "rgb(255,206,128)"
+    },
+    {
+      "time": 1.5,
+      "selector": "text",
+      "text": "밤 9:00",
+      "ratio": 13.85,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(255,240,223)",
+      "bg": "rgb(40,32,57)"
+    },
+    {
+      "time": 1.5,
+      "selector": "div.tiny",
+      "text": "소파의 법칙 · 01",
+      "ratio": 8.38,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(253,214,155)",
+      "bg": "rgb(66,51,80)"
+    },
+    {
+      "time": 1.5,
+      "selector": "#c1",
+      "text": "딱 5분만.눕는 순간, 시작됐다.",
+      "ratio": 10.12,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(255,247,237)",
+      "bg": "rgb(73,55,83)"
+    },
+    {
+      "time": 1.5,
+      "selector": "span",
+      "text": "5분",
+      "ratio": 7.42,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(255,206,128)",
+      "bg": "rgb(71,55,83)"
+    },
+    {
+      "time": 1.5,
+      "selector": "div.sub",
+      "text": "눕는 순간, 시작됐다.",
+      "ratio": 7.32,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(245,209,192)",
+      "bg": "rgb(75,57,85)"
+    },
+    {
+      "time": 1.5,
+      "selector": "div.footer",
+      "text": "5분 자동 연장",
+      "ratio": 10.1,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(245,209,192)",
+      "bg": "rgb(48,38,57)"
+    },
+    {
+      "time": 4.5,
+      "selector": "text",
+      "text": "z",
+      "ratio": 10.18,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(255,231,201)",
+      "bg": "rgb(63,47,76)"
+    },
+    {
+      "time": 4.5,
+      "selector": "text",
+      "text": "z",
+      "ratio": 10.18,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(255,231,201)",
+      "bg": "rgb(63,47,76)"
+    },
+    {
+      "time": 4.5,
+      "selector": "text",
+      "text": "+5분 연장",
+      "ratio": 10.68,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(39,32,55)",
+      "bg": "rgb(255,206,128)"
+    },
+    {
+      "time": 4.5,
+      "selector": "text",
+      "text": "밤 9:00",
+      "ratio": 13.85,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(255,240,223)",
+      "bg": "rgb(40,32,57)"
+    },
+    {
+      "time": 4.5,
+      "selector": "div.tiny",
+      "text": "소파의 법칙 · 01",
+      "ratio": 9.91,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(253,214,155)",
+      "bg": "rgb(52,40,71)"
+    },
+    {
+      "time": 4.5,
+      "selector": "span.pill",
+      "text": "+5분",
+      "ratio": 11.33,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(39,32,55)",
+      "bg": "rgb(253,214,155)"
+    },
+    {
+      "time": 4.5,
+      "selector": "div.sub",
+      "text": "한 번만 더… 한 번만 더…",
+      "ratio": 9.17,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(245,209,192)",
+      "bg": "rgb(56,43,73)"
+    },
+    {
+      "time": 4.5,
+      "selector": "div.footer",
+      "text": "5분 자동 연장",
+      "ratio": 10.1,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(245,209,192)",
+      "bg": "rgb(48,38,57)"
+    },
+    {
+      "time": 7.5,
+      "selector": "text",
+      "text": "+5분 연장",
+      "ratio": 10.68,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(39,32,55)",
+      "bg": "rgb(255,206,128)"
+    },
+    {
+      "time": 7.5,
+      "selector": "text",
+      "text": "새벽 3:00",
+      "ratio": 10.61,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(40,32,57)",
+      "bg": "rgb(255,206,128)"
+    },
+    {
+      "time": 7.5,
+      "selector": "div.tiny",
+      "text": "소파의 법칙 · 01",
+      "ratio": 10.6,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(253,214,155)",
+      "bg": "rgb(46,35,68)"
+    },
+    {
+      "time": 7.5,
+      "selector": "#c3",
+      "text": "잠깐. 지금 몇 시?",
+      "ratio": 13.4,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(255,247,237)",
+      "bg": "rgb(48,37,69)"
+    },
+    {
+      "time": 7.5,
+      "selector": "div.footer",
+      "text": "5분 자동 연장",
+      "ratio": 10.1,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(245,209,192)",
+      "bg": "rgb(48,38,57)"
+    },
+    {
+      "time": 10.5,
+      "selector": "text",
+      "text": "+5분 연장",
+      "ratio": 10.68,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(39,32,55)",
+      "bg": "rgb(255,206,128)"
+    },
+    {
+      "time": 10.5,
+      "selector": "text",
+      "text": "새벽 3:00",
+      "ratio": 10.61,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(40,32,57)",
+      "bg": "rgb(255,206,128)"
+    },
+    {
+      "time": 10.5,
+      "selector": "div.tiny",
+      "text": "소파의 법칙 · 01",
+      "ratio": 10.6,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(253,214,155)",
+      "bg": "rgb(46,35,68)"
+    },
+    {
+      "time": 10.5,
+      "selector": "span.shout",
+      "text": "6시간?!",
+      "ratio": 9.75,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(255,206,128)",
+      "bg": "rgb(48,37,69)"
+    },
+    {
+      "time": 10.5,
+      "selector": "div.sub",
+      "text": "5분이 자동 연장되었습니다.",
+      "ratio": 9.85,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(245,209,192)",
+      "bg": "rgb(50,38,69)"
+    },
+    {
+      "time": 10.5,
+      "selector": "div.footer",
+      "text": "5분 자동 연장",
+      "ratio": 10.1,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(245,209,192)",
+      "bg": "rgb(48,38,57)"
+    },
+    {
+      "time": 13.5,
+      "selector": "text",
+      "text": "+5분 연장",
+      "ratio": 10.68,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(39,32,55)",
+      "bg": "rgb(255,206,128)"
+    },
+    {
+      "time": 13.5,
+      "selector": "text",
+      "text": "새벽 3:00",
+      "ratio": 10.61,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(40,32,57)",
+      "bg": "rgb(255,206,128)"
+    },
+    {
+      "time": 13.5,
+      "selector": "div.tiny",
+      "text": "소파의 법칙 · 01",
+      "ratio": 10.6,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(253,214,155)",
+      "bg": "rgb(46,35,68)"
+    },
+    {
+      "time": 13.5,
+      "selector": "#c5",
+      "text": "이번엔 진짜…딱 5분만.",
+      "ratio": 13.4,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(255,247,237)",
+      "bg": "rgb(48,37,69)"
+    },
+    {
+      "time": 13.5,
+      "selector": "div.sub",
+      "text": "딱 5분만.",
+      "ratio": 9.88,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(245,209,192)",
+      "bg": "rgb(49,38,69)"
+    },
+    {
+      "time": 13.5,
+      "selector": "div.footer",
+      "text": "5분 자동 연장",
+      "ratio": 10.1,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(245,209,192)",
+      "bg": "rgb(48,38,57)"
+    }
+  ],
+  "contrastFailures": 0,
+  "_meta": {
+    "version": "0.8.157",
+    "updateAvailable": false,
+    "deprecated": true
+  }
+}

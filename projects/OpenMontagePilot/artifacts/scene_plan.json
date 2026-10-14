@@ -1,0 +1,32 @@
+{
+  "scenes": [
+    {
+      "id": "slump",
+      "start_seconds": 0,
+      "end_seconds": 2,
+      "description": "Anticipate then slump on sofa; eyes shut; 딱 5분만."
+    },
+    {
+      "id": "snooze",
+      "start_seconds": 2,
+      "end_seconds": 6,
+      "description": "Five increasingly fast thumb taps, head nods, +5분, accelerated clock and nightfall"
+    },
+    {
+      "id": "reveal",
+      "start_seconds": 6,
+      "end_seconds": 11,
+      "description": "Camera cut, clock glance, double take, 21:00→03:00, arms startle and 6시간?!",
+      "hero_moment": true
+    },
+    {
+      "id": "loop",
+      "start_seconds": 11,
+      "end_seconds": 15,
+      "description": "Weary settle, promise, restore first pose/caption by 14.6s"
+    }
+  ],
+  "render_runtime": "hyperframes",
+  "fps": 30,
+  "duration_seconds": 15
+}

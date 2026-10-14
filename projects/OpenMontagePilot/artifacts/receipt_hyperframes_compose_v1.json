@@ -1,0 +1,164 @@
+{
+  "success": true,
+  "data": {
+    "operation": "render_existing",
+    "output": "/workspace/proto/projects/OpenMontagePilot/renders/final.mp4",
+    "workspace": "/workspace/proto/projects/OpenMontagePilot/hyperframes",
+    "fps": 30,
+    "quality": "high",
+    "authored_entry_preserved": true,
+    "steps": {
+      "check": {
+        "exit_code": 0,
+        "report": {
+          "ok": true,
+          "strict": false,
+          "browserSkipped": false,
+          "lint": {
+            "ok": true,
+            "errorCount": 0,
+            "warningCount": 1,
+            "infoCount": 0,
+            "findings": [
+              {
+                "code": "nested_structure_needs_subcomposition",
+                "severity": "warning",
+                "message": "<div id=\"picture\"> is a timeline element that contains nested <svg>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+                "selector": "#picture",
+                "dataAttributes": {},
+                "sourceFile": "/workspace/proto/projects/OpenMontagePilot/hyperframes/index.html",
+                "bbox": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0
+                },
+                "time": 0,
+                "fixHint": "Move <div id=\"picture\"> and its contents into a sub-composition file and mount it with data-composition-src."
+              }
+            ],
+            "filesScanned": 1
+          },
+          "runtime": {
+            "ok": true,
+            "errorCount": 0,
+            "warningCount": 0,
+            "infoCount": 0,
+            "findings": []
+          },
+          "layout": {
+            "ok": true,
+            "errorCount": 0,
+            "warningCount": 1,
+            "infoCount": 0,
+            "findings": [
+              {
+                "code": "off_pivot_rotation",
+                "severity": "warning",
+                "time": 14.167,
+                "selector": "#mouth",
+                "dataAttributes": {},
+                "sourceFile": "index.html",
+                "bbox": {
+                  "x": 512,
+                  "y": 982.25,
+                  "width": 57,
+                  "height": 8
+                },
+                "rect": {
+                  "left": 512,
+                  "top": 982.25,
+                  "right": 569,
+                  "bottom": 990.25,
+                  "width": 57,
+                  "height": 8
+                },
+                "message": "Gauge/dial pointer rotates about a point 446px from the dial hub — its center-of-rotation is off the hub, so it points wrong or overshoots the track (check the rotating group's pivot: translate to the hub before rotate, or set svgOrigin/transform-origin to the hub).",
+                "fixHint": "The pointer's center-of-rotation must coincide with the dial hub. Rotate the group about the hub (e.g. transform-origin/svgOrigin set to the hub center, or translate the group so its rotation pivot lands on the hub) rather than about the element's own bbox center.",
+                "firstSeen": 14.167,
+                "lastSeen": 14.167,
+                "occurrences": 1,
+                "heldMs": 0,
+                "times": [
+                  14.167
+                ]
+              }
+            ],
+            "duration": 15,
+            "samples": [
+              0.833,
+              2.5,
+              4.167,
+              5.833,
+              7.5,
+              9.167,
+              10.833,
+              12.5,
+              14.167
+            ],
+            "transitionSamples": [],
+            "transitionSamplesDropped": 0,
+            "tolerance": 2,
+            "totalIssueCount": 1,
+            "truncated": false
+          },
+          "motion": {
+            "ok": true,
+            "errorCount": 0,
+            "warningCount": 0,
+            "infoCount": 0,
+            "findings": [],
+            "enabled": false,
+            "samples": 0
+          },
+          "contrast": {
+            "ok": true,
+            "errorCount": 0,
+            "warningCount": 0,
+            "infoCount": 0,
+            "findings": [],
+            "enabled": true,
+            "samples": [
+              0.833,
+              4.167,
+              7.5,
+              10.833,
+              14.167
+            ],
+            "checked": 32,
+            "passed": 32
+          },
+          "hdr": {
+            "autoPromotion": null,
+            "inspection": "available"
+          },
+          "snapshots": {
+            "enabled": false,
+            "files": [],
+            "times": [],
+            "findingFiles": []
+          },
+          "_meta": {
+            "version": "0.8.157",
+            "updateAvailable": false
+          }
+        },
+        "stderr_tail": "⚠  Check report was not recorded: ENOENT: no such file or directory, mkdir '/home/agent/.cache/hyperframes/history/4b959512-e0fe-40c3-81e6-32c11540493d'\n[hyperframes] browserGpuMode probe → software (WebGL renderer vendor=\"Google Inc. (Mesa)\" renderer=\"ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL ES 3.2)\")\n[SystemMemory] cgroup memory limit detected: 16384 MiB. It governs memory-adaptive render behaviour instead of host RAM.\n"
+      },
+      "render": {
+        "exit_code": 0,
+        "stdout_tail": "eaming frame 271/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":271,\"total\":450,\"pct\":58}\n  ██████████████░░░░░░░░░░░  59%  Streaming frame 281/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":281,\"total\":450,\"pct\":59}\n  ███████████████░░░░░░░░░░  60%  Streaming frame 290/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":290,\"total\":450,\"pct\":60}\n  ███████████████░░░░░░░░░░  62%  Streaming frame 300/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":300,\"total\":450,\"pct\":62}\n  ███████████████░░░░░░░░░░  62%  Streaming frame 305/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":305,\"total\":450,\"pct\":62}\n  ████████████████░░░░░░░░░  64%  Streaming frame 315/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":315,\"total\":450,\"pct\":64}\n  ████████████████░░░░░░░░░  65%  Streaming frame 325/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":325,\"total\":450,\"pct\":65}\n  ████████████████░░░░░░░░░  66%  Streaming frame 335/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":335,\"total\":450,\"pct\":66}\n  ████████████████░░░░░░░░░  67%  Streaming frame 343/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":343,\"total\":450,\"pct\":67}\n  █████████████████░░░░░░░░  68%  Streaming frame 351/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":351,\"total\":450,\"pct\":68}\n  █████████████████░░░░░░░░  69%  Streaming frame 361/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":361,\"total\":450,\"pct\":69}\n  █████████████████░░░░░░░░  70%  Streaming frame 369/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":369,\"total\":450,\"pct\":70}\n  █████████████████░░░░░░░░  71%  Streaming frame 378/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":378,\"total\":450,\"pct\":71}\n  ██████████████████░░░░░░░  72%  Streaming frame 388/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":388,\"total\":450,\"pct\":72}\n  ██████████████████░░░░░░░  73%  Streaming frame 395/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":395,\"total\":450,\"pct\":73}\n  ██████████████████░░░░░░░  74%  Streaming frame 403/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":403,\"total\":450,\"pct\":74}\n  ██████████████████░░░░░░░  75%  Streaming frame 412/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":412,\"total\":450,\"pct\":75}\n  ███████████████████░░░░░░  77%  Streaming frame 422/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":422,\"total\":450,\"pct\":77}\n  ███████████████████░░░░░░  78%  Streaming frame 430/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":430,\"total\":450,\"pct\":78}\n  ███████████████████░░░░░░  79%  Streaming frame 439/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":439,\"total\":450,\"pct\":79}\n  ████████████████████░░░░░  80%  Streaming frame 448/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":448,\"total\":450,\"pct\":80}\n  ████████████████████░░░░░  80%  Streaming frame 450/450 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":450,\"total\":450,\"pct\":80}\n  ██████████████████████░░░  89%  Encoding frame 383/450\n@hf-progress {\"code\":\"encode\",\"done\":383,\"total\":450,\"pct\":89}\n  ██████████████████████░░░  90%  Encoding frame 450/450\n@hf-progress {\"code\":\"encode\",\"done\":450,\"total\":450,\"pct\":90}\n  ██████████████████████░░░  90%  Assembling final video\n@hf-progress {\"code\":\"assemble\",\"done\":0,\"total\":15,\"pct\":90}\n  ████████████████████████░  99%  Assembling final video\n@hf-progress {\"code\":\"assemble\",\"done\":15,\"total\":15,\"pct\":99}\n  █████████████████████████  100%  Render complete\n\n◇  /workspace/proto/projects/OpenMontagePilot/renders/final.mp4\n   2.1 MB · 15.0s video · rendered in 22.9s\n   screenshot capture · software gpu · compile 0.3s · extract 0.0s · audio 0.3s · probe 0.1s · setup 3.8s · capture 18.1s · encode (during capture) 18.1s · assemble 0.3s\n   Screenshot capture (slower): BeginFrame did not run. Needs chrome-headless-shell and no --resolution upscale. Heavy compositions can stall on software GL.\n   Keep editing by chatting with Framey in the HyperFrames desktop app → https://hyperframes.dev/studio/download?os=linux\n",
+        "stderr_tail": "633a66d2d\",\"phase\":\"capture_streaming\",\"status\":\"start\",\"elapsedMs\":4413,\"stagePhase\":\"capturing\",\"workerCount\":2,\"forceScreenshot\":false,\"totalFrames\":450,\"framesCompleted\":0,\"captureMode\":\"beginframe\",\"captureOperation\":\"beginFrame\"}\n[INFO] [Render] Parallel capture worker phase {\"renderJobId\":\"bf909ae8-03ec-414e-9da3-90a633a66d2d\",\"workerId\":0,\"phase\":\"browser_launch\",\"browserExecutable\":\"/usr/bin/chromium\",\"browserVersion\":\"unknown\",\"canvasDrawElement\":\"unknown\",\"gpuBackend\":\"unknown\"}\n[INFO] [Render] Parallel capture worker phase {\"renderJobId\":\"bf909ae8-03ec-414e-9da3-90a633a66d2d\",\"workerId\":1,\"phase\":\"browser_launch\",\"browserExecutable\":\"/usr/bin/chromium\",\"browserVersion\":\"unknown\",\"canvasDrawElement\":\"unknown\",\"gpuBackend\":\"unknown\"}\n[BrowserManager] HeadlessExperimental.beginFrame probe failed after 62ms: net::ERR_BLOCKED_BY_ADMINISTRATOR at data:text/html,<style>html,body{margin:0;background:%23173}</style><div>hf-beginframe-probe</div>; falling back to screenshot mode.\n[BrowserManager] HeadlessExperimental.beginFrame probe failed after 75ms: net::ERR_BLOCKED_BY_ADMINISTRATOR at data:text/html,<style>html,body{margin:0;background:%23173}</style><div>hf-beginframe-probe</div>; falling back to screenshot mode.\n[INFO] [Render] Parallel capture worker phase {\"renderJobId\":\"bf909ae8-03ec-414e-9da3-90a633a66d2d\",\"workerId\":0,\"phase\":\"browser_probe\",\"browserExecutable\":\"/usr/bin/chromium\",\"browserVersion\":\"unknown\",\"canvasDrawElement\":\"unknown\",\"gpuBackend\":\"unknown\"}\n[INFO] [Render] Parallel capture worker phase {\"renderJobId\":\"bf909ae8-03ec-414e-9da3-90a633a66d2d\",\"workerId\":0,\"phase\":\"session_init\",\"browserExecutable\":\"/usr/bin/chromium\",\"browserVersion\":\"Chrome/151.0.7922.173\",\"canvasDrawElement\":\"unknown\",\"gpuBackend\":\"unknown\"}\n[INFO] [Render] Parallel capture worker phase {\"renderJobId\":\"bf909ae8-03ec-414e-9da3-90a633a66d2d\",\"workerId\":1,\"phase\":\"browser_probe\",\"browserExecutable\":\"/usr/bin/chromium\",\"browserVersion\":\"unknown\",\"canvasDrawElement\":\"unknown\",\"gpuBackend\":\"unknown\"}\n[INFO] [Render] Parallel capture worker phase {\"renderJobId\":\"bf909ae8-03ec-414e-9da3-90a633a66d2d\",\"workerId\":1,\"phase\":\"session_init\",\"browserExecutable\":\"/usr/bin/chromium\",\"browserVersion\":\"Chrome/151.0.7922.173\",\"canvasDrawElement\":\"unknown\",\"gpuBackend\":\"unknown\"}\n[INFO] [Render] Parallel capture worker phase {\"renderJobId\":\"bf909ae8-03ec-414e-9da3-90a633a66d2d\",\"workerId\":1,\"phase\":\"frame_capture\",\"frameIndex\":1,\"browserExecutable\":\"/usr/bin/chromium\",\"browserVersion\":\"Chrome/151.0.7922.173\",\"canvasDrawElement\":false,\"gpuBackend\":\"unknown\"}\n[INFO] [Render] Parallel capture worker phase {\"renderJobId\":\"bf909ae8-03ec-414e-9da3-90a633a66d2d\",\"workerId\":0,\"phase\":\"frame_capture\",\"frameIndex\":0,\"browserExecutable\":\"/usr/bin/chromium\",\"browserVersion\":\"Chrome/151.0.7922.173\",\"canvasDrawElement\":false,\"gpuBackend\":\"unknown\"}\n[INFO] [Render:trace] {\"renderJobId\":\"bf909ae8-03ec-414e-9da3-90a633a66d2d\",\"phase\":\"capture_streaming\",\"status\":\"end\",\"elapsedMs\":22511,\"durationMs\":18098,\"stagePhase\":\"capturing\",\"workerCount\":2,\"forceScreenshot\":false,\"totalFrames\":450,\"framesCompleted\":450,\"captureMode\":\"beginframe\",\"captureOperation\":\"encode\"}\n[INFO] [Render:trace] {\"renderJobId\":\"bf909ae8-03ec-414e-9da3-90a633a66d2d\",\"phase\":\"assemble\",\"status\":\"start\",\"elapsedMs\":22512,\"stagePhase\":\"capturing\",\"hasAudio\":true,\"workerCount\":2,\"forceScreenshot\":false,\"totalFrames\":450,\"framesCompleted\":450,\"captureMode\":\"beginframe\",\"captureOperation\":\"encode\"}\n[INFO] [Render:trace] {\"renderJobId\":\"bf909ae8-03ec-414e-9da3-90a633a66d2d\",\"phase\":\"assemble\",\"status\":\"end\",\"elapsedMs\":22860,\"durationMs\":348,\"stagePhase\":\"capturing\",\"hasAudio\":true,\"workerCount\":2,\"forceScreenshot\":false,\"totalFrames\":450,\"framesCompleted\":450,\"captureMode\":\"beginframe\",\"captureOperation\":\"encode\"}\n[INFO] [Render:trace] {\"renderJobId\":\"bf909ae8-03ec-414e-9da3-90a633a66d2d\",\"phase\":\"pipeline\",\"status\":\"checkpoint\",\"elapsedMs\":22922,\"message\":\"artifact validated\",\"totalElapsedMs\":22922}\n"
+      }
+    }
+  },
+  "artifacts": [
+    "/workspace/proto/projects/OpenMontagePilot/renders/final.mp4"
+  ],
+  "error": null,
+  "cost_usd": 0.0,
+  "duration_seconds": 31.69,
+  "seed": null,
+  "model": null,
+  "from_cache": false
+}

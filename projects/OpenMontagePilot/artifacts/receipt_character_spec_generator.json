@@ -1,0 +1,52 @@
+{
+  "success": true,
+  "data": {
+    "character_design": {
+      "version": "1.0",
+      "style": {
+        "visual_style": "original warm editorial cartoon"
+      },
+      "characters": [
+        {
+          "id": "peach",
+          "display_name": "복숭이",
+          "role": "sleepy protagonist",
+          "body_type": "peach square head and navy pajamas",
+          "style": "original warm editorial cartoon",
+          "silhouette_notes": "",
+          "required_emotions": [
+            "sleepy",
+            "surprised",
+            "determined"
+          ],
+          "required_actions": [
+            "slump",
+            "thumb_tap",
+            "startle",
+            "settle"
+          ],
+          "required_views": [
+            "front"
+          ],
+          "props": [],
+          "constraints": [
+            "Original character; no famous-character imitation"
+          ]
+        }
+      ],
+      "metadata": {
+        "source": "character_spec_generator",
+        "brief": ""
+      }
+    }
+  },
+  "artifacts": [
+    "/workspace/proto/projects/OpenMontagePilot/artifacts/character_design.json"
+  ],
+  "error": null,
+  "cost_usd": 0.0,
+  "duration_seconds": 0.0,
+  "seed": null,
+  "model": null,
+  "from_cache": false
+}

@@ -1,0 +1,33 @@
+{
+  "checks": {
+    "dimensions": true,
+    "fps": true,
+    "frames": true,
+    "duration": true,
+    "video_codec": true,
+    "pixel_format": true,
+    "audio_codec": true,
+    "audio_channels": true,
+    "character_motion": true,
+    "loop": true,
+    "no_clipping": true,
+    "audio_present": true
+  },
+  "pass": true,
+  "video_seconds": 15.0,
+  "container_seconds": 15.0,
+  "decoded_audio_peak_dbfs": -4.948648996374968,
+  "decoded_audio_rms_dbfs": -26.61654718204446,
+  "clipped_samples": 0,
+  "character_region_mean_absolute_deltas": [
+    29.90949541876371,
+    7.613800490385856,
+    12.590605884630275,
+    27.749538650148406,
+    45.90452445476836,
+    30.451652471286618,
+    12.707990063233966
+  ],
+  "first_last_frame_mean_absolute_delta": 0.27347817001028807,
+  "audio_listening": "Not performed. Numerical waveform/decoded checks only; no claim of human auditory review."
+}

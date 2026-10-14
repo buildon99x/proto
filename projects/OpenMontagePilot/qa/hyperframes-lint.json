@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "errorCount": 0,
+  "warningCount": 1,
+  "infoCount": 0,
+  "findings": [
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<div id=\"picture\"> is a timeline element that contains nested <svg>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "picture",
+      "fixHint": "Move <div id=\"picture\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/OpenMontagePilot/hyperframes/index.html",
+      "line": 5,
+      "column": 1
+    }
+  ],
+  "filesScanned": 1,
+  "_meta": {
+    "version": "0.8.157",
+    "updateAvailable": false
+  }
+}

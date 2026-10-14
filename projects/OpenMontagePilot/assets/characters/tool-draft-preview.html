@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Character Animation Preview</title>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <style>
+    body { margin: 0; overflow: hidden; background: #9bd7ff; font-family: system-ui, sans-serif; }
+    #stage { width: 100vw; height: 100vh; display: grid; place-items: center; background: linear-gradient(#9bd7ff 0 65%, #75c878 65%); }
+    svg { width: min(82vw, 720px); overflow: visible; }
+    .outline { stroke: #202632; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+    #note { position: fixed; left: 16px; bottom: 16px; background: white; border: 2px solid #202632; padding: 10px 12px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div id="stage">
+    <svg viewBox="0 0 640 640" role="img" aria-label="Character preview">
+
+      <g class="character" id="character_peach" data-character="peach" transform="translate(0.0 0) scale(1)">
+        <ellipse class="shadow" cx="320" cy="560" rx="120" ry="22" fill="rgba(0,0,0,.18)" />
+        <ellipse class="body outline" cx="320" cy="400" rx="80" ry="120" fill="#ff8f68" />
+        <circle class="head outline" cx="320" cy="230" r="90" fill="#ffd39f" />
+        <ellipse class="eye eye-left outline" cx="285" cy="215" rx="18" ry="26" fill="white" />
+        <ellipse class="eye eye-right outline" cx="355" cy="215" rx="18" ry="26" fill="white" />
+        <circle class="pupil pupil-left" cx="289" cy="218" r="8" fill="#202632" />
+        <circle class="pupil pupil-right" cx="359" cy="218" r="8" fill="#202632" />
+        <path class="mouth outline" d="M285 275 Q320 305 355 275" fill="none" />
+        <path class="arm arm-left outline" d="M255 360 C210 380 190 420 180 455" fill="none" />
+        <path class="arm arm-right outline" d="M385 360 C440 330 465 290 475 240" fill="none" />
+      </g>
+    </svg>
+  </div>
+  <div id="note">Local character preview. Characters: <span id="characters"></span> · Scenes: <span id="count"></span></div>
+  <script>
+    window.__ACTION_TIMELINE__ = {"version": "1.0", "fps": 30, "scenes": [{"scene_id": "slump", "start_seconds": 0, "end_seconds": 2, "camera": {"framing": "medium"}, "background": "Anticipate then slump on sofa; eyes shut; \ub531 5\ubd84\ub9cc.", "effects": [], "actions": [{"at_seconds": 0.18, "duration_seconds": 0.22, "character_id": "peach", "action": "anticipation", "pose": "idle", "easing": "power2.inOut"}, {"at_seconds": 0.4, "duration_seconds": 0.38, "character_id": "peach", "action": "drop", "pose": "slump", "easing": "power2.inOut"}, {"at_seconds": 0.78, "duration_seconds": 1.22, "character_id": "peach", "action": "hold", "pose": "slump", "easing": "power2.inOut"}]}, {"scene_id": "snooze", "start_seconds": 2, "end_seconds": 6, "camera": {"framing": "medium"}, "background": "Five increasingly fast thumb taps, head nods, +5\ubd84, accelerated clock and nightfall", "effects": [], "actions": [{"at_seconds": 2.15, "duration_seconds": 0.37, "character_id": "peach", "action": "thumb_tap", "pose": "thumb_tap", "easing": "power2.inOut"}, {"at_seconds": 3.2, "duration_seconds": 0.37, "character_id": "peach", "action": "thumb_tap", "pose": "thumb_tap", "easing": "power2.inOut"}, {"at_seconds": 4.05, "duration_seconds": 0.37, "character_id": "peach", "action": "thumb_tap", "pose": "thumb_tap", "easing": "power2.inOut"}, {"at_seconds": 4.75, "duration_seconds": 0.37, "character_id": "peach", "action": "thumb_tap", "pose": "thumb_tap", "easing": "power2.inOut"}, {"at_seconds": 5.3, "duration_seconds": 0.37, "character_id": "peach", "action": "thumb_tap", "pose": "thumb_tap", "easing": "power2.inOut"}]}, {"scene_id": "reveal", "start_seconds": 6, "end_seconds": 11, "camera": {"framing": "medium"}, "background": "Camera cut, clock glance, double take, 21:00\u219203:00, arms startle and 6\uc2dc\uac04?!", "effects": [], "actions": [{"at_seconds": 6.5, "duration_seconds": 0.3, "character_id": "peach", "action": "glance", "pose": "look_right", "easing": "power2.inOut"}, {"at_seconds": 7.15, "duration_seconds": 0.16, "character_id": "peach", "action": "double_take", "pose": "look_left", "easing": "power2.inOut"}, {"at_seconds": 7.65, "duration_seconds": 0.2, "character_id": "peach", "action": "startle", "pose": "startle", "easing": "power2.inOut"}, {"at_seconds": 7.85, "duration_seconds": 3.15, "character_id": "peach", "action": "hold", "pose": "surprised", "easing": "power2.inOut"}]}, {"scene_id": "loop", "start_seconds": 11, "end_seconds": 15, "camera": {"framing": "medium"}, "background": "Weary settle, promise, restore first pose/caption by 14.6s", "effects": [], "actions": [{"at_seconds": 11, "duration_seconds": 0.5, "character_id": "peach", "action": "settle", "pose": "settle", "easing": "power2.inOut"}, {"at_seconds": 12, "duration_seconds": 0.5, "character_id": "peach", "action": "promise", "pose": "idle", "easing": "power2.inOut"}, {"at_seconds": 14.3, "duration_seconds": 0.3, "character_id": "peach", "action": "loop_reset", "pose": "idle", "easing": "power2.inOut"}]}], "metadata": {"source": "action_timeline_compiler"}};
+    document.querySelector('#count').textContent = window.__ACTION_TIMELINE__.scenes.length;
+    const characters = gsap.utils.toArray('.character');
+    document.querySelector('#characters').textContent = characters.map((node) => node.dataset.character).join(', ');
+    characters.forEach((node, index) => {
+      const q = gsap.utils.selector(node);
+      gsap.set(q('.head'), { svgOrigin: '320 320' });
+      gsap.set(q('.arm-right'), { svgOrigin: '385 360' });
+      gsap.set(q('.arm-left'), { svgOrigin: '255 360' });
+      gsap.timeline({ repeat: -1, defaults: { ease: 'power2.inOut' }, delay: index * 0.12 })
+        .to(node, { y: -16, duration: 0.45 })
+        .to(node, { y: 0, duration: 0.45 });
+      gsap.timeline({ repeat: -1, repeatDelay: 0.5, delay: index * 0.18 })
+        .to(q('.head'), { rotation: index % 2 ? 8 : -8, duration: 0.35 })
+        .to(q('.pupil'), { x: index % 2 ? -8 : 8, y: -3, duration: 0.2 }, '<')
+        .to(q('.arm-right'), { rotation: index % 2 ? -22 : 28, duration: 0.35 }, '<')
+        .to(q('.eye'), { scaleY: 0.08, transformOrigin: 'center', duration: 0.08 })
+        .to(q('.eye'), { scaleY: 1, duration: 0.1 })
+        .to(q('.head'), { rotation: index % 2 ? -6 : 6, duration: 0.35 })
+        .to(q('.pupil'), { x: index % 2 ? 6 : -6, y: 3, duration: 0.2 }, '<')
+        .to(q('.arm-right'), { rotation: index % 2 ? 8 : -8, duration: 0.35 }, '<');
+    });
+        </script>
+</body>
+</html>

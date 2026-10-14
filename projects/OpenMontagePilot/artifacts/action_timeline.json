@@ -1,0 +1,177 @@
+{
+  "version": "1.0",
+  "fps": 30,
+  "scenes": [
+    {
+      "scene_id": "slump",
+      "start_seconds": 0,
+      "end_seconds": 2,
+      "camera": {
+        "framing": "medium"
+      },
+      "background": "Anticipate then slump on sofa; eyes shut; 딱 5분만.",
+      "effects": [],
+      "actions": [
+        {
+          "at_seconds": 0.18,
+          "duration_seconds": 0.22,
+          "character_id": "peach",
+          "action": "anticipation",
+          "pose": "idle",
+          "easing": "power2.inOut"
+        },
+        {
+          "at_seconds": 0.4,
+          "duration_seconds": 0.38,
+          "character_id": "peach",
+          "action": "drop",
+          "pose": "slump",
+          "easing": "power2.inOut"
+        },
+        {
+          "at_seconds": 0.78,
+          "duration_seconds": 1.22,
+          "character_id": "peach",
+          "action": "hold",
+          "pose": "slump",
+          "easing": "power2.inOut"
+        }
+      ]
+    },
+    {
+      "scene_id": "snooze",
+      "start_seconds": 2,
+      "end_seconds": 6,
+      "camera": {
+        "framing": "medium"
+      },
+      "background": "Five increasingly fast thumb taps, head nods, +5분, accelerated clock and nightfall",
+      "effects": [],
+      "actions": [
+        {
+          "at_seconds": 2.15,
+          "duration_seconds": 0.37,
+          "character_id": "peach",
+          "action": "thumb_tap",
+          "pose": "thumb_tap",
+          "easing": "power2.inOut"
+        },
+        {
+          "at_seconds": 3.2,
+          "duration_seconds": 0.37,
+          "character_id": "peach",
+          "action": "thumb_tap",
+          "pose": "thumb_tap",
+          "easing": "power2.inOut"
+        },
+        {
+          "at_seconds": 4.05,
+          "duration_seconds": 0.37,
+          "character_id": "peach",
+          "action": "thumb_tap",
+          "pose": "thumb_tap",
+          "easing": "power2.inOut"
+        },
+        {
+          "at_seconds": 4.75,
+          "duration_seconds": 0.37,
+          "character_id": "peach",
+          "action": "thumb_tap",
+          "pose": "thumb_tap",
+          "easing": "power2.inOut"
+        },
+        {
+          "at_seconds": 5.3,
+          "duration_seconds": 0.37,
+          "character_id": "peach",
+          "action": "thumb_tap",
+          "pose": "thumb_tap",
+          "easing": "power2.inOut"
+        }
+      ]
+    },
+    {
+      "scene_id": "reveal",
+      "start_seconds": 6,
+      "end_seconds": 11,
+      "camera": {
+        "framing": "medium"
+      },
+      "background": "Camera cut, clock glance, double take, 21:00→03:00, arms startle and 6시간?!",
+      "effects": [],
+      "actions": [
+        {
+          "at_seconds": 6.5,
+          "duration_seconds": 0.3,
+          "character_id": "peach",
+          "action": "glance",
+          "pose": "look_right",
+          "easing": "power2.inOut"
+        },
+        {
+          "at_seconds": 7.15,
+          "duration_seconds": 0.16,
+          "character_id": "peach",
+          "action": "double_take",
+          "pose": "look_left",
+          "easing": "power2.inOut"
+        },
+        {
+          "at_seconds": 7.65,
+          "duration_seconds": 0.2,
+          "character_id": "peach",
+          "action": "startle",
+          "pose": "startle",
+          "easing": "power2.inOut"
+        },
+        {
+          "at_seconds": 7.85,
+          "duration_seconds": 3.15,
+          "character_id": "peach",
+          "action": "hold",
+          "pose": "surprised",
+          "easing": "power2.inOut"
+        }
+      ]
+    },
+    {
+      "scene_id": "loop",
+      "start_seconds": 11,
+      "end_seconds": 15,
+      "camera": {
+        "framing": "medium"
+      },
+      "background": "Weary settle, promise, restore first pose/caption by 14.6s",
+      "effects": [],
+      "actions": [
+        {
+          "at_seconds": 11,
+          "duration_seconds": 0.5,
+          "character_id": "peach",
+          "action": "settle",
+          "pose": "settle",
+          "easing": "power2.inOut"
+        },
+        {
+          "at_seconds": 12,
+          "duration_seconds": 0.5,
+          "character_id": "peach",
+          "action": "promise",
+          "pose": "idle",
+          "easing": "power2.inOut"
+        },
+        {
+          "at_seconds": 14.3,
+          "duration_seconds": 0.3,
+          "character_id": "peach",
+          "action": "loop_reset",
+          "pose": "idle",
+          "easing": "power2.inOut"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "source": "action_timeline_compiler"
+  }
+}

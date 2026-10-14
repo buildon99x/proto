@@ -1,0 +1,20 @@
+{
+  "assets": [
+    {
+      "id": "peach-svg",
+      "path": "hyperframes/index.html",
+      "source_tool": "bespoke original SVG/GSAP authoring; OpenMontage rig/pose data revised"
+    },
+    {
+      "id": "sfx",
+      "path": "hyperframes/assets/sfx.wav",
+      "source_tool": "original additive synthesis"
+    },
+    {
+      "id": "font",
+      "path": "hyperframes/assets/NotoSansKR.ttf",
+      "license": "SIL OFL 1.1"
+    }
+  ],
+  "total_cost_usd": 0
+}

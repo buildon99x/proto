@@ -1,0 +1,12 @@
+{
+  "technical_status": "pass",
+  "visual_status": "pass after decoded frame review",
+  "audio_numerical_status": "pass",
+  "audio_listening_status": "not_performed",
+  "limitations": [
+    "Actual auditory listening unavailable in this environment",
+    "Rigged 2D animation; viral performance is untested",
+    "HyperFrames doctor reports optional STT/TTS/BGM models unavailable; these are not used"
+  ],
+  "motion_evidence": "qa/metrics.json plus decoded-contact-sheet.jpg; upstream motion_detected is only action metadata"
+}

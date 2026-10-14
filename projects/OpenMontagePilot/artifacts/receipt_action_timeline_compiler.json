@@ -1,0 +1,171 @@
+{
+  "success": true,
+  "data": {
+    "action_timeline": {
+      "version": "1.0",
+      "fps": 30,
+      "scenes": [
+        {
+          "scene_id": "slump",
+          "start_seconds": 0,
+          "end_seconds": 2,
+          "camera": {
+            "framing": "medium"
+          },
+          "background": "Anticipate then slump on sofa; eyes shut; 딱 5분만.",
+          "effects": [],
+          "actions": [
+            {
+              "at_seconds": 0.0,
+              "duration_seconds": 0.5,
+              "character_id": "peach",
+              "action": "anticipate",
+              "pose": "idle",
+              "easing": "power2.out"
+            },
+            {
+              "at_seconds": 0.5,
+              "duration_seconds": 0.7,
+              "character_id": "peach",
+              "action": "perform",
+              "pose": "look_right",
+              "easing": "back.out",
+              "notes": "Anticipate then slump on sofa; eyes shut; 딱 5분만."
+            },
+            {
+              "at_seconds": 1.4,
+              "duration_seconds": 0.5,
+              "character_id": "peach",
+              "action": "settle",
+              "pose": "idle",
+              "easing": "power2.inOut"
+            }
+          ]
+        },
+        {
+          "scene_id": "snooze",
+          "start_seconds": 2,
+          "end_seconds": 6,
+          "camera": {
+            "framing": "medium"
+          },
+          "background": "Five increasingly fast thumb taps, head nods, +5분, accelerated clock and nightfall",
+          "effects": [],
+          "actions": [
+            {
+              "at_seconds": 2.0,
+              "duration_seconds": 0.5,
+              "character_id": "peach",
+              "action": "anticipate",
+              "pose": "idle",
+              "easing": "power2.out"
+            },
+            {
+              "at_seconds": 3.0,
+              "duration_seconds": 1.4,
+              "character_id": "peach",
+              "action": "perform",
+              "pose": "look_right",
+              "easing": "back.out",
+              "notes": "Five increasingly fast thumb taps, head nods, +5분, accelerated clock and nightfall"
+            },
+            {
+              "at_seconds": 4.8,
+              "duration_seconds": 1.0,
+              "character_id": "peach",
+              "action": "settle",
+              "pose": "idle",
+              "easing": "power2.inOut"
+            }
+          ]
+        },
+        {
+          "scene_id": "reveal",
+          "start_seconds": 6,
+          "end_seconds": 11,
+          "camera": {
+            "framing": "medium"
+          },
+          "background": "Camera cut, clock glance, double take, 21:00→03:00, arms startle and 6시간?!",
+          "effects": [],
+          "actions": [
+            {
+              "at_seconds": 6.0,
+              "duration_seconds": 0.5,
+              "character_id": "peach",
+              "action": "anticipate",
+              "pose": "idle",
+              "easing": "power2.out"
+            },
+            {
+              "at_seconds": 7.25,
+              "duration_seconds": 1.75,
+              "character_id": "peach",
+              "action": "perform",
+              "pose": "surprised",
+              "easing": "back.out",
+              "notes": "Camera cut, clock glance, double take, 21:00→03:00, arms startle and 6시간?!"
+            },
+            {
+              "at_seconds": 9.5,
+              "duration_seconds": 1.25,
+              "character_id": "peach",
+              "action": "settle",
+              "pose": "idle",
+              "easing": "power2.inOut"
+            }
+          ]
+        },
+        {
+          "scene_id": "loop",
+          "start_seconds": 11,
+          "end_seconds": 15,
+          "camera": {
+            "framing": "medium"
+          },
+          "background": "Weary settle, promise, restore first pose/caption by 14.6s",
+          "effects": [],
+          "actions": [
+            {
+              "at_seconds": 11.0,
+              "duration_seconds": 0.5,
+              "character_id": "peach",
+              "action": "anticipate",
+              "pose": "idle",
+              "easing": "power2.out"
+            },
+            {
+              "at_seconds": 12.0,
+              "duration_seconds": 1.4,
+              "character_id": "peach",
+              "action": "perform",
+              "pose": "look_right",
+              "easing": "back.out",
+              "notes": "Weary settle, promise, restore first pose/caption by 14.6s"
+            },
+            {
+              "at_seconds": 13.8,
+              "duration_seconds": 1.0,
+              "character_id": "peach",
+              "action": "settle",
+              "pose": "idle",
+              "easing": "power2.inOut"
+            }
+          ]
+        }
+      ],
+      "metadata": {
+        "source": "action_timeline_compiler"
+      }
+    }
+  },
+  "artifacts": [
+    "/workspace/proto/projects/OpenMontagePilot/artifacts/action_timeline_draft.json"
+  ],
+  "error": null,
+  "cost_usd": 0.0,
+  "duration_seconds": 0.0,
+  "seed": null,
+  "model": null,
+  "from_cache": false
+}
