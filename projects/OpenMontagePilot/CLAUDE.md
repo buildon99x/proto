@@ -1,0 +1,2 @@
+# OpenMontagePilot
+Keep all production code/assets/evidence inside this project. This is a local video production pilot, not a deployed launcher app. Do not modify existing projects. No API spend, credentials, publishing, deployment, or main merge. Retain source licenses and exact upstream/version evidence. Do not mistake reviewer motion_detected metadata for measured motion. Deliver MP4 directly.

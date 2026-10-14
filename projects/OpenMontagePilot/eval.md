@@ -1,0 +1,2 @@
+# Evaluation plan
+HyperFrames lint/validate/inspect; browser console and sample screenshots; ffprobe dimensions/fps/frame count/duration/codecs; decoded first/last comparison and character-region frame deltas; visual inspection of all beats for rig connection/caption legibility; measured WAV/decoded audio peak, loudness, silence. Human listening is separate and must never be claimed from numeric checks.

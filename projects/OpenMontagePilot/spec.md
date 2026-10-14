@@ -1,0 +1,2 @@
+# Acceptance
+1080×1920, 30fps, 450 frames, 15.000 seconds. H.264/yuv420p and AAC stereo, faststart. Readable Korean captions in mobile safe region. Separate torso/head/eyes/mouth/arms/legs, readable slumping/tapping/startle/recline acting. Bounded deterministic SVG/GSAP timeline rendered by HyperFrames. FFmpeg only for encoding/audio and QA. Frame evidence and numerical motion validation, exact opening/end pose for visual loop. No clipping. Local-only workflow; commit/push named pilot branch without deployment or main merge.
