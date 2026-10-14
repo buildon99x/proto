@@ -75,39 +75,92 @@ const lifts: Record<Shot, number[]> = {
     superSmash: [-8, -4, 0, 4],
 };
 // Search horizontal launch speed for each vertical launch candidate using precisely the runtime integrator.
-export function solve(start: V3, target: V3, shot: Shot) {
+export type Solution = {
+    velocity: V3;
+    prediction: ReturnType<typeof flight>;
+    error: number;
+    cost: number;
+    requestedShot: Shot;
+    resolvedShot: Shot;
+    fallbackReason: string | null;
+};
+function candidates(start: V3, target: V3, shot: Shot): Solution[] {
     const dx = target.x - start.x,
         dz = target.z - start.z,
-        d = Math.hypot(dx, dz);
-    let best: {
-        velocity: V3;
-        prediction: ReturnType<typeof flight>;
-        error: number;
-        cost: number;
-    } | null = null;
-    for (const vy of lifts[shot]) {
-        let low = 0.1,
-            high = 115;
-        for (let i = 0; i < 15; i++) {
-            const speed = (low + high) / 2;
-            const f = flight(start, { x: (dx / d) * speed, y: vy, z: (dz / d) * speed }, false);
-            if (distance(start, f.end) < d) low = speed;
-            else high = speed;
+        d = Math.hypot(dx, dz),
+        out: Solution[] = [];
+    const vertical =
+        shot === 'smash'
+            ? [-5, -4, -3, -2, -1]
+            : shot === 'superSmash'
+              ? [-14, -12, -10, -9, -8, -7, -6, -5, -4, -3, -2]
+              : lifts[shot];
+    for (const vy of vertical) {
+        let lo = 0.1,
+            hi = 100;
+        for (let i = 0; i < 17; i++) {
+            const speed = (lo + hi) / 2,
+                f = flight(start, { x: (dx / d) * speed, y: vy, z: (dz / d) * speed }, false);
+            if (distance(start, f.end) < d) lo = speed;
+            else hi = speed;
         }
-        const speed = (low + high) / 2,
-            velocity = { x: (dx / d) * speed, y: vy, z: (dz / d) * speed };
-        const prediction = flight(start, velocity),
-            error = distance(prediction.end, target);
-        const desired =
-            shot === 'clear' ? 2.5 : shot === 'drop' ? 1.2 : shot === 'drive' ? 0.85 : 0.55;
+        const speed = (lo + hi) / 2,
+            velocity = { x: (dx / d) * speed, y: vy, z: (dz / d) * speed },
+            prediction = flight(start, velocity),
+            error = distance(prediction.end, target),
+            desired =
+                shot === 'clear' ? 2.5 : shot === 'drop' ? 1.2 : shot === 'drive' ? 0.85 : 0.5;
+        const offensive = shot === 'smash' || shot === 'superSmash',
+            cap = shot === 'smash' ? 34 : shot === 'superSmash' ? 55 : 115;
+        if (
+            offensive &&
+            (Math.hypot(velocity.x, velocity.y, velocity.z) > cap ||
+                prediction.reason === 'NET' ||
+                error > 0.06 ||
+                start.y < 2.15)
+        )
+            continue;
         const cost =
             error * 30 +
             (prediction.reason === 'NET' ? 100 : 0) +
-            Math.abs(prediction.time - desired) +
-            speed * 0.003;
-        if (!best || cost < best.cost) best = { velocity, prediction, error, cost };
+            (offensive ? prediction.time : Math.abs(prediction.time - desired)) +
+            speed * 0.0001;
+        out.push({
+            velocity,
+            prediction,
+            error,
+            cost,
+            requestedShot: shot,
+            resolvedShot: shot,
+            fallbackReason: null,
+        });
     }
-    return best!;
+    return out.sort((a, b) => a.cost - b.cost);
+}
+export function solve(start: V3, target: V3, shot: Shot): Solution {
+    const choices = candidates(start, target, shot);
+    if (shot === 'superSmash') {
+        const ordinary = candidates(start, target, 'smash')[0];
+        if (ordinary) {
+            const reference = Math.hypot(
+                ordinary.velocity.x,
+                ordinary.velocity.y,
+                ordinary.velocity.z,
+            );
+            const stronger = choices.find(
+                (c) =>
+                    Math.hypot(c.velocity.x, c.velocity.y, c.velocity.z) >= reference * 1.15 &&
+                    c.prediction.time <= ordinary.prediction.time * 0.9 &&
+                    c.velocity.y < ordinary.velocity.y,
+            );
+            if (stronger) return stronger;
+            return { ...ordinary, requestedShot: shot, fallbackReason: 'NO_STRONGER_LEGAL_ATTACK' };
+        }
+    } else if (choices[0]) return choices[0];
+    // A steep shot that cannot clear this net geometry is visibly downgraded, never lofted and labelled Smash.
+    const fallback: Shot = Math.abs(target.z) < 2 ? 'drop' : 'drive';
+    const safe = candidates(start, target, fallback)[0] ?? candidates(start, target, 'clear')[0];
+    return { ...safe, requestedShot: shot, fallbackReason: 'NO_LEGAL_DESCENDING_ATTACK' };
 }
 export function quality(error: number): Quality {
     const e = Math.abs(error);

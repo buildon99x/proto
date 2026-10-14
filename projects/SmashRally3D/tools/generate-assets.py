@@ -6,7 +6,7 @@ class GLB:
  def __init__(self):
   self.data=bytearray();self.g={'asset':{'version':'2.0','generator':'Smash Rally original asset author'},'buffers':[{}],'bufferViews':[],'accessors':[],'meshes':[],'materials':[],'nodes':[],'scenes':[{'nodes':[]}],'scene':0,'animations':[]}
  def acc(self,values,typ,component=5126):
-  size={'SCALAR':1,'VEC3':3,'VEC4':4}[typ];flat=[x for v in values for x in (v if isinstance(v,(list,tuple)) else [v])];offset=len(self.data);self.data.extend(struct.pack('<'+('f' if component==5126 else 'H')*len(flat),*flat));length=len(self.data)-offset
+  size={'SCALAR':1,'VEC3':3,'VEC4':4,'MAT4':16}[typ];flat=[x for v in values for x in (v if isinstance(v,(list,tuple)) else [v])];offset=len(self.data);self.data.extend(struct.pack('<'+('f' if component==5126 else 'H')*len(flat),*flat));length=len(self.data)-offset
   while len(self.data)%4:self.data.append(0)
   bi=len(self.g['bufferViews']);self.g['bufferViews'].append({'buffer':0,'byteOffset':offset,'byteLength':length});a={'bufferView':bi,'componentType':component,'count':len(flat)//size,'type':typ}
   if typ=='VEC3':a.update(min=[min(flat[i::3]) for i in range(3)],max=[max(flat[i::3]) for i in range(3)])
@@ -55,7 +55,7 @@ for uniform,name in [('#ffba54','athlete-gold.glb'),('#8d9aff','athlete-violet.g
  g.node('upper arm','cylinder',[.34,1.2,0],[.15,.38,.15],'#e7b48d');g.node('forearm','cylinder',[.35,.93,0],[.12,.36,.12],'#e7b48d');g.node('off arm','cylinder',[-.34,1.05,0],[.16,.55,.16],'#e7b48d')
  for name2,angle,dur in [('Ready',.03,1.2),('SideStep',.10,.5),('Run',.16,.45),('BasicHit',.8,.48),('Drop',.35,.48),('Clear',1.05,.48),('Smash',1.35,.55),('Recover',-.25,.4),('Serve',.55,.48)]:g.animation(name2,body,angle,dur)
  g.save(name)
-g=GLB();g.node('frame','torus',[0,0,0],[.65,.65,.65],'#f6dd7c');g.node('grip','cylinder',[0,0,-.32],[.045,.045,.35],'#172b45')
+g=GLB();g.node('frame','torus',[0,0,0],[.65,.65,.65],'#f6dd7c');grip=g.node('grip','cylinder',[0,0,-.32],[.05,.35,.05],'#172b45');g.g['nodes'][grip]['rotation']=[.70710678,0,0,.70710678]
 for i in range(-2,3):g.node('string','box',[i*.045,0,0],[.004,.004,.26],'#eef2f1');g.node('string','box',[0,0,i*.045],[.26,.004,.004],'#eef2f1')
 g.save('racket.glb')
 g=GLB();g.node('cork','sphere',[0,0,0],[.13,.13,.13],'#ffffff');g.node('feathers','cone',[0,.16,0],[.28,.32,.28],'#ffffff');g.save('shuttle.glb')

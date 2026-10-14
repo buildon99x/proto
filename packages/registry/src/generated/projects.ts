@@ -174,7 +174,7 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "summary": "자동 풋워크와 공기저항 셔틀 물리로 즐기는 5점제 3D 배드민턴. 마우스와 탭·스와이프로 빈 공간을 공략하세요.",
     "tags": [
       "game",
@@ -200,7 +200,7 @@ export const projects = [
       "build": "pnpm --filter smash-rally-3d build",
       "test": "pnpm --filter smash-rally-3d test"
     },
-    "updatedAt": "2026-10-14T12:13:02Z"
+    "updatedAt": "2026-10-14T12:21:23Z"
   },
   {
     "id": "stackflow",

@@ -3,7 +3,12 @@ import {
     AppOptions,
     Asset,
     AnimEvents,
-    AnimComponentSystem,
+    AnimClip,
+    AnimEvaluator,
+    DefaultAnimBinder,
+    EventHandler,
+    Quat,
+    Mat4,
     CameraComponentSystem,
     Color,
     ContainerHandler,
@@ -26,7 +31,11 @@ import type { ContainerResource, AnimTrack } from 'playcanvas';
 import type { Intent, Actor, Hit } from './game';
 import { CFG, clamp } from './physics';
 import type { V3 } from './physics';
+import { MOTIONS, skeletonPose, sub } from './motion';
+import type { MotionName } from './motion';
 import './style.css';
+const reviewContact = new URLSearchParams(location.search).get('review-contact');
+let reviewHit: Hit | null = null;
 let graphicsLost = false;
 const canvas = document.getElementById('application-canvas') as HTMLCanvasElement,
     ui = document.getElementById('ui')!,
@@ -139,7 +148,7 @@ function renderUI() {
             overlay = `<section class="card menu"><div class="eyebrow">RALLY CLUB · COURT 01</div><h1>SMASH<br><span>RALLY</span><small>3D</small></h1><p>Read the flight. Find the space.<br>Make your next shot count.</p><div class="rule">SINGLES / FIRST TO 5 / AUTO FOOTWORK</div><label class="difficulty">Opponent<select id="difficulty">${['EASY', 'NORMAL', 'HARD'].map((d) => `<option ${game.difficulty === d ? 'selected' : ''}>${d}</option>`).join('')}</select></label><button data-action="start" class="primary">QUICK MATCH <span>PLAY</span></button><div class="row"><button data-action="help">How to play</button><button data-action="settings">Settings</button></div></section>`;
         if (game.phase === 'RESULTS')
             overlay = `<section class="card result"><div class="eyebrow">MATCH COMPLETE</div><h2>${game.scores[0] === 5 ? 'YOU WIN' : 'KEEP RALLYING'}</h2><div class="final-score">${game.scores[0]} <span>—</span> ${game.scores[1]}</div><p>${game.shots.length} shots · Longest rally ${Math.max(0, ...game.points.map((p) => p.returns))} returns</p><button data-action="start" class="primary">PLAY AGAIN</button><button data-action="menu">Main menu</button></section>`;
-        if (game.paused)
+        if (game.paused && !reviewHit)
             overlay = `<section class="card"><div class="eyebrow">TAKE A BREATH</div><h2>PAUSED</h2><button data-action="resume" class="primary">CONTINUE</button><div class="row"><button data-action="start">Restart match</button><button data-action="menu">Main menu</button></div>${controls()}</section>`;
         if (panel)
             overlay = `<section class="card"><div class="eyebrow">RALLY CLUB</div><h2>${panel === 'help' ? 'HOW TO PLAY' : 'SETTINGS'}</h2>${panel === 'help' ? '<p>Aim at the far court. Your player moves automatically.</p><ul><li>Click / tap: return or smash a high ball.</li><li>Shift + click / swipe up: deep clear.</li><li>Right click / swipe down: front-court drop.</li><li>Press at HIT NOW, just before contact.</li><li>A weak high return + PERFECT unlocks Super Smash.</li><li>Esc pauses. Five points wins; no deuce.</li></ul>' : controls()}<button data-action="close" class="primary">BACK</button></section>`;
@@ -164,7 +173,8 @@ function renderUI() {
                     ? 'Click the court to serve'
                     : 'Opponent serving'
                 : game.phase === 'RALLY' && game.receiver === 0
-                  ? rem < 0.35 && rem > 0.04
+                  ? rem < game.inputLead(selected) + 0.05 &&
+                    rem > Math.max(0.04, game.inputLead(selected) - 0.07)
                       ? '● HIT NOW'
                       : Number.isFinite(rem)
                         ? '◌ GET READY'
@@ -174,7 +184,9 @@ function renderUI() {
     if (b)
         b.textContent =
             game.actors[0].contact && game.actors[0].contact!.y > 2.15 && game.receiver === 0
-                ? 'SMASH'
+                ? game.incomingWeak && game.actors[0].contact!.y >= 2.5
+                    ? 'SUPER?'
+                    : 'SMASH'
                 : 'RETURN';
     const tut = document.getElementById('tutorial');
     if (tut && tutorial && game.time < 32)
@@ -300,12 +312,6 @@ function shape(
     (parent ?? app.root).addChild(e);
     return e;
 }
-function poseRod(e: Entity, a: V3, b: V3, w: number) {
-    e.setPosition((a.x + b.x) / 2, (a.y + b.y) / 2, (a.z + b.z) / 2);
-    e.setLocalScale(w, Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z), w);
-    e.lookAt(b.x, b.y, b.z);
-    e.rotateLocal(90, 0, 0);
-}
 const loaded = new Map<string, ContainerResource>();
 async function loadModel(name: string) {
     const asset = new Asset(name, 'container', {
@@ -325,119 +331,173 @@ function model(name: string) {
     return entity;
 }
 function makeActor(a: Actor, color: string) {
-    const resource = loaded.get(color === '#ffba54' ? 'athlete-gold' : 'athlete-violet')!;
-    const root = resource.instantiateRenderEntity();
+    const resource = loaded.get(color === '#ffba54' ? 'athlete-gold' : 'athlete-violet')!,
+        root = resource.instantiateRenderEntity();
     app.root.addChild(root);
-    root.addComponent('anim', { activate: true });
-    const motionNames = [
-        'Ready',
-        'SideStep',
-        'Run',
-        'BasicHit',
-        'Drop',
-        'Clear',
-        'Smash',
-        'Recover',
-        'Serve',
-    ];
-    root.anim!.loadStateGraph({
-        layers: [
-            {
-                name: 'Base',
-                states: [
-                    { name: 'START' },
-                    ...motionNames.map((name) => ({
-                        name,
-                        speed: 1,
-                        loop: ['Ready', 'SideStep', 'Run'].includes(name),
-                    })),
-                ],
-                transitions: [{ from: 'START', to: 'Ready' }],
-            },
-        ],
-        parameters: {},
-    });
+    const tracks = new Map<string, AnimTrack>();
     for (const asset of resource.animations) {
-        const clip = asset.resource as AnimTrack;
-        if (['BasicHit', 'Drop', 'Clear', 'Smash', 'Serve'].includes(clip.name))
-            clip.events = new AnimEvents([{ name: 'hit_frame', time: CFG.swingLead }]);
-        root.anim!.assignAnimation(clip.name, clip);
+        const clip = asset.resource as AnimTrack,
+            definition = MOTIONS[clip.name as MotionName];
+        if (definition?.lead)
+            clip.events = new AnimEvents([{ name: 'hit_frame', time: definition.lead }]);
+        tracks.set(clip.name, clip);
     }
-    const node = (name: string) => {
-        const e = root.findByName(name);
-        if (!e) throw new Error('Missing rig node ' + name);
-        return e as Entity;
-    };
-    const body = node('jersey'),
-        head = node('head'),
-        leg1 = node('left leg'),
-        leg2 = node('right leg'),
-        shoe1 = node('left shoe'),
-        shoe2 = node('right shoe'),
-        upper = node('upper arm'),
-        lower = node('forearm'),
-        racket = model('racket');
-    shape('ground shadow', 'cylinder', [0, 0.015, 0], [0.72, 0.007, 0.55], '#155960', root);
+    const nodes = new Map<string, Entity>();
+    for (const name of [
+        'Hip',
+        'Spine',
+        'Chest',
+        'Neck',
+        'Head',
+        'ShoulderR',
+        'ElbowR',
+        'WristR',
+        'ShoulderL',
+        'ElbowL',
+        'WristL',
+        'HipR',
+        'KneeR',
+        'AnkleR',
+        'HipL',
+        'KneeL',
+        'AnkleL',
+    ]) {
+        const node = root.findByName(name);
+        if (!node) throw new Error('Missing skin joint ' + name);
+        nodes.set(name, node as Entity);
+    }
+    const events = new EventHandler(),
+        evaluator = new AnimEvaluator(new DefaultAnimBinder(root));
+    let pulse = false;
+    events.on('hit_frame', () => {
+        pulse = true;
+    });
+    const racket = model('racket'),
+        shadow = shape('ground shadow', 'cylinder', [0, 0.02, 0], [0.7, 0.007, 0.5], '#155960');
     return {
         root,
-        body,
-        head,
-        leg1,
-        leg2,
-        shoe1,
-        shoe2,
-        upper,
-        lower,
+        nodes,
         racket,
+        shadow,
         a,
-        motion: 'Ready',
+        tracks,
+        evaluator,
+        events,
+        motion: '',
         swingId: -99,
+        pulse: () => {
+            const result = pulse;
+            pulse = false;
+            return result;
+        },
     };
 }
+function tickMotion(r: ReturnType<typeof makeActor>, dt: number) {
+    const name = (r.a.motion === 'Miss' ? 'Recover' : r.a.motion) as MotionName,
+        mode = MOTIONS[name] ? name : 'Ready',
+        newSwing = r.a.swingAt !== r.swingId;
+    if (mode !== r.motion || newSwing) {
+        r.evaluator.removeClips();
+        const track = r.tracks.get(mode);
+        if (!track) throw new Error('Missing motion ' + mode);
+        const lead = MOTIONS[mode].lead,
+            speed = lead ? lead / Math.max(r.a.hitFrame, 0.008) : 1;
+        if (lead)
+            track.events = new AnimEvents([
+                { name: 'hit_frame', time: Math.max(0, lead - speed * 0.018) },
+            ]);
+        const clip = new AnimClip(
+            track,
+            0,
+            speed,
+            true,
+            ['Ready', 'SideStep', 'Run'].includes(mode),
+            r.events,
+        );
+        r.evaluator.addClip(clip);
+        r.evaluator.update(0, false);
+        r.motion = mode;
+        r.swingId = r.a.swingAt;
+        r.pulse();
+        return false;
+    }
+    r.evaluator.update(dt, false);
+    return r.pulse();
+}
+const direction = new Vec3(),
+    axis = new Vec3(),
+    rotation = new Quat(),
+    facing = new Quat(),
+    bodyMatrix = new Mat4(),
+    bodyRotation = new Quat();
 function animate(r: ReturnType<typeof makeActor>) {
-    const a = r.a,
-        m = Math.hypot(a.v.x, a.v.z),
-        stride = Math.sin(game.time * (8 + m)) * Math.min(0.3, m * 0.07),
-        sw = game.time - a.swingAt;
-    r.root.setPosition(a.p.x, 0, a.p.z);
-    r.root.setEulerAngles(0, a.side === -1 ? 180 : 0, 0);
-    r.leg1.setLocalEulerAngles(stride * 90, 0, 0);
-    r.leg2.setLocalEulerAngles(-stride * 90, 0, 0);
-    r.shoe1.setLocalPosition(-0.15, 0.1, stride);
-    r.shoe2.setLocalPosition(0.15, 0.1, -stride);
-    const motion = a.motion === 'Miss' ? 'Recover' : a.motion;
-    r.root.anim!.speed = game.paused ? 0 : 1;
-    if (motion !== r.motion || (sw < 0.25 && a.swingAt !== r.swingId)) {
-        r.root.anim!.baseLayer!.transition(motion, 0.06);
-        r.motion = motion;
-        r.swingId = a.swingAt;
+    const pose = reviewHit&&r.a===game.actors[reviewHit.actor]?reviewHit.renderPose:(r.a.pose ?? skeletonPose(r.a, game.time)),
+        j = pose.joints;
+    r.root.setPosition(0, 0, 0); // joint world poses own translation; skin matrices remain one coherent hierarchy
+    const bodyRight = new Vec3(
+            j.ShoulderR.x - j.ShoulderL.x,
+            j.ShoulderR.y - j.ShoulderL.y,
+            j.ShoulderR.z - j.ShoulderL.z,
+        ).normalize(),
+        up0 = new Vec3(j.Neck.x - j.Hip.x, j.Neck.y - j.Hip.y, j.Neck.z - j.Hip.z).normalize(),
+        bodyUp = up0.sub(bodyRight.clone().mulScalar(up0.dot(bodyRight))).normalize(),
+        bodyForward = new Vec3().cross(bodyRight, bodyUp).normalize();
+    bodyMatrix.set([
+        bodyRight.x,
+        bodyRight.y,
+        bodyRight.z,
+        0,
+        bodyUp.x,
+        bodyUp.y,
+        bodyUp.z,
+        0,
+        bodyForward.x,
+        bodyForward.y,
+        bodyForward.z,
+        0,
+        0,
+        0,
+        0,
+        1,
+    ]);
+    bodyRotation.setFromMat4(bodyMatrix);
+    const yaw = r.a.side === -1 ? 0 : 180;
+    facing.setFromEulerAngles(0, yaw, 0);
+    const child: Record<string, string> = {
+        Hip: 'Spine',
+        Spine: 'Chest',
+        Chest: 'Neck',
+        Neck: 'Head',
+        ShoulderR: 'ElbowR',
+        ElbowR: 'WristR',
+        ShoulderL: 'ElbowL',
+        ElbowL: 'WristL',
+        HipR: 'KneeR',
+        KneeR: 'AnkleR',
+        HipL: 'KneeL',
+        KneeL: 'AnkleL',
+    };
+    for (const [name, node] of r.nodes) {
+        const at = j[name];
+        node.setPosition(at.x, at.y, at.z);
+        const end = child[name];
+        if (['Spine', 'Chest', 'Neck'].includes(name)) {
+            node.setRotation(bodyRotation);
+        } else if (end) {
+            const to = sub(j[end], at);
+            direction.set(to.x, to.y, to.z).normalize();
+            axis.set(0, ['Hip', 'Spine', 'Chest', 'Neck'].includes(name) ? 1 : -1, 0);
+            rotation.setFromDirections(axis, direction).mul(facing);
+            node.setRotation(rotation);
+        } else node.setRotation(facing);
     }
-    r.head.setLocalPosition(0, 1.7 + Math.abs(stride) * 0.12, 0);
-    const high = a.motion === 'Smash' || a.motion === 'Clear';
-    let end: V3 = { x: a.p.x + 0.46, y: high ? 2.15 : 1.25, z: a.p.z - a.side * 0.28 };
-    if (sw >= 0 && sw < 0.48 && a.contact) {
-        const w = clamp(sw / a.hitFrame, 0, 1),
-            follow = clamp((sw - a.hitFrame) / 0.28, 0, 1);
-        end = {
-            x: a.contact.x + 0.65 * (1 - w) - 0.5 * follow,
-            y:
-                a.contact.y +
-                (high ? 0.35 : -0.15) * (1 - w) -
-                follow * (a.motion === 'Drop' ? 0.12 : 0.7),
-            z: a.contact.z + a.side * (0.4 * (1 - w) - 0.3 * follow),
-        };
-    }
-    const shoulder = { x: a.p.x + 0.25, y: 1.4, z: a.p.z },
-        hand = { x: end.x, y: end.y - 0.18, z: end.z },
-        elbow = {
-            x: (shoulder.x + hand.x) / 2 + 0.1,
-            y: (shoulder.y + hand.y) / 2 - 0.12,
-            z: (shoulder.z + hand.z) / 2 + a.side * 0.16,
-        };
-    poseRod(r.upper, shoulder, elbow, 0.14);
-    poseRod(r.lower, elbow, hand, 0.11);
-    r.racket.setPosition(end.x, end.y, end.z);
-    r.racket.setEulerAngles(-90, 0, high ? -15 : 30);
+    const p = pose.racket;
+    r.racket.setPosition(p.center.x, p.center.y, p.center.z);
+    r.racket.lookAt(
+        new Vec3(p.center.x - p.shaft.x, p.center.y - p.shaft.y, p.center.z - p.shaft.z),
+        new Vec3(p.normal.x, p.normal.y, p.normal.z),
+    );
+    r.shadow.setPosition(r.a.p.x, 0.04, r.a.p.z);
 }
 function aim(x: number, y: number): V3 {
     const c = canvas.getBoundingClientRect(),
@@ -521,12 +581,7 @@ async function boot() {
         }),
         o = new AppOptions();
     o.graphicsDevice = device;
-    o.componentSystems = [
-        RenderComponentSystem,
-        CameraComponentSystem,
-        LightComponentSystem,
-        AnimComponentSystem,
-    ];
+    o.componentSystems = [RenderComponentSystem, CameraComponentSystem, LightComponentSystem];
     o.resourceHandlers = [TextureHandler, ContainerHandler];
     app = new AppBase(canvas);
     app.init(o);
@@ -589,7 +644,15 @@ async function boot() {
             shape('trail', 'sphere', [0, 0, 0], [0.05 + 0.05 * (1 - i / 9), 0.05, 0.05], '#dffeff'),
         );
     const history: V3[] = [];
+    game.onMotionTick = (index, dt) => tickMotion(index === 0 ? player : opponent, dt);
     game.onHit = (h) => {
+        if (reviewContact && h.actor === 0 && game.shots.length > 1 && h.shot === reviewContact) {
+            reviewHit = h;
+            game.paused = true;
+            camera.setPosition(game.actors[0].p.x + 1.6, 2.4, game.actors[0].p.z - 3);
+            camera.camera!.fov = 42;
+            camera.lookAt(game.actors[0].p.x, 1.35, game.actors[0].p.z);
+        }
         sound(h);
         impactAt = game.time;
         impactPos = { ...h.p };
@@ -636,7 +699,11 @@ async function boot() {
         const rem = game.contactAt - game.time;
         timing.enabled = game.phase === 'RALLY' && game.receiver === 0 && Number.isFinite(rem);
         timing.setPosition(game.actors[0].p.x, 0.065, game.actors[0].p.z);
-        const scale = rem < 0.35 && rem > 0.025 ? 0.9 : 1.4;
+        const scale =
+            rem < game.inputLead(selected) + 0.05 &&
+            rem > Math.max(0.04, game.inputLead(selected) - 0.07)
+                ? 0.9
+                : 1.4;
         timing.setLocalScale(scale, scale, scale);
         const age = game.time - impactAt;
         impact.enabled = settings.fx && age < 0.12;
@@ -660,11 +727,12 @@ async function boot() {
             shakeUntil = 0;
             resize();
         }
-        renderUI();
+        renderUI();if(reviewHit){let badge=document.getElementById('review-badge');if(!badge){badge=document.createElement('div');badge.id='review-badge';badge.style.cssText='position:fixed;bottom:110px;left:20px;background:#132837;padding:10px;color:white;font:12px Arial';document.body.appendChild(badge);}badge.textContent='EVENT-PAUSED CONTACT INSPECTION — NOT NORMAL PLAY QA';}
     });
     Object.defineProperty(window, 'smashDiagnostics', {
         value: () => ({
             ...game.snapshot(),
+            reviewContact: reviewHit ? { ...reviewHit } : null,
             fps,
             shuttleScreen: camera
                 .camera!.worldToScreen(new Vec3(game.p.x, game.p.y, game.p.z))
@@ -675,9 +743,19 @@ async function boot() {
                 ?.usedJSHeapSize,
             motions: [player, opponent].map((r) => ({
                 motion: r.motion,
-                torso: r.body.getLocalEulerAngles().clone(),
+                rigJoints: r.nodes.size,
                 racket: r.racket.getPosition().clone(),
-                animation: r.root.anim?.baseLayer?.activeState,
+                skinPose: r.a.pose,
+                feet: {
+                    left: {
+                        ...r.a.feet.left,
+                        rendered: r.nodes.get('AnkleL')!.getPosition().clone(),
+                    },
+                    right: {
+                        ...r.a.feet.right,
+                        rendered: r.nodes.get('AnkleR')!.getPosition().clone(),
+                    },
+                },
             })),
             settings: { ...settings },
             target: { ...target },
