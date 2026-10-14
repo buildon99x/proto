@@ -1,0 +1,93 @@
+{
+  "same_binary": true,
+  "same_native_width": true,
+  "same_rgb_pixels": true,
+  "same_png_bytes": true,
+  "original": {
+    "format": "PNG",
+    "mode": "RGB",
+    "bit_depth": 8,
+    "opaque": true,
+    "width": 960,
+    "height": 540,
+    "bytes": 521475,
+    "sha256": "1f4075a186c0011eb971c943b0b9b979fba55b0b820b42bd516caed1810063b9",
+    "rgb_sha256": "ac5a753f147098f9ba2f4cc497aed5babe250aecec80692aa0d8f40403df313a",
+    "mean_rgb": [
+      103.4176311728395,
+      126.21904899691359,
+      127.46487461419753
+    ],
+    "stddev_rgb": [
+      39.77108258684189,
+      37.74107686449724,
+      32.18803983131903
+    ],
+    "extrema_rgb": [
+      [
+        34,
+        234
+      ],
+      [
+        47,
+        221
+      ],
+      [
+        52,
+        201
+      ]
+    ],
+    "note": "Integrity/color checks do not establish artistic quality."
+  },
+  "replay": {
+    "format": "PNG",
+    "mode": "RGB",
+    "bit_depth": 8,
+    "opaque": true,
+    "width": 960,
+    "height": 540,
+    "bytes": 521475,
+    "sha256": "1f4075a186c0011eb971c943b0b9b979fba55b0b820b42bd516caed1810063b9",
+    "rgb_sha256": "ac5a753f147098f9ba2f4cc497aed5babe250aecec80692aa0d8f40403df313a",
+    "mean_rgb": [
+      103.4176311728395,
+      126.21904899691359,
+      127.46487461419753
+    ],
+    "stddev_rgb": [
+      39.77108258684189,
+      37.74107686449724,
+      32.18803983131903
+    ],
+    "extrema_rgb": [
+      [
+        34,
+        234
+      ],
+      [
+        47,
+        221
+      ],
+      [
+        52,
+        201
+      ]
+    ],
+    "note": "Integrity/color checks do not establish artistic quality."
+  },
+  "receipt": {
+    "argv": [
+      "/workspace/paint-engine/target/release/easel",
+      "run",
+      "/workspace/proto/projects/PaintedAssetStudio/runs/ember-valley-v2/revision-1.lua",
+      "--out",
+      "/tmp/paint-replay-0i01z9x0/replay.png",
+      "--width",
+      "960"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "  chunk   1     0.24s\n  chunk   2    22.08s\n  chunk   3     0.06s\nwrote /tmp/paint-replay-0i01z9x0/replay.png (3 chunks, painted in 22.4s, total 22.5s)\n",
+    "elapsed_seconds": 22.532
+  }
+}

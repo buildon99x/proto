@@ -1,0 +1,11 @@
+test_export_requires_latest_approval_and_detects_tampering (test_workflow.Workflow.test_export_requires_latest_approval_and_detects_tampering) ... ok
+test_original_program_seed_and_revision_are_recorded (test_workflow.Workflow.test_original_program_seed_and_revision_are_recorded) ... ok
+test_rgba_output_rejected (test_workflow.Workflow.test_rgba_output_rejected) ... ok
+test_validation_confines_filename_and_bounds_work (test_workflow.Workflow.test_validation_confines_filename_and_bounds_work) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.028s
+
+OK
+Approved latest observation; export is enabled.
+/tmp/tmpr_qaca9a/export/copper-lantern.png

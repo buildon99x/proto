@@ -1,0 +1,90 @@
+[
+  {
+    "argv": [
+      "/workspace/paint-engine/target/release/easel",
+      "open",
+      "sketch-proof"
+    ],
+    "exit_code": 0,
+    "stdout": "easel \"sketch-proof\" open: 0 chunks \u00b7 600px \u00b7 no canvas yet\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/workspace/paint-engine/target/release/easel",
+      "do",
+      "canvas{size=300,aspect=1.5,seed=99,linen=18,ground={{pile={{\"lead white\",4},{\"raw umber\",1}},um=100,apply=\"knife\"}}}"
+    ],
+    "exit_code": 0,
+    "stdout": "day 1, 09:00\nok \u00b7 chunk 1 (0.20 s to compute)\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/workspace/paint-engine/target/release/easel",
+      "do",
+      "p=pile{{\"yellow ochre\",2},{\"lead white\",1}}; work(ellipse(500,333,120,120),{pile=p,hand=\"broad\",coverage=2,clip=true})"
+    ],
+    "exit_code": 0,
+    "stdout": "day 1, 09:02\nok \u00b7 chunk 2 (0.23 s to compute)\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/workspace/paint-engine/target/release/easel",
+      "look",
+      "--size",
+      "600"
+    ],
+    "exit_code": 0,
+    "stdout": "/workspace/live-engine-proof/out/easel/sketch-proof/look-0001.png (600x400, 0.01s)\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/workspace/paint-engine/target/release/easel",
+      "note",
+      "Original live-engine proof: an ochre disk, not reused artwork."
+    ],
+    "exit_code": 0,
+    "stdout": "noted in /workspace/live-engine-proof/notes/journal.md\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/workspace/paint-engine/target/release/easel",
+      "status"
+    ],
+    "exit_code": 0,
+    "stdout": "2 chunks \u00b7 600px \u00b7 size=300, aspect=1.5, linen={18, 18}, seed=99\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/workspace/paint-engine/target/release/easel",
+      "log"
+    ],
+    "exit_code": 0,
+    "stdout": "-- easel session \"sketch-proof\": a painting replayed chunk by chunk.\n-- Each \"--@ chunk\" line starts one chunk as it was run at the easel.\n--@ engine 5\n--@ sketch\n\n--@ chunk 1\ncanvas{size=300,aspect=1.5,seed=99,linen=18,ground={{pile={{\"lead white\",4},{\"raw umber\",1}},um=100,apply=\"knife\"}}}\n\n--@ chunk 2\np=pile{{\"yellow ochre\",2},{\"lead white\",1}}; work(ellipse(500,333,120,120),{pile=p,hand=\"broad\",coverage=2,clip=true})\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/workspace/paint-engine/target/release/easel",
+      "save",
+      "/workspace/live-engine-proof/proof.png"
+    ],
+    "exit_code": 0,
+    "stdout": "/workspace/live-engine-proof/proof.png\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/workspace/paint-engine/target/release/easel",
+      "close"
+    ],
+    "exit_code": 0,
+    "stdout": "the live canvas is in /workspace/live-engine-proof/out/easel/sketch-proof/live.png\nclosed; the session is in /workspace/live-engine-proof/paintings/lua/sketch-proof.lua\n",
+    "stderr": ""
+  }
+]

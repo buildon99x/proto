@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/workspace/paint-engine/target/release/easel",
+    "run",
+    "/workspace/proto/projects/PaintedAssetStudio/runs/copper-lantern/revision-0.lua",
+    "--out",
+    "/workspace/proto/projects/PaintedAssetStudio/runs/copper-lantern/revision-0.png",
+    "--width",
+    "384"
+  ],
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "runtime error: this Lua was built with a random hash seed, so `pairs` order would differ between runs and replays would not be exact; build with CFLAGS=\"-Dluai_makeseed()=0x5eedu\" (see .cargo/config.toml)\n",
+  "elapsed_seconds": 0.003
+}

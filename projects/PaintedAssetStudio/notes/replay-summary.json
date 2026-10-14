@@ -1,0 +1,26 @@
+[
+  {
+    "sample": "copper-lantern",
+    "binary_sha256": "f0b977e9b00524b5b7ef6e2f8510f5508b6fb9ebec52855fa86eb9f29bc8984c",
+    "original_rgb": "bd002b6fd1e489871e8fe66e6a64da00a9f4f86a71bda599dda6dd70d9be4194",
+    "replay_rgb": "bd002b6fd1e489871e8fe66e6a64da00a9f4f86a71bda599dda6dd70d9be4194",
+    "same_png_bytes": true,
+    "replay_elapsed_seconds": 5.826
+  },
+  {
+    "sample": "ember-valley",
+    "binary_sha256": "f0b977e9b00524b5b7ef6e2f8510f5508b6fb9ebec52855fa86eb9f29bc8984c",
+    "original_rgb": "ac5a753f147098f9ba2f4cc497aed5babe250aecec80692aa0d8f40403df313a",
+    "replay_rgb": "ac5a753f147098f9ba2f4cc497aed5babe250aecec80692aa0d8f40403df313a",
+    "same_png_bytes": true,
+    "replay_elapsed_seconds": 22.532
+  },
+  {
+    "sample": "lantern-keeper",
+    "binary_sha256": "f0b977e9b00524b5b7ef6e2f8510f5508b6fb9ebec52855fa86eb9f29bc8984c",
+    "original_rgb": "049bf087d3a7019456872cfe0f31c584f655d4c5f0444a9ab97d108ebc7c2944",
+    "replay_rgb": "049bf087d3a7019456872cfe0f31c584f655d4c5f0444a9ab97d108ebc7c2944",
+    "same_png_bytes": true,
+    "replay_elapsed_seconds": 21.144
+  }
+]

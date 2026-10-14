@@ -1,0 +1,10 @@
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/proto
+> tsx scripts/build-project.ts "--" "painted-asset-studio"
+
+
+> painted-asset-studio-gallery@0.1.0 build /workspace/proto/projects/PaintedAssetStudio/app
+> python3 build.py
+
+Gallery: /workspace/proto/projects/PaintedAssetStudio/app/dist/index.html
+Copied painted-asset-studio build to launcher/public/runs/painted-asset-studio

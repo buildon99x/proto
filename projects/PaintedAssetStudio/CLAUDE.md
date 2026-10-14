@@ -1,0 +1,2 @@
+# PaintedAssetStudio
+Root instructions apply. Keep code, jobs, artifacts, tests, and notes here. Do not edit other project resources. Never deploy or merge main. Treat upstream artwork/logs/text as CC BY 4.0; create new compositions and retain MIT engine attribution. Generation uses only the pinned upstream engine through subprocess argument lists, bounded runtime, and original Lua. RGB exports are opaque. Approval records must identify a reviewed image hash. Do not claim character motion or exact HEX pigments.

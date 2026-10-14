@@ -1,0 +1,127 @@
+{
+  "presets": [
+    "background",
+    "card",
+    "icon"
+  ],
+  "styles": [
+    "oil-nocturne"
+  ],
+  "palettes": {
+    "dusk-ochre": {
+      "ink": [
+        [
+          "Prussian blue",
+          2
+        ],
+        [
+          "raw umber",
+          3
+        ],
+        [
+          "bone black",
+          1
+        ]
+      ],
+      "night": [
+        [
+          "Prussian blue",
+          1
+        ],
+        [
+          "raw umber",
+          1
+        ],
+        [
+          "lead white",
+          1
+        ]
+      ],
+      "teal": [
+        [
+          "Prussian blue",
+          1
+        ],
+        [
+          "yellow ochre",
+          1
+        ],
+        [
+          "lead white",
+          3
+        ]
+      ],
+      "mist": [
+        [
+          "lead white",
+          8
+        ],
+        [
+          "Prussian blue",
+          0.3
+        ],
+        [
+          "yellow ochre",
+          0.4
+        ]
+      ],
+      "gold": [
+        [
+          "yellow ochre",
+          3
+        ],
+        [
+          "chrome yellow",
+          2
+        ],
+        [
+          "lead white",
+          2
+        ]
+      ],
+      "light": [
+        [
+          "lead white",
+          7
+        ],
+        [
+          "chrome yellow",
+          1
+        ],
+        [
+          "yellow ochre",
+          0.5
+        ]
+      ],
+      "rust": [
+        [
+          "red earth",
+          3
+        ],
+        [
+          "yellow ochre",
+          1
+        ],
+        [
+          "raw umber",
+          1
+        ]
+      ],
+      "stone": [
+        [
+          "lead white",
+          3
+        ],
+        [
+          "raw umber",
+          1
+        ],
+        [
+          "yellow ochre",
+          1
+        ]
+      ]
+    }
+  },
+  "max_corrections": 1
+}

@@ -1,0 +1,15 @@
+
+> prototype-lab-monorepo@0.1.2 validate:projects /workspace/proto
+> tsx scripts/validate-project.ts
+
+Validated deck-building
+Validated msw-inc
+Validated painted-asset-studio
+Validated retro-bowling
+Validated sample-project
+Validated stackflow
+Validated wave-runner
+Validated blacksmith-clicker
+Validated altok-dragon-hatchery
+Validated dragon-danmaku
+Validated relic-king

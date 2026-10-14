@@ -1,0 +1,12 @@
+{
+  "id": "copper-lantern",
+  "preset": "icon",
+  "style": "oil-nocturne",
+  "palette": "dusk-ochre",
+  "seed": 99,
+  "width": 384,
+  "height": 384,
+  "filename": "copper-lantern.png",
+  "max_revisions": 1,
+  "timeout_seconds": 600
+}

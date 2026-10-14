@@ -1,0 +1,223 @@
+{
+  "schema_version": 1,
+  "job": {
+    "id": "lantern-keeper",
+    "preset": "card",
+    "style": "oil-nocturne",
+    "palette": "dusk-ochre",
+    "seed": 99,
+    "width": 600,
+    "height": 900,
+    "filename": "lantern-keeper.png",
+    "max_revisions": 1,
+    "timeout_seconds": 600
+  },
+  "engine": {
+    "repository": "https://github.com/aliceisjustplaying/claude-paint",
+    "commit": "8ee1cdd67f510a55eb6dc279e7113c593e1b282a",
+    "binary_sha256": "f0b977e9b00524b5b7ef6e2f8510f5508b6fb9ebec52855fa86eb9f29bc8984c",
+    "cargo_lock_sha256": "a13e7f8e2be7b83c315b70457045bd51e383477ecc9c289204c78ed5c964e648",
+    "engine_version": 5,
+    "binary": "/workspace/paint-engine/target/release/easel",
+    "build_profile": "release",
+    "code_license": "MIT"
+  },
+  "revision": 1,
+  "phase": "approved",
+  "program_sha256": "ffc027b898b58ad0670a519285801315148cd2b87a85553c4bd70ab4515bccc0",
+  "checks": {
+    "format": "PNG",
+    "mode": "RGB",
+    "bit_depth": 8,
+    "opaque": true,
+    "width": 600,
+    "height": 900,
+    "bytes": 486857,
+    "sha256": "b5a7f232368c3e5a7ed6659cd120a9f498d388663ce3bd8524290e7a9ac234e8",
+    "rgb_sha256": "049bf087d3a7019456872cfe0f31c584f655d4c5f0444a9ab97d108ebc7c2944",
+    "mean_rgb": [
+      70.51517037037037,
+      94.60263703703704,
+      104.09473333333334
+    ],
+    "stddev_rgb": [
+      28.90017614082956,
+      29.389643913159826,
+      22.580343296179826
+    ],
+    "extrema_rgb": [
+      [
+        34,
+        235
+      ],
+      [
+        47,
+        222
+      ],
+      [
+        51,
+        166
+      ]
+    ],
+    "note": "Integrity/color checks do not establish artistic quality."
+  },
+  "history": [
+    {
+      "action": "generate",
+      "revision": 0,
+      "receipt": "revision-0.receipt.json"
+    },
+    {
+      "action": "revise",
+      "revision": 1,
+      "observation": "Direct visual review after reordering the glow: carrying hand and sleeve now remain in front of lantern light; strengthen hood rim and lantern glass edge while keeping a simple pictorial silhouette.",
+      "correction": "preset focal highlight/silhouette pass",
+      "receipt": "revision-1.receipt.json"
+    },
+    {
+      "action": "approve",
+      "image_sha256": "b5a7f232368c3e5a7ed6659cd120a9f498d388663ce3bd8524290e7a9ac234e8",
+      "reviewer": "assistant visual inspection",
+      "visual_review": "Direct final PNG inspection: hooded silhouette reads; visible hand connects sleeve and lantern; warm focal light contrasts with cool cloak. Planar face and painterly texture intentional. Card artwork sample accepted.",
+      "revision": 1
+    }
+  ],
+  "approval": {
+    "image_sha256": "b5a7f232368c3e5a7ed6659cd120a9f498d388663ce3bd8524290e7a9ac234e8",
+    "reviewer": "assistant visual inspection",
+    "visual_review": "Direct final PNG inspection: hooded silhouette reads; visible hand connects sleeve and lantern; warm focal light contrasts with cool cloak. Planar face and painterly texture intentional. Card artwork sample accepted.",
+    "revision": 1
+  },
+  "image": "lantern-keeper.png",
+  "painting": "painting.lua",
+  "palette_recipes": {
+    "ink": [
+      [
+        "Prussian blue",
+        2
+      ],
+      [
+        "raw umber",
+        3
+      ],
+      [
+        "bone black",
+        1
+      ]
+    ],
+    "night": [
+      [
+        "Prussian blue",
+        1
+      ],
+      [
+        "raw umber",
+        1
+      ],
+      [
+        "lead white",
+        1
+      ]
+    ],
+    "teal": [
+      [
+        "Prussian blue",
+        1
+      ],
+      [
+        "yellow ochre",
+        1
+      ],
+      [
+        "lead white",
+        3
+      ]
+    ],
+    "mist": [
+      [
+        "lead white",
+        8
+      ],
+      [
+        "Prussian blue",
+        0.3
+      ],
+      [
+        "yellow ochre",
+        0.4
+      ]
+    ],
+    "gold": [
+      [
+        "yellow ochre",
+        3
+      ],
+      [
+        "chrome yellow",
+        2
+      ],
+      [
+        "lead white",
+        2
+      ]
+    ],
+    "light": [
+      [
+        "lead white",
+        7
+      ],
+      [
+        "chrome yellow",
+        1
+      ],
+      [
+        "yellow ochre",
+        0.5
+      ]
+    ],
+    "rust": [
+      [
+        "red earth",
+        3
+      ],
+      [
+        "yellow ochre",
+        1
+      ],
+      [
+        "raw umber",
+        1
+      ]
+    ],
+    "stone": [
+      [
+        "lead white",
+        3
+      ],
+      [
+        "raw umber",
+        1
+      ],
+      [
+        "yellow ochre",
+        1
+      ]
+    ]
+  },
+  "provenance": {
+    "composition": "Original PaintedAssetStudio strokes; no included upstream artworks or logs reused.",
+    "engine": "https://github.com/aliceisjustplaying/claude-paint",
+    "engine_code_license": "MIT",
+    "upstream_art_logs_text_license": "CC-BY-4.0",
+    "project_code_license": "MIT",
+    "sample_art_and_logs_license": "CC-BY-4.0",
+    "sample_credit": "PaintedAssetStudio contributors, 2026"
+  },
+  "limitations": [
+    "Opaque RGB8 PNG; no alpha channel.",
+    "Physical pigments are not exact HEX colors.",
+    "Replaying at another width changes paint physics; it is not resizing.",
+    "Drawing timelapse is not character animation.",
+    "Exact replay is only promised for the identical binary, log and native width."
+  ]
+}

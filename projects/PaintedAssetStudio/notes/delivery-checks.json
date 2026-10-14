@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "samples": [
+    {
+      "sample": "ember-valley",
+      "size": [
+        960,
+        540
+      ],
+      "mode": "RGB",
+      "sha256": "1f4075a186c0011eb971c943b0b9b979fba55b0b820b42bd516caed1810063b9",
+      "reproduced_rgb": true
+    },
+    {
+      "sample": "lantern-keeper",
+      "size": [
+        600,
+        900
+      ],
+      "mode": "RGB",
+      "sha256": "b5a7f232368c3e5a7ed6659cd120a9f498d388663ce3bd8524290e7a9ac234e8",
+      "reproduced_rgb": true
+    },
+    {
+      "sample": "copper-lantern",
+      "size": [
+        384,
+        384
+      ],
+      "mode": "RGB",
+      "sha256": "cdc700057cc113c25a461e1b48c2c618af6cb39e26bd53635b8cdf2a8fbe37c8",
+      "reproduced_rgb": true
+    }
+  ],
+  "gallery_links": "all resolved"
+}

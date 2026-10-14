@@ -1,0 +1,12 @@
+{
+  "id": "lantern-keeper",
+  "preset": "card",
+  "style": "oil-nocturne",
+  "palette": "dusk-ochre",
+  "seed": 99,
+  "width": 600,
+  "height": 900,
+  "filename": "lantern-keeper.png",
+  "max_revisions": 1,
+  "timeout_seconds": 600
+}

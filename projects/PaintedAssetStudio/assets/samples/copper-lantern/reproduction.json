@@ -1,0 +1,93 @@
+{
+  "same_binary": true,
+  "same_native_width": true,
+  "same_rgb_pixels": true,
+  "same_png_bytes": true,
+  "original": {
+    "format": "PNG",
+    "mode": "RGB",
+    "bit_depth": 8,
+    "opaque": true,
+    "width": 384,
+    "height": 384,
+    "bytes": 138037,
+    "sha256": "cdc700057cc113c25a461e1b48c2c618af6cb39e26bd53635b8cdf2a8fbe37c8",
+    "rgb_sha256": "bd002b6fd1e489871e8fe66e6a64da00a9f4f86a71bda599dda6dd70d9be4194",
+    "mean_rgb": [
+      76.53965928819444,
+      99.96630181206598,
+      110.59354654947917
+    ],
+    "stddev_rgb": [
+      30.101668959118637,
+      23.442115800356454,
+      19.496788281018272
+    ],
+    "extrema_rgb": [
+      [
+        34,
+        237
+      ],
+      [
+        47,
+        224
+      ],
+      [
+        52,
+        168
+      ]
+    ],
+    "note": "Integrity/color checks do not establish artistic quality."
+  },
+  "replay": {
+    "format": "PNG",
+    "mode": "RGB",
+    "bit_depth": 8,
+    "opaque": true,
+    "width": 384,
+    "height": 384,
+    "bytes": 138037,
+    "sha256": "cdc700057cc113c25a461e1b48c2c618af6cb39e26bd53635b8cdf2a8fbe37c8",
+    "rgb_sha256": "bd002b6fd1e489871e8fe66e6a64da00a9f4f86a71bda599dda6dd70d9be4194",
+    "mean_rgb": [
+      76.53965928819444,
+      99.96630181206598,
+      110.59354654947917
+    ],
+    "stddev_rgb": [
+      30.101668959118637,
+      23.442115800356454,
+      19.496788281018272
+    ],
+    "extrema_rgb": [
+      [
+        34,
+        237
+      ],
+      [
+        47,
+        224
+      ],
+      [
+        52,
+        168
+      ]
+    ],
+    "note": "Integrity/color checks do not establish artistic quality."
+  },
+  "receipt": {
+    "argv": [
+      "/workspace/paint-engine/target/release/easel",
+      "run",
+      "/workspace/proto/projects/PaintedAssetStudio/runs/copper-lantern-v2/revision-1.lua",
+      "--out",
+      "/tmp/paint-replay-r00kbtpt/replay.png",
+      "--width",
+      "384"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "  chunk   1     0.29s\n  chunk   2     5.49s\n  chunk   3     0.02s\nwrote /tmp/paint-replay-r00kbtpt/replay.png (3 chunks, painted in 5.8s, total 5.8s)\n",
+    "elapsed_seconds": 5.826
+  }
+}

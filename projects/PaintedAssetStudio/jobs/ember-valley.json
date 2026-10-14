@@ -1,0 +1,12 @@
+{
+  "id": "ember-valley",
+  "preset": "background",
+  "style": "oil-nocturne",
+  "palette": "dusk-ochre",
+  "seed": 99,
+  "width": 960,
+  "height": 540,
+  "filename": "ember-valley.png",
+  "max_revisions": 1,
+  "timeout_seconds": 600
+}

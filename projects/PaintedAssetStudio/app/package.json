@@ -1,0 +1,1 @@
+{"name":"painted-asset-studio-gallery","private":true,"version":"0.1.0","scripts":{"build":"python3 build.py","dev":"python3 -m http.server 8080 --bind 127.0.0.1 --directory dist","test":"python3 ../tools/check-delivery.py"}}

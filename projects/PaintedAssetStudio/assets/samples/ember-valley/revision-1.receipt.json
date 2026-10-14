@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/workspace/paint-engine/target/release/easel",
+    "run",
+    "/workspace/proto/projects/PaintedAssetStudio/runs/ember-valley-v2/revision-1.lua",
+    "--out",
+    "/workspace/proto/projects/PaintedAssetStudio/runs/ember-valley-v2/revision-1.png",
+    "--width",
+    "960"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "  chunk   1     0.26s\n  chunk   2    21.85s\n  chunk   3     0.06s\nwrote /workspace/proto/projects/PaintedAssetStudio/runs/ember-valley-v2/revision-1.png (3 chunks, painted in 22.2s, total 22.3s)\n",
+  "elapsed_seconds": 22.315
+}
