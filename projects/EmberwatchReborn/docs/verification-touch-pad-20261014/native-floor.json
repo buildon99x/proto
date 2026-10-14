@@ -1,0 +1,369 @@
+{
+  "before": {
+    "revision": 923,
+    "position": {
+      "x": 80,
+      "y": 624
+    },
+    "region": "ember_quarry",
+    "controls": {
+      "version": 4,
+      "preset": "custom",
+      "bindings": {
+        "up": [
+          "KeyW",
+          "ArrowUp"
+        ],
+        "down": [
+          "KeyS",
+          "ArrowDown"
+        ],
+        "left": [
+          "KeyA",
+          "ArrowLeft"
+        ],
+        "right": [
+          "KeyD",
+          "ArrowRight"
+        ],
+        "attack": [
+          "KeyJ"
+        ],
+        "block": [
+          "Mouse1",
+          "KeyB"
+        ],
+        "charge": [
+          "KeyQ"
+        ],
+        "hammer": [
+          "Mouse2"
+        ],
+        "menu": [
+          "KeyC"
+        ],
+        "pause": [
+          "Escape"
+        ],
+        "interact": [
+          "KeyV"
+        ],
+        "potion": [
+          "Digit1"
+        ],
+        "heal": [
+          "KeyR"
+        ],
+        "judgement": [
+          "KeyE"
+        ],
+        "expert1": [
+          "KeyF"
+        ],
+        "expert2": [
+          "KeyG"
+        ],
+        "moveOnly": [
+          "Mouse0"
+        ],
+        "stop": [
+          "KeyX"
+        ],
+        "attackInPlace": [
+          "ShiftLeft",
+          "ShiftRight"
+        ],
+        "dodgeSprint": [
+          "Space"
+        ],
+        "dodgeOnly": [],
+        "sprint": []
+      },
+      "blockMode": "hold",
+      "chargeDirection": "aim",
+      "poe": {
+        "version": 1,
+        "movementMode": "click",
+        "aimingMode": "ground",
+        "cursorTrackingAfterRelease": false,
+        "keepSprintingWhileMoving": false,
+        "attackInPlaceStopsMovement": true
+      },
+      "priorControls": {
+        "version": 3,
+        "preset": "recommended",
+        "bindings": {
+          "up": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "down": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "block": [
+            "Mouse2",
+            "ShiftLeft",
+            "ShiftRight"
+          ],
+          "charge": [
+            "Space"
+          ],
+          "hammer": [
+            "KeyQ"
+          ],
+          "menu": [
+            "KeyC"
+          ],
+          "pause": [
+            "Escape"
+          ],
+          "interact": [
+            "KeyF"
+          ],
+          "potion": [
+            "KeyR"
+          ],
+          "heal": [
+            "KeyT"
+          ],
+          "judgement": [
+            "KeyE"
+          ],
+          "expert1": [
+            "Digit2"
+          ],
+          "expert2": [
+            "Digit3"
+          ]
+        },
+        "blockMode": "hold",
+        "chargeDirection": "aim"
+      }
+    },
+    "skills": {
+      "shield_charge": 1,
+      "mace_swing": 4,
+      "shield_block": 1,
+      "righteous_hammer": 1,
+      "judgement": 1,
+      "lay_on_hands": 1
+    },
+    "equipment": {
+      "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+      "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+      "head": null,
+      "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+      "hands": null,
+      "feet": null,
+      "accessory": null
+    },
+    "xp": 179.5,
+    "gold": 288,
+    "stats": {
+      "kills": 44,
+      "deaths": 1,
+      "earnedGold": 396,
+      "spentGold": 108,
+      "earnedXp": 1519.5
+    }
+  },
+  "after": {
+    "revision": 925,
+    "position": {
+      "x": 159.2048353396535,
+      "y": 559.7493486194993
+    },
+    "region": "ember_quarry",
+    "controls": {
+      "version": 4,
+      "preset": "custom",
+      "bindings": {
+        "up": [
+          "KeyW",
+          "ArrowUp"
+        ],
+        "down": [
+          "KeyS",
+          "ArrowDown"
+        ],
+        "left": [
+          "KeyA",
+          "ArrowLeft"
+        ],
+        "right": [
+          "KeyD",
+          "ArrowRight"
+        ],
+        "attack": [
+          "KeyJ"
+        ],
+        "block": [
+          "Mouse1",
+          "KeyB"
+        ],
+        "charge": [
+          "KeyQ"
+        ],
+        "hammer": [
+          "Mouse2"
+        ],
+        "menu": [
+          "KeyC"
+        ],
+        "pause": [
+          "Escape"
+        ],
+        "interact": [
+          "KeyV"
+        ],
+        "potion": [
+          "Digit1"
+        ],
+        "heal": [
+          "KeyR"
+        ],
+        "judgement": [
+          "KeyE"
+        ],
+        "expert1": [
+          "KeyF"
+        ],
+        "expert2": [
+          "KeyG"
+        ],
+        "moveOnly": [
+          "Mouse0"
+        ],
+        "stop": [
+          "KeyX"
+        ],
+        "attackInPlace": [
+          "ShiftLeft",
+          "ShiftRight"
+        ],
+        "dodgeSprint": [
+          "Space"
+        ],
+        "dodgeOnly": [],
+        "sprint": []
+      },
+      "blockMode": "hold",
+      "chargeDirection": "aim",
+      "poe": {
+        "version": 1,
+        "movementMode": "click",
+        "aimingMode": "ground",
+        "cursorTrackingAfterRelease": false,
+        "keepSprintingWhileMoving": false,
+        "attackInPlaceStopsMovement": true
+      },
+      "priorControls": {
+        "version": 3,
+        "preset": "recommended",
+        "bindings": {
+          "up": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "down": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "block": [
+            "Mouse2",
+            "ShiftLeft",
+            "ShiftRight"
+          ],
+          "charge": [
+            "Space"
+          ],
+          "hammer": [
+            "KeyQ"
+          ],
+          "menu": [
+            "KeyC"
+          ],
+          "pause": [
+            "Escape"
+          ],
+          "interact": [
+            "KeyF"
+          ],
+          "potion": [
+            "KeyR"
+          ],
+          "heal": [
+            "KeyT"
+          ],
+          "judgement": [
+            "KeyE"
+          ],
+          "expert1": [
+            "Digit2"
+          ],
+          "expert2": [
+            "Digit3"
+          ]
+        },
+        "blockMode": "hold",
+        "chargeDirection": "aim"
+      }
+    },
+    "skills": {
+      "shield_charge": 1,
+      "mace_swing": 4,
+      "shield_block": 1,
+      "righteous_hammer": 1,
+      "judgement": 1,
+      "lay_on_hands": 1
+    },
+    "equipment": {
+      "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+      "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+      "head": null,
+      "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+      "hands": null,
+      "feet": null,
+      "accessory": null
+    },
+    "xp": 179.5,
+    "gold": 288,
+    "stats": {
+      "kills": 44,
+      "deaths": 1,
+      "earnedGold": 396,
+      "spentGold": 108,
+      "earnedXp": 1519.5
+    }
+  },
+  "distance": 101.98800000000128,
+  "sameRegion": true,
+  "progressPreserved": true,
+  "pageErrors": [],
+  "qualified": true
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "file": "images/before-click-before.jpg",
+    "bytes": 214743,
+    "sha256": "195f2aeab5c43b1640fb07e1341f6a3af9cd04906adfc0e7b14e5049409c5b5b",
+    "uneditedNativeCapture": true
+  },
+  {
+    "file": "images/before-click-held.jpg",
+    "bytes": 214749,
+    "sha256": "09853f21a45d7f69cb55b58e1ea8b7dc6b9e38dde97c464fce61ce29836fcbac",
+    "uneditedNativeCapture": true
+  },
+  {
+    "file": "images/after-click-before.jpg",
+    "bytes": 198970,
+    "sha256": "fdb6eafe13eaab418a9372eab107a0192d01671412500e6e0812e41edd2d190b",
+    "uneditedNativeCapture": true
+  },
+  {
+    "file": "images/after-click-held.jpg",
+    "bytes": 185049,
+    "sha256": "75a222be52455416efadb4841e975fde3c1b656a3dd1e2fa24a7d31b96af183d",
+    "uneditedNativeCapture": true
+  },
+  {
+    "file": "images/after-click-touch-override-held.jpg",
+    "bytes": 200280,
+    "sha256": "7426e97c13d34718ab61bada862a4c320047c374ac8bb58232043c17b0be4ba2",
+    "uneditedNativeCapture": true
+  },
+  {
+    "file": "images/after-fresh-floor-click.jpg",
+    "bytes": 152107,
+    "sha256": "b80268b0473b142c9c8b916171a5a20cc5fbeb6022b9b8d0216f366739223a3b",
+    "uneditedNativeCapture": true
+  },
+  {
+    "file": "images/final-profile-after-touch-reload.jpg",
+    "bytes": 52072,
+    "sha256": "1f34e2bcb79c5615ea089c10e67a8ed88683a5137b3924220bd926cebb382ded",
+    "uneditedNativeCapture": true
+  }
+]

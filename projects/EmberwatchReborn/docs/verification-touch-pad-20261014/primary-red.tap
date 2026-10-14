@@ -1,0 +1,225 @@
+{"case":"touch-pad","mode":"wasd","direction":"up","routed":{"x":-0.9433962264150942,"y":-0.9433962264150942},"moved":35.99999999999993,"afterRelease":0}
+✔ touch pad wasd/up pointerdown/frame/pointerup moves then stops (2140.103701ms)
+{"case":"touch-pad","mode":"wasd","direction":"left","routed":{"x":-0.5,"y":0.5},"moved":35.99999999999993,"afterRelease":0}
+✔ touch pad wasd/left pointerdown/frame/pointerup moves then stops (193.781527ms)
+{"case":"touch-pad","mode":"wasd","direction":"down","routed":{"x":0.9433962264150942,"y":0.9433962264150942},"moved":35.99999999999981,"afterRelease":0}
+✔ touch pad wasd/down pointerdown/frame/pointerup moves then stops (160.857004ms)
+{"case":"touch-pad","mode":"wasd","direction":"right","routed":{"x":0.5,"y":-0.5},"moved":35.99999999999981,"afterRelease":0}
+✔ touch pad wasd/right pointerdown/frame/pointerup moves then stops (150.220635ms)
+{"case":"touch-pad","mode":"click","direction":"up","routed":{"x":0,"y":0},"moved":0,"afterRelease":0}
+✖ touch pad click/up pointerdown/frame/pointerup moves then stops (143.787259ms)
+{"case":"touch-pad","mode":"click","direction":"left","routed":{"x":0,"y":0},"moved":0,"afterRelease":0}
+✖ touch pad click/left pointerdown/frame/pointerup moves then stops (159.620648ms)
+{"case":"touch-pad","mode":"click","direction":"down","routed":{"x":0,"y":0},"moved":0,"afterRelease":0}
+✖ touch pad click/down pointerdown/frame/pointerup moves then stops (135.114137ms)
+{"case":"touch-pad","mode":"click","direction":"right","routed":{"x":0,"y":0},"moved":0,"afterRelease":0}
+✖ touch pad click/right pointerdown/frame/pointerup moves then stops (143.144577ms)
+✖ touch pad click pointercancel clears movement without a stuck direction (113.236668ms)
+✖ touch pad click lostpointercapture clears movement without a stuck direction (106.284901ms)
+✖ touch pad click ignores keyboard walking even when it opposes the touched direction (103.598688ms)
+✖ touch pad click replaces old ground destination, release stops, and a fresh click still walks (135.624266ms)
+✖ touch pad cancels old NPC approach so it cannot open after touch release (226.008693ms)
+✖ touch pad menu clears held movement and ignores paused pointerdown until a fresh press (202.377489ms)
+✖ touch pad controls5 click movement keeps the exact saved binding and skill-slot settings (168.084608ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 4
+ℹ fail 11
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4486.203007
+
+✖ failing tests:
+
+test at tests/expert-main-input.test.mjs:784:88
+✖ touch pad click/up pointerdown/frame/pointerup moves then stops (143.787259ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(moved>1)
+
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:791:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:784:88
+✖ touch pad click/left pointerdown/frame/pointerup moves then stops (159.620648ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(moved>1)
+
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:791:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:784:88
+✖ touch pad click/down pointerdown/frame/pointerup moves then stops (135.114137ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(moved>1)
+
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:791:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:784:88
+✖ touch pad click/right pointerdown/frame/pointerup moves then stops (143.144577ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(moved>1)
+
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:791:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:794:60
+✖ touch pad click pointercancel clears movement without a stuck direction (113.236668ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(Math.hypot(b.p.x-start.x,b.p.y-start.y)>1)
+
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:796:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:794:60
+✖ touch pad click lostpointercapture clears movement without a stuck direction (106.284901ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(Math.hypot(b.p.x-start.x,b.p.y-start.y)>1)
+
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:796:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:798:1
+✖ touch pad click ignores keyboard walking even when it opposes the touched direction (103.598688ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(b.p.x>start.x&&b.p.y>start.y)
+
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:800:96)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:803:1
+✖ touch pad click replaces old ground destination, release stops, and a fresh click still walks (135.624266ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + {
+  +   x: 291.7460317460317,
+  +   y: 293.2539682539682
+  + }
+  - undefined
+
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:805:78)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { x: 291.7460317460317, y: 293.2539682539682 },
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:808:1
+✖ touch pad cancels old NPC approach so it cannot open after touch release (226.008693ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  true !== false
+
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:810:78)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:812:1
+✖ touch pad menu clears held movement and ignores paused pointerdown until a fresh press (202.377489ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(Math.hypot(b.p.x-at.x,b.p.y-at.y)>1)
+
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:814:88)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/expert-main-input.test.mjs:816:1
+✖ touch pad controls5 click movement keeps the exact saved binding and skill-slot settings (168.084608ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(Math.hypot(b.p.x-at.x,b.p.y-at.y)>1)
+
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:818:226)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

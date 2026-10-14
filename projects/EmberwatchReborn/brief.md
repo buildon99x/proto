@@ -317,3 +317,5 @@ Earn mace/equipment, campaign report, Adept and Judgement only through existing 
 Normally earned Judgement in an empty town produced a contact timing row despite no enemy hit. Clarify the read-only observation labels; do not change combat, telemetry, progression or persistence.
 ## Contact pose investigation — 2026-10-14
 Reproduce the reviewed possibility that same-frame recovery walking shifts the friendly contact motif away from the actual slash. Compare real main input/frame delivery from 5ms before mace contact at 30/60/120Hz. Only a confirmed presentation defect may change; preserve hit/damage/timing, balance and all protected equipment/save behavior.
+## Click-mode touch pad — 2026-10-14
+Trusted native browser touch input reached the direction pad in both modes, but WASD moved182.988 world units and click moved0. Existing actual pointer/frame harness also reproduced the missing connection. Connect touch direction separately from keyboard walking, preserving the click preset's keyboard policy and saved configuration.

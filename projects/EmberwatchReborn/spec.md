@@ -412,3 +412,5 @@ Separate valid/missed/rejected cast, actual contact/payoff, expiry and hostile w
 The input panel labels actionContact as 타격 판정 and explains that empty attacks also emit this timing mark. It proves neither enemy damage nor crusher payoff. Keep contact record kind and all runtime behavior unchanged.
 ## Contact pose scope
 If reproduced, emit a detached runtime contact pose at the actual contact boundary and consume it for the friendly motif. Do not move the real slash or change collision/contact time, costs, damage or serialized state. Keep old event callers without a pose compatible.
+## Touch direction ownership
+Expose held touch direction as transient router input and project it separately into click locomotion. A touched direction replaces old click/context routes; release/cancel/capture loss stops without resuming them. Keep click stop/in-place priority and normal fresh clicks, WASD's existing combined movement, legacy behavior, bindings, costs, balances and save schema unchanged. Describe the screen pad's behavior in existing controls help.

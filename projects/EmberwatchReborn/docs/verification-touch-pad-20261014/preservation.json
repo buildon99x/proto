@@ -1,0 +1,7022 @@
+{
+  "baseline": "9334bd1806ba3279af62f46e966973c986a34104",
+  "groups": {
+    "unchangedRuntimeAndAssets": {
+      "count": 131,
+      "allEqual": true
+    },
+    "originalEmberwatch": {
+      "count": 167,
+      "allEqual": true
+    },
+    "otherTrackedFiles": {
+      "count": 1451,
+      "allEqual": true
+    }
+  },
+  "defaultCheckoutStatus": "",
+  "details": {
+    "unchangedRuntimeAndAssets": [
+      {
+        "path": "projects/EmberwatchReborn/app/src/action-feedback.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/action-safety.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/action-slots.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/actor-body.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/aim-intent.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/art.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/assets/audio-credits.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/assets/audio-fantasy.wav",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/assets/audio-manifest.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/assets/citadel.png",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/assets/fonts/EmberwatchKorean-Regular.woff",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/assets/fonts/OFL-EmberwatchKorean.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/assets/guardian.png",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/assets/hero.png",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/assets/motion-hero.png",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/assets/motion-warrior-axe.png",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/audio.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/battlefield-content.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/battlefield-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/battlefield-readability.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/battlefield-role-movement.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/battlefield.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/boss-phase.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/campaign-guidance.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/campaign.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/candidate-profile.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/combat-persistence.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/combat-readability.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/combat-timing-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/combat.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/contact-trace.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/context-click.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/controller.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/crusher-combat.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/crusher-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/cursor-targeting.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/dialog-focus.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/dungeon-content.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/dungeon-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/dungeon.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/enemy-reaction.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/entry-r14.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/equipment-content.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/equipment-runtime.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/equipment.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/expedition-content.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/expedition-ledger.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/expert-input.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/expert-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/expert-save-input.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/fire-area-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/frame-observation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/furnace-content.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/furnace-fire-response.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/furnace-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/furnace-readability.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/furnace.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/hero-status.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/hotbar-layout.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/immediate-input.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/immutable-snapshot.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/input-latency.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/interaction-target.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/magma-combat.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/magma-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/motion.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/pass-content.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/pass-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/pass.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/poe-mobility.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/poe-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/poe-skill-policy.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/portable-checkpoint-ui.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/portable-checkpoint.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/progression-balance.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/progression.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/promotion.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/quarry-content.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/quarry-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/quarry.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/recovery-entry-r14.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/recovery-main.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/recovery-page.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/recovery.html",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/recovery.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/reference-core.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/reference-warrior.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/resource-display.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/runtime-clock.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/runtime-gate.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/runtime-sync.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/save.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/scene-visibility.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/signal-body-contour.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/signal-content.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/signal-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/signal-readability.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/signal-scene-visibility.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/signal.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/skill-loadout-input.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/skill-loadout.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/state.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/storm-combat.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/storm-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/style.css",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/tomb-content.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/tomb-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/tomb-readability.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/tomb.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/town-portal-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/town-portal.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/training-economy.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/training-graph.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/upgrade-backup-ui.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/upgrade-backup-v5.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/upgrade-backup.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/visual.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/warrior-balance.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/warrior-expert.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/warrior-growth.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/warrior-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/warrior-projectile-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/warrior-rig.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/wilderness-content.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/wilderness-presentation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/wilderness-readability.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/wilderness-scene-visibility.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/wilderness.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/world-geometry.js",
+        "equal": true
+      },
+      {
+        "path": "projects/EmberwatchReborn/app/src/world.js",
+        "equal": true
+      }
+    ],
+    "originalEmberwatch": [
+      {
+        "path": "projects/Emberwatch/.gitignore",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/AGENTS.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/CLAUDE.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/README.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/package.json",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/bake-motion.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/build-korean-font.py",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/build-korean-review.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/build-standalone.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/build.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/capture-korean-ui.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/check-audio-browser.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/check.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/render-art-check.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/render-audio.py",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/render-campaign-spaces.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/render-combat-check.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/render-korean-proof.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/render-locomotion-feedback.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/render-motion-proof.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/serve.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/scripts/start-preview.sh",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/art.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/assets/audio-audition.html",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/assets/audio-credits.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/assets/audio-demonstration.wav",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/assets/audio-fantasy.wav",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/assets/audio-manifest.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/assets/audio-review.json",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/assets/audio-runtime-report.json",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/assets/citadel.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/assets/fonts/EmberwatchKorean-Regular.woff",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/assets/fonts/OFL-EmberwatchKorean.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/assets/guardian.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/assets/hero.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/assets/motion-hero.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/assets/motion-warrior-axe.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/audio.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/campaign/controller.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/campaign/economy.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/campaign/inventory.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/campaign/levels.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/campaign/navigation.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/campaign/progression.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/campaign/reference-archer.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/campaign/reference-core.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/campaign/reference-mage.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/campaign/reference-warrior.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/campaign/save.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/campaign/world-content.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/campaign/world.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/combat.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/data.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/encounters.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/game.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/growth.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/legacy-telegraphs.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/lifecycle.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/minimap.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/motion.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/review.html",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/style.css",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/threat-visibility.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/src/visual.js",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/audio.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/browser-review-controls.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/campaign-controller.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/campaign-integration.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/campaign-inventory.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/campaign-levels.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/campaign-navigation.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/campaign-progression.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/campaign-reference-ranged.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/campaign-reference-warrior.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/campaign-save.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/campaign-world.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/catalog-ko.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/combat-review.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/combat.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/data.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/encounters.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/first-entry-threats.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/growth.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/helpers/warrior-runtime.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/legacy-runtime-review.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/legacy-telegraphs.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/lifecycle-review.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/locomotion-review.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/minimap-integration.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/minimap.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/motion.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/renderer-performance.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/runtime.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/ui-ko.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/app/tests/visual.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/art-manifest.json",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/audio-source/Battlecry-spookymodem.wav",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/audio-source/CREDITS.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/audio-source/provenance.json",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/fonts/EmberwatchKorean-Regular.otf",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/fonts/provenance.json",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/motion-provenance.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/motion-source/motion-creatures-source.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/motion-source/motion-warrior-axes-source.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/provenance.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/combat-0.4.0/hero-anchor-check.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/combat-0.4.0/renderer-landscape.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/combat-0.4.0/renderer-portrait.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/feedback-0.4.2/Warrior-audio-before-after.wav",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/feedback-0.4.2/Warrior-eight-travel-directions.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/feedback-0.4.2/Warrior-run-contact-cells.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/feedback-0.4.2/Warrior-travel-and-footsteps.mp4",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/feedback-0.4.2/Warrior-warcry-after.wav",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/feedback-0.4.2/audio-comparison.json",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/feedback-0.4.2/locomotion-proof.json",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/korean-0.4.1/Emberwatch-Korean-menu-review.html",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/korean-0.4.1/hero-anchor-check.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/korean-0.4.1/renderer-landscape.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/korean-0.4.1/renderer-portrait.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/korean-0.4.1/runtime-ui-snapshots.json",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/bake-summary.json",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-attack1-strip.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-attack2-strip.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-attack3-strip.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-axes-strip.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-death-strip.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-dodge-strip.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-hurt-strip.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-idle-strip.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-run-strip.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-east-warcry-strip.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-proof-report.json",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-proof-still.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/motion-warrior-validation.json",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-attack-detail.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-death-detail.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-direction-0.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-direction-1.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-direction-2.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-direction-3.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-key-poses.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-motion-proof-final.json",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/motion-warrior/warrior-motion-proof.mp4",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/visual-0.3.0/hero-anchor-check.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/visual-0.3.0/renderer-landscape.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/assets/screenshots/visual-0.3.0/renderer-portrait.png",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/brief.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/changelog.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/docs/QA.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/docs/audio-provenance.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/docs/campaign/baseline-0.4.4.json",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/docs/campaign/checkpoint-M0.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/docs/campaign/inventory-design.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/docs/campaign/navigation.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/docs/campaign/ranged-reference.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/docs/campaign/reference-gaps.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/docs/campaign/warrior-reference.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/docs/campaign/world-design.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/docs/combat-0.4-checkpoint.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/docs/enemy-patterns.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/docs/legacy-telegraph-contract.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/docs/review.html",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/docs/source-notes.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/eval.md",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/project.json",
+        "equal": true
+      },
+      {
+        "path": "projects/Emberwatch/spec.md",
+        "equal": true
+      }
+    ],
+    "otherTrackedFiles": [
+      {
+        "path": ".claude/agents/wave-course-analyst.md",
+        "equal": true
+      },
+      {
+        "path": ".codex/instructions.md",
+        "equal": true
+      },
+      {
+        "path": ".codex/skills/concept-design/SKILL.md",
+        "equal": true
+      },
+      {
+        "path": ".codex/skills/kb-extract/SKILL.md",
+        "equal": true
+      },
+      {
+        "path": ".codex/skills/playtest-capture/SKILL.md",
+        "equal": true
+      },
+      {
+        "path": ".codex/skills/verify-project/SKILL.md",
+        "equal": true
+      },
+      {
+        "path": ".codex/workflows/create-project.md",
+        "equal": true
+      },
+      {
+        "path": ".codex/workflows/improve-project.md",
+        "equal": true
+      },
+      {
+        "path": ".codex/workflows/release-to-launcher.md",
+        "equal": true
+      },
+      {
+        "path": ".codex/workflows/test-project.md",
+        "equal": true
+      },
+      {
+        "path": ".githooks/pre-commit",
+        "equal": true
+      },
+      {
+        "path": ".gitignore",
+        "equal": true
+      },
+      {
+        "path": "AGENTS.md",
+        "equal": true
+      },
+      {
+        "path": "CLAUDE.md",
+        "equal": true
+      },
+      {
+        "path": "README.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/README.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/afterlife-post.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/bug-report-dungeon.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/color-thief.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/deep-lighthouse.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/dream-metro.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/elevator-city.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/emotion-accountant.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/gravity-fishing.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/README.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/hunting-ground-boss/concept.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/hunting-ground-boss/core-fun-loop.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/hunting-ground-boss/lifecycle.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/hunting-ground-boss/synopsis.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/01-tone-and-manner.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/02-player-experience.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/03-systems.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/04-screens.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/05-review.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/README.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/mockups/index.html",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/mockups/render.sh",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/mockups/s0-report.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/mockups/s1-world.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/mockups/s1m-mobile.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/mockups/s2-dungeon.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/mockups/s3-evolve.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/README.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/art.js",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/core.js",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/demo.js",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/dungeon.js",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/index.html",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/main.js",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/pacing-check.js",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/render.sh",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/sheets.js",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/shots/approval.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/shots/ch2.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/shots/drag.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/shots/dungeon.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/shots/evolve.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/shots/gap.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/shots/heal.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/shots/hire.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/shots/intro.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/shots/offduty.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/shots/report.png",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/sim.js",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/tut.js",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/msw-inc/prototype/world.js",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/maple-idle/window-hunter.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/memory-orchard.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/meteor-casino.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/mirror-poker-court.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/museum-heist-deck.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/myth-repair-shop.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/origami-fleet.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/planet-workshop.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/radio-wasteland.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/robot-kindergarten.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/silent-orchestra.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/submarine-choir.md",
+        "equal": true
+      },
+      {
+        "path": "docs/concept/weather-market.md",
+        "equal": true
+      },
+      {
+        "path": "docs/kb/concept-planning/00-method-and-insights.md",
+        "equal": true
+      },
+      {
+        "path": "docs/kb/concept-planning/01-concept-template.md",
+        "equal": true
+      },
+      {
+        "path": "docs/kb/concept-planning/02-golden-set-success.md",
+        "equal": true
+      },
+      {
+        "path": "docs/kb/concept-planning/03-golden-set-failure.md",
+        "equal": true
+      },
+      {
+        "path": "docs/kb/concept-planning/04-eval-and-rubric.md",
+        "equal": true
+      },
+      {
+        "path": "docs/kb/concept-planning/05-genre-index.md",
+        "equal": true
+      },
+      {
+        "path": "docs/kb/concept-planning/06-mainstream-market.md",
+        "equal": true
+      },
+      {
+        "path": "docs/kb/concept-planning/README.md",
+        "equal": true
+      },
+      {
+        "path": "docs/kb/concept-planning/data/golden-set.json",
+        "equal": true
+      },
+      {
+        "path": "docs/kb/concept-planning/tools/score_concept.py",
+        "equal": true
+      },
+      {
+        "path": "docs/kb/mda-analysis/README.md",
+        "equal": true
+      },
+      {
+        "path": "docs/kb/mda-analysis/core-loop.md",
+        "equal": true
+      },
+      {
+        "path": "docs/kb/mda-analysis/one-button-roguelite-direction.md",
+        "equal": true
+      },
+      {
+        "path": "docs/kb/mda-analysis/space-waves.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/README.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/concept-review.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/concept-revision-p0.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/concept-revision-p1.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/concept-v2.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/concept.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/episodes/00-prologue.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/episodes/01-three-thousand-credits.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/episodes/02-earth-grown.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/eval/00-rubric.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/eval/01-goldset-novel.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/eval/02-goldset-webtoon.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/eval/03-example-novel-blind.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/eval/04-example-webtoon-blind.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/eval/05-loop-ledger.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/eval/06-axis7-rejudgement.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/eval/07-pass4-reports.md",
+        "equal": true
+      },
+      {
+        "path": "docs/origin-dust/eval/08-pass5-reports.md",
+        "equal": true
+      },
+      {
+        "path": "docs/prompt/init-setup.md",
+        "equal": true
+      },
+      {
+        "path": "launcher/app/api/telemetry/[project]/route.ts",
+        "equal": true
+      },
+      {
+        "path": "launcher/app/layout.tsx",
+        "equal": true
+      },
+      {
+        "path": "launcher/app/page.tsx",
+        "equal": true
+      },
+      {
+        "path": "launcher/app/projects/[slug]/page.tsx",
+        "equal": true
+      },
+      {
+        "path": "launcher/app/projects/[slug]/run/page.tsx",
+        "equal": true
+      },
+      {
+        "path": "launcher/app/projects/page.tsx",
+        "equal": true
+      },
+      {
+        "path": "launcher/app/styles.css",
+        "equal": true
+      },
+      {
+        "path": "launcher/components/project-card.tsx",
+        "equal": true
+      },
+      {
+        "path": "launcher/lib/format.ts",
+        "equal": true
+      },
+      {
+        "path": "launcher/lib/projects.ts",
+        "equal": true
+      },
+      {
+        "path": "launcher/next-env.d.ts",
+        "equal": true
+      },
+      {
+        "path": "launcher/next.config.ts",
+        "equal": true
+      },
+      {
+        "path": "launcher/package.json",
+        "equal": true
+      },
+      {
+        "path": "launcher/tsconfig.json",
+        "equal": true
+      },
+      {
+        "path": "package.json",
+        "equal": true
+      },
+      {
+        "path": "packages/registry/package.json",
+        "equal": true
+      },
+      {
+        "path": "packages/registry/src/generated/projects.ts",
+        "equal": true
+      },
+      {
+        "path": "packages/registry/src/index.ts",
+        "equal": true
+      },
+      {
+        "path": "packages/registry/src/schema.ts",
+        "equal": true
+      },
+      {
+        "path": "packages/registry/tsconfig.json",
+        "equal": true
+      },
+      {
+        "path": "packages/shared-ui/package.json",
+        "equal": true
+      },
+      {
+        "path": "packages/shared-ui/src/index.ts",
+        "equal": true
+      },
+      {
+        "path": "packages/shared-ui/tsconfig.json",
+        "equal": true
+      },
+      {
+        "path": "packages/shared-utils/package.json",
+        "equal": true
+      },
+      {
+        "path": "packages/shared-utils/src/index.ts",
+        "equal": true
+      },
+      {
+        "path": "packages/shared-utils/tsconfig.json",
+        "equal": true
+      },
+      {
+        "path": "pnpm-lock.yaml",
+        "equal": true
+      },
+      {
+        "path": "pnpm-workspace.yaml",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/.context/kb/adr/20260614-phaser-react-clicker.md",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/.context/kb/lrn/20260614-implementation-notes.md",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/AGENTS.md",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/CLAUDE.md",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/README.md",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/app/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/app/package.json",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/app/src/App.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/app/src/EggStage.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/app/src/data.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/app/src/gameLogic.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/app/src/main.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/app/src/styles.css",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/app/tsconfig.json",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/app/vite.config.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/assets/generated/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/assets/icons/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/assets/images/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/assets/references/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/assets/screenshots/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/assets/screenshots/cover.png",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/brief.md",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/changelog.md",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/data/fixtures/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/data/mock/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/data/samples/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/docs/hansoff/20260614-altok-dragon-hatchery-handoff.md",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/eval.md",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/notes/decisions.md",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/project.json",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/prompts/improvement-log.md",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/prompts/initial-request.md",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/spec.md",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/tests/e2e/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/altok-dragon-hatchery/tests/smoke/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/.context/kb/adr/20260614-dom-react-clicker-runtime.md",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/.context/kb/lrn/20260614-blacksmith-clicker-prototype.md",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/AGENTS.md",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/CLAUDE.md",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/README.md",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/app/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/app/package.json",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/app/src/App.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/app/src/main.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/app/src/styles.css",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/app/tsconfig.json",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/app/vite.config.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/assets/generated/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/assets/icons/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/assets/images/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/assets/references/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/assets/screenshots/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/assets/screenshots/shots/director-01-first-screen.png",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/assets/screenshots/shots/director-02-first-result.png",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/assets/screenshots/shots/director-03-after-sale.png",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/assets/screenshots/shots/director-04-mobile.png",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/assets/screenshots/shots/director-report-baseline.json",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/assets/screenshots/shots/director-report-improved.json",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/assets/screenshots/shots/gameplay-metrics.json",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/brief.md",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/changelog.md",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/data/fixtures/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/data/mock/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/data/samples/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/docs/hansoff/20260614-blacksmith-clicker-handoff.md",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/eval.md",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/notes/decisions.md",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/project.json",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/prompts/improvement-log.md",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/prompts/initial-request.md",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/spec.md",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/tests/e2e/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/tests/e2e/scenario.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/blacksmith-clicker/tests/smoke/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/AGENTS.md",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/CLAUDE.md",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/README.md",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/app/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/app/package.json",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/app/src/App.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/app/src/main.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/app/src/styles.css",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/app/tsconfig.json",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/app/vite.config.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/assets/generated/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/assets/icons/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/assets/images/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/assets/references/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/assets/screenshots/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/brief.md",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/changelog.md",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/data/fixtures/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/data/mock/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/data/samples/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/eval.md",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/notes/decisions.md",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/project.json",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/prompts/improvement-log.md",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/prompts/initial-request.md",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/spec.md",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/tests/e2e/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/deck-building/tests/smoke/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/AGENTS.md",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/CLAUDE.md",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/README.md",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/app/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/app/package.json",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/app/src/App.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/app/src/data.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/app/src/game/DanmakuScene.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/app/src/game/GameCanvas.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/app/src/main.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/app/src/meta.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/app/src/screens/GameScreen.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/app/src/screens/Hub.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/app/src/screens/Menus.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/app/src/styles.css",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/app/src/types.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/app/tsconfig.json",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/app/vite.config.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/assets/screenshots/cover.png",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/assets/screenshots/shots/01-title.png",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/assets/screenshots/shots/02-dragon-select.png",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/assets/screenshots/shots/03-difficulty-select.png",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/assets/screenshots/shots/04-ingame-early.png",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/assets/screenshots/shots/05-ingame-chain.png",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/assets/screenshots/shots/06-bomb.png",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/assets/screenshots/shots/07-ingame-later.png",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/assets/screenshots/shots/08-awaken.png",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/assets/screenshots/shots/09-pause.png",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/assets/screenshots/shots/10-result.png",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/assets/screenshots/shots/11-hub.png",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/brief.md",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/changelog.md",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/docs/concept.md",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/docs/design/characters.md",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/docs/design/mechanics.md",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/docs/design/meta-progression.md",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/docs/design/stages-bosses.md",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/docs/design/ux-flow.md",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/eval.md",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/project.json",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/spec.md",
+        "equal": true
+      },
+      {
+        "path": "projects/dragon-danmaku/tests/e2e/scenario.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/.gitignore",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/AGENTS.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/CLAUDE.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/README.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/package.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/main.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/sim/bots.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/sim/content.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/sim/rules.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/sim/sim.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/sim/tools/audit.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/sim/tools/cadence.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/sim/tools/checkin.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/sim/tools/moments.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/sim/tools/pacing.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/sim/tools/playreview.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/sim/tools/waits.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/styles.css",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/ui/app.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/ui/art.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/ui/demo.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/ui/dungeon.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/ui/scenery.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/ui/sheets.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/ui/tut.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/src/ui/world.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/tsconfig.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/tsconfig.tools.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/app/vite.config.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/generated/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/icons/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/images/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/references/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/approval.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/approval.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/boss.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/bossinv.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/box.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/ch2.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/ch5.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/codex.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/cover.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/dungeon.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/elite.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/ending.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/evolve.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/fullclear.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/gap.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/grow.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/hire.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/intro.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/late.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/offduty.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/promote.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/report.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/rush10.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/rush25.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/rush40.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/before-v16/split.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/boss.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/bossinv.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/box.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/ch2.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/ch5.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/clearcut.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/codex.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/cover.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/dungeon.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/elite.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/elitepick.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/ending.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/evolve.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/exec.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/fullclear.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/gallery-v17.html",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/gap.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/grow.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/hire.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/intro.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/late.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/offduty.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/promote.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/rebuild.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/recruit.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/report.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/rush10.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/rush25.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/rush40.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/assets/screenshots/split.png",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/brief.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/changelog.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/data/fixtures/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/data/mock/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/data/samples/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/eval.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/choice-audit.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/content.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/ablate.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-ablate.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v13-ablate.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v13.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v14-ablate.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v14-ablate.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v14.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v14.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v15-ablate.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v15-ablate.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v15.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v15.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v16-max3.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v16-nohold.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v16.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v16.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-ablate-0.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-ablate-0.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-ablate-1.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-ablate-1.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-elite.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-elite.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-exec.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-exec.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-grounds.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-grounds.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-night.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-night.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-rebuild.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-rebuild.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-review.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-review.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-stagejoy.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17-stagejoy.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit-v17.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/audit.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v13.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v13.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v14.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v14.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v15.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v15.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v16.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v16.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v17-elite.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v17-exec.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v17-grounds.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v17-grounds.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v17-rebuild.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v17-rebuild.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v17-review.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v17-stagejoy.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v17-stagejoy.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v17.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/cadence-v17.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v16.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v16.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-before-dex-pause.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-before-dex-pause.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-dex-pause.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-dex-pause.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-dex.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-dex.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-elite.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-elite.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-exec.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-exec.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-pause.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-pause.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-rebuild.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-rebuild.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-review.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-review.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-stagejoy.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17-stagejoy.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/checkin-v17.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/humanplay-v114.jsonl",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/pacing-v17-elite.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/pacing-v17-exec.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/pacing-v17-rebuild.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/pacing-v17-review.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/pacing-v17-stagejoy.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/pacing-v17.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/playreview-ui-v114.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/playreview-ui-v13.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/playreview-ui-v14.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/playreview-ui-v17.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/playreview-ui.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/playreview-v114.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/playreview-v114.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/playreview-v13.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/playreview-v17.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/playreview-v17.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/playreview.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/waits-v17-elite.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/waits-v17-elite.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/waits-v17-exec.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/waits-v17-exec.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/waits-v17-review.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/waits-v17.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/data/waits-v17.txt",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/decisions.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/drop-v16.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/guests-v17.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/handoff.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/improvement-plan.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/ladder-v15.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/plan-v17.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/build-human.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/build.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/data-human.js",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/data-v13.js",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/data-v17.js",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/data.js",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/d-approval.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/d-ch2.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/d-ch5.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/d-codex.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/d-dungeon.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/d-ending.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/d-evolve.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/d-fullclear.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/d-gap.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/d-grow.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/d-hire.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/d-late.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/d-promote.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/d-report.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f00-intro.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f01-arrive.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f02-watch.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f03-dungeon.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f04-world-grow.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f05-gap.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f06-hire.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f07-tray.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f08-drag.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f09-placed.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f10-fixed.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f11-event.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f12-evolve-badge.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f13-evolve-sheet.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f14-evolve-cut.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f15-doc-hint.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f16-approval.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f17-tut-done.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f18-offduty.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f19-report.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f20-day2-world.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f21-day2-evolve.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f22-day2-hire.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/f23-day2-approval.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h01-first-screen.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h02-promote-sheet.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h03-cut-autoclose.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h04-doc-1hour.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h05-hire-ribbon.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h06-d2-report.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h07-drag-card.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h08-doc-faster.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h09-elitepick.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h10-ch3-dense.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h11-d6-report-drop.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h12-d6-empty.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h13-card-overlap.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h14-boss-toast.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h15-hold-unfixable.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h16-report-chips.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h17-exec.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v114h/h18-ending.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-approval.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-boss.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-bossinv.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-ch2.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-ch5.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-codex.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-dungeon.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-elite.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-ending.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-evolve.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-fullclear.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-gap.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-grow.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-hire.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-late.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-promote.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/d-report.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f00-intro.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f01-arrive.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f02-watch.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f03-dungeon.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f04-world-grow.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f05-gap.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f06-hire.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f07-tray.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f08-drag.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f09-placed.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f10-fixed.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f11-evolve-badge.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f12-promote-sheet.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f13-promote-cut.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f14-road.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f15-event.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f16-doc-hint.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f17-approval.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f18-elite.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f19-joy.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f20-stamp-ready.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f21-approval-ready.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f22-chapter-cut.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f23-hire-slime.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f24-drag-slime.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f25-boss-tease.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f26-tut-done.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f27-offduty.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f28-report.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f29-day2-world.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f30-day2-evolve.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f31-day2-hire.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v13/f32-day2-approval.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-approval.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-boss.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-bossinv.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-ch2.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-ch5.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-codex.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-dungeon.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-elite.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-ending.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-evolve.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-fullclear.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-gap.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-grow.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-hire.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-late.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-promote.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-report.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-rush10.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-rush25.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/d-rush40.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f00-intro.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f01-arrive.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f02-watch.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f03-dungeon.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f04-world-grow.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f05-gap.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f06-hire.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f07-tray.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f08-drag.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f09-placed.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f10-zone-lock.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f11-fixed.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f12-evolve-badge.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f13-promote-sheet.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f14-promote-cut.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f15-road.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f16-event.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f17-doc-hint.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f18-approval.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f19-elite.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f20-joy.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f21-stamp-ready.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f22-approval-ready.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f23-chapter-cut.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f24-hire-slime.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f25-drag-slime.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f26-boss-tease.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f27-tut-done.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f28-offduty.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f29-report.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f30-day2-world.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f31-day2-evolve.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f32-day2-hire.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v14/f33-day2-approval.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-approval.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-boss.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-bossinv.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-ch2.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-ch5.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-codex.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-dungeon.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-elite.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-ending.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-evolve.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-fullclear.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-gap.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-grow.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-hire.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-late.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-promote.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-recruit.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-report.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-rush10.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-rush25.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/d-rush40.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f00-intro.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f01-arrive.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f02-watch.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f03-dungeon.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f04-world-grow.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f05-gap.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f06-hire.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f07-tray.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f08-drag.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f09-placed.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f10-zone-lock.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f11-fixed.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f12-evolve-badge.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f13-promote-sheet.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f14-promote-cut.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f15-road.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f16-event.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f17-doc-hint.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f18-approval.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f19-elite.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f20-joy.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f21-stamp-ready.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f22-approval-ready.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f23-chapter-cut.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f24-hire-slime.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f25-drag-slime.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f26-recruit-sheet.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f27-boss-tease.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f28-tut-done.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f29-offduty.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f30-report.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f31-day2-world.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f32-day2-evolve.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f33-day2-hire.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/play-review/shots/v17/f34-day2-approval.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/tempo-v14.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/notes/ux-review.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/project.json",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/prompts/improvement-log.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/prompts/initial-request.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/prompts/request-live-hunting-grounds.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/spec.md",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/tests/e2e/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/tests/e2e/cdp.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/tests/e2e/humanplay.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/tests/e2e/playreview.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/tests/e2e/shots.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/tests/e2e/smoke.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/tests/sim.test.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/msw-inc/tests/smoke/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.claude/skills/play-delta-report/SKILL.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.claude/skills/play-delta-report/assets/report.tpl.html",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.claude/skills/play-delta-report/references/example/meta.json",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.claude/skills/play-delta-report/references/example/narrative.json",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.claude/skills/play-delta-report/references/shims.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.claude/skills/play-delta-report/scripts/__pycache__/apply_known_shims.cpython-311.pyc",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.claude/skills/play-delta-report/scripts/__pycache__/build_data.cpython-311.pyc",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.claude/skills/play-delta-report/scripts/__pycache__/render.cpython-311.pyc",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.claude/skills/play-delta-report/scripts/apply_known_shims.py",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.claude/skills/play-delta-report/scripts/build_data.py",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.claude/skills/play-delta-report/scripts/measure.sh",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.claude/skills/play-delta-report/scripts/prepare_side.sh",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.claude/skills/play-delta-report/scripts/render.py",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.claude/skills/play-delta-report/scripts/resolve_refs.sh",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.claude/skills/play-delta-report/scripts/snapshot.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/.gitignore",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/AGENTS.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/CLAUDE.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/README.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/package.json",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/artifacts/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/conversion-overlay.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/crew-lineup.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/dir-a.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/dir-b.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/dir-c.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/dir-d.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/find-silla-gold-crown.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/keyvisual.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/place-01-gyeongju.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/place-02-mars-shelf.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/place-03-orbital-market.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/sprite-haedal-hd8.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/sprite-jeong-dokyeong.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/sprite-mira-anyango.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/sprite-seo-gaon.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/art/sprite-yeoe7.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/fonts/rk-dot-400.woff2",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/fonts/rk-dot-700.woff2",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/fonts/rk-sans-400.woff2",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/fonts/rk-sans-700.woff2",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/fonts/rk-serif-400.woff2",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/fonts/rk-serif-700.woff2",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/fonts/rk-serif-900.woff2",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/public/ip/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/App.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/artifacts.generated.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/artifacts.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/balance.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/details.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/engine.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/expedition.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/format.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/hash.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/images.generated.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/lore.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/market.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/museum.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/rivalcard.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/rng.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/save.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/sites.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/staff.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/game/types.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/main.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/render/crew.generated.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/render/crew.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/render/metric.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/render/motifs.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/render/palette.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/render/png.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/render/sprite.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/render/strata.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/render/unique-sprites.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/render/worldmap-raster.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/render/worldmap.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/contact_sheet.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/density.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/playlog.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/policy.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/qa_artifacts.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/qa_autosell.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/qa_bulk.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/qa_economy.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/qa_endgame.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/qa_expedition.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/qa_growth.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/qa_migration.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/qa_pipeline.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/qa_playreview.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/qa_rivalcard.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/qa_season_rollover.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/qa_sigma1.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/qa_sprites.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/run.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/sim/telemetry.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/styles.css",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/ArtifactDetail.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/AutoSoldNotice.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/CodexView.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/Crew.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/DispatchSheet.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/DisplayNudge.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/ExpansionFork.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/ExpeditionView.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/FacilityView.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/FirstBaseChooser.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/Header.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/LegacyDigCard.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/MarketView.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/Modal.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/OfflineSummary.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/Overlays.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/RankTableModal.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/RecordCard.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/RegistrationCard.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/RulesModal.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/SettingsModal.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/SitePickerModal.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/Sprite.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/TeamPanel.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/TipBanner.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/VaultView.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/WorldExplorer.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/WorldMapCanvas.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/baseChoice.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/sellOptions.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/sound.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/useBookmarks.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/useGame.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/useTeamPreset.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/ui/vaultCare.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/src/vite-env.d.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/tsconfig.json",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/app/vite.config.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-china.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-egypt.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-greece.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-index.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-india.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-iraq.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-israel.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-japan.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-korea.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-mexico.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-overview.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-peru.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-rome.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-shapes.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-t4.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-after-turkey.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-before-overview.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/generated/contact-before-t4.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/icons/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/images/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/references/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/review/v065-active-ending-dig.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/review/v065-fresh-00-first.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/review/v065-fresh-175s-base.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/review/v065-fresh-25s-tip.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/review/v065-idle-5h-codex.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/review/v065-mobile-20s.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/review/v066-desktop-first-base-chooser.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/review/v066-desktop-unique-tip-alert.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/review/v066-mobile-390-tip-banner.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/review/v066-mobile-390-unique-alert.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/01-dig-start.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/02-dig-running.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/03-vault.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/04-facility.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/05-market.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/06-codex.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/06-vault-full.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/07-vault-detail.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/08-worldmap.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/08b-worldmap-region.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/09-ranktable.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/09-vault-real-detail.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/10-codex-real-detail.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/cover.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/mobile-01-dig.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/mobile-02-market.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/mobile-03-vault.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/mobile-04-worldmap.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/mobile-05-ranktable.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-background-return.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-bulk-selected.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-effort-end.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-expansion-fork.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-first-chooser.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-first-onboarding.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-floor-capped.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-loop-vault.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-lore-registration.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-mobile-tip.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-notify-badges.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-nudge-toast.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-return-8h.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-rules-modal.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-steps-end.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-tip-banner.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-unique-acquired.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/01-unique-alert.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/02-bulk-confirm.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/02-first-displayed.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/02-loop-dig.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/02-lore-first-card.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/02-mobile-unique-alert.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/02-notify-ledger.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/02-return-24h.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/02-unique-acquired.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/02-unique-vault.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/03-first-tip.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/03-lore-sold.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/03-return-action-modal.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/03-unique-vault.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/04-lore-codex-wanted.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/05-lore-reveal.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/06-lore-return.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/07-lore-ending.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/08-lore-mobile-registration.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/assets/screenshots/play/report.json",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/brief.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/changelog.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/data/commons-images.json",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/data/fixtures/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/data/met-species.json",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/data/mock/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/data/samples/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/eval.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/.gitignore",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/README.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/conversion-overlay.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/crew-lineup.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/crew-qa-sheet.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/sheet-haedal-hd8.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/sheet-jeong-dokyeong.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/sheet-mira-anyango.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/sheet-seo-gaon.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/sheet-yeoe7.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/sprite-haedal-hd8.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/sprite-haedal-hd8@8x.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/sprite-jeong-dokyeong.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/sprite-jeong-dokyeong@8x.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/sprite-mira-anyango.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/sprite-mira-anyango@8x.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/sprite-seo-gaon.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/sprite-seo-gaon@8x.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/sprite-yeoe7.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/crew/sprite-yeoe7@8x.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/directions/dir-a.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/directions/dir-b.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/directions/dir-c.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/directions/dir-d.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/finds/alexander-mosaic.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/finds/cheonmado-saddle-flap.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/finds/china-he-zun.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/finds/gilt-bronze-maitreya-83.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/finds/gr-antikythera-mechanism.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/finds/index.tsv",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/finds/india-kohinoor-diamond.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/finds/irq-warka-vase.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/finds/mexico-piedra-del-sol.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/finds/silla-gold-crown.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/finds/tutankhamun-mask.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/keyvisual/keyvisual.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/logo/logo-dark.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/logo/logo.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/places/place-01-gyeongju.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/places/place-02-mars-shelf.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/places/place-03-orbital-market.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/review/crew-test-a.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/review/crew-test-b.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/review/keyvisual-masked.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/showcase-preview-mobile.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/art/showcase-preview.png",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/bible.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/directions.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/fonts/rk-dot-400.woff2",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/fonts/rk-dot-700.woff2",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/fonts/rk-dot9-400.woff2",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/fonts/rk-sans-400.woff2",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/fonts/rk-sans-700.woff2",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/fonts/rk-serif-400.woff2",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/fonts/rk-serif-700.woff2",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/fonts/rk-serif-900.woff2",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/narrative.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/showcase/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/src/bake-finds.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/src/build.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/src/crew-sprites.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/src/crew-vector.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/src/crew.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/src/directions.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/src/export-crew.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/src/fetch-fonts.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/src/keyvisual.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/src/lib.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/src/palette.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/src/scenes.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/src/showcase.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/src/svg.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/ip/visual-guide.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/artifacts-dataset.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/autosell-default-study.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/characters.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/completeness-review-sources.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/completeness-review.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/data/humanplay-v071.jsonl",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/decision-tree-10h.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/decisions.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/economy.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/handoff.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/mda.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-first-10h-v06.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-first-10h.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/build-human.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/data-human.js",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h01-first-screen.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h02-first-tip.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h03-won-sealed.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h04-first-base-card.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h05-lost-tut.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h06-rank-table.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h07-unique-alert.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h08-antikythera.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h09-foreman-names.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h10-exhibit-picker.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h11-rec-full.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h12-kohinoor-return.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h13-idle-funds.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h14-ending.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h15-first-race-won.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h16-expansion-fork.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h17-return-1h.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h18-agamemnon.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h19-return-2h-stale.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h20-exhibit-anti.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-review/shots/v071h/h21-return-8h.webp",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/play-telemetry.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/references-ip.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/references-v07.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/social-v05-prompt.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/staff.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/synopsis.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/ux-v02.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/v066-midpass-review.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/world-lore.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/world-map.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/notes/worldmap-v04-prompt.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/project.json",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/prompts/completeness-review.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/prompts/improvement-log.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/prompts/initial-request.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/prompts/ip-world-narrative-visual.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/prompts/v0.2-deepening.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/prompts/v0.3.2-play-integrity.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/prompts/v0.4-icons-detail.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/prompts/v0.6-first-session-density.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/prompts/v0.6.6-decision-tree-pass.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/prompts/v0.7-worldview-relic-hunters.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/scripts/README.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/scripts/build-artifacts.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/scripts/build-worldmap.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/scripts/distill-met.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/scripts/fetch-images.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/scripts/lexicon.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/scripts/taxonomy.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/spec.md",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/tests/e2e/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/tests/e2e/harness.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/tests/e2e/humanplay.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/tests/e2e/play.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/tests/e2e/smoke.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/relic-king/tests/smoke/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/AGENTS.md",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/CLAUDE.md",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/README.md",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/app/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/app/package.json",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/app/src/App.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/app/src/GameCanvas.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/app/src/game/audio.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/app/src/game/engine.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/app/src/game/pixelfont.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/app/src/game/render.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/app/src/game/scoring.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/app/src/main.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/app/src/styles.css",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/app/tsconfig.json",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/app/vite.config.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/generated/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/icons/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/images/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/references/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/screenshots/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/screenshots/cover.png",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/screenshots/shots/01-title.png",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/screenshots/shots/02-aim.png",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/screenshots/shots/03-power-meter.png",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/screenshots/shots/04-spin-arc.png",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/screenshots/shots/05-rolling.png",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/screenshots/shots/06-after-first.png",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/screenshots/shots/07-midgame.png",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/screenshots/shots/08-gameover.png",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/screenshots/shots/09-spare-aim.png",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/screenshots/shots/10-late-frame-speed.png",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/screenshots/shots/11-on-fire-combo.png",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/assets/screenshots/shots/12-oil-pattern.png",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/brief.md",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/changelog.md",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/data/fixtures/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/data/mock/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/data/samples/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/eval.md",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/notes/decisions.md",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/project.json",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/prompts/improvement-log.md",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/prompts/initial-request.md",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/spec.md",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/tests/e2e/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/tests/e2e/scenario.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/retro-bowling/tests/smoke/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/AGENTS.md",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/CLAUDE.md",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/README.md",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/app/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/app/package.json",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/app/src/App.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/app/src/main.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/app/src/styles.css",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/app/tsconfig.json",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/app/vite.config.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/assets/generated/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/assets/icons/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/assets/images/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/assets/references/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/assets/screenshots/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/brief.md",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/changelog.md",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/data/fixtures/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/data/mock/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/data/samples/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/eval.md",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/notes/decisions.md",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/project.json",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/prompts/improvement-log.md",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/prompts/initial-request.md",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/spec.md",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/tests/e2e/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/sample-project/tests/smoke/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/AGENTS.md",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/CLAUDE.md",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/README.md",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/package.json",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/App.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/data/blocks.json",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/data/scoring.json",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/data/stages.json",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/engine/advantages.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/engine/bosses.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/engine/config.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/engine/grid.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/engine/persist.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/engine/resolve.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/engine/rng.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/engine/run.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/engine/types.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/main.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/styles.css",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/ui/Board.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/ui/Hud.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/ui/TouchControls.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/ui/audio.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/ui/screens.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/ui/strings.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/src/ui/useGame.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/tsconfig.json",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/app/vite.config.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/assets/generated/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/assets/icons/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/assets/images/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/assets/references/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/assets/screenshots/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/assets/screenshots/shots/01-title.png",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/assets/screenshots/shots/02-blockipedia.png",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/assets/screenshots/shots/03-settings.png",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/assets/screenshots/shots/04-stage1.png",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/assets/screenshots/shots/04b-tooltip.png",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/assets/screenshots/shots/05-chain-cascade.png",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/assets/screenshots/shots/06-bank-press.png",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/assets/screenshots/shots/07-quickbuy.png",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/assets/screenshots/shots/08-stage2.png",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/assets/screenshots/shots/09-stage2-tide.png",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/brief.md",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/changelog.md",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/data/fixtures/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/data/mock/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/data/samples/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/eval.md",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/notes/decisions.md",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/notes/design-acts.md",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/notes/mda-review.md",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/notes/reverse-engineering.md",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/project.json",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/prompts/full-implementation-request.md",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/prompts/improvement-log.md",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/prompts/initial-request.md",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/spec.md",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/tests/e2e/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/tests/e2e/scenario.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/tests/engine.test.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/tests/sim/balance.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/stackflow/tests/smoke/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/.claude/skills/course-report/SKILL.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/AGENTS.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/CLAUDE.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/README.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/index.html",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/package.json",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/App.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/GameCanvas.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/Intro.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/TuningPanel.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/audio.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/axes.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/camera.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/course.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/engine.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/factory.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/generate.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/geometry.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/meta.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/pilot.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/rand.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/render.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/runner-grades.json",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/runners.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/sectors.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/solver.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/stage-seeds.json",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/storage.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/telemetry.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/tuning.json",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/game/types.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/main.tsx",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/src/styles.css",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/tsconfig.json",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/app/vite.config.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/generated/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/icons/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/images/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/references/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/courses/overview.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/courses/stage-1-1.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/courses/stage-1-2.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/courses/stage-1-3.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/courses/stage-2-1.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/courses/stage-2-2.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/courses/stage-2-3.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/courses/stage-3-1.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/courses/stage-3-2.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/courses/stage-3-3.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/courses/stage-4-1.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/courses/stage-4-2.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/courses/stage-4-3.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/cover.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/01-home-runners.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/10-mid-0.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/10-mid-1.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/10-mid-2.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/10-mid-3.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/11-clear.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/12-stage-list-marks.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/13-gate.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/14-after-laggy.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/15-endless-result.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/16-home-after.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/17-migrated-home.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/18-migrated-stages.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/20-gate-leadin.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/21-gate-marks.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/22-gate-split.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/23-gate-after.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/24-death.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/30-picker.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/31-stage-slots.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/32-picker-spike.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/33-stage-slots-spike.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/40-mid-0-\ud45c\uc900.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/40-mid-1-\ub454\uac01.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/40-mid-2-\uc608\ubd09.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/40-mid-3-\ud658.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/exp/playtest-report.json",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/first-run-flow.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/shots/01-home.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/shots/02-tiers.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/shots/03-ready.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/shots/03b-stage-running.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/shots/04-clear.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/shots/05-home-unlocked.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/shots/06-endless-result.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/shots/06b-endless-running.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/shots/07-gate.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/assets/screenshots/shots/08-shop.png",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/brief.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/changelog.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/data/fixtures/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/data/mock/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/data/samples/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/eval.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/notes/course-difficulty/2026-09-16-2.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/notes/course-difficulty/2026-09-16-3.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/notes/course-difficulty/2026-09-16-4.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/notes/course-difficulty/2026-09-16-5.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/notes/course-difficulty/2026-09-16.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/notes/decisions.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/notes/handoff.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/notes/runner-variation.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/notes/telemetry/death-log.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/notes/user-flow.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/project.json",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/prompts/improvement-log.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/prompts/initial-request.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/spec.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/e2e/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/e2e/autopilot.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/e2e/first-run.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/e2e/gate-shot.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/e2e/picker-shot.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/e2e/runner-experience.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/e2e/runner-identity.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/e2e/scenario.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/smoke/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/smoke/lookahead.test.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/angles.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/course-map/extract.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/course-map/page.html",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/course-map/run.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/course-map/stats.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/curate-stages.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/endless-determinism.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/endless-ramp.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/flatness.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/gate-offers.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/generation.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/runner-grades.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/runner-paths.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/runner-probe.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/sector-fairness.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/sector-probe.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/solver-check.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/stage-paths.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/stage-time.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/telemetry.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tests/verify/tiers.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tools/death-report/README.md",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tools/death-report/blob.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tools/death-report/doctor.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tools/death-report/figure.html",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tools/death-report/figure.mjs",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tools/death-report/pull.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tools/death-report/reconstruct.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tools/death-report/report.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tools/death-report/simulate.ts",
+        "equal": true
+      },
+      {
+        "path": "projects/wave-runner/tsconfig.tools.json",
+        "equal": true
+      },
+      {
+        "path": "scripts/build-all-projects.ts",
+        "equal": true
+      },
+      {
+        "path": "scripts/build-project.ts",
+        "equal": true
+      },
+      {
+        "path": "scripts/bump-version.ts",
+        "equal": true
+      },
+      {
+        "path": "scripts/create-project.ts",
+        "equal": true
+      },
+      {
+        "path": "scripts/game-director/evaluate.mjs",
+        "equal": true
+      },
+      {
+        "path": "scripts/playtest/playtest.mjs",
+        "equal": true
+      },
+      {
+        "path": "scripts/playtest/run.mjs",
+        "equal": true
+      },
+      {
+        "path": "scripts/project-utils.ts",
+        "equal": true
+      },
+      {
+        "path": "scripts/run-turbo.cjs",
+        "equal": true
+      },
+      {
+        "path": "scripts/setup-hooks.sh",
+        "equal": true
+      },
+      {
+        "path": "scripts/sync-launcher-registry.ts",
+        "equal": true
+      },
+      {
+        "path": "scripts/validate-project.ts",
+        "equal": true
+      },
+      {
+        "path": "scripts/verify/run.mjs",
+        "equal": true
+      },
+      {
+        "path": "templates/canvas-project/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "templates/next-project/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "templates/static-html-project/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/AGENTS.md",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/CLAUDE.md",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/README.md",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/app/index.html",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/app/package.json",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/app/src/App.tsx",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/app/src/main.tsx",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/app/src/styles.css",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/app/tsconfig.json",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/app/vite.config.ts",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/assets/generated/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/assets/icons/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/assets/images/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/assets/references/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/assets/screenshots/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/brief.md",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/changelog.md",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/data/fixtures/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/data/mock/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/data/samples/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/eval.md",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/notes/decisions.md",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/project.json",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/prompts/improvement-log.md",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/prompts/initial-request.md",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/spec.md",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/tests/e2e/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "templates/vite-react-project/tests/smoke/.gitkeep",
+        "equal": true
+      },
+      {
+        "path": "tsconfig.base.json",
+        "equal": true
+      },
+      {
+        "path": "turbo.json",
+        "equal": true
+      },
+      {
+        "path": "vercel.json",
+        "equal": true
+      }
+    ]
+  }
+}

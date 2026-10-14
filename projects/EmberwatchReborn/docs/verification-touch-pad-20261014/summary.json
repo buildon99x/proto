@@ -1,0 +1,127 @@
+{
+  "baseline": "9334bd1806ba3279af62f46e966973c986a34104",
+  "runtimeChange": "transient touchMove routed independently into click locomotion; no binding/serialized field/balance change",
+  "testResults": {
+    "primary-red.tap": {
+      "tests": 15.0,
+      "pass": 4.0,
+      "fail": 11.0,
+      "cancelled": 0.0,
+      "skipped": 0.0,
+      "duration_ms": 4486.203007
+    },
+    "focused.tap": {
+      "tests": 391.0,
+      "pass": 391.0,
+      "fail": 0.0,
+      "cancelled": 0.0,
+      "skipped": 0.0,
+      "duration_ms": 183122.455448
+    },
+    "full.tap": {
+      "tests": 4708.0,
+      "pass": 4708.0,
+      "fail": 0.0,
+      "cancelled": 0.0,
+      "skipped": 0.0,
+      "duration_ms": 514585.947811
+    }
+  },
+  "native": {
+    "before": {
+      "coarse": true,
+      "trustedTouchEvents": 6,
+      "pageErrors": [],
+      "trials": [
+        {
+          "mode": "wasd",
+          "heldDistance": 182.98800000000162,
+          "afterReleaseDistance": 0.0,
+          "settingsAndProgressWithinTrialUnchanged": true
+        },
+        {
+          "mode": "click",
+          "heldDistance": 0.0,
+          "afterReleaseDistance": 0.0,
+          "settingsAndProgressWithinTrialUnchanged": true
+        }
+      ]
+    },
+    "after": {
+      "coarse": true,
+      "trustedTouchEvents": 6,
+      "pageErrors": [],
+      "trials": [
+        {
+          "mode": "wasd",
+          "heldDistance": 179.96399999999997,
+          "afterReleaseDistance": 0.0,
+          "settingsAndProgressWithinTrialUnchanged": true
+        },
+        {
+          "mode": "click",
+          "heldDistance": 180.00000000000048,
+          "afterReleaseDistance": 0.0,
+          "settingsAndProgressWithinTrialUnchanged": true
+        }
+      ]
+    }
+  },
+  "nativeEdgeChecks": {
+    "clickKeyboardStillIgnored": true,
+    "touchMovedAfterClick": true,
+    "touchCancelNoOldRouteResume": true,
+    "freshClickStillMoves": false,
+    "reloadPreservesControlsAndProgress": true
+  },
+  "freshClickInitialAttempt": "portal entry; excluded as floor proof and original numeric check corrected",
+  "separateSameRegionFloorQualified": true,
+  "finalNormalTownReloadPreserved": true,
+  "final": {
+    "revision": 930,
+    "region": "ash_hamlet",
+    "position": {
+      "x": 350,
+      "y": 420
+    },
+    "skills": {
+      "shield_charge": 1,
+      "mace_swing": 4,
+      "shield_block": 1,
+      "righteous_hammer": 1,
+      "judgement": 1,
+      "lay_on_hands": 1
+    },
+    "gold": 288,
+    "xp": 179.5,
+    "stats": {
+      "kills": 44,
+      "deaths": 1,
+      "earnedGold": 396,
+      "spentGold": 108,
+      "earnedXp": 1519.5
+    }
+  },
+  "imageCount": 7,
+  "imageBytes": 1217970,
+  "commonBuild": "Corepack ENOENT; failed before project checks",
+  "physicalTouchListeningLatency": "unverified; headless muted trusted browser touch emulation only",
+  "a19": "protected writer unchanged, no retry/alternate namespace/hook",
+  "Library": "prior Forbidden remains; no retry or alternative transfer",
+  "mainMerged": false,
+  "deployed": false,
+  "preservation": {
+    "unchangedRuntimeAndAssets": {
+      "count": 131,
+      "allEqual": true
+    },
+    "originalEmberwatch": {
+      "count": 167,
+      "allEqual": true
+    },
+    "otherTrackedFiles": {
+      "count": 1451,
+      "allEqual": true
+    }
+  }
+}

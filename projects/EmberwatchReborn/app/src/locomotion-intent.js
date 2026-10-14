@@ -6,10 +6,12 @@ export function createLocomotionIntent(){
  let destination=null,identity=null;
  const clear=()=>{destination=null;identity=null;};
  function press(target,battle){if(!battle||!point(target)||!inMap(battle.map,target.x,target.y,11)){clear();return false;}destination={x:target.x,y:target.y};identity={battle,life:battle.stateLife,region:battle.region};return true;}
- function step({battle,mode='wasd',keys={x:0,y:0},held=false,groundPoint=null,stop=false,attackInPlace=false,stopForInPlace=false}={}){
+ function step({battle,mode='wasd',keys={x:0,y:0},touch={x:0,y:0},held=false,groundPoint=null,stop=false,attackInPlace=false,stopForInPlace=false}={}){
   if(!battle||battle.dead||battle.p.hp<=0||identity&&(identity.battle!==battle||identity.life!==battle.stateLife||identity.region!==battle.region)){clear();return {move:{x:0,y:0},distance:0,destination:null};}
   if(mode==='wasd'){clear();return {move:point(keys)?{...keys}:{x:0,y:0},distance:Infinity,destination:null};}
   if(stop||attackInPlace&&stopForInPlace){clear();return {move:{x:0,y:0},distance:0,destination:null};}
+  // A touched direction replaces the old click route; releasing it stops.
+  if(point(touch)&&(touch.x||touch.y)){clear();return {move:{...touch},distance:Infinity,destination:null};}
   if(held&&point(groundPoint))press(groundPoint,battle);
   if(!destination)return {move:{x:0,y:0},distance:0,destination:null};
   const remaining=Math.hypot(destination.x-battle.p.x,destination.y-battle.p.y);

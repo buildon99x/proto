@@ -94,7 +94,7 @@ export function createInputRouter({captureAttackTap=false,now=()=>performance.no
   isHeld:action=>[...held.values()].includes(action),
   consume(action){const value=pulses.has(action);pulses.delete(action);return value;},
   snapshot(controls){const active=a=>[...held.values()].includes(a),move={x:Number(active('right'))-Number(active('left')),y:Number(active('down'))-Number(active('up'))};if(move.x||move.y)lastMove={...move};const result={move,lastMove:lastMove?{...lastMove}:null,attack:active('attack')||(captureAttackTap&&pulses.has('attack')),block:controls.blockMode==='toggle'?toggle:active('block'),guardPressed:pulses.delete('block')};if(captureAttackTap){result.attackPressed=pulses.delete('attack');result.attackHeld=active('attack');result.heldActions=Object.fromEntries(actionsForVersion(controls.version).map(a=>[a,active(a)]));}
-   if(isPoeControls(controls)){for(const action of mobilityPulses)result[action]=pulses.delete(action);result.moveOnly=active('moveOnly');result.attackInPlace=active('attackInPlace');result.dodgeSprintHeld=active('dodgeSprint');result.sprintHeld=active('sprint');}
+   if(isPoeControls(controls)){const touched=a=>held.get('Touch:'+a)===a;result.touchMove={x:Number(touched('right'))-Number(touched('left')),y:Number(touched('down'))-Number(touched('up'))};for(const action of mobilityPulses)result[action]=pulses.delete(action);result.moveOnly=active('moveOnly');result.attackInPlace=active('attackInPlace');result.dodgeSprintHeld=active('dodgeSprint');result.sprintHeld=active('sprint');}
    for(const action of snapshotSkills){result[action]=pulses.has(action);pulses.delete(action);}return result;}
  };
 }

@@ -1,0 +1,27 @@
+[
+  {
+    "file": "combat.js",
+    "identical": true,
+    "sha256": "2605ac915e4c689af1f007c0494c650b39a4b7830c65a8b82353e7b8b35b37fd"
+  },
+  {
+    "file": "poe-presentation.js",
+    "identical": true,
+    "sha256": "624ba033980e3421c395931d5a3d6186d8f8cadf1c0b8b4711098f84b768725f"
+  },
+  {
+    "file": "main.js",
+    "identical": true,
+    "sha256": "102d4c9ee1bbe58ad233648316299e9c595b3b577ba70a1a9ec054ebfdd8e329"
+  },
+  {
+    "file": "controls.js",
+    "identical": true,
+    "sha256": "7f5221a56a1a2f6ee17011b62e46b7fdfe9c5756d0ecdd3c1c344923be27c40d"
+  },
+  {
+    "file": "locomotion-intent.js",
+    "identical": true,
+    "sha256": "e31c378b18ad9e1835ceccc4d4fa19baf8539c7843725852edc44a1ee68a16af"
+  }
+]
