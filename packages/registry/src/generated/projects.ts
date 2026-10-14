@@ -95,6 +95,43 @@ export const projects = [
     "updatedAt": "2026-09-30T01:58:52+09:00"
   },
   {
+    "id": "painted-asset-studio",
+    "name": "Painted Asset Studio",
+    "status": "prototype",
+    "type": "tool",
+    "runtime": "static-artifact",
+    "version": "0.1.0",
+    "summary": "원본 Rust/Lua 회화 엔진으로 재현 가능한 게임 이미지 에셋을 만들고 검수하는 로컬 CLI와 갤러리.",
+    "tags": [
+      "art",
+      "assets",
+      "deterministic",
+      "local"
+    ],
+    "projectRoot": "projects/PaintedAssetStudio",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/painted-asset-studio/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md",
+      "attribution": "ATTRIBUTION.md"
+    },
+    "assets": {
+      "cover": "assets/samples/ember-valley/ember-valley.png"
+    },
+    "commands": {
+      "dev": "pnpm --dir projects/PaintedAssetStudio/app dev",
+      "build": "pnpm --dir projects/PaintedAssetStudio/app build",
+      "test": "python3 -m unittest discover -s projects/PaintedAssetStudio/tests -v"
+    },
+    "updatedAt": "2026-10-14T14:58:16Z"
+  },
+  {
     "id": "retro-bowling",
     "name": "Retro Bowling",
     "status": "prototype",
