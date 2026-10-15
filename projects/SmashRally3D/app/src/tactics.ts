@@ -101,11 +101,14 @@ export function solveStroke(c: StrokeContext, s: Stroke, target = strokeTarget(c
             cap: 26,
             minHeight: CFG.net + 0.25,
         });
-    if (s.technique === 'net' || s.technique === 'block')
+    if (s.technique === 'net' || s.technique === 'block') {
+        // Rushed low soft replies need safety height: a loose reply can be attacked.
+        const loose = c.quality === 'weak' || s.balance < 0.85;
         return solveProfile(c.contact, target, 'drop', {
-            vertical: [1, 2, 3, 4, 5, 6, 8],
-            desiredTime: s.technique === 'net' ? 0.65 : 0.85,
+            vertical: loose ? [5, 6, 7, 8] : [1, 2, 3, 4, 5, 6, 8],
+            desiredTime: loose ? 1.05 : s.technique === 'net' ? 0.65 : 0.85,
         });
+    }
     if (s.technique === 'smash')
         return solveProfile(c.contact, target, 'smash', { cap: 34 * (0.82 + 0.18 * s.balance) });
     return solve(c.contact, target, s.shot);

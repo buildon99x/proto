@@ -588,7 +588,7 @@ export class Game {
         for (const f of this.predicted.path) {
             if (
                 f.p.z * a.side < 0.6 ||
-                f.p.y > (overhead ? 2.7 : 1.85) ||
+                f.p.y > (overhead ? 2.7 : Math.abs(f.p.z) < 1.8 ? 2.1 : 1.85) ||
                 f.p.y < 1.05 ||
                 f.v.y > 0 ||
                 f.t < delay + CFG.swingLead

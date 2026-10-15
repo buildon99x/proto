@@ -235,3 +235,86 @@ it('preparation and launch use the same short net-finish aim', () => {
     expect(g.shotTarget(a, s.shot)).toEqual(strokeTarget(c, s));
     expect(g.shotTarget(a, s.shot).z).toBeLessThan(1.4);
 });
+it('rushed soft replies expose actual height and flight time instead of only a different label', () => {
+    const c = context({
+        intent: 'drop',
+        body: { x: 0, y: 0, z: -1.7 },
+        contact: { x: 0.35, y: 1.2, z: -1.4 },
+        target: { x: 1, y: 0.025, z: 1.2 },
+    });
+    const tight = solveStroke(c, assessStroke(c));
+    const rushed = { ...c, quality: 'weak' as const };
+    const loose = solveStroke(rushed, assessStroke(rushed));
+    expect(loose.prediction.apex).toBeGreaterThan(tight.prediction.apex + 0.25);
+    expect(loose.prediction.time).toBeGreaterThan(tight.prediction.time + 0.1);
+    expect(loose.prediction.reason).toBe('GROUND');
+    expect(distance(loose.prediction.end, strokeTarget(rushed, assessStroke(rushed)))).toBeLessThan(
+        0.08,
+    );
+});
+it('ordinary tactical command sequence can draw a loose net reply and physically finish it', () => {
+    const g = new Game();
+    g.difficulty = 'NORMAL';
+    g.start();
+    let last = -1,
+        rng = 21;
+    for (
+        let i = 0;
+        i < 18000 &&
+        g.phase !== 'RESULTS' &&
+        !g.shots.some((h) => h.actor === 0 && h.technique === 'netKill');
+        i++
+    ) {
+        if (g.phase === 'SERVE_READY' && g.server === 0)
+            g.command({
+                shotIntent: 'clear',
+                target: { x: 0, y: 0.025, z: 5.8 },
+                issuedAt: g.time,
+                pointerType: 'unit',
+            });
+        if (
+            g.phase === 'RALLY' &&
+            g.receiver === 0 &&
+            g.contactAt !== last &&
+            g.contactAt - g.time < g.inputLead('default') + 0.08 &&
+            g.contactAt - g.time > 0.06
+        ) {
+            last = g.contactAt;
+            rng = (rng * 1664525 + 1013904223) >>> 0;
+            const intent =
+                    g.previewStroke().technique === 'netKill'
+                        ? 'default'
+                        : (['clear', 'drop', 'default'] as const)[rng % 3],
+                x = [-1.8, 0, 1.8][(rng >>> 4) % 3],
+                z = intent === 'drop' || (rng >>> 8) % 2 ? 1.2 : 5.8;
+            g.command({
+                shotIntent: intent,
+                target: { x, y: 0.025, z },
+                issuedAt: g.time,
+                pointerType: 'unit',
+            });
+        }
+        g.step();
+    }
+    const finish = g.shots.find((h) => h.actor === 0 && h.technique === 'netKill');
+    expect(finish).toBeDefined();
+    expect(finish!.velocity.y).toBeLessThan(0);
+    expect(finish!.p.y).toBeGreaterThan(1.774);
+    expect(finish!.contact.radialDistance).toBeLessThanOrEqual(0.225);
+    expect(g.shots[g.shots.indexOf(finish!) - 1].technique).toBe('net');
+});
+it('both automatic interceptors can take a reachable loose forecourt shuttle above the old 1.85m ceiling', () => {
+    for (const index of [0, 1]) {
+        const g = new Game();
+        g.receiver = index;
+        const a = g.actors[index];
+        a.p = { x: 0, y: 0, z: a.side * 1.3 };
+        a.v = { x: 0, y: 0, z: 0 };
+        a.recoverUntil = 0;
+        g.intercept({ x: -a.side * 0.35, y: 2.3, z: a.side * 0.9 }, { x: 0, y: -2, z: a.side }, 0);
+        expect(a.contact).not.toBeNull();
+        expect(a.contact!.y).toBeGreaterThan(1.85);
+        expect(a.contact!.y).toBeLessThanOrEqual(2.1);
+        expect(Math.abs(a.contact!.z)).toBeLessThan(1.8);
+    }
+});

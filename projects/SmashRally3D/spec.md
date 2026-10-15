@@ -16,3 +16,7 @@ P1/P2 excluded until P0 verified.
 - Automatic shallow split step/readiness respects AI observation delay and equal physical limits.
 - AI uses observed geometry and flight tradeoffs for four-corner pressure and defence; no score-dependent success rolls.
 - Verify research mapping, physical flight/recovery regressions and normal browser input rally scenarios; capture new actual screenshots. Keep human/audio/device claims separate.
+
+Forecourt follow-up: a shared interception height policy may take a descending loose shuttle up to 2.1m inside 1.8m of the net. Keep physical movement, recovery, racket collision and net clearance gates; do not enlarge net-finish eligibility or add input controls.
+
+A weak-quality or balance<0.85 net/block uses a safety-height soft profile (vertical candidates 5–8m/s; desired flight 1.05s). This shared deterministic tuning makes a pressured loose reply physically attackable; it is prototype tuning, not a measured coaching threshold.

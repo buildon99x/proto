@@ -21,3 +21,5 @@ Full per-game shot/point/quality/posture/course/base/split/audio records and bun
 ## Remaining acceptance
 
 Human novice comprehension, timing-cue feel, balance/match length and coaching realism still need people playing. Net-finish natural UI coverage, physical PC/mobile FPS, Safari and audible/input latency remain open. This iteration does not promote a new public default or merge main. Existing branch Preview access/security level remains unverified from this environment.
+
+Follow-up: baseline ordinary UI soft/pressure patterns confirmed player net shots but no net finish. The shared forecourt interception ceiling is now 2.1m inside 1.8m of the net, retaining all movement/contact/recovery gates. Weak or poorly balanced net/block replies use a higher safety flight instead of an always-tight return. 35 tests pass, including both actors taking reachable above-1.85m forecourt contacts and an ordinary domain pressure sequence. A normal UI match separately produced a player net finish (46 real contacts, 18 cue-triggered commands, score 4:5); final evidence and remaining checks are being consolidated in verification/net-followup-20261015.
