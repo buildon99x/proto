@@ -1,4 +1,5 @@
 import {
+    BLEND_NORMAL,
     AppBase,
     AppOptions,
     Asset,
@@ -35,11 +36,16 @@ import type { V3 } from './physics';
 import { MOTIONS, skeletonPose, sub } from './motion';
 import type { MotionName, SkeletonPose } from './motion';
 import { synthImpact, offlineImpacts } from './audio';
+import { impactStyle, impactEnvelope } from './impact';
 import './style.css';
 const reviewContact = new URLSearchParams(location.search).get('review-contact');
 let reviewHit: Hit | null = null;
 const displayedPoses = new Map<Actor, SkeletonPose>();
-let impactTechnique = 'clear';
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let impactClock = -1000,
+    holdUntil = 0,
+    queuedSound: Hit | null = null;
+let lastImpactHit: Hit | null = null;
 let pendingContact: Hit | null = null;
 let renderedContact: { time: number; actor: number; shuttle: V3; racket: V3; contact: V3 } | null =
     null;
@@ -57,7 +63,7 @@ type Settings = {
 const settings: Settings = {
     sound: true,
     fx: true,
-    shake: false,
+    shake: true,
     trail: true,
     quality: innerWidth < 900 ? 'MEDIUM' : 'HIGH',
 };
@@ -70,9 +76,6 @@ let audio: AudioContext | null = null,
     panel = '',
     acc = 0,
     lastUI = '',
-    shakeUntil = 0,
-    shakeBase = new Vec3(),
-    impactAt = -10,
     impactPos: V3 = { x: 0, y: 0, z: 0 },
     tutorial = !localStorage.getItem('smash-tutorial'),
     audioEvents = 0,
@@ -110,6 +113,8 @@ const impactLedger: {
     audioTime: number | null;
     fxPerf: number;
     renderQueuedPerf: number | null;
+    presentedPerf: number | null;
+    holdMs: number;
 }[] = [];
 function sound(h: Hit) {
     if (!settings.sound || !audio || audio.state !== 'running') return null;
@@ -122,9 +127,9 @@ if (new URLSearchParams(location.search).has('audio-review'))
 function controls() {
     return `<div class="settings">${[
         ['sound', 'Sound'],
-        ['fx', 'Impact flash'],
+        ['fx', 'Impact response'],
         ['trail', 'Shuttle trail'],
-        ['shake', 'Camera shake'],
+        ['shake', 'Camera response'],
     ]
         .map(
             ([k, t]) =>
@@ -167,20 +172,37 @@ function renderUI() {
             : tech === 'netKill'
               ? 'NET FINISH'
               : tech.toUpperCase();
-    if (t)
+    if (t) {
+        const preview = game.previewStroke(0, target, selected);
+        const attacking =
+            selected === 'default' &&
+            ['smash', 'superSmash', 'netKill'].includes(preview.technique);
+        const broad =
+            rem < game.inputLead(selected) + 0.24 &&
+            rem > Math.max(0.04, game.inputLead(selected) - 0.07);
+        const sweet = rem < game.inputLead(selected) + 0.05;
         t.textContent =
             game.phase === 'SERVE_READY'
                 ? game.server === 0
                     ? 'Click the court to serve'
                     : 'Opponent serving'
                 : game.phase === 'RALLY' && game.receiver === 0
-                  ? rem < game.inputLead(selected) + 0.24 &&
-                    rem > Math.max(0.04, game.inputLead(selected) - 0.07)
-                      ? '● HIT NOW · ' + name(game.previewStroke(0, target, selected).technique)
+                  ? broad
+                      ? attacking && !sweet
+                          ? '◌ SET · ' + name(preview.technique)
+                          : '● HIT NOW · ' + name(preview.technique)
                       : Number.isFinite(rem)
-                        ? '◌ GET READY'
+                        ? attacking
+                            ? 'HIGH BALL · SET YOUR RACKET'
+                            : '◌ GET READY'
                         : 'OUT OF REACH'
                   : '';
+        t.classList.toggle(
+            'attack-ready',
+            attacking && game.phase === 'RALLY' && game.receiver === 0,
+        );
+        t.classList.toggle('strike-now', attacking && broad && sweet);
+    }
     const softLabel = document.querySelector('[data-shot="drop"] em'),
         deepLabel = document.querySelector('[data-shot="clear"] em');
     if (softLabel)
@@ -231,8 +253,12 @@ ui.addEventListener('click', (e) => {
     switch (el.dataset.action) {
         case 'start':
             panel = '';
-            impactAt = -1;
-            shakeUntil = 0;
+
+            impactClock = -1000;
+            holdUntil = 0;
+            queuedSound = null;
+            lastImpactHit = null;
+
             impactLedger.length = 0;
             audioEvents = 0;
             pendingContact = null;
@@ -721,11 +747,24 @@ async function boot() {
         ),
         ring = shape('aim ring', 'torus', [0, 0.07, 5.5], [0.5, 0.5, 0.5], '#ffd479'),
         timing = shape('timing ring', 'torus', [0, 0.07, -3], [0.9, 0.9, 0.9], '#ffffff'),
-        impact = shape('impact', 'sphere', [0, 0, 0], [0.1, 0.1, 0.1], '#fff2bd'),
-        trails = Array.from({ length: 9 }, (_, i) =>
-            shape('trail', 'sphere', [0, 0, 0], [0.05 + 0.05 * (1 - i / 9), 0.05, 0.05], '#dffeff'),
+        impact = shape('impact', 'torus', [0, 0, 0], [0.1, 0.1, 0.1], '#ffe7ad'),
+        trails = Array.from({ length: 9 }, () =>
+            shape('trail', 'cylinder', [0, 0, 0], [0.02, 0.1, 0.02], '#dffeff'),
         );
-    const history: V3[] = [];
+    const history: { p: V3; time: number }[] = [];
+    const impactMaterial = mat('#ffe7ad').clone();
+    impactMaterial.useLighting = false;
+    impactMaterial.emissive = new Color(1, 0.8, 0.42);
+    impactMaterial.blendType = BLEND_NORMAL;
+    impactMaterial.depthWrite = false;
+    impactMaterial.update();
+    for (const mesh of impact.render!.meshInstances) mesh.material = impactMaterial;
+    const neutralTrail = mat('#dffeff');
+    const attackTrail = mat('#ffe0a0').clone();
+    attackTrail.useLighting = false;
+    attackTrail.emissive = new Color(0.85, 0.52, 0.16);
+    attackTrail.update();
+
     game.onMotionTick = (index, dt) => tickMotion(index === 0 ? player : opponent, dt);
     game.onHit = (h) => {
         if (
@@ -735,33 +774,32 @@ async function boot() {
             (h.shot === reviewContact || h.technique === reviewContact)
         ) {
             reviewHit = h;
-            shakeUntil = 0;
+
             game.paused = true;
             camera.setPosition(game.actors[0].p.x + 1.8, 2.4, game.actors[0].p.z - 4.2);
             camera.camera!.fov = 48;
             camera.lookAt(game.actors[0].p.x, 1.5, game.actors[0].p.z);
         }
-        impactTechnique = h.technique;
+
         pendingContact = h;
-        const impactPerf = performance.now(),
-            scheduled = sound(h);
-        impactAt = game.time;
+        const impactPerf = performance.now();
+        history.length = 0;
+        history.push({ p: { ...h.p }, time: game.time });
+
         impactPos = { ...h.p };
         impactLedger.push({
             shot: h.shot,
             physicsTime: h.time,
             source: h.contact.source,
             impactPerf,
-            audioPerf: scheduled?.perf ?? null,
-            audioTime: scheduled?.scheduledAt ?? null,
+            audioPerf: null,
+            audioTime: null,
             fxPerf: performance.now(),
             renderQueuedPerf: null,
+            presentedPerf: null,
+            holdMs: impactStyle(h.shot, h.quality, reducedMotion || !settings.fx).holdMs,
         });
         if (impactLedger.length > 256) impactLedger.shift();
-        if (!reviewHit && settings.shake && ['smash', 'superSmash'].includes(h.shot)) {
-            shakeBase.copy(camera.getPosition());
-            shakeUntil = game.time + 0.06;
-        }
     };
     window.addEventListener('resize', resize);
     canvas.addEventListener('webglcontextlost', (e) => {
@@ -778,12 +816,17 @@ async function boot() {
         // simulation instead of consuming a whole preparation between pointer tasks.
         // This applies to every frame, not just an undecided/held touch gesture.
         const maxSteps = 4;
-        acc = Math.min(acc + dt, CFG.dt * maxSteps);
+        const holding = performance.now() < holdUntil;
+        acc = holding ? 0 : Math.min(acc + dt, CFG.dt * maxSteps);
         let steps = 0;
         while (acc >= CFG.dt && steps < maxSteps) {
             game.step();
             acc -= CFG.dt;
             steps++;
+            if (pendingContact) {
+                acc = 0;
+                break;
+            }
         }
         frames++;
         frameTime += dt;
@@ -796,6 +839,19 @@ async function boot() {
         // Physics keeps its fixed clock; no collision or outcome is invented by presentation.
         const displayHit = pendingContact;
         pendingContact = null;
+        if (displayHit) {
+            lastImpactHit = displayHit;
+            impactClock = performance.now();
+            const style = impactStyle(
+                displayHit.shot,
+                displayHit.quality,
+                reducedMotion || !settings.fx,
+            );
+            holdUntil = impactClock + style.holdMs;
+            queuedSound = displayHit;
+            const event = [...impactLedger].reverse().find(e => e.physicsTime === displayHit.time);
+            if (event) event.fxPerf = impactClock;
+        }
         animate(player, displayHit?.actor === 0 ? displayHit.renderPose : null);
         animate(opponent, displayHit?.actor === 1 ? displayHit.renderPose : null);
         const displayShuttle = reviewHit?.p ?? displayHit?.p ?? game.p;
@@ -890,29 +946,68 @@ async function boot() {
                 ? 0.9
                 : 1.4;
         timing.setLocalScale(scale, scale, scale);
-        const age = game.time - impactAt;
-        impact.enabled = settings.fx && age >= 0 && age < 0.12;
+        const style = impactStyle(
+            lastImpactHit?.shot ?? 'clear',
+            lastImpactHit?.quality ?? 'good',
+            reducedMotion || !settings.fx,
+        );
+        const impactAge = performance.now() - impactClock;
+        const response = impactEnvelope(
+            style,
+            impactAge,
+            lastImpactHit?.velocity ?? { x: 0, y: 0, z: 1 },
+        );
+        impact.enabled = settings.fx && response.visible && !!lastImpactHit;
         impact.setPosition(impactPos.x, impactPos.y, impactPos.z);
-        const soft = ['net', 'block'].includes(impactTechnique),
-            burst = (soft ? 0.06 : 0.12) + age * (soft ? 1 : 2);
-        impact.setLocalScale(burst, burst, burst);
-        if (!game.paused && game.phase === 'RALLY') {
-            history.unshift({ ...game.p });
-            if (history.length > 27) history.pop();
-        } else history.length = 0;
-        trails.forEach((e, i) => {
-            e.enabled = settings.trail && settings.quality !== 'LOW' && !!history[i * 3];
-            if (history[i * 3]) e.setPosition(history[i * 3].x, history[i * 3].y, history[i * 3].z);
-        });
-        if (game.time < shakeUntil)
-            camera.setLocalPosition(
-                shakeBase.x + Math.sin(game.time * 400) * 0.025,
-                shakeBase.y,
-                shakeBase.z,
+        const size = response.radius / 0.45;
+        impact.setLocalScale(size, size, size);
+        impactMaterial.opacity = response.opacity;
+        impactMaterial.update();
+        if (lastImpactHit) {
+            direction.set(
+                lastImpactHit.renderPose.racket.normal.x,
+                lastImpactHit.renderPose.racket.normal.y,
+                lastImpactHit.renderPose.racket.normal.z,
             );
-        else if (shakeUntil) {
-            shakeUntil = 0;
-            resize();
+            rotation.setFromDirections(Vec3.UP, direction);
+            impact.setRotation(rotation);
+        }
+        if (!game.paused && game.phase === 'RALLY') {
+            if (!history.length || game.time > history[0].time)
+                history.unshift({ p: { ...game.p }, time: game.time });
+            while (
+                history.length > 12 ||
+                (history.length && game.time - history.at(-1)!.time > 0.16)
+            )
+                history.pop();
+        } else if (!reviewHit) history.length = 0;
+        trails.forEach((e, i) => {
+            const a = history[i],
+                b = history[i + 1];
+            e.enabled =
+                settings.trail && !!a && !!b && (style.attack || settings.quality !== 'LOW');
+            if (!a || !b) return;
+            const dx = a.p.x - b.p.x,
+                dy = a.p.y - b.p.y,
+                dz = a.p.z - b.p.z,
+                length = Math.hypot(dx, dy, dz);
+            e.enabled = e.enabled && length > 0.005;
+            e.setPosition((a.p.x + b.p.x) / 2, (a.p.y + b.p.y) / 2, (a.p.z + b.p.z) / 2);
+            const width = (style.attack ? 0.05 : 0.025) * (1 - i / 10);
+            e.setLocalScale(width, length, width);
+            direction.set(dx, dy, dz).normalize();
+            rotation.setFromDirections(Vec3.UP, direction);
+            e.setRotation(rotation);
+            for (const mesh of e.render!.meshInstances)
+                mesh.material = style.attack ? attackTrail : neutralTrail;
+        });
+        if (settings.fx && settings.shake && !reducedMotion && lastImpactHit?.actor === 0 && response.visible) {
+            const p = camera.getPosition();
+            camera.setPosition(
+                p.x + response.recoil.x,
+                p.y + response.recoil.y,
+                p.z + response.recoil.z,
+            );
         }
         for (const event of impactLedger)
             if (event.renderQueuedPerf === null) event.renderQueuedPerf = performance.now();
@@ -929,6 +1024,18 @@ async function boot() {
             badge.textContent = 'EVENT-PAUSED CONTACT INSPECTION — NOT NORMAL PLAY QA';
         }
     });
+    app.on('frameend', () => {
+        if (!queuedSound) return;
+        const h = queuedSound;
+        queuedSound = null;
+        const event = impactLedger.find((e) => e.physicsTime === h.time);
+        const scheduled = sound(h);
+        if (event) {
+            event.presentedPerf = performance.now();
+            event.audioPerf = scheduled?.perf ?? null;
+            event.audioTime = scheduled?.scheduledAt ?? null;
+        }
+    });
     Object.defineProperty(window, 'smashDiagnostics', {
         value: () => ({
             ...game.snapshot(),
@@ -939,6 +1046,17 @@ async function boot() {
                 .clone(),
             renderedContact,
             impactVisible: impact.enabled,
+            impactResponse: {
+                holding: performance.now() < holdUntil,
+                holdUntil,
+                ageMs: performance.now() - impactClock,
+                style: impactStyle(
+                    lastImpactHit?.shot ?? 'clear',
+                    lastImpactHit?.quality ?? 'good',
+                    reducedMotion || !settings.fx,
+                ),
+                trailSegments: trails.filter((e) => e.enabled).length,
+            },
             audioState: audio?.state ?? 'locked',
             audioEvents,
             audioLedger: impactLedger.map((e) => ({ ...e })),

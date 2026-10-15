@@ -19,7 +19,7 @@ const b = await p.launch({
 });
 try {
   const page = await b.newPage();
-  await page.goto("http://127.0.0.1:5173/?audio-review");
+  await page.goto((process.env.SMASH_AUDIO_URL || "http://127.0.0.1:5173") + "/?audio-review");
   await page.waitForFunction(
     () => typeof window.smashAudioReview === "function",
   );

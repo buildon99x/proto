@@ -8,6 +8,7 @@ export async function run({
   patterns = ["centre-soft", "wide-soft", "clear-soft"],
   reactionMs = 0,
   settledLimit,
+  selectedIntent,
 }) {
   await page.waitForFunction(
     () => typeof window.smashDiagnostics === "function",
@@ -27,6 +28,7 @@ export async function run({
       }
       await page.select("#difficulty", difficulty);
       await page.click('[data-action="start"]');
+      if(selectedIntent)await page.click(`[data-shot="${selectedIntent}"]`);
       let previous = false,
         issued = 0,
         lastCount = 0,

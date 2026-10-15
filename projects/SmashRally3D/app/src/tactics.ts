@@ -110,7 +110,10 @@ export function solveStroke(c: StrokeContext, s: Stroke, target = strokeTarget(c
         });
     }
     if (s.technique === 'smash')
-        return solveProfile(c.contact, target, 'smash', { cap: 34 * (0.82 + 0.18 * s.balance) });
+        return solveProfile(c.contact, target, 'smash', {
+            cap: (c.quality === 'perfect' ? 38 : 34) * (0.82 + 0.18 * s.balance),
+            vertical: c.quality === 'perfect' ? [-7, -6, -5, -4, -3, -2, -1] : [-5, -4, -3, -2, -1],
+        });
     return solve(c.contact, target, s.shot);
 }
 export function recoveryBase(

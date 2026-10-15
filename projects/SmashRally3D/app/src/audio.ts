@@ -8,6 +8,60 @@ export function synthImpact(
     when = ctx.currentTime,
     technique: Technique = shot,
 ) {
+    if (shot === 'smash' || shot === 'superSmash') {
+        // Short cork/string crack plus damped string modes; no bass explosion,
+        // long pitch dive or unrelated cinematic layer.
+        const power =
+            (shot === 'superSmash' ? 1 : 0.86) * (q === 'perfect' ? 1 : q === 'good' ? 0.88 : 0.72);
+        const duration = 0.085,
+            buffer = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * duration), ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        let seed = 0x3456789;
+        for (let i = 0; i < data.length; i++) {
+            seed ^= seed << 13;
+            seed ^= seed >>> 17;
+            seed ^= seed << 5;
+            const t = i / ctx.sampleRate;
+            data[i] =
+                (((seed >>> 0) / 0xffffffff) * 2 - 1) *
+                (Math.exp(-t / 0.0035) * 0.8 + Math.exp(-t / 0.018) * 0.2);
+        }
+        const noise = ctx.createBufferSource(),
+            filter = ctx.createBiquadFilter(),
+            gain = ctx.createGain();
+        noise.buffer = buffer;
+        filter.type = 'highpass';
+        filter.frequency.value = 2300;
+        gain.gain.setValueAtTime(power * 0.56, when);
+        gain.gain.exponentialRampToValueAtTime(0.001, when + 0.06);
+        noise.connect(filter).connect(gain).connect(ctx.destination);
+        noise.start(when);
+        noise.onended = () => {
+            noise.disconnect();
+            filter.disconnect();
+            gain.disconnect();
+        };
+        for (const [frequency, level, decay] of [
+            [1550, 0.16, 0.026],
+            [2670, 0.07, 0.018],
+            [4210, 0.035, 0.011],
+        ]) {
+            const string = ctx.createOscillator(),
+                body = ctx.createGain();
+            string.frequency.setValueAtTime(frequency * (shot === 'superSmash' ? 1.05 : 1), when);
+            string.frequency.exponentialRampToValueAtTime(frequency * 0.94, when + decay);
+            body.gain.setValueAtTime(power * level, when);
+            body.gain.exponentialRampToValueAtTime(0.0001, when + decay);
+            string.connect(body).connect(ctx.destination);
+            string.start(when);
+            string.stop(when + decay + 0.004);
+            string.onended = () => {
+                string.disconnect();
+                body.disconnect();
+            };
+        }
+        return { scheduledAt: when, shot, technique, power, duration };
+    }
     const power =
             {
                 clear: 0.5,
