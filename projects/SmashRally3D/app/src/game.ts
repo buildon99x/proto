@@ -31,6 +31,7 @@ export type Command = {
     issuedAt: number;
     pointerType: string;
     touchReservation?: boolean;
+    gestureId?: number;
 };
 export type Actor = {
     p: V3;
@@ -329,14 +330,15 @@ export class Game {
         const a = this.actors[0];
         if (a.locked) {
             // A swipe classifies the same reserved gesture, not a second independent stroke.
-            // Only before the physical contact window; keep the original swing clock.
+            // Freeze classification at the first physical hit-frame/attempt, not an earlier
+            // forecast margin. Keep the original swing clock and run real collision checks.
             if (
                 cmd.pointerType === 'touch' &&
                 a.command?.touchReservation &&
                 cmd.issuedAt === a.command.issuedAt &&
+                cmd.gestureId === a.command.gestureId &&
                 !cmd.touchReservation &&
-                !a.frameEmitted &&
-                this.time < this.contactAt - 0.045
+                !a.frameEmitted
             ) {
                 const q = quality(cmd.issuedAt - (this.contactAt - this.inputLead(cmd.shotIntent)));
                 if (q !== 'miss') {
@@ -393,10 +395,21 @@ export class Game {
         if (['net', 'block'].includes(a.technique)) a.motion = 'Drop';
         a.swingMotion = a.motion;
     }
-    cancelTouchCommand(issuedAt: number) {
+    cancelTouchCommand(issuedAt: number, gestureId?: number) {
         const a = this.actors[0];
-        if (!a.locked && a.command?.pointerType === 'touch' && a.command.issuedAt === issuedAt)
+        if (
+            a.command?.pointerType === 'touch' &&
+            a.command.issuedAt === issuedAt &&
+            a.command.gestureId === gestureId &&
+            (!a.locked || !a.frameEmitted)
+        ) {
             a.command = null;
+            if (a.locked) {
+                a.locked = false;
+                a.armed = false;
+                a.motion = 'Ready';
+            }
+        }
     }
     serve(cmd?: Command) {
         const a = this.actors[this.server];

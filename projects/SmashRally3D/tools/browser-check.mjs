@@ -9,7 +9,7 @@ const require = createRequire(path.resolve(".playtest/package.json")),
 const root = path.resolve(
     process.env.SMASH_DIST || "projects/SmashRally3D/app/dist",
   ),
-  out = path.resolve("projects/SmashRally3D/assets/screenshots/shots");
+  out = path.resolve(process.env.SMASH_EVIDENCE_DIR || "projects/SmashRally3D/assets/screenshots/shots");
 await mkdir(out, { recursive: true });
 const server = http
   .createServer(async (req, res) => {

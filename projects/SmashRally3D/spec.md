@@ -29,3 +29,10 @@ A weak-quality or balance<0.85 net/block uses a safety-height soft profile (vert
 - Direction-control changes remain a reviewed recommendation in this iteration; do not add required gestures or combine horizontal aim with existing vertical shot swipes without evidence.
 
 Implemented prototype tuning: ground locomotion resumes 0.2s after high contact, 0.3s after Super Smash or0.1s after a low contact; the next swing still waits for the original full recovery. The same motor and forecast use these times, known-base recovery during observation delay, and split locks. Low-contact hip crouch is bounded to0.32m with existing finite arm segments; planned contacts stop at0.8m, above the unchanged0.75m collision floor. Actual horizontal velocity is capped to the existing5.8m/s limit after per-axis acceleration, eliminating diagonal transient overshoot. These are game-tuning values, not measured human biomechanics.
+
+
+## Mobile input follow-up
+- Process the earliest available pointer movement, with pointermove fallback; keep start aim/time and swing clock. Bound per-render catch-up to four120Hz steps globally; below30fps simulation may slow, preserving input opportunities without changing physical step size or applying a gesture-specific pause.
+- Ignore secondary contacts; cancellation belongs only to the owning pointer.
+- Freeze classification at the first physical hit-frame/attempt, even if that attempt misses; never rewrite an existing contact. Keep original aim/time/swing clock, and retain normal physical collision checks. No duplicate shot on release or stale gesture replay.
+- Compare native MEDIUM input and actual collision results, with explicit before-contact and after-contact boundary diagnostics.

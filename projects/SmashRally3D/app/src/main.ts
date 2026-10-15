@@ -289,6 +289,7 @@ function issue(
     type: string,
     issuedAt = game.time,
     touchReservation = false,
+    gestureId?: number,
 ) {
     unlock();
     const cmd = {
@@ -297,6 +298,7 @@ function issue(
         issuedAt,
         pointerType: type,
         touchReservation,
+        gestureId,
     };
     game.command(cmd);
     lastInput = {
@@ -544,18 +546,20 @@ function aim(x: number, y: number): V3 {
         z: clamp(n.z + (f.z - n.z) * t, 0.8, 6.2),
     };
 }
+let nextGestureId = 0;
 let gesture: {
     x: number;
     y: number;
     target: V3;
     sent: boolean;
-    provisional: boolean;
+    gestureId: number;
     id: number;
     issuedAt: number;
 } | null = null;
 canvas.addEventListener('contextmenu', (e) => e.preventDefault());
 canvas.addEventListener('pointerdown', (e) => {
     if (game.paused || panel || ['MENU', 'RESULTS'].includes(game.phase)) return;
+    if (e.pointerType !== 'mouse' && (!e.isPrimary || gesture)) return;
     target = aim(e.clientX, e.clientY);
     unlock();
     canvas.setPointerCapture(e.pointerId);
@@ -567,14 +571,14 @@ canvas.addEventListener('pointerdown', (e) => {
             y: e.clientY,
             target: { ...target },
             sent: false,
-            provisional: true,
+            gestureId: ++nextGestureId,
             id: e.pointerId,
             issuedAt: game.time,
         };
-        issue(selected, gesture.target, 'touch', gesture.issuedAt, true);
+        issue(selected, gesture.target, 'touch', gesture.issuedAt, true, gesture.gestureId);
     }
 });
-canvas.addEventListener('pointermove', (e) => {
+function movePointer(e: PointerEvent) {
     if (e.pointerType === 'mouse') target = aim(e.clientX, e.clientY);
     if (
         gesture &&
@@ -582,19 +586,29 @@ canvas.addEventListener('pointermove', (e) => {
         !gesture.sent &&
         Math.abs(e.clientY - gesture.y) >= 22
     ) {
-        issue(e.clientY < gesture.y ? 'clear' : 'drop', gesture.target, 'touch', gesture.issuedAt);
+        issue(
+            e.clientY < gesture.y ? 'clear' : 'drop',
+            gesture.target,
+            'touch',
+            gesture.issuedAt,
+            false,
+            gesture.gestureId,
+        );
         gesture.sent = true;
     }
-});
+}
+// Raw movement arrives before frame-aligned/coalesced pointermove on supporting browsers.
+// Both paths classify the same reservation once; pointermove remains the fallback.
+canvas.addEventListener('pointerrawupdate', (e) => movePointer(e as PointerEvent));
+canvas.addEventListener('pointermove', movePointer);
 canvas.addEventListener('pointerup', (e) => {
     if (gesture && gesture.id === e.pointerId) {
-        if (!gesture.sent && !gesture.provisional)
-            issue(selected, gesture.target, 'touch', gesture.issuedAt, true);
         gesture = null;
     }
 });
-canvas.addEventListener('pointercancel', () => {
-    if (gesture?.provisional) game.cancelTouchCommand(gesture.issuedAt);
+canvas.addEventListener('pointercancel', (e) => {
+    if (!gesture || gesture.id !== e.pointerId) return;
+    game.cancelTouchCommand(gesture.issuedAt, gesture.gestureId);
     gesture = null;
 });
 function resize() {
@@ -732,9 +746,13 @@ async function boot() {
     resize();
     app.on('update', (dt: number) => {
         if (graphicsLost) return;
-        acc = Math.min(acc + Math.min(dt, 0.1), 0.1);
+        // Bound catch-up to the mobile 30fps budget. At lower render rates, slow
+        // simulation instead of consuming a whole preparation between pointer tasks.
+        // This applies to every frame, not just an undecided/held touch gesture.
+        const maxSteps = 4;
+        acc = Math.min(acc + dt, CFG.dt * maxSteps);
         let steps = 0;
-        while (acc >= CFG.dt && steps < 12) {
+        while (acc >= CFG.dt && steps < maxSteps) {
             game.step();
             acc -= CFG.dt;
             steps++;
