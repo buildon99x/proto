@@ -26,6 +26,26 @@ export function twoBone(start: V3, end: V3, l1: number, l2: number, pole: V3) {
         clamped: Math.abs(length - d3(start, end)) > 0.003,
     };
 }
+// Rodrigues rotation keeps the shaft and string plane perpendicular throughout
+// forearm pronation and wrist release, rather than sliding an upright racket.
+export function rotate(v: V3, axis: V3, radians: number): V3 {
+    const n = unit(axis),
+        c = Math.cos(radians),
+        s = Math.sin(radians),
+        cross = { x: n.y * v.z - n.z * v.y, y: n.z * v.x - n.x * v.z, z: n.x * v.y - n.y * v.x };
+    return add(add(mul(v, c), mul(cross, s)), mul(n, dot(n, v) * (1 - c)));
+}
+const smooth = (t: number) => {
+    const u = clamp(t, 0, 1);
+    return u * u * (3 - 2 * u);
+};
+export const SWING_STYLE = {
+    Serve: { wrist: -0.85, pronation: -0.2, arc: -0.18, follow: 0.4 },
+    BasicHit: { wrist: -0.65, pronation: -0.65, arc: 0.14, follow: 0.65 },
+    Drop: { wrist: -0.4, pronation: -0.25, arc: 0.1, follow: 0.24 },
+    Clear: { wrist: -1.3, pronation: -0.8, arc: 0.28, follow: -0.5 },
+    Smash: { wrist: -1.5, pronation: -1.05, arc: 0.34, follow: 1.1 },
+};
 export type Foot = {
     p: V3;
     from: V3;
@@ -120,6 +140,7 @@ export type RacketPose = {
     reachable: boolean;
     phase: number;
     receiverSide: number;
+    strokePhase: 'ready' | 'prepare' | 'accelerate' | 'contact' | 'follow' | 'return';
 };
 export type SkeletonPose = {
     joints: Record<string, V3>;
@@ -133,14 +154,17 @@ export type SkeletonPose = {
 export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
     const contact = a.swingContact ?? a.contact,
         goal = a.swingTarget ?? a.strikeTarget;
-    const motion = (a.motion === 'Miss' ? 'Recover' : a.motion) as MotionName,
+    const recovering = a.motion === 'Recover' || a.motion === 'Miss';
+    const motion = (recovering ? (a.swingMotion ?? 'BasicHit') : a.motion) as MotionName,
         def = MOTIONS[motion] ?? MOTIONS.Ready,
         elapsed = time - a.swingAt,
-        swing = elapsed >= 0 && elapsed < def.duration && def.lead > 0;
+        swing =
+            elapsed >= 0 &&
+            elapsed < Math.min(0.7, a.hitFrame + def.recover * 0.85 + 0.14) &&
+            def.lead > 0;
     const t = swing ? clamp(elapsed / Math.max(a.hitFrame, 0.008), 0, 1) : 0,
         follow = swing ? clamp((elapsed - a.hitFrame) / Math.max(def.recover, 0.18), 0, 1) : 0;
-    const previous = MOTIONS[(a.swingMotion ?? 'BasicHit') as MotionName] ?? MOTIONS.BasicHit,
-        recoverT = clamp((elapsed - a.hitFrame - previous.recover * 0.85) / 0.25, 0, 1);
+    const settle = swing ? smooth((elapsed - a.hitFrame - def.recover * 0.85) / 0.14) : 0;
     const high = (motion === 'Clear' || motion === 'Smash') && a.technique !== 'lift',
         speed = Math.hypot(a.v.x, a.v.z),
         overhead = contact ? clamp((contact.y - 2.1) / 0.6, 0, 1) : 0;
@@ -172,26 +196,20 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
     const hip = { x: a.p.x, y: height, z: a.p.z },
         forward = { x: 0, y: 0, z: -a.side },
         lean =
-            ((motion === 'Recover'
-                ? previous.bend + (0.1 - previous.bend) * recoverT
-                : 0.1 + (def.bend - 0.1) * Math.min(1, Math.max(0, elapsed / 0.06))) +
-                (speed > 2 ? 0.08 : 0)) *
-            (swing ? 1 : 1),
-        twist =
-            motion === 'Recover'
-                ? previous.coil * 0.75 * (1 - recoverT)
-                : swing
-                  ? -def.coil *
-                        (a.attackBoost ? 1.2 : 1) *
-                        Math.min(1, t / 0.3) *
-                        (1 -
-                            clamp((t - 0.3) / 0.7, 0, 1) ** 2 *
-                                (3 - 2 * clamp((t - 0.3) / 0.7, 0, 1))) +
-                    def.coil * 0.75 * follow
-                  : 0;
+            (0.1 + (def.bend - 0.1) * clamp(elapsed / 0.06, 0, 1) + (speed > 2 ? 0.08 : 0)) *
+                (1 - settle) +
+            0.1 * settle,
+        twist = swing
+            ? -def.coil *
+                  (a.attackBoost ? 1.2 : 1) *
+                  Math.min(1, t / 0.3) *
+                  (1 - smooth((t - 0.3) / 0.7)) +
+              def.coil * 0.75 * follow
+            : 0;
+    const bodyTwist = twist * (1 - settle);
     const spine = add(hip, { x: 0, y: 0.28, z: forward.z * lean * 0.22 }),
-        chest = add(spine, { x: Math.sin(twist) * 0.05, y: 0.22, z: forward.z * lean * 0.1 });
-    const right = unit({ x: -a.side * Math.cos(twist), y: 0, z: Math.sin(twist) }),
+        chest = add(spine, { x: Math.sin(bodyTwist) * 0.05, y: 0.22, z: forward.z * lean * 0.1 });
+    const right = unit({ x: -a.side * Math.cos(bodyTwist), y: 0, z: Math.sin(bodyTwist) }),
         neck = add(chest, { x: 0, y: 0.16, z: 0 }),
         head = add(neck, { x: 0, y: 0.13, z: 0 });
     const shR = add(chest, add(mul(right, 0.27), { x: 0, y: 0.02, z: 0 })),
@@ -200,7 +218,7 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
         goal && contact
             ? unit({ x: goal.x - contact.x, y: 0, z: goal.z - contact.z })
             : { x: 0, y: 0, z: -a.side };
-    const normal = unit({
+    const contactNormal = unit({
             x: aim.x,
             y:
                 motion === 'Clear'
@@ -212,7 +230,19 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
                         : 0,
             z: aim.z,
         }),
-        shaft = unit(sub({ x: 0, y: 1, z: 0 }, mul(normal, normal.y)));
+        contactShaft = unit(sub({ x: 0, y: 1, z: 0 }, mul(contactNormal, contactNormal.y)));
+    const style = SWING_STYLE[motion as keyof typeof SWING_STYLE] ?? SWING_STYLE.BasicHit;
+    // Finish release before the unchanged physical collision window opens.
+    const releaseEnd = Math.max(0.31, 1 - 0.035 / Math.max(a.hitFrame, 0.008));
+    const load = swing ? smooth(t / 0.3) * (1 - smooth((t - 0.3) / (releaseEnd - 0.3))) : 0,
+        release = swing
+            ? smooth((elapsed - a.hitFrame - 0.035) / Math.max(0.08, def.recover * 0.6))
+            : 0,
+        wrist = (style.wrist * load + style.follow * release) * (1 - settle),
+        pronation = (style.pronation * load - style.pronation * 0.5 * release) * (1 - settle);
+    const shaft = wrist ? unit(rotate(contactShaft, right, wrist)) : contactShaft,
+        flexedNormal = wrist ? rotate(contactNormal, right, wrist) : contactNormal,
+        normal = pronation ? unit(rotate(flexedNormal, shaft, pronation)) : flexedNormal;
     let desired = add(shR, add(mul(right, 0.25), add(mul(forward, 0.3), { x: 0, y: -0.12, z: 0 })));
     if (swing && contact) {
         const wind = add(
@@ -238,18 +268,13 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
         } else if (t < 1) {
             const u = (t - 0.3) / 0.7;
             desired = lerp(wind, contact, u * u * (3 - 2 * u));
-        } else desired = lerp(contact, through, follow);
-    }
-    if (motion === 'Recover' && contact) {
-        const through = add(
-            contact,
-            add(mul(right, -0.55), {
+            // An arcing shoulder path settles onto the original contact approach.
+            desired = add(desired, {
                 x: 0,
-                y: a.swingMotion === 'Clear' ? 0.28 : a.swingMotion === 'Smash' ? -0.8 : -0.14,
-                z: forward.z * 0.35,
-            }),
-        );
-        desired = lerp(through, desired, recoverT * recoverT * (3 - 2 * recoverT));
+                y: style.arc * Math.sin(Math.PI * u) * (1 - smooth((t - 0.3) / (releaseEnd - 0.3))),
+                z: 0,
+            });
+        } else desired = lerp(lerp(contact, through, follow), ready, settle);
     }
     const desiredHand = sub(desired, mul(shaft, 0.46)),
         arm = twoBone(
@@ -261,17 +286,12 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
         ),
         hand = arm.end,
         center = add(hand, mul(shaft, 0.46));
-    const balance =
-        high && swing
-            ? Math.min(1, Math.max(0, elapsed / 0.08)) * (1 - follow)
-            : motion === 'Recover' && ['Clear', 'Smash'].includes(a.swingMotion ?? '')
-              ? 0.15 * (1 - recoverT)
-              : 0;
+    const balance = high && swing ? Math.min(1, Math.max(0, elapsed / 0.08)) * (1 - follow) : 0;
     let offHand = add(
         shL,
         add(mul(right, -0.15), {
             x: 0,
-            y: -0.35 + 0.57 * balance,
+            y: -0.35 + 0.57 * balance * (1 - settle),
             z: forward.z * (0.13 + 0.19 * balance),
         }),
     );
@@ -312,6 +332,17 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
             reachable: d3(center, desired) < 0.12,
             phase: elapsed,
             receiverSide: a.side,
+            strokePhase: !swing
+                ? 'ready'
+                : settle > 0
+                  ? 'return'
+                  : Math.abs(elapsed - a.hitFrame) <= 0.035
+                    ? 'contact'
+                    : elapsed > a.hitFrame
+                      ? 'follow'
+                      : t < 0.3
+                        ? 'prepare'
+                        : 'accelerate',
         },
         hipHeight: height,
         hop,

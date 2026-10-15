@@ -10,3 +10,5 @@ Follow-up: make above-tape forecourt opportunities reachable through automatic i
 Finish mobile input reliability: immediate touch-down reservation and prompt vertical classification must coexist without rewriting physical contacts or duplicate hits; preserve existing direction controls.
 
 Remove stands and spectators; enlarge the playable court/athletes for desktop and portrait/landscape touch while retaining both court boundaries, every actor and high-clear flight. Preserve current inputs/physics and compare actual rallies/screenshots.
+
+Reference/swing iteration: use a low rear third-person composition, blue court and purple runoff, small upper-left score, original athletes and no spectators. Preserve simple input and fair DROP defence. Implement shot-specific shoulder/elbow/wrist preparation, acceleration, physical contact, follow-through and return. Inspect PC and both mobile orientations, actual cue-driven rallies, aim and rotation; deliver before/after and swing sequences. The exact Library reference is identified but its download currently fails; parent-provided visual measurements remain the available grounding.

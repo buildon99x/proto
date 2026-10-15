@@ -1,6 +1,6 @@
 import { it, expect } from 'vitest';
 import { Game, profiles } from '../src/game';
-import { makeFeet, skeletonPose, contactCheck, d3, stepFeet } from '../src/motion';
+import { makeFeet, skeletonPose, contactCheck, d3, stepFeet, dot } from '../src/motion';
 const actor = () => ({
     p: { x: 0, y: 0, z: -3 },
     v: { x: 0, y: 0, z: 0 },
@@ -184,5 +184,47 @@ it('plants rendered ankles through full-speed reversals without leg stretching',
         }
         expect(d3(pose.joints.HipR, pose.joints.KneeR)).toBeCloseTo(0.43, 7);
         expect(d3(pose.joints.KneeR, pose.joints.AnkleR)).toBeCloseTo(0.43, 7);
+    }
+});
+
+it('articulates each stroke through load, wrist release, contact, follow and return', () => {
+    for (const [motion, hitFrame, recover] of [
+        ['Serve', 0.16, 0.25],
+        ['BasicHit', 0.12, 0.22],
+        ['Drop', 0.1, 0.18],
+        ['Clear', 0.18, 0.35],
+        ['Smash', 0.16, 0.48],
+    ] as const) {
+        const a = {
+            ...actor(),
+            motion,
+            swingMotion: motion,
+            hitFrame,
+            contact: { x: 0.35, y: motion === 'Clear' || motion === 'Smash' ? 2.65 : 1.4, z: -2.7 },
+        };
+        const phases = new Set<string>();
+        let previous = skeletonPose(a, 0);
+        for (let t = 0; t < 0.72; t += 1 / 1000) {
+            const p = skeletonPose(a, t);
+            phases.add(p.racket.strokePhase);
+            expect(Math.abs(dot(p.racket.normal, p.racket.shaft))).toBeLessThan(1e-8);
+            expect(d3(p.joints.ShoulderR, p.joints.ElbowR)).toBeCloseTo(0.36, 7);
+            expect(d3(p.joints.ElbowR, p.joints.WristR)).toBeCloseTo(0.36, 7);
+            expect(d3(previous.racket.center, p.racket.center)).toBeLessThan(0.06);
+            previous = p;
+        }
+        for (const phase of ['prepare', 'accelerate', 'contact', 'follow', 'return', 'ready'])
+            expect(phases.has(phase), motion + ':' + phase).toBe(true);
+        const load = skeletonPose(a, hitFrame * 0.3).racket,
+            contact = skeletonPose(a, hitFrame).racket;
+        expect(dot(load.shaft, contact.shaft)).toBeLessThan(0.95);
+        expect(d3(contact.center, a.contact)).toBeLessThan(0.12);
+        const boundary = hitFrame + recover * 0.85;
+        expect(
+            d3(
+                skeletonPose(a, boundary - 1e-5).racket.center,
+                skeletonPose({ ...a, motion: 'Recover' }, boundary + 1e-5).racket.center,
+            ),
+        ).toBeLessThan(0.002);
     }
 });

@@ -19,56 +19,75 @@ export function fitCourtCamera(
     top: number,
     bottom: number,
 ): Framing {
-    const portrait = height > width;
-    const pitches = portrait ? [52, 56, 60, 64] : [28, 32, 36, 40, 44, 48];
-    const fov = 44,
+    // A low rear view gives the near athlete/court priority. High flights widen
+    // only the lens; court picking still inverts the current camera exactly.
+    const pitch = (8 * Math.PI) / 180,
+        s = Math.sin(pitch),
+        c = Math.cos(pitch),
+        aspect = width / height,
+        fov = 58,
         tan = Math.tan((fov * Math.PI) / 360),
-        aspect = width / height;
-    // UI bounds use CSS pixels, as do PlayCanvas screen/world conversions.
-    const upper = 1 - (2 * top) / height,
-        lower = 1 - (2 * bottom) / height;
-    const horizontal = 1 - (2 * Math.max(12, width * 0.025)) / width;
-    let best: (Framing & { cost: number }) | null = null;
-    for (const degrees of pitches) {
-        const pitch = (degrees * Math.PI) / 180,
-            s = Math.sin(pitch),
-            c = Math.cos(pitch);
-        const range = (d: number) => {
-            let lo = -Infinity,
-                hi = Infinity,
-                valid = true;
-            for (const p of FRAMING_POINTS) {
-                const depth = d - p.y * s + p.z * c,
-                    up = p.y * c + p.z * s;
-                if (depth <= 1 || Math.abs(p.x) > horizontal * depth * tan * aspect) valid = false;
-                lo = Math.max(lo, up - upper * tan * depth);
-                hi = Math.min(hi, up - lower * tan * depth);
-            }
-            return { lo, hi, valid: valid && lo <= hi };
-        };
-        let lo = 1,
-            hi = 150;
-        for (let n = 0; n < 40; n++) {
-            const mid = (lo + hi) / 2;
-            if (range(mid).valid) hi = mid;
-            else lo = mid;
-        }
-        const distance = hi * 1.01,
-            limits = range(distance),
-            u = (limits.lo + limits.hi) / 2;
-        const target = { x: 0, y: u * c, z: u * s };
-        const candidate = {
-            position: { x: 0, y: target.y + distance * s, z: target.z - distance * c },
-            target,
-            fov,
-            top,
-            bottom,
-            cost: distance / c,
-        };
-        // Favour readable upright players while keeping the full flight hull inside the frame.
-        if (!best || candidate.cost < best.cost) best = candidate;
+        upper = 1 - (2 * top) / height,
+        lower = 1 - (2 * bottom) / height,
+        horizontal = 0.95,
+        netY = height > width ? 0.5 : 0.52;
+    const points = [-3.5, 3.5].flatMap((x) =>
+        [-7.5, 7.5].flatMap((z) => [0, 3.6].map((y) => ({ x, y, z }))),
+    );
+    const offset = (d: number) => 1.524 * c - (1 - 2 * netY) * tan * (d - 1.524 * s);
+    const fits = (d: number) =>
+        points.every((p) => {
+            const depth = d - p.y * s + p.z * c,
+                up = p.y * c + p.z * s - offset(d);
+            return (
+                depth > 1 &&
+                Math.abs(p.x) <= horizontal * depth * tan * aspect &&
+                up <= upper * depth * tan &&
+                up >= lower * depth * tan
+            );
+        });
+    let lo = 8,
+        hi = 150;
+    for (let n = 0; n < 40; n++) {
+        const mid = (lo + hi) / 2;
+        if (fits(mid)) hi = mid;
+        else lo = mid;
     }
-    return best!;
+    const distance = hi * 1.01,
+        u = offset(distance),
+        target = { x: 0, y: u * c, z: u * s };
+    return {
+        position: { x: 0, y: target.y + distance * s, z: target.z - distance * c },
+        target,
+        fov,
+        top,
+        bottom,
+    };
+}
+
+// Pure projection bounds shared by runtime and tests. Include an anticipated
+// shuttle position so lens expansion happens before a fast ascending flight clips.
+export function flightFov(view: Framing, width: number, height: number, points: V3[]): number {
+    const dy = view.target.y - view.position.y,
+        dz = view.target.z - view.position.z,
+        length = Math.hypot(dy, dz),
+        fy = dy / length,
+        fz = dz / length,
+        upper = Math.max(0.1, 1 - (2 * view.top) / height),
+        lower = Math.max(0.1, (2 * view.bottom) / height - 1);
+    let tan = Math.tan((view.fov * Math.PI) / 360);
+    for (const p of points) {
+        const y = p.y - view.position.y,
+            z = p.z - view.position.z,
+            depth = Math.max(0.2, y * fy + z * fz),
+            up = y * fz - z * fy;
+        tan = Math.max(
+            tan,
+            Math.abs(p.x) / (((depth * width) / height) * 0.94),
+            Math.abs(up) / (depth * (up >= 0 ? upper : lower) * 0.94),
+        );
+    }
+    return (Math.atan(tan) * 360) / Math.PI;
 }
 
 export function courtAim(near: V3, far: V3): V3 {

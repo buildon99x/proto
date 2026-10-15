@@ -27,7 +27,7 @@ import {
     DEVICETYPE_WEBGL2,
 } from 'playcanvas';
 import { Game } from './game';
-import { fitCourtCamera, courtAim } from './camera-framing';
+import { fitCourtCamera, flightFov, courtAim } from './camera-framing';
 import type { ContainerResource, AnimTrack } from 'playcanvas';
 import type { Intent, Actor, Hit } from './game';
 import { CFG } from './physics';
@@ -88,6 +88,7 @@ let lastInput: {
     accepted: boolean;
 } | null = null;
 let app: AppBase, camera: Entity;
+let courtView: ReturnType<typeof fitCourtCamera>;
 function unlock() {
     if (!audio) audio = new AudioContext();
     void audio.resume();
@@ -621,9 +622,10 @@ function resize() {
         });
     const portrait = innerHeight > innerWidth;
     // Wide-screen UI lives in the side gutters; portrait keeps top/bottom controls.
-    const top = portrait ? 146 : 12;
+    const top = portrait ? 105 : 12;
     const bottom = innerHeight - (portrait ? 90 : 12);
     const view = fitCourtCamera(innerWidth, innerHeight, top, bottom);
+    courtView = view;
     camera.setPosition(view.position.x, view.position.y, view.position.z);
     camera.camera!.fov = view.fov;
     camera.lookAt(view.target.x, view.target.y, view.target.z);
@@ -644,7 +646,7 @@ async function boot() {
     app.scene.ambientLight = new Color(0.32, 0.36, 0.4);
     camera = new Entity('broadcast camera');
     camera.addComponent('camera', {
-        clearColor: new Color(0.047, 0.075, 0.11),
+        clearColor: new Color(0.12, 0.17, 0.27),
         nearClip: 0.1,
         farClip: 100,
     });
@@ -657,15 +659,22 @@ async function boot() {
     });
     light.setEulerAngles(40, -25, 0);
     app.root.addChild(light);
-    shape('arena floor', 'box', [0, -0.16, 0], [22, 0.2, 27], '#172d42');
-    shape('court surround', 'box', [0, -0.05, 0], [8, 0.12, 16.3], '#227d82');
+    shape('arena floor', 'box', [0, -0.16, 0], [200, 0.2, 200], '#37314d');
+    shape('court surround', 'box', [0, -0.05, 0], [8, 0.12, 16.3], '#75629e');
     await Promise.all(
         ['athlete-gold', 'athlete-violet', 'racket', 'shuttle', 'court'].map(loadModel),
     );
-    model('court');
+    const court = model('court');
+    const courtSurface = court.findByName('court') as Entity;
+    for (const mesh of courtSurface?.render?.meshInstances ?? []) mesh.material = mat('#207bd5');
     const player = makeActor(game.actors[0], '#ffba54'),
         opponent = makeActor(game.actors[1], '#8d9aff'),
         shuttle = model('shuttle');
+    const shuttleMaterial = mat('#ffffff').clone();
+    shuttleMaterial.emissive = new Color(0.85, 0.9, 1);
+    shuttleMaterial.update();
+    for (const node of shuttle.find((n) => !!(n as Entity).render))
+        for (const mesh of (node as Entity).render!.meshInstances) mesh.material = shuttleMaterial;
     const shadow = shape(
             'shuttle shadow',
             'cylinder',
@@ -753,6 +762,30 @@ async function boot() {
         animate(player, displayHit?.actor === 0 ? displayHit.renderPose : null);
         animate(opponent, displayHit?.actor === 1 ? displayHit.renderPose : null);
         const displayShuttle = reviewHit?.p ?? displayHit?.p ?? game.p;
+        if (!reviewHit && courtView) {
+            const lead = 0.18;
+            const anticipated = {
+                x: game.p.x + game.v.x * lead,
+                y: Math.max(game.p.y, game.p.y + game.v.y * lead),
+                z: game.p.z + game.v.z * lead,
+            };
+            const wanted = flightFov(
+                courtView,
+                innerWidth,
+                innerHeight,
+                game.phase === 'RALLY' ? [displayShuttle, anticipated] : [],
+            );
+            // Freeze lens return through the human aiming window. A necessary
+            // outward expansion still wins so an unexpected high ball stays visible.
+            const aiming =
+                game.phase === 'RALLY' && game.receiver === 0 && game.contactAt - game.time < 0.65;
+            camera.camera!.fov = Math.max(
+                wanted,
+                aiming
+                    ? camera.camera!.fov
+                    : camera.camera!.fov + (wanted - camera.camera!.fov) * Math.min(1, dt * 2.5),
+            );
+        }
         shuttle.setPosition(displayShuttle.x, displayShuttle.y, displayShuttle.z);
         if (displayHit)
             renderedContact = {
@@ -836,6 +869,8 @@ async function boot() {
                 motion: r.motion,
                 rigJoints: r.nodes.size,
                 racket: r.racket.getPosition().clone(),
+                racketNormal: r.racket.up.clone(),
+                racketShaft: r.racket.forward.clone().mulScalar(-1),
                 skinPose: displayedPoses.get(r.a) ?? r.a.pose,
                 feet: {
                     left: {

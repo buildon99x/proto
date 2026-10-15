@@ -42,3 +42,10 @@ Implemented prototype tuning: ground locomotion resumes 0.2s after high contact,
 - Fit a static, responsive perspective view to court/runoff, finite actor/racket bounds and conservative high-clear envelope; keep HUD and shot controls clear. No rally zoom/pan or ball-state camera chase.
 - Preserve inverse screen-to-court tap/click aiming after resize/DPR/orientation changes.
 - Record before/after real clear rallies on PC1280×720, landscape844×390 and portrait390×844. Keep all45 regressions, mobile and DROP defence. Save screenshots through official Library when available, otherwise commit original bytes and full remote SHA.
+
+## Reference composition and articulated swing
+- Replace the elevated all-flight overview with a low rear court view. Target tape around 45–59% of the landscape view, a broad blue near court, purple runoff and a substantially larger near athlete. Keep original characters, no spectator/background copying.
+- Keep a fixed camera orientation and smoothly widen the lens for the current high flight and finite court/actor bounds; reset after the rally. This supersedes the prior static high-flight hull fit so a reference-like low view remains useful during ordinary contact. Portrait prioritizes complete actionable court width and controls.
+- The racket orientation must change through preparation and follow-through, with an orthonormal string-plane/shaft frame and finite arm lengths. Preserve the exact existing impact pose/solver/contact gates and input clocks; preparation changes must not invent contacts or alter reach.
+- Measure actual rendering/physical contact agreement, continuous phase transitions and distinct shot trajectories. Separate controlled pose captures from normal UI rally evidence.
+- Hold lens return for the final 0.65s before a human interception; only visibility-required outward expansion can override it. Validate aiming by inverse projection error in pixels (0.1px mouse,1.5px native touch); integer touch dispatch on the foreshortened far court cannot imply a fixed world-distance tolerance.

@@ -494,3 +494,49 @@ ul {
         max-width: 22vw;
     }
 }
+
+/* Compact score stays in the reference's upper-left corner in every orientation. */
+.hud {
+    top: max(12px, env(safe-area-inset-top));
+    left: max(16px, env(safe-area-inset-left));
+    right: max(16px, env(safe-area-inset-right));
+    gap: 12px;
+}
+.hud .brand {
+    display: none;
+}
+.hud .scoreboard {
+    margin: 0 auto 0 0;
+    padding: 6px 12px;
+    gap: 12px;
+    border-radius: 8px;
+}
+.hud .scoreboard b {
+    font-size: 25px;
+}
+.hud .scoreboard > div:not(.versus) {
+    gap: 8px;
+}
+.hud .scoreboard small {
+    font-size: 10px;
+}
+.hud .pause {
+    min-height: 42px;
+    width: 42px;
+}
+#feedback {
+    top: 68px;
+}
+#tutorial {
+    top: 96px;
+}
+@media (orientation: landscape) {
+    #tutorial {
+        max-width: 20vw;
+    }
+}
+@media (orientation: portrait) {
+    #tutorial {
+        top: 96px;
+    }
+}
