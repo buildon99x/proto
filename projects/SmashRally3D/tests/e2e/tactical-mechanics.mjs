@@ -5,6 +5,7 @@ export async function run({
   shot,
   log,
   difficulties = ["EASY", "NORMAL"],
+  maxRallyReturns = Infinity,
 }) {
   await page.waitForFunction(
     () => typeof window.smashDiagnostics === "function",
@@ -37,7 +38,11 @@ export async function run({
         ).screen;
         await page.mouse.click(p.x, p.y);
       }
-      if (cue.includes("HIT NOW") && !previousCue) {
+      if (
+        cue.includes("HIT NOW") &&
+        !previousCue &&
+        d.returns < maxRallyReturns
+      ) {
         const beginner = difficulty === "EASY" && maxReturns < 8,
           intent = beginner
             ? "clear"
@@ -150,6 +155,9 @@ export async function run({
       stanceSamples,
       scores: d.scores,
       issuedByVisibleCue: issued,
+      intentionalYieldAfterReturns: Number.isFinite(maxRallyReturns)
+        ? maxRallyReturns
+        : null,
       maxReturns,
       noviceClearRally: novice,
       points: d.points,
@@ -199,7 +207,10 @@ export async function run({
       matches,
       techniques: [...allTech],
       method:
-        "Only start/serve/visible HIT NOW mouse/Shift/right-click actions. No internal contactAt scheduling, no state injection. EASY begins with simple centre clears until eight returns. Software automation; not human onboarding, hardware audio or device performance.",
+        "Only start/serve/visible HIT NOW mouse/Shift/right-click actions. No internal contactAt scheduling, no state injection. EASY begins with simple centre clears until eight returns. Software automation; not human onboarding, hardware audio or device performance." +
+        (Number.isFinite(maxRallyReturns)
+          ? ` Controller deliberately stops returning after ${maxRallyReturns} exchanges so lifecycle coverage does not rely on AI errors.`
+          : ""),
     }),
   );
 }

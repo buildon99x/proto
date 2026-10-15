@@ -6,7 +6,9 @@ import { createHash } from "node:crypto";
 import { pathToFileURL } from "node:url";
 const require = createRequire(path.resolve(".playtest/package.json")),
   puppeteer = require("puppeteer");
-const root = path.resolve("projects/SmashRally3D/app/dist"),
+const root = path.resolve(
+    process.env.SMASH_DIST || "projects/SmashRally3D/app/dist",
+  ),
   out = path.resolve("projects/SmashRally3D/assets/screenshots/shots");
 await mkdir(out, { recursive: true });
 const server = http

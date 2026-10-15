@@ -29,3 +29,9 @@ Replaced rigid torso-only actors with common weighted skeletons, planted feet an
 - Shared forecourt interception takes reachable descending shuttles up to 2.1m; weak or unbalanced soft replies use a safety-height flight that can be attacked.
 - Existing controls now produce player net and net finish in two complete ordinary UI matches; a traced replay verifies actual landing, opponent movement and one impact callback per physical hit.
 - 35 unit/regression checks, renewed beginner tap rally, and full root build. Evidence and Library delivery fallback are recorded in `verification/net-followup-20261015`.
+
+## 2026-10-15 — repeated DROP defence
+
+- Resume fair known-base footwork after landing while preserving full swing recovery and delayed observation; improve shared low-contact crouch/interception and enforce the existing vector speed cap.
+- Compare nine baseline UI matches with nine after windows and two well-timed pressure probes; preserve useful tight net winners.38 checks, mixed-shot UI and beginner taps pass. MEDIUM swipe timing remains explicitly documented on both base and fixed bundles.
+- Recommend clearer mouse/court-tap course guidance; no new direction gesture or mapping. Evidence and screenshot hashes: `verification/drop-defence-20261015`.
