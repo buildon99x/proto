@@ -43,6 +43,7 @@ const browser = await puppeteer.launch({
   protocolTimeout: 120000,
 });
 const page = await browser.newPage();
+page.setDefaultTimeout(Number(process.env.SMASH_TIMEOUT || 120000));
 const scenario = await import(
   pathToFileURL(
     path.resolve(
@@ -108,6 +109,7 @@ try {
   );
 } catch (e) {
   console.error(String(e));
+  await page.screenshot({ path: path.join(out, "failure.png") }).catch(() => {});
   await writeFile(
     path.join(
       out,

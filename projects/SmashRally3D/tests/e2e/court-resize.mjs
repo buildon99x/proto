@@ -20,11 +20,15 @@ export async function run({page,sleep,shot,log}) {
     await page.waitForFunction(()=>window.smashDiagnostics().receiver===0&&document.querySelector('#timing')?.textContent.includes('HIT NOW'),{timeout:60000});
     d=await page.evaluate(()=>window.smashDiagnostics());const before=d.shots.filter(h=>h.actor===0).length;p=d.projectedTargets.find(t=>t.world.x===x&&t.world.z===5.8).screen;
     await page.touchscreen.tap(p.x,p.y);const input=await page.evaluate(()=>window.smashDiagnostics().lastInput);
-    if(!input?.accepted||Math.abs(input.target.x-x)>.06||Math.abs(input.target.z-5.8)>.08)throw Error('native aim drift after rotation');
+    const pixelError=await page.evaluate(({input,p})=>{
+      const app=[...window.__playcanvasApps.keys()][0],cam=app.root.findByName('broadcast camera'),v=cam.getPosition().clone();
+      const s=cam.camera.worldToScreen(v.set(input.target.x,input.target.y,input.target.z));return Math.hypot(s.x-p.x,s.y-p.y);
+    },{input,p});
+    if(!input?.accepted||pixelError>1.5)throw Error('native aim drift after rotation');
     await page.waitForFunction(n=>window.smashDiagnostics().shots.filter(h=>h.actor===0).length>n,{timeout:60000},before);
     d=await page.evaluate(()=>window.smashDiagnostics());const h=d.shots.filter(h=>h.actor===0).at(-1);
     await shot('court-live-rotation-'+(height>width?'portrait':'landscape'));
-    results.push({bounds,input,actual:{shot:h.shot,target:h.target,technique:h.technique,time:h.time}});
+    results.push({bounds,input,pixelError,actual:{shot:h.shot,target:h.target,technique:h.technique,time:h.time}});
     await page.waitForFunction(()=>!document.querySelector('#timing')?.textContent.includes('HIT NOW'));
   }
   log('LIVE ROTATION PASS',JSON.stringify({method:'One continuing native-touch EASY clear rally, portrait→landscape→portrait, DPR2 MEDIUM; no reload, pause, actor/ball/time injection.',results}));

@@ -1,0 +1,893 @@
+{
+  "baseline": "c5446f637a23a45d4e80e5a106ce4c1c43cbb51a",
+  "implementation": "cd736ad6cd376c0e926ab7500f66923d23062b7a",
+  "reference": {
+    "libraryFile": "libfile_8ad23cd0827081918a24e7ffdc9b90fb",
+    "filename": "13013.jpg",
+    "width": 1065,
+    "height": 606,
+    "directVisualInspection": "blocked: Library image response supplied pointer only; official download failed twice"
+  },
+  "composition": [
+    {
+      "viewport": {
+        "name": "pc",
+        "width": 1280,
+        "height": 720
+      },
+      "beforeCamera": {
+        "x": 0,
+        "y": 14.055779457092285,
+        "z": -19.689449310302734
+      },
+      "afterCamera": {
+        "x": 0,
+        "y": 3.5580339431762695,
+        "z": -12.461777687072754
+      },
+      "tapeHeightFraction": 0.5199999997722257,
+      "nearAthleteHeightRatio": 2.150206409746193
+    },
+    {
+      "viewport": {
+        "name": "reference",
+        "width": 1065,
+        "height": 606
+      },
+      "beforeCamera": {
+        "x": 0,
+        "y": 14.121848106384277,
+        "z": -19.80049705505371
+      },
+      "afterCamera": {
+        "x": 0,
+        "y": 3.563889980316162,
+        "z": -12.497654914855957
+      },
+      "tapeHeightFraction": 0.5199999877559297,
+      "nearAthleteHeightRatio": 2.153582230353394
+    },
+    {
+      "viewport": {
+        "name": "landscape",
+        "width": 844,
+        "height": 390,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "beforeCamera": {
+        "x": 0,
+        "y": 14.359326362609863,
+        "z": -20.20092010498047
+      },
+      "afterCamera": {
+        "x": 0,
+        "y": 3.585016965866089,
+        "z": -12.627092361450195
+      },
+      "tapeHeightFraction": 0.5199999979467667,
+      "nearAthleteHeightRatio": 2.1654404857212146
+    },
+    {
+      "viewport": {
+        "name": "portrait",
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "beforeCamera": {
+        "x": 0,
+        "y": 28.010393142700195,
+        "z": -17.99553108215332
+      },
+      "afterCamera": {
+        "x": 0,
+        "y": 4.630724906921387,
+        "z": -22.105497360229492
+      },
+      "tapeHeightFraction": 0.4999999996582232,
+      "nearAthleteHeightRatio": 2.593386677379396
+    }
+  ],
+  "rally": {
+    "pass": true,
+    "errors": [],
+    "failure": null,
+    "bundle": {
+      "sourceBundle": "./assets/index-B_NhBR4O.js",
+      "sha256": "8b53e8f2078a2d60808c79febaf46c999db4d7e871fa7c48cbff925e8741141b",
+      "startedAt": "2026-10-15T10:40:18.670Z",
+      "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+    },
+    "views": [
+      {
+        "viewport": {
+          "name": "pc",
+          "width": 1280,
+          "height": 720,
+          "deviceScaleFactor": 1
+        },
+        "framing": {
+          "samples": 453,
+          "minFov": 58,
+          "maxFov": 85.15590900874408,
+          "clippedCourt": 0,
+          "clippedPlayers": 0,
+          "clippedShuttle": 0,
+          "maxHeight": 9.774571276868338,
+          "peak": {
+            "time": 9.733333333333421,
+            "position": {
+              "x": 1.0454000906757097,
+              "y": 9.774571276868338,
+              "z": -1.458178008611549
+            },
+            "screen": {
+              "x": 597.8937611957922,
+              "y": 50.36800853659335,
+              "z": 9.851221758936461
+            },
+            "flight": 4
+          },
+          "court": [
+            {
+              "x": 911.4189586791749,
+              "y": 642.6075248821817,
+              "z": 6.009615040570497
+            },
+            {
+              "x": 726.4074584674265,
+              "y": 387.75203841383336,
+              "z": 19.305773366242647
+            },
+            {
+              "x": 368.581041320825,
+              "y": 642.6075248821817,
+              "z": 6.009615040570497
+            },
+            {
+              "x": 553.5925415325735,
+              "y": 387.75203841383336,
+              "z": 19.305773366242647
+            }
+          ],
+          "spectators": 0,
+          "view": {
+            "width": 1280,
+            "height": 720,
+            "fov": 58,
+            "position": {
+              "x": 0,
+              "y": 3.5580339431762695,
+              "z": -12.461777687072754
+            }
+          },
+          "aim": [
+            {
+              "x": 0,
+              "screen": {
+                "x": 640,
+                "y": 383.7315448345036
+              },
+              "input": {
+                "shotIntent": "clear",
+                "target": {
+                  "x": 0,
+                  "y": 0.025,
+                  "z": 5.800001028113176
+                },
+                "issuedAt": 5.800000000000078,
+                "submittedAt": 5.800000000000078,
+                "pointerType": "mouse",
+                "accepted": true
+              },
+              "roundTrip": {
+                "x": 640,
+                "y": 383.73153998597894
+              },
+              "pixelError": 4.848524667977472e-06
+            },
+            {
+              "x": -1.8,
+              "screen": {
+                "x": 682.533582311376,
+                "y": 382.6161145439308
+              },
+              "input": {
+                "shotIntent": "clear",
+                "target": {
+                  "x": -1.7999993013221018,
+                  "y": 0.025,
+                  "z": 5.7999986925419655
+                },
+                "issuedAt": 10.650000000000036,
+                "submittedAt": 10.650000000000036,
+                "pointerType": "mouse",
+                "accepted": true
+              },
+              "roundTrip": {
+                "x": 682.5335687663772,
+                "y": 382.61612042002145
+              },
+              "pixelError": 1.4764668385739328e-05
+            },
+            {
+              "x": 1.8,
+              "screen": {
+                "x": 597.6419514812445,
+                "y": 382.5227814720546
+              },
+              "input": {
+                "shotIntent": "clear",
+                "target": {
+                  "x": 1.7999988370498852,
+                  "y": 0.025,
+                  "z": 5.799996027006966
+                },
+                "issuedAt": 15.44166666666643,
+                "submittedAt": 15.44166666666643,
+                "pointerType": "mouse",
+                "accepted": true
+              },
+              "roundTrip": {
+                "x": 597.6419698766857,
+                "y": 382.52279925413677
+              },
+              "pixelError": 2.5585048441403957e-05
+            }
+          ],
+          "hud": {
+            "top": 12,
+            "left": 16,
+            "width": 1248,
+            "height": 44,
+            "display": "flex",
+            "visibility": "visible"
+          },
+          "courtArea": 91194.02561312323
+        },
+        "taps": 3,
+        "returns": 6,
+        "contacts": 7,
+        "playerContacts": 4,
+        "capturedHighClear": true,
+        "highClearCapture": {
+          "time": 4.733333333333358,
+          "position": {
+            "x": 0.9301996175225578,
+            "y": 9.410745235140794,
+            "z": 0.07180381430861302
+          },
+          "velocity": {
+            "x": 0.8019294406373493,
+            "y": 1.897806760390728,
+            "z": -4.5643389969426
+          },
+          "flight": 2,
+          "screen": {
+            "x": 603.718274891511,
+            "y": 65.90452847520925,
+            "z": 11.420083337859165
+          }
+        }
+      },
+      {
+        "viewport": {
+          "name": "mobile-landscape",
+          "width": 844,
+          "height": 390,
+          "deviceScaleFactor": 2,
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "framing": {
+          "samples": 451,
+          "minFov": 58,
+          "maxFov": 81.74305033460503,
+          "clippedCourt": 0,
+          "clippedPlayers": 0,
+          "clippedShuttle": 0,
+          "maxHeight": 9.679128403760958,
+          "peak": {
+            "time": 7.283333333333485,
+            "position": {
+              "x": 0.8980067661263507,
+              "y": 9.679128403760958,
+              "z": 0.7103941570958479
+            },
+            "screen": {
+              "x": 402.76535925927004,
+              "y": 25.98011249765392,
+              "z": 12.184094500541127
+            },
+            "flight": 3
+          },
+          "court": [
+            {
+              "x": 565.1505281072451,
+              "y": 344.25677105947847,
+              "z": 6.177411175146698
+            },
+            {
+              "x": 468.40485354334777,
+              "y": 209.97066762800452,
+              "z": 19.473569500818847
+            },
+            {
+              "x": 278.8494718927548,
+              "y": 344.25677105947847,
+              "z": 6.177411175146698
+            },
+            {
+              "x": 375.59514645665223,
+              "y": 209.97066762800452,
+              "z": 19.473569500818847
+            }
+          ],
+          "spectators": 0,
+          "view": {
+            "width": 844,
+            "height": 390,
+            "fov": 58,
+            "position": {
+              "x": 0,
+              "y": 3.585016965866089,
+              "z": -12.627092361450195
+            }
+          },
+          "aim": [
+            {
+              "x": 0,
+              "screen": {
+                "x": 422,
+                "y": 207.72819538617864
+              },
+              "input": {
+                "shotIntent": "clear",
+                "target": {
+                  "x": 0,
+                  "y": 0.025,
+                  "z": 5.692588039311863
+                },
+                "issuedAt": 5.8500000000000805,
+                "submittedAt": 5.8500000000000805,
+                "pointerType": "touch",
+                "accepted": true
+              },
+              "roundTrip": {
+                "x": 422,
+                "y": 208.00000134222984
+              },
+              "pixelError": 0.27180595605119606
+            },
+            {
+              "x": -1.8,
+              "screen": {
+                "x": 445.40322929313277,
+                "y": 207.49232686940292
+              },
+              "input": {
+                "shotIntent": "clear",
+                "target": {
+                  "x": -1.787817586606469,
+                  "y": 0.025,
+                  "z": 6.001483147565736
+                },
+                "issuedAt": 10.63333333333337,
+                "submittedAt": 10.63333333333337,
+                "pointerType": "touch",
+                "accepted": true
+              },
+              "roundTrip": {
+                "x": 445.00000013003347,
+                "y": 207.00000259693965
+              },
+              "pixelError": 0.6363779908436826
+            },
+            {
+              "x": 1.8,
+              "screen": {
+                "x": 398.4354778098341,
+                "y": 207.57842193006496
+              },
+              "input": {
+                "shotIntent": "clear",
+                "target": {
+                  "x": 1.8169884977389241,
+                  "y": 0.025,
+                  "z": 5.6319598253930785
+                },
+                "issuedAt": 15.3833333333331,
+                "submittedAt": 15.3833333333331,
+                "pointerType": "touch",
+                "accepted": true
+              },
+              "roundTrip": {
+                "x": 397.9999993380901,
+                "y": 208.00000198456058
+              },
+              "pixelError": 0.6061115752903921
+            }
+          ],
+          "hud": {
+            "top": 12,
+            "left": 16,
+            "width": 812,
+            "height": 44,
+            "display": "flex",
+            "visibility": "visible"
+          },
+          "courtArea": 25454.653586324028
+        },
+        "taps": 3,
+        "returns": 6,
+        "contacts": 7,
+        "playerContacts": 4,
+        "capturedHighClear": true,
+        "highClearCapture": {
+          "time": 4.7250000000000245,
+          "position": {
+            "x": 0.9370251913754302,
+            "y": 9.423779704440074,
+            "z": 0.03785941620551505
+          },
+          "velocity": {
+            "x": 0.7998373795447239,
+            "y": 1.809828623101793,
+            "z": -4.556259576573485
+          },
+          "flight": 2,
+          "screen": {
+            "x": 402.729688441274,
+            "y": 39.84296505624589,
+            "z": 11.552380303210924
+          }
+        }
+      },
+      {
+        "viewport": {
+          "name": "mobile-portrait",
+          "width": 390,
+          "height": 844,
+          "deviceScaleFactor": 2,
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "framing": {
+          "samples": 444,
+          "minFov": 58,
+          "maxFov": 58.62491287781069,
+          "clippedCourt": 0,
+          "clippedPlayers": 0,
+          "clippedShuttle": 0,
+          "maxHeight": 9.670309482195844,
+          "peak": {
+            "time": 12.09166666666662,
+            "position": {
+              "x": -1.8743305203839016,
+              "y": 9.670309482195844,
+              "z": 0.7626854931507726
+            },
+            "screen": {
+              "x": 260.025791206222,
+              "y": 138.44956048268727,
+              "z": 21.787990865500664
+            },
+            "flight": 5
+          },
+          "court": [
+            {
+              "x": 319.0386187150267,
+              "y": 537.7472612227978,
+              "z": 15.728191471844912
+            },
+            {
+              "x": 262.6053402252479,
+              "y": 436.40730452904467,
+              "z": 29.02434979751706
+            },
+            {
+              "x": 70.96138128497334,
+              "y": 537.7472612227978,
+              "z": 15.728191471844912
+            },
+            {
+              "x": 127.39465977475213,
+              "y": 436.40730452904467,
+              "z": 29.02434979751706
+            }
+          ],
+          "spectators": 0,
+          "view": {
+            "width": 390,
+            "height": 844,
+            "fov": 58,
+            "position": {
+              "x": 0,
+              "y": 4.630724906921387,
+              "z": -22.105497360229492
+            }
+          },
+          "aim": [
+            {
+              "x": 0,
+              "screen": {
+                "x": 195,
+                "y": 440.22684582952064
+              },
+              "input": {
+                "shotIntent": "clear",
+                "target": {
+                  "x": 0,
+                  "y": 0.025,
+                  "z": 5.8518358671824835
+                },
+                "issuedAt": 5.9166666666667505,
+                "submittedAt": 5.9166666666667505,
+                "pointerType": "touch",
+                "accepted": true
+              },
+              "roundTrip": {
+                "x": 195,
+                "y": 440.0000010766091
+              },
+              "pixelError": 0.22684475291151784
+            },
+            {
+              "x": -1.8,
+              "screen": {
+                "x": 243.43619577730342,
+                "y": 440.22299055713995
+              },
+              "input": {
+                "shotIntent": "clear",
+                "target": {
+                  "x": -1.7869737730537512,
+                  "y": 0.025,
+                  "z": 5.85096374065191
+                },
+                "issuedAt": 10.675000000000034,
+                "submittedAt": 10.675000000000034,
+                "pointerType": "touch",
+                "accepted": true
+              },
+              "roundTrip": {
+                "x": 242.99999809549033,
+                "y": 440.00000280712015
+              },
+              "pixelError": 0.48988973685719583
+            },
+            {
+              "x": 1.8,
+              "screen": {
+                "x": 146.5584856641256,
+                "y": 440.2249897388235
+              },
+              "input": {
+                "shotIntent": "clear",
+                "target": {
+                  "x": 1.7868058685730965,
+                  "y": 0.025,
+                  "z": 5.85141615697448
+                },
+                "issuedAt": 15.433333333333097,
+                "submittedAt": 15.433333333333097,
+                "pointerType": "touch",
+                "accepted": true
+              },
+              "roundTrip": {
+                "x": 147.0000010297573,
+                "y": 440.00000132573354
+              },
+              "pixelError": 0.4955356739061619
+            }
+          ],
+          "hud": {
+            "top": 12,
+            "left": 16,
+            "width": 358,
+            "height": 44,
+            "display": "flex",
+            "visibility": "visible"
+          },
+          "courtArea": 19421.190499626828
+        },
+        "taps": 3,
+        "returns": 6,
+        "contacts": 7,
+        "playerContacts": 4,
+        "capturedHighClear": true,
+        "highClearCapture": {
+          "time": 4.7583333333333595,
+          "position": {
+            "x": 0.9243870260214451,
+            "y": 9.38364129657827,
+            "z": 0.13255932049231306
+          },
+          "velocity": {
+            "x": 0.8045533334114546,
+            "y": 1.9790525172341855,
+            "z": -4.600733189807116
+          },
+          "flight": 2,
+          "screen": {
+            "x": 162.13139691372936,
+            "y": 144.59701374762034,
+            "z": 21.202724148537406
+          }
+        }
+      }
+    ]
+  },
+  "rotation": {
+    "pass": true,
+    "errors": [],
+    "failure": null,
+    "bundle": {
+      "sourceBundle": "./assets/index-B_NhBR4O.js",
+      "sha256": "8b53e8f2078a2d60808c79febaf46c999db4d7e871fa7c48cbff925e8741141b",
+      "startedAt": "2026-10-15T10:44:03.450Z",
+      "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+    },
+    "measurement": [
+      {
+        "method": "One continuing native-touch EASY clear rally, portrait\u2192landscape\u2192portrait, DPR2 MEDIUM; no reload, pause, actor/ball/time injection.",
+        "results": [
+          {
+            "bounds": {
+              "court": [
+                {
+                  "x": 565.1505281072451,
+                  "y": 344.25677105947847
+                },
+                {
+                  "x": 468.40485354334777,
+                  "y": 209.97066762800452
+                },
+                {
+                  "x": 278.8494718927548,
+                  "y": 344.25677105947847
+                },
+                {
+                  "x": 375.59514645665223,
+                  "y": 209.97066762800452
+                }
+              ],
+              "width": 844,
+              "height": 390,
+              "canvas": [
+                1266,
+                585
+              ],
+              "quality": "MEDIUM"
+            },
+            "input": {
+              "shotIntent": "clear",
+              "target": {
+                "x": -1.8182701750539856,
+                "y": 0.025,
+                "z": 5.62697149194708
+              },
+              "issuedAt": 5.733333333333408,
+              "submittedAt": 5.733333333333408,
+              "pointerType": "touch",
+              "accepted": true
+            },
+            "pixelError": 0.6310767844776649,
+            "actual": {
+              "shot": "clear",
+              "target": {
+                "x": -1.93077017505388,
+                "y": 0.025,
+                "z": 5.62697149194708
+              },
+              "technique": "clear",
+              "time": 6.083333333333425
+            }
+          },
+          {
+            "bounds": {
+              "court": [
+                {
+                  "x": 319.0386187150267,
+                  "y": 537.7472612227978
+                },
+                {
+                  "x": 262.6053402252479,
+                  "y": 436.40730452904467
+                },
+                {
+                  "x": 70.96138128497334,
+                  "y": 537.7472612227978
+                },
+                {
+                  "x": 127.39465977475213,
+                  "y": 436.40730452904467
+                }
+              ],
+              "width": 390,
+              "height": 844,
+              "canvas": [
+                585,
+                1266
+              ],
+              "quality": "MEDIUM"
+            },
+            "input": {
+              "shotIntent": "clear",
+              "target": {
+                "x": 1.7866870628596856,
+                "y": 0.025,
+                "z": 5.851736277343392
+              },
+              "issuedAt": 10.51666666666671,
+              "submittedAt": 10.51666666666671,
+              "pointerType": "touch",
+              "accepted": true
+            },
+            "pixelError": 0.4995317291568412,
+            "actual": {
+              "shot": "clear",
+              "target": {
+                "x": 1.8516870628598023,
+                "y": 0.025,
+                "z": 5.851736277343392
+              },
+              "technique": "clear",
+              "time": 10.850000000000025
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "swings": {
+    "pass": true,
+    "errors": [],
+    "failure": null,
+    "bundle": {
+      "sourceBundle": "./assets/index-B_NhBR4O.js",
+      "sha256": "8b53e8f2078a2d60808c79febaf46c999db4d7e871fa7c48cbff925e8741141b",
+      "startedAt": "2026-10-15T10:44:57.138Z",
+      "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+    },
+    "measurement": [
+      {
+        "issued": 11,
+        "returns": 23,
+        "shots": 24,
+        "motions": [
+          {
+            "motion": "Serve",
+            "technique": "clear",
+            "phases": [
+              "ready",
+              "prepare",
+              "accelerate",
+              "contact",
+              "impact",
+              "follow",
+              "return"
+            ]
+          },
+          {
+            "motion": "Clear",
+            "technique": "clear",
+            "phases": [
+              "ready",
+              "prepare",
+              "accelerate",
+              "contact",
+              "impact",
+              "follow",
+              "return"
+            ]
+          },
+          {
+            "motion": "Drop",
+            "technique": "drop",
+            "phases": [
+              "ready",
+              "prepare",
+              "accelerate",
+              "contact",
+              "impact",
+              "follow",
+              "return"
+            ]
+          }
+        ],
+        "errors": []
+      }
+    ]
+  },
+  "native": {
+    "pass": true,
+    "errors": [],
+    "failure": null,
+    "bundle": {
+      "sourceBundle": "./assets/index-B_NhBR4O.js",
+      "sha256": "8b53e8f2078a2d60808c79febaf46c999db4d7e871fa7c48cbff925e8741141b",
+      "startedAt": "2026-10-15T10:49:10.864Z",
+      "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+    }
+  },
+  "drop-defence": {
+    "pass": null,
+    "errors": null,
+    "failure": null,
+    "bundle": null,
+    "measurement": []
+  },
+  "pngSha256": {
+    "comparison-portrait.png": "7d9d3797ab685b389207fe74f75ed0e0696d9705346ca3dd6e96a424e64b01e0",
+    "comparison-pc.png": "76646f3e2bc27d616e7a4ca710266860178df9c3cf5d287edc274a018f15af85",
+    "swing-serve.png": "6b7ec16ddee08e5da4f72eab95e6e476281fa7a1be28f04a4a8ba1caa865392b",
+    "swing-clear-detail.png": "55aa1c4ed82b9b4cb87ce1cfb5fce25334588f6ee8bc9852dce46896f48f3add",
+    "comparison-landscape.png": "d34cea246315eaa98bd4cff700d5f1b2521cdf61b44ceaa4739356458afb6bcc",
+    "swing-serve-detail.png": "e31bd0d2426cfc446d5a1045ce4166b47145672bceb5f942d3a817ec87f9fd20",
+    "swing-drop-detail.png": "a5bb00884a776fcd936b8b87091dda45a3a40009813d9dfbb295a1806c346a35",
+    "swing-clear.png": "838f41f9df76f2d409d1a45d36ddb165bd5cdecac1d66a63fb46314cb067aab9",
+    "comparison-reference.png": "8ee18e8fd8e846bf2a2b86e50d44595248595a0b3acd1ec2923fd73cd1acdc88",
+    "swing-drop.png": "7242b84b102dd036161cbd3ab871ae0bc862c51206d0f8bf94c38394cfedc619",
+    "before-low/ready-landscape.png": "487d3d048c103416fdfd99495b94d88e04c991d15db877abd856040bce1b0880",
+    "before-low/ready-pc.png": "faef433af7a20bf27ac5be797649d79ae8f30030657088778d05480a7af9cf55",
+    "before-low/00-boot.png": "ccdef3cd28e2eb65a048936a421fb9fbf8f930ce69657d2e46c7dd01adc7741a",
+    "before-low/ready-reference.png": "c674c20355c61d83b842da8badc3352ffa811769d50a79e78678e54dea9d09cf",
+    "before-low/ready-portrait.png": "c26066b975dc5142e958e0947ee1f2e287c6e0c409ca9381ef9398a696c092ee",
+    "rally/court-mobile-portrait-rally.png": "dbf35fc402d8c47474bd035d904778ded61cb74a1c1fdbe76629c8a0677194bf",
+    "rally/court-pc-ready.png": "0c0d5b2c07dd864db13a5f7dd9a39a3743e7d68015b10d6245c7b33d5f008f9d",
+    "rally/court-pc-rally.png": "4437b49b924771851b19d3ae70af4d18d0a1e5796708b65eb9c0d2f568c3567d",
+    "rally/court-mobile-portrait-ready.png": "3d628e43768bdd63747466da1c9b71945fb75e66c7e90fa25c6177a3fc023306",
+    "rally/court-mobile-landscape-ready.png": "eca0c5e7ee9edaaf6313544421c65f43a840ab7cb6d60841d36d46d2085bd0ec",
+    "rally/00-boot.png": "50e4f39bfbd678030e6ea1694a3a5c56f23518a0af7d75b97a567961b3942943",
+    "rally/court-mobile-landscape-rally.png": "03fe3ad1610a7c6f9cf46284abc8abc1ed304c5ca224ab6736855dfac0c0c9f2",
+    "rally/court-mobile-landscape-high-clear.png": "67a9c8bfb3b8c7855b790c76ca457e7250a1ba6503649e6ea2ef29a6c0073d36",
+    "rally/court-mobile-portrait-high-clear.png": "5a283379e5fb636bf561f7cd0e71e217e972090446e2d9fc02f627a364cbf2e4",
+    "rally/court-pc-high-clear.png": "b2d4c85deeebc7015922648cf59f7f8326fae33ab93c8f333ca7b362980aadcb",
+    "composition/ready-landscape.png": "a4f97011691d774f71e8ab7fccaf62f4860f9297bf861dc29aaea83281a225b8",
+    "composition/ready-pc.png": "cb7c3a9f70648acb0cec9e1d99ae0457ddbf2f8b264ca3265c368a5684d33e52",
+    "composition/00-boot.png": "50e4f39bfbd678030e6ea1694a3a5c56f23518a0af7d75b97a567961b3942943",
+    "composition/ready-reference.png": "1c59b4da413ef9f91f173181862d5fb2eb439b9669c66676dd0c65252941c0b4",
+    "composition/ready-portrait.png": "f2a1b812673e0a1c305a2bbc3ede24e463af57483d23853e66c2e5bd10f94d6c",
+    "drop-defence/drop-defence-normal-wide.png": "7a74c429358206b962aa1ca5716c790c9ac2eeab3eb42acbfde64eef625f910f",
+    "drop-defence/00-boot.png": "afc9a6160eafa5983bb366ebb49f9668fbdbe9d7deee7e08d0d8f6c3dfb5b151",
+    "drop-defence/drop-defence-easy-wide.png": "a4ebcc9b458b76c543dea3d24f58809689c7922bf82a8c1bc627b1512f78581d",
+    "native/mobile-03-drop-threshold.png": "bc2409ae22f100f5149fa6d823c814e60d371a81768e40ff32b60d9720f89605",
+    "native/mobile-03-clear-threshold.png": "b9086bce7cb3d4e195569017911f8cd91b450986d6acc97de41ce94a3efd9366",
+    "native/00-boot.png": "ba84a912dfed56b95732efe16638c8742b63a0765f46427773e31045803adb1c",
+    "native/mobile-05-portrait.png": "61e22ac42ac78304dd7bc94846bfc10e6b19467cb46bcd2bc3e6ab5d32b909a5",
+    "native/mobile-01-ready.png": "5e9003fe17dcfd199d832e5e521142c9b3d1a2b08846f6c965c181fe7571b667",
+    "native/mobile-04-pause.png": "04dc88a8b4778c354e394f2216d44d16c9554452b4f6d85eb4c8f611ed883024",
+    "native/mobile-02-tap-serve.png": "117a90eae3eb8addab63915cf9a3f2d290a77f7e0004ed1d11e68cb82b92998f",
+    "rotation/court-live-rotation-portrait.png": "464ef0952cbcad52b1184ef0eb986012c47c193f0c8c4f467e2e6de5bd920082",
+    "rotation/court-live-rotation-landscape.png": "46573530dff6d9daa11eafb9c8747acd87a96fa34ca6c1c68238758c08b7795b",
+    "rotation/00-boot.png": "f5ad74d8a6a6882315a7e6d56ed81f477f007a9d91d59e2ecaaa26069c52e270",
+    "swings/00-boot.png": "e25392a961060c5866bd28dde8d1ebe460060a4c30c08070260b2b2ed3b2be9b",
+    "swings/mixed-rally.png": "f5ab7c5d37204ef83ab420574553d84a433dea19be38171b9976265ce3fa5934",
+    "swings/clear/06-return.png": "9ee1ff8f7220a36880b6d8b75221a9de4d53adb57cb8af29999ace18fee3ddde",
+    "swings/clear/01-prepare.png": "6a57f9346250a22036918973b4d9c17581f49860669a17317e020c62d22ac616",
+    "swings/clear/02-accelerate.png": "29bfdff12fc0ea7795f741fac987b5b653c2574ff3bbc705efae5a6454e98dd8",
+    "swings/clear/03-contact.png": "526ded5285039b9f26990ee68ebbc0ea79389ea38542067fb7f7a49711442706",
+    "swings/clear/00-ready.png": "0aaf08f5e500925cfa4dc108eaed228dcca40e8f4a0fc981326c2d44977611b0",
+    "swings/clear/04-impact.png": "8c2f506e263fe6dde5346546a3fe28297983d6542dce33653e0c114341d4b5c3",
+    "swings/clear/05-follow.png": "9af7d1684a6810d8df94c47eba7c776a6dfde9b2522642e3a1357a89a18c868a",
+    "swings/drop/06-return.png": "c181d0b2ba353fbcdba9c6fa8ad3d97d7203c84e207b6618c12ecd824c71a5da",
+    "swings/drop/01-prepare.png": "9da1639162b7f82c0187fabb618ff3ad56ebd941510eb0462ecc4458f1d5dc1d",
+    "swings/drop/02-accelerate.png": "51a5610ef221a763fd600bccd68610f9ef8669cf309b939308a7840404bbcdd5",
+    "swings/drop/03-contact.png": "bc02712c2ca47ceb122aaaa89037c2e3baaacd6225c05a12179a337b9aa08e17",
+    "swings/drop/00-ready.png": "f473f15f9fec4f594a6e5c08e10d1c1d93098a0c46d9ee56bf1e2fab190494b2",
+    "swings/drop/04-impact.png": "622428214da48582edf43e163636ed91ca9daaeaefaeefd5b7009e9d1a5d1c8b",
+    "swings/drop/05-follow.png": "c4aeca01a90e656528072d89abe3483b9d265e61414ec06a5eb8a6cfdecb03e2",
+    "swings/serve/06-return.png": "e5ef557d69b15497bd959c34b462ae0893ad95a793a57a82e981cce3168a6733",
+    "swings/serve/01-prepare.png": "03d0bd333ca9f80385bff7dd13cb761f38bb7a8ad256f82cfc18beabd317a521",
+    "swings/serve/02-accelerate.png": "5f76f3a4924d561063137b1c6b84b786530cfdc77a19b8d7e4b85de22f59a03f",
+    "swings/serve/03-contact.png": "3ad352bef01836366e398be0a1c60505ff76bca4d62055be62590cee7974c4ff",
+    "swings/serve/00-ready.png": "65d8df19be75a438574b90f01cc4847a4777fda1d989fc01121fb71aa73da7d8",
+    "swings/serve/04-impact.png": "3ad352bef01836366e398be0a1c60505ff76bca4d62055be62590cee7974c4ff",
+    "swings/serve/05-follow.png": "293aff7de4ca3c9e8fcdd60387f1fb52e675babedc9f7b247706f62ac88a9dcb"
+  }
+}

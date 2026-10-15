@@ -1,0 +1,32 @@
+BOOT TEXT SR3D
+YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+
+Read the flight. Find the space.
+Make your next shot count.
+
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT ready-pc
+COMPOSITION {"viewport":{"name":"pc","width":1280,"height":720},"tape":{"x":640,"y":429.7439284541782,"z":23.114448953866958},"head":{"x":640,"y":529.7202603438665,"z":18.979876145720482},"feet":{"x":640,"y":595.0892683286417,"z":19.850137382745743},"fov":44,"camera":{"x":0,"y":14.055779457092285,"z":-19.689449310302734},"score":{"x":916.734375,"y":20},"courtNodes":0,"courtMaterials":[{"name":"#2ea6a0","diffuse":"#75d2ce"}]}
+SHOT ready-reference
+COMPOSITION {"viewport":{"name":"reference","width":1065,"height":606},"tape":{"x":532.5,"y":361.5760914239708,"z":23.243774820566177},"head":{"x":532.5,"y":445.1324883390649,"z":19.1092020124197},"feet":{"x":532.5,"y":499.8296571456474,"z":19.97946324944496},"fov":44,"camera":{"x":0,"y":14.121848106384277,"z":-19.80049705505371},"score":{"x":701.734375,"y":20},"courtNodes":0,"courtMaterials":[{"name":"#2ea6a0","diffuse":"#75d2ce"}]}
+SHOT ready-landscape
+COMPOSITION {"viewport":{"name":"landscape","width":844,"height":390,"deviceScaleFactor":2,"isMobile":true,"hasTouch":true},"tape":{"x":422,"y":232.4015923397388,"z":23.709747720956802},"head":{"x":422,"y":284.84655582210684,"z":19.575174912810326},"feet":{"x":422,"y":319.3217033008395,"z":20.445436149835587},"fov":44,"camera":{"x":0,"y":14.359326362609863,"z":-20.20092010498047},"score":{"x":541.390625,"y":10.5},"courtNodes":0,"courtMaterials":[{"name":"#2ea6a0","diffuse":"#75d2ce"}]}
+TimeoutError: Waiting failed: 30000ms exceeded

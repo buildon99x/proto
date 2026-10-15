@@ -1,0 +1,55 @@
+
+> smash-rally-3d@0.2.0 test /workspace/proto/projects/SmashRally3D/app
+> vitest run
+
+
+ RUN  v4.1.10 /workspace/proto/projects/SmashRally3D/app
+
+ ❯ tests/tactical-rallies.test.ts (3 tests | 1 failed) 5965ms
+   × replays ordinary command-driven tactical games and ignores an early air swing without a hit callback 5812ms
+ ❯ tests/contact-motion.test.ts (9 tests | 1 failed) 1211ms
+   × articulates each stroke through load, wrist release, contact, follow and return 526ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/contact-motion.test.ts > articulates each stroke through load, wrist release, contact, follow and return
+AssertionError: Smash:ready: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/contact-motion.test.ts:208:133
+    206|             previous=p;
+    207|         }
+    208|         for(const phase of ['prepare','accelerate','contact','follow',…
+       |                                                                                                                                     ^
+    209|         const load = skeletonPose(a,hitFrame*0.3).racket,
+    210|             contact = skeletonPose(a,hitFrame).racket;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/tactical-rallies.test.ts > replays ordinary command-driven tactical games and ignores an early air swing without a hit callback
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/tactical-rallies.test.ts:4:1
+      2| import { Game } from '../src/game';
+      3| import { writeFileSync, mkdirSync } from 'node:fs';
+      4| it('replays ordinary command-driven tactical games and ignores an earl…
+       | ^
+      5|     const games = [],
+      6|         kinds = new Set<string>();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 6 passed (8)
+      Tests  2 failed | 53 passed (55)
+   Start at  10:29:02
+   Duration  9.33s (transform 626ms, setup 0ms, import 1.10s, tests 23.10s, environment 1ms)
+
+/workspace/proto/projects/SmashRally3D/app:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  smash-rally-3d@0.2.0 test: `vitest run`
+Exit status 1

@@ -25,12 +25,12 @@ export async function run({ page, sleep, shot, log }) {
       const point = camera.getPosition().clone();
       const project = (p) => { const s = camera.camera.worldToScreen(point.set(p.x, p.y, p.z)); return { x: s.x, y: s.y, z: s.z }; };
       const court = [-2.59, 2.59].flatMap(x => [-6.7, 6.7].map(z => project({x,y:0.025,z})));
-      window.framingState = { samples: 0, clippedCourt: 0, clippedPlayers: 0, clippedShuttle: 0, maxHeight: 0, peak: null, court, spectators: app.root.find(n => n.name === 'spectator' || n.name === 'seating').length, view: { width: innerWidth, height: innerHeight, fov: camera.camera.fov, position: {...camera.getPosition()} }, aim: [] };
+      window.framingState = { samples: 0, minFov: 180, maxFov: 0, clippedCourt: 0, clippedPlayers: 0, clippedShuttle: 0, maxHeight: 0, peak: null, court, spectators: app.root.find(n => n.name === 'spectator' || n.name === 'seating').length, view: { width: innerWidth, height: innerHeight, fov: camera.camera.fov, position: {...camera.getPosition()} }, aim: [] };
       const inside = p => Number.isFinite(p.x) && p.x >= 2 && p.x <= innerWidth-2 && p.y >= 2 && p.y <= innerHeight-2 && p.z > 0;
       app.on('frameend', () => {
         const d = window.smashDiagnostics(), r = window.framingState;
         if (d.phase !== 'RALLY') return;
-        r.samples++;
+        r.samples++; r.minFov=Math.min(r.minFov,camera.camera.fov); r.maxFov=Math.max(r.maxFov,camera.camera.fov);
         r.clippedCourt += court.filter(p => !inside(p)).length;
         for (const m of d.motions) for (const p of Object.values(m.skinPose.joints)) r.clippedPlayers += inside(project(p)) ? 0 : 1;
         const shuttle = project(d.position);
@@ -38,6 +38,7 @@ export async function run({ page, sleep, shot, log }) {
         if (d.position.y > r.maxHeight) { r.maxHeight = d.position.y; r.peak = { time:d.time, position:d.position, screen:shuttle, flight:d.shots.length }; }
       });
     });
+    await shot('court-' + viewport.name + '-ready');
     let d = await page.evaluate(() => window.smashDiagnostics());
     const target = d.projectedTargets.find(t => t.world.x === 0 && t.world.z === 5.8).screen;
     if (viewport.hasTouch) await page.touchscreen.tap(target.x, target.y); else await page.mouse.click(target.x, target.y);
@@ -57,7 +58,11 @@ export async function run({ page, sleep, shot, log }) {
         const p = d.projectedTargets.find(t => t.world.x === x && t.world.z === 5.8).screen;
         if (viewport.hasTouch) await page.touchscreen.tap(p.x,p.y); else await page.mouse.click(p.x,p.y);
         const after = await page.evaluate(() => window.smashDiagnostics());
-        await page.evaluate(({x,p,input}) => window.framingState.aim.push({x,screen:p,input}), {x,p,input:after.lastInput});
+        await page.evaluate(({x,p,input}) => {
+          const app=[...window.__playcanvasApps.keys()][0], camera=app.root.findByName('broadcast camera');
+          const v=camera.getPosition().clone().set(input.target.x,input.target.y,input.target.z), screen=camera.camera.worldToScreen(v);
+          window.framingState.aim.push({x,screen:p,input,roundTrip:{x:screen.x,y:screen.y},pixelError:Math.hypot(screen.x-p.x,screen.y-p.y)});
+        }, {x,p,input:after.lastInput});
         taps++;
       }
       previous = cue.includes('HIT NOW');
@@ -74,7 +79,7 @@ export async function run({ page, sleep, shot, log }) {
       if (framing.spectators) throw Error('spectators/seating remain');
       if (framing.clippedCourt || framing.clippedPlayers || framing.clippedShuttle) throw Error('gameplay clipped in '+viewport.name);
       if (!captured || framing.maxHeight < 9 || d.returns < 6) throw Error('high-clear/beginner rally not observed');
-      for (const a of framing.aim) if (!a.input?.accepted || Math.abs(a.input.target.x-a.x)>0.05 || Math.abs(a.input.target.z-5.8)>0.08) throw Error('camera aim mapping failed');
+      for (const a of framing.aim) if (!a.input?.accepted || a.pixelError > (viewport.hasTouch ? 1.5 : 0.1)) throw Error('camera aim mapping failed');
     }
   }
   log(process.env.SMASH_FRAMING_BASELINE ? 'BASELINE FRAMING OBSERVATION' : 'COURT FRAMING PASS', JSON.stringify({results,method:'Actual mouse/native touch actions at visible cue; read-only frameend bounds and real high-clear screenshots. No state injection, pause or scheduled contactAt inputs. Software emulation only.'}));
