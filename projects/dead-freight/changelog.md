@@ -262,3 +262,5 @@ Six rendererless tests reconstruct new controllers/storage handles after deploy/
 ## Unreleased — 2026-10-15
 - Fix Canal Ward map legend and accessible map name using active mission region, including paused selection and redeployment regression.
 - Record bounded actual Chrome/WebGL input, lifecycle/workshop fixtures and screenshots; full-route play and listening remain open.
+
+- Follow-up ordinary-input QA completed Canal ferry raid, browser restart/recovery and natural death/reentry without state injection; corrected forest-only mission directions and contract HUD in Canal Ward.

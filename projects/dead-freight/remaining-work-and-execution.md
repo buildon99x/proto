@@ -49,3 +49,6 @@ The supplied interim audit identified insufficient fresh-controller raid lifecyc
 
 ## 2026-10-15 laptop continuation
 See qa-laptop-2026-10-15.md for successful installed-Chrome headless WebGL/input evidence, map legend fix and exact fixture boundaries. CUA still fails before inventory; browser rendering is now established through a separate approved route. Full ordinary combat/travel acceptance and actual listening remain open. Liquid-metal AI remains dot implementation / laptop testing after baseline acceptance.
+
+## 2026-10-15 ordinary-input route completion
+See qa-ordinary-laptop-2026-10-15.md. Actual Chrome keys/buttons completed Canal dock→market/archive→low bridge→pump combat/bounty→east ferry8s→1170 settlement→redeploy, with no injected gameplay/save state. Real browser reopen/interrupted recovery and natural incoming-projectile death→redeploy also passed; retained stash unchanged. Corrected region-owned mission-guide/HUD copy. Listening, foreground mouse feel/performance, forest full route and west winch remain open.

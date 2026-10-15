@@ -178,3 +178,6 @@ Reconcile independent audit: extend deployment/settlement tests to new rendererl
 
 ## 2026-10-15 minimap region-label correction
 Correct the fixed Black Pines minimap legend when Canal Ward is selected. Preserve active-mission ownership while paused and refresh both visible/accessibility labels for the next deployed region.
+
+## 2026-10-15 ordinary-play guidance correction
+Ordinary Canal Ward play revealed forest-only contract directions and six-second exit guidance in the shared UI. Correct mission-owned copy without changing combat, navigation, reward or save behavior.

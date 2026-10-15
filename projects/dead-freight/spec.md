@@ -266,3 +266,6 @@ Known workshop output/repair UIDs missing from stash cannot use the fresh issued
 
 ## 2026-10-15 minimap region-label correction
 The minimap legend and accessible canvas label derive from the created mission region. Changing the next-region selector during a paused raid must not relabel the active map; redeploy uses the newly created mission region.
+
+## 2026-10-15 ordinary-play guidance correction
+Mission guide uses current created region: forest six-second exits; Canal ferry requires archive plus bounty for eight seconds, west winch bounty for twelve. HUD contract target names the pump in Canal Ward. Paused next-region selection does not change active mission directions.
