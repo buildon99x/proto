@@ -121,3 +121,41 @@ it('replays ordinary command-driven tactical games and ignores an early air swin
         ),
     );
 });
+it('a touch-down reservation can change to clear before the swing, cancel safely and emit only one real hit', () => {
+    const g = new Game();
+    g.difficulty = 'EASY';
+    g.start();
+    while (g.phase !== 'SERVE_READY') g.step();
+    g.command({
+        shotIntent: 'clear',
+        target: { x: 0, y: 0.025, z: 5.8 },
+        issuedAt: g.time,
+        pointerType: 'touch',
+    });
+    while (!(
+        g.phase === 'RALLY' &&
+        g.receiver === 0 &&
+        Number.isFinite(g.contactAt) &&
+        g.contactAt - g.time < 0.3
+    ))
+        g.step();
+    const cmd = {
+            shotIntent: 'default' as const,
+            target: { x: 0, y: 0.025, z: 5.8 },
+            issuedAt: g.time,
+            pointerType: 'touch',
+        },
+        before = g.shots.filter((h) => h.actor === 0).length;
+    g.command(cmd);
+    expect(g.actors[0].command).not.toBeNull();
+    g.cancelTouchCommand(cmd.issuedAt);
+    expect(g.actors[0].command).toBeNull();
+    g.command(cmd);
+    g.command({ ...cmd, shotIntent: 'clear' });
+    expect(g.actors[0].command?.shotIntent).toBe('clear');
+    while (g.shots.filter((h) => h.actor === 0).length === before && g.phase === 'RALLY') g.step();
+    expect(g.shots.filter((h) => h.actor === 0).length).toBe(before + 1);
+    expect(g.shots.at(-1)?.shot).toBe('clear');
+    g.cancelTouchCommand(cmd.issuedAt);
+    expect(g.shots.filter((h) => h.actor === 0).length).toBe(before + 1);
+});

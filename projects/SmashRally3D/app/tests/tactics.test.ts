@@ -203,3 +203,35 @@ it('beginner clear inputs tolerate ordinary GOOD timing variation and keep a nat
         g.shots.every((h) => h.contact.radialDistance <= 0.225 && h.contact.planeDistance <= 0.045),
     ).toBe(true);
 });
+it('the existing soft-shot control becomes a compact defensive block at a low rear contact', () => {
+    const c = context({
+            intent: 'drop',
+            contact: { x: 0.35, y: 1.75, z: -3.6 },
+            incomingShot: 'smash',
+            target: { x: 1.8, y: 0.025, z: 1.2 },
+        }),
+        s = assessStroke(c),
+        f = solveStroke(c, s);
+    expect(s.technique).toBe('block');
+    expect(f.prediction.reason).toBe('GROUND');
+    expect(Math.abs(f.prediction.end.z)).toBeLessThan(1.4);
+    expect(f.velocity.y).toBeGreaterThan(0);
+});
+it('preparation and launch use the same short net-finish aim', () => {
+    const g = new Game(),
+        a = g.actors[0];
+    a.p = { x: 0, y: 0, z: -1.7 };
+    a.contact = { x: 0.35, y: 1.95, z: -1.4 };
+    a.command = {
+        shotIntent: 'default',
+        target: { x: 1.8, y: 0.025, z: 5.8 },
+        issuedAt: 0,
+        pointerType: 'fixture',
+    };
+    a.quality = 'good';
+    const c = g.strokeContext(a),
+        s = assessStroke(c);
+    expect(s.technique).toBe('netKill');
+    expect(g.shotTarget(a, s.shot)).toEqual(strokeTarget(c, s));
+    expect(g.shotTarget(a, s.shot).z).toBeLessThan(1.4);
+});

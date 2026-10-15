@@ -51,7 +51,11 @@ export function assessStroke(c: StrokeContext): Stroke {
     if (c.quality === 'weak' && c.intent === 'default' && c.contact.y >= 2.15)
         return out('clear', 'clear', 'RUSHED_RECOVERY');
     if (c.intent === 'drop')
-        return out('drop', Math.abs(c.contact.z) < 2.6 ? 'net' : 'drop', 'DRAW_FORWARD');
+        return out(
+            'drop',
+            Math.abs(c.contact.z) < 2.6 ? 'net' : c.contact.y < 2.15 ? 'block' : 'drop',
+            'DRAW_FORWARD',
+        );
     // Late low contacts are assisted into an intelligible safe return, not an extra precision gate.
     if (c.contact.y < CFG.net - 0.12) return out('clear', 'lift', 'BELOW_TAPE');
     if (c.contact.y < 2.15) {

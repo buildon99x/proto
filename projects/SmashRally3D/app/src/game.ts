@@ -280,20 +280,22 @@ export class Game {
             ...s,
             shot,
             technique:
-                shot === 'clear'
-                    ? c.contact.y < 1.9
-                        ? 'lift'
-                        : 'clear'
-                    : shot === 'drop'
-                      ? s.technique
-                      : shot,
+                shot === s.shot
+                    ? s.technique
+                    : shot === 'clear'
+                      ? c.contact.y < 1.9
+                          ? 'lift'
+                          : 'clear'
+                      : shot === 'drop'
+                        ? s.technique
+                        : shot,
         });
     }
-    previewStroke(index = 0, target?: V3) {
+    previewStroke(index = 0, target?: V3, intent: Intent = 'default') {
         const c = this.strokeContext(this.actors[index]);
         return assessStroke({
             ...c,
-            intent: 'default',
+            intent,
             quality: 'perfect',
             preparation: 1,
             target: target ?? c.target,
@@ -339,6 +341,11 @@ export class Game {
             a.hitFrame = this.inputLead(cmd.shotIntent);
             this.feedback(cmd.issuedAt < this.contactAt - a.hitFrame ? 'TOO EARLY' : 'TOO LATE');
         }
+    }
+    cancelTouchCommand(issuedAt: number) {
+        const a = this.actors[0];
+        if (!a.locked && a.command?.pointerType === 'touch' && a.command.issuedAt === issuedAt)
+            a.command = null;
     }
     serve(cmd?: Command) {
         const a = this.actors[this.server];

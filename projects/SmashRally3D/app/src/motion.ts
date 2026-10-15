@@ -126,6 +126,7 @@ export type SkeletonPose = {
     hop: number;
     motion: string;
     footPhases: { left: boolean; right: boolean };
+    footCycles: { left: number; right: number };
 };
 export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
     const contact = a.swingContact ?? a.contact,
@@ -314,6 +315,7 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
         hop,
         motion,
         footPhases: { left: a.feet.left.swing, right: a.feet.right.swing },
+        footCycles: { left: a.feet.left.cycle, right: a.feet.right.cycle },
     };
 }
 export function contactCheck(

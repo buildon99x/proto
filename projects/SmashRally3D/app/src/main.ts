@@ -37,6 +37,7 @@ import { synthImpact, offlineImpacts } from './audio';
 import './style.css';
 const reviewContact = new URLSearchParams(location.search).get('review-contact');
 let reviewHit: Hit | null = null;
+const displayedPoses = new Map<Actor, SkeletonPose>();
 let impactTechnique = 'clear';
 let pendingContact: Hit | null = null;
 let renderedContact: { time: number; actor: number; shuttle: V3; racket: V3; contact: V3 } | null =
@@ -155,6 +156,12 @@ function renderUI() {
     }
     const rem = game.contactAt - game.time,
         t = document.getElementById('timing');
+    const name = (tech: string) =>
+        tech === 'superSmash'
+            ? 'SUPER SMASH'
+            : tech === 'netKill'
+              ? 'NET FINISH'
+              : tech.toUpperCase();
     if (t)
         t.textContent =
             game.phase === 'SERVE_READY'
@@ -162,24 +169,25 @@ function renderUI() {
                     ? 'Click the court to serve'
                     : 'Opponent serving'
                 : game.phase === 'RALLY' && game.receiver === 0
-                  ? rem < game.inputLead(selected) + 0.05 &&
+                  ? rem < game.inputLead(selected) + 0.14 &&
                     rem > Math.max(0.04, game.inputLead(selected) - 0.07)
-                      ? '● HIT NOW · ' +
-                        (selected === 'clear'
-                            ? game.actors[0].contact!.y < 1.9
-                                ? 'LIFT'
-                                : 'CLEAR'
-                            : selected === 'drop'
-                              ? Math.abs(game.actors[0].contact!.z) < 2.6
-                                  ? 'NET'
-                                  : 'DROP'
-                              : game.previewStroke(0, target).technique === 'netKill'
-                                ? 'NET FINISH'
-                                : game.previewStroke(0, target).technique.toUpperCase())
+                      ? '● HIT NOW · ' + name(game.previewStroke(0, target, selected).technique)
                       : Number.isFinite(rem)
                         ? '◌ GET READY'
                         : 'OUT OF REACH'
                   : '';
+    const softLabel = document.querySelector('[data-shot="drop"] em'),
+        deepLabel = document.querySelector('[data-shot="clear"] em');
+    if (softLabel)
+        softLabel.textContent =
+            game.receiver === 0 && game.actors[0].contact
+                ? name(game.previewStroke(0, target, 'drop').technique)
+                : 'DROP';
+    if (deepLabel)
+        deepLabel.textContent =
+            game.receiver === 0 && game.actors[0].contact
+                ? name(game.previewStroke(0, target, 'clear').technique)
+                : 'CLEAR';
     const b = document.getElementById('basic-label');
     if (b) {
         const p = game.previewStroke(0, target);
@@ -444,6 +452,7 @@ function animate(r: ReturnType<typeof makeActor>, contactPose: SkeletonPose | nu
                 ? reviewHit.renderPose
                 : (contactPose ?? r.a.pose ?? skeletonPose(r.a, game.time)),
         j = pose.joints;
+    displayedPoses.set(r.a, pose);
     r.root.setPosition(0, 0, 0); // joint world poses own translation; skin matrices remain one coherent hierarchy
     const bodyRight = new Vec3(
             j.ShoulderR.x - j.ShoulderL.x,
@@ -526,6 +535,7 @@ let gesture: {
     y: number;
     target: V3;
     sent: boolean;
+    provisional: boolean;
     id: number;
     issuedAt: number;
 } | null = null;
@@ -537,15 +547,18 @@ canvas.addEventListener('pointerdown', (e) => {
     canvas.setPointerCapture(e.pointerId);
     if (e.pointerType === 'mouse')
         issue(e.button === 2 ? 'drop' : e.shiftKey ? 'clear' : selected, target, 'mouse');
-    else
+    else {
         gesture = {
             x: e.clientX,
             y: e.clientY,
             target: { ...target },
             sent: false,
+            provisional: true,
             id: e.pointerId,
             issuedAt: game.time,
         };
+        issue(selected, gesture.target, 'touch', gesture.issuedAt);
+    }
 });
 canvas.addEventListener('pointermove', (e) => {
     if (e.pointerType === 'mouse') target = aim(e.clientX, e.clientY);
@@ -561,11 +574,13 @@ canvas.addEventListener('pointermove', (e) => {
 });
 canvas.addEventListener('pointerup', (e) => {
     if (gesture && gesture.id === e.pointerId) {
-        if (!gesture.sent) issue(selected, gesture.target, 'touch', gesture.issuedAt);
+        if (!gesture.sent && !gesture.provisional)
+            issue(selected, gesture.target, 'touch', gesture.issuedAt);
         gesture = null;
     }
 });
 canvas.addEventListener('pointercancel', () => {
+    if (gesture?.provisional) game.cancelTouchCommand(gesture.issuedAt);
     gesture = null;
 });
 function resize() {
@@ -806,14 +821,18 @@ async function boot() {
                 motion: r.motion,
                 rigJoints: r.nodes.size,
                 racket: r.racket.getPosition().clone(),
-                skinPose: r.a.pose,
+                skinPose: displayedPoses.get(r.a) ?? r.a.pose,
                 feet: {
                     left: {
                         ...r.a.feet.left,
+                        swing: displayedPoses.get(r.a)?.footPhases.left ?? r.a.feet.left.swing,
+                        cycle: displayedPoses.get(r.a)?.footCycles.left ?? r.a.feet.left.cycle,
                         rendered: r.nodes.get('AnkleL')!.getPosition().clone(),
                     },
                     right: {
                         ...r.a.feet.right,
+                        swing: displayedPoses.get(r.a)?.footPhases.right ?? r.a.feet.right.swing,
+                        cycle: displayedPoses.get(r.a)?.footCycles.right ?? r.a.feet.right.cycle,
                         rendered: r.nodes.get('AnkleR')!.getPosition().clone(),
                     },
                 },
