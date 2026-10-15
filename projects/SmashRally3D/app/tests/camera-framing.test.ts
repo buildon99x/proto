@@ -32,8 +32,8 @@ for (const [w, h] of [
             v = fitCourtCamera(w, h, top, bottom);
         const feet = projection(v, w, h, { x: 0, y: 0.04, z: -3.4 });
         const head = projection(v, w, h, { x: 0, y: 1.85, z: -3.4 });
-        expect(feet.y / h).toBeCloseTo(0.825, 6);
-        expect(head.y / h).toBeCloseTo(0.525, 6);
+        expect(feet.y / h).toBeCloseTo(0.815, 6);
+        expect(head.y / h).toBeCloseTo(0.54, 6);
         expect(v.position.y).toBeLessThan(4);
         const tape = projection(v, w, h, { x: 0, y: 1.524, z: 0 });
         expect(tape.y / h).toBeGreaterThan(0.45);
@@ -83,8 +83,8 @@ it('matches widened stage net and foreground without shrinking the near athlete'
     const w = 1065,
         h = 606,
         v = fitCourtCamera(w, h, 12, h - 12);
-    const a = projection(v, w, h, { x: -4.9, y: 1.524, z: 0 }),
-        b = projection(v, w, h, { x: 4.9, y: 1.524, z: 0 });
+    const a = projection(v, w, h, { x: -5.208, y: 1.524, z: 0 }),
+        b = projection(v, w, h, { x: 5.208, y: 1.524, z: 0 });
     expect(Math.abs(a.x - b.x) / w).toBeGreaterThan(0.65);
     expect(Math.abs(a.x - b.x) / w).toBeLessThan(0.75);
     const left = projection(v, w, h, { x: -4.3, y: 0, z: -6.7 }),

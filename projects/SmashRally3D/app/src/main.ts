@@ -699,9 +699,9 @@ async function boot() {
         const node = n as Entity,
             p = node.getLocalPosition(),
             scale = node.getLocalScale();
-        node.setLocalPosition(p.x * 1.75, p.y, p.z);
+        node.setLocalPosition(p.x * 1.86, p.y, p.z);
         if (n.name === 'net tape' || (n.name === 'net mesh' && scale.x > 1))
-            node.setLocalScale(scale.x * 1.75, scale.y, scale.z);
+            node.setLocalScale(scale.x * 1.86, scale.y, scale.z);
     }
 
     const player = makeActor(game.actors[0], '#ffba54'),
