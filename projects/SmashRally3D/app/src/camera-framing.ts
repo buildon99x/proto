@@ -19,46 +19,23 @@ export function fitCourtCamera(
     top: number,
     bottom: number,
 ): Framing {
-    // A low rear view gives the near athlete/court priority. High flights widen
-    // only the lens; court picking still inverts the current camera exactly.
     const pitch = (8 * Math.PI) / 180,
         s = Math.sin(pitch),
         c = Math.cos(pitch),
-        aspect = width / height,
-        fov = 58,
+        fov = height > width ? 48 : 42,
         tan = Math.tan((fov * Math.PI) / 360),
-        upper = 1 - (2 * top) / height,
-        lower = 1 - (2 * bottom) / height,
-        horizontal = 0.95,
-        netY = height > width ? 0.5 : 0.52;
-    const points = [-3.5, 3.5].flatMap((x) =>
-        [-7.5, 7.5].flatMap((z) => [0, 3.6].map((y) => ({ x, y, z }))),
-    );
-    const offset = (d: number) => 1.524 * c - (1 - 2 * netY) * tan * (d - 1.524 * s);
-    const fits = (d: number) =>
-        points.every((p) => {
-            const depth = d - p.y * s + p.z * c,
-                up = p.y * c + p.z * s - offset(d);
-            return (
-                depth > 1 &&
-                Math.abs(p.x) <= horizontal * depth * tan * aspect &&
-                up <= upper * depth * tan &&
-                up >= lower * depth * tan
-            );
-        });
-    let lo = 8,
-        hi = 150;
-    for (let n = 0; n < 40; n++) {
-        const mid = (lo + hi) / 2;
-        if (fits(mid)) hi = mid;
-        else lo = mid;
-    }
-    const distance = hi * 1.01,
-        u = offset(distance),
-        target = { x: 0, y: u * c, z: u * s };
+        feetY = 0.825,
+        headY = 0.525,
+        foot = 0.04,
+        head = 1.85,
+        qFoot = (1 - 2 * feetY) * tan,
+        qHead = (1 - 2 * headY) * tan,
+        depth = ((head - foot) * c + qHead * (head - foot) * s) / (qHead - qFoot),
+        up = qFoot * depth,
+        position = { x: 0, y: foot - up * c + depth * s, z: -3.4 - up * s - depth * c };
     return {
-        position: { x: 0, y: target.y + distance * s, z: target.z - distance * c },
-        target,
+        position,
+        target: { x: 0, y: position.y - s * 10, z: position.z + c * 10 },
         fov,
         top,
         bottom,

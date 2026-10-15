@@ -165,6 +165,11 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
     const t = swing ? clamp(elapsed / Math.max(a.hitFrame, 0.008), 0, 1) : 0,
         follow = swing ? clamp((elapsed - a.hitFrame) / Math.max(def.recover, 0.18), 0, 1) : 0;
     const settle = swing ? smooth((elapsed - a.hitFrame - def.recover * 0.85) / 0.14) : 0;
+    const releaseEnd = Math.max(0.31, 1 - 0.035 / Math.max(a.hitFrame, 0.008));
+    const loaded = swing ? smooth(t / 0.3) * (1 - smooth((t - 0.3) / (releaseEnd - 0.3))) : 0;
+    const throwThrough = swing
+        ? smooth((elapsed - a.hitFrame - 0.035) / Math.max(0.08, def.recover * 0.55))
+        : 0;
     const high = (motion === 'Clear' || motion === 'Smash') && a.technique !== 'lift',
         speed = Math.hypot(a.v.x, a.v.z),
         overhead = contact ? clamp((contact.y - 2.1) / 0.6, 0, 1) : 0;
@@ -206,7 +211,10 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
                   (1 - smooth((t - 0.3) / 0.7)) +
               def.coil * 0.75 * follow
             : 0;
-    const bodyTwist = twist * (1 - settle);
+    // Additional shoulder coil/release is zero throughout the original physical
+    // contact window; prepare and follow-through now read clearly at game scale.
+    const bodyTwist =
+        (twist - def.coil * 0.9 * loaded + def.coil * 1.2 * throwThrough) * (1 - settle);
     const spine = add(hip, { x: 0, y: 0.28, z: forward.z * lean * 0.22 }),
         chest = add(spine, { x: Math.sin(bodyTwist) * 0.05, y: 0.22, z: forward.z * lean * 0.1 });
     const right = unit({ x: -a.side * Math.cos(bodyTwist), y: 0, z: Math.sin(bodyTwist) }),
@@ -233,8 +241,7 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
         contactShaft = unit(sub({ x: 0, y: 1, z: 0 }, mul(contactNormal, contactNormal.y)));
     const style = SWING_STYLE[motion as keyof typeof SWING_STYLE] ?? SWING_STYLE.BasicHit;
     // Finish release before the unchanged physical collision window opens.
-    const releaseEnd = Math.max(0.31, 1 - 0.035 / Math.max(a.hitFrame, 0.008));
-    const load = swing ? smooth(t / 0.3) * (1 - smooth((t - 0.3) / (releaseEnd - 0.3))) : 0,
+    const load = loaded,
         release = swing
             ? smooth((elapsed - a.hitFrame - 0.035) / Math.max(0.08, def.recover * 0.6))
             : 0,
@@ -274,7 +281,21 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
                 y: style.arc * Math.sin(Math.PI * u) * (1 - smooth((t - 0.3) / (releaseEnd - 0.3))),
                 z: 0,
             });
-        } else desired = lerp(lerp(contact, through, follow), ready, settle);
+        } else {
+            const finish = add(
+                contact,
+                add(mul(right, motion === 'Drop' ? -0.25 : -0.95), {
+                    x: 0,
+                    y: motion === 'Smash' ? -1.15 : motion === 'Clear' ? -0.18 : -0.32,
+                    z: forward.z * (motion === 'Drop' ? 0.16 : 0.55),
+                }),
+            );
+            desired = lerp(
+                lerp(lerp(contact, through, follow), finish, throwThrough),
+                ready,
+                settle,
+            );
+        }
     }
     const desiredHand = sub(desired, mul(shaft, 0.46)),
         arm = twoBone(

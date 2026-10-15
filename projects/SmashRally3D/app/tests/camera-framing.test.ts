@@ -26,18 +26,18 @@ for (const [w, h] of [
     [360, 640],
     [768, 1024],
 ]) {
-    it(`fits low court and finite athletes at ${w}×${h}`, () => {
+    it(`places the measured near athlete in the cropped reference frame at ${w}×${h}`, () => {
         const top = h > w ? 146 : 12,
             bottom = h - (h > w ? 90 : 12),
             v = fitCourtCamera(w, h, top, bottom);
-        for (const p of FRAMING_POINTS.filter((p) => p.y <= 3.6)) {
-            const s = projection(v, w, h, p);
-            expect(s.depth).toBeGreaterThan(1);
-            expect(s.x).toBeGreaterThanOrEqual(11);
-            expect(s.x).toBeLessThanOrEqual(w - 11);
-            expect(s.y).toBeGreaterThanOrEqual(top);
-            expect(s.y).toBeLessThanOrEqual(bottom);
-        }
+        const feet = projection(v, w, h, { x: 0, y: 0.04, z: -3.4 });
+        const head = projection(v, w, h, { x: 0, y: 1.85, z: -3.4 });
+        expect(feet.y / h).toBeCloseTo(0.825, 6);
+        expect(head.y / h).toBeCloseTo(0.525, 6);
+        expect(v.position.y).toBeLessThan(4);
+        const tape = projection(v, w, h, { x: 0, y: 1.524, z: 0 });
+        expect(tape.y / h).toBeGreaterThan(0.45);
+        expect(tape.y / h).toBeLessThan(0.59);
     });
 }
 it('widens the fixed low view to retain actual high-clear solver paths', () => {
@@ -79,18 +79,15 @@ it('intersects the rendered court plane and retains aim clamps for off-court inp
     });
 });
 
-it('places the tape at reference height and keeps the ordinary near athlete readable', () => {
-    const w = 1280,
-        h = 720,
+it('matches widened stage net and foreground without shrinking the near athlete', () => {
+    const w = 1065,
+        h = 606,
         v = fitCourtCamera(w, h, 12, h - 12);
-    const net = projection(v, w, h, { x: 0, y: 1.524, z: 0 });
-    expect(net.y / h).toBeGreaterThanOrEqual(0.45);
-    expect(net.y / h).toBeLessThanOrEqual(0.59);
-    const feet = projection(v, w, h, { x: 0, y: 0, z: -4.5 });
-    const head = projection(v, w, h, { x: 0, y: 1.85, z: -4.5 });
-    expect((feet.y - head.y) / h).toBeGreaterThan(0.17);
-    expect(v.position.y).toBeLessThan(5);
-    const high = flightFov(v, w, h, [{ x: 0, y: 10, z: -3 }]);
-    expect(high).toBeGreaterThan(v.fov);
-    expect(flightFov(v, w, h, [])).toBe(v.fov);
+    const a = projection(v, w, h, { x: -4.9, y: 1.524, z: 0 }),
+        b = projection(v, w, h, { x: 4.9, y: 1.524, z: 0 });
+    expect(Math.abs(a.x - b.x) / w).toBeGreaterThan(0.65);
+    expect(Math.abs(a.x - b.x) / w).toBeLessThan(0.75);
+    const left = projection(v, w, h, { x: -4.3, y: 0, z: -6.7 }),
+        right = projection(v, w, h, { x: 4.3, y: 0, z: -6.7 });
+    expect(Math.abs(left.x - right.x) / w).toBeGreaterThan(1);
 });

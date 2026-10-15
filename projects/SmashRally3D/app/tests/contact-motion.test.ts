@@ -228,3 +228,17 @@ it('articulates each stroke through load, wrist release, contact, follow and ret
         ).toBeLessThan(0.002);
     }
 });
+
+it('visibly coils the shoulders and completes a cross-body smash after the unchanged impact', () => {
+    const a = { ...actor(), motion: 'Smash', swingMotion: 'Smash', hitFrame: 0.16 };
+    const yaw = (t: number) => {
+        const j = skeletonPose(a, t).joints;
+        return Math.atan2(j.ShoulderR.z - j.ShoulderL.z, j.ShoulderR.x - j.ShoulderL.x);
+    };
+    expect(Math.abs(yaw(0.16 * 0.3))).toBeGreaterThan(1.3);
+    expect(yaw(0.16)).toBeCloseTo(0, 8);
+    expect(yaw(0.16 + 0.25)).toBeGreaterThan(1.1);
+    const follow = skeletonPose(a, 0.16 + 0.3),
+        ready = skeletonPose(a, 0.72);
+    expect(d3(follow.racket.center, ready.racket.center)).toBeGreaterThan(0.3);
+});

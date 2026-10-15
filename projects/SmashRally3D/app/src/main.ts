@@ -86,9 +86,12 @@ let lastInput: {
     submittedAt: number;
     pointerType: string;
     accepted: boolean;
+    projectedAtInput: { x: number; y: number };
 } | null = null;
 let app: AppBase, camera: Entity;
 let courtView: ReturnType<typeof fitCourtCamera>;
+let cameraShift = { x: 0, z: 0 },
+    cameraLift = 0;
 function unlock() {
     if (!audio) audio = new AudioContext();
     void audio.resume();
@@ -310,6 +313,10 @@ function issue(
         submittedAt: game.time,
         pointerType: type,
         accepted: game.actors[0].command === cmd,
+        projectedAtInput: (() => {
+            const p = camera.camera!.worldToScreen(new Vec3(at.x, at.y, at.z));
+            return { x: p.x, y: p.y };
+        })(),
     };
 }
 const materials = new Map<string, StandardMaterial>();
@@ -646,7 +653,7 @@ async function boot() {
     app.scene.ambientLight = new Color(0.32, 0.36, 0.4);
     camera = new Entity('broadcast camera');
     camera.addComponent('camera', {
-        clearColor: new Color(0.12, 0.17, 0.27),
+        clearColor: new Color(0.25, 0.39, 0.49),
         nearClip: 0.1,
         farClip: 100,
     });
@@ -660,13 +667,43 @@ async function boot() {
     light.setEulerAngles(40, -25, 0);
     app.root.addChild(light);
     shape('arena floor', 'box', [0, -0.16, 0], [200, 0.2, 200], '#37314d');
-    shape('court surround', 'box', [0, -0.05, 0], [8, 0.12, 16.3], '#75629e');
+    shape('court surround', 'box', [0, -0.05, 0], [11.4, 0.12, 16.3], '#75629e');
+    // Original practice-club courtyard; no seating, spectators or sourced scenery.
+    shape('club facade', 'box', [0, 3, 11.5], [24, 6, 0.35], '#a7bab8');
+    shape('club lower wall', 'box', [0, 0.9, 11.2], [24, 1.8, 0.3], '#506b78');
+    shape('club canopy', 'box', [0, 6.05, 10.7], [25, 0.18, 1.8], '#e0d7bd');
+    for (let x = -9; x <= 9; x += 3) {
+        shape('club window', 'box', [x, 3.8, 11.28], [2.25, 2.35, 0.08], '#34566b');
+        shape('window mullion', 'box', [x, 3.8, 11.2], [0.055, 2.4, 0.08], '#d1dbce');
+    }
+    for (const x of [-8.5, 8.5]) {
+        shape('planter', 'box', [x, 0.45, 7.8], [2.4, 0.9, 2.4], '#78666a');
+        shape('tree trunk', 'cylinder', [x, 2, 7.8], [0.32, 3.3, 0.32], '#756354');
+        shape('tree canopy', 'sphere', [x, 4.4, 7.8], [4.1, 4.8, 3.5], '#4b7060');
+        shape('side canopy', 'sphere', [x + (x < 0 ? -1 : 1), 5.7, 9.2], [3.5, 3.7, 3], '#608474');
+    }
+
     await Promise.all(
         ['athlete-gold', 'athlete-violet', 'racket', 'shuttle', 'court'].map(loadModel),
     );
     const court = model('court');
     const courtSurface = court.findByName('court') as Entity;
     for (const mesh of courtSurface?.render?.meshInstances ?? []) mesh.material = mat('#207bd5');
+    // Wide practice surface/net stage the reference's tennis-like proportions;
+    // white singles lines, shuttle physics, aim bounds and actor coordinates stay exact.
+    if (courtSurface) {
+        const s = courtSurface.getLocalScale();
+        courtSurface.setLocalScale((s.x * 8.6) / 5.18, s.y, s.z);
+    }
+    for (const n of court.find((n) => ['net tape', 'net mesh', 'net post'].includes(n.name))) {
+        const node = n as Entity,
+            p = node.getLocalPosition(),
+            scale = node.getLocalScale();
+        node.setLocalPosition(p.x * 1.75, p.y, p.z);
+        if (n.name === 'net tape' || (n.name === 'net mesh' && scale.x > 1))
+            node.setLocalScale(scale.x * 1.75, scale.y, scale.z);
+    }
+
     const player = makeActor(game.actors[0], '#ffba54'),
         opponent = makeActor(game.actors[1], '#8d9aff'),
         shuttle = model('shuttle');
@@ -763,27 +800,69 @@ async function boot() {
         animate(opponent, displayHit?.actor === 1 ? displayHit.renderPose : null);
         const displayShuttle = reviewHit?.p ?? displayHit?.p ?? game.p;
         if (!reviewHit && courtView) {
-            const lead = 0.18;
+            const rally = game.phase === 'RALLY',
+                rem = game.contactAt - game.time;
+            const aiming = rally && game.receiver === 0 && rem < 0.45 && !game.actors[0].command;
+            const recoverView = game.receiver === 0 && rem < 1.2;
+            const cameraDt = Math.min(dt, 0.05);
+            const factor = 1 - Math.exp(-cameraDt * 7);
+            if (!aiming) {
+                const desiredX = rally ? Math.max(-1.8, Math.min(1.8, game.actors[0].p.x)) : 0;
+                const desiredZ = rally ? Math.max(-2.6, Math.min(0, game.actors[0].p.z + 3.4)) : 0;
+                cameraShift.x += (desiredX - cameraShift.x) * factor;
+                cameraShift.z += (desiredZ - cameraShift.z) * factor;
+                const desiredLift =
+                    rally && !recoverView ? Math.min(1, Math.max(0, (game.p.y - 4) / 4)) * 8 : 0;
+                cameraLift += (desiredLift - cameraLift) * factor;
+            }
+            if (!rally) {
+                cameraShift = { x: 0, z: 0 };
+                cameraLift = 0;
+            }
+            const pitch = ((8 - cameraLift) * Math.PI) / 180;
+            const position = {
+                x: courtView.position.x + cameraShift.x,
+                y: courtView.position.y,
+                z: courtView.position.z + cameraShift.z,
+            };
+            const view = {
+                ...courtView,
+                position,
+                target: {
+                    x: position.x,
+                    y: position.y - Math.sin(pitch) * 10,
+                    z: position.z + Math.cos(pitch) * 10,
+                },
+            };
+            camera.setPosition(position.x, position.y, position.z);
+            camera.lookAt(view.target.x, view.target.y, view.target.z);
+            const lead = 0.22;
             const anticipated = {
                 x: game.p.x + game.v.x * lead,
                 y: Math.max(game.p.y, game.p.y + game.v.y * lead),
                 z: game.p.z + game.v.z * lead,
             };
+            const actors = [...displayedPoses.values()].flatMap((p) => Object.values(p.joints));
             const wanted = flightFov(
-                courtView,
+                view,
                 innerWidth,
                 innerHeight,
-                game.phase === 'RALLY' ? [displayShuttle, anticipated] : [],
+                rally ? [displayShuttle, anticipated, ...actors] : [],
             );
-            // Freeze lens return through the human aiming window. A necessary
-            // outward expansion still wins so an unexpected high ball stays visible.
-            const aiming =
-                game.phase === 'RALLY' && game.receiver === 0 && game.contactAt - game.time < 0.65;
+            // Tracking eases before the broad visible input window, then holds.
+            // The actual finite actors/shuttle remain the visibility safety bound.
+            const currentRequired = flightFov(
+                view,
+                innerWidth,
+                innerHeight,
+                rally ? [displayShuttle, ...actors] : [],
+            );
             camera.camera!.fov = Math.max(
-                wanted,
+                currentRequired,
                 aiming
                     ? camera.camera!.fov
-                    : camera.camera!.fov + (wanted - camera.camera!.fov) * Math.min(1, dt * 2.5),
+                    : camera.camera!.fov +
+                          (wanted - camera.camera!.fov) * Math.min(1, cameraDt * 14),
             );
         }
         shuttle.setPosition(displayShuttle.x, displayShuttle.y, displayShuttle.z);
