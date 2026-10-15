@@ -32,12 +32,15 @@ import type { Intent, Actor, Hit } from './game';
 import { CFG, clamp } from './physics';
 import type { V3 } from './physics';
 import { MOTIONS, skeletonPose, sub } from './motion';
-import type { MotionName } from './motion';
+import type { MotionName, SkeletonPose } from './motion';
 import { synthImpact, offlineImpacts } from './audio';
 import './style.css';
 const reviewContact = new URLSearchParams(location.search).get('review-contact');
 let reviewHit: Hit | null = null;
 let impactTechnique = 'clear';
+let pendingContact: Hit | null = null;
+let renderedContact: { time: number; actor: number; shuttle: V3; racket: V3; contact: V3 } | null =
+    null;
 let graphicsLost = false;
 const canvas = document.getElementById('application-canvas') as HTMLCanvasElement,
     ui = document.getElementById('ui')!,
@@ -215,6 +218,10 @@ ui.addEventListener('click', (e) => {
     switch (el.dataset.action) {
         case 'start':
             panel = '';
+            impactLedger.length = 0;
+            audioEvents = 0;
+            pendingContact = null;
+            renderedContact = null;
             game.start();
             break;
         case 'pause':
@@ -431,11 +438,11 @@ const direction = new Vec3(),
     facing = new Quat(),
     bodyMatrix = new Mat4(),
     bodyRotation = new Quat();
-function animate(r: ReturnType<typeof makeActor>) {
+function animate(r: ReturnType<typeof makeActor>, contactPose: SkeletonPose | null = null) {
     const pose =
             reviewHit && r.a === game.actors[reviewHit.actor]
                 ? reviewHit.renderPose
-                : (r.a.pose ?? skeletonPose(r.a, game.time)),
+                : (contactPose ?? r.a.pose ?? skeletonPose(r.a, game.time)),
         j = pose.joints;
     r.root.setPosition(0, 0, 0); // joint world poses own translation; skin matrices remain one coherent hierarchy
     const bodyRight = new Vec3(
@@ -650,7 +657,12 @@ async function boot() {
     const history: V3[] = [];
     game.onMotionTick = (index, dt) => tickMotion(index === 0 ? player : opponent, dt);
     game.onHit = (h) => {
-        if (reviewContact && h.actor === 0 && game.shots.length > 1 && h.shot === reviewContact) {
+        if (
+            reviewContact &&
+            h.actor === 0 &&
+            game.shots.length > 1 &&
+            (h.shot === reviewContact || h.technique === reviewContact)
+        ) {
             reviewHit = h;
             shakeUntil = 0;
             game.paused = true;
@@ -659,6 +671,7 @@ async function boot() {
             camera.lookAt(game.actors[0].p.x, 1.5, game.actors[0].p.z);
         }
         impactTechnique = h.technique;
+        pendingContact = h;
         const impactPerf = performance.now(),
             scheduled = sound(h);
         impactAt = game.time;
@@ -704,9 +717,22 @@ async function boot() {
             frames = 0;
             frameTime = 0;
         }
-        animate(player);
-        animate(opponent);
-        shuttle.setPosition(game.p.x, game.p.y, game.p.z);
+        // The first render after a real collision displays that actual swept contact snapshot.
+        // Physics keeps its fixed clock; no collision or outcome is invented by presentation.
+        const displayHit = pendingContact;
+        pendingContact = null;
+        animate(player, displayHit?.actor === 0 ? displayHit.renderPose : null);
+        animate(opponent, displayHit?.actor === 1 ? displayHit.renderPose : null);
+        const displayShuttle = reviewHit?.p ?? displayHit?.p ?? game.p;
+        shuttle.setPosition(displayShuttle.x, displayShuttle.y, displayShuttle.z);
+        if (displayHit)
+            renderedContact = {
+                time: displayHit.time,
+                actor: displayHit.actor,
+                shuttle: { ...displayShuttle },
+                racket: (displayHit.actor === 0 ? player : opponent).racket.getPosition().clone(),
+                contact: { ...displayHit.contact.racket },
+            };
         if (Math.hypot(game.v.x, game.v.y, game.v.z) > 0.1) {
             shuttle.lookAt(game.p.x + game.v.x, game.p.y + game.v.y, game.p.z + game.v.z);
             shuttle.rotateLocal(90, 0, 0);
@@ -770,6 +796,7 @@ async function boot() {
             shuttleScreen: camera
                 .camera!.worldToScreen(new Vec3(game.p.x, game.p.y, game.p.z))
                 .clone(),
+            renderedContact,
             audioState: audio?.state ?? 'locked',
             audioEvents,
             audioLedger: impactLedger.map((e) => ({ ...e })),

@@ -619,7 +619,7 @@ export class Game {
     aiCommand() {
         const a = this.actors[1],
             profile = profiles[this.difficulty];
-        const context = this.strokeContext(a),
+        const context = { ...this.strokeContext(a), quality: 'good' as Quality },
             choice = chooseTactic(
                 context,
                 this.aiPerception.opponent ?? { x: 0, y: 0, z: -a.side * 3.4 },

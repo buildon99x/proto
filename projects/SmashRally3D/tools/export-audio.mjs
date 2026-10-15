@@ -3,7 +3,9 @@ import path from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";
 const require = createRequire(path.resolve(".playtest/package.json")),
   p = require("puppeteer"),
-  out = path.resolve("projects/SmashRally3D/verification/audio");
+  out = path.resolve(
+    process.env.SMASH_AUDIO_OUT || "projects/SmashRally3D/verification/audio",
+  );
 await mkdir(out, { recursive: true });
 const b = await p.launch({
   executablePath: "/usr/bin/chromium",

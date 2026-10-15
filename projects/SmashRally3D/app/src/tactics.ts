@@ -160,7 +160,7 @@ export function chooseTactic(
                         (s.shot === 'smash' || s.shot === 'superSmash' ? 0.25 : 0) +
                         (s.technique === 'lift' && s.balance < 0.7 ? 0.2 : 0);
                 if (!best || score > best.score)
-                    best = { intent, target: p, score, technique: s.technique };
+                    best = { intent, target, score, technique: s.technique };
             }
     return (
         best ?? {
