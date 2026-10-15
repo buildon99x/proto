@@ -1,0 +1,12 @@
+{
+  "pass": false,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-BwV7a-4G.js",
+    "sha256": "e9efb5ca6f9195d361c0692021a54f44462ac32e19c678c42c8da5f06cf093b5",
+    "startedAt": "2026-10-15T06:19:37.435Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [],
+  "failure": "TargetCloseError: Protocol error (Runtime.callFunctionOn): Target closed"
+}

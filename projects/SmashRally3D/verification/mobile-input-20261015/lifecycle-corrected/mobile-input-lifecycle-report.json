@@ -1,0 +1,15 @@
+{
+  "pass": false,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-BwV7a-4G.js",
+    "sha256": "e9efb5ca6f9195d361c0692021a54f44462ac32e19c678c42c8da5f06cf093b5",
+    "startedAt": "2026-10-15T06:23:15.810Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "INPUT LIFECYCLE CASE {\"name\":\"held-tap\",\"fixture\":{\"name\":\"held-tap\",\"downTime\":6.066666666666758,\"beforeContacts\":1,\"downInput\":{\"shotIntent\":\"clear\",\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364},\"issuedAt\":6.066666666666758,\"pointerType\":\"touch\",\"touchReservation\":true,\"gestureId\":2},\"afterInput\":{\"shotIntent\":\"clear\",\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364},\"issuedAt\":6.066666666666758,\"pointerType\":\"touch\",\"touchReservation\":true,\"gestureId\":2},\"events\":[],\"complete\":true},\"actual\":[{\"shot\":\"clear\",\"technique\":\"clear\",\"time\":6.208333333333432,\"quality\":\"perfect\",\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364}}],\"beforeUp\":3,\"afterUp\":3,\"quality\":\"MEDIUM\"}",
+    "INPUT LIFECYCLE CASE {\"name\":\"raw-up\",\"fixture\":{\"name\":\"raw-up\",\"downTime\":6.016666666666755,\"beforeContacts\":1,\"downInput\":{\"shotIntent\":\"clear\",\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364},\"issuedAt\":6.016666666666755,\"pointerType\":\"touch\",\"touchReservation\":true,\"gestureId\":2},\"afterInput\":{\"shotIntent\":\"clear\",\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364},\"issuedAt\":6.016666666666755,\"pointerType\":\"touch\",\"touchReservation\":false,\"gestureId\":2},\"events\":[{\"type\":\"pointerrawupdate\",\"time\":6.016666666666755,\"input\":{\"shotIntent\":\"clear\",\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364},\"issuedAt\":6.016666666666755,\"pointerType\":\"touch\",\"touchReservation\":false,\"gestureId\":2},\"lastInput\":{\"shotIntent\":\"clear\",\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364},\"issuedAt\":6.016666666666755,\"submittedAt\":6.016666666666755,\"pointerType\":\"touch\",\"accepted\":true},\"playerContacts\":1},{\"type\":\"pointermove\",\"time\":6.016666666666755,\"input\":{\"shotIntent\":\"clear\",\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364},\"issuedAt\":6.016666666666755,\"pointerType\":\"touch\",\"touchReservation\":false,\"gestureId\":2},\"lastInput\":{\"shotIntent\":\"clear\",\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364},\"issuedAt\":6.016666666666755,\"submittedAt\":6.016666666666755,\"pointerType\":\"touch\",\"accepted\":true},\"playerContacts\":1}],\"complete\":true},\"actual\":[{\"shot\":\"clear\",\"technique\":\"clear\",\"time\":6.191666666666764,\"quality\":\"perfect\",\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364}}],\"beforeUp\":3,\"afterUp\":3,\"quality\":\"MEDIUM\"}"
+  ],
+  "failure": "Error: waitForFunction failed: frame got detached."
+}

@@ -108,17 +108,27 @@ it('owning pointer cancellation stops prepared contact before its hit-frame', ()
     const { g, cmd, a } = reserved();
     const before = g.shots.filter((h) => h.actor === 0).length;
     g.cancelTouchCommand(cmd.issuedAt, cmd.gestureId);
-    expect(a.command).toBeNull();
-    expect(a.locked).toBe(false);
+    const cancelled = a.command === null && !a.locked;
     for (let n = 0; n < 120; n++) g.step();
-    expect(g.shots.filter((h) => h.actor === 0).length).toBe(before);
+    const actual = g.shots
+        .filter((h) => h.actor === 0)
+        .slice(before)
+        .map((h) => ({ shot: h.shot, time: h.time }));
+    console.log('MOBILE_CANCEL', JSON.stringify({ cancelled, actual }));
+    expect(cancelled).toBe(true);
+    expect(actual.length).toBe(0);
 });
 it('another gesture with the same simulation timestamp cannot classify or cancel the owner', () => {
     const { g, cmd, a } = reserved();
     g.command({ ...cmd, gestureId: 2, shotIntent: 'drop', touchReservation: false });
     g.cancelTouchCommand(cmd.issuedAt, 2);
-    expect(a.command).toBe(cmd);
-    expect(a.locked).toBe(true);
+    const ownerPreserved = a.command === cmd && a.locked;
+    const actual = hit(g);
+    console.log(
+        'MOBILE_IDENTITY',
+        JSON.stringify({ ownerPreserved, actual: { shot: actual.shot, time: actual.time } }),
+    );
+    expect(ownerPreserved).toBe(true);
 });
 it('a held tap reserves immediately and emits one physical return without pointerup', () => {
     const { g, cmd, a } = reserved();

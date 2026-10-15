@@ -1,0 +1,321 @@
+{
+  "createdAt": "2026-10-15T06:36:49.823156+00:00",
+  "files": {
+    "README.md": {
+      "sha256": "68bac86bfc6e1de74f1662966e4c663d055381bf3c2e02c04f7af772e8318614",
+      "bytes": 11266
+    },
+    "after-boundaries.txt": {
+      "sha256": "eaf30480451247e3c70d4db7cb5f96b9a3de691af446ea65538338f42a881a6c",
+      "bytes": 2171
+    },
+    "after-tests.txt": {
+      "sha256": "2b8acf0e09a944061fe2c96d1e906d26bc640abc613257ab7ca439154fbebc18",
+      "bytes": 315
+    },
+    "before-boundaries.txt": {
+      "sha256": "208a4de0455002d662e41880b9ae24c86ad50f29b23912c866c3fb19303a123a",
+      "bytes": 4612
+    },
+    "before-lifecycle/00-boot.png": {
+      "sha256": "c3eadd60a3fedf28bea17ad14610d76fa424a0ad3b3f7bb8a6f7171b414d89bc",
+      "bytes": 52560
+    },
+    "before-lifecycle/mobile-input-lifecycle-report.json": {
+      "sha256": "a581c03fd13155316d8275c63c33a6f0ad6786dfce22305bba0774c20c3e0602",
+      "bytes": 16046
+    },
+    "before-standard.json": {
+      "sha256": "bd8f5312495f01b8d097a3b54b741cf42fd8c3cd56a97e58a00ff5f602f0ced5",
+      "bytes": 964
+    },
+    "before-tests.txt": {
+      "sha256": "c7197d41867016cf981a888bd72a43ce4cd0b7d32304fd0b2eb1ffa0ecb2f07a",
+      "bytes": 315
+    },
+    "beginner/00-boot.png": {
+      "sha256": "c3eadd60a3fedf28bea17ad14610d76fa424a0ad3b3f7bb8a6f7171b414d89bc",
+      "bytes": 52560
+    },
+    "beginner/mobile-beginner-report.json": {
+      "sha256": "99b965255561fd0c3f029110748ece384858081d789e836b4407ad3f956ee868",
+      "bytes": 1695
+    },
+    "beginner/tactics-mobile-beginner-rally.png": {
+      "sha256": "c983eeb0a67fcb977e60829b0830886edfabd97beb61ffc13dc5010b0b457bc3",
+      "bytes": 44766
+    },
+    "bundles.json": {
+      "sha256": "ffb05c6fc18abd5b2a8d6f3294d439ef898f8fd7ae13ec4ba0f80e9db167ff92",
+      "bytes": 668
+    },
+    "drop/00-boot.png": {
+      "sha256": "4ea1e3ee6bc464aeb1d8b149d5df2b9548e738aa8a627e15d54dde0fe97f9d67",
+      "bytes": 83146
+    },
+    "drop/drop-defence-easy-wide.png": {
+      "sha256": "92a84f197ca237b5d33115924d4456bc46aa6186a937a5369de7cab19d581b64",
+      "bytes": 54884
+    },
+    "drop/drop-defence-report.json": {
+      "sha256": "2e858d73d0dc881721dccf1bf68fa91629e709cfcf4dd40d7b37551678c8fa0b",
+      "bytes": 1904682
+    },
+    "final-beginner/00-boot.png": {
+      "sha256": "c3eadd60a3fedf28bea17ad14610d76fa424a0ad3b3f7bb8a6f7171b414d89bc",
+      "bytes": 52560
+    },
+    "final-beginner/mobile-beginner-report.json": {
+      "sha256": "ca34455bf1a313a03c56182f31ce207fe4edce489103fd5199ae4a4b692d2cae",
+      "bytes": 1683
+    },
+    "final-beginner/tactics-mobile-beginner-rally.png": {
+      "sha256": "e931db4a3f3df1d9ddaa20825b4b25d461f8e28198d88d6c3164345897bb14b7",
+      "bytes": 45545
+    },
+    "final-build.txt": {
+      "sha256": "535f670fb583e47e4f1f8f81e33b4fb1235eec99d5507a2501f4c789f3f3de2e",
+      "bytes": 821
+    },
+    "final-drop/00-boot.png": {
+      "sha256": "4ea1e3ee6bc464aeb1d8b149d5df2b9548e738aa8a627e15d54dde0fe97f9d67",
+      "bytes": 83146
+    },
+    "final-drop/drop-defence-easy-wide.png": {
+      "sha256": "29539eca22c6e45e5e3fb4e58c5ef77ea4d5e4316538d2cfee7bee9bd2b9c46f",
+      "bytes": 55345
+    },
+    "final-drop/drop-defence-hard-wide.png": {
+      "sha256": "6648898048e1b7345d5d356784aaf7c48737f867e53d5731b592107d57391c01",
+      "bytes": 54091
+    },
+    "final-drop/drop-defence-normal-wide.png": {
+      "sha256": "dcd38d79ae79ebcc9246a5f0352c811907309ae423a5902e300b18a3cdc4361e",
+      "bytes": 54197
+    },
+    "final-drop/drop-defence-report.json": {
+      "sha256": "660d6407b37231f399e259cfafd88f1cf27d0970f420f5fe947d7f10ae53a39d",
+      "bytes": 2827484
+    },
+    "final-drop-analysis.json": {
+      "sha256": "340c69e29ad1072035ec941e6556b280520c106b05ca0b3638fd831f455512cb",
+      "bytes": 62811
+    },
+    "final-lifecycle/00-boot.png": {
+      "sha256": "c3eadd60a3fedf28bea17ad14610d76fa424a0ad3b3f7bb8a6f7171b414d89bc",
+      "bytes": 52560
+    },
+    "final-lifecycle/mobile-input-lifecycle-report.json": {
+      "sha256": "fc2c237453eaf82b3ff9d789eda32f4917f5ecb65a131f308e107fe33aec81a5",
+      "bytes": 17658
+    },
+    "final-mixed/00-boot.png": {
+      "sha256": "2b8c1e8bdfc83281ee5bef71493289a49df8bec226b1cc2baeeb7a3383e1134d",
+      "bytes": 106981
+    },
+    "final-mixed/drop-defence-regression-report.json": {
+      "sha256": "76a740879d0e3328a028e6b5e07198e2f71c84165f87aae91fa4c694f06cb76e",
+      "bytes": 33650
+    },
+    "final-mixed/tactics-normal-natural-rally.png": {
+      "sha256": "22b10d7f6e9fac1d5e70f490307eeee0241a1e41f8ff826eb17c55855b8372dd",
+      "bytes": 73645
+    },
+    "final-mixed/tactics-normal-results.png": {
+      "sha256": "2a59aaf6cf86d45f212127715c9a4d4cd71e6e216612b4f3697c69b7b68c9064",
+      "bytes": 88177
+    },
+    "final-native/00-boot.png": {
+      "sha256": "c3eadd60a3fedf28bea17ad14610d76fa424a0ad3b3f7bb8a6f7171b414d89bc",
+      "bytes": 52560
+    },
+    "final-native/mobile-01-ready.png": {
+      "sha256": "c45215f4f49b497321c6d900ba39d92fe5e539b9ff8e981df5191578631e4bda",
+      "bytes": 45724
+    },
+    "final-native/mobile-02-tap-serve.png": {
+      "sha256": "d6c4614531024a1ffa0488498855337d59fefd9ce8770182305e9e46b96f67af",
+      "bytes": 43197
+    },
+    "final-native/mobile-03-clear-threshold.png": {
+      "sha256": "604d3c6d12406efdafc0f040c191e5d090148446fc45969eb93f3ccb42e382ff",
+      "bytes": 46636
+    },
+    "final-native/mobile-03-drop-threshold.png": {
+      "sha256": "d45758e8ce29c508b44a66cf235838008273103a0c2e7b65f1a4c3500acdb7ae",
+      "bytes": 45326
+    },
+    "final-native/mobile-04-pause.png": {
+      "sha256": "680b4ce463be27468ad34e6c1818064a20ba294deab61aabb21c707292fd2c27",
+      "bytes": 36974
+    },
+    "final-native/mobile-05-portrait.png": {
+      "sha256": "6f81539ec5f268925d1590494e5e43fdfac57126725ea9b089c84f9aa4803300",
+      "bytes": 44409
+    },
+    "final-native/mobile-native-report.json": {
+      "sha256": "d2f7ff50a1961bd9fb9082d48fd958e226374776fe195137a0b922b448ed3a4d",
+      "bytes": 5474
+    },
+    "final-native-contention/00-boot.png": {
+      "sha256": "c3eadd60a3fedf28bea17ad14610d76fa424a0ad3b3f7bb8a6f7171b414d89bc",
+      "bytes": 52560
+    },
+    "final-native-contention/mobile-01-ready.png": {
+      "sha256": "c45215f4f49b497321c6d900ba39d92fe5e539b9ff8e981df5191578631e4bda",
+      "bytes": 45724
+    },
+    "final-native-contention/mobile-02-tap-serve.png": {
+      "sha256": "39f3da9983aa000c83ae9d3e3f4e922d94d7f730510d79a5a5c44c21a5d29cf2",
+      "bytes": 43253
+    },
+    "final-native-contention/mobile-03-clear-threshold.png": {
+      "sha256": "7204a4e746095d1bff95ccd029eb814a8d0d819e7028b4cc72662cd4073a4ee8",
+      "bytes": 45652
+    },
+    "final-native-contention/mobile-03-drop-threshold.png": {
+      "sha256": "4c8b1131eeb9bad63b976e764d144359aa2411dfbfdffc740080f441de312520",
+      "bytes": 45590
+    },
+    "final-native-contention/mobile-04-pause.png": {
+      "sha256": "f262283c0dbb7d0d9ac8a79483def88a52e8c7bf54a0cdb136fab5ef291d567a",
+      "bytes": 36970
+    },
+    "final-native-contention/mobile-05-portrait.png": {
+      "sha256": "482388ccf591043ac12e4e82650dd2ef661d95b14104ad2f2044328b0a51ddef",
+      "bytes": 44348
+    },
+    "final-native-contention/mobile-native-report.json": {
+      "sha256": "d738916a556635a2c52ab362493cabf2d1400b6758b946046614c34c2c623f85",
+      "bytes": 5473
+    },
+    "final-root-build.txt": {
+      "sha256": "4212e2d0f9d45043ebd3156773e1257aecaa37d26e8724105d695eb37c7afc9a",
+      "bytes": 10070
+    },
+    "final-tests.txt": {
+      "sha256": "5430da898ed3e11cdcc77a80fcca848e454e543e3c4e20caf9dbdb53a3b4303f",
+      "bytes": 315
+    },
+    "lifecycle/00-boot.png": {
+      "sha256": "c3eadd60a3fedf28bea17ad14610d76fa424a0ad3b3f7bb8a6f7171b414d89bc",
+      "bytes": 52560
+    },
+    "lifecycle/mobile-input-lifecycle-report.json": {
+      "sha256": "4197e3f90e24d8802783ad447ef54ca5a6efd76e9988fa707401b1517fde35e3",
+      "bytes": 15983
+    },
+    "lifecycle-corrected/00-boot.png": {
+      "sha256": "c3eadd60a3fedf28bea17ad14610d76fa424a0ad3b3f7bb8a6f7171b414d89bc",
+      "bytes": 52560
+    },
+    "lifecycle-corrected/mobile-input-lifecycle-report.json": {
+      "sha256": "4e8155f5a2fec708250175cbfe940e32067420521c164bd46ee1a2e89fd1f102",
+      "bytes": 3161
+    },
+    "lifecycle-final/00-boot.png": {
+      "sha256": "c3eadd60a3fedf28bea17ad14610d76fa424a0ad3b3f7bb8a6f7171b414d89bc",
+      "bytes": 52560
+    },
+    "lifecycle-final/mobile-input-lifecycle-report.json": {
+      "sha256": "561ffd06cb95327e579b07818b931afce70b7854486e6f7f7a13e585293e2020",
+      "bytes": 6479
+    },
+    "mixed/00-boot.png": {
+      "sha256": "2b8c1e8bdfc83281ee5bef71493289a49df8bec226b1cc2baeeb7a3383e1134d",
+      "bytes": 106981
+    },
+    "mixed/drop-defence-regression-report.json": {
+      "sha256": "74696c2029bee83f7b848e2292d5832cea550a12206148b89959350c52b588ae",
+      "bytes": 448
+    },
+    "mixed/tactics-normal-natural-rally.png": {
+      "sha256": "c573302b37508139e66f3f218b1b7b69f2a99fcc84c90643aabc559c87e8711a",
+      "bytes": 75030
+    },
+    "native-trace/00-boot.png": {
+      "sha256": "c3eadd60a3fedf28bea17ad14610d76fa424a0ad3b3f7bb8a6f7171b414d89bc",
+      "bytes": 52560
+    },
+    "native-trace/mobile-01-ready.png": {
+      "sha256": "c45215f4f49b497321c6d900ba39d92fe5e539b9ff8e981df5191578631e4bda",
+      "bytes": 45724
+    },
+    "native-trace/mobile-02-tap-serve.png": {
+      "sha256": "c98a340f567ced41b6b106def3d545c7c0602a35bd37c41da2bb46e340dbd476",
+      "bytes": 43226
+    },
+    "native-trace/mobile-03-clear-threshold.png": {
+      "sha256": "9975057ee473b171b832ecd53f2a4ed838bea8312e98d3c65179a5ce30064118",
+      "bytes": 44004
+    },
+    "native-trace/mobile-native-report.json": {
+      "sha256": "707265400819dc350398073ea6ed4d844889f8a5aefd6a8501e87673929067dd",
+      "bytes": 731
+    },
+    "registry-final.txt": {
+      "sha256": "a186036cea7f8035311364786907a5b6dbee98bbe8485a591aae81fe4954597d",
+      "bytes": 172
+    },
+    "registry.txt": {
+      "sha256": "a186036cea7f8035311364786907a5b6dbee98bbe8485a591aae81fe4954597d",
+      "bytes": 172
+    },
+    "remote-check.json": {
+      "sha256": "60b5ed194be327a73f3d4524d5c8db4b8fb16947ef8355702bd00b39b7e1bc21",
+      "bytes": 934
+    },
+    "report-index.json": {
+      "sha256": "deaa2a990f22784b982a19d072bbcd9ce60e0f3e11ca90956eacd42eeed7f931",
+      "bytes": 5018
+    },
+    "root-build.txt": {
+      "sha256": "705f5f22583399d6beed1bacc25694f49f441f71880671a4f318c516cb5c16d8",
+      "bytes": 10068
+    },
+    "standard/00-boot.png": {
+      "sha256": "c3eadd60a3fedf28bea17ad14610d76fa424a0ad3b3f7bb8a6f7171b414d89bc",
+      "bytes": 52560
+    },
+    "standard/mobile-01-ready.png": {
+      "sha256": "c45215f4f49b497321c6d900ba39d92fe5e539b9ff8e981df5191578631e4bda",
+      "bytes": 45724
+    },
+    "standard/mobile-02-tap-serve.png": {
+      "sha256": "95c0506f6dde2ee67a5c7cb408e7d2e33598572b9b37917e1d70ced281589c88",
+      "bytes": 43067
+    },
+    "standard/mobile-03-clear-threshold.png": {
+      "sha256": "1ef4b8c88e81dfc346770947c984ef9de08ab124934de60f1e4de89e254a4739",
+      "bytes": 44143
+    },
+    "standard/mobile-03-drop-threshold.png": {
+      "sha256": "b90589ea59b82b9780c1e6d8fa74b23941ab1e077de29f9427271e762fc478fe",
+      "bytes": 43979
+    },
+    "standard/mobile-04-pause.png": {
+      "sha256": "8be51fe0fae5cd18e3468984ba6e7086bb53cf5cd7f0a6f2a2f50ce591288f16",
+      "bytes": 36949
+    },
+    "standard/mobile-05-portrait.png": {
+      "sha256": "4e25a36dcb7217bd4c4f0bb5ed9d0c19a9fb5b912dc95e3331509e09ed380463",
+      "bytes": 44208
+    },
+    "standard/mobile-report.json": {
+      "sha256": "a27e3c8cb38536f61c0e94123d6ce693c7a51a852019e34d027e2d3a7c7370e9",
+      "bytes": 967
+    },
+    "superseded-drop.txt": {
+      "sha256": "c4e2f837c6958c28169f592b6503c18a0bc22d48fcb9cd01b7885d5cca05ee8c",
+      "bytes": 1704395
+    },
+    "superseded-lifecycle-corrected.txt": {
+      "sha256": "f007bc857ac2bed3cbade0d12bb5312be53f5bd96d1f57fe823beca04bb69b78",
+      "bytes": 2674
+    },
+    "superseded-mixed.txt": {
+      "sha256": "62b4dc52eb98176b89b8074c426aa7eeb404685051da37f3e6f9eca57ea71aae",
+      "bytes": 381
+    }
+  }
+}

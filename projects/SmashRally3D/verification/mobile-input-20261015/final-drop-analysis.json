@@ -1,0 +1,2293 @@
+{
+  "source": "final-drop/drop-defence-report.json",
+  "pass": true,
+  "errors": [],
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-BJK7yYXT.js",
+    "sha256": "982c6371d74eccaddf2266f85cc11c4ca5afc1047d6a628bdeab29bc4527d008",
+    "startedAt": "2026-10-15T06:30:09.467Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "aggregate": [
+    {
+      "difficulty": "EASY",
+      "softIntentCommands": 9,
+      "actualSoftFlights": 9,
+      "plannerReachable": 9,
+      "plannerUnreachable": 0,
+      "noObservedVerdict": 0,
+      "contactReturns": 9,
+      "successfulReturns": 6,
+      "replyFaults": 0,
+      "unresolvedReturns": 3,
+      "directSoftWinners": 0,
+      "plannerReachableButNoContact": 0,
+      "closedPoints": 0,
+      "playerPoints": 0,
+      "successfulReturnRate": 0.6666666666666666,
+      "directWinnerRate": 0,
+      "repetitionPointWinRate": null
+    },
+    {
+      "difficulty": "NORMAL",
+      "softIntentCommands": 10,
+      "actualSoftFlights": 9,
+      "plannerReachable": 9,
+      "plannerUnreachable": 0,
+      "noObservedVerdict": 0,
+      "contactReturns": 9,
+      "successfulReturns": 6,
+      "replyFaults": 0,
+      "unresolvedReturns": 3,
+      "directSoftWinners": 0,
+      "plannerReachableButNoContact": 0,
+      "closedPoints": 4,
+      "playerPoints": 0,
+      "successfulReturnRate": 0.6666666666666666,
+      "directWinnerRate": 0,
+      "repetitionPointWinRate": 0
+    },
+    {
+      "difficulty": "HARD",
+      "softIntentCommands": 9,
+      "actualSoftFlights": 9,
+      "plannerReachable": 9,
+      "plannerUnreachable": 0,
+      "noObservedVerdict": 0,
+      "contactReturns": 9,
+      "successfulReturns": 6,
+      "replyFaults": 0,
+      "unresolvedReturns": 3,
+      "directSoftWinners": 0,
+      "plannerReachableButNoContact": 0,
+      "closedPoints": 2,
+      "playerPoints": 0,
+      "successfulReturnRate": 0.6666666666666666,
+      "directWinnerRate": 0,
+      "repetitionPointWinRate": 0
+    }
+  ],
+  "matches": [
+    {
+      "metrics": {
+        "difficulty": "EASY",
+        "pattern": "centre-soft",
+        "phase": "RALLY",
+        "scores": [
+          0,
+          0
+        ],
+        "softIntentCommands": 3,
+        "actualSoftFlights": 3,
+        "actualTechniques": {
+          "drop": 3,
+          "net": 0,
+          "block": 0
+        },
+        "qualities": {
+          "perfect": 0,
+          "good": 0,
+          "weak": 3,
+          "miss": 0
+        },
+        "byTechnique": {
+          "drop": {
+            "attempts": 3,
+            "successfulReturns": 2,
+            "directWinners": 0
+          },
+          "net": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          },
+          "block": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          }
+        },
+        "plannerReachable": 3,
+        "plannerUnreachable": 0,
+        "noObservedVerdict": 0,
+        "contactReturns": 3,
+        "successfulReturns": 2,
+        "replyFaults": 0,
+        "unresolvedReturns": 1,
+        "directSoftWinners": 0,
+        "plannerReachableButNoContact": 0,
+        "closedPoints": 0,
+        "playerPoints": 0,
+        "repetitionPointWinRate": null,
+        "directWinnerRate": 0,
+        "successfulReturnRate": 0.6666666666666666,
+        "maxObservedContinuousAISpeed": 5.800000000000344,
+        "minimumObservedDelay": 0.5000000000000249
+      },
+      "attempts": [
+        {
+          "flight": 3,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": 1.857227101047086,
+              "y": 2.629462663802661,
+              "z": -5.202928109580726
+            },
+            "velocity": {
+              "x": -2.165348686017534,
+              "y": 4,
+              "z": 6.702724229516536
+            },
+            "technique": "drop",
+            "quality": "weak",
+            "target": {
+              "x": -0.22178876297401479,
+              "y": 0.025,
+              "z": 1.2325573599454742
+            },
+            "time": 6.016666666666755
+          },
+          "aiAtLaunch": {
+            "x": 0.6992380991955934,
+            "y": 0,
+            "z": 3.556353205947408
+          },
+          "firstObservation": {
+            "time": 6.51666666666678,
+            "p": {
+              "x": 0.9288207533498058,
+              "y": 3.2661778626566407,
+              "z": -2.2699976202970085
+            },
+            "ai": {
+              "x": 0.6825714325289267,
+              "y": 0,
+              "z": 3.5396865392807415
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 26,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "lift",
+            "p": {
+              "x": -0.028070889843770402,
+              "y": 0.9985852443161144,
+              "z": 0.6329137596768403
+            },
+            "time": 7.108333333333476
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": null
+        },
+        {
+          "flight": 5,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": 1.6050854036700173,
+              "y": 2.647148460124527,
+              "z": -5.371781009473528
+            },
+            "velocity": {
+              "x": -1.8873731516333834,
+              "y": 4,
+              "z": 6.8858685663929995
+            },
+            "technique": "drop",
+            "quality": "weak",
+            "target": {
+              "x": -0.20512209630743877,
+              "y": 0.025,
+              "z": 1.2325573599454742
+            },
+            "time": 9.375000000000108
+          },
+          "aiAtLaunch": {
+            "x": 0.6127997269617188,
+            "y": 0,
+            "z": 3.643155969403914
+          },
+          "firstObservation": {
+            "time": 9.883333333333413,
+            "p": {
+              "x": 0.7454798239746402,
+              "y": 3.2668720618640696,
+              "z": -2.283383380091688
+            },
+            "ai": {
+              "x": 0.6077997269617188,
+              "y": 0,
+              "z": 3.6381559694039143
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 28,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "lift",
+            "p": {
+              "x": -0.03445444837818929,
+              "y": 1.0147954793225153,
+              "z": 0.6098956509139607
+            },
+            "time": 10.466666666666713
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": null
+        },
+        {
+          "flight": 7,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": -1.6632012045528262,
+              "y": 2.665925828362248,
+              "z": -5.370728417410292
+            },
+            "velocity": {
+              "x": 1.512850357578708,
+              "y": 4,
+              "z": 6.851331449011128
+            },
+            "technique": "drop",
+            "quality": "weak",
+            "target": {
+              "x": -0.2051220963075347,
+              "y": 0.025,
+              "z": 1.2325573599454742
+            },
+            "time": 12.73333333333325
+          },
+          "aiAtLaunch": {
+            "x": -0.634213970915229,
+            "y": 0,
+            "z": 3.643330290403838
+          },
+          "firstObservation": {
+            "time": 13.241666666666555,
+            "p": {
+              "x": -0.9751695257336154,
+              "y": 3.2801293067964536,
+              "z": -2.3359756806694385
+            },
+            "ai": {
+              "x": -0.624213970915229,
+              "y": 0,
+              "z": 3.6333302904038383
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 27,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "lift",
+            "p": {
+              "x": -0.3372425886681519,
+              "y": 0.9843766252451457,
+              "z": 0.6342157726004448
+            },
+            "time": 13.833333333333188
+          },
+          "contactReturn": true,
+          "legalReturn": false,
+          "replyFault": false,
+          "returnUnresolved": true,
+          "replyPoint": null
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "difficulty": "EASY",
+        "pattern": "wide-soft",
+        "phase": "RALLY",
+        "scores": [
+          0,
+          0
+        ],
+        "softIntentCommands": 3,
+        "actualSoftFlights": 3,
+        "actualTechniques": {
+          "drop": 3,
+          "net": 0,
+          "block": 0
+        },
+        "qualities": {
+          "perfect": 0,
+          "good": 0,
+          "weak": 3,
+          "miss": 0
+        },
+        "byTechnique": {
+          "drop": {
+            "attempts": 3,
+            "successfulReturns": 2,
+            "directWinners": 0
+          },
+          "net": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          },
+          "block": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          }
+        },
+        "plannerReachable": 3,
+        "plannerUnreachable": 0,
+        "noObservedVerdict": 0,
+        "contactReturns": 3,
+        "successfulReturns": 2,
+        "replyFaults": 0,
+        "unresolvedReturns": 1,
+        "directSoftWinners": 0,
+        "plannerReachableButNoContact": 0,
+        "closedPoints": 0,
+        "playerPoints": 0,
+        "repetitionPointWinRate": null,
+        "directWinnerRate": 0,
+        "successfulReturnRate": 0.6666666666666666,
+        "maxObservedContinuousAISpeed": 5.800000000000353,
+        "minimumObservedDelay": 0.5000000000000249
+      },
+      "attempts": [
+        {
+          "flight": 3,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": 1.857227101047086,
+              "y": 2.629462663802661,
+              "z": -5.202928109580726
+            },
+            "velocity": {
+              "x": 0.14340915352729533,
+              "y": 4,
+              "z": 6.629920802396707
+            },
+            "technique": "drop",
+            "quality": "weak",
+            "target": {
+              "x": 1.9964305202061547,
+              "y": 0.025,
+              "z": 1.2325582017710772
+            },
+            "time": 6.008333333333422
+          },
+          "aiAtLaunch": {
+            "x": 0.6992380991955934,
+            "y": 0,
+            "z": 3.556353205947408
+          },
+          "firstObservation": {
+            "time": 6.5083333333334465,
+            "p": {
+              "x": 1.9440304654231997,
+              "y": 3.271791024876132,
+              "z": -2.28656401918696
+            },
+            "ai": {
+              "x": 0.7009047658622601,
+              "y": 0,
+              "z": 3.5546865392807416
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 26,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "lift",
+            "p": {
+              "x": 1.9833213318165874,
+              "y": 1.0049315272746229,
+              "z": 0.6265098522144241
+            },
+            "time": 7.100000000000143
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": null
+        },
+        {
+          "flight": 5,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": -1.7194952844412406,
+              "y": 2.6315299432170227,
+              "z": -5.376445045065007
+            },
+            "velocity": {
+              "x": -0.29930446907262725,
+              "y": 4,
+              "z": 6.848251886489173
+            },
+            "technique": "drop",
+            "quality": "weak",
+            "target": {
+              "x": -2.0083433655577907,
+              "y": 0.025,
+              "z": 1.2325588984584641
+            },
+            "time": 9.358333333333443
+          },
+          "aiAtLaunch": {
+            "x": -0.7062640220460847,
+            "y": 0,
+            "z": 3.6434088191067078
+          },
+          "firstObservation": {
+            "time": 9.866666666666747,
+            "p": {
+              "x": -1.8717260543750462,
+              "y": 3.2552035216886748,
+              "z": -2.2934852071702396
+            },
+            "ai": {
+              "x": -0.7229306887127515,
+              "y": 0,
+              "z": 3.626742152440041
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 28,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "lift",
+            "p": {
+              "x": -1.981263085776924,
+              "y": 1.0035598195389281,
+              "z": 0.6129471109345902
+            },
+            "time": 10.450000000000047
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": null
+        },
+        {
+          "flight": 7,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": 1.7482698716949785,
+              "y": 2.6297229453941173,
+              "z": -5.377709994964304
+            },
+            "velocity": {
+              "x": 0.27446446593096274,
+              "y": 4,
+              "z": 6.850817971921679
+            },
+            "technique": "drop",
+            "quality": "weak",
+            "target": {
+              "x": 2.013097186873007,
+              "y": 0.025,
+              "z": 1.2325582017710772
+            },
+            "time": 12.708333333333252
+          },
+          "aiAtLaunch": {
+            "x": 0.7175136166679033,
+            "y": 0,
+            "z": 3.6427829930421995
+          },
+          "firstObservation": {
+            "time": 13.216666666666557,
+            "p": {
+              "x": 1.8836690877222944,
+              "y": 3.246145318596877,
+              "z": -2.3368161969354273
+            },
+            "ai": {
+              "x": 0.71918028333457,
+              "y": 0,
+              "z": 3.641116326375533
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 21,
+          "noPlanSamples": 5,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "lift",
+            "p": {
+              "x": 1.9897494148792025,
+              "y": 0.9505998795296797,
+              "z": 0.6497820837882141
+            },
+            "time": 13.80833333333319
+          },
+          "contactReturn": true,
+          "legalReturn": false,
+          "replyFault": false,
+          "returnUnresolved": true,
+          "replyPoint": null
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "difficulty": "EASY",
+        "pattern": "clear-soft",
+        "phase": "RALLY",
+        "scores": [
+          0,
+          0
+        ],
+        "softIntentCommands": 3,
+        "actualSoftFlights": 3,
+        "actualTechniques": {
+          "drop": 3,
+          "net": 0,
+          "block": 0
+        },
+        "qualities": {
+          "perfect": 0,
+          "good": 0,
+          "weak": 3,
+          "miss": 0
+        },
+        "byTechnique": {
+          "drop": {
+            "attempts": 3,
+            "successfulReturns": 2,
+            "directWinners": 0
+          },
+          "net": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          },
+          "block": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          }
+        },
+        "plannerReachable": 3,
+        "plannerUnreachable": 0,
+        "noObservedVerdict": 0,
+        "contactReturns": 3,
+        "successfulReturns": 2,
+        "replyFaults": 0,
+        "unresolvedReturns": 1,
+        "directSoftWinners": 0,
+        "plannerReachableButNoContact": 0,
+        "closedPoints": 0,
+        "playerPoints": 0,
+        "repetitionPointWinRate": null,
+        "directWinnerRate": 0,
+        "successfulReturnRate": 0.6666666666666666,
+        "maxObservedContinuousAISpeed": 5.800000000000346,
+        "minimumObservedDelay": 0.5083333333333044
+      },
+      "attempts": [
+        {
+          "flight": 5,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": -1.77859207381792,
+              "y": 2.64170677424645,
+              "z": -5.299941690331129
+            },
+            "velocity": {
+              "x": -0.21997493577688587,
+              "y": 4,
+              "z": 6.743735719961453
+            },
+            "technique": "drop",
+            "quality": "weak",
+            "target": {
+              "x": -1.9916766988912278,
+              "y": 0.025,
+              "z": 1.2325588984584641
+            },
+            "time": 10.80833333333336
+          },
+          "aiAtLaunch": {
+            "x": -0.7071626971462908,
+            "y": 0,
+            "z": 3.554790386107137
+          },
+          "firstObservation": {
+            "time": 11.316666666666665,
+            "p": {
+              "x": -1.8954686751947423,
+              "y": 3.2668714386454334,
+              "z": -2.2595227774506017
+            },
+            "ai": {
+              "x": -0.7171626971462908,
+              "y": 0,
+              "z": 3.5447903861071373
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 24,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "lift",
+            "p": {
+              "x": -1.971432806154969,
+              "y": 1.0171296021758247,
+              "z": 0.6119451813800699
+            },
+            "time": 11.899999999999965
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": null
+        },
+        {
+          "flight": 9,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": -1.7965852970191696,
+              "y": 2.6074249494592405,
+              "z": -3.6859739834498972
+            },
+            "velocity": {
+              "x": -0.2081994806012452,
+              "y": 4,
+              "z": 4.835877085581754
+            },
+            "technique": "drop",
+            "quality": "weak",
+            "target": {
+              "x": -2.0083433655578937,
+              "y": 0.025,
+              "z": 1.2325588984584641
+            },
+            "time": 18.999999999999563
+          },
+          "aiAtLaunch": {
+            "x": -0.7141321275317417,
+            "y": 0,
+            "z": 3.5548426840935767
+          },
+          "firstObservation": {
+            "time": 19.508333333332867,
+            "p": {
+              "x": -1.898669631147892,
+              "y": 3.2714495976295463,
+              "z": -1.4368980280465513
+            },
+            "ai": {
+              "x": -0.7157987941984084,
+              "y": 0,
+              "z": 3.5531760174269102
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 25,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "lift",
+            "p": {
+              "x": -1.9817382296144745,
+              "y": 1.2609851277145372,
+              "z": 0.614597859862086
+            },
+            "time": 20.049999999999503
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": null
+        },
+        {
+          "flight": 13,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": -1.7302169343055207,
+              "y": 2.6400952207528,
+              "z": -3.6818822961383812
+            },
+            "velocity": {
+              "x": -0.2643655752827609,
+              "y": 4,
+              "z": 4.8155756526905735
+            },
+            "technique": "drop",
+            "quality": "weak",
+            "target": {
+              "x": -2.000010032224561,
+              "y": 0.025,
+              "z": 1.2325588984584641
+            },
+            "time": 27.1749999999991
+          },
+          "aiAtLaunch": {
+            "x": -0.6895495701879893,
+            "y": 0,
+            "z": 3.5545087149085326
+          },
+          "firstObservation": {
+            "time": 27.683333333332403,
+            "p": {
+              "x": -1.8454189639190237,
+              "y": 3.315121352174285,
+              "z": -1.4361408540447242
+            },
+            "ai": {
+              "x": -0.691216236854656,
+              "y": 0,
+              "z": 3.552842048241866
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 25,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "lift",
+            "p": {
+              "x": -1.9654173038524807,
+              "y": 1.293940019687782,
+              "z": 0.6024318468158487
+            },
+            "time": 28.22499999999904
+          },
+          "contactReturn": true,
+          "legalReturn": false,
+          "replyFault": false,
+          "returnUnresolved": true,
+          "replyPoint": null
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "difficulty": "NORMAL",
+        "pattern": "centre-soft",
+        "phase": "RALLY",
+        "scores": [
+          0,
+          1
+        ],
+        "softIntentCommands": 3,
+        "actualSoftFlights": 3,
+        "actualTechniques": {
+          "drop": 1,
+          "net": 2,
+          "block": 0
+        },
+        "qualities": {
+          "perfect": 0,
+          "good": 0,
+          "weak": 3,
+          "miss": 0
+        },
+        "byTechnique": {
+          "drop": {
+            "attempts": 1,
+            "successfulReturns": 0,
+            "directWinners": 0
+          },
+          "net": {
+            "attempts": 2,
+            "successfulReturns": 2,
+            "directWinners": 0
+          },
+          "block": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          }
+        },
+        "plannerReachable": 3,
+        "plannerUnreachable": 0,
+        "noObservedVerdict": 0,
+        "contactReturns": 3,
+        "successfulReturns": 2,
+        "replyFaults": 0,
+        "unresolvedReturns": 1,
+        "directSoftWinners": 0,
+        "plannerReachableButNoContact": 0,
+        "closedPoints": 1,
+        "playerPoints": 0,
+        "repetitionPointWinRate": 0,
+        "directWinnerRate": 0,
+        "successfulReturnRate": 0.6666666666666666,
+        "maxObservedContinuousAISpeed": 5.8000000000003515,
+        "minimumObservedDelay": 0.30000000000001004
+      },
+      "attempts": [
+        {
+          "flight": 3,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": 1.322375400583364,
+              "y": 1.1273407903010007,
+              "z": -2.448254334251318
+            },
+            "velocity": {
+              "x": -1.4714245793701064,
+              "y": 5,
+              "z": 3.7470369135494956
+            },
+            "technique": "net",
+            "quality": "weak",
+            "target": {
+              "x": -0.1230431858440583,
+              "y": 0.025,
+              "z": 1.2325573599454742
+            },
+            "time": 3.908333333333322
+          },
+          "aiAtLaunch": {
+            "x": 0.5020688288567032,
+            "y": 0,
+            "z": 5.397829201544059
+          },
+          "firstObservation": {
+            "time": 4.208333333333332,
+            "p": {
+              "x": 0.9290565975896408,
+              "y": 2.096691631418114,
+              "z": -1.4202330226004531
+            },
+            "ai": {
+              "x": 0.8305313950989313,
+              "y": 0,
+              "z": 3.8514058494805465
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 26,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "net",
+            "p": {
+              "x": 0.1243110922427018,
+              "y": 1.2158541419575877,
+              "z": 0.6026605757608268
+            },
+            "time": 4.841666666666697
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": null
+        },
+        {
+          "flight": 5,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": 1.269278477731161,
+              "y": 1.2508983341323958,
+              "z": -0.5848227942578045
+            },
+            "velocity": {
+              "x": -1.3783672387123826,
+              "y": 5,
+              "z": 1.7383069950392662
+            },
+            "technique": "net",
+            "quality": "weak",
+            "target": {
+              "x": -0.17178876297408158,
+              "y": 0.025,
+              "z": 1.2325573599454742
+            },
+            "time": 5.416666666666726
+          },
+          "aiAtLaunch": {
+            "x": 0.6407846623032794,
+            "y": 0,
+            "z": 2.3350830880019777
+          },
+          "firstObservation": {
+            "time": 5.7166666666667405,
+            "p": {
+              "x": 0.8740114327088323,
+              "y": 2.2281929417852115,
+              "z": -0.0886436605794691
+            },
+            "ai": {
+              "x": 0.6538170477405812,
+              "y": 0,
+              "z": 2.325850833878822
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 19,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "netKill",
+            "p": {
+              "x": 0.3493399515606424,
+              "y": 2.0880591257386953,
+              "z": 0.5753437637794993
+            },
+            "time": 6.141666666666762
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": {
+            "winner": 1,
+            "reason": "IN",
+            "returns": 5
+          }
+        },
+        {
+          "flight": 8,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": 0.2568640284260058,
+              "y": 2.6814649443467338,
+              "z": -4.835914217878539
+            },
+            "velocity": {
+              "x": -0.45947427468243207,
+              "y": 4,
+              "z": 6.146345023129902
+            },
+            "technique": "drop",
+            "quality": "weak",
+            "target": {
+              "x": -0.19678876297420006,
+              "y": 0.025,
+              "z": 1.2325573599454742
+            },
+            "time": 11.091666666666677
+          },
+          "aiAtLaunch": {
+            "x": 0.10466551989783669,
+            "y": 0,
+            "z": 3.640872081109452
+          },
+          "firstObservation": {
+            "time": 11.399999999999993,
+            "p": {
+              "x": 0.14703362409257362,
+              "y": 3.387976263769247,
+              "z": -3.096201773215245
+            },
+            "ai": {
+              "x": 0.10633218656450336,
+              "y": 0,
+              "z": 3.6392054144427854
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 35,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "net",
+            "p": {
+              "x": -0.15170555340561825,
+              "y": 1.0641480745452325,
+              "z": 0.6294834208221292
+            },
+            "time": 12.183333333333282
+          },
+          "contactReturn": true,
+          "legalReturn": false,
+          "replyFault": false,
+          "returnUnresolved": true,
+          "replyPoint": null
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "difficulty": "NORMAL",
+        "pattern": "wide-soft",
+        "phase": "RALLY",
+        "scores": [
+          0,
+          1
+        ],
+        "softIntentCommands": 3,
+        "actualSoftFlights": 3,
+        "actualTechniques": {
+          "drop": 1,
+          "net": 2,
+          "block": 0
+        },
+        "qualities": {
+          "perfect": 0,
+          "good": 0,
+          "weak": 3,
+          "miss": 0
+        },
+        "byTechnique": {
+          "drop": {
+            "attempts": 1,
+            "successfulReturns": 0,
+            "directWinners": 0
+          },
+          "net": {
+            "attempts": 2,
+            "successfulReturns": 2,
+            "directWinners": 0
+          },
+          "block": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          }
+        },
+        "plannerReachable": 3,
+        "plannerUnreachable": 0,
+        "noObservedVerdict": 0,
+        "contactReturns": 3,
+        "successfulReturns": 2,
+        "replyFaults": 0,
+        "unresolvedReturns": 1,
+        "directSoftWinners": 0,
+        "plannerReachableButNoContact": 0,
+        "closedPoints": 1,
+        "playerPoints": 0,
+        "repetitionPointWinRate": 0,
+        "directWinnerRate": 0,
+        "successfulReturnRate": 0.6666666666666666,
+        "maxObservedContinuousAISpeed": 5.80000000000035,
+        "minimumObservedDelay": 0.30000000000001004
+      },
+      "attempts": [
+        {
+          "flight": 3,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": 1.322375400583364,
+              "y": 1.1273407903010007,
+              "z": -2.448254334251318
+            },
+            "velocity": {
+              "x": 0.6153301471242918,
+              "y": 5,
+              "z": 3.7212543008134498
+            },
+            "technique": "net",
+            "quality": "weak",
+            "target": {
+              "x": 1.931018276409533,
+              "y": 0.025,
+              "z": 1.2325582017710772
+            },
+            "time": 3.908333333333322
+          },
+          "aiAtLaunch": {
+            "x": 0.4921979213561366,
+            "y": 0,
+            "z": 5.421162534877393
+          },
+          "firstObservation": {
+            "time": 4.208333333333332,
+            "p": {
+              "x": 1.506113866896112,
+              "y": 2.098456847278355,
+              "z": -1.4257256453638218
+            },
+            "ai": {
+              "x": 0.8280831983074204,
+              "y": 0,
+              "z": 3.9012864219925323
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 27,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "net",
+            "p": {
+              "x": 1.8220347262287628,
+              "y": 1.2588565375337175,
+              "z": 0.5734721701123865
+            },
+            "time": 4.833333333333363
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": null
+        },
+        {
+          "flight": 5,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": -0.7451367637848856,
+              "y": 1.2939131816070424,
+              "z": -0.589994735373725
+            },
+            "velocity": {
+              "x": -1.1591775067322347,
+              "y": 5,
+              "z": 1.7295080712753546
+            },
+            "technique": "net",
+            "quality": "weak",
+            "target": {
+              "x": -1.9666766988911004,
+              "y": 0.025,
+              "z": 1.2325588984584641
+            },
+            "time": 5.400000000000058
+          },
+          "aiAtLaunch": {
+            "x": 0.26160611662251454,
+            "y": 0,
+            "z": 1.8714841815268357
+          },
+          "firstObservation": {
+            "time": 5.700000000000073,
+            "p": {
+              "x": -1.079404509336179,
+              "y": 2.2718653746582063,
+              "z": -0.095986128258282
+            },
+            "ai": {
+              "x": -0.6097908285788468,
+              "y": 0,
+              "z": 2.260953435611365
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 20,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "netKill",
+            "p": {
+              "x": -1.5369939018568048,
+              "y": 2.0922629728704063,
+              "z": 0.5914665193853701
+            },
+            "time": 6.141666666666762
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": {
+            "winner": 1,
+            "reason": "IN",
+            "returns": 5
+          }
+        },
+        {
+          "flight": 8,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": 0.2582426085895988,
+              "y": 2.6081961633605784,
+              "z": -4.853941804633217
+            },
+            "velocity": {
+              "x": 1.8056842450065644,
+              "y": 4,
+              "z": 6.2627965330023265
+            },
+            "technique": "drop",
+            "quality": "weak",
+            "target": {
+              "x": 2.013097186873007,
+              "y": 0.025,
+              "z": 1.2325582017710772
+            },
+            "time": 11.116666666666676
+          },
+          "aiAtLaunch": {
+            "x": 0.10466551989783669,
+            "y": 0,
+            "z": 3.640872081109452
+          },
+          "firstObservation": {
+            "time": 11.424999999999992,
+            "p": {
+              "x": 0.7832352417848154,
+              "y": 3.312251316679033,
+              "z": -3.0865878386937533
+            },
+            "ai": {
+              "x": 0.12133218656450336,
+              "y": 0,
+              "z": 3.6242054144427853
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 37,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "net",
+            "p": {
+              "x": 1.8308283829416432,
+              "y": 1.0863898588280412,
+              "z": 0.600380988898692
+            },
+            "time": 12.191666666666615
+          },
+          "contactReturn": true,
+          "legalReturn": false,
+          "replyFault": false,
+          "returnUnresolved": true,
+          "replyPoint": null
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "difficulty": "NORMAL",
+        "pattern": "clear-soft",
+        "phase": "RALLY",
+        "scores": [
+          0,
+          2
+        ],
+        "softIntentCommands": 4,
+        "actualSoftFlights": 3,
+        "actualTechniques": {
+          "drop": 1,
+          "net": 0,
+          "block": 2
+        },
+        "qualities": {
+          "perfect": 0,
+          "good": 0,
+          "weak": 3,
+          "miss": 0
+        },
+        "byTechnique": {
+          "drop": {
+            "attempts": 1,
+            "successfulReturns": 1,
+            "directWinners": 0
+          },
+          "net": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          },
+          "block": {
+            "attempts": 2,
+            "successfulReturns": 1,
+            "directWinners": 0
+          }
+        },
+        "plannerReachable": 3,
+        "plannerUnreachable": 0,
+        "noObservedVerdict": 0,
+        "contactReturns": 3,
+        "successfulReturns": 2,
+        "replyFaults": 0,
+        "unresolvedReturns": 1,
+        "directSoftWinners": 0,
+        "plannerReachableButNoContact": 0,
+        "closedPoints": 2,
+        "playerPoints": 0,
+        "repetitionPointWinRate": 0,
+        "directWinnerRate": 0,
+        "successfulReturnRate": 0.6666666666666666,
+        "maxObservedContinuousAISpeed": 5.800000000000353,
+        "minimumObservedDelay": 0.3000000000000149
+      },
+      "attempts": [
+        {
+          "flight": 5,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": -1.0827242720656152,
+              "y": 0.9160235069762285,
+              "z": -3.3781898104967967
+            },
+            "velocity": {
+              "x": -0.8970162828375896,
+              "y": 6,
+              "z": 4.428789587078668
+            },
+            "technique": "block",
+            "quality": "weak",
+            "target": {
+              "x": -2.0165949350729786,
+              "y": 0.025,
+              "z": 1.2325588984584641
+            },
+            "time": 6.5750000000001165
+          },
+          "aiAtLaunch": {
+            "x": 1.5502984055421922,
+            "y": 0,
+            "z": 5.003757118986823
+          },
+          "firstObservation": {
+            "time": 6.8750000000001315,
+            "p": {
+              "x": -1.3387985511060734,
+              "y": 2.145350564601185,
+              "z": -2.1546837394365315
+            },
+            "ai": {
+              "x": 0.23450413464415526,
+              "y": 0,
+              "z": 3.8668722307866457
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 35,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "net",
+            "p": {
+              "x": -1.8863296458851662,
+              "y": 1.198640433418464,
+              "z": 0.5894071883381422
+            },
+            "time": 7.641666666666836
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": null
+        },
+        {
+          "flight": 13,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": 0.2568640284260058,
+              "y": 2.6814649443467338,
+              "z": -4.835914217878539
+            },
+            "velocity": {
+              "x": -2.366632581049706,
+              "y": 4,
+              "z": 6.229049409856907
+            },
+            "technique": "drop",
+            "quality": "weak",
+            "target": {
+              "x": -2.0487600322245765,
+              "y": 0.025,
+              "z": 1.2325588984584641
+            },
+            "time": 22.999999999999336
+          },
+          "aiAtLaunch": {
+            "x": 0.10466551989783669,
+            "y": 0,
+            "z": 3.640872081109452
+          },
+          "firstObservation": {
+            "time": 23.30833333333265,
+            "p": {
+              "x": -0.4016604820492182,
+              "y": 3.3788468446538795,
+              "z": -3.073983219723689
+            },
+            "ai": {
+              "x": 0.0946655198978367,
+              "y": 0,
+              "z": 3.630872081109452
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 31,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "net",
+            "p": {
+              "x": -1.809409946265112,
+              "y": 1.1087539251321614,
+              "z": 0.6025821443001487
+            },
+            "time": 24.083333333332607
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": null
+        },
+        {
+          "flight": 17,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": -0.9664225877477777,
+              "y": 1.0064052984714693,
+              "z": -3.120727857725338
+            },
+            "velocity": {
+              "x": -1.1133885471987068,
+              "y": 5,
+              "z": 4.5851658109760836
+            },
+            "technique": "block",
+            "quality": "weak",
+            "target": {
+              "x": -2.0235053229902475,
+              "y": 0.025,
+              "z": 1.2325588984584641
+            },
+            "time": 27.574999999999076
+          },
+          "aiAtLaunch": {
+            "x": 1.6926023354312607,
+            "y": 0,
+            "z": 5.27293474854635
+          },
+          "firstObservation": {
+            "time": 27.88333333333239,
+            "p": {
+              "x": -1.2707344737844715,
+              "y": 1.9991961050744251,
+              "z": -1.8049858668315149
+            },
+            "ai": {
+              "x": 0.3473989895517685,
+              "y": 0,
+              "z": 4.0235946880090605
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 27,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "net",
+            "p": {
+              "x": -1.8668888881206387,
+              "y": 1.0375811660585095,
+              "z": 0.58757981688998
+            },
+            "time": 28.51666666666569
+          },
+          "contactReturn": true,
+          "legalReturn": false,
+          "replyFault": false,
+          "returnUnresolved": true,
+          "replyPoint": null
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "difficulty": "HARD",
+        "pattern": "centre-soft",
+        "phase": "RALLY",
+        "scores": [
+          0,
+          1
+        ],
+        "softIntentCommands": 3,
+        "actualSoftFlights": 3,
+        "actualTechniques": {
+          "drop": 1,
+          "net": 2,
+          "block": 0
+        },
+        "qualities": {
+          "perfect": 0,
+          "good": 0,
+          "weak": 3,
+          "miss": 0
+        },
+        "byTechnique": {
+          "drop": {
+            "attempts": 1,
+            "successfulReturns": 0,
+            "directWinners": 0
+          },
+          "net": {
+            "attempts": 2,
+            "successfulReturns": 2,
+            "directWinners": 0
+          },
+          "block": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          }
+        },
+        "plannerReachable": 3,
+        "plannerUnreachable": 0,
+        "noObservedVerdict": 0,
+        "contactReturns": 3,
+        "successfulReturns": 2,
+        "replyFaults": 0,
+        "unresolvedReturns": 1,
+        "directSoftWinners": 0,
+        "plannerReachableButNoContact": 0,
+        "closedPoints": 1,
+        "playerPoints": 0,
+        "repetitionPointWinRate": 0,
+        "directWinnerRate": 0,
+        "successfulReturnRate": 0.6666666666666666,
+        "maxObservedContinuousAISpeed": 5.80000000000034,
+        "minimumObservedDelay": 0.1833333333333229
+      },
+      "attempts": [
+        {
+          "flight": 3,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": 1.2692290616225534,
+              "y": 1.193158649838883,
+              "z": -2.339694836418203
+            },
+            "velocity": {
+              "x": -1.4093230543895034,
+              "y": 5,
+              "z": 3.5920982074274446
+            },
+            "technique": "net",
+            "quality": "weak",
+            "target": {
+              "x": -0.13230761296474852,
+              "y": 0.025,
+              "z": 1.2325573599454742
+            },
+            "time": 3.9249999999999887
+          },
+          "aiAtLaunch": {
+            "x": 0.474880722326062,
+            "y": 0,
+            "z": 5.393975249252433
+          },
+          "firstObservation": {
+            "time": 4.108333333333327,
+            "p": {
+              "x": 1.0362671271825696,
+              "y": 1.8857115642234814,
+              "z": -1.7353385042502727
+            },
+            "ai": {
+              "x": 0.6868652750152779,
+              "y": 0,
+              "z": 4.440220423337922
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 34,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "net",
+            "p": {
+              "x": 0.08173893728555397,
+              "y": 1.1389738344154656,
+              "z": 0.6869931423834457
+            },
+            "time": 4.8916666666666995
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": null
+        },
+        {
+          "flight": 5,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": 1.2930755460342582,
+              "y": 1.1495940355318461,
+              "z": -0.5952783188711348
+            },
+            "velocity": {
+              "x": -1.4197772179423678,
+              "y": 5,
+              "z": 1.7715766839065432
+            },
+            "technique": "net",
+            "quality": "weak",
+            "target": {
+              "x": -0.17178876297408158,
+              "y": 0.025,
+              "z": 1.2325573599454742
+            },
+            "time": 5.475000000000062
+          },
+          "aiAtLaunch": {
+            "x": 0.6384730176360625,
+            "y": 0,
+            "z": 2.3335879698083377
+          },
+          "firstObservation": {
+            "time": 5.658333333333404,
+            "p": {
+              "x": 1.0475729068204835,
+              "y": 1.8447340838386366,
+              "z": -0.28981027200041365
+            },
+            "ai": {
+              "x": 0.6529327051428425,
+              "y": 0,
+              "z": 2.3328286052869474
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 26,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "netKill",
+            "p": {
+              "x": 0.3359549790537323,
+              "y": 1.9653019427687317,
+              "z": 0.5990023462373675
+            },
+            "time": 6.208333333333432
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": {
+            "winner": 1,
+            "reason": "IN",
+            "returns": 5
+          }
+        },
+        {
+          "flight": 8,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": 0.2568640284260058,
+              "y": 2.6814649443467338,
+              "z": -4.835914217878539
+            },
+            "velocity": {
+              "x": -0.45102385172288534,
+              "y": 4,
+              "z": 6.1462066737044
+            },
+            "technique": "drop",
+            "quality": "weak",
+            "target": {
+              "x": -0.1884554296408672,
+              "y": 0.025,
+              "z": 1.2325573599454742
+            },
+            "time": 11.299999999999999
+          },
+          "aiAtLaunch": {
+            "x": 0.10466551989783669,
+            "y": 0,
+            "z": 3.640872081109452
+          },
+          "firstObservation": {
+            "time": 11.483333333333322,
+            "p": {
+              "x": 0.18879482409495515,
+              "y": 3.207412786207309,
+              "z": -3.7981847560594257
+            },
+            "ai": {
+              "x": 0.11024334392606401,
+              "y": 0,
+              "z": 3.630872081109452
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 43,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "net",
+            "p": {
+              "x": -0.14419872689541602,
+              "y": 1.0641598257973082,
+              "z": 0.6294610032202672
+            },
+            "time": 12.391666666666604
+          },
+          "contactReturn": true,
+          "legalReturn": false,
+          "replyFault": false,
+          "returnUnresolved": true,
+          "replyPoint": null
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "difficulty": "HARD",
+        "pattern": "wide-soft",
+        "phase": "RALLY",
+        "scores": [
+          0,
+          1
+        ],
+        "softIntentCommands": 3,
+        "actualSoftFlights": 3,
+        "actualTechniques": {
+          "drop": 1,
+          "net": 2,
+          "block": 0
+        },
+        "qualities": {
+          "perfect": 0,
+          "good": 0,
+          "weak": 3,
+          "miss": 0
+        },
+        "byTechnique": {
+          "drop": {
+            "attempts": 1,
+            "successfulReturns": 0,
+            "directWinners": 0
+          },
+          "net": {
+            "attempts": 2,
+            "successfulReturns": 2,
+            "directWinners": 0
+          },
+          "block": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          }
+        },
+        "plannerReachable": 3,
+        "plannerUnreachable": 0,
+        "noObservedVerdict": 0,
+        "contactReturns": 3,
+        "successfulReturns": 2,
+        "replyFaults": 0,
+        "unresolvedReturns": 1,
+        "directSoftWinners": 0,
+        "plannerReachableButNoContact": 0,
+        "closedPoints": 1,
+        "playerPoints": 0,
+        "repetitionPointWinRate": 0,
+        "directWinnerRate": 0,
+        "successfulReturnRate": 0.6666666666666666,
+        "maxObservedContinuousAISpeed": 5.800000000000339,
+        "minimumObservedDelay": 0.1833333333333229
+      },
+      "attempts": [
+        {
+          "flight": 3,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": 1.2692290616225534,
+              "y": 1.193158649838883,
+              "z": -2.339694836418203
+            },
+            "velocity": {
+              "x": 0.6706052299941211,
+              "y": 5,
+              "z": 3.569865984874168
+            },
+            "technique": "net",
+            "quality": "weak",
+            "target": {
+              "x": 1.940282703530223,
+              "y": 0.025,
+              "z": 1.2325582017710772
+            },
+            "time": 3.908333333333322
+          },
+          "aiAtLaunch": {
+            "x": 0.49438521115728795,
+            "y": 0,
+            "z": 5.345641915919099
+          },
+          "firstObservation": {
+            "time": 4.09166666666666,
+            "p": {
+              "x": 1.3880783301563415,
+              "y": 1.8863337269891152,
+              "z": -1.738597367308165
+            },
+            "ai": {
+              "x": 0.6806093013797464,
+              "y": 0,
+              "z": 4.538355474163002
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 40,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "net",
+            "p": {
+              "x": 1.8326690975468314,
+              "y": 1.1834297436796406,
+              "z": 0.6596933711267817
+            },
+            "time": 4.866666666666698
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": null
+        },
+        {
+          "flight": 5,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": -0.7523437641668494,
+              "y": 1.1958079038853269,
+              "z": -0.5961192525901536
+            },
+            "velocity": {
+              "x": -1.1741766946130086,
+              "y": 5,
+              "z": 1.7561548257321904
+            },
+            "technique": "net",
+            "quality": "weak",
+            "target": {
+              "x": -1.9750100322244333,
+              "y": 0.025,
+              "z": 1.2325588984584641
+            },
+            "time": 5.441666666666727
+          },
+          "aiAtLaunch": {
+            "x": 0.1539252997991862,
+            "y": 0,
+            "z": 1.9068024417934393
+          },
+          "firstObservation": {
+            "time": 5.625000000000069,
+            "p": {
+              "x": -0.9561824615398259,
+              "y": 1.8912491950345134,
+              "z": -0.29315287405715795
+            },
+            "ai": {
+              "x": -0.4304730396199941,
+              "y": 0,
+              "z": 2.154867893000482
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 24,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "netKill",
+            "p": {
+              "x": -1.554109906229965,
+              "y": 1.993569308061423,
+              "z": 0.6030405382255604
+            },
+            "time": 6.18333333333343
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": {
+            "winner": 1,
+            "reason": "IN",
+            "returns": 5
+          }
+        },
+        {
+          "flight": 8,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": 0.2582426085895988,
+              "y": 2.6081961633605784,
+              "z": -4.853941804633217
+            },
+            "velocity": {
+              "x": 1.7881593673397607,
+              "y": 4,
+              "z": 6.261481815646818
+            },
+            "technique": "drop",
+            "quality": "weak",
+            "target": {
+              "x": 1.9964305202063413,
+              "y": 0.025,
+              "z": 1.2325582017710772
+            },
+            "time": 11.233333333333336
+          },
+          "aiAtLaunch": {
+            "x": 0.10466551989783669,
+            "y": 0,
+            "z": 3.640872081109452
+          },
+          "firstObservation": {
+            "time": 11.416666666666659,
+            "p": {
+              "x": 0.5657987093016386,
+              "y": 3.133147694643674,
+              "z": -3.7986561167279738
+            },
+            "ai": {
+              "x": 0.12133218656450336,
+              "y": 0,
+              "z": 3.6242054144427853
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 36,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "net",
+            "p": {
+              "x": 1.8061208373791648,
+              "y": 1.1362506079029417,
+              "z": 0.5661631141024367
+            },
+            "time": 12.299999999999942
+          },
+          "contactReturn": true,
+          "legalReturn": false,
+          "replyFault": false,
+          "returnUnresolved": true,
+          "replyPoint": null
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "difficulty": "HARD",
+        "pattern": "clear-soft",
+        "phase": "RALLY",
+        "scores": [
+          0,
+          0
+        ],
+        "softIntentCommands": 3,
+        "actualSoftFlights": 3,
+        "actualTechniques": {
+          "drop": 0,
+          "net": 0,
+          "block": 3
+        },
+        "qualities": {
+          "perfect": 0,
+          "good": 0,
+          "weak": 3,
+          "miss": 0
+        },
+        "byTechnique": {
+          "drop": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          },
+          "net": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          },
+          "block": {
+            "attempts": 3,
+            "successfulReturns": 2,
+            "directWinners": 0
+          }
+        },
+        "plannerReachable": 3,
+        "plannerUnreachable": 0,
+        "noObservedVerdict": 0,
+        "contactReturns": 3,
+        "successfulReturns": 2,
+        "replyFaults": 0,
+        "unresolvedReturns": 1,
+        "directSoftWinners": 0,
+        "plannerReachableButNoContact": 0,
+        "closedPoints": 0,
+        "playerPoints": 0,
+        "repetitionPointWinRate": null,
+        "directWinnerRate": 0,
+        "successfulReturnRate": 0.6666666666666666,
+        "maxObservedContinuousAISpeed": 5.80000000000037,
+        "minimumObservedDelay": 0.1833333333333229
+      },
+      "attempts": [
+        {
+          "flight": 5,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": -0.994177600281993,
+              "y": 0.9632841283810618,
+              "z": -3.229432868361245
+            },
+            "velocity": {
+              "x": -1.0919273045806392,
+              "y": 5,
+              "z": 4.744527954136615
+            },
+            "technique": "block",
+            "quality": "weak",
+            "target": {
+              "x": -2.0210807379811917,
+              "y": 0.025,
+              "z": 1.2325588984584641
+            },
+            "time": 6.58333333333345
+          },
+          "aiAtLaunch": {
+            "x": 1.6169230930022775,
+            "y": 0,
+            "z": 5.098195539811775
+          },
+          "firstObservation": {
+            "time": 6.766666666666793,
+            "p": {
+              "x": -1.1822744932907394,
+              "y": 1.651590306496873,
+              "z": -2.4259722156095136
+            },
+            "ai": {
+              "x": 0.7607619023687889,
+              "y": 0,
+              "z": 4.317983236316311
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 33,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "net",
+            "p": {
+              "x": -1.8945522516359827,
+              "y": 0.8779671473720393,
+              "z": 0.6827805955063421
+            },
+            "time": 7.550000000000165
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": null
+        },
+        {
+          "flight": 9,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": -0.9742287742173398,
+              "y": 0.9768577452199915,
+              "z": -3.182557649310882
+            },
+            "velocity": {
+              "x": -1.1039491785982585,
+              "y": 5,
+              "z": 4.679118804734138
+            },
+            "technique": "block",
+            "quality": "weak",
+            "target": {
+              "x": -2.015891636334491,
+              "y": 0.025,
+              "z": 1.2325588984584641
+            },
+            "time": 10.86666666666669
+          },
+          "aiAtLaunch": {
+            "x": 1.6306181628487137,
+            "y": 0,
+            "z": 5.214460573680125
+          },
+          "firstObservation": {
+            "time": 11.050000000000013,
+            "p": {
+              "x": -1.1616889700904334,
+              "y": 1.6682019798099141,
+              "z": -2.387806831121472
+            },
+            "ai": {
+              "x": 0.8571837794440377,
+              "y": 0,
+              "z": 4.485847308240279
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 36,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "net",
+            "p": {
+              "x": -1.8857146769819055,
+              "y": 0.8934652493066126,
+              "z": 0.6808002937523872
+            },
+            "time": 11.833333333333302
+          },
+          "contactReturn": true,
+          "legalReturn": true,
+          "replyFault": false,
+          "returnUnresolved": false,
+          "replyPoint": null
+        },
+        {
+          "flight": 13,
+          "hit": {
+            "actor": 0,
+            "p": {
+              "x": -0.9486944043036372,
+              "y": 0.9934241073700725,
+              "z": -3.1505018140301475
+            },
+            "velocity": {
+              "x": -1.142543873046584,
+              "y": 5,
+              "z": 4.630602515380691
+            },
+            "technique": "block",
+            "quality": "weak",
+            "target": {
+              "x": -2.030160400491253,
+              "y": 0.025,
+              "z": 1.2325588984584641
+            },
+            "time": 15.14999999999978
+          },
+          "aiAtLaunch": {
+            "x": 1.6942406162206358,
+            "y": 0,
+            "z": 5.2787578026102295
+          },
+          "firstObservation": {
+            "time": 15.333333333333103,
+            "p": {
+              "x": -1.1397834491883319,
+              "y": 1.6873462228206781,
+              "z": -2.3625462059566926
+            },
+            "ai": {
+              "x": 0.8523190534248991,
+              "y": 0,
+              "z": 4.481873601384422
+            }
+          },
+          "plannedReachableEver": true,
+          "plannedSamples": 35,
+          "noPlanSamples": 0,
+          "returned": true,
+          "directWinner": false,
+          "point": null,
+          "reply": {
+            "technique": "net",
+            "p": {
+              "x": -1.8928219829354187,
+              "y": 0.9112321898219129,
+              "z": 0.6759416544338032
+            },
+            "time": 16.116666666666394
+          },
+          "contactReturn": true,
+          "legalReturn": false,
+          "replyFault": false,
+          "returnUnresolved": true,
+          "replyPoint": null
+        }
+      ]
+    }
+  ]
+}

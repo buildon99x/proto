@@ -1,0 +1,15 @@
+{
+  "baselineSha": "b5e0563fbd8808cd3794bd57572842940a0311ac",
+  "githubVercelStatus": "success",
+  "githubVercelTarget": "https://vercel.com/silentstacks-projects/loop-lab/69CEfdQLw33vhSwYLQAq4GYg9HvM",
+  "executionUrl": "https://loop-lab-git-codex-smash-rally-3d-silentstacks-projects.vercel.app/runs/smash-rally-3d/index.html",
+  "bundleRead": "blocked before HTTP response from app; curl CONNECT tunnel failed response403",
+  "shellGitHubApi": "Forbidden; connector read succeeded",
+  "manualDeployment": false,
+  "runtimeSha": "2f199b6fc3c561a6226ab808d45d0329c9592874",
+  "runtimeVercelStatus": "success",
+  "runtimeVercelTarget": "https://vercel.com/silentstacks-projects/loop-lab/4RKiaUJwS6WJgeCePZgcqstxCcSL",
+  "additionalNetworkGrantRetry": "same proxy CONNECT403",
+  "webOpenFallback": "tool reports URL not accessible; no app response or remote bytes obtained",
+  "statusRecordedAt": "2026-10-15T06:34:31.642926+00:00"
+}
