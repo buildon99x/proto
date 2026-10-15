@@ -23,3 +23,9 @@ Replaced rigid torso-only actors with common weighted skeletons, planted feet an
 - Added distinct compact/overhead SFX envelopes and actual-contact first-render presentation without changing physics outcomes.
 - Found a real mobile tap failure beyond gesture-recognition tests. Added touch-down reservation and pre-contact classification with original swing clock retained; native tap/clear/drop actual-hit replays pass.
 - 32 tests and final three-difficulty UI run pass. Raw evidence, original failures and new screenshots are in verification/tactics-20261015. Human balance/device/hearing and natural net-finish coverage are still open.
+
+## 2026-10-15 — ordinary UI net-finish follow-up
+
+- Shared forecourt interception takes reachable descending shuttles up to 2.1m; weak or unbalanced soft replies use a safety-height flight that can be attacked.
+- Existing controls now produce player net and net finish in two complete ordinary UI matches; a traced replay verifies actual landing, opponent movement and one impact callback per physical hit.
+- 35 unit/regression checks, renewed beginner tap rally, and full root build. Evidence and Library delivery fallback are recorded in `verification/net-followup-20261015`.

@@ -14,4 +14,4 @@
 
 `pre-refinement/`, `*-narrow-cue-report.json` and `accessible-ui-games-report.json`: earlier successful passes with earlier soft-shot/cue refinements. They are useful iteration evidence but final results come from final-three-difficulty-ui-report.json. Baseline6582 evaluation is historical only.
 
-The current32-test suite and full root build pass. Natural UI net finish remains unobserved; hardware audio/input/FPS, Safari and human balance remain open. No public default promotion or main merge occurred.
+The original32-test suite and full root build passed. Natural UI net finish was unobserved in this run; see [the later ordinary UI follow-up](../net-followup-20261015/README.md) for35 tests and player net-finish coverage; hardware audio/input/FPS, Safari and human balance remain open. No public default promotion or main merge occurred.
