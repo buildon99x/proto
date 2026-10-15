@@ -19,3 +19,6 @@ Sources were read directly; federation-authored PDFs are hosted by a national as
 | Five impact synth presets | Compact net/block vs drive vs overhead transient/envelope; successful collision remains the sole event source |
 
 Acceptance: legal trajectories/actual swept net faults; same low/high input resolves differently; lift buys time; cross/straight have different physical distance and recovery; no impossible high attack; AI delay survives; natural UI inputs reach tactical exchanges. Injected domain fixtures and normal browser play are reported separately. Human hearing, physical-device latency/FPS and coaching realism remain separate checks.
+
+## Assistance and tuning
+The three existing inputs remain unchanged. Height/context is labelled before the swing; a low default return becomes a lift automatically. Timing windows/buffer remain80/180/300ms and350ms; the new state does not add a mandatory precision input. Auto split uses90ms anticipation of the publicly visible opponent swing and lands30ms after its nominal contact; hop3.5cm. These are readable game values, not measured physiology. It brakes recovery at the current location instead of forcing a run to centre. AI sees no directional trajectory/intercept until its existing delayed observation. A predicted animation-contact time is public posture information, not the future shuttle landing.

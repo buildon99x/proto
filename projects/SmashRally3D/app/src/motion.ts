@@ -101,6 +101,8 @@ export type PoseActor = {
     recoverUntil: number;
     shot: string;
     strikeTarget?: V3 | null;
+    splitAt?: number;
+    technique?: string;
     holdingServe?: boolean;
     swingContact?: V3 | null;
     swingTarget?: V3 | null;
@@ -136,15 +138,21 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
         follow = swing ? clamp((elapsed - a.hitFrame) / Math.max(def.recover, 0.18), 0, 1) : 0;
     const previous = MOTIONS[(a.swingMotion ?? 'BasicHit') as MotionName] ?? MOTIONS.BasicHit,
         recoverT = clamp((elapsed - a.hitFrame - previous.recover * 0.85) / 0.25, 0, 1);
-    const high = motion === 'Clear' || motion === 'Smash',
+    const high = (motion === 'Clear' || motion === 'Smash') && a.technique !== 'lift',
         speed = Math.hypot(a.v.x, a.v.z),
         overhead = contact ? clamp((contact.y - 2.1) / 0.6, 0, 1) : 0;
+    const splitPhase = time - (a.splitAt ?? -99),
+        splitHop =
+            !swing && splitPhase >= 0 && splitPhase < 0.12
+                ? Math.sin((Math.PI * splitPhase) / 0.12) * 0.035
+                : 0;
     const hop =
-        swing && high
+        splitHop +
+        (swing && high
             ? Math.sin(Math.PI * clamp(elapsed / (a.hitFrame + 0.2), 0, 1)) *
               (motion === 'Smash' ? (a.attackBoost ? 0.27 : 0.2) : 0.105) *
               overhead
-            : 0;
+            : 0);
     const lf = add(a.feet.left.p, { x: 0, y: hop, z: 0 }),
         rf = add(a.feet.right.p, { x: 0, y: hop, z: 0 });
     const rightHip = { x: a.p.x - a.side * 0.16, z: a.p.z },

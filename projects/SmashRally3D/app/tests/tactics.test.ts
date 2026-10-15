@@ -123,3 +123,83 @@ it('observed rear-court opponent can be drawn forward without any outcome roll',
     expect(front.intent).not.toBe('drop');
     expect(chooseTactic(c, { x: -1.8, y: 0, z: 6 })).toEqual(rear);
 });
+import { Game, profiles } from '../src/game';
+it('automatic split straddles observed opposing contact without leaking an AI forecast', () => {
+    const g = new Game();
+    g.difficulty = 'EASY';
+    g.start();
+    let last = -1;
+    for (let i = 0; i < 10000 && g.splitEvents.length < 4; i++) {
+        if (g.phase === 'SERVE_READY' && g.server === 0)
+            g.command({
+                shotIntent: 'clear',
+                target: { x: 0, y: 0.025, z: 5.8 },
+                issuedAt: g.time,
+                pointerType: 'unit',
+            });
+        if (
+            g.phase === 'RALLY' &&
+            g.receiver === 0 &&
+            g.contactAt - g.time < 0.18 &&
+            g.contactAt - g.time > 0.1 &&
+            last !== g.contactAt
+        ) {
+            last = g.contactAt;
+            g.command({
+                shotIntent: 'clear',
+                target: { x: 0, y: 0.025, z: 5.8 },
+                issuedAt: g.time,
+                pointerType: 'unit',
+            });
+        }
+        g.step();
+        if (g.phase === 'RALLY' && g.receiver === 1 && g.time < g.reactionAt - 0.001)
+            expect(g.aiPerception.samples).toBe(0);
+    }
+    expect(g.splitEvents.length).toBeGreaterThanOrEqual(4);
+    for (const e of g.splitEvents) {
+        expect(e.expectedContact - e.start).toBeCloseTo(0.09, 6);
+        expect(e.start + 0.12).toBeGreaterThan(e.expectedContact);
+    }
+    expect(profiles.EASY.delay).toBe(0.5);
+});
+it('beginner clear inputs tolerate ordinary GOOD timing variation and keep a natural rally', () => {
+    const g = new Game();
+    g.difficulty = 'EASY';
+    g.start();
+    let issued = -1,
+        max = 0,
+        commands = 0;
+    for (let i = 0; i < 18000 && max < 6; i++) {
+        if (g.phase === 'SERVE_READY' && g.server === 0)
+            g.command({
+                shotIntent: 'clear',
+                target: { x: 0, y: 0.025, z: 5.8 },
+                issuedAt: g.time,
+                pointerType: 'unit',
+            });
+        if (
+            g.phase === 'RALLY' &&
+            g.receiver === 0 &&
+            g.contactAt !== issued &&
+            g.contactAt - g.time < 0.18 + (commands % 2 ? 0.09 : -0.04) &&
+            g.contactAt - g.time > 0.03
+        ) {
+            issued = g.contactAt;
+            commands++;
+            g.command({
+                shotIntent: 'clear',
+                target: { x: 0, y: 0.025, z: 5.8 },
+                issuedAt: g.time,
+                pointerType: 'unit',
+            });
+        }
+        g.step();
+        max = Math.max(max, g.returns);
+    }
+    expect(max).toBeGreaterThanOrEqual(6);
+    expect(g.shots.filter((h) => h.actor === 0).some((h) => h.quality === 'good')).toBe(true);
+    expect(
+        g.shots.every((h) => h.contact.radialDistance <= 0.225 && h.contact.planeDistance <= 0.045),
+    ).toBe(true);
+});

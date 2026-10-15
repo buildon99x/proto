@@ -147,6 +147,7 @@ export class Game {
         velocity: null,
         flightId: 0,
     };
+    splitEvents: { actor: number; start: number; expectedContact: number }[] = [];
     onHit: (hit: Hit) => void = () => {};
     onPoint: () => void = () => {};
     constructor() {
@@ -193,6 +194,7 @@ export class Game {
         this.scores = [0, 0];
         this.server = 0;
         this.shots = [];
+        this.splitEvents = [];
         this.motionEvents = [];
         this.contactAttempts = [];
         this.previousBall = null;
@@ -287,8 +289,15 @@ export class Game {
                       : shot,
         });
     }
-    previewStroke(index = 0) {
-        return assessStroke(this.strokeContext(this.actors[index]));
+    previewStroke(index = 0, target?: V3) {
+        const c = this.strokeContext(this.actors[index]);
+        return assessStroke({
+            ...c,
+            intent: 'default',
+            quality: 'perfect',
+            preparation: 1,
+            target: target ?? c.target,
+        });
     }
     inputLead(intent: Intent, index = 0) {
         return intent === 'clear'
@@ -609,12 +618,11 @@ export class Game {
     }
     aiCommand() {
         const a = this.actors[1],
-            player = this.actors[0],
             profile = profiles[this.difficulty];
         const context = this.strokeContext(a),
             choice = chooseTactic(
                 context,
-                this.aiPerception.opponent ?? player.p,
+                this.aiPerception.opponent ?? { x: 0, y: 0, z: -a.side * 3.4 },
                 this.difficulty === 'EASY',
             ),
             intent: Intent = choice.intent,
@@ -684,14 +692,37 @@ export class Game {
         for (let i = 0; i < 2; i++) {
             const a = this.actors[i];
             a.previousPose = a.pose;
+            const other = this.actors[1 - i],
+                expectedContact = other.swingAt + other.hitFrame;
+            if (
+                other.locked &&
+                !a.locked &&
+                a.recoverUntil <= expectedContact + 0.04 &&
+                this.time >= expectedContact - 0.09 &&
+                this.time <= expectedContact
+            ) {
+                const start = expectedContact - 0.09;
+                if (Math.abs(a.splitAt - start) > 0.001) {
+                    a.splitAt = start;
+                    this.splitEvents.push({ actor: i, start, expectedContact });
+                }
+            }
+
             if (
                 this.time < a.recoverUntil &&
                 this.time - a.swingAt >
                     a.hitFrame + (MOTIONS[a.motion as keyof typeof MOTIONS]?.recover ?? 0.35) * 0.85
             )
                 a.motion = 'Recover';
-            if (this.time < a.recoverUntil || (i === this.receiver && this.time < this.reactionAt))
+            if (
+                this.time < a.recoverUntil ||
+                (i === this.receiver && this.time < this.reactionAt) ||
+                (this.time >= a.splitAt && this.time < a.splitAt + 0.12)
+            ) {
+                moveMotor(a.p, a.v, a.p, a.side, CFG.dt, CFG.speed, CFG.accel);
+                stepFeet(a.feet, a.p, a.v, this.time, a.side);
                 continue;
+            }
             if (i !== this.receiver) {
                 a.target = { ...a.base };
             }
@@ -801,6 +832,7 @@ export class Game {
             contactAttempts: [...this.contactAttempts],
             perception: { ...this.aiPerception },
             motionEvents: [...this.motionEvents],
+            splitEvents: [...this.splitEvents],
             actors: this.actors.map((a) => ({
                 p: clone(a.p),
                 motion: a.motion,

@@ -37,6 +37,7 @@ import { synthImpact, offlineImpacts } from './audio';
 import './style.css';
 const reviewContact = new URLSearchParams(location.search).get('review-contact');
 let reviewHit: Hit | null = null;
+let impactTechnique = 'clear';
 let graphicsLost = false;
 const canvas = document.getElementById('application-canvas') as HTMLCanvasElement,
     ui = document.getElementById('ui')!,
@@ -103,7 +104,7 @@ const impactLedger: {
 }[] = [];
 function sound(h: Hit) {
     if (!settings.sound || !audio || audio.state !== 'running') return null;
-    const result = synthImpact(audio, h.shot, h.quality);
+    const result = synthImpact(audio, h.shot, h.quality, audio.currentTime, h.technique);
     audioEvents++;
     return { ...result, perf: performance.now() };
 }
@@ -160,26 +161,41 @@ function renderUI() {
                 : game.phase === 'RALLY' && game.receiver === 0
                   ? rem < game.inputLead(selected) + 0.05 &&
                     rem > Math.max(0.04, game.inputLead(selected) - 0.07)
-                      ? '● HIT NOW'
+                      ? '● HIT NOW · ' +
+                        (selected === 'clear'
+                            ? game.actors[0].contact!.y < 1.9
+                                ? 'LIFT'
+                                : 'CLEAR'
+                            : selected === 'drop'
+                              ? Math.abs(game.actors[0].contact!.z) < 2.6
+                                  ? 'NET'
+                                  : 'DROP'
+                              : game.previewStroke(0, target).technique === 'netKill'
+                                ? 'NET FINISH'
+                                : game.previewStroke(0, target).technique.toUpperCase())
                       : Number.isFinite(rem)
                         ? '◌ GET READY'
                         : 'OUT OF REACH'
                   : '';
     const b = document.getElementById('basic-label');
-    if (b)
+    if (b) {
+        const p = game.previewStroke(0, target);
         b.textContent =
-            game.actors[0].contact && game.actors[0].contact!.y > 2.15 && game.receiver === 0
-                ? game.incomingWeak && game.actors[0].contact!.y >= 2.5
+            game.receiver === 0 && game.actors[0].contact
+                ? p.technique === 'superSmash'
                     ? 'SUPER?'
-                    : 'SMASH'
+                    : p.technique === 'netKill'
+                      ? 'NET FINISH'
+                      : p.technique.toUpperCase()
                 : 'RETURN';
+    }
     const tut = document.getElementById('tutorial');
     if (tut && tutorial && game.time < 32)
         tut.textContent = [
             '01 / Aim at the far court. Click or tap when HIT NOW appears.',
-            '02 / Shift + click or swipe up buys time with a deep CLEAR.',
+            '02 / Clear or lift buys recovery time. Same Shift / swipe up.',
             '03 / Right click or swipe down pulls your opponent forward.',
-            '04 / A high ball enables SMASH. Time the solid ring.',
+            '04 / High = attack. Low = lift. Aim short to block; watch the label.',
         ][Math.min(3, Math.floor(game.time / 8))];
     if (tutorial && game.time >= 32) {
         tutorial = false;
@@ -642,6 +658,7 @@ async function boot() {
             camera.camera!.fov = 48;
             camera.lookAt(game.actors[0].p.x, 1.5, game.actors[0].p.z);
         }
+        impactTechnique = h.technique;
         const impactPerf = performance.now(),
             scheduled = sound(h);
         impactAt = game.time;
@@ -709,7 +726,9 @@ async function boot() {
         const age = game.time - impactAt;
         impact.enabled = settings.fx && age < 0.12;
         impact.setPosition(impactPos.x, impactPos.y, impactPos.z);
-        impact.setLocalScale(0.12 + age * 2, 0.12 + age * 2, 0.12 + age * 2);
+        const soft = ['net', 'block'].includes(impactTechnique),
+            burst = (soft ? 0.06 : 0.12) + age * (soft ? 1 : 2);
+        impact.setLocalScale(burst, burst, burst);
         if (!game.paused && game.phase === 'RALLY') {
             history.unshift({ ...game.p });
             if (history.length > 27) history.pop();

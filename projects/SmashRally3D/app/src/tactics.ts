@@ -138,26 +138,30 @@ export function chooseTactic(
         technique: Technique;
     } | null = null;
     for (const intent of options)
-        for (const x of [-1.8, 1.8]) {
-            const target = { x, y: 0.025, z: -c.side * (intent === 'drop' ? 1.15 : 5.8) },
-                ctx = { ...c, intent, target, timingError: 0 },
-                s = assessStroke(ctx),
-                p = strokeTarget(ctx, s),
-                f = solveStroke(ctx, s, p);
-            if (f.prediction.reason === 'NET' || f.error > 0.08) continue;
-            const base = recoveryBase(c.side, s.technique, p, c.contact, f.prediction.time),
-                recover = distance(c.body, base) / CFG.speed,
-                travel = distance(opponent, p) / CFG.speed,
-                score =
-                    travel -
-                    f.prediction.time * 0.35 -
-                    recover * 0.18 +
-                    (intent === 'drop' && Math.abs(opponent.z) > 4 ? 0.4 : 0) +
-                    (s.shot === 'smash' || s.shot === 'superSmash' ? 0.25 : 0) +
-                    (s.technique === 'lift' && s.balance < 0.7 ? 0.2 : 0);
-            if (!best || score > best.score)
-                best = { intent, target: p, score, technique: s.technique };
-        }
+        for (const x of [-1.8, 1.8])
+            for (const depth of intent === 'default' &&
+            ['smash', 'superSmash', 'drive'].includes(c.incomingShot)
+                ? [1.15, 5.8]
+                : [intent === 'drop' ? 1.15 : 5.8]) {
+                const target = { x, y: 0.025, z: -c.side * depth },
+                    ctx = { ...c, intent, target, timingError: 0 },
+                    s = assessStroke(ctx),
+                    p = strokeTarget(ctx, s),
+                    f = solveStroke(ctx, s, p);
+                if (f.prediction.reason === 'NET' || f.error > 0.08) continue;
+                const base = recoveryBase(c.side, s.technique, p, c.contact, f.prediction.time),
+                    recover = distance(c.body, base) / CFG.speed,
+                    travel = distance(opponent, p) / CFG.speed,
+                    score =
+                        travel -
+                        f.prediction.time * 0.35 -
+                        recover * 0.18 +
+                        (intent === 'drop' && Math.abs(opponent.z) > 4 ? 0.4 : 0) +
+                        (s.shot === 'smash' || s.shot === 'superSmash' ? 0.25 : 0) +
+                        (s.technique === 'lift' && s.balance < 0.7 ? 0.2 : 0);
+                if (!best || score > best.score)
+                    best = { intent, target: p, score, technique: s.technique };
+            }
     return (
         best ?? {
             intent: 'clear' as const,
