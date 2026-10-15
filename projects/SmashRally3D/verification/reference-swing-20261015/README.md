@@ -7,7 +7,7 @@ Implementation: cd736ad6cd376c0e926ab7500f66923d23062b7a.
 
 Only projects/SmashRally3D source, tests and evidence are changed. The saved cb-ll project's tracked files are untouched. The remote branch was fetched before work and matched the baseline. No main merge, default promotion or manual deployment.
 
-The exact native Library record for13013.jpg resolves to1065×606 and169400 bytes. The image read returned an asset pointer/caption rather than pixels; official materialization failed twice, including after network escalation. The source was NOT directly visually inspected in this environment. The parent-provided visual measurements grounded the work: low rear third person, broad blue near court, purple runoff, tape45–59% down the view, large near athlete and compact upper-left score. design-qa.md remains blocked for direct source fidelity. No copied third-party assets were used.
+The exact native Library record for13013.jpg resolves to1065×606 and169400 bytes. The image read returned an asset pointer/caption rather than pixels; official materialization failed three times, including after network escalation and after the environment connection recheck (`library file transfer failed: download failed`). The source was NOT directly visually inspected in this environment. The parent-provided visual measurements grounded the work: low rear third person, broad blue near court, purple runoff, tape45–59% down the view, large near athlete and compact upper-left score. design-qa.md remains blocked for direct source fidelity. No copied third-party assets were used.
 
 ## Implementation
 
@@ -56,3 +56,17 @@ The detail sheets use a consistent crop of the unmodified originals; crop coordi
 Serve and clear sheets additionally show the next observed ready sample when it occurs within0.25s of the return sample, making completed recovery visible. That last panel reuses the exact subsequent ready PNG and its timestamp; it is not a reconstructed pose. The original sequences.json remains unchanged.
 
 The first mixed UI sequence run observed24 real contacts/23 returns from11 cue-driven return commands. It captured serve, clear and drop preparation→acceleration→contact→impact→follow→return, with zero rendered-centre or basis mismatches. Default inputs at the leading edge of the broad beginner cue legitimately resolve to safe clears; this run is not claimed as natural smash/drive coverage. The five motion profiles, including basic/drive and smash, are separately checked in the finite-arm/continuous-phase unit suite.
+
+
+## Final additional checks
+
+All nine EASY/NORMAL/HARD ×centre-soft/wide-soft/clear-soft browser windows pass:27 physical AI contacts,18 confirmed successful replies and9 unresolved final replies; zero reply faults and zero direct soft winners. physical-analysis.json independently checks measured motor speed≤5.8m/s and minimum observation delays≥0.5/0.3/0.183s. These are bounded regression windows, not human win rates.
+
+The separate attack replay waits for the visibly tightened timing ring while HIT NOW is visible, then uses a normal mouse click. It records one actual smash and a complete eight-phase sequence through ready return, with zero rendered centre/basis mismatches. It never reads contactAt to schedule input or injects actor/shuttle state. [Smash detail](attack-smash-detail.png), [full-frame sequence](swings-attack/smash), [source record](swings-attack/sequences.json). Browser basic/drive and Super Smash sequences were not captured in this iteration; their domain/finite-arm regressions pass.
+
+Every final browser report has zero runtime errors and the identical candidate source bundle SHA256:8b53e8f2078a2d60808c79febaf46c999db4d7e871fa7c48cbff925e8741141b.
+
+An accidental repeated evidence-run invocation was interrupted and its partial log is retained in attempts; it does not replace or count towards the completed swing-sequence-report.json.
+
+
+[Download the saved review ZIP](https://chatgpt.com/api/library/files/libfile_b6f549ad87fc8191a6477aaeed03c02b/download). Original archive hash and byte size are in delivery.json.

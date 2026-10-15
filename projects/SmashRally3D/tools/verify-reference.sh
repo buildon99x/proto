@@ -19,4 +19,7 @@ run_case swings swing-sequence
 run_case native mobile-native
 run_case drop-defence reference-drop
 
+SMASH_SEQUENCE_MOTION=Smash SMASH_SEQUENCE_SECONDS=180 run_case swings-attack swing-sequence
+python3 projects/SmashRally3D/tools/analyze-reference-defence.py
+python3 projects/SmashRally3D/tools/summarize-reference.py
 [ "$failures" -eq 0 ]

@@ -6,7 +6,7 @@
     "filename": "13013.jpg",
     "width": 1065,
     "height": 606,
-    "directVisualInspection": "blocked: Library image response supplied pointer only; official download failed twice"
+    "directVisualInspection": "blocked: Library image response supplied pointer only; official download failed three times, including after connection recheck"
   },
   "composition": [
     {
@@ -804,6 +804,55 @@
       }
     ]
   },
+  "swings-attack": {
+    "pass": true,
+    "errors": [],
+    "failure": null,
+    "bundle": {
+      "sourceBundle": "./assets/index-B_NhBR4O.js",
+      "sha256": "8b53e8f2078a2d60808c79febaf46c999db4d7e871fa7c48cbff925e8741141b",
+      "startedAt": "2026-10-15T11:02:32.568Z",
+      "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+    },
+    "measurement": [
+      {
+        "issued": 1,
+        "returns": 2,
+        "shots": 3,
+        "motions": [
+          {
+            "motion": "Serve",
+            "technique": "clear",
+            "phases": [
+              "ready",
+              "prepare",
+              "accelerate",
+              "contact",
+              "impact",
+              "follow",
+              "return",
+              "ready-returned"
+            ]
+          },
+          {
+            "motion": "Smash",
+            "technique": "smash",
+            "phases": [
+              "ready",
+              "prepare",
+              "accelerate",
+              "contact",
+              "impact",
+              "follow",
+              "return",
+              "ready-returned"
+            ]
+          }
+        ],
+        "errors": []
+      }
+    ]
+  },
   "native": {
     "pass": true,
     "errors": [],
@@ -816,20 +865,146 @@
     }
   },
   "drop-defence": {
-    "pass": null,
-    "errors": null,
+    "pass": true,
+    "errors": [],
     "failure": null,
-    "bundle": null,
-    "measurement": []
+    "bundle": {
+      "sourceBundle": "./assets/index-B_NhBR4O.js",
+      "sha256": "8b53e8f2078a2d60808c79febaf46c999db4d7e871fa7c48cbff925e8741141b",
+      "startedAt": "2026-10-15T10:51:10.072Z",
+      "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+    },
+    "measurement": [
+      {
+        "windows": 9,
+        "settledReturns": 27,
+        "directWinners": 0
+      }
+    ],
+    "physicalAnalysis": {
+      "pass": true,
+      "windows": [
+        {
+          "difficulty": "EASY",
+          "pattern": "centre-soft",
+          "physicalAiContacts": 3,
+          "confirmedSuccessfulReplies": 2,
+          "unresolvedReplies": 1,
+          "replyFaults": 0,
+          "directSoftWinners": 0,
+          "maximumObservedSpeed": 5.800000000000355,
+          "minimumObservationDelay": 0.5000000000000249
+        },
+        {
+          "difficulty": "EASY",
+          "pattern": "wide-soft",
+          "physicalAiContacts": 3,
+          "confirmedSuccessfulReplies": 2,
+          "unresolvedReplies": 1,
+          "replyFaults": 0,
+          "directSoftWinners": 0,
+          "maximumObservedSpeed": 5.800000000000349,
+          "minimumObservationDelay": 0.5000000000000249
+        },
+        {
+          "difficulty": "EASY",
+          "pattern": "clear-soft",
+          "physicalAiContacts": 3,
+          "confirmedSuccessfulReplies": 2,
+          "unresolvedReplies": 1,
+          "replyFaults": 0,
+          "directSoftWinners": 0,
+          "maximumObservedSpeed": 5.800000000000361,
+          "minimumObservationDelay": 0.5083333333333044
+        },
+        {
+          "difficulty": "NORMAL",
+          "pattern": "centre-soft",
+          "physicalAiContacts": 3,
+          "confirmedSuccessfulReplies": 2,
+          "unresolvedReplies": 1,
+          "replyFaults": 0,
+          "directSoftWinners": 0,
+          "maximumObservedSpeed": 5.800000000000381,
+          "minimumObservationDelay": 0.3000000000000105
+        },
+        {
+          "difficulty": "NORMAL",
+          "pattern": "wide-soft",
+          "physicalAiContacts": 3,
+          "confirmedSuccessfulReplies": 2,
+          "unresolvedReplies": 1,
+          "replyFaults": 0,
+          "directSoftWinners": 0,
+          "maximumObservedSpeed": 5.800000000000381,
+          "minimumObservationDelay": 0.30000000000001137
+        },
+        {
+          "difficulty": "NORMAL",
+          "pattern": "clear-soft",
+          "physicalAiContacts": 3,
+          "confirmedSuccessfulReplies": 2,
+          "unresolvedReplies": 1,
+          "replyFaults": 0,
+          "directSoftWinners": 0,
+          "maximumObservedSpeed": 5.800000000000367,
+          "minimumObservationDelay": 0.3000000000000149
+        },
+        {
+          "difficulty": "HARD",
+          "pattern": "centre-soft",
+          "physicalAiContacts": 3,
+          "confirmedSuccessfulReplies": 2,
+          "unresolvedReplies": 1,
+          "replyFaults": 0,
+          "directSoftWinners": 0,
+          "maximumObservedSpeed": 5.800000000000381,
+          "minimumObservationDelay": 0.1833333333333229
+        },
+        {
+          "difficulty": "HARD",
+          "pattern": "wide-soft",
+          "physicalAiContacts": 3,
+          "confirmedSuccessfulReplies": 2,
+          "unresolvedReplies": 1,
+          "replyFaults": 0,
+          "directSoftWinners": 0,
+          "maximumObservedSpeed": 5.800000000000381,
+          "minimumObservationDelay": 0.1833333333333229
+        },
+        {
+          "difficulty": "HARD",
+          "pattern": "clear-soft",
+          "physicalAiContacts": 3,
+          "confirmedSuccessfulReplies": 2,
+          "unresolvedReplies": 1,
+          "replyFaults": 0,
+          "directSoftWinners": 0,
+          "maximumObservedSpeed": 5.800000000000377,
+          "minimumObservationDelay": 0.1833333333333229
+        }
+      ],
+      "totals": {
+        "physicalAiContacts": 27,
+        "confirmedSuccessfulReplies": 18,
+        "unresolvedReplies": 9,
+        "replyFaults": 0,
+        "directSoftWinners": 0
+      }
+    }
   },
   "pngSha256": {
     "comparison-portrait.png": "7d9d3797ab685b389207fe74f75ed0e0696d9705346ca3dd6e96a424e64b01e0",
     "comparison-pc.png": "76646f3e2bc27d616e7a4ca710266860178df9c3cf5d287edc274a018f15af85",
+    "attack-serve-detail.png": "291e78c422af2900029864d5ea34b18170c29e388ec425bc96bab9a0706cb461",
     "swing-serve.png": "6b7ec16ddee08e5da4f72eab95e6e476281fa7a1be28f04a4a8ba1caa865392b",
     "swing-clear-detail.png": "55aa1c4ed82b9b4cb87ce1cfb5fce25334588f6ee8bc9852dce46896f48f3add",
+    "attack-smash-detail.png": "216567ea05e0cebc35a041e78d2e6055a6d2f8aa278452faf8899a2585db913a",
     "comparison-landscape.png": "d34cea246315eaa98bd4cff700d5f1b2521cdf61b44ceaa4739356458afb6bcc",
     "swing-serve-detail.png": "e31bd0d2426cfc446d5a1045ce4166b47145672bceb5f942d3a817ec87f9fd20",
+    "attack-serve.png": "7e993a1f1328c22f7579b8da3ce8e9020639ba18d3dc5df6bd08f420deb70d67",
     "swing-drop-detail.png": "a5bb00884a776fcd936b8b87091dda45a3a40009813d9dfbb295a1806c346a35",
+    "attack-smash.png": "991c83d66864e6dfbe10e95d8291ddfc07e71b2ff1435ca3118dee7716993c03",
     "swing-clear.png": "838f41f9df76f2d409d1a45d36ddb165bd5cdecac1d66a63fb46314cb067aab9",
     "comparison-reference.png": "8ee18e8fd8e846bf2a2b86e50d44595248595a0b3acd1ec2923fd73cd1acdc88",
     "swing-drop.png": "7242b84b102dd036161cbd3ab871ae0bc862c51206d0f8bf94c38394cfedc619",
@@ -848,11 +1023,14 @@
     "rally/court-mobile-landscape-high-clear.png": "67a9c8bfb3b8c7855b790c76ca457e7250a1ba6503649e6ea2ef29a6c0073d36",
     "rally/court-mobile-portrait-high-clear.png": "5a283379e5fb636bf561f7cd0e71e217e972090446e2d9fc02f627a364cbf2e4",
     "rally/court-pc-high-clear.png": "b2d4c85deeebc7015922648cf59f7f8326fae33ab93c8f333ca7b362980aadcb",
+    "swings-attack/00-boot.png": "e25392a961060c5866bd28dde8d1ebe460060a4c30c08070260b2b2ed3b2be9b",
+    "swings-attack/mixed-rally.png": "8bf9f72f62e9f266a8d123399ff9e07ba6c4ce2d2f3c045d7a74299517377f23",
     "composition/ready-landscape.png": "a4f97011691d774f71e8ab7fccaf62f4860f9297bf861dc29aaea83281a225b8",
     "composition/ready-pc.png": "cb7c3a9f70648acb0cec9e1d99ae0457ddbf2f8b264ca3265c368a5684d33e52",
     "composition/00-boot.png": "50e4f39bfbd678030e6ea1694a3a5c56f23518a0af7d75b97a567961b3942943",
     "composition/ready-reference.png": "1c59b4da413ef9f91f173181862d5fb2eb439b9669c66676dd0c65252941c0b4",
     "composition/ready-portrait.png": "f2a1b812673e0a1c305a2bbc3ede24e463af57483d23853e66c2e5bd10f94d6c",
+    "drop-defence/drop-defence-hard-wide.png": "0b86f0cf338bf9aaaac201ba14ca66612efcbff9c7e85fcd051b60a90497165a",
     "drop-defence/drop-defence-normal-wide.png": "7a74c429358206b962aa1ca5716c790c9ac2eeab3eb42acbfde64eef625f910f",
     "drop-defence/00-boot.png": "afc9a6160eafa5983bb366ebb49f9668fbdbe9d7deee7e08d0d8f6c3dfb5b151",
     "drop-defence/drop-defence-easy-wide.png": "a4ebcc9b458b76c543dea3d24f58809689c7922bf82a8c1bc627b1512f78581d",
@@ -868,6 +1046,22 @@
     "rotation/00-boot.png": "f5ad74d8a6a6882315a7e6d56ed81f477f007a9d91d59e2ecaaa26069c52e270",
     "swings/00-boot.png": "e25392a961060c5866bd28dde8d1ebe460060a4c30c08070260b2b2ed3b2be9b",
     "swings/mixed-rally.png": "f5ab7c5d37204ef83ab420574553d84a433dea19be38171b9976265ce3fa5934",
+    "swings-attack/smash/06-return.png": "658194d891edc2942bec9791fa0c1b3bfabfcd5025b0353be989797cdf116b05",
+    "swings-attack/smash/01-prepare.png": "83ba2782f02977c55deb384438c2a8cdd7afaafb6590780f24325f789bf71646",
+    "swings-attack/smash/07-ready-returned.png": "a899f73505afadb17cb0df2b4c7f4e03c64ac0956f917b02365ee7a8089adfc3",
+    "swings-attack/smash/02-accelerate.png": "dea8f2c7bb5c1780165da90a446212f7ceeadca1882d6ecb6952336cb77eff47",
+    "swings-attack/smash/03-contact.png": "507c9af638e9b6aa90b4c96ab5c28f06f137f329f488bc0da63e3fad9b2dba2e",
+    "swings-attack/smash/00-ready.png": "d1744cebfdf8e1bfcd9476e224e8cce79a71201d9ce93e63579a06d3cbf6d6ce",
+    "swings-attack/smash/04-impact.png": "507c9af638e9b6aa90b4c96ab5c28f06f137f329f488bc0da63e3fad9b2dba2e",
+    "swings-attack/smash/05-follow.png": "c09f3b62223fae1663b00b144d7852f65ac491ca5484e35f9e83143c3a0c8aef",
+    "swings-attack/serve/06-return.png": "557b6466baa21886f2bc48dd7dd6cbbc7423cc03deaff639648aa5e86e4ceaf3",
+    "swings-attack/serve/01-prepare.png": "03d0bd333ca9f80385bff7dd13cb761f38bb7a8ad256f82cfc18beabd317a521",
+    "swings-attack/serve/07-ready-returned.png": "d1744cebfdf8e1bfcd9476e224e8cce79a71201d9ce93e63579a06d3cbf6d6ce",
+    "swings-attack/serve/02-accelerate.png": "5f76f3a4924d561063137b1c6b84b786530cfdc77a19b8d7e4b85de22f59a03f",
+    "swings-attack/serve/03-contact.png": "8ca87712bb7695c6b9b0ffdb8db341422c995b8443bb31167932602ae249edba",
+    "swings-attack/serve/00-ready.png": "65d8df19be75a438574b90f01cc4847a4777fda1d989fc01121fb71aa73da7d8",
+    "swings-attack/serve/04-impact.png": "bb99646fe952f725cc323d1d3654ec110d87bad1b54d6e68cab09fbbbda0a1bf",
+    "swings-attack/serve/05-follow.png": "de4e19f8151cb1272a08371ea6913bd779dff01dee3ae95c6d60ad8b46c2f249",
     "swings/clear/06-return.png": "9ee1ff8f7220a36880b6d8b75221a9de4d53adb57cb8af29999ace18fee3ddde",
     "swings/clear/01-prepare.png": "6a57f9346250a22036918973b4d9c17581f49860669a17317e020c62d22ac616",
     "swings/clear/02-accelerate.png": "29bfdff12fc0ea7795f741fac987b5b653c2574ff3bbc705efae5a6454e98dd8",

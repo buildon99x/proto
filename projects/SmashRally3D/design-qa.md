@@ -2,7 +2,7 @@
 
 final result: blocked
 
-The exact source image `13013.jpg` (Library `libfile_8ad23cd0827081918a24e7ffdc9b90fb`,1065×606) could not be opened as pixels. Library read supplied metadata, a caption and an asset pointer only. Official materialization failed both normally and after network escalation. No direct source/prototype visual comparison is claimed. The implementation uses the source description and measured composition supplied by the parent, who inspected the image.
+The exact source image `13013.jpg` (Library `libfile_8ad23cd0827081918a24e7ffdc9b90fb`,1065×606) could not be opened as pixels. Library read supplied metadata, a caption and an asset pointer only. Official materialization failed three times: normally, after network escalation, and again after the environment connection recheck. The exact transfer error was `library file transfer failed: download failed`. No direct source/prototype visual comparison is claimed. The implementation uses the source description and measured composition supplied by the parent, who inspected the image.
 
 Implementation and browser verification continue within the user's explicit instruction to finish possible work despite image-access failure. This blocked result concerns source fidelity, rather than a request to stop unrelated authorized coding.
 
