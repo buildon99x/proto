@@ -38,6 +38,7 @@ export type Actor = {
     target: V3;
     side: number;
     recoverUntil: number;
+    movementReadyAt: number;
     swingAt: number;
     hitFrame: number;
     feet: Feet;
@@ -163,6 +164,7 @@ export class Game {
             target: { x: 0, y: 0, z: side * 3.4 },
             side,
             recoverUntil: 0,
+            movementReadyAt: 0,
             swingAt: -99,
             hitFrame: CFG.swingLead,
             feet: makeFeet({ x: 0, y: 0, z: side * 3.4 }, side),
@@ -216,6 +218,7 @@ export class Game {
             a.target = clone(a.p);
             a.v = { x: 0, y: 0, z: 0 };
             a.recoverUntil = 0;
+            a.movementReadyAt = 0;
             a.base = clone(a.p);
             a.technique = 'drive';
             a.splitAt = -99;
@@ -517,6 +520,10 @@ export class Game {
                           ? 'BasicHit'
                           : shot[0].toUpperCase() + shot.slice(1)) as keyof typeof MOTIONS
                   ]?.recover ?? CFG.recovery));
+        // Landing/footwork can finish before the arm's full follow-through.
+        // The next swing still waits for recoverUntil; both actors share this rule.
+        a.movementReadyAt =
+            this.time + (shot === 'superSmash' ? 0.3 : this.p.y >= 2.15 ? 0.2 : 0.1);
         a.command = null;
         a.locked = false;
         const hit: Hit = {
@@ -589,7 +596,7 @@ export class Game {
             if (
                 f.p.z * a.side < 0.6 ||
                 f.p.y > (overhead ? 2.7 : Math.abs(f.p.z) < 1.8 ? 2.1 : 1.85) ||
-                f.p.y < 1.05 ||
+                f.p.y < 0.8 ||
                 f.v.y > 0 ||
                 f.t < delay + CFG.swingLead
             )
@@ -770,21 +777,21 @@ export class Game {
             )
                 a.motion = 'Recover';
             if (
-                this.time < a.recoverUntil ||
-                (i === this.receiver && this.time < this.reactionAt) ||
+                this.time < a.movementReadyAt ||
                 (this.time >= a.splitAt && this.time < a.splitAt + 0.12)
             ) {
                 moveMotor(a.p, a.v, a.p, a.side, CFG.dt, CFG.speed, CFG.accel);
                 stepFeet(a.feet, a.p, a.v, this.time, a.side);
                 continue;
             }
-            if (i !== this.receiver) {
-                a.target = { ...a.base };
-            }
+            // Before seeing the new shot, continue only the recovery already chosen
+            // after our own hit. The unseen shuttle cannot change this destination.
+            const movementTarget =
+                i !== this.receiver || this.time < this.reactionAt ? a.base : a.target;
             const { dx, dz, speed } = moveMotor(
                 a.p,
                 a.v,
-                a.target,
+                movementTarget,
                 a.side,
                 CFG.dt,
                 CFG.speed,
@@ -861,6 +868,7 @@ export class Game {
             server: this.server,
             receiver: this.receiver,
             contactAt: this.contactAt,
+            reactionAt: this.reactionAt,
             contact: this.actors[this.receiver]?.contact,
             position: clone(this.p),
             velocity: clone(this.v),
@@ -870,6 +878,10 @@ export class Game {
             splitEvents: [...this.splitEvents],
             actors: this.actors.map((a) => ({
                 p: clone(a.p),
+                v: clone(a.v),
+                target: clone(a.target),
+                recoverUntil: a.recoverUntil,
+                movementReadyAt: a.movementReadyAt,
                 motion: a.motion,
                 locked: a.locked,
                 technique: a.technique,

@@ -42,6 +42,9 @@ it('replays ordinary command-driven tactical games and ignores an early air swin
             if (
                 g.phase === 'RALLY' &&
                 g.receiver === 0 &&
+                // Yield an unreturned ball after a long rally so this lifecycle test
+                // does not rely on a competent AI randomly failing a safe exchange.
+                g.returns < 20 &&
                 last !== g.contactAt &&
                 g.contactAt - g.time < g.inputLead('default') + 0.025 &&
                 g.contactAt - g.time > 0.06
@@ -105,13 +108,13 @@ it('replays ordinary command-driven tactical games and ignores an early air swin
     }
     expect(earlyChecked).toBe(true);
     expect(kinds.size).toBeGreaterThanOrEqual(4);
-    const out = '../verification/tactics-20261015';
+    const out = '../verification/drop-defence-20261015';
     mkdirSync(out, { recursive: true });
     writeFileSync(
         out + '/domain-tactical-scenarios.json',
         JSON.stringify(
             {
-                method: 'Normal Game.start/command/step with precise domain contact-time scheduling; no state injection. This is NOT browser/human play.',
+                method: 'Normal Game.start/command/step with precise domain contact-time scheduling; no state injection. After20 returns the controller intentionally stops returning so lifecycle coverage does not depend on AI errors. This is NOT browser/human play.',
                 games,
                 techniques: [...kinds],
                 earlyMissEmittedHit: false,

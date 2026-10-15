@@ -20,3 +20,12 @@ P1/P2 excluded until P0 verified.
 Forecourt follow-up: a shared interception height policy may take a descending loose shuttle up to 2.1m inside 1.8m of the net. Keep physical movement, recovery, racket collision and net clearance gates; do not enlarge net-finish eligibility or add input controls.
 
 A weak-quality or balance<0.85 net/block uses a safety-height soft profile (vertical candidates 5–8m/s; desired flight 1.05s). This shared deterministic tuning makes a pressured loose reply physically attackable; it is prototype tuning, not a measured coaching threshold.
+
+## Repeat-drop defence follow-up
+- Preserve noisy delayed observation, existing speed/acceleration, recovery locks and real racket collisions.
+- Before perceiving a new shot, actors may continue their already known recovery base; they may not anticipate the unseen trajectory.
+- Evaluate low but physically legal interception contacts against the existing 0.75m hit floor, rather than rejecting all contacts below 1.05m.
+- Record issued soft intentions, actual drop/net/block flights, planner reachable/unreachable/unobserved verdicts, actual returns and immediate winners per difficulty/pattern. UI measurements are distinct from precise domain scheduling.
+- Direction-control changes remain a reviewed recommendation in this iteration; do not add required gestures or combine horizontal aim with existing vertical shot swipes without evidence.
+
+Implemented prototype tuning: ground locomotion resumes 0.2s after high contact, 0.3s after Super Smash or0.1s after a low contact; the next swing still waits for the original full recovery. The same motor and forecast use these times, known-base recovery during observation delay, and split locks. Low-contact hip crouch is bounded to0.32m with existing finite arm segments; planned contacts stop at0.8m, above the unchanged0.75m collision floor. Actual horizontal velocity is capped to the existing5.8m/s limit after per-axis acceleration, eliminating diagonal transient overshoot. These are game-tuning values, not measured human biomechanics.

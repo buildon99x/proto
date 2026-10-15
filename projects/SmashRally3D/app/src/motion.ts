@@ -99,6 +99,8 @@ export type PoseActor = {
     contact: V3 | null;
     feet: Feet;
     recoverUntil: number;
+    movementReadyAt?: number;
+    base?: V3;
     shot: string;
     strikeTarget?: V3 | null;
     splitAt?: number;
@@ -163,7 +165,7 @@ export function skeletonPose(a: PoseActor, time: number): SkeletonPose {
         Math.sqrt(Math.max(0.0004, 0.858 * 0.858 - (foot.x - hip.x) ** 2 - (foot.z - hip.z) ** 2));
     const crouch =
         swing && contact
-            ? clamp((1.6 - contact.y) * 0.25, 0, 0.18) * (t * t * (3 - 2 * t)) * (1 - follow)
+            ? clamp((1.6 - contact.y) * 0.45, 0, 0.32) * (t * t * (3 - 2 * t)) * (1 - follow)
             : 0;
     const height =
         Math.min((speed > 2 ? 0.84 : 0.92) + hop, limit(rf, rightHip), limit(lf, leftHip)) - crouch;
@@ -386,6 +388,11 @@ export function moveMotor(
         change = acceleration * dt;
     v.x += clamp(vx - v.x, -change, change);
     v.z += clamp(vz - v.z, -change, change);
+    const actualSpeed = Math.hypot(v.x, v.z);
+    if (actualSpeed > speedLimit) {
+        v.x *= speedLimit / actualSpeed;
+        v.z *= speedLimit / actualSpeed;
+    }
     p.x = clamp(p.x + v.x * dt, -2.8, 2.8);
     p.z = side * clamp(side * (p.z + v.z * dt), 0.45, 6.8);
     return { speed, dx, dz };
@@ -416,7 +423,12 @@ export function predictedRacket(
         moveMotor(
             actor.p,
             actor.v,
-            t >= delay && now + t >= a.recoverUntil ? target : actor.p,
+            now + t < (a.movementReadyAt ?? a.recoverUntil) ||
+                (now + t >= (a.splitAt ?? -99) && now + t < (a.splitAt ?? -99) + 0.12)
+                ? actor.p
+                : t >= delay
+                  ? target
+                  : (a.base ?? actor.p),
             a.side,
             dt,
         );
