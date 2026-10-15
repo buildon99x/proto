@@ -1,0 +1,116 @@
+{
+  "method": "Read-only analysis of actual UI play. Immediate next Serve proves a subsequent rally; AI return requires the immediate next hit to be actor1 with a non-Serve render motion. End flights without a following physical hit are excluded from settled counts.",
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-BVopA1Ha.js",
+    "sha256": "828754841e197e584b1997dea8942e382d688f7759a73b8e13d998066c5f73e5",
+    "startedAt": "2026-10-15T13:08:24.893Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "attacks": [
+    {
+      "difficulty": "EASY",
+      "time": 6.000000000000088,
+      "speed": 35.907706776231464,
+      "vy": -6,
+      "quality": "perfect",
+      "next": {
+        "actor": 0,
+        "motion": "Serve",
+        "technique": "clear",
+        "time": 8.033333333333518
+      }
+    },
+    {
+      "difficulty": "EASY",
+      "time": 12.649999999999922,
+      "speed": 23.78235817676756,
+      "vy": -4,
+      "quality": "perfect",
+      "next": {
+        "actor": 0,
+        "motion": "Serve",
+        "technique": "clear",
+        "time": 14.783333333333134
+      }
+    },
+    {
+      "difficulty": "NORMAL",
+      "time": 8.70833333333348,
+      "speed": 36.89763166155347,
+      "vy": -7,
+      "quality": "perfect",
+      "next": {
+        "actor": 0,
+        "motion": "Serve",
+        "technique": "clear",
+        "time": 10.700000000000033
+      }
+    },
+    {
+      "difficulty": "NORMAL",
+      "time": 20.616666666666138,
+      "speed": 24.470484850508488,
+      "vy": -5,
+      "quality": "perfect",
+      "next": null
+    },
+    {
+      "difficulty": "HARD",
+      "time": 16.28333333333305,
+      "speed": 36.89763166155348,
+      "vy": -7,
+      "quality": "perfect",
+      "next": {
+        "actor": 1,
+        "motion": "Drop",
+        "technique": "block",
+        "time": 16.583333333333034
+      }
+    },
+    {
+      "difficulty": "HARD",
+      "time": 27.549999999999077,
+      "speed": 24.470484850508488,
+      "vy": -5,
+      "quality": "perfect",
+      "next": null
+    }
+  ],
+  "actualSmashes": 6,
+  "settledAttackSequences": 4,
+  "incompleteEndFlights": 2,
+  "nextRallyServes": 3,
+  "actualAiBlocks": 1,
+  "contactErrors": [],
+  "audio": {
+    "actualContacts": 35,
+    "scheduledSounds": 35,
+    "packetGroups": 35,
+    "containerPtsOriginPerfSeconds": 14.404400000000372,
+    "videoOriginPerfSeconds": 6.070281982421875,
+    "muxDelaySeconds": 8.334118017578497,
+    "packetGroupVsScheduleRangeMs": [
+      -61.799999998868316,
+      103.20000000112373
+    ],
+    "presentationCallbackVsAudioScheduleMaxMs": 0.09999999962747097,
+    "peak": 0.620025634765625,
+    "listening": false,
+    "deviceLatencyMeasured": false,
+    "note": "MediaRecorder PTS begins at its first audible packet. A single origin calibration against the first live audio scheduling event preserves all later packet spacing; no per-hit resync. Capture/callback timing is not speaker/display latency."
+  },
+  "physicalContacts": {
+    "planeDistanceRangeM": [
+      0.012533558311461954,
+      0.017046939781677414
+    ],
+    "planeGateM": 0.045,
+    "radialDistanceRangeM": [
+      0.20354737539073806,
+      0.21415815927723436
+    ],
+    "radialGateM": 0.225,
+    "note": "Zero presentation mismatch compares the rendered racket centre with the physical racket centre. Ball centre may lie away from the string centre within the original contact disk.",
+    "renderedRacketCentreMaxErrorM": 1.5657924962347736e-07
+  }
+}

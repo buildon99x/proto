@@ -1,0 +1,44 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+
+Read the flight. Find the space.
+Make your next shot count.
+
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT smash-normal
+SMASH SESSION {"difficulty":"NORMAL","issued":7,"attacks":[{"shot":"smash","quality":"perfect","speed":24.470484850508488,"vy":-5,"target":{"x":1.8528830221520298e-7,"y":0.025,"z":3.7999988948544097}}],"replies":[{"attack":16.441666666666375,"reply":"smash","replyTime":20.758333333332796}],"points":[{"winner":1,"reason":"IN","returns":7},{"winner":0,"reason":"IN","returns":1}],"contacts":17}
+SHOT smash-hard
+SMASH SESSION {"difficulty":"HARD","issued":3,"attacks":[{"shot":"smash","quality":"perfect","speed":24.47048485050849,"vy":-5,"target":{"x":1.943360414119466e-7,"y":0.025,"z":3.800001041738126}}],"replies":[{"attack":11.21666666666667,"reply":"smash","replyTime":15.533333333333092}],"points":[{"winner":1,"reason":"IN","returns":3},{"winner":0,"reason":"IN","returns":1},{"winner":1,"reason":"IN","returns":1}],"contacts":9}
+node:events:487
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: write EPIPE
+    at WriteWrap.onWriteComplete [as oncomplete] (node:internal/stream_base_commons:87:19)
+Emitted 'error' event on Socket instance at:
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  errno: -32,
+  code: 'EPIPE',
+  syscall: 'write'
+}
+
+Node.js v24.19.0

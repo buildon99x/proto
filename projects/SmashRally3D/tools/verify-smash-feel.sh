@@ -12,7 +12,7 @@ run_case() {
  if [ "$result" -ne 0 ]; then failures=$((failures+1)); fi
 }
 run_case play-final smash-feel
-run_case rally court-framing
+SMASH_FRAMING_DEADLINE_MS=420000 run_case rally court-framing
 run_case rotation court-resize
 run_case native mobile-native
 SMASH_DROP_DEADLINE_MS=420000 run_case defence smash-drop-regression

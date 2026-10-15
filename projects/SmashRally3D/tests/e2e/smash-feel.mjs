@@ -59,7 +59,7 @@ export async function run({page,sleep,shot,log}) {
  });
  await client.send('Page.startScreencast',{format:'jpeg',quality:85,maxWidth:640,maxHeight:360,everyNthFrame:1});
  const sessions=[];let allAttacks=0,allReplies=0;
- for(const difficulty of ['EASY','NORMAL','HARD']) {
+ for(const difficulty of (process.env.SMASH_FEEL_DIFFICULTIES||'EASY,NORMAL,HARD').split(',')) {
   if((await page.evaluate(()=>window.smashDiagnostics())).phase!=='MENU') {
    const d=await page.evaluate(()=>window.smashDiagnostics());
    if(d.phase!=='RESULTS'){await page.keyboard.press('Escape');}
@@ -71,7 +71,7 @@ export async function run({page,sleep,shot,log}) {
   while(Date.now()<deadline){
    d=await page.evaluate(()=>window.smashDiagnostics());
    if(d.shots.length>lastShots){
-    for(const h of d.shots.slice(lastShots))if(h.actor===0&&['smash','superSmash'].includes(h.shot)){allAttacks++;attackEvents.push({hit:h,perf:await page.evaluate(()=>performance.now())});}
+    for(const h of d.shots.slice(lastShots))if(h.actor===0&&['smash','superSmash'].includes(h.shot)){allAttacks++;attackEvents.push({hit:h,pointsAtHit:d.points.length,perf:await page.evaluate(()=>performance.now())});}
     lastShots=d.shots.length;
    }
    if(d.phase==='RESULTS')break;
@@ -88,13 +88,15 @@ export async function run({page,sleep,shot,log}) {
    }
    was=cue.includes('HIT NOW');
    const attacks=d.shots.filter(h=>h.actor===0&&['smash','superSmash'].includes(h.shot));
-   const replies=attacks.filter(h=>d.shots.some(n=>n.actor===1&&n.time>h.time&&n.time<h.time+1.5));
-   if(attacks.length>=2&&(d.points.length>=1||replies.length>=1)&&d.shots.length>=8)break;
+   const replies=attacks.filter(h=>(()=>{const n=d.shots.find(n=>n.time>h.time);return n?.actor===1&&n.renderPose.motion!=='Serve'})());
+   const latest=attacks.at(-1),event=attackEvents.at(-1);
+   const settled=latest&&(d.shots.some(n=>n.time>latest.time)||d.points.length>(event?.pointsAtHit??Infinity));
+   if(attacks.length>=Number(process.env.SMASH_FEEL_ATTACKS||2)&&settled&&d.time-latest.time>.75&&d.shots.length>=8)break;
    await sleep(25);
   }
   d=await page.evaluate(()=>window.smashDiagnostics());
   const attacks=d.shots.filter(h=>h.actor===0&&['smash','superSmash'].includes(h.shot));
-  const replies=attacks.flatMap(h=>{const next=d.shots.find(n=>n.time>h.time);return next?.actor===1&&next.time<h.time+1.5?[{attack:h.time,reply:next.technique,replyTime:next.time}]:[]});allReplies+=replies.length;
+  const replies=attacks.flatMap(h=>{const next=d.shots.find(n=>n.time>h.time);return next?.actor===1&&next.renderPose.motion!=='Serve'?[{attack:h.time,reply:next.technique,replyTime:next.time}]:[]});allReplies+=replies.length;
   const ledger=d.audioLedger;
   if(ledger.length!==d.shots.length)throw Error('Duplicate/missing impact events');
   for(const h of attacks)if(h.velocity.y>=0)throw Error('Non-descending smash');

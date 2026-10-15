@@ -43,7 +43,7 @@ export async function run({ page, sleep, shot, log }) {
     const target = d.projectedTargets.find(t => t.world.x === 0 && t.world.z === 5.8).screen;
     if (viewport.hasTouch) await page.touchscreen.tap(target.x, target.y); else await page.mouse.click(target.x, target.y);
     let previous = false, taps = 0, captured = false, highClearCapture = null;
-    const deadline = Date.now() + 150000;
+    const deadline = Date.now() + Number(process.env.SMASH_FRAMING_DEADLINE_MS || 150000);
     while (Date.now() < deadline) {
       d = await page.evaluate(() => window.smashDiagnostics());
       const cue = await page.$eval('#timing', e => e.textContent || '');

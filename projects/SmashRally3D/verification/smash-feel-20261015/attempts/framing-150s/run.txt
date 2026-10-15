@@ -1,0 +1,29 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+
+Read the flight. Find the space.
+Make your next shot count.
+
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT court-pc-ready
+SHOT court-pc-high-clear
+SHOT court-pc-rally
+COURT FRAMING {"viewport":{"name":"pc","width":1280,"height":720,"deviceScaleFactor":1},"framing":{"samples":371,"minFov":42,"maxFov":80.11478435018284,"clippedCourt":742,"clippedPlayers":0,"clippedShuttle":0,"maxHeight":9.77457127686833,"peak":{"time":9.70000000000009,"position":{"x":1.04540022537174,"y":9.77457127686833,"z":-1.4581779877485181},"screen":{"x":651.5220589718739,"y":54.23892884242291,"z":12.034320519232049},"flight":4},"court":[{"x":1108.2614414645282,"y":815.3092610221967,"z":4.9974261287599795},{"x":771.6035566015469,"y":393.2027488521105,"z":18.29358445443213},{"x":171.7385585354719,"y":815.3092610221967,"z":4.9974261287599795},{"x":508.3964433984531,"y":393.2027488521105,"z":18.29358445443213}],"spectators":0,"view":{"width":1280,"height":720,"fov":42,"position":{"x":0,"y":3.2407760620117188,"z":-11.486270904541016}},"aim":[{"x":0,"screen":{"x":685.4214008322717,"y":374.78006769621715},"input":{"shotIntent":"clear","target":{"x":3.167065141251868e-7,"y":0.025,"z":5.8000024390196},"issuedAt":5.766666666666743,"submittedAt":5.766666666666743,"pointerType":"mouse","accepted":true,"projectedAtInput":{"x":685.4213856592718,"y":374.780055607201}},"roundTrip":{"x":685.4213856592718,"y":374.780055607201},"pixelError":0.000019400109245156765},{"x":-1.8,"screen":{"x":734.1728862758509,"y":374.480975583171},"input":{"shotIntent":"clear","target":{"x":-1.8000006672601891,"y":0.025,"z":5.799998117708009},"issuedAt":10.616666666666704,"submittedAt":10.616666666666704,"pointerType":"mouse","accepted":true,"projectedAtInput":{"x":734.1729154854472,"y":374.48098492268093}},"roundTrip":{"x":734.1729154854472,"y":374.48098492268093},"pixelError":0.00003066638159568842}],"hud":{"top":12,"left":16,"width":1248,"height":44,"display":"flex","visibility":"visible"},"courtArea":253206.9221065864},"taps":2,"returns":4,"contacts":5,"playerContacts":3,"capturedHighClear":true,"highClearCapture":{"time":4.6916666666666895,"position":{"x":0.9235169028688274,"y":9.394930178804206,"z":0.10983997034461497},"velocity":{"x":0.8041304300850393,"y":1.984989942363675,"z":-4.57686649439357},"flight":2,"screen":{"x":665.5277199147174,"y":75.91546937275452,"z":13.486998461845412}}}
+Error: high-clear/beginner rally not observed
