@@ -169,7 +169,7 @@ function renderUI() {
                     ? 'Click the court to serve'
                     : 'Opponent serving'
                 : game.phase === 'RALLY' && game.receiver === 0
-                  ? rem < game.inputLead(selected) + 0.14 &&
+                  ? rem < game.inputLead(selected) + 0.24 &&
                     rem > Math.max(0.04, game.inputLead(selected) - 0.07)
                       ? '● HIT NOW · ' + name(game.previewStroke(0, target, selected).technique)
                       : Number.isFinite(rem)
@@ -281,9 +281,21 @@ document.addEventListener('visibilitychange', () => {
         renderUI();
     }
 });
-function issue(intent: Intent, at: V3, type: string, issuedAt = game.time) {
+function issue(
+    intent: Intent,
+    at: V3,
+    type: string,
+    issuedAt = game.time,
+    touchReservation = false,
+) {
     unlock();
-    const cmd = { shotIntent: intent, target: { ...at }, issuedAt, pointerType: type };
+    const cmd = {
+        shotIntent: intent,
+        target: { ...at },
+        issuedAt,
+        pointerType: type,
+        touchReservation,
+    };
     game.command(cmd);
     lastInput = {
         shotIntent: intent,
@@ -424,7 +436,7 @@ function tickMotion(r: ReturnType<typeof makeActor>, dt: number) {
             ]);
         const clip = new AnimClip(
             track,
-            0,
+            lead ? Math.max(0, game.time - r.a.swingAt) * speed : 0,
             speed,
             true,
             ['Ready', 'SideStep', 'Run'].includes(mode),
@@ -557,7 +569,7 @@ canvas.addEventListener('pointerdown', (e) => {
             id: e.pointerId,
             issuedAt: game.time,
         };
-        issue(selected, gesture.target, 'touch', gesture.issuedAt);
+        issue(selected, gesture.target, 'touch', gesture.issuedAt, true);
     }
 });
 canvas.addEventListener('pointermove', (e) => {
@@ -575,7 +587,7 @@ canvas.addEventListener('pointermove', (e) => {
 canvas.addEventListener('pointerup', (e) => {
     if (gesture && gesture.id === e.pointerId) {
         if (!gesture.sent && !gesture.provisional)
-            issue(selected, gesture.target, 'touch', gesture.issuedAt);
+            issue(selected, gesture.target, 'touch', gesture.issuedAt, true);
         gesture = null;
     }
 });

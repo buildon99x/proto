@@ -159,3 +159,42 @@ it('a touch-down reservation can change to clear before the swing, cancel safely
     g.cancelTouchCommand(cmd.issuedAt);
     expect(g.shots.filter((h) => h.actor === 0).length).toBe(before + 1);
 });
+it('a classified reserved swipe can complete preparation before contact without restarting or duplicating the swing', () => {
+    const g = new Game();
+    g.difficulty = 'EASY';
+    g.start();
+    while (g.phase !== 'SERVE_READY') g.step();
+    g.command({
+        shotIntent: 'clear',
+        target: { x: 0, y: 0.025, z: 5.8 },
+        issuedAt: g.time,
+        pointerType: 'touch',
+    });
+    for (
+        let i = 0;
+        i < 5000 && !(g.phase === 'RALLY' && g.receiver === 0 && g.contactAt - g.time < 0.3);
+        i++
+    )
+        g.step();
+    const cmd = {
+        shotIntent: 'default' as const,
+        target: { x: 0, y: 0.025, z: 5.8 },
+        issuedAt: g.time,
+        pointerType: 'touch',
+        touchReservation: true,
+    };
+    g.command(cmd);
+    const before = g.shots.length;
+    while (!g.actors[0].locked && g.phase === 'RALLY') g.step();
+    const a = g.actors[0],
+        started = a.swingAt,
+        frame = a.hitFrame;
+    while (g.contactAt - g.time > 0.09) g.step();
+    g.command({ ...cmd, shotIntent: 'clear', touchReservation: false });
+    expect(a.command?.shotIntent).toBe('clear');
+    expect(a.swingAt).toBe(started);
+    expect(a.hitFrame).toBe(frame);
+    while (g.shots.length === before && g.phase === 'RALLY') g.step();
+    expect(g.shots.length).toBe(before + 1);
+    expect(g.shots.at(-1)?.shot).toBe('clear');
+});

@@ -25,7 +25,13 @@ import {
 } from './physics';
 import type { V3, Shot, Quality } from './physics';
 export type Intent = 'default' | 'clear' | 'drop';
-export type Command = { shotIntent: Intent; target: V3; issuedAt: number; pointerType: string };
+export type Command = {
+    shotIntent: Intent;
+    target: V3;
+    issuedAt: number;
+    pointerType: string;
+    touchReservation?: boolean;
+};
 export type Actor = {
     p: V3;
     v: V3;
@@ -318,7 +324,26 @@ export class Game {
         }
         if (this.phase !== 'RALLY' || this.receiver !== 0) return;
         const a = this.actors[0];
-        if (a.locked) return;
+        if (a.locked) {
+            // A swipe classifies the same reserved gesture, not a second independent stroke.
+            // Only before the physical contact window; keep the original swing clock.
+            if (
+                cmd.pointerType === 'touch' &&
+                a.command?.touchReservation &&
+                cmd.issuedAt === a.command.issuedAt &&
+                !cmd.touchReservation &&
+                !a.frameEmitted &&
+                this.time < this.contactAt - 0.045
+            ) {
+                const q = quality(cmd.issuedAt - (this.contactAt - this.inputLead(cmd.shotIntent)));
+                if (q !== 'miss') {
+                    a.command = cmd;
+                    a.quality = q;
+                    this.prepareStroke(a);
+                }
+            }
+            return;
+        }
         if (!Number.isFinite(this.contactAt)) {
             this.feedback('OUT OF REACH');
             return;
@@ -341,6 +366,29 @@ export class Game {
             a.hitFrame = this.inputLead(cmd.shotIntent);
             this.feedback(cmd.issuedAt < this.contactAt - a.hitFrame ? 'TOO EARLY' : 'TOO LATE');
         }
+    }
+    prepareStroke(a: Actor) {
+        const expected = a.expectedVelocity ?? this.v;
+        const context = this.strokeContext(a, a.contact ?? this.p, expected),
+            stroke = assessStroke(context),
+            requested = stroke.shot;
+        const prepared = a.contact ? solveStroke(context, stroke).resolvedShot : requested;
+        a.technique = prepared === stroke.shot ? stroke.technique : prepared;
+        a.strikeTarget = { ...this.shotTarget(a, prepared) };
+        a.swingTarget = { ...a.strikeTarget };
+        a.swingContact = a.contact ? { ...a.contact } : null;
+        a.attackBoost = prepared === 'superSmash';
+        a.motion = (
+            {
+                clear: 'Clear',
+                drop: 'Drop',
+                drive: 'BasicHit',
+                smash: 'Smash',
+                superSmash: 'Smash',
+            } as const
+        )[prepared];
+        if (['net', 'block'].includes(a.technique)) a.motion = 'Drop';
+        a.swingMotion = a.motion;
     }
     cancelTouchCommand(issuedAt: number) {
         const a = this.actors[0];
@@ -771,27 +819,7 @@ export class Game {
             a.hitFrame = Math.max(CFG.dt, this.contactAt - this.time);
             a.frameEmitted = false;
             a.armed = false;
-            const expected = a.expectedVelocity ?? this.v;
-            const context = this.strokeContext(a, a.contact ?? this.p, expected),
-                stroke = assessStroke(context),
-                requested = stroke.shot;
-            const prepared = a.contact ? solveStroke(context, stroke).resolvedShot : requested;
-            a.technique = prepared === stroke.shot ? stroke.technique : prepared;
-            a.strikeTarget = { ...this.shotTarget(a, prepared) };
-            a.swingTarget = { ...a.strikeTarget };
-            a.swingContact = a.contact ? { ...a.contact } : null;
-            a.attackBoost = prepared === 'superSmash';
-            a.motion = (
-                {
-                    clear: 'Clear',
-                    drop: 'Drop',
-                    drive: 'BasicHit',
-                    smash: 'Smash',
-                    superSmash: 'Smash',
-                } as const
-            )[prepared];
-            if (['net', 'block'].includes(a.technique)) a.motion = 'Drop';
-            a.swingMotion = a.motion;
+            this.prepareStroke(a);
         }
         const old = clone(this.p);
         this.previousBall = old;
