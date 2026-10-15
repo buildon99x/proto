@@ -34,6 +34,8 @@ export async function run({ page, sleep, shot, log }) {
     { timeout: 15000 },
   );
   const next = await page.evaluate(() => window.smashDiagnostics());
+  if (next.impactVisible || next.audioEvents !== 0)
+    throw new Error("Phantom impact after match reset");
   if (next.scores.some((x) => x !== 0))
     throw new Error("Rematch score reset failed");
   await shot("loss-rematch-ready");

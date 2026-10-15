@@ -1,0 +1,33 @@
+{
+  "source": "Actual Chromium screenshots, never image-generated mockups. See raw runner bundle hashes for precise capture builds.",
+  "items": [
+    {
+      "filename": "tactics-contact-lift.png",
+      "caption": "실제 UI 접촉 후 정지한 낮은 타점 리프트 검사 화면",
+      "kind": "event-paused inspection",
+      "sha256": "2e5b7232767bcd7c0fb12e1ea16027b0b6737a5bbfb0b886f5c0bbce799151cc",
+      "path": "/workspace/proto/projects/SmashRally3D/verification/tactics-20261015/screenshots/tactics-contact-lift.png"
+    },
+    {
+      "filename": "tactics-mobile-beginner-rally.png",
+      "caption": "CLEAR 선택 후 탭 3회로 실제 6회 반환한 모바일 에뮬레이션",
+      "kind": "ordinary native-touch play",
+      "sha256": "61c496562d52feb81fdad2d0a5b6a7e8cc9cb0a7e6255e11f595d1031b7bc6a2",
+      "path": "/workspace/proto/projects/SmashRally3D/verification/tactics-20261015/screenshots/tactics-mobile-beginner-rally.png"
+    },
+    {
+      "filename": "tactics-hard-natural-rally.png",
+      "caption": "HARD 상대와 실제 코스·샷 선택으로 진행한 랠리",
+      "kind": "ordinary mouse play",
+      "sha256": "b33ef457c2a206e25cfbd9cd610e41513e509bbb738ae44834c4e16e907da74b",
+      "path": "/workspace/proto/projects/SmashRally3D/verification/tactics-20261015/screenshots/tactics-hard-natural-rally.png"
+    },
+    {
+      "filename": "tactics-hard-results.png",
+      "caption": "HARD 경기 종료 화면. 자동 조작 결과이며 인간 난이도 균형은 미검증",
+      "kind": "ordinary match result",
+      "sha256": "4c92d72876554b24f0ef89c30325d2b534f2e96452d2c310f207c77c62144718",
+      "path": "/workspace/proto/projects/SmashRally3D/verification/tactics-20261015/screenshots/tactics-hard-results.png"
+    }
+  ]
+}

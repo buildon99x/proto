@@ -1,0 +1,14 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-CM6QE_73.js",
+    "sha256": "ac78ff6fb9e03e78f141ecdce8cb0fda891e5afa3d56a180371f5f8e73ccd918",
+    "startedAt": "2026-10-15T04:30:04.634Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "Natural UI loss and PLAY AGAIN {\"scores\":[0,5],\"points\":[{\"winner\":1,\"reason\":\"IN\",\"returns\":1},{\"winner\":1,\"reason\":\"IN\",\"returns\":0},{\"winner\":1,\"reason\":\"IN\",\"returns\":0},{\"winner\":1,\"reason\":\"IN\",\"returns\":0},{\"winner\":1,\"reason\":\"IN\",\"returns\":0}],\"rematch\":\"SERVE_READY\"}",
+    "One normal opening serve, then deliberately no return inputs; this checks losing result/rematch only, not tactical play. No state injection."
+  ]
+}

@@ -1,31 +1,23 @@
-# Verification status — 0.2.0 playable candidate
+# Tactical mechanics iteration — 2026-10-15
 
-The earlier f269f08 claims are superseded by [audit corrections](docs/AUDIT-CORRECTIONS.md). This candidate is playable and passes the listed software checks; AAA quality and full real-device acceptance are not certified.
+Implemented and software-verified; this is a playable prototype, not AAA/human/device certification. The previous6582e24 evaluation is archived in verification/tactics-20261015/baseline-6582-eval.md and does not validate later mechanics.
 
-| Spec gate | Evidence and practical limit |
-|---|---|
-| QA-01 match | Ten normal UI games: start/serve/4–12 return rally/5 points. Natural loss and PLAY AGAIN separately passed; pause/resume passed. |
-| QA-02/03 physics and aim | Shared120Hz integrator, swept net/ground,1000 numerical launches, left/right solver assertions. Clear/drop/smash envelopes differ; empirical drag calibration remains unverified. |
-| QA-04 timing | Independent quality/eligibility regression; UI cue controls retain finite lead/buffer. Human novice timing validation remains open. |
-| QA-05 contact | Five actual-engine UI collisions plus rendered string-centre snapshots, maximum render-centre delta<0.000001m. Single engine event arms the window; actual collision emits SFX/FX. Offline WAV/event scheduling inspected, no hardware listening/presentation-latency claim. |
-| QA-06 movement | Same bounded motor, fixed limbs, actual3D reach. First ten-game foot gate failed0.297m; fix rerun passed0.000000978m (10,549 eligible samples),3mm gate. Point resets/jumps excluded; see method. |
-| QA-07 tactics | Normal games produced all five shot kinds; longest12 returns. Every NORMAL game29 contacts and12 cue-driven return commands, every EASY game21 contacts and8 commands. Controller wins all10; human difficulty balance remains unverified. |
-| QA-08 AI | Delay before any forecast, then bounded noisy currentp/v samples; shared movement/contact rules.19 tests pass. Human difficulty/shot diversity review still needed. |
-| QA-09 touch | Actual emulated tap/swipe input before release, stable gesture-start target, portrait/landscape and pause. Physical touch/Safari remain open. |
-| QA-10 performance | Software SwiftShader around10–13FPS is recorded, not substituted for PC60/mobile30 targets. Real-device frame budget/download/startup/latency remains open. |
-| QA-11 stability | Ten active games,0 runtime errors,250 real contacts, all finite/contact bounds valid; sampled heap15–40MB. This is no proof of long-run leak freedom. |
-| QA-12 deployment | Root build:vercel passed. Existing GitHub Vercel status confirmed success for ac5829c. Direct external execution/access level still blocked by proxy403; never bypassed. |
-| QA-13 assets | Original court/weighted athlete/racket/shuttle/motions/synthesis sources and dependency licenses recorded. |
-| QA-14 accessibility | Mute/FX/trail/quality controls and readable timing feedback; reduced-FX/pause/reload software checks pass. Human accessibility review remains open. |
+Controls remain clear/default/soft: PC Shift+click/click/right-click; touch tap/up/down swipe and the existing three shot buttons. Movement, split readiness, posture and reply-covering base remain automatic. No new mandatory key, combo or precise gesture is introduced.
 
-[Ten-match evidence](verification/after/ten-active-ui-matches.json) records each game's score, shot sequence/counts, cue-input count, longest rally and observed software FPS/heap. Controls use visible HIT NOW/SUPER, not internal contactAt. Full per-point command sequences were not recorded. All games used the same deterministic pattern, so this is regression coverage rather than diverse human strategy testing.
+## Evidence
 
-[Five-shot contacts](verification/after/contact-gallery/five-shot-contact-evidence.json) and labelled screenshots freeze real collision snapshots after UI input. Earlier Drive-provocation strategies failed; the NORMAL clear/drop/default tactical sequence succeeded. Inspection mode does not count as uninterrupted match play. Final camera-only inspection fix does not change the tested gameplay implementation.
+- 32 unit/regression tests pass: previous19 plus13 tactical/input cases. Covers low vs high/postural choice, below-tape attack rejection, lift recovery time, real profile/live integration, contextual block/net, cross-flight/recovery geometry, delayed AI perception, split timing, ordinary-timing beginner rally and one-gesture reservation/classification without moving the original swing clock or inventing hits. Constructed context fixtures are distinguished from ordinary start/command/step domain replays.
+- Final normal UI game run uses visible text cues and real mouse/Shift/right-click only. No contactAt scheduling or state injection.118 actual contacts,49 return inputs,0 runtime errors; EASY5:0/69 contacts/32 inputs/longest16 returns; NORMAL1:5/19 contacts/6 inputs/longest12; HARD2:5/30 contacts/11 inputs/longest5. Eight technique labels occurred across both actors, including actual human blocks and lifts and AI net play. This is a fixed software controller, not human difficulty balance or diverse player research.
+- 95 automatic split events;4,984 eligible grounded same-cycle rendered-foot comparisons, maximum0.000000987m displacement (3mm gate). Point resets, jumps and noncontinuous samples excluded. Actual engine racket positions are also checked against the collision snapshot for the queued first contact render (2mm gate).
+- Mobile real-return test initially FAILED: pointerup submitted200ms after a valid pointerdown. Touch-down now reserves the selected return. Before the active contact window, the same gesture may classify into clear/soft with original start/aim and swing clock retained. Pointerup emits no second command; late classification cannot rewrite an already active hit. The text cue anticipates input; raw quality thresholds/buffer are unchanged. See preserved failures and research notes.
+- Native CDP touch beginner replay: select the existing CLEAR button once, then3 taps →6 real returns,4 player contacts including serve, GOOD/PERFECT mixed. Separate native up/down gestures were accepted before release and emitted actual clear/drop shots; target start remained stable. Portrait/landscape and pause checked. These are emulation results, not physical touch latency/Safari proof.
+- Actual UI lift/block contact inspection screenshots freeze a real collision snapshot after input. They are explicitly not uninterrupted match or novice-play evidence. Net-finish eligibility/flight/consistent aim are tested in constructed fixtures; a natural UI net finish was NOT observed.
+- Nine distinct original synthesis profiles rendered through Chromium OfflineAudioContext, PCM peak/RMS recorded, no clipping. Successful collision remains sole SFX/FX source; early air-input emits no hit callback. No headphone/speaker/Bluetooth listening or physical A/V latency was measured.
+- Final ordinary loss→PLAY AGAIN also confirms no stale hit FX/audio before a new serve. This presentation-only reset follows the full-match bundle and does not change tested physics/input/tactics.
+- Typecheck, project build and root build:vercel pass. Software Chromium151/Angle SwiftShader FPS is recorded, never substituted for PC60/mobile30 real-device targets. Local production preview respondsHTTP200.
 
-Before/after silent videos are in verification/before and verification/after. Before used precise read-only timing assistance; after uses visible cues and records7 returns with0 browser errors. Five WAVs in verification/audio render the actual synthImpact function numerically; no speaker/headphone/Bluetooth hearing test was performed.
+Full per-game shot/point/quality/posture/course/base/split/audio records and bundle hashes are in [verification/tactics-20261015](verification/tactics-20261015/README.md). Earlier ledger-scope/mobile failures remain archived rather than counted as successful tests.
 
-Important screenshots are staged in verification/library-deliverables. Library upload remains pending because the required official upload skill/helper source became unavailable. No Library write, alternate transfer route or invented identity was used.
+## Remaining acceptance
 
-2026-10-15 tactical iteration is in progress. Earlier 0.2.0 results remain archived and do not validate new mechanics. New unit/normal UI evidence is required before describing this iteration as verified.
-
-Tactical phase1:25 unit tests pass (19 previous +6 tactical fixtures). New tests establish height/posture choice, below-tape safety, contextual net/block, lift flight-time, identical live/profile integration, cross-flight/recovery geometry and observation-based AI option ranking. These fixtures include constructed contexts; they are not natural browser rallies or human coaching acceptance. Browser verification remains pending.
+Human novice comprehension, timing-cue feel, balance/match length and coaching realism still need people playing. Net-finish natural UI coverage, physical PC/mobile FPS, Safari and audible/input latency remain open. This iteration does not promote a new public default or merge main. Existing branch Preview access/security level remains unverified from this environment.

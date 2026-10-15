@@ -9,21 +9,24 @@ Sources were read directly; federation-authored PDFs are hosted by a national as
 [Mike Hopley: building shots](https://www.badmintonbible.com/tactics/singles/building-shots) and [flexible central base](https://www.badmintonbible.com/tactics/singles/central-base): clears open front space; a net shot can invite a lift; a drop gives its hitter less recovery time; the base shifts towards the played side and depends on likely replies. These are coaching explanations, not hit-success probabilities.
 
 ## Gap at6582e24 and implementation contract
-| Previous behavior | New mechanism and regression |
-|---|---|
-| Default is almost entirely height→drive/smash | Contextual lift/net/block/net-finish under the same clear/default/drop inputs; actual contact height, forward position and balance constrain attack |
-| Weak input always means clear | Separate timing, preparation and posture; deterministic course error, exposed short lift, legal stroke fallback, no score-dependent dice |
-| Recovery depth is fixed by shot label | Dynamic reply-covering base from technique AND placement; cross needs actual extra diagonal flight/recovery distance, not just a cosmetic accuracy penalty |
-| No split step | Automatic shallow neutral landing at opponent contact; no destination prediction is disclosed before AI delay |
-| AI has a short fixed shot sequence | Rank observed legal court options using displacement, flight time and own recovery, retaining delayed noisy observations |
-| Five impact synth presets | Compact net/block vs drive vs overhead transient/envelope; successful collision remains the sole event source |
+
+| Previous behavior                             | New mechanism and regression                                                                                                                               |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Default is almost entirely height→drive/smash | Contextual lift/net/block/net-finish under the same clear/default/drop inputs; actual contact height, forward position and balance constrain attack        |
+| Weak input always means clear                 | Separate timing, preparation and posture; deterministic course error, exposed short lift, legal stroke fallback, no score-dependent dice                   |
+| Recovery depth is fixed by shot label         | Dynamic reply-covering base from technique AND placement; cross needs actual extra diagonal flight/recovery distance, not just a cosmetic accuracy penalty |
+| No split step                                 | Automatic shallow neutral landing at opponent contact; no destination prediction is disclosed before AI delay                                              |
+| AI has a short fixed shot sequence            | Rank observed legal court options using displacement, flight time and own recovery, retaining delayed noisy observations                                   |
+| Five impact synth presets                     | Compact net/block vs drive vs overhead transient/envelope; successful collision remains the sole event source                                              |
 
 Acceptance: legal trajectories/actual swept net faults; same low/high input resolves differently; lift buys time; cross/straight have different physical distance and recovery; no impossible high attack; AI delay survives; natural UI inputs reach tactical exchanges. Injected domain fixtures and normal browser play are reported separately. Human hearing, physical-device latency/FPS and coaching realism remain separate checks.
 
 ## Assistance and tuning
+
 The three existing inputs remain unchanged. Height/context is labelled before the swing; a low default return becomes a lift automatically. Timing windows/buffer remain80/180/300ms and350ms; the new state does not add a mandatory precision input. Auto split uses90ms anticipation of the publicly visible opponent swing and lands30ms after its nominal contact; hop3.5cm. These are readable game values, not measured physiology. It brakes recovery at the current location instead of forcing a run to centre. AI sees no directional trajectory/intercept until its existing delayed observation. A predicted animation-contact time is public posture information, not the future shuttle landing.
 
 ## Native touch failure and repair
+
 Recognition-only mobile QA passed but a later real-return test failed. Observed pointerdown11.108s was submitted at pointerup11.308s and rejected as late. The selected return is now reserved on touch-down. A swipe classifies that same reservation and can update technique during preparation, keeping the original swing start/contact clock, aim and gesture-start time. Classification closes45ms before nominal contact and is forbidden after the hit-frame event. Clip phase is retained rather than restarted. Pointerup submits nothing twice; cancel clears an unlocked reservation. A hold begins return preparation, with no charge mechanic.
 
 The text cue starts240ms before nominal swing lead, within the existing accepted input buffer; the tighter visual ring still marks precision. Raw80/180/300ms quality thresholds and350ms buffer are unchanged. Early imperfect input can still rally instead of requiring a new gesture or exact deadline. These values are game tuning, not measured human reaction times. Native CDP replay now verifies not only intent recognition but acceptance before release AND real emitted clear/drop strokes. A separate clear-preset/one-finger-tap replay reaches six returns. This refines the original pointerup-only tap assumption without rewinding a missed shuttle or granting reach. Hardware touch/audio and physical FPS remain unmeasured.

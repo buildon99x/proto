@@ -226,6 +226,8 @@ ui.addEventListener('click', (e) => {
     switch (el.dataset.action) {
         case 'start':
             panel = '';
+            impactAt = -1;
+            shakeUntil = 0;
             impactLedger.length = 0;
             audioEvents = 0;
             pendingContact = null;
@@ -777,7 +779,7 @@ async function boot() {
                 : 1.4;
         timing.setLocalScale(scale, scale, scale);
         const age = game.time - impactAt;
-        impact.enabled = settings.fx && age < 0.12;
+        impact.enabled = settings.fx && age >= 0 && age < 0.12;
         impact.setPosition(impactPos.x, impactPos.y, impactPos.z);
         const soft = ['net', 'block'].includes(impactTechnique),
             burst = (soft ? 0.06 : 0.12) + age * (soft ? 1 : 2);
@@ -824,6 +826,7 @@ async function boot() {
                 .camera!.worldToScreen(new Vec3(game.p.x, game.p.y, game.p.z))
                 .clone(),
             renderedContact,
+            impactVisible: impact.enabled,
             audioState: audio?.state ?? 'locked',
             audioEvents,
             audioLedger: impactLedger.map((e) => ({ ...e })),

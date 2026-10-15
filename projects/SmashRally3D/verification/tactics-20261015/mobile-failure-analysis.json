@@ -1,0 +1,12 @@
+{
+  "scope": "Native CDP emulation, not physical-device latency. Recognition-only earlier tests were insufficient to prove real mobile returns.",
+  "observedTouch": {
+    "issuedAtGameSeconds": 11.108333333333343,
+    "submittedAtGameSeconds": 11.308333333333332,
+    "accepted": false
+  },
+  "cause": "Pointerup classification arrived after the legitimate contact opportunity although pointerdown was inside the visible cue.",
+  "repair": "Touch-down reservation; the same gesture may classify until45ms before nominal contact and only before hit-frame, preserving aim/start/swing clock. Pointerup submits nothing twice. Early text cue allows classification without changing raw timing grades or physical reach.",
+  "provisionalReservationTradeoff": "A held touch starts preparing the selected return; a swipe arriving after the swing has begun cannot retroactively change it. Wider GOOD cue provides classification time.",
+  "verification": "32 tests, native beginner6 returns and accepted/emitted real clear/drop gestures passed."
+}

@@ -8,3 +8,6 @@
 - `loss-rematch.mjs`: natural loss after withholding returns, visible losing result and PLAY AGAIN. This is lifecycle coverage, not tactical balance.
 - Software Chromium151/Angle SwiftShader can run around10FPS here; never substitute these observations for PC60/mobile30 device targets. Offline WAV rendering/event scheduling are not hearing tests.
 - Root release build: `corepack pnpm build:vercel`. Current branch Vercel status may be confirmed by GitHub; direct external execution/access level requires separate success.
+
+## Tactical iteration
+Use `tactical-final.mjs` for complete EASY/NORMAL/HARD visible-cue games; `mobile-beginner.mjs` for real tap returns, and the strengthened `mobile.mjs` for accepted pre-release swipe intentions AND correct actual emitted shots. Gesture-recognition-only success is no longer treated as return success. `tactical-contact-gallery.mjs` is explicit event-paused inspection. Original failures and per-bundle successes live in verification/tactics-20261015; final summary is authoritative for new mechanics. Human hearing/device/human-balance gates are separate. Final FX-reset UI check verifies no stale hit effect or audio count before a rematch's first serve; this last presentation-only correction does not change the full-match tested physics/input rules.

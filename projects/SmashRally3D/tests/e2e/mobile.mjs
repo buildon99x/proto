@@ -19,7 +19,7 @@ export async function run({ page, sleep, shot, log }) {
     { timeout: 15000 },
   );
   await shot("mobile-01-ready");
-  let d = await read(),
+  const d = await read(),
     t = d.projectedTargets.find(
       (p) => p.world.x === 0 && p.world.z === 5.8,
     ).screen;
@@ -35,21 +35,35 @@ export async function run({ page, sleep, shot, log }) {
     ["clear", -30],
     ["drop", 30],
   ]) {
-    await page.waitForFunction(
-      () => {
-        const d = window.smashDiagnostics();
-        return (
-          d.phase === "RALLY" &&
-          d.receiver === 0 &&
-          document.querySelector("#timing")?.textContent.includes("HIT NOW")
-        );
-      },
-      { timeout: 30000, polling: "raf" },
+    const ready = await page.evaluate(
+      () =>
+        new Promise((resolve, reject) => {
+          const began = performance.now();
+          function check() {
+            const d = window.smashDiagnostics();
+            if (
+              d.phase === "RALLY" &&
+              d.receiver === 0 &&
+              document.querySelector("#timing")?.textContent.includes("HIT NOW")
+            ) {
+              resolve({
+                p: d.projectedTargets.find(
+                  (p) => p.world.x === 0 && p.world.z === 5.8,
+                ).screen,
+                shots: d.shots.length,
+              });
+              return;
+            }
+            if (performance.now() - began > 30000) {
+              reject(new Error("Visible touch cue absent"));
+              return;
+            }
+            requestAnimationFrame(check);
+          }
+          check();
+        }),
     );
-    d = await read();
-    const p = d.projectedTargets.find(
-      (p) => p.world.x === 0 && p.world.z === 5.8,
-    ).screen;
+    const p = ready.p;
     await client.send("Input.dispatchTouchEvent", {
       type: "touchStart",
       touchPoints: [{ x: p.x, y: p.y, id: 1 }],
@@ -79,13 +93,45 @@ export async function run({ page, sleep, shot, log }) {
       JSON.stringify(afterUp.lastInput.target) !== JSON.stringify(fixedTarget)
     )
       throw new Error("Target moved from gesture start");
-    results.push({ intent, issuedBeforePointerUp: true, target: fixedTarget });
+    if (!beforeUp.lastInput.accepted)
+      throw new Error(
+        "Swipe intent was recognized after swing lock " +
+          JSON.stringify({
+            last: beforeUp.lastInput,
+            time: beforeUp.time,
+            contactAt: beforeUp.contactAt,
+            receiver: beforeUp.receiver,
+            input: beforeUp.input,
+          }),
+      );
+    results.push({
+      intent,
+      issuedBeforePointerUp: true,
+      acceptedBeforePointerUp: beforeUp.lastInput.accepted,
+      target: fixedTarget,
+    });
     await shot("mobile-03-" + intent + "-threshold");
     await page.waitForFunction(
-      (n) => window.smashDiagnostics().shots.length > n,
+      (n) =>
+        window
+          .smashDiagnostics()
+          .shots.slice(n)
+          .some((h) => h.actor === 0),
       { timeout: 15000 },
-      d.shots.length,
+      ready.shots,
     );
+    const emitted = (await read()).shots
+      .slice(ready.shots)
+      .find((h) => h.actor === 0);
+    if (!emitted || emitted.shot !== (intent === "clear" ? "clear" : "drop"))
+      throw new Error(
+        "Swipe emitted wrong physical shot " + JSON.stringify(emitted),
+      );
+    Object.assign(results.at(-1), {
+      physicalShot: emitted.shot,
+      technique: emitted.technique,
+      quality: emitted.quality,
+    });
   }
   await page.keyboard.press("Escape");
   const paused = (await read()).time;
