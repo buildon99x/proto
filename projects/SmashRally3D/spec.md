@@ -36,3 +36,9 @@ Implemented prototype tuning: ground locomotion resumes 0.2s after high contact,
 - Ignore secondary contacts; cancellation belongs only to the owning pointer.
 - Freeze classification at the first physical hit-frame/attempt, even if that attempt misses; never rewrite an existing contact. Keep original aim/time/swing clock, and retain normal physical collision checks. No duplicate shot on release or stale gesture replay.
 - Compare native MEDIUM input and actual collision results, with explicit before-contact and after-contact boundary diagnostics.
+
+## Court framing follow-up
+- Remove seating/spectator entities, rather than hiding them at a quality level.
+- Fit a static, responsive perspective view to court/runoff, finite actor/racket bounds and conservative high-clear envelope; keep HUD and shot controls clear. No rally zoom/pan or ball-state camera chase.
+- Preserve inverse screen-to-court tap/click aiming after resize/DPR/orientation changes.
+- Record before/after real clear rallies on PC1280×720, landscape844×390 and portrait390×844. Keep all45 regressions, mobile and DROP defence. Save screenshots through official Library when available, otherwise commit original bytes and full remote SHA.

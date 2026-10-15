@@ -46,6 +46,7 @@ select {
 }
 #ui {
     position: fixed;
+    z-index: 1;
     inset: 0;
     pointer-events: none;
 }
@@ -330,9 +331,6 @@ ul {
 #tutorial[hidden] {
     display: none;
 }
-.rotate {
-    display: none;
-}
 @media (max-width: 900px) {
     .hud {
         top: 12px;
@@ -415,15 +413,6 @@ ul {
     .brand {
         font-size: 23px;
     }
-    .rotate {
-        display: block;
-        position: absolute;
-        bottom: 145px;
-        text-align: center;
-        width: 100%;
-        font-size: 10px;
-        color: #b7ced2;
-    }
     .shot-bar button {
         min-width: 95px;
     }
@@ -469,5 +458,39 @@ ul {
     }
     #tutorial {
         top: 99px;
+    }
+}
+
+/* The removed stands free side gutters for existing controls and instructions. */
+@media (orientation: landscape) {
+    .scoreboard {
+        margin-left: auto;
+        margin-right: 12px;
+    }
+    .shot-bar {
+        left: auto;
+        right: max(16px, env(safe-area-inset-right));
+        bottom: max(16px, env(safe-area-inset-bottom));
+        transform: none;
+        flex-direction: column;
+    }
+    #timing {
+        left: auto;
+        right: 16px;
+        bottom: 220px;
+        transform: none;
+        max-width: 135px;
+        text-align: right;
+    }
+    #feedback {
+        left: max(16px, env(safe-area-inset-left));
+        top: 85px;
+        transform: none;
+    }
+    #tutorial {
+        left: max(16px, env(safe-area-inset-left));
+        top: 113px;
+        transform: none;
+        max-width: 22vw;
     }
 }

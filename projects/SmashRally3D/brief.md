@@ -8,3 +8,5 @@ Follow-up: make above-tape forecourt opportunities reachable through automatic i
 2026-10-15 player-feedback follow-up: repeated DROP/soft input must not be an automatic point against fair AI. Measure each difficulty and placement separately; preserve useful tight/wide drops, novice rallies and existing input simplicity. Recommend direction controls without silently redesigning them.
 
 Finish mobile input reliability: immediate touch-down reservation and prompt vertical classification must coexist without rewriting physical contacts or duplicate hits; preserve existing direction controls.
+
+Remove stands and spectators; enlarge the playable court/athletes for desktop and portrait/landscape touch while retaining both court boundaries, every actor and high-clear flight. Preserve current inputs/physics and compare actual rallies/screenshots.

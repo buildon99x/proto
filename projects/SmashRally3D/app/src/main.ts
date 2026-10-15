@@ -27,9 +27,10 @@ import {
     DEVICETYPE_WEBGL2,
 } from 'playcanvas';
 import { Game } from './game';
+import { fitCourtCamera, courtAim } from './camera-framing';
 import type { ContainerResource, AnimTrack } from 'playcanvas';
 import type { Intent, Actor, Hit } from './game';
-import { CFG, clamp } from './physics';
+import { CFG } from './physics';
 import type { V3 } from './physics';
 import { MOTIONS, skeletonPose, sub } from './motion';
 import type { MotionName, SkeletonPose } from './motion';
@@ -142,7 +143,7 @@ function renderUI() {
             overlay = `<section class="card"><div class="eyebrow">TAKE A BREATH</div><h2>PAUSED</h2><button data-action="resume" class="primary">CONTINUE</button><div class="row"><button data-action="start">Restart match</button><button data-action="menu">Main menu</button></div>${controls()}</section>`;
         if (panel)
             overlay = `<section class="card"><div class="eyebrow">RALLY CLUB</div><h2>${panel === 'help' ? 'HOW TO PLAY' : 'SETTINGS'}</h2>${panel === 'help' ? '<p>Aim at the far court. Your player moves automatically.</p><ul><li>Click / tap: return or smash a high ball.</li><li>Shift + click / swipe up: deep clear.</li><li>Right click / swipe down: front-court drop.</li><li>Press at HIT NOW, just before contact.</li><li>A weak high return + PERFECT unlocks Super Smash.</li><li>Esc pauses. Five points wins; no deuce.</li></ul>' : controls()}<button data-action="close" class="primary">BACK</button></section>`;
-        ui.innerHTML = `<header class="hud"><div class="brand">SR<span>3D</span></div><div class="scoreboard"><div><small>YOU ${game.server === 0 ? '•' : ''}</small><b>${game.scores[0]}</b></div><div class="versus">FIRST TO 5</div><div><small>${game.server === 1 ? '• ' : ''}AI</small><b>${game.scores[1]}</b></div></div><button data-action="pause" class="pause" aria-label="Pause">II</button></header><div class="arena-label">RALLY CLUB<span>INDOOR SERIES / 01</span></div><div id="feedback" aria-live="polite"></div><div id="timing"></div><div class="shot-bar" ${['MENU', 'RESULTS'].includes(game.phase) ? 'hidden' : ''}>${(['clear', 'default', 'drop'] as Intent[]).map((s, i) => `<button data-shot="${s}" ${selected === s ? 'class="active"' : ''}><span>${['C', 'R', 'D'][i]}</span><em ${s === 'default' ? 'id="basic-label"' : ''}>${['CLEAR', 'RETURN', 'DROP'][i]}</em><small>${['SHIFT / SWIPE UP', 'CLICK / TAP', 'RIGHT / SWIPE DOWN'][i]}</small></button>`).join('')}</div><div id="tutorial" ${tutorial && game.phase === 'RALLY' && game.time < 32 ? '' : 'hidden'}></div><div class="rotate">Turn your phone sideways for a wider court view.</div>${overlay ? `<div class="overlay">${overlay}</div>` : ''}`;
+        ui.innerHTML = `<header class="hud"><div class="brand">SR<span>3D</span></div><div class="scoreboard"><div><small>YOU ${game.server === 0 ? '•' : ''}</small><b>${game.scores[0]}</b></div><div class="versus">FIRST TO 5</div><div><small>${game.server === 1 ? '• ' : ''}AI</small><b>${game.scores[1]}</b></div></div><button data-action="pause" class="pause" aria-label="Pause">II</button></header><div class="arena-label">RALLY CLUB<span>INDOOR SERIES / 01</span></div><div id="feedback" aria-live="polite"></div><div id="timing"></div><div class="shot-bar" ${['MENU', 'RESULTS'].includes(game.phase) ? 'hidden' : ''}>${(['clear', 'default', 'drop'] as Intent[]).map((s, i) => `<button data-shot="${s}" ${selected === s ? 'class="active"' : ''}><span>${['C', 'R', 'D'][i]}</span><em ${s === 'default' ? 'id="basic-label"' : ''}>${['CLEAR', 'RETURN', 'DROP'][i]}</em><small>${['SHIFT / SWIPE UP', 'CLICK / TAP', 'RIGHT / SWIPE DOWN'][i]}</small></button>`).join('')}</div><div id="tutorial" ${tutorial && game.phase === 'RALLY' && game.time < 32 ? '' : 'hidden'}></div>${overlay ? `<div class="overlay">${overlay}</div>` : ''}`;
     }
     const f = document.getElementById('feedback');
     if (f) {
@@ -538,13 +539,8 @@ function animate(r: ReturnType<typeof makeActor>, contactPose: SkeletonPose | nu
 function aim(x: number, y: number): V3 {
     const c = canvas.getBoundingClientRect(),
         n = camera.camera!.screenToWorld(x - c.left, y - c.top, 1),
-        f = camera.camera!.screenToWorld(x - c.left, y - c.top, 100),
-        t = -n.y / (f.y - n.y);
-    return {
-        x: clamp(n.x + (f.x - n.x) * t, -2.25, 2.25),
-        y: 0.025,
-        z: clamp(n.z + (f.z - n.z) * t, 0.8, 6.2),
-    };
+        f = camera.camera!.screenToWorld(x - c.left, y - c.top, 100);
+    return courtAim(n, f);
 }
 let nextGestureId = 0;
 let gesture: {
@@ -619,14 +615,18 @@ function resize() {
             : Math.min(devicePixelRatio, settings.quality === 'HIGH' ? 2 : 1.5);
     app.resizeCanvas();
     app.root
-        .find((n) => n.name === 'spectator' || n.name === 'net mesh')
+        .find((n) => n.name === 'net mesh')
         .forEach((n, i) => {
             (n as Entity).enabled = settings.quality !== 'LOW' || i % 3 === 0;
         });
     const portrait = innerHeight > innerWidth;
-    camera.setPosition(portrait ? 0 : 1, portrait ? 19 : 14, portrait ? -23 : -17);
-    camera.camera!.fov = portrait ? 62 : 58;
-    camera.lookAt(0, 2.6, 0);
+    // Wide-screen UI lives in the side gutters; portrait keeps top/bottom controls.
+    const top = portrait ? 146 : 12;
+    const bottom = innerHeight - (portrait ? 90 : 12);
+    const view = fitCourtCamera(innerWidth, innerHeight, top, bottom);
+    camera.setPosition(view.position.x, view.position.y, view.position.z);
+    camera.camera!.fov = view.fov;
+    camera.lookAt(view.target.x, view.target.y, view.target.z);
 }
 async function boot() {
     const device = await createGraphicsDevice(canvas, {
@@ -663,24 +663,6 @@ async function boot() {
         ['athlete-gold', 'athlete-violet', 'racket', 'shuttle', 'court'].map(loadModel),
     );
     model('court');
-    for (const s of [-1, 1])
-        for (let row = 0; row < 3; row++) {
-            shape(
-                'seating',
-                'box',
-                [s * (6.2 + row * 0.75), 0.3 + row * 0.4, 1],
-                [0.65, 0.35, 16],
-                '#273e54',
-            );
-            for (let z = -5; z <= 7; z += 2)
-                shape(
-                    'spectator',
-                    'capsule',
-                    [s * (6.2 + row * 0.75), 0.85 + row * 0.4, z],
-                    [0.3, 0.6, 0.3],
-                    ['#6395a9', '#d7b38a', '#6f82ae'][(row + Math.abs(z)) % 3],
-                );
-        }
     const player = makeActor(game.actors[0], '#ffba54'),
         opponent = makeActor(game.actors[1], '#8d9aff'),
         shuttle = model('shuttle');
