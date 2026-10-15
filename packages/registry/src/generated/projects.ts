@@ -200,7 +200,7 @@ export const projects = [
       "build": "pnpm --filter smash-rally-3d build",
       "test": "pnpm --filter smash-rally-3d test"
     },
-    "updatedAt": "2026-10-14T15:30:22Z"
+    "updatedAt": "2026-10-14T15:52:09Z"
   },
   {
     "id": "stackflow",

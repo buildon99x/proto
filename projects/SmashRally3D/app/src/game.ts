@@ -1,3 +1,5 @@
+import { assessStroke, strokeTarget, solveStroke, recoveryBase, chooseTactic } from './tactics';
+import type { Technique, StrokeContext } from './tactics';
 import {
     MOTIONS,
     makeFeet,
@@ -12,7 +14,6 @@ import type { Feet, SkeletonPose } from './motion';
 import {
     CFG,
     advance,
-    chooseShot,
     clamp,
     clone,
     distance,
@@ -48,6 +49,9 @@ export type Actor = {
     swingContact: V3 | null;
     swingTarget: V3 | null;
     shot: Shot;
+    technique: Technique;
+    base: V3;
+    splitAt: number;
     quality: Quality;
     command: Command | null;
     locked: boolean;
@@ -61,6 +65,12 @@ export type Hit = {
     target: V3;
     velocity: V3;
     renderPose: SkeletonPose;
+    technique: Technique;
+    balance: number;
+    preparation: number;
+    recoveryBase: V3;
+    crossCourt: boolean;
+    strokeReason: string;
     requestedShot: Shot;
     fallbackReason: string | null;
     contact: {
@@ -128,6 +138,7 @@ export class Game {
         position: V3 | null;
         velocity: V3 | null;
         flightId: number;
+        opponent?: V3;
     } = {
         samples: 0,
         nextAt: Infinity,
@@ -162,6 +173,9 @@ export class Game {
             swingContact: null,
             swingTarget: null,
             shot: 'drive',
+            technique: 'drive',
+            base: { x: 0, y: 0, z: side * 3.4 },
+            splitAt: -99,
             quality: 'good',
             command: null,
             locked: false,
@@ -194,6 +208,9 @@ export class Game {
             a.target = clone(a.p);
             a.v = { x: 0, y: 0, z: 0 };
             a.recoverUntil = 0;
+            a.base = clone(a.p);
+            a.technique = 'drive';
+            a.splitAt = -99;
             a.swingAt = -99;
             a.contact = null;
             a.command = null;
@@ -224,17 +241,54 @@ export class Game {
         this.transition('SERVE_READY');
         this.feedback(this.server === 0 ? 'CLICK / TAP TO SERVE' : 'AI SERVE');
     }
-    shotTarget(a: Actor, shot: Shot) {
-        const cmd = a.command!;
-        const target = {
-            x: clamp(cmd.target.x, -2.25, 2.25),
-            y: 0.025,
-            z: -a.side * clamp(Math.abs(cmd.target.z), 0.8, 6.2),
+    strokeContext(
+        a: Actor,
+        point = a.contact ?? this.p,
+        incoming = a.expectedVelocity ?? this.v,
+    ): StrokeContext {
+        const cmd = a.command ?? {
+            shotIntent: 'default' as Intent,
+            target: { x: 0, y: 0.025, z: -a.side * 5.8 },
+            issuedAt: this.time,
         };
-        if (shot === 'drop') target.z = -a.side * clamp(Math.abs(target.z), 0.8, 1.9);
-        if (shot === 'clear') target.z = -a.side * Math.max(5.1, Math.abs(target.z));
-        if (a.quality === 'weak') target.z = -a.side * Math.min(4.1, Math.abs(target.z));
-        return target;
+        return {
+            side: a.side,
+            body: a.p,
+            movement: a.v,
+            contact: point,
+            incoming,
+            incomingShot: this.shots.at(-1)?.shot ?? 'clear',
+            incomingWeak: this.incomingWeak,
+            quality: a.quality,
+            preparation: a.locked
+                ? Math.min(1, a.hitFrame / this.inputLead(cmd.shotIntent, a.side === -1 ? 0 : 1))
+                : 1,
+            intent: cmd.shotIntent,
+            target: cmd.target,
+            timingError: Number.isFinite(this.contactAt)
+                ? cmd.issuedAt -
+                  (this.contactAt - this.inputLead(cmd.shotIntent, a.side === -1 ? 0 : 1))
+                : 0,
+        };
+    }
+    shotTarget(a: Actor, shot: Shot) {
+        const c = this.strokeContext(a),
+            s = assessStroke(c);
+        return strokeTarget(c, {
+            ...s,
+            shot,
+            technique:
+                shot === 'clear'
+                    ? c.contact.y < 1.9
+                        ? 'lift'
+                        : 'clear'
+                    : shot === 'drop'
+                      ? s.technique
+                      : shot,
+        });
+    }
+    previewStroke(index = 0) {
+        return assessStroke(this.strokeContext(this.actors[index]));
     }
     inputLead(intent: Intent, index = 0) {
         return intent === 'clear'
@@ -356,26 +410,39 @@ export class Game {
                 },
             };
         }
-        let shot: Shot = isServe
-            ? 'clear'
-            : chooseShot(
-                  cmd.shotIntent,
-                  this.p.y,
-                  this.incomingWeak,
-                  Math.hypot(this.v.x, this.v.y, this.v.z),
-                  a.quality,
-                  true,
-              );
-        if (!isServe && a.quality === 'weak') shot = 'clear';
-        const target = this.shotTarget(a, shot);
-        let result = solve(this.p, target, shot);
-        const requestedShot = shot;
-        shot = result.resolvedShot;
+        const context = this.strokeContext(a, this.p, this.v),
+            stroke = isServe
+                ? {
+                      ...assessStroke(context),
+                      shot: 'clear' as Shot,
+                      technique: 'clear' as Technique,
+                  }
+                : assessStroke(context);
+        const target = strokeTarget(context, stroke),
+            result = isServe
+                ? solve(this.p, target, 'clear')
+                : solveStroke(context, stroke, target),
+            requestedShot = stroke.shot;
+        const shot = result.resolvedShot,
+            technique: Technique =
+                shot === stroke.shot
+                    ? stroke.technique
+                    : shot === 'clear'
+                      ? this.p.y < 1.9
+                          ? 'lift'
+                          : 'clear'
+                      : shot === 'drop'
+                        ? Math.abs(this.p.z) < 2.6
+                            ? 'net'
+                            : 'drop'
+                        : shot;
         this.v = clone(result.velocity);
         this.hitter = index;
         this.receiver = 1 - index;
         this.incomingWeak = a.quality === 'weak';
         a.shot = shot;
+        a.technique = technique;
+        a.base = recoveryBase(a.side, technique, target, this.p, result.prediction.time);
         a.motion = isServe ? 'Serve' : a.swingMotion;
         a.recoverUntil =
             this.time +
@@ -397,6 +464,12 @@ export class Game {
             time: this.time,
             target,
             renderPose: snapshot,
+            technique,
+            balance: stroke.balance,
+            preparation: stroke.prepared,
+            recoveryBase: { ...a.base },
+            crossCourt: stroke.crossCourt,
+            strokeReason: stroke.reason,
             requestedShot,
             fallbackReason: result.fallbackReason,
             contact: {
@@ -410,7 +483,7 @@ export class Game {
         this.shots.push(hit);
         if (!isServe) this.returns++;
         this.feedback(
-            `${a.quality.toUpperCase()} · ${shot === 'superSmash' ? 'SUPER SMASH' : shot.toUpperCase()}`,
+            `${a.quality.toUpperCase()} · ${technique === 'superSmash' ? 'SUPER SMASH' : technique === 'netKill' ? 'NET FINISH' : technique.toUpperCase()}`,
         );
         if (result.fallbackReason)
             this.feedback(`LIMIT: ${requestedShot.toUpperCase()} > ${shot.toUpperCase()}`);
@@ -498,6 +571,12 @@ export class Game {
             };
         state.position = p;
         state.velocity = v;
+        state.opponent = {
+            ...this.actors[0].p,
+            x:
+                this.actors[0].p.x +
+                Math.sin(state.samples + state.flightId) * profiles[this.difficulty].perceptionPos,
+        };
         state.observedAt = this.time;
         state.samples++;
         state.nextAt = this.time + (this.difficulty === 'HARD' ? 0.08 : 0.12);
@@ -532,24 +611,15 @@ export class Game {
         const a = this.actors[1],
             player = this.actors[0],
             profile = profiles[this.difficulty];
-        const n = this.shots.length;
-        const intent: Intent =
-            this.difficulty === 'EASY' || (this.difficulty === 'NORMAL' && this.returns < 3)
-                ? 'clear'
-                : Math.abs(player.p.z) > 4.3
-                  ? 'drop'
-                  : n % 3 === 0
-                    ? 'clear'
-                    : 'default';
-        const target = {
-            x: clamp(
-                -Math.sign(player.p.x || (n % 2 ? 1 : -1)) * 1.8 + Math.sin(n * 8) * profile.error,
-                -2.2,
-                2.2,
+        const context = this.strokeContext(a),
+            choice = chooseTactic(
+                context,
+                this.aiPerception.opponent ?? player.p,
+                this.difficulty === 'EASY',
             ),
-            y: 0,
-            z: intent === 'drop' ? -1.1 : -5.8,
-        };
+            intent: Intent = choice.intent,
+            target = { ...choice.target };
+        target.x = clamp(target.x + Math.sin(this.shots.length * 8) * profile.error, -2.2, 2.2);
         a.command = { shotIntent: intent, target, issuedAt: this.time, pointerType: 'ai' };
         a.quality = quality(this.time - (this.contactAt - this.inputLead(intent, 1)));
     }
@@ -623,20 +693,7 @@ export class Game {
             if (this.time < a.recoverUntil || (i === this.receiver && this.time < this.reactionAt))
                 continue;
             if (i !== this.receiver) {
-                let recoveryX = a.p.x * 0.3;
-                if (i === 1) {
-                    const recent = this.shots
-                        .filter((h) => h.actor === 0)
-                        .slice(-3)
-                        .map((h) => h.target.x);
-                    if (recent.length === 3 && Math.max(...recent) - Math.min(...recent) < 0.5)
-                        recoveryX = (recent.reduce((v, x) => v + x, 0) / 3) * 0.35;
-                }
-                a.target = {
-                    x: recoveryX,
-                    y: 0,
-                    z: a.side * (a.shot === 'clear' ? 4.7 : a.shot === 'drop' ? 2.8 : 3.6),
-                };
+                a.target = { ...a.base };
             }
             const { dx, dz, speed } = moveMotor(
                 a.p,
@@ -677,20 +734,11 @@ export class Game {
             a.frameEmitted = false;
             a.armed = false;
             const expected = a.expectedVelocity ?? this.v;
-            const requested =
-                a.quality === 'weak'
-                    ? 'clear'
-                    : chooseShot(
-                          a.command.shotIntent,
-                          a.contact?.y ?? 0,
-                          this.incomingWeak,
-                          Math.hypot(expected.x, expected.y, expected.z),
-                          a.quality,
-                          true,
-                      );
-            const prepared = a.contact
-                ? solve(a.contact, this.shotTarget(a, requested), requested).resolvedShot
-                : requested;
+            const context = this.strokeContext(a, a.contact ?? this.p, expected),
+                stroke = assessStroke(context),
+                requested = stroke.shot;
+            const prepared = a.contact ? solveStroke(context, stroke).resolvedShot : requested;
+            a.technique = prepared === stroke.shot ? stroke.technique : prepared;
             a.strikeTarget = { ...this.shotTarget(a, prepared) };
             a.swingTarget = { ...a.strikeTarget };
             a.swingContact = a.contact ? { ...a.contact } : null;
@@ -704,6 +752,7 @@ export class Game {
                     superSmash: 'Smash',
                 } as const
             )[prepared];
+            if (['net', 'block'].includes(a.technique)) a.motion = 'Drop';
             a.swingMotion = a.motion;
         }
         const old = clone(this.p);
@@ -752,7 +801,14 @@ export class Game {
             contactAttempts: [...this.contactAttempts],
             perception: { ...this.aiPerception },
             motionEvents: [...this.motionEvents],
-            actors: this.actors.map((a) => ({ p: clone(a.p), motion: a.motion, locked: a.locked })),
+            actors: this.actors.map((a) => ({
+                p: clone(a.p),
+                motion: a.motion,
+                locked: a.locked,
+                technique: a.technique,
+                base: { ...a.base },
+                splitAt: a.splitAt,
+            })),
             returns: this.returns,
             shots: this.shots.map((h) => ({ ...h })),
             points: this.points.map((p) => ({ ...p })),

@@ -25,3 +25,7 @@ The earlier f269f08 claims are superseded by [audit corrections](docs/AUDIT-CORR
 Before/after silent videos are in verification/before and verification/after. Before used precise read-only timing assistance; after uses visible cues and records7 returns with0 browser errors. Five WAVs in verification/audio render the actual synthImpact function numerically; no speaker/headphone/Bluetooth hearing test was performed.
 
 Important screenshots are staged in verification/library-deliverables. Library upload remains pending because the required official upload skill/helper source became unavailable. No Library write, alternate transfer route or invented identity was used.
+
+2026-10-15 tactical iteration is in progress. Earlier 0.2.0 results remain archived and do not validate new mechanics. New unit/normal UI evidence is required before describing this iteration as verified.
+
+Tactical phase1:25 unit tests pass (19 previous +6 tactical fixtures). New tests establish height/posture choice, below-tape safety, contextual net/block, lift flight-time, identical live/profile integration, cross-flight/recovery geometry and observation-based AI option ranking. These fixtures include constructed contexts; they are not natural browser rallies or human coaching acceptance. Browser verification remains pending.

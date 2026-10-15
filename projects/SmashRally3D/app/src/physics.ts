@@ -84,17 +84,24 @@ export type Solution = {
     resolvedShot: Shot;
     fallbackReason: string | null;
 };
-function candidates(start: V3, target: V3, shot: Shot): Solution[] {
+export type FlightProfile = {
+    vertical?: number[];
+    cap?: number;
+    minHeight?: number;
+    desiredTime?: number;
+};
+function candidates(start: V3, target: V3, shot: Shot, profile: FlightProfile = {}): Solution[] {
     const dx = target.x - start.x,
         dz = target.z - start.z,
         d = Math.hypot(dx, dz),
         out: Solution[] = [];
     const vertical =
-        shot === 'smash'
+        profile.vertical ??
+        (shot === 'smash'
             ? [-5, -4, -3, -2, -1]
             : shot === 'superSmash'
               ? [-14, -12, -10, -9, -8, -7, -6, -5, -4, -3, -2]
-              : lifts[shot];
+              : lifts[shot]);
     for (const vy of vertical) {
         let lo = 0.1,
             hi = 100;
@@ -109,15 +116,16 @@ function candidates(start: V3, target: V3, shot: Shot): Solution[] {
             prediction = flight(start, velocity),
             error = distance(prediction.end, target),
             desired =
-                shot === 'clear' ? 2.5 : shot === 'drop' ? 1.2 : shot === 'drive' ? 0.85 : 0.5;
+                profile.desiredTime ??
+                (shot === 'clear' ? 2.5 : shot === 'drop' ? 1.2 : shot === 'drive' ? 0.85 : 0.5);
         const offensive = shot === 'smash' || shot === 'superSmash',
-            cap = shot === 'smash' ? 34 : shot === 'superSmash' ? 55 : 115;
+            cap = profile.cap ?? (shot === 'smash' ? 34 : shot === 'superSmash' ? 55 : 115);
         if (
             offensive &&
             (Math.hypot(velocity.x, velocity.y, velocity.z) > cap ||
                 prediction.reason === 'NET' ||
                 error > 0.06 ||
-                start.y < 2.15)
+                start.y < (profile.minHeight ?? 2.15))
         )
             continue;
         const cost =
@@ -177,4 +185,14 @@ export function chooseShot(
     if (intent !== 'default') return intent;
     if (y < 2.15 || !reachable) return 'drive';
     return incomingWeak && y >= 2.5 && speed < 13 && q === 'perfect' ? 'superSmash' : 'smash';
+}
+
+// Contextual technique profiles still use the exact live integrator and swept net test.
+export function solveProfile(start: V3, target: V3, shot: Shot, profile: FlightProfile): Solution {
+    const legal = candidates(start, target, shot, profile).find(
+        (c) => c.prediction.reason !== 'NET' && c.error < 0.08,
+    );
+    if (legal) return legal;
+    const fallback = solve(start, target, Math.abs(target.z) < 2 ? 'drop' : 'clear');
+    return { ...fallback, requestedShot: shot, fallbackReason: 'TECHNIQUE_GEOMETRY_LIMIT' };
 }
