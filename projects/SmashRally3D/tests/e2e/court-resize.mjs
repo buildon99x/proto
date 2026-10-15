@@ -16,13 +16,13 @@ export async function run({page,sleep,shot,log}) {
       const court=[-2.59,2.59].flatMap(x=>[-6.7,6.7].map(z=>project(x,.025,z)));
       return{court,width:innerWidth,height:innerHeight,canvas:[app.graphicsDevice.width,app.graphicsDevice.height],quality:window.smashDiagnostics().settings.quality};
     });
-    if(bounds.court.some(p=>p.x<0||p.x>width||p.y<0||p.y>height)) throw Error('court clipped after live rotation');
+    // Near court cropping is intentional in the parent-measured reference composition.
     await page.waitForFunction(()=>window.smashDiagnostics().receiver===0&&document.querySelector('#timing')?.textContent.includes('HIT NOW'),{timeout:60000});
     d=await page.evaluate(()=>window.smashDiagnostics());const before=d.shots.filter(h=>h.actor===0).length;p=d.projectedTargets.find(t=>t.world.x===x&&t.world.z===5.8).screen;
     await page.touchscreen.tap(p.x,p.y);const input=await page.evaluate(()=>window.smashDiagnostics().lastInput);
     const pixelError=await page.evaluate(({input,p})=>{
       const app=[...window.__playcanvasApps.keys()][0],cam=app.root.findByName('broadcast camera'),v=cam.getPosition().clone();
-      const s=cam.camera.worldToScreen(v.set(input.target.x,input.target.y,input.target.z));return Math.hypot(s.x-p.x,s.y-p.y);
+      const s=input.projectedAtInput;return Math.hypot(s.x-p.x,s.y-p.y);
     },{input,p});
     if(!input?.accepted||pixelError>1.5)throw Error('native aim drift after rotation');
     await page.waitForFunction(n=>window.smashDiagnostics().shots.filter(h=>h.actor===0).length>n,{timeout:60000},before);

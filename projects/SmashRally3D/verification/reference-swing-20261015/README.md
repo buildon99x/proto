@@ -1,5 +1,7 @@
 # Low rear composition and articulated racket swings — 2026-10-15
 
+**Superseded: the parent rejected this candidate for source fidelity.** Use [the measured close-view correction](../reference-close-20261015/README.md) and its individually saved PNGs. The original evidence below remains an accurate record of its earlier candidate, rather than acceptance of the source match.
+
 Baseline: c5446f637a23a45d4e80e5a106ce4c1c43cbb51a.
 Implementation: cd736ad6cd376c0e926ab7500f66923d23062b7a.
 

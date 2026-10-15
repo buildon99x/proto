@@ -23,6 +23,10 @@ export async function run({page,sleep,shot,log}) {
      if(window.swingFrames.length<36)window.swingFrames.push(active);
     }
     if(!active.frames.some(f=>f.phase===phase))active.frames.push(snap(d,p));
+    if(active.hit&&phase==='follow') {
+     for(const [name,delay] of [['follow-mid',.13],['follow-peak',.25]])
+      if(d.time-active.hit.time>=delay&&!active.frames.some(f=>f.phase===name))active.frames.push({...snap(d,p),phase:name});
+    }
     const c=d.renderedContact;
     if(c?.actor===0 && c.time!==lastImpact) {
      lastImpact=c.time;active.hit=d.shots.find(h=>h.actor===0&&Math.abs(h.time-c.time)<1e-6);

@@ -35,7 +35,7 @@ export async function run({
       const attempts = [],
         commands = [],
         trace = [];
-      const deadline = Date.now() + 240000;
+      const deadline = Date.now() + Number(process.env.SMASH_DROP_DEADLINE_MS || 240000);
       while (Date.now() < deadline) {
         const d = await read(),
           cue = await page.$eval("#timing", (e) => e.textContent || "");
