@@ -92,6 +92,7 @@ function syncActionGate(){if(!world||!weaponAction)return;world.weaponActionBloc
 function selectedRegion(){return DFRegions.get($('region-select').value||'black-pines').id;}
 function createMission(inventory,sessionId='preview',regionId=selectedRegion()){
  const mission=new HC.Mission(level,Number($('difficulty').value),731,{rifleDefinitionId:'r4',combatSessionId:sessionId,regionId});const selected=Number($('loadout').value);mission.switchWeapon(Number.isFinite(selected)?selected:3);mission.cooldown=0;mission.activeTime=0;mission.startingWeapon=mission.weapon;carry=inventory||DFInventory.starter(mission.weapon);
+ $('map-region-title').textContent=mission.regionName+' / N ↑ · M 닫기';$('minimap').ariaLabel=mission.regionName+' local map';
  gear=new DFInventoryGame.Bridge(mission,carry,{sessionId,afterWeaponChange:event=>{const current={uid:event.activeUid,slot:event.activeSlot,holstered:event.holstered},changed=!observedWeaponState||Object.keys(current).some(key=>current[key]!==observedWeaponState[key]);observedWeaponState=current;if(changed&&!actionCommit&&weaponAction){weaponAction.reset(event.activeSlot,{draw:!event.holstered});if(event.holstered)weaponAction.failCommit();}}});
  observedWeaponState={uid:gear.activeUid,slot:gear.activeSlot,holstered:gear.holstered};weaponAction=new DFLoadoutAction.LoadoutAction({slot:gear.activeSlot,timingFor:loadoutTiming,validSlot:slot=>!!carry.get('weapon:'+slot)});return mission;
 }

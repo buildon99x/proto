@@ -175,3 +175,6 @@ Freeze feature scope. Reproduced pending-workshop stale retry deadlock, repaired
 
 ## 0.14.2 fresh-controller raid persistence audit
 Reconcile independent audit: extend deployment/settlement tests to new rendererless controllers with fresh storage handles and shared durable bytes. Cover termination before/after writes, settlement acknowledgement loss, observed stale tabs and safe-only interrupted recovery. Do not expand gameplay scope.
+
+## 2026-10-15 minimap region-label correction
+Correct the fixed Black Pines minimap legend when Canal Ward is selected. Preserve active-mission ownership while paused and refresh both visible/accessibility labels for the next deployed region.

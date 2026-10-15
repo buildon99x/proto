@@ -258,3 +258,7 @@ Reproduced and fixed three source defects: failed workshop intent stuck after an
 
 ## 0.14.2 fresh-controller raid lifecycle audit
 Six rendererless tests reconstruct new controllers/storage handles after deploy/settlement failure and termination, accepted writes with lost acknowledgement, safe-only uncommitted extraction recovery and observed foreign-tab conflict. Reproduced an actual display defect: another tab could commit loss recovery, then the old tab displayed its unawarded extraction cash as saved. Settlement now exposes the durable win/loss outcome and the UI states that the other settlement is retained without claiming cash/loot from this screen. No duplicate award/data overwrite was observed in these fixtures. No gameplay feature added; fake lifecycle/shared memory do not prove browser disk durability or atomic cross-process writes. 997 named checks in54 suites,36 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+## Unreleased — 2026-10-15
+- Fix Canal Ward map legend and accessible map name using active mission region, including paused selection and redeployment regression.
+- Record bounded actual Chrome/WebGL input, lifecycle/workshop fixtures and screenshots; full-route play and listening remain open.
