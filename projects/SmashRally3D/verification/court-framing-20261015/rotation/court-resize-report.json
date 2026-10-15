@@ -1,0 +1,13 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-ShE3x0dG.js",
+    "sha256": "778591f31d7b78ac999b19e27e1e4594f7ad67273d7e449194c8f22781e349fd",
+    "startedAt": "2026-10-15T07:22:34.293Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "LIVE ROTATION PASS {\"method\":\"One continuing native-touch EASY clear rally, portrait→landscape→portrait, DPR2 MEDIUM; no reload, pause, actor/ball/time injection.\",\"results\":[{\"bounds\":{\"court\":[{\"x\":489.0258261379566,\"y\":358.50576457545293},{\"x\":463.00966175866256,\"y\":195.43133289898876},{\"x\":354.9741738620435,\"y\":358.50576457545293},{\"x\":380.9903382413375,\"y\":195.43133289898876}],\"width\":844,\"height\":390,\"canvas\":[1266,585],\"quality\":\"MEDIUM\"},\"input\":{\"shotIntent\":\"clear\",\"target\":{\"x\":-1.7858842722675765,\"y\":0.025,\"z\":5.83981107054311},\"issuedAt\":5.725000000000074,\"submittedAt\":5.725000000000074,\"pointerType\":\"touch\",\"accepted\":true},\"actual\":{\"shot\":\"clear\",\"target\":{\"x\":-1.8879676056008037,\"y\":0.025,\"z\":5.83981107054311},\"technique\":\"clear\",\"time\":6.066666666666758}},{\"bounds\":{\"court\":[{\"x\":288.2609082395777,\"y\":721.8942594601762},{\"x\":267.60996249512334,\"y\":359.45968902546065},{\"x\":101.73909176042228,\"y\":721.8942594601762},{\"x\":122.39003750487667,\"y\":359.45968902546065}],\"width\":390,\"height\":844,\"canvas\":[585,1266],\"quality\":\"MEDIUM\"},\"input\":{\"shotIntent\":\"clear\",\"target\":{\"x\":1.7916985534351655,\"y\":0.025,\"z\":5.786094303658551},\"issuedAt\":10.483333333333379,\"submittedAt\":10.483333333333379,\"pointerType\":\"touch\",\"accepted\":true},\"actual\":{\"shot\":\"clear\",\"target\":{\"x\":1.865031886768615,\"y\":0.025,\"z\":5.786094303658551},\"technique\":\"clear\",\"time\":10.825000000000026}}]}"
+  ]
+}

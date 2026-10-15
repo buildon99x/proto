@@ -1,0 +1,7 @@
+{
+  "saved": false,
+  "libraryFileIds": [],
+  "failure": "Library connection failed before upload preparation (hosted apps tools/list network failure). No upload session or Library file ID was returned.",
+  "fallback": "Original PNGs committed to the authorized branch; final delivery identifies full commit SHA and remote paths.",
+  "requestedScreenshotCount": 9
+}

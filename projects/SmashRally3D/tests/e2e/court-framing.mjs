@@ -41,12 +41,13 @@ export async function run({ page, sleep, shot, log }) {
     let d = await page.evaluate(() => window.smashDiagnostics());
     const target = d.projectedTargets.find(t => t.world.x === 0 && t.world.z === 5.8).screen;
     if (viewport.hasTouch) await page.touchscreen.tap(target.x, target.y); else await page.mouse.click(target.x, target.y);
-    let previous = false, taps = 0, captured = false;
+    let previous = false, taps = 0, captured = false, highClearCapture = null;
     const deadline = Date.now() + 150000;
     while (Date.now() < deadline) {
       d = await page.evaluate(() => window.smashDiagnostics());
       const cue = await page.$eval('#timing', e => e.textContent || '');
-      if (!captured && d.position.y > 6 && Math.abs(d.velocity.y) < 2) {
+      if (!captured && d.position.y > 9 && Math.abs(d.velocity.y) < 2) {
+        highClearCapture = {time:d.time,position:d.position,velocity:d.velocity,flight:d.shots.length,screen:d.shuttleScreen};
         await shot('court-' + viewport.name + '-high-clear');
         captured = true;
       }
@@ -67,12 +68,12 @@ export async function run({ page, sleep, shot, log }) {
     const framing = await page.evaluate(() => { const r=window.framingState; const hud=document.querySelector('.hud'); const box=hud.getBoundingClientRect(); r.hud={top:box.top,left:box.left,width:box.width,height:box.height,display:getComputedStyle(hud).display,visibility:getComputedStyle(hud).visibility}; return r; });
     const area = (points) => Math.abs(points.reduce((sum,p,i) => {const q=points[(i+1)%points.length];return sum+p.x*q.y-q.x*p.y;},0))/2;
     framing.courtArea = area([framing.court[0],framing.court[1],framing.court[3],framing.court[2]]);
-    const result = {viewport, framing, taps, returns:d.returns, contacts:d.shots.length, playerContacts:d.shots.filter(h=>h.actor===0).length, capturedHighClear:captured};
+    const result = {viewport, framing, taps, returns:d.returns, contacts:d.shots.length, playerContacts:d.shots.filter(h=>h.actor===0).length, capturedHighClear:captured, highClearCapture};
     results.push(result);log('COURT FRAMING', JSON.stringify(result));
     if (!process.env.SMASH_FRAMING_BASELINE) {
       if (framing.spectators) throw Error('spectators/seating remain');
       if (framing.clippedCourt || framing.clippedPlayers || framing.clippedShuttle) throw Error('gameplay clipped in '+viewport.name);
-      if (!captured || framing.maxHeight < 6 || d.returns < 6) throw Error('high-clear/beginner rally not observed');
+      if (!captured || framing.maxHeight < 9 || d.returns < 6) throw Error('high-clear/beginner rally not observed');
       for (const a of framing.aim) if (!a.input?.accepted || Math.abs(a.input.target.x-a.x)>0.05 || Math.abs(a.input.target.z-5.8)>0.08) throw Error('camera aim mapping failed');
     }
   }
