@@ -1,0 +1,13 @@
+{
+  "source": "5dc647e091c565f6762dd7d57787aed573478d9c",
+  "method": "EXPLICIT WebGL fixture: isolated player/enemy placement, disabled other enemies, frozen simulation phase, synthetic depth occluder/transparent plane. No sound or foreground feel acceptance.",
+  "events": [],
+  "errors": [],
+  "frames": [],
+  "console": [
+    "Scripts \"build/three.js\" and \"build/three.min.js\" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "failure": "ReferenceError: __renderer is not defined\n    at evaluate (evaluate at C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-core-color-fixtures.cjs:19:29, <anonymous>:0:14)\n    at #evaluate (C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-tools\\node_modules\\puppeteer-core\\lib\\cjs\\puppeteer\\cdp\\ExecutionContext.js:391:56)\n    at async ExecutionContext.evaluate (C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-tools\\node_modules\\puppeteer-core\\lib\\cjs\\puppeteer\\cdp\\ExecutionContext.js:277:16)\n    at async IsolatedWorld.evaluate (C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-tools\\node_modules\\puppeteer-core\\lib\\cjs\\puppeteer\\cdp\\IsolatedWorld.js:100:16)\n    at async CdpFrame.evaluate (C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-tools\\node_modules\\puppeteer-core\\lib\\cjs\\puppeteer\\api\\Frame.js:362:20)\n    at async CdpPage.evaluate (C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-tools\\node_modules\\puppeteer-core\\lib\\cjs\\puppeteer\\api\\Page.js:818:20)\n    at async C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-core-color-fixtures.cjs:19:18"
+}

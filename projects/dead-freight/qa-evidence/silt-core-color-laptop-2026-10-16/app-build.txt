@@ -1,0 +1,5 @@
+
+> dead-freight@0.15.1 build C:\Users\cjh\Documents\Codex\2026-10-15\task\dead-freight-silt-qa\projects\dead-freight\app
+> node build.cjs
+
+DEAD FREIGHT static build complete
