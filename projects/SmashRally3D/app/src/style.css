@@ -552,5 +552,31 @@ ul {
 }
 
 /* Outcome explains the dead ball in the existing gutter, without covering play. */
-#feedback.point-detail { max-width: min(68vw, 440px); line-height: 1.45; }
-.card { max-height: calc(100dvh - 24px); overflow-y: auto; }
+#feedback.point-detail {
+    max-width: min(68vw, 440px);
+    line-height: 1.45;
+}
+.card {
+    max-height: calc(100dvh - 24px);
+    overflow-y: auto;
+}
+
+.card.dialog {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.dialog-content {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+.dialog > .eyebrow,
+.dialog > h2,
+.dialog > button {
+    flex-shrink: 0;
+}
+.dialog-content:focus-visible {
+    outline: 2px solid #ffcf7f;
+    outline-offset: -2px;
+}
