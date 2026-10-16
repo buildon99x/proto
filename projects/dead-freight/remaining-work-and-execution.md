@@ -52,3 +52,6 @@ See qa-laptop-2026-10-15.md for successful installed-Chrome headless WebGL/input
 
 ## 2026-10-15 ordinary-input route completion
 See qa-ordinary-laptop-2026-10-15.md. Actual Chrome keys/buttons completed Canal dock→market/archive→low bridge→pump combat/bounty→east ferry8s→1170 settlement→redeploy, with no injected gameplay/save state. Real browser reopen/interrupted recovery and natural incoming-projectile death→redeploy also passed; retained stash unchanged. Corrected region-owned mission-guide/HUD copy. Listening, foreground mouse feel/performance, forest full route and west winch remain open.
+
+## 2026-10-16 remaining ordinary routes and motions
+See qa-handoff-laptop-2026-10-16.md. Normal-input Canal west winch12s (shotgun/tourist) and Black Pines east evac6s (SMG/hunter) completed. Actual grenade, melee enemy kill, bandage commits and incoming-damage cancellation captured. HUD numeric-residue overstatement fixed in511be7b, with separate explicit display fixture. Listening, foreground mouse/performance, full motion-naturalness and all combinations remain open. No liquid-metal AI implementation; dot implementation/laptop testing preserved.
