@@ -269,3 +269,6 @@ The minimap legend and accessible canvas label derive from the created mission r
 
 ## 2026-10-15 ordinary-play guidance correction
 Mission guide uses current created region: forest six-second exits; Canal ferry requires archive plus bounty for eight seconds, west winch bounty for twelve. HUD contract target names the pump in Canal Ward. Paused next-region selection does not change active mission directions.
+
+## 2026-10-16 remaining route/motion QA and vital display correction
+HUD vital rounding must suppress numerical residue within1e-7 of an integer while preserving upward display rounding for real fractional HP/armor. No combat, damage, healing, inventory or persistence value changes.

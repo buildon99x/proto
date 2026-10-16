@@ -264,3 +264,6 @@ Six rendererless tests reconstruct new controllers/storage handles after deploy/
 - Record bounded actual Chrome/WebGL input, lifecycle/workshop fixtures and screenshots; full-route play and listening remain open.
 
 - Follow-up ordinary-input QA completed Canal ferry raid, browser restart/recovery and natural death/reentry without state injection; corrected forest-only mission directions and contract HUD in Canal Ward.
+
+## Unreleased — 2026-10-16
+- Real remaining-route play exposed HP31.000... displaying32. Suppress1e-7 numerical residue in HP/armor HUD ceiling only, preserving true fractions and all simulation/save values. Add damage→bandage integration regression and separate browser display fixture.

@@ -181,3 +181,6 @@ Correct the fixed Black Pines minimap legend when Canal Ward is selected. Preser
 
 ## 2026-10-15 ordinary-play guidance correction
 Ordinary Canal Ward play revealed forest-only contract directions and six-second exit guidance in the shared UI. Correct mission-owned copy without changing combat, navigation, reward or save behavior.
+
+## 2026-10-16 remaining route/motion QA and vital display correction
+Continue ordinary-input Black Pines/east evac and Canal/west winch acceptance with other weapons/difficulty and utility motion frames. Real bandage captures exposed an integer HP HUD overstatement caused by floating-point residue; fix presentation only.

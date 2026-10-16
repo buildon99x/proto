@@ -452,3 +452,6 @@ Add a rendererless regression covering forest preview, Canal Ward preview/deploy
 
 ## 2026-10-15 ordinary-play guidance correction
 Verify corrected region guide/HUD in rendererless region regression and actual browser preview, then retain ordinary-input route evidence separately from prior setup fixtures.
+
+## 2026-10-16 remaining route/motion QA and vital display correction
+Reproduce ten tourist hits and bandage application in the rendererless controller; verify HUD1 then31 rather than2/32, fractional values still round upward and zero remains0. Keep this source regression and explicit browser fixture separate from ordinary-input routes.
