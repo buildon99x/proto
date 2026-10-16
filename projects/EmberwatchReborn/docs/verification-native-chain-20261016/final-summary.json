@@ -26,5 +26,28 @@
   "balanceChange": false,
   "library": "failed before app discovery: network; no IDs/alternate route",
   "mainMerge": false,
-  "deployment": false
+  "deployment": false,
+  "nativeHudVisualEvidence": "20 active unblurred0.1s;01/09 blurred and only native DOM/state evidence",
+  "finalProfile": {
+    "region": "ash_hamlet",
+    "position": {
+      "x": 144,
+      "y": 320
+    },
+    "vitals": {
+      "hp": 92.53156450137237,
+      "mana": 18.20395999999985,
+      "stamina": 69
+    },
+    "level": 8,
+    "gold": 402,
+    "xp": 129.5,
+    "stats": {
+      "kills": 47,
+      "deaths": 1,
+      "earnedGold": 510,
+      "spentGold": 108,
+      "earnedXp": 1849.5
+    }
+  }
 }

@@ -1,0 +1,8 @@
+{
+  "files": 436,
+  "bytes": 17751137,
+  "sha256": "becf8b70e58362731791811fda3d1b6de8832a9c341a1875401d850fd94400af",
+  "integrity": "passed",
+  "libraryUpload": "not attempted; prior supported batch already failed before app mutation",
+  "supersedes": "emberwatch-native-chain-verified-20261016.zip"
+}

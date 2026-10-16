@@ -38,5 +38,10 @@
     "file": "images/18-pass-judgement-attempt.jpg",
     "bytes": 145232,
     "sha256": "9cdd22894aac515216cd9735005c102f1f9076823620e356a1ebbe5b0ffba070"
+  },
+  {
+    "file": "images/20-active-unblurred-cooldown.jpg",
+    "bytes": 226895,
+    "sha256": "33673307c369f615753ea29b80acfb068b329c5996efa55ebeb74bddf1d86605"
   }
 ]
