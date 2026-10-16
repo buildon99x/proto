@@ -852,3 +852,28 @@ for(const version of [4,5])for(const variant of ['queued','menu-reset','aim'])te
  assert.equal(h.app.battle.p.action?.id,'shield_charge');assert.ok(Math.abs(h.app.battle.p.action.angle-expected)<1e-8);
  const cast=h.app.battle.p.action.castId;for(let i=0;i<70;i++)await h.frame();assert.equal(h.app.battle.castSerial,cast);assert.ok(h.app.inputObservations.some(r=>r.kind==='contact'&&r.castId===cast));
 });
+
+for(const version of [4,5])for(const mode of ['wasd','click'])test(`fresh deferred movement charge controls${version}/${mode} keeps selected heading through released tap`,async()=>{
+ const h=version===5?await v5Ui():await ui({poeMode:mode});const controls=imports.poeControlPreset(h.app.state.options.controls,mode,'combined');controls.chargeDirection='movement';
+ assert.equal(await h.app.dispatch({type:'setControls',controls}),true);h.app.closePanel();
+ if(mode==='wasd'){h.key('KeyD');await h.frame();}else{h.ch.mousedown({button:0,clientX:580,clientY:385,preventDefault(){}});h.wh.mouseup({button:0});await h.frame();}
+ const expected=h.app.sampledCombatInput().chargeAngle;assert.ok(Number.isFinite(expected));h.ch.pointermove({clientX:200,clientY:200});
+ const before=h.app.report();h.delay();const pending=h.app.dispatch({type:'checkpoint',...before});await next();
+ h.key('KeyQ');h.up('KeyQ');assert.equal(h.app.battle.p.action,null);
+ await h.finish();await pending;await next();assert.equal(h.app.battle.p.action?.id,'shield_charge');
+ assert.ok(Math.abs(h.app.battle.p.action.angle-expected)<1e-8,`selected ${expected}, resumed ${h.app.battle.p.action.angle}`);
+ const b=h.app.battle,cast=b.castSerial;assert.equal(b.p.stamina,Number((before.vitals.stamina-b.p.action.spec.staminaCost).toFixed(8)));assert.equal(b.p.cooldowns.shield_charge,b.p.action.spec.cooldown);for(let i=0;i<80;i++)await h.frame();assert.equal(b.castSerial,cast);assert.ok(h.app.inputObservations.some(r=>r.kind==='contact'&&r.castId===cast));
+});
+
+for(const version of [4,5])for(const mode of ['wasd','click'])test(`fresh deferred aim charge controls${version}/${mode} retains release cursor policy`,async()=>{
+ const h=version===5?await v5Ui():await ui({poeMode:mode}),controls=imports.poeControlPreset(h.app.state.options.controls,mode,'combined');controls.chargeDirection='aim';
+ assert.equal(await h.app.dispatch({type:'setControls',controls}),true);h.app.closePanel();h.key('KeyD');await h.frame();h.ch.pointermove({clientX:200,clientY:200});
+ const aim=h.app.sampledCombatInput().aimBySkill.shield_charge.aim,expected=Math.atan2(aim.y-h.app.battle.p.y,aim.x-h.app.battle.p.x);
+ const before=h.app.report();h.delay();const pending=h.app.dispatch({type:'checkpoint',...before});await next();h.key('KeyQ');h.up('KeyQ');
+ await h.finish();await pending;await next();assert.equal(h.app.battle.p.action?.id,'shield_charge');assert.ok(Math.abs(h.app.battle.p.action.angle-expected)<1e-8);
+});
+for(const mode of ['wasd','click'])for(const ending of ['expired','failed'])test(`deferred movement charge ${mode}/${ending} never starts or pays`,async()=>{
+ const h=await ui({poeMode:mode}),controls=structuredClone(h.app.state.options.controls);controls.chargeDirection='movement';assert.equal(await h.app.dispatch({type:'setControls',controls}),true);h.app.closePanel();
+ h.key('KeyD');await h.frame();h.ch.pointermove({clientX:200,clientY:200});const before=h.app.report();h.delay();const pending=h.app.dispatch({type:'checkpoint',...before},{critical:true});await next();h.key('KeyQ');h.up('KeyQ');if(ending==='expired')await h.frame(.2);
+ await h.finish(ending==='failed');assert.equal(await pending,ending!=='failed');await next();assert.equal(h.app.battle.p.action,null);assert.equal(h.app.battle.castSerial,0);assert.deepEqual(h.app.report().vitals,before.vitals);assert.equal(h.app.battle.p.cooldowns.shield_charge??0,0);
+});

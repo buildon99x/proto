@@ -1,0 +1,10 @@
+{
+  "base": "a00dc112f44577994563107daeb2947538d51904",
+  "changedRuntime": [
+    "app/src/combat.js"
+  ],
+  "unchangedRuntimeCount": 133,
+  "originalEmberwatchUnchanged": 167,
+  "protectedMainAndEquipmentSaveRecoveryState": "byte-identical",
+  "a19Attempt": "none"
+}

@@ -322,3 +322,6 @@ Trusted native browser touch input reached the direction pad in both modes, but 
 
 ## Click movement-directed charge — 2026-10-16
 Ordinary click walking toward the lower-right floor followed by movement-directed Q instead charged toward stale upper-left keyboard history. Correct transient movement-direction ownership only; retain earned profile, a19 exclusion, timings, costs and balance.
+
+## Deferred short-tap charge heading — 2026-10-16
+Check one remaining P1 charge-direction defect: a fresh finite Q tap during the normal existing checkpoint wait may replace movement-directed heading with the release cursor when it resumes. Use the real main handlers and do not modify/delay/bypass native storage or protected writers.

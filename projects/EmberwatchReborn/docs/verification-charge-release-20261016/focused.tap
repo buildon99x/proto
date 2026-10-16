@@ -1,0 +1,60 @@
+✔ fresh deferred movement charge controls4/wasd keeps selected heading through released tap (1974.608392ms)
+✔ fresh deferred movement charge controls4/click keeps selected heading through released tap (416.64937ms)
+✔ fresh deferred movement charge controls5/wasd keeps selected heading through released tap (1145.890363ms)
+✔ fresh deferred movement charge controls5/click keeps selected heading through released tap (1090.463193ms)
+✖ fresh deferred aim charge controls4/wasd retains release cursor policy (202.412702ms)
+✖ fresh deferred aim charge controls4/click retains release cursor policy (204.414651ms)
+✔ fresh deferred aim charge controls5/wasd retains release cursor policy (997.853808ms)
+✔ fresh deferred aim charge controls5/click retains release cursor policy (929.236174ms)
+✔ deferred movement charge wasd/expired never starts or pays (186.035407ms)
+✔ deferred movement charge wasd/failed never starts or pays (164.704768ms)
+✔ deferred movement charge click/expired never starts or pays (201.845696ms)
+✔ deferred movement charge click/failed never starts or pays (164.833623ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 10
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7845.396715
+
+✖ failing tests:
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:868:63
+✖ fresh deferred aim charge controls4/wasd retains release cursor policy (202.412702ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'shield_charge'
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:873:53)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'shield_charge',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:868:63
+✖ fresh deferred aim charge controls4/click retains release cursor policy (204.414651ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'shield_charge'
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:873:53)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'shield_charge',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

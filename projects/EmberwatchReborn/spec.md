@@ -417,3 +417,6 @@ Expose held touch direction as transient router input and project it separately 
 
 ## Click movement-directed charge — 2026-10-16
 In PoE click mode, movement-directed charge uses the current or most recent valid click-path/touch movement intent, independent of ignored keyboard keys and cursor aim. Keep direction after arrival/release, clear it on safety/menu or battle/life/region change, and fall back to aim when none exists. Preserve WASD and aim-directed charge. No saved field or writer changes.
+
+## Deferred short-tap charge heading — 2026-10-16
+An accepted immediate-after-save finite shield-charge tap must obey the same selected movement heading as an immediate press or recovery-queued charge. Release aim remains authoritative for aim-directed charge and other skills. Preserve150ms expiry, save failure/owner fences, payment/CD/queue/cancel rules and all balance/save/schema/equipment code.

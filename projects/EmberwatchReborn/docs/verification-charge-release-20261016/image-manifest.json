@@ -1,0 +1,17 @@
+[
+  {
+    "file": "images/01-charge-release-resumed-profile.jpg",
+    "bytes": 55767,
+    "sha256": "6a71931e48afd3bfc6c5d3e5cc3793d6ec07bc9f93de56a1129bf8381ef277e6"
+  },
+  {
+    "file": "images/02-movement-charge-direct-smoke.jpg",
+    "bytes": 113959,
+    "sha256": "72c6848e89b579946fbec74fe074c65b4ee79c7bd56ed67ae425ba230363c369"
+  },
+  {
+    "file": "images/03-charge-direct-input-clock.jpg",
+    "bytes": 74336,
+    "sha256": "a8b33dfbfc203c894972a4dfa383f78e46da0fcf23758bfd6562c0cb1819e8e3"
+  }
+]

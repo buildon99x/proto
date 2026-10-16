@@ -310,7 +310,7 @@ function startAction(b,id,angle,ownerToken=null){
  const placement=b.stormEnabled&&id==='judgement'?stormPlacement(b,b.poeLastInput,a):null;
  if(p.action||p.recoveryLock>0||b.poeMobility?.snapshot().blocksSkills||!actionReady(b,id,a))return false;
  clearMagmaDefense(b,'new-action',{keepCharge:true});
- if(b.poeMobility){mobilityEvents(b,b.poeMobility.skillStart());const released=b.poeLastInput?.releasedAimBySkill?.[id]?.aim;if(!b.poeQueuedStart&&finitePoint(released))angle=Math.atan2(released.y-p.y,released.x-p.x);}
+ if(b.poeMobility){mobilityEvents(b,b.poeMobility.skillStart());const released=b.poeLastInput?.releasedAimBySkill?.[id]?.aim;if(!b.poeQueuedStart&&finitePoint(released)&&!(id==='shield_charge'&&Number.isFinite(b.poeLastInput?.chargeAngle)))angle=Math.atan2(released.y-p.y,released.x-p.x);}
  p.mana=Math.max(0,Number((p.mana-a.manaCost).toFixed(8)));p.stamina=Math.max(0,Number((p.stamina-a.staminaCost).toFixed(8)));if(a.manaCost>0)p.manaDelay=b.stats.manaRegenDelay;if(a.staminaCost>0)p.staminaDelay=b.stats.staminaRegenDelay;p.cooldowns[id]=a.cooldown;p.angle=angle;p.block=false;
  const name=id==='mace_swing'?'attack':id==='shield_charge'?'dodge':'cast';
  p.action={id,castId:++b.castSerial,name,spec:a,criticalChance:b.stats.criticalChance,criticalMultiplier:b.stats.criticalMultiplier,duration:a.duration+(a.channel?a.channelDuration:0),contact:a.contact,elapsed:0,fired:false,hitIds:[],angle,payload:{combo:p.combo,which:'q'},...(a.channel?{ownerToken,paidSeconds:1,pulses:0,nextPulse:a.tickSeconds,nextPayment:a.paymentInterval,lanceResolved:false}: {})};

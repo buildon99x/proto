@@ -1,0 +1,42 @@
+✖ fresh deferred movement charge controls4/wasd keeps selected heading through released tap (1784.194651ms)
+✖ fresh deferred movement charge controls4/click keeps selected heading through released tap (267.151969ms)
+✔ fresh deferred movement charge controls5/wasd keeps selected heading through released tap (952.832518ms)
+✔ fresh deferred movement charge controls5/click keeps selected heading through released tap (894.341369ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 2
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4064.719744
+
+✖ failing tests:
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:856:63
+✖ fresh deferred movement charge controls4/wasd keeps selected heading through released tap (1784.194651ms)
+  AssertionError [ERR_ASSERTION]: selected -0.7853981633974483, resumed 3.132133218902775
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:864:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:856:63
+✖ fresh deferred movement charge controls4/click keeps selected heading through released tap (267.151969ms)
+  AssertionError [ERR_ASSERTION]: selected -0.7853981633974492, resumed -3.0661546877182557
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:864:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

@@ -1,0 +1,29 @@
+{
+  "status": "failed before app discovery/preparation/transfer/finalization",
+  "error": "library upload failed: hosted apps tools/list request failed: network",
+  "authorizedRetryCount": 1,
+  "attemptedFilesInOrder": [
+    "emberwatch-click-charge-verified-20261016.zip",
+    "17-ready-click-charge-heading.jpg",
+    "25-judgement-contact.jpg",
+    "emberwatch-controls-native-20261016.mp4",
+    "emberwatch-deferred-charge-verified-20261016.zip"
+  ],
+  "createdLibraryIds": [],
+  "perFileSaved": [
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+  "ordinaryLibraryMetadataRead": "succeeded; distinct from upload path",
+  "alternateWriteRoute": false,
+  "earlierForbiddenBatchRetried": false,
+  "newLocalBackup": {
+    "files": 426,
+    "bytes": 16933246,
+    "sha256": "7e1421c03ac45e57e0625169afacf112d5850322ad5e179848146fa334f581d7",
+    "integrity": "passed"
+  }
+}

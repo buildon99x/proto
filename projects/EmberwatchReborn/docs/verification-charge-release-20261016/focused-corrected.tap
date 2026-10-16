@@ -1,0 +1,20 @@
+✔ fresh deferred movement charge controls4/wasd keeps selected heading through released tap (2036.491794ms)
+✔ fresh deferred movement charge controls4/click keeps selected heading through released tap (393.396584ms)
+✔ fresh deferred movement charge controls5/wasd keeps selected heading through released tap (1096.121415ms)
+✔ fresh deferred movement charge controls5/click keeps selected heading through released tap (1096.838398ms)
+✔ fresh deferred aim charge controls4/wasd retains release cursor policy (288.571591ms)
+✔ fresh deferred aim charge controls4/click retains release cursor policy (234.999101ms)
+✔ fresh deferred aim charge controls5/wasd retains release cursor policy (967.402912ms)
+✔ fresh deferred aim charge controls5/click retains release cursor policy (843.411613ms)
+✔ deferred movement charge wasd/expired never starts or pays (185.167357ms)
+✔ deferred movement charge wasd/failed never starts or pays (196.16932ms)
+✔ deferred movement charge click/expired never starts or pays (210.442302ms)
+✔ deferred movement charge click/failed never starts or pays (167.400737ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7864.084323

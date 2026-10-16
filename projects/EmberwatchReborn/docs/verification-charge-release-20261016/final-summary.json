@@ -1,0 +1,37 @@
+{
+  "base": "a00dc112f44577994563107daeb2947538d51904",
+  "branch": "codex/emberwatch-rebuild",
+  "runtimeFilesChanged": [
+    "combat.js"
+  ],
+  "focusedNew": {
+    "tests": 12,
+    "pass": 12,
+    "fail": 0
+  },
+  "baseline": {
+    "tests": 4,
+    "expectedDirectionFailures": 2,
+    "controls5ComparisonsPassed": 2
+  },
+  "full": {
+    "tests": 4738,
+    "pass": 4738,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 395157.7664
+  },
+  "lint": "passed",
+  "build": {
+    "files": 133,
+    "bytes": 16802016
+  },
+  "rootRegistryVercel": "blocked pnpm ENOENT /home/agent/.local/share/pnpm",
+  "native": "ordinary direct short-tap Q smoke only; overlapping save wait not proven",
+  "actualListeningPhysicalLatencyAX": "unperformed",
+  "a19OriginalDecision": "unavailable; no protected work attempted",
+  "library": "one authorized prepared-flow retry failed before app mutation: network; no IDs or alternate write",
+  "defaultDeployment": false,
+  "mainMerged": false
+}
