@@ -414,3 +414,6 @@ The input panel labels actionContact as 타격 판정 and explains that empty at
 If reproduced, emit a detached runtime contact pose at the actual contact boundary and consume it for the friendly motif. Do not move the real slash or change collision/contact time, costs, damage or serialized state. Keep old event callers without a pose compatible.
 ## Touch direction ownership
 Expose held touch direction as transient router input and project it separately into click locomotion. A touched direction replaces old click/context routes; release/cancel/capture loss stops without resuming them. Keep click stop/in-place priority and normal fresh clicks, WASD's existing combined movement, legacy behavior, bindings, costs, balances and save schema unchanged. Describe the screen pad's behavior in existing controls help.
+
+## Click movement-directed charge — 2026-10-16
+In PoE click mode, movement-directed charge uses the current or most recent valid click-path/touch movement intent, independent of ignored keyboard keys and cursor aim. Keep direction after arrival/release, clear it on safety/menu or battle/life/region change, and fall back to aim when none exists. Preserve WASD and aim-directed charge. No saved field or writer changes.

@@ -1,0 +1,18 @@
+{
+  "status": "failed before any Library app mutation",
+  "reason": "hosted apps tools/list request failed: network",
+  "createdLibraryIds": [],
+  "retried": false,
+  "alternateRouteAttempted": false,
+  "localBackup": {
+    "file": "projects/EmberwatchReborn/app/artifacts/qa-action-review-20261016/emberwatch-click-charge-verified-20261016.zip",
+    "bytes": 18081082,
+    "sha256": "330b26efb6a83436241b0f055944881ea3f28ebfdf8b857fbd4f14f70a7f5bb0"
+  },
+  "video": {
+    "file": "projects/EmberwatchReborn/app/artifacts/qa-action-review-20261016/emberwatch-controls-native-20261016.mp4",
+    "bytes": 4698440,
+    "durationSeconds": 9.04,
+    "sha256": "acb33e5be38a95511c8570ff5154b4609247bd288e0cff9ad7475bb8cd21f0ba"
+  }
+}

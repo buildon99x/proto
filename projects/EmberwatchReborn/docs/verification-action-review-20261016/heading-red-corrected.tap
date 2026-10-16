@@ -1,0 +1,102 @@
+✖ click movement charge controls4/click follows locomotion rather than cursor or keyboard (1839.61351ms)
+✔ click movement charge controls4/touch follows locomotion rather than cursor or keyboard (207.443765ms)
+✖ click movement charge controls4/arrived follows locomotion rather than cursor or keyboard (281.83528ms)
+✖ click movement charge controls4/ignored-key follows locomotion rather than cursor or keyboard (205.814459ms)
+✖ click movement charge controls5/click follows locomotion rather than cursor or keyboard (927.458118ms)
+✔ click movement charge controls5/touch follows locomotion rather than cursor or keyboard (902.995167ms)
+✖ click movement charge controls5/arrived follows locomotion rather than cursor or keyboard (917.507806ms)
+✖ click movement charge controls5/ignored-key follows locomotion rather than cursor or keyboard (937.813115ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 2
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6368.144608
+
+✖ failing tests:
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:822:89
+✖ click movement charge controls4/click follows locomotion rather than cursor or keyboard (1839.61351ms)
+  AssertionError [ERR_ASSERTION]: movement -0.78539816339745, charge -3.0661546877182557
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:836:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:822:89
+✖ click movement charge controls4/arrived follows locomotion rather than cursor or keyboard (281.83528ms)
+  AssertionError [ERR_ASSERTION]: movement -0.78539816339745, charge -3.0661546877182557
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:836:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:822:89
+✖ click movement charge controls4/ignored-key follows locomotion rather than cursor or keyboard (205.814459ms)
+  AssertionError [ERR_ASSERTION]: movement -0.78539816339745, charge -3.0661546877182557
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:836:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:822:89
+✖ click movement charge controls5/click follows locomotion rather than cursor or keyboard (927.458118ms)
+  AssertionError [ERR_ASSERTION]: movement -0.78539816339745, charge -3.0661546877182557
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:836:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:822:89
+✖ click movement charge controls5/arrived follows locomotion rather than cursor or keyboard (917.507806ms)
+  AssertionError [ERR_ASSERTION]: movement -0.78539816339745, charge -3.0661546877182557
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:836:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:822:89
+✖ click movement charge controls5/ignored-key follows locomotion rather than cursor or keyboard (937.813115ms)
+  AssertionError [ERR_ASSERTION]: movement -0.78539816339745, charge -3.0661546877182557
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:836:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

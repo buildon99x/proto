@@ -1,0 +1,26 @@
+[
+  {
+    "capture": "06-wasd-cancel-held",
+    "fromSeconds": 0,
+    "toSeconds": 2.3147390365600584,
+    "frames": 122
+  },
+  {
+    "capture": "11-click-valid-heading-before",
+    "fromSeconds": 2.3147390365600584,
+    "toSeconds": 3.533310031890869,
+    "frames": 48
+  },
+  {
+    "capture": "16-ready-click-charge-after",
+    "fromSeconds": 3.533310031890869,
+    "toSeconds": 6.004395151138305,
+    "frames": 55
+  },
+  {
+    "capture": "24-crusher-payoff-normal",
+    "fromSeconds": 6.004395151138305,
+    "toSeconds": 8.974877216339111,
+    "frames": 78
+  }
+]

@@ -148,7 +148,7 @@ function sampledCombatInput(){
   battle.targetId=aimBySkill.mace_swing.targetId;battle.moveDestination=walking.destination;
   const released={...releasedAimBySkill};releasedAimBySkill={};
   const aim=aimBySkill.mace_swing.aim??{x:battle.p.x+Math.cos(battle.p.angle)*100,y:battle.p.y+Math.sin(battle.p.angle)*100};
-  return {...routed,move:walking.move,moveDistance:walking.distance,moveTarget:walking.waypoint,aim,aimBySkill,releasedAimBySkill:released,poeInput:{...c.poe},chargeAngle};
+  return {...routed,move:walking.move,moveDistance:walking.distance,moveTarget:walking.waypoint,aim,aimBySkill,releasedAimBySkill:released,poeInput:{...c.poe},chargeAngle:c.chargeDirection==='movement'&&c.poe.movementMode==='click'?(walking.lastMove?Math.atan2(walking.lastMove.y,walking.lastMove.x):undefined):chargeAngle};
  }
  locomotionIntent.clear();battle.moveDestination=null;
  const targeting=resolveCursorAim(input.pointerScreen,battle,canvas.width,canvas.height);battle.targetId=targeting.targetId;

@@ -1,0 +1,29 @@
+{
+  "base": "3ef7dda74c8c40a2d6154adcd10c5e82588ce142",
+  "branch": "codex/emberwatch-rebuild",
+  "full": {
+    "tests": 4726,
+    "pass": 4726,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "duration_ms": 460149.553869
+  },
+  "newFocused": 18,
+  "appLint": "pass",
+  "appBuild": {
+    "files": 133,
+    "bytes": 16801945
+  },
+  "rootVerify": "blocked pnpm ENOENT /home/agent/.local/share/pnpm",
+  "registry": "same environmental failure",
+  "vercel": "same environmental failure",
+  "native": "ordinary saved-profile click direction, startup roll cancel, held restart, two mace prime / Judgement payoff kill, town return and shortcut re-entry",
+  "audioListening": "unperformed; muted headless browser",
+  "physicalLatencyTouchAX": "unperformed",
+  "death": "not repeated October16; earlier October14 evidence separate",
+  "a19": "unresolved; protected writer and growth not changed",
+  "library": "failed before app call: network; no IDs, no retry/alternate route",
+  "deployment": "none",
+  "mergeMain": false
+}

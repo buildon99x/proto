@@ -27,3 +27,10 @@ test('blocked or invalid click target does not create permanent approach',()=>{c
 test('same region new life clears old click destination',()=>{const b=battle(),l=createLocomotionIntent();l.press({x:112,y:48},b);b.stateLife++;assert.equal(l.step({battle:b,mode:'click'}).destination,null);});
 test('in-place stop applies to click mode, never WASD movable skill intent',()=>{const b=battle(),l=createLocomotionIntent();l.press({x:112,y:48},b);assert.deepEqual(l.step({battle:b,mode:'wasd',keys:{x:1,y:0},attackInPlace:true,stopForInPlace:true}).move,{x:1,y:0});l.press({x:112,y:48},b);assert.equal(l.step({battle:b,mode:'click',attackInPlace:true,stopForInPlace:true}).destination,null);});
 test('movement/cancel policy is per-skill with protected contact window',()=>{assert.equal(skillMovementFactor({id:'mace_swing',fired:false}),0);assert.equal(skillMovementFactor({id:'mace_swing',fired:true}),1);assert.equal(skillMovementFactor({id:'righteous_hammer',fired:false}),.55);assert.equal(skillMovementFactor({id:'shield_charge'}),0);assert.equal(skillCanDodgeCancel({id:'mace_swing',elapsed:.09,contact:.1,fired:false}),false);assert.equal(skillCanDodgeCancel({id:'mace_swing',elapsed:.2,contact:.1,fired:true}),true);});
+for(const boundary of ['battle','life','region','clear'])test(`click movement heading expires across ${boundary} without altering progress`,()=>{
+ const b=battle(),l=createLocomotionIntent(),before=structuredClone(b);l.press({x:112,y:48},b);const first=l.step({battle:b,mode:'click'});assert.deepEqual(first.lastMove,{x:1,y:0});first.lastMove.x=-1;assert.deepEqual(l.step({battle:b,mode:'click'}).lastMove,{x:1,y:0});
+ // Touch release removes route but retains the last intended direction.
+ assert.deepEqual(l.step({battle:b,mode:'click',touch:{x:0,y:1}}).lastMove,{x:0,y:1});assert.deepEqual(l.step({battle:b,mode:'click'}).lastMove,{x:0,y:1});assert.deepEqual(b,before);
+ let target=b;if(boundary==='battle')target=battle();if(boundary==='life')b.stateLife++;if(boundary==='region')b.region+='-new';if(boundary==='clear')l.clear();
+ assert.equal(l.step({battle:target,mode:'click'}).lastMove??null,null);
+});

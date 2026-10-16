@@ -1,0 +1,16 @@
+✔ click movement charge controls4/click follows locomotion rather than cursor or keyboard (2096.647492ms)
+✔ click movement charge controls4/touch follows locomotion rather than cursor or keyboard (253.23043ms)
+✔ click movement charge controls4/arrived follows locomotion rather than cursor or keyboard (247.893829ms)
+✔ click movement charge controls4/ignored-key follows locomotion rather than cursor or keyboard (216.216911ms)
+✔ click movement charge controls5/click follows locomotion rather than cursor or keyboard (961.166207ms)
+✔ click movement charge controls5/touch follows locomotion rather than cursor or keyboard (863.704962ms)
+✔ click movement charge controls5/arrived follows locomotion rather than cursor or keyboard (858.303469ms)
+✔ click movement charge controls5/ignored-key follows locomotion rather than cursor or keyboard (935.082509ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6580.463515

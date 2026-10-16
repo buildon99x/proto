@@ -1,0 +1,26 @@
+✔ click movement charge controls4/click follows locomotion rather than cursor or keyboard (2120.992253ms)
+✔ click movement charge controls4/touch follows locomotion rather than cursor or keyboard (258.7581ms)
+✔ click movement charge controls4/arrived follows locomotion rather than cursor or keyboard (259.865792ms)
+✔ click movement charge controls4/ignored-key follows locomotion rather than cursor or keyboard (225.852254ms)
+✔ click movement charge controls5/click follows locomotion rather than cursor or keyboard (960.549868ms)
+✔ click movement charge controls5/touch follows locomotion rather than cursor or keyboard (872.178158ms)
+✔ click movement charge controls5/arrived follows locomotion rather than cursor or keyboard (1007.429353ms)
+✔ click movement charge controls5/ignored-key follows locomotion rather than cursor or keyboard (961.37885ms)
+✔ click charge controls4/queued preserves queue and safety contracts (457.767804ms)
+✔ click charge controls4/menu-reset preserves queue and safety contracts (420.855197ms)
+✔ click charge controls4/aim preserves queue and safety contracts (388.782832ms)
+✔ click charge controls5/queued preserves queue and safety contracts (1289.105009ms)
+✔ click charge controls5/menu-reset preserves queue and safety contracts (1208.046329ms)
+✔ click charge controls5/aim preserves queue and safety contracts (1111.225056ms)
+✔ click movement heading expires across battle without altering progress (3.734611ms)
+✔ click movement heading expires across life without altering progress (0.487446ms)
+✔ click movement heading expires across region without altering progress (0.425635ms)
+✔ click movement heading expires across clear without altering progress (0.558079ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11725.069227

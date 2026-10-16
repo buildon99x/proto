@@ -1,0 +1,130 @@
+✖ click movement charge controls4/click follows locomotion rather than cursor or keyboard (2149.910381ms)
+✔ click movement charge controls4/touch follows locomotion rather than cursor or keyboard (233.107525ms)
+✖ click movement charge controls4/arrived follows locomotion rather than cursor or keyboard (287.379988ms)
+✖ click movement charge controls4/ignored-key follows locomotion rather than cursor or keyboard (212.049751ms)
+✖ click movement charge controls5/click follows locomotion rather than cursor or keyboard (1005.529129ms)
+✖ click movement charge controls5/touch follows locomotion rather than cursor or keyboard (945.867807ms)
+✖ click movement charge controls5/arrived follows locomotion rather than cursor or keyboard (890.480518ms)
+✖ click movement charge controls5/ignored-key follows locomotion rather than cursor or keyboard (972.698934ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 1
+ℹ fail 7
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6862.931317
+
+✖ failing tests:
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:822:89
+✖ click movement charge controls4/click follows locomotion rather than cursor or keyboard (2149.910381ms)
+  AssertionError [ERR_ASSERTION]: movement -0.78539816339745, charge -3.0661546877182557
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:836:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:822:89
+✖ click movement charge controls4/arrived follows locomotion rather than cursor or keyboard (287.379988ms)
+  AssertionError [ERR_ASSERTION]: movement -0.78539816339745, charge -3.0661546877182557
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:836:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:822:89
+✖ click movement charge controls4/ignored-key follows locomotion rather than cursor or keyboard (212.049751ms)
+  AssertionError [ERR_ASSERTION]: movement -0.78539816339745, charge -3.0661546877182557
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:836:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:822:89
+✖ click movement charge controls5/click follows locomotion rather than cursor or keyboard (1005.529129ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(Math.hypot(walk.x,walk.y)>.9)
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:829:52)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:822:89
+✖ click movement charge controls5/touch follows locomotion rather than cursor or keyboard (945.867807ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'righteous_hammer'
+  - 'shield_charge'
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:835:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'righteous_hammer',
+    expected: 'shield_charge',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:822:89
+✖ click movement charge controls5/arrived follows locomotion rather than cursor or keyboard (890.480518ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(Math.hypot(walk.x,walk.y)>.9)
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:829:52)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:822:89
+✖ click movement charge controls5/ignored-key follows locomotion rather than cursor or keyboard (972.698934ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(Math.hypot(walk.x,walk.y)>.9)
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:829:52)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

@@ -817,3 +817,38 @@ test('touch pad controls5 click movement keeps the exact saved binding and skill
  const h=await ui({poeMode:'click'}),controls=imports.enableSkillLoadout(h.app.state.options.controls,{skills:h.app.state.character.skills,actionSlots:h.app.state.actionSlots});assert.equal(await h.app.dispatch({type:'setControls',controls}),true);
  const before=structuredClone(h.app.state.options.controls),b=h.app.battle,at={x:b.p.x,y:b.p.y};h.moves.down.handlers.pointerdown({preventDefault(){},pointerId:15});await h.frame(.05);h.moves.down.handlers.pointerup();assert.ok(Math.hypot(b.p.x-at.x,b.p.y-at.y)>1);assert.deepEqual(h.app.state.options.controls,before);assert.deepEqual(h.store.load().state.options.controls,before);
 });
+
+// Ordinary DOM entrypoints, fixture progression; independent of native QA.
+for(const version of [4,5])for(const entry of ['click','touch','arrived','ignored-key'])test(`click movement charge controls${version}/${entry} follows locomotion rather than cursor or keyboard`,async()=>{
+ const h=version===5?await v5Ui():await ui({poeMode:'click'});
+ const controls=imports.poeControlPreset(h.app.state.options.controls,'click','combined');controls.chargeDirection='movement';
+ assert.equal(await h.app.dispatch({type:'setControls',controls}),true);h.app.closePanel();
+ if(entry==='ignored-key'){h.key('KeyW');h.up('KeyW');}
+ h.ch.mousedown({button:0,clientX:580,clientY:385,preventDefault(){}});h.wh.mouseup({button:0});
+ if(entry==='touch')h.moves.down.handlers.pointerdown({preventDefault(){},pointerId:12});
+ const walk=h.app.sampledCombatInput().move;assert.ok(Math.hypot(walk.x,walk.y)>.9);
+ const expected=Math.atan2(walk.y,walk.x);
+ if(entry==='arrived')await advanceUntil(h,()=>!h.app.sampledCombatInput().moveTarget,'click arrival');
+ else await h.frame();
+ if(entry==='touch')h.moves.down.handlers.pointerup();
+ h.ch.pointermove({clientX:200,clientY:200});h.key('KeyQ');h.up('KeyQ');
+ assert.equal(h.app.battle.p.action?.id,'shield_charge');
+ assert.ok(Math.abs(h.app.battle.p.action.angle-expected)<1e-8,`movement ${expected}, charge ${h.app.battle.p.action.angle}`);
+});
+for(const version of [4,5])for(const variant of ['queued','menu-reset','aim'])test(`click charge controls${version}/${variant} preserves queue and safety contracts`,async()=>{
+ const h=version===5?await v5Ui():await ui({poeMode:'click'}),controls=imports.poeControlPreset(h.app.state.options.controls,'click','combined');controls.chargeDirection=variant==='aim'?'aim':'movement';
+ assert.equal(await h.app.dispatch({type:'setControls',controls}),true);h.app.closePanel();
+ h.ch.mousedown({button:0,clientX:580,clientY:385,preventDefault(){}});h.wh.mouseup({button:0});await h.frame();
+ const move=h.app.sampledCombatInput().move;
+ if(variant==='menu-reset'){h.key('Escape');await next();h.app.closePanel();assert.equal(h.app.sampledCombatInput().chargeAngle,undefined);}
+ h.ch.pointermove({clientX:200,clientY:200});
+ if(variant==='queued'){
+  h.key(version===5?'KeyF':'KeyJ');h.up(version===5?'KeyF':'KeyJ');
+  await advanceUntil(h,()=>h.app.battle.p.action?.id==='mace_swing'&&h.app.battle.p.action.duration-h.app.battle.p.action.elapsed<=.14,'late mace recovery');
+ }
+ const expected=variant==='queued'?Math.atan2(move.y,move.x):Math.atan2(h.app.sampledCombatInput().aimBySkill.shield_charge.aim.y-h.app.battle.p.y,h.app.sampledCombatInput().aimBySkill.shield_charge.aim.x-h.app.battle.p.x);
+ h.key('KeyQ');h.up('KeyQ');
+ if(variant==='queued')await advanceUntil(h,()=>h.app.battle.p.action?.id==='shield_charge','queued click charge');
+ assert.equal(h.app.battle.p.action?.id,'shield_charge');assert.ok(Math.abs(h.app.battle.p.action.angle-expected)<1e-8);
+ const cast=h.app.battle.p.action.castId;for(let i=0;i<70;i++)await h.frame();assert.equal(h.app.battle.castSerial,cast);assert.ok(h.app.inputObservations.some(r=>r.kind==='contact'&&r.castId===cast));
+});
