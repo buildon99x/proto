@@ -1,3 +1,5 @@
+import { shotFeedback, pointDetail } from './feedback';
+import type { RallyMiss } from './feedback';
 import { assessStroke, strokeTarget, solveStroke, recoveryBase, chooseTactic } from './tactics';
 import type { Technique, StrokeContext } from './tactics';
 import {
@@ -127,7 +129,8 @@ export class Game {
     message = '';
     messageAt = 0;
     shots: Hit[] = [];
-    points: { winner: number; reason: string; returns: number }[] = [];
+    points: { winner: number; reason: string; returns: number; detail: string }[] = [];
+    rallyMiss: RallyMiss | null = null;
     onMotionTick: ((index: number, dt: number) => boolean) | null = null;
     contactAttempts: {
         actor: number;
@@ -200,6 +203,12 @@ export class Game {
         this.messageAt = this.time;
     }
     start() {
+        this.rallyMiss = null;
+        this.incomingWeak = false;
+        this.contactAt = Infinity;
+        this.returns = 0;
+        this.receiver = 1;
+        this.hitter = 0;
         this.scores = [0, 0];
         this.server = 0;
         this.shots = [];
@@ -211,6 +220,9 @@ export class Game {
         this.paused = false;
         this.time = 0;
         this.resetActors();
+        this.p = { x: 0.35, y: 1.1, z: -3.1 };
+        this.v = { x: 0, y: 0, z: 0 };
+        this.predicted = null;
         this.transition('COUNTDOWN');
     }
     resetActors() {
@@ -240,6 +252,7 @@ export class Game {
         }
     }
     serveReady() {
+        this.rallyMiss = null;
         this.returns = 0;
         this.resetActors();
         this.p = {
@@ -350,14 +363,20 @@ export class Game {
             return;
         }
         if (!Number.isFinite(this.contactAt)) {
-            this.feedback('OUT OF REACH');
+            const reason = this.rallyMiss?.actor === 0 ? this.rallyMiss.reason : 'reach';
+            this.rallyMiss = { actor: 0, reason };
+            this.feedback(
+                reason === 'late' ? 'TOO LATE' : reason === 'early' ? 'TOO EARLY' : 'OUT OF REACH',
+            );
             return;
         }
         if (this.contactAt - this.time > CFG.buffer + this.inputLead(cmd.shotIntent)) {
+            this.rallyMiss = { actor: 0, reason: 'early' };
             this.feedback('TOO EARLY');
             return;
         }
         if (this.time > this.contactAt - 0.025) {
+            this.rallyMiss = { actor: 0, reason: 'late' };
             this.feedback('TOO LATE');
             return;
         }
@@ -369,7 +388,9 @@ export class Game {
             a.motion = 'Miss';
             a.swingAt = this.time;
             a.hitFrame = this.inputLead(cmd.shotIntent);
-            this.feedback(cmd.issuedAt < this.contactAt - a.hitFrame ? 'TOO EARLY' : 'TOO LATE');
+            const early = cmd.issuedAt < this.contactAt - a.hitFrame;
+            this.rallyMiss = { actor: 0, reason: early ? 'early' : 'late' };
+            this.feedback(early ? 'TOO EARLY' : 'TOO LATE');
         }
     }
     prepareStroke(a: Actor) {
@@ -566,11 +587,8 @@ export class Game {
         };
         this.shots.push(hit);
         if (!isServe) this.returns++;
-        this.feedback(
-            `${a.quality.toUpperCase()} · ${technique === 'superSmash' ? 'SUPER SMASH' : technique === 'netKill' ? 'NET FINISH' : technique.toUpperCase()}`,
-        );
-        if (result.fallbackReason)
-            this.feedback(`LIMIT: ${requestedShot.toUpperCase()} > ${shot.toUpperCase()}`);
+        this.rallyMiss = null;
+        this.feedback(shotFeedback(index, a.quality, technique, result.fallbackReason));
         this.onHit(hit);
         this.transition('RALLY');
         this.plan();
@@ -718,12 +736,17 @@ export class Game {
             winner,
             reason: reason === 'GROUND' ? (inside(at) ? 'IN' : 'OUT') : reason,
             returns: this.returns,
+            detail: pointDetail(
+                winner,
+                this.hitter,
+                reason === 'GROUND' && !inside(at) ? 'OUT' : reason,
+                at.z * this.actors[this.hitter].side > 0,
+                this.rallyMiss,
+            ),
         });
         this.v = { x: 0, y: 0, z: 0 };
         this.p = clone(at);
-        this.feedback(
-            `${reason === 'GROUND' ? (inside(at) ? 'IN' : 'OUT') : reason} · ${winner === 0 ? 'YOUR' : 'AI'} POINT`,
-        );
+        this.feedback(`${winner === 0 ? 'YOUR' : 'AI'} POINT · ${this.points.at(-1)!.detail}`);
         this.transition('POINT_RESOLVED');
         this.onPoint();
     }
@@ -858,6 +881,7 @@ export class Game {
                     a.armed = false;
                     this.contactAt = Infinity;
                     a.motion = 'Miss';
+                    this.rallyMiss = { actor: this.receiver, reason: 'reach' };
                     this.feedback(this.receiver === 0 ? 'OUT OF REACH' : 'AI MISSED');
                 }
             }
@@ -867,6 +891,8 @@ export class Game {
             if (i !== this.receiver) this.onMotionTick?.(i, CFG.dt);
         }
         if (this.time > this.contactAt + 0.025 && !a.command) {
+            if (!this.rallyMiss || this.rallyMiss.actor !== this.receiver)
+                this.rallyMiss = { actor: this.receiver, reason: 'late' };
             if (this.receiver === 0) this.feedback('TOO LATE');
             this.contactAt = Infinity;
             a.motion = 'Miss';
@@ -905,6 +931,7 @@ export class Game {
             shots: this.shots.map((h) => ({ ...h })),
             points: this.points.map((p) => ({ ...p })),
             message: this.message,
+            rallyMiss: this.rallyMiss ? { ...this.rallyMiss } : null,
         };
     }
 }

@@ -180,3 +180,34 @@ export async function offlineImpacts() {
     }
     return samples;
 }
+
+// Score acknowledgement, deliberately quieter and distinct from a physical impact.
+export function synthPoint(ctx: BaseAudioContext, winner: number, when = ctx.currentTime) {
+    for (const [i, frequency] of (winner === 0 ? [660, 880] : [440, 330]).entries()) {
+        const oscillator = ctx.createOscillator(),
+            gain = ctx.createGain(),
+            start = when + i * 0.065;
+        oscillator.frequency.value = frequency;
+        gain.gain.setValueAtTime(0, start);
+        gain.gain.linearRampToValueAtTime(0.055, start + 0.006);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.065);
+        oscillator.connect(gain).connect(ctx.destination);
+        oscillator.start(start);
+        oscillator.stop(start + 0.075);
+        oscillator.onended = () => {
+            oscillator.disconnect();
+            gain.disconnect();
+        };
+    }
+    return { scheduledAt: when, winner, duration: 0.14 };
+}
+export async function offlinePoints() {
+    const samples = [];
+    for (const winner of [0, 1]) {
+        const ctx = new OfflineAudioContext(1, 9600, 48000);
+        synthPoint(ctx, winner, 0);
+        const rendered = await ctx.startRendering();
+        samples.push({ winner, sampleRate: 48000, pcm: Array.from(rendered.getChannelData(0)) });
+    }
+    return samples;
+}

@@ -550,3 +550,7 @@ ul {
         0 0 10px #9f652a;
     font-weight: 900;
 }
+
+/* Outcome explains the dead ball in the existing gutter, without covering play. */
+#feedback.point-detail { max-width: min(68vw, 440px); line-height: 1.45; }
+.card { max-height: calc(100dvh - 24px); overflow-y: auto; }

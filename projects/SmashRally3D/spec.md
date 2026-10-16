@@ -62,3 +62,11 @@ Final mesh calibration includes the actual hair top (Head joint+0.33m) and shoe 
 - All impact cues originate from a real onHit event. A24–32ms real-clock global hold discards catch-up and freezes both actors/flight equally, rather than modifying their physics. No hold on misses, no queued input replay and no large camera reset. Tiny bounded directional recoil respects FX/reduced-motion controls.
 - Real flight history drives an emissive tapered directional ribbon even on LOW; restrained string-plane contact mark rather than full-screen flash/noise. Original racket sound combines a short filtered crack, string/body resonances and a faint air tail, synchronized at the same successful hit.
 - Software browser evidence must include repeated attack inputs, actual descending launch speed/trajectory, legal block/return or points, continuation, mobile/drop regressions, frame timestamps and a short captured video. PCM validation is not listening or hardware latency certification.
+
+## Experience clarity contract 2026-10-16
+- Keep existing inputs, physics solver, AI reaction/motor, close camera and smash-contact implementation. No new buttons or attack eligibility changes.
+- Label shot outcomes by actor. Treat pre-hit normal/super attack labels as opportunities, and explain legal safety fallbacks in player language instead of LIMIT/requested/resolved debug text.
+- Persist a per-rally diagnostic miss reason only for feedback; it must not influence collision, scoring, AI or input acceptance. Show the causal fault/late/reach reason at the point and clear it on a successful return/new rally/match.
+- Point phase shows outcome and next-server intent. Dynamic shot names appear only on the human receiving turn, never as stale opportunities on a dead ball. Shot selection before serve chooses intent without accidentally serving.
+- A real score queues one quiet ascending/descending outcome cue, separately counted from physical hit audio; sound-off and restart suppress pending/stale cues. Keep reduced-motion and existing camera controls.
+- Preserve all prior acceptance gates. Capture actual UI match/points/rematch and shot fallback, mobile gestures/rotation, direction mapping, repeat-DROP defence and normal/strong attack domains separately. Human listening and device FPS remain unverified.

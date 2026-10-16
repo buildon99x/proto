@@ -35,7 +35,7 @@ import { CFG } from './physics';
 import type { V3 } from './physics';
 import { MOTIONS, skeletonPose, sub } from './motion';
 import type { MotionName, SkeletonPose } from './motion';
-import { synthImpact, offlineImpacts } from './audio';
+import { synthImpact, offlineImpacts, synthPoint, offlinePoints } from './audio';
 import { impactStyle, impactEnvelope } from './impact';
 import './style.css';
 const reviewContact = new URLSearchParams(location.search).get('review-contact');
@@ -46,6 +46,8 @@ let impactClock = -1000,
     holdUntil = 0,
     queuedSound: Hit | null = null;
 let lastImpactHit: Hit | null = null;
+let queuedPoint: number | null = null,
+    pointAudioEvents = 0;
 let pendingContact: Hit | null = null;
 let renderedContact: { time: number; actor: number; shuttle: V3; racket: V3; contact: V3 } | null =
     null;
@@ -123,7 +125,10 @@ function sound(h: Hit) {
     return { ...result, perf: performance.now() };
 }
 if (new URLSearchParams(location.search).has('audio-review'))
-    Object.defineProperty(window, 'smashAudioReview', { value: offlineImpacts });
+    Object.defineProperties(window, {
+        smashAudioReview: { value: offlineImpacts },
+        smashPointAudioReview: { value: offlinePoints },
+    });
 function controls() {
     return `<div class="settings">${[
         ['sound', 'Sound'],
@@ -151,7 +156,7 @@ function renderUI() {
         if (game.paused && !reviewHit)
             overlay = `<section class="card"><div class="eyebrow">TAKE A BREATH</div><h2>PAUSED</h2><button data-action="resume" class="primary">CONTINUE</button><div class="row"><button data-action="start">Restart match</button><button data-action="menu">Main menu</button></div>${controls()}</section>`;
         if (panel)
-            overlay = `<section class="card"><div class="eyebrow">RALLY CLUB</div><h2>${panel === 'help' ? 'HOW TO PLAY' : 'SETTINGS'}</h2>${panel === 'help' ? '<p>Aim at the far court. Your player moves automatically.</p><ul><li>Click / tap: return or smash a high ball.</li><li>Shift + click / swipe up: deep clear.</li><li>Right click / swipe down: front-court drop.</li><li>Press at HIT NOW, just before contact.</li><li>A weak high return + PERFECT unlocks Super Smash.</li><li>Esc pauses. Five points wins; no deuce.</li></ul>' : controls()}<button data-action="close" class="primary">BACK</button></section>`;
+            overlay = `<section class="card"><div class="eyebrow">RALLY CLUB</div><h2>${panel === 'help' ? 'HOW TO PLAY' : 'SETTINGS'}</h2>${panel === 'help' ? '<p>Aim at the far court. Your player moves automatically.</p><ul><li>Click / tap: return or smash a high ball.</li><li>Shift + click / swipe up: deep clear.</li><li>Right click / swipe down: front-court drop.</li><li>Press at HIT NOW, just before contact.</li><li>Loose high ball + perfect timing: Super Smash. Aim deep; tight angles use a safe return.</li><li>Esc pauses. Five points wins; no deuce.</li></ul>' : controls()}<button data-action="close" class="primary">BACK</button></section>`;
         ui.innerHTML = `<header class="hud"><div class="brand">SR<span>3D</span></div><div class="scoreboard"><div><small>YOU ${game.server === 0 ? '•' : ''}</small><b>${game.scores[0]}</b></div><div class="versus">FIRST TO 5</div><div><small>${game.server === 1 ? '• ' : ''}AI</small><b>${game.scores[1]}</b></div></div><button data-action="pause" class="pause" aria-label="Pause">II</button></header><div class="arena-label">RALLY CLUB<span>INDOOR SERIES / 01</span></div><div id="feedback" aria-live="polite"></div><div id="timing"></div><div class="shot-bar" ${['MENU', 'RESULTS'].includes(game.phase) ? 'hidden' : ''}>${(['clear', 'default', 'drop'] as Intent[]).map((s, i) => `<button data-shot="${s}" ${selected === s ? 'class="active"' : ''}><span>${['C', 'R', 'D'][i]}</span><em ${s === 'default' ? 'id="basic-label"' : ''}>${['CLEAR', 'RETURN', 'DROP'][i]}</em><small>${['SHIFT / SWIPE UP', 'CLICK / TAP', 'RIGHT / SWIPE DOWN'][i]}</small></button>`).join('')}</div><div id="tutorial" ${tutorial && game.phase === 'RALLY' && game.time < 32 ? '' : 'hidden'}></div>${overlay ? `<div class="overlay">${overlay}</div>` : ''}`;
     }
     const f = document.getElementById('feedback');
@@ -162,7 +167,8 @@ function renderUI() {
                 : game.time - game.messageAt < 1.5
                   ? game.message
                   : '';
-        f.className = game.message.includes('PERFECT') ? 'perfect' : '';
+        f.className = game.message.startsWith('YOU · PERFECT') ? 'perfect' : '';
+        f.classList.toggle('point-detail', game.phase === 'POINT_RESOLVED');
     }
     const rem = game.contactAt - game.time,
         t = document.getElementById('timing');
@@ -172,6 +178,7 @@ function renderUI() {
             : tech === 'netKill'
               ? 'NET FINISH'
               : tech.toUpperCase();
+    const receiving = game.phase === 'RALLY' && game.receiver === 0;
     if (t) {
         const preview = game.previewStroke(0, target, selected);
         const attacking =
@@ -182,21 +189,25 @@ function renderUI() {
             rem > Math.max(0.04, game.inputLead(selected) - 0.07);
         const sweet = rem < game.inputLead(selected) + 0.05;
         t.textContent =
-            game.phase === 'SERVE_READY'
-                ? game.server === 0
-                    ? 'Click the court to serve'
-                    : 'Opponent serving'
-                : game.phase === 'RALLY' && game.receiver === 0
-                  ? broad
-                      ? attacking && !sweet
-                          ? '◌ SET · ' + name(preview.technique)
-                          : '● HIT NOW · ' + name(preview.technique)
-                      : Number.isFinite(rem)
-                        ? attacking
-                            ? 'HIGH BALL · SET YOUR RACKET'
-                            : '◌ GET READY'
-                        : 'OUT OF REACH'
-                  : '';
+            game.phase === 'POINT_RESOLVED'
+                ? `${game.points.at(-1)?.winner === 0 ? 'YOUR POINT · YOUR SERVE NEXT' : 'AI POINT · RECEIVE NEXT'}`
+                : game.phase === 'SERVE_READY'
+                  ? game.server === 0
+                      ? 'Click the court to serve'
+                      : 'Opponent serving'
+                  : game.phase === 'RALLY' && game.receiver === 0
+                    ? broad
+                        ? attacking && !sweet
+                            ? '◌ SET · ' + name(preview.technique) + (attacking ? ' CHANCE' : '')
+                            : '● HIT NOW · ' +
+                              name(preview.technique) +
+                              (attacking ? ' CHANCE' : '')
+                        : Number.isFinite(rem)
+                          ? attacking
+                              ? 'HIGH BALL · SET YOUR RACKET'
+                              : '◌ GET READY'
+                          : 'OUT OF REACH'
+                    : '';
         t.classList.toggle(
             'attack-ready',
             attacking && game.phase === 'RALLY' && game.receiver === 0,
@@ -207,21 +218,21 @@ function renderUI() {
         deepLabel = document.querySelector('[data-shot="clear"] em');
     if (softLabel)
         softLabel.textContent =
-            game.receiver === 0 && game.actors[0].contact
+            receiving && game.actors[0].contact
                 ? name(game.previewStroke(0, target, 'drop').technique)
                 : 'DROP';
     if (deepLabel)
         deepLabel.textContent =
-            game.receiver === 0 && game.actors[0].contact
+            receiving && game.actors[0].contact
                 ? name(game.previewStroke(0, target, 'clear').technique)
                 : 'CLEAR';
     const b = document.getElementById('basic-label');
     if (b) {
         const p = game.previewStroke(0, target);
         b.textContent =
-            game.receiver === 0 && game.actors[0].contact
+            receiving && game.actors[0].contact
                 ? p.technique === 'superSmash'
-                    ? 'SUPER?'
+                    ? 'SUPER CHANCE'
                     : p.technique === 'netKill'
                       ? 'NET FINISH'
                       : p.technique.toUpperCase()
@@ -246,7 +257,7 @@ ui.addEventListener('click', (e) => {
     unlock();
     if (el.dataset.shot) {
         selected = el.dataset.shot as Intent;
-        issue(selected, target, 'keyboard');
+        if (game.phase === 'RALLY') issue(selected, target, 'keyboard');
         lastUI = '';
         return;
     }
@@ -257,6 +268,8 @@ ui.addEventListener('click', (e) => {
             impactClock = -1000;
             holdUntil = 0;
             queuedSound = null;
+            queuedPoint = null;
+            pointAudioEvents = 0;
             lastImpactHit = null;
 
             impactLedger.length = 0;
@@ -273,6 +286,7 @@ ui.addEventListener('click', (e) => {
             acc = 0;
             break;
         case 'menu':
+            queuedPoint = null;
             game.transition('MENU');
             game.paused = false;
             panel = '';
@@ -765,6 +779,9 @@ async function boot() {
     attackTrail.emissive = new Color(0.85, 0.52, 0.16);
     attackTrail.update();
 
+    game.onPoint = () => {
+        queuedPoint = game.points.at(-1)!.winner;
+    };
     game.onMotionTick = (index, dt) => tickMotion(index === 0 ? player : opponent, dt);
     game.onHit = (h) => {
         if (
@@ -849,7 +866,9 @@ async function boot() {
             );
             holdUntil = impactClock + style.holdMs;
             queuedSound = displayHit;
-            const event = [...impactLedger].reverse().find(e => e.physicsTime === displayHit.time);
+            const event = [...impactLedger]
+                .reverse()
+                .find((e) => e.physicsTime === displayHit.time);
             if (event) event.fxPerf = impactClock;
         }
         animate(player, displayHit?.actor === 0 ? displayHit.renderPose : null);
@@ -1001,7 +1020,13 @@ async function boot() {
             for (const mesh of e.render!.meshInstances)
                 mesh.material = style.attack ? attackTrail : neutralTrail;
         });
-        if (settings.fx && settings.shake && !reducedMotion && lastImpactHit?.actor === 0 && response.visible) {
+        if (
+            settings.fx &&
+            settings.shake &&
+            !reducedMotion &&
+            lastImpactHit?.actor === 0 &&
+            response.visible
+        ) {
             const p = camera.getPosition();
             camera.setPosition(
                 p.x + response.recoil.x,
@@ -1025,15 +1050,24 @@ async function boot() {
         }
     });
     app.on('frameend', () => {
-        if (!queuedSound) return;
         const h = queuedSound;
-        queuedSound = null;
-        const event = impactLedger.find((e) => e.physicsTime === h.time);
-        const scheduled = sound(h);
-        if (event) {
-            event.presentedPerf = performance.now();
-            event.audioPerf = scheduled?.perf ?? null;
-            event.audioTime = scheduled?.scheduledAt ?? null;
+        if (h) {
+            queuedSound = null;
+            const event = impactLedger.find((e) => e.physicsTime === h.time);
+            const scheduled = sound(h);
+            if (event) {
+                event.presentedPerf = performance.now();
+                event.audioPerf = scheduled?.perf ?? null;
+                event.audioTime = scheduled?.scheduledAt ?? null;
+            }
+        }
+        if (queuedPoint !== null) {
+            const winner = queuedPoint;
+            queuedPoint = null;
+            if (settings.sound && audio?.state === 'running') {
+                synthPoint(audio, winner);
+                pointAudioEvents++;
+            }
         }
     });
     Object.defineProperty(window, 'smashDiagnostics', {
@@ -1059,6 +1093,7 @@ async function boot() {
             },
             audioState: audio?.state ?? 'locked',
             audioEvents,
+            pointAudioEvents,
             audioLedger: impactLedger.map((e) => ({ ...e })),
             heapBytes: (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory
                 ?.usedJSHeapSize,
