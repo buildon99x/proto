@@ -72,3 +72,5 @@ Final mesh calibration includes the actual hair top (Head joint+0.33m) and shoe 
 - Preserve all prior acceptance gates. Capture actual UI match/points/rematch and shot fallback, mobile gestures/rotation, direction mapping, repeat-DROP defence and normal/strong attack domains separately. Human listening and device FPS remain unverified.
 
 Observed MEDIUM native retry exposed a pending swipe whose move event arrived after a genuine contact. Keep post-contact rejection and original gesture/physics clocks. The attack text/ring onset now uses the existing0.08s PERFECT boundary (previously visual0.05s); no quality, buffer, reach, contact, AI or score gate changes. Validate the same trusted native up/down gestures repeatedly, not a relaxed acceptance rule.
+
+Terminal-point review:an actual5–0 frame still promised a next serve before results. Terminal points must instead announce MATCH WON/LOST and RESULTS NEXT; the actual winning-point browser check and a boundary unit test enforce this without changing scores or transitions.

@@ -32,6 +32,7 @@ import { fitCourtCamera, flightFov, courtAim } from './camera-framing';
 import type { ContainerResource, AnimTrack } from 'playcanvas';
 import type { Intent, Actor, Hit } from './game';
 import { CFG, PERFECT_WINDOW } from './physics';
+import { pointPrompt } from './feedback';
 import type { V3 } from './physics';
 import { MOTIONS, skeletonPose, sub } from './motion';
 import type { MotionName, SkeletonPose } from './motion';
@@ -190,7 +191,7 @@ function renderUI() {
         const sweet = rem < game.inputLead(selected) + PERFECT_WINDOW;
         t.textContent =
             game.phase === 'POINT_RESOLVED'
-                ? `${game.points.at(-1)?.winner === 0 ? 'YOUR POINT · YOUR SERVE NEXT' : 'AI POINT · RECEIVE NEXT'}`
+                ? pointPrompt(game.points.at(-1)!.winner, Math.max(...game.scores) >= 5)
                 : game.phase === 'SERVE_READY'
                   ? game.server === 0
                       ? 'Click the court to serve'

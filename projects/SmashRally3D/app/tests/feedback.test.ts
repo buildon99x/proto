@@ -1,6 +1,6 @@
 import { it, expect } from 'vitest';
 import { Game } from '../src/game';
-import { shotFeedback, pointDetail } from '../src/feedback';
+import { shotFeedback, pointDetail, pointPrompt } from '../src/feedback';
 it('explains real scoring faults and retains the same one-point/winner service rule', () => {
     const g = new Game();
     g.start();
@@ -68,4 +68,12 @@ it('preserves the real missed-window reason when a subsequent tap finds no remai
     expect(g.rallyMiss?.reason).toBe('late');
     expect(g.shots).toHaveLength(0);
     expect(g.scores).toEqual([0, 0]);
+});
+
+it('routes a terminal point to results rather than promising another serve', () => {
+    expect(pointPrompt(0, false)).toContain('YOUR SERVE NEXT');
+    expect(pointPrompt(1, false)).toContain('RECEIVE NEXT');
+    expect(pointPrompt(0, true)).toBe('MATCH WON · RESULTS NEXT');
+    expect(pointPrompt(1, true)).toBe('MATCH LOST · RESULTS NEXT');
+    expect(pointPrompt(0, true)).not.toContain('SERVE');
 });

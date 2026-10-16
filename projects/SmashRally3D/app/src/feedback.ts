@@ -39,3 +39,8 @@ export function pointDetail(
     }
     return winner === 0 ? 'AI COULD NOT RETURN' : 'YOU COULD NOT RETURN';
 }
+
+export function pointPrompt(winner: number, matchComplete: boolean) {
+    if (matchComplete) return `${winner === 0 ? 'MATCH WON' : 'MATCH LOST'} · RESULTS NEXT`;
+    return winner === 0 ? 'YOUR POINT · YOUR SERVE NEXT' : 'AI POINT · RECEIVE NEXT';
+}
