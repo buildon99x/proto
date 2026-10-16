@@ -877,3 +877,12 @@ for(const mode of ['wasd','click'])for(const ending of ['expired','failed'])test
  h.key('KeyD');await h.frame();h.ch.pointermove({clientX:200,clientY:200});const before=h.app.report();h.delay();const pending=h.app.dispatch({type:'checkpoint',...before},{critical:true});await next();h.key('KeyQ');h.up('KeyQ');if(ending==='expired')await h.frame(.2);
  await h.finish(ending==='failed');assert.equal(await pending,ending!=='failed');await next();assert.equal(h.app.battle.p.action,null);assert.equal(h.app.battle.castSerial,0);assert.deepEqual(h.app.report().vitals,before.vitals);assert.equal(h.app.battle.p.cooldowns.shield_charge??0,0);
 });
+
+for(const version of [4,5])for(const debt of [.001,.049,.1])test(`blocked cooldown controls${version}/${debt} never displays zero seconds or buffers a rejected tap`,async()=>{
+ const h=version===5?await v5Ui():await ui({poeMode:'wasd'}),b=h.app.battle;b.p.cooldowns.shield_charge=debt;h.app.updateHud();
+ assert.match(h.buttons.charge.innerHTML,/<em>0[.]1초<\/em>/);assert.match(h.buttons.charge.attributes['aria-label'],/0[.]1초$/);
+ const pools=structuredClone(h.app.report().vitals),serial=b.castSerial;
+ h.key('KeyQ');h.up('KeyQ');assert.equal(h.toasts.at(-1),'기술 재사용 대기 · 0.1초');assert.equal(b.p.action,null);assert.equal(b.skillIntent,null);assert.equal(b.castSerial,serial);assert.deepEqual(h.app.report().vitals,pools);assert.equal(b.p.cooldowns.shield_charge,debt);
+ for(let remaining=debt+.001;remaining>1e-9;){const dt=Math.min(.04,remaining);await h.frame(dt);remaining-=dt;}h.app.updateHud();assert.equal(b.p.action,null);assert.equal(b.skillIntent,null);assert.doesNotMatch(h.buttons.charge.innerHTML,/0[.]0초|0[.]1초/);
+ h.key('KeyQ');h.up('KeyQ');assert.equal(b.p.action?.id,'shield_charge');assert.equal(b.castSerial,serial+1);assert.equal(b.p.stamina,Number((pools.stamina-b.p.action.spec.staminaCost).toFixed(8)));
+});

@@ -1,0 +1,10 @@
+
+> emberwatch-reborn@0.14.0-reimplementation.18 build
+> node scripts/build-r14.mjs
+
+{"output":"/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/dist/qa-r14","files":133,"bytes":16802042,"version":"0.14.0-reimplementation.18"}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

@@ -1,0 +1,118 @@
+✖ blocked cooldown controls4/0.001 never displays zero seconds or buffers a rejected tap (1997.650999ms)
+✖ blocked cooldown controls4/0.049 never displays zero seconds or buffers a rejected tap (158.504735ms)
+✖ blocked cooldown controls4/0.1 never displays zero seconds or buffers a rejected tap (123.021906ms)
+✖ blocked cooldown controls5/0.001 never displays zero seconds or buffers a rejected tap (783.355269ms)
+✖ blocked cooldown controls5/0.049 never displays zero seconds or buffers a rejected tap (729.527617ms)
+✖ blocked cooldown controls5/0.1 never displays zero seconds or buffers a rejected tap (767.765855ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 0
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4715.266437
+
+✖ failing tests:
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:881:61
+✖ blocked cooldown controls4/0.001 never displays zero seconds or buffers a rejected tap (1997.650999ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /<em>0[.]1초<\/em>/. Input:
+  
+  '<b>Q</b>방패 돌진<em>0.0초</em>'
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:883:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<b>Q</b>방패 돌진<em>0.0초</em>',
+    expected: /<em>0[.]1초<\/em>/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:881:61
+✖ blocked cooldown controls4/0.049 never displays zero seconds or buffers a rejected tap (158.504735ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /<em>0[.]1초<\/em>/. Input:
+  
+  '<b>Q</b>방패 돌진<em>0.0초</em>'
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:883:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<b>Q</b>방패 돌진<em>0.0초</em>',
+    expected: /<em>0[.]1초<\/em>/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:881:61
+✖ blocked cooldown controls4/0.1 never displays zero seconds or buffers a rejected tap (123.021906ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /0[.]0초|0[.]1초/. Input:
+  
+  '<b>Q</b>방패 돌진<em>0.1초</em>'
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:886:115)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<b>Q</b>방패 돌진<em>0.1초</em>',
+    expected: /0[.]0초|0[.]1초/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:881:61
+✖ blocked cooldown controls5/0.001 never displays zero seconds or buffers a rejected tap (783.355269ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /<em>0[.]1초<\/em>/. Input:
+  
+  '<b>Q</b>방패 돌진<em>0.0초</em>'
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:883:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<b>Q</b>방패 돌진<em>0.0초</em>',
+    expected: /<em>0[.]1초<\/em>/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:881:61
+✖ blocked cooldown controls5/0.049 never displays zero seconds or buffers a rejected tap (729.527617ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /<em>0[.]1초<\/em>/. Input:
+  
+  '<b>Q</b>방패 돌진<em>0.0초</em>'
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:883:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<b>Q</b>방패 돌진<em>0.0초</em>',
+    expected: /<em>0[.]1초<\/em>/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:881:61
+✖ blocked cooldown controls5/0.1 never displays zero seconds or buffers a rejected tap (767.765855ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /0[.]0초|0[.]1초/. Input:
+  
+  '<b>Q</b>방패 돌진<em>0.1초</em>'
+  
+      at TestContext.<anonymous> (file:///workspace/emberwatch-reborn/projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs:886:115)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<b>Q</b>방패 돌진<em>0.1초</em>',
+    expected: /0[.]0초|0[.]1초/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }

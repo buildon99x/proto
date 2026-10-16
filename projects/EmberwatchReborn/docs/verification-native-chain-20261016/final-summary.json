@@ -1,0 +1,30 @@
+{
+  "base": "6b2ee836449cff7893f73a9e69f29c51c41e548c",
+  "branch": "codex/emberwatch-rebuild",
+  "full": {
+    "tests": 4744,
+    "pass": 4744,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "duration_ms": 438424.146594
+  },
+  "newTests": 6,
+  "runtimeChanged": [
+    "action-feedback.js"
+  ],
+  "lint": "pass",
+  "build": {
+    "files": 133,
+    "bytes": 16802042
+  },
+  "rootRegistryVercel": "blocked pnpm ENOENT /home/agent/.local/share/pnpm",
+  "native": "quarry anchors/winch/report, level8 earned, corrected cooldown rejection, pass entry and hammer/roll/mace crowd,2kills; later Judgement misses payoff",
+  "audioPhysicalAX": "unperformed",
+  "newDeathRun": false,
+  "a19ProtectedChanges": false,
+  "balanceChange": false,
+  "library": "failed before app discovery: network; no IDs/alternate route",
+  "mainMerge": false,
+  "deployment": false
+}

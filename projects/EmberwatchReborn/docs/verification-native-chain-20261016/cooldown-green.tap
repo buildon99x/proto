@@ -1,0 +1,14 @@
+✔ blocked cooldown controls4/0.001 never displays zero seconds or buffers a rejected tap (1961.960226ms)
+✔ blocked cooldown controls4/0.049 never displays zero seconds or buffers a rejected tap (171.276687ms)
+✔ blocked cooldown controls4/0.1 never displays zero seconds or buffers a rejected tap (156.225895ms)
+✔ blocked cooldown controls5/0.001 never displays zero seconds or buffers a rejected tap (908.246681ms)
+✔ blocked cooldown controls5/0.049 never displays zero seconds or buffers a rejected tap (824.685095ms)
+✔ blocked cooldown controls5/0.1 never displays zero seconds or buffers a rejected tap (870.420413ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5048.589432

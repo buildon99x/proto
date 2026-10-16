@@ -1,0 +1,11 @@
+{
+  "base": "6b2ee836449cff7893f73a9e69f29c51c41e548c",
+  "runtimeChanged": [
+    "app/src/action-feedback.js"
+  ],
+  "runtimeUnchangedCount": 133,
+  "originalUnchanged": 167,
+  "protectedMainCombatSaveEquipmentRecoveryState": "byte-identical",
+  "a19Attempt": "none",
+  "balanceChange": false
+}

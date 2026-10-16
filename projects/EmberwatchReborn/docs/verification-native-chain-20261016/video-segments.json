@@ -1,0 +1,14 @@
+[
+  {
+    "capture": "14-pass-hammer-roll-mace",
+    "fromSeconds": 0,
+    "toSeconds": 3.619970918655395,
+    "frames": 124
+  },
+  {
+    "capture": "17-pass-crusher-crowd",
+    "fromSeconds": 3.619970918655395,
+    "toSeconds": 6.645349027633666,
+    "frames": 104
+  }
+]

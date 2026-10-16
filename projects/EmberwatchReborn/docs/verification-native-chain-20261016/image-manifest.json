@@ -1,0 +1,42 @@
+[
+  {
+    "file": "images/01-anchor-a-normal-ui.jpg",
+    "bytes": 36800,
+    "sha256": "62a50794715b21168ce0e2190a56d1dc2ec53b7806d9b7952d6c3a8fbe2e009e"
+  },
+  {
+    "file": "images/07-quarry-report-earned-level.jpg",
+    "bytes": 67019,
+    "sha256": "b772820a2f2733b3ffbc7ca50118ea04dbdba5d78c0b4475618cde7b193a85b0"
+  },
+  {
+    "file": "images/09-native-positive-cooldown-minimum.jpg",
+    "bytes": 56099,
+    "sha256": "9cb83490c3a21341c0d05d253ebf93aea0d1d204ac51a6800b2cbab3e120c74a"
+  },
+  {
+    "file": "images/10-native-cooldown-rejection-attempt.jpg",
+    "bytes": 237477,
+    "sha256": "d1f463b7844a918bc810fa27ad7a9487caabefa64194248829546b750f278850"
+  },
+  {
+    "file": "images/13-confirmed-pass-entry.jpg",
+    "bytes": 56768,
+    "sha256": "34b048d4e6a6d10e8c71637fc04efb83d49c8d85c38c384eef8b46702f78dcac"
+  },
+  {
+    "file": "images/14-pass-projectile-tells.jpg",
+    "bytes": 198042,
+    "sha256": "3d2f5cacd2bc70c894dc4d03fca64257ad743a2ab1074ada485517bc13784edd"
+  },
+  {
+    "file": "images/16-pass-chain-input-observations.jpg",
+    "bytes": 93111,
+    "sha256": "75147c49f576e4612d99a77cf65583ebb5a6646b1e9a725db3cf9090c23ce060"
+  },
+  {
+    "file": "images/18-pass-judgement-attempt.jpg",
+    "bytes": 145232,
+    "sha256": "9cdd22894aac515216cd9735005c102f1f9076823620e356a1ebbe5b0ffba070"
+  }
+]

@@ -420,3 +420,6 @@ In PoE click mode, movement-directed charge uses the current or most recent vali
 
 ## Deferred short-tap charge heading — 2026-10-16
 An accepted immediate-after-save finite shield-charge tap must obey the same selected movement heading as an immediate press or recovery-queued charge. Release aim remains authoritative for aim-directed charge and other skills. Preserve150ms expiry, save failure/owner fences, payment/CD/queue/cancel rules and all balance/save/schema/equipment code.
+
+## Nonzero blocked cooldown feedback — 2026-10-16
+An authoritative cooldown rejection must display at least0.1seconds at one decimal place. Keep all existing rounded labels above that floor, no runtime threshold/timing/resource/buffer changes, and use the same compact/full text for hotbar/aria and rejection toast.

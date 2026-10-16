@@ -1,0 +1,3461 @@
+[
+  {
+    "request": "nc-001-result",
+    "error": null,
+    "pageErrors": [],
+    "snapshots": [
+      {
+        "revision": 1022,
+        "sha256": "e5188dc0ece9d8e92c7eb86560a6624a6ec7229521ff063b1934a8ca2ff23d61",
+        "region": "ember_quarry",
+        "position": {
+          "x": 506.3839701379833,
+          "y": 72.59596124316747
+        },
+        "life": 1,
+        "level": 7,
+        "tier": "adept",
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 11,
+        "attributePoints": 15,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "xp": 229.5,
+        "gold": 294,
+        "stats": {
+          "kills": 45,
+          "deaths": 1,
+          "earnedGold": 402,
+          "spentGold": 108,
+          "earnedXp": 1569.5
+        },
+        "vitals": {
+          "hp": 109,
+          "mana": 40.27245199999695,
+          "stamina": 66
+        },
+        "controls": {
+          "version": 4,
+          "preset": "custom",
+          "bindings": {
+            "up": [
+              "KeyW",
+              "ArrowUp"
+            ],
+            "down": [
+              "KeyS",
+              "ArrowDown"
+            ],
+            "left": [
+              "KeyA",
+              "ArrowLeft"
+            ],
+            "right": [
+              "KeyD",
+              "ArrowRight"
+            ],
+            "attack": [
+              "KeyJ"
+            ],
+            "block": [
+              "Mouse1",
+              "KeyB"
+            ],
+            "charge": [
+              "KeyQ"
+            ],
+            "hammer": [
+              "Mouse2"
+            ],
+            "menu": [
+              "KeyC"
+            ],
+            "pause": [
+              "Escape"
+            ],
+            "interact": [
+              "KeyV"
+            ],
+            "potion": [
+              "Digit1"
+            ],
+            "heal": [
+              "KeyR"
+            ],
+            "judgement": [
+              "KeyE"
+            ],
+            "expert1": [
+              "KeyF"
+            ],
+            "expert2": [
+              "KeyG"
+            ],
+            "moveOnly": [
+              "Mouse0"
+            ],
+            "stop": [
+              "KeyX"
+            ],
+            "attackInPlace": [
+              "ShiftLeft",
+              "ShiftRight"
+            ],
+            "dodgeSprint": [
+              "Space"
+            ],
+            "dodgeOnly": [],
+            "sprint": []
+          },
+          "blockMode": "hold",
+          "chargeDirection": "aim",
+          "poe": {
+            "version": 1,
+            "movementMode": "click",
+            "aimingMode": "ground",
+            "cursorTrackingAfterRelease": false,
+            "keepSprintingWhileMoving": false,
+            "attackInPlaceStopsMovement": true
+          },
+          "priorControls": {
+            "version": 3,
+            "preset": "recommended",
+            "bindings": {
+              "up": [
+                "KeyW",
+                "ArrowUp"
+              ],
+              "down": [
+                "KeyS",
+                "ArrowDown"
+              ],
+              "left": [
+                "KeyA",
+                "ArrowLeft"
+              ],
+              "right": [
+                "KeyD",
+                "ArrowRight"
+              ],
+              "attack": [
+                "Mouse0",
+                "KeyJ"
+              ],
+              "block": [
+                "Mouse2",
+                "ShiftLeft",
+                "ShiftRight"
+              ],
+              "charge": [
+                "Space"
+              ],
+              "hammer": [
+                "KeyQ"
+              ],
+              "menu": [
+                "KeyC"
+              ],
+              "pause": [
+                "Escape"
+              ],
+              "interact": [
+                "KeyF"
+              ],
+              "potion": [
+                "KeyR"
+              ],
+              "heal": [
+                "KeyT"
+              ],
+              "judgement": [
+                "KeyE"
+              ],
+              "expert1": [
+                "Digit2"
+              ],
+              "expert2": [
+                "Digit3"
+              ]
+            },
+            "blockMode": "hold",
+            "chargeDirection": "aim"
+          }
+        },
+        "recovery": {
+          "version": 2,
+          "cooldowns": {
+            "mace_swing": 0,
+            "righteous_hammer": 0,
+            "judgement": 0.0018500000007932935,
+            "lay_on_hands": 0,
+            "shield_charge": 0.5122000000007545
+          },
+          "lock": 0,
+          "manaDelay": 0,
+          "staminaDelay": 0,
+          "invuln": 0,
+          "potionCooldown": 0,
+          "regenBuff": null,
+          "innerFlame": null,
+          "procCooldowns": {},
+          "procCooldownRanks": {},
+          "negativeStatuses": {},
+          "combatRng": {
+            "state": 361363696,
+            "draws": 225
+          }
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 0,
+          "quarry_anchor_b": 0,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 1,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4",
+            "quarry-guard-3",
+            "quarry-slinger-4",
+            "quarry-guard-4"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "request": "nc-002-result",
+    "error": null,
+    "pageErrors": [],
+    "snapshots": [
+      {
+        "revision": 1025,
+        "sha256": "85f54b3efe2df777a4334091422eac8a74640a8c849adb95d086176baa525613",
+        "region": "ember_quarry",
+        "position": {
+          "x": 640.6468370318418,
+          "y": 192.45839446386762
+        },
+        "life": 1,
+        "level": 7,
+        "tier": "adept",
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 11,
+        "attributePoints": 15,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "xp": 229.5,
+        "gold": 294,
+        "stats": {
+          "kills": 45,
+          "deaths": 1,
+          "earnedGold": 402,
+          "spentGold": 108,
+          "earnedXp": 1569.5
+        },
+        "vitals": {
+          "hp": 109,
+          "mana": 47.07177199999695,
+          "stamina": 66
+        },
+        "controls": {
+          "version": 4,
+          "preset": "custom",
+          "bindings": {
+            "up": [
+              "KeyW",
+              "ArrowUp"
+            ],
+            "down": [
+              "KeyS",
+              "ArrowDown"
+            ],
+            "left": [
+              "KeyA",
+              "ArrowLeft"
+            ],
+            "right": [
+              "KeyD",
+              "ArrowRight"
+            ],
+            "attack": [
+              "KeyJ"
+            ],
+            "block": [
+              "Mouse1",
+              "KeyB"
+            ],
+            "charge": [
+              "KeyQ"
+            ],
+            "hammer": [
+              "Mouse2"
+            ],
+            "menu": [
+              "KeyC"
+            ],
+            "pause": [
+              "Escape"
+            ],
+            "interact": [
+              "KeyV"
+            ],
+            "potion": [
+              "Digit1"
+            ],
+            "heal": [
+              "KeyR"
+            ],
+            "judgement": [
+              "KeyE"
+            ],
+            "expert1": [
+              "KeyF"
+            ],
+            "expert2": [
+              "KeyG"
+            ],
+            "moveOnly": [
+              "Mouse0"
+            ],
+            "stop": [
+              "KeyX"
+            ],
+            "attackInPlace": [
+              "ShiftLeft",
+              "ShiftRight"
+            ],
+            "dodgeSprint": [
+              "Space"
+            ],
+            "dodgeOnly": [],
+            "sprint": []
+          },
+          "blockMode": "hold",
+          "chargeDirection": "aim",
+          "poe": {
+            "version": 1,
+            "movementMode": "click",
+            "aimingMode": "ground",
+            "cursorTrackingAfterRelease": false,
+            "keepSprintingWhileMoving": false,
+            "attackInPlaceStopsMovement": true
+          },
+          "priorControls": {
+            "version": 3,
+            "preset": "recommended",
+            "bindings": {
+              "up": [
+                "KeyW",
+                "ArrowUp"
+              ],
+              "down": [
+                "KeyS",
+                "ArrowDown"
+              ],
+              "left": [
+                "KeyA",
+                "ArrowLeft"
+              ],
+              "right": [
+                "KeyD",
+                "ArrowRight"
+              ],
+              "attack": [
+                "Mouse0",
+                "KeyJ"
+              ],
+              "block": [
+                "Mouse2",
+                "ShiftLeft",
+                "ShiftRight"
+              ],
+              "charge": [
+                "Space"
+              ],
+              "hammer": [
+                "KeyQ"
+              ],
+              "menu": [
+                "KeyC"
+              ],
+              "pause": [
+                "Escape"
+              ],
+              "interact": [
+                "KeyF"
+              ],
+              "potion": [
+                "KeyR"
+              ],
+              "heal": [
+                "KeyT"
+              ],
+              "judgement": [
+                "KeyE"
+              ],
+              "expert1": [
+                "Digit2"
+              ],
+              "expert2": [
+                "Digit3"
+              ]
+            },
+            "blockMode": "hold",
+            "chargeDirection": "aim"
+          }
+        },
+        "recovery": {
+          "version": 2,
+          "cooldowns": {
+            "mace_swing": 0,
+            "righteous_hammer": 0,
+            "judgement": 0,
+            "lay_on_hands": 0,
+            "shield_charge": 0
+          },
+          "lock": 0,
+          "manaDelay": 0,
+          "staminaDelay": 0,
+          "invuln": 0,
+          "potionCooldown": 0,
+          "regenBuff": null,
+          "innerFlame": null,
+          "procCooldowns": {},
+          "procCooldownRanks": {},
+          "negativeStatuses": {},
+          "combatRng": {
+            "state": 361363696,
+            "draws": 225
+          }
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 1,
+          "quarry_anchor_b": 0,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 1,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4",
+            "quarry-guard-3",
+            "quarry-slinger-4",
+            "quarry-guard-4"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "request": "nc-003-result",
+    "error": null,
+    "pageErrors": [],
+    "snapshots": []
+  },
+  {
+    "request": "nc-004-result",
+    "error": null,
+    "pageErrors": [],
+    "snapshots": [
+      {
+        "revision": 1028,
+        "sha256": "476d47047e16d982812018bf5e7b9d88017f7ef3ce5817cc08e919ad0202eae4",
+        "region": "ember_quarry",
+        "position": {
+          "x": 727.4765763883717,
+          "y": 148.9054101522399
+        },
+        "life": 1,
+        "level": 7,
+        "tier": "adept",
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 11,
+        "attributePoints": 15,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "xp": 229.5,
+        "gold": 294,
+        "stats": {
+          "kills": 45,
+          "deaths": 1,
+          "earnedGold": 402,
+          "spentGold": 108,
+          "earnedXp": 1569.5
+        },
+        "vitals": {
+          "hp": 109,
+          "mana": 50.92451599998478,
+          "stamina": 66
+        },
+        "controls": {
+          "version": 4,
+          "preset": "custom",
+          "bindings": {
+            "up": [
+              "KeyW",
+              "ArrowUp"
+            ],
+            "down": [
+              "KeyS",
+              "ArrowDown"
+            ],
+            "left": [
+              "KeyA",
+              "ArrowLeft"
+            ],
+            "right": [
+              "KeyD",
+              "ArrowRight"
+            ],
+            "attack": [
+              "KeyJ"
+            ],
+            "block": [
+              "Mouse1",
+              "KeyB"
+            ],
+            "charge": [
+              "KeyQ"
+            ],
+            "hammer": [
+              "Mouse2"
+            ],
+            "menu": [
+              "KeyC"
+            ],
+            "pause": [
+              "Escape"
+            ],
+            "interact": [
+              "KeyV"
+            ],
+            "potion": [
+              "Digit1"
+            ],
+            "heal": [
+              "KeyR"
+            ],
+            "judgement": [
+              "KeyE"
+            ],
+            "expert1": [
+              "KeyF"
+            ],
+            "expert2": [
+              "KeyG"
+            ],
+            "moveOnly": [
+              "Mouse0"
+            ],
+            "stop": [
+              "KeyX"
+            ],
+            "attackInPlace": [
+              "ShiftLeft",
+              "ShiftRight"
+            ],
+            "dodgeSprint": [
+              "Space"
+            ],
+            "dodgeOnly": [],
+            "sprint": []
+          },
+          "blockMode": "hold",
+          "chargeDirection": "aim",
+          "poe": {
+            "version": 1,
+            "movementMode": "click",
+            "aimingMode": "ground",
+            "cursorTrackingAfterRelease": false,
+            "keepSprintingWhileMoving": false,
+            "attackInPlaceStopsMovement": true
+          },
+          "priorControls": {
+            "version": 3,
+            "preset": "recommended",
+            "bindings": {
+              "up": [
+                "KeyW",
+                "ArrowUp"
+              ],
+              "down": [
+                "KeyS",
+                "ArrowDown"
+              ],
+              "left": [
+                "KeyA",
+                "ArrowLeft"
+              ],
+              "right": [
+                "KeyD",
+                "ArrowRight"
+              ],
+              "attack": [
+                "Mouse0",
+                "KeyJ"
+              ],
+              "block": [
+                "Mouse2",
+                "ShiftLeft",
+                "ShiftRight"
+              ],
+              "charge": [
+                "Space"
+              ],
+              "hammer": [
+                "KeyQ"
+              ],
+              "menu": [
+                "KeyC"
+              ],
+              "pause": [
+                "Escape"
+              ],
+              "interact": [
+                "KeyF"
+              ],
+              "potion": [
+                "KeyR"
+              ],
+              "heal": [
+                "KeyT"
+              ],
+              "judgement": [
+                "KeyE"
+              ],
+              "expert1": [
+                "Digit2"
+              ],
+              "expert2": [
+                "Digit3"
+              ]
+            },
+            "blockMode": "hold",
+            "chargeDirection": "aim"
+          }
+        },
+        "recovery": {
+          "version": 2,
+          "cooldowns": {
+            "mace_swing": 0,
+            "righteous_hammer": 0,
+            "judgement": 0,
+            "lay_on_hands": 0,
+            "shield_charge": 0
+          },
+          "lock": 0,
+          "manaDelay": 0,
+          "staminaDelay": 0,
+          "invuln": 0,
+          "potionCooldown": 0,
+          "regenBuff": null,
+          "innerFlame": null,
+          "procCooldowns": {},
+          "procCooldownRanks": {},
+          "negativeStatuses": {},
+          "combatRng": {
+            "state": 361363696,
+            "draws": 225
+          }
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 1,
+          "quarry_anchor_b": 1,
+          "quarry_winch_repaired": 0,
+          "quarry_shortcut_open": 1,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4",
+            "quarry-guard-3",
+            "quarry-slinger-4",
+            "quarry-guard-4"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "request": "nc-005-result",
+    "error": null,
+    "pageErrors": [],
+    "snapshots": [
+      {
+        "revision": 1032,
+        "sha256": "29a8d22479572a3d37f7e1b3cc8c2968779c5c9cf76cb29fdfd3b8150e8cb9b7",
+        "region": "ash_hamlet",
+        "position": {
+          "x": 350,
+          "y": 420
+        },
+        "life": 1,
+        "level": 7,
+        "tier": "adept",
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 11,
+        "attributePoints": 15,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "xp": 349.5,
+        "gold": 334,
+        "stats": {
+          "kills": 45,
+          "deaths": 1,
+          "earnedGold": 442,
+          "spentGold": 108,
+          "earnedXp": 1689.5
+        },
+        "vitals": {
+          "hp": 109,
+          "mana": 54.120787999978695,
+          "stamina": 66
+        },
+        "controls": {
+          "version": 4,
+          "preset": "custom",
+          "bindings": {
+            "up": [
+              "KeyW",
+              "ArrowUp"
+            ],
+            "down": [
+              "KeyS",
+              "ArrowDown"
+            ],
+            "left": [
+              "KeyA",
+              "ArrowLeft"
+            ],
+            "right": [
+              "KeyD",
+              "ArrowRight"
+            ],
+            "attack": [
+              "KeyJ"
+            ],
+            "block": [
+              "Mouse1",
+              "KeyB"
+            ],
+            "charge": [
+              "KeyQ"
+            ],
+            "hammer": [
+              "Mouse2"
+            ],
+            "menu": [
+              "KeyC"
+            ],
+            "pause": [
+              "Escape"
+            ],
+            "interact": [
+              "KeyV"
+            ],
+            "potion": [
+              "Digit1"
+            ],
+            "heal": [
+              "KeyR"
+            ],
+            "judgement": [
+              "KeyE"
+            ],
+            "expert1": [
+              "KeyF"
+            ],
+            "expert2": [
+              "KeyG"
+            ],
+            "moveOnly": [
+              "Mouse0"
+            ],
+            "stop": [
+              "KeyX"
+            ],
+            "attackInPlace": [
+              "ShiftLeft",
+              "ShiftRight"
+            ],
+            "dodgeSprint": [
+              "Space"
+            ],
+            "dodgeOnly": [],
+            "sprint": []
+          },
+          "blockMode": "hold",
+          "chargeDirection": "aim",
+          "poe": {
+            "version": 1,
+            "movementMode": "click",
+            "aimingMode": "ground",
+            "cursorTrackingAfterRelease": false,
+            "keepSprintingWhileMoving": false,
+            "attackInPlaceStopsMovement": true
+          },
+          "priorControls": {
+            "version": 3,
+            "preset": "recommended",
+            "bindings": {
+              "up": [
+                "KeyW",
+                "ArrowUp"
+              ],
+              "down": [
+                "KeyS",
+                "ArrowDown"
+              ],
+              "left": [
+                "KeyA",
+                "ArrowLeft"
+              ],
+              "right": [
+                "KeyD",
+                "ArrowRight"
+              ],
+              "attack": [
+                "Mouse0",
+                "KeyJ"
+              ],
+              "block": [
+                "Mouse2",
+                "ShiftLeft",
+                "ShiftRight"
+              ],
+              "charge": [
+                "Space"
+              ],
+              "hammer": [
+                "KeyQ"
+              ],
+              "menu": [
+                "KeyC"
+              ],
+              "pause": [
+                "Escape"
+              ],
+              "interact": [
+                "KeyF"
+              ],
+              "potion": [
+                "KeyR"
+              ],
+              "heal": [
+                "KeyT"
+              ],
+              "judgement": [
+                "KeyE"
+              ],
+              "expert1": [
+                "Digit2"
+              ],
+              "expert2": [
+                "Digit3"
+              ]
+            },
+            "blockMode": "hold",
+            "chargeDirection": "aim"
+          }
+        },
+        "recovery": {
+          "version": 2,
+          "cooldowns": {
+            "mace_swing": 0,
+            "righteous_hammer": 0,
+            "judgement": 0,
+            "lay_on_hands": 0,
+            "shield_charge": 0
+          },
+          "lock": 0,
+          "manaDelay": 0,
+          "staminaDelay": 0,
+          "invuln": 0,
+          "potionCooldown": 0,
+          "regenBuff": null,
+          "innerFlame": null,
+          "procCooldowns": {},
+          "procCooldownRanks": {},
+          "negativeStatuses": {},
+          "combatRng": {
+            "state": 361363696,
+            "draws": 225
+          }
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 1,
+          "quarry_anchor_b": 1,
+          "quarry_winch_repaired": 1,
+          "quarry_shortcut_open": 1,
+          "quarry_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4",
+            "quarry-guard-3",
+            "quarry-slinger-4",
+            "quarry-guard-4"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "request": "nc-006-result",
+    "error": null,
+    "pageErrors": [],
+    "snapshots": []
+  },
+  {
+    "request": "nc-007-result",
+    "error": null,
+    "pageErrors": [],
+    "snapshots": [
+      {
+        "revision": 1035,
+        "sha256": "08bf46971b00da0c04dfcf67ecc80d5754690083662251b1fc69161a473caf0c",
+        "region": "ash_hamlet",
+        "position": {
+          "x": 395.66191432644877,
+          "y": 376.62118138987364
+        },
+        "life": 1,
+        "level": 8,
+        "tier": "adept",
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 15,
+        "attributePoints": 20,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "xp": 59.5,
+        "gold": 394,
+        "stats": {
+          "kills": 45,
+          "deaths": 1,
+          "earnedGold": 502,
+          "spentGold": 108,
+          "earnedXp": 1779.5
+        },
+        "vitals": {
+          "hp": 109,
+          "mana": 55.54837999997262,
+          "stamina": 66
+        },
+        "controls": {
+          "version": 4,
+          "preset": "custom",
+          "bindings": {
+            "up": [
+              "KeyW",
+              "ArrowUp"
+            ],
+            "down": [
+              "KeyS",
+              "ArrowDown"
+            ],
+            "left": [
+              "KeyA",
+              "ArrowLeft"
+            ],
+            "right": [
+              "KeyD",
+              "ArrowRight"
+            ],
+            "attack": [
+              "KeyJ"
+            ],
+            "block": [
+              "Mouse1",
+              "KeyB"
+            ],
+            "charge": [
+              "KeyQ"
+            ],
+            "hammer": [
+              "Mouse2"
+            ],
+            "menu": [
+              "KeyC"
+            ],
+            "pause": [
+              "Escape"
+            ],
+            "interact": [
+              "KeyV"
+            ],
+            "potion": [
+              "Digit1"
+            ],
+            "heal": [
+              "KeyR"
+            ],
+            "judgement": [
+              "KeyE"
+            ],
+            "expert1": [
+              "KeyF"
+            ],
+            "expert2": [
+              "KeyG"
+            ],
+            "moveOnly": [
+              "Mouse0"
+            ],
+            "stop": [
+              "KeyX"
+            ],
+            "attackInPlace": [
+              "ShiftLeft",
+              "ShiftRight"
+            ],
+            "dodgeSprint": [
+              "Space"
+            ],
+            "dodgeOnly": [],
+            "sprint": []
+          },
+          "blockMode": "hold",
+          "chargeDirection": "aim",
+          "poe": {
+            "version": 1,
+            "movementMode": "click",
+            "aimingMode": "ground",
+            "cursorTrackingAfterRelease": false,
+            "keepSprintingWhileMoving": false,
+            "attackInPlaceStopsMovement": true
+          },
+          "priorControls": {
+            "version": 3,
+            "preset": "recommended",
+            "bindings": {
+              "up": [
+                "KeyW",
+                "ArrowUp"
+              ],
+              "down": [
+                "KeyS",
+                "ArrowDown"
+              ],
+              "left": [
+                "KeyA",
+                "ArrowLeft"
+              ],
+              "right": [
+                "KeyD",
+                "ArrowRight"
+              ],
+              "attack": [
+                "Mouse0",
+                "KeyJ"
+              ],
+              "block": [
+                "Mouse2",
+                "ShiftLeft",
+                "ShiftRight"
+              ],
+              "charge": [
+                "Space"
+              ],
+              "hammer": [
+                "KeyQ"
+              ],
+              "menu": [
+                "KeyC"
+              ],
+              "pause": [
+                "Escape"
+              ],
+              "interact": [
+                "KeyF"
+              ],
+              "potion": [
+                "KeyR"
+              ],
+              "heal": [
+                "KeyT"
+              ],
+              "judgement": [
+                "KeyE"
+              ],
+              "expert1": [
+                "Digit2"
+              ],
+              "expert2": [
+                "Digit3"
+              ]
+            },
+            "blockMode": "hold",
+            "chargeDirection": "aim"
+          }
+        },
+        "recovery": {
+          "version": 2,
+          "cooldowns": {
+            "mace_swing": 0,
+            "righteous_hammer": 0,
+            "judgement": 0,
+            "lay_on_hands": 0,
+            "shield_charge": 0
+          },
+          "lock": 0,
+          "manaDelay": 0,
+          "staminaDelay": 0,
+          "invuln": 0,
+          "potionCooldown": 0,
+          "regenBuff": null,
+          "innerFlame": null,
+          "procCooldowns": {},
+          "procCooldownRanks": {},
+          "negativeStatuses": {},
+          "combatRng": {
+            "state": 361363696,
+            "draws": 225
+          }
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 1,
+          "quarry_anchor_b": 1,
+          "quarry_winch_repaired": 1,
+          "quarry_shortcut_open": 1,
+          "quarry_reported": 1
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4",
+            "quarry-guard-3",
+            "quarry-slinger-4",
+            "quarry-guard-4"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "request": "nc-008-result",
+    "error": null,
+    "pageErrors": [],
+    "snapshots": [
+      {
+        "revision": 1038,
+        "sha256": "528107d6094ac8571380f48610634e0ee10c09d0ea33821624a91057379c16d1",
+        "region": "ash_hamlet",
+        "position": {
+          "x": 395.66191432644877,
+          "y": 376.62118138987364
+        },
+        "life": 1,
+        "level": 8,
+        "tier": "adept",
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 15,
+        "attributePoints": 20,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "xp": 59.5,
+        "gold": 394,
+        "stats": {
+          "kills": 45,
+          "deaths": 1,
+          "earnedGold": 502,
+          "spentGold": 108,
+          "earnedXp": 1779.5
+        },
+        "vitals": {
+          "hp": 109,
+          "mana": 56.09224399997262,
+          "stamina": 67.333
+        },
+        "controls": {
+          "version": 4,
+          "preset": "custom",
+          "bindings": {
+            "up": [
+              "KeyW",
+              "ArrowUp"
+            ],
+            "down": [
+              "KeyS",
+              "ArrowDown"
+            ],
+            "left": [
+              "KeyA",
+              "ArrowLeft"
+            ],
+            "right": [
+              "KeyD",
+              "ArrowRight"
+            ],
+            "attack": [
+              "KeyJ"
+            ],
+            "block": [
+              "Mouse1",
+              "KeyB"
+            ],
+            "charge": [
+              "KeyQ"
+            ],
+            "hammer": [
+              "Mouse2"
+            ],
+            "menu": [
+              "KeyC"
+            ],
+            "pause": [
+              "Escape"
+            ],
+            "interact": [
+              "KeyV"
+            ],
+            "potion": [
+              "Digit1"
+            ],
+            "heal": [
+              "KeyR"
+            ],
+            "judgement": [
+              "KeyE"
+            ],
+            "expert1": [
+              "KeyF"
+            ],
+            "expert2": [
+              "KeyG"
+            ],
+            "moveOnly": [
+              "Mouse0"
+            ],
+            "stop": [
+              "KeyX"
+            ],
+            "attackInPlace": [
+              "ShiftLeft",
+              "ShiftRight"
+            ],
+            "dodgeSprint": [
+              "Space"
+            ],
+            "dodgeOnly": [],
+            "sprint": []
+          },
+          "blockMode": "hold",
+          "chargeDirection": "aim",
+          "poe": {
+            "version": 1,
+            "movementMode": "click",
+            "aimingMode": "ground",
+            "cursorTrackingAfterRelease": false,
+            "keepSprintingWhileMoving": false,
+            "attackInPlaceStopsMovement": true
+          },
+          "priorControls": {
+            "version": 3,
+            "preset": "recommended",
+            "bindings": {
+              "up": [
+                "KeyW",
+                "ArrowUp"
+              ],
+              "down": [
+                "KeyS",
+                "ArrowDown"
+              ],
+              "left": [
+                "KeyA",
+                "ArrowLeft"
+              ],
+              "right": [
+                "KeyD",
+                "ArrowRight"
+              ],
+              "attack": [
+                "Mouse0",
+                "KeyJ"
+              ],
+              "block": [
+                "Mouse2",
+                "ShiftLeft",
+                "ShiftRight"
+              ],
+              "charge": [
+                "Space"
+              ],
+              "hammer": [
+                "KeyQ"
+              ],
+              "menu": [
+                "KeyC"
+              ],
+              "pause": [
+                "Escape"
+              ],
+              "interact": [
+                "KeyF"
+              ],
+              "potion": [
+                "KeyR"
+              ],
+              "heal": [
+                "KeyT"
+              ],
+              "judgement": [
+                "KeyE"
+              ],
+              "expert1": [
+                "Digit2"
+              ],
+              "expert2": [
+                "Digit3"
+              ]
+            },
+            "blockMode": "hold",
+            "chargeDirection": "aim"
+          }
+        },
+        "recovery": {
+          "version": 2,
+          "cooldowns": {
+            "mace_swing": 0,
+            "righteous_hammer": 0,
+            "judgement": 0,
+            "lay_on_hands": 0,
+            "shield_charge": 0
+          },
+          "lock": 0,
+          "manaDelay": 0,
+          "staminaDelay": 0,
+          "invuln": 0,
+          "potionCooldown": 0,
+          "regenBuff": null,
+          "innerFlame": null,
+          "procCooldowns": {},
+          "procCooldownRanks": {},
+          "negativeStatuses": {},
+          "combatRng": {
+            "state": 361363696,
+            "draws": 225
+          }
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 1,
+          "quarry_anchor_b": 1,
+          "quarry_winch_repaired": 1,
+          "quarry_shortcut_open": 1,
+          "quarry_reported": 1,
+          "pass_accepted": 1,
+          "pass_clue_read": 0,
+          "pass_rescue_complete": 0,
+          "pass_signal_step": 0,
+          "pass_signal_aligned": 0,
+          "pass_shortcut_open": 0,
+          "pass_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4",
+            "quarry-guard-3",
+            "quarry-slinger-4",
+            "quarry-guard-4"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "request": "nc-009-result",
+    "error": null,
+    "pageErrors": [],
+    "snapshots": [
+      {
+        "revision": 1044,
+        "sha256": "06587aa9c21929eec7f6c892bcd1b0666a851b51af5792a3dc419f6d9bc334c2",
+        "region": "ash_hamlet",
+        "position": {
+          "x": 395.66191432644877,
+          "y": 376.62118138987364
+        },
+        "life": 1,
+        "level": 8,
+        "tier": "adept",
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 15,
+        "attributePoints": 20,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "xp": 59.5,
+        "gold": 394,
+        "stats": {
+          "kills": 45,
+          "deaths": 1,
+          "earnedGold": 502,
+          "spentGold": 108,
+          "earnedXp": 1779.5
+        },
+        "vitals": {
+          "hp": 109,
+          "mana": 41.67661999997573,
+          "stamina": 69
+        },
+        "controls": {
+          "version": 4,
+          "preset": "custom",
+          "bindings": {
+            "up": [
+              "KeyW",
+              "ArrowUp"
+            ],
+            "down": [
+              "KeyS",
+              "ArrowDown"
+            ],
+            "left": [
+              "KeyA",
+              "ArrowLeft"
+            ],
+            "right": [
+              "KeyD",
+              "ArrowRight"
+            ],
+            "attack": [
+              "KeyJ"
+            ],
+            "block": [
+              "Mouse1",
+              "KeyB"
+            ],
+            "charge": [
+              "KeyQ"
+            ],
+            "hammer": [
+              "Mouse2"
+            ],
+            "menu": [
+              "KeyC"
+            ],
+            "pause": [
+              "Escape"
+            ],
+            "interact": [
+              "KeyV"
+            ],
+            "potion": [
+              "Digit1"
+            ],
+            "heal": [
+              "KeyR"
+            ],
+            "judgement": [
+              "KeyE"
+            ],
+            "expert1": [
+              "KeyF"
+            ],
+            "expert2": [
+              "KeyG"
+            ],
+            "moveOnly": [
+              "Mouse0"
+            ],
+            "stop": [
+              "KeyX"
+            ],
+            "attackInPlace": [
+              "ShiftLeft",
+              "ShiftRight"
+            ],
+            "dodgeSprint": [
+              "Space"
+            ],
+            "dodgeOnly": [],
+            "sprint": []
+          },
+          "blockMode": "hold",
+          "chargeDirection": "aim",
+          "poe": {
+            "version": 1,
+            "movementMode": "click",
+            "aimingMode": "ground",
+            "cursorTrackingAfterRelease": false,
+            "keepSprintingWhileMoving": false,
+            "attackInPlaceStopsMovement": true
+          },
+          "priorControls": {
+            "version": 3,
+            "preset": "recommended",
+            "bindings": {
+              "up": [
+                "KeyW",
+                "ArrowUp"
+              ],
+              "down": [
+                "KeyS",
+                "ArrowDown"
+              ],
+              "left": [
+                "KeyA",
+                "ArrowLeft"
+              ],
+              "right": [
+                "KeyD",
+                "ArrowRight"
+              ],
+              "attack": [
+                "Mouse0",
+                "KeyJ"
+              ],
+              "block": [
+                "Mouse2",
+                "ShiftLeft",
+                "ShiftRight"
+              ],
+              "charge": [
+                "Space"
+              ],
+              "hammer": [
+                "KeyQ"
+              ],
+              "menu": [
+                "KeyC"
+              ],
+              "pause": [
+                "Escape"
+              ],
+              "interact": [
+                "KeyF"
+              ],
+              "potion": [
+                "KeyR"
+              ],
+              "heal": [
+                "KeyT"
+              ],
+              "judgement": [
+                "KeyE"
+              ],
+              "expert1": [
+                "Digit2"
+              ],
+              "expert2": [
+                "Digit3"
+              ]
+            },
+            "blockMode": "hold",
+            "chargeDirection": "aim"
+          }
+        },
+        "recovery": {
+          "version": 2,
+          "cooldowns": {
+            "mace_swing": 0,
+            "righteous_hammer": 0,
+            "judgement": 0,
+            "lay_on_hands": 0,
+            "shield_charge": 0
+          },
+          "lock": 0,
+          "manaDelay": 0,
+          "staminaDelay": 0,
+          "invuln": 0,
+          "potionCooldown": 0,
+          "regenBuff": null,
+          "innerFlame": null,
+          "procCooldowns": {},
+          "procCooldownRanks": {},
+          "negativeStatuses": {},
+          "combatRng": {
+            "state": 361363696,
+            "draws": 225
+          }
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 1,
+          "quarry_anchor_b": 1,
+          "quarry_winch_repaired": 1,
+          "quarry_shortcut_open": 1,
+          "quarry_reported": 1,
+          "pass_accepted": 1,
+          "pass_clue_read": 0,
+          "pass_rescue_complete": 0,
+          "pass_signal_step": 0,
+          "pass_signal_aligned": 0,
+          "pass_shortcut_open": 0,
+          "pass_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4",
+            "quarry-guard-3",
+            "quarry-slinger-4",
+            "quarry-guard-4"
+          ]
+        }
+      },
+      {
+        "revision": 1048,
+        "sha256": "ce38b38d6d945cc1e215d875c921967f4046ae6022531ed0641537aa05a04580",
+        "region": "ash_hamlet",
+        "position": {
+          "x": 144,
+          "y": 320
+        },
+        "life": 1,
+        "level": 8,
+        "tier": "adept",
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 15,
+        "attributePoints": 20,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "xp": 59.5,
+        "gold": 394,
+        "stats": {
+          "kills": 45,
+          "deaths": 1,
+          "earnedGold": 502,
+          "spentGold": 108,
+          "earnedXp": 1779.5
+        },
+        "vitals": {
+          "hp": 109,
+          "mana": 48.62077999996358,
+          "stamina": 69
+        },
+        "controls": {
+          "version": 4,
+          "preset": "custom",
+          "bindings": {
+            "up": [
+              "KeyW",
+              "ArrowUp"
+            ],
+            "down": [
+              "KeyS",
+              "ArrowDown"
+            ],
+            "left": [
+              "KeyA",
+              "ArrowLeft"
+            ],
+            "right": [
+              "KeyD",
+              "ArrowRight"
+            ],
+            "attack": [
+              "KeyJ"
+            ],
+            "block": [
+              "Mouse1",
+              "KeyB"
+            ],
+            "charge": [
+              "KeyQ"
+            ],
+            "hammer": [
+              "Mouse2"
+            ],
+            "menu": [
+              "KeyC"
+            ],
+            "pause": [
+              "Escape"
+            ],
+            "interact": [
+              "KeyV"
+            ],
+            "potion": [
+              "Digit1"
+            ],
+            "heal": [
+              "KeyR"
+            ],
+            "judgement": [
+              "KeyE"
+            ],
+            "expert1": [
+              "KeyF"
+            ],
+            "expert2": [
+              "KeyG"
+            ],
+            "moveOnly": [
+              "Mouse0"
+            ],
+            "stop": [
+              "KeyX"
+            ],
+            "attackInPlace": [
+              "ShiftLeft",
+              "ShiftRight"
+            ],
+            "dodgeSprint": [
+              "Space"
+            ],
+            "dodgeOnly": [],
+            "sprint": []
+          },
+          "blockMode": "hold",
+          "chargeDirection": "aim",
+          "poe": {
+            "version": 1,
+            "movementMode": "click",
+            "aimingMode": "ground",
+            "cursorTrackingAfterRelease": false,
+            "keepSprintingWhileMoving": false,
+            "attackInPlaceStopsMovement": true
+          },
+          "priorControls": {
+            "version": 3,
+            "preset": "recommended",
+            "bindings": {
+              "up": [
+                "KeyW",
+                "ArrowUp"
+              ],
+              "down": [
+                "KeyS",
+                "ArrowDown"
+              ],
+              "left": [
+                "KeyA",
+                "ArrowLeft"
+              ],
+              "right": [
+                "KeyD",
+                "ArrowRight"
+              ],
+              "attack": [
+                "Mouse0",
+                "KeyJ"
+              ],
+              "block": [
+                "Mouse2",
+                "ShiftLeft",
+                "ShiftRight"
+              ],
+              "charge": [
+                "Space"
+              ],
+              "hammer": [
+                "KeyQ"
+              ],
+              "menu": [
+                "KeyC"
+              ],
+              "pause": [
+                "Escape"
+              ],
+              "interact": [
+                "KeyF"
+              ],
+              "potion": [
+                "KeyR"
+              ],
+              "heal": [
+                "KeyT"
+              ],
+              "judgement": [
+                "KeyE"
+              ],
+              "expert1": [
+                "Digit2"
+              ],
+              "expert2": [
+                "Digit3"
+              ]
+            },
+            "blockMode": "hold",
+            "chargeDirection": "aim"
+          }
+        },
+        "recovery": {
+          "version": 2,
+          "cooldowns": {
+            "mace_swing": 0,
+            "righteous_hammer": 0,
+            "judgement": 0,
+            "lay_on_hands": 0,
+            "shield_charge": 0
+          },
+          "lock": 0,
+          "manaDelay": 0,
+          "staminaDelay": 0,
+          "invuln": 0,
+          "potionCooldown": 0,
+          "regenBuff": null,
+          "innerFlame": null,
+          "procCooldowns": {},
+          "procCooldownRanks": {},
+          "negativeStatuses": {},
+          "combatRng": {
+            "state": 361363696,
+            "draws": 225
+          }
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 1,
+          "quarry_anchor_b": 1,
+          "quarry_winch_repaired": 1,
+          "quarry_shortcut_open": 1,
+          "quarry_reported": 1,
+          "pass_accepted": 1,
+          "pass_clue_read": 0,
+          "pass_rescue_complete": 0,
+          "pass_signal_step": 0,
+          "pass_signal_aligned": 0,
+          "pass_shortcut_open": 0,
+          "pass_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4",
+            "quarry-guard-3",
+            "quarry-slinger-4",
+            "quarry-guard-4"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "request": "nc-010-result",
+    "error": null,
+    "pageErrors": [],
+    "snapshots": [
+      {
+        "revision": 1050,
+        "sha256": "99adb9e85011d7aa5987e8fe9cd712dedb81c3b49e3524d7f12419ff0a5f11d9",
+        "region": "ashwind_pass",
+        "position": {
+          "x": 80,
+          "y": 688
+        },
+        "life": 1,
+        "level": 8,
+        "tier": "adept",
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 15,
+        "attributePoints": 20,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "xp": 59.5,
+        "gold": 394,
+        "stats": {
+          "kills": 45,
+          "deaths": 1,
+          "earnedGold": 502,
+          "spentGold": 108,
+          "earnedXp": 1779.5
+        },
+        "vitals": {
+          "hp": 109,
+          "mana": 48.62077999996358,
+          "stamina": 69
+        },
+        "controls": {
+          "version": 4,
+          "preset": "custom",
+          "bindings": {
+            "up": [
+              "KeyW",
+              "ArrowUp"
+            ],
+            "down": [
+              "KeyS",
+              "ArrowDown"
+            ],
+            "left": [
+              "KeyA",
+              "ArrowLeft"
+            ],
+            "right": [
+              "KeyD",
+              "ArrowRight"
+            ],
+            "attack": [
+              "KeyJ"
+            ],
+            "block": [
+              "Mouse1",
+              "KeyB"
+            ],
+            "charge": [
+              "KeyQ"
+            ],
+            "hammer": [
+              "Mouse2"
+            ],
+            "menu": [
+              "KeyC"
+            ],
+            "pause": [
+              "Escape"
+            ],
+            "interact": [
+              "KeyV"
+            ],
+            "potion": [
+              "Digit1"
+            ],
+            "heal": [
+              "KeyR"
+            ],
+            "judgement": [
+              "KeyE"
+            ],
+            "expert1": [
+              "KeyF"
+            ],
+            "expert2": [
+              "KeyG"
+            ],
+            "moveOnly": [
+              "Mouse0"
+            ],
+            "stop": [
+              "KeyX"
+            ],
+            "attackInPlace": [
+              "ShiftLeft",
+              "ShiftRight"
+            ],
+            "dodgeSprint": [
+              "Space"
+            ],
+            "dodgeOnly": [],
+            "sprint": []
+          },
+          "blockMode": "hold",
+          "chargeDirection": "aim",
+          "poe": {
+            "version": 1,
+            "movementMode": "click",
+            "aimingMode": "ground",
+            "cursorTrackingAfterRelease": false,
+            "keepSprintingWhileMoving": false,
+            "attackInPlaceStopsMovement": true
+          },
+          "priorControls": {
+            "version": 3,
+            "preset": "recommended",
+            "bindings": {
+              "up": [
+                "KeyW",
+                "ArrowUp"
+              ],
+              "down": [
+                "KeyS",
+                "ArrowDown"
+              ],
+              "left": [
+                "KeyA",
+                "ArrowLeft"
+              ],
+              "right": [
+                "KeyD",
+                "ArrowRight"
+              ],
+              "attack": [
+                "Mouse0",
+                "KeyJ"
+              ],
+              "block": [
+                "Mouse2",
+                "ShiftLeft",
+                "ShiftRight"
+              ],
+              "charge": [
+                "Space"
+              ],
+              "hammer": [
+                "KeyQ"
+              ],
+              "menu": [
+                "KeyC"
+              ],
+              "pause": [
+                "Escape"
+              ],
+              "interact": [
+                "KeyF"
+              ],
+              "potion": [
+                "KeyR"
+              ],
+              "heal": [
+                "KeyT"
+              ],
+              "judgement": [
+                "KeyE"
+              ],
+              "expert1": [
+                "Digit2"
+              ],
+              "expert2": [
+                "Digit3"
+              ]
+            },
+            "blockMode": "hold",
+            "chargeDirection": "aim"
+          }
+        },
+        "recovery": {
+          "version": 2,
+          "cooldowns": {
+            "mace_swing": 0,
+            "righteous_hammer": 0,
+            "judgement": 0,
+            "lay_on_hands": 0,
+            "shield_charge": 0
+          },
+          "lock": 0,
+          "manaDelay": 0,
+          "staminaDelay": 0,
+          "invuln": 0,
+          "potionCooldown": 0,
+          "regenBuff": null,
+          "innerFlame": null,
+          "procCooldowns": {},
+          "procCooldownRanks": {},
+          "negativeStatuses": {},
+          "combatRng": {
+            "state": 361363696,
+            "draws": 225
+          }
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 1,
+          "quarry_anchor_b": 1,
+          "quarry_winch_repaired": 1,
+          "quarry_shortcut_open": 1,
+          "quarry_reported": 1,
+          "pass_accepted": 1,
+          "pass_clue_read": 0,
+          "pass_rescue_complete": 0,
+          "pass_signal_step": 0,
+          "pass_signal_aligned": 0,
+          "pass_shortcut_open": 0,
+          "pass_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4",
+            "quarry-guard-3",
+            "quarry-slinger-4",
+            "quarry-guard-4"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "request": "nc-011-result",
+    "error": null,
+    "pageErrors": [],
+    "snapshots": [
+      {
+        "revision": 1059,
+        "sha256": "b8ccfbaa73eb24bac10238a69b2821273a7ff0afb455a41069d30e3ca001721e",
+        "region": "ashwind_pass",
+        "position": {
+          "x": 43.81617242136676,
+          "y": 724.183827578633
+        },
+        "life": 1,
+        "level": 8,
+        "tier": "adept",
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 15,
+        "attributePoints": 20,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "xp": 59.5,
+        "gold": 394,
+        "stats": {
+          "kills": 45,
+          "deaths": 1,
+          "earnedGold": 502,
+          "spentGold": 108,
+          "earnedXp": 1779.5
+        },
+        "vitals": {
+          "hp": 109,
+          "mana": 43.84628,
+          "stamina": 69
+        },
+        "controls": {
+          "version": 4,
+          "preset": "custom",
+          "bindings": {
+            "up": [
+              "KeyW",
+              "ArrowUp"
+            ],
+            "down": [
+              "KeyS",
+              "ArrowDown"
+            ],
+            "left": [
+              "KeyA",
+              "ArrowLeft"
+            ],
+            "right": [
+              "KeyD",
+              "ArrowRight"
+            ],
+            "attack": [
+              "Mouse0",
+              "KeyJ"
+            ],
+            "block": [
+              "Mouse1",
+              "KeyB"
+            ],
+            "charge": [
+              "KeyQ"
+            ],
+            "hammer": [
+              "Mouse2"
+            ],
+            "menu": [
+              "KeyC"
+            ],
+            "pause": [
+              "Escape"
+            ],
+            "interact": [
+              "KeyV"
+            ],
+            "potion": [
+              "Digit1"
+            ],
+            "heal": [
+              "KeyR"
+            ],
+            "judgement": [
+              "KeyE"
+            ],
+            "expert1": [
+              "KeyF"
+            ],
+            "expert2": [
+              "KeyG"
+            ],
+            "moveOnly": [],
+            "stop": [
+              "KeyX"
+            ],
+            "attackInPlace": [
+              "ShiftLeft",
+              "ShiftRight"
+            ],
+            "dodgeSprint": [
+              "Space"
+            ],
+            "dodgeOnly": [],
+            "sprint": []
+          },
+          "blockMode": "hold",
+          "chargeDirection": "aim",
+          "poe": {
+            "version": 1,
+            "movementMode": "wasd",
+            "aimingMode": "cursor",
+            "cursorTrackingAfterRelease": true,
+            "keepSprintingWhileMoving": false,
+            "attackInPlaceStopsMovement": true
+          },
+          "priorControls": {
+            "version": 3,
+            "preset": "recommended",
+            "bindings": {
+              "up": [
+                "KeyW",
+                "ArrowUp"
+              ],
+              "down": [
+                "KeyS",
+                "ArrowDown"
+              ],
+              "left": [
+                "KeyA",
+                "ArrowLeft"
+              ],
+              "right": [
+                "KeyD",
+                "ArrowRight"
+              ],
+              "attack": [
+                "Mouse0",
+                "KeyJ"
+              ],
+              "block": [
+                "Mouse2",
+                "ShiftLeft",
+                "ShiftRight"
+              ],
+              "charge": [
+                "Space"
+              ],
+              "hammer": [
+                "KeyQ"
+              ],
+              "menu": [
+                "KeyC"
+              ],
+              "pause": [
+                "Escape"
+              ],
+              "interact": [
+                "KeyF"
+              ],
+              "potion": [
+                "KeyR"
+              ],
+              "heal": [
+                "KeyT"
+              ],
+              "judgement": [
+                "KeyE"
+              ],
+              "expert1": [
+                "Digit2"
+              ],
+              "expert2": [
+                "Digit3"
+              ]
+            },
+            "blockMode": "hold",
+            "chargeDirection": "aim"
+          }
+        },
+        "recovery": {
+          "version": 2,
+          "cooldowns": {
+            "mace_swing": 0,
+            "righteous_hammer": 0,
+            "judgement": 0,
+            "lay_on_hands": 0,
+            "shield_charge": 0
+          },
+          "lock": 0,
+          "manaDelay": 0,
+          "staminaDelay": 0,
+          "invuln": 0,
+          "potionCooldown": 0,
+          "regenBuff": null,
+          "innerFlame": null,
+          "procCooldowns": {},
+          "procCooldownRanks": {},
+          "negativeStatuses": {},
+          "combatRng": {
+            "state": 425443234,
+            "draws": 227
+          }
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 1,
+          "quarry_anchor_b": 1,
+          "quarry_winch_repaired": 1,
+          "quarry_shortcut_open": 1,
+          "quarry_reported": 1,
+          "pass_accepted": 1,
+          "pass_clue_read": 0,
+          "pass_rescue_complete": 0,
+          "pass_signal_step": 0,
+          "pass_signal_aligned": 0,
+          "pass_shortcut_open": 0,
+          "pass_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4",
+            "quarry-guard-3",
+            "quarry-slinger-4",
+            "quarry-guard-4"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "request": "nc-012-result",
+    "error": null,
+    "pageErrors": [],
+    "snapshots": [
+      {
+        "revision": 1068,
+        "sha256": "c0f19acd5a52a167a6d4c3c28a9d0528635360cd815f4e06c327fa113a168138",
+        "region": "ashwind_pass",
+        "position": {
+          "x": 65.81002174339164,
+          "y": 702.189978256608
+        },
+        "life": 1,
+        "level": 8,
+        "tier": "adept",
+        "skills": {
+          "shield_charge": 1,
+          "mace_swing": 4,
+          "shield_block": 1,
+          "righteous_hammer": 1,
+          "judgement": 1,
+          "lay_on_hands": 1
+        },
+        "skillPoints": 15,
+        "attributePoints": 20,
+        "attributes": {
+          "strength": 13,
+          "dexterity": 0,
+          "intelligence": 2
+        },
+        "equipment": {
+          "mainHand": "equipment:ui-32794f51-8c50-4957-b757-9ced9d069a0c:0",
+          "offHand": "equipment:ui-7a563af0-faa3-4674-9428-b4616b8c6747:0",
+          "head": null,
+          "chest": "equipment:ui-128a651c-30be-4435-9c38-9bf125fa7459:0",
+          "hands": null,
+          "feet": null,
+          "accessory": null
+        },
+        "xp": 129.5,
+        "gold": 402,
+        "stats": {
+          "kills": 47,
+          "deaths": 1,
+          "earnedGold": 510,
+          "spentGold": 108,
+          "earnedXp": 1849.5
+        },
+        "vitals": {
+          "hp": 92.53156450137237,
+          "mana": 21.54850400000013,
+          "stamina": 69
+        },
+        "controls": {
+          "version": 4,
+          "preset": "custom",
+          "bindings": {
+            "up": [
+              "KeyW",
+              "ArrowUp"
+            ],
+            "down": [
+              "KeyS",
+              "ArrowDown"
+            ],
+            "left": [
+              "KeyA",
+              "ArrowLeft"
+            ],
+            "right": [
+              "KeyD",
+              "ArrowRight"
+            ],
+            "attack": [
+              "Mouse0",
+              "KeyJ"
+            ],
+            "block": [
+              "Mouse1",
+              "KeyB"
+            ],
+            "charge": [
+              "KeyQ"
+            ],
+            "hammer": [
+              "Mouse2"
+            ],
+            "menu": [
+              "KeyC"
+            ],
+            "pause": [
+              "Escape"
+            ],
+            "interact": [
+              "KeyV"
+            ],
+            "potion": [
+              "Digit1"
+            ],
+            "heal": [
+              "KeyR"
+            ],
+            "judgement": [
+              "KeyE"
+            ],
+            "expert1": [
+              "KeyF"
+            ],
+            "expert2": [
+              "KeyG"
+            ],
+            "moveOnly": [],
+            "stop": [
+              "KeyX"
+            ],
+            "attackInPlace": [
+              "ShiftLeft",
+              "ShiftRight"
+            ],
+            "dodgeSprint": [
+              "Space"
+            ],
+            "dodgeOnly": [],
+            "sprint": []
+          },
+          "blockMode": "hold",
+          "chargeDirection": "aim",
+          "poe": {
+            "version": 1,
+            "movementMode": "wasd",
+            "aimingMode": "cursor",
+            "cursorTrackingAfterRelease": true,
+            "keepSprintingWhileMoving": false,
+            "attackInPlaceStopsMovement": true
+          },
+          "priorControls": {
+            "version": 3,
+            "preset": "recommended",
+            "bindings": {
+              "up": [
+                "KeyW",
+                "ArrowUp"
+              ],
+              "down": [
+                "KeyS",
+                "ArrowDown"
+              ],
+              "left": [
+                "KeyA",
+                "ArrowLeft"
+              ],
+              "right": [
+                "KeyD",
+                "ArrowRight"
+              ],
+              "attack": [
+                "Mouse0",
+                "KeyJ"
+              ],
+              "block": [
+                "Mouse2",
+                "ShiftLeft",
+                "ShiftRight"
+              ],
+              "charge": [
+                "Space"
+              ],
+              "hammer": [
+                "KeyQ"
+              ],
+              "menu": [
+                "KeyC"
+              ],
+              "pause": [
+                "Escape"
+              ],
+              "interact": [
+                "KeyF"
+              ],
+              "potion": [
+                "KeyR"
+              ],
+              "heal": [
+                "KeyT"
+              ],
+              "judgement": [
+                "KeyE"
+              ],
+              "expert1": [
+                "Digit2"
+              ],
+              "expert2": [
+                "Digit3"
+              ]
+            },
+            "blockMode": "hold",
+            "chargeDirection": "aim"
+          }
+        },
+        "recovery": {
+          "version": 2,
+          "cooldowns": {
+            "mace_swing": 0,
+            "righteous_hammer": 0,
+            "judgement": 2.9499999999999726,
+            "lay_on_hands": 0,
+            "shield_charge": 0
+          },
+          "lock": 0,
+          "manaDelay": 0,
+          "staminaDelay": 0,
+          "invuln": 0.06026689176102363,
+          "potionCooldown": 0,
+          "regenBuff": null,
+          "innerFlame": null,
+          "procCooldowns": {},
+          "procCooldownRanks": {},
+          "negativeStatuses": {},
+          "combatRng": {
+            "state": 2321486730,
+            "draws": 235
+          }
+        },
+        "objectives": {
+          "trained": 1,
+          "patrol_accepted": 1,
+          "patrol_scouts": 6,
+          "sluice_accepted": 1,
+          "sluice_record_read": 1,
+          "sluice_crank_found": 1,
+          "sluice_rune_step": 3,
+          "sluice_sequence_solved": 1,
+          "sluice_valve_inlet": 0,
+          "sluice_valve_outlet": 1,
+          "sluice_drain_mode": 2,
+          "sluice_bridge_open": 1,
+          "sluice_store_open": 1,
+          "sluice_shortcut_open": 1,
+          "sluice_boss_awakened": 1,
+          "first_dungeon_cleared": 1,
+          "adept_commission": 1,
+          "quarry_accepted": 1,
+          "quarry_tool_found": 1,
+          "quarry_rescue_complete": 1,
+          "quarry_anchor_a": 1,
+          "quarry_anchor_b": 1,
+          "quarry_winch_repaired": 1,
+          "quarry_shortcut_open": 1,
+          "quarry_reported": 1,
+          "pass_accepted": 1,
+          "pass_clue_read": 0,
+          "pass_rescue_complete": 0,
+          "pass_signal_step": 0,
+          "pass_signal_aligned": 0,
+          "pass_shortcut_open": 0,
+          "pass_reported": 0
+        },
+        "defeated": {
+          "ash_road": [
+            "road-0-1",
+            "road-0-4",
+            "road-0-3",
+            "road-0-5",
+            "road-0-0",
+            "road-0-2",
+            "road-1-0",
+            "road-1-6",
+            "road-1-5",
+            "road-1-7",
+            "road-1-2",
+            "road-1-4",
+            "road-1-1",
+            "road-2-2",
+            "road-2-0",
+            "road-2-3",
+            "road-2-5",
+            "road-2-6",
+            "road-2-8",
+            "road-2-4",
+            "road-2-1",
+            "road-0-6",
+            "road-warden"
+          ],
+          "sluice_upper": [
+            "sluice-upper-scout-2",
+            "sluice-upper-archer-1",
+            "sluice-upper-scout-1",
+            "sluice-control-scout-1",
+            "sluice-control-bruiser",
+            "sluice-control-scout-2"
+          ],
+          "sluice_lower": [
+            "sluice-lower-archer",
+            "sluice-lower-scout",
+            "sluice-store-bruiser",
+            "sluice-heartkeeper"
+          ],
+          "ember_quarry": [
+            "quarry-guard-1",
+            "quarry-raider-1",
+            "quarry-raider-2",
+            "quarry-slinger-1",
+            "quarry-guard-2",
+            "quarry-raider-3",
+            "quarry-slinger-2",
+            "quarry-slinger-3",
+            "quarry-raider-4",
+            "quarry-guard-3",
+            "quarry-slinger-4",
+            "quarry-guard-4"
+          ],
+          "ashwind_pass": [
+            "pass-raider-1",
+            "pass-raider-2"
+          ]
+        }
+      }
+    ]
+  }
+]

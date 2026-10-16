@@ -325,3 +325,6 @@ Ordinary click walking toward the lower-right floor followed by movement-directe
 
 ## Deferred short-tap charge heading — 2026-10-16
 Check one remaining P1 charge-direction defect: a fresh finite Q tap during the normal existing checkpoint wait may replace movement-directed heading with the release cursor when it resumes. Use the real main handlers and do not modify/delay/bypass native storage or protected writers.
+
+## Nonzero blocked cooldown feedback — 2026-10-16
+Normal native quarry traversal paused while learned Judgement still displayed0.0seconds. Reproduce whether HUD and rejection feedback show zero while the authoritative cooldown still rejects input; correct presentation only. Continue ordinary next-encounter QA without modifying protected growth/save/equipment.

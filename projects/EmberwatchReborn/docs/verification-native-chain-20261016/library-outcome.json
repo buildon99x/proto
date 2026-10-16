@@ -1,0 +1,25 @@
+{
+  "status": "failed before any Library app mutation",
+  "error": "library upload failed: hosted apps tools/list request failed: network",
+  "createdLibraryIds": [],
+  "filesSaved": [
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+  "alternateRoute": false,
+  "retriedOldBlockedFiles": false,
+  "newLocalCheckpoint": {
+    "files": 433,
+    "bytes": 17533288,
+    "sha256": "82a47ca8175bc958c09ae5c9f3be2d1e4856d80efe7579558090c969b51b0613",
+    "integrity": "passed"
+  },
+  "localVideo": {
+    "name": "emberwatch-native-pass-chain-20261016.mp4",
+    "bytes": 3044370,
+    "durationSeconds": 6.72
+  }
+}
