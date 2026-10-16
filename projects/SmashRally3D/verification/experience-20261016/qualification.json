@@ -1,0 +1,118 @@
+{
+  "runtimeCommit": "0668f6e",
+  "runtimeBundleSha256": "cca484ce060f8e0dc5aba9618af99309d4e0d0b87b7e5ef19394cffa04403dc0",
+  "unitTests": 62,
+  "unitFiles": 10,
+  "projectBuild": "build-final.txt",
+  "fullBuild": "root-build-final.txt",
+  "reports": {
+    "flow": {
+      "file": "flow/experience-flow-report.json",
+      "errors": [],
+      "pass": true
+    },
+    "loss": {
+      "file": "loss/experience-loss-report.json",
+      "errors": [],
+      "pass": true
+    },
+    "pressure": {
+      "file": "pressure/experience-pressure-report.json",
+      "errors": [],
+      "pass": true
+    },
+    "native": {
+      "file": "native/mobile-native-report.json",
+      "errors": [],
+      "pass": true
+    },
+    "rotation": {
+      "file": "rotation/court-resize-report.json",
+      "errors": [],
+      "pass": true
+    },
+    "native-repeat-2": {
+      "file": "native-repeat-2/mobile-native-report.json",
+      "errors": [],
+      "pass": true
+    },
+    "native-repeat-3": {
+      "file": "native-repeat-3/mobile-native-report.json",
+      "errors": [],
+      "pass": true
+    },
+    "dialog": {
+      "file": "dialog/experience-dialog-report.json",
+      "errors": [],
+      "pass": true
+    },
+    "defence": {
+      "file": "defence/smash-drop-regression-report.json",
+      "errors": [],
+      "pass": true
+    },
+    "rally": {
+      "file": "rally/court-framing-report.json",
+      "errors": [],
+      "pass": true
+    }
+  },
+  "layouts": [
+    {
+      "view": {
+        "name": "pc",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "returns": 6,
+      "clippedPlayers": 0,
+      "clippedShuttle": 0,
+      "maxAimErrorPx": 2.962024800134855e-05,
+      "apexM": 9.774054830473764
+    },
+    {
+      "view": {
+        "name": "mobile-landscape",
+        "width": 844,
+        "height": 390,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "returns": 6,
+      "clippedPlayers": 0,
+      "clippedShuttle": 0,
+      "maxAimErrorPx": 0.3903015352607723,
+      "apexM": 9.65434309783169
+    },
+    {
+      "view": {
+        "name": "mobile-portrait",
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "returns": 6,
+      "clippedPlayers": 0,
+      "clippedShuttle": 0,
+      "maxAimErrorPx": 0.5070099303046556,
+      "apexM": 9.64166841926714
+    }
+  ],
+  "pressure": {
+    "returned": 13,
+    "directWinners": 1,
+    "goodPerfectWinners": 1,
+    "method": "Original GOOD-drop pressure controller, two NORMAL patterns,10 settled attempts or natural match end per window. Rendering viewport only reduced; no physics/AI changes."
+  },
+  "flowSummary": "flow-summary.json",
+  "limits": [
+    "Software Chromium touch emulation, not physical-device FPS/latency or human win-rate evidence.",
+    "Live WebAudio capture and numerical checks; no speaker/headphone listening.",
+    "No Naver article analysis; original source remains unread."
+  ],
+  "pass": true
+}

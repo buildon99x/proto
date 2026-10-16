@@ -1,0 +1,12 @@
+{
+  "pass": false,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-BAs6XsKZ.js",
+    "sha256": "a917457dd05d1e548623f424ebcfeabc97fd2f82c3e757da7b4c119a4245c786",
+    "startedAt": "2026-10-16T01:18:44.758Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [],
+  "failure": "Error: Command failed: ffmpeg -y -loglevel error -f concat -safe 0 -i /tmp/smash-experience-Jpdo0U/frames.ffconcat -i /workspace/proto/projects/SmashRally3D/verification/experience-20261016/flow/actual-audio.webm -filter_complex [1:a]aresample=async=1:first_pts=0,adelay=6428|6428,apad[a] -map 0:v -map [a] -vf fps=20 -c:v libx264 -preset veryfast -crf 24 -threads 1 -pix_fmt yuv420p -c:a aac -t 185.1547480583191 -movflags +faststart /workspace/proto/projects/SmashRally3D/verification/experience-20261016/flow/full-play.mp4\n[libx264 @ 0x5559671721c0] width not divisible by 2 (203x360)\n[vost#0:0/libx264 @ 0x55596718bb40] Error while opening encoder - maybe incorrect parameters such as bit_rate, rate, width or height.\n[vf#0:0 @ 0x555967173800] Error sending frames to consumers: Generic error in an external library\n[vf#0:0 @ 0x555967173800] Task finished with error code: -542398533 (Generic error in an external library)\n[vf#0:0 @ 0x555967173800] Terminating thread with return code -542398533 (Generic error in an external library)\n[vost#0:0/libx264 @ 0x55596718bb40] Could not open encoder before EOF\n[vost#0:0/libx264 @ 0x55596718bb40] Task finished with error code: -22 (Invalid argument)\n[vost#0:0/libx264 @ 0x55596718bb40] Terminating thread with return code -22 (Invalid argument)\n[out#0/mp4 @ 0x55596718bf80] Nothing was written into output file, because at least one of its streams received no packets.\n"
+}
