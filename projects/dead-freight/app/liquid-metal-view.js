@@ -53,6 +53,10 @@
   const silver=cutoutMaterial(T,0xb7c3ca,uniforms,'silt-diffuse-silver'),bright=cutoutMaterial(T,0xe1ebee,uniforms,'silt-polished-ridges',{shininess:135}),dark=cutoutMaterial(T,0x657b87,uniforms,'silt-recessed-metal',{shininess:110});
   const rimMaterial=new T.MeshPhongMaterial({color:0xe9f4f5,specular:0xffffff,shininess:150,side:T.DoubleSide});rimMaterial.name='silt-chrome-hole-rim';
   const amber=new T.MeshBasicMaterial({color:0xffb84f});amber.name='silt-amber-core';
+  // Remain opaque/depth-tested: alpha is an offscreen semantic tag, not opacity.
+  // The existing post pass restores authored sRGB only for these visible pixels.
+  amber.customProgramCacheKey=()=> 'silt-semantic-core-v1';
+  amber.onBeforeCompile=shader=>{shader.fragmentShader=shader.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\ngl_FragColor.a = 0.0;');};
   const warningMaterial=new T.MeshBasicMaterial({color:0xffc569,transparent:true,opacity:.8,depthWrite:false});warningMaterial.name='silt-blade-telegraph';
   const unitSphere=new T.SphereGeometry(1,16,12),limbGeometry=new T.CylinderGeometry(1,1,1,10),parts={},shellMeshes=[];
   function mesh(parent,name,geometry,material,pos=[0,0,0],scale=[1,1,1],decorative=false){

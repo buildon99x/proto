@@ -1,3 +1,8 @@
+## 0.15.1 — semantic amber core correction
+- Preserve laptop QA07119b0 and fix the confirmed warm-to-rose post-grade mismatch only for visible SILT core pixels.
+- Opaque core uses an offscreen alpha tag; the existing post pass restores authored sRGB while ordinary world/gun/rose accents retain the old grade. No extra render pass or gameplay change.
+- Before-fix numeric failure plus amber/reform color, legacy-grade invariance, bounded overlay and shader/material regressions. Actual patched GPU pixels remain a laptop gate; no listening/foreground-feel acceptance.
+
 ## 0.15.0 — original SILT liquid-metal source candidate
 - One optional Canal Ward sentinel, shared pose/state controller and procedural silver humanoid; existing bosses, extraction rules and save formats preserved.
 - Real per-target projectile transmission at70% residual damage, bounded receipts, timed holes and persistent exposed-core damage. Ordinary bodies and cover remain terminal.

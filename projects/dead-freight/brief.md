@@ -187,3 +187,6 @@ Continue ordinary-input Black Pines/east evac and Canal/west winch acceptance wi
 
 ## 0.15.0 liquid-metal sentinel source slice, 2026-10-16
 Continue on the dot cloud computer from ece20bb, with jh-laptop reserved for subsequent device QA. Add one original SILT sentinel in an optional Canal Ward encounter, preserving ordinary enemies, bounty targets, economy and save formats. Its identity is liquid-metal deformation, real projectile transmission, a readable arm-blade attack and a punishable exposed core. T-1000 production references inform material behavior only; no franchise character, likeness, model, audio or asset is imported. Actual sound, foreground mouse feel, frame time and overall naturalness remain unaccepted.
+
+## 0.15.1 SILT core identity correction, 2026-10-16
+Preserve laptop QA commit07119b0 and correct only the confirmed pink exposed core. Keep world/gun grading, existing rose accents, gameplay, save schema and previous QA evidence unchanged. Implement on dot; target-device color verification remains separate. No manual deployment or public-default switch.

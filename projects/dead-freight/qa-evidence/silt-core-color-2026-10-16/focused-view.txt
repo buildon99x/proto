@@ -1,0 +1,13 @@
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS UMD API creates original connected silver humanoid without lights or shared game resources
+PASS torso and head conform to shared collision pose through shell disruption and reform
+PASS forearms connect elbow to hand or active blade origin without detached pieces
+PASS blade extends along shared locked aim, telegraphs only windup, and retracts through recovery
+PASS shell materials inject actual through-surface fragment discard and bounded six-cylinder uniforms
+PASS impact opens a cylinder with annular chrome rim and repairs on simulation time
+PASS bullet holes stay attached when sentinel moves and rotates; repeats and pause do not drift
+PASS direct hit adapter is bounded, deduplicated, rejects malformed/future input, and resets on rewind
+PASS terminal state cancels blade/core and collapses into persistent silver puddle without blood
+PASS all states have finite transforms and resources dispose through existing traversal contract
+PASS only the opaque depth-tested core writes the semantic post-grade tag
+11 SILT rendererless geometry/material checks passed. WebGL shader compilation and visual readability remain browser checks.

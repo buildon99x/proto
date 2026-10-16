@@ -92,4 +92,16 @@ check('runtime preserves ADS aim and routes feedback to the separate hit layer',
  assert.match(game,/fragmentShader:DFRenderStyle\.fragmentShader/);
  assert(!/float bayer\(|float grit=|fract\(sin/.test(game),'legacy full-screen texture must be removed');
 });
+check('semantic core pixels preserve authored amber instead of rose through the final grade',()=>{
+ const T=require('./vendor/three.min.js');
+ for(const hex of [0xffb84f,0xdca252]){const linear=new T.Color(hex).toArray(),ordinary=style.toneColor(linear),core=style.toneColor(linear,0),expected=[hex>>16&255,hex>>8&255,hex&255].map(v=>v/255);assert(ordinary[2]>ordinary[1],'baseline warm mapping reproduces the pink defect');core.forEach((v,i)=>near(v,expected[i],1e-6));assert(core[0]>core[1]&&core[1]>core[2]*1.5,'core is orange/amber, not pink');}
+});
+check('semantic color path leaves untagged world and weapon grading exactly unchanged',()=>{
+ const p=style.palette,sm=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t);},mix=(a,b,t)=>a.map((v,i)=>v+(b[i]-v)*t);
+ for(let i=0;i<257;i++){const c=[i/256,(i*73%257)/256,(i*139%257)/256],v=Math.pow(c[0]*.2126+c[1]*.7152+c[2]*.0722,.9),lo=sm(0,.46,v),hi=sm(.40,1,v),cool=mix(mix(p.shadow,p.mid,lo),p.light,hi),red=mix(mix(p.redShadow,p.redMid,lo),p.redLight,hi),old=mix(cool,red,sm(.018,.080,Math.max(0,c[0]-Math.max(c[1],c[2]))));assert.deepEqual(style.toneColor(c),old);assert.deepEqual(style.toneColor(c,1),old);}
+});
+check('semantic core tag is bounded and attenuates through transparent foreground coverage',()=>{
+ const c=[1,.4793201830913402,.07818742179702069],a=style.toneColor(c,0),b=style.toneColor(c,1),middle=style.toneColor(c,.5);middle.forEach((v,i)=>near(v,(a[i]+b[i])/2));for(const alpha of [NaN,Infinity,undefined])assert.deepEqual(style.toneColor(c,alpha),b);assert.deepEqual(style.toneColor(c,-10),a);assert.deepEqual(style.toneColor(c,10),b);for(const c of [[-1,2,4],[NaN,Infinity,-Infinity]])style.toneColor(c,0).forEach(v=>assert(Number.isFinite(v)&&v>=0&&v<=1));
+ assert.match(style.fragmentShader,/sampledFrame\.a/);assert.match(style.fragmentShader,/linearToDisplay/);
+});
 console.log(`${checks} rendererless readability checks passed. Browser layout, GPU pixels and input remain separate acceptance checks.`);
