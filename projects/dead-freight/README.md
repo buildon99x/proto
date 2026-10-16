@@ -1,6 +1,12 @@
-# DEAD FREIGHT / FIRST-PERSON ACTIONS CHECKPOINT 0.14.2
+# DEAD FREIGHT / SILT SOURCE CANDIDATE 0.15.0
 
-R-4 라이플 한 종의 FPS 기반과, 340×340m 단일 연결 지역을 다루는 1인칭 Extraction 개발 체크포인트입니다. `proto/projects/dead-freight`에서 개발합니다. 완성된 상용 오픈월드 규모나 품질을 의미하지 않습니다.
+원본 두 지역의 1인칭 Extraction 프로토타입입니다. 네 총기, 보관함/제작과 Canal Ward 선택 교전용 액체 금속 적 SILT를 포함합니다. 완성된 상용 오픈월드나 실제 기기 품질 승인을 의미하지 않습니다.
+
+## 현재 0.15.0 후보
+
+SILT의 실제 탄환 관통, 금속 탄공/복원, 예고 후 조준이 고정되는 블레이드와 드러난 코어를 연결했습니다. 소스·모델 검증과 실제 GPU/정상 입력/청음은 별도입니다. 필수 registry/전체 빌드는 dot 실행 환경의 tsx IPC EPERM으로 차단됐습니다. 정확한 검사 기록과 jh-laptop 절차는 [SILT QA 핸드오프](qa-handoff-silt-2026-10-16.md)를 보세요. 이번 변경의 공개 배포는 하지 않았습니다.
+
+아래는 이전 체크포인트별 설명이며, 최신 상태와 검증 경계는 위 핸드오프가 우선합니다.
 
 GPT Site: https://dead-freight-browser.buildon733500.chatgpt.site (사용자 요청으로 전체 공개)
 

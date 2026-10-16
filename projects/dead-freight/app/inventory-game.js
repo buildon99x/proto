@@ -5,6 +5,7 @@ let model=root.DFInventory;
 if(!model&&typeof require==='function')model=require('./inventory.js');
 const {Catalog,stackWeight,stackValue}=model;
 const ItemAction=(root.DFItemAction||(typeof require==='function'?require('./item-action.js'):null)).ItemAction;
+const Metal=root.DFLiquidMetal||(typeof require==='function'?require('./liquid-metal.js'):null);
 const Melee=root.DFMelee||(typeof require==='function'?require('./melee.js'):null);
 const WEAPONS=['pistol','shotgun','smg','r4'],AMMO=WEAPONS.map(id=>Catalog[id].ammoId);
 const EPS=1e-7,clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
@@ -297,7 +298,7 @@ class Bridge{
   if(!grenade.alive)return;grenade.alive=false;const w=this.world,radius=7;
   w.emit('explosion',{x:grenade.x,y:grenade.y,z:grenade.z,kind:'frag',radius,id:grenade.id});
   const damageTo=(x,y,z,max)=>{const distance=Math.hypot(x-grenade.x,y-grenade.y,z-grenade.z);if(distance>=radius||w.wallHit(grenade.x,grenade.y+.1,grenade.z,x,y,z,.015)!==null)return 0;return max*(1-distance/radius);};
-  for(const enemy of w.enemies){if(!enemy.alive)continue;const damage=damageTo(enemy.x,(enemy.y||0)+1,enemy.z,165);if(damage<=EPS)continue;enemy.hp-=damage;enemy.hit=.2;enemy.alert=true;w.emit('blood',{x:enemy.x,z:enemy.z,damage,head:false});if(enemy.hp<=0&&enemy.alive)w.kill(enemy,80);}
+  for(const enemy of w.enemies){if(!enemy.alive)continue;const damage=damageTo(enemy.x,(enemy.y||0)+1,enemy.z,165);if(damage<=EPS)continue;if(Metal.isMetal(enemy)){Metal.impact(w,enemy,{source:'frag',damage,point:{x:grenade.x,y:grenade.y,z:grenade.z},time:w.time});continue;}enemy.hp-=damage;enemy.hit=.2;enemy.alert=true;w.emit('blood',{x:enemy.x,z:enemy.z,damage,head:false});if(enemy.hp<=0&&enemy.alive)w.kill(enemy,80);}
   const p=w.player,selfDamage=damageTo(p.x,p.y+Math.min(1,p.bodyHeight*.6),p.z,135);if(selfDamage>EPS)w.damage(selfDamage,{x:grenade.x,z:grenade.z});
  }
  _stepThrowables(dt){

@@ -272,3 +272,14 @@ Mission guide uses current created region: forest six-second exits; Canal ferry 
 
 ## 2026-10-16 remaining route/motion QA and vital display correction
 HUD vital rounding must suppress numerical residue within1e-7 of an integer while preserving upward display rounding for real fractional HP/armor. No combat, damage, healing, inventory or persistence value changes.
+
+## 0.15.0 SILT liquid-metal first playable
+This narrow exception supersedes the previous no-body-penetration rule only for the SILT liquid shell. Ordinary enemies, walls and barrels still stop bullets. One optional Canal Ward sentinel uses existing collision, loot and extraction systems without schema changes.
+
+Original provisional tuning: shell cohesion100, persistent core integrity80; ordinary projectile shell contact lowers cohesion using unmultiplied anatomical damage and transmits70% residual projectile damage to subsequent contacts. Core is hidden until disruption, then exposed for1.4s followed by1.0s reform; earned core damage does not regenerate. Same-time pellets observe the pre-contact exposure state. Shell openings close in0.6s. Existing grenade and melee damage use the material response; no EMP/fire dependency.
+
+Perception is line-of-sight and actual impact, with finite home leash. Pursuit may enter a0.75s blade telegraph within3m; aim locks for the final0.25s, strike has one bounded swept/contact receipt and0.7s recovery. Dodge, lateral motion and cover counter the committed strike. Disruption/death cancels queued attacks. Pause freezes state and deformation; restart resets them. The blade is the first tactical shape change; impersonation and low-profile traversal are outside this slice.
+
+Collision and presentation share pose data. Per-pellet/per-target receipts support actual same-step transmission without repeat contacts, while one successful firearm shot still contributes at most one accuracy hit. Retain120Hz physical-time ordering, wall tie precedence and simultaneous-contact rules. No body blood or human kill splat for SILT. Keep global lighting/grading, ordinary enemy appearance and firearm behavior unchanged. Existing recorded metal impacts are reused provisionally, not a claim of dedicated or listened-to liquid-metal sound.
+
+Physical-time supplement: exposedAt/poseAt retain the last disruption window without mutating presentation state. Deforming shell bounds use continuous linear-bound CCD in <=1/960s slices; this is a bounded authored-volume approximation, not render-triangle intersection. Resweeps never backdate contacts or revive expired range. Simultaneous radial damage shares pre-contact exposure. Terminal cleanup preserves dead collapse poses while cancelling live attacks and all cached holes.

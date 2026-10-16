@@ -1,3 +1,10 @@
+## 0.15.0 — original SILT liquid-metal source candidate
+- One optional Canal Ward sentinel, shared pose/state controller and procedural silver humanoid; existing bosses, extraction rules and save formats preserved.
+- Real per-target projectile transmission at70% residual damage, bounded receipts, timed holes and persistent exposed-core damage. Ordinary bodies and cover remain terminal.
+- Readable blade growth, final aim lock, dodge/cover/disruption counters, finite recovery and material-specific hit feedback with no human blood.
+- Historical exposure/deformation, simultaneous barrel snapshots, bounded-range chronological resweep and terminal cleanup regression coverage.
+- Source/model checks and static build are separate from jh-laptop GPU/input/listening/frame-time acceptance. Required registry/aggregate build blocked by tsx IPC listen EPERM; no package/security changes or publication. See qa-handoff-silt-2026-10-16.md.
+
 ## 0.12.0 — provisional ballistic candidate
 - Shared damage, finite range, falloff, helmet/body armor and per-pellet claims; R4 formula preserved.
 - Shotgun105 torso budget divided across9 pellets, one shell/report/pump.

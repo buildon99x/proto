@@ -21,6 +21,7 @@ let rifleSource=root.DFRifle;
 if(!rifleSource&&typeof require==='function'){try{rifleSource=require('./rifle-state.js');}catch(e){if(e.code!=='MODULE_NOT_FOUND'||!e.message.includes("'./rifle-state.js'"))throw e;}}
 let regionSource=root.DFWorld;
 if(!regionSource&&typeof require==='function'){try{regionSource=require('./world.js');}catch(e){if(e.code!=='MODULE_NOT_FOUND'||!e.message.includes("'./world.js'"))throw e;}}
+const Metal=root.DFLiquidMetal||(typeof require==='function'?require('./liquid-metal.js'):null);
 const shotSource=root.DFShotResolver||(typeof require==='function'?require('./shot-resolver.js'):null);
 const projectileSource=root.DFProjectiles||(typeof require==='function'?require('./player-projectiles.js'):null);
 class Mission {
@@ -43,7 +44,7 @@ class Mission {
   this._grid=new Map();this._indexedWalls=null;this._indexedCount=-1;this._gridDirty=true;
   if(options.world!==false&&regionSource?.populate)(root.DFRegions||(typeof require==='function'?require('./regions.js'):regionSource)).populate(this,options.regionId||'black-pines');else this.build();
   // Armor belongs to the encounter, including when the rifle is equipped later.
-  for(const enemy of this.enemies)enemy.armor??=enemy.boss?60:0;
+  for(const enemy of this.enemies){enemy.armor??=enemy.boss?60:0;if(Metal.isMetal(enemy))Metal.initialize(enemy);}
   this.extractions=this.extractionZones;this.rebuildSpatialIndex();
   if(options.weapon===3)this.switchWeapon(3);
  }
@@ -115,7 +116,8 @@ class Mission {
  }
  reward(points){this.combo++;this.comboTimer=4;this.style+=Math.round(points*(1+Math.min(4,this.combo)*.25));}
  emit(type,data={}){this.events.push({type,...data});}
- damage(n,source=null){if(this.player.hp<=0||this.player.invulnerable>0||this.extracted)return;this.damageSequence=(this.damageSequence||0)+1;this.combo=0;this.comboTimer=0;const shield=Math.min(this.player.armor,n*.65);this.player.armor-=shield;this.player.hp=Math.max(0,this.player.hp-(n-shield));this.emit('hurt',{amount:n,armored:shield>0,...(Number.isFinite(source?.x)&&Number.isFinite(source?.z)?{sourceX:source.x,sourceZ:source.z}:{})});if(this.player.hp<=0){this.cancelExtraction('dead');this.playerBullets.clear();this.player.slide=0;this.player.slideSpeed=0;this.clearFireInput('dead');for(const controller of this.mechanical)controller.deactivate('dead');this.syncMechanical();}}
+ damage(n,source=null){if(this.player.hp<=0||this.player.invulnerable>0||this.extracted)return;this.damageSequence=(this.damageSequence||0)+1;this.combo=0;this.comboTimer=0;const shield=Math.min(this.player.armor,n*.65);this.player.armor-=shield;this.player.hp=Math.max(0,this.player.hp-(n-shield));this.emit('hurt',{amount:n,armored:shield>0,...(Number.isFinite(source?.x)&&Number.isFinite(source?.z)?{sourceX:source.x,sourceZ:source.z}:{})});if(this.player.hp<=0){this.cancelEnemyActions();this.cancelExtraction('dead');this.playerBullets.clear();this.player.slide=0;this.player.slideSpeed=0;this.clearFireInput('dead');for(const controller of this.mechanical)controller.deactivate('dead');this.syncMechanical();}}
+ cancelEnemyActions(){for(const e of this.enemies)if(e.metal){const m=e.metal;m.attackId++;if(e.alive){m.state='idle';m.stateTime=0;}m.remaining=0;m.coreExposed=false;m.holes.length=0;m.cancelled=true;}}
  syncRifle(){
   if(!this.rifle)return;const r=this.rifle.snapshot();this.ammo[3]=r.total;this.reserve[3]=r.reserve;
   if(this.weapon===3){this.reload=r.reloadRemaining;this.reloadDuration=r.reloadDuration;this.cooldown=r.cooldown;this.cocked=!!r.chamber;}
@@ -167,9 +169,9 @@ class Mission {
  dispatchShot(record,hits,command){const presentation=this.events.findLast(e=>e.type==='shot'&&e.weapon===record.weapon);if(presentation)presentation.shotId=record.shotId;if(command?.ballistic){record.mode='projectile';record.origin={...command.ballistic.origin};record.directions=command.ballistic.directions.map(d=>({...d}));this.playerBullets.launch(this,record,command.ballistic.origin,command.ballistic.directions);}else this.resolveShotHits(record,hits);}
  resolveShotHits(record,hits){for(const [pelletId,hit] of (Array.isArray(hits)?hits:[hits]).entries())this.shotResolver.resolve(this,record,hit,pelletId);}
  shotConfig(){return shotSource.configuration(this.weapon,this.rifle?.config);}
- kill(e,points=0){e.alive=false;this.kills++;if(points)this.reward(points);this.cash+=e.boss?750:70;this.emit('kill',{id:e.id,x:e.x,z:e.z,boss:e.boss});if(e.boss)this.pickups.push({type:'bounty',x:e.x,z:e.z,y:e.y||0,alive:true});}
- explode(b){
-  b.alive=false;this.emit('explosion',{x:b.x,z:b.z});for(const e of this.enemies)if(e.alive&&Math.hypot(e.x-b.x,e.z-b.z)<6){e.hp-=140;e.alert=true;if(e.hp<=0)this.kill(e);}
+ kill(e,points=0){if(!e?.alive)return false;e.alive=false;if(e.metal){const deathTime=e.metal.state==='dead'&&Number.isFinite(e.metal.enteredAt)?e.metal.enteredAt:this.time;e.metal.state='dead';e.metal.remaining=0;e.metal.stateTime=0;e.metal.enteredAt=deathTime;e.metal.holes.length=0;e.metal.attackId=(e.metal.attackId||0)+1;e.metal.coreExposed=false;}this.kills++;if(points)this.reward(points);this.cash+=e.boss?750:70;this.emit('kill',{id:e.id,x:e.x,z:e.z,boss:e.boss,material:Metal.isMetal(e)?'liquid-metal':'body'});if(e.boss)this.pickups.push({type:'bounty',x:e.x,z:e.z,y:e.y||0,alive:true});}
+ explode(b,contact={}){
+  b.alive=false;this.emit('explosion',{x:b.x,z:b.z});for(const e of this.enemies)if(e.alive&&Math.hypot(e.x-b.x,e.z-b.z)<6){if(Metal.isMetal(e))Metal.impact(this,e,{source:'barrel',damage:140,point:{x:b.x,y:1,z:b.z},time:contact.time??this.time,coreExposedAtContact:contact.metalExposure?.[e.id]});else{e.hp-=140;e.alert=true;if(e.hp<=0)this.kill(e);}}
   for(const w of this.wallCandidates(b.x-5,b.z-5,b.x+5,b.z+5))if(Number.isFinite(w.hp)&&Math.hypot(w.x-b.x,w.z-b.z)<5){w.alive=false;this.destroyed++;this.emit('break',{id:w.id,x:w.x,z:w.z,y:w.y||0});}
   if(Math.hypot(this.player.x-b.x,this.player.z-b.z,this.player.y-(b.y||0))<5)this.damage(25,{x:b.x,z:b.z});
  }
@@ -185,17 +187,17 @@ class Mission {
   const zone=this.nearExtraction();if(this.canExtract(zone)&&!this.extractionZone){this.extractionZone=zone;this.extractionProgress=0;this.extractionRequired=zone.holdTime||6;this.emit('extractionstart',{id:zone.id,duration:this.extractionRequired});changed=true;}return changed;
  }
  tick(dt){
-  if(!Number.isFinite(dt)||dt<=0||this.paused)return;if(this.player.hp<=0){this.cancelExtraction('dead');this.clearFireInput('dead');return;}if(this.extracted){this.clearFireInput('extracted');return;}
+  if(!Number.isFinite(dt)||dt<=0||this.paused)return;if(this.player.hp<=0){this.cancelEnemyActions();this.cancelExtraction('dead');this.clearFireInput('dead');return;}if(this.extracted){this.clearFireInput('extracted');return;}
   // Integrate frame time in bounded physics steps; the presentation already clamps stalls.
   let remaining=Math.min(.25,dt);while(remaining>EPS&&this.player.hp>0&&!this.extracted){const step=Math.min(MOVEMENT.simulationStep,remaining);this.step(step);remaining-=step;}
  }
  step(dt){
-  const beforeEnemies=projectileSource.snapshots(this),p=this.player;this.time+=dt;const resting=!this.movementIntent.moving&&p.slide<=0&&p.dash<=0&&p.grounded;if(resting)p.stamina=clamp(p.stamina+dt*MOVEMENT.restRecovery,0,100);if(p.stamina<=EPS)p.fatigued=true;else if(p.stamina>=MOVEMENT.fatigueRecovery-EPS)p.fatigued=false;p.dash=Math.max(0,p.dash-dt);p.invulnerable=Math.max(0,p.invulnerable-dt);p.slideCooldown=Math.max(0,p.slideCooldown-dt);
+  const beforeEnemies=projectileSource.snapshots(this),p=this.player,incomingContacts=[];this.time+=dt;const resting=!this.movementIntent.moving&&p.slide<=0&&p.dash<=0&&p.grounded;if(resting)p.stamina=clamp(p.stamina+dt*MOVEMENT.restRecovery,0,100);if(p.stamina<=EPS)p.fatigued=true;else if(p.stamina>=MOVEMENT.fatigueRecovery-EPS)p.fatigued=false;p.dash=Math.max(0,p.dash-dt);p.invulnerable=Math.max(0,p.invulnerable-dt);p.slideCooldown=Math.max(0,p.slideCooldown-dt);
   if(p.slide>0){const t=Math.min(dt,p.slide),speed=Math.max(0,p.slideSpeed-MOVEMENT.slideFriction*t),distance=(p.slideSpeed+speed)*.5*t;const moved=this.move(p.slideDirX*distance,p.slideDirZ*distance);p.slideSpeed=speed;p.slide=Math.max(0,p.slide-t);if(Math.hypot(moved.dx,moved.dz)<distance*.2){p.slide=0;p.slideSpeed=0;}if(!p.slide)this.emit('slideend');}
   this.posture();this.vertical(dt);this.posture();
   this.perfect=Math.max(0,this.perfect-dt);this.comboTimer=Math.max(0,this.comboTimer-dt);if(!this.comboTimer)this.combo=0;if(this.rifle){this.rifle.tick(dt,{allowAutoReload:!this.weaponActionBlocked});this.syncRifle();}if(this.mechanical[this.weapon]){this.mechanical[this.weapon].tick(dt,{allowCycle:this.weapon!==1||!this.weaponActionBlocked});this.syncMechanical();}
   for(const e of this.enemies){
-   if(!e.alive)continue;e.hit=Math.max(0,(e.hit||0)-dt);const dx=p.x-e.x,dz=p.z-e.z,d=Math.hypot(dx,dz),activation=e.activationRange||19,leash=e.leash||48;
+   if(!e.alive)continue;if(Metal.isMetal(e)){Metal.tick(this,e,dt,incomingContacts);continue;}e.hit=Math.max(0,(e.hit||0)-dt);const dx=p.x-e.x,dz=p.z-e.z,d=Math.hypot(dx,dz),activation=e.activationRange||19,leash=e.leash||48;
    // Remote groups sleep; distance is checked before broadphase or line-of-sight work.
    if(d>Math.max(activation,leash)){e.windup=0;if(e.alert)e.alert=false;continue;}
    const visible=!this.segmentWall(e.x,e.z,p.x,p.z,(e.y||0)+1.3,p.y+p.bodyHeight*.7);
@@ -205,7 +207,6 @@ class Mission {
     if(d>7&&visible){const speed=1.6*dt,nx=e.x+dx/d*speed,nz=e.z+dz/d*speed,homeX=e.homeX??e.x,homeZ=e.homeZ??e.z;if(Math.hypot(nx-homeX,nz-homeZ)<leash){if(!this.blocked(nx,e.z,.3,e.y||0,1.9))e.x=nx;if(!this.blocked(e.x,nz,.3,e.y||0,1.9))e.z=nz;}}
    }
   }
-  const incomingContacts=[];
   for(const shot of this.projectiles){
    if(!shot.alive)continue;const x=shot.x,y=shot.y??1.25,z=shot.z;shot.life-=dt;const nx=x+shot.vx*dt,ny=y+(shot.vy||0)*dt,nz=z+shot.vz*dt;
    const wall=this.wallHit(x,y,z,nx,ny,nz,.06),body=segmentBox(x,y,z,nx,ny,nz,p.x-MOVEMENT.radius-.06,p.y-.06,p.z-MOVEMENT.radius-.06,p.x+MOVEMENT.radius+.06,p.y+p.bodyHeight+.06,p.z+MOVEMENT.radius+.06);
@@ -214,7 +215,7 @@ class Mission {
   }
   this.projectiles=this.projectiles.filter(shot=>shot.alive);
   if(p.hp>0&&!this.extracted)this.playerBullets.advance(this,dt,beforeEnemies,incomingContacts);else this.playerBullets.clear();
-  if(this.extractionZone){const zone=this.extractionZone;if(p.hp<=0||!this.canExtract(zone)||Math.hypot(p.x-zone.x,p.z-zone.z)>zone.radius)this.cancelExtraction(p.hp<=0?'dead':'left');else{this.extractionProgress=Math.min(this.extractionRequired,this.extractionProgress+dt);if(this.extractionProgress>=this.extractionRequired-EPS){this.extractionProgress=this.extractionRequired;this.extracted=true;this.playerBullets.clear();this.clearFireInput('extracted');for(const controller of this.mechanical)controller.deactivate('extracted');this.syncMechanical();this.emit('win',{id:zone.id,cargo:this.cargo,cash:this.cash});}}}
+  if(this.extractionZone){const zone=this.extractionZone;if(p.hp<=0||!this.canExtract(zone)||Math.hypot(p.x-zone.x,p.z-zone.z)>zone.radius)this.cancelExtraction(p.hp<=0?'dead':'left');else{this.extractionProgress=Math.min(this.extractionRequired,this.extractionProgress+dt);if(this.extractionProgress>=this.extractionRequired-EPS){this.extractionProgress=this.extractionRequired;this.extracted=true;this.cancelEnemyActions();this.playerBullets.clear();this.clearFireInput('extracted');for(const controller of this.mechanical)controller.deactivate('extracted');this.syncMechanical();this.emit('win',{id:zone.id,cargo:this.cargo,cash:this.cash});}}}
  }
 }
 root.HC={Mission,clamp,MOVEMENT,CYCLE,RIFLE:rifleSource?.RIFLE};if(typeof module!=='undefined')module.exports=root.HC;
