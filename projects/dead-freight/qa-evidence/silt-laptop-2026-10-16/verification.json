@@ -169,5 +169,23 @@
     "No listening or real-device sound acceptance",
     "No foreground mouse/pointer-lock feel or target-device FPS acceptance",
     "Browser input is automated actual Chrome/WebGL; fixture placements distinguished in handoff"
-  ]
+  ],
+  "browser": {
+    "ordinarySilt": "normal-attempt-2/normal-browser.json",
+    "ordinaryFerry": "regression-canal/ordinary-receipt.json",
+    "ordinaryForest": "regression-forest/forest-regression.json",
+    "ordinaryWinch": "regression-west-boundary/west-receipt.json",
+    "explicitWebGL": [
+      "fixtures-attempt-2/fixtures-browser.json (partial passes; cover fixture failure)",
+      "fixtures-cover/cover-fixtures.json",
+      "lifecycle-workshop-fixtures/browser-receipt.json"
+    ],
+    "winch": {
+      "cash": 1170,
+      "settledRaids": 1,
+      "kills": 7,
+      "shots": 81,
+      "siltAlive": true
+    }
+  }
 }

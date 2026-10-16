@@ -25,7 +25,7 @@ Existing progression regression also used fresh saves and normal movement/combat
 
 - `regression-canal/ordinary-receipt.json`: dock medkit and market archive, pump fight/token, ferry 8-second hold, cash 1170/7 kills, schema-6 stash retains medkit/archive and weapon instance, settled raid recorded once, normal Start creates a new mission. No page errors.
 - `regression-forest/forest-regression.json`: depot/east haul/relay/token/east evac 6-second hold, cash 1310/9 kills, settled save/stash recorded. No page errors. Its `baseline` field names the historical script origin; `sourceRef` is the current tested 41ee11d source.
-- West winch regression: final result is recorded in the completion section below.
+- `regression-west-boundary/west-receipt.json`: ordinary dock/market/pump/token route, then south z92 and west boundary x=-136 to bypass optional SILT, winch 12-second hold, cash 1170/7 kills/81 shots, retained medkit/archive and weapon instance in schema-6 stash, then ordinary Start resets the mission. No page errors. SILT remained alive with core HP 80; this regression deliberately verifies the existing extraction path separately from SILT combat.
 
 ## Explicit WebGL/input fixtures
 
@@ -49,6 +49,8 @@ The corpse screenshot still shows the recent “SILT collapse / aim at exposed c
 - `fixtures/`: initial shot missed before pose settling; corrected with settling time and a small seam offset in attempt 2.
 - `fixtures-attempt-2/` cover assertion failed because the test used x=-118.25 instead of the actual post x=-117.25. Corrected test locates and verifies the existing post; it passed in `fixtures-cover/`. Do not cite the failed placement as an AI cover bug.
 - First west regression used an incorrect waypoint beyond Canal bounds; its result is separate from the corrected route. No game source was changed in response.
+- `regression-west-corrected/` reached the correct west approach but the historical human-enemy firing loop stopped at 30 iterations while SILT still had core HP 50.03. `regression-west-final/` approached within activation range and aimed at core height, but spent all 120 rifle rounds, left core HP 5 and died; this loop did not switch to the carried pistol. These are failed ordinary attempts, not passing extraction evidence. They demonstrate that the old generic firing automation is not a reliable SILT strategy; they do not establish an AI defect. The successful normal pistol encounter remains separate. `regression-west-outer/` is the separate optional-encounter bypass route.
+- The first outer bypass touched the actual building corner at x=-39.60/z=59.75 and stopped. This is another failed scripted waypoint, not a collider defect. The final boundary route goes south at z92 before following x=-136 north to the winch.
 
 ## Video and Library delivery
 
@@ -67,4 +69,6 @@ Actual sound listening, foreground mouse/pointer-lock feel and target-device fra
 
 ## Completion
 
-West winch result pending while other evidence is being consolidated.
+All three existing extraction regressions completed on the 41ee11d app build: Canal ferry 8 s, Canal west winch 12 s and Black Pines east evac 6 s. Ferry and winch both include actual saved stash inspection and ordinary redeployment. The explicit lifecycle/workshop browser suite completed all eight checks with no page errors; repaired armor persisted at 45 and cash at 793 after crafting/repair and reload. Failed intermediate routes remain in their own folders.
+
+QA record commits contain no changes under `projects/dead-freight/app` or `packages/registry` relative to the tested source. Native UI/audio limits and the core-color finding remain open as stated above.
