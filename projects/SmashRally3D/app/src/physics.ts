@@ -170,9 +170,10 @@ export function solve(start: V3, target: V3, shot: Shot): Solution {
     const safe = candidates(start, target, fallback)[0] ?? candidates(start, target, 'clear')[0];
     return { ...safe, requestedShot: shot, fallbackReason: 'NO_LEGAL_DESCENDING_ATTACK' };
 }
+export const PERFECT_WINDOW = 0.08;
 export function quality(error: number): Quality {
     const e = Math.abs(error);
-    return e <= 0.08 ? 'perfect' : e <= 0.18 ? 'good' : e <= 0.3 ? 'weak' : 'miss';
+    return e <= PERFECT_WINDOW ? 'perfect' : e <= 0.18 ? 'good' : e <= 0.3 ? 'weak' : 'miss';
 }
 export function chooseShot(
     intent: 'default' | 'clear' | 'drop',

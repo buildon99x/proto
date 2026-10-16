@@ -31,7 +31,7 @@ import { Game } from './game';
 import { fitCourtCamera, flightFov, courtAim } from './camera-framing';
 import type { ContainerResource, AnimTrack } from 'playcanvas';
 import type { Intent, Actor, Hit } from './game';
-import { CFG } from './physics';
+import { CFG, PERFECT_WINDOW } from './physics';
 import type { V3 } from './physics';
 import { MOTIONS, skeletonPose, sub } from './motion';
 import type { MotionName, SkeletonPose } from './motion';
@@ -187,7 +187,7 @@ function renderUI() {
         const broad =
             rem < game.inputLead(selected) + 0.24 &&
             rem > Math.max(0.04, game.inputLead(selected) - 0.07);
-        const sweet = rem < game.inputLead(selected) + 0.05;
+        const sweet = rem < game.inputLead(selected) + PERFECT_WINDOW;
         t.textContent =
             game.phase === 'POINT_RESOLVED'
                 ? `${game.points.at(-1)?.winner === 0 ? 'YOUR POINT · YOUR SERVE NEXT' : 'AI POINT · RECEIVE NEXT'}`
@@ -960,7 +960,7 @@ async function boot() {
         timing.enabled = game.phase === 'RALLY' && game.receiver === 0 && Number.isFinite(rem);
         timing.setPosition(game.actors[0].p.x, 0.065, game.actors[0].p.z);
         const scale =
-            rem < game.inputLead(selected) + 0.05 &&
+            rem < game.inputLead(selected) + PERFECT_WINDOW &&
             rem > Math.max(0.04, game.inputLead(selected) - 0.07)
                 ? 0.9
                 : 1.4;
