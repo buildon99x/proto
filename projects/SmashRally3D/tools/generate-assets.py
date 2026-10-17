@@ -3,7 +3,8 @@ from pathlib import Path
 import math,json,struct
 OUT=Path(__file__).resolve().parents[1]/'app/public/assets/models';OUT.mkdir(parents=True,exist_ok=True)
 class GLB:
- def __init__(self):
+ def __init__(self,linear_colors=False):
+  self.linear_colors=linear_colors
   self.data=bytearray();self.g={'asset':{'version':'2.0','generator':'Smash Rally original asset author'},'buffers':[{}],'bufferViews':[],'accessors':[],'meshes':[],'materials':[],'nodes':[],'scenes':[{'nodes':[]}],'scene':0,'animations':[]}
  def acc(self,values,typ,component=5126):
   size={'SCALAR':1,'VEC3':3,'VEC4':4,'MAT4':16}[typ];flat=[x for v in values for x in (v if isinstance(v,(list,tuple)) else [v])];offset=len(self.data);self.data.extend(struct.pack('<'+('f' if component==5126 else 'H')*len(flat),*flat));length=len(self.data)-offset
@@ -13,7 +14,9 @@ class GLB:
   if typ=='SCALAR':a.update(min=[min(flat)],max=[max(flat)])
   i=len(self.g['accessors']);self.g['accessors'].append(a);return i
  def material(self,color):
-  rgb=[int(color[i:i+2],16)/255 for i in (1,3,5)];i=len(self.g['materials']);self.g['materials'].append({'name':color,'pbrMetallicRoughness':{'baseColorFactor':rgb+[1],'metallicFactor':0,'roughnessFactor':.72}});return i
+  rgb=[int(color[i:i+2],16)/255 for i in (1,3,5)]
+  if self.linear_colors:rgb=[v/12.92 if v<=.04045 else ((v+.055)/1.055)**2.4 for v in rgb]
+  i=len(self.g['materials']);self.g['materials'].append({'name':color,'pbrMetallicRoughness':{'baseColorFactor':rgb+[1],'metallicFactor':0,'roughnessFactor':.72}});return i
  def mesh(self,kind,material):
   p=[];n=[];idx=[]
   if kind=='box':

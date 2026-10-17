@@ -1,6 +1,6 @@
 import { createRequire } from "node:module";
 import http from "node:http";
-import { readFile, mkdir, writeFile } from "node:fs/promises";
+import { readFile, mkdir, writeFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { createHash } from "node:crypto";
 import { pathToFileURL } from "node:url";
@@ -59,7 +59,11 @@ const sourceHash = sourceBundle
       .update(await readFile(path.join(root, sourceBundle)))
       .digest("hex")
   : null;
+const modelDirectory=path.join(root,'assets/models');
+const modelHashes={};
+for(const name of (await readdir(modelDirectory)).filter(n=>n.endsWith('.glb')).sort())modelHashes[name]=createHash('sha256').update(await readFile(path.join(modelDirectory,name))).digest('hex');
 const buildEvidence = {
+  modelHashes,
   sourceBundle,
   sha256: sourceHash,
   startedAt: new Date().toISOString(),

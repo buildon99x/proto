@@ -9,7 +9,7 @@ BONES=[('Hip',None,[0,.96,0]),('Spine','Hip',[0,.28,0]),('Chest','Spine',[0,.22,
 def quat(x,y,z):
  x,y,z=[math.radians(a)/2 for a in (x,y,z)];cx,sx=math.cos(x),math.sin(x);cy,sy=math.cos(y),math.sin(y);cz,sz=math.cos(z),math.sin(z);return [sx*cy*cz-cx*sy*sz,cx*sy*cz+sx*cy*sz,cx*cy*sz-sx*sy*cz,cx*cy*cz+sx*sy*sz]
 for uniform,filename in [('#f4b64d','athlete-gold.glb'),('#8491ed','athlete-violet.glb')]:
- g=GLB();names={};rest={};g.g['nodes']=[{'name':'AthleteRig','children':[]}];g.g['scenes'][0]['nodes']=[0]
+ g=GLB(linear_colors=True);names={};rest={};g.g['nodes']=[{'name':'AthleteRig','children':[]}];g.g['scenes'][0]['nodes']=[0]
  for name,parent,p in BONES:
   i=len(g.g['nodes']);names[name]=i;g.g['nodes'].append({'name':name,'translation':p,'children':[]});g.g['nodes'][names[parent] if parent else 0]['children'].append(i);r=rest[parent] if parent else [0,0,0];rest[name]=[r[k]+p[k] for k in range(3)]
  joints=[names[x[0]] for x in BONES];joint_index={n:i for i,(n,_,_) in enumerate(BONES)};parts={};geo={}
