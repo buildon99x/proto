@@ -1,0 +1,5 @@
+{
+  "baseline": "evaluation-baseline.json",
+  "policy": "같은 문제3회 정체하면 원인 분석+다른 접근+재평가.소프트웨어 capture/자동검사와 경험 평가 분리.",
+  "cycles": []
+}

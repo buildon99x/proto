@@ -19,3 +19,7 @@ Smash-feel iteration after eede0d7: preserve accepted close view and simple cont
 
 ## Experience iteration 2026-10-16
 Start at906024b, preserve simple controls, close reference camera, physical contact/attack/AI rules. Current screenshots show generic shot feedback without a hitter identity, a real front-target attack downgraded to DROP with developer-facing `LIMIT: SMASH > DROP`, and a stale SMASH control label during a resolved point. Improve the player's understanding of who hit, why a return failed or softened, and what happens after a point. Add a quiet distinct outcome sound on the actual score event, without changing hit sounds or score logic. No claim to Naver source analysis or AAA certification.
+
+
+## Nintendo benchmark iteration — 2026-10-17
+Resume from acdebb9 on codex/smash-rally-3d. Build a frozen100-point experience rubric with98 as a target, not a claim. Preserve simple auto-footwork/aim/tap/swipe, accepted close camera, contact/flight solver and AI. First review a fresh normal-input baseline; prioritize observed dark athlete/racket/net separation, then time-driven beginner tips. Actual dot desktop, physical latency, listening and reference-video playback are unavailable in the selected container and remain unverified. Do not score unavailable evidence. Three stagnant attempts on the same issue require root-cause analysis and a different approach.

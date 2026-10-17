@@ -1,0 +1,21 @@
+{
+  "environment": "Selected /workspace Linux container",
+  "hostname": "cf8915a31a1e",
+  "display": null,
+  "dot_desktop_access": "미검증: dot 접속/컴퓨터 제어 도구 미노출.연결 경로 질문 전달.",
+  "available": [
+    "Chromium151 headless",
+    "Puppeteer ordinary mouse/touch/keyboard events",
+    "Actual CDP screenshots/frames",
+    "WebAudio destination recording",
+    "ffmpeg"
+  ],
+  "unavailable": [
+    "사람처럼 실제 출력 청음할 도구",
+    "물리 mouse/touch/display latency measurement",
+    "실물 모바일/Safari",
+    "공개 Nintendo 비디오 스트림 접근"
+  ],
+  "quota_error": null,
+  "notes": "10월17일 재시도에서 현재까지 사용량 제한 오류는 발생하지 않음.제약을 완료로 처리하지 않음."
+}

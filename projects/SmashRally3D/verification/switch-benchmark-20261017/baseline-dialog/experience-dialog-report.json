@@ -1,0 +1,13 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-D432hHCz.js",
+    "sha256": "cca484ce060f8e0dc5aba9618af99309d4e0d0b87b7e5ef19394cffa04403dc0",
+    "startedAt": "2026-10-17T01:24:28.255Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "DIALOG PASS {\"results\":[{\"view\":{\"width\":640,\"height\":360},\"scrollTop\":58,\"scrollHeight\":228,\"height\":170,\"footer\":{\"x\":159,\"y\":275,\"width\":322,\"height\":44,\"top\":275,\"right\":481,\"bottom\":319,\"left\":159},\"role\":\"dialog\"},{\"view\":{\"width\":844,\"height\":390},\"scrollTop\":28,\"scrollHeight\":228,\"height\":200,\"footer\":{\"x\":261,\"y\":305,\"width\":322,\"height\":44,\"top\":305,\"right\":583,\"bottom\":349,\"left\":261},\"role\":\"dialog\"},{\"view\":{\"width\":390,\"height\":844},\"scrollTop\":0,\"scrollHeight\":228,\"height\":228,\"footer\":{\"x\":38.59375,\"y\":550,\"width\":312.796875,\"height\":44,\"top\":550,\"right\":351.390625,\"bottom\":594,\"left\":38.59375},\"role\":\"dialog\"},{\"view\":{\"width\":320,\"height\":568},\"scrollTop\":0,\"scrollHeight\":321,\"height\":321,\"footer\":{\"x\":35.796875,\"y\":458.625,\"width\":248.390625,\"height\":44,\"top\":458.625,\"right\":284.1875,\"bottom\":502.625,\"left\":35.796875},\"role\":\"dialog\"}],\"method\":\"Actual mouse focus, keyboard End/Tab/Enter; read-only bounds. Not a complete focus-trap or screen-reader audit.\"}"
+  ]
+}
