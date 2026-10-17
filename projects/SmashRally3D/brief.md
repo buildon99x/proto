@@ -32,3 +32,6 @@ Follow-up U3: enlarge existing settings/pause controls to44CSSpx and contain key
 Stroke-chain follow-up2026-10-17: inspect actual raw swing frames and120Hz diagnostic joints before editing. Improve abrupt late preparation, extended loaded elbow, fixed hand orientation and rigid landing using a render-only pose layer. Preserve domain skeleton/contact/prediction/AI/foot motors, original camera envelope, fixed clock and simple input. Treat art/material changes as a separate controlled comparison; no hardware/listening score substitution.
 
 Separate athlete-art correction: authored hex colors were written as glTF linear baseColorFactor values. Installed PlayCanvas2.23.2 glb-parser then gamma-converts them, washing out skin/hair/cloth. Opt only athlete generation into sRGB-to-linear encoding, regenerate those two assets only, and prove geometry/skin/animation binary buffers unchanged. Compare legacy/current color on the identical held motion pose/camera; no lighting, court or character geometry edits.
+
+
+Next cycle startsab5102d,41/55reviewed and45unverified. Audit all14deductions inverification/courtyard-depth-20261017/deduction-audit.json. Select V3largestgap: original layered club courtyard with recessed glazing, structural bays and coherent planter/foliage depth. Keep original camera/court/lighting/athletes and no spectators/third-party scenery.

@@ -3,6 +3,7 @@ import {
     TONEMAP_NEUTRAL,
     AppBase,
     AppOptions,
+    BatchManager,
     Asset,
     AnimEvents,
     AnimClip,
@@ -44,6 +45,7 @@ import { impactStyle, impactEnvelope } from './impact';
 import { shuttleContrast, shuttleContrastSvg } from './shuttle-contrast';
 import type { ShuttleContrast } from './shuttle-contrast';
 import { presentStroke } from './stroke-presentation';
+import { buildCourtyard } from './courtyard';
 import './style.css';
 let currentContrast: ShuttleContrast | null = null;
 let contrastFrameHit: Hit | null = null;
@@ -802,6 +804,7 @@ async function boot() {
         }),
         o = new AppOptions();
     o.graphicsDevice = device;
+    o.batchManager = BatchManager;
     o.componentSystems = [RenderComponentSystem, CameraComponentSystem, LightComponentSystem];
     o.resourceHandlers = [TextureHandler, ContainerHandler];
     app = new AppBase(canvas);
@@ -837,19 +840,10 @@ async function boot() {
     app.root.addChild(fill);
     shape('arena floor', 'box', [0, -0.16, 0], [200, 0.2, 200], '#37314d');
     shape('court surround', 'box', [0, -0.05, 0], [11.4, 0.12, 16.3], '#75629e');
-    // Original practice-club courtyard; no seating, spectators or sourced scenery.
-    shape('club facade', 'box', [0, 3, 11.5], [24, 6, 0.35], '#a7bab8');
-    shape('club lower wall', 'box', [0, 0.9, 11.2], [24, 1.8, 0.3], '#506b78');
-    shape('club canopy', 'box', [0, 6.05, 10.7], [25, 0.18, 1.8], '#e0d7bd');
-    for (let x = -9; x <= 9; x += 3) {
-        shape('club window', 'box', [x, 3.8, 11.28], [2.25, 2.35, 0.08], '#34566b');
-        shape('window mullion', 'box', [x, 3.8, 11.2], [0.055, 2.4, 0.08], '#d1dbce');
-    }
-    for (const x of [-8.5, 8.5]) {
-        shape('planter', 'box', [x, 0.45, 7.8], [2.4, 0.9, 2.4], '#78666a');
-        shape('tree trunk', 'cylinder', [x, 2, 7.8], [0.32, 3.3, 0.32], '#756354');
-        shape('tree canopy', 'sphere', [x, 4.4, 7.8], [4.1, 4.8, 3.5], '#4b7060');
-        shape('side canopy', 'sphere', [x + (x < 0 ? -1 : 1), 5.7, 9.2], [3.5, 3.7, 3], '#608474');
+    const courtyard = buildCourtyard(app, shape);
+    const sceneryBatch = app.batcher!.addGroup('club courtyard static', false, 40);
+    for (const node of courtyard.find((n) => n instanceof Entity && !!n.render)) {
+        (node as Entity).render!.batchGroupId = sceneryBatch.id;
     }
 
     await Promise.all(
