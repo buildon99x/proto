@@ -1,0 +1,27 @@
+[
+  {
+    "name": "equipmentAction",
+    "unchanged": true,
+    "sha256": "ffa3d7250a9019b79d4c7295a4c96c03143b9db389a2f40eed2a768307cd11cb"
+  },
+  {
+    "name": "dispatch",
+    "unchanged": true,
+    "sha256": "5d155ebb16a98519a4080e524de912f74b980f5b74bd758a048bd9080985da08"
+  },
+  {
+    "name": "syncVitals",
+    "unchanged": true,
+    "sha256": "1b4c162b79b613ebcd0028f8b56a7642e25dbef5bdbffa0d5a047f515cc9f232"
+  },
+  {
+    "name": "report",
+    "unchanged": true,
+    "sha256": "09567c55d4584bb55b78a502070fdb3253ec3d5d317dacf8839036fc8e922a52"
+  },
+  {
+    "name": "checkpointPanel",
+    "unchanged": true,
+    "sha256": "172f27f36cc0e618e9077cbd09a537920e196b455897b8361c22bad520dc9d79"
+  }
+]

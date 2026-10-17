@@ -1,0 +1,49 @@
+{
+  "base": "1c93d23edd8e59c88d51662381e679c1712a25c1",
+  "runtimeChanged": [
+    "main.js ephemeral notice lifetime",
+    "action-feedback.js ephemeral notice ownership"
+  ],
+  "newTests": 23,
+  "fullFinal": {
+    "tests": 4767,
+    "pass": 4767,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 420183.08929
+  },
+  "priorAfterFixFailure": {
+    "tests": 4767,
+    "pass": 4751,
+    "fail": 16,
+    "reason": "resource-display extracted event-loop fixture omitted new dismissCooldownNotice import; corrected injection; same assertions"
+  },
+  "baselineBeforeNoticeFix": {
+    "tests": 4759,
+    "pass": 4759
+  },
+  "focused": {
+    "postRoll": 15,
+    "noticeAndExistingRecovery": 25,
+    "resourceDisplay": 42
+  },
+  "appLint": "pass",
+  "commonRegistry": "pass,12 projects",
+  "commonVercelBuild": "pass twice; final code built",
+  "appBuild": {
+    "files": 133,
+    "bytes": 16803128
+  },
+  "native": "ordinary input, native screenshots and 22.32second video; DOM before/after cooldown expiry verified",
+  "nativeNotEstablished": [
+    "new enemy damage/FX overlap",
+    "physical input/display/speaker latency",
+    "actual listening",
+    "native AX",
+    "touch",
+    "new death/re-entry campaign closure"
+  ],
+  "a19Attempt": false,
+  "library": "pending supported one-shot batch"
+}

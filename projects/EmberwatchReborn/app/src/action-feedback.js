@@ -26,3 +26,15 @@ export function dismissRecoveryNotice(notice,skillId=null){
  if(!notice.recoverySkillId||(skillId!==null&&notice.recoverySkillId!==skillId))return false;
  notice.recoverySkillId=null;notice.textContent='';notice.classList.remove('visible');return true;
 }
+
+// This owns only the currently displayed cooldown rejection. A later toast
+// replaces its tag; expiry must never dismiss an unrelated message.
+export function dismissCooldownNotice(notice,skillId=null){
+ if(!notice.cooldownSkillId||(skillId!==null&&notice.cooldownSkillId!==skillId))return false;
+ notice.cooldownSkillId=null;notice.textContent='';notice.classList.remove('visible');return true;
+}
+export function dismissExpiredCooldownNotice(notice,cooldowns){
+ const id=notice.cooldownSkillId;if(!id||!cooldowns)return false;
+ const remaining=cooldowns[id]??0;
+ return Number.isFinite(remaining)&&remaining<=1e-9&&dismissCooldownNotice(notice,id);
+}

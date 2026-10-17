@@ -1,0 +1,33 @@
+✔ recovery diagnostic separates same-sequence waiting observations from rejection causes (1657.985498ms)
+✔ recovery copy retains one status region and key repeat does not renew the notice (271.78745ms)
+✔ post-roll Judgement 30Hz/0.18001 respects acceptance and pays once (383.568208ms)
+✔ post-roll Judgement 30Hz/0.18 respects acceptance and pays once (415.421896ms)
+✔ post-roll Judgement 30Hz/0.17999 respects acceptance and pays once (404.067927ms)
+✔ post-roll Judgement 60Hz/0.18001 respects acceptance and pays once (350.125087ms)
+✔ post-roll Judgement 60Hz/0.18 respects acceptance and pays once (395.719173ms)
+✔ post-roll Judgement 60Hz/0.17999 respects acceptance and pays once (441.301478ms)
+✔ post-roll Judgement 120Hz/0.18001 respects acceptance and pays once (371.594296ms)
+✔ post-roll Judgement 120Hz/0.18 respects acceptance and pays once (437.912824ms)
+✔ post-roll Judgement 120Hz/0.17999 respects acceptance and pays once (396.05709ms)
+✔ post-roll mixed burst 30Hz/controls4 keeps latest E ahead of held mace (534.291ms)
+✔ post-roll mixed burst 30Hz/controls5 keeps latest E ahead of held mace (842.364804ms)
+✔ post-roll mixed burst 60Hz/controls4 keeps latest E ahead of held mace (500.449024ms)
+✔ post-roll mixed burst 60Hz/controls5 keeps latest E ahead of held mace (793.382767ms)
+✔ post-roll mixed burst 120Hz/controls4 keeps latest E ahead of held mace (531.462179ms)
+✔ post-roll mixed burst 120Hz/controls5 keeps latest E ahead of held mace (858.296655ms)
+✔ cooldown notice ownership controls4/expiry follows current rejection only (120.376653ms)
+✔ cooldown notice ownership controls4/accepted follows current rejection only (160.243153ms)
+✔ cooldown notice ownership controls4/newer-message follows current rejection only (113.684067ms)
+✔ cooldown notice ownership controls4/newer-cooldown follows current rejection only (123.209384ms)
+✔ cooldown notice ownership controls5/expiry follows current rejection only (226.177949ms)
+✔ cooldown notice ownership controls5/accepted follows current rejection only (288.747746ms)
+✔ cooldown notice ownership controls5/newer-message follows current rejection only (228.328363ms)
+✔ cooldown notice ownership controls5/newer-cooldown follows current rejection only (278.00964ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11273.45514

@@ -1,0 +1,21 @@
+{
+  "atRejection": {
+    "text": "기술 재사용 대기 · 0.1초",
+    "tag": "shield_charge",
+    "visible": true,
+    "q": "Q\n방패 돌진\n0.1초"
+  },
+  "atReady": {
+    "text": "",
+    "tag": null,
+    "visible": false,
+    "q": "Q\n방패 돌진\n기력 10"
+  },
+  "afterShot": {
+    "text": "",
+    "tag": null,
+    "visible": false,
+    "q": "Q\n방패 돌진\n기력 10"
+  },
+  "error": null
+}

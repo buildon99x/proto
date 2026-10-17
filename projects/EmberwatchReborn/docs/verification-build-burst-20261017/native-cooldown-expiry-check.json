@@ -1,0 +1,30 @@
+{
+  "atRejection": {
+    "text": "기술 재사용 대기 · 0.1초",
+    "tag": null,
+    "recovery": null,
+    "visible": true,
+    "q": "Q\n방패 돌진\n0.1초",
+    "x": 0,
+    "y": 0
+  },
+  "after1100": {
+    "text": "기술 재사용 대기 · 0.1초",
+    "tag": null,
+    "recovery": null,
+    "visible": true,
+    "q": "Q\n방패 돌진\n기력 10",
+    "x": 0,
+    "y": 0
+  },
+  "afterShot": {
+    "text": "기술 재사용 대기 · 0.1초",
+    "tag": null,
+    "recovery": null,
+    "visible": true,
+    "q": "Q\n방패 돌진\n기력 10",
+    "x": 0,
+    "y": 0
+  },
+  "error": null
+}

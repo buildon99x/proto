@@ -1,0 +1,20 @@
+✔ explicit pre-W recovery preserves latest W and exact earned B checkpoint without automatic load (198.232076ms)
+✔ hand-authored rooms leave solid space and a separately gated connecting passage (1.532759ms)
+✔ closed doorway blocks straight vision and traversal even when endpoint is valid (0.56542ms)
+✔ open doorway permits vision and radius-safe traversal (2.376807ms)
+✔ path search cannot cross a locked door and routes around a solid room separation (2.48084ms)
+✔ cardinal navigation reaches destination without clipping the wall corner (6.691538ms)
+✔ nonfinite or out-of-map endpoints never count as visible or walkable (0.326188ms)
+ℹ tests 4767
+ℹ suites 0
+ℹ pass 4767
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 420183.08929
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

@@ -1,0 +1,26 @@
+[
+  {
+    "file": "images/12-cooldown-clear-active-no-screencast.jpg",
+    "bytes": 308389,
+    "sha256": "f35d7440a7760f44f2568342952d8369e7fdd39677c38bb50a256e7b631077e4",
+    "origin": "unmodified native Chromium screenshot"
+  },
+  {
+    "file": "images/13-current-after-rejection.jpg",
+    "bytes": 313249,
+    "sha256": "2ee7f80f6667ca15ef81efa35c4245927a50dbb803b1f7771077186e43314109",
+    "origin": "unmodified native Chromium screenshot"
+  },
+  {
+    "file": "images/14-current-ready.jpg",
+    "bytes": 313319,
+    "sha256": "67e74e1f944a01f54a0ab4f2e7bdad772097889f7afde444ccf68c0924c5322f",
+    "origin": "unmodified native Chromium screenshot"
+  },
+  {
+    "file": "images/16-current-burst-dodge-active.jpg",
+    "bytes": 316974,
+    "sha256": "dbe81009eda30cc623d33886fcfa2d7d2b13632649d802c106880ccf8933847b",
+    "origin": "unmodified native Chromium screenshot"
+  }
+]

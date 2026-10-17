@@ -1,0 +1,23 @@
+✔ post-roll Judgement 30Hz/0.18001 respects acceptance and pays once (2019.146104ms)
+✔ post-roll Judgement 30Hz/0.18 respects acceptance and pays once (440.285501ms)
+✔ post-roll Judgement 30Hz/0.17999 respects acceptance and pays once (428.293875ms)
+✔ post-roll Judgement 60Hz/0.18001 respects acceptance and pays once (353.098169ms)
+✔ post-roll Judgement 60Hz/0.18 respects acceptance and pays once (396.049612ms)
+✔ post-roll Judgement 60Hz/0.17999 respects acceptance and pays once (392.632388ms)
+✔ post-roll Judgement 120Hz/0.18001 respects acceptance and pays once (378.656712ms)
+✔ post-roll Judgement 120Hz/0.18 respects acceptance and pays once (393.851438ms)
+✔ post-roll Judgement 120Hz/0.17999 respects acceptance and pays once (387.699806ms)
+✔ post-roll mixed burst 30Hz/controls4 keeps latest E ahead of held mace (556.112376ms)
+✔ post-roll mixed burst 30Hz/controls5 keeps latest E ahead of held mace (819.365869ms)
+✔ post-roll mixed burst 60Hz/controls4 keeps latest E ahead of held mace (517.715062ms)
+✔ post-roll mixed burst 60Hz/controls5 keeps latest E ahead of held mace (796.78766ms)
+✔ post-roll mixed burst 120Hz/controls4 keeps latest E ahead of held mace (531.020936ms)
+✔ post-roll mixed burst 120Hz/controls5 keeps latest E ahead of held mace (820.750767ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9375.547482

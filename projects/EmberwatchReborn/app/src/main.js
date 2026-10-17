@@ -68,7 +68,7 @@ import {createSession,readUpgradeBackup,restoreUpgradeBackup,readUpgradeBackupV5
 import {createUpgradeBackupUi} from './upgrade-backup-ui.js';
 import {createController} from './controller.js';
 import {createBattle,stepBattle,acceptBattleInput,configurePoeControls,clearBattleIntent,cancelBattleAction,quoteAction,actionEligibility} from './combat.js';
-import {actionBlockedText,dismissRecoveryNotice} from './action-feedback.js';
+import {actionBlockedText,dismissRecoveryNotice,dismissCooldownNotice,dismissExpiredCooldownNotice} from './action-feedback.js';
 import {formatResourceAmount,formatResourceCost} from './resource-display.js';
 import {getRegion,near,FOES,createMap,lineOfSight} from './world.js';
 import {deriveStats,previewSkill,RUNTIME_SKILL_IDS,ACTION_SKILL_IDS,STARTER_SKILLS} from './warrior-growth.js';
@@ -109,7 +109,7 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 const button=(label,action,extra='')=>`<button data-action="${action}" ${extra}>${label}</button>`;
 // One label for title, pause UI and the optional read-only status tool.
 const BUILD_LABEL='R14a18';
-function clearInput(reason='safety'){if(dismissRecoveryNotice($('toast')))noticeUntil=0;releasedAimBySkill={};contextClick.clear(reason);contextSuppressHeld=false;locomotionIntent.clear();clearInputFeedback();inputLatency.clear(typeof reason==='string'?reason:'safety');deferredImmediate.clear();router.clear();clearBattleIntent(battle);expertSafety.request(battle,controller,typeof reason==='string'?reason:'pointer-cancel');if(battle)battle.targetId=null;}
+function clearInput(reason='safety'){const clearedRecovery=dismissRecoveryNotice($('toast')),clearedCooldown=dismissCooldownNotice($('toast'));if(clearedRecovery||clearedCooldown)noticeUntil=0;releasedAimBySkill={};contextClick.clear(reason);contextSuppressHeld=false;locomotionIntent.clear();clearInputFeedback();inputLatency.clear(typeof reason==='string'?reason:'safety');deferredImmediate.clear();router.clear();clearBattleIntent(battle);expertSafety.request(battle,controller,typeof reason==='string'?reason:'pointer-cancel');if(battle)battle.targetId=null;}
 function flushActionSafety(){
  const result=expertSafety.drain(battle,controller,{busy,blocked:gate.blocked});
  if(result.status==='waiting')return true;
@@ -167,7 +167,7 @@ function deliverCombatAudio(event){
 }
 function deliverCombatEvents(events){
  if(isPoeControls(config()))poeFeedback.accept(events,battle.p);
- let previousEvent=null;for(const e of events){const soundResult=deliverCombatAudio(e);if(e.type==='roll-start'||e.type==='sprint-start'){const start=inputLatency.mobilityStarted(e);if(e.type==='roll-start')inputLatency.mobilitySoundRequested(start,audio.play('dash',{owner:'hero',tag:'mobility'}));}if(e.type==='actionStarted'){inputLatency.started(e);if(dismissRecoveryNotice($('toast'),e.id))noticeUntil=0;}if(e.type==='actionContact')inputLatency.mark('contact',e.castId);if(['skillIntentRejected','skillIntentCancelled','mobilityRejected'].includes(e.type))inputLatency.clear(e.reason);if(e.type==='sound')inputLatency.soundRequested(e,soundResult,previousEvent);if(e.type==='skillIntentRejected'&&e.reason==='recovery-too-early')toast('후딜 중 · 동작이 끝나기 직전에 다시 누르세요.',{recoverySkillId:e.id});if(e.type==='skillIntentRejected'&&e.reason==='not-ready'&&e.learned)toast(actionBlockedText(e)||'지금 사용할 수 없습니다.');previousEvent=e;}
+ let previousEvent=null;for(const e of events){const soundResult=deliverCombatAudio(e);if(e.type==='roll-start'||e.type==='sprint-start'){const start=inputLatency.mobilityStarted(e);if(e.type==='roll-start')inputLatency.mobilitySoundRequested(start,audio.play('dash',{owner:'hero',tag:'mobility'}));}if(e.type==='actionStarted'){inputLatency.started(e);if(dismissRecoveryNotice($('toast'),e.id)||dismissCooldownNotice($('toast'),e.id))noticeUntil=0;}if(e.type==='actionContact')inputLatency.mark('contact',e.castId);if(['skillIntentRejected','skillIntentCancelled','mobilityRejected'].includes(e.type))inputLatency.clear(e.reason);if(e.type==='sound')inputLatency.soundRequested(e,soundResult,previousEvent);if(e.type==='skillIntentRejected'&&e.reason==='recovery-too-early')toast('후딜 중 · 동작이 끝나기 직전에 다시 누르세요.',{recoverySkillId:e.id});if(e.type==='skillIntentRejected'&&e.reason==='not-ready'&&e.learned)toast(actionBlockedText(e)||'지금 사용할 수 없습니다.',{cooldownSkillId:e.blockedReason==='cooldown'?e.id:null});previousEvent=e;}
  const checkpoint=combatCheckpoint(battle,events,{elapsed:combatSaveElapsed});if(checkpoint){const captured=controller.capture();if(!captured.state||battle.stateLife!==(captured.state.world.life??0)||battle.region!==captured.state.world.region)throw new Error('전투와 저장 위치가 다릅니다. 저장을 다시 확인하세요.');checkpoint.expectedStoreRevision=captured.revision;dispatch(checkpoint,{critical:true}).then(ok=>{if(ok&&state.world.lifeDown)showDeath();});}
 }
 function flushFreshCombatInput(){
@@ -194,7 +194,7 @@ function releaseCombatToken(token){
  else if((battle?.p.action?.id==='zealous_onslaught'||isPoeControls(c))&&!busy&&!paused)flushFreshCombatInput();
 }
 
-function toast(text,{recoverySkillId=null}={}){const status=!modal.hidden&&modal.querySelector?.('[data-dialog-status]');if(status)status.textContent=text;$('toast').recoverySkillId=recoverySkillId;$('toast').textContent=text;$('toast').classList.add('visible');noticeUntil=performance.now()+3300;}
+function toast(text,{recoverySkillId=null,cooldownSkillId=null}={}){const status=!modal.hidden&&modal.querySelector?.('[data-dialog-status]');if(status)status.textContent=text;$('toast').recoverySkillId=recoverySkillId;$('toast').cooldownSkillId=cooldownSkillId;$('toast').textContent=text;$('toast').classList.add('visible');noticeUntil=performance.now()+3300;}
 function panel(title,content,wide=false){rememberDialogTrigger(modal,modal.ownerDocument?.activeElement);modal.presentationEpoch=(modal.presentationEpoch??0)+1;modal.safetyPause=false;if(gate.blocked){title='저장을 확인해야 합니다';content=`<p>${esc(gate.reason)}</p><p>저장 상태를 다시 읽기 전에는 진행할 수 없습니다.</p>${button('저장 다시 읽기','reload')}`;wide=false;}captureBinding=null;paused=true;clearInput();audio.pause(true);modal.hidden=false;modal.innerHTML=`<section class="panel ${wide?'wide':''}" role="dialog" aria-modal="true" aria-labelledby="dialog-title" tabindex="-1"><h2 id="dialog-title">${title}</h2><p data-dialog-status role="status" aria-live="polite"></p>${content}</section>`;focusDialog(modal);setDialogBackground(modal,true);}
 function closePanel(){if(!gate.canResume({hasBattle:!!battle,lifeDown:state?.world.lifeDown}))return;modal.presentationEpoch=(modal.presentationEpoch??0)+1;modal.safetyPause=false;modal.hidden=true;modal.innerHTML='';paused=false;clearInput();audio.pause(false);setDialogBackground(modal,false);restoreDialogFocus(modal,canvas);last=performance.now();}
 function report(){
@@ -805,7 +805,8 @@ function frame(now){const qaStartedAt=frameObservation.enabled?performance.now()
    const n=nearest(),targeted=battle.enemies.find(e=>e.id===battle.targetId&&e.hp>0);$('hint').textContent=!paused&&battle.skillIntent?`${({shield_charge:'돌진',righteous_hammer:'망치',lay_on_hands:'온기',judgement:'단죄',battle_banner:'깃발',zealous_onslaught:'진격'}[battle.skillIntent.id])} 예약 · ${isPoeControls(config())?'가드/다른 기술/상호작용으로 취소':'가드/반대 조준/상호작용으로 취소'}`:battle.awaitingAdvance&&!paused?`이동하거나 공격하면 전투가 시작됩니다 · ${keyName('pause')}로 조작 안내`:!paused&&n?`${keyName('interact')} · ${n.name??'상자 열기'}`:!paused&&targeted?`조준 · ${FOES[targeted.kind].name}${targeted.kind.startsWith('wilderness_')&&FOES[targeted.kind].tags.includes('undead')?' · 망자':''}`:'';hudTimer+=dt;if(hudTimer>.1){updateHud();hudTimer=0;}frameObservation.endPhase('ui');
   }
   if(inputFeedback&&now-inputFeedback.at>180)clearInputFeedback();
-  if(now>noticeUntil){$('toast').recoverySkillId=null;$('toast').classList.remove('visible');$('toast').textContent='';}
+  if(dismissExpiredCooldownNotice($('toast'),battle?.p?.cooldowns))noticeUntil=0;
+  if(now>noticeUntil){$('toast').recoverySkillId=null;$('toast').cooldownSkillId=null;$('toast').classList.remove('visible');$('toast').textContent='';}
  }catch(error){qaFailed=true;console.error(error);gate.block(error.message);panel('진행을 멈췄습니다',`<p>오류를 기록했습니다. 최근 저장 상태를 다시 불러올 수 있습니다.</p><p class="minor">${esc(error.message)}</p>${button('저장 다시 읽기','reload')}`);}
  if(frameObservation.enabled)frameObservation.endFrame({failed:qaFailed});
  requestAnimationFrame(frame);

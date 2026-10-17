@@ -331,3 +331,9 @@ Normal native quarry traversal paused while learned Judgement still displayed0.0
 
 ## October17 ordinary combat qualification
 Resume the existing normally earned profile on October17. Verify finite two-hit elite priming→targeted E wave and separate held mace startup→dodge cancel→held restart. Preserve protected a19 scope, balances and all original state; change runtime only if a reproducible defect is established.
+
+## Build recovery and burst-input investigation — 2026-10-17
+Diagnose the root pnpm pre-script failure using the pinned9.15.4 manager and an officially supported writable Corepack cache. Preserve existing generated output and restore unrelated registry/source changes after verification; no dependency/security-check suppression or protected a19 work. Investigate new long-hold/burst/post-roll input gaps rather than repeat the already-qualified elite combo.
+
+## Stale cooldown rejection finding — 2026-10-17
+Native burst/Q follow-up observed a stale cooldown rejection beside a ready HUD; simultaneous DOM confirmation and real-handler expiry tests establish obsolete message ownership. Repair only message lifetime/ownership, keeping combat and the protected writers untouched.

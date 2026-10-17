@@ -426,3 +426,9 @@ An authoritative cooldown rejection must display at least0.1seconds at one decim
 
 ## October17 ordinary combat qualification
 Use normal existing mace/Judgement, mode selection, heal, travel and input UI. Require a visible living ◆ target before E and separate actual primary/wave damage and rewards from nominal contact timing. For empty-field cancel/restart, assert input/action lifecycle only, not enemy hits. Retain all original input windows, costs, movement/target policies and save boundaries.
+
+## Build recovery and burst-input investigation — 2026-10-17
+Retain packageManager9.15.4, package.json/lockfiles, dependency versions, signature checks, HOME and all source defaults. Only manager cache may live under ignored project artifacts. Run actual root scripts unchanged, distinguish environment/compiler failures, and back up outputs before regeneration. Combat changes require a reproducible new defect and must preserve costs/timing/balance/save/equipment.
+
+## Stale cooldown rejection finding — 2026-10-17
+Tag only authoritative cooldown rejections with the originating skill in transient toast UI state. Dismiss that notice when its own live cooldown ends, on a matching accepted action, or existing safety clearing; never clear a newer unrelated message or change3300ms fallback lifetime for other notices. No serialized field, store namespace, timing/resource/DPS or queue changes.

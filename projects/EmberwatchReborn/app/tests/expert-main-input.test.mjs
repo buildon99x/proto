@@ -886,3 +886,38 @@ for(const version of [4,5])for(const debt of [.001,.049,.1])test(`blocked cooldo
  for(let remaining=debt+.001;remaining>1e-9;){const dt=Math.min(.04,remaining);await h.frame(dt);remaining-=dt;}h.app.updateHud();assert.equal(b.p.action,null);assert.equal(b.skillIntent,null);assert.doesNotMatch(h.buttons.charge.innerHTML,/0[.]0초|0[.]1초/);
  h.key('KeyQ');h.up('KeyQ');assert.equal(b.p.action?.id,'shield_charge');assert.equal(b.castSerial,serial+1);assert.equal(b.p.stamina,Number((pools.stamina-b.p.action.spec.staminaCost).toFixed(8)));
 });
+
+// Boundary qualification uses production main handlers and fixture progression.
+for(const hz of [30,60,120])for(const remaining of [.18001,.18,.17999])test(`post-roll Judgement ${hz}Hz/${remaining} respects acceptance and pays once`,async()=>{
+ const h=await ui({poeMode:'wasd',skills:['judgement']}),b=h.app.battle;
+ h.ch.pointermove({clientX:800,clientY:385});h.key('Space');h.up('Space');assert.equal(b.poeMobility.snapshot().state,'roll');
+ const at=.42-remaining;while(b.poeMobility.snapshot().elapsed<at-1e-10)await h.frame(Math.min(1/hz,at-b.poeMobility.snapshot().elapsed));
+ const mana=b.p.mana,stamina=b.p.stamina;h.ch.pointermove({clientX:200,clientY:350});h.key('KeyE');h.up('KeyE');
+ const accepted=remaining<=.18;assert.equal(b.skillIntent?.id??null,accepted?'judgement':null);assert.equal(b.p.mana,mana);assert.equal(b.p.stamina,stamina);
+ await advanceUntil(h,()=>accepted?b.p.action?.id==='judgement':b.poeMobility.snapshot().state==='idle','roll completion');
+ if(accepted){assert.ok(Math.abs(b.p.angle-b.p.action.angle)<1e-8);assert.equal(b.p.mana,Number((mana-b.p.action.spec.manaCost).toFixed(8)));const cast=b.castSerial;for(let i=0;i<80;i++)await h.frame();assert.equal(b.castSerial,cast);assert.ok(h.app.inputObservations.some(r=>r.kind==='contact'&&r.castId===cast));}
+ else {for(let i=0;i<80;i++)await h.frame();assert.equal(b.p.action,null);assert.equal(b.castSerial,0);assert.ok(h.app.inputObservations.some(r=>r.kind==='cancelled'&&r.reason==='recovery-too-early'));}
+});
+for(const hz of [30,60,120])for(const version of [4,5])test(`post-roll mixed burst ${hz}Hz/controls${version} keeps latest E ahead of held mace`,async()=>{
+ const h=await ui({poeMode:'wasd',skills:['judgement']});if(version===5){await h.click('enable-skill-loadout');h.app.closePanel();}
+ const b=h.app.battle;h.ch.pointermove({clientX:800,clientY:385});h.key('KeyJ');assert.equal(b.p.action?.id,'mace_swing');h.key('Space');h.up('Space');await next();assert.equal(b.poeMobility.snapshot().state,'roll');assert.equal(b.p.action,null);
+ while(b.poeMobility.snapshot().elapsed<.28-1e-10)await h.frame(Math.min(1/hz,.28-b.poeMobility.snapshot().elapsed));
+ const before=h.app.report(),casts=b.castSerial;h.ch.pointermove({clientX:200,clientY:350});for(const code of ['KeyE','KeyQ','KeyE']){h.key(code);h.up(code);}await next();assert.equal(b.skillIntent?.id,'judgement');assert.deepEqual(h.app.report().vitals,before.vitals);
+ await advanceUntil(h,()=>b.p.action?.id==='judgement','latest E starts');assert.equal(b.castSerial,casts+1);assert.ok(Math.abs(b.p.angle-b.p.action.angle)<1e-8);assert.equal(b.p.cooldowns.shield_charge??0,0);assert.equal(b.p.stamina,before.vitals.stamina);
+ const cast=b.p.action.castId;await advanceUntil(h,()=>b.p.action?.id==='mace_swing','held mace resumes after E');assert.ok(h.app.inputObservations.some(r=>r.kind==='contact'&&r.castId===cast));assert.equal(h.app.inputObservations.filter(r=>r.kind==='action-start'&&r.skillId==='judgement').length,1);assert.equal(h.app.inputObservations.some(r=>r.kind==='action-start'&&r.skillId==='shield_charge'),false);
+ h.up('KeyJ');const count=b.castSerial;for(let i=0;i<80;i++)await h.frame();assert.equal(b.castSerial,count);
+});
+
+for(const version of [4,5])for(const variant of ['expiry','accepted','newer-message','newer-cooldown'])test(`cooldown notice ownership controls${version}/${variant} follows current rejection only`,async()=>{
+ const h=await ui({poeMode:'wasd',skills:['judgement'],realNotice:true});if(version===5){await h.click('enable-skill-loadout');h.app.closePanel();}
+ const b=h.app.battle;b.p.cooldowns.shield_charge=.08;const before=h.app.report().vitals;
+ h.key('KeyQ');h.up('KeyQ');await next();assert.match(h.notice.textContent,/기술 재사용 대기 · 0[.]1초/);assert.equal(h.notice.classList.contains('visible'),true);assert.equal(b.p.action,null);
+ if(variant==='accepted'){b.p.cooldowns.shield_charge=0;h.key('KeyQ');h.up('KeyQ');await next();assert.equal(b.p.action?.id,'shield_charge');assert.equal(h.notice.textContent,'');assert.equal(h.notice.classList.contains('visible'),false);return;}
+ if(variant==='newer-message')h.app.toast('별도 상호작용 안내');
+ if(variant==='newer-cooldown'){b.p.cooldowns.judgement=.24;h.key('KeyE');h.up('KeyE');await next();assert.match(h.notice.textContent,/0[.]2초/);}
+ await h.frame(.04);assert.equal(h.notice.classList.contains('visible'),true);await h.frame(.04);
+ assert.equal(b.p.cooldowns.shield_charge,0);assert.equal(b.p.action,null);assert.deepEqual(h.app.report().vitals,before);
+ if(variant==='newer-message'){assert.equal(h.notice.textContent,'별도 상호작용 안내');assert.equal(h.notice.classList.contains('visible'),true);}
+ else if(variant==='newer-cooldown'){assert.equal(h.notice.classList.contains('visible'),true);for(let i=0;i<5;i++)await h.frame(.04);assert.equal(h.notice.textContent,'');assert.equal(h.notice.classList.contains('visible'),false);}
+ else {assert.equal(h.notice.textContent,'');assert.equal(h.notice.classList.contains('visible'),false);}
+});

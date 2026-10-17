@@ -1,0 +1,38 @@
+{
+  "final": {
+    "region": "ashwind_pass",
+    "position": {
+      "x": 308.99999991704766,
+      "y": 395.0000001
+    },
+    "life": 1,
+    "level": 8,
+    "tier": "adept",
+    "skillPoints": 15,
+    "attributePoints": 20,
+    "xp": 259.5,
+    "gold": 418,
+    "stats": {
+      "kills": 50,
+      "deaths": 1,
+      "earnedGold": 526,
+      "spentGold": 108,
+      "earnedXp": 1979.5
+    },
+    "vitals": {
+      "hp": 104.76578225068619,
+      "mana": 31.059591999999984,
+      "stamina": 69
+    }
+  },
+  "preservedFields": {
+    "equipment": true,
+    "skills": true,
+    "attributes": true,
+    "skillPoints": true,
+    "attributePoints": true,
+    "controls": true,
+    "objectives": true
+  },
+  "noRawStoreExport": true
+}

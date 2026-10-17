@@ -1,0 +1,15 @@
+{
+  "file": "emberwatch-long-burst-dodge-20261017.mp4",
+  "source": "native CDP JPEG frames, no interpolation/audio",
+  "frameCount": 416,
+  "observedSeconds": 22.288826942443848,
+  "encodedSeconds": 22.32,
+  "bytes": 1466474,
+  "sha256": "c8e0cf4eb2754e3c1554b44088957a1be875421ee7be83d6158c192664b14dd7",
+  "limitations": [
+    "headless/muted",
+    "capture overhead",
+    "cleared field",
+    "no physical latency or listening evidence"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "base": "1c93d23edd8e59c88d51662381e679c1712a25c1",
+  "originalCount": 167,
+  "originalAllMatch": true,
+  "rootFilesEqualPreBuild": {
+    "package.json": true,
+    "pnpm-lock.yaml": true,
+    "packages/registry/src/generated/projects.ts": true
+  },
+  "trackedChanges": [
+    "projects/EmberwatchReborn/app/src/action-feedback.js",
+    "projects/EmberwatchReborn/app/src/main.js",
+    "projects/EmberwatchReborn/app/tests/expert-main-input.test.mjs",
+    "projects/EmberwatchReborn/app/tests/resource-display.test.mjs",
+    "projects/EmberwatchReborn/brief.md",
+    "projects/EmberwatchReborn/eval.md",
+    "projects/EmberwatchReborn/spec.md"
+  ],
+  "a19Attempt": false,
+  "sourceAssetFiles": 134,
+  "sourceAssetsUnchanged": 132,
+  "changedSource": [
+    "projects/EmberwatchReborn/app/src/action-feedback.js",
+    "projects/EmberwatchReborn/app/src/main.js"
+  ],
+  "defaultCbLlStatus": ""
+}
