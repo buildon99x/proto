@@ -44,3 +44,6 @@ V2 athlete-form cycle starts at3f18189:48/60 reviewed,40unverified. Select remai
 
 
 Point-camera follow-up2026-10-17: Fix the directly observed portrait post-point athlete crop on the existing athlete-form branch; preserve both older preview candidates and all score decisions.
+
+
+Courtyard-material follow-up2026-10-17: Switch approach before repeating score-stagnant anatomy tuning: V3material hierarchy, specifically original glass/stone responses, on the existing athlete-form branch; both older preview refs protected.

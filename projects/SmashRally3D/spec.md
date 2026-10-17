@@ -106,3 +106,6 @@ Athlete-form contract: retain exact17-joint hierarchy/rest/inverse binds and eve
 
 
 Point-camera follow-up2026-10-17: During POINT_RESOLVED/RESULTS preserve last rally tracking and retain finite-athlete visibility; restore existing ready camera on serve/restart. Do not change RALLY tracking, reference court proportions, simulation, poses, input or models. Compare actual UI rally→point→results→restart and rotation, keeping diagnostics distinct.
+
+
+Courtyard-material follow-up2026-10-17: Only courtyard mesh-instance material clones and three deterministic authored textures. Preserve existing entities/transforms/geometry, original base component materials, court/actors/lights/camera/input/physics/AI/all5GLBs. Keep scene batching. No added decor, transparency, external textures/logos, dynamic sparkle or white highlights behind the cork.

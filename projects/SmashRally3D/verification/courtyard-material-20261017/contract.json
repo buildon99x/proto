@@ -1,0 +1,22 @@
+{
+  "baseline": "1a05842d45da7f2443260c5fdefc6c0cd0159d05",
+  "criterion": {
+    "id": "V3",
+    "category": "visual",
+    "name": "공간·코트의 일관성",
+    "weight": 5,
+    "condition": "같은 카메라·경기장 프레임;물리선/관중제거 유지",
+    "pass_criteria": "깊이·코트/외곽/배경 재질 계층이 읽히며 불필요한 장식이 경기보다 앞서지 않음"
+  },
+  "priorScore": 4,
+  "reviewedSubtotal": 48,
+  "reviewedWeight": 60,
+  "unknownWeight": 40,
+  "overallScore": null,
+  "rubricSha256": "acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+  "approach": "Material/micro-surface authoring rather than more body section-radius tweaks or another camera move. Original geometry and cached base materials retained; foreground exact gate.",
+  "technicalFinding": "Pinned PlayCanvas2.23.2StandardMaterial gloss is0..1; generic mat helper uses25 and zero specular. New courtyard-only clones use documented normalized gloss and restrained explicit specular, plus deterministic authored diffuse/normal maps. No global mat change.",
+  "stagnationAccounting": "One V2form trial retained4 because joins/face remain simple. Point-camera cycle repaired a real defect under an explicit no-score-change contract; it was not a second V2max-score experiment. Change impact now instead of recasting automatic gates as points.",
+  "scoreRule": "Do not award5from normalized parameters, more texture bytes, unchanged physics or technical passes. Use original V3condition and direct final images; keep other19scores/weights exactly.",
+  "comparisonGate": "Original component material references retained: old/repeat/restored exact.0changed pixels outside selected renderer world-AABB projections+2native pixels for raster coverage. Ready lower35%exact reuses prior composition rule; all other lower35%counts reported. No numerical aesthetic threshold or automatic scoring."
+}

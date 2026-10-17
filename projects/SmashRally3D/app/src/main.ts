@@ -46,6 +46,7 @@ import { shuttleContrast, shuttleContrastSvg } from './shuttle-contrast';
 import type { ShuttleContrast } from './shuttle-contrast';
 import { presentStroke } from './stroke-presentation';
 import { buildCourtyard } from './courtyard';
+import { applyCourtyardMaterials } from './courtyard-materials';
 import { contactWindow, prepareContactVisibility, type ContactWindow } from './contact-visibility';
 import { aimCopy, resultCopy } from './aim-feedback';
 import './style.css';
@@ -850,6 +851,7 @@ async function boot() {
     shape('arena floor', 'box', [0, -0.16, 0], [200, 0.2, 200], '#37314d');
     shape('court surround', 'box', [0, -0.05, 0], [11.4, 0.12, 16.3], '#75629e');
     const courtyard = buildCourtyard(app, shape);
+    applyCourtyardMaterials(app, courtyard);
     const sceneryBatch = app.batcher!.addGroup('club courtyard static', false, 40);
     for (const node of courtyard.find((n) => n instanceof Entity && !!n.render)) {
         (node as Entity).render!.batchGroupId = sceneryBatch.id;
