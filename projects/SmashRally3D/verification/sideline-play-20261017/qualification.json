@@ -1,0 +1,650 @@
+{
+  "status": "all_fixed_build_software_gates_pass; manual original M4 judgment separate",
+  "runtimeCommit": "cc84182878571b87d6a5acf6efe9c9d044ffa064",
+  "bundleSha256": "34b17e7fb06c1c14b62fe7c0b070ef0adafe6d72153c70781482bb4d152de9b4",
+  "modelHashes": {
+    "athlete-gold.glb": "8e9301e591a4612d20f35727a85ac1a9d9df7496e6312e4769b7a0f79858ed4d",
+    "athlete-violet.glb": "e94409976350cd6fa8b8bb0c7191baf2e980fb9f47448574d7e4a756f28b6534",
+    "court.glb": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47",
+    "racket.glb": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13",
+    "shuttle.glb": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+  },
+  "reports": {
+    "final-weak-pc-1": {
+      "file": "final-weak-pc-1/sideline-play-report.json",
+      "role": "ordinary visible-cue court input and actual next serve",
+      "pass": true
+    },
+    "final-weak-pc-2": {
+      "file": "final-weak-pc-2/sideline-play-report.json",
+      "role": "ordinary visible-cue court input and actual next serve",
+      "pass": true
+    },
+    "final-good-pc-1": {
+      "file": "final-good-pc-1/sideline-play-report.json",
+      "role": "ordinary visible-cue court input and actual next serve",
+      "pass": true
+    },
+    "final-good-pc-2": {
+      "file": "final-good-pc-2/sideline-play-report.json",
+      "role": "ordinary visible-cue court input and actual next serve",
+      "pass": true
+    },
+    "final-weak-touch-1": {
+      "file": "final-weak-touch-1/sideline-play-report.json",
+      "role": "ordinary visible-cue court input and actual next serve",
+      "pass": true
+    },
+    "final-weak-touch-2": {
+      "file": "final-weak-touch-2/sideline-play-report.json",
+      "role": "ordinary visible-cue court input and actual next serve",
+      "pass": true
+    },
+    "final-good-touch-1": {
+      "file": "final-good-touch-1/sideline-play-report.json",
+      "role": "ordinary visible-cue court input and actual next serve",
+      "pass": true
+    },
+    "final-good-touch-2": {
+      "file": "final-good-touch-2/sideline-play-report.json",
+      "role": "ordinary visible-cue court input and actual next serve",
+      "pass": true
+    },
+    "final-play": {
+      "file": "final-play/aim-play-report.json",
+      "role": "ordinary full first-to-five match and original shot controls",
+      "pass": true
+    },
+    "final-defence": {
+      "file": "final-defence/defence-review-report.json",
+      "role": "original NORMAL/HARD centre-soft defence",
+      "pass": true
+    },
+    "final-pressure": {
+      "file": "final-pressure/defence-review-report.json",
+      "role": "original wide/clear-soft pressure",
+      "pass": true
+    },
+    "final-rotation": {
+      "file": "final-rotation/court-resize-report.json",
+      "role": "native continuing portrait/landscape rotation",
+      "pass": true
+    },
+    "final-rally": {
+      "file": "final-rally/aim-rally-report.json",
+      "role": "three-view high-clear rally and aim",
+      "pass": true
+    },
+    "final-lifecycle": {
+      "file": "final-lifecycle/mobile-input-lifecycle-report.json",
+      "role": "native input plus explicit cancel/pause boundary fixtures",
+      "pass": true
+    },
+    "final-scene": {
+      "file": "final-scene/benchmark-scene-report.json",
+      "role": "four ordinary ready views",
+      "pass": true
+    }
+  },
+  "ordinarySidelineCases": [
+    {
+      "folder": "final-weak-pc-1",
+      "modeMeansVisibleWindowNotForcedQuality": "weak",
+      "nativeTouch": false,
+      "actualPlayerQualities": [
+        "weak",
+        "weak"
+      ],
+      "actualLastTarget": {
+        "x": 2.6708333333333556,
+        "y": 0.025,
+        "z": 1.20000139909388
+      },
+      "actualGround": {
+        "x": 2.670884967796407,
+        "y": 0.025,
+        "z": 1.2000800548955868
+      },
+      "call": {
+        "winner": 1,
+        "reason": "OUT",
+        "returns": 4,
+        "detail": "YOUR SHOT LANDED OUT"
+      },
+      "score": [
+        0,
+        1
+      ],
+      "nextActualServer": 1,
+      "actualAiEdgeReturns": [
+        {
+          "time": 7.141666666666811,
+          "ball": {
+            "x": 2.57943012425903,
+            "y": 0.8100194716948603,
+            "z": 0.7301244625304103
+          },
+          "quality": "perfect",
+          "technique": "lift"
+        }
+      ],
+      "maxPlaneError": 0.04370946129589517,
+      "maxRadialError": 0.21169530815881604,
+      "maxRenderedRacketError": 1.6865324849754416e-07,
+      "maxActualRunSpeed": 5.800000000000345,
+      "clippedAthleteSamples": 0
+    },
+    {
+      "folder": "final-weak-pc-2",
+      "modeMeansVisibleWindowNotForcedQuality": "weak",
+      "nativeTouch": false,
+      "actualPlayerQualities": [
+        "weak",
+        "weak"
+      ],
+      "actualLastTarget": {
+        "x": 2.6812500000000195,
+        "y": 0.025,
+        "z": 1.1999993151931818
+      },
+      "actualGround": {
+        "x": 2.6812444646123854,
+        "y": 0.025,
+        "z": 1.199990903468562
+      },
+      "call": {
+        "winner": 1,
+        "reason": "OUT",
+        "returns": 4,
+        "detail": "YOUR SHOT LANDED OUT"
+      },
+      "score": [
+        0,
+        1
+      ],
+      "nextActualServer": 1,
+      "actualAiEdgeReturns": [
+        {
+          "time": 7.11666666666681,
+          "ball": {
+            "x": 2.571681771416308,
+            "y": 0.8100415255253057,
+            "z": 0.7299045566794504
+          },
+          "quality": "perfect",
+          "technique": "lift"
+        }
+      ],
+      "maxPlaneError": 0.04394024905274968,
+      "maxRadialError": 0.2102349237523518,
+      "maxRenderedRacketError": 1.6865324849754416e-07,
+      "maxActualRunSpeed": 5.800000000000372,
+      "clippedAthleteSamples": 0
+    },
+    {
+      "folder": "final-good-pc-1",
+      "modeMeansVisibleWindowNotForcedQuality": "good",
+      "nativeTouch": false,
+      "actualPlayerQualities": [
+        "perfect",
+        "perfect"
+      ],
+      "actualLastTarget": {
+        "x": 2.499999656214171,
+        "y": 0.025,
+        "z": 1.1999984522751266
+      },
+      "actualGround": {
+        "x": 2.5001449011633534,
+        "y": 0.025,
+        "z": 1.200228620287503
+      },
+      "call": {
+        "winner": 0,
+        "reason": "IN",
+        "returns": 4,
+        "detail": "AI COULD NOT RETURN"
+      },
+      "score": [
+        1,
+        0
+      ],
+      "nextActualServer": 0,
+      "actualAiEdgeReturns": [
+        {
+          "time": 7.100000000000143,
+          "ball": {
+            "x": 2.445786392115041,
+            "y": 0.9150221515473861,
+            "z": 0.660371398356465
+          },
+          "quality": "perfect",
+          "technique": "lift"
+        }
+      ],
+      "maxPlaneError": 0.04349838579915325,
+      "maxRadialError": 0.14983991366113233,
+      "maxRenderedRacketError": 1.9170945463776077e-07,
+      "maxActualRunSpeed": 5.800000000000332,
+      "clippedAthleteSamples": 0
+    },
+    {
+      "folder": "final-good-pc-2",
+      "modeMeansVisibleWindowNotForcedQuality": "good",
+      "nativeTouch": false,
+      "actualPlayerQualities": [
+        "perfect",
+        "perfect"
+      ],
+      "actualLastTarget": {
+        "x": 2.499999126497838,
+        "y": 0.025,
+        "z": 1.199998496284847
+      },
+      "actualGround": {
+        "x": 2.500144516191465,
+        "y": 0.025,
+        "z": 1.2002288937031544
+      },
+      "call": {
+        "winner": 0,
+        "reason": "IN",
+        "returns": 4,
+        "detail": "AI COULD NOT RETURN"
+      },
+      "score": [
+        1,
+        0
+      ],
+      "nextActualServer": 0,
+      "actualAiEdgeReturns": [
+        {
+          "time": 7.125000000000144,
+          "ball": {
+            "x": 2.445786446047273,
+            "y": 0.9150221515473856,
+            "z": 0.6603713929381798
+          },
+          "quality": "perfect",
+          "technique": "lift"
+        }
+      ],
+      "maxPlaneError": 0.0434983813777422,
+      "maxRadialError": 0.1498399232145763,
+      "maxRenderedRacketError": 1.917126360538326e-07,
+      "maxActualRunSpeed": 5.800000000000349,
+      "clippedAthleteSamples": 0
+    },
+    {
+      "folder": "final-weak-touch-1",
+      "modeMeansVisibleWindowNotForcedQuality": "weak",
+      "nativeTouch": true,
+      "actualPlayerQualities": [
+        "good",
+        "good"
+      ],
+      "actualLastTarget": {
+        "x": 2.597916260525308,
+        "y": 0.025,
+        "z": 1.1999994360627113
+      },
+      "actualGround": {
+        "x": 2.5980050015582568,
+        "y": 0.025,
+        "z": 1.2001369208717352
+      },
+      "call": {
+        "winner": 0,
+        "reason": "IN",
+        "returns": 4,
+        "detail": "AI COULD NOT RETURN"
+      },
+      "score": [
+        1,
+        0
+      ],
+      "nextActualServer": 0,
+      "actualAiEdgeReturns": [
+        {
+          "time": 7.18333333333348,
+          "ball": {
+            "x": 2.5098663502095846,
+            "y": 0.8101848773244869,
+            "z": 0.729503448512175
+          },
+          "quality": "perfect",
+          "technique": "lift"
+        }
+      ],
+      "maxPlaneError": 0.03274011228987007,
+      "maxRadialError": 0.19753907728982031,
+      "maxRenderedRacketError": 1.6792107893232896e-07,
+      "maxActualRunSpeed": 5.800000000000348,
+      "clippedAthleteSamples": 0
+    },
+    {
+      "folder": "final-weak-touch-2",
+      "modeMeansVisibleWindowNotForcedQuality": "weak",
+      "nativeTouch": true,
+      "actualPlayerQualities": [
+        "weak",
+        "good"
+      ],
+      "actualLastTarget": {
+        "x": 2.608333333333366,
+        "y": 0.025,
+        "z": 1.2000020845231134
+      },
+      "actualGround": {
+        "x": 2.6081934006367082,
+        "y": 0.025,
+        "z": 1.1997857862984607
+      },
+      "call": {
+        "winner": 0,
+        "reason": "IN",
+        "returns": 4,
+        "detail": "AI COULD NOT RETURN"
+      },
+      "score": [
+        1,
+        0
+      ],
+      "nextActualServer": 0,
+      "actualAiEdgeReturns": [
+        {
+          "time": 7.191666666666814,
+          "ball": {
+            "x": 2.54850041752158,
+            "y": 0.8100966604454864,
+            "z": 0.7297566272407301
+          },
+          "quality": "perfect",
+          "technique": "lift"
+        }
+      ],
+      "maxPlaneError": 0.044619606231639214,
+      "maxRadialError": 0.2050476381918519,
+      "maxRenderedRacketError": 1.6792107893232896e-07,
+      "maxActualRunSpeed": 5.80000000000036,
+      "clippedAthleteSamples": 0
+    },
+    {
+      "folder": "final-good-touch-1",
+      "modeMeansVisibleWindowNotForcedQuality": "good",
+      "nativeTouch": true,
+      "actualPlayerQualities": [
+        "perfect",
+        "perfect"
+      ],
+      "actualLastTarget": {
+        "x": 2.5,
+        "y": 0.025,
+        "z": 1.1999998272395125
+      },
+      "actualGround": {
+        "x": 2.5001445040423493,
+        "y": 0.025,
+        "z": 1.2002288211741408
+      },
+      "call": {
+        "winner": 0,
+        "reason": "IN",
+        "returns": 4,
+        "detail": "AI COULD NOT RETURN"
+      },
+      "score": [
+        1,
+        0
+      ],
+      "nextActualServer": 0,
+      "actualAiEdgeReturns": [
+        {
+          "time": 7.166666666666813,
+          "ball": {
+            "x": 2.445786307922845,
+            "y": 0.9150221515473874,
+            "z": 0.6603714046428528
+          },
+          "quality": "perfect",
+          "technique": "lift"
+        }
+      ],
+      "maxPlaneError": 0.04349839278370894,
+      "maxRadialError": 0.14983989896437644,
+      "maxRenderedRacketError": 1.9417319617947701e-07,
+      "maxActualRunSpeed": 5.800000000000358,
+      "clippedAthleteSamples": 0
+    },
+    {
+      "folder": "final-good-touch-2",
+      "modeMeansVisibleWindowNotForcedQuality": "good",
+      "nativeTouch": true,
+      "actualPlayerQualities": [
+        "perfect",
+        "perfect"
+      ],
+      "actualLastTarget": {
+        "x": 2.5,
+        "y": 0.025,
+        "z": 1.2000006691651919
+      },
+      "actualGround": {
+        "x": 2.500144153365357,
+        "y": 0.025,
+        "z": 1.2002291074153582
+      },
+      "call": {
+        "winner": 0,
+        "reason": "IN",
+        "returns": 4,
+        "detail": "AI COULD NOT RETURN"
+      },
+      "score": [
+        1,
+        0
+      ],
+      "nextActualServer": 0,
+      "actualAiEdgeReturns": [
+        {
+          "time": 7.175000000000146,
+          "ball": {
+            "x": 2.4457864228351136,
+            "y": 0.9150221515473874,
+            "z": 0.6603713930982356
+          },
+          "quality": "perfect",
+          "technique": "lift"
+        }
+      ],
+      "maxPlaneError": 0.043498383363101197,
+      "maxRadialError": 0.14983991931968932,
+      "maxRenderedRacketError": 1.9417943394549213e-07,
+      "maxActualRunSpeed": 5.800000000000341,
+      "clippedAthleteSamples": 0
+    }
+  ],
+  "units": 83,
+  "unitFiles": 15,
+  "fullRootBuild": true,
+  "sourcePreservation": {
+    "baseline": "ffb664da4820ffaef15b92d21e57e009c5cd7ac1",
+    "unchangedRuntimeFiles": [
+      "courtyard-materials.ts",
+      "physics.ts",
+      "contact-visibility.ts",
+      "courtyard.ts",
+      "impact.ts",
+      "lessons.ts",
+      "shuttle-contrast.ts",
+      "feedback.ts",
+      "vite-env.d.ts",
+      "stroke-presentation.ts",
+      "motion.ts",
+      "audio.ts",
+      "aim-feedback.ts"
+    ],
+    "changedRuntimeFiles": [
+      "main.ts",
+      "tactics.ts",
+      "camera-framing.ts",
+      "game.ts"
+    ],
+    "physicsMotionImpactAudioCourtAndSceneryUntouched": true,
+    "pointAndScoreFunctionExact": true,
+    "cameraFitAndFlightFovExact": true,
+    "fiveGlbsExact": true,
+    "changeScope": "Shared aim clamp only; shared desired foot stance only, no actor position assignment; real-ground informational marker only."
+  },
+  "limits": [
+    "Software Chromium only; not physical input/FPS/Safari or normal-speed watching/listening.",
+    "Broad/tight cue describes actual UI input, never a forced hit quality or forced winner.",
+    "Domain fixture, input cancellation boundary and observed actual UI play remain separate.",
+    "Original reference13013 pixels unavailable to this worker; parent measurements only.",
+    "Deployment success is a separate final-HEAD terminal receipt; remote Chromium pre-HTTP access remains blocked.",
+    "No score follows automatically from marker/log/test counts. Unknown40 and overallnull preserved."
+  ],
+  "actualFirstToFive": {
+    "scores": [
+      5,
+      0
+    ],
+    "points": [
+      {
+        "winner": 0,
+        "reason": "IN",
+        "returns": 4,
+        "detail": "AI COULD NOT RETURN"
+      },
+      {
+        "winner": 0,
+        "reason": "IN",
+        "returns": 2,
+        "detail": "AI COULD NOT RETURN"
+      },
+      {
+        "winner": 0,
+        "reason": "IN",
+        "returns": 2,
+        "detail": "AI COULD NOT RETURN"
+      },
+      {
+        "winner": 0,
+        "reason": "IN",
+        "returns": 2,
+        "detail": "AI COULD NOT RETURN"
+      },
+      {
+        "winner": 0,
+        "reason": "IN",
+        "returns": 2,
+        "detail": "AI COULD NOT RETURN"
+      }
+    ],
+    "physicalContacts": 17
+  },
+  "actualThreeViewRallies": [
+    {
+      "viewport": {
+        "name": "pc",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "returns": 6,
+      "clippedPlayers": 0,
+      "clippedShuttle": 0,
+      "maxHeight": 9.773317953482133,
+      "aimErrorsCssPx": [
+        1.4196774975407089e-05,
+        1.5765196567964504e-05,
+        1.0490765603499718e-05
+      ]
+    },
+    {
+      "viewport": {
+        "name": "mobile-landscape",
+        "width": 844,
+        "height": 390,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "returns": 6,
+      "clippedPlayers": 0,
+      "clippedShuttle": 0,
+      "maxHeight": 9.62526644685731,
+      "aimErrorsCssPx": [
+        0.49607192899075053,
+        0.18232884559393897,
+        0.026063519692460287
+      ]
+    },
+    {
+      "viewport": {
+        "name": "mobile-portrait",
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "returns": 6,
+      "clippedPlayers": 0,
+      "clippedShuttle": 0,
+      "maxHeight": 9.644938948455845,
+      "aimErrorsCssPx": [
+        0.31796590931702634,
+        0.33834391952623394,
+        0.43858832317282337
+      ]
+    }
+  ],
+  "nativeRotation": {
+    "method": "One continuing native-touch EASY clear rally, portrait\u2192landscape\u2192portrait, DPR2 MEDIUM; no reload, pause, actor/ball/time injection.",
+    "aimErrorsCssPx": [
+      0.32375908695252703,
+      0.3793630192949677
+    ]
+  },
+  "preservedCentreSoftDefence": [
+    {
+      "difficulty": "NORMAL",
+      "metrics": {
+        "attempts": 3,
+        "reachable": 3,
+        "unreachable": 0,
+        "unobserved": 0,
+        "returned": 3,
+        "directWinners": 0,
+        "techniques": {
+          "drop": 1,
+          "net": 2,
+          "block": 0
+        }
+      }
+    },
+    {
+      "difficulty": "HARD",
+      "metrics": {
+        "attempts": 3,
+        "reachable": 3,
+        "unreachable": 0,
+        "unobserved": 0,
+        "returned": 3,
+        "directWinners": 0,
+        "techniques": {
+          "drop": 1,
+          "net": 2,
+          "block": 0
+        }
+      }
+    }
+  ],
+  "preservedPressure": {
+    "returned": 13,
+    "directWinners": 1,
+    "goodPerfectWinners": 1,
+    "method": "Original GOOD-drop pressure controller, two NORMAL patterns,10 settled attempts or natural match end per window. Rendering viewport only reduced; no physics/AI changes."
+  }
+}

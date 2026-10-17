@@ -1,0 +1,76 @@
+{
+  "status": "completed_explicit_original_M4_review_after_all_fixed_build_gates",
+  "completedAtUtc": "2026-10-17T09:44:02.557426+00:00",
+  "reviewer": "Single assistant direct literal raster and actual-sequence review; no external human panel",
+  "criterion": {
+    "id": "M4",
+    "category": "match",
+    "name": "스포츠 규칙·공간의 인과",
+    "weight": 5,
+    "condition": "일반입력 IN 득점/서브/5점·실제접촉의 인과;경계 판정 정확성 회귀는 별도 기술 게이트",
+    "pass_criteria": "라인·네트·코트/점수/서브의 관계가 이해되고 순간이동·가짜타점 없음;회귀통과만으로 경험점수 지급 금지"
+  },
+  "representativeFinalOrdinaryImagesInspected": true,
+  "directlyInspected": [
+    "delivery/01-optional-line-risk.png",
+    "delivery/04-literal-landing-details.png",
+    "delivery/05-consecutive-actual-swing.png",
+    "final-weak-pc-1/point-settled.png",
+    "final-weak-pc-1/next-serve.png",
+    "final-weak-pc-1/actual-edge-defence.png",
+    "final-good-pc-1/point-settled.png",
+    "final-good-pc-1/next-serve.png",
+    "final-weak-touch-1/point-settled.png",
+    "final-good-touch-1/point-settled.png",
+    "final-play/06-results.png",
+    "final-play/04b-super-smash.png",
+    "final-defence/observed-frames/001-actor1.png",
+    "final-rotation/court-live-rotation-landscape.png",
+    "final-rotation/court-live-rotation-portrait.png",
+    "final-rally/court-pc-high-clear.png",
+    "final-rally/court-mobile-landscape-high-clear.png",
+    "final-rally/court-mobile-portrait-high-clear.png",
+    "final-scene/scene-1065x606-ready.png",
+    "final-scene/scene-390x844-ready.png"
+  ],
+  "M4before": 4,
+  "M4after": 5,
+  "scoreDecision": "같은2.50m 조준 의도의 전후 실제 경기 화면을 비교했다. 기존 안쪽 제한에서는 선 안에 끝나던 선택이 최종본에서는 타이밍에 따라 실제 선 안 착지·내 득점·내 다음 서브 또는 선 밖 착지·AI 득점·AI 다음 서브로 이어진다. 흰 사이드라인을 기준으로 성공 원형과 실점 십자가가 실제 착지 위치에 놓이며, 발·네트에 가려져 판정 위치를 잃지 않는다. 두 서버의 실제 서브 화면, 네트 앞 실제 리턴,5점 경기 종료도 공간·접촉·점수의 흐름과 맞는다. 원래 M4의 관찰 가능한 합격조건을 충족해4→5로 판단한다. 테스트 수·표식 추가·로그 수·경계 회귀 통과 자체에는 점수를 주지 않는다. M4에 명시되지 않은 외부 참여자/기기 조건을 덧붙이지 않으며, 가능한 모든 경계 경험·정상속도 감상·실기기·청음 검증으로 확대하지 않는다. 나머지19항목과20가중치는 그대로다.",
+  "qualitativeFindings": [
+    "Optional deliberate line placement exposes the existing physical timing/balance error instead of adding random failure or a new required gesture. Centre/default controls remain available.",
+    "Actual IN/OUT location, white line, verdict, score and winner serving next form a readable chain in the inspected ordinary cases.",
+    "The annotation is visibly a hollow informational glyph; it is not a substituted cork or predicted target. Its depth override affects only the annotation after an actual ground point.",
+    "Current NORMAL/HARD net exchanges and first-to-five show the retained net/court/contact context. Other19criteria are not newly re-rated.",
+    "Literal24consecutive captured frames retain preparation/follow-through/recovery context. CPU offsets do not identify photon/contact presentation time, and this still review does not certify temporal feel or biomechanics."
+  ],
+  "technicalGatesAreSeparate": [
+    "83units/15files and fullrootbuild",
+    "15fixed-bundle reports;8actual line points and actual next serves",
+    "Unchanged physical solver/integrator/inside/contact/score and5models",
+    "Actual rendered/physical racket centre alignment, original physical contact gate and unchanged motor speed",
+    "Three-view6return rallies and continuing native rotation, without actor/ball/time injection"
+  ],
+  "actualOutcomeCoverage": {
+    "pcOut": 2,
+    "in": 6,
+    "nativeIn": 4,
+    "nativeOut": 0,
+    "nativeOutNotClaimed": true
+  },
+  "fixturesNotScored": [
+    "Two explicit unit-domain fixtures",
+    "Native/DOM cancellation boundary cases",
+    "Discarded marker prototypes and historical held phase comparisons"
+  ],
+  "allOther19ScoresAndAll20WeightsUnchanged": true,
+  "reviewedSubtotal": 50,
+  "reviewedWeight": 60,
+  "unknownWeight": 40,
+  "overallScore": null,
+  "target98Achieved": false,
+  "normalSpeedContinuousWatching": false,
+  "actualListening": false,
+  "physicalDeviceOrSafari": false,
+  "remoteBrowserPlay": false,
+  "reference13013PixelsOpenedByWorker": false
+}

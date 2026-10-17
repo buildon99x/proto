@@ -70,3 +70,5 @@ Replaced rigid torso-only actors with common weighted skeletons, planted feet an
 - Expand existing click/tap aim to±2.50m; retain centre controls and existing timing/balance dispersion so deliberate line placement has real physical risk.
 - Both actors plan reachable edge stances within the existing foot boundary; keep movement speed, physics and actual racket contact gates.
 - Annotate actual IN/OUT ground position after the point, preserving real score and next server. Evidence and limitations: `verification/sideline-play-20261017/README.md`.
+
+- Final fixed-build QA:83units/15files,fullrootbuild,15browser reports;8actual line points and next serves,old controls/defence/rotation preserved. Original M4only4→5;50/60reviewed,40unknown,overallnull. See the explicit manual review; technical counts do not award scores.

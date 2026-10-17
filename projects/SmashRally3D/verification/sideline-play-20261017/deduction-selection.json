@@ -1,0 +1,84 @@
+{
+  "baselineReviewedSubtotal": 49,
+  "reviewedWeight": 60,
+  "unknownWeight": 40,
+  "overallScore": null,
+  "selected": "M4",
+  "originalRubric": "../switch-benchmark-20261017/rubric.json",
+  "candidates": [
+    {
+      "originalCondition": {
+        "id": "V4",
+        "category": "visual",
+        "name": "스윙·실제 접촉의 가독성",
+        "weight": 5,
+        "condition": "일반입력 준비→가속→접촉→팔로스루→복귀 실제 프레임과 시각 검토",
+        "pass_criteria": "신체/라켓의 인과가 읽힘;물리/표시 일치는 별도 기술 게이트이며 그 통과 자체로 가점하지 않음"
+      },
+      "priorReview": {
+        "id": "V4",
+        "weight": 5,
+        "score": 4,
+        "status": "reviewed_in_stated_scope",
+        "observation": "새 실제 프레임과 같은 카메라의 자연 도달 단계 사진에서, 라켓이 직전까지 내려가 있다 급히 올라가던 준비가 더 이른 팔꿈치 굽힘·몸통 회전으로 바뀌었다. 손이 그립 방향을 따라가고, 실제 타격 포즈 뒤 팔로스루·착지 무릎 굽힘·복귀가 구별된다. 소재 색은 이 비교에서 고정했다. 물리 타점 일치 검사는 별도 게이트이며 이것만으로 점수를 올리지 않는다. 정상속도 체감·코칭 수준의 생체역학·실기기 검증은 없어5점이 아니다.",
+        "evidence": [
+          "../stroke-chain-20261017/delivery/02-motion-phases.png",
+          "../stroke-chain-20261017/before/kinematics.json",
+          "../stroke-chain-20261017/final-play/kinematics.json",
+          "../stroke-chain-20261017/refined-phases-before/phases.json",
+          "../stroke-chain-20261017/refined-phases-motion/phases.json"
+        ]
+      },
+      "selectionReason": "Existing actual and held preparation/contact/follow/recovery frames are available. No new isolated motion defect was established before this cycle, whereas the M4 optional-edge/call gap is concrete. V4 is not newly re-rated here; do not treat unsupported normal-speed/coaching/device access as extra requirements absent from the original criterion, or contact-gate numbers as experience points."
+    },
+    {
+      "originalCondition": {
+        "id": "M1",
+        "category": "match",
+        "name": "샷 종류와 경기 맥락",
+        "weight": 5,
+        "condition": "상태 주입 없는 일반입력 clear/drop/normal/super/net교환",
+        "pass_criteria": "다른 궤적/높이/회복/기회가 실제로 드러남;셔틀 속도만 증가시키는 연출 금지"
+      },
+      "priorReview": {
+        "id": "M1",
+        "weight": 5,
+        "score": 4,
+        "status": "reviewed_in_stated_scope",
+        "observation": "실제기본/clear/drop 안전리턴 및3normal/2Super 궤적이 다르고 기회 조건이 드러남.이 차이가 재밌다는 인간 판단은 아님.",
+        "evidence": [
+          "../switch-benchmark-20261017/baseline/experience.json",
+          "../switch-benchmark-20261017/baseline/04-normal-smash.png",
+          "../switch-benchmark-20261017/baseline/04b-super-smash.png"
+        ]
+      },
+      "selectionReason": "Requires genuinely distinct observed shot/tactical exchanges; current net exchange evidence is missing, while ordinary placement risk has a smaller concrete isolated path. Do not add a new shot type merely for a score."
+    },
+    {
+      "originalCondition": {
+        "id": "M4",
+        "category": "match",
+        "name": "스포츠 규칙·공간의 인과",
+        "weight": 5,
+        "condition": "일반입력 IN 득점/서브/5점·실제접촉의 인과;경계 판정 정확성 회귀는 별도 기술 게이트",
+        "pass_criteria": "라인·네트·코트/점수/서브의 관계가 이해되고 순간이동·가짜타점 없음;회귀통과만으로 경험점수 지급 금지"
+      },
+      "priorReview": {
+        "id": "M4",
+        "weight": 5,
+        "score": 4,
+        "status": "reviewed_in_stated_scope",
+        "observation": "실제17접촉,5개의 IN득점,서브/결과 흐름과 표시 코트의 관계가 일관됨.모든 네트/OUT경계 사례의 경험 검증을 주장하지 않음.",
+        "evidence": [
+          "../switch-benchmark-20261017/baseline/experience.json",
+          "../switch-benchmark-20261017/baseline/05-point-1.png",
+          "../switch-benchmark-20261017/baseline/06-results.png"
+        ]
+      },
+      "selectionReason": "Original prior evidence contains five IN points and no current real optional edge OUT/next-server case. Existing aim clamp prevents that choice; shared stance drops reachable edge contacts. Select this actual-play gap, preserve simple controls and physical rules."
+    }
+  ],
+  "scopeAuthority": "Pre-implementation brief/spec/eval and contract; this file consolidates that audit, not a new scoring rubric.",
+  "rule": "Scores follow explicit original-condition observation, never added text/test totals or a blanket external validation cap.",
+  "newEvidenceDuringPreservationChecks": "Current unchanged NORMAL/HARD centre-soft controller also reaches actual net/netKill exchanges. This is new current-context M1evidence for a later explicit original-condition review, not an automatic score change in the selected M4cycle."
+}

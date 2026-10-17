@@ -1,0 +1,36 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+
+Read the flight. Find the space.
+Make your next shot count.
+
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SIDELINE HITS [{"actor":0,"quality":"good","target":{"x":0,"y":0.025,"z":5.793939822873089},"technique":"clear","contact":{"racket":{"x":0.3605647449214826,"y":1.0997194508421873,"z":-3.1110259487072924},"ball":{"x":0.35,"y":1.1,"z":-3.1},"planeDistance":0.011432850093015439,"radialDistance":0.010126896204287918,"source":"engine:hit_frame"},"time":1.441666666666664}]
+SIDELINE HITS [{"actor":1,"quality":"good","target":{"x":1.9618434878606066,"y":0.025,"z":-5.8},"technique":"clear","contact":{"racket":{"x":0.06807056892952534,"y":2.5916856567945104,"z":5.263923953803768},"ball":{"x":0.021990841162134855,"y":2.557518797066731,"z":5.235124914443409},"planeDistance":0.011657524934324374,"radialDistance":0.06312053861667913,"source":"engine:hit_frame"},"time":3.6999999999999895}]
+SIDELINE INPUT {"cue":"● HIT NOW · DROP","requested":{"x":2.5,"z":1.2},"screen":{"x":161.10511678082287,"y":460.20805890038264},"input":{"shotIntent":"drop","target":{"x":2.5,"y":0.025,"z":1.2280359003704593},"issuedAt":5.833333333333413,"submittedAt":5.833333333333413,"pointerType":"touch","accepted":true,"projectedAtInput":{"x":161.17261328350978,"y":459.9999989870311}},"time":5.900000000000083}
+SHOT edge-input-state
+SIDELINE HITS [{"actor":0,"quality":"good","target":{"x":2.561666666666577,"y":0.025,"z":1.2280359003704593},"technique":"drop","contact":{"racket":{"x":1.8476578169270765,"y":2.569762950981357,"z":-5.228484151082571},"ball":{"x":1.8566704453776746,"y":2.6441569766737945,"z":-5.201708339338809},"planeDistance":0.03344328211805637,"radialDistance":0.07220934500481963,"source":"engine:hit_frame"},"time":6.075000000000092}]
+SHOT after-player-hit
+SIDELINE HITS [{"actor":1,"quality":"perfect","target":{"x":-1.9407464363297662,"y":0.025,"z":-5.8},"technique":"lift","contact":{"racket":{"x":2.434939673796956,"y":0.9954461185989432,"z":0.7994324915472899},"ball":{"x":2.5022132786738065,"y":0.9163579208273152,"z":0.6858059317064871},"planeDistance":0.034677073373411284,"radialDistance":0.1499639177382391,"source":"engine:hit_frame"},"time":7.18333333333348}]
+SHOT actual-edge-defence
+SIDELINE INPUT {"cue":"● HIT NOW · DROP","requested":{"x":2.5,"z":1.2},"screen":{"x":42.6107750353341,"y":461.1324287133872},"input":{"shotIntent":"drop","target":{"x":2.494224577922971,"y":0.025,"z":1.2172566612191957},"issuedAt":9.183333333333453,"submittedAt":9.183333333333453,"pointerType":"touch","accepted":true,"projectedAtInput":{"x":42.99999457046219,"y":461.00000324030117}},"time":9.250000000000115}
+SIDELINE HITS [{"actor":0,"quality":"good","target":{"x":2.5713079112563384,"y":0.025,"z":1.2172566612191957},"technique":"drop","contact":{"racket":{"x":-1.6516957655780797,"y":2.5716310212304063,"z":-5.391519084358904},"ball":{"x":-1.6420008595431048,"y":2.6504797872661228,"z":-5.363892999648227},"planeDistance":0.03469080803440689,"radialDistance":0.07662158640189815,"source":"engine:hit_frame"},"time":9.425000000000106}]
+SHOT point-in
+SHOT point-settled
+SHOT next-serve
+SIDELINE POINT {"mode":"weak","touch":true,"point":{"winner":0,"reason":"IN","returns":4,"detail":"AI COULD NOT RETURN"},"at":{"x":2.5714563585157793,"y":0.025,"z":1.2174885344770712},"marker":{"at":{"x":2.5714563585157793,"y":0.025,"z":1.2174885344770712},"reason":"IN","winner":0,"time":10.666666666666702,"point":1,"hitter":0,"visible":true,"inRing":true,"outArms":0,"rendered":{"x":2.5714564323425293,"y":0.06300000101327896,"z":1.2174885272979736},"screen":{"x":86.5415022110654,"y":509.657132705412,"z":11.683731977102989}},"nextServer":0,"nextHitter":0}

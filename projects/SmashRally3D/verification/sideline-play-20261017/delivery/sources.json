@@ -1,0 +1,175 @@
+{
+  "screenshots": [
+    {
+      "file": "before-pc/point-in.png",
+      "sha256": "c8ad624986565f4505f8448e88d06278381e570ae5b9a604f14797dde2504a16"
+    },
+    {
+      "file": "final-weak-pc-1/point-settled.png",
+      "sha256": "95912cf111a8ca140a441c65a90081ec1dd80ec7408973c3734f5cfd8cf8ab22"
+    },
+    {
+      "file": "final-good-pc-1/point-settled.png",
+      "sha256": "90b5944ae8cc51089cb4eeb5d96aae8e8a0659feb1f6cc8983a523c7220e3843"
+    },
+    {
+      "file": "final-weak-pc-1/next-serve.png",
+      "sha256": "7857571453ff7f01602c34e272e7afd8056c0315317915e6fe4e06aef0690b5c"
+    },
+    {
+      "file": "final-weak-touch-1/point-settled.png",
+      "sha256": "2c5760e6d3d537157360a50160b93c4927a84ec3c6637d6a080b91e14f890f09"
+    },
+    {
+      "file": "final-good-touch-1/point-settled.png",
+      "sha256": "c6f2e024a8394396e28f1b21be38b35af56fda49be414c4be96b92e079654e73"
+    }
+  ],
+  "swing": [
+    {
+      "file": "swing-source-frames/000284.jpg",
+      "index": 284,
+      "cpuEventOffsetSeconds": -1.5041511058807373,
+      "sha256": "6aec3222ea50a1ccb8470df767878ea975c306602c82d622927c1331238d2db2"
+    },
+    {
+      "file": "swing-source-frames/000285.jpg",
+      "index": 285,
+      "cpuEventOffsetSeconds": -1.3915729522705078,
+      "sha256": "a60380d66be93c615927347efb789e7b2f8ae523c43ef76001a78d6274ef3209"
+    },
+    {
+      "file": "swing-source-frames/000286.jpg",
+      "index": 286,
+      "cpuEventOffsetSeconds": -1.2064671516418457,
+      "sha256": "fdcedf6fbb1dc9a654025722a48864870d12b9d736a2d8bf9857a3eb993dc3b0"
+    },
+    {
+      "file": "swing-source-frames/000287.jpg",
+      "index": 287,
+      "cpuEventOffsetSeconds": -0.7678289413452148,
+      "sha256": "00a5fbe01b51a4a3d05fde822c5bcb9866dd9587cc29f4b80b821ea29b87d620"
+    },
+    {
+      "file": "swing-source-frames/000288.jpg",
+      "index": 288,
+      "cpuEventOffsetSeconds": -0.4191701412200928,
+      "sha256": "c34e0ab49689587be1c64b0fb5af465fbcd912d1b34a23504b89c3ebb38ee2aa"
+    },
+    {
+      "file": "swing-source-frames/000289.jpg",
+      "index": 289,
+      "cpuEventOffsetSeconds": -0.009752988815307617,
+      "sha256": "4b3ca8bd6dcff8d7367e13fb20dff418b1725aaf2c665da9b29c8a37412f817c"
+    },
+    {
+      "file": "swing-source-frames/000290.jpg",
+      "index": 290,
+      "cpuEventOffsetSeconds": 0.15680384635925293,
+      "sha256": "2c624620f01d3990bb909142e57c094adbd835dd514330812b00e9875bc8b96d"
+    },
+    {
+      "file": "swing-source-frames/000291.jpg",
+      "index": 291,
+      "cpuEventOffsetSeconds": 0.5176868438720703,
+      "sha256": "700e527fd2a91b4b6d21f7624cb2e1981643f8265af48ac980054a9067287d01"
+    },
+    {
+      "file": "swing-source-frames/000292.jpg",
+      "index": 292,
+      "cpuEventOffsetSeconds": 0.5840740203857422,
+      "sha256": "313d56367916ca77a9cd5cd28f46458e0212cf6856c1e4eb2ced6947911d8ce5"
+    },
+    {
+      "file": "swing-source-frames/000293.jpg",
+      "index": 293,
+      "cpuEventOffsetSeconds": 0.7211048603057861,
+      "sha256": "4ea76c17bc3d100800b770449a1b2c2766afad288a6dcdbb128aa8c42b2b7c92"
+    },
+    {
+      "file": "swing-source-frames/000294.jpg",
+      "index": 294,
+      "cpuEventOffsetSeconds": 0.8585619926452637,
+      "sha256": "e5e555eb0bd43dd582e8f9dcbc45e9805e10d1303a5cea51e87ca8167fa3338c"
+    },
+    {
+      "file": "swing-source-frames/000295.jpg",
+      "index": 295,
+      "cpuEventOffsetSeconds": 1.006608009338379,
+      "sha256": "b3e09e81c86decd7c807400d722ba0e6f6b9788d6bcc0a65a0c6585fefc1cd49"
+    },
+    {
+      "file": "swing-source-frames/000296.jpg",
+      "index": 296,
+      "cpuEventOffsetSeconds": 1.1192870140075684,
+      "sha256": "ece89cb8488b553962fd1274a2856910d0196dacc27069ed40d60603ad4b7b31"
+    },
+    {
+      "file": "swing-source-frames/000297.jpg",
+      "index": 297,
+      "cpuEventOffsetSeconds": 1.2717139720916748,
+      "sha256": "9c6c1a1e53157f8f4e4d971f9cbf565b611a8a5605103defa1a605060f46e095"
+    },
+    {
+      "file": "swing-source-frames/000298.jpg",
+      "index": 298,
+      "cpuEventOffsetSeconds": 1.4019579887390137,
+      "sha256": "f3e3f310fbf7b432643532adea67c917bca9f389669b176f414f9115d18217e9"
+    },
+    {
+      "file": "swing-source-frames/000299.jpg",
+      "index": 299,
+      "cpuEventOffsetSeconds": 1.5420429706573486,
+      "sha256": "45d69e9142b8a6679e7c92ad41b46a6fb32d4e4bc6735c6c5eebb32c8fbba358"
+    },
+    {
+      "file": "swing-source-frames/000300.jpg",
+      "index": 300,
+      "cpuEventOffsetSeconds": 1.6824009418487549,
+      "sha256": "36912e911700b3dfbb1e31b2c04dec2259040a1af19362a7b72cb7659f88f7e8"
+    },
+    {
+      "file": "swing-source-frames/000301.jpg",
+      "index": 301,
+      "cpuEventOffsetSeconds": 1.8192169666290283,
+      "sha256": "ec6c304404b5186e533dc77fa2bd67b13a48e24f4b005d919d3c91b8e810286a"
+    },
+    {
+      "file": "swing-source-frames/000302.jpg",
+      "index": 302,
+      "cpuEventOffsetSeconds": 1.9682910442352295,
+      "sha256": "06c470971d0a7ff355d3724cf1f60c0b5cdcea0c86d9d9e69fc79a60412aad13"
+    },
+    {
+      "file": "swing-source-frames/000303.jpg",
+      "index": 303,
+      "cpuEventOffsetSeconds": 2.1045420169830322,
+      "sha256": "9389fc9d0578ea22a0ca61eb96f8d6eaa0d11033acf130bafb6f06111b8ff0fe"
+    },
+    {
+      "file": "swing-source-frames/000304.jpg",
+      "index": 304,
+      "cpuEventOffsetSeconds": 2.240769863128662,
+      "sha256": "d8d3ae51a4298d0fa624a3cede772e7347f88f1a7cfb9071f8badb4c43da6c7d"
+    },
+    {
+      "file": "swing-source-frames/000305.jpg",
+      "index": 305,
+      "cpuEventOffsetSeconds": 2.390871047973633,
+      "sha256": "9b39cddc57a6354af917ef77e96eefdc3032d14f1bd24f858cfa6d2a2a1966ee"
+    },
+    {
+      "file": "swing-source-frames/000306.jpg",
+      "index": 306,
+      "cpuEventOffsetSeconds": 2.530122995376587,
+      "sha256": "73b88fc10a79f2682d5e9658a7cd3bb0c6ee3927b0546d4a2417467a5c068718"
+    },
+    {
+      "file": "swing-source-frames/000307.jpg",
+      "index": 307,
+      "cpuEventOffsetSeconds": 2.6738388538360596,
+      "sha256": "5c7ebd543e2f44072273209d0c98bc2b204faea486b3ec5974e617ddadfa01bf"
+    }
+  ],
+  "method": "Literal screenshots and24consecutive recorded CDP frames spanning preparation, contact, follow-through and recovery. CPU-event offsets are not photon timing, slow-motion poses or normal-speed watching/listening evidence. Existing swing is unchanged in this cycle."
+}

@@ -1,0 +1,11 @@
+{
+  "sha": "cc84182878571b87d6a5acf6efe9c9d044ffa064",
+  "context": "Vercel",
+  "state": "success",
+  "observedAtUtc": "2026-10-17T09:09:37.133081+00:00",
+  "dashboard": "https://vercel.com/silentstacks-projects/loop-lab/FUNLWUbGqQyjb39jRaKtt5tn8FbD",
+  "url": "https://loop-lab-git-codex-smash-athlete-f-a949a2-silentstacks-projects.vercel.app/runs/smash-rally-3d/index.html",
+  "hostnameEvidence": "GitHub check-run117359754325 output feedback link; terminal deployment from separate combined Vercel status",
+  "remoteBrowserVerified": false,
+  "limit": "Prior remote Chromium access failed pre-HTTP ERR_TUNNEL_CONNECTION_FAILED; no retry."
+}

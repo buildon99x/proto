@@ -1,0 +1,28 @@
+{
+  "recordedAtUtc": "2026-10-17T09:28:31.707984+00:00",
+  "reference": {
+    "libraryFileId": "libfile_8ad23cd0827081918a24e7ffdc9b90fb",
+    "backingFileId": "file_0000000050d881f59fafbb54efb6c11e",
+    "filename": "13013.jpg",
+    "metadataDimensions": [
+      1065,
+      606
+    ],
+    "metadataBytes": 169400,
+    "pixelsOpenedByWorker": false,
+    "historicalOfficialMaterializationAttempts": 3,
+    "historicalError": "library file transfer failed: download failed",
+    "provenance": "../reference-swing-20261015/README.md and ../reference-close-20261015/README.md",
+    "grounding": "Parent directly inspected image and supplied measured composition; no worker direct-pixel fidelity claim.",
+    "retriedThisCycle": false
+  },
+  "remoteChromium": {
+    "historicalError": "ERR_TUNNEL_CONNECTION_FAILED before HTTP",
+    "remotePlayVerified": false,
+    "retriedThisCycle": false
+  },
+  "continuousNormalSpeedWatching": false,
+  "actualListening": false,
+  "physicalDeviceAndSafari": false,
+  "noProxyOrExternalToolBypass": true
+}

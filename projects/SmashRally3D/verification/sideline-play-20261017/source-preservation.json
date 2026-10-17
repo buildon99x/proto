@@ -1,0 +1,29 @@
+{
+  "baseline": "ffb664da4820ffaef15b92d21e57e009c5cd7ac1",
+  "unchangedRuntimeFiles": [
+    "courtyard-materials.ts",
+    "physics.ts",
+    "contact-visibility.ts",
+    "courtyard.ts",
+    "impact.ts",
+    "lessons.ts",
+    "shuttle-contrast.ts",
+    "feedback.ts",
+    "vite-env.d.ts",
+    "stroke-presentation.ts",
+    "motion.ts",
+    "audio.ts",
+    "aim-feedback.ts"
+  ],
+  "changedRuntimeFiles": [
+    "main.ts",
+    "tactics.ts",
+    "camera-framing.ts",
+    "game.ts"
+  ],
+  "physicsMotionImpactAudioCourtAndSceneryUntouched": true,
+  "pointAndScoreFunctionExact": true,
+  "cameraFitAndFlightFovExact": true,
+  "fiveGlbsExact": true,
+  "changeScope": "Shared aim clamp only; shared desired foot stance only, no actor position assignment; real-ground informational marker only."
+}

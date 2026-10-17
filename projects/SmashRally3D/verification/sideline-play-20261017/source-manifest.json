@@ -1,0 +1,61 @@
+{
+  "runtimeCommit": "cc84182878571b87d6a5acf6efe9c9d044ffa064",
+  "baseline": "ffb664da4820ffaef15b92d21e57e009c5cd7ac1",
+  "bundle": "./assets/index-i95Kh7yn.js",
+  "bundleSha256": "34b17e7fb06c1c14b62fe7c0b070ef0adafe6d72153c70781482bb4d152de9b4",
+  "modelHashes": {
+    "athlete-gold.glb": "8e9301e591a4612d20f35727a85ac1a9d9df7496e6312e4769b7a0f79858ed4d",
+    "athlete-violet.glb": "e94409976350cd6fa8b8bb0c7191baf2e980fb9f47448574d7e4a756f28b6534",
+    "court.glb": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47",
+    "racket.glb": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13",
+    "shuttle.glb": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+  },
+  "sourceHashes": {
+    "projects/SmashRally3D/app/src/aim-feedback.ts": "1e2c92c3c0b6eda44301cb2f5db4148fb05e0c0816ba00fdbb9f2bb8bd1fdc95",
+    "projects/SmashRally3D/app/src/audio.ts": "c894948ec75c7c98a4d829272f024066308b868c4515f2cb068379977c2d4115",
+    "projects/SmashRally3D/app/src/camera-framing.ts": "1ae6f0d68ee323307308a26b801c901a36df20c1dcf5568f116c4639f59660fc",
+    "projects/SmashRally3D/app/src/contact-visibility.ts": "b61648a1a56357020d839c579fcd17a440d9337ee7a578c68864faae3caeadd4",
+    "projects/SmashRally3D/app/src/courtyard-materials.ts": "d8cbd919bff6b31bcdf0f8ad078c084b2c10cf13622dec5b8810e30b1d223249",
+    "projects/SmashRally3D/app/src/courtyard.ts": "b9cba196ac1034ff554dcce4ac8ba45097d5850b0dc5db58e13a61e44e4b61e9",
+    "projects/SmashRally3D/app/src/feedback.ts": "791265ce426f87473037a2534ab781733e2305b010fe4d559636f82876427f04",
+    "projects/SmashRally3D/app/src/game.ts": "aaa216ecad0bfdf1c5c5cbb689f04309d0f5b45b4e447d25cee302080233f4d5",
+    "projects/SmashRally3D/app/src/impact.ts": "3ed549c44ee3a32099983d841621fdace4f4eb582322de4f249d6541c5e397cb",
+    "projects/SmashRally3D/app/src/lessons.ts": "881ccbfa79d8c2e13bd6123765457a45b8ee39424fb857c302134adf93987a31",
+    "projects/SmashRally3D/app/src/main.ts": "8689cb0ad722c2a5121792b3206c9f8e5083a1a49ab3260659ea8a12b6458d20",
+    "projects/SmashRally3D/app/src/motion.ts": "b5d9ab1865aec2b0ac147ae4431bc5c5c702d0c9d823d2361715b7bb601ce6e4",
+    "projects/SmashRally3D/app/src/physics.ts": "7dcd6992b71aeadd83315e1ea88097a385dc1cf7b6b685e69f2fffcfba57783c",
+    "projects/SmashRally3D/app/src/shuttle-contrast.ts": "82a0c563c38198308598a799de81d76d101beb4f05cedd96576c670ffc65f1e2",
+    "projects/SmashRally3D/app/src/stroke-presentation.ts": "1515f4d99487e1e7b20c8cf4e47592dca764949149f91cec29bd8c31900849d1",
+    "projects/SmashRally3D/app/src/tactics.ts": "014396f57a4373d1a97c046ccffc3f12d1a3202b9e4e9c0b42bd8c033670eee9",
+    "projects/SmashRally3D/app/src/vite-env.d.ts": "da6339fa1ec86798c88aa5ea8765e3a1da09a9186b61cb88f56a951ec1633274"
+  },
+  "preservation": {
+    "baseline": "ffb664da4820ffaef15b92d21e57e009c5cd7ac1",
+    "unchangedRuntimeFiles": [
+      "courtyard-materials.ts",
+      "physics.ts",
+      "contact-visibility.ts",
+      "courtyard.ts",
+      "impact.ts",
+      "lessons.ts",
+      "shuttle-contrast.ts",
+      "feedback.ts",
+      "vite-env.d.ts",
+      "stroke-presentation.ts",
+      "motion.ts",
+      "audio.ts",
+      "aim-feedback.ts"
+    ],
+    "changedRuntimeFiles": [
+      "main.ts",
+      "tactics.ts",
+      "camera-framing.ts",
+      "game.ts"
+    ],
+    "physicsMotionImpactAudioCourtAndSceneryUntouched": true,
+    "pointAndScoreFunctionExact": true,
+    "cameraFitAndFlightFovExact": true,
+    "fiveGlbsExact": true,
+    "changeScope": "Shared aim clamp only; shared desired foot stance only, no actor position assignment; real-ground informational marker only."
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "modelHashes": {
+      "athlete-gold.glb": "8e9301e591a4612d20f35727a85ac1a9d9df7496e6312e4769b7a0f79858ed4d",
+      "athlete-violet.glb": "e94409976350cd6fa8b8bb0c7191baf2e980fb9f47448574d7e4a756f28b6534",
+      "court.glb": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47",
+      "racket.glb": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13",
+      "shuttle.glb": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+    },
+    "sourceBundle": "./assets/index-i95Kh7yn.js",
+    "sha256": "34b17e7fb06c1c14b62fe7c0b070ef0adafe6d72153c70781482bb4d152de9b4",
+    "startedAt": "2026-10-17T09:12:51.409Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "SIDELINE HITS [{\"actor\":0,\"quality\":\"good\",\"target\":{\"x\":0,\"y\":0.025,\"z\":5.799998265212299},\"technique\":\"clear\",\"contact\":{\"racket\":{\"x\":0.3605647449214826,\"y\":1.0997194508421873,\"z\":-3.1110259487072924},\"ball\":{\"x\":0.35,\"y\":1.1,\"z\":-3.1},\"planeDistance\":0.01143257932988349,\"radialDistance\":0.010127201876515788,\"source\":\"engine:hit_frame\"},\"time\":1.3833333333333309}]",
+    "SIDELINE HITS [{\"actor\":1,\"quality\":\"good\",\"target\":{\"x\":1.9618434878606066,\"y\":0.025,\"z\":-5.8},\"technique\":\"clear\",\"contact\":{\"racket\":{\"x\":0.06802409267187248,\"y\":2.5913576824861426,\"z\":5.269629311743587},\"ball\":{\"x\":0.02197817838139569,\"y\":2.5566663267542236,\"z\":5.241124695306731},\"planeDistance\":0.011258770469380789,\"radialDistance\":0.06332037295448063,\"source\":\"engine:hit_frame\"},\"time\":3.6416666666666564}]",
+    "SIDELINE INPUT {\"cue\":\"● HIT NOW · DROP\",\"requested\":{\"x\":2.5,\"z\":1.2},\"screen\":{\"x\":498.43971014436227,\"y\":341.43868572160653},\"input\":{\"shotIntent\":\"drop\",\"target\":{\"x\":2.5,\"y\":0.025,\"z\":1.1999995454313819},\"issuedAt\":5.841666666666747,\"submittedAt\":5.841666666666747,\"pointerType\":\"mouse\",\"accepted\":true,\"projectedAtInput\":{\"x\":498.43970912796374,\"y\":341.4386890237783}},\"time\":5.841666666666747}",
+    "SIDELINE HITS [{\"actor\":0,\"quality\":\"perfect\",\"target\":{\"x\":2.5,\"y\":0.025,\"z\":1.1999995454313819},\"technique\":\"drop\",\"contact\":{\"racket\":{\"x\":1.8480165260778127,\"y\":2.5695619307683444,\"z\":-5.228388974303742},\"ball\":{\"x\":1.8568081807674592,\"y\":2.64220596837552,\"z\":-5.202170904671415},\"planeDistance\":0.032672715119924256,\"radialDistance\":0.07052893203496394,\"source\":\"engine:hit_frame\"},\"time\":6.016666666666755}]",
+    "SIDELINE HITS [{\"actor\":1,\"quality\":\"perfect\",\"target\":{\"x\":-1.937950339197061,\"y\":0.025,\"z\":-5.8},\"technique\":\"lift\",\"contact\":{\"racket\":{\"x\":2.3870568749776697,\"y\":0.9970178785215509,\"z\":0.779416132475012},\"ball\":{\"x\":2.445786446047273,\"y\":0.9150221515473856,\"z\":0.6603713929381798},\"planeDistance\":0.0434983813777422,\"radialDistance\":0.1498399232145763,\"source\":\"engine:hit_frame\"},\"time\":7.125000000000144}]",
+    "SIDELINE INPUT {\"cue\":\"● HIT NOW · DROP\",\"requested\":{\"x\":2.5,\"z\":1.2},\"screen\":{\"x\":379.4803655981344,\"y\":342.3420896996097},\"input\":{\"shotIntent\":\"drop\",\"target\":{\"x\":2.499999126497838,\"y\":0.025,\"z\":1.199998496284847},\"issuedAt\":9.208333333333451,\"submittedAt\":9.208333333333451,\"pointerType\":\"mouse\",\"accepted\":true,\"projectedAtInput\":{\"x\":379.48038173758755,\"y\":342.34210098608065}},\"time\":9.208333333333451}",
+    "SIDELINE HITS [{\"actor\":0,\"quality\":\"perfect\",\"target\":{\"x\":2.499999126497838,\"y\":0.025,\"z\":1.199998496284847},\"technique\":\"drop\",\"contact\":{\"racket\":{\"x\":-1.6528626887796234,\"y\":2.5721098140188676,\"z\":-5.393913304997133},\"ball\":{\"x\":-1.6426571754551103,\"y\":2.6556272088205533,\"z\":-5.3648225244750005},\"planeDistance\":0.036612687746701886,\"radialDistance\":0.08114858189781766,\"source\":\"engine:hit_frame\"},\"time\":9.366666666666775}]",
+    "SIDELINE POINT {\"mode\":\"good\",\"touch\":false,\"point\":{\"winner\":0,\"reason\":\"IN\",\"returns\":4,\"detail\":\"AI COULD NOT RETURN\"},\"at\":{\"x\":2.500144516191465,\"y\":0.025,\"z\":1.2002288937031544},\"marker\":{\"at\":{\"x\":2.500144516191465,\"y\":0.025,\"z\":1.2002288937031544},\"reason\":\"IN\",\"winner\":0,\"time\":10.608333333333372,\"point\":1,\"hitter\":0,\"visible\":true,\"inRing\":true,\"outArms\":0,\"rendered\":{\"x\":2.5001444816589355,\"y\":0.06300000101327896,\"z\":1.2002289295196533},\"screen\":{\"x\":431.94290398155374,\"y\":386.70573119501853,\"z\":12.83960360375242}},\"nextServer\":0,\"nextHitter\":0}"
+  ]
+}

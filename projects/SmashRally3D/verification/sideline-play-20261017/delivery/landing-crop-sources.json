@@ -1,0 +1,47 @@
+[
+  {
+    "source": "final-good-pc-1/point-settled.png",
+    "boxPixels": [
+      342,
+      296,
+      522,
+      476
+    ],
+    "sourcePixelRatio": 1.0,
+    "markerAtActualCollision": {
+      "x": 2.5001449011633534,
+      "y": 0.025,
+      "z": 1.200228620287503
+    }
+  },
+  {
+    "source": "final-weak-pc-1/point-settled.png",
+    "boxPixels": [
+      335,
+      296,
+      515,
+      476
+    ],
+    "sourcePixelRatio": 1.0,
+    "markerAtActualCollision": {
+      "x": 2.670884967796407,
+      "y": 0.025,
+      "z": 1.2000800548955868
+    }
+  },
+  {
+    "source": "final-good-touch-1/point-settled.png",
+    "boxPixels": [
+      0,
+      840,
+      358,
+      1200
+    ],
+    "sourcePixelRatio": 2.0,
+    "markerAtActualCollision": {
+      "x": 2.5001445040423493,
+      "y": 0.025,
+      "z": 1.2002288211741408
+    }
+  }
+]

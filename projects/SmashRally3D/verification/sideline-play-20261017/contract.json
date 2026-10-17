@@ -1,0 +1,21 @@
+{
+  "baseline": "ffb664da4820ffaef15b92d21e57e009c5cd7ac1",
+  "criterion": {
+    "id": "M4",
+    "category": "match",
+    "name": "스포츠 규칙·공간의 인과",
+    "weight": 5,
+    "condition": "일반입력 IN 득점/서브/5점·실제접촉의 인과;경계 판정 정확성 회귀는 별도 기술 게이트",
+    "pass_criteria": "라인·네트·코트/점수/서브의 관계가 이해되고 순간이동·가짜타점 없음;회귀통과만으로 경험점수 지급 금지"
+  },
+  "priorScore": 4,
+  "priorReviewedSubtotal": 49,
+  "reviewedWeight": 60,
+  "unknownWeight": 40,
+  "overallScore": null,
+  "rubricSha256": "acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+  "missingActualCase": "Latest M4ledger shows17contacts/fiveINpoints; no current actual near-sideline OUT and next-server/landing causality. UI/domain currently clamp aim at±2.25, more than.3m inside white line.",
+  "meaningfulChange": "Optional legal edge aim plus existing physical error risk; shared bounded stance for edge retrieval and actual collision-ground marker. No new mandatory gesture and no altered physics/inside/solver values.",
+  "approvalScope": "Same athlete-form branch only, preserve569cfb7+3f18189 refs. No main/default promotion. Final head deployment terminal status must be recorded.",
+  "scoreRule": "Direct real UI placement/contact/landing/score/server observations only. Marker/log/test totals are not score points. No blanket external prerequisite absent fromM4; all other19scores/weights and40unknown remain unchanged."
+}

@@ -1,0 +1,292 @@
+{
+  "method": "Read-only post-render observation during unchanged original PC match/native gestures. Actual hit target, marker transform and visible outcome text compared;0.1mm numeric marker precision gate is not an experience score. No future trajectory/landing guarantee or state/time injection.",
+  "events": [
+    {
+      "round": 0,
+      "time": 6.233333333333433,
+      "shot": "clear",
+      "technique": "clear",
+      "requestedShot": "clear",
+      "fallbackReason": null,
+      "target": {
+        "x": -0.0990762551292131,
+        "y": 0.025,
+        "z": 5.874079324819828
+      },
+      "guide": {
+        "aim": {
+          "x": -0.009076255129305544,
+          "y": 0.025,
+          "z": 5.874079324819828
+        },
+        "target": {
+          "x": -0.0990762551292131,
+          "y": 0.025,
+          "z": 5.874079324819828
+        },
+        "time": 6.233333333333433,
+        "copy": "YOU · GOOD CLEAR → DEEP CENTRE"
+      },
+      "copy": "YOU · GOOD CLEAR → DEEP CENTRE",
+      "ring": {
+        "enabled": true,
+        "p": {
+          "x": -0.09907625615596771,
+          "y": 0.07500000298023224,
+          "z": 5.87407922744751
+        }
+      },
+      "dotEnabled": true,
+      "aim": {
+        "enabled": false,
+        "p": {
+          "x": -0.00907625537365675,
+          "y": 0.07000000029802322,
+          "z": 5.87407922744751
+        }
+      },
+      "markerErrorM": 9.737773142936905e-8,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "textBounds": {
+        "left": 90.578125,
+        "right": 299.421875,
+        "top": 68,
+        "bottom": 79
+      },
+      "ownContactWindow": {
+        "x": 164.73539203709785,
+        "y": 380.2327185122237,
+        "radius": 16.38,
+        "strength": 0
+      }
+    },
+    {
+      "round": 0,
+      "time": 10.991666666666683,
+      "shot": "clear",
+      "technique": "clear",
+      "requestedShot": "clear",
+      "fallbackReason": null,
+      "target": {
+        "x": -1.8946936282511,
+        "y": 0.025,
+        "z": 5.7341397471182365
+      },
+      "guide": {
+        "aim": {
+          "x": -1.7821936282509558,
+          "y": 0.025,
+          "z": 5.7341397471182365
+        },
+        "target": {
+          "x": -1.8946936282511,
+          "y": 0.025,
+          "z": 5.7341397471182365
+        },
+        "time": 10.991666666666683,
+        "copy": "YOU · GOOD CLEAR → DEEP RIGHT"
+      },
+      "copy": "YOU · GOOD CLEAR → DEEP RIGHT",
+      "ring": {
+        "enabled": true,
+        "p": {
+          "x": -1.8946936130523682,
+          "y": 0.07500000298023224,
+          "z": 5.734139919281006
+        }
+      },
+      "dotEnabled": true,
+      "aim": {
+        "enabled": false,
+        "p": {
+          "x": -1.782193660736084,
+          "y": 0.07000000029802322,
+          "z": 5.734139919281006
+        }
+      },
+      "markerErrorM": 1.7283234826773048e-7,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "textBounds": {
+        "left": 95.984375,
+        "right": 294.015625,
+        "top": 68,
+        "bottom": 79
+      },
+      "ownContactWindow": {
+        "x": 164.41360647055694,
+        "y": 372.2394075390194,
+        "radius": 16.38,
+        "strength": 0
+      }
+    },
+    {
+      "round": 0,
+      "time": 15.758333333333079,
+      "shot": "clear",
+      "technique": "clear",
+      "requestedShot": "clear",
+      "fallbackReason": null,
+      "target": {
+        "x": 1.8758043447028998,
+        "y": 0.025,
+        "z": 5.8936960791688335
+      },
+      "guide": {
+        "aim": {
+          "x": 1.7941376780361173,
+          "y": 0.025,
+          "z": 5.8936960791688335
+        },
+        "target": {
+          "x": 1.8758043447028998,
+          "y": 0.025,
+          "z": 5.8936960791688335
+        },
+        "time": 15.758333333333079,
+        "copy": "YOU · GOOD CLEAR → DEEP LEFT"
+      },
+      "copy": "YOU · GOOD CLEAR → DEEP LEFT",
+      "ring": {
+        "enabled": true,
+        "p": {
+          "x": 1.8758043050765991,
+          "y": 0.07500000298023224,
+          "z": 5.893696308135986
+        }
+      },
+      "dotEnabled": true,
+      "aim": {
+        "enabled": false,
+        "p": {
+          "x": 1.794137716293335,
+          "y": 0.07000000029802322,
+          "z": 5.893696308135986
+        }
+      },
+      "markerErrorM": 2.3237082597491977e-7,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "textBounds": {
+        "left": 99.4375,
+        "right": 290.5625,
+        "top": 68,
+        "bottom": 79
+      },
+      "ownContactWindow": {
+        "x": 164.37978874261705,
+        "y": 380.851996434994,
+        "radius": 16.38,
+        "strength": 0
+      }
+    }
+  ],
+  "intents": [
+    {
+      "time": 4.116666666666661,
+      "copy": "AIM DEEP CENTRE · CLEAR AIMS DEEP",
+      "aim": {
+        "x": 0,
+        "y": 0.025,
+        "z": 5.793939822873089
+      }
+    },
+    {
+      "time": 10.675000000000034,
+      "copy": "AIM DEEP RIGHT · CLEAR AIMS DEEP",
+      "aim": {
+        "x": -1.7821936282509558,
+        "y": 0.025,
+        "z": 5.7341397471182365
+      }
+    },
+    {
+      "time": 15.44166666666643,
+      "copy": "AIM DEEP LEFT · CLEAR AIMS DEEP",
+      "aim": {
+        "x": 1.7941376780361173,
+        "y": 0.025,
+        "z": 5.8936960791688335
+      }
+    }
+  ],
+  "contacts": [
+    {
+      "actor": 0,
+      "time": 1.5916666666666635,
+      "window": {
+        "x": 151.61445899280642,
+        "y": 539.9320854642931,
+        "radius": 16.38,
+        "strength": 0
+      }
+    },
+    {
+      "actor": 1,
+      "time": 3.849999999999989,
+      "window": {
+        "x": 193.80197167607056,
+        "y": 333.6665827357932,
+        "radius": 16.38,
+        "strength": 0
+      }
+    },
+    {
+      "actor": 0,
+      "time": 6.233333333333433,
+      "window": {
+        "x": 164.73539203709785,
+        "y": 380.2327185122237,
+        "radius": 16.38,
+        "strength": 0
+      }
+    },
+    {
+      "actor": 1,
+      "time": 8.616666666666818,
+      "window": {
+        "x": 193.21066808332364,
+        "y": 334.0301351253313,
+        "radius": 16.38,
+        "strength": 0
+      }
+    },
+    {
+      "actor": 0,
+      "time": 10.991666666666683,
+      "window": {
+        "x": 164.41360647055694,
+        "y": 372.2394075390194,
+        "radius": 16.38,
+        "strength": 0
+      }
+    },
+    {
+      "actor": 1,
+      "time": 13.374999999999881,
+      "window": {
+        "x": 251.282349472523,
+        "y": 333.61496406025447,
+        "radius": 16.38,
+        "strength": 0
+      }
+    },
+    {
+      "actor": 0,
+      "time": 15.758333333333079,
+      "window": {
+        "x": 164.37978874261705,
+        "y": 380.851996434994,
+        "radius": 16.38,
+        "strength": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "approachChange": "The first marker was hidden by opaque feet. Disabling depth made it visible through feet, but the transparent net still washed it out. Dedicated transparent drawBucket0 makes only this informational marker draw after the net. Physical geometry/depth/contact and ordinary input untouched.",
+  "nativeTimingFinding": "Broad visible cue requests can produce GOOD/IN on native transport; actual quality and result are retained, never forced or reclassified.",
+  "excludedPrototypeRuns": [
+    {
+      "folder": "pilot-weak-pc",
+      "bundleSha256": "f54076dbba675d8c12ccd342e1b66eebcaae79d446f88eba5b2f124a05bb82ac",
+      "actualPoint": {
+        "winner": 1,
+        "reason": "OUT",
+        "returns": 4,
+        "detail": "YOUR SHOT LANDED OUT"
+      },
+      "finalReleaseCohort": false,
+      "reason": "Prototype before final annotation transparent draw ordering. Actual gameplay retained as historical observation, excluded from final fixed-build gates and rating."
+    },
+    {
+      "folder": "pilot-weak-touch",
+      "bundleSha256": "1e768fa25009df89d371139609347534df7d2c960df470f952679e83a4b23891",
+      "actualPoint": {
+        "winner": 0,
+        "reason": "IN",
+        "returns": 4,
+        "detail": "AI COULD NOT RETURN"
+      },
+      "finalReleaseCohort": false,
+      "reason": "Prototype before final annotation transparent draw ordering. Actual gameplay retained as historical observation, excluded from final fixed-build gates and rating."
+    },
+    {
+      "folder": "attempts/marker-before-net-order",
+      "bundleSha256": "1e768fa25009df89d371139609347534df7d2c960df470f952679e83a4b23891",
+      "actualPoint": {
+        "winner": 1,
+        "reason": "OUT",
+        "returns": 4,
+        "detail": "YOUR SHOT LANDED OUT"
+      },
+      "finalReleaseCohort": false,
+      "reason": "Prototype before final annotation transparent draw ordering. Actual gameplay retained as historical observation, excluded from final fixed-build gates and rating."
+    }
+  ]
+}
