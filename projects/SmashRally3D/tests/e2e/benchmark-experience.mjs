@@ -10,6 +10,12 @@ export async function run(ctx) {
   if (recorded.match.time < 32 || !lesson?.active || !lesson.returned || lesson.cleared || lesson.dropped)
     throw Error('Elapsed time or a default safe fallback incorrectly completed the lessons: '+JSON.stringify({time:recorded.match.time,lesson}));
   if (JSON.stringify(recorded.countdown.lessons) !== JSON.stringify(lesson)) throw Error('Rematch lost lesson progress');
+  // Encoding runs after recording while the ordinary game can continue.
+  // If it has naturally reached results, reopen via the real UI before pausing.
+  if ((await ctx.page.evaluate(() => window.smashDiagnostics().phase)) === 'RESULTS') {
+    await ctx.page.click('[data-action="start"]');
+    await ctx.page.waitForFunction(() => window.smashDiagnostics().phase === 'SERVE_READY');
+  }
   await ctx.page.keyboard.press('Escape');
   await ctx.page.click('[data-tips]');
   let d = await ctx.page.evaluate(() => window.smashDiagnostics());

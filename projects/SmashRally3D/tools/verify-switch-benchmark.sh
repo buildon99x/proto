@@ -4,6 +4,14 @@ cd "$(dirname "$0")/../../.."
 base=projects/SmashRally3D/verification/switch-benchmark-20261017
 # Let the earlier owned lighting capture finish its own recording/browser first.
 while pgrep -f '^node projects/SmashRally3D/tools/browser-check.mjs ' >/dev/null; do sleep 3; done
+archive="$base/attempts/previous-final-$(date -u +%Y%m%dT%H%M%S)"
+mkdir -p "$archive"
+for name in final-play final-native final-native-2 final-native-3 final-scene final-dialog final-pause final-loss final-pressure final-rotation final-defence final-rally; do
+ if [ -d "$base/$name" ]; then mv "$base/$name" "$archive/$name"; fi
+done
+for name in tests-final.txt registry-final.txt root-build-final.txt; do
+ if [ -f "$base/$name" ]; then mv "$base/$name" "$archive/$name"; fi
+done
 COREPACK_HOME=/tmp/smash-corepack corepack pnpm --filter smash-rally-3d exec vitest run --maxWorkers=1 --no-file-parallelism > "$base/tests-final.txt" 2>&1 || exit 1
 cp projects/SmashRally3D/verification/drop-defence-20261015/domain-tactical-scenarios.json "$base/domain-tactical-scenarios.json"
 git restore projects/SmashRally3D/verification/drop-defence-20261015/domain-tactical-scenarios.json
@@ -25,6 +33,7 @@ run_case final-native-2 benchmark-native
 run_case final-native-3 benchmark-native
 run_case final-scene benchmark-scene
 run_case final-dialog experience-dialog
+run_case final-pause benchmark-pause
 run_case final-loss experience-loss
 run_case final-pressure experience-pressure
 run_case final-rotation court-resize

@@ -35,3 +35,8 @@ Updated2026-10-16. Baseline906024b; current implementation commits45809ad,04174d
 - The Naver article remains unread. None of these findings or changes is attributed to its content or images. Existing original project assets and accepted close camera remain intact.
 
 Final per-case results, source bundle identity, actual recordings, failed/intermediate attempts and delivery links are consolidated inverification/experience-20261016/README.md andqualification.json.
+
+
+## 2026-10-17 benchmark checkpoint
+
+Frozen Nintendo-guided text-research rubric:reviewed33→35→37 of55-point weight,45 unverified;no overall98 claim. Fresh source/evidence and separate67-test/12-browser/full-build qualification are underverification/switch-benchmark-20261017. Source changes are daylight lighting and action-based optional tips; camera/physics/AI/audio/inputs remain. Actual dot desktop/listening/reference footage and human feel/balance evidence are unavailable. Simple art,small high-shuttle contrast and compact settings targets are open known gaps. This is partial progress,not closure of the98-point request.

@@ -1,5 +1,37 @@
 {
   "baseline": "evaluation-baseline.json",
   "policy": "같은 문제3회 정체하면 원인 분석+다른 접근+재평가.소프트웨어 capture/자동검사와 경험 평가 분리.",
-  "cycles": []
+  "cycles": [
+    {
+      "number": 1,
+      "issue": "어두운 선수·라켓·네트 분리",
+      "attempt": 1,
+      "hypothesis": "약한 ambient+단일 key와선형 tonemapping 때문에 낮은 대비·암부가 생김.물리/카메라 문제가 아님.",
+      "change": "Neutral tone mapping, daylight ambient and key/fill;카메라·기하·물리·AI·사운드 유지.",
+      "same_condition": "4 LOW held-serve sizes and unchanged ordinary mouse-match controller. Camera and target projections identical in all4 ready views.",
+      "evaluation": "evaluation-cycle1.json",
+      "before": 33,
+      "after": 35,
+      "verifiedWeight": 55,
+      "unverifiedWeight": 45,
+      "outcome": "직접 본 실루엣/재질 가독성은 개선.환경 공간 구성V3는 개선 없음.실기기/영상 레퍼런스·청음은 여전히 미검증.",
+      "stagnation_on_same_issue": 0
+    },
+    {
+      "number": 2,
+      "issue": "수행과무관한시간기반학습안내",
+      "attempt": 1,
+      "hypothesis": "경과시간은 실제리턴/선택샷을배웠다는근거가아님.일반입력의실제성공과최종기술에따라진행해야함.",
+      "change": "실제비서브리턴,선택한clear/lift,선택한drop/net/block에따른진행.기존설정에서숨김/재개/다시시작.",
+      "same_condition": "동일 일반입력5점 컨트롤러와 원래trusted tap/up/down mobile gates3회.단순조작·접촉·physics·AI는유지.",
+      "evaluation": "evaluation-cycle2.json",
+      "before": 35,
+      "after": 37,
+      "verifiedWeight": 55,
+      "unverifiedWeight": 45,
+      "outcome": "수행한동작만완료되고실제제스처로안내를끝낼수있음.초보이해도/실제dot입력·청음은미검증.",
+      "stagnation_on_same_issue": 0,
+      "qa_correction": "자동서브클리어를학습완료로잘못기대한wrapper1회를수정.게임은정상적으로제외하고있었음.원본실패보존후게임변경없이직렬재실행."
+    }
+  ]
 }

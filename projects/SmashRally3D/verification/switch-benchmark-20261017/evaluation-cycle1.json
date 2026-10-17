@@ -1,0 +1,222 @@
+{
+  "label": "cycle1-lighting",
+  "runtimeCommit": null,
+  "runtimeBundleSha256": "9d9cd2f3af03edf5056c1381a3b43a78f22aec8172264618d19ffd679bb3dadb",
+  "rubricSha256": "acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+  "frozenBeforeRuntimeEdits": false,
+  "reviewer": "Assistant direct inspection of fresh screenshots and literal frame samples; single reviewer, not human user research.",
+  "overallScore": null,
+  "targetAchieved": false,
+  "verifiedSubtotal": 35,
+  "verifiedWeight": 55,
+  "unverifiedWeight": 45,
+  "items": [
+    {
+      "id": "V1",
+      "weight": 5,
+      "score": 3,
+      "status": "reviewed_in_stated_scope",
+      "observation": "새 준비/일반스매시/Super 캡처에서 팔·라켓과 네트가 암부에서 분리됨.얇은 망·라켓의 디테일과 실제 정상속도 시인성은 여전히 제한. 추가 고타점 프레임에서는 밝은 하늘 위 작은 흰 셔틀의 대비가 약한 한계가 보임.위치가 화면 안에 있다는 기술 결과를 정상속도 추적의 증거로 보지 않으며3점에 머묾.",
+      "evidence": [
+        "lighting-scene/scene-1065x606-ready.png",
+        "lighting-play/04-normal-smash.png",
+        "lighting-play/04b-super-smash.png"
+      ]
+    },
+    {
+      "id": "V2",
+      "weight": 5,
+      "score": 3,
+      "status": "reviewed_in_stated_scope",
+      "observation": "팔/몸통의 밝기와 금색/청색 의상 구분이 개선됨.단순한 메시/회색 피부·재질의 한계는 남아 있고5점 수준의 캐릭터 아트가 아님.",
+      "evidence": [
+        "lighting-scene/scene-390x844-ready.png",
+        "lighting-play/03-safe-return.png"
+      ]
+    },
+    {
+      "id": "V3",
+      "weight": 5,
+      "score": 2,
+      "status": "reviewed_in_stated_scope",
+      "observation": "하늘과 코트가 밝아졌으나 큰 평면 벽·단순 수목의 공간 구성 자체는 개선되지 않아2점 유지.",
+      "evidence": [
+        "baseline-scene/scene-1065x606-ready.png"
+      ]
+    },
+    {
+      "id": "V4",
+      "weight": 5,
+      "score": 3,
+      "status": "reviewed_in_stated_scope",
+      "observation": "한 실제 스윙의 샘플에서 준비/회전/타격 뒤 복귀를 구별할 수 있으나 어두운 라켓/팔은 약함.정상속도 자연스러움/체감 동기는 여기서 평가하지 않음.",
+      "evidence": [
+        "baseline/actual-swing-samples.png",
+        "baseline/swing-samples.json",
+        "baseline/experience.json"
+      ]
+    },
+    {
+      "id": "V5",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "C1",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "메뉴→클릭 서브→자동 이동/한 번 리턴이 실현되고 선택적인 clear/drop만 추가됨.초보3명 검증은 없음.",
+      "evidence": [
+        "baseline/01-menu.png",
+        "baseline/experience.json",
+        "baseline-native/mobile-native-report.json"
+      ]
+    },
+    {
+      "id": "C2",
+      "weight": 5,
+      "score": 3,
+      "status": "reviewed_in_stated_scope",
+      "observation": "마우스와 trusted터치에서 실제 목표·기본/clear/drop이 연결되고 안전 폴백 설명이 표시됨.입력 지연/손의 편안함은 평가하지 않음.",
+      "evidence": [
+        "baseline/03-safe-return.png",
+        "baseline-native/mobile-native-report.json"
+      ]
+    },
+    {
+      "id": "C3",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "C4",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "C5",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "A1",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "A2",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "A3",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "U1",
+      "weight": 5,
+      "score": 2,
+      "status": "reviewed_in_stated_scope",
+      "observation": "안내는 짧으나 실제 성공과 무관하게8초마다 바뀌고32초 후 숙련으로 취급함.첫 일반리턴에서도 clear 안내가 나타나며 순서가 수행을 따르지 않음.",
+      "evidence": [
+        "baseline/03-safe-return.png",
+        "baseline/04-normal-smash.png",
+        "baseline/experience.json"
+      ]
+    },
+    {
+      "id": "U2",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "실제5점·마지막 득점·결과·재경기에서 원인과 다음 행동이 읽히고 결과를 안내함.자연스러운 인간 경기 리듬은 미검증.",
+      "evidence": [
+        "baseline/05-match-point.png",
+        "baseline/06-results.png",
+        "baseline/07-rematch.png"
+      ]
+    },
+    {
+      "id": "U3",
+      "weight": 5,
+      "score": 3,
+      "status": "reviewed_in_stated_scope",
+      "observation": "네 화면에서 도움말과44px Back이 보이고 실제키보드 스크롤/Tab/Enter가 작동함.전체스크린리더/모바일실기기는 검증안됨.",
+      "evidence": [
+        "baseline-dialog/experience-dialog-report.json",
+        "baseline-dialog/readable-help-640x360.png",
+        "baseline/help-390x844.png"
+      ]
+    },
+    {
+      "id": "M1",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "실제기본/clear/drop 안전리턴 및3normal/2Super 궤적이 다르고 기회 조건이 드러남.이 차이가 재밌다는 인간 판단은 아님.",
+      "evidence": [
+        "baseline/experience.json",
+        "baseline/04-normal-smash.png",
+        "baseline/04b-super-smash.png"
+      ]
+    },
+    {
+      "id": "M2",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "NORMAL/HARD 자동 입력의 실제접촉 리턴 게이트는 통과했지만 이 실행의 상대 경기 영상에 대한 직접 경험 평가가 없어 미검증.기능 결과는 별도 기술 보고에만 기록.",
+      "evidence": []
+    },
+    {
+      "id": "M3",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "M4",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "실제17접촉,5개의 IN득점,서브/결과 흐름과 표시 코트의 관계가 일관됨.모든 네트/OUT경계 사례의 경험 검증을 주장하지 않음.",
+      "evidence": [
+        "baseline/experience.json",
+        "baseline/05-point-1.png",
+        "baseline/06-results.png"
+      ]
+    }
+  ],
+  "limits": [
+    "dot접속 미확인",
+    "Nintendo실제영상·픽셀 직접시청 미확인",
+    "실제청음·물리입력/AV지연 미검증",
+    "정상속도 동작/손의 편안함/인간 공정성 미검증"
+  ],
+  "runtimeSource": "lighting-source.patch applied to acdebb9"
+}
