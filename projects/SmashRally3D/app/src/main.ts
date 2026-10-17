@@ -43,6 +43,7 @@ import { synthImpact, offlineImpacts, synthPoint, offlinePoints } from './audio'
 import { impactStyle, impactEnvelope } from './impact';
 import { shuttleContrast, shuttleContrastSvg } from './shuttle-contrast';
 import type { ShuttleContrast } from './shuttle-contrast';
+import { presentStroke } from './stroke-presentation';
 import './style.css';
 let currentContrast: ShuttleContrast | null = null;
 let contrastFrameHit: Hit | null = null;
@@ -50,6 +51,7 @@ const contrastContacts: { time: number; visible: boolean }[] = [];
 const reviewContact = new URLSearchParams(location.search).get('review-contact');
 let reviewHit: Hit | null = null;
 const displayedPoses = new Map<Actor, SkeletonPose>();
+const cameraPoses = new Map<Actor, SkeletonPose>();
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 let impactClock = -1000,
     holdUntil = 0,
@@ -582,11 +584,29 @@ const direction = new Vec3(),
     bodyMatrix = new Mat4(),
     bodyRotation = new Quat();
 function animate(r: ReturnType<typeof makeActor>, contactPose: SkeletonPose | null = null) {
+    const physical =
+        reviewHit && r.a === game.actors[reviewHit.actor]
+            ? reviewHit.renderPose
+            : (contactPose ?? r.a.pose ?? skeletonPose(r.a, game.time));
+    const index = r.a === game.actors[0] ? 0 : 1;
+    const viewMotion: MotionName =
+        index === 0 && selected === 'clear'
+            ? 'Clear'
+            : index === 0 && selected === 'drop'
+              ? 'Drop'
+              : (r.a.contact?.y ?? 0) >= 2.15
+                ? 'Smash'
+                : 'BasicHit';
     const pose =
-            reviewHit && r.a === game.actors[reviewHit.actor]
-                ? reviewHit.renderPose
-                : (contactPose ?? r.a.pose ?? skeletonPose(r.a, game.time)),
-        j = pose.joints;
+        contactPose || reviewHit
+            ? physical
+            : presentStroke(r.a, physical, game.time, {
+                  incoming: game.phase === 'RALLY' && game.receiver === index,
+                  contactAt: game.contactAt,
+                  motion: viewMotion,
+              });
+    const j = pose.joints;
+    cameraPoses.set(r.a, physical);
     displayedPoses.set(r.a, pose);
     r.root.setPosition(0, 0, 0); // joint world poses own translation; skin matrices remain one coherent hierarchy
     const bodyRight = new Vec3(
@@ -643,6 +663,34 @@ function animate(r: ReturnType<typeof makeActor>, contactPose: SkeletonPose | nu
             direction.set(to.x, to.y, to.z).normalize();
             axis.set(0, ['Hip', 'Spine', 'Chest', 'Neck'].includes(name) ? 1 : -1, 0);
             rotation.setFromDirections(axis, direction).mul(facing);
+            node.setRotation(rotation);
+        } else if (name === 'WristR') {
+            const p = pose.racket;
+            const handRight = new Vec3()
+                .cross(
+                    new Vec3(p.shaft.x, p.shaft.y, p.shaft.z),
+                    new Vec3(p.normal.x, p.normal.y, p.normal.z),
+                )
+                .normalize();
+            bodyMatrix.set([
+                handRight.x,
+                handRight.y,
+                handRight.z,
+                0,
+                p.shaft.x,
+                p.shaft.y,
+                p.shaft.z,
+                0,
+                p.normal.x,
+                p.normal.y,
+                p.normal.z,
+                0,
+                0,
+                0,
+                0,
+                1,
+            ]);
+            rotation.setFromMat4(bodyMatrix);
             node.setRotation(rotation);
         } else node.setRotation(facing);
     }
@@ -1017,7 +1065,7 @@ async function boot() {
                 y: Math.max(game.p.y, game.p.y + game.v.y * lead),
                 z: game.p.z + game.v.z * lead,
             };
-            const actors = [...displayedPoses.values()].flatMap((p) => Object.values(p.joints));
+            const actors = [...cameraPoses.values()].flatMap((p) => Object.values(p.joints));
             const wanted = flightFov(
                 view,
                 innerWidth,
