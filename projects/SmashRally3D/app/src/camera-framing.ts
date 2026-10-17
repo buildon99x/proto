@@ -1,5 +1,6 @@
 import { clamp } from './physics';
 import type { V3 } from './physics';
+import { AIM_HALF_WIDTH } from './tactics';
 
 // Court/runoff, full finite actor/racket extent, and an upper clear-flight hull.
 // The hull is deliberately above the current16/19/22m/s clear profiles; tests
@@ -70,7 +71,7 @@ export function flightFov(view: Framing, width: number, height: number, points: 
 export function courtAim(near: V3, far: V3): V3 {
     const t = (0.025 - near.y) / (far.y - near.y);
     return {
-        x: clamp(near.x + (far.x - near.x) * t, -2.25, 2.25),
+        x: clamp(near.x + (far.x - near.x) * t, -AIM_HALF_WIDTH, AIM_HALF_WIDTH),
         y: 0.025,
         z: clamp(near.z + (far.z - near.z) * t, 0.8, 6.2),
     };

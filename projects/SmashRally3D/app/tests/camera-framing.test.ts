@@ -73,7 +73,7 @@ it('intersects the rendered court plane and retains aim clamps for off-court inp
         z: 4.975,
     });
     expect(courtAim({ x: 100, y: 10, z: -5 }, { x: 100, y: -10, z: 100 })).toEqual({
-        x: 2.25,
+        x: 2.5,
         y: 0.025,
         z: 6.2,
     });

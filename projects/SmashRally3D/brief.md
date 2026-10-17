@@ -47,3 +47,6 @@ Point-camera follow-up2026-10-17: Fix the directly observed portrait post-point 
 
 
 Courtyard-material follow-up2026-10-17: Switch approach before repeating score-stagnant anatomy tuning: V3material hierarchy, specifically original glass/stone responses, on the existing athlete-form branch; both older preview refs protected.
+
+
+Sideline play follow-up2026-10-17: M4selected: latest actual match evidence only INpoints; inner aim clamp hides optional legal sideline risk. Add meaningful near-line placement/real errors/ground outcome feedback, preserve easy centre actions and both older user candidates.

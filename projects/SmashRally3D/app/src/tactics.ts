@@ -1,5 +1,7 @@
 import { clamp, distance, solve, solveProfile, CFG } from './physics';
 import type { V3, Shot, Quality, Solution } from './physics';
+// Existing court inputs can deliberately use the last9cm inside a singles sideline.
+export const AIM_HALF_WIDTH = CFG.width - 0.09;
 export type Technique =
     'clear' | 'lift' | 'drop' | 'net' | 'block' | 'drive' | 'smash' | 'superSmash' | 'netKill';
 export type StrokeContext = {
@@ -80,7 +82,7 @@ export function assessStroke(c: StrokeContext): Stroke {
 }
 export function strokeTarget(c: StrokeContext, s: Stroke) {
     const t = {
-        x: clamp(c.target.x, -2.25, 2.25),
+        x: clamp(c.target.x, -AIM_HALF_WIDTH, AIM_HALF_WIDTH),
         y: 0.025,
         z: -c.side * clamp(Math.abs(c.target.z), 0.8, 6.2),
     };

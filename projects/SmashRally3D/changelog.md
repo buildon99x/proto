@@ -63,3 +63,10 @@ Replaced rigid torso-only actors with common weighted skeletons, planted feet an
 - Scope9material clones/3deterministic maps to42existing scenery meshes. Keep original component materials for exact old/current comparison, continuous glass-strip UVs and fine grain/joint stone normals; reject flat darkening and broad wave drafts.
 - Preserve geometry,5models,17other runtime files and point-camera block.81units/fullrootbuild,14same-state pairs and5browser reports pass; outside selected bounds/ready lower35%changed0pixels.
 - Direct original V3static material-hierarchy review4→5;49/60reviewed,40unknown,overallnull. Other19scores unchanged. Same branch/older2refs protected; no normal-speed/listening/physical-device certification. Evidence:`verification/courtyard-material-20261017`.
+
+
+## 2026-10-17 — optional sideline placement
+
+- Expand existing click/tap aim to±2.50m; retain centre controls and existing timing/balance dispersion so deliberate line placement has real physical risk.
+- Both actors plan reachable edge stances within the existing foot boundary; keep movement speed, physics and actual racket contact gates.
+- Annotate actual IN/OUT ground position after the point, preserving real score and next server. Evidence and limitations: `verification/sideline-play-20261017/README.md`.

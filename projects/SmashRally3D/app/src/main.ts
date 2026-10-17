@@ -903,6 +903,37 @@ async function boot() {
         );
     const shotTargetRing=shape('shot target ring','torus',[0,.075,5.5],[.7,.7,.7],'#73e7df');
     const shotTargetDot=shape('shot target dot','cylinder',[0,.078,5.5],[.1,.006,.1],'#73e7df');
+    // This is a record of a real ground collision, never the aim or solver target.
+    let groundPoint: { at: V3; reason: 'IN' | 'OUT'; winner: number; time: number; point: number; hitter: number } | null = null;
+    const landing = new Entity('actual landing');
+    app.root.addChild(landing);
+    landing.enabled = false;
+    const landedIn = new Entity('landing in ring');
+    landing.addChild(landedIn);
+    const landingRingMesh = Mesh.fromGeometry(app.graphicsDevice, new TorusGeometry({ringRadius:.16,tubeRadius:.018,segments:32,sides:8}));
+    landedIn.addComponent('render', {meshInstances:[new MeshInstance(landingRingMesh,mat('#b7eccc'),landedIn)],castShadows:false});
+    const landedOut = Array.from({length:4}, (_, i) => {
+        const angle = Math.PI / 4 + i * Math.PI / 2;
+        const bar = shape('landing out arm '+i, 'box', [Math.cos(angle)*.1, 0, Math.sin(angle)*.1], [.12, .006, .04], '#fa9274', landing);
+        bar.setLocalEulerAngles(0, -angle*180/Math.PI, 0);
+        return bar;
+    });
+    for (const node of [landedIn, ...landedOut]) {
+        const material = (node.render!.meshInstances[0].material as StandardMaterial).clone();
+        material.useLighting = false;
+        // Informational ground annotation: remain readable when a foot covers the cork.
+        // Only this marker ignores depth; the shuttle, athletes and collision remain real.
+        material.blendType = BLEND_NORMAL;
+        material.depthTest = false;
+        material.depthWrite = false;
+        material.emissive.copy(material.diffuse).mulScalar(.65);
+        material.update();
+        for (const mesh of node.render!.meshInstances) {
+            mesh.material = material;
+            // Transparent world annotations sort after the net as well as opaque feet.
+            mesh.drawBucket = 0;
+        }
+    }
     const showContactWindow=prepareContactVisibility([player.root,player.racket]);
     const history: { p: V3; time: number }[] = [];
     const impactMaterial = mat('#ffe7ad').clone();
@@ -919,6 +950,10 @@ async function boot() {
     attackTrail.update();
 
     game.onPoint = () => {
+        const point = game.points.at(-1)!;
+        groundPoint = point.reason === 'IN' || point.reason === 'OUT'
+            ? {at:{...game.p},reason:point.reason,winner:point.winner,time:game.time,point:game.points.length,hitter:game.hitter}
+            : null;
         shotGuide=null;acceptedAim=null;
         queuedPoint = game.points.at(-1)!.winner;
     };
@@ -1122,6 +1157,13 @@ async function boot() {
             shuttle.rotateLocal(90, 0, 0);
         }
         shadow.setPosition(game.p.x, 0.055, game.p.z);
+        landing.enabled = !!groundPoint && (game.phase === 'POINT_RESOLVED' || game.phase === 'RESULTS');
+        if (groundPoint) {
+            landing.setPosition(groundPoint.at.x, .063, groundPoint.at.z);
+            const legal = groundPoint.reason === 'IN' && groundPoint.winner === groundPoint.hitter;
+            landedIn.enabled = legal;
+            for (const bar of landedOut) bar.enabled = !legal;
+        }
         const actualGuide=game.phase==='RALLY'&&game.hitter===0?shotGuide:null;
         const aimAt=actualGuide?.aim??game.actors[0].command?.target??target;
         ring.setPosition(aimAt.x,0.07,aimAt.z);
@@ -1284,6 +1326,7 @@ async function boot() {
         value: () => ({
             ...game.snapshot(),
             reviewContact: reviewHit ? { ...reviewHit } : null,
+            pointMarker: groundPoint ? {...groundPoint,visible:landing.enabled,inRing:landedIn.enabled,outArms:landedOut.filter(n=>n.enabled).length,rendered:{...landing.getPosition()},screen:{...camera.camera!.worldToScreen(landing.getPosition().clone())}} : null,
             fps,
             lessons: { active: tutorial, ...lessons, next: lessonCopy(lessons) },
             shuttleScreen: camera

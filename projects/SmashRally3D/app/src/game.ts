@@ -632,8 +632,11 @@ export class Game {
                 f.t < delay + CFG.swingLead
             )
                 continue;
-            const feet = { x: f.p.x + a.side * 0.35, y: 0, z: f.p.z + a.side * 0.3 };
-            if (Math.abs(feet.x) > 2.75 || Math.abs(feet.z) > 6.8) continue;
+            // Both actors may use their real lateral reach from the existing run boundary.
+            // Do not discard a legal edge interception just because the preferred stance
+            // is a few centimetres outside it. The same physical racket gate still decides.
+            const feet = { x: clamp(f.p.x + a.side * 0.35, -2.75, 2.75), y: 0, z: f.p.z + a.side * 0.3 };
+            if (Math.abs(feet.z) > 6.8) continue;
             const travel = distance(a.p, feet) / CFG.speed;
             if (travel > f.t + 0.22) continue;
             if (this.time + f.t < a.recoverUntil + (f.p.y >= 2.15 ? 0.16 : 0.12)) continue;

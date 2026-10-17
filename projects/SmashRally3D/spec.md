@@ -109,3 +109,6 @@ Point-camera follow-up2026-10-17: During POINT_RESOLVED/RESULTS preserve last ra
 
 
 Courtyard-material follow-up2026-10-17: Only courtyard mesh-instance material clones and three deterministic authored textures. Preserve existing entities/transforms/geometry, original base component materials, court/actors/lights/camera/input/physics/AI/all5GLBs. Keep scene batching. No added decor, transparency, external textures/logos, dynamic sparkle or white highlights behind the cork.
+
+
+Sideline play follow-up2026-10-17: Optional existing court click/tap may aim to±2.50m inside the unchanged white singles line; old guided±1.8/centre and depth stay exact. Reuse existing timing/balance drift; no new mandatory input. Both actors clamp desired stance to existing run limit rather than discarding otherwise physical edge interceptions; same speed/reach/contact gate. Show actual GROUND IN/OUT location only, never a predicted result. Physics integration/predictor/collision/inside predicates unchanged, no invented hits/points.
