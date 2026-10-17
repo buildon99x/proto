@@ -1,0 +1,14 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-DAbXMdty.js",
+    "sha256": "179257cb3983955913aa6dfbb45157ce02f926032247a71ade96d3fecdbde2dd",
+    "startedAt": "2026-10-14T15:43:47.897Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "CONTACT GALLERY {\"kind\":\"drive\",\"issued\":3,\"contact\":{\"racket\":{\"x\":-1.3976751013227067,\"y\":1.8445857203652953,\"z\":-4.638316622025101},\"ball\":{\"x\":-1.3976751013227067,\"y\":1.8445857203652953,\"z\":-4.638316622025101},\"planeDistance\":0,\"radialDistance\":0,\"source\":\"engine:hit_frame\"},\"renderedRacket\":{\"x\":-1.3976751565933228,\"y\":1.8445857763290405,\"z\":-4.638316631317139},\"renderedCenterDelta\":7.920305383454024e-8,\"quality\":\"perfect\",\"velocity\":{\"x\":4.812166797113705,\"y\":3,\"z\":15.762899685484626},\"audio\":{\"shot\":\"drive\",\"physicsTime\":13.058333333333232,\"source\":\"engine:hit_frame\",\"impactPerf\":57104,\"audioPerf\":57104.60000000149,\"audioTime\":45.630113378684804,\"fxPerf\":57104.60000000149,\"renderQueuedPerf\":57105}}",
+    "Event-paused closeups after actual UI-triggered collisions. Review mode freezes the real collision snapshot; not counted as normal full-match gameplay. [{\"kind\":\"drive\",\"issued\":3,\"contact\":{\"racket\":{\"x\":-1.3976751013227067,\"y\":1.8445857203652953,\"z\":-4.638316622025101},\"ball\":{\"x\":-1.3976751013227067,\"y\":1.8445857203652953,\"z\":-4.638316622025101},\"planeDistance\":0,\"radialDistance\":0,\"source\":\"engine:hit_frame\"},\"renderedRacket\":{\"x\":-1.3976751565933228,\"y\":1.8445857763290405,\"z\":-4.638316631317139},\"renderedCenterDelta\":7.920305383454024e-8,\"quality\":\"perfect\",\"velocity\":{\"x\":4.812166797113705,\"y\":3,\"z\":15.762899685484626},\"audio\":{\"shot\":\"drive\",\"physicsTime\":13.058333333333232,\"source\":\"engine:hit_frame\",\"impactPerf\":57104,\"audioPerf\":57104.60000000149,\"audioTime\":45.630113378684804,\"fxPerf\":57104.60000000149,\"renderQueuedPerf\":57105}}]"
+  ]
+}

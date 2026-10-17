@@ -1,0 +1,147 @@
+{
+  "method": "Compare before/current actual GLB chunks; ignore only material baseColorFactor. Verify sRGB\u2194linear color round-trip. Only the two athlete assets are regenerated.",
+  "results": [
+    {
+      "file": "athlete-gold.glb",
+      "binaryBuffersIdentical": true,
+      "rigSkinAnimationAndGeometryIdentical": true,
+      "binaryBufferSha256": "9640cff8c49fa8447bb6edbbfba24eee4db31c82ca192b251571e60a97297f50",
+      "colors": [
+        {
+          "name": "#f4b64d",
+          "linearFactor": [
+            0.9046611743911496,
+            0.467783796112159,
+            0.07421356838014963
+          ],
+          "maxRoundTripError": 0.0
+        },
+        {
+          "name": "#1b3145",
+          "linearFactor": [
+            0.010960094006488246,
+            0.030713443732993635,
+            0.0595112381629812
+          ],
+          "maxRoundTripError": 1.3877787807814457e-17
+        },
+        {
+          "name": "#dcb08b",
+          "linearFactor": [
+            0.7156935005064807,
+            0.43415363617474895,
+            0.2581828529215958
+          ],
+          "maxRoundTripError": 0.0
+        },
+        {
+          "name": "#263346",
+          "linearFactor": [
+            0.019382360956935723,
+            0.033104766570885055,
+            0.06124605423161761
+          ],
+          "maxRoundTripError": 0.0
+        },
+        {
+          "name": "#f2f4ec",
+          "linearFactor": [
+            0.8879231178819663,
+            0.9046611743911496,
+            0.83879901174074
+          ],
+          "maxRoundTripError": 1.1102230246251565e-16
+        },
+        {
+          "name": "#d1a07d",
+          "linearFactor": [
+            0.6375968739940326,
+            0.35153259950043936,
+            0.20507873639031693
+          ],
+          "maxRoundTripError": 0.0
+        },
+        {
+          "name": "#23364b",
+          "linearFactor": [
+            0.016807375752887384,
+            0.03688945040110004,
+            0.07036009569659588
+          ],
+          "maxRoundTripError": 2.7755575615628914e-17
+        }
+      ]
+    },
+    {
+      "file": "athlete-violet.glb",
+      "binaryBuffersIdentical": true,
+      "rigSkinAnimationAndGeometryIdentical": true,
+      "binaryBufferSha256": "9640cff8c49fa8447bb6edbbfba24eee4db31c82ca192b251571e60a97297f50",
+      "colors": [
+        {
+          "name": "#8491ed",
+          "linearFactor": [
+            0.23074004852434915,
+            0.2831487404299921,
+            0.846873231509858
+          ],
+          "maxRoundTripError": 1.1102230246251565e-16
+        },
+        {
+          "name": "#1b3145",
+          "linearFactor": [
+            0.010960094006488246,
+            0.030713443732993635,
+            0.0595112381629812
+          ],
+          "maxRoundTripError": 1.3877787807814457e-17
+        },
+        {
+          "name": "#dcb08b",
+          "linearFactor": [
+            0.7156935005064807,
+            0.43415363617474895,
+            0.2581828529215958
+          ],
+          "maxRoundTripError": 0.0
+        },
+        {
+          "name": "#263346",
+          "linearFactor": [
+            0.019382360956935723,
+            0.033104766570885055,
+            0.06124605423161761
+          ],
+          "maxRoundTripError": 0.0
+        },
+        {
+          "name": "#f2f4ec",
+          "linearFactor": [
+            0.8879231178819663,
+            0.9046611743911496,
+            0.83879901174074
+          ],
+          "maxRoundTripError": 1.1102230246251565e-16
+        },
+        {
+          "name": "#d1a07d",
+          "linearFactor": [
+            0.6375968739940326,
+            0.35153259950043936,
+            0.20507873639031693
+          ],
+          "maxRoundTripError": 0.0
+        },
+        {
+          "name": "#23364b",
+          "linearFactor": [
+            0.016807375752887384,
+            0.03688945040110004,
+            0.07036009569659588
+          ],
+          "maxRoundTripError": 2.7755575615628914e-17
+        }
+      ]
+    }
+  ]
+}

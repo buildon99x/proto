@@ -1,0 +1,20 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "modelHashes": {
+      "athlete-gold.glb": "1cc18e850e20f4935beaf6313e9717440b2454f8c55762ca4b3e7950330e1b03",
+      "athlete-violet.glb": "993df511f9ebc57f93e362148cbd75297be3a3ff29d7e1cd00e4ba02548a7c36",
+      "court.glb": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47",
+      "racket.glb": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13",
+      "shuttle.glb": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+    },
+    "sourceBundle": "./assets/index-jwxQnLT7.js",
+    "sha256": "8bda7e1ceccef6ce617d389476d3d677ad08fc7e46fadba7a0f99799274b4cde",
+    "startedAt": "2026-10-17T03:34:30.041Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "STROKE PHASES PASS {\"samples\":6,\"matchedBaselineCamera\":true}"
+  ]
+}

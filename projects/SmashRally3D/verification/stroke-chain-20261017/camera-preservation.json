@@ -1,0 +1,41 @@
+{
+  "method": "Same4LOW serve-ready actual camera/FOV and projected aim fields vs prior accepted9fbeeab source. No injected state. Athlete materials and gripping-hand orientation may change pixels while camera stays fixed.",
+  "results": [
+    {
+      "view": {
+        "width": 1065,
+        "height": 606
+      },
+      "cameraMaxDelta": 0,
+      "targetMaxPixelDelta": 0.0,
+      "spectators": 0
+    },
+    {
+      "view": {
+        "width": 1280,
+        "height": 720
+      },
+      "cameraMaxDelta": 0,
+      "targetMaxPixelDelta": 0.0,
+      "spectators": 0
+    },
+    {
+      "view": {
+        "width": 844,
+        "height": 390
+      },
+      "cameraMaxDelta": 0,
+      "targetMaxPixelDelta": 0.0,
+      "spectators": 0
+    },
+    {
+      "view": {
+        "width": 390,
+        "height": 844
+      },
+      "cameraMaxDelta": 0,
+      "targetMaxPixelDelta": 0.0,
+      "spectators": 0
+    }
+  ]
+}

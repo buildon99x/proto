@@ -1,0 +1,13 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-BJK7yYXT.js",
+    "sha256": "982c6371d74eccaddf2266f85cc11c4ca5afc1047d6a628bdeab29bc4527d008",
+    "startedAt": "2026-10-15T06:27:18.281Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "MOBILE BEGINNER PASS {\"method\":\"EASY; choose the existing CLEAR button once, then native CDP touchscreen taps at visible HIT NOW. No internal clock scheduling/state injection. This is software emulation, not physical touch latency.\",\"taps\":3,\"returns\":6,\"playerContacts\":4,\"qualities\":[\"good\",\"good\",\"good\",\"good\"],\"shots\":[{\"actor\":0,\"technique\":\"clear\",\"p\":{\"x\":0.35,\"y\":1.1,\"z\":-3.1},\"quality\":\"good\"},{\"actor\":1,\"technique\":\"clear\",\"p\":{\"x\":-0.012501342613772592,\"y\":2.55556974167223,\"z\":5.247410977217411},\"quality\":\"good\"},{\"actor\":0,\"technique\":\"clear\",\"p\":{\"x\":1.8550172983451143,\"y\":2.639048854452961,\"z\":-5.202255978544438},\"quality\":\"good\"},{\"actor\":1,\"technique\":\"clear\",\"p\":{\"x\":0.00012274756685208164,\"y\":2.5762057188561194,\"z\":5.232815054422168},\"quality\":\"good\"},{\"actor\":0,\"technique\":\"clear\",\"p\":{\"x\":1.6305203139100817,\"y\":2.5920121440302633,\"z\":-5.216566469521742},\"quality\":\"good\"},{\"actor\":1,\"technique\":\"clear\",\"p\":{\"x\":-0.033375632803228555,\"y\":2.6090526402936725,\"z\":5.220224351373758},\"quality\":\"good\"},{\"actor\":0,\"technique\":\"clear\",\"p\":{\"x\":1.8705194422303337,\"y\":2.619781801254536,\"z\":-5.212939266788473},\"quality\":\"good\"}],\"errors\":[]}"
+  ]
+}

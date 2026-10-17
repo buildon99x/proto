@@ -1,0 +1,20 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "modelHashes": {
+      "athlete-gold.glb": "1cc18e850e20f4935beaf6313e9717440b2454f8c55762ca4b3e7950330e1b03",
+      "athlete-violet.glb": "993df511f9ebc57f93e362148cbd75297be3a3ff29d7e1cd00e4ba02548a7c36",
+      "court.glb": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47",
+      "racket.glb": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13",
+      "shuttle.glb": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+    },
+    "sourceBundle": "./assets/index-jwxQnLT7.js",
+    "sha256": "8bda7e1ceccef6ce617d389476d3d677ad08fc7e46fadba7a0f99799274b4cde",
+    "startedAt": "2026-10-17T03:42:24.774Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "LIVE ROTATION PASS {\"method\":\"One continuing native-touch EASY clear rally, portrait→landscape→portrait, DPR2 MEDIUM; no reload, pause, actor/ball/time injection.\",\"results\":[{\"bounds\":{\"court\":[{\"x\":806.1010743643179,\"y\":1015.8636900588215},{\"x\":337.0091652407408,\"y\":457.7503493683539},{\"x\":-416.10107436431787,\"y\":1015.8636900588215},{\"x\":52.9908347592592,\"y\":457.7503493683539}],\"width\":844,\"height\":390,\"canvas\":[585,1266],\"quality\":\"MEDIUM\"},\"input\":{\"shotIntent\":\"clear\",\"target\":{\"x\":-1.7853851510562277,\"y\":0.025,\"z\":5.745063952906074},\"issuedAt\":5.7166666666667405,\"submittedAt\":5.7166666666667405,\"pointerType\":\"touch\",\"accepted\":true,\"projectedAtInput\":{\"x\":475.00000323284814,\"y\":203.000000333227}},\"pixelError\":0.1698416604621319,\"actual\":{\"shot\":\"clear\",\"target\":{\"x\":-1.87705181772279,\"y\":0.025,\"z\":5.745063952906074},\"technique\":\"clear\",\"time\":6.05000000000009}},{\"bounds\":{\"court\":[{\"x\":589.2130720760248,\"y\":651.8000587297881},{\"x\":317.88315168108915,\"y\":447.99294496731375},{\"x\":89.80181394969092,\"y\":651.800058657048},{\"x\":162.20787433754552,\"y\":447.9929449602457}],\"width\":390,\"height\":844,\"canvas\":[585,1266],\"quality\":\"MEDIUM\"},\"input\":{\"shotIntent\":\"clear\",\"target\":{\"x\":1.8081337362533478,\"y\":0.025,\"z\":5.7584723958775665},\"issuedAt\":10.45833333333338,\"submittedAt\":10.45833333333338,\"pointerType\":\"touch\",\"accepted\":true,\"projectedAtInput\":{\"x\":179.0000002256291,\"y\":435.0000019076473}},\"pixelError\":0.3092219199628244,\"actual\":{\"shot\":\"clear\",\"target\":{\"x\":1.8981337362534632,\"y\":0.025,\"z\":5.7584723958775665},\"technique\":\"clear\",\"time\":10.80833333333336}}]}"
+  ]
+}

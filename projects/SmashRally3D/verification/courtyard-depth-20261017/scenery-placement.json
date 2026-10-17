@@ -1,0 +1,83 @@
+{
+  "method": "Read actual post-render mesh world AABBs in all4ready views. New environment stays outside the unchanged blue-court/purple-apron footprint. Support heights measure actual geometry, not pivots.",
+  "interpretation": "Paving rests on arena and planter base on paving, modulo reported Float32 transform rounding. Tree trunk intentionally enters soil by2mm within its semantic planter-tree root; fork/foliage intersections are intentional connected tree anatomy. No colliders or gameplay bodies are added.",
+  "results": [
+    {
+      "view": "scene-1065x606-ready",
+      "newSceneryPartsOverlappingBlueCourtAndPurpleApronWorldXZ": [],
+      "supportSamples": [
+        {
+          "sideX": -8.5,
+          "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+          "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+          "trunkBottomMinusSoilTopM": -0.001999996602535248
+        },
+        {
+          "sideX": 8.5,
+          "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+          "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+          "trunkBottomMinusSoilTopM": -0.001999996602535248
+        }
+      ]
+    },
+    {
+      "view": "scene-1280x720-ready",
+      "newSceneryPartsOverlappingBlueCourtAndPurpleApronWorldXZ": [],
+      "supportSamples": [
+        {
+          "sideX": -8.5,
+          "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+          "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+          "trunkBottomMinusSoilTopM": -0.001999996602535248
+        },
+        {
+          "sideX": 8.5,
+          "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+          "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+          "trunkBottomMinusSoilTopM": -0.001999996602535248
+        }
+      ]
+    },
+    {
+      "view": "scene-844x390-ready",
+      "newSceneryPartsOverlappingBlueCourtAndPurpleApronWorldXZ": [],
+      "supportSamples": [
+        {
+          "sideX": -8.5,
+          "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+          "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+          "trunkBottomMinusSoilTopM": -0.001999996602535248
+        },
+        {
+          "sideX": 8.5,
+          "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+          "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+          "trunkBottomMinusSoilTopM": -0.001999996602535248
+        }
+      ]
+    },
+    {
+      "view": "scene-390x844-ready",
+      "newSceneryPartsOverlappingBlueCourtAndPurpleApronWorldXZ": [],
+      "supportSamples": [
+        {
+          "sideX": -8.5,
+          "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+          "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+          "trunkBottomMinusSoilTopM": -0.001999996602535248
+        },
+        {
+          "sideX": 8.5,
+          "pavingBottomMinusArenaTopM": -1.4528632186205925e-09,
+          "planterBottomMinusPavingTopM": -3.073364496231079e-08,
+          "trunkBottomMinusSoilTopM": -0.001999996602535248
+        }
+      ]
+    }
+  ],
+  "diagnosticViews": [
+    "placement/placement-west-front.png",
+    "placement/placement-west-rear-high.png"
+  ],
+  "directInspection": "Two held diagnostic angles inspected. Planter/trunk/support relationships are coherent with measured bounds. Shared connected paving surfaces intentionally join; internal frame/soil/foliage overlaps belong to the courtyard prefab. No new scenery intersects the protected court/apron footprint; no collider or gameplay root is added."
+}

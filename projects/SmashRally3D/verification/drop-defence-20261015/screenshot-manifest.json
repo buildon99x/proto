@@ -1,0 +1,76 @@
+{
+  "screenshots": [
+    {
+      "file": "before-normal-wide.png",
+      "sha256": "4b262a7b168c46b47d1e40a4abbf79843b24e88fcb15c52e299f2015b9ed53af",
+      "bytes": 62001,
+      "sourceReport": "before-ui.json",
+      "scope": "baseline NORMAL wide-soft match result",
+      "bundle": {
+        "sourceBundle": "./assets/index-Dz_tpUCS.js",
+        "sha256": "85393f1d8c177647cf4d7ac912a45e3d0b9cd553c312eb0b947f9779c7a92770",
+        "startedAt": "2026-10-15T05:41:40.753Z",
+        "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+      },
+      "remoteBranchPath": "https://github.com/buildon99x/proto/blob/codex/smash-rally-3d/projects/SmashRally3D/verification/drop-defence-20261015/before-normal-wide.png",
+      "library_file_id": null
+    },
+    {
+      "file": "after-ai-return.png",
+      "sha256": "7cb48d2c311c82c4a31b359f1ab7432875de622296a41afe3d278fc6cc5fa01e",
+      "bytes": 46788,
+      "sourceReport": "after-ui.json",
+      "scope": "live HARD clear-soft return; exact read-only snapshot in after-ai-return-capture.json",
+      "bundle": {
+        "sourceBundle": "./assets/index-LbNX1LNs.js",
+        "sha256": "33161b0ba9bec001a7912cee12d46bcb4280cc46c7a1a759ac7007e1001246ee",
+        "startedAt": "2026-10-15T05:50:37.279Z",
+        "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+      },
+      "remoteBranchPath": "https://github.com/buildon99x/proto/blob/codex/smash-rally-3d/projects/SmashRally3D/verification/drop-defence-20261015/after-ai-return.png",
+      "library_file_id": null
+    },
+    {
+      "file": "good-normal-wide.png",
+      "sha256": "e2f0fbb6a1ad4884b53b0d32caee71f971988a785df06b4b16f5803fc4affdf4",
+      "bytes": 46878,
+      "sourceReport": "good-pressure-ui.json",
+      "scope": "GOOD/PERFECT NORMAL wide-soft pressure; five direct winners in ten flights",
+      "bundle": {
+        "sourceBundle": "./assets/index-LbNX1LNs.js",
+        "sha256": "33161b0ba9bec001a7912cee12d46bcb4280cc46c7a1a759ac7007e1001246ee",
+        "startedAt": "2026-10-15T06:00:32.637Z",
+        "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+      },
+      "remoteBranchPath": "https://github.com/buildon99x/proto/blob/codex/smash-rally-3d/projects/SmashRally3D/verification/drop-defence-20261015/good-normal-wide.png",
+      "library_file_id": null
+    },
+    {
+      "file": "mobile-direction.png",
+      "sha256": "b36ab5b5e88d191c4c58ee9943a8bf4359e4ca58114a0fdcba0dfad0ac05f89c",
+      "bytes": 38691,
+      "sourceReport": "mobile-direction.json",
+      "scope": "LOW native diagonal gesture resulting in actual drop",
+      "bundle": {
+        "sourceBundle": "./assets/index-LbNX1LNs.js",
+        "sha256": "33161b0ba9bec001a7912cee12d46bcb4280cc46c7a1a759ac7007e1001246ee",
+        "startedAt": "2026-10-15T05:53:33.688Z",
+        "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+      },
+      "remoteBranchPath": "https://github.com/buildon99x/proto/blob/codex/smash-rally-3d/projects/SmashRally3D/verification/drop-defence-20261015/mobile-direction.png",
+      "library_file_id": null
+    }
+  ],
+  "libraryAttempt": {
+    "officialPreparedUpload": true,
+    "selected": [
+      "after-ai-return.png",
+      "good-normal-wide.png",
+      "mobile-direction.png"
+    ],
+    "saved": false,
+    "stage": "before preparation",
+    "error": "hosted apps tools/list request failed: network",
+    "confirmedLibraryIds": []
+  }
+}

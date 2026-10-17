@@ -1,0 +1,33 @@
+BOOT TEXT SR3D
+YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+
+Read the flight. Find the space.
+Make your next shot count.
+
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT court-pc-high-clear
+SHOT court-pc-rally
+COURT FRAMING {"viewport":{"name":"pc","width":1280,"height":720,"deviceScaleFactor":1},"framing":{"samples":457,"clippedCourt":0,"clippedPlayers":0,"clippedShuttle":0,"maxHeight":9.774822126911763,"peak":{"time":9.508333333333434,"position":{"x":1.0406173110225465,"y":9.774822126911763,"z":-1.4278399292673143},"screen":{"x":588.8678096707359,"y":124.46730748312586,"z":17.969935737337295},"flight":4},"court":[{"x":767.8114681104158,"y":670.412403307688,"z":17.89200352579355},{"x":717.215117510021,"y":359.980512412374,"z":29.74718799740076},{"x":512.1885318895842,"y":670.412403307688,"z":17.89200352579355},{"x":562.7848824899789,"y":359.980512412374,"z":29.74718799740076}],"spectators":0,"view":{"width":1280,"height":720,"fov":44,"position":{"x":0,"y":14.055779457092285,"z":-19.689449310302734}},"aim":[{"x":0,"screen":{"x":640,"y":372.92067989442944},"input":{"shotIntent":"clear","target":{"x":0,"y":0.025,"z":5.799999458408781},"issuedAt":5.5833333333334005,"submittedAt":5.5833333333334005,"pointerType":"mouse","accepted":true}},{"x":-1.8,"screen":{"x":695.1287849254436,"y":372.92067989442944},"input":{"shotIntent":"clear","target":{"x":-1.7999999143353231,"y":0.025,"z":5.799999458408781},"issuedAt":10.416666666666716,"submittedAt":10.416666666666716,"pointerType":"mouse","accepted":true}},{"x":1.8,"screen":{"x":584.8712150745565,"y":372.92067989442944},"input":{"shotIntent":"clear","target":{"x":1.7999999143353231,"y":0.025,"z":5.799999458408781},"issuedAt":15.224999999999776,"submittedAt":15.224999999999776,"pointerType":"mouse","accepted":true}}],"hud":{"top":20,"left":28,"width":1224,"height":55,"display":"flex","visibility":"visible"},"courtArea":63646.79065796221},"taps":3,"returns":6,"contacts":7,"playerContacts":4,"capturedHighClear":true,"highClearCapture":{"time":4.516666666666681,"position":{"x":0.9301996496224988,"y":9.410745235140793,"z":0.07180381188229669},"velocity":{"x":0.8019294167536714,"y":1.897806760390728,"z":-4.564339001138836},"flight":2,"screen":{"x":597.7745803393107,"y":125.03985456537784,"z":19.467959387608875}}}
+SHOT court-mobile-landscape-high-clear
+SHOT court-mobile-landscape-rally
+COURT FRAMING {"viewport":{"name":"mobile-landscape","width":844,"height":390,"deviceScaleFactor":2,"isMobile":true,"hasTouch":true},"framing":{"samples":452,"clippedCourt":0,"clippedPlayers":0,"clippedShuttle":0,"maxHeight":9.655372662659092,"peak":{"time":7.175000000000146,"position":{"x":0.8902291420594631,"y":9.655372662659092,"z":0.8396748692257153},"screen":{"x":401.32937835224294,"y":62.077597911433486,"z":20.627529846034037},"flight":3},"court":[{"x":489.0258261379566,"y":358.50576457545293,"z":18.487302292883395},{"x":463.00966175866256,"y":195.43133289898876,"z":30.342486764490605},{"x":354.9741738620435,"y":358.50576457545293,"z":18.487302292883395},{"x":380.9903382413375,"y":195.43133289898876,"z":30.342486764490605}],"spectators":0,"view":{"width":844,"height":390,"fov":44,"position":{"x":0,"y":14.359326362609863,"z":-20.20092010498047}},"aim":[{"x":0,"screen":{"x":422,"y":202.31214650018188},"input":{"shotIntent":"clear","target":{"x":0,"y":0.025,"z":5.839811070543117},"issuedAt":5.733333333333408,"submittedAt":5.733333333333408,"pointerType":"touch","accepted":true}},{"x":-1.8,"screen":{"x":451.26382729403156,"y":202.31214650018188},"input":{"shotIntent":"clear","target":{"x":-1.7858842722675765,"y":0.025,"z":5.83981107054311},"issuedAt":10.51666666666671,"submittedAt":10.51666666666671,"pointerType":"touch","accepted":true}},{"x":1.8,"screen":{"x":392.73617270596844,"y":202.31214650018188},"input":{"shotIntent":"clear","target":{"x":1.7858842722675732,"y":0.025,"z":5.83981107054311},"issuedAt":15.274999999999773,"submittedAt":15.274999999999773,"pointerType":"touch","accepted":true}}],"hud":{"top":10,"left":16,"width":812,"height":44,"display":"flex","visibility":"visible"},"courtArea":17617.825789630704},"taps":3,"returns":6,"contacts":7,"playerContacts":4,"capturedHighClear":true,"highClearCapture":{"time":4.5916666666666845,"position":{"x":0.9241141646236138,"y":9.386646346592409,"z":0.12690765741134322},"velocity":{"x":0.8043951583646787,"y":1.980672934773899,"z":-4.594238321053423},"flight":2,"screen":{"x":400.01027417246945,"y":72.38858712202305,"z":20.12334576148769}}}
+SHOT court-mobile-portrait-high-clear
+TargetCloseError: Protocol error (DOM.describeNode): Target closed

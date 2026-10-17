@@ -1,0 +1,77 @@
+{
+  "method": "The12actual neighboring CDP sources inspected to choose the real updated point UI, retained unchanged. No physical latency claim.",
+  "frames": [
+    {
+      "index": 682,
+      "timestamp": 1792211802.012829,
+      "file": "source-frames/000682.jpg",
+      "sha256": "89a273fdf8c16090839bca27447ba464a6dddaf73cabab885b2540073f9b0954"
+    },
+    {
+      "index": 683,
+      "timestamp": 1792211802.282273,
+      "file": "source-frames/000683.jpg",
+      "sha256": "94bf1fb4fef9bafc53c5172083dbeb04fa2b4388e0fafc5d2a187c7c165b7029"
+    },
+    {
+      "index": 684,
+      "timestamp": 1792211802.293639,
+      "file": "source-frames/000684.jpg",
+      "sha256": "a623885831c4acbd9eb24671804e45037f3ae1526e083e68712a5a59b0932d16"
+    },
+    {
+      "index": 685,
+      "timestamp": 1792211802.459701,
+      "file": "source-frames/000685.jpg",
+      "sha256": "2290c438443115d82307efe913330824653175991e0b249a1172d94d16557b3f"
+    },
+    {
+      "index": 686,
+      "timestamp": 1792211802.589783,
+      "file": "source-frames/000686.jpg",
+      "sha256": "663187182b6e7068b8bd4771c6b561cd49f65526aa43cbbcec19ab598e961618"
+    },
+    {
+      "index": 687,
+      "timestamp": 1792211802.757155,
+      "file": "source-frames/000687.jpg",
+      "sha256": "fdc242a5dbd47e2930732116002d2b8d4a80cd420248ba6265966c314912d0fc"
+    },
+    {
+      "index": 688,
+      "timestamp": 1792211802.893788,
+      "file": "source-frames/000688.jpg",
+      "sha256": "7aa0cf7c70a3c722e8ecff6d4c2700413a6acb8f41188fc7162fc6735dc190d1"
+    },
+    {
+      "index": 689,
+      "timestamp": 1792211803.059722,
+      "file": "source-frames/000689.jpg",
+      "sha256": "58bd271199b328e66aee336f32a9330517a9a530b69c23d5c327b69f61dfa56f"
+    },
+    {
+      "index": 690,
+      "timestamp": 1792211803.35486,
+      "file": "source-frames/000690.jpg",
+      "sha256": "db5d925afa3d6c5a7a3a0d864c478df6982f937d505eba40de4de3400d2f1f0e"
+    },
+    {
+      "index": 691,
+      "timestamp": 1792211803.3649,
+      "file": "source-frames/000691.jpg",
+      "sha256": "e4b3af097bddac25281572ab64dbec3c1754f295c8f4de162d659294625aaeb3"
+    },
+    {
+      "index": 692,
+      "timestamp": 1792211803.503477,
+      "file": "source-frames/000692.jpg",
+      "sha256": "aed267b7e29d6d2864ceabfa761f7a2036a72b6247b0641783b3b7018f5d0c3b"
+    },
+    {
+      "index": 693,
+      "timestamp": 1792211803.659039,
+      "file": "source-frames/000693.jpg",
+      "sha256": "aed267b7e29d6d2864ceabfa761f7a2036a72b6247b0641783b3b7018f5d0c3b"
+    }
+  ]
+}

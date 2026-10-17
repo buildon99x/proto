@@ -1,0 +1,105 @@
+{
+  "pass": true,
+  "runtimeCommit": "c6a8bbf",
+  "runtimeBundleSha256": "828754841e197e584b1997dea8942e382d688f7759a73b8e13d998066c5f73e5",
+  "tests": {
+    "passed": 58,
+    "files": 9,
+    "report": "tests-final.txt"
+  },
+  "projectBuild": {
+    "pass": true,
+    "log": "build-final.txt"
+  },
+  "fullMonorepoBuild": {
+    "pass": true,
+    "log": "root-build.txt"
+  },
+  "reports": {
+    "play": {
+      "pass": true,
+      "errors": [],
+      "file": "play-final/smash-feel-report.json"
+    },
+    "rally": {
+      "pass": true,
+      "errors": [],
+      "file": "rally/court-framing-report.json"
+    },
+    "rotation": {
+      "pass": true,
+      "errors": [],
+      "file": "rotation/court-resize-report.json"
+    },
+    "native": {
+      "pass": true,
+      "errors": [],
+      "file": "native/mobile-native-report.json"
+    },
+    "defence": {
+      "pass": true,
+      "errors": [],
+      "file": "defence/smash-drop-regression-report.json"
+    }
+  },
+  "layouts": [
+    {
+      "viewport": {
+        "name": "pc",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "returns": 6,
+      "clippedPlayers": 0,
+      "clippedShuttle": 0,
+      "maxAimErrorPx": 1.8598611430210702e-05,
+      "apexM": 9.76418310881848,
+      "spectators": 0
+    },
+    {
+      "viewport": {
+        "name": "mobile-landscape",
+        "width": 844,
+        "height": 390,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "returns": 6,
+      "clippedPlayers": 0,
+      "clippedShuttle": 0,
+      "maxAimErrorPx": 0.38987997965522814,
+      "apexM": 9.76285221545816,
+      "spectators": 0
+    },
+    {
+      "viewport": {
+        "name": "mobile-portrait",
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "returns": 6,
+      "clippedPlayers": 0,
+      "clippedShuttle": 0,
+      "maxAimErrorPx": 0.3738362211123763,
+      "apexM": 9.642488650280148,
+      "spectators": 0
+    }
+  ],
+  "actualAttackReview": "review-summary.json",
+  "attemptsRetained": [
+    "attempts/live-vp9.txt",
+    "attempts/framing-150s/court-framing-report.json",
+    "attempts/first-suite.txt"
+  ],
+  "limits": [
+    "Software Chromium151 ANGLE SwiftShader and touch emulation; not physical-device FPS, Safari or a human win-rate study.",
+    "Actual WebAudio stream and numerical mux checks; no speaker/headphone listening or physical AV-latency measurement.",
+    "Two final attack flights excluded from four settled sequences.",
+    "Original13013.jpg direct download failed; accepted parent-measured framing preserved."
+  ]
+}

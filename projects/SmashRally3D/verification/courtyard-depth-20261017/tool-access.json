@@ -1,0 +1,13 @@
+{
+  "observedAtUtc": "2026-10-17T04:12:42.566643+00:00",
+  "displayAvailable": false,
+  "callableDirectComputerTools": [],
+  "callableListeningOrReferencePlaybackTools": [],
+  "available": "Local Chromium151/Puppeteer screenshots, CDP software video, WebAudio capture, ffmpeg decode and numerical analysis. Library native read/create/replace/prepared tools exposed; normal official helper will be retried. Figma video export is a design exporter and is not an output listening/playback/device tool.",
+  "unknownScoring": "No score filled on discovery alone.",
+  "physicalDeviceNodes": {
+    "/dev/snd": false,
+    "/dev/dri": false
+  },
+  "M2Route": "Executed unchanged original ordinary-input controllers with literal post-render/CDP source frames and reviewed them; bounded reviewed in stated scope3/5. No physical-speed, listening or diverse-human-strategy claim."
+}

@@ -1,0 +1,344 @@
+{
+  "baseCommit": "bff2778b6336ef365fd99292ca242f764c6f7c37",
+  "runtimeFixCommit": "d3048ff13554f8c8f9a2b7981598d37b30888f3e",
+  "repository": "buildon99x/proto",
+  "branch": "codex/smash-rally-3d",
+  "beforeBundle": {
+    "sourceBundle": "./assets/index-Dz_tpUCS.js",
+    "sha256": "85393f1d8c177647cf4d7ac912a45e3d0b9cd553c312eb0b947f9779c7a92770",
+    "startedAt": "2026-10-15T05:41:40.753Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "afterBundle": {
+    "sourceBundle": "./assets/index-LbNX1LNs.js",
+    "sha256": "33161b0ba9bec001a7912cee12d46bcb4280cc46c7a1a759ac7007e1001246ee",
+    "startedAt": "2026-10-15T05:50:37.279Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "ordinaryUI": {
+    "beforeFullMatches": 9,
+    "afterSessions": 9,
+    "protocol": "centre soft / alternating wide soft / clear-soft alternation per difficulty; after stops at match end or15 settled soft flights; same cue-immediate actions. Software controller, not human balance.",
+    "before": [
+      {
+        "difficulty": "EASY",
+        "softIntentCommands": 31,
+        "actualSoftFlights": 31,
+        "plannerReachable": 29,
+        "plannerUnreachable": 2,
+        "noObservedVerdict": 0,
+        "contactReturns": 16,
+        "successfulReturns": 16,
+        "replyFaults": 0,
+        "unresolvedReturns": 0,
+        "directSoftWinners": 15,
+        "plannerReachableButNoContact": 13,
+        "closedPoints": 15,
+        "playerPoints": 15,
+        "successfulReturnRate": 0.5161290322580645,
+        "directWinnerRate": 0.4838709677419355,
+        "repetitionPointWinRate": 1
+      },
+      {
+        "difficulty": "NORMAL",
+        "softIntentCommands": 14,
+        "actualSoftFlights": 14,
+        "plannerReachable": 4,
+        "plannerUnreachable": 10,
+        "noObservedVerdict": 0,
+        "contactReturns": 0,
+        "successfulReturns": 0,
+        "replyFaults": 0,
+        "unresolvedReturns": 0,
+        "directSoftWinners": 14,
+        "plannerReachableButNoContact": 4,
+        "closedPoints": 19,
+        "playerPoints": 14,
+        "successfulReturnRate": 0,
+        "directWinnerRate": 1,
+        "repetitionPointWinRate": 0.7368421052631579
+      },
+      {
+        "difficulty": "HARD",
+        "softIntentCommands": 14,
+        "actualSoftFlights": 14,
+        "plannerReachable": 4,
+        "plannerUnreachable": 10,
+        "noObservedVerdict": 0,
+        "contactReturns": 3,
+        "successfulReturns": 3,
+        "replyFaults": 0,
+        "unresolvedReturns": 0,
+        "directSoftWinners": 11,
+        "plannerReachableButNoContact": 1,
+        "closedPoints": 16,
+        "playerPoints": 11,
+        "successfulReturnRate": 0.21428571428571427,
+        "directWinnerRate": 0.7857142857142857,
+        "repetitionPointWinRate": 0.6875
+      }
+    ],
+    "after": [
+      {
+        "difficulty": "EASY",
+        "softIntentCommands": 45,
+        "actualSoftFlights": 45,
+        "plannerReachable": 45,
+        "plannerUnreachable": 0,
+        "noObservedVerdict": 0,
+        "contactReturns": 44,
+        "successfulReturns": 41,
+        "replyFaults": 0,
+        "unresolvedReturns": 3,
+        "directSoftWinners": 1,
+        "plannerReachableButNoContact": 1,
+        "closedPoints": 1,
+        "playerPoints": 1,
+        "successfulReturnRate": 0.9111111111111111,
+        "directWinnerRate": 0.022222222222222223,
+        "repetitionPointWinRate": 1
+      },
+      {
+        "difficulty": "NORMAL",
+        "softIntentCommands": 36,
+        "actualSoftFlights": 35,
+        "plannerReachable": 35,
+        "plannerUnreachable": 0,
+        "noObservedVerdict": 0,
+        "contactReturns": 35,
+        "successfulReturns": 34,
+        "replyFaults": 0,
+        "unresolvedReturns": 1,
+        "directSoftWinners": 0,
+        "plannerReachableButNoContact": 0,
+        "closedPoints": 12,
+        "playerPoints": 0,
+        "successfulReturnRate": 0.9714285714285714,
+        "directWinnerRate": 0,
+        "repetitionPointWinRate": 0
+      },
+      {
+        "difficulty": "HARD",
+        "softIntentCommands": 35,
+        "actualSoftFlights": 35,
+        "plannerReachable": 35,
+        "plannerUnreachable": 0,
+        "noObservedVerdict": 0,
+        "contactReturns": 35,
+        "successfulReturns": 34,
+        "replyFaults": 0,
+        "unresolvedReturns": 1,
+        "directSoftWinners": 0,
+        "plannerReachableButNoContact": 0,
+        "closedPoints": 10,
+        "playerPoints": 0,
+        "successfulReturnRate": 0.9714285714285714,
+        "directWinnerRate": 0,
+        "repetitionPointWinRate": 0
+      }
+    ],
+    "definitions": "Successful return requires next player collision or AI IN point. End-of-session replies still in flight remain unresolved. Planner verdict is not an omniscient physical oracle. Closed-point rates and direct-winner rates have different denominators."
+  },
+  "wellTimedPressure": {
+    "fixedVisibleCueReactionMs": 170,
+    "metrics": [
+      {
+        "difficulty": "NORMAL",
+        "pattern": "wide-soft",
+        "phase": "POINT_RESOLVED",
+        "scores": [
+          5,
+          0
+        ],
+        "softIntentCommands": 10,
+        "actualSoftFlights": 10,
+        "actualTechniques": {
+          "drop": 0,
+          "net": 10,
+          "block": 0
+        },
+        "qualities": {
+          "perfect": 6,
+          "good": 4,
+          "weak": 0,
+          "miss": 0
+        },
+        "byTechnique": {
+          "drop": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          },
+          "net": {
+            "attempts": 10,
+            "successfulReturns": 5,
+            "directWinners": 5
+          },
+          "block": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          }
+        },
+        "plannerReachable": 5,
+        "plannerUnreachable": 5,
+        "noObservedVerdict": 0,
+        "contactReturns": 5,
+        "successfulReturns": 5,
+        "replyFaults": 0,
+        "unresolvedReturns": 0,
+        "directSoftWinners": 5,
+        "plannerReachableButNoContact": 0,
+        "closedPoints": 5,
+        "playerPoints": 5,
+        "repetitionPointWinRate": 1,
+        "directWinnerRate": 0.5,
+        "successfulReturnRate": 0.5,
+        "maxObservedContinuousAISpeed": 5.80000000000038,
+        "minimumObservedDelay": 0.30000000000001315
+      },
+      {
+        "difficulty": "NORMAL",
+        "pattern": "clear-soft",
+        "phase": "RALLY",
+        "scores": [
+          0,
+          3
+        ],
+        "softIntentCommands": 12,
+        "actualSoftFlights": 10,
+        "actualTechniques": {
+          "drop": 1,
+          "net": 0,
+          "block": 9
+        },
+        "qualities": {
+          "perfect": 1,
+          "good": 6,
+          "weak": 3,
+          "miss": 0
+        },
+        "byTechnique": {
+          "drop": {
+            "attempts": 1,
+            "successfulReturns": 1,
+            "directWinners": 0
+          },
+          "net": {
+            "attempts": 0,
+            "successfulReturns": 0,
+            "directWinners": 0
+          },
+          "block": {
+            "attempts": 9,
+            "successfulReturns": 8,
+            "directWinners": 0
+          }
+        },
+        "plannerReachable": 10,
+        "plannerUnreachable": 0,
+        "noObservedVerdict": 0,
+        "contactReturns": 10,
+        "successfulReturns": 9,
+        "replyFaults": 0,
+        "unresolvedReturns": 1,
+        "directSoftWinners": 0,
+        "plannerReachableButNoContact": 0,
+        "closedPoints": 3,
+        "playerPoints": 0,
+        "repetitionPointWinRate": 0,
+        "directWinnerRate": 0,
+        "successfulReturnRate": 0.9,
+        "maxObservedContinuousAISpeed": 5.800000000000352,
+        "minimumObservedDelay": 0.3000000000000149
+      }
+    ]
+  },
+  "fairness": {
+    "speedLimit": 5.8,
+    "minimumObservationDelayByDifficulty": {
+      "EASY": 0.5,
+      "NORMAL": 0.3,
+      "HARD": 0.18
+    },
+    "delaysUnchanged": true,
+    "sameMotorAndPoseForBothActors": true,
+    "preObservationRecoveryIndependentOfUnseenShuttleUnitTest": true,
+    "finiteArmSegmentsEachMetres": 0.36,
+    "physicalHitGatesUnchanged": true
+  },
+  "unitTests": {
+    "passed": true,
+    "tests": 38
+  },
+  "rootBuildVercel": true,
+  "registrySync": true,
+  "mixedShotUI": {
+    "pass": true,
+    "errors": [],
+    "techniques": [
+      "clear",
+      "smash",
+      "lift",
+      "block",
+      "net",
+      "superSmash",
+      "drop"
+    ],
+    "matches": [
+      {
+        "difficulty": "NORMAL",
+        "score": [
+          1,
+          5
+        ],
+        "contacts": 29,
+        "audioEvents": 29,
+        "commands": 13,
+        "maxReturns": 7,
+        "configuredYieldAtReturns": 16
+      }
+    ]
+  },
+  "mobile": {
+    "basicTaps": {
+      "pass": true,
+      "taps": 3,
+      "allActorReturns": 6,
+      "playerContactsIncludingServe": 4
+    },
+    "directionLOW": {
+      "pass": true,
+      "actualCases": [
+        "left tap",
+        "right tap",
+        "horizontal drag",
+        "diagonal drag"
+      ]
+    },
+    "mediumSwipe": {
+      "pass": false,
+      "classificationArrivesAfterPreparationCutoff": true,
+      "alsoReproducedOnIsolatedBaseBff2778": true,
+      "sources": [
+        "mobile-direction-medium-late.json",
+        "mobile-standard-before-failure.json",
+        "mobile-standard-after-failure.txt"
+      ]
+    },
+    "newDirectionControlsImplemented": false,
+    "recommendation": "Retain mouse/court-tap aim; improve left/centre/right course guidance and tap feedback; do not add horizontal drag before axis-conflict testing."
+  },
+  "library": {
+    "success": false,
+    "confirmedLibraryIds": [],
+    "reason": "Official prepared-upload helper connection failed before preparation; original PNGs and hashes preserved on branch"
+  },
+  "unverified": [
+    "Physical device FPS/input latency and Safari",
+    "Actual listening and physical A/V latency",
+    "Human novice/difficulty/coaching realism"
+  ],
+  "mainMerged": false,
+  "publicDefaultPromoted": false
+}

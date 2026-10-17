@@ -1,0 +1,44 @@
+{
+  "method": "Three hard-cut excerpts of actual browser capture at original wall-clock speed; captured frames held at20fps without interpolation. Actual browser WebAudio stream, one origin calibration, no music or synthetic replacement.",
+  "segments": [
+    {
+      "file": "clip-1.mp4",
+      "source": "full-play-with-live-audio.mp4",
+      "start": 22.852218017578124,
+      "end": 35.03721801757813,
+      "label": "EASY 1 | smash - point - next serve"
+    },
+    {
+      "file": "clip-2.mp4",
+      "source": "full-play-with-live-audio.mp4",
+      "start": 47.6816180175785,
+      "end": 58.65881801757775,
+      "label": "EASY 2 | smash - point - next serve"
+    },
+    {
+      "file": "clip-3.mp4",
+      "source": "full-play-with-live-audio.mp4",
+      "start": 350.78041801757735,
+      "end": 356.8141180175785,
+      "label": "HARD | smash - AI block"
+    }
+  ],
+  "video": {
+    "actualContacts": 35,
+    "scheduledSounds": 35,
+    "packetGroups": 35,
+    "containerPtsOriginPerfSeconds": 14.404400000000372,
+    "videoOriginPerfSeconds": 6.070281982421875,
+    "muxDelaySeconds": 8.334118017578497,
+    "packetGroupVsScheduleRangeMs": [
+      -61.799999998868316,
+      103.20000000112373
+    ],
+    "presentationCallbackVsAudioScheduleMaxMs": 0.09999999962747097,
+    "peak": 0.620025634765625,
+    "listening": false,
+    "deviceLatencyMeasured": false,
+    "note": "MediaRecorder PTS begins at its first audible packet. A single origin calibration against the first live audio scheduling event preserves all later packet spacing; no per-hit resync. Capture/callback timing is not speaker/display latency."
+  },
+  "videoSha256": "807f932551a05c921159f2de19d00949f363f78b964dcad95ee18f03f477951e"
+}

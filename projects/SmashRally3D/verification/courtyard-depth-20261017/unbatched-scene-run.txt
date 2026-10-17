@@ -1,0 +1,30 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+
+Read the flight. Find the space.
+Make your next shot count.
+
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT scene-1065x606-ready
+SHOT scene-1280x720-ready
+SHOT scene-844x390-ready
+SHOT scene-390x844-ready
+BENCHMARK SCENE PASS {"views":4}
+COURTYARD SCENE PASS [{"name":"scene-1065x606-ready","drawCalls":160,"environmentParts":90},{"name":"scene-1280x720-ready","drawCalls":160,"environmentParts":90},{"name":"scene-844x390-ready","drawCalls":160,"environmentParts":90},{"name":"scene-390x844-ready","drawCalls":98,"environmentParts":90}]

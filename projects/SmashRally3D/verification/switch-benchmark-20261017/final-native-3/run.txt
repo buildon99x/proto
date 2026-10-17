@@ -1,0 +1,31 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT mobile-01-ready
+SHOT mobile-02-tap-serve
+SHOT mobile-03-clear-threshold
+SHOT mobile-03-drop-threshold
+SHOT mobile-04-pause
+SHOT mobile-05-portrait
+Real CDP touch UI verification [{"intent":"clear","issuedBeforePointerUp":true,"acceptedBeforePointerUp":true,"target":{"x":-3.990918828744583e-7,"y":0.025,"z":5.800001585052776},"physicalShot":"clear","technique":"clear","quality":"perfect"},{"intent":"drop","issuedBeforePointerUp":true,"acceptedBeforePointerUp":true,"target":{"x":2.0647828002928748e-7,"y":0.025,"z":5.8000008893991986},"physicalShot":"drop","technique":"drop","quality":"perfect"}]
+No physical device, Safari, speaker listening or physical touch-latency verification.
+NATIVE POINTER TRACE [{"type":"pointerdown","trusted":true,"pointerId":2,"primary":true,"eventAt":11815.800000000047,"deliveredAt":12089.300000000047,"time":1.4916666666666638,"contactAt":1.6516666666666637,"lastInput":{"shotIntent":"default","target":{"x":0,"y":0.025,"z":5.709742459740806},"issuedAt":1.4916666666666638,"submittedAt":1.4916666666666638,"pointerType":"touch","accepted":true,"projectedAtInput":{"x":422,"y":218.0000033381214}},"playerContacts":0},{"type":"pointerup","trusted":true,"pointerId":2,"primary":true,"eventAt":12091.100000000093,"deliveredAt":12344.600000000093,"time":1.5583333333333302,"contactAt":1.6516666666666637,"lastInput":{"shotIntent":"default","target":{"x":0,"y":0.025,"z":5.709742459740806},"issuedAt":1.4916666666666638,"submittedAt":1.4916666666666638,"pointerType":"touch","accepted":true,"projectedAtInput":{"x":422,"y":218.0000033381214}},"playerContacts":0},{"type":"pointerdown","trusted":true,"pointerId":3,"primary":true,"eventAt":27821.600000000093,"deliveredAt":27998.199999999953,"time":6.11666666666676,"contactAt":6.274999999999989,"lastInput":{"shotIntent":"default","target":{"x":-3.990918828744583e-7,"y":0.025,"z":5.800001585052776},"issuedAt":6.11666666666676,"submittedAt":6.11666666666676,"pointerType":"touch","accepted":true,"projectedAtInput":{"x":446.3284905520378,"y":202.96620220707655}},"playerContacts":1},{"type":"pointerrawupdate","trusted":true,"pointerId":3,"primary":true,"eventAt":27999.300000000047,"deliveredAt":28231.199999999953,"time":6.18333333333343,"contactAt":6.274999999999989,"lastInput":{"shotIntent":"clear","target":{"x":-3.990918828744583e-7,"y":0.025,"z":5.800001585052776},"issuedAt":6.11666666666676,"submittedAt":6.18333333333343,"pointerType":"touch","accepted":true,"projectedAtInput":{"x":458.78612424953474,"y":207.03316303346665}},"playerContacts":1},{"type":"pointermove","trusted":true,"pointerId":3,"primary":true,"eventAt":27999.300000000047,"deliveredAt":28316.800000000047,"time":6.18333333333343,"contactAt":6.274999999999989,"lastInput":{"shotIntent":"clear","target":{"x":-3.990918828744583e-7,"y":0.025,"z":5.800001585052776},"issuedAt":6.11666666666676,"submittedAt":6.18333333333343,"pointerType":"touch","accepted":true,"projectedAtInput":{"x":458.78612424953474,"y":207.03316303346665}},"playerContacts":1},{"type":"pointerup","trusted":true,"pointerId":3,"primary":true,"eventAt":28337.699999999953,"deliveredAt":28626.5,"time":6.283333333333435,"contactAt":null,"lastInput":{"shotIntent":"clear","target":{"x":-3.990918828744583e-7,"y":0.025,"z":5.800001585052776},"issuedAt":6.11666666666676,"submittedAt":6.18333333333343,"pointerType":"touch","accepted":true,"projectedAtInput":{"x":458.78612424953474,"y":207.03316303346665}},"playerContacts":2},{"type":"pointerdown","trusted":true,"pointerId":4,"primary":true,"eventAt":48375,"deliveredAt":48577.19999999995,"time":10.883333333333356,"contactAt":11.050000000000148,"lastInput":{"shotIntent":"default","target":{"x":2.0647828002928748e-7,"y":0.025,"z":5.8000008893991986},"issuedAt":10.883333333333356,"submittedAt":10.883333333333356,"pointerType":"touch","accepted":true,"projectedAtInput":{"x":443.0162358050261,"y":202.97242836443982}},"playerContacts":2},{"type":"pointerrawupdate","trusted":true,"pointerId":4,"primary":true,"eventAt":48579.69999999995,"deliveredAt":48786.30000000005,"time":10.950000000000019,"contactAt":11.050000000000148,"lastInput":{"shotIntent":"drop","target":{"x":2.0647828002928748e-7,"y":0.025,"z":5.8000008893991986},"issuedAt":10.883333333333356,"submittedAt":10.950000000000019,"pointerType":"touch","accepted":true,"projectedAtInput":{"x":453.7075640474881,"y":207.01592578111283}},"playerContacts":2},{"type":"pointermove","trusted":true,"pointerId":4,"primary":true,"eventAt":48579.69999999995,"deliveredAt":48875.10000000009,"time":10.950000000000019,"contactAt":11.050000000000148,"lastInput":{"shotIntent":"drop","target":{"x":2.0647828002928748e-7,"y":0.025,"z":5.8000008893991986},"issuedAt":10.883333333333356,"submittedAt":10.950000000000019,"pointerType":"touch","accepted":true,"projectedAtInput":{"x":453.7075640474881,"y":207.01592578111283}},"playerContacts":2},{"type":"pointerup","trusted":true,"pointerId":4,"primary":true,"eventAt":48904.69999999995,"deliveredAt":49129.60000000009,"time":11.050000000000013,"contactAt":null,"lastInput":{"shotIntent":"drop","target":{"x":2.0647828002928748e-7,"y":0.025,"z":5.8000008893991986},"issuedAt":10.883333333333356,"submittedAt":10.950000000000019,"pointerType":"touch","accepted":true,"projectedAtInput":{"x":453.7075640474881,"y":207.01592578111283}},"playerContacts":3}]
+SHOT 11-tips-restarted
+BENCHMARK NATIVE LESSONS PASS {"completed":{"active":false,"returned":true,"cleared":true,"dropped":true,"next":""},"restarted":{"active":true,"returned":false,"cleared":false,"dropped":false,"next":"1/3 · Return one shot. Aim at the far court. Tap at HIT NOW."},"method":"Original trusted tap/up/down gesture gates unchanged; actual contacts credit the lessons. No state/time injection."}

@@ -1,0 +1,122 @@
+{
+  "before-lifecycle/mobile-input-lifecycle-report.json": {
+    "mode": "baseline observation; assertions disabled; runner completion is not acceptance",
+    "runnerPass": true,
+    "bundle": "./assets/index-LbNX1LNs.js",
+    "sha256": "33161b0ba9bec001a7912cee12d46bcb4280cc46c7a1a759ac7007e1001246ee",
+    "failure": null,
+    "runtimeErrors": []
+  },
+  "beginner/mobile-beginner-report.json": {
+    "mode": "historical/initial candidate",
+    "runnerPass": true,
+    "bundle": "./assets/index-BwV7a-4G.js",
+    "sha256": "e9efb5ca6f9195d361c0692021a54f44462ac32e19c678c42c8da5f06cf093b5",
+    "failure": null,
+    "runtimeErrors": []
+  },
+  "drop/drop-defence-report.json": {
+    "mode": "historical/initial candidate",
+    "runnerPass": false,
+    "bundle": "./assets/index-BwV7a-4G.js",
+    "sha256": "e9efb5ca6f9195d361c0692021a54f44462ac32e19c678c42c8da5f06cf093b5",
+    "failure": "TargetCloseError: Protocol error (Runtime.callFunctionOn): Target closed",
+    "runtimeErrors": []
+  },
+  "final-beginner/mobile-beginner-report.json": {
+    "mode": "final",
+    "runnerPass": true,
+    "bundle": "./assets/index-BJK7yYXT.js",
+    "sha256": "982c6371d74eccaddf2266f85cc11c4ca5afc1047d6a628bdeab29bc4527d008",
+    "failure": null,
+    "runtimeErrors": []
+  },
+  "final-drop/drop-defence-report.json": {
+    "mode": "final",
+    "runnerPass": true,
+    "bundle": "./assets/index-BJK7yYXT.js",
+    "sha256": "982c6371d74eccaddf2266f85cc11c4ca5afc1047d6a628bdeab29bc4527d008",
+    "failure": null,
+    "runtimeErrors": []
+  },
+  "final-lifecycle/mobile-input-lifecycle-report.json": {
+    "mode": "final",
+    "runnerPass": true,
+    "bundle": "./assets/index-BJK7yYXT.js",
+    "sha256": "982c6371d74eccaddf2266f85cc11c4ca5afc1047d6a628bdeab29bc4527d008",
+    "failure": null,
+    "runtimeErrors": []
+  },
+  "final-mixed/drop-defence-regression-report.json": {
+    "mode": "final",
+    "runnerPass": true,
+    "bundle": "./assets/index-BJK7yYXT.js",
+    "sha256": "982c6371d74eccaddf2266f85cc11c4ca5afc1047d6a628bdeab29bc4527d008",
+    "failure": null,
+    "runtimeErrors": []
+  },
+  "final-native/mobile-native-report.json": {
+    "mode": "final",
+    "runnerPass": true,
+    "bundle": "./assets/index-BJK7yYXT.js",
+    "sha256": "982c6371d74eccaddf2266f85cc11c4ca5afc1047d6a628bdeab29bc4527d008",
+    "failure": null,
+    "runtimeErrors": []
+  },
+  "final-native-contention/mobile-native-report.json": {
+    "mode": "final",
+    "runnerPass": true,
+    "bundle": "./assets/index-BJK7yYXT.js",
+    "sha256": "982c6371d74eccaddf2266f85cc11c4ca5afc1047d6a628bdeab29bc4527d008",
+    "failure": null,
+    "runtimeErrors": []
+  },
+  "lifecycle/mobile-input-lifecycle-report.json": {
+    "mode": "historical/initial candidate",
+    "runnerPass": true,
+    "bundle": "./assets/index-BwV7a-4G.js",
+    "sha256": "e9efb5ca6f9195d361c0692021a54f44462ac32e19c678c42c8da5f06cf093b5",
+    "failure": null,
+    "runtimeErrors": []
+  },
+  "lifecycle-corrected/mobile-input-lifecycle-report.json": {
+    "mode": "historical/initial candidate",
+    "runnerPass": false,
+    "bundle": "./assets/index-BwV7a-4G.js",
+    "sha256": "e9efb5ca6f9195d361c0692021a54f44462ac32e19c678c42c8da5f06cf093b5",
+    "failure": "Error: waitForFunction failed: frame got detached.",
+    "runtimeErrors": []
+  },
+  "lifecycle-final/mobile-input-lifecycle-report.json": {
+    "mode": "initial candidate harness failure; stale pre-contact snapshot compared after contact",
+    "runnerPass": false,
+    "bundle": "./assets/index-BwV7a-4G.js",
+    "sha256": "e9efb5ca6f9195d361c0692021a54f44462ac32e19c678c42c8da5f06cf093b5",
+    "failure": "Error: secondary pointer replaced/cancelled owner",
+    "runtimeErrors": []
+  },
+  "mixed/drop-defence-regression-report.json": {
+    "mode": "historical/initial candidate",
+    "runnerPass": false,
+    "bundle": "./assets/index-BwV7a-4G.js",
+    "sha256": "e9efb5ca6f9195d361c0692021a54f44462ac32e19c678c42c8da5f06cf093b5",
+    "failure": "TargetCloseError: Protocol error (Runtime.callFunctionOn): Target closed",
+    "runtimeErrors": []
+  },
+  "native-trace/mobile-native-report.json": {
+    "mode": "initial candidate real input limitation; post-contact delivery rejected",
+    "runnerPass": false,
+    "bundle": "./assets/index-BwV7a-4G.js",
+    "sha256": "e9efb5ca6f9195d361c0692021a54f44462ac32e19c678c42c8da5f06cf093b5",
+    "failure": "Error: Swipe intent was recognized after swing lock {\"last\":{\"shotIntent\":\"drop\",\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364},\"issuedAt\":11.441666666666658,\"submittedAt\":11.641666666666646,\"pointerType\":\"touch\",\"accepted\":false},\"time\":11.666666666666645,\"contactAt\":null,\"receiver\":1,\"input\":null}",
+    "runtimeErrors": []
+  },
+  "standard/mobile-report.json": {
+    "mode": "historical/initial candidate",
+    "runnerPass": true,
+    "bundle": "./assets/index-BwV7a-4G.js",
+    "sha256": "e9efb5ca6f9195d361c0692021a54f44462ac32e19c678c42c8da5f06cf093b5",
+    "failure": null,
+    "runtimeErrors": []
+  }
+}

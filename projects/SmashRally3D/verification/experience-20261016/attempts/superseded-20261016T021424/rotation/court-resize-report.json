@@ -1,0 +1,13 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-BS74-MXS.js",
+    "sha256": "bab44fa3a7f3c3a4d0cfc06238d15138c440f49831cae0fc2e77c8c36c50271e",
+    "startedAt": "2026-10-16T02:00:01.531Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "LIVE ROTATION PASS {\"method\":\"One continuing native-touch EASY clear rally, portrait→landscape→portrait, DPR2 MEDIUM; no reload, pause, actor/ball/time injection.\",\"results\":[{\"bounds\":{\"court\":[{\"x\":806.1010743643179,\"y\":1015.8636900588215},{\"x\":337.0091652407408,\"y\":457.7503493683539},{\"x\":-416.10107436431787,\"y\":1015.8636900588215},{\"x\":52.9908347592592,\"y\":457.7503493683539}],\"width\":844,\"height\":390,\"canvas\":[585,1266],\"quality\":\"MEDIUM\"},\"input\":{\"shotIntent\":\"clear\",\"target\":{\"x\":-1.8158110988994203,\"y\":0.025,\"z\":5.713032738086623},\"issuedAt\":5.7500000000000755,\"submittedAt\":5.7500000000000755,\"pointerType\":\"touch\",\"accepted\":true,\"projectedAtInput\":{\"x\":475.00000179946585,\"y\":203.00000027492297}},\"pixelError\":0.5348405426969817,\"actual\":{\"shot\":\"clear\",\"target\":{\"x\":-1.8866444322326459,\"y\":0.025,\"z\":5.713032738086623},\"technique\":\"clear\",\"time\":6.066666666666758}},{\"bounds\":{\"court\":[{\"x\":588.9347902886768,\"y\":651.6403129156296},{\"x\":317.79620486172666,\"y\":447.9770226986241},{\"x\":89.876084257456,\"y\":651.6403128525258},{\"x\":162.23107944935498,\"y\":447.9770226924925}],\"width\":390,\"height\":844,\"canvas\":[585,1266],\"quality\":\"MEDIUM\"},\"input\":{\"shotIntent\":\"clear\",\"target\":{\"x\":1.8075841320264041,\"y\":0.025,\"z\":5.754183952083645},\"issuedAt\":10.475000000000046,\"submittedAt\":10.475000000000046,\"pointerType\":\"touch\",\"accepted\":true,\"projectedAtInput\":{\"x\":179.0000010358357,\"y\":435.0000014945654}},\"pixelError\":0.3119325938445923,\"actual\":{\"shot\":\"clear\",\"target\":{\"x\":1.8975841320265194,\"y\":0.025,\"z\":5.754183952083645},\"technique\":\"clear\",\"time\":10.833333333333359}}]}"
+  ]
+}

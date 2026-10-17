@@ -1,0 +1,57 @@
+{
+  "issue": "V3flat background and hierarchy",
+  "attempts": [
+    {
+      "id": 1,
+      "hypothesis": "Actual recessed bays, shared structural frame and varied foliage layers convey depth with the fixed existing camera.",
+      "evidence": "unbatched-scene/scene-1065x606-ready.png",
+      "observed": "Facade depth improved in direct raster review; bright rear-paving line competes with net tape. Draw calls increased95\u2192160and71\u219298portrait.",
+      "decision": "Keep depth, reduce paving salience and batch static geometry."
+    },
+    {
+      "id": "batch-isolation",
+      "hypothesis": "Engine static batching cuts submissions without changing pixels.",
+      "evidence": "batch-isolation.json",
+      "observed": "Four raw PNG pairs pixel-identical.160\u219292full-width and98\u219284portrait. Original portrait baseline71reported rather than hidden.",
+      "decision": "Keep batching; no experience score from submission counts."
+    },
+    {
+      "id": 2,
+      "hypothesis": "Dark slate paving recedes behind the net while preserving the physical depth and architectural frame.",
+      "evidence": "final-scene/scene-1065x606-ready.png",
+      "observed": "Four final ready views directly inspected: slate paving recedes, net tape stays the brighter foreground edge, recessed frame and varied foliage convey more depth. Thin neutral rear-platform edge and stylized untextured surfaces remain. Camera/aim/lights exact and bottom35%pixels unchanged. Full ordinary-rally/high-flight review still pending.",
+      "decision": "Retain after77strict units/full root build,14same-runtime functional browser reports, separate2-angle placement diagnostic and final literal raster/media review. V3only2\u21924; newM2review3/5separate."
+    }
+  ],
+  "consecutiveNoImprovement": 0,
+  "switchRule": "If three consecutive observations do not improve the same issue, record cause and change geometry/material/lighting approach rather than repeating parameter tweaks. No rubric or gate reduction.",
+  "instrumentationFailures": [
+    {
+      "evidence": "attempts/missing-runtime-hook",
+      "error": "TypeError: Cannot read properties of undefined (reading 'keys')",
+      "cause": "New defence recorder accessed app observation map before installing the existing runtime hook. Failure occurred during recorder initialization, before running the original defence controller.",
+      "repair": "Load the same current project devtools hook with evaluateOnNewDocument before reload, as used by accepted scene/stroke cases.",
+      "preserved": "Original NORMAL/HARD3returns each and pressure controller gates unchanged. Six already-passed final browser cases are retained on the identical runtime/model hashes.",
+      "retry": "Only missing defence and subsequent cases run in continuation; failed artifacts retained."
+    },
+    {
+      "evidence": "attempts/volatile-menu-metadata",
+      "error": "Cannot read properties of null (reading 'value')",
+      "cause": "Difficulty dropdown is present only on the menu. A read-only frame recorder erroneously queried it during play.",
+      "repair": "Change the approach to a read-only change-event ledger, storing the chosen value before the UI removes the menu; no persistent-game metadata or controller behavior changed. Full recorder field/schema/restoration paths reviewed before retry.",
+      "termination": "Own failing recording run stopped with SIGINT; Puppeteer/browser and shell exited130 before replacement. Failed artifacts kept; no duplicate active browser.",
+      "gates": "Same original3NORMAL+3HARDphysical AI return gate and original pressure gate. No relaxed count, input timing, quality, reaction, physics or runtime changes."
+    }
+  ],
+  "instrumentationApproachAfterTwoFailures": "Use existing current runtime hook plus read-only event-captured menu metadata, no volatile per-frame DOM dependency. If another instrumentation failure occurs, stop this approach and retain core controller gates with external CDP-only capture/Node-side event correlation.",
+  "mediaReviewCorrections": [
+    {
+      "evidence": "attempts/point-cdp-timestamp-selection",
+      "cause": "First CDP timestamp at/after point CPU time did not yet show the updated HUD. Direct raster review caught the stale0-2score before accepting the winner specimen.",
+      "repair": "Inspect12actual neighboring frames; source684visiblyshows1-2andYOUR POINT. Store explicit manual selection guarded by complete capture-sourceSHA.",
+      "interpretation": "No physical input/AVlatency score or frame replacement; the selected image is an unmodified source JPEG."
+    }
+  ],
+  "finalConsecutiveNoImprovement": 0,
+  "finalInstrumentationOutcome": "Existing-hook plus event-captured metadata approach succeeds:6centre replies,14pressure replies and1perfect direct winner recorded;0accepted runtime errors. Both prior recording failures and stale-HUD source selection correction retained."
+}

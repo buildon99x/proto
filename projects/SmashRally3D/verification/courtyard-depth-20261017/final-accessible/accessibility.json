@@ -1,0 +1,301 @@
+{
+  "results": [
+    {
+      "view": {
+        "width": 640,
+        "height": 360
+      },
+      "action": "help",
+      "backgroundInert": true,
+      "targets": [
+        {
+          "tag": "BUTTON",
+          "label": "BACK",
+          "height": 44,
+          "width": 322
+        }
+      ]
+    },
+    {
+      "view": {
+        "width": 640,
+        "height": 360
+      },
+      "action": "settings",
+      "backgroundInert": true,
+      "targets": [
+        {
+          "tag": "LABEL",
+          "label": "Rally tips",
+          "height": 44,
+          "width": 322
+        },
+        {
+          "tag": "LABEL",
+          "label": "Sound",
+          "height": 44,
+          "width": 322
+        },
+        {
+          "tag": "LABEL",
+          "label": "Impact response",
+          "height": 44,
+          "width": 322
+        },
+        {
+          "tag": "LABEL",
+          "label": "Shuttle trail",
+          "height": 44,
+          "width": 322
+        },
+        {
+          "tag": "LABEL",
+          "label": "Camera response",
+          "height": 44,
+          "width": 322
+        },
+        {
+          "tag": "LABEL",
+          "label": "QualityHIGHMEDIUMLOW",
+          "height": 44,
+          "width": 322
+        },
+        {
+          "tag": "SELECT",
+          "label": "HIGHMEDIUMLOW",
+          "height": 44,
+          "width": 91
+        },
+        {
+          "tag": "BUTTON",
+          "label": "BACK",
+          "height": 44,
+          "width": 322
+        }
+      ]
+    },
+    {
+      "view": {
+        "width": 844,
+        "height": 390
+      },
+      "action": "help",
+      "backgroundInert": true,
+      "targets": [
+        {
+          "tag": "BUTTON",
+          "label": "BACK",
+          "height": 44,
+          "width": 322
+        }
+      ]
+    },
+    {
+      "view": {
+        "width": 844,
+        "height": 390
+      },
+      "action": "settings",
+      "backgroundInert": true,
+      "targets": [
+        {
+          "tag": "LABEL",
+          "label": "Rally tips",
+          "height": 44,
+          "width": 322
+        },
+        {
+          "tag": "LABEL",
+          "label": "Sound",
+          "height": 44,
+          "width": 322
+        },
+        {
+          "tag": "LABEL",
+          "label": "Impact response",
+          "height": 44,
+          "width": 322
+        },
+        {
+          "tag": "LABEL",
+          "label": "Shuttle trail",
+          "height": 44,
+          "width": 322
+        },
+        {
+          "tag": "LABEL",
+          "label": "Camera response",
+          "height": 44,
+          "width": 322
+        },
+        {
+          "tag": "LABEL",
+          "label": "QualityHIGHMEDIUMLOW",
+          "height": 44,
+          "width": 322
+        },
+        {
+          "tag": "SELECT",
+          "label": "HIGHMEDIUMLOW",
+          "height": 44,
+          "width": 91
+        },
+        {
+          "tag": "BUTTON",
+          "label": "BACK",
+          "height": 44,
+          "width": 322
+        }
+      ]
+    },
+    {
+      "view": {
+        "width": 390,
+        "height": 844
+      },
+      "action": "help",
+      "backgroundInert": true,
+      "targets": [
+        {
+          "tag": "BUTTON",
+          "label": "BACK",
+          "height": 44,
+          "width": 312.796875
+        }
+      ]
+    },
+    {
+      "view": {
+        "width": 390,
+        "height": 844
+      },
+      "action": "settings",
+      "backgroundInert": true,
+      "targets": [
+        {
+          "tag": "LABEL",
+          "label": "Rally tips",
+          "height": 44,
+          "width": 312.796875
+        },
+        {
+          "tag": "LABEL",
+          "label": "Sound",
+          "height": 44,
+          "width": 312.796875
+        },
+        {
+          "tag": "LABEL",
+          "label": "Impact response",
+          "height": 44,
+          "width": 312.796875
+        },
+        {
+          "tag": "LABEL",
+          "label": "Shuttle trail",
+          "height": 44,
+          "width": 312.796875
+        },
+        {
+          "tag": "LABEL",
+          "label": "Camera response",
+          "height": 44,
+          "width": 312.796875
+        },
+        {
+          "tag": "LABEL",
+          "label": "QualityHIGHMEDIUMLOW",
+          "height": 44,
+          "width": 312.796875
+        },
+        {
+          "tag": "SELECT",
+          "label": "HIGHMEDIUMLOW",
+          "height": 44,
+          "width": 91
+        },
+        {
+          "tag": "BUTTON",
+          "label": "BACK",
+          "height": 44,
+          "width": 312.796875
+        }
+      ]
+    },
+    {
+      "view": {
+        "width": 320,
+        "height": 568
+      },
+      "action": "help",
+      "backgroundInert": true,
+      "targets": [
+        {
+          "tag": "BUTTON",
+          "label": "BACK",
+          "height": 44,
+          "width": 248.390625
+        }
+      ]
+    },
+    {
+      "view": {
+        "width": 320,
+        "height": 568
+      },
+      "action": "settings",
+      "backgroundInert": true,
+      "targets": [
+        {
+          "tag": "LABEL",
+          "label": "Rally tips",
+          "height": 44,
+          "width": 248.390625
+        },
+        {
+          "tag": "LABEL",
+          "label": "Sound",
+          "height": 44,
+          "width": 248.390625
+        },
+        {
+          "tag": "LABEL",
+          "label": "Impact response",
+          "height": 44,
+          "width": 248.390625
+        },
+        {
+          "tag": "LABEL",
+          "label": "Shuttle trail",
+          "height": 44,
+          "width": 248.390625
+        },
+        {
+          "tag": "LABEL",
+          "label": "Camera response",
+          "height": 44,
+          "width": 248.390625
+        },
+        {
+          "tag": "LABEL",
+          "label": "QualityHIGHMEDIUMLOW",
+          "height": 44,
+          "width": 248.390625
+        },
+        {
+          "tag": "SELECT",
+          "label": "HIGHMEDIUMLOW",
+          "height": 44,
+          "width": 91
+        },
+        {
+          "tag": "BUTTON",
+          "label": "BACK",
+          "height": 44,
+          "width": 248.390625
+        }
+      ]
+    }
+  ],
+  "method": "Real browser keyboard Tab/Shift+Tab/End/Escape/Enter, native inert, four viewports; label click targets measured, not18px checkbox artwork. No screen-reader or real-device claim."
+}

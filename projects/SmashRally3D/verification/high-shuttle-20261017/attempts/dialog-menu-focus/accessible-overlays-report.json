@@ -1,0 +1,12 @@
+{
+  "pass": false,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-Ch0dYdZC.js",
+    "sha256": "57ca2c70de89295c0f0cbbc6f263f1d5f3cc127f8b6b65f52d45484854f71c34",
+    "startedAt": "2026-10-17T02:30:25.801Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [],
+  "failure": "Error: Dialog did not restore opener focus"
+}

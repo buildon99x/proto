@@ -1,0 +1,45 @@
+{
+  "method": "Four fresh ordinary UI ready views. Exact observed camera/target/ambient/light equality and literal bottom35%pixel equality; not a physical FPS claim.",
+  "results": [
+    {
+      "view": {
+        "width": 1065,
+        "height": 606
+      },
+      "cameraAndTargetsIdentical": true,
+      "lightsAndAmbientIdentical": true,
+      "spectators": 0,
+      "unchangedBottom35PercentPixels": 0
+    },
+    {
+      "view": {
+        "width": 1280,
+        "height": 720
+      },
+      "cameraAndTargetsIdentical": true,
+      "lightsAndAmbientIdentical": true,
+      "spectators": 0,
+      "unchangedBottom35PercentPixels": 0
+    },
+    {
+      "view": {
+        "width": 844,
+        "height": 390
+      },
+      "cameraAndTargetsIdentical": true,
+      "lightsAndAmbientIdentical": true,
+      "spectators": 0,
+      "unchangedBottom35PercentPixels": 0
+    },
+    {
+      "view": {
+        "width": 390,
+        "height": 844
+      },
+      "cameraAndTargetsIdentical": true,
+      "lightsAndAmbientIdentical": true,
+      "spectators": 0,
+      "unchangedBottom35PercentPixels": 0
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "screenshots": [
+    {
+      "file": "player-net.png",
+      "bytes": 70022,
+      "sha256": "31fb8f32a4e77f7908f7b364fc1b877b2687797cd32edabb88af19778a628f4c",
+      "sourceReport": "player-net-finish-ui.json",
+      "buildEvidence": {
+        "sourceBundle": "./assets/index-Dz_tpUCS.js",
+        "sha256": "85393f1d8c177647cf4d7ac912a45e3d0b9cd553c312eb0b947f9779c7a92770",
+        "startedAt": "2026-10-15T04:41:59.301Z",
+        "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+      },
+      "remoteBranchPath": "https://github.com/buildon99x/proto/blob/codex/smash-rally-3d/projects/SmashRally3D/verification/net-followup-20261015/player-net.png",
+      "library_file_id": null
+    },
+    {
+      "file": "player-net-finish.png",
+      "bytes": 66763,
+      "sha256": "7a37043bc62b38412d65fe35b6f247d3c3e10fd35ba89f9411ee8ba52e7984f8",
+      "sourceReport": "player-net-finish-ui.json",
+      "buildEvidence": {
+        "sourceBundle": "./assets/index-Dz_tpUCS.js",
+        "sha256": "85393f1d8c177647cf4d7ac912a45e3d0b9cd553c312eb0b947f9779c7a92770",
+        "startedAt": "2026-10-15T04:41:59.301Z",
+        "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+      },
+      "remoteBranchPath": "https://github.com/buildon99x/proto/blob/codex/smash-rally-3d/projects/SmashRally3D/verification/net-followup-20261015/player-net-finish.png",
+      "library_file_id": null
+    },
+    {
+      "file": "mobile-beginner.png",
+      "bytes": 44699,
+      "sha256": "e75c97622845894dcb64cf241b25675819e64207d195cc2370a70730093b0cff",
+      "sourceReport": "mobile-beginner-report.json",
+      "buildEvidence": {
+        "sourceBundle": "./assets/index-Dz_tpUCS.js",
+        "sha256": "85393f1d8c177647cf4d7ac912a45e3d0b9cd553c312eb0b947f9779c7a92770",
+        "startedAt": "2026-10-15T04:42:34.794Z",
+        "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+      },
+      "remoteBranchPath": "https://github.com/buildon99x/proto/blob/codex/smash-rally-3d/projects/SmashRally3D/verification/net-followup-20261015/mobile-beginner.png",
+      "library_file_id": null
+    }
+  ],
+  "libraryUpload": {
+    "success": false,
+    "attempts": 2,
+    "route": "Official Library skill prepared-upload helper",
+    "stage": "tools/list, before preparation",
+    "error": "hosted apps tools/list request failed: network",
+    "confirmedLibraryIds": []
+  }
+}

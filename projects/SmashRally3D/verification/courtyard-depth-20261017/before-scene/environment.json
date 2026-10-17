@@ -1,0 +1,33 @@
+{
+  "method": "Original four-view ready UI scenario; read-only rendered draw calls and world bounds. No camera, light, game or pose injection. Draw calls are software renderer submission counts, not device FPS.",
+  "samples": [
+    {
+      "name": "scene-1065x606-ready",
+      "drawCalls": 95,
+      "environmentParts": null,
+      "environmentBounds": [],
+      "staticBatches": null
+    },
+    {
+      "name": "scene-1280x720-ready",
+      "drawCalls": 95,
+      "environmentParts": null,
+      "environmentBounds": [],
+      "staticBatches": null
+    },
+    {
+      "name": "scene-844x390-ready",
+      "drawCalls": 95,
+      "environmentParts": null,
+      "environmentBounds": [],
+      "staticBatches": null
+    },
+    {
+      "name": "scene-390x844-ready",
+      "drawCalls": 71,
+      "environmentParts": null,
+      "environmentBounds": [],
+      "staticBatches": null
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+src/main.ts 808ms
+src/lessons.ts 18ms
+tests/lessons.test.ts 28ms

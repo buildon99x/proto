@@ -1,0 +1,7 @@
+play-final exit=0
+rally exit=1
+rotation exit=0
+native exit=0
+projects/SmashRally3D/tools/verify-smash-feel.sh: line 18: ze: command not found
+native exit=0
+defence exit=0

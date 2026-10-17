@@ -1,0 +1,12 @@
+{
+  "pass": false,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-C2Yo3NZx.js",
+    "sha256": "53f917a7d3ab764ee7fa6e28ece18721a503238839a0ae5b0b0138fe733057da",
+    "startedAt": "2026-10-15T04:10:52.441Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [],
+  "failure": "Error: Swipe intent was recognized after swing lock {\"shotIntent\":\"clear\",\"target\":{\"x\":-0.0017882127217099253,\"y\":0.025,\"z\":5.840786884355364},\"issuedAt\":6.691666666666789,\"submittedAt\":6.891666666666799,\"pointerType\":\"touch\",\"accepted\":false}"
+}

@@ -1,0 +1,13 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-DdXNYdc3.js",
+    "sha256": "10f60103123fd20b2fe1ac8c796a2cbd1400c0f08dcf55d56369f34b427d5910",
+    "startedAt": "2026-10-17T01:40:59.677Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "BENCHMARK SCENE PASS {\"views\":4}"
+  ]
+}

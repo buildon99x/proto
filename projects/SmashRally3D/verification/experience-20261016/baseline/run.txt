@@ -1,0 +1,60 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT 01-first-menu
+MENU {
+  view: [ 844, 390 ],
+  controls: [
+    { text: 'EASYNORMALHARD', rect: [Object] },
+    { text: 'QUICK MATCH PLAY', rect: [Object] },
+    { text: 'How to play', rect: [Object] },
+    { text: 'Settings', rect: [Object] }
+  ]
+}
+SHOT 02-help
+HELP { view: [ 844, 390 ], controls: [ { text: 'BACK', rect: [Object] } ] }
+SHOT 03-ready
+SHOT cue-0
+SHOT point-1
+POINT {
+  phase: 'POINT_RESOLVED',
+  message: 'IN · AI POINT',
+  points: [ { winner: 1, reason: 'IN', returns: 1 } ],
+  shots: [
+    { actor: 0, shot: 'clear', quality: 'good' },
+    { actor: 1, shot: 'clear', quality: 'good' }
+  ]
+}
+SHOT cue-1
+SHOT point-2
+POINT {
+  phase: 'POINT_RESOLVED',
+  message: 'IN · AI POINT',
+  points: [
+    { winner: 1, reason: 'IN', returns: 1 },
+    { winner: 1, reason: 'IN', returns: 0 }
+  ],
+  shots: [
+    { actor: 0, shot: 'clear', quality: 'good' },
+    { actor: 1, shot: 'clear', quality: 'good' },
+    { actor: 1, shot: 'clear', quality: 'good' }
+  ]
+}
+AUDIT { inputs: 2, points: 2, captured: false }

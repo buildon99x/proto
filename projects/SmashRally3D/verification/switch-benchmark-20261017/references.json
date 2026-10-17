@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-17",
+  "facts": [
+    {
+      "url": "https://www.nintendo.com/ph/switch/as8s/badminton/index.html",
+      "method": "Web search/open text",
+      "observed_text_facts": [
+        "랠리의 샷 속도 변화를 소개한다.",
+        "ZR+스윙은 네트 가까운 드롭을 노린다.",
+        "높고 흔들리는 셔틀의 Super Smash 기회를 설명한다."
+      ],
+      "limits": "문서 본문 확인.실제 영상/픽셀 시청·청음은 아님."
+    },
+    {
+      "url": "https://www.nintendo.com/us/whatsnew/tips-and-tricks-for-nintendo-switch-sports/",
+      "method": "Web search/open text",
+      "observed_text_facts": [
+        "정점에서 하강하기 시작할 때 가볍게 내려치는 스매시를 설명한다.",
+        "ZR/ZL 드롭과 스매시를 번갈아 쓰는 팁을 제공한다."
+      ],
+      "limits": "정확한 내부 입력 시간창/AI 구현은 공개 본문에서 확인되지 않음."
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=tiwjvBSS_Wk",
+      "title": "Nintendo Switch Sports - Overview Trailer - Nintendo Switch",
+      "publisher": "Nintendo of America",
+      "date": "2022-03-30",
+      "method": "Web search title/publisher metadata only",
+      "actual_video_watched": false,
+      "actual_audio_listened": false,
+      "error": "Web open: Error fetching. Workspace urllib: Tunnel connection failed:403 Forbidden."
+    },
+    {
+      "url": "https://www.nintendo.com/kr/switch/as8sa/assets/img/game/img_slide_badminton02.jpg",
+      "method": "Image search location/description only",
+      "actual_pixels_inspected": false,
+      "error": "Workspace urllib: Tunnel connection failed:403 Forbidden. Do not treat generated search description as direct visual inspection."
+    }
+  ],
+  "inferences": [
+    "기본 한 번 입력과 선택적인 드롭 수식 입력은 간편 조작을 유지하는 자체 이식 원칙이다.",
+    "우리 장면의 노출/실루엣 개선은 자체 캡처의 관찰에서 나온 판단이며,Nintendo 영상과 동등하다는 판단이 아니다."
+  ]
+}

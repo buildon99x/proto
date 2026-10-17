@@ -1,0 +1,43 @@
+{
+  "method": "Six labelled hard cuts, original wall-clock playback speed, no interpolated poses. Actual captured WebAudio stream with one media-origin calibration, not replacement sound or a physical AV latency measurement.",
+  "source": "../flow/full-play.mp4",
+  "segments": [
+    {
+      "label": "Safe front return",
+      "start": 21.201070947265254,
+      "end": 25.201070947265254,
+      "file": "clip-1.mp4"
+    },
+    {
+      "label": "Normal smash",
+      "start": 32.56127094726544,
+      "end": 36.56127094726544,
+      "file": "clip-2.mp4"
+    },
+    {
+      "label": "Natural Super Smash",
+      "start": 81.86377094726544,
+      "end": 86.66377094726543,
+      "file": "clip-3.mp4"
+    },
+    {
+      "label": "Real point and next-serve signal",
+      "start": 34.802470947265626,
+      "end": 37.90247094726563,
+      "file": "clip-4.mp4"
+    },
+    {
+      "label": "Winning point - results next",
+      "start": 141.78987094726506,
+      "end": 144.18987094726506,
+      "file": "clip-5.mp4"
+    },
+    {
+      "label": "Match result - actual rematch",
+      "start": 150.40787094726505,
+      "end": 158.23997094726565,
+      "file": "clip-6.mp4"
+    }
+  ],
+  "sha256": "596a94cf7759125a49cbdc1d7739495f44e052f1bb29021b4e2a194ad353367c"
+}

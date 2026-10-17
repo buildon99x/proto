@@ -1,0 +1,19 @@
+
+> smash-rally-3d@0.2.0 build /workspace/proto/projects/SmashRally3D/app
+> tsc --noEmit && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 1266 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.53 kB │ gzip:   0.36 kB
+dist/assets/index-Dk6M8c2q.css      7.35 kB │ gzip:   2.32 kB
+dist/assets/index-jwxQnLT7.js   1,216.87 kB │ gzip: 329.45 kB
+
+✓ built in 864ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

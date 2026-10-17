@@ -1,0 +1,14 @@
+{
+  "pass": false,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-DdXNYdc3.js",
+    "sha256": "10f60103123fd20b2fe1ac8c796a2cbd1400c0f08dcf55d56369f34b427d5910",
+    "startedAt": "2026-10-17T01:33:51.036Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "EXPERIENCE PASS {\"scores\":[5,0],\"points\":[{\"winner\":0,\"reason\":\"IN\",\"returns\":4,\"detail\":\"AI COULD NOT RETURN\"},{\"winner\":0,\"reason\":\"IN\",\"returns\":2,\"detail\":\"AI COULD NOT RETURN\"},{\"winner\":0,\"reason\":\"IN\",\"returns\":2,\"detail\":\"AI COULD NOT RETURN\"},{\"winner\":0,\"reason\":\"IN\",\"returns\":2,\"detail\":\"AI COULD NOT RETURN\"},{\"winner\":0,\"reason\":\"IN\",\"returns\":2,\"detail\":\"AI COULD NOT RETURN\"}],\"maxReturns\":4,\"fallback\":true,\"normal\":true,\"naturalSuperSmashes\":2,\"physicalContacts\":17,\"hitAudio\":17,\"pointAudio\":5,\"mutedPointAudio\":0,\"audioMetrics\":[{\"winner\":0,\"peak\":0.05457957461476326,\"tailPeak\":0},{\"winner\":1,\"peak\":0.05357939377427101,\"tailPeak\":0}]}"
+  ],
+  "failure": "Error: Elapsed time or a default safe fallback incorrectly completed the lessons: {\"time\":37.49166666666518,\"lesson\":{\"active\":true,\"returned\":true,\"cleared\":false,\"dropped\":false,\"next\":\"2/3 · Try a high clear. Shift + click / swipe up.\"}}"
+}

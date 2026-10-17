@@ -1,0 +1,26 @@
+{
+  "method": "Bundled helper failed during read-only tools/list before any upload was prepared. Official Codex host-upload created the video and ordered image batch; all returned xattrs applied on original paths.",
+  "files": [
+    {
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/experience-20261016/delivery/01-experience-review.mp4",
+      "library_file_id": "libfile_ff92bea7b77081919586fc263cc2fc86",
+      "file_id": "file_00000000e88c81f5887a56e0004bf831",
+      "link": "https://chatgpt.com/api/library/files/libfile_ff92bea7b77081919586fc263cc2fc86/download",
+      "version": 0
+    },
+    {
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/experience-20261016/delivery/02-experience-before-after.png",
+      "library_file_id": "libfile_1410532120e0819180a91e75b583c281",
+      "file_id": "file_00000000c63081f5992cc44351837eda",
+      "link": "https://chatgpt.com/api/library/files/libfile_1410532120e0819180a91e75b583c281/download",
+      "version": 0
+    },
+    {
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/experience-20261016/delivery/03-actual-super-smash.png",
+      "library_file_id": "libfile_f8d1530cf9188191a20ab4dbbbf4b987",
+      "file_id": "file_00000000aa0081f59b2278f0694ffd5a",
+      "link": "https://chatgpt.com/api/library/files/libfile_f8d1530cf9188191a20ab4dbbbf4b987/download",
+      "version": 0
+    }
+  ]
+}

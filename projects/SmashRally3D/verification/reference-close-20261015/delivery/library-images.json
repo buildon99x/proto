@@ -1,0 +1,22 @@
+[
+  {
+    "filename": "01-before-reference.png",
+    "library_file_id": "libfile_9b960e60f0548191beebe71f4ed093bf",
+    "file_id": "file_0000000060948230a6644a9f3ac85234",
+    "sha256": "1c59b4da413ef9f91f173181862d5fb2eb439b9669c66676dd0c65252941c0b4"
+  },
+  {
+    "filename": "02-after-reference.png",
+    "library_file_id": "libfile_722c1d4e9594819195cac87caeab6386",
+    "file_id": "file_00000000782c82308635c43c8254b864",
+    "sha256": "2c30480ba0618211be887cba16d315e47716228732c0b4f053f99ec90b53631e",
+    "version": 1
+  },
+  {
+    "filename": "03-smash-sequence.png",
+    "library_file_id": "libfile_43f4a5542c1081918b78caf2cee2cc02",
+    "file_id": "file_00000000775081f59e5123a1889a3796",
+    "sha256": "76f683ad6f654f0c69f767d001dc4503c86da42a25b14c9f1f876e2aecaeb684",
+    "version": 1
+  }
+]

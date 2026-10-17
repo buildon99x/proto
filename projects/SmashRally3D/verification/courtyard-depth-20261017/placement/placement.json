@@ -1,0 +1,38 @@
+{
+  "method": "Two explicit external diagnostic camera angles, frozen engine update/clock only while taking images. Original camera/clock/update restored. These are placement inspection, not ordinary-play or experience-scoring frames.",
+  "views": [
+    {
+      "name": "west-front",
+      "p": [
+        -16,
+        6.5,
+        -1
+      ],
+      "look": [
+        -7,
+        2.8,
+        9
+      ]
+    },
+    {
+      "name": "west-rear-high",
+      "p": [
+        -17,
+        12,
+        16
+      ],
+      "look": [
+        -7,
+        2.3,
+        8.8
+      ]
+    }
+  ],
+  "proof": {
+    "heldTimeUnchanged": true,
+    "originalUpdate": true,
+    "timeScale": 1,
+    "autoRender": true,
+    "cameraRoundTripMaxDelta": 0
+  }
+}

@@ -1,0 +1,6 @@
+final-scene exit=0
+final-play exit=0
+final-native exit=0
+final-native-2 exit=0
+final-native-3 exit=0
+final-rotation exit=0

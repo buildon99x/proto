@@ -32,7 +32,7 @@ export const projects = [
       "build": "pnpm --filter deck-building build",
       "test": "pnpm --filter deck-building test"
     },
-    "updatedAt": "2026-07-15T15:28:50+00:00"
+    "updatedAt": "2026-09-30T02:06:43+09:00"
   },
   {
     "id": "msw-inc",
@@ -92,7 +92,7 @@ export const projects = [
       "cadence": "pnpm --filter msw-inc cadence",
       "checkin": "pnpm --filter msw-inc checkin"
     },
-    "updatedAt": "2026-09-30T01:58:52+09:00"
+    "updatedAt": "2026-09-30T02:06:43+09:00"
   },
   {
     "id": "retro-bowling",
@@ -132,7 +132,7 @@ export const projects = [
       "build": "pnpm --filter retro-bowling build",
       "test": "pnpm --filter retro-bowling test"
     },
-    "updatedAt": "2026-07-15T15:28:50+00:00"
+    "updatedAt": "2026-09-30T02:06:43+09:00"
   },
   {
     "id": "sample-project",
@@ -166,7 +166,41 @@ export const projects = [
       "build": "pnpm --filter sample-project build",
       "test": "pnpm --filter sample-project test"
     },
-    "updatedAt": "2026-07-15T15:28:50+00:00"
+    "updatedAt": "2026-09-30T02:06:43+09:00"
+  },
+  {
+    "id": "smash-rally-3d",
+    "name": "Smash Rally 3D",
+    "status": "prototype",
+    "type": "demo",
+    "runtime": "static-artifact",
+    "version": "0.2.0",
+    "summary": "자동 풋워크와 공기저항 셔틀 물리로 즐기는 5점제 3D 배드민턴. 마우스와 탭·스와이프로 빈 공간을 공략하세요.",
+    "tags": [
+      "game",
+      "3d",
+      "badminton",
+      "playcanvas"
+    ],
+    "projectRoot": "projects/SmashRally3D",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/smash-rally-3d/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md"
+    },
+    "assets": {},
+    "commands": {
+      "dev": "pnpm --filter smash-rally-3d dev",
+      "build": "pnpm --filter smash-rally-3d build",
+      "test": "pnpm --filter smash-rally-3d test"
+    },
+    "updatedAt": "2026-10-15T07:13:53Z"
   },
   {
     "id": "stackflow",
@@ -203,7 +237,7 @@ export const projects = [
       "build": "pnpm --filter stackflow build",
       "test": "pnpm --filter stackflow test"
     },
-    "updatedAt": "2026-07-15T15:28:50+00:00"
+    "updatedAt": "2026-09-30T02:06:43+09:00"
   },
   {
     "id": "wave-runner",
@@ -246,7 +280,7 @@ export const projects = [
       "build": "pnpm --filter wave-runner build",
       "test": "pnpm --filter wave-runner test"
     },
-    "updatedAt": "2026-09-17T12:08:02+00:00"
+    "updatedAt": "2026-09-30T02:06:43+09:00"
   },
   {
     "id": "blacksmith-clicker",
@@ -281,7 +315,7 @@ export const projects = [
       "build": "pnpm --filter blacksmith-clicker build",
       "test": "pnpm --filter blacksmith-clicker test"
     },
-    "updatedAt": "2026-07-15T15:28:50+00:00"
+    "updatedAt": "2026-09-30T02:06:43+09:00"
   },
   {
     "id": "altok-dragon-hatchery",
@@ -317,7 +351,7 @@ export const projects = [
       "build": "pnpm --filter altok-dragon-hatchery build",
       "test": "pnpm --filter altok-dragon-hatchery test"
     },
-    "updatedAt": "2026-07-15T15:28:50+00:00"
+    "updatedAt": "2026-09-30T02:06:43+09:00"
   },
   {
     "id": "dragon-danmaku",
@@ -355,7 +389,7 @@ export const projects = [
       "build": "pnpm --filter dragon-danmaku build",
       "test": "pnpm --filter dragon-danmaku test"
     },
-    "updatedAt": "2026-07-15T15:28:50+00:00"
+    "updatedAt": "2026-09-30T02:06:43+09:00"
   },
   {
     "id": "relic-king",
@@ -420,6 +454,6 @@ export const projects = [
       "playlog": "pnpm --filter relic-king playlog",
       "density": "pnpm --filter relic-king density"
     },
-    "updatedAt": "2026-09-26T12:20:13+00:00"
+    "updatedAt": "2026-09-30T02:06:43+09:00"
   }
 ] as const satisfies readonly ProjectMetadata[];

@@ -1,0 +1,10 @@
+native exit=0
+native-repeat-2 exit=0
+native-repeat-3 exit=0
+dialog exit=1
+flow exit=0
+pressure exit=0
+loss exit=0
+rotation exit=0
+defence exit=0
+rally exit=0

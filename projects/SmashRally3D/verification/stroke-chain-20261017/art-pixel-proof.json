@@ -1,0 +1,126 @@
+{
+  "method": "Exact raw PNG color isolation. Identical held pose/clock/camera;0changed pixels outside conservative athlete joint\u00b1.35m bounds. Not an experience score.",
+  "source": "refined-phases-art",
+  "results": [
+    {
+      "phase": "prepare",
+      "samePoseAndClock": true,
+      "changedPixels": 2024,
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          303,
+          180,
+          367,
+          274
+        ],
+        [
+          281,
+          156,
+          316,
+          201
+        ]
+      ]
+    },
+    {
+      "phase": "accelerate",
+      "samePoseAndClock": true,
+      "changedPixels": 3681,
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          297,
+          172,
+          378,
+          310
+        ],
+        [
+          263,
+          145,
+          315,
+          210
+        ]
+      ]
+    },
+    {
+      "phase": "contact",
+      "samePoseAndClock": true,
+      "changedPixels": 4668,
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          293,
+          150,
+          400,
+          307
+        ],
+        [
+          263,
+          144,
+          315,
+          209
+        ]
+      ]
+    },
+    {
+      "phase": "follow",
+      "samePoseAndClock": true,
+      "changedPixels": 3946,
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          301,
+          179,
+          393,
+          317
+        ],
+        [
+          263,
+          145,
+          315,
+          210
+        ]
+      ]
+    },
+    {
+      "phase": "landing",
+      "samePoseAndClock": true,
+      "changedPixels": 3328,
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          280,
+          181,
+          361,
+          315
+        ],
+        [
+          266,
+          146,
+          319,
+          213
+        ]
+      ]
+    },
+    {
+      "phase": "return",
+      "samePoseAndClock": true,
+      "changedPixels": 6573,
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          345,
+          192,
+          483,
+          359
+        ],
+        [
+          311,
+          150,
+          371,
+          224
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+BOOT TEXT SR3D
+YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT mobile-01-ready
+SHOT mobile-02-tap-serve
+SHOT mobile-03-clear-threshold
+Error: Swipe intent was recognized after swing lock {"last":{"shotIntent":"drop","target":{"x":-0.0017882127217099253,"y":0.025,"z":5.840786884355364},"issuedAt":11.483333333333322,"submittedAt":11.68333333333331,"pointerType":"touch","accepted":false},"time":11.783333333333305,"contactAt":null,"receiver":1,"input":null}

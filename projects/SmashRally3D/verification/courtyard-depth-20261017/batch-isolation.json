@@ -1,0 +1,80 @@
+{
+  "method": "Actual raw PNG equality in four original LOW serve-ready UI viewports, identical geometry/material/camera/light. Only BatchManager grouping differs. No game/clock injection.",
+  "results": [
+    {
+      "file": "scene-1065x606-ready.png",
+      "changedPixels": 0,
+      "changedBounds": null
+    },
+    {
+      "file": "scene-390x844-ready.png",
+      "changedPixels": 0,
+      "changedBounds": null
+    },
+    {
+      "file": "scene-844x390-ready.png",
+      "changedPixels": 0,
+      "changedBounds": null
+    },
+    {
+      "file": "scene-1280x720-ready.png",
+      "changedPixels": 0,
+      "changedBounds": null
+    }
+  ],
+  "beforeDrawCalls": [
+    [
+      "scene-1065x606-ready",
+      160
+    ],
+    [
+      "scene-1280x720-ready",
+      160
+    ],
+    [
+      "scene-844x390-ready",
+      160
+    ],
+    [
+      "scene-390x844-ready",
+      98
+    ]
+  ],
+  "afterDrawCalls": [
+    [
+      "scene-1065x606-ready",
+      92
+    ],
+    [
+      "scene-1280x720-ready",
+      92
+    ],
+    [
+      "scene-844x390-ready",
+      92
+    ],
+    [
+      "scene-390x844-ready",
+      84
+    ]
+  ],
+  "baselineDrawCalls": [
+    [
+      "scene-1065x606-ready",
+      95
+    ],
+    [
+      "scene-1280x720-ready",
+      95
+    ],
+    [
+      "scene-844x390-ready",
+      95
+    ],
+    [
+      "scene-390x844-ready",
+      71
+    ]
+  ],
+  "note": "All full-width views160\u219292; portrait98\u219284. Relative to original courtyard95/71, full-width\u22123 but portrait+13because static-group bounds reduce fine-grained culling. These are submitted draw calls, not physical FPS or experience points."
+}
