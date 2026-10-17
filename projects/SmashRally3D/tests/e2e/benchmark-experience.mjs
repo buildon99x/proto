@@ -5,6 +5,11 @@ export const meta = { viewport: { width: 640, height: 360 } };
 export async function run(ctx) {
   await playMatch(ctx);
   const recorded = JSON.parse(await readFile(path.resolve(process.env.SMASH_EVIDENCE_DIR, 'experience.json'), 'utf8'));
+  if(process.env.SMASH_REQUIRE_CUE) {
+    const contacts=recorded.match.shuttleContrast?.contacts;
+    if(contacts?.length!==recorded.match.shots.length || contacts.some(c=>c.visible))
+      throw Error('Contrast cue overlaps or misses an actual normal/Super contact audit');
+  }
   const lesson = recorded.match.lessons;
   if (recorded.commands.some(c => c.issued.shotIntent !== 'default')) throw Error('This attack-only match changed its intended lesson coverage');
   if (recorded.match.time < 32 || !lesson?.active || !lesson.returned || lesson.cleared || lesson.dropped)

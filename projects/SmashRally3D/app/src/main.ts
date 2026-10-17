@@ -41,7 +41,12 @@ import { MOTIONS, skeletonPose, sub } from './motion';
 import type { MotionName, SkeletonPose } from './motion';
 import { synthImpact, offlineImpacts, synthPoint, offlinePoints } from './audio';
 import { impactStyle, impactEnvelope } from './impact';
+import { shuttleContrast, shuttleContrastSvg } from './shuttle-contrast';
+import type { ShuttleContrast } from './shuttle-contrast';
 import './style.css';
+let currentContrast: ShuttleContrast | null = null;
+let contrastFrameHit: Hit | null = null;
+const contrastContacts: { time: number; visible: boolean }[] = [];
 const reviewContact = new URLSearchParams(location.search).get('review-contact');
 let reviewHit: Hit | null = null;
 const displayedPoses = new Map<Actor, SkeletonPose>();
@@ -56,6 +61,7 @@ let pendingContact: Hit | null = null;
 let renderedContact: { time: number; actor: number; shuttle: V3; racket: V3; contact: V3 } | null =
     null;
 let graphicsLost = false;
+let overlayOpener = '';
 const canvas = document.getElementById('application-canvas') as HTMLCanvasElement,
     ui = document.getElementById('ui')!,
     game = new Game();
@@ -176,10 +182,26 @@ function renderUI() {
         if (game.phase === 'RESULTS')
             overlay = `<section class="card result"><div class="eyebrow">MATCH COMPLETE</div><h2>${game.scores[0] === 5 ? 'YOU WIN' : 'KEEP RALLYING'}</h2><div class="final-score">${game.scores[0]} <span>—</span> ${game.scores[1]}</div><p>${game.shots.length} shots · Longest rally ${Math.max(0, ...game.points.map((p) => p.returns))} returns</p><button data-action="start" class="primary">PLAY AGAIN</button><button data-action="menu">Main menu</button></section>`;
         if (game.paused && !reviewHit)
-            overlay = `<section class="card"><div class="eyebrow">TAKE A BREATH</div><h2>PAUSED</h2><button data-action="resume" class="primary">CONTINUE</button><div class="row"><button data-action="start">Restart match</button><button data-action="menu">Main menu</button></div>${controls()}</section>`;
+            overlay = `<section class="card" role="dialog" aria-modal="true" aria-label="Paused"><div class="eyebrow">TAKE A BREATH</div><h2>PAUSED</h2><button data-action="resume" class="primary">CONTINUE</button><div class="row"><button data-action="start">Restart match</button><button data-action="menu">Main menu</button></div>${controls()}</section>`;
         if (panel)
             overlay = `<section class="card dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><div class="eyebrow">RALLY CLUB</div><h2 id="dialog-title">${panel === 'help' ? 'HOW TO PLAY' : 'SETTINGS'}</h2><div class="dialog-content" tabindex="0">${panel === 'help' ? '<p>Aim at the far court. Your player moves automatically.</p><ul><li>Click / tap: return or smash a high ball.</li><li>Shift + click / swipe up: deep clear.</li><li>Right click / swipe down: front-court drop.</li><li>Press at HIT NOW, just before contact.</li><li>Loose high ball + perfect timing: Super Smash. Aim deep; tight angles use a safe return.</li><li>Esc pauses. Five points wins; no deuce.</li></ul>' : controls()}</div><button data-action="close" class="primary">BACK</button></section>`;
-        ui.innerHTML = `<header class="hud"><div class="brand">SR<span>3D</span></div><div class="scoreboard"><div><small>YOU ${game.server === 0 ? '•' : ''}</small><b>${game.scores[0]}</b></div><div class="versus">FIRST TO 5</div><div><small>${game.server === 1 ? '• ' : ''}AI</small><b>${game.scores[1]}</b></div></div><button data-action="pause" class="pause" aria-label="Pause">II</button></header><div class="arena-label">RALLY CLUB<span>INDOOR SERIES / 01</span></div><div id="feedback" aria-live="polite"></div><div id="timing"></div><div class="shot-bar" ${['MENU', 'RESULTS'].includes(game.phase) ? 'hidden' : ''}>${(['clear', 'default', 'drop'] as Intent[]).map((s, i) => `<button data-shot="${s}" ${selected === s ? 'class="active"' : ''}><span>${['C', 'R', 'D'][i]}</span><em ${s === 'default' ? 'id="basic-label"' : ''}>${['CLEAR', 'RETURN', 'DROP'][i]}</em><small>${['SHIFT / SWIPE UP', 'CLICK / TAP', 'RIGHT / SWIPE DOWN'][i]}</small></button>`).join('')}</div><div id="tutorial" ${tutorial && game.phase === 'RALLY' ? '' : 'hidden'}></div>${overlay ? `<div class="overlay">${overlay}</div>` : ''}`;
+        const hadOverlay = !!ui.querySelector('.overlay');
+        const hadDialog = !!ui.querySelector('.dialog');
+        ui.innerHTML = `<header class="hud"><div class="brand">SR<span>3D</span></div><div class="scoreboard"><div><small>YOU ${game.server === 0 ? '•' : ''}</small><b>${game.scores[0]}</b></div><div class="versus">FIRST TO 5</div><div><small>${game.server === 1 ? '• ' : ''}AI</small><b>${game.scores[1]}</b></div></div><button data-action="pause" class="pause" aria-label="Pause">II</button></header><div class="arena-label">RALLY CLUB<span>INDOOR SERIES / 01</span></div><div id="feedback" aria-live="polite"></div><div id="timing"></div><div id="shuttle-contrast" aria-hidden="true" hidden>${shuttleContrastSvg}</div><div class="shot-bar" ${['MENU', 'RESULTS'].includes(game.phase) ? 'hidden' : ''}>${(['clear', 'default', 'drop'] as Intent[]).map((s, i) => `<button data-shot="${s}" ${selected === s ? 'class="active"' : ''}><span>${['C', 'R', 'D'][i]}</span><em ${s === 'default' ? 'id="basic-label"' : ''}>${['CLEAR', 'RETURN', 'DROP'][i]}</em><small>${['SHIFT / SWIPE UP', 'CLICK / TAP', 'RIGHT / SWIPE DOWN'][i]}</small></button>`).join('')}</div><div id="tutorial" ${tutorial && game.phase === 'RALLY' ? '' : 'hidden'}></div>${overlay ? `<div class="overlay">${overlay}</div>` : ''}`;
+        const overlayElement = ui.querySelector<HTMLElement>('.overlay');
+        for (const child of ui.children)
+            if (child instanceof HTMLElement && child !== overlayElement)
+                child.inert = !!overlayElement;
+        if (overlayOpener && ((hadDialog && !panel) || (hadOverlay && !overlayElement))) {
+            ui.querySelector<HTMLElement>(`[data-action="${overlayOpener}"]`)?.focus({
+                preventScroll: true,
+            });
+            overlayOpener = '';
+        } else if (overlayElement) {
+            overlayElement
+                .querySelector<HTMLElement>('input, select, .dialog-content, button')
+                ?.focus({ preventScroll: true });
+        }
     }
     const f = document.getElementById('feedback');
     if (f) {
@@ -288,10 +310,12 @@ ui.addEventListener('click', (e) => {
             audioEvents = 0;
             pendingContact = null;
             renderedContact = null;
+            contrastContacts.length = 0;
             acceptedLessonIntent = null;
             game.start();
             break;
         case 'pause':
+            overlayOpener = 'pause';
             if (!['MENU', 'RESULTS'].includes(game.phase)) game.paused = true;
             break;
         case 'resume':
@@ -306,6 +330,7 @@ ui.addEventListener('click', (e) => {
             break;
         case 'help':
         case 'settings':
+            overlayOpener = el.dataset.action;
             panel = el.dataset.action;
             break;
         case 'close':
@@ -335,7 +360,31 @@ ui.addEventListener('change', (e) => {
     }
 });
 window.addEventListener('keydown', (e) => {
+    const overlay = ui.querySelector<HTMLElement>('.overlay');
+    if (e.key === 'Tab' && overlay) {
+        const controls = [
+            ...overlay.querySelectorAll<HTMLElement>('button, input, select, [tabindex="0"]'),
+        ].filter((el) => !el.hasAttribute('disabled') && el.getClientRects().length > 0);
+        const first = controls[0],
+            last = controls.at(-1);
+        if (
+            first &&
+            last &&
+            (!overlay.contains(document.activeElement) ||
+                (e.shiftKey && document.activeElement === first) ||
+                (!e.shiftKey && document.activeElement === last))
+        ) {
+            e.preventDefault();
+            (e.shiftKey ? last : first).focus();
+        }
+    }
+    if (e.key === 'Escape' && panel) {
+        panel = '';
+        renderUI();
+        return;
+    }
     if (e.key === 'Escape' && !['MENU', 'RESULTS'].includes(game.phase)) {
+        overlayOpener = 'pause';
         game.paused = !game.paused;
         acc = 0;
         renderUI();
@@ -779,6 +828,8 @@ async function boot() {
     const player = makeActor(game.actors[0], '#ffba54'),
         opponent = makeActor(game.actors[1], '#8d9aff'),
         shuttle = model('shuttle');
+    const renderedCork = shuttle.findByName('cork') as Entity,
+        renderedFeathers = shuttle.findByName('feathers') as Entity;
     const shuttleMaterial = mat('#ffffff').clone();
     shuttleMaterial.emissive = new Color(0.85, 0.9, 1);
     shuttleMaterial.update();
@@ -1086,6 +1137,7 @@ async function boot() {
         for (const event of impactLedger)
             if (event.renderQueuedPerf === null) event.renderQueuedPerf = performance.now();
         renderUI();
+        contrastFrameHit = displayHit;
         if (reviewHit) {
             let badge = document.getElementById('review-badge');
             if (!badge) {
@@ -1097,6 +1149,33 @@ async function boot() {
             }
             badge.textContent = 'EVENT-PAUSED CONTACT INSPECTION — NOT NORMAL PLAY QA';
         }
+    });
+    // Renderer finalizes camera projection and hierarchy before this event.
+    // Match the visible cork in this exact frame, including camera recoil.
+    app.on('postrender', () => {
+        currentContrast = shuttleContrast({
+            cork: camera.camera!.worldToScreen(renderedCork.getPosition()),
+            tail: camera.camera!.worldToScreen(renderedFeathers.getPosition()),
+            height: shuttle.getPosition().y,
+            width: innerWidth,
+            viewportHeight: innerHeight,
+            rally: game.phase === 'RALLY',
+            paused: game.paused || !!reviewHit,
+            contact: !!contrastFrameHit,
+        });
+        const contrast = document.getElementById('shuttle-contrast');
+        if (contrast) {
+            contrast.hidden = !currentContrast.visible;
+            contrast.style.left = `${currentContrast.x}px`;
+            contrast.style.top = `${currentContrast.y}px`;
+            contrast.style.opacity = `${currentContrast.opacity}`;
+            contrast.style.transform = `translate(-50%, -50%) rotate(${currentContrast.angle}deg)`;
+        }
+        if (contrastFrameHit)
+            contrastContacts.push({
+                time: contrastFrameHit.time,
+                visible: currentContrast.visible,
+            });
     });
     app.on('frameend', () => {
         const h = queuedSound;
@@ -1129,6 +1208,10 @@ async function boot() {
                 .camera!.worldToScreen(new Vec3(game.p.x, game.p.y, game.p.z))
                 .clone(),
             renderedContact,
+            shuttleContrast: {
+                current: currentContrast,
+                contacts: contrastContacts.map((c) => ({ ...c })),
+            },
             impactVisible: impact.enabled,
             impactResponse: {
                 holding: performance.now() < holdUntil,

@@ -38,6 +38,7 @@ button:focus-visible {
     outline-offset: 3px;
 }
 select {
+    min-height: 44px;
     color: inherit;
     background: #213642;
     border: 1px solid #547078;
@@ -225,6 +226,8 @@ h2 {
     font-size: 13px;
 }
 .settings label {
+    min-height: 44px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -521,8 +524,8 @@ ul {
     font-size: 10px;
 }
 .hud .pause {
-    min-height: 42px;
-    width: 42px;
+    min-height: 44px;
+    width: 44px;
 }
 #feedback {
     top: 68px;
@@ -579,4 +582,22 @@ ul {
 .dialog-content:focus-visible {
     outline: 2px solid #ffcf7f;
     outline-offset: -2px;
+}
+
+/* The silhouette follows the rendered cork and never consumes aim/touch input. */
+#shuttle-contrast {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    pointer-events: none !important;
+    transform-origin: 50% 50%;
+}
+#shuttle-contrast[hidden] {
+    display: none;
+}
+
+select:focus-visible,
+.settings input:focus-visible {
+    outline: 2px solid #ffcf7f;
+    outline-offset: 3px;
 }

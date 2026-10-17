@@ -23,3 +23,8 @@ Start at906024b, preserve simple controls, close reference camera, physical cont
 
 ## Nintendo benchmark iteration — 2026-10-17
 Resume from acdebb9 on codex/smash-rally-3d. Build a frozen100-point experience rubric with98 as a target, not a claim. Preserve simple auto-footwork/aim/tap/swipe, accepted close camera, contact/flight solver and AI. First review a fresh normal-input baseline; prioritize observed dark athlete/racket/net separation, then time-driven beginner tips. Actual dot desktop, physical latency, listening and reference-video playback are unavailable in the selected container and remain unverified. Do not score unavailable evidence. Three stagnant attempts on the same issue require root-cause analysis and a different approach.
+
+
+High-shuttle follow-up2026-10-17:resume bc1c206. Improve the directly observed small white shuttle on bright sky with the same close camera, blue/purple court and intuitive controls. Freeze the existing rubric/weights. Compare background, cork material and contrast outline at a naturally reached held apex, explicitly diagnostic rather than normal play; then use ordinary inputs/1x actual recording for the selected production fix. Do not score audio or hardware feel without access.
+
+Follow-up U3: enlarge existing settings/pause controls to44CSSpx and contain keyboard focus within overlays, restoring the opener on close. Keep current controls and compact scrollable layout; no new gameplay requirements.

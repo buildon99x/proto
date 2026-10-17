@@ -25,11 +25,21 @@ export async function run({ page, sleep, shot, log }) {
       const point = camera.getPosition().clone();
       const project = (p) => { const s = camera.camera.worldToScreen(point.set(p.x, p.y, p.z)); return { x: s.x, y: s.y, z: s.z }; };
       const court = [-2.59, 2.59].flatMap(x => [-6.7, 6.7].map(z => project({x,y:0.025,z})));
-      window.framingState = { samples: 0, minFov: 180, maxFov: 0, clippedCourt: 0, clippedPlayers: 0, clippedShuttle: 0, maxHeight: 0, peak: null, court, spectators: app.root.find(n => n.name === 'spectator' || n.name === 'seating').length, view: { width: innerWidth, height: innerHeight, fov: camera.camera.fov, position: {...camera.getPosition()} }, aim: [] };
+      window.framingState = { contrast: { visible:0, maxAnchorError:0, nearContactVisible:0, pointerBlocking:0 }, samples: 0, minFov: 180, maxFov: 0, clippedCourt: 0, clippedPlayers: 0, clippedShuttle: 0, maxHeight: 0, peak: null, court, spectators: app.root.find(n => n.name === 'spectator' || n.name === 'seating').length, view: { width: innerWidth, height: innerHeight, fov: camera.camera.fov, position: {...camera.getPosition()} }, aim: [] };
       const inside = p => Number.isFinite(p.x) && p.x >= 2 && p.x <= innerWidth-2 && p.y >= 2 && p.y <= innerHeight-2 && p.z > 0;
       app.on('frameend', () => {
         const d = window.smashDiagnostics(), r = window.framingState;
         if (d.phase !== 'RALLY') return;
+        const c=d.shuttleContrast?.current, audit=r.contrast;
+        if(c?.visible){
+          audit.visible++;
+          const p=camera.camera.worldToScreen(app.root.findByName('cork').getPosition());
+          const e=document.querySelector('#shuttle-contrast'),b=e.getBoundingClientRect();
+          const error=Math.hypot(b.x+b.width/2-p.x,b.y+b.height/2-p.y);
+          if(error>audit.maxAnchorError){audit.maxAnchorError=error;audit.worst={time:d.time,cue:c,projection:{x:p.x,y:p.y},bounds:b.toJSON()};}
+          audit.nearContactVisible+=d.position.y<=3.4?1:0;
+          audit.pointerBlocking+=getComputedStyle(e).pointerEvents!=='none'?1:0;
+        }
         r.samples++; r.minFov=Math.min(r.minFov,camera.camera.fov); r.maxFov=Math.max(r.maxFov,camera.camera.fov);
         r.clippedCourt += court.filter(p => !inside(p)).length;
         for (const m of d.motions) for (const p of Object.values(m.skinPose.joints)) r.clippedPlayers += inside(project(p)) ? 0 : 1;
@@ -48,7 +58,7 @@ export async function run({ page, sleep, shot, log }) {
       d = await page.evaluate(() => window.smashDiagnostics());
       const cue = await page.$eval('#timing', e => e.textContent || '');
       if (!captured && d.position.y > 9 && Math.abs(d.velocity.y) < 2) {
-        highClearCapture = {time:d.time,position:d.position,velocity:d.velocity,flight:d.shots.length,screen:d.shuttleScreen};
+        highClearCapture = {time:d.time,position:d.position,velocity:d.velocity,flight:d.shots.length,screen:d.shuttleScreen,contrast:d.shuttleContrast?.current};
         await shot('court-' + viewport.name + '-high-clear');
         captured = true;
       }
@@ -76,6 +86,7 @@ export async function run({ page, sleep, shot, log }) {
     const result = {viewport, framing, taps, returns:d.returns, contacts:d.shots.length, playerContacts:d.shots.filter(h=>h.actor===0).length, capturedHighClear:captured, highClearCapture};
     results.push(result);log('COURT FRAMING', JSON.stringify(result));
     if (!process.env.SMASH_FRAMING_BASELINE) {
+      if(process.env.SMASH_REQUIRE_CUE && (!framing.contrast.visible || framing.contrast.maxAnchorError>.5 || framing.contrast.nearContactVisible || framing.contrast.pointerBlocking || d.shuttleContrast.contacts.some(c=>c.visible))) throw Error('Shuttle contrast anchoring/contact/input failed '+JSON.stringify(framing.contrast));
       if (framing.spectators) throw Error('spectators/seating remain');
       if (framing.clippedPlayers || framing.clippedShuttle) throw Error('actor/shuttle clipped in '+viewport.name); // Near court cropping is intentional per reference.
       if (!captured || framing.maxHeight < 9 || d.returns < 6) throw Error('high-clear/beginner rally not observed');
