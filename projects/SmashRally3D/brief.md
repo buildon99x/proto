@@ -41,3 +41,6 @@ Contact clarity cycle starts569cfb7,46/60reviewed40unknown. PriorM2=3shows centr
 
 
 V2 athlete-form cycle starts at3f18189:48/60 reviewed,40unverified. Select remaining original capsule/sphere anatomy gap, preserve both user-test candidate branches and all physics/input/camera/contact contracts. Author original garment/limb contours and facial form only; no third-party character copying.
+
+
+Point-camera follow-up2026-10-17: Fix the directly observed portrait post-point athlete crop on the existing athlete-form branch; preserve both older preview candidates and all score decisions.

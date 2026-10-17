@@ -1033,11 +1033,12 @@ async function boot() {
         if (!reviewHit && courtView) {
             const rally = game.phase === 'RALLY',
                 rem = game.contactAt - game.time;
+            const settled = game.phase === 'POINT_RESOLVED' || game.phase === 'RESULTS';
             const aiming = rally && game.receiver === 0 && rem < 0.45 && !game.actors[0].command;
             const recoverView = game.receiver === 0 && rem < 1.2;
             const cameraDt = Math.min(dt, 0.05);
             const factor = 1 - Math.exp(-cameraDt * 7);
-            if (!aiming) {
+            if (!aiming && !settled) {
                 const desiredX = rally ? Math.max(-1.8, Math.min(1.8, game.actors[0].p.x)) : 0;
                 const desiredZ = rally ? Math.max(-2.6, Math.min(0, game.actors[0].p.z + 3.4)) : 0;
                 cameraShift.x += (desiredX - cameraShift.x) * factor;
@@ -1046,7 +1047,7 @@ async function boot() {
                     rally && !recoverView ? Math.min(1, Math.max(0, (game.p.y - 4) / 4)) * 8 : 0;
                 cameraLift += (desiredLift - cameraLift) * factor;
             }
-            if (!rally) {
+            if (!rally && !settled) {
                 cameraShift = { x: 0, z: 0 };
                 cameraLift = 0;
             }
@@ -1074,11 +1075,20 @@ async function boot() {
                 z: game.p.z + game.v.z * lead,
             };
             const actors = [...cameraPoses.values()].flatMap((p) => Object.values(p.joints));
+            // A point leaves actors at their real landing positions. Keep the last
+            // tracking view until the next serve, including after a viewport turn.
+            // flightFov's horizontal inputs are relative to this view's centre.
+            const settledActors = settled
+                ? actors.flatMap((p) => [
+                      { ...p, x: p.x - position.x - 0.25, y: p.y + 0.25 },
+                      { ...p, x: p.x - position.x + 0.25, y: p.y - 0.15 },
+                  ])
+                : [];
             const wanted = flightFov(
                 view,
                 innerWidth,
                 innerHeight,
-                rally ? [displayShuttle, anticipated, ...actors] : [],
+                rally ? [displayShuttle, anticipated, ...actors] : settledActors,
             );
             // Tracking eases before the broad visible input window, then holds.
             // The actual finite actors/shuttle remain the visibility safety bound.
@@ -1086,11 +1096,11 @@ async function boot() {
                 view,
                 innerWidth,
                 innerHeight,
-                rally ? [displayShuttle, ...actors] : [],
+                rally ? [displayShuttle, ...actors] : settledActors,
             );
             camera.camera!.fov = Math.max(
                 currentRequired,
-                aiming
+                aiming || settled
                     ? camera.camera!.fov
                     : camera.camera!.fov +
                           (wanted - camera.camera!.fov) * Math.min(1, cameraDt * 14),

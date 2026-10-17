@@ -103,3 +103,6 @@ Selected visibility refinement: radius is min18CSSpx/4.2%viewportwidth, with20%c
 
 
 Athlete-form contract: retain exact17-joint hierarchy/rest/inverse binds and every animation channel/input/output value. Change only original athlete mesh contours/garment/face parts, preserve total standing size/grounding and existing binding conventions. No camera, motion, physics, prediction or contact-window edits. Side-by-side same-pose review is required because changed geometry cannot be byte-gated; untouched baseline repeats must match first.
+
+
+Point-camera follow-up2026-10-17: During POINT_RESOLVED/RESULTS preserve last rally tracking and retain finite-athlete visibility; restore existing ready camera on serve/restart. Do not change RALLY tracking, reference court proportions, simulation, poses, input or models. Compare actual UI rally→point→results→restart and rotation, keeping diagnostics distinct.

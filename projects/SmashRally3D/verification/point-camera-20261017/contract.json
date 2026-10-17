@@ -1,0 +1,14 @@
+{
+  "baseline": "4800d06863e2a94b7fdf08a90bce737d4be95a72",
+  "branch": "codex/smash-athlete-form-20261017",
+  "protectedRefs": {
+    "codex/smash-rally-3d": "569cfb7fad7cdc33c9f58aece271f0f9cba5fe2d",
+    "codex/smash-contact-clarity-20261017": "3f181892613ef7c4b898534efc062bb22f36f362"
+  },
+  "reviewedSubtotal": 48,
+  "reviewedWeight": 60,
+  "unverifiedWeight": 40,
+  "overallScore": null,
+  "V2": 4,
+  "rule": "No score changes from technical camera checks. Minimum point/result-only presentation change; no altered physics/AI/input/models or RALLY camera."
+}
