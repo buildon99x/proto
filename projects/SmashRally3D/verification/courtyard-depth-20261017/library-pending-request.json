@@ -1,0 +1,46 @@
+{
+  "uploads": [
+    {
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/courtyard-depth-20261017/delivery/04-courtyard-match-review.mp4",
+      "purpose": "create_library_file",
+      "library_artifact_type": "other"
+    },
+    {
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/courtyard-depth-20261017/delivery/01-courtyard-comparison.png",
+      "purpose": "create_library_file",
+      "library_artifact_type": "image"
+    },
+    {
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/courtyard-depth-20261017/delivery/02-centre-defence-frames.png",
+      "purpose": "create_library_file",
+      "library_artifact_type": "image"
+    },
+    {
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/courtyard-depth-20261017/delivery/03-pressure-defence-frames.png",
+      "purpose": "create_library_file",
+      "library_artifact_type": "image"
+    },
+    {
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/courtyard-depth-20261017/delivery/05-scorecard.png",
+      "purpose": "replace_library_file",
+      "library_file_id": "libfile_bb052cef5a88819186fa1584deb9ef58",
+      "expected_current_version": 0,
+      "version_reason": "Frozen rubric:43/55courtyard scope, newM2=3/5;46/60reviewed,40unverified,overall null"
+    },
+    {
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/courtyard-depth-20261017/delivery/08-opponent-contact-detail.png",
+      "purpose": "create_library_file",
+      "library_artifact_type": "image"
+    },
+    {
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/courtyard-depth-20261017/delivery/09-pressure-winner.png",
+      "purpose": "create_library_file",
+      "library_artifact_type": "image"
+    },
+    {
+      "local_path": "/workspace/proto/projects/SmashRally3D/verification/courtyard-depth-20261017/delivery/07-current-ready.png",
+      "purpose": "create_library_file",
+      "library_artifact_type": "image"
+    }
+  ]
+}

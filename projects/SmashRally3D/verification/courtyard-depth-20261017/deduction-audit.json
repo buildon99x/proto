@@ -1,0 +1,169 @@
+{
+  "baselineCommit": "ab5102d216cf0ed1cac4da2273f1e6962bd865b8",
+  "observedAtUtc": "2026-10-17T04:12:42.566643+00:00",
+  "rubricSha256": "acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+  "reviewedSubtotal": 41,
+  "reviewedWeight": 55,
+  "remainingDeductions": 14,
+  "unverifiedWeight": 45,
+  "overallScore": null,
+  "deductions": [
+    {
+      "id": "V1",
+      "name": "선수·라켓·네트의 분리",
+      "currentScore": 4,
+      "remaining": 1,
+      "frozenPassCriteria": "실루엣·라켓·네트 테이프가 배경과 분리되고 셔틀을 가리지 않는다;5점에는 dot 정상속도·레퍼런스 직접 관찰 필요",
+      "currentGap": "Actual normal-speed desktop and directly watched reference required by frozen criterion.",
+      "route": "blocked_device_reference"
+    },
+    {
+      "id": "V2",
+      "name": "캐릭터 재질·입체감",
+      "currentScore": 4,
+      "remaining": 1,
+      "frozenPassCriteria": "핵심 형태와 몸통/팔/라켓이 구분되며 어두운 덩어리·날아간 하이라이트 없음;독창적 아트",
+      "currentGap": "Simple capsule/sphere anatomy and expression remain; authored material is improved.",
+      "route": "code_art_possible"
+    },
+    {
+      "id": "V3",
+      "name": "공간·코트의 일관성",
+      "currentScore": 2,
+      "remaining": 3,
+      "frozenPassCriteria": "깊이·코트/외곽/배경 재질 계층이 읽히며 불필요한 장식이 경기보다 앞서지 않음",
+      "currentGap": "Large flat wall, identical dark window rectangles and overlapping oval foliage flatten the arena.",
+      "route": "selected_code_art"
+    },
+    {
+      "id": "V4",
+      "name": "스윙·실제 접촉의 가독성",
+      "currentScore": 4,
+      "remaining": 1,
+      "frozenPassCriteria": "신체/라켓의 인과가 읽힘;물리/표시 일치는 별도 기술 게이트이며 그 통과 자체로 가점하지 않음",
+      "currentGap": "Foot roll, lower strokes and broader follow-through/body support need further direct frame work.",
+      "route": "code_motion_possible"
+    },
+    {
+      "id": "C1",
+      "name": "단순한 기본 조작",
+      "currentScore": 4,
+      "remaining": 1,
+      "frozenPassCriteria": "자동 이동+조준+한 번 입력으로 기본 랠리;기존 입력 유지;5점은 초보3명 중3명이 도움 없이3회 내 시작",
+      "currentGap": "Three beginners starting unaided is not observed.",
+      "route": "blocked_participants"
+    },
+    {
+      "id": "C2",
+      "name": "조준과 결과 설명",
+      "currentScore": 3,
+      "remaining": 2,
+      "frozenPassCriteria": "조준/실제 샷/안전 폴백의 관계가 시각적으로 설명되고 잘못된 공격 약속 없음",
+      "currentGap": "Current target ring/shot/fallback relation needs closer ordinary mouse/touch frame inspection; hardware feel is not a C2 requirement.",
+      "route": "code_ui_and_review_possible"
+    },
+    {
+      "id": "U1",
+      "name": "첫 경기 학습·안내",
+      "currentScore": 4,
+      "remaining": 1,
+      "frozenPassCriteria": "안내가 실제 수행과 현재 상태를 따르고 강제 조작·시간만으로 숙련 판정하지 않음;5점은 초보3명 검증",
+      "currentGap": "Three beginners validation missing.",
+      "route": "blocked_participants"
+    },
+    {
+      "id": "U2",
+      "name": "득점·실패·재경기 흐름",
+      "currentScore": 4,
+      "remaining": 1,
+      "frozenPassCriteria": "누가 왜 득점했는지와 다음 행동이 명확,경기 끝에 다음서브 오안내 없음;5점은 자연 플레이 관찰",
+      "currentGap": "Natural play flow observation remains incomplete beyond automated matches.",
+      "route": "partial_observation_possible"
+    },
+    {
+      "id": "U3",
+      "name": "가독성·접근성·화면 적응",
+      "currentScore": 4,
+      "remaining": 1,
+      "frozenPassCriteria": "44px 조작영역·본문 스크롤·명확한 포커스;5점은스크린리더/줌/전체포커스 및 실기기 추가 확인",
+      "currentGap": "Full screen-reader/zoom/focus and real-device verification missing; zoom/focus can be partly expanded in software.",
+      "route": "partial_software_possible"
+    },
+    {
+      "id": "M1",
+      "name": "샷 종류와 경기 맥락",
+      "currentScore": 4,
+      "remaining": 1,
+      "frozenPassCriteria": "다른 궤적/높이/회복/기회가 실제로 드러남;셔틀 속도만 증가시키는 연출 금지",
+      "currentGap": "Net exchange/contextual shot and recovery variety need additional ordinary play observation; human enjoyment is not this item's explicit requirement.",
+      "route": "ordinary_play_review_possible"
+    },
+    {
+      "id": "M4",
+      "name": "스포츠 규칙·공간의 인과",
+      "currentScore": 4,
+      "remaining": 1,
+      "frozenPassCriteria": "라인·네트·코트/점수/서브의 관계가 이해되고 순간이동·가짜타점 없음;회귀통과만으로 경험점수 지급 금지",
+      "currentGap": "Net/OUT and spatial fault cause beyond observed IN match need further ordinary-input inspection.",
+      "route": "ordinary_play_review_possible"
+    }
+  ],
+  "unverified": [
+    {
+      "id": "V5",
+      "name": "정상속도 동작의 자연스러움",
+      "condition": "dot에서 실제 정상속도 플레이 및 레퍼런스 영상 직접 시청",
+      "route": "No physical desktop/device/audio-output listening or reference-video viewing capability exposed. Required human/device conditions remain unavailable."
+    },
+    {
+      "id": "C3",
+      "name": "실기기 입력 반응",
+      "condition": "dot 실기기 mouse/touch 이벤트→첫 표시프레임 고속기록 각30회",
+      "route": "No physical desktop/device/audio-output listening or reference-video viewing capability exposed. Required human/device conditions remain unavailable."
+    },
+    {
+      "id": "C4",
+      "name": "타격감·예측 가능성",
+      "condition": "dot 일반입력 정상속도 3명 각10랠리+실제 청음",
+      "route": "No physical desktop/device/audio-output listening or reference-video viewing capability exposed. Required human/device conditions remain unavailable."
+    },
+    {
+      "id": "C5",
+      "name": "모바일 편안함",
+      "condition": "실물 가로·세로 기기 각10분 자연 플레이",
+      "route": "No physical desktop/device/audio-output listening or reference-video viewing capability exposed. Required human/device conditions remain unavailable."
+    },
+    {
+      "id": "A1",
+      "name": "셔틀·스트링 음색",
+      "condition": "dot 헤드폰/스피커에서 일반·드롭·스매시·강한 스매시 각10회 직접 청음",
+      "route": "No physical desktop/device/audio-output listening or reference-video viewing capability exposed. Required human/device conditions remain unavailable."
+    },
+    {
+      "id": "A2",
+      "name": "타격과 소리의 지각 동기",
+      "condition": "dot 실제 AV기록 및 청음;접촉/스케줄러 로그 별도",
+      "route": "No physical desktop/device/audio-output listening or reference-video viewing capability exposed. Required human/device conditions remain unavailable."
+    },
+    {
+      "id": "A3",
+      "name": "강약·득점·음량 균형",
+      "condition": "동일 청음 볼륨으로 clear/drop/normal/super/득점/무음 전환",
+      "route": "No physical desktop/device/audio-output listening or reference-video viewing capability exposed. Required human/device conditions remain unavailable."
+    },
+    {
+      "id": "M2",
+      "name": "관찰 가능한 상대 수비",
+      "condition": "동일 일반입력 NORMAL/HARD 센터소프트 각3회와 다른 압박 패턴",
+      "route": "Existing software-rendered ordinary-input defence videos and literal frames can support a new bounded M2 review; do not score from counters alone."
+    },
+    {
+      "id": "M3",
+      "name": "반복 경기의 공정함·깊이",
+      "condition": "dot 초보/숙련 각3명·10경기, 승률·전술·지루함 면담",
+      "route": "No physical desktop/device/audio-output listening or reference-video viewing capability exposed. Required human/device conditions remain unavailable."
+    }
+  ],
+  "selectedIssue": "V3 background depth/material hierarchy; keep camera, light, court, actor, physics, input and AI byte/state-identical",
+  "scope": "Original procedural club courtyard only; no copied background, spectators, logo, default promotion or main merge. Do not infer points from passing automation."
+}

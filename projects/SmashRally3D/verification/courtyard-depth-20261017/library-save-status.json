@@ -1,0 +1,25 @@
+{
+  "attemptedAtUtc": "2026-10-17T04:15:03.654325+00:00",
+  "sourceDeliverables": "../stroke-chain-20261017/delivery",
+  "requestedFiles": 7,
+  "status": "failed_before_upload_preparation",
+  "savedFiles": 0,
+  "error": "library upload failed: hosted apps tools/list request failed: network",
+  "scorecardLibraryFileId": "libfile_bb052cef5a88819186fa1584deb9ef58",
+  "expectedCurrentVersion": 0,
+  "scorecardChanged": false,
+  "retryOrDirectFallback": false,
+  "quotaErrorObserved": false,
+  "note": "Native Library read still resolves the same existing scorecard/backing file. The required official batch helper in this selected shell fails during read-only discovery; this does not prove an app disconnection. No second write attempt or direct fallback was made.",
+  "nativeReadAfterFailure": {
+    "library_file_id": "libfile_bb052cef5a88819186fa1584deb9ef58",
+    "file_id": "file_0000000095f081f78128589af8621ba1",
+    "version_id": null,
+    "name": "03-scorecard.png",
+    "size_bytes": 126907
+  },
+  "shellAppsEndpointConfigured": false,
+  "currentCycleDeliverables": "delivery/",
+  "latestCycleSavedFiles": 0,
+  "latestCycleBatchNotAttemptedAgain": "Same selected-shell transport failure and no endpoint configuration change; no duplicate write or direct fallback. New current46/60deliverables are retained inGit with an explicit pending batch."
+}

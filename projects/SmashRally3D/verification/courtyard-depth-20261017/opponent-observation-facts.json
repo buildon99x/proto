@@ -1,0 +1,70 @@
+{
+  "method": "Read original unchanged controller DROP MATCH outputs. First recorded observation is a perception sampling timestamp, not first physical movement or real input/AV latency. Technical facts support frame interpretation; they are not automatic experience points.",
+  "windows": [
+    {
+      "folder": "final-defence",
+      "difficulty": "NORMAL",
+      "pattern": "centre-soft",
+      "attempts": 3,
+      "actualReturns": 3,
+      "directWinners": 0,
+      "firstRecordedObservationAfterHitSimSeconds": [
+        0.30000000000001137,
+        0.3000000000000149,
+        0.3083333333333158
+      ],
+      "goodPerfectDirectWinners": 0
+    },
+    {
+      "folder": "final-defence",
+      "difficulty": "HARD",
+      "pattern": "centre-soft",
+      "attempts": 3,
+      "actualReturns": 3,
+      "directWinners": 0,
+      "firstRecordedObservationAfterHitSimSeconds": [
+        0.18333333333333668,
+        0.18333333333334245,
+        0.1833333333333229
+      ],
+      "goodPerfectDirectWinners": 0
+    },
+    {
+      "folder": "final-pressure",
+      "difficulty": "NORMAL",
+      "pattern": "wide-soft",
+      "attempts": 10,
+      "actualReturns": 9,
+      "directWinners": 1,
+      "firstRecordedObservationAfterHitSimSeconds": [
+        0.30000000000001226,
+        0.3000000000000149,
+        0.3083333333333158,
+        0.3083333333333158,
+        0.3083333333333158,
+        0.3083333333333158,
+        0.3083333333333158,
+        0.3083333333333158,
+        0.3083333333333158,
+        0.3083333333333158
+      ],
+      "goodPerfectDirectWinners": 1
+    },
+    {
+      "folder": "final-pressure",
+      "difficulty": "NORMAL",
+      "pattern": "clear-soft",
+      "attempts": 5,
+      "actualReturns": 5,
+      "directWinners": 0,
+      "firstRecordedObservationAfterHitSimSeconds": [
+        0.3000000000000149,
+        0.3083333333333176,
+        0.3083333333333158,
+        0.3083333333333158,
+        0.3083333333333158
+      ],
+      "goodPerfectDirectWinners": 0
+    }
+  ]
+}

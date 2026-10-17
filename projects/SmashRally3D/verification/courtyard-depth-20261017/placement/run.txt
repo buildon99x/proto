@@ -1,0 +1,27 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+
+Read the flight. Find the space.
+Make your next shot count.
+
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT placement-west-front
+SHOT placement-west-rear-high
+COURTYARD PLACEMENT PASS {"heldTimeUnchanged":true,"originalUpdate":true,"timeScale":1,"autoRender":true,"cameraRoundTripMaxDelta":0}
