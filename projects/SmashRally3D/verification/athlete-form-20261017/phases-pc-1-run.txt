@@ -1,0 +1,53 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+
+Read the flight. Find the space.
+Make your next shot count.
+
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT ready-baseline
+SHOT ready-baseline-repeat
+SHOT ready-candidate
+SHOT ready-baseline-restored
+SHOT prepare-baseline
+SHOT prepare-baseline-repeat
+SHOT prepare-candidate
+SHOT prepare-baseline-restored
+SHOT accelerate-baseline
+SHOT accelerate-baseline-repeat
+SHOT accelerate-candidate
+SHOT accelerate-baseline-restored
+SHOT contact-baseline
+SHOT contact-baseline-repeat
+SHOT contact-candidate
+SHOT contact-baseline-restored
+SHOT follow-baseline
+SHOT follow-baseline-repeat
+SHOT follow-candidate
+SHOT follow-baseline-restored
+SHOT landing-baseline
+SHOT landing-baseline-repeat
+SHOT landing-candidate
+SHOT landing-baseline-restored
+SHOT return-baseline
+SHOT return-baseline-repeat
+SHOT return-candidate
+SHOT return-baseline-restored
+ATHLETE FORM STUDY PASS {"samples":7,"restore":{"originalUpdate":true,"timeScale":1,"autoRender":true,"allCurrentMeshes":true}}

@@ -1,0 +1,326 @@
+{
+  "status": "Directly observed pre-existing issue, not introduced by geometry",
+  "condition": "Portrait timed return checkpoint after a real normal smash; source UI shows YOU1–AI0/YOUR POINT, so this checkpoint has already entered point resolution.",
+  "finding": "Near athlete extends beyond the right viewport in BOTH imported original and current geometry. This is not a full-body visibility pass; the contact checkpoint still shows the full athlete.",
+  "cameraAndPosesSame": true,
+  "state": {
+    "time": 10.1083333333334,
+    "camera": {
+      "p": {
+        "x": 0,
+        "y": 3.0765254497528076,
+        "z": -10.327746391296387
+      },
+      "q": {
+        "x": 0,
+        "y": 0.9975640505394667,
+        "z": 0.069756469745051,
+        "w": 0
+      },
+      "fov": 48.00091210084612
+    },
+    "poses": [
+      {
+        "joints": {
+          "Hip": {
+            "x": -1.2915701154380006,
+            "y": 0.92,
+            "z": -4.819630062339425
+          },
+          "Spine": {
+            "x": -1.2915701154380006,
+            "y": 1.2000000000000002,
+            "z": -4.797630062339425
+          },
+          "Chest": {
+            "x": -1.2915701154380006,
+            "y": 1.4200000000000002,
+            "z": -4.787630062339425
+          },
+          "Neck": {
+            "x": -1.2915701154380006,
+            "y": 1.58,
+            "z": -4.787630062339425
+          },
+          "Head": {
+            "x": -1.2915701154380006,
+            "y": 1.71,
+            "z": -4.787630062339425
+          },
+          "ShoulderR": {
+            "x": -1.0215701154380006,
+            "y": 1.4400000000000002,
+            "z": -4.787630062339425
+          },
+          "ElbowR": {
+            "x": -0.8211581165851128,
+            "y": 1.1622148864691348,
+            "z": -4.676857947543172
+          },
+          "WristR": {
+            "x": -0.7715701154380006,
+            "y": 0.8600000000000003,
+            "z": -4.487630062339425
+          },
+          "ShoulderL": {
+            "x": -1.5615701154380006,
+            "y": 1.4400000000000002,
+            "z": -4.787630062339425
+          },
+          "ElbowL": {
+            "x": -1.913587952455659,
+            "y": 1.3693288123631786,
+            "z": -4.761380764074319
+          },
+          "WristL": {
+            "x": -1.7115701154380005,
+            "y": 1.0900000000000003,
+            "z": -4.657630062339425
+          },
+          "HipR": {
+            "x": -1.1315701154380007,
+            "y": 0.92,
+            "z": -4.819630062339425
+          },
+          "KneeR": {
+            "x": -1.0951146480810219,
+            "y": 0.5183149138034567,
+            "z": -4.670566014269276
+          },
+          "AnkleR": {
+            "x": -1.057149918472819,
+            "y": 0.09999999999999998,
+            "z": -4.762605745882219
+          },
+          "HipL": {
+            "x": -1.4515701154380005,
+            "y": 0.92,
+            "z": -4.819630062339425
+          },
+          "KneeL": {
+            "x": -1.4565701154380006,
+            "y": 0.51,
+            "z": -4.690111723869539
+          },
+          "AnkleL": {
+            "x": -1.4615701154380005,
+            "y": 0.09999999999999998,
+            "z": -4.819630062339425
+          }
+        },
+        "racket": {
+          "center": {
+            "x": -0.7715701154380006,
+            "y": 1.3200000000000003,
+            "z": -4.487630062339425
+          },
+          "normal": {
+            "x": 0.3101844075994442,
+            "y": 0,
+            "z": 0.9506764082915816
+          },
+          "shaft": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "hand": {
+            "x": -0.7715701154380006,
+            "y": 0.8600000000000003,
+            "z": -4.487630062339425
+          },
+          "active": false,
+          "reachable": true,
+          "phase": 0.891666666666616,
+          "receiverSide": -1,
+          "strokePhase": "ready"
+        },
+        "hipHeight": 0.92,
+        "hop": 0,
+        "motion": "Ready",
+        "footPhases": {
+          "left": false,
+          "right": false
+        },
+        "footCycles": {
+          "left": 20,
+          "right": 19
+        }
+      },
+      {
+        "joints": {
+          "Hip": {
+            "x": -0.708613255144474,
+            "y": 0.92,
+            "z": 3.6427478986905926
+          },
+          "Spine": {
+            "x": -0.708613255144474,
+            "y": 1.2000000000000002,
+            "z": 3.6207478986905928
+          },
+          "Chest": {
+            "x": -0.708613255144474,
+            "y": 1.4200000000000002,
+            "z": 3.610747898690593
+          },
+          "Neck": {
+            "x": -0.708613255144474,
+            "y": 1.58,
+            "z": 3.610747898690593
+          },
+          "Head": {
+            "x": -0.708613255144474,
+            "y": 1.71,
+            "z": 3.610747898690593
+          },
+          "ShoulderR": {
+            "x": -0.9786132551444741,
+            "y": 1.4400000000000002,
+            "z": 3.610747898690593
+          },
+          "ElbowR": {
+            "x": -1.1790252539973616,
+            "y": 1.1622148864691348,
+            "z": 3.4999757838943393
+          },
+          "WristR": {
+            "x": -1.2286132551444742,
+            "y": 0.8600000000000003,
+            "z": 3.310747898690593
+          },
+          "ShoulderL": {
+            "x": -0.438613255144474,
+            "y": 1.4400000000000002,
+            "z": 3.610747898690593
+          },
+          "ElbowL": {
+            "x": -0.08659541812681565,
+            "y": 1.3693288123631786,
+            "z": 3.584498600425488
+          },
+          "WristL": {
+            "x": -0.288613255144474,
+            "y": 1.0900000000000003,
+            "z": 3.480747898690593
+          },
+          "HipR": {
+            "x": -0.8686132551444741,
+            "y": 0.92,
+            "z": 3.6427478986905926
+          },
+          "KneeR": {
+            "x": -0.8487705666398597,
+            "y": 0.5177616931513433,
+            "z": 3.492047493195336
+          },
+          "AnkleR": {
+            "x": -0.828162098959825,
+            "y": 0.09999999999999987,
+            "z": 3.5917994796176815
+          },
+          "HipL": {
+            "x": -0.548613255144474,
+            "y": 0.92,
+            "z": 3.6427478986905926
+          },
+          "KneeL": {
+            "x": -0.5399165553936491,
+            "y": 0.5112553696555703,
+            "z": 3.509510536895789
+          },
+          "AnkleL": {
+            "x": -0.5311664356237692,
+            "y": 0.09999999999999998,
+            "z": 3.634780071633781
+          }
+        },
+        "racket": {
+          "center": {
+            "x": -1.2286132551444742,
+            "y": 1.3200000000000003,
+            "z": 3.310747898690593
+          },
+          "normal": {
+            "x": -0.31380499166117365,
+            "y": 0,
+            "z": -0.9494874550032406
+          },
+          "shaft": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "hand": {
+            "x": -1.2286132551444742,
+            "y": 0.8600000000000003,
+            "z": 3.310747898690593
+          },
+          "active": false,
+          "reachable": true,
+          "phase": 3.158333333333265,
+          "receiverSide": 1,
+          "strokePhase": "ready"
+        },
+        "hipHeight": 0.92,
+        "hop": 0,
+        "motion": "Ready",
+        "footPhases": {
+          "left": false,
+          "right": false
+        },
+        "footCycles": {
+          "left": 21,
+          "right": 20
+        }
+      }
+    ],
+    "shuttle": {
+      "x": 1.8000085711853842,
+      "y": 0.025,
+      "z": 5.800025970983458
+    },
+    "renderedContact": {
+      "time": 9.358333333333443,
+      "actor": 0,
+      "shuttle": {
+        "x": -1.8306124201433485,
+        "y": 2.839067097203553,
+        "z": -5.327839457997369
+      },
+      "racket": {
+        "x": -1.8111696243286133,
+        "y": 2.6482295989990234,
+        "z": -5.386024475097656
+      },
+      "contact": {
+        "x": -1.8111696155893262,
+        "y": 2.648229670804624,
+        "z": -5.386024415083479
+      }
+    },
+    "contactVisibility": {
+      "x": 90.94338231247394,
+      "y": 466.93353142841437,
+      "radius": 16.38,
+      "strength": 0
+    }
+  },
+  "files": [
+    {
+      "file": "phases-portrait-1/return-baseline.png",
+      "sha256": "4aeeba6b684d88ccef84663ee51f339772a38bf723ea73e84e2bfa634a335e83"
+    },
+    {
+      "file": "phases-portrait-1/return-candidate.png",
+      "sha256": "1e1c71b6ad79c71ae2334f2ab6c27b0fd4641570a73de7f8041fb32ce7567b4c"
+    },
+    {
+      "file": "phases-portrait-1/contact-candidate.png",
+      "sha256": "c77e671face4a3cb05db7f4ed73798153ed233c89b8937663509b672a60afee5"
+    }
+  ],
+  "causeScope": "Existing non-rally camera reset/tracking is unchanged in main.ts; geometry only changed. Do not widen this frozen V2cycle to a camera fix or hide the defect with a different capture.",
+  "nextAccessibleItem": "Point-resolution portrait camera preserves whole player while maintaining reference rally/ready framing; separate future cycle.",
+  "scopeCaveat": "Stage names include timed checkpoints. Return at +0.72s can be a resolved point, not uninterrupted rally or proof of full-body return motion."
+}

@@ -1,0 +1,22 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "modelHashes": {
+      "athlete-gold-baseline.glb": "1cc18e850e20f4935beaf6313e9717440b2454f8c55762ca4b3e7950330e1b03",
+      "athlete-gold.glb": "8e9301e591a4612d20f35727a85ac1a9d9df7496e6312e4769b7a0f79858ed4d",
+      "athlete-violet-baseline.glb": "993df511f9ebc57f93e362148cbd75297be3a3ff29d7e1cd00e4ba02548a7c36",
+      "athlete-violet.glb": "e94409976350cd6fa8b8bb0c7191baf2e980fb9f47448574d7e4a756f28b6534",
+      "court.glb": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47",
+      "racket.glb": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13",
+      "shuttle.glb": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+    },
+    "sourceBundle": "./assets/index-IddYOBeI.js",
+    "sha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6",
+    "startedAt": "2026-10-17T06:32:59.500Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "ATHLETE FORM STUDY PASS {\"samples\":1,\"restore\":{\"originalUpdate\":true,\"timeScale\":1,\"autoRender\":true,\"allCurrentMeshes\":true}}"
+  ]
+}

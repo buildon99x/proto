@@ -1,0 +1,20 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "modelHashes": {
+      "athlete-gold.glb": "8e9301e591a4612d20f35727a85ac1a9d9df7496e6312e4769b7a0f79858ed4d",
+      "athlete-violet.glb": "e94409976350cd6fa8b8bb0c7191baf2e980fb9f47448574d7e4a756f28b6534",
+      "court.glb": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47",
+      "racket.glb": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13",
+      "shuttle.glb": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+    },
+    "sourceBundle": "./assets/index-IddYOBeI.js",
+    "sha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6",
+    "startedAt": "2026-10-17T07:11:21.763Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "DIALOG PASS {\"results\":[{\"view\":{\"width\":640,\"height\":360},\"scrollTop\":132,\"scrollHeight\":302,\"height\":170,\"footer\":{\"x\":159,\"y\":275,\"width\":322,\"height\":44,\"top\":275,\"right\":481,\"bottom\":319,\"left\":159},\"role\":\"dialog\"},{\"view\":{\"width\":844,\"height\":390},\"scrollTop\":102,\"scrollHeight\":302,\"height\":200,\"footer\":{\"x\":261,\"y\":305,\"width\":322,\"height\":44,\"top\":305,\"right\":583,\"bottom\":349,\"left\":261},\"role\":\"dialog\"},{\"view\":{\"width\":390,\"height\":844},\"scrollTop\":0,\"scrollHeight\":302,\"height\":302,\"footer\":{\"x\":38.59375,\"y\":587.03125,\"width\":312.796875,\"height\":44,\"top\":587.03125,\"right\":351.390625,\"bottom\":631.03125,\"left\":38.59375},\"role\":\"dialog\"},{\"view\":{\"width\":320,\"height\":568},\"scrollTop\":33,\"scrollHeight\":395,\"height\":362,\"footer\":{\"x\":35.796875,\"y\":479,\"width\":248.390625,\"height\":44,\"top\":479,\"right\":284.1875,\"bottom\":523,\"left\":35.796875},\"role\":\"dialog\"}],\"method\":\"Actual mouse focus, keyboard End/Tab/Enter; read-only bounds. Not a complete focus-trap or screen-reader audit.\"}"
+  ]
+}

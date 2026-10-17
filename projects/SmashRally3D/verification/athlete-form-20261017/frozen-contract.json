@@ -1,0 +1,24 @@
+{
+  "baselineCommit": "3f181892613ef7c4b898534efc062bb22f36f362",
+  "runtimeBaselineCommit": "6456f740388b49aacfeb280bd6afe27518d26f25",
+  "baselineRuntimeSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6",
+  "baselineReviewedSubtotal": 48,
+  "reviewedWeight": 60,
+  "unverifiedWeight": 40,
+  "overallScore": null,
+  "target98Achieved": false,
+  "rubricSha256": "acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+  "selectedCriterion": {
+    "id": "V2",
+    "category": "visual",
+    "name": "캐릭터 재질·입체감",
+    "weight": 5,
+    "condition": "같은 포즈·조명에서 몸/팔/의상/머리·상대 구별을 직접 관찰",
+    "pass_criteria": "핵심 형태와 몸통/팔/라켓이 구분되며 어두운 덩어리·날아간 하이라이트 없음;독창적 아트"
+  },
+  "priorScore": 4,
+  "selectedGap": "Simple capsule/sphere anatomy and expression remain. Largest code/art opportunity among equally1-point remaining known gaps; participant/device items cannot be solved by coding.",
+  "allowedChange": "Only authored mesh contours and garment/face geometry for original two athletes. Preserve exact17joint hierarchy/rest binds, animation input/output values, game/physics/AI/prediction, camera, racket/cork/court assets, controls and prior contact aperture. No runtime actor scale/translation compensations.",
+  "comparisonGate": "Geometry values change: not byte-gateable inside athlete. Repeat untouched baseline exact twice; compare same state/clock/camera/material for ready, side/overhead mid-motion and actual contact. Preserve outside conservative athlete projection regions; do not invent a quality threshold.",
+  "stagnationRule": "After three observations without improvement change approach, not the rubric or gate."
+}

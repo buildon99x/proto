@@ -1,0 +1,42 @@
+{
+  "method": "Nine literal decoded samples from actual software wall-clock H264/AAC match/rematch recording. Inspection checks the encoded deliverable; it is not continuous normal-speed human playback, physical-device AV latency or actual listening.",
+  "durationSeconds": 175.9,
+  "samples": [
+    {
+      "file": "delivery/decoded-video/00.png",
+      "videoSeconds": 0.0
+    },
+    {
+      "file": "delivery/decoded-video/01.png",
+      "videoSeconds": 21.962500000000002
+    },
+    {
+      "file": "delivery/decoded-video/02.png",
+      "videoSeconds": 43.925000000000004
+    },
+    {
+      "file": "delivery/decoded-video/03.png",
+      "videoSeconds": 65.8875
+    },
+    {
+      "file": "delivery/decoded-video/04.png",
+      "videoSeconds": 87.85000000000001
+    },
+    {
+      "file": "delivery/decoded-video/05.png",
+      "videoSeconds": 109.81250000000001
+    },
+    {
+      "file": "delivery/decoded-video/06.png",
+      "videoSeconds": 131.775
+    },
+    {
+      "file": "delivery/decoded-video/07.png",
+      "videoSeconds": 153.7375
+    },
+    {
+      "file": "delivery/decoded-video/08.png",
+      "videoSeconds": 175.70000000000002
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+athlete-gold.glb 17 weighted joints, 9 full-body clips
+athlete-violet.glb 17 weighted joints, 9 full-body clips

@@ -1,0 +1,9 @@
+{
+  "method": "Run the same committed source generator again; both model binaries remain exactly identical. No external assets or random inputs.",
+  "identical": true,
+  "hashes": {
+    "athlete-gold.glb": "8e9301e591a4612d20f35727a85ac1a9d9df7496e6312e4769b7a0f79858ed4d",
+    "athlete-violet.glb": "e94409976350cd6fa8b8bb0c7191baf2e980fb9f47448574d7e4a756f28b6534"
+  },
+  "generatorSha256": "9135de2733076ac0f2123330a6eaa41f4984f1707d36f7e464e8dacc89ed5968"
+}

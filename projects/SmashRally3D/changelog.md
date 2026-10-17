@@ -42,3 +42,10 @@ Replaced rigid torso-only actors with common weighted skeletons, planted feet an
 - Distinguish accepted gold aim from cyan solver target and explain actual shot/safe fallback in the existing feedback slot, preserving mouse and native gesture controls.
 - 81 strict tests/full root build, 14 original plus two additional functional browser cases, and three separate diagnostics pass on one fixed bundle. Direct bounded review changes only C2/M2 from 3 to 4: 48/60 reviewed, 40 unverified, overall null.
 - Isolate delivery on `codex/smash-contact-clarity-20261017` so the original user-tested `codex/smash-rally-3d` candidate stays at569cfb7. Evidence: `verification/contact-clarity-20261017`.
+
+
+## 2026-10-17 — original athlete contours, isolated candidate
+
+- Author fitted jersey/sleeve/shorts, anatomical limb taper, trainer and jaw/ear/brow contours while preserving exact rig, clips, materials, grounding and all game/camera/control logic.
+- Retain literal matched-pose PC/portrait comparisons and final 81-unit/full-build/21-browser-report evidence. V2 remains4/5; reviewed48/60 and unknown40 remain unchanged.
+- Record pre-existing portrait point-resolution player clipping in both old/new forms. Keep569cfb7 and3f18189 branches untouched; use `codex/smash-athlete-form-20261017` for this candidate. Evidence: `verification/athlete-form-20261017`.

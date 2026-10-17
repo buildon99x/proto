@@ -1,0 +1,282 @@
+[
+  {
+    "file": "projects/SmashRally3D/app/public/assets/models/athlete-gold.glb",
+    "aabb": {
+      "min": [
+        -0.405,
+        0.04,
+        -0.195
+      ],
+      "max": [
+        0.405,
+        2.08,
+        0.275
+      ]
+    },
+    "dims": [
+      0.81,
+      2.04,
+      0.47
+    ],
+    "center": [
+      0,
+      1.06,
+      0.04
+    ],
+    "groundOffset": -0.04,
+    "boundsSource": "vertices",
+    "boundsPose": "bind",
+    "requiresRuntimeCheck": true,
+    "nodes": 19,
+    "nodePaths": [
+      "AthleteRig",
+      "AthleteRig/AthleteSkin",
+      "AthleteRig/Hip",
+      "AthleteRig/Hip/HipL",
+      "AthleteRig/Hip/HipL/KneeL",
+      "AthleteRig/Hip/HipL/KneeL/AnkleL",
+      "AthleteRig/Hip/HipR",
+      "AthleteRig/Hip/HipR/KneeR",
+      "AthleteRig/Hip/HipR/KneeR/AnkleR",
+      "AthleteRig/Hip/Spine",
+      "AthleteRig/Hip/Spine/Chest",
+      "AthleteRig/Hip/Spine/Chest/Neck",
+      "AthleteRig/Hip/Spine/Chest/Neck/Head",
+      "AthleteRig/Hip/Spine/Chest/ShoulderL",
+      "AthleteRig/Hip/Spine/Chest/ShoulderL/ElbowL",
+      "AthleteRig/Hip/Spine/Chest/ShoulderL/ElbowL/WristL",
+      "AthleteRig/Hip/Spine/Chest/ShoulderR",
+      "AthleteRig/Hip/Spine/Chest/ShoulderR/ElbowR",
+      "AthleteRig/Hip/Spine/Chest/ShoulderR/ElbowR/WristR"
+    ],
+    "meshNodes": 1,
+    "materials": [
+      "#f4b64d",
+      "#1b3145",
+      "#dcb08b",
+      "#263346",
+      "#f2f4ec",
+      "#d1a07d",
+      "#23364b"
+    ],
+    "clips": [
+      {
+        "name": "Ready",
+        "duration": 1.2
+      },
+      {
+        "name": "SideStep",
+        "duration": 0.36
+      },
+      {
+        "name": "Run",
+        "duration": 0.32
+      },
+      {
+        "name": "BasicHit",
+        "duration": 0.4
+      },
+      {
+        "name": "Drop",
+        "duration": 0.3
+      },
+      {
+        "name": "Clear",
+        "duration": 0.62
+      },
+      {
+        "name": "Smash",
+        "duration": 0.76
+      },
+      {
+        "name": "Recover",
+        "duration": 0.48
+      },
+      {
+        "name": "Serve",
+        "duration": 0.52
+      }
+    ],
+    "joints": [
+      "AnkleL",
+      "AnkleR",
+      "Chest",
+      "ElbowL",
+      "ElbowR",
+      "Head",
+      "Hip",
+      "HipL",
+      "HipR",
+      "KneeL",
+      "KneeR",
+      "Neck",
+      "ShoulderL",
+      "ShoulderR",
+      "Spine",
+      "WristL",
+      "WristR"
+    ],
+    "animationTargets": [
+      "AthleteRig/Hip.rotation",
+      "AthleteRig/Hip/HipL.rotation",
+      "AthleteRig/Hip/HipL/KneeL.rotation",
+      "AthleteRig/Hip/HipL/KneeL/AnkleL.rotation",
+      "AthleteRig/Hip/HipR.rotation",
+      "AthleteRig/Hip/HipR/KneeR.rotation",
+      "AthleteRig/Hip/HipR/KneeR/AnkleR.rotation",
+      "AthleteRig/Hip/Spine.rotation",
+      "AthleteRig/Hip/Spine/Chest.rotation",
+      "AthleteRig/Hip/Spine/Chest/Neck.rotation",
+      "AthleteRig/Hip/Spine/Chest/Neck/Head.rotation",
+      "AthleteRig/Hip/Spine/Chest/ShoulderL.rotation",
+      "AthleteRig/Hip/Spine/Chest/ShoulderL/ElbowL.rotation",
+      "AthleteRig/Hip/Spine/Chest/ShoulderL/ElbowL/WristL.rotation",
+      "AthleteRig/Hip/Spine/Chest/ShoulderR.rotation",
+      "AthleteRig/Hip/Spine/Chest/ShoulderR/ElbowR.rotation",
+      "AthleteRig/Hip/Spine/Chest/ShoulderR/ElbowR/WristR.rotation"
+    ],
+    "morphed": false,
+    "morphAnimated": false,
+    "skinned": true
+  },
+  {
+    "file": "projects/SmashRally3D/app/public/assets/models/athlete-violet.glb",
+    "aabb": {
+      "min": [
+        -0.405,
+        0.04,
+        -0.195
+      ],
+      "max": [
+        0.405,
+        2.08,
+        0.275
+      ]
+    },
+    "dims": [
+      0.81,
+      2.04,
+      0.47
+    ],
+    "center": [
+      0,
+      1.06,
+      0.04
+    ],
+    "groundOffset": -0.04,
+    "boundsSource": "vertices",
+    "boundsPose": "bind",
+    "requiresRuntimeCheck": true,
+    "nodes": 19,
+    "nodePaths": [
+      "AthleteRig",
+      "AthleteRig/AthleteSkin",
+      "AthleteRig/Hip",
+      "AthleteRig/Hip/HipL",
+      "AthleteRig/Hip/HipL/KneeL",
+      "AthleteRig/Hip/HipL/KneeL/AnkleL",
+      "AthleteRig/Hip/HipR",
+      "AthleteRig/Hip/HipR/KneeR",
+      "AthleteRig/Hip/HipR/KneeR/AnkleR",
+      "AthleteRig/Hip/Spine",
+      "AthleteRig/Hip/Spine/Chest",
+      "AthleteRig/Hip/Spine/Chest/Neck",
+      "AthleteRig/Hip/Spine/Chest/Neck/Head",
+      "AthleteRig/Hip/Spine/Chest/ShoulderL",
+      "AthleteRig/Hip/Spine/Chest/ShoulderL/ElbowL",
+      "AthleteRig/Hip/Spine/Chest/ShoulderL/ElbowL/WristL",
+      "AthleteRig/Hip/Spine/Chest/ShoulderR",
+      "AthleteRig/Hip/Spine/Chest/ShoulderR/ElbowR",
+      "AthleteRig/Hip/Spine/Chest/ShoulderR/ElbowR/WristR"
+    ],
+    "meshNodes": 1,
+    "materials": [
+      "#8491ed",
+      "#1b3145",
+      "#dcb08b",
+      "#263346",
+      "#f2f4ec",
+      "#d1a07d",
+      "#23364b"
+    ],
+    "clips": [
+      {
+        "name": "Ready",
+        "duration": 1.2
+      },
+      {
+        "name": "SideStep",
+        "duration": 0.36
+      },
+      {
+        "name": "Run",
+        "duration": 0.32
+      },
+      {
+        "name": "BasicHit",
+        "duration": 0.4
+      },
+      {
+        "name": "Drop",
+        "duration": 0.3
+      },
+      {
+        "name": "Clear",
+        "duration": 0.62
+      },
+      {
+        "name": "Smash",
+        "duration": 0.76
+      },
+      {
+        "name": "Recover",
+        "duration": 0.48
+      },
+      {
+        "name": "Serve",
+        "duration": 0.52
+      }
+    ],
+    "joints": [
+      "AnkleL",
+      "AnkleR",
+      "Chest",
+      "ElbowL",
+      "ElbowR",
+      "Head",
+      "Hip",
+      "HipL",
+      "HipR",
+      "KneeL",
+      "KneeR",
+      "Neck",
+      "ShoulderL",
+      "ShoulderR",
+      "Spine",
+      "WristL",
+      "WristR"
+    ],
+    "animationTargets": [
+      "AthleteRig/Hip.rotation",
+      "AthleteRig/Hip/HipL.rotation",
+      "AthleteRig/Hip/HipL/KneeL.rotation",
+      "AthleteRig/Hip/HipL/KneeL/AnkleL.rotation",
+      "AthleteRig/Hip/HipR.rotation",
+      "AthleteRig/Hip/HipR/KneeR.rotation",
+      "AthleteRig/Hip/HipR/KneeR/AnkleR.rotation",
+      "AthleteRig/Hip/Spine.rotation",
+      "AthleteRig/Hip/Spine/Chest.rotation",
+      "AthleteRig/Hip/Spine/Chest/Neck.rotation",
+      "AthleteRig/Hip/Spine/Chest/Neck/Head.rotation",
+      "AthleteRig/Hip/Spine/Chest/ShoulderL.rotation",
+      "AthleteRig/Hip/Spine/Chest/ShoulderL/ElbowL.rotation",
+      "AthleteRig/Hip/Spine/Chest/ShoulderL/ElbowL/WristL.rotation",
+      "AthleteRig/Hip/Spine/Chest/ShoulderR.rotation",
+      "AthleteRig/Hip/Spine/Chest/ShoulderR/ElbowR.rotation",
+      "AthleteRig/Hip/Spine/Chest/ShoulderR/ElbowR/WristR.rotation"
+    ],
+    "morphed": false,
+    "morphAnimated": false,
+    "skinned": true
+  }
+]

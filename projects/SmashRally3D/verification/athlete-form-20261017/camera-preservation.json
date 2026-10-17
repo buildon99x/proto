@@ -1,0 +1,73 @@
+{
+  "method": "Four fresh ordinary ready views, unchanged camera/FOV and exact body-joint, court-target and shuttle projections. Athlete pixels intentionally differ; do not claim full image equality. Separate14same-pose original/current mesh comparisons prove zero changed pixels outside conservative athlete regions.",
+  "results": [
+    {
+      "view": {
+        "width": 1065,
+        "height": 606
+      },
+      "cameraIdentical": true,
+      "bodyProjectionIdentical": true,
+      "courtTargetProjectionsIdentical": true,
+      "shuttleProjectionIdentical": true,
+      "noSpectators": true,
+      "athleteImageDifferenceBounds": [
+        477,
+        256,
+        569,
+        498
+      ]
+    },
+    {
+      "view": {
+        "width": 1280,
+        "height": 720
+      },
+      "cameraIdentical": true,
+      "bodyProjectionIdentical": true,
+      "courtTargetProjectionsIdentical": true,
+      "shuttleProjectionIdentical": true,
+      "noSpectators": true,
+      "athleteImageDifferenceBounds": [
+        574,
+        304,
+        684,
+        592
+      ]
+    },
+    {
+      "view": {
+        "width": 844,
+        "height": 390
+      },
+      "cameraIdentical": true,
+      "bodyProjectionIdentical": true,
+      "courtTargetProjectionsIdentical": true,
+      "shuttleProjectionIdentical": true,
+      "noSpectators": true,
+      "athleteImageDifferenceBounds": [
+        386,
+        165,
+        446,
+        321
+      ]
+    },
+    {
+      "view": {
+        "width": 390,
+        "height": 844
+      },
+      "cameraIdentical": true,
+      "bodyProjectionIdentical": true,
+      "courtTargetProjectionsIdentical": true,
+      "shuttleProjectionIdentical": true,
+      "noSpectators": true,
+      "athleteImageDifferenceBounds": [
+        118,
+        361,
+        246,
+        694
+      ]
+    }
+  ]
+}

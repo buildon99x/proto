@@ -1,0 +1,123 @@
+{
+  "method": "Actual three repeated mouse/native touch presses at visible HIT NOW, physical hit counted; ordinary UI pause/resume/restart/menu in PC and mobile landscape/portrait. Read-only diagnostics and post-render target checks, no injected state/time or contactAt scheduling. Software touch emulation only.",
+  "results": [
+    {
+      "view": {
+        "width": 1065,
+        "height": 606
+      },
+      "presses": 3,
+      "physicalReturns": 1,
+      "pausedTime": 6.025000000000089,
+      "resumed": true,
+      "actualTarget": {
+        "x": 1.9483332020638005,
+        "y": 0.025,
+        "z": 4.1
+      },
+      "pausedGuide": {
+        "aim": {
+          "x": 1.7999998687305452,
+          "y": 0.025,
+          "z": 1.2000017872631563
+        },
+        "target": {
+          "x": 1.9483332020638005,
+          "y": 0.025,
+          "z": 4.1
+        },
+        "time": 6.025000000000089,
+        "copy": "YOU · WEAK CLEAR → MID LEFT"
+      },
+      "restarted": {
+        "phase": "SERVE_READY",
+        "guide": null,
+        "returns": 0
+      },
+      "menu": {
+        "phase": "MENU",
+        "targetVisible": false
+      }
+    },
+    {
+      "view": {
+        "width": 844,
+        "height": 390,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "presses": 3,
+      "physicalReturns": 1,
+      "pausedTime": 6.075000000000092,
+      "resumed": true,
+      "actualTarget": {
+        "x": 1.7048039507077788,
+        "y": 0.025,
+        "z": 5.3
+      },
+      "pausedGuide": {
+        "aim": {
+          "x": 1.7048039507077788,
+          "y": 0.025,
+          "z": 3.4301526855921782
+        },
+        "target": {
+          "x": 1.7048039507077788,
+          "y": 0.025,
+          "z": 5.3
+        },
+        "time": 6.075000000000092,
+        "copy": "YOU · PERFECT CLEAR → DEEP LEFT"
+      },
+      "restarted": {
+        "phase": "SERVE_READY",
+        "guide": null,
+        "returns": 0
+      },
+      "menu": {
+        "phase": "MENU",
+        "targetVisible": false
+      }
+    },
+    {
+      "view": {
+        "width": 390,
+        "height": 844,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "presses": 3,
+      "physicalReturns": 1,
+      "pausedTime": 6.091666666666759,
+      "resumed": true,
+      "actualTarget": {
+        "x": 1.7328039717388386,
+        "y": 0.025,
+        "z": 5.3
+      },
+      "pausedGuide": {
+        "aim": {
+          "x": 1.7328039717388386,
+          "y": 0.025,
+          "z": 2.9448687486687604
+        },
+        "target": {
+          "x": 1.7328039717388386,
+          "y": 0.025,
+          "z": 5.3
+        },
+        "time": 6.091666666666759,
+        "copy": "YOU · PERFECT CLEAR → DEEP LEFT"
+      },
+      "restarted": {
+        "phase": "SERVE_READY",
+        "guide": null,
+        "returns": 0
+      },
+      "menu": {
+        "phase": "MENU",
+        "targetVisible": false
+      }
+    }
+  ]
+}

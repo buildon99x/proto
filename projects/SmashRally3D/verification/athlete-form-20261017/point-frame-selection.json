@@ -1,0 +1,15 @@
+{
+  "sourceCaptureSha256": "06a60879b7a929bf37edea753c958987250fd24174788d5f202dac9125a4721b",
+  "cpuNearestPointUiFrame": 669,
+  "reviewedPointUiFrame": 672,
+  "expectedScore": [
+    1,
+    2
+  ],
+  "visibleScore": [
+    1,
+    2
+  ],
+  "visibleFeedback": "YOUR POINT \u00b7 AI COULD NOT RETURN",
+  "method": "All twelve actual neighboring CDP frames directly inspected. CPU nearest669still showsYOU0\u2013AI2and prior shot.672showsYOU1\u2013AI2/YOUR POINT, also confirmed at native source size. Selection corrects CPU/render transport ordering only; no frame interpolation, point rescheduling or physical latency claim."
+}

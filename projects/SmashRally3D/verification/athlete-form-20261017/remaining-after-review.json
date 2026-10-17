@@ -1,0 +1,96 @@
+{
+  "rubricSha256": "acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+  "reviewedSubtotal": 48,
+  "reviewedWeight": 60,
+  "unverifiedWeight": 40,
+  "overallScore": null,
+  "target98Achieved": false,
+  "selectedV2": {
+    "selected": "V2",
+    "before": 4,
+    "after": 4,
+    "visualImprovementObserved": true,
+    "scoreGainClaimed": false,
+    "allScoresAndAllWeightsUnchanged": true,
+    "knownLegacyIssue": "Portrait point-resolution athlete clipping occurs in both original/current; RALLY-only visibility gates do not cover this phase.",
+    "stagnation": "One V2profile-authoring trial without integer gain. Do not repeat section-radius/material parameter tweaks after three no-gain trials; use integrated joint/face surface authoring or switch to the directly observed point-camera issue."
+  },
+  "known": [
+    {
+      "id": "V1",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "V2",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "V3",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "V4",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "C1",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "C2",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "U1",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "U2",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "U3",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "M1",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "M2",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "M4",
+      "score": 4,
+      "remaining": 1
+    }
+  ],
+  "unverified": [
+    "V5",
+    "C3",
+    "C4",
+    "C5",
+    "A1",
+    "A2",
+    "A3",
+    "M3"
+  ],
+  "allRemainingCodeWorkBlocked": false,
+  "nextAccessibleProblems": [
+    "Existing portrait point-resolution camera resets while athlete remains lateral, cutting the near player in BOTHoriginal/current frames. Fix separately without changing reference ready/rally camera or inputs.",
+    "V2integrated shoulder/hip joins and facial surface/expression remain beyond the first authored-contour trial; change approach after three score-stagnant trials."
+  ],
+  "requiredInputs": "../courtyard-depth-20261017/required-inputs.md"
+}

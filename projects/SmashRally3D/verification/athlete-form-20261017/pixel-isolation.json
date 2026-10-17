@@ -1,0 +1,397 @@
+{
+  "method": "Geometry is intentionally not byte-gateable inside the athlete. Two repeated imported-baseline renders and restored baseline match exactly; same state/clock/camera/pose,0changes outside existing conservative athlete projection boxes. Visual judgments are separate.",
+  "results": [
+    {
+      "folder": "phases-pc-1",
+      "pose": "ready",
+      "baselineRepeatAndRestoreIdentical": true,
+      "cameraClockPosesAndContactIdentical": true,
+      "changedPixels": 10707,
+      "changedBounds": [
+        477,
+        256,
+        569,
+        498
+      ],
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          449,
+          302,
+          595,
+          534
+        ],
+        [
+          479,
+          253,
+          581,
+          380
+        ]
+      ]
+    },
+    {
+      "folder": "phases-pc-1",
+      "pose": "prepare",
+      "baselineRepeatAndRestoreIdentical": true,
+      "cameraClockPosesAndContactIdentical": true,
+      "changedPixels": 5209,
+      "changedBounds": [
+        476,
+        264,
+        590,
+        437
+      ],
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          505,
+          301,
+          610,
+          462
+        ],
+        [
+          466,
+          263,
+          526,
+          338
+        ]
+      ]
+    },
+    {
+      "folder": "phases-pc-1",
+      "pose": "accelerate",
+      "baselineRepeatAndRestoreIdentical": true,
+      "cameraClockPosesAndContactIdentical": true,
+      "changedPixels": 9459,
+      "changedBounds": [
+        451,
+        247,
+        602,
+        488
+      ],
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          511,
+          292,
+          630,
+          524
+        ],
+        [
+          437,
+          245,
+          523,
+          353
+        ]
+      ]
+    },
+    {
+      "folder": "phases-pc-1",
+      "pose": "contact",
+      "baselineRepeatAndRestoreIdentical": true,
+      "cameraClockPosesAndContactIdentical": true,
+      "changedPixels": 12262,
+      "changedBounds": [
+        451,
+        245,
+        635,
+        481
+      ],
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          487,
+          253,
+          666,
+          517
+        ],
+        [
+          436,
+          243,
+          523,
+          352
+        ]
+      ]
+    },
+    {
+      "folder": "phases-pc-1",
+      "pose": "follow",
+      "baselineRepeatAndRestoreIdentical": true,
+      "cameraClockPosesAndContactIdentical": true,
+      "changedPixels": 10590,
+      "changedBounds": [
+        451,
+        247,
+        625,
+        496
+      ],
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          502,
+          300,
+          657,
+          532
+        ],
+        [
+          436,
+          245,
+          523,
+          353
+        ]
+      ]
+    },
+    {
+      "folder": "phases-pc-1",
+      "pose": "landing",
+      "baselineRepeatAndRestoreIdentical": true,
+      "cameraClockPosesAndContactIdentical": true,
+      "changedPixels": 8812,
+      "changedBounds": [
+        455,
+        248,
+        575,
+        494
+      ],
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          465,
+          305,
+          599,
+          530
+        ],
+        [
+          441,
+          246,
+          529,
+          357
+        ]
+      ]
+    },
+    {
+      "folder": "phases-pc-1",
+      "pose": "return",
+      "baselineRepeatAndRestoreIdentical": true,
+      "cameraClockPosesAndContactIdentical": true,
+      "changedPixels": 17249,
+      "changedBounds": [
+        532,
+        255,
+        761,
+        560
+      ],
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          575,
+          323,
+          807,
+          605
+        ],
+        [
+          518,
+          252,
+          618,
+          377
+        ]
+      ]
+    },
+    {
+      "folder": "phases-portrait-1",
+      "pose": "ready",
+      "baselineRepeatAndRestoreIdentical": true,
+      "cameraClockPosesAndContactIdentical": true,
+      "changedPixels": 85383,
+      "changedBounds": [
+        235,
+        721,
+        493,
+        1389
+      ],
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          157,
+          841,
+          565,
+          1491
+        ],
+        [
+          252,
+          716,
+          516,
+          1043
+        ]
+      ]
+    },
+    {
+      "folder": "phases-portrait-1",
+      "pose": "prepare",
+      "baselineRepeatAndRestoreIdentical": true,
+      "cameraClockPosesAndContactIdentical": true,
+      "changedPixels": 23396,
+      "changedBounds": [
+        285,
+        771,
+        507,
+        1113
+      ],
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          332,
+          844,
+          547,
+          1163
+        ],
+        [
+          268,
+          770,
+          378,
+          908
+        ]
+      ]
+    },
+    {
+      "folder": "phases-portrait-1",
+      "pose": "accelerate",
+      "baselineRepeatAndRestoreIdentical": true,
+      "cameraClockPosesAndContactIdentical": true,
+      "changedPixels": 24926,
+      "changedBounds": [
+        271,
+        763,
+        501,
+        1135
+      ],
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          369,
+          833,
+          544,
+          1191
+        ],
+        [
+          253,
+          761,
+          376,
+          916
+        ]
+      ]
+    },
+    {
+      "folder": "phases-portrait-1",
+      "pose": "contact",
+      "baselineRepeatAndRestoreIdentical": true,
+      "cameraClockPosesAndContactIdentical": true,
+      "changedPixels": 26688,
+      "changedBounds": [
+        283,
+        769,
+        533,
+        1095
+      ],
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          326,
+          775,
+          578,
+          1143
+        ],
+        [
+          266,
+          767,
+          378,
+          907
+        ]
+      ]
+    },
+    {
+      "folder": "phases-portrait-1",
+      "pose": "follow",
+      "baselineRepeatAndRestoreIdentical": true,
+      "cameraClockPosesAndContactIdentical": true,
+      "changedPixels": 22507,
+      "changedBounds": [
+        283,
+        771,
+        519,
+        1115
+      ],
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          346,
+          842,
+          564,
+          1165
+        ],
+        [
+          266,
+          769,
+          378,
+          909
+        ]
+      ]
+    },
+    {
+      "folder": "phases-portrait-1",
+      "pose": "landing",
+      "baselineRepeatAndRestoreIdentical": true,
+      "cameraClockPosesAndContactIdentical": true,
+      "changedPixels": 30510,
+      "changedBounds": [
+        259,
+        751,
+        479,
+        1183
+      ],
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          270,
+          847,
+          522,
+          1249
+        ],
+        [
+          235,
+          749,
+          383,
+          934
+        ]
+      ]
+    },
+    {
+      "folder": "phases-portrait-1",
+      "pose": "return",
+      "baselineRepeatAndRestoreIdentical": true,
+      "cameraClockPosesAndContactIdentical": true,
+      "changedPixels": 67169,
+      "changedBounds": [
+        389,
+        717,
+        780,
+        1579
+      ],
+      "changedPixelsOutsideConservativeAthleteBounds": 0,
+      "bounds": [
+        [
+          513,
+          903,
+          780,
+          1688
+        ],
+        [
+          353,
+          713,
+          614,
+          1036
+        ]
+      ]
+    }
+  ]
+}

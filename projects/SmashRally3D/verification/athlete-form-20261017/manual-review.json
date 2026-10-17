@@ -1,0 +1,193 @@
+{
+  "reviewer": "Single assistant direct raster inspection; not a physical-device or human panel review",
+  "status": "reviewed_in_stated_scope_after_all_final_software_gates_and_direct_raster_inspection",
+  "reviewedAtUtc": "2026-10-17T07:20:09.099578+00:00",
+  "directlyInspected": [
+    "ready-pc-1/ready-baseline.png",
+    "ready-pc-1/ready-candidate.png",
+    "ready-portrait-1/ready-baseline.png",
+    "ready-portrait-1/ready-candidate.png",
+    "phases-pc-1/contact-baseline.png",
+    "phases-pc-1/contact-candidate.png",
+    "phases-pc-1/follow-candidate.png",
+    "delivery/01-pc-form-comparison.png",
+    "delivery/01-portrait-form-comparison.png",
+    "phases-portrait-1/return-baseline.png",
+    "phases-portrait-1/return-candidate.png",
+    "phases-portrait-1/contact-candidate.png",
+    "final-play/04-normal-smash.png",
+    "final-play/04b-super-smash.png",
+    "final-play/03-safe-return.png",
+    "delivery/08-opponent-contact-detail.png",
+    "point-ui-neighbours.png",
+    "final-pressure/review-source-frames/000672.jpg",
+    "delivery/03-pressure-defence-frames.png",
+    "delivery/09-pressure-winner.png",
+    "final-rally/court-pc-high-clear.png",
+    "final-rally/court-mobile-landscape-high-clear.png",
+    "delivery/06-decoded-video-review.png",
+    "final-rally/court-mobile-portrait-high-clear.png",
+    "delivery/07-actual-swing-sequences.png"
+  ],
+  "observations": [
+    "Jersey has chest/waist/hem rather than a swollen sphere; sleeve cuff and anatomical limb taper separate uniform/skin and forearm/wrist. Rounded trainer sole/toe and longer fitted shorts replace block shoes/puffy shorts.",
+    "Jaw/ears/brows add original neutral facial form. Materials, lighting, seven batches, rig, animation channels, camera and physical contacts are unchanged.",
+    "Same-pose original repeats/restores are pixel-exact;14current comparisons alter only conservative athlete regions. This is an isolation gate, not a visual score.",
+    "Portrait point-resolution return checkpoint clips the near athlete in both original/current. Full-body point-phase visibility and normal-speed naturalness cannot be asserted from this gallery. See legacy-portrait-point-camera.json.",
+    "Full portrait return checkpoint PNGs explicitly show YOUR POINT and near athlete outside the right viewport in both original/current. Contact checkpoint remains fully framed; do not generalize RALLY visibility gates to point resolution.",
+    "Current ordinary match normal/Super/safe-fallback source PNGs inspected: fitted torso, sleeve hems, taper and trainers remain readable at actual attack contact; no loss of cork/racket or existing target/outcome labels. Not continuous normal-speed watching or listening.",
+    "All six new-model NORMAL/HARD centre-soft actual AI contact crops inspected. Cork/string remains exposed through the existing local aperture at low central contacts, with higher net-finish contacts normally opaque. This preserves M2presentation; no AI logic or score change inferred.",
+    "Both new-model pressure patterns retain13actual AI returns and one PERFECT direct winner. All six selected pressure launch/movement/contact rows and combined12contact crops directly inspected. ActualCDP672showsYOU1–AI2/YOUR POINT; CPU nearest669still showed0–2and prior shot. Source-frame selection corrected by direct neighbor/native-size review, not rescheduled UI or interpolated media.",
+    "New PC and mobile-landscape actual high-clear PNGs inspected: body/racket/net/cork and aim copy remain distinguishable. Legacy point-phase portrait clipping is separate from these RALLY frames.",
+    "All three actual high-clear viewport PNGs and nine literal decoded H264 samples inspected. New forms and the white outlined cork remain readable in these frames.175.9srecording preserves software wall-clock holds; decoded samples are not continuous normal-speed human watching or actual listening.",
+    "Actual Serve/Clear/Drop frameend sequence sheet directly inspected. Captured prepare/contact/follow/return are actual UI-play frames with new bodies; absent follow-peak/accelerate samples remain blank. This is neither all-technique coverage nor continuous playback, and no score is inferred."
+  ],
+  "scoreDecision": "같은 광원·재질과 실제 도달한14개 자세의 두 선수 전후 PNG를 직접 비교했다. 가슴/허리/소매 끝, 팔목·종아리의 굵기 변화, 반바지·신발과 턱·귀·눈썹이 정돈된 것은 확인했다. 다만 어깨/골반 접합은 여전히 분절된 형태이고 얼굴 표현은 단순하다. 최대5점까지 충족했다고 단정하지 않아4점을 유지한다. 리그 동일성·정점 증가·자동검사 통과는 경험 가점 근거가 아니다. 정상속도 동작·실기기·청음의 미검증을 이 정지 프레임 판단으로 대체하지 않는다.",
+  "baselineReviewedSubtotal": 48,
+  "reviewedWeight": 60,
+  "unverifiedWeight": 40,
+  "overallScore": null,
+  "normalSpeedContinuousPlaybackWatched": false,
+  "actualListening": false,
+  "physicalDeviceValidation": false,
+  "reference13013PixelsSeenByWorker": false,
+  "reviewedSubtotal": 48,
+  "allScoresAndAllWeightsUnchanged": true,
+  "softwareGates": {
+    "unitTests": 81,
+    "unitFiles": 14,
+    "fullRootBuild": true,
+    "originalFunctionalBrowserCases": 14,
+    "additionalFunctionalCases": 2,
+    "separateDiagnosticCases": 5,
+    "allPass": true,
+    "reports": {
+      "scene": {
+        "file": "final-scene/benchmark-scene-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "play": {
+        "file": "final-play/aim-play-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "native": {
+        "file": "final-native/aim-native-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "native2": {
+        "file": "final-native-2/aim-native-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "native3": {
+        "file": "final-native-3/aim-native-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "rotation": {
+        "file": "final-rotation/court-resize-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "defence": {
+        "file": "final-defence/defence-review-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "pressure": {
+        "file": "final-pressure/defence-review-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "rally": {
+        "file": "final-rally/aim-rally-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "accessible": {
+        "file": "final-accessible/accessible-overlays-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "flight": {
+        "file": "final-flight/high-shuttle-flight-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "loss": {
+        "file": "final-loss/experience-loss-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "dialog": {
+        "file": "final-dialog/experience-dialog-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "pause": {
+        "file": "final-pause/benchmark-pause-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "interruption": {
+        "file": "final-interruption/aim-interruption-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "swing": {
+        "file": "final-swing/swing-sequence-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "heldContactPc": {
+        "file": "final-contact-pc/contact-acceptance-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "heldContactPortrait": {
+        "file": "final-contact-portrait/contact-acceptance-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "inputBoundary": {
+        "file": "final-input-lifecycle/mobile-input-lifecycle-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "geometryPc": {
+        "file": "phases-pc-1/athlete-form-study-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "geometryPortrait": {
+        "file": "phases-portrait-1/athlete-form-study-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      }
+    }
+  }
+}

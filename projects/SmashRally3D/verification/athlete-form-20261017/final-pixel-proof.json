@@ -1,0 +1,94 @@
+[
+  {
+    "view": "pc",
+    "reply": 1,
+    "originalRepeatIdentical": true,
+    "runtimeOffIdentical": true,
+    "runtimeOnRestoredIdentical": true,
+    "sameTimeCameraContact": true,
+    "changedPixels": 189,
+    "changedBounds": [
+      296,
+      180,
+      323,
+      207
+    ],
+    "outsideApertureChangedPixels": 0,
+    "window": {
+      "x": 309.5495394366039,
+      "y": 193.46768595965705,
+      "radius": 18,
+      "strength": 1
+    },
+    "originalMeaning": "Current imported NEW athlete GLB material, versus its existing contact-visibility shader; not prior3f18189geometry."
+  },
+  {
+    "view": "pc",
+    "reply": 3,
+    "originalRepeatIdentical": true,
+    "runtimeOffIdentical": true,
+    "runtimeOnRestoredIdentical": true,
+    "sameTimeCameraContact": true,
+    "changedPixels": 281,
+    "changedBounds": [
+      302,
+      186,
+      329,
+      215
+    ],
+    "outsideApertureChangedPixels": 0,
+    "window": {
+      "x": 316.01404532140606,
+      "y": 200.58994581988927,
+      "radius": 18,
+      "strength": 1
+    },
+    "originalMeaning": "Current imported NEW athlete GLB material, versus its existing contact-visibility shader; not prior3f18189geometry."
+  },
+  {
+    "view": "portrait",
+    "reply": 1,
+    "originalRepeatIdentical": true,
+    "runtimeOffIdentical": true,
+    "runtimeOnRestoredIdentical": true,
+    "sameTimeCameraContact": true,
+    "changedPixels": 364,
+    "changedBounds": [
+      347,
+      879,
+      371,
+      911
+    ],
+    "outsideApertureChangedPixels": 0,
+    "window": {
+      "x": 171.68278224082718,
+      "y": 451.97645282897446,
+      "radius": 16.38,
+      "strength": 1
+    },
+    "originalMeaning": "Current imported NEW athlete GLB material, versus its existing contact-visibility shader; not prior3f18189geometry."
+  },
+  {
+    "view": "portrait",
+    "reply": 3,
+    "originalRepeatIdentical": true,
+    "runtimeOffIdentical": true,
+    "runtimeOnRestoredIdentical": true,
+    "sameTimeCameraContact": true,
+    "changedPixels": 2204,
+    "changedBounds": [
+      371,
+      907,
+      423,
+      963
+    ],
+    "outsideApertureChangedPixels": 0,
+    "window": {
+      "x": 198.35598250744044,
+      "y": 467.88014189178926,
+      "radius": 16.38,
+      "strength": 1
+    },
+    "originalMeaning": "Current imported NEW athlete GLB material, versus its existing contact-visibility shader; not prior3f18189geometry."
+  }
+]

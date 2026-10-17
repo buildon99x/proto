@@ -1,0 +1,1459 @@
+{
+  "validationStatus": "all_software_checks_pass; experience ratings recorded separately",
+  "baselineCommit": "3f181892613ef7c4b898534efc062bb22f36f362",
+  "runtimeCommit": "e03a1198ff20f44dec3b1aa79a85eb49aed7165e",
+  "runtimeBundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6",
+  "modelHashes": {
+    "athlete-gold.glb": "8e9301e591a4612d20f35727a85ac1a9d9df7496e6312e4769b7a0f79858ed4d",
+    "athlete-violet.glb": "e94409976350cd6fa8b8bb0c7191baf2e980fb9f47448574d7e4a756f28b6534",
+    "court.glb": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47",
+    "racket.glb": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13",
+    "shuttle.glb": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+  },
+  "automatedGates": {
+    "unitTests": 81,
+    "unitFiles": 14,
+    "fullRootBuild": true,
+    "originalFunctionalBrowserCases": 14,
+    "additionalFunctionalCases": 2,
+    "separateDiagnosticCases": 5,
+    "allPass": true,
+    "reports": {
+      "scene": {
+        "file": "final-scene/benchmark-scene-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "play": {
+        "file": "final-play/aim-play-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "native": {
+        "file": "final-native/aim-native-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "native2": {
+        "file": "final-native-2/aim-native-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "native3": {
+        "file": "final-native-3/aim-native-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "rotation": {
+        "file": "final-rotation/court-resize-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "defence": {
+        "file": "final-defence/defence-review-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "pressure": {
+        "file": "final-pressure/defence-review-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "rally": {
+        "file": "final-rally/aim-rally-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "accessible": {
+        "file": "final-accessible/accessible-overlays-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "flight": {
+        "file": "final-flight/high-shuttle-flight-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "loss": {
+        "file": "final-loss/experience-loss-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "dialog": {
+        "file": "final-dialog/experience-dialog-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "pause": {
+        "file": "final-pause/benchmark-pause-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "interruption": {
+        "file": "final-interruption/aim-interruption-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "swing": {
+        "file": "final-swing/swing-sequence-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "heldContactPc": {
+        "file": "final-contact-pc/contact-acceptance-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "heldContactPortrait": {
+        "file": "final-contact-portrait/contact-acceptance-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "inputBoundary": {
+        "file": "final-input-lifecycle/mobile-input-lifecycle-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "geometryPc": {
+        "file": "phases-pc-1/athlete-form-study-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "geometryPortrait": {
+        "file": "phases-portrait-1/athlete-form-study-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      }
+    }
+  },
+  "cameraAndCourt": {
+    "ordinaryReadyViews": 4,
+    "cameraBodyJointsCourtTargetsShuttleProjectionsIdentical": true,
+    "athletePixelsIntentionallyChanged": true,
+    "physicsAiPredictionPoseAndCameraUnchanged": true,
+    "threeOtherModelsUnchanged": true,
+    "proof": [
+      "camera-preservation.json",
+      "source-manifest.json",
+      "asset-invariants.json"
+    ]
+  },
+  "geometryComparison": {
+    "method": "Geometry is intentionally not byte-gateable inside the athlete. Two repeated imported-baseline renders and restored baseline match exactly; same state/clock/camera/pose,0changes outside existing conservative athlete projection boxes. Visual judgments are separate.",
+    "results": [
+      {
+        "folder": "phases-pc-1",
+        "pose": "ready",
+        "baselineRepeatAndRestoreIdentical": true,
+        "cameraClockPosesAndContactIdentical": true,
+        "changedPixels": 10707,
+        "changedBounds": [
+          477,
+          256,
+          569,
+          498
+        ],
+        "changedPixelsOutsideConservativeAthleteBounds": 0,
+        "bounds": [
+          [
+            449,
+            302,
+            595,
+            534
+          ],
+          [
+            479,
+            253,
+            581,
+            380
+          ]
+        ]
+      },
+      {
+        "folder": "phases-pc-1",
+        "pose": "prepare",
+        "baselineRepeatAndRestoreIdentical": true,
+        "cameraClockPosesAndContactIdentical": true,
+        "changedPixels": 5209,
+        "changedBounds": [
+          476,
+          264,
+          590,
+          437
+        ],
+        "changedPixelsOutsideConservativeAthleteBounds": 0,
+        "bounds": [
+          [
+            505,
+            301,
+            610,
+            462
+          ],
+          [
+            466,
+            263,
+            526,
+            338
+          ]
+        ]
+      },
+      {
+        "folder": "phases-pc-1",
+        "pose": "accelerate",
+        "baselineRepeatAndRestoreIdentical": true,
+        "cameraClockPosesAndContactIdentical": true,
+        "changedPixels": 9459,
+        "changedBounds": [
+          451,
+          247,
+          602,
+          488
+        ],
+        "changedPixelsOutsideConservativeAthleteBounds": 0,
+        "bounds": [
+          [
+            511,
+            292,
+            630,
+            524
+          ],
+          [
+            437,
+            245,
+            523,
+            353
+          ]
+        ]
+      },
+      {
+        "folder": "phases-pc-1",
+        "pose": "contact",
+        "baselineRepeatAndRestoreIdentical": true,
+        "cameraClockPosesAndContactIdentical": true,
+        "changedPixels": 12262,
+        "changedBounds": [
+          451,
+          245,
+          635,
+          481
+        ],
+        "changedPixelsOutsideConservativeAthleteBounds": 0,
+        "bounds": [
+          [
+            487,
+            253,
+            666,
+            517
+          ],
+          [
+            436,
+            243,
+            523,
+            352
+          ]
+        ]
+      },
+      {
+        "folder": "phases-pc-1",
+        "pose": "follow",
+        "baselineRepeatAndRestoreIdentical": true,
+        "cameraClockPosesAndContactIdentical": true,
+        "changedPixels": 10590,
+        "changedBounds": [
+          451,
+          247,
+          625,
+          496
+        ],
+        "changedPixelsOutsideConservativeAthleteBounds": 0,
+        "bounds": [
+          [
+            502,
+            300,
+            657,
+            532
+          ],
+          [
+            436,
+            245,
+            523,
+            353
+          ]
+        ]
+      },
+      {
+        "folder": "phases-pc-1",
+        "pose": "landing",
+        "baselineRepeatAndRestoreIdentical": true,
+        "cameraClockPosesAndContactIdentical": true,
+        "changedPixels": 8812,
+        "changedBounds": [
+          455,
+          248,
+          575,
+          494
+        ],
+        "changedPixelsOutsideConservativeAthleteBounds": 0,
+        "bounds": [
+          [
+            465,
+            305,
+            599,
+            530
+          ],
+          [
+            441,
+            246,
+            529,
+            357
+          ]
+        ]
+      },
+      {
+        "folder": "phases-pc-1",
+        "pose": "return",
+        "baselineRepeatAndRestoreIdentical": true,
+        "cameraClockPosesAndContactIdentical": true,
+        "changedPixels": 17249,
+        "changedBounds": [
+          532,
+          255,
+          761,
+          560
+        ],
+        "changedPixelsOutsideConservativeAthleteBounds": 0,
+        "bounds": [
+          [
+            575,
+            323,
+            807,
+            605
+          ],
+          [
+            518,
+            252,
+            618,
+            377
+          ]
+        ]
+      },
+      {
+        "folder": "phases-portrait-1",
+        "pose": "ready",
+        "baselineRepeatAndRestoreIdentical": true,
+        "cameraClockPosesAndContactIdentical": true,
+        "changedPixels": 85383,
+        "changedBounds": [
+          235,
+          721,
+          493,
+          1389
+        ],
+        "changedPixelsOutsideConservativeAthleteBounds": 0,
+        "bounds": [
+          [
+            157,
+            841,
+            565,
+            1491
+          ],
+          [
+            252,
+            716,
+            516,
+            1043
+          ]
+        ]
+      },
+      {
+        "folder": "phases-portrait-1",
+        "pose": "prepare",
+        "baselineRepeatAndRestoreIdentical": true,
+        "cameraClockPosesAndContactIdentical": true,
+        "changedPixels": 23396,
+        "changedBounds": [
+          285,
+          771,
+          507,
+          1113
+        ],
+        "changedPixelsOutsideConservativeAthleteBounds": 0,
+        "bounds": [
+          [
+            332,
+            844,
+            547,
+            1163
+          ],
+          [
+            268,
+            770,
+            378,
+            908
+          ]
+        ]
+      },
+      {
+        "folder": "phases-portrait-1",
+        "pose": "accelerate",
+        "baselineRepeatAndRestoreIdentical": true,
+        "cameraClockPosesAndContactIdentical": true,
+        "changedPixels": 24926,
+        "changedBounds": [
+          271,
+          763,
+          501,
+          1135
+        ],
+        "changedPixelsOutsideConservativeAthleteBounds": 0,
+        "bounds": [
+          [
+            369,
+            833,
+            544,
+            1191
+          ],
+          [
+            253,
+            761,
+            376,
+            916
+          ]
+        ]
+      },
+      {
+        "folder": "phases-portrait-1",
+        "pose": "contact",
+        "baselineRepeatAndRestoreIdentical": true,
+        "cameraClockPosesAndContactIdentical": true,
+        "changedPixels": 26688,
+        "changedBounds": [
+          283,
+          769,
+          533,
+          1095
+        ],
+        "changedPixelsOutsideConservativeAthleteBounds": 0,
+        "bounds": [
+          [
+            326,
+            775,
+            578,
+            1143
+          ],
+          [
+            266,
+            767,
+            378,
+            907
+          ]
+        ]
+      },
+      {
+        "folder": "phases-portrait-1",
+        "pose": "follow",
+        "baselineRepeatAndRestoreIdentical": true,
+        "cameraClockPosesAndContactIdentical": true,
+        "changedPixels": 22507,
+        "changedBounds": [
+          283,
+          771,
+          519,
+          1115
+        ],
+        "changedPixelsOutsideConservativeAthleteBounds": 0,
+        "bounds": [
+          [
+            346,
+            842,
+            564,
+            1165
+          ],
+          [
+            266,
+            769,
+            378,
+            909
+          ]
+        ]
+      },
+      {
+        "folder": "phases-portrait-1",
+        "pose": "landing",
+        "baselineRepeatAndRestoreIdentical": true,
+        "cameraClockPosesAndContactIdentical": true,
+        "changedPixels": 30510,
+        "changedBounds": [
+          259,
+          751,
+          479,
+          1183
+        ],
+        "changedPixelsOutsideConservativeAthleteBounds": 0,
+        "bounds": [
+          [
+            270,
+            847,
+            522,
+            1249
+          ],
+          [
+            235,
+            749,
+            383,
+            934
+          ]
+        ]
+      },
+      {
+        "folder": "phases-portrait-1",
+        "pose": "return",
+        "baselineRepeatAndRestoreIdentical": true,
+        "cameraClockPosesAndContactIdentical": true,
+        "changedPixels": 67169,
+        "changedBounds": [
+          389,
+          717,
+          780,
+          1579
+        ],
+        "changedPixelsOutsideConservativeAthleteBounds": 0,
+        "bounds": [
+          [
+            513,
+            903,
+            780,
+            1688
+          ],
+          [
+            353,
+            713,
+            614,
+            1036
+          ]
+        ]
+      }
+    ]
+  },
+  "assetInvariants": {
+    "reference": "3f181892613ef7c4b898534efc062bb22f36f362",
+    "method": "Decoded binary accessor equality for17-joint rest/binds and every nine-clip input/output; exact vertex envelope, unchanged material batches, finite geometry/normals/weights. These are structural/physical safety gates, not a V2visual score.",
+    "athletes": [
+      {
+        "file": "athlete-gold.glb",
+        "bounds": [
+          [
+            -0.4050000011920929,
+            0.03999999910593033,
+            -0.19499999284744263
+          ],
+          [
+            0.4050000011920929,
+            2.0799999237060547,
+            0.2750000059604645
+          ]
+        ],
+        "nodesRestAndHierarchyIdentical": true,
+        "jointCount": 17,
+        "inverseBindsIdentical": true,
+        "animationDecodedValuesIdentical": [
+          "Ready",
+          "SideStep",
+          "Run",
+          "BasicHit",
+          "Drop",
+          "Clear",
+          "Smash",
+          "Recover",
+          "Serve"
+        ],
+        "materialsAndBatchCountIdentical": true,
+        "primitives": 7,
+        "baselineVertices": 6996,
+        "baselineTriangles": 11952,
+        "vertices": 9517,
+        "triangles": 15144,
+        "sha256": "8e9301e591a4612d20f35727a85ac1a9d9df7496e6312e4769b7a0f79858ed4d"
+      },
+      {
+        "file": "athlete-violet.glb",
+        "bounds": [
+          [
+            -0.4050000011920929,
+            0.03999999910593033,
+            -0.19499999284744263
+          ],
+          [
+            0.4050000011920929,
+            2.0799999237060547,
+            0.2750000059604645
+          ]
+        ],
+        "nodesRestAndHierarchyIdentical": true,
+        "jointCount": 17,
+        "inverseBindsIdentical": true,
+        "animationDecodedValuesIdentical": [
+          "Ready",
+          "SideStep",
+          "Run",
+          "BasicHit",
+          "Drop",
+          "Clear",
+          "Smash",
+          "Recover",
+          "Serve"
+        ],
+        "materialsAndBatchCountIdentical": true,
+        "primitives": 7,
+        "baselineVertices": 6996,
+        "baselineTriangles": 11952,
+        "vertices": 9517,
+        "triangles": 15144,
+        "sha256": "e94409976350cd6fa8b8bb0c7191baf2e980fb9f47448574d7e4a756f28b6534"
+      }
+    ],
+    "sharedTeamGeometryWeightsAndMotionBinaryIdentical": true,
+    "unchangedRuntimeAndThreeOtherModels": [
+      {
+        "file": "projects/SmashRally3D/app/src/main.ts",
+        "sha256": "e8c65a4a20ff746b2aa54e1f07e735026712237523d7200f21df0649dc19fa71"
+      },
+      {
+        "file": "projects/SmashRally3D/app/src/style.css",
+        "sha256": "0925d70cad6c64a3a6af47f8ba89949fc3865f7de2b7c3d6ab6d649ed5e03a16"
+      },
+      {
+        "file": "projects/SmashRally3D/app/src/game.ts",
+        "sha256": "b7dd23757c7b8443223c45f700e16ab33d3a3a9fa74cf6565c04eb778d3badc3"
+      },
+      {
+        "file": "projects/SmashRally3D/app/src/physics.ts",
+        "sha256": "7dcd6992b71aeadd83315e1ea88097a385dc1cf7b6b685e69f2fffcfba57783c"
+      },
+      {
+        "file": "projects/SmashRally3D/app/src/tactics.ts",
+        "sha256": "9b353a5a08ca100bf69d1857e592ccf506282b99b6be4e76b84cf6cc0d5b5a99"
+      },
+      {
+        "file": "projects/SmashRally3D/app/src/motion.ts",
+        "sha256": "b5d9ab1865aec2b0ac147ae4431bc5c5c702d0c9d823d2361715b7bb601ce6e4"
+      },
+      {
+        "file": "projects/SmashRally3D/app/src/motion-data.json",
+        "sha256": "9a35236d0fb260eef3ab5cf3105cc898efffbb2621a7016fff3c762ba80ee3dd"
+      },
+      {
+        "file": "projects/SmashRally3D/app/src/camera-framing.ts",
+        "sha256": "0d89e0f16a4dc9a5a00fa5a30997dbe58cd6d3d8f306e24ee0db863a3dcd862a"
+      },
+      {
+        "file": "projects/SmashRally3D/app/src/stroke-presentation.ts",
+        "sha256": "1515f4d99487e1e7b20c8cf4e47592dca764949149f91cec29bd8c31900849d1"
+      },
+      {
+        "file": "projects/SmashRally3D/app/src/contact-visibility.ts",
+        "sha256": "b61648a1a56357020d839c579fcd17a440d9337ee7a578c68864faae3caeadd4"
+      },
+      {
+        "file": "projects/SmashRally3D/app/src/aim-feedback.ts",
+        "sha256": "1e2c92c3c0b6eda44301cb2f5db4148fb05e0c0816ba00fdbb9f2bb8bd1fdc95"
+      },
+      {
+        "file": "projects/SmashRally3D/app/public/assets/models/court.glb",
+        "sha256": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47"
+      },
+      {
+        "file": "projects/SmashRally3D/app/public/assets/models/racket.glb",
+        "sha256": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13"
+      },
+      {
+        "file": "projects/SmashRally3D/app/public/assets/models/shuttle.glb",
+        "sha256": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+      }
+    ],
+    "calibration": {
+      "rootScale": 1,
+      "newRuntimeCompensation": false,
+      "placement": "Existing world-space17joint posing remains unchanged; bind extents/grounding match original. Facing+Z in asset, player yaw0/opponent yaw180 as existing runtime; animated bounds require direct scene review."
+    }
+  },
+  "knownLegacyPortraitPointCamera": {
+    "status": "Directly observed pre-existing issue, not introduced by geometry",
+    "condition": "Portrait timed return checkpoint after a real normal smash; source UI shows YOU1–AI0/YOUR POINT, so this checkpoint has already entered point resolution.",
+    "finding": "Near athlete extends beyond the right viewport in BOTH imported original and current geometry. This is not a full-body visibility pass; the contact checkpoint still shows the full athlete.",
+    "cameraAndPosesSame": true,
+    "state": {
+      "time": 10.1083333333334,
+      "camera": {
+        "p": {
+          "x": 0,
+          "y": 3.0765254497528076,
+          "z": -10.327746391296387
+        },
+        "q": {
+          "x": 0,
+          "y": 0.9975640505394667,
+          "z": 0.069756469745051,
+          "w": 0
+        },
+        "fov": 48.00091210084612
+      },
+      "poses": [
+        {
+          "joints": {
+            "Hip": {
+              "x": -1.2915701154380006,
+              "y": 0.92,
+              "z": -4.819630062339425
+            },
+            "Spine": {
+              "x": -1.2915701154380006,
+              "y": 1.2000000000000002,
+              "z": -4.797630062339425
+            },
+            "Chest": {
+              "x": -1.2915701154380006,
+              "y": 1.4200000000000002,
+              "z": -4.787630062339425
+            },
+            "Neck": {
+              "x": -1.2915701154380006,
+              "y": 1.58,
+              "z": -4.787630062339425
+            },
+            "Head": {
+              "x": -1.2915701154380006,
+              "y": 1.71,
+              "z": -4.787630062339425
+            },
+            "ShoulderR": {
+              "x": -1.0215701154380006,
+              "y": 1.4400000000000002,
+              "z": -4.787630062339425
+            },
+            "ElbowR": {
+              "x": -0.8211581165851128,
+              "y": 1.1622148864691348,
+              "z": -4.676857947543172
+            },
+            "WristR": {
+              "x": -0.7715701154380006,
+              "y": 0.8600000000000003,
+              "z": -4.487630062339425
+            },
+            "ShoulderL": {
+              "x": -1.5615701154380006,
+              "y": 1.4400000000000002,
+              "z": -4.787630062339425
+            },
+            "ElbowL": {
+              "x": -1.913587952455659,
+              "y": 1.3693288123631786,
+              "z": -4.761380764074319
+            },
+            "WristL": {
+              "x": -1.7115701154380005,
+              "y": 1.0900000000000003,
+              "z": -4.657630062339425
+            },
+            "HipR": {
+              "x": -1.1315701154380007,
+              "y": 0.92,
+              "z": -4.819630062339425
+            },
+            "KneeR": {
+              "x": -1.0951146480810219,
+              "y": 0.5183149138034567,
+              "z": -4.670566014269276
+            },
+            "AnkleR": {
+              "x": -1.057149918472819,
+              "y": 0.09999999999999998,
+              "z": -4.762605745882219
+            },
+            "HipL": {
+              "x": -1.4515701154380005,
+              "y": 0.92,
+              "z": -4.819630062339425
+            },
+            "KneeL": {
+              "x": -1.4565701154380006,
+              "y": 0.51,
+              "z": -4.690111723869539
+            },
+            "AnkleL": {
+              "x": -1.4615701154380005,
+              "y": 0.09999999999999998,
+              "z": -4.819630062339425
+            }
+          },
+          "racket": {
+            "center": {
+              "x": -0.7715701154380006,
+              "y": 1.3200000000000003,
+              "z": -4.487630062339425
+            },
+            "normal": {
+              "x": 0.3101844075994442,
+              "y": 0,
+              "z": 0.9506764082915816
+            },
+            "shaft": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "hand": {
+              "x": -0.7715701154380006,
+              "y": 0.8600000000000003,
+              "z": -4.487630062339425
+            },
+            "active": false,
+            "reachable": true,
+            "phase": 0.891666666666616,
+            "receiverSide": -1,
+            "strokePhase": "ready"
+          },
+          "hipHeight": 0.92,
+          "hop": 0,
+          "motion": "Ready",
+          "footPhases": {
+            "left": false,
+            "right": false
+          },
+          "footCycles": {
+            "left": 20,
+            "right": 19
+          }
+        },
+        {
+          "joints": {
+            "Hip": {
+              "x": -0.708613255144474,
+              "y": 0.92,
+              "z": 3.6427478986905926
+            },
+            "Spine": {
+              "x": -0.708613255144474,
+              "y": 1.2000000000000002,
+              "z": 3.6207478986905928
+            },
+            "Chest": {
+              "x": -0.708613255144474,
+              "y": 1.4200000000000002,
+              "z": 3.610747898690593
+            },
+            "Neck": {
+              "x": -0.708613255144474,
+              "y": 1.58,
+              "z": 3.610747898690593
+            },
+            "Head": {
+              "x": -0.708613255144474,
+              "y": 1.71,
+              "z": 3.610747898690593
+            },
+            "ShoulderR": {
+              "x": -0.9786132551444741,
+              "y": 1.4400000000000002,
+              "z": 3.610747898690593
+            },
+            "ElbowR": {
+              "x": -1.1790252539973616,
+              "y": 1.1622148864691348,
+              "z": 3.4999757838943393
+            },
+            "WristR": {
+              "x": -1.2286132551444742,
+              "y": 0.8600000000000003,
+              "z": 3.310747898690593
+            },
+            "ShoulderL": {
+              "x": -0.438613255144474,
+              "y": 1.4400000000000002,
+              "z": 3.610747898690593
+            },
+            "ElbowL": {
+              "x": -0.08659541812681565,
+              "y": 1.3693288123631786,
+              "z": 3.584498600425488
+            },
+            "WristL": {
+              "x": -0.288613255144474,
+              "y": 1.0900000000000003,
+              "z": 3.480747898690593
+            },
+            "HipR": {
+              "x": -0.8686132551444741,
+              "y": 0.92,
+              "z": 3.6427478986905926
+            },
+            "KneeR": {
+              "x": -0.8487705666398597,
+              "y": 0.5177616931513433,
+              "z": 3.492047493195336
+            },
+            "AnkleR": {
+              "x": -0.828162098959825,
+              "y": 0.09999999999999987,
+              "z": 3.5917994796176815
+            },
+            "HipL": {
+              "x": -0.548613255144474,
+              "y": 0.92,
+              "z": 3.6427478986905926
+            },
+            "KneeL": {
+              "x": -0.5399165553936491,
+              "y": 0.5112553696555703,
+              "z": 3.509510536895789
+            },
+            "AnkleL": {
+              "x": -0.5311664356237692,
+              "y": 0.09999999999999998,
+              "z": 3.634780071633781
+            }
+          },
+          "racket": {
+            "center": {
+              "x": -1.2286132551444742,
+              "y": 1.3200000000000003,
+              "z": 3.310747898690593
+            },
+            "normal": {
+              "x": -0.31380499166117365,
+              "y": 0,
+              "z": -0.9494874550032406
+            },
+            "shaft": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "hand": {
+              "x": -1.2286132551444742,
+              "y": 0.8600000000000003,
+              "z": 3.310747898690593
+            },
+            "active": false,
+            "reachable": true,
+            "phase": 3.158333333333265,
+            "receiverSide": 1,
+            "strokePhase": "ready"
+          },
+          "hipHeight": 0.92,
+          "hop": 0,
+          "motion": "Ready",
+          "footPhases": {
+            "left": false,
+            "right": false
+          },
+          "footCycles": {
+            "left": 21,
+            "right": 20
+          }
+        }
+      ],
+      "shuttle": {
+        "x": 1.8000085711853842,
+        "y": 0.025,
+        "z": 5.800025970983458
+      },
+      "renderedContact": {
+        "time": 9.358333333333443,
+        "actor": 0,
+        "shuttle": {
+          "x": -1.8306124201433485,
+          "y": 2.839067097203553,
+          "z": -5.327839457997369
+        },
+        "racket": {
+          "x": -1.8111696243286133,
+          "y": 2.6482295989990234,
+          "z": -5.386024475097656
+        },
+        "contact": {
+          "x": -1.8111696155893262,
+          "y": 2.648229670804624,
+          "z": -5.386024415083479
+        }
+      },
+      "contactVisibility": {
+        "x": 90.94338231247394,
+        "y": 466.93353142841437,
+        "radius": 16.38,
+        "strength": 0
+      }
+    },
+    "files": [
+      {
+        "file": "phases-portrait-1/return-baseline.png",
+        "sha256": "4aeeba6b684d88ccef84663ee51f339772a38bf723ea73e84e2bfa634a335e83"
+      },
+      {
+        "file": "phases-portrait-1/return-candidate.png",
+        "sha256": "1e1c71b6ad79c71ae2334f2ab6c27b0fd4641570a73de7f8041fb32ce7567b4c"
+      },
+      {
+        "file": "phases-portrait-1/contact-candidate.png",
+        "sha256": "c77e671face4a3cb05db7f4ed73798153ed233c89b8937663509b672a60afee5"
+      }
+    ],
+    "causeScope": "Existing non-rally camera reset/tracking is unchanged in main.ts; geometry only changed. Do not widen this frozen V2cycle to a camera fix or hide the defect with a different capture.",
+    "nextAccessibleItem": "Point-resolution portrait camera preserves whole player while maintaining reference rally/ready framing; separate future cycle.",
+    "scopeCaveat": "Stage names include timed checkpoints. Return at +0.72s can be a resolved point, not uninterrupted rally or proof of full-body return motion."
+  },
+  "contactMaterialComparison": [
+    {
+      "view": "pc",
+      "reply": 1,
+      "originalRepeatIdentical": true,
+      "runtimeOffIdentical": true,
+      "runtimeOnRestoredIdentical": true,
+      "sameTimeCameraContact": true,
+      "changedPixels": 189,
+      "changedBounds": [
+        296,
+        180,
+        323,
+        207
+      ],
+      "outsideApertureChangedPixels": 0,
+      "window": {
+        "x": 309.5495394366039,
+        "y": 193.46768595965705,
+        "radius": 18,
+        "strength": 1
+      },
+      "originalMeaning": "Current imported NEW athlete GLB material, versus its existing contact-visibility shader; not prior3f18189geometry."
+    },
+    {
+      "view": "pc",
+      "reply": 3,
+      "originalRepeatIdentical": true,
+      "runtimeOffIdentical": true,
+      "runtimeOnRestoredIdentical": true,
+      "sameTimeCameraContact": true,
+      "changedPixels": 281,
+      "changedBounds": [
+        302,
+        186,
+        329,
+        215
+      ],
+      "outsideApertureChangedPixels": 0,
+      "window": {
+        "x": 316.01404532140606,
+        "y": 200.58994581988927,
+        "radius": 18,
+        "strength": 1
+      },
+      "originalMeaning": "Current imported NEW athlete GLB material, versus its existing contact-visibility shader; not prior3f18189geometry."
+    },
+    {
+      "view": "portrait",
+      "reply": 1,
+      "originalRepeatIdentical": true,
+      "runtimeOffIdentical": true,
+      "runtimeOnRestoredIdentical": true,
+      "sameTimeCameraContact": true,
+      "changedPixels": 364,
+      "changedBounds": [
+        347,
+        879,
+        371,
+        911
+      ],
+      "outsideApertureChangedPixels": 0,
+      "window": {
+        "x": 171.68278224082718,
+        "y": 451.97645282897446,
+        "radius": 16.38,
+        "strength": 1
+      },
+      "originalMeaning": "Current imported NEW athlete GLB material, versus its existing contact-visibility shader; not prior3f18189geometry."
+    },
+    {
+      "view": "portrait",
+      "reply": 3,
+      "originalRepeatIdentical": true,
+      "runtimeOffIdentical": true,
+      "runtimeOnRestoredIdentical": true,
+      "sameTimeCameraContact": true,
+      "changedPixels": 2204,
+      "changedBounds": [
+        371,
+        907,
+        423,
+        963
+      ],
+      "outsideApertureChangedPixels": 0,
+      "window": {
+        "x": 198.35598250744044,
+        "y": 467.88014189178926,
+        "radius": 16.38,
+        "strength": 1
+      },
+      "originalMeaning": "Current imported NEW athlete GLB material, versus its existing contact-visibility shader; not prior3f18189geometry."
+    }
+  ],
+  "actualMatch": {
+    "score": [
+      5,
+      0
+    ],
+    "physicalContacts": 17,
+    "renderedContactSamples": 17,
+    "maxRacketCentreErrorM": 2.0739561072670043e-07,
+    "hitAudioEvents": 17,
+    "pointAudioEvents": 5,
+    "mutedHitEvents": 0,
+    "mutedPointEvents": 0
+  },
+  "aimObservation": {
+    "final-play": {
+      "actualTargetEvents": 6,
+      "distinctIntentCopies": 4,
+      "maxMarkerTransformErrorM": 2.0141312795374233e-07,
+      "ownContactsWithVisibilityOff": 12
+    },
+    "final-native": {
+      "actualTargetEvents": 2,
+      "distinctIntentCopies": 3,
+      "maxMarkerTransformErrorM": 1.6500312582934384e-07,
+      "ownContactsWithVisibilityOff": 3
+    },
+    "final-native-2": {
+      "actualTargetEvents": 2,
+      "distinctIntentCopies": 3,
+      "maxMarkerTransformErrorM": 1.3991163605453624e-07,
+      "ownContactsWithVisibilityOff": 3
+    },
+    "final-native-3": {
+      "actualTargetEvents": 2,
+      "distinctIntentCopies": 3,
+      "maxMarkerTransformErrorM": 4.551955790077714e-08,
+      "ownContactsWithVisibilityOff": 3
+    },
+    "final-rally": {
+      "actualTargetEvents": 3,
+      "distinctIntentCopies": 3,
+      "maxMarkerTransformErrorM": 1.9959232498480803e-07,
+      "ownContactsWithVisibilityOff": 4
+    }
+  },
+  "liveViewportRallies": [
+    {
+      "view": {
+        "name": "pc",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "returns": 6,
+      "taps": 3,
+      "clippedPlayers": 0,
+      "clippedShuttle": 0,
+      "nearCourtClippingSamples": 894,
+      "maxAimRoundTripErrorCssPx": 2.0544909182232693e-05,
+      "maxContrastAnchorErrorCssPx": 0.021064855525958638
+    },
+    {
+      "view": {
+        "name": "mobile-landscape",
+        "width": 844,
+        "height": 390,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "returns": 6,
+      "taps": 3,
+      "clippedPlayers": 0,
+      "clippedShuttle": 0,
+      "nearCourtClippingSamples": 888,
+      "maxAimRoundTripErrorCssPx": 0.5681815618217434,
+      "maxContrastAnchorErrorCssPx": 0.021067695420996412
+    },
+    {
+      "view": {
+        "name": "mobile-portrait",
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "returns": 6,
+      "taps": 3,
+      "clippedPlayers": 0,
+      "clippedShuttle": 0,
+      "nearCourtClippingSamples": 892,
+      "maxAimRoundTripErrorCssPx": 0.5019498029636832,
+      "maxContrastAnchorErrorCssPx": 0.02144184123307122
+    }
+  ],
+  "nearCourtCropping": "Existing reference composition intentionally crops the near baseline; it is not a zero-court-clipping claim.",
+  "continuingRotation": {
+    "quality": "MEDIUM",
+    "dpr": 2,
+    "actualAimErrorsCssPx": [
+      0.49089410472836853,
+      0.5083046923220327
+    ],
+    "method": "One continuing native-touch EASY clear rally, portrait→landscape→portrait, DPR2 MEDIUM; no reload, pause, actor/ball/time injection."
+  },
+  "aimObservationScope": "Read-only actual post-render targets, copy and marker transforms. The rally wrapper arrays reset at page reload; per-viewport visibility/aim results remain in the original COURT FRAMING PASS logs. Numeric checks do not replace visual or physical-device experience review.",
+  "opponentFacts": {
+    "centreSoft": [
+      {
+        "difficulty": "NORMAL",
+        "pattern": "centre-soft",
+        "scores": [
+          0,
+          1
+        ],
+        "metrics": {
+          "attempts": 3,
+          "reachable": 3,
+          "unreachable": 0,
+          "unobserved": 0,
+          "returned": 3,
+          "directWinners": 0,
+          "techniques": {
+            "drop": 1,
+            "net": 2,
+            "block": 0
+          }
+        }
+      },
+      {
+        "difficulty": "HARD",
+        "pattern": "centre-soft",
+        "scores": [
+          0,
+          1
+        ],
+        "metrics": {
+          "attempts": 3,
+          "reachable": 3,
+          "unreachable": 0,
+          "unobserved": 0,
+          "returned": 3,
+          "directWinners": 0,
+          "techniques": {
+            "drop": 1,
+            "net": 2,
+            "block": 0
+          }
+        }
+      }
+    ],
+    "pressure": [
+      {
+        "difficulty": "NORMAL",
+        "pattern": "wide-soft",
+        "scores": [
+          1,
+          3
+        ],
+        "metrics": {
+          "attempts": 10,
+          "reachable": 9,
+          "unreachable": 1,
+          "unobserved": 0,
+          "returned": 9,
+          "directWinners": 1,
+          "techniques": {
+            "drop": 3,
+            "net": 7,
+            "block": 0
+          }
+        }
+      },
+      {
+        "difficulty": "NORMAL",
+        "pattern": "clear-soft",
+        "scores": [
+          0,
+          5
+        ],
+        "metrics": {
+          "attempts": 4,
+          "reachable": 4,
+          "unreachable": 0,
+          "unobserved": 0,
+          "returned": 4,
+          "directWinners": 0,
+          "techniques": {
+            "drop": 3,
+            "net": 0,
+            "block": 1
+          }
+        }
+      }
+    ],
+    "goodOrPerfectPressureDirectWinners": 1
+  },
+  "interruption": {
+    "method": "Actual three repeated mouse/native touch presses at visible HIT NOW, physical hit counted; ordinary UI pause/resume/restart/menu in PC and mobile landscape/portrait. Read-only diagnostics and post-render target checks, no injected state/time or contactAt scheduling. Software touch emulation only.",
+    "results": [
+      {
+        "view": {
+          "width": 1065,
+          "height": 606
+        },
+        "presses": 3,
+        "physicalReturns": 1,
+        "pausedTime": 6.025000000000089,
+        "resumed": true,
+        "actualTarget": {
+          "x": 1.9483332020638005,
+          "y": 0.025,
+          "z": 4.1
+        },
+        "pausedGuide": {
+          "aim": {
+            "x": 1.7999998687305452,
+            "y": 0.025,
+            "z": 1.2000017872631563
+          },
+          "target": {
+            "x": 1.9483332020638005,
+            "y": 0.025,
+            "z": 4.1
+          },
+          "time": 6.025000000000089,
+          "copy": "YOU · WEAK CLEAR → MID LEFT"
+        },
+        "restarted": {
+          "phase": "SERVE_READY",
+          "guide": null,
+          "returns": 0
+        },
+        "menu": {
+          "phase": "MENU",
+          "targetVisible": false
+        }
+      },
+      {
+        "view": {
+          "width": 844,
+          "height": 390,
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "presses": 3,
+        "physicalReturns": 1,
+        "pausedTime": 6.075000000000092,
+        "resumed": true,
+        "actualTarget": {
+          "x": 1.7048039507077788,
+          "y": 0.025,
+          "z": 5.3
+        },
+        "pausedGuide": {
+          "aim": {
+            "x": 1.7048039507077788,
+            "y": 0.025,
+            "z": 3.4301526855921782
+          },
+          "target": {
+            "x": 1.7048039507077788,
+            "y": 0.025,
+            "z": 5.3
+          },
+          "time": 6.075000000000092,
+          "copy": "YOU · PERFECT CLEAR → DEEP LEFT"
+        },
+        "restarted": {
+          "phase": "SERVE_READY",
+          "guide": null,
+          "returns": 0
+        },
+        "menu": {
+          "phase": "MENU",
+          "targetVisible": false
+        }
+      },
+      {
+        "view": {
+          "width": 390,
+          "height": 844,
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "presses": 3,
+        "physicalReturns": 1,
+        "pausedTime": 6.091666666666759,
+        "resumed": true,
+        "actualTarget": {
+          "x": 1.7328039717388386,
+          "y": 0.025,
+          "z": 5.3
+        },
+        "pausedGuide": {
+          "aim": {
+            "x": 1.7328039717388386,
+            "y": 0.025,
+            "z": 2.9448687486687604
+          },
+          "target": {
+            "x": 1.7328039717388386,
+            "y": 0.025,
+            "z": 5.3
+          },
+          "time": 6.091666666666759,
+          "copy": "YOU · PERFECT CLEAR → DEEP LEFT"
+        },
+        "restarted": {
+          "phase": "SERVE_READY",
+          "guide": null,
+          "returns": 0
+        },
+        "menu": {
+          "phase": "MENU",
+          "targetVisible": false
+        }
+      }
+    ]
+  },
+  "swing": {
+    "file": "final-swing/sequences.json",
+    "motions": [
+      "Serve",
+      "Clear",
+      "Drop"
+    ],
+    "errors": []
+  },
+  "limits": [
+    "Chromium151 SwiftShader; no physical mouse/touch FPS or latency result.",
+    "Held material comparisons and synchronous DOM cancellation fixtures are separate diagnostics, not ordinary play.",
+    "No continuous normal-speed human playback review, actual listening, physical Safari/mobile validation or diverse human-strategy testing.",
+    "Reference13013 pixels were not downloaded/viewed by this worker; prior parent measurements remain the reference provenance.",
+    "Both569cfb7 and3f18189 candidates stay on separate remote branches.3f18189Vercel success and actual hostname come from authorized GitHub status/check-run metadata; Chromium CONNECT is transport-blocked. No proxy bypass; local passes do not prove remote delivery.",
+    "Frozen100-point rubric and unknown40 points remain unchanged; no98 or normalized100-point claim."
+  ]
+}

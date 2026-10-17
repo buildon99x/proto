@@ -1,0 +1,1 @@
+{"sameStatePairs": 14, "baselineRepeatedExact": true, "outsideChangedPixels": 0}

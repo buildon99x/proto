@@ -1,0 +1,20 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "modelHashes": {
+      "athlete-gold.glb": "8e9301e591a4612d20f35727a85ac1a9d9df7496e6312e4769b7a0f79858ed4d",
+      "athlete-violet.glb": "e94409976350cd6fa8b8bb0c7191baf2e980fb9f47448574d7e4a756f28b6534",
+      "court.glb": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47",
+      "racket.glb": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13",
+      "shuttle.glb": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+    },
+    "sourceBundle": "./assets/index-IddYOBeI.js",
+    "sha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6",
+    "startedAt": "2026-10-17T07:08:20.877Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "HIGH SHUTTLE FLIGHT PASS {\"returns\":6,\"apex\":{\"time\":4.641666666666687,\"p\":{\"x\":1.015495003664186,\"y\":9.55124127511855,\"z\":-0.41367148003503734},\"v\":{\"x\":0.7753766936883609,\"y\":0.7882713441528935,\"z\":-4.413208948578939},\"screen\":{\"x\":330.80746386819357,\"y\":37.35290765632452,\"z\":12.984652973806616},\"cue\":{\"visible\":true,\"x\":330.8074625637934,\"y\":37.35291551257587,\"angle\":168.04630971721147,\"opacity\":1}},\"visibility\":{\"visible\":407,\"maxAnchorError\":0.021701278524082702,\"blockedPointer\":0,\"nearContactVisible\":0,\"worst\":{\"time\":7.425000000000159,\"projection\":{\"x\":304.4685029932504,\"y\":24.874688132264254},\"bounds\":{\"x\":292.7183532714844,\"y\":13.124608993530273,\"width\":23.46954345703125,\"height\":23.469533920288086,\"top\":13.124608993530273,\"right\":316.1878967285156,\"bottom\":36.59414291381836,\"left\":292.7183532714844},\"cue\":{\"visible\":true,\"x\":304.4685029932504,\"y\":24.874688132264254,\"angle\":-11.075456864082312,\"opacity\":1}}},\"contacts\":7}"
+  ]
+}

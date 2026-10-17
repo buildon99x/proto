@@ -1,0 +1,25 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT loss-normal-results
+SHOT loss-rematch-ready
+Natural UI loss and PLAY AGAIN {"scores":[0,5],"points":[{"winner":1,"reason":"IN","returns":1,"detail":"YOUR RETURN WAS LATE"},{"winner":1,"reason":"IN","returns":0,"detail":"YOUR RETURN WAS LATE"},{"winner":1,"reason":"IN","returns":0,"detail":"YOUR RETURN WAS LATE"},{"winner":1,"reason":"IN","returns":0,"detail":"YOUR RETURN WAS LATE"},{"winner":1,"reason":"IN","returns":0,"detail":"YOUR RETURN WAS LATE"}],"rematch":"SERVE_READY"}
+One normal opening serve, then deliberately no return inputs; this checks losing result/rematch only, not tactical play. No state injection.
+EXPERIENCE LOSS PASS {"rematch":"SERVE_READY","pointAudioEvents":0}

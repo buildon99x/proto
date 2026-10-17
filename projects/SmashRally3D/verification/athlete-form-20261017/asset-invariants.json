@@ -1,0 +1,142 @@
+{
+  "reference": "3f181892613ef7c4b898534efc062bb22f36f362",
+  "method": "Decoded binary accessor equality for17-joint rest/binds and every nine-clip input/output; exact vertex envelope, unchanged material batches, finite geometry/normals/weights. These are structural/physical safety gates, not a V2visual score.",
+  "athletes": [
+    {
+      "file": "athlete-gold.glb",
+      "bounds": [
+        [
+          -0.4050000011920929,
+          0.03999999910593033,
+          -0.19499999284744263
+        ],
+        [
+          0.4050000011920929,
+          2.0799999237060547,
+          0.2750000059604645
+        ]
+      ],
+      "nodesRestAndHierarchyIdentical": true,
+      "jointCount": 17,
+      "inverseBindsIdentical": true,
+      "animationDecodedValuesIdentical": [
+        "Ready",
+        "SideStep",
+        "Run",
+        "BasicHit",
+        "Drop",
+        "Clear",
+        "Smash",
+        "Recover",
+        "Serve"
+      ],
+      "materialsAndBatchCountIdentical": true,
+      "primitives": 7,
+      "baselineVertices": 6996,
+      "baselineTriangles": 11952,
+      "vertices": 9517,
+      "triangles": 15144,
+      "sha256": "8e9301e591a4612d20f35727a85ac1a9d9df7496e6312e4769b7a0f79858ed4d"
+    },
+    {
+      "file": "athlete-violet.glb",
+      "bounds": [
+        [
+          -0.4050000011920929,
+          0.03999999910593033,
+          -0.19499999284744263
+        ],
+        [
+          0.4050000011920929,
+          2.0799999237060547,
+          0.2750000059604645
+        ]
+      ],
+      "nodesRestAndHierarchyIdentical": true,
+      "jointCount": 17,
+      "inverseBindsIdentical": true,
+      "animationDecodedValuesIdentical": [
+        "Ready",
+        "SideStep",
+        "Run",
+        "BasicHit",
+        "Drop",
+        "Clear",
+        "Smash",
+        "Recover",
+        "Serve"
+      ],
+      "materialsAndBatchCountIdentical": true,
+      "primitives": 7,
+      "baselineVertices": 6996,
+      "baselineTriangles": 11952,
+      "vertices": 9517,
+      "triangles": 15144,
+      "sha256": "e94409976350cd6fa8b8bb0c7191baf2e980fb9f47448574d7e4a756f28b6534"
+    }
+  ],
+  "sharedTeamGeometryWeightsAndMotionBinaryIdentical": true,
+  "unchangedRuntimeAndThreeOtherModels": [
+    {
+      "file": "projects/SmashRally3D/app/src/main.ts",
+      "sha256": "e8c65a4a20ff746b2aa54e1f07e735026712237523d7200f21df0649dc19fa71"
+    },
+    {
+      "file": "projects/SmashRally3D/app/src/style.css",
+      "sha256": "0925d70cad6c64a3a6af47f8ba89949fc3865f7de2b7c3d6ab6d649ed5e03a16"
+    },
+    {
+      "file": "projects/SmashRally3D/app/src/game.ts",
+      "sha256": "b7dd23757c7b8443223c45f700e16ab33d3a3a9fa74cf6565c04eb778d3badc3"
+    },
+    {
+      "file": "projects/SmashRally3D/app/src/physics.ts",
+      "sha256": "7dcd6992b71aeadd83315e1ea88097a385dc1cf7b6b685e69f2fffcfba57783c"
+    },
+    {
+      "file": "projects/SmashRally3D/app/src/tactics.ts",
+      "sha256": "9b353a5a08ca100bf69d1857e592ccf506282b99b6be4e76b84cf6cc0d5b5a99"
+    },
+    {
+      "file": "projects/SmashRally3D/app/src/motion.ts",
+      "sha256": "b5d9ab1865aec2b0ac147ae4431bc5c5c702d0c9d823d2361715b7bb601ce6e4"
+    },
+    {
+      "file": "projects/SmashRally3D/app/src/motion-data.json",
+      "sha256": "9a35236d0fb260eef3ab5cf3105cc898efffbb2621a7016fff3c762ba80ee3dd"
+    },
+    {
+      "file": "projects/SmashRally3D/app/src/camera-framing.ts",
+      "sha256": "0d89e0f16a4dc9a5a00fa5a30997dbe58cd6d3d8f306e24ee0db863a3dcd862a"
+    },
+    {
+      "file": "projects/SmashRally3D/app/src/stroke-presentation.ts",
+      "sha256": "1515f4d99487e1e7b20c8cf4e47592dca764949149f91cec29bd8c31900849d1"
+    },
+    {
+      "file": "projects/SmashRally3D/app/src/contact-visibility.ts",
+      "sha256": "b61648a1a56357020d839c579fcd17a440d9337ee7a578c68864faae3caeadd4"
+    },
+    {
+      "file": "projects/SmashRally3D/app/src/aim-feedback.ts",
+      "sha256": "1e2c92c3c0b6eda44301cb2f5db4148fb05e0c0816ba00fdbb9f2bb8bd1fdc95"
+    },
+    {
+      "file": "projects/SmashRally3D/app/public/assets/models/court.glb",
+      "sha256": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47"
+    },
+    {
+      "file": "projects/SmashRally3D/app/public/assets/models/racket.glb",
+      "sha256": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13"
+    },
+    {
+      "file": "projects/SmashRally3D/app/public/assets/models/shuttle.glb",
+      "sha256": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+    }
+  ],
+  "calibration": {
+    "rootScale": 1,
+    "newRuntimeCompensation": false,
+    "placement": "Existing world-space17joint posing remains unchanged; bind extents/grounding match original. Facing+Z in asset, player yaw0/opponent yaw180 as existing runtime; animated bounds require direct scene review."
+  }
+}
