@@ -1,0 +1,344 @@
+{
+  "sourceCaptureSha256": "c3b0edddc0a5f918f997b9e79a1f4144330911f973b87ad218452813aba19a85",
+  "cpuNearestPointUiFrame": 675,
+  "expectedScore": [
+    1,
+    2
+  ],
+  "launch": {
+    "contactVisibility": {
+      "x": 313.5416870896567,
+      "y": 194.00641582521635,
+      "radius": 18,
+      "strength": 0
+    },
+    "aimGuide": {
+      "aim": {
+        "x": 1.5104183670485058,
+        "y": 0.025,
+        "z": 1.2000406897763476
+      },
+      "target": {
+        "x": 1.5104183670485058,
+        "y": 0.025,
+        "z": 1.2000406897763476
+      },
+      "time": 20.499999999999478,
+      "copy": "YOU \u00b7 PERFECT NET \u2192 FRONT LEFT"
+    },
+    "round": 0,
+    "shotIndex": 14,
+    "pointCount": 2,
+    "opponentScreenBounds": [
+      266.5804528488476,
+      171.22504294648346,
+      337.94059206192316,
+      258.2676974604906
+    ],
+    "difficulty": "NORMAL",
+    "time": 20.499999999999478,
+    "perf": 99258.5,
+    "hit": {
+      "actor": 0,
+      "p": {
+        "x": -0.8250957348077005,
+        "y": 1.8380055786160558,
+        "z": -0.5976586162995601
+      },
+      "velocity": {
+        "x": 3.5578412213013757,
+        "y": 1,
+        "z": 2.7385528049599115
+      },
+      "shot": "drop",
+      "quality": "perfect",
+      "time": 20.499999999999478,
+      "target": {
+        "x": 1.5104183670485058,
+        "y": 0.025,
+        "z": 1.2000406897763476
+      },
+      "renderPose": {
+        "joints": {
+          "Hip": {
+            "x": -1.1349095287792783,
+            "y": 0.92,
+            "z": -0.9824577379186493
+          },
+          "Spine": {
+            "x": -1.1349095287792783,
+            "y": 1.2000000000000002,
+            "z": -0.9406577379186494
+          },
+          "Chest": {
+            "x": -1.1352792686700675,
+            "y": 1.4200000000000002,
+            "z": -0.9216577379186494
+          },
+          "Neck": {
+            "x": -1.1352792686700675,
+            "y": 1.58,
+            "z": -0.9216577379186494
+          },
+          "Head": {
+            "x": -1.1352792686700675,
+            "y": 1.71,
+            "z": -0.9216577379186494
+          },
+          "ShoulderR": {
+            "x": -0.86528665098068,
+            "y": 1.4400000000000002,
+            "z": -0.9236543333289104
+          },
+          "ElbowR": {
+            "x": -0.540650678786553,
+            "y": 1.303249164283669,
+            "z": -0.8494202812472751
+          },
+          "WristR": {
+            "x": -0.8103284350175666,
+            "y": 1.333953853940851,
+            "z": -0.6129226494890223
+          },
+          "ShoulderL": {
+            "x": -1.4052718863594549,
+            "y": 1.4400000000000002,
+            "z": -0.9196611425083883
+          },
+          "ElbowL": {
+            "x": -1.7572088283437988,
+            "y": 1.3698619517128403,
+            "z": -0.8910072937411351
+          },
+          "WristL": {
+            "x": -1.5552677850757812,
+            "y": 1.0900000000000003,
+            "z": -0.7885519228360209
+          },
+          "HipR": {
+            "x": -0.9749095287792783,
+            "y": 0.92,
+            "z": -0.9824577379186493
+          },
+          "KneeR": {
+            "x": -0.8925704065750653,
+            "y": 0.501475675308279,
+            "z": -1.0368420977657453
+          },
+          "AnkleR": {
+            "x": -0.8135853805181527,
+            "y": 0.10000000000000009,
+            "z": -1.169048934935954
+          },
+          "HipL": {
+            "x": -1.2949095287792782,
+            "y": 0.92,
+            "z": -0.9824577379186493
+          },
+          "KneeL": {
+            "x": -1.2551134132986306,
+            "y": 0.5118981654404607,
+            "z": -0.8529619394470798
+          },
+          "AnkleL": {
+            "x": -1.2197224878505406,
+            "y": 0.14897074331181492,
+            "z": -1.0808460518002307
+          }
+        },
+        "racket": {
+          "center": {
+            "x": -0.8394419393770067,
+            "y": 1.7924888820674687,
+            "z": -0.6352392765826258
+          },
+          "normal": {
+            "x": 0.7911278358543516,
+            "y": 0.07974522228289002,
+            "z": 0.6064300840653132
+          },
+          "shaft": {
+            "x": -0.06329022686834815,
+            "y": 0.9968152785361251,
+            "z": -0.04851440672522507
+          },
+          "hand": {
+            "x": -0.8103284350175666,
+            "y": 1.333953853940851,
+            "z": -0.6129226494890223
+          },
+          "active": true,
+          "reachable": true,
+          "phase": 0.0833333333333286,
+          "receiverSide": -1,
+          "strokePhase": "contact"
+        },
+        "hipHeight": 0.92,
+        "hop": 0,
+        "motion": "Drop",
+        "footPhases": {
+          "left": true,
+          "right": false
+        },
+        "footCycles": {
+          "left": 13,
+          "right": 12
+        }
+      },
+      "technique": "net",
+      "balance": 1,
+      "preparation": 0.9166666666670409,
+      "recoveryBase": {
+        "x": 0.5437506121374621,
+        "y": 0,
+        "z": -2.25
+      },
+      "crossCourt": true,
+      "strokeReason": "DRAW_FORWARD",
+      "requestedShot": "drop",
+      "fallbackReason": null,
+      "contact": {
+        "racket": {
+          "x": -0.8394419393770067,
+          "y": 1.7924888820674687,
+          "z": -0.6352392765826258
+        },
+        "ball": {
+          "x": -0.8250957348077005,
+          "y": 1.8380055786160558,
+          "z": -0.5976586162995601
+        },
+        "planeDistance": 0.03776946383217852,
+        "radialDistance": 0.04757475043950836,
+        "source": "engine:hit_frame"
+      }
+    },
+    "contact": {
+      "time": 20.499999999999478,
+      "actor": 0,
+      "shuttle": {
+        "x": -0.8250957348077005,
+        "y": 1.8380055786160558,
+        "z": -0.5976586162995601
+      },
+      "racket": {
+        "x": -0.8394419550895691,
+        "y": 1.792488932609558,
+        "z": -0.63523930311203
+      },
+      "contact": {
+        "x": -0.8394419393770067,
+        "y": 1.7924888820674687,
+        "z": -0.6352392765826258
+      }
+    },
+    "actors": [
+      {
+        "p": {
+          "x": -1.1349095287792783,
+          "y": 0,
+          "z": -0.9824577379186493
+        }
+      },
+      {
+        "p": {
+          "x": -0.5944498350515259,
+          "y": 0,
+          "z": 2.217056908588911
+        }
+      }
+    ],
+    "perception": {
+      "samples": 0,
+      "nextAt": 20.79999999999948,
+      "observedAt": 0,
+      "position": null,
+      "velocity": null,
+      "flightId": 15
+    },
+    "shuttle": {
+      "x": -0.8250957348077005,
+      "y": 1.8380055786160558,
+      "z": -0.5976586162995601
+    },
+    "feedback": "YOU \u00b7 PERFECT \u00b7 NET",
+    "file": "observed-frames/012-actor0.png"
+  },
+  "point": {
+    "round": 0,
+    "difficulty": "NORMAL",
+    "time": 21.258333333332768,
+    "perf": 102899.30000000075,
+    "point": {
+      "winner": 0,
+      "reason": "IN",
+      "returns": 3,
+      "detail": "AI COULD NOT RETURN"
+    },
+    "feedback": "YOUR POINT \u00b7 AI COULD NOT RETURN",
+    "file": "observed-frames/point-002.png"
+  },
+  "candidates": [
+    {
+      "index": 672,
+      "file": "final-pressure/review-source-frames/000672.jpg",
+      "sha256": "0d552fa89706005f05bae894fc41836bacd73d3efa01e3d274e59c60d0c62d3d"
+    },
+    {
+      "index": 673,
+      "file": "final-pressure/review-source-frames/000673.jpg",
+      "sha256": "75f45161dc8817e973302e6d83546caa9e86b6d997a9a2934542e4acd6f282e7"
+    },
+    {
+      "index": 674,
+      "file": "final-pressure/review-source-frames/000674.jpg",
+      "sha256": "1b2592ecdcadc1e22d5332e1867831d7739b1076d42630e4ff2dfaba1c14d631"
+    },
+    {
+      "index": 675,
+      "file": "final-pressure/review-source-frames/000675.jpg",
+      "sha256": "6ce28ab9d8aa0a6cca0ae5c11e8702978f1488ce675f1ae7da76b92f0634a12d"
+    },
+    {
+      "index": 676,
+      "file": "final-pressure/review-source-frames/000676.jpg",
+      "sha256": "0caa173c6a1e203cd35a11114f8557c601a9f5c0ae3ed91bfa8ec19000cae2a8"
+    },
+    {
+      "index": 677,
+      "file": "final-pressure/review-source-frames/000677.jpg",
+      "sha256": "7c5f7ce683cf158d602b76d1f97477b1c1fbdf3beb91e2d39ba14316394cb11d"
+    },
+    {
+      "index": 678,
+      "file": "final-pressure/review-source-frames/000678.jpg",
+      "sha256": "8ee74e572a16734ce5a3136fcdb2f153b81b1796e1ddf004eb521aa9bda5693b"
+    },
+    {
+      "index": 679,
+      "file": "final-pressure/review-source-frames/000679.jpg",
+      "sha256": "1022d5d85a4faff059667e88c45fd1665f91f70b932921d54f82e2cbf00c92e8"
+    },
+    {
+      "index": 680,
+      "file": "final-pressure/review-source-frames/000680.jpg",
+      "sha256": "ec576a99104711f35e1ed48fe5b8b90f8bc44771bd41995c7a6fdaaa3ac19f63"
+    },
+    {
+      "index": 681,
+      "file": "final-pressure/review-source-frames/000681.jpg",
+      "sha256": "af28961cdad0285dd5c65613b1806f96cacaa2b78c625607b68113b57689c410"
+    },
+    {
+      "index": 682,
+      "file": "final-pressure/review-source-frames/000682.jpg",
+      "sha256": "10e46d5d71dee6a6e45c6bff182b698025404f2546a2c2525f1091b5b5dc36dc"
+    },
+    {
+      "index": 683,
+      "file": "final-pressure/review-source-frames/000683.jpg",
+      "sha256": "8b08a25636d31d2e55c64a69f6310f36018631a1c64376919cad6b8b13f859ea"
+    }
+  ],
+  "reviewStatus": "pending direct visual selection; CPU timestamp alone does not assert visible point HUD"
+}

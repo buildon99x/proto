@@ -1,0 +1,35 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+
+Read the flight. Find the space.
+Make your next shot count.
+
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT reply-1-original
+SHOT reply-1-original-repeat
+SHOT reply-1-ghost
+SHOT reply-1-local-off
+SHOT reply-1-local
+SHOT reply-1-restored
+SHOT reply-3-original
+SHOT reply-3-original-repeat
+SHOT reply-3-ghost
+SHOT reply-3-local-off
+SHOT reply-3-local
+SHOT reply-3-restored
+CONTACT ALTERNATIVES PASS {"samples":2}

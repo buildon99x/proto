@@ -1,0 +1,20 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "modelHashes": {
+      "athlete-gold.glb": "1cc18e850e20f4935beaf6313e9717440b2454f8c55762ca4b3e7950330e1b03",
+      "athlete-violet.glb": "993df511f9ebc57f93e362148cbd75297be3a3ff29d7e1cd00e4ba02548a7c36",
+      "court.glb": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47",
+      "racket.glb": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13",
+      "shuttle.glb": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+    },
+    "sourceBundle": "./assets/index-B2zJkgXl.js",
+    "sha256": "6ca056c595610dee21855745f00dd47b00023c5e489c52ae234d5bd47eca7e9b",
+    "startedAt": "2026-10-17T05:11:48.049Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "CONTACT ALTERNATIVES PASS {\"samples\":2}"
+  ]
+}

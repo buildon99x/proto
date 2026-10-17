@@ -1,0 +1,19 @@
+{
+  "method": "Exact imported-original/repeat/runtime-off PNGs at same natural actual contact/time/camera. Shader off leaves every pixel unchanged.",
+  "results": [
+    {
+      "reply": 1,
+      "differences": {
+        "original-repeat": 0,
+        "runtime-off": 0
+      }
+    },
+    {
+      "reply": 3,
+      "differences": {
+        "original-repeat": 0,
+        "runtime-off": 0
+      }
+    }
+  ]
+}

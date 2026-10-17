@@ -1,0 +1,110 @@
+[
+  {
+    "view": "pc",
+    "reply": 1,
+    "originalRepeatIdentical": true,
+    "runtimeOffIdentical": true,
+    "runtimeOnRestoredIdentical": true,
+    "sameTimeCameraContact": true,
+    "changedPixels": 192,
+    "changedBounds": [
+      296,
+      180,
+      323,
+      207
+    ],
+    "window": {
+      "x": 309.54117837726847,
+      "y": 193.46769390930498,
+      "radius": 18,
+      "strength": 1
+    },
+    "imageSize": [
+      640,
+      360
+    ],
+    "maxChangedPixelCentreDistanceCssPx": 14.812805101738137,
+    "outsideApertureChangedPixels": 0
+  },
+  {
+    "view": "pc",
+    "reply": 3,
+    "originalRepeatIdentical": true,
+    "runtimeOffIdentical": true,
+    "runtimeOnRestoredIdentical": true,
+    "sameTimeCameraContact": true,
+    "changedPixels": 302,
+    "changedBounds": [
+      310,
+      186,
+      335,
+      215
+    ],
+    "window": {
+      "x": 321.8574954714063,
+      "y": 200.59620931246147,
+      "radius": 18,
+      "strength": 1
+    },
+    "imageSize": [
+      640,
+      360
+    ],
+    "maxChangedPixelCentreDistanceCssPx": 14.710306497809334,
+    "outsideApertureChangedPixels": 0
+  },
+  {
+    "view": "portrait",
+    "reply": 1,
+    "originalRepeatIdentical": true,
+    "runtimeOffIdentical": true,
+    "runtimeOnRestoredIdentical": true,
+    "sameTimeCameraContact": true,
+    "changedPixels": 468,
+    "changedBounds": [
+      347,
+      879,
+      371,
+      911
+    ],
+    "window": {
+      "x": 171.62382481066547,
+      "y": 451.97645090755765,
+      "radius": 16.38,
+      "strength": 1
+    },
+    "imageSize": [
+      780,
+      1688
+    ],
+    "maxChangedPixelCentreDistanceCssPx": 14.409880284490182,
+    "outsideApertureChangedPixels": 0
+  },
+  {
+    "view": "portrait",
+    "reply": 3,
+    "originalRepeatIdentical": true,
+    "runtimeOffIdentical": true,
+    "runtimeOnRestoredIdentical": true,
+    "sameTimeCameraContact": true,
+    "changedPixels": 2195,
+    "changedBounds": [
+      371,
+      907,
+      427,
+      963
+    ],
+    "window": {
+      "x": 199.94646108441177,
+      "y": 467.89195043357796,
+      "radius": 16.38,
+      "strength": 1
+    },
+    "imageSize": [
+      780,
+      1688
+    ],
+    "maxChangedPixelCentreDistanceCssPx": 14.381480356454121,
+    "outsideApertureChangedPixels": 0
+  }
+]

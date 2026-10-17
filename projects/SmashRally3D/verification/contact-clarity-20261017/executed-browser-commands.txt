@@ -1,0 +1,33 @@
+Historical command record. The first two cases completed before the remote deployment check; the remaining cases resumed against the same immutable dist. Do not overwrite the archived evidence when reproducing; choose a fresh evidence directory.
+
+#!/bin/bash
+set -eu
+cd /workspace/proto
+base=projects/SmashRally3D/verification/contact-clarity-20261017
+run_case(){
+ local name=$1 scenario=$2 review=${3:-''} portrait=${4:-''}
+ mkdir -p "$base/$name"
+ SMASH_REQUIRE_CUE=1 SMASH_DIST=/tmp/smash-contact-final-v2-dist SMASH_DROP_DEADLINE_MS=420000 SMASH_FRAMING_DEADLINE_MS=420000 SMASH_FRAMING_QUALITY=LOW SMASH_DEFENCE_REVIEW="$review" SMASH_STUDY_PORTRAIT="$portrait" SMASH_FINAL_ACCEPTANCE=1 SMASH_EVIDENCE_DIR="$base/$name" node projects/SmashRally3D/tools/browser-check.mjs "projects/SmashRally3D/tests/e2e/$scenario.mjs" > "$base/$name/run.txt" 2>&1
+ echo "$name exit=0"
+}
+run_case final-contact-pc contact-acceptance
+run_case final-contact-portrait contact-acceptance '' 1
+run_case final-scene benchmark-scene
+run_case final-play aim-play
+run_case final-native aim-native
+run_case final-native-2 aim-native
+run_case final-native-3 aim-native
+run_case final-rotation court-resize
+run_case final-defence defence-review
+run_case final-pressure defence-review pressure
+run_case final-rally aim-rally
+run_case final-accessible accessible-overlays
+run_case final-flight high-shuttle-flight
+run_case final-loss experience-loss
+run_case final-dialog experience-dialog
+run_case final-pause benchmark-pause
+
+# Additional cases requested during final qualification
+run_case final-interruption aim-interruption
+run_case final-input-lifecycle mobile-input-lifecycle
+run_case final-swing swing-sequence

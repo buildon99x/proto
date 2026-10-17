@@ -1,0 +1,53 @@
+{
+  "method": "Same ordinary menu/start ready poses and four viewport settings from qualified569cfb7 baseline versus current immutable bundle. Exact read-only camera/body/court-target/shuttle coordinates; no scene camera injection or image registration. Full screenshot differences include changed content only and are not used to claim identical pixels.",
+  "results": [
+    {
+      "view": {
+        "width": 1065,
+        "height": 606
+      },
+      "cameraIdentical": true,
+      "bodyProjectionIdentical": true,
+      "courtTargetProjectionsIdentical": true,
+      "shuttleProjectionIdentical": true,
+      "noSpectators": true,
+      "fullScreenshotDifferenceBounds": null
+    },
+    {
+      "view": {
+        "width": 1280,
+        "height": 720
+      },
+      "cameraIdentical": true,
+      "bodyProjectionIdentical": true,
+      "courtTargetProjectionsIdentical": true,
+      "shuttleProjectionIdentical": true,
+      "noSpectators": true,
+      "fullScreenshotDifferenceBounds": null
+    },
+    {
+      "view": {
+        "width": 844,
+        "height": 390
+      },
+      "cameraIdentical": true,
+      "bodyProjectionIdentical": true,
+      "courtTargetProjectionsIdentical": true,
+      "shuttleProjectionIdentical": true,
+      "noSpectators": true,
+      "fullScreenshotDifferenceBounds": null
+    },
+    {
+      "view": {
+        "width": 390,
+        "height": 844
+      },
+      "cameraIdentical": true,
+      "bodyProjectionIdentical": true,
+      "courtTargetProjectionsIdentical": true,
+      "shuttleProjectionIdentical": true,
+      "noSpectators": true,
+      "fullScreenshotDifferenceBounds": null
+    }
+  ]
+}

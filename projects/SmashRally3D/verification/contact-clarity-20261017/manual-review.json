@@ -1,0 +1,89 @@
+{
+  "reviewer": "Single assistant direct raster inspection; no independent human panel",
+  "reviewedAtUtc": "2026-10-17T06:18:59.995680+00:00",
+  "status": "reviewed_in_stated_scope_after_all_final_software_gates_and_direct_raster_inspection",
+  "directlyInspected": [
+    "final-contact-pc/reply-1-original.png",
+    "final-contact-pc/reply-1-runtime-on.png",
+    "contact-pc-reply-1-detail.png",
+    "contact-portrait-reply-3-detail.png",
+    "delivery/01-contact-comparison.png",
+    "final-play/03-safe-return.png",
+    "final-play/04-normal-smash.png",
+    "final-native/mobile-03-clear-threshold.png",
+    "final-native/mobile-05-portrait.png",
+    "delivery/02-centre-defence-frames.png",
+    "delivery/08-opponent-contact-detail.png",
+    "final-rotation/court-live-rotation-landscape.png",
+    "final-rotation/court-live-rotation-portrait.png",
+    "point-ui-neighbours.png",
+    "final-pressure/review-source-frames/000678.jpg",
+    "delivery/03-pressure-defence-frames.png",
+    "delivery/09-pressure-winner.png",
+    "delivery/08-opponent-contact-detail.png",
+    "final-rally/court-pc-high-clear.png",
+    "final-rally/court-mobile-landscape-high-clear.png",
+    "final-rally/court-mobile-portrait-high-clear.png",
+    "final-dialog/readable-help-320x568.png",
+    "final-loss/loss-normal-results.png",
+    "final-play/04b-super-smash.png",
+    "final-swing/drop/01-prepare.png",
+    "final-swing/drop/04-impact.png",
+    "final-swing/drop/05-follow.png",
+    "delivery/04-swing-sequences.png",
+    "delivery/05-scorecard.png",
+    "delivery/02-actual-result-feedback.png"
+  ],
+  "findings": [
+    "Small local aperture exposes real cork/string intersection through the otherwise opaque near athlete. Whole-body ghost rejected; current dither is intentionally visible around the contact and does not remove the player silhouette.",
+    "Actual SAFE DROP / AIM DEEPER, normal SMASH / DEEP LEFT and native CLEAR / DEEP CENTRE are visible. Portrait drop shows distinct gold intended aim and cyan physical shot target.",
+    "No camera/FOV/court shrink is introduced: four ordinary ready viewports match569cfb7 pixel-for-pixel. Dynamic high-clear zoom is existing unchanged safety framing.",
+    "All six literal NORMAL/HARD centre-soft return crops show cork and string/contact after the near silhouette overlaps; two higher net-kill contacts remain normally opaque. Actual launch/movement/contact rows show forward short-ball defence. Pressure result and final gates pending.",
+    "Actual post-contact continuing-rotation PNGs retain court/net/both players/high cork and readable outcome in landscape/portrait. Rotation raw bounds were sampled before the first software post-resize frame (old framebuffer dimensions may still be recorded); they are not a claim that every transient pre-render projection lies inside the viewport. Actual accepted touch projections and post-render rally bounds are separate gates.",
+    "All six selected pressure launch/movement/contact rows and the combined twelve centre/pressure contact crops directly inspected. Actual wide/alternating short-ball replies remain visible. A PERFECT wide/front net shot yieldsYOU1–AI2/YOUR POINT in actual reviewedCDP678; CPU-nearest675still showed0–2and prior shot, so neighbor inspection explicitly corrected source-frame choice.14actual AI replies and one strong direct winner are technical trace facts, not automatic experience points.",
+    "PC/native landscape/native portrait high-clear frames directly inspected: the outlined white cork, net and both full athletes remain distinguishable, with readable aim copy. Three taps give six returns per view; zero player/shuttle clipping is separate from the intentional reference near-baseline court crop.",
+    "Actual SUPER SMASH text names only a resolved physical Super hit, wraps within the existing gutter, and stays above the tutorial.320×568 help scroll displays the new gold/cyan legend with the44px Back button visible; real0–5 losing/rematch UI remains intact.",
+    "Additional real UI interruption test passed in1065×606PC,844×390native landscape and390×844native portrait: three repeated CLEAR presses at the initially projected front point produce exactly one physical return and preserve distinct accepted aim/resolved solver target, freeze/resume the real game clock, clear prior guide on restart and hide target geometry at menu. This is a functional gate, not a physical comfort rating.",
+    "Interruption trace nuance: repeated identical screen presses are reprojected through the normally tracking camera. Landscape last accepted aim isMID(z3.355), not the initial front query; PC WEAK CLEAR resolvesMID(z4.1), while native GOOD/PERFECT resolvesDEEP(z5.3). The visible copy and two marker positions follow those actual recorded values. No claim that every repeated press kept the original world aim or guaranteed a deep clear."
+  ],
+  "manualScoresPending": false,
+  "normalSpeedContinuousPlaybackWatched": false,
+  "actualListening": false,
+  "physicalDeviceValidation": false,
+  "reference13013PixelsSeenByWorker": false,
+  "overallScore": null,
+  "targetAchieved": false,
+  "scoringDecisions": {
+    "C2": {
+      "before": 3,
+      "after": 4,
+      "reason": "Directly inspected actual aim/result/fallback frames and native gold/cyan target distinction; no novice comprehension certification."
+    },
+    "M2": {
+      "before": 3,
+      "after": 4,
+      "reason": "Directly inspected six central NORMAL/HARD replies, six pressure specimen rows and actual strong-winner UI; small aperture now exposes cork/string contact. Entire overlapping limbs and visible dither remain; diverse human strategies unverified."
+    }
+  },
+  "allOtherScoresAndAllWeightsUnchanged": true,
+  "reviewedSubtotal": 48,
+  "reviewedWeight": 60,
+  "unverifiedWeight": 40,
+  "softwareGates": {
+    "strictTests": 81,
+    "testFiles": 14,
+    "fullRootBuild": true,
+    "originalFunctionalCases": 14,
+    "additionalFunctionalCases": 2,
+    "separateDiagnosticCases": 3,
+    "allPass": true
+  },
+  "swingScope": "Current Serve/Clear/Drop literal preparation/acceleration/impact/follow/return/ready source frames directly inspected, including full Drop snapshots; no new attack phase capture or normal-speed watching claim. Current normal/Super actual contacts separately observed in the full match; physics/poses and five models are unchanged.",
+  "videoStreamValidation": {
+    "video": "H264640×360",
+    "audio": "AAC captured WebAudio stream",
+    "durationSeconds": 169.25,
+    "humanContinuousPlaybackWatched": false,
+    "actualListening": false
+  }
+}

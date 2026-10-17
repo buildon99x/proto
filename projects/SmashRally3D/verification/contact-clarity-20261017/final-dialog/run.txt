@@ -1,0 +1,25 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT readable-help-640x360
+SHOT readable-help-844x390
+SHOT readable-help-390x844
+SHOT readable-help-320x568
+DIALOG PASS {"results":[{"view":{"width":640,"height":360},"scrollTop":132,"scrollHeight":302,"height":170,"footer":{"x":159,"y":275,"width":322,"height":44,"top":275,"right":481,"bottom":319,"left":159},"role":"dialog"},{"view":{"width":844,"height":390},"scrollTop":102,"scrollHeight":302,"height":200,"footer":{"x":261,"y":305,"width":322,"height":44,"top":305,"right":583,"bottom":349,"left":261},"role":"dialog"},{"view":{"width":390,"height":844},"scrollTop":0,"scrollHeight":302,"height":302,"footer":{"x":38.59375,"y":587.03125,"width":312.796875,"height":44,"top":587.03125,"right":351.390625,"bottom":631.03125,"left":38.59375},"role":"dialog"},{"view":{"width":320,"height":568},"scrollTop":33,"scrollHeight":395,"height":362,"footer":{"x":35.796875,"y":479,"width":248.390625,"height":44,"top":479,"right":284.1875,"bottom":523,"left":35.796875},"role":"dialog"}],"method":"Actual mouse focus, keyboard End/Tab/Enter; read-only bounds. Not a complete focus-trap or screen-reader audit."}

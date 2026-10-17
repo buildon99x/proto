@@ -1,0 +1,35 @@
+{
+  "baselineCommit": "569cfb7fad7cdc33c9f58aece271f0f9cba5fe2d",
+  "runtimeBaseline": "3c85017",
+  "baselineReviewedSubtotal": 46,
+  "reviewedWeight": 60,
+  "unverifiedWeight": 40,
+  "overallScore": null,
+  "rubricSha256": "acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+  "M2": {
+    "id": "M2",
+    "category": "match",
+    "name": "관찰 가능한 상대 수비",
+    "weight": 5,
+    "condition": "동일 일반입력 NORMAL/HARD 센터소프트 각3회와 다른 압박 패턴",
+    "pass_criteria": "닿는 드롭을 받아내고 관찰 후 반응;좋은 각의 샷은 이길 수 있음;5점은다양한 인간 전략 검증"
+  },
+  "C2": {
+    "id": "C2",
+    "category": "control",
+    "name": "조준과 결과 설명",
+    "weight": 5,
+    "condition": "일반 마우스·터치 입력,목표/타격/세이프리턴 프레임",
+    "pass_criteria": "조준/실제 샷/안전 폴백의 관계가 시각적으로 설명되고 잘못된 공격 약속 없음"
+  },
+  "M2PriorScore": 3,
+  "M2PriorMethod": "Actual NORMAL/HARD centre-soft3each and two pressure patterns; six+six selected literal launch/movement/contact sequences, source PNG crops and direct-winner point UI. Not live physical play/listening, human strategies or automatic scoring.",
+  "M2PriorGap": "Some central low AI contacts obscured by near gold athlete.",
+  "cameraContract": "No camera position/FOV/court/screen shrink; compare same naturally reached held contact at identical state/camera, baseline twice pixel-exact before variants.",
+  "physicsContract": "No physics/prediction/AI/command/pose/time changes in shipped logic. Diagnostic holds separate from ordinary play.",
+  "alternatives": [
+    "whole near-athlete ghost",
+    "localized actual-contact aperture using cloned opaque alpha-test materials"
+  ],
+  "stagnationRule": "Three no-improvement observations require changed approach; no weaker gate or rubric."
+}

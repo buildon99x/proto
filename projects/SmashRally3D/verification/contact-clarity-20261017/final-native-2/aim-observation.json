@@ -1,0 +1,210 @@
+{
+  "method": "Read-only post-render observation during unchanged original PC match/native gestures. Actual hit target, marker transform and visible outcome text compared;0.1mm numeric marker precision gate is not an experience score. No future trajectory/landing guarantee or state/time injection.",
+  "events": [
+    {
+      "round": 0,
+      "time": 6.291666666666769,
+      "shot": "clear",
+      "technique": "clear",
+      "requestedShot": "clear",
+      "fallbackReason": null,
+      "target": {
+        "x": 6.613635583629929e-7,
+        "y": 0.025,
+        "z": 5.800002058881006
+      },
+      "guide": {
+        "aim": {
+          "x": 6.613635583629929e-7,
+          "y": 0.025,
+          "z": 5.800002058881006
+        },
+        "target": {
+          "x": 6.613635583629929e-7,
+          "y": 0.025,
+          "z": 5.800002058881006
+        },
+        "time": 6.291666666666769,
+        "copy": "YOU · PERFECT CLEAR → DEEP CENTRE"
+      },
+      "copy": "YOU · PERFECT CLEAR → DEEP CENTRE",
+      "ring": {
+        "enabled": true,
+        "p": {
+          "x": 6.613635719077138e-7,
+          "y": 0.07500000298023224,
+          "z": 5.800002098083496
+        }
+      },
+      "dotEnabled": true,
+      "aim": {
+        "enabled": false,
+        "p": {
+          "x": 6.613635719077138e-7,
+          "y": 0.07000000029802322,
+          "z": 5.800002098083496
+        }
+      },
+      "markerErrorM": 3.9202490143000046e-8,
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "textBounds": {
+        "left": 16,
+        "right": 243.359375,
+        "top": 68,
+        "bottom": 80
+      },
+      "ownContactWindow": {
+        "x": 403.94077898974643,
+        "y": 168.8619015834949,
+        "radius": 18,
+        "strength": 0
+      }
+    },
+    {
+      "round": 0,
+      "time": 11.058333333333346,
+      "shot": "drop",
+      "technique": "drop",
+      "requestedShot": "drop",
+      "fallbackReason": null,
+      "target": {
+        "x": -1.3423232991804923e-7,
+        "y": 0.025,
+        "z": 1.9
+      },
+      "guide": {
+        "aim": {
+          "x": -1.3423232991804923e-7,
+          "y": 0.025,
+          "z": 5.799998632458902
+        },
+        "target": {
+          "x": -1.3423232991804923e-7,
+          "y": 0.025,
+          "z": 1.9
+        },
+        "time": 11.058333333333346,
+        "copy": "YOU · PERFECT DROP → FRONT CENTRE"
+      },
+      "copy": "YOU · PERFECT DROP → FRONT CENTRE",
+      "ring": {
+        "enabled": true,
+        "p": {
+          "x": -1.3423232303466648e-7,
+          "y": 0.07500000298023224,
+          "z": 1.899999976158142
+        }
+      },
+      "dotEnabled": true,
+      "aim": {
+        "enabled": true,
+        "p": {
+          "x": -1.3423232303466648e-7,
+          "y": 0.07000000029802322,
+          "z": 5.799998760223389
+        }
+      },
+      "markerErrorM": 2.3841857821339397e-8,
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "textBounds": {
+        "left": 16,
+        "right": 245.015625,
+        "top": 68,
+        "bottom": 80
+      },
+      "ownContactWindow": {
+        "x": 400.4403231421732,
+        "y": 161.49124752167774,
+        "radius": 18,
+        "strength": 0
+      }
+    }
+  ],
+  "intents": [
+    {
+      "time": 4.174999999999997,
+      "copy": "AIM DEEP CENTRE · AUTO RETURN",
+      "aim": {
+        "x": 0,
+        "y": 0.025,
+        "z": 5.709742459740806
+      }
+    },
+    {
+      "time": 6.216666666666765,
+      "copy": "AIM DEEP CENTRE · CLEAR AIMS DEEP",
+      "aim": {
+        "x": 6.613635583629929e-7,
+        "y": 0.025,
+        "z": 5.800002058881006
+      }
+    },
+    {
+      "time": 10.991666666666683,
+      "copy": "AIM DEEP CENTRE · DROP AIMS SHORT",
+      "aim": {
+        "x": -1.3423232991804923e-7,
+        "y": 0.025,
+        "z": 5.799998632458902
+      }
+    }
+  ],
+  "contacts": [
+    {
+      "actor": 0,
+      "time": 1.6499999999999966,
+      "window": {
+        "x": 401.33212882483673,
+        "y": 251.2637820634273,
+        "radius": 18,
+        "strength": 0
+      }
+    },
+    {
+      "actor": 1,
+      "time": 3.908333333333322,
+      "window": {
+        "x": 421.33243854660003,
+        "y": 145.99447449058277,
+        "radius": 18,
+        "strength": 0
+      }
+    },
+    {
+      "actor": 0,
+      "time": 6.291666666666769,
+      "window": {
+        "x": 403.94077898974643,
+        "y": 168.8619015834949,
+        "radius": 18,
+        "strength": 0
+      }
+    },
+    {
+      "actor": 1,
+      "time": 8.683333333333481,
+      "window": {
+        "x": 419.3197685568383,
+        "y": 147.6920695518085,
+        "radius": 18,
+        "strength": 0
+      }
+    },
+    {
+      "actor": 0,
+      "time": 11.058333333333346,
+      "window": {
+        "x": 400.4403231421732,
+        "y": 161.49124752167774,
+        "radius": 18,
+        "strength": 0
+      }
+    }
+  ]
+}

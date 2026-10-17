@@ -1,0 +1,17 @@
+file:///workspace/proto/projects/SmashRally3D/tests/e2e/contact-alternatives.mjs:30
+  window.contactVariant=name=>{const h=window.contactHold,ratio=app.graphicsDevice.width/innerWidth;for(const e of entries){e.mesh.setParameter('contactWindow',[h.center.x*ratio,app.graphicsDevice.height-h.center.y*ratio,h.radius*ratio,name==='local-off'?0:1]);e.mesh.material=name==='ghost'?e.ghost:name.startsWith('local')?e.local:e.original;}app.render();const d=window.smashDiagnostics();const h=window.contactHold;h.variants.push({name,time:d.time,camera:{p:{...camera.getPosition()},q:{...camera.getRotation()},fov:camera.camera.fov},contact:d.renderedContact});};
+                                                                                                                                                                                                                                                                                                                                                                                                              ^
+
+SyntaxError: Identifier 'h' has already been declared
+    at compileSourceTextModule (node:internal/modules/esm/utils:318:16)
+    at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:89:18)
+    at #translate (node:internal/modules/esm/loader:434:20)
+    at afterLoad (node:internal/modules/esm/loader:502:29)
+    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:507:12)
+    at #getOrCreateModuleJobAfterResolve (node:internal/modules/esm/loader:560:36)
+    at afterResolve (node:internal/modules/esm/loader:607:52)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:613:12)
+    at node:internal/modules/esm/loader:632:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14)
+
+Node.js v24.19.0

@@ -35,3 +35,10 @@ Replaced rigid torso-only actors with common weighted skeletons, planted feet an
 - Resume fair known-base footwork after landing while preserving full swing recovery and delayed observation; improve shared low-contact crouch/interception and enforce the existing vector speed cap.
 - Compare nine baseline UI matches with nine after windows and two well-timed pressure probes; preserve useful tight net winners.38 checks, mixed-shot UI and beginner taps pass. MEDIUM swipe timing remains explicitly documented on both base and fixed bundles.
 - Recommend clearer mouse/court-tap course guidance; no new direction gesture or mapping. Evidence and screenshot hashes: `verification/drop-defence-20261015`.
+
+## 2026-10-17 — contact visibility and aim/result explanation
+
+- Reveal the real opponent cork/string contact through a small local aperture in the near-player silhouette; retain camera, court, poses, physics, AI and the five original models.
+- Distinguish accepted gold aim from cyan solver target and explain actual shot/safe fallback in the existing feedback slot, preserving mouse and native gesture controls.
+- 81 strict tests/full root build, 14 original plus two additional functional browser cases, and three separate diagnostics pass on one fixed bundle. Direct bounded review changes only C2/M2 from 3 to 4: 48/60 reviewed, 40 unverified, overall null.
+- Isolate delivery on `codex/smash-contact-clarity-20261017` so the original user-tested `codex/smash-rally-3d` candidate stays at569cfb7. Evidence: `verification/contact-clarity-20261017`.

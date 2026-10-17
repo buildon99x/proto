@@ -1,0 +1,101 @@
+{
+  "note": "The initial offline audit incorrectly expected the restored screenshot to equal the original imported material. The unchanged test actually restores the shipped current material and its enabled aperture, so restored must equal runtime-on. Original/repeated/runtime-off remain exactly equal in all four cases. The corrected final audit verifies both independent equalities, same camera/clock/contact and zero changed pixels outside the aperture.",
+  "rawComparisons": [
+    {
+      "view": "pc",
+      "reply": 1,
+      "differences": {
+        "original": null,
+        "original-repeat": null,
+        "runtime-off": null,
+        "runtime-on": [
+          296,
+          180,
+          323,
+          207
+        ],
+        "restored": [
+          296,
+          180,
+          323,
+          207
+        ]
+      },
+      "timeEqual": true,
+      "cameraEqual": true,
+      "contactEqual": true
+    },
+    {
+      "view": "pc",
+      "reply": 3,
+      "differences": {
+        "original": null,
+        "original-repeat": null,
+        "runtime-off": null,
+        "runtime-on": [
+          310,
+          186,
+          335,
+          215
+        ],
+        "restored": [
+          310,
+          186,
+          335,
+          215
+        ]
+      },
+      "timeEqual": true,
+      "cameraEqual": true,
+      "contactEqual": true
+    },
+    {
+      "view": "portrait",
+      "reply": 1,
+      "differences": {
+        "original": null,
+        "original-repeat": null,
+        "runtime-off": null,
+        "runtime-on": [
+          347,
+          879,
+          371,
+          911
+        ],
+        "restored": [
+          347,
+          879,
+          371,
+          911
+        ]
+      },
+      "timeEqual": true,
+      "cameraEqual": true,
+      "contactEqual": true
+    },
+    {
+      "view": "portrait",
+      "reply": 3,
+      "differences": {
+        "original": null,
+        "original-repeat": null,
+        "runtime-off": null,
+        "runtime-on": [
+          371,
+          907,
+          427,
+          963
+        ],
+        "restored": [
+          371,
+          907,
+          427,
+          963
+        ]
+      },
+      "timeEqual": true,
+      "cameraEqual": true,
+      "contactEqual": true
+    }
+  ]
+}

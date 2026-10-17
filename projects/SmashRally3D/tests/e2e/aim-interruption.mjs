@@ -25,7 +25,7 @@ export async function run({page,sleep,shot,log}){
   // Render a normal paused frame before reading shader and target transforms.
   await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
   const frame=await read(),h=frame.shots.filter(h=>h.actor===0).at(-1);
-  if(!frame.aimEnabled||Math.hypot(frame.guide.aim.x-h.target.x,frame.guide.aim.z-h.target.z)<.4)throw Error('Front aim and resolved deep clear were not visually distinguished');
+  if(!frame.aimEnabled||Math.hypot(frame.guide.aim.x-h.target.x,frame.guide.aim.z-h.target.z)<.4)throw Error('Accepted aim and resolved clear target were not visually distinguished');
   if(frame.window.strength!==0||!frame.guide||!frame.ring.enabled||!frame.dot||JSON.stringify(frame.guide.target)!==JSON.stringify(h.target)||Math.hypot(frame.ring.p.x-h.target.x,frame.ring.p.z-h.target.z)>.0001)throw Error('Pause lost actual target or retained occlusion aperture');
   await shot('repeated-input-paused-'+view.width+'x'+view.height);
   await page.click('[data-action="resume"]');await page.waitForFunction(t=>window.smashDiagnostics().time>t,{timeout:30000},paused.time);

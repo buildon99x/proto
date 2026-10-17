@@ -1,0 +1,286 @@
+{
+  "label": "Contact visibility and aim/result explanation, same frozen rubric",
+  "runtimeCommit": "6456f740388b49aacfeb280bd6afe27518d26f25",
+  "runtimeBundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6",
+  "rubricSha256": "acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+  "reviewer": "Single assistant direct raster inspection; not an independent human panel",
+  "overallScore": null,
+  "targetAchieved": false,
+  "verifiedSubtotal": 48,
+  "verifiedWeight": 60,
+  "unverifiedWeight": 40,
+  "items": [
+    {
+      "id": "V1",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "같은 준비/일반 스매시/Super 프레임에서 선수·라켓·네트의 분리가 유지되고, 새 PC·모바일 가로/세로 실제 고타점 프레임에서 하늘 위 셔틀의 코르크와 깃 방향이 읽힌다. 배경 전체를 바꾸지 않는 작은 국소 윤곽이 가장 흐릿했던 가로 화면에서도 식별을 개선했다. 수치 대비와 앵커 오차는 별도 기술 근거이며 자동 통과 자체로 점수를 주지 않는다. dot 정상속도·레퍼런스 영상 직접 관찰이 없어5점 조건은 충족하지 못한다.",
+      "evidence": [
+        "../high-shuttle-20261017/after-flight/apex.png",
+        "../high-shuttle-20261017/study/comparison.png",
+        "../high-shuttle-20261017/play/04-normal-smash.png",
+        "../high-shuttle-20261017/play/04b-super-smash.png",
+        "../high-shuttle-20261017/rally/court-mobile-landscape-high-clear.png",
+        "../high-shuttle-20261017/rally/court-mobile-portrait-high-clear.png",
+        "../high-shuttle-20261017/scene/scene-1065x606-ready.png"
+      ]
+    },
+    {
+      "id": "V2",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "기존 피부·머리·유니폼이 씻긴 회색/옅은 색으로 보이던 문제가 선수 glTF 색 인코딩 교정 뒤 따뜻한 피부, 짙은 머리·반바지, 금색/보라색 의상으로 구분된다. 같은 정확한 포즈·시간·카메라에서 기존/교정 소재만 바꾼 여섯 사진을 직접 비교했다. 메시·관절·애니메이션·조명은 그대로이며 단순한 형상과 표정의 한계는 남아5점이 아니다.",
+      "evidence": [
+        "../stroke-chain-20261017/delivery/03-art-only.png",
+        "../stroke-chain-20261017/art-asset-validation.json",
+        "../stroke-chain-20261017/art-pixel-proof.json",
+        "../stroke-chain-20261017/art-import-colors.json",
+        "../stroke-chain-20261017/refined-phases-art/phases.json"
+      ]
+    },
+    {
+      "id": "V3",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "네 고정 준비 화면과 실제 일반/Super 프레임에서, 평면 벽/반복 타원이 매입 창·기둥·차양의 깊이와 분리된 수목·기단으로 바뀌었다. 코트·보라색 외곽·선수·네트는 그대로 우선하며 새 밝은 장식/문자/관중은 없다. 초기 밝은 보행로는 낮춰 네트 테이프보다 뒤로 물러나게 했다. 같은 카메라/조명과 화면 하단35%픽셀 보존은 별도 기술 근거이며 가점 자체는 직접 본 깊이·재질 위계 개선에만 준다. 유리/석재의 재질 반응과 큰 단색 바닥은 여전히 단순해5점이 아니다.",
+      "evidence": [
+        "../courtyard-depth-20261017/delivery/01-courtyard-comparison.png",
+        "../courtyard-depth-20261017/final-scene/scene-1065x606-ready.png",
+        "../courtyard-depth-20261017/final-scene/scene-390x844-ready.png",
+        "../courtyard-depth-20261017/final-play/04-normal-smash.png",
+        "../courtyard-depth-20261017/final-play/04b-super-smash.png",
+        "../courtyard-depth-20261017/camera-and-court-preservation.json",
+        "../courtyard-depth-20261017/batch-isolation.json"
+      ]
+    },
+    {
+      "id": "V4",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "새 실제 프레임과 같은 카메라의 자연 도달 단계 사진에서, 라켓이 직전까지 내려가 있다 급히 올라가던 준비가 더 이른 팔꿈치 굽힘·몸통 회전으로 바뀌었다. 손이 그립 방향을 따라가고, 실제 타격 포즈 뒤 팔로스루·착지 무릎 굽힘·복귀가 구별된다. 소재 색은 이 비교에서 고정했다. 물리 타점 일치 검사는 별도 게이트이며 이것만으로 점수를 올리지 않는다. 정상속도 체감·코칭 수준의 생체역학·실기기 검증은 없어5점이 아니다.",
+      "evidence": [
+        "../stroke-chain-20261017/delivery/02-motion-phases.png",
+        "../stroke-chain-20261017/before/kinematics.json",
+        "../stroke-chain-20261017/final-play/kinematics.json",
+        "../stroke-chain-20261017/refined-phases-before/phases.json",
+        "../stroke-chain-20261017/refined-phases-motion/phases.json"
+      ]
+    },
+    {
+      "id": "V5",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "C1",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "메뉴→클릭 서브→자동 이동/한 번 리턴이 실현되고 선택적인 clear/drop만 추가됨.초보3명 검증은 없음.",
+      "evidence": [
+        "../switch-benchmark-20261017/baseline/01-menu.png",
+        "../switch-benchmark-20261017/baseline/experience.json",
+        "../switch-benchmark-20261017/baseline-native/mobile-native-report.json"
+      ]
+    },
+    {
+      "id": "C2",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "실제 SAFE DROP/AIM DEEPER, 일반/강한 스매시의 실제 기술·방향·깊이와 마우스/네이티브 clear/drop 프레임을 직접 읽었다. 금색 조준과 점 있는 청록 실제 샷 목표가 분리되어 보이며 폴백을 강한 공격으로 표시하지 않는다. 목표는 물리 솔버가 사용한 target이고 낙하지점 보장은 아니다. 실제 새 사용자 이해도와 실기기 손의 편안함은 검증하지 않아5점으로 올리지 않는다.",
+      "evidence": [
+        "delivery/02-actual-result-feedback.png",
+        "final-play/03-safe-return.png",
+        "final-play/04-normal-smash.png",
+        "final-play/04b-super-smash.png",
+        "final-native/mobile-05-portrait.png",
+        "final-play/aim-observation.json",
+        "final-native/aim-observation.json",
+        "final-interruption/interruption.json"
+      ]
+    },
+    {
+      "id": "C3",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "C4",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "C5",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "A1",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "A2",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "A3",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "U1",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "직접 본 첫 실제리턴 뒤2/3 안내,32초 이후와 재경기에도 실제로 선택하지 않은 clear/drop이 미완료로 유지됨.실제trusted tap/up/down에서세동작 완료 및다시시작이확인됨.서브/안전 폴백은숙련으로세지않음.초보 참여자의 이해·재미는 미검증이라5점을 주지 않음.",
+      "evidence": [
+        "../switch-benchmark-20261017/final-play/03-safe-return.png",
+        "../switch-benchmark-20261017/final-play/experience.json",
+        "../switch-benchmark-20261017/final-native/benchmark-native-report.json",
+        "../switch-benchmark-20261017/final-native/11-tips-restarted.png"
+      ]
+    },
+    {
+      "id": "U2",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "실제5점·마지막 득점·결과·재경기에서 원인과 다음 행동이 읽히고 결과를 안내함.자연스러운 인간 경기 리듬은 미검증.",
+      "evidence": [
+        "../switch-benchmark-20261017/baseline/05-match-point.png",
+        "../switch-benchmark-20261017/baseline/06-results.png",
+        "../switch-benchmark-20261017/baseline/07-rematch.png"
+      ]
+    },
+    {
+      "id": "U3",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "네 고정 화면의 설정·도움말·일시정지를 직접 캡처해 읽었고, 작은35px Quality와42px Pause 대신44px 조작 영역, 스크롤되는 짧은 본문, 보이는 포커스를 확인했다. 실제 End/Tab/Shift+Tab/Escape/Enter로 창 안 이동과 열었던 버튼으로 복귀가 연결된다. 관찰한 화면과 키보드 범위의 개선이다. 전체 스크린리더·줌·실기기 편안함 검증은 없어5점을 주지 않는다.",
+      "evidence": [
+        "../high-shuttle-20261017/accessible/four-view-settings.png",
+        "../high-shuttle-20261017/accessible/settings-quality-640x360.png",
+        "../high-shuttle-20261017/accessible/settings-quality-320x568.png",
+        "../high-shuttle-20261017/accessible/pause-quality-390x844.png",
+        "../high-shuttle-20261017/accessible/accessibility.json",
+        "../high-shuttle-20261017/accessible/accessible-overlays-report.json"
+      ]
+    },
+    {
+      "id": "M1",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "실제기본/clear/drop 안전리턴 및3normal/2Super 궤적이 다르고 기회 조건이 드러남.이 차이가 재밌다는 인간 판단은 아님.",
+      "evidence": [
+        "../switch-benchmark-20261017/baseline/experience.json",
+        "../switch-benchmark-20261017/baseline/04-normal-smash.png",
+        "../switch-benchmark-20261017/baseline/04b-super-smash.png"
+      ]
+    },
+    {
+      "id": "M2",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "같은 일반입력 NORMAL/HARD 센터소프트 각3회와 두 압박 패턴의 실제 발사·이동·리턴 표,12접촉 크롭, PERFECT 샷 뒤YOU1–AI2/YOUR POINT를 직접 봤다. 중앙 낮은 접촉의 실제 코르크/스트링이 작은 국소 디더 창으로 드러나 이전 가림 감점을 줄였다. 창 밖의 신체 겹침과 디더 자체는 남는 표시상의 타협이다. AI/물리/예측/카메라는 바뀌지 않았으며 리턴 횟수나 타임스탬프만으로 가점하지 않는다. 다양한 인간 전략과 정상속도 공정함은 미검증이므로 원래5점 추가조건을 충족하지 못한다.",
+      "evidence": [
+        "M2-method.md",
+        "delivery/01-contact-comparison.png",
+        "delivery/02-centre-defence-frames.png",
+        "delivery/03-pressure-defence-frames.png",
+        "delivery/08-opponent-contact-detail.png",
+        "delivery/09-pressure-winner.png",
+        "defence-review-sources.json",
+        "point-frame-selection.json",
+        "final-defence/defence-observation.json",
+        "final-pressure/defence-observation.json",
+        "final-pixel-proof.json"
+      ]
+    },
+    {
+      "id": "M3",
+      "weight": 5,
+      "score": null,
+      "status": "unverified",
+      "observation": "필수 직접 관찰/실기기/청음/레퍼런스 영상/자연 플레이 평가가 없음.자동검사 합격으로 채우지 않음.",
+      "evidence": []
+    },
+    {
+      "id": "M4",
+      "weight": 5,
+      "score": 4,
+      "status": "reviewed_in_stated_scope",
+      "observation": "실제17접촉,5개의 IN득점,서브/결과 흐름과 표시 코트의 관계가 일관됨.모든 네트/OUT경계 사례의 경험 검증을 주장하지 않음.",
+      "evidence": [
+        "../switch-benchmark-20261017/baseline/experience.json",
+        "../switch-benchmark-20261017/baseline/05-point-1.png",
+        "../switch-benchmark-20261017/baseline/06-results.png"
+      ]
+    }
+  ],
+  "limits": [
+    "Chromium151 SwiftShader; no physical mouse/touch FPS or latency result.",
+    "Held material comparisons and synchronous DOM cancellation fixtures are separate diagnostics, not ordinary play.",
+    "No continuous normal-speed human playback review, actual listening, physical Safari/mobile validation or diverse human-strategy testing.",
+    "Reference13013 pixels were not downloaded/viewed by this worker; prior parent measurements remain the reference provenance.",
+    "Existing569cfb7 remote candidate is transport-blocked from this environment; local passes do not prove remote delivery.",
+    "Frozen100-point rubric and unknown40 points remain unchanged; no98 or normalized100-point claim."
+  ],
+  "rubricFrozenBeforeRuntimeEdits": true,
+  "evaluationRecordedAfterChange": true,
+  "motionCommit": "cd913610c6bcbd59278d5b2016d2f0a6201957f2",
+  "modelHashes": {
+    "athlete-gold.glb": "1cc18e850e20f4935beaf6313e9717440b2454f8c55762ca4b3e7950330e1b03",
+    "athlete-violet.glb": "993df511f9ebc57f93e362148cbd75297be3a3ff29d7e1cd00e4ba02548a7c36",
+    "court.glb": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47",
+    "racket.glb": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13",
+    "shuttle.glb": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+  },
+  "validationStatus": "reviewed_in_stated_scope_after_software_gates_and_direct_raster_inspection",
+  "finalReview": "manual-review.json",
+  "scoringChanges": [
+    {
+      "id": "C2",
+      "before": 3,
+      "after": 4,
+      "basis": "Direct visual aim/resolved target/fallback explanation; technical gates separate."
+    },
+    {
+      "id": "M2",
+      "before": 3,
+      "after": 4,
+      "basis": "Direct literal centre/pressure contact and winner review; previous central-contact occlusion reduced."
+    }
+  ],
+  "allOtherScoresAndAllWeightsUnchanged": true
+}

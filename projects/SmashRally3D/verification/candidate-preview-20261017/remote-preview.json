@@ -1,0 +1,31 @@
+{
+  "checkedAtUtc": "2026-10-17T05:38:39.669Z",
+  "requestedCommit": "569cfb7fad7cdc33c9f58aece271f0f9cba5fe2d",
+  "deploymentDetail": "https://vercel.com/silentstacks-projects/loop-lab/GBLbsjyQ3eq1CsmxywoGuUArPBFB",
+  "url": "https://loop-lab-git-codex-smash-rally-3d-silentstacks-projects.vercel.app/runs/smash-rally-3d/index.html",
+  "method": "Actual remote Chromium navigation, existing visible menu/start/serve and clear inputs. No local server, state/time injection or deployment. Software renderer, not real-device feel.",
+  "errors": [],
+  "requestsFailed": [
+    {
+      "url": "https://loop-lab-git-codex-smash-rally-3d-silentstacks-projects.vercel.app/runs/smash-rally-3d/index.html",
+      "error": "net::ERR_TUNNEL_CONNECTION_FAILED"
+    }
+  ],
+  "assets": [],
+  "playable": null,
+  "error": "Error: net::ERR_TUNNEL_CONNECTION_FAILED at https://loop-lab-git-codex-smash-rally-3d-silentstacks-projects.vercel.app/runs/smash-rally-3d/index.html",
+  "finalUrl": "about:blank",
+  "title": "",
+  "lastText": "This site can\u2019t be reached\n\nThe webpage at https://loop-lab-git-codex-smash-rally-3d-silentstacks-projects.vercel.app/runs/smash-rally-3d/index.html might be temporarily down or it may have moved permanently to a new web address.\n\nERR_TUNNEL_CONNECTION_FAILED",
+  "verificationOutcome": "Environment proxy rejected CONNECT before an application HTTP response; remote playability and asset fingerprint remain unverified.",
+  "deploymentStatus": {
+    "source": "Authorized GitHub app get_commit_combined_status, independently repeated in this worker",
+    "context": "Vercel",
+    "state": "success",
+    "target_url": "https://vercel.com/silentstacks-projects/loop-lab/GBLbsjyQ3eq1CsmxywoGuUArPBFB"
+  },
+  "remoteBranchCommit": "569cfb7fad7cdc33c9f58aece271f0f9cba5fe2d",
+  "newDeploymentCreated": false,
+  "publicDefaultPromoted": false,
+  "mainMerged": false
+}

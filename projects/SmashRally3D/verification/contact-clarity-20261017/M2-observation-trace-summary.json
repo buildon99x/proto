@@ -1,0 +1,135 @@
+{
+  "method": "Read-only observation fields from unchanged original centre-soft controller. Observation timestamps are technical facts, not a human fairness or no-motion-before-observation claim. Known-base recovery footwork can continue before a new ball observation; target-specific AI prediction code is unchanged.",
+  "results": [
+    {
+      "difficulty": "NORMAL",
+      "attempts": [
+        {
+          "playerHitTime": 3.9166666666666554,
+          "firstObservedTime": 4.216666666666666,
+          "observedAfterSeconds": 0.3000000000000105,
+          "returned": true,
+          "aiAtLaunch": {
+            "x": 0.49473569424439623,
+            "y": 0,
+            "z": 5.381072483103434
+          },
+          "actualReply": {
+            "technique": "net",
+            "p": {
+              "x": 0.33400759964943333,
+              "y": 1.1876993388300665,
+              "z": 0.5943640887627526
+            },
+            "time": 4.8583333333333645
+          }
+        },
+        {
+          "playerHitTime": 5.433333333333393,
+          "firstObservedTime": 5.733333333333408,
+          "observedAfterSeconds": 0.3000000000000149,
+          "returned": true,
+          "aiAtLaunch": {
+            "x": 0.6567810620185436,
+            "y": 0,
+            "z": 2.332786151046078
+          },
+          "actualReply": {
+            "technique": "netKill",
+            "p": {
+              "x": 0.5596678609106098,
+              "y": 2.023075175565884,
+              "z": 0.5785740145951481
+            },
+            "time": 6.175000000000097
+          }
+        },
+        {
+          "playerHitTime": 11.175000000000006,
+          "firstObservedTime": 11.483333333333322,
+          "observedAfterSeconds": 0.3083333333333158,
+          "returned": true,
+          "aiAtLaunch": {
+            "x": 0.10466551989783669,
+            "y": 0,
+            "z": 3.640872081109452
+          },
+          "actualReply": {
+            "technique": "net",
+            "p": {
+              "x": 0.1637450904031396,
+              "y": 1.0415430087563202,
+              "z": 0.5992039113550743
+            },
+            "time": 12.258333333333278
+          }
+        }
+      ]
+    },
+    {
+      "difficulty": "HARD",
+      "attempts": [
+        {
+          "playerHitTime": 3.908333333333322,
+          "firstObservedTime": 4.09166666666666,
+          "observedAfterSeconds": 0.18333333333333757,
+          "returned": true,
+          "aiAtLaunch": {
+            "x": 0.4551725780125928,
+            "y": 0,
+            "z": 5.397725461484571
+          },
+          "actualReply": {
+            "technique": "net",
+            "p": {
+              "x": 0.29109965742882105,
+              "y": 1.036260577796099,
+              "z": 0.6693699856326529
+            },
+            "time": 4.875000000000032
+          }
+        },
+        {
+          "playerHitTime": 5.541666666666732,
+          "firstObservedTime": 5.725000000000074,
+          "observedAfterSeconds": 0.18333333333334245,
+          "returned": true,
+          "aiAtLaunch": {
+            "x": 0.6510384013992728,
+            "y": 0,
+            "z": 2.3353010814292006
+          },
+          "actualReply": {
+            "technique": "netKill",
+            "p": {
+              "x": 0.5372891962300089,
+              "y": 2.1048691406407527,
+              "z": 0.6048831931029348
+            },
+            "time": 6.31666666666677
+          }
+        },
+        {
+          "playerHitTime": 11.283333333333333,
+          "firstObservedTime": 11.466666666666656,
+          "observedAfterSeconds": 0.1833333333333229,
+          "returned": true,
+          "aiAtLaunch": {
+            "x": 0.10466551989783669,
+            "y": 0,
+            "z": 3.640872081109452
+          },
+          "actualReply": {
+            "technique": "net",
+            "p": {
+              "x": -0.09748417721736219,
+              "y": 1.0413164951991918,
+              "z": 0.599326072242916
+            },
+            "time": 12.366666666666605
+          }
+        }
+      ]
+    }
+  ]
+}

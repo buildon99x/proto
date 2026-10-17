@@ -1,9 +1,9 @@
 """Literal opponent-response specimens, without experience scoring."""
-import json, shutil, hashlib, sys
+import json, shutil, hashlib, sys, os
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
-base = Path(__file__).resolve().parents[1] / 'verification/courtyard-depth-20261017'
+base = Path(os.environ.get('SMASH_REVIEW_BASE', str(Path(__file__).resolve().parents[1] / 'verification/courtyard-depth-20261017')))
 out = base / 'delivery'
 out.mkdir(exist_ok=True)
 font = lambda n: ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', n)
@@ -50,7 +50,7 @@ for folder in folders:
             perf = launch['perf']+(reply['perf']-launch['perf'])*fraction
             if col in [0, 3]:
                 selected_file = root / (launch if col == 0 else reply)['file']
-                label = 'Actual human contact' if col == 0 else 'Actual AI contact'
+                label = 'Actual player contact' if col == 0 else 'Actual AI contact'
                 actual_perf = (launch if col == 0 else reply)['perf']
             else:
                 target = (source['origin']+perf)/1000
@@ -109,5 +109,5 @@ for i, item in enumerate(details):
     draw.text((x+12,y),f"{r['difficulty']} / sim{r['hit']['time']:.3f} / {r['hit']['technique']}",font=font(20),fill='#ffdb98')
     detail_sheet.paste(crop,(x+(640-crop.width)//2,y+40))
 detail_sheet.save(out/'08-opponent-contact-detail.png')
-(base / ('defence-review-sources.json' if len(folders)==2 else 'centre-review-sources.json')).write_text(json.dumps({'method': 'Actual read-only post-render human/AI contact PNG endpoints and two unmodified CDP source frames between them; no synthesized positions or interpolated frames. These specimens support a bounded visual review only. Original controller gates and trace remain separate.', 'sets': proof}, indent=2)+'\n')
+(base / ('defence-review-sources.json' if len(folders)==2 else 'centre-review-sources.json')).write_text(json.dumps({'method': 'Actual read-only post-render player/AI contact PNG endpoints and two unmodified CDP source frames between them; no synthesized positions or interpolated frames. These specimens support a bounded visual review only. Original controller gates and trace remain separate.', 'sets': proof}, indent=2)+'\n')
 print(json.dumps({'sets': [(s['folder'], s['observedPairs'], s['selectedPairs']) for s in proof]}))

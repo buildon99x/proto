@@ -1,0 +1,595 @@
+{
+  "validationStatus": "all_software_checks_pass; experience ratings recorded separately",
+  "baselineCommit": "569cfb7fad7cdc33c9f58aece271f0f9cba5fe2d",
+  "runtimeCommit": "6456f740388b49aacfeb280bd6afe27518d26f25",
+  "runtimeBundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6",
+  "modelHashes": {
+    "athlete-gold.glb": "1cc18e850e20f4935beaf6313e9717440b2454f8c55762ca4b3e7950330e1b03",
+    "athlete-violet.glb": "993df511f9ebc57f93e362148cbd75297be3a3ff29d7e1cd00e4ba02548a7c36",
+    "court.glb": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47",
+    "racket.glb": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13",
+    "shuttle.glb": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+  },
+  "automatedGates": {
+    "unitTests": 81,
+    "unitFiles": 14,
+    "fullRootBuild": true,
+    "originalFunctionalBrowserCases": 14,
+    "additionalFunctionalCases": 2,
+    "separateDiagnosticCases": 3,
+    "allPass": true,
+    "reports": {
+      "scene": {
+        "file": "final-scene/benchmark-scene-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "play": {
+        "file": "final-play/aim-play-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "native": {
+        "file": "final-native/aim-native-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "native2": {
+        "file": "final-native-2/aim-native-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "native3": {
+        "file": "final-native-3/aim-native-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "rotation": {
+        "file": "final-rotation/court-resize-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "defence": {
+        "file": "final-defence/defence-review-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "pressure": {
+        "file": "final-pressure/defence-review-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "rally": {
+        "file": "final-rally/aim-rally-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "accessible": {
+        "file": "final-accessible/accessible-overlays-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "flight": {
+        "file": "final-flight/high-shuttle-flight-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "loss": {
+        "file": "final-loss/experience-loss-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "dialog": {
+        "file": "final-dialog/experience-dialog-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "pause": {
+        "file": "final-pause/benchmark-pause-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "interruption": {
+        "file": "final-interruption/aim-interruption-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "swing": {
+        "file": "final-swing/swing-sequence-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "heldContactPc": {
+        "file": "final-contact-pc/contact-acceptance-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "heldContactPortrait": {
+        "file": "final-contact-portrait/contact-acceptance-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      },
+      "inputBoundary": {
+        "file": "final-input-lifecycle/mobile-input-lifecycle-report.json",
+        "pass": true,
+        "errors": [],
+        "bundleSha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6"
+      }
+    }
+  },
+  "cameraAndCourt": {
+    "ordinaryReadyViews": 4,
+    "pixelIdenticalToBaseline": true,
+    "physicsAiPredictionPoseAndFiveModelsUnchanged": true,
+    "proof": [
+      "camera-preservation.json",
+      "source-manifest.json"
+    ]
+  },
+  "contactMaterialComparison": [
+    {
+      "view": "pc",
+      "reply": 1,
+      "originalRepeatIdentical": true,
+      "runtimeOffIdentical": true,
+      "runtimeOnRestoredIdentical": true,
+      "sameTimeCameraContact": true,
+      "changedPixels": 192,
+      "changedBounds": [
+        296,
+        180,
+        323,
+        207
+      ],
+      "window": {
+        "x": 309.54117837726847,
+        "y": 193.46769390930498,
+        "radius": 18,
+        "strength": 1
+      },
+      "imageSize": [
+        640,
+        360
+      ],
+      "maxChangedPixelCentreDistanceCssPx": 14.812805101738137,
+      "outsideApertureChangedPixels": 0
+    },
+    {
+      "view": "pc",
+      "reply": 3,
+      "originalRepeatIdentical": true,
+      "runtimeOffIdentical": true,
+      "runtimeOnRestoredIdentical": true,
+      "sameTimeCameraContact": true,
+      "changedPixels": 302,
+      "changedBounds": [
+        310,
+        186,
+        335,
+        215
+      ],
+      "window": {
+        "x": 321.8574954714063,
+        "y": 200.59620931246147,
+        "radius": 18,
+        "strength": 1
+      },
+      "imageSize": [
+        640,
+        360
+      ],
+      "maxChangedPixelCentreDistanceCssPx": 14.710306497809334,
+      "outsideApertureChangedPixels": 0
+    },
+    {
+      "view": "portrait",
+      "reply": 1,
+      "originalRepeatIdentical": true,
+      "runtimeOffIdentical": true,
+      "runtimeOnRestoredIdentical": true,
+      "sameTimeCameraContact": true,
+      "changedPixels": 468,
+      "changedBounds": [
+        347,
+        879,
+        371,
+        911
+      ],
+      "window": {
+        "x": 171.62382481066547,
+        "y": 451.97645090755765,
+        "radius": 16.38,
+        "strength": 1
+      },
+      "imageSize": [
+        780,
+        1688
+      ],
+      "maxChangedPixelCentreDistanceCssPx": 14.409880284490182,
+      "outsideApertureChangedPixels": 0
+    },
+    {
+      "view": "portrait",
+      "reply": 3,
+      "originalRepeatIdentical": true,
+      "runtimeOffIdentical": true,
+      "runtimeOnRestoredIdentical": true,
+      "sameTimeCameraContact": true,
+      "changedPixels": 2195,
+      "changedBounds": [
+        371,
+        907,
+        427,
+        963
+      ],
+      "window": {
+        "x": 199.94646108441177,
+        "y": 467.89195043357796,
+        "radius": 16.38,
+        "strength": 1
+      },
+      "imageSize": [
+        780,
+        1688
+      ],
+      "maxChangedPixelCentreDistanceCssPx": 14.381480356454121,
+      "outsideApertureChangedPixels": 0
+    }
+  ],
+  "actualMatch": {
+    "score": [
+      5,
+      0
+    ],
+    "physicalContacts": 17,
+    "renderedContactSamples": 17,
+    "maxRacketCentreErrorM": 1.7640799994996193e-07,
+    "hitAudioEvents": 17,
+    "pointAudioEvents": 5,
+    "mutedHitEvents": 0,
+    "mutedPointEvents": 0
+  },
+  "aimObservation": {
+    "final-play": {
+      "actualTargetEvents": 6,
+      "distinctIntentCopies": 4,
+      "maxMarkerTransformErrorM": 2.1708143200229402e-07,
+      "ownContactsWithVisibilityOff": 12
+    },
+    "final-native": {
+      "actualTargetEvents": 2,
+      "distinctIntentCopies": 3,
+      "maxMarkerTransformErrorM": 1.3990690916898548e-07,
+      "ownContactsWithVisibilityOff": 3
+    },
+    "final-native-2": {
+      "actualTargetEvents": 2,
+      "distinctIntentCopies": 3,
+      "maxMarkerTransformErrorM": 3.9202490143000046e-08,
+      "ownContactsWithVisibilityOff": 3
+    },
+    "final-native-3": {
+      "actualTargetEvents": 2,
+      "distinctIntentCopies": 3,
+      "maxMarkerTransformErrorM": 1.898738908323594e-07,
+      "ownContactsWithVisibilityOff": 3
+    },
+    "final-rally": {
+      "actualTargetEvents": 3,
+      "distinctIntentCopies": 3,
+      "maxMarkerTransformErrorM": 1.9516871240669335e-07,
+      "ownContactsWithVisibilityOff": 4
+    }
+  },
+  "liveViewportRallies": [
+    {
+      "view": {
+        "name": "pc",
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "returns": 6,
+      "taps": 3,
+      "clippedPlayers": 0,
+      "clippedShuttle": 0,
+      "nearCourtClippingSamples": 900,
+      "maxAimRoundTripErrorCssPx": 3.25954764540747e-05,
+      "maxContrastAnchorErrorCssPx": 0.021655667881747956
+    },
+    {
+      "view": {
+        "name": "mobile-landscape",
+        "width": 844,
+        "height": 390,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "returns": 6,
+      "taps": 3,
+      "clippedPlayers": 0,
+      "clippedShuttle": 0,
+      "nearCourtClippingSamples": 916,
+      "maxAimRoundTripErrorCssPx": 0.1986692418286727,
+      "maxContrastAnchorErrorCssPx": 0.021178749251189562
+    },
+    {
+      "view": {
+        "name": "mobile-portrait",
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "returns": 6,
+      "taps": 3,
+      "clippedPlayers": 0,
+      "clippedShuttle": 0,
+      "nearCourtClippingSamples": 890,
+      "maxAimRoundTripErrorCssPx": 0.514693047251875,
+      "maxContrastAnchorErrorCssPx": 0.02144926573962562
+    }
+  ],
+  "nearCourtCropping": "Existing reference composition intentionally crops the near baseline; it is not a zero-court-clipping claim.",
+  "continuingRotation": {
+    "quality": "MEDIUM",
+    "dpr": 2,
+    "actualAimErrorsCssPx": [
+      0.3224152183514845,
+      0.22732036503041528
+    ],
+    "method": "One continuing native-touch EASY clear rally, portrait→landscape→portrait, DPR2 MEDIUM; no reload, pause, actor/ball/time injection."
+  },
+  "aimObservationScope": "Read-only actual post-render targets, copy and marker transforms. The rally wrapper arrays reset at page reload; per-viewport visibility/aim results remain in the original COURT FRAMING PASS logs. Numeric checks do not replace visual or physical-device experience review.",
+  "opponentFacts": {
+    "centreSoft": [
+      {
+        "difficulty": "NORMAL",
+        "pattern": "centre-soft",
+        "scores": [
+          0,
+          1
+        ],
+        "metrics": {
+          "attempts": 3,
+          "reachable": 3,
+          "unreachable": 0,
+          "unobserved": 0,
+          "returned": 3,
+          "directWinners": 0,
+          "techniques": {
+            "drop": 1,
+            "net": 2,
+            "block": 0
+          }
+        }
+      },
+      {
+        "difficulty": "HARD",
+        "pattern": "centre-soft",
+        "scores": [
+          0,
+          1
+        ],
+        "metrics": {
+          "attempts": 3,
+          "reachable": 3,
+          "unreachable": 0,
+          "unobserved": 0,
+          "returned": 3,
+          "directWinners": 0,
+          "techniques": {
+            "drop": 1,
+            "net": 2,
+            "block": 0
+          }
+        }
+      }
+    ],
+    "pressure": [
+      {
+        "difficulty": "NORMAL",
+        "pattern": "wide-soft",
+        "scores": [
+          1,
+          3
+        ],
+        "metrics": {
+          "attempts": 10,
+          "reachable": 9,
+          "unreachable": 1,
+          "unobserved": 0,
+          "returned": 9,
+          "directWinners": 1,
+          "techniques": {
+            "drop": 3,
+            "net": 7,
+            "block": 0
+          }
+        }
+      },
+      {
+        "difficulty": "NORMAL",
+        "pattern": "clear-soft",
+        "scores": [
+          0,
+          5
+        ],
+        "metrics": {
+          "attempts": 5,
+          "reachable": 5,
+          "unreachable": 0,
+          "unobserved": 0,
+          "returned": 5,
+          "directWinners": 0,
+          "techniques": {
+            "drop": 4,
+            "net": 0,
+            "block": 1
+          }
+        }
+      }
+    ],
+    "goodOrPerfectPressureDirectWinners": 1
+  },
+  "interruption": {
+    "method": "Actual three repeated mouse/native touch presses at visible HIT NOW, physical hit counted; ordinary UI pause/resume/restart/menu in PC and mobile landscape/portrait. Read-only diagnostics and post-render target checks, no injected state/time or contactAt scheduling. Software touch emulation only.",
+    "results": [
+      {
+        "view": {
+          "width": 1065,
+          "height": 606
+        },
+        "presses": 3,
+        "physicalReturns": 1,
+        "pausedTime": 6.008333333333422,
+        "resumed": true,
+        "actualTarget": {
+          "x": 1.9566673866603286,
+          "y": 0.025,
+          "z": 4.1
+        },
+        "pausedGuide": {
+          "aim": {
+            "x": 1.8000007199937396,
+            "y": 0.025,
+            "z": 1.199998027696214
+          },
+          "target": {
+            "x": 1.9566673866603286,
+            "y": 0.025,
+            "z": 4.1
+          },
+          "time": 6.008333333333422,
+          "copy": "YOU · WEAK CLEAR → MID LEFT"
+        },
+        "restarted": {
+          "phase": "SERVE_READY",
+          "guide": null,
+          "returns": 0
+        },
+        "menu": {
+          "phase": "MENU",
+          "targetVisible": false
+        }
+      },
+      {
+        "view": {
+          "width": 844,
+          "height": 390,
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "presses": 3,
+        "physicalReturns": 1,
+        "pausedTime": 6.05000000000009,
+        "resumed": true,
+        "actualTarget": {
+          "x": 1.732981128071613,
+          "y": 0.025,
+          "z": 5.3
+        },
+        "pausedGuide": {
+          "aim": {
+            "x": 1.732981128071613,
+            "y": 0.025,
+            "z": 3.3550941664100673
+          },
+          "target": {
+            "x": 1.732981128071613,
+            "y": 0.025,
+            "z": 5.3
+          },
+          "time": 6.05000000000009,
+          "copy": "YOU · PERFECT CLEAR → DEEP LEFT"
+        },
+        "restarted": {
+          "phase": "SERVE_READY",
+          "guide": null,
+          "returns": 0
+        },
+        "menu": {
+          "phase": "MENU",
+          "targetVisible": false
+        }
+      },
+      {
+        "view": {
+          "width": 390,
+          "height": 844,
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "presses": 3,
+        "physicalReturns": 1,
+        "pausedTime": 6.291666666666769,
+        "resumed": true,
+        "actualTarget": {
+          "x": 1.8310542854897287,
+          "y": 0.025,
+          "z": 5.3
+        },
+        "pausedGuide": {
+          "aim": {
+            "x": 1.7910542854898175,
+            "y": 0.025,
+            "z": 1.150230391028618
+          },
+          "target": {
+            "x": 1.8310542854897287,
+            "y": 0.025,
+            "z": 5.3
+          },
+          "time": 6.125000000000094,
+          "copy": "YOU · GOOD CLEAR → DEEP LEFT"
+        },
+        "restarted": {
+          "phase": "SERVE_READY",
+          "guide": null,
+          "returns": 0
+        },
+        "menu": {
+          "phase": "MENU",
+          "targetVisible": false
+        }
+      }
+    ]
+  },
+  "swing": {
+    "file": "final-swing/sequences.json",
+    "motions": [
+      "Serve",
+      "Clear",
+      "Drop"
+    ],
+    "errors": []
+  },
+  "limits": [
+    "Chromium151 SwiftShader; no physical mouse/touch FPS or latency result.",
+    "Held material comparisons and synchronous DOM cancellation fixtures are separate diagnostics, not ordinary play.",
+    "No continuous normal-speed human playback review, actual listening, physical Safari/mobile validation or diverse human-strategy testing.",
+    "Reference13013 pixels were not downloaded/viewed by this worker; prior parent measurements remain the reference provenance.",
+    "Existing569cfb7 remote candidate is transport-blocked from this environment; local passes do not prove remote delivery.",
+    "Frozen100-point rubric and unknown40 points remain unchanged; no98 or normalized100-point claim."
+  ]
+}

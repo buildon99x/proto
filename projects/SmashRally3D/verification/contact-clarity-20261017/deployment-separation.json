@@ -1,0 +1,19 @@
+{
+  "originalBranch": "codex/smash-rally-3d",
+  "originalRemoteCommit": "569cfb7fad7cdc33c9f58aece271f0f9cba5fe2d",
+  "originalCandidate": "https://loop-lab-git-codex-smash-rally-3d-silentstacks-projects.vercel.app/runs/smash-rally-3d/index.html",
+  "branchPreviewEvidence": "https://github.com/buildon99x/proto/pull/46#issuecomment-6167808509",
+  "newLocalBranch": "codex/smash-contact-clarity-20261017",
+  "officialUrlContract": "https://vercel.com/docs/deployments/generated-urls",
+  "finding": "Official Vercel generated-URL documentation distinguishes commit URLs from branch URLs. The exact candidate is confirmed by the existing Vercel bot as the original branch URL, which tracks that branch. A distinct Git branch has its own generated branch URL. Project vercel.json contains build/install/framework/region settings and no explicit aliases.",
+  "safeguard": "Push only a distinct feature branch with an explicit refspec; never advance original candidate branch, alias, main or project production settings. Check original ref and original Vercel success target after any new-branch push. Do not invent a new preview hostname if deployment metadata is unavailable.",
+  "configurationReview": "Root vercel.json has no explicit aliases; package build:vercel only syncs registry, builds static projects and launcher; no .github workflows or launcher/vercel.json are present. No deploy/alias/promotion commands added.",
+  "pushPolicy": "Only the distinct codex/smash-contact-clarity-20261017 ref may be pushed after final local gates. The original branch/candidate is left at569cfb7 and checked again after that push.",
+  "remotePreflight": {
+    "checkedAtUtc": "2026-10-17T06:19:51.207251+00:00",
+    "refs": {
+      "refs/heads/codex/smash-rally-3d": "569cfb7fad7cdc33c9f58aece271f0f9cba5fe2d"
+    },
+    "newBranchAbsent": true
+  }
+}

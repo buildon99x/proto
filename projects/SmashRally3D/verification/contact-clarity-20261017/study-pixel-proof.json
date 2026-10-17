@@ -1,0 +1,29 @@
+{
+  "method": "Exact decoded PNG comparison at same naturally reached held contact and camera; no invented visual tolerance. Changed sample variants judged side-by-side.",
+  "results": [
+    {
+      "folder": "study-pc",
+      "reply": 1,
+      "repeatedBaselinePixelsChanged": 0
+    },
+    {
+      "folder": "study-pc",
+      "reply": 3,
+      "repeatedBaselinePixelsChanged": 0
+    },
+    {
+      "folder": "study-portrait",
+      "reply": 1,
+      "repeatedBaselinePixelsChanged": 0,
+      "local-offChangedPixels": 0,
+      "restoredChangedPixels": 0
+    },
+    {
+      "folder": "study-portrait",
+      "reply": 3,
+      "repeatedBaselinePixelsChanged": 0,
+      "local-offChangedPixels": 0,
+      "restoredChangedPixels": 0
+    }
+  ]
+}

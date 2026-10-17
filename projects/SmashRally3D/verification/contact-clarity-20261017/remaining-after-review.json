@@ -1,0 +1,87 @@
+{
+  "rubricSha256": "acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+  "priorReviewedSubtotal": 46,
+  "reviewedSubtotal": 48,
+  "reviewedWeight": 60,
+  "knownDeductionsRemaining": 12,
+  "unverifiedWeight": 40,
+  "overallScore": null,
+  "target98Achieved": false,
+  "known": [
+    {
+      "id": "V1",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "V2",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "V3",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "V4",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "C1",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "C2",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "U1",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "U2",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "U3",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "M1",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "M2",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "M4",
+      "score": 4,
+      "remaining": 1
+    }
+  ],
+  "unverified": [
+    "V5",
+    "C3",
+    "C4",
+    "C5",
+    "A1",
+    "A2",
+    "A3",
+    "M3"
+  ],
+  "nextAccessibleProblems": [
+    "M2aperture is a visible compromise and does not reveal entire overlapping limbs; any further approach must preserve the verified camera/court reference.",
+    "Further V2/V3original material/geometry refinement and V4stroke contexts need new direct observations under unchanged criteria."
+  ],
+  "requiredInputs": "../courtyard-depth-20261017/required-inputs.md"
+}

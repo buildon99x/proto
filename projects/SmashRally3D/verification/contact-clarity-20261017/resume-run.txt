@@ -1,0 +1,17 @@
+final-scene exit=0
+final-play exit=0
+final-native exit=0
+final-native-2 exit=0
+final-native-3 exit=0
+final-rotation exit=0
+final-defence exit=0
+final-pressure exit=0
+final-rally exit=0
+final-accessible exit=0
+final-flight exit=0
+final-loss exit=0
+final-dialog exit=0
+final-pause exit=0
+final-interruption exit=0
+final-input-lifecycle exit=0
+final-swing exit=0
