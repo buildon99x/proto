@@ -1,0 +1,282 @@
+[
+  {
+    "file": "phases-pc/ready-baseline.png",
+    "sha256": "24e12174c21cac790d297157300d5c2d07b1923f62996ce05033ae2546dd306a",
+    "crop": [
+      107,
+      94,
+      958,
+      332
+    ]
+  },
+  {
+    "file": "phases-pc/ready-candidate.png",
+    "sha256": "41c66a20c4f6ff4ac9e880ff1166201e383d4d9a82c2190ea4565f88cc709ce1",
+    "crop": [
+      107,
+      94,
+      958,
+      332
+    ]
+  },
+  {
+    "file": "phases-pc/prepare-baseline.png",
+    "sha256": "4d33c28d1ec2ca7dac57d60eb14b1e8dca7511b02e4577109cd2418af9f553ae",
+    "crop": [
+      228,
+      167,
+      755,
+      313
+    ]
+  },
+  {
+    "file": "phases-pc/prepare-candidate.png",
+    "sha256": "6425d5f215c26796a0e104f59577c18c0af8de53a55127eceb552934de453b51",
+    "crop": [
+      228,
+      167,
+      755,
+      313
+    ]
+  },
+  {
+    "file": "phases-pc/accelerate-baseline.png",
+    "sha256": "d7f874ab7e7ff8bb0536da48251310d78097369999b0fad2e505a4e504de89e8",
+    "crop": [
+      89,
+      105,
+      857,
+      317
+    ]
+  },
+  {
+    "file": "phases-pc/accelerate-candidate.png",
+    "sha256": "383623d0cff752e0f8f45971e02c55ab5064c64e50a6f6185930b44716e153f0",
+    "crop": [
+      89,
+      105,
+      857,
+      317
+    ]
+  },
+  {
+    "file": "phases-pc/contact-baseline.png",
+    "sha256": "f6c161b66182ed32527e9b21e265cb9e493a0eb7fef1db6c432444065092b8aa",
+    "crop": [
+      84,
+      103,
+      861,
+      317
+    ]
+  },
+  {
+    "file": "phases-pc/contact-candidate.png",
+    "sha256": "11533254a29efafaf2935f86cb05176abde4ee819d4908a41159cade87bd89a1",
+    "crop": [
+      84,
+      103,
+      861,
+      317
+    ]
+  },
+  {
+    "file": "phases-pc/follow-baseline.png",
+    "sha256": "c5158f1976dc2db790adf706e1864369c34609d35cc9da11ded23768261d6757",
+    "crop": [
+      84,
+      103,
+      861,
+      317
+    ]
+  },
+  {
+    "file": "phases-pc/follow-candidate.png",
+    "sha256": "5b118983328cf65b6d9120e0eb8bd9d956740b27eebb0c9dfd92c138239dd2d1",
+    "crop": [
+      84,
+      103,
+      861,
+      317
+    ]
+  },
+  {
+    "file": "phases-pc/landing-baseline.png",
+    "sha256": "0bd1ee816f06e2ee169a0ac73740d11c1f3c74ed634a45c06b8f0ec8996d4c7f",
+    "crop": [
+      80,
+      101,
+      871,
+      319
+    ]
+  },
+  {
+    "file": "phases-pc/landing-candidate.png",
+    "sha256": "99b12eceacde01e959377958a872349fd6b968c9051e7d99c9096b74bb6eb99f",
+    "crop": [
+      80,
+      101,
+      871,
+      319
+    ]
+  },
+  {
+    "file": "phases-pc/return-baseline.png",
+    "sha256": "cd09ffddfeee00465ec0f292764a7a39641a8a375b68de502532fd5f1484e4c3",
+    "crop": [
+      81,
+      101,
+      874,
+      320
+    ]
+  },
+  {
+    "file": "phases-pc/return-candidate.png",
+    "sha256": "cf60eea030319ecdd1dacef84faadd0c2963c0303fe6cd3d0ace5bd89cac2788",
+    "crop": [
+      81,
+      101,
+      874,
+      320
+    ]
+  },
+  {
+    "file": "phases-portrait/ready-baseline.png",
+    "sha256": "299d9aa4b1b281c1e1d8065e26ea2c9775ce34ee8002e52de8dcd31fa650b81c",
+    "crop": [
+      0,
+      316,
+      780,
+      917
+    ]
+  },
+  {
+    "file": "phases-portrait/ready-candidate.png",
+    "sha256": "6151016da357def8b8210feede16d2bcc7c67d19745e5f62fa8677326b506902",
+    "crop": [
+      0,
+      316,
+      780,
+      917
+    ]
+  },
+  {
+    "file": "phases-portrait/prepare-baseline.png",
+    "sha256": "0ba3016102e16de6ab61ee721c59c48f097a30148f8de0a3092c86abdb049120",
+    "crop": [
+      0,
+      596,
+      780,
+      861
+    ]
+  },
+  {
+    "file": "phases-portrait/prepare-candidate.png",
+    "sha256": "b6c12dbb68b5d45c5ebcb7630bcf1f6a14b93490c5f28d2ed2ab9787f49d3c67",
+    "crop": [
+      0,
+      596,
+      780,
+      861
+    ]
+  },
+  {
+    "file": "phases-portrait/accelerate-baseline.png",
+    "sha256": "11e767a52bdee011fbba8972a7c165a57b2280dc68492ab4d724de90c6b9a52c",
+    "crop": [
+      0,
+      551,
+      780,
+      864
+    ]
+  },
+  {
+    "file": "phases-portrait/accelerate-candidate.png",
+    "sha256": "83aa6c402384c79cac509d7c9adcc9b3c5f9770d1f6a4c2743aa4955007ccb7f",
+    "crop": [
+      0,
+      551,
+      780,
+      864
+    ]
+  },
+  {
+    "file": "phases-portrait/contact-baseline.png",
+    "sha256": "c5b8146f62853fa02c887291e604cb79d39b81c2a1070f1ba6a431aa1817d07a",
+    "crop": [
+      0,
+      592,
+      780,
+      861
+    ]
+  },
+  {
+    "file": "phases-portrait/contact-candidate.png",
+    "sha256": "5c0c9fd81f71bc5198c6671dcd459d23a7cbcef1085d761f53407e47275039e4",
+    "crop": [
+      0,
+      592,
+      780,
+      861
+    ]
+  },
+  {
+    "file": "phases-portrait/follow-baseline.png",
+    "sha256": "84dbbf2e3859525bd2c1035545405004d59d74fecdcaa793c3ccccc22015c7fc",
+    "crop": [
+      0,
+      592,
+      780,
+      861
+    ]
+  },
+  {
+    "file": "phases-portrait/follow-candidate.png",
+    "sha256": "5a8aa2d81786e1bcdf8bb51e75147234c1ffa84e96e603d8c59140344c37dc3a",
+    "crop": [
+      0,
+      592,
+      780,
+      861
+    ]
+  },
+  {
+    "file": "phases-portrait/landing-baseline.png",
+    "sha256": "45326dba0b99185977df0e6158ccd5f5ce96fad765ab4f4697101608e06da98d",
+    "crop": [
+      0,
+      503,
+      780,
+      872
+    ]
+  },
+  {
+    "file": "phases-portrait/landing-candidate.png",
+    "sha256": "353e224ec70a184bb0eca61db8da0d9ff4904e86746cb2907888f08aa9de404a",
+    "crop": [
+      0,
+      503,
+      780,
+      872
+    ]
+  },
+  {
+    "file": "phases-portrait/return-baseline.png",
+    "sha256": "47123928cbbdbec064cf80be54e955951ef432e0587ff8711d59baee0c658762",
+    "crop": [
+      0,
+      477,
+      780,
+      875
+    ]
+  },
+  {
+    "file": "phases-portrait/return-candidate.png",
+    "sha256": "7ac1ecd9897d9dc434313aceb02a66f447f4eaf8e6f3b4327ec00a9526c87ad8",
+    "crop": [
+      0,
+      477,
+      780,
+      875
+    ]
+  }
+]

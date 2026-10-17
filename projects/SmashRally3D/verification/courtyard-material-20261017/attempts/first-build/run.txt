@@ -1,0 +1,8 @@
+
+> smash-rally-3d@0.2.0 build /workspace/proto/projects/SmashRally3D/app
+> tsc --noEmit && vite build
+
+src/courtyard-materials.ts(63,50): error TS17006: An unary expression with the '-' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses.
+/workspace/proto/projects/SmashRally3D/app:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  smash-rally-3d@0.2.0 build: `tsc --noEmit && vite build`
+Exit status 2

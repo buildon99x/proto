@@ -1,0 +1,5 @@
+{
+  "finding": "Strict state comparison with newly included phase/score/viewport failed at initial ready before PNG capture.",
+  "inference": "Likely controller read/serve event race: the holder can activate between outer hold read and native click, while game.queue changes SERVE_READY synchronously at unchanged physics time. Original older harness did not compare phase.",
+  "action": "Keep strict camera/clock/pose/contact AND phase/score/viewport gate. Do not submit any controller input until first ready hold is captured/restored; add explicit diff paths to any future mismatch. No production change or scoring implication."
+}

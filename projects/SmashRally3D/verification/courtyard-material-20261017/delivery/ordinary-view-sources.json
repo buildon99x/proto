@@ -1,0 +1,38 @@
+[
+  {
+    "file": "final-scene/scene-1065x606-ready.png",
+    "sha256": "41c66a20c4f6ff4ac9e880ff1166201e383d4d9a82c2190ea4565f88cc709ce1"
+  },
+  {
+    "file": "final-scene/scene-1280x720-ready.png",
+    "sha256": "1ee7fc2731d9d6ba74f07566d277b71fc6d3dcc281c2619232ac11ed491874f9"
+  },
+  {
+    "file": "final-scene/scene-844x390-ready.png",
+    "sha256": "112f8b705226ddfbbc3f263cc9609c59183074e071de2ae638b4ee3aefcb3639"
+  },
+  {
+    "file": "final-scene/scene-390x844-ready.png",
+    "sha256": "c8e42df039e69fe00392f0368986e53aa76c810687719d39352115e4241d73c5"
+  },
+  {
+    "file": "final-native/court-live-rotation-landscape.png",
+    "sha256": "d1c232701a6d7b40562211c5ff3810e9f47a8cb6ad4e4b3c6a20b351a2b594e4"
+  },
+  {
+    "file": "final-native/court-live-rotation-portrait.png",
+    "sha256": "ff429174b31c8ec49088ccf2dbfab6a04dfaeb03e3df7dbd1b90a51c0a2ba787"
+  },
+  {
+    "file": "final-rally/court-pc-high-clear.png",
+    "sha256": "3682c14ed5d71c1bea68b1d74b7be5da52638f3f6c85c3acefcf4b90cfaa3e03"
+  },
+  {
+    "file": "final-rally/court-mobile-landscape-high-clear.png",
+    "sha256": "dc3433432dc4cee1396a6cde0d823d240272a99c33d1e236175c0ccae90e4afe"
+  },
+  {
+    "file": "final-rally/court-mobile-portrait-high-clear.png",
+    "sha256": "ef5393a13d76ceecdcd62c62ca9394ed2a90e49be0254ab5f8b24b2781679257"
+  }
+]

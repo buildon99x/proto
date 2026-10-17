@@ -1,0 +1,13 @@
+
+> smash-rally-3d@0.2.0 test /workspace/proto/projects/SmashRally3D/app
+> vitest run
+
+
+ RUN  v4.1.10 /workspace/proto/projects/SmashRally3D/app
+
+
+ Test Files  14 passed (14)
+      Tests  81 passed (81)
+   Start at  08:10:28
+   Duration  5.44s (transform 469ms, setup 0ms, import 1.57s, tests 10.82s, environment 2ms)
+

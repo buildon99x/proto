@@ -1,0 +1,11 @@
+{
+  "commit": "1a05842d45da7f2443260c5fdefc6c0cd0159d05",
+  "state": "success",
+  "checkedAtUtc": "2026-10-17T08:00:32.513602+00:00",
+  "statusSource": "authorized GitHub get_commit_combined_status",
+  "dashboard": "https://vercel.com/silentstacks-projects/loop-lab/2ELAazQT3oQ2poMjTzrEtJWxQEqz",
+  "hostSource": "https://github.com/buildon99x/proto/runs/117346283128",
+  "url": "https://loop-lab-git-codex-smash-athlete-f-a949a2-silentstacks-projects.vercel.app/runs/smash-rally-3d/index.html",
+  "remoteRuntimeVerified": false,
+  "noRepeat": "Prior real Chromium CONNECTfailure already documented; do not retry or bypass. Normal-speed temporal watching/listening unsupported as recorded in../point-camera-20261017/playback-capability.json."
+}

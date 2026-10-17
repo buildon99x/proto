@@ -56,3 +56,10 @@ Replaced rigid torso-only actors with common weighted skeletons, planted feet an
 - Hold the actual last rally tracking view/lens during point resolution and results; keep finite athletes framed on rotation and restore existing serve/restart composition. Only the camera block changes in production.
 - Reproduce old portrait clipping via real5–0match, then qualify3current lifecycle viewports, continuing native-touch rotation/aim and exact PC/portrait ready pixels.81units/fullrootbuild pass. Prior interrupted viewport-probe diagnostics are retained and excluded.
 - Preserve all20scores/weights (48/60reviewed,40unknown,V2=4) and both older candidate refs. Continuous normal-speed watching, physical devices and listening remain unverified; about200s silent actual browser recording is a deliverable, not a substitute. Evidence: `verification/point-camera-20261017`.
+
+
+## 2026-10-17 — original courtyard surface materials
+
+- Scope9material clones/3deterministic maps to42existing scenery meshes. Keep original component materials for exact old/current comparison, continuous glass-strip UVs and fine grain/joint stone normals; reject flat darkening and broad wave drafts.
+- Preserve geometry,5models,17other runtime files and point-camera block.81units/fullrootbuild,14same-state pairs and5browser reports pass; outside selected bounds/ready lower35%changed0pixels.
+- Direct original V3static material-hierarchy review4→5;49/60reviewed,40unknown,overallnull. Other19scores unchanged. Same branch/older2refs protected; no normal-speed/listening/physical-device certification. Evidence:`verification/courtyard-material-20261017`.

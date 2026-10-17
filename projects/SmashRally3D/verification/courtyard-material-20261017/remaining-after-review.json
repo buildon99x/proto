@@ -1,0 +1,62 @@
+{
+  "rubricSha256": "acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+  "reviewedSubtotal": 49,
+  "reviewedWeight": 60,
+  "unknownWeight": 40,
+  "overallScore": null,
+  "target98Achieved": false,
+  "codeAndDirectOriginalScope": [
+    {
+      "id": "V2",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "V4",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "C2",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "M1",
+      "score": 4,
+      "remaining": 1
+    },
+    {
+      "id": "M4",
+      "score": 4,
+      "remaining": 1
+    }
+  ],
+  "externalReviewedMaxConditions": [
+    "V1",
+    "C1",
+    "U1",
+    "U2",
+    "U3",
+    "M2"
+  ],
+  "unknown": [
+    "V5",
+    "C3",
+    "C4",
+    "C5",
+    "A1",
+    "A2",
+    "A3",
+    "M3"
+  ],
+  "allRemainingCodeWorkBlocked": false,
+  "nextDifferentApproaches": [
+    "V2integrated shoulder/hip surfaces and authored face expression rather than another section-radius adjustment.",
+    "C2/V4/M1/M4can be re-evaluated only against their original observable conditions; do not invent a blanket external-validation4cap. Any new code target needs a concrete observed gap first."
+  ],
+  "normalSpeedContinuousWatching": false,
+  "actualListening": false,
+  "physicalDevice": false,
+  "notes": "Prior V2andpoint decisions remain historically unchanged. This one selected V3criterion has no extra external requirement; no full-product98or overall score inferred."
+}

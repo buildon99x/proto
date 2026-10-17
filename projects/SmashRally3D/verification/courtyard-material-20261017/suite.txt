@@ -1,0 +1,4 @@
+phases-portrait exit=0
+final-scene exit=0
+final-native exit=0
+final-rally exit=0

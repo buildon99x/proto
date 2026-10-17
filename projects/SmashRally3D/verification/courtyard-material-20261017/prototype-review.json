@@ -1,0 +1,17 @@
+{
+  "baselineJudgmentUnchanged": true,
+  "prototypes": [
+    {
+      "files": "pilot-ready-pc/",
+      "finding": "Darkened the window without enough distinct surface identity. Do not treat changed pixels/valid gloss as an experience gain."
+    },
+    {
+      "files": [
+        "pilot-surface-pc/",
+        "pilot-surface-portrait/"
+      ],
+      "finding": "Glass old painted band became continuous and sky gradient readable. Broad sinusoidal normal field created large blotches on stone; rejected that generator."
+    }
+  ],
+  "finalApproach": "Keep coherent pane UV mapping; replace broad periodic sine normals with small deterministic crystal grains and recessed panel joints. No more fine parameter loops; perform actual phase comparison and decide against original V3condition."
+}

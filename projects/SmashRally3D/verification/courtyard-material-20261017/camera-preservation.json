@@ -1,0 +1,58 @@
+{
+  "baselineScene": "../athlete-form-20261017/final-scene/scene.json",
+  "scope": "Fresh ordinary ready only; post-point fix does not alter fresh ready branch. Same5models/17joints. This is not a claim of matched ordinary rally times.",
+  "rows": [
+    {
+      "view": {
+        "width": 1065,
+        "height": 606
+      },
+      "camera": true,
+      "body": true,
+      "targets": true,
+      "shuttle": true,
+      "ambient": true,
+      "lights": true,
+      "noSpectators": true
+    },
+    {
+      "view": {
+        "width": 1280,
+        "height": 720
+      },
+      "camera": true,
+      "body": true,
+      "targets": true,
+      "shuttle": true,
+      "ambient": true,
+      "lights": true,
+      "noSpectators": true
+    },
+    {
+      "view": {
+        "width": 844,
+        "height": 390
+      },
+      "camera": true,
+      "body": true,
+      "targets": true,
+      "shuttle": true,
+      "ambient": true,
+      "lights": true,
+      "noSpectators": true
+    },
+    {
+      "view": {
+        "width": 390,
+        "height": 844
+      },
+      "camera": true,
+      "body": true,
+      "targets": true,
+      "shuttle": true,
+      "ambient": true,
+      "lights": true,
+      "noSpectators": true
+    }
+  ]
+}
