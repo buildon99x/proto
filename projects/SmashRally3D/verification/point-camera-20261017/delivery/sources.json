@@ -1,0 +1,120 @@
+[
+  {
+    "file": "before-portrait/ready.png",
+    "sha256": "299d9aa4b1b281c1e1d8065e26ea2c9775ce34ee8002e52de8dcd31fa650b81c"
+  },
+  {
+    "file": "after-portrait/ready.png",
+    "sha256": "299d9aa4b1b281c1e1d8065e26ea2c9775ce34ee8002e52de8dcd31fa650b81c"
+  },
+  {
+    "file": "before-portrait/rally.png",
+    "sha256": "03094cc0c25f1f4591660b9ecad55c674ba40a98b70157e8fe3dd6300f1c6212"
+  },
+  {
+    "file": "after-portrait/rally.png",
+    "sha256": "fa9596c13cbc27ae707a2f6282f9e27581c031c5a93195b821c4d81333829c5b"
+  },
+  {
+    "file": "before-portrait/point-late.png",
+    "sha256": "59f68b1e790b57a9bf3615cb4e61274373a9c64bdb1bc6473de0bbec5c2edb7e"
+  },
+  {
+    "file": "after-portrait/point-late.png",
+    "sha256": "e1a2c0571e56d664f9e2fb27bc0fb11b2c1efb4905c0729018eca9420cb6610c"
+  },
+  {
+    "file": "before-portrait/results.png",
+    "sha256": "297ba3cd7540546bc7bda8fd918773cc1e87d880971ec7e6eced0135d9b475aa"
+  },
+  {
+    "file": "after-portrait/results.png",
+    "sha256": "e4eb37fba16a29f2ed48b357cad63df2c3eb0b8e90ddba4892d4c3fd66dd6fa6"
+  },
+  {
+    "file": "before-portrait/restart-ready.png",
+    "sha256": "04d59e5b18dce0532c9ff2c429e34446c6f48d698e2f4d8397430969f67231cf"
+  },
+  {
+    "file": "after-portrait/restart-ready.png",
+    "sha256": "04d59e5b18dce0532c9ff2c429e34446c6f48d698e2f4d8397430969f67231cf"
+  },
+  {
+    "file": "before-portrait/restart-rally.png",
+    "sha256": "f35c473912c03321bb61f01eb531859b0c33e522e352258ccb70b131c4e1c488"
+  },
+  {
+    "file": "after-portrait/restart-rally.png",
+    "sha256": "bc379a7d94deb535acaf9d9b38649c616e921042b88de0532a49af9fb1a71daf"
+  },
+  {
+    "file": "after-pc/point-late.png",
+    "sha256": "0b5a794cc9faddea2937691194224815d8591125041db75f3405fab4d7890f41"
+  },
+  {
+    "file": "after-landscape/point-late.png",
+    "sha256": "4205a64be43c6b8dc131b1174baa168ca0d0d02f69a4decea1313b4aacbea154"
+  },
+  {
+    "file": "after-portrait/point-rotated-landscape.png",
+    "sha256": "5fa576c14d8e8dde8f771a780d160d1956b16971bd1940a5cd5289b3dcd5980c"
+  },
+  {
+    "file": "after-portrait/point-rotated-portrait.png",
+    "sha256": "e1a2c0571e56d664f9e2fb27bc0fb11b2c1efb4905c0729018eca9420cb6610c"
+  },
+  {
+    "decodedFile": "delivery/decoded/00.png",
+    "videoSha256": "f7dc0dc851c492217b02e76e22f888e45bea8e6779921fe390c35cf638cace45",
+    "seekSeconds": 4.001,
+    "sha256": "a526c3fbfb1b3c812f5223d0cc87c6efb34efd412433f6a10ec87af9ddf0c8d1"
+  },
+  {
+    "decodedFile": "delivery/decoded/01.png",
+    "videoSha256": "f7dc0dc851c492217b02e76e22f888e45bea8e6779921fe390c35cf638cace45",
+    "seekSeconds": 24.006,
+    "sha256": "73721dca99bf4429ad057fcf96c414e8d9f9be325d87594c408f17c82d6c0866"
+  },
+  {
+    "decodedFile": "delivery/decoded/02.png",
+    "videoSha256": "f7dc0dc851c492217b02e76e22f888e45bea8e6779921fe390c35cf638cace45",
+    "seekSeconds": 44.011,
+    "sha256": "3eccd90044714100b19848aa48392d7f28074beec3eb1b7bb365209f7a2a5e81"
+  },
+  {
+    "decodedFile": "delivery/decoded/03.png",
+    "videoSha256": "f7dc0dc851c492217b02e76e22f888e45bea8e6779921fe390c35cf638cace45",
+    "seekSeconds": 64.016,
+    "sha256": "0607ad1779e28a3dfb18c0db25c90d76c08ad91e69da9620c0b65c00f17cd62a"
+  },
+  {
+    "decodedFile": "delivery/decoded/04.png",
+    "videoSha256": "f7dc0dc851c492217b02e76e22f888e45bea8e6779921fe390c35cf638cace45",
+    "seekSeconds": 84.021,
+    "sha256": "026ea438b99e4d9b64aaf03ce76ccea7f4415f681f9b3d0b1254a169e93dfac8"
+  },
+  {
+    "decodedFile": "delivery/decoded/05.png",
+    "videoSha256": "f7dc0dc851c492217b02e76e22f888e45bea8e6779921fe390c35cf638cace45",
+    "seekSeconds": 104.02600000000001,
+    "sha256": "55b5a8816ce6c65969be8c22c294b5bcda5ef9e35edf8b3e7b621355051794a4"
+  },
+  {
+    "decodedFile": "delivery/decoded/06.png",
+    "videoSha256": "f7dc0dc851c492217b02e76e22f888e45bea8e6779921fe390c35cf638cace45",
+    "seekSeconds": 134.0335,
+    "sha256": "5101a4973cfbd79a2c5ab1654950a4d26a528dc70192d3f035c0dc8cef1d2c9a"
+  },
+  {
+    "decodedFile": "delivery/decoded/07.png",
+    "videoSha256": "f7dc0dc851c492217b02e76e22f888e45bea8e6779921fe390c35cf638cace45",
+    "seekSeconds": 164.041,
+    "sha256": "dcffc486a66d3415af1862152e0de84ae15ab24630d5667b735c28152ab8b422"
+  },
+  {
+    "decodedFile": "delivery/decoded/08.png",
+    "videoSha256": "f7dc0dc851c492217b02e76e22f888e45bea8e6779921fe390c35cf638cace45",
+    "seekSeconds": 194.04850000000002,
+    "sha256": "bd434956ec12023e93c1d5c039d7dd17eab4c91374b619b1f9b9f9b6fa2aa062"
+  }
+]

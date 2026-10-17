@@ -1,0 +1,40 @@
+{
+  "baseline": "4800d06863e2a94b7fdf08a90bce737d4be95a72",
+  "beforeBundle": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6",
+  "afterBundle": "e3b57e74cbaef79fe4dab63d9e0a8c8291ff29f4129fed4ea2ad1555cb7f4188",
+  "models": {
+    "shuttle.glb": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f",
+    "racket.glb": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13",
+    "court.glb": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47",
+    "athlete-violet.glb": "e94409976350cd6fa8b8bb0c7191baf2e980fb9f47448574d7e4a756f28b6534",
+    "athlete-gold.glb": "8e9301e591a4612d20f35727a85ac1a9d9df7496e6312e4769b7a0f79858ed4d"
+  },
+  "allOtherRuntimeFilesUnchanged": [
+    "projects/SmashRally3D/app/src/aim-feedback.ts",
+    "projects/SmashRally3D/app/src/audio.ts",
+    "projects/SmashRally3D/app/src/camera-framing.ts",
+    "projects/SmashRally3D/app/src/contact-visibility.ts",
+    "projects/SmashRally3D/app/src/courtyard.ts",
+    "projects/SmashRally3D/app/src/feedback.ts",
+    "projects/SmashRally3D/app/src/game.ts",
+    "projects/SmashRally3D/app/src/impact.ts",
+    "projects/SmashRally3D/app/src/lessons.ts",
+    "projects/SmashRally3D/app/src/motion-data.json",
+    "projects/SmashRally3D/app/src/motion.ts",
+    "projects/SmashRally3D/app/src/physics.ts",
+    "projects/SmashRally3D/app/src/shuttle-contrast.ts",
+    "projects/SmashRally3D/app/src/stroke-presentation.ts",
+    "projects/SmashRally3D/app/src/style.css",
+    "projects/SmashRally3D/app/src/tactics.ts",
+    "projects/SmashRally3D/app/src/vite-env.d.ts"
+  ],
+  "onlyProductionChange": "app/src/main.ts camera block; settled phase guards/bounds",
+  "rubricSha256": "acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+  "reviewedSubtotal": 48,
+  "reviewedWeight": 60,
+  "unverifiedWeight": 40,
+  "overallScore": null,
+  "V2": 4,
+  "runtimeCommit": "90e8cf18844283f0bc89206062e3c03ffd62adf9",
+  "mainSha256": "6e72da413b4ad7c1b20689142ffa3bffe40be4f733c1fa14ba67551789c97fe3"
+}

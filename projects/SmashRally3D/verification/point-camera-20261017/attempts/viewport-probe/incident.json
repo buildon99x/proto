@@ -1,0 +1,6 @@
+{
+  "cause": "Read-only status probe used puppeteer.connect without defaultViewport:null, resetting active page to800x600. Not a game defect.",
+  "action": "Original screenshots and observer states archived; browser runs explicitly stopped; do not count reports as acceptance. New isolated runs prohibit external DevTools connections and assert every observed viewport belongs to scenario.",
+  "firstReproduction": "before-portrait/point-enter.png captured correct390x844 before probe; directly viewed clipping.",
+  "afterPreview": "Do not use interrupted after preview as portrait acceptance."
+}

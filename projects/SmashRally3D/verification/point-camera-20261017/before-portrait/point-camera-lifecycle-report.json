@@ -1,0 +1,24 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "modelHashes": {
+      "athlete-gold.glb": "8e9301e591a4612d20f35727a85ac1a9d9df7496e6312e4769b7a0f79858ed4d",
+      "athlete-violet.glb": "e94409976350cd6fa8b8bb0c7191baf2e980fb9f47448574d7e4a756f28b6534",
+      "court.glb": "1901ce64ec6e2637a4e583a727b70f5f3f05304bdaa92e2b3b425952c023dd47",
+      "racket.glb": "a21c65c7a2689994d569de9948996c462f7a87cd1fea08bacb6ba4d6101b4d13",
+      "shuttle.glb": "26dc19d772f8ce4bfd345693d5534cd6fbb86a7be53c6f6bf1b18308a2298d3f"
+    },
+    "sourceBundle": "./assets/index-IddYOBeI.js",
+    "sha256": "8100b1a4f542ed333ed7d9b7efef38fd46608c1ddb9ddb3e44be74cfed31f1f6",
+    "startedAt": "2026-10-17T07:29:02.836Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "LIFECYCLE PROGRESS {\"time\":0,\"phase\":\"COUNTDOWN\",\"scores\":[0,0],\"shots\":0}",
+    "LIFECYCLE PROGRESS {\"time\":10.000000000000073,\"phase\":\"POINT_RESOLVED\",\"scores\":[1,0],\"shots\":5}",
+    "LIFECYCLE PROGRESS {\"time\":20.024999999999505,\"phase\":\"RALLY\",\"scores\":[2,0],\"shots\":9}",
+    "LIFECYCLE PROGRESS {\"time\":30.041666666665602,\"phase\":\"POINT_RESOLVED\",\"scores\":[4,0],\"shots\":14}",
+    "POINT CAMERA LIFECYCLE {\"view\":\"portrait\",\"inputs\":6,\"rotated\":false,\"summaries\":[{\"phase\":\"RALLY\",\"samples\":897,\"clipped\":0,\"worst\":null},{\"phase\":\"POINT_RESOLVED\",\"samples\":228,\"clipped\":183,\"worst\":{\"time\":10.000000000000073,\"phase\":\"POINT_RESOLVED\",\"score\":[1,0],\"width\":390,\"height\":844,\"camera\":{\"p\":{\"x\":0,\"y\":3.0765254497528076,\"z\":-10.327746391296387},\"q\":{\"x\":0,\"y\":0.9975640505394667,\"z\":0.069756469745051,\"w\":0},\"fov\":53.12049795122839},\"actors\":[{\"finite\":true,\"minX\":358.16044246795286,\"maxX\":454.8901462637446,\"minY\":519.4344424391679,\"maxY\":757.4680183037837,\"racket\":{\"x\":446.3902986487598,\"y\":541.9468634658498,\"z\":5.4852559066540145}},{\"finite\":true,\"minX\":200.21617748721252,\"maxX\":270.0795125483129,\"minY\":386.60914338655857,\"maxY\":482.07034464388636,\"racket\":{\"x\":270.42907530403124,\"y\":412.2580250413593,\"z\":13.57755401346196}}],\"shuttle\":{\"x\":102.32063327676386,\"y\":462.02063652358106,\"z\":16.22813179294989},\"positions\":[{\"x\":-1.291570087843338,\"y\":0,\"z\":-4.819630126839353},{\"x\":-0.7086132554431975,\"y\":0,\"z\":3.642747900533876}]}},{\"phase\":\"RESULTS\",\"samples\":8,\"clipped\":8,\"worst\":{\"time\":37.65833333333184,\"phase\":\"RESULTS\",\"score\":[5,0],\"width\":390,\"height\":844,\"camera\":{\"p\":{\"x\":0,\"y\":3.0765254497528076,\"z\":-10.327746391296387},\"q\":{\"x\":0,\"y\":0.9975640505394667,\"z\":0.069756469745051,\"w\":0},\"fov\":48},\"actors\":[{\"finite\":true,\"minX\":-83.15480810752766,\"maxX\":67.20661811805748,\"minY\":486.824953308116,\"maxY\":707.8844587852395,\"racket\":{\"x\":-83.2966315275381,\"y\":530.4851851107535,\"z\":6.769824402125163}},{\"finite\":true,\"minX\":104.3194075235801,\"maxX\":181.82906168902903,\"minY\":382.8234643682767,\"maxY\":490.1789134951344,\"racket\":{\"x\":181.76736531178284,\"y\":411.80704519877384,\"z\":13.494095319137}}],\"shuttle\":{\"x\":90.94111310797223,\"y\":466.9353638818846,\"z\":16.228051528116097},\"positions\":[{\"x\":1.5224168800176456,\"y\":0,\"z\":-3.8821493794908823},{\"x\":0.7108042854399106,\"y\":0,\"z\":3.558637328029079}]}},{\"phase\":\"SERVE_READY\",\"samples\":21,\"clipped\":0,\"worst\":null}]}"
+  ]
+}

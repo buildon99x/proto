@@ -1,0 +1,33 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB
+INDOOR SERIES / 01
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+LIFECYCLE PROGRESS {"time":0,"phase":"COUNTDOWN","scores":[0,0],"shots":0}
+SHOT ready
+SHOT rally
+LIFECYCLE PROGRESS {"time":10.008333333333406,"phase":"RALLY","scores":[0,0],"shots":5}
+SHOT point-enter
+SHOT point-follow
+SHOT point-late
+LIFECYCLE PROGRESS {"time":20.033333333332838,"phase":"RALLY","scores":[2,0],"shots":9}
+LIFECYCLE PROGRESS {"time":30.041666666665602,"phase":"POINT_RESOLVED","scores":[4,0],"shots":14}
+SHOT results
+SHOT restart-ready
+SHOT restart-rally
+POINT CAMERA LIFECYCLE {"view":"landscape","inputs":6,"rotated":false,"summaries":[{"phase":"RALLY","samples":889,"clipped":0,"worst":null},{"phase":"POINT_RESOLVED","samples":220,"clipped":0,"worst":null},{"phase":"RESULTS","samples":10,"clipped":0,"worst":null},{"phase":"SERVE_READY","samples":21,"clipped":0,"worst":null}]}

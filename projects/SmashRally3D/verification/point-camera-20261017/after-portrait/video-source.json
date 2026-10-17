@@ -1,0 +1,1183 @@
+{
+  "method": "Actual CDP frames at original wall-clock timestamps, source frames held at20fps without interpolation. Silent video. Not normal-speed continuous assistant watching or actual listening.",
+  "duration": 199.91972217559814,
+  "rawDirectory": "/tmp/smash-point-video-WlKCpu",
+  "frames": [
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000000.jpg",
+      "timestamp": 1792222362.10617
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000001.jpg",
+      "timestamp": 1792222362.812582
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000002.jpg",
+      "timestamp": 1792222363.589087
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000003.jpg",
+      "timestamp": 1792222364.292242
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000004.jpg",
+      "timestamp": 1792222365.20783
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000005.jpg",
+      "timestamp": 1792222365.961303
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000006.jpg",
+      "timestamp": 1792222366.626257
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000007.jpg",
+      "timestamp": 1792222367.331507
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000008.jpg",
+      "timestamp": 1792222368.030454
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000009.jpg",
+      "timestamp": 1792222370.456023
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000010.jpg",
+      "timestamp": 1792222371.159726
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000011.jpg",
+      "timestamp": 1792222371.804161
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000012.jpg",
+      "timestamp": 1792222372.473423
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000013.jpg",
+      "timestamp": 1792222373.036183
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000014.jpg",
+      "timestamp": 1792222373.666586
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000015.jpg",
+      "timestamp": 1792222374.160881
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000016.jpg",
+      "timestamp": 1792222374.718409
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000017.jpg",
+      "timestamp": 1792222375.302447
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000018.jpg",
+      "timestamp": 1792222375.881586
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000019.jpg",
+      "timestamp": 1792222376.475986
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000020.jpg",
+      "timestamp": 1792222377.064914
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000021.jpg",
+      "timestamp": 1792222377.719469
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000022.jpg",
+      "timestamp": 1792222378.596159
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000023.jpg",
+      "timestamp": 1792222379.199102
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000024.jpg",
+      "timestamp": 1792222379.851349
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000025.jpg",
+      "timestamp": 1792222380.511341
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000026.jpg",
+      "timestamp": 1792222381.156192
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000027.jpg",
+      "timestamp": 1792222381.812136
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000028.jpg",
+      "timestamp": 1792222382.527339
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000029.jpg",
+      "timestamp": 1792222383.166445
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000030.jpg",
+      "timestamp": 1792222383.751349
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000031.jpg",
+      "timestamp": 1792222384.322081
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000032.jpg",
+      "timestamp": 1792222384.90227
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000033.jpg",
+      "timestamp": 1792222385.595739
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000034.jpg",
+      "timestamp": 1792222386.369017
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000035.jpg",
+      "timestamp": 1792222386.988525
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000036.jpg",
+      "timestamp": 1792222387.53149
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000037.jpg",
+      "timestamp": 1792222388.069334
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000038.jpg",
+      "timestamp": 1792222388.563842
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000039.jpg",
+      "timestamp": 1792222389.051318
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000040.jpg",
+      "timestamp": 1792222389.523095
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000041.jpg",
+      "timestamp": 1792222390.178898
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000042.jpg",
+      "timestamp": 1792222390.594603
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000043.jpg",
+      "timestamp": 1792222391.278374
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000044.jpg",
+      "timestamp": 1792222391.863572
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000045.jpg",
+      "timestamp": 1792222392.425548
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000046.jpg",
+      "timestamp": 1792222393.021754
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000047.jpg",
+      "timestamp": 1792222393.632829
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000048.jpg",
+      "timestamp": 1792222394.388146
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000049.jpg",
+      "timestamp": 1792222394.862725
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000050.jpg",
+      "timestamp": 1792222395.535697
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000051.jpg",
+      "timestamp": 1792222396.217556
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000052.jpg",
+      "timestamp": 1792222397.097172
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000053.jpg",
+      "timestamp": 1792222397.79561
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000054.jpg",
+      "timestamp": 1792222398.319385
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000055.jpg",
+      "timestamp": 1792222400.825694
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000056.jpg",
+      "timestamp": 1792222401.408991
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000057.jpg",
+      "timestamp": 1792222401.985755
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000058.jpg",
+      "timestamp": 1792222402.517055
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000059.jpg",
+      "timestamp": 1792222403.054581
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000060.jpg",
+      "timestamp": 1792222403.565884
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000061.jpg",
+      "timestamp": 1792222404.067084
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000062.jpg",
+      "timestamp": 1792222404.553721
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000063.jpg",
+      "timestamp": 1792222405.060769
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000064.jpg",
+      "timestamp": 1792222405.563786
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000065.jpg",
+      "timestamp": 1792222406.054546
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000066.jpg",
+      "timestamp": 1792222406.565605
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000067.jpg",
+      "timestamp": 1792222407.074791
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000068.jpg",
+      "timestamp": 1792222407.591793
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000069.jpg",
+      "timestamp": 1792222408.114603
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000070.jpg",
+      "timestamp": 1792222408.664768
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000071.jpg",
+      "timestamp": 1792222409.167849
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000072.jpg",
+      "timestamp": 1792222409.697814
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000073.jpg",
+      "timestamp": 1792222410.262575
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000074.jpg",
+      "timestamp": 1792222412.418067
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000075.jpg",
+      "timestamp": 1792222414.86689
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000076.jpg",
+      "timestamp": 1792222415.731781
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000077.jpg",
+      "timestamp": 1792222416.603136
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000078.jpg",
+      "timestamp": 1792222418.574437
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000079.jpg",
+      "timestamp": 1792222419.269303
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000080.jpg",
+      "timestamp": 1792222419.953384
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000081.jpg",
+      "timestamp": 1792222420.592502
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000082.jpg",
+      "timestamp": 1792222421.182629
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000083.jpg",
+      "timestamp": 1792222421.768986
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000084.jpg",
+      "timestamp": 1792222422.362781
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000085.jpg",
+      "timestamp": 1792222422.931372
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000086.jpg",
+      "timestamp": 1792222423.709791
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000087.jpg",
+      "timestamp": 1792222424.280467
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000088.jpg",
+      "timestamp": 1792222425.022967
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000089.jpg",
+      "timestamp": 1792222425.494843
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000090.jpg",
+      "timestamp": 1792222426.07324
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000091.jpg",
+      "timestamp": 1792222426.657898
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000092.jpg",
+      "timestamp": 1792222427.256135
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000093.jpg",
+      "timestamp": 1792222427.836029
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000094.jpg",
+      "timestamp": 1792222428.460077
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000095.jpg",
+      "timestamp": 1792222429.121041
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000096.jpg",
+      "timestamp": 1792222429.883401
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000097.jpg",
+      "timestamp": 1792222430.712701
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000098.jpg",
+      "timestamp": 1792222431.481998
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000099.jpg",
+      "timestamp": 1792222432.096556
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000100.jpg",
+      "timestamp": 1792222432.727562
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000101.jpg",
+      "timestamp": 1792222433.320954
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000102.jpg",
+      "timestamp": 1792222434.094397
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000103.jpg",
+      "timestamp": 1792222434.663741
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000104.jpg",
+      "timestamp": 1792222435.372136
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000105.jpg",
+      "timestamp": 1792222435.927667
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000106.jpg",
+      "timestamp": 1792222436.370923
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000107.jpg",
+      "timestamp": 1792222436.90316
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000108.jpg",
+      "timestamp": 1792222437.462422
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000109.jpg",
+      "timestamp": 1792222438.375675
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000110.jpg",
+      "timestamp": 1792222439.480343
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000111.jpg",
+      "timestamp": 1792222440.199235
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000112.jpg",
+      "timestamp": 1792222440.831322
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000113.jpg",
+      "timestamp": 1792222441.531059
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000114.jpg",
+      "timestamp": 1792222442.293027
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000115.jpg",
+      "timestamp": 1792222443.218418
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000116.jpg",
+      "timestamp": 1792222444.219969
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000117.jpg",
+      "timestamp": 1792222444.984076
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000118.jpg",
+      "timestamp": 1792222445.668392
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000119.jpg",
+      "timestamp": 1792222446.325984
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000120.jpg",
+      "timestamp": 1792222447.235014
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000121.jpg",
+      "timestamp": 1792222447.928255
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000122.jpg",
+      "timestamp": 1792222448.622102
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000123.jpg",
+      "timestamp": 1792222449.490557
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000124.jpg",
+      "timestamp": 1792222450.0591
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000125.jpg",
+      "timestamp": 1792222450.764439
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000126.jpg",
+      "timestamp": 1792222451.626242
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000127.jpg",
+      "timestamp": 1792222452.185233
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000128.jpg",
+      "timestamp": 1792222452.872758
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000129.jpg",
+      "timestamp": 1792222453.589857
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000130.jpg",
+      "timestamp": 1792222454.291157
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000131.jpg",
+      "timestamp": 1792222455.018661
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000132.jpg",
+      "timestamp": 1792222455.91491
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000133.jpg",
+      "timestamp": 1792222456.411681
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000134.jpg",
+      "timestamp": 1792222457.18287
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000135.jpg",
+      "timestamp": 1792222457.626231
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000136.jpg",
+      "timestamp": 1792222458.217244
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000137.jpg",
+      "timestamp": 1792222458.818373
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000138.jpg",
+      "timestamp": 1792222459.403966
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000139.jpg",
+      "timestamp": 1792222459.979243
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000140.jpg",
+      "timestamp": 1792222460.595632
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000141.jpg",
+      "timestamp": 1792222461.224769
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000142.jpg",
+      "timestamp": 1792222461.796329
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000143.jpg",
+      "timestamp": 1792222462.395528
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000144.jpg",
+      "timestamp": 1792222463.052353
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000145.jpg",
+      "timestamp": 1792222463.695442
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000146.jpg",
+      "timestamp": 1792222464.3366
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000147.jpg",
+      "timestamp": 1792222465.016826
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000148.jpg",
+      "timestamp": 1792222465.884038
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000149.jpg",
+      "timestamp": 1792222466.622795
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000150.jpg",
+      "timestamp": 1792222467.331245
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000151.jpg",
+      "timestamp": 1792222468.107596
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000152.jpg",
+      "timestamp": 1792222468.578528
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000153.jpg",
+      "timestamp": 1792222469.182837
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000154.jpg",
+      "timestamp": 1792222469.771908
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000155.jpg",
+      "timestamp": 1792222470.365709
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000156.jpg",
+      "timestamp": 1792222470.982943
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000157.jpg",
+      "timestamp": 1792222471.568312
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000158.jpg",
+      "timestamp": 1792222472.125108
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000159.jpg",
+      "timestamp": 1792222472.771007
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000160.jpg",
+      "timestamp": 1792222473.296628
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000161.jpg",
+      "timestamp": 1792222473.803646
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000162.jpg",
+      "timestamp": 1792222474.321284
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000163.jpg",
+      "timestamp": 1792222475.329981
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000164.jpg",
+      "timestamp": 1792222475.781927
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000165.jpg",
+      "timestamp": 1792222476.375429
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000166.jpg",
+      "timestamp": 1792222477.004978
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000167.jpg",
+      "timestamp": 1792222477.624308
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000168.jpg",
+      "timestamp": 1792222478.252809
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000169.jpg",
+      "timestamp": 1792222479.011255
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000170.jpg",
+      "timestamp": 1792222479.631999
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000171.jpg",
+      "timestamp": 1792222480.362776
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000172.jpg",
+      "timestamp": 1792222480.995496
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000173.jpg",
+      "timestamp": 1792222481.709718
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000174.jpg",
+      "timestamp": 1792222482.357286
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000175.jpg",
+      "timestamp": 1792222483.002619
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000176.jpg",
+      "timestamp": 1792222483.654472
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000177.jpg",
+      "timestamp": 1792222484.297444
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000178.jpg",
+      "timestamp": 1792222484.976247
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000179.jpg",
+      "timestamp": 1792222485.624817
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000180.jpg",
+      "timestamp": 1792222486.401387
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000181.jpg",
+      "timestamp": 1792222487.051177
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000182.jpg",
+      "timestamp": 1792222487.611766
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000183.jpg",
+      "timestamp": 1792222488.315013
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000184.jpg",
+      "timestamp": 1792222488.990564
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000185.jpg",
+      "timestamp": 1792222489.624724
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000186.jpg",
+      "timestamp": 1792222490.212767
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000187.jpg",
+      "timestamp": 1792222490.777808
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000188.jpg",
+      "timestamp": 1792222491.36436
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000189.jpg",
+      "timestamp": 1792222491.926101
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000190.jpg",
+      "timestamp": 1792222492.51359
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000191.jpg",
+      "timestamp": 1792222493.132494
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000192.jpg",
+      "timestamp": 1792222493.739248
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000193.jpg",
+      "timestamp": 1792222494.358041
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000194.jpg",
+      "timestamp": 1792222494.951719
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000195.jpg",
+      "timestamp": 1792222495.563509
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000196.jpg",
+      "timestamp": 1792222496.191475
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000197.jpg",
+      "timestamp": 1792222496.820771
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000198.jpg",
+      "timestamp": 1792222497.503134
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000199.jpg",
+      "timestamp": 1792222498.195492
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000200.jpg",
+      "timestamp": 1792222498.891334
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000201.jpg",
+      "timestamp": 1792222499.586888
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000202.jpg",
+      "timestamp": 1792222500.235439
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000203.jpg",
+      "timestamp": 1792222500.859018
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000204.jpg",
+      "timestamp": 1792222501.423149
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000205.jpg",
+      "timestamp": 1792222502.023092
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000206.jpg",
+      "timestamp": 1792222502.605286
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000207.jpg",
+      "timestamp": 1792222503.132147
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000208.jpg",
+      "timestamp": 1792222503.675465
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000209.jpg",
+      "timestamp": 1792222504.207502
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000210.jpg",
+      "timestamp": 1792222504.712821
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000211.jpg",
+      "timestamp": 1792222505.240265
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000212.jpg",
+      "timestamp": 1792222505.732619
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000213.jpg",
+      "timestamp": 1792222506.266359
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000214.jpg",
+      "timestamp": 1792222506.763551
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000215.jpg",
+      "timestamp": 1792222507.372636
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000216.jpg",
+      "timestamp": 1792222507.899385
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000217.jpg",
+      "timestamp": 1792222508.484755
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000218.jpg",
+      "timestamp": 1792222509.086308
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000219.jpg",
+      "timestamp": 1792222509.705347
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000220.jpg",
+      "timestamp": 1792222510.313995
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000221.jpg",
+      "timestamp": 1792222510.930896
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000222.jpg",
+      "timestamp": 1792222511.607311
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000223.jpg",
+      "timestamp": 1792222512.318108
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000224.jpg",
+      "timestamp": 1792222513.011076
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000225.jpg",
+      "timestamp": 1792222513.710889
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000226.jpg",
+      "timestamp": 1792222514.416974
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000227.jpg",
+      "timestamp": 1792222515.120185
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000228.jpg",
+      "timestamp": 1792222515.85184
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000229.jpg",
+      "timestamp": 1792222516.555076
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000230.jpg",
+      "timestamp": 1792222517.271741
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000231.jpg",
+      "timestamp": 1792222517.935533
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000232.jpg",
+      "timestamp": 1792222518.652151
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000233.jpg",
+      "timestamp": 1792222519.357003
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000234.jpg",
+      "timestamp": 1792222520.065552
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000235.jpg",
+      "timestamp": 1792222520.722969
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000236.jpg",
+      "timestamp": 1792222521.334405
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000237.jpg",
+      "timestamp": 1792222521.923543
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000238.jpg",
+      "timestamp": 1792222522.514286
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000239.jpg",
+      "timestamp": 1792222523.086942
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000240.jpg",
+      "timestamp": 1792222523.684417
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000241.jpg",
+      "timestamp": 1792222524.270495
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000242.jpg",
+      "timestamp": 1792222524.885456
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000243.jpg",
+      "timestamp": 1792222525.485137
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000244.jpg",
+      "timestamp": 1792222526.086654
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000245.jpg",
+      "timestamp": 1792222526.782535
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000246.jpg",
+      "timestamp": 1792222527.43634
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000247.jpg",
+      "timestamp": 1792222528.068744
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000248.jpg",
+      "timestamp": 1792222528.71754
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000249.jpg",
+      "timestamp": 1792222529.40295
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000250.jpg",
+      "timestamp": 1792222530.21261
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000251.jpg",
+      "timestamp": 1792222530.926343
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000252.jpg",
+      "timestamp": 1792222531.607728
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000253.jpg",
+      "timestamp": 1792222532.279107
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000254.jpg",
+      "timestamp": 1792222532.954188
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000255.jpg",
+      "timestamp": 1792222533.526135
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000256.jpg",
+      "timestamp": 1792222534.122647
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000257.jpg",
+      "timestamp": 1792222534.702912
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000258.jpg",
+      "timestamp": 1792222535.274742
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000259.jpg",
+      "timestamp": 1792222535.831407
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000260.jpg",
+      "timestamp": 1792222536.409714
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000261.jpg",
+      "timestamp": 1792222537.055333
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000262.jpg",
+      "timestamp": 1792222537.703872
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000263.jpg",
+      "timestamp": 1792222538.271904
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000264.jpg",
+      "timestamp": 1792222538.840166
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000265.jpg",
+      "timestamp": 1792222539.478613
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000266.jpg",
+      "timestamp": 1792222540.096939
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000267.jpg",
+      "timestamp": 1792222540.718404
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000268.jpg",
+      "timestamp": 1792222541.370468
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000269.jpg",
+      "timestamp": 1792222542.005346
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000270.jpg",
+      "timestamp": 1792222542.63526
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000271.jpg",
+      "timestamp": 1792222543.289475
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000272.jpg",
+      "timestamp": 1792222543.926739
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000273.jpg",
+      "timestamp": 1792222544.586946
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000274.jpg",
+      "timestamp": 1792222545.233394
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000275.jpg",
+      "timestamp": 1792222545.934986
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000276.jpg",
+      "timestamp": 1792222546.595535
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000277.jpg",
+      "timestamp": 1792222547.302507
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000278.jpg",
+      "timestamp": 1792222547.928866
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000279.jpg",
+      "timestamp": 1792222548.59105
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000280.jpg",
+      "timestamp": 1792222549.193296
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000281.jpg",
+      "timestamp": 1792222549.797868
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000282.jpg",
+      "timestamp": 1792222551.697767
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000283.jpg",
+      "timestamp": 1792222553.487507
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000284.jpg",
+      "timestamp": 1792222554.136828
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000285.jpg",
+      "timestamp": 1792222554.794356
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000286.jpg",
+      "timestamp": 1792222555.434283
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000287.jpg",
+      "timestamp": 1792222556.089576
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000288.jpg",
+      "timestamp": 1792222556.72457
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000289.jpg",
+      "timestamp": 1792222557.373858
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000290.jpg",
+      "timestamp": 1792222558.025034
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000291.jpg",
+      "timestamp": 1792222558.681387
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000292.jpg",
+      "timestamp": 1792222561.416921
+    },
+    {
+      "file": "/tmp/smash-point-video-WlKCpu/000293.jpg",
+      "timestamp": 1792222561.925892
+    }
+  ]
+}

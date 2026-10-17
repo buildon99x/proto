@@ -1,0 +1,113 @@
+{
+  "priorEvaluation": "../athlete-form-20261017/evaluation-final.json",
+  "priorEvaluationSha256": "4691a8beac14c06ad5043ba331c047caaea41f13954e7b1320935957dff0e68e",
+  "rubricSha256": "acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+  "decision": "Preserve every original score/weight and V2=4. Targeted presentation repair and software gates award no experience points or unknown-item verification.",
+  "items": [
+    {
+      "id": "V1",
+      "weight": 5,
+      "score": 4
+    },
+    {
+      "id": "V2",
+      "weight": 5,
+      "score": 4
+    },
+    {
+      "id": "V3",
+      "weight": 5,
+      "score": 4
+    },
+    {
+      "id": "V4",
+      "weight": 5,
+      "score": 4
+    },
+    {
+      "id": "V5",
+      "weight": 5,
+      "score": null
+    },
+    {
+      "id": "C1",
+      "weight": 5,
+      "score": 4
+    },
+    {
+      "id": "C2",
+      "weight": 5,
+      "score": 4
+    },
+    {
+      "id": "C3",
+      "weight": 5,
+      "score": null
+    },
+    {
+      "id": "C4",
+      "weight": 5,
+      "score": null
+    },
+    {
+      "id": "C5",
+      "weight": 5,
+      "score": null
+    },
+    {
+      "id": "A1",
+      "weight": 5,
+      "score": null
+    },
+    {
+      "id": "A2",
+      "weight": 5,
+      "score": null
+    },
+    {
+      "id": "A3",
+      "weight": 5,
+      "score": null
+    },
+    {
+      "id": "U1",
+      "weight": 5,
+      "score": 4
+    },
+    {
+      "id": "U2",
+      "weight": 5,
+      "score": 4
+    },
+    {
+      "id": "U3",
+      "weight": 5,
+      "score": 4
+    },
+    {
+      "id": "M1",
+      "weight": 5,
+      "score": 4
+    },
+    {
+      "id": "M2",
+      "weight": 5,
+      "score": 4
+    },
+    {
+      "id": "M3",
+      "weight": 5,
+      "score": null
+    },
+    {
+      "id": "M4",
+      "weight": 5,
+      "score": 4
+    }
+  ],
+  "reviewedSubtotal": 48,
+  "reviewedWeight": 60,
+  "unknownWeight": 40,
+  "overallScore": null,
+  "target98Achieved": false
+}

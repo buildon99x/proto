@@ -49,3 +49,10 @@ Replaced rigid torso-only actors with common weighted skeletons, planted feet an
 - Author fitted jersey/sleeve/shorts, anatomical limb taper, trainer and jaw/ear/brow contours while preserving exact rig, clips, materials, grounding and all game/camera/control logic.
 - Retain literal matched-pose PC/portrait comparisons and final 81-unit/full-build/21-browser-report evidence. V2 remains4/5; reviewed48/60 and unknown40 remain unchanged.
 - Record pre-existing portrait point-resolution player clipping in both old/new forms. Keep569cfb7 and3f18189 branches untouched; use `codex/smash-athlete-form-20261017` for this candidate. Evidence: `verification/athlete-form-20261017`.
+
+
+## 2026-10-17 — post-point framing repair
+
+- Hold the actual last rally tracking view/lens during point resolution and results; keep finite athletes framed on rotation and restore existing serve/restart composition. Only the camera block changes in production.
+- Reproduce old portrait clipping via real5–0match, then qualify3current lifecycle viewports, continuing native-touch rotation/aim and exact PC/portrait ready pixels.81units/fullrootbuild pass. Prior interrupted viewport-probe diagnostics are retained and excluded.
+- Preserve all20scores/weights (48/60reviewed,40unknown,V2=4) and both older candidate refs. Continuous normal-speed watching, physical devices and listening remain unverified; about200s silent actual browser recording is a deliverable, not a substitute. Evidence: `verification/point-camera-20261017`.

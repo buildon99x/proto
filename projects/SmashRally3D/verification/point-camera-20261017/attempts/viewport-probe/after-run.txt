@@ -1,0 +1,30 @@
+BOOT TEXT YOU •
+0
+FIRST TO 5
+AI
+0
+II
+RALLY CLUB · COURT 01
+SMASH
+RALLY3D
+
+Read the flight. Find the space.
+Make your next shot count.
+
+SINGLES / FIRST TO 5 / AUTO FOOTWORK
+Opponent
+EASY
+NORMAL
+HARD
+QUICK MATCH
+PLAY
+How to play
+Settings
+SHOT ready
+SHOT rally
+SHOT point-enter
+SHOT point-rotated-landscape
+SHOT point-rotated-portrait
+SHOT point-follow
+SHOT point-late
+TargetCloseError: Protocol error (Runtime.callFunctionOn): Target closed

@@ -1,0 +1,19 @@
+{
+  "checked": "2026-10-17",
+  "available": [
+    "Puppeteer/headless Chromium real browser input and frameend observer",
+    "CDP JPEG screencast",
+    "ffmpeg/ffplay executables",
+    "view_image still-image inspection"
+  ],
+  "unavailable": [
+    "No connected browser/video playback inspection tool in active tool catalog",
+    "No DISPLAY or WAYLAND_DISPLAY graphical session",
+    "No /dev/dri device"
+  ],
+  "continuousNormalSpeedWatched": false,
+  "actualListening": false,
+  "physicalDevice": false,
+  "reason": "Recording/decoding an MP4 or running a player subprocess does not provide this assistant with continuous temporal video perception. Image inspection receives still frames only. Do not equate software1x timing or decoded samples with watched normal-speed playback.",
+  "deliverablePlan": "Record actual browser wall-clock lifecycle for external playback; inspect explicitly labelled literal samples separately."
+}

@@ -1,0 +1,9 @@
+after-portrait exit=0
+after-pc exit=0
+after-landscape exit=0
+native-rotation exit=0
+rally-aim exit=0
+preserve-before-pc exit=0
+preserve-before-portrait exit=0
+preserve-after-pc exit=0
+preserve-after-portrait exit=0
