@@ -1,0 +1,12 @@
+{
+  "pass": false,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-jwxQnLT7.js",
+    "sha256": "8bda7e1ceccef6ce617d389476d3d677ad08fc7e46fadba7a0f99799274b4cde",
+    "startedAt": "2026-10-17T03:31:07.259Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [],
+  "failure": "Error: Diagnostic camera changed"
+}

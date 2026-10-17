@@ -1,0 +1,58 @@
+[
+  {
+    "folder": "before",
+    "offset": -1.2,
+    "actualOffset": -1.1810059547424316,
+    "sourceIndex": 279,
+    "sha256": "44313937980c82a92c53d509fdacd56284443fbdc2dd1ea47e2fa83638bdb7fc"
+  },
+  {
+    "folder": "before",
+    "offset": -0.6,
+    "actualOffset": -0.5863428115844727,
+    "sourceIndex": 285,
+    "sha256": "8a771984f1d6763329b0ebfb9a803434d65c69c9d58496ebc76a80e52bdba49a"
+  },
+  {
+    "folder": "before",
+    "offset": 0.4,
+    "actualOffset": 0.4313790798187256,
+    "sourceIndex": 294,
+    "sha256": "6daa576b5f656fb16459e914e319fe2f6fa69042f2b4091d72da59c72025ac7b"
+  },
+  {
+    "folder": "before",
+    "offset": 1.8,
+    "actualOffset": 1.739448070526123,
+    "sourceIndex": 305,
+    "sha256": "40f51126a4075a6a3dd06403e979a8cb8958fd195a744b96280f192fc841fdcc"
+  },
+  {
+    "folder": "motion",
+    "offset": -1.2,
+    "actualOffset": -1.2136352062225342,
+    "sourceIndex": 279,
+    "sha256": "f209427cdcf960956b8a82363d52e3da5cf5173cc2e1f1ab0da70fc77b2a2f30"
+  },
+  {
+    "folder": "motion",
+    "offset": -0.6,
+    "actualOffset": -0.5642530918121338,
+    "sourceIndex": 285,
+    "sha256": "254eadf40faa72f754948fded7324db6fecb0e06143fe6dcd846cb5bcbb6cc0f"
+  },
+  {
+    "folder": "motion",
+    "offset": 0.4,
+    "actualOffset": 0.36346888542175293,
+    "sourceIndex": 293,
+    "sha256": "6a47c30a7b3d690bbf4462b95f6b136ead01a803897aadb155668076e2812bb1"
+  },
+  {
+    "folder": "motion",
+    "offset": 1.8,
+    "actualOffset": 1.7931418418884277,
+    "sourceIndex": 298,
+    "sha256": "5a6e89f81d8c9a24f2d2cdcdcf56df05a1dc45dd57f9937852c8ba23ec540b5f"
+  }
+]

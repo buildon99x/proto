@@ -1,0 +1,26 @@
+{
+  "reviewedAtUtc": "2026-10-17T04:08:32.642605+00:00",
+  "reviewer": "Single assistant reviewer; literal raster inspection",
+  "files": [
+    "delivery/02-motion-phases.png",
+    "delivery/03-art-only.png",
+    "delivery/04-scorecard.png",
+    "delivery/05-actual-swing-sequence.png",
+    "delivery/06-consecutive-contact-frames.png",
+    "delivery/08-decoded-video-review.png",
+    "final-scene/scene-1065x606-ready.png",
+    "final-rally/court-mobile-portrait-high-clear.png",
+    "final-rally/court-mobile-landscape-high-clear.png"
+  ],
+  "decision": "Keep motion V4=4 and color V2=4 within the frozen frame-review scope; 41/55 reviewed subtotal, 45 weight unverified and overall null. Earlier bent preparation and grip alignment are visible; actual-contact pose is preserved. Corrected material distinguishes warm skin, dark hair/shorts and gold/violet uniforms. Simple geometry, foot roll and broader locomotion remain limitations.",
+  "videoValidation": {
+    "h264Video": "640x360",
+    "audioCodec": "AAC",
+    "durationSeconds": 28.021333,
+    "decodedRasterFramesInspected": 9,
+    "actualPlaybackWatching": false,
+    "actualListening": false,
+    "naturalSpeedAndHardwareVerified": false
+  },
+  "originalReferencePixelsSeenByWorker": false
+}

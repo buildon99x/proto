@@ -1,0 +1,15 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-A9a3p8NA.js",
+    "sha256": "8567097d4baf8fc8a744983dd1e945977733beef5fb48e7519da9859f3140489",
+    "startedAt": "2026-10-17T03:20:07.126Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "EXPERIENCE PASS {\"scores\":[5,0],\"points\":[{\"winner\":0,\"reason\":\"IN\",\"returns\":4,\"detail\":\"AI COULD NOT RETURN\"},{\"winner\":0,\"reason\":\"IN\",\"returns\":2,\"detail\":\"AI COULD NOT RETURN\"},{\"winner\":0,\"reason\":\"IN\",\"returns\":2,\"detail\":\"AI COULD NOT RETURN\"},{\"winner\":0,\"reason\":\"IN\",\"returns\":2,\"detail\":\"AI COULD NOT RETURN\"},{\"winner\":0,\"reason\":\"IN\",\"returns\":2,\"detail\":\"AI COULD NOT RETURN\"}],\"maxReturns\":4,\"fallback\":true,\"normal\":true,\"naturalSuperSmashes\":2,\"physicalContacts\":17,\"hitAudio\":17,\"pointAudio\":5,\"mutedPointAudio\":0,\"audioMetrics\":[{\"winner\":0,\"peak\":0.05457957461476326,\"tailPeak\":0},{\"winner\":1,\"peak\":0.05357939377427101,\"tailPeak\":0}]}",
+    "BENCHMARK LESSONS PASS {\"atMatchEnd\":{\"active\":true,\"returned\":true,\"cleared\":false,\"dropped\":false,\"next\":\"2/3 · Try a high clear. Shift + click / swipe up.\"},\"time\":37.50833333333185,\"rematch\":{\"active\":true,\"returned\":true,\"cleared\":false,\"dropped\":false,\"next\":\"2/3 · Try a high clear. Shift + click / swipe up.\"},\"reopened\":{\"active\":true,\"returned\":true,\"cleared\":false,\"dropped\":false,\"next\":\"2/3 · Try a high clear. Shift + click / swipe up.\"},\"method\":\"Real match inputs; no time/state injection. Automatic serves must not teach a chosen clear; a default attack fallback must not teach drop. Both unperformed lessons survive32s, rematch and hide/reopen.\"}",
+    "STROKE CHAIN TRACE PASS {\"frames\":1084}"
+  ]
+}

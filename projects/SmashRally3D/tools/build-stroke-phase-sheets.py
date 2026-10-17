@@ -12,6 +12,9 @@ def project(p,c):
  return [320+local[0]/-local[2]*scale,180-local[1]/-local[2]*scale]
 def sheet(left,right,target,title,left_suffix='',right_suffix='',left_label=None,right_label=None):
  a=json.loads((base/left/'phases.json').read_text())['samples'];b=json.loads((base/right/'phases.json').read_text())['samples']
+ for rows in [a,b]:
+  for row in rows:
+   if row.get('relativeToActual') is None:row['relativeToActual']=row['time']-rows[-1]['normalHit']['time']
  im=Image.new('RGB',(1280,2250),'#122632');d=ImageDraw.Draw(im)
  d.text((16,12),title,font=font(24),fill='#ffe0a0');d.text((16,48),'Held naturally reached phases / identical applied baseline camera / no speed or listening claim',font=font(17),fill='#bdd1d6')
  crops=[]
@@ -27,7 +30,8 @@ def sheet(left,right,target,title,left_suffix='',right_suffix='',left_label=None
    d.text((xx+10,yy),label,font=font(18),fill='#ffdb98')
    raw=Image.open(base/folder/('phase-'+row['name']+suffix+'.png')).convert('RGB').crop(box);raw=ImageOps.contain(raw,(620,310));im.paste(raw,(xx+(640-raw.width)//2,yy+30+(310-raw.height)//2))
  im.save(out/target);(out/(Path(target).stem+'-crops.json')).write_text(json.dumps(crops,indent=2)+'\n')
-sheet('phases-before','phases-motion','02-motion-phases.png','Motion only | legacy colors held constant',left_label='Before',right_label='Motion only')
-if (base/'phases-art/phases.json').exists():
- sheet('phases-art','phases-art','03-art-only.png','Art only | same exact candidate pose, clock, camera',left_suffix='-legacy-color',left_label='Legacy color',right_label='Corrected color')
+prefix='refined-' if (base/'refined-phases-art/phases.json').exists() else ''
+sheet(prefix+'phases-before',prefix+'phases-motion','02-motion-phases.png','Motion only | legacy colors held constant',left_label='Before',right_label='Motion only')
+if (base/(prefix+'phases-art')/'phases.json').exists():
+ sheet(prefix+'phases-art',prefix+'phases-art','03-art-only.png','Art only | same exact candidate pose, clock, camera',left_suffix='-legacy-color',left_label='Legacy color',right_label='Corrected color')
 print('Literal phase sheets assembled.')

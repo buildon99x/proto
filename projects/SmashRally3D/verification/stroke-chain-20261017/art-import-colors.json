@@ -1,0 +1,103 @@
+{
+  "method": "Actual2.23.2 imported material colors vs authored sRGB; engine gamma uses power2.2 approximation, so do not claim bit-exact authored hex recovery. Standard sRGB-to-linear factor conversion is validated separately.",
+  "results": [
+    {
+      "material": "#f4b64d",
+      "authoredSrgb": [
+        0.9568627450980393,
+        0.7137254901960784,
+        0.30196078431372547
+      ],
+      "actualImportedColor": [
+        0.9554784299791947,
+        0.7079792570971016,
+        0.30660788868783856
+      ],
+      "maxChannelDifference": 0.005746233098976816
+    },
+    {
+      "material": "#1b3145",
+      "authoredSrgb": [
+        0.10588235294117647,
+        0.19215686274509805,
+        0.27058823529411763
+      ],
+      "actualImportedColor": [
+        0.12853058687092586,
+        0.2053156488680942,
+        0.27733171616289926
+      ],
+      "maxChannelDifference": 0.022648233929749392
+    },
+    {
+      "material": "#dcb08b",
+      "authoredSrgb": [
+        0.8627450980392157,
+        0.6901960784313725,
+        0.5450980392156862
+      ],
+      "actualImportedColor": [
+        0.8589479578146585,
+        0.6843723801016541,
+        0.5403737832608865
+      ],
+      "maxChannelDifference": 0.0058236983297184075
+    },
+    {
+      "material": "#263346",
+      "authoredSrgb": [
+        0.14901960784313725,
+        0.2,
+        0.27450980392156865
+      ],
+      "actualImportedColor": [
+        0.16655147745776197,
+        0.21243348222229083,
+        0.2809777110553465
+      ],
+      "maxChannelDifference": 0.017531869614624718
+    },
+    {
+      "material": "#f2f4ec",
+      "authoredSrgb": [
+        0.9490196078431372,
+        0.9568627450980393,
+        0.9254901960784314
+      ],
+      "actualImportedColor": [
+        0.9474019102977628,
+        0.9554784299791947,
+        0.9232069177166689
+      ],
+      "maxChannelDifference": 0.002283278361762564
+    },
+    {
+      "material": "#d1a07d",
+      "authoredSrgb": [
+        0.8196078431372549,
+        0.6274509803921569,
+        0.49019607843137253
+      ],
+      "actualImportedColor": [
+        0.8149995222408211,
+        0.6217570664495793,
+        0.48667232593708504
+      ],
+      "maxChannelDifference": 0.0056939139425775664
+    },
+    {
+      "material": "#23364b",
+      "authoredSrgb": [
+        0.13725490196078433,
+        0.21176470588235294,
+        0.29411764705882354
+      ],
+      "actualImportedColor": [
+        0.1561022093417871,
+        0.2231474365886269,
+        0.2992660588636266
+      ],
+      "maxChannelDifference": 0.018847307381002765
+    }
+  ]
+}

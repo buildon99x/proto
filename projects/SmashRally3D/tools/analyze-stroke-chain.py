@@ -41,4 +41,4 @@ def analyze(folder):
   'physicalMatch':{'score':data['match']['scores'],'contacts':len(data['match']['shots']),'renderedContactSamples':len(data['renderedContacts']),'maxContactErrorM':max(c['centreErrorM'] for c in data['renderedContacts'])}}
  (root/'kinematics.json').write_text(json.dumps(out,indent=2)+'\n')
  print(json.dumps({'folder':folder,**out},ensure_ascii=False))
-for folder in sys.argv[1:] or ['before','motion']:analyze(folder)
+for folder in sys.argv[1:] or ['before','final-play']:analyze(folder)

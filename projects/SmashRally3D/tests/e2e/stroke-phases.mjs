@@ -16,7 +16,7 @@ export async function run({page,sleep,shot,log}){
    if(window.phaseHold||index>=stages.length)return;
    const d=window.smashDiagnostics();normal??=d.shots.find(h=>h.actor===0&&h.shot==='smash');const lead=d.contactAt-d.time,after=normal?d.time-normal.time:-99;
    const ready=index===0&&d.shots.length===4&&d.receiver===0&&lead<=.3&&lead>.18;
-   const accel=index===1&&d.shots.length===4&&d.receiver===0&&lead<=.065&&lead>0;
+   const accel=index===1&&d.shots.length===4&&d.receiver===0&&d.motions[0].skinPose.racket.strokePhase==='accelerate';
    const hit=index===2&&normal&&d.renderedContact?.time===normal.time;
    const later=index>=3&&normal&&after>=[.18,.43,.72][index-3];
    if(!ready&&!accel&&!hit&&!later)return;
@@ -27,7 +27,7 @@ export async function run({page,sleep,shot,log}){
    const badge=document.createElement('div');badge.id='phase-badge';badge.textContent='HELD NATURAL PHASE / '+name.toUpperCase()+' / FIXED CAMERA / DIAGNOSTIC ONLY';badge.style.cssText='position:fixed;bottom:2px;left:4px;background:#102835;color:white;font:9px Arial;z-index:99;pointer-events:none';document.body.append(badge);
   };
   app.on('frameend',observer);
-  window.resumePhase=()=>{const h=window.phaseHold;window.phaseSamples.push(h);cam.setPosition(h.originalCamera.p.x,h.originalCamera.p.y,h.originalCamera.p.z);cam.setRotation(h.originalCamera.q.x,h.originalCamera.q.y,h.originalCamera.q.z,h.originalCamera.q.w);cam.camera.fov=h.originalCamera.fov;document.querySelector('#phase-badge')?.remove();window.phaseHold=null;index++;app.autoRender=true;app.timeScale=1;if(index===stages.length){app.off('frameend',observer);app.update=update;window.phaseDone=true;}};
+  window.resumePhase=()=>{const h=window.phaseHold;window.phaseSamples.push(h);cam.setPosition(h.originalCamera.p.x,h.originalCamera.p.y,h.originalCamera.p.z);cam.setRotation(h.originalCamera.q.x,h.originalCamera.q.y,h.originalCamera.q.z,h.originalCamera.q.w);cam.camera.fov=h.originalCamera.fov;document.querySelector('#phase-badge')?.remove();window.phaseHold=null;index++;app.autoRender=true;app.timeScale=1;if(index===stages.length){app.off('frameend',observer);app.update=update;window.phaseRestored={timeScale:app.timeScale,autoRender:app.autoRender,originalUpdate:app.update===update};window.phaseDone=true;}};
  },refs);
  await page.click('[data-action="start"]');let was=false,inputs=0,attacks=0;const end=Date.now()+240000;
  while(Date.now()<end){
@@ -60,7 +60,8 @@ export async function run({page,sleep,shot,log}){
   const r=refs.find(r=>r.name===row.name);
   if(r){if(JSON.stringify(row.requestedCamera)!==JSON.stringify(r.camera))throw Error('Baseline camera parameters not applied');row.cameraRoundTripMaxDelta=Math.max(...['p','q'].flatMap(k=>Object.keys(r.camera[k]).map(axis=>Math.abs(r.camera[k][axis]-row.camera[k][axis]))),Math.abs(r.camera.fov-row.camera.fov));}
  }
+ const restoreProof=await page.evaluate(()=>window.phaseRestored);if(!restoreProof?.originalUpdate||restoreProof.timeScale!==1||!restoreProof.autoRender)throw Error('Diagnostic engine state not restored');
  const materials=await page.evaluate(()=>{const app=[...window.__playcanvasApps.keys()][0];return app.root.find(n=>n.name==='AthleteSkin').map(n=>n.render.meshInstances.map(m=>({name:m.material.name,diffuse:{...m.material.diffuse},metalness:m.material.metalness,roughness:m.material.gloss,diffuseTint:m.material.diffuseTint})));});
- await writeFile(path.resolve(process.env.SMASH_EVIDENCE_DIR,'phases.json'),JSON.stringify({method:'Ordinary original UI input to first normal smash; freeze only after each naturally reached phase. Explicitly pause engine update and rendering while taking diagnostic screenshots; resume original update/timeScale1 afterward. Candidate copies baseline camera exactly per phase. No actor/ball/shot injection. This is not normal-speed play or an experience score.',samples,materials},null,2));
+ await writeFile(path.resolve(process.env.SMASH_EVIDENCE_DIR,'phases.json'),JSON.stringify({method:'Ordinary original UI input to first normal smash; freeze only after each naturally reached phase. Explicitly pause engine update and rendering while taking diagnostic screenshots; resume original update/timeScale1 afterward. Candidate copies baseline camera exactly per phase. No actor/ball/shot injection. This is not normal-speed play or an experience score.',samples,materials,restoreProof},null,2));
  log('STROKE PHASES PASS',JSON.stringify({samples:samples.length,matchedBaselineCamera:!!refs.length}));
 }

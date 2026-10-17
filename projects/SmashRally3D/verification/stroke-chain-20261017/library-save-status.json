@@ -1,0 +1,25 @@
+{
+  "attemptedAtUtc": "2026-10-17T04:09:37.744101+00:00",
+  "status": "failed_before_upload_preparation",
+  "savedFiles": 0,
+  "requestedFiles": 7,
+  "existingScorecardUnchanged": true,
+  "scorecardLibraryFileId": "libfile_bb052cef5a88819186fa1584deb9ef58",
+  "retainedExpectedCurrentVersion": 0,
+  "lastReadBackingFileId": "file_0000000095f081f78128589af8621ba1",
+  "lastReadVersionId": null,
+  "error": "library upload failed: hosted apps tools/list request failed: network",
+  "resultBytes": 0,
+  "automaticRetry": false,
+  "directFallback": false,
+  "quotaOrUsageLimitErrorObserved": false,
+  "note": "Required current prepared-upload helper was attempted once for the whole ordered batch. It failed at read-only discovery, before any prepare/transfer/finalize. Prepared tools remain surfaced; no direct fallback was used. No upload success, new Library IDs or new versions are claimed. All seven delivery files are retained locally and in the evidence commit.",
+  "originalReference": {
+    "libraryFileId": "libfile_8ad23cd0827081918a24e7ffdc9b90fb",
+    "fileId": "file_0000000050d881f59fafbb54efb6c11e",
+    "filename": "13013.jpg",
+    "workerDirectPixelInspection": false,
+    "byteTransferError": "library file transfer failed: download failed",
+    "grounding": "Parent direct visual observation/measurements only"
+  }
+}
