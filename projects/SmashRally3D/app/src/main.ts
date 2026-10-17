@@ -1,5 +1,6 @@
 import {
     BLEND_NORMAL,
+    TONEMAP_NEUTRAL,
     AppBase,
     AppOptions,
     Asset,
@@ -33,6 +34,8 @@ import type { ContainerResource, AnimTrack } from 'playcanvas';
 import type { Intent, Actor, Hit } from './game';
 import { CFG, PERFECT_WINDOW } from './physics';
 import { pointPrompt } from './feedback';
+import { creditLesson, freshLessons, lessonCopy, lessonsComplete } from './lessons';
+import type { RallyLessons } from './lessons';
 import type { V3 } from './physics';
 import { MOTIONS, skeletonPose, sub } from './motion';
 import type { MotionName, SkeletonPose } from './motion';
@@ -94,6 +97,24 @@ let lastInput: {
     accepted: boolean;
     projectedAtInput: { x: number; y: number };
 } | null = null;
+let lessons: RallyLessons = freshLessons();
+let acceptedLessonIntent: Intent | null = null;
+try {
+    const saved = JSON.parse(localStorage.getItem('smash-lessons') || '{}');
+    lessons = {
+        returned: saved.returned === true,
+        cleared: saved.cleared === true,
+        dropped: saved.dropped === true,
+    };
+} catch {}
+tutorial = tutorial && !lessonsComplete(lessons);
+function saveLessons() {
+    try {
+        localStorage.setItem('smash-lessons', JSON.stringify(lessons));
+        if (tutorial) localStorage.removeItem('smash-tutorial');
+        else localStorage.setItem('smash-tutorial', '1');
+    } catch {}
+}
 let app: AppBase, camera: Entity;
 let courtView: ReturnType<typeof fitCourtCamera>;
 let cameraShift = { x: 0, z: 0 },
@@ -131,7 +152,7 @@ if (new URLSearchParams(location.search).has('audio-review'))
         smashPointAudioReview: { value: offlinePoints },
     });
 function controls() {
-    return `<div class="settings">${[
+    return `<div class="settings"><label><input type="checkbox" data-tips ${tutorial ? 'checked' : ''}>Rally tips</label>${[
         ['sound', 'Sound'],
         ['fx', 'Impact response'],
         ['trail', 'Shuttle trail'],
@@ -158,7 +179,7 @@ function renderUI() {
             overlay = `<section class="card"><div class="eyebrow">TAKE A BREATH</div><h2>PAUSED</h2><button data-action="resume" class="primary">CONTINUE</button><div class="row"><button data-action="start">Restart match</button><button data-action="menu">Main menu</button></div>${controls()}</section>`;
         if (panel)
             overlay = `<section class="card dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><div class="eyebrow">RALLY CLUB</div><h2 id="dialog-title">${panel === 'help' ? 'HOW TO PLAY' : 'SETTINGS'}</h2><div class="dialog-content" tabindex="0">${panel === 'help' ? '<p>Aim at the far court. Your player moves automatically.</p><ul><li>Click / tap: return or smash a high ball.</li><li>Shift + click / swipe up: deep clear.</li><li>Right click / swipe down: front-court drop.</li><li>Press at HIT NOW, just before contact.</li><li>Loose high ball + perfect timing: Super Smash. Aim deep; tight angles use a safe return.</li><li>Esc pauses. Five points wins; no deuce.</li></ul>' : controls()}</div><button data-action="close" class="primary">BACK</button></section>`;
-        ui.innerHTML = `<header class="hud"><div class="brand">SR<span>3D</span></div><div class="scoreboard"><div><small>YOU ${game.server === 0 ? '•' : ''}</small><b>${game.scores[0]}</b></div><div class="versus">FIRST TO 5</div><div><small>${game.server === 1 ? '• ' : ''}AI</small><b>${game.scores[1]}</b></div></div><button data-action="pause" class="pause" aria-label="Pause">II</button></header><div class="arena-label">RALLY CLUB<span>INDOOR SERIES / 01</span></div><div id="feedback" aria-live="polite"></div><div id="timing"></div><div class="shot-bar" ${['MENU', 'RESULTS'].includes(game.phase) ? 'hidden' : ''}>${(['clear', 'default', 'drop'] as Intent[]).map((s, i) => `<button data-shot="${s}" ${selected === s ? 'class="active"' : ''}><span>${['C', 'R', 'D'][i]}</span><em ${s === 'default' ? 'id="basic-label"' : ''}>${['CLEAR', 'RETURN', 'DROP'][i]}</em><small>${['SHIFT / SWIPE UP', 'CLICK / TAP', 'RIGHT / SWIPE DOWN'][i]}</small></button>`).join('')}</div><div id="tutorial" ${tutorial && game.phase === 'RALLY' && game.time < 32 ? '' : 'hidden'}></div>${overlay ? `<div class="overlay">${overlay}</div>` : ''}`;
+        ui.innerHTML = `<header class="hud"><div class="brand">SR<span>3D</span></div><div class="scoreboard"><div><small>YOU ${game.server === 0 ? '•' : ''}</small><b>${game.scores[0]}</b></div><div class="versus">FIRST TO 5</div><div><small>${game.server === 1 ? '• ' : ''}AI</small><b>${game.scores[1]}</b></div></div><button data-action="pause" class="pause" aria-label="Pause">II</button></header><div class="arena-label">RALLY CLUB<span>INDOOR SERIES / 01</span></div><div id="feedback" aria-live="polite"></div><div id="timing"></div><div class="shot-bar" ${['MENU', 'RESULTS'].includes(game.phase) ? 'hidden' : ''}>${(['clear', 'default', 'drop'] as Intent[]).map((s, i) => `<button data-shot="${s}" ${selected === s ? 'class="active"' : ''}><span>${['C', 'R', 'D'][i]}</span><em ${s === 'default' ? 'id="basic-label"' : ''}>${['CLEAR', 'RETURN', 'DROP'][i]}</em><small>${['SHIFT / SWIPE UP', 'CLICK / TAP', 'RIGHT / SWIPE DOWN'][i]}</small></button>`).join('')}</div><div id="tutorial" ${tutorial && game.phase === 'RALLY' ? '' : 'hidden'}></div>${overlay ? `<div class="overlay">${overlay}</div>` : ''}`;
     }
     const f = document.getElementById('feedback');
     if (f) {
@@ -240,17 +261,7 @@ function renderUI() {
                 : 'RETURN';
     }
     const tut = document.getElementById('tutorial');
-    if (tut && tutorial && game.time < 32)
-        tut.textContent = [
-            '01 / Aim at the far court. Click or tap when HIT NOW appears.',
-            '02 / Clear or lift buys recovery time. Same Shift / swipe up.',
-            '03 / Right click or swipe down pulls your opponent forward.',
-            '04 / High = attack. Low = lift. Aim short to block; watch the label.',
-        ][Math.min(3, Math.floor(game.time / 8))];
-    if (tutorial && game.time >= 32) {
-        tutorial = false;
-        localStorage.setItem('smash-tutorial', '1');
-    }
+    if (tut) tut.textContent = tutorial ? lessonCopy(lessons) : '';
 }
 ui.addEventListener('click', (e) => {
     const el = (e.target as HTMLElement).closest<HTMLButtonElement>('button');
@@ -277,6 +288,7 @@ ui.addEventListener('click', (e) => {
             audioEvents = 0;
             pendingContact = null;
             renderedContact = null;
+            acceptedLessonIntent = null;
             game.start();
             break;
         case 'pause':
@@ -304,6 +316,13 @@ ui.addEventListener('click', (e) => {
 });
 ui.addEventListener('change', (e) => {
     const el = e.target as HTMLInputElement;
+    if ('tips' in el.dataset) {
+        tutorial = el.checked;
+        if (tutorial && lessonsComplete(lessons)) lessons = freshLessons();
+        saveLessons();
+        lastUI = '';
+        renderUI();
+    }
     if (el.dataset.setting) {
         (settings as unknown as Record<string, boolean>)[el.dataset.setting] = el.checked;
         save();
@@ -347,6 +366,7 @@ function issue(
         gestureId,
     };
     game.command(cmd);
+    if (game.actors[0].command === cmd) acceptedLessonIntent = intent;
     lastInput = {
         shotIntent: intent,
         target: { ...at },
@@ -691,10 +711,11 @@ async function boot() {
     app.init(o);
     app.setCanvasFillMode(FILLMODE_FILL_WINDOW);
     app.setCanvasResolution(RESOLUTION_AUTO);
-    app.scene.ambientLight = new Color(0.32, 0.36, 0.4);
+    app.scene.ambientLight = new Color(0.56, 0.63, 0.69);
     camera = new Entity('broadcast camera');
     camera.addComponent('camera', {
-        clearColor: new Color(0.25, 0.39, 0.49),
+        clearColor: new Color(0.55, 0.75, 0.84),
+        toneMapping: TONEMAP_NEUTRAL,
         nearClip: 0.1,
         farClip: 100,
     });
@@ -703,10 +724,20 @@ async function boot() {
     light.addComponent('light', {
         type: 'directional',
         color: new Color(1, 0.94, 0.83),
-        intensity: 0.95,
+        intensity: 1.65,
     });
     light.setEulerAngles(40, -25, 0);
     app.root.addChild(light);
+    // A broad cool fill separates the arm/racket from the torso without a post effect.
+    const fill = new Entity('court fill light');
+    fill.addComponent('light', {
+        type: 'directional',
+        color: new Color(0.72, 0.88, 1),
+        intensity: 0.65,
+        castShadows: false,
+    });
+    fill.setEulerAngles(35, 160, 0);
+    app.root.addChild(fill);
     shape('arena floor', 'box', [0, -0.16, 0], [200, 0.2, 200], '#37314d');
     shape('court surround', 'box', [0, -0.05, 0], [11.4, 0.12, 16.3], '#75629e');
     // Original practice-club courtyard; no seating, spectators or sourced scenery.
@@ -785,6 +816,23 @@ async function boot() {
     };
     game.onMotionTick = (index, dt) => tickMotion(index === 0 ? player : opponent, dt);
     game.onHit = (h) => {
+        if (h.actor === 0) {
+            if (tutorial) {
+                const next = creditLesson(lessons, {
+                    actor: h.actor,
+                    isServe: game.returns === 0,
+                    intent: acceptedLessonIntent,
+                    technique: h.technique,
+                });
+                if (next !== lessons) {
+                    lessons = next;
+                    tutorial = !lessonsComplete(lessons);
+                    saveLessons();
+                    lastUI = '';
+                }
+            }
+            acceptedLessonIntent = null;
+        }
         if (
             reviewContact &&
             h.actor === 0 &&
@@ -1076,6 +1124,7 @@ async function boot() {
             ...game.snapshot(),
             reviewContact: reviewHit ? { ...reviewHit } : null,
             fps,
+            lessons: { active: tutorial, ...lessons, next: lessonCopy(lessons) },
             shuttleScreen: camera
                 .camera!.worldToScreen(new Vec3(game.p.x, game.p.y, game.p.z))
                 .clone(),
