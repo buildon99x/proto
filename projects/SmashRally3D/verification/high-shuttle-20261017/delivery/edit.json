@@ -1,0 +1,20 @@
+{
+  "method": "Hard-cut real CDP browser excerpts at wall-clock1x;20fps holds actual sampled frames; no pose synthesis/interpolation or time rescaling. Software simulation slows below render budget, so this does not prove real-device natural motion. Each clip uses its actual WebAudio destination recording with one origin calibration, not listening/AV-latency certification.",
+  "segments": [
+    {
+      "source": "before-flight/full-play.mp4",
+      "start": 0,
+      "duration": 35,
+      "label": "Before: white shuttle, actual UI clear rally",
+      "file": "clip-0.mp4"
+    },
+    {
+      "source": "after-flight/full-play.mp4",
+      "start": 0,
+      "duration": 35,
+      "label": "After: local silhouette, same UI controller",
+      "file": "clip-1.mp4"
+    }
+  ],
+  "sha256": "09397ccc265c9f833202ca0b863cabc5af3cf62de2a0c0cdee714e94376aca0e"
+}

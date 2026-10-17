@@ -1,0 +1,77 @@
+{
+  "scope": "Actual completed browser reports at this checkpoint; mobile repetitions2/3 and final full build are separate pending checks.",
+  "completed": [
+    {
+      "case": "accessible",
+      "pass": true,
+      "runtimeErrors": 0,
+      "bundleSha256": "464090a556c7f8fd2ba4c10cf0903f6295b5b73f42af5de337766bee2f079f15"
+    },
+    {
+      "case": "after-flight",
+      "pass": true,
+      "runtimeErrors": 0,
+      "bundleSha256": "464090a556c7f8fd2ba4c10cf0903f6295b5b73f42af5de337766bee2f079f15"
+    },
+    {
+      "case": "defence",
+      "pass": true,
+      "runtimeErrors": 0,
+      "bundleSha256": "464090a556c7f8fd2ba4c10cf0903f6295b5b73f42af5de337766bee2f079f15"
+    },
+    {
+      "case": "dialog",
+      "pass": true,
+      "runtimeErrors": 0,
+      "bundleSha256": "464090a556c7f8fd2ba4c10cf0903f6295b5b73f42af5de337766bee2f079f15"
+    },
+    {
+      "case": "loss",
+      "pass": true,
+      "runtimeErrors": 0,
+      "bundleSha256": "464090a556c7f8fd2ba4c10cf0903f6295b5b73f42af5de337766bee2f079f15"
+    },
+    {
+      "case": "native",
+      "pass": true,
+      "runtimeErrors": 0,
+      "bundleSha256": "464090a556c7f8fd2ba4c10cf0903f6295b5b73f42af5de337766bee2f079f15"
+    },
+    {
+      "case": "pause",
+      "pass": true,
+      "runtimeErrors": 0,
+      "bundleSha256": "464090a556c7f8fd2ba4c10cf0903f6295b5b73f42af5de337766bee2f079f15"
+    },
+    {
+      "case": "play",
+      "pass": true,
+      "runtimeErrors": 0,
+      "bundleSha256": "464090a556c7f8fd2ba4c10cf0903f6295b5b73f42af5de337766bee2f079f15"
+    },
+    {
+      "case": "pressure",
+      "pass": true,
+      "runtimeErrors": 0,
+      "bundleSha256": "464090a556c7f8fd2ba4c10cf0903f6295b5b73f42af5de337766bee2f079f15"
+    },
+    {
+      "case": "rally",
+      "pass": true,
+      "runtimeErrors": 0,
+      "bundleSha256": "464090a556c7f8fd2ba4c10cf0903f6295b5b73f42af5de337766bee2f079f15"
+    },
+    {
+      "case": "rotation",
+      "pass": true,
+      "runtimeErrors": 0,
+      "bundleSha256": "464090a556c7f8fd2ba4c10cf0903f6295b5b73f42af5de337766bee2f079f15"
+    },
+    {
+      "case": "scene",
+      "pass": true,
+      "runtimeErrors": 0,
+      "bundleSha256": "464090a556c7f8fd2ba4c10cf0903f6295b5b73f42af5de337766bee2f079f15"
+    }
+  ]
+}

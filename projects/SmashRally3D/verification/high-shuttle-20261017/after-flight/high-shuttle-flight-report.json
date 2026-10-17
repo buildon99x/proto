@@ -1,0 +1,13 @@
+{
+  "pass": true,
+  "buildEvidence": {
+    "sourceBundle": "./assets/index-Beg2agVZ.js",
+    "sha256": "464090a556c7f8fd2ba4c10cf0903f6295b5b73f42af5de337766bee2f079f15",
+    "startedAt": "2026-10-17T02:32:18.794Z",
+    "renderer": "Chromium151 headless Angle SwiftShader (software); not a physical-device FPS measurement"
+  },
+  "errors": [],
+  "logs": [
+    "HIGH SHUTTLE FLIGHT PASS {\"returns\":6,\"apex\":{\"time\":4.641666666666687,\"p\":{\"x\":1.015495003664186,\"y\":9.55124127511855,\"z\":-0.41367148003503734},\"v\":{\"x\":0.7753766936883609,\"y\":0.7882713441528935,\"z\":-4.413208948578939},\"screen\":{\"x\":330.8039573906331,\"y\":37.3352148698976,\"z\":12.98437021994051},\"cue\":{\"visible\":true,\"x\":330.80395608607887,\"y\":37.33522272705724,\"angle\":168.0452417883239,\"opacity\":1}},\"visibility\":{\"visible\":413,\"maxAnchorError\":0.021009431843168266,\"blockedPointer\":0,\"nearContactVisible\":0,\"worst\":{\"time\":9.93333333333341,\"projection\":{\"x\":322.2335124499224,\"y\":31.546199742878187},\"bounds\":{\"x\":309.961181640625,\"y\":19.2736759185791,\"width\":24.51513671875,\"height\":24.51515007019043,\"top\":19.2736759185791,\"right\":334.476318359375,\"bottom\":43.78882598876953,\"left\":309.961181640625},\"cue\":{\"visible\":true,\"x\":322.2335124499224,\"y\":31.546199742878187,\"angle\":15.08214976014203,\"opacity\":1}}},\"contacts\":7}"
+  ]
+}

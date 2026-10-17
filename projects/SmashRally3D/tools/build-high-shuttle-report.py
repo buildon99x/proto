@@ -1,5 +1,5 @@
 """Literal browser media and auditable gates; experience scores are manually reviewed."""
-import hashlib, json, subprocess
+import hashlib, json, subprocess, shutil, re
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
@@ -9,18 +9,22 @@ load=lambda p:json.loads((base/p).read_text())
 font_path='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
 font=lambda n:ImageFont.truetype(font_path,n)
 cases={'accessible':'accessible-overlays','after-flight':'high-shuttle-flight','play':'benchmark-experience',
- 'native':'benchmark-native','rotation':'court-resize','defence':'smash-drop-regression','pressure':'experience-pressure',
+ 'native':'benchmark-native','native-2':'benchmark-native','native-3':'benchmark-native','rotation':'court-resize','defence':'smash-drop-regression','pressure':'experience-pressure',
  'scene':'benchmark-scene','rally':'court-framing','loss':'experience-loss','dialog':'experience-dialog','pause':'benchmark-pause'}
 reports={k:load(k+'/'+v+'-report.json') for k,v in cases.items()}
 assert all(r['pass'] and not r['errors'] for r in reports.values())
 hashes={r['buildEvidence']['sha256'] for r in reports.values()};assert len(hashes)==1
 assert '71 passed (71)' in (base/'tests.txt').read_text()
 assert 'Copied smash-rally-3d build' in (base/'root-build.txt').read_text()
+assert 'strict units and full root build exit=0' in (base/'final-checks.txt').read_text()
 e=load('evaluation-final.json');previous=json.loads((base.parent/'switch-benchmark-20261017/evaluation-cycle2.json').read_text())
 assert hashlib.sha256((base.parent/'switch-benchmark-20261017/rubric.json').read_bytes()).hexdigest()==e['rubricSha256']==previous['rubricSha256']
 assert e['overallScore'] is None and not e['targetAchieved'] and e['unverifiedWeight']==45
 assert sum(i['score'] for i in e['items'] if i['score'] is not None)==e['verifiedSubtotal']
 assert e['runtimeBundleSha256']==next(iter(hashes))
+dist=base.parents[1]/'app/dist'
+bundle=re.search(r'<script[^>]+src="([^"]+\.js)"',(dist/'index.html').read_text()).group(1)
+assert hashlib.sha256((dist/'assets'/Path(bundle).name).read_bytes()).hexdigest()==e['runtimeBundleSha256']
 
 # Proportional copies of actual screenshots, without generated scene content.
 sheet=Image.new('RGB',(1280,890),'#122632');d=ImageDraw.Draw(sheet)
@@ -32,11 +36,12 @@ for row,(a,ap,b,bp) in enumerate(pairs):
  for col,(label,p) in enumerate([(a,ap),(b,bp)]):
   x=640*col;y=95+390*row;d.text((x+12,y),label,font=font(20),fill='#ffdb98')
   im=ImageOps.contain(Image.open(base/p).convert('RGB'),(640,350));sheet.paste(im,(x+(640-im.width)//2,y+30+(350-im.height)//2))
-sheet.save(out/'02-before-after.png')
+sheet.save(out/'02-high-shuttle-before-after.png')
+shutil.copyfile(base/'scene/scene-1065x606-ready.png',out/'06-reference-composition.png')
 
 card=Image.new('RGB',(1120,1100),'#122632');d=ImageDraw.Draw(card)
-d.text((24,20),'Frozen100-point rubric |98 target NOT QUALIFIED',font=font(29),fill='#ffe0a0')
-d.text((24,68),f"Reviewed:37 -> {e['verifiedSubtotal']} /55;45 weight UNVERIFIED",font=font(26),fill='#f4f4eb')
+d.text((24,20),'Frozen 100-point rubric | 98 target NOT QUALIFIED',font=font(29),fill='#ffe0a0')
+d.text((24,68),f"Reviewed: 37 -> {e['verifiedSubtotal']} /55; 45 weight UNVERIFIED",font=font(26),fill='#f4f4eb')
 d.text((24,110),'Overall score remains null. No normalization to100. Single-reviewer scope.',font=font(18),fill='#bdd1d6')
 labels=['Player/racket/net separation','Character material and volume','Court/environment coherence','Stroke/contact readability','Real-speed natural motion','Simple core controls','Aim/outcome explanation','Hardware input latency','Perceived hit feel','Physical mobile comfort','Cork/strings timbre','Perceptual AV sync','Mix comfort','Learning and guidance','Point/result/rematch','Adaptive accessible UI','Contextual shot variety','Opponent defence experience','Human fairness/depth','Rules/spatial cause']
 old={i['id']:i for i in previous['items']}
@@ -69,23 +74,35 @@ subprocess.run(['ffmpeg','-y','-loglevel','error','-f','concat','-safe','0','-i'
 play=load('play/experience.json');hit=next(h for h in play['match']['shots'] if h['actor']==0 and h['shot']=='smash')
 event=next(x for x in play['match']['audioLedger'] if x['physicsTime']==hit['time'])
 t=(event['audioPerf']-play['capture']['videoStartPerf'])/1000
-offsets=[-2,-1.2,-.6,-.1,.4,1,1.8,2.8];swings=Image.new('RGB',(1280,600),'#122632');d=ImageDraw.Draw(swings)
-for n,offset in enumerate(offsets):
- frame=out/f'swing-{n}.png';subprocess.run(['ffmpeg','-y','-loglevel','error','-ss',str(max(0,t+offset)),'-i',str(base/'play/full-play.mp4'),'-frames:v','1',str(frame)],check=True)
- im=Image.open(frame).convert('RGB').crop((210,155,430,325));im=ImageOps.contain(im,(316,260))
- x=n%4*320;y=n//4*300;swings.paste(im,(x+(320-im.width)//2,y+30));d.text((x+8,y+7),f'{offset:+.1f}s wall-clock',font=font(16),fill='#ffdb98')
-swings.save(out/'04-swing-sequence.png')
-source=load('play/capture-source.json');raw=Path(source['rawDirectory']);files=sorted(raw.glob('*.jpg'))
+source=load('play/capture-source.json');raw=Path(source['rawDirectory'])
+retained=base/'play/swing-source-frames';retained.mkdir(exist_ok=True)
+def frame_path(i):
+ name=f'{i:06d}.jpg';original=raw/name;saved=retained/name
+ if original.is_file():shutil.copyfile(original,saved)
+ if not saved.is_file():raise FileNotFoundError(saved)
+ return saved
 stamps=[x['timestamp'] for x in source['frames']];target=(source['origin']+event['audioPerf'])/1000
+offsets=[-2,-1.2,-.6,-.1,.4,1,1.8,2.8];swings=Image.new('RGB',(1280,1600),'#122632');d=ImageDraw.Draw(swings);samples=[]
+for n,offset in enumerate(offsets):
+ i=min(range(len(stamps)),key=lambda i:abs(stamps[i]-(target+offset)))
+ im=ImageOps.contain(Image.open(frame_path(i)).convert('RGB'),(640,360))
+ x=n%2*640;y=n//2*400;swings.paste(im,(x+(640-im.width)//2,y+30));d.text((x+8,y+7),f'{stamps[i]-target:+.3f}s /CDP{i}',font=font(16),fill='#ffdb98')
+ samples.append({'requestedOffsetSeconds':offset,'sourceIndex':i,'actualOffsetSeconds':stamps[i]-target,'sha256':hashlib.sha256(frame_path(i).read_bytes()).hexdigest()})
+swings.save(out/'04-swing-sequence.png')
 index=min(range(len(stamps)),key=lambda i:abs(stamps[i]-target));start=max(0,index-5)
 consecutive=Image.new('RGB',(1280,720),'#122632');d=ImageDraw.Draw(consecutive);entries=[]
-for n,i in enumerate(range(start,min(len(files),start+12))):
- im=Image.open(files[i]).convert('RGB');im=ImageOps.contain(im,(320,180));x=n%4*320;y=n//4*240
- consecutive.paste(im,(x,y+30));delta=stamps[i]-target;d.text((x+8,y+8),f'CDP {i} / {delta:+.3f}s',font=font(16),fill='#ffdb98');entries.append({'sourceIndex':i,'deltaFromCpuAudioSchedulingSeconds':delta})
+for n,i in enumerate(range(start,min(len(stamps),start+12))):
+ im=Image.open(frame_path(i)).convert('RGB');im=ImageOps.contain(im,(320,180));x=n%4*320;y=n//4*240
+ consecutive.paste(im,(x,y+30));delta=stamps[i]-target;d.text((x+8,y+8),f'CDP {i} / {delta:+.3f}s',font=font(16),fill='#ffdb98');entries.append({'sourceIndex':i,'deltaFromCpuAudioSchedulingSeconds':delta,'sha256':hashlib.sha256(frame_path(i).read_bytes()).hexdigest()})
 consecutive.save(out/'05-consecutive-contact-frames.png')
-(out/'swing-samples.json').write_text(json.dumps({'method':'Literal fixed-crop video samples plus12 consecutive actual CDP source frames around CPU hit/audio scheduling. No pose interpolation. Event time is not physical display or audio latency.','normalSmashPhysicsTime':hit['time'],'firstContactVideoTime':t,'sampleOffsetsSeconds':offsets,'consecutive':entries},indent=2)+'\n')
+(out/'swing-samples.json').write_text(json.dumps({'method':'Literal complete actual CDP samples plus12 consecutive actual CDP source frames around CPU hit/audio scheduling. No pose interpolation. Event time is not physical display or audio latency.','normalSmashPhysicsTime':hit['time'],'firstContactVideoTime':t,'actualSourceSamples':samples,'consecutive':entries},indent=2)+'\n')
 
 rally=next(json.loads(x.split('COURT FRAMING PASS ',1)[1]) for x in reports['rally']['logs'] if x.startswith('COURT FRAMING PASS '))
+for row in rally['results']:
+ c=row['framing']['contrast']
+ assert row['returns']>=6 and row['highClearCapture']['contrast']['visible']
+ assert c['visible'] and c['maxAnchorError']<=.5 and not c['nearContactVisible'] and not c['pointerBlocking'] and not c['underTutorial']
+ assert not row['framing']['clippedPlayers'] and not row['framing']['clippedShuttle']
 flight=load('after-flight/flight.json')
 qualification={'runtimeCommit':e['runtimeCommit'],'runtimeBundleSha256':next(iter(hashes)),
  'automatedGates':{'unitTests':71,'unitFiles':12,'fullRootBuild':True,'browserReports':len(reports),'allPass':True,'reports':{k:{'file':k+'/'+cases[k]+'-report.json','pass':r['pass'],'errors':r['errors']} for k,r in reports.items()},'flight':flight['visibility'],'rally':rally['results']},

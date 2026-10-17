@@ -1,0 +1,15 @@
+{
+ "rubricSha256":"acbd3311fa6e000b9c03d2b8d8a3736c35a377c89912c72a88b1e085aef5b438",
+ "previousReviewedSubtotal":37,
+ "reviewedWeight":55,
+ "unverifiedWeight":45,
+ "overallScore":null,
+ "iterations":[
+  {"problem":"high-apex white shuttle","stage":"controlled causal study before production change","hypotheses":["background too close to white","cork material too bright","small projected silhouette needs local dual contrast"],"alternatives":["darker whole sky","dark cork material","outlined feather/cork silhouette"],"sameState":true,"observation":"Outline preserves bright arena and feather direction. Dark cork becomes tiny dot; sky darkening changes the entire field. Mobile-landscape >=3:1 local pixel area0→41.75CSSpx; max contrast1.50→7.37. Pixels outside16CSSpx unchanged0.","evidence":["study/study.json","study/photometry.json","study/comparison.png"],"scoreAwardedFromPixelMetric":false},
+  {"problem":"high-apex white shuttle","attempt":1,"change":"project and anchor local silhouette in application update","sameGate":"<=.5CSSpx rendered cork anchor error; zero blocked input/low/contact overlays","result":"FAIL:actual clear rally max14.29CSSpx drift","cause":"Projection read before renderer finalization; late camera/hierarchy state differs from visible frame.","nextApproach":"Project after rendering rather than change size/camera/physics or relax gate.","evidence":["attempts/update-projection/high-shuttle-flight-report.json"]},
+  {"problem":"high-apex white shuttle","attempt":2,"change":"postrender projection of actual cork and feathers; suppress actual contact frame","sameGate":"<=.5CSSpx rendered cork anchor error; zero blocked input/low/contact overlays","result":"Actual6-return clear rally pass; max.0211CSSpx drift;0blocked pointer;0low/contact visibility. Mobile layouts additionally checked in final rally report.","evidence":["after-flight/high-shuttle-flight-report.json","after-flight/flight.json","rally/court-framing-report.json"]},
+  {"problem":"small settings controls and keyboard modal leakage","attempt":1,"change":"44CSSpx targets, native inert and keyboard focus wrapping/restoration","result":"FAIL:Help close returned to menu default instead of opener","evidence":["attempts/dialog-menu-focus/accessible-overlays-report.json"]},
+  {"problem":"small settings controls and keyboard modal leakage","attempt":2,"change":"distinguish dialog→menu transition from initial menu focus","sameGate":"44CSSpx targets,4frozen viewports,reverse/forward Tab wrapping,opener restoration,scroll and real Continue input","result":"PASS:8dialogs and4pause flows on4viewports","evidence":["accessible/accessible-overlays-report.json","accessible/accessibility.json"]}
+ ],
+ "stagnationRule":"No three consecutive non-improving production attempts on either problem. If reached, stop parameter repetition and perform causal alternatives with the same rubric/gates. No changed weights, normalized subtotal or unknown scores."
+}
