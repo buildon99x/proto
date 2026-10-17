@@ -1,0 +1,5 @@
+
+> emberwatch-reborn@0.14.0-reimplementation.18 build
+> node scripts/build-r14.mjs
+
+{"output":"/workspace/emberwatch-reborn/projects/EmberwatchReborn/app/dist/qa-r14","files":133,"bytes":16802042,"version":"0.14.0-reimplementation.18"}

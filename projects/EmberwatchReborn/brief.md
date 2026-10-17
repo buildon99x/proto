@@ -328,3 +328,6 @@ Check one remaining P1 charge-direction defect: a fresh finite Q tap during the 
 
 ## Nonzero blocked cooldown feedback — 2026-10-16
 Normal native quarry traversal paused while learned Judgement still displayed0.0seconds. Reproduce whether HUD and rejection feedback show zero while the authoritative cooldown still rejects input; correct presentation only. Continue ordinary next-encounter QA without modifying protected growth/save/equipment.
+
+## October17 ordinary combat qualification
+Resume the existing normally earned profile on October17. Verify finite two-hit elite priming→targeted E wave and separate held mace startup→dodge cancel→held restart. Preserve protected a19 scope, balances and all original state; change runtime only if a reproducible defect is established.

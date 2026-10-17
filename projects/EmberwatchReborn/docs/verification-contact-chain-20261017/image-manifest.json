@@ -1,0 +1,42 @@
+[
+  {
+    "file": "images/03-elite-approach-active.jpg",
+    "bytes": 234824,
+    "sha256": "846ca1e783f7ceeab41c22cd1f7885b5ed8f7b7b77d2f084912f97ab2589dc5d"
+  },
+  {
+    "file": "images/04-first-elite-mace.jpg",
+    "bytes": 233588,
+    "sha256": "f44d02b9626124ecd47fd4bf0257ca50050f99ff3ccf8a556815cc2933bb1cdf"
+  },
+  {
+    "file": "images/05-second-elite-prime.jpg",
+    "bytes": 236168,
+    "sha256": "0370de7394beb41821abdffc7d7f122806131b0f6b116703a1614645f918aa8a"
+  },
+  {
+    "file": "images/06-elite-E-contact.jpg",
+    "bytes": 232873,
+    "sha256": "67c01ce4177a1c3ebbe48218beacb6e6c59f92662069910aa70d87e822337e84"
+  },
+  {
+    "file": "images/07-after-roll-held-mace.jpg",
+    "bytes": 218278,
+    "sha256": "18e8d640ae9b7291f5ca9545d277097173d06ed944e292c6aabba01732deaa67"
+  },
+  {
+    "file": "images/09-cancel-return-observations.jpg",
+    "bytes": 103224,
+    "sha256": "337f38a839cacad30f3feef3f1259ef4034d8b1a9496f53e11c25e83a237eabf"
+  },
+  {
+    "file": "images/10-tracking-off-reverse-cursor.jpg",
+    "bytes": 215360,
+    "sha256": "357f2c9c3da041c2f8e7dc47d0f865d380314f7778c85f72530ddfe341b72194"
+  },
+  {
+    "file": "images/11-tracking-on-reverse-cursor.jpg",
+    "bytes": 215826,
+    "sha256": "d1951eb204744be078c0eec8a340b00c1bbbf457c85540749e4a6cb6ea2fe1e2"
+  }
+]

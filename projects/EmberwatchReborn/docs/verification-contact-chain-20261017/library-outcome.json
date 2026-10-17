@@ -1,0 +1,24 @@
+{
+  "status": "failed before any Library app mutation",
+  "error": "library upload failed: hosted apps tools/list request failed: network",
+  "createdLibraryIds": [],
+  "filesSaved": [
+    false,
+    false,
+    false,
+    false
+  ],
+  "alternateRouteAttempted": false,
+  "oldBlockedBatchRetried": false,
+  "localCheckpoint": {
+    "files": 429,
+    "bytes": 18209167,
+    "sha256": "38ae14c9485bb8de8c052506c5034891e7b9e34d406f571a4170c7a52048a25e",
+    "integrity": "passed"
+  },
+  "localVideo": {
+    "file": "emberwatch-elite-wave-cancel-aim-20261017.mp4",
+    "bytes": 3039053,
+    "durationSeconds": 8.6
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "capture": "04-two-hit-elite-E",
+    "fromSeconds": 0,
+    "toSeconds": 3.388083982467651,
+    "frames": 125
+  },
+  {
+    "capture": "07-held-cancel-return",
+    "fromSeconds": 3.388083982467651,
+    "toSeconds": 6.101302076339722,
+    "frames": 139
+  },
+  {
+    "capture": "10-release-tracking-off",
+    "fromSeconds": 6.101302076339722,
+    "toSeconds": 7.356309940338135,
+    "frames": 41
+  },
+  {
+    "capture": "11-release-tracking-on",
+    "fromSeconds": 7.356309940338135,
+    "toSeconds": 8.516112092971802,
+    "frames": 50
+  }
+]

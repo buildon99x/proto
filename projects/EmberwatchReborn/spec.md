@@ -423,3 +423,6 @@ An accepted immediate-after-save finite shield-charge tap must obey the same sel
 
 ## Nonzero blocked cooldown feedback — 2026-10-16
 An authoritative cooldown rejection must display at least0.1seconds at one decimal place. Keep all existing rounded labels above that floor, no runtime threshold/timing/resource/buffer changes, and use the same compact/full text for hotbar/aria and rejection toast.
+
+## October17 ordinary combat qualification
+Use normal existing mace/Judgement, mode selection, heal, travel and input UI. Require a visible living ◆ target before E and separate actual primary/wave damage and rewards from nominal contact timing. For empty-field cancel/restart, assert input/action lifecycle only, not enemy hits. Retain all original input windows, costs, movement/target policies and save boundaries.
