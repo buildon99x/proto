@@ -35,7 +35,7 @@ export async function run(ctx){
    const cam=app.root.findByName('broadcast camera'),pose=d.motions[1].skinPose;
    const pixels=[...Object.values(pose.joints),pose.racket.center,d.position].map(p=>cam.camera.worldToScreen(cam.getPosition().clone().set(p.x,p.y,p.z)));
    const opponentScreenBounds=[Math.min(...pixels.map(p=>p.x))-14,Math.min(...pixels.map(p=>p.y))-14,Math.max(...pixels.map(p=>p.x))+14,Math.max(...pixels.map(p=>p.y))+14];
-   window.defenceFrames.push({round,shotIndex:d.shots.length-1,pointCount:d.points.length,opponentScreenBounds,difficulty:window.defenceDifficulty,time:d.time,perf:performance.now(),hit,contact,actors:d.actors.map(a=>({p:a.p})),perception:d.perception,shuttle:d.position,feedback:d.message,png:document.querySelector('canvas').toDataURL('image/png')});
+   window.defenceFrames.push({contactVisibility:d.contactVisibility,aimGuide:d.aimGuide,round,shotIndex:d.shots.length-1,pointCount:d.points.length,opponentScreenBounds,difficulty:window.defenceDifficulty,time:d.time,perf:performance.now(),hit,contact,actors:d.actors.map(a=>({p:a.p})),perception:d.perception,shuttle:d.position,feedback:d.message,png:document.querySelector('canvas').toDataURL('image/png')});
   });
  });
  const finish=await startLiveCapture(page,out);
@@ -49,6 +49,7 @@ export async function run(ctx){
   delete f.png;f.file='observed-frames/'+name;
  }
  for(let i=0;i<points.length;i++){const p=points[i],name='point-'+String(i).padStart(3,'0')+'.png';await writeFile(path.join(out,'observed-frames',name),Buffer.from(p.png.split(',')[1],'base64'));delete p.png;p.file='observed-frames/'+name;}
+ if(frames.some(f=>f.hit.actor===0&&f.contactVisibility?.strength!==0))throw Error('Own physical contact was altered by visibility treatment');
  if(frames.filter(f=>f.hit.actor===1).length<3)throw Error('Insufficient literal AI return frame coverage');
  await writeFile(path.join(out,'defence-observation.json'),JSON.stringify({method:'Original unchanged visible-cue NORMAL/HARD centre-soft or original pressure controller; real UI inputs. Read-only post-render contact PNGs and CDP software wall-clock video. No pause/time/state injection. Counts alone do not award experience points; no physical speed/listening claim.',frames,points,capture},null,2));
  ctx.log('DEFENCE REVIEW PASS',JSON.stringify({frames:frames.length,actualAiContactFrames:frames.filter(f=>f.hit.actor===1).length}));

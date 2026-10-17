@@ -46,6 +46,8 @@ import { shuttleContrast, shuttleContrastSvg } from './shuttle-contrast';
 import type { ShuttleContrast } from './shuttle-contrast';
 import { presentStroke } from './stroke-presentation';
 import { buildCourtyard } from './courtyard';
+import { contactWindow, prepareContactVisibility, type ContactWindow } from './contact-visibility';
+import { aimCopy, resultCopy } from './aim-feedback';
 import './style.css';
 let currentContrast: ShuttleContrast | null = null;
 let contrastFrameHit: Hit | null = null;
@@ -109,6 +111,9 @@ let lastInput: {
 } | null = null;
 let lessons: RallyLessons = freshLessons();
 let acceptedLessonIntent: Intent | null = null;
+let acceptedAim: V3 | null = null;
+let shotGuide: {hit:Hit;aim:V3} | null = null;
+let currentContactWindow: ContactWindow = {x:0,y:0,radius:1,strength:0};
 try {
     const saved = JSON.parse(localStorage.getItem('smash-lessons') || '{}');
     lessons = {
@@ -188,7 +193,7 @@ function renderUI() {
         if (game.paused && !reviewHit)
             overlay = `<section class="card" role="dialog" aria-modal="true" aria-label="Paused"><div class="eyebrow">TAKE A BREATH</div><h2>PAUSED</h2><button data-action="resume" class="primary">CONTINUE</button><div class="row"><button data-action="start">Restart match</button><button data-action="menu">Main menu</button></div>${controls()}</section>`;
         if (panel)
-            overlay = `<section class="card dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><div class="eyebrow">RALLY CLUB</div><h2 id="dialog-title">${panel === 'help' ? 'HOW TO PLAY' : 'SETTINGS'}</h2><div class="dialog-content" tabindex="0">${panel === 'help' ? '<p>Aim at the far court. Your player moves automatically.</p><ul><li>Click / tap: return or smash a high ball.</li><li>Shift + click / swipe up: deep clear.</li><li>Right click / swipe down: front-court drop.</li><li>Press at HIT NOW, just before contact.</li><li>Loose high ball + perfect timing: Super Smash. Aim deep; tight angles use a safe return.</li><li>Esc pauses. Five points wins; no deuce.</li></ul>' : controls()}</div><button data-action="close" class="primary">BACK</button></section>`;
+            overlay = `<section class="card dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><div class="eyebrow">RALLY CLUB</div><h2 id="dialog-title">${panel === 'help' ? 'HOW TO PLAY' : 'SETTINGS'}</h2><div class="dialog-content" tabindex="0">${panel === 'help' ? '<p>Aim at the far court. Your player moves automatically.</p><ul><li>Click / tap: return or smash a high ball.</li><li>Shift + click / swipe up: deep clear.</li><li>Right click / swipe down: front-court drop.</li><li>Press at HIT NOW, just before contact.</li><li>Loose high ball + perfect timing: Super Smash. Aim deep; tight angles use a safe return.</li><li>Gold hollow ring: aim direction. Cyan target with dot: shot target after contact. Timing can move the landing.</li><li>Esc pauses. Five points wins; no deuce.</li></ul>' : controls()}</div><button data-action="close" class="primary">BACK</button></section>`;
         const hadOverlay = !!ui.querySelector('.overlay');
         const hadDialog = !!ui.querySelector('.dialog');
         ui.innerHTML = `<header class="hud"><div class="brand">SR<span>3D</span></div><div class="scoreboard"><div><small>YOU ${game.server === 0 ? '•' : ''}</small><b>${game.scores[0]}</b></div><div class="versus">FIRST TO 5</div><div><small>${game.server === 1 ? '• ' : ''}AI</small><b>${game.scores[1]}</b></div></div><button data-action="pause" class="pause" aria-label="Pause">II</button></header><div class="arena-label">RALLY CLUB<span>INDOOR SERIES / 01</span></div><div id="feedback" aria-live="polite"></div><div id="timing"></div><div id="shuttle-contrast" aria-hidden="true" hidden>${shuttleContrastSvg}</div><div class="shot-bar" ${['MENU', 'RESULTS'].includes(game.phase) ? 'hidden' : ''}>${(['clear', 'default', 'drop'] as Intent[]).map((s, i) => `<button data-shot="${s}" ${selected === s ? 'class="active"' : ''}><span>${['C', 'R', 'D'][i]}</span><em ${s === 'default' ? 'id="basic-label"' : ''}>${['CLEAR', 'RETURN', 'DROP'][i]}</em><small>${['SHIFT / SWIPE UP', 'CLICK / TAP', 'RIGHT / SWIPE DOWN'][i]}</small></button>`).join('')}</div><div id="tutorial" ${tutorial && game.phase === 'RALLY' ? '' : 'hidden'}></div>${overlay ? `<div class="overlay">${overlay}</div>` : ''}`;
@@ -207,15 +212,18 @@ function renderUI() {
                 ?.focus({ preventScroll: true });
         }
     }
+    const receivingAim=game.phase==='RALLY'&&game.receiver===0&&game.time-game.messageAt>=.25;
+    const showingShot=game.phase==='RALLY'&&game.hitter===0&&shotGuide;
     const f = document.getElementById('feedback');
     if (f) {
-        f.textContent =
+        const nextFeedback =
             game.phase === 'COUNTDOWN'
                 ? 'READY?'
-                : game.time - game.messageAt < 1.5
+                : showingShot ? resultCopy(shotGuide!.hit) : receivingAim ? aimCopy(game.actors[0].command?.target??target,game.actors[0].command?.shotIntent??selected) : game.time - game.messageAt < 1.5
                   ? game.message
                   : '';
-        f.className = game.message.startsWith('YOU · PERFECT') ? 'perfect' : '';
+        if(f.textContent!==nextFeedback)f.textContent=nextFeedback;
+        f.className = showingShot ? 'shot-target' : receivingAim ? 'aim-intent' : game.message.startsWith('YOU · PERFECT') ? 'perfect' : '';
         f.classList.toggle('point-detail', game.phase === 'POINT_RESOLVED');
     }
     const rem = game.contactAt - game.time,
@@ -316,6 +324,7 @@ ui.addEventListener('click', (e) => {
             renderedContact = null;
             contrastContacts.length = 0;
             acceptedLessonIntent = null;
+            acceptedAim = null;shotGuide = null;
             game.start();
             break;
         case 'pause':
@@ -419,7 +428,7 @@ function issue(
         gestureId,
     };
     game.command(cmd);
-    if (game.actors[0].command === cmd) acceptedLessonIntent = intent;
+    if (game.actors[0].command === cmd) {acceptedLessonIntent = intent;acceptedAim = {...at};}
     lastInput = {
         shotIntent: intent,
         target: { ...at },
@@ -890,6 +899,9 @@ async function boot() {
         trails = Array.from({ length: 9 }, () =>
             shape('trail', 'cylinder', [0, 0, 0], [0.02, 0.1, 0.02], '#dffeff'),
         );
+    const shotTargetRing=shape('shot target ring','torus',[0,.075,5.5],[.7,.7,.7],'#73e7df');
+    const shotTargetDot=shape('shot target dot','cylinder',[0,.078,5.5],[.1,.006,.1],'#73e7df');
+    const showContactWindow=prepareContactVisibility([player.root,player.racket]);
     const history: { p: V3; time: number }[] = [];
     const impactMaterial = mat('#ffe7ad').clone();
     impactMaterial.useLighting = false;
@@ -905,10 +917,12 @@ async function boot() {
     attackTrail.update();
 
     game.onPoint = () => {
+        shotGuide=null;acceptedAim=null;
         queuedPoint = game.points.at(-1)!.winner;
     };
     game.onMotionTick = (index, dt) => tickMotion(index === 0 ? player : opponent, dt);
     game.onHit = (h) => {
+        if(h.actor===0){shotGuide=game.returns>0?{hit:h,aim:{...(acceptedAim??target)}}:null;acceptedAim=null;}else shotGuide=null;
         if (h.actor === 0) {
             if (tutorial) {
                 const next = creditLesson(lessons, {
@@ -1096,8 +1110,14 @@ async function boot() {
             shuttle.rotateLocal(90, 0, 0);
         }
         shadow.setPosition(game.p.x, 0.055, game.p.z);
-        ring.setPosition(target.x, 0.07, target.z);
-        ring.enabled = !['MENU', 'RESULTS'].includes(game.phase);
+        const actualGuide=game.phase==='RALLY'&&game.hitter===0?shotGuide:null;
+        const aimAt=actualGuide?.aim??game.actors[0].command?.target??target;
+        ring.setPosition(aimAt.x,0.07,aimAt.z);
+        const separated=actualGuide&&Math.hypot(actualGuide.aim.x-actualGuide.hit.target.x,actualGuide.aim.z-actualGuide.hit.target.z)>.4;
+        ring.enabled=(game.phase==='RALLY'&&game.receiver===0)||(game.phase==='SERVE_READY'&&game.server===0)||!!separated;
+        shotTargetRing.enabled=!!actualGuide;
+        shotTargetDot.enabled=!!actualGuide;
+        if(actualGuide){shotTargetRing.setPosition(actualGuide.hit.target.x,.075,actualGuide.hit.target.z);shotTargetDot.setPosition(actualGuide.hit.target.x,.078,actualGuide.hit.target.z);}
         const rem = game.contactAt - game.time;
         timing.enabled = game.phase === 'RALLY' && game.receiver === 0 && Number.isFinite(rem);
         timing.setPosition(game.actors[0].p.x, 0.065, game.actors[0].p.z);
@@ -1176,6 +1196,14 @@ async function boot() {
                 p.z + response.recoil.z,
             );
         }
+        const nearPose=displayedPoses.get(player.a)!,farPose=displayedPoses.get(opponent.a)!;
+        const project=(p:V3)=>camera.camera!.worldToScreen(new Vec3(p.x,p.y,p.z));
+        const closeToOpponent=Math.hypot(displayShuttle.x-farPose.racket.center.x,displayShuttle.y-farPose.racket.center.y,displayShuttle.z-farPose.racket.center.z)<1.4;
+        const nearScreen=Object.fromEntries(Object.entries(nearPose.joints).map(([k,p])=>[k,project(p)]));
+        const segments:[string,string,number][]=[['Head','Head',.21],['Chest','Hip',.25],['ShoulderR','ElbowR',.08],['ElbowR','WristR',.07],['ShoulderL','ElbowL',.08],['ElbowL','WristL',.07],['HipR','KneeR',.1],['KneeR','AnkleR',.08],['HipL','KneeL',.1],['KneeL','AnkleL',.08]];
+        const occluders=segments.map(([a,b,r])=>({a:nearScreen[a],b:nearScreen[b],radius:Math.abs(project({...nearPose.joints[a],x:nearPose.joints[a].x+r}).x-nearScreen[a].x)}));
+        currentContactWindow=contactWindow(project(displayShuttle),occluders,innerWidth,innerHeight,game.phase==='RALLY'&&!game.paused&&displayShuttle.z>-.25&&closeToOpponent,displayHit?.actor===0||!!reviewHit);
+        showContactWindow(currentContactWindow,app.graphicsDevice.width/innerWidth,app.graphicsDevice.height/innerHeight,app.graphicsDevice.height);
         for (const event of impactLedger)
             if (event.renderQueuedPerf === null) event.renderQueuedPerf = performance.now();
         renderUI();
@@ -1294,6 +1322,8 @@ async function boot() {
                     },
                 },
             })),
+            contactVisibility: {...currentContactWindow},
+            aimGuide: shotGuide ? {aim:{...shotGuide.aim},target:{...shotGuide.hit.target},time:shotGuide.hit.time,copy:resultCopy(shotGuide.hit)} : null,
             settings: { ...settings },
             target: { ...target },
             lastInput: lastInput ? { ...lastInput, target: { ...lastInput.target } } : null,

@@ -35,3 +35,6 @@ Separate athlete-art correction: authored hex colors were written as glTF linear
 
 
 Next cycle startsab5102d,41/55reviewed and45unverified. Audit all14deductions inverification/courtyard-depth-20261017/deduction-audit.json. Select V3largestgap: original layered club courtyard with recessed glazing, structural bays and coherent planter/foliage depth. Keep original camera/court/lighting/athletes and no spectators/third-party scenery.
+
+
+Contact clarity cycle starts569cfb7,46/60reviewed40unknown. PriorM2=3shows central AI low-contact occlusion; C2=3needs target/resolved-safe-return explanation. Compare whole-player ghost versus local actual-contact cutout with camera/court/player scale fixed. Preserve simple controls and all existing physics/AI/input/audio.

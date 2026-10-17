@@ -601,3 +601,15 @@ select:focus-visible,
     outline: 2px solid #ffcf7f;
     outline-offset: 3px;
 }
+
+#feedback.aim-intent { color: #ffe0a0; }
+#feedback.shot-target { color: #b9fff3; }
+
+@media (orientation: landscape) {
+    #feedback.aim-intent, #feedback.shot-target {
+        font-size: clamp(10px, 1vw, 12px);
+        line-height: 1.2;
+        white-space: normal;
+        max-width: min(34vw, 320px);
+    }
+}
