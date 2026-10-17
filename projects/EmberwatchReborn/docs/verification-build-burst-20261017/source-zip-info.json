@@ -1,0 +1,8 @@
+{
+  "sourceCommit": "ec3d9623e6296cd27a9b7e76b36db0a006b2d7fb",
+  "files": 1821,
+  "bytes": 40742556,
+  "sha256": "36af5ad114d08f43f015daa210d8ea7702301229e2a9d039e795d296246bab53",
+  "crc": "pass",
+  "excluded": "raw profile/slots, caches, frame dumps, generated dist/launcher output, node_modules"
+}

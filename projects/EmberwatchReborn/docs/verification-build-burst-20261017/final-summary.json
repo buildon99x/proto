@@ -45,5 +45,19 @@
     "new death/re-entry campaign closure"
   ],
   "a19Attempt": false,
-  "library": "pending supported one-shot batch"
+  "library": {
+    "status": "failed before app discovery/preparation/transfer/finalization",
+    "error": "library upload failed: hosted apps tools/list request failed: network",
+    "stdoutBytes": 0,
+    "savedItems": 0,
+    "ids": [],
+    "oneOrderedBatch": [
+      "previous elite-wave-cancel-aim video",
+      "current source ZIP",
+      "current long-burst-dodge video",
+      "before JPEG12",
+      "after JPEG14"
+    ],
+    "alternateRouteOrRetry": false
+  }
 }

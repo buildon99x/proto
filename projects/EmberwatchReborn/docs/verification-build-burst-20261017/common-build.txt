@@ -237,9 +237,9 @@ Copied relic-king build to launcher/public/runs/relic-king
    Linting and checking validity of types ...
    Collecting page data ...
    Generating static pages (0/29) ...
-   Generating static pages (7/29) 
-   Generating static pages (14/29) 
-   Generating static pages (21/29) 
+   Generating static pages (7/29)
+   Generating static pages (14/29)
+   Generating static pages (21/29)
  ✓ Generating static pages (29/29)
    Finalizing page optimization ...
    Collecting build traces ...
@@ -268,4 +268,3 @@ Route (app)                                 Size  First Load JS
 ○  (Static)   prerendered as static content
 ●  (SSG)      prerendered as static HTML (uses generateStaticParams)
 ƒ  (Dynamic)  server-rendered on demand
-
