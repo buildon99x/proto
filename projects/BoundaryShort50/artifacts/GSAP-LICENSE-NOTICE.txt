@@ -1,0 +1,5 @@
+GSAP 3.15.0
+Copyright 2026 GreenSock. All rights reserved.
+Standard no-charge license: https://gsap.com/standard-license
+Unmodified upstream distribution header retained in hyperframes/assets/gsap.min.js.
+Source: /workspace/openmontage-runtime/node_modules/gsap (package.json / README.md).

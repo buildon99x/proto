@@ -17,3 +17,7 @@
 - 즐거운 사회적 초대 연구는 직장·강압·위험한 관계 전체를 입증하지 않음. 차트 같은 수치 표현 대신 정성적 말풍선 비유 사용. 예시 문장을 임상 입증 기법으로 표시하지 않음.
 
 무음 미리보기 SHA256: `180cdd07b74bfaa03ea40cfce73f6b5ee3b44938a927068a6eaf757e27035a12`.
+
+## 저장소 검증
+
+`COREPACK_HOME=/tmp/openmontage-corepack corepack pnpm sync:registry` 및 `pnpm build:vercel` 성공(2026-10-18). 전체 프로젝트/launcher 빌드 통과. `repository-build.txt`에 로그 보관. 기존 두 완성 MP4 SHA256 재확인 일치. cb-ll 원본 work 브랜치의 작업 트리는 깨끗함. 수동 배포 없이 지정 브랜치에 커밋/푸시하며 기존 자동 호스팅 후보의 공개 상태는 미확인.
