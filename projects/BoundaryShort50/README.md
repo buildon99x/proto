@@ -37,3 +37,26 @@ node scripts/playback-qa.cjs
 - OpenMontage: AGPL3, 로컬 소스 출처와 변경 없는 사용 기록. HyperFrames: Apache2. GSAP3.15.0: 표준 라이선스, 배포본 변경 없음. NotoSansKR: SIL OFL; 모두 `artifacts/*LICENSE*` 참조.
 - MeloTTS: MIT 소스 검토. 모델 다운로드 실패로 음성 모델/음성 결과물은 포함하지 않음.
 - 수동 배포·소셜 게시 없음. 승인된 기존 브랜치 push는 저장소의 기존 Vercel 연동을 작동시킬 수 있습니다. 자동 배포 후보의 성공/공개 접근은 확인하지 못했습니다. 기존 완성 영상과 게임 소스는 수정하지 않았습니다.
+
+## Typecast 연동 — 2026-10-18 KST
+
+사용자 지시로 [Typecast 공식 문서](https://typecast.ai/docs/llms.txt)를 읽고 공식 Python SDK0.4.1(Apache2)을 별도 voice venv에 설치했습니다. `scripts/typecast-voice.py`에 **source=api-page / generated_by=codex**를 고정했으며 SDK 자체 User-Agent를 유지합니다. 환경변수 키를 로컬 CLI에서만 사용하고 브라우저/코드/Git/로그에 저장하지 않습니다.
+
+15개 구간별 한국어 ssfm-v30 Smart Emotion + 앞뒤 문장 맥락 + Timestamp TTS를 사용합니다. 기본 생성은 첫 구간 샘플만이며, 전 구간 생성은 명시적 `--all`입니다. 처리된 음성과 타임스탬프를 함께 저장하고 구간에 배치할 때 원래 시작 시각만 더합니다. 말이 구간보다 길면 자르거나 가속하지 않고 중단합니다. 동일 요청의 완료 파일은 영수증 hash를 확인해 재사용합니다. 권한/결제/속도 제한 오류는 자동 반복하지 않습니다.
+
+```bash
+/workspace/boundary-voice-venv/bin/python scripts/typecast-voice.py plan
+/workspace/boundary-voice-venv/bin/python scripts/check-typecast.py
+# 아래는 안전한 런타임 환경에 TYPECAST_API_KEY가 제공된 뒤에만:
+/workspace/boundary-voice-venv/bin/python scripts/typecast-voice.py recommend
+# 추천 음성의 metadata 확인 및 샘플 청음 필요. 한국어 억양은 metadata만으로 입증 불가.
+# 이전 유료 API 금지 조건이 해제되고 크레딧 사용이 명시적으로 허용된 경우에만:
+/workspace/boundary-voice-venv/bin/python scripts/typecast-voice.py generate --voice-id SELECTED_VOICE_ID --allow-credit-use
+# 샘플 검수 후 전 구간 생성
+/workspace/boundary-voice-venv/bin/python scripts/typecast-voice.py generate --voice-id SELECTED_VOICE_ID --allow-credit-use --all
+/workspace/boundary-voice-venv/bin/python scripts/typecast-voice.py assemble
+```
+
+현재 `TYPECAST_API_KEY`가 없어 실제 Typecast 요청0회입니다. 추가 결제/키 생성·영구 설정 변경은 하지 않았습니다. API키는 채팅에 보내지 말고 승인된 비밀 환경변수 수단으로 제공해야 합니다. SDK 요청/attribution/오디오 조립의 오프라인 검사는 통과했지만 실제 서비스 성공·발음·청음·최종 영상은 미완료입니다. 합성 후 기존 author/render 및 최종 음성 QA를 수행해야 합니다.
+
+선택 인터뷰는 TTS와 별개입니다. 인터뷰의 source만 integrated로 설정하며 참여 동의 → 답변 미리보기 → 별도 제출 승인 순서를 지킵니다. 거절/무응답이면 중단하고 어떠한 피드백도 자동 전송하지 않습니다. 인터뷰 원문은 현 도구에서 열리지 않고 dot curl은403이므로, 인터뷰 질문/제출을 진행하기 전 해당 가이드를 확보해야 합니다. 현재 참여 동의/제출 승인/전송 모두 없습니다.

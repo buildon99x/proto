@@ -1,0 +1,14 @@
+{
+  "attribution": {
+    "source": "api-page",
+    "generated_by": "codex"
+  },
+  "model": "ssfm-v30",
+  "language": "kor",
+  "beats": 15,
+  "narration_characters": 248,
+  "key_available": false,
+  "default_generation": "one short sample; no API request in plan",
+  "full_generation_calls": 15,
+  "network_requested": false
+}

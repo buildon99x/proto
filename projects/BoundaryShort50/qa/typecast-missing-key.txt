@@ -1,0 +1,1 @@
+TYPECAST_API_KEY is unavailable. Do not put it in source, logs or chat.

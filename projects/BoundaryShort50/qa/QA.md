@@ -21,3 +21,7 @@
 ## 저장소 검증
 
 `COREPACK_HOME=/tmp/openmontage-corepack corepack pnpm sync:registry` 및 `pnpm build:vercel` 성공(2026-10-18). 전체 프로젝트/launcher 빌드 통과. `repository-build.txt`에 로그 보관. 기존 두 완성 MP4 SHA256 재확인 일치. cb-ll 원본 work 브랜치의 작업 트리는 깨끗함. 수동 배포 없이 지정 브랜치에 커밋/푸시하며 기존 자동 호스팅 후보의 공개 상태는 미확인.
+
+## Typecast 추가 구현
+
+공식 SDK0.4.1 설치, `source=api-page; generated_by=codex`의 SDK 실제 User-Agent 포함 여부, 한국어 Timestamp TTS 요청/맥락, audio_bytes 속성 호환, 50초 조립, 길이 초과 발화 중단을 오프라인 검증했습니다(`typecast-offline-checks.json`). API키가 없어 실제 API 호출0회, 생성 음성0개. 이전 유료 API 금지 제한도 남아 있습니다. 기존 영상/썸네일은 변경하지 않았습니다. 인터뷰 가이드 읽기 실패와 제출 미실행은 `artifacts/typecast-integration.json`에 구별해 기록했습니다.
