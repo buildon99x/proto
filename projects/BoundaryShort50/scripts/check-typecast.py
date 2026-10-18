@@ -8,8 +8,9 @@ beats=json.loads((v.P/'artifacts/script.json').read_text())['beats']
 req=v.request_for(beats,1,'tc_test').model_dump(mode='json')
 assert req['language']=='kor' and req['model']=='ssfm-v30' and req['prompt']['previous_text']==beats[0]['narration']
 assert req['output']['audio_tempo']==1 and req['output']['remove_silence_ms']==150
-client=Typecast(api_key='offline-placeholder',**v.ATTRIBUTION)
-assert 'source=api-page' in client.session.headers['User-Agent'] and 'generated_by=codex' in client.session.headers['User-Agent']
+client=Typecast(api_key='offline-placeholder')
+assert 'typecast-integration/' not in client.session.headers['User-Agent']
+assert v.ATTRIBUTION=={'source':'api-page','generated_by':'codex'}
 r=TTSWithTimestampsResponse(audio=base64.b64encode(b'contract-test').decode(),audio_format='wav',audio_duration=1)
 assert v.audio_bytes(r)==b'contract-test'
 with tempfile.TemporaryDirectory() as d:
@@ -22,4 +23,4 @@ with tempfile.TemporaryDirectory() as d:
  try:v.assemble(beats,folder,dest)
  except ValueError as e:assert 'exceeds' in str(e)
  else:raise AssertionError('Overlong speech must fail without truncating or speeding')
-print(json.dumps({'pass':True,'network_calls':0,'checks':['SDK attribution header preserved','Korean timestamp request/context','SDK audio_bytes property compatibility','50s unchanged-audio placement','overlong speech rejected without paid retry']},indent=2))
+print(json.dumps({'pass':True,'network_calls':0,'checks':['Optional attribution retained locally; not transmitted','Korean timestamp request/context','SDK audio_bytes property compatibility','50s unchanged-audio placement','overlong speech rejected without paid retry']},indent=2))

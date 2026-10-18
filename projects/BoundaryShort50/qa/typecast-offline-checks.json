@@ -2,7 +2,7 @@
   "pass": true,
   "network_calls": 0,
   "checks": [
-    "SDK attribution header preserved",
+    "Optional attribution retained locally; not transmitted",
     "Korean timestamp request/context",
     "SDK audio_bytes property compatibility",
     "50s unchanged-audio placement",

@@ -1,0 +1,11 @@
+{
+  "sdk": "typecast-python0.4.1",
+  "tts_schema_required_fields": [
+    "voice_id",
+    "text",
+    "model"
+  ],
+  "attribution_in_tts_schema": false,
+  "attribution_suffix_with_no_options": "",
+  "conclusion": "Attribution is optional SDK User-Agent provenance, not a required speech request field. Keep requested local attribution values but omit sending optional suffix. No API requests made."
+}

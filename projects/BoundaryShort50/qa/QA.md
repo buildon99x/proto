@@ -24,4 +24,6 @@
 
 ## Typecast 추가 구현
 
-공식 SDK0.4.1 설치, `source=api-page; generated_by=codex`의 SDK 실제 User-Agent 포함 여부, 한국어 Timestamp TTS 요청/맥락, audio_bytes 속성 호환, 50초 조립, 길이 초과 발화 중단을 오프라인 검증했습니다(`typecast-offline-checks.json`). API키가 없어 실제 API 호출0회, 생성 음성0개. 이전 유료 API 금지 제한도 남아 있습니다. 기존 영상/썸네일은 변경하지 않았습니다. 인터뷰 가이드 읽기 실패와 제출 미실행은 `artifacts/typecast-integration.json`에 구별해 기록했습니다.
+공식 SDK0.4.1 설치, `source=api-page; generated_by=codex` 로컬 기록 유지와 선택적 출처 헤더 전송 제외, 한국어 Timestamp TTS 요청/맥락, audio_bytes 속성 호환, 50초 조립, 길이 초과 발화 중단을 오프라인 검증했습니다(`typecast-offline-checks.json`). API키가 없어 실제 API 호출0회, 생성 음성0개. 이전 유료 API 금지 제한도 남아 있습니다. 기존 영상/썸네일은 변경하지 않았습니다. 인터뷰 가이드 읽기 실패와 제출 미실행은 `artifacts/typecast-integration.json`에 구별해 기록했습니다.
+
+공식 설치 SDK의 TTS JSON 스키마에서 필수 항목은 voice_id/text/model이며 source/generated_by는 없습니다. SDK 생성자 두 옵션은 기본 None이고 attribution_suffix()는 빈 문자열을 반환합니다. `typecast-attribution-schema.json` 참조. 선택 출처 suffix를 실제 요청에 보내지 않도록 수정했으며 오프라인 검사 통과. 인터뷰 추가 제안/진행 중단.

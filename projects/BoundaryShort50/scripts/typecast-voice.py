@@ -40,7 +40,7 @@ def main():
     key=os.environ.get('TYPECAST_API_KEY')
     if not key:raise ValueError('TYPECAST_API_KEY is unavailable. Do not put it in source, logs or chat.')
     # SDK keeps its own User-Agent, version/runtime and auth mechanism.
-    client=Typecast(api_key=key,**ATTRIBUTION)
+    client=Typecast(api_key=key)  # Optional attribution remains in project provenance; do not transmit.
     if args.action=='recommend':
         candidates=client.recommend_voices('한국어 성인 대상 관계·생활 심리 쇼츠 내레이션. 차분하고 공감하는 성인 화자, 광고 과장이나 의료 권위 흉내 없이 또렷하고 자연스러운 말투.',count=3)
         details=[client.voice_v3(v.voice_id).model_dump(mode='json') for v in candidates]

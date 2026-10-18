@@ -40,7 +40,7 @@ node scripts/playback-qa.cjs
 
 ## Typecast 연동 — 2026-10-18 KST
 
-사용자 지시로 [Typecast 공식 문서](https://typecast.ai/docs/llms.txt)를 읽고 공식 Python SDK0.4.1(Apache2)을 별도 voice venv에 설치했습니다. `scripts/typecast-voice.py`에 **source=api-page / generated_by=codex**를 고정했으며 SDK 자체 User-Agent를 유지합니다. 환경변수 키를 로컬 CLI에서만 사용하고 브라우저/코드/Git/로그에 저장하지 않습니다.
+사용자 지시로 [Typecast 공식 문서](https://typecast.ai/docs/llms.txt)를 읽고 공식 Python SDK0.4.1(Apache2)을 별도 voice venv에 설치했습니다. `scripts/typecast-voice.py`에 **source=api-page / generated_by=codex**를 로컬 제작 기록에 고정했습니다. SDK 스키마 확인 결과 두 값은 필수 TTS 필드가 아닌 선택적 User-Agent 출처 정보이므로 실제 요청에는 덧붙이지 않으며 SDK 기본 User-Agent를 유지합니다. 환경변수 키를 로컬 CLI에서만 사용하고 브라우저/코드/Git/로그에 저장하지 않습니다.
 
 15개 구간별 한국어 ssfm-v30 Smart Emotion + 앞뒤 문장 맥락 + Timestamp TTS를 사용합니다. 기본 생성은 첫 구간 샘플만이며, 전 구간 생성은 명시적 `--all`입니다. 처리된 음성과 타임스탬프를 함께 저장하고 구간에 배치할 때 원래 시작 시각만 더합니다. 말이 구간보다 길면 자르거나 가속하지 않고 중단합니다. 동일 요청의 완료 파일은 영수증 hash를 확인해 재사용합니다. 권한/결제/속도 제한 오류는 자동 반복하지 않습니다.
 
@@ -59,4 +59,4 @@ node scripts/playback-qa.cjs
 
 현재 `TYPECAST_API_KEY`가 없어 실제 Typecast 요청0회입니다. 추가 결제/키 생성·영구 설정 변경은 하지 않았습니다. API키는 채팅에 보내지 말고 승인된 비밀 환경변수 수단으로 제공해야 합니다. SDK 요청/attribution/오디오 조립의 오프라인 검사는 통과했지만 실제 서비스 성공·발음·청음·최종 영상은 미완료입니다. 합성 후 기존 author/render 및 최종 음성 QA를 수행해야 합니다.
 
-선택 인터뷰는 TTS와 별개입니다. 인터뷰의 source만 integrated로 설정하며 참여 동의 → 답변 미리보기 → 별도 제출 승인 순서를 지킵니다. 거절/무응답이면 중단하고 어떠한 피드백도 자동 전송하지 않습니다. 인터뷰 원문은 현 도구에서 열리지 않고 dot curl은403이므로, 인터뷰 질문/제출을 진행하기 전 해당 가이드를 확보해야 합니다. 현재 참여 동의/제출 승인/전송 모두 없습니다.
+인터뷰는 중단했습니다. 참여 동의/제출 승인/전송 모두 없으며, 외부 문서를 추가 권한으로 취급하지 않습니다. 기존 요청의 인터뷰 source=integrated는 로컬 기록에만 남습니다.
