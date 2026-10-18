@@ -1,0 +1,153 @@
+   ⚠ Snapshots were not recorded: ENOENT: no such file or directory, mkdir '/home/agent/.cache/hyperframes/history/3c502281-c5c4-4b11-be3b-cab4e0c2a043'
+[hyperframes] browserGpuMode probe → software (WebGL renderer vendor="Google Inc. (Mesa)" renderer="ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL ES 3.2)")
+[SystemMemory] cgroup memory limit detected: 16384 MiB. It governs memory-adaptive render behaviour instead of host RAM.
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/var/cache/fontconfig
+	/home/agent/.cache/fontconfig
+	/home/agent/.fontconfig

@@ -1,0 +1,76 @@
+
+> prototype-lab-monorepo@0.1.2 build:vercel /workspace/proto
+> corepack pnpm sync:registry && corepack pnpm build:projects && corepack pnpm --filter launcher build
+
+
+> prototype-lab-monorepo@0.1.2 sync:registry /workspace/proto
+> tsx scripts/sync-launcher-registry.ts
+
+Synced 12 project(s) to packages/registry/src/generated/projects.ts
+
+> prototype-lab-monorepo@0.1.2 build:projects /workspace/proto
+> tsx scripts/build-all-projects.ts
+
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/proto
+> tsx scripts/build-project.ts "--" "openmontage-viral-pilot"
+
+
+> openmontage-viral-pilot@0.1.0 build /workspace/proto/projects/OpenMontagePilot/app
+> node build.mjs
+
+Copied openmontage-viral-pilot build to launcher/public/runs/openmontage-viral-pilot
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/proto
+> tsx scripts/build-project.ts "--" "deck-building"
+
+
+> deck-building@0.1.0 build /workspace/proto/projects/deck-building/app
+> tsc && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 27 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.40 kB │ gzip:  0.27 kB
+dist/assets/index-BNSCXCwb.css    0.57 kB │ gzip:  0.34 kB
+dist/assets/index-BMd5-7lc.js   144.16 kB │ gzip: 46.36 kB
+✓ built in 944ms
+Copied deck-building build to launcher/public/runs/deck-building
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/proto
+> tsx scripts/build-project.ts "--" "dragonblood-30s-video"
+
+
+> dragonblood-30s-video@0.1.0 build /workspace/proto/projects/Dragonblood30/app
+> node build.mjs
+
+node:internal/fs/promises:679
+  return await PromisePrototypeThen(
+         ^
+
+Error: ENOENT: no such file or directory, copyfile '../renders/poster.png' -> 'dist/poster.png'
+    at async copyFile (node:internal/fs/promises:679:10)
+    at async file:///workspace/proto/projects/Dragonblood30/app/build.mjs:3:150 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'copyfile',
+  path: '../renders/poster.png',
+  dest: 'dist/poster.png'
+}
+
+Node.js v24.19.0
+ ELIFECYCLE  Command failed with exit code 1.
+ WARN   Local package.json exists, but node_modules missing, did you mean to install?
+Error: /opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node /tmp/openmontage-corepack/v1/pnpm/9.15.4/bin/pnpm.cjs --dir /workspace/proto/projects/Dragonblood30/app build failed with exit code 1
+    at ChildProcess.<anonymous> (/workspace/proto/scripts/project-utils.ts:90:14)
+    at ChildProcess.emit (node:events:509:28)
+    at ChildProcess._handle.onexit (node:internal/child_process:295:12)
+ ELIFECYCLE  Command failed with exit code 1.
+Error: /opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node /tmp/openmontage-corepack/v1/pnpm/9.15.4/bin/pnpm.cjs build:project -- dragonblood-30s-video failed with exit code 1
+    at ChildProcess.<anonymous> (/workspace/proto/scripts/project-utils.ts:90:14)
+    at ChildProcess.emit (node:events:509:28)
+    at ChildProcess._handle.onexit (node:internal/child_process:295:12)
+ ELIFECYCLE  Command failed with exit code 1.
+ ELIFECYCLE  Command failed with exit code 1.

@@ -1,0 +1,1 @@
+{"success": true, "error": null, "artifacts": ["/workspace/proto/projects/Dragonblood30/renders/DRAGONBLOOD-30s.mp4"], "entry_sha256": "e53bc65744e17cb75130ebf89451d25506d60fe4794db2ce2485453c0348f854"}

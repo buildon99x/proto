@@ -1,0 +1,31 @@
+   Compiling proc-macro2 v1.0.106
+   Compiling unicode-ident v1.0.24
+   Compiling quote v1.0.45
+   Compiling godot-bindings v0.5.3
+   Compiling gdextension-api v0.5.0
+   Compiling nanoserde-derive v0.2.1
+   Compiling heck v0.5.0
+   Compiling serde_core v1.0.228
+   Compiling libc v0.2.186
+   Compiling syn v2.0.117
+   Compiling zmij v1.0.21
+   Compiling nanoserde v0.2.1
+   Compiling godot-codegen v0.5.3
+   Compiling serde v1.0.228
+   Compiling thiserror v2.0.18
+   Compiling serde_json v1.0.150
+   Compiling godot-macros v0.5.3
+   Compiling itoa v1.0.18
+   Compiling memchr v2.8.2
+   Compiling serde_derive v1.0.228
+   Compiling thiserror-impl v2.0.18
+   Compiling venial v0.6.1
+   Compiling godot-cell v0.5.3
+   Compiling godot-ffi v0.5.3
+   Compiling godot-core v0.5.3
+   Compiling glam v0.32.1
+   Compiling dragonblood-core v0.1.0 (/workspace/cb-ll-video-source/crates/core)
+   Compiling dragonblood-content v0.1.0 (/workspace/cb-ll-video-source/crates/content)
+   Compiling godot v0.5.3
+   Compiling dragonblood-godot v0.1.0 (/workspace/cb-ll-video-source/crates/godot-ext)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 47.42s

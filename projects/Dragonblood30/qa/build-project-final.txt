@@ -1,0 +1,9 @@
+
+> prototype-lab-monorepo@0.1.2 build:project /workspace/proto
+> tsx scripts/build-project.ts "--" "dragonblood-30s-video"
+
+
+> dragonblood-30s-video@0.1.0 build /workspace/proto/projects/Dragonblood30/app
+> node build.mjs
+
+Copied dragonblood-30s-video build to launcher/public/runs/dragonblood-30s-video

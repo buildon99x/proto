@@ -1,0 +1,30 @@
+{
+  "operation": "FFmpeg audio-only postprocess after OpenMontage HyperFrames render",
+  "command": [
+    "ffmpeg",
+    "-hide_banner",
+    "-y",
+    "-i",
+    "/workspace/proto/projects/Dragonblood30/renders/DRAGONBLOOD-30s.mp4",
+    "-c:v",
+    "copy",
+    "-af",
+    "volume=2",
+    "-c:a",
+    "aac",
+    "-b:a",
+    "192k",
+    "-t",
+    "30",
+    "-movflags",
+    "+faststart",
+    "/workspace/proto/projects/Dragonblood30/renders/.audio-finish.mp4"
+  ],
+  "gain_db": 6.020599913279624,
+  "input_sha256": "64efb7ce92231adb6c72fff73c9337e5b3091288d82151e194d94721ff8364da",
+  "output_sha256": "5bc06fb56785646a0a32268949b326ba5e65d043b47138da54281e4144b5d63f",
+  "video_stream_hash_before": "SHA256=fade60721943b64894f22536612a1fe2536d952f27d2b2722b2e246bf9024ee5",
+  "video_stream_hash_after": "SHA256=fade60721943b64894f22536612a1fe2536d952f27d2b2722b2e246bf9024ee5",
+  "rendered_video_bitstream_preserved": true,
+  "reason": "Measured original score was -27.1 LUFS-I / -10.9 dBTP; raise original edit-only score without clipping or rerendering visuals."
+}

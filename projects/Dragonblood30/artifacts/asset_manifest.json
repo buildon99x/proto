@@ -1,0 +1,13 @@
+{
+  "anchor": "actual user-authorized cb-ll gameplay at6b0b1e42",
+  "selected_clips": "artifacts/edit_decisions.json",
+  "detail_crop_manifest": "artifacts/detail-crops.json",
+  "support_assets": [
+    "bespoke Korean type/HTML/GSAP",
+    "original editorial-score.wav",
+    "Noto font subset"
+  ],
+  "generated_character_art": false,
+  "game_audio_available": false,
+  "audio_provenance": "artifacts/audio-provenance.json"
+}

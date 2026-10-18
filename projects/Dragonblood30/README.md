@@ -16,7 +16,7 @@
 
 ## 기존 설치 재사용과 출처
 
-기존 OpenMontage `e45f5b12bd46440b04f3675af9a77d0718e6a254`(AGPL-3.0), HyperFrames0.8.157(Apache-2.0), GSAP3.15.0(Standard no-charge), FFmpeg7.1.5, Chromium151, Godot4.6.3를 재사용했습니다. OpenMontage의 **hybrid / source-led** 경로를 검토하고 실제 `hyperframes_compose.render_existing` registry 호출로 최종 렌더했습니다. 렌더 영수증과 검사 결과는 `artifacts/receipt_hyperframes_compose.json`에 보존합니다. 이전 캐릭터 코미디의 artwork·motion QA·청음 상태를 이번 결과의 근거로 사용하지 않습니다.
+기존 OpenMontage `e45f5b12bd46440b04f3675af9a77d0718e6a254`(AGPL-3.0), HyperFrames0.8.157(Apache-2.0), GSAP3.15.0(Standard no-charge), FFmpeg7.1.5, Chromium151, Godot4.6.3를 재사용했습니다. OpenMontage의 **hybrid / source-led** 경로를 검토하고 실제 `hyperframes_compose.render_existing` registry 호출로 최종 렌더했습니다. 렌더 뒤 `finish-audio.py`가 원본 영상용 score만 +6.02dB 조정하며 H.264 비트스트림 SHA 동일을 검사합니다. 프레임 재렌더나 런타임 변경은 없습니다. 렌더 영수증과 검사 결과는 `artifacts/receipt_hyperframes_compose.json`에 보존합니다. 이전 캐릭터 코미디의 artwork·motion QA·청음 상태를 이번 결과의 근거로 사용하지 않습니다.
 
 잠금 의존성 godot0.5.3이 요구하는 Rust1.94.0을 공식 rustup 경로에서 `/workspace/dragonblood-{cargo,rustup}`에 설치했습니다. 원본 게임 저장 경로는 건드리지 않고 캡처용 XDG data/config/cache/state를 따로 두었습니다. 기존 Xorg dummy 디스플레이를 사용해 별도 시스템 패키지 설치는 필요하지 않았습니다. `artifacts/install-review.json`과 빌드 로그를 참조하세요.
 

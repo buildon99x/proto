@@ -1,0 +1,18 @@
+◆  Capturing 9 frames at [0.7s, 4.8s, 9.5s, 12.5s, 15s, 17.4s, 20.6s, 23.4s, 28.2s] from hyperframes
+
+   Fonts: 1 loaded
+   Note: added an end-of-timeline frame at 29.10s. Short beats between your --at times may still be skipped — pass them explicitly.
+
+◇  10 snapshots saved to /workspace/proto/projects/Dragonblood30/hyperframes/.hyperframes/artifacts/snapshots/d2e2487d-3713-4598-84b0-17afccdf5135
+   .hyperframes/artifacts/snapshots/d2e2487d-3713-4598-84b0-17afccdf5135/frame-00-at-0.7s.png
+   .hyperframes/artifacts/snapshots/d2e2487d-3713-4598-84b0-17afccdf5135/frame-01-at-4.8s.png
+   .hyperframes/artifacts/snapshots/d2e2487d-3713-4598-84b0-17afccdf5135/frame-02-at-9.5s.png
+   .hyperframes/artifacts/snapshots/d2e2487d-3713-4598-84b0-17afccdf5135/frame-03-at-12.5s.png
+   .hyperframes/artifacts/snapshots/d2e2487d-3713-4598-84b0-17afccdf5135/frame-04-at-15s.png
+   .hyperframes/artifacts/snapshots/d2e2487d-3713-4598-84b0-17afccdf5135/frame-05-at-17.4s.png
+   .hyperframes/artifacts/snapshots/d2e2487d-3713-4598-84b0-17afccdf5135/frame-06-at-20.6s.png
+   .hyperframes/artifacts/snapshots/d2e2487d-3713-4598-84b0-17afccdf5135/frame-07-at-23.4s.png
+   .hyperframes/artifacts/snapshots/d2e2487d-3713-4598-84b0-17afccdf5135/frame-08-at-28.2s.png
+   .hyperframes/artifacts/snapshots/d2e2487d-3713-4598-84b0-17afccdf5135/frame-09-at-29.1s.png
+   /workspace/proto/projects/Dragonblood30/hyperframes/.hyperframes/artifacts/snapshots/d2e2487d-3713-4598-84b0-17afccdf5135/contact-sheet-1.jpg (grid view for AI review)
+   /workspace/proto/projects/Dragonblood30/hyperframes/.hyperframes/artifacts/snapshots/d2e2487d-3713-4598-84b0-17afccdf5135/contact-sheet-2.jpg (grid view for AI review)

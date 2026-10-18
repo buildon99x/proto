@@ -1,0 +1,21 @@
+{
+  "operation": "create_library_file",
+  "status": "succeeded",
+  "path": "/DRAGONBLOOD-30s.mp4",
+  "file_id": "file_000000007eb881f59f2c5fe54ac9f295",
+  "library_file_id": "libfile_ce0f3538e9908191ab22be8720631fe8",
+  "file_name": "DRAGONBLOOD-30s.mp4",
+  "current_version_number": 0,
+  "restored_from_version_number": null,
+  "xattrs": [
+    {
+      "name": "user.library-file-version",
+      "value": "0"
+    }
+  ],
+  "directory_id": "libdir_545fd9f0039c81918b827f1a1caf9403",
+  "mime_type": "video/mp4",
+  "library_artifact_type": "other",
+  "file_size_bytes": 14177069,
+  "external_connectors_accessed": false
+}

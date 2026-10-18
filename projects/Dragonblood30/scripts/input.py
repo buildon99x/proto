@@ -8,6 +8,6 @@ from cockpit import send
 D=P/'capture-session';D.mkdir(exist_ok=True)
 cmd=json.loads(sys.argv[1]);at=time.time()
 r=send(str(D),cmd,timeout=60)
-with (P/'artifacts/input-events.jsonl').open('a') as f:f.write(json.dumps({'wall_time':at,'command':cmd,'receipt':r},ensure_ascii=False)+'\n')
+with Path(os.environ.get('INPUT_LOG_PATH',str(P/'artifacts/input-events.jsonl'))).open('a') as f:f.write(json.dumps({'wall_time':at,'command':cmd,'receipt':r},ensure_ascii=False)+'\n')
 print(json.dumps(r,ensure_ascii=False))
 if not r.get('ok',False):raise SystemExit(1)

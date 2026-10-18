@@ -1,0 +1,36 @@
+{
+  "pipeline": "hybrid",
+  "tool": "OpenMontage registry hyperframes_compose.render_existing",
+  "render_runtime_used": "hyperframes",
+  "runtime_swap_detected": false,
+  "duration_seconds": 30,
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "authored_entry_preserved": true,
+  "postprocess": "audio-only gain2, H264 bitstream preserved",
+  "final_sha256": "5bc06fb56785646a0a32268949b326ba5e65d043b47138da54281e4144b5d63f",
+  "total_api_cost_usd": 0,
+  "hyperframes_motion_check": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "actual_motion_evidence": "qa/metrics.json + 14 decoded frames visually inspected",
+  "actual_playback": {
+    "currentTime": 30,
+    "paused": true,
+    "readyState": 4,
+    "videoWidth": 1080,
+    "videoHeight": 1920,
+    "duration": 30,
+    "muted": false,
+    "ended": true,
+    "error": null
+  },
+  "audio_listening": "not performed"
+}

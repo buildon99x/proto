@@ -1,0 +1,5 @@
+
+> prototype-lab-monorepo@0.1.2 sync:registry /workspace/proto
+> tsx scripts/sync-launcher-registry.ts
+
+Synced 12 project(s) to packages/registry/src/generated/projects.ts

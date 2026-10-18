@@ -1,0 +1,4 @@
+provenance gate selftest: 26 cases OK
+프로비넌스 기록 552종(사이드카 + combat_v2 manifest 엔트리) · 08 양식 12필드
+  이연(unrecorded) 집계: godot/assets=59, godot/assets/combat_v2=100, tools/card-pipeline=449, tools/creature-pipeline=46, tools/ui-pipeline=137
+전부 PASS ✅

@@ -1,0 +1,31 @@
+Initialize godot-rust (API v4.6.stable.official, runtime v4.6.3.stable.official, safeguards strict)
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+SHOT shot-001-title.png err=0 size=1280x720
+SHOT shot-002-settings.png err=0 size=1280x720
+SHOT shot-003-choose-house.png err=0 size=1280x720
+SHOT shot-004-volgrim-house.png err=0 size=1280x720
+SHOT shot-005-pyrren-house.png err=0 size=1280x720
+SHOT shot-006-starter-choice.png err=0 size=1280x720
+SHOT shot-007-map-choice.png err=0 size=1280x720
+SHOT shot-008-reward-cards.png err=0 size=1280x720
+SHOT shot-009-thunder-reward-selected.png err=0 size=1280x720
+SHOT shot-009-branch-map.png err=0 size=1280x720
+SHOT shot-010-branch-hover.png err=0 size=1280x720
+SHOT shot-010-combat-opening.png err=0 size=1280x720
+SHOT shot-011-static-claw-hover.png err=0 size=1280x720
+SHOT shot-011-target-choice.png err=0 size=1280x720
+SHOT shot-011-claw-impact-result.png err=0 size=1280x720
+SHOT shot-012-guard-buff-hover.png err=0 size=1280x720
+SHOT shot-012-guard-buff-result.png err=0 size=1280x720
+SHOT shot-013-buffed-attack-target.png err=0 size=1280x720
+SHOT shot-013-buffed-attack-result.png err=0 size=1280x720
+SHOT shot-014-second-turn.png err=0 size=1280x720
+SHOT shot-015-thunder-target.png err=0 size=1280x720
+SHOT shot-015-thunder-result.png err=0 size=1280x720
+SHOT shot-016-third-turn.png err=0 size=1280x720
+SHOT shot-017-third-turn-buff.png err=0 size=1280x720
+SHOT shot-017-enemy-defeated.png err=0 size=1280x720

@@ -1,0 +1,27 @@
+{
+  "pid": 2945,
+  "command": [
+    "godot",
+    "--path",
+    "/workspace/cb-ll-video-source/godot",
+    "--resolution",
+    "1280x720",
+    "--position",
+    "0,0",
+    "--rendering-method",
+    "gl_compatibility",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "res://tests/cockpit.gd",
+    "--log-file",
+    "/workspace/proto/projects/Dragonblood30/qa/gameplay-godot.txt"
+  ],
+  "XDG_isolation": {
+    "XDG_DATA_HOME": "/workspace/proto/projects/Dragonblood30/capture-userdata/data",
+    "XDG_CONFIG_HOME": "/workspace/proto/projects/Dragonblood30/capture-userdata/config",
+    "XDG_CACHE_HOME": "/workspace/proto/projects/Dragonblood30/capture-userdata/cache",
+    "XDG_STATE_HOME": "/workspace/proto/projects/Dragonblood30/capture-userdata/state"
+  },
+  "original_HOME_untouched": true
+}

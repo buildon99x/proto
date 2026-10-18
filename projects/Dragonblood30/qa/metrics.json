@@ -1,0 +1,74 @@
+{
+  "checks": {
+    "dimensions": true,
+    "fps": true,
+    "frames": true,
+    "duration": true,
+    "video_codec": true,
+    "pixel_format": true,
+    "audio_codec": true,
+    "audio_stereo": true,
+    "actual_gameplay_motion": true,
+    "gameplay_visible": true,
+    "audio_no_clipping": true,
+    "audio_present": true,
+    "previous_15s_preserved": true
+  },
+  "pass": true,
+  "main_game_region": [
+    28,
+    639,
+    1024,
+    576
+  ],
+  "gameplay_motion_pairs": [
+    {
+      "from": 0.7,
+      "to": 1.7,
+      "mean_absolute_delta": 26.741556803385418
+    },
+    {
+      "from": 4.8,
+      "to": 6.6,
+      "mean_absolute_delta": 19.191538492838543
+    },
+    {
+      "from": 20.6,
+      "to": 21.4,
+      "mean_absolute_delta": 9.940096819842303
+    },
+    {
+      "from": 23.4,
+      "to": 24.6,
+      "mean_absolute_delta": 17.209570990668404
+    },
+    {
+      "from": 28.2,
+      "to": 29.1,
+      "mean_absolute_delta": 13.048155042860243
+    }
+  ],
+  "decoded_audio_peak_dbfs": -4.940852052444756,
+  "decoded_audio_rms_dbfs": -22.811828267418903,
+  "clipped_samples": 0,
+  "audio_listening": "not performed; numerical checks only",
+  "prior_15s_sha256": "15456583ba806c5fbb41a8b6ac75006169e34f4f8aab502c7dcb6ec8b4656ad5",
+  "final_sha256": "5bc06fb56785646a0a32268949b326ba5e65d043b47138da54281e4144b5d63f",
+  "frame_sample_times": [
+    0.7,
+    1.7,
+    4.8,
+    6.6,
+    9.5,
+    12.5,
+    15,
+    17.4,
+    20.6,
+    21.4,
+    23.4,
+    24.6,
+    28.2,
+    29.1
+  ],
+  "note": "These measured deltas exclude titles/GSAP overlays. Actual visual inspection and playback are separate. HyperFrames motion disabled/samples0 must not be treated as a motion pass."
+}

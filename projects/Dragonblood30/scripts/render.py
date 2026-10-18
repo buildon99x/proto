@@ -9,3 +9,7 @@ r=registry._tools['hyperframes_compose'].execute({'operation':'render_existing',
 print(json.dumps({'success':r.success,'error':r.error,'artifacts':r.artifacts,'entry_sha256':original},ensure_ascii=False))
 if not r.success:sys.exit(1)
 assert hashlib.sha256((P/'hyperframes/index.html').read_bytes()).hexdigest()==original
+
+# Final audio-only mastering is separate and preserves the rendered H.264 stream.
+import subprocess
+subprocess.run([sys.executable,str(P/'scripts/finish-audio.py')],check=True)

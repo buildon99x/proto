@@ -1,0 +1,1774 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ERROR: Cannot open file 'res://data/lobby.en.translation'.
+   at: load (core/io/resource_format_binary.cpp:1220)
+ERROR: Failed loading resource: res://data/lobby.en.translation.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Cannot open file 'res://data/lobby.ja.translation'.
+   at: load (core/io/resource_format_binary.cpp:1220)
+ERROR: Failed loading resource: res://data/lobby.ja.translation.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Cannot open file 'res://data/lobby.en.translation'.
+   at: load (core/io/resource_format_binary.cpp:1220)
+ERROR: Failed loading resource: res://data/lobby.en.translation.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Cannot open file 'res://data/lobby.ja.translation'.
+   at: load (core/io/resource_format_binary.cpp:1220)
+ERROR: Failed loading resource: res://data/lobby.ja.translation.
+   at: _load (core/io/resource_loader.cpp:343)
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+Initialize godot-rust (API v4.6.stable.official, runtime v4.6.3.stable.official, safeguards strict)
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (133 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   4% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   9% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  14% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  14% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  17% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  17% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  19% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  22% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  24% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  27% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  29% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  29% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  31% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  34% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  37% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  39% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  42% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  45% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  49% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  54% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  57% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  59% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  62% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  65% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  72% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  74% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | ShotsMapConcepts[39m[0m
+[  77% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  79% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  79% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  82% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  82% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  96% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  97% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  97% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  98% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (531 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | horned-brute.png[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | orb-sentinel.png[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | void-storm-sovereign.png[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | volgrim-heir.png[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | atmosphere.svg[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | bg_far.svg[39m[0m
+[   1% ] [90m[1m_update_scan_actions[22m | bg_floor.svg[39m[0m
+[   1% ] [90m[1m_update_scan_actions[22m | bg_mid.svg[39m[0m
+[   1% ] [90m[1m_update_scan_actions[22m | boundary.png[39m[0m
+[   1% ] [90m[1m_update_scan_actions[22m | distant.png[39m[0m
+[   1% ] [90m[1m_update_scan_actions[22m | ground.png[39m[0m
+[   2% ] [90m[1m_update_scan_actions[22m | mid.png[39m[0m
+[   2% ] [90m[1m_update_scan_actions[22m | sky.png[39m[0m
+[   2% ] [90m[1m_update_scan_actions[22m | atmosphere.svg[39m[0m
+[   2% ] [90m[1m_update_scan_actions[22m | bg_far.svg[39m[0m
+[   2% ] [90m[1m_update_scan_actions[22m | bg_floor.svg[39m[0m
+[   3% ] [90m[1m_update_scan_actions[22m | bg_mid.svg[39m[0m
+[   3% ] [90m[1m_update_scan_actions[22m | bg_far.png[39m[0m
+[   3% ] [90m[1m_update_scan_actions[22m | bg_master.png[39m[0m
+[   3% ] [90m[1m_update_scan_actions[22m | boundary.png[39m[0m
+[   3% ] [90m[1m_update_scan_actions[22m | distant.png[39m[0m
+[   3% ] [90m[1m_update_scan_actions[22m | ground.png[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | mid.png[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | sky.png[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | bg_master.png[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | boundary.png[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | distant.png[39m[0m
+[   5% ] [90m[1m_update_scan_actions[22m | ground.png[39m[0m
+[   5% ] [90m[1m_update_scan_actions[22m | mid.png[39m[0m
+[   5% ] [90m[1m_update_scan_actions[22m | sky.png[39m[0m
+[   5% ] [90m[1m_update_scan_actions[22m | boundary.png[39m[0m
+[   5% ] [90m[1m_update_scan_actions[22m | distant.png[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | foreground.png[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | ground.png[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | mid.png[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | seam.png[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | sky.png[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | atmosphere.svg[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | bg_far.svg[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | bg_floor.svg[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | bg_mid.svg[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | act1-stormmarch.png[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | act2-frostreach.png[39m[0m
+[   8% ] [90m[1m_update_scan_actions[22m | act3-stormapex.png[39m[0m
+[   8% ] [90m[1m_update_scan_actions[22m | title-v2.png[39m[0m
+[   8% ] [90m[1m_update_scan_actions[22m | title.png[39m[0m
+[   8% ] [90m[1m_update_scan_actions[22m | storm-attack.png[39m[0m
+[   8% ] [90m[1m_update_scan_actions[22m | storm-foresight.png[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | storm-guard.png[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | storm-power.png[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | chain-lightning.png[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | ember-fang.svg[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | ember-shroud.svg[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | eye-of-storm.png[39m[0m
+[  10% ] [90m[1m_update_scan_actions[22m | frost-veil.svg[39m[0m
+[  10% ] [90m[1m_update_scan_actions[22m | glacial-aegis.svg[39m[0m
+[  10% ] [90m[1m_update_scan_actions[22m | molten-scales.svg[39m[0m
+[  10% ] [90m[1m_update_scan_actions[22m | morwen-guard.png[39m[0m
+[  10% ] [90m[1m_update_scan_actions[22m | morwen-guard.svg[39m[0m
+[  11% ] [90m[1m_update_scan_actions[22m | morwen-strike.png[39m[0m
+[  11% ] [90m[1m_update_scan_actions[22m | morwen-strike.svg[39m[0m
+[  11% ] [90m[1m_update_scan_actions[22m | pyrren-guard.png[39m[0m
+[  11% ] [90m[1m_update_scan_actions[22m | pyrren-guard.svg[39m[0m
+[  11% ] [90m[1m_update_scan_actions[22m | pyrren-strike.png[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | pyrren-strike.svg[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | rime-claw.svg[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | shatter-strike.svg[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | static-claw.png[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | static-claw.svg[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | storm-bond.svg[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | tailwind.png[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | tailwind.svg[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | vaelyx-ascension.svg[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | volgrim-guard.png[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | volgrim-guard.svg[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | volgrim-strike.png[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | volgrim-strike.svg[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | wyrm-fury.svg[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | master.png[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | master.png[39m[0m
+[  15% ] [90m[1m_update_scan_actions[22m | master.png[39m[0m
+[  15% ] [90m[1m_update_scan_actions[22m | enemy-altar_warden.png[39m[0m
+[  15% ] [90m[1m_update_scan_actions[22m | enemy-ashen_knight.png[39m[0m
+[  15% ] [90m[1m_update_scan_actions[22m | enemy-bloodless_zealot.png[39m[0m
+[  15% ] [90m[1m_update_scan_actions[22m | enemy-devourer_cultist.png[39m[0m
+[  15% ] [90m[1m_update_scan_actions[22m | enemy-devourer_spawn.png[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | enemy-ember_drake.png[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | enemy-frenzied_drake.png[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | enemy-frost_serpent.png[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | enemy-frozen_zealot.png[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | enemy-glacial_gargoyle.png[39m[0m
+[  17% ] [90m[1m_update_scan_actions[22m | enemy-glaciun_warden.png[39m[0m
+[  17% ] [90m[1m_update_scan_actions[22m | enemy-ice_wraith.png[39m[0m
+[  17% ] [90m[1m_update_scan_actions[22m | enemy-kargath.png[39m[0m
+[  17% ] [90m[1m_update_scan_actions[22m | enemy-morwen_heir.png[39m[0m
+[  17% ] [90m[1m_update_scan_actions[22m | enemy-morwen_squire.png[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | enemy-pyrren_champion.png[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | enemy-rimebound_warden.png[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | enemy-rime_serpent.png[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | enemy-rime_whelp.png[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | enemy-rime_wyvern.png[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | enemy-stone_gargoyle.png[39m[0m
+[  19% ] [90m[1m_update_scan_actions[22m | enemy-storm_shade.png[39m[0m
+[  19% ] [90m[1m_update_scan_actions[22m | enemy-storm_whelp.png[39m[0m
+[  19% ] [90m[1m_update_scan_actions[22m | enemy-turned_heir.png[39m[0m
+[  19% ] [90m[1m_update_scan_actions[22m | enemy-vaelyx.png[39m[0m
+[  19% ] [90m[1m_update_scan_actions[22m | enemy-void_wyrm.png[39m[0m
+[  20% ] [90m[1m_update_scan_actions[22m | enemy-wild_wyvern.png[39m[0m
+[  20% ] [90m[1m_update_scan_actions[22m | heir-fire.png[39m[0m
+[  20% ] [90m[1m_update_scan_actions[22m | heir-frost.png[39m[0m
+[  20% ] [90m[1m_update_scan_actions[22m | heir-storm.png[39m[0m
+[  20% ] [90m[1m_update_scan_actions[22m | hud-action-v2-source.png[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | hud-action-v2.png[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | hud-auto-turn-v3-source.png[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | hud-auto-turn-v3.png[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | hud-discard-v2-source.png[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | hud-discard-v2.png[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | hud-draw-v2-source.png[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | hud-draw-v2.png[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | hud-end-turn-v3-source.png[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | hud-end-turn-v3.png[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | hud-exhaust-v2-source.png[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | hud-exhaust-v2.png[39m[0m
+[  23% ] [90m[1m_update_scan_actions[22m | intent-frame-v3-source.png[39m[0m
+[  23% ] [90m[1m_update_scan_actions[22m | intent-frame-v3.png[39m[0m
+[  23% ] [90m[1m_update_scan_actions[22m | battlefield-contact-sheet.png[39m[0m
+[  23% ] [90m[1m_update_scan_actions[22m | contact-sheet-128.png[39m[0m
+[  23% ] [90m[1m_update_scan_actions[22m | frostreach-layered-runtime.png[39m[0m
+[  24% ] [90m[1m_update_scan_actions[22m | stormcathedral-layered-runtime.png[39m[0m
+[  24% ] [90m[1m_update_scan_actions[22m | stormhall-layered-runtime.png[39m[0m
+[  24% ] [90m[1m_update_scan_actions[22m | Pretendard-Regular.otf[39m[0m
+[  24% ] [90m[1m_update_scan_actions[22m | Pretendard-SemiBold.otf[39m[0m
+[  24% ] [90m[1m_update_scan_actions[22m | altar_warden.svg[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | ashen_knight.svg[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | bloodless_inquisitor.svg[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | bloodless_zealot.svg[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | devourer_cultist.svg[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | devourer_spawn.svg[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | ember_drake.svg[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | frenzied_drake.svg[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | frostbound_hound.svg[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | frost_serpent.svg[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | frozen_zealot.svg[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | glacial_gargoyle.svg[39m[0m
+[  27% ] [90m[1m_update_scan_actions[22m | glaciun_warden.svg[39m[0m
+[  27% ] [90m[1m_update_scan_actions[22m | ice_wraith.svg[39m[0m
+[  27% ] [90m[1m_update_scan_actions[22m | ignaros.svg[39m[0m
+[  27% ] [90m[1m_update_scan_actions[22m | kargath.svg[39m[0m
+[  27% ] [90m[1m_update_scan_actions[22m | morwen_heir.svg[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | morwen_oracle.svg[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | morwen_squire.svg[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | ossuary_wyrm.svg[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | pyrren_champion.svg[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | rimebound_warden.svg[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | rime_serpent.svg[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | rime_whelp.svg[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | rime_wyvern.svg[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | stone_gargoyle.svg[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | stormwall_colossus.svg[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | storm_shade.svg[39m[0m
+[  30% ] [90m[1m_update_scan_actions[22m | storm_whelp.svg[39m[0m
+[  30% ] [90m[1m_update_scan_actions[22m | sylvaine_outrider.svg[39m[0m
+[  30% ] [90m[1m_update_scan_actions[22m | turned_heir.svg[39m[0m
+[  30% ] [90m[1m_update_scan_actions[22m | vaelyx.svg[39m[0m
+[  30% ] [90m[1m_update_scan_actions[22m | void_maw.svg[39m[0m
+[  31% ] [90m[1m_update_scan_actions[22m | void_wyrm.svg[39m[0m
+[  31% ] [90m[1m_update_scan_actions[22m | wild_wyvern.svg[39m[0m
+[  31% ] [90m[1m_update_scan_actions[22m | boss.svg[39m[0m
+[  31% ] [90m[1m_update_scan_actions[22m | crest-fire.svg[39m[0m
+[  31% ] [90m[1m_update_scan_actions[22m | crest-frost.svg[39m[0m
+[  31% ] [90m[1m_update_scan_actions[22m | crest-storm.svg[39m[0m
+[  32% ] [90m[1m_update_scan_actions[22m | crest-unknown.svg[39m[0m
+[  32% ] [90m[1m_update_scan_actions[22m | deck.svg[39m[0m
+[  32% ] [90m[1m_update_scan_actions[22m | gold.svg[39m[0m
+[  32% ] [90m[1m_update_scan_actions[22m | hp.svg[39m[0m
+[  32% ] [90m[1m_update_scan_actions[22m | map.svg[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | menu.svg[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | potion.svg[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | relic.svg[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | turning.svg[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | attack.png[39m[0m
+[  34% ] [90m[1m_update_scan_actions[22m | attack.svg[39m[0m
+[  34% ] [90m[1m_update_scan_actions[22m | block.png[39m[0m
+[  34% ] [90m[1m_update_scan_actions[22m | block.svg[39m[0m
+[  34% ] [90m[1m_update_scan_actions[22m | buff.png[39m[0m
+[  34% ] [90m[1m_update_scan_actions[22m | buff.svg[39m[0m
+[  34% ] [90m[1m_update_scan_actions[22m | debuff.png[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | debuff.svg[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | disrupt.png[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | heal.svg[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | multi.png[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | multi.svg[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | unknown.svg[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | heir.svg[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | heir_fire.svg[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | heir_frost.svg[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | heir_storm.svg[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | artifact.svg[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | burn.svg[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | chill.svg[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | conductor.svg[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | dexterity.svg[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | frail.svg[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | ritual.svg[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | sparkArmor.svg[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | strength.svg[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | vulnerable.svg[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | weak.svg[39m[0m
+[  39% ] [90m[1m_update_scan_actions[22m | close.svg[39m[0m
+[  39% ] [90m[1m_update_scan_actions[22m | heir-morwen-v6.png[39m[0m
+[  39% ] [90m[1m_update_scan_actions[22m | heir-morwen-v7.png[39m[0m
+[  39% ] [90m[1m_update_scan_actions[22m | heir-pyrren-v6.png[39m[0m
+[  39% ] [90m[1m_update_scan_actions[22m | heir-volgrim-v2.png[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | main-sanctuary-v4.png[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | portrait-morwen-standard-v1.png[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | portrait-pyrren-standard-v3.png[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | portrait-volgrim-standard-v1.png[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | altar_warden-attack.png[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | altar_warden-cast.png[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | altar_warden-defeat.png[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | altar_warden-guard.png[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | altar_warden-hit.png[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | altar_warden-idle.png[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | altar_warden-telegraph.png[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | bloodless_zealot-attack.png[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | bloodless_zealot-cast.png[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | bloodless_zealot-defeat.png[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | bloodless_zealot-guard.png[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | bloodless_zealot-hit.png[39m[0m
+[  43% ] [90m[1m_update_scan_actions[22m | bloodless_zealot-idle.png[39m[0m
+[  43% ] [90m[1m_update_scan_actions[22m | bloodless_zealot-telegraph.png[39m[0m
+[  43% ] [90m[1m_update_scan_actions[22m | ember_drake-attack.png[39m[0m
+[  43% ] [90m[1m_update_scan_actions[22m | ember_drake-cast.png[39m[0m
+[  43% ] [90m[1m_update_scan_actions[22m | ember_drake-defeat.png[39m[0m
+[  43% ] [90m[1m_update_scan_actions[22m | ember_drake-guard.png[39m[0m
+[  44% ] [90m[1m_update_scan_actions[22m | ember_drake-hit.png[39m[0m
+[  44% ] [90m[1m_update_scan_actions[22m | ember_drake-idle.png[39m[0m
+[  44% ] [90m[1m_update_scan_actions[22m | ember_drake-telegraph.png[39m[0m
+[  44% ] [90m[1m_update_scan_actions[22m | frost_serpent-attack.png[39m[0m
+[  44% ] [90m[1m_update_scan_actions[22m | frost_serpent-cast.png[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | frost_serpent-defeat.png[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | frost_serpent-guard.png[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | frost_serpent-hit.png[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | frost_serpent-idle.png[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | frost_serpent-telegraph.png[39m[0m
+[  46% ] [90m[1m_update_scan_actions[22m | gale_whelp-attack.png[39m[0m
+[  46% ] [90m[1m_update_scan_actions[22m | gale_whelp-cast.png[39m[0m
+[  46% ] [90m[1m_update_scan_actions[22m | gale_whelp-defeat.png[39m[0m
+[  46% ] [90m[1m_update_scan_actions[22m | gale_whelp-guard.png[39m[0m
+[  46% ] [90m[1m_update_scan_actions[22m | gale_whelp-hit.png[39m[0m
+[  46% ] [90m[1m_update_scan_actions[22m | gale_whelp-idle.png[39m[0m
+[  47% ] [90m[1m_update_scan_actions[22m | gale_whelp-telegraph.png[39m[0m
+[  47% ] [90m[1m_update_scan_actions[22m | pyrren_champion-attack.png[39m[0m
+[  47% ] [90m[1m_update_scan_actions[22m | pyrren_champion-cast.png[39m[0m
+[  47% ] [90m[1m_update_scan_actions[22m | pyrren_champion-defeat.png[39m[0m
+[  47% ] [90m[1m_update_scan_actions[22m | pyrren_champion-guard.png[39m[0m
+[  48% ] [90m[1m_update_scan_actions[22m | pyrren_champion-hit.png[39m[0m
+[  48% ] [90m[1m_update_scan_actions[22m | pyrren_champion-idle.png[39m[0m
+[  48% ] [90m[1m_update_scan_actions[22m | pyrren_champion-telegraph.png[39m[0m
+[  48% ] [90m[1m_update_scan_actions[22m | stone_gargoyle-attack.png[39m[0m
+[  48% ] [90m[1m_update_scan_actions[22m | stone_gargoyle-cast.png[39m[0m
+[  49% ] [90m[1m_update_scan_actions[22m | stone_gargoyle-defeat.png[39m[0m
+[  49% ] [90m[1m_update_scan_actions[22m | stone_gargoyle-guard.png[39m[0m
+[  49% ] [90m[1m_update_scan_actions[22m | stone_gargoyle-hit.png[39m[0m
+[  49% ] [90m[1m_update_scan_actions[22m | stone_gargoyle-idle.png[39m[0m
+[  49% ] [90m[1m_update_scan_actions[22m | stone_gargoyle-telegraph.png[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | storm_whelp-attack.png[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | storm_whelp-cast.png[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | storm_whelp-defeat.png[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | storm_whelp-guard.png[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | storm_whelp-hit.png[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | storm_whelp-idle.png[39m[0m
+[  51% ] [90m[1m_update_scan_actions[22m | storm_whelp-telegraph.png[39m[0m
+[  51% ] [90m[1m_update_scan_actions[22m | sylvaine_outrider-attack.png[39m[0m
+[  51% ] [90m[1m_update_scan_actions[22m | sylvaine_outrider-cast.png[39m[0m
+[  51% ] [90m[1m_update_scan_actions[22m | sylvaine_outrider-defeat.png[39m[0m
+[  51% ] [90m[1m_update_scan_actions[22m | sylvaine_outrider-guard.png[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | sylvaine_outrider-hit.png[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | sylvaine_outrider-idle.png[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | sylvaine_outrider-telegraph.png[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | wild_wyvern-attack.png[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | wild_wyvern-cast.png[39m[0m
+[  53% ] [90m[1m_update_scan_actions[22m | wild_wyvern-defeat.png[39m[0m
+[  53% ] [90m[1m_update_scan_actions[22m | wild_wyvern-guard.png[39m[0m
+[  53% ] [90m[1m_update_scan_actions[22m | wild_wyvern-hit.png[39m[0m
+[  53% ] [90m[1m_update_scan_actions[22m | wild_wyvern-idle.png[39m[0m
+[  53% ] [90m[1m_update_scan_actions[22m | wild_wyvern-telegraph.png[39m[0m
+[  53% ] [90m[1m_update_scan_actions[22m | heir_fire-attack.png[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | heir_fire-cast.png[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | heir_fire-guard.png[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | heir_fire-hit.png[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | heir_fire-idle.png[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | heir_frost-attack.png[39m[0m
+[  55% ] [90m[1m_update_scan_actions[22m | heir_frost-cast.png[39m[0m
+[  55% ] [90m[1m_update_scan_actions[22m | heir_frost-guard.png[39m[0m
+[  55% ] [90m[1m_update_scan_actions[22m | heir_frost-hit.png[39m[0m
+[  55% ] [90m[1m_update_scan_actions[22m | heir_frost-idle.png[39m[0m
+[  55% ] [90m[1m_update_scan_actions[22m | heir_storm-attack.png[39m[0m
+[  56% ] [90m[1m_update_scan_actions[22m | heir_storm-cast.png[39m[0m
+[  56% ] [90m[1m_update_scan_actions[22m | heir_storm-guard.png[39m[0m
+[  56% ] [90m[1m_update_scan_actions[22m | heir_storm-hit.png[39m[0m
+[  56% ] [90m[1m_update_scan_actions[22m | heir_storm-idle.png[39m[0m
+[  56% ] [90m[1m_update_scan_actions[22m | ancestor_vision.png[39m[0m
+[  56% ] [90m[1m_update_scan_actions[22m | apex_voice.png[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | bloodless_toll.png[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | buried_caravan.png[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | choice-paper-v1.png[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | devourer_bargain.png[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | fallen_heir.png[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | frozen_shrine.png[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | grey_market.png[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | last_camp.png[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | morwen_envoy.png[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | wyrm_altar.png[39m[0m
+[  59% ] [90m[1m_update_scan_actions[22m | ending-ascension.png[39m[0m
+[  59% ] [90m[1m_update_scan_actions[22m | ending-defeat.png[39m[0m
+[  59% ] [90m[1m_update_scan_actions[22m | ending-succession.png[39m[0m
+[  59% ] [90m[1m_update_scan_actions[22m | event.png[39m[0m
+[  59% ] [90m[1m_update_scan_actions[22m | illus-event-forge.png[39m[0m
+[  59% ] [90m[1m_update_scan_actions[22m | illus-event-parley.png[39m[0m
+[  60% ] [90m[1m_update_scan_actions[22m | illus-event-remains.png[39m[0m
+[  60% ] [90m[1m_update_scan_actions[22m | illus-event-rite.png[39m[0m
+[  60% ] [90m[1m_update_scan_actions[22m | illus-event-sanctuary.png[39m[0m
+[  60% ] [90m[1m_update_scan_actions[22m | illus-shop-merchant.png[39m[0m
+[  60% ] [90m[1m_update_scan_actions[22m | illus-treasure-open.png[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | rest.png[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | treasure.png[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | atlas.png[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | banner.png[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | combat.png[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | token.png[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | token_mask.png[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | boss.png[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | combat.png[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | elite.png[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | event.png[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | medallion-start.png[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | rest.png[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | shop.png[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | treasure.png[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | background.png[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | brew.png[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | card.png[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | excavate.png[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | flame.png[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | paper-mask.png[39m[0m
+[  65% ] [90m[1m_update_scan_actions[22m | paper.png[39m[0m
+[  65% ] [90m[1m_update_scan_actions[22m | training.png[39m[0m
+[  65% ] [90m[1m_update_scan_actions[22m | brew.svg[39m[0m
+[  65% ] [90m[1m_update_scan_actions[22m | camp.png[39m[0m
+[  65% ] [90m[1m_update_scan_actions[22m | controls.png[39m[0m
+[  65% ] [90m[1m_update_scan_actions[22m | excavate.svg[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | panel-and-card.png[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | paper.png[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | bg.reward.ruined_cathedral.png[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | bg.reward.sky_cyan.png[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | fx.reward.victory_ink.png[39m[0m
+[  67% ] [90m[1m_update_scan_actions[22m | reward.card.png[39m[0m
+[  67% ] [90m[1m_update_scan_actions[22m | reward.gold.png[39m[0m
+[  67% ] [90m[1m_update_scan_actions[22m | reward.key.png[39m[0m
+[  67% ] [90m[1m_update_scan_actions[22m | reward.material.png[39m[0m
+[  67% ] [90m[1m_update_scan_actions[22m | reward.misc.png[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | reward.potion.png[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | reward.relic.png[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | ui.button.secondary-disabled.png[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | ui.button.secondary-hover.png[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | ui.button.secondary-pressed.png[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | ui.button.secondary.png[39m[0m
+[  69% ] [90m[1m_update_scan_actions[22m | ui.reward.blocked.png[39m[0m
+[  69% ] [90m[1m_update_scan_actions[22m | ui.reward.chevron.png[39m[0m
+[  69% ] [90m[1m_update_scan_actions[22m | ui.reward.choice_button-disabled.png[39m[0m
+[  69% ] [90m[1m_update_scan_actions[22m | ui.reward.choice_button-hover.png[39m[0m
+[  69% ] [90m[1m_update_scan_actions[22m | ui.reward.choice_button-pressed.png[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | ui.reward.choice_button.png[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | ui.reward.choice_button_focus.png[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | ui.reward.choice_button_selected-disabled.png[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | ui.reward.choice_button_selected-hover.png[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | ui.reward.choice_button_selected-pressed.png[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | ui.reward.choice_button_selected.png[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | ui.reward.choice_card_frame.png[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | ui.reward.choice_focus.png[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | ui.reward.choice_preview_backdrop.png[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | ui.reward.choice_selected.png[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | ui.reward.claimed.png[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | ui.reward.detail_divider.png[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | ui.reward.detail_panel.png[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | ui.reward.effect_band.png[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | ui.reward.focus_ring.png[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | ui.reward.footer.png[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | ui.reward.header.png[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | ui.reward.list_item.png[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | ui.reward.missing_art.png[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | ui.reward.panel.png[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | ui.reward.retry_error.png[39m[0m
+[  74% ] [90m[1m_update_scan_actions[22m | ui.reward.row_selected.png[39m[0m
+[  74% ] [90m[1m_update_scan_actions[22m | enamel-field-v2.png[39m[0m
+[  74% ] [90m[1m_update_scan_actions[22m | ivory-close-v2.png[39m[0m
+[  74% ] [90m[1m_update_scan_actions[22m | ui.shop.gold_mark.png[39m[0m
+[  74% ] [90m[1m_update_scan_actions[22m | ui.shop.product_plate.png[39m[0m
+[  75% ] [90m[1m_update_scan_actions[22m | ui.shop.seal_mark.png[39m[0m
+[  75% ] [90m[1m_update_scan_actions[22m | presence-screen.png[39m[0m
+[  75% ] [90m[1m_update_scan_actions[22m | sanctuary.png[39m[0m
+[  75% ] [90m[1m_update_scan_actions[22m | potion-blood-draught.png[39m[0m
+[  75% ] [90m[1m_update_scan_actions[22m | potion-conductor-oil.png[39m[0m
+[  75% ] [90m[1m_update_scan_actions[22m | potion-detonation-flask.png[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | potion-elder-ichor.png[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | potion-forge-breath.png[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | potion-fury-blood.png[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | potion-gale-essence.png[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | potion-overload-primer.png[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | potion-rime-nail.png[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | potion-rime-verdict.png[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | potion-scale-tonic.png[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | potion-storm-vial.png[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | potion-tempest-flask.png[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | relic-ancestor-brazier.png[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | relic-ancestor-sigil.png[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | relic-arid-chalice.png[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | relic-ash-salve.png[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | relic-ashen-censer.png[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | relic-ashen-mask.png[39m[0m
+[  79% ] [90m[1m_update_scan_actions[22m | relic-ashfall-scale.png[39m[0m
+[  79% ] [90m[1m_update_scan_actions[22m | relic-ashwind-charm.png[39m[0m
+[  79% ] [90m[1m_update_scan_actions[22m | relic-augurs-disc.png[39m[0m
+[  79% ] [90m[1m_update_scan_actions[22m | relic-barbed-scales.png[39m[0m
+[  79% ] [90m[1m_update_scan_actions[22m | relic-bastion-cogwheel.png[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | relic-blood-fruit.png[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | relic-bloodline-locket.png[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | relic-brimstone-heart.png[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | relic-bulwark-horn.png[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | relic-chained-talon.png[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | relic-chime-of-loss.png[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | relic-cinder-fang.png[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | relic-clotted-vial.png[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | relic-clotting-mass.png[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | relic-conductor-ring.png[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | relic-couriers-seal.png[39m[0m
+[  82% ] [90m[1m_update_scan_actions[22m | relic-covenant-charter.png[39m[0m
+[  82% ] [90m[1m_update_scan_actions[22m | relic-covenant-ration.png[39m[0m
+[  82% ] [90m[1m_update_scan_actions[22m | relic-crimson-rouge.png[39m[0m
+[  82% ] [90m[1m_update_scan_actions[22m | relic-devourer-fang.png[39m[0m
+[  82% ] [90m[1m_update_scan_actions[22m | relic-doomsday-tablet.png[39m[0m
+[  83% ] [90m[1m_update_scan_actions[22m | relic-dragon-flask.png[39m[0m
+[  83% ] [90m[1m_update_scan_actions[22m | relic-dragonhoard-ring.png[39m[0m
+[  83% ] [90m[1m_update_scan_actions[22m | relic-dreamless-salve.png[39m[0m
+[  83% ] [90m[1m_update_scan_actions[22m | relic-elder-fang.png[39m[0m
+[  83% ] [90m[1m_update_scan_actions[22m | relic-elderbone-club.png[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | relic-ember-carapace.png[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | relic-ember-jar.png[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | relic-emberheart-core.png[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | relic-everwinter-lens.png[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | relic-eye-of-the-tempest.png[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | relic-first-blood-charm.png[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | relic-frozen-hourglass.png[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | relic-gale-charm.png[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | relic-glacial-scale.png[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | relic-glaciuns-breath.png[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | relic-glaciuns-embrace.png[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | relic-guild-signet.png[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | relic-hardened-bloodscale.png[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | relic-hearthkeepers-loaf.png[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | relic-heartwood-fruit.png[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | relic-hoard-tithe.png[39m[0m
+[  87% ] [90m[1m_update_scan_actions[22m | relic-hoarfrost-vein.png[39m[0m
+[  87% ] [90m[1m_update_scan_actions[22m | relic-hollow-reliquary.png[39m[0m
+[  87% ] [90m[1m_update_scan_actions[22m | relic-howling-flagon.png[39m[0m
+[  87% ] [90m[1m_update_scan_actions[22m | relic-hungering-tongue.png[39m[0m
+[  87% ] [90m[1m_update_scan_actions[22m | relic-hunters-baldric.png[39m[0m
+[  87% ] [90m[1m_update_scan_actions[22m | relic-ignaros-maw.png[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | relic-lineage-scroll.png[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | relic-mending-scale.png[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | relic-molted-scale.png[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | relic-morwen-crest.png[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | relic-overload-coil.png[39m[0m
+[  89% ] [90m[1m_update_scan_actions[22m | relic-parry-scale.png[39m[0m
+[  89% ] [90m[1m_update_scan_actions[22m | relic-primordial-fruit.png[39m[0m
+[  89% ] [90m[1m_update_scan_actions[22m | relic-progenitor-blood.png[39m[0m
+[  89% ] [90m[1m_update_scan_actions[22m | relic-progenitor-coin.png[39m[0m
+[  89% ] [90m[1m_update_scan_actions[22m | relic-pulsing-heartstone.png[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | relic-pyrren-crest.png[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | relic-quicksilver-hourglass.png[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | relic-reverse-scale.png[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | relic-rime-mirror.png[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | relic-rimeward-buckler.png[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | relic-ripened-heartfruit.png[39m[0m
+[  91% ] [90m[1m_update_scan_actions[22m | relic-river-worn-scale.png[39m[0m
+[  91% ] [90m[1m_update_scan_actions[22m | relic-roaring-shard.png[39m[0m
+[  91% ] [90m[1m_update_scan_actions[22m | relic-salvaged-wrappings.png[39m[0m
+[  91% ] [90m[1m_update_scan_actions[22m | relic-scale-darts.png[39m[0m
+[  91% ] [90m[1m_update_scan_actions[22m | relic-scale-pouch.png[39m[0m
+[  92% ] [90m[1m_update_scan_actions[22m | relic-sealed-covenant.png[39m[0m
+[  92% ] [90m[1m_update_scan_actions[22m | relic-spread-pinions.png[39m[0m
+[  92% ] [90m[1m_update_scan_actions[22m | relic-stone-of-thirst.png[39m[0m
+[  92% ] [90m[1m_update_scan_actions[22m | relic-storm-heart.png[39m[0m
+[  92% ] [90m[1m_update_scan_actions[22m | relic-storm-talon.png[39m[0m
+[  93% ] [90m[1m_update_scan_actions[22m | relic-storm-vial.png[39m[0m
+[  93% ] [90m[1m_update_scan_actions[22m | relic-tail-pendulum.png[39m[0m
+[  93% ] [90m[1m_update_scan_actions[22m | relic-talon-daggers.png[39m[0m
+[  93% ] [90m[1m_update_scan_actions[22m | relic-tempered-scale.png[39m[0m
+[  93% ] [90m[1m_update_scan_actions[22m | relic-tempest-idol.png[39m[0m
+[  93% ] [90m[1m_update_scan_actions[22m | relic-thunder-sigil.png[39m[0m
+[  94% ] [90m[1m_update_scan_actions[22m | relic-tinkers-chest.png[39m[0m
+[  94% ] [90m[1m_update_scan_actions[22m | relic-tribute-chest.png[39m[0m
+[  94% ] [90m[1m_update_scan_actions[22m | relic-triune-candelabrum.png[39m[0m
+[  94% ] [90m[1m_update_scan_actions[22m | relic-twin-candle-sconce.png[39m[0m
+[  94% ] [90m[1m_update_scan_actions[22m | relic-unsealing-knife.png[39m[0m
+[  95% ] [90m[1m_update_scan_actions[22m | relic-vaelyx-eye.png[39m[0m
+[  95% ] [90m[1m_update_scan_actions[22m | relic-volgrim-crest.png[39m[0m
+[  95% ] [90m[1m_update_scan_actions[22m | relic-wardens-horn.png[39m[0m
+[  95% ] [90m[1m_update_scan_actions[22m | relic-whispering-reliquary.png[39m[0m
+[  95% ] [90m[1m_update_scan_actions[22m | relic-windguard-clasp.png[39m[0m
+[  96% ] [90m[1m_update_scan_actions[22m | relic-winterbud-core.png[39m[0m
+[  96% ] [90m[1m_update_scan_actions[22m | relic-wyrm-scale.png[39m[0m
+[  96% ] [90m[1m_update_scan_actions[22m | relic-wyrmbone-plate.png[39m[0m
+[  96% ] [90m[1m_update_scan_actions[22m | relic-wyrmfire-lamp.png[39m[0m
+[  96% ] [90m[1m_update_scan_actions[22m | btn-primary-disabled.png[39m[0m
+[  96% ] [90m[1m_update_scan_actions[22m | btn-primary-hover.png[39m[0m
+[  97% ] [90m[1m_update_scan_actions[22m | btn-primary.png[39m[0m
+[  97% ] [90m[1m_update_scan_actions[22m | btn-secondary-disabled.png[39m[0m
+[  97% ] [90m[1m_update_scan_actions[22m | btn-secondary-hover.png[39m[0m
+[  97% ] [90m[1m_update_scan_actions[22m | btn-secondary.png[39m[0m
+[  97% ] [90m[1m_update_scan_actions[22m | divider-ornament.png[39m[0m
+[  98% ] [90m[1m_update_scan_actions[22m | emblem-title.png[39m[0m
+[  98% ] [90m[1m_update_scan_actions[22m | intent-attack-9s.png[39m[0m
+[  98% ] [90m[1m_update_scan_actions[22m | intent-support-9s.png[39m[0m
+[  98% ] [90m[1m_update_scan_actions[22m | orb-energy.png[39m[0m
+[  98% ] [90m[1m_update_scan_actions[22m | panel-cartouche.png[39m[0m
+[  99% ] [90m[1m_update_scan_actions[22m | panel-raised.png[39m[0m
+[  99% ] [90m[1m_update_scan_actions[22m | pile-back.png[39m[0m
+[  99% ] [90m[1m_update_scan_actions[22m | slot-9s.png[39m[0m
+[  99% ] [90m[1m_update_scan_actions[22m | lobby.csv[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (531 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   1% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   1% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   1% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   1% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   1% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   2% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   2% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   2% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   2% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   2% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   3% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   3% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   3% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   3% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   3% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   3% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   4% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   4% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   4% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   4% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   4% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   5% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   5% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   5% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   5% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   5% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   6% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   6% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   6% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   6% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   6% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   6% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   7% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   7% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   7% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   7% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   7% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   8% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   8% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   8% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   8% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   8% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  10% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  10% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  10% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  10% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  10% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  11% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  11% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  11% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  11% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  11% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  12% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  12% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  12% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  12% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  12% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  12% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  13% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  13% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  13% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  13% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  13% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  14% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  14% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  14% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  14% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  14% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  15% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  15% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  15% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  15% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  15% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  15% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  16% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  16% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  16% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  16% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  16% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  17% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  17% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  17% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  17% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  17% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  19% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  19% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  19% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  19% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  19% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  20% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  20% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  20% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  20% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  20% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  21% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  21% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  21% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  21% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  21% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  21% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  22% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  22% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  22% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  22% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  22% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  23% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  23% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  23% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  23% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  23% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  24% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  24% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  24% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  24% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  24% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  26% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  26% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  26% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  26% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  26% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  27% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  27% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  27% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  27% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  27% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  28% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  28% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  28% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  28% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  28% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  28% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  29% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  29% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  29% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  29% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  29% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  30% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  30% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  30% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  30% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  30% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  31% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  31% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  31% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  31% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  31% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  31% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  32% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  32% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  32% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  32% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  32% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  34% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  34% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  34% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  34% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  34% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  34% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  35% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  35% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  35% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  35% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  35% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  36% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  36% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  36% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  36% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  36% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  38% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  38% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  38% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  38% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  38% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  39% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  39% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  39% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  39% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  39% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  41% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  41% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  41% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  41% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  41% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  42% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  42% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  42% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  42% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  42% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  43% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  43% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  43% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  43% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  43% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  43% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  44% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  44% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  44% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  44% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  44% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  45% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  45% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  45% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  45% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  45% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  46% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  46% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  46% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  46% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  46% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  46% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  47% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  47% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  47% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  47% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  47% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  48% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  48% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  48% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  48% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  48% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  49% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  49% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  49% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  49% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  49% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  51% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  51% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  51% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  51% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  51% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  52% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  52% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  52% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  52% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  52% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  53% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  53% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  53% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  53% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  53% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  53% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  54% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  54% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  54% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  54% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  54% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  55% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  55% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  55% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  55% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  55% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  56% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  56% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  56% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  56% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  56% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  56% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  57% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  57% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  57% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  57% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  57% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  58% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  58% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  58% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  58% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  58% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  59% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  59% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  59% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  59% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  59% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  59% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  60% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  60% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  60% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  60% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  60% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  61% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  61% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  61% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  61% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  61% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  63% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  63% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  63% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  63% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  63% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  64% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  64% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  64% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  64% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  64% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  65% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  65% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  65% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  65% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  65% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  65% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  67% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  67% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  67% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  67% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  67% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  68% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  68% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  68% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  68% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  68% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  68% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  69% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  69% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  69% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  69% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  69% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  70% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  70% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  70% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  70% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  70% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  71% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  71% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  71% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  71% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  71% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  71% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  72% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  72% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  72% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  72% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  72% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  73% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  73% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  73% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  73% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  73% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  74% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  74% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  74% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  74% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  74% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  75% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  75% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  75% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  75% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  75% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  75% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  76% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  76% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  76% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  76% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  76% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  77% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  77% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  77% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  77% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  77% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  78% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  78% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  78% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  78% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  78% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  78% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  79% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  79% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  79% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  79% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  79% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  80% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  80% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  80% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  80% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  80% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  82% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  82% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  82% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  82% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  82% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  83% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  83% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  83% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  83% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  83% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  84% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  84% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  84% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  84% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  84% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  84% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  85% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  85% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  85% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  85% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  85% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  86% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  86% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  86% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  86% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  86% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  87% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  87% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  87% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  87% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  87% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  87% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  88% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  88% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  88% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  88% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  88% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  89% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  89% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  89% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  89% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  89% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  90% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  90% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  90% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  90% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  90% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  90% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  91% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  91% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  91% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  91% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  91% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  92% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  92% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  92% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  92% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  92% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  93% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  93% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  93% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  93% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  93% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  93% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  94% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  94% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  94% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  94% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  94% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  95% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  95% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  95% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  95% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  95% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  96% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  96% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  96% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  96% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  96% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  96% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  97% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  97% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  97% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  97% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  97% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  98% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  98% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  98% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  98% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  98% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  99% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  99% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  99% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  99% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing pre-reimport operations...[39m[0m
+[   0% ] [90m[1mreimport[22m | lobby.csv[39m[0m
+[   0% ] [90m[1mreimport[22m | lobby.csv[39m[0m
+[   0% ] [90m[1mreimport[22m | Pretendard-SemiBold.otf[39m[0m
+[   0% ] [90m[1mreimport[22m | lobby.csv[39m[0m
+[   0% ] [90m[1mreimport[22m | Pretendard-SemiBold.otf[39m[0m
+[   0% ] [90m[1mreimport[22m | Pretendard-Regular.otf[39m[0m
+[   1% ] [90m[1mreimport[22m | controls.png[39m[0m
+[   1% ] [90m[1mreimport[22m | excavate.svg[39m[0m
+[   1% ] [90m[1mreimport[22m | panel-and-card.png[39m[0m
+[   1% ] [90m[1mreimport[22m | paper.png[39m[0m
+[   1% ] [90m[1mreimport[22m | bg.reward.ruined_cathedral.png[39m[0m
+[   2% ] [90m[1mreimport[22m | bg.reward.sky_cyan.png[39m[0m
+[   2% ] [90m[1mreimport[22m | fx.reward.victory_ink.png[39m[0m
+[   2% ] [90m[1mreimport[22m | reward.card.png[39m[0m
+[   2% ] [90m[1mreimport[22m | reward.gold.png[39m[0m
+[   2% ] [90m[1mreimport[22m | reward.key.png[39m[0m
+[   3% ] [90m[1mreimport[22m | reward.material.png[39m[0m
+[   3% ] [90m[1mreimport[22m | reward.misc.png[39m[0m
+[   3% ] [90m[1mreimport[22m | reward.potion.png[39m[0m
+[   3% ] [90m[1mreimport[22m | reward.relic.png[39m[0m
+[   3% ] [90m[1mreimport[22m | ui.button.secondary-disabled.png[39m[0m
+[   3% ] [90m[1mreimport[22m | ui.button.secondary-hover.png[39m[0m
+[   4% ] [90m[1mreimport[22m | camp.png[39m[0m
+[   4% ] [90m[1mreimport[22m | brew.svg[39m[0m
+[   4% ] [90m[1mreimport[22m | training.png[39m[0m
+[   4% ] [90m[1mreimport[22m | paper.png[39m[0m
+[   4% ] [90m[1mreimport[22m | paper-mask.png[39m[0m
+[   5% ] [90m[1mreimport[22m | flame.png[39m[0m
+[   5% ] [90m[1mreimport[22m | excavate.png[39m[0m
+[   5% ] [90m[1mreimport[22m | card.png[39m[0m
+[   5% ] [90m[1mreimport[22m | brew.png[39m[0m
+[   5% ] [90m[1mreimport[22m | background.png[39m[0m
+[   6% ] [90m[1mreimport[22m | treasure.png[39m[0m
+[   6% ] [90m[1mreimport[22m | shop.png[39m[0m
+[   6% ] [90m[1mreimport[22m | rest.png[39m[0m
+[   6% ] [90m[1mreimport[22m | medallion-start.png[39m[0m
+[   6% ] [90m[1mreimport[22m | event.png[39m[0m
+[   6% ] [90m[1mreimport[22m | elite.png[39m[0m
+[   7% ] [90m[1mreimport[22m | ui.shop.gold_mark.png[39m[0m
+[   7% ] [90m[1mreimport[22m | ivory-close-v2.png[39m[0m
+[   7% ] [90m[1mreimport[22m | enamel-field-v2.png[39m[0m
+[   7% ] [90m[1mreimport[22m | ui.reward.row_selected.png[39m[0m
+[   7% ] [90m[1mreimport[22m | ui.reward.retry_error.png[39m[0m
+[   8% ] [90m[1mreimport[22m | ui.reward.panel.png[39m[0m
+[   8% ] [90m[1mreimport[22m | ui.reward.missing_art.png[39m[0m
+[   8% ] [90m[1mreimport[22m | ui.reward.list_item.png[39m[0m
+[   8% ] [90m[1mreimport[22m | ui.reward.header.png[39m[0m
+[   8% ] [90m[1mreimport[22m | ui.reward.footer.png[39m[0m
+[   9% ] [90m[1mreimport[22m | ui.reward.focus_ring.png[39m[0m
+[   9% ] [90m[1mreimport[22m | ui.reward.effect_band.png[39m[0m
+[   9% ] [90m[1mreimport[22m | ui.reward.detail_panel.png[39m[0m
+[   9% ] [90m[1mreimport[22m | ui.reward.detail_divider.png[39m[0m
+[   9% ] [90m[1mreimport[22m | ui.reward.claimed.png[39m[0m
+[   9% ] [90m[1mreimport[22m | ui.reward.choice_selected.png[39m[0m
+[  10% ] [90m[1mreimport[22m | ui.reward.choice_preview_backdrop.png[39m[0m
+[  10% ] [90m[1mreimport[22m | ui.reward.choice_focus.png[39m[0m
+[  10% ] [90m[1mreimport[22m | ui.reward.choice_card_frame.png[39m[0m
+[  10% ] [90m[1mreimport[22m | ui.reward.choice_button_selected.png[39m[0m
+[  10% ] [90m[1mreimport[22m | ui.reward.choice_button_selected-pressed.png[39m[0m
+[  11% ] [90m[1mreimport[22m | ui.reward.choice_button_selected-hover.png[39m[0m
+[  11% ] [90m[1mreimport[22m | ui.reward.choice_button_selected-disabled.png[39m[0m
+[  11% ] [90m[1mreimport[22m | ui.reward.choice_button_focus.png[39m[0m
+[  11% ] [90m[1mreimport[22m | ui.reward.choice_button.png[39m[0m
+[  11% ] [90m[1mreimport[22m | ui.reward.choice_button-pressed.png[39m[0m
+[  12% ] [90m[1mreimport[22m | ui.reward.choice_button-hover.png[39m[0m
+[  12% ] [90m[1mreimport[22m | ui.reward.choice_button-disabled.png[39m[0m
+[  12% ] [90m[1mreimport[22m | ui.reward.chevron.png[39m[0m
+[  12% ] [90m[1mreimport[22m | ui.reward.blocked.png[39m[0m
+[  12% ] [90m[1mreimport[22m | ui.button.secondary.png[39m[0m
+[  12% ] [90m[1mreimport[22m | ui.button.secondary-pressed.png[39m[0m
+[  13% ] [90m[1mreimport[22m | heir_storm-guard.png[39m[0m
+[  13% ] [90m[1mreimport[22m | heir_storm-cast.png[39m[0m
+[  13% ] [90m[1mreimport[22m | heir_storm-attack.png[39m[0m
+[  13% ] [90m[1mreimport[22m | heir_frost-idle.png[39m[0m
+[  13% ] [90m[1mreimport[22m | heir_frost-hit.png[39m[0m
+[  14% ] [90m[1mreimport[22m | heir_frost-guard.png[39m[0m
+[  14% ] [90m[1mreimport[22m | heir_frost-cast.png[39m[0m
+[  14% ] [90m[1mreimport[22m | heir_frost-attack.png[39m[0m
+[  14% ] [90m[1mreimport[22m | heir_fire-idle.png[39m[0m
+[  14% ] [90m[1mreimport[22m | heir_fire-hit.png[39m[0m
+[  15% ] [90m[1mreimport[22m | heir_fire-guard.png[39m[0m
+[  15% ] [90m[1mreimport[22m | heir_fire-cast.png[39m[0m
+[  15% ] [90m[1mreimport[22m | heir_fire-attack.png[39m[0m
+[  15% ] [90m[1mreimport[22m | wild_wyvern-telegraph.png[39m[0m
+[  15% ] [90m[1mreimport[22m | wild_wyvern-idle.png[39m[0m
+[  15% ] [90m[1mreimport[22m | wild_wyvern-hit.png[39m[0m
+[  16% ] [90m[1mreimport[22m | storm_whelp-cast.png[39m[0m
+[  16% ] [90m[1mreimport[22m | storm_whelp-defeat.png[39m[0m
+[  16% ] [90m[1mreimport[22m | storm_whelp-guard.png[39m[0m
+[  16% ] [90m[1mreimport[22m | storm_whelp-hit.png[39m[0m
+[  16% ] [90m[1mreimport[22m | storm_whelp-idle.png[39m[0m
+[  17% ] [90m[1mreimport[22m | storm_whelp-telegraph.png[39m[0m
+[  17% ] [90m[1mreimport[22m | sylvaine_outrider-attack.png[39m[0m
+[  17% ] [90m[1mreimport[22m | sylvaine_outrider-cast.png[39m[0m
+[  17% ] [90m[1mreimport[22m | sylvaine_outrider-defeat.png[39m[0m
+[  17% ] [90m[1mreimport[22m | sylvaine_outrider-guard.png[39m[0m
+[  18% ] [90m[1mreimport[22m | sylvaine_outrider-hit.png[39m[0m
+[  18% ] [90m[1mreimport[22m | sylvaine_outrider-idle.png[39m[0m
+[  18% ] [90m[1mreimport[22m | sylvaine_outrider-telegraph.png[39m[0m
+[  18% ] [90m[1mreimport[22m | wild_wyvern-attack.png[39m[0m
+[  18% ] [90m[1mreimport[22m | wild_wyvern-cast.png[39m[0m
+[  18% ] [90m[1mreimport[22m | wild_wyvern-defeat.png[39m[0m
+[  19% ] [90m[1mreimport[22m | wild_wyvern-guard.png[39m[0m
+[  19% ] [90m[1mreimport[22m | event.png[39m[0m
+[  19% ] [90m[1mreimport[22m | illus-event-forge.png[39m[0m
+[  19% ] [90m[1mreimport[22m | illus-event-parley.png[39m[0m
+[  19% ] [90m[1mreimport[22m | illus-event-remains.png[39m[0m
+[  20% ] [90m[1mreimport[22m | illus-event-rite.png[39m[0m
+[  20% ] [90m[1mreimport[22m | illus-event-sanctuary.png[39m[0m
+[  20% ] [90m[1mreimport[22m | illus-shop-merchant.png[39m[0m
+[  20% ] [90m[1mreimport[22m | illus-treasure-open.png[39m[0m
+[  20% ] [90m[1mreimport[22m | rest.png[39m[0m
+[  21% ] [90m[1mreimport[22m | treasure.png[39m[0m
+[  21% ] [90m[1mreimport[22m | atlas.png[39m[0m
+[  21% ] [90m[1mreimport[22m | banner.png[39m[0m
+[  21% ] [90m[1mreimport[22m | combat.png[39m[0m
+[  21% ] [90m[1mreimport[22m | token.png[39m[0m
+[  21% ] [90m[1mreimport[22m | token_mask.png[39m[0m
+[  22% ] [90m[1mreimport[22m | boss.png[39m[0m
+[  22% ] [90m[1mreimport[22m | combat.png[39m[0m
+[  22% ] [90m[1mreimport[22m | heir_storm-hit.png[39m[0m
+[  22% ] [90m[1mreimport[22m | heir_storm-idle.png[39m[0m
+[  22% ] [90m[1mreimport[22m | ancestor_vision.png[39m[0m
+[  23% ] [90m[1mreimport[22m | apex_voice.png[39m[0m
+[  23% ] [90m[1mreimport[22m | bloodless_toll.png[39m[0m
+[  23% ] [90m[1mreimport[22m | buried_caravan.png[39m[0m
+[  23% ] [90m[1mreimport[22m | choice-paper-v1.png[39m[0m
+[  23% ] [90m[1mreimport[22m | devourer_bargain.png[39m[0m
+[  24% ] [90m[1mreimport[22m | fallen_heir.png[39m[0m
+[  24% ] [90m[1mreimport[22m | frozen_shrine.png[39m[0m
+[  24% ] [90m[1mreimport[22m | grey_market.png[39m[0m
+[  24% ] [90m[1mreimport[22m | last_camp.png[39m[0m
+[  24% ] [90m[1mreimport[22m | morwen_envoy.png[39m[0m
+[  25% ] [90m[1mreimport[22m | wyrm_altar.png[39m[0m
+[  25% ] [90m[1mreimport[22m | ending-ascension.png[39m[0m
+[  25% ] [90m[1mreimport[22m | ending-defeat.png[39m[0m
+[  25% ] [90m[1mreimport[22m | ending-succession.png[39m[0m
+[  25% ] [90m[1mreimport[22m | relic-tail-pendulum.png[39m[0m
+[  25% ] [90m[1mreimport[22m | relic-storm-vial.png[39m[0m
+[  26% ] [90m[1mreimport[22m | relic-storm-talon.png[39m[0m
+[  26% ] [90m[1mreimport[22m | relic-storm-heart.png[39m[0m
+[  26% ] [90m[1mreimport[22m | relic-stone-of-thirst.png[39m[0m
+[  26% ] [90m[1mreimport[22m | relic-spread-pinions.png[39m[0m
+[  26% ] [90m[1mreimport[22m | relic-sealed-covenant.png[39m[0m
+[  27% ] [90m[1mreimport[22m | relic-scale-pouch.png[39m[0m
+[  27% ] [90m[1mreimport[22m | relic-scale-darts.png[39m[0m
+[  27% ] [90m[1mreimport[22m | relic-salvaged-wrappings.png[39m[0m
+[  27% ] [90m[1mreimport[22m | relic-roaring-shard.png[39m[0m
+[  27% ] [90m[1mreimport[22m | relic-river-worn-scale.png[39m[0m
+[  28% ] [90m[1mreimport[22m | relic-ripened-heartfruit.png[39m[0m
+[  28% ] [90m[1mreimport[22m | relic-rimeward-buckler.png[39m[0m
+[  28% ] [90m[1mreimport[22m | relic-rime-mirror.png[39m[0m
+[  28% ] [90m[1mreimport[22m | relic-reverse-scale.png[39m[0m
+[  28% ] [90m[1mreimport[22m | relic-hollow-reliquary.png[39m[0m
+[  28% ] [90m[1mreimport[22m | relic-howling-flagon.png[39m[0m
+[  29% ] [90m[1mreimport[22m | relic-hungering-tongue.png[39m[0m
+[  29% ] [90m[1mreimport[22m | relic-hunters-baldric.png[39m[0m
+[  29% ] [90m[1mreimport[22m | relic-ignaros-maw.png[39m[0m
+[  29% ] [90m[1mreimport[22m | relic-lineage-scroll.png[39m[0m
+[  29% ] [90m[1mreimport[22m | relic-mending-scale.png[39m[0m
+[  30% ] [90m[1mreimport[22m | relic-molted-scale.png[39m[0m
+[  30% ] [90m[1mreimport[22m | relic-morwen-crest.png[39m[0m
+[  30% ] [90m[1mreimport[22m | relic-overload-coil.png[39m[0m
+[  30% ] [90m[1mreimport[22m | relic-parry-scale.png[39m[0m
+[  30% ] [90m[1mreimport[22m | relic-primordial-fruit.png[39m[0m
+[  31% ] [90m[1mreimport[22m | relic-progenitor-blood.png[39m[0m
+[  31% ] [90m[1mreimport[22m | relic-progenitor-coin.png[39m[0m
+[  31% ] [90m[1mreimport[22m | relic-pulsing-heartstone.png[39m[0m
+[  31% ] [90m[1mreimport[22m | relic-pyrren-crest.png[39m[0m
+[  31% ] [90m[1mreimport[22m | relic-quicksilver-hourglass.png[39m[0m
+[  31% ] [90m[1mreimport[22m | slot-9s.png[39m[0m
+[  32% ] [90m[1mreimport[22m | pile-back.png[39m[0m
+[  32% ] [90m[1mreimport[22m | panel-raised.png[39m[0m
+[  32% ] [90m[1mreimport[22m | panel-cartouche.png[39m[0m
+[  32% ] [90m[1mreimport[22m | orb-energy.png[39m[0m
+[  32% ] [90m[1mreimport[22m | intent-support-9s.png[39m[0m
+[  33% ] [90m[1mreimport[22m | intent-attack-9s.png[39m[0m
+[  33% ] [90m[1mreimport[22m | emblem-title.png[39m[0m
+[  33% ] [90m[1mreimport[22m | divider-ornament.png[39m[0m
+[  33% ] [90m[1mreimport[22m | btn-secondary.png[39m[0m
+[  33% ] [90m[1mreimport[22m | btn-secondary-hover.png[39m[0m
+[  34% ] [90m[1mreimport[22m | btn-secondary-disabled.png[39m[0m
+[  34% ] [90m[1mreimport[22m | btn-primary.png[39m[0m
+[  34% ] [90m[1mreimport[22m | btn-primary-hover.png[39m[0m
+[  34% ] [90m[1mreimport[22m | btn-primary-disabled.png[39m[0m
+[  34% ] [90m[1mreimport[22m | relic-wyrmfire-lamp.png[39m[0m
+[  34% ] [90m[1mreimport[22m | relic-talon-daggers.png[39m[0m
+[  35% ] [90m[1mreimport[22m | relic-tempered-scale.png[39m[0m
+[  35% ] [90m[1mreimport[22m | relic-tempest-idol.png[39m[0m
+[  35% ] [90m[1mreimport[22m | relic-thunder-sigil.png[39m[0m
+[  35% ] [90m[1mreimport[22m | relic-tinkers-chest.png[39m[0m
+[  35% ] [90m[1mreimport[22m | relic-tribute-chest.png[39m[0m
+[  36% ] [90m[1mreimport[22m | relic-triune-candelabrum.png[39m[0m
+[  36% ] [90m[1mreimport[22m | relic-twin-candle-sconce.png[39m[0m
+[  36% ] [90m[1mreimport[22m | relic-unsealing-knife.png[39m[0m
+[  36% ] [90m[1mreimport[22m | relic-vaelyx-eye.png[39m[0m
+[  36% ] [90m[1mreimport[22m | relic-volgrim-crest.png[39m[0m
+[  37% ] [90m[1mreimport[22m | relic-wardens-horn.png[39m[0m
+[  37% ] [90m[1mreimport[22m | relic-whispering-reliquary.png[39m[0m
+[  37% ] [90m[1mreimport[22m | relic-windguard-clasp.png[39m[0m
+[  37% ] [90m[1mreimport[22m | relic-winterbud-core.png[39m[0m
+[  37% ] [90m[1mreimport[22m | relic-wyrm-scale.png[39m[0m
+[  37% ] [90m[1mreimport[22m | relic-wyrmbone-plate.png[39m[0m
+[  38% ] [90m[1mreimport[22m | relic-chained-talon.png[39m[0m
+[  38% ] [90m[1mreimport[22m | relic-bulwark-horn.png[39m[0m
+[  38% ] [90m[1mreimport[22m | relic-brimstone-heart.png[39m[0m
+[  38% ] [90m[1mreimport[22m | relic-bloodline-locket.png[39m[0m
+[  38% ] [90m[1mreimport[22m | relic-blood-fruit.png[39m[0m
+[  39% ] [90m[1mreimport[22m | relic-bastion-cogwheel.png[39m[0m
+[  39% ] [90m[1mreimport[22m | relic-barbed-scales.png[39m[0m
+[  39% ] [90m[1mreimport[22m | relic-augurs-disc.png[39m[0m
+[  39% ] [90m[1mreimport[22m | relic-ashwind-charm.png[39m[0m
+[  39% ] [90m[1mreimport[22m | relic-ashfall-scale.png[39m[0m
+[  40% ] [90m[1mreimport[22m | relic-ashen-mask.png[39m[0m
+[  40% ] [90m[1mreimport[22m | relic-ashen-censer.png[39m[0m
+[  40% ] [90m[1mreimport[22m | relic-ash-salve.png[39m[0m
+[  40% ] [90m[1mreimport[22m | relic-arid-chalice.png[39m[0m
+[  40% ] [90m[1mreimport[22m | relic-ancestor-sigil.png[39m[0m
+[  40% ] [90m[1mreimport[22m | relic-ancestor-brazier.png[39m[0m
+[  41% ] [90m[1mreimport[22m | ui.shop.product_plate.png[39m[0m
+[  41% ] [90m[1mreimport[22m | ui.shop.seal_mark.png[39m[0m
+[  41% ] [90m[1mreimport[22m | presence-screen.png[39m[0m
+[  41% ] [90m[1mreimport[22m | sanctuary.png[39m[0m
+[  41% ] [90m[1mreimport[22m | potion-blood-draught.png[39m[0m
+[  42% ] [90m[1mreimport[22m | potion-conductor-oil.png[39m[0m
+[  42% ] [90m[1mreimport[22m | potion-detonation-flask.png[39m[0m
+[  42% ] [90m[1mreimport[22m | potion-elder-ichor.png[39m[0m
+[  42% ] [90m[1mreimport[22m | potion-forge-breath.png[39m[0m
+[  42% ] [90m[1mreimport[22m | potion-fury-blood.png[39m[0m
+[  43% ] [90m[1mreimport[22m | potion-gale-essence.png[39m[0m
+[  43% ] [90m[1mreimport[22m | potion-overload-primer.png[39m[0m
+[  43% ] [90m[1mreimport[22m | potion-rime-nail.png[39m[0m
+[  43% ] [90m[1mreimport[22m | potion-rime-verdict.png[39m[0m
+[  43% ] [90m[1mreimport[22m | potion-scale-tonic.png[39m[0m
+[  43% ] [90m[1mreimport[22m | potion-storm-vial.png[39m[0m
+[  44% ] [90m[1mreimport[22m | potion-tempest-flask.png[39m[0m
+[  44% ] [90m[1mreimport[22m | relic-hoarfrost-vein.png[39m[0m
+[  44% ] [90m[1mreimport[22m | relic-hoard-tithe.png[39m[0m
+[  44% ] [90m[1mreimport[22m | relic-heartwood-fruit.png[39m[0m
+[  44% ] [90m[1mreimport[22m | relic-hearthkeepers-loaf.png[39m[0m
+[  45% ] [90m[1mreimport[22m | relic-hardened-bloodscale.png[39m[0m
+[  45% ] [90m[1mreimport[22m | relic-guild-signet.png[39m[0m
+[  45% ] [90m[1mreimport[22m | relic-glaciuns-embrace.png[39m[0m
+[  45% ] [90m[1mreimport[22m | relic-glaciuns-breath.png[39m[0m
+[  45% ] [90m[1mreimport[22m | relic-glacial-scale.png[39m[0m
+[  46% ] [90m[1mreimport[22m | relic-gale-charm.png[39m[0m
+[  46% ] [90m[1mreimport[22m | relic-frozen-hourglass.png[39m[0m
+[  46% ] [90m[1mreimport[22m | relic-first-blood-charm.png[39m[0m
+[  46% ] [90m[1mreimport[22m | relic-eye-of-the-tempest.png[39m[0m
+[  46% ] [90m[1mreimport[22m | relic-everwinter-lens.png[39m[0m
+[  46% ] [90m[1mreimport[22m | relic-emberheart-core.png[39m[0m
+[  47% ] [90m[1mreimport[22m | relic-ember-jar.png[39m[0m
+[  47% ] [90m[1mreimport[22m | relic-chime-of-loss.png[39m[0m
+[  47% ] [90m[1mreimport[22m | relic-cinder-fang.png[39m[0m
+[  47% ] [90m[1mreimport[22m | relic-clotted-vial.png[39m[0m
+[  47% ] [90m[1mreimport[22m | relic-clotting-mass.png[39m[0m
+[  48% ] [90m[1mreimport[22m | relic-conductor-ring.png[39m[0m
+[  48% ] [90m[1mreimport[22m | relic-couriers-seal.png[39m[0m
+[  48% ] [90m[1mreimport[22m | relic-covenant-charter.png[39m[0m
+[  48% ] [90m[1mreimport[22m | relic-covenant-ration.png[39m[0m
+[  48% ] [90m[1mreimport[22m | relic-crimson-rouge.png[39m[0m
+[  49% ] [90m[1mreimport[22m | relic-devourer-fang.png[39m[0m
+[  49% ] [90m[1mreimport[22m | relic-doomsday-tablet.png[39m[0m
+[  49% ] [90m[1mreimport[22m | relic-dragon-flask.png[39m[0m
+[  49% ] [90m[1mreimport[22m | relic-dragonhoard-ring.png[39m[0m
+[  49% ] [90m[1mreimport[22m | relic-dreamless-salve.png[39m[0m
+[  50% ] [90m[1mreimport[22m | relic-elder-fang.png[39m[0m
+[  50% ] [90m[1mreimport[22m | relic-elderbone-club.png[39m[0m
+[  50% ] [90m[1mreimport[22m | relic-ember-carapace.png[39m[0m
+[  50% ] [90m[1mreimport[22m | enemy-rime_serpent.png[39m[0m
+[  50% ] [90m[1mreimport[22m | enemy-rimebound_warden.png[39m[0m
+[  50% ] [90m[1mreimport[22m | enemy-pyrren_champion.png[39m[0m
+[  51% ] [90m[1mreimport[22m | enemy-morwen_squire.png[39m[0m
+[  51% ] [90m[1mreimport[22m | enemy-morwen_heir.png[39m[0m
+[  51% ] [90m[1mreimport[22m | enemy-kargath.png[39m[0m
+[  51% ] [90m[1mreimport[22m | enemy-ice_wraith.png[39m[0m
+[  51% ] [90m[1mreimport[22m | enemy-glaciun_warden.png[39m[0m
+[  52% ] [90m[1mreimport[22m | enemy-glacial_gargoyle.png[39m[0m
+[  52% ] [90m[1mreimport[22m | enemy-frozen_zealot.png[39m[0m
+[  52% ] [90m[1mreimport[22m | enemy-frost_serpent.png[39m[0m
+[  52% ] [90m[1mreimport[22m | enemy-frenzied_drake.png[39m[0m
+[  52% ] [90m[1mreimport[22m | enemy-ember_drake.png[39m[0m
+[  53% ] [90m[1mreimport[22m | enemy-devourer_spawn.png[39m[0m
+[  53% ] [90m[1mreimport[22m | enemy-devourer_cultist.png[39m[0m
+[  53% ] [90m[1mreimport[22m | enemy-bloodless_zealot.png[39m[0m
+[  53% ] [90m[1mreimport[22m | shatter-strike.svg[39m[0m
+[  53% ] [90m[1mreimport[22m | static-claw.png[39m[0m
+[  53% ] [90m[1mreimport[22m | static-claw.svg[39m[0m
+[  54% ] [90m[1mreimport[22m | storm-bond.svg[39m[0m
+[  54% ] [90m[1mreimport[22m | tailwind.png[39m[0m
+[  54% ] [90m[1mreimport[22m | tailwind.svg[39m[0m
+[  54% ] [90m[1mreimport[22m | vaelyx-ascension.svg[39m[0m
+[  54% ] [90m[1mreimport[22m | volgrim-guard.png[39m[0m
+[  55% ] [90m[1mreimport[22m | volgrim-guard.svg[39m[0m
+[  55% ] [90m[1mreimport[22m | volgrim-strike.png[39m[0m
+[  55% ] [90m[1mreimport[22m | volgrim-strike.svg[39m[0m
+[  55% ] [90m[1mreimport[22m | wyrm-fury.svg[39m[0m
+[  55% ] [90m[1mreimport[22m | master.png[39m[0m
+[  56% ] [90m[1mreimport[22m | master.png[39m[0m
+[  56% ] [90m[1mreimport[22m | master.png[39m[0m
+[  56% ] [90m[1mreimport[22m | enemy-altar_warden.png[39m[0m
+[  56% ] [90m[1mreimport[22m | enemy-ashen_knight.png[39m[0m
+[  56% ] [90m[1mreimport[22m | ashen_knight.svg[39m[0m
+[  56% ] [90m[1mreimport[22m | altar_warden.svg[39m[0m
+[  57% ] [90m[1mreimport[22m | stormhall-layered-runtime.png[39m[0m
+[  57% ] [90m[1mreimport[22m | stormcathedral-layered-runtime.png[39m[0m
+[  57% ] [90m[1mreimport[22m | frostreach-layered-runtime.png[39m[0m
+[  57% ] [90m[1mreimport[22m | contact-sheet-128.png[39m[0m
+[  57% ] [90m[1mreimport[22m | battlefield-contact-sheet.png[39m[0m
+[  58% ] [90m[1mreimport[22m | intent-frame-v3.png[39m[0m
+[  58% ] [90m[1mreimport[22m | intent-frame-v3-source.png[39m[0m
+[  58% ] [90m[1mreimport[22m | hud-exhaust-v2.png[39m[0m
+[  58% ] [90m[1mreimport[22m | hud-exhaust-v2-source.png[39m[0m
+[  58% ] [90m[1mreimport[22m | hud-end-turn-v3.png[39m[0m
+[  59% ] [90m[1mreimport[22m | hud-end-turn-v3-source.png[39m[0m
+[  59% ] [90m[1mreimport[22m | hud-draw-v2.png[39m[0m
+[  59% ] [90m[1mreimport[22m | hud-draw-v2-source.png[39m[0m
+[  59% ] [90m[1mreimport[22m | hud-discard-v2.png[39m[0m
+[  59% ] [90m[1mreimport[22m | enemy-rime_whelp.png[39m[0m
+[  59% ] [90m[1mreimport[22m | enemy-rime_wyvern.png[39m[0m
+[  60% ] [90m[1mreimport[22m | enemy-stone_gargoyle.png[39m[0m
+[  60% ] [90m[1mreimport[22m | enemy-storm_shade.png[39m[0m
+[  60% ] [90m[1mreimport[22m | enemy-storm_whelp.png[39m[0m
+[  60% ] [90m[1mreimport[22m | enemy-turned_heir.png[39m[0m
+[  60% ] [90m[1mreimport[22m | enemy-vaelyx.png[39m[0m
+[  61% ] [90m[1mreimport[22m | enemy-void_wyrm.png[39m[0m
+[  61% ] [90m[1mreimport[22m | enemy-wild_wyvern.png[39m[0m
+[  61% ] [90m[1mreimport[22m | heir-fire.png[39m[0m
+[  61% ] [90m[1mreimport[22m | heir-frost.png[39m[0m
+[  61% ] [90m[1mreimport[22m | heir-storm.png[39m[0m
+[  62% ] [90m[1mreimport[22m | hud-action-v2-source.png[39m[0m
+[  62% ] [90m[1mreimport[22m | hud-action-v2.png[39m[0m
+[  62% ] [90m[1mreimport[22m | hud-auto-turn-v3-source.png[39m[0m
+[  62% ] [90m[1mreimport[22m | hud-auto-turn-v3.png[39m[0m
+[  62% ] [90m[1mreimport[22m | hud-discard-v2-source.png[39m[0m
+[  62% ] [90m[1mreimport[22m | foreground.png[39m[0m
+[  63% ] [90m[1mreimport[22m | distant.png[39m[0m
+[  63% ] [90m[1mreimport[22m | boundary.png[39m[0m
+[  63% ] [90m[1mreimport[22m | sky.png[39m[0m
+[  63% ] [90m[1mreimport[22m | mid.png[39m[0m
+[  63% ] [90m[1mreimport[22m | ground.png[39m[0m
+[  64% ] [90m[1mreimport[22m | distant.png[39m[0m
+[  64% ] [90m[1mreimport[22m | boundary.png[39m[0m
+[  64% ] [90m[1mreimport[22m | bg_master.png[39m[0m
+[  64% ] [90m[1mreimport[22m | sky.png[39m[0m
+[  64% ] [90m[1mreimport[22m | mid.png[39m[0m
+[  65% ] [90m[1mreimport[22m | ground.png[39m[0m
+[  65% ] [90m[1mreimport[22m | distant.png[39m[0m
+[  65% ] [90m[1mreimport[22m | boundary.png[39m[0m
+[  65% ] [90m[1mreimport[22m | bg_master.png[39m[0m
+[  65% ] [90m[1mreimport[22m | bg_far.png[39m[0m
+[  65% ] [90m[1mreimport[22m | horned-brute.png[39m[0m
+[  66% ] [90m[1mreimport[22m | orb-sentinel.png[39m[0m
+[  66% ] [90m[1mreimport[22m | void-storm-sovereign.png[39m[0m
+[  66% ] [90m[1mreimport[22m | volgrim-heir.png[39m[0m
+[  66% ] [90m[1mreimport[22m | atmosphere.svg[39m[0m
+[  66% ] [90m[1mreimport[22m | bg_far.svg[39m[0m
+[  67% ] [90m[1mreimport[22m | bg_floor.svg[39m[0m
+[  67% ] [90m[1mreimport[22m | bg_mid.svg[39m[0m
+[  67% ] [90m[1mreimport[22m | boundary.png[39m[0m
+[  67% ] [90m[1mreimport[22m | distant.png[39m[0m
+[  67% ] [90m[1mreimport[22m | ground.png[39m[0m
+[  68% ] [90m[1mreimport[22m | mid.png[39m[0m
+[  68% ] [90m[1mreimport[22m | sky.png[39m[0m
+[  68% ] [90m[1mreimport[22m | atmosphere.svg[39m[0m
+[  68% ] [90m[1mreimport[22m | bg_far.svg[39m[0m
+[  68% ] [90m[1mreimport[22m | bg_floor.svg[39m[0m
+[  68% ] [90m[1mreimport[22m | bg_mid.svg[39m[0m
+[  69% ] [90m[1mreimport[22m | rime-claw.svg[39m[0m
+[  69% ] [90m[1mreimport[22m | pyrren-strike.svg[39m[0m
+[  69% ] [90m[1mreimport[22m | pyrren-strike.png[39m[0m
+[  69% ] [90m[1mreimport[22m | pyrren-guard.svg[39m[0m
+[  69% ] [90m[1mreimport[22m | pyrren-guard.png[39m[0m
+[  70% ] [90m[1mreimport[22m | morwen-strike.svg[39m[0m
+[  70% ] [90m[1mreimport[22m | morwen-strike.png[39m[0m
+[  70% ] [90m[1mreimport[22m | morwen-guard.svg[39m[0m
+[  70% ] [90m[1mreimport[22m | morwen-guard.png[39m[0m
+[  70% ] [90m[1mreimport[22m | molten-scales.svg[39m[0m
+[  71% ] [90m[1mreimport[22m | glacial-aegis.svg[39m[0m
+[  71% ] [90m[1mreimport[22m | frost-veil.svg[39m[0m
+[  71% ] [90m[1mreimport[22m | eye-of-storm.png[39m[0m
+[  71% ] [90m[1mreimport[22m | ember-shroud.svg[39m[0m
+[  71% ] [90m[1mreimport[22m | ember-fang.svg[39m[0m
+[  71% ] [90m[1mreimport[22m | chain-lightning.png[39m[0m
+[  72% ] [90m[1mreimport[22m | ground.png[39m[0m
+[  72% ] [90m[1mreimport[22m | mid.png[39m[0m
+[  72% ] [90m[1mreimport[22m | seam.png[39m[0m
+[  72% ] [90m[1mreimport[22m | sky.png[39m[0m
+[  72% ] [90m[1mreimport[22m | atmosphere.svg[39m[0m
+[  73% ] [90m[1mreimport[22m | bg_far.svg[39m[0m
+[  73% ] [90m[1mreimport[22m | bg_floor.svg[39m[0m
+[  73% ] [90m[1mreimport[22m | bg_mid.svg[39m[0m
+[  73% ] [90m[1mreimport[22m | act1-stormmarch.png[39m[0m
+[  73% ] [90m[1mreimport[22m | act2-frostreach.png[39m[0m
+[  74% ] [90m[1mreimport[22m | act3-stormapex.png[39m[0m
+[  74% ] [90m[1mreimport[22m | title-v2.png[39m[0m
+[  74% ] [90m[1mreimport[22m | title.png[39m[0m
+[  74% ] [90m[1mreimport[22m | storm-attack.png[39m[0m
+[  74% ] [90m[1mreimport[22m | storm-foresight.png[39m[0m
+[  75% ] [90m[1mreimport[22m | storm-guard.png[39m[0m
+[  75% ] [90m[1mreimport[22m | storm-power.png[39m[0m
+[  75% ] [90m[1mreimport[22m | ember_drake-defeat.png[39m[0m
+[  75% ] [90m[1mreimport[22m | ember_drake-cast.png[39m[0m
+[  75% ] [90m[1mreimport[22m | ember_drake-attack.png[39m[0m
+[  75% ] [90m[1mreimport[22m | bloodless_zealot-telegraph.png[39m[0m
+[  76% ] [90m[1mreimport[22m | bloodless_zealot-idle.png[39m[0m
+[  76% ] [90m[1mreimport[22m | bloodless_zealot-hit.png[39m[0m
+[  76% ] [90m[1mreimport[22m | bloodless_zealot-guard.png[39m[0m
+[  76% ] [90m[1mreimport[22m | bloodless_zealot-defeat.png[39m[0m
+[  76% ] [90m[1mreimport[22m | bloodless_zealot-cast.png[39m[0m
+[  77% ] [90m[1mreimport[22m | bloodless_zealot-attack.png[39m[0m
+[  77% ] [90m[1mreimport[22m | altar_warden-telegraph.png[39m[0m
+[  77% ] [90m[1mreimport[22m | altar_warden-idle.png[39m[0m
+[  77% ] [90m[1mreimport[22m | altar_warden-hit.png[39m[0m
+[  77% ] [90m[1mreimport[22m | altar_warden-guard.png[39m[0m
+[  78% ] [90m[1mreimport[22m | altar_warden-defeat.png[39m[0m
+[  78% ] [90m[1mreimport[22m | altar_warden-cast.png[39m[0m
+[  78% ] [90m[1mreimport[22m | dexterity.svg[39m[0m
+[  78% ] [90m[1mreimport[22m | frail.svg[39m[0m
+[  78% ] [90m[1mreimport[22m | ritual.svg[39m[0m
+[  78% ] [90m[1mreimport[22m | sparkArmor.svg[39m[0m
+[  79% ] [90m[1mreimport[22m | strength.svg[39m[0m
+[  79% ] [90m[1mreimport[22m | vulnerable.svg[39m[0m
+[  79% ] [90m[1mreimport[22m | weak.svg[39m[0m
+[  79% ] [90m[1mreimport[22m | close.svg[39m[0m
+[  79% ] [90m[1mreimport[22m | heir-morwen-v6.png[39m[0m
+[  80% ] [90m[1mreimport[22m | heir-morwen-v7.png[39m[0m
+[  80% ] [90m[1mreimport[22m | heir-pyrren-v6.png[39m[0m
+[  80% ] [90m[1mreimport[22m | heir-volgrim-v2.png[39m[0m
+[  80% ] [90m[1mreimport[22m | main-sanctuary-v4.png[39m[0m
+[  80% ] [90m[1mreimport[22m | portrait-morwen-standard-v1.png[39m[0m
+[  81% ] [90m[1mreimport[22m | portrait-pyrren-standard-v3.png[39m[0m
+[  81% ] [90m[1mreimport[22m | portrait-volgrim-standard-v1.png[39m[0m
+[  81% ] [90m[1mreimport[22m | altar_warden-attack.png[39m[0m
+[  81% ] [90m[1mreimport[22m | storm_whelp-attack.png[39m[0m
+[  81% ] [90m[1mreimport[22m | stone_gargoyle-telegraph.png[39m[0m
+[  81% ] [90m[1mreimport[22m | stone_gargoyle-idle.png[39m[0m
+[  82% ] [90m[1mreimport[22m | stone_gargoyle-hit.png[39m[0m
+[  82% ] [90m[1mreimport[22m | stone_gargoyle-guard.png[39m[0m
+[  82% ] [90m[1mreimport[22m | stone_gargoyle-defeat.png[39m[0m
+[  82% ] [90m[1mreimport[22m | stone_gargoyle-cast.png[39m[0m
+[  82% ] [90m[1mreimport[22m | stone_gargoyle-attack.png[39m[0m
+[  83% ] [90m[1mreimport[22m | pyrren_champion-telegraph.png[39m[0m
+[  83% ] [90m[1mreimport[22m | pyrren_champion-idle.png[39m[0m
+[  83% ] [90m[1mreimport[22m | pyrren_champion-hit.png[39m[0m
+[  83% ] [90m[1mreimport[22m | pyrren_champion-guard.png[39m[0m
+[  83% ] [90m[1mreimport[22m | pyrren_champion-defeat.png[39m[0m
+[  84% ] [90m[1mreimport[22m | pyrren_champion-cast.png[39m[0m
+[  84% ] [90m[1mreimport[22m | pyrren_champion-attack.png[39m[0m
+[  84% ] [90m[1mreimport[22m | gale_whelp-telegraph.png[39m[0m
+[  84% ] [90m[1mreimport[22m | ember_drake-guard.png[39m[0m
+[  84% ] [90m[1mreimport[22m | ember_drake-hit.png[39m[0m
+[  84% ] [90m[1mreimport[22m | ember_drake-idle.png[39m[0m
+[  85% ] [90m[1mreimport[22m | ember_drake-telegraph.png[39m[0m
+[  85% ] [90m[1mreimport[22m | frost_serpent-attack.png[39m[0m
+[  85% ] [90m[1mreimport[22m | frost_serpent-cast.png[39m[0m
+[  85% ] [90m[1mreimport[22m | frost_serpent-defeat.png[39m[0m
+[  85% ] [90m[1mreimport[22m | frost_serpent-guard.png[39m[0m
+[  86% ] [90m[1mreimport[22m | frost_serpent-hit.png[39m[0m
+[  86% ] [90m[1mreimport[22m | frost_serpent-idle.png[39m[0m
+[  86% ] [90m[1mreimport[22m | frost_serpent-telegraph.png[39m[0m
+[  86% ] [90m[1mreimport[22m | gale_whelp-attack.png[39m[0m
+[  86% ] [90m[1mreimport[22m | gale_whelp-cast.png[39m[0m
+[  87% ] [90m[1mreimport[22m | gale_whelp-defeat.png[39m[0m
+[  87% ] [90m[1mreimport[22m | gale_whelp-guard.png[39m[0m
+[  87% ] [90m[1mreimport[22m | gale_whelp-hit.png[39m[0m
+[  87% ] [90m[1mreimport[22m | gale_whelp-idle.png[39m[0m
+[  87% ] [90m[1mreimport[22m | wild_wyvern.svg[39m[0m
+[  87% ] [90m[1mreimport[22m | void_wyrm.svg[39m[0m
+[  88% ] [90m[1mreimport[22m | void_maw.svg[39m[0m
+[  88% ] [90m[1mreimport[22m | vaelyx.svg[39m[0m
+[  88% ] [90m[1mreimport[22m | turned_heir.svg[39m[0m
+[  88% ] [90m[1mreimport[22m | sylvaine_outrider.svg[39m[0m
+[  88% ] [90m[1mreimport[22m | storm_whelp.svg[39m[0m
+[  89% ] [90m[1mreimport[22m | storm_shade.svg[39m[0m
+[  89% ] [90m[1mreimport[22m | stormwall_colossus.svg[39m[0m
+[  89% ] [90m[1mreimport[22m | stone_gargoyle.svg[39m[0m
+[  89% ] [90m[1mreimport[22m | rime_wyvern.svg[39m[0m
+[  89% ] [90m[1mreimport[22m | rime_whelp.svg[39m[0m
+[  90% ] [90m[1mreimport[22m | rime_serpent.svg[39m[0m
+[  90% ] [90m[1mreimport[22m | rimebound_warden.svg[39m[0m
+[  90% ] [90m[1mreimport[22m | pyrren_champion.svg[39m[0m
+[  90% ] [90m[1mreimport[22m | ossuary_wyrm.svg[39m[0m
+[  90% ] [90m[1mreimport[22m | bloodless_inquisitor.svg[39m[0m
+[  90% ] [90m[1mreimport[22m | bloodless_zealot.svg[39m[0m
+[  91% ] [90m[1mreimport[22m | devourer_cultist.svg[39m[0m
+[  91% ] [90m[1mreimport[22m | devourer_spawn.svg[39m[0m
+[  91% ] [90m[1mreimport[22m | ember_drake.svg[39m[0m
+[  91% ] [90m[1mreimport[22m | frenzied_drake.svg[39m[0m
+[  91% ] [90m[1mreimport[22m | frostbound_hound.svg[39m[0m
+[  92% ] [90m[1mreimport[22m | frost_serpent.svg[39m[0m
+[  92% ] [90m[1mreimport[22m | frozen_zealot.svg[39m[0m
+[  92% ] [90m[1mreimport[22m | glacial_gargoyle.svg[39m[0m
+[  92% ] [90m[1mreimport[22m | glaciun_warden.svg[39m[0m
+[  92% ] [90m[1mreimport[22m | ice_wraith.svg[39m[0m
+[  93% ] [90m[1mreimport[22m | ignaros.svg[39m[0m
+[  93% ] [90m[1mreimport[22m | kargath.svg[39m[0m
+[  93% ] [90m[1mreimport[22m | morwen_heir.svg[39m[0m
+[  93% ] [90m[1mreimport[22m | morwen_oracle.svg[39m[0m
+[  93% ] [90m[1mreimport[22m | morwen_squire.svg[39m[0m
+[  93% ] [90m[1mreimport[22m | buff.png[39m[0m
+[  94% ] [90m[1mreimport[22m | buff.svg[39m[0m
+[  94% ] [90m[1mreimport[22m | debuff.png[39m[0m
+[  94% ] [90m[1mreimport[22m | debuff.svg[39m[0m
+[  94% ] [90m[1mreimport[22m | disrupt.png[39m[0m
+[  94% ] [90m[1mreimport[22m | heal.svg[39m[0m
+[  95% ] [90m[1mreimport[22m | multi.png[39m[0m
+[  95% ] [90m[1mreimport[22m | multi.svg[39m[0m
+[  95% ] [90m[1mreimport[22m | unknown.svg[39m[0m
+[  95% ] [90m[1mreimport[22m | heir.svg[39m[0m
+[  95% ] [90m[1mreimport[22m | heir_fire.svg[39m[0m
+[  96% ] [90m[1mreimport[22m | heir_frost.svg[39m[0m
+[  96% ] [90m[1mreimport[22m | heir_storm.svg[39m[0m
+[  96% ] [90m[1mreimport[22m | artifact.svg[39m[0m
+[  96% ] [90m[1mreimport[22m | burn.svg[39m[0m
+[  96% ] [90m[1mreimport[22m | chill.svg[39m[0m
+[  96% ] [90m[1mreimport[22m | conductor.svg[39m[0m
+[  97% ] [90m[1mreimport[22m | boss.svg[39m[0m
+[  97% ] [90m[1mreimport[22m | crest-fire.svg[39m[0m
+[  97% ] [90m[1mreimport[22m | crest-frost.svg[39m[0m
+[  97% ] [90m[1mreimport[22m | crest-storm.svg[39m[0m
+[  97% ] [90m[1mreimport[22m | crest-unknown.svg[39m[0m
+[  98% ] [90m[1mreimport[22m | deck.svg[39m[0m
+[  98% ] [90m[1mreimport[22m | gold.svg[39m[0m
+[  98% ] [90m[1mreimport[22m | hp.svg[39m[0m
+[  98% ] [90m[1mreimport[22m | map.svg[39m[0m
+[  98% ] [90m[1mreimport[22m | menu.svg[39m[0m
+[  99% ] [90m[1mreimport[22m | potion.svg[39m[0m
+[  99% ] [90m[1mreimport[22m | relic.svg[39m[0m
+[  99% ] [90m[1mreimport[22m | turning.svg[39m[0m
+[  99% ] [90m[1mreimport[22m | attack.png[39m[0m
+[  99% ] [90m[1mreimport[22m | Finalizing Asset Import...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (531 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing post-reimport operations...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m

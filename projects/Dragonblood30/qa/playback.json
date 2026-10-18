@@ -1,0 +1,63 @@
+{
+  "errors": [],
+  "playback": {
+    "currentTime": 30,
+    "paused": true,
+    "readyState": 4,
+    "videoWidth": 1080,
+    "videoHeight": 1920,
+    "duration": 30,
+    "muted": false,
+    "ended": true,
+    "error": null
+  },
+  "seeks": [
+    {
+      "expected": 0.7,
+      "time": 0.7,
+      "readyState": 4
+    },
+    {
+      "expected": 4.8,
+      "time": 4.8,
+      "readyState": 4
+    },
+    {
+      "expected": 9.5,
+      "time": 9.5,
+      "readyState": 4
+    },
+    {
+      "expected": 12.5,
+      "time": 12.5,
+      "readyState": 4
+    },
+    {
+      "expected": 15,
+      "time": 15,
+      "readyState": 4
+    },
+    {
+      "expected": 17.4,
+      "time": 17.4,
+      "readyState": 4
+    },
+    {
+      "expected": 20.6,
+      "time": 20.6,
+      "readyState": 4
+    },
+    {
+      "expected": 23.4,
+      "time": 23.4,
+      "readyState": 4
+    },
+    {
+      "expected": 28.2,
+      "time": 28.2,
+      "readyState": 4
+    }
+  ],
+  "pass": true,
+  "auditory_listening": "not performed; browser playback and audio decoding are not human listening"
+}

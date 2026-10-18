@@ -1,0 +1,118 @@
+{
+  "ok": true,
+  "errorCount": 0,
+  "warningCount": 11,
+  "infoCount": 0,
+  "findings": [
+    {
+      "code": "duplicate_media_discovery_risk",
+      "severity": "warning",
+      "message": "Detected 2 matching img entries with the same source/start/duration.",
+      "fixHint": "Avoid duplicated media nodes that can be discovered twice during compilation.",
+      "snippet": "img src=assets/detail-before.png data-start= data-duration=",
+      "file": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html"
+    },
+    {
+      "code": "timeline_track_too_dense",
+      "severity": "warning",
+      "message": "Track 1 has 9 timed elements in this HTML file. Smaller sub-compositions keep timelines easier to read, iterate on, and diff.",
+      "fixHint": "Move coherent scene groups into separate .html files under compositions/ and mount them from the parent with data-composition-src so the timeline stays easier to inspect, revise, and validate.",
+      "file": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html"
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"beat-0\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "beat-0",
+      "fixHint": "Move <section id=\"beat-0\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+      "line": 3,
+      "column": 809
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"beat-1\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "beat-1",
+      "fixHint": "Move <section id=\"beat-1\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+      "line": 3,
+      "column": 1151
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"beat-2\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "beat-2",
+      "fixHint": "Move <section id=\"beat-2\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+      "line": 3,
+      "column": 1499
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"beat-3\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "beat-3",
+      "fixHint": "Move <section id=\"beat-3\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+      "line": 3,
+      "column": 1845
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"beat-4\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "beat-4",
+      "fixHint": "Move <section id=\"beat-4\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+      "line": 3,
+      "column": 2193
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"beat-5\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "beat-5",
+      "fixHint": "Move <section id=\"beat-5\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+      "line": 3,
+      "column": 2543
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"beat-6\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "beat-6",
+      "fixHint": "Move <section id=\"beat-6\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+      "line": 3,
+      "column": 2899
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"beat-7\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "beat-7",
+      "fixHint": "Move <section id=\"beat-7\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+      "line": 3,
+      "column": 3434
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"beat-8\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "beat-8",
+      "fixHint": "Move <section id=\"beat-8\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+      "line": 3,
+      "column": 3969
+    }
+  ],
+  "filesScanned": 1,
+  "_meta": {
+    "version": "0.8.157",
+    "updateAvailable": false
+  }
+}

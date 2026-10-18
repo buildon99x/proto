@@ -1,0 +1,260 @@
+{
+  "success": true,
+  "data": {
+    "operation": "render_existing",
+    "output": "/workspace/proto/projects/Dragonblood30/renders/DRAGONBLOOD-30s.mp4",
+    "workspace": "/workspace/proto/projects/Dragonblood30/hyperframes",
+    "fps": 30,
+    "quality": "high",
+    "authored_entry_preserved": true,
+    "steps": {
+      "check": {
+        "exit_code": 0,
+        "report": {
+          "ok": true,
+          "strict": false,
+          "browserSkipped": false,
+          "lint": {
+            "ok": true,
+            "errorCount": 0,
+            "warningCount": 9,
+            "infoCount": 0,
+            "findings": [
+              {
+                "code": "timeline_track_too_dense",
+                "severity": "warning",
+                "message": "Track 1 has 8 timed elements in this HTML file. Smaller sub-compositions keep timelines easier to read, iterate on, and diff.",
+                "selector": "[data-composition-id]",
+                "dataAttributes": {},
+                "sourceFile": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+                "bbox": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0
+                },
+                "time": 0,
+                "fixHint": "Move coherent scene groups into separate .html files under compositions/ and mount them from the parent with data-composition-src so the timeline stays easier to inspect, revise, and validate."
+              },
+              {
+                "code": "nested_structure_needs_subcomposition",
+                "severity": "warning",
+                "message": "<section id=\"beat-0\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+                "selector": "#beat-0",
+                "dataAttributes": {},
+                "sourceFile": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+                "bbox": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0
+                },
+                "time": 0,
+                "fixHint": "Move <section id=\"beat-0\"> and its contents into a sub-composition file and mount it with data-composition-src."
+              },
+              {
+                "code": "nested_structure_needs_subcomposition",
+                "severity": "warning",
+                "message": "<section id=\"beat-1\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+                "selector": "#beat-1",
+                "dataAttributes": {},
+                "sourceFile": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+                "bbox": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0
+                },
+                "time": 0,
+                "fixHint": "Move <section id=\"beat-1\"> and its contents into a sub-composition file and mount it with data-composition-src."
+              },
+              {
+                "code": "nested_structure_needs_subcomposition",
+                "severity": "warning",
+                "message": "<section id=\"beat-2\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+                "selector": "#beat-2",
+                "dataAttributes": {},
+                "sourceFile": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+                "bbox": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0
+                },
+                "time": 0,
+                "fixHint": "Move <section id=\"beat-2\"> and its contents into a sub-composition file and mount it with data-composition-src."
+              },
+              {
+                "code": "nested_structure_needs_subcomposition",
+                "severity": "warning",
+                "message": "<section id=\"beat-3\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+                "selector": "#beat-3",
+                "dataAttributes": {},
+                "sourceFile": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+                "bbox": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0
+                },
+                "time": 0,
+                "fixHint": "Move <section id=\"beat-3\"> and its contents into a sub-composition file and mount it with data-composition-src."
+              },
+              {
+                "code": "nested_structure_needs_subcomposition",
+                "severity": "warning",
+                "message": "<section id=\"beat-4\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+                "selector": "#beat-4",
+                "dataAttributes": {},
+                "sourceFile": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+                "bbox": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0
+                },
+                "time": 0,
+                "fixHint": "Move <section id=\"beat-4\"> and its contents into a sub-composition file and mount it with data-composition-src."
+              },
+              {
+                "code": "nested_structure_needs_subcomposition",
+                "severity": "warning",
+                "message": "<section id=\"beat-5\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+                "selector": "#beat-5",
+                "dataAttributes": {},
+                "sourceFile": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+                "bbox": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0
+                },
+                "time": 0,
+                "fixHint": "Move <section id=\"beat-5\"> and its contents into a sub-composition file and mount it with data-composition-src."
+              },
+              {
+                "code": "nested_structure_needs_subcomposition",
+                "severity": "warning",
+                "message": "<section id=\"beat-6\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+                "selector": "#beat-6",
+                "dataAttributes": {},
+                "sourceFile": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+                "bbox": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0
+                },
+                "time": 0,
+                "fixHint": "Move <section id=\"beat-6\"> and its contents into a sub-composition file and mount it with data-composition-src."
+              },
+              {
+                "code": "nested_structure_needs_subcomposition",
+                "severity": "warning",
+                "message": "<section id=\"beat-7\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+                "selector": "#beat-7",
+                "dataAttributes": {},
+                "sourceFile": "/workspace/proto/projects/Dragonblood30/hyperframes/index.html",
+                "bbox": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0
+                },
+                "time": 0,
+                "fixHint": "Move <section id=\"beat-7\"> and its contents into a sub-composition file and mount it with data-composition-src."
+              }
+            ],
+            "filesScanned": 1
+          },
+          "runtime": {
+            "ok": true,
+            "errorCount": 0,
+            "warningCount": 0,
+            "infoCount": 0,
+            "findings": []
+          },
+          "layout": {
+            "ok": true,
+            "errorCount": 0,
+            "warningCount": 0,
+            "infoCount": 0,
+            "findings": [],
+            "duration": 30,
+            "samples": [
+              1.667,
+              5,
+              8.333,
+              11.667,
+              15,
+              18.333,
+              21.667,
+              25,
+              28.333
+            ],
+            "transitionSamples": [],
+            "transitionSamplesDropped": 0,
+            "tolerance": 2,
+            "totalIssueCount": 0,
+            "truncated": false
+          },
+          "motion": {
+            "ok": true,
+            "errorCount": 0,
+            "warningCount": 0,
+            "infoCount": 0,
+            "findings": [],
+            "enabled": false,
+            "samples": 0
+          },
+          "contrast": {
+            "ok": true,
+            "errorCount": 0,
+            "warningCount": 0,
+            "infoCount": 0,
+            "findings": [],
+            "enabled": true,
+            "samples": [
+              1.667,
+              8.333,
+              15,
+              21.667,
+              28.333
+            ],
+            "checked": 63,
+            "passed": 63
+          },
+          "hdr": {
+            "autoPromotion": null,
+            "inspection": "available"
+          },
+          "snapshots": {
+            "enabled": false,
+            "files": [],
+            "times": [],
+            "findingFiles": []
+          },
+          "_meta": {
+            "version": "0.8.157",
+            "updateAvailable": false
+          }
+        },
+        "stderr_tail": "⚠  Check report was not recorded: ENOENT: no such file or directory, mkdir '/home/agent/.cache/hyperframes/history/3c502281-c5c4-4b11-be3b-cab4e0c2a043'\n[hyperframes] browserGpuMode probe → software (WebGL renderer vendor=\"Google Inc. (Mesa)\" renderer=\"ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL ES 3.2)\")\n[SystemMemory] cgroup memory limit detected: 16384 MiB. It governs memory-adaptive render behaviour instead of host RAM.\n"
+      },
+      "render": {
+        "exit_code": 0,
+        "stdout_tail": "███████████░░░░░░  76%  Streaming frame 833/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":833,\"total\":900,\"pct\":76}\n  ███████████████████░░░░░░  76%  Streaming frame 837/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":837,\"total\":900,\"pct\":76}\n  ███████████████████░░░░░░  76%  Streaming frame 840/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":840,\"total\":900,\"pct\":76}\n  ███████████████████░░░░░░  77%  Streaming frame 843/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":843,\"total\":900,\"pct\":77}\n  ███████████████████░░░░░░  77%  Streaming frame 847/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":847,\"total\":900,\"pct\":77}\n  ███████████████████░░░░░░  77%  Streaming frame 851/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":851,\"total\":900,\"pct\":77}\n  ███████████████████░░░░░░  77%  Streaming frame 855/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":855,\"total\":900,\"pct\":77}\n  ███████████████████░░░░░░  77%  Streaming frame 859/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":859,\"total\":900,\"pct\":77}\n  ███████████████████░░░░░░  78%  Streaming frame 863/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":863,\"total\":900,\"pct\":78}\n  ███████████████████░░░░░░  78%  Streaming frame 867/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":867,\"total\":900,\"pct\":78}\n  ███████████████████░░░░░░  78%  Streaming frame 871/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":871,\"total\":900,\"pct\":78}\n  ███████████████████░░░░░░  78%  Streaming frame 875/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":875,\"total\":900,\"pct\":78}\n  ███████████████████░░░░░░  79%  Streaming frame 879/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":879,\"total\":900,\"pct\":79}\n  ███████████████████░░░░░░  79%  Streaming frame 883/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":883,\"total\":900,\"pct\":79}\n  ███████████████████░░░░░░  79%  Streaming frame 887/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":887,\"total\":900,\"pct\":79}\n  ███████████████████░░░░░░  79%  Streaming frame 891/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":891,\"total\":900,\"pct\":79}\n  ████████████████████░░░░░  80%  Streaming frame 895/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":895,\"total\":900,\"pct\":80}\n  ████████████████████░░░░░  80%  Streaming frame 899/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":899,\"total\":900,\"pct\":80}\n  ████████████████████░░░░░  80%  Streaming frame 900/900 (2 workers)\n@hf-progress {\"code\":\"capture\",\"done\":900,\"total\":900,\"pct\":80}\n  ██████████████████████░░░  89%  Encoding frame 839/900\n@hf-progress {\"code\":\"encode\",\"done\":839,\"total\":900,\"pct\":89}\n  ██████████████████████░░░  90%  Encoding frame 855/900\n@hf-progress {\"code\":\"encode\",\"done\":855,\"total\":900,\"pct\":90}\n  ██████████████████████░░░  90%  Encoding frame 872/900\n@hf-progress {\"code\":\"encode\",\"done\":872,\"total\":900,\"pct\":90}\n  ██████████████████████░░░  90%  Encoding frame 896/900\n@hf-progress {\"code\":\"encode\",\"done\":896,\"total\":900,\"pct\":90}\n  ██████████████████████░░░  90%  Encoding frame 900/900\n@hf-progress {\"code\":\"encode\",\"done\":900,\"total\":900,\"pct\":90}\n  ██████████████████████░░░  90%  Assembling final video\n@hf-progress {\"code\":\"assemble\",\"done\":0,\"total\":30,\"pct\":90}\n  ████████████████████████░  99%  Assembling final video\n@hf-progress {\"code\":\"assemble\",\"done\":30,\"total\":30,\"pct\":99}\n  █████████████████████████  100%  Render complete\n\n◇  /workspace/proto/projects/Dragonblood30/renders/DRAGONBLOOD-30s.mp4\n   13.5 MB · 30.0s video · rendered in 1m 13.1s\n   screenshot capture · software gpu · compile 0.9s · extract 0.0s · audio 1.0s · probe 0.3s · setup 2.5s · capture 1m 8.0s · encode (during capture) 1m 8.0s · assemble 0.6s\n   Screenshot capture (slower): BeginFrame did not run. Needs chrome-headless-shell and no --resolution upscale. Heavy compositions can stall on software GL.\n   Keep editing by chatting with Framey in the HyperFrames desktop app → https://hyperframes.dev/studio/download?os=linux\n",
+        "stderr_tail": "ger] HeadlessExperimental.beginFrame probe failed after 67ms: net::ERR_BLOCKED_BY_ADMINISTRATOR at data:text/html,<style>html,body{margin:0;background:%23173}</style><div>hf-beginframe-probe</div>; falling back to screenshot mode.\n[BrowserManager] HeadlessExperimental.beginFrame probe failed after 94ms: net::ERR_BLOCKED_BY_ADMINISTRATOR at data:text/html,<style>html,body{margin:0;background:%23173}</style><div>hf-beginframe-probe</div>; falling back to screenshot mode.\n[INFO] [Render] Parallel capture worker phase {\"renderJobId\":\"d685a6f1-2e13-4982-8257-1acada830e59\",\"workerId\":0,\"phase\":\"browser_probe\",\"browserExecutable\":\"/usr/bin/chromium\",\"browserVersion\":\"unknown\",\"canvasDrawElement\":\"unknown\",\"gpuBackend\":\"unknown\"}\n[INFO] [Render] Parallel capture worker phase {\"renderJobId\":\"d685a6f1-2e13-4982-8257-1acada830e59\",\"workerId\":0,\"phase\":\"session_init\",\"browserExecutable\":\"/usr/bin/chromium\",\"browserVersion\":\"Chrome/151.0.7922.173\",\"canvasDrawElement\":\"unknown\",\"gpuBackend\":\"unknown\"}\n[INFO] [Render] Parallel capture worker phase {\"renderJobId\":\"d685a6f1-2e13-4982-8257-1acada830e59\",\"workerId\":1,\"phase\":\"browser_probe\",\"browserExecutable\":\"/usr/bin/chromium\",\"browserVersion\":\"unknown\",\"canvasDrawElement\":\"unknown\",\"gpuBackend\":\"unknown\"}\n[INFO] [Render] Parallel capture worker phase {\"renderJobId\":\"d685a6f1-2e13-4982-8257-1acada830e59\",\"workerId\":1,\"phase\":\"session_init\",\"browserExecutable\":\"/usr/bin/chromium\",\"browserVersion\":\"Chrome/151.0.7922.173\",\"canvasDrawElement\":\"unknown\",\"gpuBackend\":\"unknown\"}\n[INFO] [Render] Parallel capture worker phase {\"renderJobId\":\"d685a6f1-2e13-4982-8257-1acada830e59\",\"workerId\":0,\"phase\":\"frame_capture\",\"frameIndex\":0,\"browserExecutable\":\"/usr/bin/chromium\",\"browserVersion\":\"Chrome/151.0.7922.173\",\"canvasDrawElement\":false,\"gpuBackend\":\"unknown\"}\n[INFO] [Render] Parallel capture worker phase {\"renderJobId\":\"d685a6f1-2e13-4982-8257-1acada830e59\",\"workerId\":1,\"phase\":\"frame_capture\",\"frameIndex\":1,\"browserExecutable\":\"/usr/bin/chromium\",\"browserVersion\":\"Chrome/151.0.7922.173\",\"canvasDrawElement\":false,\"gpuBackend\":\"unknown\"}\n[INFO] [Render:trace] {\"renderJobId\":\"d685a6f1-2e13-4982-8257-1acada830e59\",\"phase\":\"capture_streaming\",\"status\":\"checkpoint\",\"elapsedMs\":34371,\"message\":\"stage still running\",\"stagePhase\":\"capturing\",\"workerCount\":2,\"forceScreenshot\":false,\"totalFrames\":900,\"framesCompleted\":408,\"captureMode\":\"beginframe\",\"captureOperation\":\"beginFrame\",\"heartbeatIndex\":1,\"stageElapsedMs\":30000}\n[INFO] [Render:trace] {\"renderJobId\":\"d685a6f1-2e13-4982-8257-1acada830e59\",\"phase\":\"capture_streaming\",\"status\":\"checkpoint\",\"elapsedMs\":64372,\"message\":\"stage still running\",\"stagePhase\":\"capturing\",\"workerCount\":2,\"forceScreenshot\":false,\"totalFrames\":900,\"framesCompleted\":816,\"captureMode\":\"beginframe\",\"captureOperation\":\"beginFrame\",\"heartbeatIndex\":2,\"stageElapsedMs\":60001}\n[INFO] [Render:trace] {\"renderJobId\":\"d685a6f1-2e13-4982-8257-1acada830e59\",\"phase\":\"capture_streaming\",\"status\":\"end\",\"elapsedMs\":72365,\"durationMs\":67994,\"stagePhase\":\"capturing\",\"workerCount\":2,\"forceScreenshot\":false,\"totalFrames\":900,\"framesCompleted\":900,\"captureMode\":\"beginframe\",\"captureOperation\":\"encode\"}\n[INFO] [Render:trace] {\"renderJobId\":\"d685a6f1-2e13-4982-8257-1acada830e59\",\"phase\":\"assemble\",\"status\":\"start\",\"elapsedMs\":72366,\"stagePhase\":\"capturing\",\"hasAudio\":true,\"workerCount\":2,\"forceScreenshot\":false,\"totalFrames\":900,\"framesCompleted\":900,\"captureMode\":\"beginframe\",\"captureOperation\":\"encode\"}\n[INFO] [Render:trace] {\"renderJobId\":\"d685a6f1-2e13-4982-8257-1acada830e59\",\"phase\":\"assemble\",\"status\":\"end\",\"elapsedMs\":72951,\"durationMs\":585,\"stagePhase\":\"capturing\",\"hasAudio\":true,\"workerCount\":2,\"forceScreenshot\":false,\"totalFrames\":900,\"framesCompleted\":900,\"captureMode\":\"beginframe\",\"captureOperation\":\"encode\"}\n[INFO] [Render:trace] {\"renderJobId\":\"d685a6f1-2e13-4982-8257-1acada830e59\",\"phase\":\"pipeline\",\"status\":\"checkpoint\",\"elapsedMs\":73065,\"message\":\"artifact validated\",\"totalElapsedMs\":73060}\n"
+      }
+    }
+  },
+  "artifacts": [
+    "/workspace/proto/projects/Dragonblood30/renders/DRAGONBLOOD-30s.mp4"
+  ],
+  "error": null,
+  "cost_usd": 0.0,
+  "duration_seconds": 100.28,
+  "seed": null,
+  "model": null,
+  "from_cache": false
+}
