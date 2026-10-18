@@ -1,0 +1,90 @@
+[
+  {
+    "id": "card",
+    "source_shot": "capture-session/shot-011-target-choice.png",
+    "crop": [
+      830,
+      457,
+      999,
+      719
+    ],
+    "purpose": "Labeled actual UI/art detail insert; full gameplay viewport remains visible above."
+  },
+  {
+    "id": "guard",
+    "source_shot": "capture-session/shot-012-guard-buff-hover.png",
+    "crop": [
+      795,
+      446,
+      988,
+      718
+    ],
+    "purpose": "Labeled actual UI/art detail insert; full gameplay viewport remains visible above."
+  },
+  {
+    "id": "buff",
+    "source_shot": "capture-session/shot-012-guard-buff-result.png",
+    "crop": [
+      416,
+      469,
+      571,
+      707
+    ],
+    "purpose": "Labeled actual UI/art detail insert; full gameplay viewport remains visible above."
+  },
+  {
+    "id": "pyrren",
+    "source_shot": "capture-session/shot-005-pyrren-house.png",
+    "crop": [
+      730,
+      126,
+      1080,
+      480
+    ],
+    "purpose": "Labeled actual UI/art detail insert; full gameplay viewport remains visible above."
+  },
+  {
+    "id": "volgrim",
+    "source_shot": "capture-session/shot-004-volgrim-house.png",
+    "crop": [
+      251,
+      100,
+      642,
+      474
+    ],
+    "purpose": "Labeled actual UI/art detail insert; full gameplay viewport remains visible above."
+  },
+  {
+    "id": "map",
+    "source_shot": "capture-session/shot-009-branch-map.png",
+    "crop": [
+      339,
+      351,
+      877,
+      686
+    ],
+    "purpose": "Labeled actual UI/art detail insert; full gameplay viewport remains visible above."
+  },
+  {
+    "id": "reward",
+    "source_shot": "capture-session/shot-009-thunder-reward-selected.png",
+    "crop": [
+      580,
+      259,
+      1062,
+      465
+    ],
+    "purpose": "Labeled actual UI/art detail insert; full gameplay viewport remains visible above."
+  },
+  {
+    "id": "combat",
+    "source_shot": "capture-session/shot-017-enemy-defeated.png",
+    "crop": [
+      913,
+      100,
+      1240,
+      446
+    ],
+    "purpose": "Labeled actual UI/art detail insert; full gameplay viewport remains visible above."
+  }
+]

@@ -1,0 +1,329 @@
+{
+  "source_repo": "https://github.com/buildon99x/cb-ll",
+  "source_commit": "6b0b1e4203097cccaa955649ea772990398b285e",
+  "source_checkout": "detached capture worktree; original game checkout remains unchanged",
+  "new_character_art_replacements": 0,
+  "asset_records": {
+    "godot/assets/sprites/heirs/heir_storm/heir_storm.art.json": {
+      "asset": "frames.json",
+      "asset_id": "DB_SPRITE_HEIR_STORM_001",
+      "kind": "frame_animation/heir",
+      "output_files": [
+        "godot/assets/sprites/heirs/heir_storm/heir_storm-attack.png",
+        "godot/assets/sprites/heirs/heir_storm/heir_storm-cast.png",
+        "godot/assets/sprites/heirs/heir_storm/heir_storm-guard.png",
+        "godot/assets/sprites/heirs/heir_storm/heir_storm-hit.png",
+        "godot/assets/sprites/heirs/heir_storm/heir_storm-idle.png",
+        "godot/assets/sprites/heirs/heir_storm/frames.json"
+      ],
+      "sha256": {
+        "heir_storm-attack.png": "6700e831449262122a6b878f709db3cda00cf4e9a1b8738bef579bcbe183bc02",
+        "heir_storm-cast.png": "a8e3212eb9d1bb88923253a1fd2d9a84ee2bdd33f8b889428ec07fc25180ee88",
+        "heir_storm-guard.png": "319e85c66f94eac5873e7fd38ec072c2b9fbf0ad0534715982e42aa1e3ebbf2f",
+        "heir_storm-hit.png": "9626d18f5b5a7a5a35ea3502429d3c36d97bab01321ecf2f99a90149a8b7ec3f",
+        "heir_storm-idle.png": "3c5f661c8cecacfea7ebc68ce50cb6dd4461aa97bc52d6ac0133fa65c7713b88"
+      },
+      "created": "2026-09-24",
+      "tool": "ChatGPT desktop app image generation (ChatGPT Classic)",
+      "generator": "ChatGPT desktop app image generation (ChatGPT Classic)",
+      "model": null,
+      "seed": null,
+      "params": {
+        "template": "heir",
+        "cell": [
+          960,
+          704
+        ],
+        "pivot": [
+          480,
+          704
+        ],
+        "bodyH": 649.0,
+        "fit": 0.78,
+        "cropBottomFrac": 0.75,
+        "atlasPadding": 4,
+        "dups": {
+          "idle": [
+            {
+              "from": 1,
+              "to": 3
+            }
+          ]
+        },
+        "spec": "ws/battle-visual-20260924/sprite/sprite-templates.json",
+        "ingest": "ws/battle-visual-20260924/sprite/heir_tool.py",
+        "edgeAA": "ws/battle-visual-20260924/sprite/edge_aa.py v1"
+      },
+      "operator": "agent (Claude Code, ChatGPT Classic 앱 조작)",
+      "purpose": "production-source",
+      "prompt_file": "ws/battle-visual-20260924/prompts/14-heir-storm-idle.md",
+      "prompt_files": [
+        "ws/battle-visual-20260924/prompts/14-heir-storm-idle.md",
+        "ws/battle-visual-20260924/prompts/14-heir-storm-attack-a.md",
+        "ws/battle-visual-20260924/prompts/14-heir-storm-attack-b.md",
+        "ws/battle-visual-20260924/prompts/14-heir-storm-guard.md",
+        "ws/battle-visual-20260924/prompts/14-heir-storm-cast.md",
+        "ws/battle-visual-20260924/prompts/14-heir-storm-hit.md"
+      ],
+      "source_images": [
+        "ws/battle-visual-20260924/images/14-heir-storm-idle-v1.png",
+        "ws/battle-visual-20260924/images/14-heir-storm-attack-a-v1.png",
+        "ws/battle-visual-20260924/images/14-heir-storm-attack-b-v1.png",
+        "ws/battle-visual-20260924/images/14-heir-storm-guard-v1.png",
+        "ws/battle-visual-20260924/images/14-heir-storm-cast-v2.png",
+        "ws/battle-visual-20260924/images/14-heir-storm-hit-v1.png"
+      ],
+      "negative_prompt": "unrecorded",
+      "reference_images_and_rights": {
+        "images": [
+          "ws/battle-visual-20260924/references/heir-volgrim-tempest-concept-v2.png",
+          "ws/battle-visual-20260924/images/03-heir-battle-sheet-v2.png",
+          "ws/battle-visual-20260924/references/strip-guide-heir-3col.png"
+        ],
+        "rights": "OpenAI image generation output via the ChatGPT app; Steam pre-generated disclosure and itch.io AI tagging apply (design 16 §4)."
+      },
+      "human_edits": "픽셀 수정 없음. ws/battle-visual-20260924/sprite/heir_tool.py 가 결정적으로 처리: 단색 배경·접지 그림자 제거, 칸별 성분 분리, 장마다 칸 0(기준 대기 자세)의 전신 높이로 배율 통일(LANCZOS), 계승자 단일 몸높이 배율(FIT), 발을 접지선에 두고 몸높이의 cropBottomFrac(무릎선)에서 셀을 끊는 배치, 상태별 가로 스트립 반출. 같은 그림을 다시 쓰는 칸(대기 왕복·공격 복귀 등)은 원장의 dups 에 적었다. 반출 뒤 edge_aa.py 가 외곽을 다듬는다(재생성 없음): 몸 안의 반투명 핀홀을 불투명으로 되돌리고(색은 주변 화소에서 번짐), 단단한 경계 알파를 4×4 슈퍼샘플로 다시 긋고, 투명 화소의 RGB 를 가까운 색으로 채운다.",
+      "reviewers": "unrecorded",
+      "license_note": "OpenAI image generation output; Steam pre-generated disclosure and itch.io AI tagging apply (design 16 §4)."
+    },
+    "godot/assets/cards/art/concept07/storm-guard.art.json": {
+      "asset": "storm-guard.png",
+      "asset_id": "DB_CARD_STORM_002",
+      "batch_id": "concept07_storm",
+      "kind": "card_illustration_window",
+      "card_grammar": "skill_defensive",
+      "tool": "OpenAI built-in image_gen",
+      "model": null,
+      "seed": null,
+      "created": "2026-07-13",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "sha256": "71d707fa4092b168dd80fd43bb7521c1aadf9b19bcdcf00c4efbc15e29493634",
+      "prompt_contract": "docs/visual/asset-production/concept07-combat-scene-asset-manifest.md#35-db_card_storm_002--storm-skill방어-일러-painterly",
+      "prompt": "Use case: stylized-concept\nAsset type: production game card illustration-window art, portrait 2:3\nPrimary request: Card ILLUSTRATION ART for a DRAGONBLOOD House Volgrim storm SKILL (defensive) card. Frame-less inner artwork only — this fills the card's art window, not a full card face.\nSubject: a warding storm aegis — a curved shield-wall of condensed violet static folding inward around an unseen bearer, strongly protective enclosing motion. A restrained hint of dark forged plate and a dragon-blooded arm raised beneath the ward.\nScene/backdrop: low-saturation charcoal darkness and smoke, subtly suggesting ruined cathedral stone, subordinate to the aegis.\nStyle/medium: painterly matte grim western high-fantasy card illustration, premium hand-painted concept-art finish, tactile brushwork, no glossy print finish.\nComposition/framing: portrait 2:3, shield arc creates a clear inward crescent and safe central focal read at small hand scale, generous crop-safe margins.\nLighting/mood: quiet defensive pressure, cold static outlining the shelter.\nColor palette: near-black charcoal, cold iron, ash grey; restrained storm-violet #A99BEF only in the ward energy and sparse reflected edges, never a purple wash.\nText: none.\nConstraints: artwork-only raster illustration; no transparency required; no card frame, border, card silhouette, rarity gem, cost, name, rules text, icon, HUD, UI, lettering, typography, watermark, logo, or decorative card chrome.\nAvoid: attack thrust or outward explosion, cute or chibi treatment, glossy TCG look, neon cyberpunk, full-frame purple fill, embedded interface elements.",
+      "params": {
+        "requested_size": [
+          1024,
+          1536
+        ],
+        "background": "opaque",
+        "output_format": "png"
+      },
+      "reference_images": [],
+      "post": "Saved as 1024x1536 RGB; no compositing, frame, text, cost, or card chrome added.",
+      "selection_note": "내향하는 초승달형 방벽과 방어자의 팔이 Skill 방어 문법을 분명히 만들며, 프레임·문자·HUD 없이 국소 violet 정전기만 사용한다.",
+      "license_note": "OpenAI output ownership terms apply. Steam pre-generated AI disclosure and itch.io AI tagging apply (design 16 §4).",
+      "operator": "agent (내장 이미지 도구, Codex 세션)",
+      "purpose": "production-source",
+      "negative_prompt": "unrecorded",
+      "reference_images_and_rights": {
+        "images": [],
+        "rights": "OpenAI output ownership terms apply. Steam pre-generated AI disclosure and itch.io AI tagging apply (design 16 §4)."
+      },
+      "human_edits": "unrecorded",
+      "reviewers": "unrecorded"
+    },
+    "godot/assets/sprites/creatures/storm_whelp/storm_whelp.art.json": {
+      "asset": "frames.json",
+      "asset_id": "DB_SPRITE_STORM_WHELP_001",
+      "kind": "frame_animation/creature",
+      "output_files": [
+        "godot/assets/sprites/creatures/storm_whelp/storm_whelp-attack.png",
+        "godot/assets/sprites/creatures/storm_whelp/storm_whelp-cast.png",
+        "godot/assets/sprites/creatures/storm_whelp/storm_whelp-defeat.png",
+        "godot/assets/sprites/creatures/storm_whelp/storm_whelp-guard.png",
+        "godot/assets/sprites/creatures/storm_whelp/storm_whelp-hit.png",
+        "godot/assets/sprites/creatures/storm_whelp/storm_whelp-idle.png",
+        "godot/assets/sprites/creatures/storm_whelp/storm_whelp-telegraph.png",
+        "godot/assets/sprites/creatures/storm_whelp/frames.json"
+      ],
+      "sha256": {
+        "storm_whelp-attack.png": "bb2fb42a6c1bc956d293b258c394b586dd1451b9c279f406bc006aa3175ad553",
+        "storm_whelp-cast.png": "ede0ec01033bc5a51a85097f7648b0cc83e9c2ae6d78dbf40737c8fabf80b9d0",
+        "storm_whelp-defeat.png": "afdf90a7e8739111b52781bd6d5272fc09045264ee395563b085928564c15df7",
+        "storm_whelp-guard.png": "e0b919d4d9cab03b7950684ff4e8ee3e48ad5c2c56a697b034a0195dc28f14c0",
+        "storm_whelp-hit.png": "cba3b51644169731cf829c260db2234b2616391eb88bd599272060da3a23cae7",
+        "storm_whelp-idle.png": "3de496aa91439cc512049188a5b1281df89cab88bcf39fb76313aa7339175930",
+        "storm_whelp-telegraph.png": "7949e921e9994608c73c22dda41c754fb904461ff6fe6164723e3af57966a462"
+      },
+      "created": "2026-09-24",
+      "tool": "ChatGPT desktop app image generation (ChatGPT Classic)",
+      "generator": "ChatGPT desktop app image generation (ChatGPT Classic)",
+      "model": null,
+      "seed": null,
+      "params": {
+        "template": "enemy-normal",
+        "cell": [
+          416,
+          296
+        ],
+        "pivot": [
+          236,
+          268
+        ],
+        "bodyH": 189.3,
+        "bodyFit": 0.91,
+        "atlasPadding": 4,
+        "spec": "ws/battle-visual-20260924/sprite/sprite-templates.json",
+        "ingest": "ws/battle-visual-20260924/sprite/ingest_all.py",
+        "edgeAA": "ws/battle-visual-20260924/sprite/edge_aa.py v1"
+      },
+      "operator": "agent (Claude Code, ChatGPT Classic 앱 조작)",
+      "purpose": "production-source",
+      "prompt_file": "ws/battle-visual-20260924/prompts/12-strip-storm_whelp-attack.md",
+      "prompt_files": [
+        "ws/battle-visual-20260924/prompts/12-strip-storm_whelp-attack.md",
+        "ws/battle-visual-20260924/prompts/12-strip-storm_whelp-idle.md",
+        "ws/battle-visual-20260924/prompts/12-strip-storm_whelp-cast.md",
+        "ws/battle-visual-20260924/prompts/12-strip-storm_whelp-telegraph-guard.md",
+        "ws/battle-visual-20260924/prompts/12-strip-storm_whelp-defeat.md",
+        "ws/battle-visual-20260924/prompts/12-strip-storm_whelp-hit-final.md"
+      ],
+      "source_images": [
+        "ws/battle-visual-20260924/images/12-strip-storm_whelp-attack-v1.png",
+        "ws/battle-visual-20260924/images/12-strip-storm_whelp-idle-v1.png",
+        "ws/battle-visual-20260924/images/12-strip-storm_whelp-cast-v1.png",
+        "ws/battle-visual-20260924/images/12-strip-storm_whelp-telegraph-guard-v1.png",
+        "ws/battle-visual-20260924/images/12-strip-storm_whelp-defeat-v1.png",
+        "ws/battle-visual-20260924/images/12-strip-storm_whelp-hit-final-v1.png"
+      ],
+      "negative_prompt": "unrecorded",
+      "reference_images_and_rights": {
+        "images": [
+          "ws/battle-visual-20260924/images/07a-motion-whelps-v3.png",
+          "ws/battle-visual-20260924/images/12-strip-storm_whelp-attack-v1.png"
+        ],
+        "rights": "OpenAI image generation output via the ChatGPT app; Steam pre-generated disclosure and itch.io AI tagging apply (design 16 §4)."
+      },
+      "human_edits": "픽셀 수정 없음. ws/battle-visual-20260924/sprite/ 의 도구가 결정적으로 처리: 단색 배경·접지 그림자 제거, 칸별 성분 분리, 스트립마다 기준 대기 자세로 배율 통일(LANCZOS), 크리처 단일 몸높이 배율(BODY_FIT), 발을 피벗에 맞춘 배치, 상태별 가로 스트립 반출. 생성기가 가이드 격자와 다르게 그린 배치(줄 = 애니메이션, 한 줄 나열)는 ingest_all.py 가 칸→프레임 대응으로 기록한다. 예고(telegraph) 4번째 프레임은 3번째 생성 프레임을 그대로 한 번 더 쓴 홀드다. 빠진 프레임은 hit-final 아랫줄(및 13-fill)의 생성 프레임으로 채웠다. 반출 뒤 edge_aa.py 가 외곽을 다듬는다(재생성 없음): 몸 안의 반투명 핀홀을 불투명으로 되돌리고(색은 주변 화소에서 번짐), 단단한 경계 알파를 4×4 슈퍼샘플로 다시 긋고, 투명 화소의 RGB 를 가까운 색으로 채운다.",
+      "reviewers": "unrecorded",
+      "license_note": "OpenAI image generation output; Steam pre-generated disclosure and itch.io AI tagging apply (design 16 §4)."
+    },
+    "godot/data/audio-manifest.json": {
+      "_comment": "오디오 발주·반입 계약 (이슈 #155 P16 · docs/visual-v2/06 §오디오 계약). ui-theme.json `audio`가 '어느 비트가 어느 큐를 어느 버스로 요청하는가'(레지스트리)라면 이 파일은 '그 큐를 어떻게 발주하고 무엇을 반입했는가'(조달 계약)다 — 둘의 축이 달라 한 파일에 합치지 않는다. 소비자는 audio_manager.gd 하나(`load_manifest` → `_stream_for` 해석 + pitch 변조)이고, 선언 필드는 전부 `manifest_violations()`가 검증해 ui_quality._check_audio_cue_contract가 빈 배열을 단언한다(LRN-0026: 선언·소비자·게이트 동커밋). 절차는 assets/audio/README.md(RUNBOOK).",
+      "root": "res://assets/audio/",
+      "_deliveryComment": "발주 규격. 필드마다 소비자를 지목한다 — `pitchJitter`는 재생 코드(`_voice`), `variantsMin/Max`와 `sourceFormat`은 게이트(`manifest_violations()`: 변형 수 범위 / 반입 파일 확장자)가 직접 읽는다. `sampleRateHz`/`bitDepth`/`truePeakDb`/`loudnessLufs`는 런타임에서 확인할 수 없어(런타임 스트림은 Godot import 압축본이라 원본 규격이 남지 않는다) 소비자가 코드가 아니라 **반입 시 함께 커밋되는 라이선스 사이드카의 `spec` 블록**이고, `manifest_violations()`가 사이드카 값과 이 블록을 대조한다(LRN-0027: 파생 사본은 진실원본과 자동 게이트로 묶는다). 레포에 커밋하는 것은 `sourceFormat` 마스터이고 런타임 압축은 Godot 임포터가 한다(visual-v2/05).",
+      "delivery": {
+        "sourceFormat": "wav",
+        "sampleRateHz": 48000,
+        "bitDepth": 24,
+        "variantsMin": 3,
+        "variantsMax": 6,
+        "pitchJitter": 0.03,
+        "unmodulatedCues": [
+          "ui.card_commit",
+          "ui.card_commit.key",
+          "ui.card_commit.finisher",
+          "ui.turn_change",
+          "music.verdict"
+        ],
+        "truePeakDb": -1.0,
+        "loudnessLufs": {
+          "sfx": -18.0,
+          "music": -20.0
+        }
+      },
+      "_licenceComment": "외부 조달 전제(클린룸 — 저작권 오디오 반입 금지). 반입 파일마다 `<파일명><sidecarSuffix>` 사이드카를 같은 커밋에 둔다. `spec`은 실제 납품물의 측정값이며 위 `delivery`와 일치해야 한다.",
+      "licence": {
+        "sidecarSuffix": ".licence.json",
+        "requiredFields": [
+          "source",
+          "author",
+          "licence",
+          "url",
+          "procuredAt",
+          "spec"
+        ],
+        "specFields": [
+          "sampleRateHz",
+          "bitDepth",
+          "channels",
+          "loudnessLufs",
+          "truePeakDb"
+        ]
+      },
+      "_cuesComment": "발주 대상은 **오늘 레지스트리가 실제로 요청할 수 있는 큐 전수**다 — 기본 9종 + 연출 3등급(design 32 §15.1)의 핵심/피니셔 2종. visual-v2/06의 큐 목록에는 ui.card_hover·ui.card_reject·ui.cost_spend·ui.pile_open·ui.end_turn·ambience.cathedral_bright_ruin도 있으나 이를 요청하는 비트가 없어 발주하지 않는다(요청하는 비트가 생기는 커밋에서 함께 추가한다 — 사지 않은 소리를 계약에 적으면 죽은 선언이다). `variants`는 반입된 파일명 배열이며, 도착 전에는 빈 배열이다(silent-but-complete). 06의 '피치로 의미가 달라지는 UI 확인음은 변조하지 않는다'는 큐별 필드가 아니라 `delivery.unmodulatedCues` 한 곳에 적는다 — 플레이어 행동/국면을 확정하는 소리(카드 확정 3등급 · 턴 전환)와 전투당 1회뿐이라 반복감이 없는 평결 음악이 그 집합이다.",
+      "cues": {
+        "ui.card_commit": {
+          "dir": "ui/card_commit",
+          "loudness": "sfx",
+          "channels": 1,
+          "variants": []
+        },
+        "ui.card_commit.key": {
+          "_note": "핵심 카드(uncommon)의 '강화된 사운드' — design 32 §15.1. 등급 판정은 vfx-map `tiers.byRarity` 하나가 소유한다.",
+          "dir": "ui/card_commit_key",
+          "loudness": "sfx",
+          "channels": 1,
+          "variants": []
+        },
+        "ui.card_commit.finisher": {
+          "_note": "피니셔(rare) — 하우스 고유 효과를 강조하는 최상위 등급.",
+          "dir": "ui/card_commit_finisher",
+          "loudness": "sfx",
+          "channels": 1,
+          "variants": []
+        },
+        "ui.pile_receive": {
+          "dir": "ui/pile_receive",
+          "loudness": "sfx",
+          "channels": 1,
+          "variants": []
+        },
+        "ui.turn_change": {
+          "dir": "ui/turn_change",
+          "loudness": "sfx",
+          "channels": 1,
+          "variants": []
+        },
+        "combat.impact": {
+          "dir": "combat/impact",
+          "loudness": "sfx",
+          "channels": 1,
+          "variants": []
+        },
+        "combat.block": {
+          "dir": "combat/block",
+          "loudness": "sfx",
+          "channels": 1,
+          "variants": []
+        },
+        "combat.status": {
+          "dir": "combat/status",
+          "loudness": "sfx",
+          "channels": 1,
+          "variants": []
+        },
+        "combat.attack_windup": {
+          "dir": "combat/attack_windup",
+          "loudness": "sfx",
+          "channels": 1,
+          "variants": []
+        },
+        "combat.defeat": {
+          "dir": "combat/defeat",
+          "loudness": "sfx",
+          "channels": 1,
+          "variants": []
+        },
+        "music.verdict": {
+          "_note": "sustained 평결 스팅. outcomes는 코어의 victory 결과에 맞는 variants 파일명을 명시한다. 2종이면 승/패를 따로 연결하며, 1종은 승패 공용 중립 스팅을 두 결과에 명시한다. 무작위 승패 선택은 금지한다.",
+          "dir": "music/verdict",
+          "loudness": "music",
+          "channels": 2,
+          "variantsMin": 1,
+          "variantsMax": 2,
+          "outcomes": {
+            "victory": "",
+            "defeat": ""
+          },
+          "variants": []
+        }
+      }
+    }
+  },
+  "rights_scope": "User-authorized capture/edit of supplied project. Existing runtime asset records show OpenAI output/user materials; no third-party footage/music added. Provenance gate reports deferred metadata, not a complete independent legal clearance. New candidate character artwork excluded."
+}

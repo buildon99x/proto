@@ -1,0 +1,7 @@
+node_modules
+.hyperframes/
+__pycache__/
+capture-userdata/
+app/dist/
+assets/gameplay/raw-session.mp4
+capture-session/

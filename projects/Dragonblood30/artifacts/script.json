@@ -1,0 +1,86 @@
+{
+  "audio_architecture": "original edit score; Korean on-screen copy; no narration",
+  "beats": [
+    {
+      "start": 0,
+      "end": 3,
+      "chapter": "결정의 순간",
+      "headline": [
+        "이 한 장,",
+        "지금 쓸까?"
+      ],
+      "source_detail": "buff"
+    },
+    {
+      "start": 3,
+      "end": 8,
+      "chapter": "카드와 대상",
+      "headline": [
+        "카드를 고르고,",
+        "목표를 찍는다."
+      ],
+      "source_detail": "card"
+    },
+    {
+      "start": 8,
+      "end": 11,
+      "chapter": "가문의 선택",
+      "headline": [
+        "불꽃으로 갈까,",
+        "번개로 갈까?"
+      ],
+      "source_detail": "pyrren"
+    },
+    {
+      "start": 11,
+      "end": 14,
+      "chapter": "가문의 선택",
+      "headline": [
+        "불꽃으로 갈까,",
+        "번개로 갈까?"
+      ],
+      "source_detail": "volgrim"
+    },
+    {
+      "start": 14,
+      "end": 16,
+      "chapter": "분기 맵",
+      "headline": [
+        "갈 길도,",
+        "받을 카드도."
+      ],
+      "source_detail": "map"
+    },
+    {
+      "start": 16,
+      "end": 19,
+      "chapter": "카드 보상",
+      "headline": [
+        "갈 길도,",
+        "받을 카드도."
+      ],
+      "source_detail": "reward"
+    },
+    {
+      "start": 19,
+      "end": 26,
+      "chapter": "이어지는 선택",
+      "headline": [
+        "막는 순서가,",
+        "때리는 힘이 된다."
+      ],
+      "source_detail": "synergy"
+    },
+    {
+      "start": 26,
+      "end": 30,
+      "chapter": "YOUR NEXT DECK",
+      "headline": [
+        "이 덱빌딩,",
+        "해보고 싶어?"
+      ],
+      "source_detail": "combat"
+    }
+  ],
+  "claims": "All feature claims map to actual captured cards/targets/house selection/map/reward/buff preview. No transformation or new character-art completion claim."
+}

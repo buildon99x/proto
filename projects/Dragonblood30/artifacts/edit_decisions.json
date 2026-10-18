@@ -1,0 +1,101 @@
+{
+  "pipeline": "hybrid",
+  "render_runtime": "hyperframes",
+  "composition_mode": "atelier",
+  "duration_seconds": 30,
+  "cuts": [
+    {
+      "id": "hook",
+      "timeline_start": 0,
+      "duration_seconds": 3,
+      "source_in_seconds": 292.0,
+      "source": "assets/gameplay/raw-session.mp4",
+      "selected_clip": "assets/gameplay/hook.mp4",
+      "speed": 1,
+      "full_viewport": true
+    },
+    {
+      "id": "card-target",
+      "timeline_start": 3,
+      "duration_seconds": 5,
+      "source_in_seconds": 155.6,
+      "source": "assets/gameplay/raw-session.mp4",
+      "selected_clip": "assets/gameplay/card-target.mp4",
+      "speed": 1,
+      "full_viewport": true
+    },
+    {
+      "id": "pyrren",
+      "timeline_start": 8,
+      "duration_seconds": 3,
+      "source_in_seconds": 55.2,
+      "source": "assets/gameplay/raw-session.mp4",
+      "selected_clip": "assets/gameplay/pyrren.mp4",
+      "speed": 1,
+      "full_viewport": true
+    },
+    {
+      "id": "volgrim",
+      "timeline_start": 11,
+      "duration_seconds": 3,
+      "source_in_seconds": 39.9,
+      "source": "assets/gameplay/raw-session.mp4",
+      "selected_clip": "assets/gameplay/volgrim.mp4",
+      "speed": 1,
+      "full_viewport": true
+    },
+    {
+      "id": "map",
+      "timeline_start": 14,
+      "duration_seconds": 2,
+      "source_in_seconds": 131.4,
+      "source": "assets/gameplay/raw-session.mp4",
+      "selected_clip": "assets/gameplay/map.mp4",
+      "speed": 1,
+      "full_viewport": true
+    },
+    {
+      "id": "reward",
+      "timeline_start": 16,
+      "duration_seconds": 3,
+      "source_in_seconds": 116.0,
+      "source": "assets/gameplay/raw-session.mp4",
+      "selected_clip": "assets/gameplay/reward.mp4",
+      "speed": 1,
+      "full_viewport": true
+    },
+    {
+      "id": "guard-buff",
+      "timeline_start": 19,
+      "duration_seconds": 3,
+      "source_in_seconds": 184.6,
+      "source": "assets/gameplay/raw-session.mp4",
+      "selected_clip": "assets/gameplay/guard-buff.mp4",
+      "speed": 1,
+      "full_viewport": true
+    },
+    {
+      "id": "buffed-attack",
+      "timeline_start": 22,
+      "duration_seconds": 4,
+      "source_in_seconds": 196.6,
+      "source": "assets/gameplay/raw-session.mp4",
+      "selected_clip": "assets/gameplay/buffed-attack.mp4",
+      "speed": 1,
+      "full_viewport": true
+    },
+    {
+      "id": "cta-combat",
+      "timeline_start": 26,
+      "duration_seconds": 4,
+      "source_in_seconds": 244.5,
+      "source": "assets/gameplay/raw-session.mp4",
+      "selected_clip": "assets/gameplay/cta-combat.mp4",
+      "speed": 1,
+      "full_viewport": true
+    }
+  ],
+  "source_capture_start_unix": 1792323379.666023,
+  "source_sha256": "f52b2d1fd7611201a016d319a0581c978d89a17854d7495b092fa55e02ea1b8e",
+  "note": "Full raw capture retained locally and excluded from Git size; all selected source clips and input commands committed. No game viewport cropping or speed changes."
+}
