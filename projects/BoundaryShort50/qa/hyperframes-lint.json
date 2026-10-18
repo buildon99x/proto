@@ -1,0 +1,170 @@
+{
+  "ok": true,
+  "errorCount": 0,
+  "warningCount": 16,
+  "infoCount": 0,
+  "findings": [
+    {
+      "code": "timeline_track_too_dense",
+      "severity": "warning",
+      "message": "Track 0 has 15 timed elements in this HTML file. Smaller sub-compositions keep timelines easier to read, iterate on, and diff.",
+      "fixHint": "Move coherent scene groups into separate .html files under compositions/ and mount them from the parent with data-composition-src so the timeline stays easier to inspect, revise, and validate.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html"
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"scene-1\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "scene-1",
+      "fixHint": "Move <section id=\"scene-1\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html",
+      "line": 1,
+      "column": 1762
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"scene-2\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "scene-2",
+      "fixHint": "Move <section id=\"scene-2\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html",
+      "line": 1,
+      "column": 21795
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"scene-3\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "scene-3",
+      "fixHint": "Move <section id=\"scene-3\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html",
+      "line": 1,
+      "column": 25171
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"scene-4\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "scene-4",
+      "fixHint": "Move <section id=\"scene-4\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html",
+      "line": 1,
+      "column": 30848
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"scene-5\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "scene-5",
+      "fixHint": "Move <section id=\"scene-5\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html",
+      "line": 1,
+      "column": 36631
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"scene-6\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "scene-6",
+      "fixHint": "Move <section id=\"scene-6\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html",
+      "line": 1,
+      "column": 40021
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"scene-7\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "scene-7",
+      "fixHint": "Move <section id=\"scene-7\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html",
+      "line": 1,
+      "column": 45555
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"scene-8\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "scene-8",
+      "fixHint": "Move <section id=\"scene-8\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html",
+      "line": 1,
+      "column": 47670
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"scene-9\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "scene-9",
+      "fixHint": "Move <section id=\"scene-9\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html",
+      "line": 1,
+      "column": 49938
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"scene-10\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "scene-10",
+      "fixHint": "Move <section id=\"scene-10\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html",
+      "line": 1,
+      "column": 53226
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"scene-11\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "scene-11",
+      "fixHint": "Move <section id=\"scene-11\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html",
+      "line": 1,
+      "column": 58103
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"scene-12\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "scene-12",
+      "fixHint": "Move <section id=\"scene-12\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html",
+      "line": 1,
+      "column": 61498
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"scene-13\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "scene-13",
+      "fixHint": "Move <section id=\"scene-13\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html",
+      "line": 1,
+      "column": 65587
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"scene-14\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "scene-14",
+      "fixHint": "Move <section id=\"scene-14\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html",
+      "line": 1,
+      "column": 71120
+    },
+    {
+      "code": "nested_structure_needs_subcomposition",
+      "severity": "warning",
+      "message": "<section id=\"scene-15\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+      "elementId": "scene-15",
+      "fixHint": "Move <section id=\"scene-15\"> and its contents into a sub-composition file and mount it with data-composition-src.",
+      "file": "/workspace/proto/projects/BoundaryShort50/hyperframes/index.html",
+      "line": 1,
+      "column": 72708
+    }
+  ],
+  "filesScanned": 1,
+  "_meta": {
+    "version": "0.8.157",
+    "updateAvailable": false
+  }
+}

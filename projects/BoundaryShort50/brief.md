@@ -1,0 +1,2 @@
+# Automatic yes → a boundary-setting sentence
+Create a Korean 9:16 short, about50seconds and15beats, grounded in the research-verified script to follow. Hook with an everyday relationship reversal; show automatic acceptance, the social discomfort of refusal, a pause, and a concrete sentence for setting a boundary. No fabricated neurological cause or medical imagery. Thumbnail: one exhausted person in a crowd, short neon-yellow copy. Preserve prior completed videos; deliver new MP4 and thumbnail as native Library files.

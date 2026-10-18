@@ -1,0 +1,36 @@
+{
+  "id": "boundary-short-50",
+  "name": "싫은데 또 응 했다면 · 음성 대기",
+  "status": "prototype",
+  "type": "poc",
+  "runtime": "static-artifact",
+  "version": "0.1.0",
+  "summary": "50초 한국어 관계·경계 설정 영상 제작 미리보기. 음성 모델 다운로드 차단으로 내레이션 대기 중.",
+  "tags": [
+    "video",
+    "OpenMontage",
+    "animation",
+    "preview"
+  ],
+  "projectRoot": "projects/BoundaryShort50",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/boundary-short-50/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md",
+    "qa": "qa/QA.md"
+  },
+  "assets": {
+    "cover": "renders/thumbnail.png"
+  },
+  "commands": {
+    "dev": "pnpm --filter boundary-short-50 dev",
+    "build": "pnpm --filter boundary-short-50 build",
+    "test": "pnpm --filter boundary-short-50 test"
+  }
+}

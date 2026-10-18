@@ -1,0 +1,114 @@
+{
+  "title": "싫은데 또 “응” 했다면",
+  "beats": [
+    {
+      "id": 1,
+      "start": 0,
+      "end": 3,
+      "narration": "싫은데 또 “응” 했나요?"
+    },
+    {
+      "id": 2,
+      "start": 3,
+      "end": 6,
+      "narration": "거절하면 미움받을 것 같죠."
+    },
+    {
+      "id": 3,
+      "start": 6,
+      "end": 10,
+      "narration": "그런데 초대 거절 연구에선,"
+    },
+    {
+      "id": 4,
+      "start": 10,
+      "end": 14,
+      "narration": "상대의 실망을 더 크게 예상했어요."
+    },
+    {
+      "id": 5,
+      "start": 14,
+      "end": 17,
+      "narration": "물론 모든 관계가 같진 않아요."
+    },
+    {
+      "id": 6,
+      "start": 17,
+      "end": 20,
+      "narration": "그래서 작은 부탁부터 연습해요."
+    },
+    {
+      "id": 7,
+      "start": 20,
+      "end": 23,
+      "narration": "“오늘 이것도 해줄래?”"
+    },
+    {
+      "id": 8,
+      "start": 23,
+      "end": 26,
+      "narration": "“일정 보고 답할게.”"
+    },
+    {
+      "id": 9,
+      "start": 26,
+      "end": 29,
+      "narration": "바로 수락하지 말고 확인해요."
+    },
+    {
+      "id": 10,
+      "start": 29,
+      "end": 32,
+      "narration": "내 시간과 여유가 있는지."
+    },
+    {
+      "id": 11,
+      "start": 32,
+      "end": 36,
+      "narration": "어렵다면, “오늘은 맡기 어려워.”"
+    },
+    {
+      "id": 12,
+      "start": 36,
+      "end": 39,
+      "narration": "계속 부탁해도 같은 말을 짧게."
+    },
+    {
+      "id": 13,
+      "start": 39,
+      "end": 43,
+      "narration": "도울 여유가 있다면 범위를 정해요."
+    },
+    {
+      "id": 14,
+      "start": 43,
+      "end": 47,
+      "narration": "“전부는 어렵고, 십 분은 도와줄게.”"
+    },
+    {
+      "id": 15,
+      "start": 47,
+      "end": 50,
+      "narration": "다음 부탁엔, “일정 보고 답할게.”"
+    }
+  ],
+  "research_scope": "Pleasant social invitations; do not generalize to work, coercive/abusive or all relationships",
+  "practice_scope": "Illustrative assertiveness exercises; the exact sentence is not a clinically proven intervention",
+  "safety_note": "보복이나 위협이 있는 관계에서는 거절 기술보다 자신의 안전과 도움을 우선하세요.",
+  "sources": [
+    {
+      "id": "givi2024",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38079463/",
+      "citation": "Givi & Kirk (2024)"
+    },
+    {
+      "id": "cci",
+      "url": "https://www.cci.health.wa.gov.au/~/media/CCI/Consumer-Modules/Assert-Yourself/Assert-Yourself---06---How-to-Say-No-Assertively.pdf"
+    },
+    {
+      "id": "mayo",
+      "url": "https://www.mayoclinic.org/healthy-lifestyle/stress-management/in-depth/assertive/art-20044644"
+    }
+  ],
+  "optional_line": "전부는 어렵고, 십 분은 도와줄게 is an optional example only when willing and able."
+}

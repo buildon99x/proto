@@ -1,0 +1,1 @@
+{"success": true, "error": null, "artifacts": ["/workspace/proto/projects/BoundaryShort50/renders/BoundaryShort50-preview-narration-pending.mp4"], "narration_available": false, "is_final_delivery": false}

@@ -1,0 +1,35 @@
+{
+  "topic": "Automatic acceptance and an everyday boundary-setting sentence",
+  "script_status": "parent-supplied verified15beat script locked",
+  "render_runtime": "hyperframes",
+  "runtime_options": [
+    {
+      "name": "hyperframes",
+      "selected": true,
+      "reason": "Reuse existing local OpenMontage/HTML/SVG/GSAP path for original editorial scenes and captions"
+    },
+    {
+      "name": "remotion",
+      "selected": false,
+      "reason": "Not installed; unnecessary React stack"
+    },
+    {
+      "name": "ffmpeg",
+      "selected": false,
+      "reason": "Encoding/QA only; actual render via OpenMontage registry"
+    }
+  ],
+  "voice": {
+    "preferred": "local MeloTTS Korean / MIT",
+    "status": "blocked by public model download proxy403",
+    "no_silent_substitution": true
+  },
+  "visuals": {
+    "source": "original authored SVG illustrations/GSAP acting",
+    "thumbnail": "exhausted adult in crowd, neon-yellow short copy; no brain/medical authority imagery",
+    "research_figure": "Qualitative bubble-size metaphor, not experimental numbers or a universal promise"
+  },
+  "approval_policy": "Complete authorized local work without paid API, credential setup, permanent access settings or social/manual deployment; existing branch commit/push allowed; finished voiced delivery requires narration availability.",
+  "pipeline": "animation",
+  "pipeline_scope": "Local animation-first SVG/GSAP implementation; actual OpenMontage compose tool used. Do not claim every upstream pipeline stage/checkpoint ran."
+}

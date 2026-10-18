@@ -1,0 +1,10 @@
+{
+  "name": "boundary-short-50",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "python3 -m http.server 8082 --directory dist",
+    "build": "node build.mjs",
+    "test": "/workspace/openmontage-venv/bin/python ../scripts/verify-preview.py"
+  }
+}

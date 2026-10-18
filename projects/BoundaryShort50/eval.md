@@ -1,0 +1,2 @@
+# QA plan
+Verify final supplied script and sources; remove unsupported medical/causal claims. Establish Korean TTS availability and license, generate one sample before full narration. Measure duration/pacing and synchronize captions. Inspect every narrative beat/thumbnail; probe dimensions/fps/duration/codecs; measure source motion rather than trust disabled HyperFrames motion flags. Play final MP4 end-to-end and test seek. Measure audio/clipping/loudness and distinguish actual listening from playback/automated audio checks. Preserve SHA hashes of prior videos.

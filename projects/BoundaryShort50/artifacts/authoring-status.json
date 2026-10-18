@@ -1,0 +1,9 @@
+{
+  "voice_available": false,
+  "status": "visual_preview_only_narration_blocked",
+  "duration_seconds": 50,
+  "beats": 15,
+  "scene_source": "original authored SVG/GSAP",
+  "no_medical_causal_claim": true,
+  "completed_videos_preserved": true
+}

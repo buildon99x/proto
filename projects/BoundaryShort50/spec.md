@@ -1,0 +1,2 @@
+# Delivery contract
+1080×1920 H.264/yuv420p MP4,30fps,~50s,15 narrative beats. Natural Korean local synthetic voice where feasible, readable synchronized captions, original layered illustration/graphic staging with meaningful scene motion. Source/claim/rights traceability and real OpenMontage tool render receipt. No paid/cloud generation or credentials. MP4 and thumbnail QA + Library native attachments; source/edit reproduction and authorized branch commit/push.

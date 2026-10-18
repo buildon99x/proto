@@ -1,0 +1,25 @@
+Using Python 3.10.21 environment at: boundary-voice-venv
+Resolved 10 packages in 3.12s
+Downloading sympy (6.0MiB)
+Downloading torch (178.1MiB)
+Downloading torchaudio (1.6MiB)
+ Downloaded torchaudio
+Downloading networkx (1.6MiB)
+ Downloaded networkx
+ Downloaded sympy
+ Downloaded torch
+Prepared 10 packages in 17.19s
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 10 packages in 2.09s
+ + filelock==3.32.3
+ + fsspec==2026.7.0
+ + jinja2==3.1.6
+ + markupsafe==3.0.3
+ + mpmath==1.3.0
+ + networkx==3.4.2
+ + sympy==1.14.0
+ + torch==2.2.2+cpu
+ + torchaudio==2.2.2+cpu
+ + typing-extensions==4.16.0
