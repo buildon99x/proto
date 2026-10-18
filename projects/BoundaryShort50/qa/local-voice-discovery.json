@@ -1,0 +1,21 @@
+{
+  "search_roots": [
+    "/workspace",
+    "/opt",
+    "/usr/share",
+    "/home/agent/.cache",
+    "/home/agent/.local/share",
+    "/tmp"
+  ],
+  "muhanstory_paths": [],
+  "model_candidates": [
+    {
+      "path": "/workspace/proto/projects/BoundaryShort50/artifacts/voice-blocker.json",
+      "bytes": 846
+    },
+    {
+      "path": "/tmp/boundary-uv-cache/archive-v0/WYLmK6WEUnHYK2tN/distutils-precedence.pth",
+      "bytes": 151
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "torch": true,
+  "torchaudio": true,
+  "transformers": true,
+  "g2pkk": true,
+  "jamo": true,
+  "kokoro_onnx": false,
+  "piper": false,
+  "sherpa_onnx": false,
+  "TTS": false,
+  "edge_tts": false
+}
