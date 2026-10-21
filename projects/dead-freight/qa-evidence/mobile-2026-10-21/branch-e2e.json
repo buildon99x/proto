@@ -1,0 +1,229 @@
+{
+  "variant": "branch",
+  "root": "C:\\Users\\cjh\\Documents\\Codex\\2026-10-14\\task\\proto\\projects\\dead-freight\\app\\dist",
+  "headless": true,
+  "chromiumSandbox": true,
+  "physicalAndroid": false,
+  "stateInjection": false,
+  "touchTap": "Playwright trusted touchscreen.tap",
+  "dragAndMultitouch": "DOM PointerEvent dispatch through actual browser handlers; synthetic, not physical device",
+  "steps": [
+    {
+      "label": "01-menu",
+      "route": "N · 중계소 계약 282 m · M 지도",
+      "ammo": "30",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×25 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": ""
+    },
+    {
+      "label": "02-landscape",
+      "route": "N · 중계소 계약 282 m · M 지도",
+      "ammo": "30",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "왼쪽 이동 · 오른쪽 시점 · 투척 선택 후 발사 버튼을 눌렀다 놓기",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×25 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": "none",
+      "pointer": "touch"
+    },
+    {
+      "label": "03-multitouch-moving-fire",
+      "route": "N · 중계소 계약 278 m · M 지도",
+      "ammo": "20",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "왼쪽 이동 · 오른쪽 시점 · 투척 선택 후 발사 버튼을 눌렀다 놓기",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×25 펄스 탐지기 ×16 비어 있음",
+      "held": 1,
+      "overlay": "none",
+      "pointer": "touch"
+    },
+    {
+      "label": "04-cancelled",
+      "route": "N · 중계소 계약 278 m · M 지도",
+      "ammo": "20",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "왼쪽 이동 · 오른쪽 시점 · 투척 선택 후 발사 버튼을 눌렀다 놓기",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×25 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": "none",
+      "pointer": "touch"
+    },
+    {
+      "label": "05-reloaded",
+      "route": "N · 중계소 계약 278 m · M 지도",
+      "ammo": "31",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×25 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": "none",
+      "pointer": "touch"
+    },
+    {
+      "label": "06-secondary",
+      "route": "N · 중계소 계약 278 m · M 지도",
+      "ammo": "05",
+      "weapon": "IRON SIX / PISTOL",
+      "message": "",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×25 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": "none",
+      "pointer": "touch"
+    },
+    {
+      "label": "07-melee",
+      "route": "N · 중계소 계약 278 m · M 지도",
+      "ammo": "31",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "근접 공격",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×25 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": "none",
+      "pointer": "touch"
+    },
+    {
+      "label": "08-heal-gate",
+      "route": "N · 중계소 계약 278 m · M 지도",
+      "ammo": "31",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "체력이 가득 차 있습니다.",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×25 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": "none",
+      "pointer": "touch"
+    },
+    {
+      "label": "09-grenade",
+      "route": "N · 중계소 계약 278 m · M 지도",
+      "ammo": "31",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "수류탄 투척 · 엄폐하세요!",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×15 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": "none",
+      "pointer": "touch"
+    },
+    {
+      "label": "14-ads",
+      "route": "N · 중계소 계약 278 m · M 지도",
+      "ammo": "31",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "수류탄 투척 · 엄폐하세요!",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×15 펄스 탐지기 ×16 비어 있음",
+      "held": 1,
+      "overlay": "none",
+      "pointer": "touch"
+    },
+    {
+      "label": "15-jump",
+      "route": "N · 중계소 계약 278 m · M 지도",
+      "ammo": "31",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "수류탄 투척 · 엄폐하세요!",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×15 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": "none",
+      "pointer": "touch"
+    },
+    {
+      "label": "16-interact",
+      "route": "N · 중계소 계약 278 m · M 지도",
+      "ammo": "31",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "탈출하려면 표적 인식표가 필요합니다.",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×15 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": "none",
+      "pointer": "touch"
+    },
+    {
+      "label": "17-holstered",
+      "route": "N · 중계소 계약 278 m · M 지도",
+      "ammo": "—",
+      "weapon": "UNARMED / 맨손 · H 복귀",
+      "message": "탈출하려면 표적 인식표가 필요합니다.",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×15 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": "none",
+      "pointer": "touch"
+    },
+    {
+      "label": "18-sprint",
+      "route": "N · 중계소 계약 270 m · M 지도",
+      "ammo": "31",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×15 펄스 탐지기 ×16 비어 있음",
+      "held": 1,
+      "overlay": "none",
+      "pointer": "touch"
+    },
+    {
+      "label": "19-grenade-cancel",
+      "route": "N · 중계소 계약 270 m · M 지도",
+      "ammo": "31",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×15 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": "none",
+      "pointer": "touch"
+    },
+    {
+      "label": "21-blur-clear",
+      "route": "N · 중계소 계약 270 m · M 지도",
+      "ammo": "29",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×15 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": "grid",
+      "pointer": "touch"
+    },
+    {
+      "label": "10-bag",
+      "route": "N · 중계소 계약 270 m · M 지도",
+      "ammo": "29",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "원정을 계속합니다.",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×15 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": "none",
+      "pointer": "touch"
+    },
+    {
+      "label": "11-portrait",
+      "route": "N · 중계소 계약 270 m · M 지도",
+      "ammo": "29",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "원정을 계속합니다.",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×15 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": "grid",
+      "pointer": "touch"
+    },
+    {
+      "label": "12-small-landscape",
+      "route": "N · 중계소 계약 270 m · M 지도",
+      "ammo": "29",
+      "weapon": "R-4 / ASSAULT RIFLE",
+      "message": "원정을 계속합니다.",
+      "quick": "1 R-4 소총2 P-6 권총3 붕대 ×34 파편 수류탄 ×15 펄스 탐지기 ×16 비어 있음",
+      "held": 0,
+      "overlay": "none",
+      "pointer": "touch"
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "version": "0.15.2",
+  "desktop": {
+    "mouseFire": true,
+    "pointerLocked": true,
+    "noTouchLayer": true
+  },
+  "passed": true
+}

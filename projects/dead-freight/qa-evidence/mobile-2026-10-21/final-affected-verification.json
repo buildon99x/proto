@@ -1,0 +1,168 @@
+{
+  "sourceVersion": "0.15.2",
+  "syntax": [
+    {
+      "name": "game.js",
+      "status": 0
+    },
+    {
+      "name": "core.js",
+      "status": 0
+    },
+    {
+      "name": "weapon.js",
+      "status": 0
+    },
+    {
+      "name": "motion.js",
+      "status": 0
+    },
+    {
+      "name": "audio.js",
+      "status": 0
+    },
+    {
+      "name": "world.js",
+      "status": 0
+    },
+    {
+      "name": "world-view.js",
+      "status": 0
+    },
+    {
+      "name": "render-style.js",
+      "status": 0
+    },
+    {
+      "name": "rifle-state.js",
+      "status": 0
+    },
+    {
+      "name": "rifle-audio.js",
+      "status": 0
+    },
+    {
+      "name": "run-clock.js",
+      "status": 0
+    },
+    {
+      "name": "save-state.js",
+      "status": 0
+    },
+    {
+      "name": "inventory.js",
+      "status": 0
+    },
+    {
+      "name": "inventory-game.js",
+      "status": 0
+    },
+    {
+      "name": "stash-profile.js",
+      "status": 0
+    },
+    {
+      "name": "inventory-ui.js",
+      "status": 0
+    },
+    {
+      "name": "storage-profile.js",
+      "status": 0
+    },
+    {
+      "name": "stash-ui.js",
+      "status": 0
+    },
+    {
+      "name": "weapon-content.js",
+      "status": 0
+    },
+    {
+      "name": "weapon-definitions.js",
+      "status": 0
+    },
+    {
+      "name": "ammo-ledger.js",
+      "status": 0
+    },
+    {
+      "name": "loadout-action.js",
+      "status": 0
+    },
+    {
+      "name": "input-router.js",
+      "status": 0
+    },
+    {
+      "name": "muzzle-ballistics.js",
+      "status": 0
+    },
+    {
+      "name": "audio-preparation.js",
+      "status": 0
+    },
+    {
+      "name": "item-action.js",
+      "status": 0
+    },
+    {
+      "name": "item-view.js",
+      "status": 0
+    },
+    {
+      "name": "shot-resolver.js",
+      "status": 0
+    },
+    {
+      "name": "player-projectiles.js",
+      "status": 0
+    },
+    {
+      "name": "melee.js",
+      "status": 0
+    },
+    {
+      "name": "pistol-state.js",
+      "status": 0
+    },
+    {
+      "name": "mechanical-state.js",
+      "status": 0
+    },
+    {
+      "name": "shotgun-state.js",
+      "status": 0
+    },
+    {
+      "name": "smg-state.js",
+      "status": 0
+    },
+    {
+      "name": "regions.js",
+      "status": 0
+    },
+    {
+      "name": "workshop.js",
+      "status": 0
+    },
+    {
+      "name": "liquid-metal.js",
+      "status": 0
+    },
+    {
+      "name": "liquid-metal-view.js",
+      "status": 0
+    },
+    {
+      "name": "touch-controls.js",
+      "status": 0
+    }
+  ],
+  "retiredUnusedPrototypeModuleRemoved": true,
+  "affectedSuites": [
+    "test-runtime.cjs",
+    "test-readability.cjs",
+    "test-play-feedback.cjs",
+    "test-mobile.cjs"
+  ]
+}

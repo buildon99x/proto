@@ -279,3 +279,7 @@ Six rendererless tests reconstruct new controllers/storage handles after deploy/
 
 ## Unreleased — 2026-10-16
 - Real remaining-route play exposed HP31.000... displaying32. Suppress1e-7 numerical residue in HP/armor HUD ceiling only, preserving true fractions and all simulation/save values. Add damage→bandage integration regression and separate browser display fixture.
+
+
+## 0.15.2 landscape touch controls (2026-10-21)
+Latest development base5582261 is retained, including SILT, four guns, two regions and home economy. Added left movement stick/right drag look, held fire/ADS/sprint, reload/jump/interact/weapon/holster/heal/grenade/melee/scanner controls, pointer ownership and cancel/blur/menu/orientation release. Portrait asks for landscape; small landscape controls are at least44px with safe-area insets. Existing desktop pointer-lock/mouse fire regression passes. 1078 named source checks/59 suites, 39 final syntax checks,315 audits and11-project/27-page aggregate/final launcher pass. Mobile browser screenshots/trusted taps pass; drags/multitouch/cancel/blur are explicitly synthetic DOM PointerEvent/Event paths. Physical Android, sustained mobile performance, device listening and full mobile raid completion remain unverified. The user replaced the initial public0.10-only scope with latest0.15.2 publication at the existing Site. No new AI work.

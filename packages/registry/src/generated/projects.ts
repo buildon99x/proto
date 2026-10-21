@@ -7,8 +7,8 @@ export const projects = [
     "status": "prototype",
     "type": "demo",
     "runtime": "static-artifact",
-    "version": "0.14.2",
-    "summary": "Two prototype raid regions, catalog-derived stash crafting/armor repair, owned four-gun mechanics and finite-speed ballistics. Actual play/render/listening/storage/performance acceptance remains open.",
+    "version": "0.15.2",
+    "summary": "Two prototype raid regions, four-gun finite-speed ballistics and one SILT liquid-metal sentinel source candidate. Device play, listening and performance acceptance remain separate.",
     "tags": [
       "game",
       "fps",
@@ -33,7 +33,7 @@ export const projects = [
       "build": "pnpm --filter dead-freight build",
       "test": "pnpm --filter dead-freight test"
     },
-    "updatedAt": "2026-10-14T06:42:59+09:00"
+    "updatedAt": "2026-10-16T11:11:12+09:00"
   },
   {
     "id": "deck-building",

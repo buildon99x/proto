@@ -4,7 +4,7 @@
   "status": "prototype",
   "type": "demo",
   "runtime": "static-artifact",
-  "version": "0.15.1",
+  "version": "0.15.2",
   "summary": "Two prototype raid regions, four-gun finite-speed ballistics and one SILT liquid-metal sentinel source candidate. Device play, listening and performance acceptance remain separate.",
   "tags": [
     "game",

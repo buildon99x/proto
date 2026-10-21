@@ -1,4 +1,4 @@
-# DEAD FREIGHT / SILT CORE COLOR CANDIDATE 0.15.1
+# DEAD FREIGHT / SILT CORE COLOR CANDIDATE 0.15.2
 
 원본 두 지역의 1인칭 Extraction 프로토타입입니다. 네 총기, 보관함/제작과 Canal Ward 선택 교전용 액체 금속 적 SILT를 포함합니다. 완성된 상용 오픈월드나 실제 기기 품질 승인을 의미하지 않습니다.
 
@@ -196,3 +196,7 @@ Reproduced and fixed three source defects: failed workshop intent stuck after an
 
 ## 0.14.2 fresh-controller raid lifecycle audit
 Six rendererless tests reconstruct new controllers/storage handles after deploy/settlement failure and termination, accepted writes with lost acknowledgement, safe-only uncommitted extraction recovery and observed foreign-tab conflict. Reproduced an actual display defect: another tab could commit loss recovery, then the old tab displayed its unawarded extraction cash as saved. Settlement now exposes the durable win/loss outcome and the UI states that the other settlement is retained without claiming cash/loot from this screen. No duplicate award/data overwrite was observed in these fixtures. No gameplay feature added; fake lifecycle/shared memory do not prove browser disk durability or atomic cross-process writes. 997 named checks in54 suites,36 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.15.2 landscape touch controls (2026-10-21)
+Latest development base5582261 is retained, including SILT, four guns, two regions and home economy. Added left movement stick/right drag look, held fire/ADS/sprint, reload/jump/interact/weapon/holster/heal/grenade/melee/scanner controls, pointer ownership and cancel/blur/menu/orientation release. Portrait asks for landscape; small landscape controls are at least44px with safe-area insets. Existing desktop pointer-lock/mouse fire regression passes. 1078 named source checks/59 suites, 39 final syntax checks,315 audits and11-project/27-page aggregate/final launcher pass. Mobile browser screenshots/trusted taps pass; drags/multitouch/cancel/blur are explicitly synthetic DOM PointerEvent/Event paths. Physical Android, sustained mobile performance, device listening and full mobile raid completion remain unverified. The user replaced the initial public0.10-only scope with latest0.15.2 publication at the existing Site. No new AI work.

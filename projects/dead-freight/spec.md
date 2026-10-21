@@ -286,3 +286,7 @@ Physical-time supplement: exposedAt/poseAt retain the last disruption window wit
 
 ## 0.15.1 semantic core color contract
 Only visible opaque SILT core pixels bypass warm-to-rose grading. Reserve render-target alpha0 as a semantic core-color tag; ordinary opaque/background pixels retain alpha1 and existing grading. The post pass restores the authored linear core color to display sRGB, with the tag attenuated by transparent occlusion. The core remains depth-tested, fogged, hidden during closed/dead states and amber during disruption/reform. No broad warm-color exception, new render pass, light, texture, gameplay change or damage retuning.
+
+
+## 2026-10-21 landscape mobile controls
+Add a touch-only landscape control layer: left movement stick, right drag look, held fire/ADS/sprint and discrete reload/jump/interact/weapon/utility/melee controls. Preserve keyboard/mouse, multi-pointer ownership, release on cancel/blur/hidden/orientation/menu, portrait rotation guidance and safe-area/small-landscape layout. Superseded publication scope by explicit user request: publish the latest development0.15.1 base5582261 plus mobile controls as0.15.2 at the same public Site. Preserve all existing latest gameplay including SILT, regions and economy; no new AI work. The earlier public-only backport is not the deployment. Verify browser mobile viewport/trusted taps, drag and multi-pointer lifecycle, desktop regression, source tests/build and version/hash separation. Physical Android and device listening require separate acceptance.
