@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-10-13T17:52:22.819Z",
+  "host": "JH-LAPTOP",
+  "officialCall": "cua.getState()",
+  "afterSessionReset": true,
+  "stage": "node_repl kernel initialization; no browser inventory/selection or game initialization reached",
+  "kernelExitCode": 1,
+  "reason": "stdout_eof",
+  "stderr": "MXC launcher: cannot locate required Windows platform directory: HRESULT 0x80070003",
+  "installedCandidates": [
+    {
+      "browser": "Chrome",
+      "path": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+      "version": "150.0.7871.127"
+    },
+    {
+      "browser": "Edge",
+      "path": "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
+      "version": "155.0.4283.45"
+    }
+  ],
+  "browserApiExposed": [
+    "chrome",
+    "edge",
+    "iab"
+  ],
+  "browserInventoryUnavailable": true,
+  "standaloneNodeReplToolAvailable": false,
+  "nativeApisDisabled": true,
+  "actualPlay": false,
+  "screenshots": [],
+  "listening": false,
+  "webglDefectEstablished": false,
+  "pointerLockDefectEstablished": false
+}

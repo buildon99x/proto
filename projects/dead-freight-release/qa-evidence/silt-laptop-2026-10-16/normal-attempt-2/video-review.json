@@ -1,0 +1,22 @@
+{
+  "duration": 15.943,
+  "width": 960,
+  "height": 540,
+  "playbackRate": 1,
+  "muted": true,
+  "quality": {},
+  "playbackProof": {
+    "start": {
+      "wall": 3660.5999999940395,
+      "media": 2
+    },
+    "end": {
+      "wall": 7676.70000000298,
+      "media": 5.971927,
+      "quality": {}
+    },
+    "mediaSeconds": 3.971927,
+    "wallSeconds": 4.016100000008941
+  },
+  "pass": true
+}

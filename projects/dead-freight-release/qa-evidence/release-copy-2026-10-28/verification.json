@@ -1,0 +1,38 @@
+{
+  "sourceCommit": "41b16ba588bd20bdd645c3e741edd73eeb78cc57",
+  "sitesSourceCommit": "021a28a282c05f1e08ac4a0633b1ce1409e618a0",
+  "siteVersion": 26,
+  "appVersion": "0.15.2",
+  "originalTrackedFilesRetained": 657,
+  "passAssertions": 1056,
+  "sourceAndCopyTestsExit": 0,
+  "lintExit": 0,
+  "projectBuildExit": 0,
+  "allStaticProjectBuilds": 11,
+  "publicManifestFiles": 135,
+  "exactHashMatches": 99,
+  "lineEndingHashMatches": 35,
+  "unresolved": [
+    "game.js"
+  ],
+  "actualAssetVerification": "HTTP403; not independently verified",
+  "lineEndings": {
+    "uniformCRLF": 33,
+    "index.html": {
+      "lfLines": [
+        32,
+        91
+      ]
+    },
+    "input-router.js": {
+      "lfLines": [
+        9,
+        10,
+        11,
+        12
+      ]
+    }
+  },
+  "launcherBuildExit": 0,
+  "staticPages": 27
+}

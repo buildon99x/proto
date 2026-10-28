@@ -1,0 +1,5 @@
+
+> dead-freight@0.15.1 build /workspace/scratch/1164483895fe/proto-liquid-metal-20261016/projects/dead-freight/app
+> node build.cjs
+
+DEAD FREIGHT static build complete

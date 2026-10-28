@@ -1,0 +1,3 @@
+'use strict';const fs=require('node:fs'),path=require('node:path'),{validateDefinition}=require('../app/pistol-state.js');
+function buildPistolContent(destination=path.resolve(__dirname,'../app/pistol-content.js')){const data=validateDefinition(JSON.parse(fs.readFileSync(path.resolve(__dirname,'../content/pistol.json'),'utf8')));fs.writeFileSync(destination,'/* Generated from content/pistol.json. */\n(function(root){root.DFPistolContent='+JSON.stringify(data,null,2)+';})(globalThis);\n');return destination;}
+module.exports={buildPistolContent};if(require.main===module)console.log(buildPistolContent());

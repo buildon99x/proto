@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "id": "r4-legacy",
+  "weaponId": "r4",
+  "name": "R-4",
+  "weapon": 3,
+  "magazineSize": 30,
+  "initialMagazine": 29,
+  "initialChamber": 1,
+  "initialReserve": 120,
+  "modes": [
+    "auto",
+    "burst"
+  ],
+  "burstCount": 3,
+  "rpm": 600,
+  "burstRpm": 600,
+  "burstRecovery": 0.2,
+  "cycleTime": 0.045,
+  "switchTime": 0.35,
+  "unequipTime": 0.22,
+  "sprintRecovery": 0.19,
+  "adsTime": 0.18,
+  "inputBuffer": 0.16,
+  "cancelRecovery": 0.25,
+  "autoReloadDelay": null,
+  "cancelReloadOnTrigger": false,
+  "maxShotsPerTick": 3,
+  "maxCatchUp": 0.2,
+  "maxDelta": null,
+  "hipSpread": 0.016,
+  "adsSpread": 0.0018,
+  "movingSpread": 0.01,
+  "airSpread": 0.026,
+  "recoilSpread": 0.012,
+  "recoilPerShot": 0.13,
+  "recoilRecovery": 0.48,
+  "recoilPitch": 0.009,
+  "recoilPitchBloom": 0.006,
+  "recoilAdsScale": 0.25,
+  "recoilYaw": 0.008,
+  "damage": 30,
+  "headMultiplier": 2.6,
+  "limbMultiplier": 0.72,
+  "falloffStart": 35,
+  "falloffEnd": 100,
+  "minimumDamage": 0.55,
+  "maxRange": 160,
+  "armorAbsorption": 1,
+  "reload": {
+    "tactical": {
+      "duration": 1.7,
+      "transferAt": 1.02,
+      "chamberAt": null,
+      "stages": [
+        [
+          "eject",
+          0.22
+        ],
+        [
+          "insert",
+          1.02
+        ],
+        [
+          "seat",
+          1.27
+        ],
+        [
+          "close",
+          1.7
+        ]
+      ]
+    },
+    "empty": {
+      "duration": 2.2,
+      "transferAt": 1.05,
+      "chamberAt": 1.78,
+      "stages": [
+        [
+          "eject",
+          0.22
+        ],
+        [
+          "insert",
+          1.05
+        ],
+        [
+          "seat",
+          1.28
+        ],
+        [
+          "charge",
+          1.78
+        ],
+        [
+          "close",
+          2.2
+        ]
+      ]
+    },
+    "chamber": {
+      "duration": 0.64,
+      "transferAt": null,
+      "chamberAt": 0.36,
+      "stages": [
+        [
+          "charge",
+          0.36
+        ],
+        [
+          "close",
+          0.64
+        ]
+      ]
+    }
+  },
+  "movingAdsReduction": 0.55
+}

@@ -1,0 +1,12 @@
+{
+  "sourceBase": "a5b9a88f055f7bc853b7849d8786aee8aa791322",
+  "fixture": "two rendererless controllers sharing an in-memory store",
+  "actualUserData": false,
+  "actualBrowserLifecycle": false,
+  "foreignControllerOutcome": "loss recovery committed",
+  "durableBank": 0,
+  "foreignRawPreserved": true,
+  "oldControllerDisplay": "extraction +820 saved",
+  "regressionAssertion": "foreign loss recovery must not display local extraction payout as saved",
+  "resultBeforeFix": "failed; see captured raid-restart-before.txt"
+}

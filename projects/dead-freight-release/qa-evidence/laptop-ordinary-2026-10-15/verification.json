@@ -1,0 +1,16 @@
+{
+  "testCommands": 54,
+  "testsExit": 0,
+  "syntaxCommands": 36,
+  "syntaxExit": 0,
+  "regionRegressionExit": 0,
+  "qaScriptsSyntaxExit": 0,
+  "registrySyncExit": 0,
+  "rootBuildExit": 0,
+  "ordinaryBrowserPass": true,
+  "restartNaturalDeathPass": true,
+  "pageErrors": 0,
+  "screenshots": 10,
+  "listening": "unverified",
+  "publicDeployment": false
+}

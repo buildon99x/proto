@@ -1,0 +1,118 @@
+{
+  "source": "5dc647e091c565f6762dd7d57787aed573478d9c",
+  "method": "EXPLICIT WebGL fixture: isolated player/enemy placement, disabled other enemies, frozen simulation phase, synthetic depth occluder/transparent plane. No sound or foreground feel acceptance.",
+  "events": [],
+  "errors": [],
+  "frames": [
+    {
+      "file": "01-fixture-exposed-amber.png",
+      "pos": {
+        "x": 720,
+        "y": 522.7456479072914,
+        "coreVisible": true
+      },
+      "rgba": [
+        255,
+        184,
+        79,
+        255
+      ]
+    },
+    {
+      "file": "02-fixture-reform-amber.png",
+      "pos": {
+        "x": 720,
+        "y": 522.7456479072914,
+        "coreVisible": true
+      },
+      "rgba": [
+        220,
+        162,
+        83,
+        255
+      ]
+    },
+    {
+      "file": "03-fixture-opaque-occluder.png",
+      "pos": {
+        "x": 720,
+        "y": 522.7456479072914,
+        "coreVisible": true
+      },
+      "rgba": [
+        37,
+        44,
+        54,
+        255
+      ]
+    },
+    {
+      "file": "04-fixture-half-transparent-overlay.png",
+      "pos": {
+        "x": 720,
+        "y": 522.7456479072914,
+        "coreVisible": true
+      },
+      "rgba": [
+        148,
+        102,
+        100,
+        255
+      ]
+    },
+    {
+      "file": "05-fixture-zero-overlay.png",
+      "pos": {
+        "x": 720,
+        "y": 522.7456479072914,
+        "coreVisible": true
+      },
+      "rgba": [
+        220,
+        162,
+        83,
+        255
+      ]
+    },
+    {
+      "file": "06-fixture-dead-core-hidden.png",
+      "pos": {
+        "x": 720,
+        "y": 522.7456479072914,
+        "coreVisible": false
+      },
+      "rgba": [
+        14,
+        17,
+        25,
+        255
+      ]
+    },
+    {
+      "file": "07-fixture-scene-restart.png",
+      "pos": {
+        "x": 728.9417780470924,
+        "y": 501.6542289387121,
+        "coreVisible": false
+      },
+      "rgba": [
+        20,
+        25,
+        33,
+        255
+      ]
+    }
+  ],
+  "console": [
+    "Scripts \"build/three.js\" and \"build/three.min.js\" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "renderer": {
+    "vendor": "WebKit",
+    "renderer": "WebKit WebGL",
+    "unmasked": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A6) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+  },
+  "pass": true
+}

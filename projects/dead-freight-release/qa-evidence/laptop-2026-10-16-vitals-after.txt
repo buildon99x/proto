@@ -1,0 +1,19 @@
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS all four weapons exclude scenery, barrels, misses and invalid enemies from accuracy
+PASS valid enemy and absorbed armor impacts count once per fired shot
+PASS fresh retry updates HP, ammo, objective and clock before the next animation frame
+PASS pointerLockThrow retains useful diagnostics and playable arrow/fire fallback
+PASS pointerLockReject retains useful diagnostics and playable arrow/fire fallback
+PASS step aiming survives tap before a frame, ignores hold/repeat and respects remapped keys
+PASS aim settings UI saves scope, resets separately, and never changes mouse sensitivity
+PASS duplicate Start does not enqueue another native pointer request
+PASS late pointer rejection after pause or death cannot overwrite diagnostics
+PASS legacy undefined-return request reports its error event and unrelated unlock does not pause fallback
+PASS promise pointer errors retain exact exception instead of generic error event
+PASS stale previous request failure cannot replace a newer successful lock
+PASS activation cancellation by inventory/deployment/sound releases owned lock immediately
+PASS enemy face and leg materials are dedicated and separated from player/world dark materials
+PASS enemy diffuse tones separate head coat and cloth without emission or outline layers
+PASS blocked extraction HUD presents a reachable entrance and clears it on direct approach
+PASS fractional damage and bandage healing cannot overstate an integer vital from numeric residue
+17 actual-play feedback source checks passed.

@@ -1,0 +1,15 @@
+{
+  "source": "39d86932d1e56097c64b15c55bbd7dd31b7c377e",
+  "paused": {
+    "accepted": true,
+    "hp": 60,
+    "remaining": 2
+  },
+  "active": {
+    "immediateAccepted": true,
+    "hp": 90,
+    "remaining": 1,
+    "heals": 2
+  },
+  "modelOnly": true
+}

@@ -1,0 +1,53 @@
+{
+  "sourceBase": "96e680917809afa90256dd06c67fa9c7f7c3cc66",
+  "baseline": true,
+  "actualUserData": false,
+  "results": [
+    {
+      "case": "pending-workshop-stale-retry",
+      "retry1": false,
+      "retry2": false,
+      "status": "stale-state",
+      "pending": true,
+      "foreignRawPreserved": true
+    },
+    {
+      "case": "repair-issued-flag-return",
+      "settle": {
+        "ok": true,
+        "raidId": "raid-mv77d72b-4-uljhyawao5",
+        "pending": false
+      },
+      "armor": {
+        "uid": "audit-armor",
+        "itemId": "armor",
+        "quantity": 1,
+        "durability": 45,
+        "issued": false
+      },
+      "sale": {
+        "ok": true,
+        "raidId": null,
+        "pending": false,
+        "receipt": {
+          "id": "sale",
+          "kind": "sell",
+          "source": "stash",
+          "uid": "audit-armor",
+          "value": 260
+        },
+        "alreadyApplied": false,
+        "value": 260
+      },
+      "bank": 1150
+    },
+    {
+      "case": "lost-crafted-uid-issued-resurrection",
+      "deploy": {
+        "ok": true,
+        "raidId": "raid-mv77d72e-c-asobt9mbfcg",
+        "pending": false
+      }
+    }
+  ]
+}

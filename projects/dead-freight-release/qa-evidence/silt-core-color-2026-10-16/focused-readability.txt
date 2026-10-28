@@ -1,0 +1,20 @@
+PASS all DOM IDs are unique and gameplay compatibility controls exist
+PASS auto-cycle is the default and manual pump/CRT controls stay hidden
+PASS persistent aiming dot and separated arms have their own outlined layer
+PASS independent hit marker does not replace or obscure the central aim point
+PASS HUD, reticle and damage vignette share the centered 16:9 gameplay frame
+PASS viewport sizing is finite and bounded even for tiny or invalid windows
+PASS map, route, cargo and extraction progress have dedicated readable nodes
+PASS menu describes current movement bindings and bounded extraction scope
+PASS shader module loads before the game and exposes usable immutable source
+PASS screen grade has no stochastic, periodic, ordered or animated texture
+PASS CPU grade is deterministic and monotonic across neutral luminance
+PASS smooth grade preserves distinct nearby surfaces without quantization jumps
+PASS muted red weapon and hit accents survive the cool grade
+PASS invalid CPU diagnostic inputs cannot produce NaN or out-of-range color
+PASS runtime preserves ADS aim and routes feedback to the separate hit layer
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS semantic core pixels preserve authored amber instead of rose through the final grade
+PASS semantic color path leaves untagged world and weapon grading exactly unchanged
+PASS semantic core tag is bounded and attenuates through transparent foreground coverage
+18 rendererless readability checks passed. Browser layout, GPU pixels and input remain separate acceptance checks.

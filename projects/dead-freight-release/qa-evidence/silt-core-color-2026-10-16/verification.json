@@ -1,0 +1,81 @@
+{
+  "project": "dead-freight",
+  "version": "0.15.1",
+  "date": "2026-10-16",
+  "baseCommit": "07119b04511690526c658221ad27a84d77b8476e",
+  "scope": "SILT core semantic color only; no gameplay, audio, save, lighting or ordinary global grade change",
+  "checks": {
+    "beforeFix": {
+      "exitCode": 1,
+      "log": "repro-before.txt",
+      "reason": "Authored amber final-grade regression reproduces warm-to-rose mismatch"
+    },
+    "appTests": {
+      "exitCode": 0,
+      "suites": 58,
+      "namedChecks": 1076,
+      "passLines": 1054,
+      "worldChecks": 22,
+      "log": "app-tests.txt"
+    },
+    "focusedFinalRerun": {
+      "exitCode": 0,
+      "readabilityChecks": 18,
+      "viewChecks": 11,
+      "note": "After conditional display-conversion guard; includes257 exact old-grade comparisons",
+      "logs": [
+        "focused-readability.txt",
+        "focused-view.txt"
+      ]
+    },
+    "lint": {
+      "exitCode": 0,
+      "commands": 38,
+      "log": "lint.txt"
+    },
+    "staticBuild": {
+      "exitCode": 0,
+      "log": "app-build.txt",
+      "manifestSha256": "3161811dda31d2b9341c62b08aa22044d244c5dba5a9a35ea3d26d5e73a00221"
+    },
+    "boundaryAudits": {
+      "exitCode": 0,
+      "cases": 315,
+      "logs": [
+        "cover-audit.txt",
+        "item-audit.txt",
+        "reload-audit.txt"
+      ]
+    },
+    "independentReview": {
+      "focusedChecks": 29,
+      "blockingFindings": 0,
+      "scope": "Source/rendererless plus expanded pinned Three shader inspection"
+    },
+    "registry": {
+      "exitCode": 1,
+      "blocker": "tsx listen EPERM /tmp/tsx-1000/18.pipe",
+      "log": "registry.txt"
+    },
+    "aggregate": {
+      "exitCode": 1,
+      "blocker": "same first-stage tsx IPC failure /tmp/tsx-1000/62.pipe; subsequent stages not run",
+      "log": "root-build.txt"
+    }
+  },
+  "sourceSha256": {
+    "render-style.js": "24aa799ed5507d02f0a46791cfd1ca19afcd6a9797e2b1f0ff84d4815783c4fc",
+    "liquid-metal-view.js": "4fc4e70aa5202e8e98e1115d7930b9856d939ef834be9cafeb68bea992fb302d",
+    "index.html": "627f6b29776091a8d335b402af7f3a5973410190e5774b0f3cafa831c4642bc3",
+    "package.json": "b82efc67de2628728a532ac7532e4c82480bac1396624447a2ff69380ea3b55c",
+    "test-readability.cjs": "91fff64c50906e95a14bf8f3030fec11fd3e71113034f2a974a7565c3e8748ee",
+    "test-liquid-metal-view.cjs": "7ea14d803dbf5cb675c777440a5d530b6e043f9760f8aacaa638fb2a6f6c7b32"
+  },
+  "previousActualPixelEvidence": "../silt-laptop-2026-10-16/normal-attempt-2/04-normal-core-exposed.png",
+  "limits": [
+    "Corrected GPU pixels and occlusion/transparent-overlay behavior still require laptop verification.",
+    "Previous0.15.0 combat and separate extraction/save QA is retained, not relabeled as patched acceptance.",
+    "Actual output-device listening, foreground mouse feel and device frame pacing remain unverified.",
+    "No manual deployment or public-default switch; existing repository candidate automation may run on push."
+  ]
+}

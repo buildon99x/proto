@@ -1,0 +1,178 @@
+{
+  "pass": true,
+  "canal": {
+    "cash": 1170,
+    "items": [
+      {
+        "uid": "df-41",
+        "itemId": "ammo-shell",
+        "quantity": 2,
+        "issued": true
+      },
+      {
+        "uid": "df-43",
+        "itemId": "ammo-pistol",
+        "quantity": 24,
+        "issued": true
+      },
+      {
+        "uid": "df-49",
+        "itemId": "archive",
+        "quantity": 1
+      },
+      {
+        "uid": "df-34",
+        "itemId": "shotgun",
+        "quantity": 1,
+        "rounds": 1,
+        "issued": true,
+        "weaponState": {
+          "version": 1,
+          "weaponId": "shotgun",
+          "weaponInstanceId": "df-34",
+          "mode": "semi",
+          "shotSequence": 11,
+          "recoveryRemaining": 0,
+          "reloadCheckpoint": null,
+          "cocked": true,
+          "cycleNeeded": false,
+          "cycleRemaining": 0
+        }
+      },
+      {
+        "uid": "df-35",
+        "itemId": "pistol",
+        "quantity": 1,
+        "rounds": 6,
+        "issued": true
+      },
+      {
+        "uid": "df-36",
+        "itemId": "armor",
+        "quantity": 1,
+        "durability": 0,
+        "issued": true
+      },
+      {
+        "uid": "df-38",
+        "itemId": "frag",
+        "quantity": 1,
+        "issued": true
+      },
+      {
+        "uid": "df-39",
+        "itemId": "scanner",
+        "quantity": 1,
+        "issued": true
+      }
+    ],
+    "successfulSettlements": 1,
+    "kills": 7,
+    "shots": 11,
+    "health": 76.6
+  },
+  "forest": {
+    "cash": 1310,
+    "items": [
+      {
+        "uid": "df-43",
+        "itemId": "ammo-pistol",
+        "quantity": 24,
+        "issued": true
+      },
+      {
+        "uid": "df-34",
+        "itemId": "smg",
+        "quantity": 1,
+        "rounds": 13,
+        "issued": true,
+        "weaponState": {
+          "version": 1,
+          "weaponId": "smg",
+          "weaponInstanceId": "df-34",
+          "mode": "auto",
+          "shotSequence": 83,
+          "recoveryRemaining": 0,
+          "reloadCheckpoint": null,
+          "cocked": true,
+          "cycleNeeded": false,
+          "cycleRemaining": 0
+        }
+      },
+      {
+        "uid": "df-35",
+        "itemId": "pistol",
+        "quantity": 1,
+        "rounds": 6,
+        "issued": true
+      },
+      {
+        "uid": "df-36",
+        "itemId": "armor",
+        "quantity": 1,
+        "durability": 0,
+        "issued": true
+      },
+      {
+        "uid": "df-38",
+        "itemId": "frag",
+        "quantity": 2,
+        "issued": true
+      },
+      {
+        "uid": "df-39",
+        "itemId": "scanner",
+        "quantity": 1,
+        "issued": true
+      }
+    ],
+    "successfulSettlements": 1,
+    "kills": 9,
+    "shots": 83,
+    "health": 42.999999999999986,
+    "ammoTotal": 13
+  },
+  "priorCanalSaveBytesUnchanged": true,
+  "grenadeConsumed": 1,
+  "grenadeProjectileIds": 1,
+  "firearmShotsDuringGrenade": 0,
+  "meleeHits": 2,
+  "firearmShotsDuringMelee": 0,
+  "healing": [
+    {
+      "mission": "canal-shotgun",
+      "hp": 31.000000000000036,
+      "bandages": 2
+    },
+    {
+      "mission": "canal-shotgun",
+      "hp": 61.000000000000036,
+      "bandages": 1
+    },
+    {
+      "mission": "canal-shotgun",
+      "hp": 91.00000000000003,
+      "bandages": 0
+    },
+    {
+      "mission": "forest-smg",
+      "hp": 54.999999999999986,
+      "bandages": 2
+    },
+    {
+      "mission": "forest-smg",
+      "hp": 84.99999999999999,
+      "bandages": 1
+    },
+    {
+      "mission": "forest-smg",
+      "hp": 12.999999999999986,
+      "bandages": 1
+    },
+    {
+      "mission": "forest-smg",
+      "hp": 42.999999999999986,
+      "bandages": 0
+    }
+  ]
+}

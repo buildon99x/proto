@@ -1,0 +1,1795 @@
+{
+  "baseline": "0bf75b7af6f5b9e39e3bc5ff99646004157b79a3",
+  "host": "jh-laptop",
+  "method": "Explicit browser regression fixture: HP/armor assigned solely to verify display. Not ordinary-input gameplay evidence.",
+  "events": [
+    {
+      "label": "numeric-one",
+      "assigned": {
+        "hp": 1.0000000000000355,
+        "armor": 0
+      },
+      "display": {
+        "hp": "1",
+        "armor": "0"
+      }
+    },
+    {
+      "label": "numeric-heal",
+      "assigned": {
+        "hp": 31.000000000000036,
+        "armor": 11.00000000000001
+      },
+      "display": {
+        "hp": "31",
+        "armor": "11"
+      }
+    },
+    {
+      "label": "genuine-fraction",
+      "assigned": {
+        "hp": 31.01,
+        "armor": 26.28
+      },
+      "display": {
+        "hp": "32",
+        "armor": "27"
+      }
+    }
+  ],
+  "errors": [],
+  "motions": [
+    {
+      "image": "01-hud-fixture-numeric-one.png",
+      "observation": {
+        "p": {
+          "x": 0,
+          "z": 145,
+          "y": 0,
+          "velocityY": 0,
+          "grounded": true,
+          "bodyHeight": 1.75,
+          "eyeHeight": 1.62,
+          "crouched": false,
+          "hp": 1.0000000000000355,
+          "armor": 0,
+          "stamina": 100,
+          "fatigued": false,
+          "dash": 0,
+          "invulnerable": 0,
+          "slide": 0,
+          "slideCooldown": 0,
+          "slideSpeed": 0,
+          "slideDirX": 0,
+          "slideDirZ": 0
+        },
+        "yaw": 0,
+        "pitch": 0,
+        "enemies": [
+          {
+            "id": 0,
+            "x": -96,
+            "z": 51,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 1,
+            "x": -79,
+            "z": 57,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": true
+          },
+          {
+            "id": 2,
+            "x": -106,
+            "z": 29,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 3,
+            "x": 75,
+            "z": 48,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": true
+          },
+          {
+            "id": 4,
+            "x": 89,
+            "z": 37,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 5,
+            "x": 64,
+            "z": 23,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 6,
+            "x": 100,
+            "z": 19,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": true
+          },
+          {
+            "id": 7,
+            "x": -73,
+            "z": -61,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 8,
+            "x": -85,
+            "z": -55,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": true
+          },
+          {
+            "id": 9,
+            "x": -68,
+            "z": -79,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 10,
+            "x": 26,
+            "z": -120,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 11,
+            "x": 37,
+            "z": -132,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 12,
+            "x": 19,
+            "z": -135,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 13,
+            "x": 43,
+            "z": -109,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 14,
+            "x": -39,
+            "z": 27,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 15,
+            "x": 10,
+            "z": -33,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": true
+          },
+          {
+            "id": 16,
+            "x": 28,
+            "z": -136,
+            "hp": 180,
+            "armor": 60,
+            "boss": true,
+            "alive": true,
+            "visible": false
+          }
+        ],
+        "pickups": [
+          {
+            "type": "ammo",
+            "x": 5,
+            "z": 144
+          },
+          {
+            "type": "health",
+            "x": 8,
+            "z": 144
+          },
+          {
+            "type": "armor",
+            "x": -8,
+            "z": 144
+          },
+          {
+            "type": "cargo",
+            "x": -108,
+            "z": 55
+          },
+          {
+            "type": "ammo",
+            "x": -83,
+            "z": 65
+          },
+          {
+            "type": "health",
+            "x": -109,
+            "z": 34
+          },
+          {
+            "type": "barrel",
+            "x": -82,
+            "z": 46
+          },
+          {
+            "type": "cargo",
+            "x": 80,
+            "z": 59
+          },
+          {
+            "type": "cargo",
+            "x": 99,
+            "z": 29
+          },
+          {
+            "type": "ammo",
+            "x": 55,
+            "z": 39
+          },
+          {
+            "type": "armor",
+            "x": 95,
+            "z": 58
+          },
+          {
+            "type": "health",
+            "x": 83,
+            "z": 17
+          },
+          {
+            "type": "barrel",
+            "x": 66,
+            "z": 23
+          },
+          {
+            "type": "barrel",
+            "x": 97,
+            "z": 47
+          },
+          {
+            "type": "cargo",
+            "x": -84,
+            "z": -62
+          },
+          {
+            "type": "ammo",
+            "x": -76,
+            "z": -42
+          },
+          {
+            "type": "health",
+            "x": -99,
+            "z": -47
+          },
+          {
+            "type": "barrel",
+            "x": -65,
+            "z": -70
+          },
+          {
+            "type": "ammo",
+            "x": 22,
+            "z": -117
+          },
+          {
+            "type": "health",
+            "x": 48,
+            "z": -111
+          },
+          {
+            "type": "armor",
+            "x": 32,
+            "z": -145
+          },
+          {
+            "type": "cargo",
+            "x": 14,
+            "z": -130
+          },
+          {
+            "type": "barrel",
+            "x": 38,
+            "z": -135
+          },
+          {
+            "type": "cargo",
+            "x": 4,
+            "z": -41
+          },
+          {
+            "type": "ammo",
+            "x": -113,
+            "z": 7
+          },
+          {
+            "type": "health",
+            "x": 121,
+            "z": -64
+          },
+          {
+            "type": "barrel",
+            "x": -40,
+            "z": 38
+          },
+          {
+            "type": "ammo",
+            "x": 146,
+            "z": -105
+          },
+          {
+            "type": "inventory",
+            "x": 6.082531754730549,
+            "z": 144.625,
+            "stack": {
+              "itemId": "bandage",
+              "quantity": 2
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 5.625,
+            "z": 145.08253175473055,
+            "stack": {
+              "itemId": "frag",
+              "quantity": 1
+            }
+          },
+          {
+            "type": "inventory",
+            "x": -83,
+            "z": 66.25,
+            "stack": {
+              "itemId": "shotgun",
+              "quantity": 1,
+              "rounds": 2
+            }
+          },
+          {
+            "type": "inventory",
+            "x": -83.625,
+            "z": 66.08253175473055,
+            "stack": {
+              "itemId": "ammo-shell",
+              "quantity": 8
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 78.91746824526945,
+            "z": 59.625,
+            "stack": {
+              "itemId": "smg",
+              "quantity": 1,
+              "rounds": 24
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 78.75,
+            "z": 59,
+            "stack": {
+              "itemId": "ammo-smg",
+              "quantity": 60
+            }
+          },
+          {
+            "type": "inventory",
+            "x": -85.08253175473055,
+            "z": -62.625,
+            "stack": {
+              "itemId": "frag",
+              "quantity": 2
+            }
+          },
+          {
+            "type": "inventory",
+            "x": -84.625,
+            "z": -63.082531754730546,
+            "stack": {
+              "itemId": "armor",
+              "quantity": 1,
+              "durability": 45
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 14,
+            "z": -131.25,
+            "stack": {
+              "itemId": "r4",
+              "quantity": 1,
+              "rounds": 30,
+              "chamber": 1
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 14.625,
+            "z": -131.08253175473055,
+            "stack": {
+              "itemId": "scanner",
+              "quantity": 1
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 15.082531754730548,
+            "z": -130.625,
+            "stack": {
+              "itemId": "archive",
+              "quantity": 1
+            }
+          }
+        ],
+        "cash": 0,
+        "kills": 0,
+        "shots": 0,
+        "hits": 0,
+        "ammo": [
+          6,
+          0,
+          0,
+          30
+        ],
+        "reserve": [
+          24,
+          0,
+          0,
+          90
+        ],
+        "weapon": 3,
+        "meleeHits": 0,
+        "extracted": false,
+        "bounty": false,
+        "item": {
+          "holdProgress": 0,
+          "totalProgress": 0,
+          "active": false,
+          "stage": "idle",
+          "itemId": null,
+          "uid": null,
+          "location": null,
+          "sequence": 0,
+          "elapsed": 0,
+          "progress": 0,
+          "committed": false,
+          "cancelled": false,
+          "recoverFrom": null
+        },
+        "items": [
+          {
+            "location": "bag:0",
+            "stack": {
+              "uid": "df-19",
+              "itemId": "ammo-rifle",
+              "quantity": 60,
+              "issued": true
+            }
+          },
+          {
+            "location": "bag:1",
+            "stack": {
+              "uid": "df-20",
+              "itemId": "ammo-rifle",
+              "quantity": 30,
+              "issued": true
+            }
+          },
+          {
+            "location": "bag:2",
+            "stack": {
+              "uid": "df-22",
+              "itemId": "ammo-pistol",
+              "quantity": 24,
+              "issued": true
+            }
+          },
+          {
+            "location": "weapon:0",
+            "stack": {
+              "uid": "df-12",
+              "itemId": "r4",
+              "quantity": 1,
+              "rounds": 30,
+              "chamber": 1,
+              "issued": true,
+              "weaponState": {
+                "version": 1,
+                "weaponId": "r4",
+                "weaponInstanceId": "df-12",
+                "magazine": 29,
+                "chamber": 1,
+                "mode": "auto",
+                "shotSequence": 0,
+                "recoveryRemaining": 0,
+                "reloadCheckpoint": null
+              }
+            }
+          },
+          {
+            "location": "weapon:1",
+            "stack": {
+              "uid": "df-13",
+              "itemId": "pistol",
+              "quantity": 1,
+              "rounds": 6,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:0",
+            "stack": {
+              "uid": "df-15",
+              "itemId": "bandage",
+              "quantity": 3,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:1",
+            "stack": {
+              "uid": "df-16",
+              "itemId": "frag",
+              "quantity": 2,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:2",
+            "stack": {
+              "uid": "df-17",
+              "itemId": "scanner",
+              "quantity": 1,
+              "issued": true
+            }
+          },
+          {
+            "location": "armor",
+            "stack": {
+              "uid": "df-14",
+              "itemId": "armor",
+              "quantity": 1,
+              "durability": 0,
+              "issued": true
+            }
+          }
+        ],
+        "grenades": [],
+        "overlay": "none",
+        "message": "TAB 가방 · 1/2 무기 · 3–6 빠른 사용 · E 회수",
+        "hint": "탈출 지점 · 중계소 증표 필요"
+      }
+    },
+    {
+      "image": "02-hud-fixture-numeric-heal.png",
+      "observation": {
+        "p": {
+          "x": 0,
+          "z": 145,
+          "y": 0,
+          "velocityY": 0,
+          "grounded": true,
+          "bodyHeight": 1.75,
+          "eyeHeight": 1.62,
+          "crouched": false,
+          "hp": 31.000000000000036,
+          "armor": 11.00000000000001,
+          "stamina": 100,
+          "fatigued": false,
+          "dash": 0,
+          "invulnerable": 0,
+          "slide": 0,
+          "slideCooldown": 0,
+          "slideSpeed": 0,
+          "slideDirX": 0,
+          "slideDirZ": 0
+        },
+        "yaw": 0,
+        "pitch": 0,
+        "enemies": [
+          {
+            "id": 0,
+            "x": -96,
+            "z": 51,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 1,
+            "x": -79,
+            "z": 57,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": true
+          },
+          {
+            "id": 2,
+            "x": -106,
+            "z": 29,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 3,
+            "x": 75,
+            "z": 48,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": true
+          },
+          {
+            "id": 4,
+            "x": 89,
+            "z": 37,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 5,
+            "x": 64,
+            "z": 23,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 6,
+            "x": 100,
+            "z": 19,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": true
+          },
+          {
+            "id": 7,
+            "x": -73,
+            "z": -61,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 8,
+            "x": -85,
+            "z": -55,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": true
+          },
+          {
+            "id": 9,
+            "x": -68,
+            "z": -79,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 10,
+            "x": 26,
+            "z": -120,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 11,
+            "x": 37,
+            "z": -132,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 12,
+            "x": 19,
+            "z": -135,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 13,
+            "x": 43,
+            "z": -109,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 14,
+            "x": -39,
+            "z": 27,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 15,
+            "x": 10,
+            "z": -33,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": true
+          },
+          {
+            "id": 16,
+            "x": 28,
+            "z": -136,
+            "hp": 180,
+            "armor": 60,
+            "boss": true,
+            "alive": true,
+            "visible": false
+          }
+        ],
+        "pickups": [
+          {
+            "type": "ammo",
+            "x": 5,
+            "z": 144
+          },
+          {
+            "type": "health",
+            "x": 8,
+            "z": 144
+          },
+          {
+            "type": "armor",
+            "x": -8,
+            "z": 144
+          },
+          {
+            "type": "cargo",
+            "x": -108,
+            "z": 55
+          },
+          {
+            "type": "ammo",
+            "x": -83,
+            "z": 65
+          },
+          {
+            "type": "health",
+            "x": -109,
+            "z": 34
+          },
+          {
+            "type": "barrel",
+            "x": -82,
+            "z": 46
+          },
+          {
+            "type": "cargo",
+            "x": 80,
+            "z": 59
+          },
+          {
+            "type": "cargo",
+            "x": 99,
+            "z": 29
+          },
+          {
+            "type": "ammo",
+            "x": 55,
+            "z": 39
+          },
+          {
+            "type": "armor",
+            "x": 95,
+            "z": 58
+          },
+          {
+            "type": "health",
+            "x": 83,
+            "z": 17
+          },
+          {
+            "type": "barrel",
+            "x": 66,
+            "z": 23
+          },
+          {
+            "type": "barrel",
+            "x": 97,
+            "z": 47
+          },
+          {
+            "type": "cargo",
+            "x": -84,
+            "z": -62
+          },
+          {
+            "type": "ammo",
+            "x": -76,
+            "z": -42
+          },
+          {
+            "type": "health",
+            "x": -99,
+            "z": -47
+          },
+          {
+            "type": "barrel",
+            "x": -65,
+            "z": -70
+          },
+          {
+            "type": "ammo",
+            "x": 22,
+            "z": -117
+          },
+          {
+            "type": "health",
+            "x": 48,
+            "z": -111
+          },
+          {
+            "type": "armor",
+            "x": 32,
+            "z": -145
+          },
+          {
+            "type": "cargo",
+            "x": 14,
+            "z": -130
+          },
+          {
+            "type": "barrel",
+            "x": 38,
+            "z": -135
+          },
+          {
+            "type": "cargo",
+            "x": 4,
+            "z": -41
+          },
+          {
+            "type": "ammo",
+            "x": -113,
+            "z": 7
+          },
+          {
+            "type": "health",
+            "x": 121,
+            "z": -64
+          },
+          {
+            "type": "barrel",
+            "x": -40,
+            "z": 38
+          },
+          {
+            "type": "ammo",
+            "x": 146,
+            "z": -105
+          },
+          {
+            "type": "inventory",
+            "x": 6.082531754730549,
+            "z": 144.625,
+            "stack": {
+              "itemId": "bandage",
+              "quantity": 2
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 5.625,
+            "z": 145.08253175473055,
+            "stack": {
+              "itemId": "frag",
+              "quantity": 1
+            }
+          },
+          {
+            "type": "inventory",
+            "x": -83,
+            "z": 66.25,
+            "stack": {
+              "itemId": "shotgun",
+              "quantity": 1,
+              "rounds": 2
+            }
+          },
+          {
+            "type": "inventory",
+            "x": -83.625,
+            "z": 66.08253175473055,
+            "stack": {
+              "itemId": "ammo-shell",
+              "quantity": 8
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 78.91746824526945,
+            "z": 59.625,
+            "stack": {
+              "itemId": "smg",
+              "quantity": 1,
+              "rounds": 24
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 78.75,
+            "z": 59,
+            "stack": {
+              "itemId": "ammo-smg",
+              "quantity": 60
+            }
+          },
+          {
+            "type": "inventory",
+            "x": -85.08253175473055,
+            "z": -62.625,
+            "stack": {
+              "itemId": "frag",
+              "quantity": 2
+            }
+          },
+          {
+            "type": "inventory",
+            "x": -84.625,
+            "z": -63.082531754730546,
+            "stack": {
+              "itemId": "armor",
+              "quantity": 1,
+              "durability": 45
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 14,
+            "z": -131.25,
+            "stack": {
+              "itemId": "r4",
+              "quantity": 1,
+              "rounds": 30,
+              "chamber": 1
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 14.625,
+            "z": -131.08253175473055,
+            "stack": {
+              "itemId": "scanner",
+              "quantity": 1
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 15.082531754730548,
+            "z": -130.625,
+            "stack": {
+              "itemId": "archive",
+              "quantity": 1
+            }
+          }
+        ],
+        "cash": 0,
+        "kills": 0,
+        "shots": 0,
+        "hits": 0,
+        "ammo": [
+          6,
+          0,
+          0,
+          30
+        ],
+        "reserve": [
+          24,
+          0,
+          0,
+          90
+        ],
+        "weapon": 3,
+        "meleeHits": 0,
+        "extracted": false,
+        "bounty": false,
+        "item": {
+          "holdProgress": 0,
+          "totalProgress": 0,
+          "active": false,
+          "stage": "idle",
+          "itemId": null,
+          "uid": null,
+          "location": null,
+          "sequence": 0,
+          "elapsed": 0,
+          "progress": 0,
+          "committed": false,
+          "cancelled": false,
+          "recoverFrom": null
+        },
+        "items": [
+          {
+            "location": "bag:0",
+            "stack": {
+              "uid": "df-19",
+              "itemId": "ammo-rifle",
+              "quantity": 60,
+              "issued": true
+            }
+          },
+          {
+            "location": "bag:1",
+            "stack": {
+              "uid": "df-20",
+              "itemId": "ammo-rifle",
+              "quantity": 30,
+              "issued": true
+            }
+          },
+          {
+            "location": "bag:2",
+            "stack": {
+              "uid": "df-22",
+              "itemId": "ammo-pistol",
+              "quantity": 24,
+              "issued": true
+            }
+          },
+          {
+            "location": "weapon:0",
+            "stack": {
+              "uid": "df-12",
+              "itemId": "r4",
+              "quantity": 1,
+              "rounds": 30,
+              "chamber": 1,
+              "issued": true,
+              "weaponState": {
+                "version": 1,
+                "weaponId": "r4",
+                "weaponInstanceId": "df-12",
+                "magazine": 29,
+                "chamber": 1,
+                "mode": "auto",
+                "shotSequence": 0,
+                "recoveryRemaining": 0,
+                "reloadCheckpoint": null
+              }
+            }
+          },
+          {
+            "location": "weapon:1",
+            "stack": {
+              "uid": "df-13",
+              "itemId": "pistol",
+              "quantity": 1,
+              "rounds": 6,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:0",
+            "stack": {
+              "uid": "df-15",
+              "itemId": "bandage",
+              "quantity": 3,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:1",
+            "stack": {
+              "uid": "df-16",
+              "itemId": "frag",
+              "quantity": 2,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:2",
+            "stack": {
+              "uid": "df-17",
+              "itemId": "scanner",
+              "quantity": 1,
+              "issued": true
+            }
+          },
+          {
+            "location": "armor",
+            "stack": {
+              "uid": "df-14",
+              "itemId": "armor",
+              "quantity": 1,
+              "durability": 11.00000000000001,
+              "issued": true
+            }
+          }
+        ],
+        "grenades": [],
+        "overlay": "none",
+        "message": "TAB 가방 · 1/2 무기 · 3–6 빠른 사용 · E 회수",
+        "hint": "탈출 지점 · 중계소 증표 필요"
+      }
+    },
+    {
+      "image": "03-hud-fixture-genuine-fraction.png",
+      "observation": {
+        "p": {
+          "x": 0,
+          "z": 145,
+          "y": 0,
+          "velocityY": 0,
+          "grounded": true,
+          "bodyHeight": 1.75,
+          "eyeHeight": 1.62,
+          "crouched": false,
+          "hp": 31.01,
+          "armor": 26.28,
+          "stamina": 100,
+          "fatigued": false,
+          "dash": 0,
+          "invulnerable": 0,
+          "slide": 0,
+          "slideCooldown": 0,
+          "slideSpeed": 0,
+          "slideDirX": 0,
+          "slideDirZ": 0
+        },
+        "yaw": 0,
+        "pitch": 0,
+        "enemies": [
+          {
+            "id": 0,
+            "x": -96,
+            "z": 51,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 1,
+            "x": -79,
+            "z": 57,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": true
+          },
+          {
+            "id": 2,
+            "x": -106,
+            "z": 29,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 3,
+            "x": 75,
+            "z": 48,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": true
+          },
+          {
+            "id": 4,
+            "x": 89,
+            "z": 37,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 5,
+            "x": 64,
+            "z": 23,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 6,
+            "x": 100,
+            "z": 19,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": true
+          },
+          {
+            "id": 7,
+            "x": -73,
+            "z": -61,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 8,
+            "x": -85,
+            "z": -55,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": true
+          },
+          {
+            "id": 9,
+            "x": -68,
+            "z": -79,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 10,
+            "x": 26,
+            "z": -120,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 11,
+            "x": 37,
+            "z": -132,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 12,
+            "x": 19,
+            "z": -135,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 13,
+            "x": 43,
+            "z": -109,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 14,
+            "x": -39,
+            "z": 27,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": false
+          },
+          {
+            "id": 15,
+            "x": 10,
+            "z": -33,
+            "hp": 70,
+            "armor": 0,
+            "boss": false,
+            "alive": true,
+            "visible": true
+          },
+          {
+            "id": 16,
+            "x": 28,
+            "z": -136,
+            "hp": 180,
+            "armor": 60,
+            "boss": true,
+            "alive": true,
+            "visible": false
+          }
+        ],
+        "pickups": [
+          {
+            "type": "ammo",
+            "x": 5,
+            "z": 144
+          },
+          {
+            "type": "health",
+            "x": 8,
+            "z": 144
+          },
+          {
+            "type": "armor",
+            "x": -8,
+            "z": 144
+          },
+          {
+            "type": "cargo",
+            "x": -108,
+            "z": 55
+          },
+          {
+            "type": "ammo",
+            "x": -83,
+            "z": 65
+          },
+          {
+            "type": "health",
+            "x": -109,
+            "z": 34
+          },
+          {
+            "type": "barrel",
+            "x": -82,
+            "z": 46
+          },
+          {
+            "type": "cargo",
+            "x": 80,
+            "z": 59
+          },
+          {
+            "type": "cargo",
+            "x": 99,
+            "z": 29
+          },
+          {
+            "type": "ammo",
+            "x": 55,
+            "z": 39
+          },
+          {
+            "type": "armor",
+            "x": 95,
+            "z": 58
+          },
+          {
+            "type": "health",
+            "x": 83,
+            "z": 17
+          },
+          {
+            "type": "barrel",
+            "x": 66,
+            "z": 23
+          },
+          {
+            "type": "barrel",
+            "x": 97,
+            "z": 47
+          },
+          {
+            "type": "cargo",
+            "x": -84,
+            "z": -62
+          },
+          {
+            "type": "ammo",
+            "x": -76,
+            "z": -42
+          },
+          {
+            "type": "health",
+            "x": -99,
+            "z": -47
+          },
+          {
+            "type": "barrel",
+            "x": -65,
+            "z": -70
+          },
+          {
+            "type": "ammo",
+            "x": 22,
+            "z": -117
+          },
+          {
+            "type": "health",
+            "x": 48,
+            "z": -111
+          },
+          {
+            "type": "armor",
+            "x": 32,
+            "z": -145
+          },
+          {
+            "type": "cargo",
+            "x": 14,
+            "z": -130
+          },
+          {
+            "type": "barrel",
+            "x": 38,
+            "z": -135
+          },
+          {
+            "type": "cargo",
+            "x": 4,
+            "z": -41
+          },
+          {
+            "type": "ammo",
+            "x": -113,
+            "z": 7
+          },
+          {
+            "type": "health",
+            "x": 121,
+            "z": -64
+          },
+          {
+            "type": "barrel",
+            "x": -40,
+            "z": 38
+          },
+          {
+            "type": "ammo",
+            "x": 146,
+            "z": -105
+          },
+          {
+            "type": "inventory",
+            "x": 6.082531754730549,
+            "z": 144.625,
+            "stack": {
+              "itemId": "bandage",
+              "quantity": 2
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 5.625,
+            "z": 145.08253175473055,
+            "stack": {
+              "itemId": "frag",
+              "quantity": 1
+            }
+          },
+          {
+            "type": "inventory",
+            "x": -83,
+            "z": 66.25,
+            "stack": {
+              "itemId": "shotgun",
+              "quantity": 1,
+              "rounds": 2
+            }
+          },
+          {
+            "type": "inventory",
+            "x": -83.625,
+            "z": 66.08253175473055,
+            "stack": {
+              "itemId": "ammo-shell",
+              "quantity": 8
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 78.91746824526945,
+            "z": 59.625,
+            "stack": {
+              "itemId": "smg",
+              "quantity": 1,
+              "rounds": 24
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 78.75,
+            "z": 59,
+            "stack": {
+              "itemId": "ammo-smg",
+              "quantity": 60
+            }
+          },
+          {
+            "type": "inventory",
+            "x": -85.08253175473055,
+            "z": -62.625,
+            "stack": {
+              "itemId": "frag",
+              "quantity": 2
+            }
+          },
+          {
+            "type": "inventory",
+            "x": -84.625,
+            "z": -63.082531754730546,
+            "stack": {
+              "itemId": "armor",
+              "quantity": 1,
+              "durability": 45
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 14,
+            "z": -131.25,
+            "stack": {
+              "itemId": "r4",
+              "quantity": 1,
+              "rounds": 30,
+              "chamber": 1
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 14.625,
+            "z": -131.08253175473055,
+            "stack": {
+              "itemId": "scanner",
+              "quantity": 1
+            }
+          },
+          {
+            "type": "inventory",
+            "x": 15.082531754730548,
+            "z": -130.625,
+            "stack": {
+              "itemId": "archive",
+              "quantity": 1
+            }
+          }
+        ],
+        "cash": 0,
+        "kills": 0,
+        "shots": 0,
+        "hits": 0,
+        "ammo": [
+          6,
+          0,
+          0,
+          30
+        ],
+        "reserve": [
+          24,
+          0,
+          0,
+          90
+        ],
+        "weapon": 3,
+        "meleeHits": 0,
+        "extracted": false,
+        "bounty": false,
+        "item": {
+          "holdProgress": 0,
+          "totalProgress": 0,
+          "active": false,
+          "stage": "idle",
+          "itemId": null,
+          "uid": null,
+          "location": null,
+          "sequence": 0,
+          "elapsed": 0,
+          "progress": 0,
+          "committed": false,
+          "cancelled": false,
+          "recoverFrom": null
+        },
+        "items": [
+          {
+            "location": "bag:0",
+            "stack": {
+              "uid": "df-19",
+              "itemId": "ammo-rifle",
+              "quantity": 60,
+              "issued": true
+            }
+          },
+          {
+            "location": "bag:1",
+            "stack": {
+              "uid": "df-20",
+              "itemId": "ammo-rifle",
+              "quantity": 30,
+              "issued": true
+            }
+          },
+          {
+            "location": "bag:2",
+            "stack": {
+              "uid": "df-22",
+              "itemId": "ammo-pistol",
+              "quantity": 24,
+              "issued": true
+            }
+          },
+          {
+            "location": "weapon:0",
+            "stack": {
+              "uid": "df-12",
+              "itemId": "r4",
+              "quantity": 1,
+              "rounds": 30,
+              "chamber": 1,
+              "issued": true,
+              "weaponState": {
+                "version": 1,
+                "weaponId": "r4",
+                "weaponInstanceId": "df-12",
+                "magazine": 29,
+                "chamber": 1,
+                "mode": "auto",
+                "shotSequence": 0,
+                "recoveryRemaining": 0,
+                "reloadCheckpoint": null
+              }
+            }
+          },
+          {
+            "location": "weapon:1",
+            "stack": {
+              "uid": "df-13",
+              "itemId": "pistol",
+              "quantity": 1,
+              "rounds": 6,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:0",
+            "stack": {
+              "uid": "df-15",
+              "itemId": "bandage",
+              "quantity": 3,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:1",
+            "stack": {
+              "uid": "df-16",
+              "itemId": "frag",
+              "quantity": 2,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:2",
+            "stack": {
+              "uid": "df-17",
+              "itemId": "scanner",
+              "quantity": 1,
+              "issued": true
+            }
+          },
+          {
+            "location": "armor",
+            "stack": {
+              "uid": "df-14",
+              "itemId": "armor",
+              "quantity": 1,
+              "durability": 26.28,
+              "issued": true
+            }
+          }
+        ],
+        "grenades": [],
+        "overlay": "none",
+        "message": "TAB 가방 · 1/2 무기 · 3–6 빠른 사용 · E 회수",
+        "hint": "탈출 지점 · 중계소 증표 필요"
+      }
+    }
+  ],
+  "pass": true,
+  "sourceRef": "511be7b30fc55585cf6ad34558188bf00bd2361a",
+  "sourceNote": "Working-tree HUD fix during fixture, subsequently committed as this sourceRef; this was explicit state-assignment regression, not ordinary play."
+}

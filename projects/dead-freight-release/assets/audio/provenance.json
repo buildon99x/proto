@@ -1,0 +1,263 @@
+{
+  "provider": "Pixabay",
+  "scope": "Combined DEAD FREIGHT game runtime only. No standalone sound-pack or raw-source redistribution.",
+  "rawSourcesIncluded": false,
+  "sources": [
+    {
+      "id": "45010",
+      "title": "AR15 pistol load and chamber",
+      "artist": "michorvath",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-ar15-pistol-load-and-chamber-45010/",
+      "download": "https://cdn.pixabay.com/download/audio/2022/03/10/audio_aed4fcbcce.mp3?filename=freesound_community-ar15-pistol-load-and-chamber-45010.mp3",
+      "publishedDateVisibleOnPage": "2022-06-18",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": "https://freesound.org/people/michorvath/",
+      "sha256": "0cd65daaaa3d038af34e88921e831fc970a0ea232873ed3f62f99bd1f2df3c3c",
+      "bytes": 164675
+    },
+    {
+      "id": "104296",
+      "title": "Assault Rifle Reload",
+      "artist": "Kodack",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-assault-rifle-reload-104296/",
+      "download": "https://cdn.pixabay.com/download/audio/2022/03/24/audio_9509c4bb10.mp3?filename=freesound_community-assault-rifle-reload-104296.mp3",
+      "publishedDateVisibleOnPage": "2022-09-06",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": "https://freesound.org/people/Kodack/sounds/256912/",
+      "sha256": "246588c7be93507f0c171e615af4d2836ea0d5e431fd5a52314252037fd418ac",
+      "bytes": 64800
+    },
+    {
+      "id": "75000",
+      "title": "Brass bullet shell drop onto concrete, multiple takes",
+      "artist": "Eipeiknip",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-brass-bullet-shell-drop-onto-concrete-multiple-takes-75000/",
+      "download": "https://cdn.pixabay.com/download/audio/2022/03/15/audio_8185715539.mp3?filename=freesound_community-brass-bullet-shell-drop-onto-concrete-multiple-takes-75000.mp3",
+      "publishedDateVisibleOnPage": "2022-07-29",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": null,
+      "sha256": "961e73500480a694577a4bfbbb1655bf2f30aafab2a2e1b8391ee93479b3f3a6",
+      "bytes": 282240
+    },
+    {
+      "id": "31859",
+      "title": "Hitting Metal",
+      "artist": "APallot",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-hitting-metal-31859/",
+      "download": "https://cdn.pixabay.com/download/audio/2022/03/10/audio_7f90c5e4fc.mp3?filename=freesound_community-hitting-metal-31859.mp3",
+      "publishedDateVisibleOnPage": "2022-05-28",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": null,
+      "sha256": "a2942b1edab06e126ff46fbe07490d7a6fb7d7f576539b39a114892d1a064ac3",
+      "bytes": 318240
+    },
+    {
+      "id": "6791",
+      "title": "Hitting Wood",
+      "artist": "altfuture",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-hitting-wood-6791/",
+      "download": "https://cdn.pixabay.com/download/audio/2021/08/09/audio_3b8e47d213.mp3?filename=freesound_community-hitting-wood-6791.mp3",
+      "publishedDateVisibleOnPage": "2021-08-10",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": null,
+      "sha256": "4689246d30a7cdf76cb503b6716ebfcac0a8601ba529b71b52f43f41891609ef",
+      "bytes": 178560
+    },
+    {
+      "id": "62692",
+      "title": "stone on stone",
+      "artist": "Fenodyrie",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-stone-on-stone-62692/",
+      "download": "https://cdn.pixabay.com/download/audio/2022/03/14/audio_7f7f0d2f00.mp3?filename=freesound_community-stone-on-stone-62692.mp3",
+      "publishedDateVisibleOnPage": "2022-07-12",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": null,
+      "sha256": "261590f563317fbed8635754b1ba663d1ab11455f1f1acc4601c9c31d28c49b0",
+      "bytes": 906240
+    },
+    {
+      "id": "32436",
+      "title": "real_punches_and_slaps",
+      "artist": "ccheatham",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-real-punches-and-slaps-32436/",
+      "download": "https://cdn.pixabay.com/download/audio/2022/03/10/audio_3593ad4737.mp3?filename=freesound_community-real_punches_and_slaps-32436.mp3",
+      "publishedDateVisibleOnPage": "2022-05-30",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": null,
+      "sha256": "50a1fa5f16e46ff5dc14d3b76c9c20a07f92598157b381d174bb9e463561323b",
+      "bytes": 559229
+    },
+    {
+      "id": "98832",
+      "title": "Rifle clip empty",
+      "artist": "michorvath",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-rifle-clip-empty-98832/",
+      "download": "https://cdn.pixabay.com/download/audio/2022/03/21/audio_0e7052d864.mp3?filename=freesound_community-rifle-clip-empty-98832.mp3",
+      "publishedDateVisibleOnPage": "2022-08-31",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": "https://freesound.org/people/michorvath/sounds/427603/",
+      "sha256": "d412de21056ede05994a542e997ae738ca07091e0f75f177f1552021faf05eb4",
+      "bytes": 27585
+    },
+    {
+      "id": "6349",
+      "title": "9mm pistol shot",
+      "artist": "michorvath",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-9mm-pistol-shot-6349/",
+      "download": "https://cdn.pixabay.com/download/audio/2021/08/04/audio_35885047c8.mp3?filename=freesound_community-9mm-pistol-shot-6349.mp3",
+      "publishedDateVisibleOnPage": "2021-08-05",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": "https://freesound.org/people/michorvath/sounds/427592/",
+      "originalLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sha256": "8c1d04673954d4990c9c82eab2afbbc5951278eacdab4caaa9bb34f29352e781",
+      "bytes": 54334,
+      "sourceConstraints": [
+        "Actual 9mm pistol fired per original author description.",
+        "Author profile states recordings dated 2017+ used Sennheiser MKH 416.",
+        "Mono outdoor recording; preserve sharp onset and trim background bird/noise in the tail as appropriate.",
+        "Embed processed asset only in game; do not distribute original as standalone sound pack."
+      ],
+      "recordingEvidence": [
+        "https://freesound.org/people/michorvath/sounds/427592/",
+        "https://freesound.org/people/michorvath/"
+      ]
+    },
+    {
+      "id": "94496",
+      "title": "Saiga 12k Gunshot(12ga)",
+      "artist": "Kobrakon47",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-saiga-12k-gunshot12ga-94496/",
+      "download": "https://cdn.pixabay.com/download/audio/2022/03/17/audio_91a07ec7bc.mp3?filename=freesound_community-saiga-12k-gunshot12ga-94496.mp3",
+      "publishedDateVisibleOnPage": "2022-08-25",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": "https://freesound.org/people/Kobrakon47/sounds/569309/",
+      "originalLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sha256": "6fe53848b18ac014648849caffa1e2752dea60177c940c63c9b56ba8f815d610",
+      "bytes": 37920,
+      "sourceConstraints": [
+        "Original author explicitly identifies raw audio of self shooting Saiga 12 with 00 buckshot.",
+        "Actual 12-gauge shotgun source, not pump action itself; pair with separately recorded pump for game action.",
+        "Inspect transient clipping before normalizing; original is lossy stereo MP3.",
+        "Embed processed asset only in game; do not distribute original as standalone sound pack."
+      ],
+      "recordingEvidence": [
+        "https://freesound.org/people/Kobrakon47/sounds/569309/"
+      ]
+    },
+    {
+      "id": "98830",
+      "title": "9mm pistol load and chamber",
+      "artist": "michorvath",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-9mm-pistol-load-and-chamber-98830/",
+      "download": "https://cdn.pixabay.com/download/audio/2022/03/21/audio_f8f0daf6e7.mp3?filename=freesound_community-9mm-pistol-load-and-chamber-98830.mp3",
+      "publishedDateVisibleOnPage": "2022-08-31",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": "https://freesound.org/people/michorvath/sounds/427593/",
+      "originalLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sha256": "03270f9eacaca96284f8690e77d9169d194b541ccac4ae6ba3df75da847cea80",
+      "bytes": 71053,
+      "sourceConstraints": [
+        "Original author identifies real 9mm pistol reloading: magazine loaded and round chambered.",
+        "Mono outdoor recording with faint bird noise; trim individual action transients, avoid amplifying gaps.",
+        "Embed processed asset only in game; do not distribute original as standalone sound pack."
+      ],
+      "recordingEvidence": [
+        "https://freesound.org/people/michorvath/sounds/427593/"
+      ]
+    },
+    {
+      "id": "101896",
+      "title": "Pump Action Shotgun",
+      "artist": "awrmacd",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-pump-action-shotgun-101896/",
+      "download": "https://cdn.pixabay.com/download/audio/2022/03/24/audio_e8d506e5f9.mp3?filename=freesound_community-pump-action-shotgun-101896.mp3",
+      "publishedDateVisibleOnPage": "2022-09-02",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": "https://freesound.org/people/awrmacd/sounds/387190/",
+      "originalLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sha256": "8e1af6b90cecbb0d12f81acb5e496843213f2e0adf15b0ba91867d4caa88e07d",
+      "bytes": 94080,
+      "sourceConstraints": [
+        "Original author identifies multiple pumps of a real Mossberg12-gauge shotgun.",
+        "Three takes; original comments mention compression artifacts particularly on takes2 and3. Prefer first clean cycle after audio inspection.",
+        "Embed processed asset only in game; do not distribute original as standalone sound pack."
+      ],
+      "recordingEvidence": [
+        "https://freesound.org/people/awrmacd/sounds/387190/"
+      ]
+    },
+    {
+      "id": "89473",
+      "title": "machine gun",
+      "artist": "sidohzen",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-machine-gun-89473/",
+      "download": "https://cdn.pixabay.com/download/audio/2022/03/15/audio_27a6d194d9.mp3?filename=freesound_community-machine-gun-89473.mp3",
+      "publishedDateVisibleOnPage": "2022-08-18",
+      "retrieved": "2026-10-08",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "originalAuthorReference": "https://freesound.org/people/sidohzen/sounds/165809/",
+      "originalLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sha256": "d942b5ccb84c85dbff64cc8ecc693bf5dc274b6f6076b088a311a94b1fbce6ef",
+      "bytes": 182400,
+      "sourceConstraints": [
+        "Original author explicitly identifies several short bursts of actual full-auto M16 fire, captured with Sony HDR-CX160 camcorder.",
+        "Source has authentic automatic cadence; inspect camera limiter/clipping and select clean burst endings/single reports.",
+        "Embed processed asset only in game; do not distribute original as standalone sound pack."
+      ],
+      "recordingEvidence": [
+        "https://freesound.org/people/sidohzen/sounds/165809/"
+      ]
+    }
+  ]
+}

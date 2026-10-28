@@ -1,0 +1,887 @@
+{
+  "sourceBase": "fbea5b431fc414ece9bf3f0e5540a61182b93754",
+  "blackPinesSourceUnchanged": true,
+  "blackPinesSourceNormalizedSha256": "2e65c6a42341be3ae93324b419843eca3b7c9deddb9efdf2682a24174e6d9bc2",
+  "blackPinesDefinitionSha256": "5ceee14496111ba3a8bffaf5889332e7363df4486f9ad94cda5f904bdbce33ab",
+  "regions": [
+    {
+      "id": "black-pines",
+      "name": "BLACK PINES",
+      "bounds": {
+        "minX": -170,
+        "maxX": 170,
+        "minZ": -170,
+        "maxZ": 170
+      },
+      "spawn": {
+        "x": 0,
+        "y": 0,
+        "z": 145
+      },
+      "walls": 825,
+      "trees": 720,
+      "encounters": [
+        {
+          "zone": "lumber",
+          "x": -96,
+          "z": 51,
+          "hp": 70,
+          "range": 31,
+          "leash": 38,
+          "boss": false
+        },
+        {
+          "zone": "lumber",
+          "x": -79,
+          "z": 57,
+          "hp": 70,
+          "range": 31,
+          "leash": 38,
+          "boss": false
+        },
+        {
+          "zone": "lumber",
+          "x": -106,
+          "z": 29,
+          "hp": 70,
+          "range": 31,
+          "leash": 38,
+          "boss": false
+        },
+        {
+          "zone": "depot",
+          "x": 75,
+          "z": 48,
+          "hp": 70,
+          "range": 31,
+          "leash": 38,
+          "boss": false
+        },
+        {
+          "zone": "depot",
+          "x": 89,
+          "z": 37,
+          "hp": 70,
+          "range": 31,
+          "leash": 38,
+          "boss": false
+        },
+        {
+          "zone": "depot",
+          "x": 64,
+          "z": 23,
+          "hp": 70,
+          "range": 31,
+          "leash": 38,
+          "boss": false
+        },
+        {
+          "zone": "depot",
+          "x": 100,
+          "z": 19,
+          "hp": 70,
+          "range": 31,
+          "leash": 38,
+          "boss": false
+        },
+        {
+          "zone": "quarry",
+          "x": -73,
+          "z": -61,
+          "hp": 70,
+          "range": 31,
+          "leash": 38,
+          "boss": false
+        },
+        {
+          "zone": "quarry",
+          "x": -85,
+          "z": -55,
+          "hp": 70,
+          "range": 31,
+          "leash": 38,
+          "boss": false
+        },
+        {
+          "zone": "quarry",
+          "x": -68,
+          "z": -79,
+          "hp": 70,
+          "range": 31,
+          "leash": 38,
+          "boss": false
+        },
+        {
+          "zone": "relay",
+          "x": 26,
+          "z": -120,
+          "hp": 70,
+          "range": 35,
+          "leash": 38,
+          "boss": false
+        },
+        {
+          "zone": "relay",
+          "x": 37,
+          "z": -132,
+          "hp": 70,
+          "range": 35,
+          "leash": 38,
+          "boss": false
+        },
+        {
+          "zone": "relay",
+          "x": 19,
+          "z": -135,
+          "hp": 70,
+          "range": 35,
+          "leash": 38,
+          "boss": false
+        },
+        {
+          "zone": "relay",
+          "x": 43,
+          "z": -109,
+          "hp": 70,
+          "range": 35,
+          "leash": 38,
+          "boss": false
+        },
+        {
+          "zone": "crossroads",
+          "x": -39,
+          "z": 27,
+          "hp": 70,
+          "range": 25,
+          "leash": 26,
+          "boss": false
+        },
+        {
+          "zone": "crossroads",
+          "x": 10,
+          "z": -33,
+          "hp": 70,
+          "range": 25,
+          "leash": 26,
+          "boss": false
+        },
+        {
+          "zone": "relay",
+          "x": 28,
+          "z": -136,
+          "hp": 180,
+          "range": 37,
+          "leash": 27,
+          "boss": true
+        }
+      ],
+      "routes": [
+        {
+          "id": "insertion-road",
+          "width": 10,
+          "points": [
+            {
+              "x": 0,
+              "z": 145
+            },
+            {
+              "x": 0,
+              "z": 105
+            },
+            {
+              "x": -19,
+              "z": 87
+            }
+          ]
+        },
+        {
+          "id": "lumber-road",
+          "width": 9,
+          "points": [
+            {
+              "x": -19,
+              "z": 87
+            },
+            {
+              "x": -51,
+              "z": 75
+            },
+            {
+              "x": -92,
+              "z": 58
+            }
+          ]
+        },
+        {
+          "id": "depot-road",
+          "width": 10,
+          "points": [
+            {
+              "x": 0,
+              "z": 105
+            },
+            {
+              "x": 43,
+              "z": 85
+            },
+            {
+              "x": 77,
+              "z": 42
+            }
+          ]
+        },
+        {
+          "id": "west-ridge",
+          "width": 8,
+          "points": [
+            {
+              "x": -92,
+              "z": 58
+            },
+            {
+              "x": -108,
+              "z": 12
+            },
+            {
+              "x": -94,
+              "z": -25
+            },
+            {
+              "x": -78,
+              "z": -58
+            }
+          ]
+        },
+        {
+          "id": "relay-west",
+          "width": 8,
+          "points": [
+            {
+              "x": -78,
+              "z": -58
+            },
+            {
+              "x": -54,
+              "z": -97
+            },
+            {
+              "x": -16,
+              "z": -111
+            },
+            {
+              "x": 28,
+              "z": -110
+            },
+            {
+              "x": 28,
+              "z": -130
+            }
+          ]
+        },
+        {
+          "id": "east-haul",
+          "width": 10,
+          "points": [
+            {
+              "x": 77,
+              "z": 42
+            },
+            {
+              "x": 101,
+              "z": 4
+            },
+            {
+              "x": 102,
+              "z": -49
+            },
+            {
+              "x": 77,
+              "z": -91
+            },
+            {
+              "x": 59,
+              "z": -104
+            },
+            {
+              "x": 28,
+              "z": -110
+            },
+            {
+              "x": 28,
+              "z": -130
+            }
+          ]
+        },
+        {
+          "id": "freight-cut",
+          "width": 7,
+          "points": [
+            {
+              "x": -92,
+              "z": 58
+            },
+            {
+              "x": -46,
+              "z": 29
+            },
+            {
+              "x": 3,
+              "z": 18
+            },
+            {
+              "x": 42,
+              "z": 25
+            },
+            {
+              "x": 77,
+              "z": 42
+            }
+          ]
+        },
+        {
+          "id": "quarry-cut",
+          "width": 6,
+          "points": [
+            {
+              "x": -78,
+              "z": -58
+            },
+            {
+              "x": -74,
+              "z": -47
+            },
+            {
+              "x": -29,
+              "z": -42
+            },
+            {
+              "x": 22,
+              "z": -36
+            },
+            {
+              "x": 61,
+              "z": -17
+            },
+            {
+              "x": 102,
+              "z": -49
+            }
+          ]
+        },
+        {
+          "id": "evac-spur",
+          "width": 7,
+          "points": [
+            {
+              "x": 102,
+              "z": -49
+            },
+            {
+              "x": 134,
+              "z": -75
+            },
+            {
+              "x": 138,
+              "z": -108
+            }
+          ]
+        },
+        {
+          "id": "evac-south-entry",
+          "width": 4,
+          "points": [
+            {
+              "x": 116,
+              "z": -130
+            },
+            {
+              "x": 121,
+              "z": -123
+            },
+            {
+              "x": 123,
+              "z": -103
+            },
+            {
+              "x": 138,
+              "z": -103
+            },
+            {
+              "x": 138,
+              "z": -108
+            }
+          ]
+        },
+        {
+          "id": "relay-evac",
+          "width": 6,
+          "points": [
+            {
+              "x": 28,
+              "z": -130
+            },
+            {
+              "x": 28,
+              "z": -154
+            },
+            {
+              "x": 60,
+              "z": -154
+            },
+            {
+              "x": 75,
+              "z": -142
+            },
+            {
+              "x": 116,
+              "z": -130
+            },
+            {
+              "x": 151,
+              "z": -128
+            },
+            {
+              "x": 151,
+              "z": -108
+            },
+            {
+              "x": 138,
+              "z": -108
+            }
+          ]
+        }
+      ],
+      "exits": [
+        {
+          "id": "south-lz",
+          "name": "남쪽 착륙장",
+          "x": 0,
+          "z": 145,
+          "radius": 7,
+          "holdTime": 6
+        },
+        {
+          "id": "east-evac",
+          "name": "동쪽 긴급 회수장",
+          "x": 138,
+          "z": -108,
+          "radius": 7,
+          "holdTime": 6
+        }
+      ],
+      "loot": [
+        {
+          "x": 5,
+          "z": 144,
+          "type": "ammo"
+        },
+        {
+          "x": 8,
+          "z": 144,
+          "type": "health"
+        },
+        {
+          "x": -8,
+          "z": 144,
+          "type": "armor"
+        },
+        {
+          "x": -108,
+          "z": 55,
+          "type": "cargo"
+        },
+        {
+          "x": -83,
+          "z": 65,
+          "type": "ammo"
+        },
+        {
+          "x": -109,
+          "z": 34,
+          "type": "health"
+        },
+        {
+          "x": -82,
+          "z": 46,
+          "type": "barrel"
+        },
+        {
+          "x": 80,
+          "z": 59,
+          "type": "cargo"
+        },
+        {
+          "x": 99,
+          "z": 29,
+          "type": "cargo"
+        },
+        {
+          "x": 55,
+          "z": 39,
+          "type": "ammo"
+        },
+        {
+          "x": 95,
+          "z": 58,
+          "type": "armor"
+        },
+        {
+          "x": 83,
+          "z": 17,
+          "type": "health"
+        },
+        {
+          "x": 66,
+          "z": 23,
+          "type": "barrel"
+        },
+        {
+          "x": 97,
+          "z": 47,
+          "type": "barrel"
+        },
+        {
+          "x": -84,
+          "z": -62,
+          "type": "cargo"
+        },
+        {
+          "x": -76,
+          "z": -42,
+          "type": "ammo"
+        },
+        {
+          "x": -99,
+          "z": -47,
+          "type": "health"
+        },
+        {
+          "x": -65,
+          "z": -70,
+          "type": "barrel"
+        },
+        {
+          "x": 22,
+          "z": -117,
+          "type": "ammo"
+        },
+        {
+          "x": 48,
+          "z": -111,
+          "type": "health"
+        },
+        {
+          "x": 32,
+          "z": -145,
+          "type": "armor"
+        },
+        {
+          "x": 14,
+          "z": -130,
+          "type": "cargo"
+        },
+        {
+          "x": 38,
+          "z": -135,
+          "type": "barrel"
+        },
+        {
+          "x": 4,
+          "z": -41,
+          "type": "cargo"
+        },
+        {
+          "x": -113,
+          "z": 7,
+          "type": "ammo"
+        },
+        {
+          "x": 121,
+          "z": -64,
+          "type": "health"
+        },
+        {
+          "x": -40,
+          "z": 38,
+          "type": "barrel"
+        },
+        {
+          "x": 146,
+          "z": -105,
+          "type": "ammo"
+        }
+      ],
+      "geometryHash": "d73038cfa4ed83359325924885eaa04191d6fd7cfba684a3102553afa6f8806a"
+    },
+    {
+      "id": "canal-ward",
+      "name": "CANAL WARD",
+      "bounds": {
+        "minX": -140,
+        "maxX": 140,
+        "minZ": -110,
+        "maxZ": 110
+      },
+      "spawn": {
+        "x": -112,
+        "y": 0,
+        "z": 82
+      },
+      "walls": 43,
+      "trees": 0,
+      "encounters": [
+        {
+          "zone": "market",
+          "x": -67,
+          "z": 36,
+          "hp": 70,
+          "range": 25,
+          "leash": 30,
+          "boss": false
+        },
+        {
+          "zone": "market",
+          "x": -28,
+          "z": 36,
+          "hp": 70,
+          "range": 25,
+          "leash": 30,
+          "boss": false
+        },
+        {
+          "zone": "crossing",
+          "x": 26,
+          "z": -16,
+          "hp": 85,
+          "range": 34,
+          "leash": 30,
+          "boss": false
+        },
+        {
+          "zone": "ferry",
+          "x": 95,
+          "z": 68,
+          "hp": 75,
+          "range": 30,
+          "leash": 30,
+          "boss": false
+        },
+        {
+          "zone": "pump",
+          "x": 77,
+          "z": -52,
+          "hp": 85,
+          "range": 37,
+          "leash": 30,
+          "boss": false
+        },
+        {
+          "zone": "pump",
+          "x": 64,
+          "z": -74,
+          "hp": 85,
+          "range": 33,
+          "leash": 30,
+          "boss": false
+        },
+        {
+          "zone": "winch",
+          "x": -99,
+          "z": -74,
+          "hp": 70,
+          "range": 26,
+          "leash": 30,
+          "boss": false
+        },
+        {
+          "zone": "pump",
+          "x": 76,
+          "z": -82,
+          "hp": 180,
+          "range": 42,
+          "leash": 22,
+          "boss": true
+        }
+      ],
+      "routes": [
+        {
+          "id": "west-bank",
+          "width": 7,
+          "points": [
+            {
+              "x": -112,
+              "z": 82
+            },
+            {
+              "x": -76,
+              "z": 82
+            },
+            {
+              "x": -76,
+              "z": 35
+            },
+            {
+              "x": -76,
+              "z": -20
+            },
+            {
+              "x": -126,
+              "z": -20
+            },
+            {
+              "x": -126,
+              "z": -82
+            },
+            {
+              "x": -112,
+              "z": -82
+            }
+          ]
+        },
+        {
+          "id": "high-crossing",
+          "width": 7,
+          "points": [
+            {
+              "x": -76,
+              "z": 82
+            },
+            {
+              "x": -24,
+              "z": 82
+            },
+            {
+              "x": -24,
+              "z": 60
+            },
+            {
+              "x": 24,
+              "z": 60
+            },
+            {
+              "x": 76,
+              "z": 60
+            },
+            {
+              "x": 112,
+              "z": 82
+            }
+          ]
+        },
+        {
+          "id": "low-crossing",
+          "width": 7,
+          "points": [
+            {
+              "x": -76,
+              "z": 35
+            },
+            {
+              "x": -24,
+              "z": 35
+            },
+            {
+              "x": -24,
+              "z": -20
+            },
+            {
+              "x": 24,
+              "z": -20
+            },
+            {
+              "x": 76,
+              "z": -20
+            },
+            {
+              "x": 76,
+              "z": -76
+            }
+          ]
+        },
+        {
+          "id": "east-return",
+          "width": 7,
+          "points": [
+            {
+              "x": 76,
+              "z": -76
+            },
+            {
+              "x": 76,
+              "z": -20
+            },
+            {
+              "x": 76,
+              "z": 60
+            },
+            {
+              "x": 112,
+              "z": 82
+            }
+          ]
+        }
+      ],
+      "exits": [
+        {
+          "id": "canal-ferry",
+          "name": "EAST FERRY · ARCHIVE",
+          "x": 112,
+          "z": 82,
+          "radius": 6,
+          "holdTime": 8,
+          "requiredItem": "archive"
+        },
+        {
+          "id": "canal-winch",
+          "name": "WEST WINCH",
+          "x": -112,
+          "z": -82,
+          "radius": 6,
+          "holdTime": 12
+        }
+      ],
+      "loot": [
+        {
+          "x": -76,
+          "z": 35,
+          "type": "inventory",
+          "itemId": "archive"
+        },
+        {
+          "x": -110,
+          "z": -23,
+          "type": "inventory",
+          "itemId": "scrap"
+        },
+        {
+          "x": -108,
+          "z": 82,
+          "type": "inventory",
+          "itemId": "medkit"
+        },
+        {
+          "x": 104,
+          "z": 80,
+          "type": "inventory",
+          "itemId": "ammo-rifle"
+        },
+        {
+          "x": 22,
+          "z": -18,
+          "type": "inventory",
+          "itemId": "frag"
+        },
+        {
+          "x": 76,
+          "z": -73,
+          "type": "inventory",
+          "itemId": "scrap"
+        }
+      ],
+      "geometryHash": "ee3092ab07b7a0f6c8c635c0725fd4f5dd97f141effe23b14efb55ff685e7822"
+    }
+  ],
+  "actualPlay": false,
+  "actualRenderedReview": false,
+  "actualListening": false
+}

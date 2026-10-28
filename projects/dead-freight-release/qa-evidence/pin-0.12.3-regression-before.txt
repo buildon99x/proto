@@ -1,0 +1,65 @@
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS grenade must be presented and explicitly triggered before one commit
+PASS medical commit timing is invariant at 30 60 and 120 Hz
+PASS cancellation at every precommit stage never consumes or commits
+PASS repeated item request does not restart or replace an active action
+PASS quick healing starts without effect, commits once, and returns to firearm
+PASS held grenade needs fresh fire and throws once without leaking into rifle fire
+PASS damage and pause cancel medical use without consuming
+PASS source slot replacement before commit cannot consume a different item
+PASS weapon selection cancels held prop and restored weapon cannot fire during recovery
+PASS committed medicine is never refunded or repeated after pause
+PASS death during use clears held geometry and cannot heal a dead player
+PASS damage direction follows a real source and disappears on pause
+PASS HUD defaults keep diagnostics quiet while health ammo and use stay readable
+PASS action recovery starts at the exact cancelled pose and leaves no stale props
+PASS articulated props stay finite and held silhouettes leave the central aim region clear
+PASS loadout curve is neutral at ready and has smooth, bounded departure and arrival
+PASS same-frame damage plus compensating healing still cancels before item commit
+PASS action progress is monotonic across all stage boundaries including cancelled return
+PASS left index stays in physical contact with the pulled pin ring
+PASS medical applicator makes contact with the exposed support wrist during use
+PASS utility lights belong to a separate active-only scene and do not affect firearms
+PASS utility glove panels wrist and pin have distinct bounded diffuse values
+PASS menu title and package metadata agree on the current candidate version
+PASS action HUD uses a compact left rail rather than the center contact region
+PASS HUD layout contract clears actual wrist pin and aim points across desktop and compact frames
+PASS compact HUD retains full accessible item state and avoids duplicate preparation messages
+PASS prepared throw waits without cooking and only owner release after minimum hold begins use
+PASS short held aim returns to ready with no consumption and can be retried
+PASS normal mouse release contract keeps held prop and HUD then consumes exactly once
+PASS rebound fire key owns held throw and unrelated release cannot throw it
+PASS held throw cancellation cannot become a release throw after menu damage or weapon change
+PASS aim and ready utility poses are continuous and keep pin seated until throw begins
+PASS minimum aim boundary and release commit timing are exact across frame rates
+PASS aim interruption on Tab blur visibility and own-lock loss never turns keyup into throw
+PASS release-before-commit damage and same-item UID replacement cannot consume or spawn
+PASS trajectory guide is depth-tested bounded and visible only while valid grenade aim is held
+PASS trajectory option persists and cancellation hides the guide immediately without ghosting on return
+PASS recorded Foley markers fire once at physical contact and never during grenade aim
+PASS cancellation discards queued Foley and cannot replay after recovery or next action
+PASS medical contact emits one recorded marker before benefit without timer scheduling
+node:internal/assert/utils:77
+    throw err;
+    ^
+
+AssertionError [ERR_ASSERTION]: detached pin drift 0.52
+    at C:\Users\cjh\Documents\Codex\2026-10-14\task\proto\projects\dead-freight\app\test-item-action.cjs:50:469
+    at test (C:\Users\cjh\Documents\Codex\2026-10-14\task\proto\projects\dead-freight\app\test-item-action.cjs:3:36)
+    at Object.<anonymous> (C:\Users\cjh\Documents\Codex\2026-10-14\task\proto\projects\dead-freight\app\test-item-action.cjs:50:1)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

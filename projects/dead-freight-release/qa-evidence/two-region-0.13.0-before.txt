@@ -1,0 +1,8 @@
+{
+  "sourceBase": "fbea5b431fc414ece9bf3f0e5540a61182b93754",
+  "priorRegionCount": 1,
+  "priorRegion": "BLACK PINES",
+  "blackPinesSourceUnchanged": true,
+  "blackPinesSourceNormalizedSha256": "2e65c6a42341be3ae93324b419843eca3b7c9deddb9efdf2682a24174e6d9bc2",
+  "priorLiveAcceptance": false
+}

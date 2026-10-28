@@ -1,0 +1,40 @@
+{
+  "sourceBase": "96e680917809afa90256dd06c67fa9c7f7c3cc66",
+  "baseline": false,
+  "actualUserData": false,
+  "results": [
+    {
+      "case": "pending-workshop-stale-retry",
+      "retry1": false,
+      "retry2": false,
+      "status": "stale-state",
+      "pending": true,
+      "foreignRawPreserved": true
+    },
+    {
+      "case": "repair-issued-flag-return",
+      "settle": {
+        "ok": false,
+        "raidId": "raid-mv77cyl8-4-gqajsbhuupm",
+        "reason": "returned-item-identity",
+        "pending": false
+      },
+      "sale": {
+        "ok": false,
+        "raidId": null,
+        "reason": "active-raid-exists",
+        "pending": false
+      },
+      "bank": 890
+    },
+    {
+      "case": "lost-crafted-uid-issued-resurrection",
+      "deploy": {
+        "ok": false,
+        "raidId": "raid-mv77cylb-c-z98fq2otkom",
+        "reason": "item-not-in-stash",
+        "pending": false
+      }
+    }
+  ]
+}

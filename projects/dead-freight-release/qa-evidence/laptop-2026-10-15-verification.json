@@ -1,0 +1,20 @@
+{
+  "baseline": "ff5064e39ec7ac7d920d833f53e14a363507a72e",
+  "version": "0.14.2 unreleased source fix",
+  "testCommands": 54,
+  "testExit": 0,
+  "syntaxCommands": 36,
+  "syntaxExit": 0,
+  "appBuildExit": 0,
+  "registrySyncExit": 0,
+  "aggregateFirstExit": 1,
+  "aggregateFirstReason": "sandbox EPERM mkdir launcher/.next/static/chunks/app/projects/[slug]/run",
+  "aggregateApprovedRetryExit": 0,
+  "browserChecks": 8,
+  "browserPageErrors": 0,
+  "conservationChecks": "laptop-2026-10-15/conservation-check.json",
+  "screenshots": 9,
+  "listening": "not performed",
+  "ordinaryFullRouteAcceptance": "not completed",
+  "deployment": "none"
+}

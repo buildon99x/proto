@@ -1,0 +1,135 @@
+{
+  "kind": "Chrome headless actual WebGL/input; explicit setup mutations listed per step; no listening acceptance",
+  "checks": [
+    "Canal map title and accessible name in rendered browser",
+    "Ordinary W input moves player",
+    "Paused next-region change preserves active Canal legend",
+    "Bandage keyboard use commits healing (fixture: damage 35, disable enemies)",
+    "Death then Start creates fresh next-region mission (fixture: lethal damage)"
+  ],
+  "errors": [],
+  "console": [
+    "Scripts \"build/three.js\" and \"build/three.min.js\" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "browser": "Chrome/150.0.7871.127",
+  "beforeExit": {
+    "items": {
+      "bag": [
+        {
+          "uid": "df-54",
+          "itemId": "ammo-rifle",
+          "quantity": 60,
+          "issued": true
+        },
+        {
+          "uid": "df-55",
+          "itemId": "ammo-rifle",
+          "quantity": 30,
+          "issued": true
+        },
+        {
+          "uid": "df-57",
+          "itemId": "ammo-pistol",
+          "quantity": 24,
+          "issued": true
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "weapons": [
+        {
+          "uid": "df-47",
+          "itemId": "r4",
+          "quantity": 1,
+          "rounds": 30,
+          "chamber": 1,
+          "issued": true,
+          "weaponState": {
+            "version": 1,
+            "weaponId": "r4",
+            "weaponInstanceId": "df-47",
+            "magazine": 29,
+            "chamber": 1,
+            "mode": "auto",
+            "shotSequence": 0,
+            "recoveryRemaining": 0,
+            "reloadCheckpoint": null
+          }
+        },
+        {
+          "uid": "df-48",
+          "itemId": "pistol",
+          "quantity": 1,
+          "rounds": 6,
+          "issued": true
+        }
+      ],
+      "armor": {
+        "uid": "df-49",
+        "itemId": "armor",
+        "quantity": 1,
+        "durability": 45,
+        "issued": true
+      },
+      "quick": [
+        {
+          "uid": "df-50",
+          "itemId": "bandage",
+          "quantity": 3,
+          "issued": true
+        },
+        {
+          "uid": "df-51",
+          "itemId": "frag",
+          "quantity": 2,
+          "issued": true
+        },
+        {
+          "uid": "df-52",
+          "itemId": "scanner",
+          "quantity": 1,
+          "issued": true
+        },
+        null
+      ],
+      "safe": null
+    },
+    "keys": [
+      "world",
+      "inventory",
+      "activeSlot",
+      "activeUid",
+      "holstered",
+      "throwables",
+      "scannerRemaining",
+      "itemAction",
+      "_itemAim",
+      "_itemVital",
+      "_lastActionCommit",
+      "sessionId",
+      "_callbacks",
+      "_bound",
+      "_rifleUid",
+      "_armorUid",
+      "_reserves",
+      "_applied",
+      "_lastShots",
+      "_nextAction",
+      "_nextThrowable",
+      "_throwableAccumulator",
+      "_lastWorldTime",
+      "_mechanicalUids",
+      "_pistolUid"
+    ]
+  },
+  "failure": "TimeoutError: Waiting failed: 20000ms exceeded\n    at new WaitTask (C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-tools\\node_modules\\puppeteer-core\\lib\\cjs\\puppeteer\\common\\WaitTask.js:49:34)\n    at IsolatedWorld.waitForFunction (C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-tools\\node_modules\\puppeteer-core\\lib\\cjs\\puppeteer\\api\\Realm.js:25:26)\n    at CdpFrame.waitForFunction (C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-tools\\node_modules\\puppeteer-core\\lib\\cjs\\puppeteer\\api\\Frame.js:583:43)\n    at CdpFrame.<anonymous> (C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-tools\\node_modules\\puppeteer-core\\lib\\cjs\\puppeteer\\util\\decorators.js:109:27)\n    at CdpPage.waitForFunction (C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-tools\\node_modules\\puppeteer-core\\lib\\cjs\\puppeteer\\api\\Page.js:1437:37)\n    at C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-browser-lifecycle.cjs:16:455\n    at async check (C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-browser-lifecycle.cjs:9:30)\n    at async C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-browser-lifecycle.cjs:16:1"
+}

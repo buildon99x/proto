@@ -1,0 +1,7 @@
+{
+  "sourceBase": "9d9dca7bf264e08dcc30bffeeedb7672813003a6",
+  "priorNamedChecks": 953,
+  "priorSuites": 50,
+  "pendingWriteAndPostWriteRegionRaceCoverage": "Previously generic profile and normal multi-region coverage; this unit adds combined region/UI/failed-write/unknown-ack integration cases.",
+  "actualPlay": false
+}

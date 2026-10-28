@@ -1,0 +1,40 @@
+PASS all DOM IDs are unique and gameplay compatibility controls exist
+PASS auto-cycle is the default and manual pump/CRT controls stay hidden
+PASS persistent aiming dot and separated arms have their own outlined layer
+PASS independent hit marker does not replace or obscure the central aim point
+PASS HUD, reticle and damage vignette share the centered 16:9 gameplay frame
+PASS viewport sizing is finite and bounded even for tiny or invalid windows
+PASS map, route, cargo and extraction progress have dedicated readable nodes
+PASS menu describes current movement bindings and bounded extraction scope
+PASS shader module loads before the game and exposes usable immutable source
+PASS screen grade has no stochastic, periodic, ordered or animated texture
+PASS CPU grade is deterministic and monotonic across neutral luminance
+PASS smooth grade preserves distinct nearby surfaces without quantization jumps
+PASS muted red weapon and hit accents survive the cool grade
+PASS invalid CPU diagnostic inputs cannot produce NaN or out-of-range color
+PASS runtime preserves ADS aim and routes feedback to the separate hit layer
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+node:internal/assert/utils:77
+    throw err;
+    ^
+
+AssertionError [ERR_ASSERTION]: 0.6044566920741821 differs from 1
+    at near (/workspace/scratch/1164483895fe/proto-liquid-metal-20261016/projects/dead-freight/app/test-readability.cjs:14:32)
+    at /workspace/scratch/1164483895fe/proto-liquid-metal-20261016/projects/dead-freight/app/test-readability.cjs:97:303
+    at Array.forEach (<anonymous>)
+    at /workspace/scratch/1164483895fe/proto-liquid-metal-20261016/projects/dead-freight/app/test-readability.cjs:97:288
+    at check (/workspace/scratch/1164483895fe/proto-liquid-metal-20261016/projects/dead-freight/app/test-readability.cjs:16:25)
+    at Object.<anonymous> (/workspace/scratch/1164483895fe/proto-liquid-metal-20261016/projects/dead-freight/app/test-readability.cjs:95:1)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,1 @@
+{"stage":"recover","before":{"hp":60,"count":2},"after":{"hp":90,"count":1}}

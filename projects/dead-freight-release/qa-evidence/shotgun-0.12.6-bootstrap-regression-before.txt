@@ -1,0 +1,53 @@
+PASS deployment inventory replaces legacy free weapons, ammo and armor
+PASS pickup failure preserves world pickup and inventory atomically
+PASS overweight pickup reports weight limit without deleting the world object
+PASS interact picks only the nearest item and health remains a carried medkit
+PASS cargo becomes heavy retained loot without adding cash
+PASS loot cannot be collected through solid cover
+PASS healing consumes one only when injured, and safe pocket use is rejected
+PASS rifle reload transfers bag reserve exactly once and preserves its completion gate after cancellation
+PASS reload canceled before insertion never spends or duplicates reserve
+PASS dropping an empty-reload weapon after insertion retains the unchambered magazine
+PASS legacy gun reload uses its own bag reserve and survives switches without free ammo
+PASS safe-pocket ammunition cannot feed a reload
+PASS partial drop and weapon drop/pickup preserve quantities, identity and loaded rounds
+PASS equipped armor damage persists through dropping and equipping it again
+PASS paused bag swaps preserve pause and cannot bypass rifle switching or fire gates
+PASS scanner reveals nearby living enemies without alerting and expires after eight seconds
+PASS grenade has visible two-second flight, bounces off cover and explodes once
+PASS grenade blast respects range and solid cover, hurts self and rewards a kill only once
+PASS bounty requires bag capacity and bridge extraction uses the original six-second hold
+PASS dropping the bounty cancels extraction, and recovering it requires a fresh hold
+PASS existing region receives reachable category caches once at its authored landmarks
+PASS inventory interruption resumes an uncocked loaded legacy firearm with normal recovery
+PASS dropping the final uncocked gun cannot produce a phantom automatic cycle
+PASS two same-class rifles keep independent ammo, modes and shot sequences through repeated swaps
+PASS same-class reload commit belongs to its UID and returning retains the close deadline
+PASS moving twin rifle slots follows the held UID without overwriting either state
+node:internal/assert/utils:77
+    throw err;
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(f.world.fire(null))
+
+    at C:\Users\cjh\Documents\Codex\2026-10-14\task\proto\projects\dead-freight\app\test-inventory-game.cjs:142:141
+    at test (C:\Users\cjh\Documents\Codex\2026-10-14\task\proto\projects\dead-freight\app\test-inventory-game.cjs:6:24)
+    at Object.<anonymous> (C:\Users\cjh\Documents\Codex\2026-10-14\task\proto\projects\dead-freight\app\test-inventory-game.cjs:141:1)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

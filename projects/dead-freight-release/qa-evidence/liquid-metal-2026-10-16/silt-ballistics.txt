@@ -1,0 +1,22 @@
+PASS shell transmits to rear enemy in the same120Hz interval
+PASS shell transmits to rear wall in the same120Hz interval
+PASS shell transmits to rear barrel in the same120Hz interval
+PASS two shells compound attenuation and never repeat same target
+PASS transmitted contact receipts replay neither damage nor material effects
+PASS nine simultaneous pellets open the core without immediately damaging it
+PASS exposed core stops the projectile and retains permanent damage
+PASS head contact disrupts shell without human head multiplier or blood
+PASS thin wall before shell and exact wall tie remain opaque
+PASS transmission contact chronology is stable at30/60/120/1000Hz
+PASS bounded penetration cannot loop across a dense overlap
+PASS frag barrel and fist all use material contract without blood
+PASS normal enemy still receives ordinary body damage and stops flight
+PASS kill receipt is terminal and bounty/cash cannot duplicate
+PASS new exposure cannot retroactively move a later projectile contact into the past
+PASS core exposure is sampled at impact time across the reform completion boundary
+PASS simultaneous shell and barrel explosion share pre-contact exposure and physical time
+PASS all four firearm configurations transmit shell contacts with conserved shot accuracy
+PASS contact-time floor cannot revive an already range-expired projectile
+PASS historical collapse shell bounds prevent end-pose hit or miss errors
+PASS historical reform shell bounds prevent end-pose hit or miss errors
+21 liquid-metal ballistic/integration checks passed; renderer and actual device acceptance separate.
