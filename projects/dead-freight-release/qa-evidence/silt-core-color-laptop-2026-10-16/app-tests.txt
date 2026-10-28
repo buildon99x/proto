@@ -1,0 +1,1194 @@
+
+> dead-freight@0.15.1 test C:\Users\cjh\Documents\Codex\2026-10-15\task\dead-freight-silt-qa\projects\dead-freight\app
+> node test-core.cjs && node test-viewmodel.cjs && node test-motion.cjs && node test-audio.cjs && node test-runtime.cjs && node test-movement.cjs && node test-world.cjs && node test-readability.cjs && node test-rifle-state.cjs && node test-rifle-viewmodel.cjs && node test-rifle-audio.cjs && node test-rifle-runtime.cjs && node test-startup.cjs && node test-core-lifecycle.cjs && node test-lifecycle.cjs && node test-run-clock.cjs && node test-save-state.cjs && node test-inventory.cjs && node test-inventory-game.cjs && node test-stash-profile.cjs && node test-inventory-runtime.cjs && node test-inventory-ui.cjs && node test-storage-profile.cjs && node test-audio-readiness.cjs && node test-play-feedback.cjs && node test-stash-ui.cjs && node test-r4-foundation.cjs && node test-loadout-action.cjs && node test-input-router.cjs && node test-muzzle-ballistics.cjs && node test-audio-preparation.cjs && node test-gunplay-foundation.cjs && node test-item-action.cjs && node test-shot-resolver.cjs && node test-player-projectiles.cjs && node test-ballistic-contact-order.cjs && node test-melee.cjs && node test-action-guards.cjs && node test-pistol-state.cjs && node test-shotgun-state.cjs && node test-smg-state.cjs && node test-pump-ownership.cjs && node test-utility-grip.cjs && node test-connected-arms.cjs && node test-treatment-dressing.cjs && node test-action-receipt.cjs && node test-motion-tracks.cjs && node test-release-origin.cjs && node test-action-movement.cjs && node test-regions.cjs && node test-region-persistence.cjs && node test-workshop.cjs && node test-workshop-audit.cjs && node test-raid-restart.cjs && node test-liquid-metal.cjs && node test-liquid-metal-ballistics.cjs && node test-liquid-metal-view.cjs && node test-liquid-metal-runtime.cjs
+
+PASS world boundary blocks motion while free movement works
+PASS fire consumes one round then automatically cycles with mandatory recovery
+PASS reload caps capacity to finite reserve
+PASS switch cancels reload without free ammunition
+PASS headshot rewards a skill kill exactly once
+PASS destructible cover breaks after two revolver shots
+PASS solid world geometry cannot be shot away
+PASS barrel chain damage can kill and produces explosion event
+PASS bounty must be killed, collected and carried to extraction
+PASS death freezes the mission and forbids shots
+PASS healing clamps and cannot be collected twice
+PASS fresh restart resets all combat and skill state
+PASS target is reachable through the open flank
+PASS dash consumes stamina and has bounded invulnerability
+PASS insufficient stamina prevents unlimited dash
+PASS stamina regenerates to its exact maximum
+PASS precise active reload grants a temporary damage bonus
+PASS mistimed active reload adds recovery time
+PASS combo is lost on damage and times out
+PASS enemy attack is telegraphed before a dodgeable projectile
+PASS projectile actually damages at player intersection
+PASS moving out of a telegraphed line avoids the attack
+PASS reload completion permits firing at ordinary 60 Hz
+FINAL: 23 tests passed
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS weapon 0, suppressor=false, laser=false: 197 meshes, 12970 vertices
+PASS weapon 0, suppressor=false, laser=true: 197 meshes, 12970 vertices
+PASS weapon 0, suppressor=true, laser=false: 197 meshes, 12970 vertices
+PASS weapon 0, suppressor=true, laser=true: 197 meshes, 12970 vertices
+PASS weapon 1, suppressor=false, laser=false: 199 meshes, 13106 vertices
+PASS weapon 1, suppressor=false, laser=true: 199 meshes, 13106 vertices
+PASS weapon 1, suppressor=true, laser=false: 199 meshes, 13106 vertices
+PASS weapon 1, suppressor=true, laser=true: 199 meshes, 13106 vertices
+PASS weapon 2, suppressor=false, laser=false: 199 meshes, 13138 vertices
+PASS weapon 2, suppressor=false, laser=true: 199 meshes, 13138 vertices
+PASS weapon 2, suppressor=true, laser=false: 199 meshes, 13138 vertices
+PASS weapon 2, suppressor=true, laser=true: 199 meshes, 13138 vertices
+12 viewmodel construction checks passed. These are not rendered visual checks.
+PASS recoil begins and settles for all weapon classes
+PASS recoil frame-rate independence
+PASS ADS reduces visual kick and smoothly converges
+PASS reload starts and ends neutral, magazine remains detached only in the middle
+PASS reload frames finite and continuous
+PASS burst bounded, reset clears transient state
+PASS dash, hurt and weapon-switch response remain finite
+PASS jump and landing impulses are bounded and return to neutral
+PASS sliding lowers and banks the viewmodel smoothly, then recovers
+PASS rifle ADS uses authoritative aim progress through sprint and reload gates
+PASS rifle accumulated recoil grows under sustained fire and recovers completely
+PASS rifle ADS reduces accumulated recoil as well as the individual shot impulse
+PASS rifle recoil/recovery is reproducible at 30 and 120 frames per second
+PASS rifle bolt opens at 45ms, closes by 90ms and locks only after rear travel
+PASS rifle tactical and empty reload geometry phases align with magazine event times
+PASS empty reload releases locked bolt at charge; tactical does not rack a loaded chamber
+PASS chamber-only recovery never removes a seated magazine
+PASS all rifle reload paths have continuous finite mechanical and hand offsets
+PASS rifle long automatic fire stays bounded and reset clears recoil, bolt and ADS
+19 deterministic motion checks passed. No browser/feel verification implied.
+PASS all gun cues and tonal gun markers have no procedural recipe
+PASS separate world and pickup cues remain deterministic and bounded
+PASS invalid numeric synthesis inputs are bounded without NaN
+PASS audio graph has compressor, bounded final shaper and finite default gain
+PASS event playback, throttle and exact source cleanup
+PASS voice budget and priority eviction stay bounded during overlapping fire
+PASS muting stops old tails and prevents new work until unmuted
+PASS pause/resume cancels tails and restores playback
+PASS all event routes, pan and distance sanitization
+PASS world cue cache stays bounded and gun load failure cannot synthesize
+PASS stereo fallback and injected-context ownership
+PASS owned context closes on destroy
+PASS unavailable Web Audio degrades silently
+PASS delayed resume cannot undo a newer pause
+14 audio checks passed. Signal/graph tests do not substitute for listening on target devices.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS unmodified script-order initialization and title frames have no TDZ/finite-math errors
+PASS actual viewmodel exposes wrists and an updated tight shadow projection
+PASS start with an already running recorded bank creates a fresh mission and begins rendering
+PASS move/sprint, arrow aim and ADS remain finite and release correctly
+PASS fire automatically cycles without Q and routes audio and moving viewmodel
+PASS reload traverses stages, refills ammunition and returns magazine/support to neutral
+PASS weapon switch and held SMG fire work without adding a RAF chain
+PASS Escape pause clears held movement, fire and ADS on resume
+PASS blur interruption clears held movement, fire and ADS
+PASS visibility interruption clears held movement, fire and ADS
+PASS pointer-lock loss clears held movement, fire and ADS
+PASS restart clears held inputs, recoil, ADS and stale mission state
+PASS laser/suppressor toggles rebuild the model safely and preserve finite attachment projection
+PASS sound setting is routed to engine mute control
+PASS actual ray hit routes material audio and displays kill confirmation
+PASS active reload success routes timing cue and returns presentation to neutral
+PASS reload cancellation by weapon switch resets the detached magazine pose
+PASS queued fire-then-switch retains the weapon that actually fired
+PASS death/retry and successful-extraction/next-contract transitions stay initialized
+PASS zero-elapsed movement frame cannot poison camera math
+PASS Space jump changes real camera height and lands safely
+PASS C sliding moves in fixed direction, lowers camera and recovers
+PASS reticle persists through ADS and map shows updated region
+PASS leaving extraction cancels HUD progress and re-entry requires E
+PASS held SMG fire uses current airborne camera and current world matrices
+PASS slide camera stays inside the low body on entry and after pause/resume
+PASS switch and reload clear a previous weapon cycle animation
+PASS automatic cycle pose is neutral by the time the pistol can fire again
+PASS death loses carried value without changing the saved bank
+PASS successful extraction banks once and a fresh session restores the saved total
+PASS pagehide requests audio cleanup
+31 rendererless runtime integration checks passed. DOM, WebGLRenderer and audio are mocks; browser rendering, sound quality and normal-input play remain unverified.
+PASS player starts with feet, ground contact and standing eye/body heights
+PASS jump rises, rejects double jump and lands exactly once
+PASS jump arc is consistent at 30, 60 and 144 Hz
+PASS low cover blocks walking and can be cleared with a jump
+PASS high cover cannot be jumped through
+PASS descending jump can stand on solid low cover
+PASS walking off support begins falling and returns to floor
+PASS solid raised ceiling arrests jump without head penetration
+PASS large displacement cannot tunnel through a thin wall
+PASS diagonal movement retains free-axis motion along a wall
+PASS dead walls immediately stop blocking without rebuilding broadphase
+PASS replacing wall fixtures refreshes their collision spatial index
+PASS slide charges stamina and immediately lowers body and eyes
+PASS slide fixes direction, travels with friction and restores standing
+PASS slide travel is stable across frame rates
+PASS slide rejects no direction, insufficient stamina, air and dash
+PASS slide collides rather than tunneling and provides no invulnerability
+PASS slide passes under raised cover and cannot stand up inside it
+PASS head-height projectile passes over sliding player
+PASS low projectile still hits sliding player
+PASS jump can clear an already-fired low projectile
+PASS elevated projectiles damage the actual airborne body
+PASS swept projectile hits cannot tunnel across a player
+PASS low cover stops low projectiles but admits shots over its true top
+PASS closest wall wins over a player farther along the shot segment
+PASS 3D line of sight uses real cover and elevated openings
+PASS automatic pistol cycling delays its event and enforces recovery
+PASS shotgun pump is slower and emits one weapon-tagged cycle
+PASS switch and reload cancel old pending pump safely
+PASS SMG remains automatic without spurious pump events
+PASS cargo grants its value exactly once and does not satisfy bounty
+PASS each extraction requires bounty and a continuous timed hold
+PASS extraction cancels outside zone and restarts from zero
+PASS death cancels extraction immediately and blocks movement/actions
+PASS remote enemies do not run line-of-sight queries or become alerted
+PASS non-finite and negative elapsed/movement input cannot poison state
+PASS default mission loads the shared region and keeps mutable combat state isolated
+PASS authored practice log supports a real jump-and-clear route
+PASS authored raised beam supports a real slide-through route
+PASS extraction cancels as soon as movement leaves its radius
+PASS jumping inside the extraction radius does not cancel the hold
+PASS ordinary walking consumes two stamina per second based on actual travel
+PASS sprinting consumes ten stamina per second without simultaneous recovery
+PASS aimed walking preserves a two-per-second movement cost at its slower speed
+PASS walking and sprinting stamina rates are stable at 30, 60 and 144 Hz
+PASS standing stopped recovers exactly twenty-four stamina per second and clamps at max
+PASS intent without actual displacement does not drain or regenerate stamina
+PASS running into an adjacent solid wall costs no movement stamina
+PASS a partially blocked movement charges only its completed distance
+PASS jump costs ten stamina and rejects insufficient energy without leaving the ground
+PASS a stationary airborne jump cannot regenerate its discrete stamina cost midair
+PASS fatigue disables sprint while retaining slow walking to avoid a movement softlock
+PASS fatigue recovery uses eighteen-stamina hysteresis instead of rapid sprint toggling
+PASS slide and dash retain their fixed costs without double charging movement
+PASS paused movement cannot consume, regenerate or move and transient intent clears
+FINAL: 55 movement, pump and extraction checks passed
+??a bounded 340 m region contains five distinct landmarks and two extraction zones
+??deterministic authorship and bounded forest/encounter budgets
+??every tree has a matching collision footprint and all IDs are stable
+??trees preserve continuous authored road and landmark clearances
+??spawn and every landmark are connected with a .45 m player clearance
+??boss, every encounter, optional cache and both extraction pads are reachable on foot
+??route waypoints and sampled road centers are connected on foot
+??travel is substantial, spawn is safe and route rewards are distributed
+??movement practice offers real jump cover and a slide-only gap
+??populate uses mission APIs without installing gameplay logic
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+??actual Three.js scene keeps 720 trees instanced and static draws bounded
+??world construction emits finite geometry, transforms and instance buffers
+??hidden forest proxies retain raycast identity without duplicate rendering
+??night work lamps have visible fixtures, bounded local lights and physical posts
+??east evacuation guides the blocked 12 m west approach around the south wall end
+??north approach uses the marked northeast end and clear approach needs no detour
+??entire painted southern approach has continuous standing-player clearance
+??entrances share collision-checked coordinates with bounded non-shadow lights and fixtures
+??walk segment handles parallel, grazing, destroyed and overhead geometry honestly
+??unmarked path turns are called passages rather than mislabelled entrance fixtures
+??cached fixed-node graph matches pure guidance across both approaches and wall changes
+??world surfaces use static object textures and dispose cleanly
+22 world checks passed; 111191 reachable grid cells; relay route 303 m (four-neighbor grid).
+Rendererless region budget: {"treeCount":720,"treeDrawCalls":3,"visibleMeshes":159,"triangles":122324,"instances":5412,"materials":21,"textures":16,"wallRayTargets":825}
+PASS all DOM IDs are unique and gameplay compatibility controls exist
+PASS auto-cycle is the default and manual pump/CRT controls stay hidden
+PASS persistent aiming dot and separated arms have their own outlined layer
+PASS independent hit marker does not replace or obscure the central aim point
+PASS HUD, reticle and damage vignette share the centered 16:9 gameplay frame
+PASS viewport sizing is finite and bounded even for tiny or invalid windows
+PASS map, route, cargo and extraction progress have dedicated readable nodes
+PASS menu describes current movement bindings and bounded extraction scope
+PASS shader module loads before the game and exposes usable immutable source
+PASS screen grade has no stochastic, periodic, ordered or animated texture
+PASS CPU grade is deterministic and monotonic across neutral luminance
+PASS smooth grade preserves distinct nearby surfaces without quantization jumps
+PASS muted red weapon and hit accents survive the cool grade
+PASS invalid CPU diagnostic inputs cannot produce NaN or out-of-range color
+PASS runtime preserves ADS aim and routes feedback to the separate hit layer
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS semantic core pixels preserve authored amber instead of rose through the final grade
+PASS semantic color path leaves untagged world and weapon grading exactly unchanged
+PASS semantic core tag is bounded and attenuates through transparent foreground coverage
+18 rendererless readability checks passed. Browser layout, GPU pixels and input remain separate acceptance checks.
+PASS one new rifle retains index three and initial chambered 30-round load
+PASS configuration is immutable and invalid capacities/timings are rejected
+PASS parameterized capacity/cadence/reserve are independent per instance
+PASS fire never occurs without accepted input and peeking does not consume ammo/randomness
+PASS a tap makes one shot and keeps a separate chamber fed from the magazine
+PASS mouse release does not erase a keyboard tap waiting in the same frame
+PASS automatic held fire has bounded 600-RPM cadence at 30/60/144 Hz
+PASS releasing automatic fire cancels future held shots after the accepted shot
+PASS tap during cooldown is buffered once and rapid inputs never enqueue many shots
+PASS buffered tap expires instead of firing after a long delay
+PASS late switch buffer fires once when the equip gate opens
+PASS large presentation stalls cannot generate an avalanche at one timestamp
+PASS burst mode makes exactly three evenly timed rounds from one tap
+PASS holding burst trigger cannot loop automatically into a second burst
+PASS release after first round finishes a committed burst by explicit design
+PASS burst cannot extend beyond available ammo and never makes negative rounds
+PASS mode changes cancel committed bursts and require a fresh trigger edge
+PASS pause freezes simulation and does not resurrect held input or burst rounds
+PASS deactivate/reactivate clears queued input and enforces switching recovery
+PASS sprint gates shooting/ADS and has explicit sprint-to-fire recovery
+PASS held automatic fire resumes after sprint recovery without requiring a second click
+PASS sprinting cancels unspent burst rounds without orphan input after release
+PASS ADS interpolates with frame-stable timing and cannot survive an equip gate
+PASS reload is staged and never transfers rounds before insertion
+PASS tactical reload preserves chamber and omits a charge event
+PASS empty reload fills 30-round magazine then moves one into chamber at charge
+PASS empty reload with a single reserve round chambers exactly that round
+PASS tactical reload is constrained to finite reserve without topping to a false maximum
+PASS repeated reload input cannot trigger the legacy active-reload bonus or accelerate reload
+PASS early reload taps expire, but a last-160ms tap fires after completion
+PASS firing cannot skip reload insert, charge or close gates
+PASS cancel before insertion preserves original load and reserve exactly
+PASS cancel after insertion retains transferred rounds and never refunds reserve
+PASS switch cycling cannot bypass the remaining mandatory reload close time
+PASS cancel empty reload after insert requires chamber-only recovery, with no second transfer
+PASS all reload interruption boundaries conserve total rounds for both reload types
+PASS sprint cancels reload without dropping rounds or retaining queued firing
+PASS reload phase events emit once, ordered, when a long tick crosses several stages
+PASS rifle cycle event follows actual shot by 45ms and cannot double-emit
+PASS dry trigger emits only once per press and never increments shot count
+PASS spread samples reproduce exactly, remain in their cone, and differ by shot/seed
+PASS ADS tightens spread; movement, jumping and sustained fire widen it
+PASS accumulated recoil is bounded and recovers completely without changing aim seed
+PASS rifle range falloff has exact near/far endpoints and a hard maximum range
+PASS head and limb multipliers are explicit and armor absorbs only available points
+PASS nonfinite tick/reserve inputs cannot poison rifle state
+PASS Mission preserves indices zero-to-two and maps rifle as a fourth independent loadout
+PASS releasing fire while a legacy weapon is equipped clears the rifle interruption latch
+PASS Mission only commits a ready rifle request and synchronizes chamber/ammo/events
+PASS Mission rifle ignores legacy active-reload bonus and preserves legacy ammo
+PASS Mission pause, death and extraction clear burst state and forbid shots
+PASS Mission armor fully stopped impacts and penetrating-health impacts are distinguishable
+PASS Mission bare head bypasses body armor; explicitly unarmored limb does not destroy remaining armor
+PASS Mission helmet absorption leaves body armor intact and far out-of-range hits do no damage
+PASS Mission rifle destroyable cover and barrels use range-aware damage once
+PASS Mission ammo pickup replenishes rifle reserve once alongside legacy ammo
+PASS randomized interruption sequences never create ammunition or invalid states
+PASS automatic reload initiation can be gated without freezing clocks or an existing reload
+FINAL: 58 deterministic rifle state/ballistics/Mission checks passed. Browser gameplay and audio quality remain unverified.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS rifle construction, suppressor=false, laser=false
+PASS rifle construction, suppressor=false, laser=true
+PASS rifle construction, suppressor=true, laser=false
+PASS rifle construction, suppressor=true, laser=true
+PASS rifle bolt moves independently while receiver, support and muzzle stay fixed
+PASS all poses preserve joint neutral offsets across repeated reload application
+PASS rifle front and rear optic centers share the camera axis with no opaque occluder
+PASS rifle optical axis converges monotonically from hip through ADS
+PASS viewmodel sight center maps to world-camera aim at arbitrary yaw and pitch
+PASS rifle reload stages keep a contacting hand with the moving magazine
+PASS reload paths remain finite, restore grips, and do not send sleeves through the camera
+  weapon 0 hip: 6.30% opaque triangle coverage
+  weapon 0 ads: 7.62% opaque triangle coverage
+  weapon 1 hip: 6.50% opaque triangle coverage
+  weapon 1 ads: 7.62% opaque triangle coverage
+  weapon 2 hip: 6.40% opaque triangle coverage
+  weapon 2 ads: 7.87% opaque triangle coverage
+  weapon 3 hip: 10.52% opaque triangle coverage
+  weapon 3 ads: 9.22% opaque triangle coverage
+PASS measured hip/ADS coverage and clear hip reticle at 640x360
+  weapon 0 hip: 6.30% opaque triangle coverage
+  weapon 0 ads: 7.63% opaque triangle coverage
+  weapon 1 hip: 6.50% opaque triangle coverage
+  weapon 1 ads: 7.63% opaque triangle coverage
+  weapon 2 hip: 6.40% opaque triangle coverage
+  weapon 2 ads: 7.88% opaque triangle coverage
+  weapon 3 hip: 10.52% opaque triangle coverage
+  weapon 3 ads: 9.23% opaque triangle coverage
+PASS measured hip/ADS coverage and clear hip reticle at 960x540
+13 rifle geometry/projection/coverage checks passed. CPU masks and geometry checks are not browser rendering or play acceptance.
+PASS pistol-shot-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-shot-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-shot-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-suppressed-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-suppressed-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-suppressed-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-shot-indoor-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-shot-indoor-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-shot-indoor-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-suppressed-indoor-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-suppressed-indoor-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-suppressed-indoor-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-shot-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-shot-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-shot-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-suppressed-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-suppressed-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-suppressed-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-shot-indoor-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-shot-indoor-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-shot-indoor-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-suppressed-indoor-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-suppressed-indoor-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-suppressed-indoor-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-shot-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-shot-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-shot-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-suppressed-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-suppressed-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-suppressed-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-shot-indoor-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-shot-indoor-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-shot-indoor-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-suppressed-indoor-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-suppressed-indoor-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-suppressed-indoor-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS shot-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS shot-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS shot-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS suppressed-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS suppressed-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS suppressed-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS shot-indoor-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS shot-indoor-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS shot-indoor-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS suppressed-indoor-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS suppressed-indoor-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS suppressed-indoor-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS utility-cloth-in is a finite, bounded, local PCM recording with clean endpoints
+PASS utility-cloth-out is a finite, bounded, local PCM recording with clean endpoints
+PASS utility-pin is a finite, bounded, local PCM recording with clean endpoints
+PASS utility-medical is a finite, bounded, local PCM recording with clean endpoints
+PASS mag-eject is a finite, bounded, local PCM recording with clean endpoints
+PASS mag-insert is a finite, bounded, local PCM recording with clean endpoints
+PASS mag-seat is a finite, bounded, local PCM recording with clean endpoints
+PASS charge is a finite, bounded, local PCM recording with clean endpoints
+PASS dry-trigger is a finite, bounded, local PCM recording with clean endpoints
+PASS transition is a finite, bounded, local PCM recording with clean endpoints
+PASS close is a finite, bounded, local PCM recording with clean endpoints
+PASS impact-metal is a finite, bounded, local PCM recording with clean endpoints
+PASS impact-wood is a finite, bounded, local PCM recording with clean endpoints
+PASS impact-stone is a finite, bounded, local PCM recording with clean endpoints
+PASS impact-body is a finite, bounded, local PCM recording with clean endpoints
+PASS impact-armor is a finite, bounded, local PCM recording with clean endpoints
+PASS casing-1 is a finite, bounded, local PCM recording with clean endpoints
+PASS casing-2 is a finite, bounded, local PCM recording with clean endpoints
+PASS casing-3 is a finite, bounded, local PCM recording with clean endpoints
+PASS impact-body-armored is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-cycle is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-mag-eject is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-mag-insert is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-mag-seat is a finite, bounded, local PCM recording with clean endpoints
+PASS pistol-close is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-cycle is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-mag-eject is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-mag-insert is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-mag-seat is a finite, bounded, local PCM recording with clean endpoints
+PASS shotgun-close is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-cycle is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-mag-eject is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-mag-insert is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-mag-seat is a finite, bounded, local PCM recording with clean endpoints
+PASS smg-close is a finite, bounded, local PCM recording with clean endpoints
+PASS Pixabay provenance is exact and raw downloads are excluded from distributed assets
+PASS utility recordings keep explicit provenance and bounded cue names
+PASS three round-robin attacks are distinct, suppression is quieter, tails decay
+PASS indoor and outdoor shot tails are bounded and distinctly mixed
+PASS every firearm requires recordings and cannot synthesize a fallback
+PASS atomic local bank loading exposes readiness and keeps fixed decoded count
+PASS rifle uses exactly three decoded shot variations and retained stereo
+PASS authoritative reload phases and impacts select real samples without duplicate charge
+PASS all playable firearms use their own decoded shots and timed mechanical phases
+PASS enemy gunfire uses recorded rifle output independent of equipped gun
+PASS partial armor impact uses its recorded composite instead of bare-body cue
+PASS rifle reload cancellation preserves active shot reflection tails
+PASS reload cancellation leaves no queued later phases or phantom charge
+PASS casing contact is independent, varied and damped on soft ground
+PASS utility cancellation stops only Foley and has no deferred playback
+PASS bounded rifle voices, suppressed routes and mute cancel tails
+PASS pause/resume retains decoded recordings but releases playback nodes
+PASS missing WAV gives visible error with no partial bank or synthetic fallback
+PASS external and escaping asset paths are rejected before network work
+PASS corrupt, silent, oversized and non-finite decode results are rejected
+PASS destroy aborts pending network and cannot resurrect a decoded bank
+104 recorded rifle audio checks passed. Listening and browser/device acceptance are NOT verified.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS selected rifle initializes with actual rifle geometry, chamber HUD and audio readiness
+PASS holding auto fire uses finite cadence and releases cleanly
+PASS B toggles three-round burst; one F tap commits exactly one burst
+PASS tactical reload preserves chamber, inserts a full magazine and stages audio once
+PASS empty reload requires charging and ends with correct chamber and ammunition
+PASS buffered trigger during the final reload window fires once when legal
+PASS ADS pose and field of view follow authoritative gated aiming
+PASS held automatic fire resumes only after sprint recovery
+PASS pause cancels pending burst and held trigger across resume
+PASS switching away cancels pending burst and restores correct model on return
+PASS rifle attachment toggles retain authored reload transforms
+PASS recorded-bank failure is visible instead of being advertised ready
+PASS restart clears rifle recoil, mode, magazine modifications and firing intent
+PASS walking and sprinting visibly spend stamina while rest restores it
+PASS exhaustion keeps slow walking usable and resting restores sprint access
+PASS night environment keeps distinct powered lights and bounded fog
+PASS a rifle casing sounds on physical floor contact once, never immediately on eject
+PASS pause/restart cannot create a late phantom casing drop sound
+PASS roof coverage selects indoor sound and open ground selects outdoor
+PASS armor-stopped hit has a distinct marker and material audio instead of false blood confirmation
+PASS canceling a rifle reload stops its cue group and emits no future insert/charge sounds
+PASS weapon 0 plays one recorded casing cue on physical contact
+PASS weapon 1 plays one recorded casing cue on physical contact
+PASS weapon 2 plays one recorded casing cue on physical contact
+PASS player hit emits recorded body/armor routing with equipped-gun-independent intent
+25 rendererless rifle integration checks passed; 0 failed. Actual browser, listening and input feel remain unverified.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS static HTML disables Start and hides gameplay layers while startup is pending
+PASS renderer construction failure is caught without rethrowing
+PASS failed renderer shows an explicit non-playable state and useful recovery guidance
+PASS failed renderer hides stale gameplay HUD, canvas, options and invalid actions
+PASS failure preserves a visible native credits link with the original destination
+PASS renderer failure creates no mission, audio, input handlers or animation loop
+PASS gameplay keys, clicks and page lifecycle events cannot start a failed game
+PASS retry invokes actual page reload without starting gameplay in the failed session
+PASS failure and retries leave the saved extraction bank unchanged
+PASS renderer configuration failure disposes its partial renderer and offers the same recovery
+PASS even failed partial-renderer cleanup cannot suppress the retry UI
+PASS successful initialization enables the existing menu and creates exactly one RAF chain
+PASS loadout markup retains four distinct choices after the startup UI edit
+13 rendererless startup checks passed; 0 failed. No actual GPU/browser/play acceptance is claimed.
+PASS production region: full health supply stays available without a false pickup, then works once
+PASS production region: full armor supply stays available without a false pickup, then works once
+PASS production region: supplies stop consuming as soon as the stat fills
+PASS production region: full supplies do not block ammo, cargo, bounty or extraction
+PASS production region: starting pistol then equipping rifle has the same boss armor as starting rifle
+PASS production region: enemy armor now consistently absorbs pistol damage
+PASS production region: explicit enemy armor, including zero, survives mission initialization
+PASS legacy fixture: full health supply stays available without a false pickup, then works once
+PASS legacy fixture: full armor supply stays available without a false pickup, then works once
+PASS legacy fixture: supplies stop consuming as soon as the stat fills
+PASS legacy fixture: full supplies do not block ammo, cargo, bounty or extraction
+PASS legacy fixture: starting pistol then equipping rifle has the same boss armor as starting rifle
+PASS legacy fixture: enemy armor now consistently absorbs pistol damage
+PASS legacy fixture: explicit enemy armor, including zero, survives mission initialization
+FINAL: 14 core lifecycle checks passed.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS first-entry copy matches the shipped default and the actual prototype limits
+PASS title and pause menu keys retain native default actions
+PASS focused form controls do not trigger gameplay without pointer lock
+PASS paused deployment edits apply only after explicitly starting a new attempt
+PASS failed extraction persistence warns and retry banks exactly once
+PASS unreadable saved bank remains untouched until successful explicit recovery
+PASS reopening a successful contract restores the next level and intact bank
+PASS death after killing the target reports the actual outcome and next pause is clean
+PASS 100ms frames advance full physics and active wall time without slow motion
+PASS pause, hidden time and resumed boundary never consume active raid time
+PASS long stall has bounded simulation catch-up while displayed active clock stays truthful
+PASS six-second extraction completes at ten FPS and terminal frames cannot award twice
+PASS low-FPS muzzle flash is shown for the firing frame but does not linger across catch-up frames
+13 rendererless lifecycle checks passed; 0 failed.
+PASS 100ms low-FPS frame receives six bounded simulation steps
+PASS fractional intervals accumulate instead of disappearing
+PASS long stall keeps active elapsed time but caps CPU catch-up
+PASS menu and pause intervals never become gameplay time on resume
+PASS reset, zero delta and invalid timestamps remain finite and monotonic
+5 deterministic run-clock checks passed.
+PASS legacy cash2920 is preserved and completed contract resumes at next index
+PASS failed save retains pending award and retry never double banks
+PASS several offline extractions remain additive until successful recovery
+PASS unreadable existing bank is never overwritten; recovery merges it
+PASS malformed or invalid saved data remains untouched after retries
+PASS valid blank and cash-only saves remain compatible without eager writes
+PASS latest stored record is read again before adding a pending award
+7 deterministic save-state checks passed.
+PASS CommonJS and standalone browser global expose the same inventory API
+PASS empty snapshot has exact slot limits and independent containers
+PASS every starter fits carry limits with loaded weapons, quick uses and issued value zero
+PASS starter weapons and ammo never reuse an existing saved stash identity
+PASS catalog is immutable and original tuning creates meaningful cargo pressure
+PASS add merges compatible stacks then allocates the precise overflow slots
+PASS issued and ordinary stacks remain separate so recovered goods keep their value
+PASS explicit UID and combat metadata survive world pickup and direct equipment insertion
+PASS explicit stack identities do not disappear into merges
+PASS loaded rounds count toward mass and value, including rifle chamber once
+PASS equipping and moving cargo preserve total quantity, mass and loaded ammunition
+PASS typed swaps validate both directions before changing equipment
+PASS same-class weapons occupy two slots with independent identities and rounds
+PASS safe pocket holds one eligible stack and refuses weapons, armor and quest items
+PASS stable quick slots accept only usable equipment and are never compacted on consumption
+PASS bag exhaustion after a possible partial merge leaves every quantity untouched
+PASS overweight additions fail atomically even when free slots remain
+PASS equipped gear and safe contents remain included in the carry limit
+PASS direct insertion cannot overwrite occupied slots or bypass mass and type limits
+PASS same-slot moves succeed without losing the selected stack
+PASS whole removal keeps identity, metadata and exact round mass for drop and return
+PASS partial removal creates a distinct output UID without changing remaining metadata
+PASS takeItem is atomic across stacks and returns conserved quantities
+PASS reserve operations can explicitly exclude ammo in the safe pocket
+PASS reserve-to-magazine transfer conserves total rounds and carry weight
+PASS empty and unchambered loaded rifle states round-trip without a free round
+PASS snapshots and constructor inputs are deep copies but get supports combat updates
+PASS ordinary malformed mutation inputs return failure without throwing or changing state
+PASS duplicate UID addition never duplicates or erases the original
+PASS deserialization rejects duplicate references and duplicate IDs across every section
+PASS deserialization rejects sparse, malformed or missing slot arrays instead of normalizing data away
+PASS deserialization rejects wrong equipment, overcapacity stacks and overweight
+PASS invalid weapon rounds, chamber states and armor durability are rejected before pickup
+PASS deterministic mixed operations preserve all items except explicit consumes and drops
+PASS weapon instance identity is immutable while combat values remain writable
+PASS legacy weapon metadata defaults preserve exact loaded rounds without mutating input
+PASS versioned state and reload checkpoint are copied independently through snapshots and drops
+PASS malformed, future and mismatched instance states are rejected without normalization
+PASS legacy cycle state is strict and cannot silently cock or cross-bind a weapon
+39 deterministic inventory checks passed.
+PASS deployment inventory replaces legacy free weapons, ammo and armor
+PASS pickup failure preserves world pickup and inventory atomically
+PASS overweight pickup reports weight limit without deleting the world object
+PASS interact picks only the nearest item and health remains a carried medkit
+PASS cargo becomes heavy retained loot without adding cash
+PASS loot cannot be collected through solid cover
+PASS healing consumes one only when injured, and safe pocket use is rejected
+PASS rifle reload transfers bag reserve exactly once and preserves its completion gate after cancellation
+PASS reload canceled before insertion never spends or duplicates reserve
+PASS dropping an empty-reload weapon after insertion retains the unchambered magazine
+PASS legacy gun reload uses its own bag reserve and survives switches without free ammo
+PASS safe-pocket ammunition cannot feed a reload
+PASS partial drop and weapon drop/pickup preserve quantities, identity and loaded rounds
+PASS equipped armor damage persists through dropping and equipping it again
+PASS paused bag swaps preserve pause and cannot bypass rifle switching or fire gates
+PASS scanner reveals nearby living enemies without alerting and expires after eight seconds
+PASS grenade has visible two-second flight, bounces off cover and explodes once
+PASS grenade blast respects range and solid cover, hurts self and rewards a kill only once
+PASS bounty requires bag capacity and bridge extraction uses the original six-second hold
+PASS dropping the bounty cancels extraction, and recovering it requires a fresh hold
+PASS existing region receives reachable category caches once at its authored landmarks
+PASS inventory interruption resumes an uncocked loaded legacy firearm with normal recovery
+PASS dropping the final uncocked gun cannot produce a phantom automatic cycle
+PASS two same-class rifles keep independent ammo, modes and shot sequences through repeated swaps
+PASS same-class reload commit belongs to its UID and returning retains the close deadline
+PASS moving twin rifle slots follows the held UID without overwriting either state
+PASS same-class legacy swaps preserve each required pump and its remaining delay
+PASS holster retains selected identity and freezes pending legacy cycle until restored
+PASS dropped and recovered legacy weapon keeps its uncompleted cycle state
+PASS holstering a committed rifle reload preserves resources and its recovery checkpoint
+PASS failed moves preserve live reload and callbacks fire only for successful transitions
+PASS loaded reserve and world ammo stay conserved when one of two rifles is dropped and recovered
+PASS predicted grenade path shares live launch gravity wall and floor reflection at 30/60/120Hz
+PASS trajectory prediction cannot consume emit damage start timers or create real projectiles
+PASS near-muzzle obstruction uses the same guarded launch and first impact remains on near side
+PASS fixed grenade substeps preserve preview parity through hit-pause sized frame fragments
+FINAL: 36 inventory/mission bridge tests passed
+PASS legacy cash 2920 and completed level migrate only in memory on read
+PASS blank, cash-only and schema 2 saves retain compatible next levels without writes
+PASS backup failures block schema migration and preserve the original bytes
+PASS migration never replaces an existing backup
+PASS preparing or cancelling a draft never withdraws stash or changes the save
+PASS deploy withdraws complete selected stacks once and preserves ammunition and armor metadata
+PASS partial withdrawal and altered stored metadata are refused without a write
+PASS unknown non-issued carry and duplicate identities cannot create a raid
+PASS valid issued recovery gear deploys and remains value zero after extraction
+PASS failed deployment exposes no active raid and retries its frozen draft once
+PASS deployment accepted before storage throws is recognized without a second withdrawal
+PASS extraction retains items without auto-selling and omits quest bounty items
+PASS repeated settlement and reopened settlement cannot duplicate bank or stash
+PASS failed extraction keeps pending award and uses the original result on all retries
+PASS accepted-then-thrown extraction is recognized across local retries and reopen
+PASS death retains only committed safe contents without advancing bank or contract
+PASS safe updates are durable only on success and block settlement until retry
+PASS clearing the safe pocket is persisted and then loses the moved item on death
+PASS weapons, armor, quest items and stash-duplicating safe updates are rejected
+PASS opening an interrupted raid performs no write and requires explicit loss recovery
+PASS reopening after a failed safe update protects the previous saved safe item
+PASS failed interrupted recovery retries once and never awards a lost extraction
+PASS reload after an uncommitted extraction recovers only the durable safe journal
+PASS corrupt or unsupported saves remain untouched through every recovery operation
+PASS transient read failures can recover without overwriting existing bank
+PASS foreign storage changes are detected before deployment and require restaging
+PASS pending deployment never overwrites a newer foreign save or auto-merges twice
+PASS foreign raid replaces neither an active raid nor an unchanged safe journal
+PASS retained UID collisions and invalid awards leave the active journal unchanged
+PASS snapshots and caller-owned arguments cannot mutate persistent state
+PASS history is bounded and expired raid IDs still cannot be awarded again
+PASS an older open tab banking cash cannot hide preserved inventory fields on reload
+PASS schema 1/2/3 reads expose default stash capacity without changing exact cash or contents
+PASS schema 3 first write backs up its original bytes separately and preserves both backups
+PASS schema 3 backup failures leave upgrades pending without spending virtual currency
+PASS all five exact expansion prices persist capacity and bank in one profile write each
+PASS invalid requests, stale tier quotes and insufficient bank never mutate the save
+PASS same purchase request stays idempotent across reloads and later purchases
+PASS failed purchases freeze the request and retry one debit even when the caller repeats
+PASS accepted purchase with lost acknowledgement resolves through its durable receipt
+PASS stale purchase tabs must restage and cannot replay an old tier quote
+PASS pending purchases never overwrite a newer foreign profile
+PASS legacy over-capacity stash is never truncated or silently moved on read or upgrade
+PASS extraction fills remaining stack slots and journals every overflow item durably
+PASS full-stash death and interrupted recovery retain the protected item in the queue
+PASS failed overflow settlement keeps its exact pending result and no partial retention
+PASS over-capacity legacy active raids still settle without losing retained stacks
+PASS expanding does not auto-claim or remove the deployment recovery gate
+PASS claim-all fills only free slots and keeps the rest in order, with repeat-safe receipts
+PASS claim-one preserves identity and metadata, and snapshot edits cannot mutate recovery
+PASS failed and accepted-then-thrown claims conserve items through retry and reload
+PASS whole-stack sales use catalog value including loaded ammunition and preserve unrelated stacks
+PASS issued gear sales yield zero and do not invent or normalize owned inventory
+PASS sales cannot authorize a different source or item with the same request receipt
+PASS failed sale freezes the full stack and credits once after retry
+PASS accepted-then-thrown sale recognizes its receipt after another mutation and reopen
+PASS sold draft reservations cannot deploy the sold item and recovery sales unblock deployment
+PASS all new home actions refuse to mutate a live or interrupted raid
+PASS an older bank writer preserves tier, recovery, receipts and custom fields on schema downgrade
+PASS malformed progression, receipts, duplicate identities and future schema are preserved unreadable
+PASS stale home sales and claims require restaging without duplicating items or credits
+PASS unsafe bank precision never spends or credits an inexact amount
+PASS cross-kind receipt reuse cannot spend, sell or claim a different operation
+PASS existing recovery prevents duplicate retained identities and safe journal collisions
+PASS sold issued drafts remain rejected after a stale reader refresh
+PASS fresh sessions reserve sold generated UIDs before constructing a recovery kit
+PASS schema 4 weapon migration reads without writes and first mutation preserves exact backup bytes
+PASS schema 4 backup failure cannot spend or erase progression, and retry keeps preexisting backups
+PASS distinct same-class instance states survive extraction, failed writes and reopening exactly
+PASS legacy pending cycle persists on successful extraction but firearms are lost on death
+PASS future or mismatched weapon metadata leaves the complete save unreadable and untouched
+PASS sold identities cannot return through a stale save or an extraction payload
+72 deterministic stash-profile checks passed.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS opening preparation reads existing cash without migrating or withdrawing anything
+PASS stored equipment remains in stash during preparation and withdraws only on deployment
+PASS Tab bag pauses the raid and usable healing resumes without consuming a full-health item
+PASS quick-use scanner marks distant unalerted enemies and preserves empty hotbar position
+PASS quick-use grenade has visible world flight and produces one fused explosion
+PASS E pickup adds carried cargo without healing or silently selling it
+PASS dropping both weapons preserves their ammunition and makes the player unable to fire
+PASS real six-second extraction retains loot in stash and adds only earned cash once
+PASS death returns only the persisted safe pocket and keeps the previous bank
+PASS interrupted raid recovery is explicit and opening the menu never mutates the journal
+PASS failed deployment leaves original save intact and retry starts only one reserved raid
+PASS loot dropped on a raised surface renders at its collision height
+PASS using during a paused pickup cooldown resumes time instead of trapping the player in the bag
+PASS legacy quick-use cancels active reload recording tails
+14 rendererless equipment lifecycle checks passed; 0 failed.
+PASS bag UI renders exact equipment and twelve bag positions with capacity and weight
+PASS healing selection exposes use, stable quick targets and one-item drop
+PASS weapon comparison reports loaded rounds and weight against the held firearm
+PASS preparation stages stash items, locks already selected identities and disables unsafe deployment
+PASS untrusted saved identities and status text are escaped as content
+PASS stash is hidden during the raid and protected-slot restrictions are not falsely offered
+6 deterministic inventory UI checks passed; no browser-layout acceptance claimed.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS only the fixed allowlisted profile is accepted
+PASS every owned key including backups and settings maps to the selected namespace
+PASS test initialization starts empty and does not read or copy normal bank/settings
+PASS normal URL retains existing keys, cash and hidden test badge
+PASS invalid and duplicate profiles stop before renderer/audio/game/storage side effects
+PASS test deployment, extraction, replay and reload remain in the test namespace
+PASS test safe-pocket recovery and death cannot touch the normal journal
+PASS test migration backup and failed-write retry use only prefixed keys
+PASS schema 4 weapon-instance migration backs up only the exact isolated profile
+PASS trajectory-qa remains isolated after workshop-qa and keys cannot be supplied as profile paths
+PASS new trajectory profile starts normal equipment/rules and preserves both existing profiles byte-for-byte
+11 test-storage isolation checks passed; 0 failed. No live browser save was accessed.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS idle preparation never resumes audio, locks input, starts time or writes either save
+PASS failed preparation exposes a real retry without silently queuing deployment
+PASS failed unlock releases its lock and leaves the menu/save ready for explicit retry
+PASS explicit mute starts once and a late preparation cannot change that raid
+PASS Escape during asynchronous activation prevents later deployment
+PASS a rebound pause key cancels pending Start without deploying
+PASS a cancelled old Start cannot unlock or pause a newer muted raid
+PASS late pointer-lock success after a cancelled Start releases the title screen
+PASS blurred cold preparation exposes retry and automatically prepares again on focus
+PASS warm ready audio keeps ordinary pause and bag continuation one click
+PASS cold sound after a muted bag return always leaves a visible usable menu
+PASS death mid-reload remains silent with a retained running context
+12 audio readiness integration checks passed.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS all four weapons exclude scenery, barrels, misses and invalid enemies from accuracy
+PASS valid enemy and absorbed armor impacts count once per fired shot
+PASS fresh retry updates HP, ammo, objective and clock before the next animation frame
+PASS pointerLockThrow retains useful diagnostics and playable arrow/fire fallback
+PASS pointerLockReject retains useful diagnostics and playable arrow/fire fallback
+PASS step aiming survives tap before a frame, ignores hold/repeat and respects remapped keys
+PASS aim settings UI saves scope, resets separately, and never changes mouse sensitivity
+PASS duplicate Start does not enqueue another native pointer request
+PASS late pointer rejection after pause or death cannot overwrite diagnostics
+PASS legacy undefined-return request reports its error event and unrelated unlock does not pause fallback
+PASS promise pointer errors retain exact exception instead of generic error event
+PASS stale previous request failure cannot replace a newer successful lock
+PASS activation cancellation by inventory/deployment/sound releases owned lock immediately
+PASS enemy face and leg materials are dedicated and separated from player/world dark materials
+PASS enemy diffuse tones separate head coat and cloth without emission or outline layers
+PASS blocked extraction HUD presents a reachable entrance and clears it on direct approach
+PASS fractional damage and bandage healing cannot overstate an integer vital from numeric residue
+17 actual-play feedback source checks passed.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS owned inventory is read-only on open, detail selection, sorting and cancel
+PASS confirming expansion spends once, keeps items, writes migration backup and reloads the capacity
+PASS unaffordable and max-tier purchases cannot write or show a confirmation
+PASS selling a selected owned item clears its prepared draft and credits exact stack value once
+PASS failed purchase preserves saved bank and retry completes the frozen purchase once
+PASS recovery blocks deployment until explicit claim and preserves queued item metadata
+PASS test-profile expansion never touches normal bank, backups or settings
+PASS sort and escaped labels do not mutate input arrays or inject markup
+PASS unreadable records are shown as unknown rather than an empty zero-balance stash
+PASS zero-value issued sale invalidates prepared equipment after a failed write and retry
+PASS a stale purchase cannot overwrite another tab change or spend the quoted balance
+PASS a stale tab cannot redeploy an issued item sold in another tab
+PASS selling one prepared item keeps unrelated prepared equipment in place
+13 stash UI/runtime checks passed. No actual browser/save mutation performed.
+PASS JSON is validated balance authority; new R4 is explicit while legacy fixtures retain 0.9 tuning
+PASS generated browser balance matches current JSON and fails closed without definitions
+PASS T01 30 plus chamber commits exactly 31 shots, never a 32nd ammo/damage/audio identity
+PASS shot command replay cannot mutate ammunition, recoil, cooldown, damage or audio twice
+PASS T02 partial tactical reload conserves total and produces 30 plus 1 only at resource commit
+PASS T02 insufficient reserve transfers only existing rounds
+PASS reload animation keyframes never independently mutate ammunition
+PASS T03 automatic empty reload starts at 300ms; manual R starts earlier with equal resource use
+PASS T03 last committed shot starts empty reload timer without requiring a second dry click
+PASS T03 empty holstered/paused/disabled instances never auto-start reload
+PASS T04 cancellation before and after every reload checkpoint preserves the ammo invariant
+PASS T04 trigger cancels tactical reload and fires only after minimum recovery
+PASS T04 dry LMB cannot cancel an empty reload or skip its charge/close gates
+PASS T04 ADS request waits through reload and resumes at the correct interpolation rate
+PASS T04 pause freezes reload resource timing; death cancels it at the committed boundary
+PASS T05 one burst commits three shots at the 690-RPM schedule at 30/60/120Hz
+PASS T06 500 semi trigger requests never exceed RPM and leave only one buffered shot
+PASS T06 ordinary trigger buffer expires after 80ms and cannot accumulate late equip taps
+PASS T21 focus delta clamps and clears held/burst input without a catch-up volley
+PASS T21 pause and switch cancel cycle cues so no orphan shot identity plays after resume
+PASS T22 accumulated deadlines yield exactly 24 shots over two seconds at 30/60/120Hz
+PASS T22 fixed 60Hz combat produces identical recoil, shot samples, damage and ammo at render 30/60/120
+PASS bounded catch-up permits due shots only up to the configured per-tick cap
+PASS newly open equip, wall, sprint and reload gates never replay pre-gate timing debt
+PASS T23 instance export/restore keeps rounds, identity, mode, sequence and commit recovery
+PASS T23 invalid restore is rejected atomically without replacing current instance ammunition
+PASS T23 two R4 instances and separate sessions never share shot identity
+PASS T24 repeated canceled-reload save/load boundaries never apply transfer a second time
+PASS near-contact wall overlay blocks both firing and ADS without a resource commit
+PASS R4 proposed distance/head/limb profile has exact endpoints
+PASS AmmoLedger enforces conservation and commit replay across transfer, chamber and shot
+FINAL: 31 R4 data/commit/cadence/instance foundation checks passed. Actual browser inputs and listening remain unverified.
+PASS initial draw blocks firing until its data-defined duration
+PASS switch lowers current gun before committing target then raises it
+PASS same-slot key spam never restarts draw or creates a duplicate commit
+PASS H retains last gun and returns through a real equip delay
+PASS changing a pending swap keeps pose continuous and latest target wins
+PASS rapid H and slot changes never duplicate state commits or strand animation
+PASS paused zero time preserves pose and a failed target leaves a safe holstered state
+PASS empty slots are rejected and H falls back to another valid gun
+PASS 30,60,120 frame schedules produce identical commit order and completion
+9 loadout action checks passed.
+PASS repeated keydown and OS repeat create one action request per press
+PASS held action survives releasing one of two sprint aliases
+PASS rebinding preserves action identity and rejects collisions
+PASS focus loss clears held triggers and queued actions
+PASS wheel input is bounded and no-op values cannot consume its interval
+PASS settings reads preserve legacy fields and never write until explicitly changed
+PASS unreadable settings remain untouched and use safe defaults
+PASS foreign settings changes are not overwritten
+PASS a foreign settings reset is not recreated by a stale editor
+PASS a lost acknowledgement is accepted only after exact settings readback
+PASS Escape remains reserved for modal cancel when pause is rebound
+PASS continuous aim integrates the same angle at 30/60/144Hz and retains default speed
+PASS step aim is independent of duration/OS repeat and requires release for another physical press
+PASS aim settings persist, migrate legacy records, reset independently and reject unsupported values
+PASS null settings record keeps safe controls and trajectory defaults without overwriting corrupt bytes
+PASS OS repeat cannot recreate held input after interruption clears the router
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS holding inventory key cannot close the opened bag or resume the raid
+17 input routing/settings checks passed; browser input remains unverified.
+PASS open muzzle path allows the intended target
+PASS camera can see past narrow cover while the physical muzzle hits it
+PASS cover crossed between eye and muzzle blocks attack before ammo consumption
+PASS a wall pressed against the muzzle blocks rather than shooting through
+PASS destroyed and low cover do not block a clear muzzle line
+PASS nearest obstruction wins and inside/parallel segments stay finite
+PASS redirecting a camera enemy hit to the muzzle wall causes no through-wall enemy damage
+7 muzzle obstruction checks passed.
+PASS idle menu decodes all 83 recordings without resume, playback or synthetic sources
+PASS already-permitted running constructors are suspended before loading any recording
+PASS progress stays menu-only and repeated early activation cannot queue a future start
+PASS running and muted continuations offer a synchronous one-use result
+PASS an unlock denial retains all buffers and the next Start retries exactly once
+PASS resolve-without-running is an unlock failure and cannot authorize gameplay
+PASS pre-gesture context denial has a separate prepare retry and does not resume hardware
+PASS failed fetch stays silent and atomic; preparation retry can recover
+PASS decode rejection cannot expose partial gun buffers and can be retried
+PASS unavailable Web Audio still permits an explicit mute without a context
+PASS focus cancellation resolves pending activation and late native resume is re-suspended
+PASS a successful but not-yet-claimed completion is invalidated by focus loss
+PASS a cancelled old resume cannot suspend a newer successful activation
+PASS muting a pending unlock invalidates its result and late native resume stays silent
+PASS muting cancels loading immediately and stale success never re-enables a sound start
+PASS unlock timeout remains retryable and rejects the eventual stale native resume
+PASS pagehide destroys its engine and page restoration starts from a fresh one
+PASS unexpected closed contexts require fresh preparation instead of unlocking an empty replacement
+18 audio preparation checks passed. Fake Web Audio is not browser/autoplay/pointer-lock/listening acceptance.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS live R4 selects the specification data rather than legacy fixture tuning
+PASS timed swap cannot fire or commit the target before lowering and drawing finish
+PASS scanner use during a switch preserves pending slot, timing and pose state
+PASS H hides the current gun, preserves its rounds and returns without queued fire
+PASS reload interruption before and after commit conserves ammunition through H
+PASS sprint overrides held ADS and held fire waits for sprint recovery
+PASS R4 ADS is withheld in the air and automatically returns after landing
+PASS empty R4 reload waits its delay and resumes only while the physical trigger remains held
+PASS world muzzle crossing prevents ammo, damage and shot audio then recovers
+PASS replayed shot presentation cannot emit a second report or muzzle event
+PASS key remapping persists only in the isolated settings namespace and does not deploy
+PASS rebound pause and inventory keys close the bag while Escape remains a safe fallback
+PASS empty rifle cannot begin an automatic reload while a held grenade owns the hands
+PASS empty rifle automatic reload waits until medicine and recovery release the hands
+PASS automatic empty reload is withheld throughout holster lowering and rifle drawing
+15 gunplay foundation runtime checks passed; 0 failed.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS grenade must be presented and explicitly triggered before one commit
+PASS medical commit timing is invariant at 30 60 and 120 Hz
+PASS cancellation at every precommit stage never consumes or commits
+PASS repeated item request does not restart or replace an active action
+PASS quick healing starts without effect, commits once, and returns to firearm
+PASS held grenade needs fresh fire and throws once without leaking into rifle fire
+PASS damage and pause cancel medical use without consuming
+PASS source slot replacement before commit cannot consume a different item
+PASS weapon selection cancels held prop and restored weapon cannot fire during recovery
+PASS committed medicine is never refunded or repeated after pause
+PASS death during use clears held geometry and cannot heal a dead player
+PASS damage direction follows a real source and disappears on pause
+PASS HUD defaults keep diagnostics quiet while health ammo and use stay readable
+PASS action recovery starts at the exact cancelled pose and leaves no stale props
+PASS articulated props stay finite and held silhouettes leave the central aim region clear
+PASS loadout curve is neutral at ready and has smooth, bounded departure and arrival
+PASS same-frame damage plus compensating healing still cancels before item commit
+PASS action progress is monotonic across all stage boundaries including cancelled return
+PASS left index stays in physical contact with the pulled pin ring
+PASS medical applicator makes contact with the exposed support wrist during use
+PASS utility lights belong to a separate active-only scene and do not affect firearms
+PASS utility glove panels wrist and pin have distinct bounded diffuse values
+PASS menu title and package metadata agree on the current candidate version
+PASS action HUD uses a compact left rail rather than the center contact region
+PASS HUD layout contract clears actual wrist pin and aim points across desktop and compact frames
+PASS compact HUD retains full accessible item state and avoids duplicate preparation messages
+PASS prepared throw waits without cooking and only owner release after minimum hold begins use
+PASS short held aim returns to ready with no consumption and can be retried
+PASS normal mouse release contract keeps held prop and HUD then consumes exactly once
+PASS rebound fire key owns held throw and unrelated release cannot throw it
+PASS held throw cancellation cannot become a release throw after menu damage or weapon change
+PASS aim and ready utility poses are continuous and keep pin seated until throw begins
+PASS minimum aim boundary and release commit timing are exact across frame rates
+PASS aim interruption on Tab blur visibility and own-lock loss never turns keyup into throw
+PASS release-before-commit damage and same-item UID replacement cannot consume or spawn
+PASS trajectory guide is depth-tested bounded and visible only while valid grenade aim is held
+PASS trajectory option persists and cancellation hides the guide immediately without ghosting on return
+PASS recorded Foley markers fire once at physical contact and never during grenade aim
+PASS cancellation discards queued Foley and cannot replay after recovery or next action
+PASS medical contact emits one recorded marker before benefit without timer scheduling
+PASS detached pin remains owned by the support hand rather than tracking the throwing hand
+PASS post-detachment cancellation preserves the actual index and pin position at recovery start
+42 item action checks passed; rendering and listening remain unverified.
+PASS R4 shared formula preserves every distance part armor boundary
+PASS all guns have explicit finite maximum and independent falloff
+PASS helmet and torso armor coverage apply to each weapon without cross-covering
+PASS same shot/pellet duplicate and multiple colliders cannot repeat damage
+PASS range miss consumes one legal discharge but causes no damage or hitmarker
+PASS shotgun distributes105 over9 pellets and only consumes one shell
+PASS distinct pellets aggregate armor while duplicate collider contacts do not
+PASS pellet pattern is deterministic bounded and changes only with shot seed
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS runtime shotgun fan hits first wall nine times with one shell report and pump
+9 shared shot resolver checks passed
+PASS all guns defer damage at every distance until actual flight contact
+PASS 10 through160m R4 contact time damage and part agree at30/60/120Hz
+PASS ballistic gravity and velocity remain independent of distance falloff
+PASS thin walls and exact wall/enemy tie stop the earliest swept segment without tunneling
+PASS wall wins an exact equal-time contact and does not let damage through
+PASS linear moving targets share simulation time across frame rates
+PASS unled fast transverse target can miss and no camera selection awards damage
+PASS range expiration is bounded and never damages the200m extension fixture
+PASS nine ballistic pellets preserve one shot hit statistic and105 total budget
+PASS invalid launch is rejected before ammo and duplicate R4 launch cannot repeat commit
+PASS hit-pause fractional updates retain fixed-step flight and never replay a confirmed contact
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS runtime holds hitmarker and recorded impact until flight while preserving immediate shot
+PASS barrel contact terminates a pellet before an enemy and spends its own damage budget
+PASS already-fired projectile survives weapon switch with captured damage configuration
+14 player projectile checks passed; renderer, listening and device FPS unverified.
+PASS chronological wall removal and reverse pellet order
+PASS chronological enemy removal and reverse pellet order
+PASS chronological barrel removal and reverse pellet order
+PASS fatal barrel contact cancels remaining in-flight pellets
+PASS player hit before fatal incoming contact at30/60/120/1000Hz
+PASS fatal incoming contact cancels only later player flight at30/60/120/1000Hz
+PASS incoming contacts and intervening player hit ignore incoming array order
+PASS timed incoming boundary preserves relative moving-target collision and single claim
+8 independent ballistic contact-order checks passed
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS bounded reach hits one nearest live authored target without firearm statistics
+PASS dead front target does not absorb the strike
+PASS range and rear/side targets cannot receive damage
+PASS aim pitch and target elevation use world-space authored volumes
+PASS thin cover stops all fan paths before the enemy
+PASS barrels occlude fists without exploding or taking damage
+PASS armor receives bounded half-budget absorption with no head multiplier
+PASS lethal melee uses normal kill reward exactly once per live target
+PASS paused dead and extracted worlds reject strikes
+PASS one delayed melee marker at .44 active seconds is frame-rate invariant
+PASS V integration delays contact preserves ammo and displays melee label
+PASS repeated physical V cannot restart or duplicate the action
+PASS incoming damage before contact cancels with no delayed hit
+PASS pause focus loss inventory and weapon request cancel before contact
+PASS postcontact cancellation neither refunds nor repeats damage
+PASS holding fire during melee return cannot produce a surprise shot
+PASS quick item cannot steal active melee hands
+PASS empty rifle auto reload waits through the exclusive melee timeline
+PASS holstered melee returns to holstered ownership
+PASS legacy rebinding migration preserves conflicting V and reads without writes
+PASS invalid old settings are not reclassified as a valid migration
+PASS remapped melee input dispatches canonical V once
+PASS rejected medical commit recovers from its actual last contact pose
+PASS fist presentation has finite poses and no utility prop or stale pin
+24 melee checks passed; model/rendererless only.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS paused bridge initiation and immediate use cannot heal or consume
+PASS explicit paused-bag preparation records intent without applying an effect
+PASS direct immediate use cannot bypass or duplicate an active timeline marker
+PASS direct weapon mutation cancels a precommit item without consumption
+PASS paused trigger and physical release do not advance prepared frag to use
+ACTION_MATRIX_CASES 360
+PASS all action marker interruptions conserve effects across three schedules
+PASS failed inventory draft does not cancel an active action
+PASS rendererless menu death and extraction reset actions without camera or prop leakage
+8 action guard checks passed; matrix and camera checks are model/rendererless only.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS validated data retains the exact P-6 legacy mechanical baseline
+PASS single discharge owns one round and a UID/session/sequence identity
+PASS automatic cycle and mandatory recovery agree across render schedules
+PASS pause freezes all reload/cycle/recovery clocks
+PASS reload transfer caps at finite reserve and emits loaded exactly once
+PASS legacy perfect and mistimed reload timing remain owned by the controller
+PASS cancelling reload retains rounds and resumes the interrupted cycle remainder
+PASS deactivation cancels transfer and freezes pending cycle until activation
+PASS export and restore preserve the existing inventory schema without refilling
+PASS restoring an already consumed shot sequence cannot replay its ammunition identity
+PASS Mission compatibility mirrors and ballistic record share the pistol commit
+PASS direct switching cannot manufacture a cocked pistol after a shot
+PASS same-class pistol UIDs own separate rounds and cycle states across swaps
+PASS holstered pending pistol cycle remains frozen and restore conserves rounds
+PASS death cancels an uncommitted pistol reload with no reserve transfer
+PASS extraction deactivates pistol and cancels unfinished transfer
+PASS rendererless pistol reload still reaches recorded phase cues and neutral viewmodel
+17 pistol controller checks passed; actual browser/input/audio acceptance remains open.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS shotgun definition preserves all original mechanical values
+PASS one shell discharge generates one identity and one automatic pump
+PASS pump and mandatory recovery gate are preserved across three schedules
+PASS last shell pumps normally and dry trigger never creates a negative shell
+PASS insertion cancellation before the atomic marker spends no reserve
+PASS completed insertion transfers once and later cancellation cannot refund shells
+PASS reload interruption resumes the original pending pump remainder
+PASS pause and unequip freeze pump without manufactured readiness
+PASS first deployment retains ready mechanics without an extra hidden swap penalty
+PASS nine pellets remain one shell and one world shot
+PASS same-class shotgun UIDs preserve rounds and pump across swaps
+PASS damage retains existing reload timing while death cancels transfer
+PASS held physical trigger fires once and a fresh press after pump fires the second shell
+PASS menu cancels held input while freezing unfinished shotgun reload
+PASS utility action cancels loading without reserve transfer or stale reload pose
+PASS healing grenade and melee own shotgun hands without leaked held fire or reload spend
+PASS recorded pump route and one casing retain their original mechanical event
+17 shotgun controller checks passed; actual motion/input/listening remain unverified.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS SMG data retains original capacity cadence and zero-cycle profile
+PASS each auto discharge owns one round and unique identity without pump events
+PASS cadence and ammo budgets agree for identical commands across render schedules
+PASS empty fire cannot spend reserve produce negative rounds or start automatic reload
+PASS reload before and after transfer preserves finite reserve exactly once
+PASS pause deactivation and restored legacy schema retain correct no-cycle state
+PASS first deployed SMG is ready and mirrors controller ammunition
+PASS two same-class SMG UIDs retain independent rounds and sequences
+PASS held mouse auto cadence and released trigger preserve the original control behavior
+PASS holding through a normal reload resumes auto fire but cannot double transfer
+PASS pause focus and utility completion clear held SMG firing intent
+PASS damage keeps original reload progress and death cancels uncommitted transfer
+PASS SMG HUD and recorded shots read auto controller without cycle cues
+13 SMG controller checks passed; normal-input/render/listening acceptance remains open.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS grenade exclusive hands defer manual pump and resume one unchanged cycle on return
+PASS healing and melee cannot run a manual pump while owning the hands
+PASS H lowering and drawing keep pending manual pump frozen until ready ownership
+PASS passive pistol slide and rifle cycling continue without operator hands
+PASS cycle gate leaves standalone active reload clock and transfer unchanged
+5 pump hand-ownership checks passed; actual render and listening remain open.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS utility thumbs match inward sides in the authored dorsal hand frame
+PASS semantic thumb-adjacent index and actual fingertip cap contact reach the pin
+PASS thumb opens with released grenade grip and closes for a melee fist
+PASS cancelled recovery preserves thumb and semantic index contact at its first pose
+4 utility grip geometry checks passed; actual hand appearance/motion remains unverified.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS archived connected arms meet actual constrained wrists at all utility stages
+PASS connected arms preserve existing pin and treatment contact constraints
+PASS interrupted arm recovery begins at identical elbow and wrist transforms
+3 connected arm geometry checks passed; rendering and natural motion are unverified.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS cancel before application cannot introduce a dressing during recovery
+PASS partial and full application retain exact cosmetic amount at interrupted recovery
+PASS dressing width grows monotonically and idle cleanup preserves shared materials
+3 treatment dressing checks passed; actual contact/withdrawal appearance remains unverified.
+PASS replayed effects cannot repeat before or after cooldown at30/60/120Hz
+PASS precommit malformed and mismatched markers cannot consume a receipt
+PASS stale prior marker does not block the next valid action after recovery
+PASS cancelled and failed normal commits cannot later replay a benefit
+4 action effect receipt checks passed; source fault injection is not actual play.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS grenade winds up then opens and extends at its unchanged release marker
+PASS presentation and interrupted recovery preserve every authored numeric joint
+PASS medical roll strokes and kit lid close while preserving actual wrist contact
+PASS cancelled open kit starts continuously and closes during withdrawal
+PASS melee authored extension reaches the current contact instead of archived old timing
+5 authored motion-track checks passed; actual human motion/render/audio acceptance remains open.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS model launch and no-effect prediction share finite authored origins
+PASS far nonfinite and wall-occluded origins retain original safe launch and tuning
+PASS commit evaluates a render-origin callback once and a throwing callback falls back
+PASS rendererless actual game preview and throw use authored projected hand and restore its rig
+4 release-origin model/runtime checks passed; actual pixels and human throws remain unverified.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS sprint dash and slide cancel every action before its effect marker
+PASS normal walking remains compatible with treatment completion
+PASS postcommit movement preserves one consequence without refund or duplicate
+PASS original game key routes cancel treatment at30/60/120Hz without resource benefit
+4 action movement checks passed; rendererless key events are not actual human play.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS default Black Pines definition is unchanged and second region has distinct geometry and encounter data
+PASS canal blocks arbitrary crossings but both bridges and every authored route are walkable
+CANAL_REACHABLE_GRID_CELLS 3270
+PASS collision flood proves insertion can reach loot objective and both exits
+PASS ferry requires a carried archive and loses progress when that requirement is removed
+PASS west token-only exit has its longer hold and one completion event across frame rates
+PASS three region raids return the same equipment UIDs and settle cash plus home sales once
+PASS second-region death returns only protected loot and no contract cash
+PASS rendererless region UI freezes active mission then returns and deploys the other region
+PASS flood forbids walking but cannot create an invisible bullet or sight wall
+PASS second-region guidance follows a clear bridge waypoint rather than the flooded direct line
+10 region/raid/economy source checks passed; movement warps and rendererless input are not human play.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS failed deployment retry retains its frozen region and one raid identity
+PASS failed canal settlement blocks a new raid then returns cash and loot once on retry
+PASS unknown post-write acknowledgement recovers original region without withdrawing twice
+3 adversarial region persistence checks passed; isolated in-memory faults are not actual browser persistence acceptance.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS recipes use existing values and do not consume archives or grant sale profit
+PASS partial material UID is preserved and a craft output keeps one UID through replay and reload
+PASS fully consumed material retires its UID and cannot be reintroduced or reused
+PASS missing issued or insufficient materials and unknown requests cannot spend or produce
+PASS insufficient cash and bank precision failures leave all inputs untouched
+PASS full stash rejects partial consumption output but permits a freed material slot
+PASS craft refuses active raids and overflow recovery rather than bypassing ownership
+PASS repair preserves armor UID and issued flag and charges catalog-derived missing durability
+PASS stale full unowned and firearm repair targets cannot consume inputs
+PASS before-write failure has no benefit and retry applies exact same crafted UID once
+PASS unknown post-write acknowledgement is recovered without a second craft or debit
+PASS schema5 backup failure blocks work and preserves exact bytes before retry
+PASS stale writer cannot spend materials from a different current record
+PASS craft take-to-carry respects existing bag slots and30kg without removing owned output
+PASS repaired armor deploys takes real damage and returns with same UID and durability
+PASS normal home UI quotes confirms refreshes prepared armor and rejects duplicate confirm
+PASS new workshop profile and schema5 backup stay explicitly isolated
+PASS repair write failure and retry update prepared UID state only after durable success
+PASS malformed workshop receipts remain unreadable and cannot overwrite their source bytes
+PASS repair accepted before lost acknowledgement preserves one restored UID and one debit
+PASS earned canal scrap and contract reward fund craft repair and same-UID redeployment
+21 workshop source tests passed; browser UI quality, disk persistence and real gameplay remain unverified.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS stale craft draft can be explicitly discarded without altering foreign save bytes
+PASS discard refuses unreadable foreign data and preserves pending intent
+PASS discard refuses a conflict that has reverted rather than silently losing its draft
+PASS restart after a before-write failure performs one debit and output for replayed request
+PASS restart after lost acknowledgement recognizes one durable output and debit
+PASS another tab deployment blocks workbench and draft cancellation preserves interrupted raid
+PASS workshop discard cannot cancel a failed deployment transaction
+PASS repaired issued armor cannot become saleable by changing its deployed return flag
+PASS deployed UID item identity survives restart and rejects substitutions
+PASS lost crafted UID cannot be resurrected through fresh issued loadout exception
+PASS legacy schema6 repair receipts and raids without optional identity remain readable without migration
+PASS legacy schemas and mixed version records read without writing or dropping inventory
+PASS repair receipt issued corruption remains unreadable and preserves exact bytes
+PASS home conflict control clears stale prepared craft draft while preserving foreign stash
+14 adversarial workshop source tests passed; fake storage and rendererless UI do not establish browser disk persistence or human play.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS terminated failed deploy leaves no journal and a fresh controller starts one new raid
+PASS terminated committed deploy reopens as interrupted and needs explicit loss recovery
+PASS deploy written before lost acknowledgement remains one interrupted withdrawal after restart
+PASS successful extraction followed by lost acknowledgement survives a new controller once
+PASS uncommitted extraction lost on restart retains only previously durable safe journal
+PASS two fresh page controllers detect observed foreign deploy and refuse replacement
+6 fresh-controller raid persistence source tests passed; mocked lifecycle/shared memory are not actual browser close/reload/disk/concurrent scheduling evidence.
+PASS UMD exports one dependency-free controller in browser and CommonJS
+PASS initialization is idempotent and ordinary enemies remain untouched
+PASS shell bullets transmit and reduce cohesion without damaging the core
+PASS disruption happens exactly at zero cohesion and interrupts the attack token
+PASS actual contact time ages the new disruption and stamps each opening
+PASS same-contact exposure snapshot prevents newly exposed core pellet damage
+PASS only an exposed core contact damages persistent bullet integrity
+PASS core remains exposed during finite reform and shell hits do not extend stun
+PASS grenade barrel and melee share material response without anatomy amplification
+PASS lethal core damage clamps HP, cancels attack and rewards only once
+PASS openings retain bounded immutable world points, normalized directions and exact simulation age
+PASS pose is finite, matches fixed core and supplies the local arm-blade descriptor
+PASS perception has a finite24m activation range and cover prevents tracking
+PASS visible pursuit uses collision checks and stops at3m without teleporting
+PASS movement honors the30m home leash and never pursues an unseen player
+PASS windup is .75s with one deferred beginning-of-strike contact and .7s recovery
+PASS windup follows visible targets before final .25s and then freezes the whole vector
+PASS line of sight lost before lock cancels the telegraph
+PASS late cover blocks a committed blade and equal wall contact has precedence
+PASS lateral motion and changed vertical posture evade the frozen finite-width strike
+PASS dash invulnerability is resolved only through world.damage
+PASS disruption death and terminal worlds cancel queued strike receipts
+PASS pause freezes state, aim, holes, exposure and movement
+PASS death and extraction clear deformation records and invalidate stale attack tokens
+PASS fresh enemies have independent cohesion integrity holes and attack receipts
+PASS state timing and physical strike time agree across30/60/120/1000Hz
+PASS queued world blade exactly matches transformed shared local blade pose
+PASS Mission chronology applies an earlier disruption before the queued blade but preserves an earlier strike
+PASS historical exposure is pure, finite and half-open at exact disruption and reform boundaries
+PASS completed reform retains its last window and accepts a physically earlier core contact
+PASS expired shell contacts cannot consume new cohesion or extend the old stun retroactively
+PASS exposure history does not infer liveness and explicit contact snapshot still wins
+PASS historical pose is pure and returns independent geometry without initializing an enemy
+PASS historical collapse uses contact-time geometry instead of the later end-of-step pose
+PASS historical pose covers exact collapse and reform boundaries before and after the window
+PASS historical pose preserves ordinary geometry when there is no exposure window
+36 liquid-metal controller checks passed; deterministic model only.
+PASS shell transmits to rear enemy in the same120Hz interval
+PASS shell transmits to rear wall in the same120Hz interval
+PASS shell transmits to rear barrel in the same120Hz interval
+PASS two shells compound attenuation and never repeat same target
+PASS transmitted contact receipts replay neither damage nor material effects
+PASS nine simultaneous pellets open the core without immediately damaging it
+PASS exposed core stops the projectile and retains permanent damage
+PASS head contact disrupts shell without human head multiplier or blood
+PASS thin wall before shell and exact wall tie remain opaque
+PASS transmission contact chronology is stable at30/60/120/1000Hz
+PASS bounded penetration cannot loop across a dense overlap
+PASS frag barrel and fist all use material contract without blood
+PASS normal enemy still receives ordinary body damage and stops flight
+PASS kill receipt is terminal and bounty/cash cannot duplicate
+PASS new exposure cannot retroactively move a later projectile contact into the past
+PASS core exposure is sampled at impact time across the reform completion boundary
+PASS simultaneous shell and barrel explosion share pre-contact exposure and physical time
+PASS all four firearm configurations transmit shell contacts with conserved shot accuracy
+PASS contact-time floor cannot revive an already range-expired projectile
+PASS historical collapse shell bounds prevent end-pose hit or miss errors
+PASS historical reform shell bounds prevent end-pose hit or miss errors
+21 liquid-metal ballistic/integration checks passed; renderer and actual device acceptance separate.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS UMD API creates original connected silver humanoid without lights or shared game resources
+PASS torso and head conform to shared collision pose through shell disruption and reform
+PASS forearms connect elbow to hand or active blade origin without detached pieces
+PASS blade extends along shared locked aim, telegraphs only windup, and retracts through recovery
+PASS shell materials inject actual through-surface fragment discard and bounded six-cylinder uniforms
+PASS impact opens a cylinder with annular chrome rim and repairs on simulation time
+PASS bullet holes stay attached when sentinel moves and rotates; repeats and pause do not drift
+PASS direct hit adapter is bounded, deduplicated, rejects malformed/future input, and resets on rewind
+PASS terminal state cancels blade/core and collapses into persistent silver puddle without blood
+PASS all states have finite transforms and resources dispose through existing traversal contract
+PASS only the opaque depth-tested core writes the semantic post-grade tag
+11 SILT rendererless geometry/material checks passed. WebGL shader compilation and visual readability remain browser checks.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+PASS production script order builds one finite connected SILT and preserves ordinary models
+PASS confirmed material contact gets metal audio shaped marker and bounded aperture once
+PASS pause freezes actual view aperture and resume closes it using simulation time
+PASS core and terminal hit use distinct presentation without human kill splat
+PASS new raid resets sentinel transient and persistent encounter values without save fields
+PASS Mission player death and extraction clear active metal blade and cached holes
+PASS terminal cleanup preserves an already-dead sentinel collapse instead of regrowing it
+7 liquid-metal rendererless production integration checks passed; no WebGL or audible acceptance implied.

@@ -2,6 +2,40 @@ import type { ProjectMetadata } from "../schema";
 
 export const projects = [
   {
+    "id": "dead-freight-release",
+    "name": "DEAD FREIGHT · GPT Site Release",
+    "status": "prototype",
+    "type": "demo",
+    "runtime": "static-artifact",
+    "version": "0.15.2",
+    "summary": "Two prototype raid regions, four-gun finite-speed ballistics and one SILT liquid-metal sentinel source candidate. Device play, listening and performance acceptance remain separate.",
+    "tags": [
+      "game",
+      "fps",
+      "webgl",
+      "prototype"
+    ],
+    "projectRoot": "projects/dead-freight-release",
+    "entry": {
+      "kind": "iframe",
+      "path": "/runs/dead-freight-release/index.html"
+    },
+    "docs": {
+      "brief": "brief.md",
+      "spec": "spec.md",
+      "eval": "eval.md",
+      "readme": "README.md",
+      "changelog": "changelog.md"
+    },
+    "assets": {},
+    "commands": {
+      "dev": "pnpm --filter dead-freight-release dev",
+      "build": "pnpm --filter dead-freight-release build",
+      "test": "pnpm --filter dead-freight-release test"
+    },
+    "updatedAt": "2026-10-28T15:40:06+09:00"
+  },
+  {
     "id": "deck-building",
     "name": "Deck Building",
     "status": "prototype",

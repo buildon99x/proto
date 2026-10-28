@@ -1,0 +1,219 @@
+# DEAD FREIGHT — GPT Site release copy
+
+This independently registered project preserves the existing game; it is not a new gameplay iteration.
+
+**Provenance limit:** based on the development commit associated with public Sites v26, not a downloaded deployment archive. 134 of 135 public manifest hashes are accounted for (including deployment line endings); deployed `game.js` byte identity is unverified. The development source is preserved without speculative changes.
+
+- Published site: https://dead-freight-browser.buildon733500.chatgpt.site
+- Project directory: `projects/dead-freight-release`
+- Local build/test: `pnpm --filter dead-freight-release build`, `pnpm --filter dead-freight-release test`
+- Local development: `pnpm --filter dead-freight-release dev` (open http://localhost:4173)
+- Launcher: `/projects/dead-freight-release`, game artifact `/runs/dead-freight-release/index.html`
+- Source and verification: [release-provenance.md](release-provenance.md)
+
+The original development documentation follows unchanged. Its `dead-freight` paths and branch references are historical; use `dead-freight-release` for this copy's workspace commands. Game storage keys and runtime build-manifest identity intentionally remain unchanged to preserve behavior.
+
+---
+
+# DEAD FREIGHT / SILT CORE COLOR CANDIDATE 0.15.2
+
+원본 두 지역의 1인칭 Extraction 프로토타입입니다. 네 총기, 보관함/제작과 Canal Ward 선택 교전용 액체 금속 적 SILT를 포함합니다. 완성된 상용 오픈월드나 실제 기기 품질 승인을 의미하지 않습니다.
+
+## 현재 0.15.1 후보
+
+0.15.0 SILT의 실제 WebGL 일반 입력 교전과 별도 출격 탈출·저장은 [노트북 QA](qa-handoff-silt-laptop-2026-10-16.md)로 확인했습니다. 실제 화면에서 분홍색으로 보이던 코어는0.15.1에서 코어 픽셀만 원래 주황색으로 표시하도록 고쳤습니다. 전역 월드/총기 색보정과 게임 계산은 유지합니다. 수정본의 실제 GPU 색상은 후속 확인 대상입니다. 검사·실행 절차와 기존 후보 주소는 [코어 색상 핸드오프](qa-handoff-silt-core-color-2026-10-16.md)에 있습니다. 실제 청음·전경 조작감은 미검증이며 수동 배포·기본 공개 버전 전환은 하지 않았습니다.
+
+아래는 이전 체크포인트별 설명이며, 최신 상태와 검증 경계는 위 핸드오프가 우선합니다.
+
+GPT Site: https://dead-freight-browser.buildon733500.chatgpt.site (사용자 요청으로 전체 공개)
+
+## 현재 라이플 체크포인트
+
+0.10은 사용자 FPS 명세 v1.0의 첫 구현 구간입니다. R4 데이터 정의, 무기별 탄약 상태, 유한한 꺼내기·넣기 동작, H 맨손 전환, 빈 탄창 자동 장전, 총구 엄폐 판정과 조작키 변경을 연결했습니다. 전체 요구사항과 남은 검증은 [명세 대응 현황](gunplay-spec-v1-status.md)을 보세요. 이 버전의 실제 마우스 조작·청취·화면 품질 검증은 아직 남아 있습니다.
+
+R-4는 별도 탄창/약실, 연사/3점사, 입력 버퍼, 달리기 후 사격 복귀, 일반/빈 탄창 재장전, 거리별 피해와 방어구 반응을 구현했습니다. 기존 세 무기는 유지되지만 새 기준의 완성 검증은 아직 아닙니다. 라이플 한 종의 실제 플레이·청취가 다음 단계 진입 조건입니다. 장비 보관함은 0.8에 추가했습니다. 두 도시 맵, 완성형 레이드/AI/경제 및 새 명세의 여섯 무기군 완성은 아직 구현되지 않았습니다.
+
+## 0.11 물품 동작과 HUD
+
+3–6으로 치료·탐지 물품을 사용하거나 투척물을 선택합니다. 수류탄은 손에 든 뒤 새 좌클릭/F 입력으로 던집니다. 손에 든 채로는 신관이 진행되지 않으며 투척 순간 1개를 소모합니다. 치료는 준비 후 실제 사용 시점에만 회복·소모합니다. 사용 전 피격, 메뉴, 무기 선택으로 취소할 수 있고, 효과 적용 뒤에는 반환하거나 중복 적용하지 않습니다. H 또는 1/2로 총기에 복귀합니다. 사용·복귀 동안 사격과 정밀 조준이 막힙니다.
+
+중앙 아래에는 현재 물품과 행동 단계만 표시하고, 피격 위치를 아는 경우에만 방향 표시를 냅니다. 기본 HUD는 체력·탄약·목표를 우선하며 메뉴의 상세 HUD로 총기/오디오 진단을 볼 수 있습니다. 시점 손과 소품은 원본 절차형 지오메트리입니다. 실제 GPU 화면·청음·일반 조작·성능 검증은 별도이며 AAA 수준 달성이라는 주장은 하지 않습니다.
+
+## 플레이 루프
+
+남쪽 착륙장에서 출발해 벌목 야영지, 화물 집하장, 폐채석장의 분기 경로를 선택하세요. 보급품과 선택 화물을 회수하고, 북쪽 중계소의 표적을 처치해 증표를 얻습니다. 남쪽 착륙장 또는 동쪽 긴급 회수장에서 E로 신호를 보내고 6초 동안 구역을 지키면 탈출합니다. 구역을 벗어나면 신호가 취소됩니다.
+
+지역에는 17명의 국소 교전 적과 720그루의 충돌 가능한 나무, 점프 가능한 낮은 엄폐와 슬라이드 통로가 있습니다. M 지도와 목표 거리, 도로 표지로 이동할 수 있습니다. 발각되지 않은 원거리 적은 지도에 드러나지 않습니다.
+
+기본 난이도는 HARDCORE이며 첫 진입에서는 관광객을 선택할 수 있습니다. 현재 시간 제한은 없고 다음 계약도 같은 지역을 초기화합니다. 메뉴의 무기·난이도 변경은 새 원정에 적용되며 일시정지 후 계속하기는 현재 설정을 유지합니다.
+
+탈출하면 장비와 전리품은 보관함으로, 처치로 얻은 현상금은 현금 기록으로 각각 저장됩니다. 전리품은 자동 판매되지 않습니다. 저장 실패는 재시도 버튼으로 표시하며 기존 기록을 지우지 않습니다. 재화로 보유 보관함을 확장할 수 있으며, 제작 기능은 아직 없습니다. 사망하면 마지막으로 저장된 보호 포켓 외 휴대 장비와 전리품을 잃습니다. 저장은 이 브라우저/사이트에 한정되며 클라우드 계정 동기화나 완성된 구매·제작 경제는 없습니다. 0.8의 장비 보관함은 이 브라우저에 저장됩니다.
+
+## 조작
+
+- WASD 이동 · Shift 달리기 · Space 점프
+- Ctrl/C 슬라이드 · X 회피 (스태미나 사용)
+- 마우스 조준 · 좌클릭/F 발사 · 우클릭 정밀 조준
+- 펌프/슬라이드는 자동 작동하며 회복 시간은 건너뛸 수 없습니다
+- R 재장전 · B 라이플 연사/3점사 전환
+- 기존 세 무기는 흰 구간에서 R 재입력으로 타이밍 장전
+- 1/2 또는 휠 장착 무기 · H 맨손/무기 복귀 · 3–6 빠른 사용 · Tab 가방 · E 회수/탈출 · M 지도 · L 레이저 · Esc 일시정지
+- 마우스 잠금이 안 되면 화살표 키로 조준
+
+메뉴의 조작키 변경에서 현재 구현된 행동을 다른 키·마우스 버튼에 배치할 수 있습니다. Esc는 화면 닫기·취소에 항상 사용할 수 있습니다. 아직 근접 공격·앉기는 구현되지 않아 새 명세의 전체 기본키 구성을 적용하지 않았습니다.
+
+걷기는 초당 2, 달리기는 초당 10의 스태미나를 실제 이동량에 따라 소비합니다. 점프 10, 슬라이드 28, 회피 45를 사용하며, 지상에서 멈추면 초당 24를 회복합니다. 소진되어도 느리게 걸을 수 있습니다.
+
+## 시각 방향
+
+지표는 대기가 햇빛을 막는 영구적인 밤입니다. 상층부 사건의 원인은 밝히지 않습니다. 영구적인 밤은 세계관 설정입니다. 화면 밝기를 제한하지 않으며, 0.8.1은 0.6의 읽기 쉬운 배경·안개·월드 조명·총기 조명을 복구했습니다. 모든 무기의 크기와 위치를 낮춰 중앙 조준 영역을 비웠습니다. 화면 전체의 디더링/랜덤 그레인을 제거했습니다. 조준점은 정밀 조준 중에도 유지되고 명중 표시는 별도입니다. 차가운 색조와 붉은 총기 액센트를 유지하며 표면 풍화는 월드 재질에만 적용됩니다. 내부 렌더는 960×540입니다.
+
+## 실행과 검사
+
+- `pnpm --filter dead-freight build`
+- `pnpm --filter dead-freight test`
+- `pnpm --filter dead-freight lint`
+- `app/dist`를 정적 서버로 열거나 `pnpm build:project -- dead-freight`로 런처에 복사
+- 데스크톱 WebGL, 키보드/마우스 필요
+
+원본 게임 코드·이미지·음원을 포함하지 않습니다. 직접 제작한 기하/절차 재질, 라이선스를 확인한 Pixabay 녹음을 게임 동작에 맞게 조합한 라이플 오디오, 기존 프로토타입 오디오와 로컬 Three.js 0.160.1 (MIT)을 사용합니다.
+
+음원 출처와 게임 내 사용 범위는 `audio-provenance.md` 및 `assets/audio/rifle/manifest.json`을 보세요. 원본 녹음은 저장소에 배포하지 않습니다. 라이플 음원의 파형/타이밍 검사는 실제 청취를 대신하지 않습니다.
+
+자동 검사는 물리·교전·맵 경로·뷰모델·오디오 신호·렌더러 없는 통합을 다룹니다. 공개 사이트의 메뉴까지 실제 클라우드 브라우저로 열었으나, 해당 브라우저의 그래픽 렌더러가 비활성화되어 WebGL 컨텍스트 생성이 실패했습니다. 이후 Windows에서 0.8.2–0.8.4의 이동·일부 사격/장전·소모품·사망 재시작을 일반 입력으로 부분 확인했습니다. 0.10의 실제 마우스 조작, 성공 탈출, 음질 및 성능 검증은 별도로 남아 있습니다. 0.7.1은 이 실패 때 잘못된 플레이 버튼과 HUD를 숨기고 명확한 오류·다시 불러오기 동작을 제공합니다. 배포 성공이나 오류 화면 검사를 실제 플레이 통과로 간주하지 않습니다. `eval.md`에 상세 상태가 있습니다.
+
+`assets/diagnostics/region-layout-0.6.png`는 실제 맵 데이터로 만든 경로도이며 게임 화면 캡처가 아닙니다.
+
+0.7.2는 메뉴 키보드 조작, 저장 실패 복구, 기존 저장의 다음 계약 번호 복원, 사망·일시정지 문구, 불필요한 구급/방탄 소모와 시작 무기에 따른 표적 방어구 차이를 고칩니다. 원정 시간은 일시정지를 제외한 실제 경과 시간이며 0.10의 전투 갱신은 1/60초, 이동 충돌 하위 계산은 최대 1/120초 간격이며 한 프레임 따라잡기는 최대 0.25초로 제한합니다. 긴 브라우저 정지 구간을 한 번에 시뮬레이션하지 않습니다.
+
+## 장비와 가방
+
+무기 2칸, 방탄 장비 1칸, 빠른 사용 4칸, 가방 12칸, 보호 포켓 1묶음과 전체 휴대 중량 30kg을 적용합니다. 장착 장비와 장전 탄약도 무게에 포함합니다. 이 숫자는 Dead Freight의 자체 조정값입니다. ARC Raiders 공식 자료에서 확인한 구조와 구현 차이는 `inventory-design.md`에 정리했습니다.
+
+E는 물품을 가방으로 회수합니다. Tab 가방에서 비교·장착·빠른 슬롯 배치·보호 포켓 이동·사용·내려놓기를 할 수 있습니다. 묶음은 한 개씩 또는 통째로 내려놓을 수 있습니다. 가방을 연 동안 이 싱글플레이 프로토타입은 일시정지합니다. 붕대/키트는 체력을 회복하고, 탐지기는 35m 안의 적을 8초 표시하며, 수류탄은 실제로 날아가 충돌하고 2초 뒤 폭발합니다. 엄폐와 자기 피해가 적용됩니다.
+
+출격 메뉴의 장비·보관함에서 회수품을 다음 원정에 준비합니다. 출격 저장이 완료될 때만 해당 묶음이 보관함에서 빠집니다. 보급키트로 다시 시작할 수 있으며 보급품의 참고 가치는 0입니다. 기존 현금 기록은 그대로 유지되고 최초 새 저장 때 이전 기록을 별도 키로 백업합니다.
+
+원정 중 창을 닫으면 다음 진입에서 중단 원정을 명시적으로 정리해야 합니다. 마지막 저장 보호 포켓만 회수할 수 있습니다. 저장 실패 때 미저장 회수품은 현재 페이지 메모리에만 있으므로 새로고침/닫기 전에 재시도해야 합니다. 다른 탭이 기록을 바꾸면 이전 화면의 저장은 중지됩니다. 보관함은 용량 구매와 물품 판매를 지원합니다. 장비 상점과 제작은 아직 없습니다.
+
+## 실제 플레이용 분리 저장
+
+`https://dead-freight-browser.buildon733500.chatgpt.site/?testProfile=local-qa`는 별도 테스트 저장을 사용합니다. 메뉴·가방·플레이 중 `테스트 저장` 배지가 보입니다. 일반 저장을 읽거나 복사하지 않으며, 같은 게임 규칙으로 빈 기록에서 시작합니다. 기본 주소의 기존 진행은 그대로 유지합니다. 잘못되거나 중복된 테스트 프로필 값은 저장 접근 전에 차단합니다. 0.8.2는 저장 분리만 추가하며 총기 음원 품질 수정을 포함하지 않습니다.
+
+
+## 0.8.3 녹음 총기 음향 수정
+현재 네 무기의 격발, 장전·작동, 탄피 접촉, 피격 음향을 Pixabay 녹음 기반으로 연결했습니다. 기존 합성 총기 대체음과 톤 알림을 제거했으며 소음기는 기본 해제입니다. 소음기 사용 시에도 녹음된 발사 몸통음을 유지합니다. 이동·회피, 파괴, 폭발, 획득 효과는 아직 별도의 절차적 음향입니다.
+
+0.10은 메뉴에서 음향 79개를 미리 준비합니다. 준비 중에는 출격·타이머·저장 변경이 없습니다. 준비 완료 후 시작 버튼을 한 번 누르면 소리 활성화와 출격을 진행합니다. 활성화 실패나 포커스 이탈로 취소되면 메뉴에서 다시 시도하세요. 실패하면 재시도하거나 명시적으로 사운드를 끌 수 있습니다. 로딩 중 발생한 소리는 뒤늦게 재생하지 않습니다. 최초 준비 외에는 준비된 음원을 재사용합니다. 녹음 출처·편집 및 이용 조건은 [음원 기록](audio-provenance.md)을 참조하세요. 직접 플레이와 청취 품질 승인은 아직 별도입니다.
+
+
+## 실제 플레이 피드백 수정
+전역 조명·색보정을 유지하고 적의 머리·모자·다리만 별도 재질로 구분했습니다. 결과의 적 명중률은 적에게 맞은 발사만 집계하며 벽·드럼통은 제외합니다. 재도전 시 HUD를 즉시 갱신하고, 마우스 잠금 실패 안내와 화살표 조준 대체 조작을 유지합니다. 연결된 로컬 브라우저 도구의 잠금 실패 원인은 아직 확정하지 않았습니다. 움직이는 적의 시인성과 직접 마우스 조작은 실제 비교가 필요합니다.
+
+
+## 보유 보관함 확장
+보유 물품은 묶음당 한 칸을 사용하며 기본 24칸입니다. 재화로 8칸씩 확장해 최대 64칸까지 늘릴 수 있습니다. 단계별 비용은 500 / 750 / 1000 / 1500 / 2000이며 Dead Freight의 독자적 수치입니다. 구매 전 비용과 잔액을 확인합니다. 원정 가방의 12칸·30kg 제한은 별도입니다.
+
+물품 상세·정렬·장비 비교, 가방 준비, 묶음 전체 판매를 지원합니다. 보급품의 판매 가치는 0입니다. 기존 초과 물품은 버리지 않으며, 회수한 물품이 보관함에 들어가지 못하면 회수 대기에 안전하게 저장됩니다. 받기 또는 판매를 마쳐야 다음 원정으로 갈 수 있습니다. 판매한 물품의 임시 출격 준비는 취소됩니다.
+
+저장 형식5는 무기 개체별 약실·탄약·작동 상태를 추가하며 기존 현금·물품·용량·회수 대기를 유지합니다. 형식4 기록은 첫 변경 전에 정확한 원문을 별도 백업합니다. 읽기/쓰기 실패 시 기존 기록을 덮어쓰거나 비우지 않습니다. 저장 대기는 출격 메뉴에서 재시도하세요. 다른 창의 변경을 확인하면 중지하지만 localStorage에는 동시 탭 트랜잭션 보장이 없습니다. 별도 테스트 저장 URL의 동작은 일반 기록과 분리됩니다.
+
+
+## 0.11.1 시점 손 시인성 수정
+Windows Edge 실제 후보 검증에서 수류탄과 장갑이 어둡게 합쳐지는 문제가 관찰됐습니다. 물품 손·소품만 별도 장면의 국소 조명으로 그리고 장갑 패널·손목·본체·핀의 재질 명도를 분리했습니다. 월드/라이플 조명과 후처리는 그대로입니다. 메뉴와 제목의 버전도 0.11.1로 맞췄습니다. 수정 후 핀/의료 접촉이 실제 화면에서 읽히는지는 다시 확인해야 합니다.
+
+
+## 0.11.2 행동 HUD 접촉 영역 분리
+실제 치료 화면에서 중앙 아래 HUD가 손목 접촉을 가렸습니다. 행동 이름·단계·진행률을 왼쪽 체력 위의 좁은 영역으로 옮겼고 작은 화면에서는 단계만 보이는 축약형을 사용합니다. 전체 물품 이름과 단계는 접근성 레이블에 유지합니다. 중복 준비 메시지를 줄이고, 리그 위치·조명·치료량·저장 구조는 그대로 유지했습니다. 수정 후 실제 작은 화면 배치 검증은 별도입니다.
+
+
+0.11.3 adds saved keyboard-aim accessibility options under control settings: continuous 15/40/100% speeds or one-press 0.25/1/5-degree steps. Release the aim key before the next step. Default mouse and keyboard rates are unchanged. Actual post-patch input QA is pending.
+
+0.11.4 frag control: select4, hold fire at least0.10 active seconds, release that same button to throw. Short taps keep the grenade ready. No fuse cooking; hand-release consumption remains0.23s into throw animation.
+
+0.11.5 adds an optional held-aim throw trajectory. Dashed line predicts current-state flight/reflections and the small marker marks first collision. Walls occlude it. Disable in control settings.
+
+## 0.12.0 ballistic candidate
+Four guns now share armor coverage, damage falloff and explicit finite range. Shotgun uses9 deterministic pellets sharing one shell and automatic pump. Production fire uses350m/s pistol/shotgun,450m/s SMG and800m/s R4 projectiles, gravity9.81m/s², with no near-range hitscan switch. These are provisional gameplay values. Fixed120Hz swept contacts resolve by physical contact time; destroyed cover is retraced for later arrivals. Shot presentation is immediate; confirmed contact drives damage and impact feedback. Thin tracers show actual flight segments. Model tests do not replace actual aim, GPU, listening or FPS acceptance.
+
+
+## 0.12.1 incoming/outgoing contact order
+An incoming fatal shot no longer removes an outgoing hit that physically arrived earlier in the same simulation interval. The flight grid remains120Hz, with incoming contact times splitting an interval only when required. Earlier outgoing contacts resolve before later damage; fatal incoming damage still clears later player flight. Model regressions cover30/60/120/1000Hz update schedules and reversed incoming arrays.
+
+On2026-10-11, the published0.12.0 candidate again failed WebGL initialization in dot's normal frontmost Chromium and after one reload, with GL_VENDOR/GL_RENDERER reported Disabled. No real shot, motion, extraction, FPS or listening acceptance was possible. This0.12.1 source checkpoint has not been deployed; public root0.10.0 and candidate0.12.0 remain unchanged.
+
+
+## 0.12.2 quick melee source candidate
+V (rebindable) now performs a timed single-target fist strike. Existing saved controls retain their mappings; a free key is assigned if V was already used. The hands lower, guard, strike and recover; damage/menu/focus/weapon selection cancels before contact, and held fire cannot leak into the return. No item or ammunition is consumed. Rejected medical/item commits now recover from the actual last pose instead of snapping to the default recovery. This is source/model acceptance only; no new public deployment, human motion acceptance, listening or measured device FPS is claimed.
+
+
+## 0.12.3 grenade pin source correction
+The detached pin stays with the support hand instead of following the grenade throwing hand. Cancellation keeps its existing contact pose at recovery start. This corrects reproduced rig-coordinate drift; actual natural movement and pin readability remain unaccepted. Inventory, release timing, ballistics, audio and lighting are unchanged.
+
+
+## 0.12.5 P-6 source controller
+The existing pistol now uses validated mechanical data and a per-UID controller while preserving its six-round ammunition, automatic cycle/mandatory recovery, skill reload, save format, controls and recordings. Detailed HUD follows its actual controller state. Shotgun/SMG migration and actual game/device acceptance remain unfinished.
+
+
+## 0.12.6 shotgun mechanical migration
+Breach now shares MechanicalState with P-6 and validated content/shotgun.json, with one shell for nine pellets, automatic .26s pump/.28s recovery, two-shell capacity,1.9s atomic reload transfer and semi trigger behavior preserved. Mid-insertion cancellation before the final marker spends no reserve; after transfer never refunds. Last-shell pumping, held/repressed trigger, pending pump on UID swaps/holster/drop, damage/menu/death and healing/frag/melee ownership are covered. Initial migration accidentally retained the .25s switch penalty on first deployment; the existing immediate-fire bridge test failed, the bootstrap was corrected and a dedicated regression added before release. 898 named checks in40 suites pass, including the360-case action matrix and17 focused shotgun checks;33 syntax commands, static packaging and315 separate audits pass. Required aggregate11-project/27-page and final scoped-registry launcher build pass with unchanged lockfile. SMG is the next mechanical migration. No actual WebGL/normal input/listening/frame-time acceptance, new deployment or liquid-metal implementation. Two authored city maps and broader AI/economy/repeated live raids remain unfinished.
+
+
+## 0.12.7 smg mechanical migration
+SMG now has validated content/smg.json and per-UID MechanicalState ownership, retaining24-round capacity,.1s recovery,2s skill reload, no cycling and original held-mouse auto fire. Each discharge owns one round/identity; empty hold does not invent ammunition or auto reload. Pause/focus/item transitions clear stale firing intent via existing routing. All three existing non-R4 guns now use mechanical controllers; the old duplicate legacy timer/fire/reload branches are removed. 911 named checks in41 suites pass, including the360-case action matrix and13 focused smg checks;34 syntax commands, static packaging and315 separate audits pass. Required aggregate11-project/27-page and final scoped-registry launcher build pass with unchanged lockfile. Mechanical-owner migrations are complete for the four existing guns (R-4 owns its existing rifle controller); broader v1 ADS/input/tuning and live quality acceptance remain separate. No actual WebGL/normal input/listening/frame-time acceptance, new deployment or liquid-metal implementation. Two authored city maps and broader AI/economy/repeated live raids remain unfinished.
+
+
+## 0.12.8 pump-ownership source correction
+Before fix, the original game/rendererless route emitted a shotgun cycle cue and set cocked=true while a grenade was active/present and weaponActionBlocked=true. The shotgun manual pump now freezes its remaining delay while other actions/lower/draw own the hands, then completes once after readiness returns. Shells/reserve, ordinary pump/recovery numbers, passive pistol slide/R-4 cycling and standalone active-reload timing are unchanged. 916 named checks in42 suites pass (360-case action matrix included), plus34 syntax checks, static packaging and315 separate audits. Required11-project/27-page aggregate and final scoped-registry launcher build pass with unchanged lockfile. Actual motion/input/device listening/frame-time/extraction acceptance remains open; no deployment or new liquid-metal implementation. Remaining city maps, broader AI/economy, additional weapon/throwable systems and v1 tuning are not declared complete.
+
+
+## 0.12.9 utility-grip source correction
+Utility glove dorsal panels face +Z in the authored neutral frame. The old thumb placement was outward/reversed (left X<0, right X>0) and the right thumb did not change between closed grenade hold and release. Thumb handedness now matches the inward sides; explicit semantic finger/index references track the thumb-adjacent index, and thumb closure/opening follows the authored grip. Pin/wrist contact anchors, timing, source commits, lighting, gun/world meshes and audio assets remain unchanged. These are authored geometric corrections, not acceptance of human-looking pinch/grasp/throw. 920 named checks in43 suites pass (360-case action matrix included), plus34 syntax checks, static packaging and315 separate audits. Required11-project/27-page aggregate and final scoped-registry launcher build pass with unchanged lockfile. Actual motion/input/device listening/frame-time/extraction acceptance remains open; no deployment or new liquid-metal implementation. Remaining city maps, broader AI/economy, additional weapon/throwable systems and v1 tuning are not declared complete.
+
+
+## 0.12.10 unpublished motion archive: connected arms
+The user's Library patch/report/manifest were found and read; original artifacts remain unchanged. Selectively adapted utility shoulder/elbow/forearm/wrist geometry and post-contact sleeve solver without replacing current pin/grip/gameplay fixes. See [archive reconciliation](archived-motion-reconciliation.md) for provenance and remaining tracks/tools/origin work. 923 named checks in44 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. No actual rendering, human motion, listening, input, frame-time or extraction acceptance. No deployment or local liquid-metal implementation.
+
+
+## 0.12.11 treatment dressing cancellation
+Reproduced both medicines showing no pad at use0.25 then a pad at cancelled recovery0. Dressing now grows from use0.30 through0.55 and recovery preserves exactly its interrupted amount. No gameplay benefit/timing/material-opacity/save changes. 926 named checks in45 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual visual/natural contact/withdrawal/listening/play/frame-time/extraction remain open. No deployment or liquid-metal implementation.
+
+
+## 0.12.12 archived once-only action effect receipt
+Reconciled the archive receipt with current action identity/commit/cancel guards. Injected same bandage marker after cooldown during recovery reproduced HP60→90 and count2→1; this is source fault injection, not ordinary player input. Bridge now accepts only the current uncancelled committed sequence/UID/item/location once, before effect dispatch. Duplicate, stale, precommit, malformed and rejected markers cannot produce another benefit; future valid actions remain usable. 930 named checks in46 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual play, rendered motion, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.12.13 archived action motion tracks
+Preserved Library action patch is selectively reconciled: connected elbow/wrist throw windup, exact release grip and follow-through, current-timing fist contact, medical wrist strokes/gauze roll/kit lid and continuous closing withdrawal. Current detached-pin/grip/dressing/receipt fixes and all gameplay timing/tuning/audio/saves are preserved. This does not certify natural human movement. 935 named checks in47 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.12.14 authored grenade release origin
+Grenade guide and committed launch now share the authored hand release point projected from utility to world view, with finite-distance/swept-wall validation and original collision-safe fallback. Commit callback is once-only and failure-tolerant; sampled utility pose is restored. Speed/fuse/gravity/blast/timing/resources/saves remain unchanged. Model and rendererless projection do not certify actual hand/projectile pixel alignment. 939 named checks in48 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.12.15 archived movement cancellation and isolated rig preview
+Sprint/dodge/slide now cancel utility/melee before effects on original game and direct Bridge routes; ordinary walking and once-only committed consequences remain. Preserved motion archive source reconciliation is complete for connected joints/tracks/tools/origin/receipts/interruption, with current gameplay values retained. A local read-only rig preview builds cycles/marker/cancel samples and licensed local assets without gameplay/storage/audio/pointer-lock operations. Preview syntax/assets are inspected; rendered review remains unverified. 943 named checks in49 suites,34 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.13.0 second-region raid and home economy vertical slice
+Black Pines world.js and definition remain unchanged. Added selectable Canal Ward:280×220m urban blocks, non-swimmable flood channel/two bridges, west insertion/archive loot, eight different authored encounters/east pump boss, archive+token east ferry8s and token west winch12s. Flood is movement-only, not an invisible shot/LOS wall; guidance follows collision-clear bridge nodes. Choice freezes per deployment. Existing schema5/UID/settlement/home-sale receipts return equipment/loot/cash exactly once across repeated raids; quest tokens retire and death preserves only safe loot. Ten new model/runtime checks include3270 reachable grid cells. This is two prototype regions, not two finished city maps or live two-map/economy acceptance. 953 named checks in50 suites,35 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.13.1 adversarial multi-region storage gate
+Three new isolated rendererless fault cases verify denied deployment writes, failed extraction settlement and unknown post-write acknowledgement while next-region selection changes. Retry keeps the original region/inventory/raid identity, awards cash and each loot UID once, blocks replacement raids until settled, preserves byte-identical duplicate retry and avoids a second withdrawal after lost acknowledgement. Production gameplay/save transactions are unchanged. Two-region normal loop remains953 checks/50 suites at0.13.0 plus this regression coverage; live browser persistence and full acceptance remain open. 956 named checks in51 suites,35 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.14.0 stash crafting and armor repair economy
+Added home UI/catalog-derived medkit/frag/scanner/armor recipes using owned non-issued scrap and45/40/40/120 currency, armor-only full repair preserving UID/issued flag and catalog-derived missing-durability cost. Recipe input value+cash equals existing output value; archives/quest items are excluded. Stash slot projection,12-slot/30kg carry checks, material retirement, receipt replay/conflict, backup/failed-write/unknown-ack/stale guards and prepared-state refresh connect loot→home work→next deploy. Schema6 reads old saves and backs up exact schema5 bytes before mutation. New explicit workshop-qa isolation is supported; previously provided arbitrary jh-laptop-qa URLs were invalid startup routes, despite HTTP200, and are corrected. Weapon wear/mods/EMP and broad economy/live acceptance remain open. 977 named checks in52 suites,36 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.14.1 workshop ownership and stale-draft audit
+Reproduced and fixed three source defects: failed workshop intent stuck after another tab writes; repaired issued armor returning as saleable owned armor; lost crafted UID accepted as fresh issued equipment. Explicit stale craft/repair cancellation keeps latest saved bytes unchanged and clears only the pending draft. New deployments retain optional UID/item/issued identities; return and repair receipts preserve ownership. Known workshop UIDs cannot use the fresh-issued exception after loss. Legacy schema6 receipts and active raids without optional metadata stay readable; no invented provenance or new gameplay feature. Fourteen focused adversarial tests cover reload, lost acknowledgement, two observed stale writers, workbench/deploy conflicts, exact bytes and identity conservation. localStorage still has no atomic compare-and-swap. 991 named checks in53 suites,36 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.14.2 fresh-controller raid lifecycle audit
+Six rendererless tests reconstruct new controllers/storage handles after deploy/settlement failure and termination, accepted writes with lost acknowledgement, safe-only uncommitted extraction recovery and observed foreign-tab conflict. Reproduced an actual display defect: another tab could commit loss recovery, then the old tab displayed its unawarded extraction cash as saved. Settlement now exposes the durable win/loss outcome and the UI states that the other settlement is retained without claiming cash/loot from this screen. No duplicate award/data overwrite was observed in these fixtures. No gameplay feature added; fake lifecycle/shared memory do not prove browser disk durability or atomic cross-process writes. 997 named checks in54 suites,36 syntax commands,315 separate audits and required11-project/27-page aggregate/final launcher pass. Actual human motion, rendered play, listening, device performance and extraction remain open. No deployment or local liquid-metal implementation.
+
+
+## 0.15.2 landscape touch controls (2026-10-21)
+Latest development base5582261 is retained, including SILT, four guns, two regions and home economy. Added left movement stick/right drag look, held fire/ADS/sprint, reload/jump/interact/weapon/holster/heal/grenade/melee/scanner controls, pointer ownership and cancel/blur/menu/orientation release. Portrait asks for landscape; small landscape controls are at least44px with safe-area insets. Existing desktop pointer-lock/mouse fire regression passes. 1078 named source checks/59 suites, 39 final syntax checks,315 audits and11-project/27-page aggregate/final launcher pass. Mobile browser screenshots/trusted taps pass; drags/multitouch/cancel/blur are explicitly synthetic DOM PointerEvent/Event paths. Physical Android, sustained mobile performance, device listening and full mobile raid completion remain unverified. The user replaced the initial public0.10-only scope with latest0.15.2 publication at the existing Site. No new AI work.

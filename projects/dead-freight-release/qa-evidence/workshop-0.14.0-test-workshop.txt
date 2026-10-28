@@ -1,0 +1,23 @@
+PASS recipes use existing values and do not consume archives or grant sale profit
+PASS partial material UID is preserved and a craft output keeps one UID through replay and reload
+PASS fully consumed material retires its UID and cannot be reintroduced or reused
+PASS missing issued or insufficient materials and unknown requests cannot spend or produce
+PASS insufficient cash and bank precision failures leave all inputs untouched
+PASS full stash rejects partial consumption output but permits a freed material slot
+PASS craft refuses active raids and overflow recovery rather than bypassing ownership
+PASS repair preserves armor UID and issued flag and charges catalog-derived missing durability
+PASS stale full unowned and firearm repair targets cannot consume inputs
+PASS before-write failure has no benefit and retry applies exact same crafted UID once
+PASS unknown post-write acknowledgement is recovered without a second craft or debit
+PASS schema5 backup failure blocks work and preserves exact bytes before retry
+PASS stale writer cannot spend materials from a different current record
+PASS craft take-to-carry respects existing bag slots and30kg without removing owned output
+PASS repaired armor deploys takes real damage and returns with same UID and durability
+PASS normal home UI quotes confirms refreshes prepared armor and rejects duplicate confirm
+PASS new workshop profile and schema5 backup stay explicitly isolated
+PASS repair write failure and retry update prepared UID state only after durable success
+PASS malformed workshop receipts remain unreadable and cannot overwrite their source bytes
+PASS repair accepted before lost acknowledgement preserves one restored UID and one debit
+PASS earned canal scrap and contract reward fund craft repair and same-UID redeployment
+21 workshop source tests passed; browser UI quality, disk persistence and real gameplay remain unverified.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation

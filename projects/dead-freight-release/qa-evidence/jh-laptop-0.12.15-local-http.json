@@ -1,0 +1,32 @@
+[
+  {
+    "url": "http://127.0.0.1:39605/?testProfile=jh-laptop-qa-015",
+    "status": 200,
+    "type": [
+      "text/html; charset=utf-8"
+    ],
+    "length": [
+      "28292"
+    ]
+  },
+  {
+    "url": "http://127.0.0.1:39605/rig/",
+    "status": 200,
+    "type": [
+      "text/html; charset=utf-8"
+    ],
+    "length": [
+      "4029"
+    ]
+  },
+  {
+    "url": "http://127.0.0.1:39605/audio/rifle/utility-pin.wav",
+    "status": 200,
+    "type": [
+      "audio/wav"
+    ],
+    "length": [
+      "34604"
+    ]
+  }
+]

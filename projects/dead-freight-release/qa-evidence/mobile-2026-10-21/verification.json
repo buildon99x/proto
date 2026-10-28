@@ -1,0 +1,22 @@
+{
+  "version": "0.15.2",
+  "baseCommit": "5582261ac49e5e5a5f6fc4dbca2ba36cf8d0c49c",
+  "namedSourceChecks": 1078,
+  "sourceSuites": 59,
+  "finalSyntaxCommands": 39,
+  "separateAuditCases": 315,
+  "staticProjects": 11,
+  "launcherPages": 27,
+  "finalScopedLauncherPassed": true,
+  "lockfileSHA256": "fbfb40a11d947d5575e170d7ea9a28fa1a77fad146d35d130b1ef41a9f0e22c3",
+  "mobileBrowserPassed": true,
+  "trustedTouchTaps": true,
+  "dragMultitouchAndBlurAreSyntheticBrowserEvents": true,
+  "physicalAndroidVerified": false,
+  "actualDeviceListening": false,
+  "desktopMouseFire": true,
+  "desktopPointerLock": true,
+  "latestGameplayPreserved": true,
+  "newAIChanges": false,
+  "priorPublicOnlyBackportNotDeployed": true
+}

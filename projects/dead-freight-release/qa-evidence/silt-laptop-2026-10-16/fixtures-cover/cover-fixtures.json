@@ -1,0 +1,1433 @@
+{
+  "source": "41ee11dd3573ce616718d51f58e34b9e8d2706ed",
+  "method": "EXPLICIT cover/cancellation/death WebGL fixtures; enemy/player positions, windup and cohesion prepared. Not ordinary-input acceptance.",
+  "events": [
+    {
+      "label": "cover-blocked",
+      "p": {
+        "x": -117.25,
+        "z": 88.7,
+        "y": 0,
+        "velocityY": 0,
+        "grounded": true,
+        "bodyHeight": 1.75,
+        "eyeHeight": 1.62,
+        "crouched": false,
+        "hp": 100,
+        "armor": 45,
+        "stamina": 100,
+        "fatigued": false,
+        "dash": 0,
+        "invulnerable": 0,
+        "slide": 0,
+        "slideCooldown": 0,
+        "slideSpeed": 0,
+        "slideDirX": 0,
+        "slideDirZ": 0
+      },
+      "yaw": 2.967059728390382,
+      "pitch": -0.11780972450961731,
+      "time": 1.2166666666666648,
+      "silt": {
+        "id": 8,
+        "archetype": "silt",
+        "name": "SILT",
+        "x": -117.73,
+        "z": 91.4,
+        "hp": 80,
+        "boss": false,
+        "alive": true,
+        "homeX": -117.73,
+        "homeZ": 91.4,
+        "activationRange": 24,
+        "leash": 26,
+        "zone": "salvage",
+        "armor": 0,
+        "hit": 0,
+        "alert": false,
+        "metal": {
+          "state": "recovery",
+          "stateTime": 0.15666666666666662,
+          "remaining": 0.5433333333333339,
+          "cohesion": 100,
+          "coreHp": 80,
+          "yaw": 0,
+          "aimX": 0,
+          "aimY": 0,
+          "aimZ": -1,
+          "holes": [],
+          "coreExposed": false,
+          "exposureStart": null,
+          "exposureEnd": null,
+          "attackId": 10,
+          "aimLocked": true,
+          "enteredAt": 1.0599999999999987
+        }
+      },
+      "kills": 0,
+      "cash": 0,
+      "shots": 0,
+      "ammo": [
+        6,
+        0,
+        0,
+        0
+      ],
+      "reserve": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "bulletLog": [],
+      "events": [
+        {
+          "type": "metalstrike",
+          "time": 0.8999999999999992,
+          "id": 8,
+          "x": -117.25,
+          "y": 1.25,
+          "z": 91.25,
+          "hit": false,
+          "blocked": true,
+          "from": {
+            "x": -117.25,
+            "y": 1.25,
+            "z": 91.25
+          },
+          "to": {
+            "x": -117.25,
+            "y": 1.25,
+            "z": 88.25
+          }
+        }
+      ],
+      "overlay": "none",
+      "items": [
+        {
+          "location": "bag:0",
+          "stack": {
+            "uid": "df-40",
+            "itemId": "ammo-pistol",
+            "quantity": 24,
+            "issued": true
+          }
+        },
+        {
+          "location": "weapon:0",
+          "stack": {
+            "uid": "df-34",
+            "itemId": "pistol",
+            "quantity": 1,
+            "rounds": 6,
+            "issued": true,
+            "weaponState": {
+              "version": 1,
+              "weaponId": "pistol",
+              "weaponInstanceId": "df-34",
+              "mode": "semi",
+              "shotSequence": 0,
+              "recoveryRemaining": 0,
+              "reloadCheckpoint": null,
+              "cocked": true,
+              "cycleNeeded": false,
+              "cycleRemaining": 0
+            }
+          }
+        },
+        {
+          "location": "quick:0",
+          "stack": {
+            "uid": "df-36",
+            "itemId": "bandage",
+            "quantity": 3,
+            "issued": true
+          }
+        },
+        {
+          "location": "quick:1",
+          "stack": {
+            "uid": "df-37",
+            "itemId": "frag",
+            "quantity": 2,
+            "issued": true
+          }
+        },
+        {
+          "location": "quick:2",
+          "stack": {
+            "uid": "df-38",
+            "itemId": "scanner",
+            "quantity": 1,
+            "issued": true
+          }
+        },
+        {
+          "location": "armor",
+          "stack": {
+            "uid": "df-35",
+            "itemId": "armor",
+            "quantity": 1,
+            "durability": 45,
+            "issued": true
+          }
+        }
+      ],
+      "extracted": false
+    },
+    {
+      "label": "windup-disrupt-cancel",
+      "p": {
+        "x": -112,
+        "z": 82,
+        "y": 0,
+        "velocityY": 0,
+        "grounded": true,
+        "bodyHeight": 1.75,
+        "eyeHeight": 1.62,
+        "crouched": false,
+        "hp": 100,
+        "armor": 45,
+        "stamina": 100,
+        "fatigued": false,
+        "dash": 0,
+        "invulnerable": 0,
+        "slide": 0,
+        "slideCooldown": 0,
+        "slideSpeed": 0,
+        "slideDirX": 0,
+        "slideDirZ": 0
+      },
+      "yaw": -0.03926958122076888,
+      "pitch": -0.19634652285763876,
+      "time": 2.016666666666662,
+      "silt": {
+        "id": 8,
+        "archetype": "silt",
+        "name": "SILT",
+        "x": -112,
+        "z": 79.5,
+        "hp": 80,
+        "boss": false,
+        "alive": true,
+        "homeX": -112,
+        "homeZ": 79.5,
+        "activationRange": 24,
+        "leash": 26,
+        "zone": "salvage",
+        "armor": 0,
+        "hit": 0,
+        "alert": true,
+        "metal": {
+          "state": "disrupted",
+          "stateTime": 0.6114827747398376,
+          "remaining": 0.7885172252601649,
+          "cohesion": 0,
+          "coreHp": 80,
+          "yaw": 3.141592653589793,
+          "aimX": 0.18,
+          "aimY": 0,
+          "aimZ": 1,
+          "holes": [],
+          "coreExposed": true,
+          "exposureStart": 1.405183891926827,
+          "exposureEnd": 3.805183891926827,
+          "attackId": 21,
+          "aimLocked": false,
+          "enteredAt": 1.405183891926827
+        }
+      },
+      "kills": 0,
+      "cash": 0,
+      "shots": 1,
+      "ammo": [
+        5,
+        0,
+        0,
+        0
+      ],
+      "reserve": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "bulletLog": [
+        {
+          "shotId": "[\"df-34\",\"raid-mvaabalv-1-g4j38gc6g5\",1]",
+          "pelletId": 0,
+          "birth": 1.3999999999999975,
+          "origin": {
+            "x": -111.89574273232178,
+            "y": 1.433104943848965,
+            "z": 81.46838442344425
+          },
+          "velocity": {
+            "x": -2.726439176460738,
+            "y": -52.998995209752415,
+            "z": -345.95328158029326
+          },
+          "kind": "enemy",
+          "id": 8,
+          "fraction": 0.6220670312195413,
+          "part": "torso",
+          "coreExposedAtContact": false,
+          "damageScale": 1,
+          "direction": {
+            "x": -0.007789826218459251,
+            "y": -0.1514257005992926,
+            "z": -0.9884379473722664
+          },
+          "head": false,
+          "distance": 1.8143942723106838,
+          "point": {
+            "x": -111.90987629835763,
+            "y": 1.1581519888685454,
+            "z": 79.675
+          },
+          "flightTime": 0.0051838919268294426,
+          "impactTime": 1.405183891926827,
+          "result": {
+            "weapon": 0,
+            "shotId": "[\"df-34\",\"raid-mvaabalv-1-g4j38gc6g5\",1]",
+            "pelletId": 0,
+            "contactId": "0:enemy:8",
+            "direction": {
+              "x": -0.007789826218459251,
+              "y": -0.1514257005992926,
+              "z": -0.9884379473722664
+            },
+            "kind": "enemy",
+            "id": 8,
+            "x": -112,
+            "z": 79.5,
+            "head": false,
+            "distance": 1.8143942723106838,
+            "point": {
+              "x": -111.90987629835763,
+              "y": 1.1581519888685454,
+              "z": 79.675
+            },
+            "flightTime": 0.0051838919268294426,
+            "impactTime": 1.405183891926827,
+            "armorBefore": 0,
+            "armorAfter": 0,
+            "raw": 48,
+            "damage": 0,
+            "armorDamage": 0,
+            "falloff": 1,
+            "part": "torso",
+            "armored": false,
+            "stopped": false,
+            "cohesionDamage": 48,
+            "material": "liquid-metal",
+            "transmit": true,
+            "coreHit": false,
+            "killed": false
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": "metaldisrupt",
+          "time": 1.405183891926827,
+          "id": 8,
+          "x": -112,
+          "y": 0,
+          "z": 79.5
+        },
+        {
+          "type": "bulletcontact",
+          "time": 1.4083333333333308,
+          "kind": "enemy",
+          "id": 8,
+          "fraction": 0.6220670312195413,
+          "part": "torso",
+          "coreExposedAtContact": false,
+          "damageScale": 1,
+          "direction": {
+            "x": -0.007789826218459251,
+            "y": -0.1514257005992926,
+            "z": -0.9884379473722664
+          },
+          "head": false,
+          "distance": 1.8143942723106838,
+          "point": {
+            "x": -111.90987629835763,
+            "y": 1.1581519888685454,
+            "z": 79.675
+          },
+          "flightTime": 0.0051838919268294426,
+          "impactTime": 1.405183891926827,
+          "weapon": 0,
+          "shotId": "[\"df-34\",\"raid-mvaabalv-1-g4j38gc6g5\",1]",
+          "pelletId": 0,
+          "contactId": "0:enemy:8",
+          "result": {
+            "weapon": 0,
+            "shotId": "[\"df-34\",\"raid-mvaabalv-1-g4j38gc6g5\",1]",
+            "pelletId": 0,
+            "contactId": "0:enemy:8",
+            "direction": {
+              "x": -0.007789826218459251,
+              "y": -0.1514257005992926,
+              "z": -0.9884379473722664
+            },
+            "kind": "enemy",
+            "id": 8,
+            "x": -112,
+            "z": 79.5,
+            "head": false,
+            "distance": 1.8143942723106838,
+            "point": {
+              "x": -111.90987629835763,
+              "y": 1.1581519888685454,
+              "z": 79.675
+            },
+            "flightTime": 0.0051838919268294426,
+            "impactTime": 1.405183891926827,
+            "armorBefore": 0,
+            "armorAfter": 0,
+            "raw": 48,
+            "damage": 0,
+            "armorDamage": 0,
+            "falloff": 1,
+            "part": "torso",
+            "armored": false,
+            "stopped": false,
+            "cohesionDamage": 48,
+            "material": "liquid-metal",
+            "transmit": true,
+            "coreHit": false,
+            "killed": false
+          }
+        }
+      ],
+      "lastLaunch": {
+        "x": -111.89574273232178,
+        "y": 1.433104943848965,
+        "z": 81.46838442344425
+      },
+      "overlay": "none",
+      "marker": "metal",
+      "items": [
+        {
+          "location": "bag:0",
+          "stack": {
+            "uid": "df-40",
+            "itemId": "ammo-pistol",
+            "quantity": 24,
+            "issued": true
+          }
+        },
+        {
+          "location": "weapon:0",
+          "stack": {
+            "uid": "df-34",
+            "itemId": "pistol",
+            "quantity": 1,
+            "rounds": 5,
+            "issued": true,
+            "weaponState": {
+              "version": 1,
+              "weaponId": "pistol",
+              "weaponInstanceId": "df-34",
+              "mode": "semi",
+              "shotSequence": 1,
+              "recoveryRemaining": 0,
+              "reloadCheckpoint": null,
+              "cocked": true,
+              "cycleNeeded": false,
+              "cycleRemaining": 0
+            }
+          }
+        },
+        {
+          "location": "quick:0",
+          "stack": {
+            "uid": "df-36",
+            "itemId": "bandage",
+            "quantity": 3,
+            "issued": true
+          }
+        },
+        {
+          "location": "quick:1",
+          "stack": {
+            "uid": "df-37",
+            "itemId": "frag",
+            "quantity": 2,
+            "issued": true
+          }
+        },
+        {
+          "location": "quick:2",
+          "stack": {
+            "uid": "df-38",
+            "itemId": "scanner",
+            "quantity": 1,
+            "issued": true
+          }
+        },
+        {
+          "location": "armor",
+          "stack": {
+            "uid": "df-35",
+            "itemId": "armor",
+            "quantity": 1,
+            "durability": 45,
+            "issued": true
+          }
+        }
+      ],
+      "extracted": false
+    },
+    {
+      "label": "new-raid-reset",
+      "p": {
+        "x": -112,
+        "z": 82,
+        "y": 0,
+        "velocityY": 0,
+        "grounded": true,
+        "bodyHeight": 1.75,
+        "eyeHeight": 1.62,
+        "crouched": false,
+        "hp": 100,
+        "armor": 45,
+        "stamina": 100,
+        "fatigued": false,
+        "dash": 0,
+        "invulnerable": 0,
+        "slide": 0,
+        "slideCooldown": 0,
+        "slideSpeed": 0,
+        "slideDirX": 0,
+        "slideDirZ": 0
+      },
+      "yaw": 0,
+      "pitch": 0,
+      "time": 0.7,
+      "silt": {
+        "id": 8,
+        "archetype": "silt",
+        "name": "SILT",
+        "x": -110,
+        "z": -28,
+        "hp": 80,
+        "boss": false,
+        "alive": true,
+        "homeX": -110,
+        "homeZ": -28,
+        "activationRange": 24,
+        "leash": 26,
+        "zone": "salvage",
+        "armor": 0,
+        "metal": {
+          "state": "idle",
+          "stateTime": 0.7,
+          "remaining": 0,
+          "cohesion": 100,
+          "coreHp": 80,
+          "yaw": 0,
+          "aimX": 0,
+          "aimY": 0,
+          "aimZ": -1,
+          "holes": [],
+          "coreExposed": false,
+          "exposureStart": null,
+          "exposureEnd": null,
+          "attackId": 0,
+          "aimLocked": false
+        },
+        "hit": 0,
+        "alert": false
+      },
+      "kills": 0,
+      "cash": 0,
+      "shots": 0,
+      "ammo": [
+        6,
+        0,
+        0,
+        0
+      ],
+      "reserve": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "bulletLog": [],
+      "events": [],
+      "lastLaunch": {
+        "x": -111.89574273232178,
+        "y": 1.433104943848965,
+        "z": 81.46838442344425
+      },
+      "overlay": "none",
+      "marker": "metal",
+      "items": [
+        {
+          "location": "bag:0",
+          "stack": {
+            "uid": "df-47",
+            "itemId": "ammo-pistol",
+            "quantity": 24,
+            "issued": true
+          }
+        },
+        {
+          "location": "weapon:0",
+          "stack": {
+            "uid": "df-41",
+            "itemId": "pistol",
+            "quantity": 1,
+            "rounds": 6,
+            "issued": true,
+            "weaponState": {
+              "version": 1,
+              "weaponId": "pistol",
+              "weaponInstanceId": "df-41",
+              "mode": "semi",
+              "shotSequence": 0,
+              "recoveryRemaining": 0,
+              "reloadCheckpoint": null,
+              "cocked": true,
+              "cycleNeeded": false,
+              "cycleRemaining": 0
+            }
+          }
+        },
+        {
+          "location": "quick:0",
+          "stack": {
+            "uid": "df-43",
+            "itemId": "bandage",
+            "quantity": 3,
+            "issued": true
+          }
+        },
+        {
+          "location": "quick:1",
+          "stack": {
+            "uid": "df-44",
+            "itemId": "frag",
+            "quantity": 2,
+            "issued": true
+          }
+        },
+        {
+          "location": "quick:2",
+          "stack": {
+            "uid": "df-45",
+            "itemId": "scanner",
+            "quantity": 1,
+            "issued": true
+          }
+        },
+        {
+          "location": "armor",
+          "stack": {
+            "uid": "df-42",
+            "itemId": "armor",
+            "quantity": 1,
+            "durability": 45,
+            "issued": true
+          }
+        }
+      ],
+      "extracted": false
+    }
+  ],
+  "errors": [],
+  "frames": [
+    {
+      "file": "01-normal-cover-actual-post.png",
+      "observedAfterCapture": {
+        "p": {
+          "x": -117.25,
+          "z": 88.7,
+          "y": 0,
+          "velocityY": 0,
+          "grounded": true,
+          "bodyHeight": 1.75,
+          "eyeHeight": 1.62,
+          "crouched": false,
+          "hp": 100,
+          "armor": 45,
+          "stamina": 100,
+          "fatigued": false,
+          "dash": 0,
+          "invulnerable": 0,
+          "slide": 0,
+          "slideCooldown": 0,
+          "slideSpeed": 0,
+          "slideDirX": 0,
+          "slideDirZ": 0
+        },
+        "yaw": 2.967059728390382,
+        "pitch": -0.11780972450961731,
+        "time": 0.7499999999999998,
+        "silt": {
+          "id": 8,
+          "archetype": "silt",
+          "name": "SILT",
+          "x": -117.73,
+          "z": 91.4,
+          "hp": 80,
+          "boss": false,
+          "alive": true,
+          "homeX": -117.73,
+          "homeZ": 91.4,
+          "activationRange": 24,
+          "leash": 26,
+          "zone": "salvage",
+          "armor": 0,
+          "hit": 0,
+          "alert": false,
+          "metal": {
+            "state": "windup",
+            "stateTime": 0.6,
+            "remaining": 0.15,
+            "cohesion": 100,
+            "coreHp": 80,
+            "yaw": 0,
+            "aimX": 0,
+            "aimY": 0,
+            "aimZ": -1,
+            "holes": [],
+            "coreExposed": false,
+            "exposureStart": null,
+            "exposureEnd": null,
+            "attackId": 10,
+            "aimLocked": true
+          }
+        },
+        "kills": 0,
+        "cash": 0,
+        "shots": 0,
+        "ammo": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "reserve": [
+          24,
+          0,
+          0,
+          0
+        ],
+        "bulletLog": [],
+        "events": [],
+        "overlay": "none",
+        "items": [
+          {
+            "location": "bag:0",
+            "stack": {
+              "uid": "df-40",
+              "itemId": "ammo-pistol",
+              "quantity": 24,
+              "issued": true
+            }
+          },
+          {
+            "location": "weapon:0",
+            "stack": {
+              "uid": "df-34",
+              "itemId": "pistol",
+              "quantity": 1,
+              "rounds": 6,
+              "issued": true,
+              "weaponState": {
+                "version": 1,
+                "weaponId": "pistol",
+                "weaponInstanceId": "df-34",
+                "mode": "semi",
+                "shotSequence": 0,
+                "recoveryRemaining": 0,
+                "reloadCheckpoint": null,
+                "cocked": true,
+                "cycleNeeded": false,
+                "cycleRemaining": 0
+              }
+            }
+          },
+          {
+            "location": "quick:0",
+            "stack": {
+              "uid": "df-36",
+              "itemId": "bandage",
+              "quantity": 3,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:1",
+            "stack": {
+              "uid": "df-37",
+              "itemId": "frag",
+              "quantity": 2,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:2",
+            "stack": {
+              "uid": "df-38",
+              "itemId": "scanner",
+              "quantity": 1,
+              "issued": true
+            }
+          },
+          {
+            "location": "armor",
+            "stack": {
+              "uid": "df-35",
+              "itemId": "armor",
+              "quantity": 1,
+              "durability": 45,
+              "issued": true
+            }
+          }
+        ],
+        "extracted": false
+      }
+    },
+    {
+      "file": "02-normal-cover-blocked.png",
+      "observedAfterCapture": {
+        "p": {
+          "x": -117.25,
+          "z": 88.7,
+          "y": 0,
+          "velocityY": 0,
+          "grounded": true,
+          "bodyHeight": 1.75,
+          "eyeHeight": 1.62,
+          "crouched": false,
+          "hp": 100,
+          "armor": 45,
+          "stamina": 100,
+          "fatigued": false,
+          "dash": 0,
+          "invulnerable": 0,
+          "slide": 0,
+          "slideCooldown": 0,
+          "slideSpeed": 0,
+          "slideDirX": 0,
+          "slideDirZ": 0
+        },
+        "yaw": 2.967059728390382,
+        "pitch": -0.11780972450961731,
+        "time": 1.3999999999999975,
+        "silt": {
+          "id": 8,
+          "archetype": "silt",
+          "name": "SILT",
+          "x": -117.73,
+          "z": 91.4,
+          "hp": 80,
+          "boss": false,
+          "alive": true,
+          "homeX": -117.73,
+          "homeZ": 91.4,
+          "activationRange": 24,
+          "leash": 26,
+          "zone": "salvage",
+          "armor": 0,
+          "hit": 0,
+          "alert": false,
+          "metal": {
+            "state": "recovery",
+            "stateTime": 0.3400000000000002,
+            "remaining": 0.36000000000000026,
+            "cohesion": 100,
+            "coreHp": 80,
+            "yaw": 0,
+            "aimX": 0,
+            "aimY": 0,
+            "aimZ": -1,
+            "holes": [],
+            "coreExposed": false,
+            "exposureStart": null,
+            "exposureEnd": null,
+            "attackId": 10,
+            "aimLocked": true,
+            "enteredAt": 1.0599999999999987
+          }
+        },
+        "kills": 0,
+        "cash": 0,
+        "shots": 0,
+        "ammo": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "reserve": [
+          24,
+          0,
+          0,
+          0
+        ],
+        "bulletLog": [],
+        "events": [
+          {
+            "type": "metalstrike",
+            "time": 0.8999999999999992,
+            "id": 8,
+            "x": -117.25,
+            "y": 1.25,
+            "z": 91.25,
+            "hit": false,
+            "blocked": true,
+            "from": {
+              "x": -117.25,
+              "y": 1.25,
+              "z": 91.25
+            },
+            "to": {
+              "x": -117.25,
+              "y": 1.25,
+              "z": 88.25
+            }
+          }
+        ],
+        "overlay": "none",
+        "items": [
+          {
+            "location": "bag:0",
+            "stack": {
+              "uid": "df-40",
+              "itemId": "ammo-pistol",
+              "quantity": 24,
+              "issued": true
+            }
+          },
+          {
+            "location": "weapon:0",
+            "stack": {
+              "uid": "df-34",
+              "itemId": "pistol",
+              "quantity": 1,
+              "rounds": 6,
+              "issued": true,
+              "weaponState": {
+                "version": 1,
+                "weaponId": "pistol",
+                "weaponInstanceId": "df-34",
+                "mode": "semi",
+                "shotSequence": 0,
+                "recoveryRemaining": 0,
+                "reloadCheckpoint": null,
+                "cocked": true,
+                "cycleNeeded": false,
+                "cycleRemaining": 0
+              }
+            }
+          },
+          {
+            "location": "quick:0",
+            "stack": {
+              "uid": "df-36",
+              "itemId": "bandage",
+              "quantity": 3,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:1",
+            "stack": {
+              "uid": "df-37",
+              "itemId": "frag",
+              "quantity": 2,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:2",
+            "stack": {
+              "uid": "df-38",
+              "itemId": "scanner",
+              "quantity": 1,
+              "issued": true
+            }
+          },
+          {
+            "location": "armor",
+            "stack": {
+              "uid": "df-35",
+              "itemId": "armor",
+              "quantity": 1,
+              "durability": 45,
+              "issued": true
+            }
+          }
+        ],
+        "extracted": false
+      }
+    },
+    {
+      "file": "03-normal-windup-disrupt-cancel.png",
+      "observedAfterCapture": {
+        "p": {
+          "x": -112,
+          "z": 82,
+          "y": 0,
+          "velocityY": 0,
+          "grounded": true,
+          "bodyHeight": 1.75,
+          "eyeHeight": 1.62,
+          "crouched": false,
+          "hp": 100,
+          "armor": 45,
+          "stamina": 100,
+          "fatigued": false,
+          "dash": 0,
+          "invulnerable": 0,
+          "slide": 0,
+          "slideCooldown": 0,
+          "slideSpeed": 0,
+          "slideDirX": 0,
+          "slideDirZ": 0
+        },
+        "yaw": -0.03926989848362668,
+        "pitch": -0.19634945143786464,
+        "time": 2.2166666666666615,
+        "silt": {
+          "id": 8,
+          "archetype": "silt",
+          "name": "SILT",
+          "x": -112,
+          "z": 79.5,
+          "hp": 80,
+          "boss": false,
+          "alive": true,
+          "homeX": -112,
+          "homeZ": 79.5,
+          "activationRange": 24,
+          "leash": 26,
+          "zone": "salvage",
+          "armor": 0,
+          "hit": 0,
+          "alert": true,
+          "metal": {
+            "state": "disrupted",
+            "stateTime": 0.8114827747398369,
+            "remaining": 0.5885172252601656,
+            "cohesion": 0,
+            "coreHp": 80,
+            "yaw": 3.141592653589793,
+            "aimX": 0.18,
+            "aimY": 0,
+            "aimZ": 1,
+            "holes": [],
+            "coreExposed": true,
+            "exposureStart": 1.405183891926827,
+            "exposureEnd": 3.805183891926827,
+            "attackId": 21,
+            "aimLocked": false,
+            "enteredAt": 1.405183891926827
+          }
+        },
+        "kills": 0,
+        "cash": 0,
+        "shots": 1,
+        "ammo": [
+          5,
+          0,
+          0,
+          0
+        ],
+        "reserve": [
+          24,
+          0,
+          0,
+          0
+        ],
+        "bulletLog": [
+          {
+            "shotId": "[\"df-34\",\"raid-mvaabalv-1-g4j38gc6g5\",1]",
+            "pelletId": 0,
+            "birth": 1.3999999999999975,
+            "origin": {
+              "x": -111.89574273232178,
+              "y": 1.433104943848965,
+              "z": 81.46838442344425
+            },
+            "velocity": {
+              "x": -2.726439176460738,
+              "y": -52.998995209752415,
+              "z": -345.95328158029326
+            },
+            "kind": "enemy",
+            "id": 8,
+            "fraction": 0.6220670312195413,
+            "part": "torso",
+            "coreExposedAtContact": false,
+            "damageScale": 1,
+            "direction": {
+              "x": -0.007789826218459251,
+              "y": -0.1514257005992926,
+              "z": -0.9884379473722664
+            },
+            "head": false,
+            "distance": 1.8143942723106838,
+            "point": {
+              "x": -111.90987629835763,
+              "y": 1.1581519888685454,
+              "z": 79.675
+            },
+            "flightTime": 0.0051838919268294426,
+            "impactTime": 1.405183891926827,
+            "result": {
+              "weapon": 0,
+              "shotId": "[\"df-34\",\"raid-mvaabalv-1-g4j38gc6g5\",1]",
+              "pelletId": 0,
+              "contactId": "0:enemy:8",
+              "direction": {
+                "x": -0.007789826218459251,
+                "y": -0.1514257005992926,
+                "z": -0.9884379473722664
+              },
+              "kind": "enemy",
+              "id": 8,
+              "x": -112,
+              "z": 79.5,
+              "head": false,
+              "distance": 1.8143942723106838,
+              "point": {
+                "x": -111.90987629835763,
+                "y": 1.1581519888685454,
+                "z": 79.675
+              },
+              "flightTime": 0.0051838919268294426,
+              "impactTime": 1.405183891926827,
+              "armorBefore": 0,
+              "armorAfter": 0,
+              "raw": 48,
+              "damage": 0,
+              "armorDamage": 0,
+              "falloff": 1,
+              "part": "torso",
+              "armored": false,
+              "stopped": false,
+              "cohesionDamage": 48,
+              "material": "liquid-metal",
+              "transmit": true,
+              "coreHit": false,
+              "killed": false
+            }
+          }
+        ],
+        "events": [
+          {
+            "type": "metaldisrupt",
+            "time": 1.405183891926827,
+            "id": 8,
+            "x": -112,
+            "y": 0,
+            "z": 79.5
+          },
+          {
+            "type": "bulletcontact",
+            "time": 1.4083333333333308,
+            "kind": "enemy",
+            "id": 8,
+            "fraction": 0.6220670312195413,
+            "part": "torso",
+            "coreExposedAtContact": false,
+            "damageScale": 1,
+            "direction": {
+              "x": -0.007789826218459251,
+              "y": -0.1514257005992926,
+              "z": -0.9884379473722664
+            },
+            "head": false,
+            "distance": 1.8143942723106838,
+            "point": {
+              "x": -111.90987629835763,
+              "y": 1.1581519888685454,
+              "z": 79.675
+            },
+            "flightTime": 0.0051838919268294426,
+            "impactTime": 1.405183891926827,
+            "weapon": 0,
+            "shotId": "[\"df-34\",\"raid-mvaabalv-1-g4j38gc6g5\",1]",
+            "pelletId": 0,
+            "contactId": "0:enemy:8",
+            "result": {
+              "weapon": 0,
+              "shotId": "[\"df-34\",\"raid-mvaabalv-1-g4j38gc6g5\",1]",
+              "pelletId": 0,
+              "contactId": "0:enemy:8",
+              "direction": {
+                "x": -0.007789826218459251,
+                "y": -0.1514257005992926,
+                "z": -0.9884379473722664
+              },
+              "kind": "enemy",
+              "id": 8,
+              "x": -112,
+              "z": 79.5,
+              "head": false,
+              "distance": 1.8143942723106838,
+              "point": {
+                "x": -111.90987629835763,
+                "y": 1.1581519888685454,
+                "z": 79.675
+              },
+              "flightTime": 0.0051838919268294426,
+              "impactTime": 1.405183891926827,
+              "armorBefore": 0,
+              "armorAfter": 0,
+              "raw": 48,
+              "damage": 0,
+              "armorDamage": 0,
+              "falloff": 1,
+              "part": "torso",
+              "armored": false,
+              "stopped": false,
+              "cohesionDamage": 48,
+              "material": "liquid-metal",
+              "transmit": true,
+              "coreHit": false,
+              "killed": false
+            }
+          }
+        ],
+        "lastLaunch": {
+          "x": -111.89574273232178,
+          "y": 1.433104943848965,
+          "z": 81.46838442344425
+        },
+        "overlay": "none",
+        "marker": "metal",
+        "items": [
+          {
+            "location": "bag:0",
+            "stack": {
+              "uid": "df-40",
+              "itemId": "ammo-pistol",
+              "quantity": 24,
+              "issued": true
+            }
+          },
+          {
+            "location": "weapon:0",
+            "stack": {
+              "uid": "df-34",
+              "itemId": "pistol",
+              "quantity": 1,
+              "rounds": 5,
+              "issued": true,
+              "weaponState": {
+                "version": 1,
+                "weaponId": "pistol",
+                "weaponInstanceId": "df-34",
+                "mode": "semi",
+                "shotSequence": 1,
+                "recoveryRemaining": 0,
+                "reloadCheckpoint": null,
+                "cocked": true,
+                "cycleNeeded": false,
+                "cycleRemaining": 0
+              }
+            }
+          },
+          {
+            "location": "quick:0",
+            "stack": {
+              "uid": "df-36",
+              "itemId": "bandage",
+              "quantity": 3,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:1",
+            "stack": {
+              "uid": "df-37",
+              "itemId": "frag",
+              "quantity": 2,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:2",
+            "stack": {
+              "uid": "df-38",
+              "itemId": "scanner",
+              "quantity": 1,
+              "issued": true
+            }
+          },
+          {
+            "location": "armor",
+            "stack": {
+              "uid": "df-35",
+              "itemId": "armor",
+              "quantity": 1,
+              "durability": 45,
+              "issued": true
+            }
+          }
+        ],
+        "extracted": false
+      }
+    }
+  ],
+  "console": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "coverSetup": {
+    "post": {
+      "id": 21,
+      "x": -117.25,
+      "z": 90,
+      "w": 0.18,
+      "d": 0.18,
+      "h": 3.6500000000000004,
+      "y": 0,
+      "kind": "steel",
+      "hp": null,
+      "alive": true,
+      "destructible": false
+    },
+    "wallQuery": 0.3033333333333322
+  },
+  "cover": {
+    "hp": 100,
+    "strike": {
+      "type": "metalstrike",
+      "time": 0.8999999999999992,
+      "id": 8,
+      "x": -117.25,
+      "y": 1.25,
+      "z": 91.25,
+      "hit": false,
+      "blocked": true,
+      "from": {
+        "x": -117.25,
+        "y": 1.25,
+        "z": 91.25
+      },
+      "to": {
+        "x": -117.25,
+        "y": 1.25,
+        "z": 88.25
+      }
+    }
+  },
+  "cancel": {
+    "hp": 100,
+    "metal": {
+      "state": "disrupted",
+      "stateTime": 0.6114827747398376,
+      "remaining": 0.7885172252601649,
+      "cohesion": 0,
+      "coreHp": 80,
+      "yaw": 3.141592653589793,
+      "aimX": 0.18,
+      "aimY": 0,
+      "aimZ": 1,
+      "holes": [],
+      "coreExposed": true,
+      "exposureStart": 1.405183891926827,
+      "exposureEnd": 3.805183891926827,
+      "attackId": 21,
+      "aimLocked": false,
+      "enteredAt": 1.405183891926827
+    },
+    "events": [
+      {
+        "type": "metaldisrupt",
+        "time": 1.405183891926827,
+        "id": 8,
+        "x": -112,
+        "y": 0,
+        "z": 79.5
+      },
+      {
+        "type": "bulletcontact",
+        "time": 1.4083333333333308,
+        "kind": "enemy",
+        "id": 8,
+        "fraction": 0.6220670312195413,
+        "part": "torso",
+        "coreExposedAtContact": false,
+        "damageScale": 1,
+        "direction": {
+          "x": -0.007789826218459251,
+          "y": -0.1514257005992926,
+          "z": -0.9884379473722664
+        },
+        "head": false,
+        "distance": 1.8143942723106838,
+        "point": {
+          "x": -111.90987629835763,
+          "y": 1.1581519888685454,
+          "z": 79.675
+        },
+        "flightTime": 0.0051838919268294426,
+        "impactTime": 1.405183891926827,
+        "weapon": 0,
+        "shotId": "[\"df-34\",\"raid-mvaabalv-1-g4j38gc6g5\",1]",
+        "pelletId": 0,
+        "contactId": "0:enemy:8",
+        "result": {
+          "weapon": 0,
+          "shotId": "[\"df-34\",\"raid-mvaabalv-1-g4j38gc6g5\",1]",
+          "pelletId": 0,
+          "contactId": "0:enemy:8",
+          "direction": {
+            "x": -0.007789826218459251,
+            "y": -0.1514257005992926,
+            "z": -0.9884379473722664
+          },
+          "kind": "enemy",
+          "id": 8,
+          "x": -112,
+          "z": 79.5,
+          "head": false,
+          "distance": 1.8143942723106838,
+          "point": {
+            "x": -111.90987629835763,
+            "y": 1.1581519888685454,
+            "z": 79.675
+          },
+          "flightTime": 0.0051838919268294426,
+          "impactTime": 1.405183891926827,
+          "armorBefore": 0,
+          "armorAfter": 0,
+          "raw": 48,
+          "damage": 0,
+          "armorDamage": 0,
+          "falloff": 1,
+          "part": "torso",
+          "armored": false,
+          "stopped": false,
+          "cohesionDamage": 48,
+          "material": "liquid-metal",
+          "transmit": true,
+          "coreHit": false,
+          "killed": false
+        }
+      }
+    ]
+  },
+  "cleanup": {
+    "modelHoles": 0,
+    "blade": false,
+    "viewHoles": 0
+  },
+  "storage": {
+    "deadfreight-test:workshop-qa:deadfreight-best": "{\"schema\":6,\"cash\":0,\"level\":1,\"stash\":[],\"activeRaid\":{\"id\":\"raid-mvaabi79-4-qusmwq1ozeo\",\"safe\":null,\"startedAt\":1792113857253,\"loadoutIdentity\":[{\"uid\":\"df-47\",\"itemId\":\"ammo-pistol\",\"issued\":true},{\"uid\":\"df-41\",\"itemId\":\"pistol\",\"issued\":true},{\"uid\":\"df-42\",\"itemId\":\"armor\",\"issued\":true},{\"uid\":\"df-43\",\"itemId\":\"bandage\",\"issued\":true},{\"uid\":\"df-44\",\"itemId\":\"frag\",\"issued\":true},{\"uid\":\"df-45\",\"itemId\":\"scanner\",\"issued\":true}]},\"revision\":3,\"settledRaids\":[{\"id\":\"raid-mvaabalv-1-g4j38gc6g5\",\"win\":false}],\"lastMutation\":\"op-mvaabi79-5-7aconnkpp4g\",\"stashTier\":0,\"recovery\":[],\"stashReceipts\":[]}",
+    "deadfreight-test:workshop-qa:deadfreight-settings": "{\"inputBindings\":{\"forward\":\"KeyW\",\"back\":\"KeyS\",\"left\":\"KeyA\",\"right\":\"KeyD\",\"sprint\":\"ShiftLeft\",\"jump\":\"Space\",\"slide\":\"KeyC\",\"dodge\":\"KeyX\",\"reload\":\"KeyR\",\"interact\":\"KeyE\",\"fireKey\":\"KeyF\",\"fire\":\"Mouse0\",\"ads\":\"Mouse2\",\"primary\":\"Digit1\",\"secondary\":\"Digit2\",\"holster\":\"KeyH\",\"melee\":\"KeyV\",\"quick0\":\"Digit3\",\"quick1\":\"Digit4\",\"quick2\":\"Digit5\",\"quick3\":\"Digit6\",\"fireMode\":\"KeyB\",\"map\":\"KeyM\",\"laser\":\"KeyL\",\"inventory\":\"Tab\",\"pause\":\"Escape\",\"aimLeft\":\"ArrowLeft\",\"aimRight\":\"ArrowRight\",\"aimUp\":\"ArrowUp\",\"aimDown\":\"ArrowDown\"},\"keyboardAim\":{\"mode\":\"step\",\"speed\":1,\"step\":0.25},\"throwTrajectory\":true}"
+  },
+  "pass": true
+}

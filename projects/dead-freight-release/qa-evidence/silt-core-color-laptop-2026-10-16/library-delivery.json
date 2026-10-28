@@ -1,0 +1,96 @@
+{
+  "files": [
+    {
+      "relativePath": "ordinary/04-normal-core-exposed.png",
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/04-normal-core-exposed(1).png",
+      "file_id": "file_000000002bfc81f8b8c13025935e5b25",
+      "library_file_id": "libfile_f5569e378144819189a2b143048d65f1",
+      "file_name": "04-normal-core-exposed(1).png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_545fd9f0039c81918b827f1a1caf9403",
+      "mime_type": "image/png",
+      "library_artifact_type": "image",
+      "file_size_bytes": 187940,
+      "metadata_helper_exit": 1,
+      "metadata_helper_error": "library-core-color-helper\\library_file_transfer.py\", line 288, in main\n    materializer.apply_xattrs(\n  File \"C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\library-core-color-helper\\library_file_transfer.py\", line 246, in apply_xattrs\n    xattr.apply(path)\n  File \"C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\library-core-color-helper\\library_file_transfer.py\", line 64, in apply\n    os.setxattr(path, self.name, encoded_value)\n    ^^^^^^^^^^^\nAttributeError: module 'os' has no attribute 'setxattr'\n"
+    },
+    {
+      "relativePath": "ordinary/06-normal-core-reform.png",
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/06-normal-core-reform.png",
+      "file_id": "file_00000000b844823089f47f26dbffd269",
+      "library_file_id": "libfile_01c9047996cc8191834bebd64b953cf1",
+      "file_name": "06-normal-core-reform.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_545fd9f0039c81918b827f1a1caf9403",
+      "mime_type": "image/png",
+      "library_artifact_type": "image",
+      "file_size_bytes": 188718,
+      "metadata_helper_exit": 1,
+      "metadata_helper_error": "library-core-color-helper\\library_file_transfer.py\", line 288, in main\n    materializer.apply_xattrs(\n  File \"C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\library-core-color-helper\\library_file_transfer.py\", line 246, in apply_xattrs\n    xattr.apply(path)\n  File \"C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\library-core-color-helper\\library_file_transfer.py\", line 64, in apply\n    os.setxattr(path, self.name, encoded_value)\n    ^^^^^^^^^^^\nAttributeError: module 'os' has no attribute 'setxattr'\n"
+    },
+    {
+      "relativePath": "fixtures-2/03-fixture-opaque-occluder.png",
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/03-fixture-opaque-occluder.png",
+      "file_id": "file_000000000e3081f5996d9f316c9a9da8",
+      "library_file_id": "libfile_a0d60b6bc7f88191af2b543645a21e87",
+      "file_name": "03-fixture-opaque-occluder.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_545fd9f0039c81918b827f1a1caf9403",
+      "mime_type": "image/png",
+      "library_artifact_type": "image",
+      "file_size_bytes": 114138,
+      "metadata_helper_exit": 1,
+      "metadata_helper_error": "library-core-color-helper\\library_file_transfer.py\", line 288, in main\n    materializer.apply_xattrs(\n  File \"C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\library-core-color-helper\\library_file_transfer.py\", line 246, in apply_xattrs\n    xattr.apply(path)\n  File \"C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\library-core-color-helper\\library_file_transfer.py\", line 64, in apply\n    os.setxattr(path, self.name, encoded_value)\n    ^^^^^^^^^^^\nAttributeError: module 'os' has no attribute 'setxattr'\n"
+    },
+    {
+      "relativePath": "fixtures-2/04-fixture-half-transparent-overlay.png",
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/04-fixture-half-transparent-overlay.png",
+      "file_id": "file_0000000041c881f69f997bc7d39d1f37",
+      "library_file_id": "libfile_ed967210efa081919dd378dfa124f6d5",
+      "file_name": "04-fixture-half-transparent-overlay.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_545fd9f0039c81918b827f1a1caf9403",
+      "mime_type": "image/png",
+      "library_artifact_type": "image",
+      "file_size_bytes": 119527,
+      "metadata_helper_exit": 1,
+      "metadata_helper_error": "library-core-color-helper\\library_file_transfer.py\", line 288, in main\n    materializer.apply_xattrs(\n  File \"C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\library-core-color-helper\\library_file_transfer.py\", line 246, in apply_xattrs\n    xattr.apply(path)\n  File \"C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\library-core-color-helper\\library_file_transfer.py\", line 64, in apply\n    os.setxattr(path, self.name, encoded_value)\n    ^^^^^^^^^^^\nAttributeError: module 'os' has no attribute 'setxattr'\n"
+    }
+  ]
+}

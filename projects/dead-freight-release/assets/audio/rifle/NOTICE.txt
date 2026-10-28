@@ -1,0 +1,9 @@
+DEAD FREIGHT game-integrated rifle audio. Pixabay Content License.
+These are edited and combined cues used by the DEAD FREIGHT game, not a standalone sound pack.
+Do not redistribute raw source recordings or republish these assets as stock audio.
+License: https://pixabay.com/service/license-summary/
+Binding terms: https://pixabay.com/service/terms/
+Credits: SuperPhat, michorvath, Kodack, Eipeiknip, APallot, altfuture, Fenodyrie, ccheatham,
+via Pixabay's freesound_community distribution. No endorsement is implied.
+See the project's audio-provenance.md and assets/audio/provenance.json for exact asset pages,
+input SHA-256 hashes, editing history, usage constraints and unverified listening status.

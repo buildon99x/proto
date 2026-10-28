@@ -1,0 +1,13 @@
+PASS default Black Pines definition is unchanged and second region has distinct geometry and encounter data
+PASS canal blocks arbitrary crossings but both bridges and every authored route are walkable
+CANAL_REACHABLE_GRID_CELLS 3270
+PASS collision flood proves insertion can reach loot objective and both exits
+PASS ferry requires a carried archive and loses progress when that requirement is removed
+PASS west token-only exit has its longer hold and one completion event across frame rates
+PASS three region raids return the same equipment UIDs and settle cash plus home sales once
+PASS second-region death returns only protected loot and no contract cash
+PASS rendererless region UI freezes active mission then returns and deploys the other region
+PASS flood forbids walking but cannot create an invisible bullet or sight wall
+PASS second-region guidance follows a clear bridge waypoint rather than the flooded direct line
+10 region/raid/economy source checks passed; movement warps and rendererless input are not human play.
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation

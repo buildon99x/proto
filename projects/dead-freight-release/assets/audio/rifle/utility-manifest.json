@@ -1,0 +1,98 @@
+{
+  "provider": "Pixabay",
+  "sampleRate": 48000,
+  "format": "PCM signed16 stereo WAV",
+  "status": "waveform-selected provisional Foley, NOT listened",
+  "distribution": "Combined game only; not a standalone sound pack",
+  "sourceHashes": {
+    "6869": "1ff87ca0c35802524ca3037c536f8de23436313f742fd6ea4d148f4b2ad22506",
+    "38722": "d340d3c06d47bc3c876e8c63eacdc291f4f742f3817088598a13d6302ab795f8",
+    "33218": "719d8e506375312784313d60cea1c998a4d7911b66d0d3cbadf56b97cbadab8c"
+  },
+  "files": {
+    "utility-cloth-in": {
+      "frames": 13440,
+      "duration": 0.28,
+      "channels": 2,
+      "peakDbFS": -9.898,
+      "rmsDbFS": -28.556,
+      "firstSample": [
+        0,
+        0
+      ],
+      "lastSample": [
+        0,
+        0
+      ],
+      "sourceIds": [
+        "6869"
+      ],
+      "sourceStart": 2.25,
+      "sourceLength": 0.28,
+      "sha256": "d9d18e80401b40a9f008e9f056a166f3a785a84f8d6f34f28d497b89fb345d7d"
+    },
+    "utility-cloth-out": {
+      "frames": 11520,
+      "duration": 0.24,
+      "channels": 2,
+      "peakDbFS": -9.898,
+      "rmsDbFS": -27.549,
+      "firstSample": [
+        0,
+        0
+      ],
+      "lastSample": [
+        0,
+        0
+      ],
+      "sourceIds": [
+        "6869"
+      ],
+      "sourceStart": 4.0,
+      "sourceLength": 0.24,
+      "sha256": "ca339b786544f7fdb06f991f151cb0b69bdaeded6ef6868b3116dc4fa7db2202"
+    },
+    "utility-pin": {
+      "frames": 8640,
+      "duration": 0.18,
+      "channels": 2,
+      "peakDbFS": -9.898,
+      "rmsDbFS": -34.868,
+      "firstSample": [
+        0,
+        0
+      ],
+      "lastSample": [
+        0,
+        0
+      ],
+      "sourceIds": [
+        "33218"
+      ],
+      "sourceStart": 2.32,
+      "sourceLength": 0.18,
+      "sha256": "c7417acf2b539ff0aa6cd743723d37b70bcaa734a7a16e9f6637b0d57a5a3f8e"
+    },
+    "utility-medical": {
+      "frames": 22080,
+      "duration": 0.46,
+      "channels": 2,
+      "peakDbFS": -11.505,
+      "rmsDbFS": -26.936,
+      "firstSample": [
+        0,
+        0
+      ],
+      "lastSample": [
+        0,
+        0
+      ],
+      "sourceIds": [
+        "38722"
+      ],
+      "sourceStart": 0.23,
+      "sourceLength": 0.46,
+      "sha256": "a24de6601d2f7e29eeb6c9d42b1450da820833671f191c8b53387b97eb5dd0a9"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "pass": true,
+  "method": "ordinary browser key/button input only, no injected gameplay/save state",
+  "cash": 1170,
+  "winSettlements": 1,
+  "lossSettlements": 2,
+  "archiveUid": "df-53",
+  "medkitUid": "df-48",
+  "armorUid": "df-36",
+  "armorDurability": 26.28,
+  "stashByteEquivalentAfterRestartDeathRedeploy": true,
+  "pageErrors": 0,
+  "ordinaryCombat": {
+    "kills": 7,
+    "shots": 78,
+    "hits": 52
+  },
+  "guidance": "펌프 표적 제거 → E로 증표 회수 → 동쪽 페리: 아카이브 + 증표 · 8초 / 서쪽 윈치: 증표 · 12초 → E로 탈출 시작 후 구역 유지.",
+  "hud": "N · 펌프 계약 249 m · M 지도"
+}

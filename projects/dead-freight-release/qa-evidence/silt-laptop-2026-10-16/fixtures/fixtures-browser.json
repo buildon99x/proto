@@ -1,0 +1,482 @@
+{
+  "source": "41ee11dd3573ce616718d51f58e34b9e8d2706ed",
+  "method": "EXPLICIT WebGL fixtures: isolated enemy/target placement, HP/AI setup and temporary world pause for inspection; actions use real key handlers/production projectile physics. Never ordinary gameplay acceptance.",
+  "events": [
+    {
+      "label": "penetration",
+      "p": {
+        "x": -112,
+        "z": 82,
+        "y": 0,
+        "velocityY": 0,
+        "grounded": true,
+        "bodyHeight": 1.75,
+        "eyeHeight": 1.62,
+        "crouched": false,
+        "hp": 100,
+        "armor": 45,
+        "stamina": 100,
+        "fatigued": false,
+        "dash": 0,
+        "invulnerable": 0,
+        "slide": 0,
+        "slideCooldown": 0,
+        "slideSpeed": 0,
+        "slideDirX": 0,
+        "slideDirZ": 0
+      },
+      "yaw": 0.00000427735928702246,
+      "pitch": -0.061047040503305935,
+      "time": 1.0666666666666653,
+      "silt": {
+        "id": 8,
+        "archetype": "silt",
+        "name": "SILT",
+        "x": -112,
+        "z": 75.06333333333319,
+        "hp": 80,
+        "boss": false,
+        "alive": true,
+        "homeX": -112,
+        "homeZ": 74,
+        "activationRange": 24,
+        "leash": 26,
+        "zone": "salvage",
+        "armor": 0,
+        "hit": 0,
+        "alert": true,
+        "metal": {
+          "state": "pursue",
+          "stateTime": 0.483333333333334,
+          "remaining": 0,
+          "cohesion": 100,
+          "coreHp": 80,
+          "yaw": -3.141592653589793,
+          "aimX": 0.07035198423276384,
+          "aimY": -0.016488746304553898,
+          "aimZ": 0.9973859431332572,
+          "holes": [],
+          "coreExposed": false,
+          "exposureStart": null,
+          "exposureEnd": null,
+          "attackId": 0,
+          "aimLocked": false,
+          "enteredAt": 0.5833333333333337
+        }
+      },
+      "kills": 0,
+      "cash": 0,
+      "shots": 1,
+      "ammo": [
+        5,
+        0,
+        0,
+        0
+      ],
+      "reserve": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "bulletLog": [],
+      "events": [],
+      "overlay": "none",
+      "items": [
+        {
+          "location": "bag:0",
+          "stack": {
+            "uid": "df-40",
+            "itemId": "ammo-pistol",
+            "quantity": 24,
+            "issued": true
+          }
+        },
+        {
+          "location": "weapon:0",
+          "stack": {
+            "uid": "df-34",
+            "itemId": "pistol",
+            "quantity": 1,
+            "rounds": 5,
+            "issued": true,
+            "weaponState": {
+              "version": 1,
+              "weaponId": "pistol",
+              "weaponInstanceId": "df-34",
+              "mode": "semi",
+              "shotSequence": 1,
+              "recoveryRemaining": 0,
+              "reloadCheckpoint": null,
+              "cocked": true,
+              "cycleNeeded": false,
+              "cycleRemaining": 0
+            }
+          }
+        },
+        {
+          "location": "quick:0",
+          "stack": {
+            "uid": "df-36",
+            "itemId": "bandage",
+            "quantity": 3,
+            "issued": true
+          }
+        },
+        {
+          "location": "quick:1",
+          "stack": {
+            "uid": "df-37",
+            "itemId": "frag",
+            "quantity": 2,
+            "issued": true
+          }
+        },
+        {
+          "location": "quick:2",
+          "stack": {
+            "uid": "df-38",
+            "itemId": "scanner",
+            "quantity": 1,
+            "issued": true
+          }
+        },
+        {
+          "location": "armor",
+          "stack": {
+            "uid": "df-35",
+            "itemId": "armor",
+            "quantity": 1,
+            "durability": 45,
+            "issued": true
+          }
+        }
+      ],
+      "extracted": false
+    },
+    {
+      "label": "fixture-failure",
+      "p": {
+        "x": -112,
+        "z": 82,
+        "y": 0,
+        "velocityY": 0,
+        "grounded": true,
+        "bodyHeight": 1.75,
+        "eyeHeight": 1.62,
+        "crouched": false,
+        "hp": 100,
+        "armor": 45,
+        "stamina": 100,
+        "fatigued": false,
+        "dash": 0,
+        "invulnerable": 0,
+        "slide": 0,
+        "slideCooldown": 0,
+        "slideSpeed": 0,
+        "slideDirX": 0,
+        "slideDirZ": 0
+      },
+      "yaw": 0.00000427735928702246,
+      "pitch": -0.061047040503305935,
+      "time": 1.0666666666666653,
+      "silt": {
+        "id": 8,
+        "archetype": "silt",
+        "name": "SILT",
+        "x": -112,
+        "z": 75.06333333333319,
+        "hp": 80,
+        "boss": false,
+        "alive": true,
+        "homeX": -112,
+        "homeZ": 74,
+        "activationRange": 24,
+        "leash": 26,
+        "zone": "salvage",
+        "armor": 0,
+        "hit": 0,
+        "alert": true,
+        "metal": {
+          "state": "pursue",
+          "stateTime": 0.483333333333334,
+          "remaining": 0,
+          "cohesion": 100,
+          "coreHp": 80,
+          "yaw": -3.141592653589793,
+          "aimX": 0.07035198423276384,
+          "aimY": -0.016488746304553898,
+          "aimZ": 0.9973859431332572,
+          "holes": [],
+          "coreExposed": false,
+          "exposureStart": null,
+          "exposureEnd": null,
+          "attackId": 0,
+          "aimLocked": false,
+          "enteredAt": 0.5833333333333337
+        }
+      },
+      "kills": 0,
+      "cash": 0,
+      "shots": 1,
+      "ammo": [
+        5,
+        0,
+        0,
+        0
+      ],
+      "reserve": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "bulletLog": [],
+      "events": [],
+      "overlay": "none",
+      "items": [
+        {
+          "location": "bag:0",
+          "stack": {
+            "uid": "df-40",
+            "itemId": "ammo-pistol",
+            "quantity": 24,
+            "issued": true
+          }
+        },
+        {
+          "location": "weapon:0",
+          "stack": {
+            "uid": "df-34",
+            "itemId": "pistol",
+            "quantity": 1,
+            "rounds": 5,
+            "issued": true,
+            "weaponState": {
+              "version": 1,
+              "weaponId": "pistol",
+              "weaponInstanceId": "df-34",
+              "mode": "semi",
+              "shotSequence": 1,
+              "recoveryRemaining": 0,
+              "reloadCheckpoint": null,
+              "cocked": true,
+              "cycleNeeded": false,
+              "cycleRemaining": 0
+            }
+          }
+        },
+        {
+          "location": "quick:0",
+          "stack": {
+            "uid": "df-36",
+            "itemId": "bandage",
+            "quantity": 3,
+            "issued": true
+          }
+        },
+        {
+          "location": "quick:1",
+          "stack": {
+            "uid": "df-37",
+            "itemId": "frag",
+            "quantity": 2,
+            "issued": true
+          }
+        },
+        {
+          "location": "quick:2",
+          "stack": {
+            "uid": "df-38",
+            "itemId": "scanner",
+            "quantity": 1,
+            "issued": true
+          }
+        },
+        {
+          "location": "armor",
+          "stack": {
+            "uid": "df-35",
+            "itemId": "armor",
+            "quantity": 1,
+            "durability": 45,
+            "issued": true
+          }
+        }
+      ],
+      "extracted": false
+    }
+  ],
+  "errors": [],
+  "frames": [
+    {
+      "file": "01-normal-fixture-failure.png",
+      "observedAfterCapture": {
+        "p": {
+          "x": -112,
+          "z": 82,
+          "y": 0,
+          "velocityY": 0,
+          "grounded": true,
+          "bodyHeight": 1.75,
+          "eyeHeight": 1.62,
+          "crouched": false,
+          "hp": 100,
+          "armor": 45,
+          "stamina": 100,
+          "fatigued": false,
+          "dash": 0,
+          "invulnerable": 0,
+          "slide": 0,
+          "slideCooldown": 0,
+          "slideSpeed": 0,
+          "slideDirX": 0,
+          "slideDirZ": 0
+        },
+        "yaw": 4.3662390886104837e-7,
+        "pitch": -0.06108249344525819,
+        "time": 1.1999999999999982,
+        "silt": {
+          "id": 8,
+          "archetype": "silt",
+          "name": "SILT",
+          "x": -112,
+          "z": 75.35666666666648,
+          "hp": 80,
+          "boss": false,
+          "alive": true,
+          "homeX": -112,
+          "homeZ": 74,
+          "activationRange": 24,
+          "leash": 26,
+          "zone": "salvage",
+          "armor": 0,
+          "hit": 0,
+          "alert": true,
+          "metal": {
+            "state": "pursue",
+            "stateTime": 0.6166666666666669,
+            "remaining": 0,
+            "cohesion": 100,
+            "coreHp": 80,
+            "yaw": -3.141592653589793,
+            "aimX": 0.07350347910619394,
+            "aimY": -0.01722737791551407,
+            "aimZ": 0.9971461557913369,
+            "holes": [],
+            "coreExposed": false,
+            "exposureStart": null,
+            "exposureEnd": null,
+            "attackId": 0,
+            "aimLocked": false,
+            "enteredAt": 0.5833333333333337
+          }
+        },
+        "kills": 0,
+        "cash": 0,
+        "shots": 1,
+        "ammo": [
+          5,
+          0,
+          0,
+          0
+        ],
+        "reserve": [
+          24,
+          0,
+          0,
+          0
+        ],
+        "bulletLog": [],
+        "events": [],
+        "overlay": "none",
+        "items": [
+          {
+            "location": "bag:0",
+            "stack": {
+              "uid": "df-40",
+              "itemId": "ammo-pistol",
+              "quantity": 24,
+              "issued": true
+            }
+          },
+          {
+            "location": "weapon:0",
+            "stack": {
+              "uid": "df-34",
+              "itemId": "pistol",
+              "quantity": 1,
+              "rounds": 5,
+              "issued": true,
+              "weaponState": {
+                "version": 1,
+                "weaponId": "pistol",
+                "weaponInstanceId": "df-34",
+                "mode": "semi",
+                "shotSequence": 1,
+                "recoveryRemaining": 0,
+                "reloadCheckpoint": null,
+                "cocked": true,
+                "cycleNeeded": false,
+                "cycleRemaining": 0
+              }
+            }
+          },
+          {
+            "location": "quick:0",
+            "stack": {
+              "uid": "df-36",
+              "itemId": "bandage",
+              "quantity": 3,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:1",
+            "stack": {
+              "uid": "df-37",
+              "itemId": "frag",
+              "quantity": 2,
+              "issued": true
+            }
+          },
+          {
+            "location": "quick:2",
+            "stack": {
+              "uid": "df-38",
+              "itemId": "scanner",
+              "quantity": 1,
+              "issued": true
+            }
+          },
+          {
+            "location": "armor",
+            "stack": {
+              "uid": "df-35",
+              "itemId": "armor",
+              "quantity": 1,
+              "durability": 45,
+              "issued": true
+            }
+          }
+        ],
+        "extracted": false
+      }
+    }
+  ],
+  "console": [
+    {
+      "type": "warn",
+      "text": "Scripts \"build/three.js\" and \"build/three.min.js\" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  ],
+  "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 2\n\n    at C:\\Users\\cjh\\Documents\\Codex\\2026-10-15\\task\\qa-silt-fixtures.cjs:17:570"
+}

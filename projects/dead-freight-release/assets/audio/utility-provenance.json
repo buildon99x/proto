@@ -1,0 +1,53 @@
+{
+  "provider": "Pixabay",
+  "scope": "Combined DEAD FREIGHT game runtime only; no standalone distribution or raw MP3s",
+  "rawSourcesIncluded": false,
+  "listening": "not performed; selection based on source description and waveform only",
+  "sources": [
+    {
+      "id": "6869",
+      "title": "Shirt Clothing Movement",
+      "artist": "leonelmail",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/household-shirt-clothing-movement-6869/",
+      "publishedDate": "2021-08-10",
+      "retrieved": "2026-10-10",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "downloadMethod": "Official HTTPS page Free download button; supported browser download event and completed path",
+      "sha256": "1ff87ca0c35802524ca3037c536f8de23436313f742fd6ea4d148f4b2ad22506",
+      "bytes": 1583229
+    },
+    {
+      "id": "38722",
+      "title": "Velcro Pull 02",
+      "artist": "Rudmer_Rotteveel",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-velcro-pull-02-38722/",
+      "publishedDate": "2022-06-09",
+      "retrieved": "2026-10-10",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "downloadMethod": "Official HTTPS page Free download button; supported browser download event and completed path",
+      "sha256": "d340d3c06d47bc3c876e8c63eacdc291f4f742f3817088598a13d6302ab795f8",
+      "bytes": 35040
+    },
+    {
+      "id": "33218",
+      "title": "Tire gauge pin ringing and clicks",
+      "artist": "AnthonyChan0",
+      "distributor": "Pixabay / freesound_community",
+      "page": "https://pixabay.com/sound-effects/film-special-effects-tire-gauge-pin-ringing-and-clicks-33218/",
+      "publishedDate": "2022-05-31",
+      "retrieved": "2026-10-10",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "termsUrl": "https://pixabay.com/service/terms/",
+      "downloadMethod": "Official HTTPS page Free download button; supported browser download event and completed path",
+      "sha256": "719d8e506375312784313d60cea1c998a4d7911b66d0d3cbadf56b97cbadab8c",
+      "bytes": 743040
+    }
+  ]
+}

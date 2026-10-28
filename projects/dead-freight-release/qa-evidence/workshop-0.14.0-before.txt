@@ -1,0 +1,16 @@
+{
+  "sourceBase": "1c49e83d34b2472c6c908633569b1036d57b60d3",
+  "schemaBefore": 5,
+  "existingCatalogValues": {
+    "scrap": 35,
+    "medkit": 80,
+    "frag": 75,
+    "scanner": 110,
+    "armor": 260,
+    "armorMaxDurability": 45
+  },
+  "craftingAndRepairBefore": false,
+  "priorProvidedJhLaptopQaUrlsSupported": false,
+  "previousHttp200DidNotEstablishStartupOrPlay": true,
+  "actualPlay": false
+}

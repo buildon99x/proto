@@ -1,0 +1,20 @@
+# Unpublished motion archive reconciliation
+
+The Library report, manifest and complete patch were read on this laptop. They describe unpublished user work from 2026-10-11, on the same branch but based on `822aa10f34f467204bf328190498ae9a6399643b`; that base is absent from this checkout. The Library originals remain unchanged. The patch is **not** applied wholesale over later validated work.
+
+- Patch: `libfile_8a0a99678d18819188501dad805675e2`, 86,705 bytes. Manifest reports SHA-256 `572eeba40c623a5914cbd024b8c6b84b7aa86702a92691f79854d5536d465760`; no bytewise download/hash claim here.
+- Report: `libfile_1a720cae0150819194bdd503550f89ae`. Its historical 847 checks, 315 audits and build result are not this laptop's current evidence. It explicitly leaves live visual/input/audio acceptance open.
+- Manifest: `libfile_8aa26a6680dc8191a68b68bbb5cc2355`.
+
+| Archive portion | Current reconciliation |
+| --- | --- |
+| Connected shoulder/elbow/forearm/wrist | 0.12.10 ports utility-owned arm meshes and post-contact solver; 0.12.13 adds authored elbow tracks. |
+| Grenade windup, wrist rotation, follow-through, grip at release | 0.12.13 adapts tracks and exact original release grip while preserving current detached-pin owner, extraction curve and semantic index/thumb fixes. Actual visual acceptance remains open. |
+| Shared authored grenade launch/preview origin | 0.12.14 adapts shared hand projection, swept-wall/finite-distance validation, callback fallback and pose restoration. Current physics/timing preserved. Actual wall/hand pixel alignment remains open. |
+| Treatment roll, lid, wrist stroke and withdrawal | 0.12.11 fixes early-cancel dressing pop; 0.12.13 ports constrained wrist/stroke, roll, lid and continuous closing withdrawal. Actual contact/withdrawal acceptance remains open. |
+| Melee, remapping, effect receipts and interruption guards | Current separately tested implementation exists. Archive melee uses25 damage/1.65m/.42s contact; current35/1.8m/.44s is preserved. 0.12.12 reconciles receipts with stronger current-action identity checks; 0.12.15 reconciles sprint/dash/slide cancellation on game and adapter routes. |
+| Read-only rig preview | 0.12.15 adapts isolated local cycles/marker/cancel samples in tools/rig-preview.cjs. Syntax/local assets inspected; real rendered review remains open. Its historical server/screenshots are not this laptop's current evidence. |
+
+Archive source reconciliation preserves current committed/cancelled timelines and gameplay values, with separate checks for the adapted portions. Numerical geometry and rendererless validation never substitute for a rendered natural-motion verdict, actual device listening, ordinary mouse input, frame times or repeated extraction. No new liquid-metal AI is implemented locally.
+
+Build the isolated preview with `node tools/rig-preview.cjs` from this project's root and serve `tools/rig-preview/dist` on localhost. It has no mission, save/account access, inventory/effect commits, audio or pointer lock. Use it to inspect utility geometry only; full-game H/swap/fire/reload/extraction acceptance still needs the actual game.

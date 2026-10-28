@@ -1,0 +1,25 @@
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+node:internal/assert/utils:77
+    throw err;
+    ^
+
+AssertionError [ERR_ASSERTION]: left inward thumb
+    at C:\Users\cjh\Documents\Codex\2026-10-14\task\proto\projects\dead-freight\app\test-utility-grip.cjs:3:95
+    at test (C:\Users\cjh\Documents\Codex\2026-10-14\task\proto\projects\dead-freight\app\test-utility-grip.cjs:1:153)
+    at Object.<anonymous> (C:\Users\cjh\Documents\Codex\2026-10-14\task\proto\projects\dead-freight\app\test-utility-grip.cjs:3:1)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,98 @@
+{
+  "source": "41ee11dd3573ce616718d51f58e34b9e8d2706ed",
+  "files": [
+    {
+      "relativePath": "normal-attempt-2/04-normal-core-exposed.png",
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/04-normal-core-exposed.png",
+      "file_id": "file_000000000e9481f6ad59aaf3903e1e02",
+      "library_file_id": "libfile_8980e9db934081919a080454d5337092",
+      "file_name": "04-normal-core-exposed.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_545fd9f0039c81918b827f1a1caf9403",
+      "mime_type": "image/png",
+      "library_artifact_type": "image",
+      "file_size_bytes": 189022,
+      "external_connectors_accessed": false,
+      "xattrs_status": "AttributeError: module 'os' has no attribute 'setxattr'"
+    },
+    {
+      "relativePath": "normal-attempt-2/09-normal-silt-terminal.png",
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/09-normal-silt-terminal.png",
+      "file_id": "file_0000000082fc81f5aa958d906f6854bf",
+      "library_file_id": "libfile_0d51bc6d13c48191b7761e08b4b0729a",
+      "file_name": "09-normal-silt-terminal.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_545fd9f0039c81918b827f1a1caf9403",
+      "mime_type": "image/png",
+      "library_artifact_type": "image",
+      "file_size_bytes": 158128,
+      "external_connectors_accessed": false,
+      "xattrs_status": "AttributeError: module 'os' has no attribute 'setxattr'"
+    },
+    {
+      "relativePath": "fixtures-attempt-2/02-normal-hole-open-frozen-fixture.png",
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/02-normal-hole-open-frozen-fixture.png",
+      "file_id": "file_00000000517481f58ecb88f7f57ac78f",
+      "library_file_id": "libfile_3a6a0b24837c819187e353069cbf2266",
+      "file_name": "02-normal-hole-open-frozen-fixture.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_545fd9f0039c81918b827f1a1caf9403",
+      "mime_type": "image/png",
+      "library_artifact_type": "image",
+      "file_size_bytes": 136501,
+      "external_connectors_accessed": false,
+      "xattrs_status": "AttributeError: module 'os' has no attribute 'setxattr'"
+    },
+    {
+      "relativePath": "normal-attempt-2/silt-normal-speed-silent.webm",
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/silt-normal-speed-silent.webm",
+      "file_id": "file_00000000661881f5a2018e8731b7d19d",
+      "library_file_id": "libfile_9c5b939a47548191b7261780b4a31011",
+      "file_name": "silt-normal-speed-silent.webm",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_545fd9f0039c81918b827f1a1caf9403",
+      "mime_type": "video/webm",
+      "library_artifact_type": "other",
+      "file_size_bytes": 5495508,
+      "external_connectors_accessed": false,
+      "xattrs_status": "AttributeError: module 'os' has no attribute 'setxattr'"
+    }
+  ],
+  "note": "Uploads succeeded. Windows os.setxattr unavailable; full identity/version/xattrs retained here instead. No duplicate upload attempted."
+}
