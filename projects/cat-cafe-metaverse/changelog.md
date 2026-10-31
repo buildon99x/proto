@@ -13,3 +13,6 @@ Replace protruding coat markings with cached flat surface color maps; enrich acc
 
 ### Negotiated delta candidate · 2026-10-31
 Optional delta-v1 snapshots with legacypacked fallback, fullstate onmembership/resync, strictboundeddecoder and same-tick baselinecorrectness. Matched90%-moving synthetic comparison reducedwire38.5%/combinedCPU22.9% but peakRSSrose7.5%; fullconditions documented. Publichosting and audiovisual release gates remain open.
+
+### Safari regression fixes · 2026-10-31
+Reset stale cat selection ring on room change; fix position disclosure/footer overlap; improve helpdialog accessible naming/focus; larger highcontrast ball. Found by actual authorized MacBook Safari QA, source/unit fixes awaiting same-device retest.

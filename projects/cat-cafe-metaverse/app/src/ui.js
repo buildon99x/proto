@@ -1,0 +1,3 @@
+// Small DOM bindings keep accessible state and keyboard focus explicit across browsers.
+export function bindDisclosure(button,panel){panel.hidden=true;button.setAttribute('aria-expanded','false');button.addEventListener('click',event=>{event.stopPropagation();panel.hidden=!panel.hidden;button.setAttribute('aria-expanded',String(!panel.hidden));});}
+export function bindHelpDialog(trigger,dialog,closeButton,stopMovement){trigger.addEventListener('click',()=>{stopMovement();if(!dialog.open)dialog.showModal();closeButton.focus({preventScroll:true});});closeButton.addEventListener('click',()=>dialog.close());dialog.addEventListener('cancel',event=>{event.preventDefault();dialog.close();});dialog.addEventListener('close',()=>trigger.focus({preventScroll:true}));}
