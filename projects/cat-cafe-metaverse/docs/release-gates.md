@@ -8,7 +8,7 @@
 | Public realtime | Approved persistent host/TLS/origin/abuse controls, external2client room sync | Team access approved08:13UTC; no existing attached realtime backend found. Hosting path/monthly budget pending with user; no paid service provisioned. |
 | Capacity | 3×100 sockets with measured tick/network; separate realdeviceFPS | Matched90%-moving delta benchmark:wire-38.5%,CPU-22.9%,RSS+7.5%;300retained. CompressionOFF. Not realuser/renderingquality |
 | Desktop/mobile visual | WebGL rendering/coat/controls screenshots and boundedplay, mobiletouch/FPS | MacBook Safari18cats/coats/SDcontrols observed; Safari R2 selection and position fixes PASS; R3 toast/ball/keyboard PASS; help AX remains OPEN, nonmodal A/B pending. 0.2.3 owner-input70unit tests and5iframe layout measurements PASS; physical mobile/coarse-device/FPS and new Safari regression remain OPEN |
-| Release operations | Restart/reconnect, health/log/alert/budget/rollback, privacy and abuse controls | OPEN until actual host selected |
+| Release operations | Restart/reconnect, health/log/alert/budget/rollback, privacy and abuse controls | Code-only strict production config, readiness/drain and bounded rawTCP/WS cleanup loopback tests PASS. Docker recipe unbuilt; actual TLS/host, proxy/edge abuse controls, budget/alerts and external lifecycle OPEN |
 | Candidate provenance | Fresh tests/build, exact pushed branch tree, verified deployment | Required each candidate; no mainmerge |
 
 A candidate may improve independent items while other gates remain open. It is not a completed public multiplayer release until all required gates have evidence.

@@ -25,3 +25,6 @@ Remove unnecessary modal help architecture after actual Safari open/closed AX co
 
 ## 0.2.3 candidate · 2026-10-31
 Fix independent camera/joystick pointer ownership, wrong-pointer release, lost capture and stale input after blur/background/orientation/leave. Pause camera and movement consistently while help/dialog is open. Correct measured320px joystick/card and narrow header overlap, short-landscape room/card/notice overlap, and touch target sizes; use bounded scrolling card. Preserve reproducible exact-source native OfflineAudioContext PCM19case evidence without changing audio product code or claiming listening. New physical mobile/Safari regression remains blocked/unverified.
+
+## 0.2.4 candidate · 2026-10-31
+Prepare explicit fail-closed production configuration while retaining default loopback behavior. Add exact canonical HTTPS Origin validation, missing-Origin rejection in production, readiness503 on drain, stopped admission/gameplay and idempotent1012 shutdown with5second rawTCP+WS force cleanup. Independent half-open rejected-upgrade regression found/fixed. Add source-only non-root Node24 Docker recipe and operator guidance; no Docker build, public listener, host, tunnel, paid resources or credentials created. Browser assets unchanged from0.2.3.

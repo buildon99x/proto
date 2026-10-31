@@ -1,6 +1,6 @@
 {
   "name": "cat-cafe-room-server",
-  "version": "0.2.0",
+  "version": "0.2.4",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,6 +12,6 @@
     "ws": "8.18.3"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   }
 }
