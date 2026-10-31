@@ -462,8 +462,8 @@ export const projects = [
     "status": "prototype",
     "type": "webapp",
     "runtime": "static-artifact",
-    "version": "0.2.4",
-    "summary": "친구들과 고양이를 만나는 3D 카페 · 3개 방 · PC와 터치 지원 · 별도 실시간 서버 필요",
+    "version": "0.3.0",
+    "summary": "3D 고양이 카페 · 공개 실시간 베타 준비 · 3개 방 · 무료 베타 전체 6석",
     "tags": [
       "3d",
       "multiplayer",
@@ -488,6 +488,6 @@ export const projects = [
       "test": "pnpm --filter cat-cafe-metaverse test"
     },
     "assets": {},
-    "updatedAt": "2026-10-31T22:50:13+09:00"
+    "updatedAt": "2026-11-01T01:12:24+09:00"
   }
 ] as const satisfies readonly ProjectMetadata[];

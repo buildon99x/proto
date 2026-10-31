@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "corepack pnpm --filter launcher dev",
     "build": "tsx scripts/bump-version.ts && node scripts/run-turbo.cjs build",
-    "build:vercel": "corepack pnpm sync:registry && corepack pnpm build:projects && corepack pnpm --filter launcher build",
+    "build:vercel": "node scripts/cat-cafe-vercel-diagnostic.mjs && corepack pnpm sync:registry && corepack pnpm build:projects && corepack pnpm --filter launcher build",
     "build:projects": "tsx scripts/build-all-projects.ts",
     "build:project": "tsx scripts/build-project.ts",
     "sync:registry": "tsx scripts/sync-launcher-registry.ts",

@@ -28,3 +28,9 @@ Fix independent camera/joystick pointer ownership, wrong-pointer release, lost c
 
 ## 0.2.4 candidate · 2026-10-31
 Prepare explicit fail-closed production configuration while retaining default loopback behavior. Add exact canonical HTTPS Origin validation, missing-Origin rejection in production, readiness503 on drain, stopped admission/gameplay and idempotent1012 shutdown with5second rawTCP+WS force cleanup. Independent half-open rejected-upgrade regression found/fixed. Add source-only non-root Node24 Docker recipe and operator guidance; no Docker build, public listener, host, tunnel, paid resources or credentials created. Browser assets unchanged from0.2.3.
+
+## 0.3.0 · Vercel realtime migration candidate (not yet public-service verified)
+- Added same-origin Next WS/status routes and shared Redis fenced authority adapter with durable budgets and global six-seat beta admission.
+- Added automatic service discovery, bounded reconnect, truthful quota/unavailable state; kept solo preview independent.
+- Added guarded build-only real-provider diagnostic; credentials and public enable flag are separately gated.
+- Local regression and actual provider/public-socket verification remain distinct; see eval.md for measured results.
