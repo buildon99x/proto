@@ -22,3 +22,6 @@ Actual Safari R2 confirmed selection/position fixes but exposed hidden action no
 
 ## 0.2.2 candidate · 2026-10-31
 Remove unnecessary modal help architecture after actual Safari open/closed AX comparison: help is an ordinary named expandable region with native close, natural Tab order and movement paused while reading. No inert background, modal role, focus trap or dimming backdrop. Preserve the ball, notice and keyboard interactions already visually verified in Safari R3. Actual nonmodal Safari AX A/B remains the acceptance gate.
+
+## 0.2.3 candidate · 2026-10-31
+Fix independent camera/joystick pointer ownership, wrong-pointer release, lost capture and stale input after blur/background/orientation/leave. Pause camera and movement consistently while help/dialog is open. Correct measured320px joystick/card and narrow header overlap, short-landscape room/card/notice overlap, and touch target sizes; use bounded scrolling card. Preserve reproducible exact-source native OfflineAudioContext PCM19case evidence without changing audio product code or claiming listening. New physical mobile/Safari regression remains blocked/unverified.

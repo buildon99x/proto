@@ -1,0 +1,620 @@
+{
+  "capturedUtc": "2026-10-31T13:46:22Z",
+  "browser": "Cloud Chromium",
+  "scope": "iframe CSS viewport geometry, fine pointer; not phone hardware/coarse-pointer emulation; WebGL fallback covers some controls",
+  "baseline320": {
+    "revision": "before",
+    "viewport": [
+      "320",
+      "568"
+    ],
+    "joystickCardOverlap": true,
+    "rects": [
+      {
+        "selector": "#joystick",
+        "x": 25,
+        "y": 383,
+        "w": 100,
+        "h": 100,
+        "visible": true
+      },
+      {
+        "selector": "#cat-card",
+        "x": 101,
+        "y": 213,
+        "w": 207,
+        "h": 232,
+        "visible": true
+      },
+      {
+        "selector": "#notice",
+        "x": 16,
+        "y": 151,
+        "w": 288,
+        "h": 50,
+        "visible": true
+      },
+      {
+        "selector": "header",
+        "x": 18,
+        "y": 18,
+        "w": 284,
+        "h": 100,
+        "visible": true
+      },
+      {
+        "selector": "#rooms",
+        "x": 16,
+        "y": 83,
+        "w": 288,
+        "h": 91,
+        "visible": true
+      },
+      {
+        "selector": "footer",
+        "x": 16,
+        "y": 457,
+        "w": 288,
+        "h": 102,
+        "visible": true
+      },
+      {
+        "selector": "#help",
+        "x": 250.375,
+        "y": 487.5,
+        "w": 53.625,
+        "h": 27,
+        "visible": true
+      },
+      {
+        "selector": "#leave",
+        "x": 16,
+        "y": 532,
+        "w": 42.84375,
+        "h": 27,
+        "visible": true
+      },
+      {
+        "selector": "#nearest",
+        "x": 114,
+        "y": 330,
+        "w": 181,
+        "h": 44,
+        "visible": true
+      },
+      {
+        "selector": "#position-toggle",
+        "x": 118,
+        "y": 291,
+        "w": 65.546875,
+        "h": 30,
+        "visible": true
+      },
+      {
+        "selector": "[data-action=\"pet\"]",
+        "x": 114,
+        "y": 381,
+        "w": 57,
+        "h": 51,
+        "visible": true
+      }
+    ]
+  },
+  "final": [
+    {
+      "revision": "after",
+      "viewport": [
+        "320",
+        "568"
+      ],
+      "joystickCardOverlap": false,
+      "headerRoomsOverlap": false,
+      "joystickFooterOverlap": false,
+      "noticeRoomsOverlap": false,
+      "noticeCardOverlap": false,
+      "noticeWithinViewport": true,
+      "rects": [
+        {
+          "selector": "#joystick",
+          "x": 8,
+          "y": 390,
+          "w": 88,
+          "h": 88,
+          "visible": true
+        },
+        {
+          "selector": "#cat-card",
+          "x": 124,
+          "y": 240,
+          "w": 188,
+          "h": 238,
+          "visible": true
+        },
+        {
+          "selector": "#notice",
+          "x": 16,
+          "y": 178,
+          "w": 288,
+          "h": 50,
+          "visible": true
+        },
+        {
+          "selector": "header",
+          "x": 12,
+          "y": 12,
+          "w": 296,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#rooms",
+          "x": 8,
+          "y": 74,
+          "w": 304,
+          "h": 66,
+          "visible": true
+        },
+        {
+          "selector": "footer",
+          "x": 16,
+          "y": 490,
+          "w": 288,
+          "h": 69,
+          "visible": true
+        },
+        {
+          "selector": "#help",
+          "x": 198.375,
+          "y": 513,
+          "w": 53.625,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#leave",
+          "x": 260,
+          "y": 513,
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#nearest",
+          "x": 133,
+          "y": 367,
+          "w": 170,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#position-toggle",
+          "x": 137,
+          "y": 314,
+          "w": 65.546875,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "[data-action=\"pet\"]",
+          "x": 133,
+          "y": 418,
+          "w": 54,
+          "h": 51,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "revision": "after",
+      "viewport": [
+        "390",
+        "844"
+      ],
+      "joystickCardOverlap": false,
+      "headerRoomsOverlap": false,
+      "joystickFooterOverlap": false,
+      "noticeRoomsOverlap": false,
+      "noticeCardOverlap": false,
+      "noticeWithinViewport": true,
+      "rects": [
+        {
+          "selector": "#joystick",
+          "x": 25,
+          "y": 623,
+          "w": 100,
+          "h": 100,
+          "visible": true
+        },
+        {
+          "selector": "#cat-card",
+          "x": 171,
+          "y": 477,
+          "w": 207,
+          "h": 246,
+          "visible": true
+        },
+        {
+          "selector": "#notice",
+          "x": 19.5,
+          "y": 415,
+          "w": 351,
+          "h": 50,
+          "visible": true
+        },
+        {
+          "selector": "header",
+          "x": 12,
+          "y": 12,
+          "w": 366,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#rooms",
+          "x": 8,
+          "y": 74,
+          "w": 374,
+          "h": 53,
+          "visible": true
+        },
+        {
+          "selector": "footer",
+          "x": 16,
+          "y": 735,
+          "w": 358,
+          "h": 100,
+          "visible": true
+        },
+        {
+          "selector": "#help",
+          "x": 16,
+          "y": 791,
+          "w": 53.625,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#leave",
+          "x": 77.625,
+          "y": 791,
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#nearest",
+          "x": 184,
+          "y": 608,
+          "w": 181,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#position-toggle",
+          "x": 188,
+          "y": 555,
+          "w": 65.546875,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "[data-action=\"pet\"]",
+          "x": 184,
+          "y": 659,
+          "w": 57,
+          "h": 51,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "revision": "after",
+      "viewport": [
+        "568",
+        "320"
+      ],
+      "joystickCardOverlap": false,
+      "headerRoomsOverlap": false,
+      "joystickFooterOverlap": false,
+      "noticeRoomsOverlap": false,
+      "noticeCardOverlap": false,
+      "noticeWithinViewport": true,
+      "rects": [
+        {
+          "selector": "#joystick",
+          "x": 12,
+          "y": 163,
+          "w": 88,
+          "h": 88,
+          "visible": true
+        },
+        {
+          "selector": "#cat-card",
+          "x": 342,
+          "y": 124,
+          "w": 214,
+          "h": 127,
+          "visible": true
+        },
+        {
+          "selector": "#notice",
+          "x": 112,
+          "y": 124,
+          "w": 218,
+          "h": 65,
+          "visible": true
+        },
+        {
+          "selector": "header",
+          "x": 12,
+          "y": 8,
+          "w": 544,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#rooms",
+          "x": 12,
+          "y": 60,
+          "w": 544,
+          "h": 52,
+          "visible": true
+        },
+        {
+          "selector": "footer",
+          "x": 12,
+          "y": 263,
+          "w": 544,
+          "h": 48,
+          "visible": true
+        },
+        {
+          "selector": "#help",
+          "x": 450.375,
+          "y": 265,
+          "w": 53.625,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#leave",
+          "x": 512,
+          "y": 265,
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#nearest",
+          "x": 351,
+          "y": 251,
+          "w": 181,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#position-toggle",
+          "x": 355,
+          "y": 198,
+          "w": 65.546875,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "[data-action=\"pet\"]",
+          "x": 351,
+          "y": 302,
+          "w": 57,
+          "h": 44,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "revision": "after",
+      "viewport": [
+        "844",
+        "390"
+      ],
+      "joystickCardOverlap": false,
+      "headerRoomsOverlap": false,
+      "joystickFooterOverlap": false,
+      "noticeRoomsOverlap": false,
+      "noticeCardOverlap": false,
+      "noticeWithinViewport": true,
+      "rects": [
+        {
+          "selector": "#joystick",
+          "x": 12,
+          "y": 224,
+          "w": 88,
+          "h": 88,
+          "visible": true
+        },
+        {
+          "selector": "#cat-card",
+          "x": 618,
+          "y": 125,
+          "w": 214,
+          "h": 187,
+          "visible": true
+        },
+        {
+          "selector": "#notice",
+          "x": 112,
+          "y": 125,
+          "w": 494,
+          "h": 56,
+          "visible": true
+        },
+        {
+          "selector": "header",
+          "x": 12,
+          "y": 8,
+          "w": 820,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#rooms",
+          "x": 12,
+          "y": 60,
+          "w": 820,
+          "h": 53,
+          "visible": true
+        },
+        {
+          "selector": "footer",
+          "x": 12,
+          "y": 324,
+          "w": 820,
+          "h": 48,
+          "visible": true
+        },
+        {
+          "selector": "#help",
+          "x": 224.375,
+          "y": 326,
+          "w": 63.59375,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#leave",
+          "x": 299.96875,
+          "y": 326,
+          "w": 51.609375,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#nearest",
+          "x": 627,
+          "y": 255,
+          "w": 181,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "#position-toggle",
+          "x": 627,
+          "y": 211,
+          "w": 65.546875,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "selector": "[data-action=\"pet\"]",
+          "x": 627,
+          "y": 306,
+          "w": 57,
+          "h": 45,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "revision": "after",
+      "viewport": [
+        "768",
+        "1024"
+      ],
+      "joystickCardOverlap": false,
+      "headerRoomsOverlap": false,
+      "joystickFooterOverlap": false,
+      "noticeRoomsOverlap": false,
+      "noticeCardOverlap": false,
+      "noticeWithinViewport": true,
+      "rects": [
+        {
+          "selector": "#joystick",
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "visible": false
+        },
+        {
+          "selector": "#cat-card",
+          "x": 121.5,
+          "y": 763,
+          "w": 525,
+          "h": 185,
+          "visible": true
+        },
+        {
+          "selector": "#notice",
+          "x": 192,
+          "y": 695,
+          "w": 384,
+          "h": 56,
+          "visible": true
+        },
+        {
+          "selector": "header",
+          "x": 32,
+          "y": 26,
+          "w": 704,
+          "h": 52,
+          "visible": true
+        },
+        {
+          "selector": "#rooms",
+          "x": 32,
+          "y": 100,
+          "w": 443.359375,
+          "h": 63,
+          "visible": true
+        },
+        {
+          "selector": "footer",
+          "x": 32,
+          "y": 960,
+          "w": 704,
+          "h": 46,
+          "visible": true
+        },
+        {
+          "selector": "#help",
+          "x": 608.796875,
+          "y": 967.5,
+          "w": 63.59375,
+          "h": 31,
+          "visible": true
+        },
+        {
+          "selector": "#leave",
+          "x": 684.390625,
+          "y": 967.5,
+          "w": 51.609375,
+          "h": 31,
+          "visible": true
+        },
+        {
+          "selector": "#nearest",
+          "x": 287.625,
+          "y": 830.5,
+          "w": 94.875,
+          "h": 50,
+          "visible": true
+        },
+        {
+          "selector": "#position-toggle",
+          "x": 144.5,
+          "y": 899,
+          "w": 65.546875,
+          "h": 30,
+          "visible": true
+        },
+        {
+          "selector": "[data-action=\"pet\"]",
+          "x": 406.5,
+          "y": 823.5,
+          "w": 67,
+          "h": 64,
+          "visible": true
+        }
+      ]
+    }
+  ]
+}

@@ -28,3 +28,6 @@ Coat pattern is pigment on existing body/head surfaces, not added volume: six pa
 
 ## Negotiated delta transport
 Clients opt in with `snapshotFormat:delta-v1`; legacy clients retain packed-v1, and new clients accept packed fallback from old servers. Full snapshots establish a baseline on successful membership changes/reconnect/resync; later patches contain changed fields and removals. Same-sequence validated full snapshots may refresh state because joins/actions can occur between world ticks. Delta caches use actual baseline identity, not only tick sequence. Bounded sends never advance a dropped baseline; gap resync is rate limited. This transport improvement does not create a public backend.
+
+### Mobile robustness acceptance extension · 2026-10-31
+Each camera/joystick gesture has one owner pointer; unrelated pointers must neither steal nor terminate it. Capture loss/cancel/background/orientation/leave reset active IDs and movement, and stale moves cannot resume. Joystick and camera may operate independently; help/native dialogs pause both. Narrow controls must not overlap joystick; coarse tablets must expose it. Tests/emulated layout are distinct from actual phone multitouch verification. Actual OfflineAudioContext PCM validates generated samples, silence and cleanup but not heard quality or live device output.
