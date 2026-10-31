@@ -1,0 +1,1 @@
+{"name":"cat-cafe-metaverse","version":"0.1.0","private":true,"type":"module","scripts":{"dev":"node dev.mjs","build":"vite build","lint":"node --check src/main.js && node --check src/world.js && node --check src/logic.js","test":"node --test src/logic.test.js"},"dependencies":{"three":"0.172.0"},"devDependencies":{"vite":"6.4.3"}}

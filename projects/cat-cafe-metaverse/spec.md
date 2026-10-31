@@ -1,0 +1,18 @@
+# Approved implementation specification
+## Architecture
+Static Three.js browser artifact plus separate persistent Node/ws process, scoped to this project. The launcher remains unchanged except generated registry. This is the narrow user-approved exception to root static-project endpoint rules. ws chosen over Colyseus for small explicit protocol, low dependency count and directly auditable room ownership. In-memory rooms deliberately have no durable player profiles. No client-only fake multiplayer fallback.
+
+## World and controls
+Warm cream, honey wood and sage; window lounge, cat tree and open play floor. World x/z bounds -12..12. Decorative furniture must match shared collision circles. WASD/arrows movement, drag orbit, click cat and action; touch joystick/camera and 44px action buttons. Player-player overlap prevents griefing blockers. Three rooms sunshine/window, garden, evening. Eighteen procedural cats per room, six markings. All shared simulation is server-owned.
+
+## Wire protocol v1 (JSON)
+Client opens /ws; sends {type:'join',room:'sunroom'|'garden'|'moonlight',token?:string}. Server {type:'welcome',id,token,room}, then {type:'state',seq,time,room,players:[{id,name,x,z,yaw,color}],cats:[{id,name,x,z,yaw,skin,mode,owner,until}],toys:[{id,x,z,owner}],rooms:[{id,name,count,capacity,recommended}]}.
+Client {type:'move',seq:integer,x:number,z:number} normalized intent -1..1. Server uses fixed dt, speed3.6/s, input timeout250ms and collision/bounds. Client {type:'action',requestId:string,action:'pet'|'feather'|'ball',catId:string}. Server {type:'actionResult',requestId,ok,reason?}. Action proximity <=2.8, cat lease exclusive, bounded cooldown/duration; reject malformed/unknown/oversized input. Client {type:'ping',id:number} → {type:'pong',id}. Client {type:'leave'} releases all; disconnect reserves seat20s and clears active input/leases. Reconnect token is random secret with fixed expiry, never in public state; only one connection may own a token. Capacity counts reservations. Joining another room is atomic: denied join retains original membership. 101st visitor rejected explicitly.
+
+20Hz authoritative simulation, 10Hz snapshots; compact quantized values. Per-client state spatial filtering may reduce remote detail, but full visible crowd must remain truthful. Maxpayload2048, rate limited input; no compression; ping/pong liveness, queue limit and slow-client close. Default bind127.0.0.1:8787. Explicit browser URL configured in UI or build env, absent server produces offline/error UI. Origins explicit allowlist; no wildcard public origins by default.
+
+## Evidence and release
+Synthetic 3×100 socket clients are not 300 visual clients/human usability. Record CPU/RSS/tick quantiles/action RTT and bytes. Browser test desktop/touch, visual WebGL fallback, screenshots, interactions; document unavailable stages. Working branch only, no main merge or paid/public host.
+
+### Clarifications from independent architecture review
+Action requestId deduplicates in bounded per-session cache. Successful switch transfers the single token membership and releases old leases; rejected switch preserves old seat. Unjoined sockets expire after5s; server caps360 total connections and incoming traffic. Missing Origin is accepted only on this loopback-only build for native local clients. Snapshot players lists connected visitors only, while rooms count includes reservations and exposes connected/reserved separately. Resume must reset input sequence or disclose lastInputSeq. The browser configures /ws explicitly.

@@ -127,6 +127,16 @@ importers:
         specifier: ^6.0.7
         version: 6.4.3(@types/node@20.19.43)(tsx@4.22.4)
 
+  projects/cat-cafe-metaverse/app:
+    dependencies:
+      three:
+        specifier: 0.172.0
+        version: 0.172.0
+    devDependencies:
+      vite:
+        specifier: 6.4.3
+        version: 6.4.3(@types/node@20.19.43)(tsx@4.22.4)
+
   projects/dead-freight-release/app: {}
 
   projects/deck-building/app:
@@ -1486,6 +1496,9 @@ packages:
       babel-plugin-macros:
         optional: true
 
+  three@0.172.0:
+    resolution: {integrity: sha512-6HMgMlzU97MsV7D/tY8Va38b83kz8YJX+BefKjspMNAv0Vx6dxMogHOrnRl/sbMIs3BPUKijPqDqJ/+UwJbIow==}
+
   throttleit@2.1.0:
     resolution: {integrity: sha512-nt6AMGKW1p/70DF/hGBdJB57B8Tspmbp5gfJ8ilhLnt7kkr2ye7hzD6NVG8GGErk2HWF34igrL2CXmNIkzKqKw==}
     engines: {node: '>=18'}
@@ -2630,6 +2643,8 @@ snapshots:
     dependencies:
       client-only: 0.0.1
       react: 18.3.1
+
+  three@0.172.0: {}
 
   throttleit@2.1.0: {}
 

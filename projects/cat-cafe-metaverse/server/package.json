@@ -1,0 +1,1 @@
+{"name":"cat-cafe-room-server","version":"0.1.0","private":true,"type":"module","scripts":{"start":"node index.mjs","test":"node --test ../tests/server*.test.mjs","load":"node load.mjs"},"dependencies":{"ws":"8.18.3"},"engines":{"node":">=20"}}

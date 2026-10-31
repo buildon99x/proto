@@ -1,0 +1,33 @@
+{
+  "id": "cat-cafe-metaverse",
+  "name": "햇살냥 · Cat Café",
+  "status": "prototype",
+  "type": "webapp",
+  "runtime": "static-artifact",
+  "version": "0.1.0",
+  "summary": "친구들과 고양이를 만나는 3D 카페 · 3개 방 · PC와 터치 지원 · 별도 실시간 서버 필요",
+  "tags": [
+    "3d",
+    "multiplayer",
+    "cats",
+    "mobile"
+  ],
+  "projectRoot": "projects/cat-cafe-metaverse",
+  "entry": {
+    "kind": "iframe",
+    "path": "/runs/cat-cafe-metaverse/index.html"
+  },
+  "docs": {
+    "brief": "brief.md",
+    "spec": "spec.md",
+    "eval": "eval.md",
+    "readme": "README.md",
+    "changelog": "changelog.md"
+  },
+  "commands": {
+    "dev": "pnpm --filter cat-cafe-metaverse dev",
+    "build": "pnpm --filter cat-cafe-metaverse build",
+    "test": "pnpm --filter cat-cafe-metaverse test"
+  },
+  "assets": {}
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "created_existing_folder": {
+      "id": "a800f9f2-c2c2-4756-9a0e-daf6ea46fb68",
+      "name": "햇살냥 · Cat Café Metaverse",
+      "nameSource": "manual",
+      "type": "web-game",
+      "updatedAt": "2026-10-31T06:18:33.887Z",
+      "workspacePath": "/workspace/scratch/1164483895fe/proto-cat-cafe/projects/cat-cafe-metaverse",
+      "storagePath": "/workspace/scratch/1164483895fe/ohmygame-recovery/data/projects/a800f9f2-c2c2-4756-9a0e-daf6ea46fb68",
+      "workspaceLocation": "external",
+      "workspaceAvailable": true,
+      "preview": {
+        "status": "stopped"
+      }
+    }
+  },
+  {
+    "source_read_via_ohmygame": true
+  },
+  {
+    "actual_project_preview": {
+      "url": "http://127.0.0.1:39621",
+      "title": "햇살냥 · Cat Café Metaverse"
+    }
+  },
+  {
+    "actual_project_preview_html": true
+  },
+  {
+    "restart_existing_folder_persisted": true,
+    "no_ai_provider_used": true
+  }
+]
