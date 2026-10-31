@@ -25,3 +25,6 @@ The separately labeled “혼자 둘러보기 · 실시간 연결 아님” runs
 
 ## Release-quality iteration
 Coat pattern is pigment on existing body/head surfaces, not added volume: six palettes,12cached128×64RGBA color maps (~384KiB), sRGB, no displacement. Pet/feather/ball reactions reset to idle and express eyes/ears/tail/posture/heart from current accepted mode. Original procedural audio starts silent until a trusted sound-control gesture, volume/mute preferences are nonsecret local storage, simultaneous voices capped, hidden/leave cleanup. Live sounds require matching successful recent actionResult, never snapshot/reconnect bursts. Public connection remains an explicit operational gate, not something static deployment supplies.
+
+## Negotiated delta transport
+Clients opt in with `snapshotFormat:delta-v1`; legacy clients retain packed-v1, and new clients accept packed fallback from old servers. Full snapshots establish a baseline on successful membership changes/reconnect/resync; later patches contain changed fields and removals. Same-sequence validated full snapshots may refresh state because joins/actions can occur between world ticks. Delta caches use actual baseline identity, not only tick sequence. Bounded sends never advance a dropped baseline; gap resync is rate limited. This transport improvement does not create a public backend.

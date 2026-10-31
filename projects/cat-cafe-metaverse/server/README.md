@@ -63,3 +63,55 @@ Raw: `load-compression-baseline.jsonl` and `load-compression-experiment.jsonl`. 
 | Elapsed tick interval p99 ms |57.77|53.64|
 
 Wire bytes decreased58.8%, but combined CPU and action RTT regressed substantially. Compression remains disabled by default; this result does NOT justify turning it on for public launch. Concurrent browser work and a separate test run around08:01:00–08:01:10UTC overlapped the compression run, so this is a shared-resource diagnostic rather than an isolated comparative benchmark. Combinedprocess CPU also includes300 client inflaters. Next step is client/server delta transport design or an isolated representative host experiment, not silently enabling compression. Public service remains unconfigured.
+
+## Optional delta-v1 snapshots (compression remains OFF)
+A client opts in on every join using `snapshotFormat: 'delta-v1'`. Clients omitting it still receive `packed-v1`; older servers ignore the new join field and remain compatible. Welcome reports selected `snapshotFormat`.
+
+Full packet: `type:state, schema:delta-v1, kind:full, room, seq, time, players, cats, toys, rooms`, with existing packed tuples. Delta packet: `type:state, schema:delta-v1, kind:delta, room, seq, time, baseSeq`; changed entity groups optionally contain `add` full tuples, `remove` ID arrays, and `change` arrays `[id, mask, ...values]`. Mask bit0 refers to the first tuple field after ID, then existing tuple order. Room metadata is included only when changed. Empty groups are omitted. `shared/delta.mjs` is the browser-safe shared validator/reconstructor.
+
+Full packets are sent on join, actual room switch, reconnect and resync. Baselines advance only after successful enqueue, never when backpressure drops a snapshot. A requested resync that is dropped keeps forceFull set until a full packet queues. `resync` requests are limited to1/second plus the ordinary input bucket. No periodic keyframe or packet acknowledgement is needed on ordered WebSocket/TCP. Clients request resync on missing/mismatched baselines.
+
+A valid full packet with the SAME sequence refreshes the baseline (joins/actions can mutate state between simulation ticks); older full packets are stale. Delta sequence <=current is stale. Shared serialization cache uses baseline object identity, NOT sequence alone: two clients can have distinct same-sequence membership snapshots. Both edge cases have regressions. Decoding rejects unsupported masks, invalid fields/nonfinite numbers, duplicate additions and unknown changed IDs without mutating the prior baseline.
+
+###90s delta correctness/performance diagnostic
+`LOAD_SECONDS=90 LOAD_COUNTS=100 LOAD_DELTA=0 LOAD_COMPRESSION=0 npm run load` versus `LOAD_DELTA=1`. Raw: `load-delta-baseline.jsonl`, `load-delta-experiment.jsonl`. Every post-warmup reconstructed frame was checked for EXACT equality against the authoritative snapshot captured by a harness-only `world.snapshot` wrapper;600 timestamp/room/sequence keys retained. This adds significant validation/stringification/GC work to the same event loop as300 clients and the server.
+
+| Metric | Packed full | Delta |
+|---|---:|---:|
+| Exactly verified state frames |227700|254100|
+| Missing /mismatched /decode errors /resyncs |0 /0 /0 /0|0 /0 /0 /0|
+| Actual WS MiB/s |18.228|3.365|
+| CPU% onecore combined |81.80|66.24|
+| PeakRSS MiB combined |367.12|317.43|
+| Action RTT p95 /p99 ms |77.59 /86.64|21.28 /24.56|
+| Tick work p99 ms |12.99|6.19|
+| Effective simulation Hz |16.84|18.83|
+| Elapsed tick interval p99 ms |83.67|69.38|
+| Observed moving player fraction |13.45%|11.36%|
+| Nonzero movement input fraction |9.05%|9.00%|
+
+Both retained300/300 sockets, with0 dropped snapshots/slow closes. Wire traffic fell81.5%; this is a substantial diagnostic improvement, not a claim of20Hz public-service capacity. Correctness verification itself throttled the combined process. Workload algorithm matched but time-driven cats were not an exact replay; most visitors settled near their cat, so this is NOT300 continuously moving avatars. Initial~4s of the baseline overlapped another test run ending08:11:12UTC; no subsequent heavy parent work was requested. Initial full packets are excluded from the comparison frame counts. There is no real-user/mobileFPS/Internet-host proof in these figures.
+
+###Deterministic90%-moving performance comparison (sampled equality)
+Latest performance evidence: `load-delta-sampled-baseline.jsonl`, `load-delta-sampled-experiment.jsonl`. Commands add `LOAD_VERIFY=sampled LOAD_DETERMINISTIC=1` to the prior90s/300-client runs. Seed1337 controls a fixed circular movement-intent sequence;90% of clients move continuously,10% idle. Both runs sent exactly540000 movement messages over1800 driver steps, with matching seed/pattern. The90s is a nominal1800×50ms target; actual elapsed time is reported below, not disguised as90s. The seed does not freeze server cat wall-clock roaming or generated visitor identities.
+
+Every frame is still decoded/validated. Exact authoritative equality is sampled for one client per room every10 frames (270 checks each run); the earlier all-frame correctness proof remains separate. Observed authoritative moving-player fraction was90.00% in BOTH runs, not merely nonzero intent. Parent heavy tests/build/browser actions were paused during this pair.
+
+| Metric | Packed full | Delta |
+|---|---:|---:|
+| Actual elapsed seconds |93.108|91.626|
+| Movement messages /driver steps |540000 /1800|540000 /1800|
+| State frames decoded |270000|270000|
+| Exact sampled comparisons |270 /270|270 /270|
+| Decode /missing /mismatch /resync errors |0 /0 /0 /0|0 /0 /0 /0|
+| Actual WS MiB/s |19.170|11.781|
+| Combined CPU% onecore |75.35|58.13|
+| Combined peakRSS MiB |379.31|407.70|
+| Effective simulation Hz |19.332|19.645|
+| Elapsed tick interval p99 ms |65.73|59.08|
+| Tick work p99 ms |13.23|7.11|
+| Action RTT p95 /p99 ms |54.05 /67.35|50.79 /59.92|
+
+Both retained300/300 sockets with zero snapshot drops or slow closes. Under continuous90%-moving load, delta reduced actual WS traffic38.5% and combined CPU22.9%; peakRSS INCREASED7.5%, so do not claim an across-the-board memory improvement. This heavy-movement result supersedes the mostly-idle81.5% saving as the conservative performance headline. The same-process test still includes300 synthetic decoders and monitoring, not isolated server CPU, real browsers, mobile rendering or Internet latency. Effective19.645Hz is near but not a guaranteed20Hz service SLA. Compression remains OFF; no public host was provisioned.
+
+Memory bounds (design, not a leak proof): each admitted socket retains at most one authoritative baseline reference; the encoded delta cache exists only for one broadcast and is discarded afterward. Normal same-room clients share the current baseline object. World membership/reservations are capped at300 across three rooms; transport connections at360; each player dedup cache at64; tick metric arrays at12000 entries each. Backpressure caps queued sending and closes slow peers. The load-only authoritative-history map retains600 keys and is absent from production startup. Observed peakRSS increased7.5% in the90%-moving delta comparison; no isolated retained-heap or long-duration leak analysis was performed.

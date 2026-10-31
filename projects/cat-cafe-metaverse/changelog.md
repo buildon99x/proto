@@ -10,3 +10,6 @@ Initial working-branch candidate: procedural3D café,18cats/room,3rooms, authori
 
 ### Release-quality candidate · 2026-10-31
 Replace protruding coat markings with cached flat surface color maps; enrich accepted cat reactions. Add gesture-gated original synthetic sound, volume/mute, acknowledged-action correlation and lifecycle cleanup. Add opt-in server compression experiment with realwire measurement; default remains uncompressed. Publish only as tested working-branch candidate; public backend and realdevice audiovisual release gates remain open.
+
+### Negotiated delta candidate · 2026-10-31
+Optional delta-v1 snapshots with legacypacked fallback, fullstate onmembership/resync, strictboundeddecoder and same-tick baselinecorrectness. Matched90%-moving synthetic comparison reducedwire38.5%/combinedCPU22.9% but peakRSSrose7.5%; fullconditions documented. Publichosting and audiovisual release gates remain open.
