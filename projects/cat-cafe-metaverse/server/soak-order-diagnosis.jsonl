@@ -1,0 +1,1 @@
+{"event":"reproduced_raw_array_order_mismatch","room":"sunroom","seq":10,"expectedPlayerOrder":["A","B"],"decodedPlayerOrder":["B","A"],"equalAllPerIdFieldsAndMetadata":true,"differingGroups":["players"],"tokensLogged":false}

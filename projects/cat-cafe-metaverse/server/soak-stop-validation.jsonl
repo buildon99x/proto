@@ -1,0 +1,17 @@
+{"event":"config","mode":"TIME_COMPRESSED_SMOKE","seed":1337,"clients":300,"rooms":3,"warmupSeconds":1,"measuredSeconds":6.5,"reservationMs":500,"cycleMs":2000,"sampleMs":1000,"compression":false,"baseCommit":"083d308","oracle":"entity collections sorted by ID; all fields retained; raw order-only differences counted","harnessStatus":"uncommitted test harness over base source","scope":"local synthetic sockets; server and generator share one process; no visual/mobile/Internet verification"}
+{"event":"measured_start","utc":"2026-10-31T08:53:15.022Z","connected":300,"worldSeq":26}
+{"event":"sample","elapsedSeconds":1.00571866,"windowSeconds":1.00571866,"connected":300,"reservations":0,"totalSeats":300,"rssMiB":216.54296875,"heapUsedMiB":66.67294311523438,"externalMiB":7.693425178527832,"effectiveTickHz":19.886277142357088,"tickIntervalP99Ms":56.08648500000004,"tickWorkP99Ms":4.956243000000086,"pingP95Ms":14.584054000000151,"actionP95Ms":0,"wireMiBPerSecond":11.519670369051907,"decoded":6806,"verified":3,"mismatches":0,"decodeErrors":0,"missing":0,"cycles":0}
+{"event":"fatal","message":"Operator stop requested"}
+{"event":"sample","elapsedSeconds":1.6206994600000002,"windowSeconds":0.6149808000000003,"connected":300,"reservations":0,"totalSeats":300,"rssMiB":218.18359375,"heapUsedMiB":70.40769958496094,"externalMiB":7.78903865814209,"effectiveTickHz":19.51280430218308,"tickIntervalP99Ms":52.80250300000034,"tickWorkP99Ms":5.004140000000007,"pingP95Ms":16.48929500000031,"actionP95Ms":16.489484000000175,"wireMiBPerSecond":12.187083730315202,"decoded":8609,"verified":3,"mismatches":0,"decodeErrors":0,"missing":0,"cycles":0}
+{"event":"cleanup","members":0,"tokens":0,"roomSeats":0,"clientSockets":0,"serverClosed":true}
+{"event":"terminal_complete","passed":false,"cleanupPassed":true}
+file:///workspace/scratch/1164483895fe/proto-cat-cafe/projects/cat-cafe-metaverse/server/soak.mjs:116
+ while(performance.now()-measuredStart<durationMs&&!fatal){const now=performance.now();if(existsSync(stopFile)){fail(Error('Operator stop requested'));break;}if(now>=nextCycle&&!churnTask&&durationMs-(now-measuredStart)>expiryDelayMs+(smoke?250:2000)){cycle++;churnTask=churn(cycle).catch(fail).finally(()=>{churnTask=null;});nextCycle+=cycleMs;}if(now>=nextMilestone){emit({event:'milestone',minutes:Math.round((now-measuredStart)/60000),connected:liveCount(),cycles:stats.cycles,decoded:stats.decoded,verified:stats.verified,errors:stats.decodeErrors+stats.mismatches+stats.missing,heapUsedMiB:process.memoryUsage().heapUsed/1048576});nextMilestone+=300000;}await sleep(100);}
+                                                                                                                     ^
+
+Error: Operator stop requested
+    at file:///workspace/scratch/1164483895fe/proto-cat-cafe/projects/cat-cafe-metaverse/server/soak.mjs:116:118
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processTimers (node:internal/timers:615:9)
+
+Node.js v24.22.1

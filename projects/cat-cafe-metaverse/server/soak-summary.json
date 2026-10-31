@@ -1,0 +1,113 @@
+{
+  "serverRuntimeBaseCommit": "083d308",
+  "measuredStartUTC": "2026-10-31T08:54:03.340Z",
+  "measuredSeconds": 1200.0185657929999,
+  "processExitCode": 0,
+  "terminal": {
+    "event": "terminal_complete",
+    "passed": true,
+    "cleanupPassed": true
+  },
+  "cleanup": {
+    "event": "cleanup",
+    "members": 0,
+    "tokens": 0,
+    "roomSeats": 0,
+    "clientSockets": 0,
+    "serverClosed": true
+  },
+  "result": {
+    "event": "workload_result",
+    "workloadPassed": true,
+    "droppedSnapshots": 0,
+    "slowCloses": 0,
+    "mode": "20_MINUTE_SOAK",
+    "actualMeasuredSeconds": 1200.0185657929999,
+    "effectiveTickHz": 19.846359613829673,
+    "minConnected": 297,
+    "maxConnected": 300,
+    "wireMiBPerSecond": 11.909103123194852,
+    "cpuPercentOneCoreCombined": 48.76069434920182,
+    "memoryWindows": [
+      {
+        "fromSeconds": 0,
+        "toSeconds": 300,
+        "heapMinMiB": 34.489654541015625,
+        "heapMedianMiB": 64.17363739013672,
+        "rssMinMiB": 228.56640625,
+        "rssMedianMiB": 230.27734375
+      },
+      {
+        "fromSeconds": 300,
+        "toSeconds": 600,
+        "heapMinMiB": 29.007095336914062,
+        "heapMedianMiB": 64.34900665283203,
+        "rssMinMiB": 230.4765625,
+        "rssMedianMiB": 230.859375
+      },
+      {
+        "fromSeconds": 600,
+        "toSeconds": 900,
+        "heapMinMiB": 35.82238006591797,
+        "heapMedianMiB": 66.1693115234375,
+        "rssMinMiB": 230.5,
+        "rssMedianMiB": 231.35546875
+      },
+      {
+        "fromSeconds": 900,
+        "toSeconds": 1200,
+        "heapMinMiB": 30.765899658203125,
+        "heapMedianMiB": 63.550453186035156,
+        "rssMinMiB": 231.234375,
+        "rssMedianMiB": 231.91015625
+      }
+    ],
+    "stats": {
+      "decoded": 3657903,
+      "verified": 3427,
+      "orderOnlyDifferences": 14,
+      "missing": 0,
+      "mismatches": 0,
+      "decodeErrors": 0,
+      "wrongRoom": 0,
+      "unexpectedSocketErrors": 0,
+      "unexpectedMessages": 0,
+      "unexpectedCloses": 0,
+      "expectedRoomFull": 104,
+      "expectedExpiredToken": 18,
+      "resumes": 60,
+      "resumedZeroSequences": 60,
+      "expiredRejoins": 18,
+      "successfulSwitches": 39,
+      "atomicRejectedSwitches": 26,
+      "freshReplacements": 39,
+      "forcedResyncs": 347,
+      "actionsAccepted": 6074,
+      "actionsRejected": 176668,
+      "ackExpired": 0,
+      "latencyOverflow": 0,
+      "cycles": 26
+    },
+    "metricsRetentionNote": "production tick arrays cap12000; effectiveHz uses world.seq delta, per-window quantiles use latest window tick count",
+    "memoryScope": "same-process server+generator+bounded600-key correctness history; natural GC, no forced GC, not leak proof"
+  },
+  "seriesSummary": {
+    "samples": 120,
+    "rssMinMiB": 228.56640625,
+    "rssMaxMiB": 232.97265625,
+    "heapMinMiB": 29.007095336914062,
+    "heapMaxMiB": 95.8196792602539,
+    "medianWindowActionP95Ms": 44.55134100007126,
+    "maxWindowActionP95Ms": 60.062850000016624,
+    "maxWindowTickIntervalP99Ms": 73.82903900003294
+  },
+  "concurrencyNotesUTC": [
+    "09:06:38–09:06:41 frontend tests/build",
+    "09:07:04–09:07:05 frontend tests/build",
+    "09:08:19–09:08:22 frontend tests/build",
+    "09:09:01–09:09:26 frontend tests/build"
+  ],
+  "scope": "Local synthetic sockets; combined server+generator; lifecycle/memory evidence, not isolated performance or human/mobile/browser validation. Subsequent ball-physics changes are NOT covered.",
+  "appChangesExcluded": true,
+  "actionRejectionReasonLimit": "Action rejection total counted; individual action rejection reasons were not separately tallied in this run."
+}

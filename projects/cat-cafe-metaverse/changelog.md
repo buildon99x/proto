@@ -16,3 +16,6 @@ Optional delta-v1 snapshots with legacypacked fallback, fullstate onmembership/r
 
 ### Safari regression fixes · 2026-10-31
 Reset stale cat selection ring on room change; fix position disclosure/footer overlap; improve helpdialog accessible naming/focus; larger highcontrast ball. Found by actual authorized MacBook Safari QA, source/unit fixes awaiting same-device retest.
+
+## 0.2.1 candidate · 2026-10-31
+Actual Safari R2 confirmed selection/position fixes but exposed hidden action notices and inaccessible native help content. Help now uses a focused, inert-background standard overlay; notices follow measured card/footer layout. Keyboard movement resumes from focused buttons while remaining blocked inside modals. Ball placement/movement is shared between server and solo: safe spawn, owner-cat clearance and bounded collision reflection replace the prior under-body overlap; failed placement is atomic and explained in Korean. Actual same-device R3 visual/AX retest remains required. Completed20-minute lifecycle soak is explicitly for the prior server baseline, with separate final-physics short checks.

@@ -4,7 +4,7 @@
   "status": "prototype",
   "type": "webapp",
   "runtime": "static-artifact",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "summary": "친구들과 고양이를 만나는 3D 카페 · 3개 방 · PC와 터치 지원 · 별도 실시간 서버 필요",
   "tags": [
     "3d",
