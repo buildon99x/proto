@@ -118,3 +118,6 @@ Memory bounds (design, not a leak proof): each admitted socket retains at most o
 
 ## Production-readiness source (not public deployment)
 See [DEPLOYMENT.md](DEPLOYMENT.md) for explicit production origin validation, unchanged loopback defaults, readiness/drain and bounded shutdown, and an **unbuilt** non-root Node24 Docker recipe. Host/WSS/abuse-control authorization remains required.
+
+## Private checkpoint codec (Vercel migration foundation)
+`state-codec.mjs` exports/imports a versioned, bounded JSON-safe World checkpoint for a future shared authority adapter. Distributed connections use opaque string IDs; the existing loopback ws-object World remains unchanged and cannot be exported directly. Checkpoints contain private reconnect tokens and MUST NOT be returned to clients or logged. Public `snapshot()` output still excludes those tokens. Trusted-time recovery expires stale input/actions/reservations without replaying movement ticks. The codec alone does not provide a shared database, fencing, presence detection or a live Vercel server. `npm test` includes its regressions.

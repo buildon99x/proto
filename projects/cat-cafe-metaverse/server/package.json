@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.mjs",
-    "test": "node --test ../tests/server*.test.mjs",
+    "test": "node --test ../tests/server*.test.mjs ../tests/state-codec.test.mjs",
     "load": "node load.mjs"
   },
   "dependencies": {
