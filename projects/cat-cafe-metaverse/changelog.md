@@ -1,4 +1,7 @@
 # Changelog
+### 0.2 follow-up · missing-host entry UX and explicit solo preview
+Disabled misleading entry affordance when no realtime endpoint is configured, with prominent all-room unavailable explanation. This fixes the no-action button presentation, not the missing public multiplayer service. Added explicitly labeled browser-only18cat/oneplayer preview, local walking/rest/play and an original SD block-toy avatar; no fabricated online visitors.
+
 ## 0.2.0 · 2026-10-31
 Reference-inspired original chibi cats, exactly doubled floor/walk area with shared authority bounds, preserved café furniture scale, address-free guest room picker and automatic deployment-owned endpoint. Missing public endpoint is honestly unavailable. Shared marker geometry fixes reconnect allocation leak. No public realtime host provisioned; visual WebGL QA remains blocked.
 

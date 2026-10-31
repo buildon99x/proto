@@ -2,3 +2,5 @@
 #nearest{min-height:44px;padding:9px 12px;background:#e8ecdf;border-radius:12px;font-size:11px;max-width:95px}.position{position:absolute;bottom:-25px;left:20px;font-size:9px;background:#fff9;padding:5px;border-radius:6px}.position span{font-size:9px}@media(max-width:700px){#nearest{max-width:none;width:100%;margin-bottom:7px;min-height:44px}.position{bottom:auto;top:-25px;left:auto;right:0}.cat-card{max-width:220px}#notice{bottom:276px}}
 
 #room-choice{width:100%;min-height:46px;border:1px solid #d7d9ca;background:#fffdf7;color:#314139;border-radius:10px;padding:12px;font:inherit;font-size:13px}#room-choice:focus-visible{outline:3px solid #d3a15f;outline-offset:3px}
+
+#service-hint.unavailable{font-size:14px;line-height:1.6;color:#654623;background:#fff0d8;border:1px solid #d7b882;border-radius:10px;padding:14px;margin:12px 0 16px;font-weight:600}.primary:disabled{background:#d8d9d0;color:#62675d;cursor:not-allowed;opacity:1}

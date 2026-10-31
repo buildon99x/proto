@@ -19,3 +19,6 @@ Action requestId deduplicates in bounded per-session cache. Successful switch tr
 
 ## 0.2 direct-request change
 Floor26×26 becomes (26√2)²=1352, exactly2× area. Furniture/character sizes and speed stay unchanged; horizontal layout/obstacles share the same scaled configuration. Original rounded chibi3D cats use soft pastels, tiny doteyes/wmouth and restrained dark silhouette, based on inspected user references without copying artwork/text. Public host remains unconfigured pending account availability and cost approval.
+
+## Explicit solo preview (user follow-up)
+The separately labeled “혼자 둘러보기 · 실시간 연결 아님” runs only in browser memory:18 simulated cats, one SD block-toy local player, no other visitors or live occupancy. Movement/rest and near pet/feather/ball are available without backend. Every transition into preview leaves live membership and clears resume token; live connect or exit clears preview. Shared floor collision bounds remain consistent. Missing public endpoint disables live entry prominently, not preview. This is not public multiplayer deployment.
