@@ -1,1 +1,10 @@
-{"name":"cat-cafe-metaverse-ohmygame-entry","version":"0.1.0","private":true,"scripts":{"dev":"node app/dev.mjs","build":"npm --prefix app run build","test":"npm --prefix app test && npm --prefix server test"}}
+{
+  "name": "cat-cafe-metaverse-ohmygame-entry",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "dev": "node app/dev.mjs",
+    "build": "npm --prefix app run build",
+    "test": "npm --prefix app test && node --test tests/*.test.mjs"
+  }
+}

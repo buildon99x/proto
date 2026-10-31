@@ -23,7 +23,7 @@ corepack pnpm --filter cat-cafe-metaverse dev
 corepack pnpm --filter cat-cafe-metaverse build
 npm --prefix projects/cat-cafe-metaverse/server start
 ```
-`app/dist`는 정적 파일이며 서버가 포함되지 않습니다. 배포 화면의 연결 설정에 승인된 `wss://.../ws` 주소를 입력하거나 `VITE_ROOM_SERVER_URL`로 빌드해야 합니다. HTTPS 화면에서 비보안 ws는 거부합니다. 공개 기본(main) 버전 변경, 유료 호스팅 또는 공개 실시간 서비스 개통은 수행하지 않았습니다. 인터넷용 호스트/TLS/Origin/인증·남용방지·대역폭 검토는 별도입니다. 현재 서버는 localhost 전용이며 서버 재시작 시 임시 세계가 초기화됩니다.
+`app/dist`는 정적 파일이며 서버가 포함되지 않습니다. 방문객은 서버 주소를 입력하지 않습니다. 운영자가 승인된 WSS 서버를 `VITE_ROOM_SERVER_URL=wss://.../ws` 빌드 환경변수로 설정해야 합니다(또는 같은 호스트의 `/ws` 경로를 명시). 설정되지 않은 공개 페이지는 준비 중 안내를 표시하며 온라인 입장을 가장하지 않습니다. HTTPS 화면에서 비보안 ws는 거부합니다. 공개 기본(main) 버전 변경, 유료 호스팅 또는 공개 실시간 서비스 개통은 수행하지 않았습니다. 인터넷용 호스트/TLS/Origin/인증·남용방지·대역폭 검토는 별도입니다. 현재 서버는 localhost 전용이며 서버 재시작 시 임시 세계가 초기화됩니다.
 
 ## 검사
 ```sh
@@ -43,3 +43,6 @@ OhMyGame `c30bfabda86c27084128deca5bc4bd0d4e9983eb`의 기존 폴더 프로젝�
 의존성: Three.js0.172.0(MIT), Vite6.4.3(MIT), ws8.18.3(MIT). 외부 이미지/유료 자산 없음. 서버 설계 참고: https://github.com/websockets/ws/blob/master/README.md
 
 OhMyGame 실행 설정: 시작 폴더 `.`, 명령 모드 `node app/dev.mjs`, 미리보기 경로 `/`. 루트 `package.json`도 같은 진입점을 제공합니다. 공식 미리보기 API로 실제 프로젝트 HTML 제공까지 검증했습니다. 앱 루트는 실행 디렉터리와 무관하게 해석하며 할당된 로컬 미리보기 포트를 따릅니다.
+
+## 0.2 변경
+참고 분위기를 새 절차적 3D 고양이의 통통한 비율·짧은 발·점눈·파스텔 털무늬로 반영했습니다. 기존 카페를 유지하며 가로·세로를 √2배로 넓혀 바닥과 이동 가능 면적을 정확히 2배로 확장했습니다. 가구·캐릭터 크기와 이동 속도는 유지합니다. 방 선택 후 한 번 눌러 입장하고 나가기 후 다시 입장할 수 있습니다. 공개 실시간 호스트는 아직 연결되지 않았습니다.

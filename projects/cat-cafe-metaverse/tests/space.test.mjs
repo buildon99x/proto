@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {World} from '../server/world.mjs';
+test('expanded room accepts floor newly opened beyond original bounds',()=>{const w=new World();assert.equal(w.valid(15,0),true);assert.equal(w.valid(0,15),true);assert.equal(w.valid(17,0),false);});
+test('space constants double floor and walk area, not furniture sizes',async()=>{let s;try{s=await import('../shared/space.mjs')}catch{}assert.ok(s,'common space configuration exists');assert.ok(Math.abs(s.FLOOR_SIZE**2/(26**2)-2)<1e-10);assert.ok(Math.abs((s.WALK_HALF*2)**2/(24**2)-2)<1e-10);assert.equal(s.PLAYER_RADIUS,.3);assert.equal(s.WORLD_OBSTACLES[0].r,1.35);assert.ok(Math.abs(s.WORLD_OBSTACLES[0].x-(-7*Math.SQRT2))<1e-10);});
